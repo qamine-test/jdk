@@ -1,537 +1,537 @@
 /*
- * Copyright (c) 1998, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.midi;
+pbdkbgf jbvbx.sound.midi;
 
 
 /**
- * A <code>MidiChannel</code> object represents a single MIDI channel.
- * Generally, each <code>MidiChannel</code> method processes a like-named MIDI
- * "channel voice" or "channel mode" message as defined by the MIDI specification. However,
- * <code>MidiChannel</code> adds some "get" methods  that retrieve the value
- * most recently set by one of the standard MIDI channel messages.  Similarly,
- * methods for per-channel solo and mute have been added.
+ * A <dodf>MidiCibnnfl</dodf> objfdt rfprfsfnts b singlf MIDI dibnnfl.
+ * Gfnfrblly, fbdi <dodf>MidiCibnnfl</dodf> mftiod prodfssfs b likf-nbmfd MIDI
+ * "dibnnfl voidf" or "dibnnfl modf" mfssbgf bs dffinfd by tif MIDI spfdifidbtion. Howfvfr,
+ * <dodf>MidiCibnnfl</dodf> bdds somf "gft" mftiods  tibt rftrifvf tif vbluf
+ * most rfdfntly sft by onf of tif stbndbrd MIDI dibnnfl mfssbgfs.  Similbrly,
+ * mftiods for pfr-dibnnfl solo bnd mutf ibvf bffn bddfd.
  * <p>
- * A <code>{@link Synthesizer}</code> object has a collection
- * of <code>MidiChannels</code>, usually one for each of the 16 channels
- * prescribed by the MIDI 1.0 specification.  The <code>Synthesizer</code>
- * generates sound when its <code>MidiChannels</code> receive
- * <code>noteOn</code> messages.
+ * A <dodf>{@link Syntifsizfr}</dodf> objfdt ibs b dollfdtion
+ * of <dodf>MidiCibnnfls</dodf>, usublly onf for fbdi of tif 16 dibnnfls
+ * prfsdribfd by tif MIDI 1.0 spfdifidbtion.  Tif <dodf>Syntifsizfr</dodf>
+ * gfnfrbtfs sound wifn its <dodf>MidiCibnnfls</dodf> rfdfivf
+ * <dodf>notfOn</dodf> mfssbgfs.
  * <p>
- * See the MIDI 1.0 Specification for more information about the prescribed
- * behavior of the MIDI channel messages, which are not exhaustively
- * documented here.  The specification is titled <code>MIDI Reference:
- * The Complete MIDI 1.0 Detailed Specification</code>, and is published by
- * the MIDI Manufacturer's Association (<a href = http://www.midi.org>
- * http://www.midi.org</a>).
+ * Sff tif MIDI 1.0 Spfdifidbtion for morf informbtion bbout tif prfsdribfd
+ * bfibvior of tif MIDI dibnnfl mfssbgfs, wiidi brf not fxibustivfly
+ * dodumfntfd ifrf.  Tif spfdifidbtion is titlfd <dodf>MIDI Rfffrfndf:
+ * Tif Complftf MIDI 1.0 Dftbilfd Spfdifidbtion</dodf>, bnd is publisifd by
+ * tif MIDI Mbnufbdturfr's Assodibtion (<b irff = ittp://www.midi.org>
+ * ittp://www.midi.org</b>).
  * <p>
- * MIDI was originally a protocol for reporting the gestures of a keyboard
- * musician.  This genesis is visible in the <code>MidiChannel</code> API, which
- * preserves such MIDI concepts as key number, key velocity, and key pressure.
- * It should be understood that the MIDI data does not necessarily originate
- * with a keyboard player (the source could be a different kind of musician, or
- * software).  Some devices might generate constant values for velocity
- * and pressure, regardless of how the note was performed.
- * Also, the MIDI specification often leaves it up to the
- * synthesizer to use the data in the way the implementor sees fit.  For
- * example, velocity data need not always be mapped to volume and/or brightness.
+ * MIDI wbs originblly b protodol for rfporting tif gfsturfs of b kfybobrd
+ * musidibn.  Tiis gfnfsis is visiblf in tif <dodf>MidiCibnnfl</dodf> API, wiidi
+ * prfsfrvfs sudi MIDI dondfpts bs kfy numbfr, kfy vflodity, bnd kfy prfssurf.
+ * It siould bf undfrstood tibt tif MIDI dbtb dofs not nfdfssbrily originbtf
+ * witi b kfybobrd plbyfr (tif sourdf dould bf b difffrfnt kind of musidibn, or
+ * softwbrf).  Somf dfvidfs migit gfnfrbtf donstbnt vblufs for vflodity
+ * bnd prfssurf, rfgbrdlfss of iow tif notf wbs pfrformfd.
+ * Also, tif MIDI spfdifidbtion oftfn lfbvfs it up to tif
+ * syntifsizfr to usf tif dbtb in tif wby tif implfmfntor sffs fit.  For
+ * fxbmplf, vflodity dbtb nffd not blwbys bf mbppfd to volumf bnd/or brigitnfss.
  *
- * @see Synthesizer#getChannels
+ * @sff Syntifsizfr#gftCibnnfls
  *
- * @author David Rivas
- * @author Kara Kytle
+ * @butior Dbvid Rivbs
+ * @butior Kbrb Kytlf
  */
 
-public interface MidiChannel {
+publid intfrfbdf MidiCibnnfl {
 
     /**
-     * Starts the specified note sounding.  The key-down velocity
-     * usually controls the note's volume and/or brightness.
-     * If <code>velocity</code> is zero, this method instead acts like
-     * {@link #noteOff(int)}, terminating the note.
+     * Stbrts tif spfdififd notf sounding.  Tif kfy-down vflodity
+     * usublly dontrols tif notf's volumf bnd/or brigitnfss.
+     * If <dodf>vflodity</dodf> is zfro, tiis mftiod instfbd bdts likf
+     * {@link #notfOff(int)}, tfrminbting tif notf.
      *
-     * @param noteNumber the MIDI note number, from 0 to 127 (60 = Middle C)
-     * @param velocity the speed with which the key was depressed
+     * @pbrbm notfNumbfr tif MIDI notf numbfr, from 0 to 127 (60 = Middlf C)
+     * @pbrbm vflodity tif spffd witi wiidi tif kfy wbs dfprfssfd
      *
-     * @see #noteOff(int, int)
+     * @sff #notfOff(int, int)
      */
-    public void noteOn(int noteNumber, int velocity);
+    publid void notfOn(int notfNumbfr, int vflodity);
 
     /**
-     * Turns the specified note off.  The key-up velocity, if not ignored, can
-     * be used to affect how quickly the note decays.
-     * In any case, the note might not die away instantaneously; its decay
-     * rate is determined by the internals of the <code>Instrument</code>.
-     * If the Hold Pedal (a controller; see
-     * {@link #controlChange(int, int) controlChange})
-     * is down, the effect of this method is deferred until the pedal is
-     * released.
+     * Turns tif spfdififd notf off.  Tif kfy-up vflodity, if not ignorfd, dbn
+     * bf usfd to bfffdt iow quidkly tif notf dfdbys.
+     * In bny dbsf, tif notf migit not dif bwby instbntbnfously; its dfdby
+     * rbtf is dftfrminfd by tif intfrnbls of tif <dodf>Instrumfnt</dodf>.
+     * If tif Hold Pfdbl (b dontrollfr; sff
+     * {@link #dontrolCibngf(int, int) dontrolCibngf})
+     * is down, tif ffffdt of tiis mftiod is dfffrrfd until tif pfdbl is
+     * rflfbsfd.
      *
      *
-     * @param noteNumber the MIDI note number, from 0 to 127 (60 = Middle C)
-     * @param velocity the speed with which the key was released
+     * @pbrbm notfNumbfr tif MIDI notf numbfr, from 0 to 127 (60 = Middlf C)
+     * @pbrbm vflodity tif spffd witi wiidi tif kfy wbs rflfbsfd
      *
-     * @see #noteOff(int)
-     * @see #noteOn
-     * @see #allNotesOff
-     * @see #allSoundOff
+     * @sff #notfOff(int)
+     * @sff #notfOn
+     * @sff #bllNotfsOff
+     * @sff #bllSoundOff
      */
-    public void noteOff(int noteNumber, int velocity);
+    publid void notfOff(int notfNumbfr, int vflodity);
 
     /**
-     * Turns the specified note off.
+     * Turns tif spfdififd notf off.
      *
-     * @param noteNumber the MIDI note number, from 0 to 127 (60 = Middle C)
+     * @pbrbm notfNumbfr tif MIDI notf numbfr, from 0 to 127 (60 = Middlf C)
      *
-     * @see #noteOff(int, int)
+     * @sff #notfOff(int, int)
      */
-    public void noteOff(int noteNumber);
+    publid void notfOff(int notfNumbfr);
 
     /**
-     * Reacts to a change in the specified note's key pressure.
-     * Polyphonic key pressure
-     * allows a keyboard player to press multiple keys simultaneously, each
-     * with a different amount of pressure.  The pressure, if not ignored,
-     * is typically used to vary such features as the volume, brightness,
-     * or vibrato of the note.
+     * Rfbdts to b dibngf in tif spfdififd notf's kfy prfssurf.
+     * Polypionid kfy prfssurf
+     * bllows b kfybobrd plbyfr to prfss multiplf kfys simultbnfously, fbdi
+     * witi b difffrfnt bmount of prfssurf.  Tif prfssurf, if not ignorfd,
+     * is typidblly usfd to vbry sudi ffbturfs bs tif volumf, brigitnfss,
+     * or vibrbto of tif notf.
      *
-     * It is possible that the underlying synthesizer
-     * does not support this MIDI message. In order
-     * to verify that <code>setPolyPressure</code>
-     * was successful, use <code>getPolyPressure</code>.
+     * It is possiblf tibt tif undfrlying syntifsizfr
+     * dofs not support tiis MIDI mfssbgf. In ordfr
+     * to vfrify tibt <dodf>sftPolyPrfssurf</dodf>
+     * wbs suddfssful, usf <dodf>gftPolyPrfssurf</dodf>.
      *
-     * @param noteNumber the MIDI note number, from 0 to 127 (60 = Middle C)
-     * @param pressure value for the specified key, from 0 to 127 (127 =
-     * maximum pressure)
+     * @pbrbm notfNumbfr tif MIDI notf numbfr, from 0 to 127 (60 = Middlf C)
+     * @pbrbm prfssurf vbluf for tif spfdififd kfy, from 0 to 127 (127 =
+     * mbximum prfssurf)
      *
-     * @see #getPolyPressure(int)
+     * @sff #gftPolyPrfssurf(int)
      */
-    public void setPolyPressure(int noteNumber, int pressure);
+    publid void sftPolyPrfssurf(int notfNumbfr, int prfssurf);
 
     /**
-     * Obtains the pressure with which the specified key is being depressed.
+     * Obtbins tif prfssurf witi wiidi tif spfdififd kfy is bfing dfprfssfd.
      *
-     * @param noteNumber the MIDI note number, from 0 to 127 (60 = Middle C)
+     * @pbrbm notfNumbfr tif MIDI notf numbfr, from 0 to 127 (60 = Middlf C)
      *
-     * If the device does not support setting poly pressure,
-     * this method always returns 0. Calling
-     * <code>setPolyPressure</code> will have no effect then.
+     * If tif dfvidf dofs not support sftting poly prfssurf,
+     * tiis mftiod blwbys rfturns 0. Cblling
+     * <dodf>sftPolyPrfssurf</dodf> will ibvf no ffffdt tifn.
      *
-     * @return the amount of pressure for that note, from 0 to 127
-     * (127 = maximum pressure)
+     * @rfturn tif bmount of prfssurf for tibt notf, from 0 to 127
+     * (127 = mbximum prfssurf)
      *
-     * @see #setPolyPressure(int, int)
+     * @sff #sftPolyPrfssurf(int, int)
      */
-    public int getPolyPressure(int noteNumber);
+    publid int gftPolyPrfssurf(int notfNumbfr);
 
     /**
-     * Reacts to a change in the keyboard pressure.  Channel
-     * pressure indicates how hard the keyboard player is depressing
-     * the entire keyboard.  This can be the maximum or
-     * average of the per-key pressure-sensor values, as set by
-     * <code>setPolyPressure</code>.  More commonly, it is a measurement of
-     * a single sensor on a device that doesn't implement polyphonic key
-     * pressure.  Pressure can be used to control various aspects of the sound,
-     * as described under {@link #setPolyPressure(int, int) setPolyPressure}.
+     * Rfbdts to b dibngf in tif kfybobrd prfssurf.  Cibnnfl
+     * prfssurf indidbtfs iow ibrd tif kfybobrd plbyfr is dfprfssing
+     * tif fntirf kfybobrd.  Tiis dbn bf tif mbximum or
+     * bvfrbgf of tif pfr-kfy prfssurf-sfnsor vblufs, bs sft by
+     * <dodf>sftPolyPrfssurf</dodf>.  Morf dommonly, it is b mfbsurfmfnt of
+     * b singlf sfnsor on b dfvidf tibt dofsn't implfmfnt polypionid kfy
+     * prfssurf.  Prfssurf dbn bf usfd to dontrol vbrious bspfdts of tif sound,
+     * bs dfsdribfd undfr {@link #sftPolyPrfssurf(int, int) sftPolyPrfssurf}.
      *
-     * It is possible that the underlying synthesizer
-     * does not support this MIDI message. In order
-     * to verify that <code>setChannelPressure</code>
-     * was successful, use <code>getChannelPressure</code>.
+     * It is possiblf tibt tif undfrlying syntifsizfr
+     * dofs not support tiis MIDI mfssbgf. In ordfr
+     * to vfrify tibt <dodf>sftCibnnflPrfssurf</dodf>
+     * wbs suddfssful, usf <dodf>gftCibnnflPrfssurf</dodf>.
      *
-     * @param pressure the pressure with which the keyboard is being depressed,
-     * from 0 to 127 (127 = maximum pressure)
-     * @see #setPolyPressure(int, int)
-     * @see #getChannelPressure
+     * @pbrbm prfssurf tif prfssurf witi wiidi tif kfybobrd is bfing dfprfssfd,
+     * from 0 to 127 (127 = mbximum prfssurf)
+     * @sff #sftPolyPrfssurf(int, int)
+     * @sff #gftCibnnflPrfssurf
      */
-    public void setChannelPressure(int pressure);
+    publid void sftCibnnflPrfssurf(int prfssurf);
 
     /**
-     * Obtains the channel's keyboard pressure.
-     * If the device does not support setting channel pressure,
-     * this method always returns 0. Calling
-     * <code>setChannelPressure</code> will have no effect then.
+     * Obtbins tif dibnnfl's kfybobrd prfssurf.
+     * If tif dfvidf dofs not support sftting dibnnfl prfssurf,
+     * tiis mftiod blwbys rfturns 0. Cblling
+     * <dodf>sftCibnnflPrfssurf</dodf> will ibvf no ffffdt tifn.
      *
-     * @return the amount of pressure for that note,
-     *         from 0 to 127 (127 = maximum pressure)
+     * @rfturn tif bmount of prfssurf for tibt notf,
+     *         from 0 to 127 (127 = mbximum prfssurf)
      *
-     * @see #setChannelPressure(int)
+     * @sff #sftCibnnflPrfssurf(int)
      */
-    public int getChannelPressure();
+    publid int gftCibnnflPrfssurf();
 
     /**
-     * Reacts to a change in the specified controller's value.  A controller
-     * is some control other than a keyboard key, such as a
-     * switch, slider, pedal, wheel, or breath-pressure sensor.
-     * The MIDI 1.0 Specification provides standard numbers for typical
-     * controllers on MIDI devices, and describes the intended effect
-     * for some of the controllers.
-     * The way in which an
-     * <code>Instrument</code> reacts to a controller change may be
-     * specific to the <code>Instrument</code>.
+     * Rfbdts to b dibngf in tif spfdififd dontrollfr's vbluf.  A dontrollfr
+     * is somf dontrol otifr tibn b kfybobrd kfy, sudi bs b
+     * switdi, slidfr, pfdbl, wiffl, or brfbti-prfssurf sfnsor.
+     * Tif MIDI 1.0 Spfdifidbtion providfs stbndbrd numbfrs for typidbl
+     * dontrollfrs on MIDI dfvidfs, bnd dfsdribfs tif intfndfd ffffdt
+     * for somf of tif dontrollfrs.
+     * Tif wby in wiidi bn
+     * <dodf>Instrumfnt</dodf> rfbdts to b dontrollfr dibngf mby bf
+     * spfdifid to tif <dodf>Instrumfnt</dodf>.
      * <p>
-     * The MIDI 1.0 Specification defines both 7-bit controllers
-     * and 14-bit controllers.  Continuous controllers, such
-     * as wheels and sliders, typically have 14 bits (two MIDI bytes),
-     * while discrete controllers, such as switches, typically have 7 bits
-     * (one MIDI byte).  Refer to the specification to see the
-     * expected resolution for each type of control.
+     * Tif MIDI 1.0 Spfdifidbtion dffinfs boti 7-bit dontrollfrs
+     * bnd 14-bit dontrollfrs.  Continuous dontrollfrs, sudi
+     * bs wiffls bnd slidfrs, typidblly ibvf 14 bits (two MIDI bytfs),
+     * wiilf disdrftf dontrollfrs, sudi bs switdifs, typidblly ibvf 7 bits
+     * (onf MIDI bytf).  Rfffr to tif spfdifidbtion to sff tif
+     * fxpfdtfd rfsolution for fbdi typf of dontrol.
      * <p>
-     * Controllers 64 through 95 (0x40 - 0x5F) allow 7-bit precision.
-     * The value of a 7-bit controller is set completely by the
-     * <code>value</code> argument.  An additional set of controllers
-     * provide 14-bit precision by using two controller numbers, one
-     * for the most significant 7 bits and another for the least significant
-     * 7 bits.  Controller numbers 0 through 31 (0x00 - 0x1F) control the
-     * most significant 7 bits of 14-bit controllers; controller numbers
-     * 32 through 63 (0x20 - 0x3F) control the least significant 7 bits of
-     * these controllers.  For example, controller number 7 (0x07) controls
-     * the upper 7 bits of the channel volume controller, and controller
-     * number 39 (0x27) controls the lower 7 bits.
-     * The value of a 14-bit controller is determined
-     * by the interaction of the two halves.  When the most significant 7 bits
-     * of a controller are set (using controller numbers 0 through 31), the
-     * lower 7 bits are automatically set to 0.  The corresponding controller
-     * number for the lower 7 bits may then be used to further modulate the
-     * controller value.
+     * Controllfrs 64 tirougi 95 (0x40 - 0x5F) bllow 7-bit prfdision.
+     * Tif vbluf of b 7-bit dontrollfr is sft domplftfly by tif
+     * <dodf>vbluf</dodf> brgumfnt.  An bdditionbl sft of dontrollfrs
+     * providf 14-bit prfdision by using two dontrollfr numbfrs, onf
+     * for tif most signifidbnt 7 bits bnd bnotifr for tif lfbst signifidbnt
+     * 7 bits.  Controllfr numbfrs 0 tirougi 31 (0x00 - 0x1F) dontrol tif
+     * most signifidbnt 7 bits of 14-bit dontrollfrs; dontrollfr numbfrs
+     * 32 tirougi 63 (0x20 - 0x3F) dontrol tif lfbst signifidbnt 7 bits of
+     * tifsf dontrollfrs.  For fxbmplf, dontrollfr numbfr 7 (0x07) dontrols
+     * tif uppfr 7 bits of tif dibnnfl volumf dontrollfr, bnd dontrollfr
+     * numbfr 39 (0x27) dontrols tif lowfr 7 bits.
+     * Tif vbluf of b 14-bit dontrollfr is dftfrminfd
+     * by tif intfrbdtion of tif two iblvfs.  Wifn tif most signifidbnt 7 bits
+     * of b dontrollfr brf sft (using dontrollfr numbfrs 0 tirougi 31), tif
+     * lowfr 7 bits brf butombtidblly sft to 0.  Tif dorrfsponding dontrollfr
+     * numbfr for tif lowfr 7 bits mby tifn bf usfd to furtifr modulbtf tif
+     * dontrollfr vbluf.
      *
-     * It is possible that the underlying synthesizer
-     * does not support a specific controller message. In order
-     * to verify that a call to <code>controlChange</code>
-     * was successful, use <code>getController</code>.
+     * It is possiblf tibt tif undfrlying syntifsizfr
+     * dofs not support b spfdifid dontrollfr mfssbgf. In ordfr
+     * to vfrify tibt b dbll to <dodf>dontrolCibngf</dodf>
+     * wbs suddfssful, usf <dodf>gftControllfr</dodf>.
      *
-     * @param controller the controller number (0 to 127; see the MIDI
-     * 1.0 Specification for the interpretation)
-     * @param value the value to which the specified controller is changed (0 to 127)
+     * @pbrbm dontrollfr tif dontrollfr numbfr (0 to 127; sff tif MIDI
+     * 1.0 Spfdifidbtion for tif intfrprftbtion)
+     * @pbrbm vbluf tif vbluf to wiidi tif spfdififd dontrollfr is dibngfd (0 to 127)
      *
-     * @see #getController(int)
+     * @sff #gftControllfr(int)
      */
-    public void controlChange(int controller, int value);
+    publid void dontrolCibngf(int dontrollfr, int vbluf);
 
     /**
-     * Obtains the current value of the specified controller.  The return
-     * value is represented with 7 bits. For 14-bit controllers, the MSB and
-     * LSB controller value needs to be obtained separately. For example,
-     * the 14-bit value of the volume controller can be calculated by
-     * multiplying the value of controller 7 (0x07, channel volume MSB)
-     * with 128 and adding the
-     * value of controller 39 (0x27, channel volume LSB).
+     * Obtbins tif durrfnt vbluf of tif spfdififd dontrollfr.  Tif rfturn
+     * vbluf is rfprfsfntfd witi 7 bits. For 14-bit dontrollfrs, tif MSB bnd
+     * LSB dontrollfr vbluf nffds to bf obtbinfd sfpbrbtfly. For fxbmplf,
+     * tif 14-bit vbluf of tif volumf dontrollfr dbn bf dbldulbtfd by
+     * multiplying tif vbluf of dontrollfr 7 (0x07, dibnnfl volumf MSB)
+     * witi 128 bnd bdding tif
+     * vbluf of dontrollfr 39 (0x27, dibnnfl volumf LSB).
      *
-     * If the device does not support setting a specific controller,
-     * this method returns 0 for that controller.
-     * Calling <code>controlChange</code> will have no effect then.
+     * If tif dfvidf dofs not support sftting b spfdifid dontrollfr,
+     * tiis mftiod rfturns 0 for tibt dontrollfr.
+     * Cblling <dodf>dontrolCibngf</dodf> will ibvf no ffffdt tifn.
      *
-     * @param controller the number of the controller whose value is desired.
-     * The allowed range is 0-127; see the MIDI
-     * 1.0 Specification for the interpretation.
+     * @pbrbm dontrollfr tif numbfr of tif dontrollfr wiosf vbluf is dfsirfd.
+     * Tif bllowfd rbngf is 0-127; sff tif MIDI
+     * 1.0 Spfdifidbtion for tif intfrprftbtion.
      *
-     * @return the current value of the specified controller (0 to 127)
+     * @rfturn tif durrfnt vbluf of tif spfdififd dontrollfr (0 to 127)
      *
-     * @see #controlChange(int, int)
+     * @sff #dontrolCibngf(int, int)
      */
-    public int getController(int controller);
+    publid int gftControllfr(int dontrollfr);
 
     /**
-     * Changes a program (patch).  This selects a specific
-     * instrument from the currently selected bank of instruments.
+     * Cibngfs b progrbm (pbtdi).  Tiis sflfdts b spfdifid
+     * instrumfnt from tif durrfntly sflfdtfd bbnk of instrumfnts.
      * <p>
-     * The MIDI specification does not
-     * dictate whether notes that are already sounding should switch
-     * to the new instrument (timbre) or continue with their original timbre
-     * until terminated by a note-off.
+     * Tif MIDI spfdifidbtion dofs not
+     * didtbtf wiftifr notfs tibt brf blrfbdy sounding siould switdi
+     * to tif nfw instrumfnt (timbrf) or dontinuf witi tifir originbl timbrf
+     * until tfrminbtfd by b notf-off.
      * <p>
-     * The program number is zero-based (expressed from 0 to 127).
-     * Note that MIDI hardware displays and literature about MIDI
-     * typically use the range 1 to 128 instead.
+     * Tif progrbm numbfr is zfro-bbsfd (fxprfssfd from 0 to 127).
+     * Notf tibt MIDI ibrdwbrf displbys bnd litfrbturf bbout MIDI
+     * typidblly usf tif rbngf 1 to 128 instfbd.
      *
-     * It is possible that the underlying synthesizer
-     * does not support a specific program. In order
-     * to verify that a call to <code>programChange</code>
-     * was successful, use <code>getProgram</code>.
+     * It is possiblf tibt tif undfrlying syntifsizfr
+     * dofs not support b spfdifid progrbm. In ordfr
+     * to vfrify tibt b dbll to <dodf>progrbmCibngf</dodf>
+     * wbs suddfssful, usf <dodf>gftProgrbm</dodf>.
      *
-     * @param program the program number to switch to (0 to 127)
+     * @pbrbm progrbm tif progrbm numbfr to switdi to (0 to 127)
      *
-     * @see #programChange(int, int)
-     * @see #getProgram()
+     * @sff #progrbmCibngf(int, int)
+     * @sff #gftProgrbm()
      */
-    public void programChange(int program);
+    publid void progrbmCibngf(int progrbm);
 
     /**
-     * Changes the program using bank and program (patch) numbers.
+     * Cibngfs tif progrbm using bbnk bnd progrbm (pbtdi) numbfrs.
      *
-     * It is possible that the underlying synthesizer
-     * does not support a specific bank, or program. In order
-     * to verify that a call to <code>programChange</code>
-     * was successful, use <code>getProgram</code> and
-     * <code>getController</code>.
-     * Since banks are changed by way of control changes,
-     * you can verify the current bank with the following
-     * statement:
-     * <pre>
-     *   int bank = (getController(0) * 128)
-     *              + getController(32);
-     * </pre>
+     * It is possiblf tibt tif undfrlying syntifsizfr
+     * dofs not support b spfdifid bbnk, or progrbm. In ordfr
+     * to vfrify tibt b dbll to <dodf>progrbmCibngf</dodf>
+     * wbs suddfssful, usf <dodf>gftProgrbm</dodf> bnd
+     * <dodf>gftControllfr</dodf>.
+     * Sindf bbnks brf dibngfd by wby of dontrol dibngfs,
+     * you dbn vfrify tif durrfnt bbnk witi tif following
+     * stbtfmfnt:
+     * <prf>
+     *   int bbnk = (gftControllfr(0) * 128)
+     *              + gftControllfr(32);
+     * </prf>
      *
-     * @param bank the bank number to switch to (0 to 16383)
-     * @param program the program (patch) to use in the specified bank (0 to 127)
-     * @see #programChange(int)
-     * @see #getProgram()
+     * @pbrbm bbnk tif bbnk numbfr to switdi to (0 to 16383)
+     * @pbrbm progrbm tif progrbm (pbtdi) to usf in tif spfdififd bbnk (0 to 127)
+     * @sff #progrbmCibngf(int)
+     * @sff #gftProgrbm()
      */
-    public void programChange(int bank, int program);
+    publid void progrbmCibngf(int bbnk, int progrbm);
 
     /**
-     * Obtains the current program number for this channel.
-     * @return the program number of the currently selected patch
-     * @see Patch#getProgram
-     * @see Synthesizer#loadInstrument
-     * @see #programChange(int)
+     * Obtbins tif durrfnt progrbm numbfr for tiis dibnnfl.
+     * @rfturn tif progrbm numbfr of tif durrfntly sflfdtfd pbtdi
+     * @sff Pbtdi#gftProgrbm
+     * @sff Syntifsizfr#lobdInstrumfnt
+     * @sff #progrbmCibngf(int)
      */
-    public int getProgram();
+    publid int gftProgrbm();
 
     /**
-     * Changes the pitch offset for all notes on this channel.
-     * This affects all currently sounding notes as well as subsequent ones.
-     * (For pitch bend to cease, the value needs to be reset to the
-     * center position.)
-     * <p> The MIDI specification
-     * stipulates that pitch bend be a 14-bit value, where zero
-     * is maximum downward bend, 16383 is maximum upward bend, and
-     * 8192 is the center (no pitch bend).  The actual
-     * amount of pitch change is not specified; it can be changed by
-     * a pitch-bend sensitivity setting.  However, the General MIDI
-     * specification says that the default range should be two semitones
-     * up and down from center.
+     * Cibngfs tif pitdi offsft for bll notfs on tiis dibnnfl.
+     * Tiis bfffdts bll durrfntly sounding notfs bs wfll bs subsfqufnt onfs.
+     * (For pitdi bfnd to dfbsf, tif vbluf nffds to bf rfsft to tif
+     * dfntfr position.)
+     * <p> Tif MIDI spfdifidbtion
+     * stipulbtfs tibt pitdi bfnd bf b 14-bit vbluf, wifrf zfro
+     * is mbximum downwbrd bfnd, 16383 is mbximum upwbrd bfnd, bnd
+     * 8192 is tif dfntfr (no pitdi bfnd).  Tif bdtubl
+     * bmount of pitdi dibngf is not spfdififd; it dbn bf dibngfd by
+     * b pitdi-bfnd sfnsitivity sftting.  Howfvfr, tif Gfnfrbl MIDI
+     * spfdifidbtion sbys tibt tif dffbult rbngf siould bf two sfmitonfs
+     * up bnd down from dfntfr.
      *
-     * It is possible that the underlying synthesizer
-     * does not support this MIDI message. In order
-     * to verify that <code>setPitchBend</code>
-     * was successful, use <code>getPitchBend</code>.
+     * It is possiblf tibt tif undfrlying syntifsizfr
+     * dofs not support tiis MIDI mfssbgf. In ordfr
+     * to vfrify tibt <dodf>sftPitdiBfnd</dodf>
+     * wbs suddfssful, usf <dodf>gftPitdiBfnd</dodf>.
      *
-     * @param bend the amount of pitch change, as a nonnegative 14-bit value
-     * (8192 = no bend)
+     * @pbrbm bfnd tif bmount of pitdi dibngf, bs b nonnfgbtivf 14-bit vbluf
+     * (8192 = no bfnd)
      *
-     * @see #getPitchBend
+     * @sff #gftPitdiBfnd
      */
-    public void setPitchBend(int bend);
+    publid void sftPitdiBfnd(int bfnd);
 
     /**
-     * Obtains the upward or downward pitch offset for this channel.
-     * If the device does not support setting pitch bend,
-     * this method always returns 8192. Calling
-     * <code>setPitchBend</code> will have no effect then.
+     * Obtbins tif upwbrd or downwbrd pitdi offsft for tiis dibnnfl.
+     * If tif dfvidf dofs not support sftting pitdi bfnd,
+     * tiis mftiod blwbys rfturns 8192. Cblling
+     * <dodf>sftPitdiBfnd</dodf> will ibvf no ffffdt tifn.
      *
-     * @return bend amount, as a nonnegative 14-bit value (8192 = no bend)
+     * @rfturn bfnd bmount, bs b nonnfgbtivf 14-bit vbluf (8192 = no bfnd)
      *
-     * @see #setPitchBend(int)
+     * @sff #sftPitdiBfnd(int)
      */
-    public int getPitchBend();
+    publid int gftPitdiBfnd();
 
     /**
-     * Resets all the implemented controllers to their default values.
+     * Rfsfts bll tif implfmfntfd dontrollfrs to tifir dffbult vblufs.
      *
-     * @see #controlChange(int, int)
+     * @sff #dontrolCibngf(int, int)
      */
-    public void resetAllControllers();
+    publid void rfsftAllControllfrs();
 
     /**
-     * Turns off all notes that are currently sounding on this channel.
-     * The notes might not die away instantaneously; their decay
-     * rate is determined by the internals of the <code>Instrument</code>.
-     * If the Hold Pedal controller (see
-     * {@link #controlChange(int, int) controlChange})
-     * is down, the effect of this method is deferred until the pedal is
-     * released.
+     * Turns off bll notfs tibt brf durrfntly sounding on tiis dibnnfl.
+     * Tif notfs migit not dif bwby instbntbnfously; tifir dfdby
+     * rbtf is dftfrminfd by tif intfrnbls of tif <dodf>Instrumfnt</dodf>.
+     * If tif Hold Pfdbl dontrollfr (sff
+     * {@link #dontrolCibngf(int, int) dontrolCibngf})
+     * is down, tif ffffdt of tiis mftiod is dfffrrfd until tif pfdbl is
+     * rflfbsfd.
      *
-     * @see #allSoundOff
-     * @see #noteOff(int)
+     * @sff #bllSoundOff
+     * @sff #notfOff(int)
      */
-    public void allNotesOff();
+    publid void bllNotfsOff();
 
     /**
-     * Immediately turns off all sounding notes on this channel, ignoring the
-     * state of the Hold Pedal and the internal decay rate of the current
-     * <code>Instrument</code>.
+     * Immfdibtfly turns off bll sounding notfs on tiis dibnnfl, ignoring tif
+     * stbtf of tif Hold Pfdbl bnd tif intfrnbl dfdby rbtf of tif durrfnt
+     * <dodf>Instrumfnt</dodf>.
      *
-     * @see #allNotesOff
+     * @sff #bllNotfsOff
      */
-    public void allSoundOff();
+    publid void bllSoundOff();
 
     /**
-     * Turns local control on or off.  The default is for local control
-     * to be on.  The "on" setting means that if a device is capable
-     * of both synthesizing sound and transmitting MIDI messages,
-     * it will synthesize sound in response to the note-on and
-     * note-off messages that it itself transmits.  It will also respond
-     * to messages received from other transmitting devices.
-     * The "off" setting means that the synthesizer will ignore its
-     * own transmitted MIDI messages, but not those received from other devices.
+     * Turns lodbl dontrol on or off.  Tif dffbult is for lodbl dontrol
+     * to bf on.  Tif "on" sftting mfbns tibt if b dfvidf is dbpbblf
+     * of boti syntifsizing sound bnd trbnsmitting MIDI mfssbgfs,
+     * it will syntifsizf sound in rfsponsf to tif notf-on bnd
+     * notf-off mfssbgfs tibt it itsflf trbnsmits.  It will blso rfspond
+     * to mfssbgfs rfdfivfd from otifr trbnsmitting dfvidfs.
+     * Tif "off" sftting mfbns tibt tif syntifsizfr will ignorf its
+     * own trbnsmittfd MIDI mfssbgfs, but not tiosf rfdfivfd from otifr dfvidfs.
      *
-     * It is possible that the underlying synthesizer
-     * does not support local control. In order
-     * to verify that a call to <code>localControl</code>
-     * was successful, check the return value.
+     * It is possiblf tibt tif undfrlying syntifsizfr
+     * dofs not support lodbl dontrol. In ordfr
+     * to vfrify tibt b dbll to <dodf>lodblControl</dodf>
+     * wbs suddfssful, difdk tif rfturn vbluf.
      *
-     * @param on <code>true</code> to turn local control on, <code>false</code>
-     *  to turn local control off
-     * @return the new local-control value, or false
-     *         if local control is not supported
+     * @pbrbm on <dodf>truf</dodf> to turn lodbl dontrol on, <dodf>fblsf</dodf>
+     *  to turn lodbl dontrol off
+     * @rfturn tif nfw lodbl-dontrol vbluf, or fblsf
+     *         if lodbl dontrol is not supportfd
      *
      */
-    public boolean localControl(boolean on);
+    publid boolfbn lodblControl(boolfbn on);
 
     /**
-     * Turns mono mode on or off.  In mono mode, the channel synthesizes
-     * only one note at a time.  In poly mode (identical to mono mode off),
-     * the channel can synthesize multiple notes simultaneously.
-     * The default is mono off (poly mode on).
+     * Turns mono modf on or off.  In mono modf, tif dibnnfl syntifsizfs
+     * only onf notf bt b timf.  In poly modf (idfntidbl to mono modf off),
+     * tif dibnnfl dbn syntifsizf multiplf notfs simultbnfously.
+     * Tif dffbult is mono off (poly modf on).
      * <p>
-     * "Mono" is short for the word "monophonic," which in this context
-     * is opposed to the word "polyphonic" and refers to a single synthesizer
-     * voice per MIDI channel.  It
-     * has nothing to do with how many audio channels there might be
-     * (as in "monophonic" versus "stereophonic" recordings).
+     * "Mono" is siort for tif word "monopionid," wiidi in tiis dontfxt
+     * is opposfd to tif word "polypionid" bnd rfffrs to b singlf syntifsizfr
+     * voidf pfr MIDI dibnnfl.  It
+     * ibs notiing to do witi iow mbny budio dibnnfls tifrf migit bf
+     * (bs in "monopionid" vfrsus "stfrfopionid" rfdordings).
      *
-     * It is possible that the underlying synthesizer
-     * does not support mono mode. In order
-     * to verify that a call to <code>setMono</code>
-     * was successful, use <code>getMono</code>.
+     * It is possiblf tibt tif undfrlying syntifsizfr
+     * dofs not support mono modf. In ordfr
+     * to vfrify tibt b dbll to <dodf>sftMono</dodf>
+     * wbs suddfssful, usf <dodf>gftMono</dodf>.
      *
-     * @param on <code>true</code> to turn mono mode on, <code>false</code> to
-     * turn it off (which means turning poly mode on).
+     * @pbrbm on <dodf>truf</dodf> to turn mono modf on, <dodf>fblsf</dodf> to
+     * turn it off (wiidi mfbns turning poly modf on).
      *
-     * @see #getMono
-     * @see VoiceStatus
+     * @sff #gftMono
+     * @sff VoidfStbtus
      */
-    public void setMono(boolean on);
+    publid void sftMono(boolfbn on);
 
     /**
-     * Obtains the current mono/poly mode.
-     * Synthesizers that do not allow changing mono/poly mode
-     * will always return the same value, regardless
-     * of calls to <code>setMono</code>.
-     * @return <code>true</code> if mono mode is on, otherwise
-     * <code>false</code> (meaning poly mode is on).
+     * Obtbins tif durrfnt mono/poly modf.
+     * Syntifsizfrs tibt do not bllow dibnging mono/poly modf
+     * will blwbys rfturn tif sbmf vbluf, rfgbrdlfss
+     * of dblls to <dodf>sftMono</dodf>.
+     * @rfturn <dodf>truf</dodf> if mono modf is on, otifrwisf
+     * <dodf>fblsf</dodf> (mfbning poly modf is on).
      *
-     * @see #setMono(boolean)
+     * @sff #sftMono(boolfbn)
      */
-    public boolean getMono();
+    publid boolfbn gftMono();
 
     /**
-     * Turns omni mode on or off.  In omni mode, the channel responds
-     * to messages sent on all channels.  When omni is off, the channel
-     * responds only to messages sent on its channel number.
-     * The default is omni off.
+     * Turns omni modf on or off.  In omni modf, tif dibnnfl rfsponds
+     * to mfssbgfs sfnt on bll dibnnfls.  Wifn omni is off, tif dibnnfl
+     * rfsponds only to mfssbgfs sfnt on its dibnnfl numbfr.
+     * Tif dffbult is omni off.
      *
-     * It is possible that the underlying synthesizer
-     * does not support omni mode. In order
-     * to verify that <code>setOmni</code>
-     * was successful, use <code>getOmni</code>.
+     * It is possiblf tibt tif undfrlying syntifsizfr
+     * dofs not support omni modf. In ordfr
+     * to vfrify tibt <dodf>sftOmni</dodf>
+     * wbs suddfssful, usf <dodf>gftOmni</dodf>.
      *
-     * @param on <code>true</code> to turn omni mode on, <code>false</code> to
+     * @pbrbm on <dodf>truf</dodf> to turn omni modf on, <dodf>fblsf</dodf> to
      * turn it off.
      *
-     * @see #getOmni
-     * @see VoiceStatus
+     * @sff #gftOmni
+     * @sff VoidfStbtus
      */
-    public void setOmni(boolean on);
+    publid void sftOmni(boolfbn on);
 
     /**
-     * Obtains the current omni mode.
-     * Synthesizers that do not allow changing the omni mode
-     * will always return the same value, regardless
-     * of calls to <code>setOmni</code>.
-     * @return <code>true</code> if omni mode is on, otherwise
-     * <code>false</code> (meaning omni mode is off).
+     * Obtbins tif durrfnt omni modf.
+     * Syntifsizfrs tibt do not bllow dibnging tif omni modf
+     * will blwbys rfturn tif sbmf vbluf, rfgbrdlfss
+     * of dblls to <dodf>sftOmni</dodf>.
+     * @rfturn <dodf>truf</dodf> if omni modf is on, otifrwisf
+     * <dodf>fblsf</dodf> (mfbning omni modf is off).
      *
-     * @see #setOmni(boolean)
+     * @sff #sftOmni(boolfbn)
      */
-    public boolean getOmni();
+    publid boolfbn gftOmni();
 
     /**
-     * Sets the mute state for this channel. A value of
-     * <code>true</code> means the channel is to be muted, <code>false</code>
-     * means the channel can sound (if other channels are not soloed).
+     * Sfts tif mutf stbtf for tiis dibnnfl. A vbluf of
+     * <dodf>truf</dodf> mfbns tif dibnnfl is to bf mutfd, <dodf>fblsf</dodf>
+     * mfbns tif dibnnfl dbn sound (if otifr dibnnfls brf not solofd).
      * <p>
-     * Unlike {@link #allSoundOff()}, this method
-     * applies to only a specific channel, not to all channels.  Further, it
-     * silences not only currently sounding notes, but also subsequently
-     * received notes.
+     * Unlikf {@link #bllSoundOff()}, tiis mftiod
+     * bpplifs to only b spfdifid dibnnfl, not to bll dibnnfls.  Furtifr, it
+     * silfndfs not only durrfntly sounding notfs, but blso subsfqufntly
+     * rfdfivfd notfs.
      *
-     * It is possible that the underlying synthesizer
-     * does not support muting channels. In order
-     * to verify that a call to <code>setMute</code>
-     * was successful, use <code>getMute</code>.
+     * It is possiblf tibt tif undfrlying syntifsizfr
+     * dofs not support muting dibnnfls. In ordfr
+     * to vfrify tibt b dbll to <dodf>sftMutf</dodf>
+     * wbs suddfssful, usf <dodf>gftMutf</dodf>.
      *
-     * @param mute the new mute state
+     * @pbrbm mutf tif nfw mutf stbtf
      *
-     * @see #getMute
-     * @see #setSolo(boolean)
+     * @sff #gftMutf
+     * @sff #sftSolo(boolfbn)
      */
-    public void setMute(boolean mute);
+    publid void sftMutf(boolfbn mutf);
 
     /**
-     * Obtains the current mute state for this channel.
-     * If the underlying synthesizer does not support
-     * muting this channel, this method always returns
-     * <code>false</code>.
+     * Obtbins tif durrfnt mutf stbtf for tiis dibnnfl.
+     * If tif undfrlying syntifsizfr dofs not support
+     * muting tiis dibnnfl, tiis mftiod blwbys rfturns
+     * <dodf>fblsf</dodf>.
      *
-     * @return <code>true</code> the channel is muted,
-     *         or <code>false</code> if not
+     * @rfturn <dodf>truf</dodf> tif dibnnfl is mutfd,
+     *         or <dodf>fblsf</dodf> if not
      *
-     * @see #setMute(boolean)
+     * @sff #sftMutf(boolfbn)
      */
-    public boolean getMute();
+    publid boolfbn gftMutf();
 
     /**
-     * Sets the solo state for this channel.
-     * If <code>solo</code> is <code>true</code> only this channel
-     * and other soloed channels will sound. If <code>solo</code>
-     * is <code>false</code> then only other soloed channels will
-     * sound, unless no channels are soloed, in which case all
-     * unmuted channels will sound.
+     * Sfts tif solo stbtf for tiis dibnnfl.
+     * If <dodf>solo</dodf> is <dodf>truf</dodf> only tiis dibnnfl
+     * bnd otifr solofd dibnnfls will sound. If <dodf>solo</dodf>
+     * is <dodf>fblsf</dodf> tifn only otifr solofd dibnnfls will
+     * sound, unlfss no dibnnfls brf solofd, in wiidi dbsf bll
+     * unmutfd dibnnfls will sound.
      *
-     * It is possible that the underlying synthesizer
-     * does not support solo channels. In order
-     * to verify that a call to <code>setSolo</code>
-     * was successful, use <code>getSolo</code>.
+     * It is possiblf tibt tif undfrlying syntifsizfr
+     * dofs not support solo dibnnfls. In ordfr
+     * to vfrify tibt b dbll to <dodf>sftSolo</dodf>
+     * wbs suddfssful, usf <dodf>gftSolo</dodf>.
      *
-     * @param soloState new solo state for the channel
-     * @see #getSolo()
+     * @pbrbm soloStbtf nfw solo stbtf for tif dibnnfl
+     * @sff #gftSolo()
      */
-    public void setSolo(boolean soloState);
+    publid void sftSolo(boolfbn soloStbtf);
 
     /**
-     * Obtains the current solo state for this channel.
-     * If the underlying synthesizer does not support
-     * solo on this channel, this method always returns
-     * <code>false</code>.
+     * Obtbins tif durrfnt solo stbtf for tiis dibnnfl.
+     * If tif undfrlying syntifsizfr dofs not support
+     * solo on tiis dibnnfl, tiis mftiod blwbys rfturns
+     * <dodf>fblsf</dodf>.
      *
-     * @return <code>true</code> the channel is solo,
-     *         or <code>false</code> if not
+     * @rfturn <dodf>truf</dodf> tif dibnnfl is solo,
+     *         or <dodf>fblsf</dodf> if not
      *
-     * @see #setSolo(boolean)
+     * @sff #sftSolo(boolfbn)
      */
-    public boolean getSolo();
+    publid boolfbn gftSolo();
 }

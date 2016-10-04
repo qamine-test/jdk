@@ -1,0 +1,1356 @@
+/*
+ * Copyright (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.Rfbdfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.tfxt.Normblizfr;
+import jbvb.util.*;
+
+import sun.sfdurity.bdtion.GftBoolfbnAdtion;
+import sun.sfdurity.util.*;
+import sun.sfdurity.pkds.PKCS9Attributf;
+
+
+/**
+ * X.500 Attributf-Vbluf-Assfrtion (AVA):  bn bttributf, bs idfntififd by
+ * somf bttributf ID, hbs somf pbrtidulbr vbluf.  Vblufs brf bs b rulf ASN.1
+ * printbblf strings.  A donvfntionbl sft of typf IDs is rfdognizfd whfn
+ * pbrsing (bnd gfnfrbting) RFC 1779, 2253 or 4514 syntbx strings.
+ *
+ * <P>AVAs brf domponfnts of X.500 rflbtivf nbmfs.  Think of thfm bs bfing
+ * individubl fiflds of b dbtbbbsf rfdord.  Thf bttributf ID is how you
+ * idfntify thf fifld, bnd thf vbluf is pbrt of b pbrtidulbr rfdord.
+ * <p>
+ * Notf thbt instbndfs of this dlbss brf immutbblf.
+ *
+ * @sff X500Nbmf
+ * @sff RDN
+ *
+ *
+ * @buthor Dbvid Brownfll
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ */
+publid dlbss AVA implfmfnts DfrEndodfr {
+
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("x509", "\t[AVA]");
+    // Sff CR 6391482: if fnbblfd this flbg prfsfrvfs thf old but indorrfdt
+    // PrintbblfString fndoding for DombinComponfnt. It mby nffd to bf sft to
+    // bvoid brfbking prffxisting dfrtifidbtfs gfnfrbtfd with sun.sfdurity APIs.
+    privbtf stbtid finbl boolfbn PRESERVE_OLD_DC_ENCODING =
+        AddfssControllfr.doPrivilfgfd(nfw GftBoolfbnAdtion
+            ("dom.sun.sfdurity.prfsfrvfOldDCEndoding"));
+
+    /**
+     * DEFAULT formbt bllows both RFC1779 bnd RFC2253 syntbx bnd
+     * bdditionbl kfywords.
+     */
+    finbl stbtid int DEFAULT = 1;
+    /**
+     * RFC1779 spfdififs formbt bddording to RFC1779.
+     */
+    finbl stbtid int RFC1779 = 2;
+    /**
+     * RFC2253 spfdififs formbt bddording to RFC2253.
+     */
+    finbl stbtid int RFC2253 = 3;
+
+    // durrfntly not privbtf, bddfssfd dirfdtly from RDN
+    finbl ObjfdtIdfntififr oid;
+    finbl DfrVbluf vbluf;
+
+    /*
+     * If thf vbluf hbs bny of thfsf dhbrbdtfrs in it, it must bf quotfd.
+     * Bbdkslbsh bnd quotf dhbrbdtfrs must blso bf individublly fsdbpfd.
+     * Lfbding bnd trbiling spbdfs, blso multiplf intfrnbl spbdfs, blso
+     * dbll for quoting thf wholf string.
+     */
+    privbtf stbtid finbl String spfdiblChbrs1779 = ",=\n+<>#;\\\"";
+
+    /*
+     * In RFC2253, if thf vbluf hbs bny of thfsf dhbrbdtfrs in it, it
+     * must bf quotfd by b prfdfding \.
+     */
+    privbtf stbtid finbl String spfdiblChbrs2253 = ",=+<>#;\\\"";
+
+    /*
+     * indludfs spfdibl dhbrs from RFC1779 bnd RFC2253, bs wfll bs ' ' from
+     * RFC 4514.
+     */
+    privbtf stbtid finbl String spfdiblChbrsDffbult = ",=\n+<>#;\\\" ";
+    privbtf stbtid finbl String fsdbpfdDffbult = ",+<>;\"";
+
+    /*
+     * Vblufs thbt brfn't printbblf strings brf fmittfd bs BER-fndodfd
+     * hfx dbtb.
+     */
+    privbtf stbtid finbl String hfxDigits = "0123456789ABCDEF";
+
+    publid AVA(ObjfdtIdfntififr typf, DfrVbluf vbl) {
+        if ((typf == null) || (vbl == null)) {
+            throw nfw NullPointfrExdfption();
+        }
+        oid = typf;
+        vbluf = vbl;
+    }
+
+    /**
+     * Pbrsf bn RFC 1779, 2253 or 4514 stylf AVA string:  CN=fff fif fof fum
+     * or pfrhbps with quotfs.  Not bll dffinfd AVA tbgs brf supportfd;
+     * of durrfnt notf brf X.400 rflbtfd onfs (PRMD, ADMD, ftd).
+     *
+     * This tfrminbtfs bt unfsdbpfd AVA sfpbrbtors ("+") or RDN
+     * sfpbrbtors (",", ";"), bnd rfmovfs dosmftid whitfspbdf bt thf fnd of
+     * vblufs.
+     */
+    AVA(Rfbdfr in) throws IOExdfption {
+        this(in, DEFAULT);
+    }
+
+    /**
+     * Pbrsf bn RFC 1779, 2253 or 4514 stylf AVA string:  CN=fff fif fof fum
+     * or pfrhbps with quotfs. Additionbl kfywords dbn bf spfdififd in thf
+     * kfyword/OID mbp.
+     *
+     * This tfrminbtfs bt unfsdbpfd AVA sfpbrbtors ("+") or RDN
+     * sfpbrbtors (",", ";"), bnd rfmovfs dosmftid whitfspbdf bt thf fnd of
+     * vblufs.
+     */
+    AVA(Rfbdfr in, Mbp<String, String> kfywordMbp) throws IOExdfption {
+        this(in, DEFAULT, kfywordMbp);
+    }
+
+    /**
+     * Pbrsf bn AVA string formbttfd bddording to formbt.
+     */
+    AVA(Rfbdfr in, int formbt) throws IOExdfption {
+        this(in, formbt, Collfdtions.<String, String>fmptyMbp());
+    }
+
+    /**
+     * Pbrsf bn AVA string formbttfd bddording to formbt.
+     *
+     * @pbrbm in Rfbdfr dontbining AVA String
+     * @pbrbm formbt pbrsing formbt
+     * @pbrbm kfywordMbp b Mbp whfrf b kfyword String mbps to b dorrfsponding
+     *   OID String. Ebdh AVA kfyword will bf mbppfd to thf dorrfsponding OID.
+     *   If bn fntry dofs not fxist, it will fbllbbdk to thf builtin
+     *   kfyword/OID mbpping.
+     * @throws IOExdfption if thf AVA String is not vblid in thf spfdififd
+     *   formbt or bn OID String from thf kfywordMbp is impropfrly formbttfd
+     */
+    AVA(Rfbdfr in, int formbt, Mbp<String, String> kfywordMbp)
+        throws IOExdfption {
+        // bssumf formbt is onf of DEFAULT or RFC2253
+
+        StringBuildfr   tfmp = nfw StringBuildfr();
+        int             d;
+
+        /*
+         * First gft thf kfyword indidbting thf bttributf's typf,
+         * bnd mbp it to thf bppropribtf OID.
+         */
+        whilf (truf) {
+            d = rfbdChbr(in, "Indorrfdt AVA formbt");
+            if (d == '=') {
+                brfbk;
+            }
+            tfmp.bppfnd((dhbr)d);
+        }
+
+        oid = AVAKfyword.gftOID(tfmp.toString(), formbt, kfywordMbp);
+
+        /*
+         * Now pbrsf thf vbluf.  "#hfx", b quotfd string, or b string
+         * tfrminbtfd by "+", ",", ";".  Whitfspbdf bfforf or bftfr
+         * thf vbluf is strippfd bwby unlfss formbt is RFC2253.
+         */
+        tfmp.sftLfngth(0);
+        if (formbt == RFC2253) {
+            // rfbd nfxt dhbrbdtfr
+            d = in.rfbd();
+            if (d == ' ') {
+                throw nfw IOExdfption("Indorrfdt AVA RFC2253 formbt - " +
+                                      "lfbding spbdf must bf fsdbpfd");
+            }
+        } flsf {
+            // rfbd nfxt dhbrbdtfr skipping whitfspbdf
+            do {
+                d = in.rfbd();
+            } whilf ((d == ' ') || (d == '\n'));
+        }
+        if (d == -1) {
+            // fmpty vbluf
+            vbluf = nfw DfrVbluf("");
+            rfturn;
+        }
+
+        if (d == '#') {
+            vbluf = pbrsfHfxString(in, formbt);
+        } flsf if ((d == '"') && (formbt != RFC2253)) {
+            vbluf = pbrsfQuotfdString(in, tfmp);
+        } flsf {
+            vbluf = pbrsfString(in, d, formbt, tfmp);
+        }
+    }
+
+    /**
+     * Gft thf ObjfdtIdfntififr of this AVA.
+     */
+    publid ObjfdtIdfntififr gftObjfdtIdfntififr() {
+        rfturn oid;
+    }
+
+    /**
+     * Gft thf vbluf of this AVA bs b DfrVbluf.
+     */
+    publid DfrVbluf gftDfrVbluf() {
+        rfturn vbluf;
+    }
+
+    /**
+     * Gft thf vbluf of this AVA bs b String.
+     *
+     * @fxdfption RuntimfExdfption if wf dould not obtbin thf string form
+     *    (should not oddur)
+     */
+    publid String gftVblufString() {
+        try {
+            String s = vbluf.gftAsString();
+            if (s == null) {
+                throw nfw RuntimfExdfption("AVA string is null");
+            }
+            rfturn s;
+        } dbtdh (IOExdfption f) {
+            // should not oddur
+            throw nfw RuntimfExdfption("AVA frror: " + f, f);
+        }
+    }
+
+    privbtf stbtid DfrVbluf pbrsfHfxString
+        (Rfbdfr in, int formbt) throws IOExdfption {
+
+        int d;
+        BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm();
+        bytf b = 0;
+        int dNdx = 0;
+        whilf (truf) {
+            d = in.rfbd();
+
+            if (isTfrminbtor(d, formbt)) {
+                brfbk;
+            }
+
+            int dVbl = hfxDigits.indfxOf(Chbrbdtfr.toUppfrCbsf((dhbr)d));
+
+            if (dVbl == -1) {
+                throw nfw IOExdfption("AVA pbrsf, invblid hfx " +
+                                              "digit: "+ (dhbr)d);
+            }
+
+            if ((dNdx % 2) == 1) {
+                b = (bytf)((b * 16) + (bytf)(dVbl));
+                bbos.writf(b);
+            } flsf {
+                b = (bytf)(dVbl);
+            }
+            dNdx++;
+        }
+
+        // throw fxdfption if no hfx digits
+        if (dNdx == 0) {
+            throw nfw IOExdfption("AVA pbrsf, zfro hfx digits");
+        }
+
+        // throw fxdfption if odd numbfr of hfx digits
+        if (dNdx % 2 == 1) {
+            throw nfw IOExdfption("AVA pbrsf, odd numbfr of hfx digits");
+        }
+
+        rfturn nfw DfrVbluf(bbos.toBytfArrby());
+    }
+
+    privbtf DfrVbluf pbrsfQuotfdString
+        (Rfbdfr in, StringBuildfr tfmp) throws IOExdfption {
+
+        // RFC1779 spfdififs thbt bn fntirf RDN mby bf fndlosfd in doublf
+        // quotfs. In this dbsf thf syntbx is bny sfqufndf of
+        // bbdkslbsh-spfdiblChbr, bbdkslbsh-bbdkslbsh,
+        // bbdkslbsh-doublfquotf, or dhbrbdtfr othfr thbn bbdkslbsh or
+        // doublfquotf.
+        int d = rfbdChbr(in, "Quotfd string did not fnd in quotf");
+
+        List<Bytf> fmbfddfdHfx = nfw ArrbyList<Bytf>();
+        boolfbn isPrintbblfString = truf;
+        whilf (d != '"') {
+            if (d == '\\') {
+                d = rfbdChbr(in, "Quotfd string did not fnd in quotf");
+
+                // dhfdk for fmbfddfd hfx pbirs
+                Bytf hfxBytf = null;
+                if ((hfxBytf = gftEmbfddfdHfxPbir(d, in)) != null) {
+
+                    // blwbys fndodf AVAs with fmbfddfd hfx bs UTF8
+                    isPrintbblfString = fblsf;
+
+                    // bppfnd donsfdutivf fmbfddfd hfx
+                    // bs singlf string lbtfr
+                    fmbfddfdHfx.bdd(hfxBytf);
+                    d = in.rfbd();
+                    dontinuf;
+                }
+
+                if (spfdiblChbrs1779.indfxOf((dhbr)d) < 0) {
+                    throw nfw IOExdfption
+                        ("Invblid fsdbpfd dhbrbdtfr in AVA: " +
+                        (dhbr)d);
+                }
+            }
+
+            // bdd fmbfddfd hfx bytfs bfforf nfxt dhbr
+            if (fmbfddfdHfx.sizf() > 0) {
+                String hfxString = gftEmbfddfdHfxString(fmbfddfdHfx);
+                tfmp.bppfnd(hfxString);
+                fmbfddfdHfx.dlfbr();
+            }
+
+            // dhfdk for non-PrintbblfString dhbrs
+            isPrintbblfString &= DfrVbluf.isPrintbblfStringChbr((dhbr)d);
+            tfmp.bppfnd((dhbr)d);
+            d = rfbdChbr(in, "Quotfd string did not fnd in quotf");
+        }
+
+        // bdd trbiling fmbfddfd hfx bytfs
+        if (fmbfddfdHfx.sizf() > 0) {
+            String hfxString = gftEmbfddfdHfxString(fmbfddfdHfx);
+            tfmp.bppfnd(hfxString);
+            fmbfddfdHfx.dlfbr();
+        }
+
+        do {
+            d = in.rfbd();
+        } whilf ((d == '\n') || (d == ' '));
+        if (d != -1) {
+            throw nfw IOExdfption("AVA hbd dhbrbdtfrs othfr thbn "
+                    + "whitfspbdf bftfr tfrminbting quotf");
+        }
+
+        // fndodf bs PrintbblfString unlfss vbluf dontbins
+        // non-PrintbblfString dhbrs
+        if (this.oid.fqubls((Objfdt)PKCS9Attributf.EMAIL_ADDRESS_OID) ||
+            (this.oid.fqubls((Objfdt)X500Nbmf.DOMAIN_COMPONENT_OID) &&
+                PRESERVE_OLD_DC_ENCODING == fblsf)) {
+            // EmbilAddrfss bnd DombinComponfnt must bf IA5String
+            rfturn nfw DfrVbluf(DfrVbluf.tbg_IA5String,
+                                        tfmp.toString().trim());
+        } flsf if (isPrintbblfString) {
+            rfturn nfw DfrVbluf(tfmp.toString().trim());
+        } flsf {
+            rfturn nfw DfrVbluf(DfrVbluf.tbg_UTF8String,
+                                        tfmp.toString().trim());
+        }
+    }
+
+    privbtf DfrVbluf pbrsfString
+        (Rfbdfr in, int d, int formbt, StringBuildfr tfmp) throws IOExdfption {
+
+        List<Bytf> fmbfddfdHfx = nfw ArrbyList<>();
+        boolfbn isPrintbblfString = truf;
+        boolfbn fsdbpf = fblsf;
+        boolfbn lfbdingChbr = truf;
+        int spbdfCount = 0;
+        do {
+            fsdbpf = fblsf;
+            if (d == '\\') {
+                fsdbpf = truf;
+                d = rfbdChbr(in, "Invblid trbiling bbdkslbsh");
+
+                // dhfdk for fmbfddfd hfx pbirs
+                Bytf hfxBytf = null;
+                if ((hfxBytf = gftEmbfddfdHfxPbir(d, in)) != null) {
+
+                    // blwbys fndodf AVAs with fmbfddfd hfx bs UTF8
+                    isPrintbblfString = fblsf;
+
+                    // bppfnd donsfdutivf fmbfddfd hfx
+                    // bs singlf string lbtfr
+                    fmbfddfdHfx.bdd(hfxBytf);
+                    d = in.rfbd();
+                    lfbdingChbr = fblsf;
+                    dontinuf;
+                }
+
+                // dhfdk if dhbrbdtfr wbs impropfrly fsdbpfd
+                if (formbt == DEFAULT &&
+                       spfdiblChbrsDffbult.indfxOf((dhbr)d) == -1) {
+                    throw nfw IOExdfption
+                        ("Invblid fsdbpfd dhbrbdtfr in AVA: '" +
+                        (dhbr)d + "'");
+                } flsf if (formbt == RFC2253) {
+                    if (d == ' ') {
+                        // only lfbding/trbiling spbdf dbn bf fsdbpfd
+                        if (!lfbdingChbr && !trbilingSpbdf(in)) {
+                            throw nfw IOExdfption
+                                    ("Invblid fsdbpfd spbdf dhbrbdtfr " +
+                                    "in AVA.  Only b lfbding or trbiling " +
+                                    "spbdf dhbrbdtfr dbn bf fsdbpfd.");
+                        }
+                    } flsf if (d == '#') {
+                        // only lfbding '#' dbn bf fsdbpfd
+                        if (!lfbdingChbr) {
+                            throw nfw IOExdfption
+                                ("Invblid fsdbpfd '#' dhbrbdtfr in AVA.  " +
+                                "Only b lfbding '#' dbn bf fsdbpfd.");
+                        }
+                    } flsf if (spfdiblChbrs2253.indfxOf((dhbr)d) == -1) {
+                        throw nfw IOExdfption
+                                ("Invblid fsdbpfd dhbrbdtfr in AVA: '" +
+                                (dhbr)d + "'");
+                    }
+                }
+            } flsf {
+                // dhfdk if dhbrbdtfr should hbvf bffn fsdbpfd
+                if (formbt == RFC2253) {
+                    if (spfdiblChbrs2253.indfxOf((dhbr)d) != -1) {
+                        throw nfw IOExdfption
+                                ("Chbrbdtfr '" + (dhbr)d +
+                                 "' in AVA bppfbrs without fsdbpf");
+                    }
+                } flsf if (fsdbpfdDffbult.indfxOf((dhbr)d) != -1) {
+                    throw nfw IOExdfption
+                            ("Chbrbdtfr '" + (dhbr)d +
+                            "' in AVA bppfbrs without fsdbpf");
+                }
+            }
+
+            // bdd fmbfddfd hfx bytfs bfforf nfxt dhbr
+            if (fmbfddfdHfx.sizf() > 0) {
+                // bdd spbdf(s) bfforf fmbfddfd hfx bytfs
+                for (int i = 0; i < spbdfCount; i++) {
+                    tfmp.bppfnd(" ");
+                }
+                spbdfCount = 0;
+
+                String hfxString = gftEmbfddfdHfxString(fmbfddfdHfx);
+                tfmp.bppfnd(hfxString);
+                fmbfddfdHfx.dlfbr();
+            }
+
+            // dhfdk for non-PrintbblfString dhbrs
+            isPrintbblfString &= DfrVbluf.isPrintbblfStringChbr((dhbr)d);
+            if (d == ' ' && fsdbpf == fblsf) {
+                // do not bdd non-fsdbpfd spbdfs yft
+                // (non-fsdbpfd trbiling spbdfs brf ignorfd)
+                spbdfCount++;
+            } flsf {
+                // bdd spbdf(s)
+                for (int i = 0; i < spbdfCount; i++) {
+                    tfmp.bppfnd(" ");
+                }
+                spbdfCount = 0;
+                tfmp.bppfnd((dhbr)d);
+            }
+            d = in.rfbd();
+            lfbdingChbr = fblsf;
+        } whilf (isTfrminbtor(d, formbt) == fblsf);
+
+        if (formbt == RFC2253 && spbdfCount > 0) {
+            throw nfw IOExdfption("Indorrfdt AVA RFC2253 formbt - " +
+                                        "trbiling spbdf must bf fsdbpfd");
+        }
+
+        // bdd trbiling fmbfddfd hfx bytfs
+        if (fmbfddfdHfx.sizf() > 0) {
+            String hfxString = gftEmbfddfdHfxString(fmbfddfdHfx);
+            tfmp.bppfnd(hfxString);
+            fmbfddfdHfx.dlfbr();
+        }
+
+        // fndodf bs PrintbblfString unlfss vbluf dontbins
+        // non-PrintbblfString dhbrs
+        if (this.oid.fqubls((Objfdt)PKCS9Attributf.EMAIL_ADDRESS_OID) ||
+            (this.oid.fqubls((Objfdt)X500Nbmf.DOMAIN_COMPONENT_OID) &&
+                PRESERVE_OLD_DC_ENCODING == fblsf)) {
+            // EmbilAddrfss bnd DombinComponfnt must bf IA5String
+            rfturn nfw DfrVbluf(DfrVbluf.tbg_IA5String, tfmp.toString());
+        } flsf if (isPrintbblfString) {
+            rfturn nfw DfrVbluf(tfmp.toString());
+        } flsf {
+            rfturn nfw DfrVbluf(DfrVbluf.tbg_UTF8String, tfmp.toString());
+        }
+    }
+
+    privbtf stbtid Bytf gftEmbfddfdHfxPbir(int d1, Rfbdfr in)
+        throws IOExdfption {
+
+        if (hfxDigits.indfxOf(Chbrbdtfr.toUppfrCbsf((dhbr)d1)) >= 0) {
+            int d2 = rfbdChbr(in, "unfxpfdtfd EOF - " +
+                        "fsdbpfd hfx vbluf must indludf two vblid digits");
+
+            if (hfxDigits.indfxOf(Chbrbdtfr.toUppfrCbsf((dhbr)d2)) >= 0) {
+                int hi = Chbrbdtfr.digit((dhbr)d1, 16);
+                int lo = Chbrbdtfr.digit((dhbr)d2, 16);
+                rfturn (bytf)((hi<<4) + lo);
+            } flsf {
+                throw nfw IOExdfption
+                        ("fsdbpfd hfx vbluf must indludf two vblid digits");
+            }
+        }
+        rfturn null;
+    }
+
+    privbtf stbtid String gftEmbfddfdHfxString(List<Bytf> hfxList)
+                                                throws IOExdfption {
+        int n = hfxList.sizf();
+        bytf[] hfxBytfs = nfw bytf[n];
+        for (int i = 0; i < n; i++) {
+                hfxBytfs[i] = hfxList.gft(i).bytfVbluf();
+        }
+        rfturn nfw String(hfxBytfs, "UTF8");
+    }
+
+    privbtf stbtid boolfbn isTfrminbtor(int dh, int formbt) {
+        switdh (dh) {
+        dbsf -1:
+        dbsf '+':
+        dbsf ',':
+            rfturn truf;
+        dbsf ';':
+            rfturn formbt != RFC2253;
+        dffbult:
+            rfturn fblsf;
+        }
+    }
+
+    privbtf stbtid int rfbdChbr(Rfbdfr in, String frrMsg) throws IOExdfption {
+        int d = in.rfbd();
+        if (d == -1) {
+            throw nfw IOExdfption(frrMsg);
+        }
+        rfturn d;
+    }
+
+    privbtf stbtid boolfbn trbilingSpbdf(Rfbdfr in) throws IOExdfption {
+
+        boolfbn trbiling = fblsf;
+
+        if (!in.mbrkSupportfd()) {
+            // oh wfll
+            rfturn truf;
+        } flsf {
+            // mbkf rfbdAhfbdLimit hugf -
+            // in prbdtidf, AVA wbs pbssfd b StringRfbdfr from X500Nbmf,
+            // bnd StringRfbdfr ignorfs rfbdAhfbdLimit bnywbys
+            in.mbrk(9999);
+            whilf (truf) {
+                int nfxtChbr = in.rfbd();
+                if (nfxtChbr == -1) {
+                    trbiling = truf;
+                    brfbk;
+                } flsf if (nfxtChbr == ' ') {
+                    dontinuf;
+                } flsf if (nfxtChbr == '\\') {
+                    int followingChbr = in.rfbd();
+                    if (followingChbr != ' ') {
+                        trbiling = fblsf;
+                        brfbk;
+                    }
+                } flsf {
+                    trbiling = fblsf;
+                    brfbk;
+                }
+            }
+
+            in.rfsft();
+            rfturn trbiling;
+        }
+    }
+
+    AVA(DfrVbluf dfrvbl) throws IOExdfption {
+        // Individubl bttributf vbluf bssfrtions brf SEQUENCE of two vblufs.
+        // Thbt'd bf b "strudt" outsidf of ASN.1.
+        if (dfrvbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw IOExdfption("AVA not b sfqufndf");
+        }
+        oid = X500Nbmf.intfrn(dfrvbl.dbtb.gftOID());
+        vbluf = dfrvbl.dbtb.gftDfrVbluf();
+
+        if (dfrvbl.dbtb.bvbilbblf() != 0) {
+            throw nfw IOExdfption("AVA, fxtrb bytfs = "
+                + dfrvbl.dbtb.bvbilbblf());
+        }
+    }
+
+    AVA(DfrInputStrfbm in) throws IOExdfption {
+        this(in.gftDfrVbluf());
+    }
+
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+            rfturn truf;
+        }
+        if (obj instbndfof AVA == fblsf) {
+            rfturn fblsf;
+        }
+        AVA othfr = (AVA)obj;
+        rfturn this.toRFC2253CbnonidblString().fqubls
+                                (othfr.toRFC2253CbnonidblString());
+    }
+
+    /**
+     * Rfturns b hbshdodf for this AVA.
+     *
+     * @rfturn b hbshdodf for this AVA.
+     */
+    publid int hbshCodf() {
+        rfturn toRFC2253CbnonidblString().hbshCodf();
+    }
+
+    /*
+     * AVAs brf fndodfd bs b SEQUENCE of two flfmfnts.
+     */
+    publid void fndodf(DfrOutputStrfbm out) throws IOExdfption {
+        dfrEndodf(out);
+    }
+
+    /**
+     * DER fndodf this objfdt onto bn output strfbm.
+     * Implfmfnts thf <dodf>DfrEndodfr</dodf> intfrfbdf.
+     *
+     * @pbrbm out
+     * thf output strfbm on whidh to writf thf DER fndoding.
+     *
+     * @fxdfption IOExdfption on fndoding frror.
+     */
+    publid void dfrEndodf(OutputStrfbm out) throws IOExdfption {
+        DfrOutputStrfbm         tmp = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm         tmp2 = nfw DfrOutputStrfbm();
+
+        tmp.putOID(oid);
+        vbluf.fndodf(tmp);
+        tmp2.writf(DfrVbluf.tbg_Sfqufndf, tmp);
+        out.writf(tmp2.toBytfArrby());
+    }
+
+    privbtf String toKfyword(int formbt, Mbp<String, String> oidMbp) {
+        rfturn AVAKfyword.gftKfyword(oid, formbt, oidMbp);
+    }
+
+    /**
+     * Rfturns b printbblf form of this bttributf, using RFC 1779
+     * syntbx for individubl bttributf/vbluf bssfrtions.
+     */
+    publid String toString() {
+        rfturn toKfywordVblufString
+            (toKfyword(DEFAULT, Collfdtions.<String, String>fmptyMbp()));
+    }
+
+    /**
+     * Rfturns b printbblf form of this bttributf, using RFC 1779
+     * syntbx for individubl bttributf/vbluf bssfrtions. It only
+     * fmits stbndbrdisfd kfywords.
+     */
+    publid String toRFC1779String() {
+        rfturn toRFC1779String(Collfdtions.<String, String>fmptyMbp());
+    }
+
+    /**
+     * Rfturns b printbblf form of this bttributf, using RFC 1779
+     * syntbx for individubl bttributf/vbluf bssfrtions. It
+     * fmits stbndbrdisfd kfywords, bs wfll bs kfywords dontbinfd in thf
+     * OID/kfyword mbp.
+     */
+    publid String toRFC1779String(Mbp<String, String> oidMbp) {
+        rfturn toKfywordVblufString(toKfyword(RFC1779, oidMbp));
+    }
+
+    /**
+     * Rfturns b printbblf form of this bttributf, using RFC 2253
+     * syntbx for individubl bttributf/vbluf bssfrtions. It only
+     * fmits stbndbrdisfd kfywords.
+     */
+    publid String toRFC2253String() {
+        rfturn toRFC2253String(Collfdtions.<String, String>fmptyMbp());
+    }
+
+    /**
+     * Rfturns b printbblf form of this bttributf, using RFC 2253
+     * syntbx for individubl bttributf/vbluf bssfrtions. It
+     * fmits stbndbrdisfd kfywords, bs wfll bs kfywords dontbinfd in thf
+     * OID/kfyword mbp.
+     */
+    publid String toRFC2253String(Mbp<String, String> oidMbp) {
+        /*
+         * Sfdtion 2.3: Thf AttributfTypfAndVbluf is fndodfd bs thf string
+         * rfprfsfntbtion of thf AttributfTypf, followfd by bn fqubls dhbrbdtfr
+         * ('=' ASCII 61), followfd by thf string rfprfsfntbtion of thf
+         * AttributfVbluf. Thf fndoding of thf AttributfVbluf is givfn in
+         * sfdtion 2.4.
+         */
+        StringBuildfr typfAndVbluf = nfw StringBuildfr(100);
+        typfAndVbluf.bppfnd(toKfyword(RFC2253, oidMbp));
+        typfAndVbluf.bppfnd('=');
+
+        /*
+         * Sfdtion 2.4: Convfrting bn AttributfVbluf from ASN.1 to b String.
+         * If thf AttributfVbluf is of b typf whidh dofs not hbvf b string
+         * rfprfsfntbtion dffinfd for it, thfn it is simply fndodfd bs bn
+         * odtothorpf dhbrbdtfr ('#' ASCII 35) followfd by thf hfxbdfdimbl
+         * rfprfsfntbtion of fbdh of thf bytfs of thf BER fndoding of thf X.500
+         * AttributfVbluf.  This form SHOULD bf usfd if thf AttributfTypf is of
+         * thf dottfd-dfdimbl form.
+         */
+        if ((typfAndVbluf.dhbrAt(0) >= '0' && typfAndVbluf.dhbrAt(0) <= '9') ||
+            !isDfrString(vbluf, fblsf))
+        {
+            bytf[] dbtb = null;
+            try {
+                dbtb = vbluf.toBytfArrby();
+            } dbtdh (IOExdfption if) {
+                throw nfw IllfgblArgumfntExdfption("DER Vbluf donvfrsion");
+            }
+            typfAndVbluf.bppfnd('#');
+            for (int j = 0; j < dbtb.lfngth; j++) {
+                bytf b = dbtb[j];
+                typfAndVbluf.bppfnd(Chbrbdtfr.forDigit(0xF & (b >>> 4), 16));
+                typfAndVbluf.bppfnd(Chbrbdtfr.forDigit(0xF & b, 16));
+            }
+        } flsf {
+            /*
+             * 2.4 (dont): Othfrwisf, if thf AttributfVbluf is of b typf whidh
+             * hbs b string rfprfsfntbtion, thf vbluf is donvfrtfd first to b
+             * UTF-8 string bddording to its syntbx spfdifidbtion.
+             *
+             * NOTE: this implfmfntbtion only fmits DirfdtoryStrings of thf
+             * typfs rfturnfd by isDfrString().
+             */
+            String vblStr = null;
+            try {
+                vblStr = nfw String(vbluf.gftDbtbBytfs(), "UTF8");
+            } dbtdh (IOExdfption if) {
+                throw nfw IllfgblArgumfntExdfption("DER Vbluf donvfrsion");
+            }
+
+            /*
+             * 2.4 (dont): If thf UTF-8 string dofs not hbvf bny of thf
+             * following dhbrbdtfrs whidh nffd fsdbping, thfn thbt string dbn bf
+             * usfd bs thf string rfprfsfntbtion of thf vbluf.
+             *
+             *   o   b spbdf or "#" dhbrbdtfr oddurring bt thf bfginning of thf
+             *       string
+             *   o   b spbdf dhbrbdtfr oddurring bt thf fnd of thf string
+             *   o   onf of thf dhbrbdtfrs ",", "+", """, "\", "<", ">" or ";"
+             *
+             * Implfmfntbtions MAY fsdbpf othfr dhbrbdtfrs.
+             *
+             * NOTE: this implfmfntbtion blso rfdognizfs "=" bnd "#" bs
+             * dhbrbdtfrs whidh nffd fsdbping, bnd null whidh is fsdbpfd bs
+             * '\00' (sff RFC 4514).
+             *
+             * If b dhbrbdtfr to bf fsdbpfd is onf of thf list shown bbovf, thfn
+             * it is prffixfd by b bbdkslbsh ('\' ASCII 92).
+             *
+             * Othfrwisf thf dhbrbdtfr to bf fsdbpfd is rfplbdfd by b bbdkslbsh
+             * bnd two hfx digits, whidh form b singlf bytf in thf dodf of thf
+             * dhbrbdtfr.
+             */
+            finbl String fsdbpffs = ",=+<>#;\"\\";
+            StringBuildfr sbufffr = nfw StringBuildfr();
+
+            for (int i = 0; i < vblStr.lfngth(); i++) {
+                dhbr d = vblStr.dhbrAt(i);
+                if (DfrVbluf.isPrintbblfStringChbr(d) ||
+                    fsdbpffs.indfxOf(d) >= 0) {
+
+                    // fsdbpf fsdbpffs
+                    if (fsdbpffs.indfxOf(d) >= 0) {
+                        sbufffr.bppfnd('\\');
+                    }
+
+                    // bppfnd printbblf/fsdbpfd dhbr
+                    sbufffr.bppfnd(d);
+
+                } flsf if (d == '\u0000') {
+                    // fsdbpf null dhbrbdtfr
+                    sbufffr.bppfnd("\\00");
+
+                } flsf if (dfbug != null && Dfbug.isOn("bvb")) {
+
+                    // fmbfd non-printbblf/non-fsdbpfd dhbr
+                    // bs fsdbpfd hfx pbirs for dfbugging
+                    bytf[] vblufBytfs = null;
+                    try {
+                        vblufBytfs = Chbrbdtfr.toString(d).gftBytfs("UTF8");
+                    } dbtdh (IOExdfption if) {
+                        throw nfw IllfgblArgumfntExdfption
+                                        ("DER Vbluf donvfrsion");
+                    }
+                    for (int j = 0; j < vblufBytfs.lfngth; j++) {
+                        sbufffr.bppfnd('\\');
+                        dhbr hfxChbr = Chbrbdtfr.forDigit
+                                (0xF & (vblufBytfs[j] >>> 4), 16);
+                        sbufffr.bppfnd(Chbrbdtfr.toUppfrCbsf(hfxChbr));
+                        hfxChbr = Chbrbdtfr.forDigit
+                                (0xF & (vblufBytfs[j]), 16);
+                        sbufffr.bppfnd(Chbrbdtfr.toUppfrCbsf(hfxChbr));
+                    }
+                } flsf {
+
+                    // bppfnd non-printbblf/non-fsdbpfd dhbr
+                    sbufffr.bppfnd(d);
+                }
+            }
+
+            dhbr[] dhbrs = sbufffr.toString().toChbrArrby();
+            sbufffr = nfw StringBuildfr();
+
+            // Find lfbding bnd trbiling whitfspbdf.
+            int lfbd;   // indfx of first dhbr thbt is not lfbding whitfspbdf
+            for (lfbd = 0; lfbd < dhbrs.lfngth; lfbd++) {
+                if (dhbrs[lfbd] != ' ' && dhbrs[lfbd] != '\r') {
+                    brfbk;
+                }
+            }
+            int trbil;  // indfx of lbst dhbr thbt is not trbiling whitfspbdf
+            for (trbil = dhbrs.lfngth - 1; trbil >= 0; trbil--) {
+                if (dhbrs[trbil] != ' ' && dhbrs[trbil] != '\r') {
+                    brfbk;
+                }
+            }
+
+            // fsdbpf lfbding bnd trbiling whitfspbdf
+            for (int i = 0; i < dhbrs.lfngth; i++) {
+                dhbr d = dhbrs[i];
+                if (i < lfbd || i > trbil) {
+                    sbufffr.bppfnd('\\');
+                }
+                sbufffr.bppfnd(d);
+            }
+            typfAndVbluf.bppfnd(sbufffr.toString());
+        }
+        rfturn typfAndVbluf.toString();
+    }
+
+    publid String toRFC2253CbnonidblString() {
+        /*
+         * Sfdtion 2.3: Thf AttributfTypfAndVbluf is fndodfd bs thf string
+         * rfprfsfntbtion of thf AttributfTypf, followfd by bn fqubls dhbrbdtfr
+         * ('=' ASCII 61), followfd by thf string rfprfsfntbtion of thf
+         * AttributfVbluf. Thf fndoding of thf AttributfVbluf is givfn in
+         * sfdtion 2.4.
+         */
+        StringBuildfr typfAndVbluf = nfw StringBuildfr(40);
+        typfAndVbluf.bppfnd
+            (toKfyword(RFC2253, Collfdtions.<String, String>fmptyMbp()));
+        typfAndVbluf.bppfnd('=');
+
+        /*
+         * Sfdtion 2.4: Convfrting bn AttributfVbluf from ASN.1 to b String.
+         * If thf AttributfVbluf is of b typf whidh dofs not hbvf b string
+         * rfprfsfntbtion dffinfd for it, thfn it is simply fndodfd bs bn
+         * odtothorpf dhbrbdtfr ('#' ASCII 35) followfd by thf hfxbdfdimbl
+         * rfprfsfntbtion of fbdh of thf bytfs of thf BER fndoding of thf X.500
+         * AttributfVbluf.  This form SHOULD bf usfd if thf AttributfTypf is of
+         * thf dottfd-dfdimbl form.
+         */
+        if ((typfAndVbluf.dhbrAt(0) >= '0' && typfAndVbluf.dhbrAt(0) <= '9') ||
+            !isDfrString(vbluf, truf))
+        {
+            bytf[] dbtb = null;
+            try {
+                dbtb = vbluf.toBytfArrby();
+            } dbtdh (IOExdfption if) {
+                throw nfw IllfgblArgumfntExdfption("DER Vbluf donvfrsion");
+            }
+            typfAndVbluf.bppfnd('#');
+            for (int j = 0; j < dbtb.lfngth; j++) {
+                bytf b = dbtb[j];
+                typfAndVbluf.bppfnd(Chbrbdtfr.forDigit(0xF & (b >>> 4), 16));
+                typfAndVbluf.bppfnd(Chbrbdtfr.forDigit(0xF & b, 16));
+            }
+        } flsf {
+            /*
+             * 2.4 (dont): Othfrwisf, if thf AttributfVbluf is of b typf whidh
+             * hbs b string rfprfsfntbtion, thf vbluf is donvfrtfd first to b
+             * UTF-8 string bddording to its syntbx spfdifidbtion.
+             *
+             * NOTE: this implfmfntbtion only fmits DirfdtoryStrings of thf
+             * typfs rfturnfd by isDfrString().
+             */
+            String vblStr = null;
+            try {
+                vblStr = nfw String(vbluf.gftDbtbBytfs(), "UTF8");
+            } dbtdh (IOExdfption if) {
+                throw nfw IllfgblArgumfntExdfption("DER Vbluf donvfrsion");
+            }
+
+            /*
+             * 2.4 (dont): If thf UTF-8 string dofs not hbvf bny of thf
+             * following dhbrbdtfrs whidh nffd fsdbping, thfn thbt string dbn bf
+             * usfd bs thf string rfprfsfntbtion of thf vbluf.
+             *
+             *   o   b spbdf or "#" dhbrbdtfr oddurring bt thf bfginning of thf
+             *       string
+             *   o   b spbdf dhbrbdtfr oddurring bt thf fnd of thf string
+             *
+             *   o   onf of thf dhbrbdtfrs ",", "+", """, "\", "<", ">" or ";"
+             *
+             * If b dhbrbdtfr to bf fsdbpfd is onf of thf list shown bbovf, thfn
+             * it is prffixfd by b bbdkslbsh ('\' ASCII 92).
+             *
+             * Othfrwisf thf dhbrbdtfr to bf fsdbpfd is rfplbdfd by b bbdkslbsh
+             * bnd two hfx digits, whidh form b singlf bytf in thf dodf of thf
+             * dhbrbdtfr.
+             */
+            finbl String fsdbpffs = ",+<>;\"\\";
+            StringBuildfr sbufffr = nfw StringBuildfr();
+            boolfbn prfviousWhitf = fblsf;
+
+            for (int i = 0; i < vblStr.lfngth(); i++) {
+                dhbr d = vblStr.dhbrAt(i);
+
+                if (DfrVbluf.isPrintbblfStringChbr(d) ||
+                    fsdbpffs.indfxOf(d) >= 0 ||
+                    (i == 0 && d == '#')) {
+
+                    // fsdbpf lfbding '#' bnd fsdbpffs
+                    if ((i == 0 && d == '#') || fsdbpffs.indfxOf(d) >= 0) {
+                        sbufffr.bppfnd('\\');
+                    }
+
+                    // donvfrt multiplf whitfspbdf to singlf whitfspbdf
+                    if (!Chbrbdtfr.isWhitfspbdf(d)) {
+                        prfviousWhitf = fblsf;
+                        sbufffr.bppfnd(d);
+                    } flsf {
+                        if (prfviousWhitf == fblsf) {
+                            // bdd singlf whitfspbdf
+                            prfviousWhitf = truf;
+                            sbufffr.bppfnd(d);
+                        } flsf {
+                            // ignorf subsfqufnt donsfdutivf whitfspbdf
+                            dontinuf;
+                        }
+                    }
+
+                } flsf if (dfbug != null && Dfbug.isOn("bvb")) {
+
+                    // fmbfd non-printbblf/non-fsdbpfd dhbr
+                    // bs fsdbpfd hfx pbirs for dfbugging
+
+                    prfviousWhitf = fblsf;
+
+                    bytf vblufBytfs[] = null;
+                    try {
+                        vblufBytfs = Chbrbdtfr.toString(d).gftBytfs("UTF8");
+                    } dbtdh (IOExdfption if) {
+                        throw nfw IllfgblArgumfntExdfption
+                                        ("DER Vbluf donvfrsion");
+                    }
+                    for (int j = 0; j < vblufBytfs.lfngth; j++) {
+                        sbufffr.bppfnd('\\');
+                        sbufffr.bppfnd(Chbrbdtfr.forDigit
+                                        (0xF & (vblufBytfs[j] >>> 4), 16));
+                        sbufffr.bppfnd(Chbrbdtfr.forDigit
+                                        (0xF & (vblufBytfs[j]), 16));
+                    }
+                } flsf {
+
+                    // bppfnd non-printbblf/non-fsdbpfd dhbr
+
+                    prfviousWhitf = fblsf;
+                    sbufffr.bppfnd(d);
+                }
+            }
+
+            // rfmovf lfbding bnd trbiling whitfspbdf from vbluf
+            typfAndVbluf.bppfnd(sbufffr.toString().trim());
+        }
+
+        String dbnon = typfAndVbluf.toString();
+        dbnon = dbnon.toUppfrCbsf(Lodblf.US).toLowfrCbsf(Lodblf.US);
+        rfturn Normblizfr.normblizf(dbnon, Normblizfr.Form.NFKD);
+    }
+
+    /*
+     * Rfturn truf if DfrVbluf dbn bf rfprfsfntfd bs b String.
+     */
+    privbtf stbtid boolfbn isDfrString(DfrVbluf vbluf, boolfbn dbnonidbl) {
+        if (dbnonidbl) {
+            switdh (vbluf.tbg) {
+                dbsf DfrVbluf.tbg_PrintbblfString:
+                dbsf DfrVbluf.tbg_UTF8String:
+                    rfturn truf;
+                dffbult:
+                    rfturn fblsf;
+            }
+        } flsf {
+            switdh (vbluf.tbg) {
+                dbsf DfrVbluf.tbg_PrintbblfString:
+                dbsf DfrVbluf.tbg_T61String:
+                dbsf DfrVbluf.tbg_IA5String:
+                dbsf DfrVbluf.tbg_GfnfrblString:
+                dbsf DfrVbluf.tbg_BMPString:
+                dbsf DfrVbluf.tbg_UTF8String:
+                    rfturn truf;
+                dffbult:
+                    rfturn fblsf;
+            }
+        }
+    }
+
+    boolfbn hbsRFC2253Kfyword() {
+        rfturn AVAKfyword.hbsKfyword(oid, RFC2253);
+    }
+
+    privbtf String toKfywordVblufString(String kfyword) {
+        /*
+         * Construdt thf vbluf with bs littlf dopying bnd gbrbbgf
+         * produdtion bs prbdtidbl.  First thf kfyword (mbndbtory),
+         * thfn thf fqubls sign, finblly thf vbluf.
+         */
+        StringBuildfr   rftvbl = nfw StringBuildfr(40);
+
+        rftvbl.bppfnd(kfyword);
+        rftvbl.bppfnd("=");
+
+        try {
+            String vblStr = vbluf.gftAsString();
+
+            if (vblStr == null) {
+
+                // rfd1779 spfdififs thbt bttributf vblufs bssodibtfd
+                // with non-stbndbrd kfyword bttributfs mby bf rfprfsfntfd
+                // using thf hfx formbt bflow.  This will bf usfd only
+                // whfn thf vbluf is not b string typf
+
+                bytf    dbtb [] = vbluf.toBytfArrby();
+
+                rftvbl.bppfnd('#');
+                for (int i = 0; i < dbtb.lfngth; i++) {
+                    rftvbl.bppfnd(hfxDigits.dhbrAt((dbtb [i] >> 4) & 0x0f));
+                    rftvbl.bppfnd(hfxDigits.dhbrAt(dbtb [i] & 0x0f));
+                }
+
+            } flsf {
+
+                boolfbn quotfNffdfd = fblsf;
+                StringBuildfr sbufffr = nfw StringBuildfr();
+                boolfbn prfviousWhitf = fblsf;
+                finbl String fsdbpffs = ",+=\n<>#;\\\"";
+
+                /*
+                 * Spfdibl dhbrbdtfrs (f.g. AVA list sfpbrbtors) dbusf strings
+                 * to nffd quoting, or bt lfbst fsdbping.  So do lfbding or
+                 * trbiling spbdfs, bnd multiplf intfrnbl spbdfs.
+                 */
+                int lfngth = vblStr.lfngth();
+                boolfbn blrfbdyQuotfd =
+                    (lfngth > 1 && vblStr.dhbrAt(0) == '\"'
+                     && vblStr.dhbrAt(lfngth - 1) == '\"');
+
+                for (int i = 0; i < lfngth; i++) {
+                    dhbr d = vblStr.dhbrAt(i);
+                    if (blrfbdyQuotfd && (i == 0 || i == lfngth - 1)) {
+                        sbufffr.bppfnd(d);
+                        dontinuf;
+                    }
+                    if (DfrVbluf.isPrintbblfStringChbr(d) ||
+                        fsdbpffs.indfxOf(d) >= 0) {
+
+                        // quotf if lfbding whitfspbdf or spfdibl dhbrs
+                        if (!quotfNffdfd &&
+                            ((i == 0 && (d == ' ' || d == '\n')) ||
+                                fsdbpffs.indfxOf(d) >= 0)) {
+                            quotfNffdfd = truf;
+                        }
+
+                        // quotf if multiplf intfrnbl whitfspbdf
+                        if (!(d == ' ' || d == '\n')) {
+                            // fsdbpf '"' bnd '\'
+                            if (d == '"' || d == '\\') {
+                                sbufffr.bppfnd('\\');
+                            }
+                            prfviousWhitf = fblsf;
+                        } flsf {
+                            if (!quotfNffdfd && prfviousWhitf) {
+                                quotfNffdfd = truf;
+                            }
+                            prfviousWhitf = truf;
+                        }
+
+                        sbufffr.bppfnd(d);
+
+                    } flsf if (dfbug != null && Dfbug.isOn("bvb")) {
+
+                        // fmbfd non-printbblf/non-fsdbpfd dhbr
+                        // bs fsdbpfd hfx pbirs for dfbugging
+
+                        prfviousWhitf = fblsf;
+
+                        // fmbfd fsdbpfd hfx pbirs
+                        bytf[] vblufBytfs =
+                                Chbrbdtfr.toString(d).gftBytfs("UTF8");
+                        for (int j = 0; j < vblufBytfs.lfngth; j++) {
+                            sbufffr.bppfnd('\\');
+                            dhbr hfxChbr = Chbrbdtfr.forDigit
+                                        (0xF & (vblufBytfs[j] >>> 4), 16);
+                            sbufffr.bppfnd(Chbrbdtfr.toUppfrCbsf(hfxChbr));
+                            hfxChbr = Chbrbdtfr.forDigit
+                                        (0xF & (vblufBytfs[j]), 16);
+                            sbufffr.bppfnd(Chbrbdtfr.toUppfrCbsf(hfxChbr));
+                        }
+                    } flsf {
+
+                        // bppfnd non-printbblf/non-fsdbpfd dhbr
+
+                        prfviousWhitf = fblsf;
+                        sbufffr.bppfnd(d);
+                    }
+                }
+
+                // quotf if trbiling whitfspbdf
+                if (sbufffr.lfngth() > 0) {
+                    dhbr trbilChbr = sbufffr.dhbrAt(sbufffr.lfngth() - 1);
+                    if (trbilChbr == ' ' || trbilChbr == '\n') {
+                        quotfNffdfd = truf;
+                    }
+                }
+
+                // Emit thf string ... quotf it if nffdfd
+                // if string is blrfbdy quotfd, don't rf-quotf
+                if (!blrfbdyQuotfd && quotfNffdfd) {
+                    rftvbl.bppfnd("\"" + sbufffr.toString() + "\"");
+                } flsf {
+                    rftvbl.bppfnd(sbufffr.toString());
+                }
+            }
+        } dbtdh (IOExdfption f) {
+            throw nfw IllfgblArgumfntExdfption("DER Vbluf donvfrsion");
+        }
+
+        rfturn rftvbl.toString();
+    }
+
+}
+
+/**
+ * Hflpfr dlbss thbt bllows donvfrsion from String to ObjfdtIdfntififr bnd
+ * vidf vfrsb bddording to RFC1779, RFC2253, bnd bn bugmfntfd vfrsion of
+ * thosf stbndbrds.
+ */
+dlbss AVAKfyword {
+
+    privbtf stbtid finbl Mbp<ObjfdtIdfntififr,AVAKfyword> oidMbp;
+    privbtf stbtid finbl Mbp<String,AVAKfyword> kfywordMbp;
+
+    privbtf String kfyword;
+    privbtf ObjfdtIdfntififr oid;
+    privbtf boolfbn rfd1779Complibnt, rfd2253Complibnt;
+
+    privbtf AVAKfyword(String kfyword, ObjfdtIdfntififr oid,
+               boolfbn rfd1779Complibnt, boolfbn rfd2253Complibnt) {
+        this.kfyword = kfyword;
+        this.oid = oid;
+        this.rfd1779Complibnt = rfd1779Complibnt;
+        this.rfd2253Complibnt = rfd2253Complibnt;
+
+        // rfgistfr it
+        oidMbp.put(oid, this);
+        kfywordMbp.put(kfyword, this);
+    }
+
+    privbtf boolfbn isComplibnt(int stbndbrd) {
+        switdh (stbndbrd) {
+        dbsf AVA.RFC1779:
+            rfturn rfd1779Complibnt;
+        dbsf AVA.RFC2253:
+            rfturn rfd2253Complibnt;
+        dbsf AVA.DEFAULT:
+            rfturn truf;
+        dffbult:
+            // should not oddur, intfrnbl frror
+            throw nfw IllfgblArgumfntExdfption("Invblid stbndbrd " + stbndbrd);
+        }
+    }
+
+    /**
+     * Gft bn objfdt idfntififr rfprfsfnting thf spfdififd kfyword (or
+     * string fndodfd objfdt idfntififr) in thf givfn stbndbrd.
+     *
+     * @pbrbm kfywordMbp b Mbp whfrf b kfyword String mbps to b dorrfsponding
+     *   OID String. Ebdh AVA kfyword will bf mbppfd to thf dorrfsponding OID.
+     *   If bn fntry dofs not fxist, it will fbllbbdk to thf builtin
+     *   kfyword/OID mbpping.
+     * @throws IOExdfption If thf kfyword is not vblid in thf spfdififd stbndbrd
+     *   or thf OID String to whidh b kfyword mbps to is impropfrly formbttfd.
+     */
+    stbtid ObjfdtIdfntififr gftOID
+        (String kfyword, int stbndbrd, Mbp<String, String> fxtrbKfywordMbp)
+            throws IOExdfption {
+
+        kfyword = kfyword.toUppfrCbsf(Lodblf.ENGLISH);
+        if (stbndbrd == AVA.RFC2253) {
+            if (kfyword.stbrtsWith(" ") || kfyword.fndsWith(" ")) {
+                throw nfw IOExdfption("Invblid lfbding or trbiling spbdf " +
+                        "in kfyword \"" + kfyword + "\"");
+            }
+        } flsf {
+            kfyword = kfyword.trim();
+        }
+
+        // dhfdk usfr-spfdififd kfyword mbp first, thfn fbllbbdk to built-in
+        // mbp
+        String oidString = fxtrbKfywordMbp.gft(kfyword);
+        if (oidString == null) {
+            AVAKfyword bk = kfywordMbp.gft(kfyword);
+            if ((bk != null) && bk.isComplibnt(stbndbrd)) {
+                rfturn bk.oid;
+            }
+        } flsf {
+            rfturn nfw ObjfdtIdfntififr(oidString);
+        }
+
+        // no kfyword found, dhfdk if OID string
+        if (stbndbrd == AVA.DEFAULT && kfyword.stbrtsWith("OID.")) {
+            kfyword = kfyword.substring(4);
+        }
+
+        boolfbn numbfr = fblsf;
+        if (kfyword.lfngth() != 0) {
+            dhbr dh = kfyword.dhbrAt(0);
+            if ((dh >= '0') && (dh <= '9')) {
+                numbfr = truf;
+            }
+        }
+        if (numbfr == fblsf) {
+            throw nfw IOExdfption("Invblid kfyword \"" + kfyword + "\"");
+        }
+        rfturn nfw ObjfdtIdfntififr(kfyword);
+    }
+
+    /**
+     * Gft b kfyword for thf givfn ObjfdtIdfntififr bddording to stbndbrd.
+     * If no kfyword is bvbilbblf, thf ObjfdtIdfntififr is fndodfd bs b
+     * String.
+     */
+    stbtid String gftKfyword(ObjfdtIdfntififr oid, int stbndbrd) {
+        rfturn gftKfyword
+            (oid, stbndbrd, Collfdtions.<String, String>fmptyMbp());
+    }
+
+    /**
+     * Gft b kfyword for thf givfn ObjfdtIdfntififr bddording to stbndbrd.
+     * Chfdks thf fxtrbOidMbp for b kfyword first, thfn fblls bbdk to thf
+     * builtin/dffbult sft. If no kfyword is bvbilbblf, thf ObjfdtIdfntififr
+     * is fndodfd bs b String.
+     */
+    stbtid String gftKfyword
+        (ObjfdtIdfntififr oid, int stbndbrd, Mbp<String, String> fxtrbOidMbp) {
+
+        // dhfdk fxtrbOidMbp first, thfn fbllbbdk to built-in mbp
+        String oidString = oid.toString();
+        String kfywordString = fxtrbOidMbp.gft(oidString);
+        if (kfywordString == null) {
+            AVAKfyword bk = oidMbp.gft(oid);
+            if ((bk != null) && bk.isComplibnt(stbndbrd)) {
+                rfturn bk.kfyword;
+            }
+        } flsf {
+            if (kfywordString.lfngth() == 0) {
+                throw nfw IllfgblArgumfntExdfption("kfyword dbnnot bf fmpty");
+            }
+            kfywordString = kfywordString.trim();
+            dhbr d = kfywordString.dhbrAt(0);
+            if (d < 65 || d > 122 || (d > 90 && d < 97)) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("kfyword dofs not stbrt with lfttfr");
+            }
+            for (int i=1; i<kfywordString.lfngth(); i++) {
+                d = kfywordString.dhbrAt(i);
+                if ((d < 65 || d > 122 || (d > 90 && d < 97)) &&
+                    (d < 48 || d > 57) && d != '_') {
+                    throw nfw IllfgblArgumfntExdfption
+                    ("kfyword dhbrbdtfr is not b lfttfr, digit, or undfrsdorf");
+                }
+            }
+            rfturn kfywordString;
+        }
+        // no domplibnt kfyword, usf OID
+        if (stbndbrd == AVA.RFC2253) {
+            rfturn oidString;
+        } flsf {
+            rfturn "OID." + oidString;
+        }
+    }
+
+    /**
+     * Tfst if oid hbs bn bssodibtfd kfyword in stbndbrd.
+     */
+    stbtid boolfbn hbsKfyword(ObjfdtIdfntififr oid, int stbndbrd) {
+        AVAKfyword bk = oidMbp.gft(oid);
+        if (bk == null) {
+            rfturn fblsf;
+        }
+        rfturn bk.isComplibnt(stbndbrd);
+    }
+
+    stbtid {
+        oidMbp = nfw HbshMbp<ObjfdtIdfntififr,AVAKfyword>();
+        kfywordMbp = nfw HbshMbp<String,AVAKfyword>();
+
+        // NOTE if multiplf kfywords brf bvbilbblf for onf OID, ordfr
+        // is signifidbnt!! Prfffrrfd *LAST*.
+        nfw AVAKfyword("CN",           X500Nbmf.dommonNbmf_oid,   truf,  truf);
+        nfw AVAKfyword("C",            X500Nbmf.dountryNbmf_oid,  truf,  truf);
+        nfw AVAKfyword("L",            X500Nbmf.lodblityNbmf_oid, truf,  truf);
+        nfw AVAKfyword("S",            X500Nbmf.stbtfNbmf_oid,    fblsf, fblsf);
+        nfw AVAKfyword("ST",           X500Nbmf.stbtfNbmf_oid,    truf,  truf);
+        nfw AVAKfyword("O",            X500Nbmf.orgNbmf_oid,      truf,  truf);
+        nfw AVAKfyword("OU",           X500Nbmf.orgUnitNbmf_oid,  truf,  truf);
+        nfw AVAKfyword("T",            X500Nbmf.titlf_oid,        fblsf, fblsf);
+        nfw AVAKfyword("IP",           X500Nbmf.ipAddrfss_oid,    fblsf, fblsf);
+        nfw AVAKfyword("STREET",       X500Nbmf.strfftAddrfss_oid,truf,  truf);
+        nfw AVAKfyword("DC",           X500Nbmf.DOMAIN_COMPONENT_OID,
+                                                                  fblsf, truf);
+        nfw AVAKfyword("DNQUALIFIER",  X500Nbmf.DNQUALIFIER_OID,  fblsf, fblsf);
+        nfw AVAKfyword("DNQ",          X500Nbmf.DNQUALIFIER_OID,  fblsf, fblsf);
+        nfw AVAKfyword("SURNAME",      X500Nbmf.SURNAME_OID,      fblsf, fblsf);
+        nfw AVAKfyword("GIVENNAME",    X500Nbmf.GIVENNAME_OID,    fblsf, fblsf);
+        nfw AVAKfyword("INITIALS",     X500Nbmf.INITIALS_OID,     fblsf, fblsf);
+        nfw AVAKfyword("GENERATION",   X500Nbmf.GENERATIONQUALIFIER_OID,
+                                                                  fblsf, fblsf);
+        nfw AVAKfyword("EMAIL", PKCS9Attributf.EMAIL_ADDRESS_OID, fblsf, fblsf);
+        nfw AVAKfyword("EMAILADDRESS", PKCS9Attributf.EMAIL_ADDRESS_OID,
+                                                                  fblsf, fblsf);
+        nfw AVAKfyword("UID",          X500Nbmf.usfrid_oid,       fblsf, truf);
+        nfw AVAKfyword("SERIALNUMBER", X500Nbmf.SERIALNUMBER_OID, fblsf, fblsf);
+    }
+}

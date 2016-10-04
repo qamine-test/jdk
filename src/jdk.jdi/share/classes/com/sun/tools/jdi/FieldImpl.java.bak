@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 1998, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.*;
+import dom.sun.jdi.*;
 
 
-public class FieldImpl extends TypeComponentImpl
-                       implements Field, ValueContainer {
+publid dlbss FifldImpl fxtfnds TypfComponfntImpl
+                       implfmfnts Fifld, VblufContbinfr {
 
-    FieldImpl(VirtualMachine vm, ReferenceTypeImpl declaringType,
-              long ref,
-              String name, String signature,
-              String genericSignature, int modifiers) {
-        super(vm, declaringType, ref, name, signature,
-              genericSignature, modifiers);
+    FifldImpl(VirtublMbdiinf vm, RfffrfndfTypfImpl dfdlbringTypf,
+              long rff,
+              String nbmf, String signbturf,
+              String gfnfridSignbturf, int modififrs) {
+        supfr(vm, dfdlbringTypf, rff, nbmf, signbturf,
+              gfnfridSignbturf, modififrs);
     }
 
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof FieldImpl)) {
-            FieldImpl other = (FieldImpl)obj;
-            return (declaringType().equals(other.declaringType())) &&
-                   (ref() == other.ref()) &&
-                   super.equals(obj);
-        } else {
-            return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj != null) && (obj instbndfof FifldImpl)) {
+            FifldImpl otifr = (FifldImpl)obj;
+            rfturn (dfdlbringTypf().fqubls(otifr.dfdlbringTypf())) &&
+                   (rff() == otifr.rff()) &&
+                   supfr.fqubls(obj);
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    public int hashCode() {
-        return (int)ref();
+    publid int ibsiCodf() {
+        rfturn (int)rff();
     }
 
-    public int compareTo(Field field) {
-        ReferenceTypeImpl declaringType = (ReferenceTypeImpl)declaringType();
-        int rc = declaringType.compareTo(field.declaringType());
-        if (rc == 0) {
-            rc = declaringType.indexOf(this) -
-                 declaringType.indexOf(field);
+    publid int dompbrfTo(Fifld fifld) {
+        RfffrfndfTypfImpl dfdlbringTypf = (RfffrfndfTypfImpl)dfdlbringTypf();
+        int rd = dfdlbringTypf.dompbrfTo(fifld.dfdlbringTypf());
+        if (rd == 0) {
+            rd = dfdlbringTypf.indfxOf(tiis) -
+                 dfdlbringTypf.indfxOf(fifld);
         }
-        return rc;
+        rfturn rd;
     }
 
-    public Type type() throws ClassNotLoadedException {
-        return findType(signature());
+    publid Typf typf() tirows ClbssNotLobdfdExdfption {
+        rfturn findTypf(signbturf());
     }
 
-    public Type findType(String signature) throws ClassNotLoadedException {
-        ReferenceTypeImpl enclosing = (ReferenceTypeImpl)declaringType();
-        return enclosing.findType(signature);
+    publid Typf findTypf(String signbturf) tirows ClbssNotLobdfdExdfption {
+        RfffrfndfTypfImpl fndlosing = (RfffrfndfTypfImpl)dfdlbringTypf();
+        rfturn fndlosing.findTypf(signbturf);
     }
 
     /**
-     * @return a text representation of the declared type
-     * of this field.
+     * @rfturn b tfxt rfprfsfntbtion of tif dfdlbrfd typf
+     * of tiis fifld.
      */
-    public String typeName() {
-        JNITypeParser parser = new JNITypeParser(signature());
-        return parser.typeName();
+    publid String typfNbmf() {
+        JNITypfPbrsfr pbrsfr = nfw JNITypfPbrsfr(signbturf());
+        rfturn pbrsfr.typfNbmf();
     }
 
-    public boolean isTransient() {
-        return isModifierSet(VMModifiers.TRANSIENT);
+    publid boolfbn isTrbnsifnt() {
+        rfturn isModififrSft(VMModififrs.TRANSIENT);
     }
 
-    public boolean isVolatile() {
-        return isModifierSet(VMModifiers.VOLATILE);
+    publid boolfbn isVolbtilf() {
+        rfturn isModififrSft(VMModififrs.VOLATILE);
     }
 
-    public boolean isEnumConstant() {
-        return isModifierSet(VMModifiers.ENUM_CONSTANT);
+    publid boolfbn isEnumConstbnt() {
+        rfturn isModififrSft(VMModififrs.ENUM_CONSTANT);
     }
 
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
 
-        sb.append(declaringType().name());
-        sb.append('.');
-        sb.append(name());
+        sb.bppfnd(dfdlbringTypf().nbmf());
+        sb.bppfnd('.');
+        sb.bppfnd(nbmf());
 
-        return sb.toString();
+        rfturn sb.toString();
     }
 }

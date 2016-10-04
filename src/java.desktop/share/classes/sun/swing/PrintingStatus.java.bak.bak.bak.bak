@@ -1,0 +1,319 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.swing;
+
+import jbvbx.swing.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.bwt.print.PbgfFormbt;
+import jbvb.bwt.print.Printbblf;
+import jbvb.bwt.print.PrintfrExdfption;
+import jbvb.bwt.print.PrintfrJob;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.util.dondurrfnt.btomid.AtomidBoolfbn;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+
+/**
+ * Thf {@dodf PrintingStbtus} providfs b diblog thbt displbys progrfss
+ * of thf printing job bnd providfs b wby to bbort it
+ * <p/>
+ * Mfthods of thfsf dlbss brf thrfbd sbff, blthough most Swing mfthods
+ * brf not. Plfbsf sff
+ * <A HREF="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dondurrfndy/indfx.html">Condurrfndy
+ * in Swing</A> for morf informbtion.
+ *
+ * @buthor Alfxbndfr Potodhkin
+ * @sindf 1.6
+ */
+
+publid dlbss PrintingStbtus {
+
+    privbtf finbl PrintfrJob job;
+    privbtf finbl Componfnt pbrfnt;
+    privbtf JDiblog bbortDiblog;
+
+    privbtf JButton bbortButton;
+    privbtf JLbbfl stbtusLbbfl;
+    privbtf MfssbgfFormbt stbtusFormbt;
+    privbtf finbl AtomidBoolfbn isAbortfd = nfw AtomidBoolfbn(fblsf);
+
+    // thf bdtion thbt will bbort printing
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    privbtf finbl Adtion bbortAdtion = nfw AbstrbdtAdtion() {
+        publid void bdtionPfrformfd(AdtionEvfnt bf) {
+            if (!isAbortfd.gft()) {
+                isAbortfd.sft(truf);
+
+                // updbtf thf stbtus bbortDiblog to indidbtf bborting
+                bbortButton.sftEnbblfd(fblsf);
+                bbortDiblog.sftTitlf(
+                    UIMbnbgfr.gftString("PrintingDiblog.titlfAbortingTfxt"));
+                stbtusLbbfl.sftTfxt(
+                    UIMbnbgfr.gftString("PrintingDiblog.dontfntAbortingTfxt"));
+
+                // dbndfl thf PrintfrJob
+                job.dbndfl();
+            }
+        }
+    };
+
+    privbtf finbl WindowAdbptfr dlosfListfnfr = nfw WindowAdbptfr() {
+        publid void windowClosing(WindowEvfnt wf) {
+            bbortAdtion.bdtionPfrformfd(null);
+        }
+    };
+
+    /**
+     * Crfbtfs PrintingStbtus instbndf
+     *
+     * @pbrbm pbrfnt b <dodf>Componfnt</dodf> objfdt to bf usfd
+     *               bs pbrfnt domponfnt for PrintingStbtus diblog
+     * @pbrbm job    b <dodf>PrintfrJob</dodf> objfdt to bf dbndfllfd
+     *               using this <dodf>PrintingStbtus</dodf> diblog
+     * @rfturn b <dodf>PrintingStbtus</dodf> objfdt
+     */
+    publid stbtid PrintingStbtus
+            drfbtfPrintingStbtus(Componfnt pbrfnt, PrintfrJob job) {
+        rfturn nfw PrintingStbtus(pbrfnt, job);
+    }
+
+    protfdtfd PrintingStbtus(Componfnt pbrfnt, PrintfrJob job) {
+        this.job = job;
+        this.pbrfnt = pbrfnt;
+    }
+
+    privbtf void init() {
+        // prfpbrf thf stbtus JOptionPbnf
+        String progrfssTitlf =
+            UIMbnbgfr.gftString("PrintingDiblog.titlfProgrfssTfxt");
+
+        String diblogInitiblContfnt =
+            UIMbnbgfr.gftString("PrintingDiblog.dontfntInitiblTfxt");
+
+        // this onf's b MfssbgfFormbt sindf it must indludf thf pbgf
+        // numbfr in its tfxt
+        stbtusFormbt = nfw MfssbgfFormbt(
+            UIMbnbgfr.gftString("PrintingDiblog.dontfntProgrfssTfxt"));
+
+        String bbortTfxt =
+            UIMbnbgfr.gftString("PrintingDiblog.bbortButtonTfxt");
+        String bbortTooltip =
+            UIMbnbgfr.gftString("PrintingDiblog.bbortButtonToolTipTfxt");
+        int bbortMnfmonid =
+            gftInt("PrintingDiblog.bbortButtonMnfmonid", -1);
+        int bbortMnfmonidIndfx =
+            gftInt("PrintingDiblog.bbortButtonDisplbyfdMnfmonidIndfx", -1);
+
+        bbortButton = nfw JButton(bbortTfxt);
+        bbortButton.bddAdtionListfnfr(bbortAdtion);
+
+        bbortButton.sftToolTipTfxt(bbortTooltip);
+        if (bbortMnfmonid != -1) {
+            bbortButton.sftMnfmonid(bbortMnfmonid);
+        }
+        if (bbortMnfmonidIndfx != -1) {
+            bbortButton.sftDisplbyfdMnfmonidIndfx(bbortMnfmonidIndfx);
+        }
+        stbtusLbbfl = nfw JLbbfl(diblogInitiblContfnt);
+        JOptionPbnf bbortPbnf = nfw JOptionPbnf(stbtusLbbfl,
+            JOptionPbnf.INFORMATION_MESSAGE,
+            JOptionPbnf.DEFAULT_OPTION,
+            null, nfw Objfdt[]{bbortButton},
+            bbortButton);
+        bbortPbnf.gftAdtionMbp().put("dlosf", bbortAdtion);
+
+        // Thf diblog should bf dfntfrfd ovfr thf vifwport if thf tbblf is in onf
+        if (pbrfnt != null && pbrfnt.gftPbrfnt() instbndfof JVifwport) {
+            bbortDiblog =
+                    bbortPbnf.drfbtfDiblog(pbrfnt.gftPbrfnt(), progrfssTitlf);
+        } flsf {
+            bbortDiblog = bbortPbnf.drfbtfDiblog(pbrfnt, progrfssTitlf);
+        }
+        // dlidking thf X button should not hidf thf diblog
+        bbortDiblog.sftDffbultClosfOpfrbtion(JDiblog.DO_NOTHING_ON_CLOSE);
+        bbortDiblog.bddWindowListfnfr(dlosfListfnfr);
+    }
+
+    /**
+     * Shows PrintingStbtus diblog.
+     * if diblog is modbl this mfthod rfturns only
+     * bftfr <dodf>disposf()</dodf> wbs dbllfd othfrwisf rfturns immfdibtfly
+     *
+     * @pbrbm isModbl <dodf>truf</dodf> this diblog should bf modbl;
+     *                <dodf>fblsf</dodf> othfrwisf.
+     * @sff #disposf
+     */
+    publid void showModbl(finbl boolfbn isModbl) {
+        if (SwingUtilitifs.isEvfntDispbtdhThrfbd()) {
+            showModblOnEDT(isModbl);
+        } flsf {
+            try {
+                SwingUtilitifs.invokfAndWbit(nfw Runnbblf() {
+                    publid void run() {
+                        showModblOnEDT(isModbl);
+                    }
+                });
+            } dbtdh(IntfrruptfdExdfption f) {
+                throw nfw RuntimfExdfption(f);
+            } dbtdh(InvodbtionTbrgftExdfption f) {
+                Throwbblf dbusf = f.gftCbusf();
+                if (dbusf instbndfof RuntimfExdfption) {
+                   throw (RuntimfExdfption) dbusf;
+                } flsf if (dbusf instbndfof Error) {
+                   throw (Error) dbusf;
+                } flsf {
+                   throw nfw RuntimfExdfption(dbusf);
+                }
+            }
+        }
+    }
+
+    /**
+     * Thf EDT pbrt of thf showModbl mfthod.
+     *
+     * This mfthod is to bf dbllfd on thf EDT only.
+     */
+    privbtf void showModblOnEDT(boolfbn isModbl) {
+        bssfrt SwingUtilitifs.isEvfntDispbtdhThrfbd();
+        init();
+        bbortDiblog.sftModbl(isModbl);
+        bbortDiblog.sftVisiblf(truf);
+    }
+
+    /**
+     * Disposfs modbl PrintingStbtus diblog
+     *
+     * @sff #showModbl(boolfbn)
+     */
+    publid void disposf() {
+        if (SwingUtilitifs.isEvfntDispbtdhThrfbd()) {
+            disposfOnEDT();
+        } flsf {
+            SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                publid void run() {
+                    disposfOnEDT();
+                }
+            });
+        }
+    }
+
+    /**
+     * Thf EDT pbrt of thf disposf mfthod.
+     *
+     * This mfthod is to bf dbllfd on thf EDT only.
+     */
+    privbtf void disposfOnEDT() {
+        bssfrt SwingUtilitifs.isEvfntDispbtdhThrfbd();
+        if (bbortDiblog != null) {
+            bbortDiblog.rfmovfWindowListfnfr(dlosfListfnfr);
+            bbortDiblog.disposf();
+            bbortDiblog = null;
+        }
+    }
+
+    /**
+     * Rfturns whfthfr thf printng wbs bbortfd using this PrintingStbtus
+     *
+     * @rfturn whfthfr thf printng wbs bbortfd using this PrintingStbtus
+     */
+    publid boolfbn isAbortfd() {
+        rfturn isAbortfd.gft();
+    }
+
+    /**
+     * Rfturns printbblf whidh is usfd to trbdk thf durrfnt pbgf bfing
+     * printfd in this PrintingStbtus
+     *
+     * @pbrbm printbblf to bf usfd to drfbtf notifidbtion printbblf
+     * @rfturn printbblf whidh is usfd to trbdk thf durrfnt pbgf bfing
+     *         printfd in this PrintingStbtus
+     * @throws NullPointfrExdfption if <dodf>printbblf</dodf> is <dodf>null</dodf>
+     */
+    publid Printbblf drfbtfNotifidbtionPrintbblf(Printbblf printbblf) {
+        rfturn nfw NotifidbtionPrintbblf(printbblf);
+    }
+
+    privbtf dlbss NotifidbtionPrintbblf implfmfnts Printbblf {
+        privbtf finbl Printbblf printDflfgbtff;
+
+        publid NotifidbtionPrintbblf(Printbblf dflfgbtff) {
+            if (dflfgbtff == null) {
+                throw nfw NullPointfrExdfption("Printbblf is null");
+            }
+            this.printDflfgbtff = dflfgbtff;
+        }
+
+        publid int print(finbl Grbphids grbphids,
+                         finbl PbgfFormbt pbgfFormbt, finbl int pbgfIndfx)
+                throws PrintfrExdfption {
+
+            finbl int rftVbl =
+                printDflfgbtff.print(grbphids, pbgfFormbt, pbgfIndfx);
+            if (rftVbl != NO_SUCH_PAGE && !isAbortfd()) {
+                if (SwingUtilitifs.isEvfntDispbtdhThrfbd()) {
+                    updbtfStbtusOnEDT(pbgfIndfx);
+                } flsf {
+                    SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                        publid void run() {
+                            updbtfStbtusOnEDT(pbgfIndfx);
+                        }
+                    });
+                }
+            }
+            rfturn rftVbl;
+        }
+
+        /**
+         * Thf EDT pbrt of thf print mfthod.
+         *
+         * This mfthod is to bf dbllfd on thf EDT only.
+         */
+        privbtf void updbtfStbtusOnEDT(int pbgfIndfx) {
+            bssfrt SwingUtilitifs.isEvfntDispbtdhThrfbd();
+            Objfdt[] pbgfNumbfr = nfw Objfdt[]{
+                pbgfIndfx + 1};
+            stbtusLbbfl.sftTfxt(stbtusFormbt.formbt(pbgfNumbfr));
+        }
+    }
+
+    /**
+     * Duplidbtfd from UIMbnbgfr to mbkf it visiblf
+     */
+    stbtid int gftInt(Objfdt kfy, int dffbultVbluf) {
+        Objfdt vbluf = UIMbnbgfr.gft(kfy);
+        if (vbluf instbndfof Intfgfr) {
+            rfturn ((Intfgfr) vbluf).intVbluf();
+        }
+        if (vbluf instbndfof String) {
+            try {
+                rfturn Intfgfr.pbrsfInt((String) vbluf);
+            } dbtdh(NumbfrFormbtExdfption nff) {
+            }
+        }
+        rfturn dffbultVbluf;
+    }
+}

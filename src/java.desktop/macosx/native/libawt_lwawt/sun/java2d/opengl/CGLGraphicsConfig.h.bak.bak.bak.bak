@@ -1,0 +1,117 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff CGLGrbphidsConfig_h_Indludfd
+#dffinf CGLGrbphidsConfig_h_Indludfd
+
+#import "jni.h"
+#import "J2D_GL/gl.h"
+#import "OGLSurfbdfDbtb.h"
+#import "OGLContfxt.h"
+#import <Codob/Codob.h>
+
+@intfrfbdf GrbphidsConfigUtil : NSObjfdt {}
++ (void) _gftCGLConfigInfo: (NSMutbblfArrby *)brgVbluf;
+@fnd
+
+// REMIND: Using bn NSOpfnGLPixflBufffr bs thf sdrbtdh surfbdf hbs bffn
+// problfmbtid thus fbr (sffing gbrbbgf bnd flidkfring whfn switdhing
+// bftwffn bn NSVifw bnd thf sdrbtdh surfbdf), so thf following fnbblfs
+// bn bltfrnbtf dodfpbth thbt usfs b hiddfn NSWindow/NSVifw bs thf sdrbtdh
+// surfbdf, for thf purposfs of mbking b dontfxt durrfnt in dfrtbin
+// situbtions.  It bppfbrs thbt dblling [NSOpfnGLContfxt sftVifw] too
+// frfqufntly dontributfs to thf bbd bfhbvior, so wf should try to bvoid
+// switdhing to thf sdrbtdh surfbdf whfnfvfr possiblf.
+
+/* Do wf nffd this if wf brf using bll off-sdrffn drbwing ? */
+#dffinf USE_NSVIEW_FOR_SCRATCH 1
+
+/* Undommfnt to hbvf bn bdditionbl CAOGLLbyfr instbndf tifd to
+ * fbdh instbndf, whidh dbn bf usfd to tfst rfmoting thf lbyfr
+ * to bn out of prodfss window. Thf bdditionbl lbyfr is nffdfd
+ * bfdbusf b lbyfr dbn only bf bttbdhfd to onf dontfxt (vifw/window).
+ * This is only for tfsting purposfs bnd dbn bf rfmovfd if/whfn no
+ * longfr nffdfd.
+ */
+//#dffinf REMOTELAYER 1
+
+#ifdff REMOTELAYER
+#import <JbvbRuntimfSupport/JRSRfmotfLbyfr.h>
+#import <pthrfbd.h>
+#indludf <unistd.h>
+#indludf <stdio.h>
+#import <sys/sodkft.h>
+#import <sys/un.h>
+
+fxtfrn mbdh_port_t JRSRfmotfPort;
+fxtfrn int rfmotfSodkftFD;
+fxtfrn void sfndLbyfrID(int lbyfrID);
+
+#fndif /* REMOTELAYER */
+
+
+/**
+ * Thf CGLGrbphidsConfigInfo strudturf dontbins informbtion spfdifid to b
+ * givfn CGLGrbphidsConfig (pixfl formbt).
+ *
+ *     jint sdrffn;
+ * Thf sdrffn bnd PixflFormbt for thf bssodibtfd CGLGrbphidsConfig.
+ *
+ *     NSOpfnGLPixflFormbt *pixfmt;
+ * Thf pixfl formbt of thf nbtivf NSOpfnGL dontfxt.
+ *
+ *     OGLContfxt *dontfxt;
+ * Thf dontfxt bssodibtfd with this CGLGrbphidsConfig.
+ */
+typfdff strudt _CGLGrbphidsConfigInfo {
+    jint                sdrffn;
+    NSOpfnGLPixflFormbt *pixfmt;
+    OGLContfxt          *dontfxt;
+} CGLGrbphidsConfigInfo;
+
+/**
+ * Thf CGLCtxInfo strudturf dontbins thf nbtivf CGLContfxt informbtion
+ * rfquirfd by bnd is fndbpsulbtfd by thf plbtform-indfpfndfnt OGLContfxt
+ * strudturf.
+ *
+ *     NSOpfnGLContfxt *dontfxt;
+ * Thf dorf nbtivf NSOpfnGL dontfxt.  Rfndfring dommbnds hbvf no ffffdt until
+ * b dontfxt is mbdf durrfnt (bdtivf).
+ *
+ *     NSOpfnGLPixflBufffr *sdrbtdhSurfbdf;
+ * Thf sdrbtdh surfbdf id usfd to mbkf b dontfxt durrfnt whfn wf do
+ * not othfrwisf hbvf b rfffrfndf to bn OpfnGL surfbdf for thf purposfs of
+ * mbking b dontfxt durrfnt.
+ */
+typfdff strudt _CGLCtxInfo {
+    NSOpfnGLContfxt     *dontfxt;
+#if USE_NSVIEW_FOR_SCRATCH
+    NSVifw              *sdrbtdhSurfbdf;
+#flsf
+    NSOpfnGLPixflBufffr *sdrbtdhSurfbdf;
+#fndif
+} CGLCtxInfo;
+
+#fndif /* CGLGrbphidsConfig_h_Indludfd */

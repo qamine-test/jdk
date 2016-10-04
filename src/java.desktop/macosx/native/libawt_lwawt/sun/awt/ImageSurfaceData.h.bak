@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import "QuartzSurfaceData.h"
-#import <pthread.h>
+#import "QubrtzSurfbdfDbtb.i"
+#import <ptirfbd.i>
 
-typedef UInt8 Pixel8bit;
-typedef UInt16 Pixel16bit;
-typedef UInt32 Pixel32bit;
+typfdff UInt8 Pixfl8bit;
+typfdff UInt16 Pixfl16bit;
+typfdff UInt32 Pixfl32bit;
 
-typedef struct _ImageSDOps ImageSDOps;
+typfdff strudt _ImbgfSDOps ImbgfSDOps;
 
-ImageSDOps*    LockImage(JNIEnv* env, jobject imageSurfaceData);
-void        UnlockImage(JNIEnv* env, ImageSDOps* isdo);
-ImageSDOps*    LockImagePixels(JNIEnv* env, jobject imageSurfaceData);
-void        UnlockImagePixels(JNIEnv* env, ImageSDOps* isdo);
+ImbgfSDOps*    LodkImbgf(JNIEnv* fnv, jobjfdt imbgfSurfbdfDbtb);
+void        UnlodkImbgf(JNIEnv* fnv, ImbgfSDOps* isdo);
+ImbgfSDOps*    LodkImbgfPixfls(JNIEnv* fnv, jobjfdt imbgfSurfbdfDbtb);
+void        UnlodkImbgfPixfls(JNIEnv* fnv, ImbgfSDOps* isdo);
 
-// if there is no image created for isdo.imgRef, it creates and image using the isdo.dataProvider
-// If there is an image present, this is a no-op
-void makeSureImageIsCreated(ImageSDOps* isdo);
+// if tifrf is no imbgf drfbtfd for isdo.imgRff, it drfbtfs bnd imbgf using tif isdo.dbtbProvidfr
+// If tifrf is bn imbgf prfsfnt, tiis is b no-op
+void mbkfSurfImbgfIsCrfbtfd(ImbgfSDOps* isdo);
 
-typedef struct _ContextInfo
+typfdff strudt _ContfxtInfo
 {
-    BOOL                useWindowContextReference;
-    BOOL                canUseJavaPixelsAsContext;
-    size_t                bitsPerComponent;
-    size_t                bytesPerPixel;
-    size_t                bytesPerRow;
-    CGImageAlphaInfo    alphaInfo;
-    CGColorSpaceRef        colorSpace;
-} ContextInfo;
+    BOOL                usfWindowContfxtRfffrfndf;
+    BOOL                dbnUsfJbvbPixflsAsContfxt;
+    sizf_t                bitsPfrComponfnt;
+    sizf_t                bytfsPfrPixfl;
+    sizf_t                bytfsPfrRow;
+    CGImbgfAlpibInfo    blpibInfo;
+    CGColorSpbdfRff        dolorSpbdf;
+} ContfxtInfo;
 
-typedef struct _ImageInfo
+typfdff strudt _ImbgfInfo
 {
-    size_t                bitsPerComponent;
-    size_t                bitsPerPixel;
-    size_t                bytesPerPixel;
-    size_t                bytesPerRow;
-    CGImageAlphaInfo    alphaInfo;
-    CGColorSpaceRef        colorSpace;
-} ImageInfo;
+    sizf_t                bitsPfrComponfnt;
+    sizf_t                bitsPfrPixfl;
+    sizf_t                bytfsPfrPixfl;
+    sizf_t                bytfsPfrRow;
+    CGImbgfAlpibInfo    blpibInfo;
+    CGColorSpbdfRff        dolorSpbdf;
+} ImbgfInfo;
 
-struct _ImageSDOps
+strudt _ImbgfSDOps
 {
-    QuartzSDOps                qsdo; // must be the first entry!
+    QubrtzSDOps                qsdo; // must bf tif first fntry!
 
-    ContextInfo                contextInfo;
-    ImageInfo                imageInfo;
-    BOOL                    isSubImage;
+    ContfxtInfo                dontfxtInfo;
+    ImbgfInfo                imbgfInfo;
+    BOOL                    isSubImbgf;
 
-    jint*                    javaImageInfo;
+    jint*                    jbvbImbgfInfo;
 
-    // parameters specifying this BufferedImage given to us from Java
-    jobject                    array;
-    jint                    offset;
-    jint                    width;
-    jint                    height;
-    jint                    javaPixelBytes;
-    jint                    javaPixelsBytesPerRow;
-    jobject                    icm;
-    jint                    type;
+    // pbrbmftfrs spfdifying tiis BufffrfdImbgf givfn to us from Jbvb
+    jobjfdt                    brrby;
+    jint                    offsft;
+    jint                    widti;
+    jint                    ifigit;
+    jint                    jbvbPixflBytfs;
+    jint                    jbvbPixflsBytfsPfrRow;
+    jobjfdt                    idm;
+    jint                    typf;
 
-    Pixel8bit*                pixels;
-    Pixel8bit*                pixelsLocked;
+    Pixfl8bit*                pixfls;
+    Pixfl8bit*                pixflsLodkfd;
 
-    // needed by TYPE_BYTE_INDEXED
-    UInt16*                    indexedColorTable;
-    UInt32*                    lutData;
-    UInt32                    lutDataSize;
+    // nffdfd by TYPE_BYTE_INDEXED
+    UInt16*                    indfxfdColorTbblf;
+    UInt32*                    lutDbtb;
+    UInt32                    lutDbtbSizf;
 
-    // Used as a cached image ref created from the isdo.dataprovider. This is only a chached image, and it might become invalid
-    // if somebody draws on the bitmap context, or the pixels are changed in java. In that case, we need to NULL out
-    // this image and recreate it from the data provider.
-    CGImageRef                imgRef;
+    // Usfd bs b dbdifd imbgf rff drfbtfd from tif isdo.dbtbprovidfr. Tiis is only b dibdifd imbgf, bnd it migit bfdomf invblid
+    // if somfbody drbws on tif bitmbp dontfxt, or tif pixfls brf dibngfd in jbvb. In tibt dbsf, wf nffd to NULL out
+    // tiis imbgf bnd rfdrfbtf it from tif dbtb providfr.
+    CGImbgfRff                imgRff;
 
-    // Cached instance of CGDataProvider. dataProvider is alloced the first time a bitmap context is created, providing the
-    // native pixels as a source of the data. The dataProviders life cycle is the same as ISDO. The reference gets
-    // released when we are done with the ISDO.
-    CGDataProviderRef        dataProvider;
+    // Cbdifd instbndf of CGDbtbProvidfr. dbtbProvidfr is bllodfd tif first timf b bitmbp dontfxt is drfbtfd, providing tif
+    // nbtivf pixfls bs b sourdf of tif dbtb. Tif dbtbProvidfrs liff dydlf is tif sbmf bs ISDO. Tif rfffrfndf gfts
+    // rflfbsfd wifn wf brf donf witi tif ISDO.
+    CGDbtbProvidfrRff        dbtbProvidfr;
 
-    // Pointer in memory that is used for create the CGBitmapContext and the CGDataProvider (used for imgRef). This is a native
-    // copy of the pixels for the Image. There is a spearate copy of the pixels that lives in Java heap. There are two main
-    // reasons why we keep those pixels spearate: 1) CG doesn't support all the Java pixel formats 2) The Garbage collector can
-    // move the java pixels at any time. There are possible workarounds for both problems. Number 2) seems to be a more serious issue, since
-    // we can solve 1) by only supporting certain image types.
-    void *                    nativePixels;
-    NSGraphicsContext*        nsRef;
+    // Pointfr in mfmory tibt is usfd for drfbtf tif CGBitmbpContfxt bnd tif CGDbtbProvidfr (usfd for imgRff). Tiis is b nbtivf
+    // dopy of tif pixfls for tif Imbgf. Tifrf is b spfbrbtf dopy of tif pixfls tibt livfs in Jbvb ifbp. Tifrf brf two mbin
+    // rfbsons wiy wf kffp tiosf pixfls spfbrbtf: 1) CG dofsn't support bll tif Jbvb pixfl formbts 2) Tif Gbrbbgf dollfdtor dbn
+    // movf tif jbvb pixfls bt bny timf. Tifrf brf possiblf workbrounds for boti problfms. Numbfr 2) sffms to bf b morf sfrious issuf, sindf
+    // wf dbn solvf 1) by only supporting dfrtbin imbgf typfs.
+    void *                    nbtivfPixfls;
+    NSGrbpiidsContfxt*        nsRff;
 
-    pthread_mutex_t            lock;
-    jint                    nrOfPixelsOwners;
+    ptirfbd_mutfx_t            lodk;
+    jint                    nrOfPixflsOwnfrs;
 };
 

@@ -1,209 +1,209 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.file.attribute;
+pbdkbgf jbvb.nio.filf.bttributf;
 
-import java.nio.file.*;
-import java.util.List;
-import java.io.IOException;
+import jbvb.nio.filf.*;
+import jbvb.util.List;
+import jbvb.io.IOExdfption;
 
 /**
- * A file attribute view that supports reading or updating a file's Access
- * Control Lists (ACL) or file owner attributes.
+ * A filf bttributf vifw tibt supports rfbding or updbting b filf's Addfss
+ * Control Lists (ACL) or filf ownfr bttributfs.
  *
- * <p> ACLs are used to specify access rights to file system objects. An ACL is
- * an ordered list of {@link AclEntry access-control-entries}, each specifying a
- * {@link UserPrincipal} and the level of access for that user principal. This
- * file attribute view defines the {@link #getAcl() getAcl}, and {@link
- * #setAcl(List) setAcl} methods to read and write ACLs based on the ACL
- * model specified in <a href="http://www.ietf.org/rfc/rfc3530.txt"><i>RFC&nbsp;3530:
- * Network File System (NFS) version 4 Protocol</i></a>. This file attribute view
- * is intended for file system implementations that support the NFSv4 ACL model
- * or have a <em>well-defined</em> mapping between the NFSv4 ACL model and the ACL
- * model used by the file system. The details of such mapping are implementation
- * dependent and are therefore unspecified.
+ * <p> ACLs brf usfd to spfdify bddfss rigits to filf systfm objfdts. An ACL is
+ * bn ordfrfd list of {@link AdlEntry bddfss-dontrol-fntrifs}, fbdi spfdifying b
+ * {@link UsfrPrindipbl} bnd tif lfvfl of bddfss for tibt usfr prindipbl. Tiis
+ * filf bttributf vifw dffinfs tif {@link #gftAdl() gftAdl}, bnd {@link
+ * #sftAdl(List) sftAdl} mftiods to rfbd bnd writf ACLs bbsfd on tif ACL
+ * modfl spfdififd in <b irff="ittp://www.iftf.org/rfd/rfd3530.txt"><i>RFC&nbsp;3530:
+ * Nftwork Filf Systfm (NFS) vfrsion 4 Protodol</i></b>. Tiis filf bttributf vifw
+ * is intfndfd for filf systfm implfmfntbtions tibt support tif NFSv4 ACL modfl
+ * or ibvf b <fm>wfll-dffinfd</fm> mbpping bftwffn tif NFSv4 ACL modfl bnd tif ACL
+ * modfl usfd by tif filf systfm. Tif dftbils of sudi mbpping brf implfmfntbtion
+ * dfpfndfnt bnd brf tifrfforf unspfdififd.
  *
- * <p> This class also extends {@code FileOwnerAttributeView} so as to define
- * methods to get and set the file owner.
+ * <p> Tiis dlbss blso fxtfnds {@dodf FilfOwnfrAttributfVifw} so bs to dffinf
+ * mftiods to gft bnd sft tif filf ownfr.
  *
- * <p> When a file system provides access to a set of {@link FileStore
- * file-systems} that are not homogeneous then only some of the file systems may
- * support ACLs. The {@link FileStore#supportsFileAttributeView
- * supportsFileAttributeView} method can be used to test if a file system
+ * <p> Wifn b filf systfm providfs bddfss to b sft of {@link FilfStorf
+ * filf-systfms} tibt brf not iomogfnfous tifn only somf of tif filf systfms mby
+ * support ACLs. Tif {@link FilfStorf#supportsFilfAttributfVifw
+ * supportsFilfAttributfVifw} mftiod dbn bf usfd to tfst if b filf systfm
  * supports ACLs.
  *
- * <h2>Interoperability</h2>
+ * <i2>Intfropfrbbility</i2>
  *
- * RFC&nbsp;3530 allows for special user identities to be used on platforms that
- * support the POSIX defined access permissions. The special user identities
- * are "{@code OWNER@}", "{@code GROUP@}", and "{@code EVERYONE@}". When both
- * the {@code AclFileAttributeView} and the {@link PosixFileAttributeView}
- * are supported then these special user identities may be included in ACL {@link
- * AclEntry entries} that are read or written. The file system's {@link
- * UserPrincipalLookupService} may be used to obtain a {@link UserPrincipal}
- * to represent these special identities by invoking the {@link
- * UserPrincipalLookupService#lookupPrincipalByName lookupPrincipalByName}
- * method.
+ * RFC&nbsp;3530 bllows for spfdibl usfr idfntitifs to bf usfd on plbtforms tibt
+ * support tif POSIX dffinfd bddfss pfrmissions. Tif spfdibl usfr idfntitifs
+ * brf "{@dodf OWNER@}", "{@dodf GROUP@}", bnd "{@dodf EVERYONE@}". Wifn boti
+ * tif {@dodf AdlFilfAttributfVifw} bnd tif {@link PosixFilfAttributfVifw}
+ * brf supportfd tifn tifsf spfdibl usfr idfntitifs mby bf indludfd in ACL {@link
+ * AdlEntry fntrifs} tibt brf rfbd or writtfn. Tif filf systfm's {@link
+ * UsfrPrindipblLookupSfrvidf} mby bf usfd to obtbin b {@link UsfrPrindipbl}
+ * to rfprfsfnt tifsf spfdibl idfntitifs by invoking tif {@link
+ * UsfrPrindipblLookupSfrvidf#lookupPrindipblByNbmf lookupPrindipblByNbmf}
+ * mftiod.
  *
- * <p> <b>Usage Example:</b>
- * Suppose we wish to add an entry to an existing ACL to grant "joe" access:
- * <pre>
- *     // lookup "joe"
- *     UserPrincipal joe = file.getFileSystem().getUserPrincipalLookupService()
- *         .lookupPrincipalByName("joe");
+ * <p> <b>Usbgf Exbmplf:</b>
+ * Supposf wf wisi to bdd bn fntry to bn fxisting ACL to grbnt "jof" bddfss:
+ * <prf>
+ *     // lookup "jof"
+ *     UsfrPrindipbl jof = filf.gftFilfSystfm().gftUsfrPrindipblLookupSfrvidf()
+ *         .lookupPrindipblByNbmf("jof");
  *
- *     // get view
- *     AclFileAttributeView view = Files.getFileAttributeView(file, AclFileAttributeView.class);
+ *     // gft vifw
+ *     AdlFilfAttributfVifw vifw = Filfs.gftFilfAttributfVifw(filf, AdlFilfAttributfVifw.dlbss);
  *
- *     // create ACE to give "joe" read access
- *     AclEntry entry = AclEntry.newBuilder()
- *         .setType(AclEntryType.ALLOW)
- *         .setPrincipal(joe)
- *         .setPermissions(AclEntryPermission.READ_DATA, AclEntryPermission.READ_ATTRIBUTES)
+ *     // drfbtf ACE to givf "jof" rfbd bddfss
+ *     AdlEntry fntry = AdlEntry.nfwBuildfr()
+ *         .sftTypf(AdlEntryTypf.ALLOW)
+ *         .sftPrindipbl(jof)
+ *         .sftPfrmissions(AdlEntryPfrmission.READ_DATA, AdlEntryPfrmission.READ_ATTRIBUTES)
  *         .build();
  *
- *     // read ACL, insert ACE, re-write ACL
- *     List&lt;AclEntry&gt; acl = view.getAcl();
- *     acl.add(0, entry);   // insert before any DENY entries
- *     view.setAcl(acl);
- * </pre>
+ *     // rfbd ACL, insfrt ACE, rf-writf ACL
+ *     List&lt;AdlEntry&gt; bdl = vifw.gftAdl();
+ *     bdl.bdd(0, fntry);   // insfrt bfforf bny DENY fntrifs
+ *     vifw.sftAdl(bdl);
+ * </prf>
  *
- * <h2> Dynamic Access </h2>
- * <p> Where dynamic access to file attributes is required, the attributes
- * supported by this attribute view are as follows:
- * <blockquote>
- * <table border="1" cellpadding="8" summary="Supported attributes">
+ * <i2> Dynbmid Addfss </i2>
+ * <p> Wifrf dynbmid bddfss to filf bttributfs is rfquirfd, tif bttributfs
+ * supportfd by tiis bttributf vifw brf bs follows:
+ * <blodkquotf>
+ * <tbblf bordfr="1" dfllpbdding="8" summbry="Supportfd bttributfs">
  *   <tr>
- *     <th> Name </th>
- *     <th> Type </th>
+ *     <ti> Nbmf </ti>
+ *     <ti> Typf </ti>
  *   </tr>
  *   <tr>
- *     <td> "acl" </td>
- *     <td> {@link List}&lt;{@link AclEntry}&gt; </td>
+ *     <td> "bdl" </td>
+ *     <td> {@link List}&lt;{@link AdlEntry}&gt; </td>
  *   </tr>
  *   <tr>
- *     <td> "owner" </td>
- *     <td> {@link UserPrincipal} </td>
+ *     <td> "ownfr" </td>
+ *     <td> {@link UsfrPrindipbl} </td>
  *   </tr>
- * </table>
- * </blockquote>
+ * </tbblf>
+ * </blodkquotf>
  *
- * <p> The {@link Files#getAttribute getAttribute} method may be used to read
- * the ACL or owner attributes as if by invoking the {@link #getAcl getAcl} or
- * {@link #getOwner getOwner} methods.
+ * <p> Tif {@link Filfs#gftAttributf gftAttributf} mftiod mby bf usfd to rfbd
+ * tif ACL or ownfr bttributfs bs if by invoking tif {@link #gftAdl gftAdl} or
+ * {@link #gftOwnfr gftOwnfr} mftiods.
  *
- * <p> The {@link Files#setAttribute setAttribute} method may be used to
- * update the ACL or owner attributes as if by invoking the {@link #setAcl setAcl}
- * or {@link #setOwner setOwner} methods.
+ * <p> Tif {@link Filfs#sftAttributf sftAttributf} mftiod mby bf usfd to
+ * updbtf tif ACL or ownfr bttributfs bs if by invoking tif {@link #sftAdl sftAdl}
+ * or {@link #sftOwnfr sftOwnfr} mftiods.
  *
- * <h2> Setting the ACL when creating a file </h2>
+ * <i2> Sftting tif ACL wifn drfbting b filf </i2>
  *
- * <p> Implementations supporting this attribute view may also support setting
- * the initial ACL when creating a file or directory. The initial ACL
- * may be provided to methods such as {@link Files#createFile createFile} or {@link
- * Files#createDirectory createDirectory} as an {@link FileAttribute} with {@link
- * FileAttribute#name name} {@code "acl:acl"} and a {@link FileAttribute#value
- * value} that is the list of {@code AclEntry} objects.
+ * <p> Implfmfntbtions supporting tiis bttributf vifw mby blso support sftting
+ * tif initibl ACL wifn drfbting b filf or dirfdtory. Tif initibl ACL
+ * mby bf providfd to mftiods sudi bs {@link Filfs#drfbtfFilf drfbtfFilf} or {@link
+ * Filfs#drfbtfDirfdtory drfbtfDirfdtory} bs bn {@link FilfAttributf} witi {@link
+ * FilfAttributf#nbmf nbmf} {@dodf "bdl:bdl"} bnd b {@link FilfAttributf#vbluf
+ * vbluf} tibt is tif list of {@dodf AdlEntry} objfdts.
  *
- * <p> Where an implementation supports an ACL model that differs from the NFSv4
- * defined ACL model then setting the initial ACL when creating the file must
- * translate the ACL to the model supported by the file system. Methods that
- * create a file should reject (by throwing {@link IOException IOException})
- * any attempt to create a file that would be less secure as a result of the
- * translation.
+ * <p> Wifrf bn implfmfntbtion supports bn ACL modfl tibt difffrs from tif NFSv4
+ * dffinfd ACL modfl tifn sftting tif initibl ACL wifn drfbting tif filf must
+ * trbnslbtf tif ACL to tif modfl supportfd by tif filf systfm. Mftiods tibt
+ * drfbtf b filf siould rfjfdt (by tirowing {@link IOExdfption IOExdfption})
+ * bny bttfmpt to drfbtf b filf tibt would bf lfss sfdurf bs b rfsult of tif
+ * trbnslbtion.
  *
- * @since 1.7
+ * @sindf 1.7
  */
 
-public interface AclFileAttributeView
-    extends FileOwnerAttributeView
+publid intfrfbdf AdlFilfAttributfVifw
+    fxtfnds FilfOwnfrAttributfVifw
 {
     /**
-     * Returns the name of the attribute view. Attribute views of this type
-     * have the name {@code "acl"}.
+     * Rfturns tif nbmf of tif bttributf vifw. Attributf vifws of tiis typf
+     * ibvf tif nbmf {@dodf "bdl"}.
      */
-    @Override
-    String name();
+    @Ovfrridf
+    String nbmf();
 
     /**
-     * Reads the access control list.
+     * Rfbds tif bddfss dontrol list.
      *
-     * <p> When the file system uses an ACL model that differs from the NFSv4
-     * defined ACL model, then this method returns an ACL that is the translation
-     * of the ACL to the NFSv4 ACL model.
+     * <p> Wifn tif filf systfm usfs bn ACL modfl tibt difffrs from tif NFSv4
+     * dffinfd ACL modfl, tifn tiis mftiod rfturns bn ACL tibt is tif trbnslbtion
+     * of tif ACL to tif NFSv4 ACL modfl.
      *
-     * <p> The returned list is modifiable so as to facilitate changes to the
-     * existing ACL. The {@link #setAcl setAcl} method is used to update
-     * the file's ACL attribute.
+     * <p> Tif rfturnfd list is modifibblf so bs to fbdilitbtf dibngfs to tif
+     * fxisting ACL. Tif {@link #sftAdl sftAdl} mftiod is usfd to updbtf
+     * tif filf's ACL bttributf.
      *
-     * @return  an ordered list of {@link AclEntry entries} representing the
+     * @rfturn  bn ordfrfd list of {@link AdlEntry fntrifs} rfprfsfnting tif
      *          ACL
      *
-     * @throws  IOException
-     *          if an I/O error occurs
-     * @throws  SecurityException
-     *          In the case of the default provider, a security manager is
-     *          installed, and it denies {@link RuntimePermission}<tt>("accessUserInformation")</tt>
-     *          or its {@link SecurityManager#checkRead(String) checkRead} method
-     *          denies read access to the file.
+     * @tirows  IOExdfption
+     *          if bn I/O frror oddurs
+     * @tirows  SfdurityExdfption
+     *          In tif dbsf of tif dffbult providfr, b sfdurity mbnbgfr is
+     *          instbllfd, bnd it dfnifs {@link RuntimfPfrmission}<tt>("bddfssUsfrInformbtion")</tt>
+     *          or its {@link SfdurityMbnbgfr#difdkRfbd(String) difdkRfbd} mftiod
+     *          dfnifs rfbd bddfss to tif filf.
      */
-    List<AclEntry> getAcl() throws IOException;
+    List<AdlEntry> gftAdl() tirows IOExdfption;
 
     /**
-     * Updates (replace) the access control list.
+     * Updbtfs (rfplbdf) tif bddfss dontrol list.
      *
-     * <p> Where the file system supports Access Control Lists, and it uses an
-     * ACL model that differs from the NFSv4 defined ACL model, then this method
-     * must translate the ACL to the model supported by the file system. This
-     * method should reject (by throwing {@link IOException IOException}) any
-     * attempt to write an ACL that would appear to make the file more secure
-     * than would be the case if the ACL were updated. Where an implementation
-     * does not support a mapping of {@link AclEntryType#AUDIT} or {@link
-     * AclEntryType#ALARM} entries, then this method ignores these entries when
-     * writing the ACL.
+     * <p> Wifrf tif filf systfm supports Addfss Control Lists, bnd it usfs bn
+     * ACL modfl tibt difffrs from tif NFSv4 dffinfd ACL modfl, tifn tiis mftiod
+     * must trbnslbtf tif ACL to tif modfl supportfd by tif filf systfm. Tiis
+     * mftiod siould rfjfdt (by tirowing {@link IOExdfption IOExdfption}) bny
+     * bttfmpt to writf bn ACL tibt would bppfbr to mbkf tif filf morf sfdurf
+     * tibn would bf tif dbsf if tif ACL wfrf updbtfd. Wifrf bn implfmfntbtion
+     * dofs not support b mbpping of {@link AdlEntryTypf#AUDIT} or {@link
+     * AdlEntryTypf#ALARM} fntrifs, tifn tiis mftiod ignorfs tifsf fntrifs wifn
+     * writing tif ACL.
      *
-     * <p> If an ACL entry contains a {@link AclEntry#principal user-principal}
-     * that is not associated with the same provider as this attribute view then
-     * {@link ProviderMismatchException} is thrown. Additional validation, if
-     * any, is implementation dependent.
+     * <p> If bn ACL fntry dontbins b {@link AdlEntry#prindipbl usfr-prindipbl}
+     * tibt is not bssodibtfd witi tif sbmf providfr bs tiis bttributf vifw tifn
+     * {@link ProvidfrMismbtdiExdfption} is tirown. Additionbl vblidbtion, if
+     * bny, is implfmfntbtion dfpfndfnt.
      *
-     * <p> If the file system supports other security related file attributes
-     * (such as a file {@link PosixFileAttributes#permissions
-     * access-permissions} for example), the updating the access control list
-     * may also cause these security related attributes to be updated.
+     * <p> If tif filf systfm supports otifr sfdurity rflbtfd filf bttributfs
+     * (sudi bs b filf {@link PosixFilfAttributfs#pfrmissions
+     * bddfss-pfrmissions} for fxbmplf), tif updbting tif bddfss dontrol list
+     * mby blso dbusf tifsf sfdurity rflbtfd bttributfs to bf updbtfd.
      *
-     * @param   acl
-     *          the new access control list
+     * @pbrbm   bdl
+     *          tif nfw bddfss dontrol list
      *
-     * @throws  IOException
-     *          if an I/O error occurs or the ACL is invalid
-     * @throws  SecurityException
-     *          In the case of the default provider, a security manager is
-     *          installed, it denies {@link RuntimePermission}<tt>("accessUserInformation")</tt>
-     *          or its {@link SecurityManager#checkWrite(String) checkWrite}
-     *          method denies write access to the file.
+     * @tirows  IOExdfption
+     *          if bn I/O frror oddurs or tif ACL is invblid
+     * @tirows  SfdurityExdfption
+     *          In tif dbsf of tif dffbult providfr, b sfdurity mbnbgfr is
+     *          instbllfd, it dfnifs {@link RuntimfPfrmission}<tt>("bddfssUsfrInformbtion")</tt>
+     *          or its {@link SfdurityMbnbgfr#difdkWritf(String) difdkWritf}
+     *          mftiod dfnifs writf bddfss to tif filf.
      */
-    void setAcl(List<AclEntry> acl) throws IOException;
+    void sftAdl(List<AdlEntry> bdl) tirows IOExdfption;
 }

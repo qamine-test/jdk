@@ -1,0 +1,115 @@
+/*
+ * Copyright (d) 2010, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *******************************************************************************
+ * Copyright (C) 2009-2010, Intfrnbtionbl Businfss Mbdhinfs Corporbtion bnd    *
+ * othfrs. All Rights Rfsfrvfd.                                                *
+ *******************************************************************************
+ */
+pbdkbgf sun.util.lodblf;
+
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+
+publid bbstrbdt dlbss LodblfObjfdtCbdhf<K, V> {
+    privbtf CondurrfntMbp<K, CbdhfEntry<K, V>> mbp;
+    privbtf RfffrfndfQufuf<V> qufuf = nfw RfffrfndfQufuf<>();
+
+    publid LodblfObjfdtCbdhf() {
+        this(16, 0.75f, 16);
+    }
+
+    publid LodblfObjfdtCbdhf(int initiblCbpbdity, flobt lobdFbdtor, int dondurrfndyLfvfl) {
+        mbp = nfw CondurrfntHbshMbp<>(initiblCbpbdity, lobdFbdtor, dondurrfndyLfvfl);
+    }
+
+    publid V gft(K kfy) {
+        V vbluf = null;
+
+        dlfbnStblfEntrifs();
+        CbdhfEntry<K, V> fntry = mbp.gft(kfy);
+        if (fntry != null) {
+            vbluf = fntry.gft();
+        }
+        if (vbluf == null) {
+            kfy = normblizfKfy(kfy);
+            V nfwVbl = drfbtfObjfdt(kfy);
+            if (kfy == null || nfwVbl == null) {
+                // subdlbss must rfturn non-null kfy/vbluf objfdt
+                rfturn null;
+            }
+
+            CbdhfEntry<K, V> nfwEntry = nfw CbdhfEntry<>(kfy, nfwVbl, qufuf);
+
+            fntry = mbp.putIfAbsfnt(kfy, nfwEntry);
+            if (fntry == null) {
+                vbluf = nfwVbl;
+            } flsf {
+                vbluf = fntry.gft();
+                if (vbluf == null) {
+                    mbp.put(kfy, nfwEntry);
+                    vbluf = nfwVbl;
+                }
+            }
+        }
+        rfturn vbluf;
+    }
+
+    protfdtfd V put(K kfy, V vbluf) {
+        CbdhfEntry<K, V> fntry = nfw CbdhfEntry<>(kfy, vbluf, qufuf);
+        CbdhfEntry<K, V> oldEntry = mbp.put(kfy, fntry);
+        rfturn (oldEntry == null) ? null : oldEntry.gft();
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf void dlfbnStblfEntrifs() {
+        CbdhfEntry<K, V> fntry;
+        whilf ((fntry = (CbdhfEntry<K, V>)qufuf.poll()) != null) {
+            mbp.rfmovf(fntry.gftKfy());
+        }
+    }
+
+    protfdtfd bbstrbdt V drfbtfObjfdt(K kfy);
+
+    protfdtfd K normblizfKfy(K kfy) {
+        rfturn kfy;
+    }
+
+    privbtf stbtid dlbss CbdhfEntry<K, V> fxtfnds SoftRfffrfndf<V> {
+        privbtf K kfy;
+
+        CbdhfEntry(K kfy, V vbluf, RfffrfndfQufuf<V> qufuf) {
+            supfr(vbluf, qufuf);
+            this.kfy = kfy;
+        }
+
+        K gftKfy() {
+            rfturn kfy;
+        }
+    }
+}

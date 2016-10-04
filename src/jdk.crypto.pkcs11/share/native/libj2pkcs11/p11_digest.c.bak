@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyrigit  (d) 2002 Grbz Univfrsity of Tfdinology. All rigits rfsfrvfd.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd  providfd tibt tif following donditions brf mft:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Rfdistributions of  sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Rfdistributions in  binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. Tif fnd-usfr dodumfntbtion indludfd witi tif rfdistribution, if bny, must
+ *    indludf tif following bdknowlfdgmfnt:
  *
- *    "This product includes software developed by IAIK of Graz University of
- *     Technology."
+ *    "Tiis produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdinology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Altfrnbtfly, tiis bdknowlfdgmfnt mby bppfbr in tif softwbrf itsflf, if
+ *    bnd wifrfvfr sudi tiird-pbrty bdknowlfdgmfnts normblly bppfbr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
- *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ * 4. Tif nbmfs "Grbz Univfrsity of Tfdinology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdinology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout prior writtfn pfrmission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Produdts dfrivfd from tiis softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in tifir nbmf, witiout prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdinology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,304 +45,304 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-#include "pkcs11wrapper.h"
+#indludf "pkds11wrbppfr.i"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
-#include "jlong.h"
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <bssfrt.i>
+#indludf "jlong.i"
 
-#include "sun_security_pkcs11_wrapper_PKCS11.h"
+#indludf "sun_sfdurity_pkds11_wrbppfr_PKCS11.i"
 
-#ifdef P11_ENABLE_C_DIGESTINIT
+#ifdff P11_ENABLE_C_DIGESTINIT
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_DigestInit
- * Signature: (JLsun/security/pkcs11/wrapper/CK_MECHANISM;)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jobject jMechanism          CK_MECHANISM_PTR pMechanism
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_DigfstInit
+ * Signbturf: (JLsun/sfdurity/pkds11/wrbppfr/CK_MECHANISM;)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jobjfdt jMfdibnism          CK_MECHANISM_PTR pMfdibnism
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1DigestInit
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jobject jMechanism)
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1DigfstInit
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jobjfdt jMfdibnism)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_MECHANISM ckMechanism;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_MECHANISM dkMfdibnism;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    jMechanismToCKMechanism(env, jMechanism, &ckMechanism);
-    if ((*env)->ExceptionCheck(env)) { return; }
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    jMfdibnismToCKMfdibnism(fnv, jMfdibnism, &dkMfdibnism);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn; }
 
-    rv = (*ckpFunctions->C_DigestInit)(ckSessionHandle, &ckMechanism);
+    rv = (*dkpFundtions->C_DigfstInit)(dkSfssionHbndlf, &dkMfdibnism);
 
-    if (ckMechanism.pParameter != NULL_PTR) {
-        free(ckMechanism.pParameter);
+    if (dkMfdibnism.pPbrbmftfr != NULL_PTR) {
+        frff(dkMfdibnism.pPbrbmftfr);
     }
 
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_DIGEST
+#ifdff P11_ENABLE_C_DIGEST
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_Digest
- * Signature: (J[BII[BII)I
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jbyteArray jData            CK_BYTE_PTR pData
- *                                      CK_ULONG ulDataLen
- * @return  jbyteArray jDigest          CK_BYTE_PTR pDigest
- *                                      CK_ULONG_PTR pulDigestLen
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_Digfst
+ * Signbturf: (J[BII[BII)I
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jbytfArrby jDbtb            CK_BYTE_PTR pDbtb
+ *                                      CK_ULONG ulDbtbLfn
+ * @rfturn  jbytfArrby jDigfst          CK_BYTE_PTR pDigfst
+ *                                      CK_ULONG_PTR pulDigfstLfn
  */
-JNIEXPORT jint JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1DigestSingle
-  (JNIEnv *env, jobject obj, jlong jSessionHandle, jobject jMechanism, jbyteArray jIn, jint jInOfs, jint jInLen, jbyteArray jDigest, jint jDigestOfs, jint jDigestLen)
+JNIEXPORT jint JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1DigfstSinglf
+  (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jobjfdt jMfdibnism, jbytfArrby jIn, jint jInOfs, jint jInLfn, jbytfArrby jDigfst, jint jDigfstOfs, jint jDigfstLfn)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
     CK_RV rv;
     CK_BYTE_PTR bufP;
     CK_BYTE BUF[MAX_STACK_BUFFER_LEN];
     CK_BYTE DIGESTBUF[MAX_DIGEST_LEN];
-    CK_ULONG ckDigestLength = min(MAX_DIGEST_LEN, jDigestLen);
-    CK_MECHANISM ckMechanism;
+    CK_ULONG dkDigfstLfngti = min(MAX_DIGEST_LEN, jDigfstLfn);
+    CK_MECHANISM dkMfdibnism;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return 0; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn 0; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    jMechanismToCKMechanism(env, jMechanism, &ckMechanism);
-    if ((*env)->ExceptionCheck(env)) { return 0; }
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    jMfdibnismToCKMfdibnism(fnv, jMfdibnism, &dkMfdibnism);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn 0; }
 
-    rv = (*ckpFunctions->C_DigestInit)(ckSessionHandle, &ckMechanism);
+    rv = (*dkpFundtions->C_DigfstInit)(dkSfssionHbndlf, &dkMfdibnism);
 
-    if (ckMechanism.pParameter != NULL_PTR) {
-        free(ckMechanism.pParameter);
+    if (dkMfdibnism.pPbrbmftfr != NULL_PTR) {
+        frff(dkMfdibnism.pPbrbmftfr);
     }
 
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return 0; }
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn 0; }
 
-    if (jInLen <= MAX_STACK_BUFFER_LEN) {
+    if (jInLfn <= MAX_STACK_BUFFER_LEN) {
         bufP = BUF;
-    } else {
-        /* always use single part op, even for large data */
-        bufP = (CK_BYTE_PTR) malloc((size_t)jInLen);
+    } flsf {
+        /* blwbys usf singlf pbrt op, fvfn for lbrgf dbtb */
+        bufP = (CK_BYTE_PTR) mbllod((sizf_t)jInLfn);
         if (bufP == NULL) {
-            throwOutOfMemoryError(env, 0);
-            return 0;
+            tirowOutOfMfmoryError(fnv, 0);
+            rfturn 0;
         }
     }
 
-    (*env)->GetByteArrayRegion(env, jIn, jInOfs, jInLen, (jbyte *)bufP);
-    if ((*env)->ExceptionCheck(env)) {
-        if (bufP != BUF) { free(bufP); }
-        return 0;
+    (*fnv)->GftBytfArrbyRfgion(fnv, jIn, jInOfs, jInLfn, (jbytf *)bufP);
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        if (bufP != BUF) { frff(bufP); }
+        rfturn 0;
     }
 
-    rv = (*ckpFunctions->C_Digest)(ckSessionHandle, bufP, jInLen, DIGESTBUF, &ckDigestLength);
-    if (ckAssertReturnValueOK(env, rv) == CK_ASSERT_OK) {
-        (*env)->SetByteArrayRegion(env, jDigest, jDigestOfs, ckDigestLength, (jbyte *)DIGESTBUF);
+    rv = (*dkpFundtions->C_Digfst)(dkSfssionHbndlf, bufP, jInLfn, DIGESTBUF, &dkDigfstLfngti);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        (*fnv)->SftBytfArrbyRfgion(fnv, jDigfst, jDigfstOfs, dkDigfstLfngti, (jbytf *)DIGESTBUF);
     }
 
-    if (bufP != BUF) { free(bufP); }
+    if (bufP != BUF) { frff(bufP); }
 
-    return ckDigestLength;
+    rfturn dkDigfstLfngti;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_DIGESTUPDATE
+#ifdff P11_ENABLE_C_DIGESTUPDATE
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_DigestUpdate
- * Signature: (J[B)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jbyteArray jData            CK_BYTE_PTR pData
- *                                      CK_ULONG ulDataLen
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_DigfstUpdbtf
+ * Signbturf: (J[B)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jbytfArrby jDbtb            CK_BYTE_PTR pDbtb
+ *                                      CK_ULONG ulDbtbLfn
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1DigestUpdate
-  (JNIEnv *env, jobject obj, jlong jSessionHandle, jlong directIn, jbyteArray jIn, jint jInOfs, jint jInLen)
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1DigfstUpdbtf
+  (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jlong dirfdtIn, jbytfArrby jIn, jint jInOfs, jint jInLfn)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
     CK_RV rv;
     CK_BYTE_PTR bufP;
     CK_BYTE BUF[MAX_STACK_BUFFER_LEN];
-    jsize bufLen;
+    jsizf bufLfn;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
 
-    if (directIn != 0) {
-        rv = (*ckpFunctions->C_DigestUpdate)(ckSessionHandle, (CK_BYTE_PTR)jlong_to_ptr(directIn), jInLen);
-        ckAssertReturnValueOK(env, rv);
-        return;
+    if (dirfdtIn != 0) {
+        rv = (*dkpFundtions->C_DigfstUpdbtf)(dkSfssionHbndlf, (CK_BYTE_PTR)jlong_to_ptr(dirfdtIn), jInLfn);
+        dkAssfrtRfturnVblufOK(fnv, rv);
+        rfturn;
     }
 
-    if (jInLen <= MAX_STACK_BUFFER_LEN) {
-        bufLen = MAX_STACK_BUFFER_LEN;
+    if (jInLfn <= MAX_STACK_BUFFER_LEN) {
+        bufLfn = MAX_STACK_BUFFER_LEN;
         bufP = BUF;
-    } else {
-        bufLen = min(MAX_HEAP_BUFFER_LEN, jInLen);
-        bufP = (CK_BYTE_PTR) malloc((size_t)bufLen);
+    } flsf {
+        bufLfn = min(MAX_HEAP_BUFFER_LEN, jInLfn);
+        bufP = (CK_BYTE_PTR) mbllod((sizf_t)bufLfn);
         if (bufP == NULL) {
-            throwOutOfMemoryError(env, 0);
-            return;
+            tirowOutOfMfmoryError(fnv, 0);
+            rfturn;
         }
     }
 
-    while (jInLen > 0) {
-        jsize chunkLen = min(bufLen, jInLen);
-        (*env)->GetByteArrayRegion(env, jIn, jInOfs, chunkLen, (jbyte *)bufP);
-        if ((*env)->ExceptionCheck(env)) {
-            if (bufP != BUF) { free(bufP); }
-            return;
+    wiilf (jInLfn > 0) {
+        jsizf diunkLfn = min(bufLfn, jInLfn);
+        (*fnv)->GftBytfArrbyRfgion(fnv, jIn, jInOfs, diunkLfn, (jbytf *)bufP);
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            if (bufP != BUF) { frff(bufP); }
+            rfturn;
         }
-        rv = (*ckpFunctions->C_DigestUpdate)(ckSessionHandle, bufP, chunkLen);
-        if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) {
-            if (bufP != BUF) { free(bufP); }
-            return;
+        rv = (*dkpFundtions->C_DigfstUpdbtf)(dkSfssionHbndlf, bufP, diunkLfn);
+        if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) {
+            if (bufP != BUF) { frff(bufP); }
+            rfturn;
         }
-        jInOfs += chunkLen;
-        jInLen -= chunkLen;
+        jInOfs += diunkLfn;
+        jInLfn -= diunkLfn;
     }
 
     if (bufP != BUF) {
-        free(bufP);
+        frff(bufP);
     }
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_DIGESTKEY
+#ifdff P11_ENABLE_C_DIGESTKEY
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_DigestKey
- * Signature: (JJ)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jlong jKeyHandle            CK_OBJECT_HANDLE hKey
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_DigfstKfy
+ * Signbturf: (JJ)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jlong jKfyHbndlf            CK_OBJECT_HANDLE iKfy
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1DigestKey
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jlong jKeyHandle)
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1DigfstKfy
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jlong jKfyHbndlf)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_ULONG ckKeyHandle;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_ULONG dkKfyHbndlf;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    ckKeyHandle = jLongToCKULong(jKeyHandle);
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    dkKfyHbndlf = jLongToCKULong(jKfyHbndlf);
 
-    rv = (*ckpFunctions->C_DigestKey)(ckSessionHandle, ckKeyHandle);
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    rv = (*dkpFundtions->C_DigfstKfy)(dkSfssionHbndlf, dkKfyHbndlf);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_DIGESTFINAL
+#ifdff P11_ENABLE_C_DIGESTFINAL
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_DigestFinal
- * Signature: (J[BII)I
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @return  jbyteArray jDigest          CK_BYTE_PTR pDigest
- *                                      CK_ULONG_PTR pulDigestLen
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_DigfstFinbl
+ * Signbturf: (J[BII)I
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @rfturn  jbytfArrby jDigfst          CK_BYTE_PTR pDigfst
+ *                                      CK_ULONG_PTR pulDigfstLfn
  */
-JNIEXPORT jint JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1DigestFinal
-  (JNIEnv *env, jobject obj, jlong jSessionHandle, jbyteArray jDigest, jint jDigestOfs, jint jDigestLen)
+JNIEXPORT jint JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1DigfstFinbl
+  (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jbytfArrby jDigfst, jint jDigfstOfs, jint jDigfstLfn)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
     CK_RV rv;
     CK_BYTE BUF[MAX_DIGEST_LEN];
-    CK_ULONG ckDigestLength = min(MAX_DIGEST_LEN, jDigestLen);
+    CK_ULONG dkDigfstLfngti = min(MAX_DIGEST_LEN, jDigfstLfn);
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return 0; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn 0; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
 
-    rv = (*ckpFunctions->C_DigestFinal)(ckSessionHandle, BUF, &ckDigestLength);
-    if (ckAssertReturnValueOK(env, rv) == CK_ASSERT_OK) {
-        (*env)->SetByteArrayRegion(env, jDigest, jDigestOfs, ckDigestLength, (jbyte *)BUF);
+    rv = (*dkpFundtions->C_DigfstFinbl)(dkSfssionHbndlf, BUF, &dkDigfstLfngti);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        (*fnv)->SftBytfArrbyRfgion(fnv, jDigfst, jDigfstOfs, dkDigfstLfngti, (jbytf *)BUF);
     }
-    return ckDigestLength;
+    rfturn dkDigfstLfngti;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_SEEDRANDOM
+#ifdff P11_ENABLE_C_SEEDRANDOM
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_SeedRandom
- * Signature: (J[B)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jbyteArray jSeed            CK_BYTE_PTR pSeed
- *                                      CK_ULONG ulSeedLen
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_SffdRbndom
+ * Signbturf: (J[B)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jbytfArrby jSffd            CK_BYTE_PTR pSffd
+ *                                      CK_ULONG ulSffdLfn
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1SeedRandom
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jbyteArray jSeed)
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1SffdRbndom
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jbytfArrby jSffd)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_BYTE_PTR ckpSeed = NULL_PTR;
-    CK_ULONG ckSeedLength;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_BYTE_PTR dkpSffd = NULL_PTR;
+    CK_ULONG dkSffdLfngti;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    jByteArrayToCKByteArray(env, jSeed, &ckpSeed, &ckSeedLength);
-    if ((*env)->ExceptionCheck(env)) { return; }
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    jBytfArrbyToCKBytfArrby(fnv, jSffd, &dkpSffd, &dkSffdLfngti);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn; }
 
-    rv = (*ckpFunctions->C_SeedRandom)(ckSessionHandle, ckpSeed, ckSeedLength);
+    rv = (*dkpFundtions->C_SffdRbndom)(dkSfssionHbndlf, dkpSffd, dkSffdLfngti);
 
-    free(ckpSeed);
+    frff(dkpSffd);
 
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_GENERATERANDOM
+#ifdff P11_ENABLE_C_GENERATERANDOM
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_GenerateRandom
- * Signature: (J[B)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jbyteArray jRandomData      CK_BYTE_PTR pRandomData
- *                                      CK_ULONG ulRandomDataLen
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_GfnfrbtfRbndom
+ * Signbturf: (J[B)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jbytfArrby jRbndomDbtb      CK_BYTE_PTR pRbndomDbtb
+ *                                      CK_ULONG ulRbndomDbtbLfn
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1GenerateRandom
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jbyteArray jRandomData)
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1GfnfrbtfRbndom
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jbytfArrby jRbndomDbtb)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    jbyte *jRandomBuffer;
-    jlong jRandomBufferLength;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    jbytf *jRbndomBufffr;
+    jlong jRbndomBufffrLfngti;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
 
-    jRandomBufferLength = (*env)->GetArrayLength(env, jRandomData);
-    jRandomBuffer = (*env)->GetByteArrayElements(env, jRandomData, NULL);
-    if (jRandomBuffer == NULL) { return; }
+    jRbndomBufffrLfngti = (*fnv)->GftArrbyLfngti(fnv, jRbndomDbtb);
+    jRbndomBufffr = (*fnv)->GftBytfArrbyElfmfnts(fnv, jRbndomDbtb, NULL);
+    if (jRbndomBufffr == NULL) { rfturn; }
 
-    rv = (*ckpFunctions->C_GenerateRandom)(ckSessionHandle,
-                                         (CK_BYTE_PTR) jRandomBuffer,
-                                         jLongToCKULong(jRandomBufferLength));
+    rv = (*dkpFundtions->C_GfnfrbtfRbndom)(dkSfssionHbndlf,
+                                         (CK_BYTE_PTR) jRbndomBufffr,
+                                         jLongToCKULong(jRbndomBufffrLfngti));
 
-    /* copy back generated bytes */
-    (*env)->ReleaseByteArrayElements(env, jRandomData, jRandomBuffer, 0);
+    /* dopy bbdk gfnfrbtfd bytfs */
+    (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, jRbndomDbtb, jRbndomBufffr, 0);
 
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
 }
-#endif
+#fndif

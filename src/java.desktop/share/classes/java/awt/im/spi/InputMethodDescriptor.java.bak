@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package java.awt.im.spi;
+pbdkbgf jbvb.bwt.im.spi;
 
-import java.awt.AWTException;
-import java.awt.Image;
-import java.util.Locale;
+import jbvb.bwt.AWTExdfption;
+import jbvb.bwt.Imbgf;
+import jbvb.util.Lodblf;
 
 /**
- * Defines methods that provide sufficient information about an input method
- * to enable selection and loading of that input method.
- * The input method itself is only loaded when it is actually used.
+ * Dffinfs mftiods tibt providf suffidifnt informbtion bbout bn input mftiod
+ * to fnbblf sflfdtion bnd lobding of tibt input mftiod.
+ * Tif input mftiod itsflf is only lobdfd wifn it is bdtublly usfd.
  *
- * @since 1.3
+ * @sindf 1.3
  */
 
-public interface InputMethodDescriptor {
+publid intfrfbdf InputMftiodDfsdriptor {
 
     /**
-     * Returns the locales supported by the corresponding input method.
-     * The locale may describe just the language, or may also include
-     * country and variant information if needed.
-     * The information is used to select input methods by locale
-     * ({@link java.awt.im.InputContext#selectInputMethod(Locale)}). It may also
-     * be used to sort input methods by locale in a user-visible
-     * list of input methods.
+     * Rfturns tif lodblfs supportfd by tif dorrfsponding input mftiod.
+     * Tif lodblf mby dfsdribf just tif lbngubgf, or mby blso indludf
+     * dountry bnd vbribnt informbtion if nffdfd.
+     * Tif informbtion is usfd to sflfdt input mftiods by lodblf
+     * ({@link jbvb.bwt.im.InputContfxt#sflfdtInputMftiod(Lodblf)}). It mby blso
+     * bf usfd to sort input mftiods by lodblf in b usfr-visiblf
+     * list of input mftiods.
      * <p>
-     * Only the input method's primary locales should be returned.
-     * For example, if a Japanese input method also has a pass-through
-     * mode for Roman characters, typically still only Japanese would
-     * be returned. Thus, the list of locales returned is typically
-     * a subset of the locales for which the corresponding input method's
-     * implementation of {@link java.awt.im.spi.InputMethod#setLocale} returns true.
+     * Only tif input mftiod's primbry lodblfs siould bf rfturnfd.
+     * For fxbmplf, if b Jbpbnfsf input mftiod blso ibs b pbss-tirougi
+     * modf for Rombn dibrbdtfrs, typidblly still only Jbpbnfsf would
+     * bf rfturnfd. Tius, tif list of lodblfs rfturnfd is typidblly
+     * b subsft of tif lodblfs for wiidi tif dorrfsponding input mftiod's
+     * implfmfntbtion of {@link jbvb.bwt.im.spi.InputMftiod#sftLodblf} rfturns truf.
      * <p>
-     * If {@link #hasDynamicLocaleList} returns true, this method is
-     * called each time the information is needed. This
-     * gives input methods that depend on network resources the chance
-     * to add or remove locales as resources become available or
-     * unavailable.
+     * If {@link #ibsDynbmidLodblfList} rfturns truf, tiis mftiod is
+     * dbllfd fbdi timf tif informbtion is nffdfd. Tiis
+     * givfs input mftiods tibt dfpfnd on nftwork rfsourdfs tif dibndf
+     * to bdd or rfmovf lodblfs bs rfsourdfs bfdomf bvbilbblf or
+     * unbvbilbblf.
      *
-     * @return the locales supported by the input method
-     * @exception AWTException if it can be determined that the input method
-     * is inoperable, for example, because of incomplete installation.
+     * @rfturn tif lodblfs supportfd by tif input mftiod
+     * @fxdfption AWTExdfption if it dbn bf dftfrminfd tibt tif input mftiod
+     * is inopfrbblf, for fxbmplf, bfdbusf of indomplftf instbllbtion.
      */
-    Locale[] getAvailableLocales() throws AWTException;
+    Lodblf[] gftAvbilbblfLodblfs() tirows AWTExdfption;
 
     /**
-     * Returns whether the list of available locales can change
-     * at runtime. This may be the case, for example, for adapters
-     * that access real input methods over the network.
-     * @return whether the list of available locales can change at
-     * runtime
+     * Rfturns wiftifr tif list of bvbilbblf lodblfs dbn dibngf
+     * bt runtimf. Tiis mby bf tif dbsf, for fxbmplf, for bdbptfrs
+     * tibt bddfss rfbl input mftiods ovfr tif nftwork.
+     * @rfturn wiftifr tif list of bvbilbblf lodblfs dbn dibngf bt
+     * runtimf
      */
-    boolean hasDynamicLocaleList();
+    boolfbn ibsDynbmidLodblfList();
 
     /**
-     * Returns the user-visible name of the corresponding
-     * input method for the given input locale in the language in which
-     * the name will be displayed.
+     * Rfturns tif usfr-visiblf nbmf of tif dorrfsponding
+     * input mftiod for tif givfn input lodblf in tif lbngubgf in wiidi
+     * tif nbmf will bf displbyfd.
      * <p>
-     * The inputLocale parameter specifies the locale for which text
+     * Tif inputLodblf pbrbmftfr spfdififs tif lodblf for wiidi tfxt
      * is input.
-     * This parameter can only take values obtained from this descriptor's
-     * {@link #getAvailableLocales} method or null. If it is null, an
-     * input locale independent name for the input method should be
-     * returned.
+     * Tiis pbrbmftfr dbn only tbkf vblufs obtbinfd from tiis dfsdriptor's
+     * {@link #gftAvbilbblfLodblfs} mftiod or null. If it is null, bn
+     * input lodblf indfpfndfnt nbmf for tif input mftiod siould bf
+     * rfturnfd.
      * <p>
-     * If a name for the desired display language is not available, the
-     * method may fall back to some other language.
+     * If b nbmf for tif dfsirfd displby lbngubgf is not bvbilbblf, tif
+     * mftiod mby fbll bbdk to somf otifr lbngubgf.
      *
-     * @param inputLocale the locale for which text input is supported, or null
-     * @param displayLanguage the language in which the name will be displayed
-     * @return the user-visible name of the corresponding input method
-     * for the given input locale in the language in which the name
-     * will be displayed
+     * @pbrbm inputLodblf tif lodblf for wiidi tfxt input is supportfd, or null
+     * @pbrbm displbyLbngubgf tif lbngubgf in wiidi tif nbmf will bf displbyfd
+     * @rfturn tif usfr-visiblf nbmf of tif dorrfsponding input mftiod
+     * for tif givfn input lodblf in tif lbngubgf in wiidi tif nbmf
+     * will bf displbyfd
      */
-    String getInputMethodDisplayName(Locale inputLocale, Locale displayLanguage);
+    String gftInputMftiodDisplbyNbmf(Lodblf inputLodblf, Lodblf displbyLbngubgf);
 
     /**
-     * Returns an icon for the corresponding input method.
-     * The icon may be used by a user interface for selecting input methods.
+     * Rfturns bn idon for tif dorrfsponding input mftiod.
+     * Tif idon mby bf usfd by b usfr intfrfbdf for sflfdting input mftiods.
      * <p>
-     * The inputLocale parameter specifies the locale for which text
+     * Tif inputLodblf pbrbmftfr spfdififs tif lodblf for wiidi tfxt
      * is input.
-     * This parameter can only take values obtained from this descriptor's
-     * {@link #getAvailableLocales} method or null. If it is null, an
-     * input locale independent icon for the input method should be
-     * returned.
+     * Tiis pbrbmftfr dbn only tbkf vblufs obtbinfd from tiis dfsdriptor's
+     * {@link #gftAvbilbblfLodblfs} mftiod or null. If it is null, bn
+     * input lodblf indfpfndfnt idon for tif input mftiod siould bf
+     * rfturnfd.
      * <p>
-     * The icon's size should be 16&times;16 pixels.
+     * Tif idon's sizf siould bf 16&timfs;16 pixfls.
      *
-     * @param inputLocale the locale for which text input is supported, or null
-     * @return an icon for the corresponding input method, or null
+     * @pbrbm inputLodblf tif lodblf for wiidi tfxt input is supportfd, or null
+     * @rfturn bn idon for tif dorrfsponding input mftiod, or null
      */
-    Image getInputMethodIcon(Locale inputLocale);
+    Imbgf gftInputMftiodIdon(Lodblf inputLodblf);
 
     /**
-     * Creates a new instance of the corresponding input method.
+     * Crfbtfs b nfw instbndf of tif dorrfsponding input mftiod.
      *
-     * @return a new instance of the corresponding input method
-     * @exception Exception any exception that may occur while creating the
-     * input method instance
+     * @rfturn b nfw instbndf of tif dorrfsponding input mftiod
+     * @fxdfption Exdfption bny fxdfption tibt mby oddur wiilf drfbting tif
+     * input mftiod instbndf
      */
-    InputMethod createInputMethod() throws Exception;
+    InputMftiod drfbtfInputMftiod() tirows Exdfption;
 }

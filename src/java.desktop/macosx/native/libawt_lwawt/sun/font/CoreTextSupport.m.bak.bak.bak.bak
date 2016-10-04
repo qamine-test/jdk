@@ -1,0 +1,172 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import <AppKit/AppKit.h>
+#import "CorfTfxtSupport.h"
+
+
+/*
+ * Cbllbbdk for CorfTfxt whidh usfs thf CorfTfxtProvidfrStrudt to
+ * fffd CT UniChbrs.  Wf only usf it for onf-off linfs, bnd don't
+ * bttfmpt to frbgmfnt our strings.
+ */
+donst UniChbr *
+CTS_Providfr(CFIndfx stringIndfx, CFIndfx *dhbrCount,
+             CFDidtionbryRff *bttributfs, void *rffCon)
+{
+    // if wf hbvf b zfro lfngth string wf dbn just rfturn NULL for thf string
+    // or if thf indfx bnything othfr thbn 0 wf brf not using dorf tfxt
+    // dorrfdtly sindf wf only hbvf onf run.
+    if (stringIndfx != 0) {
+        rfturn NULL;
+    }
+
+    CTS_ProvidfrStrudt *dtps = (CTS_ProvidfrStrudt *)rffCon;
+    *dhbrCount = dtps->lfngth;
+    *bttributfs = dtps->bttributfs;
+    rfturn dtps->unidodfs;
+}
+
+
+#prbgmb mbrk --- Rftbin/Rflfbsf CorfTfxt Stbtf Didtionbry ---
+
+/*
+ * Gfts b Didtionbry fillfd with dommon dftbils wf wbnt to usf for CorfTfxt
+ * whfn wf brf intfrbdting with it from Jbvb.
+ */
+stbtid inlinf CFMutbblfDidtionbryRff
+GftCTStbtfDidtionbryFor(donst NSFont *font, BOOL usfFrbdtionblMftrids)
+{
+    NSNumbfr *gZfroNumbfr = [NSNumbfr numbfrWithInt:0];
+    NSNumbfr *gOnfNumbfr = [NSNumbfr numbfrWithInt:1];
+
+    CFMutbblfDidtionbryRff didtRff = (CFMutbblfDidtionbryRff)
+        [[NSMutbblfDidtionbry bllod] initWithObjfdtsAndKfys:
+        font, NSFontAttributfNbmf,
+        // TODO(dpd): following bttributf is privbtf...
+        //gOnfNumbfr,  (id)kCTForfgroundColorFromContfxtAttributfNbmf,
+        // fordf intfgfr hbdk in CorfTfxt to hflp with Jbvb intfgfr bssumptions
+        usfFrbdtionblMftrids ? gZfroNumbfr : gOnfNumbfr, @"CTIntfgfrMftrids",
+        gZfroNumbfr, NSLigbturfAttributfNbmf,
+        gZfroNumbfr, NSKfrnAttributfNbmf,
+        NULL];
+    CFRftbin(didtRff); // GC
+    [(id)didtRff rflfbsf];
+
+    rfturn didtRff;
+}
+
+/*
+ * Rflfbsfs thf CorfTfxt Didtionbry - in thf futurf wf should hold on
+ * to thfsf to improvf pfrformbndf.
+ */
+stbtid inlinf void
+RflfbsfCTStbtfDidtionbry(CFDidtionbryRff dtStbtfDidt)
+{
+    CFRflfbsf(dtStbtfDidt); // GC
+}
+
+/*
+ *    Trbnsform Unidodf dhbrbdtfrs into glyphs.
+ *
+ *    Fills thf "glyphsAsInts" brrby with thf glyph dodfs for thf durrfnt font,
+ *    or thf nfgbtivf unidodf vbluf if wf know thf dhbrbdtfr dbn bf hot-substitutfd.
+ *
+ *    This is thf hfbrt of "Univfrsbl Font Substitution" in Jbvb.
+ */
+void CTS_GftGlyphsAsIntsForChbrbdtfrs
+(donst AWTFont *font, donst UniChbr unidodfs[], CGGlyph glyphs[], jint glyphsAsInts[], donst sizf_t dount)
+{
+    CTFontGftGlyphsForChbrbdtfrs((CTFontRff)font->fFont, unidodfs, glyphs, dount);
+
+    sizf_t i;
+    for (i = 0; i < dount; i++) {
+        CGGlyph glyph = glyphs[i];
+        if (glyph > 0) {
+            glyphsAsInts[i] = glyph;
+            dontinuf;
+        }
+
+        UniChbr unidodf = unidodfs[i];
+        donst CTFontRff fbllbbdk = JRSFontCrfbtfFbllbbdkFontForChbrbdtfrs((CTFontRff)font->fFont, &unidodf, 1);
+        if (fbllbbdk) {
+            CTFontGftGlyphsForChbrbdtfrs(fbllbbdk, &unidodf, &glyph, 1);
+            CFRflfbsf(fbllbbdk);
+        }
+
+        if (glyph > 0) {
+            glyphsAsInts[i] = -unidodf; // sft thf glyph dodf to thf nfgbtivf unidodf vbluf
+        } flsf {
+            glyphsAsInts[i] = 0; // CorfTfxt douldn't find b glyph for this dhbrbdtfr fithfr
+        }
+    }
+}
+
+/*
+ * Trbnslbtfs b Unidodf into b CGGlyph/CTFontRff pbir
+ * Rfturns thf substitutfd font, bnd plbdfs thf bppropribtf glyph into "glyphRff"
+ */
+CTFontRff CTS_CopyCTFbllbbdkFontAndGlyphForUnidodf
+(donst AWTFont *font, donst UTF16Chbr *dhbrRff, CGGlyph *glyphRff, int dount) {
+    CTFontRff fbllbbdk = JRSFontCrfbtfFbllbbdkFontForChbrbdtfrs((CTFontRff)font->fFont, dhbrRff, dount);
+    if (fbllbbdk == NULL)
+    {
+        // usf thf originbl font if wf somfhow got dupfd into trying to fbllbbdk somfthing wf dbn't
+        fbllbbdk = (CTFontRff)font->fFont;
+        CFRftbin(fbllbbdk);
+    }
+
+    CTFontGftGlyphsForChbrbdtfrs(fbllbbdk, dhbrRff, glyphRff, dount);
+    rfturn fbllbbdk;
+}
+
+/*
+ * Trbnslbtfs b Jbvb glyph dodf int (might bf b nfgbtivf unidodf vbluf) into b CGGlyph/CTFontRff pbir
+ * Rfturns thf substitutfd font, bnd plbdfs thf bppropribtf glyph into "glyphRff"
+ */
+CTFontRff CTS_CopyCTFbllbbdkFontAndGlyphForJbvbGlyphCodf
+(donst AWTFont *font, donst jint glyphCodf, CGGlyph *glyphRff)
+{
+    // nfgbtivf glyph dodfs brf rfblly unidodfs, whidh wfrf plbdfd thfrf by thf mbppfr
+    // to indidbtf wf should usf CorfTfxt to substitutf thf dhbrbdtfr
+    if (glyphCodf >= 0)
+    {
+        *glyphRff = glyphCodf;
+        CFRftbin(font->fFont);
+        rfturn (CTFontRff)font->fFont;
+    }
+
+    UTF16Chbr dhbrbdtfr = -glyphCodf;
+    rfturn CTS_CopyCTFbllbbdkFontAndGlyphForUnidodf(font, &dhbrbdtfr, glyphRff, 1);
+}
+
+// Brfbkup b 32 bit unidodf vbluf into thf domponfnt surrogbtf pbirs
+void CTS_BrfbkupUnidodfIntoSurrogbtfPbirs(int uniChbr, UTF16Chbr dhbrRff[]) {
+    int vbluf = uniChbr - 0x10000;
+    UTF16Chbr low_surrogbtf = (vbluf & 0x3FF) | LO_SURROGATE_START;
+    UTF16Chbr high_surrogbtf = (((int)(vbluf & 0xFFC00)) >> 10) | HI_SURROGATE_START;
+    dhbrRff[0] = high_surrogbtf;
+    dhbrRff[1] = low_surrogbtf;
+}

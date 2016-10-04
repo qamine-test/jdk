@@ -1,1294 +1,1294 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.applet;
+pbdkbgf sun.bpplft;
 
-import java.util.*;
-import java.io.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.print.*;
-import javax.print.attribute.*;
-import java.applet.*;
-import java.net.URL;
-import java.net.SocketPermission;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.awt.SunToolkit;
-import sun.awt.AppContext;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.print.*;
+import jbvbx.print.bttributf.*;
+import jbvb.bpplft.*;
+import jbvb.nft.URL;
+import jbvb.nft.SodkftPfrmission;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.bwt.SunToolkit;
+import sun.bwt.AppContfxt;
 
 /**
- * A frame to show the applet tag in.
+ * A frbmf to siow tif bpplft tbg in.
  */
-@SuppressWarnings("serial") // JDK-implementation class
-final class TextFrame extends Frame {
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+finbl dlbss TfxtFrbmf fxtfnds Frbmf {
 
     /**
-     * Create the tag frame.
+     * Crfbtf tif tbg frbmf.
      */
-    TextFrame(int x, int y, String title, String text) {
-        setTitle(title);
-        TextArea txt = new TextArea(20, 60);
-        txt.setText(text);
-        txt.setEditable(false);
+    TfxtFrbmf(int x, int y, String titlf, String tfxt) {
+        sftTitlf(titlf);
+        TfxtArfb txt = nfw TfxtArfb(20, 60);
+        txt.sftTfxt(tfxt);
+        txt.sftEditbblf(fblsf);
 
-        add("Center", txt);
+        bdd("Cfntfr", txt);
 
-        Panel p = new Panel();
-        add("South", p);
-        Button b = new Button(amh.getMessage("button.dismiss", "Dismiss"));
-        p.add(b);
+        Pbnfl p = nfw Pbnfl();
+        bdd("Souti", p);
+        Button b = nfw Button(bmi.gftMfssbgf("button.dismiss", "Dismiss"));
+        p.bdd(b);
 
-        class ActionEventListener implements ActionListener {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                dispose();
+        dlbss AdtionEvfntListfnfr implfmfnts AdtionListfnfr {
+            @Ovfrridf
+            publid void bdtionPfrformfd(AdtionEvfnt fvt) {
+                disposf();
             }
         }
-        b.addActionListener(new ActionEventListener());
+        b.bddAdtionListfnfr(nfw AdtionEvfntListfnfr());
 
-        pack();
-        move(x, y);
-        setVisible(true);
+        pbdk();
+        movf(x, y);
+        sftVisiblf(truf);
 
-        WindowListener windowEventListener = new WindowAdapter() {
+        WindowListfnfr windowEvfntListfnfr = nfw WindowAdbptfr() {
 
-            @Override
-            public void windowClosing(WindowEvent evt) {
-                dispose();
+            @Ovfrridf
+            publid void windowClosing(WindowEvfnt fvt) {
+                disposf();
             }
         };
 
-        addWindowListener(windowEventListener);
+        bddWindowListfnfr(windowEvfntListfnfr);
     }
-    private static AppletMessageHandler amh = new AppletMessageHandler("textframe");
+    privbtf stbtid ApplftMfssbgfHbndlfr bmi = nfw ApplftMfssbgfHbndlfr("tfxtfrbmf");
 
 }
 
 /**
- * Lets us construct one using unix-style one shot behaviors.
+ * Lfts us donstrudt onf using unix-stylf onf siot bfibviors.
  */
-final class StdAppletViewerFactory implements AppletViewerFactory {
+finbl dlbss StdApplftVifwfrFbdtory implfmfnts ApplftVifwfrFbdtory {
 
-    @Override
-    public AppletViewer createAppletViewer(int x, int y,
-                                           URL doc, Hashtable<String, String> atts) {
-        return new AppletViewer(x, y, doc, atts, System.out, this);
+    @Ovfrridf
+    publid ApplftVifwfr drfbtfApplftVifwfr(int x, int y,
+                                           URL dod, Hbsitbblf<String, String> btts) {
+        rfturn nfw ApplftVifwfr(x, y, dod, btts, Systfm.out, tiis);
     }
 
-    @Override
-    public MenuBar getBaseMenuBar() {
-        return new MenuBar();
+    @Ovfrridf
+    publid MfnuBbr gftBbsfMfnuBbr() {
+        rfturn nfw MfnuBbr();
     }
 
-    @Override
-    public boolean isStandalone() {
-        return true;
+    @Ovfrridf
+    publid boolfbn isStbndblonf() {
+        rfturn truf;
     }
 }
 
 /**
- * The applet viewer makes it possible to run a Java applet without using a browser.
- * For details on the syntax that <B>appletviewer</B> supports, see
- * <a href="../../../docs/tooldocs/appletviewertags.html">AppletViewer Tags</a>.
- * (The document named appletviewertags.html in the JDK's docs/tooldocs directory,
- *  once the JDK docs have been installed.)
+ * Tif bpplft vifwfr mbkfs it possiblf to run b Jbvb bpplft witiout using b browsfr.
+ * For dftbils on tif syntbx tibt <B>bpplftvifwfr</B> supports, sff
+ * <b irff="../../../dods/tooldods/bpplftvifwfrtbgs.itml">ApplftVifwfr Tbgs</b>.
+ * (Tif dodumfnt nbmfd bpplftvifwfrtbgs.itml in tif JDK's dods/tooldods dirfdtory,
+ *  ondf tif JDK dods ibvf bffn instbllfd.)
  */
-@SuppressWarnings("serial") // JDK implementation class
-public class AppletViewer extends Frame implements AppletContext, Printable {
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid dlbss ApplftVifwfr fxtfnds Frbmf implfmfnts ApplftContfxt, Printbblf {
 
     /**
-     * Some constants...
+     * Somf donstbnts...
      */
-    private static String defaultSaveFile = "Applet.ser";
+    privbtf stbtid String dffbultSbvfFilf = "Applft.sfr";
 
     /**
-     * The panel in which the applet is being displayed.
+     * Tif pbnfl in wiidi tif bpplft is bfing displbyfd.
      */
-    AppletViewerPanel panel;
+    ApplftVifwfrPbnfl pbnfl;
 
     /**
-     * The status line.
+     * Tif stbtus linf.
      */
-    Label label;
+    Lbbfl lbbfl;
 
     /**
-     * output status messages to this stream
+     * output stbtus mfssbgfs to tiis strfbm
      */
 
-    PrintStream statusMsgStream;
+    PrintStrfbm stbtusMsgStrfbm;
 
     /**
-     * For cloning
+     * For dloning
      */
-    AppletViewerFactory factory;
+    ApplftVifwfrFbdtory fbdtory;
 
 
-    private final class UserActionListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            processUserAction(evt);
+    privbtf finbl dlbss UsfrAdtionListfnfr implfmfnts AdtionListfnfr {
+        @Ovfrridf
+        publid void bdtionPfrformfd(AdtionEvfnt fvt) {
+            prodfssUsfrAdtion(fvt);
         }
     }
 
     /**
-     * Create the applet viewer.
+     * Crfbtf tif bpplft vifwfr.
      */
-    public AppletViewer(int x, int y, URL doc, Hashtable<String, String> atts,
-                        PrintStream statusMsgStream, AppletViewerFactory factory) {
-        this.factory = factory;
-        this.statusMsgStream = statusMsgStream;
-        setTitle(amh.getMessage("tool.title", atts.get("code")));
+    publid ApplftVifwfr(int x, int y, URL dod, Hbsitbblf<String, String> btts,
+                        PrintStrfbm stbtusMsgStrfbm, ApplftVifwfrFbdtory fbdtory) {
+        tiis.fbdtory = fbdtory;
+        tiis.stbtusMsgStrfbm = stbtusMsgStrfbm;
+        sftTitlf(bmi.gftMfssbgf("tool.titlf", btts.gft("dodf")));
 
-        MenuBar mb = factory.getBaseMenuBar();
+        MfnuBbr mb = fbdtory.gftBbsfMfnuBbr();
 
-        Menu m = new Menu(amh.getMessage("menu.applet"));
+        Mfnu m = nfw Mfnu(bmi.gftMfssbgf("mfnu.bpplft"));
 
-        addMenuItem(m, "menuitem.restart");
-        addMenuItem(m, "menuitem.reload");
-        addMenuItem(m, "menuitem.stop");
-        addMenuItem(m, "menuitem.save");
-        addMenuItem(m, "menuitem.start");
-        addMenuItem(m, "menuitem.clone");
-        m.add(new MenuItem("-"));
-        addMenuItem(m, "menuitem.tag");
-        addMenuItem(m, "menuitem.info");
-        addMenuItem(m, "menuitem.edit").disable();
-        addMenuItem(m, "menuitem.encoding");
-        m.add(new MenuItem("-"));
-        addMenuItem(m, "menuitem.print");
-        m.add(new MenuItem("-"));
-        addMenuItem(m, "menuitem.props");
-        m.add(new MenuItem("-"));
-        addMenuItem(m, "menuitem.close");
-        if (factory.isStandalone()) {
-            addMenuItem(m, "menuitem.quit");
+        bddMfnuItfm(m, "mfnuitfm.rfstbrt");
+        bddMfnuItfm(m, "mfnuitfm.rflobd");
+        bddMfnuItfm(m, "mfnuitfm.stop");
+        bddMfnuItfm(m, "mfnuitfm.sbvf");
+        bddMfnuItfm(m, "mfnuitfm.stbrt");
+        bddMfnuItfm(m, "mfnuitfm.dlonf");
+        m.bdd(nfw MfnuItfm("-"));
+        bddMfnuItfm(m, "mfnuitfm.tbg");
+        bddMfnuItfm(m, "mfnuitfm.info");
+        bddMfnuItfm(m, "mfnuitfm.fdit").disbblf();
+        bddMfnuItfm(m, "mfnuitfm.fndoding");
+        m.bdd(nfw MfnuItfm("-"));
+        bddMfnuItfm(m, "mfnuitfm.print");
+        m.bdd(nfw MfnuItfm("-"));
+        bddMfnuItfm(m, "mfnuitfm.props");
+        m.bdd(nfw MfnuItfm("-"));
+        bddMfnuItfm(m, "mfnuitfm.dlosf");
+        if (fbdtory.isStbndblonf()) {
+            bddMfnuItfm(m, "mfnuitfm.quit");
         }
 
-        mb.add(m);
+        mb.bdd(m);
 
-        setMenuBar(mb);
+        sftMfnuBbr(mb);
 
-        add("Center", panel = new AppletViewerPanel(doc, atts));
-        add("South", label = new Label(amh.getMessage("label.hello")));
-        panel.init();
-        appletPanels.addElement(panel);
+        bdd("Cfntfr", pbnfl = nfw ApplftVifwfrPbnfl(dod, btts));
+        bdd("Souti", lbbfl = nfw Lbbfl(bmi.gftMfssbgf("lbbfl.ifllo")));
+        pbnfl.init();
+        bpplftPbnfls.bddElfmfnt(pbnfl);
 
-        pack();
-        move(x, y);
-        setVisible(true);
+        pbdk();
+        movf(x, y);
+        sftVisiblf(truf);
 
-        WindowListener windowEventListener = new WindowAdapter() {
+        WindowListfnfr windowEvfntListfnfr = nfw WindowAdbptfr() {
 
-            @Override
-            public void windowClosing(WindowEvent evt) {
-                appletClose();
+            @Ovfrridf
+            publid void windowClosing(WindowEvfnt fvt) {
+                bpplftClosf();
             }
 
-            @Override
-            public void windowIconified(WindowEvent evt) {
-                appletStop();
+            @Ovfrridf
+            publid void windowIdonififd(WindowEvfnt fvt) {
+                bpplftStop();
             }
 
-            @Override
-            public void windowDeiconified(WindowEvent evt) {
-                appletStart();
+            @Ovfrridf
+            publid void windowDfidonififd(WindowEvfnt fvt) {
+                bpplftStbrt();
             }
         };
 
-        class AppletEventListener implements AppletListener
+        dlbss ApplftEvfntListfnfr implfmfnts ApplftListfnfr
         {
-            final Frame frame;
+            finbl Frbmf frbmf;
 
-            public AppletEventListener(Frame frame)
+            publid ApplftEvfntListfnfr(Frbmf frbmf)
             {
-                this.frame = frame;
+                tiis.frbmf = frbmf;
             }
 
-            @Override
-            public void appletStateChanged(AppletEvent evt)
+            @Ovfrridf
+            publid void bpplftStbtfCibngfd(ApplftEvfnt fvt)
             {
-                AppletPanel src = (AppletPanel)evt.getSource();
+                ApplftPbnfl srd = (ApplftPbnfl)fvt.gftSourdf();
 
-                switch (evt.getID()) {
-                    case AppletPanel.APPLET_RESIZE: {
-                        if(src != null) {
-                            resize(preferredSize());
-                            validate();
+                switdi (fvt.gftID()) {
+                    dbsf ApplftPbnfl.APPLET_RESIZE: {
+                        if(srd != null) {
+                            rfsizf(prfffrrfdSizf());
+                            vblidbtf();
                         }
-                        break;
+                        brfbk;
                     }
-                    case AppletPanel.APPLET_LOADING_COMPLETED: {
-                        Applet a = src.getApplet(); // sun.applet.AppletPanel
+                    dbsf ApplftPbnfl.APPLET_LOADING_COMPLETED: {
+                        Applft b = srd.gftApplft(); // sun.bpplft.ApplftPbnfl
 
-                        // Fixed #4754451: Applet can have methods running on main
-                        // thread event queue.
+                        // Fixfd #4754451: Applft dbn ibvf mftiods running on mbin
+                        // tirfbd fvfnt qufuf.
                         //
-                        // The cause of this bug is that the frame of the applet
-                        // is created in main thread group. Thus, when certain
-                        // AWT/Swing events are generated, the events will be
-                        // dispatched through the wrong event dispatch thread.
+                        // Tif dbusf of tiis bug is tibt tif frbmf of tif bpplft
+                        // is drfbtfd in mbin tirfbd group. Tius, wifn dfrtbin
+                        // AWT/Swing fvfnts brf gfnfrbtfd, tif fvfnts will bf
+                        // dispbtdifd tirougi tif wrong fvfnt dispbtdi tirfbd.
                         //
-                        // To fix this, we rearrange the AppContext with the frame,
-                        // so the proper event queue will be looked up.
+                        // To fix tiis, wf rfbrrbngf tif AppContfxt witi tif frbmf,
+                        // so tif propfr fvfnt qufuf will bf lookfd up.
                         //
-                        // Swing also maintains a Frame list for the AppContext,
-                        // so we will have to rearrange it as well.
+                        // Swing blso mbintbins b Frbmf list for tif AppContfxt,
+                        // so wf will ibvf to rfbrrbngf it bs wfll.
                         //
-                        if (a != null)
-                            AppletPanel.changeFrameAppContext(frame, SunToolkit.targetToAppContext(a));
-                        else
-                            AppletPanel.changeFrameAppContext(frame, AppContext.getAppContext());
+                        if (b != null)
+                            ApplftPbnfl.dibngfFrbmfAppContfxt(frbmf, SunToolkit.tbrgftToAppContfxt(b));
+                        flsf
+                            ApplftPbnfl.dibngfFrbmfAppContfxt(frbmf, AppContfxt.gftAppContfxt());
 
-                        break;
+                        brfbk;
                     }
                 }
             }
         };
 
-        addWindowListener(windowEventListener);
-        panel.addAppletListener(new AppletEventListener(this));
+        bddWindowListfnfr(windowEvfntListfnfr);
+        pbnfl.bddApplftListfnfr(nfw ApplftEvfntListfnfr(tiis));
 
-        // Start the applet
-        showStatus(amh.getMessage("status.start"));
-        initEventQueue();
+        // Stbrt tif bpplft
+        siowStbtus(bmi.gftMfssbgf("stbtus.stbrt"));
+        initEvfntQufuf();
     }
 
-    // XXX 99/9/10 probably should be "private"
-    public MenuItem addMenuItem(Menu m, String s) {
-        MenuItem mItem = new MenuItem(amh.getMessage(s));
-        mItem.addActionListener(new UserActionListener());
-        return m.add(mItem);
+    // XXX 99/9/10 probbbly siould bf "privbtf"
+    publid MfnuItfm bddMfnuItfm(Mfnu m, String s) {
+        MfnuItfm mItfm = nfw MfnuItfm(bmi.gftMfssbgf(s));
+        mItfm.bddAdtionListfnfr(nfw UsfrAdtionListfnfr());
+        rfturn m.bdd(mItfm);
     }
 
     /**
-     * Send the initial set of events to the appletviewer event queue.
-     * On start-up the current behaviour is to load the applet and call
-     * Applet.init() and Applet.start().
+     * Sfnd tif initibl sft of fvfnts to tif bpplftvifwfr fvfnt qufuf.
+     * On stbrt-up tif durrfnt bfibviour is to lobd tif bpplft bnd dbll
+     * Applft.init() bnd Applft.stbrt().
      */
-    private void initEventQueue() {
-        // appletviewer.send.event is an undocumented and unsupported system
-        // property which is used exclusively for testing purposes.
-        String eventList = System.getProperty("appletviewer.send.event");
+    privbtf void initEvfntQufuf() {
+        // bpplftvifwfr.sfnd.fvfnt is bn undodumfntfd bnd unsupportfd systfm
+        // propfrty wiidi is usfd fxdlusivfly for tfsting purposfs.
+        String fvfntList = Systfm.gftPropfrty("bpplftvifwfr.sfnd.fvfnt");
 
-        if (eventList == null) {
-            // Add the standard events onto the event queue.
-            panel.sendEvent(AppletPanel.APPLET_LOAD);
-            panel.sendEvent(AppletPanel.APPLET_INIT);
-            panel.sendEvent(AppletPanel.APPLET_START);
-        } else {
-            // We're testing AppletViewer.  Force the specified set of events
-            // onto the event queue, wait for the events to be processed, and
-            // exit.
+        if (fvfntList == null) {
+            // Add tif stbndbrd fvfnts onto tif fvfnt qufuf.
+            pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_LOAD);
+            pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_INIT);
+            pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_START);
+        } flsf {
+            // Wf'rf tfsting ApplftVifwfr.  Fordf tif spfdififd sft of fvfnts
+            // onto tif fvfnt qufuf, wbit for tif fvfnts to bf prodfssfd, bnd
+            // fxit.
 
-            // The list of events that will be executed is provided as a
-            // ","-separated list.  No error-checking will be done on the list.
-            String [] events = splitSeparator(",", eventList);
+            // Tif list of fvfnts tibt will bf fxfdutfd is providfd bs b
+            // ","-sfpbrbtfd list.  No frror-difdking will bf donf on tif list.
+            String [] fvfnts = splitSfpbrbtor(",", fvfntList);
 
-            for (int i = 0; i < events.length; i++) {
-                System.out.println("Adding event to queue: " + events[i]);
-                if (events[i].equals("dispose"))
-                    panel.sendEvent(AppletPanel.APPLET_DISPOSE);
-                else if (events[i].equals("load"))
-                    panel.sendEvent(AppletPanel.APPLET_LOAD);
-                else if (events[i].equals("init"))
-                    panel.sendEvent(AppletPanel.APPLET_INIT);
-                else if (events[i].equals("start"))
-                    panel.sendEvent(AppletPanel.APPLET_START);
-                else if (events[i].equals("stop"))
-                    panel.sendEvent(AppletPanel.APPLET_STOP);
-                else if (events[i].equals("destroy"))
-                    panel.sendEvent(AppletPanel.APPLET_DESTROY);
-                else if (events[i].equals("quit"))
-                    panel.sendEvent(AppletPanel.APPLET_QUIT);
-                else if (events[i].equals("error"))
-                    panel.sendEvent(AppletPanel.APPLET_ERROR);
-                else
-                    // non-fatal error if we get an unrecognized event
-                    System.out.println("Unrecognized event name: " + events[i]);
+            for (int i = 0; i < fvfnts.lfngti; i++) {
+                Systfm.out.println("Adding fvfnt to qufuf: " + fvfnts[i]);
+                if (fvfnts[i].fqubls("disposf"))
+                    pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_DISPOSE);
+                flsf if (fvfnts[i].fqubls("lobd"))
+                    pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_LOAD);
+                flsf if (fvfnts[i].fqubls("init"))
+                    pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_INIT);
+                flsf if (fvfnts[i].fqubls("stbrt"))
+                    pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_START);
+                flsf if (fvfnts[i].fqubls("stop"))
+                    pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_STOP);
+                flsf if (fvfnts[i].fqubls("dfstroy"))
+                    pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_DESTROY);
+                flsf if (fvfnts[i].fqubls("quit"))
+                    pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_QUIT);
+                flsf if (fvfnts[i].fqubls("frror"))
+                    pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_ERROR);
+                flsf
+                    // non-fbtbl frror if wf gft bn unrfdognizfd fvfnt
+                    Systfm.out.println("Unrfdognizfd fvfnt nbmf: " + fvfnts[i]);
             }
 
-            while (!panel.emptyEventQueue()) ;
-            appletSystemExit();
+            wiilf (!pbnfl.fmptyEvfntQufuf()) ;
+            bpplftSystfmExit();
         }
     }
 
     /**
-     * Split a string based on the presence of a specified separator.  Returns
-     * an array of arbitrary length.  The end of each element in the array is
-     * indicated by the separator of the end of the string.  If there is a
-     * separator immediately before the end of the string, the final element
-     * will be empty.  None of the strings will contain the separator.  Useful
-     * when separating strings such as "foo/bar/bas" using separator "/".
+     * Split b string bbsfd on tif prfsfndf of b spfdififd sfpbrbtor.  Rfturns
+     * bn brrby of brbitrbry lfngti.  Tif fnd of fbdi flfmfnt in tif brrby is
+     * indidbtfd by tif sfpbrbtor of tif fnd of tif string.  If tifrf is b
+     * sfpbrbtor immfdibtfly bfforf tif fnd of tif string, tif finbl flfmfnt
+     * will bf fmpty.  Nonf of tif strings will dontbin tif sfpbrbtor.  Usfful
+     * wifn sfpbrbting strings sudi bs "foo/bbr/bbs" using sfpbrbtor "/".
      *
-     * @param sep  The separator.
-     * @param s    The string to split.
-     * @return     An array of strings.  Each string in the array is determined
-     *             by the location of the provided sep in the original string,
-     *             s.  Whitespace not stripped.
+     * @pbrbm sfp  Tif sfpbrbtor.
+     * @pbrbm s    Tif string to split.
+     * @rfturn     An brrby of strings.  Ebdi string in tif brrby is dftfrminfd
+     *             by tif lodbtion of tif providfd sfp in tif originbl string,
+     *             s.  Wiitfspbdf not strippfd.
      */
-    private String [] splitSeparator(String sep, String s) {
-        Vector<String> v = new Vector<>();
-        int tokenStart = 0;
-        int tokenEnd   = 0;
+    privbtf String [] splitSfpbrbtor(String sfp, String s) {
+        Vfdtor<String> v = nfw Vfdtor<>();
+        int tokfnStbrt = 0;
+        int tokfnEnd   = 0;
 
-        while ((tokenEnd = s.indexOf(sep, tokenStart)) != -1) {
-            v.addElement(s.substring(tokenStart, tokenEnd));
-            tokenStart = tokenEnd+1;
+        wiilf ((tokfnEnd = s.indfxOf(sfp, tokfnStbrt)) != -1) {
+            v.bddElfmfnt(s.substring(tokfnStbrt, tokfnEnd));
+            tokfnStbrt = tokfnEnd+1;
         }
-        // Add the final element.
-        v.addElement(s.substring(tokenStart));
+        // Add tif finbl flfmfnt.
+        v.bddElfmfnt(s.substring(tokfnStbrt));
 
-        String [] retVal = new String[v.size()];
-        v.copyInto(retVal);
-        return retVal;
+        String [] rftVbl = nfw String[v.sizf()];
+        v.dopyInto(rftVbl);
+        rfturn rftVbl;
     }
 
     /*
-     * Methods for java.applet.AppletContext
+     * Mftiods for jbvb.bpplft.ApplftContfxt
      */
 
-    private static Map<URL, AudioClip> audioClips = new HashMap<>();
+    privbtf stbtid Mbp<URL, AudioClip> budioClips = nfw HbsiMbp<>();
 
     /**
-     * Get an audio clip.
+     * Gft bn budio dlip.
      */
-    @Override
-    public AudioClip getAudioClip(URL url) {
-        checkConnect(url);
-        synchronized (audioClips) {
-            AudioClip clip = audioClips.get(url);
-            if (clip == null) {
-                audioClips.put(url, clip = new AppletAudioClip(url));
+    @Ovfrridf
+    publid AudioClip gftAudioClip(URL url) {
+        difdkConnfdt(url);
+        syndironizfd (budioClips) {
+            AudioClip dlip = budioClips.gft(url);
+            if (dlip == null) {
+                budioClips.put(url, dlip = nfw ApplftAudioClip(url));
             }
-            return clip;
+            rfturn dlip;
         }
     }
 
-    private static Map<URL, AppletImageRef> imageRefs = new HashMap<>();
+    privbtf stbtid Mbp<URL, ApplftImbgfRff> imbgfRffs = nfw HbsiMbp<>();
 
     /**
-     * Get an image.
+     * Gft bn imbgf.
      */
-    @Override
-    public Image getImage(URL url) {
-        return getCachedImage(url);
+    @Ovfrridf
+    publid Imbgf gftImbgf(URL url) {
+        rfturn gftCbdifdImbgf(url);
     }
 
     /**
-     * Get an image.
+     * Gft bn imbgf.
      */
-    static Image getCachedImage(URL url) {
-        // System.getSecurityManager().checkConnection(url.getHost(), url.getPort());
-        synchronized (imageRefs) {
-            AppletImageRef ref = imageRefs.get(url);
-            if (ref == null) {
-                ref = new AppletImageRef(url);
-                imageRefs.put(url, ref);
+    stbtid Imbgf gftCbdifdImbgf(URL url) {
+        // Systfm.gftSfdurityMbnbgfr().difdkConnfdtion(url.gftHost(), url.gftPort());
+        syndironizfd (imbgfRffs) {
+            ApplftImbgfRff rff = imbgfRffs.gft(url);
+            if (rff == null) {
+                rff = nfw ApplftImbgfRff(url);
+                imbgfRffs.put(url, rff);
             }
-            return ref.get();
+            rfturn rff.gft();
         }
     }
 
     /**
-     * Flush the image cache.
+     * Flusi tif imbgf dbdif.
      */
-    static void flushImageCache() {
-        imageRefs.clear();
+    stbtid void flusiImbgfCbdif() {
+        imbgfRffs.dlfbr();
     }
 
-    static Vector<AppletPanel> appletPanels = new Vector<>();
+    stbtid Vfdtor<ApplftPbnfl> bpplftPbnfls = nfw Vfdtor<>();
 
     /**
-     * Get an applet by name.
+     * Gft bn bpplft by nbmf.
      */
-    @Override
-    public Applet getApplet(String name) {
-        AppletSecurity security = (AppletSecurity)System.getSecurityManager();
-        name = name.toLowerCase();
-        SocketPermission panelSp =
-            new SocketPermission(panel.getCodeBase().getHost(), "connect");
-        for (Enumeration<AppletPanel> e = appletPanels.elements() ; e.hasMoreElements() ;) {
-            AppletPanel p = e.nextElement();
-            String param = p.getParameter("name");
-            if (param != null) {
-                param = param.toLowerCase();
+    @Ovfrridf
+    publid Applft gftApplft(String nbmf) {
+        ApplftSfdurity sfdurity = (ApplftSfdurity)Systfm.gftSfdurityMbnbgfr();
+        nbmf = nbmf.toLowfrCbsf();
+        SodkftPfrmission pbnflSp =
+            nfw SodkftPfrmission(pbnfl.gftCodfBbsf().gftHost(), "donnfdt");
+        for (Enumfrbtion<ApplftPbnfl> f = bpplftPbnfls.flfmfnts() ; f.ibsMorfElfmfnts() ;) {
+            ApplftPbnfl p = f.nfxtElfmfnt();
+            String pbrbm = p.gftPbrbmftfr("nbmf");
+            if (pbrbm != null) {
+                pbrbm = pbrbm.toLowfrCbsf();
             }
-            if (name.equals(param) &&
-                p.getDocumentBase().equals(panel.getDocumentBase())) {
+            if (nbmf.fqubls(pbrbm) &&
+                p.gftDodumfntBbsf().fqubls(pbnfl.gftDodumfntBbsf())) {
 
-                SocketPermission sp =
-                    new SocketPermission(p.getCodeBase().getHost(), "connect");
+                SodkftPfrmission sp =
+                    nfw SodkftPfrmission(p.gftCodfBbsf().gftHost(), "donnfdt");
 
-                if (panelSp.implies(sp)) {
-                    return p.applet;
+                if (pbnflSp.implifs(sp)) {
+                    rfturn p.bpplft;
                 }
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Return an enumeration of all the accessible
-     * applets on this page.
+     * Rfturn bn fnumfrbtion of bll tif bddfssiblf
+     * bpplfts on tiis pbgf.
      */
-    @Override
-    public Enumeration<Applet> getApplets() {
-        AppletSecurity security = (AppletSecurity)System.getSecurityManager();
-        Vector<Applet> v = new Vector<>();
-        SocketPermission panelSp =
-            new SocketPermission(panel.getCodeBase().getHost(), "connect");
+    @Ovfrridf
+    publid Enumfrbtion<Applft> gftApplfts() {
+        ApplftSfdurity sfdurity = (ApplftSfdurity)Systfm.gftSfdurityMbnbgfr();
+        Vfdtor<Applft> v = nfw Vfdtor<>();
+        SodkftPfrmission pbnflSp =
+            nfw SodkftPfrmission(pbnfl.gftCodfBbsf().gftHost(), "donnfdt");
 
-        for (Enumeration<AppletPanel> e = appletPanels.elements() ; e.hasMoreElements() ;) {
-            AppletPanel p = e.nextElement();
-            if (p.getDocumentBase().equals(panel.getDocumentBase())) {
+        for (Enumfrbtion<ApplftPbnfl> f = bpplftPbnfls.flfmfnts() ; f.ibsMorfElfmfnts() ;) {
+            ApplftPbnfl p = f.nfxtElfmfnt();
+            if (p.gftDodumfntBbsf().fqubls(pbnfl.gftDodumfntBbsf())) {
 
-                SocketPermission sp =
-                    new SocketPermission(p.getCodeBase().getHost(), "connect");
-                if (panelSp.implies(sp)) {
-                    v.addElement(p.applet);
+                SodkftPfrmission sp =
+                    nfw SodkftPfrmission(p.gftCodfBbsf().gftHost(), "donnfdt");
+                if (pbnflSp.implifs(sp)) {
+                    v.bddElfmfnt(p.bpplft);
                 }
             }
         }
-        return v.elements();
+        rfturn v.flfmfnts();
     }
 
     /**
-     * Ignore.
+     * Ignorf.
      */
-    @Override
-    public void showDocument(URL url) {
+    @Ovfrridf
+    publid void siowDodumfnt(URL url) {
     }
 
     /**
-     * Ignore.
+     * Ignorf.
      */
-    @Override
-    public void showDocument(URL url, String target) {
+    @Ovfrridf
+    publid void siowDodumfnt(URL url, String tbrgft) {
     }
 
     /**
-     * Show status.
+     * Siow stbtus.
      */
-    @Override
-    public void showStatus(String status) {
-        label.setText(status);
+    @Ovfrridf
+    publid void siowStbtus(String stbtus) {
+        lbbfl.sftTfxt(stbtus);
     }
 
-    @Override
-    public void setStream(String key, InputStream stream)throws IOException{
-        // We do nothing.
+    @Ovfrridf
+    publid void sftStrfbm(String kfy, InputStrfbm strfbm)tirows IOExdfption{
+        // Wf do notiing.
     }
 
-    @Override
-    public InputStream getStream(String key){
-        // We do nothing.
-        return null;
+    @Ovfrridf
+    publid InputStrfbm gftStrfbm(String kfy){
+        // Wf do notiing.
+        rfturn null;
     }
 
-    @Override
-    public Iterator<String> getStreamKeys(){
-        // We do nothing.
-        return null;
+    @Ovfrridf
+    publid Itfrbtor<String> gftStrfbmKfys(){
+        // Wf do notiing.
+        rfturn null;
     }
 
     /**
-     * System parameters.
+     * Systfm pbrbmftfrs.
      */
-    static Hashtable<String, String> systemParam = new Hashtable<>();
+    stbtid Hbsitbblf<String, String> systfmPbrbm = nfw Hbsitbblf<>();
 
-    static {
-        systemParam.put("codebase", "codebase");
-        systemParam.put("code", "code");
-        systemParam.put("alt", "alt");
-        systemParam.put("width", "width");
-        systemParam.put("height", "height");
-        systemParam.put("align", "align");
-        systemParam.put("vspace", "vspace");
-        systemParam.put("hspace", "hspace");
+    stbtid {
+        systfmPbrbm.put("dodfbbsf", "dodfbbsf");
+        systfmPbrbm.put("dodf", "dodf");
+        systfmPbrbm.put("blt", "blt");
+        systfmPbrbm.put("widti", "widti");
+        systfmPbrbm.put("ifigit", "ifigit");
+        systfmPbrbm.put("blign", "blign");
+        systfmPbrbm.put("vspbdf", "vspbdf");
+        systfmPbrbm.put("ispbdf", "ispbdf");
     }
 
     /**
-     * Print the HTML tag.
+     * Print tif HTML tbg.
      */
-    public static void printTag(PrintStream out, Hashtable<String, String> atts) {
-        out.print("<applet");
+    publid stbtid void printTbg(PrintStrfbm out, Hbsitbblf<String, String> btts) {
+        out.print("<bpplft");
 
-        String v = atts.get("codebase");
+        String v = btts.gft("dodfbbsf");
         if (v != null) {
-            out.print(" codebase=\"" + v + "\"");
+            out.print(" dodfbbsf=\"" + v + "\"");
         }
 
-        v = atts.get("code");
+        v = btts.gft("dodf");
         if (v == null) {
-            v = "applet.class";
+            v = "bpplft.dlbss";
         }
-        out.print(" code=\"" + v + "\"");
-        v = atts.get("width");
+        out.print(" dodf=\"" + v + "\"");
+        v = btts.gft("widti");
         if (v == null) {
             v = "150";
         }
-        out.print(" width=" + v);
+        out.print(" widti=" + v);
 
-        v = atts.get("height");
+        v = btts.gft("ifigit");
         if (v == null) {
             v = "100";
         }
-        out.print(" height=" + v);
+        out.print(" ifigit=" + v);
 
-        v = atts.get("name");
+        v = btts.gft("nbmf");
         if (v != null) {
-            out.print(" name=\"" + v + "\"");
+            out.print(" nbmf=\"" + v + "\"");
         }
         out.println(">");
 
-        // A very slow sorting algorithm
-        int len = atts.size();
-        String params[] = new String[len];
-        len = 0;
-        for (Enumeration<String> e = atts.keys() ; e.hasMoreElements() ;) {
-            String param = e.nextElement();
+        // A vfry slow sorting blgoritim
+        int lfn = btts.sizf();
+        String pbrbms[] = nfw String[lfn];
+        lfn = 0;
+        for (Enumfrbtion<String> f = btts.kfys() ; f.ibsMorfElfmfnts() ;) {
+            String pbrbm = f.nfxtElfmfnt();
             int i = 0;
-            for (; i < len ; i++) {
-                if (params[i].compareTo(param) >= 0) {
-                    break;
+            for (; i < lfn ; i++) {
+                if (pbrbms[i].dompbrfTo(pbrbm) >= 0) {
+                    brfbk;
                 }
             }
-            System.arraycopy(params, i, params, i + 1, len - i);
-            params[i] = param;
-            len++;
+            Systfm.brrbydopy(pbrbms, i, pbrbms, i + 1, lfn - i);
+            pbrbms[i] = pbrbm;
+            lfn++;
         }
 
-        for (int i = 0 ; i < len ; i++) {
-            String param = params[i];
-            if (systemParam.get(param) == null) {
-                out.println("<param name=" + param +
-                            " value=\"" + atts.get(param) + "\">");
+        for (int i = 0 ; i < lfn ; i++) {
+            String pbrbm = pbrbms[i];
+            if (systfmPbrbm.gft(pbrbm) == null) {
+                out.println("<pbrbm nbmf=" + pbrbm +
+                            " vbluf=\"" + btts.gft(pbrbm) + "\">");
             }
         }
-        out.println("</applet>");
+        out.println("</bpplft>");
     }
 
     /**
-     * Make sure the atrributes are uptodate.
+     * Mbkf surf tif btrributfs brf uptodbtf.
      */
-    public void updateAtts() {
-        Dimension d = panel.size();
-        Insets in = panel.insets();
-        panel.atts.put("width",
-                       Integer.toString(d.width - (in.left + in.right)));
-        panel.atts.put("height",
-                       Integer.toString(d.height - (in.top + in.bottom)));
+    publid void updbtfAtts() {
+        Dimfnsion d = pbnfl.sizf();
+        Insfts in = pbnfl.insfts();
+        pbnfl.btts.put("widti",
+                       Intfgfr.toString(d.widti - (in.lfft + in.rigit)));
+        pbnfl.btts.put("ifigit",
+                       Intfgfr.toString(d.ifigit - (in.top + in.bottom)));
     }
 
     /**
-     * Restart the applet.
+     * Rfstbrt tif bpplft.
      */
-    void appletRestart() {
-        panel.sendEvent(AppletPanel.APPLET_STOP);
-        panel.sendEvent(AppletPanel.APPLET_DESTROY);
-        panel.sendEvent(AppletPanel.APPLET_INIT);
-        panel.sendEvent(AppletPanel.APPLET_START);
+    void bpplftRfstbrt() {
+        pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_STOP);
+        pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_DESTROY);
+        pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_INIT);
+        pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_START);
     }
 
     /**
-     * Reload the applet.
+     * Rflobd tif bpplft.
      */
-    void appletReload() {
-        panel.sendEvent(AppletPanel.APPLET_STOP);
-        panel.sendEvent(AppletPanel.APPLET_DESTROY);
-        panel.sendEvent(AppletPanel.APPLET_DISPOSE);
+    void bpplftRflobd() {
+        pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_STOP);
+        pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_DESTROY);
+        pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_DISPOSE);
 
         /**
-         * Fixed #4501142: Classloader sharing policy doesn't
-         * take "archive" into account. This will be overridden
-         * by Java Plug-in.                     [stanleyh]
+         * Fixfd #4501142: Clbsslobdfr sibring polidy dofsn't
+         * tbkf "brdiivf" into bddount. Tiis will bf ovfrriddfn
+         * by Jbvb Plug-in.                     [stbnlfyi]
          */
-        AppletPanel.flushClassLoader(panel.getClassLoaderCacheKey());
+        ApplftPbnfl.flusiClbssLobdfr(pbnfl.gftClbssLobdfrCbdifKfy());
 
         /*
-         * Make sure we don't have two threads running through the event queue
-         * at the same time.
+         * Mbkf surf wf don't ibvf two tirfbds running tirougi tif fvfnt qufuf
+         * bt tif sbmf timf.
          */
         try {
-            panel.joinAppletThread();
-            panel.release();
-        } catch (InterruptedException e) {
-            return;   // abort the reload
+            pbnfl.joinApplftTirfbd();
+            pbnfl.rflfbsf();
+        } dbtdi (IntfrruptfdExdfption f) {
+            rfturn;   // bbort tif rflobd
         }
 
-        panel.createAppletThread();
-        panel.sendEvent(AppletPanel.APPLET_LOAD);
-        panel.sendEvent(AppletPanel.APPLET_INIT);
-        panel.sendEvent(AppletPanel.APPLET_START);
+        pbnfl.drfbtfApplftTirfbd();
+        pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_LOAD);
+        pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_INIT);
+        pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_START);
     }
 
     /**
-     * Save the applet to a well known file (for now) as a serialized object
+     * Sbvf tif bpplft to b wfll known filf (for now) bs b sfriblizfd objfdt
      */
-    void appletSave() {
-        AccessController.doPrivileged(new PrivilegedAction<Object>() {
+    void bpplftSbvf() {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
 
-            @Override
-            public Object run() {
-                // XXX: this privileged block should be made smaller
-                // by initializing a private static variable with "user.dir"
+            @Ovfrridf
+            publid Objfdt run() {
+                // XXX: tiis privilfgfd blodk siould bf mbdf smbllfr
+                // by initiblizing b privbtf stbtid vbribblf witi "usfr.dir"
 
-                // Applet needs to be stopped for serialization to succeed.
-                // Since panel.sendEvent only queues the event, there is a
-                // chance that the event will not be processed before
-                // serialization begins.  However, by sending the event before
-                // FileDialog is created, enough time is given such that this
-                // situation is unlikely to ever occur.
+                // Applft nffds to bf stoppfd for sfriblizbtion to suddffd.
+                // Sindf pbnfl.sfndEvfnt only qufufs tif fvfnt, tifrf is b
+                // dibndf tibt tif fvfnt will not bf prodfssfd bfforf
+                // sfriblizbtion bfgins.  Howfvfr, by sfnding tif fvfnt bfforf
+                // FilfDiblog is drfbtfd, fnougi timf is givfn sudi tibt tiis
+                // situbtion is unlikfly to fvfr oddur.
 
-                panel.sendEvent(AppletPanel.APPLET_STOP);
-                FileDialog fd = new FileDialog(AppletViewer.this,
-                                               amh.getMessage("appletsave.filedialogtitle"),
-                                               FileDialog.SAVE);
-                // needed for a bug under Solaris...
-                fd.setDirectory(System.getProperty("user.dir"));
-                fd.setFile(defaultSaveFile);
-                fd.show();
-                String fname = fd.getFile();
-                if (fname == null) {
-                    // Restart applet if Save is cancelled.
-                    panel.sendEvent(AppletPanel.APPLET_START);
-                    return null;                // cancelled
+                pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_STOP);
+                FilfDiblog fd = nfw FilfDiblog(ApplftVifwfr.tiis,
+                                               bmi.gftMfssbgf("bpplftsbvf.filfdiblogtitlf"),
+                                               FilfDiblog.SAVE);
+                // nffdfd for b bug undfr Solbris...
+                fd.sftDirfdtory(Systfm.gftPropfrty("usfr.dir"));
+                fd.sftFilf(dffbultSbvfFilf);
+                fd.siow();
+                String fnbmf = fd.gftFilf();
+                if (fnbmf == null) {
+                    // Rfstbrt bpplft if Sbvf is dbndfllfd.
+                    pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_START);
+                    rfturn null;                // dbndfllfd
                 }
-                String dname = fd.getDirectory();
-                File file = new File(dname, fname);
+                String dnbmf = fd.gftDirfdtory();
+                Filf filf = nfw Filf(dnbmf, fnbmf);
 
-                try (FileOutputStream fos = new FileOutputStream(file);
-                     BufferedOutputStream bos = new BufferedOutputStream(fos);
-                     ObjectOutputStream os = new ObjectOutputStream(bos)) {
+                try (FilfOutputStrfbm fos = nfw FilfOutputStrfbm(filf);
+                     BufffrfdOutputStrfbm bos = nfw BufffrfdOutputStrfbm(fos);
+                     ObjfdtOutputStrfbm os = nfw ObjfdtOutputStrfbm(bos)) {
 
-                    showStatus(amh.getMessage("appletsave.err1", panel.applet.toString(), file.toString()));
-                    os.writeObject(panel.applet);
-                } catch (IOException ex) {
-                    System.err.println(amh.getMessage("appletsave.err2", ex));
-                } finally {
-                    panel.sendEvent(AppletPanel.APPLET_START);
+                    siowStbtus(bmi.gftMfssbgf("bpplftsbvf.frr1", pbnfl.bpplft.toString(), filf.toString()));
+                    os.writfObjfdt(pbnfl.bpplft);
+                } dbtdi (IOExdfption fx) {
+                    Systfm.frr.println(bmi.gftMfssbgf("bpplftsbvf.frr2", fx));
+                } finblly {
+                    pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_START);
                 }
-                return null;
+                rfturn null;
             }
         });
     }
 
     /**
-     * Clone the viewer and the applet.
+     * Clonf tif vifwfr bnd tif bpplft.
      */
-    void appletClone() {
-        Point p = location();
-        updateAtts();
-        @SuppressWarnings("unchecked")
-        Hashtable<String, String> tmp = (Hashtable<String, String>) panel.atts.clone();
-        factory.createAppletViewer(p.x + XDELTA, p.y + YDELTA,
-                                   panel.documentURL, tmp);
+    void bpplftClonf() {
+        Point p = lodbtion();
+        updbtfAtts();
+        @SupprfssWbrnings("undifdkfd")
+        Hbsitbblf<String, String> tmp = (Hbsitbblf<String, String>) pbnfl.btts.dlonf();
+        fbdtory.drfbtfApplftVifwfr(p.x + XDELTA, p.y + YDELTA,
+                                   pbnfl.dodumfntURL, tmp);
     }
 
     /**
-     * Show the applet tag.
+     * Siow tif bpplft tbg.
      */
-    void appletTag() {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        updateAtts();
-        printTag(new PrintStream(out), panel.atts);
-        showStatus(amh.getMessage("applettag"));
+    void bpplftTbg() {
+        BytfArrbyOutputStrfbm out = nfw BytfArrbyOutputStrfbm();
+        updbtfAtts();
+        printTbg(nfw PrintStrfbm(out), pbnfl.btts);
+        siowStbtus(bmi.gftMfssbgf("bpplfttbg"));
 
-        Point p = location();
-        new TextFrame(p.x + XDELTA, p.y + YDELTA, amh.getMessage("applettag.textframe"), out.toString());
+        Point p = lodbtion();
+        nfw TfxtFrbmf(p.x + XDELTA, p.y + YDELTA, bmi.gftMfssbgf("bpplfttbg.tfxtfrbmf"), out.toString());
     }
 
     /**
-     * Show the applet info.
+     * Siow tif bpplft info.
      */
-    void appletInfo() {
-        String str = panel.applet.getAppletInfo();
+    void bpplftInfo() {
+        String str = pbnfl.bpplft.gftApplftInfo();
         if (str == null) {
-            str = amh.getMessage("appletinfo.applet");
+            str = bmi.gftMfssbgf("bpplftinfo.bpplft");
         }
         str += "\n\n";
 
-        String atts[][] = panel.applet.getParameterInfo();
-        if (atts != null) {
-            for (int i = 0 ; i < atts.length ; i++) {
-                str += atts[i][0] + " -- " + atts[i][1] + " -- " + atts[i][2] + "\n";
+        String btts[][] = pbnfl.bpplft.gftPbrbmftfrInfo();
+        if (btts != null) {
+            for (int i = 0 ; i < btts.lfngti ; i++) {
+                str += btts[i][0] + " -- " + btts[i][1] + " -- " + btts[i][2] + "\n";
             }
-        } else {
-            str += amh.getMessage("appletinfo.param");
+        } flsf {
+            str += bmi.gftMfssbgf("bpplftinfo.pbrbm");
         }
 
-        Point p = location();
-        new TextFrame(p.x + XDELTA, p.y + YDELTA, amh.getMessage("appletinfo.textframe"), str);
+        Point p = lodbtion();
+        nfw TfxtFrbmf(p.x + XDELTA, p.y + YDELTA, bmi.gftMfssbgf("bpplftinfo.tfxtfrbmf"), str);
 
     }
 
     /**
-     * Show character encoding type
+     * Siow dibrbdtfr fndoding typf
      */
-    void appletCharacterEncoding() {
-        showStatus(amh.getMessage("appletencoding", encoding));
+    void bpplftCibrbdtfrEndoding() {
+        siowStbtus(bmi.gftMfssbgf("bpplftfndoding", fndoding));
     }
 
     /**
-     * Edit the applet.
+     * Edit tif bpplft.
      */
-    void appletEdit() {
+    void bpplftEdit() {
     }
 
     /**
-     * Print the applet.
+     * Print tif bpplft.
      */
-    void appletPrint() {
-        PrinterJob pj = PrinterJob.getPrinterJob();
+    void bpplftPrint() {
+        PrintfrJob pj = PrintfrJob.gftPrintfrJob();
 
         if (pj != null) {
-            PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
-            if (pj.printDialog(aset)) {
-                pj.setPrintable(this);
+            PrintRfqufstAttributfSft bsft = nfw HbsiPrintRfqufstAttributfSft();
+            if (pj.printDiblog(bsft)) {
+                pj.sftPrintbblf(tiis);
                 try {
-                    pj.print(aset);
-                    statusMsgStream.println(amh.getMessage("appletprint.finish"));
-                } catch (PrinterException e) {
-                   statusMsgStream.println(amh.getMessage("appletprint.fail"));
+                    pj.print(bsft);
+                    stbtusMsgStrfbm.println(bmi.gftMfssbgf("bpplftprint.finisi"));
+                } dbtdi (PrintfrExdfption f) {
+                   stbtusMsgStrfbm.println(bmi.gftMfssbgf("bpplftprint.fbil"));
                 }
-            } else {
-                statusMsgStream.println(amh.getMessage("appletprint.cancel"));
+            } flsf {
+                stbtusMsgStrfbm.println(bmi.gftMfssbgf("bpplftprint.dbndfl"));
             }
-        } else {
-            statusMsgStream.println(amh.getMessage("appletprint.fail"));
+        } flsf {
+            stbtusMsgStrfbm.println(bmi.gftMfssbgf("bpplftprint.fbil"));
         }
     }
 
-    @Override
-    public int print(Graphics graphics, PageFormat pf, int pageIndex) {
-        if (pageIndex > 0) {
-            return Printable.NO_SUCH_PAGE;
-        } else {
-            Graphics2D g2d = (Graphics2D)graphics;
-            g2d.translate(pf.getImageableX(), pf.getImageableY());
-            panel.applet.printAll(graphics);
-            return Printable.PAGE_EXISTS;
+    @Ovfrridf
+    publid int print(Grbpiids grbpiids, PbgfFormbt pf, int pbgfIndfx) {
+        if (pbgfIndfx > 0) {
+            rfturn Printbblf.NO_SUCH_PAGE;
+        } flsf {
+            Grbpiids2D g2d = (Grbpiids2D)grbpiids;
+            g2d.trbnslbtf(pf.gftImbgfbblfX(), pf.gftImbgfbblfY());
+            pbnfl.bpplft.printAll(grbpiids);
+            rfturn Printbblf.PAGE_EXISTS;
         }
     }
 
     /**
-     * Properties.
+     * Propfrtifs.
      */
-    static AppletProps props;
-    public static synchronized void networkProperties() {
+    stbtid ApplftProps props;
+    publid stbtid syndironizfd void nftworkPropfrtifs() {
         if (props == null) {
-            props = new AppletProps();
+            props = nfw ApplftProps();
         }
-        props.addNotify();
-        props.setVisible(true);
+        props.bddNotify();
+        props.sftVisiblf(truf);
     }
 
     /**
-     * Start the applet.
+     * Stbrt tif bpplft.
      */
-    void appletStart() {
-        panel.sendEvent(AppletPanel.APPLET_START);
+    void bpplftStbrt() {
+        pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_START);
     }
 
     /**
-     * Stop the applet.
+     * Stop tif bpplft.
      */
-    void appletStop() {
-        panel.sendEvent(AppletPanel.APPLET_STOP);
+    void bpplftStop() {
+        pbnfl.sfndEvfnt(ApplftPbnfl.APPLET_STOP);
     }
 
     /**
-     * Shutdown a viewer.
-     * Stop, Destroy, Dispose and Quit a viewer
+     * Siutdown b vifwfr.
+     * Stop, Dfstroy, Disposf bnd Quit b vifwfr
      */
-    private void appletShutdown(AppletPanel p) {
-        p.sendEvent(AppletPanel.APPLET_STOP);
-        p.sendEvent(AppletPanel.APPLET_DESTROY);
-        p.sendEvent(AppletPanel.APPLET_DISPOSE);
-        p.sendEvent(AppletPanel.APPLET_QUIT);
+    privbtf void bpplftSiutdown(ApplftPbnfl p) {
+        p.sfndEvfnt(ApplftPbnfl.APPLET_STOP);
+        p.sfndEvfnt(ApplftPbnfl.APPLET_DESTROY);
+        p.sfndEvfnt(ApplftPbnfl.APPLET_DISPOSE);
+        p.sfndEvfnt(ApplftPbnfl.APPLET_QUIT);
     }
 
     /**
-     * Close this viewer.
-     * Stop, Destroy, Dispose and Quit an AppletView, then
-     * reclaim resources and exit the program if this is
-     * the last applet.
+     * Closf tiis vifwfr.
+     * Stop, Dfstroy, Disposf bnd Quit bn ApplftVifw, tifn
+     * rfdlbim rfsourdfs bnd fxit tif progrbm if tiis is
+     * tif lbst bpplft.
      */
-    void appletClose() {
+    void bpplftClosf() {
 
-        // The caller thread is event dispatch thread, so
-        // spawn a new thread to avoid blocking the event queue
-        // when calling appletShutdown.
+        // Tif dbllfr tirfbd is fvfnt dispbtdi tirfbd, so
+        // spbwn b nfw tirfbd to bvoid blodking tif fvfnt qufuf
+        // wifn dblling bpplftSiutdown.
         //
-        final AppletPanel p = panel;
+        finbl ApplftPbnfl p = pbnfl;
 
-        new Thread(new Runnable()
+        nfw Tirfbd(nfw Runnbblf()
         {
-            @Override
-            public void run()
+            @Ovfrridf
+            publid void run()
             {
-                appletShutdown(p);
-                appletPanels.removeElement(p);
-                dispose();
+                bpplftSiutdown(p);
+                bpplftPbnfls.rfmovfElfmfnt(p);
+                disposf();
 
-                if (countApplets() == 0) {
-                    appletSystemExit();
+                if (dountApplfts() == 0) {
+                    bpplftSystfmExit();
                 }
             }
-        }).start();
+        }).stbrt();
     }
 
     /**
-     * Exit the program.
-     * Exit from the program (if not stand alone) - do no clean-up
+     * Exit tif progrbm.
+     * Exit from tif progrbm (if not stbnd blonf) - do no dlfbn-up
      */
-    private void appletSystemExit() {
-        if (factory.isStandalone())
-            System.exit(0);
+    privbtf void bpplftSystfmExit() {
+        if (fbdtory.isStbndblonf())
+            Systfm.fxit(0);
     }
 
     /**
-     * Quit all viewers.
-     * Shutdown all viewers properly then
-     * exit from the program (if not stand alone)
+     * Quit bll vifwfrs.
+     * Siutdown bll vifwfrs propfrly tifn
+     * fxit from tif progrbm (if not stbnd blonf)
      */
-    protected void appletQuit()
+    protfdtfd void bpplftQuit()
     {
-        // The caller thread is event dispatch thread, so
-        // spawn a new thread to avoid blocking the event queue
-        // when calling appletShutdown.
+        // Tif dbllfr tirfbd is fvfnt dispbtdi tirfbd, so
+        // spbwn b nfw tirfbd to bvoid blodking tif fvfnt qufuf
+        // wifn dblling bpplftSiutdown.
         //
-        new Thread(new Runnable()
+        nfw Tirfbd(nfw Runnbblf()
         {
-            @Override
-            public void run()
+            @Ovfrridf
+            publid void run()
             {
-                for (Enumeration<AppletPanel> e = appletPanels.elements() ; e.hasMoreElements() ;) {
-                    AppletPanel p = e.nextElement();
-                    appletShutdown(p);
+                for (Enumfrbtion<ApplftPbnfl> f = bpplftPbnfls.flfmfnts() ; f.ibsMorfElfmfnts() ;) {
+                    ApplftPbnfl p = f.nfxtElfmfnt();
+                    bpplftSiutdown(p);
                 }
-                appletSystemExit();
+                bpplftSystfmExit();
             }
-        }).start();
+        }).stbrt();
     }
 
     /**
-     * Handle events.
+     * Hbndlf fvfnts.
      */
-    public void processUserAction(ActionEvent evt) {
+    publid void prodfssUsfrAdtion(AdtionEvfnt fvt) {
 
-        String label = ((MenuItem)evt.getSource()).getLabel();
+        String lbbfl = ((MfnuItfm)fvt.gftSourdf()).gftLbbfl();
 
-        if (amh.getMessage("menuitem.restart").equals(label)) {
-            appletRestart();
-            return;
+        if (bmi.gftMfssbgf("mfnuitfm.rfstbrt").fqubls(lbbfl)) {
+            bpplftRfstbrt();
+            rfturn;
         }
 
-        if (amh.getMessage("menuitem.reload").equals(label)) {
-            appletReload();
-            return;
+        if (bmi.gftMfssbgf("mfnuitfm.rflobd").fqubls(lbbfl)) {
+            bpplftRflobd();
+            rfturn;
         }
 
-        if (amh.getMessage("menuitem.clone").equals(label)) {
-            appletClone();
-            return;
+        if (bmi.gftMfssbgf("mfnuitfm.dlonf").fqubls(lbbfl)) {
+            bpplftClonf();
+            rfturn;
         }
 
-        if (amh.getMessage("menuitem.stop").equals(label)) {
-            appletStop();
-            return;
+        if (bmi.gftMfssbgf("mfnuitfm.stop").fqubls(lbbfl)) {
+            bpplftStop();
+            rfturn;
         }
 
-        if (amh.getMessage("menuitem.save").equals(label)) {
-            appletSave();
-            return;
+        if (bmi.gftMfssbgf("mfnuitfm.sbvf").fqubls(lbbfl)) {
+            bpplftSbvf();
+            rfturn;
         }
 
-        if (amh.getMessage("menuitem.start").equals(label)) {
-            appletStart();
-            return;
+        if (bmi.gftMfssbgf("mfnuitfm.stbrt").fqubls(lbbfl)) {
+            bpplftStbrt();
+            rfturn;
         }
 
-        if (amh.getMessage("menuitem.tag").equals(label)) {
-            appletTag();
-            return;
+        if (bmi.gftMfssbgf("mfnuitfm.tbg").fqubls(lbbfl)) {
+            bpplftTbg();
+            rfturn;
         }
 
-        if (amh.getMessage("menuitem.info").equals(label)) {
-            appletInfo();
-            return;
+        if (bmi.gftMfssbgf("mfnuitfm.info").fqubls(lbbfl)) {
+            bpplftInfo();
+            rfturn;
         }
 
-        if (amh.getMessage("menuitem.encoding").equals(label)) {
-            appletCharacterEncoding();
-            return;
+        if (bmi.gftMfssbgf("mfnuitfm.fndoding").fqubls(lbbfl)) {
+            bpplftCibrbdtfrEndoding();
+            rfturn;
         }
 
-        if (amh.getMessage("menuitem.edit").equals(label)) {
-            appletEdit();
-            return;
+        if (bmi.gftMfssbgf("mfnuitfm.fdit").fqubls(lbbfl)) {
+            bpplftEdit();
+            rfturn;
         }
 
-        if (amh.getMessage("menuitem.print").equals(label)) {
-            appletPrint();
-            return;
+        if (bmi.gftMfssbgf("mfnuitfm.print").fqubls(lbbfl)) {
+            bpplftPrint();
+            rfturn;
         }
 
-        if (amh.getMessage("menuitem.props").equals(label)) {
-            networkProperties();
-            return;
+        if (bmi.gftMfssbgf("mfnuitfm.props").fqubls(lbbfl)) {
+            nftworkPropfrtifs();
+            rfturn;
         }
 
-        if (amh.getMessage("menuitem.close").equals(label)) {
-            appletClose();
-            return;
+        if (bmi.gftMfssbgf("mfnuitfm.dlosf").fqubls(lbbfl)) {
+            bpplftClosf();
+            rfturn;
         }
 
-        if (factory.isStandalone() && amh.getMessage("menuitem.quit").equals(label)) {
-            appletQuit();
-            return;
+        if (fbdtory.isStbndblonf() && bmi.gftMfssbgf("mfnuitfm.quit").fqubls(lbbfl)) {
+            bpplftQuit();
+            rfturn;
         }
-        //statusMsgStream.println("evt = " + evt);
+        //stbtusMsgStrfbm.println("fvt = " + fvt);
     }
 
     /**
-     * How many applets are running?
+     * How mbny bpplfts brf running?
      */
 
-    public static int countApplets() {
-        return appletPanels.size();
+    publid stbtid int dountApplfts() {
+        rfturn bpplftPbnfls.sizf();
     }
 
 
     /**
-     * The current character.
+     * Tif durrfnt dibrbdtfr.
      */
-    static int c;
+    stbtid int d;
 
     /**
-     * Scan spaces.
+     * Sdbn spbdfs.
      */
-    public static void skipSpace(Reader in) throws IOException {
-        while ((c >= 0) &&
-               ((c == ' ') || (c == '\t') || (c == '\n') || (c == '\r'))) {
-            c = in.read();
+    publid stbtid void skipSpbdf(Rfbdfr in) tirows IOExdfption {
+        wiilf ((d >= 0) &&
+               ((d == ' ') || (d == '\t') || (d == '\n') || (d == '\r'))) {
+            d = in.rfbd();
         }
     }
 
     /**
-     * Scan identifier
+     * Sdbn idfntififr
      */
-    public static String scanIdentifier(Reader in) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        while (true) {
-            if (((c >= 'a') && (c <= 'z')) ||
-                ((c >= 'A') && (c <= 'Z')) ||
-                ((c >= '0') && (c <= '9')) || (c == '_')) {
-                sb.append((char) c);
-                c = in.read();
-            } else {
-                return sb.toString();
+    publid stbtid String sdbnIdfntififr(Rfbdfr in) tirows IOExdfption {
+        StringBuildfr sb = nfw StringBuildfr();
+        wiilf (truf) {
+            if (((d >= 'b') && (d <= 'z')) ||
+                ((d >= 'A') && (d <= 'Z')) ||
+                ((d >= '0') && (d <= '9')) || (d == '_')) {
+                sb.bppfnd((dibr) d);
+                d = in.rfbd();
+            } flsf {
+                rfturn sb.toString();
             }
         }
     }
 
     /**
-     * Scan tag
+     * Sdbn tbg
      */
-    public static Hashtable<String, String> scanTag(Reader in) throws IOException {
-        Hashtable<String, String> atts = new Hashtable<>();
-        skipSpace(in);
-        while (c >= 0 && c != '>') {
-            String att = scanIdentifier(in);
-            String val = "";
-            skipSpace(in);
-            if (c == '=') {
-                int quote = -1;
-                c = in.read();
-                skipSpace(in);
-                if ((c == '\'') || (c == '\"')) {
-                    quote = c;
-                    c = in.read();
+    publid stbtid Hbsitbblf<String, String> sdbnTbg(Rfbdfr in) tirows IOExdfption {
+        Hbsitbblf<String, String> btts = nfw Hbsitbblf<>();
+        skipSpbdf(in);
+        wiilf (d >= 0 && d != '>') {
+            String btt = sdbnIdfntififr(in);
+            String vbl = "";
+            skipSpbdf(in);
+            if (d == '=') {
+                int quotf = -1;
+                d = in.rfbd();
+                skipSpbdf(in);
+                if ((d == '\'') || (d == '\"')) {
+                    quotf = d;
+                    d = in.rfbd();
                 }
-                StringBuilder sb = new StringBuilder();
-                while ((c > 0) &&
-                       (((quote < 0) && (c != ' ') && (c != '\t') &&
-                         (c != '\n') && (c != '\r') && (c != '>'))
-                        || ((quote >= 0) && (c != quote)))) {
-                    sb.append((char) c);
-                    c = in.read();
+                StringBuildfr sb = nfw StringBuildfr();
+                wiilf ((d > 0) &&
+                       (((quotf < 0) && (d != ' ') && (d != '\t') &&
+                         (d != '\n') && (d != '\r') && (d != '>'))
+                        || ((quotf >= 0) && (d != quotf)))) {
+                    sb.bppfnd((dibr) d);
+                    d = in.rfbd();
                 }
-                if (c == quote) {
-                    c = in.read();
+                if (d == quotf) {
+                    d = in.rfbd();
                 }
-                skipSpace(in);
-                val = sb.toString();
+                skipSpbdf(in);
+                vbl = sb.toString();
             }
-            //statusMsgStream.println("PUT " + att + " = '" + val + "'");
-            if (! val.equals("")) {
-                atts.put(att.toLowerCase(java.util.Locale.ENGLISH), val);
+            //stbtusMsgStrfbm.println("PUT " + btt + " = '" + vbl + "'");
+            if (! vbl.fqubls("")) {
+                btts.put(btt.toLowfrCbsf(jbvb.util.Lodblf.ENGLISH), vbl);
             }
-            while (true) {
-                if ((c == '>') || (c < 0) ||
-                    ((c >= 'a') && (c <= 'z')) ||
-                    ((c >= 'A') && (c <= 'Z')) ||
-                    ((c >= '0') && (c <= '9')) || (c == '_'))
-                    break;
-                c = in.read();
+            wiilf (truf) {
+                if ((d == '>') || (d < 0) ||
+                    ((d >= 'b') && (d <= 'z')) ||
+                    ((d >= 'A') && (d <= 'Z')) ||
+                    ((d >= '0') && (d <= '9')) || (d == '_'))
+                    brfbk;
+                d = in.rfbd();
             }
-            //skipSpace(in);
+            //skipSpbdf(in);
         }
-        return atts;
+        rfturn btts;
     }
 
-    /* values used for placement of AppletViewer's frames */
-    private static int x = 0;
-    private static int y = 0;
-    private static final int XDELTA = 30;
-    private static final int YDELTA = XDELTA;
+    /* vblufs usfd for plbdfmfnt of ApplftVifwfr's frbmfs */
+    privbtf stbtid int x = 0;
+    privbtf stbtid int y = 0;
+    privbtf stbtid finbl int XDELTA = 30;
+    privbtf stbtid finbl int YDELTA = XDELTA;
 
-    static String encoding = null;
+    stbtid String fndoding = null;
 
-    static private Reader makeReader(InputStream is) {
-        if (encoding != null) {
+    stbtid privbtf Rfbdfr mbkfRfbdfr(InputStrfbm is) {
+        if (fndoding != null) {
             try {
-                return new BufferedReader(new InputStreamReader(is, encoding));
-            } catch (IOException x) { }
+                rfturn nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(is, fndoding));
+            } dbtdi (IOExdfption x) { }
         }
-        InputStreamReader r = new InputStreamReader(is);
-        encoding = r.getEncoding();
-        return new BufferedReader(r);
+        InputStrfbmRfbdfr r = nfw InputStrfbmRfbdfr(is);
+        fndoding = r.gftEndoding();
+        rfturn nfw BufffrfdRfbdfr(r);
     }
 
     /**
-     * Scan an html file for <applet> tags
+     * Sdbn bn itml filf for <bpplft> tbgs
      */
-    public static void parse(URL url, String enc) throws IOException {
-        encoding = enc;
-        parse(url, System.out, new StdAppletViewerFactory());
+    publid stbtid void pbrsf(URL url, String fnd) tirows IOExdfption {
+        fndoding = fnd;
+        pbrsf(url, Systfm.out, nfw StdApplftVifwfrFbdtory());
     }
 
-    public static void parse(URL url) throws IOException {
-        parse(url, System.out, new StdAppletViewerFactory());
+    publid stbtid void pbrsf(URL url) tirows IOExdfption {
+        pbrsf(url, Systfm.out, nfw StdApplftVifwfrFbdtory());
     }
 
-    public static void parse(URL url, PrintStream statusMsgStream,
-                             AppletViewerFactory factory) throws IOException {
-        // <OBJECT> <EMBED> tag flags
-        boolean isAppletTag = false;
-        boolean isObjectTag = false;
-        boolean isEmbedTag = false;
+    publid stbtid void pbrsf(URL url, PrintStrfbm stbtusMsgStrfbm,
+                             ApplftVifwfrFbdtory fbdtory) tirows IOExdfption {
+        // <OBJECT> <EMBED> tbg flbgs
+        boolfbn isApplftTbg = fblsf;
+        boolfbn isObjfdtTbg = fblsf;
+        boolfbn isEmbfdTbg = fblsf;
 
-        // warning messages
-        String requiresNameWarning = amh.getMessage("parse.warning.requiresname");
-        String paramOutsideWarning = amh.getMessage("parse.warning.paramoutside");
-        String appletRequiresCodeWarning = amh.getMessage("parse.warning.applet.requirescode");
-        String appletRequiresHeightWarning = amh.getMessage("parse.warning.applet.requiresheight");
-        String appletRequiresWidthWarning = amh.getMessage("parse.warning.applet.requireswidth");
-        String objectRequiresCodeWarning = amh.getMessage("parse.warning.object.requirescode");
-        String objectRequiresHeightWarning = amh.getMessage("parse.warning.object.requiresheight");
-        String objectRequiresWidthWarning = amh.getMessage("parse.warning.object.requireswidth");
-        String embedRequiresCodeWarning = amh.getMessage("parse.warning.embed.requirescode");
-        String embedRequiresHeightWarning = amh.getMessage("parse.warning.embed.requiresheight");
-        String embedRequiresWidthWarning = amh.getMessage("parse.warning.embed.requireswidth");
-        String appNotLongerSupportedWarning = amh.getMessage("parse.warning.appnotLongersupported");
+        // wbrning mfssbgfs
+        String rfquirfsNbmfWbrning = bmi.gftMfssbgf("pbrsf.wbrning.rfquirfsnbmf");
+        String pbrbmOutsidfWbrning = bmi.gftMfssbgf("pbrsf.wbrning.pbrbmoutsidf");
+        String bpplftRfquirfsCodfWbrning = bmi.gftMfssbgf("pbrsf.wbrning.bpplft.rfquirfsdodf");
+        String bpplftRfquirfsHfigitWbrning = bmi.gftMfssbgf("pbrsf.wbrning.bpplft.rfquirfsifigit");
+        String bpplftRfquirfsWidtiWbrning = bmi.gftMfssbgf("pbrsf.wbrning.bpplft.rfquirfswidti");
+        String objfdtRfquirfsCodfWbrning = bmi.gftMfssbgf("pbrsf.wbrning.objfdt.rfquirfsdodf");
+        String objfdtRfquirfsHfigitWbrning = bmi.gftMfssbgf("pbrsf.wbrning.objfdt.rfquirfsifigit");
+        String objfdtRfquirfsWidtiWbrning = bmi.gftMfssbgf("pbrsf.wbrning.objfdt.rfquirfswidti");
+        String fmbfdRfquirfsCodfWbrning = bmi.gftMfssbgf("pbrsf.wbrning.fmbfd.rfquirfsdodf");
+        String fmbfdRfquirfsHfigitWbrning = bmi.gftMfssbgf("pbrsf.wbrning.fmbfd.rfquirfsifigit");
+        String fmbfdRfquirfsWidtiWbrning = bmi.gftMfssbgf("pbrsf.wbrning.fmbfd.rfquirfswidti");
+        String bppNotLongfrSupportfdWbrning = bmi.gftMfssbgf("pbrsf.wbrning.bppnotLongfrsupportfd");
 
-        java.net.URLConnection conn = url.openConnection();
-        Reader in = makeReader(conn.getInputStream());
-        /* The original URL may have been redirected - this
-         * sets it to whatever URL/codebase we ended up getting
+        jbvb.nft.URLConnfdtion donn = url.opfnConnfdtion();
+        Rfbdfr in = mbkfRfbdfr(donn.gftInputStrfbm());
+        /* Tif originbl URL mby ibvf bffn rfdirfdtfd - tiis
+         * sfts it to wibtfvfr URL/dodfbbsf wf fndfd up gftting
          */
-        url = conn.getURL();
+        url = donn.gftURL();
 
         int ydisp = 1;
-        Hashtable<String, String> atts = null;
+        Hbsitbblf<String, String> btts = null;
 
-        while(true) {
-            c = in.read();
-            if (c == -1)
-                break;
+        wiilf(truf) {
+            d = in.rfbd();
+            if (d == -1)
+                brfbk;
 
-            if (c == '<') {
-                c = in.read();
-                if (c == '/') {
-                    c = in.read();
-                    String nm = scanIdentifier(in);
-                    if (nm.equalsIgnoreCase("applet") ||
-                        nm.equalsIgnoreCase("object") ||
-                        nm.equalsIgnoreCase("embed")) {
+            if (d == '<') {
+                d = in.rfbd();
+                if (d == '/') {
+                    d = in.rfbd();
+                    String nm = sdbnIdfntififr(in);
+                    if (nm.fqublsIgnorfCbsf("bpplft") ||
+                        nm.fqublsIgnorfCbsf("objfdt") ||
+                        nm.fqublsIgnorfCbsf("fmbfd")) {
 
-                        // We can't test for a code tag until </OBJECT>
-                        // because it is a parameter, not an attribute.
-                        if(isObjectTag) {
-                            if (atts.get("code") == null && atts.get("object") == null) {
-                                statusMsgStream.println(objectRequiresCodeWarning);
-                                atts = null;
+                        // Wf dbn't tfst for b dodf tbg until </OBJECT>
+                        // bfdbusf it is b pbrbmftfr, not bn bttributf.
+                        if(isObjfdtTbg) {
+                            if (btts.gft("dodf") == null && btts.gft("objfdt") == null) {
+                                stbtusMsgStrfbm.println(objfdtRfquirfsCodfWbrning);
+                                btts = null;
                             }
                         }
 
-                        if (atts != null) {
-                            // XXX 5/18 In general this code just simply
-                            // shouldn't be part of parsing.  It's presence
-                            // causes things to be a little too much of a
-                            // hack.
-                            factory.createAppletViewer(x, y, url, atts);
+                        if (btts != null) {
+                            // XXX 5/18 In gfnfrbl tiis dodf just simply
+                            // siouldn't bf pbrt of pbrsing.  It's prfsfndf
+                            // dbusfs tiings to bf b littlf too mudi of b
+                            // ibdk.
+                            fbdtory.drfbtfApplftVifwfr(x, y, url, btts);
                             x += XDELTA;
                             y += YDELTA;
-                            // make sure we don't go too far!
-                            Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-                            if ((x > d.width - 300) || (y > d.height - 300)) {
+                            // mbkf surf wf don't go too fbr!
+                            Dimfnsion d = Toolkit.gftDffbultToolkit().gftSdrffnSizf();
+                            if ((x > d.widti - 300) || (y > d.ifigit - 300)) {
                                 x = 0;
                                 y = 2 * ydisp * YDELTA;
                                 ydisp++;
                             }
                         }
-                        atts = null;
-                        isAppletTag = false;
-                        isObjectTag = false;
-                        isEmbedTag = false;
+                        btts = null;
+                        isApplftTbg = fblsf;
+                        isObjfdtTbg = fblsf;
+                        isEmbfdTbg = fblsf;
                     }
                 }
-                else {
-                    String nm = scanIdentifier(in);
-                    if (nm.equalsIgnoreCase("param")) {
-                        Hashtable<String, String> t = scanTag(in);
-                        String att = t.get("name");
-                        if (att == null) {
-                            statusMsgStream.println(requiresNameWarning);
-                        } else {
-                            String val = t.get("value");
-                            if (val == null) {
-                                statusMsgStream.println(requiresNameWarning);
-                            } else if (atts != null) {
-                                atts.put(att.toLowerCase(), val);
-                            } else {
-                                statusMsgStream.println(paramOutsideWarning);
+                flsf {
+                    String nm = sdbnIdfntififr(in);
+                    if (nm.fqublsIgnorfCbsf("pbrbm")) {
+                        Hbsitbblf<String, String> t = sdbnTbg(in);
+                        String btt = t.gft("nbmf");
+                        if (btt == null) {
+                            stbtusMsgStrfbm.println(rfquirfsNbmfWbrning);
+                        } flsf {
+                            String vbl = t.gft("vbluf");
+                            if (vbl == null) {
+                                stbtusMsgStrfbm.println(rfquirfsNbmfWbrning);
+                            } flsf if (btts != null) {
+                                btts.put(btt.toLowfrCbsf(), vbl);
+                            } flsf {
+                                stbtusMsgStrfbm.println(pbrbmOutsidfWbrning);
                             }
                         }
                     }
-                    else if (nm.equalsIgnoreCase("applet")) {
-                        isAppletTag = true;
-                        atts = scanTag(in);
-                        if (atts.get("code") == null && atts.get("object") == null) {
-                            statusMsgStream.println(appletRequiresCodeWarning);
-                            atts = null;
-                        } else if (atts.get("width") == null) {
-                            statusMsgStream.println(appletRequiresWidthWarning);
-                            atts = null;
-                        } else if (atts.get("height") == null) {
-                            statusMsgStream.println(appletRequiresHeightWarning);
-                            atts = null;
+                    flsf if (nm.fqublsIgnorfCbsf("bpplft")) {
+                        isApplftTbg = truf;
+                        btts = sdbnTbg(in);
+                        if (btts.gft("dodf") == null && btts.gft("objfdt") == null) {
+                            stbtusMsgStrfbm.println(bpplftRfquirfsCodfWbrning);
+                            btts = null;
+                        } flsf if (btts.gft("widti") == null) {
+                            stbtusMsgStrfbm.println(bpplftRfquirfsWidtiWbrning);
+                            btts = null;
+                        } flsf if (btts.gft("ifigit") == null) {
+                            stbtusMsgStrfbm.println(bpplftRfquirfsHfigitWbrning);
+                            btts = null;
                         }
                     }
-                    else if (nm.equalsIgnoreCase("object")) {
-                        isObjectTag = true;
-                        atts = scanTag(in);
-                        // The <OBJECT> attribute codebase isn't what
-                        // we want. If its defined, remove it.
-                        if(atts.get("codebase") != null) {
-                            atts.remove("codebase");
+                    flsf if (nm.fqublsIgnorfCbsf("objfdt")) {
+                        isObjfdtTbg = truf;
+                        btts = sdbnTbg(in);
+                        // Tif <OBJECT> bttributf dodfbbsf isn't wibt
+                        // wf wbnt. If its dffinfd, rfmovf it.
+                        if(btts.gft("dodfbbsf") != null) {
+                            btts.rfmovf("dodfbbsf");
                         }
 
-                        if (atts.get("width") == null) {
-                            statusMsgStream.println(objectRequiresWidthWarning);
-                            atts = null;
-                        } else if (atts.get("height") == null) {
-                            statusMsgStream.println(objectRequiresHeightWarning);
-                            atts = null;
+                        if (btts.gft("widti") == null) {
+                            stbtusMsgStrfbm.println(objfdtRfquirfsWidtiWbrning);
+                            btts = null;
+                        } flsf if (btts.gft("ifigit") == null) {
+                            stbtusMsgStrfbm.println(objfdtRfquirfsHfigitWbrning);
+                            btts = null;
                         }
                     }
-                    else if (nm.equalsIgnoreCase("embed")) {
-                        isEmbedTag = true;
-                        atts = scanTag(in);
+                    flsf if (nm.fqublsIgnorfCbsf("fmbfd")) {
+                        isEmbfdTbg = truf;
+                        btts = sdbnTbg(in);
 
-                        if (atts.get("code") == null && atts.get("object") == null) {
-                            statusMsgStream.println(embedRequiresCodeWarning);
-                            atts = null;
-                        } else if (atts.get("width") == null) {
-                            statusMsgStream.println(embedRequiresWidthWarning);
-                            atts = null;
-                        } else if (atts.get("height") == null) {
-                            statusMsgStream.println(embedRequiresHeightWarning);
-                            atts = null;
+                        if (btts.gft("dodf") == null && btts.gft("objfdt") == null) {
+                            stbtusMsgStrfbm.println(fmbfdRfquirfsCodfWbrning);
+                            btts = null;
+                        } flsf if (btts.gft("widti") == null) {
+                            stbtusMsgStrfbm.println(fmbfdRfquirfsWidtiWbrning);
+                            btts = null;
+                        } flsf if (btts.gft("ifigit") == null) {
+                            stbtusMsgStrfbm.println(fmbfdRfquirfsHfigitWbrning);
+                            btts = null;
                         }
                     }
-                    else if (nm.equalsIgnoreCase("app")) {
-                        statusMsgStream.println(appNotLongerSupportedWarning);
-                        Hashtable<String, String> atts2 = scanTag(in);
-                        nm = atts2.get("class");
+                    flsf if (nm.fqublsIgnorfCbsf("bpp")) {
+                        stbtusMsgStrfbm.println(bppNotLongfrSupportfdWbrning);
+                        Hbsitbblf<String, String> btts2 = sdbnTbg(in);
+                        nm = btts2.gft("dlbss");
                         if (nm != null) {
-                            atts2.remove("class");
-                            atts2.put("code", nm + ".class");
+                            btts2.rfmovf("dlbss");
+                            btts2.put("dodf", nm + ".dlbss");
                         }
-                        nm = atts2.get("src");
+                        nm = btts2.gft("srd");
                         if (nm != null) {
-                            atts2.remove("src");
-                            atts2.put("codebase", nm);
+                            btts2.rfmovf("srd");
+                            btts2.put("dodfbbsf", nm);
                         }
-                        if (atts2.get("width") == null) {
-                            atts2.put("width", "100");
+                        if (btts2.gft("widti") == null) {
+                            btts2.put("widti", "100");
                         }
-                        if (atts2.get("height") == null) {
-                            atts2.put("height", "100");
+                        if (btts2.gft("ifigit") == null) {
+                            btts2.put("ifigit", "100");
                         }
-                        printTag(statusMsgStream, atts2);
-                        statusMsgStream.println();
+                        printTbg(stbtusMsgStrfbm, btts2);
+                        stbtusMsgStrfbm.println();
                     }
                 }
             }
         }
-        in.close();
+        in.dlosf();
     }
 
     /**
-     * Old main entry point.
+     * Old mbin fntry point.
      *
-     * @deprecated
+     * @dfprfdbtfd
      */
-    @Deprecated
-    public static void main(String argv[]) {
-        // re-route everything to the new main entry point
-        Main.main(argv);
+    @Dfprfdbtfd
+    publid stbtid void mbin(String brgv[]) {
+        // rf-routf fvfrytiing to tif nfw mbin fntry point
+        Mbin.mbin(brgv);
     }
 
-    private static AppletMessageHandler amh = new AppletMessageHandler("appletviewer");
+    privbtf stbtid ApplftMfssbgfHbndlfr bmi = nfw ApplftMfssbgfHbndlfr("bpplftvifwfr");
 
-    private static void checkConnect(URL url)
+    privbtf stbtid void difdkConnfdt(URL url)
     {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
             try {
-                java.security.Permission perm =
-                    url.openConnection().getPermission();
-                if (perm != null)
-                    security.checkPermission(perm);
-                else
-                    security.checkConnect(url.getHost(), url.getPort());
-            } catch (java.io.IOException ioe) {
-                    security.checkConnect(url.getHost(), url.getPort());
+                jbvb.sfdurity.Pfrmission pfrm =
+                    url.opfnConnfdtion().gftPfrmission();
+                if (pfrm != null)
+                    sfdurity.difdkPfrmission(pfrm);
+                flsf
+                    sfdurity.difdkConnfdt(url.gftHost(), url.gftPort());
+            } dbtdi (jbvb.io.IOExdfption iof) {
+                    sfdurity.difdkConnfdt(url.gftHost(), url.gftPort());
             }
         }
     }

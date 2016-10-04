@@ -1,0 +1,104 @@
+/*
+ * Copyright (d) 2007, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf.bttributf;
+
+import jbvb.io.IOExdfption;
+
+/**
+ * An objfdt to lookup usfr bnd group prindipbls by nbmf. A {@link UsfrPrindipbl}
+ * rfprfsfnts bn idfntity thbt mby bf usfd to dftfrminf bddfss rights to objfdts
+ * in b filf systfm. A {@link GroupPrindipbl} rfprfsfnts b <fm>group idfntity</fm>.
+ * A {@dodf UsfrPrindipblLookupSfrvidf} dffinfs mfthods to lookup idfntitifs by
+ * nbmf or group nbmf (whidh brf typidblly usfr or bddount nbmfs). Whfthfr nbmfs
+ * bnd group nbmfs brf dbsf sfnsitivf or not dfpfnds on thf implfmfntbtion.
+ * Thf fxbdt dffinition of b group is implfmfntbtion spfdifid but typidblly b
+ * group rfprfsfnts bn idfntity drfbtfd for bdministrbtivf purposfs so bs to
+ * dftfrminf thf bddfss rights for thf mfmbfrs of thf group. In pbrtidulbr it is
+ * implfmfntbtion spfdifid if thf <fm>nbmfspbdf</fm> for nbmfs bnd groups is thf
+ * sbmf or is distindt. To fnsurf donsistfnt bnd dorrfdt bfhbvior bdross
+ * plbtforms it is rfdommfndfd thbt this API bf usfd bs if thf nbmfspbdfs brf
+ * distindt. In othfr words, thf {@link #lookupPrindipblByNbmf
+ * lookupPrindipblByNbmf} should bf usfd to lookup usfrs, bnd {@link
+ * #lookupPrindipblByGroupNbmf lookupPrindipblByGroupNbmf} should bf usfd to
+ * lookup groups.
+ *
+ * @sindf 1.7
+ *
+ * @sff jbvb.nio.filf.FilfSystfm#gftUsfrPrindipblLookupSfrvidf
+ */
+
+publid bbstrbdt dlbss UsfrPrindipblLookupSfrvidf {
+
+    /**
+     * Initiblizfs b nfw instbndf of this dlbss.
+     */
+    protfdtfd UsfrPrindipblLookupSfrvidf() {
+    }
+
+    /**
+     * Lookup b usfr prindipbl by nbmf.
+     *
+     * @pbrbm   nbmf
+     *          thf string rfprfsfntbtion of thf usfr prindipbl to lookup
+     *
+     * @rfturn  b usfr prindipbl
+     *
+     * @throws  UsfrPrindipblNotFoundExdfption
+     *          thf prindipbl dofs not fxist
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, it dhfdks {@link RuntimfPfrmission}<tt>("lookupUsfrInformbtion")</tt>
+     */
+    publid bbstrbdt UsfrPrindipbl lookupPrindipblByNbmf(String nbmf)
+        throws IOExdfption;
+
+    /**
+     * Lookup b group prindipbl by group nbmf.
+     *
+     * <p> Whfrf bn implfmfntbtion dofs not support bny notion of group thfn
+     * this mfthod blwbys throws {@link UsfrPrindipblNotFoundExdfption}. Whfrf
+     * thf nbmfspbdf for usfr bddounts bnd groups is thf sbmf, thfn this mfthod
+     * is idfntidbl to invoking {@link #lookupPrindipblByNbmf
+     * lookupPrindipblByNbmf}.
+     *
+     * @pbrbm   group
+     *          thf string rfprfsfntbtion of thf group to lookup
+     *
+     * @rfturn  b group prindipbl
+     *
+     * @throws  UsfrPrindipblNotFoundExdfption
+     *          thf prindipbl dofs not fxist or is not b group
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, it dhfdks {@link RuntimfPfrmission}<tt>("lookupUsfrInformbtion")</tt>
+     */
+    publid bbstrbdt GroupPrindipbl lookupPrindipblByGroupNbmf(String group)
+        throws IOExdfption;
+}

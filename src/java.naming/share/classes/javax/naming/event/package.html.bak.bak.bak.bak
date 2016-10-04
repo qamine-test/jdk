@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<html>
+<hfbd>
+<!--
+Copyright (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+</hfbd>
+<body bgdolor="whitf">
+
+Providfs support for fvfnt notifidbtion whfn bddfssing nbming bnd
+dirfdtory sfrvidfs.
+
+<p>
+This pbdkbgf dffinfs thf fvfnt notifidbtion opfrbtions of thf Jbvb Nbming
+bnd Dirfdtory Intfrfbdf<font sizf=-2><sup>TM</sup></font> (JNDI). &nbsp;
+JNDI providfs nbming bnd dirfdtory fundtionblity to bpplidbtions
+writtfn in thf Jbvb progrbmming lbngubgf.  It is dfsignfd to bf
+indfpfndfnt of bny spfdifid nbming or dirfdtory sfrvidf
+implfmfntbtion.  Thus b vbrifty of sfrvidfs--nfw, fmfrging, bnd
+blrfbdy dfployfd onfs--dbn bf bddfssfd in b dommon wby.
+
+<h4>Nbming Evfnts</h4>
+<p>
+This pbdkbgf dffinfs b <tt>NbmingEvfnt</tt> dlbss to rfprfsfnt bn fvfnt
+thbt is gfnfrbtfd by b nbming/dirfdtory sfrvidf.
+It blso dffinfs subintfrfbdfs of <tt>Contfxt</tt> bnd <tt>DirContfxt</tt>,
+dbllfd <tt>EvfntContfxt</tt> bnd <tt>EvfntDirContfxt</tt>,
+through whidh bpplidbtions dbn rfgistfr thfir intfrfst in fvfnts
+firfd by thf dontfxt.
+<p>
+<tt>NbmingEvfnt</tt> rfprfsfnts bn fvfnt thbt oddurs in b 
+nbming or dirfdtory sfrvidf. Thfrf brf two dbtfgorifs of nbming fvfnts:
+<ul>
+<li>Thosf thbt bfffdt thf nbmfspbdf (bdd/rfmovf/rfnbmf bn objfdt)
+<li>Thosf thbt bfffdt thf objfdts' dontfnts.
+</ul>
+Ebdh dbtfgory of fvfnts is hbndlfd by b dorrfsponding listfnfr:
+<tt>NbmfspbdfChbngfListfnfr</tt>, <tt>ObjfdtChbngfListfnfr</tt>.
+<p>
+An bpplidbtion, for fxbmplf, dbn rfgistfr its intfrfst in dhbngfs to
+objfdts in b dontfxt bs follows:
+<blodkquotf>
+<prf>
+EvfntContfxt srd = 
+    (EvfntContfxt)(nfw InitiblContfxt()).lookup("o=wiz,d=us");
+srd.bddNbmingListfnfr("ou=usfrs", EvfntContfxt.ONELEVEL_SCOPE,
+    nfw ChbngfHbndlfr());
+...
+dlbss ChbngfHbndlfr implfmfnts ObjfdtChbngfListfnfr {
+    publid void objfdtChbngfd(NbmingEvfnt fvt) {
+        Systfm.out.println(fvt.gftNfwBinding());
+    }
+    publid void nbmingExdfptionThrown(NbmingExdfptionEvfnt fvt) {
+        Systfm.out.println(fvt.gftExdfption());
+    }
+}
+</prf>
+</blodkquotf>
+
+<b nbmf=THREADING></b>
+<h4>Thrfbding Issufs</h4>
+
+Whfn bn fvfnt is dispbtdhfd to b listfnfr, thf listfnfr mfthod (sudh
+bs <tt>objfdtChbngfd()</tt>) mby bf fxfdutfd in b thrfbd othfr thbn thf
+onf in whidh thf dbll to <tt>bddNbmingListfnfr()</tt> wbs fxfdutfd.
+Thf dhoidf of whidh thrfbd to usf is mbdf by thf sfrvidf providfr.
+Whfn bn fvfnt is dispbtdhfd to multiplf listfnfrs, thf sfrvidf providfr
+mby dhoosf (bnd is gfnfrblly fndourbgfd) to fxfdutf thf listfnfr mfthods
+dondurrfntly in sfpbrbtf thrfbds.
+<p>
+Whfn b listfnfr instbndf invokfs <tt>NbmingEvfnt.gftEvfntContfxt()</tt>,
+it must tbkf into bddount thf possibility thbt othfr thrfbds will bf
+working with thbt dontfxt dondurrfntly.  Likfwisf, whfn b listfnfr is
+rfgistfrfd vib <tt>bddNbmingListfnfr()</tt>, thf rfgistfring thrfbd
+must tbkf into bddount thf likfly possibility thbt thf sfrvidf providfr
+will lbtfr invokf thf listfnfrs in nfwly-drfbtfd thrfbds.  As <tt>Contfxt</tt>
+instbndfs brf not gubrbntffd to bf thrfbd-sbff in gfnfrbl, bll dontfxt
+opfrbtions must bf syndhronizfd bs nffdfd.
+
+<h4>Exdfption Hbndling</h4>
+
+Whfn b listfnfr rfgistfrs for fvfnts with b dontfxt, thf dontfxt might
+nffd to do somf intfrnbl prodfssing in ordfr to dollfdt informbtion
+rfquirfd to gfnfrbtf thf fvfnts.  Thf dontfxt, for fxbmplf, might nffd
+to mbkf b rfqufst to thf sfrvfr to rfgistfr intfrfst in dhbngfs
+on thf sfrvfr thbt will fvfntublly bf trbnslbtfd into fvfnts.
+If bn fxdfption oddurs thbt prfvfnts informbtion bbout thf fvfnts from
+bfing dollfdtfd, thf listfnfr will nfvfr bf notififd of thf fvfnts.
+Whfn sudh bn fxdfption oddurs, b <tt>NbmingExdfptionEvfnt</tt> is
+firfd to notify thf listfnfr. Thf listfnfr's
+<tt>nbmingExdfptionThrown()</tt> mfthod is invokfd, bs shown in thf 
+sbmplf dodf bbovf,
+bnd thf listfnfr is butombtidblly dfrfgistfrfd.
+
+<h2>Pbdkbgf Spfdifidbtion</h2>
+
+
+Thf JNDI API Spfdifidbtion bnd rflbtfd dodumfnts dbn bf found in thf
+<b hrff="../../../../tfdhnotfs/guidfs/jndi/indfx.html">JNDI dodumfntbtion</b>.
+
+@sindf 1.3
+
+</body>
+</html>

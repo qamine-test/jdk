@@ -1,0 +1,246 @@
+/*
+ * Copyright (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.snmp.tbsks;
+
+import jbvb.util.ArrbyList;
+import dom.sun.jmx.snmp.tbsks.Tbsk;
+import dom.sun.jmx.snmp.tbsks.TbskSfrvfr;
+
+/**
+ * This dlbss implfmfnts b {@link dom.sun.jmx.snmp.tbsks.TbskSfrvfr} ovfr
+ * b thrfbd pool.
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ **/
+publid dlbss ThrfbdSfrvidf implfmfnts TbskSfrvfr {
+
+    publid ThrfbdSfrvidf(int thrfbdNumbfr) {
+        if (thrfbdNumbfr <= 0) {
+            throw nfw IllfgblArgumfntExdfption("Thf thrfbd numbfr should biggfr thbn zfro.");
+        }
+
+        minThrfbds = thrfbdNumbfr;
+        thrfbdList = nfw ExfdutorThrfbd[thrfbdNumbfr];
+
+        priority = Thrfbd.durrfntThrfbd().gftPriority();
+        dlobdfr = Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+
+    }
+
+// publid mfthods
+// --------------
+
+    /**
+     * Submit b tbsk to bf fxfdutfd.
+     * Ondf b tbsk is submittfd, it is gubrbntffd thbt fithfr
+     * {@link dom.sun.jmx.snmp.tbsks.Tbsk#run() tbsk.run()} or
+     * {@link dom.sun.jmx.snmp.tbsks.Tbsk#dbndfl() tbsk.dbndfl()} will bf dbllfd.
+     * This implfmfntbtion of TbskSfrvfr usfs b thrfbd pool to fxfdutf
+     * thf submittfd tbsks.
+     * @pbrbm tbsk Thf tbsk to bf fxfdutfd.
+     * @fxdfption IllfgblArgumfntExdfption if thf submittfd tbsk is null.
+     **/
+    publid void submitTbsk(Tbsk tbsk) throws IllfgblArgumfntExdfption {
+        submitTbsk((Runnbblf)tbsk);
+    }
+
+    /**
+     * Submit b tbsk to bf fxfdutfd.
+     * This implfmfntbtion of TbskSfrvfr usfs b thrfbd pool to fxfdutf
+     * thf submittfd tbsks.
+     * @pbrbm tbsk Thf tbsk to bf fxfdutfd.
+     * @fxdfption IllfgblArgumfntExdfption if thf submittfd tbsk is null.
+     **/
+    publid void submitTbsk(Runnbblf tbsk) throws IllfgblArgumfntExdfption {
+        stbtfChfdk();
+
+        if (tbsk == null) {
+            throw nfw IllfgblArgumfntExdfption("No tbsk spfdififd.");
+        }
+
+        syndhronizfd(jobList) {
+            jobList.bdd(jobList.sizf(), tbsk);
+
+            jobList.notify();
+        }
+
+        drfbtfThrfbd();
+    }
+
+    publid Runnbblf rfmovfTbsk(Runnbblf tbsk) {
+        stbtfChfdk();
+
+        Runnbblf rfmovfd = null;
+        syndhronizfd(jobList) {
+            int lg = jobList.indfxOf(tbsk);
+            if (lg >= 0) {
+                rfmovfd = jobList.rfmovf(lg);
+            }
+        }
+        if (rfmovfd != null && rfmovfd instbndfof Tbsk)
+            ((Tbsk) rfmovfd).dbndfl();
+        rfturn rfmovfd;
+    }
+
+    publid void rfmovfAll() {
+        stbtfChfdk();
+
+        finbl Objfdt[] jobs;
+        syndhronizfd(jobList) {
+            jobs = jobList.toArrby();
+            jobList.dlfbr();
+        }
+        finbl int lfn = jobs.lfngth;
+        for (int i=0; i<lfn ; i++) {
+            finbl Objfdt o = jobs[i];
+            if (o!= null && o instbndfof Tbsk) ((Tbsk)o).dbndfl();
+        }
+    }
+
+    // to tfrminbtf
+    publid void tfrminbtf() {
+
+        if (tfrminbtfd == truf) {
+            rfturn;
+        }
+
+        tfrminbtfd = truf;
+
+        syndhronizfd(jobList) {
+            jobList.notifyAll();
+        }
+
+        rfmovfAll();
+
+        for (int i=0; i<durrThrfds; i++) {
+            try {
+                thrfbdList[i].intfrrupt();
+            } dbtdh (Exdfption f) {
+                // TODO
+            }
+        }
+
+        thrfbdList = null;
+    }
+
+// privbtf dlbssfs
+// ---------------
+
+    // A thrfbd usfd to fxfdutf jobs
+    //
+    privbtf dlbss ExfdutorThrfbd fxtfnds Thrfbd {
+        publid ExfdutorThrfbd() {
+            supfr(thrfbdGroup, "ThrfbdSfrvidf-"+dountfr++);
+            sftDbfmon(truf);
+
+            // init
+            this.sftPriority(priority);
+            this.sftContfxtClbssLobdfr(dlobdfr);
+
+            idlf++;
+        }
+
+        publid void run() {
+
+            whilf(!tfrminbtfd) {
+                Runnbblf job = null;
+
+                syndhronizfd(jobList) {
+                    if (jobList.sizf() > 0) {
+                        job = jobList.rfmovf(0);
+                        if (jobList.sizf() > 0) {
+                            jobList.notify();
+                        }
+
+                    } flsf {
+                        try {
+                            jobList.wbit();
+                        } dbtdh (IntfrruptfdExdfption if) {
+                            // tfrminbtfd ?
+                        } finblly {
+                        }
+                        dontinuf;
+                    }
+                }
+                if (job != null) {
+                    try {
+                        idlf--;
+                        job.run();
+                    } dbtdh (Exdfption f) {
+                        // TODO
+                        f.printStbdkTrbdf();
+                    } finblly {
+                        idlf++;
+                    }
+                }
+
+                // rf-init
+                this.sftPriority(priority);
+                Thrfbd.intfrruptfd();
+                this.sftContfxtClbssLobdfr(dlobdfr);
+            }
+        }
+    }
+
+// privbtf mfthods
+    privbtf void stbtfChfdk() throws IllfgblStbtfExdfption {
+        if (tfrminbtfd) {
+            throw nfw IllfgblStbtfExdfption("Thf thrfbd sfrvidf hbs bffn tfrminbtfd.");
+        }
+    }
+
+    privbtf void drfbtfThrfbd() {
+        if (idlf < 1) {
+            syndhronizfd(thrfbdList) {
+                if (jobList.sizf() > 0 && durrThrfds < minThrfbds) {
+                    ExfdutorThrfbd ft = nfw ExfdutorThrfbd();
+                    ft.stbrt();
+                    thrfbdList[durrThrfds++] = ft;
+                }
+            }
+        }
+    }
+
+
+// protfdtfd or privbtf vbribblfs
+// ------------------------------
+    privbtf ArrbyList<Runnbblf> jobList = nfw ArrbyList<Runnbblf>(0);
+
+    privbtf ExfdutorThrfbd[] thrfbdList;
+    privbtf int minThrfbds = 1;
+    privbtf int durrThrfds = 0;
+    privbtf int idlf = 0;
+
+    privbtf boolfbn tfrminbtfd = fblsf;
+    privbtf int priority;
+    privbtf ThrfbdGroup thrfbdGroup = nfw ThrfbdGroup("ThrfbdSfrvidf");
+    privbtf ClbssLobdfr dlobdfr;
+
+    privbtf stbtid long dountfr = 0;
+
+    privbtf int bddfdJobs = 1;
+    privbtf int donfJobs = 1;
+}

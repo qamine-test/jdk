@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.management;
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
 
 /**
- * The management interface for the garbage collection of
- * the Java virtual machine.  Garbage collection is the process
- * that the Java virtual machine uses to find and reclaim unreachable
- * objects to free up memory space.  A garbage collector is one type of
- * {@link MemoryManagerMXBean memory manager}.
+ * Tif mbnbgfmfnt intfrfbdf for tif gbrbbgf dollfdtion of
+ * tif Jbvb virtubl mbdiinf.  Gbrbbgf dollfdtion is tif prodfss
+ * tibt tif Jbvb virtubl mbdiinf usfs to find bnd rfdlbim unrfbdibblf
+ * objfdts to frff up mfmory spbdf.  A gbrbbgf dollfdtor is onf typf of
+ * {@link MfmoryMbnbgfrMXBfbn mfmory mbnbgfr}.
  *
- * <p> A Java virtual machine may have one or more instances of
- * the implementation class of this interface.
- * An instance implementing this interface is
- * an <a href="ManagementFactory.html#MXBean">MXBean</a>
- * that can be obtained by calling
- * the {@link ManagementFactory#getGarbageCollectorMXBeans} method or
- * from the {@link ManagementFactory#getPlatformMBeanServer
- * platform <tt>MBeanServer</tt>} method.
+ * <p> A Jbvb virtubl mbdiinf mby ibvf onf or morf instbndfs of
+ * tif implfmfntbtion dlbss of tiis intfrfbdf.
+ * An instbndf implfmfnting tiis intfrfbdf is
+ * bn <b irff="MbnbgfmfntFbdtory.itml#MXBfbn">MXBfbn</b>
+ * tibt dbn bf obtbinfd by dblling
+ * tif {@link MbnbgfmfntFbdtory#gftGbrbbgfCollfdtorMXBfbns} mftiod or
+ * from tif {@link MbnbgfmfntFbdtory#gftPlbtformMBfbnSfrvfr
+ * plbtform <tt>MBfbnSfrvfr</tt>} mftiod.
  *
- * <p>The <tt>ObjectName</tt> for uniquely identifying the MXBean for
- * a garbage collector within an MBeanServer is:
- * <blockquote>
- *   {@link ManagementFactory#GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE
- *    <tt>java.lang:type=GarbageCollector</tt>}<tt>,name=</tt><i>collector's name</i>
- * </blockquote>
+ * <p>Tif <tt>ObjfdtNbmf</tt> for uniqufly idfntifying tif MXBfbn for
+ * b gbrbbgf dollfdtor witiin bn MBfbnSfrvfr is:
+ * <blodkquotf>
+ *   {@link MbnbgfmfntFbdtory#GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE
+ *    <tt>jbvb.lbng:typf=GbrbbgfCollfdtor</tt>}<tt>,nbmf=</tt><i>dollfdtor's nbmf</i>
+ * </blodkquotf>
  *
- * It can be obtained by calling the
- * {@link PlatformManagedObject#getObjectName} method.
+ * It dbn bf obtbinfd by dblling tif
+ * {@link PlbtformMbnbgfdObjfdt#gftObjfdtNbmf} mftiod.
  *
- * A platform usually includes additional platform-dependent information
- * specific to a garbage collection algorithm for monitoring.
+ * A plbtform usublly indludfs bdditionbl plbtform-dfpfndfnt informbtion
+ * spfdifid to b gbrbbgf dollfdtion blgoritim for monitoring.
  *
- * @see ManagementFactory#getPlatformMXBeans(Class)
- * @see MemoryMXBean
+ * @sff MbnbgfmfntFbdtory#gftPlbtformMXBfbns(Clbss)
+ * @sff MfmoryMXBfbn
  *
- * @see <a href="../../../javax/management/package-summary.html">
- *      JMX Specification.</a>
- * @see <a href="package-summary.html#examples">
- *      Ways to Access MXBeans</a>
+ * @sff <b irff="../../../jbvbx/mbnbgfmfnt/pbdkbgf-summbry.itml">
+ *      JMX Spfdifidbtion.</b>
+ * @sff <b irff="pbdkbgf-summbry.itml#fxbmplfs">
+ *      Wbys to Addfss MXBfbns</b>
  *
- * @author  Mandy Chung
- * @since   1.5
+ * @butior  Mbndy Ciung
+ * @sindf   1.5
  */
-public interface GarbageCollectorMXBean extends MemoryManagerMXBean {
+publid intfrfbdf GbrbbgfCollfdtorMXBfbn fxtfnds MfmoryMbnbgfrMXBfbn {
     /**
-     * Returns the total number of collections that have occurred.
-     * This method returns <tt>-1</tt> if the collection count is undefined for
-     * this collector.
+     * Rfturns tif totbl numbfr of dollfdtions tibt ibvf oddurrfd.
+     * Tiis mftiod rfturns <tt>-1</tt> if tif dollfdtion dount is undffinfd for
+     * tiis dollfdtor.
      *
-     * @return the total number of collections that have occurred.
+     * @rfturn tif totbl numbfr of dollfdtions tibt ibvf oddurrfd.
      */
-    public long getCollectionCount();
+    publid long gftCollfdtionCount();
 
     /**
-     * Returns the approximate accumulated collection elapsed time
-     * in milliseconds.  This method returns <tt>-1</tt> if the collection
-     * elapsed time is undefined for this collector.
+     * Rfturns tif bpproximbtf bddumulbtfd dollfdtion flbpsfd timf
+     * in millisfdonds.  Tiis mftiod rfturns <tt>-1</tt> if tif dollfdtion
+     * flbpsfd timf is undffinfd for tiis dollfdtor.
      * <p>
-     * The Java virtual machine implementation may use a high resolution
-     * timer to measure the elapsed time.  This method may return the
-     * same value even if the collection count has been incremented
-     * if the collection elapsed time is very short.
+     * Tif Jbvb virtubl mbdiinf implfmfntbtion mby usf b iigi rfsolution
+     * timfr to mfbsurf tif flbpsfd timf.  Tiis mftiod mby rfturn tif
+     * sbmf vbluf fvfn if tif dollfdtion dount ibs bffn indrfmfntfd
+     * if tif dollfdtion flbpsfd timf is vfry siort.
      *
-     * @return the approximate accumulated collection elapsed time
-     * in milliseconds.
+     * @rfturn tif bpproximbtf bddumulbtfd dollfdtion flbpsfd timf
+     * in millisfdonds.
      */
-    public long getCollectionTime();
+    publid long gftCollfdtionTimf();
 
 
 }

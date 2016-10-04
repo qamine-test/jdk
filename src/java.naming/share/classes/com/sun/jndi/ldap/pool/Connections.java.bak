@@ -1,387 +1,387 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap.pool;
+pbdkbgf dom.sun.jndi.ldbp.pool;
 
-import java.util.ArrayList; // JDK 1.2
-import java.util.List;
-import java.util.Iterator;
+import jbvb.util.ArrbyList; // JDK 1.2
+import jbvb.util.List;
+import jbvb.util.Itfrbtor;
 
-import java.lang.ref.Reference;
-import java.lang.ref.SoftReference;
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rff.SoftRfffrfndf;
 
-import javax.naming.NamingException;
-import javax.naming.InterruptedNamingException;
-import javax.naming.CommunicationException;
+import jbvbx.nbming.NbmingExdfption;
+import jbvbx.nbming.IntfrruptfdNbmingExdfption;
+import jbvbx.nbming.CommunidbtionExdfption;
 
 /**
- * Represents a list of PooledConnections (actually, ConnectionDescs) with the
- * same pool id.
- * The list starts out with an initial number of connections.
- * Additional PooledConnections are created lazily upon demand.
- * The list has a maximum size. When the number of connections
- * reaches the maximum size, a request for a PooledConnection blocks until
- * a connection is returned to the list. A maximum size of zero means that
- * there is no maximum: connection creation will be attempted when
- * no idle connection is available.
+ * Rfprfsfnts b list of PoolfdConnfdtions (bdtublly, ConnfdtionDfsds) witi tif
+ * sbmf pool id.
+ * Tif list stbrts out witi bn initibl numbfr of donnfdtions.
+ * Additionbl PoolfdConnfdtions brf drfbtfd lbzily upon dfmbnd.
+ * Tif list ibs b mbximum sizf. Wifn tif numbfr of donnfdtions
+ * rfbdifs tif mbximum sizf, b rfqufst for b PoolfdConnfdtion blodks until
+ * b donnfdtion is rfturnfd to tif list. A mbximum sizf of zfro mfbns tibt
+ * tifrf is no mbximum: donnfdtion drfbtion will bf bttfmptfd wifn
+ * no idlf donnfdtion is bvbilbblf.
  *
- * The list may also have a preferred size. If the current list size
- * is less than the preferred size, a request for a connection will result in
- * a PooledConnection being created (even if an idle connection is available).
- * If the current list size is greater than the preferred size,
- * a connection being returned to the list will be closed and removed from
- * the list. A preferred size of zero means that there is no preferred size:
- * connections are created only when no idle connection is available and
- * a connection being returned to the list is not closed. Regardless of the
- * preferred size, connection creation always observes the maximum size:
- * a connection won't be created if the list size is at or exceeds the
- * maximum size.
+ * Tif list mby blso ibvf b prfffrrfd sizf. If tif durrfnt list sizf
+ * is lfss tibn tif prfffrrfd sizf, b rfqufst for b donnfdtion will rfsult in
+ * b PoolfdConnfdtion bfing drfbtfd (fvfn if bn idlf donnfdtion is bvbilbblf).
+ * If tif durrfnt list sizf is grfbtfr tibn tif prfffrrfd sizf,
+ * b donnfdtion bfing rfturnfd to tif list will bf dlosfd bnd rfmovfd from
+ * tif list. A prfffrrfd sizf of zfro mfbns tibt tifrf is no prfffrrfd sizf:
+ * donnfdtions brf drfbtfd only wifn no idlf donnfdtion is bvbilbblf bnd
+ * b donnfdtion bfing rfturnfd to tif list is not dlosfd. Rfgbrdlfss of tif
+ * prfffrrfd sizf, donnfdtion drfbtion blwbys obsfrvfs tif mbximum sizf:
+ * b donnfdtion won't bf drfbtfd if tif list sizf is bt or fxdffds tif
+ * mbximum sizf.
  *
- * @author Rosanna Lee
+ * @butior Rosbnnb Lff
  */
 
-// Package private: accessed only by Pool
-final class Connections implements PoolCallback {
-    private static final boolean debug = Pool.debug;
-    private static final boolean trace =
-        com.sun.jndi.ldap.LdapPoolManager.trace;
-    private static final int DEFAULT_SIZE = 10;
+// Pbdkbgf privbtf: bddfssfd only by Pool
+finbl dlbss Connfdtions implfmfnts PoolCbllbbdk {
+    privbtf stbtid finbl boolfbn dfbug = Pool.dfbug;
+    privbtf stbtid finbl boolfbn trbdf =
+        dom.sun.jndi.ldbp.LdbpPoolMbnbgfr.trbdf;
+    privbtf stbtid finbl int DEFAULT_SIZE = 10;
 
-    final private int maxSize;
-    final private int prefSize;
-    final private List<ConnectionDesc> conns;
+    finbl privbtf int mbxSizf;
+    finbl privbtf int prffSizf;
+    finbl privbtf List<ConnfdtionDfsd> donns;
 
-    private boolean closed = false;   // Closed for business
-    private Reference<Object> ref; // maintains reference to id to prevent premature GC
+    privbtf boolfbn dlosfd = fblsf;   // Closfd for businfss
+    privbtf Rfffrfndf<Objfdt> rff; // mbintbins rfffrfndf to id to prfvfnt prfmbturf GC
 
     /**
-     * @param id the identity (connection request) of the connections in the list
-     * @param initSize the number of connections to create initially
-     * @param prefSize the preferred size of the pool. The pool will try
-     * to maintain a pool of this size by creating and closing connections
-     * as needed.
-     * @param maxSize the maximum size of the pool. The pool will not exceed
-     * this size. If the pool is at this size, a request for a connection
-     * will block until an idle connection is released to the pool or
-     * when one is removed.
-     * @param factory The factory responsible for creating a connection
+     * @pbrbm id tif idfntity (donnfdtion rfqufst) of tif donnfdtions in tif list
+     * @pbrbm initSizf tif numbfr of donnfdtions to drfbtf initiblly
+     * @pbrbm prffSizf tif prfffrrfd sizf of tif pool. Tif pool will try
+     * to mbintbin b pool of tiis sizf by drfbting bnd dlosing donnfdtions
+     * bs nffdfd.
+     * @pbrbm mbxSizf tif mbximum sizf of tif pool. Tif pool will not fxdffd
+     * tiis sizf. If tif pool is bt tiis sizf, b rfqufst for b donnfdtion
+     * will blodk until bn idlf donnfdtion is rflfbsfd to tif pool or
+     * wifn onf is rfmovfd.
+     * @pbrbm fbdtory Tif fbdtory rfsponsiblf for drfbting b donnfdtion
      */
-    Connections(Object id, int initSize, int prefSize, int maxSize,
-        PooledConnectionFactory factory) throws NamingException {
+    Connfdtions(Objfdt id, int initSizf, int prffSizf, int mbxSizf,
+        PoolfdConnfdtionFbdtory fbdtory) tirows NbmingExdfption {
 
-        this.maxSize = maxSize;
-        if (maxSize > 0) {
-            // prefSize and initSize cannot exceed specified maxSize
-            this.prefSize = Math.min(prefSize, maxSize);
-            initSize = Math.min(initSize, maxSize);
-        } else {
-            this.prefSize = prefSize;
+        tiis.mbxSizf = mbxSizf;
+        if (mbxSizf > 0) {
+            // prffSizf bnd initSizf dbnnot fxdffd spfdififd mbxSizf
+            tiis.prffSizf = Mbti.min(prffSizf, mbxSizf);
+            initSizf = Mbti.min(initSizf, mbxSizf);
+        } flsf {
+            tiis.prffSizf = prffSizf;
         }
-        conns = new ArrayList<>(maxSize > 0 ? maxSize : DEFAULT_SIZE);
+        donns = nfw ArrbyList<>(mbxSizf > 0 ? mbxSizf : DEFAULT_SIZE);
 
-        // Maintain soft ref to id so that this Connections' entry in
-        // Pool doesn't get GC'ed prematurely
-        ref = new SoftReference<>(id);
+        // Mbintbin soft rff to id so tibt tiis Connfdtions' fntry in
+        // Pool dofsn't gft GC'fd prfmbturfly
+        rff = nfw SoftRfffrfndf<>(id);
 
-        d("init size=", initSize);
-        d("max size=", maxSize);
-        d("preferred size=", prefSize);
+        d("init sizf=", initSizf);
+        d("mbx sizf=", mbxSizf);
+        d("prfffrrfd sizf=", prffSizf);
 
-        // Create initial connections
-        PooledConnection conn;
-        for (int i = 0; i < initSize; i++) {
-            conn = factory.createPooledConnection(this);
-            td("Create ", conn ,factory);
-            conns.add(new ConnectionDesc(conn)); // Add new idle conn to pool
+        // Crfbtf initibl donnfdtions
+        PoolfdConnfdtion donn;
+        for (int i = 0; i < initSizf; i++) {
+            donn = fbdtory.drfbtfPoolfdConnfdtion(tiis);
+            td("Crfbtf ", donn ,fbdtory);
+            donns.bdd(nfw ConnfdtionDfsd(donn)); // Add nfw idlf donn to pool
         }
     }
 
     /**
-     * Retrieves a PooledConnection from this list of connections.
-     * Use an existing one if one is idle, or create one if the list's
-     * max size hasn't been reached. If max size has been reached, wait
-     * for a PooledConnection to be returned, or one to be removed (thus
-     * not reaching the max size any longer).
+     * Rftrifvfs b PoolfdConnfdtion from tiis list of donnfdtions.
+     * Usf bn fxisting onf if onf is idlf, or drfbtf onf if tif list's
+     * mbx sizf ibsn't bffn rfbdifd. If mbx sizf ibs bffn rfbdifd, wbit
+     * for b PoolfdConnfdtion to bf rfturnfd, or onf to bf rfmovfd (tius
+     * not rfbdiing tif mbx sizf bny longfr).
      *
-     * @param timeout if > 0, msec to wait until connection is available
-     * @param factory creates the PooledConnection if one needs to be created
+     * @pbrbm timfout if > 0, msfd to wbit until donnfdtion is bvbilbblf
+     * @pbrbm fbdtory drfbtfs tif PoolfdConnfdtion if onf nffds to bf drfbtfd
      *
-     * @return A non-null PooledConnection
-     * @throws NamingException PooledConnection cannot be created, because this
-     * thread was interrupted while it waited for an available connection,
-     * or if it timed out while waiting, or the creation of a connection
-     * resulted in an error.
+     * @rfturn A non-null PoolfdConnfdtion
+     * @tirows NbmingExdfption PoolfdConnfdtion dbnnot bf drfbtfd, bfdbusf tiis
+     * tirfbd wbs intfrruptfd wiilf it wbitfd for bn bvbilbblf donnfdtion,
+     * or if it timfd out wiilf wbiting, or tif drfbtion of b donnfdtion
+     * rfsultfd in bn frror.
      */
-    synchronized PooledConnection get(long timeout,
-        PooledConnectionFactory factory) throws NamingException {
-        PooledConnection conn;
-        long start = (timeout > 0 ? System.currentTimeMillis() : 0);
-        long waittime = timeout;
+    syndironizfd PoolfdConnfdtion gft(long timfout,
+        PoolfdConnfdtionFbdtory fbdtory) tirows NbmingExdfption {
+        PoolfdConnfdtion donn;
+        long stbrt = (timfout > 0 ? Systfm.durrfntTimfMillis() : 0);
+        long wbittimf = timfout;
 
-        d("get(): before");
-        while ((conn = getOrCreateConnection(factory)) == null) {
-            if (timeout > 0 && waittime <= 0) {
-                throw new CommunicationException(
-                    "Timeout exceeded while waiting for a connection: " +
-                    timeout + "ms");
+        d("gft(): bfforf");
+        wiilf ((donn = gftOrCrfbtfConnfdtion(fbdtory)) == null) {
+            if (timfout > 0 && wbittimf <= 0) {
+                tirow nfw CommunidbtionExdfption(
+                    "Timfout fxdffdfd wiilf wbiting for b donnfdtion: " +
+                    timfout + "ms");
             }
             try {
-                d("get(): waiting");
-                if (waittime > 0) {
-                    wait(waittime);  // Wait until one is released or removed
-                } else {
-                    wait();
+                d("gft(): wbiting");
+                if (wbittimf > 0) {
+                    wbit(wbittimf);  // Wbit until onf is rflfbsfd or rfmovfd
+                } flsf {
+                    wbit();
                 }
-            } catch (InterruptedException e) {
-                throw new InterruptedNamingException(
-                    "Interrupted while waiting for a connection");
+            } dbtdi (IntfrruptfdExdfption f) {
+                tirow nfw IntfrruptfdNbmingExdfption(
+                    "Intfrruptfd wiilf wbiting for b donnfdtion");
             }
-            // Check whether we timed out
-            if (timeout > 0) {
-                long now = System.currentTimeMillis();
-                waittime = timeout - (now - start);
+            // Cifdk wiftifr wf timfd out
+            if (timfout > 0) {
+                long now = Systfm.durrfntTimfMillis();
+                wbittimf = timfout - (now - stbrt);
             }
         }
 
-        d("get(): after");
-        return conn;
+        d("gft(): bftfr");
+        rfturn donn;
     }
 
     /**
-     * Retrieves an idle connection from this list if one is available.
-     * If none is available, create a new one if maxSize hasn't been reached.
-     * If maxSize has been reached, return null.
-     * Always called from a synchronized method.
+     * Rftrifvfs bn idlf donnfdtion from tiis list if onf is bvbilbblf.
+     * If nonf is bvbilbblf, drfbtf b nfw onf if mbxSizf ibsn't bffn rfbdifd.
+     * If mbxSizf ibs bffn rfbdifd, rfturn null.
+     * Alwbys dbllfd from b syndironizfd mftiod.
      */
-    private PooledConnection getOrCreateConnection(
-        PooledConnectionFactory factory) throws NamingException {
+    privbtf PoolfdConnfdtion gftOrCrfbtfConnfdtion(
+        PoolfdConnfdtionFbdtory fbdtory) tirows NbmingExdfption {
 
-        int size = conns.size(); // Current number of idle/nonidle conns
-        PooledConnection conn = null;
+        int sizf = donns.sizf(); // Currfnt numbfr of idlf/nonidlf donns
+        PoolfdConnfdtion donn = null;
 
-        if (prefSize <= 0 || size >= prefSize) {
-            // If no prefSize specified, or list size already meets or
-            // exceeds prefSize, then first look for an idle connection
-            ConnectionDesc entry;
-            for (int i = 0; i < size; i++) {
-                entry = conns.get(i);
-                if ((conn = entry.tryUse()) != null) {
-                    d("get(): use ", conn);
-                    td("Use ", conn);
-                    return conn;
+        if (prffSizf <= 0 || sizf >= prffSizf) {
+            // If no prffSizf spfdififd, or list sizf blrfbdy mffts or
+            // fxdffds prffSizf, tifn first look for bn idlf donnfdtion
+            ConnfdtionDfsd fntry;
+            for (int i = 0; i < sizf; i++) {
+                fntry = donns.gft(i);
+                if ((donn = fntry.tryUsf()) != null) {
+                    d("gft(): usf ", donn);
+                    td("Usf ", donn);
+                    rfturn donn;
                 }
             }
         }
 
-        // Check if list size already at maxSize specified
-        if (maxSize > 0 && size >= maxSize) {
-            return null;   // List size is at limit; cannot create any more
+        // Cifdk if list sizf blrfbdy bt mbxSizf spfdififd
+        if (mbxSizf > 0 && sizf >= mbxSizf) {
+            rfturn null;   // List sizf is bt limit; dbnnot drfbtf bny morf
         }
 
-        conn = factory.createPooledConnection(this);
-        td("Create and use ", conn, factory);
-        conns.add(new ConnectionDesc(conn, true)); // Add new conn to pool
+        donn = fbdtory.drfbtfPoolfdConnfdtion(tiis);
+        td("Crfbtf bnd usf ", donn, fbdtory);
+        donns.bdd(nfw ConnfdtionDfsd(donn, truf)); // Add nfw donn to pool
 
-        return conn;
+        rfturn donn;
     }
 
     /**
-     * Releases connection back into list.
-     * If the list size is below prefSize, the connection may be reused.
-     * If the list size exceeds prefSize, then the connection is closed
-     * and removed from the list.
+     * Rflfbsfs donnfdtion bbdk into list.
+     * If tif list sizf is bflow prffSizf, tif donnfdtion mby bf rfusfd.
+     * If tif list sizf fxdffds prffSizf, tifn tif donnfdtion is dlosfd
+     * bnd rfmovfd from tif list.
      *
-     * public because implemented as part of PoolCallback.
+     * publid bfdbusf implfmfntfd bs pbrt of PoolCbllbbdk.
      */
-    public synchronized boolean releasePooledConnection(PooledConnection conn) {
-        ConnectionDesc entry;
-        int loc = conns.indexOf(entry=new ConnectionDesc(conn));
+    publid syndironizfd boolfbn rflfbsfPoolfdConnfdtion(PoolfdConnfdtion donn) {
+        ConnfdtionDfsd fntry;
+        int lod = donns.indfxOf(fntry=nfw ConnfdtionDfsd(donn));
 
-        d("release(): ", conn);
+        d("rflfbsf(): ", donn);
 
-        if (loc >= 0) {
-            // Found entry
+        if (lod >= 0) {
+            // Found fntry
 
-            if (closed || (prefSize > 0 && conns.size() > prefSize)) {
-                // If list size exceeds prefSize, close connection
+            if (dlosfd || (prffSizf > 0 && donns.sizf() > prffSizf)) {
+                // If list sizf fxdffds prffSizf, dlosf donnfdtion
 
-                d("release(): closing ", conn);
-                td("Close ", conn);
+                d("rflfbsf(): dlosing ", donn);
+                td("Closf ", donn);
 
-                // size must be >= 2 so don't worry about empty list
-                conns.remove(entry);
-                conn.closeConnection();
+                // sizf must bf >= 2 so don't worry bbout fmpty list
+                donns.rfmovf(fntry);
+                donn.dlosfConnfdtion();
 
-            } else {
-                d("release(): release ", conn);
-                td("Release ", conn);
+            } flsf {
+                d("rflfbsf(): rflfbsf ", donn);
+                td("Rflfbsf ", donn);
 
-                // Get ConnectionDesc from list to get correct state info
-                entry = conns.get(loc);
-                // Return connection to list, ready for reuse
-                entry.release();
+                // Gft ConnfdtionDfsd from list to gft dorrfdt stbtf info
+                fntry = donns.gft(lod);
+                // Rfturn donnfdtion to list, rfbdy for rfusf
+                fntry.rflfbsf();
             }
             notifyAll();
-            d("release(): notify");
-            return true;
-        } else {
-            return false;
+            d("rflfbsf(): notify");
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Removes PooledConnection from list of connections.
-     * The closing of the connection is separate from this method.
-     * This method is called usually when the caller encounters an error
-     * when using the connection and wants it removed from the pool.
+     * Rfmovfs PoolfdConnfdtion from list of donnfdtions.
+     * Tif dlosing of tif donnfdtion is sfpbrbtf from tiis mftiod.
+     * Tiis mftiod is dbllfd usublly wifn tif dbllfr fndountfrs bn frror
+     * wifn using tif donnfdtion bnd wbnts it rfmovfd from tif pool.
      *
-     * @return true if conn removed; false if it was not in pool
+     * @rfturn truf if donn rfmovfd; fblsf if it wbs not in pool
      *
-     * public because implemented as part of PoolCallback.
+     * publid bfdbusf implfmfntfd bs pbrt of PoolCbllbbdk.
      */
-    public synchronized boolean removePooledConnection(PooledConnection conn) {
-        if (conns.remove(new ConnectionDesc(conn))) {
-            d("remove(): ", conn);
+    publid syndironizfd boolfbn rfmovfPoolfdConnfdtion(PoolfdConnfdtion donn) {
+        if (donns.rfmovf(nfw ConnfdtionDfsd(donn))) {
+            d("rfmovf(): ", donn);
 
             notifyAll();
 
-            d("remove(): notify");
-            td("Remove ", conn);
+            d("rfmovf(): notify");
+            td("Rfmovf ", donn);
 
-            if (conns.isEmpty()) {
-                // Remove softref to make pool entry eligible for GC.
-                // Once ref has been removed, it cannot be reinstated.
-                ref = null;
+            if (donns.isEmpty()) {
+                // Rfmovf softrff to mbkf pool fntry fligiblf for GC.
+                // Ondf rff ibs bffn rfmovfd, it dbnnot bf rfinstbtfd.
+                rff = null;
             }
 
-            return true;
-        } else {
-            d("remove(): not found ", conn);
-            return false;
+            rfturn truf;
+        } flsf {
+            d("rfmovf(): not found ", donn);
+            rfturn fblsf;
         }
     }
 
     /**
-     * Goes through all entries in list, removes and closes ones that have been
-     * idle before threshold.
+     * Gofs tirougi bll fntrifs in list, rfmovfs bnd dlosfs onfs tibt ibvf bffn
+     * idlf bfforf tirfsiold.
      *
-     * @param threshold an entry idle since this time has expired.
-     * @return true if no more connections in list
+     * @pbrbm tirfsiold bn fntry idlf sindf tiis timf ibs fxpirfd.
+     * @rfturn truf if no morf donnfdtions in list
      */
-    synchronized boolean expire(long threshold) {
-        Iterator<ConnectionDesc> iter = conns.iterator();
-        ConnectionDesc entry;
-        while (iter.hasNext()) {
-            entry = iter.next();
-            if (entry.expire(threshold)) {
-                d("expire(): removing ", entry);
-                td("Expired ", entry);
+    syndironizfd boolfbn fxpirf(long tirfsiold) {
+        Itfrbtor<ConnfdtionDfsd> itfr = donns.itfrbtor();
+        ConnfdtionDfsd fntry;
+        wiilf (itfr.ibsNfxt()) {
+            fntry = itfr.nfxt();
+            if (fntry.fxpirf(tirfsiold)) {
+                d("fxpirf(): rfmoving ", fntry);
+                td("Expirfd ", fntry);
 
-                iter.remove();  // remove from pool
+                itfr.rfmovf();  // rfmovf from pool
 
-                // Don't need to call notify() because we're
-                // removing only idle connections. If there were
-                // idle connections, then there should be no waiters.
+                // Don't nffd to dbll notify() bfdbusf wf'rf
+                // rfmoving only idlf donnfdtions. If tifrf wfrf
+                // idlf donnfdtions, tifn tifrf siould bf no wbitfrs.
             }
         }
-        return conns.isEmpty();  // whether whole list has 'expired'
+        rfturn donns.isEmpty();  // wiftifr wiolf list ibs 'fxpirfd'
     }
 
     /**
-     * Called when this instance of Connections has been removed from Pool.
-     * This means that no one can get any pooled connections from this
-     * Connections any longer. Expire all idle connections as of 'now'
-     * and leave indicator so that any in-use connections will be closed upon
-     * their return.
+     * Cbllfd wifn tiis instbndf of Connfdtions ibs bffn rfmovfd from Pool.
+     * Tiis mfbns tibt no onf dbn gft bny poolfd donnfdtions from tiis
+     * Connfdtions bny longfr. Expirf bll idlf donnfdtions bs of 'now'
+     * bnd lfbvf indidbtor so tibt bny in-usf donnfdtions will bf dlosfd upon
+     * tifir rfturn.
      */
-    synchronized void close() {
-        expire(System.currentTimeMillis());     // Expire idle connections
-        closed = true;   // Close in-use connections when they are returned
+    syndironizfd void dlosf() {
+        fxpirf(Systfm.durrfntTimfMillis());     // Expirf idlf donnfdtions
+        dlosfd = truf;   // Closf in-usf donnfdtions wifn tify brf rfturnfd
     }
 
-    String getStats() {
-        int idle = 0;
+    String gftStbts() {
+        int idlf = 0;
         int busy = 0;
-        int expired = 0;
-        long use = 0;
-        int len;
+        int fxpirfd = 0;
+        long usf = 0;
+        int lfn;
 
-        synchronized (this) {
-            len = conns.size();
+        syndironizfd (tiis) {
+            lfn = donns.sizf();
 
-            ConnectionDesc entry;
-            for (int i = 0; i < len; i++) {
-                entry = conns.get(i);
-                use += entry.getUseCount();
-                switch (entry.getState()) {
-                case ConnectionDesc.BUSY:
+            ConnfdtionDfsd fntry;
+            for (int i = 0; i < lfn; i++) {
+                fntry = donns.gft(i);
+                usf += fntry.gftUsfCount();
+                switdi (fntry.gftStbtf()) {
+                dbsf ConnfdtionDfsd.BUSY:
                     ++busy;
-                    break;
-                case ConnectionDesc.IDLE:
-                    ++idle;
-                    break;
-                case ConnectionDesc.EXPIRED:
-                    ++expired;
+                    brfbk;
+                dbsf ConnfdtionDfsd.IDLE:
+                    ++idlf;
+                    brfbk;
+                dbsf ConnfdtionDfsd.EXPIRED:
+                    ++fxpirfd;
                 }
             }
         }
-        return "size=" + len + "; use=" + use + "; busy=" + busy
-            + "; idle=" + idle + "; expired=" + expired;
+        rfturn "sizf=" + lfn + "; usf=" + usf + "; busy=" + busy
+            + "; idlf=" + idlf + "; fxpirfd=" + fxpirfd;
     }
 
-    private void d(String msg, Object o1) {
-        if (debug) {
+    privbtf void d(String msg, Objfdt o1) {
+        if (dfbug) {
             d(msg + o1);
         }
     }
 
-    private void d(String msg, int i) {
-        if (debug) {
+    privbtf void d(String msg, int i) {
+        if (dfbug) {
             d(msg + i);
         }
     }
 
-    private void d(String msg) {
-        if (debug) {
-            System.err.println(this + "." + msg + "; size: " + conns.size());
+    privbtf void d(String msg) {
+        if (dfbug) {
+            Systfm.frr.println(tiis + "." + msg + "; sizf: " + donns.sizf());
         }
     }
 
-    private void td(String msg, Object o1, Object o2) {
-        if (trace) { // redo test to avoid object creation
+    privbtf void td(String msg, Objfdt o1, Objfdt o2) {
+        if (trbdf) { // rfdo tfst to bvoid objfdt drfbtion
             td(msg + o1 + "[" + o2 + "]");
         }
     }
-    private void td(String msg, Object o1) {
-        if (trace) { // redo test to avoid object creation
+    privbtf void td(String msg, Objfdt o1) {
+        if (trbdf) { // rfdo tfst to bvoid objfdt drfbtion
             td(msg + o1);
         }
     }
-    private void td(String msg) {
-        if (trace) {
-            System.err.println(msg);
+    privbtf void td(String msg) {
+        if (trbdf) {
+            Systfm.frr.println(msg);
         }
     }
 }

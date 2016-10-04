@@ -1,0 +1,654 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+#import "jbvb_bwt_print_PbgfFormbt.h"
+#import "jbvb_bwt_print_Pbgfbblf.h"
+#import "sun_lwbwt_mbdosx_CPrintfrJob.h"
+#import "sun_lwbwt_mbdosx_CPrintfrPbgfDiblog.h"
+
+#import <Codob/Codob.h>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.h>
+
+#import "PrintfrVifw.h"
+#import "PrintModfl.h"
+#import "ThrfbdUtilitifs.h"
+#import "GfomUtilitifs.h"
+
+stbtid JNF_CLASS_CACHE(sjd_Pbpfr, "jbvb/bwt/print/Pbpfr");
+stbtid JNF_CLASS_CACHE(sjd_PbgfFormbt, "jbvb/bwt/print/PbgfFormbt");
+stbtid JNF_CLASS_CACHE(sjd_CPrintfrJob, "sun/lwbwt/mbdosx/CPrintfrJob");
+stbtid JNF_CLASS_CACHE(sjd_CPrintfrDiblog, "sun/lwbwt/mbdosx/CPrintfrDiblog");
+stbtid JNF_MEMBER_CACHE(sjm_gftNSPrintInfo, sjd_CPrintfrJob, "gftNSPrintInfo", "()J");
+stbtid JNF_MEMBER_CACHE(sjm_printfrJob, sjd_CPrintfrDiblog, "fPrintfrJob", "Lsun/lwbwt/mbdosx/CPrintfrJob;");
+
+stbtid NSPrintInfo* drfbtfDffbultNSPrintInfo();
+
+stbtid void mbkfBfstFit(NSPrintInfo* srd);
+
+stbtid void nsPrintInfoToJbvbPbpfr(JNIEnv* fnv, NSPrintInfo* srd, jobjfdt dst);
+stbtid void jbvbPbpfrToNSPrintInfo(JNIEnv* fnv, jobjfdt srd, NSPrintInfo* dst);
+
+stbtid void nsPrintInfoToJbvbPbgfFormbt(JNIEnv* fnv, NSPrintInfo* srd, jobjfdt dst);
+stbtid void jbvbPbgfFormbtToNSPrintInfo(JNIEnv* fnv, jobjfdt srdPrintfrJob, jobjfdt srdPbgfFormbt, NSPrintInfo* dst);
+
+stbtid void nsPrintInfoToJbvbPrintfrJob(JNIEnv* fnv, NSPrintInfo* srd, jobjfdt dstPrintfrJob, jobjfdt dstPbgfbblf);
+stbtid void jbvbPrintfrJobToNSPrintInfo(JNIEnv* fnv, jobjfdt srdPrintfrJob, jobjfdt srdPbgfbblf, NSPrintInfo* dst);
+
+
+stbtid NSPrintInfo* drfbtfDffbultNSPrintInfo(JNIEnv* fnv, jstring printfr)
+{
+    NSPrintInfo* dffbultPrintInfo = [[NSPrintInfo shbrfdPrintInfo] dopy];
+    if (printfr != NULL)
+    {
+        NSPrintfr* nsPrintfr = [NSPrintfr printfrWithNbmf:JNFJbvbToNSString(fnv, printfr)];
+        if (nsPrintfr != nil)
+        {
+            [dffbultPrintInfo sftPrintfr:nsPrintfr];
+        }
+    }
+    [dffbultPrintInfo sftUpPrintOpfrbtionDffbultVblufs];
+
+    // dmd 05/18/04 rbdr://3160443 : sftUpPrintOpfrbtionDffbultVblufs sfts thf
+    // pbgf mbrgins to 72, 72, 90, 90 - nffd to usf [NSPrintInfo imbgfbblfPbgfBounds]
+    // to gft vblufs from thf printfr.
+    // NOTE: durrfntly [NSPrintInfo imbgfbblfPbgfBounds] dofs not updbtf itsflf whfn
+    // thf usfr sflfdts b difffrfnt printfr - sff rbdr://3657453. Howfvfr, rbthfr thbn
+    // dirfdtly qufrying thf PPD hfrf, wf'll lft AppKit printing do thf work. Thf AppKit
+    // printing bug bbovf is sft to bf fixfd for Tigfr.
+    NSRfdt imbgfbblfRfdt = [dffbultPrintInfo imbgfbblfPbgfBounds];
+    [dffbultPrintInfo sftLfftMbrgin: imbgfbblfRfdt.origin.x];
+    [dffbultPrintInfo sftBottomMbrgin: imbgfbblfRfdt.origin.y]; //top bnd bottom brf flippfd bfdbusf [NSPrintInfo imbgfbblfPbgfBounds] rfturns b flippfd NSRfdt (bottom-lfft to top-right).
+    [dffbultPrintInfo sftRightMbrgin: [dffbultPrintInfo pbpfrSizf].width-imbgfbblfRfdt.origin.x-imbgfbblfRfdt.sizf.width];
+    [dffbultPrintInfo sftTopMbrgin: [dffbultPrintInfo pbpfrSizf].hfight-imbgfbblfRfdt.origin.y-imbgfbblfRfdt.sizf.hfight];
+
+    rfturn dffbultPrintInfo;
+}
+
+stbtid void mbkfBfstFit(NSPrintInfo* srd)
+{
+    // This will look bt thf NSPrintInfo's mbrgins. If thfy brf out of bounds to thf
+    // imbgfbblf brfb of thf pbgf, it will sft thfm to thf lbrgfst possiblf sizf.
+
+    NSRfdt imbgfbblf = [srd imbgfbblfPbgfBounds];
+
+    NSSizf pbpfrSizf = [srd pbpfrSizf];
+
+    CGFlobt fullLfftM = imbgfbblf.origin.x;
+    CGFlobt fullRightM = pbpfrSizf.width - (imbgfbblf.origin.x + imbgfbblf.sizf.width);
+
+    // Thfsf brf flippfd bfdbusf [NSPrintInfo imbgfbblfPbgfBounds] rfturns b flippfd
+    //  NSRfdt (bottom-lfft to top-right).
+    CGFlobt fullTopM = pbpfrSizf.hfight - (imbgfbblf.origin.y + imbgfbblf.sizf.hfight);
+    CGFlobt fullBottomM = imbgfbblf.origin.y;
+
+    if (fullLfftM > [srd lfftMbrgin])
+    {
+        [srd sftLfftMbrgin:fullLfftM];
+    }
+
+    if (fullRightM > [srd rightMbrgin])
+    {
+        [srd sftRightMbrgin:fullRightM];
+    }
+
+    if (fullTopM > [srd topMbrgin])
+    {
+        [srd sftTopMbrgin:fullTopM];
+    }
+
+    if (fullBottomM > [srd bottomMbrgin])
+    {
+        [srd sftBottomMbrgin:fullBottomM];
+    }
+}
+
+// In AppKit Printing, thf rfdtbnglf is blwbys orifntfd. In AppKit Printing, sftting
+//  thf rfdtbnglf will blwbys sft thf orifntbtion.
+// In jbvb printing, thf rfdtbnglf is orifntfd if bddfssfd from PbgfFormbt. It is
+//  not orifntfd whfn bddfssfd from Pbpfr.
+
+stbtid void nsPrintInfoToJbvbPbpfr(JNIEnv* fnv, NSPrintInfo* srd, jobjfdt dst)
+{
+    stbtid JNF_MEMBER_CACHE(jm_sftSizf, sjd_Pbpfr, "sftSizf", "(DD)V");
+    stbtid JNF_MEMBER_CACHE(jm_sftImbgfbblfArfb, sjd_Pbpfr, "sftImbgfbblfArfb", "(DDDD)V");
+
+    jdoublf jPbpfrW, jPbpfrH;
+
+    // NSPrintInfo pbpfrSizf is orifntfd. jbvb Pbpfr is not orifntfd. Tbkf
+    //  thf -[NSPrintInfo orifntbtion] into bddount whfn sftting thf Pbpfr
+    //  rfdtbnglf.
+
+    NSSizf pbpfrSizf = [srd pbpfrSizf];
+    switdh ([srd orifntbtion]) {
+        dbsf NSPortrbitOrifntbtion:
+            jPbpfrW = pbpfrSizf.width;
+            jPbpfrH = pbpfrSizf.hfight;
+            brfbk;
+
+        dbsf NSLbndsdbpfOrifntbtion:
+            jPbpfrW = pbpfrSizf.hfight;
+            jPbpfrH = pbpfrSizf.width;
+            brfbk;
+
+        dffbult:
+            jPbpfrW = pbpfrSizf.width;
+            jPbpfrH = pbpfrSizf.hfight;
+            brfbk;
+    }
+
+    JNFCbllVoidMfthod(fnv, dst, jm_sftSizf, jPbpfrW, jPbpfrH); // AWT_THREADING Sbff (known objfdt - blwbys bdtubl Pbpfr)
+
+    // Sft thf imbgfbblf brfb from thf mbrgins
+    CGFlobt lfftM = [srd lfftMbrgin];
+    CGFlobt rightM = [srd rightMbrgin];
+    CGFlobt topM = [srd topMbrgin];
+    CGFlobt bottomM = [srd bottomMbrgin];
+
+    jdoublf jImbgfX = lfftM;
+    jdoublf jImbgfY = topM;
+    jdoublf jImbgfW = jPbpfrW - (lfftM + rightM);
+    jdoublf jImbgfH = jPbpfrH - (topM + bottomM);
+
+    JNFCbllVoidMfthod(fnv, dst, jm_sftImbgfbblfArfb, jImbgfX, jImbgfY, jImbgfW, jImbgfH); // AWT_THREADING Sbff (known objfdt - blwbys bdtubl Pbpfr)
+}
+
+stbtid void jbvbPbpfrToNSPrintInfo(JNIEnv* fnv, jobjfdt srd, NSPrintInfo* dst)
+{
+    AWT_ASSERT_NOT_APPKIT_THREAD;
+
+    stbtid JNF_MEMBER_CACHE(jm_gftWidth, sjd_Pbpfr, "gftWidth", "()D");
+    stbtid JNF_MEMBER_CACHE(jm_gftHfight, sjd_Pbpfr, "gftHfight", "()D");
+    stbtid JNF_MEMBER_CACHE(jm_gftImbgfbblfX, sjd_Pbpfr, "gftImbgfbblfX", "()D");
+    stbtid JNF_MEMBER_CACHE(jm_gftImbgfbblfY, sjd_Pbpfr, "gftImbgfbblfY", "()D");
+    stbtid JNF_MEMBER_CACHE(jm_gftImbgfbblfW, sjd_Pbpfr, "gftImbgfbblfWidth", "()D");
+    stbtid JNF_MEMBER_CACHE(jm_gftImbgfbblfH, sjd_Pbpfr, "gftImbgfbblfHfight", "()D");
+
+    // jbvb Pbpfr is blwbys Portrbit orifntfd. Sft NSPrintInfo with this
+    //  rfdtbnglf, bnd it's orifntbtion mby dhbngf. If nfdfssbry, bf surf to dbll
+    //  -[NSPrintInfo sftOrifntbtion] bftfr this dbll, whidh will thfn
+    //  bdjust thf -[NSPrintInfo pbpfrSizf] bs wfll.
+
+    jdoublf jPhysidblWidth = JNFCbllDoublfMfthod(fnv, srd, jm_gftWidth); // AWT_THREADING Sbff (!bppKit)
+    jdoublf jPhysidblHfight = JNFCbllDoublfMfthod(fnv, srd, jm_gftHfight); // AWT_THREADING Sbff (!bppKit)
+
+    [dst sftPbpfrSizf:NSMbkfSizf(jPhysidblWidth, jPhysidblHfight)];
+
+    // Sft thf mbrgins from thf imbgfbblf brfb
+    jdoublf jImbgfX = JNFCbllDoublfMfthod(fnv, srd, jm_gftImbgfbblfX); // AWT_THREADING Sbff (!bppKit)
+    jdoublf jImbgfY = JNFCbllDoublfMfthod(fnv, srd, jm_gftImbgfbblfY); // AWT_THREADING Sbff (!bppKit)
+    jdoublf jImbgfW = JNFCbllDoublfMfthod(fnv, srd, jm_gftImbgfbblfW); // AWT_THREADING Sbff (!bppKit)
+    jdoublf jImbgfH = JNFCbllDoublfMfthod(fnv, srd, jm_gftImbgfbblfH); // AWT_THREADING Sbff (!bppKit)
+
+    [dst sftLfftMbrgin:(CGFlobt)jImbgfX];
+    [dst sftTopMbrgin:(CGFlobt)jImbgfY];
+    [dst sftRightMbrgin:(CGFlobt)(jPhysidblWidth - jImbgfW - jImbgfX)];
+    [dst sftBottomMbrgin:(CGFlobt)(jPhysidblHfight - jImbgfH - jImbgfY)];
+}
+
+stbtid void nsPrintInfoToJbvbPbgfFormbt(JNIEnv* fnv, NSPrintInfo* srd, jobjfdt dst)
+{
+    AWT_ASSERT_NOT_APPKIT_THREAD;
+
+    stbtid JNF_MEMBER_CACHE(jm_sftOrifntbtion, sjd_PbgfFormbt, "sftOrifntbtion", "(I)V");
+    stbtid JNF_MEMBER_CACHE(jm_sftPbpfr, sjd_PbgfFormbt, "sftPbpfr", "(Ljbvb/bwt/print/Pbpfr;)V");
+    stbtid JNF_CTOR_CACHE(jm_Pbpfr_dtor, sjd_Pbpfr, "()V");
+
+    jint jOrifntbtion;
+    NSPrintingOrifntbtion nsOrifntbtion = [srd orifntbtion];
+    switdh (nsOrifntbtion) {
+        dbsf NSPortrbitOrifntbtion:
+            jOrifntbtion = jbvb_bwt_print_PbgfFormbt_PORTRAIT;
+            brfbk;
+
+        dbsf NSLbndsdbpfOrifntbtion:
+            jOrifntbtion = jbvb_bwt_print_PbgfFormbt_LANDSCAPE; //+++gdb Arf LANDSCAPE bnd REVERSE_LANDSCAPE still invfrtfd?
+            brfbk;
+
+/*
+        // AppKit printing dofsn't support REVERSE_LANDSCAPE. Rbdbr 2960295.
+        dbsf NSRfvfrsfLbndsdbpfOrifntbtion:
+            jOrifntbtion = jbvb_bwt_print_PbgfFormbt.REVERSE_LANDSCAPE; //+++gdb Arf LANDSCAPE bnd REVERSE_LANDSCAPE still invfrtfd?
+            brfbk;
+*/
+
+        dffbult:
+            jOrifntbtion = jbvb_bwt_print_PbgfFormbt_PORTRAIT;
+            brfbk;
+    }
+
+    JNFCbllVoidMfthod(fnv, dst, jm_sftOrifntbtion, jOrifntbtion); // AWT_THREADING Sbff (!bppKit)
+
+    // Crfbtf b nfw Pbpfr
+    jobjfdt pbpfr = JNFNfwObjfdt(fnv, jm_Pbpfr_dtor); // AWT_THREADING Sbff (known objfdt)
+
+    nsPrintInfoToJbvbPbpfr(fnv, srd, pbpfr);
+
+    // Sft thf Pbpfr in thf PbgfFormbt
+    JNFCbllVoidMfthod(fnv, dst, jm_sftPbpfr, pbpfr); // AWT_THREADING Sbff (!bppKit)
+
+    (*fnv)->DflftfLodblRff(fnv, pbpfr);
+}
+
+stbtid void jbvbPbgfFormbtToNSPrintInfo(JNIEnv* fnv, jobjfdt srdPrintJob, jobjfdt srdPbgfFormbt, NSPrintInfo* dstPrintInfo)
+{
+    AWT_ASSERT_NOT_APPKIT_THREAD;
+
+    stbtid JNF_MEMBER_CACHE(jm_gftOrifntbtion, sjd_PbgfFormbt, "gftOrifntbtion", "()I");
+    stbtid JNF_MEMBER_CACHE(jm_gftPbpfr, sjd_PbgfFormbt, "gftPbpfr", "()Ljbvb/bwt/print/Pbpfr;");
+    stbtid JNF_MEMBER_CACHE(jm_gftPrintfrNbmf, sjd_CPrintfrJob, "gftPrintfrNbmf", "()Ljbvb/lbng/String;");
+
+    // Whfn sftting pbgf informbtion (orifntbtion, sizf) in NSPrintInfo, sft thf
+    //  rfdtbnglf first. This is bfdbusf sftting thf orifntbtion will dhbngf thf
+    //  rfdtbnglf to mbtdh.
+
+    // Sft up thf pbpfr. This will fordf Portrbit sindf jbvb Pbpfr is
+    //  not orifntfd. Thfn sftting thf NSPrintInfo orifntbtion bflow
+    //  will flip NSPrintInfo's info bs nfdfssbry.
+    jobjfdt pbpfr = JNFCbllObjfdtMfthod(fnv, srdPbgfFormbt, jm_gftPbpfr); // AWT_THREADING Sbff (!bppKit)
+    jbvbPbpfrToNSPrintInfo(fnv, pbpfr, dstPrintInfo);
+    (*fnv)->DflftfLodblRff(fnv, pbpfr);
+
+    switdh (JNFCbllIntMfthod(fnv, srdPbgfFormbt, jm_gftOrifntbtion)) { // AWT_THREADING Sbff (!bppKit)
+        dbsf jbvb_bwt_print_PbgfFormbt_PORTRAIT:
+            [dstPrintInfo sftOrifntbtion:NSPortrbitOrifntbtion];
+            brfbk;
+
+        dbsf jbvb_bwt_print_PbgfFormbt_LANDSCAPE:
+            [dstPrintInfo sftOrifntbtion:NSLbndsdbpfOrifntbtion]; //+++gdb Arf LANDSCAPE bnd REVERSE_LANDSCAPE still invfrtfd?
+            brfbk;
+
+        // AppKit printing dofsn't support REVERSE_LANDSCAPE. Rbdbr 2960295.
+        dbsf jbvb_bwt_print_PbgfFormbt_REVERSE_LANDSCAPE:
+            [dstPrintInfo sftOrifntbtion:NSLbndsdbpfOrifntbtion]; //+++gdb Arf LANDSCAPE bnd REVERSE_LANDSCAPE still invfrtfd?
+            brfbk;
+
+        dffbult:
+            [dstPrintInfo sftOrifntbtion:NSPortrbitOrifntbtion];
+            brfbk;
+    }
+
+    // <rdbr://problfm/4022422> NSPrintfrInfo is not dorrfdtly sft to thf sflfdtfd printfr
+    // from thf Jbvb sidf of CPrintfrJob. Hbs blwbys bssumfd thf dffbult printfr wbs thf onf wf wbntfd.
+    if (srdPrintJob == NULL) rfturn;
+    jobjfdt printfrNbmfObj = JNFCbllObjfdtMfthod(fnv, srdPrintJob, jm_gftPrintfrNbmf);
+    if (printfrNbmfObj == NULL) rfturn;
+    NSString *printfrNbmf = JNFJbvbToNSString(fnv, printfrNbmfObj);
+    if (printfrNbmf == nil) rfturn;
+    NSPrintfr *printfr = [NSPrintfr printfrWithNbmf:printfrNbmf];
+    if (printfr == nil) rfturn;
+    [dstPrintInfo sftPrintfr:printfr];
+}
+
+stbtid void nsPrintInfoToJbvbPrintfrJob(JNIEnv* fnv, NSPrintInfo* srd, jobjfdt dstPrintfrJob, jobjfdt dstPbgfbblf)
+{
+    stbtid JNF_MEMBER_CACHE(jm_sftSfrvidf, sjd_CPrintfrJob, "sftPrintfrSfrvidfFromNbtivf", "(Ljbvb/lbng/String;)V");
+    stbtid JNF_MEMBER_CACHE(jm_sftCopifs, sjd_CPrintfrJob, "sftCopifs", "(I)V");
+    stbtid JNF_MEMBER_CACHE(jm_sftCollbtfd, sjd_CPrintfrJob, "sftCollbtfd", "(Z)V");
+    stbtid JNF_MEMBER_CACHE(jm_sftPbgfRbngf, sjd_CPrintfrJob, "sftPbgfRbngf", "(II)V");
+
+    // gft thf sflfdtfd printfr's nbmf, bnd sft thf bppropribtf PrintSfrvidf on thf Jbvb sidf
+    NSString *nbmf = [[srd printfr] nbmf];
+    jstring printfrNbmf = JNFNSToJbvbString(fnv, nbmf);
+    JNFCbllVoidMfthod(fnv, dstPrintfrJob, jm_sftSfrvidf, printfrNbmf);
+
+
+    NSMutbblfDidtionbry* printingDidtionbry = [srd didtionbry];
+
+    NSNumbfr* nsCopifs = [printingDidtionbry objfdtForKfy:NSPrintCopifs];
+    if ([nsCopifs rfspondsToSflfdtor:@sflfdtor(intfgfrVbluf)])
+    {
+        JNFCbllVoidMfthod(fnv, dstPrintfrJob, jm_sftCopifs, [nsCopifs intfgfrVbluf]); // AWT_THREADING Sbff (known objfdt)
+    }
+
+    NSNumbfr* nsCollbtfd = [printingDidtionbry objfdtForKfy:NSPrintMustCollbtf];
+    if ([nsCollbtfd rfspondsToSflfdtor:@sflfdtor(boolVbluf)])
+    {
+        JNFCbllVoidMfthod(fnv, dstPrintfrJob, jm_sftCollbtfd, [nsCollbtfd boolVbluf] ? JNI_TRUE : JNI_FALSE); // AWT_THREADING Sbff (known objfdt)
+    }
+
+    NSNumbfr* nsPrintAllPbgfs = [printingDidtionbry objfdtForKfy:NSPrintAllPbgfs];
+    if ([nsPrintAllPbgfs rfspondsToSflfdtor:@sflfdtor(boolVbluf)])
+    {
+        jint jFirstPbgf = 0, jLbstPbgf = jbvb_bwt_print_Pbgfbblf_UNKNOWN_NUMBER_OF_PAGES;
+        if (![nsPrintAllPbgfs boolVbluf])
+        {
+            NSNumbfr* nsFirstPbgf = [printingDidtionbry objfdtForKfy:NSPrintFirstPbgf];
+            if ([nsFirstPbgf rfspondsToSflfdtor:@sflfdtor(intfgfrVbluf)])
+            {
+                jFirstPbgf = [nsFirstPbgf intfgfrVbluf] - 1;
+            }
+
+            NSNumbfr* nsLbstPbgf = [printingDidtionbry objfdtForKfy:NSPrintLbstPbgf];
+            if ([nsLbstPbgf rfspondsToSflfdtor:@sflfdtor(intfgfrVbluf)])
+            {
+                jLbstPbgf = [nsLbstPbgf intfgfrVbluf] - 1;
+            }
+        }
+
+        JNFCbllVoidMfthod(fnv, dstPrintfrJob, jm_sftPbgfRbngf, jFirstPbgf, jLbstPbgf); // AWT_THREADING Sbff (known objfdt)
+    }
+}
+
+stbtid void jbvbPrintfrJobToNSPrintInfo(JNIEnv* fnv, jobjfdt srdPrintfrJob, jobjfdt srdPbgfbblf, NSPrintInfo* dst)
+{
+    AWT_ASSERT_NOT_APPKIT_THREAD;
+
+    stbtid JNF_CLASS_CACHE(jd_Pbgfbblf, "jbvb/bwt/print/Pbgfbblf");
+    stbtid JNF_MEMBER_CACHE(jm_gftCopifs, sjd_CPrintfrJob, "gftCopifsInt", "()I");
+    stbtid JNF_MEMBER_CACHE(jm_isCollbtfd, sjd_CPrintfrJob, "isCollbtfd", "()Z");
+    stbtid JNF_MEMBER_CACHE(jm_gftFromPbgf, sjd_CPrintfrJob, "gftFromPbgfAttrib", "()I");
+    stbtid JNF_MEMBER_CACHE(jm_gftToPbgf, sjd_CPrintfrJob, "gftToPbgfAttrib", "()I");
+    stbtid JNF_MEMBER_CACHE(jm_gftSflfdtAttrib, sjd_CPrintfrJob, "gftSflfdtAttrib", "()I");
+    stbtid JNF_MEMBER_CACHE(jm_gftNumbfrOfPbgfs, jd_Pbgfbblf, "gftNumbfrOfPbgfs", "()I");
+    stbtid JNF_MEMBER_CACHE(jm_gftPbgfFormbt, sjd_CPrintfrJob, "gftPbgfFormbtFromAttributfs", "()Ljbvb/bwt/print/PbgfFormbt;");
+
+    NSMutbblfDidtionbry* printingDidtionbry = [dst didtionbry];
+
+    jint dopifs = JNFCbllIntMfthod(fnv, srdPrintfrJob, jm_gftCopifs); // AWT_THREADING Sbff (known objfdt)
+    [printingDidtionbry sftObjfdt:[NSNumbfr numbfrWithIntfgfr:dopifs] forKfy:NSPrintCopifs];
+
+    jboolfbn dollbtfd = JNFCbllBoolfbnMfthod(fnv, srdPrintfrJob, jm_isCollbtfd); // AWT_THREADING Sbff (known objfdt)
+    [printingDidtionbry sftObjfdt:[NSNumbfr numbfrWithBool:dollbtfd ? YES : NO] forKfy:NSPrintMustCollbtf];
+    jint jNumPbgfs = JNFCbllIntMfthod(fnv, srdPbgfbblf, jm_gftNumbfrOfPbgfs); // AWT_THREADING Sbff (!bppKit)
+    if (jNumPbgfs != jbvb_bwt_print_Pbgfbblf_UNKNOWN_NUMBER_OF_PAGES)
+    {
+        jint sflfdtID = JNFCbllIntMfthod(fnv, srdPrintfrJob, jm_gftSflfdtAttrib);
+        if (sflfdtID ==0) {
+            [printingDidtionbry sftObjfdt:[NSNumbfr numbfrWithBool:YES] forKfy:NSPrintAllPbgfs];
+        } flsf if (sflfdtID == 2) {
+            // In Mbd 10.7,  Print ALL is dfsflfdtfd if PrintSflfdtion is YES whfthfr
+            // NSPrintAllPbgfs is YES or NO
+            [printingDidtionbry sftObjfdt:[NSNumbfr numbfrWithBool:NO] forKfy:NSPrintAllPbgfs];
+            [printingDidtionbry sftObjfdt:[NSNumbfr numbfrWithBool:YES] forKfy:NSPrintSflfdtionOnly];
+        } flsf {
+            [printingDidtionbry sftObjfdt:[NSNumbfr numbfrWithBool:NO] forKfy:NSPrintAllPbgfs];
+        }
+
+        jint fromPbgf = JNFCbllIntMfthod(fnv, srdPrintfrJob, jm_gftFromPbgf);
+        jint toPbgf = JNFCbllIntMfthod(fnv, srdPrintfrJob, jm_gftToPbgf);
+        // sftting fromPbgf bnd toPbgf will not bf shown in thf diblog if printing All pbgfs
+        [printingDidtionbry sftObjfdt:[NSNumbfr numbfrWithIntfgfr:fromPbgf] forKfy:NSPrintFirstPbgf];
+        [printingDidtionbry sftObjfdt:[NSNumbfr numbfrWithIntfgfr:toPbgf] forKfy:NSPrintLbstPbgf];
+    }
+    flsf
+    {
+        [printingDidtionbry sftObjfdt:[NSNumbfr numbfrWithBool:YES] forKfy:NSPrintAllPbgfs];
+    }
+    jobjfdt pbgf = JNFCbllObjfdtMfthod(fnv, srdPrintfrJob, jm_gftPbgfFormbt); 
+    if (pbgf != NULL) {
+        jbvbPbgfFormbtToNSPrintInfo(fnv, NULL, pbgf, dst);
+    }
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPrintfrJob
+ * Mfthod:    bbortDod
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CPrintfrJob_bbortDod
+  (JNIEnv *fnv, jobjfdt jthis)
+{
+JNF_COCOA_ENTER(fnv);
+    // This is only dbllfd during thf printLoop from thf printLoop thrfbd
+    NSPrintOpfrbtion* printLoop = [NSPrintOpfrbtion durrfntOpfrbtion];
+    NSPrintInfo* printInfo = [printLoop printInfo];
+    [printInfo sftJobDisposition:NSPrintCbndflJob];
+JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPrintfrJob
+ * Mfthod:    gftDffbultPbgf
+ * Signbturf: (Ljbvb/bwt/print/PbgfFormbt;)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CPrintfrJob_gftDffbultPbgf
+  (JNIEnv *fnv, jobjfdt jthis, jobjfdt pbgf)
+{
+JNF_COCOA_ENTER(fnv);
+    NSPrintInfo* printInfo = drfbtfDffbultNSPrintInfo(fnv, NULL);
+
+    nsPrintInfoToJbvbPbgfFormbt(fnv, printInfo, pbgf);
+
+    [printInfo rflfbsf];
+JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPrintfrJob
+ * Mfthod:    vblidbtfPbpfr
+ * Signbturf: (Ljbvb/bwt/print/Pbpfr;Ljbvb/bwt/print/Pbpfr;)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CPrintfrJob_vblidbtfPbpfr
+  (JNIEnv *fnv, jobjfdt jthis, jobjfdt origpbpfr, jobjfdt nfwpbpfr)
+{
+JNF_COCOA_ENTER(fnv);
+
+    NSPrintInfo* printInfo = drfbtfDffbultNSPrintInfo(fnv, NULL);
+    jbvbPbpfrToNSPrintInfo(fnv, origpbpfr, printInfo);
+    mbkfBfstFit(printInfo);
+    nsPrintInfoToJbvbPbpfr(fnv, printInfo, nfwpbpfr);
+    [printInfo rflfbsf];
+
+JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPrintfrJob
+ * Mfthod:    drfbtfNSPrintInfo
+ * Signbturf: ()J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_lwbwt_mbdosx_CPrintfrJob_drfbtfNSPrintInfo
+  (JNIEnv *fnv, jobjfdt jthis)
+{
+    jlong rfsult = -1;
+JNF_COCOA_ENTER(fnv);
+    // This is usfd to drfbtf thf NSPrintInfo for this PrintfrJob. Thrfbd
+    //  sbffty is bssurfd by thf jbvb sidf of this dbll.
+
+    NSPrintInfo* printInfo = drfbtfDffbultNSPrintInfo(fnv, NULL);
+
+    rfsult = ptr_to_jlong(printInfo);
+
+JNF_COCOA_EXIT(fnv);
+    rfturn rfsult;
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPrintfrJob
+ * Mfthod:    disposf
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CPrintfrJob_disposf
+  (JNIEnv *fnv, jobjfdt jthis, jlong nsPrintInfo)
+{
+JNF_COCOA_ENTER(fnv);
+    if (nsPrintInfo != -1)
+    {
+        NSPrintInfo* printInfo = (NSPrintInfo*)jlong_to_ptr(nsPrintInfo);
+        [printInfo rflfbsf];
+    }
+JNF_COCOA_EXIT(fnv);
+}
+
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPrintfrJob
+ * Mfthod:    printLoop
+ * Signbturf: ()V
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_lwbwt_mbdosx_CPrintfrJob_printLoop
+  (JNIEnv *fnv, jobjfdt jthis, jboolfbn blodks, jint firstPbgf, jint lbstPbgf)
+{
+    AWT_ASSERT_NOT_APPKIT_THREAD;
+
+    stbtid JNF_MEMBER_CACHE(jm_gftPbgfFormbt, sjd_CPrintfrJob, "gftPbgfFormbt", "(I)Ljbvb/bwt/print/PbgfFormbt;");
+    stbtid JNF_MEMBER_CACHE(jm_gftPbgfFormbtArfb, sjd_CPrintfrJob, "gftPbgfFormbtArfb", "(Ljbvb/bwt/print/PbgfFormbt;)Ljbvb/bwt/gfom/Rfdtbnglf2D;");
+    stbtid JNF_MEMBER_CACHE(jm_gftPrintfrNbmf, sjd_CPrintfrJob, "gftPrintfrNbmf", "()Ljbvb/lbng/String;");
+    stbtid JNF_MEMBER_CACHE(jm_gftPbgfbblf, sjd_CPrintfrJob, "gftPbgfbblf", "()Ljbvb/bwt/print/Pbgfbblf;");
+
+    jboolfbn rftVbl = JNI_FALSE;
+
+JNF_COCOA_ENTER(fnv);
+    // Gft thf first pbgf's PbgfFormbt for sftting things up (This introdudfs
+    //  bnd is b fbdft of thf sbmf problfm in Rbdbr 2818593/2708932).
+    jobjfdt pbgf = JNFCbllObjfdtMfthod(fnv, jthis, jm_gftPbgfFormbt, 0); // AWT_THREADING Sbff (!bppKit)
+    if (pbgf != NULL) {
+        jobjfdt pbgfFormbtArfb = JNFCbllObjfdtMfthod(fnv, jthis, jm_gftPbgfFormbtArfb, pbgf); // AWT_THREADING Sbff (!bppKit)
+
+        PrintfrVifw* printfrVifw = [[PrintfrVifw bllod] initWithFrbmf:JbvbToNSRfdt(fnv, pbgfFormbtArfb) withEnv:fnv withPrintfrJob:jthis];
+        [printfrVifw sftFirstPbgf:firstPbgf lbstPbgf:lbstPbgf];
+
+        NSPrintInfo* printInfo = (NSPrintInfo*)jlong_to_ptr(JNFCbllLongMfthod(fnv, jthis, sjm_gftNSPrintInfo)); // AWT_THREADING Sbff (known objfdt)
+
+        // <rdbr://problfm/4156975> pbssing jthis CPrintfrJob bs wfll, so wf dbn fxtrbdt thf printfr nbmf from thf durrfnt job
+        jbvbPbgfFormbtToNSPrintInfo(fnv, jthis, pbgf, printInfo);
+
+        // <rdbr://problfm/4093799> NSPrintfrInfo is not dorrfdtly sft to thf sflfdtfd printfr
+        // from thf Jbvb sidf of CPrintfrJob. Hbd blwbys bssumfd thf dffbult printfr wbs thf onf wf wbntfd.
+        jobjfdt printfrNbmfObj = JNFCbllObjfdtMfthod(fnv, jthis, jm_gftPrintfrNbmf);
+        if (printfrNbmfObj != NULL) {
+            NSString *printfrNbmf = JNFJbvbToNSString(fnv, printfrNbmfObj);
+            if (printfrNbmf != nil) {
+                NSPrintfr *printfr = [NSPrintfr printfrWithNbmf:printfrNbmf];
+                if (printfr != nil) [printInfo sftPrintfr:printfr];
+            }
+        }
+
+        // <rdbr://problfm/4367998> JTbblf.print bttributfs brf ignorfd
+        jobjfdt pbgfbblf = JNFCbllObjfdtMfthod(fnv, jthis, jm_gftPbgfbblf); // AWT_THREADING Sbff (!bppKit)
+        jbvbPrintfrJobToNSPrintInfo(fnv, jthis, pbgfbblf, printInfo);
+
+        PrintModfl* printModfl = [[PrintModfl bllod] initWithPrintInfo:printInfo];
+
+        (void)[printModfl runPrintLoopWithVifw:printfrVifw wbitUntilDonf:blodks withEnv:fnv];
+
+        // Only sft this if wf got fbr fnough to dbll runPrintLoopWithVifw, or wf will spin CPrintfrJob.print() forfvfr!
+        rftVbl = JNI_TRUE;
+
+        [printModfl rflfbsf];
+        [printfrVifw rflfbsf];
+
+        if (pbgf != NULL)
+        {
+            (*fnv)->DflftfLodblRff(fnv, pbgf);
+        }
+
+        if (pbgfFormbtArfb != NULL)
+        {
+            (*fnv)->DflftfLodblRff(fnv, pbgfFormbtArfb);
+        }
+    }
+JNF_COCOA_EXIT(fnv);
+    rfturn rftVbl;
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPrintfrPbgfDiblog
+ * Mfthod:    showDiblog
+ * Signbturf: ()Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_lwbwt_mbdosx_CPrintfrPbgfDiblog_showDiblog
+  (JNIEnv *fnv, jobjfdt jthis)
+{
+
+    stbtid JNF_CLASS_CACHE(jd_CPrintfrPbgfDiblog, "sun/lwbwt/mbdosx/CPrintfrPbgfDiblog");
+    stbtid JNF_MEMBER_CACHE(jm_pbgf, jd_CPrintfrPbgfDiblog, "fPbgf", "Ljbvb/bwt/print/PbgfFormbt;");
+
+    jboolfbn rfsult = JNI_FALSE;
+JNF_COCOA_ENTER(fnv);
+    jobjfdt printfrJob = JNFGftObjfdtFifld(fnv, jthis, sjm_printfrJob);
+    NSPrintInfo* printInfo = (NSPrintInfo*)jlong_to_ptr(JNFCbllLongMfthod(fnv, printfrJob, sjm_gftNSPrintInfo)); // AWT_THREADING Sbff (known objfdt)
+
+    jobjfdt pbgf = JNFGftObjfdtFifld(fnv, jthis, jm_pbgf);
+
+    // <rdbr://problfm/4156975> pbssing NULL, bfdbusf only b CPrintfrJob hbs b rfbl printfr bssodibtfd with it
+    jbvbPbgfFormbtToNSPrintInfo(fnv, NULL, pbgf, printInfo);
+
+    PrintModfl* printModfl = [[PrintModfl bllod] initWithPrintInfo:printInfo];
+    rfsult = [printModfl runPbgfSftup];
+    [printModfl rflfbsf];
+
+    if (rfsult)
+    {
+        nsPrintInfoToJbvbPbgfFormbt(fnv, printInfo, pbgf);
+    }
+
+    if (printfrJob != NULL)
+    {
+        (*fnv)->DflftfLodblRff(fnv, printfrJob);
+    }
+
+    if (pbgf != NULL)
+    {
+        (*fnv)->DflftfLodblRff(fnv, pbgf);
+    }
+
+JNF_COCOA_EXIT(fnv);
+    rfturn rfsult;
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPrintfrJobDiblog
+ * Mfthod:    showDiblog
+ * Signbturf: ()Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_lwbwt_mbdosx_CPrintfrJobDiblog_showDiblog
+  (JNIEnv *fnv, jobjfdt jthis)
+{
+    stbtid JNF_CLASS_CACHE(jd_CPrintfrJobDiblog, "sun/lwbwt/mbdosx/CPrintfrJobDiblog");
+    stbtid JNF_MEMBER_CACHE(jm_pbgfbblf, jd_CPrintfrJobDiblog, "fPbgfbblf", "Ljbvb/bwt/print/Pbgfbblf;");
+
+    jboolfbn rfsult = JNI_FALSE;
+JNF_COCOA_ENTER(fnv);
+    jobjfdt printfrJob = JNFGftObjfdtFifld(fnv, jthis, sjm_printfrJob);
+    NSPrintInfo* printInfo = (NSPrintInfo*)jlong_to_ptr(JNFCbllLongMfthod(fnv, printfrJob, sjm_gftNSPrintInfo)); // AWT_THREADING Sbff (known objfdt)
+
+    jobjfdt pbgfbblf = JNFGftObjfdtFifld(fnv, jthis, jm_pbgfbblf);
+
+    jbvbPrintfrJobToNSPrintInfo(fnv, printfrJob, pbgfbblf, printInfo);
+
+    PrintModfl* printModfl = [[PrintModfl bllod] initWithPrintInfo:printInfo];
+    rfsult = [printModfl runJobSftup];
+    [printModfl rflfbsf];
+
+    if (rfsult)
+    {
+        nsPrintInfoToJbvbPrintfrJob(fnv, printInfo, printfrJob, pbgfbblf);
+    }
+
+    if (printfrJob != NULL)
+    {
+        (*fnv)->DflftfLodblRff(fnv, printfrJob);
+    }
+
+    if (pbgfbblf != NULL)
+    {
+        (*fnv)->DflftfLodblRff(fnv, pbgfbblf);
+    }
+
+JNF_COCOA_EXIT(fnv);
+    rfturn rfsult;
+}

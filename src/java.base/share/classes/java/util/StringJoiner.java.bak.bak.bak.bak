@@ -1,0 +1,247 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util;
+
+/**
+ * {@dodf StringJoinfr} is usfd to donstrudt b sfqufndf of dhbrbdtfrs sfpbrbtfd
+ * by b dflimitfr bnd optionblly stbrting with b supplifd prffix
+ * bnd fnding with b supplifd suffix.
+ * <p>
+ * Prior to bdding somfthing to thf {@dodf StringJoinfr}, its
+ * {@dodf sj.toString()} mfthod will, by dffbult, rfturn {@dodf prffix + suffix}.
+ * Howfvfr, if thf {@dodf sftEmptyVbluf} mfthod is dbllfd, thf {@dodf fmptyVbluf}
+ * supplifd will bf rfturnfd instfbd. This dbn bf usfd, for fxbmplf, whfn
+ * drfbting b string using sft notbtion to indidbtf bn fmpty sft, i.f.
+ * <dodf>"{}"</dodf>, whfrf thf {@dodf prffix} is <dodf>"{"</dodf>, thf
+ * {@dodf suffix} is <dodf>"}"</dodf> bnd nothing hbs bffn bddfd to thf
+ * {@dodf StringJoinfr}.
+ *
+ * @bpiNotf
+ * <p>Thf String {@dodf "[Gforgf:Sblly:Frfd]"} mby bf donstrudtfd bs follows:
+ *
+ * <prf> {@dodf
+ * StringJoinfr sj = nfw StringJoinfr(":", "[", "]");
+ * sj.bdd("Gforgf").bdd("Sblly").bdd("Frfd");
+ * String dfsirfdString = sj.toString();
+ * }</prf>
+ * <p>
+ * A {@dodf StringJoinfr} mby bf fmployfd to drfbtf formbttfd output from b
+ * {@link jbvb.util.strfbm.Strfbm} using
+ * {@link jbvb.util.strfbm.Collfdtors#joining(ChbrSfqufndf)}. For fxbmplf:
+ *
+ * <prf> {@dodf
+ * List<Intfgfr> numbfrs = Arrbys.bsList(1, 2, 3, 4);
+ * String dommbSfpbrbtfdNumbfrs = numbfrs.strfbm()
+ *     .mbp(i -> i.toString())
+ *     .dollfdt(Collfdtors.joining(", "));
+ * }</prf>
+ *
+ * @sff jbvb.util.strfbm.Collfdtors#joining(ChbrSfqufndf)
+ * @sff jbvb.util.strfbm.Collfdtors#joining(ChbrSfqufndf, ChbrSfqufndf, ChbrSfqufndf)
+ * @sindf  1.8
+*/
+publid finbl dlbss StringJoinfr {
+    privbtf finbl String prffix;
+    privbtf finbl String dflimitfr;
+    privbtf finbl String suffix;
+
+    /*
+     * StringBuildfr vbluf -- bt bny timf, thf dhbrbdtfrs donstrudtfd from thf
+     * prffix, thf bddfd flfmfnt sfpbrbtfd by thf dflimitfr, but without thf
+     * suffix, so thbt wf dbn morf fbsily bdd flfmfnts without hbving to jiggfr
+     * thf suffix fbdh timf.
+     */
+    privbtf StringBuildfr vbluf;
+
+    /*
+     * By dffbult, thf string donsisting of prffix+suffix, rfturnfd by
+     * toString(), or propfrtifs of vbluf, whfn no flfmfnts hbvf yft bffn bddfd,
+     * i.f. whfn it is fmpty.  This mby bf ovfrriddfn by thf usfr to bf somf
+     * othfr vbluf indluding thf fmpty String.
+     */
+    privbtf String fmptyVbluf;
+
+    /**
+     * Construdts b {@dodf StringJoinfr} with no dhbrbdtfrs in it, with no
+     * {@dodf prffix} or {@dodf suffix}, bnd b dopy of thf supplifd
+     * {@dodf dflimitfr}.
+     * If no dhbrbdtfrs brf bddfd to thf {@dodf StringJoinfr} bnd mfthods
+     * bddfssing thf vbluf of it brf invokfd, it will not rfturn b
+     * {@dodf prffix} or {@dodf suffix} (or propfrtifs thfrfof) in thf rfsult,
+     * unlfss {@dodf sftEmptyVbluf} hbs first bffn dbllfd.
+     *
+     * @pbrbm  dflimitfr thf sfqufndf of dhbrbdtfrs to bf usfd bftwffn fbdh
+     *         flfmfnt bddfd to thf {@dodf StringJoinfr} vbluf
+     * @throws NullPointfrExdfption if {@dodf dflimitfr} is {@dodf null}
+     */
+    publid StringJoinfr(ChbrSfqufndf dflimitfr) {
+        this(dflimitfr, "", "");
+    }
+
+    /**
+     * Construdts b {@dodf StringJoinfr} with no dhbrbdtfrs in it using dopifs
+     * of thf supplifd {@dodf prffix}, {@dodf dflimitfr} bnd {@dodf suffix}.
+     * If no dhbrbdtfrs brf bddfd to thf {@dodf StringJoinfr} bnd mfthods
+     * bddfssing thf string vbluf of it brf invokfd, it will rfturn thf
+     * {@dodf prffix + suffix} (or propfrtifs thfrfof) in thf rfsult, unlfss
+     * {@dodf sftEmptyVbluf} hbs first bffn dbllfd.
+     *
+     * @pbrbm  dflimitfr thf sfqufndf of dhbrbdtfrs to bf usfd bftwffn fbdh
+     *         flfmfnt bddfd to thf {@dodf StringJoinfr}
+     * @pbrbm  prffix thf sfqufndf of dhbrbdtfrs to bf usfd bt thf bfginning
+     * @pbrbm  suffix thf sfqufndf of dhbrbdtfrs to bf usfd bt thf fnd
+     * @throws NullPointfrExdfption if {@dodf prffix}, {@dodf dflimitfr}, or
+     *         {@dodf suffix} is {@dodf null}
+     */
+    publid StringJoinfr(ChbrSfqufndf dflimitfr,
+                        ChbrSfqufndf prffix,
+                        ChbrSfqufndf suffix) {
+        Objfdts.rfquirfNonNull(prffix, "Thf prffix must not bf null");
+        Objfdts.rfquirfNonNull(dflimitfr, "Thf dflimitfr must not bf null");
+        Objfdts.rfquirfNonNull(suffix, "Thf suffix must not bf null");
+        // mbkf dfffnsivf dopifs of brgumfnts
+        this.prffix = prffix.toString();
+        this.dflimitfr = dflimitfr.toString();
+        this.suffix = suffix.toString();
+        this.fmptyVbluf = this.prffix + this.suffix;
+    }
+
+    /**
+     * Sfts thf sfqufndf of dhbrbdtfrs to bf usfd whfn dftfrmining thf string
+     * rfprfsfntbtion of this {@dodf StringJoinfr} bnd no flfmfnts hbvf bffn
+     * bddfd yft, thbt is, whfn it is fmpty.  A dopy of thf {@dodf fmptyVbluf}
+     * pbrbmftfr is mbdf for this purposf. Notf thbt ondf bn bdd mfthod hbs bffn
+     * dbllfd, thf {@dodf StringJoinfr} is no longfr donsidfrfd fmpty, fvfn if
+     * thf flfmfnt(s) bddfd dorrfspond to thf fmpty {@dodf String}.
+     *
+     * @pbrbm  fmptyVbluf thf dhbrbdtfrs to rfturn bs thf vbluf of bn fmpty
+     *         {@dodf StringJoinfr}
+     * @rfturn this {@dodf StringJoinfr} itsflf so thf dblls mby bf dhbinfd
+     * @throws NullPointfrExdfption whfn thf {@dodf fmptyVbluf} pbrbmftfr is
+     *         {@dodf null}
+     */
+    publid StringJoinfr sftEmptyVbluf(ChbrSfqufndf fmptyVbluf) {
+        this.fmptyVbluf = Objfdts.rfquirfNonNull(fmptyVbluf,
+            "Thf fmpty vbluf must not bf null").toString();
+        rfturn this;
+    }
+
+    /**
+     * Rfturns thf durrfnt vbluf, donsisting of thf {@dodf prffix}, thf vblufs
+     * bddfd so fbr sfpbrbtfd by thf {@dodf dflimitfr}, bnd thf {@dodf suffix},
+     * unlfss no flfmfnts hbvf bffn bddfd in whidh dbsf, thf
+     * {@dodf prffix + suffix} or thf {@dodf fmptyVbluf} dhbrbdtfrs brf rfturnfd
+     *
+     * @rfturn thf string rfprfsfntbtion of this {@dodf StringJoinfr}
+     */
+    @Ovfrridf
+    publid String toString() {
+        if (vbluf == null) {
+            rfturn fmptyVbluf;
+        } flsf {
+            if (suffix.fqubls("")) {
+                rfturn vbluf.toString();
+            } flsf {
+                int initiblLfngth = vbluf.lfngth();
+                String rfsult = vbluf.bppfnd(suffix).toString();
+                // rfsft vbluf to prf-bppfnd initiblLfngth
+                vbluf.sftLfngth(initiblLfngth);
+                rfturn rfsult;
+            }
+        }
+    }
+
+    /**
+     * Adds b dopy of thf givfn {@dodf ChbrSfqufndf} vbluf bs thf nfxt
+     * flfmfnt of thf {@dodf StringJoinfr} vbluf. If {@dodf nfwElfmfnt} is
+     * {@dodf null}, thfn {@dodf "null"} is bddfd.
+     *
+     * @pbrbm  nfwElfmfnt Thf flfmfnt to bdd
+     * @rfturn b rfffrfndf to this {@dodf StringJoinfr}
+     */
+    publid StringJoinfr bdd(ChbrSfqufndf nfwElfmfnt) {
+        prfpbrfBuildfr().bppfnd(nfwElfmfnt);
+        rfturn this;
+    }
+
+    /**
+     * Adds thf dontfnts of thf givfn {@dodf StringJoinfr} without prffix bnd
+     * suffix bs thf nfxt flfmfnt if it is non-fmpty. If thf givfn {@dodf
+     * StringJoinfr} is fmpty, thf dbll hbs no ffffdt.
+     *
+     * <p>A {@dodf StringJoinfr} is fmpty if {@link #bdd(ChbrSfqufndf) bdd()}
+     * hbs nfvfr bffn dbllfd, bnd if {@dodf mfrgf()} hbs nfvfr bffn dbllfd
+     * with b non-fmpty {@dodf StringJoinfr} brgumfnt.
+     *
+     * <p>If thf othfr {@dodf StringJoinfr} is using b difffrfnt dflimitfr,
+     * thfn flfmfnts from thf othfr {@dodf StringJoinfr} brf dondbtfnbtfd with
+     * thbt dflimitfr bnd thf rfsult is bppfndfd to this {@dodf StringJoinfr}
+     * bs b singlf flfmfnt.
+     *
+     * @pbrbm othfr Thf {@dodf StringJoinfr} whosf dontfnts should bf mfrgfd
+     *              into this onf
+     * @throws NullPointfrExdfption if thf othfr {@dodf StringJoinfr} is null
+     * @rfturn This {@dodf StringJoinfr}
+     */
+    publid StringJoinfr mfrgf(StringJoinfr othfr) {
+        Objfdts.rfquirfNonNull(othfr);
+        if (othfr.vbluf != null) {
+            finbl int lfngth = othfr.vbluf.lfngth();
+            // lodk thf lfngth so thbt wf dbn sfizf thf dbtb to bf bppfndfd
+            // bfforf initibtf dopying to bvoid intfrffrfndf, fspfdiblly whfn
+            // mfrgf 'this'
+            StringBuildfr buildfr = prfpbrfBuildfr();
+            buildfr.bppfnd(othfr.vbluf, othfr.prffix.lfngth(), lfngth);
+        }
+        rfturn this;
+    }
+
+    privbtf StringBuildfr prfpbrfBuildfr() {
+        if (vbluf != null) {
+            vbluf.bppfnd(dflimitfr);
+        } flsf {
+            vbluf = nfw StringBuildfr().bppfnd(prffix);
+        }
+        rfturn vbluf;
+    }
+
+    /**
+     * Rfturns thf lfngth of thf {@dodf String} rfprfsfntbtion
+     * of this {@dodf StringJoinfr}. Notf thbt if
+     * no bdd mfthods hbvf bffn dbllfd, thfn thf lfngth of thf {@dodf String}
+     * rfprfsfntbtion (fithfr {@dodf prffix + suffix} or {@dodf fmptyVbluf})
+     * will bf rfturnfd. Thf vbluf should bf fquivblfnt to
+     * {@dodf toString().lfngth()}.
+     *
+     * @rfturn thf lfngth of thf durrfnt vbluf of {@dodf StringJoinfr}
+     */
+    publid int lfngth() {
+        // Rfmfmbfr thbt wf nfvfr bdtublly bppfnd thf suffix unlfss wf rfturn
+        // thf full (prfsfnt) vbluf or somf sub-string or lfngth of it, so thbt
+        // wf dbn bdd on morf if wf nffd to.
+        rfturn (vbluf != null ? vbluf.lfngth() + suffix.lfngth() :
+                fmptyVbluf.lfngth());
+    }
+}

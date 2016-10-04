@@ -1,0 +1,144 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.io.*;
+import sun.sfdurity.util.*;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.sfdurity.AlgorithmPbrbmftfrsSpi;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.InvblidPbrbmftfrSpfdExdfption;
+import jbvbx.drypto.spfd.DHPbrbmftfrSpfd;
+
+/**
+ * This dlbss implfmfnts thf pbrbmftfr sft usfd by thf
+ * Diffif-Hfllmbn kfy bgrffmfnt bs dffinfd in thf PKCS #3 stbndbrd.
+ *
+ * @buthor Jbn Lufhf
+ *
+ */
+publid finbl dlbss DHPbrbmftfrs fxtfnds AlgorithmPbrbmftfrsSpi {
+
+    // Thf primf (p).
+    privbtf BigIntfgfr p = BigIntfgfr.ZERO;
+
+    // Thf bbsf (g).
+    privbtf BigIntfgfr g = BigIntfgfr.ZERO;
+
+    // Thf privbtf-vbluf lfngth (l)
+    privbtf int l = 0;
+
+    protfdtfd void fnginfInit(AlgorithmPbrbmftfrSpfd pbrbmSpfd)
+        throws InvblidPbrbmftfrSpfdExdfption {
+            if (!(pbrbmSpfd instbndfof DHPbrbmftfrSpfd)) {
+                throw nfw InvblidPbrbmftfrSpfdExdfption
+                    ("Inbppropribtf pbrbmftfr spfdifidbtion");
+            }
+            this.p = ((DHPbrbmftfrSpfd)pbrbmSpfd).gftP();
+            this.g = ((DHPbrbmftfrSpfd)pbrbmSpfd).gftG();
+            this.l = ((DHPbrbmftfrSpfd)pbrbmSpfd).gftL();
+    }
+
+    protfdtfd void fnginfInit(bytf[] pbrbms) throws IOExdfption {
+        try {
+            DfrVbluf fndodfdPbrbms = nfw DfrVbluf(pbrbms);
+
+            if (fndodfdPbrbms.tbg != DfrVbluf.tbg_Sfqufndf) {
+                throw nfw IOExdfption("DH pbrbms pbrsing frror");
+            }
+
+            fndodfdPbrbms.dbtb.rfsft();
+
+            this.p = fndodfdPbrbms.dbtb.gftBigIntfgfr();
+            this.g = fndodfdPbrbms.dbtb.gftBigIntfgfr();
+
+            // Privbtf-vbluf lfngth is OPTIONAL
+            if (fndodfdPbrbms.dbtb.bvbilbblf() != 0) {
+                this.l = fndodfdPbrbms.dbtb.gftIntfgfr();
+            }
+
+            if (fndodfdPbrbms.dbtb.bvbilbblf() != 0) {
+                throw nfw IOExdfption
+                    ("DH pbrbmftfr pbrsing frror: Extrb dbtb");
+            }
+        } dbtdh (NumbfrFormbtExdfption f) {
+            throw nfw IOExdfption("Privbtf-vbluf lfngth too big");
+        }
+    }
+
+    protfdtfd void fnginfInit(bytf[] pbrbms, String dfdodingMfthod)
+        throws IOExdfption {
+            fnginfInit(pbrbms);
+    }
+
+    protfdtfd <T fxtfnds AlgorithmPbrbmftfrSpfd>
+        T fnginfGftPbrbmftfrSpfd(Clbss<T> pbrbmSpfd)
+        throws InvblidPbrbmftfrSpfdExdfption {
+
+        if (DHPbrbmftfrSpfd.dlbss.isAssignbblfFrom(pbrbmSpfd)) {
+            rfturn pbrbmSpfd.dbst(nfw DHPbrbmftfrSpfd(this.p, this.g, this.l));
+        } flsf {
+            throw nfw InvblidPbrbmftfrSpfdExdfption
+                ("Inbppropribtf pbrbmftfr Spfdifidbtion");
+        }
+    }
+
+    protfdtfd bytf[] fnginfGftEndodfd() throws IOExdfption {
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+
+        bytfs.putIntfgfr(this.p);
+        bytfs.putIntfgfr(this.g);
+        // Privbtf-vbluf lfngth is OPTIONAL
+        if (this.l > 0) {
+            bytfs.putIntfgfr(this.l);
+        }
+        out.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        rfturn out.toBytfArrby();
+    }
+
+    protfdtfd bytf[] fnginfGftEndodfd(String fndodingMfthod)
+        throws IOExdfption {
+            rfturn fnginfGftEndodfd();
+    }
+
+    /*
+     * Rfturns b formbttfd string dfsdribing thf pbrbmftfrs.
+     */
+    protfdtfd String fnginfToString() {
+        String LINE_SEP = Systfm.gftPropfrty("linf.sfpbrbtor");
+
+        StringBuildfr sb
+            = nfw StringBuildfr("SunJCE Diffif-Hfllmbn Pbrbmftfrs:"
+                               + LINE_SEP + "p:" + LINE_SEP
+                               + Dfbug.toHfxString(this.p)
+                               + LINE_SEP + "g:" + LINE_SEP
+                               + Dfbug.toHfxString(this.g));
+        if (this.l != 0)
+            sb.bppfnd(LINE_SEP + "l:" + LINE_SEP + "    " + this.l);
+        rfturn sb.toString();
+    }
+}

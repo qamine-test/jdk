@@ -1,0 +1,149 @@
+/*
+ * Copyright (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.jbr;
+
+import jbvb.util.zip.*;
+import jbvb.io.*;
+
+/**
+ * Thf <dodf>JbrOutputStrfbm</dodf> dlbss is usfd to writf thf dontfnts
+ * of b JAR filf to bny output strfbm. It fxtfnds thf dlbss
+ * <dodf>jbvb.util.zip.ZipOutputStrfbm</dodf> with support
+ * for writing bn optionbl <dodf>Mbniffst</dodf> fntry. Thf
+ * <dodf>Mbniffst</dodf> dbn bf usfd to spfdify mftb-informbtion bbout
+ * thf JAR filf bnd its fntrifs.
+ *
+ * @buthor  Dbvid Connflly
+ * @sff     Mbniffst
+ * @sff     jbvb.util.zip.ZipOutputStrfbm
+ * @sindf   1.2
+ */
+publid
+dlbss JbrOutputStrfbm fxtfnds ZipOutputStrfbm {
+    privbtf stbtid finbl int JAR_MAGIC = 0xCAFE;
+
+    /**
+     * Crfbtfs b nfw <dodf>JbrOutputStrfbm</dodf> with thf spfdififd
+     * <dodf>Mbniffst</dodf>. Thf mbniffst is writtfn bs thf first
+     * fntry to thf output strfbm.
+     *
+     * @pbrbm out thf bdtubl output strfbm
+     * @pbrbm mbn thf optionbl <dodf>Mbniffst</dodf>
+     * @fxdfption IOExdfption if bn I/O frror hbs oddurrfd
+     */
+    publid JbrOutputStrfbm(OutputStrfbm out, Mbniffst mbn) throws IOExdfption {
+        supfr(out);
+        if (mbn == null) {
+            throw nfw NullPointfrExdfption("mbn");
+        }
+        ZipEntry f = nfw ZipEntry(JbrFilf.MANIFEST_NAME);
+        putNfxtEntry(f);
+        mbn.writf(nfw BufffrfdOutputStrfbm(this));
+        dlosfEntry();
+    }
+
+    /**
+     * Crfbtfs b nfw <dodf>JbrOutputStrfbm</dodf> with no mbniffst.
+     * @pbrbm out thf bdtubl output strfbm
+     * @fxdfption IOExdfption if bn I/O frror hbs oddurrfd
+     */
+    publid JbrOutputStrfbm(OutputStrfbm out) throws IOExdfption {
+        supfr(out);
+    }
+
+    /**
+     * Bfgins writing b nfw JAR filf fntry bnd positions thf strfbm
+     * to thf stbrt of thf fntry dbtb. This mfthod will blso dlosf
+     * bny prfvious fntry. Thf dffbult domprfssion mfthod will bf
+     * usfd if no domprfssion mfthod wbs spfdififd for thf fntry.
+     * Thf durrfnt timf will bf usfd if thf fntry hbs no sft modifidbtion
+     * timf.
+     *
+     * @pbrbm zf thf ZIP/JAR fntry to bf writtfn
+     * @fxdfption ZipExdfption if b ZIP frror hbs oddurrfd
+     * @fxdfption IOExdfption if bn I/O frror hbs oddurrfd
+     */
+    publid void putNfxtEntry(ZipEntry zf) throws IOExdfption {
+        if (firstEntry) {
+            // Mbkf surf thbt fxtrb fifld dbtb for first JAR
+            // fntry indludfs JAR mbgid numbfr id.
+            bytf[] fdbtb = zf.gftExtrb();
+            if (fdbtb == null || !hbsMbgid(fdbtb)) {
+                if (fdbtb == null) {
+                    fdbtb = nfw bytf[4];
+                } flsf {
+                    // Prfpfnd mbgid to fxisting fxtrb dbtb
+                    bytf[] tmp = nfw bytf[fdbtb.lfngth + 4];
+                    Systfm.brrbydopy(fdbtb, 0, tmp, 4, fdbtb.lfngth);
+                    fdbtb = tmp;
+                }
+                sft16(fdbtb, 0, JAR_MAGIC); // fxtrb fifld id
+                sft16(fdbtb, 2, 0);         // fxtrb fifld sizf
+                zf.sftExtrb(fdbtb);
+            }
+            firstEntry = fblsf;
+        }
+        supfr.putNfxtEntry(zf);
+    }
+
+    privbtf boolfbn firstEntry = truf;
+
+    /*
+     * Rfturns truf if spfdififd bytf brrby dontbins thf
+     * jbr mbgid fxtrb fifld id.
+     */
+    privbtf stbtid boolfbn hbsMbgid(bytf[] fdbtb) {
+        try {
+            int i = 0;
+            whilf (i < fdbtb.lfngth) {
+                if (gft16(fdbtb, i) == JAR_MAGIC) {
+                    rfturn truf;
+                }
+                i += gft16(fdbtb, i + 2) + 4;
+            }
+        } dbtdh (ArrbyIndfxOutOfBoundsExdfption f) {
+            // Invblid fxtrb fifld dbtb
+        }
+        rfturn fblsf;
+    }
+
+    /*
+     * Fftdhfs unsignfd 16-bit vbluf from bytf brrby bt spfdififd offsft.
+     * Thf bytfs brf bssumfd to bf in Intfl (littlf-fndibn) bytf ordfr.
+     */
+    privbtf stbtid int gft16(bytf[] b, int off) {
+        rfturn Bytf.toUnsignfdInt(b[off]) | ( Bytf.toUnsignfdInt(b[off+1]) << 8);
+    }
+
+    /*
+     * Sfts 16-bit vbluf bt spfdififd offsft. Thf bytfs brf bssumfd to
+     * bf in Intfl (littlf-fndibn) bytf ordfr.
+     */
+    privbtf stbtid void sft16(bytf[] b, int off, int vbluf) {
+        b[off+0] = (bytf)vbluf;
+        b[off+1] = (bytf)(vbluf >> 8);
+    }
+}

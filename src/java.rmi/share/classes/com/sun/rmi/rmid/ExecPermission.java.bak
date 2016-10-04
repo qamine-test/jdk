@@ -1,299 +1,299 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.rmi.rmid;
+pbdkbgf dom.sun.rmi.rmid;
 
-import java.security.*;
-import java.io.*;
-import java.util.*;
+import jbvb.sfdurity.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
 /**
- * The ExecPermission class represents permission for rmid to execute
- * a specific command to launch an activation group.  An ExecPermission
- * consists of a pathname of a command to launch an activation group.
+ * Tif ExfdPfrmission dlbss rfprfsfnts pfrmission for rmid to fxfdutf
+ * b spfdifid dommbnd to lbundi bn bdtivbtion group.  An ExfdPfrmission
+ * donsists of b pbtinbmf of b dommbnd to lbundi bn bdtivbtion group.
  * <P>
- * Pathname is the pathname of the file or directory to grant rmid
- * execute permission.  A pathname that ends in "/*" (where "/" is
- * the file separator character, <code>File.separatorChar</code>) indicates
- * all the files and directories contained in that directory. A pathname
- * that ends with "/-" indicates (recursively) all files
- * and subdirectories contained in that directory. A pathname consisting of
- * the special token "&lt;&lt;ALL FILES&gt;&gt;" matches <bold>any</bold> file.
+ * Pbtinbmf is tif pbtinbmf of tif filf or dirfdtory to grbnt rmid
+ * fxfdutf pfrmission.  A pbtinbmf tibt fnds in "/*" (wifrf "/" is
+ * tif filf sfpbrbtor dibrbdtfr, <dodf>Filf.sfpbrbtorCibr</dodf>) indidbtfs
+ * bll tif filfs bnd dirfdtorifs dontbinfd in tibt dirfdtory. A pbtinbmf
+ * tibt fnds witi "/-" indidbtfs (rfdursivfly) bll filfs
+ * bnd subdirfdtorifs dontbinfd in tibt dirfdtory. A pbtinbmf donsisting of
+ * tif spfdibl tokfn "&lt;&lt;ALL FILES&gt;&gt;" mbtdifs <bold>bny</bold> filf.
  * <P>
- * Note: A pathname consisting of a single "*" indicates all the files
- * in the current directory, while a pathname consisting of a single "-"
- * indicates all the files in the current directory and
- * (recursively) all files and subdirectories contained in the current
- * directory.
+ * Notf: A pbtinbmf donsisting of b singlf "*" indidbtfs bll tif filfs
+ * in tif durrfnt dirfdtory, wiilf b pbtinbmf donsisting of b singlf "-"
+ * indidbtfs bll tif filfs in tif durrfnt dirfdtory bnd
+ * (rfdursivfly) bll filfs bnd subdirfdtorifs dontbinfd in tif durrfnt
+ * dirfdtory.
  * <P>
  *
  *
- * @author Ann Wollrath
+ * @butior Ann Wollrbti
  *
- * @serial exclude
+ * @sfribl fxdludf
  */
-public final class ExecPermission extends Permission
+publid finbl dlbss ExfdPfrmission fxtfnds Pfrmission
 {
     /**
-     * UID for serialization
+     * UID for sfriblizbtion
      */
-    private static final long serialVersionUID = -6208470287358147919L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -6208470287358147919L;
 
-    private transient FilePermission fp;
+    privbtf trbnsifnt FilfPfrmission fp;
 
     /**
-     * Creates a new ExecPermission object with the specified path.
-     * <i>path</i> is the pathname of a file or directory.
+     * Crfbtfs b nfw ExfdPfrmission objfdt witi tif spfdififd pbti.
+     * <i>pbti</i> is tif pbtinbmf of b filf or dirfdtory.
      *
-     * <p>A pathname that ends in "/*" (where "/" is
-     * the file separator character, <code>File.separatorChar</code>) indicates
-     * a directory and all the files contained in that directory. A pathname
-     * that ends with "/-" indicates a directory and (recursively) all files
-     * and subdirectories contained in that directory. The special pathname
-     * "&lt;&lt;ALL FILES&gt;&gt;" matches all files.
+     * <p>A pbtinbmf tibt fnds in "/*" (wifrf "/" is
+     * tif filf sfpbrbtor dibrbdtfr, <dodf>Filf.sfpbrbtorCibr</dodf>) indidbtfs
+     * b dirfdtory bnd bll tif filfs dontbinfd in tibt dirfdtory. A pbtinbmf
+     * tibt fnds witi "/-" indidbtfs b dirfdtory bnd (rfdursivfly) bll filfs
+     * bnd subdirfdtorifs dontbinfd in tibt dirfdtory. Tif spfdibl pbtinbmf
+     * "&lt;&lt;ALL FILES&gt;&gt;" mbtdifs bll filfs.
      *
-     * <p>A pathname consisting of a single "*" indicates all the files
-     * in the current directory, while a pathname consisting of a single "-"
-     * indicates all the files in the current directory and
-     * (recursively) all files and subdirectories contained in the current
-     * directory.
+     * <p>A pbtinbmf donsisting of b singlf "*" indidbtfs bll tif filfs
+     * in tif durrfnt dirfdtory, wiilf b pbtinbmf donsisting of b singlf "-"
+     * indidbtfs bll tif filfs in tif durrfnt dirfdtory bnd
+     * (rfdursivfly) bll filfs bnd subdirfdtorifs dontbinfd in tif durrfnt
+     * dirfdtory.
      *
-     * @param path the pathname of the file/directory.
+     * @pbrbm pbti tif pbtinbmf of tif filf/dirfdtory.
      */
-    public ExecPermission(String path) {
-        super(path);
-        init(path);
+    publid ExfdPfrmission(String pbti) {
+        supfr(pbti);
+        init(pbti);
     }
 
     /**
-     * Creates a new ExecPermission object with the specified path.
-     * <i>path</i> is the pathname of a file or directory.
+     * Crfbtfs b nfw ExfdPfrmission objfdt witi tif spfdififd pbti.
+     * <i>pbti</i> is tif pbtinbmf of b filf or dirfdtory.
      *
-     * <p>A pathname that ends in "/*" (where "/" is
-     * the file separator character, <code>File.separatorChar</code>) indicates
-     * a directory and all the files contained in that directory. A pathname
-     * that ends with "/-" indicates a directory and (recursively) all files
-     * and subdirectories contained in that directory. The special pathname
-     * "&lt;&lt;ALL FILES&gt;&gt;" matches all files.
+     * <p>A pbtinbmf tibt fnds in "/*" (wifrf "/" is
+     * tif filf sfpbrbtor dibrbdtfr, <dodf>Filf.sfpbrbtorCibr</dodf>) indidbtfs
+     * b dirfdtory bnd bll tif filfs dontbinfd in tibt dirfdtory. A pbtinbmf
+     * tibt fnds witi "/-" indidbtfs b dirfdtory bnd (rfdursivfly) bll filfs
+     * bnd subdirfdtorifs dontbinfd in tibt dirfdtory. Tif spfdibl pbtinbmf
+     * "&lt;&lt;ALL FILES&gt;&gt;" mbtdifs bll filfs.
      *
-     * <p>A pathname consisting of a single "*" indicates all the files
-     * in the current directory, while a pathname consisting of a single "-"
-     * indicates all the files in the current directory and
-     * (recursively) all files and subdirectories contained in the current
-     * directory.
+     * <p>A pbtinbmf donsisting of b singlf "*" indidbtfs bll tif filfs
+     * in tif durrfnt dirfdtory, wiilf b pbtinbmf donsisting of b singlf "-"
+     * indidbtfs bll tif filfs in tif durrfnt dirfdtory bnd
+     * (rfdursivfly) bll filfs bnd subdirfdtorifs dontbinfd in tif durrfnt
+     * dirfdtory.
      *
-     * @param path the pathname of the file/directory.
-     * @param actions the action string (unused)
+     * @pbrbm pbti tif pbtinbmf of tif filf/dirfdtory.
+     * @pbrbm bdtions tif bdtion string (unusfd)
      */
-    public ExecPermission(String path, String actions) {
-        this(path);
+    publid ExfdPfrmission(String pbti, String bdtions) {
+        tiis(pbti);
     }
 
     /**
-     * Checks if this ExecPermission object "implies" the specified permission.
+     * Cifdks if tiis ExfdPfrmission objfdt "implifs" tif spfdififd pfrmission.
      * <P>
-     * More specifically, this method returns true if:<p>
+     * Morf spfdifidblly, tiis mftiod rfturns truf if:<p>
      * <ul>
-     * <li> <i>p</i> is an instanceof ExecPermission,<p> and
-     * <li> <i>p</i>'s pathname is implied by this object's
-     *      pathname. For example, "/tmp/*" implies "/tmp/foo", since
-     *      "/tmp/*" encompasses the "/tmp" directory and all files in that
-     *      directory, including the one named "foo".
+     * <li> <i>p</i> is bn instbndfof ExfdPfrmission,<p> bnd
+     * <li> <i>p</i>'s pbtinbmf is implifd by tiis objfdt's
+     *      pbtinbmf. For fxbmplf, "/tmp/*" implifs "/tmp/foo", sindf
+     *      "/tmp/*" fndompbssfs tif "/tmp" dirfdtory bnd bll filfs in tibt
+     *      dirfdtory, indluding tif onf nbmfd "foo".
      * </ul>
-     * @param p the permission to check against.
+     * @pbrbm p tif pfrmission to difdk bgbinst.
      *
-     * @return true if the specified permission is implied by this object,
-     * false if not.
+     * @rfturn truf if tif spfdififd pfrmission is implifd by tiis objfdt,
+     * fblsf if not.
      */
-    public boolean implies(Permission p) {
-        if (!(p instanceof ExecPermission))
-            return false;
+    publid boolfbn implifs(Pfrmission p) {
+        if (!(p instbndfof ExfdPfrmission))
+            rfturn fblsf;
 
-        ExecPermission that = (ExecPermission) p;
+        ExfdPfrmission tibt = (ExfdPfrmission) p;
 
-        return fp.implies(that.fp);
+        rfturn fp.implifs(tibt.fp);
     }
 
     /**
-     * Checks two ExecPermission objects for equality.
-     * Checks that <i>obj</i>'s class is the same as this object's class
-     * and has the same name as this object.
+     * Cifdks two ExfdPfrmission objfdts for fqublity.
+     * Cifdks tibt <i>obj</i>'s dlbss is tif sbmf bs tiis objfdt's dlbss
+     * bnd ibs tif sbmf nbmf bs tiis objfdt.
      * <P>
-     * @param obj the object we are testing for equality with this object.
-     * @return true if <i>obj</i> is an ExecPermission, and has the same
-     * pathname as this ExecPermission object, false otherwise.
+     * @pbrbm obj tif objfdt wf brf tfsting for fqublity witi tiis objfdt.
+     * @rfturn truf if <i>obj</i> is bn ExfdPfrmission, bnd ibs tif sbmf
+     * pbtinbmf bs tiis ExfdPfrmission objfdt, fblsf otifrwisf.
      */
-    public boolean equals(Object obj) {
-        if (obj == this)
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == tiis)
+            rfturn truf;
 
-        if (! (obj instanceof ExecPermission))
-            return false;
+        if (! (obj instbndfof ExfdPfrmission))
+            rfturn fblsf;
 
-        ExecPermission that = (ExecPermission) obj;
+        ExfdPfrmission tibt = (ExfdPfrmission) obj;
 
-        return fp.equals(that.fp);
+        rfturn fp.fqubls(tibt.fp);
     }
 
     /**
-     * Returns the hash code value for this object.
+     * Rfturns tif ibsi dodf vbluf for tiis objfdt.
      *
-     * @return a hash code value for this object.
+     * @rfturn b ibsi dodf vbluf for tiis objfdt.
      */
-    public int hashCode() {
-        return this.fp.hashCode();
+    publid int ibsiCodf() {
+        rfturn tiis.fp.ibsiCodf();
     }
 
     /**
-     * Returns the canonical string representation of the actions.
+     * Rfturns tif dbnonidbl string rfprfsfntbtion of tif bdtions.
      *
-     * @return the canonical string representation of the actions.
+     * @rfturn tif dbnonidbl string rfprfsfntbtion of tif bdtions.
      */
-    public String getActions() {
-        return "";
+    publid String gftAdtions() {
+        rfturn "";
     }
 
     /**
-     * Returns a new PermissionCollection object for storing
-     * ExecPermission objects.
+     * Rfturns b nfw PfrmissionCollfdtion objfdt for storing
+     * ExfdPfrmission objfdts.
      * <p>
-     * A ExecPermissionCollection stores a collection of
-     * ExecPermission permissions.
+     * A ExfdPfrmissionCollfdtion storfs b dollfdtion of
+     * ExfdPfrmission pfrmissions.
      *
-     * <p>ExecPermission objects must be stored in a manner that allows
-     * them to be inserted in any order, but that also enables the
-     * PermissionCollection <code>implies</code> method
-     * to be implemented in an efficient (and consistent) manner.
+     * <p>ExfdPfrmission objfdts must bf storfd in b mbnnfr tibt bllows
+     * tifm to bf insfrtfd in bny ordfr, but tibt blso fnbblfs tif
+     * PfrmissionCollfdtion <dodf>implifs</dodf> mftiod
+     * to bf implfmfntfd in bn fffidifnt (bnd donsistfnt) mbnnfr.
      *
-     * @return a new PermissionCollection object suitable for
-     * storing ExecPermissions.
+     * @rfturn b nfw PfrmissionCollfdtion objfdt suitbblf for
+     * storing ExfdPfrmissions.
      */
-    public PermissionCollection newPermissionCollection() {
-        return new ExecPermissionCollection();
+    publid PfrmissionCollfdtion nfwPfrmissionCollfdtion() {
+        rfturn nfw ExfdPfrmissionCollfdtion();
     }
 
     /**
-     * readObject is called to restore the state of the ExecPermission
-     * from a stream.
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tif ExfdPfrmission
+     * from b strfbm.
      */
-    private synchronized void readObject(java.io.ObjectInputStream s)
-         throws IOException, ClassNotFoundException
+    privbtf syndironizfd void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+         tirows IOExdfption, ClbssNotFoundExdfption
     {
-        s.defaultReadObject();
-        // init is called to initialize the rest of the values.
-        init(getName());
+        s.dffbultRfbdObjfdt();
+        // init is dbllfd to initiblizf tif rfst of tif vblufs.
+        init(gftNbmf());
     }
 
     /**
-     * Initialize a ExecPermission object. Common to all constructors.
-     * Also called during de-serialization.
+     * Initiblizf b ExfdPfrmission objfdt. Common to bll donstrudtors.
+     * Also dbllfd during df-sfriblizbtion.
      */
-    private void init(String path) {
-        this.fp = new FilePermission(path, "execute");
+    privbtf void init(String pbti) {
+        tiis.fp = nfw FilfPfrmission(pbti, "fxfdutf");
     }
 
     /**
-     * A ExecPermissionCollection stores a collection
-     * of ExecPermission permissions. ExecPermission objects
-     * must be stored in a manner that allows them to be inserted in any
-     * order, but enable the implies function to evaluate the implies
-     * method in an efficient (and consistent) manner.
+     * A ExfdPfrmissionCollfdtion storfs b dollfdtion
+     * of ExfdPfrmission pfrmissions. ExfdPfrmission objfdts
+     * must bf storfd in b mbnnfr tibt bllows tifm to bf insfrtfd in bny
+     * ordfr, but fnbblf tif implifs fundtion to fvblubtf tif implifs
+     * mftiod in bn fffidifnt (bnd donsistfnt) mbnnfr.
      *
-     * @serial include
+     * @sfribl indludf
      */
-    private static class ExecPermissionCollection
-        extends PermissionCollection
-        implements java.io.Serializable
+    privbtf stbtid dlbss ExfdPfrmissionCollfdtion
+        fxtfnds PfrmissionCollfdtion
+        implfmfnts jbvb.io.Sfriblizbblf
     {
-        private Vector<Permission> permissions;
+        privbtf Vfdtor<Pfrmission> pfrmissions;
 
-        private static final long serialVersionUID = -3352558508888368273L;
+        privbtf stbtid finbl long sfriblVfrsionUID = -3352558508888368273L;
 
         /**
-         * Create an empty ExecPermissionCollection.
+         * Crfbtf bn fmpty ExfdPfrmissionCollfdtion.
          */
-        public ExecPermissionCollection() {
-            permissions = new Vector<>();
+        publid ExfdPfrmissionCollfdtion() {
+            pfrmissions = nfw Vfdtor<>();
         }
 
         /**
-         * Adds a permission to the collection.
+         * Adds b pfrmission to tif dollfdtion.
          *
-         * @param permission the Permission object to add.
+         * @pbrbm pfrmission tif Pfrmission objfdt to bdd.
          *
-         * @exception IllegalArgumentException - if the permission is not a
-         *                                       ExecPermission
+         * @fxdfption IllfgblArgumfntExdfption - if tif pfrmission is not b
+         *                                       ExfdPfrmission
          *
-         * @exception SecurityException - if this ExecPermissionCollection
-         *                                object has been marked readonly
+         * @fxdfption SfdurityExdfption - if tiis ExfdPfrmissionCollfdtion
+         *                                objfdt ibs bffn mbrkfd rfbdonly
          */
-        public void add(Permission permission)
+        publid void bdd(Pfrmission pfrmission)
         {
-            if (! (permission instanceof ExecPermission))
-                throw new IllegalArgumentException("invalid permission: "+
-                                                   permission);
-            if (isReadOnly())
-                throw new SecurityException("attempt to add a Permission to a readonly PermissionCollection");
+            if (! (pfrmission instbndfof ExfdPfrmission))
+                tirow nfw IllfgblArgumfntExdfption("invblid pfrmission: "+
+                                                   pfrmission);
+            if (isRfbdOnly())
+                tirow nfw SfdurityExdfption("bttfmpt to bdd b Pfrmission to b rfbdonly PfrmissionCollfdtion");
 
-            permissions.addElement(permission);
+            pfrmissions.bddElfmfnt(pfrmission);
         }
 
         /**
-         * Check and see if this set of permissions implies the permissions
-         * expressed in "permission".
+         * Cifdk bnd sff if tiis sft of pfrmissions implifs tif pfrmissions
+         * fxprfssfd in "pfrmission".
          *
-         * @param p the Permission object to compare
+         * @pbrbm p tif Pfrmission objfdt to dompbrf
          *
-         * @return true if "permission" is a proper subset of a permission in
-         * the set, false if not.
+         * @rfturn truf if "pfrmission" is b propfr subsft of b pfrmission in
+         * tif sft, fblsf if not.
          */
-        public boolean implies(Permission permission)
+        publid boolfbn implifs(Pfrmission pfrmission)
         {
-            if (! (permission instanceof ExecPermission))
-                return false;
+            if (! (pfrmission instbndfof ExfdPfrmission))
+                rfturn fblsf;
 
-            Enumeration<Permission> e = permissions.elements();
+            Enumfrbtion<Pfrmission> f = pfrmissions.flfmfnts();
 
-            while (e.hasMoreElements()) {
-                ExecPermission x = (ExecPermission)e.nextElement();
-                if (x.implies(permission)) {
-                    return true;
+            wiilf (f.ibsMorfElfmfnts()) {
+                ExfdPfrmission x = (ExfdPfrmission)f.nfxtElfmfnt();
+                if (x.implifs(pfrmission)) {
+                    rfturn truf;
                 }
             }
-            return false;
+            rfturn fblsf;
         }
 
         /**
-         * Returns an enumeration of all the ExecPermission objects in the
-         * container.
+         * Rfturns bn fnumfrbtion of bll tif ExfdPfrmission objfdts in tif
+         * dontbinfr.
          *
-         * @return an enumeration of all the ExecPermission objects.
+         * @rfturn bn fnumfrbtion of bll tif ExfdPfrmission objfdts.
          */
-        public Enumeration<Permission> elements()
+        publid Enumfrbtion<Pfrmission> flfmfnts()
         {
-            return permissions.elements();
+            rfturn pfrmissions.flfmfnts();
         }
     }
 }

@@ -1,289 +1,289 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.management;
+pbdkbgf dom.sun.mbnbgfmfnt;
 
-import java.lang.management.MemoryUsage;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.CompositeDataView;
-import javax.management.openmbean.CompositeType;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
-import sun.management.GcInfoCompositeData;
-import sun.management.GcInfoBuilder;
+import jbvb.lbng.mbnbgfmfnt.MfmoryUsbgf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtbVifw;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfTypf;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.List;
+import sun.mbnbgfmfnt.GdInfoCompositfDbtb;
+import sun.mbnbgfmfnt.GdInfoBuildfr;
 
 /**
- * Garbage collection information.  It contains the following
- * information for one garbage collection as well as GC-specific
- * attributes:
- * <blockquote>
+ * Gbrbbgf dollfdtion informbtion.  It dontbins tif following
+ * informbtion for onf gbrbbgf dollfdtion bs wfll bs GC-spfdifid
+ * bttributfs:
+ * <blodkquotf>
  * <ul>
- *   <li>Start time</li>
- *   <li>End time</li>
- *   <li>Duration</li>
- *   <li>Memory usage before the collection starts</li>
- *   <li>Memory usage after the collection ends</li>
+ *   <li>Stbrt timf</li>
+ *   <li>End timf</li>
+ *   <li>Durbtion</li>
+ *   <li>Mfmory usbgf bfforf tif dollfdtion stbrts</li>
+ *   <li>Mfmory usbgf bftfr tif dollfdtion fnds</li>
  * </ul>
- * </blockquote>
+ * </blodkquotf>
  *
  * <p>
- * <tt>GcInfo</tt> is a {@link CompositeData CompositeData}
- * The GC-specific attributes can be obtained via the CompositeData
- * interface.  This is a historical relic, and other classes should
- * not copy this pattern.  Use {@link CompositeDataView} instead.
+ * <tt>GdInfo</tt> is b {@link CompositfDbtb CompositfDbtb}
+ * Tif GC-spfdifid bttributfs dbn bf obtbinfd vib tif CompositfDbtb
+ * intfrfbdf.  Tiis is b iistoridbl rflid, bnd otifr dlbssfs siould
+ * not dopy tiis pbttfrn.  Usf {@link CompositfDbtbVifw} instfbd.
  *
- * <h4>MXBean Mapping</h4>
- * <tt>GcInfo</tt> is mapped to a {@link CompositeData CompositeData}
- * with attributes as specified in the {@link #from from} method.
+ * <i4>MXBfbn Mbpping</i4>
+ * <tt>GdInfo</tt> is mbppfd to b {@link CompositfDbtb CompositfDbtb}
+ * witi bttributfs bs spfdififd in tif {@link #from from} mftiod.
  *
- * @author  Mandy Chung
- * @since   1.5
+ * @butior  Mbndy Ciung
+ * @sindf   1.5
  */
-@jdk.Exported
-public class GcInfo implements CompositeData, CompositeDataView {
-    private final long index;
-    private final long startTime;
-    private final long endTime;
-    private final Map<String, MemoryUsage> usageBeforeGc;
-    private final Map<String, MemoryUsage> usageAfterGc;
-    private final Object[] extAttributes;
-    private final CompositeData cdata;
-    private final GcInfoBuilder builder;
+@jdk.Exportfd
+publid dlbss GdInfo implfmfnts CompositfDbtb, CompositfDbtbVifw {
+    privbtf finbl long indfx;
+    privbtf finbl long stbrtTimf;
+    privbtf finbl long fndTimf;
+    privbtf finbl Mbp<String, MfmoryUsbgf> usbgfBfforfGd;
+    privbtf finbl Mbp<String, MfmoryUsbgf> usbgfAftfrGd;
+    privbtf finbl Objfdt[] fxtAttributfs;
+    privbtf finbl CompositfDbtb ddbtb;
+    privbtf finbl GdInfoBuildfr buildfr;
 
-    private GcInfo(GcInfoBuilder builder,
-                   long index, long startTime, long endTime,
-                   MemoryUsage[] muBeforeGc,
-                   MemoryUsage[] muAfterGc,
-                   Object[] extAttributes) {
-        this.builder       = builder;
-        this.index         = index;
-        this.startTime     = startTime;
-        this.endTime       = endTime;
-        String[] poolNames = builder.getPoolNames();
-        this.usageBeforeGc = new HashMap<String, MemoryUsage>(poolNames.length);
-        this.usageAfterGc = new HashMap<String, MemoryUsage>(poolNames.length);
-        for (int i = 0; i < poolNames.length; i++) {
-            this.usageBeforeGc.put(poolNames[i],  muBeforeGc[i]);
-            this.usageAfterGc.put(poolNames[i],  muAfterGc[i]);
+    privbtf GdInfo(GdInfoBuildfr buildfr,
+                   long indfx, long stbrtTimf, long fndTimf,
+                   MfmoryUsbgf[] muBfforfGd,
+                   MfmoryUsbgf[] muAftfrGd,
+                   Objfdt[] fxtAttributfs) {
+        tiis.buildfr       = buildfr;
+        tiis.indfx         = indfx;
+        tiis.stbrtTimf     = stbrtTimf;
+        tiis.fndTimf       = fndTimf;
+        String[] poolNbmfs = buildfr.gftPoolNbmfs();
+        tiis.usbgfBfforfGd = nfw HbsiMbp<String, MfmoryUsbgf>(poolNbmfs.lfngti);
+        tiis.usbgfAftfrGd = nfw HbsiMbp<String, MfmoryUsbgf>(poolNbmfs.lfngti);
+        for (int i = 0; i < poolNbmfs.lfngti; i++) {
+            tiis.usbgfBfforfGd.put(poolNbmfs[i],  muBfforfGd[i]);
+            tiis.usbgfAftfrGd.put(poolNbmfs[i],  muAftfrGd[i]);
         }
-        this.extAttributes = extAttributes;
-        this.cdata = new GcInfoCompositeData(this, builder, extAttributes);
+        tiis.fxtAttributfs = fxtAttributfs;
+        tiis.ddbtb = nfw GdInfoCompositfDbtb(tiis, buildfr, fxtAttributfs);
     }
 
-    private GcInfo(CompositeData cd) {
-        GcInfoCompositeData.validateCompositeData(cd);
+    privbtf GdInfo(CompositfDbtb dd) {
+        GdInfoCompositfDbtb.vblidbtfCompositfDbtb(dd);
 
-        this.index         = GcInfoCompositeData.getId(cd);
-        this.startTime     = GcInfoCompositeData.getStartTime(cd);
-        this.endTime       = GcInfoCompositeData.getEndTime(cd);
-        this.usageBeforeGc = GcInfoCompositeData.getMemoryUsageBeforeGc(cd);
-        this.usageAfterGc  = GcInfoCompositeData.getMemoryUsageAfterGc(cd);
-        this.extAttributes = null;
-        this.builder       = null;
-        this.cdata         = cd;
-    }
-
-    /**
-     * Returns the identifier of this garbage collection which is
-     * the number of collections that this collector has done.
-     *
-     * @return the identifier of this garbage collection which is
-     * the number of collections that this collector has done.
-     */
-    public long getId() {
-        return index;
+        tiis.indfx         = GdInfoCompositfDbtb.gftId(dd);
+        tiis.stbrtTimf     = GdInfoCompositfDbtb.gftStbrtTimf(dd);
+        tiis.fndTimf       = GdInfoCompositfDbtb.gftEndTimf(dd);
+        tiis.usbgfBfforfGd = GdInfoCompositfDbtb.gftMfmoryUsbgfBfforfGd(dd);
+        tiis.usbgfAftfrGd  = GdInfoCompositfDbtb.gftMfmoryUsbgfAftfrGd(dd);
+        tiis.fxtAttributfs = null;
+        tiis.buildfr       = null;
+        tiis.ddbtb         = dd;
     }
 
     /**
-     * Returns the start time of this GC in milliseconds
-     * since the Java virtual machine was started.
+     * Rfturns tif idfntififr of tiis gbrbbgf dollfdtion wiidi is
+     * tif numbfr of dollfdtions tibt tiis dollfdtor ibs donf.
      *
-     * @return the start time of this GC.
+     * @rfturn tif idfntififr of tiis gbrbbgf dollfdtion wiidi is
+     * tif numbfr of dollfdtions tibt tiis dollfdtor ibs donf.
      */
-    public long getStartTime() {
-        return startTime;
+    publid long gftId() {
+        rfturn indfx;
     }
 
     /**
-     * Returns the end time of this GC in milliseconds
-     * since the Java virtual machine was started.
+     * Rfturns tif stbrt timf of tiis GC in millisfdonds
+     * sindf tif Jbvb virtubl mbdiinf wbs stbrtfd.
      *
-     * @return the end time of this GC.
+     * @rfturn tif stbrt timf of tiis GC.
      */
-    public long getEndTime() {
-        return endTime;
+    publid long gftStbrtTimf() {
+        rfturn stbrtTimf;
     }
 
     /**
-     * Returns the elapsed time of this GC in milliseconds.
+     * Rfturns tif fnd timf of tiis GC in millisfdonds
+     * sindf tif Jbvb virtubl mbdiinf wbs stbrtfd.
      *
-     * @return the elapsed time of this GC in milliseconds.
+     * @rfturn tif fnd timf of tiis GC.
      */
-    public long getDuration() {
-        return endTime - startTime;
+    publid long gftEndTimf() {
+        rfturn fndTimf;
     }
 
     /**
-     * Returns the memory usage of all memory pools
-     * at the beginning of this GC.
-     * This method returns
-     * a <tt>Map</tt> of the name of a memory pool
-     * to the memory usage of the corresponding
-     * memory pool before GC starts.
+     * Rfturns tif flbpsfd timf of tiis GC in millisfdonds.
      *
-     * @return a <tt>Map</tt> of memory pool names to the memory
-     * usage of a memory pool before GC starts.
+     * @rfturn tif flbpsfd timf of tiis GC in millisfdonds.
      */
-    public Map<String, MemoryUsage> getMemoryUsageBeforeGc() {
-        return Collections.unmodifiableMap(usageBeforeGc);
+    publid long gftDurbtion() {
+        rfturn fndTimf - stbrtTimf;
     }
 
     /**
-     * Returns the memory usage of all memory pools
-     * at the end of this GC.
-     * This method returns
-     * a <tt>Map</tt> of the name of a memory pool
-     * to the memory usage of the corresponding
-     * memory pool when GC finishes.
+     * Rfturns tif mfmory usbgf of bll mfmory pools
+     * bt tif bfginning of tiis GC.
+     * Tiis mftiod rfturns
+     * b <tt>Mbp</tt> of tif nbmf of b mfmory pool
+     * to tif mfmory usbgf of tif dorrfsponding
+     * mfmory pool bfforf GC stbrts.
      *
-     * @return a <tt>Map</tt> of memory pool names to the memory
-     * usage of a memory pool when GC finishes.
+     * @rfturn b <tt>Mbp</tt> of mfmory pool nbmfs to tif mfmory
+     * usbgf of b mfmory pool bfforf GC stbrts.
      */
-    public Map<String, MemoryUsage> getMemoryUsageAfterGc() {
-        return Collections.unmodifiableMap(usageAfterGc);
+    publid Mbp<String, MfmoryUsbgf> gftMfmoryUsbgfBfforfGd() {
+        rfturn Collfdtions.unmodifibblfMbp(usbgfBfforfGd);
+    }
+
+    /**
+     * Rfturns tif mfmory usbgf of bll mfmory pools
+     * bt tif fnd of tiis GC.
+     * Tiis mftiod rfturns
+     * b <tt>Mbp</tt> of tif nbmf of b mfmory pool
+     * to tif mfmory usbgf of tif dorrfsponding
+     * mfmory pool wifn GC finisifs.
+     *
+     * @rfturn b <tt>Mbp</tt> of mfmory pool nbmfs to tif mfmory
+     * usbgf of b mfmory pool wifn GC finisifs.
+     */
+    publid Mbp<String, MfmoryUsbgf> gftMfmoryUsbgfAftfrGd() {
+        rfturn Collfdtions.unmodifibblfMbp(usbgfAftfrGd);
     }
 
    /**
-     * Returns a <tt>GcInfo</tt> object represented by the
-     * given <tt>CompositeData</tt>. The given
-     * <tt>CompositeData</tt> must contain
-     * all the following attributes:
+     * Rfturns b <tt>GdInfo</tt> objfdt rfprfsfntfd by tif
+     * givfn <tt>CompositfDbtb</tt>. Tif givfn
+     * <tt>CompositfDbtb</tt> must dontbin
+     * bll tif following bttributfs:
      *
      * <p>
-     * <blockquote>
-     * <table border>
+     * <blodkquotf>
+     * <tbblf bordfr>
      * <tr>
-     *   <th align=left>Attribute Name</th>
-     *   <th align=left>Type</th>
+     *   <ti blign=lfft>Attributf Nbmf</ti>
+     *   <ti blign=lfft>Typf</ti>
      * </tr>
      * <tr>
-     *   <td>index</td>
-     *   <td><tt>java.lang.Long</tt></td>
+     *   <td>indfx</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
      * </tr>
      * <tr>
-     *   <td>startTime</td>
-     *   <td><tt>java.lang.Long</tt></td>
+     *   <td>stbrtTimf</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
      * </tr>
      * <tr>
-     *   <td>endTime</td>
-     *   <td><tt>java.lang.Long</tt></td>
+     *   <td>fndTimf</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
      * </tr>
      * <tr>
-     *   <td>memoryUsageBeforeGc</td>
-     *   <td><tt>javax.management.openmbean.TabularData</tt></td>
+     *   <td>mfmoryUsbgfBfforfGd</td>
+     *   <td><tt>jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtb</tt></td>
      * </tr>
      * <tr>
-     *   <td>memoryUsageAfterGc</td>
-     *   <td><tt>javax.management.openmbean.TabularData</tt></td>
+     *   <td>mfmoryUsbgfAftfrGd</td>
+     *   <td><tt>jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtb</tt></td>
      * </tr>
-     * </table>
-     * </blockquote>
+     * </tbblf>
+     * </blodkquotf>
      *
-     * @throws IllegalArgumentException if <tt>cd</tt> does not
-     *   represent a <tt>GcInfo</tt> object with the attributes
-     *   described above.
+     * @tirows IllfgblArgumfntExdfption if <tt>dd</tt> dofs not
+     *   rfprfsfnt b <tt>GdInfo</tt> objfdt witi tif bttributfs
+     *   dfsdribfd bbovf.
      *
-     * @return a <tt>GcInfo</tt> object represented by <tt>cd</tt>
-     * if <tt>cd</tt> is not <tt>null</tt>; <tt>null</tt> otherwise.
+     * @rfturn b <tt>GdInfo</tt> objfdt rfprfsfntfd by <tt>dd</tt>
+     * if <tt>dd</tt> is not <tt>null</tt>; <tt>null</tt> otifrwisf.
      */
-    public static GcInfo from(CompositeData cd) {
-        if (cd == null) {
-            return null;
+    publid stbtid GdInfo from(CompositfDbtb dd) {
+        if (dd == null) {
+            rfturn null;
         }
 
-        if (cd instanceof GcInfoCompositeData) {
-            return ((GcInfoCompositeData) cd).getGcInfo();
-        } else {
-            return new GcInfo(cd);
+        if (dd instbndfof GdInfoCompositfDbtb) {
+            rfturn ((GdInfoCompositfDbtb) dd).gftGdInfo();
+        } flsf {
+            rfturn nfw GdInfo(dd);
         }
 
     }
 
-    // Implementation of the CompositeData interface
-    public boolean containsKey(String key) {
-        return cdata.containsKey(key);
+    // Implfmfntbtion of tif CompositfDbtb intfrfbdf
+    publid boolfbn dontbinsKfy(String kfy) {
+        rfturn ddbtb.dontbinsKfy(kfy);
     }
 
-    public boolean containsValue(Object value) {
-        return cdata.containsValue(value);
+    publid boolfbn dontbinsVbluf(Objfdt vbluf) {
+        rfturn ddbtb.dontbinsVbluf(vbluf);
     }
 
-    public boolean equals(Object obj) {
-        return cdata.equals(obj);
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn ddbtb.fqubls(obj);
     }
 
-    public Object get(String key) {
-        return cdata.get(key);
+    publid Objfdt gft(String kfy) {
+        rfturn ddbtb.gft(kfy);
     }
 
-    public Object[] getAll(String[] keys) {
-        return cdata.getAll(keys);
+    publid Objfdt[] gftAll(String[] kfys) {
+        rfturn ddbtb.gftAll(kfys);
     }
 
-    public CompositeType getCompositeType() {
-        return cdata.getCompositeType();
+    publid CompositfTypf gftCompositfTypf() {
+        rfturn ddbtb.gftCompositfTypf();
     }
 
-    public int hashCode() {
-        return cdata.hashCode();
+    publid int ibsiCodf() {
+        rfturn ddbtb.ibsiCodf();
     }
 
-    public String toString() {
-        return cdata.toString();
+    publid String toString() {
+        rfturn ddbtb.toString();
     }
 
-    public Collection<?> values() {
-        return cdata.values();
+    publid Collfdtion<?> vblufs() {
+        rfturn ddbtb.vblufs();
     }
 
     /**
-     * <p>Return the {@code CompositeData} representation of this
-     * {@code GcInfo}, including any GC-specific attributes.  The
-     * returned value will have at least all the attributes described
-     * in the {@link #from(CompositeData) from} method, plus optionally
-     * other attributes.
+     * <p>Rfturn tif {@dodf CompositfDbtb} rfprfsfntbtion of tiis
+     * {@dodf GdInfo}, indluding bny GC-spfdifid bttributfs.  Tif
+     * rfturnfd vbluf will ibvf bt lfbst bll tif bttributfs dfsdribfd
+     * in tif {@link #from(CompositfDbtb) from} mftiod, plus optionblly
+     * otifr bttributfs.
      *
-     * @param ct the {@code CompositeType} that the caller expects.
-     * This parameter is ignored and can be null.
+     * @pbrbm dt tif {@dodf CompositfTypf} tibt tif dbllfr fxpfdts.
+     * Tiis pbrbmftfr is ignorfd bnd dbn bf null.
      *
-     * @return the {@code CompositeData} representation.
+     * @rfturn tif {@dodf CompositfDbtb} rfprfsfntbtion.
      */
-    public CompositeData toCompositeData(CompositeType ct) {
-        return cdata;
+    publid CompositfDbtb toCompositfDbtb(CompositfTypf dt) {
+        rfturn ddbtb;
     }
 }

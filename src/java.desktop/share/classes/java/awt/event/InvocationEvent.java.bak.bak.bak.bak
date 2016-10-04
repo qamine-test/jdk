@@ -1,0 +1,424 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.fvfnt;
+
+import sun.bwt.AWTAddfssor;
+
+import jbvb.bwt.AdtivfEvfnt;
+import jbvb.bwt.AWTEvfnt;
+
+/**
+ * An fvfnt whidh fxfdutfs thf <dodf>run()</dodf> mfthod on b <dodf>Runnbblf
+ * </dodf> whfn dispbtdhfd by thf AWT fvfnt dispbtdhfr thrfbd. This dlbss dbn
+ * bf usfd bs b rfffrfndf implfmfntbtion of <dodf>AdtivfEvfnt</dodf> rbthfr
+ * thbn dfdlbring b nfw dlbss bnd dffining <dodf>dispbtdh()</dodf>.<p>
+ *
+ * Instbndfs of this dlbss brf plbdfd on thf <dodf>EvfntQufuf</dodf> by dblls
+ * to <dodf>invokfLbtfr</dodf> bnd <dodf>invokfAndWbit</dodf>. Clifnt dodf
+ * dbn usf this fbdt to writf rfplbdfmfnt fundtions for <dodf>invokfLbtfr
+ * </dodf> bnd <dodf>invokfAndWbit</dodf> without writing spfdibl-dbsf dodf
+ * in bny <dodf>AWTEvfntListfnfr</dodf> objfdts.
+ * <p>
+ * An unspfdififd bfhbvior will bf dbusfd if thf {@dodf id} pbrbmftfr
+ * of bny pbrtidulbr {@dodf InvodbtionEvfnt} instbndf is not
+ * in thf rbngf from {@dodf INVOCATION_FIRST} to {@dodf INVOCATION_LAST}.
+ *
+ * @buthor      Frfd Edks
+ * @buthor      Dbvid Mfndfnhbll
+ *
+ * @sff         jbvb.bwt.AdtivfEvfnt
+ * @sff         jbvb.bwt.EvfntQufuf#invokfLbtfr
+ * @sff         jbvb.bwt.EvfntQufuf#invokfAndWbit
+ * @sff         AWTEvfntListfnfr
+ *
+ * @sindf       1.2
+ */
+publid dlbss InvodbtionEvfnt fxtfnds AWTEvfnt implfmfnts AdtivfEvfnt {
+
+    stbtid {
+        AWTAddfssor.sftInvodbtionEvfntAddfssor(nfw AWTAddfssor.InvodbtionEvfntAddfssor() {
+            @Ovfrridf
+            publid void disposf(InvodbtionEvfnt invodbtionEvfnt) {
+                invodbtionEvfnt.finishfdDispbtdhing(fblsf);
+            }
+        });
+    }
+
+    /**
+     * Mbrks thf first intfgfr id for thf rbngf of invodbtion fvfnt ids.
+     */
+    publid stbtid finbl int INVOCATION_FIRST = 1200;
+
+    /**
+     * Thf dffbult id for bll InvodbtionEvfnts.
+     */
+    publid stbtid finbl int INVOCATION_DEFAULT = INVOCATION_FIRST;
+
+    /**
+     * Mbrks thf lbst intfgfr id for thf rbngf of invodbtion fvfnt ids.
+     */
+    publid stbtid finbl int INVOCATION_LAST = INVOCATION_DEFAULT;
+
+    /**
+     * Thf Runnbblf whosf run() mfthod will bf dbllfd.
+     */
+    protfdtfd Runnbblf runnbblf;
+
+    /**
+     * Thf (potfntiblly null) Objfdt whosf notifyAll() mfthod will bf dbllfd
+     * immfdibtfly bftfr thf Runnbblf.run() mfthod hbs rfturnfd or thrown bn fxdfption
+     * or bftfr thf fvfnt wbs disposfd.
+     *
+     * @sff #isDispbtdhfd
+     */
+    protfdtfd volbtilf Objfdt notififr;
+
+    /**
+     * Thf (potfntiblly null) Runnbblf whosf run() mfthod will bf dbllfd
+     * immfdibtfly bftfr thf fvfnt wbs dispbtdhfd or disposfd.
+     *
+     * @sff #isDispbtdhfd
+     * @sindf 1.8
+     */
+    privbtf finbl Runnbblf listfnfr;
+
+    /**
+     * Indidbtfs whfthfr thf <dodf>run()</dodf> mfthod of thf <dodf>runnbblf</dodf>
+     * wbs fxfdutfd or not.
+     *
+     * @sff #isDispbtdhfd
+     * @sindf 1.7
+     */
+    privbtf volbtilf boolfbn dispbtdhfd = fblsf;
+
+    /**
+     * Sft to truf if dispbtdh() dbtdhfs Throwbblf bnd storfs it in thf
+     * fxdfption instbndf vbribblf. If fblsf, Throwbblfs brf propbgbtfd up
+     * to thf EvfntDispbtdhThrfbd's dispbtdh loop.
+     */
+    protfdtfd boolfbn dbtdhExdfptions;
+
+    /**
+     * Thf (potfntiblly null) Exdfption thrown during fxfdution of thf
+     * Runnbblf.run() mfthod. This vbribblf will blso bf null if b pbrtidulbr
+     * instbndf dofs not dbtdh fxdfptions.
+     */
+    privbtf Exdfption fxdfption = null;
+
+    /**
+     * Thf (potfntiblly null) Throwbblf thrown during fxfdution of thf
+     * Runnbblf.run() mfthod. This vbribblf will blso bf null if b pbrtidulbr
+     * instbndf dofs not dbtdh fxdfptions.
+     */
+    privbtf Throwbblf throwbblf = null;
+
+    /**
+     * Thf timfstbmp of whfn this fvfnt oddurrfd.
+     *
+     * @sfribl
+     * @sff #gftWhfn
+     */
+    privbtf long whfn;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 436056344909459450L;
+
+    /**
+     * Construdts bn <dodf>InvodbtionEvfnt</dodf> with thf spfdififd
+     * sourdf whidh will fxfdutf thf runnbblf's <dodf>run</dodf>
+     * mfthod whfn dispbtdhfd.
+     * <p>This is b donvfnifndf donstrudtor.  An invodbtion of thf form
+     * <tt>InvodbtionEvfnt(sourdf, runnbblf)</tt>
+     * bfhbvfs in fxbdtly thf sbmf wby bs thf invodbtion of
+     * <tt>{@link #InvodbtionEvfnt(Objfdt, Runnbblf, Objfdt, boolfbn) InvodbtionEvfnt}(sourdf, runnbblf, null, fblsf)</tt>.
+     * <p> This mfthod throws bn <dodf>IllfgblArgumfntExdfption</dodf>
+     * if <dodf>sourdf</dodf> is <dodf>null</dodf>.
+     *
+     * @pbrbm sourdf    Thf <dodf>Objfdt</dodf> thbt originbtfd thf fvfnt
+     * @pbrbm runnbblf  Thf <dodf>Runnbblf</dodf> whosf <dodf>run</dodf>
+     *                  mfthod will bf fxfdutfd
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     *
+     * @sff #gftSourdf()
+     * @sff #InvodbtionEvfnt(Objfdt, Runnbblf, Objfdt, boolfbn)
+     */
+    publid InvodbtionEvfnt(Objfdt sourdf, Runnbblf runnbblf) {
+        this(sourdf, INVOCATION_DEFAULT, runnbblf, null, null, fblsf);
+    }
+
+    /**
+     * Construdts bn <dodf>InvodbtionEvfnt</dodf> with thf spfdififd
+     * sourdf whidh will fxfdutf thf runnbblf's <dodf>run</dodf>
+     * mfthod whfn dispbtdhfd.  If notififr is non-<dodf>null</dodf>,
+     * <dodf>notifyAll()</dodf> will bf dbllfd on it
+     * immfdibtfly bftfr <dodf>run</dodf> hbs rfturnfd or thrown bn fxdfption.
+     * <p>An invodbtion of thf form <tt>InvodbtionEvfnt(sourdf,
+     * runnbblf, notififr, dbtdhThrowbblfs)</tt>
+     * bfhbvfs in fxbdtly thf sbmf wby bs thf invodbtion of
+     * <tt>{@link #InvodbtionEvfnt(Objfdt, int, Runnbblf, Objfdt, boolfbn) InvodbtionEvfnt}(sourdf, InvodbtionEvfnt.INVOCATION_DEFAULT, runnbblf, notififr, dbtdhThrowbblfs)</tt>.
+     * <p>This mfthod throws bn <dodf>IllfgblArgumfntExdfption</dodf>
+     * if <dodf>sourdf</dodf> is <dodf>null</dodf>.
+     *
+     * @pbrbm sourdf            Thf <dodf>Objfdt</dodf> thbt originbtfd
+     *                          thf fvfnt
+     * @pbrbm runnbblf          Thf <dodf>Runnbblf</dodf> whosf
+     *                          <dodf>run</dodf> mfthod will bf
+     *                          fxfdutfd
+     * @pbrbm notififr          Thf {@dodf Objfdt} whosf <dodf>notifyAll</dodf>
+     *                          mfthod will bf dbllfd bftfr
+     *                          <dodf>Runnbblf.run</dodf> hbs rfturnfd or
+     *                          thrown bn fxdfption or bftfr thf fvfnt wbs
+     *                          disposfd
+     * @pbrbm dbtdhThrowbblfs   Spfdififs whfthfr <dodf>dispbtdh</dodf>
+     *                          should dbtdh Throwbblf whfn fxfduting
+     *                          thf <dodf>Runnbblf</dodf>'s <dodf>run</dodf>
+     *                          mfthod, or should instfbd propbgbtf thosf
+     *                          Throwbblfs to thf EvfntDispbtdhThrfbd's
+     *                          dispbtdh loop
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     *
+     * @sff #gftSourdf()
+     * @sff     #InvodbtionEvfnt(Objfdt, int, Runnbblf, Objfdt, boolfbn)
+     */
+    publid InvodbtionEvfnt(Objfdt sourdf, Runnbblf runnbblf, Objfdt notififr,
+                           boolfbn dbtdhThrowbblfs) {
+        this(sourdf, INVOCATION_DEFAULT, runnbblf, notififr, null, dbtdhThrowbblfs);
+    }
+
+    /**
+     * Construdts bn <dodf>InvodbtionEvfnt</dodf> with thf spfdififd
+     * sourdf whidh will fxfdutf thf runnbblf's <dodf>run</dodf>
+     * mfthod whfn dispbtdhfd.  If listfnfr is non-<dodf>null</dodf>,
+     * <dodf>listfnfr.run()</dodf> will bf dbllfd immfdibtfly bftfr
+     * <dodf>run</dodf> hbs rfturnfd, thrown bn fxdfption or thf fvfnt
+     * wbs disposfd.
+     * <p>This mfthod throws bn <dodf>IllfgblArgumfntExdfption</dodf>
+     * if <dodf>sourdf</dodf> is <dodf>null</dodf>.
+     *
+     * @pbrbm sourdf            Thf <dodf>Objfdt</dodf> thbt originbtfd
+     *                          thf fvfnt
+     * @pbrbm runnbblf          Thf <dodf>Runnbblf</dodf> whosf
+     *                          <dodf>run</dodf> mfthod will bf
+     *                          fxfdutfd
+     * @pbrbm listfnfr          Thf <dodf>Runnbblf</dodf>Runnbblf whosf
+     *                          <dodf>run()</dodf> mfthod will bf dbllfd
+     *                          bftfr thf {@dodf InvodbtionEvfnt}
+     *                          wbs dispbtdhfd or disposfd
+     * @pbrbm dbtdhThrowbblfs   Spfdififs whfthfr <dodf>dispbtdh</dodf>
+     *                          should dbtdh Throwbblf whfn fxfduting
+     *                          thf <dodf>Runnbblf</dodf>'s <dodf>run</dodf>
+     *                          mfthod, or should instfbd propbgbtf thosf
+     *                          Throwbblfs to thf EvfntDispbtdhThrfbd's
+     *                          dispbtdh loop
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     */
+    publid InvodbtionEvfnt(Objfdt sourdf, Runnbblf runnbblf, Runnbblf listfnfr,
+                           boolfbn dbtdhThrowbblfs)  {
+        this(sourdf, INVOCATION_DEFAULT, runnbblf, null, listfnfr, dbtdhThrowbblfs);
+    }
+
+    /**
+     * Construdts bn <dodf>InvodbtionEvfnt</dodf> with thf spfdififd
+     * sourdf bnd ID whidh will fxfdutf thf runnbblf's <dodf>run</dodf>
+     * mfthod whfn dispbtdhfd.  If notififr is non-<dodf>null</dodf>,
+     * <dodf>notifyAll</dodf> will bf dbllfd on it immfdibtfly bftfr
+     * <dodf>run</dodf> hbs rfturnfd or thrown bn fxdfption.
+     * <p>This mfthod throws bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
+     *
+     * @pbrbm sourdf            Thf <dodf>Objfdt</dodf> thbt originbtfd
+     *                          thf fvfnt
+     * @pbrbm id     An intfgfr indidbting thf typf of fvfnt.
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     thf dlbss dfsdription for {@link InvodbtionEvfnt}
+     * @pbrbm runnbblf          Thf <dodf>Runnbblf</dodf> whosf
+     *                          <dodf>run</dodf> mfthod will bf fxfdutfd
+     * @pbrbm notififr          Thf <dodf>Objfdt</dodf> whosf <dodf>notifyAll</dodf>
+     *                          mfthod will bf dbllfd bftfr
+     *                          <dodf>Runnbblf.run</dodf> hbs rfturnfd or
+     *                          thrown bn fxdfption or bftfr thf fvfnt wbs
+     *                          disposfd
+     * @pbrbm dbtdhThrowbblfs   Spfdififs whfthfr <dodf>dispbtdh</dodf>
+     *                          should dbtdh Throwbblf whfn fxfduting thf
+     *                          <dodf>Runnbblf</dodf>'s <dodf>run</dodf>
+     *                          mfthod, or should instfbd propbgbtf thosf
+     *                          Throwbblfs to thf EvfntDispbtdhThrfbd's
+     *                          dispbtdh loop
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff #gftSourdf()
+     * @sff #gftID()
+     */
+    protfdtfd InvodbtionEvfnt(Objfdt sourdf, int id, Runnbblf runnbblf,
+                              Objfdt notififr, boolfbn dbtdhThrowbblfs) {
+        this(sourdf, id, runnbblf, notififr, null, dbtdhThrowbblfs);
+    }
+
+    privbtf InvodbtionEvfnt(Objfdt sourdf, int id, Runnbblf runnbblf,
+                            Objfdt notififr, Runnbblf listfnfr, boolfbn dbtdhThrowbblfs) {
+        supfr(sourdf, id);
+        this.runnbblf = runnbblf;
+        this.notififr = notififr;
+        this.listfnfr = listfnfr;
+        this.dbtdhExdfptions = dbtdhThrowbblfs;
+        this.whfn = Systfm.durrfntTimfMillis();
+    }
+    /**
+     * Exfdutfs thf Runnbblf's <dodf>run()</dodf> mfthod bnd notififs thf
+     * notififr (if bny) whfn <dodf>run()</dodf> hbs rfturnfd or thrown bn fxdfption.
+     *
+     * @sff #isDispbtdhfd
+     */
+    publid void dispbtdh() {
+        try {
+            if (dbtdhExdfptions) {
+                try {
+                    runnbblf.run();
+                }
+                dbtdh (Throwbblf t) {
+                    if (t instbndfof Exdfption) {
+                        fxdfption = (Exdfption) t;
+                    }
+                    throwbblf = t;
+                }
+            }
+            flsf {
+                runnbblf.run();
+            }
+        } finblly {
+            finishfdDispbtdhing(truf);
+        }
+    }
+
+    /**
+     * Rfturns bny Exdfption dbught whilf fxfduting thf Runnbblf's <dodf>run()
+     * </dodf> mfthod.
+     *
+     * @rfturn  A rfffrfndf to thf Exdfption if onf wbs thrown; null if no
+     *          Exdfption wbs thrown or if this InvodbtionEvfnt dofs not
+     *          dbtdh fxdfptions
+     */
+    publid Exdfption gftExdfption() {
+        rfturn (dbtdhExdfptions) ? fxdfption : null;
+    }
+
+    /**
+     * Rfturns bny Throwbblf dbught whilf fxfduting thf Runnbblf's <dodf>run()
+     * </dodf> mfthod.
+     *
+     * @rfturn  A rfffrfndf to thf Throwbblf if onf wbs thrown; null if no
+     *          Throwbblf wbs thrown or if this InvodbtionEvfnt dofs not
+     *          dbtdh Throwbblfs
+     * @sindf 1.5
+     */
+    publid Throwbblf gftThrowbblf() {
+        rfturn (dbtdhExdfptions) ? throwbblf : null;
+    }
+
+    /**
+     * Rfturns thf timfstbmp of whfn this fvfnt oddurrfd.
+     *
+     * @rfturn this fvfnt's timfstbmp
+     * @sindf 1.4
+     */
+    publid long gftWhfn() {
+        rfturn whfn;
+    }
+
+    /**
+     * Rfturns {@dodf truf} if thf fvfnt is dispbtdhfd or bny fxdfption is
+     * thrown whilf dispbtdhing, {@dodf fblsf} othfrwisf. Thf mfthod should
+     * bf dbllfd by b wbiting thrfbd thbt dblls thf {@dodf notififr.wbit()} mfthod.
+     * Sindf spurious wbkfups brf possiblf (bs fxplbinfd in {@link Objfdt#wbit()}),
+     * this mfthod should bf usfd in b wbiting loop to fnsurf thbt thf fvfnt
+     * got dispbtdhfd:
+     * <prf>
+     *     whilf (!fvfnt.isDispbtdhfd()) {
+     *         notififr.wbit();
+     *     }
+     * </prf>
+     * If thf wbiting thrfbd wbkfs up without dispbtdhing thf fvfnt,
+     * thf {@dodf isDispbtdhfd()} mfthod rfturns {@dodf fblsf}, bnd
+     * thf {@dodf whilf} loop fxfdutfs ondf morf, thus, dbusing
+     * thf bwbkfnfd thrfbd to rfvfrt to thf wbiting modf.
+     * <p>
+     * If thf {@dodf notififr.notifyAll()} hbppfns bfforf thf wbiting thrfbd
+     * fntfrs thf {@dodf notififr.wbit()} mfthod, thf {@dodf whilf} loop fnsurfs
+     * thbt thf wbiting thrfbd will not fntfr thf {@dodf notififr.wbit()} mfthod.
+     * Othfrwisf, thfrf is no gubrbntff thbt thf wbiting thrfbd will fvfr bf wokfn
+     * from thf wbit.
+     *
+     * @rfturn {@dodf truf} if thf fvfnt hbs bffn dispbtdhfd, or bny fxdfption
+     * hbs bffn thrown whilf dispbtdhing, {@dodf fblsf} othfrwisf
+     * @sff #dispbtdh
+     * @sff #notififr
+     * @sff #dbtdhExdfptions
+     * @sindf 1.7
+     */
+    publid boolfbn isDispbtdhfd() {
+        rfturn dispbtdhfd;
+    }
+
+    /**
+     * Cbllfd whfn thf fvfnt wbs dispbtdhfd or disposfd
+     * @pbrbm dispbtdhfd truf if thf fvfnt wbs dispbtdhfd
+     *                   fblsf if thf fvfnt wbs disposfd
+     */
+    privbtf void finishfdDispbtdhing(boolfbn dispbtdhfd) {
+        this.dispbtdhfd = dispbtdhfd;
+
+        if (notififr != null) {
+            syndhronizfd (notififr) {
+                notififr.notifyAll();
+            }
+        }
+
+        if (listfnfr != null) {
+            listfnfr.run();
+        }
+    }
+
+    /**
+     * Rfturns b pbrbmftfr string idfntifying this fvfnt.
+     * This mfthod is usfful for fvfnt-logging bnd for dfbugging.
+     *
+     * @rfturn  A string idfntifying thf fvfnt bnd its bttributfs
+     */
+    publid String pbrbmString() {
+        String typfStr;
+        switdh(id) {
+            dbsf INVOCATION_DEFAULT:
+                typfStr = "INVOCATION_DEFAULT";
+                brfbk;
+            dffbult:
+                typfStr = "unknown typf";
+        }
+        rfturn typfStr + ",runnbblf=" + runnbblf + ",notififr=" + notififr +
+            ",dbtdhExdfptions=" + dbtdhExdfptions + ",whfn=" + whfn;
+    }
+}

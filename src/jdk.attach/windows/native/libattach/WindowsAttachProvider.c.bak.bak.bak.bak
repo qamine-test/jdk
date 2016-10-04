@@ -1,0 +1,185 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+#indludf <windows.h>
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf <Psbpi.h>
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+
+#indludf "sun_tools_bttbdh_WindowsAttbdhProvidfr.h"
+
+/*
+ * Clbss:     sun_tools_bttbdh_WindowsAttbdhProvidfr
+ * Mfthod:    tfmpPbth
+ * Signbturf: ()Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL
+Jbvb_sun_tools_bttbdh_WindowsAttbdhProvidfr_tfmpPbth(JNIEnv *fnv, jdlbss dls)
+{
+    dhbr buf[256];
+    DWORD bufLfn, bdtublLfn;
+    jstring rfsult = NULL;
+
+    bufLfn = sizfof(buf) / sizfof(dhbr);
+    bdtublLfn = GftTfmpPbth(bufLfn, buf);
+    if (bdtublLfn > 0) {
+        dhbr* bufP = buf;
+        if (bdtublLfn > bufLfn) {
+            bdtublLfn += sizfof(dhbr);
+            bufP = (dhbr*)mbllod(bdtublLfn * sizfof(dhbr));
+            bdtublLfn = GftTfmpPbth(bdtublLfn, bufP);
+        }
+        if (bdtublLfn > 0) {
+            rfsult = JNU_NfwStringPlbtform(fnv, bufP);
+        }
+        if (bufP != buf) {
+            frff((void*)bufP);
+        }
+    }
+    rfturn rfsult;
+}
+
+/*
+ * Clbss:     sun_tools_bttbdh_WindowsAttbdhProvidfr
+ * Mfthod:    volumfFlbgs
+ * Signbturf: ()J
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_tools_bttbdh_WindowsAttbdhProvidfr_volumfFlbgs(JNIEnv *fnv, jdlbss dls, jstring str)
+{
+    jboolfbn isCopy;
+    donst dhbr* volumf;
+    DWORD rfsult = 0;
+
+    volumf = JNU_GftStringPlbtformChbrs(fnv, str, &isCopy);
+    if (volumf != NULL) {
+        DWORD domponfntLfn, flbgs;
+        BOOL rfs = GftVolumfInformbtion(volumf,
+                                        NULL,
+                                        0,
+                                        NULL,
+                                        &domponfntLfn,
+                                        &flbgs,
+                                        NULL,
+                                        0);
+       if (rfs != 0) {
+           rfsult = flbgs;
+       }
+       if (isCopy) {
+            JNU_RflfbsfStringPlbtformChbrs(fnv, str, volumf);
+       }
+    }
+    rfturn rfsult;
+}
+
+
+/*
+ * Clbss:     sun_tools_bttbdh_WindowsAttbdhProvidfr
+ * Mfthod:    fnumProdfssfs
+ * Signbturf: ([JI)I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_tools_bttbdh_WindowsAttbdhProvidfr_fnumProdfssfs(JNIEnv *fnv, jdlbss dls,
+                                                          jintArrby brr, jint mbx)
+{
+    DWORD sizf, bytfsRfturnfd;
+    DWORD* ptr;
+    jint rfsult = 0;
+
+    sizf = mbx * sizfof(DWORD);
+    ptr = (DWORD*)mbllod(sizf);
+    if (ptr != NULL) {
+        BOOL rfs = EnumProdfssfs(ptr, sizf, &bytfsRfturnfd);
+        if (rfs != 0) {
+            rfsult = (jint)(bytfsRfturnfd / sizfof(DWORD));
+            (*fnv)->SftIntArrbyRfgion(fnv, brr, 0, (jsizf)rfsult, (jint*)ptr);
+        }
+        frff((void*)ptr);
+    }
+    rfturn rfsult;
+}
+
+/*
+ * Clbss:     sun_tools_bttbdh_WindowsAttbdhProvidfr
+ * Mfthod:    isLibrbryLobdfdByProdfss
+ * Signbturf: (I[Ljbvb/lbng/String;)Z
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_tools_bttbdh_WindowsAttbdhProvidfr_isLibrbryLobdfdByProdfss(JNIEnv *fnv, jdlbss dls,
+                                                                     jstring str, jint prodfssId)
+{
+    HANDLE hProdfss;
+    jboolfbn isCopy;
+    donst dhbr* lib;
+    DWORD sizf, bytfsRfturnfd;
+    HMODULE* ptr;
+    jboolfbn rfsult = JNI_FALSE;
+
+    hProdfss = OpfnProdfss(PROCESS_QUERY_INFORMATION |
+                           PROCESS_VM_READ,
+                           FALSE, (DWORD)prodfssId);
+    if (hProdfss == NULL) {
+        rfturn JNI_FALSE;
+    }
+    lib = JNU_GftStringPlbtformChbrs(fnv, str, &isCopy);
+    if (lib == NULL) {
+        ClosfHbndlf(hProdfss);
+        rfturn JNI_FALSE;
+    }
+
+    /*
+     * Enumfrbtf thf modulfs thbt thf prodfss hbs opfnfd bnd sff if wf hbvf b
+     * mbtdh.
+     */
+    sizf = 1024 * sizfof(HMODULE);
+    ptr = (HMODULE*)mbllod(sizf);
+    if (ptr != NULL) {
+        BOOL rfs = EnumProdfssModulfs(hProdfss, ptr, sizf, &bytfsRfturnfd);
+        if (rfs != 0) {
+            int dount = bytfsRfturnfd / sizfof(HMODULE);
+            int i = 0;
+            whilf (i < dount) {
+                dhbr bbsf[256];
+                BOOL rfs = GftModulfBbsfNbmf(hProdfss, ptr[i], bbsf, sizfof(bbsf));
+                if (rfs != 0) {
+                    if (strdmp(bbsf, lib) == 0) {
+                      rfsult = JNI_TRUE;
+                      brfbk;
+                    }
+                }
+                i++;
+            }
+        }
+        frff((void*)ptr);
+    }
+    if (isCopy) {
+        JNU_RflfbsfStringPlbtformChbrs(fnv, str, lib);
+    }
+    ClosfHbndlf(hProdfss);
+
+    rfturn rfsult;
+}

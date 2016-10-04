@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.crypto.spec;
+pbdkbgf jbvbx.drypto.spfd;
 
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
 
 /**
- * Specifies the set of parameters required by a {@link
- * javax.crypto.Cipher} using the Galois/Counter Mode (GCM) mode.
+ * Spfdififs tif sft of pbrbmftfrs rfquirfd by b {@link
+ * jbvbx.drypto.Cipifr} using tif Gblois/Countfr Modf (GCM) modf.
  * <p>
- * Simple block cipher modes (such as CBC) generally require only an
- * initialization vector (such as {@code IvParameterSpec}),
- * but GCM needs these parameters:
+ * Simplf blodk dipifr modfs (sudi bs CBC) gfnfrblly rfquirf only bn
+ * initiblizbtion vfdtor (sudi bs {@dodf IvPbrbmftfrSpfd}),
+ * but GCM nffds tifsf pbrbmftfrs:
  * <ul>
- * <li>{@code IV}: Initialization Vector (IV) </li>
- * <li>{@code tLen}: length (in bits) of authentication tag T</li>
+ * <li>{@dodf IV}: Initiblizbtion Vfdtor (IV) </li>
+ * <li>{@dodf tLfn}: lfngti (in bits) of butifntidbtion tbg T</li>
  * </ul>
  * <p>
- * In addition to the parameters described here, other GCM inputs/output
- * (Additional Authenticated Data (AAD), Keys, block ciphers,
- * plain/ciphertext and authentication tags) are handled in the {@code
- * Cipher} class.
+ * In bddition to tif pbrbmftfrs dfsdribfd ifrf, otifr GCM inputs/output
+ * (Additionbl Autifntidbtfd Dbtb (AAD), Kfys, blodk dipifrs,
+ * plbin/dipifrtfxt bnd butifntidbtion tbgs) brf ibndlfd in tif {@dodf
+ * Cipifr} dlbss.
  * <p>
- * Please see <a href="http://www.ietf.org/rfc/rfc5116.txt"> RFC 5116
- * </a> for more information on the Authenticated Encryption with
- * Associated Data (AEAD) algorithm, and <a href=
- * "http://csrc.nist.gov/publications/nistpubs/800-38D/SP-800-38D.pdf">
- * NIST Special Publication 800-38D</a>, "NIST Recommendation for Block
- * Cipher Modes of Operation:  Galois/Counter Mode (GCM) and GMAC."
+ * Plfbsf sff <b irff="ittp://www.iftf.org/rfd/rfd5116.txt"> RFC 5116
+ * </b> for morf informbtion on tif Autifntidbtfd Endryption witi
+ * Assodibtfd Dbtb (AEAD) blgoritim, bnd <b irff=
+ * "ittp://dsrd.nist.gov/publidbtions/nistpubs/800-38D/SP-800-38D.pdf">
+ * NIST Spfdibl Publidbtion 800-38D</b>, "NIST Rfdommfndbtion for Blodk
+ * Cipifr Modfs of Opfrbtion:  Gblois/Countfr Modf (GCM) bnd GMAC."
  * <p>
- * The GCM specification states that {@code tLen} may only have the
- * values {128, 120, 112, 104, 96}, or {64, 32} for certain
- * applications.  Other values can be specified for this class, but not
- * all CSP implementations will support them.
+ * Tif GCM spfdifidbtion stbtfs tibt {@dodf tLfn} mby only ibvf tif
+ * vblufs {128, 120, 112, 104, 96}, or {64, 32} for dfrtbin
+ * bpplidbtions.  Otifr vblufs dbn bf spfdififd for tiis dlbss, but not
+ * bll CSP implfmfntbtions will support tifm.
  *
- * @see javax.crypto.Cipher
+ * @sff jbvbx.drypto.Cipifr
  *
- * @since 1.7
+ * @sindf 1.7
  */
-public class GCMParameterSpec implements AlgorithmParameterSpec {
+publid dlbss GCMPbrbmftfrSpfd implfmfnts AlgoritimPbrbmftfrSpfd {
 
-    // Initialization Vector.  Could use IvParameterSpec, but that
-    // would add extra copies.
-    private byte[] iv;
+    // Initiblizbtion Vfdtor.  Could usf IvPbrbmftfrSpfd, but tibt
+    // would bdd fxtrb dopifs.
+    privbtf bytf[] iv;
 
-    // Required Tag length (in bits).
-    private int tLen;
+    // Rfquirfd Tbg lfngti (in bits).
+    privbtf int tLfn;
 
     /**
-     * Constructs a GCMParameterSpec using the specified authentication
-     * tag bit-length and IV buffer.
+     * Construdts b GCMPbrbmftfrSpfd using tif spfdififd butifntidbtion
+     * tbg bit-lfngti bnd IV bufffr.
      *
-     * @param tLen the authentication tag length (in bits)
-     * @param src the IV source buffer.  The contents of the buffer are
-     * copied to protect against subsequent modification.
+     * @pbrbm tLfn tif butifntidbtion tbg lfngti (in bits)
+     * @pbrbm srd tif IV sourdf bufffr.  Tif dontfnts of tif bufffr brf
+     * dopifd to protfdt bgbinst subsfqufnt modifidbtion.
      *
-     * @throws IllegalArgumentException if {@code tLen} is negative,
-     * or {@code src} is null.
+     * @tirows IllfgblArgumfntExdfption if {@dodf tLfn} is nfgbtivf,
+     * or {@dodf srd} is null.
      */
-    public GCMParameterSpec(int tLen, byte[] src) {
-        if (src == null) {
-            throw new IllegalArgumentException("src array is null");
+    publid GCMPbrbmftfrSpfd(int tLfn, bytf[] srd) {
+        if (srd == null) {
+            tirow nfw IllfgblArgumfntExdfption("srd brrby is null");
         }
 
-        init(tLen, src, 0, src.length);
+        init(tLfn, srd, 0, srd.lfngti);
     }
 
     /**
-     * Constructs a GCMParameterSpec object using the specified
-     * authentication tag bit-length and a subset of the specified
-     * buffer as the IV.
+     * Construdts b GCMPbrbmftfrSpfd objfdt using tif spfdififd
+     * butifntidbtion tbg bit-lfngti bnd b subsft of tif spfdififd
+     * bufffr bs tif IV.
      *
-     * @param tLen the authentication tag length (in bits)
-     * @param src the IV source buffer.  The contents of the
-     * buffer are copied to protect against subsequent modification.
-     * @param offset the offset in {@code src} where the IV starts
-     * @param len the number of IV bytes
+     * @pbrbm tLfn tif butifntidbtion tbg lfngti (in bits)
+     * @pbrbm srd tif IV sourdf bufffr.  Tif dontfnts of tif
+     * bufffr brf dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     * @pbrbm offsft tif offsft in {@dodf srd} wifrf tif IV stbrts
+     * @pbrbm lfn tif numbfr of IV bytfs
      *
-     * @throws IllegalArgumentException if {@code tLen} is negative,
-     * {@code src} is null, {@code len} or {@code offset} is negative,
-     * or the sum of {@code offset} and {@code len} is greater than the
-     * length of the {@code src} byte array.
+     * @tirows IllfgblArgumfntExdfption if {@dodf tLfn} is nfgbtivf,
+     * {@dodf srd} is null, {@dodf lfn} or {@dodf offsft} is nfgbtivf,
+     * or tif sum of {@dodf offsft} bnd {@dodf lfn} is grfbtfr tibn tif
+     * lfngti of tif {@dodf srd} bytf brrby.
      */
-    public GCMParameterSpec(int tLen, byte[] src, int offset, int len) {
-        init(tLen, src, offset, len);
+    publid GCMPbrbmftfrSpfd(int tLfn, bytf[] srd, int offsft, int lfn) {
+        init(tLfn, srd, offsft, lfn);
     }
 
     /*
-     * Check input parameters.
+     * Cifdk input pbrbmftfrs.
      */
-    private void init(int tLen, byte[] src, int offset, int len) {
-        if (tLen < 0) {
-            throw new IllegalArgumentException(
-                "Length argument is negative");
+    privbtf void init(int tLfn, bytf[] srd, int offsft, int lfn) {
+        if (tLfn < 0) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Lfngti brgumfnt is nfgbtivf");
         }
-        this.tLen = tLen;
+        tiis.tLfn = tLfn;
 
-        // Input sanity check
-        if ((src == null) ||(len < 0) || (offset < 0)
-                || ((len + offset) > src.length)) {
-            throw new IllegalArgumentException("Invalid buffer arguments");
+        // Input sbnity difdk
+        if ((srd == null) ||(lfn < 0) || (offsft < 0)
+                || ((lfn + offsft) > srd.lfngti)) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid bufffr brgumfnts");
         }
 
-        iv = new byte[len];
-        System.arraycopy(src, offset, iv, 0, len);
+        iv = nfw bytf[lfn];
+        Systfm.brrbydopy(srd, offsft, iv, 0, lfn);
     }
 
     /**
-     * Returns the authentication tag length.
+     * Rfturns tif butifntidbtion tbg lfngti.
      *
-     * @return the authentication tag length (in bits)
+     * @rfturn tif butifntidbtion tbg lfngti (in bits)
      */
-    public int getTLen() {
-        return tLen;
+    publid int gftTLfn() {
+        rfturn tLfn;
     }
 
     /**
-     * Returns the Initialization Vector (IV).
+     * Rfturns tif Initiblizbtion Vfdtor (IV).
      *
-     * @return the IV.  Creates a new array each time this method
-     * is called.
+     * @rfturn tif IV.  Crfbtfs b nfw brrby fbdi timf tiis mftiod
+     * is dbllfd.
      */
-    public byte[] getIV() {
-        return iv.clone();
+    publid bytf[] gftIV() {
+        rfturn iv.dlonf();
     }
 }

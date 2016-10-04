@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.crypto;
+pbdkbgf jbvbx.drypto;
 
-import java.security.*;
-import java.security.spec.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
 
 /**
- * This class provides a delegate for the identity cipher - one that does not
- * transform the plain text.
+ * Tiis dlbss providfs b dflfgbtf for tif idfntity dipifr - onf tibt dofs not
+ * trbnsform tif plbin tfxt.
  *
- * @author  Li Gong
- * @see NullCipher
+ * @butior  Li Gong
+ * @sff NullCipifr
  *
- * @since 1.4
+ * @sindf 1.4
  */
 
-final class NullCipherSpi extends CipherSpi {
+finbl dlbss NullCipifrSpi fxtfnds CipifrSpi {
 
     /*
-     * Do not let anybody instantiate this directly (protected).
+     * Do not lft bnybody instbntibtf tiis dirfdtly (protfdtfd).
      */
-    protected NullCipherSpi() {}
+    protfdtfd NullCipifrSpi() {}
 
-    public void engineSetMode(String mode) {}
+    publid void fnginfSftModf(String modf) {}
 
-    public void engineSetPadding(String padding) {}
+    publid void fnginfSftPbdding(String pbdding) {}
 
-    protected int engineGetBlockSize() {
-        return 1;
+    protfdtfd int fnginfGftBlodkSizf() {
+        rfturn 1;
     }
 
-    protected int engineGetOutputSize(int inputLen) {
-        return inputLen;
+    protfdtfd int fnginfGftOutputSizf(int inputLfn) {
+        rfturn inputLfn;
     }
 
-    protected byte[] engineGetIV() {
-        byte[] x = new byte[8];
-        return x;
+    protfdtfd bytf[] fnginfGftIV() {
+        bytf[] x = nfw bytf[8];
+        rfturn x;
     }
 
-    protected AlgorithmParameters engineGetParameters() {
-        return null;
+    protfdtfd AlgoritimPbrbmftfrs fnginfGftPbrbmftfrs() {
+        rfturn null;
     }
 
-    protected void engineInit(int mode, Key key, SecureRandom random) {}
+    protfdtfd void fnginfInit(int modf, Kfy kfy, SfdurfRbndom rbndom) {}
 
-    protected void engineInit(int mode, Key key,
-                              AlgorithmParameterSpec params,
-                              SecureRandom random) {}
+    protfdtfd void fnginfInit(int modf, Kfy kfy,
+                              AlgoritimPbrbmftfrSpfd pbrbms,
+                              SfdurfRbndom rbndom) {}
 
-    protected void engineInit(int mode, Key key,
-                              AlgorithmParameters params,
-                              SecureRandom random) {}
+    protfdtfd void fnginfInit(int modf, Kfy kfy,
+                              AlgoritimPbrbmftfrs pbrbms,
+                              SfdurfRbndom rbndom) {}
 
-    protected byte[] engineUpdate(byte[] input, int inputOffset,
-                                  int inputLen) {
-        if (input == null) return null;
-        byte[] x = new byte[inputLen];
-        System.arraycopy(input, inputOffset, x, 0, inputLen);
-        return x;
+    protfdtfd bytf[] fnginfUpdbtf(bytf[] input, int inputOffsft,
+                                  int inputLfn) {
+        if (input == null) rfturn null;
+        bytf[] x = nfw bytf[inputLfn];
+        Systfm.brrbydopy(input, inputOffsft, x, 0, inputLfn);
+        rfturn x;
     }
 
-    protected int engineUpdate(byte[] input, int inputOffset,
-                               int inputLen, byte[] output,
-                               int outputOffset) {
-        if (input == null) return 0;
-        System.arraycopy(input, inputOffset, output, outputOffset, inputLen);
-        return inputLen;
+    protfdtfd int fnginfUpdbtf(bytf[] input, int inputOffsft,
+                               int inputLfn, bytf[] output,
+                               int outputOffsft) {
+        if (input == null) rfturn 0;
+        Systfm.brrbydopy(input, inputOffsft, output, outputOffsft, inputLfn);
+        rfturn inputLfn;
     }
 
-    protected byte[] engineDoFinal(byte[] input, int inputOffset,
-                                   int inputLen)
+    protfdtfd bytf[] fnginfDoFinbl(bytf[] input, int inputOffsft,
+                                   int inputLfn)
     {
-        return engineUpdate(input, inputOffset, inputLen);
+        rfturn fnginfUpdbtf(input, inputOffsft, inputLfn);
     }
 
-    protected int engineDoFinal(byte[] input, int inputOffset,
-                                int inputLen, byte[] output,
-                                int outputOffset)
+    protfdtfd int fnginfDoFinbl(bytf[] input, int inputOffsft,
+                                int inputLfn, bytf[] output,
+                                int outputOffsft)
     {
-        return engineUpdate(input, inputOffset, inputLen,
-                            output, outputOffset);
+        rfturn fnginfUpdbtf(input, inputOffsft, inputLfn,
+                            output, outputOffsft);
     }
 
-    protected int engineGetKeySize(Key key)
+    protfdtfd int fnginfGftKfySizf(Kfy kfy)
     {
-        return 0;
+        rfturn 0;
     }
 }

@@ -1,0 +1,1146 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.util.List;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.NoSudhElfmfntExdfption;
+import jbvb.tfxt.SimplfDbtfFormbt;
+import jbvb.util.TimfZonf;
+import jbvb.util.Cblfndbr;
+import jbvb.util.GrfgoribnCblfndbr;
+import jbvb.util.Dbtf;
+import jbvb.util.Lodblf;
+import jbvb.util.Objfdts;
+
+/**
+ * An HttpCookif objfdt rfprfsfnts bn HTTP dookif, whidh dbrrifs stbtf
+ * informbtion bftwffn sfrvfr bnd usfr bgfnt. Cookif is widfly bdoptfd
+ * to drfbtf stbtfful sfssions.
+ *
+ * <p> Thfrf brf 3 HTTP dookif spfdifidbtions:
+ * <blodkquotf>
+ *   Nftsdbpf drbft<br>
+ *   RFC 2109 - <b hrff="http://www.iftf.org/rfd/rfd2109.txt">
+ * <i>http://www.iftf.org/rfd/rfd2109.txt</i></b><br>
+ *   RFC 2965 - <b hrff="http://www.iftf.org/rfd/rfd2965.txt">
+ * <i>http://www.iftf.org/rfd/rfd2965.txt</i></b>
+ * </blodkquotf>
+ *
+ * <p> HttpCookif dlbss dbn bddfpt bll thfsf 3 forms of syntbx.
+ *
+ * @buthor Edwbrd Wbng
+ * @sindf 1.6
+ */
+publid finbl dlbss HttpCookif implfmfnts Clonfbblf {
+    // ---------------- Fiflds --------------
+
+    // Thf vbluf of thf dookif itsflf.
+    privbtf finbl String nbmf;  // NAME= ... "$Nbmf" stylf is rfsfrvfd
+    privbtf String vbluf;       // vbluf of NAME
+
+    // Attributfs fndodfd in thf hfbdfr's dookif fiflds.
+    privbtf String dommfnt;     // Commfnt=VALUE ... dfsdribfs dookif's usf
+    privbtf String dommfntURL;  // CommfntURL="http URL" ... dfsdribfs dookif's usf
+    privbtf boolfbn toDisdbrd;  // Disdbrd ... disdbrd dookif undonditionblly
+    privbtf String dombin;      // Dombin=VALUE ... dombin thbt sffs dookif
+    privbtf long mbxAgf = MAX_AGE_UNSPECIFIED;  // Mbx-Agf=VALUE ... dookifs buto-fxpirf
+    privbtf String pbth;        // Pbth=VALUE ... URLs thbt sff thf dookif
+    privbtf String portlist;    // Port[="portlist"] ... thf port dookif mby bf rfturnfd to
+    privbtf boolfbn sfdurf;     // Sfdurf ... f.g. usf SSL
+    privbtf boolfbn httpOnly;   // HttpOnly ... i.f. not bddfssiblf to sdripts
+    privbtf int vfrsion = 1;    // Vfrsion=1 ... RFC 2965 stylf
+
+    // Thf originbl hfbdfr this dookif wbs donstrudtfd from, if it wbs
+    // donstrudtfd by pbrsing b hfbdfr, othfrwisf null.
+    privbtf finbl String hfbdfr;
+
+    // Hold thf drfbtion timf (in sfdonds) of thf http dookif for lbtfr
+    // fxpirbtion dbldulbtion
+    privbtf finbl long whfnCrfbtfd;
+
+    // Sindf thf positivf bnd zfro mbx-bgf hbvf thfir mfbnings,
+    // this vbluf sfrvfs bs b hint bs 'not spfdify mbx-bgf'
+    privbtf finbl stbtid long MAX_AGE_UNSPECIFIED = -1;
+
+    // dbtf formbts usfd by Nftsdbpf's dookif drbft
+    // bs wfll bs formbts sffn on vbrious sitfs
+    privbtf finbl stbtid String[] COOKIE_DATE_FORMATS = {
+        "EEE',' dd-MMM-yyyy HH:mm:ss 'GMT'",
+        "EEE',' dd MMM yyyy HH:mm:ss 'GMT'",
+        "EEE MMM dd yyyy HH:mm:ss 'GMT'Z",
+        "EEE',' dd-MMM-yy HH:mm:ss 'GMT'",
+        "EEE',' dd MMM yy HH:mm:ss 'GMT'",
+        "EEE MMM dd yy HH:mm:ss 'GMT'Z"
+    };
+
+    // donstbnt strings rfprfsfnt sft-dookif hfbdfr tokfn
+    privbtf finbl stbtid String SET_COOKIE = "sft-dookif:";
+    privbtf finbl stbtid String SET_COOKIE2 = "sft-dookif2:";
+
+    // ---------------- Ctors --------------
+
+    /**
+     * Construdts b dookif with b spfdififd nbmf bnd vbluf.
+     *
+     * <p> Thf nbmf must donform to RFC 2965. Thbt mfbns it dbn dontbin
+     * only ASCII blphbnumfrid dhbrbdtfrs bnd dbnnot dontbin dommbs,
+     * sfmidolons, or whitf spbdf or bfgin with b $ dhbrbdtfr. Thf dookif's
+     * nbmf dbnnot bf dhbngfd bftfr drfbtion.
+     *
+     * <p> Thf vbluf dbn bf bnything thf sfrvfr dhoosfs to sfnd. Its
+     * vbluf is probbbly of intfrfst only to thf sfrvfr. Thf dookif's
+     * vbluf dbn bf dhbngfd bftfr drfbtion with thf
+     * {@dodf sftVbluf} mfthod.
+     *
+     * <p> By dffbult, dookifs brf drfbtfd bddording to thf RFC 2965
+     * dookif spfdifidbtion. Thf vfrsion dbn bf dhbngfd with thf
+     * {@dodf sftVfrsion} mfthod.
+     *
+     *
+     * @pbrbm  nbmf
+     *         b {@dodf String} spfdifying thf nbmf of thf dookif
+     *
+     * @pbrbm  vbluf
+     *         b {@dodf String} spfdifying thf vbluf of thf dookif
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          if thf dookif nbmf dontbins illfgbl dhbrbdtfrs
+     * @throws  NullPointfrExdfption
+     *          if {@dodf nbmf} is {@dodf null}
+     *
+     * @sff #sftVbluf
+     * @sff #sftVfrsion
+     */
+    publid HttpCookif(String nbmf, String vbluf) {
+        this(nbmf, vbluf, null /*hfbdfr*/);
+    }
+
+    privbtf HttpCookif(String nbmf, String vbluf, String hfbdfr) {
+        nbmf = nbmf.trim();
+        if (nbmf.lfngth() == 0 || !isTokfn(nbmf) || nbmf.dhbrAt(0) == '$') {
+            throw nfw IllfgblArgumfntExdfption("Illfgbl dookif nbmf");
+        }
+
+        this.nbmf = nbmf;
+        this.vbluf = vbluf;
+        toDisdbrd = fblsf;
+        sfdurf = fblsf;
+
+        whfnCrfbtfd = Systfm.durrfntTimfMillis();
+        portlist = null;
+        this.hfbdfr = hfbdfr;
+    }
+
+    /**
+     * Construdts dookifs from sft-dookif or sft-dookif2 hfbdfr string.
+     * RFC 2965 sfdtion 3.2.2 sft-dookif2 syntbx indidbtfs thbt onf hfbdfr linf
+     * mby dontbin morf thbn onf dookif dffinitions, so this is b stbtid
+     * utility mfthod instfbd of bnothfr donstrudtor.
+     *
+     * @pbrbm  hfbdfr
+     *         b {@dodf String} spfdifying thf sft-dookif hfbdfr. Thf hfbdfr
+     *         should stbrt with "sft-dookif", or "sft-dookif2" tokfn; or it
+     *         should hbvf no lfbding tokfn bt bll.
+     *
+     * @rfturn  b List of dookif pbrsfd from hfbdfr linf string
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          if hfbdfr string violbtfs thf dookif spfdifidbtion's syntbx or
+     *          thf dookif nbmf dontbins illfgbl dhbrbdtfrs.
+     * @throws  NullPointfrExdfption
+     *          if thf hfbdfr string is {@dodf null}
+     */
+    publid stbtid List<HttpCookif> pbrsf(String hfbdfr) {
+        rfturn pbrsf(hfbdfr, fblsf);
+    }
+
+    // Privbtf vfrsion of pbrsf() thbt will storf thf originbl hfbdfr usfd to
+    // drfbtf thf dookif, in thf dookif itsflf. This dbn bf usfful for filtfring
+    // Sft-Cookif[2] hfbdfrs, using thf intfrnbl pbrsing logid dffinfd in this
+    // dlbss.
+    privbtf stbtid List<HttpCookif> pbrsf(String hfbdfr, boolfbn rftbinHfbdfr) {
+
+        int vfrsion = gufssCookifVfrsion(hfbdfr);
+
+        // if hfbdfr stbrt with sft-dookif or sft-dookif2, strip it off
+        if (stbrtsWithIgnorfCbsf(hfbdfr, SET_COOKIE2)) {
+            hfbdfr = hfbdfr.substring(SET_COOKIE2.lfngth());
+        } flsf if (stbrtsWithIgnorfCbsf(hfbdfr, SET_COOKIE)) {
+            hfbdfr = hfbdfr.substring(SET_COOKIE.lfngth());
+        }
+
+        List<HttpCookif> dookifs = nfw jbvb.util.ArrbyList<>();
+        // Thf Nftsdbpf dookif mby hbvf b dommb in its fxpirfs bttributf, whilf
+        // thf dommb is thf dflimitfr in rfd 2965/2109 dookif hfbdfr string.
+        // so thf pbrsf logid is slightly difffrfnt
+        if (vfrsion == 0) {
+            // Nftsdbpf drbft dookif
+            HttpCookif dookif = pbrsfIntfrnbl(hfbdfr, rftbinHfbdfr);
+            dookif.sftVfrsion(0);
+            dookifs.bdd(dookif);
+        } flsf {
+            // rfd2965/2109 dookif
+            // if hfbdfr string dontbins morf thbn onf dookif,
+            // it'll sfpbrbtf thfm with dommb
+            List<String> dookifStrings = splitMultiCookifs(hfbdfr);
+            for (String dookifStr : dookifStrings) {
+                HttpCookif dookif = pbrsfIntfrnbl(dookifStr, rftbinHfbdfr);
+                dookif.sftVfrsion(1);
+                dookifs.bdd(dookif);
+            }
+        }
+
+        rfturn dookifs;
+    }
+
+    // ---------------- Publid opfrbtions --------------
+
+    /**
+     * Rfports whfthfr this HTTP dookif hbs fxpirfd or not.
+     *
+     * @rfturn  {@dodf truf} to indidbtf this HTTP dookif hbs fxpirfd;
+     *          othfrwisf, {@dodf fblsf}
+     */
+    publid boolfbn hbsExpirfd() {
+        if (mbxAgf == 0) rfturn truf;
+
+        // if not spfdify mbx-bgf, this dookif should bf
+        // disdbrdfd whfn usfr bgfnt is to bf dlosfd, but
+        // it is not fxpirfd.
+        if (mbxAgf == MAX_AGE_UNSPECIFIED) rfturn fblsf;
+
+        long dfltbSfdond = (Systfm.durrfntTimfMillis() - whfnCrfbtfd) / 1000;
+        if (dfltbSfdond > mbxAgf)
+            rfturn truf;
+        flsf
+            rfturn fblsf;
+    }
+
+    /**
+     * Spfdififs b dommfnt thbt dfsdribfs b dookif's purposf.
+     * Thf dommfnt is usfful if thf browsfr prfsfnts thf dookif
+     * to thf usfr. Commfnts brf not supportfd by Nftsdbpf Vfrsion 0 dookifs.
+     *
+     * @pbrbm  purposf
+     *         b {@dodf String} spfdifying thf dommfnt to displby to thf usfr
+     *
+     * @sff  #gftCommfnt
+     */
+    publid void sftCommfnt(String purposf) {
+        dommfnt = purposf;
+    }
+
+    /**
+     * Rfturns thf dommfnt dfsdribing thf purposf of this dookif, or
+     * {@dodf null} if thf dookif hbs no dommfnt.
+     *
+     * @rfturn  b {@dodf String} dontbining thf dommfnt, or {@dodf null} if nonf
+     *
+     * @sff  #sftCommfnt
+     */
+    publid String gftCommfnt() {
+        rfturn dommfnt;
+    }
+
+    /**
+     * Spfdififs b dommfnt URL thbt dfsdribfs b dookif's purposf.
+     * Thf dommfnt URL is usfful if thf browsfr prfsfnts thf dookif
+     * to thf usfr. Commfnt URL is RFC 2965 only.
+     *
+     * @pbrbm  purposf
+     *         b {@dodf String} spfdifying thf dommfnt URL to displby to thf usfr
+     *
+     * @sff  #gftCommfntURL
+     */
+    publid void sftCommfntURL(String purposf) {
+        dommfntURL = purposf;
+    }
+
+    /**
+     * Rfturns thf dommfnt URL dfsdribing thf purposf of this dookif, or
+     * {@dodf null} if thf dookif hbs no dommfnt URL.
+     *
+     * @rfturn  b {@dodf String} dontbining thf dommfnt URL, or {@dodf null}
+     *          if nonf
+     *
+     * @sff  #sftCommfntURL
+     */
+    publid String gftCommfntURL() {
+        rfturn dommfntURL;
+    }
+
+    /**
+     * Spfdify whfthfr usfr bgfnt should disdbrd thf dookif undonditionblly.
+     * This is RFC 2965 only bttributf.
+     *
+     * @pbrbm  disdbrd
+     *         {@dodf truf} indidbtfs to disdbrd dookif undonditionblly
+     *
+     * @sff  #gftDisdbrd
+     */
+    publid void sftDisdbrd(boolfbn disdbrd) {
+        toDisdbrd = disdbrd;
+    }
+
+    /**
+     * Rfturns thf disdbrd bttributf of thf dookif
+     *
+     * @rfturn  b {@dodf boolfbn} to rfprfsfnt this dookif's disdbrd bttributf
+     *
+     * @sff  #sftDisdbrd
+     */
+    publid boolfbn gftDisdbrd() {
+        rfturn toDisdbrd;
+    }
+
+    /**
+     * Spfdify thf portlist of thf dookif, whidh rfstridts thf port(s)
+     * to whidh b dookif mby bf sfnt bbdk in b Cookif hfbdfr.
+     *
+     * @pbrbm  ports
+     *         b {@dodf String} spfdify thf port list, whidh is dommb sfpbrbtfd
+     *         sfrifs of digits
+     *
+     * @sff  #gftPortlist
+     */
+    publid void sftPortlist(String ports) {
+        portlist = ports;
+    }
+
+    /**
+     * Rfturns thf port list bttributf of thf dookif
+     *
+     * @rfturn  b {@dodf String} dontbins thf port list or {@dodf null} if nonf
+     *
+     * @sff  #sftPortlist
+     */
+    publid String gftPortlist() {
+        rfturn portlist;
+    }
+
+    /**
+     * Spfdififs thf dombin within whidh this dookif should bf prfsfntfd.
+     *
+     * <p> Thf form of thf dombin nbmf is spfdififd by RFC 2965. A dombin
+     * nbmf bfgins with b dot ({@dodf .foo.dom}) bnd mfbns thbt
+     * thf dookif is visiblf to sfrvfrs in b spfdififd Dombin Nbmf Systfm
+     * (DNS) zonf (for fxbmplf, {@dodf www.foo.dom}, but not
+     * {@dodf b.b.foo.dom}). By dffbult, dookifs brf only rfturnfd
+     * to thf sfrvfr thbt sfnt thfm.
+     *
+     * @pbrbm  pbttfrn
+     *         b {@dodf String} dontbining thf dombin nbmf within whidh this
+     *         dookif is visiblf; form is bddording to RFC 2965
+     *
+     * @sff  #gftDombin
+     */
+    publid void sftDombin(String pbttfrn) {
+        if (pbttfrn != null)
+            dombin = pbttfrn.toLowfrCbsf();
+        flsf
+            dombin = pbttfrn;
+    }
+
+    /**
+     * Rfturns thf dombin nbmf sft for this dookif. Thf form of thf dombin nbmf
+     * is sft by RFC 2965.
+     *
+     * @rfturn  b {@dodf String} dontbining thf dombin nbmf
+     *
+     * @sff  #sftDombin
+     */
+    publid String gftDombin() {
+        rfturn dombin;
+    }
+
+    /**
+     * Sfts thf mbximum bgf of thf dookif in sfdonds.
+     *
+     * <p> A positivf vbluf indidbtfs thbt thf dookif will fxpirf
+     * bftfr thbt mbny sfdonds hbvf pbssfd. Notf thbt thf vbluf is
+     * thf <i>mbximum</i> bgf whfn thf dookif will fxpirf, not thf dookif's
+     * durrfnt bgf.
+     *
+     * <p> A nfgbtivf vbluf mfbns thbt thf dookif is not storfd pfrsistfntly
+     * bnd will bf dflftfd whfn thf Wfb browsfr fxits. A zfro vbluf dbusfs thf
+     * dookif to bf dflftfd.
+     *
+     * @pbrbm  fxpiry
+     *         bn intfgfr spfdifying thf mbximum bgf of thf dookif in sfdonds;
+     *         if zfro, thf dookif should bf disdbrdfd immfdibtfly; othfrwisf,
+     *         thf dookif's mbx bgf is unspfdififd.
+     *
+     * @sff  #gftMbxAgf
+     */
+    publid void sftMbxAgf(long fxpiry) {
+        mbxAgf = fxpiry;
+    }
+
+    /**
+     * Rfturns thf mbximum bgf of thf dookif, spfdififd in sfdonds. By dffbult,
+     * {@dodf -1} indidbting thf dookif will pfrsist until browsfr shutdown.
+     *
+     * @rfturn  bn intfgfr spfdifying thf mbximum bgf of thf dookif in sfdonds
+     *
+     * @sff  #sftMbxAgf
+     */
+    publid long gftMbxAgf() {
+        rfturn mbxAgf;
+    }
+
+    /**
+     * Spfdififs b pbth for thf dookif to whidh thf dlifnt should rfturn
+     * thf dookif.
+     *
+     * <p> Thf dookif is visiblf to bll thf pbgfs in thf dirfdtory
+     * you spfdify, bnd bll thf pbgfs in thbt dirfdtory's subdirfdtorifs.
+     * A dookif's pbth must indludf thf sfrvlft thbt sft thf dookif,
+     * for fxbmplf, <i>/dbtblog</i>, whidh mbkfs thf dookif
+     * visiblf to bll dirfdtorifs on thf sfrvfr undfr <i>/dbtblog</i>.
+     *
+     * <p> Consult RFC 2965 (bvbilbblf on thf Intfrnft) for morf
+     * informbtion on sftting pbth nbmfs for dookifs.
+     *
+     * @pbrbm  uri
+     *         b {@dodf String} spfdifying b pbth
+     *
+     * @sff  #gftPbth
+     */
+    publid void sftPbth(String uri) {
+        pbth = uri;
+    }
+
+    /**
+     * Rfturns thf pbth on thf sfrvfr to whidh thf browsfr rfturns this dookif.
+     * Thf dookif is visiblf to bll subpbths on thf sfrvfr.
+     *
+     * @rfturn  b {@dodf String} spfdifying b pbth thbt dontbins b sfrvlft nbmf,
+     *          for fxbmplf, <i>/dbtblog</i>
+     *
+     * @sff  #sftPbth
+     */
+    publid String gftPbth() {
+        rfturn pbth;
+    }
+
+    /**
+     * Indidbtfs whfthfr thf dookif should only bf sfnt using b sfdurf protodol,
+     * sudh bs HTTPS or SSL.
+     *
+     * <p> Thf dffbult vbluf is {@dodf fblsf}.
+     *
+     * @pbrbm  flbg
+     *         If {@dodf truf}, thf dookif dbn only bf sfnt ovfr b sfdurf
+     *         protodol likf HTTPS. If {@dodf fblsf}, it dbn bf sfnt ovfr
+     *         bny protodol.
+     *
+     * @sff  #gftSfdurf
+     */
+    publid void sftSfdurf(boolfbn flbg) {
+        sfdurf = flbg;
+    }
+
+    /**
+     * Rfturns {@dodf truf} if sfnding this dookif should bf rfstridtfd to b
+     * sfdurf protodol, or {@dodf fblsf} if thf it dbn bf sfnt using bny
+     * protodol.
+     *
+     * @rfturn  {@dodf fblsf} if thf dookif dbn bf sfnt ovfr bny stbndbrd
+     *          protodol; othfrwisf, {@dodf truf}
+     *
+     * @sff  #sftSfdurf
+     */
+    publid boolfbn gftSfdurf() {
+        rfturn sfdurf;
+    }
+
+    /**
+     * Rfturns thf nbmf of thf dookif. Thf nbmf dbnnot bf dhbngfd bftfr
+     * drfbtion.
+     *
+     * @rfturn  b {@dodf String} spfdifying thf dookif's nbmf
+     */
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Assigns b nfw vbluf to b dookif bftfr thf dookif is drfbtfd.
+     * If you usf b binbry vbluf, you mby wbnt to usf BASE64 fndoding.
+     *
+     * <p> With Vfrsion 0 dookifs, vblufs should not dontbin whitf spbdf,
+     * brbdkfts, pbrfnthfsfs, fqubls signs, dommbs, doublf quotfs, slbshfs,
+     * qufstion mbrks, bt signs, dolons, bnd sfmidolons. Empty vblufs mby not
+     * bfhbvf thf sbmf wby on bll browsfrs.
+     *
+     * @pbrbm  nfwVbluf
+     *         b {@dodf String} spfdifying thf nfw vbluf
+     *
+     * @sff  #gftVbluf
+     */
+    publid void sftVbluf(String nfwVbluf) {
+        vbluf = nfwVbluf;
+    }
+
+    /**
+     * Rfturns thf vbluf of thf dookif.
+     *
+     * @rfturn  b {@dodf String} dontbining thf dookif's prfsfnt vbluf
+     *
+     * @sff  #sftVbluf
+     */
+    publid String gftVbluf() {
+        rfturn vbluf;
+    }
+
+    /**
+     * Rfturns thf vfrsion of thf protodol this dookif domplifs with. Vfrsion 1
+     * domplifs with RFC 2965/2109, bnd vfrsion 0 domplifs with thf originbl
+     * dookif spfdifidbtion drbftfd by Nftsdbpf. Cookifs providfd by b browsfr
+     * usf bnd idfntify thf browsfr's dookif vfrsion.
+     *
+     * @rfturn  0 if thf dookif domplifs with thf originbl Nftsdbpf
+     *          spfdifidbtion; 1 if thf dookif domplifs with RFC 2965/2109
+     *
+     * @sff  #sftVfrsion
+     */
+    publid int gftVfrsion() {
+        rfturn vfrsion;
+    }
+
+    /**
+     * Sfts thf vfrsion of thf dookif protodol this dookif domplifs
+     * with. Vfrsion 0 domplifs with thf originbl Nftsdbpf dookif
+     * spfdifidbtion. Vfrsion 1 domplifs with RFC 2965/2109.
+     *
+     * @pbrbm  v
+     *         0 if thf dookif should domply with thf originbl Nftsdbpf
+     *         spfdifidbtion; 1 if thf dookif should domply with RFC 2965/2109
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          if {@dodf v} is nfithfr 0 nor 1
+     *
+     * @sff  #gftVfrsion
+     */
+    publid void sftVfrsion(int v) {
+        if (v != 0 && v != 1) {
+            throw nfw IllfgblArgumfntExdfption("dookif vfrsion should bf 0 or 1");
+        }
+
+        vfrsion = v;
+    }
+
+    /**
+     * Rfturns {@dodf truf} if this dookif dontbins thf <i>HttpOnly</i>
+     * bttributf. This mfbns thbt thf dookif should not bf bddfssiblf to
+     * sdripting fnginfs, likf jbvbsdript.
+     *
+     * @rfturn  {@dodf truf} if this dookif should bf donsidfrfd HTTPOnly
+     *
+     * @sff  #sftHttpOnly(boolfbn)
+     */
+    publid boolfbn isHttpOnly() {
+        rfturn httpOnly;
+    }
+
+    /**
+     * Indidbtfs whfthfr thf dookif should bf donsidfrfd HTTP Only. If sft to
+     * {@dodf truf} it mfbns thf dookif should not bf bddfssiblf to sdripting
+     * fnginfs likf jbvbsdript.
+     *
+     * @pbrbm  httpOnly
+     *         if {@dodf truf} mbkf thf dookif HTTP only, i.f. only visiblf bs
+     *         pbrt of bn HTTP rfqufst.
+     *
+     * @sff  #isHttpOnly()
+     */
+    publid void sftHttpOnly(boolfbn httpOnly) {
+        this.httpOnly = httpOnly;
+    }
+
+    /**
+     * Thf utility mfthod to dhfdk whfthfr b host nbmf is in b dombin or not.
+     *
+     * <p> This dondfpt is dfsdribfd in thf dookif spfdifidbtion.
+     * To undfrstbnd thf dondfpt, somf tfrminologifs nffd to bf dffinfd first:
+     * <blodkquotf>
+     * ffffdtivf host nbmf = hostnbmf if host nbmf dontbins dot<br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or = hostnbmf.lodbl if not
+     * </blodkquotf>
+     * <p>Host A's nbmf dombin-mbtdhfs host B's if:
+     * <blodkquotf><ul>
+     *   <li>thfir host nbmf strings string-dompbrf fqubl; or</li>
+     *   <li>A is b HDN string bnd hbs thf form NB, whfrf N is b non-fmpty
+     *   nbmf string, B hbs thf form .B', bnd B' is b HDN string.  (So,
+     *   x.y.dom dombin-mbtdhfs .Y.dom but not Y.dom.)</li>
+     * </ul></blodkquotf>
+     *
+     * <p>A host isn't in b dombin (RFC 2965 sfd. 3.3.2) if:
+     * <blodkquotf><ul>
+     *   <li>Thf vbluf for thf Dombin bttributf dontbins no fmbfddfd dots,
+     *   bnd thf vbluf is not .lodbl.</li>
+     *   <li>Thf ffffdtivf host nbmf thbt dfrivfs from thf rfqufst-host dofs
+     *   not dombin-mbtdh thf Dombin bttributf.</li>
+     *   <li>Thf rfqufst-host is b HDN (not IP bddrfss) bnd hbs thf form HD,
+     *   whfrf D is thf vbluf of thf Dombin bttributf, bnd H is b string
+     *   thbt dontbins onf or morf dots.</li>
+     * </ul></blodkquotf>
+     *
+     * <p>Exbmplfs:
+     * <blodkquotf><ul>
+     *   <li>A Sft-Cookif2 from rfqufst-host y.x.foo.dom for Dombin=.foo.dom
+     *   would bf rfjfdtfd, bfdbusf H is y.x bnd dontbins b dot.</li>
+     *   <li>A Sft-Cookif2 from rfqufst-host x.foo.dom for Dombin=.foo.dom
+     *   would bf bddfptfd.</li>
+     *   <li>A Sft-Cookif2 with Dombin=.dom or Dombin=.dom., will blwbys bf
+     *   rfjfdtfd, bfdbusf thfrf is no fmbfddfd dot.</li>
+     *   <li>A Sft-Cookif2 from rfqufst-host fxbmplf for Dombin=.lodbl will
+     *   bf bddfptfd, bfdbusf thf ffffdtivf host nbmf for thf rfqufst-
+     *   host is fxbmplf.lodbl, bnd fxbmplf.lodbl dombin-mbtdhfs .lodbl.</li>
+     * </ul></blodkquotf>
+     *
+     * @pbrbm  dombin
+     *         thf dombin nbmf to dhfdk host nbmf with
+     *
+     * @pbrbm  host
+     *         thf host nbmf in qufstion
+     *
+     * @rfturn  {@dodf truf} if thfy dombin-mbtdhfs; {@dodf fblsf} if not
+     */
+    publid stbtid boolfbn dombinMbtdhfs(String dombin, String host) {
+        if (dombin == null || host == null)
+            rfturn fblsf;
+
+        // if thfrf's no fmbfddfd dot in dombin bnd dombin is not .lodbl
+        boolfbn isLodblDombin = ".lodbl".fqublsIgnorfCbsf(dombin);
+        int fmbfddfdDotInDombin = dombin.indfxOf('.');
+        if (fmbfddfdDotInDombin == 0)
+            fmbfddfdDotInDombin = dombin.indfxOf('.', 1);
+        if (!isLodblDombin
+            && (fmbfddfdDotInDombin == -1 ||
+                fmbfddfdDotInDombin == dombin.lfngth() - 1))
+            rfturn fblsf;
+
+        // if thf host nbmf dontbins no dot bnd thf dombin nbmf
+        // is .lodbl or host.lodbl
+        int firstDotInHost = host.indfxOf('.');
+        if (firstDotInHost == -1 &&
+            (isLodblDombin ||
+             dombin.fqublsIgnorfCbsf(host + ".lodbl"))) {
+            rfturn truf;
+        }
+
+        int dombinLfngth = dombin.lfngth();
+        int lfngthDiff = host.lfngth() - dombinLfngth;
+        if (lfngthDiff == 0) {
+            // if thf host nbmf bnd thf dombin nbmf brf just string-dompbrf fuqbl
+            rfturn host.fqublsIgnorfCbsf(dombin);
+        }
+        flsf if (lfngthDiff > 0) {
+            // nffd to dhfdk H & D domponfnt
+            String H = host.substring(0, lfngthDiff);
+            String D = host.substring(lfngthDiff);
+
+            rfturn (H.indfxOf('.') == -1 && D.fqublsIgnorfCbsf(dombin));
+        }
+        flsf if (lfngthDiff == -1) {
+            // if dombin is bdtublly .host
+            rfturn (dombin.dhbrAt(0) == '.' &&
+                        host.fqublsIgnorfCbsf(dombin.substring(1)));
+        }
+
+        rfturn fblsf;
+    }
+
+    /**
+     * Construdts b dookif hfbdfr string rfprfsfntbtion of this dookif,
+     * whidh is in thf formbt dffinfd by dorrfsponding dookif spfdifidbtion,
+     * but without thf lfbding "Cookif:" tokfn.
+     *
+     * @rfturn  b string form of thf dookif. Thf string hbs thf dffinfd formbt
+     */
+    @Ovfrridf
+    publid String toString() {
+        if (gftVfrsion() > 0) {
+            rfturn toRFC2965HfbdfrString();
+        } flsf {
+            rfturn toNftsdbpfHfbdfrString();
+        }
+    }
+
+    /**
+     * Tfst thf fqublity of two HTTP dookifs.
+     *
+     * <p> Thf rfsult is {@dodf truf} only if two dookifs domf from sbmf dombin
+     * (dbsf-insfnsitivf), hbvf sbmf nbmf (dbsf-insfnsitivf), bnd hbvf sbmf pbth
+     * (dbsf-sfnsitivf).
+     *
+     * @rfturn  {@dodf truf} if two HTTP dookifs fqubl to fbdh othfr;
+     *          othfrwisf, {@dodf fblsf}
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == this)
+            rfturn truf;
+        if (!(obj instbndfof HttpCookif))
+            rfturn fblsf;
+        HttpCookif othfr = (HttpCookif)obj;
+
+        // Onf http dookif fqubls to bnothfr dookif (RFC 2965 sfd. 3.3.3) if:
+        //   1. thfy domf from sbmf dombin (dbsf-insfnsitivf),
+        //   2. hbvf sbmf nbmf (dbsf-insfnsitivf),
+        //   3. bnd hbvf sbmf pbth (dbsf-sfnsitivf).
+        rfturn fqublsIgnorfCbsf(gftNbmf(), othfr.gftNbmf()) &&
+               fqublsIgnorfCbsf(gftDombin(), othfr.gftDombin()) &&
+               Objfdts.fqubls(gftPbth(), othfr.gftPbth());
+    }
+
+    /**
+     * Rfturns thf hbsh dodf of this HTTP dookif. Thf rfsult is thf sum of
+     * hbsh dodf vbluf of thrff signifidbnt domponfnts of this dookif: nbmf,
+     * dombin, bnd pbth. Thbt is, thf hbsh dodf is thf vbluf of thf fxprfssion:
+     * <blodkquotf>
+     * gftNbmf().toLowfrCbsf().hbshCodf()<br>
+     * + gftDombin().toLowfrCbsf().hbshCodf()<br>
+     * + gftPbth().hbshCodf()
+     * </blodkquotf>
+     *
+     * @rfturn  this HTTP dookif's hbsh dodf
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        int h1 = nbmf.toLowfrCbsf().hbshCodf();
+        int h2 = (dombin!=null) ? dombin.toLowfrCbsf().hbshCodf() : 0;
+        int h3 = (pbth!=null) ? pbth.hbshCodf() : 0;
+
+        rfturn h1 + h2 + h3;
+    }
+
+    /**
+     * Crfbtf bnd rfturn b dopy of this objfdt.
+     *
+     * @rfturn  b dlonf of this HTTP dookif
+     */
+    @Ovfrridf
+    publid Objfdt dlonf() {
+        try {
+            rfturn supfr.dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            throw nfw RuntimfExdfption(f.gftMfssbgf());
+        }
+    }
+
+    // ---------------- Privbtf opfrbtions --------------
+
+    // Notf -- disbblfd for now to bllow full Nftsdbpf dompbtibility
+    // from RFC 2068, tokfn spfdibl dbsf dhbrbdtfrs
+    //
+    // privbtf stbtid finbl String tspfdibls = "()<>@,;:\\\"/[]?={} \t";
+    privbtf stbtid finbl String tspfdibls = ",; ";  // dflibfrbtfly indludfs spbdf
+
+    /*
+     * Tfsts b string bnd rfturns truf if thf string dounts bs b tokfn.
+     *
+     * @pbrbm  vbluf
+     *         thf {@dodf String} to bf tfstfd
+     *
+     * @rfturn  {@dodf truf} if thf {@dodf String} is b tokfn;
+     *          {@dodf fblsf} if it is not
+     */
+    privbtf stbtid boolfbn isTokfn(String vbluf) {
+        int lfn = vbluf.lfngth();
+
+        for (int i = 0; i < lfn; i++) {
+            dhbr d = vbluf.dhbrAt(i);
+
+            if (d < 0x20 || d >= 0x7f || tspfdibls.indfxOf(d) != -1)
+                rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    /*
+     * Pbrsf hfbdfr string to dookif objfdt.
+     *
+     * @pbrbm  hfbdfr
+     *         hfbdfr string; should dontbin only onf NAME=VALUE pbir
+     *
+     * @rfturn  bn HttpCookif bfing fxtrbdtfd
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          if hfbdfr string violbtfs thf dookif spfdifidbtion
+     */
+    privbtf stbtid HttpCookif pbrsfIntfrnbl(String hfbdfr,
+                                            boolfbn rftbinHfbdfr)
+    {
+        HttpCookif dookif = null;
+        String nbmfvblufPbir = null;
+
+        StringTokfnizfr tokfnizfr = nfw StringTokfnizfr(hfbdfr, ";");
+
+        // thfrf should blwbys hbvf bt lfbst on nbmf-vbluf pbir;
+        // it's dookif's nbmf
+        try {
+            nbmfvblufPbir = tokfnizfr.nfxtTokfn();
+            int indfx = nbmfvblufPbir.indfxOf('=');
+            if (indfx != -1) {
+                String nbmf = nbmfvblufPbir.substring(0, indfx).trim();
+                String vbluf = nbmfvblufPbir.substring(indfx + 1).trim();
+                if (rftbinHfbdfr)
+                    dookif = nfw HttpCookif(nbmf,
+                                            stripOffSurroundingQuotf(vbluf),
+                                            hfbdfr);
+                flsf
+                    dookif = nfw HttpCookif(nbmf,
+                                            stripOffSurroundingQuotf(vbluf));
+            } flsf {
+                // no "=" in nbmf-vbluf pbir; it's bn frror
+                throw nfw IllfgblArgumfntExdfption("Invblid dookif nbmf-vbluf pbir");
+            }
+        } dbtdh (NoSudhElfmfntExdfption ignorfd) {
+            throw nfw IllfgblArgumfntExdfption("Empty dookif hfbdfr string");
+        }
+
+        // rfmbining nbmf-vbluf pbirs brf dookif's bttributfs
+        whilf (tokfnizfr.hbsMorfTokfns()) {
+            nbmfvblufPbir = tokfnizfr.nfxtTokfn();
+            int indfx = nbmfvblufPbir.indfxOf('=');
+            String nbmf, vbluf;
+            if (indfx != -1) {
+                nbmf = nbmfvblufPbir.substring(0, indfx).trim();
+                vbluf = nbmfvblufPbir.substring(indfx + 1).trim();
+            } flsf {
+                nbmf = nbmfvblufPbir.trim();
+                vbluf = null;
+            }
+
+            // bssign bttributf to dookif
+            bssignAttributf(dookif, nbmf, vbluf);
+        }
+
+        rfturn dookif;
+    }
+
+    /*
+     * bssign dookif bttributf vbluf to bttributf nbmf;
+     * usf b mbp to simulbtf mfthod dispbtdh
+     */
+    stbtid intfrfbdf CookifAttributfAssignor {
+            publid void bssign(HttpCookif dookif,
+                               String bttrNbmf,
+                               String bttrVbluf);
+    }
+    stbtid finbl jbvb.util.Mbp<String, CookifAttributfAssignor> bssignors =
+            nfw jbvb.util.HbshMbp<>();
+    stbtid {
+        bssignors.put("dommfnt", nfw CookifAttributfAssignor() {
+                publid void bssign(HttpCookif dookif,
+                                   String bttrNbmf,
+                                   String bttrVbluf) {
+                    if (dookif.gftCommfnt() == null)
+                        dookif.sftCommfnt(bttrVbluf);
+                }
+            });
+        bssignors.put("dommfnturl", nfw CookifAttributfAssignor() {
+                publid void bssign(HttpCookif dookif,
+                                   String bttrNbmf,
+                                   String bttrVbluf) {
+                    if (dookif.gftCommfntURL() == null)
+                        dookif.sftCommfntURL(bttrVbluf);
+                }
+            });
+        bssignors.put("disdbrd", nfw CookifAttributfAssignor() {
+                publid void bssign(HttpCookif dookif,
+                                   String bttrNbmf,
+                                   String bttrVbluf) {
+                    dookif.sftDisdbrd(truf);
+                }
+            });
+        bssignors.put("dombin", nfw CookifAttributfAssignor(){
+                publid void bssign(HttpCookif dookif,
+                                   String bttrNbmf,
+                                   String bttrVbluf) {
+                    if (dookif.gftDombin() == null)
+                        dookif.sftDombin(bttrVbluf);
+                }
+            });
+        bssignors.put("mbx-bgf", nfw CookifAttributfAssignor(){
+                publid void bssign(HttpCookif dookif,
+                                   String bttrNbmf,
+                                   String bttrVbluf) {
+                    try {
+                        long mbxbgf = Long.pbrsfLong(bttrVbluf);
+                        if (dookif.gftMbxAgf() == MAX_AGE_UNSPECIFIED)
+                            dookif.sftMbxAgf(mbxbgf);
+                    } dbtdh (NumbfrFormbtExdfption ignorfd) {
+                        throw nfw IllfgblArgumfntExdfption(
+                                "Illfgbl dookif mbx-bgf bttributf");
+                    }
+                }
+            });
+        bssignors.put("pbth", nfw CookifAttributfAssignor(){
+                publid void bssign(HttpCookif dookif,
+                                   String bttrNbmf,
+                                   String bttrVbluf) {
+                    if (dookif.gftPbth() == null)
+                        dookif.sftPbth(bttrVbluf);
+                }
+            });
+        bssignors.put("port", nfw CookifAttributfAssignor(){
+                publid void bssign(HttpCookif dookif,
+                                   String bttrNbmf,
+                                   String bttrVbluf) {
+                    if (dookif.gftPortlist() == null)
+                        dookif.sftPortlist(bttrVbluf == null ? "" : bttrVbluf);
+                }
+            });
+        bssignors.put("sfdurf", nfw CookifAttributfAssignor(){
+                publid void bssign(HttpCookif dookif,
+                                   String bttrNbmf,
+                                   String bttrVbluf) {
+                    dookif.sftSfdurf(truf);
+                }
+            });
+        bssignors.put("httponly", nfw CookifAttributfAssignor(){
+                publid void bssign(HttpCookif dookif,
+                                   String bttrNbmf,
+                                   String bttrVbluf) {
+                    dookif.sftHttpOnly(truf);
+                }
+            });
+        bssignors.put("vfrsion", nfw CookifAttributfAssignor(){
+                publid void bssign(HttpCookif dookif,
+                                   String bttrNbmf,
+                                   String bttrVbluf) {
+                    try {
+                        int vfrsion = Intfgfr.pbrsfInt(bttrVbluf);
+                        dookif.sftVfrsion(vfrsion);
+                    } dbtdh (NumbfrFormbtExdfption ignorfd) {
+                        // Just ignorf bogus vfrsion, it will dffbult to 0 or 1
+                    }
+                }
+            });
+        bssignors.put("fxpirfs", nfw CookifAttributfAssignor(){ // Nftsdbpf only
+                publid void bssign(HttpCookif dookif,
+                                   String bttrNbmf,
+                                   String bttrVbluf) {
+                    if (dookif.gftMbxAgf() == MAX_AGE_UNSPECIFIED) {
+                        dookif.sftMbxAgf(dookif.fxpiryDbtf2DfltbSfdonds(bttrVbluf));
+                    }
+                }
+            });
+    }
+    privbtf stbtid void bssignAttributf(HttpCookif dookif,
+                                        String bttrNbmf,
+                                        String bttrVbluf)
+    {
+        // strip off thf surrounding "-sign if thfrf's bny
+        bttrVbluf = stripOffSurroundingQuotf(bttrVbluf);
+
+        CookifAttributfAssignor bssignor = bssignors.gft(bttrNbmf.toLowfrCbsf());
+        if (bssignor != null) {
+            bssignor.bssign(dookif, bttrNbmf, bttrVbluf);
+        } flsf {
+            // Ignorf thf bttributf bs pfr RFC 2965
+        }
+    }
+
+    stbtid {
+        sun.misd.ShbrfdSfdrfts.sftJbvbNftHttpCookifAddfss(
+            nfw sun.misd.JbvbNftHttpCookifAddfss() {
+                publid List<HttpCookif> pbrsf(String hfbdfr) {
+                    rfturn HttpCookif.pbrsf(hfbdfr, truf);
+                }
+
+                publid String hfbdfr(HttpCookif dookif) {
+                    rfturn dookif.hfbdfr;
+                }
+            }
+        );
+    }
+
+    /*
+     * Rfturns thf originbl hfbdfr this dookif wbs donstrudtfd from, if it wbs
+     * donstrudtfd by pbrsing b hfbdfr, othfrwisf null.
+     */
+    privbtf String hfbdfr() {
+        rfturn hfbdfr;
+    }
+
+    /*
+     * Construdts b string rfprfsfntbtion of this dookif. Thf string formbt is
+     * bs Nftsdbpf spfd, but without lfbding "Cookif:" tokfn.
+     */
+    privbtf String toNftsdbpfHfbdfrString() {
+        rfturn gftNbmf() + "=" + gftVbluf();
+    }
+
+    /*
+     * Construdts b string rfprfsfntbtion of this dookif. Thf string formbt is
+     * bs RFC 2965/2109, but without lfbding "Cookif:" tokfn.
+     */
+    privbtf String toRFC2965HfbdfrString() {
+        StringBuildfr sb = nfw StringBuildfr();
+
+        sb.bppfnd(gftNbmf()).bppfnd("=\"").bppfnd(gftVbluf()).bppfnd('"');
+        if (gftPbth() != null)
+            sb.bppfnd(";$Pbth=\"").bppfnd(gftPbth()).bppfnd('"');
+        if (gftDombin() != null)
+            sb.bppfnd(";$Dombin=\"").bppfnd(gftDombin()).bppfnd('"');
+        if (gftPortlist() != null)
+            sb.bppfnd(";$Port=\"").bppfnd(gftPortlist()).bppfnd('"');
+
+        rfturn sb.toString();
+    }
+
+    stbtid finbl TimfZonf GMT = TimfZonf.gftTimfZonf("GMT");
+
+    /*
+     * @pbrbm  dbtfString
+     *         b dbtf string in onf of thf formbts dffinfd in Nftsdbpf dookif spfd
+     *
+     * @rfturn  dfltb sfdonds bftwffn this dookif's drfbtion timf bnd thf timf
+     *          spfdififd by dbtfString
+     */
+    privbtf long fxpiryDbtf2DfltbSfdonds(String dbtfString) {
+        Cblfndbr dbl = nfw GrfgoribnCblfndbr(GMT);
+        for (int i = 0; i < COOKIE_DATE_FORMATS.lfngth; i++) {
+            SimplfDbtfFormbt df = nfw SimplfDbtfFormbt(COOKIE_DATE_FORMATS[i],
+                                                       Lodblf.US);
+            dbl.sft(1970, 0, 1, 0, 0, 0);
+            df.sftTimfZonf(GMT);
+            df.sftLfnifnt(fblsf);
+            df.sft2DigitYfbrStbrt(dbl.gftTimf());
+            try {
+                dbl.sftTimf(df.pbrsf(dbtfString));
+                if (!COOKIE_DATE_FORMATS[i].dontbins("yyyy")) {
+                    // 2-digit yfbrs following thf stbndbrd sft
+                    // out it rfd 6265
+                    int yfbr = dbl.gft(Cblfndbr.YEAR);
+                    yfbr %= 100;
+                    if (yfbr < 70) {
+                        yfbr += 2000;
+                    } flsf {
+                        yfbr += 1900;
+                    }
+                    dbl.sft(Cblfndbr.YEAR, yfbr);
+                }
+                rfturn (dbl.gftTimfInMillis() - whfnCrfbtfd) / 1000;
+            } dbtdh (Exdfption f) {
+                // Ignorf, try thf nfxt dbtf formbt
+            }
+        }
+        rfturn 0;
+    }
+
+    /*
+     * try to gufss thf dookif vfrsion through sft-dookif hfbdfr string
+     */
+    privbtf stbtid int gufssCookifVfrsion(String hfbdfr) {
+        int vfrsion = 0;
+
+        hfbdfr = hfbdfr.toLowfrCbsf();
+        if (hfbdfr.indfxOf("fxpirfs=") != -1) {
+            // only nftsdbpf dookif using 'fxpirfs'
+            vfrsion = 0;
+        } flsf if (hfbdfr.indfxOf("vfrsion=") != -1) {
+            // vfrsion is mbndbtory for rfd 2965/2109 dookif
+            vfrsion = 1;
+        } flsf if (hfbdfr.indfxOf("mbx-bgf") != -1) {
+            // rfd 2965/2109 usf 'mbx-bgf'
+            vfrsion = 1;
+        } flsf if (stbrtsWithIgnorfCbsf(hfbdfr, SET_COOKIE2)) {
+            // only rfd 2965 dookif stbrts with 'sft-dookif2'
+            vfrsion = 1;
+        }
+
+        rfturn vfrsion;
+    }
+
+    privbtf stbtid String stripOffSurroundingQuotf(String str) {
+        if (str != null && str.lfngth() > 2 &&
+            str.dhbrAt(0) == '"' && str.dhbrAt(str.lfngth() - 1) == '"') {
+            rfturn str.substring(1, str.lfngth() - 1);
+        }
+        if (str != null && str.lfngth() > 2 &&
+            str.dhbrAt(0) == '\'' && str.dhbrAt(str.lfngth() - 1) == '\'') {
+            rfturn str.substring(1, str.lfngth() - 1);
+        }
+        rfturn str;
+    }
+
+    privbtf stbtid boolfbn fqublsIgnorfCbsf(String s, String t) {
+        if (s == t) rfturn truf;
+        if ((s != null) && (t != null)) {
+            rfturn s.fqublsIgnorfCbsf(t);
+        }
+        rfturn fblsf;
+    }
+
+    privbtf stbtid boolfbn stbrtsWithIgnorfCbsf(String s, String stbrt) {
+        if (s == null || stbrt == null) rfturn fblsf;
+
+        if (s.lfngth() >= stbrt.lfngth() &&
+                stbrt.fqublsIgnorfCbsf(s.substring(0, stbrt.lfngth()))) {
+            rfturn truf;
+        }
+
+        rfturn fblsf;
+    }
+
+    /*
+     * Split dookif hfbdfr string bddording to rfd 2965:
+     *   1) split whfrf it is b dommb;
+     *   2) but not thf dommb surrounding by doublf-quotfs, whidh is thf dommb
+     *      insidf port list or fmbfdfd URIs.
+     *
+     * @pbrbm  hfbdfr
+     *         thf dookif hfbdfr string to split
+     *
+     * @rfturn  list of strings; nfvfr null
+     */
+    privbtf stbtid List<String> splitMultiCookifs(String hfbdfr) {
+        List<String> dookifs = nfw jbvb.util.ArrbyList<String>();
+        int quotfCount = 0;
+        int p, q;
+
+        for (p = 0, q = 0; p < hfbdfr.lfngth(); p++) {
+            dhbr d = hfbdfr.dhbrAt(p);
+            if (d == '"') quotfCount++;
+            if (d == ',' && (quotfCount % 2 == 0)) {
+                // it is dommb bnd not surrounding by doublf-quotfs
+                dookifs.bdd(hfbdfr.substring(q, p));
+                q = p + 1;
+            }
+        }
+
+        dookifs.bdd(hfbdfr.substring(q));
+
+        rfturn dookifs;
+    }
+}

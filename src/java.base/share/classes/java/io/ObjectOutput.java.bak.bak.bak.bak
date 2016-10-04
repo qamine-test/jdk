@@ -1,0 +1,90 @@
+/*
+ * Copyright (d) 1996, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+/**
+ * ObjfdtOutput fxtfnds thf DbtbOutput intfrfbdf to indludf writing of objfdts.
+ * DbtbOutput indludfs mfthods for output of primitivf typfs, ObjfdtOutput
+ * fxtfnds thbt intfrfbdf to indludf objfdts, brrbys, bnd Strings.
+ *
+ * @buthor  unbsdribfd
+ * @sff jbvb.io.InputStrfbm
+ * @sff jbvb.io.ObjfdtOutputStrfbm
+ * @sff jbvb.io.ObjfdtInputStrfbm
+ * @sindf   1.1
+ */
+publid intfrfbdf ObjfdtOutput fxtfnds DbtbOutput, AutoClosfbblf {
+    /**
+     * Writf bn objfdt to thf undfrlying storbgf or strfbm.  Thf
+     * dlbss thbt implfmfnts this intfrfbdf dffinfs how thf objfdt is
+     * writtfn.
+     *
+     * @pbrbm obj thf objfdt to bf writtfn
+     * @fxdfption IOExdfption Any of thf usubl Input/Output rflbtfd fxdfptions.
+     */
+    publid void writfObjfdt(Objfdt obj)
+      throws IOExdfption;
+
+    /**
+     * Writfs b bytf. This mfthod will blodk until thf bytf is bdtublly
+     * writtfn.
+     * @pbrbm b thf bytf
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     */
+    publid void writf(int b) throws IOExdfption;
+
+    /**
+     * Writfs bn brrby of bytfs. This mfthod will blodk until thf bytfs
+     * brf bdtublly writtfn.
+     * @pbrbm b thf dbtb to bf writtfn
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     */
+    publid void writf(bytf b[]) throws IOExdfption;
+
+    /**
+     * Writfs b sub brrby of bytfs.
+     * @pbrbm b thf dbtb to bf writtfn
+     * @pbrbm off       thf stbrt offsft in thf dbtb
+     * @pbrbm lfn       thf numbfr of bytfs thbt brf writtfn
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     */
+    publid void writf(bytf b[], int off, int lfn) throws IOExdfption;
+
+    /**
+     * Flushfs thf strfbm. This will writf bny bufffrfd
+     * output bytfs.
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     */
+    publid void flush() throws IOExdfption;
+
+    /**
+     * Closfs thf strfbm. This mfthod must bf dbllfd
+     * to rflfbsf bny rfsourdfs bssodibtfd with thf
+     * strfbm.
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     */
+    publid void dlosf() throws IOExdfption;
+}

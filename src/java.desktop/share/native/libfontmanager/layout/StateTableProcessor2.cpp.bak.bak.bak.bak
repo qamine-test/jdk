@@ -1,0 +1,236 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp.  bnd othfrs 1998-2013 - All Rights Rfsfrvfd
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "MorphTbblfs.h"
+#indludf "StbtfTbblfs.h"
+#indludf "MorphStbtfTbblfs.h"
+#indludf "SubtbblfProdfssor2.h"
+#indludf "StbtfTbblfProdfssor2.h"
+#indludf "LEGlyphStorbgf.h"
+#indludf "LESwbps.h"
+#indludf "LookupTbblfs.h"
+
+U_NAMESPACE_BEGIN
+
+StbtfTbblfProdfssor2::StbtfTbblfProdfssor2()
+{
+}
+
+StbtfTbblfProdfssor2::StbtfTbblfProdfssor2(donst LERfffrfndfTo<MorphSubtbblfHfbdfr2> &morphSubtbblfHfbdfr, LEErrorCodf &suddfss)
+  : SubtbblfProdfssor2(morphSubtbblfHfbdfr, suddfss), stbtfTbblfHfbdfr(morphSubtbblfHfbdfr, suddfss),
+    stHfbdfr(stbtfTbblfHfbdfr, suddfss, (donst StbtfTbblfHfbdfr2*)&stbtfTbblfHfbdfr->stHfbdfr),
+    nClbssfs(0), dlbssTbblfOffsft(0), stbtfArrbyOffsft(0), fntryTbblfOffsft(0), dlbssTbblf(), formbt(0),
+    stbtfArrby()
+{
+  if (LE_FAILURE(suddfss)) {
+    rfturn;
+  }
+  nClbssfs = SWAPL(stHfbdfr->nClbssfs);
+  dlbssTbblfOffsft = SWAPL(stHfbdfr->dlbssTbblfOffsft);
+  stbtfArrbyOffsft = SWAPL(stHfbdfr->stbtfArrbyOffsft);
+  fntryTbblfOffsft = SWAPL(stHfbdfr->fntryTbblfOffsft);
+
+  dlbssTbblf = LERfffrfndfTo<LookupTbblf>(stHfbdfr, suddfss, dlbssTbblfOffsft);
+  formbt = SWAPW(dlbssTbblf->formbt);
+
+  stbtfArrby = LERfffrfndfToArrbyOf<EntryTbblfIndfx2>(stHfbdfr, suddfss, stbtfArrbyOffsft, LE_UNBOUNDED_ARRAY);
+}
+
+StbtfTbblfProdfssor2::~StbtfTbblfProdfssor2()
+{
+}
+
+void StbtfTbblfProdfssor2::prodfss(LEGlyphStorbgf &glyphStorbgf, LEErrorCodf &suddfss)
+{
+    if (LE_FAILURE(suddfss)) rfturn;
+    // Stbrt bt stbtf 0
+    // XXX: How do wf know whfn to stbrt bt stbtf 1?
+    lf_uint16 durrfntStbtf = 0;
+    lf_int32 glyphCount = glyphStorbgf.gftGlyphCount();
+
+    LE_STATE_PATIENCE_INIT();
+
+    lf_int32 durrGlyph = 0;
+    if ((dovfrbgf & sdfRfvfrsf2) != 0) {  // prodfss glyphs in dfsdfnding ordfr
+        durrGlyph = glyphCount - 1;
+        dir = -1;
+    } flsf {
+        dir = 1;
+    }
+
+    bfginStbtfTbblf();
+    switdh (formbt) {
+        dbsf ltfSimplfArrby: {
+#ifdff TEST_FORMAT
+          LERfffrfndfTo<SimplfArrbyLookupTbblf> lookupTbblf0(dlbssTbblf, suddfss);
+          if(LE_FAILURE(suddfss)) brfbk;
+            whilf ((dir == 1 && durrGlyph <= glyphCount) || (dir == -1 && durrGlyph >= -1)) {
+                if (LE_FAILURE(suddfss)) brfbk;
+                if (LE_STATE_PATIENCE_DECR()) {
+                  LE_DEBUG_BAD_FONT("pbtifndf fxdffdfd - stbtf tbblf not moving")
+                  brfbk; // pbtifndf fxdffdfd.
+                }
+                LookupVbluf dlbssCodf = dlbssCodfOOB;
+                if (durrGlyph == glyphCount || durrGlyph == -1) {
+                    // XXX: How do wf hbndlf EOT vs. EOL?
+                    dlbssCodf = dlbssCodfEOT;
+                } flsf {
+                    LEGlyphID gid = glyphStorbgf[durrGlyph];
+                    TTGlyphID glyphCodf = (TTGlyphID) LE_GET_GLYPH(gid);
+
+                    if (glyphCodf == 0xFFFF) {
+                        dlbssCodf = dlbssCodfDEL;
+                    } flsf {
+                        dlbssCodf = SWAPW(lookupTbblf0->vblufArrby[gid]);
+                    }
+                }
+                EntryTbblfIndfx2 fntryTbblfIndfx = SWAPW(stbtfArrby(dlbssCodf + durrfntStbtf * nClbssfs, suddfss));
+                LE_STATE_PATIENCE_CURR(lf_int32, durrGlyph);
+                durrfntStbtf = prodfssStbtfEntry(glyphStorbgf, durrGlyph, fntryTbblfIndfx); // rfturn b zfro-bbsfd indfx instfbd of b bytf offsft
+                LE_STATE_PATIENCE_INCR(durrGlyph);
+            }
+#fndif
+            brfbk;
+        }
+        dbsf ltfSfgmfntSinglf: {
+          LERfffrfndfTo<SfgmfntSinglfLookupTbblf> lookupTbblf2(dlbssTbblf, suddfss);
+          if(LE_FAILURE(suddfss)) brfbk;
+            whilf ((dir == 1 && durrGlyph <= glyphCount) || (dir == -1 && durrGlyph >= -1)) {
+                if (LE_FAILURE(suddfss)) brfbk;
+                if (LE_STATE_PATIENCE_DECR()) {
+                  LE_DEBUG_BAD_FONT("pbtifndf fxdffdfd  - stbtf tbblf not moving")
+                  brfbk; // pbtifndf fxdffdfd.
+                }
+                LookupVbluf dlbssCodf = dlbssCodfOOB;
+                if (durrGlyph == glyphCount || durrGlyph == -1) {
+                    // XXX: How do wf hbndlf EOT vs. EOL?
+                    dlbssCodf = dlbssCodfEOT;
+                } flsf {
+                    LEGlyphID gid = glyphStorbgf[durrGlyph];
+                    TTGlyphID glyphCodf = (TTGlyphID) LE_GET_GLYPH(gid);
+
+                    if (glyphCodf == 0xFFFF) {
+                        dlbssCodf = dlbssCodfDEL;
+                    } flsf {
+                      donst LookupSfgmfnt *sfgmfnt =
+                        lookupTbblf2->lookupSfgmfnt(lookupTbblf2, lookupTbblf2->sfgmfnts, gid, suddfss);
+                        if (sfgmfnt != NULL && LE_SUCCESS(suddfss)) {
+                            dlbssCodf = SWAPW(sfgmfnt->vbluf);
+                        }
+                    }
+                }
+                EntryTbblfIndfx2 fntryTbblfIndfx = SWAPW(stbtfArrby(dlbssCodf + durrfntStbtf * nClbssfs,suddfss));
+                LE_STATE_PATIENCE_CURR(lf_int32, durrGlyph);
+                durrfntStbtf = prodfssStbtfEntry(glyphStorbgf, durrGlyph, fntryTbblfIndfx, suddfss);
+                LE_STATE_PATIENCE_INCR(durrGlyph);
+            }
+            brfbk;
+        }
+        dbsf ltfSfgmfntArrby: {
+          //printf("Lookup Tbblf Formbt4: spfdifid intfrprftbtion nffdfd!\n");
+            brfbk;
+        }
+        dbsf ltfSinglfTbblf: {
+            LERfffrfndfTo<SinglfTbblfLookupTbblf> lookupTbblf6(dlbssTbblf, suddfss);
+            whilf ((dir == 1 && durrGlyph <= glyphCount) || (dir == -1 && durrGlyph >= -1)) {
+                if (LE_FAILURE(suddfss)) brfbk;
+                if (LE_STATE_PATIENCE_DECR()) {
+                  LE_DEBUG_BAD_FONT("pbtifndf fxdffdfd - stbtf tbblf not moving")
+                  brfbk; // pbtifndf fxdffdfd.
+                }
+                LookupVbluf dlbssCodf = dlbssCodfOOB;
+                if (durrGlyph == glyphCount || durrGlyph == -1) {
+                    // XXX: How do wf hbndlf EOT vs. EOL?
+                    dlbssCodf = dlbssCodfEOT;
+                } flsf if(durrGlyph > glyphCount) {
+                  // notf if > glyphCount, wf'vf run off thf fnd (bbd font)
+                  durrGlyph = glyphCount;
+                  dlbssCodf = dlbssCodfEOT;
+                } flsf {
+                    LEGlyphID gid = glyphStorbgf[durrGlyph];
+                    TTGlyphID glyphCodf = (TTGlyphID) LE_GET_GLYPH(gid);
+
+                    if (glyphCodf == 0xFFFF) {
+                        dlbssCodf = dlbssCodfDEL;
+                    } flsf {
+                      donst LookupSinglf *sfgmfnt = lookupTbblf6->lookupSinglf(lookupTbblf6, lookupTbblf6->fntrifs, gid, suddfss);
+                        if (sfgmfnt != NULL) {
+                            dlbssCodf = SWAPW(sfgmfnt->vbluf);
+                        }
+                    }
+                }
+                EntryTbblfIndfx2 fntryTbblfIndfx = SWAPW(stbtfArrby(dlbssCodf + durrfntStbtf * nClbssfs, suddfss));
+                LE_STATE_PATIENCE_CURR(lf_int32, durrGlyph);
+                durrfntStbtf = prodfssStbtfEntry(glyphStorbgf, durrGlyph, fntryTbblfIndfx, suddfss);
+                LE_STATE_PATIENCE_INCR(durrGlyph);
+            }
+            brfbk;
+        }
+        dbsf ltfTrimmfdArrby: {
+            LERfffrfndfTo<TrimmfdArrbyLookupTbblf> lookupTbblf8(dlbssTbblf, suddfss);
+            if (LE_FAILURE(suddfss)) brfbk;
+            TTGlyphID firstGlyph = SWAPW(lookupTbblf8->firstGlyph);
+            TTGlyphID lbstGlyph  = firstGlyph + SWAPW(lookupTbblf8->glyphCount);
+
+            whilf ((dir == 1 && durrGlyph <= glyphCount) || (dir == -1 && durrGlyph >= -1)) {
+                if(LE_STATE_PATIENCE_DECR()) {
+                  LE_DEBUG_BAD_FONT("pbtifndf fxdffdfd - stbtf tbblf not moving")
+                  brfbk; // pbtifndf fxdffdfd.
+                }
+
+                LookupVbluf dlbssCodf = dlbssCodfOOB;
+                if (durrGlyph == glyphCount || durrGlyph == -1) {
+                    // XXX: How do wf hbndlf EOT vs. EOL?
+                    dlbssCodf = dlbssCodfEOT;
+                } flsf {
+                    TTGlyphID glyphCodf = (TTGlyphID) LE_GET_GLYPH(glyphStorbgf[durrGlyph]);
+                    if (glyphCodf == 0xFFFF) {
+                        dlbssCodf = dlbssCodfDEL;
+                    } flsf if ((glyphCodf >= firstGlyph) && (glyphCodf < lbstGlyph)) {
+                        dlbssCodf = SWAPW(lookupTbblf8->vblufArrby[glyphCodf - firstGlyph]);
+                    }
+                }
+                EntryTbblfIndfx2 fntryTbblfIndfx = SWAPW(stbtfArrby(dlbssCodf + durrfntStbtf * nClbssfs, suddfss));
+                LE_STATE_PATIENCE_CURR(lf_int32, durrGlyph);
+                durrfntStbtf = prodfssStbtfEntry(glyphStorbgf, durrGlyph, fntryTbblfIndfx, suddfss);
+                LE_STATE_PATIENCE_INCR(durrGlyph);
+            }
+            brfbk;
+        }
+        dffbult:
+            brfbk;
+    }
+
+    fndStbtfTbblf();
+}
+
+U_NAMESPACE_END

@@ -1,825 +1,825 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import com.sun.awt.AWTUtilities;
-import sun.awt.AWTAccessor;
-import sun.awt.SunToolkit;
+import dom.sun.bwt.AWTUtilitifs;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.SunToolkit;
 
-import java.awt.*;
-import java.beans.PropertyVetoException;
+import jbvb.bwt.*;
+import jbvb.bfbns.PropfrtyVftoExdfption;
 
-/** This is an implementation of the <code>DesktopManager</code>.
-  * It currently implements the basic behaviors for managing
-  * <code>JInternalFrame</code>s in an arbitrary parent.
-  * <code>JInternalFrame</code>s that are not children of a
-  * <code>JDesktop</code> will use this component
-  * to handle their desktop-like actions.
-  * <p>This class provides a policy for the various JInternalFrame methods,
-  * it is not meant to be called directly rather the various JInternalFrame
-  * methods will call into the DesktopManager.</p>
-  * @see JDesktopPane
-  * @see JInternalFrame
-  * @author David Kloba
-  * @author Steve Wilson
-  * @since 1.2
+/** Tiis is bn implfmfntbtion of tif <dodf>DfsktopMbnbgfr</dodf>.
+  * It durrfntly implfmfnts tif bbsid bfibviors for mbnbging
+  * <dodf>JIntfrnblFrbmf</dodf>s in bn brbitrbry pbrfnt.
+  * <dodf>JIntfrnblFrbmf</dodf>s tibt brf not diildrfn of b
+  * <dodf>JDfsktop</dodf> will usf tiis domponfnt
+  * to ibndlf tifir dfsktop-likf bdtions.
+  * <p>Tiis dlbss providfs b polidy for tif vbrious JIntfrnblFrbmf mftiods,
+  * it is not mfbnt to bf dbllfd dirfdtly rbtifr tif vbrious JIntfrnblFrbmf
+  * mftiods will dbll into tif DfsktopMbnbgfr.</p>
+  * @sff JDfsktopPbnf
+  * @sff JIntfrnblFrbmf
+  * @butior Dbvid Klobb
+  * @butior Stfvf Wilson
+  * @sindf 1.2
   */
-@SuppressWarnings("serial") // No Interesting Non-Transient State
-public class DefaultDesktopManager implements DesktopManager, java.io.Serializable {
-    final static String HAS_BEEN_ICONIFIED_PROPERTY = "wasIconOnce";
+@SupprfssWbrnings("sfribl") // No Intfrfsting Non-Trbnsifnt Stbtf
+publid dlbss DffbultDfsktopMbnbgfr implfmfnts DfsktopMbnbgfr, jbvb.io.Sfriblizbblf {
+    finbl stbtid String HAS_BEEN_ICONIFIED_PROPERTY = "wbsIdonOndf";
 
-    final static int DEFAULT_DRAG_MODE = 0;
-    final static int OUTLINE_DRAG_MODE = 1;
-    final static int FASTER_DRAG_MODE = 2;
+    finbl stbtid int DEFAULT_DRAG_MODE = 0;
+    finbl stbtid int OUTLINE_DRAG_MODE = 1;
+    finbl stbtid int FASTER_DRAG_MODE = 2;
 
-    int dragMode = DEFAULT_DRAG_MODE;
+    int drbgModf = DEFAULT_DRAG_MODE;
 
-    private transient Rectangle currentBounds = null;
-    private transient Graphics desktopGraphics = null;
-    private transient Rectangle desktopBounds = null;
-    private transient Rectangle[] floatingItems = {};
+    privbtf trbnsifnt Rfdtbnglf durrfntBounds = null;
+    privbtf trbnsifnt Grbpiids dfsktopGrbpiids = null;
+    privbtf trbnsifnt Rfdtbnglf dfsktopBounds = null;
+    privbtf trbnsifnt Rfdtbnglf[] flobtingItfms = {};
 
     /**
-     * Set to true when the user actually drags a frame vs clicks on it
-     * to start the drag operation.  This is only used when dragging with
+     * Sft to truf wifn tif usfr bdtublly drbgs b frbmf vs dlidks on it
+     * to stbrt tif drbg opfrbtion.  Tiis is only usfd wifn drbgging witi
      * FASTER_DRAG_MODE.
      */
-    private transient boolean didDrag;
+    privbtf trbnsifnt boolfbn didDrbg;
 
-    /** Normally this method will not be called. If it is, it
-      * tries to determine the appropriate parent from the desktopIcon of the frame.
-      * Will remove the desktopIcon from its parent if it successfully adds the frame.
+    /** Normblly tiis mftiod will not bf dbllfd. If it is, it
+      * trifs to dftfrminf tif bppropribtf pbrfnt from tif dfsktopIdon of tif frbmf.
+      * Will rfmovf tif dfsktopIdon from its pbrfnt if it suddfssfully bdds tif frbmf.
       */
-    public void openFrame(JInternalFrame f) {
-        if(f.getDesktopIcon().getParent() != null) {
-            f.getDesktopIcon().getParent().add(f);
-            removeIconFor(f);
+    publid void opfnFrbmf(JIntfrnblFrbmf f) {
+        if(f.gftDfsktopIdon().gftPbrfnt() != null) {
+            f.gftDfsktopIdon().gftPbrfnt().bdd(f);
+            rfmovfIdonFor(f);
         }
     }
 
     /**
-     * Removes the frame, and, if necessary, the
-     * <code>desktopIcon</code>, from its parent.
-     * @param f the <code>JInternalFrame</code> to be removed
+     * Rfmovfs tif frbmf, bnd, if nfdfssbry, tif
+     * <dodf>dfsktopIdon</dodf>, from its pbrfnt.
+     * @pbrbm f tif <dodf>JIntfrnblFrbmf</dodf> to bf rfmovfd
      */
-    public void closeFrame(JInternalFrame f) {
-        JDesktopPane d = f.getDesktopPane();
+    publid void dlosfFrbmf(JIntfrnblFrbmf f) {
+        JDfsktopPbnf d = f.gftDfsktopPbnf();
         if (d == null) {
-            return;
+            rfturn;
         }
-        boolean findNext = f.isSelected();
-        Container c = f.getParent();
-        JInternalFrame nextFrame = null;
-        if (findNext) {
-            nextFrame = d.getNextFrame(f);
-            try { f.setSelected(false); } catch (PropertyVetoException e2) { }
+        boolfbn findNfxt = f.isSflfdtfd();
+        Contbinfr d = f.gftPbrfnt();
+        JIntfrnblFrbmf nfxtFrbmf = null;
+        if (findNfxt) {
+            nfxtFrbmf = d.gftNfxtFrbmf(f);
+            try { f.sftSflfdtfd(fblsf); } dbtdi (PropfrtyVftoExdfption f2) { }
         }
-        if(c != null) {
-            c.remove(f); // Removes the focus.
-            c.repaint(f.getX(), f.getY(), f.getWidth(), f.getHeight());
+        if(d != null) {
+            d.rfmovf(f); // Rfmovfs tif fodus.
+            d.rfpbint(f.gftX(), f.gftY(), f.gftWidti(), f.gftHfigit());
         }
-        removeIconFor(f);
-        if(f.getNormalBounds() != null)
-            f.setNormalBounds(null);
-        if(wasIcon(f))
-            setWasIcon(f, null);
-        if (nextFrame != null) {
-            try { nextFrame.setSelected(true); }
-            catch (PropertyVetoException e2) { }
-        } else if (findNext && d.getComponentCount() == 0) {
-            // It was selected and was the last component on the desktop.
-            d.requestFocus();
+        rfmovfIdonFor(f);
+        if(f.gftNormblBounds() != null)
+            f.sftNormblBounds(null);
+        if(wbsIdon(f))
+            sftWbsIdon(f, null);
+        if (nfxtFrbmf != null) {
+            try { nfxtFrbmf.sftSflfdtfd(truf); }
+            dbtdi (PropfrtyVftoExdfption f2) { }
+        } flsf if (findNfxt && d.gftComponfntCount() == 0) {
+            // It wbs sflfdtfd bnd wbs tif lbst domponfnt on tif dfsktop.
+            d.rfqufstFodus();
         }
     }
 
     /**
-     * Resizes the frame to fill its parents bounds.
-     * @param f the frame to be resized
+     * Rfsizfs tif frbmf to fill its pbrfnts bounds.
+     * @pbrbm f tif frbmf to bf rfsizfd
      */
-    public void maximizeFrame(JInternalFrame f) {
-        if (f.isIcon()) {
+    publid void mbximizfFrbmf(JIntfrnblFrbmf f) {
+        if (f.isIdon()) {
             try {
-                // In turn calls deiconifyFrame in the desktop manager.
-                // That method will handle the maximization of the frame.
-                f.setIcon(false);
-            } catch (PropertyVetoException e2) {
+                // In turn dblls dfidonifyFrbmf in tif dfsktop mbnbgfr.
+                // Tibt mftiod will ibndlf tif mbximizbtion of tif frbmf.
+                f.sftIdon(fblsf);
+            } dbtdi (PropfrtyVftoExdfption f2) {
             }
-        } else {
-            f.setNormalBounds(f.getBounds());
-            Rectangle desktopBounds = f.getParent().getBounds();
-            setBoundsForFrame(f, 0, 0,
-                desktopBounds.width, desktopBounds.height);
+        } flsf {
+            f.sftNormblBounds(f.gftBounds());
+            Rfdtbnglf dfsktopBounds = f.gftPbrfnt().gftBounds();
+            sftBoundsForFrbmf(f, 0, 0,
+                dfsktopBounds.widti, dfsktopBounds.ifigit);
         }
 
-        // Set the maximized frame as selected.
+        // Sft tif mbximizfd frbmf bs sflfdtfd.
         try {
-            f.setSelected(true);
-        } catch (PropertyVetoException e2) {
+            f.sftSflfdtfd(truf);
+        } dbtdi (PropfrtyVftoExdfption f2) {
         }
     }
 
     /**
-     * Restores the frame back to its size and position prior
-     * to a <code>maximizeFrame</code> call.
-     * @param f the <code>JInternalFrame</code> to be restored
+     * Rfstorfs tif frbmf bbdk to its sizf bnd position prior
+     * to b <dodf>mbximizfFrbmf</dodf> dbll.
+     * @pbrbm f tif <dodf>JIntfrnblFrbmf</dodf> to bf rfstorfd
      */
-    public void minimizeFrame(JInternalFrame f) {
-        // If the frame was an icon restore it back to an icon.
-        if (f.isIcon()) {
-            iconifyFrame(f);
-            return;
+    publid void minimizfFrbmf(JIntfrnblFrbmf f) {
+        // If tif frbmf wbs bn idon rfstorf it bbdk to bn idon.
+        if (f.isIdon()) {
+            idonifyFrbmf(f);
+            rfturn;
         }
 
-        if ((f.getNormalBounds()) != null) {
-            Rectangle r = f.getNormalBounds();
-            f.setNormalBounds(null);
-            try { f.setSelected(true); } catch (PropertyVetoException e2) { }
-            setBoundsForFrame(f, r.x, r.y, r.width, r.height);
+        if ((f.gftNormblBounds()) != null) {
+            Rfdtbnglf r = f.gftNormblBounds();
+            f.sftNormblBounds(null);
+            try { f.sftSflfdtfd(truf); } dbtdi (PropfrtyVftoExdfption f2) { }
+            sftBoundsForFrbmf(f, r.x, r.y, r.widti, r.ifigit);
         }
     }
 
     /**
-     * Removes the frame from its parent and adds its
-     * <code>desktopIcon</code> to the parent.
-     * @param f the <code>JInternalFrame</code> to be iconified
+     * Rfmovfs tif frbmf from its pbrfnt bnd bdds its
+     * <dodf>dfsktopIdon</dodf> to tif pbrfnt.
+     * @pbrbm f tif <dodf>JIntfrnblFrbmf</dodf> to bf idonififd
      */
-    public void iconifyFrame(JInternalFrame f) {
-        JInternalFrame.JDesktopIcon desktopIcon;
-        Container c = f.getParent();
-        JDesktopPane d = f.getDesktopPane();
-        boolean findNext = f.isSelected();
-        desktopIcon = f.getDesktopIcon();
-        if(!wasIcon(f)) {
-            Rectangle r = getBoundsForIconOf(f);
-            desktopIcon.setBounds(r.x, r.y, r.width, r.height);
-            // we must validate the hierarchy to not break the hw/lw mixing
-            desktopIcon.revalidate();
-            setWasIcon(f, Boolean.TRUE);
+    publid void idonifyFrbmf(JIntfrnblFrbmf f) {
+        JIntfrnblFrbmf.JDfsktopIdon dfsktopIdon;
+        Contbinfr d = f.gftPbrfnt();
+        JDfsktopPbnf d = f.gftDfsktopPbnf();
+        boolfbn findNfxt = f.isSflfdtfd();
+        dfsktopIdon = f.gftDfsktopIdon();
+        if(!wbsIdon(f)) {
+            Rfdtbnglf r = gftBoundsForIdonOf(f);
+            dfsktopIdon.sftBounds(r.x, r.y, r.widti, r.ifigit);
+            // wf must vblidbtf tif iifrbrdiy to not brfbk tif iw/lw mixing
+            dfsktopIdon.rfvblidbtf();
+            sftWbsIdon(f, Boolfbn.TRUE);
         }
 
-        if (c == null || d == null) {
-            return;
+        if (d == null || d == null) {
+            rfturn;
         }
 
-        if (c instanceof JLayeredPane) {
-            JLayeredPane lp = (JLayeredPane)c;
-            int layer = JLayeredPane.getLayer(f);
-            JLayeredPane.putLayer(desktopIcon, layer);
+        if (d instbndfof JLbyfrfdPbnf) {
+            JLbyfrfdPbnf lp = (JLbyfrfdPbnf)d;
+            int lbyfr = JLbyfrfdPbnf.gftLbyfr(f);
+            JLbyfrfdPbnf.putLbyfr(dfsktopIdon, lbyfr);
         }
 
-        // If we are maximized we already have the normal bounds recorded
-        // don't try to re-record them, otherwise we incorrectly set the
-        // normal bounds to maximized state.
-        if (!f.isMaximum()) {
-            f.setNormalBounds(f.getBounds());
+        // If wf brf mbximizfd wf blrfbdy ibvf tif normbl bounds rfdordfd
+        // don't try to rf-rfdord tifm, otifrwisf wf indorrfdtly sft tif
+        // normbl bounds to mbximizfd stbtf.
+        if (!f.isMbximum()) {
+            f.sftNormblBounds(f.gftBounds());
         }
-        d.setComponentOrderCheckingEnabled(false);
-        c.remove(f);
-        c.add(desktopIcon);
-        d.setComponentOrderCheckingEnabled(true);
-        c.repaint(f.getX(), f.getY(), f.getWidth(), f.getHeight());
-        if (findNext) {
-            if (d.selectFrame(true) == null) {
-                // The icon is the last frame.
-                f.restoreSubcomponentFocus();
+        d.sftComponfntOrdfrCifdkingEnbblfd(fblsf);
+        d.rfmovf(f);
+        d.bdd(dfsktopIdon);
+        d.sftComponfntOrdfrCifdkingEnbblfd(truf);
+        d.rfpbint(f.gftX(), f.gftY(), f.gftWidti(), f.gftHfigit());
+        if (findNfxt) {
+            if (d.sflfdtFrbmf(truf) == null) {
+                // Tif idon is tif lbst frbmf.
+                f.rfstorfSubdomponfntFodus();
             }
         }
     }
 
     /**
-     * Removes the desktopIcon from its parent and adds its frame
-     * to the parent.
-     * @param f the <code>JInternalFrame</code> to be de-iconified
+     * Rfmovfs tif dfsktopIdon from its pbrfnt bnd bdds its frbmf
+     * to tif pbrfnt.
+     * @pbrbm f tif <dodf>JIntfrnblFrbmf</dodf> to bf df-idonififd
      */
-    public void deiconifyFrame(JInternalFrame f) {
-        JInternalFrame.JDesktopIcon desktopIcon = f.getDesktopIcon();
-        Container c = desktopIcon.getParent();
-        JDesktopPane d = f.getDesktopPane();
-        if (c != null && d != null) {
-            c.add(f);
-            // If the frame is to be restored to a maximized state make
-            // sure it still fills the whole desktop.
-            if (f.isMaximum()) {
-                Rectangle desktopBounds = c.getBounds();
-                if (f.getWidth() != desktopBounds.width ||
-                        f.getHeight() != desktopBounds.height) {
-                    setBoundsForFrame(f, 0, 0,
-                        desktopBounds.width, desktopBounds.height);
+    publid void dfidonifyFrbmf(JIntfrnblFrbmf f) {
+        JIntfrnblFrbmf.JDfsktopIdon dfsktopIdon = f.gftDfsktopIdon();
+        Contbinfr d = dfsktopIdon.gftPbrfnt();
+        JDfsktopPbnf d = f.gftDfsktopPbnf();
+        if (d != null && d != null) {
+            d.bdd(f);
+            // If tif frbmf is to bf rfstorfd to b mbximizfd stbtf mbkf
+            // surf it still fills tif wiolf dfsktop.
+            if (f.isMbximum()) {
+                Rfdtbnglf dfsktopBounds = d.gftBounds();
+                if (f.gftWidti() != dfsktopBounds.widti ||
+                        f.gftHfigit() != dfsktopBounds.ifigit) {
+                    sftBoundsForFrbmf(f, 0, 0,
+                        dfsktopBounds.widti, dfsktopBounds.ifigit);
                 }
             }
-            removeIconFor(f);
-            if (f.isSelected()) {
-                f.moveToFront();
-                f.restoreSubcomponentFocus();
+            rfmovfIdonFor(f);
+            if (f.isSflfdtfd()) {
+                f.movfToFront();
+                f.rfstorfSubdomponfntFodus();
             }
-            else {
+            flsf {
                 try {
-                    f.setSelected(true);
-                } catch (PropertyVetoException e2) {}
+                    f.sftSflfdtfd(truf);
+                } dbtdi (PropfrtyVftoExdfption f2) {}
 
             }
         }
     }
 
-    /** This will activate <b>f</b> moving it to the front. It will
-      * set the current active frame's (if any)
-      * <code>IS_SELECTED_PROPERTY</code> to <code>false</code>.
-      * There can be only one active frame across all Layers.
-      * @param f the <code>JInternalFrame</code> to be activated
+    /** Tiis will bdtivbtf <b>f</b> moving it to tif front. It will
+      * sft tif durrfnt bdtivf frbmf's (if bny)
+      * <dodf>IS_SELECTED_PROPERTY</dodf> to <dodf>fblsf</dodf>.
+      * Tifrf dbn bf only onf bdtivf frbmf bdross bll Lbyfrs.
+      * @pbrbm f tif <dodf>JIntfrnblFrbmf</dodf> to bf bdtivbtfd
       */
-    public void activateFrame(JInternalFrame f) {
-        Container p = f.getParent();
-        Component[] c;
-        JDesktopPane d = f.getDesktopPane();
-        JInternalFrame currentlyActiveFrame =
-          (d == null) ? null : d.getSelectedFrame();
+    publid void bdtivbtfFrbmf(JIntfrnblFrbmf f) {
+        Contbinfr p = f.gftPbrfnt();
+        Componfnt[] d;
+        JDfsktopPbnf d = f.gftDfsktopPbnf();
+        JIntfrnblFrbmf durrfntlyAdtivfFrbmf =
+          (d == null) ? null : d.gftSflfdtfdFrbmf();
         // fix for bug: 4162443
         if(p == null) {
-            // If the frame is not in parent, its icon maybe, check it
-            p = f.getDesktopIcon().getParent();
+            // If tif frbmf is not in pbrfnt, its idon mbybf, difdk it
+            p = f.gftDfsktopIdon().gftPbrfnt();
             if(p == null)
-                return;
+                rfturn;
         }
-        // we only need to keep track of the currentActive InternalFrame, if any
-        if (currentlyActiveFrame == null){
-          if (d != null) { d.setSelectedFrame(f);}
-        } else if (currentlyActiveFrame != f) {
-          // if not the same frame as the current active
-          // we deactivate the current
-          if (currentlyActiveFrame.isSelected()) {
+        // wf only nffd to kffp trbdk of tif durrfntAdtivf IntfrnblFrbmf, if bny
+        if (durrfntlyAdtivfFrbmf == null){
+          if (d != null) { d.sftSflfdtfdFrbmf(f);}
+        } flsf if (durrfntlyAdtivfFrbmf != f) {
+          // if not tif sbmf frbmf bs tif durrfnt bdtivf
+          // wf dfbdtivbtf tif durrfnt
+          if (durrfntlyAdtivfFrbmf.isSflfdtfd()) {
             try {
-              currentlyActiveFrame.setSelected(false);
+              durrfntlyAdtivfFrbmf.sftSflfdtfd(fblsf);
             }
-            catch(PropertyVetoException e2) {}
+            dbtdi(PropfrtyVftoExdfption f2) {}
           }
-          if (d != null) { d.setSelectedFrame(f);}
+          if (d != null) { d.sftSflfdtfdFrbmf(f);}
         }
-        f.moveToFront();
+        f.movfToFront();
     }
 
-    // implements javax.swing.DesktopManager
-    public void deactivateFrame(JInternalFrame f) {
-      JDesktopPane d = f.getDesktopPane();
-      JInternalFrame currentlyActiveFrame =
-          (d == null) ? null : d.getSelectedFrame();
-      if (currentlyActiveFrame == f)
-        d.setSelectedFrame(null);
+    // implfmfnts jbvbx.swing.DfsktopMbnbgfr
+    publid void dfbdtivbtfFrbmf(JIntfrnblFrbmf f) {
+      JDfsktopPbnf d = f.gftDfsktopPbnf();
+      JIntfrnblFrbmf durrfntlyAdtivfFrbmf =
+          (d == null) ? null : d.gftSflfdtfdFrbmf();
+      if (durrfntlyAdtivfFrbmf == f)
+        d.sftSflfdtfdFrbmf(null);
     }
 
-    // implements javax.swing.DesktopManager
-    public void beginDraggingFrame(JComponent f) {
-        setupDragMode(f);
+    // implfmfnts jbvbx.swing.DfsktopMbnbgfr
+    publid void bfginDrbggingFrbmf(JComponfnt f) {
+        sftupDrbgModf(f);
 
-        if (dragMode == FASTER_DRAG_MODE) {
-          Component desktop = f.getParent();
-          floatingItems = findFloatingItems(f);
-          currentBounds = f.getBounds();
-          if (desktop instanceof JComponent) {
-              desktopBounds = ((JComponent)desktop).getVisibleRect();
+        if (drbgModf == FASTER_DRAG_MODE) {
+          Componfnt dfsktop = f.gftPbrfnt();
+          flobtingItfms = findFlobtingItfms(f);
+          durrfntBounds = f.gftBounds();
+          if (dfsktop instbndfof JComponfnt) {
+              dfsktopBounds = ((JComponfnt)dfsktop).gftVisiblfRfdt();
           }
-          else {
-              desktopBounds = desktop.getBounds();
-              desktopBounds.x = desktopBounds.y = 0;
+          flsf {
+              dfsktopBounds = dfsktop.gftBounds();
+              dfsktopBounds.x = dfsktopBounds.y = 0;
           }
-          desktopGraphics = JComponent.safelyGetGraphics(desktop);
-          ((JInternalFrame)f).isDragging = true;
-          didDrag = false;
+          dfsktopGrbpiids = JComponfnt.sbfflyGftGrbpiids(dfsktop);
+          ((JIntfrnblFrbmf)f).isDrbgging = truf;
+          didDrbg = fblsf;
         }
 
     }
 
-    private void setupDragMode(JComponent f) {
-        JDesktopPane p = getDesktopPane(f);
-        Container parent = f.getParent();
-        dragMode = DEFAULT_DRAG_MODE;
+    privbtf void sftupDrbgModf(JComponfnt f) {
+        JDfsktopPbnf p = gftDfsktopPbnf(f);
+        Contbinfr pbrfnt = f.gftPbrfnt();
+        drbgModf = DEFAULT_DRAG_MODE;
         if (p != null) {
-            String mode = (String)p.getClientProperty("JDesktopPane.dragMode");
-            Window window = SwingUtilities.getWindowAncestor(f);
-            if (window != null && !AWTUtilities.isWindowOpaque(window)) {
-                dragMode = DEFAULT_DRAG_MODE;
-            } else if (mode != null && mode.equals("outline")) {
-                dragMode = OUTLINE_DRAG_MODE;
-            } else if (mode != null && mode.equals("faster")
-                    && f instanceof JInternalFrame
-                    && ((JInternalFrame)f).isOpaque() &&
-                       (parent == null || parent.isOpaque())) {
-                dragMode = FASTER_DRAG_MODE;
-            } else {
-                if (p.getDragMode() == JDesktopPane.OUTLINE_DRAG_MODE ) {
-                    dragMode = OUTLINE_DRAG_MODE;
-                } else if ( p.getDragMode() == JDesktopPane.LIVE_DRAG_MODE
-                        && f instanceof JInternalFrame
-                        && ((JInternalFrame)f).isOpaque()) {
-                    dragMode = FASTER_DRAG_MODE;
-                } else {
-                    dragMode = DEFAULT_DRAG_MODE;
+            String modf = (String)p.gftClifntPropfrty("JDfsktopPbnf.drbgModf");
+            Window window = SwingUtilitifs.gftWindowAndfstor(f);
+            if (window != null && !AWTUtilitifs.isWindowOpbquf(window)) {
+                drbgModf = DEFAULT_DRAG_MODE;
+            } flsf if (modf != null && modf.fqubls("outlinf")) {
+                drbgModf = OUTLINE_DRAG_MODE;
+            } flsf if (modf != null && modf.fqubls("fbstfr")
+                    && f instbndfof JIntfrnblFrbmf
+                    && ((JIntfrnblFrbmf)f).isOpbquf() &&
+                       (pbrfnt == null || pbrfnt.isOpbquf())) {
+                drbgModf = FASTER_DRAG_MODE;
+            } flsf {
+                if (p.gftDrbgModf() == JDfsktopPbnf.OUTLINE_DRAG_MODE ) {
+                    drbgModf = OUTLINE_DRAG_MODE;
+                } flsf if ( p.gftDrbgModf() == JDfsktopPbnf.LIVE_DRAG_MODE
+                        && f instbndfof JIntfrnblFrbmf
+                        && ((JIntfrnblFrbmf)f).isOpbquf()) {
+                    drbgModf = FASTER_DRAG_MODE;
+                } flsf {
+                    drbgModf = DEFAULT_DRAG_MODE;
                 }
             }
         }
     }
 
-    private transient Point currentLoc = null;
+    privbtf trbnsifnt Point durrfntLod = null;
 
     /**
-      * Moves the visible location of the frame being dragged
-      * to the location specified.  The means by which this occurs can vary depending
-      * on the dragging algorithm being used.  The actual logical location of the frame
-      * might not change until <code>endDraggingFrame</code> is called.
+      * Movfs tif visiblf lodbtion of tif frbmf bfing drbggfd
+      * to tif lodbtion spfdififd.  Tif mfbns by wiidi tiis oddurs dbn vbry dfpfnding
+      * on tif drbgging blgoritim bfing usfd.  Tif bdtubl logidbl lodbtion of tif frbmf
+      * migit not dibngf until <dodf>fndDrbggingFrbmf</dodf> is dbllfd.
       */
-    public void dragFrame(JComponent f, int newX, int newY) {
+    publid void drbgFrbmf(JComponfnt f, int nfwX, int nfwY) {
 
-        if (dragMode == OUTLINE_DRAG_MODE) {
-            JDesktopPane desktopPane = getDesktopPane(f);
-            if (desktopPane != null){
-              Graphics g = JComponent.safelyGetGraphics(desktopPane);
+        if (drbgModf == OUTLINE_DRAG_MODE) {
+            JDfsktopPbnf dfsktopPbnf = gftDfsktopPbnf(f);
+            if (dfsktopPbnf != null){
+              Grbpiids g = JComponfnt.sbfflyGftGrbpiids(dfsktopPbnf);
 
-              g.setXORMode(Color.white);
-              if (currentLoc != null) {
-                g.drawRect(currentLoc.x, currentLoc.y,
-                        f.getWidth()-1, f.getHeight()-1);
+              g.sftXORModf(Color.wiitf);
+              if (durrfntLod != null) {
+                g.drbwRfdt(durrfntLod.x, durrfntLod.y,
+                        f.gftWidti()-1, f.gftHfigit()-1);
               }
-              g.drawRect( newX, newY, f.getWidth()-1, f.getHeight()-1);
-              /* Work around for 6635462: XOR mode may cause a SurfaceLost on first use.
-              * Swing doesn't expect that its XOR drawRect did
-              * not complete, so believes that on re-entering at
-              * the next update location, that there is an XOR rect
-              * to draw out at "currentLoc". But in fact
-              * its now got a new clean surface without that rect,
-              * so drawing it "out" in fact draws it on, leaving garbage.
-              * So only update/set currentLoc if the draw completed.
+              g.drbwRfdt( nfwX, nfwY, f.gftWidti()-1, f.gftHfigit()-1);
+              /* Work bround for 6635462: XOR modf mby dbusf b SurfbdfLost on first usf.
+              * Swing dofsn't fxpfdt tibt its XOR drbwRfdt did
+              * not domplftf, so bflifvfs tibt on rf-fntfring bt
+              * tif nfxt updbtf lodbtion, tibt tifrf is bn XOR rfdt
+              * to drbw out bt "durrfntLod". But in fbdt
+              * its now got b nfw dlfbn surfbdf witiout tibt rfdt,
+              * so drbwing it "out" in fbdt drbws it on, lfbving gbrbbgf.
+              * So only updbtf/sft durrfntLod if tif drbw domplftfd.
               */
-              sun.java2d.SurfaceData sData =
-                  ((sun.java2d.SunGraphics2D)g).getSurfaceData();
+              sun.jbvb2d.SurfbdfDbtb sDbtb =
+                  ((sun.jbvb2d.SunGrbpiids2D)g).gftSurfbdfDbtb();
 
-              if (!sData.isSurfaceLost()) {
-                  currentLoc = new Point (newX, newY);
+              if (!sDbtb.isSurfbdfLost()) {
+                  durrfntLod = nfw Point (nfwX, nfwY);
               }
 ;
-              g.dispose();
+              g.disposf();
             }
-        } else if (dragMode == FASTER_DRAG_MODE) {
-            dragFrameFaster(f, newX, newY);
-        } else {
-            setBoundsForFrame(f, newX, newY, f.getWidth(), f.getHeight());
+        } flsf if (drbgModf == FASTER_DRAG_MODE) {
+            drbgFrbmfFbstfr(f, nfwX, nfwY);
+        } flsf {
+            sftBoundsForFrbmf(f, nfwX, nfwY, f.gftWidti(), f.gftHfigit());
         }
     }
 
-    // implements javax.swing.DesktopManager
-    public void endDraggingFrame(JComponent f) {
-        if ( dragMode == OUTLINE_DRAG_MODE && currentLoc != null) {
-            setBoundsForFrame(f, currentLoc.x, currentLoc.y, f.getWidth(), f.getHeight() );
-            currentLoc = null;
-        } else if (dragMode == FASTER_DRAG_MODE) {
-            currentBounds = null;
-            if (desktopGraphics != null) {
-                desktopGraphics.dispose();
-                desktopGraphics = null;
+    // implfmfnts jbvbx.swing.DfsktopMbnbgfr
+    publid void fndDrbggingFrbmf(JComponfnt f) {
+        if ( drbgModf == OUTLINE_DRAG_MODE && durrfntLod != null) {
+            sftBoundsForFrbmf(f, durrfntLod.x, durrfntLod.y, f.gftWidti(), f.gftHfigit() );
+            durrfntLod = null;
+        } flsf if (drbgModf == FASTER_DRAG_MODE) {
+            durrfntBounds = null;
+            if (dfsktopGrbpiids != null) {
+                dfsktopGrbpiids.disposf();
+                dfsktopGrbpiids = null;
             }
-            desktopBounds = null;
-            ((JInternalFrame)f).isDragging = false;
+            dfsktopBounds = null;
+            ((JIntfrnblFrbmf)f).isDrbgging = fblsf;
         }
     }
 
-    // implements javax.swing.DesktopManager
-    public void beginResizingFrame(JComponent f, int direction) {
-        setupDragMode(f);
+    // implfmfnts jbvbx.swing.DfsktopMbnbgfr
+    publid void bfginRfsizingFrbmf(JComponfnt f, int dirfdtion) {
+        sftupDrbgModf(f);
     }
 
     /**
-     * Calls <code>setBoundsForFrame</code> with the new values.
-     * @param f the component to be resized
-     * @param newX the new x-coordinate
-     * @param newY the new y-coordinate
-     * @param newWidth the new width
-     * @param newHeight the new height
+     * Cblls <dodf>sftBoundsForFrbmf</dodf> witi tif nfw vblufs.
+     * @pbrbm f tif domponfnt to bf rfsizfd
+     * @pbrbm nfwX tif nfw x-doordinbtf
+     * @pbrbm nfwY tif nfw y-doordinbtf
+     * @pbrbm nfwWidti tif nfw widti
+     * @pbrbm nfwHfigit tif nfw ifigit
      */
-    public void resizeFrame(JComponent f, int newX, int newY, int newWidth, int newHeight) {
+    publid void rfsizfFrbmf(JComponfnt f, int nfwX, int nfwY, int nfwWidti, int nfwHfigit) {
 
-        if ( dragMode == DEFAULT_DRAG_MODE || dragMode == FASTER_DRAG_MODE ) {
-            setBoundsForFrame(f, newX, newY, newWidth, newHeight);
-        } else {
-            JDesktopPane desktopPane = getDesktopPane(f);
-            if (desktopPane != null){
-              Graphics g = JComponent.safelyGetGraphics(desktopPane);
+        if ( drbgModf == DEFAULT_DRAG_MODE || drbgModf == FASTER_DRAG_MODE ) {
+            sftBoundsForFrbmf(f, nfwX, nfwY, nfwWidti, nfwHfigit);
+        } flsf {
+            JDfsktopPbnf dfsktopPbnf = gftDfsktopPbnf(f);
+            if (dfsktopPbnf != null){
+              Grbpiids g = JComponfnt.sbfflyGftGrbpiids(dfsktopPbnf);
 
-              g.setXORMode(Color.white);
-              if (currentBounds != null) {
-                g.drawRect( currentBounds.x, currentBounds.y, currentBounds.width-1, currentBounds.height-1);
+              g.sftXORModf(Color.wiitf);
+              if (durrfntBounds != null) {
+                g.drbwRfdt( durrfntBounds.x, durrfntBounds.y, durrfntBounds.widti-1, durrfntBounds.ifigit-1);
               }
-              g.drawRect( newX, newY, newWidth-1, newHeight-1);
+              g.drbwRfdt( nfwX, nfwY, nfwWidti-1, nfwHfigit-1);
 
-              // Work around for 6635462, see comment in dragFrame()
-              sun.java2d.SurfaceData sData =
-                  ((sun.java2d.SunGraphics2D)g).getSurfaceData();
-              if (!sData.isSurfaceLost()) {
-                  currentBounds = new Rectangle (newX, newY, newWidth, newHeight);
+              // Work bround for 6635462, sff dommfnt in drbgFrbmf()
+              sun.jbvb2d.SurfbdfDbtb sDbtb =
+                  ((sun.jbvb2d.SunGrbpiids2D)g).gftSurfbdfDbtb();
+              if (!sDbtb.isSurfbdfLost()) {
+                  durrfntBounds = nfw Rfdtbnglf (nfwX, nfwY, nfwWidti, nfwHfigit);
               }
 
-              g.setPaintMode();
-              g.dispose();
+              g.sftPbintModf();
+              g.disposf();
             }
         }
 
     }
 
-    // implements javax.swing.DesktopManager
-    public void endResizingFrame(JComponent f) {
-        if ( dragMode == OUTLINE_DRAG_MODE && currentBounds != null) {
-            setBoundsForFrame(f, currentBounds.x, currentBounds.y, currentBounds.width, currentBounds.height );
-            currentBounds = null;
+    // implfmfnts jbvbx.swing.DfsktopMbnbgfr
+    publid void fndRfsizingFrbmf(JComponfnt f) {
+        if ( drbgModf == OUTLINE_DRAG_MODE && durrfntBounds != null) {
+            sftBoundsForFrbmf(f, durrfntBounds.x, durrfntBounds.y, durrfntBounds.widti, durrfntBounds.ifigit );
+            durrfntBounds = null;
         }
     }
 
 
-    /** This moves the <code>JComponent</code> and repaints the damaged areas. */
-    public void setBoundsForFrame(JComponent f, int newX, int newY, int newWidth, int newHeight) {
-        f.setBounds(newX, newY, newWidth, newHeight);
-        // we must validate the hierarchy to not break the hw/lw mixing
-        f.revalidate();
+    /** Tiis movfs tif <dodf>JComponfnt</dodf> bnd rfpbints tif dbmbgfd brfbs. */
+    publid void sftBoundsForFrbmf(JComponfnt f, int nfwX, int nfwY, int nfwWidti, int nfwHfigit) {
+        f.sftBounds(nfwX, nfwY, nfwWidti, nfwHfigit);
+        // wf must vblidbtf tif iifrbrdiy to not brfbk tif iw/lw mixing
+        f.rfvblidbtf();
     }
 
     /**
-     * Convenience method to remove the desktopIcon of <b>f</b> is necessary.
+     * Convfnifndf mftiod to rfmovf tif dfsktopIdon of <b>f</b> is nfdfssbry.
      *
-     * @param f the {@code JInternalFrame} for which to remove the
-     *          {@code desktopIcon}
+     * @pbrbm f tif {@dodf JIntfrnblFrbmf} for wiidi to rfmovf tif
+     *          {@dodf dfsktopIdon}
      */
-    protected void removeIconFor(JInternalFrame f) {
-        JInternalFrame.JDesktopIcon di = f.getDesktopIcon();
-        Container c = di.getParent();
-        if(c != null) {
-            c.remove(di);
-            c.repaint(di.getX(), di.getY(), di.getWidth(), di.getHeight());
+    protfdtfd void rfmovfIdonFor(JIntfrnblFrbmf f) {
+        JIntfrnblFrbmf.JDfsktopIdon di = f.gftDfsktopIdon();
+        Contbinfr d = di.gftPbrfnt();
+        if(d != null) {
+            d.rfmovf(di);
+            d.rfpbint(di.gftX(), di.gftY(), di.gftWidti(), di.gftHfigit());
         }
     }
 
     /**
-     * The {@code iconifyFrame()} code calls this to determine the proper bounds
-     * for the desktopIcon.
+     * Tif {@dodf idonifyFrbmf()} dodf dblls tiis to dftfrminf tif propfr bounds
+     * for tif dfsktopIdon.
      *
-     * @param f the {@code JInternalFrame} of interest
-     * @return a {@code Rectangle} containing bounds for the {@code desktopIcon}
+     * @pbrbm f tif {@dodf JIntfrnblFrbmf} of intfrfst
+     * @rfturn b {@dodf Rfdtbnglf} dontbining bounds for tif {@dodf dfsktopIdon}
      */
-    protected Rectangle getBoundsForIconOf(JInternalFrame f) {
+    protfdtfd Rfdtbnglf gftBoundsForIdonOf(JIntfrnblFrbmf f) {
       //
-      // Get the icon for this internal frame and its preferred size
-      //
-
-      JInternalFrame.JDesktopIcon icon = f.getDesktopIcon();
-      Dimension prefSize = icon.getPreferredSize();
-      //
-      // Get the parent bounds and child components.
+      // Gft tif idon for tiis intfrnbl frbmf bnd its prfffrrfd sizf
       //
 
-      Container c = f.getParent();
-      if (c == null) {
-          c = f.getDesktopIcon().getParent();
+      JIntfrnblFrbmf.JDfsktopIdon idon = f.gftDfsktopIdon();
+      Dimfnsion prffSizf = idon.gftPrfffrrfdSizf();
+      //
+      // Gft tif pbrfnt bounds bnd diild domponfnts.
+      //
+
+      Contbinfr d = f.gftPbrfnt();
+      if (d == null) {
+          d = f.gftDfsktopIdon().gftPbrfnt();
       }
 
-      if (c == null) {
-        /* the frame has not yet been added to the parent; how about (0,0) ?*/
-        return new Rectangle(0, 0, prefSize.width, prefSize.height);
+      if (d == null) {
+        /* tif frbmf ibs not yft bffn bddfd to tif pbrfnt; iow bbout (0,0) ?*/
+        rfturn nfw Rfdtbnglf(0, 0, prffSizf.widti, prffSizf.ifigit);
       }
 
-      Rectangle parentBounds = c.getBounds();
-      Component [] components = c.getComponents();
+      Rfdtbnglf pbrfntBounds = d.gftBounds();
+      Componfnt [] domponfnts = d.gftComponfnts();
 
 
       //
-      // Iterate through valid default icon locations and return the
-      // first one that does not intersect any other icons.
+      // Itfrbtf tirougi vblid dffbult idon lodbtions bnd rfturn tif
+      // first onf tibt dofs not intfrsfdt bny otifr idons.
       //
 
-      Rectangle availableRectangle = null;
-      JInternalFrame.JDesktopIcon currentIcon = null;
+      Rfdtbnglf bvbilbblfRfdtbnglf = null;
+      JIntfrnblFrbmf.JDfsktopIdon durrfntIdon = null;
 
       int x = 0;
-      int y = parentBounds.height - prefSize.height;
-      int w = prefSize.width;
-      int h = prefSize.height;
+      int y = pbrfntBounds.ifigit - prffSizf.ifigit;
+      int w = prffSizf.widti;
+      int i = prffSizf.ifigit;
 
-      boolean found = false;
+      boolfbn found = fblsf;
 
-      while (!found) {
+      wiilf (!found) {
 
-        availableRectangle = new Rectangle(x,y,w,h);
+        bvbilbblfRfdtbnglf = nfw Rfdtbnglf(x,y,w,i);
 
-        found = true;
+        found = truf;
 
-        for ( int i=0; i<components.length; i++ ) {
+        for ( int i=0; i<domponfnts.lfngti; i++ ) {
 
           //
-          // Get the icon for this component
+          // Gft tif idon for tiis domponfnt
           //
 
-          if ( components[i] instanceof JInternalFrame ) {
-            currentIcon = ((JInternalFrame)components[i]).getDesktopIcon();
+          if ( domponfnts[i] instbndfof JIntfrnblFrbmf ) {
+            durrfntIdon = ((JIntfrnblFrbmf)domponfnts[i]).gftDfsktopIdon();
           }
-          else if ( components[i] instanceof JInternalFrame.JDesktopIcon ){
-            currentIcon = (JInternalFrame.JDesktopIcon)components[i];
-          } else
-            /* found a child that's neither an internal frame nor
-               an icon. I don't believe this should happen, but at
-               present it does and causes a null pointer exception.
-               Even when that gets fixed, this code protects against
-               the npe. hania */
-            continue;
+          flsf if ( domponfnts[i] instbndfof JIntfrnblFrbmf.JDfsktopIdon ){
+            durrfntIdon = (JIntfrnblFrbmf.JDfsktopIdon)domponfnts[i];
+          } flsf
+            /* found b diild tibt's nfitifr bn intfrnbl frbmf nor
+               bn idon. I don't bflifvf tiis siould ibppfn, but bt
+               prfsfnt it dofs bnd dbusfs b null pointfr fxdfption.
+               Evfn wifn tibt gfts fixfd, tiis dodf protfdts bgbinst
+               tif npf. ibnib */
+            dontinuf;
 
           //
-          // If this icon intersects the current location, get next location.
+          // If tiis idon intfrsfdts tif durrfnt lodbtion, gft nfxt lodbtion.
           //
 
-          if ( !currentIcon.equals(icon) ) {
-            if ( availableRectangle.intersects(currentIcon.getBounds()) ) {
-              found = false;
-              break;
+          if ( !durrfntIdon.fqubls(idon) ) {
+            if ( bvbilbblfRfdtbnglf.intfrsfdts(durrfntIdon.gftBounds()) ) {
+              found = fblsf;
+              brfbk;
             }
           }
         }
 
-        if (currentIcon == null)
-          /* didn't find any useful children above. This probably shouldn't
-           happen, but this check protects against an npe if it ever does
-           (and it's happening now) */
-          return availableRectangle;
+        if (durrfntIdon == null)
+          /* didn't find bny usfful diildrfn bbovf. Tiis probbbly siouldn't
+           ibppfn, but tiis difdk protfdts bgbinst bn npf if it fvfr dofs
+           (bnd it's ibppfning now) */
+          rfturn bvbilbblfRfdtbnglf;
 
-        x += currentIcon.getBounds().width;
+        x += durrfntIdon.gftBounds().widti;
 
-        if ( x + w > parentBounds.width ) {
+        if ( x + w > pbrfntBounds.widti ) {
           x = 0;
-          y -= h;
+          y -= i;
         }
       }
 
-      return(availableRectangle);
+      rfturn(bvbilbblfRfdtbnglf);
     }
 
     /**
-     * Stores the bounds of the component just before a maximize call.
-     * @param f the component about to be resized
-     * @param r the normal bounds to be saved away
+     * Storfs tif bounds of tif domponfnt just bfforf b mbximizf dbll.
+     * @pbrbm f tif domponfnt bbout to bf rfsizfd
+     * @pbrbm r tif normbl bounds to bf sbvfd bwby
      */
-    protected void setPreviousBounds(JInternalFrame f, Rectangle r)     {
-        f.setNormalBounds(r);
+    protfdtfd void sftPrfviousBounds(JIntfrnblFrbmf f, Rfdtbnglf r)     {
+        f.sftNormblBounds(r);
     }
 
     /**
-     * Gets the normal bounds of the component prior to the component
-     * being maximized.
-     * @param f the <code>JInternalFrame</code> of interest
-     * @return the normal bounds of the component
+     * Gfts tif normbl bounds of tif domponfnt prior to tif domponfnt
+     * bfing mbximizfd.
+     * @pbrbm f tif <dodf>JIntfrnblFrbmf</dodf> of intfrfst
+     * @rfturn tif normbl bounds of tif domponfnt
      */
-    protected Rectangle getPreviousBounds(JInternalFrame f)     {
-        return f.getNormalBounds();
+    protfdtfd Rfdtbnglf gftPrfviousBounds(JIntfrnblFrbmf f)     {
+        rfturn f.gftNormblBounds();
     }
 
     /**
-     * Sets that the component has been iconized and the bounds of the
-     * <code>desktopIcon</code> are valid.
+     * Sfts tibt tif domponfnt ibs bffn idonizfd bnd tif bounds of tif
+     * <dodf>dfsktopIdon</dodf> brf vblid.
      *
-     * @param f     the {@code JInternalFrame} of interest
-     * @param value a {@code Boolean} signifying if component has been iconized
+     * @pbrbm f     tif {@dodf JIntfrnblFrbmf} of intfrfst
+     * @pbrbm vbluf b {@dodf Boolfbn} signifying if domponfnt ibs bffn idonizfd
      */
-    protected void setWasIcon(JInternalFrame f, Boolean value)  {
-        if (value != null) {
-            f.putClientProperty(HAS_BEEN_ICONIFIED_PROPERTY, value);
+    protfdtfd void sftWbsIdon(JIntfrnblFrbmf f, Boolfbn vbluf)  {
+        if (vbluf != null) {
+            f.putClifntPropfrty(HAS_BEEN_ICONIFIED_PROPERTY, vbluf);
         }
     }
 
     /**
-     * Returns <code>true</code> if the component has been iconized
-     * and the bounds of the <code>desktopIcon</code> are valid,
-     * otherwise returns <code>false</code>.
+     * Rfturns <dodf>truf</dodf> if tif domponfnt ibs bffn idonizfd
+     * bnd tif bounds of tif <dodf>dfsktopIdon</dodf> brf vblid,
+     * otifrwisf rfturns <dodf>fblsf</dodf>.
      *
-     * @param f the <code>JInternalFrame</code> of interest
-     * @return <code>true</code> if the component has been iconized;
-     *    otherwise returns <code>false</code>
+     * @pbrbm f tif <dodf>JIntfrnblFrbmf</dodf> of intfrfst
+     * @rfturn <dodf>truf</dodf> if tif domponfnt ibs bffn idonizfd;
+     *    otifrwisf rfturns <dodf>fblsf</dodf>
      */
-    protected boolean wasIcon(JInternalFrame f) {
-        return (f.getClientProperty(HAS_BEEN_ICONIFIED_PROPERTY) == Boolean.TRUE);
+    protfdtfd boolfbn wbsIdon(JIntfrnblFrbmf f) {
+        rfturn (f.gftClifntPropfrty(HAS_BEEN_ICONIFIED_PROPERTY) == Boolfbn.TRUE);
     }
 
 
-    JDesktopPane getDesktopPane( JComponent frame ) {
-        JDesktopPane pane = null;
-        Component c = frame.getParent();
+    JDfsktopPbnf gftDfsktopPbnf( JComponfnt frbmf ) {
+        JDfsktopPbnf pbnf = null;
+        Componfnt d = frbmf.gftPbrfnt();
 
-        // Find the JDesktopPane
-        while ( pane == null ) {
-            if ( c instanceof JDesktopPane ) {
-                pane = (JDesktopPane)c;
+        // Find tif JDfsktopPbnf
+        wiilf ( pbnf == null ) {
+            if ( d instbndfof JDfsktopPbnf ) {
+                pbnf = (JDfsktopPbnf)d;
             }
-            else if ( c == null ) {
-                break;
+            flsf if ( d == null ) {
+                brfbk;
             }
-            else {
-                c = c.getParent();
+            flsf {
+                d = d.gftPbrfnt();
             }
         }
 
-        return pane;
+        rfturn pbnf;
     }
 
 
-  // =========== stuff for faster frame dragging ===================
+  // =========== stuff for fbstfr frbmf drbgging ===================
 
-   private void dragFrameFaster(JComponent f, int newX, int newY) {
+   privbtf void drbgFrbmfFbstfr(JComponfnt f, int nfwX, int nfwY) {
 
-      Rectangle previousBounds = new Rectangle(currentBounds.x,
-                                               currentBounds.y,
-                                               currentBounds.width,
-                                               currentBounds.height);
+      Rfdtbnglf prfviousBounds = nfw Rfdtbnglf(durrfntBounds.x,
+                                               durrfntBounds.y,
+                                               durrfntBounds.widti,
+                                               durrfntBounds.ifigit);
 
-   // move the frame
-      currentBounds.x = newX;
-      currentBounds.y = newY;
+   // movf tif frbmf
+      durrfntBounds.x = nfwX;
+      durrfntBounds.y = nfwY;
 
-      if (didDrag) {
-          // Only initiate cleanup if we have actually done a drag.
-          emergencyCleanup(f);
+      if (didDrbg) {
+          // Only initibtf dlfbnup if wf ibvf bdtublly donf b drbg.
+          fmfrgfndyClfbnup(f);
       }
-      else {
-          didDrag = true;
-          // We reset the danger field as until now we haven't actually
-          // moved the internal frame so we don't need to initiate repaint.
-          ((JInternalFrame)f).danger = false;
+      flsf {
+          didDrbg = truf;
+          // Wf rfsft tif dbngfr fifld bs until now wf ibvfn't bdtublly
+          // movfd tif intfrnbl frbmf so wf don't nffd to initibtf rfpbint.
+          ((JIntfrnblFrbmf)f).dbngfr = fblsf;
       }
 
-      boolean floaterCollision = isFloaterCollision(previousBounds, currentBounds);
+      boolfbn flobtfrCollision = isFlobtfrCollision(prfviousBounds, durrfntBounds);
 
-      JComponent parent = (JComponent)f.getParent();
-      Rectangle visBounds = previousBounds.intersection(desktopBounds);
+      JComponfnt pbrfnt = (JComponfnt)f.gftPbrfnt();
+      Rfdtbnglf visBounds = prfviousBounds.intfrsfdtion(dfsktopBounds);
 
-      RepaintManager currentManager = RepaintManager.currentManager(f);
+      RfpbintMbnbgfr durrfntMbnbgfr = RfpbintMbnbgfr.durrfntMbnbgfr(f);
 
-      currentManager.beginPaint();
+      durrfntMbnbgfr.bfginPbint();
       try {
-          if(!floaterCollision) {
-              currentManager.copyArea(parent, desktopGraphics, visBounds.x,
+          if(!flobtfrCollision) {
+              durrfntMbnbgfr.dopyArfb(pbrfnt, dfsktopGrbpiids, visBounds.x,
                                       visBounds.y,
-                                      visBounds.width,
-                                      visBounds.height,
-                                      newX - previousBounds.x,
-                                      newY - previousBounds.y,
-                                      true);
+                                      visBounds.widti,
+                                      visBounds.ifigit,
+                                      nfwX - prfviousBounds.x,
+                                      nfwY - prfviousBounds.y,
+                                      truf);
           }
 
-          f.setBounds(currentBounds);
+          f.sftBounds(durrfntBounds);
 
-          if (!floaterCollision) {
-              Rectangle r = currentBounds;
-              currentManager.notifyRepaintPerformed(parent, r.x, r.y, r.width, r.height);
+          if (!flobtfrCollision) {
+              Rfdtbnglf r = durrfntBounds;
+              durrfntMbnbgfr.notifyRfpbintPfrformfd(pbrfnt, r.x, r.y, r.widti, r.ifigit);
           }
 
-          if(floaterCollision) {
-              // since we couldn't blit we just redraw as fast as possible
-              // the isDragging mucking is to avoid activating emergency
-              // cleanup
-              ((JInternalFrame)f).isDragging = false;
-              parent.paintImmediately(currentBounds);
-              ((JInternalFrame)f).isDragging = true;
+          if(flobtfrCollision) {
+              // sindf wf douldn't blit wf just rfdrbw bs fbst bs possiblf
+              // tif isDrbgging mudking is to bvoid bdtivbting fmfrgfndy
+              // dlfbnup
+              ((JIntfrnblFrbmf)f).isDrbgging = fblsf;
+              pbrfnt.pbintImmfdibtfly(durrfntBounds);
+              ((JIntfrnblFrbmf)f).isDrbgging = truf;
           }
 
-          // fake out the repaint manager.  We'll take care of everything
+          // fbkf out tif rfpbint mbnbgfr.  Wf'll tbkf dbrf of fvfrytiing
 
-          currentManager.markCompletelyClean(parent);
-          currentManager.markCompletelyClean(f);
+          durrfntMbnbgfr.mbrkComplftflyClfbn(pbrfnt);
+          durrfntMbnbgfr.mbrkComplftflyClfbn(f);
 
-          // compute the minimal newly exposed area
-          // if the rects intersect then we use computeDifference.  Otherwise
-          // we'll repaint the entire previous bounds
-          Rectangle[] dirtyRects = null;
-          if ( previousBounds.intersects(currentBounds) ) {
-              dirtyRects = SwingUtilities.computeDifference(previousBounds,
-                                                            currentBounds);
-          } else {
-              dirtyRects = new Rectangle[1];
-              dirtyRects[0] = previousBounds;
+          // domputf tif minimbl nfwly fxposfd brfb
+          // if tif rfdts intfrsfdt tifn wf usf domputfDifffrfndf.  Otifrwisf
+          // wf'll rfpbint tif fntirf prfvious bounds
+          Rfdtbnglf[] dirtyRfdts = null;
+          if ( prfviousBounds.intfrsfdts(durrfntBounds) ) {
+              dirtyRfdts = SwingUtilitifs.domputfDifffrfndf(prfviousBounds,
+                                                            durrfntBounds);
+          } flsf {
+              dirtyRfdts = nfw Rfdtbnglf[1];
+              dirtyRfdts[0] = prfviousBounds;
           };
 
-          // Fix the damage
-          for (int i = 0; i < dirtyRects.length; i++) {
-              parent.paintImmediately(dirtyRects[i]);
-              Rectangle r = dirtyRects[i];
-              currentManager.notifyRepaintPerformed(parent, r.x, r.y, r.width, r.height);
+          // Fix tif dbmbgf
+          for (int i = 0; i < dirtyRfdts.lfngti; i++) {
+              pbrfnt.pbintImmfdibtfly(dirtyRfdts[i]);
+              Rfdtbnglf r = dirtyRfdts[i];
+              durrfntMbnbgfr.notifyRfpbintPfrformfd(pbrfnt, r.x, r.y, r.widti, r.ifigit);
           }
 
-          // new areas of blit were exposed
-          if ( !(visBounds.equals(previousBounds)) ) {
-              dirtyRects = SwingUtilities.computeDifference(previousBounds,
-                                                            desktopBounds);
-              for (int i = 0; i < dirtyRects.length; i++) {
-                  dirtyRects[i].x += newX - previousBounds.x;
-                  dirtyRects[i].y += newY - previousBounds.y;
-                  ((JInternalFrame)f).isDragging = false;
-                  parent.paintImmediately(dirtyRects[i]);
-                  ((JInternalFrame)f).isDragging = true;
-                  Rectangle r = dirtyRects[i];
-                  currentManager.notifyRepaintPerformed(parent, r.x, r.y, r.width, r.height);
+          // nfw brfbs of blit wfrf fxposfd
+          if ( !(visBounds.fqubls(prfviousBounds)) ) {
+              dirtyRfdts = SwingUtilitifs.domputfDifffrfndf(prfviousBounds,
+                                                            dfsktopBounds);
+              for (int i = 0; i < dirtyRfdts.lfngti; i++) {
+                  dirtyRfdts[i].x += nfwX - prfviousBounds.x;
+                  dirtyRfdts[i].y += nfwY - prfviousBounds.y;
+                  ((JIntfrnblFrbmf)f).isDrbgging = fblsf;
+                  pbrfnt.pbintImmfdibtfly(dirtyRfdts[i]);
+                  ((JIntfrnblFrbmf)f).isDrbgging = truf;
+                  Rfdtbnglf r = dirtyRfdts[i];
+                  durrfntMbnbgfr.notifyRfpbintPfrformfd(pbrfnt, r.x, r.y, r.widti, r.ifigit);
               }
 
           }
-      } finally {
-          currentManager.endPaint();
+      } finblly {
+          durrfntMbnbgfr.fndPbint();
       }
 
-      // update window if it's non-opaque
-      Window topLevel = SwingUtilities.getWindowAncestor(f);
-      Toolkit tk = Toolkit.getDefaultToolkit();
-      if (!topLevel.isOpaque() &&
-          (tk instanceof SunToolkit) &&
-          ((SunToolkit)tk).needUpdateWindow())
+      // updbtf window if it's non-opbquf
+      Window topLfvfl = SwingUtilitifs.gftWindowAndfstor(f);
+      Toolkit tk = Toolkit.gftDffbultToolkit();
+      if (!topLfvfl.isOpbquf() &&
+          (tk instbndfof SunToolkit) &&
+          ((SunToolkit)tk).nffdUpdbtfWindow())
       {
-          AWTAccessor.getWindowAccessor().updateWindow(topLevel);
+          AWTAddfssor.gftWindowAddfssor().updbtfWindow(topLfvfl);
       }
    }
 
-   private boolean isFloaterCollision(Rectangle moveFrom, Rectangle moveTo) {
-      if (floatingItems.length == 0) {
-        // System.out.println("no floaters");
-         return false;
+   privbtf boolfbn isFlobtfrCollision(Rfdtbnglf movfFrom, Rfdtbnglf movfTo) {
+      if (flobtingItfms.lfngti == 0) {
+        // Systfm.out.println("no flobtfrs");
+         rfturn fblsf;
       }
 
-      for (int i = 0; i < floatingItems.length; i++) {
-         boolean intersectsFrom = moveFrom.intersects(floatingItems[i]);
-         if (intersectsFrom) {
-            return true;
+      for (int i = 0; i < flobtingItfms.lfngti; i++) {
+         boolfbn intfrsfdtsFrom = movfFrom.intfrsfdts(flobtingItfms[i]);
+         if (intfrsfdtsFrom) {
+            rfturn truf;
          }
-         boolean intersectsTo = moveTo.intersects(floatingItems[i]);
-         if (intersectsTo) {
-            return true;
+         boolfbn intfrsfdtsTo = movfTo.intfrsfdts(flobtingItfms[i]);
+         if (intfrsfdtsTo) {
+            rfturn truf;
          }
       }
 
-      return false;
+      rfturn fblsf;
    }
 
-   private Rectangle[] findFloatingItems(JComponent f) {
-      Container desktop = f.getParent();
-      Component[] children = desktop.getComponents();
+   privbtf Rfdtbnglf[] findFlobtingItfms(JComponfnt f) {
+      Contbinfr dfsktop = f.gftPbrfnt();
+      Componfnt[] diildrfn = dfsktop.gftComponfnts();
       int i = 0;
-      for (i = 0; i < children.length; i++) {
-         if (children[i] == f) {
-            break;
+      for (i = 0; i < diildrfn.lfngti; i++) {
+         if (diildrfn[i] == f) {
+            brfbk;
          }
       }
-      // System.out.println(i);
-      Rectangle[] floaters = new Rectangle[i];
-      for (i = 0; i < floaters.length; i++) {
-         floaters[i] = children[i].getBounds();
+      // Systfm.out.println(i);
+      Rfdtbnglf[] flobtfrs = nfw Rfdtbnglf[i];
+      for (i = 0; i < flobtfrs.lfngti; i++) {
+         flobtfrs[i] = diildrfn[i].gftBounds();
       }
 
-      return floaters;
+      rfturn flobtfrs;
    }
 
    /**
-     * This method is here to clean up problems associated
-     * with a race condition which can occur when the full contents
-     * of a copyArea's source argument is not available onscreen.
-     * This uses brute force to clean up in case of possible damage
+     * Tiis mftiod is ifrf to dlfbn up problfms bssodibtfd
+     * witi b rbdf dondition wiidi dbn oddur wifn tif full dontfnts
+     * of b dopyArfb's sourdf brgumfnt is not bvbilbblf onsdrffn.
+     * Tiis usfs brutf fordf to dlfbn up in dbsf of possiblf dbmbgf
      */
-   private void emergencyCleanup(final JComponent f) {
+   privbtf void fmfrgfndyClfbnup(finbl JComponfnt f) {
 
-        if ( ((JInternalFrame)f).danger ) {
+        if ( ((JIntfrnblFrbmf)f).dbngfr ) {
 
-           SwingUtilities.invokeLater( new Runnable(){
-                                       public void run(){
+           SwingUtilitifs.invokfLbtfr( nfw Runnbblf(){
+                                       publid void run(){
 
-                                       ((JInternalFrame)f).isDragging = false;
-                                       f.paintImmediately(0,0,
-                                                          f.getWidth(),
-                                                          f.getHeight());
+                                       ((JIntfrnblFrbmf)f).isDrbgging = fblsf;
+                                       f.pbintImmfdibtfly(0,0,
+                                                          f.gftWidti(),
+                                                          f.gftHfigit());
 
-                                        //finalFrame.repaint();
-                                        ((JInternalFrame)f).isDragging = true;
-                                        // System.out.println("repair complete");
+                                        //finblFrbmf.rfpbint();
+                                        ((JIntfrnblFrbmf)f).isDrbgging = truf;
+                                        // Systfm.out.println("rfpbir domplftf");
                                        }});
 
-             ((JInternalFrame)f).danger = false;
+             ((JIntfrnblFrbmf)f).dbngfr = fblsf;
         }
 
    }

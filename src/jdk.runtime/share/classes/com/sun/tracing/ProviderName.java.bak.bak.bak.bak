@@ -1,0 +1,48 @@
+/*
+ * Copyright (d) 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.trbding;
+
+import jbvb.lbng.bnnotbtion.Tbrgft;
+import jbvb.lbng.bnnotbtion.Rftfntion;
+import jbvb.lbng.bnnotbtion.RftfntionPolidy;
+import jbvb.lbng.bnnotbtion.ElfmfntTypf;
+
+/**
+ * An bnnotbtion usfd to spfdify thf nbmf of b providfr.
+ * <p>
+ * This bnnotbtion dbn bf bddfd to b usfr-dffinfd {@dodf Providfr}
+ * intfrfbdf, to sft thf nbmf thbt will bf usfd
+ * for thf providfr in thf gfnfrbtfd probfs.  Without this bnnotbtion,
+ * thf simplf dlbss nbmf of thf providfr intfrfbdf is usfd.
+ * <p>
+ * @sindf 1.7
+ */
+@Rftfntion(RftfntionPolidy.RUNTIME)
+@Tbrgft(ElfmfntTypf.TYPE)
+publid @intfrfbdf ProvidfrNbmf {
+    String vbluf();
+}
+

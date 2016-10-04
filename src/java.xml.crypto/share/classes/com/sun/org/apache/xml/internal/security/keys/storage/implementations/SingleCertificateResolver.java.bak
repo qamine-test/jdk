@@ -1,94 +1,94 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.keys.storage.implementations;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.storbgf.implfmfntbtions;
 
-import java.security.cert.Certificate;
-import java.security.cert.X509Certificate;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.util.Itfrbtor;
+import jbvb.util.NoSudiElfmfntExdfption;
 
-import com.sun.org.apache.xml.internal.security.keys.storage.StorageResolverSpi;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.storbgf.StorbgfRfsolvfrSpi;
 
 /**
- * This {@link StorageResolverSpi} makes a single {@link X509Certificate}
- * available to the {@link com.sun.org.apache.xml.internal.security.keys.storage.StorageResolver}.
+ * Tiis {@link StorbgfRfsolvfrSpi} mbkfs b singlf {@link X509Cfrtifidbtf}
+ * bvbilbblf to tif {@link dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.storbgf.StorbgfRfsolvfr}.
  */
-public class SingleCertificateResolver extends StorageResolverSpi {
+publid dlbss SinglfCfrtifidbtfRfsolvfr fxtfnds StorbgfRfsolvfrSpi {
 
-    /** Field certificate */
-    private X509Certificate certificate = null;
-
-    /**
-     * @param x509cert the single {@link X509Certificate}
-     */
-    public SingleCertificateResolver(X509Certificate x509cert) {
-        this.certificate = x509cert;
-    }
-
-    /** @inheritDoc */
-    public Iterator<Certificate> getIterator() {
-        return new InternalIterator(this.certificate);
-    }
+    /** Fifld dfrtifidbtf */
+    privbtf X509Cfrtifidbtf dfrtifidbtf = null;
 
     /**
-     * Class InternalIterator
+     * @pbrbm x509dfrt tif singlf {@link X509Cfrtifidbtf}
      */
-    static class InternalIterator implements Iterator<Certificate> {
+    publid SinglfCfrtifidbtfRfsolvfr(X509Cfrtifidbtf x509dfrt) {
+        tiis.dfrtifidbtf = x509dfrt;
+    }
 
-        /** Field alreadyReturned */
-        boolean alreadyReturned = false;
+    /** @inifritDod */
+    publid Itfrbtor<Cfrtifidbtf> gftItfrbtor() {
+        rfturn nfw IntfrnblItfrbtor(tiis.dfrtifidbtf);
+    }
 
-        /** Field certificate */
-        X509Certificate certificate = null;
+    /**
+     * Clbss IntfrnblItfrbtor
+     */
+    stbtid dlbss IntfrnblItfrbtor implfmfnts Itfrbtor<Cfrtifidbtf> {
+
+        /** Fifld blrfbdyRfturnfd */
+        boolfbn blrfbdyRfturnfd = fblsf;
+
+        /** Fifld dfrtifidbtf */
+        X509Cfrtifidbtf dfrtifidbtf = null;
 
         /**
-         * Constructor InternalIterator
+         * Construdtor IntfrnblItfrbtor
          *
-         * @param x509cert
+         * @pbrbm x509dfrt
          */
-        public InternalIterator(X509Certificate x509cert) {
-            this.certificate = x509cert;
+        publid IntfrnblItfrbtor(X509Cfrtifidbtf x509dfrt) {
+            tiis.dfrtifidbtf = x509dfrt;
         }
 
-        /** @inheritDoc */
-        public boolean hasNext() {
-            return !this.alreadyReturned;
+        /** @inifritDod */
+        publid boolfbn ibsNfxt() {
+            rfturn !tiis.blrfbdyRfturnfd;
         }
 
-        /** @inheritDoc */
-        public Certificate next() {
-            if (this.alreadyReturned) {
-                throw new NoSuchElementException();
+        /** @inifritDod */
+        publid Cfrtifidbtf nfxt() {
+            if (tiis.blrfbdyRfturnfd) {
+                tirow nfw NoSudiElfmfntExdfption();
             }
-            this.alreadyReturned = true;
-            return this.certificate;
+            tiis.blrfbdyRfturnfd = truf;
+            rfturn tiis.dfrtifidbtf;
         }
 
         /**
-         * Method remove
+         * Mftiod rfmovf
          */
-        public void remove() {
-            throw new UnsupportedOperationException("Can't remove keys from KeyStore");
+        publid void rfmovf() {
+            tirow nfw UnsupportfdOpfrbtionExdfption("Cbn't rfmovf kfys from KfyStorf");
         }
     }
 }

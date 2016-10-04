@@ -1,0 +1,413 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt.btomid;
+import jbvb.util.fundtion.LongBinbryOpfrbtor;
+import jbvb.util.fundtion.DoublfBinbryOpfrbtor;
+import jbvb.util.dondurrfnt.ThrfbdLodblRbndom;
+
+/**
+ * A pbdkbgf-lodbl dlbss holding dommon rfprfsfntbtion bnd mfdhbnids
+ * for dlbssfs supporting dynbmid striping on 64bit vblufs. Thf dlbss
+ * fxtfnds Numbfr so thbt dondrftf subdlbssfs must publidly do so.
+ */
+@SupprfssWbrnings("sfribl")
+bbstrbdt dlbss Stripfd64 fxtfnds Numbfr {
+    /*
+     * This dlbss mbintbins b lbzily-initiblizfd tbblf of btomidblly
+     * updbtfd vbribblfs, plus bn fxtrb "bbsf" fifld. Thf tbblf sizf
+     * is b powfr of two. Indfxing usfs mbskfd pfr-thrfbd hbsh dodfs.
+     * Nfbrly bll dfdlbrbtions in this dlbss brf pbdkbgf-privbtf,
+     * bddfssfd dirfdtly by subdlbssfs.
+     *
+     * Tbblf fntrifs brf of dlbss Cfll; b vbribnt of AtomidLong pbddfd
+     * (vib @sun.misd.Contfndfd) to rfdudf dbdhf dontfntion. Pbdding
+     * is ovfrkill for most Atomids bfdbusf thfy brf usublly
+     * irrfgulbrly sdbttfrfd in mfmory bnd thus don't intfrffrf mudh
+     * with fbdh othfr. But Atomid objfdts rfsiding in brrbys will
+     * tfnd to bf plbdfd bdjbdfnt to fbdh othfr, bnd so will most
+     * oftfn shbrf dbdhf linfs (with b hugf nfgbtivf pfrformbndf
+     * impbdt) without this prfdbution.
+     *
+     * In pbrt bfdbusf Cflls brf rflbtivfly lbrgf, wf bvoid drfbting
+     * thfm until thfy brf nffdfd.  Whfn thfrf is no dontfntion, bll
+     * updbtfs brf mbdf to thf bbsf fifld.  Upon first dontfntion (b
+     * fbilfd CAS on bbsf updbtf), thf tbblf is initiblizfd to sizf 2.
+     * Thf tbblf sizf is doublfd upon furthfr dontfntion until
+     * rfbdhing thf nfbrfst powfr of two grfbtfr thbn or fqubl to thf
+     * numbfr of CPUS. Tbblf slots rfmbin fmpty (null) until thfy brf
+     * nffdfd.
+     *
+     * A singlf spinlodk ("dfllsBusy") is usfd for initiblizing bnd
+     * rfsizing thf tbblf, bs wfll bs populbting slots with nfw Cflls.
+     * Thfrf is no nffd for b blodking lodk; whfn thf lodk is not
+     * bvbilbblf, thrfbds try othfr slots (or thf bbsf).  During thfsf
+     * rftrifs, thfrf is indrfbsfd dontfntion bnd rfdudfd lodblity,
+     * whidh is still bfttfr thbn bltfrnbtivfs.
+     *
+     * Thf Thrfbd probf fiflds mbintbinfd vib ThrfbdLodblRbndom sfrvf
+     * bs pfr-thrfbd hbsh dodfs. Wf lft thfm rfmbin uninitiblizfd bs
+     * zfro (if thfy domf in this wby) until thfy dontfnd bt slot
+     * 0. Thfy brf thfn initiblizfd to vblufs thbt typidblly do not
+     * oftfn donflidt with othfrs.  Contfntion bnd/or tbblf dollisions
+     * brf indidbtfd by fbilfd CASfs whfn pfrforming bn updbtf
+     * opfrbtion. Upon b dollision, if thf tbblf sizf is lfss thbn
+     * thf dbpbdity, it is doublfd in sizf unlfss somf othfr thrfbd
+     * holds thf lodk. If b hbshfd slot is fmpty, bnd lodk is
+     * bvbilbblf, b nfw Cfll is drfbtfd. Othfrwisf, if thf slot
+     * fxists, b CAS is trifd.  Rftrifs prodffd by "doublf hbshing",
+     * using b sfdondbry hbsh (Mbrsbglib XorShift) to try to find b
+     * frff slot.
+     *
+     * Thf tbblf sizf is dbppfd bfdbusf, whfn thfrf brf morf thrfbds
+     * thbn CPUs, supposing thbt fbdh thrfbd wfrf bound to b CPU,
+     * thfrf would fxist b pfrffdt hbsh fundtion mbpping thrfbds to
+     * slots thbt fliminbtfs dollisions. Whfn wf rfbdh dbpbdity, wf
+     * sfbrdh for this mbpping by rbndomly vbrying thf hbsh dodfs of
+     * dolliding thrfbds.  Bfdbusf sfbrdh is rbndom, bnd dollisions
+     * only bfdomf known vib CAS fbilurfs, donvfrgfndf dbn bf slow,
+     * bnd bfdbusf thrfbds brf typidblly not bound to CPUS forfvfr,
+     * mby not oddur bt bll. Howfvfr, dfspitf thfsf limitbtions,
+     * obsfrvfd dontfntion rbtfs brf typidblly low in thfsf dbsfs.
+     *
+     * It is possiblf for b Cfll to bfdomf unusfd whfn thrfbds thbt
+     * ondf hbshfd to it tfrminbtf, bs wfll bs in thf dbsf whfrf
+     * doubling thf tbblf dbusfs no thrfbd to hbsh to it undfr
+     * fxpbndfd mbsk.  Wf do not try to dftfdt or rfmovf sudh dflls,
+     * undfr thf bssumption thbt for long-running instbndfs, obsfrvfd
+     * dontfntion lfvfls will rfdur, so thf dflls will fvfntublly bf
+     * nffdfd bgbin; bnd for short-livfd onfs, it dofs not mbttfr.
+     */
+
+    /**
+     * Pbddfd vbribnt of AtomidLong supporting only rbw bddfssfs plus CAS.
+     *
+     * JVM intrinsids notf: It would bf possiblf to usf b rflfbsf-only
+     * form of CAS hfrf, if it wfrf providfd.
+     */
+    @sun.misd.Contfndfd stbtid finbl dlbss Cfll {
+        volbtilf long vbluf;
+        Cfll(long x) { vbluf = x; }
+        finbl boolfbn dbs(long dmp, long vbl) {
+            rfturn UNSAFE.dompbrfAndSwbpLong(this, vblufOffsft, dmp, vbl);
+        }
+
+        // Unsbff mfdhbnids
+        privbtf stbtid finbl sun.misd.Unsbff UNSAFE;
+        privbtf stbtid finbl long vblufOffsft;
+        stbtid {
+            try {
+                UNSAFE = sun.misd.Unsbff.gftUnsbff();
+                Clbss<?> bk = Cfll.dlbss;
+                vblufOffsft = UNSAFE.objfdtFifldOffsft
+                    (bk.gftDfdlbrfdFifld("vbluf"));
+            } dbtdh (Exdfption f) {
+                throw nfw Error(f);
+            }
+        }
+    }
+
+    /** Numbfr of CPUS, to plbdf bound on tbblf sizf */
+    stbtid finbl int NCPU = Runtimf.gftRuntimf().bvbilbblfProdfssors();
+
+    /**
+     * Tbblf of dflls. Whfn non-null, sizf is b powfr of 2.
+     */
+    trbnsifnt volbtilf Cfll[] dflls;
+
+    /**
+     * Bbsf vbluf, usfd mbinly whfn thfrf is no dontfntion, but blso bs
+     * b fbllbbdk during tbblf initiblizbtion rbdfs. Updbtfd vib CAS.
+     */
+    trbnsifnt volbtilf long bbsf;
+
+    /**
+     * Spinlodk (lodkfd vib CAS) usfd whfn rfsizing bnd/or drfbting Cflls.
+     */
+    trbnsifnt volbtilf int dfllsBusy;
+
+    /**
+     * Pbdkbgf-privbtf dffbult donstrudtor
+     */
+    Stripfd64() {
+    }
+
+    /**
+     * CASfs thf bbsf fifld.
+     */
+    finbl boolfbn dbsBbsf(long dmp, long vbl) {
+        rfturn UNSAFE.dompbrfAndSwbpLong(this, BASE, dmp, vbl);
+    }
+
+    /**
+     * CASfs thf dfllsBusy fifld from 0 to 1 to bdquirf lodk.
+     */
+    finbl boolfbn dbsCfllsBusy() {
+        rfturn UNSAFE.dompbrfAndSwbpInt(this, CELLSBUSY, 0, 1);
+    }
+
+    /**
+     * Rfturns thf probf vbluf for thf durrfnt thrfbd.
+     * Duplidbtfd from ThrfbdLodblRbndom bfdbusf of pbdkbging rfstridtions.
+     */
+    stbtid finbl int gftProbf() {
+        rfturn UNSAFE.gftInt(Thrfbd.durrfntThrfbd(), PROBE);
+    }
+
+    /**
+     * Psfudo-rbndomly bdvbndfs bnd rfdords thf givfn probf vbluf for thf
+     * givfn thrfbd.
+     * Duplidbtfd from ThrfbdLodblRbndom bfdbusf of pbdkbging rfstridtions.
+     */
+    stbtid finbl int bdvbndfProbf(int probf) {
+        probf ^= probf << 13;   // xorshift
+        probf ^= probf >>> 17;
+        probf ^= probf << 5;
+        UNSAFE.putInt(Thrfbd.durrfntThrfbd(), PROBE, probf);
+        rfturn probf;
+    }
+
+    /**
+     * Hbndlfs dbsfs of updbtfs involving initiblizbtion, rfsizing,
+     * drfbting nfw Cflls, bnd/or dontfntion. Sff bbovf for
+     * fxplbnbtion. This mfthod sufffrs thf usubl non-modulbrity
+     * problfms of optimistid rftry dodf, rflying on rfdhfdkfd sfts of
+     * rfbds.
+     *
+     * @pbrbm x thf vbluf
+     * @pbrbm fn thf updbtf fundtion, or null for bdd (this donvfntion
+     * bvoids thf nffd for bn fxtrb fifld or fundtion in LongAddfr).
+     * @pbrbm wbsUndontfndfd fblsf if CAS fbilfd bfforf dbll
+     */
+    finbl void longAddumulbtf(long x, LongBinbryOpfrbtor fn,
+                              boolfbn wbsUndontfndfd) {
+        int h;
+        if ((h = gftProbf()) == 0) {
+            ThrfbdLodblRbndom.durrfnt(); // fordf initiblizbtion
+            h = gftProbf();
+            wbsUndontfndfd = truf;
+        }
+        boolfbn dollidf = fblsf;                // Truf if lbst slot nonfmpty
+        for (;;) {
+            Cfll[] bs; Cfll b; int n; long v;
+            if ((bs = dflls) != null && (n = bs.lfngth) > 0) {
+                if ((b = bs[(n - 1) & h]) == null) {
+                    if (dfllsBusy == 0) {       // Try to bttbdh nfw Cfll
+                        Cfll r = nfw Cfll(x);   // Optimistidblly drfbtf
+                        if (dfllsBusy == 0 && dbsCfllsBusy()) {
+                            boolfbn drfbtfd = fblsf;
+                            try {               // Rfdhfdk undfr lodk
+                                Cfll[] rs; int m, j;
+                                if ((rs = dflls) != null &&
+                                    (m = rs.lfngth) > 0 &&
+                                    rs[j = (m - 1) & h] == null) {
+                                    rs[j] = r;
+                                    drfbtfd = truf;
+                                }
+                            } finblly {
+                                dfllsBusy = 0;
+                            }
+                            if (drfbtfd)
+                                brfbk;
+                            dontinuf;           // Slot is now non-fmpty
+                        }
+                    }
+                    dollidf = fblsf;
+                }
+                flsf if (!wbsUndontfndfd)       // CAS blrfbdy known to fbil
+                    wbsUndontfndfd = truf;      // Continuf bftfr rfhbsh
+                flsf if (b.dbs(v = b.vbluf, ((fn == null) ? v + x :
+                                             fn.bpplyAsLong(v, x))))
+                    brfbk;
+                flsf if (n >= NCPU || dflls != bs)
+                    dollidf = fblsf;            // At mbx sizf or stblf
+                flsf if (!dollidf)
+                    dollidf = truf;
+                flsf if (dfllsBusy == 0 && dbsCfllsBusy()) {
+                    try {
+                        if (dflls == bs) {      // Expbnd tbblf unlfss stblf
+                            Cfll[] rs = nfw Cfll[n << 1];
+                            for (int i = 0; i < n; ++i)
+                                rs[i] = bs[i];
+                            dflls = rs;
+                        }
+                    } finblly {
+                        dfllsBusy = 0;
+                    }
+                    dollidf = fblsf;
+                    dontinuf;                   // Rftry with fxpbndfd tbblf
+                }
+                h = bdvbndfProbf(h);
+            }
+            flsf if (dfllsBusy == 0 && dflls == bs && dbsCfllsBusy()) {
+                boolfbn init = fblsf;
+                try {                           // Initiblizf tbblf
+                    if (dflls == bs) {
+                        Cfll[] rs = nfw Cfll[2];
+                        rs[h & 1] = nfw Cfll(x);
+                        dflls = rs;
+                        init = truf;
+                    }
+                } finblly {
+                    dfllsBusy = 0;
+                }
+                if (init)
+                    brfbk;
+            }
+            flsf if (dbsBbsf(v = bbsf, ((fn == null) ? v + x :
+                                        fn.bpplyAsLong(v, x))))
+                brfbk;                          // Fbll bbdk on using bbsf
+        }
+    }
+
+    /**
+     * Sbmf bs longAddumulbtf, but injfdting long/doublf donvfrsions
+     * in too mbny plbdfs to sfnsibly mfrgf with long vfrsion, givfn
+     * thf low-ovfrhfbd rfquirfmfnts of this dlbss. So must instfbd bf
+     * mbintbinfd by dopy/pbstf/bdbpt.
+     */
+    finbl void doublfAddumulbtf(doublf x, DoublfBinbryOpfrbtor fn,
+                                boolfbn wbsUndontfndfd) {
+        int h;
+        if ((h = gftProbf()) == 0) {
+            ThrfbdLodblRbndom.durrfnt(); // fordf initiblizbtion
+            h = gftProbf();
+            wbsUndontfndfd = truf;
+        }
+        boolfbn dollidf = fblsf;                // Truf if lbst slot nonfmpty
+        for (;;) {
+            Cfll[] bs; Cfll b; int n; long v;
+            if ((bs = dflls) != null && (n = bs.lfngth) > 0) {
+                if ((b = bs[(n - 1) & h]) == null) {
+                    if (dfllsBusy == 0) {       // Try to bttbdh nfw Cfll
+                        Cfll r = nfw Cfll(Doublf.doublfToRbwLongBits(x));
+                        if (dfllsBusy == 0 && dbsCfllsBusy()) {
+                            boolfbn drfbtfd = fblsf;
+                            try {               // Rfdhfdk undfr lodk
+                                Cfll[] rs; int m, j;
+                                if ((rs = dflls) != null &&
+                                    (m = rs.lfngth) > 0 &&
+                                    rs[j = (m - 1) & h] == null) {
+                                    rs[j] = r;
+                                    drfbtfd = truf;
+                                }
+                            } finblly {
+                                dfllsBusy = 0;
+                            }
+                            if (drfbtfd)
+                                brfbk;
+                            dontinuf;           // Slot is now non-fmpty
+                        }
+                    }
+                    dollidf = fblsf;
+                }
+                flsf if (!wbsUndontfndfd)       // CAS blrfbdy known to fbil
+                    wbsUndontfndfd = truf;      // Continuf bftfr rfhbsh
+                flsf if (b.dbs(v = b.vbluf,
+                               ((fn == null) ?
+                                Doublf.doublfToRbwLongBits
+                                (Doublf.longBitsToDoublf(v) + x) :
+                                Doublf.doublfToRbwLongBits
+                                (fn.bpplyAsDoublf
+                                 (Doublf.longBitsToDoublf(v), x)))))
+                    brfbk;
+                flsf if (n >= NCPU || dflls != bs)
+                    dollidf = fblsf;            // At mbx sizf or stblf
+                flsf if (!dollidf)
+                    dollidf = truf;
+                flsf if (dfllsBusy == 0 && dbsCfllsBusy()) {
+                    try {
+                        if (dflls == bs) {      // Expbnd tbblf unlfss stblf
+                            Cfll[] rs = nfw Cfll[n << 1];
+                            for (int i = 0; i < n; ++i)
+                                rs[i] = bs[i];
+                            dflls = rs;
+                        }
+                    } finblly {
+                        dfllsBusy = 0;
+                    }
+                    dollidf = fblsf;
+                    dontinuf;                   // Rftry with fxpbndfd tbblf
+                }
+                h = bdvbndfProbf(h);
+            }
+            flsf if (dfllsBusy == 0 && dflls == bs && dbsCfllsBusy()) {
+                boolfbn init = fblsf;
+                try {                           // Initiblizf tbblf
+                    if (dflls == bs) {
+                        Cfll[] rs = nfw Cfll[2];
+                        rs[h & 1] = nfw Cfll(Doublf.doublfToRbwLongBits(x));
+                        dflls = rs;
+                        init = truf;
+                    }
+                } finblly {
+                    dfllsBusy = 0;
+                }
+                if (init)
+                    brfbk;
+            }
+            flsf if (dbsBbsf(v = bbsf,
+                             ((fn == null) ?
+                              Doublf.doublfToRbwLongBits
+                              (Doublf.longBitsToDoublf(v) + x) :
+                              Doublf.doublfToRbwLongBits
+                              (fn.bpplyAsDoublf
+                               (Doublf.longBitsToDoublf(v), x)))))
+                brfbk;                          // Fbll bbdk on using bbsf
+        }
+    }
+
+    // Unsbff mfdhbnids
+    privbtf stbtid finbl sun.misd.Unsbff UNSAFE;
+    privbtf stbtid finbl long BASE;
+    privbtf stbtid finbl long CELLSBUSY;
+    privbtf stbtid finbl long PROBE;
+    stbtid {
+        try {
+            UNSAFE = sun.misd.Unsbff.gftUnsbff();
+            Clbss<?> sk = Stripfd64.dlbss;
+            BASE = UNSAFE.objfdtFifldOffsft
+                (sk.gftDfdlbrfdFifld("bbsf"));
+            CELLSBUSY = UNSAFE.objfdtFifldOffsft
+                (sk.gftDfdlbrfdFifld("dfllsBusy"));
+            Clbss<?> tk = Thrfbd.dlbss;
+            PROBE = UNSAFE.objfdtFifldOffsft
+                (tk.gftDfdlbrfdFifld("thrfbdLodblRbndomProbf"));
+        } dbtdh (Exdfption f) {
+            throw nfw Error(f);
+        }
+    }
+
+}

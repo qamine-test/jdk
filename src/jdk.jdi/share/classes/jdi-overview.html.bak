@@ -1,88 +1,88 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
-<html>
-  <head>
-    <title>Java(tm) Debug Interface</title>
-  </head>
+<itml>
+  <ifbd>
+    <titlf>Jbvb(tm) Dfbug Intfrfbdf</titlf>
+  </ifbd>
   <body>
-	The Java<sup><font size="-2">TM</font></sup>
- Debug Interface (JDI) is a high level Java
-API providing information useful for debuggers and similar
-systems needing access to the running state of a (usually remote)
-virtual machine.
+	Tif Jbvb<sup><font sizf="-2">TM</font></sup>
+ Dfbug Intfrfbdf (JDI) is b iigi lfvfl Jbvb
+API providing informbtion usfful for dfbuggfrs bnd similbr
+systfms nffding bddfss to tif running stbtf of b (usublly rfmotf)
+virtubl mbdiinf.
 <p>
-	The JDI provides introspective
-access to a running virtual machine's state, Class, Array,
-Interface, and primitive types, and instances of those
-types.
+	Tif JDI providfs introspfdtivf
+bddfss to b running virtubl mbdiinf's stbtf, Clbss, Arrby,
+Intfrfbdf, bnd primitivf typfs, bnd instbndfs of tiosf
+typfs.
 <P>
-The JDI also provides explicit control over
-a virtual machine's execution. The ability to suspend
-and resume threads, and to set breakpoints, watchpoints, ...
-Notification
-of exceptions, class loading, thread creation...
-The ability to inspect a suspended thread's state,
-local variables, stack backtrace...
+Tif JDI blso providfs fxplidit dontrol ovfr
+b virtubl mbdiinf's fxfdution. Tif bbility to suspfnd
+bnd rfsumf tirfbds, bnd to sft brfbkpoints, wbtdipoints, ...
+Notifidbtion
+of fxdfptions, dlbss lobding, tirfbd drfbtion...
+Tif bbility to inspfdt b suspfndfd tirfbd's stbtf,
+lodbl vbribblfs, stbdk bbdktrbdf...
 <p>
-JDI is the highest-layer of the Java Platform Debugger Architecture (JPDA).
-For more information on the Java Platform Debugger Architecture, see the
-<a href="{@docRoot}/../../../../technotes/guides/jpda/index.html">
-Java Platform Debugger Architecture documentation</a>
-for this release and the
-<a href="http://java.sun.com/products/jpda">Java Platform Debugger Architecture website</a>.
+JDI is tif iigifst-lbyfr of tif Jbvb Plbtform Dfbuggfr Ardiitfdturf (JPDA).
+For morf informbtion on tif Jbvb Plbtform Dfbuggfr Ardiitfdturf, sff tif
+<b irff="{@dodRoot}/../../../../tfdinotfs/guidfs/jpdb/indfx.itml">
+Jbvb Plbtform Dfbuggfr Ardiitfdturf dodumfntbtion</b>
+for tiis rflfbsf bnd tif
+<b irff="ittp://jbvb.sun.dom/produdts/jpdb">Jbvb Plbtform Dfbuggfr Ardiitfdturf wfbsitf</b>.
 <p>
-<font size="+1"><b>Global Exceptions:</b></font>
+<font sizf="+1"><b>Globbl Exdfptions:</b></font>
 <p>
-This section documents exceptions which apply to the entire API and are thus
-not documented on individual methods.
+Tiis sfdtion dodumfnts fxdfptions wiidi bpply to tif fntirf API bnd brf tius
+not dodumfntfd on individubl mftiods.
 
-    <blockquote>
+    <blodkquotf>
         <p>
-        <b>{@link com.sun.jdi.VMMismatchException}</b>
+        <b>{@link dom.sun.jdi.VMMismbtdiExdfption}</b>
         <p>
-            Any method on a {@link com.sun.jdi.Mirror} that takes a <code>Mirror</code> as an
-            parameter directly or indirectly (e.g., as a element in a <code>List</code>) will
-            throw {@link com.sun.jdi.VMMismatchException} if the mirrors are from different
-            virtual machines.
+            Any mftiod on b {@link dom.sun.jdi.Mirror} tibt tbkfs b <dodf>Mirror</dodf> bs bn
+            pbrbmftfr dirfdtly or indirfdtly (f.g., bs b flfmfnt in b <dodf>List</dodf>) will
+            tirow {@link dom.sun.jdi.VMMismbtdiExdfption} if tif mirrors brf from difffrfnt
+            virtubl mbdiinfs.
         <p>
-        <b>{@link java.lang.NullPointerException}</b>
+        <b>{@link jbvb.lbng.NullPointfrExdfption}</b>
         <p>
-            Any method which takes a {@link java.lang.Object} as an parameter will throw
-            {@link java.lang.NullPointerException} if null is passed directly or indirectly
-            -- unless null is explicitly mentioned as a valid parameter.
+            Any mftiod wiidi tbkfs b {@link jbvb.lbng.Objfdt} bs bn pbrbmftfr will tirow
+            {@link jbvb.lbng.NullPointfrExdfption} if null is pbssfd dirfdtly or indirfdtly
+            -- unlfss null is fxpliditly mfntionfd bs b vblid pbrbmftfr.
         <p>
-    </blockquote>
-     NOTE: The exceptions below may be thrown whenever the specified
-     conditions are met but a guarantee that they are thrown only
-     exists when a valid result cannot be returned.
-    <blockquote>
+    </blodkquotf>
+     NOTE: Tif fxdfptions bflow mby bf tirown wifnfvfr tif spfdififd
+     donditions brf mft but b gubrbntff tibt tify brf tirown only
+     fxists wifn b vblid rfsult dbnnot bf rfturnfd.
+    <blodkquotf>
         <p>
-        <b>{@link com.sun.jdi.VMDisconnectedException}</b>
+        <b>{@link dom.sun.jdi.VMDisdonnfdtfdExdfption}</b>
         <p>
-            Any method on {@link com.sun.jdi.ObjectReference}, {@link com.sun.jdi.ReferenceType},
-            {@link com.sun.jdi.request.EventRequest}, {@link com.sun.jdi.StackFrame}, or
-            {@link com.sun.jdi.VirtualMachine} or which takes one of these directly or indirectly
-            as an parameter may throw {@link com.sun.jdi.VMDisconnectedException} if the target VM
-            is disconnected and the {@link com.sun.jdi.event.VMDisconnectEvent} has been or is available
-            to be read from the {@link com.sun.jdi.event.EventQueue}.
+            Any mftiod on {@link dom.sun.jdi.ObjfdtRfffrfndf}, {@link dom.sun.jdi.RfffrfndfTypf},
+            {@link dom.sun.jdi.rfqufst.EvfntRfqufst}, {@link dom.sun.jdi.StbdkFrbmf}, or
+            {@link dom.sun.jdi.VirtublMbdiinf} or wiidi tbkfs onf of tifsf dirfdtly or indirfdtly
+            bs bn pbrbmftfr mby tirow {@link dom.sun.jdi.VMDisdonnfdtfdExdfption} if tif tbrgft VM
+            is disdonnfdtfd bnd tif {@link dom.sun.jdi.fvfnt.VMDisdonnfdtEvfnt} ibs bffn or is bvbilbblf
+            to bf rfbd from tif {@link dom.sun.jdi.fvfnt.EvfntQufuf}.
         <p>
-        <b>{@link com.sun.jdi.VMOutOfMemoryException}</b>
+        <b>{@link dom.sun.jdi.VMOutOfMfmoryExdfption}</b>
         <p>
-            Any method on {@link com.sun.jdi.ObjectReference}, {@link com.sun.jdi.ReferenceType},
-            {@link com.sun.jdi.request.EventRequest}, {@link com.sun.jdi.StackFrame}, or
-            {@link com.sun.jdi.VirtualMachine} or which takes one of these directly or indirectly
-            as an parameter may throw {@link com.sun.jdi.VMOutOfMemoryException} if the target
-            VM has run out of memory.
+            Any mftiod on {@link dom.sun.jdi.ObjfdtRfffrfndf}, {@link dom.sun.jdi.RfffrfndfTypf},
+            {@link dom.sun.jdi.rfqufst.EvfntRfqufst}, {@link dom.sun.jdi.StbdkFrbmf}, or
+            {@link dom.sun.jdi.VirtublMbdiinf} or wiidi tbkfs onf of tifsf dirfdtly or indirfdtly
+            bs bn pbrbmftfr mby tirow {@link dom.sun.jdi.VMOutOfMfmoryExdfption} if tif tbrgft
+            VM ibs run out of mfmory.
         <p>
-        <b>{@link com.sun.jdi.ObjectCollectedException}</b>
+        <b>{@link dom.sun.jdi.ObjfdtCollfdtfdExdfption}</b>
         <p>
-            Any method on {@link com.sun.jdi.ObjectReference} or which directly or indirectly takes
-            <code>ObjectReference</code> as parameter may throw {@link com.sun.jdi.ObjectCollectedException}
-            if the mirrored object has been garbage collected.
+            Any mftiod on {@link dom.sun.jdi.ObjfdtRfffrfndf} or wiidi dirfdtly or indirfdtly tbkfs
+            <dodf>ObjfdtRfffrfndf</dodf> bs pbrbmftfr mby tirow {@link dom.sun.jdi.ObjfdtCollfdtfdExdfption}
+            if tif mirrorfd objfdt ibs bffn gbrbbgf dollfdtfd.
         <p>
-            Any method on {@link com.sun.jdi.ReferenceType} or which directly or indirectly takes
-            <code>ReferenceType</code> as parameter may throw {@link com.sun.jdi.ObjectCollectedException}
-            if the mirrored type has been unloaded.
+            Any mftiod on {@link dom.sun.jdi.RfffrfndfTypf} or wiidi dirfdtly or indirfdtly tbkfs
+            <dodf>RfffrfndfTypf</dodf> bs pbrbmftfr mby tirow {@link dom.sun.jdi.ObjfdtCollfdtfdExdfption}
+            if tif mirrorfd typf ibs bffn unlobdfd.
 
-    </blockquote>
+    </blodkquotf>
   </body>
-</html>
+</itml>

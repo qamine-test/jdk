@@ -1,139 +1,139 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.print.attribute.standard;
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.IntegerSyntax;
-import javax.print.attribute.PrintJobAttribute;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.IntfgfrSyntbx;
+import jbvbx.print.bttributf.PrintJobAttributf;
 
 /**
- * Class JobKOctetsProcessed is an integer valued printing attribute class that
- * specifies the total number of print data octets processed so far in K octets,
- * i.e., in units of 1024 octets. The value must be rounded up, so that a job
- * between 1 and 1024 octets inclusive must be indicated as being 1K octets,
- * 1025 to 2048 inclusive must be 2K, etc. For a multidoc print job (a job with
- * multiple documents), the JobKOctetsProcessed value is computed by adding up
- * the individual documents' number of octets processed so far, then rounding up
- * to the next K octets value.
+ * Clbss JobKOdtftsProdfssfd is bn intfgfr vblufd printing bttributf dlbss tibt
+ * spfdififs tif totbl numbfr of print dbtb odtfts prodfssfd so fbr in K odtfts,
+ * i.f., in units of 1024 odtfts. Tif vbluf must bf roundfd up, so tibt b job
+ * bftwffn 1 bnd 1024 odtfts indlusivf must bf indidbtfd bs bfing 1K odtfts,
+ * 1025 to 2048 indlusivf must bf 2K, ftd. For b multidod print job (b job witi
+ * multiplf dodumfnts), tif JobKOdtftsProdfssfd vbluf is domputfd by bdding up
+ * tif individubl dodumfnts' numbfr of odtfts prodfssfd so fbr, tifn rounding up
+ * to tif nfxt K odtfts vbluf.
  * <P>
- * The JobKOctetsProcessed attribute describes the progress of the job. This
- * attribute is intended to be a counter. That is, the JobKOctetsProcessed value
- * for a job that has not started processing must be 0. When the job's {@link
- * JobState JobState} is PROCESSING or PROCESSING_STOPPED, the
- * JobKOctetsProcessed value is intended to increase as the job is processed; it
- * indicates the amount of the job that has been processed at the time the Print
- * Job's attribute set is queried or at the time a print job event is reported.
- * When the job enters the COMPLETED, CANCELED, or ABORTED states, the
- * JobKOctetsProcessed value is the final value for the job.
+ * Tif JobKOdtftsProdfssfd bttributf dfsdribfs tif progrfss of tif job. Tiis
+ * bttributf is intfndfd to bf b dountfr. Tibt is, tif JobKOdtftsProdfssfd vbluf
+ * for b job tibt ibs not stbrtfd prodfssing must bf 0. Wifn tif job's {@link
+ * JobStbtf JobStbtf} is PROCESSING or PROCESSING_STOPPED, tif
+ * JobKOdtftsProdfssfd vbluf is intfndfd to indrfbsf bs tif job is prodfssfd; it
+ * indidbtfs tif bmount of tif job tibt ibs bffn prodfssfd bt tif timf tif Print
+ * Job's bttributf sft is qufrifd or bt tif timf b print job fvfnt is rfportfd.
+ * Wifn tif job fntfrs tif COMPLETED, CANCELED, or ABORTED stbtfs, tif
+ * JobKOdtftsProdfssfd vbluf is tif finbl vbluf for tif job.
  * <P>
- * For implementations where multiple copies are produced by the interpreter
- * with only a single pass over the data, the final value of the
- * JobKOctetsProcessed attribute must be equal to the value of the {@link
- * JobKOctets JobKOctets} attribute. For implementations where multiple copies
- * are produced by the interpreter by processing the data for each copy, the
- * final value must be a multiple of the value of the {@link JobKOctets
- * JobKOctets} attribute.
+ * For implfmfntbtions wifrf multiplf dopifs brf produdfd by tif intfrprftfr
+ * witi only b singlf pbss ovfr tif dbtb, tif finbl vbluf of tif
+ * JobKOdtftsProdfssfd bttributf must bf fqubl to tif vbluf of tif {@link
+ * JobKOdtfts JobKOdtfts} bttributf. For implfmfntbtions wifrf multiplf dopifs
+ * brf produdfd by tif intfrprftfr by prodfssing tif dbtb for fbdi dopy, tif
+ * finbl vbluf must bf b multiplf of tif vbluf of tif {@link JobKOdtfts
+ * JobKOdtfts} bttributf.
  * <P>
- * <B>IPP Compatibility:</B> The integer value gives the IPP integer value. The
- * category name returned by <CODE>getName()</CODE> gives the IPP attribute
- * name.
+ * <B>IPP Compbtibility:</B> Tif intfgfr vbluf givfs tif IPP intfgfr vbluf. Tif
+ * dbtfgory nbmf rfturnfd by <CODE>gftNbmf()</CODE> givfs tif IPP bttributf
+ * nbmf.
  *
- * @see JobKOctets
- * @see JobKOctetsSupported
- * @see JobImpressionsCompleted
- * @see JobMediaSheetsCompleted
+ * @sff JobKOdtfts
+ * @sff JobKOdtftsSupportfd
+ * @sff JobImprfssionsComplftfd
+ * @sff JobMfdibSifftsComplftfd
  *
- * @author  Alan Kaminsky
+ * @butior  Albn Kbminsky
  */
-public final class JobKOctetsProcessed extends IntegerSyntax
-        implements PrintJobAttribute {
+publid finbl dlbss JobKOdtftsProdfssfd fxtfnds IntfgfrSyntbx
+        implfmfnts PrintJobAttributf {
 
-    private static final long serialVersionUID = -6265238509657881806L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -6265238509657881806L;
 
     /**
-     * Construct a new job K octets processed attribute with the given integer
-     * value.
+     * Construdt b nfw job K odtfts prodfssfd bttributf witi tif givfn intfgfr
+     * vbluf.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vbluf  Intfgfr vbluf.
      *
-     * @exception  IllegalArgumentException
-     *  (Unchecked exception) Thrown if <CODE>value</CODE> is less than 0.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *  (Undifdkfd fxdfption) Tirown if <CODE>vbluf</CODE> is lfss tibn 0.
      */
-    public JobKOctetsProcessed(int value) {
-        super (value, 0, Integer.MAX_VALUE);
+    publid JobKOdtftsProdfssfd(int vbluf) {
+        supfr (vbluf, 0, Intfgfr.MAX_VALUE);
     }
 
     /**
-     * Returns whether this job K octets processed attribute is equivalent to
-     * the passed in object. To be equivalent, all of the following conditions
-     * must be true:
+     * Rfturns wiftifr tiis job K odtfts prodfssfd bttributf is fquivblfnt to
+     * tif pbssfd in objfdt. To bf fquivblfnt, bll of tif following donditions
+     * must bf truf:
      * <OL TYPE=1>
      * <LI>
-     * <CODE>object</CODE> is not null.
+     * <CODE>objfdt</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class JobKOctetsProcessed.
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss JobKOdtftsProdfssfd.
      * <LI>
-     * This job K octets processed attribute's value and
-     * <CODE>object</CODE>'s value are equal.
+     * Tiis job K odtfts prodfssfd bttributf's vbluf bnd
+     * <CODE>objfdt</CODE>'s vbluf brf fqubl.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this job K
-     *          octets processed attribute, false otherwise.
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to tiis job K
+     *          odtfts prodfssfd bttributf, fblsf otifrwisf.
      */
-    public boolean equals(Object object) {
-        return(super.equals (object) &&
-               object instanceof JobKOctetsProcessed);
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn(supfr.fqubls (objfdt) &&
+               objfdt instbndfof JobKOdtftsProdfssfd);
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Gft tif printing bttributf dlbss wiidi is to bf usfd bs tif "dbtfgory"
+     * for tiis printing bttributf vbluf.
      * <P>
-     * For class JobKOctetsProcessed, the category is class
-     * JobKOctetsProcessed itself.
+     * For dlbss JobKOdtftsProdfssfd, tif dbtfgory is dlbss
+     * JobKOdtftsProdfssfd itsflf.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return JobKOctetsProcessed.class;
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn JobKOdtftsProdfssfd.dlbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Gft tif nbmf of tif dbtfgory of wiidi tiis bttributf vbluf is bn
+     * instbndf.
      * <P>
-     * For class JobKOctetsProcessed, the category name is
-     * <CODE>"job-k-octets-processed"</CODE>.
+     * For dlbss JobKOdtftsProdfssfd, tif dbtfgory nbmf is
+     * <CODE>"job-k-odtfts-prodfssfd"</CODE>.
      *
-     * @return  Attribute category name.
+     * @rfturn  Attributf dbtfgory nbmf.
      */
-    public final String getName() {
-        return "job-k-octets-processed";
+    publid finbl String gftNbmf() {
+        rfturn "job-k-odtfts-prodfssfd";
     }
 
 }

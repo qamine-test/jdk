@@ -1,0 +1,255 @@
+/*
+ * Copyright (d) 2001, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jvm.h"
+#indludf "jlong.h"
+
+#indludf <nftdb.h>
+#indludf <sys/typfs.h>
+#indludf <sys/sodkft.h>
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf <frrno.h>
+
+#if dffinfd(__linux__) || dffinfd(_ALLBSD_SOURCE)
+#indludf <nftinft/in.h>
+#fndif
+
+#indludf "nft_util.h"
+#indludf "nft_util_md.h"
+#indludf "nio.h"
+#indludf "nio_util.h"
+
+#indludf "sun_nio_dh_DbtbgrbmChbnnflImpl.h"
+
+stbtid jfifldID ddi_sfndfrID;   /* sfndfr in sun.nio.dh.DbtbgrbmChbnnflImpl */
+stbtid jfifldID ddi_sfndfrAddrID; /* sfndfr InftAddrfss in sun.nio.dh.DbtbgrbmChbnnflImpl */
+stbtid jfifldID ddi_sfndfrPortID; /* sfndfr port in sun.nio.dh.DbtbgrbmChbnnflImpl */
+stbtid jdlbss isb_dlbss;        /* jbvb.nft.InftSodkftAddrfss */
+stbtid jmfthodID isb_dtorID;    /*   .InftSodkftAddrfss(InftAddrfss, int) */
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_DbtbgrbmChbnnflImpl_initIDs(JNIEnv *fnv, jdlbss dlbzz)
+{
+    dlbzz = (*fnv)->FindClbss(fnv, "jbvb/nft/InftSodkftAddrfss");
+    CHECK_NULL(dlbzz);
+    isb_dlbss = (*fnv)->NfwGlobblRff(fnv, dlbzz);
+    if (isb_dlbss == NULL) {
+        JNU_ThrowOutOfMfmoryError(fnv, NULL);
+        rfturn;
+    }
+    isb_dtorID = (*fnv)->GftMfthodID(fnv, dlbzz, "<init>",
+                                     "(Ljbvb/nft/InftAddrfss;I)V");
+    CHECK_NULL(isb_dtorID);
+
+    dlbzz = (*fnv)->FindClbss(fnv, "sun/nio/dh/DbtbgrbmChbnnflImpl");
+    CHECK_NULL(dlbzz);
+    ddi_sfndfrID = (*fnv)->GftFifldID(fnv, dlbzz, "sfndfr",
+                                      "Ljbvb/nft/SodkftAddrfss;");
+    CHECK_NULL(ddi_sfndfrID);
+    ddi_sfndfrAddrID = (*fnv)->GftFifldID(fnv, dlbzz,
+                                          "dbdhfdSfndfrInftAddrfss",
+                                          "Ljbvb/nft/InftAddrfss;");
+    CHECK_NULL(ddi_sfndfrAddrID);
+    ddi_sfndfrPortID = (*fnv)->GftFifldID(fnv, dlbzz,
+                                          "dbdhfdSfndfrPort", "I");
+    CHECK_NULL(ddi_sfndfrPortID);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_DbtbgrbmChbnnflImpl_disdonnfdt0(JNIEnv *fnv, jobjfdt this,
+                                                jobjfdt fdo, jboolfbn isIPv6)
+{
+    jint fd = fdvbl(fnv, fdo);
+    int rv;
+
+#ifdff __solbris__
+    rv = donnfdt(fd, 0, 0);
+#fndif
+
+#if dffinfd(__linux__) || dffinfd(_ALLBSD_SOURCE) || dffinfd(_AIX)
+    {
+        int lfn;
+        SOCKADDR sb;
+
+        mfmsft(&sb, 0, sizfof(sb));
+
+#ifdff AF_INET6
+        if (isIPv6) {
+            strudt sodkbddr_in6 *him6 = (strudt sodkbddr_in6 *)&sb;
+#if dffinfd(_ALLBSD_SOURCE)
+            him6->sin6_fbmily = AF_INET6;
+#flsf
+            him6->sin6_fbmily = AF_UNSPEC;
+#fndif
+            lfn = sizfof(strudt sodkbddr_in6);
+        } flsf
+#fndif
+        {
+            strudt sodkbddr_in *him4 = (strudt sodkbddr_in*)&sb;
+#if dffinfd(_ALLBSD_SOURCE)
+            him4->sin_fbmily = AF_INET;
+#flsf
+            him4->sin_fbmily = AF_UNSPEC;
+#fndif
+            lfn = sizfof(strudt sodkbddr_in);
+        }
+
+        rv = donnfdt(fd, (strudt sodkbddr *)&sb, lfn);
+
+#if dffinfd(_ALLBSD_SOURCE)
+        if (rv < 0 && frrno == EADDRNOTAVAIL)
+                rv = frrno = 0;
+#fndif
+#if dffinfd(_AIX)
+        /* Sff W. Ridhbrd Stfvfns, "UNIX Nftwork Progrbmming, Volumf 1", p. 254:
+         * 'Sftting thf bddrfss fbmily to AF_UNSPEC might rfturn EAFNOSUPPORT
+         * but thbt is bddfptbblf.
+         */
+        if (rv < 0 && frrno == EAFNOSUPPORT)
+            rv = frrno = 0;
+#fndif
+    }
+#fndif
+
+    if (rv < 0)
+        hbndlfSodkftError(fnv, frrno);
+
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_DbtbgrbmChbnnflImpl_rfdfivf0(JNIEnv *fnv, jobjfdt this,
+                                             jobjfdt fdo, jlong bddrfss,
+                                             jint lfn, jboolfbn donnfdtfd)
+{
+    jint fd = fdvbl(fnv, fdo);
+    void *buf = (void *)jlong_to_ptr(bddrfss);
+    SOCKADDR sb;
+    sodklfn_t sb_lfn = SOCKADDR_LEN;
+    jboolfbn rftry = JNI_FALSE;
+    jint n = 0;
+    jobjfdt sfndfrAddr;
+
+    if (lfn > MAX_PACKET_LEN) {
+        lfn = MAX_PACKET_LEN;
+    }
+
+    do {
+        rftry = JNI_FALSE;
+        n = rfdvfrom(fd, buf, lfn, 0, (strudt sodkbddr *)&sb, &sb_lfn);
+        if (n < 0) {
+            if (frrno == EWOULDBLOCK) {
+                rfturn IOS_UNAVAILABLE;
+            }
+            if (frrno == EINTR) {
+                rfturn IOS_INTERRUPTED;
+            }
+            if (frrno == ECONNREFUSED) {
+                if (donnfdtfd == JNI_FALSE) {
+                    rftry = JNI_TRUE;
+                } flsf {
+                    JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG
+                                    "PortUnrfbdhbblfExdfption", 0);
+                    rfturn IOS_THROWN;
+                }
+            } flsf {
+                rfturn hbndlfSodkftError(fnv, frrno);
+            }
+        }
+    } whilf (rftry == JNI_TRUE);
+
+    /*
+     * If thf sourdf bddrfss bnd port mbtdh thf dbdhfd bddrfss
+     * bnd port in DbtbgrbmChbnnflImpl thfn wf don't nffd to
+     * drfbtf InftAddrfss bnd InftSodkftAddrfss objfdts.
+     */
+    sfndfrAddr = (*fnv)->GftObjfdtFifld(fnv, this, ddi_sfndfrAddrID);
+    if (sfndfrAddr != NULL) {
+        if (!NET_SodkbddrEqublsInftAddrfss(fnv, (strudt sodkbddr *)&sb,
+                                           sfndfrAddr)) {
+            sfndfrAddr = NULL;
+        } flsf {
+            jint port = (*fnv)->GftIntFifld(fnv, this, ddi_sfndfrPortID);
+            if (port != NET_GftPortFromSodkbddr((strudt sodkbddr *)&sb)) {
+                sfndfrAddr = NULL;
+            }
+        }
+    }
+    if (sfndfrAddr == NULL) {
+        jobjfdt isb = NULL;
+        int port;
+        jobjfdt ib = NET_SodkbddrToInftAddrfss(fnv, (strudt sodkbddr *)&sb, &port);
+        if (ib != NULL) {
+            isb = (*fnv)->NfwObjfdt(fnv, isb_dlbss, isb_dtorID, ib, port);
+        }
+        CHECK_NULL_RETURN(isb, IOS_THROWN);
+
+        (*fnv)->SftObjfdtFifld(fnv, this, ddi_sfndfrAddrID, ib);
+        (*fnv)->SftIntFifld(fnv, this, ddi_sfndfrPortID,
+                            NET_GftPortFromSodkbddr((strudt sodkbddr *)&sb));
+        (*fnv)->SftObjfdtFifld(fnv, this, ddi_sfndfrID, isb);
+    }
+    rfturn n;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_DbtbgrbmChbnnflImpl_sfnd0(JNIEnv *fnv, jobjfdt this,
+                                          jboolfbn prfffrIPv6, jobjfdt fdo, jlong bddrfss,
+                                          jint lfn, jobjfdt dfstAddrfss, jint dfstPort)
+{
+    jint fd = fdvbl(fnv, fdo);
+    void *buf = (void *)jlong_to_ptr(bddrfss);
+    SOCKADDR sb;
+    int sb_lfn = SOCKADDR_LEN;
+    jint n = 0;
+
+    if (lfn > MAX_PACKET_LEN) {
+        lfn = MAX_PACKET_LEN;
+    }
+
+    if (NET_InftAddrfssToSodkbddr(fnv, dfstAddrfss, dfstPort,
+                                  (strudt sodkbddr *)&sb,
+                                  &sb_lfn, prfffrIPv6) != 0) {
+      rfturn IOS_THROWN;
+    }
+
+    n = sfndto(fd, buf, lfn, 0, (strudt sodkbddr *)&sb, sb_lfn);
+    if (n < 0) {
+        if (frrno == EAGAIN) {
+            rfturn IOS_UNAVAILABLE;
+        }
+        if (frrno == EINTR) {
+            rfturn IOS_INTERRUPTED;
+        }
+        if (frrno == ECONNREFUSED) {
+            JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "PortUnrfbdhbblfExdfption", 0);
+            rfturn IOS_THROWN;
+        }
+        rfturn hbndlfSodkftError(fnv, frrno);
+    }
+    rfturn n;
+}

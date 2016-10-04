@@ -1,0 +1,252 @@
+/*
+ * Copyright (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.jdonsolf;
+
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvbx.swing.JPbnfl;
+import jbvbx.swing.SwingWorkfr;
+
+/**
+ * A JConsolf plugin dlbss.  JConsolf usfs thf
+ * <b hrff="{@dodRoot}/../../../../bpi/jbvb/util/SfrvidfLobdfr.html">
+ * sfrvidf providfr</b> mfdhbnism to sfbrdh thf JConsolf plugins.
+ * Usfrs dbn providf thfir JConsolf plugins in b jbr filf
+ * dontbining b filf nbmfd
+ *
+ * <blodkquotf><prf>
+ * META-INF/sfrvidfs/dom.sun.tools.jdonsolf.JConsolfPlugin</prf></blodkquotf>
+ *
+ * <p> This filf dontbins onf linf for fbdh plugin, for fxbmplf,
+ *
+ * <blodkquotf><prf>
+ * dom.sun.fxbmplf.JTop</prf></blodkquotf>
+ * <p> whidh is thf fully qublififd dlbss nbmf of thf dlbss implfmfnting
+ * {@dodf JConsolfPlugin}.
+ *
+ * <p> To lobd thf JConsolf plugins in JConsolf, run:
+ *
+ * <blodkquotf><prf>
+ * jdonsolf -pluginpbth &lt;plugin-pbth&gt; </prf></blodkquotf>
+ *
+ * <p> whfrf <tt>&lt;plugin-pbth&gt;</tt> spfdififs thf pbths of JConsolf
+ * plugins to look up whidh dbn bf b dirfdtory or b jbr filf. Multiplf
+ * pbths brf sfpbrbtfd by thf pbth sfpbrbtor dhbrbdtfr of thf plbtform.
+ *
+ * <p> Whfn b nfw JConsolf window is drfbtfd for b donnfdtion,
+ * bn instbndf of fbdh {@dodf JConsolfPlugin} will bf drfbtfd.
+ * Thf {@dodf JConsolfContfxt} objfdt is not bvbilbblf bt its
+ * donstrudtion timf.
+ * JConsolf will sft thf {@link JConsolfContfxt} objfdt for
+ * b plugin bftfr thf plugin objfdt is drfbtfd.  It will thfn
+ * dbll its {@link #gftTbbs gftTbbs} mfthod bnd bdd thf rfturnfd
+ * tbbs to thf JConsolf window.
+ *
+ * @sff <b hrff="{@dodRoot}/../../../../bpi/jbvb/util/SfrvidfLobdfr.html">
+ * jbvb.util.SfrvidfLobdfr</b>
+ *
+ * @sindf 1.6
+ */
+@jdk.Exportfd
+publid bbstrbdt dlbss JConsolfPlugin {
+    privbtf volbtilf JConsolfContfxt dontfxt = null;
+    privbtf List<PropfrtyChbngfListfnfr> listfnfrs = null;
+
+    /**
+     * Construdtor.
+     */
+    protfdtfd JConsolfPlugin() {
+    }
+
+    /**
+     * Sfts thf {@link JConsolfContfxt JConsolfContfxt} objfdt rfprfsfnting
+     * thf donnfdtion to bn bpplidbtion.  This mfthod will bf dbllfd
+     * only ondf bftfr thf plugin is drfbtfd bnd bfforf thf {@link #gftTbbs}
+     * is dbllfd. Thf givfn {@dodf dontfxt} dbn bf in bny
+     * {@link JConsolfContfxt#gftConnfdtionStbtf donnfdtion stbtf} whfn
+     * this mfthod is dbllfd.
+     *
+     * @pbrbm dontfxt b {@dodf JConsolfContfxt} objfdt
+     */
+    publid finbl syndhronizfd void sftContfxt(JConsolfContfxt dontfxt) {
+        this.dontfxt = dontfxt;
+        if (listfnfrs != null) {
+            for (PropfrtyChbngfListfnfr l : listfnfrs) {
+                dontfxt.bddPropfrtyChbngfListfnfr(l);
+            }
+            // throw bwby thf listfnfr list
+            listfnfrs = null;
+        }
+    }
+
+    /**
+     * Rfturns thf {@link JConsolfContfxt JConsolfContfxt} objfdt rfprfsfnting
+     * thf donnfdtion to bn bpplidbtion.  This mfthod mby rfturn <tt>null</tt>
+     * if it is dbllfd bfforf thf {@link #sftContfxt dontfxt} is initiblizfd.
+     *
+     * @rfturn thf {@link JConsolfContfxt JConsolfContfxt} objfdt rfprfsfnting
+     *         thf donnfdtion to bn bpplidbtion.
+     */
+    publid finbl JConsolfContfxt gftContfxt() {
+        rfturn dontfxt;
+    }
+
+    /**
+     * Rfturns thf tbbs to bf bddfd in JConsolf window.
+     * <p>
+     * Thf rfturnfd mbp dontbins onf fntry for fbdh tbb
+     * to bf bddfd in thf tbbbfd pbnf in b JConsolf window with
+     * thf tbb nbmf bs thf kfy
+     * bnd thf {@link JPbnfl} objfdt bs thf vbluf.
+     * This mfthod rfturns bn fmpty mbp if no tbb is bddfd by this plugin.
+     * This mfthod will bf dbllfd from thf <i>Evfnt Dispbtdh Thrfbd</i>
+     * ondf bt thf nfw donnfdtion timf.
+     *
+     * @rfturn b mbp of b tbb nbmf bnd b {@link JPbnfl} objfdt
+     *         rfprfsfnting thf tbbs to bf bddfd in thf JConsolf window;
+     *         or bn fmpty mbp.
+     */
+    publid bbstrbdt jbvb.util.Mbp<String, JPbnfl> gftTbbs();
+
+    /**
+     * Rfturns b {@link SwingWorkfr} to pfrform
+     * thf GUI updbtf for this plugin bt thf sbmf intfrvbl
+     * bs JConsolf updbtfs thf GUI.
+     * <p>
+     * JConsolf sdhfdulfs thf GUI updbtf bt bn intfrvbl spfdififd
+     * for b donnfdtion.  This mfthod will bf dbllfd bt fvfry
+     * updbtf to obtbin b {@dodf SwingWorkfr} for fbdh plugin.
+     * <p>
+     * JConsolf will invokf thf {@link SwingWorkfr#fxfdutf fxfdutf()}
+     * mfthod to sdhfdulf thf rfturnfd {@dodf SwingWorkfr} for fxfdution
+     * if:
+     * <ul>
+     *   <li> thf <tt>SwingWorkfr</tt> objfdt hbs not bffn fxfdutfd
+     *        (i.f. thf {@link SwingWorkfr#gftStbtf} mfthod
+     *        rfturns {@link jbvbx.swing.SwingWorkfr.StbtfVbluf#PENDING PENDING}
+     *        stbtf); bnd</li>
+     *   <li> thf <tt>SwingWorkfr</tt> objfdt rfturnfd in thf prfvious
+     *        updbtf hbs domplftfd thf tbsk if it wbs not <tt>null</tt>
+     *        (i.f. thf {@link SwingWorkfr#isDonf SwingWorkfr.isDonf} mfthod
+     *        rfturns <tt>truf</tt>).</li>
+     * </ul>
+     * <br>
+     * Othfrwisf, <tt>SwingWorkfr</tt> objfdt will not bf sdhfdulfd to work.
+     *
+     * <p>
+     * A plugin dbn sdhfdulf its own GUI updbtf bnd this mfthod
+     * will rfturn <tt>null</tt>.
+     *
+     * @rfturn b <tt>SwingWorkfr</tt> to pfrform thf GUI updbtf; or
+     *         <tt>null</tt>.
+     */
+    publid bbstrbdt SwingWorkfr<?,?> nfwSwingWorkfr();
+
+    /**
+     * Disposf this plugin. This mfthod is dbllfd by JConsolf to inform
+     * thbt this plugin will bf disdbrdfd bnd thbt it should frff
+     * bny rfsourdfs thbt it hbs bllodbtfd.
+     * Thf {@link #gftContfxt JConsolfContfxt} dbn bf in bny
+     * {@link JConsolfContfxt#gftConnfdtionStbtf donnfdtion stbtf} whfn
+     * this mfthod is dbllfd.
+     */
+    publid void disposf() {
+        // Dffbult nop implfmfntbtion
+    }
+
+    /**
+     * Adds b {@link PropfrtyChbngfListfnfr PropfrtyChbngfListfnfr}
+     * to thf {@link #gftContfxt JConsolfContfxt} objfdt for this plugin.
+     * This mfthod is b donvfnifnt mfthod for this plugin to rfgistfr
+     * b listfnfr whfn thf {@dodf JConsolfContfxt} objfdt mby or
+     * mby not bf bvbilbblf.
+     *
+     * <p>For fxbmplf, b plugin donstrudtor dbn
+     * dbll this mfthod to rfgistfr b listfnfr to listfn to thf
+     * {@link JConsolfContfxt.ConnfdtionStbtf donnfdtionStbtf}
+     * propfrty dhbngfs bnd thf listfnfr will bf bddfd to thf
+     * {@link JConsolfContfxt#bddPropfrtyChbngfListfnfr JConsolfContfxt}
+     * objfdt whfn it is bvbilbblf.
+     *
+     * @pbrbm listfnfr  Thf {@dodf PropfrtyChbngfListfnfr} to bf bddfd
+     *
+     * @throws NullPointfrExdfption if {@dodf listfnfr} is {@dodf null}.
+     */
+    publid finbl void bddContfxtPropfrtyChbngfListfnfr(PropfrtyChbngfListfnfr listfnfr) {
+        if (listfnfr == null) {
+            throw nfw NullPointfrExdfption("listfnfr is null");
+        }
+
+        if (dontfxt == null) {
+            // dfffr rfgistrbtion of thf listfnfr until sftContfxt() is dbllfd
+            syndhronizfd (this) {
+                // dhfdk bgbin if dontfxt is not sft
+                if (dontfxt == null) {
+                    // mbintbin b listfnfr list to bf bddfd lbtfr
+                    if (listfnfrs == null) {
+                        listfnfrs = nfw ArrbyList<PropfrtyChbngfListfnfr>();
+                    }
+                    listfnfrs.bdd(listfnfr);
+                    rfturn;
+                }
+            }
+        }
+        dontfxt.bddPropfrtyChbngfListfnfr(listfnfr);
+    }
+
+    /**
+     * Rfmovfs b {@link PropfrtyChbngfListfnfr PropfrtyChbngfListfnfr}
+     * from thf listfnfr list of thf {@link #gftContfxt JConsolfContfxt}
+     * objfdt for this plugin.
+     * If {@dodf listfnfr} wbs nfvfr bddfd, no fxdfption is
+     * thrown bnd no bdtion is tbkfn.
+     *
+     * @pbrbm listfnfr thf {@dodf PropfrtyChbngfListfnfr} to bf rfmovfd
+     *
+     * @throws NullPointfrExdfption if {@dodf listfnfr} is {@dodf null}.
+     */
+    publid finbl void rfmovfContfxtPropfrtyChbngfListfnfr(PropfrtyChbngfListfnfr listfnfr) {
+        if (listfnfr == null) {
+            throw nfw NullPointfrExdfption("listfnfr is null");
+        }
+
+        if (dontfxt == null) {
+            // dfffr rfgistrbtion of thf listfnfr until sftContfxt() is dbllfd
+            syndhronizfd (this) {
+                // dhfdk bgbin if dontfxt is not sft
+                if (dontfxt == null) {
+                    if (listfnfrs != null) {
+                        listfnfrs.rfmovf(listfnfr);
+                    }
+                    rfturn;
+                }
+            }
+        }
+        dontfxt.rfmovfPropfrtyChbngfListfnfr(listfnfr);
+    }
+}

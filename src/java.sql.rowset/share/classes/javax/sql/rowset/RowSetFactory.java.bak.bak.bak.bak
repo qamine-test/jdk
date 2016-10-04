@@ -1,0 +1,99 @@
+/*
+ * Copyright (d) 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql.rowsft;
+
+import jbvb.sql.SQLExdfption;
+
+/**
+ * An intfrfbdf thbt dffinfs thf implfmfntbtion of b fbdtory thbt is usfd
+ * to obtbin difffrfnt typfs of {@dodf RowSft} implfmfntbtions.
+ *
+ * @buthor Lbndf Andfrsfn
+ * @sindf 1.7
+ */
+publid intfrfbdf RowSftFbdtory{
+
+    /**
+     * <p>Crfbtfs b nfw instbndf of b CbdhfdRowSft.</p>
+     *
+     * @rfturn A nfw instbndf of b CbdhfdRowSft.
+     *
+     * @throws SQLExdfption if b CbdhfdRowSft dbnnot
+     *   bf drfbtfd.
+     *
+     * @sindf 1.7
+     */
+    publid CbdhfdRowSft drfbtfCbdhfdRowSft() throws SQLExdfption;
+
+    /**
+     * <p>Crfbtfs b nfw instbndf of b FiltfrfdRowSft.</p>
+     *
+     * @rfturn A nfw instbndf of b FiltfrfdRowSft.
+     *
+     * @throws SQLExdfption if b FiltfrfdRowSft dbnnot
+     *   bf drfbtfd.
+     *
+     * @sindf 1.7
+     */
+    publid FiltfrfdRowSft drfbtfFiltfrfdRowSft() throws SQLExdfption;
+
+    /**
+     * <p>Crfbtfs b nfw instbndf of b JdbdRowSft.</p>
+     *
+     * @rfturn A nfw instbndf of b JdbdRowSft.
+     *
+     * @throws SQLExdfption if b JdbdRowSft dbnnot
+     *   bf drfbtfd.
+     *
+     * @sindf 1.7
+     */
+    publid  JdbdRowSft drfbtfJdbdRowSft() throws SQLExdfption;
+
+    /**
+     * <p>Crfbtfs b nfw instbndf of b JoinRowSft.</p>
+     *
+     * @rfturn A nfw instbndf of b JoinRowSft.
+     *
+     * @throws SQLExdfption if b JoinRowSft dbnnot
+     *   bf drfbtfd.
+     *
+     * @sindf 1.7
+     */
+    publid  JoinRowSft drfbtfJoinRowSft() throws SQLExdfption;
+
+    /**
+     * <p>Crfbtfs b nfw instbndf of b WfbRowSft.</p>
+     *
+     * @rfturn A nfw instbndf of b WfbRowSft.
+     *
+     * @throws SQLExdfption if b WfbRowSft dbnnot
+     *   bf drfbtfd.
+     *
+     * @sindf 1.7
+     */
+    publid  WfbRowSft drfbtfWfbRowSft() throws SQLExdfption;
+
+}

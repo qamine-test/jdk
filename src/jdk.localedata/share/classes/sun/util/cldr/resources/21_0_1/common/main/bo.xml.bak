@@ -1,514 +1,514 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="bo"/>
-	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="bn" draft="unconfirmed">བྷང་ག་ལའི་སྐད།</language>
-			<language type="bo">པོད་སྐད་</language>
-			<language type="da" draft="unconfirmed">ཏེན་མག་གི་སྐད།</language>
-			<language type="de" draft="provisional">འཇར་མན་གྱི།</language>
-			<language type="dz">རྫོང་ཁ</language>
-			<language type="en" draft="unconfirmed">དབིན་ཇིའི་སྐད།</language>
-			<language type="en_CA" draft="unconfirmed">དབིན་ཇིའི་སྐད། (ཁེ་ན་ཌ་)</language>
-			<language type="en_GB" draft="unconfirmed">དབིན་ཇིའི་སྐད། (དབིན་ཇིའི་རྒྱལ་ཁབ་)</language>
-			<language type="en_US" draft="unconfirmed">དབིན་ཇིའི་སྐད། (ཨ་རི་)</language>
-			<language type="es" draft="provisional">ཞི་པན་ཡའི།</language>
-			<language type="fr" draft="provisional">ཧྥ་རན་སིའི་།</language>
-			<language type="gaa" draft="unconfirmed">གཱ་སྐད།</language>
-			<language type="gu" draft="unconfirmed">གུཇ་རཱཏི་སྐད།</language>
-			<language type="hi">ཧིན་དི</language>
-			<language type="id" draft="unconfirmed">ཨིན་དོ་ནི་སི་སྐད།</language>
-			<language type="it" draft="provisional">དབྱི་ཏ་་ལའི་མི།</language>
-			<language type="ja">རི་པིན་སྐད་</language>
-			<language type="kn" draft="unconfirmed">ཀནྣ་ཌ་སྐད།</language>
-			<language type="ko" draft="unconfirmed">ཁོ་རེ་ཡའི་སྐད།</language>
-			<language type="la" draft="unconfirmed">ལཱ་ཏིན་སྐད།</language>
-			<language type="mn" draft="unconfirmed">སོག་སྐད།</language>
-			<language type="mr" draft="unconfirmed">མ་ར་ཐི་སྐད།</language>
-			<language type="ms" draft="unconfirmed">མ་ལ་ཡ་སྐད།</language>
-			<language type="my" draft="unconfirmed">འབར་མའི་སྐད།</language>
-			<language type="ne">ནེ་པ་ལི</language>
-			<language type="nl" draft="unconfirmed">ཧའོ་ལན་སྐད།</language>
-			<language type="nn" draft="unconfirmed">ནོ་ཝེ་སྐད།</language>
-			<language type="or" draft="unconfirmed">ཨཽ་རི་ཡ་སྐད།</language>
-			<language type="pl" draft="unconfirmed">པོ་ལན་སྐད།</language>
-			<language type="pt" draft="provisional">ཕི་ཐོ་ཡའི།</language>
-			<language type="pt_BR" draft="provisional">པ་ཞའི་མི། ཕི་ཐོ་ཡའི་མི།</language>
-			<language type="ru">ཨུ་རུ་སུ་སྐད་</language>
-			<language type="sa" draft="unconfirmed">སཾ་སྐྲྀ་ཏ།</language>
-			<language type="si" draft="unconfirmed">ཞི་ལན་སྐད།</language>
-			<language type="sv" draft="unconfirmed">ཧྲུའི་ཏན་སྐད།</language>
-			<language type="ta" draft="unconfirmed">ཏཱ་མིལ་སྐད།</language>
-			<language type="te" draft="unconfirmed">ཏེ་ལུ་གུ་སྐད།</language>
-			<language type="th" draft="unconfirmed">ཐའའི་ཡུལ་སྐད།</language>
-			<language type="tr" draft="unconfirmed">ཐུར་ཁེའི་སྐད།</language>
-			<language type="ug" draft="unconfirmed">ཡུ་གུར་སྐད།</language>
-			<language type="uk" draft="unconfirmed">ཡུ་ཀྲ་ནི་སྐད།</language>
-			<language type="und" draft="provisional">མིའི་ཤེས་རྟོགས་མ་བྱུང་བ། ཡང་ན་ཆད་ལྷག་ཅན་གྱི་སྐད་བརྡ།</language>
-			<language type="ur" draft="unconfirmed">ཝུའུ་ཏུའུ་སྐད།</language>
-			<language type="vi" draft="unconfirmed">ཡོ་ནན་སྐད།</language>
-			<language type="zen" draft="unconfirmed">ཟེ་ན་གཱ་སྐད།</language>
-			<language type="zh">རྒྱ་སྐད་</language>
-			<language type="zh_Hans" draft="provisional">སྟབས་བརྡའི། ཀྲུང་གོའི།</language>
-			<language type="zh_Hant" draft="provisional">སྲོལ་རྒྱུན་གྱི།</language>
-			<language type="zu" draft="unconfirmed">ཟུ་ལུ་སྐད།</language>
-			<language type="zun" draft="unconfirmed">ཟུ་ནི་སྐད།</language>
-			<language type="zza" draft="unconfirmed">ཟ་ཟཱ་སྐད།</language>
-		</languages>
-		<scripts>
-			<script type="Arab" draft="provisional">འ་ལ་པོའི་སྐད་ཡིག་།</script>
-			<script type="Cyrl" draft="provisional">གོ་སའི་ལ་ཧྥུ་སྐད་ཡིག་།</script>
-			<script type="Deva" draft="unconfirmed">དེ་བ་ནཱ་ག་རཱི་སྐད་ཡིག</script>
-			<script type="Gujr" draft="unconfirmed">གུཇ་རཱཏི་སྐད།</script>
-			<script type="Hans" draft="provisional">སླ་བསྡུའི་རྒྱའི་སྐད་ཡིག།</script>
-			<script type="Hant" draft="provisional">གནའ་དུས་རྒྱའི་སྐད་ཡིག།</script>
-			<script type="Latn" draft="provisional">ལ་ཏིན་སྐད་ཡིག་།</script>
-			<script type="Mymr" draft="unconfirmed">འབར་མའི་སྐད་ཡིག</script>
-			<script type="Tibt">བོད་ཡིག་</script>
-			<script type="Zxxx" draft="provisional">སྙན་བརྒྱུད། ཡིག་རིགས་སུ་མ་བཀོད་པའི་ཟིན་ཐོ།་</script>
-			<script type="Zzzz" draft="provisional">མིའི་ཤེས་རྟོགས་མ་བྱུང་བ། ཡང་ན་ཆད་ལྷག་ཅན་གྱི་ཟིན་བྲིས།</script>
-		</scripts>
-		<territories>
-			<territory type="001" draft="unconfirmed">འཛམ་གླིང་།</territory>
-			<territory type="002" draft="unconfirmed">ཨཕྲི་ཀ།</territory>
-			<territory type="019" draft="unconfirmed">ཨ་མེ་རི་ཀ།</territory>
-			<territory type="053" draft="unconfirmed">ཨསྟྲེ་ལི་ཡ་དང་། ནིའུ་ཛི་ལན྄ཌ།</territory>
-			<territory type="142" draft="unconfirmed">ཨེ་ཤི་ཡ།</territory>
-			<territory type="150" draft="unconfirmed">ཡུ་རོབ།</territory>
-			<territory type="AD" draft="unconfirmed">ཨེན་ཌོ་ར།</territory>
-			<territory type="AE" draft="unconfirmed">ཨ་རབ། ཨི་མི་རཊ྄། ཆིག་སྒྲིལ་རྒྱལ་ཁབ།</territory>
-			<territory type="AF" draft="unconfirmed">ཨཕ་ག་ནི་སྟཱན།</territory>
-			<territory type="AG" draft="unconfirmed">ཨེན་ཊི་གུ་དང་། བྷར་བུ་ཌ།</territory>
-			<territory type="AI" draft="unconfirmed">ཨང་གུའི་ལ།</territory>
-			<territory type="AL" draft="unconfirmed">ཨལ་བཱ་ནི་ཡ།</territory>
-			<territory type="AM" draft="unconfirmed">ཨར་མེ་ནི་ཡ།</territory>
-			<territory type="AO" draft="unconfirmed">ཨང་གཽ་ལ།</territory>
-			<territory type="AQ" draft="unconfirmed">ལྷོ་རྩེའི་མཐའ་གླིང་།</territory>
-			<territory type="AR" draft="unconfirmed">ཨར་ཇེན་ཊི་ན།</territory>
-			<territory type="AT" draft="unconfirmed">ཨསྟྲི་ཡ།</territory>
-			<territory type="AU" draft="unconfirmed">ཨསྟྲེ་ལི་ཡ།</territory>
-			<territory type="AW" draft="unconfirmed">ཨ་རུ་བ།</territory>
-			<territory type="AZ" draft="unconfirmed">ཨཛར་བཡེ་ཇན།</territory>
-			<territory type="BA" draft="unconfirmed">བོསྣི་ཡ་དང་ཧརྫོ་གོ་ཝི་ན།</territory>
-			<territory type="BB" draft="unconfirmed">བཱརྦ་ཌོས྄།</territory>
-			<territory type="BD" draft="unconfirmed">བངྒ་ལ་དེཤ།</territory>
-			<territory type="BE" draft="unconfirmed">བེལ་ཇི་ཡམ།</territory>
-			<territory type="BF" draft="unconfirmed">བརཀི་ན། ཕསོ།</territory>
-			<territory type="BG" draft="unconfirmed">བུལ་ག་རི་ཡ།</territory>
-			<territory type="BH" draft="unconfirmed">བྷཱ་རེན།</territory>
-			<territory type="BI" draft="unconfirmed">བུ་རུན་ཌི།</territory>
-			<territory type="BJ" draft="unconfirmed">བཱེ་ནིན།</territory>
-			<territory type="BM" draft="unconfirmed">བར་མུ་ཌ།</territory>
-			<territory type="BN" draft="unconfirmed">བུ་རུ་ནེ།</territory>
-			<territory type="BO" draft="unconfirmed">བོ་ལི་ཝིཡ།</territory>
-			<territory type="BR" draft="unconfirmed">བ་རཱ་ཛིལ།</territory>
-			<territory type="BS" draft="unconfirmed">བྷཱ་མས྄།</territory>
-			<territory type="BT" draft="unconfirmed">འབྲུག་ཡུལ།</territory>
-			<territory type="BW" draft="unconfirmed">བོཙ་ཝ་ན།</territory>
-			<territory type="BY" draft="unconfirmed">བེ་ལུ་རུ་སུ།</territory>
-			<territory type="BZ" draft="unconfirmed">བེ་ལིཛ།</territory>
-			<territory type="CA" draft="unconfirmed">ཁེ་ན་ཌ།</territory>
-			<territory type="CH" draft="unconfirmed">ཧྲུད་ཧྲི།</territory>
-			<territory type="CI" draft="unconfirmed">ཀོ་ཊེ་ཌི། ཨི་ཝོ་རེ།</territory>
-			<territory type="CK" draft="unconfirmed">ཀཱུག གླིང་ཕྲེན་རྒྱལ་ཁབ།</territory>
-			<territory type="CL" draft="unconfirmed">ཅི་ལི།</territory>
-			<territory type="CM" draft="unconfirmed">ཀ་མེ་རུན།</territory>
-			<territory type="CN">རྒྱ་ནག</territory>
-			<territory type="CO" draft="unconfirmed">ཀོ་ལོམ་བི་ཡ།</territory>
-			<territory type="CR" draft="unconfirmed">ཀོ་ས྄ཊ་རི་ཀ།</territory>
-			<territory type="CU" draft="unconfirmed">ཁྱུའུ་བ།</territory>
-			<territory type="CY" draft="unconfirmed">སཱཡེ་པ་རས྄།</territory>
-			<territory type="CZ" draft="unconfirmed">ཅཻག་སྤྱི་མཐུན་རྒྱལ་ཁབ།</territory>
-			<territory type="DE">འཇར་མན་</territory>
-			<territory type="DJ" draft="unconfirmed">ཛི་བུ་ཏི།</territory>
-			<territory type="DK" draft="unconfirmed">ཌེན་མཱརྐ།</territory>
-			<territory type="DM" draft="unconfirmed">ཌོ་མིན་ནི་ཀ།</territory>
-			<territory type="DO" draft="unconfirmed">ཌོ་མིནནི་ཀན་སྤྱི་མཐུན་རྒྱལ་ཁབ།</territory>
-			<territory type="DZ" draft="unconfirmed">ཨལ་ཇི་རི་ཡ།</territory>
-			<territory type="EC" draft="unconfirmed">ཨི་ཁྭ་ཌོར།</territory>
-			<territory type="EE" draft="unconfirmed">ཨིསྟོ་ནི་ཡ།</territory>
-			<territory type="EG" draft="unconfirmed">ཨི་ཇིབྚ།</territory>
-			<territory type="ER" draft="unconfirmed">ཨེ་རི་ཏྲེ་ཨ།</territory>
-			<territory type="ES" draft="unconfirmed">སི་པན།</territory>
-			<territory type="ET" draft="unconfirmed">ཨི་ཐིའོ་པི་ཡ།</territory>
-			<territory type="FI" draft="unconfirmed">ཕིན་ལན྄ཌ།</territory>
-			<territory type="FJ" draft="unconfirmed">ཕི་ཇི།</territory>
-			<territory type="FK" draft="unconfirmed">ཕལྐ་ལནྜ་གླིང་ཕྲན།</territory>
-			<territory type="FR" draft="unconfirmed">ཕ་རཱན་སི།</territory>
-			<territory type="GA" draft="unconfirmed">གེ་བཽན།</territory>
-			<territory type="GB">དབྱིན་ཇི་</territory>
-			<territory type="GD" draft="unconfirmed">གྷ་རི་ན་ཌ།</territory>
-			<territory type="GE" draft="unconfirmed">ཇོར་ཇི་ཡ།</territory>
-			<territory type="GH" draft="unconfirmed">གྷ་ན།</territory>
-			<territory type="GI" draft="unconfirmed">ཇིབ་རཱལ་ཊར།</territory>
-			<territory type="GM" draft="unconfirmed">གྷམ་བི་ཡ།</territory>
-			<territory type="GN" draft="unconfirmed">གྷི་ནི་ཡ།</territory>
-			<territory type="GR" draft="unconfirmed">གྷི་རཱི་སི།</territory>
-			<territory type="GT" draft="unconfirmed">གྷོ་ཊེ་མ་ལ།</territory>
-			<territory type="GW" draft="unconfirmed">གྷི་ནི་ཡ་བིས྄་སོ།</territory>
-			<territory type="GY" draft="unconfirmed">གྷུ་ཡཱ་ན།</territory>
-			<territory type="HK" alt="short" draft="unconfirmed">ཧོང་ཀོང༌།</territory>
-			<territory type="HN" draft="unconfirmed">ཧོན་དུ་རས྄།</territory>
-			<territory type="HR" draft="unconfirmed">ཀུརོ་ཤི་ཡ།</territory>
-			<territory type="HT" draft="unconfirmed">ཧེ་ཏི།</territory>
-			<territory type="HU" draft="unconfirmed">ཧངྒ་རི།</territory>
-			<territory type="ID" draft="unconfirmed">ཨིན་ཌོ་ནེ་ཤི་ཡ།</territory>
-			<territory type="IE" draft="unconfirmed">ཨ་ཡར་ལནཌ།</territory>
-			<territory type="IL" draft="unconfirmed">ཨི་ཛ྄་རེལ།</territory>
-			<territory type="IN">རྒྱ་གར་</territory>
-			<territory type="IQ" draft="unconfirmed">ཨི་རག།</territory>
-			<territory type="IR" draft="unconfirmed">ཨི་རཱན།</territory>
-			<territory type="IS" draft="unconfirmed">ཨ་ཨི་སི་ལནད།</territory>
-			<territory type="IT">ཨི་ཀྲར་ལི་</territory>
-			<territory type="JM" draft="unconfirmed">ཛ་མེ་ཀ།</territory>
-			<territory type="JO" draft="unconfirmed">ཇོར་ཌན།</territory>
-			<territory type="JP">རི་པིན་</territory>
-			<territory type="KE" draft="unconfirmed">ཁེན་ཉི་ཡ།</territory>
-			<territory type="KG" draft="unconfirmed">ཁིར་གིཛ་སྟཱན།</territory>
-			<territory type="KH" draft="unconfirmed">ཀམ་བོ་ཌི་ཡ།</territory>
-			<territory type="KI" draft="unconfirmed">ཀི་རི་བཱ་ཏི།</territory>
-			<territory type="KN" draft="unconfirmed">སེནྚ། ཀིཊྚས྄། དང༌། ནེ་བིས྄།</territory>
-			<territory type="KR" draft="unconfirmed">ཀོ་རི་ཡ། ལྷོ་མ།</territory>
-			<territory type="KW" draft="unconfirmed">ཀུ་ཝེད་རྒྱལ་ཁབ།</territory>
-			<territory type="KY" draft="unconfirmed">ཁེ་མེན་གླིང་ཕྲན།</territory>
-			<territory type="KZ" draft="unconfirmed">ཁ་ཛཱག་སྟཱན།</territory>
-			<territory type="LA" draft="unconfirmed">ལཱ་འོས།</territory>
-			<territory type="LB" draft="unconfirmed">ལེབ་ནོན།</territory>
-			<territory type="LC" draft="unconfirmed">སེནྚ། ལུ་ཤི་ཡ།</territory>
-			<territory type="LI" draft="unconfirmed">ལེག་ཏེན་ཚིན།</territory>
-			<territory type="LK" draft="unconfirmed">ཤྲཱི་ལངྐ་།</territory>
-			<territory type="LR" draft="unconfirmed">ལི་བེ་རི་ཡ།</territory>
-			<territory type="LS" draft="unconfirmed">ལེ་སོ་ཐོ།</territory>
-			<territory type="LT" draft="unconfirmed">ལི་ཐུ་ཨེ་ནི་ཡ།</territory>
-			<territory type="LU" draft="unconfirmed">ལཀ་ཛམ་བོརྒ།</territory>
-			<territory type="LV" draft="unconfirmed">ལཏ་བི་ཡ།</territory>
-			<territory type="LY" draft="unconfirmed">ལི་བི་ཡ།</territory>
-			<territory type="MA" draft="unconfirmed">མོ་རོ་ཀྐོ།</territory>
-			<territory type="MC" draft="unconfirmed">མོ་ན་ཀོ།</territory>
-			<territory type="MG" draft="unconfirmed">མ་དཱ་གྷསྐཱར།</territory>
-			<territory type="MH" draft="unconfirmed">མཱར་ཤལ་གླིང་ཕྲེན།</territory>
-			<territory type="ML" draft="unconfirmed">མ་ལི།</territory>
-			<territory type="MM" draft="unconfirmed">འབར་མ།</territory>
-			<territory type="MN" draft="unconfirmed">སོག་ཡུལ།</territory>
-			<territory type="MO" alt="short" draft="unconfirmed">མེ་ཀའོ།</territory>
-			<territory type="MR" draft="unconfirmed">མཽ་རི་ཏ་ནི་ཡ།</territory>
-			<territory type="MT" draft="unconfirmed">མལ་ཊ།</territory>
-			<territory type="MU" draft="unconfirmed">མཽ་རིཤས྄།</territory>
-			<territory type="MV" draft="unconfirmed">མལ་དྭིབ།</territory>
-			<territory type="MW" draft="unconfirmed">མཱ་ལཱ་ཝི།</territory>
-			<territory type="MX" draft="unconfirmed">མེཀ་སི་ཀོ།</territory>
-			<territory type="MY" draft="unconfirmed">མ་ལེ་ཤི་ཡ།</territory>
-			<territory type="MZ" draft="unconfirmed">མོ་ཛམ་བིག།</territory>
-			<territory type="NA" draft="unconfirmed">ན་མི་བི་ཡ།</territory>
-			<territory type="NE" draft="unconfirmed">ནའི་ཇར།</territory>
-			<territory type="NG" draft="unconfirmed">ནཱའི་ཇི་རི་ཡ།</territory>
-			<territory type="NI" draft="unconfirmed">ནི་ཀ་ར་གུ་ཨ།</territory>
-			<territory type="NL" draft="unconfirmed">ཧའོ་ལན།</territory>
-			<territory type="NO" draft="unconfirmed">ནོར་ཝེ།</territory>
-			<territory type="NP">བར་ཡུལ་</territory>
-			<territory type="NR" draft="unconfirmed">ནཽ་རུ།</territory>
-			<territory type="NU" draft="unconfirmed">ནིའུ་ཝ།</territory>
-			<territory type="NZ" draft="unconfirmed">ནིའུ་ཛི་ལན྄ཌ།</territory>
-			<territory type="OM" draft="unconfirmed">ཨོ་མན།</territory>
-			<territory type="PA" draft="unconfirmed">པ་ནཱ་མ།</territory>
-			<territory type="PE" draft="unconfirmed">པེ་རུ།</territory>
-			<territory type="PG" draft="unconfirmed">པ་པུ་ཨ། ནིའུ། གྷི་ནི།</territory>
-			<territory type="PH" draft="unconfirmed">ཕི་ལི་པིནས྄།</territory>
-			<territory type="PK" draft="unconfirmed">པཀི་སྟཱན།</territory>
-			<territory type="PL" draft="unconfirmed">པོ་ལནྜ།</territory>
-			<territory type="PT" draft="unconfirmed">པོར་ཏུ་གྷལ།</territory>
-			<territory type="PW" draft="unconfirmed">པ་ལཽ།</territory>
-			<territory type="PY" draft="unconfirmed">པཱ་ར་གེ།</territory>
-			<territory type="QA" draft="unconfirmed">ཀ་ཏཱར།</territory>
-			<territory type="RO" draft="unconfirmed">རོ་མཱ་ནིཡ།</territory>
-			<territory type="RS" draft="unconfirmed">སེར་བི་ཡ།</territory>
-			<territory type="RU">ཨུ་རུ་སུ་</territory>
-			<territory type="RW" draft="unconfirmed">རུ་ཝན་ཌ།</territory>
-			<territory type="SA" draft="unconfirmed">སཽ་དྷི་ཨ་རཱ་བི་ཡ།</territory>
-			<territory type="SB" draft="unconfirmed">སོ་ལོ་མོན། གླིང་ཕྲན་ཚོ་ཁག།</territory>
-			<territory type="SC" draft="unconfirmed">སཱ་ཤཻལ།</territory>
-			<territory type="SD" draft="unconfirmed">སུ་དཱན།</territory>
-			<territory type="SE" draft="unconfirmed">ཧྲུའི་ཏན།</territory>
-			<territory type="SG" draft="unconfirmed">སིངྒ་པུར།</territory>
-			<territory type="SH" draft="unconfirmed">སེནྚ། ཧེ་ལི་ན།</territory>
-			<territory type="SI" draft="unconfirmed">ས་ལཽ་ཝེ་ནི་ཡ།</territory>
-			<territory type="SK" draft="unconfirmed">ས་ལཽ་ཝཀྱ།</territory>
-			<territory type="SL" draft="unconfirmed">སེ་ཡར་ར། ལིའོན།</territory>
-			<territory type="SM" draft="unconfirmed">སན་མེ་རི་ནོ།</territory>
-			<territory type="SN" draft="unconfirmed">སེ་ནི་གྷལ།</territory>
-			<territory type="SO" draft="unconfirmed">སོ་མཱལི་ཡ།</territory>
-			<territory type="SR" draft="unconfirmed">སུ་རི་ནཱམ།</territory>
-			<territory type="ST" draft="unconfirmed">ས་འོ་ཏོད་མད། དང༌། པ྄རིན་སི་པེ།</territory>
-			<territory type="SV" draft="unconfirmed">ཨེལ། སཱལ་ཝ་ཌོར།</territory>
-			<territory type="TD" draft="unconfirmed">ཅཻཌ།</territory>
-			<territory type="TR" draft="unconfirmed">ཏུརཀི།</territory>
-			<territory type="TV" draft="unconfirmed">ཐུ་ཝ་ལུ།</territory>
-			<territory type="UA" draft="unconfirmed">ཡུ་ཀྲན།</territory>
-			<territory type="UG" draft="unconfirmed">ཡུ་གན་ཌ།</territory>
-			<territory type="US">ཨ་མེ་རི་ཀ་</territory>
-			<territory type="UY" draft="unconfirmed">ཨུ་རུ་གྷེ།</territory>
-			<territory type="UZ" draft="unconfirmed">ཨུཛ་བེ་ཀིསྟཱན།</territory>
-			<territory type="VA" draft="unconfirmed">ཝེ་ཊི་ཀན།</territory>
-			<territory type="VC" draft="unconfirmed">སེནྚ། ཝིན་སན། དང༌། གྷིརིན་ཌིན།</territory>
-			<territory type="VE" draft="unconfirmed">ཝེ་ནི་ཛུའེ་ལ།</territory>
-			<territory type="VN" draft="unconfirmed">བི་དི་ནམ།</territory>
-			<territory type="VU" draft="unconfirmed">ཝ་ནུ་ཨ་ཐུ།</territory>
-			<territory type="WS" draft="unconfirmed">ནུ་བ་ས་མོ་འ།</territory>
-			<territory type="YE" draft="unconfirmed">ཡེ་མེན།</territory>
-			<territory type="ZA" draft="unconfirmed">ལྷོ་ ཨཕྲི་ཀ།</territory>
-			<territory type="ZM" draft="unconfirmed">ཛམ་བི་ཡ།</territory>
-			<territory type="ZW" draft="unconfirmed">ཛིམ་བྷཱ་བེ།</territory>
-			<territory type="ZZ">མིའི་ཤེས་རྟོགས་མ་བྱུང་བའི་ཁོར་ཡུག</territory>
-		</territories>
-		<variants>
-			<variant type="PINYIN" draft="unconfirmed">པིན་ཡིན།</variant>
-		</variants>
-		<measurementSystemNames>
-			<measurementSystemName type="US" draft="unconfirmed">ཨ་མེ་རི་ཀའི།</measurementSystemName>
-		</measurementSystemNames>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[\u0F7E ཿ ཀ {ཀ\u0FB5} \u0F90 {\u0F90\u0FB5} ཁ \u0F91 ག {ག\u0FB7} \u0F92 {\u0F92\u0FB7} ང \u0F94 ཅ \u0F95 ཆ \u0F96 ཇ \u0F97 ཉ \u0F99 ཊ \u0F9A ཋ \u0F9B ཌ {ཌ\u0FB7} \u0F9C {\u0F9C\u0FB7} ཎ \u0F9E ཏ \u0F9F ཐ \u0FA0 ད {ད\u0FB7} \u0FA1 {\u0FA1\u0FB7} ན \u0FA3 པ \u0FA4 ཕ \u0FA5 བ {བ\u0FB7} \u0FA6 {\u0FA6\u0FB7} མ \u0FA8 ཙ \u0FA9 ཚ \u0FAA ཛ {ཛ\u0FB7} \u0FAB {\u0FAB\u0FB7} ཝ \u0FAD \u0FBA ཞ \u0FAE ཟ \u0FAF འ \u0FB0 ཡ \u0FB1 \u0FBB ར ཪ \u0FB2 \u0FBC ལ \u0FB3 ཤ \u0FB4 ཥ \u0FB5 ས \u0FB6 ཧ \u0FB7 ཨ \u0FB8 \u0F72 {\u0F71\u0F72} \u0F80 {\u0F71\u0F80} \u0F74 {\u0F71\u0F74} {\u0FB2\u0F80} \u0F77 {\u0FB3\u0F80} \u0F79-\u0F7D \u0F84]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[ༀ]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="contributed">[ཀ ཁ ག ང ཅ ཆ ཇ ཉ ཏ ཐ ད ན པ ཕ བ མ ཙ ཚ ཛ ཝ ཞ ཟ འ ཡ ར ལ ཤ ས ཧ ཨ]</exemplarCharacters>
-		<exemplarCharacters type="punctuation" draft="unconfirmed">[\: ་ །]</exemplarCharacters>
-	</characters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
-				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1">ཟླ་༡</month>
-							<month type="2">ཟླ་༢</month>
-							<month type="3">ཟླ་༣</month>
-							<month type="4">ཟླ་༤</month>
-							<month type="5">ཟླ་༥</month>
-							<month type="6">ཟླ་༦</month>
-							<month type="7">ཟླ་༧</month>
-							<month type="8">ཟླ་༨</month>
-							<month type="9">ཟླ་༩</month>
-							<month type="10">ཟླ་༡༠</month>
-							<month type="11">ཟླ་༡༡</month>
-							<month type="12">ཟླ་༡༢</month>
-						</monthWidth>
-						<monthWidth type="wide">
-							<month type="1">ཟླ་བ་དང་པོ་</month>
-							<month type="2">ཟླ་བ་གཉིས་པ་</month>
-							<month type="3">ཟླ་བ་སུམ་པ་</month>
-							<month type="4">ཟླ་བ་བཞི་པ་</month>
-							<month type="5">ཟླ་བ་ལྔ་པ་</month>
-							<month type="6">ཟླ་བ་དྲུག་པ་</month>
-							<month type="7">ཟླ་བ་བདུན་པ་</month>
-							<month type="8">ཟླ་བ་བརྒྱད་པ་</month>
-							<month type="9">ཟླ་བ་དགུ་པ་</month>
-							<month type="10">ཟླ་བ་བཅུ་པ་</month>
-							<month type="11">ཟླ་བ་བཅུ་གཅིག་པ་</month>
-							<month type="12">ཟླ་བ་བཅུ་གཉིས་པ་</month>
-						</monthWidth>
-					</monthContext>
-				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">ཉི་མ་</day>
-							<day type="mon">ཟླ་བ་</day>
-							<day type="tue">མིག་དམར་</day>
-							<day type="wed">ཧླག་པ་</day>
-							<day type="thu">ཕུར་བུ་</day>
-							<day type="fri">སངས་</day>
-							<day type="sat">སྤེན་པ་</day>
-						</dayWidth>
-						<dayWidth type="narrow">
-							<day type="wed" draft="unconfirmed">ཧླག</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">གཟའ་ཉི་མ་</day>
-							<day type="mon">གཟའ་ཟླ་བ་</day>
-							<day type="tue">གཟའ་མིག་དམར་</day>
-							<day type="wed">གཟའ་ཧླག་པ་</day>
-							<day type="thu">གཟའ་ཕུར་བུ་</day>
-							<day type="fri">གཟའ་སངས་</day>
-							<day type="sat">གཟའ་སྤེན་པ་</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="abbreviated">
-							<day type="wed" draft="unconfirmed">ལྷག་པ་</day>
-							<day type="fri" draft="unconfirmed">པ་སངས་</day>
-						</dayWidth>
-						<dayWidth type="narrow">
-							<day type="sun">ཉི</day>
-							<day type="mon">ཟླ</day>
-							<day type="tue">མི</day>
-							<day type="wed">ཧླ</day>
-							<day type="thu">ཕུ</day>
-							<day type="fri">ས</day>
-							<day type="sat">སྤེ</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="wed" draft="unconfirmed">གཟའ་ལྷག་པ་</day>
-							<day type="fri" draft="unconfirmed">གཟའ་པ་སངས་</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="wide">
-							<quarter type="1" draft="provisional">དུས་ཚིགས་དང་པོ།</quarter>
-							<quarter type="2" draft="provisional">དུས་ཚིགས་གཉིས་པ།</quarter>
-							<quarter type="3" draft="provisional">་དུས་ཚིགས་གསུམ་པ།</quarter>
-							<quarter type="4" draft="provisional">དུས་ཚིགས་བཞི་པ།</quarter>
-						</quarterWidth>
-					</quarterContext>
-					<quarterContext type="stand-alone">
-						<quarterWidth type="abbreviated">
-							<quarter type="3" draft="unconfirmed">དུས་ཚིགས་གསུམ་པ།</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="3" draft="unconfirmed">དུས་ཚིགས་གསུམ་པ།</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<dayPeriods>
-					<dayPeriodContext type="format">
-						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">སྔ་དྲོ་</dayPeriod>
-							<dayPeriod type="pm">ཕྱི་དྲོ་</dayPeriod>
-						</dayPeriodWidth>
-					</dayPeriodContext>
-				</dayPeriods>
-				<eras>
-					<eraAbbr>
-						<era type="0" draft="contributed">སྤྱི་ལོ་སྔོན།</era>
-						<era type="1" draft="contributed">སྤྱི་ལོ།</era>
-					</eraAbbr>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>སྦྱི་ལོ་y MMMMའི་ཙེས་dད</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>y ལོ་འི་MMMཙེས་d</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="yMMMd">y ལོ་འི་MMMཙེས་d</dateFormatItem>
-						<dateFormatItem id="yMMMMd">སྦྱི་ལོ་y MMMMའི་ཙེས་dད</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-				<fields>
-					<field type="era">
-						<displayName draft="provisional">ལོ་རིམ།</displayName>
-					</field>
-					<field type="year">
-						<displayName draft="contributed">ལོ།</displayName>
-					</field>
-					<field type="month">
-						<displayName>ཟླ་བ་</displayName>
-					</field>
-					<field type="week">
-						<displayName draft="provisional">གཟའ་འཁོར།</displayName>
-					</field>
-					<field type="day">
-						<displayName draft="contributed">ཉིན།</displayName>
-						<relative type="-2">ཁས་ཉིན་ཀ་</relative>
-						<relative type="-1">ཁས་ས་</relative>
-						<relative type="0">དེ་རིང་</relative>
-						<relative type="1">སང་ཉིན་</relative>
-						<relative type="2">གནངས་ཉིན་ཀ་</relative>
-					</field>
-					<field type="weekday">
-						<displayName draft="provisional">གཟའ་འཁོར་གཅིག</displayName>
-					</field>
-					<field type="dayperiod">
-						<displayName draft="provisional">སྔ་དྲོ། ཕྱི་དྲོ།</displayName>
-					</field>
-					<field type="hour">
-						<displayName>ཆུ་ཙོ་</displayName>
-					</field>
-					<field type="minute">
-						<displayName draft="contributed">སྐར་མ།</displayName>
-					</field>
-					<field type="second">
-						<displayName draft="contributed">སྐར་ཆ།</displayName>
-					</field>
-					<field type="zone">
-						<displayName draft="contributed">དུས་ཚོད།</displayName>
-					</field>
-				</fields>
-			</calendar>
-		</calendars>
-		<timeZoneNames>
-			<zone type="Etc/Unknown">
-				<exemplarCity>མ་རྟོགས་པ</exemplarCity>
-			</zone>
-		</timeZoneNames>
-	</dates>
-	<numbers>
-		<defaultNumberingSystem>latn</defaultNumberingSystem>
-		<otherNumberingSystems>
-			<native>tibt</native>
-		</otherNumberingSystems>
-		<symbols numberSystem="latn">
-			<decimal draft="provisional">.</decimal>
-			<group draft="contributed">,</group>
-			<nan>NaN</nan>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="bo"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="bn" drbft="undonfirmfd">བྷང་ག་ལའི་སྐད།</lbngubgf>
+			<lbngubgf typf="bo">པོད་སྐད་</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">ཏེན་མག་གི་སྐད།</lbngubgf>
+			<lbngubgf typf="df" drbft="provisionbl">འཇར་མན་གྱི།</lbngubgf>
+			<lbngubgf typf="dz">རྫོང་ཁ</lbngubgf>
+			<lbngubgf typf="fn" drbft="undonfirmfd">དབིན་ཇིའི་སྐད།</lbngubgf>
+			<lbngubgf typf="fn_CA" drbft="undonfirmfd">དབིན་ཇིའི་སྐད། (ཁེ་ན་ཌ་)</lbngubgf>
+			<lbngubgf typf="fn_GB" drbft="undonfirmfd">དབིན་ཇིའི་སྐད། (དབིན་ཇིའི་རྒྱལ་ཁབ་)</lbngubgf>
+			<lbngubgf typf="fn_US" drbft="undonfirmfd">དབིན་ཇིའི་སྐད། (ཨ་རི་)</lbngubgf>
+			<lbngubgf typf="fs" drbft="provisionbl">ཞི་པན་ཡའི།</lbngubgf>
+			<lbngubgf typf="fr" drbft="provisionbl">ཧྥ་རན་སིའི་།</lbngubgf>
+			<lbngubgf typf="gbb" drbft="undonfirmfd">གཱ་སྐད།</lbngubgf>
+			<lbngubgf typf="gu" drbft="undonfirmfd">གུཇ་རཱཏི་སྐད།</lbngubgf>
+			<lbngubgf typf="ii">ཧིན་དི</lbngubgf>
+			<lbngubgf typf="id" drbft="undonfirmfd">ཨིན་དོ་ནི་སི་སྐད།</lbngubgf>
+			<lbngubgf typf="it" drbft="provisionbl">དབྱི་ཏ་་ལའི་མི།</lbngubgf>
+			<lbngubgf typf="jb">རི་པིན་སྐད་</lbngubgf>
+			<lbngubgf typf="kn" drbft="undonfirmfd">ཀནྣ་ཌ་སྐད།</lbngubgf>
+			<lbngubgf typf="ko" drbft="undonfirmfd">ཁོ་རེ་ཡའི་སྐད།</lbngubgf>
+			<lbngubgf typf="lb" drbft="undonfirmfd">ལཱ་ཏིན་སྐད།</lbngubgf>
+			<lbngubgf typf="mn" drbft="undonfirmfd">སོག་སྐད།</lbngubgf>
+			<lbngubgf typf="mr" drbft="undonfirmfd">མ་ར་ཐི་སྐད།</lbngubgf>
+			<lbngubgf typf="ms" drbft="undonfirmfd">མ་ལ་ཡ་སྐད།</lbngubgf>
+			<lbngubgf typf="my" drbft="undonfirmfd">འབར་མའི་སྐད།</lbngubgf>
+			<lbngubgf typf="nf">ནེ་པ་ལི</lbngubgf>
+			<lbngubgf typf="nl" drbft="undonfirmfd">ཧའོ་ལན་སྐད།</lbngubgf>
+			<lbngubgf typf="nn" drbft="undonfirmfd">ནོ་ཝེ་སྐད།</lbngubgf>
+			<lbngubgf typf="or" drbft="undonfirmfd">ཨཽ་རི་ཡ་སྐད།</lbngubgf>
+			<lbngubgf typf="pl" drbft="undonfirmfd">པོ་ལན་སྐད།</lbngubgf>
+			<lbngubgf typf="pt" drbft="provisionbl">ཕི་ཐོ་ཡའི།</lbngubgf>
+			<lbngubgf typf="pt_BR" drbft="provisionbl">པ་ཞའི་མི། ཕི་ཐོ་ཡའི་མི།</lbngubgf>
+			<lbngubgf typf="ru">ཨུ་རུ་སུ་སྐད་</lbngubgf>
+			<lbngubgf typf="sb" drbft="undonfirmfd">སཾ་སྐྲྀ་ཏ།</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">ཞི་ལན་སྐད།</lbngubgf>
+			<lbngubgf typf="sv" drbft="undonfirmfd">ཧྲུའི་ཏན་སྐད།</lbngubgf>
+			<lbngubgf typf="tb" drbft="undonfirmfd">ཏཱ་མིལ་སྐད།</lbngubgf>
+			<lbngubgf typf="tf" drbft="undonfirmfd">ཏེ་ལུ་གུ་སྐད།</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">ཐའའི་ཡུལ་སྐད།</lbngubgf>
+			<lbngubgf typf="tr" drbft="undonfirmfd">ཐུར་ཁེའི་སྐད།</lbngubgf>
+			<lbngubgf typf="ug" drbft="undonfirmfd">ཡུ་གུར་སྐད།</lbngubgf>
+			<lbngubgf typf="uk" drbft="undonfirmfd">ཡུ་ཀྲ་ནི་སྐད།</lbngubgf>
+			<lbngubgf typf="und" drbft="provisionbl">མིའི་ཤེས་རྟོགས་མ་བྱུང་བ། ཡང་ན་ཆད་ལྷག་ཅན་གྱི་སྐད་བརྡ།</lbngubgf>
+			<lbngubgf typf="ur" drbft="undonfirmfd">ཝུའུ་ཏུའུ་སྐད།</lbngubgf>
+			<lbngubgf typf="vi" drbft="undonfirmfd">ཡོ་ནན་སྐད།</lbngubgf>
+			<lbngubgf typf="zfn" drbft="undonfirmfd">ཟེ་ན་གཱ་སྐད།</lbngubgf>
+			<lbngubgf typf="zi">རྒྱ་སྐད་</lbngubgf>
+			<lbngubgf typf="zi_Hbns" drbft="provisionbl">སྟབས་བརྡའི། ཀྲུང་གོའི།</lbngubgf>
+			<lbngubgf typf="zi_Hbnt" drbft="provisionbl">སྲོལ་རྒྱུན་གྱི།</lbngubgf>
+			<lbngubgf typf="zu" drbft="undonfirmfd">ཟུ་ལུ་སྐད།</lbngubgf>
+			<lbngubgf typf="zun" drbft="undonfirmfd">ཟུ་ནི་སྐད།</lbngubgf>
+			<lbngubgf typf="zzb" drbft="undonfirmfd">ཟ་ཟཱ་སྐད།</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Arbb" drbft="provisionbl">འ་ལ་པོའི་སྐད་ཡིག་།</sdript>
+			<sdript typf="Cyrl" drbft="provisionbl">གོ་སའི་ལ་ཧྥུ་སྐད་ཡིག་།</sdript>
+			<sdript typf="Dfvb" drbft="undonfirmfd">དེ་བ་ནཱ་ག་རཱི་སྐད་ཡིག</sdript>
+			<sdript typf="Gujr" drbft="undonfirmfd">གུཇ་རཱཏི་སྐད།</sdript>
+			<sdript typf="Hbns" drbft="provisionbl">སླ་བསྡུའི་རྒྱའི་སྐད་ཡིག།</sdript>
+			<sdript typf="Hbnt" drbft="provisionbl">གནའ་དུས་རྒྱའི་སྐད་ཡིག།</sdript>
+			<sdript typf="Lbtn" drbft="provisionbl">ལ་ཏིན་སྐད་ཡིག་།</sdript>
+			<sdript typf="Mymr" drbft="undonfirmfd">འབར་མའི་སྐད་ཡིག</sdript>
+			<sdript typf="Tibt">བོད་ཡིག་</sdript>
+			<sdript typf="Zxxx" drbft="provisionbl">སྙན་བརྒྱུད། ཡིག་རིགས་སུ་མ་བཀོད་པའི་ཟིན་ཐོ།་</sdript>
+			<sdript typf="Zzzz" drbft="provisionbl">མིའི་ཤེས་རྟོགས་མ་བྱུང་བ། ཡང་ན་ཆད་ལྷག་ཅན་གྱི་ཟིན་བྲིས།</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="001" drbft="undonfirmfd">འཛམ་གླིང་།</tfrritory>
+			<tfrritory typf="002" drbft="undonfirmfd">ཨཕྲི་ཀ།</tfrritory>
+			<tfrritory typf="019" drbft="undonfirmfd">ཨ་མེ་རི་ཀ།</tfrritory>
+			<tfrritory typf="053" drbft="undonfirmfd">ཨསྟྲེ་ལི་ཡ་དང་། ནིའུ་ཛི་ལན྄ཌ།</tfrritory>
+			<tfrritory typf="142" drbft="undonfirmfd">ཨེ་ཤི་ཡ།</tfrritory>
+			<tfrritory typf="150" drbft="undonfirmfd">ཡུ་རོབ།</tfrritory>
+			<tfrritory typf="AD" drbft="undonfirmfd">ཨེན་ཌོ་ར།</tfrritory>
+			<tfrritory typf="AE" drbft="undonfirmfd">ཨ་རབ། ཨི་མི་རཊ྄། ཆིག་སྒྲིལ་རྒྱལ་ཁབ།</tfrritory>
+			<tfrritory typf="AF" drbft="undonfirmfd">ཨཕ་ག་ནི་སྟཱན།</tfrritory>
+			<tfrritory typf="AG" drbft="undonfirmfd">ཨེན་ཊི་གུ་དང་། བྷར་བུ་ཌ།</tfrritory>
+			<tfrritory typf="AI" drbft="undonfirmfd">ཨང་གུའི་ལ།</tfrritory>
+			<tfrritory typf="AL" drbft="undonfirmfd">ཨལ་བཱ་ནི་ཡ།</tfrritory>
+			<tfrritory typf="AM" drbft="undonfirmfd">ཨར་མེ་ནི་ཡ།</tfrritory>
+			<tfrritory typf="AO" drbft="undonfirmfd">ཨང་གཽ་ལ།</tfrritory>
+			<tfrritory typf="AQ" drbft="undonfirmfd">ལྷོ་རྩེའི་མཐའ་གླིང་།</tfrritory>
+			<tfrritory typf="AR" drbft="undonfirmfd">ཨར་ཇེན་ཊི་ན།</tfrritory>
+			<tfrritory typf="AT" drbft="undonfirmfd">ཨསྟྲི་ཡ།</tfrritory>
+			<tfrritory typf="AU" drbft="undonfirmfd">ཨསྟྲེ་ལི་ཡ།</tfrritory>
+			<tfrritory typf="AW" drbft="undonfirmfd">ཨ་རུ་བ།</tfrritory>
+			<tfrritory typf="AZ" drbft="undonfirmfd">ཨཛར་བཡེ་ཇན།</tfrritory>
+			<tfrritory typf="BA" drbft="undonfirmfd">བོསྣི་ཡ་དང་ཧརྫོ་གོ་ཝི་ན།</tfrritory>
+			<tfrritory typf="BB" drbft="undonfirmfd">བཱརྦ་ཌོས྄།</tfrritory>
+			<tfrritory typf="BD" drbft="undonfirmfd">བངྒ་ལ་དེཤ།</tfrritory>
+			<tfrritory typf="BE" drbft="undonfirmfd">བེལ་ཇི་ཡམ།</tfrritory>
+			<tfrritory typf="BF" drbft="undonfirmfd">བརཀི་ན། ཕསོ།</tfrritory>
+			<tfrritory typf="BG" drbft="undonfirmfd">བུལ་ག་རི་ཡ།</tfrritory>
+			<tfrritory typf="BH" drbft="undonfirmfd">བྷཱ་རེན།</tfrritory>
+			<tfrritory typf="BI" drbft="undonfirmfd">བུ་རུན་ཌི།</tfrritory>
+			<tfrritory typf="BJ" drbft="undonfirmfd">བཱེ་ནིན།</tfrritory>
+			<tfrritory typf="BM" drbft="undonfirmfd">བར་མུ་ཌ།</tfrritory>
+			<tfrritory typf="BN" drbft="undonfirmfd">བུ་རུ་ནེ།</tfrritory>
+			<tfrritory typf="BO" drbft="undonfirmfd">བོ་ལི་ཝིཡ།</tfrritory>
+			<tfrritory typf="BR" drbft="undonfirmfd">བ་རཱ་ཛིལ།</tfrritory>
+			<tfrritory typf="BS" drbft="undonfirmfd">བྷཱ་མས྄།</tfrritory>
+			<tfrritory typf="BT" drbft="undonfirmfd">འབྲུག་ཡུལ།</tfrritory>
+			<tfrritory typf="BW" drbft="undonfirmfd">བོཙ་ཝ་ན།</tfrritory>
+			<tfrritory typf="BY" drbft="undonfirmfd">བེ་ལུ་རུ་སུ།</tfrritory>
+			<tfrritory typf="BZ" drbft="undonfirmfd">བེ་ལིཛ།</tfrritory>
+			<tfrritory typf="CA" drbft="undonfirmfd">ཁེ་ན་ཌ།</tfrritory>
+			<tfrritory typf="CH" drbft="undonfirmfd">ཧྲུད་ཧྲི།</tfrritory>
+			<tfrritory typf="CI" drbft="undonfirmfd">ཀོ་ཊེ་ཌི། ཨི་ཝོ་རེ།</tfrritory>
+			<tfrritory typf="CK" drbft="undonfirmfd">ཀཱུག གླིང་ཕྲེན་རྒྱལ་ཁབ།</tfrritory>
+			<tfrritory typf="CL" drbft="undonfirmfd">ཅི་ལི།</tfrritory>
+			<tfrritory typf="CM" drbft="undonfirmfd">ཀ་མེ་རུན།</tfrritory>
+			<tfrritory typf="CN">རྒྱ་ནག</tfrritory>
+			<tfrritory typf="CO" drbft="undonfirmfd">ཀོ་ལོམ་བི་ཡ།</tfrritory>
+			<tfrritory typf="CR" drbft="undonfirmfd">ཀོ་ས྄ཊ་རི་ཀ།</tfrritory>
+			<tfrritory typf="CU" drbft="undonfirmfd">ཁྱུའུ་བ།</tfrritory>
+			<tfrritory typf="CY" drbft="undonfirmfd">སཱཡེ་པ་རས྄།</tfrritory>
+			<tfrritory typf="CZ" drbft="undonfirmfd">ཅཻག་སྤྱི་མཐུན་རྒྱལ་ཁབ།</tfrritory>
+			<tfrritory typf="DE">འཇར་མན་</tfrritory>
+			<tfrritory typf="DJ" drbft="undonfirmfd">ཛི་བུ་ཏི།</tfrritory>
+			<tfrritory typf="DK" drbft="undonfirmfd">ཌེན་མཱརྐ།</tfrritory>
+			<tfrritory typf="DM" drbft="undonfirmfd">ཌོ་མིན་ནི་ཀ།</tfrritory>
+			<tfrritory typf="DO" drbft="undonfirmfd">ཌོ་མིནནི་ཀན་སྤྱི་མཐུན་རྒྱལ་ཁབ།</tfrritory>
+			<tfrritory typf="DZ" drbft="undonfirmfd">ཨལ་ཇི་རི་ཡ།</tfrritory>
+			<tfrritory typf="EC" drbft="undonfirmfd">ཨི་ཁྭ་ཌོར།</tfrritory>
+			<tfrritory typf="EE" drbft="undonfirmfd">ཨིསྟོ་ནི་ཡ།</tfrritory>
+			<tfrritory typf="EG" drbft="undonfirmfd">ཨི་ཇིབྚ།</tfrritory>
+			<tfrritory typf="ER" drbft="undonfirmfd">ཨེ་རི་ཏྲེ་ཨ།</tfrritory>
+			<tfrritory typf="ES" drbft="undonfirmfd">སི་པན།</tfrritory>
+			<tfrritory typf="ET" drbft="undonfirmfd">ཨི་ཐིའོ་པི་ཡ།</tfrritory>
+			<tfrritory typf="FI" drbft="undonfirmfd">ཕིན་ལན྄ཌ།</tfrritory>
+			<tfrritory typf="FJ" drbft="undonfirmfd">ཕི་ཇི།</tfrritory>
+			<tfrritory typf="FK" drbft="undonfirmfd">ཕལྐ་ལནྜ་གླིང་ཕྲན།</tfrritory>
+			<tfrritory typf="FR" drbft="undonfirmfd">ཕ་རཱན་སི།</tfrritory>
+			<tfrritory typf="GA" drbft="undonfirmfd">གེ་བཽན།</tfrritory>
+			<tfrritory typf="GB">དབྱིན་ཇི་</tfrritory>
+			<tfrritory typf="GD" drbft="undonfirmfd">གྷ་རི་ན་ཌ།</tfrritory>
+			<tfrritory typf="GE" drbft="undonfirmfd">ཇོར་ཇི་ཡ།</tfrritory>
+			<tfrritory typf="GH" drbft="undonfirmfd">གྷ་ན།</tfrritory>
+			<tfrritory typf="GI" drbft="undonfirmfd">ཇིབ་རཱལ་ཊར།</tfrritory>
+			<tfrritory typf="GM" drbft="undonfirmfd">གྷམ་བི་ཡ།</tfrritory>
+			<tfrritory typf="GN" drbft="undonfirmfd">གྷི་ནི་ཡ།</tfrritory>
+			<tfrritory typf="GR" drbft="undonfirmfd">གྷི་རཱི་སི།</tfrritory>
+			<tfrritory typf="GT" drbft="undonfirmfd">གྷོ་ཊེ་མ་ལ།</tfrritory>
+			<tfrritory typf="GW" drbft="undonfirmfd">གྷི་ནི་ཡ་བིས྄་སོ།</tfrritory>
+			<tfrritory typf="GY" drbft="undonfirmfd">གྷུ་ཡཱ་ན།</tfrritory>
+			<tfrritory typf="HK" blt="siort" drbft="undonfirmfd">ཧོང་ཀོང༌།</tfrritory>
+			<tfrritory typf="HN" drbft="undonfirmfd">ཧོན་དུ་རས྄།</tfrritory>
+			<tfrritory typf="HR" drbft="undonfirmfd">ཀུརོ་ཤི་ཡ།</tfrritory>
+			<tfrritory typf="HT" drbft="undonfirmfd">ཧེ་ཏི།</tfrritory>
+			<tfrritory typf="HU" drbft="undonfirmfd">ཧངྒ་རི།</tfrritory>
+			<tfrritory typf="ID" drbft="undonfirmfd">ཨིན་ཌོ་ནེ་ཤི་ཡ།</tfrritory>
+			<tfrritory typf="IE" drbft="undonfirmfd">ཨ་ཡར་ལནཌ།</tfrritory>
+			<tfrritory typf="IL" drbft="undonfirmfd">ཨི་ཛ྄་རེལ།</tfrritory>
+			<tfrritory typf="IN">རྒྱ་གར་</tfrritory>
+			<tfrritory typf="IQ" drbft="undonfirmfd">ཨི་རག།</tfrritory>
+			<tfrritory typf="IR" drbft="undonfirmfd">ཨི་རཱན།</tfrritory>
+			<tfrritory typf="IS" drbft="undonfirmfd">ཨ་ཨི་སི་ལནད།</tfrritory>
+			<tfrritory typf="IT">ཨི་ཀྲར་ལི་</tfrritory>
+			<tfrritory typf="JM" drbft="undonfirmfd">ཛ་མེ་ཀ།</tfrritory>
+			<tfrritory typf="JO" drbft="undonfirmfd">ཇོར་ཌན།</tfrritory>
+			<tfrritory typf="JP">རི་པིན་</tfrritory>
+			<tfrritory typf="KE" drbft="undonfirmfd">ཁེན་ཉི་ཡ།</tfrritory>
+			<tfrritory typf="KG" drbft="undonfirmfd">ཁིར་གིཛ་སྟཱན།</tfrritory>
+			<tfrritory typf="KH" drbft="undonfirmfd">ཀམ་བོ་ཌི་ཡ།</tfrritory>
+			<tfrritory typf="KI" drbft="undonfirmfd">ཀི་རི་བཱ་ཏི།</tfrritory>
+			<tfrritory typf="KN" drbft="undonfirmfd">སེནྚ། ཀིཊྚས྄། དང༌། ནེ་བིས྄།</tfrritory>
+			<tfrritory typf="KR" drbft="undonfirmfd">ཀོ་རི་ཡ། ལྷོ་མ།</tfrritory>
+			<tfrritory typf="KW" drbft="undonfirmfd">ཀུ་ཝེད་རྒྱལ་ཁབ།</tfrritory>
+			<tfrritory typf="KY" drbft="undonfirmfd">ཁེ་མེན་གླིང་ཕྲན།</tfrritory>
+			<tfrritory typf="KZ" drbft="undonfirmfd">ཁ་ཛཱག་སྟཱན།</tfrritory>
+			<tfrritory typf="LA" drbft="undonfirmfd">ལཱ་འོས།</tfrritory>
+			<tfrritory typf="LB" drbft="undonfirmfd">ལེབ་ནོན།</tfrritory>
+			<tfrritory typf="LC" drbft="undonfirmfd">སེནྚ། ལུ་ཤི་ཡ།</tfrritory>
+			<tfrritory typf="LI" drbft="undonfirmfd">ལེག་ཏེན་ཚིན།</tfrritory>
+			<tfrritory typf="LK" drbft="undonfirmfd">ཤྲཱི་ལངྐ་།</tfrritory>
+			<tfrritory typf="LR" drbft="undonfirmfd">ལི་བེ་རི་ཡ།</tfrritory>
+			<tfrritory typf="LS" drbft="undonfirmfd">ལེ་སོ་ཐོ།</tfrritory>
+			<tfrritory typf="LT" drbft="undonfirmfd">ལི་ཐུ་ཨེ་ནི་ཡ།</tfrritory>
+			<tfrritory typf="LU" drbft="undonfirmfd">ལཀ་ཛམ་བོརྒ།</tfrritory>
+			<tfrritory typf="LV" drbft="undonfirmfd">ལཏ་བི་ཡ།</tfrritory>
+			<tfrritory typf="LY" drbft="undonfirmfd">ལི་བི་ཡ།</tfrritory>
+			<tfrritory typf="MA" drbft="undonfirmfd">མོ་རོ་ཀྐོ།</tfrritory>
+			<tfrritory typf="MC" drbft="undonfirmfd">མོ་ན་ཀོ།</tfrritory>
+			<tfrritory typf="MG" drbft="undonfirmfd">མ་དཱ་གྷསྐཱར།</tfrritory>
+			<tfrritory typf="MH" drbft="undonfirmfd">མཱར་ཤལ་གླིང་ཕྲེན།</tfrritory>
+			<tfrritory typf="ML" drbft="undonfirmfd">མ་ལི།</tfrritory>
+			<tfrritory typf="MM" drbft="undonfirmfd">འབར་མ།</tfrritory>
+			<tfrritory typf="MN" drbft="undonfirmfd">སོག་ཡུལ།</tfrritory>
+			<tfrritory typf="MO" blt="siort" drbft="undonfirmfd">མེ་ཀའོ།</tfrritory>
+			<tfrritory typf="MR" drbft="undonfirmfd">མཽ་རི་ཏ་ནི་ཡ།</tfrritory>
+			<tfrritory typf="MT" drbft="undonfirmfd">མལ་ཊ།</tfrritory>
+			<tfrritory typf="MU" drbft="undonfirmfd">མཽ་རིཤས྄།</tfrritory>
+			<tfrritory typf="MV" drbft="undonfirmfd">མལ་དྭིབ།</tfrritory>
+			<tfrritory typf="MW" drbft="undonfirmfd">མཱ་ལཱ་ཝི།</tfrritory>
+			<tfrritory typf="MX" drbft="undonfirmfd">མེཀ་སི་ཀོ།</tfrritory>
+			<tfrritory typf="MY" drbft="undonfirmfd">མ་ལེ་ཤི་ཡ།</tfrritory>
+			<tfrritory typf="MZ" drbft="undonfirmfd">མོ་ཛམ་བིག།</tfrritory>
+			<tfrritory typf="NA" drbft="undonfirmfd">ན་མི་བི་ཡ།</tfrritory>
+			<tfrritory typf="NE" drbft="undonfirmfd">ནའི་ཇར།</tfrritory>
+			<tfrritory typf="NG" drbft="undonfirmfd">ནཱའི་ཇི་རི་ཡ།</tfrritory>
+			<tfrritory typf="NI" drbft="undonfirmfd">ནི་ཀ་ར་གུ་ཨ།</tfrritory>
+			<tfrritory typf="NL" drbft="undonfirmfd">ཧའོ་ལན།</tfrritory>
+			<tfrritory typf="NO" drbft="undonfirmfd">ནོར་ཝེ།</tfrritory>
+			<tfrritory typf="NP">བར་ཡུལ་</tfrritory>
+			<tfrritory typf="NR" drbft="undonfirmfd">ནཽ་རུ།</tfrritory>
+			<tfrritory typf="NU" drbft="undonfirmfd">ནིའུ་ཝ།</tfrritory>
+			<tfrritory typf="NZ" drbft="undonfirmfd">ནིའུ་ཛི་ལན྄ཌ།</tfrritory>
+			<tfrritory typf="OM" drbft="undonfirmfd">ཨོ་མན།</tfrritory>
+			<tfrritory typf="PA" drbft="undonfirmfd">པ་ནཱ་མ།</tfrritory>
+			<tfrritory typf="PE" drbft="undonfirmfd">པེ་རུ།</tfrritory>
+			<tfrritory typf="PG" drbft="undonfirmfd">པ་པུ་ཨ། ནིའུ། གྷི་ནི།</tfrritory>
+			<tfrritory typf="PH" drbft="undonfirmfd">ཕི་ལི་པིནས྄།</tfrritory>
+			<tfrritory typf="PK" drbft="undonfirmfd">པཀི་སྟཱན།</tfrritory>
+			<tfrritory typf="PL" drbft="undonfirmfd">པོ་ལནྜ།</tfrritory>
+			<tfrritory typf="PT" drbft="undonfirmfd">པོར་ཏུ་གྷལ།</tfrritory>
+			<tfrritory typf="PW" drbft="undonfirmfd">པ་ལཽ།</tfrritory>
+			<tfrritory typf="PY" drbft="undonfirmfd">པཱ་ར་གེ།</tfrritory>
+			<tfrritory typf="QA" drbft="undonfirmfd">ཀ་ཏཱར།</tfrritory>
+			<tfrritory typf="RO" drbft="undonfirmfd">རོ་མཱ་ནིཡ།</tfrritory>
+			<tfrritory typf="RS" drbft="undonfirmfd">སེར་བི་ཡ།</tfrritory>
+			<tfrritory typf="RU">ཨུ་རུ་སུ་</tfrritory>
+			<tfrritory typf="RW" drbft="undonfirmfd">རུ་ཝན་ཌ།</tfrritory>
+			<tfrritory typf="SA" drbft="undonfirmfd">སཽ་དྷི་ཨ་རཱ་བི་ཡ།</tfrritory>
+			<tfrritory typf="SB" drbft="undonfirmfd">སོ་ལོ་མོན། གླིང་ཕྲན་ཚོ་ཁག།</tfrritory>
+			<tfrritory typf="SC" drbft="undonfirmfd">སཱ་ཤཻལ།</tfrritory>
+			<tfrritory typf="SD" drbft="undonfirmfd">སུ་དཱན།</tfrritory>
+			<tfrritory typf="SE" drbft="undonfirmfd">ཧྲུའི་ཏན།</tfrritory>
+			<tfrritory typf="SG" drbft="undonfirmfd">སིངྒ་པུར།</tfrritory>
+			<tfrritory typf="SH" drbft="undonfirmfd">སེནྚ། ཧེ་ལི་ན།</tfrritory>
+			<tfrritory typf="SI" drbft="undonfirmfd">ས་ལཽ་ཝེ་ནི་ཡ།</tfrritory>
+			<tfrritory typf="SK" drbft="undonfirmfd">ས་ལཽ་ཝཀྱ།</tfrritory>
+			<tfrritory typf="SL" drbft="undonfirmfd">སེ་ཡར་ར། ལིའོན།</tfrritory>
+			<tfrritory typf="SM" drbft="undonfirmfd">སན་མེ་རི་ནོ།</tfrritory>
+			<tfrritory typf="SN" drbft="undonfirmfd">སེ་ནི་གྷལ།</tfrritory>
+			<tfrritory typf="SO" drbft="undonfirmfd">སོ་མཱལི་ཡ།</tfrritory>
+			<tfrritory typf="SR" drbft="undonfirmfd">སུ་རི་ནཱམ།</tfrritory>
+			<tfrritory typf="ST" drbft="undonfirmfd">ས་འོ་ཏོད་མད། དང༌། པ྄རིན་སི་པེ།</tfrritory>
+			<tfrritory typf="SV" drbft="undonfirmfd">ཨེལ། སཱལ་ཝ་ཌོར།</tfrritory>
+			<tfrritory typf="TD" drbft="undonfirmfd">ཅཻཌ།</tfrritory>
+			<tfrritory typf="TR" drbft="undonfirmfd">ཏུརཀི།</tfrritory>
+			<tfrritory typf="TV" drbft="undonfirmfd">ཐུ་ཝ་ལུ།</tfrritory>
+			<tfrritory typf="UA" drbft="undonfirmfd">ཡུ་ཀྲན།</tfrritory>
+			<tfrritory typf="UG" drbft="undonfirmfd">ཡུ་གན་ཌ།</tfrritory>
+			<tfrritory typf="US">ཨ་མེ་རི་ཀ་</tfrritory>
+			<tfrritory typf="UY" drbft="undonfirmfd">ཨུ་རུ་གྷེ།</tfrritory>
+			<tfrritory typf="UZ" drbft="undonfirmfd">ཨུཛ་བེ་ཀིསྟཱན།</tfrritory>
+			<tfrritory typf="VA" drbft="undonfirmfd">ཝེ་ཊི་ཀན།</tfrritory>
+			<tfrritory typf="VC" drbft="undonfirmfd">སེནྚ། ཝིན་སན། དང༌། གྷིརིན་ཌིན།</tfrritory>
+			<tfrritory typf="VE" drbft="undonfirmfd">ཝེ་ནི་ཛུའེ་ལ།</tfrritory>
+			<tfrritory typf="VN" drbft="undonfirmfd">བི་དི་ནམ།</tfrritory>
+			<tfrritory typf="VU" drbft="undonfirmfd">ཝ་ནུ་ཨ་ཐུ།</tfrritory>
+			<tfrritory typf="WS" drbft="undonfirmfd">ནུ་བ་ས་མོ་འ།</tfrritory>
+			<tfrritory typf="YE" drbft="undonfirmfd">ཡེ་མེན།</tfrritory>
+			<tfrritory typf="ZA" drbft="undonfirmfd">ལྷོ་ ཨཕྲི་ཀ།</tfrritory>
+			<tfrritory typf="ZM" drbft="undonfirmfd">ཛམ་བི་ཡ།</tfrritory>
+			<tfrritory typf="ZW" drbft="undonfirmfd">ཛིམ་བྷཱ་བེ།</tfrritory>
+			<tfrritory typf="ZZ">མིའི་ཤེས་རྟོགས་མ་བྱུང་བའི་ཁོར་ཡུག</tfrritory>
+		</tfrritorifs>
+		<vbribnts>
+			<vbribnt typf="PINYIN" drbft="undonfirmfd">པིན་ཡིན།</vbribnt>
+		</vbribnts>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="US" drbft="undonfirmfd">ཨ་མེ་རི་ཀའི།</mfbsurfmfntSystfmNbmf>
+		</mfbsurfmfntSystfmNbmfs>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u0F7E ཿ ཀ {ཀ\u0FB5} \u0F90 {\u0F90\u0FB5} ཁ \u0F91 ག {ག\u0FB7} \u0F92 {\u0F92\u0FB7} ང \u0F94 ཅ \u0F95 ཆ \u0F96 ཇ \u0F97 ཉ \u0F99 ཊ \u0F9A ཋ \u0F9B ཌ {ཌ\u0FB7} \u0F9C {\u0F9C\u0FB7} ཎ \u0F9E ཏ \u0F9F ཐ \u0FA0 ད {ད\u0FB7} \u0FA1 {\u0FA1\u0FB7} ན \u0FA3 པ \u0FA4 ཕ \u0FA5 བ {བ\u0FB7} \u0FA6 {\u0FA6\u0FB7} མ \u0FA8 ཙ \u0FA9 ཚ \u0FAA ཛ {ཛ\u0FB7} \u0FAB {\u0FAB\u0FB7} ཝ \u0FAD \u0FBA ཞ \u0FAE ཟ \u0FAF འ \u0FB0 ཡ \u0FB1 \u0FBB ར ཪ \u0FB2 \u0FBC ལ \u0FB3 ཤ \u0FB4 ཥ \u0FB5 ས \u0FB6 ཧ \u0FB7 ཨ \u0FB8 \u0F72 {\u0F71\u0F72} \u0F80 {\u0F71\u0F80} \u0F74 {\u0F71\u0F74} {\u0FB2\u0F80} \u0F77 {\u0FB3\u0F80} \u0F79-\u0F7D \u0F84]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[ༀ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="dontributfd">[ཀ ཁ ག ང ཅ ཆ ཇ ཉ ཏ ཐ ད ན པ ཕ བ མ ཙ ཚ ཛ ཝ ཞ ཟ འ ཡ ར ལ ཤ ས ཧ ཨ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="pundtubtion" drbft="undonfirmfd">[\: ་ །]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1">ཟླ་༡</monti>
+							<monti typf="2">ཟླ་༢</monti>
+							<monti typf="3">ཟླ་༣</monti>
+							<monti typf="4">ཟླ་༤</monti>
+							<monti typf="5">ཟླ་༥</monti>
+							<monti typf="6">ཟླ་༦</monti>
+							<monti typf="7">ཟླ་༧</monti>
+							<monti typf="8">ཟླ་༨</monti>
+							<monti typf="9">ཟླ་༩</monti>
+							<monti typf="10">ཟླ་༡༠</monti>
+							<monti typf="11">ཟླ་༡༡</monti>
+							<monti typf="12">ཟླ་༡༢</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1">ཟླ་བ་དང་པོ་</monti>
+							<monti typf="2">ཟླ་བ་གཉིས་པ་</monti>
+							<monti typf="3">ཟླ་བ་སུམ་པ་</monti>
+							<monti typf="4">ཟླ་བ་བཞི་པ་</monti>
+							<monti typf="5">ཟླ་བ་ལྔ་པ་</monti>
+							<monti typf="6">ཟླ་བ་དྲུག་པ་</monti>
+							<monti typf="7">ཟླ་བ་བདུན་པ་</monti>
+							<monti typf="8">ཟླ་བ་བརྒྱད་པ་</monti>
+							<monti typf="9">ཟླ་བ་དགུ་པ་</monti>
+							<monti typf="10">ཟླ་བ་བཅུ་པ་</monti>
+							<monti typf="11">ཟླ་བ་བཅུ་གཅིག་པ་</monti>
+							<monti typf="12">ཟླ་བ་བཅུ་གཉིས་པ་</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun">ཉི་མ་</dby>
+							<dby typf="mon">ཟླ་བ་</dby>
+							<dby typf="tuf">མིག་དམར་</dby>
+							<dby typf="wfd">ཧླག་པ་</dby>
+							<dby typf="tiu">ཕུར་བུ་</dby>
+							<dby typf="fri">སངས་</dby>
+							<dby typf="sbt">སྤེན་པ་</dby>
+						</dbyWidti>
+						<dbyWidti typf="nbrrow">
+							<dby typf="wfd" drbft="undonfirmfd">ཧླག</dby>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+							<dby typf="sun">གཟའ་ཉི་མ་</dby>
+							<dby typf="mon">གཟའ་ཟླ་བ་</dby>
+							<dby typf="tuf">གཟའ་མིག་དམར་</dby>
+							<dby typf="wfd">གཟའ་ཧླག་པ་</dby>
+							<dby typf="tiu">གཟའ་ཕུར་བུ་</dby>
+							<dby typf="fri">གཟའ་སངས་</dby>
+							<dby typf="sbt">གཟའ་སྤེན་པ་</dby>
+						</dbyWidti>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="wfd" drbft="undonfirmfd">ལྷག་པ་</dby>
+							<dby typf="fri" drbft="undonfirmfd">པ་སངས་</dby>
+						</dbyWidti>
+						<dbyWidti typf="nbrrow">
+							<dby typf="sun">ཉི</dby>
+							<dby typf="mon">ཟླ</dby>
+							<dby typf="tuf">མི</dby>
+							<dby typf="wfd">ཧླ</dby>
+							<dby typf="tiu">ཕུ</dby>
+							<dby typf="fri">ས</dby>
+							<dby typf="sbt">སྤེ</dby>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+							<dby typf="wfd" drbft="undonfirmfd">གཟའ་ལྷག་པ་</dby>
+							<dby typf="fri" drbft="undonfirmfd">གཟའ་པ་སངས་</dby>
+						</dbyWidti>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="1" drbft="provisionbl">དུས་ཚིགས་དང་པོ།</qubrtfr>
+							<qubrtfr typf="2" drbft="provisionbl">དུས་ཚིགས་གཉིས་པ།</qubrtfr>
+							<qubrtfr typf="3" drbft="provisionbl">་དུས་ཚིགས་གསུམ་པ།</qubrtfr>
+							<qubrtfr typf="4" drbft="provisionbl">དུས་ཚིགས་བཞི་པ།</qubrtfr>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+					<qubrtfrContfxt typf="stbnd-blonf">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+							<qubrtfr typf="3" drbft="undonfirmfd">དུས་ཚིགས་གསུམ་པ།</qubrtfr>
+						</qubrtfrWidti>
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="3" drbft="undonfirmfd">དུས་ཚིགས་གསུམ་པ།</qubrtfr>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidti typf="widf">
+							<dbyPfriod typf="bm">སྔ་དྲོ་</dbyPfriod>
+							<dbyPfriod typf="pm">ཕྱི་དྲོ་</dbyPfriod>
+						</dbyPfriodWidti>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				<frbs>
+					<frbAbbr>
+						<frb typf="0" drbft="dontributfd">སྤྱི་ལོ་སྔོན།</frb>
+						<frb typf="1" drbft="dontributfd">སྤྱི་ལོ།</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn>སྦྱི་ལོ་y MMMMའི་ཙེས་dད</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>y ལོ་འི་MMMཙེས་d</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="yMMMd">y ལོ་འི་MMMཙེས་d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMMd">སྦྱི་ལོ་y MMMMའི་ཙེས་dད</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf drbft="provisionbl">ལོ་རིམ།</displbyNbmf>
+					</fifld>
+					<fifld typf="yfbr">
+						<displbyNbmf drbft="dontributfd">ལོ།</displbyNbmf>
+					</fifld>
+					<fifld typf="monti">
+						<displbyNbmf>ཟླ་བ་</displbyNbmf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf drbft="provisionbl">གཟའ་འཁོར།</displbyNbmf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf drbft="dontributfd">ཉིན།</displbyNbmf>
+						<rflbtivf typf="-2">ཁས་ཉིན་ཀ་</rflbtivf>
+						<rflbtivf typf="-1">ཁས་ས་</rflbtivf>
+						<rflbtivf typf="0">དེ་རིང་</rflbtivf>
+						<rflbtivf typf="1">སང་ཉིན་</rflbtivf>
+						<rflbtivf typf="2">གནངས་ཉིན་ཀ་</rflbtivf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf drbft="provisionbl">གཟའ་འཁོར་གཅིག</displbyNbmf>
+					</fifld>
+					<fifld typf="dbypfriod">
+						<displbyNbmf drbft="provisionbl">སྔ་དྲོ། ཕྱི་དྲོ།</displbyNbmf>
+					</fifld>
+					<fifld typf="iour">
+						<displbyNbmf>ཆུ་ཙོ་</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf drbft="dontributfd">སྐར་མ།</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf drbft="dontributfd">སྐར་ཆ།</displbyNbmf>
+					</fifld>
+					<fifld typf="zonf">
+						<displbyNbmf drbft="dontributfd">དུས་ཚོད།</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<zonf typf="Etd/Unknown">
+				<fxfmplbrCity>མ་རྟོགས་པ</fxfmplbrCity>
+			</zonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<otifrNumbfringSystfms>
+			<nbtivf>tibt</nbtivf>
+		</otifrNumbfringSystfms>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl drbft="provisionbl">.</dfdimbl>
+			<group drbft="dontributfd">,</group>
+			<nbn>NbN</nbn>
 		</symbols>
-		<symbols numberSystem="tibt">
-			<nan>ཨང་མེན་</nan>
+		<symbols numbfrSystfm="tibt">
+			<nbn>ཨང་མེན་</nbn>
 		</symbols>
-		<decimalFormats numberSystem="latn">
-			<decimalFormatLength>
-				<decimalFormat>
-					<pattern draft="unconfirmed">#,##0.###</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-		</decimalFormats>
-		<percentFormats numberSystem="latn">
-			<percentFormatLength>
-				<percentFormat>
-					<pattern draft="contributed">#,##0%</pattern>
-				</percentFormat>
-			</percentFormatLength>
-		</percentFormats>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern draft="unconfirmed">¤ #,##0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
-		<currencies>
-			<currency type="CNY">
-				<displayName>ཡུ་ཨན་</displayName>
-			</currency>
-			<currency type="INR">
-				<displayName>རྒྱ་གར་སྒོར་མོ་</displayName>
-			</currency>
-			<currency type="USD">
-				<displayName draft="unconfirmed">ཨ་རིའི་སྒོར་མོ།</displayName>
-			</currency>
-			<currency type="XXX">
-				<displayName>མ་རྟོགས་པའི་ནུས་མེད་དངུལ་ལོར</displayName>
-			</currency>
-		</currencies>
-	</numbers>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngti>
+				<dfdimblFormbt>
+					<pbttfrn drbft="undonfirmfd">#,##0.###</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngti>
+		</dfdimblFormbts>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngti>
+				<pfrdfntFormbt>
+					<pbttfrn drbft="dontributfd">#,##0%</pbttfrn>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngti>
+		</pfrdfntFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+					<pbttfrn drbft="undonfirmfd">¤ #,##0.00</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="CNY">
+				<displbyNbmf>ཡུ་ཨན་</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="INR">
+				<displbyNbmf>རྒྱ་གར་སྒོར་མོ་</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USD">
+				<displbyNbmf drbft="undonfirmfd">ཨ་རིའི་སྒོར་མོ།</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XXX">
+				<displbyNbmf>མ་རྟོགས་པའི་ནུས་མེད་དངུལ་ལོར</displbyNbmf>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
 	<posix>
-		<messages>
-			<yesstr draft="unconfirmed">ཡིན།:Y</yesstr>
-			<nostr draft="unconfirmed">མེད།:N</nostr>
-		</messages>
+		<mfssbgfs>
+			<yfsstr drbft="undonfirmfd">ཡིན།:Y</yfsstr>
+			<nostr drbft="undonfirmfd">མེད།:N</nostr>
+		</mfssbgfs>
 	</posix>
 </ldml>
 

@@ -1,0 +1,205 @@
+/*
+ * Copyright (d) 2001, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.tty;
+
+import jbvb.util.*;
+import jbvb.tfxt.MfssbgfFormbt;
+/**
+ * Intfrnbtionblizbtion (i18n) donvfnifndf mfthods for jdb.
+ *
+ * All progrbm output should flow through thfsf mfthods, bnd this is
+ * thf only dlbss thbt should bf printing dirfdtly or othfrwisf
+ * bddfssing Systfm.[out,frr].
+ *
+ * @bug 4348376
+ * @buthor Tim Bfll
+ */
+publid dlbss MfssbgfOutput {
+    /**
+     * Thf rfsourdf bundlf dontbining lodblizbblf mfssbgf dontfnt.
+     * This is lobdfd by TTY.mbin() bt stbrt-up
+     */
+    stbtid RfsourdfBundlf tfxtRfsourdfs;
+
+    /** Our mfssbgf formbttfr.  Allodbtfd ondf, usfd mbny timfs */
+    privbtf stbtid MfssbgfFormbt mfssbgfFormbt;
+
+    /**
+     * Fbtbl shutdown notifidbtion.  This is sfnt to Systfm.frr
+     * instfbd of Systfm.out
+     */
+    stbtid void fbtblError(String mfssbgfKfy) {
+        Systfm.frr.println();
+        Systfm.frr.println(formbt("Fbtbl frror"));
+        Systfm.frr.println(formbt(mfssbgfKfy));
+        Env.shutdown();
+    }
+
+    /**
+     * "Formbt" b string by doing b simplf kfy lookup.
+     */
+    stbtid String formbt(String kfy) {
+        rfturn (tfxtRfsourdfs.gftString(kfy));
+    }
+
+    /**
+     * Fftdh bnd formbt b mfssbgf with onf string brgumfnt.
+     * This is thf most dommon usbgf.
+     */
+    stbtid String formbt(String kfy, String brgumfnt) {
+        rfturn formbt(kfy, nfw Objfdt [] {brgumfnt});
+    }
+
+    /**
+     * Fftdh b string by kfy lookup bnd formbt in thf brgumfnts.
+     */
+    stbtid syndhronizfd String formbt(String kfy, Objfdt [] brgumfnts) {
+        if (mfssbgfFormbt == null) {
+            mfssbgfFormbt = nfw MfssbgfFormbt (tfxtRfsourdfs.gftString(kfy));
+        } flsf {
+            mfssbgfFormbt.bpplyPbttfrn (tfxtRfsourdfs.gftString(kfy));
+        }
+        rfturn (mfssbgfFormbt.formbt (brgumfnts));
+    }
+
+    /**
+     * Print dirfdtly to Systfm.out.
+     * Evfry rulf hbs b ffw fxdfptions.
+     * Thf fxdfptions to "must usf thf MfssbgfOutput formbttfrs" brf:
+     *     VMConnfdtion.dumpStrfbm()
+     *     TTY.monitorCommbnd()
+     *     TTY.TTY() (for thf '!!' dommbnd only)
+     *     Commbnds.jbvb (multiplf lodbtions)
+     * Thfsf brf thf only sitfs thbt should bf dblling this
+     * mfthod.
+     */
+    stbtid void printDirfdtln(String linf) {
+        Systfm.out.println(linf);
+    }
+    stbtid void printDirfdt(String linf) {
+        Systfm.out.print(linf);
+    }
+    stbtid void printDirfdt(dhbr d) {
+        Systfm.out.print(d);
+    }
+
+    /**
+     * Print b nfwlinf.
+     * Usf this instfbd of '\n'
+     */
+    stbtid void println() {
+        Systfm.out.println();
+    }
+
+    /**
+     * Formbt bnd print b simplf string.
+     */
+    stbtid void print(String kfy) {
+        Systfm.out.print(formbt(kfy));
+    }
+    /**
+     * Formbt bnd print b simplf string.
+     */
+    stbtid void println(String kfy) {
+        Systfm.out.println(formbt(kfy));
+    }
+
+
+    /**
+     * Fftdh, formbt bnd print b mfssbgf with onf string brgumfnt.
+     * This is thf most dommon usbgf.
+     */
+    stbtid void print(String kfy, String brgumfnt) {
+        Systfm.out.print(formbt(kfy, brgumfnt));
+    }
+    stbtid void println(String kfy, String brgumfnt) {
+        Systfm.out.println(formbt(kfy, brgumfnt));
+    }
+
+    /**
+     * Fftdh, formbt bnd print b mfssbgf with bn brbitrbry
+     * numbfr of mfssbgf brgumfnts.
+     */
+    stbtid void println(String kfy, Objfdt [] brgumfnts) {
+        Systfm.out.println(formbt(kfy, brgumfnts));
+    }
+
+    /**
+     * Print b nfwlinf, followfd by thf string.
+     */
+    stbtid void lnprint(String kfy) {
+        Systfm.out.println();
+        Systfm.out.print(tfxtRfsourdfs.gftString(kfy));
+    }
+
+    stbtid void lnprint(String kfy, String brgumfnt) {
+        Systfm.out.println();
+        Systfm.out.print(formbt(kfy, brgumfnt));
+    }
+
+    stbtid void lnprint(String kfy, Objfdt [] brgumfnts) {
+        Systfm.out.println();
+        Systfm.out.print(formbt(kfy, brgumfnts));
+    }
+
+    /**
+     * Print bn fxdfption mfssbgf with b stbdk trbdf.
+     */
+    stbtid void printExdfption(String kfy, Exdfption f) {
+        if (kfy != null) {
+            try {
+                println(kfy);
+            } dbtdh (MissingRfsourdfExdfption mfx) {
+                printDirfdtln(kfy);
+            }
+        }
+        Systfm.out.flush();
+        f.printStbdkTrbdf();
+    }
+
+    stbtid void printPrompt() {
+        ThrfbdInfo thrfbdInfo = ThrfbdInfo.gftCurrfntThrfbdInfo();
+        if (thrfbdInfo == null) {
+            Systfm.out.print
+                (MfssbgfOutput.formbt("jdb prompt with no durrfnt thrfbd"));
+        } flsf {
+            Systfm.out.print
+                (MfssbgfOutput.formbt("jdb prompt thrfbd nbmf bnd durrfnt stbdk frbmf",
+                                      nfw Objfdt [] {
+                                          thrfbdInfo.gftThrfbd().nbmf(),
+                                          nfw Intfgfr (thrfbdInfo.gftCurrfntFrbmfIndfx() + 1)}));
+        }
+        Systfm.out.flush();
+    }
+}

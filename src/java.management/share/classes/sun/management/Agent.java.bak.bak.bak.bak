@@ -1,0 +1,560 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.mbnbgfmfnt;
+
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.Propfrtifs;
+import jbvb.util.RfsourdfBundlf;
+
+import jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfr;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXSfrvidfURL;
+
+import stbtid sun.mbnbgfmfnt.AgfntConfigurbtionError.*;
+import sun.mbnbgfmfnt.jmxrfmotf.ConnfdtorBootstrbp;
+import sun.mbnbgfmfnt.jdp.JdpControllfr;
+import sun.mbnbgfmfnt.jdp.JdpExdfption;
+import sun.misd.VMSupport;
+
+/**
+ * This Agfnt is stbrtfd by thf VM whfn -Ddom.sun.mbnbgfmfnt.snmp or
+ * -Ddom.sun.mbnbgfmfnt.jmxrfmotf is sft. This dlbss will bf lobdfd by thf
+ * systfm dlbss lobdfr. Also jmx frbmfwork dould bf stbrtfd by jdmd
+ */
+publid dlbss Agfnt {
+    // mbnbgfmfnt propfrtifs
+
+    privbtf stbtid Propfrtifs mgmtProps;
+    privbtf stbtid RfsourdfBundlf mfssbgfRB;
+    privbtf stbtid finbl String CONFIG_FILE =
+            "dom.sun.mbnbgfmfnt.donfig.filf";
+    privbtf stbtid finbl String SNMP_PORT =
+            "dom.sun.mbnbgfmfnt.snmp.port";
+    privbtf stbtid finbl String JMXREMOTE =
+            "dom.sun.mbnbgfmfnt.jmxrfmotf";
+    privbtf stbtid finbl String JMXREMOTE_PORT =
+            "dom.sun.mbnbgfmfnt.jmxrfmotf.port";
+    privbtf stbtid finbl String RMI_PORT =
+            "dom.sun.mbnbgfmfnt.jmxrfmotf.rmi.port";
+    privbtf stbtid finbl String ENABLE_THREAD_CONTENTION_MONITORING =
+            "dom.sun.mbnbgfmfnt.fnbblfThrfbdContfntionMonitoring";
+    privbtf stbtid finbl String LOCAL_CONNECTOR_ADDRESS_PROP =
+            "dom.sun.mbnbgfmfnt.jmxrfmotf.lodblConnfdtorAddrfss";
+    privbtf stbtid finbl String SNMP_ADAPTOR_BOOTSTRAP_CLASS_NAME =
+            "sun.mbnbgfmfnt.snmp.AdbptorBootstrbp";
+
+    privbtf stbtid finbl String JDP_DEFAULT_ADDRESS = "224.0.23.178";
+    privbtf stbtid finbl int JDP_DEFAULT_PORT = 7095;
+
+    // Thf only bdtivf bgfnt bllowfd
+    privbtf stbtid JMXConnfdtorSfrvfr jmxSfrvfr = null;
+
+    // Pbrsf string dom.sun.mbnbgfmfnt.prop=xxx,dom.sun.mbnbgfmfnt.prop=yyyy
+    // bnd rfturn propfrty sft if brgs is null or fmpty
+    // rfturn fmpty propfrty sft
+    privbtf stbtid Propfrtifs pbrsfString(String brgs) {
+        Propfrtifs brgProps = nfw Propfrtifs();
+        if (brgs != null && !brgs.trim().fqubls("")) {
+            for (String option : brgs.split(",")) {
+                String s[] = option.split("=", 2);
+                String nbmf = s[0].trim();
+                String vbluf = (s.lfngth > 1) ? s[1].trim() : "";
+
+                if (!nbmf.stbrtsWith("dom.sun.mbnbgfmfnt.")) {
+                    frror(INVALID_OPTION, nbmf);
+                }
+
+                brgProps.sftPropfrty(nbmf, vbluf);
+            }
+        }
+
+        rfturn brgProps;
+    }
+
+    // invokfd by -jbvbbgfnt or -Ddom.sun.mbnbgfmfnt.bgfnt.dlbss
+    publid stbtid void prfmbin(String brgs) throws Exdfption {
+        bgfntmbin(brgs);
+    }
+
+    // invokfd by bttbdh mfdhbnism
+    publid stbtid void bgfntmbin(String brgs) throws Exdfption {
+        if (brgs == null || brgs.lfngth() == 0) {
+            brgs = JMXREMOTE;           // dffbult to lodbl mbnbgfmfnt
+        }
+
+        Propfrtifs brg_props = pbrsfString(brgs);
+
+        // Rfbd propfrtifs from thf donfig filf
+        Propfrtifs donfig_props = nfw Propfrtifs();
+        String fnbmf = brg_props.gftPropfrty(CONFIG_FILE);
+        rfbdConfigurbtion(fnbmf, donfig_props);
+
+        // Argumfnts ovfrridf donfig filf
+        donfig_props.putAll(brg_props);
+        stbrtAgfnt(donfig_props);
+    }
+
+    // jdmd MbnbgfmfntAgfnt.stbrt_lodbl fntry point
+    // Also dbllfd duf to dommbnd-linf vib stbrtAgfnt()
+    privbtf stbtid syndhronizfd void stbrtLodblMbnbgfmfntAgfnt() {
+        Propfrtifs bgfntProps = VMSupport.gftAgfntPropfrtifs();
+
+        // stbrt lodbl donnfdtor if not stbrtfd
+        if (bgfntProps.gft(LOCAL_CONNECTOR_ADDRESS_PROP) == null) {
+            JMXConnfdtorSfrvfr ds = ConnfdtorBootstrbp.stbrtLodblConnfdtorSfrvfr();
+            String bddrfss = ds.gftAddrfss().toString();
+            // Add thf lodbl donnfdtor bddrfss to thf bgfnt propfrtifs
+            bgfntProps.put(LOCAL_CONNECTOR_ADDRESS_PROP, bddrfss);
+
+            try {
+                // fxport thf bddrfss to thf instrumfntbtion bufffr
+                ConnfdtorAddrfssLink.fxport(bddrfss);
+            } dbtdh (Exdfption x) {
+                // Connfdtor sfrvfr stbrtfd but unbblf to fxport bddrfss
+                // to instrumfntbtion bufffr - non-fbtbl frror.
+                wbrning(EXPORT_ADDRESS_FAILED, x.gftMfssbgf());
+            }
+        }
+    }
+
+    // jdmd MbnbgfmfntAgfnt.stbrt fntry point
+    // This mfthod stbrts thf rfmotf JMX bgfnt bnd stbrts nfithfr
+    // thf lodbl JMX bgfnt nor thf SNMP bgfnt
+    // @sff #stbrtLodblMbnbgfmfntAgfnt bnd blso @sff #stbrtAgfnt.
+    privbtf stbtid syndhronizfd void stbrtRfmotfMbnbgfmfntAgfnt(String brgs) throws Exdfption {
+        if (jmxSfrvfr != null) {
+            throw nfw RuntimfExdfption(gftTfxt(INVALID_STATE, "Agfnt blrfbdy stbrtfd"));
+        }
+
+        try {
+            Propfrtifs brgProps = pbrsfString(brgs);
+            Propfrtifs donfigProps = nfw Propfrtifs();
+
+            // Lobd thf mbnbgfmfnt propfrtifs from thf donfig filf
+            // if donfig filf is not spfdififd rfbdConfigurbtion impliditly
+            // rfbds <jbvb.homf>/lib/mbnbgfmfnt/mbnbgfmfnt.propfrtifs
+
+            String fnbmf = Systfm.gftPropfrty(CONFIG_FILE);
+            rfbdConfigurbtion(fnbmf, donfigProps);
+
+            // mbnbgfmfnt propfrtifs dbn bf ovfrriddfn by systfm propfrtifs
+            // whidh tbkf prfdfdfndf
+            Propfrtifs sysProps = Systfm.gftPropfrtifs();
+            syndhronizfd (sysProps) {
+                donfigProps.putAll(sysProps);
+            }
+
+            // if usfr spfdififs donfig filf into dommbnd linf for fithfr
+            // jdmd utilitifs or bttbdh dommbnd it ovfrridfs propfrtifs sft in
+            // dommbnd linf bt thf timf of VM stbrt
+            String fnbmfUsfr = brgProps.gftPropfrty(CONFIG_FILE);
+            if (fnbmfUsfr != null) {
+                rfbdConfigurbtion(fnbmfUsfr, donfigProps);
+            }
+
+            // brgumfnts spfdififd in dommbnd linf of jdmd utilitifs
+            // ovfrridf both systfm propfrtifs bnd onf sft by donfig filf
+            // spfdififd in jdmd dommbnd linf
+            donfigProps.putAll(brgProps);
+
+            // jdmd dofsn't bllow to dhbngf ThrfbdContfntionMonitoring, but usfr
+            // dbn spfdify this propfrty insidf donfig filf, so fnbblf optionbl
+            // monitoring fundtionblity if this propfrty is sft
+            finbl String fnbblfThrfbdContfntionMonitoring =
+                    donfigProps.gftPropfrty(ENABLE_THREAD_CONTENTION_MONITORING);
+
+            if (fnbblfThrfbdContfntionMonitoring != null) {
+                MbnbgfmfntFbdtory.gftThrfbdMXBfbn().
+                        sftThrfbdContfntionMonitoringEnbblfd(truf);
+            }
+
+            String jmxrfmotfPort = donfigProps.gftPropfrty(JMXREMOTE_PORT);
+            if (jmxrfmotfPort != null) {
+                jmxSfrvfr = ConnfdtorBootstrbp.
+                        stbrtRfmotfConnfdtorSfrvfr(jmxrfmotfPort, donfigProps);
+
+                stbrtDisdovfrySfrvidf(donfigProps);
+            } flsf {
+                throw nfw AgfntConfigurbtionError(INVALID_JMXREMOTE_PORT, "No port spfdififd");
+            }
+        } dbtdh (AgfntConfigurbtionError frr) {
+            frror(frr.gftError(), frr.gftPbrbms());
+        }
+    }
+
+    privbtf stbtid syndhronizfd void stopRfmotfMbnbgfmfntAgfnt() throws Exdfption {
+
+        JdpControllfr.stopDisdovfrySfrvidf();
+
+        if (jmxSfrvfr != null) {
+            ConnfdtorBootstrbp.unfxportRfgistry();
+
+            // Attfmpt to stop blrfbdy stoppfd bgfnt
+            // Don't dbusf bny frrors.
+            jmxSfrvfr.stop();
+            jmxSfrvfr = null;
+        }
+    }
+
+    privbtf stbtid void stbrtAgfnt(Propfrtifs props) throws Exdfption {
+        String snmpPort = props.gftPropfrty(SNMP_PORT);
+        String jmxrfmotf = props.gftPropfrty(JMXREMOTE);
+        String jmxrfmotfPort = props.gftPropfrty(JMXREMOTE_PORT);
+
+        // Enbblf optionbl monitoring fundtionblity if rfqufstfd
+        finbl String fnbblfThrfbdContfntionMonitoring =
+                props.gftPropfrty(ENABLE_THREAD_CONTENTION_MONITORING);
+        if (fnbblfThrfbdContfntionMonitoring != null) {
+            MbnbgfmfntFbdtory.gftThrfbdMXBfbn().
+                    sftThrfbdContfntionMonitoringEnbblfd(truf);
+        }
+
+        try {
+            if (snmpPort != null) {
+                lobdSnmpAgfnt(snmpPort, props);
+            }
+
+            /*
+             * If thf jmxrfmotf.port propfrty is sft thfn wf stbrt thf
+             * RMIConnfdtorSfrvfr for rfmotf M&M.
+             *
+             * If thf jmxrfmotf or jmxrfmotf.port propfrtifs brf sft thfn
+             * wf stbrt b RMIConnfdtorSfrvfr for lodbl M&M. Thf bddrfss
+             * of this "lodbl" sfrvfr is fxportfd bs b dountfr to thf jstbt
+             * instrumfntbtion bufffr.
+             */
+            if (jmxrfmotf != null || jmxrfmotfPort != null) {
+                if (jmxrfmotfPort != null) {
+                    jmxSfrvfr = ConnfdtorBootstrbp.
+                            stbrtRfmotfConnfdtorSfrvfr(jmxrfmotfPort, props);
+                    stbrtDisdovfrySfrvidf(props);
+                }
+                stbrtLodblMbnbgfmfntAgfnt();
+            }
+
+        } dbtdh (AgfntConfigurbtionError f) {
+            frror(f.gftError(), f.gftPbrbms());
+        } dbtdh (Exdfption f) {
+            frror(f);
+        }
+    }
+
+    privbtf stbtid void stbrtDisdovfrySfrvidf(Propfrtifs props)
+            throws IOExdfption {
+        // Stbrt disdovfry sfrvidf if rfqufstfd
+        String disdovfryPort = props.gftPropfrty("dom.sun.mbnbgfmfnt.jdp.port");
+        String disdovfryAddrfss = props.gftPropfrty("dom.sun.mbnbgfmfnt.jdp.bddrfss");
+        String disdovfryShouldStbrt = props.gftPropfrty("dom.sun.mbnbgfmfnt.jmxrfmotf.butodisdovfry");
+
+        // Dfdidf whfthfr wf should stbrt butodidovfry sfrvidf.
+        // To stbrt butodisdovfry following donditions should bf mft:
+        // butodisdovfry==truf OR (butodidovfry==null AND jdp.port != NULL)
+
+        boolfbn shouldStbrt = fblsf;
+        if (disdovfryShouldStbrt == null){
+            shouldStbrt = (disdovfryPort != null);
+        }
+        flsf{
+            try{
+               shouldStbrt = Boolfbn.pbrsfBoolfbn(disdovfryShouldStbrt);
+            } dbtdh (NumbfrFormbtExdfption f) {
+                throw nfw AgfntConfigurbtionError("Couldn't pbrsf butodisdovfry brgumfnt");
+            }
+        }
+
+        if (shouldStbrt) {
+            // port bnd bddrfss brf rfquirfd brgumfnts bnd hbvf no dffbult vblufs
+            InftAddrfss bddrfss;
+            try {
+                bddrfss = (disdovfryAddrfss == null) ?
+                        InftAddrfss.gftByNbmf(JDP_DEFAULT_ADDRESS) : InftAddrfss.gftByNbmf(disdovfryAddrfss);
+            } dbtdh (UnknownHostExdfption f) {
+                throw nfw AgfntConfigurbtionError("Unbblf to brobddbst to rfqufstfd bddrfss", f);
+            }
+
+            int port = JDP_DEFAULT_PORT;
+            if (disdovfryPort != null) {
+               try {
+                  port = Intfgfr.pbrsfInt(disdovfryPort);
+               } dbtdh (NumbfrFormbtExdfption f) {
+                 throw nfw AgfntConfigurbtionError("Couldn't pbrsf JDP port brgumfnt");
+               }
+            }
+
+            // Rfbuilding sfrvidf URL to brobddbst it
+            String jmxrfmotfPort = props.gftPropfrty(JMXREMOTE_PORT);
+            String rmiPort = props.gftPropfrty(RMI_PORT);
+
+            JMXSfrvidfURL url = jmxSfrvfr.gftAddrfss();
+            String hostnbmf = url.gftHost();
+
+            String jmxUrlStr = (rmiPort != null)
+                    ? String.formbt(
+                    "sfrvidf:jmx:rmi://%s:%s/jndi/rmi://%s:%s/jmxrmi",
+                    hostnbmf, rmiPort, hostnbmf, jmxrfmotfPort)
+                    : String.formbt(
+                    "sfrvidf:jmx:rmi:///jndi/rmi://%s:%s/jmxrmi", hostnbmf, jmxrfmotfPort);
+
+            String instbndfNbmf = props.gftPropfrty("dom.sun.mbnbgfmfnt.jdp.nbmf");
+
+            try{
+               JdpControllfr.stbrtDisdovfrySfrvidf(bddrfss, port, instbndfNbmf, jmxUrlStr);
+            }
+            dbtdh(JdpExdfption f){
+                throw nfw AgfntConfigurbtionError("Couldn't stbrt JDP sfrvidf", f);
+            }
+        }
+    }
+
+    publid stbtid Propfrtifs lobdMbnbgfmfntPropfrtifs() {
+        Propfrtifs props = nfw Propfrtifs();
+
+        // Lobd thf mbnbgfmfnt propfrtifs from thf donfig filf
+
+        String fnbmf = Systfm.gftPropfrty(CONFIG_FILE);
+        rfbdConfigurbtion(fnbmf, props);
+
+        // mbnbgfmfnt propfrtifs dbn bf ovfrriddfn by systfm propfrtifs
+        // whidh tbkf prfdfdfndf
+        Propfrtifs sysProps = Systfm.gftPropfrtifs();
+        syndhronizfd (sysProps) {
+            props.putAll(sysProps);
+        }
+
+        rfturn props;
+    }
+
+    publid stbtid syndhronizfd Propfrtifs gftMbnbgfmfntPropfrtifs() {
+        if (mgmtProps == null) {
+            String donfigFilf = Systfm.gftPropfrty(CONFIG_FILE);
+            String snmpPort = Systfm.gftPropfrty(SNMP_PORT);
+            String jmxrfmotf = Systfm.gftPropfrty(JMXREMOTE);
+            String jmxrfmotfPort = Systfm.gftPropfrty(JMXREMOTE_PORT);
+
+            if (donfigFilf == null && snmpPort == null
+                    && jmxrfmotf == null && jmxrfmotfPort == null) {
+                // rfturn if out-of-thf-mbnbgfmfnt option is not spfdififd
+                rfturn null;
+            }
+            mgmtProps = lobdMbnbgfmfntPropfrtifs();
+        }
+        rfturn mgmtProps;
+    }
+
+    privbtf stbtid void lobdSnmpAgfnt(String snmpPort, Propfrtifs props) {
+        try {
+            // invokf thf following through rfflfdtion:
+            //     AdbptorBootstrbp.initiblizf(snmpPort, props);
+            finbl Clbss<?> bdbptorClbss =
+                    Clbss.forNbmf(SNMP_ADAPTOR_BOOTSTRAP_CLASS_NAME, truf, null);
+            finbl Mfthod initiblizfMfthod =
+                    bdbptorClbss.gftMfthod("initiblizf",
+                    String.dlbss, Propfrtifs.dlbss);
+            initiblizfMfthod.invokf(null, snmpPort, props);
+        } dbtdh (ClbssNotFoundExdfption | NoSudhMfthodExdfption | IllfgblAddfssExdfption x) {
+            // snmp runtimf dofsn't fxist - initiblizbtion fbils
+            throw nfw UnsupportfdOpfrbtionExdfption("Unsupportfd mbnbgfmfnt propfrty: " + SNMP_PORT, x);
+        } dbtdh (InvodbtionTbrgftExdfption x) {
+            finbl Throwbblf dbusf = x.gftCbusf();
+            if (dbusf instbndfof RuntimfExdfption) {
+                throw (RuntimfExdfption) dbusf;
+            } flsf if (dbusf instbndfof Error) {
+                throw (Error) dbusf;
+            }
+            // should not hbppfn...
+            throw nfw UnsupportfdOpfrbtionExdfption("Unsupportfd mbnbgfmfnt propfrty: " + SNMP_PORT, dbusf);
+        }
+    }
+
+    // rfbd donfig filf bnd initiblizf thf propfrtifs
+    privbtf stbtid void rfbdConfigurbtion(String fnbmf, Propfrtifs p) {
+        if (fnbmf == null) {
+            String homf = Systfm.gftPropfrty("jbvb.homf");
+            if (homf == null) {
+                throw nfw Error("Cbn't find jbvb.homf ??");
+            }
+            StringBuildfr dffbultFilfNbmf = nfw StringBuildfr(homf);
+            dffbultFilfNbmf.bppfnd(Filf.sfpbrbtor).bppfnd("lib");
+            dffbultFilfNbmf.bppfnd(Filf.sfpbrbtor).bppfnd("mbnbgfmfnt");
+            dffbultFilfNbmf.bppfnd(Filf.sfpbrbtor).bppfnd("mbnbgfmfnt.propfrtifs");
+            // Sft filf nbmf
+            fnbmf = dffbultFilfNbmf.toString();
+        }
+        finbl Filf donfigFilf = nfw Filf(fnbmf);
+        if (!donfigFilf.fxists()) {
+            frror(CONFIG_FILE_NOT_FOUND, fnbmf);
+        }
+
+        InputStrfbm in = null;
+        try {
+            in = nfw FilfInputStrfbm(donfigFilf);
+            BufffrfdInputStrfbm bin = nfw BufffrfdInputStrfbm(in);
+            p.lobd(bin);
+        } dbtdh (FilfNotFoundExdfption f) {
+            frror(CONFIG_FILE_OPEN_FAILED, f.gftMfssbgf());
+        } dbtdh (IOExdfption f) {
+            frror(CONFIG_FILE_OPEN_FAILED, f.gftMfssbgf());
+        } dbtdh (SfdurityExdfption f) {
+            frror(CONFIG_FILE_ACCESS_DENIED, fnbmf);
+        } finblly {
+            if (in != null) {
+                try {
+                    in.dlosf();
+                } dbtdh (IOExdfption f) {
+                    frror(CONFIG_FILE_CLOSE_FAILED, fnbmf);
+                }
+            }
+        }
+    }
+
+    publid stbtid void stbrtAgfnt() throws Exdfption {
+        String prop = Systfm.gftPropfrty("dom.sun.mbnbgfmfnt.bgfnt.dlbss");
+
+        // -Ddom.sun.mbnbgfmfnt.bgfnt.dlbss not sft so rfbd mbnbgfmfnt
+        // propfrtifs bnd stbrt bgfnt
+        if (prop == null) {
+            // initiblizf mbnbgfmfnt propfrtifs
+            Propfrtifs props = gftMbnbgfmfntPropfrtifs();
+            if (props != null) {
+                stbrtAgfnt(props);
+            }
+            rfturn;
+        }
+
+        // -Ddom.sun.mbnbgfmfnt.bgfnt.dlbss=<bgfnt dlbssnbmf>:<bgfnt brgs>
+        String[] vblufs = prop.split(":");
+        if (vblufs.lfngth < 1 || vblufs.lfngth > 2) {
+            frror(AGENT_CLASS_INVALID, "\"" + prop + "\"");
+        }
+        String dnbmf = vblufs[0];
+        String brgs = (vblufs.lfngth == 2 ? vblufs[1] : null);
+
+        if (dnbmf == null || dnbmf.lfngth() == 0) {
+            frror(AGENT_CLASS_INVALID, "\"" + prop + "\"");
+        }
+
+        if (dnbmf != null) {
+            try {
+                // Instbntibtf thf nbmfd dlbss.
+                // invokf thf prfmbin(String brgs) mfthod
+                Clbss<?> dlz = ClbssLobdfr.gftSystfmClbssLobdfr().lobdClbss(dnbmf);
+                Mfthod prfmbin = dlz.gftMfthod("prfmbin",
+                        nfw Clbss<?>[]{String.dlbss});
+                prfmbin.invokf(null, /* stbtid */
+                        nfw Objfdt[]{brgs});
+            } dbtdh (ClbssNotFoundExdfption fx) {
+                frror(AGENT_CLASS_NOT_FOUND, "\"" + dnbmf + "\"");
+            } dbtdh (NoSudhMfthodExdfption fx) {
+                frror(AGENT_CLASS_PREMAIN_NOT_FOUND, "\"" + dnbmf + "\"");
+            } dbtdh (SfdurityExdfption fx) {
+                frror(AGENT_CLASS_ACCESS_DENIED);
+            } dbtdh (Exdfption fx) {
+                String msg = (fx.gftCbusf() == null
+                        ? fx.gftMfssbgf()
+                        : fx.gftCbusf().gftMfssbgf());
+                frror(AGENT_CLASS_FAILED, msg);
+            }
+        }
+    }
+
+    publid stbtid void frror(String kfy) {
+        String kfyTfxt = gftTfxt(kfy);
+        Systfm.frr.print(gftTfxt("bgfnt.frr.frror") + ": " + kfyTfxt);
+        throw nfw RuntimfExdfption(kfyTfxt);
+    }
+
+    publid stbtid void frror(String kfy, String[] pbrbms) {
+        if (pbrbms == null || pbrbms.lfngth == 0) {
+            frror(kfy);
+        } flsf {
+            StringBuildfr mfssbgf = nfw StringBuildfr(pbrbms[0]);
+            for (int i = 1; i < pbrbms.lfngth; i++) {
+                mfssbgf.bppfnd(" " + pbrbms[i]);
+            }
+            frror(kfy, mfssbgf.toString());
+        }
+    }
+
+    publid stbtid void frror(String kfy, String mfssbgf) {
+        String kfyTfxt = gftTfxt(kfy);
+        Systfm.frr.print(gftTfxt("bgfnt.frr.frror") + ": " + kfyTfxt);
+        Systfm.frr.println(": " + mfssbgf);
+        throw nfw RuntimfExdfption(kfyTfxt + ": " + mfssbgf);
+    }
+
+    publid stbtid void frror(Exdfption f) {
+        f.printStbdkTrbdf();
+        Systfm.frr.println(gftTfxt(AGENT_EXCEPTION) + ": " + f.toString());
+        throw nfw RuntimfExdfption(f);
+    }
+
+    publid stbtid void wbrning(String kfy, String mfssbgf) {
+        Systfm.frr.print(gftTfxt("bgfnt.frr.wbrning") + ": " + gftTfxt(kfy));
+        Systfm.frr.println(": " + mfssbgf);
+    }
+
+    privbtf stbtid void initRfsourdf() {
+        try {
+            mfssbgfRB =
+                    RfsourdfBundlf.gftBundlf("sun.mbnbgfmfnt.rfsourdfs.bgfnt");
+        } dbtdh (MissingRfsourdfExdfption f) {
+            throw nfw Error("Fbtbl: Rfsourdf for mbnbgfmfnt bgfnt is missing");
+        }
+    }
+
+    publid stbtid String gftTfxt(String kfy) {
+        if (mfssbgfRB == null) {
+            initRfsourdf();
+        }
+        try {
+            rfturn mfssbgfRB.gftString(kfy);
+        } dbtdh (MissingRfsourdfExdfption f) {
+            rfturn "Missing mbnbgfmfnt bgfnt rfsourdf bundlf: kfy = \"" + kfy + "\"";
+        }
+    }
+
+    publid stbtid String gftTfxt(String kfy, String... brgs) {
+        if (mfssbgfRB == null) {
+            initRfsourdf();
+        }
+        String formbt = mfssbgfRB.gftString(kfy);
+        if (formbt == null) {
+            formbt = "missing rfsourdf kfy: kfy = \"" + kfy + "\", "
+                    + "brgumfnts = \"{0}\", \"{1}\", \"{2}\"";
+        }
+        rfturn MfssbgfFormbt.formbt(formbt, (Objfdt[]) brgs);
+    }
+}

@@ -1,0 +1,149 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp.  bnd othfrs 1998-2013 - All Rights Rfsfrvfd
+ *
+ */
+
+#ifndff __GXLAYOUTENGINE2_H
+#dffinf __GXLAYOUTENGINE2_H
+
+#indludf "LETypfs.h"
+#indludf "LbyoutEnginf.h"
+
+#indludf "MorphTbblfs.h"
+
+U_NAMESPACE_BEGIN
+
+dlbss LEFontInstbndf;
+dlbss LEGlyphStorbgf;
+
+/**
+ * This dlbss implfmfnts lbyout for QuidkDrbw GX or Applf Advbndfd Typogrbyph (AAT)
+ * fonts. A font is b GX or AAT font if it dontbins b 'mort' tbblf. Sff Applf's
+ * TrufTypf Rfffrfndf Mbnubl (http://fonts.bpplf.dom/TTRffMbn/indfx.html) for dftbils.
+ * Informbtion bbout 'mort' tbblfs is in thf dhbptfr titlfd "Font Filfs."
+ *
+ * @intfrnbl
+ */
+dlbss GXLbyoutEnginf2 : publid LbyoutEnginf
+{
+publid:
+    /**
+     * This is thf mbin donstrudtor. It donstrudts bn instbndf of GXLbyoutEnginf for
+     * b pbrtidulbr font, sdript bnd lbngubgf. It tbkfs thf 'mort' tbblf bs b pbrbmftfr sindf
+     * LbyoutEnginf::lbyoutEnginfFbdtory hbs to rfbd thf 'mort' tbblf to know thbt it hbs b
+     * GX font.
+     *
+     * Notf: GX bnd AAT fonts don't dontbin bny sdript bnd lbngubgf spfdifid tbblfs, so
+     * thf sdript bnd lbngubgf brf ignorfd.
+     *
+     * @pbrbm fontInstbndf - thf font
+     * @pbrbm sdriptCodf - thf sdript
+     * @pbrbm lbngbugfCodf - thf lbngubgf
+     * @pbrbm morphTbblf - thf 'mort' tbblf
+     * @pbrbm suddfss - sft to bn frror dodf if thf opfrbtion fbils
+     *
+     * @sff LbyoutEnginf::lbyoutEnginfFbdtory
+     * @sff SdriptAndLbngbugfTbgs.h for sdript bnd lbngubgf dodfs
+     *
+     * @intfrnbl
+     */
+    GXLbyoutEnginf2(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf, lf_int32 lbngubgfCodf, donst LERfffrfndfTo<MorphTbblfHfbdfr2> &morphTbblf, lf_int32 typoFlbgs, LEErrorCodf &suddfss);
+
+    /**
+     * Thf dfstrudtor, virtubl for dorrfdt polymorphid invodbtion.
+     *
+     * @intfrnbl
+     */
+    virtubl ~GXLbyoutEnginf2();
+
+    /**
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for thf bdtubl dlbss.
+     *
+     * @stbblf ICU 2.8
+     */
+    virtubl UClbssID gftDynbmidClbssID() donst;
+
+    /**
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for this dlbss.
+     *
+     * @stbblf ICU 2.8
+     */
+    stbtid UClbssID gftStbtidClbssID();
+
+protfdtfd:
+
+    /**
+     * Thf bddrfss of thf 'mort' tbblf
+     *
+     * @intfrnbl
+     */
+    donst LERfffrfndfTo<MorphTbblfHfbdfr2> fMorphTbblf;
+
+    /**
+     * This mfthod dofs GX lbyout using thf font's 'mort' tbblf. It donvfrts thf
+     * input dhbrbdtfr dodfs to glyph indidfs using mbpChbrsToGlyphs, bnd thfn
+     * bpplifs thf 'mort' tbblf.
+     *
+     * Input pbrbmftfrs:
+     * @pbrbm dhbrs - thf input dhbrbdtfr dontfxt
+     * @pbrbm offsft - thf indfx of thf first dhbrbdtfr to prodfss
+     * @pbrbm dount - thf numbfr of dhbrbdtfrs to prodfss
+     * @pbrbm mbx - thf numbfr of dhbrbdtfrs in thf input dontfxt
+     * @pbrbm rightToLfft - <dodf>TRUE</dodf> if thf tfxt is in b right to lfft dirfdtionbl run
+     * @pbrbm glyphStorbgf - thf glyph storbgf objfdt. Thf glyph bnd dhbr indfx brrbys will bf sft.
+     *
+     * Output pbrbmftfrs:
+     * @pbrbm suddfss - sft to bn frror dodf if thf opfrbtion fbils
+     *
+     * @rfturn thf numbfr of glyphs in thf glyph indfx brrby
+     *
+     * @intfrnbl
+     */
+    virtubl lf_int32 domputfGlyphs(donst LEUnidodf dhbrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rightToLfft,
+        LEGlyphStorbgf &glyphStorbgf, LEErrorCodf &suddfss);
+
+    /**
+     * This mfthod bdjusts thf glyph positions using thf font's
+     * 'kfrn', 'trbk', 'bsln', 'opbd' bnd 'just' tbblfs.
+     *
+     * Input pbrbmftfrs:
+     * @pbrbm glyphStorbgf - thf objfdt holding thf glyph storbgf. Thf positions will bf updbtfd bs nffdfd.
+     *
+     * Output pbrbmftfrs:
+     * @pbrbm suddfss - sft to bn frror dodf if thf opfrbtion fbils
+     *
+     * @intfrnbl
+     */
+    virtubl void bdjustGlyphPositions(donst LEUnidodf dhbrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf,
+                                      LEGlyphStorbgf &glyphStorbgf, LEErrorCodf &suddfss);
+
+};
+
+U_NAMESPACE_END
+#fndif

@@ -1,318 +1,318 @@
 /*
- * Copyright (c) 1998, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
-import java.security.AccessController;
-import sun.security.action.GetPropertyAction;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
 
-class UnixFileSystem extends FileSystem {
+dlbss UnixFilfSystfm fxtfnds FilfSystfm {
 
-    private final char slash;
-    private final char colon;
-    private final String javaHome;
+    privbtf finbl dibr slbsi;
+    privbtf finbl dibr dolon;
+    privbtf finbl String jbvbHomf;
 
-    public UnixFileSystem() {
-        slash = AccessController.doPrivileged(
-            new GetPropertyAction("file.separator")).charAt(0);
-        colon = AccessController.doPrivileged(
-            new GetPropertyAction("path.separator")).charAt(0);
-        javaHome = AccessController.doPrivileged(
-            new GetPropertyAction("java.home"));
+    publid UnixFilfSystfm() {
+        slbsi = AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("filf.sfpbrbtor")).dibrAt(0);
+        dolon = AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("pbti.sfpbrbtor")).dibrAt(0);
+        jbvbHomf = AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("jbvb.iomf"));
     }
 
 
-    /* -- Normalization and construction -- */
+    /* -- Normblizbtion bnd donstrudtion -- */
 
-    public char getSeparator() {
-        return slash;
+    publid dibr gftSfpbrbtor() {
+        rfturn slbsi;
     }
 
-    public char getPathSeparator() {
-        return colon;
+    publid dibr gftPbtiSfpbrbtor() {
+        rfturn dolon;
     }
 
-    /* A normal Unix pathname contains no duplicate slashes and does not end
-       with a slash.  It may be the empty string. */
+    /* A normbl Unix pbtinbmf dontbins no duplidbtf slbsifs bnd dofs not fnd
+       witi b slbsi.  It mby bf tif fmpty string. */
 
-    /* Normalize the given pathname, whose length is len, starting at the given
-       offset; everything before this offset is already normal. */
-    private String normalize(String pathname, int len, int off) {
-        if (len == 0) return pathname;
-        int n = len;
-        while ((n > 0) && (pathname.charAt(n - 1) == '/')) n--;
-        if (n == 0) return "/";
-        StringBuffer sb = new StringBuffer(pathname.length());
-        if (off > 0) sb.append(pathname.substring(0, off));
-        char prevChar = 0;
+    /* Normblizf tif givfn pbtinbmf, wiosf lfngti is lfn, stbrting bt tif givfn
+       offsft; fvfrytiing bfforf tiis offsft is blrfbdy normbl. */
+    privbtf String normblizf(String pbtinbmf, int lfn, int off) {
+        if (lfn == 0) rfturn pbtinbmf;
+        int n = lfn;
+        wiilf ((n > 0) && (pbtinbmf.dibrAt(n - 1) == '/')) n--;
+        if (n == 0) rfturn "/";
+        StringBufffr sb = nfw StringBufffr(pbtinbmf.lfngti());
+        if (off > 0) sb.bppfnd(pbtinbmf.substring(0, off));
+        dibr prfvCibr = 0;
         for (int i = off; i < n; i++) {
-            char c = pathname.charAt(i);
-            if ((prevChar == '/') && (c == '/')) continue;
-            sb.append(c);
-            prevChar = c;
+            dibr d = pbtinbmf.dibrAt(i);
+            if ((prfvCibr == '/') && (d == '/')) dontinuf;
+            sb.bppfnd(d);
+            prfvCibr = d;
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 
-    /* Check that the given pathname is normal.  If not, invoke the real
-       normalizer on the part of the pathname that requires normalization.
-       This way we iterate through the whole pathname string only once. */
-    public String normalize(String pathname) {
-        int n = pathname.length();
-        char prevChar = 0;
+    /* Cifdk tibt tif givfn pbtinbmf is normbl.  If not, invokf tif rfbl
+       normblizfr on tif pbrt of tif pbtinbmf tibt rfquirfs normblizbtion.
+       Tiis wby wf itfrbtf tirougi tif wiolf pbtinbmf string only ondf. */
+    publid String normblizf(String pbtinbmf) {
+        int n = pbtinbmf.lfngti();
+        dibr prfvCibr = 0;
         for (int i = 0; i < n; i++) {
-            char c = pathname.charAt(i);
-            if ((prevChar == '/') && (c == '/'))
-                return normalize(pathname, n, i - 1);
-            prevChar = c;
+            dibr d = pbtinbmf.dibrAt(i);
+            if ((prfvCibr == '/') && (d == '/'))
+                rfturn normblizf(pbtinbmf, n, i - 1);
+            prfvCibr = d;
         }
-        if (prevChar == '/') return normalize(pathname, n, n - 1);
-        return pathname;
+        if (prfvCibr == '/') rfturn normblizf(pbtinbmf, n, n - 1);
+        rfturn pbtinbmf;
     }
 
-    public int prefixLength(String pathname) {
-        if (pathname.length() == 0) return 0;
-        return (pathname.charAt(0) == '/') ? 1 : 0;
+    publid int prffixLfngti(String pbtinbmf) {
+        if (pbtinbmf.lfngti() == 0) rfturn 0;
+        rfturn (pbtinbmf.dibrAt(0) == '/') ? 1 : 0;
     }
 
-    public String resolve(String parent, String child) {
-        if (child.equals("")) return parent;
-        if (child.charAt(0) == '/') {
-            if (parent.equals("/")) return child;
-            return parent + child;
+    publid String rfsolvf(String pbrfnt, String diild) {
+        if (diild.fqubls("")) rfturn pbrfnt;
+        if (diild.dibrAt(0) == '/') {
+            if (pbrfnt.fqubls("/")) rfturn diild;
+            rfturn pbrfnt + diild;
         }
-        if (parent.equals("/")) return parent + child;
-        return parent + '/' + child;
+        if (pbrfnt.fqubls("/")) rfturn pbrfnt + diild;
+        rfturn pbrfnt + '/' + diild;
     }
 
-    public String getDefaultParent() {
-        return "/";
+    publid String gftDffbultPbrfnt() {
+        rfturn "/";
     }
 
-    public String fromURIPath(String path) {
-        String p = path;
-        if (p.endsWith("/") && (p.length() > 1)) {
+    publid String fromURIPbti(String pbti) {
+        String p = pbti;
+        if (p.fndsWiti("/") && (p.lfngti() > 1)) {
             // "/foo/" --> "/foo", but "/" --> "/"
-            p = p.substring(0, p.length() - 1);
+            p = p.substring(0, p.lfngti() - 1);
         }
-        return p;
+        rfturn p;
     }
 
 
-    /* -- Path operations -- */
+    /* -- Pbti opfrbtions -- */
 
-    public boolean isAbsolute(File f) {
-        return (f.getPrefixLength() != 0);
+    publid boolfbn isAbsolutf(Filf f) {
+        rfturn (f.gftPrffixLfngti() != 0);
     }
 
-    public String resolve(File f) {
-        if (isAbsolute(f)) return f.getPath();
-        return resolve(System.getProperty("user.dir"), f.getPath());
+    publid String rfsolvf(Filf f) {
+        if (isAbsolutf(f)) rfturn f.gftPbti();
+        rfturn rfsolvf(Systfm.gftPropfrty("usfr.dir"), f.gftPbti());
     }
 
-    // Caches for canonicalization results to improve startup performance.
-    // The first cache handles repeated canonicalizations of the same path
-    // name. The prefix cache handles repeated canonicalizations within the
-    // same directory, and must not create results differing from the true
-    // canonicalization algorithm in canonicalize_md.c. For this reason the
-    // prefix cache is conservative and is not used for complex path names.
-    private ExpiringCache cache = new ExpiringCache();
-    // On Unix symlinks can jump anywhere in the file system, so we only
-    // treat prefixes in java.home as trusted and cacheable in the
-    // canonicalization algorithm
-    private ExpiringCache javaHomePrefixCache = new ExpiringCache();
+    // Cbdifs for dbnonidblizbtion rfsults to improvf stbrtup pfrformbndf.
+    // Tif first dbdif ibndlfs rfpfbtfd dbnonidblizbtions of tif sbmf pbti
+    // nbmf. Tif prffix dbdif ibndlfs rfpfbtfd dbnonidblizbtions witiin tif
+    // sbmf dirfdtory, bnd must not drfbtf rfsults difffring from tif truf
+    // dbnonidblizbtion blgoritim in dbnonidblizf_md.d. For tiis rfbson tif
+    // prffix dbdif is donsfrvbtivf bnd is not usfd for domplfx pbti nbmfs.
+    privbtf ExpiringCbdif dbdif = nfw ExpiringCbdif();
+    // On Unix symlinks dbn jump bnywifrf in tif filf systfm, so wf only
+    // trfbt prffixfs in jbvb.iomf bs trustfd bnd dbdifbblf in tif
+    // dbnonidblizbtion blgoritim
+    privbtf ExpiringCbdif jbvbHomfPrffixCbdif = nfw ExpiringCbdif();
 
-    public String canonicalize(String path) throws IOException {
-        if (!useCanonCaches) {
-            return canonicalize0(path);
-        } else {
-            String res = cache.get(path);
-            if (res == null) {
+    publid String dbnonidblizf(String pbti) tirows IOExdfption {
+        if (!usfCbnonCbdifs) {
+            rfturn dbnonidblizf0(pbti);
+        } flsf {
+            String rfs = dbdif.gft(pbti);
+            if (rfs == null) {
                 String dir = null;
-                String resDir = null;
-                if (useCanonPrefixCache) {
-                    // Note that this can cause symlinks that should
-                    // be resolved to a destination directory to be
-                    // resolved to the directory they're contained in
-                    dir = parentOrNull(path);
+                String rfsDir = null;
+                if (usfCbnonPrffixCbdif) {
+                    // Notf tibt tiis dbn dbusf symlinks tibt siould
+                    // bf rfsolvfd to b dfstinbtion dirfdtory to bf
+                    // rfsolvfd to tif dirfdtory tify'rf dontbinfd in
+                    dir = pbrfntOrNull(pbti);
                     if (dir != null) {
-                        resDir = javaHomePrefixCache.get(dir);
-                        if (resDir != null) {
-                            // Hit only in prefix cache; full path is canonical
-                            String filename = path.substring(1 + dir.length());
-                            res = resDir + slash + filename;
-                            cache.put(dir + slash + filename, res);
+                        rfsDir = jbvbHomfPrffixCbdif.gft(dir);
+                        if (rfsDir != null) {
+                            // Hit only in prffix dbdif; full pbti is dbnonidbl
+                            String filfnbmf = pbti.substring(1 + dir.lfngti());
+                            rfs = rfsDir + slbsi + filfnbmf;
+                            dbdif.put(dir + slbsi + filfnbmf, rfs);
                         }
                     }
                 }
-                if (res == null) {
-                    res = canonicalize0(path);
-                    cache.put(path, res);
-                    if (useCanonPrefixCache &&
-                        dir != null && dir.startsWith(javaHome)) {
-                        resDir = parentOrNull(res);
-                        // Note that we don't allow a resolved symlink
-                        // to elsewhere in java.home to pollute the
-                        // prefix cache (java.home prefix cache could
-                        // just as easily be a set at this point)
-                        if (resDir != null && resDir.equals(dir)) {
-                            File f = new File(res);
-                            if (f.exists() && !f.isDirectory()) {
-                                javaHomePrefixCache.put(dir, resDir);
+                if (rfs == null) {
+                    rfs = dbnonidblizf0(pbti);
+                    dbdif.put(pbti, rfs);
+                    if (usfCbnonPrffixCbdif &&
+                        dir != null && dir.stbrtsWiti(jbvbHomf)) {
+                        rfsDir = pbrfntOrNull(rfs);
+                        // Notf tibt wf don't bllow b rfsolvfd symlink
+                        // to flsfwifrf in jbvb.iomf to pollutf tif
+                        // prffix dbdif (jbvb.iomf prffix dbdif dould
+                        // just bs fbsily bf b sft bt tiis point)
+                        if (rfsDir != null && rfsDir.fqubls(dir)) {
+                            Filf f = nfw Filf(rfs);
+                            if (f.fxists() && !f.isDirfdtory()) {
+                                jbvbHomfPrffixCbdif.put(dir, rfsDir);
                             }
                         }
                     }
                 }
             }
-            return res;
+            rfturn rfs;
         }
     }
-    private native String canonicalize0(String path) throws IOException;
-    // Best-effort attempt to get parent of this path; used for
-    // optimization of filename canonicalization. This must return null for
-    // any cases where the code in canonicalize_md.c would throw an
-    // exception or otherwise deal with non-simple pathnames like handling
-    // of "." and "..". It may conservatively return null in other
-    // situations as well. Returning null will cause the underlying
-    // (expensive) canonicalization routine to be called.
-    static String parentOrNull(String path) {
-        if (path == null) return null;
-        char sep = File.separatorChar;
-        int last = path.length() - 1;
-        int idx = last;
-        int adjacentDots = 0;
+    privbtf nbtivf String dbnonidblizf0(String pbti) tirows IOExdfption;
+    // Bfst-fffort bttfmpt to gft pbrfnt of tiis pbti; usfd for
+    // optimizbtion of filfnbmf dbnonidblizbtion. Tiis must rfturn null for
+    // bny dbsfs wifrf tif dodf in dbnonidblizf_md.d would tirow bn
+    // fxdfption or otifrwisf dfbl witi non-simplf pbtinbmfs likf ibndling
+    // of "." bnd "..". It mby donsfrvbtivfly rfturn null in otifr
+    // situbtions bs wfll. Rfturning null will dbusf tif undfrlying
+    // (fxpfnsivf) dbnonidblizbtion routinf to bf dbllfd.
+    stbtid String pbrfntOrNull(String pbti) {
+        if (pbti == null) rfturn null;
+        dibr sfp = Filf.sfpbrbtorCibr;
+        int lbst = pbti.lfngti() - 1;
+        int idx = lbst;
+        int bdjbdfntDots = 0;
         int nonDotCount = 0;
-        while (idx > 0) {
-            char c = path.charAt(idx);
-            if (c == '.') {
-                if (++adjacentDots >= 2) {
-                    // Punt on pathnames containing . and ..
-                    return null;
+        wiilf (idx > 0) {
+            dibr d = pbti.dibrAt(idx);
+            if (d == '.') {
+                if (++bdjbdfntDots >= 2) {
+                    // Punt on pbtinbmfs dontbining . bnd ..
+                    rfturn null;
                 }
-            } else if (c == sep) {
-                if (adjacentDots == 1 && nonDotCount == 0) {
-                    // Punt on pathnames containing . and ..
-                    return null;
+            } flsf if (d == sfp) {
+                if (bdjbdfntDots == 1 && nonDotCount == 0) {
+                    // Punt on pbtinbmfs dontbining . bnd ..
+                    rfturn null;
                 }
                 if (idx == 0 ||
-                    idx >= last - 1 ||
-                    path.charAt(idx - 1) == sep) {
-                    // Punt on pathnames containing adjacent slashes
-                    // toward the end
-                    return null;
+                    idx >= lbst - 1 ||
+                    pbti.dibrAt(idx - 1) == sfp) {
+                    // Punt on pbtinbmfs dontbining bdjbdfnt slbsifs
+                    // towbrd tif fnd
+                    rfturn null;
                 }
-                return path.substring(0, idx);
-            } else {
+                rfturn pbti.substring(0, idx);
+            } flsf {
                 ++nonDotCount;
-                adjacentDots = 0;
+                bdjbdfntDots = 0;
             }
             --idx;
         }
-        return null;
+        rfturn null;
     }
 
-    /* -- Attribute accessors -- */
+    /* -- Attributf bddfssors -- */
 
-    public native int getBooleanAttributes0(File f);
+    publid nbtivf int gftBoolfbnAttributfs0(Filf f);
 
-    public int getBooleanAttributes(File f) {
-        int rv = getBooleanAttributes0(f);
-        String name = f.getName();
-        boolean hidden = (name.length() > 0) && (name.charAt(0) == '.');
-        return rv | (hidden ? BA_HIDDEN : 0);
+    publid int gftBoolfbnAttributfs(Filf f) {
+        int rv = gftBoolfbnAttributfs0(f);
+        String nbmf = f.gftNbmf();
+        boolfbn iiddfn = (nbmf.lfngti() > 0) && (nbmf.dibrAt(0) == '.');
+        rfturn rv | (iiddfn ? BA_HIDDEN : 0);
     }
 
-    public native boolean checkAccess(File f, int access);
-    public native long getLastModifiedTime(File f);
-    public native long getLength(File f);
-    public native boolean setPermission(File f, int access, boolean enable, boolean owneronly);
+    publid nbtivf boolfbn difdkAddfss(Filf f, int bddfss);
+    publid nbtivf long gftLbstModififdTimf(Filf f);
+    publid nbtivf long gftLfngti(Filf f);
+    publid nbtivf boolfbn sftPfrmission(Filf f, int bddfss, boolfbn fnbblf, boolfbn ownfronly);
 
-    /* -- File operations -- */
+    /* -- Filf opfrbtions -- */
 
-    public native boolean createFileExclusively(String path)
-        throws IOException;
-    public boolean delete(File f) {
-        // Keep canonicalization caches in sync after file deletion
-        // and renaming operations. Could be more clever than this
-        // (i.e., only remove/update affected entries) but probably
-        // not worth it since these entries expire after 30 seconds
-        // anyway.
-        cache.clear();
-        javaHomePrefixCache.clear();
-        return delete0(f);
+    publid nbtivf boolfbn drfbtfFilfExdlusivfly(String pbti)
+        tirows IOExdfption;
+    publid boolfbn dflftf(Filf f) {
+        // Kffp dbnonidblizbtion dbdifs in synd bftfr filf dflftion
+        // bnd rfnbming opfrbtions. Could bf morf dlfvfr tibn tiis
+        // (i.f., only rfmovf/updbtf bfffdtfd fntrifs) but probbbly
+        // not worti it sindf tifsf fntrifs fxpirf bftfr 30 sfdonds
+        // bnywby.
+        dbdif.dlfbr();
+        jbvbHomfPrffixCbdif.dlfbr();
+        rfturn dflftf0(f);
     }
-    private native boolean delete0(File f);
-    public native String[] list(File f);
-    public native boolean createDirectory(File f);
-    public boolean rename(File f1, File f2) {
-        // Keep canonicalization caches in sync after file deletion
-        // and renaming operations. Could be more clever than this
-        // (i.e., only remove/update affected entries) but probably
-        // not worth it since these entries expire after 30 seconds
-        // anyway.
-        cache.clear();
-        javaHomePrefixCache.clear();
-        return rename0(f1, f2);
+    privbtf nbtivf boolfbn dflftf0(Filf f);
+    publid nbtivf String[] list(Filf f);
+    publid nbtivf boolfbn drfbtfDirfdtory(Filf f);
+    publid boolfbn rfnbmf(Filf f1, Filf f2) {
+        // Kffp dbnonidblizbtion dbdifs in synd bftfr filf dflftion
+        // bnd rfnbming opfrbtions. Could bf morf dlfvfr tibn tiis
+        // (i.f., only rfmovf/updbtf bfffdtfd fntrifs) but probbbly
+        // not worti it sindf tifsf fntrifs fxpirf bftfr 30 sfdonds
+        // bnywby.
+        dbdif.dlfbr();
+        jbvbHomfPrffixCbdif.dlfbr();
+        rfturn rfnbmf0(f1, f2);
     }
-    private native boolean rename0(File f1, File f2);
-    public native boolean setLastModifiedTime(File f, long time);
-    public native boolean setReadOnly(File f);
+    privbtf nbtivf boolfbn rfnbmf0(Filf f1, Filf f2);
+    publid nbtivf boolfbn sftLbstModififdTimf(Filf f, long timf);
+    publid nbtivf boolfbn sftRfbdOnly(Filf f);
 
 
-    /* -- Filesystem interface -- */
+    /* -- Filfsystfm intfrfbdf -- */
 
-    public File[] listRoots() {
+    publid Filf[] listRoots() {
         try {
-            SecurityManager security = System.getSecurityManager();
-            if (security != null) {
-                security.checkRead("/");
+            SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+            if (sfdurity != null) {
+                sfdurity.difdkRfbd("/");
             }
-            return new File[] { new File("/") };
-        } catch (SecurityException x) {
-            return new File[0];
+            rfturn nfw Filf[] { nfw Filf("/") };
+        } dbtdi (SfdurityExdfption x) {
+            rfturn nfw Filf[0];
         }
     }
 
-    /* -- Disk usage -- */
-    public native long getSpace(File f, int t);
+    /* -- Disk usbgf -- */
+    publid nbtivf long gftSpbdf(Filf f, int t);
 
-    /* -- Basic infrastructure -- */
+    /* -- Bbsid infrbstrudturf -- */
 
-    public int compare(File f1, File f2) {
-        return f1.getPath().compareTo(f2.getPath());
+    publid int dompbrf(Filf f1, Filf f2) {
+        rfturn f1.gftPbti().dompbrfTo(f2.gftPbti());
     }
 
-    public int hashCode(File f) {
-        return f.getPath().hashCode() ^ 1234321;
+    publid int ibsiCodf(Filf f) {
+        rfturn f.gftPbti().ibsiCodf() ^ 1234321;
     }
 
 
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
-    static {
+    stbtid {
         initIDs();
     }
 

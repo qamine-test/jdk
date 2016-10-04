@@ -1,640 +1,640 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1998 - All Rigits Rfsfrvfd
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd
+ * bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd subsidibry of IBM. Tifsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. Tiis tfdinology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package java.text;
+pbdkbgf jbvb.tfxt;
 
-import java.io.InvalidObjectException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.Arrays;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.util.Arrbys;
 
 /**
- * A <code>ChoiceFormat</code> allows you to attach a format to a range of numbers.
- * It is generally used in a <code>MessageFormat</code> for handling plurals.
- * The choice is specified with an ascending list of doubles, where each item
- * specifies a half-open interval up to the next item:
- * <blockquote>
- * <pre>
- * X matches j if and only if limit[j] &le; X &lt; limit[j+1]
- * </pre>
- * </blockquote>
- * If there is no match, then either the first or last index is used, depending
- * on whether the number (X) is too low or too high.  If the limit array is not
- * in ascending order, the results of formatting will be incorrect.  ChoiceFormat
- * also accepts <code>&#92;u221E</code> as equivalent to infinity(INF).
+ * A <dodf>CioidfFormbt</dodf> bllows you to bttbdi b formbt to b rbngf of numbfrs.
+ * It is gfnfrblly usfd in b <dodf>MfssbgfFormbt</dodf> for ibndling plurbls.
+ * Tif dioidf is spfdififd witi bn bsdfnding list of doublfs, wifrf fbdi itfm
+ * spfdififs b iblf-opfn intfrvbl up to tif nfxt itfm:
+ * <blodkquotf>
+ * <prf>
+ * X mbtdifs j if bnd only if limit[j] &lf; X &lt; limit[j+1]
+ * </prf>
+ * </blodkquotf>
+ * If tifrf is no mbtdi, tifn fitifr tif first or lbst indfx is usfd, dfpfnding
+ * on wiftifr tif numbfr (X) is too low or too iigi.  If tif limit brrby is not
+ * in bsdfnding ordfr, tif rfsults of formbtting will bf indorrfdt.  CioidfFormbt
+ * blso bddfpts <dodf>&#92;u221E</dodf> bs fquivblfnt to infinity(INF).
  *
  * <p>
- * <strong>Note:</strong>
- * <code>ChoiceFormat</code> differs from the other <code>Format</code>
- * classes in that you create a <code>ChoiceFormat</code> object with a
- * constructor (not with a <code>getInstance</code> style factory
- * method). The factory methods aren't necessary because <code>ChoiceFormat</code>
- * doesn't require any complex setup for a given locale. In fact,
- * <code>ChoiceFormat</code> doesn't implement any locale specific behavior.
+ * <strong>Notf:</strong>
+ * <dodf>CioidfFormbt</dodf> difffrs from tif otifr <dodf>Formbt</dodf>
+ * dlbssfs in tibt you drfbtf b <dodf>CioidfFormbt</dodf> objfdt witi b
+ * donstrudtor (not witi b <dodf>gftInstbndf</dodf> stylf fbdtory
+ * mftiod). Tif fbdtory mftiods brfn't nfdfssbry bfdbusf <dodf>CioidfFormbt</dodf>
+ * dofsn't rfquirf bny domplfx sftup for b givfn lodblf. In fbdt,
+ * <dodf>CioidfFormbt</dodf> dofsn't implfmfnt bny lodblf spfdifid bfibvior.
  *
  * <p>
- * When creating a <code>ChoiceFormat</code>, you must specify an array of formats
- * and an array of limits. The length of these arrays must be the same.
- * For example,
+ * Wifn drfbting b <dodf>CioidfFormbt</dodf>, you must spfdify bn brrby of formbts
+ * bnd bn brrby of limits. Tif lfngti of tifsf brrbys must bf tif sbmf.
+ * For fxbmplf,
  * <ul>
  * <li>
- *     <em>limits</em> = {1,2,3,4,5,6,7}<br>
- *     <em>formats</em> = {"Sun","Mon","Tue","Wed","Thur","Fri","Sat"}
+ *     <fm>limits</fm> = {1,2,3,4,5,6,7}<br>
+ *     <fm>formbts</fm> = {"Sun","Mon","Tuf","Wfd","Tiur","Fri","Sbt"}
  * <li>
- *     <em>limits</em> = {0, 1, ChoiceFormat.nextDouble(1)}<br>
- *     <em>formats</em> = {"no files", "one file", "many files"}<br>
- *     (<code>nextDouble</code> can be used to get the next higher double, to
- *     make the half-open interval.)
+ *     <fm>limits</fm> = {0, 1, CioidfFormbt.nfxtDoublf(1)}<br>
+ *     <fm>formbts</fm> = {"no filfs", "onf filf", "mbny filfs"}<br>
+ *     (<dodf>nfxtDoublf</dodf> dbn bf usfd to gft tif nfxt iigifr doublf, to
+ *     mbkf tif iblf-opfn intfrvbl.)
  * </ul>
  *
  * <p>
- * Here is a simple example that shows formatting and parsing:
- * <blockquote>
- * <pre>{@code
- * double[] limits = {1,2,3,4,5,6,7};
- * String[] dayOfWeekNames = {"Sun","Mon","Tue","Wed","Thur","Fri","Sat"};
- * ChoiceFormat form = new ChoiceFormat(limits, dayOfWeekNames);
- * ParsePosition status = new ParsePosition(0);
- * for (double i = 0.0; i <= 8.0; ++i) {
- *     status.setIndex(0);
- *     System.out.println(i + " -> " + form.format(i) + " -> "
- *                              + form.parse(form.format(i),status));
+ * Hfrf is b simplf fxbmplf tibt siows formbtting bnd pbrsing:
+ * <blodkquotf>
+ * <prf>{@dodf
+ * doublf[] limits = {1,2,3,4,5,6,7};
+ * String[] dbyOfWffkNbmfs = {"Sun","Mon","Tuf","Wfd","Tiur","Fri","Sbt"};
+ * CioidfFormbt form = nfw CioidfFormbt(limits, dbyOfWffkNbmfs);
+ * PbrsfPosition stbtus = nfw PbrsfPosition(0);
+ * for (doublf i = 0.0; i <= 8.0; ++i) {
+ *     stbtus.sftIndfx(0);
+ *     Systfm.out.println(i + " -> " + form.formbt(i) + " -> "
+ *                              + form.pbrsf(form.formbt(i),stbtus));
  * }
- * }</pre>
- * </blockquote>
- * Here is a more complex example, with a pattern format:
- * <blockquote>
- * <pre>{@code
- * double[] filelimits = {0,1,2};
- * String[] filepart = {"are no files","is one file","are {2} files"};
- * ChoiceFormat fileform = new ChoiceFormat(filelimits, filepart);
- * Format[] testFormats = {fileform, null, NumberFormat.getInstance()};
- * MessageFormat pattform = new MessageFormat("There {0} on {1}");
- * pattform.setFormats(testFormats);
- * Object[] testArgs = {null, "ADisk", null};
+ * }</prf>
+ * </blodkquotf>
+ * Hfrf is b morf domplfx fxbmplf, witi b pbttfrn formbt:
+ * <blodkquotf>
+ * <prf>{@dodf
+ * doublf[] filflimits = {0,1,2};
+ * String[] filfpbrt = {"brf no filfs","is onf filf","brf {2} filfs"};
+ * CioidfFormbt filfform = nfw CioidfFormbt(filflimits, filfpbrt);
+ * Formbt[] tfstFormbts = {filfform, null, NumbfrFormbt.gftInstbndf()};
+ * MfssbgfFormbt pbttform = nfw MfssbgfFormbt("Tifrf {0} on {1}");
+ * pbttform.sftFormbts(tfstFormbts);
+ * Objfdt[] tfstArgs = {null, "ADisk", null};
  * for (int i = 0; i < 4; ++i) {
- *     testArgs[0] = new Integer(i);
- *     testArgs[2] = testArgs[0];
- *     System.out.println(pattform.format(testArgs));
+ *     tfstArgs[0] = nfw Intfgfr(i);
+ *     tfstArgs[2] = tfstArgs[0];
+ *     Systfm.out.println(pbttform.formbt(tfstArgs));
  * }
- * }</pre>
- * </blockquote>
+ * }</prf>
+ * </blodkquotf>
  * <p>
- * Specifying a pattern for ChoiceFormat objects is fairly straightforward.
- * For example:
- * <blockquote>
- * <pre>{@code
- * ChoiceFormat fmt = new ChoiceFormat(
- *      "-1#is negative| 0#is zero or fraction | 1#is one |1.0<is 1+ |2#is two |2<is more than 2.");
- * System.out.println("Formatter Pattern : " + fmt.toPattern());
+ * Spfdifying b pbttfrn for CioidfFormbt objfdts is fbirly strbigitforwbrd.
+ * For fxbmplf:
+ * <blodkquotf>
+ * <prf>{@dodf
+ * CioidfFormbt fmt = nfw CioidfFormbt(
+ *      "-1#is nfgbtivf| 0#is zfro or frbdtion | 1#is onf |1.0<is 1+ |2#is two |2<is morf tibn 2.");
+ * Systfm.out.println("Formbttfr Pbttfrn : " + fmt.toPbttfrn());
  *
- * System.out.println("Format with -INF : " + fmt.format(Double.NEGATIVE_INFINITY));
- * System.out.println("Format with -1.0 : " + fmt.format(-1.0));
- * System.out.println("Format with 0 : " + fmt.format(0));
- * System.out.println("Format with 0.9 : " + fmt.format(0.9));
- * System.out.println("Format with 1.0 : " + fmt.format(1));
- * System.out.println("Format with 1.5 : " + fmt.format(1.5));
- * System.out.println("Format with 2 : " + fmt.format(2));
- * System.out.println("Format with 2.1 : " + fmt.format(2.1));
- * System.out.println("Format with NaN : " + fmt.format(Double.NaN));
- * System.out.println("Format with +INF : " + fmt.format(Double.POSITIVE_INFINITY));
- * }</pre>
- * </blockquote>
- * And the output result would be like the following:
- * <blockquote>
- * <pre>{@code
- * Format with -INF : is negative
- * Format with -1.0 : is negative
- * Format with 0 : is zero or fraction
- * Format with 0.9 : is zero or fraction
- * Format with 1.0 : is one
- * Format with 1.5 : is 1+
- * Format with 2 : is two
- * Format with 2.1 : is more than 2.
- * Format with NaN : is negative
- * Format with +INF : is more than 2.
- * }</pre>
- * </blockquote>
+ * Systfm.out.println("Formbt witi -INF : " + fmt.formbt(Doublf.NEGATIVE_INFINITY));
+ * Systfm.out.println("Formbt witi -1.0 : " + fmt.formbt(-1.0));
+ * Systfm.out.println("Formbt witi 0 : " + fmt.formbt(0));
+ * Systfm.out.println("Formbt witi 0.9 : " + fmt.formbt(0.9));
+ * Systfm.out.println("Formbt witi 1.0 : " + fmt.formbt(1));
+ * Systfm.out.println("Formbt witi 1.5 : " + fmt.formbt(1.5));
+ * Systfm.out.println("Formbt witi 2 : " + fmt.formbt(2));
+ * Systfm.out.println("Formbt witi 2.1 : " + fmt.formbt(2.1));
+ * Systfm.out.println("Formbt witi NbN : " + fmt.formbt(Doublf.NbN));
+ * Systfm.out.println("Formbt witi +INF : " + fmt.formbt(Doublf.POSITIVE_INFINITY));
+ * }</prf>
+ * </blodkquotf>
+ * And tif output rfsult would bf likf tif following:
+ * <blodkquotf>
+ * <prf>{@dodf
+ * Formbt witi -INF : is nfgbtivf
+ * Formbt witi -1.0 : is nfgbtivf
+ * Formbt witi 0 : is zfro or frbdtion
+ * Formbt witi 0.9 : is zfro or frbdtion
+ * Formbt witi 1.0 : is onf
+ * Formbt witi 1.5 : is 1+
+ * Formbt witi 2 : is two
+ * Formbt witi 2.1 : is morf tibn 2.
+ * Formbt witi NbN : is nfgbtivf
+ * Formbt witi +INF : is morf tibn 2.
+ * }</prf>
+ * </blodkquotf>
  *
- * <h3><a name="synchronization">Synchronization</a></h3>
+ * <i3><b nbmf="syndironizbtion">Syndironizbtion</b></i3>
  *
  * <p>
- * Choice formats are not synchronized.
- * It is recommended to create separate format instances for each thread.
- * If multiple threads access a format concurrently, it must be synchronized
- * externally.
+ * Cioidf formbts brf not syndironizfd.
+ * It is rfdommfndfd to drfbtf sfpbrbtf formbt instbndfs for fbdi tirfbd.
+ * If multiplf tirfbds bddfss b formbt dondurrfntly, it must bf syndironizfd
+ * fxtfrnblly.
  *
  *
- * @see          DecimalFormat
- * @see          MessageFormat
- * @author       Mark Davis
+ * @sff          DfdimblFormbt
+ * @sff          MfssbgfFormbt
+ * @butior       Mbrk Dbvis
  */
-public class ChoiceFormat extends NumberFormat {
+publid dlbss CioidfFormbt fxtfnds NumbfrFormbt {
 
-    // Proclaim serial compatibility with 1.1 FCS
-    private static final long serialVersionUID = 1795184449645032964L;
+    // Prodlbim sfribl dompbtibility witi 1.1 FCS
+    privbtf stbtid finbl long sfriblVfrsionUID = 1795184449645032964L;
 
     /**
-     * Sets the pattern.
-     * @param newPattern See the class description.
+     * Sfts tif pbttfrn.
+     * @pbrbm nfwPbttfrn Sff tif dlbss dfsdription.
      */
-    public void applyPattern(String newPattern) {
-        StringBuffer[] segments = new StringBuffer[2];
-        for (int i = 0; i < segments.length; ++i) {
-            segments[i] = new StringBuffer();
+    publid void bpplyPbttfrn(String nfwPbttfrn) {
+        StringBufffr[] sfgmfnts = nfw StringBufffr[2];
+        for (int i = 0; i < sfgmfnts.lfngti; ++i) {
+            sfgmfnts[i] = nfw StringBufffr();
         }
-        double[] newChoiceLimits = new double[30];
-        String[] newChoiceFormats = new String[30];
-        int count = 0;
-        int part = 0;
-        double startValue = 0;
-        double oldStartValue = Double.NaN;
-        boolean inQuote = false;
-        for (int i = 0; i < newPattern.length(); ++i) {
-            char ch = newPattern.charAt(i);
-            if (ch=='\'') {
-                // Check for "''" indicating a literal quote
-                if ((i+1)<newPattern.length() && newPattern.charAt(i+1)==ch) {
-                    segments[part].append(ch);
+        doublf[] nfwCioidfLimits = nfw doublf[30];
+        String[] nfwCioidfFormbts = nfw String[30];
+        int dount = 0;
+        int pbrt = 0;
+        doublf stbrtVbluf = 0;
+        doublf oldStbrtVbluf = Doublf.NbN;
+        boolfbn inQuotf = fblsf;
+        for (int i = 0; i < nfwPbttfrn.lfngti(); ++i) {
+            dibr di = nfwPbttfrn.dibrAt(i);
+            if (di=='\'') {
+                // Cifdk for "''" indidbting b litfrbl quotf
+                if ((i+1)<nfwPbttfrn.lfngti() && nfwPbttfrn.dibrAt(i+1)==di) {
+                    sfgmfnts[pbrt].bppfnd(di);
                     ++i;
-                } else {
-                    inQuote = !inQuote;
+                } flsf {
+                    inQuotf = !inQuotf;
                 }
-            } else if (inQuote) {
-                segments[part].append(ch);
-            } else if (ch == '<' || ch == '#' || ch == '\u2264') {
-                if (segments[0].length() == 0) {
-                    throw new IllegalArgumentException();
+            } flsf if (inQuotf) {
+                sfgmfnts[pbrt].bppfnd(di);
+            } flsf if (di == '<' || di == '#' || di == '\u2264') {
+                if (sfgmfnts[0].lfngti() == 0) {
+                    tirow nfw IllfgblArgumfntExdfption();
                 }
                 try {
-                    String tempBuffer = segments[0].toString();
-                    if (tempBuffer.equals("\u221E")) {
-                        startValue = Double.POSITIVE_INFINITY;
-                    } else if (tempBuffer.equals("-\u221E")) {
-                        startValue = Double.NEGATIVE_INFINITY;
-                    } else {
-                        startValue = Double.valueOf(segments[0].toString()).doubleValue();
+                    String tfmpBufffr = sfgmfnts[0].toString();
+                    if (tfmpBufffr.fqubls("\u221E")) {
+                        stbrtVbluf = Doublf.POSITIVE_INFINITY;
+                    } flsf if (tfmpBufffr.fqubls("-\u221E")) {
+                        stbrtVbluf = Doublf.NEGATIVE_INFINITY;
+                    } flsf {
+                        stbrtVbluf = Doublf.vblufOf(sfgmfnts[0].toString()).doublfVbluf();
                     }
-                } catch (Exception e) {
-                    throw new IllegalArgumentException();
+                } dbtdi (Exdfption f) {
+                    tirow nfw IllfgblArgumfntExdfption();
                 }
-                if (ch == '<' && startValue != Double.POSITIVE_INFINITY &&
-                        startValue != Double.NEGATIVE_INFINITY) {
-                    startValue = nextDouble(startValue);
+                if (di == '<' && stbrtVbluf != Doublf.POSITIVE_INFINITY &&
+                        stbrtVbluf != Doublf.NEGATIVE_INFINITY) {
+                    stbrtVbluf = nfxtDoublf(stbrtVbluf);
                 }
-                if (startValue <= oldStartValue) {
-                    throw new IllegalArgumentException();
+                if (stbrtVbluf <= oldStbrtVbluf) {
+                    tirow nfw IllfgblArgumfntExdfption();
                 }
-                segments[0].setLength(0);
-                part = 1;
-            } else if (ch == '|') {
-                if (count == newChoiceLimits.length) {
-                    newChoiceLimits = doubleArraySize(newChoiceLimits);
-                    newChoiceFormats = doubleArraySize(newChoiceFormats);
+                sfgmfnts[0].sftLfngti(0);
+                pbrt = 1;
+            } flsf if (di == '|') {
+                if (dount == nfwCioidfLimits.lfngti) {
+                    nfwCioidfLimits = doublfArrbySizf(nfwCioidfLimits);
+                    nfwCioidfFormbts = doublfArrbySizf(nfwCioidfFormbts);
                 }
-                newChoiceLimits[count] = startValue;
-                newChoiceFormats[count] = segments[1].toString();
-                ++count;
-                oldStartValue = startValue;
-                segments[1].setLength(0);
-                part = 0;
-            } else {
-                segments[part].append(ch);
+                nfwCioidfLimits[dount] = stbrtVbluf;
+                nfwCioidfFormbts[dount] = sfgmfnts[1].toString();
+                ++dount;
+                oldStbrtVbluf = stbrtVbluf;
+                sfgmfnts[1].sftLfngti(0);
+                pbrt = 0;
+            } flsf {
+                sfgmfnts[pbrt].bppfnd(di);
             }
         }
-        // clean up last one
-        if (part == 1) {
-            if (count == newChoiceLimits.length) {
-                newChoiceLimits = doubleArraySize(newChoiceLimits);
-                newChoiceFormats = doubleArraySize(newChoiceFormats);
+        // dlfbn up lbst onf
+        if (pbrt == 1) {
+            if (dount == nfwCioidfLimits.lfngti) {
+                nfwCioidfLimits = doublfArrbySizf(nfwCioidfLimits);
+                nfwCioidfFormbts = doublfArrbySizf(nfwCioidfFormbts);
             }
-            newChoiceLimits[count] = startValue;
-            newChoiceFormats[count] = segments[1].toString();
-            ++count;
+            nfwCioidfLimits[dount] = stbrtVbluf;
+            nfwCioidfFormbts[dount] = sfgmfnts[1].toString();
+            ++dount;
         }
-        choiceLimits = new double[count];
-        System.arraycopy(newChoiceLimits, 0, choiceLimits, 0, count);
-        choiceFormats = new String[count];
-        System.arraycopy(newChoiceFormats, 0, choiceFormats, 0, count);
+        dioidfLimits = nfw doublf[dount];
+        Systfm.brrbydopy(nfwCioidfLimits, 0, dioidfLimits, 0, dount);
+        dioidfFormbts = nfw String[dount];
+        Systfm.brrbydopy(nfwCioidfFormbts, 0, dioidfFormbts, 0, dount);
     }
 
     /**
-     * Gets the pattern.
+     * Gfts tif pbttfrn.
      *
-     * @return the pattern string
+     * @rfturn tif pbttfrn string
      */
-    public String toPattern() {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < choiceLimits.length; ++i) {
+    publid String toPbttfrn() {
+        StringBuildfr rfsult = nfw StringBuildfr();
+        for (int i = 0; i < dioidfLimits.lfngti; ++i) {
             if (i != 0) {
-                result.append('|');
+                rfsult.bppfnd('|');
             }
-            // choose based upon which has less precision
-            // approximate that by choosing the closest one to an integer.
-            // could do better, but it's not worth it.
-            double less = previousDouble(choiceLimits[i]);
-            double tryLessOrEqual = Math.abs(Math.IEEEremainder(choiceLimits[i], 1.0d));
-            double tryLess = Math.abs(Math.IEEEremainder(less, 1.0d));
+            // dioosf bbsfd upon wiidi ibs lfss prfdision
+            // bpproximbtf tibt by dioosing tif dlosfst onf to bn intfgfr.
+            // dould do bfttfr, but it's not worti it.
+            doublf lfss = prfviousDoublf(dioidfLimits[i]);
+            doublf tryLfssOrEqubl = Mbti.bbs(Mbti.IEEErfmbindfr(dioidfLimits[i], 1.0d));
+            doublf tryLfss = Mbti.bbs(Mbti.IEEErfmbindfr(lfss, 1.0d));
 
-            if (tryLessOrEqual < tryLess) {
-                result.append(""+choiceLimits[i]);
-                result.append('#');
-            } else {
-                if (choiceLimits[i] == Double.POSITIVE_INFINITY) {
-                    result.append("\u221E");
-                } else if (choiceLimits[i] == Double.NEGATIVE_INFINITY) {
-                    result.append("-\u221E");
-                } else {
-                    result.append(""+less);
+            if (tryLfssOrEqubl < tryLfss) {
+                rfsult.bppfnd(""+dioidfLimits[i]);
+                rfsult.bppfnd('#');
+            } flsf {
+                if (dioidfLimits[i] == Doublf.POSITIVE_INFINITY) {
+                    rfsult.bppfnd("\u221E");
+                } flsf if (dioidfLimits[i] == Doublf.NEGATIVE_INFINITY) {
+                    rfsult.bppfnd("-\u221E");
+                } flsf {
+                    rfsult.bppfnd(""+lfss);
                 }
-                result.append('<');
+                rfsult.bppfnd('<');
             }
-            // Append choiceFormats[i], using quotes if there are special characters.
-            // Single quotes themselves must be escaped in either case.
-            String text = choiceFormats[i];
-            boolean needQuote = text.indexOf('<') >= 0
-                || text.indexOf('#') >= 0
-                || text.indexOf('\u2264') >= 0
-                || text.indexOf('|') >= 0;
-            if (needQuote) result.append('\'');
-            if (text.indexOf('\'') < 0) result.append(text);
-            else {
-                for (int j=0; j<text.length(); ++j) {
-                    char c = text.charAt(j);
-                    result.append(c);
-                    if (c == '\'') result.append(c);
+            // Appfnd dioidfFormbts[i], using quotfs if tifrf brf spfdibl dibrbdtfrs.
+            // Singlf quotfs tifmsflvfs must bf fsdbpfd in fitifr dbsf.
+            String tfxt = dioidfFormbts[i];
+            boolfbn nffdQuotf = tfxt.indfxOf('<') >= 0
+                || tfxt.indfxOf('#') >= 0
+                || tfxt.indfxOf('\u2264') >= 0
+                || tfxt.indfxOf('|') >= 0;
+            if (nffdQuotf) rfsult.bppfnd('\'');
+            if (tfxt.indfxOf('\'') < 0) rfsult.bppfnd(tfxt);
+            flsf {
+                for (int j=0; j<tfxt.lfngti(); ++j) {
+                    dibr d = tfxt.dibrAt(j);
+                    rfsult.bppfnd(d);
+                    if (d == '\'') rfsult.bppfnd(d);
                 }
             }
-            if (needQuote) result.append('\'');
+            if (nffdQuotf) rfsult.bppfnd('\'');
         }
-        return result.toString();
+        rfturn rfsult.toString();
     }
 
     /**
-     * Constructs with limits and corresponding formats based on the pattern.
+     * Construdts witi limits bnd dorrfsponding formbts bbsfd on tif pbttfrn.
      *
-     * @param newPattern the new pattern string
-     * @see #applyPattern
+     * @pbrbm nfwPbttfrn tif nfw pbttfrn string
+     * @sff #bpplyPbttfrn
      */
-    public ChoiceFormat(String newPattern)  {
-        applyPattern(newPattern);
+    publid CioidfFormbt(String nfwPbttfrn)  {
+        bpplyPbttfrn(nfwPbttfrn);
     }
 
     /**
-     * Constructs with the limits and the corresponding formats.
+     * Construdts witi tif limits bnd tif dorrfsponding formbts.
      *
-     * @param limits limits in ascending order
-     * @param formats corresponding format strings
-     * @see #setChoices
+     * @pbrbm limits limits in bsdfnding ordfr
+     * @pbrbm formbts dorrfsponding formbt strings
+     * @sff #sftCioidfs
      */
-    public ChoiceFormat(double[] limits, String[] formats) {
-        setChoices(limits, formats);
+    publid CioidfFormbt(doublf[] limits, String[] formbts) {
+        sftCioidfs(limits, formbts);
     }
 
     /**
-     * Set the choices to be used in formatting.
-     * @param limits contains the top value that you want
-     * parsed with that format, and should be in ascending sorted order. When
-     * formatting X, the choice will be the i, where
-     * limit[i] &le; X {@literal <} limit[i+1].
-     * If the limit array is not in ascending order, the results of formatting
-     * will be incorrect.
-     * @param formats are the formats you want to use for each limit.
-     * They can be either Format objects or Strings.
-     * When formatting with object Y,
-     * if the object is a NumberFormat, then ((NumberFormat) Y).format(X)
-     * is called. Otherwise Y.toString() is called.
+     * Sft tif dioidfs to bf usfd in formbtting.
+     * @pbrbm limits dontbins tif top vbluf tibt you wbnt
+     * pbrsfd witi tibt formbt, bnd siould bf in bsdfnding sortfd ordfr. Wifn
+     * formbtting X, tif dioidf will bf tif i, wifrf
+     * limit[i] &lf; X {@litfrbl <} limit[i+1].
+     * If tif limit brrby is not in bsdfnding ordfr, tif rfsults of formbtting
+     * will bf indorrfdt.
+     * @pbrbm formbts brf tif formbts you wbnt to usf for fbdi limit.
+     * Tify dbn bf fitifr Formbt objfdts or Strings.
+     * Wifn formbtting witi objfdt Y,
+     * if tif objfdt is b NumbfrFormbt, tifn ((NumbfrFormbt) Y).formbt(X)
+     * is dbllfd. Otifrwisf Y.toString() is dbllfd.
      */
-    public void setChoices(double[] limits, String formats[]) {
-        if (limits.length != formats.length) {
-            throw new IllegalArgumentException(
-                "Array and limit arrays must be of the same length.");
+    publid void sftCioidfs(doublf[] limits, String formbts[]) {
+        if (limits.lfngti != formbts.lfngti) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Arrby bnd limit brrbys must bf of tif sbmf lfngti.");
         }
-        choiceLimits = Arrays.copyOf(limits, limits.length);
-        choiceFormats = Arrays.copyOf(formats, formats.length);
+        dioidfLimits = Arrbys.dopyOf(limits, limits.lfngti);
+        dioidfFormbts = Arrbys.dopyOf(formbts, formbts.lfngti);
     }
 
     /**
-     * Get the limits passed in the constructor.
-     * @return the limits.
+     * Gft tif limits pbssfd in tif donstrudtor.
+     * @rfturn tif limits.
      */
-    public double[] getLimits() {
-        double[] newLimits = Arrays.copyOf(choiceLimits, choiceLimits.length);
-        return newLimits;
+    publid doublf[] gftLimits() {
+        doublf[] nfwLimits = Arrbys.dopyOf(dioidfLimits, dioidfLimits.lfngti);
+        rfturn nfwLimits;
     }
 
     /**
-     * Get the formats passed in the constructor.
-     * @return the formats.
+     * Gft tif formbts pbssfd in tif donstrudtor.
+     * @rfturn tif formbts.
      */
-    public Object[] getFormats() {
-        Object[] newFormats = Arrays.copyOf(choiceFormats, choiceFormats.length);
-        return newFormats;
+    publid Objfdt[] gftFormbts() {
+        Objfdt[] nfwFormbts = Arrbys.dopyOf(dioidfFormbts, dioidfFormbts.lfngti);
+        rfturn nfwFormbts;
     }
 
-    // Overrides
+    // Ovfrridfs
 
     /**
-     * Specialization of format. This method really calls
-     * <code>format(double, StringBuffer, FieldPosition)</code>
-     * thus the range of longs that are supported is only equal to
-     * the range that can be stored by double. This will never be
-     * a practical limitation.
+     * Spfdiblizbtion of formbt. Tiis mftiod rfblly dblls
+     * <dodf>formbt(doublf, StringBufffr, FifldPosition)</dodf>
+     * tius tif rbngf of longs tibt brf supportfd is only fqubl to
+     * tif rbngf tibt dbn bf storfd by doublf. Tiis will nfvfr bf
+     * b prbdtidbl limitbtion.
      */
-    public StringBuffer format(long number, StringBuffer toAppendTo,
-                               FieldPosition status) {
-        return format((double)number, toAppendTo, status);
+    publid StringBufffr formbt(long numbfr, StringBufffr toAppfndTo,
+                               FifldPosition stbtus) {
+        rfturn formbt((doublf)numbfr, toAppfndTo, stbtus);
     }
 
     /**
-     * Returns pattern with formatted double.
-     * @param number number to be formatted and substituted.
-     * @param toAppendTo where text is appended.
-     * @param status ignore no useful status is returned.
+     * Rfturns pbttfrn witi formbttfd doublf.
+     * @pbrbm numbfr numbfr to bf formbttfd bnd substitutfd.
+     * @pbrbm toAppfndTo wifrf tfxt is bppfndfd.
+     * @pbrbm stbtus ignorf no usfful stbtus is rfturnfd.
      */
-   public StringBuffer format(double number, StringBuffer toAppendTo,
-                               FieldPosition status) {
-        // find the number
+   publid StringBufffr formbt(doublf numbfr, StringBufffr toAppfndTo,
+                               FifldPosition stbtus) {
+        // find tif numbfr
         int i;
-        for (i = 0; i < choiceLimits.length; ++i) {
-            if (!(number >= choiceLimits[i])) {
-                // same as number < choiceLimits, except catchs NaN
-                break;
+        for (i = 0; i < dioidfLimits.lfngti; ++i) {
+            if (!(numbfr >= dioidfLimits[i])) {
+                // sbmf bs numbfr < dioidfLimits, fxdfpt dbtdis NbN
+                brfbk;
             }
         }
         --i;
         if (i < 0) i = 0;
-        // return either a formatted number, or a string
-        return toAppendTo.append(choiceFormats[i]);
+        // rfturn fitifr b formbttfd numbfr, or b string
+        rfturn toAppfndTo.bppfnd(dioidfFormbts[i]);
     }
 
     /**
-     * Parses a Number from the input text.
-     * @param text the source text.
-     * @param status an input-output parameter.  On input, the
-     * status.index field indicates the first character of the
-     * source text that should be parsed.  On exit, if no error
-     * occurred, status.index is set to the first unparsed character
-     * in the source text.  On exit, if an error did occur,
-     * status.index is unchanged and status.errorIndex is set to the
-     * first index of the character that caused the parse to fail.
-     * @return A Number representing the value of the number parsed.
+     * Pbrsfs b Numbfr from tif input tfxt.
+     * @pbrbm tfxt tif sourdf tfxt.
+     * @pbrbm stbtus bn input-output pbrbmftfr.  On input, tif
+     * stbtus.indfx fifld indidbtfs tif first dibrbdtfr of tif
+     * sourdf tfxt tibt siould bf pbrsfd.  On fxit, if no frror
+     * oddurrfd, stbtus.indfx is sft to tif first unpbrsfd dibrbdtfr
+     * in tif sourdf tfxt.  On fxit, if bn frror did oddur,
+     * stbtus.indfx is undibngfd bnd stbtus.frrorIndfx is sft to tif
+     * first indfx of tif dibrbdtfr tibt dbusfd tif pbrsf to fbil.
+     * @rfturn A Numbfr rfprfsfnting tif vbluf of tif numbfr pbrsfd.
      */
-    public Number parse(String text, ParsePosition status) {
-        // find the best number (defined as the one with the longest parse)
-        int start = status.index;
-        int furthest = start;
-        double bestNumber = Double.NaN;
-        double tempNumber = 0.0;
-        for (int i = 0; i < choiceFormats.length; ++i) {
-            String tempString = choiceFormats[i];
-            if (text.regionMatches(start, tempString, 0, tempString.length())) {
-                status.index = start + tempString.length();
-                tempNumber = choiceLimits[i];
-                if (status.index > furthest) {
-                    furthest = status.index;
-                    bestNumber = tempNumber;
-                    if (furthest == text.length()) break;
+    publid Numbfr pbrsf(String tfxt, PbrsfPosition stbtus) {
+        // find tif bfst numbfr (dffinfd bs tif onf witi tif longfst pbrsf)
+        int stbrt = stbtus.indfx;
+        int furtifst = stbrt;
+        doublf bfstNumbfr = Doublf.NbN;
+        doublf tfmpNumbfr = 0.0;
+        for (int i = 0; i < dioidfFormbts.lfngti; ++i) {
+            String tfmpString = dioidfFormbts[i];
+            if (tfxt.rfgionMbtdifs(stbrt, tfmpString, 0, tfmpString.lfngti())) {
+                stbtus.indfx = stbrt + tfmpString.lfngti();
+                tfmpNumbfr = dioidfLimits[i];
+                if (stbtus.indfx > furtifst) {
+                    furtifst = stbtus.indfx;
+                    bfstNumbfr = tfmpNumbfr;
+                    if (furtifst == tfxt.lfngti()) brfbk;
                 }
             }
         }
-        status.index = furthest;
-        if (status.index == start) {
-            status.errorIndex = furthest;
+        stbtus.indfx = furtifst;
+        if (stbtus.indfx == stbrt) {
+            stbtus.frrorIndfx = furtifst;
         }
-        return new Double(bestNumber);
+        rfturn nfw Doublf(bfstNumbfr);
     }
 
     /**
-     * Finds the least double greater than {@code d}.
-     * If {@code NaN}, returns same value.
-     * <p>Used to make half-open intervals.
+     * Finds tif lfbst doublf grfbtfr tibn {@dodf d}.
+     * If {@dodf NbN}, rfturns sbmf vbluf.
+     * <p>Usfd to mbkf iblf-opfn intfrvbls.
      *
-     * @param d the reference value
-     * @return the least double value greather than {@code d}
-     * @see #previousDouble
+     * @pbrbm d tif rfffrfndf vbluf
+     * @rfturn tif lfbst doublf vbluf grfbtifr tibn {@dodf d}
+     * @sff #prfviousDoublf
      */
-    public static final double nextDouble (double d) {
-        return nextDouble(d,true);
+    publid stbtid finbl doublf nfxtDoublf (doublf d) {
+        rfturn nfxtDoublf(d,truf);
     }
 
     /**
-     * Finds the greatest double less than {@code d}.
-     * If {@code NaN}, returns same value.
+     * Finds tif grfbtfst doublf lfss tibn {@dodf d}.
+     * If {@dodf NbN}, rfturns sbmf vbluf.
      *
-     * @param d the reference value
-     * @return the greatest double value less than {@code d}
-     * @see #nextDouble
+     * @pbrbm d tif rfffrfndf vbluf
+     * @rfturn tif grfbtfst doublf vbluf lfss tibn {@dodf d}
+     * @sff #nfxtDoublf
      */
-    public static final double previousDouble (double d) {
-        return nextDouble(d,false);
+    publid stbtid finbl doublf prfviousDoublf (doublf d) {
+        rfturn nfxtDoublf(d,fblsf);
     }
 
     /**
-     * Overrides Cloneable
+     * Ovfrridfs Clonfbblf
      */
-    public Object clone()
+    publid Objfdt dlonf()
     {
-        ChoiceFormat other = (ChoiceFormat) super.clone();
-        // for primitives or immutables, shallow clone is enough
-        other.choiceLimits = choiceLimits.clone();
-        other.choiceFormats = choiceFormats.clone();
-        return other;
+        CioidfFormbt otifr = (CioidfFormbt) supfr.dlonf();
+        // for primitivfs or immutbblfs, sibllow dlonf is fnougi
+        otifr.dioidfLimits = dioidfLimits.dlonf();
+        otifr.dioidfFormbts = dioidfFormbts.dlonf();
+        rfturn otifr;
     }
 
     /**
-     * Generates a hash code for the message format object.
+     * Gfnfrbtfs b ibsi dodf for tif mfssbgf formbt objfdt.
      */
-    public int hashCode() {
-        int result = choiceLimits.length;
-        if (choiceFormats.length > 0) {
-            // enough for reasonable distribution
-            result ^= choiceFormats[choiceFormats.length-1].hashCode();
+    publid int ibsiCodf() {
+        int rfsult = dioidfLimits.lfngti;
+        if (dioidfFormbts.lfngti > 0) {
+            // fnougi for rfbsonbblf distribution
+            rfsult ^= dioidfFormbts[dioidfFormbts.lfngti-1].ibsiCodf();
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Equality comparision between two
+     * Equblity dompbrision bftwffn two
      */
-    public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (this == obj)                      // quick check
-            return true;
-        if (getClass() != obj.getClass())
-            return false;
-        ChoiceFormat other = (ChoiceFormat) obj;
-        return (Arrays.equals(choiceLimits, other.choiceLimits)
-             && Arrays.equals(choiceFormats, other.choiceFormats));
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == null) rfturn fblsf;
+        if (tiis == obj)                      // quidk difdk
+            rfturn truf;
+        if (gftClbss() != obj.gftClbss())
+            rfturn fblsf;
+        CioidfFormbt otifr = (CioidfFormbt) obj;
+        rfturn (Arrbys.fqubls(dioidfLimits, otifr.dioidfLimits)
+             && Arrbys.fqubls(dioidfFormbts, otifr.dioidfFormbts));
     }
 
     /**
-     * After reading an object from the input stream, do a simple verification
-     * to maintain class invariants.
-     * @throws InvalidObjectException if the objects read from the stream is invalid.
+     * Aftfr rfbding bn objfdt from tif input strfbm, do b simplf vfrifidbtion
+     * to mbintbin dlbss invbribnts.
+     * @tirows InvblidObjfdtExdfption if tif objfdts rfbd from tif strfbm is invblid.
      */
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
-        if (choiceLimits.length != choiceFormats.length) {
-            throw new InvalidObjectException(
-                    "limits and format arrays of different length.");
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in) tirows IOExdfption, ClbssNotFoundExdfption {
+        in.dffbultRfbdObjfdt();
+        if (dioidfLimits.lfngti != dioidfFormbts.lfngti) {
+            tirow nfw InvblidObjfdtExdfption(
+                    "limits bnd formbt brrbys of difffrfnt lfngti.");
         }
     }
 
-    // ===============privates===========================
+    // ===============privbtfs===========================
 
     /**
-     * A list of lower bounds for the choices.  The formatter will return
-     * <code>choiceFormats[i]</code> if the number being formatted is greater than or equal to
-     * <code>choiceLimits[i]</code> and less than <code>choiceLimits[i+1]</code>.
-     * @serial
+     * A list of lowfr bounds for tif dioidfs.  Tif formbttfr will rfturn
+     * <dodf>dioidfFormbts[i]</dodf> if tif numbfr bfing formbttfd is grfbtfr tibn or fqubl to
+     * <dodf>dioidfLimits[i]</dodf> bnd lfss tibn <dodf>dioidfLimits[i+1]</dodf>.
+     * @sfribl
      */
-    private double[] choiceLimits;
+    privbtf doublf[] dioidfLimits;
 
     /**
-     * A list of choice strings.  The formatter will return
-     * <code>choiceFormats[i]</code> if the number being formatted is greater than or equal to
-     * <code>choiceLimits[i]</code> and less than <code>choiceLimits[i+1]</code>.
-     * @serial
+     * A list of dioidf strings.  Tif formbttfr will rfturn
+     * <dodf>dioidfFormbts[i]</dodf> if tif numbfr bfing formbttfd is grfbtfr tibn or fqubl to
+     * <dodf>dioidfLimits[i]</dodf> bnd lfss tibn <dodf>dioidfLimits[i+1]</dodf>.
+     * @sfribl
      */
-    private String[] choiceFormats;
+    privbtf String[] dioidfFormbts;
 
     /*
-    static final long SIGN          = 0x8000000000000000L;
-    static final long EXPONENT      = 0x7FF0000000000000L;
-    static final long SIGNIFICAND   = 0x000FFFFFFFFFFFFFL;
+    stbtid finbl long SIGN          = 0x8000000000000000L;
+    stbtid finbl long EXPONENT      = 0x7FF0000000000000L;
+    stbtid finbl long SIGNIFICAND   = 0x000FFFFFFFFFFFFFL;
 
-    private static double nextDouble (double d, boolean positive) {
-        if (Double.isNaN(d) || Double.isInfinite(d)) {
-                return d;
+    privbtf stbtid doublf nfxtDoublf (doublf d, boolfbn positivf) {
+        if (Doublf.isNbN(d) || Doublf.isInfinitf(d)) {
+                rfturn d;
             }
-        long bits = Double.doubleToLongBits(d);
-        long significand = bits & SIGNIFICAND;
+        long bits = Doublf.doublfToLongBits(d);
+        long signifidbnd = bits & SIGNIFICAND;
         if (bits < 0) {
-            significand |= (SIGN | EXPONENT);
+            signifidbnd |= (SIGN | EXPONENT);
         }
-        long exponent = bits & EXPONENT;
-        if (positive) {
-            significand += 1;
-            // FIXME fix overflow & underflow
-        } else {
-            significand -= 1;
-            // FIXME fix overflow & underflow
+        long fxponfnt = bits & EXPONENT;
+        if (positivf) {
+            signifidbnd += 1;
+            // FIXME fix ovfrflow & undfrflow
+        } flsf {
+            signifidbnd -= 1;
+            // FIXME fix ovfrflow & undfrflow
         }
-        bits = exponent | (significand & ~EXPONENT);
-        return Double.longBitsToDouble(bits);
+        bits = fxponfnt | (signifidbnd & ~EXPONENT);
+        rfturn Doublf.longBitsToDoublf(bits);
     }
     */
 
-    static final long SIGN                = 0x8000000000000000L;
-    static final long EXPONENT            = 0x7FF0000000000000L;
-    static final long POSITIVEINFINITY    = 0x7FF0000000000000L;
+    stbtid finbl long SIGN                = 0x8000000000000000L;
+    stbtid finbl long EXPONENT            = 0x7FF0000000000000L;
+    stbtid finbl long POSITIVEINFINITY    = 0x7FF0000000000000L;
 
     /**
-     * Finds the least double greater than {@code d} (if {@code positive} is
-     * {@code true}), or the greatest double less than {@code d} (if
-     * {@code positive} is {@code false}).
-     * If {@code NaN}, returns same value.
+     * Finds tif lfbst doublf grfbtfr tibn {@dodf d} (if {@dodf positivf} is
+     * {@dodf truf}), or tif grfbtfst doublf lfss tibn {@dodf d} (if
+     * {@dodf positivf} is {@dodf fblsf}).
+     * If {@dodf NbN}, rfturns sbmf vbluf.
      *
-     * Does not affect floating-point flags,
-     * provided these member functions do not:
-     *          Double.longBitsToDouble(long)
-     *          Double.doubleToLongBits(double)
-     *          Double.isNaN(double)
+     * Dofs not bfffdt flobting-point flbgs,
+     * providfd tifsf mfmbfr fundtions do not:
+     *          Doublf.longBitsToDoublf(long)
+     *          Doublf.doublfToLongBits(doublf)
+     *          Doublf.isNbN(doublf)
      *
-     * @param d        the reference value
-     * @param positive {@code true} if the least double is desired;
-     *                 {@code false} otherwise
-     * @return the least or greater double value
+     * @pbrbm d        tif rfffrfndf vbluf
+     * @pbrbm positivf {@dodf truf} if tif lfbst doublf is dfsirfd;
+     *                 {@dodf fblsf} otifrwisf
+     * @rfturn tif lfbst or grfbtfr doublf vbluf
      */
-    public static double nextDouble (double d, boolean positive) {
+    publid stbtid doublf nfxtDoublf (doublf d, boolfbn positivf) {
 
-        /* filter out NaN's */
-        if (Double.isNaN(d)) {
-            return d;
+        /* filtfr out NbN's */
+        if (Doublf.isNbN(d)) {
+            rfturn d;
         }
 
-        /* zero's are also a special case */
+        /* zfro's brf blso b spfdibl dbsf */
         if (d == 0.0) {
-            double smallestPositiveDouble = Double.longBitsToDouble(1L);
-            if (positive) {
-                return smallestPositiveDouble;
-            } else {
-                return -smallestPositiveDouble;
+            doublf smbllfstPositivfDoublf = Doublf.longBitsToDoublf(1L);
+            if (positivf) {
+                rfturn smbllfstPositivfDoublf;
+            } flsf {
+                rfturn -smbllfstPositivfDoublf;
             }
         }
 
-        /* if entering here, d is a nonzero value */
+        /* if fntfring ifrf, d is b nonzfro vbluf */
 
-        /* hold all bits in a long for later use */
-        long bits = Double.doubleToLongBits(d);
+        /* iold bll bits in b long for lbtfr usf */
+        long bits = Doublf.doublfToLongBits(d);
 
-        /* strip off the sign bit */
-        long magnitude = bits & ~SIGN;
+        /* strip off tif sign bit */
+        long mbgnitudf = bits & ~SIGN;
 
-        /* if next double away from zero, increase magnitude */
-        if ((bits > 0) == positive) {
-            if (magnitude != POSITIVEINFINITY) {
-                magnitude += 1;
+        /* if nfxt doublf bwby from zfro, indrfbsf mbgnitudf */
+        if ((bits > 0) == positivf) {
+            if (mbgnitudf != POSITIVEINFINITY) {
+                mbgnitudf += 1;
             }
         }
-        /* else decrease magnitude */
-        else {
-            magnitude -= 1;
+        /* flsf dfdrfbsf mbgnitudf */
+        flsf {
+            mbgnitudf -= 1;
         }
 
-        /* restore sign bit and return */
+        /* rfstorf sign bit bnd rfturn */
         long signbit = bits & SIGN;
-        return Double.longBitsToDouble (magnitude | signbit);
+        rfturn Doublf.longBitsToDoublf (mbgnitudf | signbit);
     }
 
-    private static double[] doubleArraySize(double[] array) {
-        int oldSize = array.length;
-        double[] newArray = new double[oldSize * 2];
-        System.arraycopy(array, 0, newArray, 0, oldSize);
-        return newArray;
+    privbtf stbtid doublf[] doublfArrbySizf(doublf[] brrby) {
+        int oldSizf = brrby.lfngti;
+        doublf[] nfwArrby = nfw doublf[oldSizf * 2];
+        Systfm.brrbydopy(brrby, 0, nfwArrby, 0, oldSizf);
+        rfturn nfwArrby;
     }
 
-    private String[] doubleArraySize(String[] array) {
-        int oldSize = array.length;
-        String[] newArray = new String[oldSize * 2];
-        System.arraycopy(array, 0, newArray, 0, oldSize);
-        return newArray;
+    privbtf String[] doublfArrbySizf(String[] brrby) {
+        int oldSizf = brrby.lfngti;
+        String[] nfwArrby = nfw String[oldSizf * 2];
+        Systfm.brrbydopy(brrby, 0, nfwArrby, 0, oldSizf);
+        rfturn nfwArrby;
     }
 
 }

@@ -1,1661 +1,1661 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "X11SurfaceData.h"
-#include "GraphicsPrimitiveMgr.h"
-#include "Region.h"
-#include "Trace.h"
+#indludf "X11SurfbdfDbtb.i"
+#indludf "GrbpiidsPrimitivfMgr.i"
+#indludf "Rfgion.i"
+#indludf "Trbdf.i"
 
-/* Needed to define intptr_t */
-#include "gdefs.h"
+/* Nffdfd to dffinf intptr_t */
+#indludf "gdffs.i"
 
-#include "jni_util.h"
-#include "jvm_md.h"
-#include "awt_Component.h"
-#include "awt_GraphicsEnv.h"
+#indludf "jni_util.i"
+#indludf "jvm_md.i"
+#indludf "bwt_Componfnt.i"
+#indludf "bwt_GrbpiidsEnv.i"
 
-#include <dlfcn.h>
+#indludf <dlfdn.i>
 
-#ifndef HEADLESS
-static JDgaLibInfo DgaLibInfoStub;
-static JDgaLibInfo theJDgaInfo;
-static JDgaLibInfo *pJDgaInfo = &DgaLibInfoStub;
+#ifndff HEADLESS
+stbtid JDgbLibInfo DgbLibInfoStub;
+stbtid JDgbLibInfo tifJDgbInfo;
+stbtid JDgbLibInfo *pJDgbInfo = &DgbLibInfoStub;
 
 
 /**
- * This file contains support code for loops using the SurfaceData
- * interface to talk to an X11 drawable from native code.
+ * Tiis filf dontbins support dodf for loops using tif SurfbdfDbtb
+ * intfrfbdf to tblk to bn X11 drbwbblf from nbtivf dodf.
  */
 
-typedef struct _X11RIPrivate {
-    jint                lockType;
-    jint                lockFlags;
-    XImage              *img;
+typfdff strudt _X11RIPrivbtf {
+    jint                lodkTypf;
+    jint                lodkFlbgs;
+    XImbgf              *img;
     int                 x, y;
-} X11RIPrivate;
+} X11RIPrivbtf;
 
-#define XSD_MAX(a,b) ((a) > (b) ? (a) : (b))
-#define XSD_MIN(a,b) ((a) < (b) ? (a) : (b))
+#dffinf XSD_MAX(b,b) ((b) > (b) ? (b) : (b))
+#dffinf XSD_MIN(b,b) ((b) < (b) ? (b) : (b))
 
-static LockFunc X11SD_Lock;
-static GetRasInfoFunc X11SD_GetRasInfo;
-static UnlockFunc X11SD_Unlock;
-static DisposeFunc X11SD_Dispose;
-static GetPixmapBgFunc X11SD_GetPixmapWithBg;
-static ReleasePixmapBgFunc X11SD_ReleasePixmapWithBg;
-extern int XShmAttachXErrHandler(Display *display, XErrorEvent *xerr);
-extern AwtGraphicsConfigDataPtr
-    getGraphicsConfigFromComponentPeer(JNIEnv *env, jobject this);
-extern struct X11GraphicsConfigIDs x11GraphicsConfigIDs;
+stbtid LodkFund X11SD_Lodk;
+stbtid GftRbsInfoFund X11SD_GftRbsInfo;
+stbtid UnlodkFund X11SD_Unlodk;
+stbtid DisposfFund X11SD_Disposf;
+stbtid GftPixmbpBgFund X11SD_GftPixmbpWitiBg;
+stbtid RflfbsfPixmbpBgFund X11SD_RflfbsfPixmbpWitiBg;
+fxtfrn int XSimAttbdiXErrHbndlfr(Displby *displby, XErrorEvfnt *xfrr);
+fxtfrn AwtGrbpiidsConfigDbtbPtr
+    gftGrbpiidsConfigFromComponfntPffr(JNIEnv *fnv, jobjfdt tiis);
+fxtfrn strudt X11GrbpiidsConfigIDs x11GrbpiidsConfigIDs;
 
-static int X11SD_FindClip(SurfaceDataBounds *b, SurfaceDataBounds *bounds,
+stbtid int X11SD_FindClip(SurfbdfDbtbBounds *b, SurfbdfDbtbBounds *bounds,
                           X11SDOps *xsdo);
-static int X11SD_ClipToRoot(SurfaceDataBounds *b, SurfaceDataBounds *bounds,
+stbtid int X11SD_ClipToRoot(SurfbdfDbtbBounds *b, SurfbdfDbtbBounds *bounds,
                             X11SDOps *xsdo);
-static void X11SD_SwapBytes(X11SDOps *xsdo, XImage *img, int depth, int bpp);
-static XImage * X11SD_GetImage(JNIEnv *env, X11SDOps *xsdo,
-                               SurfaceDataBounds *bounds,
-                               jint lockFlags);
+stbtid void X11SD_SwbpBytfs(X11SDOps *xsdo, XImbgf *img, int dfpti, int bpp);
+stbtid XImbgf * X11SD_GftImbgf(JNIEnv *fnv, X11SDOps *xsdo,
+                               SurfbdfDbtbBounds *bounds,
+                               jint lodkFlbgs);
 
-extern jfieldID validID;
+fxtfrn jfifldID vblidID;
 
-static int nativeByteOrder;
-static jboolean dgaAvailable = JNI_FALSE;
-static jboolean useDGAWithPixmaps = JNI_FALSE;
-static jclass xorCompClass;
+stbtid int nbtivfBytfOrdfr;
+stbtid jboolfbn dgbAvbilbblf = JNI_FALSE;
+stbtid jboolfbn usfDGAWitiPixmbps = JNI_FALSE;
+stbtid jdlbss xorCompClbss;
 
-jint useMitShmExt = CANT_USE_MITSHM;
-jint useMitShmPixmaps = CANT_USE_MITSHM;
-jint forceSharedPixmaps = JNI_FALSE;
-int mitShmPermissionMask = MITSHM_PERM_OWNER;
+jint usfMitSimExt = CANT_USE_MITSHM;
+jint usfMitSimPixmbps = CANT_USE_MITSHM;
+jint fordfSibrfdPixmbps = JNI_FALSE;
+int mitSimPfrmissionMbsk = MITSHM_PERM_OWNER;
 
-/* Cached shared image, one for all surface datas. */
-static XImage * cachedXImage;
+/* Cbdifd sibrfd imbgf, onf for bll surfbdf dbtbs. */
+stbtid XImbgf * dbdifdXImbgf;
 
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 
-jboolean XShared_initIDs(JNIEnv *env, jboolean allowShmPixmaps)
+jboolfbn XSibrfd_initIDs(JNIEnv *fnv, jboolfbn bllowSimPixmbps)
 {
-#ifndef HEADLESS
+#ifndff HEADLESS
    union {
-        char c[4];
+        dibr d[4];
         int i;
-    } endian;
+    } fndibn;
 
-    endian.i = 0xff000000;
-    nativeByteOrder = (endian.c[0]) ? MSBFirst : LSBFirst;
+    fndibn.i = 0xff000000;
+    nbtivfBytfOrdfr = (fndibn.d[0]) ? MSBFirst : LSBFirst;
 
-    dgaAvailable = JNI_FALSE;
+    dgbAvbilbblf = JNI_FALSE;
 
-    cachedXImage = NULL;
+    dbdifdXImbgf = NULL;
 
-    if (sizeof(X11RIPrivate) > SD_RASINFO_PRIVATE_SIZE) {
-        JNU_ThrowInternalError(env, "Private RasInfo structure too large!");
-        return JNI_FALSE;
+    if (sizfof(X11RIPrivbtf) > SD_RASINFO_PRIVATE_SIZE) {
+        JNU_TirowIntfrnblError(fnv, "Privbtf RbsInfo strudturf too lbrgf!");
+        rfturn JNI_FALSE;
     }
 
-#ifdef MITSHM
-    if (getenv("NO_AWT_MITSHM") == NULL &&
-        getenv("NO_J2D_MITSHM") == NULL) {
-        char * force;
-        char * permission = getenv("J2D_MITSHM_PERMISSION");
-        if (permission != NULL) {
-            if (strcmp(permission, "common") == 0) {
-                mitShmPermissionMask = MITSHM_PERM_COMMON;
+#ifdff MITSHM
+    if (gftfnv("NO_AWT_MITSHM") == NULL &&
+        gftfnv("NO_J2D_MITSHM") == NULL) {
+        dibr * fordf;
+        dibr * pfrmission = gftfnv("J2D_MITSHM_PERMISSION");
+        if (pfrmission != NULL) {
+            if (strdmp(pfrmission, "dommon") == 0) {
+                mitSimPfrmissionMbsk = MITSHM_PERM_COMMON;
             }
         }
 
-        TryInitMITShm(env, &useMitShmExt, &useMitShmPixmaps);
+        TryInitMITSim(fnv, &usfMitSimExt, &usfMitSimPixmbps);
 
-        if(allowShmPixmaps) {
-          useMitShmPixmaps = (useMitShmPixmaps == CAN_USE_MITSHM);
-          force = getenv("J2D_PIXMAPS");
-          if (force != NULL) {
-              if (useMitShmPixmaps && (strcmp(force, "shared") == 0)) {
-                  forceSharedPixmaps = JNI_TRUE;
-              } else if (strcmp(force, "server") == 0) {
-                  useMitShmPixmaps = JNI_FALSE;
+        if(bllowSimPixmbps) {
+          usfMitSimPixmbps = (usfMitSimPixmbps == CAN_USE_MITSHM);
+          fordf = gftfnv("J2D_PIXMAPS");
+          if (fordf != NULL) {
+              if (usfMitSimPixmbps && (strdmp(fordf, "sibrfd") == 0)) {
+                  fordfSibrfdPixmbps = JNI_TRUE;
+              } flsf if (strdmp(fordf, "sfrvfr") == 0) {
+                  usfMitSimPixmbps = JNI_FALSE;
               }
           }
-        }else {
-          useMitShmPixmaps = JNI_FALSE;
+        }flsf {
+          usfMitSimPixmbps = JNI_FALSE;
         }
     }
-#endif /* MITSHM */
+#fndif /* MITSHM */
 
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
 
 /*
- * Class:     sun_java2d_x11_X11SurfaceData
- * Method:    initIDs
- * Signature: (Ljava/lang/Class;Z)V
+ * Clbss:     sun_jbvb2d_x11_X11SurfbdfDbtb
+ * Mftiod:    initIDs
+ * Signbturf: (Ljbvb/lbng/Clbss;Z)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_x11_X11SurfaceData_initIDs(JNIEnv *env, jclass xsd,
-                                           jclass XORComp, jboolean tryDGA)
+Jbvb_sun_jbvb2d_x11_X11SurfbdfDbtb_initIDs(JNIEnv *fnv, jdlbss xsd,
+                                           jdlbss XORComp, jboolfbn tryDGA)
 {
-#ifndef HEADLESS
-  if(XShared_initIDs(env, JNI_TRUE))
+#ifndff HEADLESS
+  if(XSibrfd_initIDs(fnv, JNI_TRUE))
   {
     void *lib = 0;
 
-    xorCompClass = (*env)->NewGlobalRef(env, XORComp);
+    xorCompClbss = (*fnv)->NfwGlobblRff(fnv, XORComp);
 
-    if (tryDGA && (getenv("NO_J2D_DGA") == NULL)) {
-    /* we use RTLD_NOW because of bug 4032715 */
-        lib = dlopen(JNI_LIB_NAME("sunwjdga"), RTLD_NOW);
+    if (tryDGA && (gftfnv("NO_J2D_DGA") == NULL)) {
+    /* wf usf RTLD_NOW bfdbusf of bug 4032715 */
+        lib = dlopfn(JNI_LIB_NAME("sunwjdgb"), RTLD_NOW);
     }
 
     if (lib != NULL) {
-        JDgaStatus ret = JDGA_FAILED;
-        void *sym = dlsym(lib, "JDgaLibInit");
+        JDgbStbtus rft = JDGA_FAILED;
+        void *sym = dlsym(lib, "JDgbLibInit");
         if (sym != NULL) {
-            theJDgaInfo.display = awt_display;
+            tifJDgbInfo.displby = bwt_displby;
             AWT_LOCK();
-            ret = (*(JDgaLibInitFunc *)sym)(env, &theJDgaInfo);
+            rft = (*(JDgbLibInitFund *)sym)(fnv, &tifJDgbInfo);
             AWT_UNLOCK();
         }
-        if (ret == JDGA_SUCCESS) {
-            pJDgaInfo = &theJDgaInfo;
-            dgaAvailable = JNI_TRUE;
-            useDGAWithPixmaps = (getenv("USE_DGA_PIXMAPS") != NULL);
-        } else {
-            dlclose(lib);
+        if (rft == JDGA_SUCCESS) {
+            pJDgbInfo = &tifJDgbInfo;
+            dgbAvbilbblf = JNI_TRUE;
+            usfDGAWitiPixmbps = (gftfnv("USE_DGA_PIXMAPS") != NULL);
+        } flsf {
+            dldlosf(lib);
             lib = NULL;
         }
     }
   }
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_java2d_x11_X11SurfaceData
- * Method:    isDrawableValid
- * Signature: ()Z
+ * Clbss:     sun_jbvb2d_x11_X11SurfbdfDbtb
+ * Mftiod:    isDrbwbblfVblid
+ * Signbturf: ()Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_java2d_x11_XSurfaceData_isDrawableValid(JNIEnv *env, jobject this)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_jbvb2d_x11_XSurfbdfDbtb_isDrbwbblfVblid(JNIEnv *fnv, jobjfdt tiis)
 {
-    jboolean ret = JNI_FALSE;
+    jboolfbn rft = JNI_FALSE;
 
-#ifndef HEADLESS
-    X11SDOps *xsdo = X11SurfaceData_GetOps(env, this);
+#ifndff HEADLESS
+    X11SDOps *xsdo = X11SurfbdfDbtb_GftOps(fnv, tiis);
 
     AWT_LOCK();
-    if (xsdo->drawable != 0 || X11SD_InitWindow(env, xsdo) == SD_SUCCESS) {
-        ret = JNI_TRUE;
+    if (xsdo->drbwbblf != 0 || X11SD_InitWindow(fnv, xsdo) == SD_SUCCESS) {
+        rft = JNI_TRUE;
     }
     AWT_UNLOCK();
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 
-    return ret;
+    rfturn rft;
 }
 
 /*
- * Class: sun_java2d_x11_X11SurfaceData
- * Method: isShmPMAvailable
- * Signature: ()Z
+ * Clbss: sun_jbvb2d_x11_X11SurfbdfDbtb
+ * Mftiod: isSimPMAvbilbblf
+ * Signbturf: ()Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_java2d_x11_X11SurfaceData_isShmPMAvailable(JNIEnv *env, jobject this)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_jbvb2d_x11_X11SurfbdfDbtb_isSimPMAvbilbblf(JNIEnv *fnv, jobjfdt tiis)
 {
-#if defined(HEADLESS) || !defined(MITSHM)
-    return JNI_FALSE;
-#else
-    return (jboolean)useMitShmPixmaps;
-#endif /* HEADLESS, MITSHM */
+#if dffinfd(HEADLESS) || !dffinfd(MITSHM)
+    rfturn JNI_FALSE;
+#flsf
+    rfturn (jboolfbn)usfMitSimPixmbps;
+#fndif /* HEADLESS, MITSHM */
 }
 
 /*
- * Class:     sun_java2d_x11_X11SurfaceData
- * Method:    isDgaAvailable
- * Signature: ()Z
+ * Clbss:     sun_jbvb2d_x11_X11SurfbdfDbtb
+ * Mftiod:    isDgbAvbilbblf
+ * Signbturf: ()Z
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_java2d_x11_X11SurfaceData_isDgaAvailable(JNIEnv *env, jobject this)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_jbvb2d_x11_X11SurfbdfDbtb_isDgbAvbilbblf(JNIEnv *fnv, jobjfdt tiis)
 {
-#if defined(HEADLESS) || defined(__linux__)
-    return JNI_FALSE;
-#else
-    return dgaAvailable;
-#endif /* HEADLESS */
+#if dffinfd(HEADLESS) || dffinfd(__linux__)
+    rfturn JNI_FALSE;
+#flsf
+    rfturn dgbAvbilbblf;
+#fndif /* HEADLESS */
 }
 
 /*
- * Class:     sun_java2d_x11_X11SurfaceData
- * Method:    initOps
- * Signature: (Ljava/lang/Object;I)V
+ * Clbss:     sun_jbvb2d_x11_X11SurfbdfDbtb
+ * Mftiod:    initOps
+ * Signbturf: (Ljbvb/lbng/Objfdt;I)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_x11_XSurfaceData_initOps(JNIEnv *env, jobject xsd,
-                                           jobject peer,
-                                           jobject graphicsConfig, jint depth)
+Jbvb_sun_jbvb2d_x11_XSurfbdfDbtb_initOps(JNIEnv *fnv, jobjfdt xsd,
+                                           jobjfdt pffr,
+                                           jobjfdt grbpiidsConfig, jint dfpti)
 {
-#ifndef HEADLESS
-    X11SDOps *xsdo = (X11SDOps*)SurfaceData_InitOps(env, xsd, sizeof(X11SDOps));
-    jboolean hasException;
+#ifndff HEADLESS
+    X11SDOps *xsdo = (X11SDOps*)SurfbdfDbtb_InitOps(fnv, xsd, sizfof(X11SDOps));
+    jboolfbn ibsExdfption;
     if (xsdo == NULL) {
-        JNU_ThrowOutOfMemoryError(env, "Initialization of SurfaceData failed.");
-        return;
+        JNU_TirowOutOfMfmoryError(fnv, "Initiblizbtion of SurfbdfDbtb fbilfd.");
+        rfturn;
     }
-    xsdo->sdOps.Lock = X11SD_Lock;
-    xsdo->sdOps.GetRasInfo = X11SD_GetRasInfo;
-    xsdo->sdOps.Unlock = X11SD_Unlock;
-    xsdo->sdOps.Dispose = X11SD_Dispose;
-    xsdo->GetPixmapWithBg = X11SD_GetPixmapWithBg;
-    xsdo->ReleasePixmapWithBg = X11SD_ReleasePixmapWithBg;
-    xsdo->widget = NULL;
-    if (peer != NULL) {
-        xsdo->drawable = JNU_CallMethodByName(env, &hasException, peer, "getWindow", "()J").j;
-        if (hasException) {
-            return;
+    xsdo->sdOps.Lodk = X11SD_Lodk;
+    xsdo->sdOps.GftRbsInfo = X11SD_GftRbsInfo;
+    xsdo->sdOps.Unlodk = X11SD_Unlodk;
+    xsdo->sdOps.Disposf = X11SD_Disposf;
+    xsdo->GftPixmbpWitiBg = X11SD_GftPixmbpWitiBg;
+    xsdo->RflfbsfPixmbpWitiBg = X11SD_RflfbsfPixmbpWitiBg;
+    xsdo->widgft = NULL;
+    if (pffr != NULL) {
+        xsdo->drbwbblf = JNU_CbllMftiodByNbmf(fnv, &ibsExdfption, pffr, "gftWindow", "()J").j;
+        if (ibsExdfption) {
+            rfturn;
         }
-    } else {
-        xsdo->drawable = 0;
+    } flsf {
+        xsdo->drbwbblf = 0;
     }
-    xsdo->depth = depth;
-    xsdo->dgaAvailable = dgaAvailable;
-    xsdo->isPixmap = JNI_FALSE;
-    xsdo->bitmask = 0;
-    xsdo->bgPixel = 0;
-    xsdo->isBgInitialized = JNI_FALSE;
-#ifdef MITSHM
-    xsdo->shmPMData.shmSegInfo = NULL;
-    xsdo->shmPMData.xRequestSent = JNI_FALSE;
-    xsdo->shmPMData.pmSize = 0;
-    xsdo->shmPMData.usingShmPixmap = JNI_FALSE;
-    xsdo->shmPMData.pixmap = 0;
-    xsdo->shmPMData.shmPixmap = 0;
-    xsdo->shmPMData.numBltsSinceRead = 0;
-    xsdo->shmPMData.pixelsReadSinceBlt = 0;
-    xsdo->shmPMData.numBltsThreshold = 2;
-#endif /* MITSHM */
+    xsdo->dfpti = dfpti;
+    xsdo->dgbAvbilbblf = dgbAvbilbblf;
+    xsdo->isPixmbp = JNI_FALSE;
+    xsdo->bitmbsk = 0;
+    xsdo->bgPixfl = 0;
+    xsdo->isBgInitiblizfd = JNI_FALSE;
+#ifdff MITSHM
+    xsdo->simPMDbtb.simSfgInfo = NULL;
+    xsdo->simPMDbtb.xRfqufstSfnt = JNI_FALSE;
+    xsdo->simPMDbtb.pmSizf = 0;
+    xsdo->simPMDbtb.usingSimPixmbp = JNI_FALSE;
+    xsdo->simPMDbtb.pixmbp = 0;
+    xsdo->simPMDbtb.simPixmbp = 0;
+    xsdo->simPMDbtb.numBltsSindfRfbd = 0;
+    xsdo->simPMDbtb.pixflsRfbdSindfBlt = 0;
+    xsdo->simPMDbtb.numBltsTirfsiold = 2;
+#fndif /* MITSHM */
 
-    xsdo->configData = (AwtGraphicsConfigDataPtr)
-        JNU_GetLongFieldAsPtr(env,
-                              graphicsConfig,
-                              x11GraphicsConfigIDs.aData);
-    if (xsdo->configData == NULL) {
-        JNU_ThrowNullPointerException(env,
-                                      "Native GraphicsConfig data block missing");
-        return;
+    xsdo->donfigDbtb = (AwtGrbpiidsConfigDbtbPtr)
+        JNU_GftLongFifldAsPtr(fnv,
+                              grbpiidsConfig,
+                              x11GrbpiidsConfigIDs.bDbtb);
+    if (xsdo->donfigDbtb == NULL) {
+        JNU_TirowNullPointfrExdfption(fnv,
+                                      "Nbtivf GrbpiidsConfig dbtb blodk missing");
+        rfturn;
     }
-    if (depth > 12) {
-        xsdo->pixelmask = (xsdo->configData->awt_visInfo.red_mask |
-                           xsdo->configData->awt_visInfo.green_mask |
-                           xsdo->configData->awt_visInfo.blue_mask);
-    } else if (depth == 12) {
-        xsdo->pixelmask = 0xfff;
-    } else {
-        xsdo->pixelmask = 0xff;
+    if (dfpti > 12) {
+        xsdo->pixflmbsk = (xsdo->donfigDbtb->bwt_visInfo.rfd_mbsk |
+                           xsdo->donfigDbtb->bwt_visInfo.grffn_mbsk |
+                           xsdo->donfigDbtb->bwt_visInfo.bluf_mbsk);
+    } flsf if (dfpti == 12) {
+        xsdo->pixflmbsk = 0xfff;
+    } flsf {
+        xsdo->pixflmbsk = 0xff;
     }
 
-    xsdo->xrPic = None;
-#endif /* !HEADLESS */
+    xsdo->xrPid = Nonf;
+#fndif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_java2d_x11_X11SurfaceData
- * Method:    flushNativeSurface
- * Signature: ()V
+ * Clbss:     sun_jbvb2d_x11_X11SurfbdfDbtb
+ * Mftiod:    flusiNbtivfSurfbdf
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_x11_XSurfaceData_flushNativeSurface(JNIEnv *env, jobject xsd)
+Jbvb_sun_jbvb2d_x11_XSurfbdfDbtb_flusiNbtivfSurfbdf(JNIEnv *fnv, jobjfdt xsd)
 {
-#ifndef HEADLESS
-    SurfaceDataOps *ops = SurfaceData_GetOps(env, xsd);
+#ifndff HEADLESS
+    SurfbdfDbtbOps *ops = SurfbdfDbtb_GftOps(fnv, xsd);
 
     if (ops != NULL) {
-        X11SD_Dispose(env, ops);
+        X11SD_Disposf(fnv, ops);
     }
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 }
 
 
 JNIEXPORT X11SDOps * JNICALL
-X11SurfaceData_GetOps(JNIEnv *env, jobject sData)
+X11SurfbdfDbtb_GftOps(JNIEnv *fnv, jobjfdt sDbtb)
 {
-#ifdef HEADLESS
-    return NULL;
-#else
-    SurfaceDataOps *ops = SurfaceData_GetOps(env, sData);
-    if (ops != NULL && ops->Lock != X11SD_Lock) {
-        SurfaceData_ThrowInvalidPipeException(env, "not an X11 SurfaceData");
+#ifdff HEADLESS
+    rfturn NULL;
+#flsf
+    SurfbdfDbtbOps *ops = SurfbdfDbtb_GftOps(fnv, sDbtb);
+    if (ops != NULL && ops->Lodk != X11SD_Lodk) {
+        SurfbdfDbtb_TirowInvblidPipfExdfption(fnv, "not bn X11 SurfbdfDbtb");
         ops = NULL;
     }
-    return (X11SDOps *) ops;
-#endif /* !HEADLESS */
+    rfturn (X11SDOps *) ops;
+#fndif /* !HEADLESS */
 }
 
 /*
- * Method for disposing X11SD-specific data
+ * Mftiod for disposing X11SD-spfdifid dbtb
  */
-static void
-X11SD_Dispose(JNIEnv *env, SurfaceDataOps *ops)
+stbtid void
+X11SD_Disposf(JNIEnv *fnv, SurfbdfDbtbOps *ops)
 {
-#ifndef HEADLESS
-    /* ops is assumed non-null as it is checked in SurfaceData_DisposeOps */
+#ifndff HEADLESS
+    /* ops is bssumfd non-null bs it is difdkfd in SurfbdfDbtb_DisposfOps */
     X11SDOps * xsdo = (X11SDOps*)ops;
 
     AWT_LOCK();
 
-    xsdo->invalid = JNI_TRUE;
+    xsdo->invblid = JNI_TRUE;
 
-    if (xsdo->xrPic != None) {
-        XRenderFreePicture(awt_display, xsdo->xrPic);
-        xsdo->xrPic = None;
+    if (xsdo->xrPid != Nonf) {
+        XRfndfrFrffPidturf(bwt_displby, xsdo->xrPid);
+        xsdo->xrPid = Nonf;
      }
 
-    if (xsdo->isPixmap == JNI_TRUE && xsdo->drawable != 0) {
-#ifdef MITSHM
-        if (xsdo->shmPMData.shmSegInfo != NULL) {
-            X11SD_DropSharedSegment(xsdo->shmPMData.shmSegInfo);
-            xsdo->shmPMData.shmSegInfo = NULL;
+    if (xsdo->isPixmbp == JNI_TRUE && xsdo->drbwbblf != 0) {
+#ifdff MITSHM
+        if (xsdo->simPMDbtb.simSfgInfo != NULL) {
+            X11SD_DropSibrfdSfgmfnt(xsdo->simPMDbtb.simSfgInfo);
+            xsdo->simPMDbtb.simSfgInfo = NULL;
         }
-        if (xsdo->shmPMData.pixmap) {
-            XFreePixmap(awt_display, xsdo->shmPMData.pixmap);
-            xsdo->shmPMData.pixmap = 0;
+        if (xsdo->simPMDbtb.pixmbp) {
+            XFrffPixmbp(bwt_displby, xsdo->simPMDbtb.pixmbp);
+            xsdo->simPMDbtb.pixmbp = 0;
         }
-        if (xsdo->shmPMData.shmPixmap) {
-            XFreePixmap(awt_display, xsdo->shmPMData.shmPixmap);
-            xsdo->shmPMData.shmPixmap = 0;
+        if (xsdo->simPMDbtb.simPixmbp) {
+            XFrffPixmbp(bwt_displby, xsdo->simPMDbtb.simPixmbp);
+            xsdo->simPMDbtb.simPixmbp = 0;
         }
-#else
-        XFreePixmap(awt_display, xsdo->drawable);
-#endif /* MITSHM */
-        xsdo->drawable = 0;
+#flsf
+        XFrffPixmbp(bwt_displby, xsdo->drbwbblf);
+#fndif /* MITSHM */
+        xsdo->drbwbblf = 0;
     }
-    if (xsdo->bitmask != 0) {
-        XFreePixmap(awt_display, xsdo->bitmask);
-        xsdo->bitmask = 0;
+    if (xsdo->bitmbsk != 0) {
+        XFrffPixmbp(bwt_displby, xsdo->bitmbsk);
+        xsdo->bitmbsk = 0;
     }
-    if (xsdo->javaGC != NULL) {
-        XFreeGC(awt_display, xsdo->javaGC);
-        xsdo->javaGC = NULL;
+    if (xsdo->jbvbGC != NULL) {
+        XFrffGC(bwt_displby, xsdo->jbvbGC);
+        xsdo->jbvbGC = NULL;
     }
-    if (xsdo->cachedGC != NULL) {
-        XFreeGC(awt_display, xsdo->cachedGC);
-        xsdo->cachedGC = NULL;
+    if (xsdo->dbdifdGC != NULL) {
+        XFrffGC(bwt_displby, xsdo->dbdifdGC);
+        xsdo->dbdifdGC = NULL;
     }
 
-    if(xsdo->xrPic != None) {
-      XRenderFreePicture(awt_display, xsdo->xrPic);
+    if(xsdo->xrPid != Nonf) {
+      XRfndfrFrffPidturf(bwt_displby, xsdo->xrPid);
     }
 
     AWT_UNLOCK();
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 }
 /*
- * Class:     sun_java2d_x11_X11SurfaceData
- * Method:    setInvalid
- * Signature: ()V
+ * Clbss:     sun_jbvb2d_x11_X11SurfbdfDbtb
+ * Mftiod:    sftInvblid
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_x11_XSurfaceData_setInvalid(JNIEnv *env, jobject xsd)
+Jbvb_sun_jbvb2d_x11_XSurfbdfDbtb_sftInvblid(JNIEnv *fnv, jobjfdt xsd)
 {
-#ifndef HEADLESS
-    X11SDOps *xsdo = (X11SDOps *) SurfaceData_GetOps(env, xsd);
+#ifndff HEADLESS
+    X11SDOps *xsdo = (X11SDOps *) SurfbdfDbtb_GftOps(fnv, xsd);
 
     if (xsdo != NULL) {
-        xsdo->invalid = JNI_TRUE;
+        xsdo->invblid = JNI_TRUE;
     }
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 }
 
 
-jboolean XShared_initSurface(JNIEnv *env, X11SDOps *xsdo, jint depth, jint width, jint height, jlong drawable)
+jboolfbn XSibrfd_initSurfbdf(JNIEnv *fnv, X11SDOps *xsdo, jint dfpti, jint widti, jint ifigit, jlong drbwbblf)
 {
-#ifndef HEADLESS
+#ifndff HEADLESS
 
-    if (drawable != (jlong)0) {
-        /* Double-buffering */
-        xsdo->drawable = drawable;
-        xsdo->isPixmap = JNI_FALSE;
-    } else {
-        xsdo->isPixmap = JNI_TRUE;
-        /* REMIND: workaround for bug 4420220 on pgx32 boards:
-           don't use DGA with pixmaps unless USE_DGA_PIXMAPS is set.
+    if (drbwbblf != (jlong)0) {
+        /* Doublf-bufffring */
+        xsdo->drbwbblf = drbwbblf;
+        xsdo->isPixmbp = JNI_FALSE;
+    } flsf {
+        xsdo->isPixmbp = JNI_TRUE;
+        /* REMIND: workbround for bug 4420220 on pgx32 bobrds:
+           don't usf DGA witi pixmbps unlfss USE_DGA_PIXMAPS is sft.
          */
-        xsdo->dgaAvailable = useDGAWithPixmaps;
+        xsdo->dgbAvbilbblf = usfDGAWitiPixmbps;
 
-        xsdo->pmWidth = width;
-        xsdo->pmHeight = height;
+        xsdo->pmWidti = widti;
+        xsdo->pmHfigit = ifigit;
 
-#ifdef MITSHM
-        xsdo->shmPMData.pmSize = width * height * depth;
-        xsdo->shmPMData.pixelsReadThreshold = width * height / 8;
-        if (forceSharedPixmaps) {
+#ifdff MITSHM
+        xsdo->simPMDbtb.pmSizf = widti * ifigit * dfpti;
+        xsdo->simPMDbtb.pixflsRfbdTirfsiold = widti * ifigit / 8;
+        if (fordfSibrfdPixmbps) {
             AWT_LOCK();
-            xsdo->drawable = X11SD_CreateSharedPixmap(xsdo);
+            xsdo->drbwbblf = X11SD_CrfbtfSibrfdPixmbp(xsdo);
             AWT_UNLOCK();
-            JNU_CHECK_EXCEPTION_RETURN(env, JNI_FALSE);
-            if (xsdo->drawable) {
-                xsdo->shmPMData.usingShmPixmap = JNI_TRUE;
-                xsdo->shmPMData.shmPixmap = xsdo->drawable;
-                return JNI_TRUE;
+            JNU_CHECK_EXCEPTION_RETURN(fnv, JNI_FALSE);
+            if (xsdo->drbwbblf) {
+                xsdo->simPMDbtb.usingSimPixmbp = JNI_TRUE;
+                xsdo->simPMDbtb.simPixmbp = xsdo->drbwbblf;
+                rfturn JNI_TRUE;
             }
         }
-#endif /* MITSHM */
+#fndif /* MITSHM */
 
         AWT_LOCK();
-        xsdo->drawable =
-            XCreatePixmap(awt_display,
-                          RootWindow(awt_display,
-                                     xsdo->configData->awt_visInfo.screen),
-                          width, height, depth);
+        xsdo->drbwbblf =
+            XCrfbtfPixmbp(bwt_displby,
+                          RootWindow(bwt_displby,
+                                     xsdo->donfigDbtb->bwt_visInfo.sdrffn),
+                          widti, ifigit, dfpti);
         AWT_UNLOCK();
-        JNU_CHECK_EXCEPTION_RETURN(env, JNI_FALSE);
-#ifdef MITSHM
-        xsdo->shmPMData.usingShmPixmap = JNI_FALSE;
-        xsdo->shmPMData.pixmap = xsdo->drawable;
-#endif /* MITSHM */
+        JNU_CHECK_EXCEPTION_RETURN(fnv, JNI_FALSE);
+#ifdff MITSHM
+        xsdo->simPMDbtb.usingSimPixmbp = JNI_FALSE;
+        xsdo->simPMDbtb.pixmbp = xsdo->drbwbblf;
+#fndif /* MITSHM */
     }
-    if (xsdo->drawable == 0) {
-        JNU_ThrowOutOfMemoryError(env,
-                                  "Can't create offscreen surface");
-        return JNI_FALSE;
+    if (xsdo->drbwbblf == 0) {
+        JNU_TirowOutOfMfmoryError(fnv,
+                                  "Cbn't drfbtf offsdrffn surfbdf");
+        rfturn JNI_FALSE;
     }
 
-#endif /* !HEADLESS */
-    return JNI_TRUE;
+#fndif /* !HEADLESS */
+    rfturn JNI_TRUE;
 }
 
 
 /*
- * Class:     sun_java2d_x11_X11SurfaceData
- * Method:    initSurface
- * Signature: ()V
+ * Clbss:     sun_jbvb2d_x11_X11SurfbdfDbtb
+ * Mftiod:    initSurfbdf
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_x11_X11SurfaceData_initSurface(JNIEnv *env, jclass xsd,
-                                               jint depth,
-                                               jint width, jint height,
-                                               jlong drawable)
+Jbvb_sun_jbvb2d_x11_X11SurfbdfDbtb_initSurfbdf(JNIEnv *fnv, jdlbss xsd,
+                                               jint dfpti,
+                                               jint widti, jint ifigit,
+                                               jlong drbwbblf)
 {
-#ifndef HEADLESS
-    X11SDOps *xsdo = X11SurfaceData_GetOps(env, xsd);
+#ifndff HEADLESS
+    X11SDOps *xsdo = X11SurfbdfDbtb_GftOps(fnv, xsd);
     if (xsdo == NULL) {
-        return;
+        rfturn;
     }
 
-    if (xsdo->configData->awt_cmap == (Colormap)NULL) {
-        awtJNI_CreateColorData(env, xsdo->configData, 1);
-        JNU_CHECK_EXCEPTION(env);
+    if (xsdo->donfigDbtb->bwt_dmbp == (Colormbp)NULL) {
+        bwtJNI_CrfbtfColorDbtb(fnv, xsdo->donfigDbtb, 1);
+        JNU_CHECK_EXCEPTION(fnv);
     }
-    /* color_data will be initialized in awtJNI_CreateColorData for
-       8-bit visuals */
-    xsdo->cData = xsdo->configData->color_data;
+    /* dolor_dbtb will bf initiblizfd in bwtJNI_CrfbtfColorDbtb for
+       8-bit visubls */
+    xsdo->dDbtb = xsdo->donfigDbtb->dolor_dbtb;
 
-    XShared_initSurface(env, xsdo, depth, width, height, drawable);
-    xsdo->xrPic = None;
-#endif /* !HEADLESS */
+    XSibrfd_initSurfbdf(fnv, xsdo, dfpti, widti, ifigit, drbwbblf);
+    xsdo->xrPid = Nonf;
+#fndif /* !HEADLESS */
 }
 
-#ifndef HEADLESS
+#ifndff HEADLESS
 
-#ifdef MITSHM
+#ifdff MITSHM
 
-void X11SD_DropSharedSegment(XShmSegmentInfo *shminfo)
+void X11SD_DropSibrfdSfgmfnt(XSimSfgmfntInfo *siminfo)
 {
-    if (shminfo != NULL) {
-        XShmDetach(awt_display, shminfo);
-        shmdt(shminfo->shmaddr);
-/*      REMIND: we don't need shmctl(shminfo->shmid, IPC_RMID, 0); here. */
-/*      Check X11SD_CreateSharedImage() for the explanation */
+    if (siminfo != NULL) {
+        XSimDftbdi(bwt_displby, siminfo);
+        simdt(siminfo->simbddr);
+/*      REMIND: wf don't nffd simdtl(siminfo->simid, IPC_RMID, 0); ifrf. */
+/*      Cifdk X11SD_CrfbtfSibrfdImbgf() for tif fxplbnbtion */
     }
 }
 
-XImage* X11SD_CreateSharedImage(X11SDOps *xsdo,
-                                   jint width, jint height)
+XImbgf* X11SD_CrfbtfSibrfdImbgf(X11SDOps *xsdo,
+                                   jint widti, jint ifigit)
 {
-    XImage *img = NULL;
-    XShmSegmentInfo *shminfo;
+    XImbgf *img = NULL;
+    XSimSfgmfntInfo *siminfo;
 
-    shminfo = malloc(sizeof(XShmSegmentInfo));
-    if (shminfo == NULL) {
-        return NULL;
+    siminfo = mbllod(sizfof(XSimSfgmfntInfo));
+    if (siminfo == NULL) {
+        rfturn NULL;
     }
-    memset(shminfo, 0, sizeof(XShmSegmentInfo));
+    mfmsft(siminfo, 0, sizfof(XSimSfgmfntInfo));
 
-    img = XShmCreateImage(awt_display, xsdo->configData->awt_visInfo.visual,
-                          xsdo->depth, ZPixmap, NULL, shminfo,
-                          width, height);
+    img = XSimCrfbtfImbgf(bwt_displby, xsdo->donfigDbtb->bwt_visInfo.visubl,
+                          xsdo->dfpti, ZPixmbp, NULL, siminfo,
+                          widti, ifigit);
     if (img == NULL) {
-        free((void *)shminfo);
-        return NULL;
+        frff((void *)siminfo);
+        rfturn NULL;
     }
-    shminfo->shmid =
-        shmget(IPC_PRIVATE, height * img->bytes_per_line,
-               IPC_CREAT|mitShmPermissionMask);
-    if (shminfo->shmid < 0) {
-        J2dRlsTraceLn1(J2D_TRACE_ERROR,
-                       "X11SD_SetupSharedSegment shmget has failed: %s",
-                       strerror(errno));
-        free((void *)shminfo);
-        XDestroyImage(img);
-        return NULL;
-    }
-
-    shminfo->shmaddr = (char *) shmat(shminfo->shmid, 0, 0);
-    if (shminfo->shmaddr == ((char *) -1)) {
-        shmctl(shminfo->shmid, IPC_RMID, 0);
-        J2dRlsTraceLn1(J2D_TRACE_ERROR,
-                       "X11SD_SetupSharedSegment shmat has failed: %s",
-                       strerror(errno));
-        free((void *)shminfo);
-        XDestroyImage(img);
-        return NULL;
+    siminfo->simid =
+        simgft(IPC_PRIVATE, ifigit * img->bytfs_pfr_linf,
+               IPC_CREAT|mitSimPfrmissionMbsk);
+    if (siminfo->simid < 0) {
+        J2dRlsTrbdfLn1(J2D_TRACE_ERROR,
+                       "X11SD_SftupSibrfdSfgmfnt simgft ibs fbilfd: %s",
+                       strfrror(frrno));
+        frff((void *)siminfo);
+        XDfstroyImbgf(img);
+        rfturn NULL;
     }
 
-    shminfo->readOnly = False;
+    siminfo->simbddr = (dibr *) simbt(siminfo->simid, 0, 0);
+    if (siminfo->simbddr == ((dibr *) -1)) {
+        simdtl(siminfo->simid, IPC_RMID, 0);
+        J2dRlsTrbdfLn1(J2D_TRACE_ERROR,
+                       "X11SD_SftupSibrfdSfgmfnt simbt ibs fbilfd: %s",
+                       strfrror(frrno));
+        frff((void *)siminfo);
+        XDfstroyImbgf(img);
+        rfturn NULL;
+    }
 
-    resetXShmAttachFailed();
-    EXEC_WITH_XERROR_HANDLER(XShmAttachXErrHandler,
-                             XShmAttach(awt_display, shminfo));
+    siminfo->rfbdOnly = Fblsf;
+
+    rfsftXSimAttbdiFbilfd();
+    EXEC_WITH_XERROR_HANDLER(XSimAttbdiXErrHbndlfr,
+                             XSimAttbdi(bwt_displby, siminfo));
 
     /*
-     * Once the XSync round trip has finished then we
-     * can get rid of the id so that this segment does not stick
-     * around after we go away, holding system resources.
+     * Ondf tif XSynd round trip ibs finisifd tifn wf
+     * dbn gft rid of tif id so tibt tiis sfgmfnt dofs not stidk
+     * bround bftfr wf go bwby, iolding systfm rfsourdfs.
      */
-    shmctl(shminfo->shmid, IPC_RMID, 0);
+    simdtl(siminfo->simid, IPC_RMID, 0);
 
-    if (isXShmAttachFailed() == JNI_TRUE) {
-        J2dRlsTraceLn1(J2D_TRACE_ERROR,
-                       "X11SD_SetupSharedSegment XShmAttach has failed: %s",
-                       strerror(errno));
-        shmdt(shminfo->shmaddr);
-        free((void *)shminfo);
-        XDestroyImage(img);
-        return NULL;
+    if (isXSimAttbdiFbilfd() == JNI_TRUE) {
+        J2dRlsTrbdfLn1(J2D_TRACE_ERROR,
+                       "X11SD_SftupSibrfdSfgmfnt XSimAttbdi ibs fbilfd: %s",
+                       strfrror(frrno));
+        simdt(siminfo->simbddr);
+        frff((void *)siminfo);
+        XDfstroyImbgf(img);
+        rfturn NULL;
     }
 
-    img->data = shminfo->shmaddr;
-    img->obdata = (char *)shminfo;
+    img->dbtb = siminfo->simbddr;
+    img->obdbtb = (dibr *)siminfo;
 
-    return img;
+    rfturn img;
 }
 
-XImage* X11SD_GetSharedImage(X11SDOps *xsdo, jint width, jint height,
-                             jint maxWidth, jint maxHeight, jboolean readBits)
+XImbgf* X11SD_GftSibrfdImbgf(X11SDOps *xsdo, jint widti, jint ifigit,
+                             jint mbxWidti, jint mbxHfigit, jboolfbn rfbdBits)
 {
-    XImage * retImage = NULL;
-    if (cachedXImage != NULL &&
-        X11SD_CachedXImageFits(width, height, maxWidth, maxHeight,
-                               xsdo->depth, readBits)) {
-        /* sync so previous data gets flushed */
-        XSync(awt_display, False);
-        retImage = cachedXImage;
-        cachedXImage = (XImage *)NULL;
-    } else if (width * height * xsdo->depth > 0x10000) {
-        retImage = X11SD_CreateSharedImage(xsdo, width, height);
+    XImbgf * rftImbgf = NULL;
+    if (dbdifdXImbgf != NULL &&
+        X11SD_CbdifdXImbgfFits(widti, ifigit, mbxWidti, mbxHfigit,
+                               xsdo->dfpti, rfbdBits)) {
+        /* synd so prfvious dbtb gfts flusifd */
+        XSynd(bwt_displby, Fblsf);
+        rftImbgf = dbdifdXImbgf;
+        dbdifdXImbgf = (XImbgf *)NULL;
+    } flsf if (widti * ifigit * xsdo->dfpti > 0x10000) {
+        rftImbgf = X11SD_CrfbtfSibrfdImbgf(xsdo, widti, ifigit);
     }
-    return retImage;
+    rfturn rftImbgf;
 }
 
-Drawable X11SD_CreateSharedPixmap(X11SDOps *xsdo)
+Drbwbblf X11SD_CrfbtfSibrfdPixmbp(X11SDOps *xsdo)
 {
-    XShmSegmentInfo *shminfo;
-    XImage *img = NULL;
-    Drawable pixmap;
-    int scan;
-    int width = xsdo->pmWidth;
-    int height = xsdo->pmHeight;
+    XSimSfgmfntInfo *siminfo;
+    XImbgf *img = NULL;
+    Drbwbblf pixmbp;
+    int sdbn;
+    int widti = xsdo->pmWidti;
+    int ifigit = xsdo->pmHfigit;
 
-    if (xsdo->shmPMData.pmSize < 0x10000) {
-        /* only use shared mem pixmaps for relatively big images */
-        return 0;
+    if (xsdo->simPMDbtb.pmSizf < 0x10000) {
+        /* only usf sibrfd mfm pixmbps for rflbtivfly big imbgfs */
+        rfturn 0;
     }
 
-    /* need to create shared(!) image to get bytes_per_line */
-    img = X11SD_CreateSharedImage(xsdo, width, height);
+    /* nffd to drfbtf sibrfd(!) imbgf to gft bytfs_pfr_linf */
+    img = X11SD_CrfbtfSibrfdImbgf(xsdo, widti, ifigit);
     if (img == NULL) {
-        return 0;
+        rfturn 0;
     }
-    scan = img->bytes_per_line;
-    shminfo = (XShmSegmentInfo*)img->obdata;
-    XFree(img);
+    sdbn = img->bytfs_pfr_linf;
+    siminfo = (XSimSfgmfntInfo*)img->obdbtb;
+    XFrff(img);
 
-    pixmap =
-        XShmCreatePixmap(awt_display,
-                         RootWindow(awt_display,
-                                    xsdo->configData->awt_visInfo.screen),
-                         shminfo->shmaddr, shminfo,
-                         width, height, xsdo->depth);
-    if (pixmap == 0) {
-        X11SD_DropSharedSegment(shminfo);
-        return 0;
+    pixmbp =
+        XSimCrfbtfPixmbp(bwt_displby,
+                         RootWindow(bwt_displby,
+                                    xsdo->donfigDbtb->bwt_visInfo.sdrffn),
+                         siminfo->simbddr, siminfo,
+                         widti, ifigit, xsdo->dfpti);
+    if (pixmbp == 0) {
+        X11SD_DropSibrfdSfgmfnt(siminfo);
+        rfturn 0;
     }
 
-    xsdo->shmPMData.shmSegInfo = shminfo;
-    xsdo->shmPMData.bytesPerLine = scan;
-    return pixmap;
+    xsdo->simPMDbtb.simSfgInfo = siminfo;
+    xsdo->simPMDbtb.bytfsPfrLinf = sdbn;
+    rfturn pixmbp;
 }
 
-void X11SD_PuntPixmap(X11SDOps *xsdo, jint width, jint height)
+void X11SD_PuntPixmbp(X11SDOps *xsdo, jint widti, jint ifigit)
 {
 
-    if (useMitShmPixmaps != CAN_USE_MITSHM || forceSharedPixmaps) {
-        return;
+    if (usfMitSimPixmbps != CAN_USE_MITSHM || fordfSibrfdPixmbps) {
+        rfturn;
     }
 
-    /* we wouldn't be here if it's a shared pixmap, so no check
-     * for !usingShmPixmap.
+    /* wf wouldn't bf ifrf if it's b sibrfd pixmbp, so no difdk
+     * for !usingSimPixmbp.
      */
 
-    xsdo->shmPMData.numBltsSinceRead = 0;
+    xsdo->simPMDbtb.numBltsSindfRfbd = 0;
 
-    xsdo->shmPMData.pixelsReadSinceBlt += width * height;
-    if (xsdo->shmPMData.pixelsReadSinceBlt >
-        xsdo->shmPMData.pixelsReadThreshold) {
-        if (!xsdo->shmPMData.shmPixmap) {
-            xsdo->shmPMData.shmPixmap =
-                X11SD_CreateSharedPixmap(xsdo);
+    xsdo->simPMDbtb.pixflsRfbdSindfBlt += widti * ifigit;
+    if (xsdo->simPMDbtb.pixflsRfbdSindfBlt >
+        xsdo->simPMDbtb.pixflsRfbdTirfsiold) {
+        if (!xsdo->simPMDbtb.simPixmbp) {
+            xsdo->simPMDbtb.simPixmbp =
+                X11SD_CrfbtfSibrfdPixmbp(xsdo);
         }
-        if (xsdo->shmPMData.shmPixmap) {
-            GC xgc = XCreateGC(awt_display, xsdo->shmPMData.shmPixmap, 0L, NULL);
-            if (xgc != NULL) {
-                xsdo->shmPMData.usingShmPixmap = JNI_TRUE;
-                xsdo->drawable = xsdo->shmPMData.shmPixmap;
-                XCopyArea(awt_display,
-                          xsdo->shmPMData.pixmap, xsdo->drawable, xgc,
-                          0, 0, xsdo->pmWidth, xsdo->pmHeight, 0, 0);
-                XSync(awt_display, False);
-                xsdo->shmPMData.xRequestSent = JNI_FALSE;
-                XFreeGC(awt_display, xgc);
+        if (xsdo->simPMDbtb.simPixmbp) {
+            GC xgd = XCrfbtfGC(bwt_displby, xsdo->simPMDbtb.simPixmbp, 0L, NULL);
+            if (xgd != NULL) {
+                xsdo->simPMDbtb.usingSimPixmbp = JNI_TRUE;
+                xsdo->drbwbblf = xsdo->simPMDbtb.simPixmbp;
+                XCopyArfb(bwt_displby,
+                          xsdo->simPMDbtb.pixmbp, xsdo->drbwbblf, xgd,
+                          0, 0, xsdo->pmWidti, xsdo->pmHfigit, 0, 0);
+                XSynd(bwt_displby, Fblsf);
+                xsdo->simPMDbtb.xRfqufstSfnt = JNI_FALSE;
+                XFrffGC(bwt_displby, xgd);
             }
         }
     }
 }
 
-void X11SD_UnPuntPixmap(X11SDOps *xsdo)
+void X11SD_UnPuntPixmbp(X11SDOps *xsdo)
 {
-    if (useMitShmPixmaps != CAN_USE_MITSHM || forceSharedPixmaps) {
-        return;
+    if (usfMitSimPixmbps != CAN_USE_MITSHM || fordfSibrfdPixmbps) {
+        rfturn;
     }
-    xsdo->shmPMData.pixelsReadSinceBlt = 0;
-    if (xsdo->shmPMData.numBltsSinceRead >=
-        xsdo->shmPMData.numBltsThreshold)
+    xsdo->simPMDbtb.pixflsRfbdSindfBlt = 0;
+    if (xsdo->simPMDbtb.numBltsSindfRfbd >=
+        xsdo->simPMDbtb.numBltsTirfsiold)
     {
-        if (xsdo->shmPMData.usingShmPixmap) {
-            if (!xsdo->shmPMData.pixmap) {
-                xsdo->shmPMData.pixmap =
-                    XCreatePixmap(awt_display,
-                                  RootWindow(awt_display,
-                                             xsdo->configData->awt_visInfo.screen),
-                                  xsdo->pmWidth, xsdo->pmHeight, xsdo->depth);
+        if (xsdo->simPMDbtb.usingSimPixmbp) {
+            if (!xsdo->simPMDbtb.pixmbp) {
+                xsdo->simPMDbtb.pixmbp =
+                    XCrfbtfPixmbp(bwt_displby,
+                                  RootWindow(bwt_displby,
+                                             xsdo->donfigDbtb->bwt_visInfo.sdrffn),
+                                  xsdo->pmWidti, xsdo->pmHfigit, xsdo->dfpti);
             }
-            if (xsdo->shmPMData.pixmap) {
-                GC xgc = XCreateGC(awt_display, xsdo->shmPMData.pixmap, 0L, NULL);
-                if (xgc != NULL) {
-                    xsdo->drawable = xsdo->shmPMData.pixmap;
-                    XCopyArea(awt_display,
-                              xsdo->shmPMData.shmPixmap, xsdo->drawable, xgc,
-                              0, 0, xsdo->pmWidth, xsdo->pmHeight, 0, 0);
-                    XSync(awt_display, False);
-                    XFreeGC(awt_display, xgc);
-                    xsdo->shmPMData.xRequestSent = JNI_FALSE;
-                    xsdo->shmPMData.usingShmPixmap = JNI_FALSE;
-                    xsdo->shmPMData.numBltsThreshold *= 2;
+            if (xsdo->simPMDbtb.pixmbp) {
+                GC xgd = XCrfbtfGC(bwt_displby, xsdo->simPMDbtb.pixmbp, 0L, NULL);
+                if (xgd != NULL) {
+                    xsdo->drbwbblf = xsdo->simPMDbtb.pixmbp;
+                    XCopyArfb(bwt_displby,
+                              xsdo->simPMDbtb.simPixmbp, xsdo->drbwbblf, xgd,
+                              0, 0, xsdo->pmWidti, xsdo->pmHfigit, 0, 0);
+                    XSynd(bwt_displby, Fblsf);
+                    XFrffGC(bwt_displby, xgd);
+                    xsdo->simPMDbtb.xRfqufstSfnt = JNI_FALSE;
+                    xsdo->simPMDbtb.usingSimPixmbp = JNI_FALSE;
+                    xsdo->simPMDbtb.numBltsTirfsiold *= 2;
                 }
             }
         }
-    } else {
-        xsdo->shmPMData.numBltsSinceRead++;
+    } flsf {
+        xsdo->simPMDbtb.numBltsSindfRfbd++;
     }
 }
 
 /**
- * Determines if the cached image can be used for current operation.
- * If the image is to be used to be read into by XShmGetImage,
- * it must be close enough to avoid excessive reading from the screen;
- * otherwise it should just be at least the size requested.
+ * Dftfrminfs if tif dbdifd imbgf dbn bf usfd for durrfnt opfrbtion.
+ * If tif imbgf is to bf usfd to bf rfbd into by XSimGftImbgf,
+ * it must bf dlosf fnougi to bvoid fxdfssivf rfbding from tif sdrffn;
+ * otifrwisf it siould just bf bt lfbst tif sizf rfqufstfd.
  */
-jboolean X11SD_CachedXImageFits(jint width, jint height, jint maxWidth,
-                                jint maxHeight, jint depth, jboolean readBits)
+jboolfbn X11SD_CbdifdXImbgfFits(jint widti, jint ifigit, jint mbxWidti,
+                                jint mbxHfigit, jint dfpti, jboolfbn rfbdBits)
 {
-    /* we assume here that the cached image exists */
-    jint imgWidth = cachedXImage->width;
-    jint imgHeight = cachedXImage->height;
+    /* wf bssumf ifrf tibt tif dbdifd imbgf fxists */
+    jint imgWidti = dbdifdXImbgf->widti;
+    jint imgHfigit = dbdifdXImbgf->ifigit;
 
-    if (imgWidth < width || imgHeight < height || depth != cachedXImage->depth)  {
-        /* doesn't fit if any of the cached image dimensions is smaller
-           or the depths are different */
-        return JNI_FALSE;
+    if (imgWidti < widti || imgHfigit < ifigit || dfpti != dbdifdXImbgf->dfpti)  {
+        /* dofsn't fit if bny of tif dbdifd imbgf dimfnsions is smbllfr
+           or tif dfptis brf difffrfnt */
+        rfturn JNI_FALSE;
     }
 
-    if (!readBits) {
-        /* Not reading from this image, so any image at least of the
-           size requested will do */
-        return JNI_TRUE;
+    if (!rfbdBits) {
+        /* Not rfbding from tiis imbgf, so bny imbgf bt lfbst of tif
+           sizf rfqufstfd will do */
+        rfturn JNI_TRUE;
     }
 
-    if ((imgWidth < width + 64) && (imgHeight < height + 64)
-         && imgWidth <= maxWidth && imgHeight <= maxHeight)
+    if ((imgWidti < widti + 64) && (imgHfigit < ifigit + 64)
+         && imgWidti <= mbxWidti && imgHfigit <= mbxHfigit)
     {
-        /* Cached image's width/height shouldn't be more than 64 pixels
-         * larger than requested, because the region in XShmGetImage
-         * can't be specified and we don't want to read too much.
-         * Furthermore it has to be smaller than maxWidth/Height
-         * so drawables are not read out of bounds.
+        /* Cbdifd imbgf's widti/ifigit siouldn't bf morf tibn 64 pixfls
+         * lbrgfr tibn rfqufstfd, bfdbusf tif rfgion in XSimGftImbgf
+         * dbn't bf spfdififd bnd wf don't wbnt to rfbd too mudi.
+         * Furtifrmorf it ibs to bf smbllfr tibn mbxWidti/Hfigit
+         * so drbwbblfs brf not rfbd out of bounds.
          */
-        return JNI_TRUE;
+        rfturn JNI_TRUE;
     }
 
-    return JNI_FALSE;
+    rfturn JNI_FALSE;
 }
-#endif /* MITSHM */
+#fndif /* MITSHM */
 
-jint X11SD_InitWindow(JNIEnv *env, X11SDOps *xsdo)
+jint X11SD_InitWindow(JNIEnv *fnv, X11SDOps *xsdo)
 {
-    if (xsdo->isPixmap == JNI_TRUE) {
-        return SD_FAILURE;
+    if (xsdo->isPixmbp == JNI_TRUE) {
+        rfturn SD_FAILURE;
     }
-    xsdo->cData = xsdo->configData->color_data;
+    xsdo->dDbtb = xsdo->donfigDbtb->dolor_dbtb;
 
-    return SD_SUCCESS;
+    rfturn SD_SUCCESS;
 }
 
-static jint X11SD_Lock(JNIEnv *env,
-                       SurfaceDataOps *ops,
-                       SurfaceDataRasInfo *pRasInfo,
-                       jint lockflags)
+stbtid jint X11SD_Lodk(JNIEnv *fnv,
+                       SurfbdfDbtbOps *ops,
+                       SurfbdfDbtbRbsInfo *pRbsInfo,
+                       jint lodkflbgs)
 {
     X11SDOps *xsdo = (X11SDOps *) ops;
-    X11RIPrivate *xpriv = (X11RIPrivate *) &(pRasInfo->priv);
-    int ret = SD_SUCCESS;
+    X11RIPrivbtf *xpriv = (X11RIPrivbtf *) &(pRbsInfo->priv);
+    int rft = SD_SUCCESS;
 
     AWT_LOCK();
 
-    if (xsdo->invalid) {
+    if (xsdo->invblid) {
         AWT_UNLOCK();
-        SurfaceData_ThrowInvalidPipeException(env, "bounds changed");
-        return SD_FAILURE;
+        SurfbdfDbtb_TirowInvblidPipfExdfption(fnv, "bounds dibngfd");
+        rfturn SD_FAILURE;
     }
-    xsdo->cData = xsdo->configData->color_data;
-    if (xsdo->drawable == 0 && X11SD_InitWindow(env, xsdo) == SD_FAILURE) {
+    xsdo->dDbtb = xsdo->donfigDbtb->dolor_dbtb;
+    if (xsdo->drbwbblf == 0 && X11SD_InitWindow(fnv, xsdo) == SD_FAILURE) {
         AWT_UNLOCK();
-        return SD_FAILURE;
+        rfturn SD_FAILURE;
     }
-    if ((lockflags & SD_LOCK_LUT) != 0 &&
-        (xsdo->cData == NULL ||
-         xsdo->cData->awt_icmLUT == NULL))
+    if ((lodkflbgs & SD_LOCK_LUT) != 0 &&
+        (xsdo->dDbtb == NULL ||
+         xsdo->dDbtb->bwt_idmLUT == NULL))
     {
         AWT_UNLOCK();
-        if (!(*env)->ExceptionCheck(env))
+        if (!(*fnv)->ExdfptionCifdk(fnv))
         {
-             JNU_ThrowNullPointerException(env, "colormap lookup table");
+             JNU_TirowNullPointfrExdfption(fnv, "dolormbp lookup tbblf");
         }
-        return SD_FAILURE;
+        rfturn SD_FAILURE;
     }
-    if ((lockflags & SD_LOCK_INVCOLOR) != 0 &&
-        (xsdo->cData == NULL ||
-         xsdo->cData->img_clr_tbl == NULL ||
-         xsdo->cData->img_oda_red == NULL ||
-         xsdo->cData->img_oda_green == NULL ||
-         xsdo->cData->img_oda_blue == NULL))
+    if ((lodkflbgs & SD_LOCK_INVCOLOR) != 0 &&
+        (xsdo->dDbtb == NULL ||
+         xsdo->dDbtb->img_dlr_tbl == NULL ||
+         xsdo->dDbtb->img_odb_rfd == NULL ||
+         xsdo->dDbtb->img_odb_grffn == NULL ||
+         xsdo->dDbtb->img_odb_bluf == NULL))
     {
         AWT_UNLOCK();
-        if (!(*env)->ExceptionCheck(env))
+        if (!(*fnv)->ExdfptionCifdk(fnv))
         {
-             JNU_ThrowNullPointerException(env, "inverse colormap lookup table");
+             JNU_TirowNullPointfrExdfption(fnv, "invfrsf dolormbp lookup tbblf");
         }
-        return SD_FAILURE;
+        rfturn SD_FAILURE;
     }
-    if ((lockflags & SD_LOCK_INVGRAY) != 0 &&
-        (xsdo->cData == NULL ||
-         xsdo->cData->pGrayInverseLutData == NULL))
+    if ((lodkflbgs & SD_LOCK_INVGRAY) != 0 &&
+        (xsdo->dDbtb == NULL ||
+         xsdo->dDbtb->pGrbyInvfrsfLutDbtb == NULL))
     {
         AWT_UNLOCK();
-        if (!(*env)->ExceptionCheck(env))
+        if (!(*fnv)->ExdfptionCifdk(fnv))
         {
-            JNU_ThrowNullPointerException(env, "inverse gray lookup table");
+            JNU_TirowNullPointfrExdfption(fnv, "invfrsf grby lookup tbblf");
         }
-        return SD_FAILURE;
+        rfturn SD_FAILURE;
     }
-    if (xsdo->dgaAvailable && (lockflags & (SD_LOCK_RD_WR))) {
-        int dgaret;
+    if (xsdo->dgbAvbilbblf && (lodkflbgs & (SD_LOCK_RD_WR))) {
+        int dgbrft;
 
-        dgaret = (*pJDgaInfo->pGetLock)(env, awt_display, &xsdo->dgaDev,
-                                        xsdo->drawable, &xsdo->surfInfo,
-                                        pRasInfo->bounds.x1,
-                                        pRasInfo->bounds.y1,
-                                        pRasInfo->bounds.x2,
-                                        pRasInfo->bounds.y2);
-        if (dgaret == JDGA_SUCCESS) {
+        dgbrft = (*pJDgbInfo->pGftLodk)(fnv, bwt_displby, &xsdo->dgbDfv,
+                                        xsdo->drbwbblf, &xsdo->surfInfo,
+                                        pRbsInfo->bounds.x1,
+                                        pRbsInfo->bounds.y1,
+                                        pRbsInfo->bounds.x2,
+                                        pRbsInfo->bounds.y2);
+        if (dgbrft == JDGA_SUCCESS) {
             int wx = xsdo->surfInfo.window.lox;
             int wy = xsdo->surfInfo.window.loy;
-            pRasInfo->bounds.x1 = xsdo->surfInfo.visible.lox - wx;
-            pRasInfo->bounds.y1 = xsdo->surfInfo.visible.loy - wy;
-            pRasInfo->bounds.x2 = xsdo->surfInfo.visible.hix - wx;
-            pRasInfo->bounds.y2 = xsdo->surfInfo.visible.hiy - wy;
-            xpriv->lockType = X11SD_LOCK_BY_DGA;
-            xpriv->lockFlags = lockflags;
-            return SD_SUCCESS;
-        } else if (dgaret == JDGA_UNAVAILABLE) {
-            xsdo->dgaAvailable = JNI_FALSE;
+            pRbsInfo->bounds.x1 = xsdo->surfInfo.visiblf.lox - wx;
+            pRbsInfo->bounds.y1 = xsdo->surfInfo.visiblf.loy - wy;
+            pRbsInfo->bounds.x2 = xsdo->surfInfo.visiblf.iix - wx;
+            pRbsInfo->bounds.y2 = xsdo->surfInfo.visiblf.iiy - wy;
+            xpriv->lodkTypf = X11SD_LOCK_BY_DGA;
+            xpriv->lodkFlbgs = lodkflbgs;
+            rfturn SD_SUCCESS;
+        } flsf if (dgbrft == JDGA_UNAVAILABLE) {
+            xsdo->dgbAvbilbblf = JNI_FALSE;
         }
     }
-    if (lockflags & SD_LOCK_RD_WR) {
-        if (lockflags & SD_LOCK_FASTEST) {
-            ret = SD_SLOWLOCK;
+    if (lodkflbgs & SD_LOCK_RD_WR) {
+        if (lodkflbgs & SD_LOCK_FASTEST) {
+            rft = SD_SLOWLOCK;
         }
-        xpriv->lockType = X11SD_LOCK_BY_XIMAGE;
-        if (xsdo->isPixmap) {
-#ifdef MITSHM
-            if (xsdo->shmPMData.usingShmPixmap) {
-                xpriv->lockType = X11SD_LOCK_BY_SHMEM;
+        xpriv->lodkTypf = X11SD_LOCK_BY_XIMAGE;
+        if (xsdo->isPixmbp) {
+#ifdff MITSHM
+            if (xsdo->simPMDbtb.usingSimPixmbp) {
+                xpriv->lodkTypf = X11SD_LOCK_BY_SHMEM;
             }
-#endif /* MITSHM */
-            if (pRasInfo->bounds.x1 < 0) {
-                pRasInfo->bounds.x1 = 0;
+#fndif /* MITSHM */
+            if (pRbsInfo->bounds.x1 < 0) {
+                pRbsInfo->bounds.x1 = 0;
             }
-            if (pRasInfo->bounds.y1 < 0) {
-                pRasInfo->bounds.y1 = 0;
+            if (pRbsInfo->bounds.y1 < 0) {
+                pRbsInfo->bounds.y1 = 0;
             }
-            if (pRasInfo->bounds.x2 > xsdo->pmWidth) {
-                pRasInfo->bounds.x2 = xsdo->pmWidth;
+            if (pRbsInfo->bounds.x2 > xsdo->pmWidti) {
+                pRbsInfo->bounds.x2 = xsdo->pmWidti;
             }
-            if (pRasInfo->bounds.y2 > xsdo->pmHeight) {
-                pRasInfo->bounds.y2 = xsdo->pmHeight;
+            if (pRbsInfo->bounds.y2 > xsdo->pmHfigit) {
+                pRbsInfo->bounds.y2 = xsdo->pmHfigit;
             }
         }
-    } else {
-        /* They didn't lock for anything - we won't give them anything */
-        xpriv->lockType = X11SD_LOCK_BY_NULL;
+    } flsf {
+        /* Tify didn't lodk for bnytiing - wf won't givf tifm bnytiing */
+        xpriv->lodkTypf = X11SD_LOCK_BY_NULL;
     }
-    xpriv->lockFlags = lockflags;
+    xpriv->lodkFlbgs = lodkflbgs;
     xpriv->img = NULL;
 
-    return ret;
-    /* AWT_UNLOCK() called in Unlock */
+    rfturn rft;
+    /* AWT_UNLOCK() dbllfd in Unlodk */
 }
 
-static void X11SD_GetRasInfo(JNIEnv *env,
-                             SurfaceDataOps *ops,
-                             SurfaceDataRasInfo *pRasInfo)
+stbtid void X11SD_GftRbsInfo(JNIEnv *fnv,
+                             SurfbdfDbtbOps *ops,
+                             SurfbdfDbtbRbsInfo *pRbsInfo)
 {
     X11SDOps *xsdo = (X11SDOps *) ops;
-    X11RIPrivate *xpriv = (X11RIPrivate *) &(pRasInfo->priv);
-    jint lockFlags = xpriv->lockFlags;
-    jint depth = xsdo->depth;
-    int mult = xsdo->configData->pixelStride;
+    X11RIPrivbtf *xpriv = (X11RIPrivbtf *) &(pRbsInfo->priv);
+    jint lodkFlbgs = xpriv->lodkFlbgs;
+    jint dfpti = xsdo->dfpti;
+    int mult = xsdo->donfigDbtb->pixflStridf;
 
-    if (xsdo->dgaAvailable &&
-        xpriv->lockType == X11SD_LOCK_BY_XIMAGE &&
-        (lockFlags & SD_LOCK_FASTEST))
+    if (xsdo->dgbAvbilbblf &&
+        xpriv->lodkTypf == X11SD_LOCK_BY_XIMAGE &&
+        (lodkFlbgs & SD_LOCK_FASTEST))
     {
-        /* Try one more time to use DGA (now with smaller bounds)... */
-        int dgaret;
+        /* Try onf morf timf to usf DGA (now witi smbllfr bounds)... */
+        int dgbrft;
 
-        dgaret = (*pJDgaInfo->pGetLock)(env, awt_display, &xsdo->dgaDev,
-                                        xsdo->drawable, &xsdo->surfInfo,
-                                        pRasInfo->bounds.x1,
-                                        pRasInfo->bounds.y1,
-                                        pRasInfo->bounds.x2,
-                                        pRasInfo->bounds.y2);
-        if (dgaret == JDGA_SUCCESS) {
+        dgbrft = (*pJDgbInfo->pGftLodk)(fnv, bwt_displby, &xsdo->dgbDfv,
+                                        xsdo->drbwbblf, &xsdo->surfInfo,
+                                        pRbsInfo->bounds.x1,
+                                        pRbsInfo->bounds.y1,
+                                        pRbsInfo->bounds.x2,
+                                        pRbsInfo->bounds.y2);
+        if (dgbrft == JDGA_SUCCESS) {
             int wx = xsdo->surfInfo.window.lox;
             int wy = xsdo->surfInfo.window.loy;
-            pRasInfo->bounds.x1 = xsdo->surfInfo.visible.lox - wx;
-            pRasInfo->bounds.y1 = xsdo->surfInfo.visible.loy - wy;
-            pRasInfo->bounds.x2 = xsdo->surfInfo.visible.hix - wx;
-            pRasInfo->bounds.y2 = xsdo->surfInfo.visible.hiy - wy;
-            xpriv->lockType = X11SD_LOCK_BY_DGA;
-        } else if (dgaret == JDGA_UNAVAILABLE) {
-            xsdo->dgaAvailable = JNI_FALSE;
+            pRbsInfo->bounds.x1 = xsdo->surfInfo.visiblf.lox - wx;
+            pRbsInfo->bounds.y1 = xsdo->surfInfo.visiblf.loy - wy;
+            pRbsInfo->bounds.x2 = xsdo->surfInfo.visiblf.iix - wx;
+            pRbsInfo->bounds.y2 = xsdo->surfInfo.visiblf.iiy - wy;
+            xpriv->lodkTypf = X11SD_LOCK_BY_DGA;
+        } flsf if (dgbrft == JDGA_UNAVAILABLE) {
+            xsdo->dgbAvbilbblf = JNI_FALSE;
         }
     }
 
-    if (xpriv->lockType == X11SD_LOCK_BY_DGA) {
-        int scan = xsdo->surfInfo.surfaceScan;
+    if (xpriv->lodkTypf == X11SD_LOCK_BY_DGA) {
+        int sdbn = xsdo->surfInfo.surfbdfSdbn;
         int wx = xsdo->surfInfo.window.lox;
         int wy = xsdo->surfInfo.window.loy;
-        pRasInfo->rasBase =
-            (void *)(((uintptr_t) xsdo->surfInfo.basePtr) + (scan*wy + wx) * mult);
-        pRasInfo->pixelStride = mult;
-        pRasInfo->pixelBitOffset = 0;
-        pRasInfo->scanStride = scan * mult;
-#ifdef MITSHM
-    } else if (xpriv->lockType == X11SD_LOCK_BY_SHMEM) {
-        if (xsdo->shmPMData.xRequestSent == JNI_TRUE) {
-            /* need to sync before using shared mem pixmap
-             if any x calls were issued for this pixmap */
-            XSync(awt_display, False);
-            xsdo->shmPMData.xRequestSent = JNI_FALSE;
+        pRbsInfo->rbsBbsf =
+            (void *)(((uintptr_t) xsdo->surfInfo.bbsfPtr) + (sdbn*wy + wx) * mult);
+        pRbsInfo->pixflStridf = mult;
+        pRbsInfo->pixflBitOffsft = 0;
+        pRbsInfo->sdbnStridf = sdbn * mult;
+#ifdff MITSHM
+    } flsf if (xpriv->lodkTypf == X11SD_LOCK_BY_SHMEM) {
+        if (xsdo->simPMDbtb.xRfqufstSfnt == JNI_TRUE) {
+            /* nffd to synd bfforf using sibrfd mfm pixmbp
+             if bny x dblls wfrf issufd for tiis pixmbp */
+            XSynd(bwt_displby, Fblsf);
+            xsdo->simPMDbtb.xRfqufstSfnt = JNI_FALSE;
         }
-        xpriv->x = pRasInfo->bounds.x1;
-        xpriv->y = pRasInfo->bounds.y1;
-        pRasInfo->rasBase = xsdo->shmPMData.shmSegInfo->shmaddr;
-        pRasInfo->pixelStride = mult;
-        pRasInfo->pixelBitOffset = 0;
-        pRasInfo->scanStride = xsdo->shmPMData.bytesPerLine;
-#endif /* MITSHM */
-    } else if (xpriv->lockType == X11SD_LOCK_BY_XIMAGE) {
-        int x, y, w, h;
-        x = pRasInfo->bounds.x1;
-        y = pRasInfo->bounds.y1;
-        w = pRasInfo->bounds.x2 - x;
-        h = pRasInfo->bounds.y2 - y;
+        xpriv->x = pRbsInfo->bounds.x1;
+        xpriv->y = pRbsInfo->bounds.y1;
+        pRbsInfo->rbsBbsf = xsdo->simPMDbtb.simSfgInfo->simbddr;
+        pRbsInfo->pixflStridf = mult;
+        pRbsInfo->pixflBitOffsft = 0;
+        pRbsInfo->sdbnStridf = xsdo->simPMDbtb.bytfsPfrLinf;
+#fndif /* MITSHM */
+    } flsf if (xpriv->lodkTypf == X11SD_LOCK_BY_XIMAGE) {
+        int x, y, w, i;
+        x = pRbsInfo->bounds.x1;
+        y = pRbsInfo->bounds.y1;
+        w = pRbsInfo->bounds.x2 - x;
+        i = pRbsInfo->bounds.y2 - y;
 
-        xpriv->img = X11SD_GetImage(env, xsdo, &pRasInfo->bounds, lockFlags);
+        xpriv->img = X11SD_GftImbgf(fnv, xsdo, &pRbsInfo->bounds, lodkFlbgs);
         if (xpriv->img) {
-            int scan = xpriv->img->bytes_per_line;
+            int sdbn = xpriv->img->bytfs_pfr_linf;
             xpriv->x = x;
             xpriv->y = y;
-            pRasInfo->rasBase = xpriv->img->data - x * mult - y * scan;
-            pRasInfo->pixelStride = mult;
-            pRasInfo->pixelBitOffset = 0;
-            pRasInfo->scanStride = scan;
-        } else {
-            pRasInfo->rasBase = NULL;
-            pRasInfo->pixelStride = 0;
-            pRasInfo->pixelBitOffset = 0;
-            pRasInfo->scanStride = 0;
+            pRbsInfo->rbsBbsf = xpriv->img->dbtb - x * mult - y * sdbn;
+            pRbsInfo->pixflStridf = mult;
+            pRbsInfo->pixflBitOffsft = 0;
+            pRbsInfo->sdbnStridf = sdbn;
+        } flsf {
+            pRbsInfo->rbsBbsf = NULL;
+            pRbsInfo->pixflStridf = 0;
+            pRbsInfo->pixflBitOffsft = 0;
+            pRbsInfo->sdbnStridf = 0;
         }
-    } else {
-        /* They didn't lock for anything - we won't give them anything */
-        pRasInfo->rasBase = NULL;
-        pRasInfo->pixelStride = 0;
-        pRasInfo->pixelBitOffset = 0;
-        pRasInfo->scanStride = 0;
+    } flsf {
+        /* Tify didn't lodk for bnytiing - wf won't givf tifm bnytiing */
+        pRbsInfo->rbsBbsf = NULL;
+        pRbsInfo->pixflStridf = 0;
+        pRbsInfo->pixflBitOffsft = 0;
+        pRbsInfo->sdbnStridf = 0;
     }
-    if (lockFlags & SD_LOCK_LUT) {
-        pRasInfo->lutBase = (jint *) xsdo->cData->awt_icmLUT;
-        pRasInfo->lutSize = xsdo->cData->awt_numICMcolors;
-    } else {
-        pRasInfo->lutBase = NULL;
-        pRasInfo->lutSize = 0;
+    if (lodkFlbgs & SD_LOCK_LUT) {
+        pRbsInfo->lutBbsf = (jint *) xsdo->dDbtb->bwt_idmLUT;
+        pRbsInfo->lutSizf = xsdo->dDbtb->bwt_numICMdolors;
+    } flsf {
+        pRbsInfo->lutBbsf = NULL;
+        pRbsInfo->lutSizf = 0;
     }
-    if (lockFlags & SD_LOCK_INVCOLOR) {
-        pRasInfo->invColorTable = xsdo->cData->img_clr_tbl;
-        pRasInfo->redErrTable = xsdo->cData->img_oda_red;
-        pRasInfo->grnErrTable = xsdo->cData->img_oda_green;
-        pRasInfo->bluErrTable = xsdo->cData->img_oda_blue;
-    } else {
-        pRasInfo->invColorTable = NULL;
-        pRasInfo->redErrTable = NULL;
-        pRasInfo->grnErrTable = NULL;
-        pRasInfo->bluErrTable = NULL;
+    if (lodkFlbgs & SD_LOCK_INVCOLOR) {
+        pRbsInfo->invColorTbblf = xsdo->dDbtb->img_dlr_tbl;
+        pRbsInfo->rfdErrTbblf = xsdo->dDbtb->img_odb_rfd;
+        pRbsInfo->grnErrTbblf = xsdo->dDbtb->img_odb_grffn;
+        pRbsInfo->bluErrTbblf = xsdo->dDbtb->img_odb_bluf;
+    } flsf {
+        pRbsInfo->invColorTbblf = NULL;
+        pRbsInfo->rfdErrTbblf = NULL;
+        pRbsInfo->grnErrTbblf = NULL;
+        pRbsInfo->bluErrTbblf = NULL;
     }
-    if (lockFlags & SD_LOCK_INVGRAY) {
-        pRasInfo->invGrayTable = xsdo->cData->pGrayInverseLutData;
-    } else {
-        pRasInfo->invGrayTable = NULL;
+    if (lodkFlbgs & SD_LOCK_INVGRAY) {
+        pRbsInfo->invGrbyTbblf = xsdo->dDbtb->pGrbyInvfrsfLutDbtb;
+    } flsf {
+        pRbsInfo->invGrbyTbblf = NULL;
     }
 }
 
-static void X11SD_Unlock(JNIEnv *env,
-                         SurfaceDataOps *ops,
-                         SurfaceDataRasInfo *pRasInfo)
+stbtid void X11SD_Unlodk(JNIEnv *fnv,
+                         SurfbdfDbtbOps *ops,
+                         SurfbdfDbtbRbsInfo *pRbsInfo)
 {
     X11SDOps *xsdo = (X11SDOps *) ops;
-    X11RIPrivate *xpriv = (X11RIPrivate *) &(pRasInfo->priv);
+    X11RIPrivbtf *xpriv = (X11RIPrivbtf *) &(pRbsInfo->priv);
 
-    if (xpriv->lockType == X11SD_LOCK_BY_DGA) {
-        (*pJDgaInfo->pReleaseLock)(env, xsdo->dgaDev, xsdo->drawable);
-    } else if (xpriv->lockType == X11SD_LOCK_BY_XIMAGE &&
+    if (xpriv->lodkTypf == X11SD_LOCK_BY_DGA) {
+        (*pJDgbInfo->pRflfbsfLodk)(fnv, xsdo->dgbDfv, xsdo->drbwbblf);
+    } flsf if (xpriv->lodkTypf == X11SD_LOCK_BY_XIMAGE &&
                xpriv->img != NULL)
     {
-        if (xpriv->lockFlags & SD_LOCK_WRITE) {
+        if (xpriv->lodkFlbgs & SD_LOCK_WRITE) {
             int x = xpriv->x;
             int y = xpriv->y;
-            int w = pRasInfo->bounds.x2 - x;
-            int h = pRasInfo->bounds.y2 - y;
-            Drawable drawable = xsdo->drawable;
-            GC xgc = xsdo->cachedGC;
-            if (xgc == NULL) {
-                xsdo->cachedGC = xgc =
-                    XCreateGC(awt_display, drawable, 0L, NULL);
+            int w = pRbsInfo->bounds.x2 - x;
+            int i = pRbsInfo->bounds.y2 - y;
+            Drbwbblf drbwbblf = xsdo->drbwbblf;
+            GC xgd = xsdo->dbdifdGC;
+            if (xgd == NULL) {
+                xsdo->dbdifdGC = xgd =
+                    XCrfbtfGC(bwt_displby, drbwbblf, 0L, NULL);
             }
 
-            if (xpriv->img->byte_order != nativeByteOrder) {
-                /* switching bytes back in 24 and 32 bpp cases. */
-                /* For 16 bit XLib will switch for us.          */
-                if (xsdo->depth > 16) {
-                    X11SD_SwapBytes(xsdo, xpriv->img, xsdo->depth,
-                        xsdo->configData->awtImage->wsImageFormat.bits_per_pixel);
+            if (xpriv->img->bytf_ordfr != nbtivfBytfOrdfr) {
+                /* switdiing bytfs bbdk in 24 bnd 32 bpp dbsfs. */
+                /* For 16 bit XLib will switdi for us.          */
+                if (xsdo->dfpti > 16) {
+                    X11SD_SwbpBytfs(xsdo, xpriv->img, xsdo->dfpti,
+                        xsdo->donfigDbtb->bwtImbgf->wsImbgfFormbt.bits_pfr_pixfl);
                 }
             }
 
-#ifdef MITSHM
-            if (xpriv->img->obdata != NULL) {
-                XShmPutImage(awt_display, drawable, xgc,
-                             xpriv->img, 0, 0, x, y, w, h, False);
-                XFlush(awt_display);
-            } else {
-                XPutImage(awt_display, drawable, xgc,
-                          xpriv->img, 0, 0, x, y, w, h);
+#ifdff MITSHM
+            if (xpriv->img->obdbtb != NULL) {
+                XSimPutImbgf(bwt_displby, drbwbblf, xgd,
+                             xpriv->img, 0, 0, x, y, w, i, Fblsf);
+                XFlusi(bwt_displby);
+            } flsf {
+                XPutImbgf(bwt_displby, drbwbblf, xgd,
+                          xpriv->img, 0, 0, x, y, w, i);
             }
-            if (xsdo->shmPMData.usingShmPixmap) {
-                xsdo->shmPMData.xRequestSent = JNI_TRUE;
+            if (xsdo->simPMDbtb.usingSimPixmbp) {
+                xsdo->simPMDbtb.xRfqufstSfnt = JNI_TRUE;
             }
-#else
-            XPutImage(awt_display, drawable, xgc,
-                      xpriv->img, 0, 0, x, y, w, h);
-#endif /* MITSHM */
+#flsf
+            XPutImbgf(bwt_displby, drbwbblf, xgd,
+                      xpriv->img, 0, 0, x, y, w, i);
+#fndif /* MITSHM */
 
-            (*pJDgaInfo->pXRequestSent)(env, xsdo->dgaDev, drawable);
+            (*pJDgbInfo->pXRfqufstSfnt)(fnv, xsdo->dgbDfv, drbwbblf);
         }
-        X11SD_DisposeOrCacheXImage(xpriv->img);
-        xpriv->img = (XImage *)NULL;
+        X11SD_DisposfOrCbdifXImbgf(xpriv->img);
+        xpriv->img = (XImbgf *)NULL;
     }
-    /* the background pixel is not valid anymore */
-    if (xpriv->lockFlags & SD_LOCK_WRITE) {
-        xsdo->isBgInitialized = JNI_FALSE;
+    /* tif bbdkground pixfl is not vblid bnymorf */
+    if (xpriv->lodkFlbgs & SD_LOCK_WRITE) {
+        xsdo->isBgInitiblizfd = JNI_FALSE;
     }
-    xpriv->lockType = X11SD_LOCK_UNLOCKED;
+    xpriv->lodkTypf = X11SD_LOCK_UNLOCKED;
     AWT_UNLOCK();
 }
 
-static int
-X11SD_ClipToRoot(SurfaceDataBounds *b, SurfaceDataBounds *bounds,
+stbtid int
+X11SD_ClipToRoot(SurfbdfDbtbBounds *b, SurfbdfDbtbBounds *bounds,
                  X11SDOps *xsdo)
 {
     Position x1=0, y1=0, x2=0, y2=0;
     int tmpx, tmpy;
-    Window tmpchild;
+    Window tmpdiild;
 
-    Window window = (Window)(xsdo->drawable); /* is always a Window */
-    XWindowAttributes winAttr;
+    Window window = (Window)(xsdo->drbwbblf); /* is blwbys b Window */
+    XWindowAttributfs winAttr;
 
-    Status status = XGetWindowAttributes(awt_display, window, &winAttr);
-    if (status == 0) {
-        /* Failure, X window no longer valid. */
-        return FALSE;
+    Stbtus stbtus = XGftWindowAttributfs(bwt_displby, window, &winAttr);
+    if (stbtus == 0) {
+        /* Fbilurf, X window no longfr vblid. */
+        rfturn FALSE;
     }
-    if (!XTranslateCoordinates(awt_display, window,
-                               RootWindowOfScreen(winAttr.screen),
-                               0, 0, &tmpx, &tmpy, &tmpchild)) {
-        return FALSE;
+    if (!XTrbnslbtfCoordinbtfs(bwt_displby, window,
+                               RootWindowOfSdrffn(winAttr.sdrffn),
+                               0, 0, &tmpx, &tmpy, &tmpdiild)) {
+        rfturn FALSE;
     }
 
     x1 = -(x1 + tmpx);
     y1 = -(y1 + tmpy);
 
-    x2 = x1 + DisplayWidth(awt_display, xsdo->configData->awt_visInfo.screen);
-    y2 = y1 + DisplayHeight(awt_display, xsdo->configData->awt_visInfo.screen);
+    x2 = x1 + DisplbyWidti(bwt_displby, xsdo->donfigDbtb->bwt_visInfo.sdrffn);
+    y2 = y1 + DisplbyHfigit(bwt_displby, xsdo->donfigDbtb->bwt_visInfo.sdrffn);
 
     x1 = XSD_MAX(bounds->x1, x1);
     y1 = XSD_MAX(bounds->y1, y1);
     x2 = XSD_MIN(bounds->x2, x2);
     y2 = XSD_MIN(bounds->y2, y2);
     if ((x1 >= x2) || (y1 >= y2)) {
-        return FALSE;
+        rfturn FALSE;
     }
     b->x1 = x1;
     b->y1 = y1;
     b->x2 = x2;
     b->y2 = y2;
 
-    return TRUE;
+    rfturn TRUE;
 }
 
 /*
- * x1, y1, x2, y2 - our rectangle in the coord system of
- * the widget
- * px1, xy1, px2, py2 - current parent rect coords in the
- * same system
+ * x1, y1, x2, y2 - our rfdtbnglf in tif doord systfm of
+ * tif widgft
+ * px1, xy1, px2, py2 - durrfnt pbrfnt rfdt doords in tif
+ * sbmf systfm
  */
-static int
-X11SD_FindClip(SurfaceDataBounds *b, SurfaceDataBounds *bounds, X11SDOps *xsdo)
+stbtid int
+X11SD_FindClip(SurfbdfDbtbBounds *b, SurfbdfDbtbBounds *bounds, X11SDOps *xsdo)
 {
-    return TRUE;
+    rfturn TRUE;
 }
 
-static void
-X11SD_SwapBytes(X11SDOps *xsdo, XImage * img, int depth, int bpp) {
-    int lengthInBytes = img->height * img->bytes_per_line;
+stbtid void
+X11SD_SwbpBytfs(X11SDOps *xsdo, XImbgf * img, int dfpti, int bpp) {
+    int lfngtiInBytfs = img->ifigit * img->bytfs_pfr_linf;
     int i;
 
-    switch (depth) {
-    case 12:
-    case 15:
-    case 16:
+    switdi (dfpti) {
+    dbsf 12:
+    dbsf 15:
+    dbsf 16:
         {
             /* AB -> BA */
-            unsigned short *d = (unsigned short *)img->data;
-            unsigned short t;
-            for (i = 0; i < lengthInBytes/2; i++) {
+            unsignfd siort *d = (unsignfd siort *)img->dbtb;
+            unsignfd siort t;
+            for (i = 0; i < lfngtiInBytfs/2; i++) {
                 t = *d;
                 *d++ = (t >> 8) | (t << 8);
             }
-            img->byte_order = nativeByteOrder;
-            img->bitmap_bit_order = nativeByteOrder;
-            break;
+            img->bytf_ordfr = nbtivfBytfOrdfr;
+            img->bitmbp_bit_ordfr = nbtivfBytfOrdfr;
+            brfbk;
         }
-    case 24:
+    dbsf 24:
         {
             /* ABC -> CBA */
             if (bpp == 24) {
-                // 4517321: Only swap if we have a "real" ThreeByteBgr
-                // visual (denoted by a red_mask of 0xff).  Due to ambiguity
-                // in the X11 spec, it appears that the swap is not required
-                // on Linux configurations that use 24 bits per pixel (denoted
-                // by a red_mask of 0xff0000).
-                if (xsdo->configData->awt_visInfo.red_mask == 0xff) {
-                    int scan = img->bytes_per_line;
-                    unsigned char *d = (unsigned char *) img->data;
-                    unsigned char *d1;
-                    unsigned int t;
+                // 4517321: Only swbp if wf ibvf b "rfbl" TirffBytfBgr
+                // visubl (dfnotfd by b rfd_mbsk of 0xff).  Duf to bmbiguity
+                // in tif X11 spfd, it bppfbrs tibt tif swbp is not rfquirfd
+                // on Linux donfigurbtions tibt usf 24 bits pfr pixfl (dfnotfd
+                // by b rfd_mbsk of 0xff0000).
+                if (xsdo->donfigDbtb->bwt_visInfo.rfd_mbsk == 0xff) {
+                    int sdbn = img->bytfs_pfr_linf;
+                    unsignfd dibr *d = (unsignfd dibr *) img->dbtb;
+                    unsignfd dibr *d1;
+                    unsignfd int t;
                     int j;
 
-                    for (i = 0; i < img->height; i++, d += scan) {
+                    for (i = 0; i < img->ifigit; i++, d += sdbn) {
                         d1 = d;
-                        for (j = 0; j < img->width; j++, d1 += 3) {
-                            /* not obvious opt from XLib src */
+                        for (j = 0; j < img->widti; j++, d1 += 3) {
+                            /* not obvious opt from XLib srd */
                             t = d1[0]; d1[0] = d1[2]; d1[2] = t;
                         }
                     }
                 }
-                break;
+                brfbk;
             }
         }
-        /* FALL THROUGH for 32-bit case */
-    case 32:
+        /* FALL THROUGH for 32-bit dbsf */
+    dbsf 32:
         {
             /* ABCD -> DCBA */
-            unsigned int *d = (unsigned int *) img->data;
-            unsigned int t;
-            for (i = 0; i < lengthInBytes/4; i++) {
+            unsignfd int *d = (unsignfd int *) img->dbtb;
+            unsignfd int t;
+            for (i = 0; i < lfngtiInBytfs/4; i++) {
                 t = *d;
                 *d++ = ((t >> 24) |
                         ((t >> 8) & 0xff00) |
                         ((t & 0xff00) << 8) |
                         (t << 24));
             }
-            break;
+            brfbk;
         }
     }
 }
 
-static XImage * X11SD_GetImage(JNIEnv *env, X11SDOps *xsdo,
-                               SurfaceDataBounds *bounds,
-                               jint lockFlags)
+stbtid XImbgf * X11SD_GftImbgf(JNIEnv *fnv, X11SDOps *xsdo,
+                               SurfbdfDbtbBounds *bounds,
+                               jint lodkFlbgs)
 {
-    int x, y, w, h, maxWidth, maxHeight;
-    int scan;
-    XImage * img = NULL;
-    Drawable drawable;
-    int depth = xsdo->depth;
-    int mult = xsdo->configData->pixelStride;
-    int pad = (mult == 3) ? 32 : mult * 8; // pad must be 8, 16, or 32
-    jboolean readBits = lockFlags & SD_LOCK_NEED_PIXELS;
+    int x, y, w, i, mbxWidti, mbxHfigit;
+    int sdbn;
+    XImbgf * img = NULL;
+    Drbwbblf drbwbblf;
+    int dfpti = xsdo->dfpti;
+    int mult = xsdo->donfigDbtb->pixflStridf;
+    int pbd = (mult == 3) ? 32 : mult * 8; // pbd must bf 8, 16, or 32
+    jboolfbn rfbdBits = lodkFlbgs & SD_LOCK_NEED_PIXELS;
 
     x = bounds->x1;
     y = bounds->y1;
     w = bounds->x2 - x;
-    h = bounds->y2 - y;
+    i = bounds->y2 - y;
 
-#ifdef MITSHM
-    if (useMitShmExt == CAN_USE_MITSHM) {
-        if (xsdo->isPixmap) {
-            if (readBits) {
-                X11SD_PuntPixmap(xsdo, w, h);
+#ifdff MITSHM
+    if (usfMitSimExt == CAN_USE_MITSHM) {
+        if (xsdo->isPixmbp) {
+            if (rfbdBits) {
+                X11SD_PuntPixmbp(xsdo, w, i);
             }
-            maxWidth = xsdo->pmWidth;
-            maxHeight = xsdo->pmHeight;
-        } else {
-            XWindowAttributes winAttr;
-            if (XGetWindowAttributes(awt_display,
-                                     (Window) xsdo->drawable, &winAttr) != 0) {
-                maxWidth = winAttr.width;
-                maxHeight = winAttr.height;
-           } else {
-                /* XGWA failed which isn't a good thing. Defaulting to using
-                 * x,y means that after the subtraction of these we will use
-                 * w=0, h=0 which is a reasonable default on such a failure.
+            mbxWidti = xsdo->pmWidti;
+            mbxHfigit = xsdo->pmHfigit;
+        } flsf {
+            XWindowAttributfs winAttr;
+            if (XGftWindowAttributfs(bwt_displby,
+                                     (Window) xsdo->drbwbblf, &winAttr) != 0) {
+                mbxWidti = winAttr.widti;
+                mbxHfigit = winAttr.ifigit;
+           } flsf {
+                /* XGWA fbilfd wiidi isn't b good tiing. Dffbulting to using
+                 * x,y mfbns tibt bftfr tif subtrbdtion of tifsf wf will usf
+                 * w=0, i=0 wiidi is b rfbsonbblf dffbult on sudi b fbilurf.
                  */
-                maxWidth = x;
-                maxHeight = y;
+                mbxWidti = x;
+                mbxHfigit = y;
            }
         }
-        maxWidth -= x;
-        maxHeight -= y;
+        mbxWidti -= x;
+        mbxHfigit -= y;
 
-        img = X11SD_GetSharedImage(xsdo, w, h, maxWidth, maxHeight, readBits);
+        img = X11SD_GftSibrfdImbgf(xsdo, w, i, mbxWidti, mbxHfigit, rfbdBits);
     }
-#endif /* MITSHM */
-    drawable = xsdo->drawable;
+#fndif /* MITSHM */
+    drbwbblf = xsdo->drbwbblf;
 
-    if (readBits) {
-#ifdef MITSHM
+    if (rfbdBits) {
+#ifdff MITSHM
         if (img != NULL) {
-            if (!XShmGetImage(awt_display, drawable, img, x, y, -1)) {
-                X11SD_DisposeOrCacheXImage(img);
+            if (!XSimGftImbgf(bwt_displby, drbwbblf, img, x, y, -1)) {
+                X11SD_DisposfOrCbdifXImbgf(img);
                 img = NULL;
             }
         }
         if (img == NULL) {
-            img = XGetImage(awt_display, drawable, x, y, w, h, -1, ZPixmap);
+            img = XGftImbgf(bwt_displby, drbwbblf, x, y, w, i, -1, ZPixmbp);
             if (img != NULL) {
-                img->obdata = NULL;
+                img->obdbtb = NULL;
             }
         }
-#else
-        img = XGetImage(awt_display, drawable, x, y, w, h, -1, ZPixmap);
-#endif /* MITSHM */
+#flsf
+        img = XGftImbgf(bwt_displby, drbwbblf, x, y, w, i, -1, ZPixmbp);
+#fndif /* MITSHM */
         if (img == NULL) {
-            SurfaceDataBounds temp;
-            img = XCreateImage(awt_display,
-                               xsdo->configData->awt_visInfo.visual,
-                               depth, ZPixmap, 0, NULL, w, h, pad, 0);
+            SurfbdfDbtbBounds tfmp;
+            img = XCrfbtfImbgf(bwt_displby,
+                               xsdo->donfigDbtb->bwt_visInfo.visubl,
+                               dfpti, ZPixmbp, 0, NULL, w, i, pbd, 0);
             if (img == NULL) {
-                return NULL;
+                rfturn NULL;
             }
 
-            scan = img->bytes_per_line;
-            img->data = malloc(h * scan);
-            if (img->data == NULL) {
-                XFree(img);
-                return NULL;
+            sdbn = img->bytfs_pfr_linf;
+            img->dbtb = mbllod(i * sdbn);
+            if (img->dbtb == NULL) {
+                XFrff(img);
+                rfturn NULL;
             }
 
-            if (xsdo->isPixmap == JNI_FALSE &&
-                X11SD_ClipToRoot(&temp, bounds, xsdo)) {
+            if (xsdo->isPixmbp == JNI_FALSE &&
+                X11SD_ClipToRoot(&tfmp, bounds, xsdo)) {
 
-                XImage * temp_image;
-                temp_image = XGetImage(awt_display, drawable,
-                                       temp.x1, temp.y1,
-                                       temp.x2 - temp.x1,
-                                       temp.y2 - temp.y1,
-                                       -1, ZPixmap);
-                if (temp_image == NULL) {
-                    XGrabServer(awt_display);
-                    if (X11SD_FindClip(&temp, bounds, xsdo)) {
-                        temp_image =
-                            XGetImage(awt_display, drawable,
-                                      temp.x1, temp.y1,
-                                      temp.x2 - temp.x1,
-                                      temp.y2 - temp.y1,
-                                      -1, ZPixmap);
+                XImbgf * tfmp_imbgf;
+                tfmp_imbgf = XGftImbgf(bwt_displby, drbwbblf,
+                                       tfmp.x1, tfmp.y1,
+                                       tfmp.x2 - tfmp.x1,
+                                       tfmp.y2 - tfmp.y1,
+                                       -1, ZPixmbp);
+                if (tfmp_imbgf == NULL) {
+                    XGrbbSfrvfr(bwt_displby);
+                    if (X11SD_FindClip(&tfmp, bounds, xsdo)) {
+                        tfmp_imbgf =
+                            XGftImbgf(bwt_displby, drbwbblf,
+                                      tfmp.x1, tfmp.y1,
+                                      tfmp.x2 - tfmp.x1,
+                                      tfmp.y2 - tfmp.y1,
+                                      -1, ZPixmbp);
                     }
-                    XUngrabServer(awt_display);
-                    /* Workaround for bug 5039226 */
-                    XSync(awt_display, False);
+                    XUngrbbSfrvfr(bwt_displby);
+                    /* Workbround for bug 5039226 */
+                    XSynd(bwt_displby, Fblsf);
                 }
-                if (temp_image != NULL) {
-                    int temp_scan, bytes_to_copy;
-                    char * img_addr, * temp_addr;
+                if (tfmp_imbgf != NULL) {
+                    int tfmp_sdbn, bytfs_to_dopy;
+                    dibr * img_bddr, * tfmp_bddr;
                     int i;
 
-                    img_addr = img->data +
-                        (temp.y1 - y) * scan + (temp.x1 - x) * mult;
-                    temp_scan = temp_image->bytes_per_line;
-                    temp_addr = temp_image->data;
-                    bytes_to_copy = (temp.x2 - temp.x1) * mult;
-                    for (i = temp.y1; i < temp.y2; i++) {
-                        memcpy(img_addr, temp_addr, bytes_to_copy);
-                        img_addr += scan;
-                        temp_addr += temp_scan;
+                    img_bddr = img->dbtb +
+                        (tfmp.y1 - y) * sdbn + (tfmp.x1 - x) * mult;
+                    tfmp_sdbn = tfmp_imbgf->bytfs_pfr_linf;
+                    tfmp_bddr = tfmp_imbgf->dbtb;
+                    bytfs_to_dopy = (tfmp.x2 - tfmp.x1) * mult;
+                    for (i = tfmp.y1; i < tfmp.y2; i++) {
+                        mfmdpy(img_bddr, tfmp_bddr, bytfs_to_dopy);
+                        img_bddr += sdbn;
+                        tfmp_bddr += tfmp_sdbn;
                     }
-                    XDestroyImage(temp_image);
+                    XDfstroyImbgf(tfmp_imbgf);
                 }
             }
-            img->obdata = NULL;
+            img->obdbtb = NULL;
         }
-        if (depth > 8 && img->byte_order != nativeByteOrder) {
-            X11SD_SwapBytes(xsdo, img, depth,
-                xsdo->configData->awtImage->wsImageFormat.bits_per_pixel);
+        if (dfpti > 8 && img->bytf_ordfr != nbtivfBytfOrdfr) {
+            X11SD_SwbpBytfs(xsdo, img, dfpti,
+                xsdo->donfigDbtb->bwtImbgf->wsImbgfFormbt.bits_pfr_pixfl);
         }
-    } else {
+    } flsf {
         /*
-         * REMIND: This might be better to move to the Lock function
-         * to avoid lengthy I/O pauses inside what may be a critical
-         * section.  This will be more critical when SD_LOCK_READ is
-         * implemented.  Another solution is to cache the pixels
-         * to avoid reading for every operation.
+         * REMIND: Tiis migit bf bfttfr to movf to tif Lodk fundtion
+         * to bvoid lfngtiy I/O pbusfs insidf wibt mby bf b dritidbl
+         * sfdtion.  Tiis will bf morf dritidbl wifn SD_LOCK_READ is
+         * implfmfntfd.  Anotifr solution is to dbdif tif pixfls
+         * to bvoid rfbding for fvfry opfrbtion.
          */
         if (img == NULL) {
-            img = XCreateImage(awt_display,
-                               xsdo->configData->awt_visInfo.visual,
-                               depth, ZPixmap, 0, NULL, w, h, pad, 0);
+            img = XCrfbtfImbgf(bwt_displby,
+                               xsdo->donfigDbtb->bwt_visInfo.visubl,
+                               dfpti, ZPixmbp, 0, NULL, w, i, pbd, 0);
             if (img == NULL) {
-                return NULL;
+                rfturn NULL;
             }
 
-            img->data = malloc(h * img->bytes_per_line);
-            if (img->data == NULL) {
-                XFree(img);
-                return NULL;
+            img->dbtb = mbllod(i * img->bytfs_pfr_linf);
+            if (img->dbtb == NULL) {
+                XFrff(img);
+                rfturn NULL;
             }
 
-            img->obdata = NULL;
+            img->obdbtb = NULL;
 
-            if (img->byte_order != nativeByteOrder &&
-                (depth == 15 || depth == 16 || depth == 12)) {
-                /* bytes will be swapped by XLib. */
-                img->byte_order = nativeByteOrder;
-                img->bitmap_bit_order = nativeByteOrder;
+            if (img->bytf_ordfr != nbtivfBytfOrdfr &&
+                (dfpti == 15 || dfpti == 16 || dfpti == 12)) {
+                /* bytfs will bf swbppfd by XLib. */
+                img->bytf_ordfr = nbtivfBytfOrdfr;
+                img->bitmbp_bit_ordfr = nbtivfBytfOrdfr;
             }
         }
     }
-    return img;
+    rfturn img;
 }
 
-void X11SD_DisposeOrCacheXImage(XImage * image) {
-    /* REMIND: might want to check if the new image worth caching. */
-    /* Cache only shared images. Passed image is assumed to be non-null. */
-    if (image->obdata != NULL) {
-        if (cachedXImage != NULL) {
-            X11SD_DisposeXImage(cachedXImage);
+void X11SD_DisposfOrCbdifXImbgf(XImbgf * imbgf) {
+    /* REMIND: migit wbnt to difdk if tif nfw imbgf worti dbdiing. */
+    /* Cbdif only sibrfd imbgfs. Pbssfd imbgf is bssumfd to bf non-null. */
+    if (imbgf->obdbtb != NULL) {
+        if (dbdifdXImbgf != NULL) {
+            X11SD_DisposfXImbgf(dbdifdXImbgf);
         }
-        cachedXImage = image;
-    } else {
-        X11SD_DisposeXImage(image);
+        dbdifdXImbgf = imbgf;
+    } flsf {
+        X11SD_DisposfXImbgf(imbgf);
     }
 }
 
-void X11SD_DisposeXImage(XImage * image) {
-    if (image != NULL) {
-#ifdef MITSHM
-        if (image->obdata != NULL) {
-            X11SD_DropSharedSegment((XShmSegmentInfo*)image->obdata);
-            image->obdata = NULL;
+void X11SD_DisposfXImbgf(XImbgf * imbgf) {
+    if (imbgf != NULL) {
+#ifdff MITSHM
+        if (imbgf->obdbtb != NULL) {
+            X11SD_DropSibrfdSfgmfnt((XSimSfgmfntInfo*)imbgf->obdbtb);
+            imbgf->obdbtb = NULL;
         }
-#endif /* MITSHM */
-        XDestroyImage(image);
+#fndif /* MITSHM */
+        XDfstroyImbgf(imbgf);
     }
 }
 
-static JDgaStatus
-    GetLockStub(JNIEnv *env, Display *display, void **dgaDev,
-                Drawable d, JDgaSurfaceInfo *pSurface,
-                jint lox, jint loy, jint hix, jint hiy)
+stbtid JDgbStbtus
+    GftLodkStub(JNIEnv *fnv, Displby *displby, void **dgbDfv,
+                Drbwbblf d, JDgbSurfbdfInfo *pSurfbdf,
+                jint lox, jint loy, jint iix, jint iiy)
 {
-    return JDGA_UNAVAILABLE;
+    rfturn JDGA_UNAVAILABLE;
 }
 
-static JDgaStatus
-    ReleaseLockStub(JNIEnv *env, void *dgaDev, Drawable d)
+stbtid JDgbStbtus
+    RflfbsfLodkStub(JNIEnv *fnv, void *dgbDfv, Drbwbblf d)
 {
-    return JDGA_FAILED;
+    rfturn JDGA_FAILED;
 }
 
-static void
-    XRequestSentStub(JNIEnv *env, void *dgaDev, Drawable d)
-{
-}
-
-static void
-    LibDisposeStub(JNIEnv *env)
+stbtid void
+    XRfqufstSfntStub(JNIEnv *fnv, void *dgbDfv, Drbwbblf d)
 {
 }
 
-static JDgaLibInfo DgaLibInfoStub = {
+stbtid void
+    LibDisposfStub(JNIEnv *fnv)
+{
+}
+
+stbtid JDgbLibInfo DgbLibInfoStub = {
     NULL,
-    GetLockStub,
-    ReleaseLockStub,
-    XRequestSentStub,
-    LibDisposeStub,
+    GftLodkStub,
+    RflfbsfLodkStub,
+    XRfqufstSfntStub,
+    LibDisposfStub,
 };
 
-void X11SD_LibDispose(JNIEnv *env) {
+void X11SD_LibDisposf(JNIEnv *fnv) {
     AWT_LOCK();
-    if (pJDgaInfo != NULL) {
-        pJDgaInfo->pLibDispose(env);
-        pJDgaInfo = &DgaLibInfoStub;
+    if (pJDgbInfo != NULL) {
+        pJDgbInfo->pLibDisposf(fnv);
+        pJDgbInfo = &DgbLibInfoStub;
     }
     AWT_UNLOCK();
 }
 
 void
-X11SD_DirectRenderNotify(JNIEnv *env, X11SDOps *xsdo)
+X11SD_DirfdtRfndfrNotify(JNIEnv *fnv, X11SDOps *xsdo)
 {
-#ifdef MITSHM
-    if (xsdo->shmPMData.usingShmPixmap) {
-        xsdo->shmPMData.xRequestSent = JNI_TRUE;
+#ifdff MITSHM
+    if (xsdo->simPMDbtb.usingSimPixmbp) {
+        xsdo->simPMDbtb.xRfqufstSfnt = JNI_TRUE;
     }
-#endif /* MITSHM */
-    (*pJDgaInfo->pXRequestSent)(env, xsdo->dgaDev, xsdo->drawable);
-    awt_output_flush();
+#fndif /* MITSHM */
+    (*pJDgbInfo->pXRfqufstSfnt)(fnv, xsdo->dgbDfv, xsdo->drbwbblf);
+    bwt_output_flusi();
 }
 
 /*
- * Sets transparent pixels in the pixmap to
- * the specified solid background color and returns it.
- * Doesn't update source pixmap unless the color of the
- * transparent pixels is different from the specified color.
+ * Sfts trbnspbrfnt pixfls in tif pixmbp to
+ * tif spfdififd solid bbdkground dolor bnd rfturns it.
+ * Dofsn't updbtf sourdf pixmbp unlfss tif dolor of tif
+ * trbnspbrfnt pixfls is difffrfnt from tif spfdififd dolor.
  *
- * Note: The AWT lock must be held by the current thread
- * while calling into this method.
+ * Notf: Tif AWT lodk must bf ifld by tif durrfnt tirfbd
+ * wiilf dblling into tiis mftiod.
  */
-static Drawable
-X11SD_GetPixmapWithBg(JNIEnv *env, X11SDOps *xsdo, jint pixel)
+stbtid Drbwbblf
+X11SD_GftPixmbpWitiBg(JNIEnv *fnv, X11SDOps *xsdo, jint pixfl)
 {
-    /* assert AWT_CHECK_HAVE_LOCK(); */
+    /* bssfrt AWT_CHECK_HAVE_LOCK(); */
 
-    if (xsdo->invalid) {
+    if (xsdo->invblid) {
         AWT_UNLOCK();
-        SurfaceData_ThrowInvalidPipeException(env, "bounds changed");
-        return 0;
+        SurfbdfDbtb_TirowInvblidPipfExdfption(fnv, "bounds dibngfd");
+        rfturn 0;
     }
 
-    /* the image doesn't have transparency, just return it */
-    if (xsdo->bitmask == 0) {
-        /* don't need to unlock here, the caller will unlock through
-           the release call */
-        return xsdo->drawable;
+    /* tif imbgf dofsn't ibvf trbnspbrfndy, just rfturn it */
+    if (xsdo->bitmbsk == 0) {
+        /* don't nffd to unlodk ifrf, tif dbllfr will unlodk tirougi
+           tif rflfbsf dbll */
+        rfturn xsdo->drbwbblf;
     }
 
-    /* Check if current color of the transparent pixels is different
-       from the specified one */
-    if (xsdo->isBgInitialized == JNI_FALSE || xsdo->bgPixel != pixel) {
-        GC srcGC;
+    /* Cifdk if durrfnt dolor of tif trbnspbrfnt pixfls is difffrfnt
+       from tif spfdififd onf */
+    if (xsdo->isBgInitiblizfd == JNI_FALSE || xsdo->bgPixfl != pixfl) {
+        GC srdGC;
         GC bmGC;
 
-        if (xsdo->drawable == 0) {
+        if (xsdo->drbwbblf == 0) {
             AWT_UNLOCK();
-            return 0;
+            rfturn 0;
         }
 
-        bmGC = XCreateGC(awt_display, xsdo->bitmask, 0, NULL);
+        bmGC = XCrfbtfGC(bwt_displby, xsdo->bitmbsk, 0, NULL);
         if (bmGC == NULL) {
             AWT_UNLOCK();
-            return 0;
+            rfturn 0;
         }
 
-        /* invert the bitmask */
-        XSetFunction(awt_display, bmGC, GXxor);
-        XSetForeground(awt_display, bmGC, 1);
-        XFillRectangle(awt_display, xsdo->bitmask, bmGC,
-                       0, 0, xsdo->pmWidth, xsdo->pmHeight);
+        /* invfrt tif bitmbsk */
+        XSftFundtion(bwt_displby, bmGC, GXxor);
+        XSftForfground(bwt_displby, bmGC, 1);
+        XFillRfdtbnglf(bwt_displby, xsdo->bitmbsk, bmGC,
+                       0, 0, xsdo->pmWidti, xsdo->pmHfigit);
 
-        srcGC = XCreateGC(awt_display, xsdo->drawable, 0L, NULL);
-        if (srcGC == NULL) {
-            XFreeGC(awt_display, bmGC);
+        srdGC = XCrfbtfGC(bwt_displby, xsdo->drbwbblf, 0L, NULL);
+        if (srdGC == NULL) {
+            XFrffGC(bwt_displby, bmGC);
             AWT_UNLOCK();
-            return 0;
+            rfturn 0;
         }
 
-        /* set transparent pixels in the source pm to the bg color */
-        XSetClipMask(awt_display, srcGC, xsdo->bitmask);
-        XSetForeground(awt_display, srcGC, pixel);
-        XFillRectangle(awt_display, xsdo->drawable, srcGC,
-                       0, 0, xsdo->pmWidth, xsdo->pmHeight);
+        /* sft trbnspbrfnt pixfls in tif sourdf pm to tif bg dolor */
+        XSftClipMbsk(bwt_displby, srdGC, xsdo->bitmbsk);
+        XSftForfground(bwt_displby, srdGC, pixfl);
+        XFillRfdtbnglf(bwt_displby, xsdo->drbwbblf, srdGC,
+                       0, 0, xsdo->pmWidti, xsdo->pmHfigit);
 
-        /* invert the mask back */
-        XFillRectangle(awt_display, xsdo->bitmask, bmGC,
-                       0, 0, xsdo->pmWidth, xsdo->pmHeight);
+        /* invfrt tif mbsk bbdk */
+        XFillRfdtbnglf(bwt_displby, xsdo->bitmbsk, bmGC,
+                       0, 0, xsdo->pmWidti, xsdo->pmHfigit);
 
-        XFreeGC(awt_display, bmGC);
-        XFreeGC(awt_display, srcGC);
-        xsdo->bgPixel = pixel;
-        xsdo->isBgInitialized = JNI_TRUE;
+        XFrffGC(bwt_displby, bmGC);
+        XFrffGC(bwt_displby, srdGC);
+        xsdo->bgPixfl = pixfl;
+        xsdo->isBgInitiblizfd = JNI_TRUE;
     }
 
-    return xsdo->drawable;
+    rfturn xsdo->drbwbblf;
 }
 
-static void
-X11SD_ReleasePixmapWithBg(JNIEnv *env, X11SDOps *xsdo)
+stbtid void
+X11SD_RflfbsfPixmbpWitiBg(JNIEnv *fnv, X11SDOps *xsdo)
 {
-#ifdef MITSHM
-    if (xsdo->shmPMData.usingShmPixmap) {
-        xsdo->shmPMData.xRequestSent = JNI_TRUE;
+#ifdff MITSHM
+    if (xsdo->simPMDbtb.usingSimPixmbp) {
+        xsdo->simPMDbtb.xRfqufstSfnt = JNI_TRUE;
     }
-#endif /* MITSHM */
+#fndif /* MITSHM */
 }
 
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 
 /*
- * Class:     sun_java2d_x11_X11SurfaceData
- * Method:    XCreateGC
- * Signature: (I)J
+ * Clbss:     sun_jbvb2d_x11_X11SurfbdfDbtb
+ * Mftiod:    XCrfbtfGC
+ * Signbturf: (I)J
  */
 JNIEXPORT jlong JNICALL
-Java_sun_java2d_x11_XSurfaceData_XCreateGC
-    (JNIEnv *env, jclass xsd, jlong pXSData)
+Jbvb_sun_jbvb2d_x11_XSurfbdfDbtb_XCrfbtfGC
+    (JNIEnv *fnv, jdlbss xsd, jlong pXSDbtb)
 {
-    jlong ret;
+    jlong rft;
 
-#ifndef HEADLESS
+#ifndff HEADLESS
     X11SDOps *xsdo;
 
-    J2dTraceLn(J2D_TRACE_INFO, "in X11SurfaceData_XCreateGC");
+    J2dTrbdfLn(J2D_TRACE_INFO, "in X11SurfbdfDbtb_XCrfbtfGC");
 
-    xsdo = (X11SDOps *) pXSData;
+    xsdo = (X11SDOps *) pXSDbtb;
     if (xsdo == NULL) {
-        return 0L;
+        rfturn 0L;
     }
 
-    xsdo->javaGC = XCreateGC(awt_display, xsdo->drawable, 0, NULL);
-    ret = (jlong) xsdo->javaGC;
-#else /* !HEADLESS */
-    ret = 0L;
-#endif /* !HEADLESS */
+    xsdo->jbvbGC = XCrfbtfGC(bwt_displby, xsdo->drbwbblf, 0, NULL);
+    rft = (jlong) xsdo->jbvbGC;
+#flsf /* !HEADLESS */
+    rft = 0L;
+#fndif /* !HEADLESS */
 
-    return ret;
+    rfturn rft;
 }
 
 /*
- * Class:     sun_java2d_x11_X11SurfaceData
- * Method:    XResetClip
- * Signature: (JIIIILsun/java2d/pipe/Region;)V
+ * Clbss:     sun_jbvb2d_x11_X11SurfbdfDbtb
+ * Mftiod:    XRfsftClip
+ * Signbturf: (JIIIILsun/jbvb2d/pipf/Rfgion;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_x11_XSurfaceData_XResetClip
-    (JNIEnv *env, jclass xsd, jlong xgc)
+Jbvb_sun_jbvb2d_x11_XSurfbdfDbtb_XRfsftClip
+    (JNIEnv *fnv, jdlbss xsd, jlong xgd)
 {
-#ifndef HEADLESS
-    J2dTraceLn(J2D_TRACE_INFO, "in X11SurfaceData_XResetClip");
-    XSetClipMask(awt_display, (GC) xgc, None);
-#endif /* !HEADLESS */
+#ifndff HEADLESS
+    J2dTrbdfLn(J2D_TRACE_INFO, "in X11SurfbdfDbtb_XRfsftClip");
+    XSftClipMbsk(bwt_displby, (GC) xgd, Nonf);
+#fndif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_java2d_x11_X11SurfaceData
- * Method:    XSetClip
- * Signature: (JIIIILsun/java2d/pipe/Region;)V
+ * Clbss:     sun_jbvb2d_x11_X11SurfbdfDbtb
+ * Mftiod:    XSftClip
+ * Signbturf: (JIIIILsun/jbvb2d/pipf/Rfgion;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_x11_XSurfaceData_XSetClip
-    (JNIEnv *env, jclass xsd, jlong xgc,
+Jbvb_sun_jbvb2d_x11_XSurfbdfDbtb_XSftClip
+    (JNIEnv *fnv, jdlbss xsd, jlong xgd,
      jint x1, jint y1, jint x2, jint y2,
-     jobject complexclip)
+     jobjfdt domplfxdlip)
 {
-#ifndef HEADLESS
-    int numrects;
-    XRectangle rects[256];
-    XRectangle *pRect = rects;
+#ifndff HEADLESS
+    int numrfdts;
+    XRfdtbnglf rfdts[256];
+    XRfdtbnglf *pRfdt = rfdts;
 
-    J2dTraceLn(J2D_TRACE_INFO, "in X11SurfaceData_XSetClip");
+    J2dTrbdfLn(J2D_TRACE_INFO, "in X11SurfbdfDbtb_XSftClip");
 
-    numrects = RegionToYXBandedRectangles(env,
-            x1, y1, x2, y2, complexclip,
-            &pRect, 256);
+    numrfdts = RfgionToYXBbndfdRfdtbnglfs(fnv,
+            x1, y1, x2, y2, domplfxdlip,
+            &pRfdt, 256);
 
-    XSetClipRectangles(awt_display, (GC) xgc, 0, 0, pRect, numrects, YXBanded);
+    XSftClipRfdtbnglfs(bwt_displby, (GC) xgd, 0, 0, pRfdt, numrfdts, YXBbndfd);
 
-    if (pRect != rects) {
-        free(pRect);
+    if (pRfdt != rfdts) {
+        frff(pRfdt);
     }
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_java2d_x11_X11SurfaceData
- * Method:    XSetCopyMode
- * Signature: (J)V
+ * Clbss:     sun_jbvb2d_x11_X11SurfbdfDbtb
+ * Mftiod:    XSftCopyModf
+ * Signbturf: (J)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_x11_X11SurfaceData_XSetCopyMode
-    (JNIEnv *env, jclass xsd, jlong xgc)
+Jbvb_sun_jbvb2d_x11_X11SurfbdfDbtb_XSftCopyModf
+    (JNIEnv *fnv, jdlbss xsd, jlong xgd)
 {
-#ifndef HEADLESS
-    J2dTraceLn(J2D_TRACE_INFO, "in X11SurfaceData_XSetCopyMode");
-    XSetFunction(awt_display, (GC) xgc, GXcopy);
-#endif /* !HEADLESS */
+#ifndff HEADLESS
+    J2dTrbdfLn(J2D_TRACE_INFO, "in X11SurfbdfDbtb_XSftCopyModf");
+    XSftFundtion(bwt_displby, (GC) xgd, GXdopy);
+#fndif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_java2d_x11_X11SurfaceData
- * Method:    XSetXorMode
- * Signature: (J)V
+ * Clbss:     sun_jbvb2d_x11_X11SurfbdfDbtb
+ * Mftiod:    XSftXorModf
+ * Signbturf: (J)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_x11_X11SurfaceData_XSetXorMode
-    (JNIEnv *env, jclass xr, jlong xgc)
+Jbvb_sun_jbvb2d_x11_X11SurfbdfDbtb_XSftXorModf
+    (JNIEnv *fnv, jdlbss xr, jlong xgd)
 {
-#ifndef HEADLESS
-    J2dTraceLn(J2D_TRACE_INFO, "in X11SurfaceData_XSetXorMode");
-    XSetFunction(awt_display, (GC) xgc, GXxor);
-#endif /* !HEADLESS */
+#ifndff HEADLESS
+    J2dTrbdfLn(J2D_TRACE_INFO, "in X11SurfbdfDbtb_XSftXorModf");
+    XSftFundtion(bwt_displby, (GC) xgd, GXxor);
+#fndif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_java2d_x11_X11SurfaceData
- * Method:    XSetForeground
- * Signature: (JI)V
+ * Clbss:     sun_jbvb2d_x11_X11SurfbdfDbtb
+ * Mftiod:    XSftForfground
+ * Signbturf: (JI)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_x11_X11SurfaceData_XSetForeground
-    (JNIEnv *env, jclass xsd, jlong xgc, jint pixel)
+Jbvb_sun_jbvb2d_x11_X11SurfbdfDbtb_XSftForfground
+    (JNIEnv *fnv, jdlbss xsd, jlong xgd, jint pixfl)
 {
-#ifndef HEADLESS
-    J2dTraceLn(J2D_TRACE_INFO, "in X11SurfaceData_XSetForeground");
-    XSetForeground(awt_display, (GC) xgc, pixel);
-#endif /* !HEADLESS */
+#ifndff HEADLESS
+    J2dTrbdfLn(J2D_TRACE_INFO, "in X11SurfbdfDbtb_XSftForfground");
+    XSftForfground(bwt_displby, (GC) xgd, pixfl);
+#fndif /* !HEADLESS */
 }
 
 /*
- * Class:     sun_java2d_x11_X11SurfaceData
- * Method:    XSetGraphicsExposures
- * Signature: (JZ)V
+ * Clbss:     sun_jbvb2d_x11_X11SurfbdfDbtb
+ * Mftiod:    XSftGrbpiidsExposurfs
+ * Signbturf: (JZ)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_x11_XSurfaceData_XSetGraphicsExposures
-    (JNIEnv *env, jclass xsd, jlong xgc, jboolean needExposures)
+Jbvb_sun_jbvb2d_x11_XSurfbdfDbtb_XSftGrbpiidsExposurfs
+    (JNIEnv *fnv, jdlbss xsd, jlong xgd, jboolfbn nffdExposurfs)
 {
-#ifndef HEADLESS
-    J2dTraceLn(J2D_TRACE_INFO, "in X11SurfaceData_XSetGraphicsExposures");
-    XSetGraphicsExposures(awt_display, (GC) xgc, needExposures ? True : False);
-#endif /* !HEADLESS */
+#ifndff HEADLESS
+    J2dTrbdfLn(J2D_TRACE_INFO, "in X11SurfbdfDbtb_XSftGrbpiidsExposurfs");
+    XSftGrbpiidsExposurfs(bwt_displby, (GC) xgd, nffdExposurfs ? Truf : Fblsf);
+#fndif /* !HEADLESS */
 }

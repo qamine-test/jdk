@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.util.Set;
+import jbvb.util.Sft;
 
 /**
- * This interface specifies constraints for cryptographic algorithms,
- * keys (key sizes), and other algorithm parameters.
+ * Tiis intfrfbdf spfdififs donstrbints for dryptogrbpiid blgoritims,
+ * kfys (kfy sizfs), bnd otifr blgoritim pbrbmftfrs.
  * <p>
- * {@code AlgorithmConstraints} objects are immutable.  An implementation
- * of this interface should not provide methods that can change the state
- * of an instance once it has been created.
+ * {@dodf AlgoritimConstrbints} objfdts brf immutbblf.  An implfmfntbtion
+ * of tiis intfrfbdf siould not providf mftiods tibt dbn dibngf tif stbtf
+ * of bn instbndf ondf it ibs bffn drfbtfd.
  * <p>
- * Note that {@code AlgorithmConstraints} can be used to represent the
- * restrictions described by the security properties
- * {@code jdk.certpath.disabledAlgorithms} and
- * {@code jdk.tls.disabledAlgorithms}, or could be used by a
- * concrete {@code PKIXCertPathChecker} to check whether a specified
- * certificate in the certification path contains the required algorithm
- * constraints.
+ * Notf tibt {@dodf AlgoritimConstrbints} dbn bf usfd to rfprfsfnt tif
+ * rfstridtions dfsdribfd by tif sfdurity propfrtifs
+ * {@dodf jdk.dfrtpbti.disbblfdAlgoritims} bnd
+ * {@dodf jdk.tls.disbblfdAlgoritims}, or dould bf usfd by b
+ * dondrftf {@dodf PKIXCfrtPbtiCifdkfr} to difdk wiftifr b spfdififd
+ * dfrtifidbtf in tif dfrtifidbtion pbti dontbins tif rfquirfd blgoritim
+ * donstrbints.
  *
- * @see javax.net.ssl.SSLParameters#getAlgorithmConstraints
- * @see javax.net.ssl.SSLParameters#setAlgorithmConstraints(AlgorithmConstraints)
+ * @sff jbvbx.nft.ssl.SSLPbrbmftfrs#gftAlgoritimConstrbints
+ * @sff jbvbx.nft.ssl.SSLPbrbmftfrs#sftAlgoritimConstrbints(AlgoritimConstrbints)
  *
- * @since 1.7
+ * @sindf 1.7
  */
 
-public interface AlgorithmConstraints {
+publid intfrfbdf AlgoritimConstrbints {
 
     /**
-     * Determines whether an algorithm is granted permission for the
-     * specified cryptographic primitives.
+     * Dftfrminfs wiftifr bn blgoritim is grbntfd pfrmission for tif
+     * spfdififd dryptogrbpiid primitivfs.
      *
-     * @param primitives a set of cryptographic primitives
-     * @param algorithm the algorithm name
-     * @param parameters the algorithm parameters, or null if no additional
-     *     parameters
+     * @pbrbm primitivfs b sft of dryptogrbpiid primitivfs
+     * @pbrbm blgoritim tif blgoritim nbmf
+     * @pbrbm pbrbmftfrs tif blgoritim pbrbmftfrs, or null if no bdditionbl
+     *     pbrbmftfrs
      *
-     * @return true if the algorithm is permitted and can be used for all
-     *     of the specified cryptographic primitives
+     * @rfturn truf if tif blgoritim is pfrmittfd bnd dbn bf usfd for bll
+     *     of tif spfdififd dryptogrbpiid primitivfs
      *
-     * @throws IllegalArgumentException if primitives or algorithm is null
-     *     or empty
+     * @tirows IllfgblArgumfntExdfption if primitivfs or blgoritim is null
+     *     or fmpty
      */
-    public boolean permits(Set<CryptoPrimitive> primitives,
-            String algorithm, AlgorithmParameters parameters);
+    publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
+            String blgoritim, AlgoritimPbrbmftfrs pbrbmftfrs);
 
     /**
-     * Determines whether a key is granted permission for the specified
-     * cryptographic primitives.
+     * Dftfrminfs wiftifr b kfy is grbntfd pfrmission for tif spfdififd
+     * dryptogrbpiid primitivfs.
      * <p>
-     * This method is usually used to check key size and key usage.
+     * Tiis mftiod is usublly usfd to difdk kfy sizf bnd kfy usbgf.
      *
-     * @param primitives a set of cryptographic primitives
-     * @param key the key
+     * @pbrbm primitivfs b sft of dryptogrbpiid primitivfs
+     * @pbrbm kfy tif kfy
      *
-     * @return true if the key can be used for all of the specified
-     *     cryptographic primitives
+     * @rfturn truf if tif kfy dbn bf usfd for bll of tif spfdififd
+     *     dryptogrbpiid primitivfs
      *
-     * @throws IllegalArgumentException if primitives is null or empty,
-     *     or the key is null
+     * @tirows IllfgblArgumfntExdfption if primitivfs is null or fmpty,
+     *     or tif kfy is null
      */
-    public boolean permits(Set<CryptoPrimitive> primitives, Key key);
+    publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs, Kfy kfy);
 
     /**
-     * Determines whether an algorithm and the corresponding key are granted
-     * permission for the specified cryptographic primitives.
+     * Dftfrminfs wiftifr bn blgoritim bnd tif dorrfsponding kfy brf grbntfd
+     * pfrmission for tif spfdififd dryptogrbpiid primitivfs.
      *
-     * @param primitives a set of cryptographic primitives
-     * @param algorithm the algorithm name
-     * @param key the key
-     * @param parameters the algorithm parameters, or null if no additional
-     *     parameters
+     * @pbrbm primitivfs b sft of dryptogrbpiid primitivfs
+     * @pbrbm blgoritim tif blgoritim nbmf
+     * @pbrbm kfy tif kfy
+     * @pbrbm pbrbmftfrs tif blgoritim pbrbmftfrs, or null if no bdditionbl
+     *     pbrbmftfrs
      *
-     * @return true if the key and the algorithm can be used for all of the
-     *     specified cryptographic primitives
+     * @rfturn truf if tif kfy bnd tif blgoritim dbn bf usfd for bll of tif
+     *     spfdififd dryptogrbpiid primitivfs
      *
-     * @throws IllegalArgumentException if primitives or algorithm is null
-     *     or empty, or the key is null
+     * @tirows IllfgblArgumfntExdfption if primitivfs or blgoritim is null
+     *     or fmpty, or tif kfy is null
      */
-    public boolean permits(Set<CryptoPrimitive> primitives,
-                String algorithm, Key key, AlgorithmParameters parameters);
+    publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
+                String blgoritim, Kfy kfy, AlgoritimPbrbmftfrs pbrbmftfrs);
 
 }

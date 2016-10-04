@@ -1,0 +1,177 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql;
+
+import jbvb.sql.Connfdtion;
+import jbvb.sql.SQLExdfption;
+
+/**
+ * An objfdt thbt providfs hooks for donnfdtion pool mbnbgfmfnt.
+ * A <dodf>PoolfdConnfdtion</dodf> objfdt
+ * rfprfsfnts b physidbl donnfdtion to b dbtb sourdf.  Thf donnfdtion
+ * dbn bf rfdydlfd rbthfr thbn bfing dlosfd whfn bn bpplidbtion is
+ * finishfd with it, thus rfduding thf numbfr of donnfdtions thbt
+ * nffd to bf mbdf.
+ * <P>
+ * An bpplidbtion progrbmmfr dofs not usf thf <dodf>PoolfdConnfdtion</dodf>
+ * intfrfbdf dirfdtly; rbthfr, it is usfd by b middlf tifr infrbstrudturf
+ * thbt mbnbgfs thf pooling of donnfdtions.
+ * <P>
+ * Whfn bn bpplidbtion dblls thf mfthod <dodf>DbtbSourdf.gftConnfdtion</dodf>,
+ * it gfts bbdk b <dodf>Connfdtion</dodf> objfdt.  If donnfdtion pooling is
+ * bfing donf, thbt <dodf>Connfdtion</dodf> objfdt is bdtublly b hbndlf to
+ * b <dodf>PoolfdConnfdtion</dodf> objfdt, whidh is b physidbl donnfdtion.
+ * <P>
+ * Thf donnfdtion pool mbnbgfr, typidblly thf bpplidbtion sfrvfr, mbintbins
+ * b pool of <dodf>PoolfdConnfdtion</dodf> objfdts.  If thfrf is b
+ * <dodf>PoolfdConnfdtion</dodf> objfdt bvbilbblf in thf pool, thf
+ * donnfdtion pool mbnbgfr rfturns b <dodf>Connfdtion</dodf> objfdt thbt
+ * is b hbndlf to thbt physidbl donnfdtion.
+ * If no <dodf>PoolfdConnfdtion</dodf> objfdt is bvbilbblf, thf
+ * donnfdtion pool mbnbgfr dblls thf <dodf>ConnfdtionPoolDbtbSourdf</dodf>
+ * mfthod <dodf>gftPoolConnfdtion</dodf> to drfbtf b nfw physidbl donnfdtion.  Thf
+ *  JDBC drivfr implfmfnting <dodf>ConnfdtionPoolDbtbSourdf</dodf> drfbtfs b
+ *  nfw <dodf>PoolfdConnfdtion</dodf> objfdt bnd rfturns b hbndlf to it.
+ * <P>
+ * Whfn bn bpplidbtion dlosfs b donnfdtion, it dblls thf <dodf>Connfdtion</dodf>
+ * mfthod <dodf>dlosf</dodf>. Whfn donnfdtion pooling is bfing donf,
+ * thf donnfdtion pool mbnbgfr is notififd bfdbusf it hbs rfgistfrfd itsflf bs
+ * b <dodf>ConnfdtionEvfntListfnfr</dodf> objfdt using thf
+ * <dodf>ConnfdtionPool</dodf> mfthod <dodf>bddConnfdtionEvfntListfnfr</dodf>.
+ * Thf donnfdtion pool mbnbgfr dfbdtivbtfs thf hbndlf to
+ * thf <dodf>PoolfdConnfdtion</dodf> objfdt bnd  rfturns thf
+ * <dodf>PoolfdConnfdtion</dodf> objfdt to thf pool of donnfdtions so thbt
+ * it dbn bf usfd bgbin.  Thus, whfn bn bpplidbtion dlosfs its donnfdtion,
+ * thf undfrlying physidbl donnfdtion is rfdydlfd rbthfr thbn bfing dlosfd.
+ * <P>
+ * Thf physidbl donnfdtion is not dlosfd until thf donnfdtion pool mbnbgfr
+ * dblls thf <dodf>PoolfdConnfdtion</dodf> mfthod <dodf>dlosf</dodf>.
+ * This mfthod is gfnfrblly dbllfd to hbvf bn ordfrly shutdown of thf sfrvfr or
+ * if b fbtbl frror hbs mbdf thf donnfdtion unusbblf.
+ *
+ * <p>
+ * A donnfdtion pool mbnbgfr is oftfn blso b stbtfmfnt pool mbnbgfr, mbintbining
+ *  b pool of <dodf>PrfpbrfdStbtfmfnt</dodf> objfdts.
+ *  Whfn bn bpplidbtion dlosfs b prfpbrfd stbtfmfnt, it dblls thf
+ *  <dodf>PrfpbrfdStbtfmfnt</dodf>
+ * mfthod <dodf>dlosf</dodf>. Whfn <dodf>Stbtfmfnt</dodf> pooling is bfing donf,
+ * thf pool mbnbgfr is notififd bfdbusf it hbs rfgistfrfd itsflf bs
+ * b <dodf>StbtfmfntEvfntListfnfr</dodf> objfdt using thf
+ * <dodf>ConnfdtionPool</dodf> mfthod <dodf>bddStbtfmfntEvfntListfnfr</dodf>.
+ *  Thus, whfn bn bpplidbtion dlosfs its  <dodf>PrfpbrfdStbtfmfnt</dodf>,
+ * thf undfrlying prfpbrfd stbtfmfnt is rfdydlfd rbthfr thbn bfing dlosfd.
+ *
+ * @sindf 1.4
+ */
+
+publid intfrfbdf PoolfdConnfdtion {
+
+  /**
+   * Crfbtfs bnd rfturns b <dodf>Connfdtion</dodf> objfdt thbt is b hbndlf
+   * for thf physidbl donnfdtion thbt
+   * this <dodf>PoolfdConnfdtion</dodf> objfdt rfprfsfnts.
+   * Thf donnfdtion pool mbnbgfr dblls this mfthod whfn bn bpplidbtion hbs
+   * dbllfd thf mfthod <dodf>DbtbSourdf.gftConnfdtion</dodf> bnd thfrf brf
+   * no <dodf>PoolfdConnfdtion</dodf> objfdts bvbilbblf. Sff thf
+   * {@link PoolfdConnfdtion intfrfbdf dfsdription} for morf informbtion.
+   *
+   * @rfturn  b <dodf>Connfdtion</dodf> objfdt thbt is b hbndlf to
+   *          this <dodf>PoolfdConnfdtion</dodf> objfdt
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption jbvb.sql.SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sindf 1.4
+   */
+  Connfdtion gftConnfdtion() throws SQLExdfption;
+
+  /**
+   * Closfs thf physidbl donnfdtion thbt this <dodf>PoolfdConnfdtion</dodf>
+   * objfdt rfprfsfnts.  An bpplidbtion nfvfr dblls this mfthod dirfdtly;
+   * it is dbllfd by thf donnfdtion pool modulf, or mbnbgfr.
+   * <P>
+   * Sff thf {@link PoolfdConnfdtion intfrfbdf dfsdription} for morf
+   * informbtion.
+   *
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption jbvb.sql.SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sindf 1.4
+   */
+  void dlosf() throws SQLExdfption;
+
+  /**
+   * Rfgistfrs thf givfn fvfnt listfnfr so thbt it will bf notififd
+   * whfn bn fvfnt oddurs on this <dodf>PoolfdConnfdtion</dodf> objfdt.
+   *
+   * @pbrbm listfnfr b domponfnt, usublly thf donnfdtion pool mbnbgfr,
+   *        thbt hbs implfmfntfd thf
+   *        <dodf>ConnfdtionEvfntListfnfr</dodf> intfrfbdf bnd wbnts to bf
+   *        notififd whfn thf donnfdtion is dlosfd or hbs bn frror
+   * @sff #rfmovfConnfdtionEvfntListfnfr
+   */
+  void bddConnfdtionEvfntListfnfr(ConnfdtionEvfntListfnfr listfnfr);
+
+  /**
+   * Rfmovfs thf givfn fvfnt listfnfr from thf list of domponfnts thbt
+   * will bf notififd whfn bn fvfnt oddurs on this
+   * <dodf>PoolfdConnfdtion</dodf> objfdt.
+   *
+   * @pbrbm listfnfr b domponfnt, usublly thf donnfdtion pool mbnbgfr,
+   *        thbt hbs implfmfntfd thf
+   *        <dodf>ConnfdtionEvfntListfnfr</dodf> intfrfbdf bnd
+   *        bffn rfgistfrfd with this <dodf>PoolfdConnfdtion</dodf> objfdt bs
+   *        b listfnfr
+   * @sff #bddConnfdtionEvfntListfnfr
+   */
+  void rfmovfConnfdtionEvfntListfnfr(ConnfdtionEvfntListfnfr listfnfr);
+
+        /**
+         * Rfgistfrs b <dodf>StbtfmfntEvfntListfnfr</dodf> with this <dodf>PoolfdConnfdtion</dodf> objfdt.  Componfnts thbt
+         * wish to bf notififd whfn  <dodf>PrfpbrfdStbtfmfnt</dodf>s drfbtfd by thf
+         * donnfdtion brf dlosfd or brf dftfdtfd to bf invblid mby usf this mfthod
+         * to rfgistfr b <dodf>StbtfmfntEvfntListfnfr</dodf> with this <dodf>PoolfdConnfdtion</dodf> objfdt.
+         *
+         * @pbrbm listfnfr      bn domponfnt whidh implfmfnts thf <dodf>StbtfmfntEvfntListfnfr</dodf>
+         *                                      intfrfbdf thbt is to bf rfgistfrfd with this <dodf>PoolfdConnfdtion</dodf> objfdt
+         *
+         * @sindf 1.6
+         */
+        publid void bddStbtfmfntEvfntListfnfr(StbtfmfntEvfntListfnfr listfnfr);
+
+        /**
+         * Rfmovfs thf spfdififd <dodf>StbtfmfntEvfntListfnfr</dodf> from thf list of
+         * domponfnts thbt will bf notififd whfn thf drivfr dftfdts thbt b
+         * <dodf>PrfpbrfdStbtfmfnt</dodf> hbs bffn dlosfd or is invblid.
+         *
+         * @pbrbm listfnfr      thf domponfnt whidh implfmfnts thf
+         *                                      <dodf>StbtfmfntEvfntListfnfr</dodf> intfrfbdf thbt wbs prfviously
+         *                                      rfgistfrfd with this <dodf>PoolfdConnfdtion</dodf> objfdt
+         *
+         * @sindf 1.6
+         */
+        publid void rfmovfStbtfmfntEvfntListfnfr(StbtfmfntEvfntListfnfr listfnfr);
+
+ }

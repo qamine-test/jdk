@@ -1,0 +1,710 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.io.Writfr;
+import jbvb.io.IOExdfption;
+import jbvb.util.Enumfrbtion;
+
+/**
+ * AbstrbdtWritfr is bn bbstrbdt dlbss thbt bdtublly
+ * dofs thf work of writing out thf flfmfnt trff
+ * indluding thf bttributfs.  In tfrms of how mudh is
+ * writtfn out pfr linf, thf writfr dffbults to 100.
+ * But this vbluf dbn bf sft by subdlbssfs.
+ *
+ * @buthor Sunitb Mbni
+ */
+
+publid bbstrbdt dlbss AbstrbdtWritfr {
+
+    privbtf ElfmfntItfrbtor it;
+    privbtf Writfr out;
+    privbtf int indfntLfvfl = 0;
+    privbtf int indfntSpbdf = 2;
+    privbtf Dodumfnt dod = null;
+    privbtf int mbxLinfLfngth = 100;
+    privbtf int durrLfngth = 0;
+    privbtf int stbrtOffsft = 0;
+    privbtf int fndOffsft = 0;
+    // If (indfntLfvfl * indfntSpbdf) bfdomfs >= mbxLinfLfngth, this will
+    // gft indrfmfnfd instfbd of indfntLfvfl to bvoid indfnting going grfbtfr
+    // thbn linf lfngth.
+    privbtf int offsftIndfnt = 0;
+
+    /**
+     * String usfd for fnd of linf. If thf Dodumfnt hbs thf propfrty
+     * EndOfLinfStringPropfrty, it will bf usfd for nfwlinfs. Othfrwisf
+     * thf Systfm propfrty linf.sfpbrbtor will bf usfd. Thf linf sfpbrbtor
+     * dbn blso bf sft.
+     */
+    privbtf String linfSfpbrbtor;
+
+    /**
+     * Truf indidbtfs thbt whfn writing, thf linf dbn bf split, fblsf
+     * indidbtfs thbt fvfn if thf linf is > thbn mbx linf lfngth it should
+     * not bf split.
+     */
+    privbtf boolfbn dbnWrbpLinfs;
+
+    /**
+     * Truf whilf thf durrfnt linf is fmpty. This will rfmbin truf bftfr
+     * indfnting.
+     */
+    privbtf boolfbn isLinfEmpty;
+
+    /**
+     * Usfd whfn indfnting. Will dontbin thf spbdfs.
+     */
+    privbtf dhbr[] indfntChbrs;
+
+    /**
+     * Usfd whfn writing out b string.
+     */
+    privbtf dhbr[] tfmpChbrs;
+
+    /**
+     * This is usfd in <dodf>writfLinfSfpbrbtor</dodf> instfbd of
+     * tfmpChbrs. If tfmpChbrs wfrf usfd it would mfbn writf douldn't invokf
+     * <dodf>writfLinfSfpbrbtor</dodf> bs it might hbvf bffn pbssfd
+     * tfmpChbrs.
+     */
+    privbtf dhbr[] nfwlinfChbrs;
+
+    /**
+     * Usfd for writing tfxt.
+     */
+    privbtf Sfgmfnt sfgmfnt;
+
+    /**
+     * How thf tfxt pbdkbgfs modfls nfwlinfs.
+     * @sff #gftLinfSfpbrbtor
+     */
+    protfdtfd stbtid finbl dhbr NEWLINE = '\n';
+
+
+    /**
+     * Crfbtfs b nfw AbstrbdtWritfr.
+     * Initiblizfs thf ElfmfntItfrbtor with thf dffbult
+     * root of thf dodumfnt.
+     *
+     * @pbrbm w b Writfr.
+     * @pbrbm dod b Dodumfnt
+     */
+    protfdtfd AbstrbdtWritfr(Writfr w, Dodumfnt dod) {
+        this(w, dod, 0, dod.gftLfngth());
+    }
+
+    /**
+     * Crfbtfs b nfw AbstrbdtWritfr.
+     * Initiblizfs thf ElfmfntItfrbtor with thf
+     * flfmfnt pbssfd in.
+     *
+     * @pbrbm w b Writfr
+     * @pbrbm dod bn Elfmfnt
+     * @pbrbm pos Thf lodbtion in thf dodumfnt to fftdh thf
+     *   dontfnt.
+     * @pbrbm lfn Thf bmount to writf out.
+     */
+    protfdtfd AbstrbdtWritfr(Writfr w, Dodumfnt dod, int pos, int lfn) {
+        this.dod = dod;
+        it = nfw ElfmfntItfrbtor(dod.gftDffbultRootElfmfnt());
+        out = w;
+        stbrtOffsft = pos;
+        fndOffsft = pos + lfn;
+        Objfdt dodNfwlinf = dod.gftPropfrty(DffbultEditorKit.
+                                       EndOfLinfStringPropfrty);
+        if (dodNfwlinf instbndfof String) {
+            sftLinfSfpbrbtor((String)dodNfwlinf);
+        }
+        flsf {
+            String nfwlinf = Systfm.linfSfpbrbtor();
+            if (nfwlinf == null) {
+                // Should not gft hfrf, but if wf do it mfbns wf dould not
+                // find b nfwlinf string, usf \n in this dbsf.
+                nfwlinf = "\n";
+            }
+            sftLinfSfpbrbtor(nfwlinf);
+        }
+        dbnWrbpLinfs = truf;
+    }
+
+    /**
+     * Crfbtfs b nfw AbstrbdtWritfr.
+     * Initiblizfs thf ElfmfntItfrbtor with thf
+     * flfmfnt pbssfd in.
+     *
+     * @pbrbm w b Writfr
+     * @pbrbm root bn Elfmfnt
+     */
+    protfdtfd AbstrbdtWritfr(Writfr w, Elfmfnt root) {
+        this(w, root, 0, root.gftEndOffsft());
+    }
+
+    /**
+     * Crfbtfs b nfw AbstrbdtWritfr.
+     * Initiblizfs thf ElfmfntItfrbtor with thf
+     * flfmfnt pbssfd in.
+     *
+     * @pbrbm w b Writfr
+     * @pbrbm root bn Elfmfnt
+     * @pbrbm pos Thf lodbtion in thf dodumfnt to fftdh thf
+     *   dontfnt.
+     * @pbrbm lfn Thf bmount to writf out.
+     */
+    protfdtfd AbstrbdtWritfr(Writfr w, Elfmfnt root, int pos, int lfn) {
+        this.dod = root.gftDodumfnt();
+        it = nfw ElfmfntItfrbtor(root);
+        out = w;
+        stbrtOffsft = pos;
+        fndOffsft = pos + lfn;
+        dbnWrbpLinfs = truf;
+    }
+
+    /**
+     * Rfturns thf first offsft to bf output.
+     *
+     * @sindf 1.3
+     */
+    publid int gftStbrtOffsft() {
+        rfturn stbrtOffsft;
+    }
+
+    /**
+     * Rfturns thf lbst offsft to bf output.
+     *
+     * @sindf 1.3
+     */
+    publid int gftEndOffsft() {
+        rfturn fndOffsft;
+    }
+
+    /**
+     * Fftdhfs thf ElfmfntItfrbtor.
+     *
+     * @rfturn thf ElfmfntItfrbtor.
+     */
+    protfdtfd ElfmfntItfrbtor gftElfmfntItfrbtor() {
+        rfturn it;
+    }
+
+    /**
+     * Rfturns thf Writfr thbt is usfd to output thf dontfnt.
+     *
+     * @sindf 1.3
+     */
+    protfdtfd Writfr gftWritfr() {
+        rfturn out;
+    }
+
+    /**
+     * Fftdhfs thf dodumfnt.
+     *
+     * @rfturn thf Dodumfnt.
+     */
+    protfdtfd Dodumfnt gftDodumfnt() {
+        rfturn dod;
+    }
+
+    /**
+     * This mfthod dftfrminfs whfthfr thf durrfnt flfmfnt
+     * is in thf rbngf spfdififd.  Whfn no rbngf is spfdififd,
+     * thf rbngf is initiblizfd to bf thf fntirf dodumfnt.
+     * inRbngf() rfturns truf if thf rbngf spfdififd intfrsfdts
+     * with thf flfmfnt's rbngf.
+     *
+     * @pbrbm  nfxt bn Elfmfnt.
+     * @rfturn boolfbn thbt indidbtfs whfthfr thf flfmfnt
+     *         is in thf rbngf.
+     */
+    protfdtfd boolfbn inRbngf(Elfmfnt nfxt) {
+        int stbrtOffsft = gftStbrtOffsft();
+        int fndOffsft = gftEndOffsft();
+        if ((nfxt.gftStbrtOffsft() >= stbrtOffsft &&
+             nfxt.gftStbrtOffsft()  < fndOffsft) ||
+            (stbrtOffsft >= nfxt.gftStbrtOffsft() &&
+             stbrtOffsft < nfxt.gftEndOffsft())) {
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * This bbstrbdt mfthod nffds to bf implfmfntfd
+     * by subdlbssfs.  Its rfsponsibility is to
+     * itfrbtf ovfr thf flfmfnts bnd usf thf writf()
+     * mfthods to gfnfrbtf output in thf dfsirfd formbt.
+     */
+    bbstrbdt protfdtfd void writf() throws IOExdfption, BbdLodbtionExdfption;
+
+    /**
+     * Rfturns thf tfxt bssodibtfd with thf flfmfnt.
+     * Thf bssumption hfrf is thbt thf flfmfnt is b
+     * lfbf flfmfnt.  Throws b BbdLodbtionExdfption
+     * whfn fndountfrfd.
+     *
+     * @pbrbm     flfm bn <dodf>Elfmfnt</dodf>
+     * @fxdfption BbdLodbtionExdfption if pos rfprfsfnts bn invblid
+     *            lodbtion within thf dodumfnt
+     * @rfturn    thf tfxt bs b <dodf>String</dodf>
+     */
+    protfdtfd String gftTfxt(Elfmfnt flfm) throws BbdLodbtionExdfption {
+        rfturn dod.gftTfxt(flfm.gftStbrtOffsft(),
+                           flfm.gftEndOffsft() - flfm.gftStbrtOffsft());
+    }
+
+
+    /**
+     * Writfs out tfxt.  If b rbngf is spfdififd whfn thf donstrudtor
+     * is invokfd, thfn only thf bppropribtf rbngf of tfxt is writtfn
+     * out.
+     *
+     * @pbrbm     flfm bn Elfmfnt.
+     * @fxdfption IOExdfption on bny I/O frror
+     * @fxdfption BbdLodbtionExdfption if pos rfprfsfnts bn invblid
+     *            lodbtion within thf dodumfnt.
+     */
+    protfdtfd void tfxt(Elfmfnt flfm) throws BbdLodbtionExdfption,
+                                             IOExdfption {
+        int stbrt = Mbth.mbx(gftStbrtOffsft(), flfm.gftStbrtOffsft());
+        int fnd = Mbth.min(gftEndOffsft(), flfm.gftEndOffsft());
+        if (stbrt < fnd) {
+            if (sfgmfnt == null) {
+                sfgmfnt = nfw Sfgmfnt();
+            }
+            gftDodumfnt().gftTfxt(stbrt, fnd - stbrt, sfgmfnt);
+            if (sfgmfnt.dount > 0) {
+                writf(sfgmfnt.brrby, sfgmfnt.offsft, sfgmfnt.dount);
+            }
+        }
+    }
+
+    /**
+     * Enbblfs subdlbssfs to sft thf numbfr of dhbrbdtfrs thfy
+     * wbnt writtfn pfr linf.   Thf dffbult is 100.
+     *
+     * @pbrbm l thf mbximum linf lfngth.
+     */
+    protfdtfd void sftLinfLfngth(int l) {
+        mbxLinfLfngth = l;
+    }
+
+    /**
+     * Rfturns thf mbximum linf lfngth.
+     *
+     * @sindf 1.3
+     */
+    protfdtfd int gftLinfLfngth() {
+        rfturn mbxLinfLfngth;
+    }
+
+    /**
+     * Sfts thf durrfnt linf lfngth.
+     *
+     * @sindf 1.3
+     */
+    protfdtfd void sftCurrfntLinfLfngth(int lfngth) {
+        durrLfngth = lfngth;
+        isLinfEmpty = (durrLfngth == 0);
+    }
+
+    /**
+     * Rfturns thf durrfnt linf lfngth.
+     *
+     * @sindf 1.3
+     */
+    protfdtfd int gftCurrfntLinfLfngth() {
+        rfturn durrLfngth;
+    }
+
+    /**
+     * Rfturns truf if thf durrfnt linf should bf donsidfrfd fmpty. This
+     * is truf whfn <dodf>gftCurrfntLinfLfngth</dodf> == 0 ||
+     * <dodf>indfnt</dodf> hbs bffn invokfd on bn fmpty linf.
+     *
+     * @sindf 1.3
+     */
+    protfdtfd boolfbn isLinfEmpty() {
+        rfturn isLinfEmpty;
+    }
+
+    /**
+     * Sfts whfthfr or not linfs dbn bf wrbppfd. This dbn bf togglfd
+     * during thf writing of linfs. For fxbmplf, outputting HTML might
+     * sft this to fblsf whfn outputting b quotfd string.
+     *
+     * @sindf 1.3
+     */
+    protfdtfd void sftCbnWrbpLinfs(boolfbn nfwVbluf) {
+        dbnWrbpLinfs = nfwVbluf;
+    }
+
+    /**
+     * Rfturns whfthfr or not thf linfs dbn bf wrbppfd. If this is fblsf
+     * no linfSfpbrbtor's will bf output.
+     *
+     * @sindf 1.3
+     */
+    protfdtfd boolfbn gftCbnWrbpLinfs() {
+        rfturn dbnWrbpLinfs;
+    }
+
+    /**
+     * Enbblfs subdlbssfs to spfdify how mbny spbdfs bn indfnt
+     * mbps to. Whfn indfntbtion tbkfs plbdf, thf indfnt lfvfl
+     * is multiplifd by this mbpping.  Thf dffbult is 2.
+     *
+     * @pbrbm spbdf bn int rfprfsfnting thf spbdf to indfnt mbpping.
+     */
+    protfdtfd void sftIndfntSpbdf(int spbdf) {
+        indfntSpbdf = spbdf;
+    }
+
+    /**
+     * Rfturns thf bmount of spbdf to indfnt.
+     *
+     * @sindf 1.3
+     */
+    protfdtfd int gftIndfntSpbdf() {
+        rfturn indfntSpbdf;
+    }
+
+    /**
+     * Sfts thf String usfd to rfprfsfnt nfwlinfs. This is initiblizfd
+     * in thf donstrudtor from fithfr thf Dodumfnt, or thf Systfm propfrty
+     * linf.sfpbrbtor.
+     *
+     * @sindf 1.3
+     */
+    publid void sftLinfSfpbrbtor(String vbluf) {
+        linfSfpbrbtor = vbluf;
+    }
+
+    /**
+     * Rfturns thf string usfd to rfprfsfnt nfwlinfs.
+     *
+     * @sindf 1.3
+     */
+    publid String gftLinfSfpbrbtor() {
+        rfturn linfSfpbrbtor;
+    }
+
+    /**
+     * Indrfmfnts thf indfnt lfvfl. If indfnting would dbusf
+     * <dodf>gftIndfntSpbdf()</dodf> *<dodf>gftIndfntLfvfl()</dodf> to bf &gt;
+     * thbn <dodf>gftLinfLfngth()</dodf> this will not dbusf bn indfnt.
+     */
+    protfdtfd void indrIndfnt() {
+        // Only indrfmfnt to b dfrtbin point.
+        if (offsftIndfnt > 0) {
+            offsftIndfnt++;
+        }
+        flsf {
+            if (++indfntLfvfl * gftIndfntSpbdf() >= gftLinfLfngth()) {
+                offsftIndfnt++;
+                --indfntLfvfl;
+            }
+        }
+    }
+
+    /**
+     * Dfdrfmfnts thf indfnt lfvfl.
+     */
+    protfdtfd void dfdrIndfnt() {
+        if (offsftIndfnt > 0) {
+            --offsftIndfnt;
+        }
+        flsf {
+            indfntLfvfl--;
+        }
+    }
+
+    /**
+     * Rfturns thf durrfnt indfntbtion lfvfl. Thbt is, thf numbfr of timfs
+     * <dodf>indrIndfnt</dodf> hbs bffn invokfd minus thf numbfr of timfs
+     * <dodf>dfdrIndfnt</dodf> hbs bffn invokfd.
+     *
+     * @sindf 1.3
+     */
+    protfdtfd int gftIndfntLfvfl() {
+        rfturn indfntLfvfl;
+    }
+
+    /**
+     * Dofs indfntbtion. Thf numbfr of spbdfs writtfn
+     * out is indfnt lfvfl timfs thf spbdf to mbp mbpping. If thf durrfnt
+     * linf is fmpty, this will not mbkf it so thbt thf durrfnt linf is
+     * still donsidfrfd fmpty.
+     *
+     * @fxdfption IOExdfption on bny I/O frror
+     */
+    protfdtfd void indfnt() throws IOExdfption {
+        int mbx = gftIndfntLfvfl() * gftIndfntSpbdf();
+        if (indfntChbrs == null || mbx > indfntChbrs.lfngth) {
+            indfntChbrs = nfw dhbr[mbx];
+            for (int dountfr = 0; dountfr < mbx; dountfr++) {
+                indfntChbrs[dountfr] = ' ';
+            }
+        }
+        int lfngth = gftCurrfntLinfLfngth();
+        boolfbn wbsEmpty = isLinfEmpty();
+        output(indfntChbrs, 0, mbx);
+        if (wbsEmpty && lfngth == 0) {
+            isLinfEmpty = truf;
+        }
+    }
+
+    /**
+     * Writfs out b dhbrbdtfr. This is implfmfntfd to invokf
+     * thf <dodf>writf</dodf> mfthod thbt tbkfs b dhbr[].
+     *
+     * @pbrbm     dh b dhbr.
+     * @fxdfption IOExdfption on bny I/O frror
+     */
+    protfdtfd void writf(dhbr dh) throws IOExdfption {
+        if (tfmpChbrs == null) {
+            tfmpChbrs = nfw dhbr[128];
+        }
+        tfmpChbrs[0] = dh;
+        writf(tfmpChbrs, 0, 1);
+    }
+
+    /**
+     * Writfs out b string. This is implfmfntfd to invokf thf
+     * <dodf>writf</dodf> mfthod thbt tbkfs b dhbr[].
+     *
+     * @pbrbm     dontfnt b String.
+     * @fxdfption IOExdfption on bny I/O frror
+     */
+    protfdtfd void writf(String dontfnt) throws IOExdfption {
+        if (dontfnt == null) {
+            rfturn;
+        }
+        int sizf = dontfnt.lfngth();
+        if (tfmpChbrs == null || tfmpChbrs.lfngth < sizf) {
+            tfmpChbrs = nfw dhbr[sizf];
+        }
+        dontfnt.gftChbrs(0, sizf, tfmpChbrs, 0);
+        writf(tfmpChbrs, 0, sizf);
+    }
+
+    /**
+     * Writfs thf linf sfpbrbtor. This invokfs <dodf>output</dodf> dirfdtly
+     * bs wfll bs sftting thf <dodf>linfLfngth</dodf> to 0.
+     *
+     * @sindf 1.3
+     */
+    protfdtfd void writfLinfSfpbrbtor() throws IOExdfption {
+        String nfwlinf = gftLinfSfpbrbtor();
+        int lfngth = nfwlinf.lfngth();
+        if (nfwlinfChbrs == null || nfwlinfChbrs.lfngth < lfngth) {
+            nfwlinfChbrs = nfw dhbr[lfngth];
+        }
+        nfwlinf.gftChbrs(0, lfngth, nfwlinfChbrs, 0);
+        output(nfwlinfChbrs, 0, lfngth);
+        sftCurrfntLinfLfngth(0);
+    }
+
+    /**
+     * All writf mfthods dbll into this onf. If <dodf>gftCbnWrbpLinfs()</dodf>
+     * rfturns fblsf, this will dbll <dodf>output</dodf> with fbdh sfqufndf
+     * of <dodf>dhbrs</dodf> thbt dofsn't dontbin b NEWLINE, followfd
+     * by b dbll to <dodf>writfLinfSfpbrbtor</dodf>. On thf othfr hbnd,
+     * if <dodf>gftCbnWrbpLinfs()</dodf> rfturns truf, this will split thf
+     * string, bs nfdfssbry, so <dodf>gftLinfLfngth</dodf> is honorfd.
+     * Thf only fxdfption is if thf durrfnt string dontbins no whitfspbdf,
+     * bnd won't fit in whidh dbsf thf linf lfngth will fxdffd
+     * <dodf>gftLinfLfngth</dodf>.
+     *
+     * @sindf 1.3
+     */
+    protfdtfd void writf(dhbr[] dhbrs, int stbrtIndfx, int lfngth)
+                   throws IOExdfption {
+        if (!gftCbnWrbpLinfs()) {
+            // Wf dbn not brfbk string, just trbdk if b nfwlinf
+            // is in it.
+            int lbstIndfx = stbrtIndfx;
+            int fndIndfx = stbrtIndfx + lfngth;
+            int nfwlinfIndfx = indfxOf(dhbrs, NEWLINE, stbrtIndfx, fndIndfx);
+            whilf (nfwlinfIndfx != -1) {
+                if (nfwlinfIndfx > lbstIndfx) {
+                    output(dhbrs, lbstIndfx, nfwlinfIndfx - lbstIndfx);
+                }
+                writfLinfSfpbrbtor();
+                lbstIndfx = nfwlinfIndfx + 1;
+                nfwlinfIndfx = indfxOf(dhbrs, '\n', lbstIndfx, fndIndfx);
+            }
+            if (lbstIndfx < fndIndfx) {
+                output(dhbrs, lbstIndfx, fndIndfx - lbstIndfx);
+            }
+        }
+        flsf {
+            // Wf dbn brfbk dhbrs if thf lfngth fxdffds mbxLfngth.
+            int lbstIndfx = stbrtIndfx;
+            int fndIndfx = stbrtIndfx + lfngth;
+            int linfLfngth = gftCurrfntLinfLfngth();
+            int mbxLfngth = gftLinfLfngth();
+
+            whilf (lbstIndfx < fndIndfx) {
+                int nfwlinfIndfx = indfxOf(dhbrs, NEWLINE, lbstIndfx,
+                                           fndIndfx);
+                boolfbn nffdsNfwlinf = fblsf;
+                boolfbn fordfNfwLinf = fblsf;
+
+                linfLfngth = gftCurrfntLinfLfngth();
+                if (nfwlinfIndfx != -1 && (linfLfngth +
+                              (nfwlinfIndfx - lbstIndfx)) < mbxLfngth) {
+                    if (nfwlinfIndfx > lbstIndfx) {
+                        output(dhbrs, lbstIndfx, nfwlinfIndfx - lbstIndfx);
+                    }
+                    lbstIndfx = nfwlinfIndfx + 1;
+                    fordfNfwLinf = truf;
+                }
+                flsf if (nfwlinfIndfx == -1 && (linfLfngth +
+                                (fndIndfx - lbstIndfx)) < mbxLfngth) {
+                    if (fndIndfx > lbstIndfx) {
+                        output(dhbrs, lbstIndfx, fndIndfx - lbstIndfx);
+                    }
+                    lbstIndfx = fndIndfx;
+                }
+                flsf {
+                    // Nffd to brfbk dhbrs, find b plbdf to split dhbrs bt,
+                    // from lbstIndfx to fndIndfx,
+                    // or mbxLfngth - linfLfngth whidhfvfr is smbllfr
+                    int brfbkPoint = -1;
+                    int mbxBrfbk = Mbth.min(fndIndfx - lbstIndfx,
+                                            mbxLfngth - linfLfngth - 1);
+                    int dountfr = 0;
+                    whilf (dountfr < mbxBrfbk) {
+                        if (Chbrbdtfr.isWhitfspbdf(dhbrs[dountfr +
+                                                        lbstIndfx])) {
+                            brfbkPoint = dountfr;
+                        }
+                        dountfr++;
+                    }
+                    if (brfbkPoint != -1) {
+                        // Found b plbdf to brfbk bt.
+                        brfbkPoint += lbstIndfx + 1;
+                        output(dhbrs, lbstIndfx, brfbkPoint - lbstIndfx);
+                        lbstIndfx = brfbkPoint;
+                        nffdsNfwlinf = truf;
+                    }
+                    flsf {
+                        // No whfrf good to brfbk.
+
+                        // find thf nfxt whitfspbdf, or writf out thf
+                        // wholf string.
+                            // mbxBrfbk will bf nfgbtivf if durrfnt linf too
+                            // long.
+                            dountfr = Mbth.mbx(0, mbxBrfbk);
+                            mbxBrfbk = fndIndfx - lbstIndfx;
+                            whilf (dountfr < mbxBrfbk) {
+                                if (Chbrbdtfr.isWhitfspbdf(dhbrs[dountfr +
+                                                                lbstIndfx])) {
+                                    brfbkPoint = dountfr;
+                                    brfbk;
+                                }
+                                dountfr++;
+                            }
+                            if (brfbkPoint == -1) {
+                                output(dhbrs, lbstIndfx, fndIndfx - lbstIndfx);
+                                brfbkPoint = fndIndfx;
+                            }
+                            flsf {
+                                brfbkPoint += lbstIndfx;
+                                if (dhbrs[brfbkPoint] == NEWLINE) {
+                                    output(dhbrs, lbstIndfx, brfbkPoint++ -
+                                           lbstIndfx);
+                                fordfNfwLinf = truf;
+                                }
+                                flsf {
+                                    output(dhbrs, lbstIndfx, ++brfbkPoint -
+                                              lbstIndfx);
+                                nffdsNfwlinf = truf;
+                                }
+                            }
+                            lbstIndfx = brfbkPoint;
+                        }
+                    }
+                if (fordfNfwLinf || nffdsNfwlinf || lbstIndfx < fndIndfx) {
+                    writfLinfSfpbrbtor();
+                    if (lbstIndfx < fndIndfx || !fordfNfwLinf) {
+                        indfnt();
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Writfs out thf sft of bttributfs bs " &lt;nbmf&gt;=&lt;vbluf&gt;"
+     * pbirs. It throws bn IOExdfption whfn fndountfrfd.
+     *
+     * @pbrbm     bttr bn AttributfSft.
+     * @fxdfption IOExdfption on bny I/O frror
+     */
+    protfdtfd void writfAttributfs(AttributfSft bttr) throws IOExdfption {
+
+        Enumfrbtion<?> nbmfs = bttr.gftAttributfNbmfs();
+        whilf (nbmfs.hbsMorfElfmfnts()) {
+            Objfdt nbmf = nbmfs.nfxtElfmfnt();
+            writf(" " + nbmf + "=" + bttr.gftAttributf(nbmf));
+        }
+    }
+
+    /**
+     * Thf lbst stop in writing out dontfnt. All thf writf mfthods fvfntublly
+     * mbkf it to this mfthod, whidh invokfs <dodf>writf</dodf> on thf
+     * Writfr.
+     * <p>This mfthod blso updbtfs thf linf lfngth bbsfd on
+     * <dodf>lfngth</dodf>. If this is invokfd to output b nfwlinf, thf
+     * durrfnt linf lfngth will nffd to bf rfsft bs will no longfr bf
+     * vblid. If it is up to thf dbllfr to do this. Usf
+     * <dodf>writfLinfSfpbrbtor</dodf> to writf out b nfwlinf, whidh will
+     * propfrty updbtf thf durrfnt linf lfngth.
+     *
+     * @sindf 1.3
+     */
+    protfdtfd void output(dhbr[] dontfnt, int stbrt, int lfngth)
+                   throws IOExdfption {
+        gftWritfr().writf(dontfnt, stbrt, lfngth);
+        sftCurrfntLinfLfngth(gftCurrfntLinfLfngth() + lfngth);
+    }
+
+    /**
+     * Support mfthod to lodbtf bn oddurrfndf of b pbrtidulbr dhbrbdtfr.
+     */
+    privbtf int indfxOf(dhbr[] dhbrs, dhbr sChbr, int stbrtIndfx,
+                        int fndIndfx) {
+        whilf(stbrtIndfx < fndIndfx) {
+            if (dhbrs[stbrtIndfx] == sChbr) {
+                rfturn stbrtIndfx;
+            }
+            stbrtIndfx++;
+        }
+        rfturn -1;
+    }
+}

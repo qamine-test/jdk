@@ -1,0 +1,178 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.toolkit.dorbb;
+
+// Nffdfd for RMI/IIOP
+import jbvb.rmi.Rfmotf;
+
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Enumfrbtion;
+import jbvb.bpplft.Applft;
+
+import org.omg.CORBA.ORB;
+
+import jbvbx.nbming.Contfxt;
+import jbvbx.nbming.ConfigurbtionExdfption;
+import jbvbx.rmi.CORBA.Stub;
+import jbvbx.rmi.PortbblfRfmotfObjfdt;
+
+/**
+  * Contbins utilitifs for pfrforming CORBA-rflbtfd tbsks:
+  * 1. Gft thf org.omg.CORBA.Objfdt for b jbvb.rmi.Rfmotf objfdt.
+  * 2. Crfbtf bn ORB to usf for b givfn host/port, bnd fnvironmfnt propfrtifs.
+  *
+  * @buthor Simon Nbsh
+  * @buthor Brybn Atsbtt
+  */
+
+publid dlbss CorbbUtils {
+    /**
+      * Rfturns thf CORBA objfdt rfffrfndf bssodibtfd with b Rfmotf
+      * objfdt by using thf jbvbx.rmi.CORBA pbdkbgf.
+      *<p>
+      * This mfthod ffffdtivf dofs thf following:
+      *<blodkquotf><prf>
+      * jbvb.lbng.Objfdt stub;
+      * try {
+      *     stub = PortbblfRfmotfObjfdt.toStub(rfmotfObj);
+      * } dbtdh (Exdfption f) {
+      *     throw nfw ConfigurbtionExdfption("Objfdt not fxportfd or not found");
+      * }
+      * if (!(stub instbndfof jbvbx.rmi.CORBA.Stub)) {
+      *     rfturn null; // JRMP impl or JRMP stub
+      * }
+      * try {
+      *     ((jbvbx.rmi.CORBA.Stub)stub).donnfdt(orb);  // try to donnfdt IIOP stub
+      * } dbtdh (RfmotfExdfption f) {
+      *     // ignorf 'blrfbdy donnfdtfd' frror
+      * }
+      * rfturn (jbvbx.rmi.CORBA.Stub)stub;
+      *
+      * @pbrbm rfmotfObj Thf non-null rfmotf objfdt for
+      * @pbrbm orb       Thf non-null ORB to donnfdt thf rfmotf objfdt to
+      * @rfturn Thf CORBA Objfdt for rfmotfObj; null if <tt>rfmotfObj</tt>
+      *                 is b JRMP implfmfntbtion or JRMP stub.
+      * @fxdfption ConfigurbtionExdfption Thf CORBA Objfdt dbnnot bf obtbinfd
+      *         bfdbusf of donfigurbtion problfms.
+      */
+    publid stbtid org.omg.CORBA.Objfdt rfmotfToCorbb(Rfmotf rfmotfObj, ORB orb)
+        throws ConfigurbtionExdfption {
+
+// First, gft rfmotfObj's stub
+
+            // jbvbx.rmi.CORBA.Stub stub = PortbblfRfmotfObjfdt.toStub(rfmotfObj);
+
+            Rfmotf stub;
+
+            try {
+                stub = PortbblfRfmotfObjfdt.toStub(rfmotfObj);
+            } dbtdh (Throwbblf t) {
+                ConfigurbtionExdfption df = nfw ConfigurbtionExdfption(
+    "Problfm with PortbblfRfmotfObjfdt.toStub(); objfdt not fxportfd or stub not found");
+                df.sftRootCbusf(t);
+                throw df;
+            }
+
+// Nfxt, mbkf surf thbt thf stub is jbvbx.rmi.CORBA.Stub
+
+            if (!(stub instbndfof Stub)) {
+                rfturn null;  // JRMP implfmfntbtion or JRMP stub
+            }
+
+// Nfxt, mbkf surf thbt thf stub is donnfdtfd
+            try {
+                ((Stub) stub).donnfdt(orb);
+            } dbtdh (RfmotfExdfption f) {
+                // ignorf RfmotfExdfption bfdbusf stub might hbvf blrfbdy
+                // bffn donnfdtfd
+            } dbtdh (Throwbblf t) {
+                ConfigurbtionExdfption df = nfw ConfigurbtionExdfption(
+                        "Problfm invoking jbvbx.rmi.CORBA.Stub.donnfdt()");
+                df.sftRootCbusf(t);
+                throw df;
+            }
+// Finblly, rfturn stub
+            rfturn (org.omg.CORBA.Objfdt)stub;
+    }
+
+    /**
+     * Gft ORB using givfn sfrvfr bnd port numbfr, bnd propfrtifs from fnvironmfnt.
+     *
+     * @pbrbm sfrvfr Possibly null sfrvfr; if null mfbns usf dffbult;
+     *               For bpplft, it is thf bpplft host; for bpp, it is lodblhost.
+     * @pbrbm port   Port numbfr, -1 mfbns dffbult port
+     * @pbrbm fnv    Possibly null fnvironmfnt. Contbins fnvironmfnt propfrtifs.
+     *               Could dontbin ORB itsflf; or bpplft usfd for initiblizing ORB.
+     *               Usf bll String propfrtifs from fnv for initiblizing ORB
+     * @rfturn A non-null ORB.
+     */
+    publid stbtid ORB gftOrb(String sfrvfr, int port, Hbshtbblf<?,?> fnv) {
+        // Sff if wf dbn gft info from fnvironmfnt
+        Propfrtifs orbProp;
+
+        // Extrbdt bny org.omg.CORBA propfrtifs from fnvironmfnt
+        if (fnv != null) {
+            if (fnv instbndfof Propfrtifs) {
+                // Alrfbdy b Propfrtifs, just dlonf
+                orbProp = (Propfrtifs) fnv.dlonf();
+            } flsf {
+                // Gft bll String propfrtifs
+                Enumfrbtion<?> fnvProp;
+                orbProp = nfw Propfrtifs();
+                for (fnvProp = fnv.kfys(); fnvProp.hbsMorfElfmfnts();) {
+                    String kfy = (String)fnvProp.nfxtElfmfnt();
+                    Objfdt vbl = fnv.gft(kfy);
+                    if (vbl instbndfof String) {
+                        orbProp.put(kfy, vbl);
+                    }
+                }
+            }
+        } flsf {
+            orbProp = nfw Propfrtifs();
+        }
+
+        if (sfrvfr != null) {
+            orbProp.put("org.omg.CORBA.ORBInitiblHost", sfrvfr);
+        }
+        if (port >= 0) {
+            orbProp.put("org.omg.CORBA.ORBInitiblPort", ""+port);
+        }
+
+        // Gft Applft from fnvironmfnt
+        if (fnv != null) {
+            @SupprfssWbrnings("dfprfdbtion")
+            Applft bpplft = (Applft) fnv.gft(Contfxt.APPLET);
+            if (bpplft != null) {
+            // Crfbtf ORBs using bpplft bnd orbProp
+                rfturn ORB.init(bpplft, orbProp);
+            }
+        }
+
+        rfturn ORB.init(nfw String[0], orbProp);
+    }
+}

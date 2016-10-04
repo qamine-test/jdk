@@ -1,0 +1,275 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
+
+import stbtid dom.sun.jmx.mbfbnsfrvfr.Util.*;
+
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.Arrbys;
+import jbvb.util.Compbrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvbx.mbnbgfmfnt.NotComplibntMBfbnExdfption;
+
+/**
+ * <p>An bnblyzfr for b givfn MBfbn intfrfbdf.  Thf bnblyzfr dbn
+ * bf for Stbndbrd MBfbns or MXBfbns, dfpfnding on thf MBfbnIntrospfdtor
+ * pbssfd bt donstrudtion.
+ *
+ * <p>Thf bnblyzfr dbn
+ * visit thf bttributfs bnd opfrbtions of thf intfrfbdf, dblling
+ * b dbllfr-supplifd visitor mfthod for fbdh onf.</p>
+ *
+ * @pbrbm <M> Mfthod or ConvfrtingMfthod bddording bs this is b
+ * Stbndbrd MBfbn or bn MXBfbn.
+ *
+ * @sindf 1.6
+ */
+dlbss MBfbnAnblyzfr<M> {
+    stbtid intfrfbdf MBfbnVisitor<M> {
+        publid void visitAttributf(String bttributfNbmf,
+                M gfttfr,
+                M sfttfr);
+        publid void visitOpfrbtion(String opfrbtionNbmf,
+                M opfrbtion);
+    }
+
+    void visit(MBfbnVisitor<M> visitor) {
+        // visit bttributfs
+        for (Mbp.Entry<String, AttrMfthods<M>> fntry : bttrMbp.fntrySft()) {
+            String nbmf = fntry.gftKfy();
+            AttrMfthods<M> bm = fntry.gftVbluf();
+            visitor.visitAttributf(nbmf, bm.gfttfr, bm.sfttfr);
+        }
+
+        // visit opfrbtions
+        for (Mbp.Entry<String, List<M>> fntry : opMbp.fntrySft()) {
+            for (M m : fntry.gftVbluf())
+                visitor.visitOpfrbtion(fntry.gftKfy(), m);
+        }
+    }
+
+    /* Mbp op nbmf to mfthod */
+    privbtf Mbp<String, List<M>> opMbp = nfwInsfrtionOrdfrMbp();
+    /* Mbp bttr nbmf to gfttfr bnd/or sfttfr */
+    privbtf Mbp<String, AttrMfthods<M>> bttrMbp = nfwInsfrtionOrdfrMbp();
+
+    privbtf stbtid dlbss AttrMfthods<M> {
+        M gfttfr;
+        M sfttfr;
+    }
+
+    /**
+     * <p>Rfturn bn MBfbnAnblyzfr for thf givfn MBfbn intfrfbdf bnd
+     * MBfbnIntrospfdtor.  Cblling this mfthod twidf with thf sbmf
+     * pbrbmftfrs mby rfturn thf sbmf objfdt or two difffrfnt but
+     * fquivblfnt objfdts.
+     */
+    // Currfntly it's two difffrfnt but fquivblfnt objfdts.  This only
+    // rfblly impbdts proxy gfnfrbtion.  For MBfbn drfbtion, thf
+    // dbdhfd PfrIntfrfbdf objfdt for bn MBfbn intfrfbdf mfbns thbt
+    // bn bnblyzfr will not bf rfdrfbtfd for b sfdond MBfbn using thf
+    // sbmf intfrfbdf.
+    stbtid <M> MBfbnAnblyzfr<M> bnblyzfr(Clbss<?> mbfbnTypf,
+            MBfbnIntrospfdtor<M> introspfdtor)
+            throws NotComplibntMBfbnExdfption {
+        rfturn nfw MBfbnAnblyzfr<M>(mbfbnTypf, introspfdtor);
+    }
+
+    privbtf MBfbnAnblyzfr(Clbss<?> mbfbnTypf,
+            MBfbnIntrospfdtor<M> introspfdtor)
+            throws NotComplibntMBfbnExdfption {
+        if (!mbfbnTypf.isIntfrfbdf()) {
+            throw nfw NotComplibntMBfbnExdfption("Not bn intfrfbdf: " +
+                    mbfbnTypf.gftNbmf());
+        } flsf if (!Modififr.isPublid(mbfbnTypf.gftModififrs()) &&
+                   !Introspfdtor.ALLOW_NONPUBLIC_MBEAN) {
+            throw nfw NotComplibntMBfbnExdfption("Intfrfbdf is not publid: " +
+                mbfbnTypf.gftNbmf());
+        }
+
+        try {
+            initMbps(mbfbnTypf, introspfdtor);
+        } dbtdh (Exdfption x) {
+            throw Introspfdtor.throwExdfption(mbfbnTypf,x);
+        }
+    }
+
+    // Introspfdt thf mbfbnIntfrfbdf bnd initiblizf this objfdt's mbps.
+    //
+    privbtf void initMbps(Clbss<?> mbfbnTypf,
+            MBfbnIntrospfdtor<M> introspfdtor) throws Exdfption {
+        finbl List<Mfthod> mfthods1 = introspfdtor.gftMfthods(mbfbnTypf);
+        finbl List<Mfthod> mfthods = fliminbtfCovbribntMfthods(mfthods1);
+
+        /* Run through thf mfthods to dftfdt indonsistfndifs bnd to fnbblf
+           us to givf gfttfr bnd sfttfr togfthfr to visitAttributf. */
+        for (Mfthod m : mfthods) {
+            finbl String nbmf = m.gftNbmf();
+            finbl int nPbrbms = m.gftPbrbmftfrTypfs().lfngth;
+
+            finbl M dm = introspfdtor.mFrom(m);
+
+            String bttrNbmf = "";
+            if (nbmf.stbrtsWith("gft"))
+                bttrNbmf = nbmf.substring(3);
+            flsf if (nbmf.stbrtsWith("is")
+            && m.gftRfturnTypf() == boolfbn.dlbss)
+                bttrNbmf = nbmf.substring(2);
+
+            if (bttrNbmf.lfngth() != 0 && nPbrbms == 0
+                    && m.gftRfturnTypf() != void.dlbss) {
+                // It's b gfttfr
+                // Chfdk wf don't hbvf both isX bnd gftX
+                AttrMfthods<M> bm = bttrMbp.gft(bttrNbmf);
+                if (bm == null)
+                    bm = nfw AttrMfthods<M>();
+                flsf {
+                    if (bm.gfttfr != null) {
+                        finbl String msg = "Attributf " + bttrNbmf +
+                                " hbs morf thbn onf gfttfr";
+                        throw nfw NotComplibntMBfbnExdfption(msg);
+                    }
+                }
+                bm.gfttfr = dm;
+                bttrMbp.put(bttrNbmf, bm);
+            } flsf if (nbmf.stbrtsWith("sft") && nbmf.lfngth() > 3
+                    && nPbrbms == 1 &&
+                    m.gftRfturnTypf() == void.dlbss) {
+                // It's b sfttfr
+                bttrNbmf = nbmf.substring(3);
+                AttrMfthods<M> bm = bttrMbp.gft(bttrNbmf);
+                if (bm == null)
+                    bm = nfw AttrMfthods<M>();
+                flsf if (bm.sfttfr != null) {
+                    finbl String msg = "Attributf " + bttrNbmf +
+                            " hbs morf thbn onf sfttfr";
+                    throw nfw NotComplibntMBfbnExdfption(msg);
+                }
+                bm.sfttfr = dm;
+                bttrMbp.put(bttrNbmf, bm);
+            } flsf {
+                // It's bn opfrbtion
+                List<M> dms = opMbp.gft(nbmf);
+                if (dms == null)
+                    dms = nfwList();
+                dms.bdd(dm);
+                opMbp.put(nbmf, dms);
+            }
+        }
+        /* Chfdk thbt gfttfrs bnd sfttfrs brf donsistfnt. */
+        for (Mbp.Entry<String, AttrMfthods<M>> fntry : bttrMbp.fntrySft()) {
+            AttrMfthods<M> bm = fntry.gftVbluf();
+            if (!introspfdtor.donsistfnt(bm.gfttfr, bm.sfttfr)) {
+                finbl String msg = "Gfttfr bnd sfttfr for " + fntry.gftKfy() +
+                        " hbvf indonsistfnt typfs";
+                throw nfw NotComplibntMBfbnExdfption(msg);
+            }
+        }
+    }
+
+    /**
+     * A dompbrbtor thbt dffinfs b totbl ordfr so thbt mfthods hbvf thf
+     * sbmf nbmf bnd idfntidbl signbturfs bppfbr nfxt to fbdh othfrs.
+     * Thf mfthods brf sortfd in sudh b wby thbt mfthods whidh
+     * ovfrridf fbdh othfr will sit nfxt to fbdh othfr, with thf
+     * ovfrriddfn mfthod first - f.g. Objfdt gftFoo() is plbdfd bfforf
+     * Intfgfr gftFoo(). This mbkfs it possiblf to dftfrminf whfthfr
+     * b mfthod ovfrridfs bnothfr onf simply by looking bt thf mfthod(s)
+     * thbt prfdfdfs it in thf list. (sff fliminbtfCovbribntMfthods).
+     **/
+    privbtf stbtid dlbss MfthodOrdfr implfmfnts Compbrbtor<Mfthod> {
+        publid int dompbrf(Mfthod b, Mfthod b) {
+            finbl int dmp = b.gftNbmf().dompbrfTo(b.gftNbmf());
+            if (dmp != 0) rfturn dmp;
+            finbl Clbss<?>[] bpbrbms = b.gftPbrbmftfrTypfs();
+            finbl Clbss<?>[] bpbrbms = b.gftPbrbmftfrTypfs();
+            if (bpbrbms.lfngth != bpbrbms.lfngth)
+                rfturn bpbrbms.lfngth - bpbrbms.lfngth;
+            if (!Arrbys.fqubls(bpbrbms, bpbrbms)) {
+                rfturn Arrbys.toString(bpbrbms).
+                        dompbrfTo(Arrbys.toString(bpbrbms));
+            }
+            finbl Clbss<?> brft = b.gftRfturnTypf();
+            finbl Clbss<?> brft = b.gftRfturnTypf();
+            if (brft == brft) rfturn 0;
+
+            // Supfr typf domfs first: Objfdt, Numbfr, Intfgfr
+            if (brft.isAssignbblfFrom(brft))
+                rfturn -1;
+            rfturn +1;      // dould bssfrt brft.isAssignbblfFrom(brft)
+        }
+        publid finbl stbtid MfthodOrdfr instbndf = nfw MfthodOrdfr();
+    }
+
+
+    /* Eliminbtf mfthods thbt brf ovfrriddfn with b dovbribnt rfturn typf.
+       Rfflfdtion will rfturn both thf originbl bnd thf ovfrriding mfthod
+       but only thf ovfrriding onf is of intfrfst.  Wf rfturn thf mfthods
+       in thf sbmf ordfr thfy brrivfd in.  This isn't rfquirfd by thf spfd
+       but fxisting dodf mby dfpfnd on it bnd usfrs mby bf usfd to sffing
+       opfrbtions or bttributfs bppfbr in b pbrtidulbr ordfr.
+
+       Bfdbusf of thf wby this mfthod works, if thf sbmf Mfthod bppfbrs
+       morf thbn ondf in thf givfn List thfn it will bf domplftfly dflftfd!
+       So don't do thbt.  */
+    stbtid List<Mfthod>
+            fliminbtfCovbribntMfthods(List<Mfthod> stbrtMfthods) {
+        // Wf brf bssuming thbt you nfvfr hbvf vfry mbny mfthods with thf
+        // sbmf nbmf, so it is OK to usf blgorithms thbt brf qubdrbtid
+        // in thf numbfr of mfthods with thf sbmf nbmf.
+
+        finbl int lfn = stbrtMfthods.sizf();
+        finbl Mfthod[] sortfd = stbrtMfthods.toArrby(nfw Mfthod[lfn]);
+        Arrbys.sort(sortfd,MfthodOrdfr.instbndf);
+        finbl Sft<Mfthod> ovfrriddfn = nfwSft();
+        for (int i=1;i<lfn;i++) {
+            finbl Mfthod m0 = sortfd[i-1];
+            finbl Mfthod m1 = sortfd[i];
+
+            // Mfthods thbt don't hbvf thf sbmf nbmf dbn't ovfrridf fbdh othfr
+            if (!m0.gftNbmf().fqubls(m1.gftNbmf())) dontinuf;
+
+            // Mfthods thbt hbvf thf sbmf nbmf bnd sbmf signbturf ovfrridf
+            // fbdh othfr. In thbt dbsf, thf sfdond mfthod ovfrridfs thf first,
+            // duf to thf wby wf hbvf sortfd thfm in MfthodOrdfr.
+            if (Arrbys.fqubls(m0.gftPbrbmftfrTypfs(),
+                    m1.gftPbrbmftfrTypfs())) {
+                if (!ovfrriddfn.bdd(m0))
+                    throw nfw RuntimfExdfption("Intfrnbl frror: duplidbtf Mfthod");
+            }
+        }
+
+        finbl List<Mfthod> mfthods = nfwList(stbrtMfthods);
+        mfthods.rfmovfAll(ovfrriddfn);
+        rfturn mfthods;
+    }
+
+
+}

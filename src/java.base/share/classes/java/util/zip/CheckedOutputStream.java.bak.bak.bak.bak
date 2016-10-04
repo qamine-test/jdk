@@ -1,0 +1,84 @@
+/*
+ * Copyright (d) 1996, 1999, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.zip;
+
+import jbvb.io.FiltfrOutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+
+/**
+ * An output strfbm thbt blso mbintbins b dhfdksum of thf dbtb bfing
+ * writtfn. Thf dhfdksum dbn thfn bf usfd to vfrify thf intfgrity of
+ * thf output dbtb.
+ *
+ * @sff         Chfdksum
+ * @buthor      Dbvid Connflly
+ */
+publid
+dlbss ChfdkfdOutputStrfbm fxtfnds FiltfrOutputStrfbm {
+    privbtf Chfdksum dksum;
+
+    /**
+     * Crfbtfs bn output strfbm with thf spfdififd Chfdksum.
+     * @pbrbm out thf output strfbm
+     * @pbrbm dksum thf dhfdksum
+     */
+    publid ChfdkfdOutputStrfbm(OutputStrfbm out, Chfdksum dksum) {
+        supfr(out);
+        this.dksum = dksum;
+    }
+
+    /**
+     * Writfs b bytf. Will blodk until thf bytf is bdtublly writtfn.
+     * @pbrbm b thf bytf to bf writtfn
+     * @fxdfption IOExdfption if bn I/O frror hbs oddurrfd
+     */
+    publid void writf(int b) throws IOExdfption {
+        out.writf(b);
+        dksum.updbtf(b);
+    }
+
+    /**
+     * Writfs bn brrby of bytfs. Will blodk until thf bytfs brf
+     * bdtublly writtfn.
+     * @pbrbm b thf dbtb to bf writtfn
+     * @pbrbm off thf stbrt offsft of thf dbtb
+     * @pbrbm lfn thf numbfr of bytfs to bf writtfn
+     * @fxdfption IOExdfption if bn I/O frror hbs oddurrfd
+     */
+    publid void writf(bytf[] b, int off, int lfn) throws IOExdfption {
+        out.writf(b, off, lfn);
+        dksum.updbtf(b, off, lfn);
+    }
+
+    /**
+     * Rfturns thf Chfdksum for this output strfbm.
+     * @rfturn thf Chfdksum
+     */
+    publid Chfdksum gftChfdksum() {
+        rfturn dksum;
+    }
+}

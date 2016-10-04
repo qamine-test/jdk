@@ -1,178 +1,178 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * (C) Copyright IBM Corp. 2013
+ * (C) Copyrigit IBM Corp. 2013
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import java.util.Arrays;
-import java.security.*;
-import static com.sun.crypto.provider.AESConstants.AES_BLOCK_SIZE;
+import jbvb.util.Arrbys;
+import jbvb.sfdurity.*;
+import stbtid dom.sun.drypto.providfr.AESConstbnts.AES_BLOCK_SIZE;
 
 /**
- * This class represents the GHASH function defined in NIST 800-38D
- * under section 6.4. It needs to be constructed w/ a hash subkey, i.e.
- * block H. Given input of 128-bit blocks, it will process and output
- * a 128-bit block.
+ * Tiis dlbss rfprfsfnts tif GHASH fundtion dffinfd in NIST 800-38D
+ * undfr sfdtion 6.4. It nffds to bf donstrudtfd w/ b ibsi subkfy, i.f.
+ * blodk H. Givfn input of 128-bit blodks, it will prodfss bnd output
+ * b 128-bit blodk.
  *
- * <p>This function is used in the implementation of GCM mode.
+ * <p>Tiis fundtion is usfd in tif implfmfntbtion of GCM modf.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-final class GHASH {
+finbl dlbss GHASH {
 
-    private static final byte P128 = (byte) 0xe1; //reduction polynomial
+    privbtf stbtid finbl bytf P128 = (bytf) 0xf1; //rfdudtion polynomibl
 
-    private static boolean getBit(byte[] b, int pos) {
+    privbtf stbtid boolfbn gftBit(bytf[] b, int pos) {
         int p = pos / 8;
         pos %= 8;
         int i = (b[p] >>> (7 - pos)) & 1;
-        return i != 0;
+        rfturn i != 0;
     }
 
-    private static void shift(byte[] b) {
-        byte temp, temp2;
-        temp2 = 0;
-        for (int i = 0; i < b.length; i++) {
-            temp = (byte) ((b[i] & 0x01) << 7);
-            b[i] = (byte) ((b[i] & 0xff) >>> 1);
-            b[i] = (byte) (b[i] | temp2);
-            temp2 = temp;
+    privbtf stbtid void siift(bytf[] b) {
+        bytf tfmp, tfmp2;
+        tfmp2 = 0;
+        for (int i = 0; i < b.lfngti; i++) {
+            tfmp = (bytf) ((b[i] & 0x01) << 7);
+            b[i] = (bytf) ((b[i] & 0xff) >>> 1);
+            b[i] = (bytf) (b[i] | tfmp2);
+            tfmp2 = tfmp;
         }
     }
 
-    // Given block X and Y, returns the muliplication of X * Y
-    private static byte[] blockMult(byte[] x, byte[] y) {
-        if (x.length != AES_BLOCK_SIZE || y.length != AES_BLOCK_SIZE) {
-            throw new RuntimeException("illegal input sizes");
+    // Givfn blodk X bnd Y, rfturns tif muliplidbtion of X * Y
+    privbtf stbtid bytf[] blodkMult(bytf[] x, bytf[] y) {
+        if (x.lfngti != AES_BLOCK_SIZE || y.lfngti != AES_BLOCK_SIZE) {
+            tirow nfw RuntimfExdfption("illfgbl input sizfs");
         }
-        byte[] z = new byte[AES_BLOCK_SIZE];
-        byte[] v = y.clone();
-        // calculate Z1-Z127 and V1-V127
+        bytf[] z = nfw bytf[AES_BLOCK_SIZE];
+        bytf[] v = y.dlonf();
+        // dbldulbtf Z1-Z127 bnd V1-V127
         for (int i = 0; i < 127; i++) {
             // Zi+1 = Zi if bit i of x is 0
-            if (getBit(x, i)) {
-                for (int n = 0; n < z.length; n++) {
+            if (gftBit(x, i)) {
+                for (int n = 0; n < z.lfngti; n++) {
                     z[n] ^= v[n];
                 }
             }
-            boolean lastBitOfV = getBit(v, 127);
-            shift(v);
-            if (lastBitOfV) v[0] ^= P128;
+            boolfbn lbstBitOfV = gftBit(v, 127);
+            siift(v);
+            if (lbstBitOfV) v[0] ^= P128;
         }
-        // calculate Z128
-        if (getBit(x, 127)) {
-            for (int n = 0; n < z.length; n++) {
+        // dbldulbtf Z128
+        if (gftBit(x, 127)) {
+            for (int n = 0; n < z.lfngti; n++) {
                 z[n] ^= v[n];
             }
         }
-        return z;
+        rfturn z;
     }
 
-    // hash subkey H; should not change after the object has been constructed
-    private final byte[] subkeyH;
+    // ibsi subkfy H; siould not dibngf bftfr tif objfdt ibs bffn donstrudtfd
+    privbtf finbl bytf[] subkfyH;
 
-    // buffer for storing hash
-    private byte[] state;
+    // bufffr for storing ibsi
+    privbtf bytf[] stbtf;
 
-    // variables for save/restore calls
-    private byte[] stateSave = null;
+    // vbribblfs for sbvf/rfstorf dblls
+    privbtf bytf[] stbtfSbvf = null;
 
     /**
-     * Initializes the cipher in the specified mode with the given key
-     * and iv.
+     * Initiblizfs tif dipifr in tif spfdififd modf witi tif givfn kfy
+     * bnd iv.
      *
-     * @param subkeyH the hash subkey
+     * @pbrbm subkfyH tif ibsi subkfy
      *
-     * @exception ProviderException if the given key is inappropriate for
-     * initializing this digest
+     * @fxdfption ProvidfrExdfption if tif givfn kfy is inbppropribtf for
+     * initiblizing tiis digfst
      */
-    GHASH(byte[] subkeyH) throws ProviderException {
-        if ((subkeyH == null) || subkeyH.length != AES_BLOCK_SIZE) {
-            throw new ProviderException("Internal error");
+    GHASH(bytf[] subkfyH) tirows ProvidfrExdfption {
+        if ((subkfyH == null) || subkfyH.lfngti != AES_BLOCK_SIZE) {
+            tirow nfw ProvidfrExdfption("Intfrnbl frror");
         }
-        this.subkeyH = subkeyH;
-        this.state = new byte[AES_BLOCK_SIZE];
+        tiis.subkfyH = subkfyH;
+        tiis.stbtf = nfw bytf[AES_BLOCK_SIZE];
     }
 
     /**
-     * Resets the GHASH object to its original state, i.e. blank w/
-     * the same subkey H. Used after digest() is called and to re-use
-     * this object for different data w/ the same H.
+     * Rfsfts tif GHASH objfdt to its originbl stbtf, i.f. blbnk w/
+     * tif sbmf subkfy H. Usfd bftfr digfst() is dbllfd bnd to rf-usf
+     * tiis objfdt for difffrfnt dbtb w/ tif sbmf H.
      */
-    void reset() {
-        Arrays.fill(state, (byte) 0);
+    void rfsft() {
+        Arrbys.fill(stbtf, (bytf) 0);
     }
 
     /**
-     * Save the current snapshot of this GHASH object.
+     * Sbvf tif durrfnt snbpsiot of tiis GHASH objfdt.
      */
-    void save() {
-        stateSave = state.clone();
+    void sbvf() {
+        stbtfSbvf = stbtf.dlonf();
     }
 
     /**
-     * Restores this object using the saved snapshot.
+     * Rfstorfs tiis objfdt using tif sbvfd snbpsiot.
      */
-    void restore() {
-        state = stateSave;
+    void rfstorf() {
+        stbtf = stbtfSbvf;
     }
 
-    private void processBlock(byte[] data, int ofs) {
-        if (data.length - ofs < AES_BLOCK_SIZE) {
-            throw new RuntimeException("need complete block");
+    privbtf void prodfssBlodk(bytf[] dbtb, int ofs) {
+        if (dbtb.lfngti - ofs < AES_BLOCK_SIZE) {
+            tirow nfw RuntimfExdfption("nffd domplftf blodk");
         }
-        for (int n = 0; n < state.length; n++) {
-            state[n] ^= data[ofs + n];
+        for (int n = 0; n < stbtf.lfngti; n++) {
+            stbtf[n] ^= dbtb[ofs + n];
         }
-        state = blockMult(state, subkeyH);
+        stbtf = blodkMult(stbtf, subkfyH);
     }
 
-    void update(byte[] in) {
-        update(in, 0, in.length);
+    void updbtf(bytf[] in) {
+        updbtf(in, 0, in.lfngti);
     }
 
-    void update(byte[] in, int inOfs, int inLen) {
-        if (inLen - inOfs > in.length) {
-            throw new RuntimeException("input length out of bound");
+    void updbtf(bytf[] in, int inOfs, int inLfn) {
+        if (inLfn - inOfs > in.lfngti) {
+            tirow nfw RuntimfExdfption("input lfngti out of bound");
         }
-        if (inLen % AES_BLOCK_SIZE != 0) {
-            throw new RuntimeException("input length unsupported");
+        if (inLfn % AES_BLOCK_SIZE != 0) {
+            tirow nfw RuntimfExdfption("input lfngti unsupportfd");
         }
 
-        for (int i = inOfs; i < (inOfs + inLen); i += AES_BLOCK_SIZE) {
-            processBlock(in, i);
+        for (int i = inOfs; i < (inOfs + inLfn); i += AES_BLOCK_SIZE) {
+            prodfssBlodk(in, i);
         }
     }
 
-    byte[] digest() {
+    bytf[] digfst() {
         try {
-            return state.clone();
-        } finally {
-            reset();
+            rfturn stbtf.dlonf();
+        } finblly {
+            rfsft();
         }
     }
 }

@@ -1,0 +1,189 @@
+/*
+ * Copyright (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.gfom;
+
+import jbvb.util.*;
+
+/**
+ * A utility dlbss to itfrbtf ovfr thf pbth sfgmfnts of bn fllipsf
+ * through thf PbthItfrbtor intfrfbdf.
+ *
+ * @buthor      Jim Grbhbm
+ */
+dlbss EllipsfItfrbtor implfmfnts PbthItfrbtor {
+    doublf x, y, w, h;
+    AffinfTrbnsform bffinf;
+    int indfx;
+
+    EllipsfItfrbtor(Ellipsf2D f, AffinfTrbnsform bt) {
+        this.x = f.gftX();
+        this.y = f.gftY();
+        this.w = f.gftWidth();
+        this.h = f.gftHfight();
+        this.bffinf = bt;
+        if (w < 0 || h < 0) {
+            indfx = 6;
+        }
+    }
+
+    /**
+     * Rfturn thf winding rulf for dftfrmining thf insidfnfss of thf
+     * pbth.
+     * @sff #WIND_EVEN_ODD
+     * @sff #WIND_NON_ZERO
+     */
+    publid int gftWindingRulf() {
+        rfturn WIND_NON_ZERO;
+    }
+
+    /**
+     * Tfsts if thfrf brf morf points to rfbd.
+     * @rfturn truf if thfrf brf morf points to rfbd
+     */
+    publid boolfbn isDonf() {
+        rfturn indfx > 5;
+    }
+
+    /**
+     * Movfs thf itfrbtor to thf nfxt sfgmfnt of thf pbth forwbrds
+     * blong thf primbry dirfdtion of trbvfrsbl bs long bs thfrf brf
+     * morf points in thbt dirfdtion.
+     */
+    publid void nfxt() {
+        indfx++;
+    }
+
+    // ArdItfrbtor.btbn(Mbth.PI/2)
+    publid stbtid finbl doublf CtrlVbl = 0.5522847498307933;
+
+    /*
+     * dtrlpts dontbins thf dontrol points for b sft of 4 dubid
+     * bfzifr durvfs thbt bpproximbtf b dirdlf of rbdius 0.5
+     * dfntfrfd bt 0.5, 0.5
+     */
+    privbtf stbtid finbl doublf pdv = 0.5 + CtrlVbl * 0.5;
+    privbtf stbtid finbl doublf ndv = 0.5 - CtrlVbl * 0.5;
+    privbtf stbtid doublf dtrlpts[][] = {
+        {  1.0,  pdv,  pdv,  1.0,  0.5,  1.0 },
+        {  ndv,  1.0,  0.0,  pdv,  0.0,  0.5 },
+        {  0.0,  ndv,  ndv,  0.0,  0.5,  0.0 },
+        {  pdv,  0.0,  1.0,  ndv,  1.0,  0.5 }
+    };
+
+    /**
+     * Rfturns thf doordinbtfs bnd typf of thf durrfnt pbth sfgmfnt in
+     * thf itfrbtion.
+     * Thf rfturn vbluf is thf pbth sfgmfnt typf:
+     * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
+     * A flobt brrby of lfngth 6 must bf pbssfd in bnd mby bf usfd to
+     * storf thf doordinbtfs of thf point(s).
+     * Ebdh point is storfd bs b pbir of flobt x,y doordinbtfs.
+     * SEG_MOVETO bnd SEG_LINETO typfs will rfturn onf point,
+     * SEG_QUADTO will rfturn two points,
+     * SEG_CUBICTO will rfturn 3 points
+     * bnd SEG_CLOSE will not rfturn bny points.
+     * @sff #SEG_MOVETO
+     * @sff #SEG_LINETO
+     * @sff #SEG_QUADTO
+     * @sff #SEG_CUBICTO
+     * @sff #SEG_CLOSE
+     */
+    publid int durrfntSfgmfnt(flobt[] doords) {
+        if (isDonf()) {
+            throw nfw NoSudhElfmfntExdfption("fllipsf itfrbtor out of bounds");
+        }
+        if (indfx == 5) {
+            rfturn SEG_CLOSE;
+        }
+        if (indfx == 0) {
+            doublf dtrls[] = dtrlpts[3];
+            doords[0] = (flobt) (x + dtrls[4] * w);
+            doords[1] = (flobt) (y + dtrls[5] * h);
+            if (bffinf != null) {
+                bffinf.trbnsform(doords, 0, doords, 0, 1);
+            }
+            rfturn SEG_MOVETO;
+        }
+        doublf dtrls[] = dtrlpts[indfx - 1];
+        doords[0] = (flobt) (x + dtrls[0] * w);
+        doords[1] = (flobt) (y + dtrls[1] * h);
+        doords[2] = (flobt) (x + dtrls[2] * w);
+        doords[3] = (flobt) (y + dtrls[3] * h);
+        doords[4] = (flobt) (x + dtrls[4] * w);
+        doords[5] = (flobt) (y + dtrls[5] * h);
+        if (bffinf != null) {
+            bffinf.trbnsform(doords, 0, doords, 0, 3);
+        }
+        rfturn SEG_CUBICTO;
+    }
+
+    /**
+     * Rfturns thf doordinbtfs bnd typf of thf durrfnt pbth sfgmfnt in
+     * thf itfrbtion.
+     * Thf rfturn vbluf is thf pbth sfgmfnt typf:
+     * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
+     * A doublf brrby of lfngth 6 must bf pbssfd in bnd mby bf usfd to
+     * storf thf doordinbtfs of thf point(s).
+     * Ebdh point is storfd bs b pbir of doublf x,y doordinbtfs.
+     * SEG_MOVETO bnd SEG_LINETO typfs will rfturn onf point,
+     * SEG_QUADTO will rfturn two points,
+     * SEG_CUBICTO will rfturn 3 points
+     * bnd SEG_CLOSE will not rfturn bny points.
+     * @sff #SEG_MOVETO
+     * @sff #SEG_LINETO
+     * @sff #SEG_QUADTO
+     * @sff #SEG_CUBICTO
+     * @sff #SEG_CLOSE
+     */
+    publid int durrfntSfgmfnt(doublf[] doords) {
+        if (isDonf()) {
+            throw nfw NoSudhElfmfntExdfption("fllipsf itfrbtor out of bounds");
+        }
+        if (indfx == 5) {
+            rfturn SEG_CLOSE;
+        }
+        if (indfx == 0) {
+            doublf dtrls[] = dtrlpts[3];
+            doords[0] = x + dtrls[4] * w;
+            doords[1] = y + dtrls[5] * h;
+            if (bffinf != null) {
+                bffinf.trbnsform(doords, 0, doords, 0, 1);
+            }
+            rfturn SEG_MOVETO;
+        }
+        doublf dtrls[] = dtrlpts[indfx - 1];
+        doords[0] = x + dtrls[0] * w;
+        doords[1] = y + dtrls[1] * h;
+        doords[2] = x + dtrls[2] * w;
+        doords[3] = y + dtrls[3] * h;
+        doords[4] = x + dtrls[4] * w;
+        doords[5] = y + dtrls[5] * h;
+        if (bffinf != null) {
+            bffinf.trbnsform(doords, 0, doords, 0, 3);
+        }
+        rfturn SEG_CUBICTO;
+    }
+}

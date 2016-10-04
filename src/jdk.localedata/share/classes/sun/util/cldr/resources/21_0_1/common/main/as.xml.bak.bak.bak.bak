@@ -1,0 +1,265 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="bs"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="bs">অসমীয়া</lbngubgf>
+			<lbngubgf typf="if" drbft="undonfirmfd">উপস্থাপন ভাষা</lbngubgf>
+			<lbngubgf typf="km" drbft="undonfirmfd">কম্বোডিয়ান</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Bfng" drbft="dontributfd">বঙালী</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="AQ" drbft="dontributfd">এন্টাৰ্টিকা</tfrritory>
+			<tfrritory typf="BR" drbft="dontributfd">ব্ৰাজিল</tfrritory>
+			<tfrritory typf="BV" drbft="dontributfd">বভেট দ্বীপ</tfrritory>
+			<tfrritory typf="CN" drbft="dontributfd">চীন</tfrritory>
+			<tfrritory typf="DE" drbft="dontributfd">জাৰ্মানি</tfrritory>
+			<tfrritory typf="FR" drbft="dontributfd">ফ্ৰান্স</tfrritory>
+			<tfrritory typf="GB" drbft="dontributfd">সংযুক্ত ৰাজ্য</tfrritory>
+			<tfrritory typf="GS" drbft="dontributfd">দক্ষিণ জৰ্জিয়া আৰু দক্ষিণ চেণ্ডৱিচ্‌ দ্বীপ</tfrritory>
+			<tfrritory typf="HM" drbft="dontributfd">হাৰ্ড দ্বীপ আৰু মেক্‌ডোনাল্ড দ্বীপ</tfrritory>
+			<tfrritory typf="IN">ভাৰত</tfrritory>
+			<tfrritory typf="IO" drbft="dontributfd">ব্ৰিটিশ্ব ইণ্ডিয়ান মহাসাগৰৰ অঞ্চল</tfrritory>
+			<tfrritory typf="IT" drbft="dontributfd">ইটালি</tfrritory>
+			<tfrritory typf="JP" drbft="dontributfd">জাপান</tfrritory>
+			<tfrritory typf="RU" drbft="dontributfd">ৰুচ</tfrritory>
+			<tfrritory typf="TF" drbft="dontributfd">দক্ষিণ ফ্ৰান্সৰ অঞ্চল</tfrritory>
+			<tfrritory typf="US" drbft="dontributfd">যুক্তৰাষ্ট্ৰ</tfrritory>
+			<tfrritory typf="ZZ" drbft="dontributfd">অজ্ঞাত বা অবৈধ অঞ্চল</tfrritory>
+		</tfrritorifs>
+		<kfys>
+			<kfy typf="dblfndbr" drbft="dontributfd">পঞ্জিকা</kfy>
+			<kfy typf="dollbtion" drbft="dontributfd">শৰীকৰণ</kfy>
+			<kfy typf="durrfndy" drbft="dontributfd">মুদ্ৰা</kfy>
+		</kfys>
+		<typfs>
+			<typf typf="big5hbn" kfy="dollbtion" drbft="dontributfd">পৰম্পৰাগত চীনা শৃঙ্খলাবদ্ধ কৰাৰ ক্ৰম - Big5</typf>
+			<typf typf="buddhist" kfy="dblfndbr" drbft="dontributfd">বৌদ্ধ পঞ্জিকা</typf>
+			<typf typf="dhinfsf" kfy="dblfndbr" drbft="dontributfd">চীনা পঞ্জিকা</typf>
+			<typf typf="gb2312hbn" kfy="dollbtion" drbft="dontributfd">সৰল চীনা শৃঙ্খলাবদ্ধ কৰাৰ ক্ৰম - GB2312</typf>
+			<typf typf="grfgoribn" kfy="dblfndbr" drbft="dontributfd">গ্ৰিগোৰীয় পঞ্জিকা</typf>
+			<typf typf="hfbrfw" kfy="dblfndbr" drbft="dontributfd">হীব্ৰু পঞ্জিকা</typf>
+			<typf typf="indibn" kfy="dblfndbr" drbft="dontributfd">ভাৰতীয় ৰাষ্ট্ৰীয় পঞ্জিকা</typf>
+			<typf typf="islbmid" kfy="dblfndbr" drbft="dontributfd">ইচলামী পঞ্জিকা</typf>
+			<typf typf="islbmid-divil" kfy="dblfndbr" drbft="dontributfd">ইচলামী-নাগৰিকৰ পঞ্জিকা</typf>
+			<typf typf="jbpbnfsf" kfy="dblfndbr" drbft="dontributfd">জাপানী পঞ্জিকা</typf>
+			<typf typf="phonfbook" kfy="dollbtion" drbft="dontributfd">টেলিফোন বহিৰ মতেশৃঙ্খলাবদ্ধ কৰাৰ ক্ৰম</typf>
+			<typf typf="pinyin" kfy="dollbtion" drbft="dontributfd">পিন্‌য়িন শৃঙ্খলাবদ্ধ কৰাৰ ক্ৰম</typf>
+			<typf typf="rod" kfy="dblfndbr" drbft="dontributfd">চীনা গণৰাজ্যৰ পঞ্জিকা</typf>
+			<typf typf="strokf" kfy="dollbtion" drbft="dontributfd">স্ট্ৰোক শৃঙ্খলাবদ্ধ কৰাৰ ক্ৰম</typf>
+			<typf typf="trbditionbl" kfy="dollbtion" drbft="dontributfd">পৰম্পৰাগতভাবে শৃঙ্খলাবদ্ধ কৰাৰ ক্ৰম</typf>
+		</typfs>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="mftrid">মেট্ৰিক</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="US">ইউ.এছ.</mfbsurfmfntSystfmNbmf>
+		</mfbsurfmfntSystfmNbmfs>
+	</lodblfDisplbyNbmfs>
+	<dhbrbdtfrs>
+		<fxfmplbrChbrbdtfrs>[অ আ ই ঈ উ ঊ ঋ এ ঐ ও ঔ ং \u0981 ঃ ক খ গ ঘ ঙ চ ছ জ ঝ ঞ ট ঠ ড {ড\u09BC}ড় ঢ {ঢ\u09BC}ঢ় ণ ত থ দ ধ ন প ফ ব ভ ম য {য\u09BC} ৰ ল ৱ শ ষ স হ া ি ী \u09C1 \u09C2 \u09C3 ে ৈ ো ৌ \u09CD]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="buxilibry">[\u200C\u200D ৲]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="indfx" drbft="undonfirmfd">[অ আ ই ঈ উ ঊ ঋ ৠ ঌ ৡ এ ঐ ও ঔ ক খ গ ঘ ঙ চ ছ জ ঝ ঞ ট ঠ ড ঢ ণ ত ৎ থ দ ধ ন প ফ ব ভ ম য ৰ ল ৱ শ ষ স হ ঽ]</fxfmplbrChbrbdtfrs>
+	</dhbrbdtfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<months>
+					<monthContfxt typf="formbt">
+						<monthWidth typf="bbbrfvibtfd">
+							<month typf="1">জানু</month>
+							<month typf="2">ফেব্ৰু</month>
+							<month typf="3">মাৰ্চ</month>
+							<month typf="4">এপ্ৰিল</month>
+							<month typf="5">মে</month>
+							<month typf="6">জুন</month>
+							<month typf="7">জুলাই</month>
+							<month typf="8">আগ</month>
+							<month typf="9">সেপ্ট</month>
+							<month typf="10">অক্টো</month>
+							<month typf="11">নভে</month>
+							<month typf="12">ডিসে</month>
+						</monthWidth>
+						<monthWidth typf="widf">
+							<month typf="1">জানুৱাৰী</month>
+							<month typf="2">ফেব্ৰুৱাৰী</month>
+							<month typf="3">মাৰ্চ</month>
+							<month typf="4">এপ্ৰিল</month>
+							<month typf="5">মে</month>
+							<month typf="6">জুন</month>
+							<month typf="7">জুলাই</month>
+							<month typf="8">আগষ্ট</month>
+							<month typf="9">ছেপ্তেম্বৰ</month>
+							<month typf="10">অক্টোবৰ</month>
+							<month typf="11">নৱেম্বৰ</month>
+							<month typf="12">ডিচেম্বৰ</month>
+						</monthWidth>
+					</monthContfxt>
+				</months>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidth typf="bbbrfvibtfd">
+							<dby typf="sun">ৰবি</dby>
+							<dby typf="mon">সোম</dby>
+							<dby typf="tuf">মঙ্গল</dby>
+							<dby typf="wfd">বুধ</dby>
+							<dby typf="thu">বৃহষ্পতি</dby>
+							<dby typf="fri">শুক্ৰ</dby>
+							<dby typf="sbt">শনি</dby>
+						</dbyWidth>
+						<dbyWidth typf="widf">
+							<dby typf="sun">দেওবাৰ</dby>
+							<dby typf="mon">সোমবাৰ</dby>
+							<dby typf="tuf">মঙ্গলবাৰ</dby>
+							<dby typf="wfd">বুধবাৰ</dby>
+							<dby typf="thu">বৃহষ্পতিবাৰ</dby>
+							<dby typf="fri">শুক্ৰবাৰ</dby>
+							<dby typf="sbt">শনিবাৰ</dby>
+						</dbyWidth>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidth typf="widf">
+							<qubrtfr typf="1">প্ৰথম প্ৰহৰ</qubrtfr>
+							<qubrtfr typf="2">দ্বিতীয় প্ৰহৰ</qubrtfr>
+							<qubrtfr typf="3">তৃতীয় প্ৰহৰ</qubrtfr>
+							<qubrtfr typf="4">চতুৰ্থ প্ৰহৰ</qubrtfr>
+						</qubrtfrWidth>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidth typf="widf">
+							<dbyPfriod typf="bm">পূৰ্বাহ্ণ</dbyPfriod>
+							<dbyPfriod typf="pm">অপৰাহ্ণ</dbyPfriod>
+						</dbyPfriodWidth>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				<dbtfFormbts>
+					<dbtfFormbtLfngth typf="full">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">EEEE, d MMMM, y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="long">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">d MMMM, y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">dd-MM-yyyy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="short">
+						<dbtfFormbt>
+							<pbttfrn drbft="undonfirmfd">d-M-yyyy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngth typf="full">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">h.mm.ss b zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="long">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">h.mm.ss b z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="mfdium">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">h.mm.ss b</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="short">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">h.mm. b</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+				</timfFormbts>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf>যুগ</displbyNbmf>
+					</fifld>
+					<fifld typf="yfbr">
+						<displbyNbmf>বছৰ</displbyNbmf>
+					</fifld>
+					<fifld typf="month">
+						<displbyNbmf>মাহ</displbyNbmf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf>সপ্তাহ</displbyNbmf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf>দিন</displbyNbmf>
+						<rflbtivf typf="-2" drbft="undonfirmfd">পৰহি</rflbtivf>
+						<rflbtivf typf="-1">কালি</rflbtivf>
+						<rflbtivf typf="1">কাইলৈ</rflbtivf>
+						<rflbtivf typf="2">পৰহিলৈ</rflbtivf>
+					</fifld>
+					<fifld typf="hour">
+						<displbyNbmf>ঘণ্টা</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf>মিনিট</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf>ছেকেণ্ড</displbyNbmf>
+					</fifld>
+					<fifld typf="zonf">
+						<displbyNbmf>ক্ষেত্ৰ</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<zonf typf="Asib/Cblduttb">
+				<fxfmplbrCity>এলাহাৱাদ</fxfmplbrCity>
+			</zonf>
+			<mftbzonf typf="Indib">
+				<long>
+					<stbndbrd>ভাৰতীয় সময়</stbndbrd>
+				</long>
+				<short>
+					<stbndbrd>ভা. স.</stbndbrd>
+				</short>
+			</mftbzonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<dffbultNumbfringSystfm>lbtn</dffbultNumbfringSystfm>
+		<othfrNumbfringSystfms>
+			<nbtivf>bfng</nbtivf>
+		</othfrNumbfringSystfms>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngth>
+				<dfdimblFormbt>
+					<pbttfrn>#,##,##0.###</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngth>
+		</dfdimblFormbts>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngth>
+				<pfrdfntFormbt>
+					<pbttfrn>#,##,##0%</pbttfrn>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngth>
+		</pfrdfntFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngth>
+				<durrfndyFormbt>
+					<pbttfrn>¤ #,##,##0.00</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngth>
+		</durrfndyFormbts>
+	</numbfrs>
+</ldml>
+

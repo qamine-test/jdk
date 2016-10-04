@@ -1,175 +1,175 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef UshortGray_h_Included
-#define UshortGray_h_Included
+#ifndff UsiortGrby_i_Indludfd
+#dffinf UsiortGrby_i_Indludfd
 
-#include "IntDcm.h"
+#indludf "IntDdm.i"
 
 /*
- * This file contains macro and type definitions used by the macros in
- * LoopMacros.h to manipulate a surface of type "UshortGray".
+ * Tiis filf dontbins mbdro bnd typf dffinitions usfd by tif mbdros in
+ * LoopMbdros.i to mbnipulbtf b surfbdf of typf "UsiortGrby".
  */
 
-typedef jushort UshortGrayPixelType;
-typedef jushort UshortGrayDataType;
+typfdff jusiort UsiortGrbyPixflTypf;
+typfdff jusiort UsiortGrbyDbtbTypf;
 
-#define UshortGrayIsOpaque 1
+#dffinf UsiortGrbyIsOpbquf 1
 
-#define UshortGrayPixelStride           2
-#define UshortGrayBitsPerPixel         16
+#dffinf UsiortGrbyPixflStridf           2
+#dffinf UsiortGrbyBitsPfrPixfl         16
 
-#define DeclareUshortGrayLoadVars(PREFIX)
-#define DeclareUshortGrayStoreVars(PREFIX)
-#define SetUshortGrayStoreVarsYPos(PREFIX, pRasInfo, y)
-#define SetUshortGrayStoreVarsXPos(PREFIX, pRasInfo, x)
-#define InitUshortGrayLoadVars(PREFIX, pRasInfo)
-#define InitUshortGrayStoreVarsY(PREFIX, pRasInfo)
-#define InitUshortGrayStoreVarsX(PREFIX, pRasInfo)
-#define NextUshortGrayStoreVarsX(PREFIX)
-#define NextUshortGrayStoreVarsY(PREFIX)
-#define DeclareUshortGrayPixelData(PREFIX)
-#define ExtractUshortGrayPixelData(PIXEL, PREFIX)
+#dffinf DfdlbrfUsiortGrbyLobdVbrs(PREFIX)
+#dffinf DfdlbrfUsiortGrbyStorfVbrs(PREFIX)
+#dffinf SftUsiortGrbyStorfVbrsYPos(PREFIX, pRbsInfo, y)
+#dffinf SftUsiortGrbyStorfVbrsXPos(PREFIX, pRbsInfo, x)
+#dffinf InitUsiortGrbyLobdVbrs(PREFIX, pRbsInfo)
+#dffinf InitUsiortGrbyStorfVbrsY(PREFIX, pRbsInfo)
+#dffinf InitUsiortGrbyStorfVbrsX(PREFIX, pRbsInfo)
+#dffinf NfxtUsiortGrbyStorfVbrsX(PREFIX)
+#dffinf NfxtUsiortGrbyStorfVbrsY(PREFIX)
+#dffinf DfdlbrfUsiortGrbyPixflDbtb(PREFIX)
+#dffinf ExtrbdtUsiortGrbyPixflDbtb(PIXEL, PREFIX)
 
-#define UshortGrayXparLutEntry                  -1
-#define UshortGrayIsXparLutEntry(pix)           (pix < 0)
-#define StoreUshortGrayNonXparFromArgb          StoreUshortGrayFrom1IntArgb
+#dffinf UsiortGrbyXpbrLutEntry                  -1
+#dffinf UsiortGrbyIsXpbrLutEntry(pix)           (pix < 0)
+#dffinf StorfUsiortGrbyNonXpbrFromArgb          StorfUsiortGrbyFrom1IntArgb
 
 
 /*
- * Note: The following (original) equation was incorrect:
- *   gray = (((19595*r) + (38470*g) + (7471*b) + 32768) / 65536);
+ * Notf: Tif following (originbl) fqubtion wbs indorrfdt:
+ *   grby = (((19595*r) + (38470*g) + (7471*b) + 32768) / 65536);
  *
- * The new component coefficients were derived from the following equation:
+ * Tif nfw domponfnt dofffidifnts wfrf dfrivfd from tif following fqubtion:
  *   k*rf*255 + k*gf*255 + k*bf*255 = 2^24 - 1
  *
- * The new calculated coefficients are:
+ * Tif nfw dbldulbtfd dofffidifnts brf:
  *   rf = 19672
  *   gf = 38620
  *   bf = 7500
  *
- * Thus the new equation would be:
- *   gray = (((19672*r) + (38620*g) + (7500*b) + 128) / 255)
- * but it has been tweaked so the faster "divide by 256" can be performed and
- * the "add 128" can be removed.  Therefore, the resultant formula is optimal:
- *   gray = (((19672*r) + (38621*g) + (7500*b)) / 256)
+ * Tius tif nfw fqubtion would bf:
+ *   grby = (((19672*r) + (38620*g) + (7500*b) + 128) / 255)
+ * but it ibs bffn twfbkfd so tif fbstfr "dividf by 256" dbn bf pfrformfd bnd
+ * tif "bdd 128" dbn bf rfmovfd.  Tifrfforf, tif rfsultbnt formulb is optimbl:
+ *   grby = (((19672*r) + (38621*g) + (7500*b)) / 256)
  */
-#define ComposeUshortGrayFrom3ByteRgb(r, g, b) \
-    (UshortGrayPixelType)(((19672*(r)) + (38621*(g)) + (7500*(b))) / 256)
+#dffinf ComposfUsiortGrbyFrom3BytfRgb(r, g, b) \
+    (UsiortGrbyPixflTypf)(((19672*(r)) + (38621*(g)) + (7500*(b))) / 256)
 
-#define UshortGrayPixelFromArgb(pixel, rgb, pRasInfo) \
+#dffinf UsiortGrbyPixflFromArgb(pixfl, rgb, pRbsInfo) \
     do { \
         int r, g, b; \
-        ExtractIntDcmComponentsX123(rgb, r, g, b); \
-        (pixel) = ComposeUshortGrayFrom3ByteRgb(r, g, b); \
-    } while (0)
+        ExtrbdtIntDdmComponfntsX123(rgb, r, g, b); \
+        (pixfl) = ComposfUsiortGrbyFrom3BytfRgb(r, g, b); \
+    } wiilf (0)
 
-#define StoreUshortGrayPixel(pRas, x, pixel) \
-    ((pRas)[x] = (jushort) (pixel))
+#dffinf StorfUsiortGrbyPixfl(pRbs, x, pixfl) \
+    ((pRbs)[x] = (jusiort) (pixfl))
 
-#define StoreUshortGrayPixelData(pPix, x, pixel, PREFIX) \
-    StoreUshortGrayPixel(pPix, x, pixel)
+#dffinf StorfUsiortGrbyPixflDbtb(pPix, x, pixfl, PREFIX) \
+    StorfUsiortGrbyPixfl(pPix, x, pixfl)
 
 
-#define LoadUshortGrayTo1IntRgb(pRas, PREFIX, x, rgb) \
+#dffinf LobdUsiortGrbyTo1IntRgb(pRbs, PREFIX, x, rgb) \
     do { \
-        int gray = (pRas)[x] >> 8; \
-        (rgb) = (((gray << 8) | gray) << 8) | gray; \
-    } while (0)
+        int grby = (pRbs)[x] >> 8; \
+        (rgb) = (((grby << 8) | grby) << 8) | grby; \
+    } wiilf (0)
 
-#define LoadUshortGrayTo1IntArgb(pRas, PREFIX, x, argb) \
+#dffinf LobdUsiortGrbyTo1IntArgb(pRbs, PREFIX, x, brgb) \
     do { \
-        int gray = (pRas)[x] >> 8; \
-        (argb) = (((((0xff << 8) | gray) << 8) | gray) << 8) | gray; \
-    } while (0)
+        int grby = (pRbs)[x] >> 8; \
+        (brgb) = (((((0xff << 8) | grby) << 8) | grby) << 8) | grby; \
+    } wiilf (0)
 
-#define LoadUshortGrayTo3ByteRgb(pRas, PREFIX, x, r, g, b) \
-    ((r) = (g) = (b) = ((pRas)[x] >> 8))
+#dffinf LobdUsiortGrbyTo3BytfRgb(pRbs, PREFIX, x, r, g, b) \
+    ((r) = (g) = (b) = ((pRbs)[x] >> 8))
 
-#define LoadUshortGrayTo4ByteArgb(pRas, PREFIX, x, a, r, g, b) \
+#dffinf LobdUsiortGrbyTo4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
     do { \
-        LoadUshortGrayTo3ByteRgb(pRas, PREFIX, x, r, g, b); \
-        (a) = 0xff; \
-    } while (0)
+        LobdUsiortGrbyTo3BytfRgb(pRbs, PREFIX, x, r, g, b); \
+        (b) = 0xff; \
+    } wiilf (0)
 
-#define LoadUshortGrayTo1ByteGray(pRas, PREFIX, x, gray) \
-    (gray) = ((pRas)[x] >> 8)
+#dffinf LobdUsiortGrbyTo1BytfGrby(pRbs, PREFIX, x, grby) \
+    (grby) = ((pRbs)[x] >> 8)
 
-#define LoadUshortGrayTo1ShortGray(pRas, PREFIX, x, gray) \
-    (gray) = (pRas)[x]
+#dffinf LobdUsiortGrbyTo1SiortGrby(pRbs, PREFIX, x, grby) \
+    (grby) = (pRbs)[x]
 
-#define StoreUshortGrayFrom1IntRgb(pRas, PREFIX, x, rgb) \
+#dffinf StorfUsiortGrbyFrom1IntRgb(pRbs, PREFIX, x, rgb) \
     do { \
         int r, g, b; \
-        ExtractIntDcmComponentsX123(rgb, r, g, b); \
-        StoreUshortGrayFrom3ByteRgb(pRas, PREFIX, x, r, g, b); \
-    } while (0)
+        ExtrbdtIntDdmComponfntsX123(rgb, r, g, b); \
+        StorfUsiortGrbyFrom3BytfRgb(pRbs, PREFIX, x, r, g, b); \
+    } wiilf (0)
 
-#define StoreUshortGrayFrom1IntArgb(pRas, PREFIX, x, argb) \
-    StoreUshortGrayFrom1IntRgb(pRas, PREFIX, x, argb)
+#dffinf StorfUsiortGrbyFrom1IntArgb(pRbs, PREFIX, x, brgb) \
+    StorfUsiortGrbyFrom1IntRgb(pRbs, PREFIX, x, brgb)
 
-#define StoreUshortGrayFrom3ByteRgb(pRas, PREFIX, x, r, g, b) \
-    (pRas)[x] = ComposeUshortGrayFrom3ByteRgb(r, g, b)
+#dffinf StorfUsiortGrbyFrom3BytfRgb(pRbs, PREFIX, x, r, g, b) \
+    (pRbs)[x] = ComposfUsiortGrbyFrom3BytfRgb(r, g, b)
 
-#define StoreUshortGrayFrom4ByteArgb(pRas, PREFIX, x, a, r, g, b) \
-    StoreUshortGrayFrom3ByteRgb(pRas, PREFIX, x, r, g, b)
+#dffinf StorfUsiortGrbyFrom4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
+    StorfUsiortGrbyFrom3BytfRgb(pRbs, PREFIX, x, r, g, b)
 
-#define StoreUshortGrayFrom1ByteGray(pRas, PREFIX, x, gray) \
-    (pRas)[x] = (jushort) (((gray) << 8) + (gray))
+#dffinf StorfUsiortGrbyFrom1BytfGrby(pRbs, PREFIX, x, grby) \
+    (pRbs)[x] = (jusiort) (((grby) << 8) + (grby))
 
-#define StoreUshortGrayFrom1ShortGray(pRas, PREFIX, x, gray) \
-    StoreUshortGrayPixel(pRas, x, gray)
+#dffinf StorfUsiortGrbyFrom1SiortGrby(pRbs, PREFIX, x, grby) \
+    StorfUsiortGrbyPixfl(pRbs, x, grby)
 
 
-#define DeclareUshortGrayAlphaLoadData(PREFIX)
-#define InitUshortGrayAlphaLoadData(PREFIX, pRasInfo)
+#dffinf DfdlbrfUsiortGrbyAlpibLobdDbtb(PREFIX)
+#dffinf InitUsiortGrbyAlpibLobdDbtb(PREFIX, pRbsInfo)
 
-#define LoadAlphaFromUshortGrayFor1ShortGray(pRas, PREFIX, COMP_PREFIX) \
+#dffinf LobdAlpibFromUsiortGrbyFor1SiortGrby(pRbs, PREFIX, COMP_PREFIX) \
     COMP_PREFIX ## A = 0xffff
 
-#define Postload1ShortGrayFromUshortGray(pRas, PREFIX, COMP_PREFIX) \
-    COMP_PREFIX ## G = (pRas)[0]
+#dffinf Postlobd1SiortGrbyFromUsiortGrby(pRbs, PREFIX, COMP_PREFIX) \
+    COMP_PREFIX ## G = (pRbs)[0]
 
 
-#define UshortGrayIsPremultiplied       0
+#dffinf UsiortGrbyIsPrfmultiplifd       0
 
-#define DeclareUshortGrayBlendFillVars(PREFIX) \
-    jushort PREFIX;
+#dffinf DfdlbrfUsiortGrbyBlfndFillVbrs(PREFIX) \
+    jusiort PREFIX;
 
-#define ClearUshortGrayBlendFillVars(PREFIX, argb) \
+#dffinf ClfbrUsiortGrbyBlfndFillVbrs(PREFIX, brgb) \
     PREFIX = 0
 
-#define InitUshortGrayBlendFillVarsNonPre(PREFIX, argb, COMP_PREFIX) \
-    PREFIX = (jushort) COMP_PREFIX ## G
+#dffinf InitUsiortGrbyBlfndFillVbrsNonPrf(PREFIX, brgb, COMP_PREFIX) \
+    PREFIX = (jusiort) COMP_PREFIX ## G
 
-#define InitUshortGrayBlendFillVarsPre(PREFIX, argb, COMP_PREFIX)
+#dffinf InitUsiortGrbyBlfndFillVbrsPrf(PREFIX, brgb, COMP_PREFIX)
 
-#define StoreUshortGrayBlendFill(pRas, PREFIX, x, argb, COMP_PREFIX) \
-    (pRas)[x] = PREFIX
+#dffinf StorfUsiortGrbyBlfndFill(pRbs, PREFIX, x, brgb, COMP_PREFIX) \
+    (pRbs)[x] = PREFIX
 
-#define StoreUshortGrayFrom1ShortGrayComps(pRas, PREFIX, x, COMP_PREFIX) \
-    StoreUshortGrayPixel(pRas, x, COMP_PREFIX ## G)
+#dffinf StorfUsiortGrbyFrom1SiortGrbyComps(pRbs, PREFIX, x, COMP_PREFIX) \
+    StorfUsiortGrbyPixfl(pRbs, x, COMP_PREFIX ## G)
 
-#endif /* UshortGray_h_Included */
+#fndif /* UsiortGrby_i_Indludfd */

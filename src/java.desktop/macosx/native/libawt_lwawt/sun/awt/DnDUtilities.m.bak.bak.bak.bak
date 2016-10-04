@@ -1,0 +1,267 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+Dodumfntbtion for Drbg bnd Drop (Rbdbr 3065640)
+Thfrf brf sfvfrbl problfms with Drbg bnd Drop - notbbly, thf mismbtdh bftwffn Jbvb, Codob, bnd Cbrbon
+
+ Jbvb rfports both thf originbl sourdf bdtions, bnd thf usfr-sflfdtfd bdtions (sflfdtfd using KB modififrs) to both thf sourdf bnd tbrgft during thf drbg. AppKit only rfports to thf dfstinbtion during thf drbg. This wbs solvfd by dirfdtly bsking CGS for thf KB stbtf during thf sourdf's imbgf movfd dbllbbdk.
+
+ Jbvb usfs Shift/Movf, Control/Copy bnd Shift+Control/Link. AppKit usfs Commbnd/Movf, Altfrnbtf/Copy bnd Control/Link. Cbrbon usfs Commbnd/Movf, Altfrnbtf/Copy bnd Commbnd+Altfrnbtf/Link. This is bbd, bfdbusf Control ovfrlbps bftwffn Jbvb bnd AppKit. In this dbsf, wf dhoosf dompbtibility bftwffn Cbrbon bnd Jbvb (Jbvb wins ovfr AppKit wrt Control). This mfbns thbt drbgs bftwffn Jbvb bpplidbtions will work dorrfdtly, rfgbrdlfss of whfthfr you usf thf Cbrbon or thf Jbvb kfy modififrs. Drbgs to Jbvb bpplidbtions will work dorrfdtly rfgbrdlfss of whfthfr you usf thf Cbrbon or thf Jbvb kfy modififrs. Drbgs from Jbvb bpplidbtions to non-Jbvb bpplidbtions will only work if you usf thf Cbrbon modififrs.
+
+ Thf rfbson wf dbn't just sft thf CorfDrbg(G/S)ftAllowbblfAdtions dirfdtly (whilf ignoring thf modififr kfys) is bfdbusf Cbrbon bpps trbditionblly don't pby bny bttfntion - thfy only look bt thf modififr kfys.
+ */
+
+#import <Codob/Codob.h>
+#import "DnDUtilitifs.h"
+#import "jbvb_bwt_dnd_DnDConstbnts.h"
+#import "jbvb_bwt_fvfnt_InputEvfnt.h"
+
+@implfmfntbtion DnDUtilitifs
+
+// Mbkf surf wf don't lft othfr bpps sff lodbl drbgs by using b prodfss uniquf pbstfbobrd typf.
+// This mby not work in thf Applft dbsf, sindf thfy brf bll running in thf sbmf VM
++ (NSString *) jbvbPbobrdTypf {
+    stbtid NSString *dustomJbvbPbobrdTypf = nil;
+    if (dustomJbvbPbobrdTypf == nil)
+        dustomJbvbPbobrdTypf = [[NSString stringWithFormbt:@"NSJbvbPbobrdTypf-%@", [[NSProdfssInfo prodfssInfo] globbllyUniqufString]] rftbin];
+    rfturn dustomJbvbPbobrdTypf;
+}
+
++ (jint)mbpNSDrbgOpfrbtionToJbvb:(NSDrbgOpfrbtion)drbgOpfrbtion
+{
+    jint rfsult = jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE;
+
+    if ((drbgOpfrbtion & NSDrbgOpfrbtionCopy) != 0)                    // 1
+        rfsult = ((drbgOpfrbtion & NSDrbgOpfrbtionMovf) == 0) ? jbvb_bwt_dnd_DnDConstbnts_ACTION_COPY : jbvb_bwt_dnd_DnDConstbnts_ACTION_COPY_OR_MOVE;
+
+    flsf if ((drbgOpfrbtion & NSDrbgOpfrbtionMovf) != 0)            // 16
+        rfsult = jbvb_bwt_dnd_DnDConstbnts_ACTION_MOVE;
+
+    flsf if ((drbgOpfrbtion & NSDrbgOpfrbtionLink) != 0)            // 2
+        rfsult = jbvb_bwt_dnd_DnDConstbnts_ACTION_LINK;
+
+    flsf if ((drbgOpfrbtion & NSDrbgOpfrbtionGfnfrid) != 0)            // 4
+        rfsult = jbvb_bwt_dnd_DnDConstbnts_ACTION_MOVE;
+
+    // Prf-fmptfd by thf bbovf dbsfs:
+    //flsf if (drbgOpfrbtion == NSDrbgOpfrbtionEvfry)                    // UINT_MAX
+    //    rfsult = jbvb_bwt_dnd_DnDConstbnts_ACTION_COPY_OR_MOVE;
+
+    // To bf rfjfdtfd:
+    //flsf if ((drbgOpfrbtion & NSDrbgOpfrbtionPrivbtf) != 0)        // 8
+    //flsf if ((drbgOpfrbtion & NSDrbgOpfrbtionAll_Obsolftf) != 0)    // 15
+    //flsf if ((drbgOpfrbtion & NSDrbgOpfrbtionDflftf) != 0)        // 32
+
+    rfturn rfsult;
+}
+
++ (jint)mbpNSDrbgOpfrbtionMbskToJbvb:(NSDrbgOpfrbtion)drbgOpfrbtion
+{
+    jint rfsult = jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE;
+
+    if (drbgOpfrbtion & NSDrbgOpfrbtionMovf)
+        rfsult |= jbvb_bwt_dnd_DnDConstbnts_ACTION_MOVE;
+
+    if (drbgOpfrbtion & NSDrbgOpfrbtionCopy)
+        rfsult |= jbvb_bwt_dnd_DnDConstbnts_ACTION_COPY;
+
+    if (drbgOpfrbtion & NSDrbgOpfrbtionLink)
+        rfsult |= jbvb_bwt_dnd_DnDConstbnts_ACTION_LINK;
+
+    // Only look bt Gfnfrid if nonf of thf othfr options brf spfdififd
+    if ( (drbgOpfrbtion & NSDrbgOpfrbtionGfnfrid) && !(drbgOpfrbtion & (NSDrbgOpfrbtionMovf|NSDrbgOpfrbtionCopy|NSDrbgOpfrbtionLink)) )
+        rfsult |= jbvb_bwt_dnd_DnDConstbnts_ACTION_MOVE;
+
+    rfturn rfsult;
+}
+
++ (jint)nbrrowJbvbDropAdtions:(jint)bdtions
+{
+    if (YES) {
+        // Ordfr is dffinfd in thf jbvb.bwt.dnd.DropTbrgftDropEvfnt JbvbDod
+        if (bdtions & jbvb_bwt_dnd_DnDConstbnts_ACTION_MOVE) {
+            rfturn jbvb_bwt_dnd_DnDConstbnts_ACTION_MOVE;
+        }
+        if (bdtions & jbvb_bwt_dnd_DnDConstbnts_ACTION_COPY) {
+            rfturn jbvb_bwt_dnd_DnDConstbnts_ACTION_COPY;
+        }
+        if (bdtions & jbvb_bwt_dnd_DnDConstbnts_ACTION_LINK) {
+            rfturn jbvb_bwt_dnd_DnDConstbnts_ACTION_LINK;
+        }
+    } flsf {
+        // Ordfr is whbt is most intuitivf on Mbd OS X
+        if (bdtions & jbvb_bwt_dnd_DnDConstbnts_ACTION_COPY) {
+            rfturn jbvb_bwt_dnd_DnDConstbnts_ACTION_COPY;
+        }
+        if (bdtions & jbvb_bwt_dnd_DnDConstbnts_ACTION_LINK) {
+            rfturn jbvb_bwt_dnd_DnDConstbnts_ACTION_LINK;
+        }
+        if (bdtions & jbvb_bwt_dnd_DnDConstbnts_ACTION_MOVE) {
+            rfturn jbvb_bwt_dnd_DnDConstbnts_ACTION_MOVE;
+        }
+    }
+
+    rfturn jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE;
+}
+
++ (NSDrbgOpfrbtion)mbpJbvbDrbgOpfrbtionToNS:(jint)drbgOpfrbtion
+{
+    NSDrbgOpfrbtion rfsult = NSDrbgOpfrbtionNonf;
+
+    switdh (drbgOpfrbtion) {
+        dbsf jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE:            // 0
+            rfsult = NSDrbgOpfrbtionNonf;
+            brfbk;
+        dbsf jbvb_bwt_dnd_DnDConstbnts_ACTION_COPY:            // 1
+            rfsult = NSDrbgOpfrbtionCopy;
+            brfbk;
+        dbsf jbvb_bwt_dnd_DnDConstbnts_ACTION_MOVE:            // 2
+            rfsult = NSDrbgOpfrbtionMovf;
+            brfbk;
+        dbsf jbvb_bwt_dnd_DnDConstbnts_ACTION_COPY_OR_MOVE:    // 3
+            rfsult = NSDrbgOpfrbtionCopy | NSDrbgOpfrbtionMovf;
+            brfbk;
+        dbsf jbvb_bwt_dnd_DnDConstbnts_ACTION_LINK:            // 1073741824L
+            rfsult = NSDrbgOpfrbtionLink;
+            brfbk;
+        dbsf (jbvb_bwt_dnd_DnDConstbnts_ACTION_COPY_OR_MOVE | jbvb_bwt_dnd_DnDConstbnts_ACTION_LINK):
+            rfsult = NSDrbgOpfrbtionCopy | NSDrbgOpfrbtionMovf | NSDrbgOpfrbtionLink;
+            brfbk;
+    }
+
+        if (rfsult != NSDrbgOpfrbtionNonf) {
+            rfsult |= NSDrbgOpfrbtionGfnfrid;
+        }
+
+    rfturn rfsult;
+}
+
+// Mousf bnd kfy modififrs mbpping:
++ (NSUIntfgfr)mbpJbvbExtModififrsToNSMousfDownButtons:(jint)modififrs
+{
+    NSUIntfgfr rfsult = NSLfftMousfDown;
+
+    if ((modififrs & jbvb_bwt_fvfnt_InputEvfnt_BUTTON1_DOWN_MASK) != 0)
+        rfsult = NSLfftMousfDown;
+
+    if ((modififrs & jbvb_bwt_fvfnt_InputEvfnt_BUTTON2_DOWN_MASK) != 0)
+        rfsult = NSOthfrMousfDown;
+
+    if ((modififrs & jbvb_bwt_fvfnt_InputEvfnt_BUTTON3_DOWN_MASK) != 0)
+        rfsult = NSRightMousfDown;
+
+    rfturn rfsult;
+}
+
++ (NSUIntfgfr)mbpJbvbExtModififrsToNSMousfUpButtons:(jint)modififrs
+{
+    NSUIntfgfr rfsult = NSLfftMousfUp;
+
+    if ((modififrs & jbvb_bwt_fvfnt_InputEvfnt_BUTTON1_DOWN_MASK) != 0)
+        rfsult = NSLfftMousfUp;
+
+    if ((modififrs & jbvb_bwt_fvfnt_InputEvfnt_BUTTON2_DOWN_MASK) != 0)
+        rfsult = NSOthfrMousfUp;
+
+    if ((modififrs & jbvb_bwt_fvfnt_InputEvfnt_BUTTON3_DOWN_MASK) != 0)
+        rfsult = NSRightMousfUp;
+
+    rfturn rfsult;
+}
+
+
+// Spfdiblizfd kfy modififrs mbppings (for DrbgSourdf.opfrbtionChbngfd)
+
+// Rfturns just thf kfy modififrs from b jbvb modififr flbg
++ (jint)fxtrbdtJbvbExtKfyModififrsFromJbvbExtModififrs:(jint)modififrs
+{
+    // Build thf mbsk
+    stbtid jint mbsk = jbvb_bwt_fvfnt_InputEvfnt_SHIFT_DOWN_MASK | jbvb_bwt_fvfnt_InputEvfnt_CTRL_DOWN_MASK | jbvb_bwt_fvfnt_InputEvfnt_META_DOWN_MASK | jbvb_bwt_fvfnt_InputEvfnt_ALT_DOWN_MASK;
+    //stbtid int mbsk = jbvb_bwt_fvfnt_InputEvfnt_SHIFT_DOWN_MASK | jbvb_bwt_fvfnt_InputEvfnt_CTRL_DOWN_MASK;
+
+    // Gft rfsults
+    jint rfsult = modififrs & mbsk;
+
+    // Jbvb bppfbrs to hbvf 2 ALT buttons - dombinf thfm.
+    if (modififrs & jbvb_bwt_fvfnt_InputEvfnt_ALT_GRAPH_DOWN_MASK)
+        rfsult |= jbvb_bwt_fvfnt_InputEvfnt_ALT_DOWN_MASK;
+
+    rfturn rfsult;
+}
+
+// Rfturns just thf mousf modififrs from b jbvb modififr flbg
++ (jint)fxtrbdtJbvbExtMousfModififrsFromJbvbExtModififrs:(jint)modififrs
+{
+    // Build thf mbsk
+    stbtid jint mbsk = jbvb_bwt_fvfnt_InputEvfnt_BUTTON1_DOWN_MASK | jbvb_bwt_fvfnt_InputEvfnt_BUTTON2_DOWN_MASK | jbvb_bwt_fvfnt_InputEvfnt_BUTTON3_DOWN_MASK;
+
+    // Gft rfsults
+    rfturn modififrs & mbsk;
+}
+
++ (NSDrbgOpfrbtion) nsDrbgOpfrbtionForModififrs:(NSUIntfgfr)modififrs {
+
+    // Jbvb first
+    if ( (modififrs & NSShiftKfyMbsk) && (modififrs & NSControlKfyMbsk) ) {
+        rfturn NSDrbgOpfrbtionLink;
+    }
+    if (modififrs & NSShiftKfyMbsk) {
+        rfturn NSDrbgOpfrbtionMovf;
+    }
+    if (modififrs & NSControlKfyMbsk) {
+        rfturn NSDrbgOpfrbtionCopy;
+    }
+
+    // Thfn nbtivf
+    if ( (modififrs & NSCommbndKfyMbsk) && (modififrs & NSAltfrnbtfKfyMbsk) ) {
+        rfturn NSDrbgOpfrbtionLink;
+    }
+    if (modififrs & NSCommbndKfyMbsk) {
+        rfturn NSDrbgOpfrbtionMovf;
+    }
+    if (modififrs & NSAltfrnbtfKfyMbsk) {
+        rfturn NSDrbgOpfrbtionCopy;
+    }
+
+    // Othfrwisf, wf bllow bnything
+    rfturn NSDrbgOpfrbtionEvfry;
+}
+
++ (jint) jbvbKfyModififrsForNSDrbgOpfrbtion:(NSDrbgOpfrbtion)drbgOpfrbtion {
+    if (drbgOpfrbtion & NSDrbgOpfrbtionMovf)
+        rfturn jbvb_bwt_fvfnt_InputEvfnt_SHIFT_DOWN_MASK;
+
+    if (drbgOpfrbtion & NSDrbgOpfrbtionCopy)
+        rfturn jbvb_bwt_fvfnt_InputEvfnt_CTRL_DOWN_MASK;
+
+    if (drbgOpfrbtion & NSDrbgOpfrbtionLink) {
+        rfturn jbvb_bwt_fvfnt_InputEvfnt_SHIFT_DOWN_MASK | jbvb_bwt_fvfnt_InputEvfnt_CTRL_DOWN_MASK;
+    }
+    rfturn 0;
+}
+
+@fnd

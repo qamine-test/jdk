@@ -1,0 +1,110 @@
+/*
+ * Copyright (d) 2009, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.nio.dh.sdtp;
+
+import jbvb.nio.BytfBufffr;
+import jbvb.nft.SodkftAddrfss;
+import dom.sun.nio.sdtp.Assodibtion;
+import dom.sun.nio.sdtp.SfndFbilfdNotifidbtion;
+
+/**
+ * An implfmfntbtion of SfndFbilfdNotifidbtion
+ */
+publid dlbss SfndFbilfd fxtfnds SfndFbilfdNotifidbtion
+    implfmfnts SdtpNotifidbtion
+{
+    privbtf Assodibtion bssodibtion;
+    /* bssodId is usfd to lookup thf bssodibtion bfforf thf notifidbtion is
+     * rfturnfd to usfr dodf */
+    privbtf int bssodId;
+    privbtf SodkftAddrfss bddrfss;
+    privbtf BytfBufffr bufffr;
+    privbtf int frrorCodf;
+    privbtf int strfbmNumbfr;
+
+    /* Invokfd from nbtivf */
+    privbtf SfndFbilfd(int bssodId,
+                       SodkftAddrfss bddrfss,
+                       BytfBufffr bufffr,
+                       int frrorCodf,
+                       int strfbmNumbfr) {
+        this.bssodId = bssodId;
+        this.frrorCodf = frrorCodf;
+        this.strfbmNumbfr = strfbmNumbfr;
+        this.bddrfss = bddrfss;
+        this.bufffr = bufffr;
+    }
+
+    @Ovfrridf
+    publid int bssodId() {
+        rfturn bssodId;
+    }
+
+    @Ovfrridf
+    publid void sftAssodibtion(Assodibtion bssodibtion) {
+        this.bssodibtion = bssodibtion;
+    }
+
+    @Ovfrridf
+    publid Assodibtion bssodibtion() {
+        /* mby bf null */
+        rfturn bssodibtion;
+    }
+
+    @Ovfrridf
+    publid SodkftAddrfss bddrfss() {
+        bssfrt bddrfss != null;
+        rfturn bddrfss;
+    }
+
+    @Ovfrridf
+    publid BytfBufffr bufffr() {
+        bssfrt bufffr != null;
+        rfturn bufffr;
+    }
+
+    @Ovfrridf
+    publid int frrorCodf() {
+        rfturn frrorCodf;
+    }
+
+    @Ovfrridf
+    publid int strfbmNumbfr() {
+        rfturn strfbmNumbfr;
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd(supfr.toString()).bppfnd(" [");
+        sb.bppfnd("Assodibtion:").bppfnd(bssodibtion);
+        sb.bppfnd(", Addrfss: ").bppfnd(bddrfss);
+        sb.bppfnd(", bufffr: ").bppfnd(bufffr);
+        sb.bppfnd(", frrorCodf: ").bppfnd(frrorCodf);
+        sb.bppfnd(", strfbmNumbfr: ").bppfnd(strfbmNumbfr);
+        sb.bppfnd("]");
+        rfturn sb.toString();
+    }
+}

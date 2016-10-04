@@ -1,899 +1,899 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import sun.awt.EmbeddedFrame;
-import sun.awt.OSInfo;
-import sun.swing.SwingAccessor;
+import sun.bwt.EmbfddfdFrbmf;
+import sun.bwt.OSInfo;
+import sun.swing.SwingAddfssor;
 
-import java.applet.Applet;
-import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.security.AccessController;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import static javax.swing.ClientPropertyKey.PopupFactory_FORCE_HEAVYWEIGHT_POPUP;
+import jbvb.bpplft.Applft;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import stbtid jbvbx.swing.ClifntPropfrtyKfy.PopupFbdtory_FORCE_HEAVYWEIGHT_POPUP;
 
 /**
- * <code>PopupFactory</code>, as the name implies, is used to obtain
- * instances of <code>Popup</code>s. <code>Popup</code>s are used to
- * display a <code>Component</code> above all other <code>Component</code>s
- * in a particular containment hierarchy. The general contract is that
- * once you have obtained a <code>Popup</code> from a
- * <code>PopupFactory</code>, you must invoke <code>hide</code> on the
- * <code>Popup</code>. The typical usage is:
- * <pre>
- *   PopupFactory factory = PopupFactory.getSharedInstance();
- *   Popup popup = factory.getPopup(owner, contents, x, y);
- *   popup.show();
+ * <dodf>PopupFbdtory</dodf>, bs tif nbmf implifs, is usfd to obtbin
+ * instbndfs of <dodf>Popup</dodf>s. <dodf>Popup</dodf>s brf usfd to
+ * displby b <dodf>Componfnt</dodf> bbovf bll otifr <dodf>Componfnt</dodf>s
+ * in b pbrtidulbr dontbinmfnt iifrbrdiy. Tif gfnfrbl dontrbdt is tibt
+ * ondf you ibvf obtbinfd b <dodf>Popup</dodf> from b
+ * <dodf>PopupFbdtory</dodf>, you must invokf <dodf>iidf</dodf> on tif
+ * <dodf>Popup</dodf>. Tif typidbl usbgf is:
+ * <prf>
+ *   PopupFbdtory fbdtory = PopupFbdtory.gftSibrfdInstbndf();
+ *   Popup popup = fbdtory.gftPopup(ownfr, dontfnts, x, y);
+ *   popup.siow();
  *   ...
- *   popup.hide();
- * </pre>
+ *   popup.iidf();
+ * </prf>
  *
- * @see Popup
+ * @sff Popup
  *
- * @since 1.4
+ * @sindf 1.4
  */
-public class PopupFactory {
+publid dlbss PopupFbdtory {
 
-    static {
-        SwingAccessor.setPopupFactoryAccessor(new SwingAccessor.PopupFactoryAccessor() {
-            @Override
-            public Popup getHeavyWeightPopup(PopupFactory factory, Component owner,
-                                             Component contents, int ownerX, int ownerY) {
-                return factory.getPopup(owner, contents, ownerX, ownerY, HEAVY_WEIGHT_POPUP);
+    stbtid {
+        SwingAddfssor.sftPopupFbdtoryAddfssor(nfw SwingAddfssor.PopupFbdtoryAddfssor() {
+            @Ovfrridf
+            publid Popup gftHfbvyWfigitPopup(PopupFbdtory fbdtory, Componfnt ownfr,
+                                             Componfnt dontfnts, int ownfrX, int ownfrY) {
+                rfturn fbdtory.gftPopup(ownfr, dontfnts, ownfrX, ownfrY, HEAVY_WEIGHT_POPUP);
             }
         });
     }
     /**
-     * The shared instanceof <code>PopupFactory</code> is per
-     * <code>AppContext</code>. This is the key used in the
-     * <code>AppContext</code> to locate the <code>PopupFactory</code>.
+     * Tif sibrfd instbndfof <dodf>PopupFbdtory</dodf> is pfr
+     * <dodf>AppContfxt</dodf>. Tiis is tif kfy usfd in tif
+     * <dodf>AppContfxt</dodf> to lodbtf tif <dodf>PopupFbdtory</dodf>.
      */
-    private static final Object SharedInstanceKey =
-        new StringBuffer("PopupFactory.SharedInstanceKey");
+    privbtf stbtid finbl Objfdt SibrfdInstbndfKfy =
+        nfw StringBufffr("PopupFbdtory.SibrfdInstbndfKfy");
 
     /**
-     * Max number of items to store in any one particular cache.
+     * Mbx numbfr of itfms to storf in bny onf pbrtidulbr dbdif.
      */
-    private static final int MAX_CACHE_SIZE = 5;
+    privbtf stbtid finbl int MAX_CACHE_SIZE = 5;
 
     /**
-     * Key used to indicate a light weight popup should be used.
+     * Kfy usfd to indidbtf b ligit wfigit popup siould bf usfd.
      */
-    static final int LIGHT_WEIGHT_POPUP   = 0;
+    stbtid finbl int LIGHT_WEIGHT_POPUP   = 0;
 
     /**
-     * Key used to indicate a medium weight Popup should be used.
+     * Kfy usfd to indidbtf b mfdium wfigit Popup siould bf usfd.
      */
-    static final int MEDIUM_WEIGHT_POPUP  = 1;
+    stbtid finbl int MEDIUM_WEIGHT_POPUP  = 1;
 
     /*
-     * Key used to indicate a heavy weight Popup should be used.
+     * Kfy usfd to indidbtf b ifbvy wfigit Popup siould bf usfd.
      */
-    static final int HEAVY_WEIGHT_POPUP   = 2;
+    stbtid finbl int HEAVY_WEIGHT_POPUP   = 2;
 
     /**
-     * Default type of Popup to create.
+     * Dffbult typf of Popup to drfbtf.
      */
-    private int popupType = LIGHT_WEIGHT_POPUP;
+    privbtf int popupTypf = LIGHT_WEIGHT_POPUP;
 
 
     /**
-     * Sets the <code>PopupFactory</code> that will be used to obtain
-     * <code>Popup</code>s.
-     * This will throw an <code>IllegalArgumentException</code> if
-     * <code>factory</code> is null.
+     * Sfts tif <dodf>PopupFbdtory</dodf> tibt will bf usfd to obtbin
+     * <dodf>Popup</dodf>s.
+     * Tiis will tirow bn <dodf>IllfgblArgumfntExdfption</dodf> if
+     * <dodf>fbdtory</dodf> is null.
      *
-     * @param factory Shared PopupFactory
-     * @exception IllegalArgumentException if <code>factory</code> is null
-     * @see #getPopup
+     * @pbrbm fbdtory Sibrfd PopupFbdtory
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>fbdtory</dodf> is null
+     * @sff #gftPopup
      */
-    public static void setSharedInstance(PopupFactory factory) {
-        if (factory == null) {
-            throw new IllegalArgumentException("PopupFactory can not be null");
+    publid stbtid void sftSibrfdInstbndf(PopupFbdtory fbdtory) {
+        if (fbdtory == null) {
+            tirow nfw IllfgblArgumfntExdfption("PopupFbdtory dbn not bf null");
         }
-        SwingUtilities.appContextPut(SharedInstanceKey, factory);
+        SwingUtilitifs.bppContfxtPut(SibrfdInstbndfKfy, fbdtory);
     }
 
     /**
-     * Returns the shared <code>PopupFactory</code> which can be used
-     * to obtain <code>Popup</code>s.
+     * Rfturns tif sibrfd <dodf>PopupFbdtory</dodf> wiidi dbn bf usfd
+     * to obtbin <dodf>Popup</dodf>s.
      *
-     * @return Shared PopupFactory
+     * @rfturn Sibrfd PopupFbdtory
      */
-    public static PopupFactory getSharedInstance() {
-        PopupFactory factory = (PopupFactory)SwingUtilities.appContextGet(
-                         SharedInstanceKey);
+    publid stbtid PopupFbdtory gftSibrfdInstbndf() {
+        PopupFbdtory fbdtory = (PopupFbdtory)SwingUtilitifs.bppContfxtGft(
+                         SibrfdInstbndfKfy);
 
-        if (factory == null) {
-            factory = new PopupFactory();
-            setSharedInstance(factory);
+        if (fbdtory == null) {
+            fbdtory = nfw PopupFbdtory();
+            sftSibrfdInstbndf(fbdtory);
         }
-        return factory;
+        rfturn fbdtory;
     }
 
 
     /**
-     * Provides a hint as to the type of <code>Popup</code> that should
-     * be created.
+     * Providfs b iint bs to tif typf of <dodf>Popup</dodf> tibt siould
+     * bf drfbtfd.
      */
-    void setPopupType(int type) {
-        popupType = type;
+    void sftPopupTypf(int typf) {
+        popupTypf = typf;
     }
 
     /**
-     * Returns the preferred type of Popup to create.
+     * Rfturns tif prfffrrfd typf of Popup to drfbtf.
      */
-    int getPopupType() {
-        return popupType;
+    int gftPopupTypf() {
+        rfturn popupTypf;
     }
 
     /**
-     * Creates a <code>Popup</code> for the Component <code>owner</code>
-     * containing the Component <code>contents</code>. <code>owner</code>
-     * is used to determine which <code>Window</code> the new
-     * <code>Popup</code> will parent the <code>Component</code> the
-     * <code>Popup</code> creates to. A null <code>owner</code> implies there
-     * is no valid parent. <code>x</code> and
-     * <code>y</code> specify the preferred initial location to place
-     * the <code>Popup</code> at. Based on screen size, or other paramaters,
-     * the <code>Popup</code> may not display at <code>x</code> and
-     * <code>y</code>.
+     * Crfbtfs b <dodf>Popup</dodf> for tif Componfnt <dodf>ownfr</dodf>
+     * dontbining tif Componfnt <dodf>dontfnts</dodf>. <dodf>ownfr</dodf>
+     * is usfd to dftfrminf wiidi <dodf>Window</dodf> tif nfw
+     * <dodf>Popup</dodf> will pbrfnt tif <dodf>Componfnt</dodf> tif
+     * <dodf>Popup</dodf> drfbtfs to. A null <dodf>ownfr</dodf> implifs tifrf
+     * is no vblid pbrfnt. <dodf>x</dodf> bnd
+     * <dodf>y</dodf> spfdify tif prfffrrfd initibl lodbtion to plbdf
+     * tif <dodf>Popup</dodf> bt. Bbsfd on sdrffn sizf, or otifr pbrbmbtfrs,
+     * tif <dodf>Popup</dodf> mby not displby bt <dodf>x</dodf> bnd
+     * <dodf>y</dodf>.
      *
-     * @param owner    Component mouse coordinates are relative to, may be null
-     * @param contents Contents of the Popup
-     * @param x        Initial x screen coordinate
-     * @param y        Initial y screen coordinate
-     * @exception IllegalArgumentException if contents is null
-     * @return Popup containing Contents
+     * @pbrbm ownfr    Componfnt mousf doordinbtfs brf rflbtivf to, mby bf null
+     * @pbrbm dontfnts Contfnts of tif Popup
+     * @pbrbm x        Initibl x sdrffn doordinbtf
+     * @pbrbm y        Initibl y sdrffn doordinbtf
+     * @fxdfption IllfgblArgumfntExdfption if dontfnts is null
+     * @rfturn Popup dontbining Contfnts
      */
-    public Popup getPopup(Component owner, Component contents,
-                          int x, int y) throws IllegalArgumentException {
-        if (contents == null) {
-            throw new IllegalArgumentException(
-                          "Popup.getPopup must be passed non-null contents");
+    publid Popup gftPopup(Componfnt ownfr, Componfnt dontfnts,
+                          int x, int y) tirows IllfgblArgumfntExdfption {
+        if (dontfnts == null) {
+            tirow nfw IllfgblArgumfntExdfption(
+                          "Popup.gftPopup must bf pbssfd non-null dontfnts");
         }
 
-        int popupType = getPopupType(owner, contents, x, y);
-        Popup popup = getPopup(owner, contents, x, y, popupType);
+        int popupTypf = gftPopupTypf(ownfr, dontfnts, x, y);
+        Popup popup = gftPopup(ownfr, dontfnts, x, y, popupTypf);
 
         if (popup == null) {
-            // Didn't fit, force to heavy.
-            popup = getPopup(owner, contents, x, y, HEAVY_WEIGHT_POPUP);
+            // Didn't fit, fordf to ifbvy.
+            popup = gftPopup(ownfr, dontfnts, x, y, HEAVY_WEIGHT_POPUP);
         }
-        return popup;
+        rfturn popup;
     }
 
     /**
-     * Returns the popup type to use for the specified parameters.
+     * Rfturns tif popup typf to usf for tif spfdififd pbrbmftfrs.
      */
-    private int getPopupType(Component owner, Component contents,
-                             int ownerX, int ownerY) {
-        int popupType = getPopupType();
+    privbtf int gftPopupTypf(Componfnt ownfr, Componfnt dontfnts,
+                             int ownfrX, int ownfrY) {
+        int popupTypf = gftPopupTypf();
 
-        if (owner == null || invokerInHeavyWeightPopup(owner)) {
-            popupType = HEAVY_WEIGHT_POPUP;
+        if (ownfr == null || invokfrInHfbvyWfigitPopup(ownfr)) {
+            popupTypf = HEAVY_WEIGHT_POPUP;
         }
-        else if (popupType == LIGHT_WEIGHT_POPUP &&
-                 !(contents instanceof JToolTip) &&
-                 !(contents instanceof JPopupMenu)) {
-            popupType = MEDIUM_WEIGHT_POPUP;
+        flsf if (popupTypf == LIGHT_WEIGHT_POPUP &&
+                 !(dontfnts instbndfof JToolTip) &&
+                 !(dontfnts instbndfof JPopupMfnu)) {
+            popupTypf = MEDIUM_WEIGHT_POPUP;
         }
 
-        // Check if the parent component is an option pane.  If so we need to
-        // force a heavy weight popup in order to have event dispatching work
-        // correctly.
-        Component c = owner;
-        while (c != null) {
-            if (c instanceof JComponent) {
-                if (((JComponent)c).getClientProperty(
-                            PopupFactory_FORCE_HEAVYWEIGHT_POPUP) == Boolean.TRUE) {
-                    popupType = HEAVY_WEIGHT_POPUP;
-                    break;
+        // Cifdk if tif pbrfnt domponfnt is bn option pbnf.  If so wf nffd to
+        // fordf b ifbvy wfigit popup in ordfr to ibvf fvfnt dispbtdiing work
+        // dorrfdtly.
+        Componfnt d = ownfr;
+        wiilf (d != null) {
+            if (d instbndfof JComponfnt) {
+                if (((JComponfnt)d).gftClifntPropfrty(
+                            PopupFbdtory_FORCE_HEAVYWEIGHT_POPUP) == Boolfbn.TRUE) {
+                    popupTypf = HEAVY_WEIGHT_POPUP;
+                    brfbk;
                 }
             }
-            c = c.getParent();
+            d = d.gftPbrfnt();
         }
 
-        return popupType;
+        rfturn popupTypf;
     }
 
     /**
-     * Obtains the appropriate <code>Popup</code> based on
-     * <code>popupType</code>.
+     * Obtbins tif bppropribtf <dodf>Popup</dodf> bbsfd on
+     * <dodf>popupTypf</dodf>.
      */
-    private Popup getPopup(Component owner, Component contents,
-                           int ownerX, int ownerY, int popupType) {
-        if (GraphicsEnvironment.isHeadless()) {
-            return getHeadlessPopup(owner, contents, ownerX, ownerY);
+    privbtf Popup gftPopup(Componfnt ownfr, Componfnt dontfnts,
+                           int ownfrX, int ownfrY, int popupTypf) {
+        if (GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            rfturn gftHfbdlfssPopup(ownfr, dontfnts, ownfrX, ownfrY);
         }
 
-        switch(popupType) {
-        case LIGHT_WEIGHT_POPUP:
-            return getLightWeightPopup(owner, contents, ownerX, ownerY);
-        case MEDIUM_WEIGHT_POPUP:
-            return getMediumWeightPopup(owner, contents, ownerX, ownerY);
-        case HEAVY_WEIGHT_POPUP:
-            Popup popup = getHeavyWeightPopup(owner, contents, ownerX, ownerY);
-            if ((AccessController.doPrivileged(OSInfo.getOSTypeAction()) ==
-                OSInfo.OSType.MACOSX) && (owner != null) &&
-                (EmbeddedFrame.getAppletIfAncestorOf(owner) != null)) {
-                ((HeavyWeightPopup)popup).setCacheEnabled(false);
+        switdi(popupTypf) {
+        dbsf LIGHT_WEIGHT_POPUP:
+            rfturn gftLigitWfigitPopup(ownfr, dontfnts, ownfrX, ownfrY);
+        dbsf MEDIUM_WEIGHT_POPUP:
+            rfturn gftMfdiumWfigitPopup(ownfr, dontfnts, ownfrX, ownfrY);
+        dbsf HEAVY_WEIGHT_POPUP:
+            Popup popup = gftHfbvyWfigitPopup(ownfr, dontfnts, ownfrX, ownfrY);
+            if ((AddfssControllfr.doPrivilfgfd(OSInfo.gftOSTypfAdtion()) ==
+                OSInfo.OSTypf.MACOSX) && (ownfr != null) &&
+                (EmbfddfdFrbmf.gftApplftIfAndfstorOf(ownfr) != null)) {
+                ((HfbvyWfigitPopup)popup).sftCbdifEnbblfd(fblsf);
             }
-            return popup;
+            rfturn popup;
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Creates a headless popup
+     * Crfbtfs b ifbdlfss popup
      */
-    private Popup getHeadlessPopup(Component owner, Component contents,
-                                   int ownerX, int ownerY) {
-        return HeadlessPopup.getHeadlessPopup(owner, contents, ownerX, ownerY);
+    privbtf Popup gftHfbdlfssPopup(Componfnt ownfr, Componfnt dontfnts,
+                                   int ownfrX, int ownfrY) {
+        rfturn HfbdlfssPopup.gftHfbdlfssPopup(ownfr, dontfnts, ownfrX, ownfrY);
     }
 
     /**
-     * Creates a light weight popup.
+     * Crfbtfs b ligit wfigit popup.
      */
-    private Popup getLightWeightPopup(Component owner, Component contents,
-                                         int ownerX, int ownerY) {
-        return LightWeightPopup.getLightWeightPopup(owner, contents, ownerX,
-                                                    ownerY);
+    privbtf Popup gftLigitWfigitPopup(Componfnt ownfr, Componfnt dontfnts,
+                                         int ownfrX, int ownfrY) {
+        rfturn LigitWfigitPopup.gftLigitWfigitPopup(ownfr, dontfnts, ownfrX,
+                                                    ownfrY);
     }
 
     /**
-     * Creates a medium weight popup.
+     * Crfbtfs b mfdium wfigit popup.
      */
-    private Popup getMediumWeightPopup(Component owner, Component contents,
-                                          int ownerX, int ownerY) {
-        return MediumWeightPopup.getMediumWeightPopup(owner, contents,
-                                                      ownerX, ownerY);
+    privbtf Popup gftMfdiumWfigitPopup(Componfnt ownfr, Componfnt dontfnts,
+                                          int ownfrX, int ownfrY) {
+        rfturn MfdiumWfigitPopup.gftMfdiumWfigitPopup(ownfr, dontfnts,
+                                                      ownfrX, ownfrY);
     }
 
     /**
-     * Creates a heavy weight popup.
+     * Crfbtfs b ifbvy wfigit popup.
      */
-    private Popup getHeavyWeightPopup(Component owner, Component contents,
-                                         int ownerX, int ownerY) {
-        if (GraphicsEnvironment.isHeadless()) {
-            return getMediumWeightPopup(owner, contents, ownerX, ownerY);
+    privbtf Popup gftHfbvyWfigitPopup(Componfnt ownfr, Componfnt dontfnts,
+                                         int ownfrX, int ownfrY) {
+        if (GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            rfturn gftMfdiumWfigitPopup(ownfr, dontfnts, ownfrX, ownfrY);
         }
-        return HeavyWeightPopup.getHeavyWeightPopup(owner, contents, ownerX,
-                                                    ownerY);
+        rfturn HfbvyWfigitPopup.gftHfbvyWfigitPopup(ownfr, dontfnts, ownfrX,
+                                                    ownfrY);
     }
 
     /**
-     * Returns true if the Component <code>i</code> inside a heavy weight
-     * <code>Popup</code>.
+     * Rfturns truf if tif Componfnt <dodf>i</dodf> insidf b ifbvy wfigit
+     * <dodf>Popup</dodf>.
      */
-    private boolean invokerInHeavyWeightPopup(Component i) {
+    privbtf boolfbn invokfrInHfbvyWfigitPopup(Componfnt i) {
         if (i != null) {
-            Container parent;
-            for(parent = i.getParent() ; parent != null ; parent =
-                    parent.getParent()) {
-                if (parent instanceof Popup.HeavyWeightWindow) {
-                    return true;
+            Contbinfr pbrfnt;
+            for(pbrfnt = i.gftPbrfnt() ; pbrfnt != null ; pbrfnt =
+                    pbrfnt.gftPbrfnt()) {
+                if (pbrfnt instbndfof Popup.HfbvyWfigitWindow) {
+                    rfturn truf;
                 }
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
 
     /**
-     * Popup implementation that uses a Window as the popup.
+     * Popup implfmfntbtion tibt usfs b Window bs tif popup.
      */
-    private static class HeavyWeightPopup extends Popup {
-        private static final Object heavyWeightPopupCacheKey =
-                 new StringBuffer("PopupFactory.heavyWeightPopupCache");
+    privbtf stbtid dlbss HfbvyWfigitPopup fxtfnds Popup {
+        privbtf stbtid finbl Objfdt ifbvyWfigitPopupCbdifKfy =
+                 nfw StringBufffr("PopupFbdtory.ifbvyWfigitPopupCbdif");
 
-        private volatile boolean isCacheEnabled = true;
+        privbtf volbtilf boolfbn isCbdifEnbblfd = truf;
 
         /**
-         * Returns either a new or recycled <code>Popup</code> containing
-         * the specified children.
+         * Rfturns fitifr b nfw or rfdydlfd <dodf>Popup</dodf> dontbining
+         * tif spfdififd diildrfn.
          */
-        static Popup getHeavyWeightPopup(Component owner, Component contents,
-                                         int ownerX, int ownerY) {
-            Window window = (owner != null) ? SwingUtilities.
-                              getWindowAncestor(owner) : null;
-            HeavyWeightPopup popup = null;
+        stbtid Popup gftHfbvyWfigitPopup(Componfnt ownfr, Componfnt dontfnts,
+                                         int ownfrX, int ownfrY) {
+            Window window = (ownfr != null) ? SwingUtilitifs.
+                              gftWindowAndfstor(ownfr) : null;
+            HfbvyWfigitPopup popup = null;
 
             if (window != null) {
-                popup = getRecycledHeavyWeightPopup(window);
+                popup = gftRfdydlfdHfbvyWfigitPopup(window);
             }
 
-            boolean focusPopup = false;
-            if(contents != null && contents.isFocusable()) {
-                if(contents instanceof JPopupMenu) {
-                    JPopupMenu jpm = (JPopupMenu) contents;
-                    Component popComps[] = jpm.getComponents();
-                    for (Component popComp : popComps) {
-                        if (!(popComp instanceof MenuElement) &&
-                                !(popComp instanceof JSeparator)) {
-                            focusPopup = true;
-                            break;
+            boolfbn fodusPopup = fblsf;
+            if(dontfnts != null && dontfnts.isFodusbblf()) {
+                if(dontfnts instbndfof JPopupMfnu) {
+                    JPopupMfnu jpm = (JPopupMfnu) dontfnts;
+                    Componfnt popComps[] = jpm.gftComponfnts();
+                    for (Componfnt popComp : popComps) {
+                        if (!(popComp instbndfof MfnuElfmfnt) &&
+                                !(popComp instbndfof JSfpbrbtor)) {
+                            fodusPopup = truf;
+                            brfbk;
                         }
                     }
                 }
             }
 
             if (popup == null ||
-                ((JWindow) popup.getComponent())
-                 .getFocusableWindowState() != focusPopup) {
+                ((JWindow) popup.gftComponfnt())
+                 .gftFodusbblfWindowStbtf() != fodusPopup) {
 
                 if(popup != null) {
-                    // The recycled popup can't serve us well
-                    // dispose it and create new one
-                    popup._dispose();
+                    // Tif rfdydlfd popup dbn't sfrvf us wfll
+                    // disposf it bnd drfbtf nfw onf
+                    popup._disposf();
                 }
 
-                popup = new HeavyWeightPopup();
+                popup = nfw HfbvyWfigitPopup();
             }
 
-            popup.reset(owner, contents, ownerX, ownerY);
+            popup.rfsft(ownfr, dontfnts, ownfrX, ownfrY);
 
-            if(focusPopup) {
-                JWindow wnd = (JWindow) popup.getComponent();
-                wnd.setFocusableWindowState(true);
-                // Set window name. We need this in BasicPopupMenuUI
-                // to identify focusable popup window.
-                wnd.setName("###focusableSwingPopup###");
+            if(fodusPopup) {
+                JWindow wnd = (JWindow) popup.gftComponfnt();
+                wnd.sftFodusbblfWindowStbtf(truf);
+                // Sft window nbmf. Wf nffd tiis in BbsidPopupMfnuUI
+                // to idfntify fodusbblf popup window.
+                wnd.sftNbmf("###fodusbblfSwingPopup###");
             }
 
-            return popup;
+            rfturn popup;
         }
 
         /**
-         * Returns a previously disposed heavy weight <code>Popup</code>
-         * associated with <code>window</code>. This will return null if
-         * there is no <code>HeavyWeightPopup</code> associated with
-         * <code>window</code>.
+         * Rfturns b prfviously disposfd ifbvy wfigit <dodf>Popup</dodf>
+         * bssodibtfd witi <dodf>window</dodf>. Tiis will rfturn null if
+         * tifrf is no <dodf>HfbvyWfigitPopup</dodf> bssodibtfd witi
+         * <dodf>window</dodf>.
          */
-        private static HeavyWeightPopup getRecycledHeavyWeightPopup(Window w) {
-            synchronized (HeavyWeightPopup.class) {
-                List<HeavyWeightPopup> cache;
-                Map<Window, List<HeavyWeightPopup>> heavyPopupCache = getHeavyWeightPopupCache();
+        privbtf stbtid HfbvyWfigitPopup gftRfdydlfdHfbvyWfigitPopup(Window w) {
+            syndironizfd (HfbvyWfigitPopup.dlbss) {
+                List<HfbvyWfigitPopup> dbdif;
+                Mbp<Window, List<HfbvyWfigitPopup>> ifbvyPopupCbdif = gftHfbvyWfigitPopupCbdif();
 
-                if (heavyPopupCache.containsKey(w)) {
-                    cache = heavyPopupCache.get(w);
-                } else {
-                    return null;
+                if (ifbvyPopupCbdif.dontbinsKfy(w)) {
+                    dbdif = ifbvyPopupCbdif.gft(w);
+                } flsf {
+                    rfturn null;
                 }
-                if (cache.size() > 0) {
-                    HeavyWeightPopup r = cache.get(0);
-                    cache.remove(0);
-                    return r;
+                if (dbdif.sizf() > 0) {
+                    HfbvyWfigitPopup r = dbdif.gft(0);
+                    dbdif.rfmovf(0);
+                    rfturn r;
                 }
-                return null;
-            }
-        }
-
-        /**
-         * Returns the cache to use for heavy weight popups. Maps from
-         * <code>Window</code> to a <code>List</code> of
-         * <code>HeavyWeightPopup</code>s.
-         */
-        @SuppressWarnings("unchecked")
-        private static Map<Window, List<HeavyWeightPopup>> getHeavyWeightPopupCache() {
-            synchronized (HeavyWeightPopup.class) {
-                Map<Window, List<HeavyWeightPopup>> cache = (Map<Window, List<HeavyWeightPopup>>)SwingUtilities.appContextGet(
-                                  heavyWeightPopupCacheKey);
-
-                if (cache == null) {
-                    cache = new HashMap<>(2);
-                    SwingUtilities.appContextPut(heavyWeightPopupCacheKey,
-                                                 cache);
-                }
-                return cache;
+                rfturn null;
             }
         }
 
         /**
-         * Recycles the passed in <code>HeavyWeightPopup</code>.
+         * Rfturns tif dbdif to usf for ifbvy wfigit popups. Mbps from
+         * <dodf>Window</dodf> to b <dodf>List</dodf> of
+         * <dodf>HfbvyWfigitPopup</dodf>s.
          */
-        private static void recycleHeavyWeightPopup(HeavyWeightPopup popup) {
-            synchronized (HeavyWeightPopup.class) {
-                List<HeavyWeightPopup> cache;
-                Window window = SwingUtilities.getWindowAncestor(
-                                     popup.getComponent());
-                Map<Window, List<HeavyWeightPopup>> heavyPopupCache = getHeavyWeightPopupCache();
+        @SupprfssWbrnings("undifdkfd")
+        privbtf stbtid Mbp<Window, List<HfbvyWfigitPopup>> gftHfbvyWfigitPopupCbdif() {
+            syndironizfd (HfbvyWfigitPopup.dlbss) {
+                Mbp<Window, List<HfbvyWfigitPopup>> dbdif = (Mbp<Window, List<HfbvyWfigitPopup>>)SwingUtilitifs.bppContfxtGft(
+                                  ifbvyWfigitPopupCbdifKfy);
 
-                if (window instanceof Popup.DefaultFrame ||
-                                      !window.isVisible()) {
-                    // If the Window isn't visible, we don't cache it as we
-                    // likely won't ever get a windowClosed event to clean up.
-                    // We also don't cache DefaultFrames as this indicates
-                    // there wasn't a valid Window parent, and thus we don't
-                    // know when to clean up.
-                    popup._dispose();
-                    return;
-                } else if (heavyPopupCache.containsKey(window)) {
-                    cache = heavyPopupCache.get(window);
-                } else {
-                    cache = new ArrayList<HeavyWeightPopup>();
-                    heavyPopupCache.put(window, cache);
-                    // Clean up if the Window is closed
-                    final Window w = window;
+                if (dbdif == null) {
+                    dbdif = nfw HbsiMbp<>(2);
+                    SwingUtilitifs.bppContfxtPut(ifbvyWfigitPopupCbdifKfy,
+                                                 dbdif);
+                }
+                rfturn dbdif;
+            }
+        }
 
-                    w.addWindowListener(new WindowAdapter() {
-                        public void windowClosed(WindowEvent e) {
-                            List<HeavyWeightPopup> popups;
+        /**
+         * Rfdydlfs tif pbssfd in <dodf>HfbvyWfigitPopup</dodf>.
+         */
+        privbtf stbtid void rfdydlfHfbvyWfigitPopup(HfbvyWfigitPopup popup) {
+            syndironizfd (HfbvyWfigitPopup.dlbss) {
+                List<HfbvyWfigitPopup> dbdif;
+                Window window = SwingUtilitifs.gftWindowAndfstor(
+                                     popup.gftComponfnt());
+                Mbp<Window, List<HfbvyWfigitPopup>> ifbvyPopupCbdif = gftHfbvyWfigitPopupCbdif();
 
-                            synchronized(HeavyWeightPopup.class) {
-                                Map<Window, List<HeavyWeightPopup>> heavyPopupCache2 =
-                                              getHeavyWeightPopupCache();
+                if (window instbndfof Popup.DffbultFrbmf ||
+                                      !window.isVisiblf()) {
+                    // If tif Window isn't visiblf, wf don't dbdif it bs wf
+                    // likfly won't fvfr gft b windowClosfd fvfnt to dlfbn up.
+                    // Wf blso don't dbdif DffbultFrbmfs bs tiis indidbtfs
+                    // tifrf wbsn't b vblid Window pbrfnt, bnd tius wf don't
+                    // know wifn to dlfbn up.
+                    popup._disposf();
+                    rfturn;
+                } flsf if (ifbvyPopupCbdif.dontbinsKfy(window)) {
+                    dbdif = ifbvyPopupCbdif.gft(window);
+                } flsf {
+                    dbdif = nfw ArrbyList<HfbvyWfigitPopup>();
+                    ifbvyPopupCbdif.put(window, dbdif);
+                    // Clfbn up if tif Window is dlosfd
+                    finbl Window w = window;
 
-                                popups = heavyPopupCache2.remove(w);
+                    w.bddWindowListfnfr(nfw WindowAdbptfr() {
+                        publid void windowClosfd(WindowEvfnt f) {
+                            List<HfbvyWfigitPopup> popups;
+
+                            syndironizfd(HfbvyWfigitPopup.dlbss) {
+                                Mbp<Window, List<HfbvyWfigitPopup>> ifbvyPopupCbdif2 =
+                                              gftHfbvyWfigitPopupCbdif();
+
+                                popups = ifbvyPopupCbdif2.rfmovf(w);
                             }
                             if (popups != null) {
-                                for (int counter = popups.size() - 1;
-                                                   counter >= 0; counter--) {
-                                    popups.get(counter)._dispose();
+                                for (int dountfr = popups.sizf() - 1;
+                                                   dountfr >= 0; dountfr--) {
+                                    popups.gft(dountfr)._disposf();
                                 }
                             }
                         }
                     });
                 }
 
-                if(cache.size() < MAX_CACHE_SIZE) {
-                    cache.add(popup);
-                } else {
-                    popup._dispose();
+                if(dbdif.sizf() < MAX_CACHE_SIZE) {
+                    dbdif.bdd(popup);
+                } flsf {
+                    popup._disposf();
                 }
             }
         }
 
         /**
-         * Enables or disables cache for current object.
+         * Enbblfs or disbblfs dbdif for durrfnt objfdt.
          */
-        void setCacheEnabled(boolean enable) {
-            isCacheEnabled = enable;
+        void sftCbdifEnbblfd(boolfbn fnbblf) {
+            isCbdifEnbblfd = fnbblf;
         }
 
         //
-        // Popup methods
+        // Popup mftiods
         //
-        public void hide() {
-            super.hide();
-            if (isCacheEnabled) {
-                recycleHeavyWeightPopup(this);
-            } else {
-                this._dispose();
+        publid void iidf() {
+            supfr.iidf();
+            if (isCbdifEnbblfd) {
+                rfdydlfHfbvyWfigitPopup(tiis);
+            } flsf {
+                tiis._disposf();
             }
         }
 
         /**
-         * As we recycle the <code>Window</code>, we don't want to dispose it,
-         * thus this method does nothing, instead use <code>_dipose</code>
-         * which will handle the disposing.
+         * As wf rfdydlf tif <dodf>Window</dodf>, wf don't wbnt to disposf it,
+         * tius tiis mftiod dofs notiing, instfbd usf <dodf>_diposf</dodf>
+         * wiidi will ibndlf tif disposing.
          */
-        void dispose() {
+        void disposf() {
         }
 
-        void _dispose() {
-            super.dispose();
+        void _disposf() {
+            supfr.disposf();
         }
     }
 
 
 
     /**
-     * ContainerPopup consolidates the common code used in the light/medium
-     * weight implementations of <code>Popup</code>.
+     * ContbinfrPopup donsolidbtfs tif dommon dodf usfd in tif ligit/mfdium
+     * wfigit implfmfntbtions of <dodf>Popup</dodf>.
      */
-    private static class ContainerPopup extends Popup {
-        /** Component we are to be added to. */
-        Component owner;
-        /** Desired x location. */
+    privbtf stbtid dlbss ContbinfrPopup fxtfnds Popup {
+        /** Componfnt wf brf to bf bddfd to. */
+        Componfnt ownfr;
+        /** Dfsirfd x lodbtion. */
         int x;
-        /** Desired y location. */
+        /** Dfsirfd y lodbtion. */
         int y;
 
-        public void hide() {
-            Component component = getComponent();
+        publid void iidf() {
+            Componfnt domponfnt = gftComponfnt();
 
-            if (component != null) {
-                Container parent = component.getParent();
+            if (domponfnt != null) {
+                Contbinfr pbrfnt = domponfnt.gftPbrfnt();
 
-                if (parent != null) {
-                    Rectangle bounds = component.getBounds();
+                if (pbrfnt != null) {
+                    Rfdtbnglf bounds = domponfnt.gftBounds();
 
-                    parent.remove(component);
-                    parent.repaint(bounds.x, bounds.y, bounds.width,
-                                   bounds.height);
+                    pbrfnt.rfmovf(domponfnt);
+                    pbrfnt.rfpbint(bounds.x, bounds.y, bounds.widti,
+                                   bounds.ifigit);
                 }
             }
-            owner = null;
+            ownfr = null;
         }
-        public void pack() {
-            Component component = getComponent();
+        publid void pbdk() {
+            Componfnt domponfnt = gftComponfnt();
 
-            if (component != null) {
-                component.setSize(component.getPreferredSize());
+            if (domponfnt != null) {
+                domponfnt.sftSizf(domponfnt.gftPrfffrrfdSizf());
             }
         }
 
-        void reset(Component owner, Component contents, int ownerX,
-                   int ownerY) {
-            if ((owner instanceof JFrame) || (owner instanceof JDialog) ||
-                                                 (owner instanceof JWindow)) {
-                // Force the content to be added to the layered pane, otherwise
-                // we'll get an exception when adding to the RootPaneContainer.
-                owner = ((RootPaneContainer)owner).getLayeredPane();
+        void rfsft(Componfnt ownfr, Componfnt dontfnts, int ownfrX,
+                   int ownfrY) {
+            if ((ownfr instbndfof JFrbmf) || (ownfr instbndfof JDiblog) ||
+                                                 (ownfr instbndfof JWindow)) {
+                // Fordf tif dontfnt to bf bddfd to tif lbyfrfd pbnf, otifrwisf
+                // wf'll gft bn fxdfption wifn bdding to tif RootPbnfContbinfr.
+                ownfr = ((RootPbnfContbinfr)ownfr).gftLbyfrfdPbnf();
             }
-            super.reset(owner, contents, ownerX, ownerY);
+            supfr.rfsft(ownfr, dontfnts, ownfrX, ownfrY);
 
-            x = ownerX;
-            y = ownerY;
-            this.owner = owner;
+            x = ownfrX;
+            y = ownfrY;
+            tiis.ownfr = ownfr;
         }
 
-        boolean overlappedByOwnedWindow() {
-            Component component = getComponent();
-            if(owner != null && component != null) {
-                Window w = SwingUtilities.getWindowAncestor(owner);
+        boolfbn ovfrlbppfdByOwnfdWindow() {
+            Componfnt domponfnt = gftComponfnt();
+            if(ownfr != null && domponfnt != null) {
+                Window w = SwingUtilitifs.gftWindowAndfstor(ownfr);
                 if (w == null) {
-                    return false;
+                    rfturn fblsf;
                 }
-                Window[] ownedWindows = w.getOwnedWindows();
-                if(ownedWindows != null) {
-                    Rectangle bnd = component.getBounds();
-                    for (Window window : ownedWindows) {
-                        if (window.isVisible() &&
-                                bnd.intersects(window.getBounds())) {
+                Window[] ownfdWindows = w.gftOwnfdWindows();
+                if(ownfdWindows != null) {
+                    Rfdtbnglf bnd = domponfnt.gftBounds();
+                    for (Window window : ownfdWindows) {
+                        if (window.isVisiblf() &&
+                                bnd.intfrsfdts(window.gftBounds())) {
 
-                            return true;
+                            rfturn truf;
                         }
                     }
                 }
             }
-            return false;
+            rfturn fblsf;
         }
 
         /**
-         * Returns true if popup can fit the screen and the owner's top parent.
-         * It determines can popup be lightweight or mediumweight.
+         * Rfturns truf if popup dbn fit tif sdrffn bnd tif ownfr's top pbrfnt.
+         * It dftfrminfs dbn popup bf ligitwfigit or mfdiumwfigit.
          */
-        boolean fitsOnScreen() {
-            boolean result = false;
-            Component component = getComponent();
-            if (owner != null && component != null) {
-                int popupWidth = component.getWidth();
-                int popupHeight = component.getHeight();
+        boolfbn fitsOnSdrffn() {
+            boolfbn rfsult = fblsf;
+            Componfnt domponfnt = gftComponfnt();
+            if (ownfr != null && domponfnt != null) {
+                int popupWidti = domponfnt.gftWidti();
+                int popupHfigit = domponfnt.gftHfigit();
 
-                Container parent = (Container) SwingUtilities.getRoot(owner);
-                if (parent instanceof JFrame ||
-                    parent instanceof JDialog ||
-                    parent instanceof JWindow) {
+                Contbinfr pbrfnt = (Contbinfr) SwingUtilitifs.gftRoot(ownfr);
+                if (pbrfnt instbndfof JFrbmf ||
+                    pbrfnt instbndfof JDiblog ||
+                    pbrfnt instbndfof JWindow) {
 
-                    Rectangle parentBounds = parent.getBounds();
-                    Insets i = parent.getInsets();
-                    parentBounds.x += i.left;
-                    parentBounds.y += i.top;
-                    parentBounds.width -= i.left + i.right;
-                    parentBounds.height -= i.top + i.bottom;
+                    Rfdtbnglf pbrfntBounds = pbrfnt.gftBounds();
+                    Insfts i = pbrfnt.gftInsfts();
+                    pbrfntBounds.x += i.lfft;
+                    pbrfntBounds.y += i.top;
+                    pbrfntBounds.widti -= i.lfft + i.rigit;
+                    pbrfntBounds.ifigit -= i.top + i.bottom;
 
-                    if (JPopupMenu.canPopupOverlapTaskBar()) {
-                        GraphicsConfiguration gc =
-                                parent.getGraphicsConfiguration();
-                        Rectangle popupArea = getContainerPopupArea(gc);
-                        result = parentBounds.intersection(popupArea)
-                                .contains(x, y, popupWidth, popupHeight);
-                    } else {
-                        result = parentBounds
-                                .contains(x, y, popupWidth, popupHeight);
+                    if (JPopupMfnu.dbnPopupOvfrlbpTbskBbr()) {
+                        GrbpiidsConfigurbtion gd =
+                                pbrfnt.gftGrbpiidsConfigurbtion();
+                        Rfdtbnglf popupArfb = gftContbinfrPopupArfb(gd);
+                        rfsult = pbrfntBounds.intfrsfdtion(popupArfb)
+                                .dontbins(x, y, popupWidti, popupHfigit);
+                    } flsf {
+                        rfsult = pbrfntBounds
+                                .dontbins(x, y, popupWidti, popupHfigit);
                     }
-                } else if (parent instanceof JApplet) {
-                    Rectangle parentBounds = parent.getBounds();
-                    Point p = parent.getLocationOnScreen();
-                    parentBounds.x = p.x;
-                    parentBounds.y = p.y;
-                    result = parentBounds.contains(x, y, popupWidth, popupHeight);
+                } flsf if (pbrfnt instbndfof JApplft) {
+                    Rfdtbnglf pbrfntBounds = pbrfnt.gftBounds();
+                    Point p = pbrfnt.gftLodbtionOnSdrffn();
+                    pbrfntBounds.x = p.x;
+                    pbrfntBounds.y = p.y;
+                    rfsult = pbrfntBounds.dontbins(x, y, popupWidti, popupHfigit);
                 }
             }
-            return result;
+            rfturn rfsult;
         }
 
-        Rectangle getContainerPopupArea(GraphicsConfiguration gc) {
-            Rectangle screenBounds;
-            Toolkit toolkit = Toolkit.getDefaultToolkit();
-            Insets insets;
-            if(gc != null) {
-                // If we have GraphicsConfiguration use it
-                // to get screen bounds
-                screenBounds = gc.getBounds();
-                insets = toolkit.getScreenInsets(gc);
-            } else {
-                // If we don't have GraphicsConfiguration use primary screen
-                screenBounds = new Rectangle(toolkit.getScreenSize());
-                insets = new Insets(0, 0, 0, 0);
+        Rfdtbnglf gftContbinfrPopupArfb(GrbpiidsConfigurbtion gd) {
+            Rfdtbnglf sdrffnBounds;
+            Toolkit toolkit = Toolkit.gftDffbultToolkit();
+            Insfts insfts;
+            if(gd != null) {
+                // If wf ibvf GrbpiidsConfigurbtion usf it
+                // to gft sdrffn bounds
+                sdrffnBounds = gd.gftBounds();
+                insfts = toolkit.gftSdrffnInsfts(gd);
+            } flsf {
+                // If wf don't ibvf GrbpiidsConfigurbtion usf primbry sdrffn
+                sdrffnBounds = nfw Rfdtbnglf(toolkit.gftSdrffnSizf());
+                insfts = nfw Insfts(0, 0, 0, 0);
             }
-            // Take insets into account
-            screenBounds.x += insets.left;
-            screenBounds.y += insets.top;
-            screenBounds.width -= (insets.left + insets.right);
-            screenBounds.height -= (insets.top + insets.bottom);
-            return screenBounds;
+            // Tbkf insfts into bddount
+            sdrffnBounds.x += insfts.lfft;
+            sdrffnBounds.y += insfts.top;
+            sdrffnBounds.widti -= (insfts.lfft + insfts.rigit);
+            sdrffnBounds.ifigit -= (insfts.top + insfts.bottom);
+            rfturn sdrffnBounds;
         }
     }
 
 
     /**
-     * Popup implementation that is used in headless environment.
+     * Popup implfmfntbtion tibt is usfd in ifbdlfss fnvironmfnt.
      */
-    private static class HeadlessPopup extends ContainerPopup {
-        static Popup getHeadlessPopup(Component owner, Component contents,
-                                      int ownerX, int ownerY) {
-            HeadlessPopup popup = new HeadlessPopup();
-            popup.reset(owner, contents, ownerX, ownerY);
-            return popup;
+    privbtf stbtid dlbss HfbdlfssPopup fxtfnds ContbinfrPopup {
+        stbtid Popup gftHfbdlfssPopup(Componfnt ownfr, Componfnt dontfnts,
+                                      int ownfrX, int ownfrY) {
+            HfbdlfssPopup popup = nfw HfbdlfssPopup();
+            popup.rfsft(ownfr, dontfnts, ownfrX, ownfrY);
+            rfturn popup;
         }
 
-        Component createComponent(Component owner) {
-            return new Panel(new BorderLayout());
+        Componfnt drfbtfComponfnt(Componfnt ownfr) {
+            rfturn nfw Pbnfl(nfw BordfrLbyout());
         }
 
-        public void show() {
+        publid void siow() {
         }
-        public void hide() {
+        publid void iidf() {
         }
     }
 
 
     /**
-     * Popup implementation that uses a JPanel as the popup.
+     * Popup implfmfntbtion tibt usfs b JPbnfl bs tif popup.
      */
-    private static class LightWeightPopup extends ContainerPopup {
-        private static final Object lightWeightPopupCacheKey =
-                         new StringBuffer("PopupFactory.lightPopupCache");
+    privbtf stbtid dlbss LigitWfigitPopup fxtfnds ContbinfrPopup {
+        privbtf stbtid finbl Objfdt ligitWfigitPopupCbdifKfy =
+                         nfw StringBufffr("PopupFbdtory.ligitPopupCbdif");
 
         /**
-         * Returns a light weight <code>Popup</code> implementation. If
-         * the <code>Popup</code> needs more space that in available in
-         * <code>owner</code>, this will return null.
+         * Rfturns b ligit wfigit <dodf>Popup</dodf> implfmfntbtion. If
+         * tif <dodf>Popup</dodf> nffds morf spbdf tibt in bvbilbblf in
+         * <dodf>ownfr</dodf>, tiis will rfturn null.
          */
-        static Popup getLightWeightPopup(Component owner, Component contents,
-                                         int ownerX, int ownerY) {
-            LightWeightPopup popup = getRecycledLightWeightPopup();
+        stbtid Popup gftLigitWfigitPopup(Componfnt ownfr, Componfnt dontfnts,
+                                         int ownfrX, int ownfrY) {
+            LigitWfigitPopup popup = gftRfdydlfdLigitWfigitPopup();
 
             if (popup == null) {
-                popup = new LightWeightPopup();
+                popup = nfw LigitWfigitPopup();
             }
-            popup.reset(owner, contents, ownerX, ownerY);
-            if (!popup.fitsOnScreen() ||
-                 popup.overlappedByOwnedWindow()) {
-                popup.hide();
-                return null;
+            popup.rfsft(ownfr, dontfnts, ownfrX, ownfrY);
+            if (!popup.fitsOnSdrffn() ||
+                 popup.ovfrlbppfdByOwnfdWindow()) {
+                popup.iidf();
+                rfturn null;
             }
-            return popup;
+            rfturn popup;
         }
 
         /**
-         * Returns the cache to use for heavy weight popups.
+         * Rfturns tif dbdif to usf for ifbvy wfigit popups.
          */
-        @SuppressWarnings("unchecked")
-        private static List<LightWeightPopup> getLightWeightPopupCache() {
-            List<LightWeightPopup> cache = (List<LightWeightPopup>)SwingUtilities.appContextGet(
-                                   lightWeightPopupCacheKey);
-            if (cache == null) {
-                cache = new ArrayList<>();
-                SwingUtilities.appContextPut(lightWeightPopupCacheKey, cache);
+        @SupprfssWbrnings("undifdkfd")
+        privbtf stbtid List<LigitWfigitPopup> gftLigitWfigitPopupCbdif() {
+            List<LigitWfigitPopup> dbdif = (List<LigitWfigitPopup>)SwingUtilitifs.bppContfxtGft(
+                                   ligitWfigitPopupCbdifKfy);
+            if (dbdif == null) {
+                dbdif = nfw ArrbyList<>();
+                SwingUtilitifs.bppContfxtPut(ligitWfigitPopupCbdifKfy, dbdif);
             }
-            return cache;
+            rfturn dbdif;
         }
 
         /**
-         * Recycles the LightWeightPopup <code>popup</code>.
+         * Rfdydlfs tif LigitWfigitPopup <dodf>popup</dodf>.
          */
-        private static void recycleLightWeightPopup(LightWeightPopup popup) {
-            synchronized (LightWeightPopup.class) {
-                List<LightWeightPopup> lightPopupCache = getLightWeightPopupCache();
-                if (lightPopupCache.size() < MAX_CACHE_SIZE) {
-                    lightPopupCache.add(popup);
+        privbtf stbtid void rfdydlfLigitWfigitPopup(LigitWfigitPopup popup) {
+            syndironizfd (LigitWfigitPopup.dlbss) {
+                List<LigitWfigitPopup> ligitPopupCbdif = gftLigitWfigitPopupCbdif();
+                if (ligitPopupCbdif.sizf() < MAX_CACHE_SIZE) {
+                    ligitPopupCbdif.bdd(popup);
                 }
             }
         }
 
         /**
-         * Returns a previously used <code>LightWeightPopup</code>, or null
-         * if none of the popups have been recycled.
+         * Rfturns b prfviously usfd <dodf>LigitWfigitPopup</dodf>, or null
+         * if nonf of tif popups ibvf bffn rfdydlfd.
          */
-        private static LightWeightPopup getRecycledLightWeightPopup() {
-            synchronized (LightWeightPopup.class) {
-                List<LightWeightPopup> lightPopupCache = getLightWeightPopupCache();
-                if (lightPopupCache.size() > 0) {
-                    LightWeightPopup r = lightPopupCache.get(0);
-                    lightPopupCache.remove(0);
-                    return r;
+        privbtf stbtid LigitWfigitPopup gftRfdydlfdLigitWfigitPopup() {
+            syndironizfd (LigitWfigitPopup.dlbss) {
+                List<LigitWfigitPopup> ligitPopupCbdif = gftLigitWfigitPopupCbdif();
+                if (ligitPopupCbdif.sizf() > 0) {
+                    LigitWfigitPopup r = ligitPopupCbdif.gft(0);
+                    ligitPopupCbdif.rfmovf(0);
+                    rfturn r;
                 }
-                return null;
+                rfturn null;
             }
         }
 
 
 
         //
-        // Popup methods
+        // Popup mftiods
         //
-        public void hide() {
-            super.hide();
+        publid void iidf() {
+            supfr.iidf();
 
-            Container component = (Container)getComponent();
+            Contbinfr domponfnt = (Contbinfr)gftComponfnt();
 
-            component.removeAll();
-            recycleLightWeightPopup(this);
+            domponfnt.rfmovfAll();
+            rfdydlfLigitWfigitPopup(tiis);
         }
-        public void show() {
-            Container parent = null;
+        publid void siow() {
+            Contbinfr pbrfnt = null;
 
-            if (owner != null) {
-                parent = (owner instanceof Container? (Container)owner : owner.getParent());
+            if (ownfr != null) {
+                pbrfnt = (ownfr instbndfof Contbinfr? (Contbinfr)ownfr : ownfr.gftPbrfnt());
             }
 
-            // Try to find a JLayeredPane and Window to add
-            for (Container p = parent; p != null; p = p.getParent()) {
-                if (p instanceof JRootPane) {
-                    if (p.getParent() instanceof JInternalFrame) {
-                        continue;
+            // Try to find b JLbyfrfdPbnf bnd Window to bdd
+            for (Contbinfr p = pbrfnt; p != null; p = p.gftPbrfnt()) {
+                if (p instbndfof JRootPbnf) {
+                    if (p.gftPbrfnt() instbndfof JIntfrnblFrbmf) {
+                        dontinuf;
                     }
-                    parent = ((JRootPane)p).getLayeredPane();
-                    // Continue, so that if there is a higher JRootPane, we'll
-                    // pick it up.
-                } else if(p instanceof Window) {
-                    if (parent == null) {
-                        parent = p;
+                    pbrfnt = ((JRootPbnf)p).gftLbyfrfdPbnf();
+                    // Continuf, so tibt if tifrf is b iigifr JRootPbnf, wf'll
+                    // pidk it up.
+                } flsf if(p instbndfof Window) {
+                    if (pbrfnt == null) {
+                        pbrfnt = p;
                     }
-                    break;
-                } else if (p instanceof JApplet) {
-                    // Painting code stops at Applets, we don't want
-                    // to add to a Component above an Applet otherwise
-                    // you'll never see it painted.
-                    break;
+                    brfbk;
+                } flsf if (p instbndfof JApplft) {
+                    // Pbinting dodf stops bt Applfts, wf don't wbnt
+                    // to bdd to b Componfnt bbovf bn Applft otifrwisf
+                    // you'll nfvfr sff it pbintfd.
+                    brfbk;
                 }
             }
 
-            Point p = SwingUtilities.convertScreenLocationToParent(parent, x,
+            Point p = SwingUtilitifs.donvfrtSdrffnLodbtionToPbrfnt(pbrfnt, x,
                                                                    y);
-            Component component = getComponent();
+            Componfnt domponfnt = gftComponfnt();
 
-            component.setLocation(p.x, p.y);
-            if (parent instanceof JLayeredPane) {
-                parent.add(component, JLayeredPane.POPUP_LAYER, 0);
-            } else {
-                parent.add(component);
+            domponfnt.sftLodbtion(p.x, p.y);
+            if (pbrfnt instbndfof JLbyfrfdPbnf) {
+                pbrfnt.bdd(domponfnt, JLbyfrfdPbnf.POPUP_LAYER, 0);
+            } flsf {
+                pbrfnt.bdd(domponfnt);
             }
         }
 
-        Component createComponent(Component owner) {
-            JComponent component = new JPanel(new BorderLayout(), true);
+        Componfnt drfbtfComponfnt(Componfnt ownfr) {
+            JComponfnt domponfnt = nfw JPbnfl(nfw BordfrLbyout(), truf);
 
-            component.setOpaque(true);
-            return component;
+            domponfnt.sftOpbquf(truf);
+            rfturn domponfnt;
         }
 
         //
-        // Local methods
+        // Lodbl mftiods
         //
 
         /**
-         * Resets the <code>Popup</code> to an initial state.
+         * Rfsfts tif <dodf>Popup</dodf> to bn initibl stbtf.
          */
-        void reset(Component owner, Component contents, int ownerX,
-                   int ownerY) {
-            super.reset(owner, contents, ownerX, ownerY);
+        void rfsft(Componfnt ownfr, Componfnt dontfnts, int ownfrX,
+                   int ownfrY) {
+            supfr.rfsft(ownfr, dontfnts, ownfrX, ownfrY);
 
-            JComponent component = (JComponent)getComponent();
+            JComponfnt domponfnt = (JComponfnt)gftComponfnt();
 
-            component.setOpaque(contents.isOpaque());
-            component.setLocation(ownerX, ownerY);
-            component.add(contents, BorderLayout.CENTER);
-            contents.invalidate();
-            pack();
+            domponfnt.sftOpbquf(dontfnts.isOpbquf());
+            domponfnt.sftLodbtion(ownfrX, ownfrY);
+            domponfnt.bdd(dontfnts, BordfrLbyout.CENTER);
+            dontfnts.invblidbtf();
+            pbdk();
         }
     }
 
 
     /**
-     * Popup implementation that uses a Panel as the popup.
+     * Popup implfmfntbtion tibt usfs b Pbnfl bs tif popup.
      */
-    private static class MediumWeightPopup extends ContainerPopup {
-        private static final Object mediumWeightPopupCacheKey =
-                             new StringBuffer("PopupFactory.mediumPopupCache");
+    privbtf stbtid dlbss MfdiumWfigitPopup fxtfnds ContbinfrPopup {
+        privbtf stbtid finbl Objfdt mfdiumWfigitPopupCbdifKfy =
+                             nfw StringBufffr("PopupFbdtory.mfdiumPopupCbdif");
 
-        /** Child of the panel. The contents are added to this. */
-        private JRootPane rootPane;
+        /** Ciild of tif pbnfl. Tif dontfnts brf bddfd to tiis. */
+        privbtf JRootPbnf rootPbnf;
 
 
         /**
-         * Returns a medium weight <code>Popup</code> implementation. If
-         * the <code>Popup</code> needs more space that in available in
-         * <code>owner</code>, this will return null.
+         * Rfturns b mfdium wfigit <dodf>Popup</dodf> implfmfntbtion. If
+         * tif <dodf>Popup</dodf> nffds morf spbdf tibt in bvbilbblf in
+         * <dodf>ownfr</dodf>, tiis will rfturn null.
          */
-        static Popup getMediumWeightPopup(Component owner, Component contents,
-                                          int ownerX, int ownerY) {
-            MediumWeightPopup popup = getRecycledMediumWeightPopup();
+        stbtid Popup gftMfdiumWfigitPopup(Componfnt ownfr, Componfnt dontfnts,
+                                          int ownfrX, int ownfrY) {
+            MfdiumWfigitPopup popup = gftRfdydlfdMfdiumWfigitPopup();
 
             if (popup == null) {
-                popup = new MediumWeightPopup();
+                popup = nfw MfdiumWfigitPopup();
             }
-            popup.reset(owner, contents, ownerX, ownerY);
-            if (!popup.fitsOnScreen() ||
-                 popup.overlappedByOwnedWindow()) {
-                popup.hide();
-                return null;
+            popup.rfsft(ownfr, dontfnts, ownfrX, ownfrY);
+            if (!popup.fitsOnSdrffn() ||
+                 popup.ovfrlbppfdByOwnfdWindow()) {
+                popup.iidf();
+                rfturn null;
             }
-            return popup;
+            rfturn popup;
         }
 
         /**
-         * Returns the cache to use for medium weight popups.
+         * Rfturns tif dbdif to usf for mfdium wfigit popups.
          */
-        @SuppressWarnings("unchecked")
-        private static List<MediumWeightPopup> getMediumWeightPopupCache() {
-            List<MediumWeightPopup> cache = (List<MediumWeightPopup>)SwingUtilities.appContextGet(
-                                    mediumWeightPopupCacheKey);
+        @SupprfssWbrnings("undifdkfd")
+        privbtf stbtid List<MfdiumWfigitPopup> gftMfdiumWfigitPopupCbdif() {
+            List<MfdiumWfigitPopup> dbdif = (List<MfdiumWfigitPopup>)SwingUtilitifs.bppContfxtGft(
+                                    mfdiumWfigitPopupCbdifKfy);
 
-            if (cache == null) {
-                cache = new ArrayList<>();
-                SwingUtilities.appContextPut(mediumWeightPopupCacheKey, cache);
+            if (dbdif == null) {
+                dbdif = nfw ArrbyList<>();
+                SwingUtilitifs.bppContfxtPut(mfdiumWfigitPopupCbdifKfy, dbdif);
             }
-            return cache;
+            rfturn dbdif;
         }
 
         /**
-         * Recycles the MediumWeightPopup <code>popup</code>.
+         * Rfdydlfs tif MfdiumWfigitPopup <dodf>popup</dodf>.
          */
-        private static void recycleMediumWeightPopup(MediumWeightPopup popup) {
-            synchronized (MediumWeightPopup.class) {
-                List<MediumWeightPopup> mediumPopupCache = getMediumWeightPopupCache();
-                if (mediumPopupCache.size() < MAX_CACHE_SIZE) {
-                    mediumPopupCache.add(popup);
+        privbtf stbtid void rfdydlfMfdiumWfigitPopup(MfdiumWfigitPopup popup) {
+            syndironizfd (MfdiumWfigitPopup.dlbss) {
+                List<MfdiumWfigitPopup> mfdiumPopupCbdif = gftMfdiumWfigitPopupCbdif();
+                if (mfdiumPopupCbdif.sizf() < MAX_CACHE_SIZE) {
+                    mfdiumPopupCbdif.bdd(popup);
                 }
             }
         }
 
         /**
-         * Returns a previously used <code>MediumWeightPopup</code>, or null
-         * if none of the popups have been recycled.
+         * Rfturns b prfviously usfd <dodf>MfdiumWfigitPopup</dodf>, or null
+         * if nonf of tif popups ibvf bffn rfdydlfd.
          */
-        private static MediumWeightPopup getRecycledMediumWeightPopup() {
-            synchronized (MediumWeightPopup.class) {
-                List<MediumWeightPopup> mediumPopupCache = getMediumWeightPopupCache();
-                if (mediumPopupCache.size() > 0) {
-                    MediumWeightPopup r = mediumPopupCache.get(0);
-                    mediumPopupCache.remove(0);
-                    return r;
+        privbtf stbtid MfdiumWfigitPopup gftRfdydlfdMfdiumWfigitPopup() {
+            syndironizfd (MfdiumWfigitPopup.dlbss) {
+                List<MfdiumWfigitPopup> mfdiumPopupCbdif = gftMfdiumWfigitPopupCbdif();
+                if (mfdiumPopupCbdif.sizf() > 0) {
+                    MfdiumWfigitPopup r = mfdiumPopupCbdif.gft(0);
+                    mfdiumPopupCbdif.rfmovf(0);
+                    rfturn r;
                 }
-                return null;
+                rfturn null;
             }
         }
 
@@ -902,87 +902,87 @@ public class PopupFactory {
         // Popup
         //
 
-        public void hide() {
-            super.hide();
-            rootPane.getContentPane().removeAll();
-            recycleMediumWeightPopup(this);
+        publid void iidf() {
+            supfr.iidf();
+            rootPbnf.gftContfntPbnf().rfmovfAll();
+            rfdydlfMfdiumWfigitPopup(tiis);
         }
-        public void show() {
-            Component component = getComponent();
-            Container parent = null;
+        publid void siow() {
+            Componfnt domponfnt = gftComponfnt();
+            Contbinfr pbrfnt = null;
 
-            if (owner != null) {
-                parent = owner.getParent();
+            if (ownfr != null) {
+                pbrfnt = ownfr.gftPbrfnt();
             }
             /*
-              Find the top level window,
-              if it has a layered pane,
-              add to that, otherwise
-              add to the window. */
-            while (!(parent instanceof Window || parent instanceof Applet) &&
-                   (parent!=null)) {
-                parent = parent.getParent();
+              Find tif top lfvfl window,
+              if it ibs b lbyfrfd pbnf,
+              bdd to tibt, otifrwisf
+              bdd to tif window. */
+            wiilf (!(pbrfnt instbndfof Window || pbrfnt instbndfof Applft) &&
+                   (pbrfnt!=null)) {
+                pbrfnt = pbrfnt.gftPbrfnt();
             }
-            // Set the visibility to false before adding to workaround a
-            // bug in Solaris in which the Popup gets added at the wrong
-            // location, which will result in a mouseExit, which will then
-            // result in the ToolTip being removed.
-            if (parent instanceof RootPaneContainer) {
-                parent = ((RootPaneContainer)parent).getLayeredPane();
-                Point p = SwingUtilities.convertScreenLocationToParent(parent,
+            // Sft tif visibility to fblsf bfforf bdding to workbround b
+            // bug in Solbris in wiidi tif Popup gfts bddfd bt tif wrong
+            // lodbtion, wiidi will rfsult in b mousfExit, wiidi will tifn
+            // rfsult in tif ToolTip bfing rfmovfd.
+            if (pbrfnt instbndfof RootPbnfContbinfr) {
+                pbrfnt = ((RootPbnfContbinfr)pbrfnt).gftLbyfrfdPbnf();
+                Point p = SwingUtilitifs.donvfrtSdrffnLodbtionToPbrfnt(pbrfnt,
                                                                        x, y);
-                component.setVisible(false);
-                component.setLocation(p.x, p.y);
-                parent.add(component, JLayeredPane.POPUP_LAYER,
+                domponfnt.sftVisiblf(fblsf);
+                domponfnt.sftLodbtion(p.x, p.y);
+                pbrfnt.bdd(domponfnt, JLbyfrfdPbnf.POPUP_LAYER,
                                            0);
-            } else {
-                Point p = SwingUtilities.convertScreenLocationToParent(parent,
+            } flsf {
+                Point p = SwingUtilitifs.donvfrtSdrffnLodbtionToPbrfnt(pbrfnt,
                                                                        x, y);
 
-                component.setLocation(p.x, p.y);
-                component.setVisible(false);
-                parent.add(component);
+                domponfnt.sftLodbtion(p.x, p.y);
+                domponfnt.sftVisiblf(fblsf);
+                pbrfnt.bdd(domponfnt);
             }
-            component.setVisible(true);
+            domponfnt.sftVisiblf(truf);
         }
 
-        Component createComponent(Component owner) {
-            Panel component = new MediumWeightComponent();
+        Componfnt drfbtfComponfnt(Componfnt ownfr) {
+            Pbnfl domponfnt = nfw MfdiumWfigitComponfnt();
 
-            rootPane = new JRootPane();
-            // NOTE: this uses setOpaque vs LookAndFeel.installProperty as
-            // there is NO reason for the RootPane not to be opaque. For
-            // painting to work the contentPane must be opaque, therefor the
-            // RootPane can also be opaque.
-            rootPane.setOpaque(true);
-            component.add(rootPane, BorderLayout.CENTER);
-            return component;
+            rootPbnf = nfw JRootPbnf();
+            // NOTE: tiis usfs sftOpbquf vs LookAndFffl.instbllPropfrty bs
+            // tifrf is NO rfbson for tif RootPbnf not to bf opbquf. For
+            // pbinting to work tif dontfntPbnf must bf opbquf, tifrffor tif
+            // RootPbnf dbn blso bf opbquf.
+            rootPbnf.sftOpbquf(truf);
+            domponfnt.bdd(rootPbnf, BordfrLbyout.CENTER);
+            rfturn domponfnt;
         }
 
         /**
-         * Resets the <code>Popup</code> to an initial state.
+         * Rfsfts tif <dodf>Popup</dodf> to bn initibl stbtf.
          */
-        void reset(Component owner, Component contents, int ownerX,
-                   int ownerY) {
-            super.reset(owner, contents, ownerX, ownerY);
+        void rfsft(Componfnt ownfr, Componfnt dontfnts, int ownfrX,
+                   int ownfrY) {
+            supfr.rfsft(ownfr, dontfnts, ownfrX, ownfrY);
 
-            Component component = getComponent();
+            Componfnt domponfnt = gftComponfnt();
 
-            component.setLocation(ownerX, ownerY);
-            rootPane.getContentPane().add(contents, BorderLayout.CENTER);
-            contents.invalidate();
-            component.validate();
-            pack();
+            domponfnt.sftLodbtion(ownfrX, ownfrY);
+            rootPbnf.gftContfntPbnf().bdd(dontfnts, BordfrLbyout.CENTER);
+            dontfnts.invblidbtf();
+            domponfnt.vblidbtf();
+            pbdk();
         }
 
 
-        // This implements SwingHeavyWeight so that repaints on it
-        // are processed by the RepaintManager and SwingPaintEventDispatcher.
-        @SuppressWarnings("serial") // JDK-implementation class
-        private static class MediumWeightComponent extends Panel implements
-                                                           SwingHeavyWeight {
-            MediumWeightComponent() {
-                super(new BorderLayout());
+        // Tiis implfmfnts SwingHfbvyWfigit so tibt rfpbints on it
+        // brf prodfssfd by tif RfpbintMbnbgfr bnd SwingPbintEvfntDispbtdifr.
+        @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+        privbtf stbtid dlbss MfdiumWfigitComponfnt fxtfnds Pbnfl implfmfnts
+                                                           SwingHfbvyWfigit {
+            MfdiumWfigitComponfnt() {
+                supfr(nfw BordfrLbyout());
             }
         }
     }

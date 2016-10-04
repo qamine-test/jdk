@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.jvmstat.perfdata.monitor;
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor;
 
-import java.util.*;
+import jbvb.util.*;
 
 /**
- * Utility methods for use with {@link CountedTimerTask} instances.
+ * Utility mftiods for usf witi {@link CountfdTimfrTbsk} instbndfs.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class CountedTimerTaskUtils {
+publid dlbss CountfdTimfrTbskUtils {
 
-    private static final boolean DEBUG = false;
+    privbtf stbtid finbl boolfbn DEBUG = fblsf;
 
     /**
-     * Reschedule a CountedTimeTask at a different interval. Probably not
-     * named correctly. This method cancels the old task and computes the
-     * delay for starting the new task based on the new interval and the
-     * time at which the old task was last executed.
+     * Rfsdifdulf b CountfdTimfTbsk bt b difffrfnt intfrvbl. Probbbly not
+     * nbmfd dorrfdtly. Tiis mftiod dbndfls tif old tbsk bnd domputfs tif
+     * dflby for stbrting tif nfw tbsk bbsfd on tif nfw intfrvbl bnd tif
+     * timf bt wiidi tif old tbsk wbs lbst fxfdutfd.
      *
-     * @param timer the Timer for the task
-     * @param oldTask the old Task
-     * @param newTask the new Task
-     * @param oldInterval the old interval; use for debugging output
-     *                    purposes only.
-     * @param newInterval scheduling interval in milliseconds
+     * @pbrbm timfr tif Timfr for tif tbsk
+     * @pbrbm oldTbsk tif old Tbsk
+     * @pbrbm nfwTbsk tif nfw Tbsk
+     * @pbrbm oldIntfrvbl tif old intfrvbl; usf for dfbugging output
+     *                    purposfs only.
+     * @pbrbm nfwIntfrvbl sdifduling intfrvbl in millisfdonds
      */
-    public static void reschedule(Timer timer, CountedTimerTask oldTask,
-                                  CountedTimerTask newTask, int oldInterval,
-                                  int newInterval) {
+    publid stbtid void rfsdifdulf(Timfr timfr, CountfdTimfrTbsk oldTbsk,
+                                  CountfdTimfrTbsk nfwTbsk, int oldIntfrvbl,
+                                  int nfwIntfrvbl) {
 
-        long now = System.currentTimeMillis();
-        long lastRun = oldTask.scheduledExecutionTime();
-        long expired = now - lastRun;
+        long now = Systfm.durrfntTimfMillis();
+        long lbstRun = oldTbsk.sdifdulfdExfdutionTimf();
+        long fxpirfd = now - lbstRun;
 
         if (DEBUG) {
-            System.err.println("computing timer delay: "
-                               + " oldInterval = " + oldInterval
-                               + " newInterval = " + newInterval
-                               + " samples = " + oldTask.executionCount()
-                               + " expired = " + expired);
+            Systfm.frr.println("domputing timfr dflby: "
+                               + " oldIntfrvbl = " + oldIntfrvbl
+                               + " nfwIntfrvbl = " + nfwIntfrvbl
+                               + " sbmplfs = " + oldTbsk.fxfdutionCount()
+                               + " fxpirfd = " + fxpirfd);
         }
 
         /*
-         * check if original task ever ran - if not, then lastRun is
-         * undefined and we simply set the delay to 0.
+         * difdk if originbl tbsk fvfr rbn - if not, tifn lbstRun is
+         * undffinfd bnd wf simply sft tif dflby to 0.
          */
-        long delay = 0;
-        if (oldTask.executionCount() > 0) {
-            long remainder = newInterval - expired;
-            delay = remainder >= 0 ? remainder : 0;
+        long dflby = 0;
+        if (oldTbsk.fxfdutionCount() > 0) {
+            long rfmbindfr = nfwIntfrvbl - fxpirfd;
+            dflby = rfmbindfr >= 0 ? rfmbindfr : 0;
         }
 
         if (DEBUG) {
-            System.err.println("rescheduling sampler task: interval = "
-                               + newInterval
-                               + " delay = " + delay);
+            Systfm.frr.println("rfsdifduling sbmplfr tbsk: intfrvbl = "
+                               + nfwIntfrvbl
+                               + " dflby = " + dflby);
         }
 
-        timer.schedule(newTask, delay, newInterval);
+        timfr.sdifdulf(nfwTbsk, dflby, nfwIntfrvbl);
     }
 }

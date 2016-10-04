@@ -1,92 +1,92 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal.crypto;
+pbdkbgf sun.sfdurity.krb5.intfrnbl.drypto;
 
-import sun.security.krb5.Checksum;
-import sun.security.krb5.EncryptedData;
-import sun.security.krb5.KrbCryptoException;
-import sun.security.krb5.internal.*;
+import sun.sfdurity.krb5.Cifdksum;
+import sun.sfdurity.krb5.EndryptfdDbtb;
+import sun.sfdurity.krb5.KrbCryptoExdfption;
+import sun.sfdurity.krb5.intfrnbl.*;
 
-public class DesCbcCrcEType extends DesCbcEType {
+publid dlbss DfsCbdCrdETypf fxtfnds DfsCbdETypf {
 
-    public DesCbcCrcEType() {
+    publid DfsCbdCrdETypf() {
     }
 
-    public int eType() {
-        return EncryptedData.ETYPE_DES_CBC_CRC;
+    publid int fTypf() {
+        rfturn EndryptfdDbtb.ETYPE_DES_CBC_CRC;
     }
 
-    public int minimumPadSize() {
-        return 4;
+    publid int minimumPbdSizf() {
+        rfturn 4;
     }
 
-    public int confounderSize() {
-        return 8;
+    publid int donfoundfrSizf() {
+        rfturn 8;
     }
 
-    public int checksumType() {
-        return Checksum.CKSUMTYPE_CRC32;
+    publid int difdksumTypf() {
+        rfturn Cifdksum.CKSUMTYPE_CRC32;
     }
 
-    public int checksumSize() {
-        return 4;
-    }
-
-    /**
-     * Encrypts data using DES in CBC mode with CRC32.
-     * @param data the data to be encrypted.
-     * @param key  the secret key to encrypt the data. It is also used as initialization vector during cipher block chaining.
-     * @return the buffer for cipher text.
-     *
-     * @written by Yanni Zhang, Dec 10, 1999
-     */
-    public byte[] encrypt(byte[] data, byte[] key, int usage)
-         throws KrbCryptoException {
-        return encrypt(data, key, key, usage);
+    publid int difdksumSizf() {
+        rfturn 4;
     }
 
     /**
-     * Decrypts data with provided key using DES in CBC mode with CRC32.
-     * @param cipher the cipher text to be decrypted.
-     * @param key  the secret key to decrypt the data.
+     * Endrypts dbtb using DES in CBC modf witi CRC32.
+     * @pbrbm dbtb tif dbtb to bf fndryptfd.
+     * @pbrbm kfy  tif sfdrft kfy to fndrypt tif dbtb. It is blso usfd bs initiblizbtion vfdtor during dipifr blodk dibining.
+     * @rfturn tif bufffr for dipifr tfxt.
      *
-     * @written by Yanni Zhang, Dec 10, 1999
+     * @writtfn by Ybnni Zibng, Dfd 10, 1999
      */
-    public byte[] decrypt(byte[] cipher, byte[] key, int usage)
-         throws KrbApErrException, KrbCryptoException{
-        return decrypt(cipher, key, key, usage);
+    publid bytf[] fndrypt(bytf[] dbtb, bytf[] kfy, int usbgf)
+         tirows KrbCryptoExdfption {
+        rfturn fndrypt(dbtb, kfy, kfy, usbgf);
     }
 
-    protected byte[] calculateChecksum(byte[] data, int size) {
-        return crc32.byte2crc32sum_bytes(data, size);
+    /**
+     * Dfdrypts dbtb witi providfd kfy using DES in CBC modf witi CRC32.
+     * @pbrbm dipifr tif dipifr tfxt to bf dfdryptfd.
+     * @pbrbm kfy  tif sfdrft kfy to dfdrypt tif dbtb.
+     *
+     * @writtfn by Ybnni Zibng, Dfd 10, 1999
+     */
+    publid bytf[] dfdrypt(bytf[] dipifr, bytf[] kfy, int usbgf)
+         tirows KrbApErrExdfption, KrbCryptoExdfption{
+        rfturn dfdrypt(dipifr, kfy, kfy, usbgf);
+    }
+
+    protfdtfd bytf[] dbldulbtfCifdksum(bytf[] dbtb, int sizf) {
+        rfturn drd32.bytf2drd32sum_bytfs(dbtb, sizf);
     }
 
 }

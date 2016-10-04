@@ -1,263 +1,263 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp.IPAcl;
+pbdkbgf dom.sun.jmx.snmp.IPAdl;
 
 
 
-import java.security.acl.Permission;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.io.Serializable;
-import java.net.UnknownHostException;
+import jbvb.sfdurity.bdl.Pfrmission;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.io.Sfriblizbblf;
+import jbvb.nft.UnknownHostExdfption;
 
-import java.security.Principal;
-import java.security.acl.AclEntry;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.bdl.AdlEntry;
 
 
 /**
- * Represent one entry in the Access Control List (ACL).
- * This ACL entry object contains a permission associated with a particular principal.
- * (A principal represents an entity such as an individual machine or a group).
+ * Rfprfsfnt onf fntry in tif Addfss Control List (ACL).
+ * Tiis ACL fntry objfdt dontbins b pfrmission bssodibtfd witi b pbrtidulbr prindipbl.
+ * (A prindipbl rfprfsfnts bn fntity sudi bs bn individubl mbdiinf or b group).
  *
- * @see java.security.acl.AclEntry
+ * @sff jbvb.sfdurity.bdl.AdlEntry
  */
 
-class AclEntryImpl implements AclEntry, Serializable {
-  private static final long serialVersionUID = -5047185131260073216L;
+dlbss AdlEntryImpl implfmfnts AdlEntry, Sfriblizbblf {
+  privbtf stbtid finbl long sfriblVfrsionUID = -5047185131260073216L;
 
-  private AclEntryImpl (AclEntryImpl i) throws UnknownHostException {
-        setPrincipal(i.getPrincipal());
-        permList = new Vector<Permission>();
-        commList = new Vector<String>();
+  privbtf AdlEntryImpl (AdlEntryImpl i) tirows UnknownHostExdfption {
+        sftPrindipbl(i.gftPrindipbl());
+        pfrmList = nfw Vfdtor<Pfrmission>();
+        dommList = nfw Vfdtor<String>();
 
-        for (Enumeration<String> en = i.communities(); en.hasMoreElements();){
-          addCommunity(en.nextElement());
+        for (Enumfrbtion<String> fn = i.dommunitifs(); fn.ibsMorfElfmfnts();){
+          bddCommunity(fn.nfxtElfmfnt());
         }
 
-        for (Enumeration<Permission> en = i.permissions(); en.hasMoreElements();){
-          addPermission(en.nextElement());
+        for (Enumfrbtion<Pfrmission> fn = i.pfrmissions(); fn.ibsMorfElfmfnts();){
+          bddPfrmission(fn.nfxtElfmfnt());
         }
-        if (i.isNegative()) setNegativePermissions();
+        if (i.isNfgbtivf()) sftNfgbtivfPfrmissions();
   }
 
   /**
-   * Contructs an empty ACL entry.
+   * Contrudts bn fmpty ACL fntry.
    */
-  public AclEntryImpl (){
-        princ = null;
-        permList = new Vector<Permission>();
-        commList = new Vector<String>();
+  publid AdlEntryImpl (){
+        prind = null;
+        pfrmList = nfw Vfdtor<Pfrmission>();
+        dommList = nfw Vfdtor<String>();
   }
 
   /**
-   * Constructs an ACL entry with a specified principal.
+   * Construdts bn ACL fntry witi b spfdififd prindipbl.
    *
-   * @param p the principal to be set for this entry.
+   * @pbrbm p tif prindipbl to bf sft for tiis fntry.
    */
-  public AclEntryImpl (Principal p) throws UnknownHostException {
-        princ = p;
-        permList = new Vector<Permission>();
-        commList = new Vector<String>();
+  publid AdlEntryImpl (Prindipbl p) tirows UnknownHostExdfption {
+        prind = p;
+        pfrmList = nfw Vfdtor<Pfrmission>();
+        dommList = nfw Vfdtor<String>();
   }
 
   /**
-   * Clones this ACL entry.
+   * Clonfs tiis ACL fntry.
    *
-   * @return a clone of this ACL entry.
+   * @rfturn b dlonf of tiis ACL fntry.
    */
-  public Object clone() {
-        AclEntryImpl i;
+  publid Objfdt dlonf() {
+        AdlEntryImpl i;
         try {
-          i = new AclEntryImpl(this);
-        }catch (UnknownHostException e) {
+          i = nfw AdlEntryImpl(tiis);
+        }dbtdi (UnknownHostExdfption f) {
           i = null;
         }
-        return (Object) i;
+        rfturn (Objfdt) i;
   }
 
   /**
-   * Returns true if this is a negative ACL entry (one denying the associated principal
-   * the set of permissions in the entry), false otherwise.
+   * Rfturns truf if tiis is b nfgbtivf ACL fntry (onf dfnying tif bssodibtfd prindipbl
+   * tif sft of pfrmissions in tif fntry), fblsf otifrwisf.
    *
-   * @return true if this is a negative ACL entry, false if it's not.
+   * @rfturn truf if tiis is b nfgbtivf ACL fntry, fblsf if it's not.
    */
-  public boolean isNegative(){
-        return neg;
+  publid boolfbn isNfgbtivf(){
+        rfturn nfg;
   }
 
   /**
-   * Adds the specified permission to this ACL entry. Note: An entry can
-   * have multiple permissions.
+   * Adds tif spfdififd pfrmission to tiis ACL fntry. Notf: An fntry dbn
+   * ibvf multiplf pfrmissions.
    *
-   * @param perm the permission to be associated with the principal in this
-   *        entry
-   * @return true if the permission is removed, false if the permission was
-   *         not part of this entry's permission set.
+   * @pbrbm pfrm tif pfrmission to bf bssodibtfd witi tif prindipbl in tiis
+   *        fntry
+   * @rfturn truf if tif pfrmission is rfmovfd, fblsf if tif pfrmission wbs
+   *         not pbrt of tiis fntry's pfrmission sft.
    *
    */
-  public boolean addPermission(java.security.acl.Permission perm){
-        if (permList.contains(perm)) return false;
-        permList.addElement(perm);
-        return true;
+  publid boolfbn bddPfrmission(jbvb.sfdurity.bdl.Pfrmission pfrm){
+        if (pfrmList.dontbins(pfrm)) rfturn fblsf;
+        pfrmList.bddElfmfnt(pfrm);
+        rfturn truf;
   }
 
   /**
-   * Removes the specified permission from this ACL entry.
+   * Rfmovfs tif spfdififd pfrmission from tiis ACL fntry.
    *
-   * @param perm the permission to be removed from this entry.
-   * @return true if the permission is removed, false if the permission
-   *         was not part of this entry's permission set.
+   * @pbrbm pfrm tif pfrmission to bf rfmovfd from tiis fntry.
+   * @rfturn truf if tif pfrmission is rfmovfd, fblsf if tif pfrmission
+   *         wbs not pbrt of tiis fntry's pfrmission sft.
    */
-  public boolean removePermission(java.security.acl.Permission perm){
-        if (!permList.contains(perm)) return false;
-        permList.removeElement(perm);
-        return true;
+  publid boolfbn rfmovfPfrmission(jbvb.sfdurity.bdl.Pfrmission pfrm){
+        if (!pfrmList.dontbins(pfrm)) rfturn fblsf;
+        pfrmList.rfmovfElfmfnt(pfrm);
+        rfturn truf;
   }
 
   /**
-   * Checks if the specified permission is part of the permission set in
-   * this entry.
+   * Cifdks if tif spfdififd pfrmission is pbrt of tif pfrmission sft in
+   * tiis fntry.
    *
-   * @param perm the permission to be checked for.
-   * @return true if the permission is part of the permission set in this
-   *         entry, false otherwise.
+   * @pbrbm pfrm tif pfrmission to bf difdkfd for.
+   * @rfturn truf if tif pfrmission is pbrt of tif pfrmission sft in tiis
+   *         fntry, fblsf otifrwisf.
    */
 
-  public boolean checkPermission(java.security.acl.Permission perm){
-        return (permList.contains(perm));
+  publid boolfbn difdkPfrmission(jbvb.sfdurity.bdl.Pfrmission pfrm){
+        rfturn (pfrmList.dontbins(pfrm));
   }
 
   /**
-   * Returns an enumeration of the permissions in this ACL entry.
+   * Rfturns bn fnumfrbtion of tif pfrmissions in tiis ACL fntry.
    *
-   * @return an enumeration of the permissions in this ACL entry.
+   * @rfturn bn fnumfrbtion of tif pfrmissions in tiis ACL fntry.
    */
-  public Enumeration<Permission> permissions(){
-        return permList.elements();
+  publid Enumfrbtion<Pfrmission> pfrmissions(){
+        rfturn pfrmList.flfmfnts();
   }
 
   /**
-   * Sets this ACL entry to be a negative one. That is, the associated principal
-   * (e.g., a user or a group) will be denied the permission set specified in the
-   * entry. Note: ACL entries are by default positive. An entry becomes a negative
-   * entry only if this setNegativePermissions method is called on it.
+   * Sfts tiis ACL fntry to bf b nfgbtivf onf. Tibt is, tif bssodibtfd prindipbl
+   * (f.g., b usfr or b group) will bf dfnifd tif pfrmission sft spfdififd in tif
+   * fntry. Notf: ACL fntrifs brf by dffbult positivf. An fntry bfdomfs b nfgbtivf
+   * fntry only if tiis sftNfgbtivfPfrmissions mftiod is dbllfd on it.
    *
-   * Not Implemented.
+   * Not Implfmfntfd.
    */
-  public void setNegativePermissions(){
-        neg = true;
+  publid void sftNfgbtivfPfrmissions(){
+        nfg = truf;
   }
 
   /**
-   * Returns the principal for which permissions are granted or denied by this ACL
-   * entry. Returns null if there is no principal set for this entry yet.
+   * Rfturns tif prindipbl for wiidi pfrmissions brf grbntfd or dfnifd by tiis ACL
+   * fntry. Rfturns null if tifrf is no prindipbl sft for tiis fntry yft.
    *
-   * @return the principal associated with this entry.
+   * @rfturn tif prindipbl bssodibtfd witi tiis fntry.
    */
-  public Principal getPrincipal(){
-        return princ;
+  publid Prindipbl gftPrindipbl(){
+        rfturn prind;
   }
 
   /**
-   * Specifies the principal for which permissions are granted or denied by
-   * this ACL entry. If a principal was already set for this ACL entry,
-   * false is returned, otherwise true is returned.
+   * Spfdififs tif prindipbl for wiidi pfrmissions brf grbntfd or dfnifd by
+   * tiis ACL fntry. If b prindipbl wbs blrfbdy sft for tiis ACL fntry,
+   * fblsf is rfturnfd, otifrwisf truf is rfturnfd.
    *
-   * @param p the principal to be set for this entry.
-   * @return true if the principal is set, false if there was already a
-   *         principal set for this entry.
+   * @pbrbm p tif prindipbl to bf sft for tiis fntry.
+   * @rfturn truf if tif prindipbl is sft, fblsf if tifrf wbs blrfbdy b
+   *         prindipbl sft for tiis fntry.
    */
-  public boolean setPrincipal(Principal p) {
-        if (princ != null )
-          return false;
-        princ = p;
-        return true;
+  publid boolfbn sftPrindipbl(Prindipbl p) {
+        if (prind != null )
+          rfturn fblsf;
+        prind = p;
+        rfturn truf;
   }
 
   /**
-   * Returns a string representation of the contents of this ACL entry.
+   * Rfturns b string rfprfsfntbtion of tif dontfnts of tiis ACL fntry.
    *
-   * @return a string representation of the contents.
+   * @rfturn b string rfprfsfntbtion of tif dontfnts.
    */
-  public String toString(){
-        return "AclEntry:"+princ.toString();
+  publid String toString(){
+        rfturn "AdlEntry:"+prind.toString();
   }
 
   /**
-   * Returns an enumeration of the communities in this ACL entry.
+   * Rfturns bn fnumfrbtion of tif dommunitifs in tiis ACL fntry.
    *
-   * @return an enumeration of the communities in this ACL entry.
+   * @rfturn bn fnumfrbtion of tif dommunitifs in tiis ACL fntry.
    */
-  public Enumeration<String> communities(){
-        return commList.elements();
+  publid Enumfrbtion<String> dommunitifs(){
+        rfturn dommList.flfmfnts();
   }
 
   /**
-   * Adds the specified community to this ACL entry. Note: An entry can
-   * have multiple communities.
+   * Adds tif spfdififd dommunity to tiis ACL fntry. Notf: An fntry dbn
+   * ibvf multiplf dommunitifs.
    *
-   * @param comm the community to be associated with the principal
-   *        in this entry.
-   * @return true if the community was added, false if the community was
-   *         already part of this entry's community set.
+   * @pbrbm domm tif dommunity to bf bssodibtfd witi tif prindipbl
+   *        in tiis fntry.
+   * @rfturn truf if tif dommunity wbs bddfd, fblsf if tif dommunity wbs
+   *         blrfbdy pbrt of tiis fntry's dommunity sft.
    */
-  public boolean addCommunity(String comm){
-        if (commList.contains(comm)) return false;
-        commList.addElement(comm);
-        return true;
+  publid boolfbn bddCommunity(String domm){
+        if (dommList.dontbins(domm)) rfturn fblsf;
+        dommList.bddElfmfnt(domm);
+        rfturn truf;
   }
 
   /**
-   * Removes the specified community from this ACL entry.
+   * Rfmovfs tif spfdififd dommunity from tiis ACL fntry.
    *
-   * @param comm the community  to be removed from this entry.
-   * @return true if the community is removed, false if the community was
-   *         not part of this entry's community set.
+   * @pbrbm domm tif dommunity  to bf rfmovfd from tiis fntry.
+   * @rfturn truf if tif dommunity is rfmovfd, fblsf if tif dommunity wbs
+   *         not pbrt of tiis fntry's dommunity sft.
    */
-  public boolean removeCommunity(String comm){
-        if (!commList.contains(comm)) return false;
-        commList.removeElement(comm);
-        return true;
+  publid boolfbn rfmovfCommunity(String domm){
+        if (!dommList.dontbins(domm)) rfturn fblsf;
+        dommList.rfmovfElfmfnt(domm);
+        rfturn truf;
   }
 
   /**
-   * Checks if the specified community is part of the community set in this
-   * entry.
+   * Cifdks if tif spfdififd dommunity is pbrt of tif dommunity sft in tiis
+   * fntry.
    *
-   * @param  comm the community to be checked for.
-   * @return true if the community is part of the community set in this
-   *         entry, false otherwise.
+   * @pbrbm  domm tif dommunity to bf difdkfd for.
+   * @rfturn truf if tif dommunity is pbrt of tif dommunity sft in tiis
+   *         fntry, fblsf otifrwisf.
    */
-  public boolean checkCommunity(String comm){
-        return (commList.contains(comm));
+  publid boolfbn difdkCommunity(String domm){
+        rfturn (dommList.dontbins(domm));
   }
 
-  private Principal princ = null;
-  private boolean neg     = false;
-  private Vector<Permission> permList = null;
-  private Vector<String> commList = null;
+  privbtf Prindipbl prind = null;
+  privbtf boolfbn nfg     = fblsf;
+  privbtf Vfdtor<Pfrmission> pfrmList = null;
+  privbtf Vfdtor<String> dommList = null;
 }

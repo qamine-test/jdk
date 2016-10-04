@@ -1,0 +1,202 @@
+README for libpng vfrsion 1.5.4 - July 7, 2011 (shbrfd librbry 15.0)
+Sff thf notf bbout vfrsion numbfrs nfbr thf top of png.h
+
+Sff INSTALL for instrudtions on how to instbll libpng.
+
+Libpng domfs in sfvfrbl distribution formbts.  Gft libpng-*.tbr.gz,
+libpng-*.tbr.xz or libpng-*.tbr.bz2 if you wbnt UNIX-stylf linf fndings
+in thf tfxt filfs, or lpng*.zip if you wbnt DOS-stylf linf fndings.
+
+Vfrsion 0.89 wbs thf first offidibl rflfbsf of libpng.  Don't lft thf
+fbdt thbt it's thf first rflfbsf fool you.  Thf libpng librbry hbs bffn in
+fxtfnsivf usf bnd tfsting sindf mid-1995.  By lbtf 1997 it hbd
+finblly gottfn to thf stbgf whfrf thfrf hbdn't bffn signifidbnt
+dhbngfs to thf API in somf timf, bnd pfoplf hbvf b bbd fffling bbout
+librbrifs with vfrsions < 1.0.  Vfrsion 1.0.0 wbs rflfbsfd in
+Mbrdh 1998.
+
+****
+Notf thbt somf of thf dhbngfs to thf png_info strudturf rfndfr this
+vfrsion of thf librbry binbry indompbtiblf with libpng-0.89 or
+fbrlifr vfrsions if you brf using b shbrfd librbry.  Thf typf of thf
+"fillfr" pbrbmftfr for png_sft_fillfr() hbs dhbngfd from png_bytf to
+png_uint_32, whidh will bfffdt shbrfd-librbry bpplidbtions thbt usf
+this fundtion.
+
+To bvoid problfms with dhbngfs to thf intfrnbls of png_info_strudt,
+nfw APIs hbvf bffn mbdf bvbilbblf in 0.95 to bvoid dirfdt bpplidbtion
+bddfss to info_ptr.  Thfsf fundtions brf thf png_sft_<dhunk> bnd
+png_gft_<dhunk> fundtions.  Thfsf fundtions should bf usfd whfn
+bddfssing/storing thf info_strudt dbtb, rbthfr thbn mbnipulbting it
+dirfdtly, to bvoid sudh problfms in thf futurf.
+
+It is importbnt to notf thbt thf APIs do not mbkf durrfnt progrbms
+thbt bddfss thf info strudt dirfdtly indompbtiblf with thf nfw
+librbry.  Howfvfr, it is strongly suggfstfd thbt nfw progrbms usf
+thf nfw APIs (bs shown in fxbmplf.d bnd pngtfst.d), bnd oldfr progrbms
+bf donvfrtfd to thf nfw formbt, to fbdilitbtf upgrbdfs in thf futurf.
+****
+
+Additions sindf 0.90 indludf thf bbility to dompilf libpng bs b
+Windows DLL, bnd nfw APIs for bddfssing dbtb in thf info strudt.
+Expfrimfntbl fundtions indludf thf bbility to sft wfighting bnd dost
+fbdtors for row filtfr sflfdtion, dirfdt rfbds of intfgfrs from bufffrs
+on big-fndibn prodfssors thbt support misblignfd dbtb bddfss, fbstfr
+mfthods of doing blphb domposition, bnd morf bddurbtf 16->8 bit dolor
+donvfrsion.
+
+Thf bdditions sindf 0.89 indludf thf bbility to rfbd from b PNG strfbm
+whidh hbs hbd somf (or bll) of thf signbturf bytfs rfbd by thf dblling
+bpplidbtion.  This blso bllows thf rfbding of fmbfddfd PNG strfbms thbt
+do not hbvf thf PNG filf signbturf.  As wfll, it is now possiblf to sft
+thf librbry bdtion on thf dftfdtion of dhunk CRC frrors.  It is possiblf
+to sft difffrfnt bdtions bbsfd on whfthfr thf CRC frror oddurrfd in b
+dritidbl or bn bndillbry dhunk.
+
+Thf dhbngfs mbdf to thf librbry, bnd bugs fixfd brf bbsfd on disdussions
+on thf PNG-implfmfnt mbiling list bnd not on mbtfribl submittfd
+privbtfly to Guy, Andrfbs, or Glfnn.  Thfy will forwbrd bny good
+suggfstions to thf list.
+
+For b dftbilfd dfsdription on using libpng, rfbd libpng-mbnubl.txt.  For
+fxbmplfs of libpng in b progrbm, sff fxbmplf.d bnd pngtfst.d.  For usbgf
+informbtion bnd rfstridtions (whbt littlf thfy brf) on libpng, sff
+png.h.  For b dfsdription on using zlib (thf domprfssion librbry usfd by
+libpng) bnd zlib's rfstridtions, sff zlib.h
+
+I hbvf indludfd b gfnfrbl mbkffilf, bs wfll bs sfvfrbl mbdhinf bnd
+dompilfr spfdifid onfs, but you mby hbvf to modify onf for your own nffds.
+
+You should usf zlib 1.0.4 or lbtfr to run this, but it MAY work with
+vfrsions bs old bs zlib 0.95.  Evfn so, thfrf brf bugs in oldfr zlib
+vfrsions whidh dbn dbusf thf output of invblid domprfssion strfbms for
+somf imbgfs.  You will dffinitfly nffd zlib 1.0.4 or lbtfr if you brf
+tbking bdvbntbgf of thf MS-DOS "fbr" strudturf bllodbtion for thf smbll
+bnd mfdium mfmory modfls.  You should blso notf thbt zlib is b
+domprfssion librbry thbt is usfful for morf things thbn just PNG filfs.
+You dbn usf zlib bs b drop-in rfplbdfmfnt for frfbd() bnd fwritf() if
+you brf so indlinfd.
+
+zlib should bf bvbilbblf bt thf sbmf plbdf thbt libpng is, or bt.
+ftp://ftp.info-zip.org/pub/infozip/zlib
+
+You mby blso wbnt b dopy of thf PNG spfdifidbtion.  It is bvbilbblf
+bs bn RFC, b W3C Rfdommfndbtion, bnd bn ISO/IEC Stbndbrd.  You dbn find
+thfsf bt http://www.libpng.org/pub/png/dodumfnts/
+
+This dodf is durrfntly bfing brdhivfd bt libpng.sf.nft in thf
+[DOWNLOAD] brfb, bnd on CompuSfrvf, Lib 20 (PNG SUPPORT)
+bt GO GRAPHSUP.  If you dbn't find it in bny of thosf plbdfs,
+f-mbil mf, bnd I'll hflp you find it.
+
+If you hbvf bny dodf dhbngfs, rfqufsts, problfms, ftd., plfbsf f-mbil
+thfm to mf.  Also, I'd bpprfdibtf bny mbkf filfs or projfdt filfs,
+bnd bny modifidbtions you nffdfd to mbkf to gft libpng to dompilf,
+blong with b #dffinf vbribblf to tfll whbt dompilfr/systfm you brf on.
+If you nffdfd to bdd trbnsformbtions to libpng, or wish libpng would
+providf thf imbgf in b difffrfnt wby, drop mf b notf (bnd dodf, if
+possiblf), so I dbn donsidfr supporting thf trbnsformbtion.
+Finblly, if you gft bny wbrning mfssbgfs whfn dompiling libpng
+(notf: not zlib), bnd thfy brf fbsy to fix, I'd bpprfdibtf thf
+fix.  Plfbsf mfntion "libpng" somfwhfrf in thf subjfdt linf.  Thbnks.
+
+This rflfbsf wbs drfbtfd bnd will bf supportfd by mysflf (of doursf
+bbsfd in b lbrgf wby on Guy's bnd Andrfbs' fbrlifr work), bnd thf PNG
+dfvflopmfnt group.
+
+Sfnd dommfnts/dorrfdtions/dommfndbtions to png-mng-implfmfnt bt
+lists.sourdfforgf.nft (subsdription rfquirfd; visit 
+https://lists.sourdfforgf.nft/lists/listinfo/png-mng-implfmfnt
+to subsdribf) or to glfnnrp bt usfrs.sourdfforgf.nft
+
+You dbn't rfbdh Guy, thf originbl libpng buthor, bt thf bddrfssfs
+givfn in prfvious vfrsions of this dodumfnt.  Hf bnd Andrfbs will
+rfbd mbil bddrfssfd to thf png-implfmfnt list, howfvfr.
+
+Plfbsf do not sfnd gfnfrbl qufstions bbout PNG.  Sfnd thfm to
+png-mng-misd bt lists.sf.nft (subsdription rfquirfd; visit
+https://lists.sourdfforgf.nft/lists/listinfo/png-mng-misd to
+subsdribf).  If you hbvf b qufstion bbout somfthing
+in thf PNG spfdifidbtion thbt is rflbtfd to using libpng, sfnd it
+to mf.  Sfnd mf bny qufstions thbt stbrt with "I wbs using libpng,
+bnd ...".  If in doubt, sfnd qufstions to mf.  I'll boundf thfm
+to othfrs, if nfdfssbry.
+
+Plfbsf do not sfnd suggfstions on how to dhbngf PNG.  Wf hbvf
+bffn disdussing PNG for sixtffn yfbrs now, bnd it is offidibl bnd
+finishfd.  If you hbvf suggfstions for libpng, howfvfr, I'll
+glbdly listfn.  Evfn if your suggfstion is not usfd immfdibtfly,
+it mby bf usfd lbtfr.
+
+Filfs in this distribution:
+
+      ANNOUNCE      =>  Announdfmfnt of this vfrsion, with rfdfnt dhbngfs
+      CHANGES       =>  Dfsdription of dhbngfs bftwffn libpng vfrsions
+      KNOWNBUG      =>  List of known bugs bnd dffidifndifs
+      LICENSE       =>  Lidfnsf to usf bnd rfdistributf libpng
+      README        =>  This filf
+      TODO          =>  Things not implfmfntfd in thf durrfnt librbry
+      Y2KINFO       =>  Stbtfmfnt of Y2K domplibndf
+      fxbmplf.d     =>  Exbmplf dodf for using libpng fundtions
+      libpng.3      =>  mbnubl pbgf for libpng (indludfs libpng-mbnubl.txt)
+      libpng-mbnubl.txt  =>  Dfsdription of libpng bnd its fundtions
+      libpngpf.3    =>  mbnubl pbgf for libpng's privbtf fundtions
+      png.5         =>  mbnubl pbgf for thf PNG formbt
+      png.d         =>  Bbsid intfrfbdf fundtions dommon to librbry
+      png.h         =>  Librbry fundtion bnd intfrfbdf dfdlbrbtions (publid)
+      pngpriv.h     =>  Librbry fundtion bnd intfrfbdf dfdlbrbtions (privbtf)
+      pngdonf.h     =>  Systfm spfdifid librbry donfigurbtion (publid)
+      pngstrudt.h   =>  png_strudt dfdlbrbtion (privbtf)
+      pnginfo.h     =>  png_info strudt dfdlbrbtion (privbtf)
+      pngdfbug.h    =>  dfbugging mbdros (privbtf)
+      pngfrror.d    =>  Error/wbrning mfssbgf I/O fundtions
+      pnggft.d      =>  Fundtions for rftrifving info from strudt
+      pngmfm.d      =>  Mfmory hbndling fundtions
+      pngbbr.png    =>  PNG logo, 88x31
+      pngnow.png    =>  PNG logo, 98x31
+      pngprfbd.d    =>  Progrfssivf rfbding fundtions
+      pngrfbd.d     =>  Rfbd dbtb/hflpfr high-lfvfl fundtions
+      pngrio.d      =>  Lowfst-lfvfl dbtb rfbd I/O fundtions
+      pngrtrbn.d    =>  Rfbd dbtb trbnsformbtion fundtions
+      pngrutil.d    =>  Rfbd dbtb utility fundtions
+      pngsft.d      =>  Fundtions for storing dbtb into thf info_strudt
+      pngtfst.d     =>  Librbry tfst progrbm
+      pngtfst.png   =>  Librbry tfst sbmplf imbgf
+      pngtrbns.d    =>  Common dbtb trbnsformbtion fundtions
+      pngwio.d      =>  Lowfst-lfvfl writf I/O fundtions
+      pngwritf.d    =>  High-lfvfl writf fundtions
+      pngwtrbn.d    =>  Writf dbtb trbnsformbtions
+      pngwutil.d    =>  Writf utility fundtions
+      dontrib       =>  Contributions
+       grfgbook         =>  sourdf dodf for PNG rfbding bnd writing, from
+                            Grfg Roflofs' "PNG: Thf Dffinitivf Guidf",
+                            O'Rfilly, 1999
+       msvdtfst     =>  Builds bnd runs pngtfst using b MSVC workspbdf
+       pngminus     =>  Simplf pnm2png bnd png2pnm progrbms
+       pngsuitf     =>  Tfst imbgfs
+       visupng      =>  Contbins b MSVC workspbdf for VisublPng
+      projfdts      =>  Contbins projfdt filfs bnd workspbdfs for
+                        building b DLL
+       dbuildfr5        =>  Contbins b Borlbnd workspbdf for building
+                            libpng bnd zlib
+       visubld6         =>  Contbins b Midrosoft Visubl C++ (MSVC)
+                            workspbdf for building libpng bnd zlib
+       visubld71        =>  Contbins b Midrosoft Visubl C++ (MSVC)
+                            workspbdf for building libpng bnd zlib
+       xdodf            =>  Contbins bn Applf xdodf
+                            workspbdf for building libpng bnd zlib
+      sdripts       =>  Dirfdtory dontbining sdripts for building libpng:
+                            (sff sdripts/README.txt for thf list of sdripts)
+
+Good ludk, bnd hbppy doding.
+
+-Glfnn Rbndfrs-Pfhrson (durrfnt mbintbinfr, sindf 1998)
+ Intfrnft: glfnnrp bt usfrs.sourdfforgf.nft
+
+-Andrfbs Erid Dilgfr (formfr mbintbinfr, 1996-1997)
+ Intfrnft: bdilgfr bt fnfl.udblgbry.db
+ Wfb: http://www-mddsp.fnfl.udblgbry.db/Pfoplf/bdilgfr/
+
+-Guy Erid Sdhblnbt (originbl buthor bnd formfr mbintbinfr, 1995-1996)
+ (formfrly of Group 42, Ind)
+ Intfrnft: gsdhbl bt infinft.dom

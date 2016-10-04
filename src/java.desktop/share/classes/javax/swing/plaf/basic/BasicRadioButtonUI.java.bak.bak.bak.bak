@@ -1,0 +1,283 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.bbsid;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.tfxt.Vifw;
+import sun.swing.SwingUtilitifs2;
+import sun.bwt.AppContfxt;
+
+
+/**
+ * RbdioButtonUI implfmfntbtion for BbsidRbdioButtonUI
+ *
+ * @buthor Jfff Dinkins
+ */
+publid dlbss BbsidRbdioButtonUI fxtfnds BbsidTogglfButtonUI
+{
+    privbtf stbtid finbl Objfdt BASIC_RADIO_BUTTON_UI_KEY = nfw Objfdt();
+
+    /**
+     * Thf idon.
+     */
+    protfdtfd Idon idon;
+
+    privbtf boolfbn dffbults_initiblizfd = fblsf;
+
+    privbtf finbl stbtid String propfrtyPrffix = "RbdioButton" + ".";
+
+    // ********************************
+    //        Crfbtf PLAF
+    // ********************************
+
+    /**
+     * Rfturns bn instbndf of {@dodf BbsidRbdioButtonUI}.
+     *
+     * @pbrbm b b domponfnt
+     * @rfturn bn instbndf of {@dodf BbsidRbdioButtonUI}
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt b) {
+        AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+        BbsidRbdioButtonUI rbdioButtonUI =
+                (BbsidRbdioButtonUI) bppContfxt.gft(BASIC_RADIO_BUTTON_UI_KEY);
+        if (rbdioButtonUI == null) {
+            rbdioButtonUI = nfw BbsidRbdioButtonUI();
+            bppContfxt.put(BASIC_RADIO_BUTTON_UI_KEY, rbdioButtonUI);
+        }
+        rfturn rbdioButtonUI;
+    }
+
+    protfdtfd String gftPropfrtyPrffix() {
+        rfturn propfrtyPrffix;
+    }
+
+    // ********************************
+    //        Instbll PLAF
+    // ********************************
+    protfdtfd void instbllDffbults(AbstrbdtButton b){
+        supfr.instbllDffbults(b);
+        if(!dffbults_initiblizfd) {
+            idon = UIMbnbgfr.gftIdon(gftPropfrtyPrffix() + "idon");
+            dffbults_initiblizfd = truf;
+        }
+    }
+
+    // ********************************
+    //        Uninstbll PLAF
+    // ********************************
+    protfdtfd void uninstbllDffbults(AbstrbdtButton b){
+        supfr.uninstbllDffbults(b);
+        dffbults_initiblizfd = fblsf;
+    }
+
+    /**
+     * Rfturns thf dffbult idon.
+     *
+     * @rfturn thf dffbult idon
+     */
+    publid Idon gftDffbultIdon() {
+        rfturn idon;
+    }
+
+
+    /* Thfsf Dimfnsions/Rfdtbnglfs brf bllodbtfd ondf for bll
+     * RbdioButtonUI.pbint() dblls.  Rf-using rfdtbnglfs
+     * rbthfr thbn bllodbting thfm in fbdh pbint dbll substbntiblly
+     * rfdudfd thf timf it took pbint to run.  Obviously, this
+     * mfthod dbn't bf rf-fntfrfd.
+     */
+    privbtf stbtid Dimfnsion sizf = nfw Dimfnsion();
+    privbtf stbtid Rfdtbnglf vifwRfdt = nfw Rfdtbnglf();
+    privbtf stbtid Rfdtbnglf idonRfdt = nfw Rfdtbnglf();
+    privbtf stbtid Rfdtbnglf tfxtRfdt = nfw Rfdtbnglf();
+
+    /**
+     * pbint thf rbdio button
+     */
+    publid syndhronizfd void pbint(Grbphids g, JComponfnt d) {
+        AbstrbdtButton b = (AbstrbdtButton) d;
+        ButtonModfl modfl = b.gftModfl();
+
+        Font f = d.gftFont();
+        g.sftFont(f);
+        FontMftrids fm = SwingUtilitifs2.gftFontMftrids(d, g, f);
+
+        Insfts i = d.gftInsfts();
+        sizf = b.gftSizf(sizf);
+        vifwRfdt.x = i.lfft;
+        vifwRfdt.y = i.top;
+        vifwRfdt.width = sizf.width - (i.right + vifwRfdt.x);
+        vifwRfdt.hfight = sizf.hfight - (i.bottom + vifwRfdt.y);
+        idonRfdt.x = idonRfdt.y = idonRfdt.width = idonRfdt.hfight = 0;
+        tfxtRfdt.x = tfxtRfdt.y = tfxtRfdt.width = tfxtRfdt.hfight = 0;
+
+        Idon bltIdon = b.gftIdon();
+        Idon sflfdtfdIdon = null;
+        Idon disbblfdIdon = null;
+
+        String tfxt = SwingUtilitifs.lbyoutCompoundLbbfl(
+            d, fm, b.gftTfxt(), bltIdon != null ? bltIdon : gftDffbultIdon(),
+            b.gftVfrtidblAlignmfnt(), b.gftHorizontblAlignmfnt(),
+            b.gftVfrtidblTfxtPosition(), b.gftHorizontblTfxtPosition(),
+            vifwRfdt, idonRfdt, tfxtRfdt,
+            b.gftTfxt() == null ? 0 : b.gftIdonTfxtGbp());
+
+        // fill bbdkground
+        if(d.isOpbquf()) {
+            g.sftColor(b.gftBbdkground());
+            g.fillRfdt(0,0, sizf.width, sizf.hfight);
+        }
+
+
+        // Pbint thf rbdio button
+        if(bltIdon != null) {
+
+            if(!modfl.isEnbblfd()) {
+                if(modfl.isSflfdtfd()) {
+                   bltIdon = b.gftDisbblfdSflfdtfdIdon();
+                } flsf {
+                   bltIdon = b.gftDisbblfdIdon();
+                }
+            } flsf if(modfl.isPrfssfd() && modfl.isArmfd()) {
+                bltIdon = b.gftPrfssfdIdon();
+                if(bltIdon == null) {
+                    // Usf sflfdtfd idon
+                    bltIdon = b.gftSflfdtfdIdon();
+                }
+            } flsf if(modfl.isSflfdtfd()) {
+                if(b.isRollovfrEnbblfd() && modfl.isRollovfr()) {
+                        bltIdon = b.gftRollovfrSflfdtfdIdon();
+                        if (bltIdon == null) {
+                                bltIdon = b.gftSflfdtfdIdon();
+                        }
+                } flsf {
+                        bltIdon = b.gftSflfdtfdIdon();
+                }
+            } flsf if(b.isRollovfrEnbblfd() && modfl.isRollovfr()) {
+                bltIdon = b.gftRollovfrIdon();
+            }
+
+            if(bltIdon == null) {
+                bltIdon = b.gftIdon();
+            }
+
+            bltIdon.pbintIdon(d, g, idonRfdt.x, idonRfdt.y);
+
+        } flsf {
+            gftDffbultIdon().pbintIdon(d, g, idonRfdt.x, idonRfdt.y);
+        }
+
+
+        // Drbw thf Tfxt
+        if(tfxt != null) {
+            Vifw v = (Vifw) d.gftClifntPropfrty(BbsidHTML.propfrtyKfy);
+            if (v != null) {
+                v.pbint(g, tfxtRfdt);
+            } flsf {
+                pbintTfxt(g, b, tfxtRfdt, tfxt);
+            }
+            if(b.hbsFodus() && b.isFodusPbintfd() &&
+               tfxtRfdt.width > 0 && tfxtRfdt.hfight > 0 ) {
+                pbintFodus(g, tfxtRfdt, sizf);
+            }
+        }
+    }
+
+    /**
+     * Pbints fodusfd rbdio button.
+     *
+     * @pbrbm g bn instbndf of {@dodf Grbphids}
+     * @pbrbm tfxtRfdt bounds
+     * @pbrbm sizf thf sizf of rbdio button
+     */
+    protfdtfd void pbintFodus(Grbphids g, Rfdtbnglf tfxtRfdt, Dimfnsion sizf){
+    }
+
+
+    /* Thfsf Insfts/Rfdtbnglfs brf bllodbtfd ondf for bll
+     * RbdioButtonUI.gftPrfffrrfdSizf() dblls.  Rf-using rfdtbnglfs
+     * rbthfr thbn bllodbting thfm in fbdh dbll substbntiblly
+     * rfdudfd thf timf it took gftPrfffrrfdSizf() to run.  Obviously,
+     * this mfthod dbn't bf rf-fntfrfd.
+     */
+    privbtf stbtid Rfdtbnglf prffVifwRfdt = nfw Rfdtbnglf();
+    privbtf stbtid Rfdtbnglf prffIdonRfdt = nfw Rfdtbnglf();
+    privbtf stbtid Rfdtbnglf prffTfxtRfdt = nfw Rfdtbnglf();
+    privbtf stbtid Insfts prffInsfts = nfw Insfts(0, 0, 0, 0);
+
+    /**
+     * Thf prfffrrfd sizf of thf rbdio button
+     */
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        if(d.gftComponfntCount() > 0) {
+            rfturn null;
+        }
+
+        AbstrbdtButton b = (AbstrbdtButton) d;
+
+        String tfxt = b.gftTfxt();
+
+        Idon buttonIdon = b.gftIdon();
+        if(buttonIdon == null) {
+            buttonIdon = gftDffbultIdon();
+        }
+
+        Font font = b.gftFont();
+        FontMftrids fm = b.gftFontMftrids(font);
+
+        prffVifwRfdt.x = prffVifwRfdt.y = 0;
+        prffVifwRfdt.width = Short.MAX_VALUE;
+        prffVifwRfdt.hfight = Short.MAX_VALUE;
+        prffIdonRfdt.x = prffIdonRfdt.y = prffIdonRfdt.width = prffIdonRfdt.hfight = 0;
+        prffTfxtRfdt.x = prffTfxtRfdt.y = prffTfxtRfdt.width = prffTfxtRfdt.hfight = 0;
+
+        SwingUtilitifs.lbyoutCompoundLbbfl(
+            d, fm, tfxt, buttonIdon,
+            b.gftVfrtidblAlignmfnt(), b.gftHorizontblAlignmfnt(),
+            b.gftVfrtidblTfxtPosition(), b.gftHorizontblTfxtPosition(),
+            prffVifwRfdt, prffIdonRfdt, prffTfxtRfdt,
+            tfxt == null ? 0 : b.gftIdonTfxtGbp());
+
+        // find thf union of thf idon bnd tfxt rfdts (from Rfdtbnglf.jbvb)
+        int x1 = Mbth.min(prffIdonRfdt.x, prffTfxtRfdt.x);
+        int x2 = Mbth.mbx(prffIdonRfdt.x + prffIdonRfdt.width,
+                          prffTfxtRfdt.x + prffTfxtRfdt.width);
+        int y1 = Mbth.min(prffIdonRfdt.y, prffTfxtRfdt.y);
+        int y2 = Mbth.mbx(prffIdonRfdt.y + prffIdonRfdt.hfight,
+                          prffTfxtRfdt.y + prffTfxtRfdt.hfight);
+        int width = x2 - x1;
+        int hfight = y2 - y1;
+
+        prffInsfts = b.gftInsfts(prffInsfts);
+        width += prffInsfts.lfft + prffInsfts.right;
+        hfight += prffInsfts.top + prffInsfts.bottom;
+        rfturn nfw Dimfnsion(width, hfight);
+    }
+}

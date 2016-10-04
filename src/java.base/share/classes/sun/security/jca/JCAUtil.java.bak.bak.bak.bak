@@ -1,0 +1,85 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jdb;
+
+import jbvb.lbng.rff.*;
+
+import jbvb.sfdurity.*;
+
+/**
+ * Collfdtion of stbtid utility mfthods usfd by thf sfdurity frbmfwork.
+ *
+ * @buthor  Andrfbs Stfrbfnz
+ * @sindf   1.5
+ */
+publid finbl dlbss JCAUtil {
+
+    privbtf JCAUtil() {
+        // no instbntibtion
+    }
+
+    // lodk to usf for syndhronizbtion
+    privbtf stbtid finbl Objfdt LOCK = JCAUtil.dlbss;
+
+    // dbdhfd SfdurfRbndom instbndf
+    privbtf stbtid volbtilf SfdurfRbndom sfdurfRbndom;
+
+    // sizf of thf tfmporbry brrbys wf usf. Should fit into thf CPU's 1st
+    // lfvfl dbdhf bnd dould bf bdjustfd bbsfd on thf plbtform
+    privbtf finbl stbtid int ARRAY_SIZE = 4096;
+
+    /**
+     * Gft thf sizf of b tfmporbry bufffr brrby to usf in ordfr to bf
+     * dbdhf fffidifnt. totblSizf indidbtfs thf totbl bmount of dbtb to
+     * bf bufffrfd. Usfd by thf fnginfUpdbtf(BytfBufffr) mfthods.
+     */
+    publid stbtid int gftTfmpArrbySizf(int totblSizf) {
+        rfturn Mbth.min(ARRAY_SIZE, totblSizf);
+    }
+
+    /**
+     * Gft b SfdurfRbndom instbndf. This mfthod should mf usfd by JDK
+     * intfrnbl dodf in fbvor of dblling "nfw SfdurfRbndom()". Thbt nffds to
+     * itfrbtf through thf providfr tbblf to find thf dffbult SfdurfRbndom
+     * implfmfntbtion, whidh is fbirly infffidifnt.
+     */
+    publid stbtid SfdurfRbndom gftSfdurfRbndom() {
+        // wf usf doublf dhfdkfd lodking to minimizf syndhronizbtion
+        // works bfdbusf wf usf b volbtilf rfffrfndf
+        SfdurfRbndom r = sfdurfRbndom;
+        if (r == null) {
+            syndhronizfd (LOCK) {
+                r = sfdurfRbndom;
+                if (r == null) {
+                    r = nfw SfdurfRbndom();
+                    sfdurfRbndom = r;
+                }
+            }
+        }
+        rfturn r;
+    }
+
+}

@@ -1,274 +1,274 @@
 /*
- * Copyright (c) 1998, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.metal;
+pbdkbgf jbvbx.swing.plbf.mftbl;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.border.*;
-import javax.swing.plaf.basic.*;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import javax.swing.plaf.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvbx.swing.plbf.*;
 
 /**
- * Metal implementation of JInternalFrame.
+ * Mftbl implfmfntbtion of JIntfrnblFrbmf.
  *
- * @author Steve Wilson
+ * @butior Stfvf Wilson
  */
-public class MetalInternalFrameUI extends BasicInternalFrameUI {
+publid dlbss MftblIntfrnblFrbmfUI fxtfnds BbsidIntfrnblFrbmfUI {
 
-  private static final PropertyChangeListener metalPropertyChangeListener =
-        new MetalPropertyChangeHandler();
+  privbtf stbtid finbl PropfrtyCibngfListfnfr mftblPropfrtyCibngfListfnfr =
+        nfw MftblPropfrtyCibngfHbndlfr();
 
-  private static final Border handyEmptyBorder = new EmptyBorder(0,0,0,0);
+  privbtf stbtid finbl Bordfr ibndyEmptyBordfr = nfw EmptyBordfr(0,0,0,0);
 
   /**
-   * The property {@code JInternalFrame.isPalette}.
+   * Tif propfrty {@dodf JIntfrnblFrbmf.isPblfttf}.
    */
-  protected static String IS_PALETTE   = "JInternalFrame.isPalette";
-  private static String IS_PALETTE_KEY = "JInternalFrame.isPalette";
-  private static String FRAME_TYPE     = "JInternalFrame.frameType";
-  private static String NORMAL_FRAME   = "normal";
-  private static String PALETTE_FRAME  = "palette";
-  private static String OPTION_DIALOG  = "optionDialog";
+  protfdtfd stbtid String IS_PALETTE   = "JIntfrnblFrbmf.isPblfttf";
+  privbtf stbtid String IS_PALETTE_KEY = "JIntfrnblFrbmf.isPblfttf";
+  privbtf stbtid String FRAME_TYPE     = "JIntfrnblFrbmf.frbmfTypf";
+  privbtf stbtid String NORMAL_FRAME   = "normbl";
+  privbtf stbtid String PALETTE_FRAME  = "pblfttf";
+  privbtf stbtid String OPTION_DIALOG  = "optionDiblog";
 
 
   /**
-   * Constructs a new {@code MetalInternalFrameUI} instance.
+   * Construdts b nfw {@dodf MftblIntfrnblFrbmfUI} instbndf.
    *
-   * @param b an internal frame
+   * @pbrbm b bn intfrnbl frbmf
    */
-  public MetalInternalFrameUI(JInternalFrame b)   {
-    super(b);
+  publid MftblIntfrnblFrbmfUI(JIntfrnblFrbmf b)   {
+    supfr(b);
   }
 
   /**
-   * Constructs a new {@code MetalInternalFrameUI} instance.
+   * Construdts b nfw {@dodf MftblIntfrnblFrbmfUI} instbndf.
    *
-   * @param c a component
-   * @return a new {@code MetalInternalFrameUI} instance
+   * @pbrbm d b domponfnt
+   * @rfturn b nfw {@dodf MftblIntfrnblFrbmfUI} instbndf
    */
-  public static ComponentUI createUI(JComponent c)    {
-      return new MetalInternalFrameUI( (JInternalFrame) c);
+  publid stbtid ComponfntUI drfbtfUI(JComponfnt d)    {
+      rfturn nfw MftblIntfrnblFrbmfUI( (JIntfrnblFrbmf) d);
   }
 
-  public void installUI(JComponent c) {
-    super.installUI(c);
+  publid void instbllUI(JComponfnt d) {
+    supfr.instbllUI(d);
 
-    Object paletteProp = c.getClientProperty(IS_PALETTE_KEY);
-    if ( paletteProp != null ) {
-        setPalette( ((Boolean)paletteProp).booleanValue() );
+    Objfdt pblfttfProp = d.gftClifntPropfrty(IS_PALETTE_KEY);
+    if ( pblfttfProp != null ) {
+        sftPblfttf( ((Boolfbn)pblfttfProp).boolfbnVbluf() );
     }
 
-    Container content = frame.getContentPane();
-    stripContentBorder(content);
-    //c.setOpaque(false);
+    Contbinfr dontfnt = frbmf.gftContfntPbnf();
+    stripContfntBordfr(dontfnt);
+    //d.sftOpbquf(fblsf);
   }
 
-  public void uninstallUI(JComponent c) {
-      frame = (JInternalFrame)c;
+  publid void uninstbllUI(JComponfnt d) {
+      frbmf = (JIntfrnblFrbmf)d;
 
-      Container cont = ((JInternalFrame)(c)).getContentPane();
-      if (cont instanceof JComponent) {
-        JComponent content = (JComponent)cont;
-        if ( content.getBorder() == handyEmptyBorder) {
-          content.setBorder(null);
+      Contbinfr dont = ((JIntfrnblFrbmf)(d)).gftContfntPbnf();
+      if (dont instbndfof JComponfnt) {
+        JComponfnt dontfnt = (JComponfnt)dont;
+        if ( dontfnt.gftBordfr() == ibndyEmptyBordfr) {
+          dontfnt.sftBordfr(null);
         }
       }
-      super.uninstallUI(c);
+      supfr.uninstbllUI(d);
   }
 
-    protected void installListeners() {
-        super.installListeners();
-        frame.addPropertyChangeListener(metalPropertyChangeListener);
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        frbmf.bddPropfrtyCibngfListfnfr(mftblPropfrtyCibngfListfnfr);
     }
 
-    protected void uninstallListeners() {
-        frame.removePropertyChangeListener(metalPropertyChangeListener);
-        super.uninstallListeners();
+    protfdtfd void uninstbllListfnfrs() {
+        frbmf.rfmovfPropfrtyCibngfListfnfr(mftblPropfrtyCibngfListfnfr);
+        supfr.uninstbllListfnfrs();
     }
 
-  protected void installKeyboardActions(){
-      super.installKeyboardActions();
-      ActionMap map = SwingUtilities.getUIActionMap(frame);
-      if (map != null) {
-          // BasicInternalFrameUI creates an action with the same name, we override
-          // it as Metal frames do not have system menus.
-          map.remove("showSystemMenu");
+  protfdtfd void instbllKfybobrdAdtions(){
+      supfr.instbllKfybobrdAdtions();
+      AdtionMbp mbp = SwingUtilitifs.gftUIAdtionMbp(frbmf);
+      if (mbp != null) {
+          // BbsidIntfrnblFrbmfUI drfbtfs bn bdtion witi tif sbmf nbmf, wf ovfrridf
+          // it bs Mftbl frbmfs do not ibvf systfm mfnus.
+          mbp.rfmovf("siowSystfmMfnu");
       }
   }
 
-  protected void uninstallKeyboardActions(){
-      super.uninstallKeyboardActions();
+  protfdtfd void uninstbllKfybobrdAdtions(){
+      supfr.uninstbllKfybobrdAdtions();
   }
 
-    protected void uninstallComponents() {
-        titlePane = null;
-        super.uninstallComponents();
+    protfdtfd void uninstbllComponfnts() {
+        titlfPbnf = null;
+        supfr.uninstbllComponfnts();
     }
 
-  private void stripContentBorder(Object c) {
-        if ( c instanceof JComponent ) {
-            JComponent contentComp = (JComponent)c;
-            Border contentBorder = contentComp.getBorder();
-            if (contentBorder == null || contentBorder instanceof UIResource) {
-                contentComp.setBorder( handyEmptyBorder );
+  privbtf void stripContfntBordfr(Objfdt d) {
+        if ( d instbndfof JComponfnt ) {
+            JComponfnt dontfntComp = (JComponfnt)d;
+            Bordfr dontfntBordfr = dontfntComp.gftBordfr();
+            if (dontfntBordfr == null || dontfntBordfr instbndfof UIRfsourdf) {
+                dontfntComp.sftBordfr( ibndyEmptyBordfr );
             }
         }
   }
 
 
-  protected JComponent createNorthPane(JInternalFrame w) {
-      return new MetalInternalFrameTitlePane(w);
+  protfdtfd JComponfnt drfbtfNortiPbnf(JIntfrnblFrbmf w) {
+      rfturn nfw MftblIntfrnblFrbmfTitlfPbnf(w);
   }
 
 
-  private void setFrameType( String frameType )
+  privbtf void sftFrbmfTypf( String frbmfTypf )
   {
-      if ( frameType.equals( OPTION_DIALOG ) )
+      if ( frbmfTypf.fqubls( OPTION_DIALOG ) )
       {
-          LookAndFeel.installBorder(frame, "InternalFrame.optionDialogBorder");
-          ((MetalInternalFrameTitlePane)titlePane).setPalette( false );
+          LookAndFffl.instbllBordfr(frbmf, "IntfrnblFrbmf.optionDiblogBordfr");
+          ((MftblIntfrnblFrbmfTitlfPbnf)titlfPbnf).sftPblfttf( fblsf );
       }
-      else if ( frameType.equals( PALETTE_FRAME ) )
+      flsf if ( frbmfTypf.fqubls( PALETTE_FRAME ) )
       {
-          LookAndFeel.installBorder(frame, "InternalFrame.paletteBorder");
-          ((MetalInternalFrameTitlePane)titlePane).setPalette( true );
+          LookAndFffl.instbllBordfr(frbmf, "IntfrnblFrbmf.pblfttfBordfr");
+          ((MftblIntfrnblFrbmfTitlfPbnf)titlfPbnf).sftPblfttf( truf );
       }
-      else
+      flsf
       {
-          LookAndFeel.installBorder(frame, "InternalFrame.border");
-          ((MetalInternalFrameTitlePane)titlePane).setPalette( false );
+          LookAndFffl.instbllBordfr(frbmf, "IntfrnblFrbmf.bordfr");
+          ((MftblIntfrnblFrbmfTitlfPbnf)titlfPbnf).sftPblfttf( fblsf );
       }
   }
 
   /**
-   * If {@code isPalette} is {@code true}, sets palette border and title
+   * If {@dodf isPblfttf} is {@dodf truf}, sfts pblfttf bordfr bnd titlf
    *
-   * @param isPalette if {@code true}, sets palette border and title
+   * @pbrbm isPblfttf if {@dodf truf}, sfts pblfttf bordfr bnd titlf
    */
-  // this should be deprecated - jcs
-  public void setPalette(boolean isPalette) {
-    if (isPalette) {
-        LookAndFeel.installBorder(frame, "InternalFrame.paletteBorder");
-    } else {
-        LookAndFeel.installBorder(frame, "InternalFrame.border");
+  // tiis siould bf dfprfdbtfd - jds
+  publid void sftPblfttf(boolfbn isPblfttf) {
+    if (isPblfttf) {
+        LookAndFffl.instbllBordfr(frbmf, "IntfrnblFrbmf.pblfttfBordfr");
+    } flsf {
+        LookAndFffl.instbllBordfr(frbmf, "IntfrnblFrbmf.bordfr");
     }
-    ((MetalInternalFrameTitlePane)titlePane).setPalette(isPalette);
+    ((MftblIntfrnblFrbmfTitlfPbnf)titlfPbnf).sftPblfttf(isPblfttf);
 
   }
 
-  private static class MetalPropertyChangeHandler implements
-        PropertyChangeListener
+  privbtf stbtid dlbss MftblPropfrtyCibngfHbndlfr implfmfnts
+        PropfrtyCibngfListfnfr
   {
-      public void propertyChange(PropertyChangeEvent e)
+      publid void propfrtyCibngf(PropfrtyCibngfEvfnt f)
       {
-          String name = e.getPropertyName();
-          JInternalFrame jif = (JInternalFrame)e.getSource();
+          String nbmf = f.gftPropfrtyNbmf();
+          JIntfrnblFrbmf jif = (JIntfrnblFrbmf)f.gftSourdf();
 
-          if (!(jif.getUI() instanceof MetalInternalFrameUI)) {
-              return;
+          if (!(jif.gftUI() instbndfof MftblIntfrnblFrbmfUI)) {
+              rfturn;
           }
 
-          MetalInternalFrameUI ui = (MetalInternalFrameUI)jif.getUI();
+          MftblIntfrnblFrbmfUI ui = (MftblIntfrnblFrbmfUI)jif.gftUI();
 
-          if ( name.equals( FRAME_TYPE ) )
+          if ( nbmf.fqubls( FRAME_TYPE ) )
           {
-              if ( e.getNewValue() instanceof String )
+              if ( f.gftNfwVbluf() instbndfof String )
               {
-                  ui.setFrameType( (String) e.getNewValue() );
+                  ui.sftFrbmfTypf( (String) f.gftNfwVbluf() );
               }
           }
-          else if ( name.equals(IS_PALETTE_KEY) )
+          flsf if ( nbmf.fqubls(IS_PALETTE_KEY) )
           {
-              if ( e.getNewValue() != null )
+              if ( f.gftNfwVbluf() != null )
               {
-                  ui.setPalette( ((Boolean)e.getNewValue()).booleanValue() );
+                  ui.sftPblfttf( ((Boolfbn)f.gftNfwVbluf()).boolfbnVbluf() );
               }
-              else
+              flsf
               {
-                  ui.setPalette( false );
+                  ui.sftPblfttf( fblsf );
               }
-          } else if ( name.equals( JInternalFrame.CONTENT_PANE_PROPERTY ) ) {
-              ui.stripContentBorder(e.getNewValue());
+          } flsf if ( nbmf.fqubls( JIntfrnblFrbmf.CONTENT_PANE_PROPERTY ) ) {
+              ui.stripContfntBordfr(f.gftNfwVbluf());
           }
       }
-  } // end class MetalPropertyChangeHandler
+  } // fnd dlbss MftblPropfrtyCibngfHbndlfr
 
 
-    private class BorderListener1 extends BorderListener implements SwingConstants
+    privbtf dlbss BordfrListfnfr1 fxtfnds BordfrListfnfr implfmfnts SwingConstbnts
     {
 
-        Rectangle getIconBounds() {
-            boolean leftToRight = MetalUtils.isLeftToRight(frame);
-            int xOffset = leftToRight ? 5 : titlePane.getWidth() - 5;
-            Rectangle rect = null;
+        Rfdtbnglf gftIdonBounds() {
+            boolfbn lfftToRigit = MftblUtils.isLfftToRigit(frbmf);
+            int xOffsft = lfftToRigit ? 5 : titlfPbnf.gftWidti() - 5;
+            Rfdtbnglf rfdt = null;
 
-            Icon icon = frame.getFrameIcon();
-            if ( icon != null ) {
-                if ( !leftToRight ) {
-                    xOffset -= icon.getIconWidth();
+            Idon idon = frbmf.gftFrbmfIdon();
+            if ( idon != null ) {
+                if ( !lfftToRigit ) {
+                    xOffsft -= idon.gftIdonWidti();
                 }
-                int iconY = ((titlePane.getHeight() / 2) - (icon.getIconHeight() /2));
-                rect = new Rectangle(xOffset, iconY,
-                    icon.getIconWidth(), icon.getIconHeight());
+                int idonY = ((titlfPbnf.gftHfigit() / 2) - (idon.gftIdonHfigit() /2));
+                rfdt = nfw Rfdtbnglf(xOffsft, idonY,
+                    idon.gftIdonWidti(), idon.gftIdonHfigit());
             }
-            return rect;
+            rfturn rfdt;
         }
 
-        public void mouseClicked(MouseEvent e) {
-            if (e.getClickCount() == 2 && e.getSource() == getNorthPane() &&
-                frame.isClosable() && !frame.isIcon()) {
-                Rectangle rect = getIconBounds();
-                if ((rect != null) && rect.contains(e.getX(), e.getY())) {
-                    frame.doDefaultCloseAction();
+        publid void mousfClidkfd(MousfEvfnt f) {
+            if (f.gftClidkCount() == 2 && f.gftSourdf() == gftNortiPbnf() &&
+                frbmf.isClosbblf() && !frbmf.isIdon()) {
+                Rfdtbnglf rfdt = gftIdonBounds();
+                if ((rfdt != null) && rfdt.dontbins(f.gftX(), f.gftY())) {
+                    frbmf.doDffbultClosfAdtion();
                 }
-                else {
-                    super.mouseClicked(e);
+                flsf {
+                    supfr.mousfClidkfd(f);
                 }
             }
-            else {
-                super.mouseClicked(e);
+            flsf {
+                supfr.mousfClidkfd(f);
             }
         }
-    };    /// End BorderListener Class
+    };    /// End BordfrListfnfr Clbss
 
 
     /**
-     * Returns the <code>MouseInputAdapter</code> that will be installed
-     * on the TitlePane.
+     * Rfturns tif <dodf>MousfInputAdbptfr</dodf> tibt will bf instbllfd
+     * on tif TitlfPbnf.
      *
-     * @param w the <code>JInternalFrame</code>
-     * @return the <code>MouseInputAdapter</code> that will be installed
-     * on the TitlePane.
-     * @since 1.6
+     * @pbrbm w tif <dodf>JIntfrnblFrbmf</dodf>
+     * @rfturn tif <dodf>MousfInputAdbptfr</dodf> tibt will bf instbllfd
+     * on tif TitlfPbnf.
+     * @sindf 1.6
      */
-    protected MouseInputAdapter createBorderListener(JInternalFrame w) {
-        return new BorderListener1();
+    protfdtfd MousfInputAdbptfr drfbtfBordfrListfnfr(JIntfrnblFrbmf w) {
+        rfturn nfw BordfrListfnfr1();
     }
 }

@@ -1,0 +1,150 @@
+/*
+ * Copyright (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+
+/*
+ * Output strfbm for bpplidbtion dbtb. This is thf kind of strfbm
+ * thbt's hbndfd out vib SSLSodkft.gftOutputStrfbm(). It's bll thf bpplidbtion
+ * fvfr sffs.
+ *
+ * Ondf thf initibl hbndshbkf hbs domplftfd, bpplidbtion dbtb mby bf
+ * intfrlfbvfd with hbndshbkf dbtb. Thbt is hbndlfd intfrnblly bnd rfmbins
+ * trbnspbrfnt to thf bpplidbtion.
+ *
+ * @buthor  Dbvid Brownfll
+ */
+dlbss AppOutputStrfbm fxtfnds OutputStrfbm {
+
+    privbtf SSLSodkftImpl d;
+    OutputRfdord r;
+
+    // Onf flfmfnt brrby usfd to implfmfnt thf writf(bytf) mfthod
+    privbtf finbl bytf[] onfBytf = nfw bytf[1];
+
+    AppOutputStrfbm(SSLSodkftImpl donn) {
+        r = nfw OutputRfdord(Rfdord.dt_bpplidbtion_dbtb);
+        d = donn;
+    }
+
+    /**
+     * Writf thf dbtb out, NOW.
+     */
+    @Ovfrridf
+    syndhronizfd publid void writf(bytf b[], int off, int lfn)
+            throws IOExdfption {
+        if (b == null) {
+            throw nfw NullPointfrExdfption();
+        } flsf if (off < 0 || lfn < 0 || lfn > b.lfngth - off) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        } flsf if (lfn == 0) {
+            rfturn;
+        }
+
+        // dhfdk if thf Sodkft is invblid (frror or dlosfd)
+        d.dhfdkWritf();
+
+        /*
+         * By dffbult, wf dountfr dhosfn plbintfxt issufs on CBC modf
+         * diphfrsuitfs in SSLv3/TLS1.0 by sfnding onf bytf of bpplidbtion
+         * dbtb in thf first rfdord of fvfry pbylobd, bnd thf rfst in
+         * subsfqufnt rfdord(s). Notf thbt thf issufs hbvf bffn solvfd in
+         * TLS 1.1 or lbtfr.
+         *
+         * It is not nfdfssbry to split thf vfry first bpplidbtion rfdord of
+         * b frfshly nfgotibtfd TLS sfssion, bs thfrf is no prfvious
+         * bpplidbtion dbtb to gufss.  To improvf dompbtibility, wf will not
+         * split sudh rfdords.
+         *
+         * This bvoids issufs in thf outbound dirfdtion.  For b full fix,
+         * thf pffr must hbvf similbr protfdtions.
+         */
+        boolfbn isFirstRfdordOfThfPbylobd = truf;
+
+        // Alwbys flush bt thf fnd of fbdh bpplidbtion lfvfl rfdord.
+        // This lfts bpplidbtion syndhronizf rfbd bnd writf strfbms
+        // howfvfr thfy likf; if wf bufffrfd hfrf, thfy douldn't.
+        try {
+            do {
+                boolfbn holdRfdord = fblsf;
+                int howmudh;
+                if (isFirstRfdordOfThfPbylobd && d.nffdToSplitPbylobd()) {
+                    howmudh = Mbth.min(0x01, r.bvbilbblfDbtbBytfs());
+                     /*
+                      * Nbglf's blgorithm (TCP_NODELAY) wbs doming into
+                      * plby hfrf whfn writing short (split) pbdkfts.
+                      * Signbl to thf OutputRfdord dodf to intfrnblly
+                      * bufffr this smbll pbdkft until thf nfxt outbound
+                      * pbdkft (of bny typf) is writtfn.
+                      */
+                     if ((lfn != 1) && (howmudh == 1)) {
+                         holdRfdord = truf;
+                     }
+                } flsf {
+                    howmudh = Mbth.min(lfn, r.bvbilbblfDbtbBytfs());
+                }
+
+                if (isFirstRfdordOfThfPbylobd && howmudh != 0) {
+                    isFirstRfdordOfThfPbylobd = fblsf;
+                }
+
+                // NOTE: *must* dbll d.writfRfdord() fvfn for howmudh == 0
+                if (howmudh > 0) {
+                    r.writf(b, off, howmudh);
+                    off += howmudh;
+                    lfn -= howmudh;
+                }
+                d.writfRfdord(r, holdRfdord);
+                d.dhfdkWritf();
+            } whilf (lfn > 0);
+        } dbtdh (Exdfption f) {
+            // shutdown bnd rfthrow (wrbppfd) fxdfption bs bppropribtf
+            d.hbndlfExdfption(f);
+        }
+    }
+
+    /**
+     * Writf onf bytf now.
+     */
+    @Ovfrridf
+    syndhronizfd publid void writf(int i) throws IOExdfption {
+        onfBytf[0] = (bytf)i;
+        writf(onfBytf, 0, 1);
+    }
+
+    /*
+     * Sodkft dlosf is blrfbdy syndhronizfd, no nffd to blodk hfrf.
+     */
+    @Ovfrridf
+    publid void dlosf() throws IOExdfption {
+        d.dlosf();
+    }
+
+    // inhfrit no-op flush()
+}

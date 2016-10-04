@@ -1,776 +1,776 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.launcher;
+pbdkbgf sun.lbundifr;
 
 /*
  *
- *  <p><b>This is NOT part of any API supported by Sun Microsystems.
- *  If you write code that depends on this, you do so at your own
- *  risk.  This code and its internal interfaces are subject to change
- *  or deletion without notice.</b>
+ *  <p><b>Tiis is NOT pbrt of bny API supportfd by Sun Midrosystfms.
+ *  If you writf dodf tibt dfpfnds on tiis, you do so bt your own
+ *  risk.  Tiis dodf bnd its intfrnbl intfrfbdfs brf subjfdt to dibngf
+ *  or dflftion witiout notidf.</b>
  *
  */
 
 /**
- * A utility package for the java(1), javaw(1) launchers.
- * The following are helper methods that the native launcher uses
- * to perform checks etc. using JNI, see src/share/bin/java.c
+ * A utility pbdkbgf for tif jbvb(1), jbvbw(1) lbundifrs.
+ * Tif following brf iflpfr mftiods tibt tif nbtivf lbundifr usfs
+ * to pfrform difdks ftd. using JNI, sff srd/sibrf/bin/jbvb.d
  */
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.nio.charset.Charset;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.text.Normalizer;
-import java.util.ResourceBundle;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Locale.Category;
-import java.util.Properties;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.jar.Attributes;
-import java.util.jar.JarFile;
-import java.util.jar.Manifest;
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.mbti.BigDfdimbl;
+import jbvb.mbti.RoundingModf;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.filf.DirfdtoryStrfbm;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.filf.Pbti;
+import jbvb.tfxt.Normblizfr;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import jbvb.util.Lodblf.Cbtfgory;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Sft;
+import jbvb.util.TrffSft;
+import jbvb.util.jbr.Attributfs;
+import jbvb.util.jbr.JbrFilf;
+import jbvb.util.jbr.Mbniffst;
 
-public enum LauncherHelper {
+publid fnum LbundifrHflpfr {
     INSTANCE;
 
-    // used to identify JavaFX applications
-    private static final String JAVAFX_APPLICATION_MARKER =
-            "JavaFX-Application-Class";
-    private static final String JAVAFX_APPLICATION_CLASS_NAME =
-            "javafx.application.Application";
-    private static final String JAVAFX_FXHELPER_CLASS_NAME_SUFFIX =
-            "sun.launcher.LauncherHelper$FXHelper";
-    private static final String MAIN_CLASS = "Main-Class";
+    // usfd to idfntify JbvbFX bpplidbtions
+    privbtf stbtid finbl String JAVAFX_APPLICATION_MARKER =
+            "JbvbFX-Applidbtion-Clbss";
+    privbtf stbtid finbl String JAVAFX_APPLICATION_CLASS_NAME =
+            "jbvbfx.bpplidbtion.Applidbtion";
+    privbtf stbtid finbl String JAVAFX_FXHELPER_CLASS_NAME_SUFFIX =
+            "sun.lbundifr.LbundifrHflpfr$FXHflpfr";
+    privbtf stbtid finbl String MAIN_CLASS = "Mbin-Clbss";
 
-    private static StringBuilder outBuf = new StringBuilder();
+    privbtf stbtid StringBuildfr outBuf = nfw StringBuildfr();
 
-    private static final String INDENT = "    ";
-    private static final String VM_SETTINGS     = "VM settings:";
-    private static final String PROP_SETTINGS   = "Property settings:";
-    private static final String LOCALE_SETTINGS = "Locale settings:";
+    privbtf stbtid finbl String INDENT = "    ";
+    privbtf stbtid finbl String VM_SETTINGS     = "VM sfttings:";
+    privbtf stbtid finbl String PROP_SETTINGS   = "Propfrty sfttings:";
+    privbtf stbtid finbl String LOCALE_SETTINGS = "Lodblf sfttings:";
 
-    // sync with java.c and sun.misc.VM
-    private static final String diagprop = "sun.java.launcher.diag";
-    final static boolean trace = sun.misc.VM.getSavedProperty(diagprop) != null;
+    // synd witi jbvb.d bnd sun.misd.VM
+    privbtf stbtid finbl String dibgprop = "sun.jbvb.lbundifr.dibg";
+    finbl stbtid boolfbn trbdf = sun.misd.VM.gftSbvfdPropfrty(dibgprop) != null;
 
-    private static final String defaultBundleName =
-            "sun.launcher.resources.launcher";
-    private static class ResourceBundleHolder {
-        private static final ResourceBundle RB =
-                ResourceBundle.getBundle(defaultBundleName);
+    privbtf stbtid finbl String dffbultBundlfNbmf =
+            "sun.lbundifr.rfsourdfs.lbundifr";
+    privbtf stbtid dlbss RfsourdfBundlfHoldfr {
+        privbtf stbtid finbl RfsourdfBundlf RB =
+                RfsourdfBundlf.gftBundlf(dffbultBundlfNbmf);
     }
-    private static PrintStream ostream;
-    private static final ClassLoader scloader = ClassLoader.getSystemClassLoader();
-    private static Class<?> appClass; // application class, for GUI/reporting purposes
+    privbtf stbtid PrintStrfbm ostrfbm;
+    privbtf stbtid finbl ClbssLobdfr sdlobdfr = ClbssLobdfr.gftSystfmClbssLobdfr();
+    privbtf stbtid Clbss<?> bppClbss; // bpplidbtion dlbss, for GUI/rfporting purposfs
 
     /*
-     * A method called by the launcher to print out the standard settings,
-     * by default -XshowSettings is equivalent to -XshowSettings:all,
-     * Specific information may be gotten by using suboptions with possible
-     * values vm, properties and locale.
+     * A mftiod dbllfd by tif lbundifr to print out tif stbndbrd sfttings,
+     * by dffbult -XsiowSfttings is fquivblfnt to -XsiowSfttings:bll,
+     * Spfdifid informbtion mby bf gottfn by using suboptions witi possiblf
+     * vblufs vm, propfrtifs bnd lodblf.
      *
-     * printToStderr: choose between stdout and stderr
+     * printToStdfrr: dioosf bftwffn stdout bnd stdfrr
      *
-     * optionFlag: specifies which options to print default is all other
-     *    possible values are vm, properties, locale.
+     * optionFlbg: spfdififs wiidi options to print dffbult is bll otifr
+     *    possiblf vblufs brf vm, propfrtifs, lodblf.
      *
-     * initialHeapSize: in bytes, as set by the launcher, a zero-value indicates
-     *    this code should determine this value, using a suitable method or
-     *    the line could be omitted.
+     * initiblHfbpSizf: in bytfs, bs sft by tif lbundifr, b zfro-vbluf indidbtfs
+     *    tiis dodf siould dftfrminf tiis vbluf, using b suitbblf mftiod or
+     *    tif linf dould bf omittfd.
      *
-     * maxHeapSize: in bytes, as set by the launcher, a zero-value indicates
-     *    this code should determine this value, using a suitable method.
+     * mbxHfbpSizf: in bytfs, bs sft by tif lbundifr, b zfro-vbluf indidbtfs
+     *    tiis dodf siould dftfrminf tiis vbluf, using b suitbblf mftiod.
      *
-     * stackSize: in bytes, as set by the launcher, a zero-value indicates
-     *    this code determine this value, using a suitable method or omit the
-     *    line entirely.
+     * stbdkSizf: in bytfs, bs sft by tif lbundifr, b zfro-vbluf indidbtfs
+     *    tiis dodf dftfrminf tiis vbluf, using b suitbblf mftiod or omit tif
+     *    linf fntirfly.
      */
-    static void showSettings(boolean printToStderr, String optionFlag,
-            long initialHeapSize, long maxHeapSize, long stackSize,
-            boolean isServer) {
+    stbtid void siowSfttings(boolfbn printToStdfrr, String optionFlbg,
+            long initiblHfbpSizf, long mbxHfbpSizf, long stbdkSizf,
+            boolfbn isSfrvfr) {
 
-        initOutput(printToStderr);
-        String opts[] = optionFlag.split(":");
-        String optStr = (opts.length > 1 && opts[1] != null)
+        initOutput(printToStdfrr);
+        String opts[] = optionFlbg.split(":");
+        String optStr = (opts.lfngti > 1 && opts[1] != null)
                 ? opts[1].trim()
-                : "all";
-        switch (optStr) {
-            case "vm":
-                printVmSettings(initialHeapSize, maxHeapSize,
-                                stackSize, isServer);
-                break;
-            case "properties":
-                printProperties();
-                break;
-            case "locale":
-                printLocale();
-                break;
-            default:
-                printVmSettings(initialHeapSize, maxHeapSize, stackSize,
-                                isServer);
-                printProperties();
-                printLocale();
-                break;
+                : "bll";
+        switdi (optStr) {
+            dbsf "vm":
+                printVmSfttings(initiblHfbpSizf, mbxHfbpSizf,
+                                stbdkSizf, isSfrvfr);
+                brfbk;
+            dbsf "propfrtifs":
+                printPropfrtifs();
+                brfbk;
+            dbsf "lodblf":
+                printLodblf();
+                brfbk;
+            dffbult:
+                printVmSfttings(initiblHfbpSizf, mbxHfbpSizf, stbdkSizf,
+                                isSfrvfr);
+                printPropfrtifs();
+                printLodblf();
+                brfbk;
         }
     }
 
     /*
-     * prints the main vm settings subopt/section
+     * prints tif mbin vm sfttings subopt/sfdtion
      */
-    private static void printVmSettings(
-            long initialHeapSize, long maxHeapSize,
-            long stackSize, boolean isServer) {
+    privbtf stbtid void printVmSfttings(
+            long initiblHfbpSizf, long mbxHfbpSizf,
+            long stbdkSizf, boolfbn isSfrvfr) {
 
-        ostream.println(VM_SETTINGS);
-        if (stackSize != 0L) {
-            ostream.println(INDENT + "Stack Size: " +
-                    SizePrefix.scaleValue(stackSize));
+        ostrfbm.println(VM_SETTINGS);
+        if (stbdkSizf != 0L) {
+            ostrfbm.println(INDENT + "Stbdk Sizf: " +
+                    SizfPrffix.sdblfVbluf(stbdkSizf));
         }
-        if (initialHeapSize != 0L) {
-             ostream.println(INDENT + "Min. Heap Size: " +
-                    SizePrefix.scaleValue(initialHeapSize));
+        if (initiblHfbpSizf != 0L) {
+             ostrfbm.println(INDENT + "Min. Hfbp Sizf: " +
+                    SizfPrffix.sdblfVbluf(initiblHfbpSizf));
         }
-        if (maxHeapSize != 0L) {
-            ostream.println(INDENT + "Max. Heap Size: " +
-                    SizePrefix.scaleValue(maxHeapSize));
-        } else {
-            ostream.println(INDENT + "Max. Heap Size (Estimated): "
-                    + SizePrefix.scaleValue(Runtime.getRuntime().maxMemory()));
+        if (mbxHfbpSizf != 0L) {
+            ostrfbm.println(INDENT + "Mbx. Hfbp Sizf: " +
+                    SizfPrffix.sdblfVbluf(mbxHfbpSizf));
+        } flsf {
+            ostrfbm.println(INDENT + "Mbx. Hfbp Sizf (Estimbtfd): "
+                    + SizfPrffix.sdblfVbluf(Runtimf.gftRuntimf().mbxMfmory()));
         }
-        ostream.println(INDENT + "Ergonomics Machine Class: "
-                + ((isServer) ? "server" : "client"));
-        ostream.println(INDENT + "Using VM: "
-                + System.getProperty("java.vm.name"));
-        ostream.println();
+        ostrfbm.println(INDENT + "Ergonomids Mbdiinf Clbss: "
+                + ((isSfrvfr) ? "sfrvfr" : "dlifnt"));
+        ostrfbm.println(INDENT + "Using VM: "
+                + Systfm.gftPropfrty("jbvb.vm.nbmf"));
+        ostrfbm.println();
     }
 
     /*
-     * prints the properties subopt/section
+     * prints tif propfrtifs subopt/sfdtion
      */
-    private static void printProperties() {
-        Properties p = System.getProperties();
-        ostream.println(PROP_SETTINGS);
-        List<String> sortedPropertyKeys = new ArrayList<>();
-        sortedPropertyKeys.addAll(p.stringPropertyNames());
-        Collections.sort(sortedPropertyKeys);
-        for (String x : sortedPropertyKeys) {
-            printPropertyValue(x, p.getProperty(x));
+    privbtf stbtid void printPropfrtifs() {
+        Propfrtifs p = Systfm.gftPropfrtifs();
+        ostrfbm.println(PROP_SETTINGS);
+        List<String> sortfdPropfrtyKfys = nfw ArrbyList<>();
+        sortfdPropfrtyKfys.bddAll(p.stringPropfrtyNbmfs());
+        Collfdtions.sort(sortfdPropfrtyKfys);
+        for (String x : sortfdPropfrtyKfys) {
+            printPropfrtyVbluf(x, p.gftPropfrty(x));
         }
-        ostream.println();
+        ostrfbm.println();
     }
 
-    private static boolean isPath(String key) {
-        return key.endsWith(".dirs") || key.endsWith(".path");
+    privbtf stbtid boolfbn isPbti(String kfy) {
+        rfturn kfy.fndsWiti(".dirs") || kfy.fndsWiti(".pbti");
     }
 
-    private static void printPropertyValue(String key, String value) {
-        ostream.print(INDENT + key + " = ");
-        if (key.equals("line.separator")) {
-            for (byte b : value.getBytes()) {
-                switch (b) {
-                    case 0xd:
-                        ostream.print("\\r ");
-                        break;
-                    case 0xa:
-                        ostream.print("\\n ");
-                        break;
-                    default:
-                        // print any bizzare line separators in hex, but really
-                        // shouldn't happen.
-                        ostream.printf("0x%02X", b & 0xff);
-                        break;
+    privbtf stbtid void printPropfrtyVbluf(String kfy, String vbluf) {
+        ostrfbm.print(INDENT + kfy + " = ");
+        if (kfy.fqubls("linf.sfpbrbtor")) {
+            for (bytf b : vbluf.gftBytfs()) {
+                switdi (b) {
+                    dbsf 0xd:
+                        ostrfbm.print("\\r ");
+                        brfbk;
+                    dbsf 0xb:
+                        ostrfbm.print("\\n ");
+                        brfbk;
+                    dffbult:
+                        // print bny bizzbrf linf sfpbrbtors in ifx, but rfblly
+                        // siouldn't ibppfn.
+                        ostrfbm.printf("0x%02X", b & 0xff);
+                        brfbk;
                 }
             }
-            ostream.println();
-            return;
+            ostrfbm.println();
+            rfturn;
         }
-        if (!isPath(key)) {
-            ostream.println(value);
-            return;
+        if (!isPbti(kfy)) {
+            ostrfbm.println(vbluf);
+            rfturn;
         }
-        String[] values = value.split(System.getProperty("path.separator"));
-        boolean first = true;
-        for (String s : values) {
-            if (first) { // first line treated specially
-                ostream.println(s);
-                first = false;
-            } else { // following lines prefix with indents
-                ostream.println(INDENT + INDENT + s);
+        String[] vblufs = vbluf.split(Systfm.gftPropfrty("pbti.sfpbrbtor"));
+        boolfbn first = truf;
+        for (String s : vblufs) {
+            if (first) { // first linf trfbtfd spfdiblly
+                ostrfbm.println(s);
+                first = fblsf;
+            } flsf { // following linfs prffix witi indfnts
+                ostrfbm.println(INDENT + INDENT + s);
             }
         }
     }
 
     /*
-     * prints the locale subopt/section
+     * prints tif lodblf subopt/sfdtion
      */
-    private static void printLocale() {
-        Locale locale = Locale.getDefault();
-        ostream.println(LOCALE_SETTINGS);
-        ostream.println(INDENT + "default locale = " +
-                locale.getDisplayLanguage());
-        ostream.println(INDENT + "default display locale = " +
-                Locale.getDefault(Category.DISPLAY).getDisplayName());
-        ostream.println(INDENT + "default format locale = " +
-                Locale.getDefault(Category.FORMAT).getDisplayName());
-        printLocales();
-        ostream.println();
+    privbtf stbtid void printLodblf() {
+        Lodblf lodblf = Lodblf.gftDffbult();
+        ostrfbm.println(LOCALE_SETTINGS);
+        ostrfbm.println(INDENT + "dffbult lodblf = " +
+                lodblf.gftDisplbyLbngubgf());
+        ostrfbm.println(INDENT + "dffbult displby lodblf = " +
+                Lodblf.gftDffbult(Cbtfgory.DISPLAY).gftDisplbyNbmf());
+        ostrfbm.println(INDENT + "dffbult formbt lodblf = " +
+                Lodblf.gftDffbult(Cbtfgory.FORMAT).gftDisplbyNbmf());
+        printLodblfs();
+        ostrfbm.println();
     }
 
-    private static void printLocales() {
-        Locale[] tlocales = Locale.getAvailableLocales();
-        final int len = tlocales == null ? 0 : tlocales.length;
-        if (len < 1 ) {
-            return;
+    privbtf stbtid void printLodblfs() {
+        Lodblf[] tlodblfs = Lodblf.gftAvbilbblfLodblfs();
+        finbl int lfn = tlodblfs == null ? 0 : tlodblfs.lfngti;
+        if (lfn < 1 ) {
+            rfturn;
         }
-        // Locale does not implement Comparable so we convert it to String
-        // and sort it for pretty printing.
-        Set<String> sortedSet = new TreeSet<>();
-        for (Locale l : tlocales) {
-            sortedSet.add(l.toString());
+        // Lodblf dofs not implfmfnt Compbrbblf so wf donvfrt it to String
+        // bnd sort it for prftty printing.
+        Sft<String> sortfdSft = nfw TrffSft<>();
+        for (Lodblf l : tlodblfs) {
+            sortfdSft.bdd(l.toString());
         }
 
-        ostream.print(INDENT + "available locales = ");
-        Iterator<String> iter = sortedSet.iterator();
-        final int last = len - 1;
-        for (int i = 0 ; iter.hasNext() ; i++) {
-            String s = iter.next();
-            ostream.print(s);
-            if (i != last) {
-                ostream.print(", ");
+        ostrfbm.print(INDENT + "bvbilbblf lodblfs = ");
+        Itfrbtor<String> itfr = sortfdSft.itfrbtor();
+        finbl int lbst = lfn - 1;
+        for (int i = 0 ; itfr.ibsNfxt() ; i++) {
+            String s = itfr.nfxt();
+            ostrfbm.print(s);
+            if (i != lbst) {
+                ostrfbm.print(", ");
             }
-            // print columns of 8
+            // print dolumns of 8
             if ((i + 1) % 8 == 0) {
-                ostream.println();
-                ostream.print(INDENT + INDENT);
+                ostrfbm.println();
+                ostrfbm.print(INDENT + INDENT);
             }
         }
     }
 
-    private enum SizePrefix {
+    privbtf fnum SizfPrffix {
 
         KILO(1024, "K"),
         MEGA(1024 * 1024, "M"),
         GIGA(1024 * 1024 * 1024, "G"),
         TERA(1024L * 1024L * 1024L * 1024L, "T");
-        long size;
-        String abbrev;
+        long sizf;
+        String bbbrfv;
 
-        SizePrefix(long size, String abbrev) {
-            this.size = size;
-            this.abbrev = abbrev;
+        SizfPrffix(long sizf, String bbbrfv) {
+            tiis.sizf = sizf;
+            tiis.bbbrfv = bbbrfv;
         }
 
-        private static String scale(long v, SizePrefix prefix) {
-            return BigDecimal.valueOf(v).divide(BigDecimal.valueOf(prefix.size),
-                    2, RoundingMode.HALF_EVEN).toPlainString() + prefix.abbrev;
+        privbtf stbtid String sdblf(long v, SizfPrffix prffix) {
+            rfturn BigDfdimbl.vblufOf(v).dividf(BigDfdimbl.vblufOf(prffix.sizf),
+                    2, RoundingModf.HALF_EVEN).toPlbinString() + prffix.bbbrfv;
         }
         /*
-         * scale the incoming values to a human readable form, represented as
-         * K, M, G and T, see java.c parse_size for the scaled values and
-         * suffixes. The lowest possible scaled value is Kilo.
+         * sdblf tif indoming vblufs to b iumbn rfbdbblf form, rfprfsfntfd bs
+         * K, M, G bnd T, sff jbvb.d pbrsf_sizf for tif sdblfd vblufs bnd
+         * suffixfs. Tif lowfst possiblf sdblfd vbluf is Kilo.
          */
-        static String scaleValue(long v) {
-            if (v < MEGA.size) {
-                return scale(v, KILO);
-            } else if (v < GIGA.size) {
-                return scale(v, MEGA);
-            } else if (v < TERA.size) {
-                return scale(v, GIGA);
-            } else {
-                return scale(v, TERA);
+        stbtid String sdblfVbluf(long v) {
+            if (v < MEGA.sizf) {
+                rfturn sdblf(v, KILO);
+            } flsf if (v < GIGA.sizf) {
+                rfturn sdblf(v, MEGA);
+            } flsf if (v < TERA.sizf) {
+                rfturn sdblf(v, GIGA);
+            } flsf {
+                rfturn sdblf(v, TERA);
             }
         }
     }
 
     /**
-     * A private helper method to get a localized message and also
-     * apply any arguments that we might pass.
+     * A privbtf iflpfr mftiod to gft b lodblizfd mfssbgf bnd blso
+     * bpply bny brgumfnts tibt wf migit pbss.
      */
-    private static String getLocalizedMessage(String key, Object... args) {
-        String msg = ResourceBundleHolder.RB.getString(key);
-        return (args != null) ? MessageFormat.format(msg, args) : msg;
+    privbtf stbtid String gftLodblizfdMfssbgf(String kfy, Objfdt... brgs) {
+        String msg = RfsourdfBundlfHoldfr.RB.gftString(kfy);
+        rfturn (brgs != null) ? MfssbgfFormbt.formbt(msg, brgs) : msg;
     }
 
     /**
-     * The java -help message is split into 3 parts, an invariant, followed
-     * by a set of platform dependent variant messages, finally an invariant
-     * set of lines.
-     * This method initializes the help message for the first time, and also
-     * assembles the invariant header part of the message.
+     * Tif jbvb -iflp mfssbgf is split into 3 pbrts, bn invbribnt, followfd
+     * by b sft of plbtform dfpfndfnt vbribnt mfssbgfs, finblly bn invbribnt
+     * sft of linfs.
+     * Tiis mftiod initiblizfs tif iflp mfssbgf for tif first timf, bnd blso
+     * bssfmblfs tif invbribnt ifbdfr pbrt of tif mfssbgf.
      */
-    static void initHelpMessage(String progname) {
-        outBuf = outBuf.append(getLocalizedMessage("java.launcher.opt.header",
-                (progname == null) ? "java" : progname ));
-        outBuf = outBuf.append(getLocalizedMessage("java.launcher.opt.datamodel",
+    stbtid void initHflpMfssbgf(String prognbmf) {
+        outBuf = outBuf.bppfnd(gftLodblizfdMfssbgf("jbvb.lbundifr.opt.ifbdfr",
+                (prognbmf == null) ? "jbvb" : prognbmf ));
+        outBuf = outBuf.bppfnd(gftLodblizfdMfssbgf("jbvb.lbundifr.opt.dbtbmodfl",
                 32));
-        outBuf = outBuf.append(getLocalizedMessage("java.launcher.opt.datamodel",
+        outBuf = outBuf.bppfnd(gftLodblizfdMfssbgf("jbvb.lbundifr.opt.dbtbmodfl",
                 64));
     }
 
     /**
-     * Appends the vm selection messages to the header, already created.
-     * initHelpSystem must already be called.
+     * Appfnds tif vm sflfdtion mfssbgfs to tif ifbdfr, blrfbdy drfbtfd.
+     * initHflpSystfm must blrfbdy bf dbllfd.
      */
-    static void appendVmSelectMessage(String vm1, String vm2) {
-        outBuf = outBuf.append(getLocalizedMessage("java.launcher.opt.vmselect",
+    stbtid void bppfndVmSflfdtMfssbgf(String vm1, String vm2) {
+        outBuf = outBuf.bppfnd(gftLodblizfdMfssbgf("jbvb.lbundifr.opt.vmsflfdt",
                 vm1, vm2));
     }
 
     /**
-     * Appends the vm synoym message to the header, already created.
-     * initHelpSystem must be called before using this method.
+     * Appfnds tif vm synoym mfssbgf to tif ifbdfr, blrfbdy drfbtfd.
+     * initHflpSystfm must bf dbllfd bfforf using tiis mftiod.
      */
-    static void appendVmSynonymMessage(String vm1, String vm2) {
-        outBuf = outBuf.append(getLocalizedMessage("java.launcher.opt.hotspot",
+    stbtid void bppfndVmSynonymMfssbgf(String vm1, String vm2) {
+        outBuf = outBuf.bppfnd(gftLodblizfdMfssbgf("jbvb.lbundifr.opt.iotspot",
                 vm1, vm2));
     }
 
     /**
-     * Appends the vm Ergo message to the header, already created.
-     * initHelpSystem must be called before using this method.
+     * Appfnds tif vm Ergo mfssbgf to tif ifbdfr, blrfbdy drfbtfd.
+     * initHflpSystfm must bf dbllfd bfforf using tiis mftiod.
      */
-    static void appendVmErgoMessage(boolean isServerClass, String vm) {
-        outBuf = outBuf.append(getLocalizedMessage("java.launcher.ergo.message1",
+    stbtid void bppfndVmErgoMfssbgf(boolfbn isSfrvfrClbss, String vm) {
+        outBuf = outBuf.bppfnd(gftLodblizfdMfssbgf("jbvb.lbundifr.frgo.mfssbgf1",
                 vm));
-        outBuf = (isServerClass)
-             ? outBuf.append(",\n" +
-                getLocalizedMessage("java.launcher.ergo.message2") + "\n\n")
-             : outBuf.append(".\n\n");
+        outBuf = (isSfrvfrClbss)
+             ? outBuf.bppfnd(",\n" +
+                gftLodblizfdMfssbgf("jbvb.lbundifr.frgo.mfssbgf2") + "\n\n")
+             : outBuf.bppfnd(".\n\n");
     }
 
     /**
-     * Appends the last invariant part to the previously created messages,
-     * and finishes up the printing to the desired output stream.
-     * initHelpSystem must be called before using this method.
+     * Appfnds tif lbst invbribnt pbrt to tif prfviously drfbtfd mfssbgfs,
+     * bnd finisifs up tif printing to tif dfsirfd output strfbm.
+     * initHflpSystfm must bf dbllfd bfforf using tiis mftiod.
      */
-    static void printHelpMessage(boolean printToStderr) {
-        initOutput(printToStderr);
-        outBuf = outBuf.append(getLocalizedMessage("java.launcher.opt.footer",
-                File.pathSeparator));
-        ostream.println(outBuf.toString());
+    stbtid void printHflpMfssbgf(boolfbn printToStdfrr) {
+        initOutput(printToStdfrr);
+        outBuf = outBuf.bppfnd(gftLodblizfdMfssbgf("jbvb.lbundifr.opt.footfr",
+                Filf.pbtiSfpbrbtor));
+        ostrfbm.println(outBuf.toString());
     }
 
     /**
-     * Prints the Xusage text to the desired output stream.
+     * Prints tif Xusbgf tfxt to tif dfsirfd output strfbm.
      */
-    static void printXUsageMessage(boolean printToStderr) {
-        initOutput(printToStderr);
-        ostream.println(getLocalizedMessage("java.launcher.X.usage",
-                File.pathSeparator));
-        if (System.getProperty("os.name").contains("OS X")) {
-            ostream.println(getLocalizedMessage("java.launcher.X.macosx.usage",
-                        File.pathSeparator));
+    stbtid void printXUsbgfMfssbgf(boolfbn printToStdfrr) {
+        initOutput(printToStdfrr);
+        ostrfbm.println(gftLodblizfdMfssbgf("jbvb.lbundifr.X.usbgf",
+                Filf.pbtiSfpbrbtor));
+        if (Systfm.gftPropfrty("os.nbmf").dontbins("OS X")) {
+            ostrfbm.println(gftLodblizfdMfssbgf("jbvb.lbundifr.X.mbdosx.usbgf",
+                        Filf.pbtiSfpbrbtor));
         }
     }
 
-    static void initOutput(boolean printToStderr) {
-        ostream =  (printToStderr) ? System.err : System.out;
+    stbtid void initOutput(boolfbn printToStdfrr) {
+        ostrfbm =  (printToStdfrr) ? Systfm.frr : Systfm.out;
     }
 
-    static String getMainClassFromJar(String jarname) {
-        String mainValue = null;
-        try (JarFile jarFile = new JarFile(jarname)) {
-            Manifest manifest = jarFile.getManifest();
-            if (manifest == null) {
-                abort(null, "java.launcher.jar.error2", jarname);
+    stbtid String gftMbinClbssFromJbr(String jbrnbmf) {
+        String mbinVbluf = null;
+        try (JbrFilf jbrFilf = nfw JbrFilf(jbrnbmf)) {
+            Mbniffst mbniffst = jbrFilf.gftMbniffst();
+            if (mbniffst == null) {
+                bbort(null, "jbvb.lbundifr.jbr.frror2", jbrnbmf);
             }
-            Attributes mainAttrs = manifest.getMainAttributes();
-            if (mainAttrs == null) {
-                abort(null, "java.launcher.jar.error3", jarname);
+            Attributfs mbinAttrs = mbniffst.gftMbinAttributfs();
+            if (mbinAttrs == null) {
+                bbort(null, "jbvb.lbundifr.jbr.frror3", jbrnbmf);
             }
-            mainValue = mainAttrs.getValue(MAIN_CLASS);
-            if (mainValue == null) {
-                abort(null, "java.launcher.jar.error3", jarname);
+            mbinVbluf = mbinAttrs.gftVbluf(MAIN_CLASS);
+            if (mbinVbluf == null) {
+                bbort(null, "jbvb.lbundifr.jbr.frror3", jbrnbmf);
             }
 
             /*
-             * Hand off to FXHelper if it detects a JavaFX application
-             * This must be done after ensuring a Main-Class entry
-             * exists to enforce compliance with the jar specification
+             * Hbnd off to FXHflpfr if it dftfdts b JbvbFX bpplidbtion
+             * Tiis must bf donf bftfr fnsuring b Mbin-Clbss fntry
+             * fxists to fnfordf domplibndf witi tif jbr spfdifidbtion
              */
-            if (mainAttrs.containsKey(
-                    new Attributes.Name(JAVAFX_APPLICATION_MARKER))) {
-                FXHelper.setFXLaunchParameters(jarname, LM_JAR);
-                return FXHelper.class.getName();
+            if (mbinAttrs.dontbinsKfy(
+                    nfw Attributfs.Nbmf(JAVAFX_APPLICATION_MARKER))) {
+                FXHflpfr.sftFXLbundiPbrbmftfrs(jbrnbmf, LM_JAR);
+                rfturn FXHflpfr.dlbss.gftNbmf();
             }
 
-            return mainValue.trim();
-        } catch (IOException ioe) {
-            abort(ioe, "java.launcher.jar.error1", jarname);
+            rfturn mbinVbluf.trim();
+        } dbtdi (IOExdfption iof) {
+            bbort(iof, "jbvb.lbundifr.jbr.frror1", jbrnbmf);
         }
-        return null;
+        rfturn null;
     }
 
-    // From src/share/bin/java.c:
-    //   enum LaunchMode { LM_UNKNOWN = 0, LM_CLASS, LM_JAR };
+    // From srd/sibrf/bin/jbvb.d:
+    //   fnum LbundiModf { LM_UNKNOWN = 0, LM_CLASS, LM_JAR };
 
-    private static final int LM_UNKNOWN = 0;
-    private static final int LM_CLASS   = 1;
-    private static final int LM_JAR     = 2;
+    privbtf stbtid finbl int LM_UNKNOWN = 0;
+    privbtf stbtid finbl int LM_CLASS   = 1;
+    privbtf stbtid finbl int LM_JAR     = 2;
 
-    static void abort(Throwable t, String msgKey, Object... args) {
-        if (msgKey != null) {
-            ostream.println(getLocalizedMessage(msgKey, args));
+    stbtid void bbort(Tirowbblf t, String msgKfy, Objfdt... brgs) {
+        if (msgKfy != null) {
+            ostrfbm.println(gftLodblizfdMfssbgf(msgKfy, brgs));
         }
-        if (trace) {
+        if (trbdf) {
             if (t != null) {
-                t.printStackTrace();
-            } else {
-                Thread.dumpStack();
+                t.printStbdkTrbdf();
+            } flsf {
+                Tirfbd.dumpStbdk();
             }
         }
-        System.exit(1);
+        Systfm.fxit(1);
     }
 
     /**
-     * This method does the following:
-     * 1. gets the classname from a Jar's manifest, if necessary
-     * 2. loads the class using the System ClassLoader
-     * 3. ensures the availability and accessibility of the main method,
-     *    using signatureDiagnostic method.
-     *    a. does the class exist
-     *    b. is there a main
-     *    c. is the main public
-     *    d. is the main static
-     *    e. does the main take a String array for args
-     * 4. if no main method and if the class extends FX Application, then call
-     *    on FXHelper to determine the main class to launch
-     * 5. and off we go......
+     * Tiis mftiod dofs tif following:
+     * 1. gfts tif dlbssnbmf from b Jbr's mbniffst, if nfdfssbry
+     * 2. lobds tif dlbss using tif Systfm ClbssLobdfr
+     * 3. fnsurfs tif bvbilbbility bnd bddfssibility of tif mbin mftiod,
+     *    using signbturfDibgnostid mftiod.
+     *    b. dofs tif dlbss fxist
+     *    b. is tifrf b mbin
+     *    d. is tif mbin publid
+     *    d. is tif mbin stbtid
+     *    f. dofs tif mbin tbkf b String brrby for brgs
+     * 4. if no mbin mftiod bnd if tif dlbss fxtfnds FX Applidbtion, tifn dbll
+     *    on FXHflpfr to dftfrminf tif mbin dlbss to lbundi
+     * 5. bnd off wf go......
      *
-     * @param printToStderr if set, all output will be routed to stderr
-     * @param mode LaunchMode as determined by the arguments passed on the
-     * command line
-     * @param what either the jar file to launch or the main class when using
-     * LM_CLASS mode
-     * @return the application's main class
+     * @pbrbm printToStdfrr if sft, bll output will bf routfd to stdfrr
+     * @pbrbm modf LbundiModf bs dftfrminfd by tif brgumfnts pbssfd on tif
+     * dommbnd linf
+     * @pbrbm wibt fitifr tif jbr filf to lbundi or tif mbin dlbss wifn using
+     * LM_CLASS modf
+     * @rfturn tif bpplidbtion's mbin dlbss
      */
-    public static Class<?> checkAndLoadMain(boolean printToStderr,
-                                            int mode,
-                                            String what) {
-        initOutput(printToStderr);
-        // get the class name
-        String cn = null;
-        switch (mode) {
-            case LM_CLASS:
-                cn = what;
-                break;
-            case LM_JAR:
-                cn = getMainClassFromJar(what);
-                break;
-            default:
-                // should never happen
-                throw new InternalError("" + mode + ": Unknown launch mode");
+    publid stbtid Clbss<?> difdkAndLobdMbin(boolfbn printToStdfrr,
+                                            int modf,
+                                            String wibt) {
+        initOutput(printToStdfrr);
+        // gft tif dlbss nbmf
+        String dn = null;
+        switdi (modf) {
+            dbsf LM_CLASS:
+                dn = wibt;
+                brfbk;
+            dbsf LM_JAR:
+                dn = gftMbinClbssFromJbr(wibt);
+                brfbk;
+            dffbult:
+                // siould nfvfr ibppfn
+                tirow nfw IntfrnblError("" + modf + ": Unknown lbundi modf");
         }
-        cn = cn.replace('/', '.');
-        Class<?> mainClass = null;
+        dn = dn.rfplbdf('/', '.');
+        Clbss<?> mbinClbss = null;
         try {
-            mainClass = scloader.loadClass(cn);
-        } catch (NoClassDefFoundError | ClassNotFoundException cnfe) {
-            if (System.getProperty("os.name", "").contains("OS X")
-                && Normalizer.isNormalized(cn, Normalizer.Form.NFD)) {
+            mbinClbss = sdlobdfr.lobdClbss(dn);
+        } dbtdi (NoClbssDffFoundError | ClbssNotFoundExdfption dnff) {
+            if (Systfm.gftPropfrty("os.nbmf", "").dontbins("OS X")
+                && Normblizfr.isNormblizfd(dn, Normblizfr.Form.NFD)) {
                 try {
-                    // On Mac OS X since all names with diacretic symbols are given as decomposed it
-                    // is possible that main class name comes incorrectly from the command line
-                    // and we have to re-compose it
-                    mainClass = scloader.loadClass(Normalizer.normalize(cn, Normalizer.Form.NFC));
-                } catch (NoClassDefFoundError | ClassNotFoundException cnfe1) {
-                    abort(cnfe, "java.launcher.cls.error1", cn);
+                    // On Mbd OS X sindf bll nbmfs witi dibdrftid symbols brf givfn bs dfdomposfd it
+                    // is possiblf tibt mbin dlbss nbmf domfs indorrfdtly from tif dommbnd linf
+                    // bnd wf ibvf to rf-domposf it
+                    mbinClbss = sdlobdfr.lobdClbss(Normblizfr.normblizf(dn, Normblizfr.Form.NFC));
+                } dbtdi (NoClbssDffFoundError | ClbssNotFoundExdfption dnff1) {
+                    bbort(dnff, "jbvb.lbundifr.dls.frror1", dn);
                 }
-            } else {
-                abort(cnfe, "java.launcher.cls.error1", cn);
+            } flsf {
+                bbort(dnff, "jbvb.lbundifr.dls.frror1", dn);
             }
         }
-        // set to mainClass
-        appClass = mainClass;
+        // sft to mbinClbss
+        bppClbss = mbinClbss;
 
         /*
-         * Check if FXHelper can launch it using the FX launcher. In an FX app,
-         * the main class may or may not have a main method, so do this before
-         * validating the main class.
+         * Cifdk if FXHflpfr dbn lbundi it using tif FX lbundifr. In bn FX bpp,
+         * tif mbin dlbss mby or mby not ibvf b mbin mftiod, so do tiis bfforf
+         * vblidbting tif mbin dlbss.
          */
-        if (JAVAFX_FXHELPER_CLASS_NAME_SUFFIX.equals(mainClass.getName()) ||
-            doesExtendFXApplication(mainClass)) {
-            // Will abort() if there are problems with FX runtime
-            FXHelper.setFXLaunchParameters(what, mode);
-            return FXHelper.class;
+        if (JAVAFX_FXHELPER_CLASS_NAME_SUFFIX.fqubls(mbinClbss.gftNbmf()) ||
+            dofsExtfndFXApplidbtion(mbinClbss)) {
+            // Will bbort() if tifrf brf problfms witi FX runtimf
+            FXHflpfr.sftFXLbundiPbrbmftfrs(wibt, modf);
+            rfturn FXHflpfr.dlbss;
         }
 
-        validateMainClass(mainClass);
-        return mainClass;
+        vblidbtfMbinClbss(mbinClbss);
+        rfturn mbinClbss;
     }
 
     /*
-     * Accessor method called by the launcher after getting the main class via
-     * checkAndLoadMain(). The "application class" is the class that is finally
-     * executed to start the application and in this case is used to report
-     * the correct application name, typically for UI purposes.
+     * Addfssor mftiod dbllfd by tif lbundifr bftfr gftting tif mbin dlbss vib
+     * difdkAndLobdMbin(). Tif "bpplidbtion dlbss" is tif dlbss tibt is finblly
+     * fxfdutfd to stbrt tif bpplidbtion bnd in tiis dbsf is usfd to rfport
+     * tif dorrfdt bpplidbtion nbmf, typidblly for UI purposfs.
      */
-    public static Class<?> getApplicationClass() {
-        return appClass;
+    publid stbtid Clbss<?> gftApplidbtionClbss() {
+        rfturn bppClbss;
     }
 
     /*
-     * Check if the given class is a JavaFX Application class. This is done
-     * in a way that does not cause the Application class to load or throw
-     * ClassNotFoundException if the JavaFX runtime is not available.
+     * Cifdk if tif givfn dlbss is b JbvbFX Applidbtion dlbss. Tiis is donf
+     * in b wby tibt dofs not dbusf tif Applidbtion dlbss to lobd or tirow
+     * ClbssNotFoundExdfption if tif JbvbFX runtimf is not bvbilbblf.
      */
-    private static boolean doesExtendFXApplication(Class<?> mainClass) {
-        for (Class<?> sc = mainClass.getSuperclass(); sc != null;
-                sc = sc.getSuperclass()) {
-            if (sc.getName().equals(JAVAFX_APPLICATION_CLASS_NAME)) {
-                return true;
+    privbtf stbtid boolfbn dofsExtfndFXApplidbtion(Clbss<?> mbinClbss) {
+        for (Clbss<?> sd = mbinClbss.gftSupfrdlbss(); sd != null;
+                sd = sd.gftSupfrdlbss()) {
+            if (sd.gftNbmf().fqubls(JAVAFX_APPLICATION_CLASS_NAME)) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    // Check the existence and signature of main and abort if incorrect
-    static void validateMainClass(Class<?> mainClass) {
-        Method mainMethod;
+    // Cifdk tif fxistfndf bnd signbturf of mbin bnd bbort if indorrfdt
+    stbtid void vblidbtfMbinClbss(Clbss<?> mbinClbss) {
+        Mftiod mbinMftiod;
         try {
-            mainMethod = mainClass.getMethod("main", String[].class);
-        } catch (NoSuchMethodException nsme) {
-            // invalid main or not FX application, abort with an error
-            abort(null, "java.launcher.cls.error4", mainClass.getName(),
+            mbinMftiod = mbinClbss.gftMftiod("mbin", String[].dlbss);
+        } dbtdi (NoSudiMftiodExdfption nsmf) {
+            // invblid mbin or not FX bpplidbtion, bbort witi bn frror
+            bbort(null, "jbvb.lbundifr.dls.frror4", mbinClbss.gftNbmf(),
                   JAVAFX_APPLICATION_CLASS_NAME);
-            return; // Avoid compiler issues
+            rfturn; // Avoid dompilfr issufs
         }
 
         /*
-         * getMethod (above) will choose the correct method, based
-         * on its name and parameter type, however, we still have to
-         * ensure that the method is static and returns a void.
+         * gftMftiod (bbovf) will dioosf tif dorrfdt mftiod, bbsfd
+         * on its nbmf bnd pbrbmftfr typf, iowfvfr, wf still ibvf to
+         * fnsurf tibt tif mftiod is stbtid bnd rfturns b void.
          */
-        int mod = mainMethod.getModifiers();
-        if (!Modifier.isStatic(mod)) {
-            abort(null, "java.launcher.cls.error2", "static",
-                  mainMethod.getDeclaringClass().getName());
+        int mod = mbinMftiod.gftModififrs();
+        if (!Modififr.isStbtid(mod)) {
+            bbort(null, "jbvb.lbundifr.dls.frror2", "stbtid",
+                  mbinMftiod.gftDfdlbringClbss().gftNbmf());
         }
-        if (mainMethod.getReturnType() != java.lang.Void.TYPE) {
-            abort(null, "java.launcher.cls.error3",
-                  mainMethod.getDeclaringClass().getName());
+        if (mbinMftiod.gftRfturnTypf() != jbvb.lbng.Void.TYPE) {
+            bbort(null, "jbvb.lbundifr.dls.frror3",
+                  mbinMftiod.gftDfdlbringClbss().gftNbmf());
         }
     }
 
-    private static final String encprop = "sun.jnu.encoding";
-    private static String encoding = null;
-    private static boolean isCharsetSupported = false;
+    privbtf stbtid finbl String fndprop = "sun.jnu.fndoding";
+    privbtf stbtid String fndoding = null;
+    privbtf stbtid boolfbn isCibrsftSupportfd = fblsf;
 
     /*
-     * converts a c or a byte array to a platform specific string,
-     * previously implemented as a native method in the launcher.
+     * donvfrts b d or b bytf brrby to b plbtform spfdifid string,
+     * prfviously implfmfntfd bs b nbtivf mftiod in tif lbundifr.
      */
-    static String makePlatformString(boolean printToStderr, byte[] inArray) {
-        initOutput(printToStderr);
-        if (encoding == null) {
-            encoding = System.getProperty(encprop);
-            isCharsetSupported = Charset.isSupported(encoding);
+    stbtid String mbkfPlbtformString(boolfbn printToStdfrr, bytf[] inArrby) {
+        initOutput(printToStdfrr);
+        if (fndoding == null) {
+            fndoding = Systfm.gftPropfrty(fndprop);
+            isCibrsftSupportfd = Cibrsft.isSupportfd(fndoding);
         }
         try {
-            String out = isCharsetSupported
-                    ? new String(inArray, encoding)
-                    : new String(inArray);
-            return out;
-        } catch (UnsupportedEncodingException uee) {
-            abort(uee, null);
+            String out = isCibrsftSupportfd
+                    ? nfw String(inArrby, fndoding)
+                    : nfw String(inArrby);
+            rfturn out;
+        } dbtdi (UnsupportfdEndodingExdfption uff) {
+            bbort(uff, null);
         }
-        return null; // keep the compiler happy
+        rfturn null; // kffp tif dompilfr ibppy
     }
 
-    static String[] expandArgs(String[] argArray) {
-        List<StdArg> aList = new ArrayList<>();
-        for (String x : argArray) {
-            aList.add(new StdArg(x));
+    stbtid String[] fxpbndArgs(String[] brgArrby) {
+        List<StdArg> bList = nfw ArrbyList<>();
+        for (String x : brgArrby) {
+            bList.bdd(nfw StdArg(x));
         }
-        return expandArgs(aList);
+        rfturn fxpbndArgs(bList);
     }
 
-    static String[] expandArgs(List<StdArg> argList) {
-        ArrayList<String> out = new ArrayList<>();
-        if (trace) {
-            System.err.println("Incoming arguments:");
+    stbtid String[] fxpbndArgs(List<StdArg> brgList) {
+        ArrbyList<String> out = nfw ArrbyList<>();
+        if (trbdf) {
+            Systfm.frr.println("Indoming brgumfnts:");
         }
-        for (StdArg a : argList) {
-            if (trace) {
-                System.err.println(a);
+        for (StdArg b : brgList) {
+            if (trbdf) {
+                Systfm.frr.println(b);
             }
-            if (a.needsExpansion) {
-                File x = new File(a.arg);
-                File parent = x.getParentFile();
-                String glob = x.getName();
-                if (parent == null) {
-                    parent = new File(".");
+            if (b.nffdsExpbnsion) {
+                Filf x = nfw Filf(b.brg);
+                Filf pbrfnt = x.gftPbrfntFilf();
+                String glob = x.gftNbmf();
+                if (pbrfnt == null) {
+                    pbrfnt = nfw Filf(".");
                 }
-                try (DirectoryStream<Path> dstream =
-                        Files.newDirectoryStream(parent.toPath(), glob)) {
-                    int entries = 0;
-                    for (Path p : dstream) {
-                        out.add(p.normalize().toString());
-                        entries++;
+                try (DirfdtoryStrfbm<Pbti> dstrfbm =
+                        Filfs.nfwDirfdtoryStrfbm(pbrfnt.toPbti(), glob)) {
+                    int fntrifs = 0;
+                    for (Pbti p : dstrfbm) {
+                        out.bdd(p.normblizf().toString());
+                        fntrifs++;
                     }
-                    if (entries == 0) {
-                        out.add(a.arg);
+                    if (fntrifs == 0) {
+                        out.bdd(b.brg);
                     }
-                } catch (Exception e) {
-                    out.add(a.arg);
-                    if (trace) {
-                        System.err.println("Warning: passing argument as-is " + a);
-                        System.err.print(e);
+                } dbtdi (Exdfption f) {
+                    out.bdd(b.brg);
+                    if (trbdf) {
+                        Systfm.frr.println("Wbrning: pbssing brgumfnt bs-is " + b);
+                        Systfm.frr.print(f);
                     }
                 }
-            } else {
-                out.add(a.arg);
+            } flsf {
+                out.bdd(b.brg);
             }
         }
-        String[] oarray = new String[out.size()];
-        out.toArray(oarray);
+        String[] obrrby = nfw String[out.sizf()];
+        out.toArrby(obrrby);
 
-        if (trace) {
-            System.err.println("Expanded arguments:");
-            for (String x : oarray) {
-                System.err.println(x);
+        if (trbdf) {
+            Systfm.frr.println("Expbndfd brgumfnts:");
+            for (String x : obrrby) {
+                Systfm.frr.println(x);
             }
         }
-        return oarray;
+        rfturn obrrby;
     }
 
-    /* duplicate of the native StdArg struct */
-    private static class StdArg {
-        final String arg;
-        final boolean needsExpansion;
-        StdArg(String arg, boolean expand) {
-            this.arg = arg;
-            this.needsExpansion = expand;
+    /* duplidbtf of tif nbtivf StdArg strudt */
+    privbtf stbtid dlbss StdArg {
+        finbl String brg;
+        finbl boolfbn nffdsExpbnsion;
+        StdArg(String brg, boolfbn fxpbnd) {
+            tiis.brg = brg;
+            tiis.nffdsExpbnsion = fxpbnd;
         }
-        // protocol: first char indicates whether expansion is required
-        // 'T' = true ; needs expansion
-        // 'F' = false; needs no expansion
+        // protodol: first dibr indidbtfs wiftifr fxpbnsion is rfquirfd
+        // 'T' = truf ; nffds fxpbnsion
+        // 'F' = fblsf; nffds no fxpbnsion
         StdArg(String in) {
-            this.arg = in.substring(1);
-            needsExpansion = in.charAt(0) == 'T';
+            tiis.brg = in.substring(1);
+            nffdsExpbnsion = in.dibrAt(0) == 'T';
         }
-        public String toString() {
-            return "StdArg{" + "arg=" + arg + ", needsExpansion=" + needsExpansion + '}';
+        publid String toString() {
+            rfturn "StdArg{" + "brg=" + brg + ", nffdsExpbnsion=" + nffdsExpbnsion + '}';
         }
     }
 
-    static final class FXHelper {
+    stbtid finbl dlbss FXHflpfr {
 
-        private static final String JAVAFX_LAUNCHER_CLASS_NAME =
-                "com.sun.javafx.application.LauncherImpl";
+        privbtf stbtid finbl String JAVAFX_LAUNCHER_CLASS_NAME =
+                "dom.sun.jbvbfx.bpplidbtion.LbundifrImpl";
 
         /*
-         * The launch method used to invoke the JavaFX launcher. These must
-         * match the strings used in the launchApplication method.
+         * Tif lbundi mftiod usfd to invokf tif JbvbFX lbundifr. Tifsf must
+         * mbtdi tif strings usfd in tif lbundiApplidbtion mftiod.
          *
-         * Command line                 JavaFX-App-Class  Launch mode  FX Launch mode
-         * java -cp fxapp.jar FXClass   N/A               LM_CLASS     "LM_CLASS"
-         * java -cp somedir FXClass     N/A               LM_CLASS     "LM_CLASS"
-         * java -jar fxapp.jar          Present           LM_JAR       "LM_JAR"
-         * java -jar fxapp.jar          Not Present       LM_JAR       "LM_JAR"
+         * Commbnd linf                 JbvbFX-App-Clbss  Lbundi modf  FX Lbundi modf
+         * jbvb -dp fxbpp.jbr FXClbss   N/A               LM_CLASS     "LM_CLASS"
+         * jbvb -dp somfdir FXClbss     N/A               LM_CLASS     "LM_CLASS"
+         * jbvb -jbr fxbpp.jbr          Prfsfnt           LM_JAR       "LM_JAR"
+         * jbvb -jbr fxbpp.jbr          Not Prfsfnt       LM_JAR       "LM_JAR"
          */
-        private static final String JAVAFX_LAUNCH_MODE_CLASS = "LM_CLASS";
-        private static final String JAVAFX_LAUNCH_MODE_JAR = "LM_JAR";
+        privbtf stbtid finbl String JAVAFX_LAUNCH_MODE_CLASS = "LM_CLASS";
+        privbtf stbtid finbl String JAVAFX_LAUNCH_MODE_JAR = "LM_JAR";
 
         /*
-         * FX application launcher and launch method, so we can launch
-         * applications with no main method.
+         * FX bpplidbtion lbundifr bnd lbundi mftiod, so wf dbn lbundi
+         * bpplidbtions witi no mbin mftiod.
          */
-        private static String fxLaunchName = null;
-        private static String fxLaunchMode = null;
+        privbtf stbtid String fxLbundiNbmf = null;
+        privbtf stbtid String fxLbundiModf = null;
 
-        private static Class<?> fxLauncherClass    = null;
-        private static Method   fxLauncherMethod   = null;
+        privbtf stbtid Clbss<?> fxLbundifrClbss    = null;
+        privbtf stbtid Mftiod   fxLbundifrMftiod   = null;
 
         /*
-         * Set the launch params according to what was passed to LauncherHelper
-         * so we can use the same launch mode for FX. Abort if there is any
-         * issue with loading the FX runtime or with the launcher method.
+         * Sft tif lbundi pbrbms bddording to wibt wbs pbssfd to LbundifrHflpfr
+         * so wf dbn usf tif sbmf lbundi modf for FX. Abort if tifrf is bny
+         * issuf witi lobding tif FX runtimf or witi tif lbundifr mftiod.
          */
-        private static void setFXLaunchParameters(String what, int mode) {
-            // Check for the FX launcher classes
+        privbtf stbtid void sftFXLbundiPbrbmftfrs(String wibt, int modf) {
+            // Cifdk for tif FX lbundifr dlbssfs
             try {
-                fxLauncherClass = scloader.loadClass(JAVAFX_LAUNCHER_CLASS_NAME);
+                fxLbundifrClbss = sdlobdfr.lobdClbss(JAVAFX_LAUNCHER_CLASS_NAME);
                 /*
-                 * signature must be:
-                 * public static void launchApplication(String launchName,
-                 *     String launchMode, String[] args);
+                 * signbturf must bf:
+                 * publid stbtid void lbundiApplidbtion(String lbundiNbmf,
+                 *     String lbundiModf, String[] brgs);
                  */
-                fxLauncherMethod = fxLauncherClass.getMethod("launchApplication",
-                        String.class, String.class, String[].class);
+                fxLbundifrMftiod = fxLbundifrClbss.gftMftiod("lbundiApplidbtion",
+                        String.dlbss, String.dlbss, String[].dlbss);
 
-                // verify launcher signature as we do when validating the main method
-                int mod = fxLauncherMethod.getModifiers();
-                if (!Modifier.isStatic(mod)) {
-                    abort(null, "java.launcher.javafx.error1");
+                // vfrify lbundifr signbturf bs wf do wifn vblidbting tif mbin mftiod
+                int mod = fxLbundifrMftiod.gftModififrs();
+                if (!Modififr.isStbtid(mod)) {
+                    bbort(null, "jbvb.lbundifr.jbvbfx.frror1");
                 }
-                if (fxLauncherMethod.getReturnType() != java.lang.Void.TYPE) {
-                    abort(null, "java.launcher.javafx.error1");
+                if (fxLbundifrMftiod.gftRfturnTypf() != jbvb.lbng.Void.TYPE) {
+                    bbort(null, "jbvb.lbundifr.jbvbfx.frror1");
                 }
-            } catch (ClassNotFoundException | NoSuchMethodException ex) {
-                abort(ex, "java.launcher.cls.error5", ex);
+            } dbtdi (ClbssNotFoundExdfption | NoSudiMftiodExdfption fx) {
+                bbort(fx, "jbvb.lbundifr.dls.frror5", fx);
             }
 
-            fxLaunchName = what;
-            switch (mode) {
-                case LM_CLASS:
-                    fxLaunchMode = JAVAFX_LAUNCH_MODE_CLASS;
-                    break;
-                case LM_JAR:
-                    fxLaunchMode = JAVAFX_LAUNCH_MODE_JAR;
-                    break;
-                default:
-                    // should not have gotten this far...
-                    throw new InternalError(mode + ": Unknown launch mode");
+            fxLbundiNbmf = wibt;
+            switdi (modf) {
+                dbsf LM_CLASS:
+                    fxLbundiModf = JAVAFX_LAUNCH_MODE_CLASS;
+                    brfbk;
+                dbsf LM_JAR:
+                    fxLbundiModf = JAVAFX_LAUNCH_MODE_JAR;
+                    brfbk;
+                dffbult:
+                    // siould not ibvf gottfn tiis fbr...
+                    tirow nfw IntfrnblError(modf + ": Unknown lbundi modf");
             }
         }
 
-        public static void main(String... args) throws Exception {
-            if (fxLauncherMethod == null
-                    || fxLaunchMode == null
-                    || fxLaunchName == null) {
-                throw new RuntimeException("Invalid JavaFX launch parameters");
+        publid stbtid void mbin(String... brgs) tirows Exdfption {
+            if (fxLbundifrMftiod == null
+                    || fxLbundiModf == null
+                    || fxLbundiNbmf == null) {
+                tirow nfw RuntimfExdfption("Invblid JbvbFX lbundi pbrbmftfrs");
             }
-            // launch appClass via fxLauncherMethod
-            fxLauncherMethod.invoke(null,
-                    new Object[] {fxLaunchName, fxLaunchMode, args});
+            // lbundi bppClbss vib fxLbundifrMftiod
+            fxLbundifrMftiod.invokf(null,
+                    nfw Objfdt[] {fxLbundiNbmf, fxLbundiModf, brgs});
         }
     }
 }

@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.awt.FontFormatException;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Rectangle2D;
-import java.util.HashMap;
-import java.util.Locale;
+import jbvb.bwt.FontFormbtExdfption;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.gfom.GfnfrblPbti;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Lodblf;
 
 /*
- * This needs work to distinguish between XMap's translation from unicode
- * to the encoding used to access the X font, and whether a particular
- * code point is in the font.
- * ie a GlyphMapper ought to be able to say if a code point maps to a glyph
- * IN THIS FONT, not just in this encoding.
- * Because of the current lack of distinction the NativeGlyphMapper and
- * XMap classes could be merged, however its cleaner to make them separate
- * classes so we can build caches for a particular font.
+ * Tiis nffds work to distinguisi bftwffn XMbp's trbnslbtion from unidodf
+ * to tif fndoding usfd to bddfss tif X font, bnd wiftifr b pbrtidulbr
+ * dodf point is in tif font.
+ * if b GlypiMbppfr ougit to bf bblf to sby if b dodf point mbps to b glypi
+ * IN THIS FONT, not just in tiis fndoding.
+ * Bfdbusf of tif durrfnt lbdk of distindtion tif NbtivfGlypiMbppfr bnd
+ * XMbp dlbssfs dould bf mfrgfd, iowfvfr its dlfbnfr to mbkf tifm sfpbrbtf
+ * dlbssfs so wf dbn build dbdifs for b pbrtidulbr font.
  */
-public class NativeGlyphMapper extends CharToGlyphMapper {
+publid dlbss NbtivfGlypiMbppfr fxtfnds CibrToGlypiMbppfr {
 
-    NativeFont font;
-    XMap xmapper;
-    int numGlyphs;
+    NbtivfFont font;
+    XMbp xmbppfr;
+    int numGlypis;
 
-    NativeGlyphMapper(NativeFont f) {
+    NbtivfGlypiMbppfr(NbtivfFont f) {
         font = f;
-        xmapper = XMap.getXMapper(font.encoding);
-        numGlyphs = f.getNumGlyphs();
-        missingGlyph = 0;
+        xmbppfr = XMbp.gftXMbppfr(font.fndoding);
+        numGlypis = f.gftNumGlypis();
+        missingGlypi = 0;
     }
 
-    public int getNumGlyphs() {
-        return numGlyphs;
+    publid int gftNumGlypis() {
+        rfturn numGlypis;
     }
 
-    public int charToGlyph(char unicode) {
-        if (unicode >= xmapper.convertedGlyphs.length) {
-            return 0;
-        } else {
-            return xmapper.convertedGlyphs[unicode];
+    publid int dibrToGlypi(dibr unidodf) {
+        if (unidodf >= xmbppfr.donvfrtfdGlypis.lfngti) {
+            rfturn 0;
+        } flsf {
+            rfturn xmbppfr.donvfrtfdGlypis[unidodf];
         }
     }
 
-    public int charToGlyph(int unicode) {
-        if (unicode >= xmapper.convertedGlyphs.length) {
-            return 0;
-        } else {
-            return xmapper.convertedGlyphs[unicode];
+    publid int dibrToGlypi(int unidodf) {
+        if (unidodf >= xmbppfr.donvfrtfdGlypis.lfngti) {
+            rfturn 0;
+        } flsf {
+            rfturn xmbppfr.donvfrtfdGlypis[unidodf];
         }
     }
 
-    public void charsToGlyphs(int count, char[] unicodes, int[] glyphs) {
-        for (int i=0; i<count; i++) {
-            char code = unicodes[i];
-            if (code >= xmapper.convertedGlyphs.length) {
-                glyphs[i] = 0;
-            } else {
-                glyphs[i] = xmapper.convertedGlyphs[code];
+    publid void dibrsToGlypis(int dount, dibr[] unidodfs, int[] glypis) {
+        for (int i=0; i<dount; i++) {
+            dibr dodf = unidodfs[i];
+            if (dodf >= xmbppfr.donvfrtfdGlypis.lfngti) {
+                glypis[i] = 0;
+            } flsf {
+                glypis[i] = xmbppfr.donvfrtfdGlypis[dodf];
             }
         }
     }
 
-    public boolean charsToGlyphsNS(int count, char[] unicodes, int[] glyphs) {
-        charsToGlyphs(count, unicodes, glyphs);
-        return false;
+    publid boolfbn dibrsToGlypisNS(int dount, dibr[] unidodfs, int[] glypis) {
+        dibrsToGlypis(dount, unidodfs, glypis);
+        rfturn fblsf;
     }
 
-    public void charsToGlyphs(int count, int[] unicodes, int[] glyphs) {
-        for (int i=0; i<count; i++) {
-            char code = (char)unicodes[i];
-            if (code >= xmapper.convertedGlyphs.length) {
-                glyphs[i] = 0;
-            } else {
-                glyphs[i] = xmapper.convertedGlyphs[code];
+    publid void dibrsToGlypis(int dount, int[] unidodfs, int[] glypis) {
+        for (int i=0; i<dount; i++) {
+            dibr dodf = (dibr)unidodfs[i];
+            if (dodf >= xmbppfr.donvfrtfdGlypis.lfngti) {
+                glypis[i] = 0;
+            } flsf {
+                glypis[i] = xmbppfr.donvfrtfdGlypis[dodf];
             }
         }
     }

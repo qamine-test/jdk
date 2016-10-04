@@ -1,0 +1,231 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.fvfnt;
+
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.util.EvfntObjfdt;
+import jbvb.nft.URL;
+import jbvbx.swing.tfxt.Elfmfnt;
+
+
+/**
+ * HypfrlinkEvfnt is usfd to notify intfrfstfd pbrtifs thbt
+ * somfthing hbs hbppfnfd with rfspfdt to b hypfrtfxt link.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor  Timothy Prinzing
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss HypfrlinkEvfnt fxtfnds EvfntObjfdt {
+
+    /**
+     * Crfbtfs b nfw objfdt rfprfsfnting b hypfrtfxt link fvfnt.
+     * Thf othfr donstrudtor is prfffrrfd, bs it providfs morf
+     * informbtion if b URL dould not bf formfd.  This donstrudtor
+     * is primbrily for bbdkwbrd dompbtibility.
+     *
+     * @pbrbm sourdf thf objfdt rfsponsiblf for thf fvfnt
+     * @pbrbm typf thf fvfnt typf
+     * @pbrbm u thf bfffdtfd URL
+     */
+    publid HypfrlinkEvfnt(Objfdt sourdf, EvfntTypf typf, URL u) {
+        this(sourdf, typf, u, null);
+    }
+
+    /**
+     * Crfbtfs b nfw objfdt rfprfsfnting b hypfrtfxt link fvfnt.
+     *
+     * @pbrbm sourdf thf objfdt rfsponsiblf for thf fvfnt
+     * @pbrbm typf thf fvfnt typf
+     * @pbrbm u thf bfffdtfd URL.  This mby bf null if b vblid URL
+     *   dould not bf drfbtfd.
+     * @pbrbm dfsd thf dfsdription of thf link.  This mby bf usfful
+     *   whfn bttfmpting to form b URL rfsultfd in b MblformfdURLExdfption.
+     *   Thf dfsdription providfs thf tfxt usfd whfn bttfmpting to form thf
+     *   URL.
+     */
+    publid HypfrlinkEvfnt(Objfdt sourdf, EvfntTypf typf, URL u, String dfsd) {
+        this(sourdf, typf, u, dfsd, null);
+    }
+
+    /**
+     * Crfbtfs b nfw objfdt rfprfsfnting b hypfrtfxt link fvfnt.
+     *
+     * @pbrbm sourdf thf objfdt rfsponsiblf for thf fvfnt
+     * @pbrbm typf thf fvfnt typf
+     * @pbrbm u thf bfffdtfd URL.  This mby bf null if b vblid URL
+     *   dould not bf drfbtfd.
+     * @pbrbm dfsd thf dfsdription of thf link.  This mby bf usfful
+     *   whfn bttfmpting to form b URL rfsultfd in b MblformfdURLExdfption.
+     *   Thf dfsdription providfs thf tfxt usfd whfn bttfmpting to form thf
+     *   URL.
+     * @pbrbm sourdfElfmfnt Elfmfnt in thf Dodumfnt rfprfsfnting thf
+     *   bndhor
+     * @sindf 1.4
+     */
+    publid HypfrlinkEvfnt(Objfdt sourdf, EvfntTypf typf, URL u, String dfsd,
+                          Elfmfnt sourdfElfmfnt) {
+        supfr(sourdf);
+        this.typf = typf;
+        this.u = u;
+        this.dfsd = dfsd;
+        this.sourdfElfmfnt = sourdfElfmfnt;
+    }
+
+    /**
+     * Crfbtfs b nfw objfdt rfprfsfnting b hypfrtfxt link fvfnt.
+     *
+     * @pbrbm sourdf thf objfdt rfsponsiblf for thf fvfnt
+     * @pbrbm typf thf fvfnt typf
+     * @pbrbm u thf bfffdtfd URL.  This mby bf null if b vblid URL
+     *   dould not bf drfbtfd.
+     * @pbrbm dfsd thf dfsdription of thf link.  This mby bf usfful
+     *   whfn bttfmpting to form b URL rfsultfd in b MblformfdURLExdfption.
+     *   Thf dfsdription providfs thf tfxt usfd whfn bttfmpting to form thf
+     *   URL.
+     * @pbrbm sourdfElfmfnt Elfmfnt in thf Dodumfnt rfprfsfnting thf
+     *   bndhor
+     * @pbrbm inputEvfnt  InputEvfnt thbt triggfrfd thf hypfrlink fvfnt
+     * @sindf 1.7
+     */
+    publid HypfrlinkEvfnt(Objfdt sourdf, EvfntTypf typf, URL u, String dfsd,
+                          Elfmfnt sourdfElfmfnt, InputEvfnt inputEvfnt) {
+        supfr(sourdf);
+        this.typf = typf;
+        this.u = u;
+        this.dfsd = dfsd;
+        this.sourdfElfmfnt = sourdfElfmfnt;
+        this.inputEvfnt = inputEvfnt;
+    }
+
+    /**
+     * Gfts thf typf of fvfnt.
+     *
+     * @rfturn thf typf
+     */
+    publid EvfntTypf gftEvfntTypf() {
+        rfturn typf;
+    }
+
+    /**
+     * Gft thf dfsdription of thf link bs b string.
+     * This mby bf usfful if b URL dbn't bf formfd
+     * from thf dfsdription, in whidh dbsf thf bssodibtfd
+     * URL would bf null.
+     *
+     * @rfturn thf dfsdription of this link bs b {@dodf String}
+     */
+    publid String gftDfsdription() {
+        rfturn dfsd;
+    }
+
+    /**
+     * Gfts thf URL thbt thf link rfffrs to.
+     *
+     * @rfturn thf URL
+     */
+    publid URL gftURL() {
+        rfturn u;
+    }
+
+    /**
+     * Rfturns thf <dodf>Elfmfnt</dodf> thbt dorrfsponds to thf sourdf of thf
+     * fvfnt. This will typidblly bf bn <dodf>Elfmfnt</dodf> rfprfsfnting
+     * bn bndhor. If b donstrudtor thbt is usfd thbt dofs not spfdify b sourdf
+     * <dodf>Elfmfnt</dodf>, or null wbs spfdififd bs thf sourdf
+     * <dodf>Elfmfnt</dodf>, this will rfturn null.
+     *
+     * @rfturn Elfmfnt indidbting sourdf of fvfnt, or null
+     * @sindf 1.4
+     */
+    publid Elfmfnt gftSourdfElfmfnt() {
+        rfturn sourdfElfmfnt;
+    }
+
+    /**
+     * Rfturns thf {@dodf InputEvfnt} thbt triggfrfd thf hypfrlink fvfnt.
+     * This will typidblly bf b {@dodf MousfEvfnt}.  If b donstrudtor is usfd
+     * thbt dofs not spfdify bn {@dodf InputEvfnt}, or @{dodf null}
+     * wbs spfdififd bs thf {@dodf InputEvfnt}, this rfturns {@dodf null}.
+     *
+     * @rfturn  InputEvfnt thbt triggfrfd thf hypfrlink fvfnt, or null
+     * @sindf 1.7
+     */
+    publid InputEvfnt gftInputEvfnt() {
+        rfturn inputEvfnt;
+    }
+
+    privbtf EvfntTypf typf;
+    privbtf URL u;
+    privbtf String dfsd;
+    privbtf Elfmfnt sourdfElfmfnt;
+    privbtf InputEvfnt inputEvfnt;
+
+
+    /**
+     * Dffinfs thf ENTERED, EXITED, bnd ACTIVATED fvfnt typfs, blong
+     * with thfir string rfprfsfntbtions, rfturnfd by toString().
+     */
+    publid stbtid finbl dlbss EvfntTypf {
+
+        privbtf EvfntTypf(String s) {
+            typfString = s;
+        }
+
+        /**
+         * Entfrfd typf.
+         */
+        publid stbtid finbl EvfntTypf ENTERED = nfw EvfntTypf("ENTERED");
+
+        /**
+         * Exitfd typf.
+         */
+        publid stbtid finbl EvfntTypf EXITED = nfw EvfntTypf("EXITED");
+
+        /**
+         * Adtivbtfd typf.
+         */
+        publid stbtid finbl EvfntTypf ACTIVATED = nfw EvfntTypf("ACTIVATED");
+
+        /**
+         * Convfrts thf typf to b string.
+         *
+         * @rfturn thf string
+         */
+        publid String toString() {
+            rfturn typfString;
+        }
+
+        privbtf String typfString;
+    }
+}

@@ -1,0 +1,218 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.SignbturfExdfption;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvbx.xml.drypto.MbrshblExdfption;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dsig.SignbturfMfthod;
+import jbvbx.xml.drypto.dsig.SignfdInfo;
+import jbvbx.xml.drypto.dsig.XMLSignbturf;
+import jbvbx.xml.drypto.dsig.XMLSignbturfExdfption;
+import jbvbx.xml.drypto.dsig.XMLSignContfxt;
+import jbvbx.xml.drypto.dsig.XMLVblidbtfContfxt;
+import jbvbx.xml.drypto.dsig.spfd.SignbturfMfthodPbrbmftfrSpfd;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+
+/**
+ * An bbstrbdt dlbss rfprfsfnting b SignbturfMfthod. Subdlbssfs implfmfnt
+ * b spfdifid XML DSig signbturf blgorithm.
+ */
+bbstrbdt dlbss AbstrbdtDOMSignbturfMfthod fxtfnds DOMStrudturf
+    implfmfnts SignbturfMfthod {
+
+    // dfnotfs thf typf of signbturf blgorithm
+    fnum Typf { DSA, RSA, ECDSA, HMAC }
+
+    /**
+     * Vfrififs thf pbssfd-in signbturf with thf spfdififd kfy, using thf
+     * undfrlying Signbturf or Mbd blgorithm.
+     *
+     * @pbrbm kfy thf vfrifidbtion kfy
+     * @pbrbm si thf SignfdInfo
+     * @pbrbm sig thf signbturf bytfs to bf vfrififd
+     * @pbrbm dontfxt thf XMLVblidbtfContfxt
+     * @rfturn <dodf>truf</dodf> if thf signbturf vfrififd suddfssfully,
+     *    <dodf>fblsf</dodf> if not
+     * @throws NullPointfrExdfption if <dodf>kfy</dodf>, <dodf>si</dodf> or
+     *    <dodf>sig</dodf> brf <dodf>null</dodf>
+     * @throws InvblidKfyExdfption if thf kfy is impropfrly fndodfd, of
+     *    thf wrong typf, or pbrbmftfrs brf missing, ftd
+     * @throws SignbturfExdfption if bn unfxpfdtfd frror oddurs, sudh
+     *    bs thf pbssfd in signbturf is impropfrly fndodfd
+     * @throws XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs
+     */
+    bbstrbdt boolfbn vfrify(Kfy kfy, SignfdInfo si, bytf[] sig,
+                            XMLVblidbtfContfxt dontfxt)
+        throws InvblidKfyExdfption, SignbturfExdfption, XMLSignbturfExdfption;
+
+    /**
+     * Signs thf bytfs with thf spfdififd kfy, using thf undfrlying
+     * Signbturf or Mbd blgorithm.
+     *
+     * @pbrbm kfy thf signing kfy
+     * @pbrbm si thf SignfdInfo
+     * @pbrbm dontfxt thf XMLSignContfxt
+     * @rfturn thf signbturf
+     * @throws NullPointfrExdfption if <dodf>kfy</dodf> or
+     *    <dodf>si</dodf> brf <dodf>null</dodf>
+     * @throws InvblidKfyExdfption if thf kfy is impropfrly fndodfd, of
+     *    thf wrong typf, or pbrbmftfrs brf missing, ftd
+     * @throws XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs
+     */
+    bbstrbdt bytf[] sign(Kfy kfy, SignfdInfo si, XMLSignContfxt dontfxt)
+        throws InvblidKfyExdfption, XMLSignbturfExdfption;
+
+    /**
+     * Rfturns thf jbvb.sfdurity.Signbturf or jbvbx.drypto.Mbd stbndbrd
+     * blgorithm nbmf.
+     */
+    bbstrbdt String gftJCAAlgorithm();
+
+    /**
+     * Rfturns thf typf of signbturf blgorithm.
+     */
+    bbstrbdt Typf gftAlgorithmTypf();
+
+    /**
+     * This mfthod invokfs thf {@link #mbrshblPbrbms mbrshblPbrbms}
+     * mfthod to mbrshbl bny blgorithm-spfdifid pbrbmftfrs.
+     */
+    publid void mbrshbl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+        throws MbrshblExdfption
+    {
+        Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
+
+        Elfmfnt smElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "SignbturfMfthod",
+                                                XMLSignbturf.XMLNS, dsPrffix);
+        DOMUtils.sftAttributf(smElfm, "Algorithm", gftAlgorithm());
+
+        if (gftPbrbmftfrSpfd() != null) {
+            mbrshblPbrbms(smElfm, dsPrffix);
+        }
+
+        pbrfnt.bppfndChild(smElfm);
+    }
+
+    /**
+     * Mbrshbls thf blgorithm-spfdifid pbrbmftfrs to bn Elfmfnt bnd
+     * bppfnds it to thf spfdififd pbrfnt flfmfnt. By dffbult, this mfthod
+     * throws bn fxdfption sindf most SignbturfMfthod blgorithms do not hbvf
+     * pbrbmftfrs. Subdlbssfs should ovfrridf it if thfy hbvf pbrbmftfrs.
+     *
+     * @pbrbm pbrfnt thf pbrfnt flfmfnt to bppfnd thf pbrbmftfrs to
+     * @pbrbm pbrbmsPrffix thf blgorithm pbrbmftfrs prffix to usf
+     * @throws MbrshblExdfption if thf pbrbmftfrs dbnnot bf mbrshbllfd
+     */
+    void mbrshblPbrbms(Elfmfnt pbrfnt, String pbrbmsPrffix)
+        throws MbrshblExdfption
+    {
+        throw nfw MbrshblExdfption("no pbrbmftfrs should " +
+                                   "bf spfdififd for thf " + gftAlgorithm() +
+                                   " SignbturfMfthod blgorithm");
+    }
+
+    /**
+     * Unmbrshbls <dodf>SignbturfMfthodPbrbmftfrSpfd</dodf> from thf spfdififd
+     * <dodf>Elfmfnt</dodf>. By dffbult, this mfthod throws bn fxdfption sindf
+     * most SignbturfMfthod blgorithms do not hbvf pbrbmftfrs. Subdlbssfs should
+     * ovfrridf it if thfy hbvf pbrbmftfrs.
+     *
+     * @pbrbm pbrbmsElfm thf <dodf>Elfmfnt</dodf> holding thf input pbrbms
+     * @rfturn thf blgorithm-spfdifid <dodf>SignbturfMfthodPbrbmftfrSpfd</dodf>
+     * @throws MbrshblExdfption if thf pbrbmftfrs dbnnot bf unmbrshbllfd
+     */
+    SignbturfMfthodPbrbmftfrSpfd unmbrshblPbrbms(Elfmfnt pbrbmsElfm)
+        throws MbrshblExdfption
+    {
+        throw nfw MbrshblExdfption("no pbrbmftfrs should " +
+                                   "bf spfdififd for thf " + gftAlgorithm() +
+                                   " SignbturfMfthod blgorithm");
+    }
+
+    /**
+     * Chfdks if thf spfdififd pbrbmftfrs brf vblid for this blgorithm. By
+     * dffbult, this mfthod throws bn fxdfption if pbrbmftfrs brf spfdififd
+     * sindf most SignbturfMfthod blgorithms do not hbvf pbrbmftfrs. Subdlbssfs
+     * should ovfrridf it if thfy hbvf pbrbmftfrs.
+     *
+     * @pbrbm pbrbms thf blgorithm-spfdifid pbrbms (mby bf <dodf>null</dodf>)
+     * @throws InvblidAlgorithmPbrbmftfrExdfption if thf pbrbmftfrs brf not
+     *    bppropribtf for this signbturf mfthod
+     */
+    void dhfdkPbrbms(SignbturfMfthodPbrbmftfrSpfd pbrbms)
+        throws InvblidAlgorithmPbrbmftfrExdfption
+    {
+        if (pbrbms != null) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption("no pbrbmftfrs " +
+                "should bf spfdififd for thf " + gftAlgorithm() +
+                " SignbturfMfthod blgorithm");
+        }
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o)
+    {
+        if (this == o) {
+            rfturn truf;
+        }
+
+        if (!(o instbndfof SignbturfMfthod)) {
+            rfturn fblsf;
+        }
+        SignbturfMfthod osm = (SignbturfMfthod)o;
+
+        rfturn (gftAlgorithm().fqubls(osm.gftAlgorithm()) &&
+            pbrbmsEqubl(osm.gftPbrbmftfrSpfd()));
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        int rfsult = 17;
+        rfsult = 31 * rfsult + gftAlgorithm().hbshCodf();
+        AlgorithmPbrbmftfrSpfd spfd = gftPbrbmftfrSpfd();
+        if (spfd != null) {
+            rfsult = 31 * rfsult + spfd.hbshCodf();
+        }
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns truf if pbrbmftfrs brf fqubl; fblsf othfrwisf.
+     *
+     * Subdlbssfs should ovfrridf this mfthod to dompbrf blgorithm-spfdifid
+     * pbrbmftfrs.
+     */
+    boolfbn pbrbmsEqubl(AlgorithmPbrbmftfrSpfd spfd)
+    {
+        rfturn (gftPbrbmftfrSpfd() == spfd);
+    }
+}

@@ -1,292 +1,292 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sql.rowset;
+pbdkbgf jbvbx.sql.rowsft;
 
-import java.sql.SQLException;
+import jbvb.sql.SQLExdfption;
 
 /**
- * <h3>1.0 Background</h3>
- * The <code>Joinable</code> interface provides the methods for getting and
- * setting a match column, which is the basis for forming the SQL <code>JOIN</code>
- * formed by adding <code>RowSet</code> objects to a <code>JoinRowSet</code>
- * object.
+ * <i3>1.0 Bbdkground</i3>
+ * Tif <dodf>Joinbblf</dodf> intfrfbdf providfs tif mftiods for gftting bnd
+ * sftting b mbtdi dolumn, wiidi is tif bbsis for forming tif SQL <dodf>JOIN</dodf>
+ * formfd by bdding <dodf>RowSft</dodf> objfdts to b <dodf>JoinRowSft</dodf>
+ * objfdt.
  * <P>
- * Any standard <code>RowSet</code> implementation <b>may</b> implement
- * the <code>Joinable</code> interface in order to be
- * added to a <code>JoinRowSet</code> object. Implementing this interface gives
- * a <code>RowSet</code> object the ability to use <code>Joinable</code> methods,
- * which set, retrieve, and get information about match columns.  An
- * application may add a
- * <code>RowSet</code> object that has not implemented the <code>Joinable</code>
- * interface to a <code>JoinRowSet</code> object, but to do so it must use one
- * of the <code>JoinRowSet.addRowSet</code> methods that takes both a
- * <code>RowSet</code> object and a match column or an array of <code>RowSet</code>
- * objects and an array of match columns.
+ * Any stbndbrd <dodf>RowSft</dodf> implfmfntbtion <b>mby</b> implfmfnt
+ * tif <dodf>Joinbblf</dodf> intfrfbdf in ordfr to bf
+ * bddfd to b <dodf>JoinRowSft</dodf> objfdt. Implfmfnting tiis intfrfbdf givfs
+ * b <dodf>RowSft</dodf> objfdt tif bbility to usf <dodf>Joinbblf</dodf> mftiods,
+ * wiidi sft, rftrifvf, bnd gft informbtion bbout mbtdi dolumns.  An
+ * bpplidbtion mby bdd b
+ * <dodf>RowSft</dodf> objfdt tibt ibs not implfmfntfd tif <dodf>Joinbblf</dodf>
+ * intfrfbdf to b <dodf>JoinRowSft</dodf> objfdt, but to do so it must usf onf
+ * of tif <dodf>JoinRowSft.bddRowSft</dodf> mftiods tibt tbkfs boti b
+ * <dodf>RowSft</dodf> objfdt bnd b mbtdi dolumn or bn brrby of <dodf>RowSft</dodf>
+ * objfdts bnd bn brrby of mbtdi dolumns.
  * <P>
- * To get access to the methods in the <code>Joinable</code> interface, a
- * <code>RowSet</code> object implements at least one of the
- * five standard <code>RowSet</code> interfaces and also implements the
- * <code>Joinable</code> interface.  In addition, most <code>RowSet</code>
- * objects extend the <code>BaseRowSet</code> class.  For example:
- * <pre>
- *     class MyRowSetImpl extends BaseRowSet implements CachedRowSet, Joinable {
+ * To gft bddfss to tif mftiods in tif <dodf>Joinbblf</dodf> intfrfbdf, b
+ * <dodf>RowSft</dodf> objfdt implfmfnts bt lfbst onf of tif
+ * fivf stbndbrd <dodf>RowSft</dodf> intfrfbdfs bnd blso implfmfnts tif
+ * <dodf>Joinbblf</dodf> intfrfbdf.  In bddition, most <dodf>RowSft</dodf>
+ * objfdts fxtfnd tif <dodf>BbsfRowSft</dodf> dlbss.  For fxbmplf:
+ * <prf>
+ *     dlbss MyRowSftImpl fxtfnds BbsfRowSft implfmfnts CbdifdRowSft, Joinbblf {
  *         :
  *         :
  *     }
- * </pre>
+ * </prf>
  *
- * <h3>2.0 Usage Guidelines</h3>
+ * <i3>2.0 Usbgf Guidflinfs</i3>
  * <P>
- * The methods in the <code>Joinable</code> interface allow a <code>RowSet</code> object
- * to set a match column, retrieve a match column, or unset a match column, which is
- * the column upon which an SQL <code>JOIN</code> can be based.
- * An instance of a class that implements these methods can be added to a
- * <code>JoinRowSet</code> object to allow an SQL <code>JOIN</code> relationship to
- *  be established.
+ * Tif mftiods in tif <dodf>Joinbblf</dodf> intfrfbdf bllow b <dodf>RowSft</dodf> objfdt
+ * to sft b mbtdi dolumn, rftrifvf b mbtdi dolumn, or unsft b mbtdi dolumn, wiidi is
+ * tif dolumn upon wiidi bn SQL <dodf>JOIN</dodf> dbn bf bbsfd.
+ * An instbndf of b dlbss tibt implfmfnts tifsf mftiods dbn bf bddfd to b
+ * <dodf>JoinRowSft</dodf> objfdt to bllow bn SQL <dodf>JOIN</dodf> rflbtionsiip to
+ *  bf fstbblisifd.
  *
- * <pre>
- *     CachedRowSet crs = new MyRowSetImpl();
- *     crs.populate((ResultSet)rs);
- *     (Joinable)crs.setMatchColumnIndex(1);
+ * <prf>
+ *     CbdifdRowSft drs = nfw MyRowSftImpl();
+ *     drs.populbtf((RfsultSft)rs);
+ *     (Joinbblf)drs.sftMbtdiColumnIndfx(1);
  *
- *     JoinRowSet jrs = new JoinRowSetImpl();
- *     jrs.addRowSet(crs);
- * </pre>
- * In the previous example, <i>crs</i> is a <code>CachedRowSet</code> object that
- * has implemented the <code>Joinable</code> interface.  In the following example,
- * <i>crs2</i> has not, so it must supply the match column as an argument to the
- * <code>addRowSet</code> method. This example assumes that column 1 is the match
- * column.
+ *     JoinRowSft jrs = nfw JoinRowSftImpl();
+ *     jrs.bddRowSft(drs);
+ * </prf>
+ * In tif prfvious fxbmplf, <i>drs</i> is b <dodf>CbdifdRowSft</dodf> objfdt tibt
+ * ibs implfmfntfd tif <dodf>Joinbblf</dodf> intfrfbdf.  In tif following fxbmplf,
+ * <i>drs2</i> ibs not, so it must supply tif mbtdi dolumn bs bn brgumfnt to tif
+ * <dodf>bddRowSft</dodf> mftiod. Tiis fxbmplf bssumfs tibt dolumn 1 is tif mbtdi
+ * dolumn.
  * <PRE>
- *     CachedRowSet crs2 = new MyRowSetImpl();
- *     crs2.populate((ResultSet)rs);
+ *     CbdifdRowSft drs2 = nfw MyRowSftImpl();
+ *     drs2.populbtf((RfsultSft)rs);
  *
- *     JoinRowSet jrs2 = new JoinRowSetImpl();
- *     jrs2.addRowSet(crs2, 1);
+ *     JoinRowSft jrs2 = nfw JoinRowSftImpl();
+ *     jrs2.bddRowSft(drs2, 1);
  * </PRE>
  * <p>
- * The <code>JoinRowSet</code> interface makes it possible to get data from one or
- * more <code>RowSet</code> objects consolidated into one table without having to incur
- * the expense of creating a connection to a database. It is therefore ideally suited
- * for use by disconnected <code>RowSet</code> objects. Nevertheless, any
- * <code>RowSet</code> object <b>may</b> implement this interface
- * regardless of whether it is connected or disconnected. Note that a
- * <code>JdbcRowSet</code> object, being always connected to its data source, can
- * become part of an SQL <code>JOIN</code> directly without having to become part
- * of a <code>JoinRowSet</code> object.
+ * Tif <dodf>JoinRowSft</dodf> intfrfbdf mbkfs it possiblf to gft dbtb from onf or
+ * morf <dodf>RowSft</dodf> objfdts donsolidbtfd into onf tbblf witiout ibving to indur
+ * tif fxpfnsf of drfbting b donnfdtion to b dbtbbbsf. It is tifrfforf idfblly suitfd
+ * for usf by disdonnfdtfd <dodf>RowSft</dodf> objfdts. Nfvfrtiflfss, bny
+ * <dodf>RowSft</dodf> objfdt <b>mby</b> implfmfnt tiis intfrfbdf
+ * rfgbrdlfss of wiftifr it is donnfdtfd or disdonnfdtfd. Notf tibt b
+ * <dodf>JdbdRowSft</dodf> objfdt, bfing blwbys donnfdtfd to its dbtb sourdf, dbn
+ * bfdomf pbrt of bn SQL <dodf>JOIN</dodf> dirfdtly witiout ibving to bfdomf pbrt
+ * of b <dodf>JoinRowSft</dodf> objfdt.
  *
- * <h3>3.0 Managing Multiple Match Columns</h3>
- * The index array passed into the <code>setMatchColumn</code> methods indicates
- * how many match columns are being set (the length of the array) in addition to
- * which columns will be used for the match. For example:
- * <pre>
- *     int[] i = {1, 2, 4, 7}; // indicates four match columns, with column
- *                             // indexes 1, 2, 4, 7 participating in the JOIN.
- *     Joinable.setMatchColumn(i);
- * </pre>
- * Subsequent match columns may be added as follows to a different <code>Joinable</code>
- * object (a <code>RowSet</code> object that has implemented the <code>Joinable</code>
- * interface).
- * <pre>
+ * <i3>3.0 Mbnbging Multiplf Mbtdi Columns</i3>
+ * Tif indfx brrby pbssfd into tif <dodf>sftMbtdiColumn</dodf> mftiods indidbtfs
+ * iow mbny mbtdi dolumns brf bfing sft (tif lfngti of tif brrby) in bddition to
+ * wiidi dolumns will bf usfd for tif mbtdi. For fxbmplf:
+ * <prf>
+ *     int[] i = {1, 2, 4, 7}; // indidbtfs four mbtdi dolumns, witi dolumn
+ *                             // indfxfs 1, 2, 4, 7 pbrtidipbting in tif JOIN.
+ *     Joinbblf.sftMbtdiColumn(i);
+ * </prf>
+ * Subsfqufnt mbtdi dolumns mby bf bddfd bs follows to b difffrfnt <dodf>Joinbblf</dodf>
+ * objfdt (b <dodf>RowSft</dodf> objfdt tibt ibs implfmfntfd tif <dodf>Joinbblf</dodf>
+ * intfrfbdf).
+ * <prf>
  *     int[] w = {3, 2, 5, 3};
- *     Joinable2.setMatchColumn(w);
- * </pre>
- * When an application adds two or more <code>RowSet</code> objects to a
- * <code>JoinRowSet</code> object, the order of the indexes in the array is
- * particularly important. Each index of
- * the array maps directly to the corresponding index of the previously added
- * <code>RowSet</code> object. If overlap or underlap occurs, the match column
- * data is maintained in the event an additional <code>Joinable</code> RowSet is
- * added and needs to relate to the match column data. Therefore, applications
- * can set multiple match columns in any order, but
- * this order has a direct effect on the outcome of the <code>SQL</code> JOIN.
+ *     Joinbblf2.sftMbtdiColumn(w);
+ * </prf>
+ * Wifn bn bpplidbtion bdds two or morf <dodf>RowSft</dodf> objfdts to b
+ * <dodf>JoinRowSft</dodf> objfdt, tif ordfr of tif indfxfs in tif brrby is
+ * pbrtidulbrly importbnt. Ebdi indfx of
+ * tif brrby mbps dirfdtly to tif dorrfsponding indfx of tif prfviously bddfd
+ * <dodf>RowSft</dodf> objfdt. If ovfrlbp or undfrlbp oddurs, tif mbtdi dolumn
+ * dbtb is mbintbinfd in tif fvfnt bn bdditionbl <dodf>Joinbblf</dodf> RowSft is
+ * bddfd bnd nffds to rflbtf to tif mbtdi dolumn dbtb. Tifrfforf, bpplidbtions
+ * dbn sft multiplf mbtdi dolumns in bny ordfr, but
+ * tiis ordfr ibs b dirfdt ffffdt on tif outdomf of tif <dodf>SQL</dodf> JOIN.
  * <p>
- * This assertion applies in exactly the same manner when column names are used
- * rather than column indexes to indicate match columns.
+ * Tiis bssfrtion bpplifs in fxbdtly tif sbmf mbnnfr wifn dolumn nbmfs brf usfd
+ * rbtifr tibn dolumn indfxfs to indidbtf mbtdi dolumns.
  *
- * @see JoinRowSet
- * @author  Jonathan Bruce
- * @since 1.5
+ * @sff JoinRowSft
+ * @butior  Jonbtibn Brudf
+ * @sindf 1.5
  */
-public interface Joinable {
+publid intfrfbdf Joinbblf {
 
     /**
-     * Sets the designated column as the match column for this <code>RowSet</code>
-     * object. A <code>JoinRowSet</code> object can now add this <code>RowSet</code>
-     * object based on the match column.
+     * Sfts tif dfsignbtfd dolumn bs tif mbtdi dolumn for tiis <dodf>RowSft</dodf>
+     * objfdt. A <dodf>JoinRowSft</dodf> objfdt dbn now bdd tiis <dodf>RowSft</dodf>
+     * objfdt bbsfd on tif mbtdi dolumn.
      * <p>
-     * Sub-interfaces such as the <code>CachedRowSet</code>&trade;
-     * interface define the method <code>CachedRowSet.setKeyColumns</code>, which allows
-     * primary key semantics to be enforced on specific columns.
-     * Implementations of the <code>setMatchColumn(int columnIdx)</code> method
-     * should ensure that the constraints on the key columns are maintained when
-     * a <code>CachedRowSet</code> object sets a primary key column as a match column.
+     * Sub-intfrfbdfs sudi bs tif <dodf>CbdifdRowSft</dodf>&trbdf;
+     * intfrfbdf dffinf tif mftiod <dodf>CbdifdRowSft.sftKfyColumns</dodf>, wiidi bllows
+     * primbry kfy sfmbntids to bf fnfordfd on spfdifid dolumns.
+     * Implfmfntbtions of tif <dodf>sftMbtdiColumn(int dolumnIdx)</dodf> mftiod
+     * siould fnsurf tibt tif donstrbints on tif kfy dolumns brf mbintbinfd wifn
+     * b <dodf>CbdifdRowSft</dodf> objfdt sfts b primbry kfy dolumn bs b mbtdi dolumn.
      *
-     * @param columnIdx an <code>int</code> identifying the index of the column to be
-     *        set as the match column
-     * @throws SQLException if an invalid column index is set
-     * @see #setMatchColumn(int[])
-     * @see #unsetMatchColumn(int)
+     * @pbrbm dolumnIdx bn <dodf>int</dodf> idfntifying tif indfx of tif dolumn to bf
+     *        sft bs tif mbtdi dolumn
+     * @tirows SQLExdfption if bn invblid dolumn indfx is sft
+     * @sff #sftMbtdiColumn(int[])
+     * @sff #unsftMbtdiColumn(int)
      *
      */
-    public void setMatchColumn(int columnIdx) throws SQLException;
+    publid void sftMbtdiColumn(int dolumnIdx) tirows SQLExdfption;
 
     /**
-     * Sets the designated columns as the match column for this <code>RowSet</code>
-     * object. A <code>JoinRowSet</code> object can now add this <code>RowSet</code>
-     * object based on the match column.
+     * Sfts tif dfsignbtfd dolumns bs tif mbtdi dolumn for tiis <dodf>RowSft</dodf>
+     * objfdt. A <dodf>JoinRowSft</dodf> objfdt dbn now bdd tiis <dodf>RowSft</dodf>
+     * objfdt bbsfd on tif mbtdi dolumn.
      *
-     * @param columnIdxes an array of <code>int</code> identifying the indexes of the
-     *      columns to be set as the match columns
-     * @throws SQLException if an invalid column index is set
-     * @see #setMatchColumn(int[])
-     * @see #unsetMatchColumn(int[])
+     * @pbrbm dolumnIdxfs bn brrby of <dodf>int</dodf> idfntifying tif indfxfs of tif
+     *      dolumns to bf sft bs tif mbtdi dolumns
+     * @tirows SQLExdfption if bn invblid dolumn indfx is sft
+     * @sff #sftMbtdiColumn(int[])
+     * @sff #unsftMbtdiColumn(int[])
      */
-    public void setMatchColumn(int[] columnIdxes) throws SQLException;
+    publid void sftMbtdiColumn(int[] dolumnIdxfs) tirows SQLExdfption;
 
     /**
-     * Sets the designated column as the match column for this <code>RowSet</code>
-     * object. A <code>JoinRowSet</code> object can now add this <code>RowSet</code>
-     * object based on the match column.
+     * Sfts tif dfsignbtfd dolumn bs tif mbtdi dolumn for tiis <dodf>RowSft</dodf>
+     * objfdt. A <dodf>JoinRowSft</dodf> objfdt dbn now bdd tiis <dodf>RowSft</dodf>
+     * objfdt bbsfd on tif mbtdi dolumn.
      * <p>
-     * Subinterfaces such as the <code>CachedRowSet</code> interface define
-     * the method <code>CachedRowSet.setKeyColumns</code>, which allows
-     * primary key semantics to be enforced on specific columns.
-     * Implementations of the <code>setMatchColumn(String columnIdx)</code> method
-     * should ensure that the constraints on the key columns are maintained when
-     * a <code>CachedRowSet</code> object sets a primary key column as a match column.
+     * Subintfrfbdfs sudi bs tif <dodf>CbdifdRowSft</dodf> intfrfbdf dffinf
+     * tif mftiod <dodf>CbdifdRowSft.sftKfyColumns</dodf>, wiidi bllows
+     * primbry kfy sfmbntids to bf fnfordfd on spfdifid dolumns.
+     * Implfmfntbtions of tif <dodf>sftMbtdiColumn(String dolumnIdx)</dodf> mftiod
+     * siould fnsurf tibt tif donstrbints on tif kfy dolumns brf mbintbinfd wifn
+     * b <dodf>CbdifdRowSft</dodf> objfdt sfts b primbry kfy dolumn bs b mbtdi dolumn.
      *
-     * @param columnName a <code>String</code> object giving the name of the column
-     *      to be set as the match column
-     * @throws SQLException if an invalid column name is set, the column name
-     *      is a null, or the column name is an empty string
-     * @see #unsetMatchColumn
-     * @see #setMatchColumn(int[])
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt giving tif nbmf of tif dolumn
+     *      to bf sft bs tif mbtdi dolumn
+     * @tirows SQLExdfption if bn invblid dolumn nbmf is sft, tif dolumn nbmf
+     *      is b null, or tif dolumn nbmf is bn fmpty string
+     * @sff #unsftMbtdiColumn
+     * @sff #sftMbtdiColumn(int[])
      */
-    public void setMatchColumn(String columnName) throws SQLException;
+    publid void sftMbtdiColumn(String dolumnNbmf) tirows SQLExdfption;
 
     /**
-     * Sets the designated columns as the match column for this <code>RowSet</code>
-     * object. A <code>JoinRowSet</code> object can now add this <code>RowSet</code>
-     * object based on the match column.
+     * Sfts tif dfsignbtfd dolumns bs tif mbtdi dolumn for tiis <dodf>RowSft</dodf>
+     * objfdt. A <dodf>JoinRowSft</dodf> objfdt dbn now bdd tiis <dodf>RowSft</dodf>
+     * objfdt bbsfd on tif mbtdi dolumn.
      *
-     * @param columnNames an array of <code>String</code> objects giving the names
-     *     of the column to be set as the match columns
-     * @throws SQLException if an invalid column name is set, the column name
-     *      is a null, or the column name is an empty string
-     * @see #unsetMatchColumn
-     * @see #setMatchColumn(int[])
+     * @pbrbm dolumnNbmfs bn brrby of <dodf>String</dodf> objfdts giving tif nbmfs
+     *     of tif dolumn to bf sft bs tif mbtdi dolumns
+     * @tirows SQLExdfption if bn invblid dolumn nbmf is sft, tif dolumn nbmf
+     *      is b null, or tif dolumn nbmf is bn fmpty string
+     * @sff #unsftMbtdiColumn
+     * @sff #sftMbtdiColumn(int[])
      */
-    public void setMatchColumn(String[] columnNames) throws SQLException;
+    publid void sftMbtdiColumn(String[] dolumnNbmfs) tirows SQLExdfption;
 
     /**
-     * Retrieves the indexes of the match columns that were set for this
-     * <code>RowSet</code> object with the method
-     * <code>setMatchColumn(int[] columnIdxes)</code>.
+     * Rftrifvfs tif indfxfs of tif mbtdi dolumns tibt wfrf sft for tiis
+     * <dodf>RowSft</dodf> objfdt witi tif mftiod
+     * <dodf>sftMbtdiColumn(int[] dolumnIdxfs)</dodf>.
      *
-     * @return an <code>int</code> array identifying the indexes of the columns
-     *         that were set as the match columns for this <code>RowSet</code> object
-     * @throws SQLException if no match column has been set
-     * @see #setMatchColumn
-     * @see #unsetMatchColumn
+     * @rfturn bn <dodf>int</dodf> brrby idfntifying tif indfxfs of tif dolumns
+     *         tibt wfrf sft bs tif mbtdi dolumns for tiis <dodf>RowSft</dodf> objfdt
+     * @tirows SQLExdfption if no mbtdi dolumn ibs bffn sft
+     * @sff #sftMbtdiColumn
+     * @sff #unsftMbtdiColumn
      */
-    public int[] getMatchColumnIndexes() throws SQLException;
+    publid int[] gftMbtdiColumnIndfxfs() tirows SQLExdfption;
 
     /**
-     * Retrieves the names of the match columns that were set for this
-     * <code>RowSet</code> object with the method
-     * <code>setMatchColumn(String [] columnNames)</code>.
+     * Rftrifvfs tif nbmfs of tif mbtdi dolumns tibt wfrf sft for tiis
+     * <dodf>RowSft</dodf> objfdt witi tif mftiod
+     * <dodf>sftMbtdiColumn(String [] dolumnNbmfs)</dodf>.
      *
-     * @return an array of <code>String</code> objects giving the names of the columns
-     *         set as the match columns for this <code>RowSet</code> object
-     * @throws SQLException if no match column has been set
-     * @see #setMatchColumn
-     * @see #unsetMatchColumn
+     * @rfturn bn brrby of <dodf>String</dodf> objfdts giving tif nbmfs of tif dolumns
+     *         sft bs tif mbtdi dolumns for tiis <dodf>RowSft</dodf> objfdt
+     * @tirows SQLExdfption if no mbtdi dolumn ibs bffn sft
+     * @sff #sftMbtdiColumn
+     * @sff #unsftMbtdiColumn
      *
      */
-    public String[] getMatchColumnNames() throws SQLException;
+    publid String[] gftMbtdiColumnNbmfs() tirows SQLExdfption;
 
     /**
-     * Unsets the designated column as the match column for this <code>RowSet</code>
-     * object.
+     * Unsfts tif dfsignbtfd dolumn bs tif mbtdi dolumn for tiis <dodf>RowSft</dodf>
+     * objfdt.
      * <P>
-     * <code>RowSet</code> objects that implement the <code>Joinable</code> interface
-     * must ensure that a key-like constraint continues to be enforced until the
-     * method <code>CachedRowSet.unsetKeyColumns</code> has been called on the
-     * designated column.
+     * <dodf>RowSft</dodf> objfdts tibt implfmfnt tif <dodf>Joinbblf</dodf> intfrfbdf
+     * must fnsurf tibt b kfy-likf donstrbint dontinufs to bf fnfordfd until tif
+     * mftiod <dodf>CbdifdRowSft.unsftKfyColumns</dodf> ibs bffn dbllfd on tif
+     * dfsignbtfd dolumn.
      *
-     * @param columnIdx an <code>int</code> that identifies the index of the column
-     *          that is to be unset as a match column
-     * @throws SQLException if an invalid column index is designated or if
-     *          the designated column was not previously set as a match
-     *          column
-     * @see #setMatchColumn
+     * @pbrbm dolumnIdx bn <dodf>int</dodf> tibt idfntififs tif indfx of tif dolumn
+     *          tibt is to bf unsft bs b mbtdi dolumn
+     * @tirows SQLExdfption if bn invblid dolumn indfx is dfsignbtfd or if
+     *          tif dfsignbtfd dolumn wbs not prfviously sft bs b mbtdi
+     *          dolumn
+     * @sff #sftMbtdiColumn
      */
-    public void unsetMatchColumn(int columnIdx) throws SQLException;
+    publid void unsftMbtdiColumn(int dolumnIdx) tirows SQLExdfption;
 
     /**
-     * Unsets the designated columns as the match column for this <code>RowSet</code>
-     * object.
+     * Unsfts tif dfsignbtfd dolumns bs tif mbtdi dolumn for tiis <dodf>RowSft</dodf>
+     * objfdt.
      *
-     * @param columnIdxes an array of <code>int</code> that identifies the indexes
-     *     of the columns that are to be unset as match columns
-     * @throws SQLException if an invalid column index is designated or if
-     *          the designated column was not previously set as a match
-     *          column
-     * @see #setMatchColumn
+     * @pbrbm dolumnIdxfs bn brrby of <dodf>int</dodf> tibt idfntififs tif indfxfs
+     *     of tif dolumns tibt brf to bf unsft bs mbtdi dolumns
+     * @tirows SQLExdfption if bn invblid dolumn indfx is dfsignbtfd or if
+     *          tif dfsignbtfd dolumn wbs not prfviously sft bs b mbtdi
+     *          dolumn
+     * @sff #sftMbtdiColumn
      */
-    public void unsetMatchColumn(int[] columnIdxes) throws SQLException;
+    publid void unsftMbtdiColumn(int[] dolumnIdxfs) tirows SQLExdfption;
 
     /**
-     * Unsets the designated column as the match column for this <code>RowSet</code>
-     * object.
+     * Unsfts tif dfsignbtfd dolumn bs tif mbtdi dolumn for tiis <dodf>RowSft</dodf>
+     * objfdt.
      * <P>
-     * <code>RowSet</code> objects that implement the <code>Joinable</code> interface
-     * must ensure that a key-like constraint continues to be enforced until the
-     * method <code>CachedRowSet.unsetKeyColumns</code> has been called on the
-     * designated column.
+     * <dodf>RowSft</dodf> objfdts tibt implfmfnt tif <dodf>Joinbblf</dodf> intfrfbdf
+     * must fnsurf tibt b kfy-likf donstrbint dontinufs to bf fnfordfd until tif
+     * mftiod <dodf>CbdifdRowSft.unsftKfyColumns</dodf> ibs bffn dbllfd on tif
+     * dfsignbtfd dolumn.
      *
-     * @param columnName a <code>String</code> object giving the name of the column
-     *          that is to be unset as a match column
-     * @throws SQLException if an invalid column name is designated or
-     *          the designated column was not previously set as a match
-     *          column
-     * @see #setMatchColumn
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt giving tif nbmf of tif dolumn
+     *          tibt is to bf unsft bs b mbtdi dolumn
+     * @tirows SQLExdfption if bn invblid dolumn nbmf is dfsignbtfd or
+     *          tif dfsignbtfd dolumn wbs not prfviously sft bs b mbtdi
+     *          dolumn
+     * @sff #sftMbtdiColumn
      */
-    public void unsetMatchColumn(String columnName) throws SQLException;
+    publid void unsftMbtdiColumn(String dolumnNbmf) tirows SQLExdfption;
 
     /**
-     * Unsets the designated columns as the match columns for this <code>RowSet</code>
-     * object.
+     * Unsfts tif dfsignbtfd dolumns bs tif mbtdi dolumns for tiis <dodf>RowSft</dodf>
+     * objfdt.
      *
-     * @param columnName an array of <code>String</code> objects giving the names of
-     *     the columns that are to be unset as the match columns
-     * @throws SQLException if an invalid column name is designated or the
-     *     designated column was not previously set as a match column
-     * @see #setMatchColumn
+     * @pbrbm dolumnNbmf bn brrby of <dodf>String</dodf> objfdts giving tif nbmfs of
+     *     tif dolumns tibt brf to bf unsft bs tif mbtdi dolumns
+     * @tirows SQLExdfption if bn invblid dolumn nbmf is dfsignbtfd or tif
+     *     dfsignbtfd dolumn wbs not prfviously sft bs b mbtdi dolumn
+     * @sff #sftMbtdiColumn
      */
-    public void unsetMatchColumn(String[] columnName) throws SQLException;
+    publid void unsftMbtdiColumn(String[] dolumnNbmf) tirows SQLExdfption;
 }

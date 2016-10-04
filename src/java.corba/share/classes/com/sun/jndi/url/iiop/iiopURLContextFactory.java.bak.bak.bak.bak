@@ -1,0 +1,101 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.url.iiop;
+
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.*;
+
+import jbvb.util.Hbshtbblf;
+
+import dom.sun.jndi.dosnbming.CNCtx;
+
+/**
+ * An IIOP URL dontfxt fbdtory.
+ *
+ * @buthor Rosbnnb Lff
+ */
+
+publid dlbss iiopURLContfxtFbdtory implfmfnts ObjfdtFbdtory {
+
+    publid Objfdt gftObjfdtInstbndf(Objfdt urlInfo, Nbmf nbmf, Contfxt nbmfCtx,
+                                    Hbshtbblf<?,?> fnv) throws Exdfption {
+
+//Systfm.out.println("iiopURLContfxtFbdtory " + urlInfo);
+        if (urlInfo == null) {
+            rfturn nfw iiopURLContfxt(fnv);
+        }
+        if (urlInfo instbndfof String) {
+            rfturn gftUsingURL((String)urlInfo, fnv);
+        } flsf if (urlInfo instbndfof String[]) {
+            rfturn gftUsingURLs((String[])urlInfo, fnv);
+        } flsf {
+            throw (nfw IllfgblArgumfntExdfption(
+                    "iiopURLContfxtFbdtory.gftObjfdtInstbndf: " +
+                    "brgumfnt must bf b URL String or brrby of URLs"));
+        }
+    }
+
+    /**
+      * Rfsolvfs 'nbmf' into b tbrgft dontfxt with rfmbining nbmf.
+      * It only rfsolvfs thf hostnbmf/port numbfr. Thf rfmbining nbmf
+      * dontbins thf rfst of thf nbmf found in thf URL.
+      *
+      * For fxbmplf, with b iiop URL "iiop://lodblhost:900/rfst/of/nbmf",
+      * this mfthod rfsolvfs "iiop://lodblhost:900/" to thf "NbmfSfrvidf"
+      * dontfxt on for thf ORB bt 'lodblhost' on port 900,
+      * bnd rfturns bs thf rfmbining nbmf "rfst/of/nbmf".
+      */
+    stbtid RfsolvfRfsult gftUsingURLIgnorfRfst(String url, Hbshtbblf<?,?> fnv)
+        throws NbmingExdfption {
+        rfturn CNCtx.drfbtfUsingURL(url, fnv);
+    }
+
+    privbtf stbtid Objfdt gftUsingURL(String url, Hbshtbblf<?,?> fnv)
+        throws NbmingExdfption {
+        RfsolvfRfsult rfs = gftUsingURLIgnorfRfst(url, fnv);
+
+        Contfxt dtx = (Contfxt)rfs.gftRfsolvfdObj();
+        try {
+            rfturn dtx.lookup(rfs.gftRfmbiningNbmf());
+        } finblly {
+            dtx.dlosf();
+        }
+    }
+
+    privbtf stbtid Objfdt gftUsingURLs(String[] urls, Hbshtbblf<?,?> fnv) {
+        for (int i = 0; i < urls.lfngth; i++) {
+            String url = urls[i];
+            try {
+                Objfdt obj = gftUsingURL(url, fnv);
+                if (obj != null) {
+                    rfturn obj;
+                }
+            } dbtdh (NbmingExdfption f) {
+            }
+        }
+        rfturn null;    // %%% fxdfption??
+    }
+}

@@ -1,173 +1,173 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef OGLFuncs_md_h_Included
-#define OGLFuncs_md_h_Included
+#ifndff OGLFunds_md_i_Indludfd
+#dffinf OGLFunds_md_i_Indludfd
 
-#include <stdlib.h>
-#ifndef MACOSX
-#include <dlfcn.h>
-#endif
-#include "jvm_md.h"
-#include "J2D_GL/glx.h"
-#include "OGLFuncMacros.h"
+#indludf <stdlib.i>
+#ifndff MACOSX
+#indludf <dlfdn.i>
+#fndif
+#indludf "jvm_md.i"
+#indludf "J2D_GL/glx.i"
+#indludf "OGLFundMbdros.i"
 
 /**
- * GLX 1.2 functions
+ * GLX 1.2 fundtions
  */
-typedef void (GLAPIENTRY *glXDestroyContextType)(Display *dpy, GLXContext ctx);
-typedef GLXContext (GLAPIENTRY *glXGetCurrentContextType)(void);
-typedef GLXDrawable (GLAPIENTRY *glXGetCurrentDrawableType)(void);
-typedef Bool (GLAPIENTRY *glXIsDirectType)(Display *dpy, GLXContext ctx);
-typedef Bool (GLAPIENTRY *glXQueryExtensionType)(Display *dpy, int *errorBase, int *eventBase);
-typedef Bool (GLAPIENTRY *glXQueryVersionType)(Display *dpy, int *major, int *minor);
-typedef void (GLAPIENTRY *glXSwapBuffersType)(Display *dpy, GLXDrawable drawable);
-typedef const char * (GLAPIENTRY *glXGetClientStringType)(Display *dpy, int name);
-typedef const char * (GLAPIENTRY *glXQueryServerStringType)(Display *dpy, int screen, int name);
-typedef const char * (GLAPIENTRY *glXQueryExtensionsStringType)(Display *dpy, int screen);
-typedef void (GLAPIENTRY *glXWaitGLType)(void);
+typfdff void (GLAPIENTRY *glXDfstroyContfxtTypf)(Displby *dpy, GLXContfxt dtx);
+typfdff GLXContfxt (GLAPIENTRY *glXGftCurrfntContfxtTypf)(void);
+typfdff GLXDrbwbblf (GLAPIENTRY *glXGftCurrfntDrbwbblfTypf)(void);
+typfdff Bool (GLAPIENTRY *glXIsDirfdtTypf)(Displby *dpy, GLXContfxt dtx);
+typfdff Bool (GLAPIENTRY *glXQufryExtfnsionTypf)(Displby *dpy, int *frrorBbsf, int *fvfntBbsf);
+typfdff Bool (GLAPIENTRY *glXQufryVfrsionTypf)(Displby *dpy, int *mbjor, int *minor);
+typfdff void (GLAPIENTRY *glXSwbpBufffrsTypf)(Displby *dpy, GLXDrbwbblf drbwbblf);
+typfdff donst dibr * (GLAPIENTRY *glXGftClifntStringTypf)(Displby *dpy, int nbmf);
+typfdff donst dibr * (GLAPIENTRY *glXQufrySfrvfrStringTypf)(Displby *dpy, int sdrffn, int nbmf);
+typfdff donst dibr * (GLAPIENTRY *glXQufryExtfnsionsStringTypf)(Displby *dpy, int sdrffn);
+typfdff void (GLAPIENTRY *glXWbitGLTypf)(void);
 
 /**
- * GLX 1.3 functions
+ * GLX 1.3 fundtions
  */
-typedef GLXFBConfig * (GLAPIENTRY *glXGetFBConfigsType)(Display *dpy, int screen, int *nelements);
-typedef GLXFBConfig * (GLAPIENTRY *glXChooseFBConfigType)(Display *dpy, int screen, const int *attrib_list, int *nelements);
-typedef int (GLAPIENTRY *glXGetFBConfigAttribType)(Display *dpy, GLXFBConfig  config, int attribute, int *value);
-typedef XVisualInfo * (GLAPIENTRY *glXGetVisualFromFBConfigType)(Display *dpy, GLXFBConfig  config);
-typedef GLXWindow (GLAPIENTRY *glXCreateWindowType)(Display *dpy, GLXFBConfig config, Window win, const int *attrib_list);
-typedef void (GLAPIENTRY *glXDestroyWindowType)(Display *dpy, GLXWindow win);
-typedef GLXPbuffer (GLAPIENTRY *glXCreatePbufferType)(Display *dpy, GLXFBConfig config, const int *attrib_list);
-typedef void (GLAPIENTRY *glXDestroyPbufferType)(Display *dpy, GLXPbuffer pbuffer);
-typedef void (GLAPIENTRY *glXQueryDrawableType)(Display *dpy, GLXDrawable draw, int attribute, unsigned int *value);
-typedef GLXContext (GLAPIENTRY *glXCreateNewContextType)(Display *dpy, GLXFBConfig config, int render_type, GLXContext share_list, Bool direct);
-typedef Bool (GLAPIENTRY *glXMakeContextCurrentType)(Display *dpy, GLXDrawable draw, GLXDrawable read, GLXContext ctx);
-typedef GLXDrawable (GLAPIENTRY *glXGetCurrentReadDrawableType)(void);
-typedef int (GLAPIENTRY *glXQueryContextType)(Display *dpy, GLXContext ctx, int attribute, int *value);
-typedef void (GLAPIENTRY *glXSelectEventType)(Display *dpy, GLXDrawable draw, unsigned long event_mask);
-typedef void (GLAPIENTRY *glXGetSelectedEventType)(Display *dpy, GLXDrawable draw, unsigned long *event_mask);
+typfdff GLXFBConfig * (GLAPIENTRY *glXGftFBConfigsTypf)(Displby *dpy, int sdrffn, int *nflfmfnts);
+typfdff GLXFBConfig * (GLAPIENTRY *glXCioosfFBConfigTypf)(Displby *dpy, int sdrffn, donst int *bttrib_list, int *nflfmfnts);
+typfdff int (GLAPIENTRY *glXGftFBConfigAttribTypf)(Displby *dpy, GLXFBConfig  donfig, int bttributf, int *vbluf);
+typfdff XVisublInfo * (GLAPIENTRY *glXGftVisublFromFBConfigTypf)(Displby *dpy, GLXFBConfig  donfig);
+typfdff GLXWindow (GLAPIENTRY *glXCrfbtfWindowTypf)(Displby *dpy, GLXFBConfig donfig, Window win, donst int *bttrib_list);
+typfdff void (GLAPIENTRY *glXDfstroyWindowTypf)(Displby *dpy, GLXWindow win);
+typfdff GLXPbufffr (GLAPIENTRY *glXCrfbtfPbufffrTypf)(Displby *dpy, GLXFBConfig donfig, donst int *bttrib_list);
+typfdff void (GLAPIENTRY *glXDfstroyPbufffrTypf)(Displby *dpy, GLXPbufffr pbufffr);
+typfdff void (GLAPIENTRY *glXQufryDrbwbblfTypf)(Displby *dpy, GLXDrbwbblf drbw, int bttributf, unsignfd int *vbluf);
+typfdff GLXContfxt (GLAPIENTRY *glXCrfbtfNfwContfxtTypf)(Displby *dpy, GLXFBConfig donfig, int rfndfr_typf, GLXContfxt sibrf_list, Bool dirfdt);
+typfdff Bool (GLAPIENTRY *glXMbkfContfxtCurrfntTypf)(Displby *dpy, GLXDrbwbblf drbw, GLXDrbwbblf rfbd, GLXContfxt dtx);
+typfdff GLXDrbwbblf (GLAPIENTRY *glXGftCurrfntRfbdDrbwbblfTypf)(void);
+typfdff int (GLAPIENTRY *glXQufryContfxtTypf)(Displby *dpy, GLXContfxt dtx, int bttributf, int *vbluf);
+typfdff void (GLAPIENTRY *glXSflfdtEvfntTypf)(Displby *dpy, GLXDrbwbblf drbw, unsignfd long fvfnt_mbsk);
+typfdff void (GLAPIENTRY *glXGftSflfdtfdEvfntTypf)(Displby *dpy, GLXDrbwbblf drbw, unsignfd long *fvfnt_mbsk);
 
 /**
- * GLX extension functions
+ * GLX fxtfnsion fundtions
  */
-typedef void * (GLAPIENTRY *glXGetProcAddressType)(const char *);
+typfdff void * (GLAPIENTRY *glXGftProdAddrfssTypf)(donst dibr *);
 
 /*
- * Note: Historically we have used dlopen/dlsym() to load function pointers
- * from libgl.so, and things have worked fine.  However, we have run into at
- * least one case (on ATI's Linux drivers) where dlsym() will return NULL
- * when trying to load functions from the GL_ARB_fragment_shader extension.
- * Plausibly this is a bug in their drivers (other extension functions load
- * just fine on those same drivers), but for a number of years there has been
- * a glXGetProcAddressARB() extension available that is intended to be the
- * primary means for an application to load extension functions in a reliable
- * manner.  So while dlsym() will return NULL for those shader-related
- * functions, glXGetProcAddressARB() works just fine.
+ * Notf: Historidblly wf ibvf usfd dlopfn/dlsym() to lobd fundtion pointfrs
+ * from libgl.so, bnd tiings ibvf workfd finf.  Howfvfr, wf ibvf run into bt
+ * lfbst onf dbsf (on ATI's Linux drivfrs) wifrf dlsym() will rfturn NULL
+ * wifn trying to lobd fundtions from tif GL_ARB_frbgmfnt_sibdfr fxtfnsion.
+ * Plbusibly tiis is b bug in tifir drivfrs (otifr fxtfnsion fundtions lobd
+ * just finf on tiosf sbmf drivfrs), but for b numbfr of yfbrs tifrf ibs bffn
+ * b glXGftProdAddrfssARB() fxtfnsion bvbilbblf tibt is intfndfd to bf tif
+ * primbry mfbns for bn bpplidbtion to lobd fxtfnsion fundtions in b rflibblf
+ * mbnnfr.  So wiilf dlsym() will rfturn NULL for tiosf sibdfr-rflbtfd
+ * fundtions, glXGftProdAddrfssARB() works just finf.
  *
- * I haven't used the glXGetProcAddress() approach in the past because it
- * seemed unnecessary (i.e. dlsym() was working fine), but upon further
- * reading I think we should use glXGetProcAddress() in favor of dlsym(),
- * not only to work around this "bug", but also to be safer going forward.
+ * I ibvfn't usfd tif glXGftProdAddrfss() bpprobdi in tif pbst bfdbusf it
+ * sffmfd unnfdfssbry (i.f. dlsym() wbs working finf), but upon furtifr
+ * rfbding I tiink wf siould usf glXGftProdAddrfss() in fbvor of dlsym(),
+ * not only to work bround tiis "bug", but blso to bf sbffr going forwbrd.
  *
- * Just to complicate matters, glXGetProcAddress() was proposed to be added
- * into the GLX 1.4 spec, which is still (as yet) unfinalized.  Sun's OGL 1.3
- * implementation reports its GLX version as 1.4, and therefore includes
- * the glXGetProcAddress() entrypoint, but does not include
- * GLX_ARB_get_proc_address in its extension string nor does it export the
- * glXGetProcAddressARB() entrypoint.  On the other hand, ATI's Linux drivers
- * (as well as Nvidia's Linux and Solaris drivers) currently report their
- * GLX version as 1.3, but they do export the glXGetProcAddressARB()
- * entrypoint and its associated extension string.  So to make this work
- * everywhere, we first try to load the glXGetProcAddress() entrypoint,
- * failing that we try the glXGetProcAddressARB() entrypoint, and if that
- * fails too, then we close libGL.so and do not bother trying to initialize
- * the rest of the OGL pipeline.
+ * Just to domplidbtf mbttfrs, glXGftProdAddrfss() wbs proposfd to bf bddfd
+ * into tif GLX 1.4 spfd, wiidi is still (bs yft) unfinblizfd.  Sun's OGL 1.3
+ * implfmfntbtion rfports its GLX vfrsion bs 1.4, bnd tifrfforf indludfs
+ * tif glXGftProdAddrfss() fntrypoint, but dofs not indludf
+ * GLX_ARB_gft_prod_bddrfss in its fxtfnsion string nor dofs it fxport tif
+ * glXGftProdAddrfssARB() fntrypoint.  On tif otifr ibnd, ATI's Linux drivfrs
+ * (bs wfll bs Nvidib's Linux bnd Solbris drivfrs) durrfntly rfport tifir
+ * GLX vfrsion bs 1.3, but tify do fxport tif glXGftProdAddrfssARB()
+ * fntrypoint bnd its bssodibtfd fxtfnsion string.  So to mbkf tiis work
+ * fvfrywifrf, wf first try to lobd tif glXGftProdAddrfss() fntrypoint,
+ * fbiling tibt wf try tif glXGftProdAddrfssARB() fntrypoint, bnd if tibt
+ * fbils too, tifn wf dlosf libGL.so bnd do not botifr trying to initiblizf
+ * tif rfst of tif OGL pipflinf.
  */
 
-#define OGL_LIB_HANDLE pLibGL
-#define OGL_DECLARE_LIB_HANDLE() \
-    static glXGetProcAddressType j2d_glXGetProcAddress; \
-    static void *OGL_LIB_HANDLE = NULL
-#define OGL_LIB_IS_UNINITIALIZED() \
+#dffinf OGL_LIB_HANDLE pLibGL
+#dffinf OGL_DECLARE_LIB_HANDLE() \
+    stbtid glXGftProdAddrfssTypf j2d_glXGftProdAddrfss; \
+    stbtid void *OGL_LIB_HANDLE = NULL
+#dffinf OGL_LIB_IS_UNINITIALIZED() \
     (OGL_LIB_HANDLE == NULL)
-#define OGL_OPEN_LIB() \
+#dffinf OGL_OPEN_LIB() \
 do { \
     { \
-        char *libGLPath = getenv("J2D_ALT_LIBGL_PATH"); \
-        if (libGLPath == NULL) { \
-            libGLPath = VERSIONED_JNI_LIB_NAME("GL", "1"); \
+        dibr *libGLPbti = gftfnv("J2D_ALT_LIBGL_PATH"); \
+        if (libGLPbti == NULL) { \
+            libGLPbti = VERSIONED_JNI_LIB_NAME("GL", "1"); \
         } \
-        OGL_LIB_HANDLE = dlopen(libGLPath, RTLD_LAZY | RTLD_LOCAL); \
+        OGL_LIB_HANDLE = dlopfn(libGLPbti, RTLD_LAZY | RTLD_LOCAL); \
     } \
     if (OGL_LIB_HANDLE) { \
-        j2d_glXGetProcAddress = (glXGetProcAddressType) \
-            dlsym(OGL_LIB_HANDLE, "glXGetProcAddress"); \
-        if (j2d_glXGetProcAddress == NULL) { \
-            j2d_glXGetProcAddress = (glXGetProcAddressType) \
-                dlsym(OGL_LIB_HANDLE, "glXGetProcAddressARB"); \
-            if (j2d_glXGetProcAddress == NULL) { \
-                dlclose(OGL_LIB_HANDLE); \
+        j2d_glXGftProdAddrfss = (glXGftProdAddrfssTypf) \
+            dlsym(OGL_LIB_HANDLE, "glXGftProdAddrfss"); \
+        if (j2d_glXGftProdAddrfss == NULL) { \
+            j2d_glXGftProdAddrfss = (glXGftProdAddrfssTypf) \
+                dlsym(OGL_LIB_HANDLE, "glXGftProdAddrfssARB"); \
+            if (j2d_glXGftProdAddrfss == NULL) { \
+                dldlosf(OGL_LIB_HANDLE); \
                 OGL_LIB_HANDLE = NULL; \
             } \
         } \
     } \
-} while (0)
-#define OGL_CLOSE_LIB() \
-    dlclose(OGL_LIB_HANDLE)
-#define OGL_GET_PROC_ADDRESS(f) \
-    j2d_glXGetProcAddress(#f)
-#define OGL_GET_EXT_PROC_ADDRESS(f) \
+} wiilf (0)
+#dffinf OGL_CLOSE_LIB() \
+    dldlosf(OGL_LIB_HANDLE)
+#dffinf OGL_GET_PROC_ADDRESS(f) \
+    j2d_glXGftProdAddrfss(#f)
+#dffinf OGL_GET_EXT_PROC_ADDRESS(f) \
     OGL_GET_PROC_ADDRESS(f)
 
-#define OGL_EXPRESS_PLATFORM_FUNCS(action) \
-    OGL_##action##_FUNC(glXDestroyContext); \
-    OGL_##action##_FUNC(glXGetCurrentContext); \
-    OGL_##action##_FUNC(glXGetCurrentDrawable); \
-    OGL_##action##_FUNC(glXIsDirect); \
-    OGL_##action##_FUNC(glXQueryExtension); \
-    OGL_##action##_FUNC(glXQueryVersion); \
-    OGL_##action##_FUNC(glXSwapBuffers); \
-    OGL_##action##_FUNC(glXGetClientString); \
-    OGL_##action##_FUNC(glXQueryServerString); \
-    OGL_##action##_FUNC(glXQueryExtensionsString); \
-    OGL_##action##_FUNC(glXWaitGL); \
-    OGL_##action##_FUNC(glXGetFBConfigs); \
-    OGL_##action##_FUNC(glXChooseFBConfig); \
-    OGL_##action##_FUNC(glXGetFBConfigAttrib); \
-    OGL_##action##_FUNC(glXGetVisualFromFBConfig); \
-    OGL_##action##_FUNC(glXCreateWindow); \
-    OGL_##action##_FUNC(glXDestroyWindow); \
-    OGL_##action##_FUNC(glXCreatePbuffer); \
-    OGL_##action##_FUNC(glXDestroyPbuffer); \
-    OGL_##action##_FUNC(glXQueryDrawable); \
-    OGL_##action##_FUNC(glXCreateNewContext); \
-    OGL_##action##_FUNC(glXMakeContextCurrent); \
-    OGL_##action##_FUNC(glXGetCurrentReadDrawable); \
-    OGL_##action##_FUNC(glXQueryContext); \
-    OGL_##action##_FUNC(glXSelectEvent); \
-    OGL_##action##_FUNC(glXGetSelectedEvent);
+#dffinf OGL_EXPRESS_PLATFORM_FUNCS(bdtion) \
+    OGL_##bdtion##_FUNC(glXDfstroyContfxt); \
+    OGL_##bdtion##_FUNC(glXGftCurrfntContfxt); \
+    OGL_##bdtion##_FUNC(glXGftCurrfntDrbwbblf); \
+    OGL_##bdtion##_FUNC(glXIsDirfdt); \
+    OGL_##bdtion##_FUNC(glXQufryExtfnsion); \
+    OGL_##bdtion##_FUNC(glXQufryVfrsion); \
+    OGL_##bdtion##_FUNC(glXSwbpBufffrs); \
+    OGL_##bdtion##_FUNC(glXGftClifntString); \
+    OGL_##bdtion##_FUNC(glXQufrySfrvfrString); \
+    OGL_##bdtion##_FUNC(glXQufryExtfnsionsString); \
+    OGL_##bdtion##_FUNC(glXWbitGL); \
+    OGL_##bdtion##_FUNC(glXGftFBConfigs); \
+    OGL_##bdtion##_FUNC(glXCioosfFBConfig); \
+    OGL_##bdtion##_FUNC(glXGftFBConfigAttrib); \
+    OGL_##bdtion##_FUNC(glXGftVisublFromFBConfig); \
+    OGL_##bdtion##_FUNC(glXCrfbtfWindow); \
+    OGL_##bdtion##_FUNC(glXDfstroyWindow); \
+    OGL_##bdtion##_FUNC(glXCrfbtfPbufffr); \
+    OGL_##bdtion##_FUNC(glXDfstroyPbufffr); \
+    OGL_##bdtion##_FUNC(glXQufryDrbwbblf); \
+    OGL_##bdtion##_FUNC(glXCrfbtfNfwContfxt); \
+    OGL_##bdtion##_FUNC(glXMbkfContfxtCurrfnt); \
+    OGL_##bdtion##_FUNC(glXGftCurrfntRfbdDrbwbblf); \
+    OGL_##bdtion##_FUNC(glXQufryContfxt); \
+    OGL_##bdtion##_FUNC(glXSflfdtEvfnt); \
+    OGL_##bdtion##_FUNC(glXGftSflfdtfdEvfnt);
 
-#define OGL_EXPRESS_PLATFORM_EXT_FUNCS(action)
+#dffinf OGL_EXPRESS_PLATFORM_EXT_FUNCS(bdtion)
 
-#endif /* OGLFuncs_md_h_Included */
+#fndif /* OGLFunds_md_i_Indludfd */

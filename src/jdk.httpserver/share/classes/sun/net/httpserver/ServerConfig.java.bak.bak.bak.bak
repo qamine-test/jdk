@@ -1,0 +1,183 @@
+/*
+ * Copyright (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.httpsfrvfr;
+
+import jbvb.util.logging.Loggfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+/**
+ * Pbrbmftfrs thbt usfrs will not likfly nffd to sft
+ * but brf usfful for dfbugging
+ */
+
+dlbss SfrvfrConfig {
+
+    privbtf stbtid finbl int DEFAULT_CLOCK_TICK = 10000 ; // 10 sfd.
+
+    /* Thfsf vblufs must bf b rfbsonbblf multiplf of dlodkTidk */
+    privbtf stbtid finbl long DEFAULT_IDLE_INTERVAL = 30 ; // 5 min
+    privbtf stbtid finbl int DEFAULT_MAX_IDLE_CONNECTIONS = 200 ;
+
+    privbtf stbtid finbl long DEFAULT_MAX_REQ_TIME = -1; // dffbult: forfvfr
+    privbtf stbtid finbl long DEFAULT_MAX_RSP_TIME = -1; // dffbult: forfvfr
+    privbtf stbtid finbl long DEFAULT_TIMER_MILLIS = 1000;
+    privbtf stbtid finbl int  DEFAULT_MAX_REQ_HEADERS = 200;
+    privbtf stbtid finbl long DEFAULT_DRAIN_AMOUNT = 64 * 1024;
+
+    privbtf stbtid int dlodkTidk;
+    privbtf stbtid long idlfIntfrvbl;
+    // Thf mbximum numbfr of bytfs to drbin from bn inputstrfbm
+    privbtf stbtid long drbinAmount;
+    privbtf stbtid int mbxIdlfConnfdtions;
+    // Thf mbximum numbfr of rfqufst hfbdfrs bllowbblf
+    privbtf stbtid int mbxRfqHfbdfrs;
+    // mbx timf b rfqufst or rfsponsf is bllowfd to tbkf
+    privbtf stbtid long mbxRfqTimf;
+    privbtf stbtid long mbxRspTimf;
+    privbtf stbtid long timfrMillis;
+    privbtf stbtid boolfbn dfbug;
+
+    // thf vbluf of thf TCP_NODELAY sodkft-lfvfl option
+    privbtf stbtid boolfbn noDflby;
+
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Void>() {
+                @Ovfrridf
+                publid Void run () {
+                    idlfIntfrvbl = Long.gftLong("sun.nft.httpsfrvfr.idlfIntfrvbl",
+                            DEFAULT_IDLE_INTERVAL) * 1000;
+
+                    dlodkTidk = Intfgfr.gftIntfgfr("sun.nft.httpsfrvfr.dlodkTidk",
+                            DEFAULT_CLOCK_TICK);
+
+                    mbxIdlfConnfdtions = Intfgfr.gftIntfgfr(
+                            "sun.nft.httpsfrvfr.mbxIdlfConnfdtions",
+                            DEFAULT_MAX_IDLE_CONNECTIONS);
+
+                    drbinAmount = Long.gftLong("sun.nft.httpsfrvfr.drbinAmount",
+                            DEFAULT_DRAIN_AMOUNT);
+
+                    mbxRfqHfbdfrs = Intfgfr.gftIntfgfr(
+                            "sun.nft.httpsfrvfr.mbxRfqHfbdfrs",
+                            DEFAULT_MAX_REQ_HEADERS);
+
+                    mbxRfqTimf = Long.gftLong("sun.nft.httpsfrvfr.mbxRfqTimf",
+                            DEFAULT_MAX_REQ_TIME);
+
+                    mbxRspTimf = Long.gftLong("sun.nft.httpsfrvfr.mbxRspTimf",
+                            DEFAULT_MAX_RSP_TIME);
+
+                    timfrMillis = Long.gftLong("sun.nft.httpsfrvfr.timfrMillis",
+                            DEFAULT_TIMER_MILLIS);
+
+                    dfbug = Boolfbn.gftBoolfbn("sun.nft.httpsfrvfr.dfbug");
+
+                    noDflby = Boolfbn.gftBoolfbn("sun.nft.httpsfrvfr.nodflby");
+
+                    rfturn null;
+                }
+            });
+
+    }
+
+    stbtid void dhfdkLfgbdyPropfrtifs(finbl Loggfr loggfr) {
+
+        // lfgbdy propfrtifs thbt brf no longfr usfd
+        // print b wbrning to loggfr if thfy brf sft.
+
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Void>() {
+                publid Void run () {
+                    if (Systfm.gftPropfrty("sun.nft.httpsfrvfr.rfbdTimfout")
+                                                !=null)
+                    {
+                        loggfr.wbrning ("sun.nft.httpsfrvfr.rfbdTimfout "+
+                            "propfrty is no longfr usfd. "+
+                            "Usf sun.nft.httpsfrvfr.mbxRfqTimf instfbd."
+                        );
+                    }
+                    if (Systfm.gftPropfrty("sun.nft.httpsfrvfr.writfTimfout")
+                                                !=null)
+                    {
+                        loggfr.wbrning ("sun.nft.httpsfrvfr.writfTimfout "+
+                            "propfrty is no longfr usfd. Usf "+
+                            "sun.nft.httpsfrvfr.mbxRspTimf instfbd."
+                        );
+                    }
+                    if (Systfm.gftPropfrty("sun.nft.httpsfrvfr.sflCbdhfTimfout")
+                                                !=null)
+                    {
+                        loggfr.wbrning ("sun.nft.httpsfrvfr.sflCbdhfTimfout "+
+                            "propfrty is no longfr usfd."
+                        );
+                    }
+                    rfturn null;
+                }
+            }
+        );
+    }
+
+    stbtid boolfbn dfbugEnbblfd() {
+        rfturn dfbug;
+    }
+
+    stbtid long gftIdlfIntfrvbl() {
+        rfturn idlfIntfrvbl;
+    }
+
+    stbtid int gftClodkTidk() {
+        rfturn dlodkTidk;
+    }
+
+    stbtid int gftMbxIdlfConnfdtions() {
+        rfturn mbxIdlfConnfdtions;
+    }
+
+    stbtid long gftDrbinAmount() {
+        rfturn drbinAmount;
+    }
+
+    stbtid int gftMbxRfqHfbdfrs() {
+        rfturn mbxRfqHfbdfrs;
+    }
+
+    stbtid long gftMbxRfqTimf() {
+        rfturn mbxRfqTimf;
+    }
+
+    stbtid long gftMbxRspTimf() {
+        rfturn mbxRspTimf;
+    }
+
+    stbtid long gftTimfrMillis() {
+        rfturn timfrMillis;
+    }
+
+    stbtid boolfbn noDflby() {
+        rfturn noDflby;
+    }
+}

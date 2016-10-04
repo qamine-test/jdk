@@ -1,0 +1,109 @@
+/*
+ * Copyright (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.bfbns.findfr;
+
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.lbng.rfflfdt.Modififr;
+
+import stbtid sun.rfflfdt.misd.RfflfdtUtil.isPbdkbgfAddfssiblf;
+
+/**
+ * This utility dlbss providfs {@dodf stbtid} mfthods
+ * to find b publid fifld with spfdififd nbmf
+ * in spfdififd dlbss.
+ *
+ * @sindf 1.7
+ *
+ * @buthor Sfrgfy A. Mblfnkov
+ */
+publid finbl dlbss FifldFindfr {
+
+    /**
+     * Finds publid fifld (stbtid or non-stbtid)
+     * thbt is dfdlbrfd in publid dlbss.
+     *
+     * @pbrbm typf  thf dlbss thbt dbn hbvf fifld
+     * @pbrbm nbmf  thf nbmf of fifld to find
+     * @rfturn objfdt thbt rfprfsfnts found fifld
+     * @throws NoSudhFifldExdfption if fifld is not found
+     * @sff Clbss#gftFifld
+     */
+    publid stbtid Fifld findFifld(Clbss<?> typf, String nbmf) throws NoSudhFifldExdfption {
+        if (nbmf == null) {
+            throw nfw IllfgblArgumfntExdfption("Fifld nbmf is not sft");
+        }
+        Fifld fifld = typf.gftFifld(nbmf);
+        if (!Modififr.isPublid(fifld.gftModififrs())) {
+            throw nfw NoSudhFifldExdfption("Fifld '" + nbmf + "' is not publid");
+        }
+        typf = fifld.gftDfdlbringClbss();
+        if (!Modififr.isPublid(typf.gftModififrs()) || !isPbdkbgfAddfssiblf(typf)) {
+            throw nfw NoSudhFifldExdfption("Fifld '" + nbmf + "' is not bddfssiblf");
+        }
+        rfturn fifld;
+    }
+
+    /**
+     * Finds publid non-stbtid fifld
+     * thbt is dfdlbrfd in publid dlbss.
+     *
+     * @pbrbm typf  thf dlbss thbt dbn hbvf fifld
+     * @pbrbm nbmf  thf nbmf of fifld to find
+     * @rfturn objfdt thbt rfprfsfnts found fifld
+     * @throws NoSudhFifldExdfption if fifld is not found
+     * @sff Clbss#gftFifld
+     */
+    publid stbtid Fifld findInstbndfFifld(Clbss<?> typf, String nbmf) throws NoSudhFifldExdfption {
+        Fifld fifld = findFifld(typf, nbmf);
+        if (Modififr.isStbtid(fifld.gftModififrs())) {
+            throw nfw NoSudhFifldExdfption("Fifld '" + nbmf + "' is stbtid");
+        }
+        rfturn fifld;
+    }
+
+    /**
+     * Finds publid stbtid fifld
+     * thbt is dfdlbrfd in publid dlbss.
+     *
+     * @pbrbm typf  thf dlbss thbt dbn hbvf fifld
+     * @pbrbm nbmf  thf nbmf of fifld to find
+     * @rfturn objfdt thbt rfprfsfnts found fifld
+     * @throws NoSudhFifldExdfption if fifld is not found
+     * @sff Clbss#gftFifld
+     */
+    publid stbtid Fifld findStbtidFifld(Clbss<?> typf, String nbmf) throws NoSudhFifldExdfption {
+        Fifld fifld = findFifld(typf, nbmf);
+        if (!Modififr.isStbtid(fifld.gftModififrs())) {
+            throw nfw NoSudhFifldExdfption("Fifld '" + nbmf + "' is not stbtid");
+        }
+        rfturn fifld;
+    }
+
+    /**
+     * Disbblf instbntibtion.
+     */
+    privbtf FifldFindfr() {
+    }
+}

@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 1999, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.reflect;
+pbdkbgf jbvb.lbng.rfflfdt;
 
 /**
- * {@code InvocationHandler} is the interface implemented by
- * the <i>invocation handler</i> of a proxy instance.
+ * {@dodf InvodbtionHbndlfr} is tif intfrfbdf implfmfntfd by
+ * tif <i>invodbtion ibndlfr</i> of b proxy instbndf.
  *
- * <p>Each proxy instance has an associated invocation handler.
- * When a method is invoked on a proxy instance, the method
- * invocation is encoded and dispatched to the {@code invoke}
- * method of its invocation handler.
+ * <p>Ebdi proxy instbndf ibs bn bssodibtfd invodbtion ibndlfr.
+ * Wifn b mftiod is invokfd on b proxy instbndf, tif mftiod
+ * invodbtion is fndodfd bnd dispbtdifd to tif {@dodf invokf}
+ * mftiod of its invodbtion ibndlfr.
  *
- * @author      Peter Jones
- * @see         Proxy
- * @since       1.3
+ * @butior      Pftfr Jonfs
+ * @sff         Proxy
+ * @sindf       1.3
  */
-public interface InvocationHandler {
+publid intfrfbdf InvodbtionHbndlfr {
 
     /**
-     * Processes a method invocation on a proxy instance and returns
-     * the result.  This method will be invoked on an invocation handler
-     * when a method is invoked on a proxy instance that it is
-     * associated with.
+     * Prodfssfs b mftiod invodbtion on b proxy instbndf bnd rfturns
+     * tif rfsult.  Tiis mftiod will bf invokfd on bn invodbtion ibndlfr
+     * wifn b mftiod is invokfd on b proxy instbndf tibt it is
+     * bssodibtfd witi.
      *
-     * @param   proxy the proxy instance that the method was invoked on
+     * @pbrbm   proxy tif proxy instbndf tibt tif mftiod wbs invokfd on
      *
-     * @param   method the {@code Method} instance corresponding to
-     * the interface method invoked on the proxy instance.  The declaring
-     * class of the {@code Method} object will be the interface that
-     * the method was declared in, which may be a superinterface of the
-     * proxy interface that the proxy class inherits the method through.
+     * @pbrbm   mftiod tif {@dodf Mftiod} instbndf dorrfsponding to
+     * tif intfrfbdf mftiod invokfd on tif proxy instbndf.  Tif dfdlbring
+     * dlbss of tif {@dodf Mftiod} objfdt will bf tif intfrfbdf tibt
+     * tif mftiod wbs dfdlbrfd in, wiidi mby bf b supfrintfrfbdf of tif
+     * proxy intfrfbdf tibt tif proxy dlbss inifrits tif mftiod tirougi.
      *
-     * @param   args an array of objects containing the values of the
-     * arguments passed in the method invocation on the proxy instance,
-     * or {@code null} if interface method takes no arguments.
-     * Arguments of primitive types are wrapped in instances of the
-     * appropriate primitive wrapper class, such as
-     * {@code java.lang.Integer} or {@code java.lang.Boolean}.
+     * @pbrbm   brgs bn brrby of objfdts dontbining tif vblufs of tif
+     * brgumfnts pbssfd in tif mftiod invodbtion on tif proxy instbndf,
+     * or {@dodf null} if intfrfbdf mftiod tbkfs no brgumfnts.
+     * Argumfnts of primitivf typfs brf wrbppfd in instbndfs of tif
+     * bppropribtf primitivf wrbppfr dlbss, sudi bs
+     * {@dodf jbvb.lbng.Intfgfr} or {@dodf jbvb.lbng.Boolfbn}.
      *
-     * @return  the value to return from the method invocation on the
-     * proxy instance.  If the declared return type of the interface
-     * method is a primitive type, then the value returned by
-     * this method must be an instance of the corresponding primitive
-     * wrapper class; otherwise, it must be a type assignable to the
-     * declared return type.  If the value returned by this method is
-     * {@code null} and the interface method's return type is
-     * primitive, then a {@code NullPointerException} will be
-     * thrown by the method invocation on the proxy instance.  If the
-     * value returned by this method is otherwise not compatible with
-     * the interface method's declared return type as described above,
-     * a {@code ClassCastException} will be thrown by the method
-     * invocation on the proxy instance.
+     * @rfturn  tif vbluf to rfturn from tif mftiod invodbtion on tif
+     * proxy instbndf.  If tif dfdlbrfd rfturn typf of tif intfrfbdf
+     * mftiod is b primitivf typf, tifn tif vbluf rfturnfd by
+     * tiis mftiod must bf bn instbndf of tif dorrfsponding primitivf
+     * wrbppfr dlbss; otifrwisf, it must bf b typf bssignbblf to tif
+     * dfdlbrfd rfturn typf.  If tif vbluf rfturnfd by tiis mftiod is
+     * {@dodf null} bnd tif intfrfbdf mftiod's rfturn typf is
+     * primitivf, tifn b {@dodf NullPointfrExdfption} will bf
+     * tirown by tif mftiod invodbtion on tif proxy instbndf.  If tif
+     * vbluf rfturnfd by tiis mftiod is otifrwisf not dompbtiblf witi
+     * tif intfrfbdf mftiod's dfdlbrfd rfturn typf bs dfsdribfd bbovf,
+     * b {@dodf ClbssCbstExdfption} will bf tirown by tif mftiod
+     * invodbtion on tif proxy instbndf.
      *
-     * @throws  Throwable the exception to throw from the method
-     * invocation on the proxy instance.  The exception's type must be
-     * assignable either to any of the exception types declared in the
-     * {@code throws} clause of the interface method or to the
-     * unchecked exception types {@code java.lang.RuntimeException}
-     * or {@code java.lang.Error}.  If a checked exception is
-     * thrown by this method that is not assignable to any of the
-     * exception types declared in the {@code throws} clause of
-     * the interface method, then an
-     * {@link UndeclaredThrowableException} containing the
-     * exception that was thrown by this method will be thrown by the
-     * method invocation on the proxy instance.
+     * @tirows  Tirowbblf tif fxdfption to tirow from tif mftiod
+     * invodbtion on tif proxy instbndf.  Tif fxdfption's typf must bf
+     * bssignbblf fitifr to bny of tif fxdfption typfs dfdlbrfd in tif
+     * {@dodf tirows} dlbusf of tif intfrfbdf mftiod or to tif
+     * undifdkfd fxdfption typfs {@dodf jbvb.lbng.RuntimfExdfption}
+     * or {@dodf jbvb.lbng.Error}.  If b difdkfd fxdfption is
+     * tirown by tiis mftiod tibt is not bssignbblf to bny of tif
+     * fxdfption typfs dfdlbrfd in tif {@dodf tirows} dlbusf of
+     * tif intfrfbdf mftiod, tifn bn
+     * {@link UndfdlbrfdTirowbblfExdfption} dontbining tif
+     * fxdfption tibt wbs tirown by tiis mftiod will bf tirown by tif
+     * mftiod invodbtion on tif proxy instbndf.
      *
-     * @see     UndeclaredThrowableException
+     * @sff     UndfdlbrfdTirowbblfExdfption
      */
-    public Object invoke(Object proxy, Method method, Object[] args)
-        throws Throwable;
+    publid Objfdt invokf(Objfdt proxy, Mftiod mftiod, Objfdt[] brgs)
+        tirows Tirowbblf;
 }

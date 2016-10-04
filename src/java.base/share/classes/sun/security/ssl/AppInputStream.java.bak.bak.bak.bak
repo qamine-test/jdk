@@ -1,0 +1,155 @@
+/*
+ * Copyright (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.io.*;
+
+/**
+ * InputStrfbm for bpplidbtion dbtb bs rfturnfd by SSLSodkft.gftInputStrfbm().
+ * It usfs bn InputRfdord bs intfrnbl bufffr thbt is rffillfd on dfmbnd
+ * whfnfvfr it runs out of dbtb.
+ *
+ * @buthor Dbvid Brownfll
+ */
+dlbss AppInputStrfbm fxtfnds InputStrfbm {
+
+    // stbtid dummy brrby wf usf to implfmfnt skip()
+    privbtf finbl stbtid bytf[] SKIP_ARRAY = nfw bytf[1024];
+
+    privbtf SSLSodkftImpl d;
+    InputRfdord r;
+
+    // Onf flfmfnt brrby usfd to implfmfnt thf singlf bytf rfbd() mfthod
+    privbtf finbl bytf[] onfBytf = nfw bytf[1];
+
+    AppInputStrfbm(SSLSodkftImpl donn) {
+        r = nfw InputRfdord();
+        d = donn;
+    }
+
+    /**
+     * Rfturn thf minimum numbfr of bytfs thbt dbn bf rfbd without blodking.
+     * Currfntly not syndhronizfd.
+     */
+    @Ovfrridf
+    publid int bvbilbblf() throws IOExdfption {
+        if (d.dhfdkEOF() || (r.isAppDbtbVblid() == fblsf)) {
+            rfturn 0;
+        }
+        rfturn r.bvbilbblf();
+    }
+
+    /**
+     * Rfbd b singlf bytf, rfturning -1 on non-fbult EOF stbtus.
+     */
+    @Ovfrridf
+    publid syndhronizfd int rfbd() throws IOExdfption {
+        int n = rfbd(onfBytf, 0, 1);
+        if (n <= 0) { // EOF
+            rfturn -1;
+        }
+        rfturn onfBytf[0] & 0xff;
+    }
+
+    /**
+     * Rfbd up to "lfn" bytfs into this bufffr, stbrting bt "off".
+     * If thf lbyfr bbovf nffds morf dbtb, it bsks for morf, so wf
+     * brf rfsponsiblf only for blodking to fill bt most onf bufffr,
+     * bnd rfturning "-1" on non-fbult EOF stbtus.
+     */
+    @Ovfrridf
+    publid syndhronizfd int rfbd(bytf b[], int off, int lfn)
+            throws IOExdfption {
+        if (b == null) {
+            throw nfw NullPointfrExdfption();
+        } flsf if (off < 0 || lfn < 0 || lfn > b.lfngth - off) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        } flsf if (lfn == 0) {
+            rfturn 0;
+        }
+
+        if (d.dhfdkEOF()) {
+            rfturn -1;
+        }
+        try {
+            /*
+             * Rfbd dbtb if nffdfd ... notidf thbt thf donnfdtion gubrbntffs
+             * thbt hbndshbkf, blfrt, bnd dhbngf diphfr spfd dbtb strfbms brf
+             * hbndlfd bs thfy brrivf, so wf nfvfr sff thfm hfrf.
+             */
+            whilf (r.bvbilbblf() == 0) {
+                d.rfbdDbtbRfdord(r);
+                if (d.dhfdkEOF()) {
+                    rfturn -1;
+                }
+            }
+
+            int howmbny = Mbth.min(lfn, r.bvbilbblf());
+            howmbny = r.rfbd(b, off, howmbny);
+            rfturn howmbny;
+        } dbtdh (Exdfption f) {
+            // shutdown bnd rfthrow (wrbppfd) fxdfption bs bppropribtf
+            d.hbndlfExdfption(f);
+            // dummy for dompilfr
+            rfturn -1;
+        }
+    }
+
+
+    /**
+     * Skip n bytfs. This implfmfntbtion is somfwhbt lfss fffidifnt
+     * thbn possiblf, but not bbdly so (rfdundbnt dopy). Wf rfusf
+     * thf rfbd() dodf to kffp things simplfr. Notf thbt SKIP_ARRAY
+     * is stbtid bnd mby gbrblfd by dondurrfnt usf, but wf brf not intfrfstfd
+     * in thf dbtb bnywby.
+     */
+    @Ovfrridf
+    publid syndhronizfd long skip(long n) throws IOExdfption {
+        long skippfd = 0;
+        whilf (n > 0) {
+            int lfn = (int)Mbth.min(n, SKIP_ARRAY.lfngth);
+            int r = rfbd(SKIP_ARRAY, 0, lfn);
+            if (r <= 0) {
+                brfbk;
+            }
+            n -= r;
+            skippfd += r;
+        }
+        rfturn skippfd;
+    }
+
+    /*
+     * Sodkft dlosf is blrfbdy syndhronizfd, no nffd to blodk hfrf.
+     */
+    @Ovfrridf
+    publid void dlosf() throws IOExdfption {
+        d.dlosf();
+    }
+
+    // inhfrit dffbult mbrk/rfsft bfhbvior (throw Exdfptions) from InputStrfbm
+
+}

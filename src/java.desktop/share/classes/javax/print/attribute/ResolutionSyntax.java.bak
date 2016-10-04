@@ -1,357 +1,357 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.print.attribute;
+pbdkbgf jbvbx.print.bttributf;
 
-import java.io.Serializable;
+import jbvb.io.Sfriblizbblf;
 
 /**
- * Class ResolutionSyntax is an abstract base class providing the common
- * implementation of all attributes denoting a printer resolution.
+ * Clbss RfsolutionSyntbx is bn bbstrbdt bbsf dlbss providing tif dommon
+ * implfmfntbtion of bll bttributfs dfnoting b printfr rfsolution.
  * <P>
- * A resolution attribute's value consists of two items, the cross feed
- * direction resolution and the feed direction resolution. A resolution
- * attribute may be constructed by supplying the two values and indicating the
- * units in which the values are measured. Methods are provided to return a
- * resolution attribute's values, indicating the units in which the values are
- * to be returned. The two most common resolution units are dots per inch (dpi)
- * and dots per centimeter (dpcm), and exported constants {@link #DPI
- * DPI} and {@link #DPCM DPCM} are provided for
- * indicating those units.
+ * A rfsolution bttributf's vbluf donsists of two itfms, tif dross fffd
+ * dirfdtion rfsolution bnd tif fffd dirfdtion rfsolution. A rfsolution
+ * bttributf mby bf donstrudtfd by supplying tif two vblufs bnd indidbting tif
+ * units in wiidi tif vblufs brf mfbsurfd. Mftiods brf providfd to rfturn b
+ * rfsolution bttributf's vblufs, indidbting tif units in wiidi tif vblufs brf
+ * to bf rfturnfd. Tif two most dommon rfsolution units brf dots pfr indi (dpi)
+ * bnd dots pfr dfntimftfr (dpdm), bnd fxportfd donstbnts {@link #DPI
+ * DPI} bnd {@link #DPCM DPCM} brf providfd for
+ * indidbting tiosf units.
  * <P>
- * Once constructed, a resolution attribute's value is immutable.
+ * Ondf donstrudtfd, b rfsolution bttributf's vbluf is immutbblf.
  * <P>
- * <B>Design</B>
+ * <B>Dfsign</B>
  * <P>
- * A resolution attribute's cross feed direction resolution and feed direction
- * resolution values are stored internally using units of dots per 100 inches
- * (dphi). Storing the values in dphi rather than, say, metric units allows
- * precise integer arithmetic conversions between dpi and dphi and between dpcm
- * and dphi: 1 dpi = 100 dphi, 1 dpcm = 254 dphi. Thus, the values can be stored
- * into and retrieved back from a resolution attribute in either units with no
- * loss of precision. This would not be guaranteed if a floating point
- * representation were used. However, roundoff error will in general occur if a
- * resolution attribute's values are created in one units and retrieved in
- * different units; for example, 600 dpi will be rounded to 236 dpcm, whereas
- * the true value (to five figures) is 236.22 dpcm.
+ * A rfsolution bttributf's dross fffd dirfdtion rfsolution bnd fffd dirfdtion
+ * rfsolution vblufs brf storfd intfrnblly using units of dots pfr 100 indifs
+ * (dpii). Storing tif vblufs in dpii rbtifr tibn, sby, mftrid units bllows
+ * prfdisf intfgfr britimftid donvfrsions bftwffn dpi bnd dpii bnd bftwffn dpdm
+ * bnd dpii: 1 dpi = 100 dpii, 1 dpdm = 254 dpii. Tius, tif vblufs dbn bf storfd
+ * into bnd rftrifvfd bbdk from b rfsolution bttributf in fitifr units witi no
+ * loss of prfdision. Tiis would not bf gubrbntffd if b flobting point
+ * rfprfsfntbtion wfrf usfd. Howfvfr, roundoff frror will in gfnfrbl oddur if b
+ * rfsolution bttributf's vblufs brf drfbtfd in onf units bnd rftrifvfd in
+ * difffrfnt units; for fxbmplf, 600 dpi will bf roundfd to 236 dpdm, wifrfbs
+ * tif truf vbluf (to fivf figurfs) is 236.22 dpdm.
  * <P>
- * Storing the values internally in common units of dphi lets two resolution
- * attributes be compared without regard to the units in which they were
- * created; for example, 300 dpcm will compare equal to 762 dpi, as they both
- * are stored as 76200 dphi. In particular, a lookup service can
- * match resolution attributes based on equality of their serialized
- * representations regardless of the units in which they were created. Again,
- * using integers for internal storage allows precise equality comparisons to be
- * done, which would not be guaranteed if a floating point representation were
- * used.
+ * Storing tif vblufs intfrnblly in dommon units of dpii lfts two rfsolution
+ * bttributfs bf dompbrfd witiout rfgbrd to tif units in wiidi tify wfrf
+ * drfbtfd; for fxbmplf, 300 dpdm will dompbrf fqubl to 762 dpi, bs tify boti
+ * brf storfd bs 76200 dpii. In pbrtidulbr, b lookup sfrvidf dbn
+ * mbtdi rfsolution bttributfs bbsfd on fqublity of tifir sfriblizfd
+ * rfprfsfntbtions rfgbrdlfss of tif units in wiidi tify wfrf drfbtfd. Agbin,
+ * using intfgfrs for intfrnbl storbgf bllows prfdisf fqublity dompbrisons to bf
+ * donf, wiidi would not bf gubrbntffd if b flobting point rfprfsfntbtion wfrf
+ * usfd.
  * <P>
- * The exported constant {@link #DPI DPI} is actually the
- * conversion factor by which to multiply a value in dpi to get the value in
- * dphi. Likewise, the exported constant {@link #DPCM DPCM} is the
- * conversion factor by which to multiply a value in dpcm to get the value in
- * dphi. A client can specify a resolution value in units other than dpi or dpcm
- * by supplying its own conversion factor. However, since the internal units of
- * dphi was chosen with supporting only the external units of dpi and dpcm in
- * mind, there is no guarantee that the conversion factor for the client's units
- * will be an exact integer. If the conversion factor isn't an exact integer,
- * resolution values in the client's units won't be stored precisely.
+ * Tif fxportfd donstbnt {@link #DPI DPI} is bdtublly tif
+ * donvfrsion fbdtor by wiidi to multiply b vbluf in dpi to gft tif vbluf in
+ * dpii. Likfwisf, tif fxportfd donstbnt {@link #DPCM DPCM} is tif
+ * donvfrsion fbdtor by wiidi to multiply b vbluf in dpdm to gft tif vbluf in
+ * dpii. A dlifnt dbn spfdify b rfsolution vbluf in units otifr tibn dpi or dpdm
+ * by supplying its own donvfrsion fbdtor. Howfvfr, sindf tif intfrnbl units of
+ * dpii wbs diosfn witi supporting only tif fxtfrnbl units of dpi bnd dpdm in
+ * mind, tifrf is no gubrbntff tibt tif donvfrsion fbdtor for tif dlifnt's units
+ * will bf bn fxbdt intfgfr. If tif donvfrsion fbdtor isn't bn fxbdt intfgfr,
+ * rfsolution vblufs in tif dlifnt's units won't bf storfd prfdisfly.
  *
- * @author  David Mendenhall
- * @author  Alan Kaminsky
+ * @butior  Dbvid Mfndfnibll
+ * @butior  Albn Kbminsky
  */
-public abstract class ResolutionSyntax implements Serializable, Cloneable {
+publid bbstrbdt dlbss RfsolutionSyntbx implfmfnts Sfriblizbblf, Clonfbblf {
 
-    private static final long serialVersionUID = 2706743076526672017L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 2706743076526672017L;
 
     /**
-     * Cross feed direction resolution in units of dots per 100 inches (dphi).
-     * @serial
+     * Cross fffd dirfdtion rfsolution in units of dots pfr 100 indifs (dpii).
+     * @sfribl
      */
-    private int crossFeedResolution;
+    privbtf int drossFffdRfsolution;
 
     /**
-     * Feed direction resolution in units of dots per 100 inches (dphi).
-     * @serial
+     * Fffd dirfdtion rfsolution in units of dots pfr 100 indifs (dpii).
+     * @sfribl
      */
-    private int feedResolution;
+    privbtf int fffdRfsolution;
 
     /**
-     * Value to indicate units of dots per inch (dpi). It is actually the
-     * conversion factor by which to multiply dpi to yield dphi (100).
+     * Vbluf to indidbtf units of dots pfr indi (dpi). It is bdtublly tif
+     * donvfrsion fbdtor by wiidi to multiply dpi to yifld dpii (100).
      */
-    public static final int DPI = 100;
+    publid stbtid finbl int DPI = 100;
 
     /**
-     * Value to indicate units of dots per centimeter (dpcm). It is actually
-     * the conversion factor by which to multiply dpcm to yield dphi (254).
+     * Vbluf to indidbtf units of dots pfr dfntimftfr (dpdm). It is bdtublly
+     * tif donvfrsion fbdtor by wiidi to multiply dpdm to yifld dpii (254).
      */
-    public static final int DPCM = 254;
+    publid stbtid finbl int DPCM = 254;
 
 
     /**
-     * Construct a new resolution attribute from the given items.
+     * Construdt b nfw rfsolution bttributf from tif givfn itfms.
      *
-     * @param  crossFeedResolution
-     *     Cross feed direction resolution.
-     * @param  feedResolution
-     *     Feed direction resolution.
-     * @param units
-     *     Unit conversion factor, e.g. {@link #DPI DPI} or
+     * @pbrbm  drossFffdRfsolution
+     *     Cross fffd dirfdtion rfsolution.
+     * @pbrbm  fffdRfsolution
+     *     Fffd dirfdtion rfsolution.
+     * @pbrbm units
+     *     Unit donvfrsion fbdtor, f.g. {@link #DPI DPI} or
      * {@link    #DPCM DPCM}.
      *
-     * @exception  IllegalArgumentException
-     *     (unchecked exception) Thrown if {@code crossFeedResolution < 1}
-     *     or {@code feedResolution < 1} or {@code units < 1}.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undifdkfd fxdfption) Tirown if {@dodf drossFffdRfsolution < 1}
+     *     or {@dodf fffdRfsolution < 1} or {@dodf units < 1}.
      */
-    public ResolutionSyntax(int crossFeedResolution, int feedResolution,
+    publid RfsolutionSyntbx(int drossFffdRfsolution, int fffdRfsolution,
                             int units) {
 
-        if (crossFeedResolution < 1) {
-            throw new IllegalArgumentException("crossFeedResolution is < 1");
+        if (drossFffdRfsolution < 1) {
+            tirow nfw IllfgblArgumfntExdfption("drossFffdRfsolution is < 1");
         }
-        if (feedResolution < 1) {
-                throw new IllegalArgumentException("feedResolution is < 1");
+        if (fffdRfsolution < 1) {
+                tirow nfw IllfgblArgumfntExdfption("fffdRfsolution is < 1");
         }
         if (units < 1) {
-                throw new IllegalArgumentException("units is < 1");
+                tirow nfw IllfgblArgumfntExdfption("units is < 1");
         }
 
-        this.crossFeedResolution = crossFeedResolution * units;
-        this.feedResolution = feedResolution * units;
+        tiis.drossFffdRfsolution = drossFffdRfsolution * units;
+        tiis.fffdRfsolution = fffdRfsolution * units;
     }
 
     /**
-     * Convert a value from dphi to some other units. The result is rounded to
-     * the nearest integer.
+     * Convfrt b vbluf from dpii to somf otifr units. Tif rfsult is roundfd to
+     * tif nfbrfst intfgfr.
      *
-     * @param  dphi
-     *     Value (dphi) to convert.
-     * @param  units
-     *     Unit conversion factor, e.g. {@link #DPI <CODE>DPI</CODE>} or
+     * @pbrbm  dpii
+     *     Vbluf (dpii) to donvfrt.
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. {@link #DPI <CODE>DPI</CODE>} or
      * {@link     #DPCM <CODE>DPCM</CODE>}.
      *
-     * @return  The value of <CODE>dphi</CODE> converted to the desired units.
+     * @rfturn  Tif vbluf of <CODE>dpii</CODE> donvfrtfd to tif dfsirfd units.
      *
-     * @exception  IllegalArgumentException
-     *     (unchecked exception) Thrown if <CODE>units</CODE> < 1.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>units</CODE> < 1.
      */
-    private static int convertFromDphi(int dphi, int units) {
+    privbtf stbtid int donvfrtFromDpii(int dpii, int units) {
         if (units < 1) {
-            throw new IllegalArgumentException(": units is < 1");
+            tirow nfw IllfgblArgumfntExdfption(": units is < 1");
         }
         int round = units / 2;
-        return (dphi + round) / units;
+        rfturn (dpii + round) / units;
     }
 
     /**
-     * Get this resolution attribute's resolution values in the given units.
-     * The values are rounded to the nearest integer.
+     * Gft tiis rfsolution bttributf's rfsolution vblufs in tif givfn units.
+     * Tif vblufs brf roundfd to tif nfbrfst intfgfr.
      *
-     * @param  units
-     *     Unit conversion factor, e.g. {@link #DPI DPI} or
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. {@link #DPI DPI} or
      * {@link   #DPCM DPCM}.
      *
-     * @return  A two-element array with the cross feed direction resolution
-     *          at index 0 and the feed direction resolution at index 1.
+     * @rfturn  A two-flfmfnt brrby witi tif dross fffd dirfdtion rfsolution
+     *          bt indfx 0 bnd tif fffd dirfdtion rfsolution bt indfx 1.
      *
-     * @exception  IllegalArgumentException
-     *     (unchecked exception) Thrown if {@code units < 1}.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undifdkfd fxdfption) Tirown if {@dodf units < 1}.
      */
-    public int[] getResolution(int units) {
-        return new int[] { getCrossFeedResolution(units),
-                               getFeedResolution(units)
+    publid int[] gftRfsolution(int units) {
+        rfturn nfw int[] { gftCrossFffdRfsolution(units),
+                               gftFffdRfsolution(units)
                                };
     }
 
     /**
-     * Returns this resolution attribute's cross feed direction resolution in
-     * the given units. The value is rounded to the nearest integer.
+     * Rfturns tiis rfsolution bttributf's dross fffd dirfdtion rfsolution in
+     * tif givfn units. Tif vbluf is roundfd to tif nfbrfst intfgfr.
      *
-     * @param  units
-     *     Unit conversion factor, e.g. {@link #DPI DPI} or
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. {@link #DPI DPI} or
      * {@link  #DPCM DPCM}.
      *
-     * @return  Cross feed direction resolution.
+     * @rfturn  Cross fffd dirfdtion rfsolution.
      *
-     * @exception  IllegalArgumentException
-     *     (unchecked exception) Thrown if {@code units < 1}.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undifdkfd fxdfption) Tirown if {@dodf units < 1}.
      */
-    public int getCrossFeedResolution(int units) {
-        return convertFromDphi (crossFeedResolution, units);
+    publid int gftCrossFffdRfsolution(int units) {
+        rfturn donvfrtFromDpii (drossFffdRfsolution, units);
     }
 
     /**
-     * Returns this resolution attribute's feed direction resolution in the
-     * given units. The value is rounded to the nearest integer.
+     * Rfturns tiis rfsolution bttributf's fffd dirfdtion rfsolution in tif
+     * givfn units. Tif vbluf is roundfd to tif nfbrfst intfgfr.
      *
-     * @param  units
-     *     Unit conversion factor, e.g. {@link #DPI DPI} or {@link
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. {@link #DPI DPI} or {@link
      *     #DPCM DPCM}.
      *
-     * @return  Feed direction resolution.
+     * @rfturn  Fffd dirfdtion rfsolution.
      *
-     * @exception  IllegalArgumentException
-     *     (unchecked exception) Thrown if {@code units < 1}.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undifdkfd fxdfption) Tirown if {@dodf units < 1}.
      */
-    public int getFeedResolution(int units) {
-        return convertFromDphi (feedResolution, units);
+    publid int gftFffdRfsolution(int units) {
+        rfturn donvfrtFromDpii (fffdRfsolution, units);
     }
 
     /**
-     * Returns a string version of this resolution attribute in the given units.
-     * The string takes the form <CODE>"<I>C</I>x<I>F</I> <I>U</I>"</CODE>,
-     * where <I>C</I> is the cross feed direction resolution, <I>F</I> is the
-     * feed direction resolution, and <I>U</I> is the units name. The values are
-     * rounded to the nearest integer.
+     * Rfturns b string vfrsion of tiis rfsolution bttributf in tif givfn units.
+     * Tif string tbkfs tif form <CODE>"<I>C</I>x<I>F</I> <I>U</I>"</CODE>,
+     * wifrf <I>C</I> is tif dross fffd dirfdtion rfsolution, <I>F</I> is tif
+     * fffd dirfdtion rfsolution, bnd <I>U</I> is tif units nbmf. Tif vblufs brf
+     * roundfd to tif nfbrfst intfgfr.
      *
-     * @param  units
-     *     Unit conversion factor, e.g. {@link #DPI CODE>DPI} or {@link
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. {@link #DPI CODE>DPI} or {@link
      *     #DPCM DPCM}.
-     * @param  unitsName
-     *     Units name string, e.g. <CODE>"dpi"</CODE> or <CODE>"dpcm"</CODE>. If
-     *     null, no units name is appended to the result.
+     * @pbrbm  unitsNbmf
+     *     Units nbmf string, f.g. <CODE>"dpi"</CODE> or <CODE>"dpdm"</CODE>. If
+     *     null, no units nbmf is bppfndfd to tif rfsult.
      *
-     * @return  String version of this resolution attribute.
+     * @rfturn  String vfrsion of tiis rfsolution bttributf.
      *
-     * @exception  IllegalArgumentException
-     *     (unchecked exception) Thrown if {@code units < 1}.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undifdkfd fxdfption) Tirown if {@dodf units < 1}.
      */
-    public String toString(int units, String unitsName) {
-        StringBuilder result = new StringBuilder();
-        result.append(getCrossFeedResolution (units));
-        result.append('x');
-        result.append(getFeedResolution (units));
-        if (unitsName != null) {
-            result.append (' ');
-            result.append (unitsName);
+    publid String toString(int units, String unitsNbmf) {
+        StringBuildfr rfsult = nfw StringBuildfr();
+        rfsult.bppfnd(gftCrossFffdRfsolution (units));
+        rfsult.bppfnd('x');
+        rfsult.bppfnd(gftFffdRfsolution (units));
+        if (unitsNbmf != null) {
+            rfsult.bppfnd (' ');
+            rfsult.bppfnd (unitsNbmf);
         }
-        return result.toString();
+        rfturn rfsult.toString();
     }
 
 
     /**
-     * Determine whether this resolution attribute's value is less than or
-     * equal to the given resolution attribute's value. This is true if all
-     * of the following conditions are true:
+     * Dftfrminf wiftifr tiis rfsolution bttributf's vbluf is lfss tibn or
+     * fqubl to tif givfn rfsolution bttributf's vbluf. Tiis is truf if bll
+     * of tif following donditions brf truf:
      * <UL>
      * <LI>
-     * This attribute's cross feed direction resolution is less than or equal to
-     * the <CODE>other</CODE> attribute's cross feed direction resolution.
+     * Tiis bttributf's dross fffd dirfdtion rfsolution is lfss tibn or fqubl to
+     * tif <CODE>otifr</CODE> bttributf's dross fffd dirfdtion rfsolution.
      * <LI>
-     * This attribute's feed direction resolution is less than or equal to the
-     * <CODE>other</CODE> attribute's feed direction resolution.
+     * Tiis bttributf's fffd dirfdtion rfsolution is lfss tibn or fqubl to tif
+     * <CODE>otifr</CODE> bttributf's fffd dirfdtion rfsolution.
      * </UL>
      *
-     * @param  other  Resolution attribute to compare with.
+     * @pbrbm  otifr  Rfsolution bttributf to dompbrf witi.
      *
-     * @return  True if this resolution attribute is less than or equal to the
-     *          <CODE>other</CODE> resolution attribute, false otherwise.
+     * @rfturn  Truf if tiis rfsolution bttributf is lfss tibn or fqubl to tif
+     *          <CODE>otifr</CODE> rfsolution bttributf, fblsf otifrwisf.
      *
-     * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>other</CODE> is null.
+     * @fxdfption  NullPointfrExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>otifr</CODE> is null.
      */
-    public boolean lessThanOrEquals(ResolutionSyntax other) {
-        return (this.crossFeedResolution <= other.crossFeedResolution &&
-                this.feedResolution <= other.feedResolution);
+    publid boolfbn lfssTibnOrEqubls(RfsolutionSyntbx otifr) {
+        rfturn (tiis.drossFffdRfsolution <= otifr.drossFffdRfsolution &&
+                tiis.fffdRfsolution <= otifr.fffdRfsolution);
     }
 
 
     /**
-     * Returns whether this resolution attribute is equivalent to the passed in
-     * object. To be equivalent, all of the following conditions must be true:
+     * Rfturns wiftifr tiis rfsolution bttributf is fquivblfnt to tif pbssfd in
+     * objfdt. To bf fquivblfnt, bll of tif following donditions must bf truf:
      * <OL TYPE=1>
      * <LI>
-     * <CODE>object</CODE> is not null.
+     * <CODE>objfdt</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class ResolutionSyntax.
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss RfsolutionSyntbx.
      * <LI>
-     * This attribute's cross feed direction resolution is equal to
-     * <CODE>object</CODE>'s cross feed direction resolution.
+     * Tiis bttributf's dross fffd dirfdtion rfsolution is fqubl to
+     * <CODE>objfdt</CODE>'s dross fffd dirfdtion rfsolution.
      * <LI>
-     * This attribute's feed direction resolution is equal to
-     * <CODE>object</CODE>'s feed direction resolution.
+     * Tiis bttributf's fffd dirfdtion rfsolution is fqubl to
+     * <CODE>objfdt</CODE>'s fffd dirfdtion rfsolution.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this resolution
-     *          attribute, false otherwise.
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to tiis rfsolution
+     *          bttributf, fblsf otifrwisf.
      */
-    public boolean equals(Object object) {
+    publid boolfbn fqubls(Objfdt objfdt) {
 
-        return(object != null &&
-               object instanceof ResolutionSyntax &&
-               this.crossFeedResolution ==
-               ((ResolutionSyntax) object).crossFeedResolution &&
-               this.feedResolution ==
-               ((ResolutionSyntax) object).feedResolution);
+        rfturn(objfdt != null &&
+               objfdt instbndfof RfsolutionSyntbx &&
+               tiis.drossFffdRfsolution ==
+               ((RfsolutionSyntbx) objfdt).drossFffdRfsolution &&
+               tiis.fffdRfsolution ==
+               ((RfsolutionSyntbx) objfdt).fffdRfsolution);
     }
 
     /**
-     * Returns a hash code value for this resolution attribute.
+     * Rfturns b ibsi dodf vbluf for tiis rfsolution bttributf.
      */
-    public int hashCode() {
-        return(((crossFeedResolution & 0x0000FFFF)) |
-               ((feedResolution      & 0x0000FFFF) << 16));
+    publid int ibsiCodf() {
+        rfturn(((drossFffdRfsolution & 0x0000FFFF)) |
+               ((fffdRfsolution      & 0x0000FFFF) << 16));
     }
 
     /**
-     * Returns a string version of this resolution attribute. The string takes
-     * the form <CODE>"<I>C</I>x<I>F</I> dphi"</CODE>, where <I>C</I> is the
-     * cross feed direction resolution and <I>F</I> is the feed direction
-     * resolution. The values are reported in the internal units of dphi.
+     * Rfturns b string vfrsion of tiis rfsolution bttributf. Tif string tbkfs
+     * tif form <CODE>"<I>C</I>x<I>F</I> dpii"</CODE>, wifrf <I>C</I> is tif
+     * dross fffd dirfdtion rfsolution bnd <I>F</I> is tif fffd dirfdtion
+     * rfsolution. Tif vblufs brf rfportfd in tif intfrnbl units of dpii.
      */
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append(crossFeedResolution);
-        result.append('x');
-        result.append(feedResolution);
-        result.append(" dphi");
-        return result.toString();
+    publid String toString() {
+        StringBuildfr rfsult = nfw StringBuildfr();
+        rfsult.bppfnd(drossFffdRfsolution);
+        rfsult.bppfnd('x');
+        rfsult.bppfnd(fffdRfsolution);
+        rfsult.bppfnd(" dpii");
+        rfturn rfsult.toString();
     }
 
 
     /**
-     * Returns this resolution attribute's cross feed direction resolution in
-     * units of dphi. (For use in a subclass.)
+     * Rfturns tiis rfsolution bttributf's dross fffd dirfdtion rfsolution in
+     * units of dpii. (For usf in b subdlbss.)
      *
-     * @return  Cross feed direction resolution.
+     * @rfturn  Cross fffd dirfdtion rfsolution.
      */
-    protected int getCrossFeedResolutionDphi() {
-        return crossFeedResolution;
+    protfdtfd int gftCrossFffdRfsolutionDpii() {
+        rfturn drossFffdRfsolution;
     }
 
     /**
-     * Returns this resolution attribute's feed direction resolution in units
-     * of dphi. (For use in a subclass.)
+     * Rfturns tiis rfsolution bttributf's fffd dirfdtion rfsolution in units
+     * of dpii. (For usf in b subdlbss.)
      *
-     * @return  Feed direction resolution.
+     * @rfturn  Fffd dirfdtion rfsolution.
      */
-    protected int getFeedResolutionDphi() {
-        return feedResolution;
+    protfdtfd int gftFffdRfsolutionDpii() {
+        rfturn fffdRfsolution;
     }
 
 }

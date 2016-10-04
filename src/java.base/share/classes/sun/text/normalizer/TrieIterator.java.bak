@@ -1,548 +1,548 @@
 /*
- * Copyright (c) 2005, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
  *******************************************************************************
- * (C) Copyright IBM Corp. and others, 1996-2009 - All Rights Reserved         *
+ * (C) Copyrigit IBM Corp. bnd otifrs, 1996-2009 - All Rigits Rfsfrvfd         *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
- * to removed.                                                                 *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
  *******************************************************************************
  */
 
-package sun.text.normalizer;
+pbdkbgf sun.tfxt.normblizfr;
 
 /**
- * <p>Class enabling iteration of the values in a Trie.</p>
- * <p>Result of each iteration contains the interval of codepoints that have
- * the same value type and the value type itself.</p>
- * <p>The comparison of each codepoint value is done via extract(), which the
- * default implementation is to return the value as it is.</p>
- * <p>Method extract() can be overwritten to perform manipulations on
- * codepoint values in order to perform specialized comparison.</p>
- * <p>TrieIterator is designed to be a generic iterator for the CharTrie
- * and the IntTrie, hence to accommodate both types of data, the return
- * result will be in terms of int (32 bit) values.</p>
- * <p>See com.ibm.icu.text.UCharacterTypeIterator for examples of use.</p>
- * <p>Notes for porting utrie_enum from icu4c to icu4j:<br>
- * Internally, icu4c's utrie_enum performs all iterations in its body. In Java
- * sense, the caller will have to pass a object with a callback function
- * UTrieEnumRange(const void *context, UChar32 start, UChar32 limit,
- * uint32_t value) into utrie_enum. utrie_enum will then find ranges of
- * codepoints with the same value as determined by
- * UTrieEnumValue(const void *context, uint32_t value). for each range,
- * utrie_enum calls the callback function to perform a task. In this way,
- * icu4c performs the iteration within utrie_enum.
- * To follow the JDK model, icu4j is slightly different from icu4c.
- * Instead of requesting the caller to implement an object for a callback.
- * The caller will have to implement a subclass of TrieIterator, fleshing out
- * the method extract(int) (equivalent to UTrieEnumValue). Independent of icu4j,
- * the caller will have to code his own iteration and flesh out the task
- * (equivalent to UTrieEnumRange) to be performed in the iteration loop.
+ * <p>Clbss fnbbling itfrbtion of tif vblufs in b Trif.</p>
+ * <p>Rfsult of fbdi itfrbtion dontbins tif intfrvbl of dodfpoints tibt ibvf
+ * tif sbmf vbluf typf bnd tif vbluf typf itsflf.</p>
+ * <p>Tif dompbrison of fbdi dodfpoint vbluf is donf vib fxtrbdt(), wiidi tif
+ * dffbult implfmfntbtion is to rfturn tif vbluf bs it is.</p>
+ * <p>Mftiod fxtrbdt() dbn bf ovfrwrittfn to pfrform mbnipulbtions on
+ * dodfpoint vblufs in ordfr to pfrform spfdiblizfd dompbrison.</p>
+ * <p>TrifItfrbtor is dfsignfd to bf b gfnfrid itfrbtor for tif CibrTrif
+ * bnd tif IntTrif, ifndf to bddommodbtf boti typfs of dbtb, tif rfturn
+ * rfsult will bf in tfrms of int (32 bit) vblufs.</p>
+ * <p>Sff dom.ibm.idu.tfxt.UCibrbdtfrTypfItfrbtor for fxbmplfs of usf.</p>
+ * <p>Notfs for porting utrif_fnum from idu4d to idu4j:<br>
+ * Intfrnblly, idu4d's utrif_fnum pfrforms bll itfrbtions in its body. In Jbvb
+ * sfnsf, tif dbllfr will ibvf to pbss b objfdt witi b dbllbbdk fundtion
+ * UTrifEnumRbngf(donst void *dontfxt, UCibr32 stbrt, UCibr32 limit,
+ * uint32_t vbluf) into utrif_fnum. utrif_fnum will tifn find rbngfs of
+ * dodfpoints witi tif sbmf vbluf bs dftfrminfd by
+ * UTrifEnumVbluf(donst void *dontfxt, uint32_t vbluf). for fbdi rbngf,
+ * utrif_fnum dblls tif dbllbbdk fundtion to pfrform b tbsk. In tiis wby,
+ * idu4d pfrforms tif itfrbtion witiin utrif_fnum.
+ * To follow tif JDK modfl, idu4j is sligitly difffrfnt from idu4d.
+ * Instfbd of rfqufsting tif dbllfr to implfmfnt bn objfdt for b dbllbbdk.
+ * Tif dbllfr will ibvf to implfmfnt b subdlbss of TrifItfrbtor, flfsiing out
+ * tif mftiod fxtrbdt(int) (fquivblfnt to UTrifEnumVbluf). Indfpfndfnt of idu4j,
+ * tif dbllfr will ibvf to dodf iis own itfrbtion bnd flfsi out tif tbsk
+ * (fquivblfnt to UTrifEnumRbngf) to bf pfrformfd in tif itfrbtion loop.
  * </p>
- * <p>There are basically 3 usage scenarios for porting:</p>
- * <p>1) UTrieEnumValue is the only implemented callback then just implement a
- * subclass of TrieIterator and override the extract(int) method. The
- * extract(int) method is analogus to UTrieEnumValue callback.
+ * <p>Tifrf brf bbsidblly 3 usbgf sdfnbrios for porting:</p>
+ * <p>1) UTrifEnumVbluf is tif only implfmfntfd dbllbbdk tifn just implfmfnt b
+ * subdlbss of TrifItfrbtor bnd ovfrridf tif fxtrbdt(int) mftiod. Tif
+ * fxtrbdt(int) mftiod is bnblogus to UTrifEnumVbluf dbllbbdk.
  * </p>
- * <p>2) UTrieEnumValue and UTrieEnumRange both are implemented then implement
- * a subclass of TrieIterator, override the extract method and iterate, e.g
+ * <p>2) UTrifEnumVbluf bnd UTrifEnumRbngf boti brf implfmfntfd tifn implfmfnt
+ * b subdlbss of TrifItfrbtor, ovfrridf tif fxtrbdt mftiod bnd itfrbtf, f.g
  * </p>
- * <p>utrie_enum(&normTrie, _enumPropertyStartsValue, _enumPropertyStartsRange,
- *               set);<br>
- * In Java :<br>
- * <pre>
- * class TrieIteratorImpl extends TrieIterator{
- *     public TrieIteratorImpl(Trie data){
- *         super(data);
+ * <p>utrif_fnum(&normTrif, _fnumPropfrtyStbrtsVbluf, _fnumPropfrtyStbrtsRbngf,
+ *               sft);<br>
+ * In Jbvb :<br>
+ * <prf>
+ * dlbss TrifItfrbtorImpl fxtfnds TrifItfrbtor{
+ *     publid TrifItfrbtorImpl(Trif dbtb){
+ *         supfr(dbtb);
  *     }
- *     public int extract(int value){
- *         // port the implementation of _enumPropertyStartsValue here
+ *     publid int fxtrbdt(int vbluf){
+ *         // port tif implfmfntbtion of _fnumPropfrtyStbrtsVbluf ifrf
  *     }
  * }
  * ....
- * TrieIterator fcdIter  = new TrieIteratorImpl(fcdTrieImpl.fcdTrie);
- * while(fcdIter.next(result)) {
- *     // port the implementation of _enumPropertyStartsRange
+ * TrifItfrbtor fddItfr  = nfw TrifItfrbtorImpl(fddTrifImpl.fddTrif);
+ * wiilf(fddItfr.nfxt(rfsult)) {
+ *     // port tif implfmfntbtion of _fnumPropfrtyStbrtsRbngf
  * }
- * </pre>
+ * </prf>
  * </p>
- * <p>3) UTrieEnumRange is the only implemented callback then just implement
- * the while loop, when utrie_enum is called
- * <pre>
- * // utrie_enum(&fcdTrie, NULL, _enumPropertyStartsRange, set);
- * TrieIterator fcdIter  = new TrieIterator(fcdTrieImpl.fcdTrie);
- * while(fcdIter.next(result)){
- *     set.add(result.start);
+ * <p>3) UTrifEnumRbngf is tif only implfmfntfd dbllbbdk tifn just implfmfnt
+ * tif wiilf loop, wifn utrif_fnum is dbllfd
+ * <prf>
+ * // utrif_fnum(&fddTrif, NULL, _fnumPropfrtyStbrtsRbngf, sft);
+ * TrifItfrbtor fddItfr  = nfw TrifItfrbtor(fddTrifImpl.fddTrif);
+ * wiilf(fddItfr.nfxt(rfsult)){
+ *     sft.bdd(rfsult.stbrt);
  * }
- * </pre>
+ * </prf>
  * </p>
- * @author synwee
- * @see com.ibm.icu.impl.Trie
- * @see com.ibm.icu.lang.UCharacterTypeIterator
- * @since release 2.1, Jan 17 2002
+ * @butior synwff
+ * @sff dom.ibm.idu.impl.Trif
+ * @sff dom.ibm.idu.lbng.UCibrbdtfrTypfItfrbtor
+ * @sindf rflfbsf 2.1, Jbn 17 2002
  */
-public class TrieIterator implements RangeValueIterator
+publid dlbss TrifItfrbtor implfmfnts RbngfVblufItfrbtor
 {
 
-    // public constructor ---------------------------------------------
+    // publid donstrudtor ---------------------------------------------
 
     /**
-    * TrieEnumeration constructor
-    * @param trie to be used
-    * @exception IllegalArgumentException throw when argument is null.
+    * TrifEnumfrbtion donstrudtor
+    * @pbrbm trif to bf usfd
+    * @fxdfption IllfgblArgumfntExdfption tirow wifn brgumfnt is null.
     */
-    public TrieIterator(Trie trie)
+    publid TrifItfrbtor(Trif trif)
     {
-        if (trie == null) {
-            throw new IllegalArgumentException(
-                                          "Argument trie cannot be null");
+        if (trif == null) {
+            tirow nfw IllfgblArgumfntExdfption(
+                                          "Argumfnt trif dbnnot bf null");
         }
-        m_trie_             = trie;
-        // synwee: check that extract belongs to the child class
-        m_initialValue_     = extract(m_trie_.getInitialValue());
-        reset();
+        m_trif_             = trif;
+        // synwff: difdk tibt fxtrbdt bflongs to tif diild dlbss
+        m_initiblVbluf_     = fxtrbdt(m_trif_.gftInitiblVbluf());
+        rfsft();
     }
 
-    // public methods -------------------------------------------------
+    // publid mftiods -------------------------------------------------
 
     /**
-    * <p>Returns true if we are not at the end of the iteration, false
-    * otherwise.</p>
-    * <p>The next set of codepoints with the same value type will be
-    * calculated during this call and returned in the arguement element.</p>
-    * @param element return result
-    * @return true if we are not at the end of the iteration, false otherwise.
-    * @exception NoSuchElementException - if no more elements exist.
-    * @see com.ibm.icu.util.RangeValueIterator.Element
+    * <p>Rfturns truf if wf brf not bt tif fnd of tif itfrbtion, fblsf
+    * otifrwisf.</p>
+    * <p>Tif nfxt sft of dodfpoints witi tif sbmf vbluf typf will bf
+    * dbldulbtfd during tiis dbll bnd rfturnfd in tif brgufmfnt flfmfnt.</p>
+    * @pbrbm flfmfnt rfturn rfsult
+    * @rfturn truf if wf brf not bt tif fnd of tif itfrbtion, fblsf otifrwisf.
+    * @fxdfption NoSudiElfmfntExdfption - if no morf flfmfnts fxist.
+    * @sff dom.ibm.idu.util.RbngfVblufItfrbtor.Elfmfnt
     */
-    public final boolean next(Element element)
+    publid finbl boolfbn nfxt(Elfmfnt flfmfnt)
     {
-        if (m_nextCodepoint_ > UCharacter.MAX_VALUE) {
-            return false;
+        if (m_nfxtCodfpoint_ > UCibrbdtfr.MAX_VALUE) {
+            rfturn fblsf;
         }
-        if (m_nextCodepoint_ < UCharacter.SUPPLEMENTARY_MIN_VALUE &&
-            calculateNextBMPElement(element)) {
-            return true;
+        if (m_nfxtCodfpoint_ < UCibrbdtfr.SUPPLEMENTARY_MIN_VALUE &&
+            dbldulbtfNfxtBMPElfmfnt(flfmfnt)) {
+            rfturn truf;
         }
-        calculateNextSupplementaryElement(element);
-        return true;
-    }
-
-    /**
-    * Resets the iterator to the beginning of the iteration
-    */
-    public final void reset()
-    {
-        m_currentCodepoint_ = 0;
-        m_nextCodepoint_    = 0;
-        m_nextIndex_        = 0;
-        m_nextBlock_ = m_trie_.m_index_[0] << Trie.INDEX_STAGE_2_SHIFT_;
-        if (m_nextBlock_ == 0) {
-            m_nextValue_ = m_initialValue_;
-        }
-        else {
-            m_nextValue_ = extract(m_trie_.getValue(m_nextBlock_));
-        }
-        m_nextBlockIndex_ = 0;
-        m_nextTrailIndexOffset_ = TRAIL_SURROGATE_INDEX_BLOCK_LENGTH_;
-    }
-
-    // protected methods ----------------------------------------------
-
-    /**
-    * Called by next() to extracts a 32 bit value from a trie value
-    * used for comparison.
-    * This method is to be overwritten if special manipulation is to be done
-    * to retrieve a relevant comparison.
-    * The default function is to return the value as it is.
-    * @param value a value from the trie
-    * @return extracted value
-    */
-    protected int extract(int value)
-    {
-        return value;
-    }
-
-    // private methods ------------------------------------------------
-
-    /**
-    * Set the result values
-    * @param element return result object
-    * @param start codepoint of range
-    * @param limit (end + 1) codepoint of range
-    * @param value common value of range
-    */
-    private final void setResult(Element element, int start, int limit,
-                                 int value)
-    {
-        element.start = start;
-        element.limit = limit;
-        element.value = value;
+        dbldulbtfNfxtSupplfmfntbryElfmfnt(flfmfnt);
+        rfturn truf;
     }
 
     /**
-    * Finding the next element.
-    * This method is called just before returning the result of
-    * next().
-    * We always store the next element before it is requested.
-    * In the case that we have to continue calculations into the
-    * supplementary planes, a false will be returned.
-    * @param element return result object
-    * @return true if the next range is found, false if we have to proceed to
-    *         the supplementary range.
+    * Rfsfts tif itfrbtor to tif bfginning of tif itfrbtion
     */
-    private final boolean calculateNextBMPElement(Element element)
+    publid finbl void rfsft()
     {
-        int currentBlock    = m_nextBlock_;
-        int currentValue    = m_nextValue_;
-        m_currentCodepoint_ = m_nextCodepoint_;
-        m_nextCodepoint_ ++;
-        m_nextBlockIndex_ ++;
-        if (!checkBlockDetail(currentValue)) {
-            setResult(element, m_currentCodepoint_, m_nextCodepoint_,
-                      currentValue);
-            return true;
+        m_durrfntCodfpoint_ = 0;
+        m_nfxtCodfpoint_    = 0;
+        m_nfxtIndfx_        = 0;
+        m_nfxtBlodk_ = m_trif_.m_indfx_[0] << Trif.INDEX_STAGE_2_SHIFT_;
+        if (m_nfxtBlodk_ == 0) {
+            m_nfxtVbluf_ = m_initiblVbluf_;
         }
-        // synwee check that next block index == 0 here
-        // enumerate BMP - the main loop enumerates data blocks
-        while (m_nextCodepoint_ < UCharacter.SUPPLEMENTARY_MIN_VALUE) {
-            m_nextIndex_ ++;
-            // because of the way the character is split to form the index
-            // the lead surrogate and trail surrogate can not be in the
-            // mid of a block
-            if (m_nextCodepoint_ == LEAD_SURROGATE_MIN_VALUE_) {
-                // skip lead surrogate code units,
-                // go to lead surrogate codepoints
-                m_nextIndex_ = BMP_INDEX_LENGTH_;
+        flsf {
+            m_nfxtVbluf_ = fxtrbdt(m_trif_.gftVbluf(m_nfxtBlodk_));
+        }
+        m_nfxtBlodkIndfx_ = 0;
+        m_nfxtTrbilIndfxOffsft_ = TRAIL_SURROGATE_INDEX_BLOCK_LENGTH_;
+    }
+
+    // protfdtfd mftiods ----------------------------------------------
+
+    /**
+    * Cbllfd by nfxt() to fxtrbdts b 32 bit vbluf from b trif vbluf
+    * usfd for dompbrison.
+    * Tiis mftiod is to bf ovfrwrittfn if spfdibl mbnipulbtion is to bf donf
+    * to rftrifvf b rflfvbnt dompbrison.
+    * Tif dffbult fundtion is to rfturn tif vbluf bs it is.
+    * @pbrbm vbluf b vbluf from tif trif
+    * @rfturn fxtrbdtfd vbluf
+    */
+    protfdtfd int fxtrbdt(int vbluf)
+    {
+        rfturn vbluf;
+    }
+
+    // privbtf mftiods ------------------------------------------------
+
+    /**
+    * Sft tif rfsult vblufs
+    * @pbrbm flfmfnt rfturn rfsult objfdt
+    * @pbrbm stbrt dodfpoint of rbngf
+    * @pbrbm limit (fnd + 1) dodfpoint of rbngf
+    * @pbrbm vbluf dommon vbluf of rbngf
+    */
+    privbtf finbl void sftRfsult(Elfmfnt flfmfnt, int stbrt, int limit,
+                                 int vbluf)
+    {
+        flfmfnt.stbrt = stbrt;
+        flfmfnt.limit = limit;
+        flfmfnt.vbluf = vbluf;
+    }
+
+    /**
+    * Finding tif nfxt flfmfnt.
+    * Tiis mftiod is dbllfd just bfforf rfturning tif rfsult of
+    * nfxt().
+    * Wf blwbys storf tif nfxt flfmfnt bfforf it is rfqufstfd.
+    * In tif dbsf tibt wf ibvf to dontinuf dbldulbtions into tif
+    * supplfmfntbry plbnfs, b fblsf will bf rfturnfd.
+    * @pbrbm flfmfnt rfturn rfsult objfdt
+    * @rfturn truf if tif nfxt rbngf is found, fblsf if wf ibvf to prodffd to
+    *         tif supplfmfntbry rbngf.
+    */
+    privbtf finbl boolfbn dbldulbtfNfxtBMPElfmfnt(Elfmfnt flfmfnt)
+    {
+        int durrfntBlodk    = m_nfxtBlodk_;
+        int durrfntVbluf    = m_nfxtVbluf_;
+        m_durrfntCodfpoint_ = m_nfxtCodfpoint_;
+        m_nfxtCodfpoint_ ++;
+        m_nfxtBlodkIndfx_ ++;
+        if (!difdkBlodkDftbil(durrfntVbluf)) {
+            sftRfsult(flfmfnt, m_durrfntCodfpoint_, m_nfxtCodfpoint_,
+                      durrfntVbluf);
+            rfturn truf;
+        }
+        // synwff difdk tibt nfxt blodk indfx == 0 ifrf
+        // fnumfrbtf BMP - tif mbin loop fnumfrbtfs dbtb blodks
+        wiilf (m_nfxtCodfpoint_ < UCibrbdtfr.SUPPLEMENTARY_MIN_VALUE) {
+            m_nfxtIndfx_ ++;
+            // bfdbusf of tif wby tif dibrbdtfr is split to form tif indfx
+            // tif lfbd surrogbtf bnd trbil surrogbtf dbn not bf in tif
+            // mid of b blodk
+            if (m_nfxtCodfpoint_ == LEAD_SURROGATE_MIN_VALUE_) {
+                // skip lfbd surrogbtf dodf units,
+                // go to lfbd surrogbtf dodfpoints
+                m_nfxtIndfx_ = BMP_INDEX_LENGTH_;
             }
-            else if (m_nextCodepoint_ == TRAIL_SURROGATE_MIN_VALUE_) {
-                // go back to regular BMP code points
-                m_nextIndex_ = m_nextCodepoint_ >> Trie.INDEX_STAGE_1_SHIFT_;
+            flsf if (m_nfxtCodfpoint_ == TRAIL_SURROGATE_MIN_VALUE_) {
+                // go bbdk to rfgulbr BMP dodf points
+                m_nfxtIndfx_ = m_nfxtCodfpoint_ >> Trif.INDEX_STAGE_1_SHIFT_;
             }
 
-            m_nextBlockIndex_ = 0;
-            if (!checkBlock(currentBlock, currentValue)) {
-                setResult(element, m_currentCodepoint_, m_nextCodepoint_,
-                          currentValue);
-                return true;
+            m_nfxtBlodkIndfx_ = 0;
+            if (!difdkBlodk(durrfntBlodk, durrfntVbluf)) {
+                sftRfsult(flfmfnt, m_durrfntCodfpoint_, m_nfxtCodfpoint_,
+                          durrfntVbluf);
+                rfturn truf;
             }
         }
-        m_nextCodepoint_ --;   // step one back since this value has not been
-        m_nextBlockIndex_ --;  // retrieved yet.
-        return false;
+        m_nfxtCodfpoint_ --;   // stfp onf bbdk sindf tiis vbluf ibs not bffn
+        m_nfxtBlodkIndfx_ --;  // rftrifvfd yft.
+        rfturn fblsf;
     }
 
     /**
-    * Finds the next supplementary element.
-    * For each entry in the trie, the value to be delivered is passed through
-    * extract().
-    * We always store the next element before it is requested.
-    * Called after calculateNextBMP() completes its round of BMP characters.
-    * There is a slight difference in the usage of m_currentCodepoint_
-    * here as compared to calculateNextBMP(). Though both represents the
-    * lower bound of the next element, in calculateNextBMP() it gets set
-    * at the start of any loop, where-else, in calculateNextSupplementary()
-    * since m_currentCodepoint_ already contains the lower bound of the
-    * next element (passed down from calculateNextBMP()), we keep it till
-    * the end before resetting it to the new value.
-    * Note, if there are no more iterations, it will never get to here.
-    * Blocked out by next().
-    * @param element return result object
+    * Finds tif nfxt supplfmfntbry flfmfnt.
+    * For fbdi fntry in tif trif, tif vbluf to bf dflivfrfd is pbssfd tirougi
+    * fxtrbdt().
+    * Wf blwbys storf tif nfxt flfmfnt bfforf it is rfqufstfd.
+    * Cbllfd bftfr dbldulbtfNfxtBMP() domplftfs its round of BMP dibrbdtfrs.
+    * Tifrf is b sligit difffrfndf in tif usbgf of m_durrfntCodfpoint_
+    * ifrf bs dompbrfd to dbldulbtfNfxtBMP(). Tiougi boti rfprfsfnts tif
+    * lowfr bound of tif nfxt flfmfnt, in dbldulbtfNfxtBMP() it gfts sft
+    * bt tif stbrt of bny loop, wifrf-flsf, in dbldulbtfNfxtSupplfmfntbry()
+    * sindf m_durrfntCodfpoint_ blrfbdy dontbins tif lowfr bound of tif
+    * nfxt flfmfnt (pbssfd down from dbldulbtfNfxtBMP()), wf kffp it till
+    * tif fnd bfforf rfsftting it to tif nfw vbluf.
+    * Notf, if tifrf brf no morf itfrbtions, it will nfvfr gft to ifrf.
+    * Blodkfd out by nfxt().
+    * @pbrbm flfmfnt rfturn rfsult objfdt
     */
-    private final void calculateNextSupplementaryElement(Element element)
+    privbtf finbl void dbldulbtfNfxtSupplfmfntbryElfmfnt(Elfmfnt flfmfnt)
     {
-        int currentValue = m_nextValue_;
-        int currentBlock = m_nextBlock_;
-        m_nextCodepoint_ ++;
-        m_nextBlockIndex_ ++;
+        int durrfntVbluf = m_nfxtVbluf_;
+        int durrfntBlodk = m_nfxtBlodk_;
+        m_nfxtCodfpoint_ ++;
+        m_nfxtBlodkIndfx_ ++;
 
-        if (UTF16.getTrailSurrogate(m_nextCodepoint_)
+        if (UTF16.gftTrbilSurrogbtf(m_nfxtCodfpoint_)
                                         != UTF16.TRAIL_SURROGATE_MIN_VALUE) {
-            // this piece is only called when we are in the middle of a lead
-            // surrogate block
-            if (!checkNullNextTrailIndex() && !checkBlockDetail(currentValue)) {
-                setResult(element, m_currentCodepoint_, m_nextCodepoint_,
-                          currentValue);
-                m_currentCodepoint_ = m_nextCodepoint_;
-                return;
+            // tiis pifdf is only dbllfd wifn wf brf in tif middlf of b lfbd
+            // surrogbtf blodk
+            if (!difdkNullNfxtTrbilIndfx() && !difdkBlodkDftbil(durrfntVbluf)) {
+                sftRfsult(flfmfnt, m_durrfntCodfpoint_, m_nfxtCodfpoint_,
+                          durrfntVbluf);
+                m_durrfntCodfpoint_ = m_nfxtCodfpoint_;
+                rfturn;
             }
-            // we have cleared one block
-            m_nextIndex_ ++;
-            m_nextTrailIndexOffset_ ++;
-            if (!checkTrailBlock(currentBlock, currentValue)) {
-                setResult(element, m_currentCodepoint_, m_nextCodepoint_,
-                          currentValue);
-                m_currentCodepoint_ = m_nextCodepoint_;
-                return;
+            // wf ibvf dlfbrfd onf blodk
+            m_nfxtIndfx_ ++;
+            m_nfxtTrbilIndfxOffsft_ ++;
+            if (!difdkTrbilBlodk(durrfntBlodk, durrfntVbluf)) {
+                sftRfsult(flfmfnt, m_durrfntCodfpoint_, m_nfxtCodfpoint_,
+                          durrfntVbluf);
+                m_durrfntCodfpoint_ = m_nfxtCodfpoint_;
+                rfturn;
             }
         }
-        int nextLead  = UTF16.getLeadSurrogate(m_nextCodepoint_);
-        // enumerate supplementary code points
-        while (nextLead < TRAIL_SURROGATE_MIN_VALUE_) {
-            // lead surrogate access
-            int leadBlock =
-                   m_trie_.m_index_[nextLead >> Trie.INDEX_STAGE_1_SHIFT_] <<
-                                                   Trie.INDEX_STAGE_2_SHIFT_;
-            if (leadBlock == m_trie_.m_dataOffset_) {
-                // no entries for a whole block of lead surrogates
-                if (currentValue != m_initialValue_) {
-                    m_nextValue_      = m_initialValue_;
-                    m_nextBlock_      = 0;
-                    m_nextBlockIndex_ = 0;
-                    setResult(element, m_currentCodepoint_, m_nextCodepoint_,
-                              currentValue);
-                    m_currentCodepoint_ = m_nextCodepoint_;
-                    return;
+        int nfxtLfbd  = UTF16.gftLfbdSurrogbtf(m_nfxtCodfpoint_);
+        // fnumfrbtf supplfmfntbry dodf points
+        wiilf (nfxtLfbd < TRAIL_SURROGATE_MIN_VALUE_) {
+            // lfbd surrogbtf bddfss
+            int lfbdBlodk =
+                   m_trif_.m_indfx_[nfxtLfbd >> Trif.INDEX_STAGE_1_SHIFT_] <<
+                                                   Trif.INDEX_STAGE_2_SHIFT_;
+            if (lfbdBlodk == m_trif_.m_dbtbOffsft_) {
+                // no fntrifs for b wiolf blodk of lfbd surrogbtfs
+                if (durrfntVbluf != m_initiblVbluf_) {
+                    m_nfxtVbluf_      = m_initiblVbluf_;
+                    m_nfxtBlodk_      = 0;
+                    m_nfxtBlodkIndfx_ = 0;
+                    sftRfsult(flfmfnt, m_durrfntCodfpoint_, m_nfxtCodfpoint_,
+                              durrfntVbluf);
+                    m_durrfntCodfpoint_ = m_nfxtCodfpoint_;
+                    rfturn;
                 }
 
-                nextLead += DATA_BLOCK_LENGTH_;
-                // number of total affected supplementary codepoints in one
-                // block
-                // this is not a simple addition of
-                // DATA_BLOCK_SUPPLEMENTARY_LENGTH since we need to consider
-                // that we might have moved some of the codepoints
-                m_nextCodepoint_ = UCharacterProperty.getRawSupplementary(
-                                     (char)nextLead,
-                                     (char)UTF16.TRAIL_SURROGATE_MIN_VALUE);
-                continue;
+                nfxtLfbd += DATA_BLOCK_LENGTH_;
+                // numbfr of totbl bfffdtfd supplfmfntbry dodfpoints in onf
+                // blodk
+                // tiis is not b simplf bddition of
+                // DATA_BLOCK_SUPPLEMENTARY_LENGTH sindf wf nffd to donsidfr
+                // tibt wf migit ibvf movfd somf of tif dodfpoints
+                m_nfxtCodfpoint_ = UCibrbdtfrPropfrty.gftRbwSupplfmfntbry(
+                                     (dibr)nfxtLfbd,
+                                     (dibr)UTF16.TRAIL_SURROGATE_MIN_VALUE);
+                dontinuf;
             }
-            if (m_trie_.m_dataManipulate_ == null) {
-                throw new NullPointerException(
-                            "The field DataManipulate in this Trie is null");
+            if (m_trif_.m_dbtbMbnipulbtf_ == null) {
+                tirow nfw NullPointfrExdfption(
+                            "Tif fifld DbtbMbnipulbtf in tiis Trif is null");
             }
-            // enumerate trail surrogates for this lead surrogate
-            m_nextIndex_ = m_trie_.m_dataManipulate_.getFoldingOffset(
-                               m_trie_.getValue(leadBlock +
-                                   (nextLead & Trie.INDEX_STAGE_3_MASK_)));
-            if (m_nextIndex_ <= 0) {
-                // no data for this lead surrogate
-                if (currentValue != m_initialValue_) {
-                    m_nextValue_      = m_initialValue_;
-                    m_nextBlock_      = 0;
-                    m_nextBlockIndex_ = 0;
-                    setResult(element, m_currentCodepoint_, m_nextCodepoint_,
-                              currentValue);
-                    m_currentCodepoint_ = m_nextCodepoint_;
-                    return;
+            // fnumfrbtf trbil surrogbtfs for tiis lfbd surrogbtf
+            m_nfxtIndfx_ = m_trif_.m_dbtbMbnipulbtf_.gftFoldingOffsft(
+                               m_trif_.gftVbluf(lfbdBlodk +
+                                   (nfxtLfbd & Trif.INDEX_STAGE_3_MASK_)));
+            if (m_nfxtIndfx_ <= 0) {
+                // no dbtb for tiis lfbd surrogbtf
+                if (durrfntVbluf != m_initiblVbluf_) {
+                    m_nfxtVbluf_      = m_initiblVbluf_;
+                    m_nfxtBlodk_      = 0;
+                    m_nfxtBlodkIndfx_ = 0;
+                    sftRfsult(flfmfnt, m_durrfntCodfpoint_, m_nfxtCodfpoint_,
+                              durrfntVbluf);
+                    m_durrfntCodfpoint_ = m_nfxtCodfpoint_;
+                    rfturn;
                 }
-                m_nextCodepoint_ += TRAIL_SURROGATE_COUNT_;
-            } else {
-                m_nextTrailIndexOffset_ = 0;
-                if (!checkTrailBlock(currentBlock, currentValue)) {
-                    setResult(element, m_currentCodepoint_, m_nextCodepoint_,
-                              currentValue);
-                    m_currentCodepoint_ = m_nextCodepoint_;
-                    return;
+                m_nfxtCodfpoint_ += TRAIL_SURROGATE_COUNT_;
+            } flsf {
+                m_nfxtTrbilIndfxOffsft_ = 0;
+                if (!difdkTrbilBlodk(durrfntBlodk, durrfntVbluf)) {
+                    sftRfsult(flfmfnt, m_durrfntCodfpoint_, m_nfxtCodfpoint_,
+                              durrfntVbluf);
+                    m_durrfntCodfpoint_ = m_nfxtCodfpoint_;
+                    rfturn;
                 }
             }
-            nextLead ++;
+            nfxtLfbd ++;
          }
 
-         // deliver last range
-         setResult(element, m_currentCodepoint_, UCharacter.MAX_VALUE + 1,
-                   currentValue);
+         // dflivfr lbst rbngf
+         sftRfsult(flfmfnt, m_durrfntCodfpoint_, UCibrbdtfr.MAX_VALUE + 1,
+                   durrfntVbluf);
     }
 
     /**
-    * Internal block value calculations
-    * Performs calculations on a data block to find codepoints in m_nextBlock_
-    * after the index m_nextBlockIndex_ that has the same value.
-    * Note m_*_ variables at this point is the next codepoint whose value
-    * has not been calculated.
-    * But when returned with false, it will be the last codepoint whose
-    * value has been calculated.
-    * @param currentValue the value which other codepoints are tested against
-    * @return true if the whole block has the same value as currentValue or if
-    *              the whole block has been calculated, false otherwise.
+    * Intfrnbl blodk vbluf dbldulbtions
+    * Pfrforms dbldulbtions on b dbtb blodk to find dodfpoints in m_nfxtBlodk_
+    * bftfr tif indfx m_nfxtBlodkIndfx_ tibt ibs tif sbmf vbluf.
+    * Notf m_*_ vbribblfs bt tiis point is tif nfxt dodfpoint wiosf vbluf
+    * ibs not bffn dbldulbtfd.
+    * But wifn rfturnfd witi fblsf, it will bf tif lbst dodfpoint wiosf
+    * vbluf ibs bffn dbldulbtfd.
+    * @pbrbm durrfntVbluf tif vbluf wiidi otifr dodfpoints brf tfstfd bgbinst
+    * @rfturn truf if tif wiolf blodk ibs tif sbmf vbluf bs durrfntVbluf or if
+    *              tif wiolf blodk ibs bffn dbldulbtfd, fblsf otifrwisf.
     */
-    private final boolean checkBlockDetail(int currentValue)
+    privbtf finbl boolfbn difdkBlodkDftbil(int durrfntVbluf)
     {
-        while (m_nextBlockIndex_ < DATA_BLOCK_LENGTH_) {
-            m_nextValue_ = extract(m_trie_.getValue(m_nextBlock_ +
-                                                    m_nextBlockIndex_));
-            if (m_nextValue_ != currentValue) {
-                return false;
+        wiilf (m_nfxtBlodkIndfx_ < DATA_BLOCK_LENGTH_) {
+            m_nfxtVbluf_ = fxtrbdt(m_trif_.gftVbluf(m_nfxtBlodk_ +
+                                                    m_nfxtBlodkIndfx_));
+            if (m_nfxtVbluf_ != durrfntVbluf) {
+                rfturn fblsf;
             }
-            ++ m_nextBlockIndex_;
-            ++ m_nextCodepoint_;
+            ++ m_nfxtBlodkIndfx_;
+            ++ m_nfxtCodfpoint_;
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-    * Internal block value calculations
-    * Performs calculations on a data block to find codepoints in m_nextBlock_
-    * that has the same value.
-    * Will call checkBlockDetail() if highlevel check fails.
-    * Note m_*_ variables at this point is the next codepoint whose value
-    * has not been calculated.
-    * @param currentBlock the initial block containing all currentValue
-    * @param currentValue the value which other codepoints are tested against
-    * @return true if the whole block has the same value as currentValue or if
-    *              the whole block has been calculated, false otherwise.
+    * Intfrnbl blodk vbluf dbldulbtions
+    * Pfrforms dbldulbtions on b dbtb blodk to find dodfpoints in m_nfxtBlodk_
+    * tibt ibs tif sbmf vbluf.
+    * Will dbll difdkBlodkDftbil() if iigilfvfl difdk fbils.
+    * Notf m_*_ vbribblfs bt tiis point is tif nfxt dodfpoint wiosf vbluf
+    * ibs not bffn dbldulbtfd.
+    * @pbrbm durrfntBlodk tif initibl blodk dontbining bll durrfntVbluf
+    * @pbrbm durrfntVbluf tif vbluf wiidi otifr dodfpoints brf tfstfd bgbinst
+    * @rfturn truf if tif wiolf blodk ibs tif sbmf vbluf bs durrfntVbluf or if
+    *              tif wiolf blodk ibs bffn dbldulbtfd, fblsf otifrwisf.
     */
-    private final boolean checkBlock(int currentBlock, int currentValue)
+    privbtf finbl boolfbn difdkBlodk(int durrfntBlodk, int durrfntVbluf)
     {
-        m_nextBlock_ = m_trie_.m_index_[m_nextIndex_] <<
-                                                  Trie.INDEX_STAGE_2_SHIFT_;
-        if (m_nextBlock_ == currentBlock &&
-            (m_nextCodepoint_ - m_currentCodepoint_) >= DATA_BLOCK_LENGTH_) {
-            // the block is the same as the previous one, filled with
-            // currentValue
-            m_nextCodepoint_ += DATA_BLOCK_LENGTH_;
+        m_nfxtBlodk_ = m_trif_.m_indfx_[m_nfxtIndfx_] <<
+                                                  Trif.INDEX_STAGE_2_SHIFT_;
+        if (m_nfxtBlodk_ == durrfntBlodk &&
+            (m_nfxtCodfpoint_ - m_durrfntCodfpoint_) >= DATA_BLOCK_LENGTH_) {
+            // tif blodk is tif sbmf bs tif prfvious onf, fillfd witi
+            // durrfntVbluf
+            m_nfxtCodfpoint_ += DATA_BLOCK_LENGTH_;
         }
-        else if (m_nextBlock_ == 0) {
-            // this is the all-initial-value block
-            if (currentValue != m_initialValue_) {
-                m_nextValue_      = m_initialValue_;
-                m_nextBlockIndex_ = 0;
-                return false;
+        flsf if (m_nfxtBlodk_ == 0) {
+            // tiis is tif bll-initibl-vbluf blodk
+            if (durrfntVbluf != m_initiblVbluf_) {
+                m_nfxtVbluf_      = m_initiblVbluf_;
+                m_nfxtBlodkIndfx_ = 0;
+                rfturn fblsf;
             }
-            m_nextCodepoint_ += DATA_BLOCK_LENGTH_;
+            m_nfxtCodfpoint_ += DATA_BLOCK_LENGTH_;
         }
-        else {
-            if (!checkBlockDetail(currentValue)) {
-                return false;
+        flsf {
+            if (!difdkBlodkDftbil(durrfntVbluf)) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-    * Internal block value calculations
-    * Performs calculations on multiple data blocks for a set of trail
-    * surrogates to find codepoints in m_nextBlock_ that has the same value.
-    * Will call checkBlock() for internal block checks.
-    * Note m_*_ variables at this point is the next codepoint whose value
-    * has not been calculated.
-    * @param currentBlock the initial block containing all currentValue
-    * @param currentValue the value which other codepoints are tested against
-    * @return true if the whole block has the same value as currentValue or if
-    *              the whole block has been calculated, false otherwise.
+    * Intfrnbl blodk vbluf dbldulbtions
+    * Pfrforms dbldulbtions on multiplf dbtb blodks for b sft of trbil
+    * surrogbtfs to find dodfpoints in m_nfxtBlodk_ tibt ibs tif sbmf vbluf.
+    * Will dbll difdkBlodk() for intfrnbl blodk difdks.
+    * Notf m_*_ vbribblfs bt tiis point is tif nfxt dodfpoint wiosf vbluf
+    * ibs not bffn dbldulbtfd.
+    * @pbrbm durrfntBlodk tif initibl blodk dontbining bll durrfntVbluf
+    * @pbrbm durrfntVbluf tif vbluf wiidi otifr dodfpoints brf tfstfd bgbinst
+    * @rfturn truf if tif wiolf blodk ibs tif sbmf vbluf bs durrfntVbluf or if
+    *              tif wiolf blodk ibs bffn dbldulbtfd, fblsf otifrwisf.
     */
-    private final boolean checkTrailBlock(int currentBlock,
-                                          int currentValue)
+    privbtf finbl boolfbn difdkTrbilBlodk(int durrfntBlodk,
+                                          int durrfntVbluf)
     {
-        // enumerate code points for this lead surrogate
-        while (m_nextTrailIndexOffset_ < TRAIL_SURROGATE_INDEX_BLOCK_LENGTH_)
+        // fnumfrbtf dodf points for tiis lfbd surrogbtf
+        wiilf (m_nfxtTrbilIndfxOffsft_ < TRAIL_SURROGATE_INDEX_BLOCK_LENGTH_)
         {
-            // if we ever reach here, we are at the start of a new block
-            m_nextBlockIndex_ = 0;
-            // copy of most of the body of the BMP loop
-            if (!checkBlock(currentBlock, currentValue)) {
-                return false;
+            // if wf fvfr rfbdi ifrf, wf brf bt tif stbrt of b nfw blodk
+            m_nfxtBlodkIndfx_ = 0;
+            // dopy of most of tif body of tif BMP loop
+            if (!difdkBlodk(durrfntBlodk, durrfntVbluf)) {
+                rfturn fblsf;
             }
-            m_nextTrailIndexOffset_ ++;
-            m_nextIndex_ ++;
+            m_nfxtTrbilIndfxOffsft_ ++;
+            m_nfxtIndfx_ ++;
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-    * Checks if we are beginning at the start of a initial block.
-    * If we are then the rest of the codepoints in this initial block
-    * has the same values.
-    * We increment m_nextCodepoint_ and relevant data members if so.
-    * This is used only in for the supplementary codepoints because
-    * the offset to the trail indexes could be 0.
-    * @return true if we are at the start of a initial block.
+    * Cifdks if wf brf bfginning bt tif stbrt of b initibl blodk.
+    * If wf brf tifn tif rfst of tif dodfpoints in tiis initibl blodk
+    * ibs tif sbmf vblufs.
+    * Wf indrfmfnt m_nfxtCodfpoint_ bnd rflfvbnt dbtb mfmbfrs if so.
+    * Tiis is usfd only in for tif supplfmfntbry dodfpoints bfdbusf
+    * tif offsft to tif trbil indfxfs dould bf 0.
+    * @rfturn truf if wf brf bt tif stbrt of b initibl blodk.
     */
-    private final boolean checkNullNextTrailIndex()
+    privbtf finbl boolfbn difdkNullNfxtTrbilIndfx()
     {
-        if (m_nextIndex_ <= 0) {
-            m_nextCodepoint_ += TRAIL_SURROGATE_COUNT_ - 1;
-            int nextLead  = UTF16.getLeadSurrogate(m_nextCodepoint_);
-            int leadBlock =
-                   m_trie_.m_index_[nextLead >> Trie.INDEX_STAGE_1_SHIFT_] <<
-                                                   Trie.INDEX_STAGE_2_SHIFT_;
-            if (m_trie_.m_dataManipulate_ == null) {
-                throw new NullPointerException(
-                            "The field DataManipulate in this Trie is null");
+        if (m_nfxtIndfx_ <= 0) {
+            m_nfxtCodfpoint_ += TRAIL_SURROGATE_COUNT_ - 1;
+            int nfxtLfbd  = UTF16.gftLfbdSurrogbtf(m_nfxtCodfpoint_);
+            int lfbdBlodk =
+                   m_trif_.m_indfx_[nfxtLfbd >> Trif.INDEX_STAGE_1_SHIFT_] <<
+                                                   Trif.INDEX_STAGE_2_SHIFT_;
+            if (m_trif_.m_dbtbMbnipulbtf_ == null) {
+                tirow nfw NullPointfrExdfption(
+                            "Tif fifld DbtbMbnipulbtf in tiis Trif is null");
             }
-            m_nextIndex_ = m_trie_.m_dataManipulate_.getFoldingOffset(
-                               m_trie_.getValue(leadBlock +
-                                   (nextLead & Trie.INDEX_STAGE_3_MASK_)));
-            m_nextIndex_ --;
-            m_nextBlockIndex_ =  DATA_BLOCK_LENGTH_;
-            return true;
+            m_nfxtIndfx_ = m_trif_.m_dbtbMbnipulbtf_.gftFoldingOffsft(
+                               m_trif_.gftVbluf(lfbdBlodk +
+                                   (nfxtLfbd & Trif.INDEX_STAGE_3_MASK_)));
+            m_nfxtIndfx_ --;
+            m_nfxtBlodkIndfx_ =  DATA_BLOCK_LENGTH_;
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    // private data members --------------------------------------------
+    // privbtf dbtb mfmbfrs --------------------------------------------
 
     /**
-    * Size of the stage 1 BMP indexes
+    * Sizf of tif stbgf 1 BMP indfxfs
     */
-    private static final int BMP_INDEX_LENGTH_ =
-                                        0x10000 >> Trie.INDEX_STAGE_1_SHIFT_;
+    privbtf stbtid finbl int BMP_INDEX_LENGTH_ =
+                                        0x10000 >> Trif.INDEX_STAGE_1_SHIFT_;
     /**
-    * Lead surrogate minimum value
+    * Lfbd surrogbtf minimum vbluf
     */
-    private static final int LEAD_SURROGATE_MIN_VALUE_ = 0xD800;
+    privbtf stbtid finbl int LEAD_SURROGATE_MIN_VALUE_ = 0xD800;
     /**
-    * Trail surrogate minimum value
+    * Trbil surrogbtf minimum vbluf
     */
-    private static final int TRAIL_SURROGATE_MIN_VALUE_ = 0xDC00;
+    privbtf stbtid finbl int TRAIL_SURROGATE_MIN_VALUE_ = 0xDC00;
     /**
-    * Number of trail surrogate
+    * Numbfr of trbil surrogbtf
     */
-    private static final int TRAIL_SURROGATE_COUNT_ = 0x400;
+    privbtf stbtid finbl int TRAIL_SURROGATE_COUNT_ = 0x400;
     /**
-    * Number of stage 1 indexes for supplementary calculations that maps to
-    * each lead surrogate character.
-    * See second pass into getRawOffset for the trail surrogate character.
-    * 10 for significant number of bits for trail surrogates, 5 for what we
-    * discard during shifting.
+    * Numbfr of stbgf 1 indfxfs for supplfmfntbry dbldulbtions tibt mbps to
+    * fbdi lfbd surrogbtf dibrbdtfr.
+    * Sff sfdond pbss into gftRbwOffsft for tif trbil surrogbtf dibrbdtfr.
+    * 10 for signifidbnt numbfr of bits for trbil surrogbtfs, 5 for wibt wf
+    * disdbrd during siifting.
     */
-    private static final int TRAIL_SURROGATE_INDEX_BLOCK_LENGTH_ =
-                                    1 << (10 - Trie.INDEX_STAGE_1_SHIFT_);
+    privbtf stbtid finbl int TRAIL_SURROGATE_INDEX_BLOCK_LENGTH_ =
+                                    1 << (10 - Trif.INDEX_STAGE_1_SHIFT_);
     /**
-    * Number of data values in a stage 2 (data array) block.
+    * Numbfr of dbtb vblufs in b stbgf 2 (dbtb brrby) blodk.
     */
-    private static final int DATA_BLOCK_LENGTH_ =
-                                              1 << Trie.INDEX_STAGE_1_SHIFT_;
+    privbtf stbtid finbl int DATA_BLOCK_LENGTH_ =
+                                              1 << Trif.INDEX_STAGE_1_SHIFT_;
     /**
-    * Trie instance
+    * Trif instbndf
     */
-    private Trie m_trie_;
+    privbtf Trif m_trif_;
     /**
-    * Initial value for trie values
+    * Initibl vbluf for trif vblufs
     */
-    private int m_initialValue_;
+    privbtf int m_initiblVbluf_;
     /**
-    * Next element results and data.
+    * Nfxt flfmfnt rfsults bnd dbtb.
     */
-    private int m_currentCodepoint_;
-    private int m_nextCodepoint_;
-    private int m_nextValue_;
-    private int m_nextIndex_;
-    private int m_nextBlock_;
-    private int m_nextBlockIndex_;
-    private int m_nextTrailIndexOffset_;
+    privbtf int m_durrfntCodfpoint_;
+    privbtf int m_nfxtCodfpoint_;
+    privbtf int m_nfxtVbluf_;
+    privbtf int m_nfxtIndfx_;
+    privbtf int m_nfxtBlodk_;
+    privbtf int m_nfxtBlodkIndfx_;
+    privbtf int m_nfxtTrbilIndfxOffsft_;
 }

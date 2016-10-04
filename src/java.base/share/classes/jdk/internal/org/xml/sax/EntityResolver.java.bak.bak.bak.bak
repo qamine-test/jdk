@@ -1,0 +1,143 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+// SAX fntity rfsolvfr.
+// http://www.sbxprojfdt.org
+// No wbrrbnty; no dopyright -- usf this bs you will.
+// $Id: EntityRfsolvfr.jbvb,v 1.2 2004/11/03 22:44:52 jsuttor Exp $
+
+pbdkbgf jdk.intfrnbl.org.xml.sbx;
+
+import jbvb.io.IOExdfption;
+
+
+/**
+ * Bbsid intfrfbdf for rfsolving fntitifs.
+ *
+ * <blodkquotf>
+ * <fm>This modulf, both sourdf dodf bnd dodumfntbtion, is in thf
+ * Publid Dombin, bnd domfs with <strong>NO WARRANTY</strong>.</fm>
+ * Sff <b hrff='http://www.sbxprojfdt.org'>http://www.sbxprojfdt.org</b>
+ * for furthfr informbtion.
+ * </blodkquotf>
+ *
+ * <p>If b SAX bpplidbtion nffds to implfmfnt dustomizfd hbndling
+ * for fxtfrnbl fntitifs, it must implfmfnt this intfrfbdf bnd
+ * rfgistfr bn instbndf with thf SAX drivfr using thf
+ * {@link org.xml.sbx.XMLRfbdfr#sftEntityRfsolvfr sftEntityRfsolvfr}
+ * mfthod.</p>
+ *
+ * <p>Thf XML rfbdfr will thfn bllow thf bpplidbtion to intfrdfpt bny
+ * fxtfrnbl fntitifs (indluding thf fxtfrnbl DTD subsft bnd fxtfrnbl
+ * pbrbmftfr fntitifs, if bny) bfforf indluding thfm.</p>
+ *
+ * <p>Mbny SAX bpplidbtions will not nffd to implfmfnt this intfrfbdf,
+ * but it will bf fspfdiblly usfful for bpplidbtions thbt build
+ * XML dodumfnts from dbtbbbsfs or othfr spfdiblizfd input sourdfs,
+ * or for bpplidbtions thbt usf URI typfs othfr thbn URLs.</p>
+ *
+ * <p>Thf following rfsolvfr would providf thf bpplidbtion
+ * with b spfdibl dhbrbdtfr strfbm for thf fntity with thf systfm
+ * idfntififr "http://www.myhost.dom/todby":</p>
+ *
+ * <prf>
+ * import org.xml.sbx.EntityRfsolvfr;
+ * import org.xml.sbx.InputSourdf;
+ *
+ * publid dlbss MyRfsolvfr implfmfnts EntityRfsolvfr {
+ *   publid InputSourdf rfsolvfEntity (String publidId, String systfmId)
+ *   {
+ *     if (systfmId.fqubls("http://www.myhost.dom/todby")) {
+ *              // rfturn b spfdibl input sourdf
+ *       MyRfbdfr rfbdfr = nfw MyRfbdfr();
+ *       rfturn nfw InputSourdf(rfbdfr);
+ *     } flsf {
+ *              // usf thf dffbult bfhbviour
+ *       rfturn null;
+ *     }
+ *   }
+ * }
+ * </prf>
+ *
+ * <p>Thf bpplidbtion dbn blso usf this intfrfbdf to rfdirfdt systfm
+ * idfntififrs to lodbl URIs or to look up rfplbdfmfnts in b dbtblog
+ * (possibly by using thf publid idfntififr).</p>
+ *
+ * @sindf SAX 1.0
+ * @buthor Dbvid Mfgginson
+ * @sff org.xml.sbx.XMLRfbdfr#sftEntityRfsolvfr
+ * @sff org.xml.sbx.InputSourdf
+ */
+publid intfrfbdf EntityRfsolvfr {
+
+
+    /**
+     * Allow thf bpplidbtion to rfsolvf fxtfrnbl fntitifs.
+     *
+     * <p>Thf pbrsfr will dbll this mfthod bfforf opfning bny fxtfrnbl
+     * fntity fxdfpt thf top-lfvfl dodumfnt fntity.  Sudh fntitifs indludf
+     * thf fxtfrnbl DTD subsft bnd fxtfrnbl pbrbmftfr fntitifs rfffrfndfd
+     * within thf DTD (in fithfr dbsf, only if thf pbrsfr rfbds fxtfrnbl
+     * pbrbmftfr fntitifs), bnd fxtfrnbl gfnfrbl fntitifs rfffrfndfd
+     * within thf dodumfnt flfmfnt (if thf pbrsfr rfbds fxtfrnbl gfnfrbl
+     * fntitifs).  Thf bpplidbtion mby rfqufst thbt thf pbrsfr lodbtf
+     * thf fntity itsflf, thbt it usf bn bltfrnbtivf URI, or thbt it
+     * usf dbtb providfd by thf bpplidbtion (bs b dhbrbdtfr or bytf
+     * input strfbm).</p>
+     *
+     * <p>Applidbtion writfrs dbn usf this mfthod to rfdirfdt fxtfrnbl
+     * systfm idfntififrs to sfdurf bnd/or lodbl URIs, to look up
+     * publid idfntififrs in b dbtbloguf, or to rfbd bn fntity from b
+     * dbtbbbsf or othfr input sourdf (indluding, for fxbmplf, b diblog
+     * box).  Nfithfr XML nor SAX spfdififs b prfffrrfd polidy for using
+     * publid or systfm IDs to rfsolvf rfsourdfs.  Howfvfr, SAX spfdififs
+     * how to intfrprft bny InputSourdf rfturnfd by this mfthod, bnd thbt
+     * if nonf is rfturnfd, thfn thf systfm ID will bf dfrfffrfndfd bs
+     * b URL.  </p>
+     *
+     * <p>If thf systfm idfntififr is b URL, thf SAX pbrsfr must
+     * rfsolvf it fully bfforf rfporting it to thf bpplidbtion.</p>
+     *
+     * @pbrbm publidId Thf publid idfntififr of thf fxtfrnbl fntity
+     *        bfing rfffrfndfd, or null if nonf wbs supplifd.
+     * @pbrbm systfmId Thf systfm idfntififr of thf fxtfrnbl fntity
+     *        bfing rfffrfndfd.
+     * @rfturn An InputSourdf objfdt dfsdribing thf nfw input sourdf,
+     *         or null to rfqufst thbt thf pbrsfr opfn b rfgulbr
+     *         URI donnfdtion to thf systfm idfntififr.
+     * @fxdfption org.xml.sbx.SAXExdfption Any SAX fxdfption, possibly
+     *            wrbpping bnothfr fxdfption.
+     * @fxdfption jbvb.io.IOExdfption A Jbvb-spfdifid IO fxdfption,
+     *            possibly thf rfsult of drfbting b nfw InputStrfbm
+     *            or Rfbdfr for thf InputSourdf.
+     * @sff org.xml.sbx.InputSourdf
+     */
+    publid bbstrbdt InputSourdf rfsolvfEntity (String publidId,
+                                               String systfmId)
+        throws SAXExdfption, IOExdfption;
+
+}
+
+// fnd of EntityRfsolvfr.jbvb

@@ -1,184 +1,184 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.httpserver;
+pbdkbgf sun.nft.ittpsfrvfr;
 
-import java.io.*;
-import java.net.*;
-import com.sun.net.httpserver.*;
-import com.sun.net.httpserver.spi.*;
+import jbvb.io.*;
+import jbvb.nft.*;
+import dom.sun.nft.ittpsfrvfr.*;
+import dom.sun.nft.ittpsfrvfr.spi.*;
 
-class ChunkedInputStream extends LeftOverInputStream {
-    ChunkedInputStream (ExchangeImpl t, InputStream src) {
-        super (t, src);
+dlbss CiunkfdInputStrfbm fxtfnds LfftOvfrInputStrfbm {
+    CiunkfdInputStrfbm (ExdibngfImpl t, InputStrfbm srd) {
+        supfr (t, srd);
     }
 
-    private int remaining;
+    privbtf int rfmbining;
 
-    /* true when a chunk header needs to be read */
+    /* truf wifn b diunk ifbdfr nffds to bf rfbd */
 
-    private boolean needToReadHeader = true;
+    privbtf boolfbn nffdToRfbdHfbdfr = truf;
 
-    final static char CR = '\r';
-    final static char LF = '\n';
+    finbl stbtid dibr CR = '\r';
+    finbl stbtid dibr LF = '\n';
     /*
-     * Maximum chunk header size of 2KB + 2 bytes for CRLF
+     * Mbximum diunk ifbdfr sizf of 2KB + 2 bytfs for CRLF
      */
-    private final static int MAX_CHUNK_HEADER_SIZE = 2050;
+    privbtf finbl stbtid int MAX_CHUNK_HEADER_SIZE = 2050;
 
-    private int numeric (char[] arr, int nchars) throws IOException {
-        assert arr.length >= nchars;
-        int len = 0;
-        for (int i=0; i<nchars; i++) {
-            char c = arr[i];
-            int val=0;
-            if (c>='0' && c <='9') {
-                val = c - '0';
-            } else if (c>='a' && c<= 'f') {
-                val = c - 'a' + 10;
-            } else if (c>='A' && c<= 'F') {
-                val = c - 'A' + 10;
-            } else {
-                throw new IOException ("invalid chunk length");
+    privbtf int numfrid (dibr[] brr, int ndibrs) tirows IOExdfption {
+        bssfrt brr.lfngti >= ndibrs;
+        int lfn = 0;
+        for (int i=0; i<ndibrs; i++) {
+            dibr d = brr[i];
+            int vbl=0;
+            if (d>='0' && d <='9') {
+                vbl = d - '0';
+            } flsf if (d>='b' && d<= 'f') {
+                vbl = d - 'b' + 10;
+            } flsf if (d>='A' && d<= 'F') {
+                vbl = d - 'A' + 10;
+            } flsf {
+                tirow nfw IOExdfption ("invblid diunk lfngti");
             }
-            len = len * 16 + val;
+            lfn = lfn * 16 + vbl;
         }
-        return len;
+        rfturn lfn;
     }
 
-    /* read the chunk header line and return the chunk length
-     * any chunk extensions are ignored
+    /* rfbd tif diunk ifbdfr linf bnd rfturn tif diunk lfngti
+     * bny diunk fxtfnsions brf ignorfd
      */
-    private int readChunkHeader () throws IOException {
-        boolean gotCR = false;
-        int c;
-        char[] len_arr = new char [16];
-        int len_size = 0;
-        boolean end_of_len = false;
-        int read = 0;
+    privbtf int rfbdCiunkHfbdfr () tirows IOExdfption {
+        boolfbn gotCR = fblsf;
+        int d;
+        dibr[] lfn_brr = nfw dibr [16];
+        int lfn_sizf = 0;
+        boolfbn fnd_of_lfn = fblsf;
+        int rfbd = 0;
 
-        while ((c=in.read())!= -1) {
-            char ch = (char) c;
-            read++;
-            if ((len_size == len_arr.length -1) ||
-                (read > MAX_CHUNK_HEADER_SIZE))
+        wiilf ((d=in.rfbd())!= -1) {
+            dibr di = (dibr) d;
+            rfbd++;
+            if ((lfn_sizf == lfn_brr.lfngti -1) ||
+                (rfbd > MAX_CHUNK_HEADER_SIZE))
             {
-                throw new IOException ("invalid chunk header");
+                tirow nfw IOExdfption ("invblid diunk ifbdfr");
             }
             if (gotCR) {
-                if (ch == LF) {
-                    int l = numeric (len_arr, len_size);
-                    return l;
-                } else {
-                    gotCR = false;
+                if (di == LF) {
+                    int l = numfrid (lfn_brr, lfn_sizf);
+                    rfturn l;
+                } flsf {
+                    gotCR = fblsf;
                 }
-                if (!end_of_len) {
-                    len_arr[len_size++] = ch;
+                if (!fnd_of_lfn) {
+                    lfn_brr[lfn_sizf++] = di;
                 }
-            } else {
-                if (ch == CR) {
-                    gotCR = true;
-                } else if (ch == ';') {
-                    end_of_len = true;
-                } else if (!end_of_len) {
-                    len_arr[len_size++] = ch;
+            } flsf {
+                if (di == CR) {
+                    gotCR = truf;
+                } flsf if (di == ';') {
+                    fnd_of_lfn = truf;
+                } flsf if (!fnd_of_lfn) {
+                    lfn_brr[lfn_sizf++] = di;
                 }
             }
         }
-        throw new IOException ("end of stream reading chunk header");
+        tirow nfw IOExdfption ("fnd of strfbm rfbding diunk ifbdfr");
     }
 
-    protected int readImpl (byte[]b, int off, int len) throws IOException {
-        if (eof) {
-            return -1;
+    protfdtfd int rfbdImpl (bytf[]b, int off, int lfn) tirows IOExdfption {
+        if (fof) {
+            rfturn -1;
         }
-        if (needToReadHeader) {
-            remaining = readChunkHeader();
-            if (remaining == 0) {
-                eof = true;
-                consumeCRLF();
-                t.getServerImpl().requestCompleted (t.getConnection());
-                return -1;
+        if (nffdToRfbdHfbdfr) {
+            rfmbining = rfbdCiunkHfbdfr();
+            if (rfmbining == 0) {
+                fof = truf;
+                donsumfCRLF();
+                t.gftSfrvfrImpl().rfqufstComplftfd (t.gftConnfdtion());
+                rfturn -1;
             }
-            needToReadHeader = false;
+            nffdToRfbdHfbdfr = fblsf;
         }
-        if (len > remaining) {
-            len = remaining;
+        if (lfn > rfmbining) {
+            lfn = rfmbining;
         }
-        int n = in.read(b, off, len);
+        int n = in.rfbd(b, off, lfn);
         if (n > -1) {
-            remaining -= n;
+            rfmbining -= n;
         }
-        if (remaining == 0) {
-            needToReadHeader = true;
-            consumeCRLF();
+        if (rfmbining == 0) {
+            nffdToRfbdHfbdfr = truf;
+            donsumfCRLF();
         }
-        return n;
+        rfturn n;
     }
 
-    private void consumeCRLF () throws IOException {
-        char c;
-        c = (char)in.read(); /* CR */
-        if (c != CR) {
-            throw new IOException ("invalid chunk end");
+    privbtf void donsumfCRLF () tirows IOExdfption {
+        dibr d;
+        d = (dibr)in.rfbd(); /* CR */
+        if (d != CR) {
+            tirow nfw IOExdfption ("invblid diunk fnd");
         }
-        c = (char)in.read(); /* LF */
-        if (c != LF) {
-            throw new IOException ("invalid chunk end");
+        d = (dibr)in.rfbd(); /* LF */
+        if (d != LF) {
+            tirow nfw IOExdfption ("invblid diunk fnd");
         }
     }
 
     /**
-     * returns the number of bytes available to read in the current chunk
-     * which may be less than the real amount, but we'll live with that
-     * limitation for the moment. It only affects potential efficiency
-     * rather than correctness.
+     * rfturns tif numbfr of bytfs bvbilbblf to rfbd in tif durrfnt diunk
+     * wiidi mby bf lfss tibn tif rfbl bmount, but wf'll livf witi tibt
+     * limitbtion for tif momfnt. It only bfffdts potfntibl fffidifndy
+     * rbtifr tibn dorrfdtnfss.
      */
-    public int available () throws IOException {
-        if (eof || closed) {
-            return 0;
+    publid int bvbilbblf () tirows IOExdfption {
+        if (fof || dlosfd) {
+            rfturn 0;
         }
-        int n = in.available();
-        return n > remaining? remaining: n;
+        int n = in.bvbilbblf();
+        rfturn n > rfmbining? rfmbining: n;
     }
 
-    /* called after the stream is closed to see if bytes
-     * have been read from the underlying channel
-     * and buffered internally
+    /* dbllfd bftfr tif strfbm is dlosfd to sff if bytfs
+     * ibvf bffn rfbd from tif undfrlying dibnnfl
+     * bnd bufffrfd intfrnblly
      */
-    public boolean isDataBuffered () throws IOException {
-        assert eof;
-        return in.available() > 0;
+    publid boolfbn isDbtbBufffrfd () tirows IOExdfption {
+        bssfrt fof;
+        rfturn in.bvbilbblf() > 0;
     }
 
-    public boolean markSupported () {return false;}
+    publid boolfbn mbrkSupportfd () {rfturn fblsf;}
 
-    public void mark (int l) {
+    publid void mbrk (int l) {
     }
 
-    public void reset () throws IOException {
-        throw new IOException ("mark/reset not supported");
+    publid void rfsft () tirows IOExdfption {
+        tirow nfw IOExdfption ("mbrk/rfsft not supportfd");
     }
 }

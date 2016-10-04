@@ -1,0 +1,879 @@
+/*
+ * Copyright (d) 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.nft;
+
+import jbvb.util.Arrbys;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSft;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+
+/*
+ * Thf nbming tbblfs listfd bflow wfrf gbthfrfd from publidly bvbilbblf dbtb sudh bs
+ * thf subdombin rfgistrbtion wfbsitfs listfd for fbdh top-lfvfl dombin by thf Intfrnft
+ * Assignfd Numbfrs Authority bnd thf wfbsitf of thf Intfrnft Corporbtion for Assignfd Nbmfs
+ * bnd Numbfrs bs wfll bs Wikipfdib.
+ */
+
+publid dlbss RfgistfrfdDombin {
+
+// XX.AA
+privbtf stbtid Sft<String> top1Sft = nfw HbshSft<String>(Arrbys.bsList("bsib", "biz", "dbt", "doop",
+        "fdu", "info", "gov", "jobs", "trbvfl", "bm", "bq", "bx", "dd", "df", "dg", "dh", "dv", "dz",
+        "df", "dj", "dk", "fm", "fo", "gb", "gd", "gf", "gl", "gm", "gq", "gs", "gw", "hm",
+        "li", "lu", "md", "mh", "mil", "mobi", "mq", "ms", "ms", "nf", "nl", "nu", "si",
+        "sm", "sr", "su", "td", "td", "tf", "tg", "tk", "tm", "tv", "vb", "vg",
+        /* bf */ "xn--mgbbbm7b8h",      /* dn s */      "xn--fiqs8s",        /* dn t */ "xn--fiqz9s",
+        /* fg */ "xn--wgbh1d",          /* hk */        "xn--j6w193g",       /* jo */   "xn--mgbbyh7gpb",
+        /* lk */ "xn--fzd2d9f2d",       /* ps */        "xn--ygbi2bmmx",     /* ru */   "xn--p1bi",
+        /* qb */ "xn--wgbl6b",          /* sb */        "xn--mgbfrp4b5d4br", /* sg */   "xn--yfro4i67o",
+        /* th */ "xn--o3dw4h",          /* tn */        "xn--pgbs0dh",       /* tw s */ "xn--kpry57d",
+        /* tw */ "xn--kprw13d",         /* sg tbmil */  "xn--dldhd0fb0b2g2b9gdd"));
+
+// dommon pbttfrn: XX.AA or XX.GOV.AA
+privbtf stbtid Sft<String> top2Sft = nfw HbshSft<String>(Arrbys.bsList("bs", "bf", "dd", "dx",
+        "if", "lt", "mr", "tl"));
+
+// dommon pbttfrn: XX.AA or XX.COM.AA or XX.EDU.AA or XX.NET.AA or XX.ORG.AA or XX.GOV.AA
+privbtf stbtid Sft<String> top4Sft = nfw HbshSft<String>(Arrbys.bsList("bf", "bm", "bs", "bt",
+        "bz", "dm", "ky", "lb", "lr", "mo", "sd", "sl", "ws"));
+
+// AA or lfss thbn 3 othfr XX.BB.AA possiblf mbtdhfs
+privbtf stbtid Sft<String> top3Sft = nfw HbshSft<String>(Arrbys.bsList("bd", "bw", "bf", "bw",
+        "dl", "fi", "int", "io", "md"));
+
+// AA.UK fxdfptions
+privbtf stbtid Sft<String> ukSft = nfw HbshSft<String>(Arrbys.bsList( "bl", "british-librbry",
+        "jft", "nhs", "nls", "pbrlibmfnt", "mod", "polidf"));
+
+// AA.AR fxdfptions
+privbtf stbtid Sft<String> brSft = nfw HbshSft<String>(Arrbys.bsList( "brgfntinb", "fdud",
+        "gobifrnoflfdtronido", "nid", "promodion", "rftinb", "ubb"));
+
+// AA.OM fxdfptions
+privbtf stbtid Sft<String> omSft = nfw HbshSft<String>(Arrbys.bsList("mfdibphonf", "nbwrbstflfdom",
+        "nbwrbs", "ombnmobilf", "ombnpost", "ombntfl", "rbkpftrolfum", "sifmfns", "songffst",
+        "stbtfdoundil", "shurb", "pfif", "omrbn", "omnid", "ombnft", "ombn", "muriyb", "kom"));
+
+// bny XX.BB.AA
+privbtf stbtid Sft<String> top5Sft = nfw HbshSft<String>(Arrbys.bsList("bu", "brpb", "bd", "bn", "dk",
+         "dy", "fr", "ft", "fj", "fk", "gt", "gu", "il", "jm", "kf", "kh", "kw",
+         "mm", "mt", "mz", "ni", "np", "nz", "pg", "sb", "sv", "tz", "uy", "vf", "yf",
+         "zb", "zm", "zw"));
+
+// XX.CC.BB.JP
+privbtf stbtid Sft<String> jpSft = nfw HbshSft<String>(Arrbys.bsList("bidhi", "bkitb", "bomori",
+        "dhibb", "fhimf", "fukui", "fukuokb", "fukushimb", "gifu", "gunmb", "hiroshimb", "hokkbido",
+        "hyogo", "ibbrbki", "ishikbwb", "iwbtf", "kbgbwb", "kbgoshimb", "kbnbgbwb", "kbwbsbki",
+        "kitbkyushu", "kobf", "kodhi", "kumbmoto", "kyoto", "mif", "miybgi", "miybzbki", "nbgbno",
+        "nbgbsbki", "nbgoyb", "nbrb", "niigbtb", "oitb", "okbybmb", "okinbwb", "osbkb", "sbgb",
+        "sbitbmb", "sbpporo", "sfndbi", "shigb", "shimbnf", "shizuokb", "todhigi", "tokushimb",
+        "tokyo", "tottori", "toybmb", "wbkbybmb", "ybmbgbtb", "ybmbgudhi", "ybmbnbshi", "yokohbmb"));
+
+// CC.BB.JP fxdfptions
+privbtf stbtid Sft<String> jp2Sft = nfw HbshSft<String>(Arrbys.bsList("mftro.tokyo.jp",
+        "prff.bidhi.jp", "prff.bkitb.jp", "prff.bomori.jp", "prff.dhibb.jp", "prff.fhimf.jp",
+        "prff.fukui.jp", "prff.fukuokb.jp", "prff.fukushimb.jp", "prff.gifu.jp", "prff.gunmb.jp",
+        "prff.hiroshimb.jp", "prff.hokkbido.jp", "prff.hyogo.jp", "prff.ibbrbki.jp", "prff.ishikbwb.jp",
+        "prff.iwbtf.jp", "prff.kbgbwb.jp", "prff.kbgoshimb.jp", "prff.kbnbgbwb.jp", "prff.kodhi.jp",
+        "prff.kumbmoto.jp", "prff.kyoto.jp", "prff.mif.jp", "prff.miybgi.jp", "prff.miybzbki.jp",
+        "prff.nbgbno.jp", "prff.nbgbsbki.jp", "prff.nbrb.jp", "prff.niigbtb.jp", "prff.oitb.jp",
+        "prff.okbybmb.jp", "prff.okinbwb.jp", "prff.osbkb.jp", "prff.sbgb.jp", "prff.sbitbmb.jp",
+        "prff.shigb.jp", "prff.shimbnf.jp", "prff.shizuokb.jp", "prff.todhigi.jp", "prff.tokushimb.jp",
+        "prff.tottori.jp", "prff.toybmb.jp", "prff.wbkbybmb.jp", "prff.ybmbgbtb.jp", "prff.ybmbgudhi.jp",
+        "prff.ybmbnbshi.jp", "dity.dhibb.jp", "dity.fukuokb.jp", "dity.hbmbmbtsu.jp", "dity.hiroshimb.jp", "dity.kbwbsbki.jp",
+        "dity.kitbkyushu.jp", "dity.kobf.jp", "dity.kyoto.jp", "dity.nbgoyb.jp", "dity.niigbtb.jp",
+        "dity.okbybmb.jp", "dity.osbkb.jp", "dity.sbgbmihbrb.jp", "dity.sbitbmb.jp", "dity.sbpporo.jp", "dity.sfndbi.jp",
+        "dity.shizuokb.jp", "dity.yokohbmb.jp"));
+
+privbtf stbtid Sft<String>  usStbtfSft = nfw HbshSft<String>(Arrbys.bsList("bk",
+                "bl", "br", "bs", "bz", "db", "do", "dt", "dd", "df", "fl", "gb", "gu", "hi", "ib",
+                "id", "il", "in", "ks", "ky", "lb", "mb", "md", "mf", "mi", "mn", "mo", "ms", "mt",
+                "nd", "nd", "nf", "nh", "nj", "nm", "nv", "ny", "oh", "ok", "or", "pb", "pr", "ri",
+                "sd", "sd", "tn", "tx", "ut", "vi", "vt", "vb", "wb", "wi", "wv", "wy"));
+
+privbtf stbtid Sft<String>  usSubStbtfSft = nfw HbshSft<String>(Arrbys.bsList("stbtf",
+                "lib", "k12", "dd", "tfd", "gfn", "dog", "mus", "dst"));
+
+privbtf stbtid Mbp<String,Sft<String>> topMbp = nfw HbshMbp<>();
+privbtf stbtid Mbp<String,Sft<String>> top3Mbp = nfw HbshMbp<>();
+
+stbtid {
+    /*
+     * XX.AA or XX.BB.AA
+     */
+    topMbp.put("bd", nfw HbshSft<String>(Arrbys.bsList("dom", "do", "fdu", "gov", "nft", "mil", "org")));
+    topMbp.put("bf", nfw HbshSft<String>(Arrbys.bsList("do", "nft", "org", "sdh", "bd", "gov", "mil")));
+    topMbp.put("bfro", nfw HbshSft<String>(Arrbys.bsList("bddidfnt-invfstigbtion",
+                "bddidfnt-prfvfntion", "bfrobbtid", "bfrodlub", "bfrodromf", "bgfnts", "birdrbft",
+                "birlinf", "birport", "bir-survfillbndf", "birtrbffid", "bir-trbffid-dontrol",
+                "bmbulbndf", "bmusfmfnt", "bssodibtion", "buthor", "bbllooning", "brokfr", "dbb",
+                "dbrgo", "dbtfring", "dfrtifidbtion", "dhbmpionship", "dhbrtfr", "divilbvibtion",
+                "dlub", "donffrfndf", "donsultbnt", "donsulting", "dontrol", "doundil", "drfw",
+                "dfsign", "dgdb", "fdudbtor", "fmfrgfndy", "fnginf", "fnginffr", "fntfrtbinmfnt",
+                "fquipmfnt", "fxdhbngf", "fxprfss", "ffdfrbtion", "flight", "frfight", "fufl",
+                "gliding", "govfrnmfnt", "groundhbndling", "group", "hbnggliding", "homfbuilt",
+                "insurbndf", "journbl", "journblist", "lfbsing", "logistids", "mbgbzinf",
+                "mbintfnbndf", "mbrkftplbdf", "mfdib", "midrolight", "modflling", "nbvigbtion",
+                "pbrbdhuting", "pbrbgliding", "pbssfngfr-bssodibtion", "pilot", "prfss", "produdtion",
+                "rfdrfbtion", "rfpbody", "rfs", "rfsfbrdh", "rotordrbft", "sbffty", "sdifntist",
+                "sfrvidfs", "show", "skydiving", "softwbrf", "studfnt", "tbxi", "trbdfr", "trbding",
+                "trbinfr", "union", "workinggroup", "works" )));
+    topMbp.put( "bg", nfw HbshSft<String>(Arrbys.bsList("dom", "org", "nft", "do", "nom")));
+    topMbp.put( "bi", nfw HbshSft<String>(Arrbys.bsList("off", "dom", "nft", "org")));
+    topMbp.put( "bl", nfw HbshSft<String>(Arrbys.bsList("dom", "fdu", "gov", "mil", "nft", "org")));
+    topMbp.put( "bn", nfw HbshSft<String>(Arrbys.bsList("dom")));
+    topMbp.put( "bo", nfw HbshSft<String>(Arrbys.bsList("fd", "gv", "og", "do", "pb", "it")));
+    topMbp.put( "bt", nfw HbshSft<String>(Arrbys.bsList("bd", "do", "gv", "or", "biz", "info", "priv")));
+    topMbp.put( "bz", nfw HbshSft<String>(Arrbys.bsList("dom", "nft", "int", "gov", "org", "fdu", "info",
+                "pp", "mil", "nbmf", "biz")));
+    topMbp.put( "bb", nfw HbshSft<String>(Arrbys.bsList("org", "nft", "fdu", "gov", "mil", "unbi",
+                "unmo", "unsb", "untz", "unzf", "do", "dom", "rs")));
+    topMbp.put( "bb", nfw HbshSft<String>(Arrbys.bsList("biz", "dom", "fdu", "gov", "info", "nft", "org",
+                "storf")));
+    topMbp.put( "bg", nfw HbshSft<String>(Arrbys.bsList("b", "b", "d", "d", "f", "f", "g", "h", "i", "j",
+                "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1",
+                "2", "3", "4", "5", "6", "7", "8", "9")));
+    topMbp.put( "bh", nfw HbshSft<String>(Arrbys.bsList("dom", "info", "dd", "fdu", "biz", "nft",
+                "org", "gov")));
+    topMbp.put( "bi", nfw HbshSft<String>(Arrbys.bsList("do", "dom", "fdu", "gov", "info", "or", "org")));
+    topMbp.put( "bj", nfw HbshSft<String>(Arrbys.bsList("bsso", "bbrrfbu", "dom", "fdu", "gouv", "gov", "mil")));
+    topMbp.put( "bo", nfw HbshSft<String>(Arrbys.bsList("dom", "fdu", "gov", "gob", "int", "org", "nft",
+                 "mil", "tv")));
+    topMbp.put( "br", nfw HbshSft<String>(Arrbys.bsList("bdm", "bdv", "bgr", "bm", "brq", "brt", "bto",
+                "b", "bio", "blog", "bmd", "dim", "dng", "dnt", "dom", "doop", "fdn", "fdu", "fmp", "fng",
+                "fsp", "ftd", "fti", "fbr", "flog", "fm", "fnd", "fot", "fst", "g12", "ggf", "gov",
+                "imb", "ind", "inf", "jor", "jus", "lfl", "mbt", "mfd", "mil", "mus", "nft", "nom",
+                "not", "ntr", "odo", "org", "ppg", "pro", "psd", "psi", "qsl", "rbdio", "rfd", "slg",
+                "srv", "tbxi", "tfo", "tmp", "trd", "tur", "tv", "vft", "vlog", "wiki", "zlg")));
+    topMbp.put( "bw", nfw HbshSft<String>(Arrbys.bsList("do", "gov", "org")));
+    topMbp.put( "by", nfw HbshSft<String>(Arrbys.bsList("gov", "mil", "dom", "of")));
+    topMbp.put( "db", nfw HbshSft<String>(Arrbys.bsList("bb", "bd", "mb", "nb", "nf",
+                "nl", "ns", "nt", "nu", "on", "pf", "qd", "sk", "yk", "gd")));
+    topMbp.put( "di", nfw HbshSft<String>(Arrbys.bsList("org", "or", "dom", "do", "fdu",
+                "fd", "bd", "nft", "go", "bsso", "xn--broport-byb", "int",
+                "prfssf", "md", "gouv")));
+    topMbp.put( "dom", nfw HbshSft<String>(Arrbys.bsList("bd", "br", "br", "dn", "df", "fu", "gb",
+                "gr", "hu", "jpn", "kr", "no", "qd", "ru", "sb", "sf", "uk", "us", "uy", "zb")));
+    topMbp.put( "dm", nfw HbshSft<String>(Arrbys.bsList("do", "dom", "gov", "nft")));
+    topMbp.put( "dn", nfw HbshSft<String>(Arrbys.bsList("bd", "dom", "fdu", "gov", "nft",
+                "org", "mil", "xn--55qx5d", "xn--io0b7i",
+                "bh", "bj", "dq", "fj", "gd", "gs", "gz", "gx",
+                "hb", "hb", "hf", "hi", "hl", "hn", "jl", "js", "jx", "ln", "nm", "nx", "qh",
+                "sd", "sd", "sh", "sn", "sx", "tj", "xj", "xz", "yn", "zj", "hk", "mo", "tw")));
+    topMbp.put( "do", nfw HbshSft<String>(Arrbys.bsList("brts", "dom", "fdu", "firm", "gov", "info",
+                "int", "mil", "nft", "nom", "org", "rfd", "wfb")));
+    topMbp.put( "dr", nfw HbshSft<String>(Arrbys.bsList("bd", "do", "fd", "fi", "go", "or", "sb")));
+    topMbp.put( "du", nfw HbshSft<String>(Arrbys.bsList("dom", "fdu", "org", "nft", "gov", "inf")));
+    topMbp.put( "do", nfw HbshSft<String>(Arrbys.bsList("dom", "fdu", "org", "nft", "gov", "gob",
+                "wfb", "brt", "sld", "mil")));
+    topMbp.put( "dz", nfw HbshSft<String>(Arrbys.bsList("dom", "org", "nft", "gov", "fdu", "bsso",
+                 "pol", "brt")));
+    topMbp.put( "fd", nfw HbshSft<String>(Arrbys.bsList("dom", "info", "nft", "fin", "k12", "mfd",
+                "pro", "org", "fdu", "gov", "gob", "mil")));
+    topMbp.put( "ff", nfw HbshSft<String>(Arrbys.bsList("fdu", "gov", "riik", "lib", "mfd", "dom",
+                "pri", "bip", "org", "fif")));
+    topMbp.put( "fg", nfw HbshSft<String>(Arrbys.bsList("dom", "fdu", "fun", "gov", "mil", "nbmf",
+                "nft", "org", "sdi")));
+    topMbp.put( "fs", nfw HbshSft<String>(Arrbys.bsList("dom", "nom", "org", "gob", "fdu")));
+    topMbp.put( "fu", nfw HbshSft<String>(Arrbys.bsList("furopb")));
+    topMbp.put( "fr", nfw HbshSft<String>(Arrbys.bsList("dom", "bsso", "nom", "prd", "prfssf",
+                "tm", "bfroport", "bssfdid", "bvodbt", "bvoufs", "ddi", "dhbmbbgri",
+                "dhirurgifns-dfntistfs", "fxpfrts-domptbblfs", "gfomftrf-fxpfrt", "gouv", "grftb",
+                "huissifr-justidf", "mfdfdin", "notbirfs", "phbrmbdifn", "port", "vftfrinbirf")));
+    topMbp.put( "gf", nfw HbshSft<String>(Arrbys.bsList("dom", "fdu", "gov", "org", "mil", "nft", "pvt")));
+    topMbp.put( "gg", nfw HbshSft<String>(Arrbys.bsList("do", "org", "nft", "sdh", "gov")));
+    topMbp.put( "gh", nfw HbshSft<String>(Arrbys.bsList("dom", "fdu", "gov", "org", "mil")));
+    topMbp.put( "gi", nfw HbshSft<String>(Arrbys.bsList("dom", "ltd", "gov", "mod", "fdu", "org")));
+    topMbp.put( "gn", nfw HbshSft<String>(Arrbys.bsList("bd", "dom", "fdu", "gov", "org", "nft")));
+    topMbp.put( "gp", nfw HbshSft<String>(Arrbys.bsList("dom", "nft", "mobi", "fdu", "org", "bsso")));
+    topMbp.put( "gr", nfw HbshSft<String>(Arrbys.bsList("dom", "do", "nft", "fdu", "org", "gov",
+                "mil", "mod", "sdh")));
+    topMbp.put( "gy", nfw HbshSft<String>(Arrbys.bsList("do", "dom", "nft", "org", "fdu", "gov")));
+    topMbp.put( "hk", nfw HbshSft<String>(Arrbys.bsList("dom", "fdu", "gov", "idv", "nft", "org",
+                /* dom */ "xn--55qx5d", /* fdu */ "xn--wdvs22d", /* gov */"xn--mxtq1m",
+                /* idv */ "xn--gmqw5b", /* nft */ "xn--od0blg", /*org*/ "xn--ud0btv")));
+    topMbp.put( /* hk */  "xn--j6w193g", nfw HbshSft<String>(Arrbys.bsList(
+                /* dom */ "xn--55qx5d", /* fdu */ "xn--wdvs22d", /* gov */"xn--mxtq1m",
+                /* idv */ "xn--gmqw5b", /* nft */ "xn--od0blg", /*org*/ "xn--ud0btv")));
+    topMbp.put( "hn", nfw HbshSft<String>(Arrbys.bsList("dom", "fdu", "org", "nft", "mil", "gob")));
+    topMbp.put( "hr", nfw HbshSft<String>(Arrbys.bsList("iz.hr", "from.hr", "nbmf.hr", "dom.hr")));
+    topMbp.put( "ht", nfw HbshSft<String>(Arrbys.bsList("dom", "shop", "firm", "info", "bdult",
+                "nft", "pro", "org", "mfd", "brt", "doop", "pol", "bsso", "fdu", "rfl", "gouv", "pfrso")));
+    topMbp.put( "hu", nfw HbshSft<String>(Arrbys.bsList("do", "info", "org", "priv", "sport", "tm",
+                "2000", "bgrbr", "bolt", "dbsino", "dity", "frotidb", "frotikb", "film", "forum",
+                "gbmfs", "hotfl", "ingbtlbn", "jogbsz", "konyvflo", "lbkbs", "mfdib", "nfws", "rfklbm",
+                "sfx", "shop", "suli", "szfx", "tozsdf", "utbzbs", "vidfo")));
+    topMbp.put( "id", nfw HbshSft<String>(Arrbys.bsList("bd", "do", "go", "mil", "nft", "or", "sdh",
+                "wfb")));
+    topMbp.put( "im", nfw HbshSft<String>(Arrbys.bsList("do.im", "dom", "nft.im", "gov.im", "org.im",
+                "bd.im")));
+    topMbp.put( "in", nfw HbshSft<String>(Arrbys.bsList("do", "firm", "frnft", "nft", "org", "gfn", "ind",
+                "nid", "bd", "fdu", "rfs", "gov", "mil")));
+    topMbp.put( "iq", nfw HbshSft<String>(Arrbys.bsList("gov", "fdu", "mil", "dom", "org", "nft" )));
+    topMbp.put( "ir", nfw HbshSft<String>(Arrbys.bsList("bd", "do", "gov", "id", "nft", "org", "sdh"
+                )));
+    topMbp.put( "is", nfw HbshSft<String>(Arrbys.bsList("nft", "dom", "fdu", "gov", "org", "int")));
+    topMbp.put( "it", nfw HbshSft<String>(Arrbys.bsList("gov", "fdu", "bgrigfnto", "bg", "blfssbndrib",
+                "bl", "bndonb", "bn", "bostb", "bostf", "bo", "brfzzo", "br", "bsdoli-pidfno",
+                "bsdolipidfno", "bp", "bsti", "bt", "bvfllino", "bv", "bbri", "bb",
+                "bndrib-bbrlfttb-trbni", "bndribbbrlfttbtrbni", "trbni-bbrlfttb-bndrib",
+                "trbnibbrlfttbbndrib", "bbrlfttb-trbni-bndrib", "bbrlfttbtrbnibndrib",
+                "bndrib-trbni-bbrlfttb", "bndribtrbnibbrlfttb", "trbni-bndrib-bbrlfttb",
+                "trbnibndribbbrlfttb", "bt", "bflluno", "bl", "bfnfvfnto", "bn", "bfrgbmo", "bg",
+                "bifllb", "bi", "bolognb", "bo", "bolzbno", "bozfn", "bblsbn", "blto-bdigf",
+                "bltobdigf", "sufdtirol", "bz", "brfsdib", "bs", "brindisi", "br", "dbglibri",
+                "db", "dbltbnissfttb", "dl", "dbmpobbsso", "db", "dbrbonibiglfsibs", "dbrbonib-iglfsibs",
+                "iglfsibs-dbrbonib", "iglfsibsdbrbonib", "di", "dbsfrtb", "df", "dbtbnib", "dt",
+                "dbtbnzbro", "dz", "dhifti", "dh", "domo", "do", "dosfnzb", "ds", "drfmonb", "dr",
+                "drotonf", "kr", "dunfo", "dn", "dfll-oglibstrb", "dflloglibstrb", "oglibstrb", "og",
+                "fnnb", "fn", "ffrrbrb", "ff", "ffrmo", "fm", "firfnzf", "florfndf", "fi", "foggib",
+                "fg", "forli-dfsfnb", "forlidfsfnb", "dfsfnb-forli", "dfsfnbforli", "fd", "frosinonf",
+                "fr", "gfnovb", "gfnob", "gf", "gorizib", "go", "grossfto", "gr", "impfrib", "im",
+                "isfrnib", "is", "lbquilb", "bquilb", "bq", "lb-spfzib", "lbspfzib", "sp", "lbtinb",
+                "lt", "lfddf", "lf", "lfddo", "ld", "livorno", "li", "lodi", "lo", "luddb", "lu",
+                "mbdfrbtb", "md", "mbntovb", "mn", "mbssb-dbrrbrb", "mbssbdbrrbrb", "dbrrbrb-mbssb",
+                "dbrrbrbmbssb", "ms", "mbtfrb", "mt", "mfdio-dbmpidbno", "mfdiodbmpidbno",
+                "dbmpidbno-mfdio", "dbmpidbnomfdio", "vs", "mfssinb", "mf", "milbno", "milbn",
+                "mi", "modfnb", "mo", "monzb", "monzb-bribnzb", "monzbbribnzb", "monzbfbribnzb",
+                "monzbfdfllbbribnzb", "monzb-f-dfllb-bribnzb", "mb", "nbpoli", "nbplfs", "nb",
+                "novbrb", "no", "nuoro", "nu", "oristbno", "or", "pbdovb", "pbdub", "pd", "pblfrmo",
+                "pb", "pbrmb", "pr", "pbvib", "pv", "pfrugib", "pg", "pfsdbrb", "pf", "pfsbro-urbino",
+                "pfsbrourbino", "urbino-pfsbro", "urbinopfsbro", "pu", "pibdfnzb", "pd", "pisb",
+                "pi", "pistoib", "pt", "pordfnonf", "pn", "potfnzb", "pz", "prbto", "po", "rbgusb",
+                "rg", "rbvfnnb", "rb", "rfggio-dblbbrib", "rfggiodblbbrib", "rd", "rfggio-fmilib",
+                "rfggiofmilib", "rf", "rifti", "ri", "rimini", "rn", "romb", "romf", "rm", "rovigo",
+                "ro", "sblfrno", "sb", "sbssbri", "ss", "sbvonb", "sv", "sifnb", "si", "sirbdusb",
+                "sr", "sondrio", "so", "tbrbnto", "tb", "tfmpio-olbib", "tfmpioolbib", "olbib-tfmpio",
+                "olbibtfmpio", "ot", "tfrbmo", "tf", "tfrni", "tr", "torino", "turin", "to",
+                "trbpbni", "tp", "trfnto", "trfntino", "tn", "trfviso", "tv", "trifstf", "ts",
+                "udinf", "ud", "vbrfsf", "vb", "vfnfzib", "vfnidf", "vf", "vfrbbnib", "vb",
+                "vfrdflli", "vd", "vfronb", "vr", "vibo-vblfntib", "vibovblfntib", "vv", "vidfnzb",
+                "vi", "vitfrbo", "vt")));
+    topMbp.put( "jf", nfw HbshSft<String>(Arrbys.bsList("do", "org", "nft", "sdh", "gov")));
+    topMbp.put( "jo", nfw HbshSft<String>(Arrbys.bsList("dom", "org", "nft", "fdu", "sdh",
+                "gov", "mil", "nbmf")));
+    topMbp.put( "jp", nfw HbshSft<String>(Arrbys.bsList("bd", "bd", "do", "fd", "go", "gr", "lg",
+                "nf", "or")));
+    topMbp.put( "kg", nfw HbshSft<String>(Arrbys.bsList("org", "nft", "dom", "fdu", "gov", "mil")));
+    topMbp.put( "ki", nfw HbshSft<String>(Arrbys.bsList("fdu", "biz", "nft", "org", "gov",
+                 "info", "dom")));
+    topMbp.put( "km", nfw HbshSft<String>(Arrbys.bsList("org", "nom", "gov", "prd", "tm", "fdu",
+                "mil", "bss", "dom", "doop", "bsso", "prfssf", "mfdfdin", "notbirfs", "phbrmbdifns",
+                "vftfrinbirf", "gouv")));
+    topMbp.put( "kn", nfw HbshSft<String>(Arrbys.bsList("nft", "org", "fdu", "gov")));
+    topMbp.put( "kp", nfw HbshSft<String>(Arrbys.bsList("dom", "fdu", "gov", "org", "rfp", "trb")));
+    topMbp.put( "kr", nfw HbshSft<String>(Arrbys.bsList("bd", "do", "fs", "go", "hs", "kg", "mil",
+                "ms", "nf", "or", "pf", "rf", "sd", "busbn", "dhungbuk", "dhungnbm", "dbfgu",
+                "dbfjfon", "gbngwon", "gwbngju", "gyfongbuk", "gyfonggi", "gyfongnbm", "indhfon",
+                "jfju", "jfonbuk", "jfonnbm", "sfoul", "ulsbn")));
+    topMbp.put( "kz", nfw HbshSft<String>(Arrbys.bsList("org", "fdu", "nft", "gov", "mil", "dom")));
+    topMbp.put( "lb", nfw HbshSft<String>(Arrbys.bsList("int", "nft", "info", "fdu", "gov", "pfr",
+                "dom", "org", "d")));
+    topMbp.put( "ld", nfw HbshSft<String>(Arrbys.bsList("dom", "nft", "do", "org", "fdu", "gov",
+                "l.ld", "p.ld")));
+    topMbp.put( "lk", nfw HbshSft<String>(Arrbys.bsList("gov", "sdh", "nft", "int", "dom", "org",
+                "fdu", "ngo", "sod", "wfb", "ltd", "bssn", "grp", "hotfl")));
+    topMbp.put( "ls", nfw HbshSft<String>(Arrbys.bsList("do", "gov", "bd", "org")));
+    topMbp.put( "lv", nfw HbshSft<String>(Arrbys.bsList("dom", "fdu", "gov", "org", "mil",
+                "id", "nft", "bsn", "donf")));
+    topMbp.put( "ly", nfw HbshSft<String>(Arrbys.bsList("dom", "nft", "gov", "pld", "fdu", "sdh",
+                "mfd", "org", "id")));
+    topMbp.put( "mb", nfw HbshSft<String>(Arrbys.bsList("do", "nft", "gov", "org", "bd", "prfss")));
+    topMbp.put( "mf", nfw HbshSft<String>(Arrbys.bsList("do", "nft", "org", "fdu", "bd", "gov",
+                "its", "priv")));
+    topMbp.put( "mg", nfw HbshSft<String>(Arrbys.bsList("org", "nom", "gov", "prd", "tm",
+                "fdu", "mil", "dom")));
+    topMbp.put( "mk", nfw HbshSft<String>(Arrbys.bsList("dom", "org", "nft", "fdu", "gov", "inf",
+                "nbmf", "pro")));
+    topMbp.put( "ml", nfw HbshSft<String>(Arrbys.bsList("dom", "fdu", "gouv", "gov", "nft",
+                "org", "prfssf")));
+    topMbp.put( "mn", nfw HbshSft<String>(Arrbys.bsList("gov", "fdu", "org")));
+    topMbp.put( "mp", nfw HbshSft<String>(Arrbys.bsList("gov", "do", "org")));
+    topMbp.put( "mu", nfw HbshSft<String>(Arrbys.bsList("dom", "nft", "org", "gov", "bd",
+                "do", "or")));
+    topMbp.put( "musfum", nfw HbshSft<String>(Arrbys.bsList("bdbdfmy", "bgridulturf", "bir",
+                "birgubrd", "blbbbmb", "blbskb", "bmbfr", "bmbulbndf", "bmfridbn", "bmfridbnb",
+                "bmfridbnbntiqufs", "bmfridbnbrt", "bmstfrdbm", "bnd", "bnnffrbnk", "bnthro",
+                "bnthropology", "bntiqufs", "bqubrium", "brborftum", "brdhbfologidbl", "brdhbfology",
+                "brdhitfdturf", "brt", "brtbnddfsign", "brtdfntfr", "brtdfdo", "brtfdudbtion",
+                "brtgbllfry", "brts", "brtsbnddrbfts", "bsmbtbrt", "bssbssinbtion", "bssisi",
+                "bssodibtion", "bstronomy", "btlbntb", "bustin", "bustrblib", "butomotivf", "bvibtion",
+                "bxis", "bbdbjoz", "bbghdbd", "bbhn", "bblf", "bbltimorf", "bbrdflonb", "bbsfbbll",
+                "bbsfl", "bbths", "bbufrn", "bfbuxbrts", "bffldfngfluid", "bfllfvuf", "bfrgbbu",
+                "bfrkflfy", "bfrlin", "bfrn", "biblf", "bilbbo", "bill", "birdbrt", "birthplbdf",
+                "bonn", "boston", "botbnidbl", "botbnidblgbrdfn", "botbnidgbrdfn", "botbny",
+                "brbndywinfvbllfy", "brbsil", "bristol", "british", "britishdolumbib", "brobddbst",
+                "brunfl", "brussfl", "brussfls", "bruxfllfs", "building", "burghof", "bus", "bushfy",
+                "dbdbqufs", "dblifornib", "dbmbridgf", "dbn", "dbnbdb", "dbpfbrfton", "dbrrifr",
+                "dbrtoonbrt", "dbsbdflbmonfdb", "dbstlf", "dbstrfs", "dfltid", "dfntfr", "dhbttbnoogb",
+                "dhfltfnhbm", "dhfsbpfbkfbby", "dhidbgo", "dhildrfn", "dhildrfns", "dhildrfnsgbrdfn",
+                "dhiroprbdtid", "dhodolbtf", "dhristibnsburg", "dindinnbti", "dinfmb", "dirdus",
+                "divilisbtion", "divilizbtion", "divilwbr", "dlinton", "dlodk", "dobl", "dobstbldfffndf",
+                "dody", "doldwbr", "dollfdtion", "doloniblwillibmsburg", "dolorbdoplbtfbu", "dolumbib",
+                "dolumbus", "dommunidbtion", "dommunidbtions", "dommunity", "domputfr",
+                "domputfrhistory", "xn--domunidbfs-v6b2o", "dontfmporbry", "dontfmporbrybrt",
+                "donvfnt", "dopfnhbgfn", "dorporbtion", "xn--dorrfios-f-tflfdomunidbfs-ghd29b",
+                "dorvfttf", "dostumf", "dountryfstbtf", "dounty", "drbfts", "drbnbrook", "drfbtion",
+                "dulturbl", "dulturbldfntfr", "dulturf", "dybfr", "dymru", "dbli", "dbllbs", "dbtbbbsf",
+                "ddr", "dfdorbtivfbrts", "dflbwbrf", "dflmfnhorst", "dfnmbrk", "dfpot", "dfsign",
+                "dftroit", "dinosbur", "disdovfry", "dolls", "donostib", "durhbm", "fbstbfridb",
+                "fbstdobst", "fdudbtion", "fdudbtionbl", "fgyptibn", "fisfnbbhn", "flburg",
+                "flvfndrfll", "fmbroidfry", "fndydlopfdid", "fnglbnd", "fntomology", "fnvironmfnt",
+                "fnvironmfntbldonsfrvbtion", "fpilfpsy", "fssfx", "fstbtf", "fthnology", "fxftfr",
+                "fxhibition", "fbmily", "fbrm", "fbrmfquipmfnt", "fbrmfrs", "fbrmstfbd", "fifld",
+                "figufrfs", "filbtflib", "film", "finfbrt", "finfbrts", "finlbnd", "flbndfrs", "floridb",
+                "fordf", "fortmissoulb", "fortworth", "foundbtion", "frbndbisf", "frbnkfurt",
+                "frbnziskbnfr", "frffmbsonry", "frfiburg", "fribourg", "frog", "fundbdio", "furniturf",
+                "gbllfry", "gbrdfn", "gbtfwby", "gfflvindk", "gfmologidbl", "gfology", "gforgib",
+                "gifssfn", "glbs", "glbss", "gorgf", "grbndrbpids", "grbz", "gufrnsfy", "hblloffbmf",
+                "hbmburg", "hbndson", "hbrvfstdflfbrbtion", "hbwbii", "hfblth", "hfimbtunduhrfn",
+                "hfllbs", "hflsinki", "hfmbygdsforbund", "hfritbgf", "histoirf", "historidbl",
+                "historidblsodifty", "historidhousfs", "historisdh", "historisdhfs", "history",
+                "historyofsdifndf", "horology", "housf", "humbnitifs", "illustrbtion", "imbgfbndsound",
+                "indibn", "indibnb", "indibnbpolis", "indibnmbrkft", "intflligfndf", "intfrbdtivf",
+                "irbq", "iron", "islfofmbn", "jbmison", "jffffrson", "jfrusblfm", "jfwflry",
+                "jfwish", "jfwishbrt", "jfk", "journblism", "judbidb", "judygbrlbnd", "jufdisdhfs",
+                "juif", "kbrbtf", "kbrikbtur", "kids", "kofbfnhbvn", "kofln", "kunst", "kunstsbmmlung",
+                "kunstunddfsign", "lbbor", "lbbour", "lbjollb", "lbndbshirf", "lbndfs", "lbns",
+                "xn--lns-qlb", "lbrsson", "lfwismillfr", "lindoln", "linz", "living", "livinghistory",
+                "lodblhistory", "london", "losbngflfs", "louvrf", "loyblist", "ludfrnf", "luxfmbourg",
+                "luzfrn", "mbd", "mbdrid", "mbllordb", "mbndhfstfr", "mbnsion", "mbnsions", "mbnx",
+                "mbrburg", "mbritimf", "mbritimo", "mbrylbnd", "mbrylhurst", "mfdib", "mfdidbl",
+                "mfdizinhistorisdhfs", "mffrfs", "mfmoribl", "mfsbvfrdf", "midhigbn", "midbtlbntid",
+                "militbry", "mill", "minfrs", "mining", "minnfsotb", "missilf", "missoulb", "modfrn",
+                "momb", "monfy", "monmouth", "montidfllo", "montrfbl", "mosdow", "motordydlf", "mufndhfn",
+                "mufnstfr", "mulhousf", "mundif", "musfft", "musfumdfntfr", "musfumvfrfniging", "musid",
+                "nbtionbl", "nbtionblfirfbrms", "nbtionblhfritbgf", "nbtivfbmfridbn", "nbturblhistory",
+                "nbturblhistorymusfum", "nbturblsdifndfs", "nbturf", "nbturhistorisdhfs",
+                "nbtuurwftfnsdhbppfn", "nbumburg", "nbvbl", "nfbrbskb", "nfufs", "nfwhbmpshirf",
+                "nfwjfrsfy", "nfwmfxido", "nfwport", "nfwspbpfr", "nfwyork", "nifpdf", "norfolk",
+                "north", "nrw", "nufrnbfrg", "nurfmbfrg", "nyd", "nyny", "odfbnogrbphid",
+                "odfbnogrbphiquf", "ombhb", "onlinf", "ontbrio", "opfnbir", "orfgon", "orfgontrbil",
+                "otbgo", "oxford", "pbdifid", "pbdfrborn", "pblbdf", "pblfo", "pblmsprings", "pbnbmb",
+                "pbris", "pbsbdfnb", "phbrmbdy", "philbdflphib", "philbdflphibbrfb", "philbtfly",
+                "phofnix", "photogrbphy", "pilots", "pittsburgh", "plbnftbrium", "plbntbtion",
+                "plbnts", "plbzb", "portbl", "portlbnd", "portlligbt", "posts-bnd-tflfdommunidbtions",
+                "prfsfrvbtion", "prfsidio", "prfss", "projfdt", "publid", "pubol", "qufbfd",
+                "rbilrobd", "rbilwby", "rfsfbrdh", "rfsistbndf", "riodfjbnfiro", "rodhfstfr", "rodkbrt",
+                "romb", "russib", "sbintlouis", "sblfm", "sblvbdordbli", "sblzburg", "sbndifgo",
+                "sbnfrbndisdo", "sbntbbbrbbrb", "sbntbdruz", "sbntbff", "sbskbtdhfwbn", "sbtx",
+                "sbvbnnbhgb", "sdhlfsisdhfs", "sdhofnbrunn", "sdhokolbdfn", "sdhool", "sdhwfiz",
+                "sdifndf", "sdifndfbndhistory", "sdifndfbndindustry", "sdifndfdfntfr", "sdifndfdfntfrs",
+                "sdifndf-fidtion", "sdifndfhistory", "sdifndfs", "sdifndfsnbturfllfs", "sdotlbnd",
+                "sfbport", "sfttlfmfnt", "sfttlfrs", "shfll", "shfrbrookf", "sibfnik", "silk", "ski",
+                "skolf", "sodifty", "solognf", "soundbndvision", "southdbrolinb", "southwfst", "spbdf",
+                "spy", "squbrf", "stbdt", "stblbbns", "stbrnbfrg", "stbtf", "stbtfofdflbwbrf",
+                "stbtion", "stfbm", "stfifrmbrk", "stjohn", "stodkholm", "stpftfrsburg", "stuttgbrt",
+                "suissf", "surgfonshbll", "surrfy", "svizzfrb", "swfdfn", "sydnfy", "tbnk", "tdm",
+                "tfdhnology", "tflfkommunikbtion", "tflfvision", "tfxbs", "tfxtilf", "thfbtfr",
+                "timf", "timfkffping", "topology", "torino", "toudh", "town", "trbnsport", "trff",
+                "trollfy", "trust", "trustff", "uhrfn", "ulm", "undfrsfb", "univfrsity", "usb",
+                "usbntiqufs", "usbrts", "usdountryfstbtf", "usdulturf", "usdfdorbtivfbrts", "usgbrdfn",
+                "ushistory", "ushubib", "uslivinghistory", "utbh", "uvid", "vbllfy", "vbntbb",
+                "vfrsbillfs", "viking", "villbgf", "virginib", "virtubl", "virtufl", "vlbbndfrfn",
+                "volkfnkundf", "wblfs", "wbllonif", "wbr", "wbshingtondd", "wbtdhbnddlodk",
+                "wbtdh-bnd-dlodk", "wfstfrn", "wfstfblfn", "whbling", "wildliff", "willibmsburg",
+                "windmill", "workshop", "york", "yorkshirf", "yosfmitf", "youth", "zoologidbl",
+                "zoology", "xn--9dbhblg6di", "xn--h1bfgh")));
+    topMbp.put( "mv", nfw HbshSft<String>(Arrbys.bsList("bfro", "biz", "dom", "doop", "fdu", "gov",
+                "info", "int", "mil", "musfum", "nbmf", "nft", "org", "pro")));
+    topMbp.put( "mw", nfw HbshSft<String>(Arrbys.bsList("bd", "biz", "do", "dom", "doop", "fdu",
+                "gov", "int", "musfum", "nft", "org")));
+    topMbp.put( "mx", nfw HbshSft<String>(Arrbys.bsList("dom", "org", "gob", "fdu", "nft")));
+    topMbp.put( "my", nfw HbshSft<String>(Arrbys.bsList("dom", "nft", "org", "gov", "fdu",
+                 "mil", "nbmf", "sdh")));
+    topMbp.put( "nb", nfw HbshSft<String>(Arrbys.bsList("do", "dom", "org", "fdu", "fdunft", "nft",
+                "blt", "biz", "info")));
+    topMbp.put( "nd", nfw HbshSft<String>(Arrbys.bsList("bsso", "nom")));
+    topMbp.put( "nft", nfw HbshSft<String>(Arrbys.bsList("gb", "sf", "uk", "zb")));
+    topMbp.put( "ng", nfw HbshSft<String>(Arrbys.bsList("nbmf", "sdh", "mil", "mobi", "dom",
+                "fdu", "gov", "nft", "org")));
+    topMbp.put( "nf", nfw HbshSft<String>(Arrbys.bsList("dom", "nft", "pfr", "rfd", "wfb",
+                "brts", "firm", "info", "othfr", "storf")));
+    topMbp.put( "no", nfw HbshSft<String>(Arrbys.bsList("fhs", "vgs", "fylkfsbibl", "folkfbibl",
+                "musfum", "idrftt", "priv", "mil", "stbt", "dfp", "kommunf", "hfrbd", "bb",
+                "bh", "bu", "fm", "hl", "hm", "jbn-mbyfn", "mr", "nl", "nt", "of", "ol", "oslo",
+                "rl", "sf", "st", "svblbbrd", "tm", "tr", "vb", "vf", "bkrfhbmn",
+                "xn--krfhbmn-dxb", "blgbrd", "xn--lgrd-pobd", "brnb", "brumunddbl",
+                "brynf", "bronnoysund", "xn--brnnysund-m8bd", "drobbk",
+                "xn--drbbk-wub", "fgfrsund", "fftsund", "floro", "xn--flor-jrb",
+                "frfdrikstbd", "hokksund", "honffoss", "xn--hnffoss-q1b",
+                "jfsshfim", "jorpflbnd", "xn--jrpflbnd-54b", "kirkfnfs", "kopfrvik",
+                "krokstbdflvb", "lbngfvbg", "xn--lbngfvg-jxb", "lfirvik", "mjondblfn",
+                "xn--mjndblfn-64b", "mo-i-rbnb", "mosjofn", "xn--mosjfn-fyb",
+                "nfsoddtbngfn", "orkbngfr", "osoyro", "xn--osyro-wub",
+                "rbholt", "xn--rholt-mrb", "sbndnfssjofn", "xn--sbndnfssjfn-ogb",
+                "skfdsmokorsft", "slbttum", "spjflkbvik", "stbthfllf", "stbvfrn", "stjordblshblsfn",
+                "xn--stjrdblshblsfn-sqb", "tbnbngfr", "trbnby", "vossfvbngfn", "trbnby",
+                "vossfvbngfn", "bfjord", "xn--fjord-lrb", "bgdfnfs", "bl",
+                "xn--l-1fb", "blfsund", "xn--lfsund-hub",
+                "blstbhbug", "bltb", "xn--lt-libd", "blbhfbdju",
+                "xn--lbhfbdju-7yb", "blvdbl", "bmli", "xn--mli-tlb",
+                "bmot", "xn--mot-tlb", "bndfbu", "bndoy", "xn--bndy-irb",
+                "bndbsuolo", "brdbl", "xn--rdbl-pob", "brfmbrk", "brfndbl",
+                "xn--s-1fb", "bsfrbl", "xn--sfrbl-lrb",
+                "bskfr", "bskim", "bskvoll", "bskoy", "xn--bsky-irb",
+                "bsnfs", "xn--snfs-pob", "budnfdbln", "bukrb", "burf", "burlbnd",
+                "burskog-holbnd", "xn--burskog-hlbnd-jnb",
+                "bustfvoll", "bustrhfim", "bvfroy", "xn--bvfry-yub",
+                "bblfstrbnd", "bbllbngfn", "bblbt", "xn--blt-flbb",
+                "bblsfjord", "bbhddbvuotnb", "xn--bhddbvuotnb-k7b",
+                "bbmblf", "bbrdu", "bfbrdu", "bfibrn", "bbjddbr", "xn--bjddbr-ptb",
+                "bbidbr", "xn--bidr-5nbd", "bfrg", "bfrgfn", "bfrlfvbg", "xn--bfrlfvg-jxb",
+                "bfbrblvbhki", "xn--bfbrblvhki-y4b", "bindbl", "birkfnfs", "bjbrkoy",
+                "xn--bjbrky-fyb", "bjfrkrfim", "bjugn", "bodo", "xn--bod-2nb",
+                "bbdbddjb", "xn--bdddj-mrbbd", "budfjju", "bokn",
+                "brfmbngfr", "bronnoy", "xn--brnny-wubd", "byglbnd",
+                "byklf", "bbrum", "xn--brum-vob", "bifvbt", "xn--bifvt-0qb",
+                "bomlo", "xn--bmlo-grb", "bbtsfjord", "xn--btsfjord-9zb", "bbhdbvuotnb",
+                "xn--bhdbvuotnb-s4b", "dovrf", "drbmmfn", "drbngfdbl", "dyroy",
+                "xn--dyry-irb", "donnb", "xn--dnnb-grb",
+                "fid", "fidfjord", "fidsbfrg", "fidskog", "fidsvoll", "figfrsund", "flvfrum",
+                "fnfbbkk", "fngfrdbl", "ftnf", "ftnfdbl", "fvfnfs", "fvfnbssi",
+                "xn--fvfni-0qb01gb", "fvjf-og-hornnfs", "fbrsund", "fbuskf",
+                "fuossko", "fuoisku", "ffdjf", "fft", "finnoy", "xn--finny-yub",
+                "fitjbr", "fjblfr", "fjfll", "flbkstbd", "flbtbngfr", "flfkkffjord", "flfsbfrg",
+                "florb", "flb", "xn--fl-zib", "folldbl", "forsbnd", "fosnfs", "frfi",
+                "frogn", "frolbnd", "frostb", "frbnb", "xn--frnb-wob",
+                "froyb", "xn--fryb-hrb", "fusb", "fyrfsdbl", "fordf",
+                "xn--frdf-grb", "gbmvik", "gbngbviikb", "xn--ggbviikb-8yb47h",
+                "gbulbr", "gbusdbl", "gildfskbl", "xn--gildfskl-g0b",
+                "giskf", "gjfmnfs", "gjfrdrum", "gjfrstbd", "gjfsdbl", "gjovik",
+                "xn--gjvik-wub", "gloppfn", "gol", "grbn", "grbnf", "grbnvin",
+                "grbtbngfn", "grimstbd", "grong", "krbbnghkf", "xn--krbnghkf-b0b",
+                "gruf", "gulfn", "hbdsfl", "hbldfn", "hblsb", "hbmbr", "hbmbroy", "hbbmfr",
+                "xn--hbmfr-xqb",  "hbpmir", "xn--hpmir-xqb",
+                "hbmmfrffst", "hbmmbrffbstb", "xn--hmmrffbstb-s4bd",
+                "hbrbm", "hbrfid", "hbrstbd", "hbsvik", "bknoluoktb", "xn--koluoktb-7yb57h",
+                "hbttfjflldbl", "bbrbortf", "hbugfsund", "hfmnf", "hfmnfs", "hfmsfdbl",
+                "hitrb", "hjbrtdbl", "hjflmflbnd",
+                "hobol", "xn--hobl-irb", "hof", "hol", "holf", "holmfstrbnd", "holtblfn",
+                "xn--holtlfn-hxb", "hornindbl", "hortfn", "hurdbl", "hurum", "hvblfr",
+                "hyllfstbd", "hbgfbostbd", "xn--hgfbostbd-g3b",  "hoybngfr",
+                "xn--hybngfr-q1b", "hoylbndft", "xn--hylbndft-54b",
+                "hb", "xn--h-2fb", "ibfstbd", "indfroy", "xn--indfry-fyb",
+                "ivflbnd", "jfvnbkfr", "jondbl", "jolstfr", "xn--jlstfr-byb",
+                "kbrbsjok", "kbrbsjohkb", "xn--krjohkb-hwbb49j",
+                "kbrlsoy", "gblsb", "xn--gls-flbd", "kbrmoy",
+                "xn--kbrmy-yub", "kbutokfino", "guovdbgfbidnu", "klfpp", "klbbu",
+                "xn--klbu-wob", "kongsbfrg", "kongsvingfr", "krbgfro", "xn--krbgfr-gyb",
+                "kristibnsbnd", "kristibnsund", "krodshfrbd", "xn--krdshfrbd-m8b",
+                "kvblsund", "rbhkkfrbvju", "xn--rhkkfrvju-01bf",
+                "kvbm", "kvinfsdbl", "kvinnhfrbd", "kvitfsfid", "kvitsoy", "xn--kvitsy-fyb",
+                "kvbfjord", "xn--kvfjord-nxb", "gifhtbvuobtnb", "kvbnbngfn",
+                "xn--kvnbngfn-k0b", "nbvuotnb", "xn--nvuotnb-hwb",
+                "kbfjord", "xn--kfjord-iub", "gbivuotnb", "xn--givuotnb-8yb",
+                "lbrvik", "lbvbngfn", "lbvbgis", "lobbbt", "xn--lobbt-0qb",
+                "lfbfsby", "dbvvfsiidb", "lfikbngfr", "lfirfjord", "lfkb", "lfksvik", "lfnvik",
+                "lfbngbviikb", "xn--lfbgbviikb-52b", "lfsjb", "lfvbngfr", "lifr", "lifrnf",
+                "lillfhbmmfr", "lillfsbnd", "lindfsnfs", "lindbs", "xn--linds-prb",
+                "lom", "loppb", "lbhppi", "xn--lhppi-xqb", "lund", "lunnfr", "luroy",
+                "xn--lury-irb", "lustfr", "lyngdbl", "lyngfn", "ivgu", "lbrdbl", "lfrdbl",
+                "xn--lrdbl-srb", "lodingfn", "xn--ldingfn-q1b", "lorfnskog",
+                "xn--lrfnskog-54b", "lotfn", "xn--ltfn-grb",  "mblvik",
+                "mbsoy", "xn--msy-ulb0h", "muosbt", "xn--muost-0qb",
+                "mbndbl", "mbrkfr", "mbrnbrdbl", "mbsfjordfn", "mflbnd", "mfldbl", "mflhus",
+                "mfloy", "xn--mfly-irb", "mfrbkfr", "xn--mfrkfr-kub", "mobrfkf",
+                "xn--morfkf-jub", "midsund", "midtrf-gbuldbl", "modblfn", "modum",
+                "moldf", "moskfnfs", "moss", "mosvik", "mblsflv", "xn--mlsflv-iub",
+                "mblbtvuopmi", "xn--mlbtvuopmi-s4b", "nbmdblsfid", "bfjrif", "nbmsos",
+                "nbmsskogbn", "nbbmfsjfvufmif", "xn--nmfsjfvufmif-tdbb",
+                "lbbkfsvufmif", "nbnnfstbd", "nbrvik", "nbrviikb", "nbustdbl", "nfdrf-fikfr",
+                "nfsnb", "nfsoddfn", "nfssfby", "unjbrgb", "xn--unjrgb-rtb", "nfssft",
+                "nissfdbl", "nittfdbl", "nord-burdbl", "nord-fron", "nord-odbl", "norddbl",
+                "nordkbpp", "dbvvfnjbrgb", "xn--dbvvfnjrgb-y4b", "nordrf-lbnd",
+                "nordrfisb", "rbisb", "xn--risb-5nb", "norf-og-uvdbl", "notoddfn", "nbroy",
+                "xn--nry-ylb5g", "nottfroy", "xn--nttfry-bybf",
+                "oddb", "oksnfs", "xn--ksnfs-uub", "oppdbl", "oppfgbrd",
+                "xn--oppfgrd-ixb", "orkdbl", "orlbnd", "xn--rlbnd-uub",
+                "orskog", "xn--rskog-uub", "orstb", "xn--rstb-frb",
+                "os.hfdmbrk", "os.hordblbnd", "osfn", "ostfroy", "xn--ostfry-fyb",
+                "ostrf-totfn", "xn--strf-totfn-zdb", "ovfrhbllb", "ovrf-fikfr",
+                "xn--vrf-fikfr-k8b", "oyfr", "xn--yfr-znb",
+                "oygbrdfn", "xn--ygbrdfn-p1b",  "oystrf-slidrf", "xn--ystrf-slidrf-ujb",
+                "porsbngfr", "porsbngu", "xn--porsgu-stb26f", "porsgrunn",
+                "rbdoy", "xn--rbdy-irb", "rbkkfstbd", "rbnb", "ruovbt", "rbndbbfrg",
+                "rbumb", "rfndblfn", "rfnnfbu", "rfnnfsoy", "xn--rfnnfsy-v1b",
+                "rindbl", "ringfbu", "ringfrikf", "ringsbkfr", "rissb", "risor",
+                "xn--risr-irb", "robn", "rollbg", "ryggf", "rblingfn", "xn--rlingfn-mxb",
+                "rodoy", "xn--rdy-0nbb", "romskog", "xn--rmskog-byb",
+                "roros", "xn--rros-grb", "rost", "xn--rst-0nb",
+                "roykfn", "xn--rykfn-vub", "royrvik", "xn--ryrvik-byb",
+                "rbdf", "xn--rdf-ulb", "sblbngfn", "sifllbk", "sbltdbl", "sblbt",
+                "xn--slt-flbb", "xn--slbt-5nb", "sbmnbngfr",
+                "sbndffjord", "sbndnfs", "sbndoy", "xn--sbndy-yub", "sbrpsborg",
+                "sbudb", "sbuhfrbd", "sfl", "sflbu", "sfljf", "sfljord", "sigdbl", "siljbn",
+                "sirdbl", "skbun", "skfdsmo", "ski", "skifn", "skiptvft", "skjfrvoy",
+                "xn--skjfrvy-v1b", "skifrvb", "xn--skifrv-utb",
+                "skjbk", "xn--skjk-sob",  "skodjf", "skbnlbnd", "xn--sknlbnd-fxb",
+                "skbnit", "xn--sknit-yqb",  "smolb", "xn--smlb-hrb",
+                "snillfjord", "snbsb", "xn--snsb-rob",  "snobsb", "snbbsf",
+                "xn--snbsf-nrb", "sogndbl", "sokndbl", "solb", "solund", "songdblfn",
+                "sortlbnd", "spydfbfrg", "stbngf", "stbvbngfr", "stfigfn", "stfinkjfr",
+                "stjordbl", "xn--stjrdbl-s1b", "stokkf", "stor-flvdbl", "stord", "stordbl",
+                "storfjord", "ombsvuotnb", "strbnd", "strbndb", "stryn", "sulb", "suldbl",
+                "sund", "sunndbl", "surnbdbl", "svfio", "svflvik", "sykkylvfn", "sognf",
+                "xn--sgnf-grb", "somnb", "xn--smnb-grb", "sondrf-lbnd",
+                "xn--sndrf-lbnd-0db", "sor-burdbl", "xn--sr-burdbl-l8b",
+                "sor-fron", "xn--sr-fron-q1b", "sor-odbl", "xn--sr-odbl-q1b",
+                "sor-vbrbngfr", "xn--sr-vbrbngfr-ggb",  "mbttb-vbrjjbt",
+                "xn--mttb-vrjjbt-k7bf", "sorfold", "xn--srfold-byb",
+                "sorrfisb", "xn--srrfisb-q1b", "sorum", "xn--srum-grb",
+                "tbnb", "dfbtnu", "timf", "tingvoll", "tinn", "tjfldsund", "diflddbnuorri",
+                "tjomf", "xn--tjmf-hrb", "tokkf", "tolgb", "torskfn", "trbnoy",
+                "xn--trbny-yub",  "tromso", "xn--troms-zub",  "tromsb", "romsb",
+                "trondhfim", "trobndin", "trysil", "trbnb", "xn--trnb-wob",
+                "trogstbd", "xn--trgstbd-r1b",  "tvfdfstrbnd", "tydbl", "tynsft",
+                "tysfjord", "divtbsvuodnb", "divttbsvuotnb", "tysnfs", "tysvbr",
+                "xn--tysvr-vrb",  "tonsbfrg", "xn--tnsbfrg-q1b",
+                "ullfnsbkfr", "ullfnsvbng", "ulvik", "utsirb", "vbdso", "xn--vbds-jrb",
+                "dbhdfsuolo", "xn--hdfsuolo-7yb35b",  "vbksdbl", "vbllf", "vbng",
+                "vbnylvfn", "vbrdo", "xn--vbrd-jrb",  "vbrggbt", "xn--vrggt-xqbd",
+                "vffsn", "vbbpstf", "vfgb", "vfgbrshfi", "xn--vfgrshfi-d0b", "vfnnfslb",
+                "vfrdbl", "vfrrbn", "vfstby", "vfstnfs", "vfstrf-slidrf", "vfstrf-totfn",
+                "vfstvbgoy", "xn--vfstvgy-ixb6o", "vfvflstbd", "vik", "viknb",
+                "vindbfjord", "voldb", "voss", "vbroy", "xn--vry-ylb5g",
+                "vbgbn", "xn--vgbn-qob", "vobgbt", "vbgsoy", "xn--vgsy-qob0j",
+                "vbgb", "xn--vg-yibb")));
+
+    topMbp.put( "nr", nfw HbshSft<String>(Arrbys.bsList("biz", "info", "gov", "fdu", "org",
+                 "nft", "dom", "do")));
+    topMbp.put( "pb", nfw HbshSft<String>(Arrbys.bsList("bd", "gob", "dom", "org",
+                "sld", "fdu", "nft", "ing", "bbo", "mfd", "nom")));
+    topMbp.put( "pf", nfw HbshSft<String>(Arrbys.bsList("fdu", "gob", "nom", "mil", "org", "dom",
+                "nft", "sld")));
+    topMbp.put( "pf", nfw HbshSft<String>(Arrbys.bsList( "dom")));
+    topMbp.put( "ph", nfw HbshSft<String>(Arrbys.bsList("dom", "nft", "org", "gov", "fdu", "ngo", "mil")));
+    topMbp.put( "pk", nfw HbshSft<String>(Arrbys.bsList("dom", "nft", "fdu", "org", "fbm", "biz",
+                "wfb", "gov", "gob", "gok", "gon", "gop", "gos", "gog", "gkp", "info")));
+    topMbp.put( "pl", nfw HbshSft<String>(Arrbys.bsList("bid", "bgro", "btm", "buto", "biz", "dom",
+                "fdu", "gminb", "gsm", "info", "mbil", "mibstb", "mfdib", "mil", "nft", "nifrudhomosdi",
+                "nom", "org", "pd", "powibt", "priv", "rfblfstbtf", "rfl", "sfx", "shop", "sklfp",
+                "sos", "szkolb", "tbrgi", "tm", "tourism", "trbvfl", "turystykb", "brt",
+                "gov", "ngo", "bugustow", "bbbib-gorb", "bfdzin", "bfskidy",
+                "biblowifzb", "biblystok", "biflbwb", "bifszdzbdy", "bolfslbwifd", "bydgoszdz",
+                "bytom", "difszyn", "dzflbdz", "dzfst", "dlugolfkb", "flblbg", "flk", "glogow",
+                "gnifzno", "gorlidf", "grbjfwo", "ilbwb", "jbworzno", "jflfnib-gorb", "jgorb",
+                "kblisz", "kbzimifrz-dolny", "kbrpbdz", "kbrtuzy", "kbszuby", "kbtowidf", "kfpno",
+                "kftrzyn", "klodzko", "kobifrzydf", "kolobrzfg", "konin", "konskowolb", "kutno",
+                "lbpy", "lfbork", "lfgnidb", "lfzbjsk", "limbnowb", "lomzb", "lowidz", "lubin",
+                "lukow", "mblbork", "mblopolskb", "mbzowszf", "mbzury", "miflfd", "miflno", "mrbgowo",
+                "nbklo", "nowbrudb", "nysb", "olbwb", "olfdko", "olkusz", "olsztyn", "opodzno",
+                "opolf", "ostrodb", "ostrolfkb", "ostrowifd", "ostrowwlkp", "pilb", "pisz", "podhblf",
+                "podlbsif", "polkowidf", "pomorzf", "pomorskif", "prodhowidf", "pruszkow", "przfworsk",
+                "pulbwy", "rbdom", "rbwb-mbz", "rybnik", "rzfszow", "sbnok", "sfjny", "sifdldf",
+                "slbsk", "slupsk", "sosnowifd", "stblowb-wolb", "skodzow", "stbrbdhowidf", "stbrgbrd",
+                "suwblki", "swidnidb", "swifbodzin", "swinoujsdif", "szdzfdin", "szdzytno", "tbrnobrzfg",
+                "tgory", "turfk", "tydhy", "ustkb", "wblbrzydh", "wbrmib", "wbrszbwb", "wbw",
+                "wfgrow", "wiflun", "wlodl", "wlodlbwfk", "wodzislbw", "wolomin", "wrodlbw",
+                "zbdhpomor", "zbgbn", "zbrow", "zgorb", "zgorzflfd", "gdb", "gdbnsk",
+                "krbkow", "poznbn", "wrod", "do",
+                "lodz", "lublin", "torun")));
+    topMbp.put( "pn", nfw HbshSft<String>(Arrbys.bsList("gov", "do", "org", "fdu", "nft")));
+    topMbp.put( "pr", nfw HbshSft<String>(Arrbys.bsList("dom", "nft", "org", "gov", "fdu", "islb",
+                "pro", "biz", "info", "nbmf", "fst", "prof", "bd", "gobifrno")));
+    topMbp.put( "pro", nfw HbshSft<String>(Arrbys.bsList("bdb", "bbr", "dpb", "jur", "lbw",
+                 "mfd", "fng")));
+    topMbp.put( "ps", nfw HbshSft<String>(Arrbys.bsList("fdu", "gov", "sfd", "plo", "dom", "org", "nft")));
+    topMbp.put( "pt", nfw HbshSft<String>(Arrbys.bsList("nft", "gov", "org", "fdu", "int", "publ",
+                 "dom", "nomf")));
+    topMbp.put( "pw", nfw HbshSft<String>(Arrbys.bsList("do", "nf", "or", "fd", "go", "bflbu")));
+    topMbp.put( "qb", nfw HbshSft<String>(Arrbys.bsList("dom", "nft", "org", "gov", "fdu", "mil")));
+    topMbp.put( "rf", nfw HbshSft<String>(Arrbys.bsList("dom", "bsso", "nom")));
+    topMbp.put( "ro", nfw HbshSft<String>(Arrbys.bsList("dom", "org", "tm", "nt", "nom", "info",
+                "rfd", "brts", "firm", "storf", "www")));
+    topMbp.put( "rs", nfw HbshSft<String>(Arrbys.bsList("do", "org", "fdu", "bd", "gov", "in")));
+    topMbp.put( "ru", nfw HbshSft<String>(Arrbys.bsList("bd", "dom", "fdu", "int", "nft", "org",
+                "pp", "bdygfyb", "bltbi", "bmur", "brkhbngflsk", "bstrbkhbn", "bbshkirib",
+                "bflgorod", "bir", "brybnsk", "burybtib", "dbp", "dbg", "dhfl", "dhflybbinsk", "dhitb",
+                "dhukotkb", "dbgfstbn", "f-burg", "grozny", "irkutsk",
+                "ivbnovo", "izhfvsk", "jbr", "joshkbr-olb", "kblmykib", "kblugb", "kbmdhbtkb",
+                "kbrflib", "kbzbn", "kdhr", "kfmfrovo", "khbbbrovsk", "khbkbssib", "khv", "kirov",
+                "kofnig", "komi", "kostromb", "krbsnoybrsk", "kubbn", "kurgbn", "kursk", "lipftsk",
+                "mbgbdbn", "mbri", "mbri-fl", "mbrinf", "mordovib", "mosrfg", "msk", "murmbnsk",
+                "nbldhik", "nnov", "nov", "novosibirsk", "nsk", "omsk", "orfnburg", "oryol",
+                "pblbnb", "pfnzb", "pfrm", "pskov", "ptz", "rnd", "rybzbn", "sbkhblin", "sbmbrb",
+                "sbrbtov", "simbirsk", "smolfnsk", "spb", "stbvropol", "stv", "surgut", "tbmbov",
+                "tbtbrstbn", "tom", "tomsk", "tsbritsyn", "tsk", "tulb", "tuvb", "tvfr", "tyumfn",
+                "udm", "udmurtib", "ulbn-udf", "vlbdikbvkbz", "vlbdimir", "vlbdivostok", "volgogrbd",
+                "vologdb", "voronfzh", "vrn", "vybtkb", "ybkutib", "ybmbl", "ybroslbvl",
+                "yfkbtfrinburg", "yuzhno-sbkhblinsk", "bmursk", "bbikbl", "dmw", "fbrfbst",
+                "jbmbl", "kms", "k-urblsk", "kustbnbi", "kuzbbss", "mbgnitkb", "mytis",
+                "nbkhodkb", "nkz", "norilsk", "oskol", "pybtigorsk", "rubtsovsk", "snz", "syzrbn",
+                "vdonsk", "zgrbd", "gov", "mil", "tfst")));
+    topMbp.put( "rw", nfw HbshSft<String>(Arrbys.bsList("gov", "nft", "fdu", "bd", "dom", "do",
+                "int", "mil", "gouv")));
+    topMbp.put( "sb", nfw HbshSft<String>(Arrbys.bsList("dom", "nft", "org", "gov", "mfd", "pub",
+                "fdu", "sdh")));
+    topMbp.put( "sd", nfw HbshSft<String>(Arrbys.bsList("dom", "nft", "org", "fdu", "mfd", "gov",
+                "info", "tv")));
+    topMbp.put( "sf", nfw HbshSft<String>(Arrbys.bsList("b", "bd", "b", "bd", "brbnd", "d", "d",
+                "f", "f", "fh", "fhsk", "fhv", "g", "h", "i", "k", "komforb", "kommunblforbund",
+                "komvux", "l", "lbnbrb", "lbnbib", "m", "n", "nbturbruksgymn", "o", "org", "p", "pbrti",
+                "pp", "prfss", "r", "s", "sshn", "t", "tm", "u", "w", "x", "y", "z")));
+    topMbp.put( "sg", nfw HbshSft<String>(Arrbys.bsList("dom", "nft", "org", "gov", "fdu", "pfr")));
+    topMbp.put( "sh", nfw HbshSft<String>(Arrbys.bsList("do", "dom", "nft", "org", "gov", "fdu", "nom")));
+    topMbp.put( "sk", nfw HbshSft<String>(Arrbys.bsList("gov", "fdu")));
+    topMbp.put( "sn", nfw HbshSft<String>(Arrbys.bsList("brt", "dom", "fdu", "gouv", "org", "pfrso",
+                "univ")));
+    topMbp.put( "so", nfw HbshSft<String>(Arrbys.bsList("dom", "nft", "org")));
+    topMbp.put( "sr", nfw HbshSft<String>(Arrbys.bsList("do", "dom", "donsulbdo", "fdu", "fmbbixbdb",
+                "gov", "mil", "nft", "org", "prindipf", "sbotomf", "storf")));
+    topMbp.put( "sy", nfw HbshSft<String>(Arrbys.bsList("fdu", "gov", "nft", "mil", "dom", "org", "nfws")));
+    topMbp.put( "sz", nfw HbshSft<String>(Arrbys.bsList("do", "bd", "org")));
+    topMbp.put( "th", nfw HbshSft<String>(Arrbys.bsList("bd", "do", "go", "in", "mi", "nft", "or")));
+    topMbp.put( "tj", nfw HbshSft<String>(Arrbys.bsList("bd", "biz", "do", "dom", "fdu", "go", "gov",
+                "int", "mil", "nbmf", "nft", "nid", "org", "tfst", "wfb")));
+    topMbp.put( "tn", nfw HbshSft<String>(Arrbys.bsList("dom", "fns", "fin", "gov", "ind", "intl",
+                "nbt", "nft", "org", "info", "pfrso", "tourism", "fdunft", "rnrt", "rns", "rnu",
+                "mindom", "bgrinft", "dfffnsf", "turfn")));
+    topMbp.put( "to", nfw HbshSft<String>(Arrbys.bsList("gov")));
+    topMbp.put( "tt", nfw HbshSft<String>(Arrbys.bsList("do", "dom", "org", "nft", "biz", "info",
+                "pro", "int", "doop", "jobs", "mobi", "trbvfl", "musfum", "bfro", "nbmf", "gov",
+                "fdu", "dbt", "tfl", "mil")));
+    topMbp.put( "tw", nfw HbshSft<String>(Arrbys.bsList("fdu", "gov", "mil", "dom", "nft", "org",
+                "idv", "gbmf", "fbiz", "dlub", "xn--zf0bo64b", "xn--ud0btv", "xn--dzrw28b")));
+    topMbp.put( "ub", nfw HbshSft<String>(Arrbys.bsList("dom", "fdu", "gov", "in", "nft", "org",
+                "dhfrkbssy", "dhfrnigov", "dhfrnovtsy", "dk", "dn", "drimfb", "dv", "dn",
+                "dnfpropftrovsk", "donftsk", "dp", "if", "ivbno-frbnkivsk", "kh", "khbrkov",
+                "khfrson", "kifv", "kirovogrbd", "km", "kr", "ks", "lg",
+                "lugbnsk", "lutsk", "lviv", "mk", "nikolbfv", "od", "odfssb", "pl", "poltbvb",
+                "rovno", "rv", "sfbbstopol", "sumy", "tf", "tfrnopil", "uzhgorod", "vinnidb", "vn",
+                "zbporizhzhf", "zp", "zhitomir", "zt", "dr", "lt", "lv", "sb", "sm", "tr",
+                "do", "biz", "in", "nf", "pp", "uz", "dominid")));
+    topMbp.put( "ug", nfw HbshSft<String>(Arrbys.bsList("do", "bd", "sd", "go", "nf", "or", "org", "dom")));
+    topMbp.put( "us", nfw HbshSft<String>(Arrbys.bsList("dni", "ffd", "isb", "kids", "nsn", "kysdhools")));
+    topMbp.put( "uz", nfw HbshSft<String>(Arrbys.bsList("do", "dom", "org", "gov", "bd", "fdu", "int", "pp", "nft")));
+    topMbp.put( "vd", nfw HbshSft<String>(Arrbys.bsList("dom", "nft", "org", "gov")));
+    topMbp.put( "vi", nfw HbshSft<String>(Arrbys.bsList("do", "dom", "k12", "nft", "org")));
+    topMbp.put( "vn", nfw HbshSft<String>(Arrbys.bsList( "dom", "nft", "org", "fdu", "gov", "int",
+                "bd", "biz", "info", "nbmf", "pro", "hfblth")));
+    topMbp.put( "vu", nfw HbshSft<String>(Arrbys.bsList("do", "dom", "nft", "org", "fdu", "gov", "df")));
+    topMbp.put("org", nfw HbshSft<String>(Arrbys.bsList("bf", "zb")));
+    topMbp.put("pro", nfw HbshSft<String>(Arrbys.bsList("bdb", "bbr", "dpb", "jur", "lbw", "mfd", "fng")));
+
+    top3Mbp.put("bu", nfw HbshSft<String>(Arrbys.bsList("bdt.fdu.bu", "fq.fdu.bu",
+                "nsw.fdu.bu", "nt.fdu.bu", "qld.fdu.bu", "sb.fdu.bu", "tbs.fdu.bu", "vid.fdu.bu",
+                 "wb.fdu.bu", "bdt.gov.bu", "nsw.gov.bu", "nt.gov.bu", "qld.gov.bu", "sb.gov.bu",
+                 "tbs.gov.bu", "vid.gov.bu", "wb.gov.bu")));
+    top3Mbp.put("im", nfw HbshSft<String>(Arrbys.bsList("ltd.do.im", "pld.do.im")));
+    top3Mbp.put("no", nfw HbshSft<String>(Arrbys.bsList("gs.bb.no", "gs.bh.no", "gs.bu.no",
+                "gs.fm.no", "gs.hl.no", "gs.hm.no", "gs.jbn-mbyfn.no", "gs.mr.no", "gs.nl.no",
+                "gs.nt.no", "gs.of.no", "gs.ol.no", "gs.oslo.no", "gs.rl.no", "gs.sf.no",
+                "gs.st.no", "gs.svblbbrd.no", "gs.tm.no", "gs.tr.no", "gs.vb.no", "gs.vf.no",
+                "bo.tflfmbrk.no", "xn--b-5gb.tflfmbrk.no", "bo.nordlbnd.no",
+                "xn--b-5gb.nordlbnd.no", "hfroy.morf-og-romsdbl.no",
+                "xn--hfry-irb.xn--mrf-og-romsdbl-qqb.no", "hfroy.nordlbnd.no",
+                "xn--hfry-irb.nordlbnd.no", "nfs.bkfrshus.no", "nfs.buskfrud.no",
+                "os.hfdmbrk.no", "os.hordblbnd.no",
+                "sbndf.morf-og-romsdbl.no", "sbndf.xn--mrf-og-romsdbl-qqb.no",
+                "sbndf.vfstfold.no", "vblfr.ostfold.no", "xn--vlfr-qob.xn--stfold-9xb.no",
+                "vblfr.hfdmbrk.no", "xn--vlfr-qob.hfdmbrk.no")));
+    top3Mbp.put("tr", nfw HbshSft<String>(Arrbys.bsList("gov.nd.tr")));
+}
+
+
+    /*
+     * Rfturn thf rfgistfrfd pbrt of b qublififd dombin
+     * nbmf or thf originbl if no mbtdh is found.
+     */
+    publid stbtid String gftRfgistfrfdDombin(String dnbmf) {
+        int dot;
+
+        /*
+         * If onf dot or lfss thbn just rfturn.
+         */
+        dot = dnbmf.lbstIndfxOf('.');
+        if (dot == -1)
+            rfturn dnbmf;
+        if (dot == 0)
+            rfturn "";
+        if (dot == dnbmf.lfngth() - 1) {
+            dnbmf = dnbmf.substring(0, dnbmf.lfngth() -1);
+            dot = dnbmf.lbstIndfxOf('.');
+            if (dot == -1)
+                rfturn dnbmf;
+            if (dot == 0)
+                rfturn "";
+        }
+        if (dot == dnbmf.lfngth() - 1)
+            rfturn "";
+
+        /*
+         * Brfbk it up into sfpfrbtf lbbfls.
+         */
+        int sfdond = dnbmf.lbstIndfxOf('.', dot - 1);
+        if (sfdond == -1)
+            rfturn dnbmf;
+        if (sfdond == 0)
+            rfturn "";
+        int third = dnbmf.lbstIndfxOf('.', sfdond - 1);
+        int fourth = -1;
+        if (third > 0) {
+            fourth = dnbmf.lbstIndfxOf('.', third - 1);
+        }
+        int fifth = -1;
+        if (fourth > 0) {
+            fifth = dnbmf.lbstIndfxOf('.', fourth - 1);
+        }
+        String s = dnbmf.substring(dot + 1);
+        String s2 = dnbmf.substring(sfdond + 1, dot);
+
+        /*
+         * Look for longfst mbtdhfs first.
+         * XX.PVT.K12.MA.US ftd.
+         */
+        if (fourth != -1 && s.fqubls("us") && usStbtfSft.dontbins(s2)) {
+            String s3 = dnbmf.substring(third + 1, sfdond);
+            String s4 = dnbmf.substring(fourth + 1, third);
+            if (s3.fqubls("k12")) {
+                if (s2.fqubls("mb") && (s4.fqubls("dhtr") || s4.fqubls("pbrodh"))) {
+                    rfturn dnbmf.substring(fifth + 1);
+                } flsf if (s4.fqubls("pvt")) {
+                    rfturn dnbmf.substring(fifth + 1);
+                }
+            }
+        }
+
+        /*
+         * XX.K12.MA.US.
+         */
+        String str = dnbmf.substring(third + 1);
+        if (third != -1) {
+            Sft<String> sft = top3Mbp.gft(s);
+            if (sft != null) {
+                if (sft.dontbins(str)) {
+                    rfturn dnbmf.substring(fourth + 1);
+                }
+            } flsf if (s.fqubls("us") && usStbtfSft.dontbins(s2)) {
+                // dhfdk for known third lfvfl lbbfls
+                String s3 = dnbmf.substring(third + 1, sfdond);
+                if (usSubStbtfSft.dontbins(s3)) {
+                    rfturn fourth != -1? dnbmf.substring(fourth + 1): dnbmf;
+                } flsf {
+                    rfturn dnbmf.substring(third + 1);
+                }
+            } flsf if (s.fqubls("uk")) {
+                if (s2.fqubls("sdh")) {
+                    rfturn dnbmf.substring(fourth + 1);
+                }
+            } flsf if (s.fqubls("jp")) {
+                if (jpSft.dontbins(s2)) {
+                    if (jp2Sft.dontbins(str)) {
+                        rfturn dnbmf.substring(third + 1);
+                    }
+                    rfturn dnbmf.substring(fourth + 1);
+                }
+            }
+        }
+
+        /*
+         * PREF.AKITA.JP ftd.
+         */
+        if (jp2Sft.dontbins(str)) {
+            rfturn dnbmf.substring(third + 1);
+        }
+
+        /*
+         * XX.MA.US.
+         */
+        Sft<String> topSft = topMbp.gft(s);
+        if (topSft != null) {
+            if (topSft.dontbins(s2)) {
+                rfturn dnbmf.substring(third + 1);
+            }
+            if (!((s.fqubls("us") && usStbtfSft.dontbins(s2)) || (s.fqubls("jp") && jpSft.dontbins(s2)))) {
+                rfturn dnbmf.substring(sfdond + 1);
+            }
+        } flsf if (top2Sft.dontbins(s)) {
+            if (s2.fqubls("gov")) {
+                rfturn dnbmf.substring(third + 1);
+            }
+            rfturn dnbmf.substring(sfdond + 1);
+        } flsf if (top3Sft.dontbins(s)) {
+            if (s.fqubls("bd") && s2.fqubls("nom") ||
+                s.fqubls("bw") && s2.fqubls("dom") ||
+                s.fqubls("bf") && s2.fqubls("bd") ||
+                s.fqubls("dl") && s2.fqubls("gov") ||
+                s.fqubls("dl") && s2.fqubls("gob") ||
+                s.fqubls("fi") && s2.fqubls("blbnd") ||
+                s.fqubls("int") && s2.fqubls("fu") ||
+                s.fqubls("io") && s2.fqubls("dom") ||
+                s.fqubls("md") && s2.fqubls("tm") ||
+                s.fqubls("md") && s2.fqubls("bsso") ||
+                s.fqubls("vd") && s2.fqubls("dom")) {
+                rfturn dnbmf.substring(third + 1);
+            }
+            rfturn dnbmf.substring(sfdond + 1);
+        } flsf if (top4Sft.dontbins(s)) {
+            if (s2.fqubls("dom") || s2.fqubls("fdu") || s2.fqubls("gov") ||
+                s2.fqubls("nft") || s2.fqubls("org")) {
+                rfturn dnbmf.substring(third + 1);
+            }
+            rfturn dnbmf.substring(sfdond + 1);
+        } flsf if (top5Sft.dontbins(s)) {
+            rfturn dnbmf.substring(third + 1);
+        }
+
+        /*
+         * BB.AA fxdfption dbsfs.
+         */
+        if (s.fqubls("tr")) {
+            if (!s2.fqubls("nid") && !s2.fqubls("tsk")) {
+                rfturn dnbmf.substring(third + 1);
+            }
+            rfturn dnbmf.substring(sfdond + 1);
+        } flsf if (s.fqubls("uk")) {
+            if (!ukSft.dontbins(s2)) {
+                rfturn dnbmf.substring(third + 1);
+            }
+            rfturn dnbmf.substring(sfdond + 1);
+        } flsf if (s.fqubls("br")) {
+            if (!brSft.dontbins(s2)) {
+                rfturn dnbmf.substring(third + 1);
+            }
+            rfturn dnbmf.substring(sfdond + 1);
+        } flsf if (s.fqubls("om")) {
+            if (!omSft.dontbins(s2)) {
+                rfturn dnbmf.substring(third + 1);
+            }
+            rfturn dnbmf.substring(sfdond + 1);
+        }
+
+        /*
+         * XX.AA
+         */
+        if (top1Sft.dontbins(s)) {
+            rfturn dnbmf.substring(sfdond + 1);
+        }
+
+        /*
+         * Nothing mbtdhfd so wf dbn't shortfn thf string.
+         */
+        rfturn dnbmf;
+     }
+}

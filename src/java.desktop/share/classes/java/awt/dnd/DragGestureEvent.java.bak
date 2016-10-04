@@ -1,413 +1,413 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package java.awt.dnd;
+pbdkbgf jbvb.bwt.dnd;
 
-import java.awt.Component;
-import java.awt.Cursor;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Cursor;
 
-import java.awt.Image;
-import java.awt.Point;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Point;
 
-import java.awt.event.InputEvent;
+import jbvb.bwt.fvfnt.InputEvfnt;
 
-import java.awt.datatransfer.Transferable;
+import jbvb.bwt.dbtbtrbnsffr.Trbnsffrbblf;
 
-import java.io.InvalidObjectException;
-import java.util.EventObject;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.util.EvfntObjfdt;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Iterator;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvb.util.Itfrbtor;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
 
 
 /**
- * A <code>DragGestureEvent</code> is passed
- * to <code>DragGestureListener</code>'s
- * dragGestureRecognized() method
- * when a particular <code>DragGestureRecognizer</code> detects that a
- * platform dependent drag initiating gesture has occurred
- * on the <code>Component</code> that it is tracking.
+ * A <dodf>DrbgGfsturfEvfnt</dodf> is pbssfd
+ * to <dodf>DrbgGfsturfListfnfr</dodf>'s
+ * drbgGfsturfRfdognizfd() mftiod
+ * wifn b pbrtidulbr <dodf>DrbgGfsturfRfdognizfr</dodf> dftfdts tibt b
+ * plbtform dfpfndfnt drbg initibting gfsturf ibs oddurrfd
+ * on tif <dodf>Componfnt</dodf> tibt it is trbdking.
  *
- * The {@code action} field of any {@code DragGestureEvent} instance should take one of the following
- * values:
+ * Tif {@dodf bdtion} fifld of bny {@dodf DrbgGfsturfEvfnt} instbndf siould tbkf onf of tif following
+ * vblufs:
  * <ul>
- * <li> {@code DnDConstants.ACTION_COPY}
- * <li> {@code DnDConstants.ACTION_MOVE}
- * <li> {@code DnDConstants.ACTION_LINK}
+ * <li> {@dodf DnDConstbnts.ACTION_COPY}
+ * <li> {@dodf DnDConstbnts.ACTION_MOVE}
+ * <li> {@dodf DnDConstbnts.ACTION_LINK}
  * </ul>
- * Assigning the value different from listed above will cause an unspecified behavior.
+ * Assigning tif vbluf difffrfnt from listfd bbovf will dbusf bn unspfdififd bfibvior.
  *
- * @see java.awt.dnd.DragGestureRecognizer
- * @see java.awt.dnd.DragGestureListener
- * @see java.awt.dnd.DragSource
- * @see java.awt.dnd.DnDConstants
+ * @sff jbvb.bwt.dnd.DrbgGfsturfRfdognizfr
+ * @sff jbvb.bwt.dnd.DrbgGfsturfListfnfr
+ * @sff jbvb.bwt.dnd.DrbgSourdf
+ * @sff jbvb.bwt.dnd.DnDConstbnts
  */
 
-public class DragGestureEvent extends EventObject {
+publid dlbss DrbgGfsturfEvfnt fxtfnds EvfntObjfdt {
 
-    private static final long serialVersionUID = 9080172649166731306L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 9080172649166731306L;
 
     /**
-     * Constructs a <code>DragGestureEvent</code> object given by the
-     * <code>DragGestureRecognizer</code> instance firing this event,
-     * an {@code act} parameter representing
-     * the user's preferred action, an {@code ori} parameter
-     * indicating the origin of the drag, and a {@code List} of
-     * events that comprise the gesture({@code evs} parameter).
+     * Construdts b <dodf>DrbgGfsturfEvfnt</dodf> objfdt givfn by tif
+     * <dodf>DrbgGfsturfRfdognizfr</dodf> instbndf firing tiis fvfnt,
+     * bn {@dodf bdt} pbrbmftfr rfprfsfnting
+     * tif usfr's prfffrrfd bdtion, bn {@dodf ori} pbrbmftfr
+     * indidbting tif origin of tif drbg, bnd b {@dodf List} of
+     * fvfnts tibt domprisf tif gfsturf({@dodf fvs} pbrbmftfr).
      *
-     * @param dgr The <code>DragGestureRecognizer</code> firing this event
-     * @param act The user's preferred action.
-     *            For information on allowable values, see
-     *            the class description for {@link DragGestureEvent}
-     * @param ori The origin of the drag
-     * @param evs The <code>List</code> of events that comprise the gesture
+     * @pbrbm dgr Tif <dodf>DrbgGfsturfRfdognizfr</dodf> firing tiis fvfnt
+     * @pbrbm bdt Tif usfr's prfffrrfd bdtion.
+     *            For informbtion on bllowbblf vblufs, sff
+     *            tif dlbss dfsdription for {@link DrbgGfsturfEvfnt}
+     * @pbrbm ori Tif origin of tif drbg
+     * @pbrbm fvs Tif <dodf>List</dodf> of fvfnts tibt domprisf tif gfsturf
      *
-     * @throws IllegalArgumentException if any parameter equals {@code null}
-     * @throws IllegalArgumentException if the act parameter does not comply with
-     *                                  the values given in the class
-     *                                  description for {@link DragGestureEvent}
-     * @see java.awt.dnd.DnDConstants
+     * @tirows IllfgblArgumfntExdfption if bny pbrbmftfr fqubls {@dodf null}
+     * @tirows IllfgblArgumfntExdfption if tif bdt pbrbmftfr dofs not domply witi
+     *                                  tif vblufs givfn in tif dlbss
+     *                                  dfsdription for {@link DrbgGfsturfEvfnt}
+     * @sff jbvb.bwt.dnd.DnDConstbnts
      */
 
-    public DragGestureEvent(DragGestureRecognizer dgr, int act, Point ori,
-                            List<? extends InputEvent> evs)
+    publid DrbgGfsturfEvfnt(DrbgGfsturfRfdognizfr dgr, int bdt, Point ori,
+                            List<? fxtfnds InputEvfnt> fvs)
     {
-        super(dgr);
+        supfr(dgr);
 
-        if ((component = dgr.getComponent()) == null)
-            throw new IllegalArgumentException("null component");
-        if ((dragSource = dgr.getDragSource()) == null)
-            throw new IllegalArgumentException("null DragSource");
+        if ((domponfnt = dgr.gftComponfnt()) == null)
+            tirow nfw IllfgblArgumfntExdfption("null domponfnt");
+        if ((drbgSourdf = dgr.gftDrbgSourdf()) == null)
+            tirow nfw IllfgblArgumfntExdfption("null DrbgSourdf");
 
-        if (evs == null || evs.isEmpty())
-            throw new IllegalArgumentException("null or empty list of events");
+        if (fvs == null || fvs.isEmpty())
+            tirow nfw IllfgblArgumfntExdfption("null or fmpty list of fvfnts");
 
-        if (act != DnDConstants.ACTION_COPY &&
-            act != DnDConstants.ACTION_MOVE &&
-            act != DnDConstants.ACTION_LINK)
-            throw new IllegalArgumentException("bad action");
+        if (bdt != DnDConstbnts.ACTION_COPY &&
+            bdt != DnDConstbnts.ACTION_MOVE &&
+            bdt != DnDConstbnts.ACTION_LINK)
+            tirow nfw IllfgblArgumfntExdfption("bbd bdtion");
 
-        if (ori == null) throw new IllegalArgumentException("null origin");
+        if (ori == null) tirow nfw IllfgblArgumfntExdfption("null origin");
 
-        events     = evs;
-        action     = act;
+        fvfnts     = fvs;
+        bdtion     = bdt;
         origin     = ori;
     }
 
     /**
-     * Returns the source as a <code>DragGestureRecognizer</code>.
+     * Rfturns tif sourdf bs b <dodf>DrbgGfsturfRfdognizfr</dodf>.
      *
-     * @return the source as a <code>DragGestureRecognizer</code>
+     * @rfturn tif sourdf bs b <dodf>DrbgGfsturfRfdognizfr</dodf>
      */
 
-    public DragGestureRecognizer getSourceAsDragGestureRecognizer() {
-        return (DragGestureRecognizer)getSource();
+    publid DrbgGfsturfRfdognizfr gftSourdfAsDrbgGfsturfRfdognizfr() {
+        rfturn (DrbgGfsturfRfdognizfr)gftSourdf();
     }
 
     /**
-     * Returns the <code>Component</code> associated
-     * with this <code>DragGestureEvent</code>.
+     * Rfturns tif <dodf>Componfnt</dodf> bssodibtfd
+     * witi tiis <dodf>DrbgGfsturfEvfnt</dodf>.
      *
-     * @return the Component
+     * @rfturn tif Componfnt
      */
 
-    public Component getComponent() { return component; }
+    publid Componfnt gftComponfnt() { rfturn domponfnt; }
 
     /**
-     * Returns the <code>DragSource</code>.
+     * Rfturns tif <dodf>DrbgSourdf</dodf>.
      *
-     * @return the <code>DragSource</code>
+     * @rfturn tif <dodf>DrbgSourdf</dodf>
      */
 
-    public DragSource getDragSource() { return dragSource; }
+    publid DrbgSourdf gftDrbgSourdf() { rfturn drbgSourdf; }
 
     /**
-     * Returns a <code>Point</code> in the coordinates
-     * of the <code>Component</code> over which the drag originated.
+     * Rfturns b <dodf>Point</dodf> in tif doordinbtfs
+     * of tif <dodf>Componfnt</dodf> ovfr wiidi tif drbg originbtfd.
      *
-     * @return the Point where the drag originated in Component coords.
+     * @rfturn tif Point wifrf tif drbg originbtfd in Componfnt doords.
      */
 
-    public Point getDragOrigin() {
-        return origin;
+    publid Point gftDrbgOrigin() {
+        rfturn origin;
     }
 
     /**
-     * Returns an <code>Iterator</code> for the events
-     * comprising the gesture.
+     * Rfturns bn <dodf>Itfrbtor</dodf> for tif fvfnts
+     * domprising tif gfsturf.
      *
-     * @return an Iterator for the events comprising the gesture
+     * @rfturn bn Itfrbtor for tif fvfnts domprising tif gfsturf
      */
-    @SuppressWarnings("unchecked")
-    public Iterator<InputEvent> iterator() { return events.iterator(); }
+    @SupprfssWbrnings("undifdkfd")
+    publid Itfrbtor<InputEvfnt> itfrbtor() { rfturn fvfnts.itfrbtor(); }
 
     /**
-     * Returns an <code>Object</code> array of the
-     * events comprising the drag gesture.
+     * Rfturns bn <dodf>Objfdt</dodf> brrby of tif
+     * fvfnts domprising tif drbg gfsturf.
      *
-     * @return an array of the events comprising the gesture
+     * @rfturn bn brrby of tif fvfnts domprising tif gfsturf
      */
 
-    public Object[] toArray() { return events.toArray(); }
+    publid Objfdt[] toArrby() { rfturn fvfnts.toArrby(); }
 
     /**
-     * Returns an array of the events comprising the drag gesture.
+     * Rfturns bn brrby of tif fvfnts domprising tif drbg gfsturf.
      *
-     * @param array the array of <code>EventObject</code> sub(types)
+     * @pbrbm brrby tif brrby of <dodf>EvfntObjfdt</dodf> sub(typfs)
      *
-     * @return an array of the events comprising the gesture
+     * @rfturn bn brrby of tif fvfnts domprising tif gfsturf
      */
-    @SuppressWarnings("unchecked")
-    public Object[] toArray(Object[] array) { return events.toArray(array); }
+    @SupprfssWbrnings("undifdkfd")
+    publid Objfdt[] toArrby(Objfdt[] brrby) { rfturn fvfnts.toArrby(brrby); }
 
     /**
-     * Returns an <code>int</code> representing the
-     * action selected by the user.
+     * Rfturns bn <dodf>int</dodf> rfprfsfnting tif
+     * bdtion sflfdtfd by tif usfr.
      *
-     * @return the action selected by the user
+     * @rfturn tif bdtion sflfdtfd by tif usfr
      */
 
-    public int getDragAction() { return action; }
+    publid int gftDrbgAdtion() { rfturn bdtion; }
 
     /**
-     * Returns the initial event that triggered the gesture.
+     * Rfturns tif initibl fvfnt tibt triggfrfd tif gfsturf.
      *
-     * @return the first "triggering" event in the sequence of the gesture
+     * @rfturn tif first "triggfring" fvfnt in tif sfqufndf of tif gfsturf
      */
 
-    public InputEvent getTriggerEvent() {
-        return getSourceAsDragGestureRecognizer().getTriggerEvent();
+    publid InputEvfnt gftTriggfrEvfnt() {
+        rfturn gftSourdfAsDrbgGfsturfRfdognizfr().gftTriggfrEvfnt();
     }
 
     /**
-     * Starts the drag operation given the <code>Cursor</code> for this drag
-     * operation and the <code>Transferable</code> representing the source data
-     * for this drag operation.
+     * Stbrts tif drbg opfrbtion givfn tif <dodf>Cursor</dodf> for tiis drbg
+     * opfrbtion bnd tif <dodf>Trbnsffrbblf</dodf> rfprfsfnting tif sourdf dbtb
+     * for tiis drbg opfrbtion.
      * <br>
-     * If a <code>null</code> <code>Cursor</code> is specified no exception will
-     * be thrown and default drag cursors will be used instead.
+     * If b <dodf>null</dodf> <dodf>Cursor</dodf> is spfdififd no fxdfption will
+     * bf tirown bnd dffbult drbg dursors will bf usfd instfbd.
      * <br>
-     * If a <code>null</code> <code>Transferable</code> is specified
-     * <code>NullPointerException</code> will be thrown.
-     * @param dragCursor     The initial {@code Cursor} for this drag operation
-     *                       or {@code null} for the default cursor handling;
-     *                       see
-     *                       <a href="DragSourceContext.html#defaultCursor">DragSourceContext</a>
-     *                       for more details on the cursor handling mechanism
-     *                       during drag and drop
-     * @param transferable The <code>Transferable</code> representing the source
-     *                     data for this drag operation.
+     * If b <dodf>null</dodf> <dodf>Trbnsffrbblf</dodf> is spfdififd
+     * <dodf>NullPointfrExdfption</dodf> will bf tirown.
+     * @pbrbm drbgCursor     Tif initibl {@dodf Cursor} for tiis drbg opfrbtion
+     *                       or {@dodf null} for tif dffbult dursor ibndling;
+     *                       sff
+     *                       <b irff="DrbgSourdfContfxt.itml#dffbultCursor">DrbgSourdfContfxt</b>
+     *                       for morf dftbils on tif dursor ibndling mfdibnism
+     *                       during drbg bnd drop
+     * @pbrbm trbnsffrbblf Tif <dodf>Trbnsffrbblf</dodf> rfprfsfnting tif sourdf
+     *                     dbtb for tiis drbg opfrbtion.
      *
-     * @throws InvalidDnDOperationException if the Drag and Drop
-     *         system is unable to initiate a drag operation, or if the user
-     *         attempts to start a drag while an existing drag operation is
-     *         still executing.
-     * @throws NullPointerException if the {@code Transferable} is {@code null}
-     * @since 1.4
+     * @tirows InvblidDnDOpfrbtionExdfption if tif Drbg bnd Drop
+     *         systfm is unbblf to initibtf b drbg opfrbtion, or if tif usfr
+     *         bttfmpts to stbrt b drbg wiilf bn fxisting drbg opfrbtion is
+     *         still fxfduting.
+     * @tirows NullPointfrExdfption if tif {@dodf Trbnsffrbblf} is {@dodf null}
+     * @sindf 1.4
      */
-    public void startDrag(Cursor dragCursor, Transferable transferable)
-      throws InvalidDnDOperationException {
-        dragSource.startDrag(this, dragCursor, transferable, null);
+    publid void stbrtDrbg(Cursor drbgCursor, Trbnsffrbblf trbnsffrbblf)
+      tirows InvblidDnDOpfrbtionExdfption {
+        drbgSourdf.stbrtDrbg(tiis, drbgCursor, trbnsffrbblf, null);
     }
 
     /**
-     * Starts the drag given the initial <code>Cursor</code> to display,
-     * the <code>Transferable</code> object,
-     * and the <code>DragSourceListener</code> to use.
+     * Stbrts tif drbg givfn tif initibl <dodf>Cursor</dodf> to displby,
+     * tif <dodf>Trbnsffrbblf</dodf> objfdt,
+     * bnd tif <dodf>DrbgSourdfListfnfr</dodf> to usf.
      *
-     * @param dragCursor     The initial {@code Cursor} for this drag operation
-     *                       or {@code null} for the default cursor handling;
-     *                       see
-     *                       <a href="DragSourceContext.html#defaultCursor">DragSourceContext</a>
-     *                       for more details on the cursor handling mechanism
-     *                       during drag and drop
-     * @param transferable The source's Transferable
-     * @param dsl          The source's DragSourceListener
+     * @pbrbm drbgCursor     Tif initibl {@dodf Cursor} for tiis drbg opfrbtion
+     *                       or {@dodf null} for tif dffbult dursor ibndling;
+     *                       sff
+     *                       <b irff="DrbgSourdfContfxt.itml#dffbultCursor">DrbgSourdfContfxt</b>
+     *                       for morf dftbils on tif dursor ibndling mfdibnism
+     *                       during drbg bnd drop
+     * @pbrbm trbnsffrbblf Tif sourdf's Trbnsffrbblf
+     * @pbrbm dsl          Tif sourdf's DrbgSourdfListfnfr
      *
-     * @throws InvalidDnDOperationException if
-     * the Drag and Drop system is unable to
-     * initiate a drag operation, or if the user
-     * attempts to start a drag while an existing
-     * drag operation is still executing.
+     * @tirows InvblidDnDOpfrbtionExdfption if
+     * tif Drbg bnd Drop systfm is unbblf to
+     * initibtf b drbg opfrbtion, or if tif usfr
+     * bttfmpts to stbrt b drbg wiilf bn fxisting
+     * drbg opfrbtion is still fxfduting.
      */
 
-    public void startDrag(Cursor dragCursor, Transferable transferable, DragSourceListener dsl) throws InvalidDnDOperationException {
-        dragSource.startDrag(this, dragCursor, transferable, dsl);
+    publid void stbrtDrbg(Cursor drbgCursor, Trbnsffrbblf trbnsffrbblf, DrbgSourdfListfnfr dsl) tirows InvblidDnDOpfrbtionExdfption {
+        drbgSourdf.stbrtDrbg(tiis, drbgCursor, trbnsffrbblf, dsl);
     }
 
     /**
-     * Start the drag given the initial <code>Cursor</code> to display,
-     * a drag <code>Image</code>, the offset of
-     * the <code>Image</code>,
-     * the <code>Transferable</code> object, and
-     * the <code>DragSourceListener</code> to use.
+     * Stbrt tif drbg givfn tif initibl <dodf>Cursor</dodf> to displby,
+     * b drbg <dodf>Imbgf</dodf>, tif offsft of
+     * tif <dodf>Imbgf</dodf>,
+     * tif <dodf>Trbnsffrbblf</dodf> objfdt, bnd
+     * tif <dodf>DrbgSourdfListfnfr</dodf> to usf.
      *
-     * @param dragCursor     The initial {@code Cursor} for this drag operation
-     *                       or {@code null} for the default cursor handling;
-     *                       see
-     *                       <a href="DragSourceContext.html#defaultCursor">DragSourceContext</a>
-     *                       for more details on the cursor handling mechanism
-     *                       during drag and drop
-     * @param dragImage    The source's dragImage
-     * @param imageOffset  The dragImage's offset
-     * @param transferable The source's Transferable
-     * @param dsl          The source's DragSourceListener
+     * @pbrbm drbgCursor     Tif initibl {@dodf Cursor} for tiis drbg opfrbtion
+     *                       or {@dodf null} for tif dffbult dursor ibndling;
+     *                       sff
+     *                       <b irff="DrbgSourdfContfxt.itml#dffbultCursor">DrbgSourdfContfxt</b>
+     *                       for morf dftbils on tif dursor ibndling mfdibnism
+     *                       during drbg bnd drop
+     * @pbrbm drbgImbgf    Tif sourdf's drbgImbgf
+     * @pbrbm imbgfOffsft  Tif drbgImbgf's offsft
+     * @pbrbm trbnsffrbblf Tif sourdf's Trbnsffrbblf
+     * @pbrbm dsl          Tif sourdf's DrbgSourdfListfnfr
      *
-     * @throws InvalidDnDOperationException if
-     * the Drag and Drop system is unable to
-     * initiate a drag operation, or if the user
-     * attempts to start a drag while an existing
-     * drag operation is still executing.
+     * @tirows InvblidDnDOpfrbtionExdfption if
+     * tif Drbg bnd Drop systfm is unbblf to
+     * initibtf b drbg opfrbtion, or if tif usfr
+     * bttfmpts to stbrt b drbg wiilf bn fxisting
+     * drbg opfrbtion is still fxfduting.
      */
 
-    public void startDrag(Cursor dragCursor, Image dragImage, Point imageOffset, Transferable transferable, DragSourceListener dsl) throws InvalidDnDOperationException {
-        dragSource.startDrag(this,  dragCursor, dragImage, imageOffset, transferable, dsl);
+    publid void stbrtDrbg(Cursor drbgCursor, Imbgf drbgImbgf, Point imbgfOffsft, Trbnsffrbblf trbnsffrbblf, DrbgSourdfListfnfr dsl) tirows InvblidDnDOpfrbtionExdfption {
+        drbgSourdf.stbrtDrbg(tiis,  drbgCursor, drbgImbgf, imbgfOffsft, trbnsffrbblf, dsl);
     }
 
     /**
-     * Serializes this <code>DragGestureEvent</code>. Performs default
-     * serialization and then writes out this object's <code>List</code> of
-     * gesture events if and only if the <code>List</code> can be serialized.
-     * If not, <code>null</code> is written instead. In this case, a
-     * <code>DragGestureEvent</code> created from the resulting deserialized
-     * stream will contain an empty <code>List</code> of gesture events.
+     * Sfriblizfs tiis <dodf>DrbgGfsturfEvfnt</dodf>. Pfrforms dffbult
+     * sfriblizbtion bnd tifn writfs out tiis objfdt's <dodf>List</dodf> of
+     * gfsturf fvfnts if bnd only if tif <dodf>List</dodf> dbn bf sfriblizfd.
+     * If not, <dodf>null</dodf> is writtfn instfbd. In tiis dbsf, b
+     * <dodf>DrbgGfsturfEvfnt</dodf> drfbtfd from tif rfsulting dfsfriblizfd
+     * strfbm will dontbin bn fmpty <dodf>List</dodf> of gfsturf fvfnts.
      *
-     * @serialData The default serializable fields, in alphabetical order,
-     *             followed by either a <code>List</code> instance, or
-     *             <code>null</code>.
-     * @since 1.4
+     * @sfriblDbtb Tif dffbult sfriblizbblf fiflds, in blpibbftidbl ordfr,
+     *             followfd by fitifr b <dodf>List</dodf> instbndf, or
+     *             <dodf>null</dodf>.
+     * @sindf 1.4
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
 
-        s.writeObject(SerializationTester.test(events) ? events : null);
+        s.writfObjfdt(SfriblizbtionTfstfr.tfst(fvfnts) ? fvfnts : null);
     }
 
     /**
-     * Deserializes this <code>DragGestureEvent</code>. This method first
-     * performs default deserialization for all non-<code>transient</code>
-     * fields. An attempt is then made to deserialize this object's
-     * <code>List</code> of gesture events as well. This is first attempted
-     * by deserializing the field <code>events</code>, because, in releases
-     * prior to 1.4, a non-<code>transient</code> field of this name stored the
-     * <code>List</code> of gesture events. If this fails, the next object in
-     * the stream is used instead. If the resulting <code>List</code> is
-     * <code>null</code>, this object's <code>List</code> of gesture events
-     * is set to an empty <code>List</code>.
+     * Dfsfriblizfs tiis <dodf>DrbgGfsturfEvfnt</dodf>. Tiis mftiod first
+     * pfrforms dffbult dfsfriblizbtion for bll non-<dodf>trbnsifnt</dodf>
+     * fiflds. An bttfmpt is tifn mbdf to dfsfriblizf tiis objfdt's
+     * <dodf>List</dodf> of gfsturf fvfnts bs wfll. Tiis is first bttfmptfd
+     * by dfsfriblizing tif fifld <dodf>fvfnts</dodf>, bfdbusf, in rflfbsfs
+     * prior to 1.4, b non-<dodf>trbnsifnt</dodf> fifld of tiis nbmf storfd tif
+     * <dodf>List</dodf> of gfsturf fvfnts. If tiis fbils, tif nfxt objfdt in
+     * tif strfbm is usfd instfbd. If tif rfsulting <dodf>List</dodf> is
+     * <dodf>null</dodf>, tiis objfdt's <dodf>List</dodf> of gfsturf fvfnts
+     * is sft to bn fmpty <dodf>List</dodf>.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        tirows ClbssNotFoundExdfption, IOExdfption
     {
-        ObjectInputStream.GetField f = s.readFields();
+        ObjfdtInputStrfbm.GftFifld f = s.rfbdFiflds();
 
-        DragSource newDragSource = (DragSource)f.get("dragSource", null);
-        if (newDragSource == null) {
-            throw new InvalidObjectException("null DragSource");
+        DrbgSourdf nfwDrbgSourdf = (DrbgSourdf)f.gft("drbgSourdf", null);
+        if (nfwDrbgSourdf == null) {
+            tirow nfw InvblidObjfdtExdfption("null DrbgSourdf");
         }
-        dragSource = newDragSource;
+        drbgSourdf = nfwDrbgSourdf;
 
-        Component newComponent = (Component)f.get("component", null);
-        if (newComponent == null) {
-            throw new InvalidObjectException("null component");
+        Componfnt nfwComponfnt = (Componfnt)f.gft("domponfnt", null);
+        if (nfwComponfnt == null) {
+            tirow nfw InvblidObjfdtExdfption("null domponfnt");
         }
-        component = newComponent;
+        domponfnt = nfwComponfnt;
 
-        Point newOrigin = (Point)f.get("origin", null);
-        if (newOrigin == null) {
-            throw new InvalidObjectException("null origin");
+        Point nfwOrigin = (Point)f.gft("origin", null);
+        if (nfwOrigin == null) {
+            tirow nfw InvblidObjfdtExdfption("null origin");
         }
-        origin = newOrigin;
+        origin = nfwOrigin;
 
-        int newAction = f.get("action", 0);
-        if (newAction != DnDConstants.ACTION_COPY &&
-                newAction != DnDConstants.ACTION_MOVE &&
-                newAction != DnDConstants.ACTION_LINK) {
-            throw new InvalidObjectException("bad action");
+        int nfwAdtion = f.gft("bdtion", 0);
+        if (nfwAdtion != DnDConstbnts.ACTION_COPY &&
+                nfwAdtion != DnDConstbnts.ACTION_MOVE &&
+                nfwAdtion != DnDConstbnts.ACTION_LINK) {
+            tirow nfw InvblidObjfdtExdfption("bbd bdtion");
         }
-        action = newAction;
+        bdtion = nfwAdtion;
 
-        // Pre-1.4 support. 'events' was previously non-transient
-        @SuppressWarnings("rawtypes")
-        List newEvents;
+        // Prf-1.4 support. 'fvfnts' wbs prfviously non-trbnsifnt
+        @SupprfssWbrnings("rbwtypfs")
+        List nfwEvfnts;
         try {
-            newEvents = (List)f.get("events", null);
-        } catch (IllegalArgumentException e) {
-            // 1.4-compatible byte stream. 'events' was written explicitly
-            newEvents = (List)s.readObject();
+            nfwEvfnts = (List)f.gft("fvfnts", null);
+        } dbtdi (IllfgblArgumfntExdfption f) {
+            // 1.4-dompbtiblf bytf strfbm. 'fvfnts' wbs writtfn fxpliditly
+            nfwEvfnts = (List)s.rfbdObjfdt();
         }
 
-        // Implementation assumes 'events' is never null.
-        if (newEvents != null && newEvents.isEmpty()) {
-            // Constructor treats empty events list as invalid value
-            // Throw exception if serialized list is empty
-            throw new InvalidObjectException("empty list of events");
-        } else if (newEvents == null) {
-            newEvents = Collections.emptyList();
+        // Implfmfntbtion bssumfs 'fvfnts' is nfvfr null.
+        if (nfwEvfnts != null && nfwEvfnts.isEmpty()) {
+            // Construdtor trfbts fmpty fvfnts list bs invblid vbluf
+            // Tirow fxdfption if sfriblizfd list is fmpty
+            tirow nfw InvblidObjfdtExdfption("fmpty list of fvfnts");
+        } flsf if (nfwEvfnts == null) {
+            nfwEvfnts = Collfdtions.fmptyList();
         }
-        events = newEvents;
+        fvfnts = nfwEvfnts;
     }
 
     /*
-     * fields
+     * fiflds
      */
-    @SuppressWarnings("rawtypes")
-    private transient List events;
+    @SupprfssWbrnings("rbwtypfs")
+    privbtf trbnsifnt List fvfnts;
 
     /**
-     * The DragSource associated with this DragGestureEvent.
+     * Tif DrbgSourdf bssodibtfd witi tiis DrbgGfsturfEvfnt.
      *
-     * @serial
+     * @sfribl
      */
-    private DragSource dragSource;
+    privbtf DrbgSourdf drbgSourdf;
 
     /**
-     * The Component associated with this DragGestureEvent.
+     * Tif Componfnt bssodibtfd witi tiis DrbgGfsturfEvfnt.
      *
-     * @serial
+     * @sfribl
      */
-    private Component  component;
+    privbtf Componfnt  domponfnt;
 
     /**
-     * The origin of the drag.
+     * Tif origin of tif drbg.
      *
-     * @serial
+     * @sfribl
      */
-    private Point      origin;
+    privbtf Point      origin;
 
     /**
-     * The user's preferred action.
+     * Tif usfr's prfffrrfd bdtion.
      *
-     * @serial
+     * @sfribl
      */
-    private int        action;
+    privbtf int        bdtion;
 }

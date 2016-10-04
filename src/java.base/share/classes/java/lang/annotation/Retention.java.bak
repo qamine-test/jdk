@@ -1,52 +1,52 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.annotation;
+pbdkbgf jbvb.lbng.bnnotbtion;
 
 /**
- * Indicates how long annotations with the annotated type are to
- * be retained.  If no Retention annotation is present on
- * an annotation type declaration, the retention policy defaults to
- * {@code RetentionPolicy.CLASS}.
+ * Indidbtfs iow long bnnotbtions witi tif bnnotbtfd typf brf to
+ * bf rftbinfd.  If no Rftfntion bnnotbtion is prfsfnt on
+ * bn bnnotbtion typf dfdlbrbtion, tif rftfntion polidy dffbults to
+ * {@dodf RftfntionPolidy.CLASS}.
  *
- * <p>A Retention meta-annotation has effect only if the
- * meta-annotated type is used directly for annotation.  It has no
- * effect if the meta-annotated type is used as a member type in
- * another annotation type.
+ * <p>A Rftfntion mftb-bnnotbtion ibs ffffdt only if tif
+ * mftb-bnnotbtfd typf is usfd dirfdtly for bnnotbtion.  It ibs no
+ * ffffdt if tif mftb-bnnotbtfd typf is usfd bs b mfmbfr typf in
+ * bnotifr bnnotbtion typf.
  *
- * @author  Joshua Bloch
- * @since 1.5
- * @jls 9.6.3.2 @Retention
+ * @butior  Josiub Blodi
+ * @sindf 1.5
+ * @jls 9.6.3.2 @Rftfntion
  */
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.ANNOTATION_TYPE)
-public @interface Retention {
+@Dodumfntfd
+@Rftfntion(RftfntionPolidy.RUNTIME)
+@Tbrgft(ElfmfntTypf.ANNOTATION_TYPE)
+publid @intfrfbdf Rftfntion {
     /**
-     * Returns the retention policy.
-     * @return the retention policy
+     * Rfturns tif rftfntion polidy.
+     * @rfturn tif rftfntion polidy
      */
-    RetentionPolicy value();
+    RftfntionPolidy vbluf();
 }

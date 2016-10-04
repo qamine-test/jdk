@@ -1,613 +1,613 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.util.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.util.*;
 
-import javax.security.auth.x500.X500Principal;
+import jbvbx.sfdurity.buti.x500.X500Prindipbl;
 
-import sun.security.util.*;
-import sun.security.pkcs.PKCS9Attribute;
+import sun.sfdurity.util.*;
+import sun.sfdurity.pkds.PKCS9Attributf;
 
 /**
- * This class defines the Name Constraints Extension.
+ * Tiis dlbss dffinfs tif Nbmf Constrbints Extfnsion.
  * <p>
- * The name constraints extension provides permitted and excluded
- * subtrees that place restrictions on names that may be included within
- * a certificate issued by a given CA.  Restrictions may apply to the
- * subject distinguished name or subject alternative names.  Any name
- * matching a restriction in the excluded subtrees field is invalid
- * regardless of information appearing in the permitted subtrees.
+ * Tif nbmf donstrbints fxtfnsion providfs pfrmittfd bnd fxdludfd
+ * subtrffs tibt plbdf rfstridtions on nbmfs tibt mby bf indludfd witiin
+ * b dfrtifidbtf issufd by b givfn CA.  Rfstridtions mby bpply to tif
+ * subjfdt distinguisifd nbmf or subjfdt bltfrnbtivf nbmfs.  Any nbmf
+ * mbtdiing b rfstridtion in tif fxdludfd subtrffs fifld is invblid
+ * rfgbrdlfss of informbtion bppfbring in tif pfrmittfd subtrffs.
  * <p>
- * The ASN.1 syntax for this is:
- * <pre>
- * NameConstraints ::= SEQUENCE {
- *    permittedSubtrees [0]  GeneralSubtrees OPTIONAL,
- *    excludedSubtrees  [1]  GeneralSubtrees OPTIONAL
+ * Tif ASN.1 syntbx for tiis is:
+ * <prf>
+ * NbmfConstrbints ::= SEQUENCE {
+ *    pfrmittfdSubtrffs [0]  GfnfrblSubtrffs OPTIONAL,
+ *    fxdludfdSubtrffs  [1]  GfnfrblSubtrffs OPTIONAL
  * }
- * GeneralSubtrees ::= SEQUENCE SIZE (1..MAX) OF GeneralSubtree
- * </pre>
+ * GfnfrblSubtrffs ::= SEQUENCE SIZE (1..MAX) OF GfnfrblSubtrff
+ * </prf>
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
- * @see Extension
- * @see CertAttrSet
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
+ * @sff Extfnsion
+ * @sff CfrtAttrSft
  */
-public class NameConstraintsExtension extends Extension
-implements CertAttrSet<String>, Cloneable {
+publid dlbss NbmfConstrbintsExtfnsion fxtfnds Extfnsion
+implfmfnts CfrtAttrSft<String>, Clonfbblf {
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Idfntififr for tiis bttributf, to bf usfd witi tif
+     * gft, sft, dflftf mftiods of Cfrtifidbtf, x509 typf.
      */
-    public static final String IDENT = "x509.info.extensions.NameConstraints";
+    publid stbtid finbl String IDENT = "x509.info.fxtfnsions.NbmfConstrbints";
     /**
-     * Attribute names.
+     * Attributf nbmfs.
      */
-    public static final String NAME = "NameConstraints";
-    public static final String PERMITTED_SUBTREES = "permitted_subtrees";
-    public static final String EXCLUDED_SUBTREES = "excluded_subtrees";
+    publid stbtid finbl String NAME = "NbmfConstrbints";
+    publid stbtid finbl String PERMITTED_SUBTREES = "pfrmittfd_subtrffs";
+    publid stbtid finbl String EXCLUDED_SUBTREES = "fxdludfd_subtrffs";
 
-    // Private data members
-    private static final byte TAG_PERMITTED = 0;
-    private static final byte TAG_EXCLUDED = 1;
+    // Privbtf dbtb mfmbfrs
+    privbtf stbtid finbl bytf TAG_PERMITTED = 0;
+    privbtf stbtid finbl bytf TAG_EXCLUDED = 1;
 
-    private GeneralSubtrees     permitted = null;
-    private GeneralSubtrees     excluded = null;
+    privbtf GfnfrblSubtrffs     pfrmittfd = null;
+    privbtf GfnfrblSubtrffs     fxdludfd = null;
 
-    private boolean hasMin;
-    private boolean hasMax;
-    private boolean minMaxValid = false;
+    privbtf boolfbn ibsMin;
+    privbtf boolfbn ibsMbx;
+    privbtf boolfbn minMbxVblid = fblsf;
 
-    // Recalculate hasMin and hasMax flags.
-    private void calcMinMax() throws IOException {
-        hasMin = false;
-        hasMax = false;
-        if (excluded != null) {
-            for (int i = 0; i < excluded.size(); i++) {
-                GeneralSubtree subtree = excluded.get(i);
-                if (subtree.getMinimum() != 0)
-                    hasMin = true;
-                if (subtree.getMaximum() != -1)
-                    hasMax = true;
+    // Rfdbldulbtf ibsMin bnd ibsMbx flbgs.
+    privbtf void dbldMinMbx() tirows IOExdfption {
+        ibsMin = fblsf;
+        ibsMbx = fblsf;
+        if (fxdludfd != null) {
+            for (int i = 0; i < fxdludfd.sizf(); i++) {
+                GfnfrblSubtrff subtrff = fxdludfd.gft(i);
+                if (subtrff.gftMinimum() != 0)
+                    ibsMin = truf;
+                if (subtrff.gftMbximum() != -1)
+                    ibsMbx = truf;
             }
         }
 
-        if (permitted != null) {
-            for (int i = 0; i < permitted.size(); i++) {
-                GeneralSubtree subtree = permitted.get(i);
-                if (subtree.getMinimum() != 0)
-                    hasMin = true;
-                if (subtree.getMaximum() != -1)
-                    hasMax = true;
+        if (pfrmittfd != null) {
+            for (int i = 0; i < pfrmittfd.sizf(); i++) {
+                GfnfrblSubtrff subtrff = pfrmittfd.gft(i);
+                if (subtrff.gftMinimum() != 0)
+                    ibsMin = truf;
+                if (subtrff.gftMbximum() != -1)
+                    ibsMbx = truf;
             }
         }
-        minMaxValid = true;
+        minMbxVblid = truf;
     }
 
-    // Encode this extension value.
-    private void encodeThis() throws IOException {
-        minMaxValid = false;
-        if (permitted == null && excluded == null) {
-            this.extensionValue = null;
-            return;
+    // Endodf tiis fxtfnsion vbluf.
+    privbtf void fndodfTiis() tirows IOExdfption {
+        minMbxVblid = fblsf;
+        if (pfrmittfd == null && fxdludfd == null) {
+            tiis.fxtfnsionVbluf = null;
+            rfturn;
         }
-        DerOutputStream seq = new DerOutputStream();
+        DfrOutputStrfbm sfq = nfw DfrOutputStrfbm();
 
-        DerOutputStream tagged = new DerOutputStream();
-        if (permitted != null) {
-            DerOutputStream tmp = new DerOutputStream();
-            permitted.encode(tmp);
-            tagged.writeImplicit(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                 true, TAG_PERMITTED), tmp);
+        DfrOutputStrfbm tbggfd = nfw DfrOutputStrfbm();
+        if (pfrmittfd != null) {
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            pfrmittfd.fndodf(tmp);
+            tbggfd.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                 truf, TAG_PERMITTED), tmp);
         }
-        if (excluded != null) {
-            DerOutputStream tmp = new DerOutputStream();
-            excluded.encode(tmp);
-            tagged.writeImplicit(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                 true, TAG_EXCLUDED), tmp);
+        if (fxdludfd != null) {
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            fxdludfd.fndodf(tmp);
+            tbggfd.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                 truf, TAG_EXCLUDED), tmp);
         }
-        seq.write(DerValue.tag_Sequence, tagged);
-        this.extensionValue = seq.toByteArray();
+        sfq.writf(DfrVbluf.tbg_Sfqufndf, tbggfd);
+        tiis.fxtfnsionVbluf = sfq.toBytfArrby();
     }
 
     /**
-     * The default constructor for this class. Both parameters
-     * are optional and can be set to null.  The extension criticality
-     * is set to true.
+     * Tif dffbult donstrudtor for tiis dlbss. Boti pbrbmftfrs
+     * brf optionbl bnd dbn bf sft to null.  Tif fxtfnsion dritidblity
+     * is sft to truf.
      *
-     * @param permitted the permitted GeneralSubtrees (null for optional).
-     * @param excluded the excluded GeneralSubtrees (null for optional).
+     * @pbrbm pfrmittfd tif pfrmittfd GfnfrblSubtrffs (null for optionbl).
+     * @pbrbm fxdludfd tif fxdludfd GfnfrblSubtrffs (null for optionbl).
      */
-    public NameConstraintsExtension(GeneralSubtrees permitted,
-                                    GeneralSubtrees excluded)
-    throws IOException {
-        this.permitted = permitted;
-        this.excluded = excluded;
+    publid NbmfConstrbintsExtfnsion(GfnfrblSubtrffs pfrmittfd,
+                                    GfnfrblSubtrffs fxdludfd)
+    tirows IOExdfption {
+        tiis.pfrmittfd = pfrmittfd;
+        tiis.fxdludfd = fxdludfd;
 
-        this.extensionId = PKIXExtensions.NameConstraints_Id;
-        this.critical = true;
-        encodeThis();
+        tiis.fxtfnsionId = PKIXExtfnsions.NbmfConstrbints_Id;
+        tiis.dritidbl = truf;
+        fndodfTiis();
     }
 
     /**
-     * Create the extension from the passed DER encoded value.
+     * Crfbtf tif fxtfnsion from tif pbssfd DER fndodfd vbluf.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value an array of DER encoded bytes of the actual value.
-     * @exception ClassCastException if value is not an array of bytes
-     * @exception IOException on error.
+     * @pbrbm dritidbl truf if tif fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm vbluf bn brrby of DER fndodfd bytfs of tif bdtubl vbluf.
+     * @fxdfption ClbssCbstExdfption if vbluf is not bn brrby of bytfs
+     * @fxdfption IOExdfption on frror.
      */
-    public NameConstraintsExtension(Boolean critical, Object value)
-    throws IOException {
-        this.extensionId = PKIXExtensions.NameConstraints_Id;
-        this.critical = critical.booleanValue();
+    publid NbmfConstrbintsExtfnsion(Boolfbn dritidbl, Objfdt vbluf)
+    tirows IOExdfption {
+        tiis.fxtfnsionId = PKIXExtfnsions.NbmfConstrbints_Id;
+        tiis.dritidbl = dritidbl.boolfbnVbluf();
 
-        this.extensionValue = (byte[]) value;
-        DerValue val = new DerValue(this.extensionValue);
-        if (val.tag != DerValue.tag_Sequence) {
-            throw new IOException("Invalid encoding for" +
-                                  " NameConstraintsExtension.");
+        tiis.fxtfnsionVbluf = (bytf[]) vbluf;
+        DfrVbluf vbl = nfw DfrVbluf(tiis.fxtfnsionVbluf);
+        if (vbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("Invblid fndoding for" +
+                                  " NbmfConstrbintsExtfnsion.");
         }
 
-        // NB. this is always encoded with the IMPLICIT tag
-        // The checks only make sense if we assume implicit tagging,
-        // with explicit tagging the form is always constructed.
-        // Note that all the fields in NameConstraints are defined as
-        // being OPTIONAL, i.e., there could be an empty SEQUENCE, resulting
-        // in val.data being null.
-        if (val.data == null)
-            return;
-        while (val.data.available() != 0) {
-            DerValue opt = val.data.getDerValue();
+        // NB. tiis is blwbys fndodfd witi tif IMPLICIT tbg
+        // Tif difdks only mbkf sfnsf if wf bssumf implidit tbgging,
+        // witi fxplidit tbgging tif form is blwbys donstrudtfd.
+        // Notf tibt bll tif fiflds in NbmfConstrbints brf dffinfd bs
+        // bfing OPTIONAL, i.f., tifrf dould bf bn fmpty SEQUENCE, rfsulting
+        // in vbl.dbtb bfing null.
+        if (vbl.dbtb == null)
+            rfturn;
+        wiilf (vbl.dbtb.bvbilbblf() != 0) {
+            DfrVbluf opt = vbl.dbtb.gftDfrVbluf();
 
-            if (opt.isContextSpecific(TAG_PERMITTED) && opt.isConstructed()) {
-                if (permitted != null) {
-                    throw new IOException("Duplicate permitted " +
-                         "GeneralSubtrees in NameConstraintsExtension.");
+            if (opt.isContfxtSpfdifid(TAG_PERMITTED) && opt.isConstrudtfd()) {
+                if (pfrmittfd != null) {
+                    tirow nfw IOExdfption("Duplidbtf pfrmittfd " +
+                         "GfnfrblSubtrffs in NbmfConstrbintsExtfnsion.");
                 }
-                opt.resetTag(DerValue.tag_Sequence);
-                permitted = new GeneralSubtrees(opt);
+                opt.rfsftTbg(DfrVbluf.tbg_Sfqufndf);
+                pfrmittfd = nfw GfnfrblSubtrffs(opt);
 
-            } else if (opt.isContextSpecific(TAG_EXCLUDED) &&
-                       opt.isConstructed()) {
-                if (excluded != null) {
-                    throw new IOException("Duplicate excluded " +
-                             "GeneralSubtrees in NameConstraintsExtension.");
+            } flsf if (opt.isContfxtSpfdifid(TAG_EXCLUDED) &&
+                       opt.isConstrudtfd()) {
+                if (fxdludfd != null) {
+                    tirow nfw IOExdfption("Duplidbtf fxdludfd " +
+                             "GfnfrblSubtrffs in NbmfConstrbintsExtfnsion.");
                 }
-                opt.resetTag(DerValue.tag_Sequence);
-                excluded = new GeneralSubtrees(opt);
-            } else
-                throw new IOException("Invalid encoding of " +
-                                      "NameConstraintsExtension.");
+                opt.rfsftTbg(DfrVbluf.tbg_Sfqufndf);
+                fxdludfd = nfw GfnfrblSubtrffs(opt);
+            } flsf
+                tirow nfw IOExdfption("Invblid fndoding of " +
+                                      "NbmfConstrbintsExtfnsion.");
         }
-        minMaxValid = false;
+        minMbxVblid = fblsf;
     }
 
     /**
-     * Return the printable string.
+     * Rfturn tif printbblf string.
      */
-    public String toString() {
-        return (super.toString() + "NameConstraints: [" +
-                ((permitted == null) ? "" :
-                     ("\n    Permitted:" + permitted.toString())) +
-                ((excluded == null) ? "" :
-                     ("\n    Excluded:" + excluded.toString()))
+    publid String toString() {
+        rfturn (supfr.toString() + "NbmfConstrbints: [" +
+                ((pfrmittfd == null) ? "" :
+                     ("\n    Pfrmittfd:" + pfrmittfd.toString())) +
+                ((fxdludfd == null) ? "" :
+                     ("\n    Exdludfd:" + fxdludfd.toString()))
                 + "   ]\n");
     }
 
     /**
-     * Write the extension to the OutputStream.
+     * Writf tif fxtfnsion to tif OutputStrfbm.
      *
-     * @param out the OutputStream to write the extension to.
-     * @exception IOException on encoding errors.
+     * @pbrbm out tif OutputStrfbm to writf tif fxtfnsion to.
+     * @fxdfption IOExdfption on fndoding frrors.
      */
-    public void encode(OutputStream out) throws IOException {
-        DerOutputStream tmp = new DerOutputStream();
-        if (this.extensionValue == null) {
-            this.extensionId = PKIXExtensions.NameConstraints_Id;
-            this.critical = true;
-            encodeThis();
+    publid void fndodf(OutputStrfbm out) tirows IOExdfption {
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        if (tiis.fxtfnsionVbluf == null) {
+            tiis.fxtfnsionId = PKIXExtfnsions.NbmfConstrbints_Id;
+            tiis.dritidbl = truf;
+            fndodfTiis();
         }
-        super.encode(tmp);
-        out.write(tmp.toByteArray());
+        supfr.fndodf(tmp);
+        out.writf(tmp.toBytfArrby());
     }
 
     /**
-     * Set the attribute value.
+     * Sft tif bttributf vbluf.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (name.equalsIgnoreCase(PERMITTED_SUBTREES)) {
-            if (!(obj instanceof GeneralSubtrees)) {
-                throw new IOException("Attribute value should be"
-                                    + " of type GeneralSubtrees.");
+    publid void sft(String nbmf, Objfdt obj) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(PERMITTED_SUBTREES)) {
+            if (!(obj instbndfof GfnfrblSubtrffs)) {
+                tirow nfw IOExdfption("Attributf vbluf siould bf"
+                                    + " of typf GfnfrblSubtrffs.");
             }
-            permitted = (GeneralSubtrees)obj;
-        } else if (name.equalsIgnoreCase(EXCLUDED_SUBTREES)) {
-            if (!(obj instanceof GeneralSubtrees)) {
-                throw new IOException("Attribute value should be "
-                                    + "of type GeneralSubtrees.");
+            pfrmittfd = (GfnfrblSubtrffs)obj;
+        } flsf if (nbmf.fqublsIgnorfCbsf(EXCLUDED_SUBTREES)) {
+            if (!(obj instbndfof GfnfrblSubtrffs)) {
+                tirow nfw IOExdfption("Attributf vbluf siould bf "
+                                    + "of typf GfnfrblSubtrffs.");
             }
-            excluded = (GeneralSubtrees)obj;
-        } else {
-          throw new IOException("Attribute name not recognized by " +
-                        "CertAttrSet:NameConstraintsExtension.");
+            fxdludfd = (GfnfrblSubtrffs)obj;
+        } flsf {
+          tirow nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                        "CfrtAttrSft:NbmfConstrbintsExtfnsion.");
         }
-        encodeThis();
+        fndodfTiis();
     }
 
     /**
-     * Get the attribute value.
+     * Gft tif bttributf vbluf.
      */
-    public GeneralSubtrees get(String name) throws IOException {
-        if (name.equalsIgnoreCase(PERMITTED_SUBTREES)) {
-            return (permitted);
-        } else if (name.equalsIgnoreCase(EXCLUDED_SUBTREES)) {
-            return (excluded);
-        } else {
-          throw new IOException("Attribute name not recognized by " +
-                        "CertAttrSet:NameConstraintsExtension.");
+    publid GfnfrblSubtrffs gft(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(PERMITTED_SUBTREES)) {
+            rfturn (pfrmittfd);
+        } flsf if (nbmf.fqublsIgnorfCbsf(EXCLUDED_SUBTREES)) {
+            rfturn (fxdludfd);
+        } flsf {
+          tirow nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                        "CfrtAttrSft:NbmfConstrbintsExtfnsion.");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Dflftf tif bttributf vbluf.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(PERMITTED_SUBTREES)) {
-            permitted = null;
-        } else if (name.equalsIgnoreCase(EXCLUDED_SUBTREES)) {
-            excluded = null;
-        } else {
-          throw new IOException("Attribute name not recognized by " +
-                        "CertAttrSet:NameConstraintsExtension.");
+    publid void dflftf(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(PERMITTED_SUBTREES)) {
+            pfrmittfd = null;
+        } flsf if (nbmf.fqublsIgnorfCbsf(EXCLUDED_SUBTREES)) {
+            fxdludfd = null;
+        } flsf {
+          tirow nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                        "CfrtAttrSft:NbmfConstrbintsExtfnsion.");
         }
-        encodeThis();
+        fndodfTiis();
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting witiin tiis
+     * bttributf.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(PERMITTED_SUBTREES);
-        elements.addElement(EXCLUDED_SUBTREES);
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(PERMITTED_SUBTREES);
+        flfmfnts.bddElfmfnt(EXCLUDED_SUBTREES);
 
-        return (elements.elements());
+        rfturn (flfmfnts.flfmfnts());
     }
 
     /**
-     * Return the name of this attribute.
+     * Rfturn tif nbmf of tiis bttributf.
      */
-    public String getName() {
-        return (NAME);
+    publid String gftNbmf() {
+        rfturn (NAME);
     }
 
     /**
-     * Merge additional name constraints with existing ones.
-     * This function is used in certification path processing
-     * to accumulate name constraints from successive certificates
-     * in the path.  Note that NameConstraints can never be
-     * expanded by a merge, just remain constant or become more
+     * Mfrgf bdditionbl nbmf donstrbints witi fxisting onfs.
+     * Tiis fundtion is usfd in dfrtifidbtion pbti prodfssing
+     * to bddumulbtf nbmf donstrbints from suddfssivf dfrtifidbtfs
+     * in tif pbti.  Notf tibt NbmfConstrbints dbn nfvfr bf
+     * fxpbndfd by b mfrgf, just rfmbin donstbnt or bfdomf morf
      * limiting.
      * <p>
-     * IETF RFC2459 specifies the processing of Name Constraints as
+     * IETF RFC2459 spfdififs tif prodfssing of Nbmf Constrbints bs
      * follows:
      * <p>
-     * (j)  If permittedSubtrees is present in the certificate, set the
-     * constrained subtrees state variable to the intersection of its
-     * previous value and the value indicated in the extension field.
+     * (j)  If pfrmittfdSubtrffs is prfsfnt in tif dfrtifidbtf, sft tif
+     * donstrbinfd subtrffs stbtf vbribblf to tif intfrsfdtion of its
+     * prfvious vbluf bnd tif vbluf indidbtfd in tif fxtfnsion fifld.
      * <p>
-     * (k)  If excludedSubtrees is present in the certificate, set the
-     * excluded subtrees state variable to the union of its previous
-     * value and the value indicated in the extension field.
+     * (k)  If fxdludfdSubtrffs is prfsfnt in tif dfrtifidbtf, sft tif
+     * fxdludfd subtrffs stbtf vbribblf to tif union of its prfvious
+     * vbluf bnd tif vbluf indidbtfd in tif fxtfnsion fifld.
      * <p>
-     * @param newConstraints additional NameConstraints to be applied
-     * @throws IOException on error
+     * @pbrbm nfwConstrbints bdditionbl NbmfConstrbints to bf bpplifd
+     * @tirows IOExdfption on frror
      */
-    public void merge(NameConstraintsExtension newConstraints)
-            throws IOException {
+    publid void mfrgf(NbmfConstrbintsExtfnsion nfwConstrbints)
+            tirows IOExdfption {
 
-        if (newConstraints == null) {
-            // absence of any explicit constraints implies unconstrained
-            return;
+        if (nfwConstrbints == null) {
+            // bbsfndf of bny fxplidit donstrbints implifs undonstrbinfd
+            rfturn;
         }
 
         /*
-         * If excludedSubtrees is present in the certificate, set the
-         * excluded subtrees state variable to the union of its previous
-         * value and the value indicated in the extension field.
+         * If fxdludfdSubtrffs is prfsfnt in tif dfrtifidbtf, sft tif
+         * fxdludfd subtrffs stbtf vbribblf to tif union of its prfvious
+         * vbluf bnd tif vbluf indidbtfd in tif fxtfnsion fifld.
          */
 
-        GeneralSubtrees newExcluded = newConstraints.get(EXCLUDED_SUBTREES);
-        if (excluded == null) {
-            excluded = (newExcluded != null) ?
-                        (GeneralSubtrees)newExcluded.clone() : null;
-        } else {
-            if (newExcluded != null) {
-                // Merge new excluded with current excluded (union)
-                excluded.union(newExcluded);
+        GfnfrblSubtrffs nfwExdludfd = nfwConstrbints.gft(EXCLUDED_SUBTREES);
+        if (fxdludfd == null) {
+            fxdludfd = (nfwExdludfd != null) ?
+                        (GfnfrblSubtrffs)nfwExdludfd.dlonf() : null;
+        } flsf {
+            if (nfwExdludfd != null) {
+                // Mfrgf nfw fxdludfd witi durrfnt fxdludfd (union)
+                fxdludfd.union(nfwExdludfd);
             }
         }
 
         /*
-         * If permittedSubtrees is present in the certificate, set the
-         * constrained subtrees state variable to the intersection of its
-         * previous value and the value indicated in the extension field.
+         * If pfrmittfdSubtrffs is prfsfnt in tif dfrtifidbtf, sft tif
+         * donstrbinfd subtrffs stbtf vbribblf to tif intfrsfdtion of its
+         * prfvious vbluf bnd tif vbluf indidbtfd in tif fxtfnsion fifld.
          */
 
-        GeneralSubtrees newPermitted = newConstraints.get(PERMITTED_SUBTREES);
-        if (permitted == null) {
-            permitted = (newPermitted != null) ?
-                        (GeneralSubtrees)newPermitted.clone() : null;
-        } else {
-            if (newPermitted != null) {
-                // Merge new permitted with current permitted (intersection)
-                newExcluded = permitted.intersect(newPermitted);
+        GfnfrblSubtrffs nfwPfrmittfd = nfwConstrbints.gft(PERMITTED_SUBTREES);
+        if (pfrmittfd == null) {
+            pfrmittfd = (nfwPfrmittfd != null) ?
+                        (GfnfrblSubtrffs)nfwPfrmittfd.dlonf() : null;
+        } flsf {
+            if (nfwPfrmittfd != null) {
+                // Mfrgf nfw pfrmittfd witi durrfnt pfrmittfd (intfrsfdtion)
+                nfwExdludfd = pfrmittfd.intfrsfdt(nfwPfrmittfd);
 
-                // Merge new excluded subtrees to current excluded (union)
-                if (newExcluded != null) {
-                    if (excluded != null) {
-                        excluded.union(newExcluded);
-                    } else {
-                        excluded = (GeneralSubtrees)newExcluded.clone();
+                // Mfrgf nfw fxdludfd subtrffs to durrfnt fxdludfd (union)
+                if (nfwExdludfd != null) {
+                    if (fxdludfd != null) {
+                        fxdludfd.union(nfwExdludfd);
+                    } flsf {
+                        fxdludfd = (GfnfrblSubtrffs)nfwExdludfd.dlonf();
                     }
                 }
             }
         }
 
-        // Optional optimization: remove permitted subtrees that are excluded.
-        // This is not necessary for algorithm correctness, but it makes
-        // subsequent operations on the NameConstraints faster and require
-        // less space.
-        if (permitted != null) {
-            permitted.reduce(excluded);
+        // Optionbl optimizbtion: rfmovf pfrmittfd subtrffs tibt brf fxdludfd.
+        // Tiis is not nfdfssbry for blgoritim dorrfdtnfss, but it mbkfs
+        // subsfqufnt opfrbtions on tif NbmfConstrbints fbstfr bnd rfquirf
+        // lfss spbdf.
+        if (pfrmittfd != null) {
+            pfrmittfd.rfdudf(fxdludfd);
         }
 
-        // The NameConstraints have been changed, so re-encode them.  Methods in
-        // this class assume that the encodings have already been done.
-        encodeThis();
+        // Tif NbmfConstrbints ibvf bffn dibngfd, so rf-fndodf tifm.  Mftiods in
+        // tiis dlbss bssumf tibt tif fndodings ibvf blrfbdy bffn donf.
+        fndodfTiis();
 
     }
 
     /**
-     * check whether a certificate conforms to these NameConstraints.
-     * This involves verifying that the subject name and subjectAltName
-     * extension (critical or noncritical) is consistent with the permitted
-     * subtrees state variables.  Also verify that the subject name and
-     * subjectAltName extension (critical or noncritical) is consistent with
-     * the excluded subtrees state variables.
+     * difdk wiftifr b dfrtifidbtf donforms to tifsf NbmfConstrbints.
+     * Tiis involvfs vfrifying tibt tif subjfdt nbmf bnd subjfdtAltNbmf
+     * fxtfnsion (dritidbl or nondritidbl) is donsistfnt witi tif pfrmittfd
+     * subtrffs stbtf vbribblfs.  Also vfrify tibt tif subjfdt nbmf bnd
+     * subjfdtAltNbmf fxtfnsion (dritidbl or nondritidbl) is donsistfnt witi
+     * tif fxdludfd subtrffs stbtf vbribblfs.
      *
-     * @param cert X509Certificate to be verified
-     * @returns true if certificate verifies successfully
-     * @throws IOException on error
+     * @pbrbm dfrt X509Cfrtifidbtf to bf vfrififd
+     * @rfturns truf if dfrtifidbtf vfrififs suddfssfully
+     * @tirows IOExdfption on frror
      */
-    public boolean verify(X509Certificate cert) throws IOException {
+    publid boolfbn vfrify(X509Cfrtifidbtf dfrt) tirows IOExdfption {
 
-        if (cert == null) {
-            throw new IOException("Certificate is null");
+        if (dfrt == null) {
+            tirow nfw IOExdfption("Cfrtifidbtf is null");
         }
 
-        // Calculate hasMin and hasMax booleans (if necessary)
-        if (!minMaxValid) {
-            calcMinMax();
+        // Cbldulbtf ibsMin bnd ibsMbx boolfbns (if nfdfssbry)
+        if (!minMbxVblid) {
+            dbldMinMbx();
         }
 
-        if (hasMin) {
-            throw new IOException("Non-zero minimum BaseDistance in"
-                                + " name constraints not supported");
+        if (ibsMin) {
+            tirow nfw IOExdfption("Non-zfro minimum BbsfDistbndf in"
+                                + " nbmf donstrbints not supportfd");
         }
 
-        if (hasMax) {
-            throw new IOException("Maximum BaseDistance in"
-                                + " name constraints not supported");
+        if (ibsMbx) {
+            tirow nfw IOExdfption("Mbximum BbsfDistbndf in"
+                                + " nbmf donstrbints not supportfd");
         }
 
-        X500Principal subjectPrincipal = cert.getSubjectX500Principal();
-        X500Name subject = X500Name.asX500Name(subjectPrincipal);
+        X500Prindipbl subjfdtPrindipbl = dfrt.gftSubjfdtX500Prindipbl();
+        X500Nbmf subjfdt = X500Nbmf.bsX500Nbmf(subjfdtPrindipbl);
 
-        if (subject.isEmpty() == false) {
-            if (verify(subject) == false) {
-                return false;
+        if (subjfdt.isEmpty() == fblsf) {
+            if (vfrify(subjfdt) == fblsf) {
+                rfturn fblsf;
             }
         }
 
-        GeneralNames altNames = null;
-        // extract altNames
+        GfnfrblNbmfs bltNbmfs = null;
+        // fxtrbdt bltNbmfs
         try {
-            // extract extensions, if any, from certInfo
-            // following returns null if certificate contains no extensions
-            X509CertImpl certImpl = X509CertImpl.toImpl(cert);
-            SubjectAlternativeNameExtension altNameExt =
-                certImpl.getSubjectAlternativeNameExtension();
-            if (altNameExt != null) {
-                // extract altNames from extension; this call does not
-                // return an IOException on null altnames
-                altNames = altNameExt.get(
-                        SubjectAlternativeNameExtension.SUBJECT_NAME);
+            // fxtrbdt fxtfnsions, if bny, from dfrtInfo
+            // following rfturns null if dfrtifidbtf dontbins no fxtfnsions
+            X509CfrtImpl dfrtImpl = X509CfrtImpl.toImpl(dfrt);
+            SubjfdtAltfrnbtivfNbmfExtfnsion bltNbmfExt =
+                dfrtImpl.gftSubjfdtAltfrnbtivfNbmfExtfnsion();
+            if (bltNbmfExt != null) {
+                // fxtrbdt bltNbmfs from fxtfnsion; tiis dbll dofs not
+                // rfturn bn IOExdfption on null bltnbmfs
+                bltNbmfs = bltNbmfExt.gft(
+                        SubjfdtAltfrnbtivfNbmfExtfnsion.SUBJECT_NAME);
             }
-        } catch (CertificateException ce) {
-            throw new IOException("Unable to extract extensions from " +
-                        "certificate: " + ce.getMessage());
+        } dbtdi (CfrtifidbtfExdfption df) {
+            tirow nfw IOExdfption("Unbblf to fxtrbdt fxtfnsions from " +
+                        "dfrtifidbtf: " + df.gftMfssbgf());
         }
 
-        // If there are no subjectAlternativeNames, perform the special-case
-        // check where if the subjectName contains any EMAILADDRESS
-        // attributes, they must be checked against RFC822 constraints.
-        // If that passes, we're fine.
-        if (altNames == null) {
-            return verifyRFC822SpecialCase(subject);
+        // If tifrf brf no subjfdtAltfrnbtivfNbmfs, pfrform tif spfdibl-dbsf
+        // difdk wifrf if tif subjfdtNbmf dontbins bny EMAILADDRESS
+        // bttributfs, tify must bf difdkfd bgbinst RFC822 donstrbints.
+        // If tibt pbssfs, wf'rf finf.
+        if (bltNbmfs == null) {
+            rfturn vfrifyRFC822SpfdiblCbsf(subjfdt);
         }
 
-        // verify each subjectAltName
-        for (int i = 0; i < altNames.size(); i++) {
-            GeneralNameInterface altGNI = altNames.get(i).getName();
-            if (!verify(altGNI)) {
-                return false;
+        // vfrify fbdi subjfdtAltNbmf
+        for (int i = 0; i < bltNbmfs.sizf(); i++) {
+            GfnfrblNbmfIntfrfbdf bltGNI = bltNbmfs.gft(i).gftNbmf();
+            if (!vfrify(bltGNI)) {
+                rfturn fblsf;
             }
         }
 
-        // All tests passed.
-        return true;
+        // All tfsts pbssfd.
+        rfturn truf;
     }
 
     /**
-     * check whether a name conforms to these NameConstraints.
-     * This involves verifying that the name is consistent with the
-     * permitted and excluded subtrees variables.
+     * difdk wiftifr b nbmf donforms to tifsf NbmfConstrbints.
+     * Tiis involvfs vfrifying tibt tif nbmf is donsistfnt witi tif
+     * pfrmittfd bnd fxdludfd subtrffs vbribblfs.
      *
-     * @param name GeneralNameInterface name to be verified
-     * @returns true if certificate verifies successfully
-     * @throws IOException on error
+     * @pbrbm nbmf GfnfrblNbmfIntfrfbdf nbmf to bf vfrififd
+     * @rfturns truf if dfrtifidbtf vfrififs suddfssfully
+     * @tirows IOExdfption on frror
      */
-    public boolean verify(GeneralNameInterface name) throws IOException {
-        if (name == null) {
-            throw new IOException("name is null");
+    publid boolfbn vfrify(GfnfrblNbmfIntfrfbdf nbmf) tirows IOExdfption {
+        if (nbmf == null) {
+            tirow nfw IOExdfption("nbmf is null");
         }
 
-        // Verify that the name is consistent with the excluded subtrees
-        if (excluded != null && excluded.size() > 0) {
+        // Vfrify tibt tif nbmf is donsistfnt witi tif fxdludfd subtrffs
+        if (fxdludfd != null && fxdludfd.sizf() > 0) {
 
-            for (int i = 0; i < excluded.size(); i++) {
-                GeneralSubtree gs = excluded.get(i);
+            for (int i = 0; i < fxdludfd.sizf(); i++) {
+                GfnfrblSubtrff gs = fxdludfd.gft(i);
                 if (gs == null)
-                    continue;
-                GeneralName gn = gs.getName();
+                    dontinuf;
+                GfnfrblNbmf gn = gs.gftNbmf();
                 if (gn == null)
-                    continue;
-                GeneralNameInterface exName = gn.getName();
-                if (exName == null)
-                    continue;
+                    dontinuf;
+                GfnfrblNbmfIntfrfbdf fxNbmf = gn.gftNbmf();
+                if (fxNbmf == null)
+                    dontinuf;
 
-                // if name matches or narrows any excluded subtree,
-                // return false
-                switch (exName.constrains(name)) {
-                case GeneralNameInterface.NAME_DIFF_TYPE:
-                case GeneralNameInterface.NAME_WIDENS: // name widens excluded
-                case GeneralNameInterface.NAME_SAME_TYPE:
-                    break;
-                case GeneralNameInterface.NAME_MATCH:
-                case GeneralNameInterface.NAME_NARROWS: // subject name excluded
-                    return false;
+                // if nbmf mbtdifs or nbrrows bny fxdludfd subtrff,
+                // rfturn fblsf
+                switdi (fxNbmf.donstrbins(nbmf)) {
+                dbsf GfnfrblNbmfIntfrfbdf.NAME_DIFF_TYPE:
+                dbsf GfnfrblNbmfIntfrfbdf.NAME_WIDENS: // nbmf widfns fxdludfd
+                dbsf GfnfrblNbmfIntfrfbdf.NAME_SAME_TYPE:
+                    brfbk;
+                dbsf GfnfrblNbmfIntfrfbdf.NAME_MATCH:
+                dbsf GfnfrblNbmfIntfrfbdf.NAME_NARROWS: // subjfdt nbmf fxdludfd
+                    rfturn fblsf;
                 }
             }
         }
 
-        // Verify that the name is consistent with the permitted subtrees
-        if (permitted != null && permitted.size() > 0) {
+        // Vfrify tibt tif nbmf is donsistfnt witi tif pfrmittfd subtrffs
+        if (pfrmittfd != null && pfrmittfd.sizf() > 0) {
 
-            boolean sameType = false;
+            boolfbn sbmfTypf = fblsf;
 
-            for (int i = 0; i < permitted.size(); i++) {
-                GeneralSubtree gs = permitted.get(i);
+            for (int i = 0; i < pfrmittfd.sizf(); i++) {
+                GfnfrblSubtrff gs = pfrmittfd.gft(i);
                 if (gs == null)
-                    continue;
-                GeneralName gn = gs.getName();
+                    dontinuf;
+                GfnfrblNbmf gn = gs.gftNbmf();
                 if (gn == null)
-                    continue;
-                GeneralNameInterface perName = gn.getName();
-                if (perName == null)
-                    continue;
+                    dontinuf;
+                GfnfrblNbmfIntfrfbdf pfrNbmf = gn.gftNbmf();
+                if (pfrNbmf == null)
+                    dontinuf;
 
-                // if Name matches any type in permitted,
-                // and Name does not match or narrow some permitted subtree,
-                // return false
-                switch (perName.constrains(name)) {
-                case GeneralNameInterface.NAME_DIFF_TYPE:
-                    continue; // continue checking other permitted names
-                case GeneralNameInterface.NAME_WIDENS: // name widens permitted
-                case GeneralNameInterface.NAME_SAME_TYPE:
-                    sameType = true;
-                    continue; // continue to look for a match or narrow
-                case GeneralNameInterface.NAME_MATCH:
-                case GeneralNameInterface.NAME_NARROWS:
-                    // name narrows permitted
-                    return true; // name is definitely OK, so break out of loop
+                // if Nbmf mbtdifs bny typf in pfrmittfd,
+                // bnd Nbmf dofs not mbtdi or nbrrow somf pfrmittfd subtrff,
+                // rfturn fblsf
+                switdi (pfrNbmf.donstrbins(nbmf)) {
+                dbsf GfnfrblNbmfIntfrfbdf.NAME_DIFF_TYPE:
+                    dontinuf; // dontinuf difdking otifr pfrmittfd nbmfs
+                dbsf GfnfrblNbmfIntfrfbdf.NAME_WIDENS: // nbmf widfns pfrmittfd
+                dbsf GfnfrblNbmfIntfrfbdf.NAME_SAME_TYPE:
+                    sbmfTypf = truf;
+                    dontinuf; // dontinuf to look for b mbtdi or nbrrow
+                dbsf GfnfrblNbmfIntfrfbdf.NAME_MATCH:
+                dbsf GfnfrblNbmfIntfrfbdf.NAME_NARROWS:
+                    // nbmf nbrrows pfrmittfd
+                    rfturn truf; // nbmf is dffinitfly OK, so brfbk out of loop
                 }
             }
-            if (sameType) {
-                return false;
+            if (sbmfTypf) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Perform the RFC 822 special case check. We have a certificate
-     * that does not contain any subject alternative names. Check that
-     * any EMAILADDRESS attributes in its subject name conform to these
-     * NameConstraints.
+     * Pfrform tif RFC 822 spfdibl dbsf difdk. Wf ibvf b dfrtifidbtf
+     * tibt dofs not dontbin bny subjfdt bltfrnbtivf nbmfs. Cifdk tibt
+     * bny EMAILADDRESS bttributfs in its subjfdt nbmf donform to tifsf
+     * NbmfConstrbints.
      *
-     * @param subject the certificate's subject name
-     * @returns true if certificate verifies successfully
-     * @throws IOException on error
+     * @pbrbm subjfdt tif dfrtifidbtf's subjfdt nbmf
+     * @rfturns truf if dfrtifidbtf vfrififs suddfssfully
+     * @tirows IOExdfption on frror
      */
-    public boolean verifyRFC822SpecialCase(X500Name subject) throws IOException {
-        for (AVA ava : subject.allAvas()) {
-            ObjectIdentifier attrOID = ava.getObjectIdentifier();
-            if (attrOID.equals((Object)PKCS9Attribute.EMAIL_ADDRESS_OID)) {
-                String attrValue = ava.getValueString();
-                if (attrValue != null) {
-                    RFC822Name emailName;
+    publid boolfbn vfrifyRFC822SpfdiblCbsf(X500Nbmf subjfdt) tirows IOExdfption {
+        for (AVA bvb : subjfdt.bllAvbs()) {
+            ObjfdtIdfntififr bttrOID = bvb.gftObjfdtIdfntififr();
+            if (bttrOID.fqubls((Objfdt)PKCS9Attributf.EMAIL_ADDRESS_OID)) {
+                String bttrVbluf = bvb.gftVblufString();
+                if (bttrVbluf != null) {
+                    RFC822Nbmf fmbilNbmf;
                     try {
-                        emailName = new RFC822Name(attrValue);
-                    } catch (IOException ioe) {
-                        continue;
+                        fmbilNbmf = nfw RFC822Nbmf(bttrVbluf);
+                    } dbtdi (IOExdfption iof) {
+                        dontinuf;
                     }
-                    if (!verify(emailName)) {
-                        return(false);
+                    if (!vfrify(fmbilNbmf)) {
+                        rfturn(fblsf);
                     }
                 }
              }
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Clone all objects that may be modified during certificate validation.
+     * Clonf bll objfdts tibt mby bf modififd during dfrtifidbtf vblidbtion.
      */
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            NameConstraintsExtension newNCE =
-                (NameConstraintsExtension) super.clone();
+            NbmfConstrbintsExtfnsion nfwNCE =
+                (NbmfConstrbintsExtfnsion) supfr.dlonf();
 
-            if (permitted != null) {
-                newNCE.permitted = (GeneralSubtrees) permitted.clone();
+            if (pfrmittfd != null) {
+                nfwNCE.pfrmittfd = (GfnfrblSubtrffs) pfrmittfd.dlonf();
             }
-            if (excluded != null) {
-                newNCE.excluded = (GeneralSubtrees) excluded.clone();
+            if (fxdludfd != null) {
+                nfwNCE.fxdludfd = (GfnfrblSubtrffs) fxdludfd.dlonf();
             }
-            return newNCE;
-        } catch (CloneNotSupportedException cnsee) {
-            throw new RuntimeException("CloneNotSupportedException while " +
-                "cloning NameConstraintsException. This should never happen.");
+            rfturn nfwNCE;
+        } dbtdi (ClonfNotSupportfdExdfption dnsff) {
+            tirow nfw RuntimfExdfption("ClonfNotSupportfdExdfption wiilf " +
+                "dloning NbmfConstrbintsExdfption. Tiis siould nfvfr ibppfn.");
         }
     }
 }

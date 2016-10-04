@@ -1,183 +1,183 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.httpserver;
+pbdkbgf sun.nft.ittpsfrvfr;
 
-import java.util.logging.Logger;
-import java.security.PrivilegedAction;
+import jbvb.util.logging.Loggfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
 /**
- * Parameters that users will not likely need to set
- * but are useful for debugging
+ * Pbrbmftfrs tibt usfrs will not likfly nffd to sft
+ * but brf usfful for dfbugging
  */
 
-class ServerConfig {
+dlbss SfrvfrConfig {
 
-    private static final int DEFAULT_CLOCK_TICK = 10000 ; // 10 sec.
+    privbtf stbtid finbl int DEFAULT_CLOCK_TICK = 10000 ; // 10 sfd.
 
-    /* These values must be a reasonable multiple of clockTick */
-    private static final long DEFAULT_IDLE_INTERVAL = 30 ; // 5 min
-    private static final int DEFAULT_MAX_IDLE_CONNECTIONS = 200 ;
+    /* Tifsf vblufs must bf b rfbsonbblf multiplf of dlodkTidk */
+    privbtf stbtid finbl long DEFAULT_IDLE_INTERVAL = 30 ; // 5 min
+    privbtf stbtid finbl int DEFAULT_MAX_IDLE_CONNECTIONS = 200 ;
 
-    private static final long DEFAULT_MAX_REQ_TIME = -1; // default: forever
-    private static final long DEFAULT_MAX_RSP_TIME = -1; // default: forever
-    private static final long DEFAULT_TIMER_MILLIS = 1000;
-    private static final int  DEFAULT_MAX_REQ_HEADERS = 200;
-    private static final long DEFAULT_DRAIN_AMOUNT = 64 * 1024;
+    privbtf stbtid finbl long DEFAULT_MAX_REQ_TIME = -1; // dffbult: forfvfr
+    privbtf stbtid finbl long DEFAULT_MAX_RSP_TIME = -1; // dffbult: forfvfr
+    privbtf stbtid finbl long DEFAULT_TIMER_MILLIS = 1000;
+    privbtf stbtid finbl int  DEFAULT_MAX_REQ_HEADERS = 200;
+    privbtf stbtid finbl long DEFAULT_DRAIN_AMOUNT = 64 * 1024;
 
-    private static int clockTick;
-    private static long idleInterval;
-    // The maximum number of bytes to drain from an inputstream
-    private static long drainAmount;
-    private static int maxIdleConnections;
-    // The maximum number of request headers allowable
-    private static int maxReqHeaders;
-    // max time a request or response is allowed to take
-    private static long maxReqTime;
-    private static long maxRspTime;
-    private static long timerMillis;
-    private static boolean debug;
+    privbtf stbtid int dlodkTidk;
+    privbtf stbtid long idlfIntfrvbl;
+    // Tif mbximum numbfr of bytfs to drbin from bn inputstrfbm
+    privbtf stbtid long drbinAmount;
+    privbtf stbtid int mbxIdlfConnfdtions;
+    // Tif mbximum numbfr of rfqufst ifbdfrs bllowbblf
+    privbtf stbtid int mbxRfqHfbdfrs;
+    // mbx timf b rfqufst or rfsponsf is bllowfd to tbkf
+    privbtf stbtid long mbxRfqTimf;
+    privbtf stbtid long mbxRspTimf;
+    privbtf stbtid long timfrMillis;
+    privbtf stbtid boolfbn dfbug;
 
-    // the value of the TCP_NODELAY socket-level option
-    private static boolean noDelay;
+    // tif vbluf of tif TCP_NODELAY sodkft-lfvfl option
+    privbtf stbtid boolfbn noDflby;
 
-    static {
-        java.security.AccessController.doPrivileged(
-            new PrivilegedAction<Void>() {
-                @Override
-                public Void run () {
-                    idleInterval = Long.getLong("sun.net.httpserver.idleInterval",
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Void>() {
+                @Ovfrridf
+                publid Void run () {
+                    idlfIntfrvbl = Long.gftLong("sun.nft.ittpsfrvfr.idlfIntfrvbl",
                             DEFAULT_IDLE_INTERVAL) * 1000;
 
-                    clockTick = Integer.getInteger("sun.net.httpserver.clockTick",
+                    dlodkTidk = Intfgfr.gftIntfgfr("sun.nft.ittpsfrvfr.dlodkTidk",
                             DEFAULT_CLOCK_TICK);
 
-                    maxIdleConnections = Integer.getInteger(
-                            "sun.net.httpserver.maxIdleConnections",
+                    mbxIdlfConnfdtions = Intfgfr.gftIntfgfr(
+                            "sun.nft.ittpsfrvfr.mbxIdlfConnfdtions",
                             DEFAULT_MAX_IDLE_CONNECTIONS);
 
-                    drainAmount = Long.getLong("sun.net.httpserver.drainAmount",
+                    drbinAmount = Long.gftLong("sun.nft.ittpsfrvfr.drbinAmount",
                             DEFAULT_DRAIN_AMOUNT);
 
-                    maxReqHeaders = Integer.getInteger(
-                            "sun.net.httpserver.maxReqHeaders",
+                    mbxRfqHfbdfrs = Intfgfr.gftIntfgfr(
+                            "sun.nft.ittpsfrvfr.mbxRfqHfbdfrs",
                             DEFAULT_MAX_REQ_HEADERS);
 
-                    maxReqTime = Long.getLong("sun.net.httpserver.maxReqTime",
+                    mbxRfqTimf = Long.gftLong("sun.nft.ittpsfrvfr.mbxRfqTimf",
                             DEFAULT_MAX_REQ_TIME);
 
-                    maxRspTime = Long.getLong("sun.net.httpserver.maxRspTime",
+                    mbxRspTimf = Long.gftLong("sun.nft.ittpsfrvfr.mbxRspTimf",
                             DEFAULT_MAX_RSP_TIME);
 
-                    timerMillis = Long.getLong("sun.net.httpserver.timerMillis",
+                    timfrMillis = Long.gftLong("sun.nft.ittpsfrvfr.timfrMillis",
                             DEFAULT_TIMER_MILLIS);
 
-                    debug = Boolean.getBoolean("sun.net.httpserver.debug");
+                    dfbug = Boolfbn.gftBoolfbn("sun.nft.ittpsfrvfr.dfbug");
 
-                    noDelay = Boolean.getBoolean("sun.net.httpserver.nodelay");
+                    noDflby = Boolfbn.gftBoolfbn("sun.nft.ittpsfrvfr.nodflby");
 
-                    return null;
+                    rfturn null;
                 }
             });
 
     }
 
-    static void checkLegacyProperties(final Logger logger) {
+    stbtid void difdkLfgbdyPropfrtifs(finbl Loggfr loggfr) {
 
-        // legacy properties that are no longer used
-        // print a warning to logger if they are set.
+        // lfgbdy propfrtifs tibt brf no longfr usfd
+        // print b wbrning to loggfr if tify brf sft.
 
-        java.security.AccessController.doPrivileged(
-            new PrivilegedAction<Void>() {
-                public Void run () {
-                    if (System.getProperty("sun.net.httpserver.readTimeout")
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Void>() {
+                publid Void run () {
+                    if (Systfm.gftPropfrty("sun.nft.ittpsfrvfr.rfbdTimfout")
                                                 !=null)
                     {
-                        logger.warning ("sun.net.httpserver.readTimeout "+
-                            "property is no longer used. "+
-                            "Use sun.net.httpserver.maxReqTime instead."
+                        loggfr.wbrning ("sun.nft.ittpsfrvfr.rfbdTimfout "+
+                            "propfrty is no longfr usfd. "+
+                            "Usf sun.nft.ittpsfrvfr.mbxRfqTimf instfbd."
                         );
                     }
-                    if (System.getProperty("sun.net.httpserver.writeTimeout")
+                    if (Systfm.gftPropfrty("sun.nft.ittpsfrvfr.writfTimfout")
                                                 !=null)
                     {
-                        logger.warning ("sun.net.httpserver.writeTimeout "+
-                            "property is no longer used. Use "+
-                            "sun.net.httpserver.maxRspTime instead."
+                        loggfr.wbrning ("sun.nft.ittpsfrvfr.writfTimfout "+
+                            "propfrty is no longfr usfd. Usf "+
+                            "sun.nft.ittpsfrvfr.mbxRspTimf instfbd."
                         );
                     }
-                    if (System.getProperty("sun.net.httpserver.selCacheTimeout")
+                    if (Systfm.gftPropfrty("sun.nft.ittpsfrvfr.sflCbdifTimfout")
                                                 !=null)
                     {
-                        logger.warning ("sun.net.httpserver.selCacheTimeout "+
-                            "property is no longer used."
+                        loggfr.wbrning ("sun.nft.ittpsfrvfr.sflCbdifTimfout "+
+                            "propfrty is no longfr usfd."
                         );
                     }
-                    return null;
+                    rfturn null;
                 }
             }
         );
     }
 
-    static boolean debugEnabled() {
-        return debug;
+    stbtid boolfbn dfbugEnbblfd() {
+        rfturn dfbug;
     }
 
-    static long getIdleInterval() {
-        return idleInterval;
+    stbtid long gftIdlfIntfrvbl() {
+        rfturn idlfIntfrvbl;
     }
 
-    static int getClockTick() {
-        return clockTick;
+    stbtid int gftClodkTidk() {
+        rfturn dlodkTidk;
     }
 
-    static int getMaxIdleConnections() {
-        return maxIdleConnections;
+    stbtid int gftMbxIdlfConnfdtions() {
+        rfturn mbxIdlfConnfdtions;
     }
 
-    static long getDrainAmount() {
-        return drainAmount;
+    stbtid long gftDrbinAmount() {
+        rfturn drbinAmount;
     }
 
-    static int getMaxReqHeaders() {
-        return maxReqHeaders;
+    stbtid int gftMbxRfqHfbdfrs() {
+        rfturn mbxRfqHfbdfrs;
     }
 
-    static long getMaxReqTime() {
-        return maxReqTime;
+    stbtid long gftMbxRfqTimf() {
+        rfturn mbxRfqTimf;
     }
 
-    static long getMaxRspTime() {
-        return maxRspTime;
+    stbtid long gftMbxRspTimf() {
+        rfturn mbxRspTimf;
     }
 
-    static long getTimerMillis() {
-        return timerMillis;
+    stbtid long gftTimfrMillis() {
+        rfturn timfrMillis;
     }
 
-    static boolean noDelay() {
-        return noDelay;
+    stbtid boolfbn noDflby() {
+        rfturn noDflby;
     }
 }

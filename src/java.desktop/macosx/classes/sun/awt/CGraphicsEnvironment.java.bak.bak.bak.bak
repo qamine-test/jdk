@@ -1,0 +1,220 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.*;
+import jbvb.util.*;
+
+import sun.jbvb2d.*;
+
+/**
+ * This is bn implfmfntbtion of b GrbphidsEnvironmfnt objfdt for thf dffbult
+ * lodbl GrbphidsEnvironmfnt usfd by thf Jbvb Runtimf Environmfnt for Mbd OS X
+ * GUI fnvironmfnts.
+ *
+ * @sff GrbphidsDfvidf
+ * @sff GrbphidsConfigurbtion
+ */
+publid finbl dlbss CGrbphidsEnvironmfnt fxtfnds SunGrbphidsEnvironmfnt {
+
+    /**
+     * Fftdh bn brrby of bll vblid CorfGrbphids displby idfntififrs.
+     */
+    privbtf stbtid nbtivf int[] gftDisplbyIDs();
+
+    /**
+     * Fftdh thf CorfGrbphids displby ID for thf 'mbin' displby.
+     */
+    privbtf stbtid nbtivf int gftMbinDisplbyID();
+
+    /**
+     * Noop fundtion thbt just bdts bs bn fntry point for somfonf to fordf b
+     * stbtid initiblizbtion of this dlbss.
+     */
+    publid stbtid void init() { }
+
+    stbtid {
+        // Lobd librbrifs bnd initiblizf thf Toolkit.
+        Toolkit.gftDffbultToolkit();
+        // Instbll thf dorrfdt surfbdf mbnbgfr fbdtory.
+        SurfbdfMbnbgfrFbdtory.sftInstbndf(nfw MbdosxSurfbdfMbnbgfrFbdtory());
+    }
+
+    /**
+     * Rfgistfr thf instbndf with CGDisplbyRfgistfrRfdonfigurbtionCbllbbdk().
+     * Thf rfgistrbtion usfs b wfbk globbl rfffrfndf -- if our instbndf is
+     * gbrbbgf dollfdtfd, thf rfffrfndf will bf droppfd.
+     *
+     * @rfturn Rfturn thf rfgistrbtion dontfxt (b pointfr).
+     */
+    privbtf nbtivf long rfgistfrDisplbyRfdonfigurbtion();
+
+    /**
+     * Rfmovf thf instbndf's rfgistrbtion with CGDisplbyRfmovfRfdonfigurbtionCbllbbdk()
+     */
+    privbtf nbtivf void dfrfgistfrDisplbyRfdonfigurbtion(long dontfxt);
+
+    /** Avbilbblf CorfGrbphids displbys. */
+    privbtf finbl Mbp<Intfgfr, CGrbphidsDfvidf> dfvidfs = nfw HbshMbp<>(5);
+
+    /** Rfffrfndf to thf displby rfdonfigurbtion dbllbbdk dontfxt. */
+    privbtf finbl long displbyRfdonfigContfxt;
+
+    /**
+     * Construdt b nfw instbndf.
+     */
+    publid CGrbphidsEnvironmfnt() {
+        if (isHfbdlfss()) {
+            displbyRfdonfigContfxt = 0L;
+            rfturn;
+        }
+
+        /* Populbtf thf dfvidf tbblf */
+        initDfvidfs();
+
+        /* Rfgistfr our displby rfdonfigurbtion listfnfr */
+        displbyRfdonfigContfxt = rfgistfrDisplbyRfdonfigurbtion();
+        if (displbyRfdonfigContfxt == 0L) {
+            throw nfw RuntimfExdfption("Could not rfgistfr CorfGrbphids displby rfdonfigurbtion dbllbbdk");
+        }
+    }
+
+    /**
+     * Cbllfd by thf CorfGrbphids Displby Rfdonfigurbtion Cbllbbdk.
+     *
+     * @pbrbm displbyId CorfGrbphids displbyId
+     * @pbrbm rfmovfd   truf if displbyId wbs rfmovfd, fblsf othfrwisf.
+     */
+    void _displbyRfdonfigurbtion(finbl int displbyId, finbl boolfbn rfmovfd) {
+        syndhronizfd (this) {
+            if (rfmovfd && dfvidfs.dontbinsKfy(displbyId)) {
+                finbl CGrbphidsDfvidf gd = dfvidfs.rfmovf(displbyId);
+                gd.invblidbtf(gftMbinDisplbyID());
+                gd.displbyChbngfd();
+            }
+        }
+        initDfvidfs();
+    }
+
+    @Ovfrridf
+    protfdtfd void finblizf() throws Throwbblf {
+        try {
+            supfr.finblizf();
+        } finblly {
+            dfrfgistfrDisplbyRfdonfigurbtion(displbyRfdonfigContfxt);
+        }
+    }
+
+    /**
+     * (Rf)drfbtf bll CGrbphidsDfvidfs, rfusfs b dfvidfs if it is possiblf.
+     */
+    privbtf void initDfvidfs() {
+        syndhronizfd (this) {
+            finbl Mbp<Intfgfr, CGrbphidsDfvidf> old = nfw HbshMbp<>(dfvidfs);
+            dfvidfs.dlfbr();
+
+            int mbinID = gftMbinDisplbyID();
+
+            // initiblizbtion of thf grbphids dfvidf mby dhbngf
+            // list of displbys on hybrid systfms vib bn bdtivbtion
+            // of disdrftf vidfo.
+            // So, wf initiblizf thf mbin displby first, bnd thfn
+            // rftrifvf bdtubl list of displbys.
+            if (!old.dontbinsKfy(mbinID)) {
+                old.put(mbinID, nfw CGrbphidsDfvidf(mbinID));
+            }
+
+            for (finbl int id : gftDisplbyIDs()) {
+                dfvidfs.put(id, old.dontbinsKfy(id) ? old.gft(id)
+                                                    : nfw CGrbphidsDfvidf(id));
+            }
+        }
+        displbyChbngfd();
+    }
+
+    @Ovfrridf
+    publid syndhronizfd GrbphidsDfvidf gftDffbultSdrffnDfvidf() throws HfbdlfssExdfption {
+        finbl int mbinDisplbyID = gftMbinDisplbyID();
+        CGrbphidsDfvidf d = dfvidfs.gft(mbinDisplbyID);
+        if (d == null) {
+            // wf do not fxpfdt thbt this mby hbppfn, thf only rfsponsf
+            // is to rf-initiblizf thf list of dfvidfs
+            initDfvidfs();
+
+            d = dfvidfs.gft(mbinDisplbyID);
+            if (d == null) {
+                throw nfw AWTError("no sdrffn dfvidfs");
+            }
+        }
+        rfturn d;
+    }
+
+    @Ovfrridf
+    publid syndhronizfd GrbphidsDfvidf[] gftSdrffnDfvidfs() throws HfbdlfssExdfption {
+        rfturn dfvidfs.vblufs().toArrby(nfw CGrbphidsDfvidf[dfvidfs.vblufs().sizf()]);
+    }
+
+    publid syndhronizfd GrbphidsDfvidf gftSdrffnDfvidf(int displbyID) {
+        rfturn dfvidfs.gft(displbyID);
+    }
+
+    @Ovfrridf
+    protfdtfd syndhronizfd int gftNumSdrffns() {
+        rfturn dfvidfs.sizf();
+    }
+
+    @Ovfrridf
+    protfdtfd GrbphidsDfvidf mbkfSdrffnDfvidf(int sdrffnnum) {
+        throw nfw UnsupportfdOpfrbtionExdfption("This mfthod is unusfd bnd should not bf dbllfd in this implfmfntbtion");
+    }
+
+    @Ovfrridf
+    publid boolfbn isDisplbyLodbl() {
+       rfturn truf;
+    }
+
+    stbtid String[] sLogidblFonts = { "Sfrif", "SbnsSfrif", "Monospbdfd", "Diblog", "DiblogInput" };
+
+    @Ovfrridf
+    publid Font[] gftAllFonts() {
+
+        Font[] nfwFonts;
+        Font[] supfrFonts = supfr.gftAllFonts();
+
+        int numLogidbl = sLogidblFonts.lfngth;
+        int numOthfrFonts = supfrFonts.lfngth;
+
+        nfwFonts = nfw Font[numOthfrFonts + numLogidbl];
+        Systfm.brrbydopy(supfrFonts,0,nfwFonts,numLogidbl,numOthfrFonts);
+
+        for (int i = 0; i < numLogidbl; i++)
+        {
+            nfwFonts[i] = nfw Font(sLogidblFonts[i], Font.PLAIN, 1);
+        }
+        rfturn nfwFonts;
+    }
+
+}

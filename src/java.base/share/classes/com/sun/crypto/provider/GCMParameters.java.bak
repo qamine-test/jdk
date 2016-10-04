@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import java.io.IOException;
-import java.security.AlgorithmParametersSpi;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.InvalidParameterSpecException;
-import javax.crypto.spec.GCMParameterSpec;
-import sun.misc.HexDumpEncoder;
-import sun.security.util.*;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AlgoritimPbrbmftfrsSpi;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.InvblidPbrbmftfrSpfdExdfption;
+import jbvbx.drypto.spfd.GCMPbrbmftfrSpfd;
+import sun.misd.HfxDumpEndodfr;
+import sun.sfdurity.util.*;
 
 /**
- * This class implements the parameter set used with
- * GCM encryption, which is defined in RFC 5084 as follows:
+ * Tiis dlbss implfmfnts tif pbrbmftfr sft usfd witi
+ * GCM fndryption, wiidi is dffinfd in RFC 5084 bs follows:
  *
- * <pre>
- *    GCMParameters ::= SEQUENCE {
- *      aes-iv      OCTET STRING, -- recommended size is 12 octets
- *      aes-tLen    AES-GCM-ICVlen DEFAULT 12 }
+ * <prf>
+ *    GCMPbrbmftfrs ::= SEQUENCE {
+ *      bfs-iv      OCTET STRING, -- rfdommfndfd sizf is 12 odtfts
+ *      bfs-tLfn    AES-GCM-ICVlfn DEFAULT 12 }
  *
- *    AES-GCM-ICVlen ::= INTEGER (12 | 13 | 14 | 15 | 16)
+ *    AES-GCM-ICVlfn ::= INTEGER (12 | 13 | 14 | 15 | 16)
  *
- * </pre>
+ * </prf>
  *
- * @author Valerie Peng
- * @since 1.8
+ * @butior Vblfrif Pfng
+ * @sindf 1.8
  */
-public final class GCMParameters extends AlgorithmParametersSpi {
+publid finbl dlbss GCMPbrbmftfrs fxtfnds AlgoritimPbrbmftfrsSpi {
 
-    // the iv
-    private byte[] iv;
-    // the tag length in bytes
-    private int tLen;
+    // tif iv
+    privbtf bytf[] iv;
+    // tif tbg lfngti in bytfs
+    privbtf int tLfn;
 
-    public GCMParameters() {}
+    publid GCMPbrbmftfrs() {}
 
-    protected void engineInit(AlgorithmParameterSpec paramSpec)
-        throws InvalidParameterSpecException {
+    protfdtfd void fnginfInit(AlgoritimPbrbmftfrSpfd pbrbmSpfd)
+        tirows InvblidPbrbmftfrSpfdExdfption {
 
-        if (!(paramSpec instanceof GCMParameterSpec)) {
-            throw new InvalidParameterSpecException
-                ("Inappropriate parameter specification");
+        if (!(pbrbmSpfd instbndfof GCMPbrbmftfrSpfd)) {
+            tirow nfw InvblidPbrbmftfrSpfdExdfption
+                ("Inbppropribtf pbrbmftfr spfdifidbtion");
         }
-        GCMParameterSpec gps = (GCMParameterSpec) paramSpec;
-        // need to convert from bits to bytes for ASN.1 encoding
-        this.tLen = gps.getTLen()/8;
-        this.iv = gps.getIV();
+        GCMPbrbmftfrSpfd gps = (GCMPbrbmftfrSpfd) pbrbmSpfd;
+        // nffd to donvfrt from bits to bytfs for ASN.1 fndoding
+        tiis.tLfn = gps.gftTLfn()/8;
+        tiis.iv = gps.gftIV();
     }
 
-    protected void engineInit(byte[] encoded) throws IOException {
-        DerValue val = new DerValue(encoded);
-        // check if IV or params
-        if (val.tag == DerValue.tag_Sequence) {
-            byte[] iv = val.data.getOctetString();
-            int tLen;
-            if (val.data.available() != 0) {
-                tLen = val.data.getInteger();
-                if (tLen < 12 || tLen > 16 ) {
-                    throw new IOException
-                        ("GCM parameter parsing error: unsupported tag len: " +
-                         tLen);
+    protfdtfd void fnginfInit(bytf[] fndodfd) tirows IOExdfption {
+        DfrVbluf vbl = nfw DfrVbluf(fndodfd);
+        // difdk if IV or pbrbms
+        if (vbl.tbg == DfrVbluf.tbg_Sfqufndf) {
+            bytf[] iv = vbl.dbtb.gftOdtftString();
+            int tLfn;
+            if (vbl.dbtb.bvbilbblf() != 0) {
+                tLfn = vbl.dbtb.gftIntfgfr();
+                if (tLfn < 12 || tLfn > 16 ) {
+                    tirow nfw IOExdfption
+                        ("GCM pbrbmftfr pbrsing frror: unsupportfd tbg lfn: " +
+                         tLfn);
                 }
-                if (val.data.available() != 0) {
-                    throw new IOException
-                        ("GCM parameter parsing error: extra data");
+                if (vbl.dbtb.bvbilbblf() != 0) {
+                    tirow nfw IOExdfption
+                        ("GCM pbrbmftfr pbrsing frror: fxtrb dbtb");
                 }
-            } else {
-                tLen = 12;
+            } flsf {
+                tLfn = 12;
             }
-            this.iv = iv.clone();
-            this.tLen = tLen;
-        } else {
-            throw new IOException("GCM parameter parsing error: no SEQ tag");
+            tiis.iv = iv.dlonf();
+            tiis.tLfn = tLfn;
+        } flsf {
+            tirow nfw IOExdfption("GCM pbrbmftfr pbrsing frror: no SEQ tbg");
         }
     }
 
-    protected void engineInit(byte[] encoded, String decodingMethod)
-        throws IOException {
-        engineInit(encoded);
+    protfdtfd void fnginfInit(bytf[] fndodfd, String dfdodingMftiod)
+        tirows IOExdfption {
+        fnginfInit(fndodfd);
     }
 
-    protected <T extends AlgorithmParameterSpec>
-            T engineGetParameterSpec(Class<T> paramSpec)
-        throws InvalidParameterSpecException {
+    protfdtfd <T fxtfnds AlgoritimPbrbmftfrSpfd>
+            T fnginfGftPbrbmftfrSpfd(Clbss<T> pbrbmSpfd)
+        tirows InvblidPbrbmftfrSpfdExdfption {
 
-        if (GCMParameterSpec.class.isAssignableFrom(paramSpec)) {
-            return paramSpec.cast(new GCMParameterSpec(tLen * 8, iv));
-        } else {
-            throw new InvalidParameterSpecException
-                ("Inappropriate parameter specification");
+        if (GCMPbrbmftfrSpfd.dlbss.isAssignbblfFrom(pbrbmSpfd)) {
+            rfturn pbrbmSpfd.dbst(nfw GCMPbrbmftfrSpfd(tLfn * 8, iv));
+        } flsf {
+            tirow nfw InvblidPbrbmftfrSpfdExdfption
+                ("Inbppropribtf pbrbmftfr spfdifidbtion");
         }
     }
 
-    protected byte[] engineGetEncoded() throws IOException {
-        DerOutputStream out = new DerOutputStream();
-        DerOutputStream bytes = new DerOutputStream();
+    protfdtfd bytf[] fnginfGftEndodfd() tirows IOExdfption {
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
 
-        bytes.putOctetString(iv);
-        bytes.putInteger(tLen);
-        out.write(DerValue.tag_Sequence, bytes);
-        return out.toByteArray();
+        bytfs.putOdtftString(iv);
+        bytfs.putIntfgfr(tLfn);
+        out.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        rfturn out.toBytfArrby();
     }
 
-    protected byte[] engineGetEncoded(String encodingMethod)
-        throws IOException {
-        return engineGetEncoded();
+    protfdtfd bytf[] fnginfGftEndodfd(String fndodingMftiod)
+        tirows IOExdfption {
+        rfturn fnginfGftEndodfd();
     }
 
     /*
-     * Returns a formatted string describing the parameters.
+     * Rfturns b formbttfd string dfsdribing tif pbrbmftfrs.
      */
-    protected String engineToString() {
-        String LINE_SEP = System.getProperty("line.separator");
-        HexDumpEncoder encoder = new HexDumpEncoder();
-        StringBuilder sb
-            = new StringBuilder(LINE_SEP + "    iv:" + LINE_SEP + "["
-                + encoder.encodeBuffer(iv) + "]");
+    protfdtfd String fnginfToString() {
+        String LINE_SEP = Systfm.gftPropfrty("linf.sfpbrbtor");
+        HfxDumpEndodfr fndodfr = nfw HfxDumpEndodfr();
+        StringBuildfr sb
+            = nfw StringBuildfr(LINE_SEP + "    iv:" + LINE_SEP + "["
+                + fndodfr.fndodfBufffr(iv) + "]");
 
-        sb.append(LINE_SEP + "tLen(bits):" + LINE_SEP + tLen*8 + LINE_SEP);
-        return sb.toString();
+        sb.bppfnd(LINE_SEP + "tLfn(bits):" + LINE_SEP + tLfn*8 + LINE_SEP);
+        rfturn sb.toString();
     }
 }

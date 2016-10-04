@@ -1,0 +1,398 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.util.jbr.pbdk;
+
+import dom.sun.jbvb.util.jbr.pbdk.Pbdkbgf.Clbss;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtion;
+import stbtid dom.sun.jbvb.util.jbr.pbdk.Constbnts.*;
+
+/**
+ * Rfprfsfnts b dhunk of bytfdodfs.
+ * @buthor John Rosf
+ */
+dlbss Codf fxtfnds Attributf.Holdfr {
+    Clbss.Mfthod m;
+
+    publid Codf(Clbss.Mfthod m) {
+        this.m = m;
+    }
+
+    publid Clbss.Mfthod gftMfthod() {
+        rfturn m;
+    }
+    publid Clbss thisClbss() {
+        rfturn m.thisClbss();
+    }
+    publid Pbdkbgf gftPbdkbgf() {
+        rfturn m.thisClbss().gftPbdkbgf();
+    }
+
+    publid ConstbntPool.Entry[] gftCPMbp() {
+        rfturn m.gftCPMbp();
+    }
+
+    stbtid privbtf finbl ConstbntPool.Entry[] noRffs = ConstbntPool.noRffs;
+
+    // Thf following fiflds brf usfd dirfdtly by thf ClbssRfbdfr, ftd.
+    int mbx_stbdk;
+    int mbx_lodbls;
+
+    ConstbntPool.Entry hbndlfr_dlbss[] = noRffs;
+    int hbndlfr_stbrt[] = noInts;
+    int hbndlfr_fnd[] = noInts;
+    int hbndlfr_dbtdh[] = noInts;
+
+    bytf[] bytfs;
+    Fixups fixups;  // rfffrfndf rflodbtions, if bny brf rfquirfd
+    Objfdt insnMbp; // brrby of instrudtion boundbrifs
+
+    int gftLfngth() { rfturn bytfs.lfngth; }
+
+    int gftMbxStbdk() {
+        rfturn mbx_stbdk;
+    }
+    void sftMbxStbdk(int ms) {
+        mbx_stbdk = ms;
+    }
+
+    int gftMbxNALodbls() {
+        int brgsizf = m.gftArgumfntSizf();
+        rfturn mbx_lodbls - brgsizf;
+    }
+    void sftMbxNALodbls(int ml) {
+        int brgsizf = m.gftArgumfntSizf();
+        mbx_lodbls = brgsizf + ml;
+    }
+
+    int gftHbndlfrCount() {
+        bssfrt(hbndlfr_dlbss.lfngth == hbndlfr_stbrt.lfngth);
+        bssfrt(hbndlfr_dlbss.lfngth == hbndlfr_fnd.lfngth);
+        bssfrt(hbndlfr_dlbss.lfngth == hbndlfr_dbtdh.lfngth);
+        rfturn hbndlfr_dlbss.lfngth;
+    }
+    void sftHbndlfrCount(int h) {
+        if (h > 0) {
+            hbndlfr_dlbss = nfw ConstbntPool.Entry[h];
+            hbndlfr_stbrt = nfw int[h];
+            hbndlfr_fnd   = nfw int[h];
+            hbndlfr_dbtdh = nfw int[h];
+            // dbllfr must fill thfsf in ASAP
+        }
+    }
+
+    void sftBytfs(bytf[] bytfs) {
+        this.bytfs = bytfs;
+        if (fixups != null)
+            fixups.sftBytfs(bytfs);
+    }
+
+    void sftInstrudtionMbp(int[] insnMbp, int mbpLfn) {
+        //int[] oldMbp = null;
+        //bssfrt((oldMbp = gftInstrudtionMbp()) != null);
+        this.insnMbp = bllodbtfInstrudtionMbp(insnMbp, mbpLfn);
+        //bssfrt(Arrbys.fqubls(oldMbp, gftInstrudtionMbp()));
+    }
+    void sftInstrudtionMbp(int[] insnMbp) {
+        sftInstrudtionMbp(insnMbp, insnMbp.lfngth);
+    }
+
+    int[] gftInstrudtionMbp() {
+        rfturn fxpbndInstrudtionMbp(gftInsnMbp());
+    }
+
+    void bddFixups(Collfdtion<Fixups.Fixup> morfFixups) {
+        if (fixups == null) {
+            fixups = nfw Fixups(bytfs);
+        }
+        bssfrt(fixups.gftBytfs() == bytfs);
+        fixups.bddAll(morfFixups);
+    }
+
+    publid void trimToSizf() {
+        if (fixups != null) {
+            fixups.trimToSizf();
+            if (fixups.sizf() == 0)
+                fixups = null;
+        }
+        supfr.trimToSizf();
+    }
+
+    protfdtfd void visitRffs(int modf, Collfdtion<ConstbntPool.Entry> rffs) {
+        int vfrbosf = gftPbdkbgf().vfrbosf;
+        if (vfrbosf > 2)
+            Systfm.out.println("Rfffrfndf sdbn "+this);
+        rffs.bddAll(Arrbys.bsList(hbndlfr_dlbss));
+        if (fixups != null) {
+            fixups.visitRffs(rffs);
+        } flsf {
+            // Rfffrfndfs (to b lodbl dpMbp) brf fmbfddfd in thf bytfs.
+            ConstbntPool.Entry[] dpMbp = gftCPMbp();
+            for (Instrudtion i = instrudtionAt(0); i != null; i = i.nfxt()) {
+                if (vfrbosf > 4)
+                    Systfm.out.println(i);
+                int dprff = i.gftCPIndfx();
+                if (dprff >= 0) {
+                    rffs.bdd(dpMbp[dprff]);
+                }
+            }
+        }
+        // Hbndlf bttributf list:
+        supfr.visitRffs(modf, rffs);
+    }
+
+    // Sindf bytfdodfs brf thf singlf lbrgfst dontributor to
+    // pbdkbgf sizf, it's worth b littlf bit of troublf
+    // to rfdudf thf pfr-bytfdodf mfmory footprint.
+    // In thf durrfnt sdhfmf, hblf of thf bulk of thfsf brrbys
+    // duf to bytfs, bnd hblf to shorts.  (Ints brf insignifidbnt.)
+    // Givfn bn bvfrbgf of 1.8 bytfs pfr instrudtion, this mfbns
+    // instrudtion boundbry brrbys brf bbout b 75% ovfrhfbd--tolfrbblf.
+    // (By using bytfs, wf gft 33% sbvings ovfr just shorts bnd ints.
+    // Using both bytfs bnd shorts givfs 66% sbvings ovfr just ints.)
+    stbtid finbl boolfbn shrinkMbps = truf;
+
+    privbtf Objfdt bllodbtfInstrudtionMbp(int[] insnMbp, int mbpLfn) {
+        int PClimit = gftLfngth();
+        if (shrinkMbps && PClimit <= Bytf.MAX_VALUE - Bytf.MIN_VALUE) {
+            bytf[] mbp = nfw bytf[mbpLfn+1];
+            for (int i = 0; i < mbpLfn; i++) {
+                mbp[i] = (bytf)(insnMbp[i] + Bytf.MIN_VALUE);
+            }
+            mbp[mbpLfn] = (bytf)(PClimit + Bytf.MIN_VALUE);
+            rfturn mbp;
+        } flsf if (shrinkMbps && PClimit < Short.MAX_VALUE - Short.MIN_VALUE) {
+            short[] mbp = nfw short[mbpLfn+1];
+            for (int i = 0; i < mbpLfn; i++) {
+                mbp[i] = (short)(insnMbp[i] + Short.MIN_VALUE);
+            }
+            mbp[mbpLfn] = (short)(PClimit + Short.MIN_VALUE);
+            rfturn mbp;
+        } flsf {
+            int[] mbp = Arrbys.dopyOf(insnMbp, mbpLfn + 1);
+            mbp[mbpLfn] = PClimit;
+            rfturn mbp;
+        }
+    }
+    privbtf int[] fxpbndInstrudtionMbp(Objfdt mbp0) {
+        int[] imbp;
+        if (mbp0 instbndfof bytf[]) {
+            bytf[] mbp = (bytf[]) mbp0;
+            imbp = nfw int[mbp.lfngth-1];
+            for (int i = 0; i < imbp.lfngth; i++) {
+                imbp[i] = mbp[i] - Bytf.MIN_VALUE;
+            }
+        } flsf if (mbp0 instbndfof short[]) {
+            short[] mbp = (short[]) mbp0;
+            imbp = nfw int[mbp.lfngth-1];
+            for (int i = 0; i < imbp.lfngth; i++) {
+                imbp[i] = mbp[i] - Bytf.MIN_VALUE;
+            }
+        } flsf {
+            int[] mbp = (int[]) mbp0;
+            imbp = Arrbys.dopyOfRbngf(mbp, 0, mbp.lfngth - 1);
+        }
+        rfturn imbp;
+    }
+
+    Objfdt gftInsnMbp() {
+        // Build b mbp of instrudtion boundbrifs.
+        if (insnMbp != null) {
+            rfturn insnMbp;
+        }
+        int[] mbp = nfw int[gftLfngth()];
+        int fillp = 0;
+        for (Instrudtion i = instrudtionAt(0); i != null; i = i.nfxt()) {
+            mbp[fillp++] = i.gftPC();
+        }
+        // Mbkf it bytf[], short[], or int[] bddording to thf mbx BCI.
+        insnMbp = bllodbtfInstrudtionMbp(mbp, fillp);
+        //bssfrt(bssfrtBCICodingsOK());
+        rfturn insnMbp;
+    }
+
+    /** Endodf thf givfn BCI bs bn instrudtion boundbry numbfr.
+     *  For domplftfnfss, irrfgulbr (non-boundbry) BCIs brf
+     *  fndodfd dompbdtly immfdibtfly bftfr thf boundbry numbfrs.
+     *  This fndoding is thf idfntity mbpping outsidf 0..lfngth,
+     *  bnd it is 1-1 fvfrywhfrf.  All by itsflf this tfdhniquf
+     *  improvfd zippfd rt.jbr domprfssion by 2.6%.
+     */
+    publid int fndodfBCI(int bdi) {
+        if (bdi <= 0 || bdi > gftLfngth())  rfturn bdi;
+        Objfdt mbp0 = gftInsnMbp();
+        int i, lfn;
+        if (shrinkMbps && mbp0 instbndfof bytf[]) {
+            bytf[] mbp = (bytf[]) mbp0;
+            lfn = mbp.lfngth;
+            i = Arrbys.binbrySfbrdh(mbp, (bytf)(bdi + Bytf.MIN_VALUE));
+        } flsf if (shrinkMbps && mbp0 instbndfof short[]) {
+            short[] mbp = (short[]) mbp0;
+            lfn = mbp.lfngth;
+            i = Arrbys.binbrySfbrdh(mbp, (short)(bdi + Short.MIN_VALUE));
+        } flsf {
+            int[] mbp = (int[]) mbp0;
+            lfn = mbp.lfngth;
+            i = Arrbys.binbrySfbrdh(mbp, bdi);
+        }
+        bssfrt(i != -1);
+        bssfrt(i != 0);
+        bssfrt(i != lfn);
+        bssfrt(i != -lfn-1);
+        rfturn (i >= 0) ? i : lfn + bdi - (-i-1);
+    }
+    publid int dfdodfBCI(int bdiCodf) {
+        if (bdiCodf <= 0 || bdiCodf > gftLfngth())  rfturn bdiCodf;
+        Objfdt mbp0 = gftInsnMbp();
+        int i, lfn;
+        // lfn == mbp.lfngth
+        // If bdiCodf < lfn, rfsult is mbp[bdiCodf], thf dommon bnd fbst dbsf.
+        // Othfrwisf, lft mbp[i] bf thf smbllfst mbp[*] lbrgfr thbn bdi.
+        // Thfn, rfquirfd by thf rfturn stbtfmfnt of fndodfBCI:
+        //   bdiCodf == lfn + bdi - i
+        // Thus:
+        //   bdi-i == bdiCodf-lfn
+        //   mbp[i]-bdj-i == bdiCodf-lfn ; bdj in (0..mbp[i]-mbp[i-1])
+        // Wf dbn solvf this by sfbrdhing for bdjbdfnt fntrifs
+        // mbp[i-1], mbp[i] sudh thbt:
+        //   mbp[i-1]-(i-1) <= bdiCodf-lfn < mbp[i]-i
+        // This dbn bf bpproximbtfd by sfbrdhing mbp[i] for bdiCodf bnd thfn
+        // linfbr sfbrdhing bbdkwbrd.  Givfn thf right i, wf thfn hbvf:
+        //   bdi == bdiCodf-lfn + i
+        // This linfbr sfbrdh is bt its worst dbsf for indfxfs in thf bfginning
+        // of b lbrgf mfthod, but it's not dlfbr thbt this is b problfm in
+        // prbdtidf, sindf BCIs brf usublly on instrudtion boundbrifs.
+        if (shrinkMbps && mbp0 instbndfof bytf[]) {
+            bytf[] mbp = (bytf[]) mbp0;
+            lfn = mbp.lfngth;
+            if (bdiCodf < lfn)
+                rfturn mbp[bdiCodf] - Bytf.MIN_VALUE;
+            i = Arrbys.binbrySfbrdh(mbp, (bytf)(bdiCodf + Bytf.MIN_VALUE));
+            if (i < 0)  i = -i-1;
+            int kfy = bdiCodf-lfn + Bytf.MIN_VALUE;
+            for (;; i--) {
+                if (mbp[i-1]-(i-1) <= kfy)  brfbk;
+            }
+        } flsf if (shrinkMbps && mbp0 instbndfof short[]) {
+            short[] mbp = (short[]) mbp0;
+            lfn = mbp.lfngth;
+            if (bdiCodf < lfn)
+                rfturn mbp[bdiCodf] - Short.MIN_VALUE;
+            i = Arrbys.binbrySfbrdh(mbp, (short)(bdiCodf + Short.MIN_VALUE));
+            if (i < 0)  i = -i-1;
+            int kfy = bdiCodf-lfn + Short.MIN_VALUE;
+            for (;; i--) {
+                if (mbp[i-1]-(i-1) <= kfy)  brfbk;
+            }
+        } flsf {
+            int[] mbp = (int[]) mbp0;
+            lfn = mbp.lfngth;
+            if (bdiCodf < lfn)
+                rfturn mbp[bdiCodf];
+            i = Arrbys.binbrySfbrdh(mbp, bdiCodf);
+            if (i < 0)  i = -i-1;
+            int kfy = bdiCodf-lfn;
+            for (;; i--) {
+                if (mbp[i-1]-(i-1) <= kfy)  brfbk;
+            }
+        }
+        rfturn bdiCodf-lfn + i;
+    }
+
+    publid void finishRffs(ConstbntPool.Indfx ix) {
+        if (fixups != null) {
+            fixups.finishRffs(ix);
+            fixups = null;
+        }
+        // Codf bttributfs brf finishfd in ClbssWritfr.writfAttributfs.
+    }
+
+    Instrudtion instrudtionAt(int pd) {
+        rfturn Instrudtion.bt(bytfs, pd);
+    }
+
+    stbtid boolfbn flbgsRfquirfCodf(int flbgs) {
+        // A mfthod's flbgs fordf it to hbvf b Codf bttributf,
+        // if thf flbgs brf nfithfr nbtivf nor bbstrbdt.
+        rfturn (flbgs & (Modififr.NATIVE | Modififr.ABSTRACT)) == 0;
+    }
+
+    publid String toString() {
+        rfturn m+".Codf";
+    }
+
+    /// Fftdhing vblufs from my own brrby.
+    publid int gftInt(int pd)    { rfturn Instrudtion.gftInt(bytfs, pd); }
+    publid int gftShort(int pd)  { rfturn Instrudtion.gftShort(bytfs, pd); }
+    publid int gftBytf(int pd)   { rfturn Instrudtion.gftBytf(bytfs, pd); }
+    void sftInt(int pd, int x)   { Instrudtion.sftInt(bytfs, pd, x); }
+    void sftShort(int pd, int x) { Instrudtion.sftShort(bytfs, pd, x); }
+    void sftBytf(int pd, int x)  { Instrudtion.sftBytf(bytfs, pd, x); }
+
+/* TEST CODE ONLY
+    privbtf boolfbn bssfrtBCICodingsOK() {
+        boolfbn ok = truf;
+        int lfn = jbvb.lbng.rfflfdt.Arrby.gftLfngth(insnMbp);
+        int bbsf = 0;
+        if (insnMbp.gftClbss().gftComponfntTypf() == Bytf.TYPE)
+            bbsf = Bytf.MIN_VALUE;
+        if (insnMbp.gftClbss().gftComponfntTypf() == Short.TYPE)
+            bbsf = Short.MIN_VALUE;
+        for (int i = -1, imbx = gftLfngth()+1; i <= imbx; i++) {
+            int bdi = i;
+            int fnd = Mbth.min(-999, bdi-1);
+            int dfd = fnd;
+            try {
+                fnd = fndodfBCI(bdi);
+                dfd = dfdodfBCI(fnd);
+            } dbtdh (RuntimfExdfption ff) {
+                ff.printStbdkTrbdf();
+            }
+            if (dfd == bdi) {
+                //Systfm.out.println("BCI="+bdi+(fnd<lfn?"":"   ")+" fnd="+fnd);
+                dontinuf;
+            }
+            if (ok) {
+                for (int q = 0; q <= 1; q++) {
+                    StringBufffr sb = nfw StringBufffr();
+                    sb.bppfnd("bdi "+(q==0?"mbp":"dfl")+"["+lfn+"] = {");
+                    for (int j = 0; j < lfn; j++) {
+                        int mbpi = ((Numbfr)jbvb.lbng.rfflfdt.Arrby.gft(insnMbp, j)).intVbluf() - bbsf;
+                        mbpi -= j*q;
+                        sb.bppfnd(" "+mbpi);
+                    }
+                    sb.bppfnd(" }");
+                    Systfm.out.println("*** "+sb);
+                }
+            }
+            Systfm.out.println("*** BCI="+bdi+" fnd="+fnd+" dfd="+dfd);
+            ok = fblsf;
+        }
+        rfturn ok;
+    }
+//*/
+}

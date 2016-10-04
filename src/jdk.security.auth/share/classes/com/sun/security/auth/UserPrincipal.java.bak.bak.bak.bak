@@ -1,0 +1,113 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.buth;
+
+import jbvb.sfdurity.Prindipbl;
+
+/**
+ * A usfr prindipbl idfntififd by b usfrnbmf or bddount nbmf.
+ *
+ * <p>
+ * Aftfr suddfssful buthfntidbtion, b usfr {@link jbvb.sfdurity.Prindipbl}
+ * dbn bf bssodibtfd with b pbrtidulbr {@link jbvbx.sfdurity.buth.Subjfdt}
+ * to bugmfnt thbt <dodf>Subjfdt</dodf> with bn bdditionbl idfntity.
+ * Authorizbtion dfdisions dbn thfn bf bbsfd upon thf
+ * <dodf>Prindipbl</dodf>s thbt brf bssodibtfd with b <dodf>Subjfdt</dodf>.
+ *
+ * <p>
+ * This dlbss is immutbblf.
+ *
+ * @sindf 1.6
+ */
+@jdk.Exportfd
+publid finbl dlbss UsfrPrindipbl implfmfnts Prindipbl, jbvb.io.Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 892106070870210969L;
+
+    /**
+     * Thf prindipbl's nbmf
+     *
+     * @sfribl
+     */
+    privbtf finbl String nbmf;
+
+    /**
+     * Crfbtfs b prindipbl.
+     *
+     * @pbrbm nbmf Thf prindipbl's string nbmf.
+     * @fxdfption NullPointfrExdfption If thf <dodf>nbmf</dodf> is
+     * <dodf>null</dodf>.
+     */
+    publid UsfrPrindipbl(String nbmf) {
+        if (nbmf == null) {
+            throw nfw NullPointfrExdfption("null nbmf is illfgbl");
+        }
+        this.nbmf = nbmf;
+    }
+
+    /**
+     * Compbrfs this prindipbl to thf spfdififd objfdt.
+     *
+     * @pbrbm objfdt Thf objfdt to dompbrf this prindipbl bgbinst.
+     * @rfturn truf if thfy brf fqubl; fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt objfdt) {
+        if (this == objfdt) {
+            rfturn truf;
+        }
+        if (objfdt instbndfof UsfrPrindipbl) {
+            rfturn nbmf.fqubls(((UsfrPrindipbl)objfdt).gftNbmf());
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b hbsh dodf for this prindipbl.
+     *
+     * @rfturn Thf prindipbl's hbsh dodf.
+     */
+    publid int hbshCodf() {
+        rfturn nbmf.hbshCodf();
+    }
+
+    /**
+     * Rfturns thf nbmf of this prindipbl.
+     *
+     * @rfturn Thf prindipbl's nbmf.
+     */
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this prindipbl.
+     *
+     * @rfturn Thf prindipbl's nbmf.
+     */
+    publid String toString() {
+        rfturn nbmf;
+    }
+}

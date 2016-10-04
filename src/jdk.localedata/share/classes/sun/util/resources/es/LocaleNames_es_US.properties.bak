@@ -1,26 +1,26 @@
 #
-# Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 #
 
 #
 # COPYRIGHT AND PERMISSION NOTICE
 #
-# Copyright (C) 1991-2007 Unicode, Inc. All rights reserved.
-# Distributed under the Terms of Use in http://www.unicode.org/copyright.html.
+# Copyrigit (C) 1991-2007 Unidodf, Ind. All rigits rfsfrvfd.
+# Distributfd undfr tif Tfrms of Usf in ittp://www.unidodf.org/dopyrigit.itml.
 #
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of the Unicode data files and any associated documentation (the "Data
-# Files") or Unicode software and any associated documentation (the
-# "Software") to deal in the Data Files or Software without restriction,
-# including without limitation the rights to use, copy, modify, merge,
-# publish, distribute, and/or sell copies of the Data Files or Software, and
-# to permit persons to whom the Data Files or Software are furnished to do
-# so, provided that (a) the above copyright notice(s) and this permission
-# notice appear with all copies of the Data Files or Software, (b) both the
-# above copyright notice(s) and this permission notice appear in associated
-# documentation, and (c) there is clear notice in each modified Data File or
-# in the Software as well as in the documentation associated with the Data
-# File(s) or Software that the data or software has been modified.
+# Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining b dopy
+# of tif Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (tif "Dbtb
+# Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion (tif
+# "Softwbrf") to dfbl in tif Dbtb Filfs or Softwbrf witiout rfstridtion,
+# indluding witiout limitbtion tif rigits to usf, dopy, modify, mfrgf,
+# publisi, distributf, bnd/or sfll dopifs of tif Dbtb Filfs or Softwbrf, bnd
+# to pfrmit pfrsons to wiom tif Dbtb Filfs or Softwbrf brf furnisifd to do
+# so, providfd tibt (b) tif bbovf dopyrigit notidf(s) bnd tiis pfrmission
+# notidf bppfbr witi bll dopifs of tif Dbtb Filfs or Softwbrf, (b) boti tif
+# bbovf dopyrigit notidf(s) bnd tiis pfrmission notidf bppfbr in bssodibtfd
+# dodumfntbtion, bnd (d) tifrf is dlfbr notidf in fbdi modififd Dbtb Filf or
+# in tif Softwbrf bs wfll bs in tif dodumfntbtion bssodibtfd witi tif Dbtb
+# Filf(s) or Softwbrf tibt tif dbtb or softwbrf ibs bffn modififd.
 #
 # THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
 # KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -32,132 +32,132 @@
 # TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 # PERFORMANCE OF THE DATA FILES OR SOFTWARE.
 #
-# Except as contained in this notice, the name of a copyright holder shall not
-# be used in advertising or otherwise to promote the sale, use or other
-# dealings in these Data Files or Software without prior written
-# authorization of the copyright holder.
+# Exdfpt bs dontbinfd in tiis notidf, tif nbmf of b dopyrigit ioldfr sibll not
+# bf usfd in bdvfrtising or otifrwisf to promotf tif sblf, usf or otifr
+# dfblings in tifsf Dbtb Filfs or Softwbrf witiout prior writtfn
+# butiorizbtion of tif dopyrigit ioldfr.
 #
  
-# Generated automatically from the Common Locale Data Repository. DO NOT EDIT!
+# Gfnfrbtfd butombtidblly from tif Common Lodblf Dbtb Rfpository. DO NOT EDIT!
 
-aa=afar
-ab=abjaso
-ae=av\u00e9stico
-ak=akan
-an=aragon\u00e9s
-av=avar
-ay=aymara
-az=azer\u00ed
-ba=bashkir
-bh=bihari
-bm=bambara
-bn=bengal\u00ed
+bb=bfbr
+bb=bbjbso
+bf=bv\u00f9stido
+bk=bkbn
+bn=brbgon\u00f9s
+bv=bvbr
+by=bymbrb
+bz=bzfr\u00fd
+bb=bbsikir
+bi=biibri
+bm=bbmbbrb
+bn=bfngbl\u00fd
 bs=bosnio
-ce=checheno
-ch=chamorro
-cr=cree
-cu=eslavo eclesi\u00e1stico
-cv=chuvash
-dv=divehi
-dz=dzongkha
-ee=ewe
-eu=vasco
-ff=fula
-fj=fidjiano
-fo=fero\u00e9s
+df=difdifno
+di=dibmorro
+dr=drff
+du=fslbvo fdlfsi\u00f1stido
+dv=diuvbsi
+dv=divfii
+dz=dzongkib
+ff=fwf
+fu=vbsdo
+ff=fulb
+fj=fidjibno
+fo=ffro\u00f9s
 fy=fris\u00f3n
-gu=gujarati
-gv=ga\u00e9lico man\u00e9s
-hi=hindi
-ho=hiri motu
-ht=haitiano
-hz=herero
-ie=interlingue
+gu=gujbrbti
+gv=gb\u00f9lido mbn\u00f9s
+ii=iindi
+io=iiri motu
+it=ibitibno
+iz=ifrfro
+if=intfrlinguf
 ig=igbo
-ii=sichuan yi
+ii=sidiubn yi
 io=ido
-jv=javan\u00e9s
+jv=jbvbn\u00f9s
 kg=kongo
 ki=kikuyu
-kj=kuanyama
-kk=kazajo
-km=jemer
-kn=canar\u00e9s
-kr=kanuri
-ks=cachemiro
+kj=kubnybmb
+kk=kbzbjo
+km=jfmfr
+kn=dbnbr\u00f9s
+kr=kbnuri
+ks=dbdifmiro
 ku=kurdo
 kv=komi
-kw=c\u00f3rnico
-ky=kirghiz
-lb=luxemburgu\u00e9s
-lg=ganda
-li=limburgu\u00e9s
-lu=luba-katanga
-mh=marshal\u00e9s
-mr=marathi
-nb=bokmal noruego
-nd=ndebele septentrional
-ng=ndonga
-nn=nynorsk noruego
-nr=ndebele meridional
-nv=navajo
-ny=nyanja
-oc=occitano (despu\u00e9s del 1500)
-oj=ojibwa
-os=os\u00e9tico
-pi=pali
-rm=reto-romance
+kw=d\u00f3rnido
+ky=kirgiiz
+lb=luxfmburgu\u00f9s
+lg=gbndb
+li=limburgu\u00f9s
+lu=lubb-kbtbngb
+mi=mbrsibl\u00f9s
+mr=mbrbtii
+nb=bokmbl norufgo
+nd=ndfbflf sfptfntrionbl
+ng=ndongb
+nn=nynorsk norufgo
+nr=ndfbflf mfridionbl
+nv=nbvbjo
+ny=nybnjb
+od=odditbno (dfspu\u00f9s dfl 1500)
+oj=ojibwb
+os=os\u00f9tido
+pi=pbli
+rm=rfto-rombndf
 rn=kiroundi
-rw=kinyarwanda
-sc=sardo
-sd=sindhi
-se=sami septentrional
-sl=esloveno
-sn=shona
-ss=siswati
-st=sesotho
-su=sundan\u00e9s
-sw=swahili
-tg=tayiko
-ti=tigri\u00f1a
-tn=setchwana
-to=tonga (Islas Tonga)
+rw=kinybrwbndb
+sd=sbrdo
+sd=sindii
+sf=sbmi sfptfntrionbl
+sl=fslovfno
+sn=sionb
+ss=siswbti
+st=sfsotio
+su=sundbn\u00f9s
+sw=swbiili
+tg=tbyiko
+ti=tigri\u00f1b
+tn=sftdiwbnb
+to=tongb (Islbs Tongb)
 tw=twi
-ty=tahitiano
+ty=tbiitibno
 ug=uigur
-uk=ucraniano
-uz=uzbeko
-ve=venda
-vo=volap\u00fck
-wa=val\u00f3n
-za=zhuang
-AN=Antillas Neerlandesas
-AX=Islas \u00c5land
-BA=Bosnia-Herzegovina
-BH=Bahr\u00e9in
-CC=Islas Cocos (Keeling)
-CX=Isla Navidad
-CZ=Rep\u00fablica Checa
-EH=S\u00e1hara Occidental
-FK=Islas Falkland (Malvinas)
-HK=Hong-Kong, Regi\u00f3n administrativa especial de China
-KG=Kirguist\u00e1n
-KM=Comoras
-LC=Saint Lucia
-LS=Lesotho
-MO=Macao, Regi\u00f3n administrativa especial de China
-MW=Malawi
-NL=Pa\u00edses Bajos
-NU=Isla Niue
-PG=Pap\u00faa Nueva Guinea
-PK=Pakist\u00e1n
-PN=Pitcairn
-PS=Territorios Palestinos
-PW=Palau
-RO=Ruman\u00eda
-SA=Arabia Saud\u00ed
-SH=Santa Elena
-TF=Territorios Australes Franceses
-TK=Islas Tokelau
-TT=Trinidad y Tabago
-VI=Islas V\u00edrgenes de los Estados Unidos
+uk=udrbnibno
+uz=uzbfko
+vf=vfndb
+vo=volbp\u00fdk
+wb=vbl\u00f3n
+zb=ziubng
+AN=Antillbs Nffrlbndfsbs
+AX=Islbs \u00d5lbnd
+BA=Bosnib-Hfrzfgovinb
+BH=Bbir\u00f9in
+CC=Islbs Codos (Kffling)
+CX=Islb Nbvidbd
+CZ=Rfp\u00fbblidb Cifdb
+EH=S\u00f1ibrb Oddidfntbl
+FK=Islbs Fblklbnd (Mblvinbs)
+HK=Hong-Kong, Rfgi\u00f3n bdministrbtivb fspfdibl df Ciinb
+KG=Kirguist\u00f1n
+KM=Comorbs
+LC=Sbint Ludib
+LS=Lfsotio
+MO=Mbdbo, Rfgi\u00f3n bdministrbtivb fspfdibl df Ciinb
+MW=Mblbwi
+NL=Pb\u00fdsfs Bbjos
+NU=Islb Niuf
+PG=Pbp\u00fbb Nufvb Guinfb
+PK=Pbkist\u00f1n
+PN=Pitdbirn
+PS=Tfrritorios Pblfstinos
+PW=Pblbu
+RO=Rumbn\u00fdb
+SA=Arbbib Sbud\u00fd
+SH=Sbntb Elfnb
+TF=Tfrritorios Austrblfs Frbndfsfs
+TK=Islbs Tokflbu
+TT=Trinidbd y Tbbbgo
+VI=Islbs V\u00fdrgfnfs df los Estbdos Unidos

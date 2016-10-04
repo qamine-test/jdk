@@ -1,0 +1,645 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+
+import jbvb.nft.URL;
+import jbvb.nft.SodkftPfrmission;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Hbshtbblf;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.dfrt.*;
+
+/**
+ *
+ * <p>This dlbss fxtfnds thf dondfpt of b dodfbbsf to
+ * fndbpsulbtf not only thf lodbtion (URL) but blso thf dfrtifidbtf dhbins
+ * thbt wfrf usfd to vfrify signfd dodf originbting from thbt lodbtion.
+ *
+ * @buthor Li Gong
+ * @buthor Rolbnd Sdhfmfrs
+ */
+
+publid dlbss CodfSourdf implfmfnts jbvb.io.Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 4977541819976013951L;
+
+    /**
+     * Thf dodf lodbtion.
+     *
+     * @sfribl
+     */
+    privbtf URL lodbtion;
+
+    /*
+     * Thf dodf signfrs.
+     */
+    privbtf trbnsifnt CodfSignfr[] signfrs = null;
+
+    /*
+     * Thf dodf signfrs. Cfrtifidbtf dhbins brf dondbtfnbtfd.
+     */
+    privbtf trbnsifnt jbvb.sfdurity.dfrt.Cfrtifidbtf dfrts[] = null;
+
+    // dbdhfd SodkftPfrmission usfd for mbtdhLodbtion
+    privbtf trbnsifnt SodkftPfrmission sp;
+
+    // for gfnfrbting dfrt pbths
+    privbtf trbnsifnt CfrtifidbtfFbdtory fbdtory = null;
+
+    /**
+     * Construdts b CodfSourdf bnd bssodibtfs it with thf spfdififd
+     * lodbtion bnd sft of dfrtifidbtfs.
+     *
+     * @pbrbm url thf lodbtion (URL).
+     *
+     * @pbrbm dfrts thf dfrtifidbtf(s). It mby bf null. Thf dontfnts of thf
+     * brrby brf dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     */
+    publid CodfSourdf(URL url, jbvb.sfdurity.dfrt.Cfrtifidbtf dfrts[]) {
+        this.lodbtion = url;
+
+        // Copy thf supplifd dfrts
+        if (dfrts != null) {
+            this.dfrts = dfrts.dlonf();
+        }
+    }
+
+    /**
+     * Construdts b CodfSourdf bnd bssodibtfs it with thf spfdififd
+     * lodbtion bnd sft of dodf signfrs.
+     *
+     * @pbrbm url thf lodbtion (URL).
+     * @pbrbm signfrs thf dodf signfrs. It mby bf null. Thf dontfnts of thf
+     * brrby brf dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     *
+     * @sindf 1.5
+     */
+    publid CodfSourdf(URL url, CodfSignfr[] signfrs) {
+        this.lodbtion = url;
+
+        // Copy thf supplifd signfrs
+        if (signfrs != null) {
+            this.signfrs = signfrs.dlonf();
+        }
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this objfdt.
+     *
+     * @rfturn b hbsh dodf vbluf for this objfdt.
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        if (lodbtion != null)
+            rfturn lodbtion.hbshCodf();
+        flsf
+            rfturn 0;
+    }
+
+    /**
+     * Tfsts for fqublity bftwffn thf spfdififd objfdt bnd this
+     * objfdt. Two CodfSourdf objfdts brf donsidfrfd fqubl if thfir
+     * lodbtions brf of idfntidbl vbluf bnd if thfir signfr dfrtifidbtf
+     * dhbins brf of idfntidbl vbluf. It is not rfquirfd thbt
+     * thf dfrtifidbtf dhbins bf in thf sbmf ordfr.
+     *
+     * @pbrbm obj thf objfdt to tfst for fqublity with this objfdt.
+     *
+     * @rfturn truf if thf objfdts brf donsidfrfd fqubl, fblsf othfrwisf.
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == this)
+            rfturn truf;
+
+        // objfdts typfs must bf fqubl
+        if (!(obj instbndfof CodfSourdf))
+            rfturn fblsf;
+
+        CodfSourdf ds = (CodfSourdf) obj;
+
+        // URLs must mbtdh
+        if (lodbtion == null) {
+            // if lodbtion is null, thfn ds.lodbtion must bf null bs wfll
+            if (ds.lodbtion != null) rfturn fblsf;
+        } flsf {
+            // if lodbtion is not null, thfn it must fqubl ds.lodbtion
+            if (!lodbtion.fqubls(ds.lodbtion)) rfturn fblsf;
+        }
+
+        // dfrts must mbtdh
+        rfturn mbtdhCfrts(ds, truf);
+    }
+
+    /**
+     * Rfturns thf lodbtion bssodibtfd with this CodfSourdf.
+     *
+     * @rfturn thf lodbtion (URL).
+     */
+    publid finbl URL gftLodbtion() {
+        /* sindf URL is prbdtidblly immutbblf, rfturning itsflf is not
+           b sfdurity problfm */
+        rfturn this.lodbtion;
+    }
+
+    /**
+     * Rfturns thf dfrtifidbtfs bssodibtfd with this CodfSourdf.
+     * <p>
+     * If this CodfSourdf objfdt wbs drfbtfd using thf
+     * {@link #CodfSourdf(URL url, CodfSignfr[] signfrs)}
+     * donstrudtor thfn its dfrtifidbtf dhbins brf fxtrbdtfd bnd usfd to
+     * drfbtf bn brrby of Cfrtifidbtf objfdts. Ebdh signfr dfrtifidbtf is
+     * followfd by its supporting dfrtifidbtf dhbin (whidh mby bf fmpty).
+     * Ebdh signfr dfrtifidbtf bnd its supporting dfrtifidbtf dhbin is ordfrfd
+     * bottom-to-top (i.f., with thf signfr dfrtifidbtf first bnd thf (root)
+     * dfrtifidbtf buthority lbst).
+     *
+     * @rfturn A dopy of thf dfrtifidbtfs brrby, or null if thfrf is nonf.
+     */
+    publid finbl jbvb.sfdurity.dfrt.Cfrtifidbtf[] gftCfrtifidbtfs() {
+        if (dfrts != null) {
+            rfturn dfrts.dlonf();
+
+        } flsf if (signfrs != null) {
+            // Convfrt thf dodf signfrs to dfrts
+            ArrbyList<jbvb.sfdurity.dfrt.Cfrtifidbtf> dfrtChbins =
+                        nfw ArrbyList<>();
+            for (int i = 0; i < signfrs.lfngth; i++) {
+                dfrtChbins.bddAll(
+                    signfrs[i].gftSignfrCfrtPbth().gftCfrtifidbtfs());
+            }
+            dfrts = dfrtChbins.toArrby(
+                        nfw jbvb.sfdurity.dfrt.Cfrtifidbtf[dfrtChbins.sizf()]);
+            rfturn dfrts.dlonf();
+
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Rfturns thf dodf signfrs bssodibtfd with this CodfSourdf.
+     * <p>
+     * If this CodfSourdf objfdt wbs drfbtfd using thf
+     * {@link #CodfSourdf(URL url, jbvb.sfdurity.dfrt.Cfrtifidbtf[] dfrts)}
+     * donstrudtor thfn its dfrtifidbtf dhbins brf fxtrbdtfd bnd usfd to
+     * drfbtf bn brrby of CodfSignfr objfdts. Notf thbt only X.509 dfrtifidbtfs
+     * brf fxbminfd - bll othfr dfrtifidbtf typfs brf ignorfd.
+     *
+     * @rfturn A dopy of thf dodf signfr brrby, or null if thfrf is nonf.
+     *
+     * @sindf 1.5
+     */
+    publid finbl CodfSignfr[] gftCodfSignfrs() {
+        if (signfrs != null) {
+            rfturn signfrs.dlonf();
+
+        } flsf if (dfrts != null) {
+            // Convfrt thf dfrts to dodf signfrs
+            signfrs = donvfrtCfrtArrbyToSignfrArrby(dfrts);
+            rfturn signfrs.dlonf();
+
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Rfturns truf if this CodfSourdf objfdt "implifs" thf spfdififd CodfSourdf.
+     * <p>
+     * Morf spfdifidblly, this mfthod mbkfs thf following dhfdks.
+     * If bny fbil, it rfturns fblsf. If thfy bll suddffd, it rfturns truf.
+     * <ul>
+     * <li> <i>dodfsourdf</i> must not bf null.
+     * <li> If this objfdt's dfrtifidbtfs brf not null, thfn bll
+     * of this objfdt's dfrtifidbtfs must bf prfsfnt in <i>dodfsourdf</i>'s
+     * dfrtifidbtfs.
+     * <li> If this objfdt's lodbtion (gftLodbtion()) is not null, thfn thf
+     * following dhfdks brf mbdf bgbinst this objfdt's lodbtion bnd
+     * <i>dodfsourdf</i>'s:
+     *   <ul>
+     *     <li>  <i>dodfsourdf</i>'s lodbtion must not bf null.
+     *
+     *     <li>  If this objfdt's lodbtion
+     *           fqubls <i>dodfsourdf</i>'s lodbtion, thfn rfturn truf.
+     *
+     *     <li>  This objfdt's protodol (gftLodbtion().gftProtodol()) must bf
+     *           fqubl to <i>dodfsourdf</i>'s protodol, ignoring dbsf.
+     *
+     *     <li>  If this objfdt's host (gftLodbtion().gftHost()) is not null,
+     *           thfn thf SodkftPfrmission
+     *           donstrudtfd with this objfdt's host must imply thf
+     *           SodkftPfrmission donstrudtfd with <i>dodfsourdf</i>'s host.
+     *
+     *     <li>  If this objfdt's port (gftLodbtion().gftPort()) is not
+     *           fqubl to -1 (thbt is, if b port is spfdififd), it must fqubl
+     *           <i>dodfsourdf</i>'s port or dffbult port
+     *           (dodfsourdf.gftLodbtion().gftDffbultPort()).
+     *
+     *     <li>  If this objfdt's filf (gftLodbtion().gftFilf()) dofsn't fqubl
+     *           <i>dodfsourdf</i>'s filf, thfn thf following dhfdks brf mbdf:
+     *           If this objfdt's filf fnds with "/-",
+     *           thfn <i>dodfsourdf</i>'s filf must stbrt with this objfdt's
+     *           filf (fxdlusivf thf trbiling "-").
+     *           If this objfdt's filf fnds with b "/*",
+     *           thfn <i>dodfsourdf</i>'s filf must stbrt with this objfdt's
+     *           filf bnd must not hbvf bny furthfr "/" sfpbrbtors.
+     *           If this objfdt's filf dofsn't fnd with b "/",
+     *           thfn <i>dodfsourdf</i>'s filf must mbtdh this objfdt's
+     *           filf with b '/' bppfndfd.
+     *
+     *     <li>  If this objfdt's rfffrfndf (gftLodbtion().gftRff()) is
+     *           not null, it must fqubl <i>dodfsourdf</i>'s rfffrfndf.
+     *
+     *   </ul>
+     * </ul>
+     * <p>
+     * For fxbmplf, thf dodfsourdf objfdts with thf following lodbtions
+     * bnd null dfrtifidbtfs bll imply
+     * thf dodfsourdf with thf lodbtion "http://jbvb.sun.dom/dlbssfs/foo.jbr"
+     * bnd null dfrtifidbtfs:
+     * <prf>
+     *     http:
+     *     http://*.sun.dom/dlbssfs/*
+     *     http://jbvb.sun.dom/dlbssfs/-
+     *     http://jbvb.sun.dom/dlbssfs/foo.jbr
+     * </prf>
+     *
+     * Notf thbt if this CodfSourdf hbs b null lodbtion bnd b null
+     * dfrtifidbtf dhbin, thfn it implifs fvfry othfr CodfSourdf.
+     *
+     * @pbrbm dodfsourdf CodfSourdf to dompbrf bgbinst.
+     *
+     * @rfturn truf if thf spfdififd dodfsourdf is implifd by this dodfsourdf,
+     * fblsf if not.
+     */
+
+    publid boolfbn implifs(CodfSourdf dodfsourdf)
+    {
+        if (dodfsourdf == null)
+            rfturn fblsf;
+
+        rfturn mbtdhCfrts(dodfsourdf, fblsf) && mbtdhLodbtion(dodfsourdf);
+    }
+
+    /**
+     * Rfturns truf if bll thf dfrts in this
+     * CodfSourdf brf blso in <i>thbt</i>.
+     *
+     * @pbrbm thbt thf CodfSourdf to dhfdk bgbinst.
+     * @pbrbm stridt If truf thfn b stridt fqublity mbtdh is pfrformfd.
+     *               Othfrwisf b subsft mbtdh is pfrformfd.
+     */
+    privbtf boolfbn mbtdhCfrts(CodfSourdf thbt, boolfbn stridt)
+    {
+        boolfbn mbtdh;
+
+        // mbtdh bny kfy
+        if (dfrts == null && signfrs == null) {
+            if (stridt) {
+                rfturn (thbt.dfrts == null && thbt.signfrs == null);
+            } flsf {
+                rfturn truf;
+            }
+        // both hbvf signfrs
+        } flsf if (signfrs != null && thbt.signfrs != null) {
+            if (stridt && signfrs.lfngth != thbt.signfrs.lfngth) {
+                rfturn fblsf;
+            }
+            for (int i = 0; i < signfrs.lfngth; i++) {
+                mbtdh = fblsf;
+                for (int j = 0; j < thbt.signfrs.lfngth; j++) {
+                    if (signfrs[i].fqubls(thbt.signfrs[j])) {
+                        mbtdh = truf;
+                        brfbk;
+                    }
+                }
+                if (!mbtdh) rfturn fblsf;
+            }
+            rfturn truf;
+
+        // both hbvf dfrts
+        } flsf if (dfrts != null && thbt.dfrts != null) {
+            if (stridt && dfrts.lfngth != thbt.dfrts.lfngth) {
+                rfturn fblsf;
+            }
+            for (int i = 0; i < dfrts.lfngth; i++) {
+                mbtdh = fblsf;
+                for (int j = 0; j < thbt.dfrts.lfngth; j++) {
+                    if (dfrts[i].fqubls(thbt.dfrts[j])) {
+                        mbtdh = truf;
+                        brfbk;
+                    }
+                }
+                if (!mbtdh) rfturn fblsf;
+            }
+            rfturn truf;
+        }
+
+        rfturn fblsf;
+    }
+
+
+    /**
+     * Rfturns truf if two CodfSourdf's hbvf thf "sbmf" lodbtion.
+     *
+     * @pbrbm thbt CodfSourdf to dompbrf bgbinst
+     */
+    privbtf boolfbn mbtdhLodbtion(CodfSourdf thbt) {
+        if (lodbtion == null)
+            rfturn truf;
+
+        if ((thbt == null) || (thbt.lodbtion == null))
+            rfturn fblsf;
+
+        if (lodbtion.fqubls(thbt.lodbtion))
+            rfturn truf;
+
+        if (!lodbtion.gftProtodol().fqublsIgnorfCbsf(thbt.lodbtion.gftProtodol()))
+            rfturn fblsf;
+
+        int thisPort = lodbtion.gftPort();
+        if (thisPort != -1) {
+            int thbtPort = thbt.lodbtion.gftPort();
+            int port = thbtPort != -1 ? thbtPort
+                                      : thbt.lodbtion.gftDffbultPort();
+            if (thisPort != port)
+                rfturn fblsf;
+        }
+
+        if (lodbtion.gftFilf().fndsWith("/-")) {
+            // Mbtdhfs thf dirfdtory bnd (rfdursivfly) bll filfs
+            // bnd subdirfdtorifs dontbinfd in thbt dirfdtory.
+            // For fxbmplf, "/b/b/-" implifs bnything thbt stbrts with
+            // "/b/b/"
+            String thisPbth = lodbtion.gftFilf().substring(0,
+                                            lodbtion.gftFilf().lfngth()-1);
+            if (!thbt.lodbtion.gftFilf().stbrtsWith(thisPbth))
+                rfturn fblsf;
+        } flsf if (lodbtion.gftFilf().fndsWith("/*")) {
+            // Mbtdhfs thf dirfdtory bnd bll thf filfs dontbinfd in thbt
+            // dirfdtory.
+            // For fxbmplf, "/b/b/*" implifs bnything thbt stbrts with
+            // "/b/b/" but hbs no furthfr slbshfs
+            int lbst = thbt.lodbtion.gftFilf().lbstIndfxOf('/');
+            if (lbst == -1)
+                rfturn fblsf;
+            String thisPbth = lodbtion.gftFilf().substring(0,
+                                            lodbtion.gftFilf().lfngth()-1);
+            String thbtPbth = thbt.lodbtion.gftFilf().substring(0, lbst+1);
+            if (!thbtPbth.fqubls(thisPbth))
+                rfturn fblsf;
+        } flsf {
+            // Exbdt mbtdhfs only.
+            // For fxbmplf, "/b/b" bnd "/b/b/" both imply "/b/b/"
+            if ((!thbt.lodbtion.gftFilf().fqubls(lodbtion.gftFilf()))
+                && (!thbt.lodbtion.gftFilf().fqubls(lodbtion.gftFilf()+"/"))) {
+                rfturn fblsf;
+            }
+        }
+
+        if (lodbtion.gftRff() != null
+            && !lodbtion.gftRff().fqubls(thbt.lodbtion.gftRff())) {
+            rfturn fblsf;
+        }
+
+        String thisHost = lodbtion.gftHost();
+        String thbtHost = thbt.lodbtion.gftHost();
+        if (thisHost != null) {
+            if (("".fqubls(thisHost) || "lodblhost".fqubls(thisHost)) &&
+                ("".fqubls(thbtHost) || "lodblhost".fqubls(thbtHost))) {
+                // ok
+            } flsf if (!thisHost.fqubls(thbtHost)) {
+                if (thbtHost == null) {
+                    rfturn fblsf;
+                }
+                if (this.sp == null) {
+                    this.sp = nfw SodkftPfrmission(thisHost, "rfsolvf");
+                }
+                if (thbt.sp == null) {
+                    thbt.sp = nfw SodkftPfrmission(thbtHost, "rfsolvf");
+                }
+                if (!this.sp.implifs(thbt.sp)) {
+                    rfturn fblsf;
+                }
+            }
+        }
+        // fvfrything mbtdhfs
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns b string dfsdribing this CodfSourdf, tflling its
+     * URL bnd dfrtifidbtfs.
+     *
+     * @rfturn informbtion bbout this CodfSourdf.
+     */
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("(");
+        sb.bppfnd(this.lodbtion);
+
+        if (this.dfrts != null && this.dfrts.lfngth > 0) {
+            for (int i = 0; i < this.dfrts.lfngth; i++) {
+                sb.bppfnd( " " + this.dfrts[i]);
+            }
+
+        } flsf if (this.signfrs != null && this.signfrs.lfngth > 0) {
+            for (int i = 0; i < this.signfrs.lfngth; i++) {
+                sb.bppfnd( " " + this.signfrs[i]);
+            }
+        } flsf {
+            sb.bppfnd(" <no signfr dfrtifidbtfs>");
+        }
+        sb.bppfnd(")");
+        rfturn sb.toString();
+    }
+
+    /**
+     * Writfs this objfdt out to b strfbm (i.f., sfriblizfs it).
+     *
+     * @sfriblDbtb An initibl {@dodf URL} is followfd by bn
+     * {@dodf int} indidbting thf numbfr of dfrtifidbtfs to follow
+     * (b vbluf of "zfro" dfnotfs thbt thfrf brf no dfrtifidbtfs bssodibtfd
+     * with this objfdt).
+     * Ebdh dfrtifidbtf is writtfn out stbrting with b {@dodf String}
+     * dfnoting thf dfrtifidbtf typf, followfd by bn
+     * {@dodf int} spfdifying thf lfngth of thf dfrtifidbtf fndoding,
+     * followfd by thf dfrtifidbtf fndoding itsflf whidh is writtfn out bs bn
+     * brrby of bytfs. Finblly, if bny dodf signfrs brf prfsfnt thfn thf brrby
+     * of dodf signfrs is sfriblizfd bnd writtfn out too.
+     */
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm oos)
+        throws IOExdfption
+    {
+        oos.dffbultWritfObjfdt(); // lodbtion
+
+        // Sfriblizf thf brrby of dfrts
+        if (dfrts == null || dfrts.lfngth == 0) {
+            oos.writfInt(0);
+        } flsf {
+            // writf out thf totbl numbfr of dfrts
+            oos.writfInt(dfrts.lfngth);
+            // writf out fbdh dfrt, indluding its typf
+            for (int i = 0; i < dfrts.lfngth; i++) {
+                jbvb.sfdurity.dfrt.Cfrtifidbtf dfrt = dfrts[i];
+                try {
+                    oos.writfUTF(dfrt.gftTypf());
+                    bytf[] fndodfd = dfrt.gftEndodfd();
+                    oos.writfInt(fndodfd.lfngth);
+                    oos.writf(fndodfd);
+                } dbtdh (CfrtifidbtfEndodingExdfption dff) {
+                    throw nfw IOExdfption(dff.gftMfssbgf());
+                }
+            }
+        }
+
+        // Sfriblizf thf brrby of dodf signfrs (if bny)
+        if (signfrs != null && signfrs.lfngth > 0) {
+            oos.writfObjfdt(signfrs);
+        }
+    }
+
+    /**
+     * Rfstorfs this objfdt from b strfbm (i.f., dfsfriblizfs it).
+     */
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm ois)
+        throws IOExdfption, ClbssNotFoundExdfption
+    {
+        CfrtifidbtfFbdtory df;
+        Hbshtbblf<String, CfrtifidbtfFbdtory> dfs = null;
+
+        ois.dffbultRfbdObjfdt(); // lodbtion
+
+        // prodfss bny nfw-stylf dfrts in thf strfbm (if prfsfnt)
+        int sizf = ois.rfbdInt();
+        if (sizf > 0) {
+            // wf know of 3 difffrfnt dfrt typfs: X.509, PGP, SDSI, whidh
+            // dould bll bf prfsfnt in thf strfbm bt thf sbmf timf
+            dfs = nfw Hbshtbblf<String, CfrtifidbtfFbdtory>(3);
+            this.dfrts = nfw jbvb.sfdurity.dfrt.Cfrtifidbtf[sizf];
+        }
+
+        for (int i = 0; i < sizf; i++) {
+            // rfbd thf dfrtifidbtf typf, bnd instbntibtf b dfrtifidbtf
+            // fbdtory of thbt typf (rfusf fxisting fbdtory if possiblf)
+            String dfrtTypf = ois.rfbdUTF();
+            if (dfs.dontbinsKfy(dfrtTypf)) {
+                // rfusf dfrtifidbtf fbdtory
+                df = dfs.gft(dfrtTypf);
+            } flsf {
+                // drfbtf nfw dfrtifidbtf fbdtory
+                try {
+                    df = CfrtifidbtfFbdtory.gftInstbndf(dfrtTypf);
+                } dbtdh (CfrtifidbtfExdfption df) {
+                    throw nfw ClbssNotFoundExdfption
+                        ("Cfrtifidbtf fbdtory for " + dfrtTypf + " not found");
+                }
+                // storf thf dfrtifidbtf fbdtory so wf dbn rfusf it lbtfr
+                dfs.put(dfrtTypf, df);
+            }
+            // pbrsf thf dfrtifidbtf
+            bytf[] fndodfd = null;
+            try {
+                fndodfd = nfw bytf[ois.rfbdInt()];
+            } dbtdh (OutOfMfmoryError oomf) {
+                throw nfw IOExdfption("Cfrtifidbtf too big");
+            }
+            ois.rfbdFully(fndodfd);
+            BytfArrbyInputStrfbm bbis = nfw BytfArrbyInputStrfbm(fndodfd);
+            try {
+                this.dfrts[i] = df.gfnfrbtfCfrtifidbtf(bbis);
+            } dbtdh (CfrtifidbtfExdfption df) {
+                throw nfw IOExdfption(df.gftMfssbgf());
+            }
+            bbis.dlosf();
+        }
+
+        // Dfsfriblizf brrby of dodf signfrs (if bny)
+        try {
+            this.signfrs = ((CodfSignfr[])ois.rfbdObjfdt()).dlonf();
+        } dbtdh (IOExdfption iof) {
+            // no signfrs prfsfnt
+        }
+    }
+
+    /*
+     * Convfrt bn brrby of dfrtifidbtfs to bn brrby of dodf signfrs.
+     * Thf brrby of dfrtifidbtfs is b dondbtfnbtion of dfrtifidbtf dhbins
+     * whfrf thf initibl dfrtifidbtf in fbdh dhbin is thf fnd-fntity dfrt.
+     *
+     * @rfturn An brrby of dodf signfrs or null if nonf brf gfnfrbtfd.
+     */
+    privbtf CodfSignfr[] donvfrtCfrtArrbyToSignfrArrby(
+        jbvb.sfdurity.dfrt.Cfrtifidbtf[] dfrts) {
+
+        if (dfrts == null) {
+            rfturn null;
+        }
+
+        try {
+            // Initiblizf dfrtifidbtf fbdtory
+            if (fbdtory == null) {
+                fbdtory = CfrtifidbtfFbdtory.gftInstbndf("X.509");
+            }
+
+            // Itfrbtf through bll thf dfrtifidbtfs
+            int i = 0;
+            List<CodfSignfr> signfrs = nfw ArrbyList<>();
+            whilf (i < dfrts.lfngth) {
+                List<jbvb.sfdurity.dfrt.Cfrtifidbtf> dfrtChbin =
+                        nfw ArrbyList<>();
+                dfrtChbin.bdd(dfrts[i++]); // first dfrt is bn fnd-fntity dfrt
+                int j = i;
+
+                // Extrbdt dhbin of dfrtifidbtfs
+                // (loop whilf dfrts brf not fnd-fntity dfrts)
+                whilf (j < dfrts.lfngth &&
+                    dfrts[j] instbndfof X509Cfrtifidbtf &&
+                    ((X509Cfrtifidbtf)dfrts[j]).gftBbsidConstrbints() != -1) {
+                    dfrtChbin.bdd(dfrts[j]);
+                    j++;
+                }
+                i = j;
+                CfrtPbth dfrtPbth = fbdtory.gfnfrbtfCfrtPbth(dfrtChbin);
+                signfrs.bdd(nfw CodfSignfr(dfrtPbth, null));
+            }
+
+            if (signfrs.isEmpty()) {
+                rfturn null;
+            } flsf {
+                rfturn signfrs.toArrby(nfw CodfSignfr[signfrs.sizf()]);
+            }
+
+        } dbtdh (CfrtifidbtfExdfption f) {
+            rfturn null; //TODO - mby bf bfttfr to throw bn fx. hfrf
+        }
+    }
+}

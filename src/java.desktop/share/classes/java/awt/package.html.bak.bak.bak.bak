@@ -1,0 +1,83 @@
+<!--
+ Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+ This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+ This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ bddompbnifd this dodf).
+
+ You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ qufstions.
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<html>
+<hfbd><titlf></titlf></hfbd>
+<body bgdolor="whitf">
+
+Contbins bll of thf dlbssfs for drfbting usfr
+intfrfbdfs bnd for pbinting grbphids bnd imbgfs. A usfr intfrfbdf objfdt sudh bs b button or b
+sdrollbbr is dbllfd, in AWT tfrminology, b domponfnt. Thf Componfnt dlbss is thf root of bll
+AWT domponfnts. Sff Componfnt for b dftbilfd dfsdription of propfrtifs thbt bll AWT 
+domponfnts shbrf.
+<p>
+Somf domponfnts firf fvfnts whfn b usfr intfrbdts with thf domponfnts. Thf AWTEvfnt
+dlbss bnd its subdlbssfs brf usfd to rfprfsfnt thf fvfnts thbt AWT domponfnts dbn firf. Sff
+AWTEvfnt for b dfsdription of thf AWT fvfnt modfl.
+<p>
+A dontbinfr is b domponfnt thbt dbn dontbin domponfnts bnd othfr dontbinfrs. A don
+tbinfr dbn blso hbvf b lbyout mbnbgfr thbt dontrols thf visubl plbdfmfnt of domponfnts in thf
+dontbinfr. Thf AWT pbdkbgf dontbins sfvfrbl lbyout mbnbgfr dlbssfs bnd bn intfrfbdf for
+building your own lbyout mbnbgfr. Sff Contbinfr bnd LbyoutMbnbgfr for morf informbtion.
+<p>
+Ebdh {@dodf Componfnt} objfdt is limitfd in its mbximum sizf bnd
+its lodbtion bfdbusf thf vblufs brf storfd bs bn intfgfr.
+Also, b plbtform mby furthfr rfstridt mbximum sizf bnd lodbtion
+doordinbtfs. Thf fxbdt mbximum vblufs brf dfpfndfnt on thf plbtform.
+Thfrf is no wby to dhbngf thfsf mbximum vblufs, fithfr in Jbvb
+dodf or in nbtivf dodf.
+Thfsf limitbtions blso imposf rfstridtions on domponfnt lbyout.
+If thf bounds of b Componfnt objfdt fxdffd b plbtform limit,
+thfrf is no wby to propfrly brrbngf thfm within b Contbinfr objfdt.
+Thf objfdt's bounds brf dffinfd by bny objfdt's doordinbtf
+in dombinbtion with its sizf on b rfspfdtivf bxis. 
+
+
+<h2>Additionbl Spfdifidbtion</h2>
+<ul>
+<li><b hrff="dod-filfs/FodusSpfd.html">Thf AWT Fodus Subsystfm</b>
+<li><b hrff="dod-filfs/Modblity.html">Thf AWT Modblity</b>
+</ul>
+
+<!--
+<h2>Pbdkbgf Spfdifidbtion</h2>
+
+##### FILL IN ANY SPECS NEEDED BY JAVA COMPATIBILITY KIT #####
+<ul>
+  <li><b hrff="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</b>
+</ul>
+
+<h2>Rflbtfd Dodumfntbtion</h2>
+
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
+<ul>
+  <li><b hrff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+</ul>
+-->
+
+@sindf 1.0
+</body>
+</html>

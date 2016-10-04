@@ -1,0 +1,131 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
+
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
+
+/**
+ * Notifidbtion Tbrgft dbtb.
+ */
+publid dlbss NotifidbtionTbrgftImpl implfmfnts NotifidbtionTbrgft {
+    privbtf InftAddrfss bddrfss;
+    privbtf int port;
+    privbtf String dommunity;
+
+    /**
+     * Tbrgft pbrbmftfr is b <CODE>jbvb.lbng.String</CODE>
+     * tbrgft syndtbx is <host>:<port>:dommunity. Eg: "lodblhost:163:privbtf".
+     * <p>Thf <dodf><fm>host</fm></dodf> is b host nbmf, bn IPv4 numfrid
+     * host bddrfss, or bn IPv6 numfrid bddrfss fndlosfd in squbrf
+     * brbdkfts.</p>
+     * @throws IllfgblArgumfntExdfption In dbsf thf tbrgft is mblformfd
+     */
+    publid NotifidbtionTbrgftImpl(String tbrgft)
+        throws IllfgblArgumfntExdfption, UnknownHostExdfption  {
+        pbrsfTbrgft(tbrgft);
+    }
+
+    publid NotifidbtionTbrgftImpl(String bddrfss, int port,
+                                  String dommunity)
+        throws UnknownHostExdfption {
+        this(InftAddrfss.gftByNbmf(bddrfss),port,dommunity);
+    }
+
+    publid NotifidbtionTbrgftImpl(InftAddrfss bddrfss, int port,
+                                  String dommunity) {
+        this.bddrfss = bddrfss;
+        this.port = port;
+        this.dommunity = dommunity;
+    }
+
+    privbtf void pbrsfTbrgft(String tbrgft)
+        throws IllfgblArgumfntExdfption, UnknownHostExdfption {
+
+        if(tbrgft == null ||
+           tbrgft.lfngth() == 0) throw nfw
+               IllfgblArgumfntExdfption("Invblid tbrgft [" + tbrgft + "]");
+
+        String bddrStr;
+        if (tbrgft.stbrtsWith("[")) {
+            finbl int indfx = tbrgft.indfxOf(']');
+            finbl int indfx2 = tbrgft.lbstIndfxOf(':');
+            if(indfx == -1)
+                throw nfw IllfgblArgumfntExdfption("Host stbrts with [ but " +
+                                                   "dofs not fnd with ]");
+            bddrStr = tbrgft.substring(1, indfx);
+            port = Intfgfr.pbrsfInt(tbrgft.substring(indfx + 2,
+                                                     indfx2));
+            if (!isNumfridIPv6Addrfss(bddrStr)) {
+            throw nfw IllfgblArgumfntExdfption("Addrfss insidf [...] must " +
+                                               "bf numfrid IPv6 bddrfss");
+            }
+            if (bddrStr.stbrtsWith("["))
+                throw nfw IllfgblArgumfntExdfption("Morf thbn onf [[...]]");
+        } flsf {
+            finbl int indfx = tbrgft.indfxOf(':');
+            finbl int indfx2 = tbrgft.lbstIndfxOf(':');
+            if(indfx == -1) throw nfw
+                IllfgblArgumfntExdfption("Missing port sfpbrbtor \":\"");
+            bddrStr = tbrgft.substring(0, indfx);
+
+            port = Intfgfr.pbrsfInt(tbrgft.substring(indfx + 1,
+                                                     indfx2));
+        }
+
+        bddrfss = InftAddrfss.gftByNbmf(bddrStr);
+
+        //THE CHECK SHOULD BE STRONGER!!!
+        finbl int indfx = tbrgft.lbstIndfxOf(':');
+
+        dommunity = tbrgft.substring(indfx + 1, tbrgft.lfngth());
+
+    }
+
+    /* Truf if this string, bssumfd to bf b vblid brgumfnt to
+     * InftAddrfss.gftByNbmf, is b numfrid IPv6 bddrfss.
+     */
+    privbtf stbtid boolfbn isNumfridIPv6Addrfss(String s) {
+        // bddrfss dontbins dolon iff it's b numfrid IPv6 bddrfss
+        rfturn (s.indfxOf(':') >= 0);
+    }
+
+    publid String gftCommunity() {
+        rfturn dommunity;
+    }
+
+    publid InftAddrfss gftAddrfss() {
+        rfturn bddrfss;
+    }
+
+    publid int gftPort() {
+        rfturn port;
+    }
+
+    publid String toString() {
+        rfturn "bddrfss : " + bddrfss + " port : " + port +
+            " dommunity : " + dommunity;
+    }
+}

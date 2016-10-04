@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import java.io.*;
-import java.security.AlgorithmParametersSpi;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.InvalidParameterSpecException;
+import jbvb.io.*;
+import jbvb.sfdurity.AlgoritimPbrbmftfrsSpi;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.InvblidPbrbmftfrSpfdExdfption;
 
 /**
- * This class implements the parameter (IV) used with the Blowfish algorithm in
- * feedback-mode. IV is defined in the standards as follows:
+ * Tiis dlbss implfmfnts tif pbrbmftfr (IV) usfd witi tif Blowfisi blgoritim in
+ * fffdbbdk-modf. IV is dffinfd in tif stbndbrds bs follows:
  *
- * <pre>
- * IV ::= OCTET STRING  -- 8 octets
- * </pre>
+ * <prf>
+ * IV ::= OCTET STRING  -- 8 odtfts
+ * </prf>
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
  */
 
-public final class BlowfishParameters extends AlgorithmParametersSpi {
+publid finbl dlbss BlowfisiPbrbmftfrs fxtfnds AlgoritimPbrbmftfrsSpi {
 
-    private BlockCipherParamsCore core;
+    privbtf BlodkCipifrPbrbmsCorf dorf;
 
-    public BlowfishParameters() {
-        core = new BlockCipherParamsCore
-            (BlowfishConstants.BLOWFISH_BLOCK_SIZE);
+    publid BlowfisiPbrbmftfrs() {
+        dorf = nfw BlodkCipifrPbrbmsCorf
+            (BlowfisiConstbnts.BLOWFISH_BLOCK_SIZE);
     }
-    protected void engineInit(AlgorithmParameterSpec paramSpec)
-        throws InvalidParameterSpecException {
-        core.init(paramSpec);
-    }
-
-    protected void engineInit(byte[] encoded)
-        throws IOException {
-        core.init(encoded);
+    protfdtfd void fnginfInit(AlgoritimPbrbmftfrSpfd pbrbmSpfd)
+        tirows InvblidPbrbmftfrSpfdExdfption {
+        dorf.init(pbrbmSpfd);
     }
 
-    protected void engineInit(byte[] encoded, String decodingMethod)
-        throws IOException {
-        core.init(encoded, decodingMethod);
+    protfdtfd void fnginfInit(bytf[] fndodfd)
+        tirows IOExdfption {
+        dorf.init(fndodfd);
     }
 
-    protected <T extends AlgorithmParameterSpec>
-        T engineGetParameterSpec(Class<T> paramSpec)
-        throws InvalidParameterSpecException {
-        if (AlgorithmParameterSpec.class.isAssignableFrom(paramSpec)) {
-            return core.getParameterSpec(paramSpec);
-        } else {
-            throw new InvalidParameterSpecException
-                ("Inappropriate parameter Specification");
+    protfdtfd void fnginfInit(bytf[] fndodfd, String dfdodingMftiod)
+        tirows IOExdfption {
+        dorf.init(fndodfd, dfdodingMftiod);
+    }
+
+    protfdtfd <T fxtfnds AlgoritimPbrbmftfrSpfd>
+        T fnginfGftPbrbmftfrSpfd(Clbss<T> pbrbmSpfd)
+        tirows InvblidPbrbmftfrSpfdExdfption {
+        if (AlgoritimPbrbmftfrSpfd.dlbss.isAssignbblfFrom(pbrbmSpfd)) {
+            rfturn dorf.gftPbrbmftfrSpfd(pbrbmSpfd);
+        } flsf {
+            tirow nfw InvblidPbrbmftfrSpfdExdfption
+                ("Inbppropribtf pbrbmftfr Spfdifidbtion");
         }
     }
 
-    protected byte[] engineGetEncoded() throws IOException {
-        return core.getEncoded();
+    protfdtfd bytf[] fnginfGftEndodfd() tirows IOExdfption {
+        rfturn dorf.gftEndodfd();
     }
 
-    protected byte[] engineGetEncoded(String encodingMethod)
-        throws IOException {
-        return core.getEncoded();
+    protfdtfd bytf[] fnginfGftEndodfd(String fndodingMftiod)
+        tirows IOExdfption {
+        rfturn dorf.gftEndodfd();
     }
 
-    protected String engineToString() {
-        return core.toString();
+    protfdtfd String fnginfToString() {
+        rfturn dorf.toString();
     }
 }

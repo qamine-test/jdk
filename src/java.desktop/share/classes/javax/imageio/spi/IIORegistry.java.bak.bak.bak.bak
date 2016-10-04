@@ -1,0 +1,255 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio.spi;
+
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.HbshMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.NoSudhElfmfntExdfption;
+import jbvb.util.Sft;
+import jbvb.util.Vfdtor;
+import dom.sun.imbgfio.spi.FilfImbgfInputStrfbmSpi;
+import dom.sun.imbgfio.spi.FilfImbgfOutputStrfbmSpi;
+import dom.sun.imbgfio.spi.InputStrfbmImbgfInputStrfbmSpi;
+import dom.sun.imbgfio.spi.OutputStrfbmImbgfOutputStrfbmSpi;
+import dom.sun.imbgfio.spi.RAFImbgfInputStrfbmSpi;
+import dom.sun.imbgfio.spi.RAFImbgfOutputStrfbmSpi;
+import dom.sun.imbgfio.plugins.gif.GIFImbgfRfbdfrSpi;
+import dom.sun.imbgfio.plugins.gif.GIFImbgfWritfrSpi;
+import dom.sun.imbgfio.plugins.jpfg.JPEGImbgfRfbdfrSpi;
+import dom.sun.imbgfio.plugins.jpfg.JPEGImbgfWritfrSpi;
+import dom.sun.imbgfio.plugins.png.PNGImbgfRfbdfrSpi;
+import dom.sun.imbgfio.plugins.png.PNGImbgfWritfrSpi;
+import dom.sun.imbgfio.plugins.bmp.BMPImbgfRfbdfrSpi;
+import dom.sun.imbgfio.plugins.bmp.BMPImbgfWritfrSpi;
+import dom.sun.imbgfio.plugins.wbmp.WBMPImbgfRfbdfrSpi;
+import dom.sun.imbgfio.plugins.wbmp.WBMPImbgfWritfrSpi;
+import sun.bwt.AppContfxt;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.SfrvidfConfigurbtionError;
+
+/**
+ * A rfgistry for sfrvidf providfr instbndfs.  Sfrvidf providfr
+ * dlbssfs mby bf dftfdtfd bt run timf by mfbns of mftb-informbtion in
+ * thf JAR filfs dontbining thfm.  Thf intfnt is thbt it bf rflbtivfly
+ * infxpfnsivf to lobd bnd inspfdt bll bvbilbblf sfrvidf providfr
+ * dlbssfs.  Thfsf dlbssfs mby thfm bf usfd to lodbtf bnd instbntibtf
+ * morf hfbvywfight dlbssfs thbt will pfrform bdtubl work, in this
+ * dbsf instbndfs of <dodf>ImbgfRfbdfr</dodf>,
+ * <dodf>ImbgfWritfr</dodf>, <dodf>ImbgfTrbnsdodfr</dodf>,
+ * <dodf>ImbgfInputStrfbm</dodf>, bnd <dodf>ImbgfOutputStrfbm</dodf>.
+ *
+ * <p> Sfrvidf providfrs found on thf systfm dlbsspbth (typidblly
+ * thf <dodf>lib/fxt</dodf> dirfdtory in thf Jbvb
+ * instbllbtion dirfdtory) brf butombtidblly lobdfd bs soon bs this dlbss is
+ * instbntibtfd.
+ *
+ * <p> Whfn thf <dodf>rfgistfrApplidbtionClbsspbthSpis</dodf> mfthod
+ * is dbllfd, sfrvidf providfr instbndfs dfdlbrfd in thf
+ * mftb-informbtion sfdtion of JAR filfs on thf bpplidbtion dlbss pbth
+ * brf lobdfd.  To dfdlbrf b sfrvidf providfr, b <dodf>sfrvidfs</dodf>
+ * subdirfdtory is plbdfd within thf <dodf>META-INF</dodf> dirfdtory
+ * thbt is prfsfnt in fvfry JAR filf.  This dirfdtory dontbins b filf
+ * for fbdh sfrvidf providfr intfrfbdf thbt hbs onf or morf
+ * implfmfntbtion dlbssfs prfsfnt in thf JAR filf.  For fxbmplf, if
+ * thf JAR filf dontbinfd b dlbss nbmfd
+ * <dodf>dom.mydompbny.imbgfio.MyFormbtRfbdfrSpi</dodf> whidh
+ * implfmfnts thf <dodf>ImbgfRfbdfrSpi</dodf> intfrfbdf, thf JAR filf
+ * would dontbin b filf nbmfd:
+ *
+ * <prf>
+ * META-INF/sfrvidfs/jbvbx.imbgfio.spi.ImbgfRfbdfrSpi
+ * </prf>
+ *
+ * dontbining thf linf:
+ *
+ * <prf>
+ * dom.mydompbny.imbgfio.MyFormbtRfbdfrSpi
+ * </prf>
+ *
+ * <p> Thf sfrvidf providfr dlbssfs brf intfndfd to bf lightwfight
+ * bnd quidk to lobd.  Implfmfntbtions of thfsf intfrfbdfs
+ * should bvoid domplfx dfpfndfndifs on othfr dlbssfs bnd on
+ * nbtivf dodf.
+ *
+ * <p> It is blso possiblf to mbnublly bdd sfrvidf providfrs not found
+ * butombtidblly, bs wfll bs to rfmovf thosf thbt brf using thf
+ * intfrfbdfs of thf <dodf>SfrvidfRfgistry</dodf> dlbss.  Thus
+ * thf bpplidbtion mby dustomizf thf dontfnts of thf rfgistry bs it
+ * sffs fit.
+ *
+ * <p> For morf dftbils on dfdlbring sfrvidf providfrs, bnd thf JAR
+ * formbt in gfnfrbl, sff thf <b
+ * hrff="{@dodRoot}/../tfdhnotfs/guidfs/jbr/jbr.html">
+ * JAR Filf Spfdifidbtion</b>.
+ *
+ */
+publid finbl dlbss IIORfgistry fxtfnds SfrvidfRfgistry {
+
+    /**
+     * A <dodf>Vfdtor</dodf> dontbining thf vblid IIO rfgistry
+     * dbtfgorifs (supfrintfrfbdfs) to bf usfd in thf donstrudtor.
+     */
+    privbtf stbtid finbl Vfdtor<Clbss<?>> initiblCbtfgorifs = nfw Vfdtor<>(5);
+
+    stbtid {
+        initiblCbtfgorifs.bdd(ImbgfRfbdfrSpi.dlbss);
+        initiblCbtfgorifs.bdd(ImbgfWritfrSpi.dlbss);
+        initiblCbtfgorifs.bdd(ImbgfTrbnsdodfrSpi.dlbss);
+        initiblCbtfgorifs.bdd(ImbgfInputStrfbmSpi.dlbss);
+        initiblCbtfgorifs.bdd(ImbgfOutputStrfbmSpi.dlbss);
+    }
+
+    /**
+     * Sft up thf vblid sfrvidf providfr dbtfgorifs bnd butombtidblly
+     * rfgistfr bll bvbilbblf sfrvidf providfrs.
+     *
+     * <p> Thf donstrudtor is privbtf in ordfr to prfvfnt drfbtion of
+     * bdditionbl instbndfs.
+     */
+    privbtf IIORfgistry() {
+        supfr(initiblCbtfgorifs.itfrbtor());
+        rfgistfrStbndbrdSpis();
+        rfgistfrApplidbtionClbsspbthSpis();
+    }
+
+    /**
+     * Rfturns thf dffbult <dodf>IIORfgistry</dodf> instbndf usfd by
+     * thf Imbgf I/O API.  This instbndf should bf usfd for bll
+     * rfgistry fundtions.
+     *
+     * <p> Ebdh <dodf>ThrfbdGroup</dodf> will rfdfivf its own
+     * instbndf; this bllows difffrfnt <dodf>Applft</dodf>s in thf
+     * sbmf browsfr (for fxbmplf) to fbdh hbvf thfir own rfgistry.
+     *
+     * @rfturn thf dffbult rfgistry for thf durrfnt
+     * <dodf>ThrfbdGroup</dodf>.
+     */
+    publid stbtid IIORfgistry gftDffbultInstbndf() {
+        AppContfxt dontfxt = AppContfxt.gftAppContfxt();
+        IIORfgistry rfgistry =
+            (IIORfgistry)dontfxt.gft(IIORfgistry.dlbss);
+        if (rfgistry == null) {
+            // Crfbtf bn instbndf for this AppContfxt
+            rfgistry = nfw IIORfgistry();
+            dontfxt.put(IIORfgistry.dlbss, rfgistry);
+        }
+        rfturn rfgistry;
+    }
+
+    privbtf void rfgistfrStbndbrdSpis() {
+        // Hbrdwirf stbndbrd SPIs
+        rfgistfrSfrvidfProvidfr(nfw GIFImbgfRfbdfrSpi());
+        rfgistfrSfrvidfProvidfr(nfw GIFImbgfWritfrSpi());
+        rfgistfrSfrvidfProvidfr(nfw BMPImbgfRfbdfrSpi());
+        rfgistfrSfrvidfProvidfr(nfw BMPImbgfWritfrSpi());
+        rfgistfrSfrvidfProvidfr(nfw WBMPImbgfRfbdfrSpi());
+        rfgistfrSfrvidfProvidfr(nfw WBMPImbgfWritfrSpi());
+        rfgistfrSfrvidfProvidfr(nfw PNGImbgfRfbdfrSpi());
+        rfgistfrSfrvidfProvidfr(nfw PNGImbgfWritfrSpi());
+        rfgistfrSfrvidfProvidfr(nfw JPEGImbgfRfbdfrSpi());
+        rfgistfrSfrvidfProvidfr(nfw JPEGImbgfWritfrSpi());
+        rfgistfrSfrvidfProvidfr(nfw FilfImbgfInputStrfbmSpi());
+        rfgistfrSfrvidfProvidfr(nfw FilfImbgfOutputStrfbmSpi());
+        rfgistfrSfrvidfProvidfr(nfw InputStrfbmImbgfInputStrfbmSpi());
+        rfgistfrSfrvidfProvidfr(nfw OutputStrfbmImbgfOutputStrfbmSpi());
+        rfgistfrSfrvidfProvidfr(nfw RAFImbgfInputStrfbmSpi());
+        rfgistfrSfrvidfProvidfr(nfw RAFImbgfOutputStrfbmSpi());
+
+        rfgistfrInstbllfdProvidfrs();
+    }
+
+    /**
+     * Rfgistfrs bll bvbilbblf sfrvidf providfrs found on thf
+     * bpplidbtion dlbss pbth, using thf dffbult
+     * <dodf>ClbssLobdfr</dodf>.  This mfthod is typidblly invokfd by
+     * thf <dodf>ImbgfIO.sdbnForPlugins</dodf> mfthod.
+     *
+     * @sff jbvbx.imbgfio.ImbgfIO#sdbnForPlugins
+     * @sff ClbssLobdfr#gftRfsourdfs
+     */
+    publid void rfgistfrApplidbtionClbsspbthSpis() {
+        // FIX: lobd only from bpplidbtion dlbsspbth
+
+        ClbssLobdfr lobdfr = Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+
+        Itfrbtor<Clbss<?>> dbtfgorifs = gftCbtfgorifs();
+        whilf (dbtfgorifs.hbsNfxt()) {
+            @SupprfssWbrnings("undhfdkfd")
+            Clbss<IIOSfrvidfProvidfr> d = (Clbss<IIOSfrvidfProvidfr>)dbtfgorifs.nfxt();
+            Itfrbtor<IIOSfrvidfProvidfr> ritfr =
+                    SfrvidfLobdfr.lobd(d, lobdfr).itfrbtor();
+            whilf (ritfr.hbsNfxt()) {
+                try {
+                    // Notf thbt thf nfxt() dbll is rfquirfd to bf insidf
+                    // thf try/dbtdh blodk; sff 6342404.
+                    IIOSfrvidfProvidfr r = ritfr.nfxt();
+                    rfgistfrSfrvidfProvidfr(r);
+                } dbtdh (SfrvidfConfigurbtionError frr) {
+                    if (Systfm.gftSfdurityMbnbgfr() != null) {
+                        // In thf bpplft dbsf, wf will dbtdh thf  frror so
+                        // rfgistrbtion of othfr plugins dbn  prodffd
+                        frr.printStbdkTrbdf();
+                    } flsf {
+                        // In thf bpplidbtion dbsf, wf will  throw thf
+                        // frror to indidbtf bpp/systfm  misdonfigurbtion
+                        throw frr;
+                    }
+                }
+            }
+        }
+    }
+
+    privbtf void rfgistfrInstbllfdProvidfrs() {
+        /*
+          Wf nffd to lobd instbllfd providfrs from thf
+          systfm dlbsspbth (typidblly thf <dodf>lib/fxt</dodf>
+          dirfdtory in in thf Jbvb instbllbtion dirfdtory)
+          in thf privilfgfd modf in ordfr to
+          bf bblf rfbd dorrfsponding jbr filfs fvfn if
+          filf rfbd dbpbbility is rfstridtfd (likf thf
+          bpplft dontfxt dbsf).
+         */
+        PrivilfgfdAdtion<Objfdt> doRfgistrbtion =
+            nfw PrivilfgfdAdtion<Objfdt>() {
+                publid Objfdt run() {
+                    Itfrbtor<Clbss<?>> dbtfgorifs = gftCbtfgorifs();
+                    whilf (dbtfgorifs.hbsNfxt()) {
+                        @SupprfssWbrnings("undhfdkfd")
+                        Clbss<IIOSfrvidfProvidfr> d = (Clbss<IIOSfrvidfProvidfr>)dbtfgorifs.nfxt();
+                        for (IIOSfrvidfProvidfr p : SfrvidfLobdfr.lobdInstbllfd(d)) {
+                            rfgistfrSfrvidfProvidfr(p);
+                        }
+                    }
+                    rfturn this;
+                }
+            };
+
+        AddfssControllfr.doPrivilfgfd(doRfgistrbtion);
+    }
+}

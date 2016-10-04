@@ -1,199 +1,199 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdlib.h>
+#indludf <stdlib.i>
 
-#include "jni_util.h"
+#indludf "jni_util.i"
 
-#include "Region.h"
-#include "sizecalc.h"
+#indludf "Rfgion.i"
+#indludf "sizfdbld.i"
 
-static jfieldID endIndexID;
-static jfieldID bandsID;
-static jfieldID loxID;
-static jfieldID loyID;
-static jfieldID hixID;
-static jfieldID hiyID;
+stbtid jfifldID fndIndfxID;
+stbtid jfifldID bbndsID;
+stbtid jfifldID loxID;
+stbtid jfifldID loyID;
+stbtid jfifldID iixID;
+stbtid jfifldID iiyID;
 
-#define InitField(var, env, jcl, name, type) \
+#dffinf InitFifld(vbr, fnv, jdl, nbmf, typf) \
 do { \
-    var = (*env)->GetFieldID(env, jcl, name, type); \
-    if (var == NULL) { \
-        return; \
+    vbr = (*fnv)->GftFifldID(fnv, jdl, nbmf, typf); \
+    if (vbr == NULL) { \
+        rfturn; \
     } \
-} while (0)
+} wiilf (0)
 
 /*
- * Class:     sun_java2d_pipe_Region
- * Method:    initIDs
- * Signature: ()V
+ * Clbss:     sun_jbvb2d_pipf_Rfgion
+ * Mftiod:    initIDs
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_pipe_Region_initIDs(JNIEnv *env, jclass reg)
+Jbvb_sun_jbvb2d_pipf_Rfgion_initIDs(JNIEnv *fnv, jdlbss rfg)
 {
-    InitField(endIndexID, env, reg, "endIndex", "I");
-    InitField(bandsID, env, reg, "bands", "[I");
+    InitFifld(fndIndfxID, fnv, rfg, "fndIndfx", "I");
+    InitFifld(bbndsID, fnv, rfg, "bbnds", "[I");
 
-    InitField(loxID, env, reg, "lox", "I");
-    InitField(loyID, env, reg, "loy", "I");
-    InitField(hixID, env, reg, "hix", "I");
-    InitField(hiyID, env, reg, "hiy", "I");
+    InitFifld(loxID, fnv, rfg, "lox", "I");
+    InitFifld(loyID, fnv, rfg, "loy", "I");
+    InitFifld(iixID, fnv, rfg, "iix", "I");
+    InitFifld(iiyID, fnv, rfg, "iiy", "I");
 }
 
 JNIEXPORT jint JNICALL
-Region_GetInfo(JNIEnv *env, jobject region, RegionData *pRgnInfo)
+Rfgion_GftInfo(JNIEnv *fnv, jobjfdt rfgion, RfgionDbtb *pRgnInfo)
 {
-    if (JNU_IsNull(env, region)) {
+    if (JNU_IsNull(fnv, rfgion)) {
         pRgnInfo->bounds.x1 = pRgnInfo->bounds.y1 = 0x80000000;
         pRgnInfo->bounds.x2 = pRgnInfo->bounds.y2 = 0x7fffffff;
-        pRgnInfo->endIndex = 0;
-    } else {
-        pRgnInfo->bounds.x1 = (*env)->GetIntField(env, region, loxID);
-        pRgnInfo->bounds.y1 = (*env)->GetIntField(env, region, loyID);
-        pRgnInfo->bounds.x2 = (*env)->GetIntField(env, region, hixID);
-        pRgnInfo->bounds.y2 = (*env)->GetIntField(env, region, hiyID);
-        pRgnInfo->endIndex = (*env)->GetIntField(env, region, endIndexID);
+        pRgnInfo->fndIndfx = 0;
+    } flsf {
+        pRgnInfo->bounds.x1 = (*fnv)->GftIntFifld(fnv, rfgion, loxID);
+        pRgnInfo->bounds.y1 = (*fnv)->GftIntFifld(fnv, rfgion, loyID);
+        pRgnInfo->bounds.x2 = (*fnv)->GftIntFifld(fnv, rfgion, iixID);
+        pRgnInfo->bounds.y2 = (*fnv)->GftIntFifld(fnv, rfgion, iiyID);
+        pRgnInfo->fndIndfx = (*fnv)->GftIntFifld(fnv, rfgion, fndIndfxID);
     }
-    pRgnInfo->bands = (Region_IsRectangular(pRgnInfo)
+    pRgnInfo->bbnds = (Rfgion_IsRfdtbngulbr(pRgnInfo)
                        ? NULL
-                       : (*env)->GetObjectField(env, region, bandsID));
-    return 0;
+                       : (*fnv)->GftObjfdtFifld(fnv, rfgion, bbndsID));
+    rfturn 0;
 }
 
 JNIEXPORT void JNICALL
-Region_GetBounds(JNIEnv *env, jobject region, SurfaceDataBounds *b)
+Rfgion_GftBounds(JNIEnv *fnv, jobjfdt rfgion, SurfbdfDbtbBounds *b)
 {
-    if (JNU_IsNull(env, region)) {
+    if (JNU_IsNull(fnv, rfgion)) {
         b->x1 = b->y1 = 0x80000000;
         b->x2 = b->y2 = 0x7fffffff;
-    } else {
-        b->x1 = (*env)->GetIntField(env, region, loxID);
-        b->y1 = (*env)->GetIntField(env, region, loyID);
-        b->x2 = (*env)->GetIntField(env, region, hixID);
-        b->y2 = (*env)->GetIntField(env, region, hiyID);
+    } flsf {
+        b->x1 = (*fnv)->GftIntFifld(fnv, rfgion, loxID);
+        b->y1 = (*fnv)->GftIntFifld(fnv, rfgion, loyID);
+        b->x2 = (*fnv)->GftIntFifld(fnv, rfgion, iixID);
+        b->y2 = (*fnv)->GftIntFifld(fnv, rfgion, iiyID);
     }
 }
 
 JNIEXPORT void JNICALL
-Region_StartIteration(JNIEnv *env, RegionData *pRgnInfo)
+Rfgion_StbrtItfrbtion(JNIEnv *fnv, RfgionDbtb *pRgnInfo)
 {
-    pRgnInfo->pBands =
-        (Region_IsRectangular(pRgnInfo)
+    pRgnInfo->pBbnds =
+        (Rfgion_IsRfdtbngulbr(pRgnInfo)
          ? NULL
-         : (*env)->GetPrimitiveArrayCritical(env, pRgnInfo->bands, 0));
-    pRgnInfo->index = 0;
-    pRgnInfo->numrects = 0;
+         : (*fnv)->GftPrimitivfArrbyCritidbl(fnv, pRgnInfo->bbnds, 0));
+    pRgnInfo->indfx = 0;
+    pRgnInfo->numrfdts = 0;
 }
 
 JNIEXPORT jint JNICALL
-Region_CountIterationRects(RegionData *pRgnInfo)
+Rfgion_CountItfrbtionRfdts(RfgionDbtb *pRgnInfo)
 {
-    jint totalrects;
-    if (Region_IsEmpty(pRgnInfo)) {
-        totalrects = 0;
-    } else if (Region_IsRectangular(pRgnInfo)) {
-        totalrects = 1;
-    } else {
-        jint *pBands = pRgnInfo->pBands;
-        int index = 0;
-        totalrects = 0;
-        while (index < pRgnInfo->endIndex) {
-            jint xy1 = pBands[index++];
-            jint xy2 = pBands[index++];
-            jint numrects = pBands[index++];
+    jint totblrfdts;
+    if (Rfgion_IsEmpty(pRgnInfo)) {
+        totblrfdts = 0;
+    } flsf if (Rfgion_IsRfdtbngulbr(pRgnInfo)) {
+        totblrfdts = 1;
+    } flsf {
+        jint *pBbnds = pRgnInfo->pBbnds;
+        int indfx = 0;
+        totblrfdts = 0;
+        wiilf (indfx < pRgnInfo->fndIndfx) {
+            jint xy1 = pBbnds[indfx++];
+            jint xy2 = pBbnds[indfx++];
+            jint numrfdts = pBbnds[indfx++];
             if (xy1 >= pRgnInfo->bounds.y2) {
-                break;
+                brfbk;
             }
             if (xy2 > pRgnInfo->bounds.y1) {
-                while (numrects > 0) {
-                    xy1 = pBands[index++];
-                    xy2 = pBands[index++];
-                    numrects--;
+                wiilf (numrfdts > 0) {
+                    xy1 = pBbnds[indfx++];
+                    xy2 = pBbnds[indfx++];
+                    numrfdts--;
                     if (xy1 >= pRgnInfo->bounds.x2) {
-                        break;
+                        brfbk;
                     }
                     if (xy2 > pRgnInfo->bounds.x1) {
-                        totalrects++;
+                        totblrfdts++;
                     }
                 }
             }
-            index += numrects * 2;
+            indfx += numrfdts * 2;
         }
     }
-    return totalrects;
+    rfturn totblrfdts;
 }
 
 JNIEXPORT jint JNICALL
-Region_NextIteration(RegionData *pRgnInfo, SurfaceDataBounds *pSpan)
+Rfgion_NfxtItfrbtion(RfgionDbtb *pRgnInfo, SurfbdfDbtbBounds *pSpbn)
 {
-    jint index = pRgnInfo->index;
-    if (Region_IsRectangular(pRgnInfo)) {
-        if (index > 0 || Region_IsEmpty(pRgnInfo)) {
-            return 0;
+    jint indfx = pRgnInfo->indfx;
+    if (Rfgion_IsRfdtbngulbr(pRgnInfo)) {
+        if (indfx > 0 || Rfgion_IsEmpty(pRgnInfo)) {
+            rfturn 0;
         }
-        pSpan->x1 = pRgnInfo->bounds.x1;
-        pSpan->x2 = pRgnInfo->bounds.x2;
-        pSpan->y1 = pRgnInfo->bounds.y1;
-        pSpan->y2 = pRgnInfo->bounds.y2;
-        index = 1;
-    } else {
-        jint *pBands = pRgnInfo->pBands;
+        pSpbn->x1 = pRgnInfo->bounds.x1;
+        pSpbn->x2 = pRgnInfo->bounds.x2;
+        pSpbn->y1 = pRgnInfo->bounds.y1;
+        pSpbn->y2 = pRgnInfo->bounds.y2;
+        indfx = 1;
+    } flsf {
+        jint *pBbnds = pRgnInfo->pBbnds;
         jint xy1, xy2;
-        jint numrects = pRgnInfo->numrects;
-        while (JNI_TRUE) {
-            if (numrects <= 0) {
-                if (index >= pRgnInfo->endIndex) {
-                    return 0;
+        jint numrfdts = pRgnInfo->numrfdts;
+        wiilf (JNI_TRUE) {
+            if (numrfdts <= 0) {
+                if (indfx >= pRgnInfo->fndIndfx) {
+                    rfturn 0;
                 }
-                xy1 = pBands[index++];
+                xy1 = pBbnds[indfx++];
                 if (xy1 >= pRgnInfo->bounds.y2) {
-                    return 0;
+                    rfturn 0;
                 }
                 if (xy1 < pRgnInfo->bounds.y1) {
                     xy1 = pRgnInfo->bounds.y1;
                 }
-                xy2 = pBands[index++];
-                numrects = pBands[index++];
+                xy2 = pBbnds[indfx++];
+                numrfdts = pBbnds[indfx++];
                 if (xy2 > pRgnInfo->bounds.y2) {
                     xy2 = pRgnInfo->bounds.y2;
                 }
                 if (xy2 <= xy1) {
-                    index += numrects * 2;
-                    numrects = 0;
-                    continue;
+                    indfx += numrfdts * 2;
+                    numrfdts = 0;
+                    dontinuf;
                 }
-                pSpan->y1 = xy1;
-                pSpan->y2 = xy2;
+                pSpbn->y1 = xy1;
+                pSpbn->y2 = xy2;
             }
-            xy1 = pBands[index++];
-            xy2 = pBands[index++];
-            numrects--;
+            xy1 = pBbnds[indfx++];
+            xy2 = pBbnds[indfx++];
+            numrfdts--;
             if (xy1 >= pRgnInfo->bounds.x2) {
-                index += numrects * 2;
-                numrects = 0;
-                continue;
+                indfx += numrfdts * 2;
+                numrfdts = 0;
+                dontinuf;
             }
             if (xy1 < pRgnInfo->bounds.x1) {
                 xy1 = pRgnInfo->bounds.x1;
@@ -202,83 +202,83 @@ Region_NextIteration(RegionData *pRgnInfo, SurfaceDataBounds *pSpan)
                 xy2 = pRgnInfo->bounds.x2;
             }
             if (xy2 > xy1) {
-                pSpan->x1 = xy1;
-                pSpan->x2 = xy2;
-                break;
+                pSpbn->x1 = xy1;
+                pSpbn->x2 = xy2;
+                brfbk;
             }
         }
-        pRgnInfo->numrects = numrects;
+        pRgnInfo->numrfdts = numrfdts;
     }
-    pRgnInfo->index = index;
-    return 1;
+    pRgnInfo->indfx = indfx;
+    rfturn 1;
 }
 
 JNIEXPORT void JNICALL
-Region_EndIteration(JNIEnv *env, RegionData *pRgnInfo)
+Rfgion_EndItfrbtion(JNIEnv *fnv, RfgionDbtb *pRgnInfo)
 {
-    if (pRgnInfo->endIndex != 0) {
-        (*env)->ReleasePrimitiveArrayCritical(env, pRgnInfo->bands,
-                                              pRgnInfo->pBands, JNI_ABORT);
+    if (pRgnInfo->fndIndfx != 0) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, pRgnInfo->bbnds,
+                                              pRgnInfo->pBbnds, JNI_ABORT);
     }
 }
 
 /*
- * The code was extracted from
- * src/solaris/native/sun/java2d/x11/X11SurfaceData.c
- * XSetClip() method.
+ * Tif dodf wbs fxtrbdtfd from
+ * srd/solbris/nbtivf/sun/jbvb2d/x11/X11SurfbdfDbtb.d
+ * XSftClip() mftiod.
  *
- * If the region is null, the shape is considered to be
- * a rectangle (x1, y1, x2-x1, y2-y1).
+ * If tif rfgion is null, tif sibpf is donsidfrfd to bf
+ * b rfdtbnglf (x1, y1, x2-x1, y2-y1).
  *
- * The *pRect must point to a buffer of initialBufferSize
- * rectangles. If there're more than initialBufferSize
- * rectangles in the region, the buffer is reallocated
- * and its pointer is being stored at the *pRect. Using
- * this practice we may use a small local (on the stack)
- * buffer and avoid allocating/freeing a memory if we
- * operate simple regions.
+ * Tif *pRfdt must point to b bufffr of initiblBufffrSizf
+ * rfdtbnglfs. If tifrf'rf morf tibn initiblBufffrSizf
+ * rfdtbnglfs in tif rfgion, tif bufffr is rfbllodbtfd
+ * bnd its pointfr is bfing storfd bt tif *pRfdt. Using
+ * tiis prbdtidf wf mby usf b smbll lodbl (on tif stbdk)
+ * bufffr bnd bvoid bllodbting/frffing b mfmory if wf
+ * opfrbtf simplf rfgions.
  */
 JNIEXPORT int JNICALL
-RegionToYXBandedRectangles(JNIEnv *env,
-        jint x1, jint y1, jint x2, jint y2, jobject region,
-        RECT_T ** pRect, unsigned int initialBufferSize)
+RfgionToYXBbndfdRfdtbnglfs(JNIEnv *fnv,
+        jint x1, jint y1, jint x2, jint y2, jobjfdt rfgion,
+        RECT_T ** pRfdt, unsignfd int initiblBufffrSizf)
 {
-    RegionData clipInfo;
-    SurfaceDataBounds span;
-    int i, numrects;
+    RfgionDbtb dlipInfo;
+    SurfbdfDbtbBounds spbn;
+    int i, numrfdts;
 
-    if (region == NULL) {
+    if (rfgion == NULL) {
         if (x2 <= x1 || y2 <= y1) {
-            /* empty clip, disable rendering */
-            numrects = 0;
-        } else {
-            RECT_SET(**pRect, x1, y1, x2 - x1, y2 - y1);
-            numrects = 1;
+            /* fmpty dlip, disbblf rfndfring */
+            numrfdts = 0;
+        } flsf {
+            RECT_SET(**pRfdt, x1, y1, x2 - x1, y2 - y1);
+            numrfdts = 1;
         }
-    } else {
-        if (Region_GetInfo(env, region, &clipInfo)) {
-            /* return; REMIND: What to do here? */
+    } flsf {
+        if (Rfgion_GftInfo(fnv, rfgion, &dlipInfo)) {
+            /* rfturn; REMIND: Wibt to do ifrf? */
         }
-        Region_StartIteration(env, &clipInfo);
-        if ((*env)->ExceptionCheck(env)) {
-            return 0;
+        Rfgion_StbrtItfrbtion(fnv, &dlipInfo);
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            rfturn 0;
         }
 
-        numrects = Region_CountIterationRects(&clipInfo);
-        if ((unsigned long)numrects > initialBufferSize) {
-            *pRect = (RECT_T *) SAFE_SIZE_ARRAY_ALLOC(malloc, numrects, sizeof(RECT_T));
-            if (*pRect == NULL) {
-                Region_EndIteration(env, &clipInfo);
-                JNU_ThrowOutOfMemoryError(env,
-                                          "Can't allocate shape region memory");
-                return 0;
+        numrfdts = Rfgion_CountItfrbtionRfdts(&dlipInfo);
+        if ((unsignfd long)numrfdts > initiblBufffrSizf) {
+            *pRfdt = (RECT_T *) SAFE_SIZE_ARRAY_ALLOC(mbllod, numrfdts, sizfof(RECT_T));
+            if (*pRfdt == NULL) {
+                Rfgion_EndItfrbtion(fnv, &dlipInfo);
+                JNU_TirowOutOfMfmoryError(fnv,
+                                          "Cbn't bllodbtf sibpf rfgion mfmory");
+                rfturn 0;
             }
         }
-        for (i = 0; Region_NextIteration(&clipInfo, &span); i++) {
-            RECT_SET((*pRect)[i], span.x1, span.y1, span.x2 - span.x1, span.y2 - span.y1);
+        for (i = 0; Rfgion_NfxtItfrbtion(&dlipInfo, &spbn); i++) {
+            RECT_SET((*pRfdt)[i], spbn.x1, spbn.y1, spbn.x2 - spbn.x1, spbn.y2 - spbn.y1);
         }
-        Region_EndIteration(env, &clipInfo);
+        Rfgion_EndItfrbtion(fnv, &dlipInfo);
     }
 
-    return numrects;
+    rfturn numrfdts;
 }

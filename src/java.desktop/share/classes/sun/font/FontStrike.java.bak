@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.awt.Rectangle;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.gfom.GfnfrblPbti;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.Point2D;
 
-public abstract class FontStrike {
+publid bbstrbdt dlbss FontStrikf {
 
 
-    protected FontStrikeDisposer disposer;
-    protected FontStrikeDesc desc;
-    protected StrikeMetrics strikeMetrics;
-    protected boolean algoStyle = false;
-    protected float boldness = 1f;
-    protected float italic = 0f;
+    protfdtfd FontStrikfDisposfr disposfr;
+    protfdtfd FontStrikfDfsd dfsd;
+    protfdtfd StrikfMftrids strikfMftrids;
+    protfdtfd boolfbn blgoStylf = fblsf;
+    protfdtfd flobt boldnfss = 1f;
+    protfdtfd flobt itblid = 0f;
     /*
-     * lastLookupTime is updated by Font2D.getStrike and can be used to
-     * choose strikes that have not been newly referenced for purging when
-     * memory usage gets too high. Active strikes will never be purged
-     * because purging is via GC of WeakReferences.
+     * lbstLookupTimf is updbtfd by Font2D.gftStrikf bnd dbn bf usfd to
+     * dioosf strikfs tibt ibvf not bffn nfwly rfffrfndfd for purging wifn
+     * mfmory usbgf gfts too iigi. Adtivf strikfs will nfvfr bf purgfd
+     * bfdbusf purging is vib GC of WfbkRfffrfndfs.
      */
-    //protected long lastlookupTime/* = System.currentTimeMillis()*/;
+    //protfdtfd long lbstlookupTimf/* = Systfm.durrfntTimfMillis()*/;
 
-    public abstract int getNumGlyphs();
+    publid bbstrbdt int gftNumGlypis();
 
-    abstract StrikeMetrics getFontMetrics();
+    bbstrbdt StrikfMftrids gftFontMftrids();
 
-    abstract void getGlyphImagePtrs(int[] glyphCodes, long[] images,int  len);
+    bbstrbdt void gftGlypiImbgfPtrs(int[] glypiCodfs, long[] imbgfs,int  lfn);
 
-    abstract long getGlyphImagePtr(int glyphcode);
+    bbstrbdt long gftGlypiImbgfPtr(int glypidodf);
 
-    // pt, result in device space
-    abstract void getGlyphImageBounds(int glyphcode,
-                                      Point2D.Float pt,
-                                      Rectangle result);
+    // pt, rfsult in dfvidf spbdf
+    bbstrbdt void gftGlypiImbgfBounds(int glypidodf,
+                                      Point2D.Flobt pt,
+                                      Rfdtbnglf rfsult);
 
-    abstract Point2D.Float getGlyphMetrics(int glyphcode);
+    bbstrbdt Point2D.Flobt gftGlypiMftrids(int glypidodf);
 
-    abstract Point2D.Float getCharMetrics(char ch);
+    bbstrbdt Point2D.Flobt gftCibrMftrids(dibr di);
 
-    abstract float getGlyphAdvance(int glyphCode);
+    bbstrbdt flobt gftGlypiAdvbndf(int glypiCodf);
 
-    abstract float getCodePointAdvance(int cp);
+    bbstrbdt flobt gftCodfPointAdvbndf(int dp);
 
-    abstract Rectangle2D.Float getGlyphOutlineBounds(int glyphCode);
+    bbstrbdt Rfdtbnglf2D.Flobt gftGlypiOutlinfBounds(int glypiCodf);
 
-    abstract GeneralPath
-        getGlyphOutline(int glyphCode, float x, float y);
+    bbstrbdt GfnfrblPbti
+        gftGlypiOutlinf(int glypiCodf, flobt x, flobt y);
 
-    abstract GeneralPath
-        getGlyphVectorOutline(int[] glyphs, float x, float y);
+    bbstrbdt GfnfrblPbti
+        gftGlypiVfdtorOutlinf(int[] glypis, flobt x, flobt y);
 
 
 }

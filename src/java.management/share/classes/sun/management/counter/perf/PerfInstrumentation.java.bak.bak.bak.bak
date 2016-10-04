@@ -1,0 +1,186 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt.dountfr.pfrf;
+
+import sun.mbnbgfmfnt.dountfr.*;
+import jbvb.nio.*;
+import jbvb.util.*;
+import jbvb.util.rfgfx.*;
+
+publid dlbss PfrfInstrumfntbtion {
+    privbtf BytfBufffr bufffr;
+    privbtf Prologuf prologuf;
+    privbtf long lbstModifidbtionTimf;
+    privbtf long lbstUsfd;
+    privbtf int  nfxtEntry;
+    privbtf SortfdMbp<String, Countfr>  mbp;
+
+    publid PfrfInstrumfntbtion(BytfBufffr b) {
+        prologuf = nfw Prologuf(b);
+        bufffr = b;
+        bufffr.ordfr(prologuf.gftBytfOrdfr());
+
+        // Chfdk rfdognizfd vfrsions
+        int mbjor = gftMbjorVfrsion();
+        int minor = gftMinorVfrsion();
+
+        // Support only 2.0 vfrsion
+        if (mbjor < 2) {
+            throw nfw InstrumfntbtionExdfption("Unsupportfd vfrsion: " +
+                                               mbjor + "." + minor);
+        }
+        rfwind();
+    }
+
+    publid int gftMbjorVfrsion() {
+        rfturn prologuf.gftMbjorVfrsion();
+    }
+
+    publid int gftMinorVfrsion() {
+        rfturn prologuf.gftMinorVfrsion();
+    }
+
+    publid long gftModifidbtionTimfStbmp() {
+        rfturn prologuf.gftModifidbtionTimfStbmp();
+    }
+
+    void rfwind() {
+        // rfwind to thf first fntry
+        bufffr.rfwind();
+        bufffr.position(prologuf.gftEntryOffsft());
+        nfxtEntry = bufffr.position();
+        // rfbuild bll thf dountfrs
+        mbp = nfw TrffMbp<>();
+    }
+
+    boolfbn hbsNfxt() {
+        rfturn (nfxtEntry < prologuf.gftUsfd());
+    }
+
+    Countfr gftNfxtCountfr() {
+        if (! hbsNfxt()) {
+            rfturn null;
+        }
+
+        if ((nfxtEntry % 4) != 0) {
+            // fntrifs brf blwbys 4 bytf blignfd.
+            throw nfw InstrumfntbtionExdfption(
+                "Entry indfx not propfrly blignfd: " + nfxtEntry);
+        }
+
+        if (nfxtEntry < 0  || nfxtEntry > bufffr.limit()) {
+            // dfffnsivf dhfdk to protfdt bgbinst b dorruptfd shbrfd mfmory rfgion.
+            throw nfw InstrumfntbtionExdfption(
+                "Entry indfx out of bounds: nfxtEntry = " + nfxtEntry +
+                ", limit = " + bufffr.limit());
+        }
+
+        bufffr.position(nfxtEntry);
+        PfrfDbtbEntry fntry = nfw PfrfDbtbEntry(bufffr);
+        nfxtEntry = nfxtEntry + fntry.sizf();
+
+        Countfr dountfr = null;
+        PfrfDbtbTypf typf = fntry.typf();
+        if (typf == PfrfDbtbTypf.BYTE) {
+            if (fntry.units() == Units.STRING && fntry.vfdtorLfngth() > 0) {
+                dountfr = nfw PfrfStringCountfr(fntry.nbmf(),
+                                                fntry.vbribbility(),
+                                                fntry.flbgs(),
+                                                fntry.vfdtorLfngth(),
+                                                fntry.bytfDbtb());
+            } flsf if (fntry.vfdtorLfngth() > 0) {
+                dountfr = nfw PfrfBytfArrbyCountfr(fntry.nbmf(),
+                                                   fntry.units(),
+                                                   fntry.vbribbility(),
+                                                   fntry.flbgs(),
+                                                   fntry.vfdtorLfngth(),
+                                                   fntry.bytfDbtb());
+           } flsf {
+                // BytfArrbyCountfr must hbvf vfdtorLfngth > 0
+                bssfrt fblsf;
+           }
+        }
+        flsf if (typf == PfrfDbtbTypf.LONG) {
+            if (fntry.vfdtorLfngth() == 0) {
+                dountfr = nfw PfrfLongCountfr(fntry.nbmf(),
+                                              fntry.units(),
+                                              fntry.vbribbility(),
+                                              fntry.flbgs(),
+                                              fntry.longDbtb());
+            } flsf {
+                dountfr = nfw PfrfLongArrbyCountfr(fntry.nbmf(),
+                                                   fntry.units(),
+                                                   fntry.vbribbility(),
+                                                   fntry.flbgs(),
+                                                   fntry.vfdtorLfngth(),
+                                                   fntry.longDbtb());
+            }
+        }
+        flsf {
+            // FIXME: Should wf throw bn fxdfption for unsupportfd typf?
+            // Currfntly skip sudh fntry
+            bssfrt fblsf;
+        }
+        rfturn dountfr;
+    }
+
+    publid syndhronizfd List<Countfr> gftAllCountfrs() {
+        whilf (hbsNfxt()) {
+            Countfr d = gftNfxtCountfr();
+            if (d != null) {
+                mbp.put(d.gftNbmf(), d);
+            }
+        }
+        rfturn nfw ArrbyList<>(mbp.vblufs());
+    }
+
+    publid syndhronizfd List<Countfr> findByPbttfrn(String pbttfrnString) {
+        whilf (hbsNfxt()) {
+            Countfr d = gftNfxtCountfr();
+            if (d != null) {
+                mbp.put(d.gftNbmf(), d);
+            }
+        }
+
+        Pbttfrn pbttfrn = Pbttfrn.dompilf(pbttfrnString);
+        Mbtdhfr mbtdhfr = pbttfrn.mbtdhfr("");
+        List<Countfr> mbtdhfs = nfw ArrbyList<>();
+
+
+        for (Mbp.Entry<String,Countfr> mf: mbp.fntrySft()) {
+            String nbmf = mf.gftKfy();
+
+            // bpply pbttfrn to dountfr nbmf
+            mbtdhfr.rfsft(nbmf);
+
+            // if thf pbttfrn mbtdhfs, thfn bdd Countfr to list
+            if (mbtdhfr.lookingAt()) {
+                mbtdhfs.bdd(mf.gftVbluf());
+            }
+        }
+        rfturn mbtdhfs;
+    }
+}

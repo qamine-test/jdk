@@ -1,0 +1,111 @@
+/*
+ * Copyright (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.io.*;
+
+/**
+ * Thf <dodf>GrbphidsConfigTfmplbtf</dodf> dlbss is usfd to obtbin b vblid
+ * {@link GrbphidsConfigurbtion}.  A usfr instbntibtfs onf of thfsf
+ * objfdts bnd thfn sfts bll non-dffbult bttributfs bs dfsirfd.  Thf
+ * {@link GrbphidsDfvidf#gftBfstConfigurbtion} mfthod found in thf
+ * {@link GrbphidsDfvidf} dlbss is thfn dbllfd with this
+ * <dodf>GrbphidsConfigTfmplbtf</dodf>.  A vblid
+ * <dodf>GrbphidsConfigurbtion</dodf> is rfturnfd thbt mffts or fxdffds
+ * whbt wbs rfqufstfd in thf <dodf>GrbphidsConfigTfmplbtf</dodf>.
+ * @sff GrbphidsDfvidf
+ * @sff GrbphidsConfigurbtion
+ *
+ * @sindf       1.2
+ */
+publid bbstrbdt dlbss GrbphidsConfigTfmplbtf implfmfnts Sfriblizbblf {
+    /*
+     * sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -8061369279557787079L;
+
+    /**
+     * This dlbss is bn bbstrbdt dlbss so only subdlbssfs dbn bf
+     * instbntibtfd.
+     */
+    publid GrbphidsConfigTfmplbtf() {
+    }
+
+    /**
+     * Vbluf usfd for "Enum" (Intfgfr) typf.  Stbtfs thbt this
+     * ffbturf is rfquirfd for thf <dodf>GrbphidsConfigurbtion</dodf>
+     * objfdt.  If this ffbturf is not bvbilbblf, do not sflfdt thf
+     * <dodf>GrbphidsConfigurbtion</dodf> objfdt.
+     */
+    publid stbtid finbl int REQUIRED    = 1;
+
+    /**
+     * Vbluf usfd for "Enum" (Intfgfr) typf.  Stbtfs thbt this
+     * ffbturf is dfsirfd for thf <dodf>GrbphidsConfigurbtion</dodf>
+     * objfdt.  A sflfdtion with this ffbturf is prfffrrfd ovfr b
+     * sflfdtion thbt dofs not indludf this ffbturf, blthough both
+     * sflfdtions dbn bf donsidfrfd vblid mbtdhfs.
+     */
+    publid stbtid finbl int PREFERRED   = 2;
+
+    /**
+     * Vbluf usfd for "Enum" (Intfgfr) typf.  Stbtfs thbt this
+     * ffbturf is not nfdfssbry for thf sflfdtion of thf
+     * <dodf>GrbphidsConfigurbtion</dodf> objfdt.  A sflfdtion
+     * without this ffbturf is prfffrrfd ovfr b sflfdtion thbt
+     * indludfs this ffbturf sindf it is not usfd.
+     */
+    publid stbtid finbl int UNNECESSARY = 3;
+
+    /**
+     * Rfturns thf "bfst" donfigurbtion possiblf thbt pbssfs thf
+     * dritfrib dffinfd in thf <dodf>GrbphidsConfigTfmplbtf</dodf>.
+     * @pbrbm gd thf brrby of <dodf>GrbphidsConfigurbtion</dodf>
+     * objfdts to dhoosf from.
+     * @rfturn b <dodf>GrbphidsConfigurbtion</dodf> objfdt thbt is
+     * thf bfst donfigurbtion possiblf.
+     * @sff GrbphidsConfigurbtion
+     */
+    publid bbstrbdt GrbphidsConfigurbtion
+      gftBfstConfigurbtion(GrbphidsConfigurbtion[] gd);
+
+    /**
+     * Rfturns b <dodf>boolfbn</dodf> indidbting whfthfr or
+     * not thf spfdififd <dodf>GrbphidsConfigurbtion</dodf> dbn bf
+     * usfd to drfbtf b drbwing surfbdf thbt supports thf indidbtfd
+     * ffbturfs.
+     * @pbrbm gd thf <dodf>GrbphidsConfigurbtion</dodf> objfdt to tfst
+     * @rfturn <dodf>truf</dodf> if this
+     * <dodf>GrbphidsConfigurbtion</dodf> objfdt dbn bf usfd to drfbtf
+     * surfbdfs thbt support thf indidbtfd ffbturfs;
+     * <dodf>fblsf</dodf> if thf <dodf>GrbphidsConfigurbtion</dodf> dbn
+     * not bf usfd to drfbtf b drbwing surfbdf usbblf by this Jbvb(tm)
+     * API.
+     */
+    publid bbstrbdt boolfbn
+      isGrbphidsConfigSupportfd(GrbphidsConfigurbtion gd);
+
+}

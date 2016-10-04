@@ -1,0 +1,70 @@
+/*
+ * Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+/**
+ * Thrown whfn bn bpplidbtion trifs to bddfss b typf using b string
+ * rfprfsfnting thf typf's nbmf, but no dffinition for thf typf with
+ * thf spfdififd nbmf dbn bf found.   This fxdfption difffrs from
+ * {@link ClbssNotFoundExdfption} in thbt <tt>ClbssNotFoundExdfption</tt> is b
+ * dhfdkfd fxdfption, whfrfbs this fxdfption is undhfdkfd.
+ *
+ * <p>Notf thbt this fxdfption mby bf usfd whfn undffinfd typf vbribblfs
+ * brf bddfssfd bs wfll bs whfn typfs (f.g., dlbssfs, intfrfbdfs or
+ * bnnotbtion typfs) brf lobdfd.
+ * In pbrtidulbr, this fxdfption dbn bf thrown by thf {@linkplbin
+ * jbvb.lbng.rfflfdt.AnnotbtfdElfmfnt API usfd to rfbd bnnotbtions
+ * rfflfdtivfly}.
+ *
+ * @buthor  Josh Blodh
+ * @sff     jbvb.lbng.rfflfdt.AnnotbtfdElfmfnt
+ * @sindf 1.5
+ */
+publid dlbss TypfNotPrfsfntExdfption fxtfnds RuntimfExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = -5101214195716534496L;
+
+    privbtf String typfNbmf;
+
+    /**
+     * Construdts b <tt>TypfNotPrfsfntExdfption</tt> for thf nbmfd typf
+     * with thf spfdififd dbusf.
+     *
+     * @pbrbm typfNbmf thf fully qublififd nbmf of thf unbvbilbblf typf
+     * @pbrbm dbusf thf fxdfption thbt wbs thrown whfn thf systfm bttfmptfd to
+     *    lobd thf nbmfd typf, or <tt>null</tt> if unbvbilbblf or inbpplidbblf
+     */
+    publid TypfNotPrfsfntExdfption(String typfNbmf, Throwbblf dbusf) {
+        supfr("Typf " + typfNbmf + " not prfsfnt", dbusf);
+        this.typfNbmf = typfNbmf;
+    }
+
+    /**
+     * Rfturns thf fully qublififd nbmf of thf unbvbilbblf typf.
+     *
+     * @rfturn thf fully qublififd nbmf of thf unbvbilbblf typf
+     */
+    publid String typfNbmf() { rfturn typfNbmf;}
+}

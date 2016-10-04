@@ -1,82 +1,82 @@
 /*
- * Copyright (c) 2003, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.remote;
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf;
 
-import java.io.IOException;
-import java.util.Map;
+import jbvb.io.IOExdfption;
+import jbvb.util.Mbp;
 
-import javax.management.MBeanServer;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
 
 /**
- * <p>A provider for creating JMX API connector servers using a given
- * protocol.  Instances of this interface are created by {@link
- * JMXConnectorServerFactory} as part of its {@link
- * JMXConnectorServerFactory#newJMXConnectorServer(JMXServiceURL,Map,MBeanServer)
- * newJMXConnectorServer} method.</p>
+ * <p>A providfr for drfbting JMX API donnfdtor sfrvfrs using b givfn
+ * protodol.  Instbndfs of tiis intfrfbdf brf drfbtfd by {@link
+ * JMXConnfdtorSfrvfrFbdtory} bs pbrt of its {@link
+ * JMXConnfdtorSfrvfrFbdtory#nfwJMXConnfdtorSfrvfr(JMXSfrvidfURL,Mbp,MBfbnSfrvfr)
+ * nfwJMXConnfdtorSfrvfr} mftiod.</p>
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public interface JMXConnectorServerProvider {
+publid intfrfbdf JMXConnfdtorSfrvfrProvidfr {
     /**
-     * <p>Creates a new connector server at the given address.  Each
-     * successful call to this method produces a different
-     * <code>JMXConnectorServer</code> object.</p>
+     * <p>Crfbtfs b nfw donnfdtor sfrvfr bt tif givfn bddrfss.  Ebdi
+     * suddfssful dbll to tiis mftiod produdfs b difffrfnt
+     * <dodf>JMXConnfdtorSfrvfr</dodf> objfdt.</p>
      *
-     * @param serviceURL the address of the new connector server.  The
-     * actual address of the new connector server, as returned by its
-     * {@link JMXConnectorServer#getAddress() getAddress} method, will
-     * not necessarily be exactly the same.  For example, it might
-     * include a port number if the original address did not.
+     * @pbrbm sfrvidfURL tif bddrfss of tif nfw donnfdtor sfrvfr.  Tif
+     * bdtubl bddrfss of tif nfw donnfdtor sfrvfr, bs rfturnfd by its
+     * {@link JMXConnfdtorSfrvfr#gftAddrfss() gftAddrfss} mftiod, will
+     * not nfdfssbrily bf fxbdtly tif sbmf.  For fxbmplf, it migit
+     * indludf b port numbfr if tif originbl bddrfss did not.
      *
-     * @param environment a read-only Map containing named attributes
-     * to control the new connector server's behavior.  Keys in this
-     * map must be Strings.  The appropriate type of each associated
-     * value depends on the attribute.
+     * @pbrbm fnvironmfnt b rfbd-only Mbp dontbining nbmfd bttributfs
+     * to dontrol tif nfw donnfdtor sfrvfr's bfibvior.  Kfys in tiis
+     * mbp must bf Strings.  Tif bppropribtf typf of fbdi bssodibtfd
+     * vbluf dfpfnds on tif bttributf.
      *
-     * @param mbeanServer the MBean server that this connector server
-     * is attached to.  Null if this connector server will be attached
-     * to an MBean server by being registered in it.
+     * @pbrbm mbfbnSfrvfr tif MBfbn sfrvfr tibt tiis donnfdtor sfrvfr
+     * is bttbdifd to.  Null if tiis donnfdtor sfrvfr will bf bttbdifd
+     * to bn MBfbn sfrvfr by bfing rfgistfrfd in it.
      *
-     * @return a <code>JMXConnectorServer</code> representing the new
-     * connector server.  Each successful call to this method produces
-     * a different object.
+     * @rfturn b <dodf>JMXConnfdtorSfrvfr</dodf> rfprfsfnting tif nfw
+     * donnfdtor sfrvfr.  Ebdi suddfssful dbll to tiis mftiod produdfs
+     * b difffrfnt objfdt.
      *
-     * @exception NullPointerException if <code>serviceURL</code> or
-     * <code>environment</code> is null.
+     * @fxdfption NullPointfrExdfption if <dodf>sfrvidfURL</dodf> or
+     * <dodf>fnvironmfnt</dodf> is null.
      *
-     * @exception IOException It is recommended for a provider
-     * implementation to throw {@code MalformedURLException} if the
-     * protocol in the {@code serviceURL} is not recognized by this
-     * provider, {@code JMXProviderException} if this is a provider
-     * for the protocol in {@code serviceURL} but it cannot be used
-     * for some reason or any other {@code IOException} if the
-     * connector server cannot be created.
+     * @fxdfption IOExdfption It is rfdommfndfd for b providfr
+     * implfmfntbtion to tirow {@dodf MblformfdURLExdfption} if tif
+     * protodol in tif {@dodf sfrvidfURL} is not rfdognizfd by tiis
+     * providfr, {@dodf JMXProvidfrExdfption} if tiis is b providfr
+     * for tif protodol in {@dodf sfrvidfURL} but it dbnnot bf usfd
+     * for somf rfbson or bny otifr {@dodf IOExdfption} if tif
+     * donnfdtor sfrvfr dbnnot bf drfbtfd.
      */
-    public JMXConnectorServer newJMXConnectorServer(JMXServiceURL serviceURL,
-                                                    Map<String,?> environment,
-                                                    MBeanServer mbeanServer)
-            throws IOException;
+    publid JMXConnfdtorSfrvfr nfwJMXConnfdtorSfrvfr(JMXSfrvidfURL sfrvidfURL,
+                                                    Mbp<String,?> fnvironmfnt,
+                                                    MBfbnSfrvfr mbfbnSfrvfr)
+            tirows IOExdfption;
 }

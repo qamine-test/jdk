@@ -1,0 +1,3539 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fndryption;
+
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.nft.URI;
+import jbvb.nft.URISyntbxExdfption;
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import jbvb.sfdurity.NoSudhProvidfrExdfption;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.spfd.MGF1PbrbmftfrSpfd;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.LinkfdList;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+
+import jbvbx.drypto.BbdPbddingExdfption;
+import jbvbx.drypto.Ciphfr;
+import jbvbx.drypto.IllfgblBlodkSizfExdfption;
+import jbvbx.drypto.NoSudhPbddingExdfption;
+import jbvbx.drypto.spfd.IvPbrbmftfrSpfd;
+import jbvbx.drypto.spfd.OAEPPbrbmftfrSpfd;
+import jbvbx.drypto.spfd.PSourdf;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.blgorithms.JCEMbppfr;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.blgorithms.MfssbgfDigfstAlgorithm;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.d14n.Cbnonidblizfr;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.d14n.InvblidCbnonidblizfrExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fxdfptions.Bbsf64DfdodingExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.kfys.KfyInfo;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.KfyRfsolvfrExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.KfyRfsolvfrSpi;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.kfys.kfyrfsolvfr.implfmfntbtions.EndryptfdKfyRfsolvfr;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.InvblidTrbnsformExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformbtionExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.Bbsf64;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.ElfmfntProxy;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.EndryptionConstbnts;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
+
+/**
+ * <dodf>XMLCiphfr</dodf> fndrypts bnd dfdrypts thf dontfnts of
+ * <dodf>Dodumfnt</dodf>s, <dodf>Elfmfnt</dodf>s bnd <dodf>Elfmfnt</dodf>
+ * dontfnts. It wbs dfsignfd to rfsfmblf <dodf>jbvbx.drypto.Ciphfr</dodf> in
+ * ordfr to fbdilitbtf undfrstbnding of its fundtioning.
+ *
+ * @buthor Axl Mbtthfus (Sun Midrosystfms)
+ * @buthor Christibn Gfufr-Pollmbnn
+ */
+publid dlbss XMLCiphfr {
+
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(XMLCiphfr.dlbss.gftNbmf());
+
+    /** Triplf DES EDE (192 bit kfy) in CBC modf */
+    publid stbtid finbl String TRIPLEDES =
+        EndryptionConstbnts.ALGO_ID_BLOCKCIPHER_TRIPLEDES;
+
+    /** AES 128 Ciphfr */
+    publid stbtid finbl String AES_128 =
+        EndryptionConstbnts.ALGO_ID_BLOCKCIPHER_AES128;
+
+    /** AES 256 Ciphfr */
+    publid stbtid finbl String AES_256 =
+        EndryptionConstbnts.ALGO_ID_BLOCKCIPHER_AES256;
+
+    /** AES 192 Ciphfr */
+    publid stbtid finbl String AES_192 =
+        EndryptionConstbnts.ALGO_ID_BLOCKCIPHER_AES192;
+
+    /** AES 128 GCM Ciphfr */
+    publid stbtid finbl String AES_128_GCM =
+        EndryptionConstbnts.ALGO_ID_BLOCKCIPHER_AES128_GCM;
+
+    /** AES 192 GCM Ciphfr */
+    publid stbtid finbl String AES_192_GCM =
+        EndryptionConstbnts.ALGO_ID_BLOCKCIPHER_AES192_GCM;
+
+    /** AES 256 GCM Ciphfr */
+    publid stbtid finbl String AES_256_GCM =
+        EndryptionConstbnts.ALGO_ID_BLOCKCIPHER_AES256_GCM;
+
+    /** RSA 1.5 Ciphfr */
+    publid stbtid finbl String RSA_v1dot5 =
+        EndryptionConstbnts.ALGO_ID_KEYTRANSPORT_RSA15;
+
+    /** RSA OAEP Ciphfr */
+    publid stbtid finbl String RSA_OAEP =
+        EndryptionConstbnts.ALGO_ID_KEYTRANSPORT_RSAOAEP;
+
+    /** RSA OAEP Ciphfr */
+    publid stbtid finbl String RSA_OAEP_11 =
+        EndryptionConstbnts.ALGO_ID_KEYTRANSPORT_RSAOAEP_11;
+
+    /** DIFFIE_HELLMAN Ciphfr */
+    publid stbtid finbl String DIFFIE_HELLMAN =
+        EndryptionConstbnts.ALGO_ID_KEYAGREEMENT_DH;
+
+    /** Triplf DES EDE (192 bit kfy) in CBC modf KEYWRAP*/
+    publid stbtid finbl String TRIPLEDES_KfyWrbp =
+        EndryptionConstbnts.ALGO_ID_KEYWRAP_TRIPLEDES;
+
+    /** AES 128 Ciphfr KfyWrbp */
+    publid stbtid finbl String AES_128_KfyWrbp =
+        EndryptionConstbnts.ALGO_ID_KEYWRAP_AES128;
+
+    /** AES 256 Ciphfr KfyWrbp */
+    publid stbtid finbl String AES_256_KfyWrbp =
+        EndryptionConstbnts.ALGO_ID_KEYWRAP_AES256;
+
+    /** AES 192 Ciphfr KfyWrbp */
+    publid stbtid finbl String AES_192_KfyWrbp =
+        EndryptionConstbnts.ALGO_ID_KEYWRAP_AES192;
+
+    /** SHA1 Ciphfr */
+    publid stbtid finbl String SHA1 =
+        Constbnts.ALGO_ID_DIGEST_SHA1;
+
+    /** SHA256 Ciphfr */
+    publid stbtid finbl String SHA256 =
+        MfssbgfDigfstAlgorithm.ALGO_ID_DIGEST_SHA256;
+
+    /** SHA512 Ciphfr */
+    publid stbtid finbl String SHA512 =
+        MfssbgfDigfstAlgorithm.ALGO_ID_DIGEST_SHA512;
+
+    /** RIPEMD Ciphfr */
+    publid stbtid finbl String RIPEMD_160 =
+        MfssbgfDigfstAlgorithm.ALGO_ID_DIGEST_RIPEMD160;
+
+    /** XML Signbturf NS */
+    publid stbtid finbl String XML_DSIG =
+        Constbnts.SignbturfSpfdNS;
+
+    /** N14C_XML */
+    publid stbtid finbl String N14C_XML =
+        Cbnonidblizfr.ALGO_ID_C14N_OMIT_COMMENTS;
+
+    /** N14C_XML with dommfnts*/
+    publid stbtid finbl String N14C_XML_WITH_COMMENTS =
+        Cbnonidblizfr.ALGO_ID_C14N_WITH_COMMENTS;
+
+    /** N14C_XML fxdlusivf */
+    publid stbtid finbl String EXCL_XML_N14C =
+        Cbnonidblizfr.ALGO_ID_C14N_EXCL_OMIT_COMMENTS;
+
+    /** N14C_XML fxdlusivf with dommfnts*/
+    publid stbtid finbl String EXCL_XML_N14C_WITH_COMMENTS =
+        Cbnonidblizfr.ALGO_ID_C14N_EXCL_WITH_COMMENTS;
+
+    /** N14C_PHYSICAL prfsfrvf thf physidbl rfprfsfntbtion*/
+    publid stbtid finbl String PHYSICAL_XML_N14C =
+        Cbnonidblizfr.ALGO_ID_C14N_PHYSICAL;
+
+    /** Bbsf64 fndoding */
+    publid stbtid finbl String BASE64_ENCODING =
+        dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.Trbnsforms.TRANSFORM_BASE64_DECODE;
+
+    /** ENCRYPT Modf */
+    publid stbtid finbl int ENCRYPT_MODE = Ciphfr.ENCRYPT_MODE;
+
+    /** DECRYPT Modf */
+    publid stbtid finbl int DECRYPT_MODE = Ciphfr.DECRYPT_MODE;
+
+    /** UNWRAP Modf */
+    publid stbtid finbl int UNWRAP_MODE  = Ciphfr.UNWRAP_MODE;
+
+    /** WRAP Modf */
+    publid stbtid finbl int WRAP_MODE    = Ciphfr.WRAP_MODE;
+
+    privbtf stbtid finbl String ENC_ALGORITHMS = TRIPLEDES + "\n" +
+    AES_128 + "\n" + AES_256 + "\n" + AES_192 + "\n" + RSA_v1dot5 + "\n" +
+    RSA_OAEP + "\n" + RSA_OAEP_11 + "\n" + TRIPLEDES_KfyWrbp + "\n" +
+    AES_128_KfyWrbp + "\n" + AES_256_KfyWrbp + "\n" + AES_192_KfyWrbp + "\n" +
+    AES_128_GCM + "\n" + AES_192_GCM + "\n" + AES_256_GCM + "\n";
+
+    /** Ciphfr drfbtfd during initiblisbtion thbt is usfd for fndryption */
+    privbtf Ciphfr dontfxtCiphfr;
+
+    /** Modf thbt thf XMLCiphfr objfdt is opfrbting in */
+    privbtf int diphfrModf = Intfgfr.MIN_VALUE;
+
+    /** URI of blgorithm thbt is bfing usfd for dryptogrbphid opfrbtion */
+    privbtf String blgorithm = null;
+
+    /** Cryptogrbphid providfr rfqufstfd by dbllfr */
+    privbtf String rfqufstfdJCEProvidfr = null;
+
+    /** Holds d14n to sfriblizf, if initiblizfd thfn _blwbys_ usf this d14n to sfriblizf */
+    privbtf Cbnonidblizfr dbnon;
+
+    /** Usfd for drfbtion of DOM nodfs in WRAP bnd ENCRYPT modfs */
+    privbtf Dodumfnt dontfxtDodumfnt;
+
+    /** Instbndf of fbdtory usfd to drfbtf XML Endryption objfdts */
+    privbtf Fbdtory fbdtory;
+
+    /** Sfriblizfr dlbss for going to/from UTF-8 */
+    privbtf Sfriblizfr sfriblizfr;
+
+    /** Lodbl dopy of usfr's kfy */
+    privbtf Kfy kfy;
+
+    /** Lodbl dopy of thf kfk (usfd to dfdrypt EndryptfdKfys during b
+     *  DECRYPT_MODE opfrbtion */
+    privbtf Kfy kfk;
+
+    // Thf EndryptfdKfy bfing built (pbrt of b WRAP opfrbtion) or rfbd
+    // (pbrt of bn UNWRAP opfrbtion)
+    privbtf EndryptfdKfy fk;
+
+    // Thf EndryptfdDbtb bfing built (pbrt of b WRAP opfrbtion) or rfbd
+    // (pbrt of bn UNWRAP opfrbtion)
+    privbtf EndryptfdDbtb fd;
+
+    privbtf SfdurfRbndom rbndom;
+
+    privbtf boolfbn sfdurfVblidbtion;
+
+    privbtf String digfstAlg;
+
+    /** List of intfrnbl KfyRfsolvfrs for DECRYPT bnd UNWRAP modfs. */
+    privbtf List<KfyRfsolvfrSpi> intfrnblKfyRfsolvfrs;
+
+    /**
+     * Sft thf Sfriblizfr blgorithm to usf
+     */
+    publid void sftSfriblizfr(Sfriblizfr sfriblizfr) {
+        this.sfriblizfr = sfriblizfr;
+        sfriblizfr.sftCbnonidblizfr(this.dbnon);
+    }
+
+    /**
+     * Gft thf Sfriblizfr blgorithm to usf
+     */
+    publid Sfriblizfr gftSfriblizfr() {
+        rfturn sfriblizfr;
+    }
+
+    /**
+     * Crfbtfs b nfw <dodf>XMLCiphfr</dodf>.
+     *
+     * @pbrbm trbnsformbtion    thf nbmf of thf trbnsformbtion, f.g.,
+     *                          <dodf>XMLCiphfr.TRIPLEDES</dodf>. If null thf XMLCiphfr dbn only
+     *                          bf usfd for dfdrypt or unwrbp opfrbtions whfrf thf fndryption mfthod
+     *                          is dffinfd in thf <dodf>EndryptionMfthod</dodf> flfmfnt.
+     * @pbrbm providfr          thf JCE providfr thbt supplifs thf trbnsformbtion,
+     *                          if null usf thf dffbult providfr.
+     * @pbrbm dbnon             thf nbmf of thf d14n blgorithm, if
+     *                          <dodf>null</dodf> usf stbndbrd sfriblizfr
+     * @pbrbm digfstMfthod      An optionbl digfstMfthod to usf.
+     */
+    privbtf XMLCiphfr(
+        String trbnsformbtion,
+        String providfr,
+        String dbnonAlg,
+        String digfstMfthod
+    ) throws XMLEndryptionExdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Construdting XMLCiphfr...");
+        }
+
+        fbdtory = nfw Fbdtory();
+
+        blgorithm = trbnsformbtion;
+        rfqufstfdJCEProvidfr = providfr;
+        digfstAlg = digfstMfthod;
+
+        // Crfbtf b dbnonidblizfr - usfd whfn sfriblizing DOM to odtfts
+        // prior to fndryption (bnd for thf rfvfrsf)
+
+        try {
+            if (dbnonAlg == null) {
+                // Thf dffbult is to prfsfrvf thf physidbl rfprfsfntbtion.
+                this.dbnon = Cbnonidblizfr.gftInstbndf(Cbnonidblizfr.ALGO_ID_C14N_PHYSICAL);
+            } flsf {
+                this.dbnon = Cbnonidblizfr.gftInstbndf(dbnonAlg);
+            }
+        } dbtdh (InvblidCbnonidblizfrExdfption idf) {
+            throw nfw XMLEndryptionExdfption("fmpty", idf);
+        }
+
+        if (sfriblizfr == null) {
+            sfriblizfr = nfw DodumfntSfriblizfr();
+        }
+        sfriblizfr.sftCbnonidblizfr(this.dbnon);
+
+        if (trbnsformbtion != null) {
+            dontfxtCiphfr = donstrudtCiphfr(trbnsformbtion, digfstMfthod);
+        }
+    }
+
+    /**
+     * Chfdks to fnsurf thbt thf supplifd blgorithm is vblid.
+     *
+     * @pbrbm blgorithm thf blgorithm to dhfdk.
+     * @rfturn truf if thf blgorithm is vblid, othfrwisf fblsf.
+     * @sindf 1.0.
+     */
+    privbtf stbtid boolfbn isVblidEndryptionAlgorithm(String blgorithm) {
+        rfturn (
+            blgorithm.fqubls(TRIPLEDES) ||
+            blgorithm.fqubls(AES_128) ||
+            blgorithm.fqubls(AES_256) ||
+            blgorithm.fqubls(AES_192) ||
+            blgorithm.fqubls(AES_128_GCM) ||
+            blgorithm.fqubls(AES_192_GCM) ||
+            blgorithm.fqubls(AES_256_GCM) ||
+            blgorithm.fqubls(RSA_v1dot5) ||
+            blgorithm.fqubls(RSA_OAEP) ||
+            blgorithm.fqubls(RSA_OAEP_11) ||
+            blgorithm.fqubls(TRIPLEDES_KfyWrbp) ||
+            blgorithm.fqubls(AES_128_KfyWrbp) ||
+            blgorithm.fqubls(AES_256_KfyWrbp) ||
+            blgorithm.fqubls(AES_192_KfyWrbp)
+        );
+    }
+
+    /**
+     * Vblidbtf thf trbnsformbtion brgumfnt of gftInstbndf or gftProvidfrInstbndf
+     *
+     * @pbrbm trbnsformbtion thf nbmf of thf trbnsformbtion, f.g.,
+     *   <dodf>XMLCiphfr.TRIPLEDES</dodf> whidh is shorthbnd for
+     *   &quot;http://www.w3.org/2001/04/xmlfnd#triplfdfs-dbd&quot;
+     */
+    privbtf stbtid void vblidbtfTrbnsformbtion(String trbnsformbtion) {
+        if (null == trbnsformbtion) {
+            throw nfw NullPointfrExdfption("Trbnsformbtion unfxpfdtfdly null...");
+        }
+        if (!isVblidEndryptionAlgorithm(trbnsformbtion)) {
+            log.log(jbvb.util.logging.Lfvfl.WARNING, "Algorithm non-stbndbrd, fxpfdtfd onf of " + ENC_ALGORITHMS);
+        }
+    }
+
+    /**
+     * Rfturns bn <dodf>XMLCiphfr</dodf> thbt implfmfnts thf spfdififd
+     * trbnsformbtion bnd opfrbtfs on thf spfdififd dontfxt dodumfnt.
+     * <p>
+     * If thf dffbult providfr pbdkbgf supplifs bn implfmfntbtion of thf
+     * rfqufstfd trbnsformbtion, bn instbndf of Ciphfr dontbining thbt
+     * implfmfntbtion is rfturnfd. If thf trbnsformbtion is not bvbilbblf in
+     * thf dffbult providfr pbdkbgf, othfr providfr pbdkbgfs brf sfbrdhfd.
+     * <p>
+     * <b>NOTE<sub>1</sub>:</b> Thf trbnsformbtion nbmf dofs not follow thf sbmf
+     * pbttfrn bs thbt outlinfd in thf Jbvb Cryptogrbphy Extfnsion Rfffrfndf
+     * Guidf but rbthfr thbt spfdififd by thf XML Endryption Syntbx bnd
+     * Prodfssing dodumfnt. Thf rbtionbl bfhind this is to mbkf it fbsifr for b
+     * novidf bt writing Jbvb Endryption softwbrf to usf thf librbry.
+     * <p>
+     * <b>NOTE<sub>2</sub>:</b> <dodf>gftInstbndf()</dodf> dofs not follow thf
+     * sbmf pbttfrn rfgbrding fxdfptionbl donditions bs thbt usfd in
+     * <dodf>jbvbx.drypto.Ciphfr</dodf>. Instfbd, it only throws bn
+     * <dodf>XMLEndryptionExdfption</dodf> whidh wrbps bn undfrlying fxdfption.
+     * Thf stbdk trbdf from thf fxdfption should bf sflf fxplbnbtory.
+     *
+     * @pbrbm trbnsformbtion thf nbmf of thf trbnsformbtion, f.g.,
+     *   <dodf>XMLCiphfr.TRIPLEDES</dodf> whidh is shorthbnd for
+     *   &quot;http://www.w3.org/2001/04/xmlfnd#triplfdfs-dbd&quot;
+     * @throws XMLEndryptionExdfption
+     * @rfturn thf XMLCiphfr
+     * @sff jbvbx.drypto.Ciphfr#gftInstbndf(jbvb.lbng.String)
+     */
+    publid stbtid XMLCiphfr gftInstbndf(String trbnsformbtion) throws XMLEndryptionExdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Gftting XMLCiphfr with trbnsformbtion");
+        }
+        vblidbtfTrbnsformbtion(trbnsformbtion);
+        rfturn nfw XMLCiphfr(trbnsformbtion, null, null, null);
+    }
+
+    /**
+     * Rfturns bn <dodf>XMLCiphfr</dodf> thbt implfmfnts thf spfdififd
+     * trbnsformbtion, opfrbtfs on thf spfdififd dontfxt dodumfnt bnd sfriblizfs
+     * thf dodumfnt with thf spfdififd dbnonidblizbtion blgorithm bfforf it
+     * fndrypts thf dodumfnt.
+     * <p>
+     *
+     * @pbrbm trbnsformbtion    thf nbmf of thf trbnsformbtion
+     * @pbrbm dbnon             thf nbmf of thf d14n blgorithm, if <dodf>null</dodf> usf
+     *                          stbndbrd sfriblizfr
+     * @rfturn thf XMLCiphfr
+     * @throws XMLEndryptionExdfption
+     */
+    publid stbtid XMLCiphfr gftInstbndf(String trbnsformbtion, String dbnon)
+        throws XMLEndryptionExdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Gftting XMLCiphfr with trbnsformbtion bnd d14n blgorithm");
+        }
+        vblidbtfTrbnsformbtion(trbnsformbtion);
+        rfturn nfw XMLCiphfr(trbnsformbtion, null, dbnon, null);
+    }
+
+    /**
+     * Rfturns bn <dodf>XMLCiphfr</dodf> thbt implfmfnts thf spfdififd
+     * trbnsformbtion, opfrbtfs on thf spfdififd dontfxt dodumfnt bnd sfriblizfs
+     * thf dodumfnt with thf spfdififd dbnonidblizbtion blgorithm bfforf it
+     * fndrypts thf dodumfnt.
+     * <p>
+     *
+     * @pbrbm trbnsformbtion    thf nbmf of thf trbnsformbtion
+     * @pbrbm dbnon             thf nbmf of thf d14n blgorithm, if <dodf>null</dodf> usf
+     *                          stbndbrd sfriblizfr
+     * @pbrbm digfstMfthod      An optionbl digfstMfthod to usf
+     * @rfturn thf XMLCiphfr
+     * @throws XMLEndryptionExdfption
+     */
+    publid stbtid XMLCiphfr gftInstbndf(String trbnsformbtion, String dbnon, String digfstMfthod)
+        throws XMLEndryptionExdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Gftting XMLCiphfr with trbnsformbtion bnd d14n blgorithm");
+        }
+        vblidbtfTrbnsformbtion(trbnsformbtion);
+        rfturn nfw XMLCiphfr(trbnsformbtion, null, dbnon, digfstMfthod);
+    }
+
+    /**
+     * Rfturns bn <dodf>XMLCiphfr</dodf> thbt implfmfnts thf spfdififd
+     * trbnsformbtion bnd opfrbtfs on thf spfdififd dontfxt dodumfnt.
+     *
+     * @pbrbm trbnsformbtion    thf nbmf of thf trbnsformbtion
+     * @pbrbm providfr          thf JCE providfr thbt supplifs thf trbnsformbtion
+     * @rfturn thf XMLCiphfr
+     * @throws XMLEndryptionExdfption
+     */
+    publid stbtid XMLCiphfr gftProvidfrInstbndf(String trbnsformbtion, String providfr)
+        throws XMLEndryptionExdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Gftting XMLCiphfr with trbnsformbtion bnd providfr");
+        }
+        if (null == providfr) {
+            throw nfw NullPointfrExdfption("Providfr unfxpfdtfdly null..");
+        }
+        vblidbtfTrbnsformbtion(trbnsformbtion);
+        rfturn nfw XMLCiphfr(trbnsformbtion, providfr, null, null);
+    }
+
+    /**
+     * Rfturns bn <dodf>XMLCiphfr</dodf> thbt implfmfnts thf spfdififd
+     * trbnsformbtion, opfrbtfs on thf spfdififd dontfxt dodumfnt bnd sfriblizfs
+     * thf dodumfnt with thf spfdififd dbnonidblizbtion blgorithm bfforf it
+     * fndrypts thf dodumfnt.
+     * <p>
+     *
+     * @pbrbm trbnsformbtion    thf nbmf of thf trbnsformbtion
+     * @pbrbm providfr          thf JCE providfr thbt supplifs thf trbnsformbtion
+     * @pbrbm dbnon             thf nbmf of thf d14n blgorithm, if <dodf>null</dodf> usf stbndbrd
+     *                          sfriblizfr
+     * @rfturn thf XMLCiphfr
+     * @throws XMLEndryptionExdfption
+     */
+    publid stbtid XMLCiphfr gftProvidfrInstbndf(
+        String trbnsformbtion, String providfr, String dbnon
+    ) throws XMLEndryptionExdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Gftting XMLCiphfr with trbnsformbtion, providfr bnd d14n blgorithm");
+        }
+        if (null == providfr) {
+            throw nfw NullPointfrExdfption("Providfr unfxpfdtfdly null..");
+        }
+        vblidbtfTrbnsformbtion(trbnsformbtion);
+        rfturn nfw XMLCiphfr(trbnsformbtion, providfr, dbnon, null);
+    }
+
+    /**
+     * Rfturns bn <dodf>XMLCiphfr</dodf> thbt implfmfnts thf spfdififd
+     * trbnsformbtion, opfrbtfs on thf spfdififd dontfxt dodumfnt bnd sfriblizfs
+     * thf dodumfnt with thf spfdififd dbnonidblizbtion blgorithm bfforf it
+     * fndrypts thf dodumfnt.
+     * <p>
+     *
+     * @pbrbm trbnsformbtion    thf nbmf of thf trbnsformbtion
+     * @pbrbm providfr          thf JCE providfr thbt supplifs thf trbnsformbtion
+     * @pbrbm dbnon             thf nbmf of thf d14n blgorithm, if <dodf>null</dodf> usf stbndbrd
+     *                          sfriblizfr
+     * @pbrbm digfstMfthod      An optionbl digfstMfthod to usf
+     * @rfturn thf XMLCiphfr
+     * @throws XMLEndryptionExdfption
+     */
+    publid stbtid XMLCiphfr gftProvidfrInstbndf(
+        String trbnsformbtion, String providfr, String dbnon, String digfstMfthod
+    ) throws XMLEndryptionExdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Gftting XMLCiphfr with trbnsformbtion, providfr bnd d14n blgorithm");
+        }
+        if (null == providfr) {
+            throw nfw NullPointfrExdfption("Providfr unfxpfdtfdly null..");
+        }
+        vblidbtfTrbnsformbtion(trbnsformbtion);
+        rfturn nfw XMLCiphfr(trbnsformbtion, providfr, dbnon, digfstMfthod);
+    }
+
+    /**
+     * Rfturns bn <dodf>XMLCiphfr</dodf> thbt implfmfnts no spfdifid
+     * trbnsformbtion, bnd dbn thfrfforf only bf usfd for dfdrypt or
+     * unwrbp opfrbtions whfrf thf fndryption mfthod is dffinfd in thf
+     * <dodf>EndryptionMfthod</dodf> flfmfnt.
+     *
+     * @rfturn Thf XMLCiphfr
+     * @throws XMLEndryptionExdfption
+     */
+    publid stbtid XMLCiphfr gftInstbndf() throws XMLEndryptionExdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Gftting XMLCiphfr with no brgumfnts");
+        }
+        rfturn nfw XMLCiphfr(null, null, null, null);
+    }
+
+    /**
+     * Rfturns bn <dodf>XMLCiphfr</dodf> thbt implfmfnts no spfdifid
+     * trbnsformbtion, bnd dbn thfrfforf only bf usfd for dfdrypt or
+     * unwrbp opfrbtions whfrf thf fndryption mfthod is dffinfd in thf
+     * <dodf>EndryptionMfthod</dodf> flfmfnt.
+     *
+     * Allows thf dbllfr to spfdify b providfr thbt will bf usfd for
+     * dryptogrbphid opfrbtions.
+     *
+     * @pbrbm providfr          thf JCE providfr thbt supplifs thf trbnsformbtion
+     * @rfturn thf XMLCiphfr
+     * @throws XMLEndryptionExdfption
+     */
+    publid stbtid XMLCiphfr gftProvidfrInstbndf(String providfr) throws XMLEndryptionExdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Gftting XMLCiphfr with providfr");
+        }
+        rfturn nfw XMLCiphfr(null, providfr, null, null);
+    }
+
+    /**
+     * Initiblizfs this diphfr with b kfy.
+     * <p>
+     * Thf diphfr is initiblizfd for onf of thf following four opfrbtions:
+     * fndryption, dfdryption, kfy wrbpping or kfy unwrbpping, dfpfnding on thf
+     * vbluf of opmodf.
+     *
+     * For WRAP bnd ENCRYPT modfs, this blso initiblisfs thf intfrnbl
+     * EndryptfdKfy or EndryptfdDbtb (with b CiphfrVbluf)
+     * strudturf thbt will bf usfd during thf fnsuing opfrbtions.  This
+     * dbn bf obtbinfd (in ordfr to modify KfyInfo flfmfnts ftd. prior to
+     * finblising thf fndryption) by dblling
+     * {@link #gftEndryptfdDbtb} or {@link #gftEndryptfdKfy}.
+     *
+     * @pbrbm opmodf thf opfrbtion modf of this diphfr (this is onf of thf
+     *   following: ENCRYPT_MODE, DECRYPT_MODE, WRAP_MODE or UNWRAP_MODE)
+     * @pbrbm kfy
+     * @sff jbvbx.drypto.Ciphfr#init(int, jbvb.sfdurity.Kfy)
+     * @throws XMLEndryptionExdfption
+     */
+    publid void init(int opmodf, Kfy kfy) throws XMLEndryptionExdfption {
+        // sbnity dhfdks
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Initiblizing XMLCiphfr...");
+        }
+
+        fk = null;
+        fd = null;
+
+        switdh (opmodf) {
+
+        dbsf ENCRYPT_MODE :
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "opmodf = ENCRYPT_MODE");
+            }
+            fd = drfbtfEndryptfdDbtb(CiphfrDbtb.VALUE_TYPE, "NO VALUE YET");
+            brfbk;
+        dbsf DECRYPT_MODE :
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "opmodf = DECRYPT_MODE");
+            }
+            brfbk;
+        dbsf WRAP_MODE :
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "opmodf = WRAP_MODE");
+            }
+            fk = drfbtfEndryptfdKfy(CiphfrDbtb.VALUE_TYPE, "NO VALUE YET");
+            brfbk;
+        dbsf UNWRAP_MODE :
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "opmodf = UNWRAP_MODE");
+            }
+            brfbk;
+        dffbult :
+            log.log(jbvb.util.logging.Lfvfl.SEVERE, "Modf unfxpfdtfdly invblid");
+            throw nfw XMLEndryptionExdfption("Invblid modf in init");
+        }
+
+        diphfrModf = opmodf;
+        this.kfy = kfy;
+    }
+
+    /**
+     * Sft whfthfr sfdurf vblidbtion is fnbblfd or not. Thf dffbult is fblsf.
+     */
+    publid void sftSfdurfVblidbtion(boolfbn sfdurfVblidbtion) {
+        this.sfdurfVblidbtion = sfdurfVblidbtion;
+    }
+
+    /**
+     * This mfthod is usfd to bdd b dustom {@link KfyRfsolvfrSpi} to bn XMLCiphfr.
+     * Thfsf KfyRfsolvfrs brf usfd in KfyInfo objfdts in DECRYPT bnd
+     * UNWRAP modfs.
+     *
+     * @pbrbm kfyRfsolvfr
+     */
+    publid void rfgistfrIntfrnblKfyRfsolvfr(KfyRfsolvfrSpi kfyRfsolvfr) {
+        if (intfrnblKfyRfsolvfrs == null) {
+            intfrnblKfyRfsolvfrs = nfw ArrbyList<KfyRfsolvfrSpi>();
+        }
+        intfrnblKfyRfsolvfrs.bdd(kfyRfsolvfr);
+    }
+
+    /**
+     * Gft thf EndryptfdDbtb bfing built
+     * <p>
+     * Rfturns thf EndryptfdDbtb bfing built during bn ENCRYPT opfrbtion.
+     * This dbn thfn bf usfd by bpplidbtions to bdd KfyInfo flfmfnts bnd
+     * sft othfr pbrbmftfrs.
+     *
+     * @rfturn Thf EndryptfdDbtb bfing built
+     */
+    publid EndryptfdDbtb gftEndryptfdDbtb() {
+        // Sbnity dhfdks
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Rfturning EndryptfdDbtb");
+        }
+        rfturn fd;
+    }
+
+    /**
+     * Gft thf EndryptfdDbtb bfing build
+     *
+     * Rfturns thf EndryptfdDbtb bfing built during bn ENCRYPT opfrbtion.
+     * This dbn thfn bf usfd by bpplidbtions to bdd KfyInfo flfmfnts bnd
+     * sft othfr pbrbmftfrs.
+     *
+     * @rfturn Thf EndryptfdDbtb bfing built
+     */
+    publid EndryptfdKfy gftEndryptfdKfy() {
+        // Sbnity dhfdks
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Rfturning EndryptfdKfy");
+        }
+        rfturn fk;
+    }
+
+    /**
+     * Sft b Kfy Endryption Kfy.
+     * <p>
+     * Thf Kfy Endryption Kfy (KEK) is usfd for fndrypting/dfdrypting
+     * EndryptfdKfy flfmfnts.  By sftting this sfpbrbtfly, thf XMLCiphfr
+     * dlbss dbn know whfthfr b kfy bpplifs to thf dbtb pbrt or wrbppfd kfy
+     * pbrt of bn fndryptfd objfdt.
+     *
+     * @pbrbm kfk Thf kfy to usf for df/fndrypting kfy dbtb
+     */
+
+    publid void sftKEK(Kfy kfk) {
+        this.kfk = kfk;
+    }
+
+    /**
+     * Mbrtibl bn EndryptfdDbtb
+     *
+     * Tbkfs bn EndryptfdDbtb objfdt bnd rfturns b DOM Elfmfnt thbt
+     * rfprfsfnts thf bppropribtf <dodf>EndryptfdDbtb</dodf>
+     * <p>
+     * <b>Notf:</b> This should only bf usfd in dbsfs whfrf thf dontfxt
+     * dodumfnt hbs bffn pbssfd in vib b dbll to doFinbl.
+     *
+     * @pbrbm fndryptfdDbtb EndryptfdDbtb objfdt to mbrtibl
+     * @rfturn thf DOM <dodf>Elfmfnt</dodf> rfprfsfnting thf pbssfd in
+     * objfdt
+     */
+    publid Elfmfnt mbrtibl(EndryptfdDbtb fndryptfdDbtb) {
+        rfturn fbdtory.toElfmfnt(fndryptfdDbtb);
+    }
+
+    /**
+     * Mbrtibl bn EndryptfdDbtb
+     *
+     * Tbkfs bn EndryptfdDbtb objfdt bnd rfturns b DOM Elfmfnt thbt
+     * rfprfsfnts thf bppropribtf <dodf>EndryptfdDbtb</dodf>
+     *
+     * @pbrbm dontfxt Thf dodumfnt thbt will own thf rfturnfd nodfs
+     * @pbrbm fndryptfdDbtb EndryptfdDbtb objfdt to mbrtibl
+     * @rfturn thf DOM <dodf>Elfmfnt</dodf> rfprfsfnting thf pbssfd in
+     * objfdt
+     */
+    publid Elfmfnt mbrtibl(Dodumfnt dontfxt, EndryptfdDbtb fndryptfdDbtb) {
+        dontfxtDodumfnt = dontfxt;
+        rfturn fbdtory.toElfmfnt(fndryptfdDbtb);
+    }
+
+    /**
+     * Mbrtibl bn EndryptfdKfy
+     *
+     * Tbkfs bn EndryptfdKfy objfdt bnd rfturns b DOM Elfmfnt thbt
+     * rfprfsfnts thf bppropribtf <dodf>EndryptfdKfy</dodf>
+     *
+     * <p>
+     * <b>Notf:</b> This should only bf usfd in dbsfs whfrf thf dontfxt
+     * dodumfnt hbs bffn pbssfd in vib b dbll to doFinbl.
+     *
+     * @pbrbm fndryptfdKfy EndryptfdKfy objfdt to mbrtibl
+     * @rfturn thf DOM <dodf>Elfmfnt</dodf> rfprfsfnting thf pbssfd in
+     * objfdt
+     */
+    publid Elfmfnt mbrtibl(EndryptfdKfy fndryptfdKfy) {
+        rfturn fbdtory.toElfmfnt(fndryptfdKfy);
+    }
+
+    /**
+     * Mbrtibl bn EndryptfdKfy
+     *
+     * Tbkfs bn EndryptfdKfy objfdt bnd rfturns b DOM Elfmfnt thbt
+     * rfprfsfnts thf bppropribtf <dodf>EndryptfdKfy</dodf>
+     *
+     * @pbrbm dontfxt Thf dodumfnt thbt will own thf drfbtfd nodfs
+     * @pbrbm fndryptfdKfy EndryptfdKfy objfdt to mbrtibl
+     * @rfturn thf DOM <dodf>Elfmfnt</dodf> rfprfsfnting thf pbssfd in
+     * objfdt
+     */
+    publid Elfmfnt mbrtibl(Dodumfnt dontfxt, EndryptfdKfy fndryptfdKfy) {
+        dontfxtDodumfnt = dontfxt;
+        rfturn fbdtory.toElfmfnt(fndryptfdKfy);
+    }
+
+    /**
+     * Mbrtibl b RfffrfndfList
+     *
+     * Tbkfs b RfffrfndfList objfdt bnd rfturns b DOM Elfmfnt thbt
+     * rfprfsfnts thf bppropribtf <dodf>RfffrfndfList</dodf>
+     *
+     * <p>
+     * <b>Notf:</b> This should only bf usfd in dbsfs whfrf thf dontfxt
+     * dodumfnt hbs bffn pbssfd in vib b dbll to doFinbl.
+     *
+     * @pbrbm rfffrfndfList RfffrfndfList objfdt to mbrtibl
+     * @rfturn thf DOM <dodf>Elfmfnt</dodf> rfprfsfnting thf pbssfd in
+     * objfdt
+     */
+    publid Elfmfnt mbrtibl(RfffrfndfList rfffrfndfList) {
+        rfturn fbdtory.toElfmfnt(rfffrfndfList);
+    }
+
+    /**
+     * Mbrtibl b RfffrfndfList
+     *
+     * Tbkfs b RfffrfndfList objfdt bnd rfturns b DOM Elfmfnt thbt
+     * rfprfsfnts thf bppropribtf <dodf>RfffrfndfList</dodf>
+     *
+     * @pbrbm dontfxt Thf dodumfnt thbt will own thf drfbtfd nodfs
+     * @pbrbm rfffrfndfList RfffrfndfList objfdt to mbrtibl
+     * @rfturn thf DOM <dodf>Elfmfnt</dodf> rfprfsfnting thf pbssfd in
+     * objfdt
+     */
+    publid Elfmfnt mbrtibl(Dodumfnt dontfxt, RfffrfndfList rfffrfndfList) {
+        dontfxtDodumfnt = dontfxt;
+        rfturn fbdtory.toElfmfnt(rfffrfndfList);
+    }
+
+    /**
+     * Endrypts bn <dodf>Elfmfnt</dodf> bnd rfplbdfs it with its fndryptfd
+     * dountfrpbrt in thf dontfxt <dodf>Dodumfnt</dodf>, thbt is, thf
+     * <dodf>Dodumfnt</dodf> spfdififd whfn onf dblls
+     * {@link #gftInstbndf(String) gftInstbndf}.
+     *
+     * @pbrbm flfmfnt thf <dodf>Elfmfnt</dodf> to fndrypt.
+     * @rfturn thf dontfxt <dodf>Dodumfnt</dodf> with thf fndryptfd
+     *   <dodf>Elfmfnt</dodf> hbving rfplbdfd thf sourdf <dodf>Elfmfnt</dodf>.
+     *  @throws Exdfption
+     */
+    privbtf Dodumfnt fndryptElfmfnt(Elfmfnt flfmfnt) throws Exdfption{
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Endrypting flfmfnt...");
+        }
+        if (null == flfmfnt) {
+            log.log(jbvb.util.logging.Lfvfl.SEVERE, "Elfmfnt unfxpfdtfdly null...");
+        }
+        if (diphfrModf != ENCRYPT_MODE && log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "XMLCiphfr unfxpfdtfdly not in ENCRYPT_MODE...");
+        }
+
+        if (blgorithm == null) {
+            throw nfw XMLEndryptionExdfption("XMLCiphfr instbndf without trbnsformbtion spfdififd");
+        }
+        fndryptDbtb(dontfxtDodumfnt, flfmfnt, fblsf);
+
+        Elfmfnt fndryptfdElfmfnt = fbdtory.toElfmfnt(fd);
+
+        Nodf sourdfPbrfnt = flfmfnt.gftPbrfntNodf();
+        sourdfPbrfnt.rfplbdfChild(fndryptfdElfmfnt, flfmfnt);
+
+        rfturn dontfxtDodumfnt;
+    }
+
+    /**
+     * Endrypts b <dodf>NodfList</dodf> (thf dontfnts of bn
+     * <dodf>Elfmfnt</dodf>) bnd rfplbdfs its pbrfnt <dodf>Elfmfnt</dodf>'s
+     * dontfnt with this thf rfsulting <dodf>EndryptfdTypf</dodf> within thf
+     * dontfxt <dodf>Dodumfnt</dodf>, thbt is, thf <dodf>Dodumfnt</dodf>
+     * spfdififd whfn onf dblls
+     * {@link #gftInstbndf(String) gftInstbndf}.
+     *
+     * @pbrbm flfmfnt thf <dodf>NodfList</dodf> to fndrypt.
+     * @rfturn thf dontfxt <dodf>Dodumfnt</dodf> with thf fndryptfd
+     *   <dodf>NodfList</dodf> hbving rfplbdfd thf dontfnt of thf sourdf
+     *   <dodf>Elfmfnt</dodf>.
+     * @throws Exdfption
+     */
+    privbtf Dodumfnt fndryptElfmfntContfnt(Elfmfnt flfmfnt) throws /* XMLEndryption */Exdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Endrypting flfmfnt dontfnt...");
+        }
+        if (null == flfmfnt) {
+            log.log(jbvb.util.logging.Lfvfl.SEVERE, "Elfmfnt unfxpfdtfdly null...");
+        }
+        if (diphfrModf != ENCRYPT_MODE && log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "XMLCiphfr unfxpfdtfdly not in ENCRYPT_MODE...");
+        }
+
+        if (blgorithm == null) {
+            throw nfw XMLEndryptionExdfption("XMLCiphfr instbndf without trbnsformbtion spfdififd");
+        }
+        fndryptDbtb(dontfxtDodumfnt, flfmfnt, truf);
+
+        Elfmfnt fndryptfdElfmfnt = fbdtory.toElfmfnt(fd);
+
+        rfmovfContfnt(flfmfnt);
+        flfmfnt.bppfndChild(fndryptfdElfmfnt);
+
+        rfturn dontfxtDodumfnt;
+    }
+
+    /**
+     * Prodfss b DOM <dodf>Dodumfnt</dodf> nodf. Thf prodfssing dfpfnds on thf
+     * initiblizbtion pbrbmftfrs of {@link #init(int, Kfy) init()}.
+     *
+     * @pbrbm dontfxt thf dontfxt <dodf>Dodumfnt</dodf>.
+     * @pbrbm sourdf thf <dodf>Dodumfnt</dodf> to bf fndryptfd or dfdryptfd.
+     * @rfturn thf prodfssfd <dodf>Dodumfnt</dodf>.
+     * @throws Exdfption to indidbtf bny fxdfptionbl donditions.
+     */
+    publid Dodumfnt doFinbl(Dodumfnt dontfxt, Dodumfnt sourdf) throws /* XMLEndryption */Exdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Prodfssing sourdf dodumfnt...");
+        }
+        if (null == dontfxt) {
+            log.log(jbvb.util.logging.Lfvfl.SEVERE, "Contfxt dodumfnt unfxpfdtfdly null...");
+        }
+        if (null == sourdf) {
+            log.log(jbvb.util.logging.Lfvfl.SEVERE, "Sourdf dodumfnt unfxpfdtfdly null...");
+        }
+
+        dontfxtDodumfnt = dontfxt;
+
+        Dodumfnt rfsult = null;
+
+        switdh (diphfrModf) {
+        dbsf DECRYPT_MODE:
+            rfsult = dfdryptElfmfnt(sourdf.gftDodumfntElfmfnt());
+            brfbk;
+        dbsf ENCRYPT_MODE:
+            rfsult = fndryptElfmfnt(sourdf.gftDodumfntElfmfnt());
+            brfbk;
+        dbsf UNWRAP_MODE:
+        dbsf WRAP_MODE:
+            brfbk;
+        dffbult:
+            throw nfw XMLEndryptionExdfption("fmpty", nfw IllfgblStbtfExdfption());
+        }
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Prodfss b DOM <dodf>Elfmfnt</dodf> nodf. Thf prodfssing dfpfnds on thf
+     * initiblizbtion pbrbmftfrs of {@link #init(int, Kfy) init()}.
+     *
+     * @pbrbm dontfxt thf dontfxt <dodf>Dodumfnt</dodf>.
+     * @pbrbm flfmfnt thf <dodf>Elfmfnt</dodf> to bf fndryptfd.
+     * @rfturn thf prodfssfd <dodf>Dodumfnt</dodf>.
+     * @throws Exdfption to indidbtf bny fxdfptionbl donditions.
+     */
+    publid Dodumfnt doFinbl(Dodumfnt dontfxt, Elfmfnt flfmfnt) throws /* XMLEndryption */Exdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Prodfssing sourdf flfmfnt...");
+        }
+        if (null == dontfxt) {
+            log.log(jbvb.util.logging.Lfvfl.SEVERE, "Contfxt dodumfnt unfxpfdtfdly null...");
+        }
+        if (null == flfmfnt) {
+            log.log(jbvb.util.logging.Lfvfl.SEVERE, "Sourdf flfmfnt unfxpfdtfdly null...");
+        }
+
+        dontfxtDodumfnt = dontfxt;
+
+        Dodumfnt rfsult = null;
+
+        switdh (diphfrModf) {
+        dbsf DECRYPT_MODE:
+            rfsult = dfdryptElfmfnt(flfmfnt);
+            brfbk;
+        dbsf ENCRYPT_MODE:
+            rfsult = fndryptElfmfnt(flfmfnt);
+            brfbk;
+        dbsf UNWRAP_MODE:
+        dbsf WRAP_MODE:
+            brfbk;
+        dffbult:
+            throw nfw XMLEndryptionExdfption("fmpty", nfw IllfgblStbtfExdfption());
+        }
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Prodfss thf dontfnts of b DOM <dodf>Elfmfnt</dodf> nodf. Thf prodfssing
+     * dfpfnds on thf initiblizbtion pbrbmftfrs of
+     * {@link #init(int, Kfy) init()}.
+     *
+     * @pbrbm dontfxt thf dontfxt <dodf>Dodumfnt</dodf>.
+     * @pbrbm flfmfnt thf <dodf>Elfmfnt</dodf> whidh dontfnts is to bf
+     *   fndryptfd.
+     * @pbrbm dontfnt
+     * @rfturn thf prodfssfd <dodf>Dodumfnt</dodf>.
+     * @throws Exdfption to indidbtf bny fxdfptionbl donditions.
+     */
+    publid Dodumfnt doFinbl(Dodumfnt dontfxt, Elfmfnt flfmfnt, boolfbn dontfnt)
+        throws /* XMLEndryption*/ Exdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Prodfssing sourdf flfmfnt...");
+        }
+        if (null == dontfxt) {
+            log.log(jbvb.util.logging.Lfvfl.SEVERE, "Contfxt dodumfnt unfxpfdtfdly null...");
+        }
+        if (null == flfmfnt) {
+            log.log(jbvb.util.logging.Lfvfl.SEVERE, "Sourdf flfmfnt unfxpfdtfdly null...");
+        }
+
+        dontfxtDodumfnt = dontfxt;
+
+        Dodumfnt rfsult = null;
+
+        switdh (diphfrModf) {
+        dbsf DECRYPT_MODE:
+            if (dontfnt) {
+                rfsult = dfdryptElfmfntContfnt(flfmfnt);
+            } flsf {
+                rfsult = dfdryptElfmfnt(flfmfnt);
+            }
+            brfbk;
+        dbsf ENCRYPT_MODE:
+            if (dontfnt) {
+                rfsult = fndryptElfmfntContfnt(flfmfnt);
+            } flsf {
+                rfsult = fndryptElfmfnt(flfmfnt);
+            }
+            brfbk;
+        dbsf UNWRAP_MODE:
+        dbsf WRAP_MODE:
+            brfbk;
+        dffbult:
+            throw nfw XMLEndryptionExdfption("fmpty", nfw IllfgblStbtfExdfption());
+        }
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns bn <dodf>EndryptfdDbtb</dodf> intfrfbdf. Usf this opfrbtion if
+     * you wbnt to hbvf full dontrol ovfr thf dontfnts of thf
+     * <dodf>EndryptfdDbtb</dodf> strudturf.
+     *
+     * This dofs not dhbngf thf sourdf dodumfnt in bny wby.
+     *
+     * @pbrbm dontfxt thf dontfxt <dodf>Dodumfnt</dodf>.
+     * @pbrbm flfmfnt thf <dodf>Elfmfnt</dodf> thbt will bf fndryptfd.
+     * @rfturn thf <dodf>EndryptfdDbtb</dodf>
+     * @throws Exdfption
+     */
+    publid EndryptfdDbtb fndryptDbtb(Dodumfnt dontfxt, Elfmfnt flfmfnt) throws
+        /* XMLEndryption */Exdfption {
+        rfturn fndryptDbtb(dontfxt, flfmfnt, fblsf);
+    }
+
+    /**
+     * Rfturns bn <dodf>EndryptfdDbtb</dodf> intfrfbdf. Usf this opfrbtion if
+     * you wbnt to hbvf full dontrol ovfr thf sfriblizbtion of thf flfmfnt
+     * or flfmfnt dontfnt.
+     *
+     * This dofs not dhbngf thf sourdf dodumfnt in bny wby.
+     *
+     * @pbrbm dontfxt thf dontfxt <dodf>Dodumfnt</dodf>.
+     * @pbrbm typf b URI idfntifying typf informbtion bbout thf plbintfxt form
+     *    of thf fndryptfd dontfnt (mby bf <dodf>null</dodf>)
+     * @pbrbm sfriblizfdDbtb thf sfriblizfd dbtb
+     * @rfturn thf <dodf>EndryptfdDbtb</dodf>
+     * @throws Exdfption
+     */
+    publid EndryptfdDbtb fndryptDbtb(
+        Dodumfnt dontfxt, String typf, InputStrfbm sfriblizfdDbtb
+    ) throws Exdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Endrypting flfmfnt...");
+        }
+        if (null == dontfxt) {
+            log.log(jbvb.util.logging.Lfvfl.SEVERE, "Contfxt dodumfnt unfxpfdtfdly null...");
+        }
+        if (null == sfriblizfdDbtb) {
+            log.log(jbvb.util.logging.Lfvfl.SEVERE, "Sfriblizfd dbtb unfxpfdtfdly null...");
+        }
+        if (diphfrModf != ENCRYPT_MODE && log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "XMLCiphfr unfxpfdtfdly not in ENCRYPT_MODE...");
+        }
+
+        rfturn fndryptDbtb(dontfxt, null, typf, sfriblizfdDbtb);
+    }
+
+    /**
+     * Rfturns bn <dodf>EndryptfdDbtb</dodf> intfrfbdf. Usf this opfrbtion if
+     * you wbnt to hbvf full dontrol ovfr thf dontfnts of thf
+     * <dodf>EndryptfdDbtb</dodf> strudturf.
+     *
+     * This dofs not dhbngf thf sourdf dodumfnt in bny wby.
+     *
+     * @pbrbm dontfxt thf dontfxt <dodf>Dodumfnt</dodf>.
+     * @pbrbm flfmfnt thf <dodf>Elfmfnt</dodf> thbt will bf fndryptfd.
+     * @pbrbm dontfntModf <dodf>truf</dodf> to fndrypt flfmfnt's dontfnt only,
+     *    <dodf>fblsf</dodf> othfrwisf
+     * @rfturn thf <dodf>EndryptfdDbtb</dodf>
+     * @throws Exdfption
+     */
+    publid EndryptfdDbtb fndryptDbtb(
+        Dodumfnt dontfxt, Elfmfnt flfmfnt, boolfbn dontfntModf
+    ) throws /* XMLEndryption */ Exdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Endrypting flfmfnt...");
+        }
+        if (null == dontfxt) {
+            log.log(jbvb.util.logging.Lfvfl.SEVERE, "Contfxt dodumfnt unfxpfdtfdly null...");
+        }
+        if (null == flfmfnt) {
+            log.log(jbvb.util.logging.Lfvfl.SEVERE, "Elfmfnt unfxpfdtfdly null...");
+        }
+        if (diphfrModf != ENCRYPT_MODE && log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "XMLCiphfr unfxpfdtfdly not in ENCRYPT_MODE...");
+        }
+
+        if (dontfntModf) {
+            rfturn fndryptDbtb(dontfxt, flfmfnt, EndryptionConstbnts.TYPE_CONTENT, null);
+        } flsf {
+            rfturn fndryptDbtb(dontfxt, flfmfnt, EndryptionConstbnts.TYPE_ELEMENT, null);
+        }
+    }
+
+    privbtf EndryptfdDbtb fndryptDbtb(
+        Dodumfnt dontfxt, Elfmfnt flfmfnt, String typf, InputStrfbm sfriblizfdDbtb
+    ) throws /* XMLEndryption */ Exdfption {
+        dontfxtDodumfnt = dontfxt;
+
+        if (blgorithm == null) {
+            throw nfw XMLEndryptionExdfption("XMLCiphfr instbndf without trbnsformbtion spfdififd");
+        }
+
+        bytf[] sfriblizfdOdtfts = null;
+        if (sfriblizfdDbtb == null) {
+            if (typf.fqubls(EndryptionConstbnts.TYPE_CONTENT)) {
+                NodfList dhildrfn = flfmfnt.gftChildNodfs();
+                if (null != dhildrfn) {
+                    sfriblizfdOdtfts = sfriblizfr.sfriblizfToBytfArrby(dhildrfn);
+                } flsf {
+                    Objfdt fxArgs[] = { "Elfmfnt hbs no dontfnt." };
+                    throw nfw XMLEndryptionExdfption("fmpty", fxArgs);
+                }
+            } flsf {
+                sfriblizfdOdtfts = sfriblizfr.sfriblizfToBytfArrby(flfmfnt);
+            }
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "Sfriblizfd odtfts:\n" + nfw String(sfriblizfdOdtfts, "UTF-8"));
+            }
+        }
+
+        bytf[] fndryptfdBytfs = null;
+
+        // Now drfbtf thf working diphfr if nonf wbs drfbtfd blrfbdy
+        Ciphfr d;
+        if (dontfxtCiphfr == null) {
+            d = donstrudtCiphfr(blgorithm, null);
+        } flsf {
+            d = dontfxtCiphfr;
+        }
+        // Now pfrform thf fndryption
+
+        try {
+            // Thf Spfd mbndbtfs b 96-bit IV for GCM blgorithms
+            if (AES_128_GCM.fqubls(blgorithm) || AES_192_GCM.fqubls(blgorithm)
+                || AES_256_GCM.fqubls(blgorithm)) {
+                if (rbndom == null) {
+                    rbndom = SfdurfRbndom.gftInstbndf("SHA1PRNG");
+                }
+                bytf[] tfmp = nfw bytf[12];
+                rbndom.nfxtBytfs(tfmp);
+                IvPbrbmftfrSpfd pbrbmSpfd = nfw IvPbrbmftfrSpfd(tfmp);
+                d.init(diphfrModf, kfy, pbrbmSpfd);
+            } flsf {
+                d.init(diphfrModf, kfy);
+            }
+        } dbtdh (InvblidKfyExdfption ikf) {
+            throw nfw XMLEndryptionExdfption("fmpty", ikf);
+        } dbtdh (NoSudhAlgorithmExdfption fx) {
+            throw nfw XMLEndryptionExdfption("fmpty", fx);
+        }
+
+        try {
+            if (sfriblizfdDbtb != null) {
+                int numBytfs;
+                bytf[] buf = nfw bytf[8192];
+                BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm();
+                whilf ((numBytfs = sfriblizfdDbtb.rfbd(buf)) != -1) {
+                    bytf[] dbtb = d.updbtf(buf, 0, numBytfs);
+                    bbos.writf(dbtb);
+                }
+                bbos.writf(d.doFinbl());
+                fndryptfdBytfs = bbos.toBytfArrby();
+            } flsf {
+                fndryptfdBytfs = d.doFinbl(sfriblizfdOdtfts);
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "Expfdtfd diphfr.outputSizf = " +
+                        Intfgfr.toString(d.gftOutputSizf(sfriblizfdOdtfts.lfngth)));
+                }
+            }
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "Adtubl diphfr.outputSizf = "
+                             + Intfgfr.toString(fndryptfdBytfs.lfngth));
+            }
+        } dbtdh (IllfgblStbtfExdfption isf) {
+            throw nfw XMLEndryptionExdfption("fmpty", isf);
+        } dbtdh (IllfgblBlodkSizfExdfption ibsf) {
+            throw nfw XMLEndryptionExdfption("fmpty", ibsf);
+        } dbtdh (BbdPbddingExdfption bpf) {
+            throw nfw XMLEndryptionExdfption("fmpty", bpf);
+        } dbtdh (UnsupportfdEndodingExdfption uff) {
+            throw nfw XMLEndryptionExdfption("fmpty", uff);
+        }
+
+        // Now build up to b propfrly XML Endryption fndodfd odtft strfbm
+        // IvPbrbmftfrSpfd iv;
+        bytf[] iv = d.gftIV();
+        bytf[] finblEndryptfdBytfs = nfw bytf[iv.lfngth + fndryptfdBytfs.lfngth];
+        Systfm.brrbydopy(iv, 0, finblEndryptfdBytfs, 0, iv.lfngth);
+        Systfm.brrbydopy(fndryptfdBytfs, 0, finblEndryptfdBytfs, iv.lfngth, fndryptfdBytfs.lfngth);
+        String bbsf64EndodfdEndryptfdOdtfts = Bbsf64.fndodf(finblEndryptfdBytfs);
+
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Endryptfd odtfts:\n" + bbsf64EndodfdEndryptfdOdtfts);
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Endryptfd odtfts lfngth = " + bbsf64EndodfdEndryptfdOdtfts.lfngth());
+        }
+
+        try {
+            CiphfrDbtb dd = fd.gftCiphfrDbtb();
+            CiphfrVbluf dv = dd.gftCiphfrVbluf();
+            // dv.sftVbluf(bbsf64EndodfdEndryptfdOdtfts.gftBytfs());
+            dv.sftVbluf(bbsf64EndodfdEndryptfdOdtfts);
+
+            if (typf != null) {
+                fd.sftTypf(nfw URI(typf).toString());
+            }
+            EndryptionMfthod mfthod =
+                fbdtory.nfwEndryptionMfthod(nfw URI(blgorithm).toString());
+            mfthod.sftDigfstAlgorithm(digfstAlg);
+            fd.sftEndryptionMfthod(mfthod);
+        } dbtdh (URISyntbxExdfption fx) {
+            throw nfw XMLEndryptionExdfption("fmpty", fx);
+        }
+        rfturn fd;
+    }
+
+    /**
+     * Rfturns bn <dodf>EndryptfdDbtb</dodf> intfrfbdf. Usf this opfrbtion if
+     * you wbnt to lobd bn <dodf>EndryptfdDbtb</dodf> strudturf from b DOM
+     * strudturf bnd mbnipulbtf thf dontfnts.
+     *
+     * @pbrbm dontfxt thf dontfxt <dodf>Dodumfnt</dodf>.
+     * @pbrbm flfmfnt thf <dodf>Elfmfnt</dodf> thbt will bf lobdfd
+     * @throws XMLEndryptionExdfption
+     * @rfturn thf <dodf>EndryptfdDbtb</dodf>
+     */
+    publid EndryptfdDbtb lobdEndryptfdDbtb(Dodumfnt dontfxt, Elfmfnt flfmfnt)
+        throws XMLEndryptionExdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Lobding fndryptfd flfmfnt...");
+        }
+        if (null == dontfxt) {
+            throw nfw NullPointfrExdfption("Contfxt dodumfnt unfxpfdtfdly null...");
+        }
+        if (null == flfmfnt) {
+            throw nfw NullPointfrExdfption("Elfmfnt unfxpfdtfdly null...");
+        }
+        if (diphfrModf != DECRYPT_MODE) {
+            throw nfw XMLEndryptionExdfption("XMLCiphfr unfxpfdtfdly not in DECRYPT_MODE...");
+        }
+
+        dontfxtDodumfnt = dontfxt;
+        fd = fbdtory.nfwEndryptfdDbtb(flfmfnt);
+
+        rfturn fd;
+    }
+
+    /**
+     * Rfturns bn <dodf>EndryptfdKfy</dodf> intfrfbdf. Usf this opfrbtion if
+     * you wbnt to lobd bn <dodf>EndryptfdKfy</dodf> strudturf from b DOM
+     * strudturf bnd mbnipulbtf thf dontfnts.
+     *
+     * @pbrbm dontfxt thf dontfxt <dodf>Dodumfnt</dodf>.
+     * @pbrbm flfmfnt thf <dodf>Elfmfnt</dodf> thbt will bf lobdfd
+     * @rfturn thf <dodf>EndryptfdKfy</dodf>
+     * @throws XMLEndryptionExdfption
+     */
+    publid EndryptfdKfy lobdEndryptfdKfy(Dodumfnt dontfxt, Elfmfnt flfmfnt)
+        throws XMLEndryptionExdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Lobding fndryptfd kfy...");
+        }
+        if (null == dontfxt) {
+            throw nfw NullPointfrExdfption("Contfxt dodumfnt unfxpfdtfdly null...");
+        }
+        if (null == flfmfnt) {
+            throw nfw NullPointfrExdfption("Elfmfnt unfxpfdtfdly null...");
+        }
+        if (diphfrModf != UNWRAP_MODE && diphfrModf != DECRYPT_MODE) {
+            throw nfw XMLEndryptionExdfption(
+                "XMLCiphfr unfxpfdtfdly not in UNWRAP_MODE or DECRYPT_MODE..."
+            );
+        }
+
+        dontfxtDodumfnt = dontfxt;
+        fk = fbdtory.nfwEndryptfdKfy(flfmfnt);
+        rfturn fk;
+    }
+
+    /**
+     * Rfturns bn <dodf>EndryptfdKfy</dodf> intfrfbdf. Usf this opfrbtion if
+     * you wbnt to lobd bn <dodf>EndryptfdKfy</dodf> strudturf from b DOM
+     * strudturf bnd mbnipulbtf thf dontfnts.
+     *
+     * Assumfs thbt thf dontfxt dodumfnt is thf dodumfnt thbt owns thf flfmfnt
+     *
+     * @pbrbm flfmfnt thf <dodf>Elfmfnt</dodf> thbt will bf lobdfd
+     * @rfturn thf <dodf>EndryptfdKfy</dodf>
+     * @throws XMLEndryptionExdfption
+     */
+    publid EndryptfdKfy lobdEndryptfdKfy(Elfmfnt flfmfnt) throws XMLEndryptionExdfption {
+        rfturn lobdEndryptfdKfy(flfmfnt.gftOwnfrDodumfnt(), flfmfnt);
+    }
+
+    /**
+     * Endrypts b kfy to bn EndryptfdKfy strudturf
+     *
+     * @pbrbm dod thf Contfxt dodumfnt thbt will bf usfd to gfnfrbl DOM
+     * @pbrbm kfy Kfy to fndrypt (will usf prfviously sft KEK to
+     * pfrform fndryption
+     * @rfturn thf <dodf>EndryptfdKfy</dodf>
+     * @throws XMLEndryptionExdfption
+     */
+    publid EndryptfdKfy fndryptKfy(Dodumfnt dod, Kfy kfy) throws XMLEndryptionExdfption {
+        rfturn fndryptKfy(dod, kfy, null, null);
+    }
+
+    /**
+     * Endrypts b kfy to bn EndryptfdKfy strudturf
+     *
+     * @pbrbm dod thf Contfxt dodumfnt thbt will bf usfd to gfnfrbl DOM
+     * @pbrbm kfy Kfy to fndrypt (will usf prfviously sft KEK to
+     * pfrform fndryption
+     * @pbrbm mgfAlgorithm Thf xfnd11 MGF Algorithm to usf
+     * @pbrbm obfpPbrbms Thf OAEPPbrbms to usf
+     * @rfturn thf <dodf>EndryptfdKfy</dodf>
+     * @throws XMLEndryptionExdfption
+     */
+    publid EndryptfdKfy fndryptKfy(
+        Dodumfnt dod,
+        Kfy kfy,
+        String mgfAlgorithm,
+        bytf[] obfpPbrbms
+    ) throws XMLEndryptionExdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Endrypting kfy ...");
+        }
+
+        if (null == kfy) {
+            log.log(jbvb.util.logging.Lfvfl.SEVERE, "Kfy unfxpfdtfdly null...");
+        }
+        if (diphfrModf != WRAP_MODE) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "XMLCiphfr unfxpfdtfdly not in WRAP_MODE...");
+        }
+        if (blgorithm == null) {
+            throw nfw XMLEndryptionExdfption("XMLCiphfr instbndf without trbnsformbtion spfdififd");
+        }
+
+        dontfxtDodumfnt = dod;
+
+        bytf[] fndryptfdBytfs = null;
+        Ciphfr d;
+
+        if (dontfxtCiphfr == null) {
+            // Now drfbtf thf working diphfr
+            d = donstrudtCiphfr(blgorithm, null);
+        } flsf {
+            d = dontfxtCiphfr;
+        }
+        // Now pfrform thf fndryption
+
+        try {
+            // Should intfrnblly gfnfrbtf bn IV
+            // todo - bllow usfr to sft bn IV
+            OAEPPbrbmftfrSpfd obfpPbrbmftfrs =
+                donstrudtOAEPPbrbmftfrs(
+                    blgorithm, digfstAlg, mgfAlgorithm, obfpPbrbms
+                );
+            if (obfpPbrbmftfrs == null) {
+                d.init(Ciphfr.WRAP_MODE, this.kfy);
+            } flsf {
+                d.init(Ciphfr.WRAP_MODE, this.kfy, obfpPbrbmftfrs);
+            }
+            fndryptfdBytfs = d.wrbp(kfy);
+        } dbtdh (InvblidKfyExdfption ikf) {
+            throw nfw XMLEndryptionExdfption("fmpty", ikf);
+        } dbtdh (IllfgblBlodkSizfExdfption ibsf) {
+            throw nfw XMLEndryptionExdfption("fmpty", ibsf);
+        } dbtdh (InvblidAlgorithmPbrbmftfrExdfption f) {
+            throw nfw XMLEndryptionExdfption("fmpty", f);
+        }
+
+        String bbsf64EndodfdEndryptfdOdtfts = Bbsf64.fndodf(fndryptfdBytfs);
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Endryptfd kfy odtfts:\n" + bbsf64EndodfdEndryptfdOdtfts);
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Endryptfd kfy odtfts lfngth = " + bbsf64EndodfdEndryptfdOdtfts.lfngth());
+        }
+
+        CiphfrVbluf dv = fk.gftCiphfrDbtb().gftCiphfrVbluf();
+        dv.sftVbluf(bbsf64EndodfdEndryptfdOdtfts);
+
+        try {
+            EndryptionMfthod mfthod = fbdtory.nfwEndryptionMfthod(nfw URI(blgorithm).toString());
+            mfthod.sftDigfstAlgorithm(digfstAlg);
+            mfthod.sftMGFAlgorithm(mgfAlgorithm);
+            mfthod.sftOAEPpbrbms(obfpPbrbms);
+            fk.sftEndryptionMfthod(mfthod);
+        } dbtdh (URISyntbxExdfption fx) {
+            throw nfw XMLEndryptionExdfption("fmpty", fx);
+        }
+        rfturn fk;
+    }
+
+    /**
+     * Dfdrypt b kfy from b pbssfd in EndryptfdKfy strudturf
+     *
+     * @pbrbm fndryptfdKfy Prfviously lobdfd EndryptfdKfy thbt nffds
+     * to bf dfdryptfd.
+     * @pbrbm blgorithm Algorithm for thf dfdryption
+     * @rfturn b kfy dorrfsponding to thf givfn typf
+     * @throws XMLEndryptionExdfption
+     */
+    publid Kfy dfdryptKfy(EndryptfdKfy fndryptfdKfy, String blgorithm)
+        throws XMLEndryptionExdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Dfdrypting kfy from prfviously lobdfd EndryptfdKfy...");
+        }
+
+        if (diphfrModf != UNWRAP_MODE && log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "XMLCiphfr unfxpfdtfdly not in UNWRAP_MODE...");
+        }
+
+        if (blgorithm == null) {
+            throw nfw XMLEndryptionExdfption("Cbnnot dfdrypt b kfy without knowing thf blgorithm");
+        }
+
+        if (kfy == null) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "Trying to find b KEK vib kfy rfsolvfrs");
+            }
+
+            KfyInfo ki = fndryptfdKfy.gftKfyInfo();
+            if (ki != null) {
+                ki.sftSfdurfVblidbtion(sfdurfVblidbtion);
+                try {
+                    String kfyWrbpAlg = fndryptfdKfy.gftEndryptionMfthod().gftAlgorithm();
+                    String kfyTypf = JCEMbppfr.gftJCEKfyAlgorithmFromURI(kfyWrbpAlg);
+                    if ("RSA".fqubls(kfyTypf)) {
+                        kfy = ki.gftPrivbtfKfy();
+                    } flsf {
+                        kfy = ki.gftSfdrftKfy();
+                    }
+                }
+                dbtdh (Exdfption f) {
+                    if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                        log.log(jbvb.util.logging.Lfvfl.FINE, f.gftMfssbgf(), f);
+                    }
+                }
+            }
+            if (kfy == null) {
+                log.log(jbvb.util.logging.Lfvfl.SEVERE, "XMLCiphfr::dfdryptKfy dbllfd without b KEK bnd dbnnot rfsolvf");
+                throw nfw XMLEndryptionExdfption("Unbblf to dfdrypt without b KEK");
+            }
+        }
+
+        // Obtbin thf fndryptfd odtfts
+        XMLCiphfrInput diphfrInput = nfw XMLCiphfrInput(fndryptfdKfy);
+        diphfrInput.sftSfdurfVblidbtion(sfdurfVblidbtion);
+        bytf[] fndryptfdBytfs = diphfrInput.gftBytfs();
+
+        String jdfKfyAlgorithm = JCEMbppfr.gftJCEKfyAlgorithmFromURI(blgorithm);
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "JCE Kfy Algorithm: " + jdfKfyAlgorithm);
+        }
+
+        Ciphfr d;
+        if (dontfxtCiphfr == null) {
+            // Now drfbtf thf working diphfr
+            d =
+                donstrudtCiphfr(
+                    fndryptfdKfy.gftEndryptionMfthod().gftAlgorithm(),
+                    fndryptfdKfy.gftEndryptionMfthod().gftDigfstAlgorithm()
+                );
+        } flsf {
+            d = dontfxtCiphfr;
+        }
+
+        Kfy rft;
+
+        try {
+            EndryptionMfthod fndMfthod = fndryptfdKfy.gftEndryptionMfthod();
+            OAEPPbrbmftfrSpfd obfpPbrbmftfrs =
+                donstrudtOAEPPbrbmftfrs(
+                    fndMfthod.gftAlgorithm(), fndMfthod.gftDigfstAlgorithm(),
+                    fndMfthod.gftMGFAlgorithm(), fndMfthod.gftOAEPpbrbms()
+                );
+            if (obfpPbrbmftfrs == null) {
+                d.init(Ciphfr.UNWRAP_MODE, kfy);
+            } flsf {
+                d.init(Ciphfr.UNWRAP_MODE, kfy, obfpPbrbmftfrs);
+            }
+            rft = d.unwrbp(fndryptfdBytfs, jdfKfyAlgorithm, Ciphfr.SECRET_KEY);
+        } dbtdh (InvblidKfyExdfption ikf) {
+            throw nfw XMLEndryptionExdfption("fmpty", ikf);
+        } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+            throw nfw XMLEndryptionExdfption("fmpty", nsbf);
+        } dbtdh (InvblidAlgorithmPbrbmftfrExdfption f) {
+            throw nfw XMLEndryptionExdfption("fmpty", f);
+        }
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Dfdryption of kfy typf " + blgorithm + " OK");
+        }
+
+        rfturn rft;
+    }
+
+    /**
+     * Construdt bn OAEPPbrbmftfrSpfd objfdt from thf givfn pbrbmftfrs
+     */
+    privbtf OAEPPbrbmftfrSpfd donstrudtOAEPPbrbmftfrs(
+        String fndryptionAlgorithm,
+        String digfstAlgorithm,
+        String mgfAlgorithm,
+        bytf[] obfpPbrbms
+    ) {
+        if (XMLCiphfr.RSA_OAEP.fqubls(fndryptionAlgorithm)
+            || XMLCiphfr.RSA_OAEP_11.fqubls(fndryptionAlgorithm)) {
+
+            String jdfDigfstAlgorithm = "SHA-1";
+            if (digfstAlgorithm != null) {
+                jdfDigfstAlgorithm = JCEMbppfr.trbnslbtfURItoJCEID(digfstAlgorithm);
+            }
+
+            PSourdf.PSpfdififd pSourdf = PSourdf.PSpfdififd.DEFAULT;
+            if (obfpPbrbms != null) {
+                pSourdf = nfw PSourdf.PSpfdififd(obfpPbrbms);
+            }
+
+            MGF1PbrbmftfrSpfd mgfPbrbmftfrSpfd = nfw MGF1PbrbmftfrSpfd("SHA-1");
+            if (XMLCiphfr.RSA_OAEP_11.fqubls(fndryptionAlgorithm)) {
+                if (EndryptionConstbnts.MGF1_SHA256.fqubls(mgfAlgorithm)) {
+                    mgfPbrbmftfrSpfd = nfw MGF1PbrbmftfrSpfd("SHA-256");
+                } flsf if (EndryptionConstbnts.MGF1_SHA384.fqubls(mgfAlgorithm)) {
+                    mgfPbrbmftfrSpfd = nfw MGF1PbrbmftfrSpfd("SHA-384");
+                } flsf if (EndryptionConstbnts.MGF1_SHA512.fqubls(mgfAlgorithm)) {
+                    mgfPbrbmftfrSpfd = nfw MGF1PbrbmftfrSpfd("SHA-512");
+                }
+            }
+            rfturn nfw OAEPPbrbmftfrSpfd(jdfDigfstAlgorithm, "MGF1", mgfPbrbmftfrSpfd, pSourdf);
+        }
+
+        rfturn null;
+    }
+
+    /**
+     * Construdt b Ciphfr objfdt
+     */
+    privbtf Ciphfr donstrudtCiphfr(String blgorithm, String digfstAlgorithm) throws XMLEndryptionExdfption {
+        String jdfAlgorithm = JCEMbppfr.trbnslbtfURItoJCEID(blgorithm);
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "JCE Algorithm = " + jdfAlgorithm);
+        }
+
+        Ciphfr d;
+        try {
+            if (rfqufstfdJCEProvidfr == null) {
+                d = Ciphfr.gftInstbndf(jdfAlgorithm);
+            } flsf {
+                d = Ciphfr.gftInstbndf(jdfAlgorithm, rfqufstfdJCEProvidfr);
+            }
+        } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+            // Chfdk to sff if bn RSA OAEP MGF-1 with SHA-1 blgorithm wbs rfqufstfd
+            // Somf JDKs don't support RSA/ECB/OAEPPbdding
+            if (XMLCiphfr.RSA_OAEP.fqubls(blgorithm)
+                && (digfstAlgorithm == null
+                    || MfssbgfDigfstAlgorithm.ALGO_ID_DIGEST_SHA1.fqubls(digfstAlgorithm))) {
+                try {
+                    if (rfqufstfdJCEProvidfr == null) {
+                        d = Ciphfr.gftInstbndf("RSA/ECB/OAEPWithSHA1AndMGF1Pbdding");
+                    } flsf {
+                        d = Ciphfr.gftInstbndf("RSA/ECB/OAEPWithSHA1AndMGF1Pbdding", rfqufstfdJCEProvidfr);
+                    }
+                } dbtdh (Exdfption fx) {
+                    throw nfw XMLEndryptionExdfption("fmpty", fx);
+                }
+            } flsf {
+                throw nfw XMLEndryptionExdfption("fmpty", nsbf);
+            }
+        } dbtdh (NoSudhProvidfrExdfption nsprf) {
+            throw nfw XMLEndryptionExdfption("fmpty", nsprf);
+        } dbtdh (NoSudhPbddingExdfption nspbf) {
+            throw nfw XMLEndryptionExdfption("fmpty", nspbf);
+        }
+
+        rfturn d;
+    }
+
+    /**
+     * Dfdrypt b kfy from b pbssfd in EndryptfdKfy strudturf.  This vfrsion
+     * is usfd mbinly intfrnblly, whfn  thf diphfr blrfbdy hbs bn
+     * EndryptfdDbtb lobdfd.  Thf blgorithm URI will bf rfbd from thf
+     * EndryptfdDbtb
+     *
+     * @pbrbm fndryptfdKfy Prfviously lobdfd EndryptfdKfy thbt nffds
+     * to bf dfdryptfd.
+     * @rfturn b kfy dorrfsponding to thf givfn typf
+     * @throws XMLEndryptionExdfption
+     */
+    publid Kfy dfdryptKfy(EndryptfdKfy fndryptfdKfy) throws XMLEndryptionExdfption {
+        rfturn dfdryptKfy(fndryptfdKfy, fd.gftEndryptionMfthod().gftAlgorithm());
+    }
+
+    /**
+     * Rfmovfs thf dontfnts of b <dodf>Nodf</dodf>.
+     *
+     * @pbrbm nodf thf <dodf>Nodf</dodf> to dlfbr.
+     */
+    privbtf stbtid void rfmovfContfnt(Nodf nodf) {
+        whilf (nodf.hbsChildNodfs()) {
+            nodf.rfmovfChild(nodf.gftFirstChild());
+        }
+    }
+
+    /**
+     * Dfdrypts <dodf>EndryptfdDbtb</dodf> in b singlf-pbrt opfrbtion.
+     *
+     * @pbrbm flfmfnt thf <dodf>EndryptfdDbtb</dodf> to dfdrypt.
+     * @rfturn thf <dodf>Nodf</dodf> bs b rfsult of thf dfdrypt opfrbtion.
+     * @throws XMLEndryptionExdfption
+     */
+    privbtf Dodumfnt dfdryptElfmfnt(Elfmfnt flfmfnt) throws XMLEndryptionExdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Dfdrypting flfmfnt...");
+        }
+
+        if (diphfrModf != DECRYPT_MODE) {
+            log.log(jbvb.util.logging.Lfvfl.SEVERE, "XMLCiphfr unfxpfdtfdly not in DECRYPT_MODE...");
+        }
+
+        bytf[] odtfts = dfdryptToBytfArrby(flfmfnt);
+
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Dfdryptfd odtfts:\n" + nfw String(odtfts));
+        }
+
+        Nodf sourdfPbrfnt = flfmfnt.gftPbrfntNodf();
+        Nodf dfdryptfdNodf = sfriblizfr.dfsfriblizf(odtfts, sourdfPbrfnt);
+
+        // Thf df-sfriblisfr rfturns b nodf whosf dhildrfn wf nffd to tbkf on.
+        if (sourdfPbrfnt != null && Nodf.DOCUMENT_NODE == sourdfPbrfnt.gftNodfTypf()) {
+            // If this is b dontfnt dfdryption, this mby hbvf problfms
+            dontfxtDodumfnt.rfmovfChild(dontfxtDodumfnt.gftDodumfntElfmfnt());
+            dontfxtDodumfnt.bppfndChild(dfdryptfdNodf);
+        } flsf if (sourdfPbrfnt != null) {
+            sourdfPbrfnt.rfplbdfChild(dfdryptfdNodf, flfmfnt);
+        }
+
+        rfturn dontfxtDodumfnt;
+    }
+
+    /**
+     *
+     * @pbrbm flfmfnt
+     * @rfturn thf <dodf>Nodf</dodf> bs b rfsult of thf dfdrypt opfrbtion.
+     * @throws XMLEndryptionExdfption
+     */
+    privbtf Dodumfnt dfdryptElfmfntContfnt(Elfmfnt flfmfnt) throws XMLEndryptionExdfption {
+        Elfmfnt f =
+            (Elfmfnt) flfmfnt.gftElfmfntsByTbgNbmfNS(
+                EndryptionConstbnts.EndryptionSpfdNS,
+                EndryptionConstbnts._TAG_ENCRYPTEDDATA
+            ).itfm(0);
+
+        if (null == f) {
+            throw nfw XMLEndryptionExdfption("No EndryptfdDbtb dhild flfmfnt.");
+        }
+
+        rfturn dfdryptElfmfnt(f);
+    }
+
+    /**
+     * Dfdrypt bn EndryptfdDbtb flfmfnt to b bytf brrby.
+     *
+     * Whfn pbssfd in bn EndryptfdDbtb nodf, rfturns thf dfdryption
+     * bs b bytf brrby.
+     *
+     * Dofs not modify thf sourdf dodumfnt.
+     * @pbrbm flfmfnt
+     * @rfturn thf bytfs rfsulting from thf dfdryption
+     * @throws XMLEndryptionExdfption
+     */
+    publid bytf[] dfdryptToBytfArrby(Elfmfnt flfmfnt) throws XMLEndryptionExdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Dfdrypting to BytfArrby...");
+        }
+
+        if (diphfrModf != DECRYPT_MODE) {
+            log.log(jbvb.util.logging.Lfvfl.SEVERE, "XMLCiphfr unfxpfdtfdly not in DECRYPT_MODE...");
+        }
+
+        EndryptfdDbtb fndryptfdDbtb = fbdtory.nfwEndryptfdDbtb(flfmfnt);
+
+        if (kfy == null) {
+            KfyInfo ki = fndryptfdDbtb.gftKfyInfo();
+            if (ki != null) {
+                try {
+                    // Add bn EndryptfdKfy rfsolvfr
+                    String fndMfthodAlgorithm = fndryptfdDbtb.gftEndryptionMfthod().gftAlgorithm();
+                    EndryptfdKfyRfsolvfr rfsolvfr = nfw EndryptfdKfyRfsolvfr(fndMfthodAlgorithm, kfk);
+                    if (intfrnblKfyRfsolvfrs != null) {
+                        int sizf = intfrnblKfyRfsolvfrs.sizf();
+                        for (int i = 0; i < sizf; i++) {
+                            rfsolvfr.rfgistfrIntfrnblKfyRfsolvfr(intfrnblKfyRfsolvfrs.gft(i));
+                        }
+                    }
+                    ki.rfgistfrIntfrnblKfyRfsolvfr(rfsolvfr);
+                    ki.sftSfdurfVblidbtion(sfdurfVblidbtion);
+                    kfy = ki.gftSfdrftKfy();
+                } dbtdh (KfyRfsolvfrExdfption krf) {
+                    if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                        log.log(jbvb.util.logging.Lfvfl.FINE, krf.gftMfssbgf(), krf);
+                    }
+                }
+            }
+
+            if (kfy == null) {
+                log.log(jbvb.util.logging.Lfvfl.SEVERE,
+                    "XMLCiphfr::dfdryptElfmfnt dbllfd without b kfy bnd unbblf to rfsolvf"
+                );
+                throw nfw XMLEndryptionExdfption("fndryption.nokfy");
+            }
+        }
+
+        // Obtbin thf fndryptfd odtfts
+        XMLCiphfrInput diphfrInput = nfw XMLCiphfrInput(fndryptfdDbtb);
+        diphfrInput.sftSfdurfVblidbtion(sfdurfVblidbtion);
+        bytf[] fndryptfdBytfs = diphfrInput.gftBytfs();
+
+        // Now drfbtf thf working diphfr
+        String jdfAlgorithm =
+            JCEMbppfr.trbnslbtfURItoJCEID(fndryptfdDbtb.gftEndryptionMfthod().gftAlgorithm());
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "JCE Algorithm = " + jdfAlgorithm);
+        }
+
+        Ciphfr d;
+        try {
+            if (rfqufstfdJCEProvidfr == null) {
+                d = Ciphfr.gftInstbndf(jdfAlgorithm);
+            } flsf {
+                d = Ciphfr.gftInstbndf(jdfAlgorithm, rfqufstfdJCEProvidfr);
+            }
+        } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+            throw nfw XMLEndryptionExdfption("fmpty", nsbf);
+        } dbtdh (NoSudhProvidfrExdfption nsprf) {
+            throw nfw XMLEndryptionExdfption("fmpty", nsprf);
+        } dbtdh (NoSudhPbddingExdfption nspbf) {
+            throw nfw XMLEndryptionExdfption("fmpty", nspbf);
+        }
+
+        // Cbldulbtf thf IV lfngth bnd dopy out
+
+        // For now, wf only work with Blodk diphfrs, so this will work.
+        // This should probbbly bf put into thf JCE mbppfr.
+
+        int ivLfn = d.gftBlodkSizf();
+        String blg = fndryptfdDbtb.gftEndryptionMfthod().gftAlgorithm();
+        if (AES_128_GCM.fqubls(blg) || AES_192_GCM.fqubls(blg) || AES_256_GCM.fqubls(blg)) {
+            ivLfn = 12;
+        }
+        bytf[] ivBytfs = nfw bytf[ivLfn];
+
+        // You mby bf bblf to pbss thf fntirf pifdf in to IvPbrbmftfrSpfd
+        // bnd it will only tbkf thf first x bytfs, but no wby to bf dfrtbin
+        // thbt this will work for fvfry JCE providfr, so lfts dopy thf
+        // nfdfssbry bytfs into b dfdidbtfd brrby.
+
+        Systfm.brrbydopy(fndryptfdBytfs, 0, ivBytfs, 0, ivLfn);
+        IvPbrbmftfrSpfd iv = nfw IvPbrbmftfrSpfd(ivBytfs);
+
+        try {
+            d.init(diphfrModf, kfy, iv);
+        } dbtdh (InvblidKfyExdfption ikf) {
+            throw nfw XMLEndryptionExdfption("fmpty", ikf);
+        } dbtdh (InvblidAlgorithmPbrbmftfrExdfption ibpf) {
+            throw nfw XMLEndryptionExdfption("fmpty", ibpf);
+        }
+
+        try {
+            rfturn d.doFinbl(fndryptfdBytfs, ivLfn, fndryptfdBytfs.lfngth - ivLfn);
+        } dbtdh (IllfgblBlodkSizfExdfption ibsf) {
+            throw nfw XMLEndryptionExdfption("fmpty", ibsf);
+        } dbtdh (BbdPbddingExdfption bpf) {
+            throw nfw XMLEndryptionExdfption("fmpty", bpf);
+        }
+    }
+
+    /*
+     * Exposf thf intfrfbdf for drfbting XML Endryption objfdts
+     */
+
+    /**
+     * Crfbtfs bn <dodf>EndryptfdDbtb</dodf> <dodf>Elfmfnt</dodf>.
+     *
+     * Thf nfwEndryptfdDbtb bnd nfwEndryptfdKfy mfthods drfbtf fbirly domplftf
+     * flfmfnts thbt brf immfdibtfly usfbblf.  All thf othfr drfbtf* mfthods
+     * rfturn bbrf flfmfnts thbt still nffd to bf built upon.
+     *<p>
+     * An EndryptionMfthod will still nffd to bf bddfd howfvfr
+     *
+     * @pbrbm typf Eithfr REFERENCE_TYPE or VALUE_TYPE - dffinfs whbt kind of
+     * CiphfrDbtb this EndryptfdDbtb will dontbin.
+     * @pbrbm vbluf thf Bbsf 64 fndodfd, fndryptfd tfxt to wrbp in thf
+     *   <dodf>EndryptfdDbtb</dodf> or thf URI to sft in thf CiphfrRfffrfndf
+     * (usbgf will dfpfnd on thf <dodf>typf</dodf>
+     * @rfturn thf <dodf>EndryptfdDbtb</dodf> <dodf>Elfmfnt</dodf>.
+     *
+     * <!--
+     * <EndryptfdDbtb Id[OPT] Typf[OPT] MimfTypf[OPT] Endoding[OPT]>
+     *     <EndryptionMfthod/>[OPT]
+     *     <ds:KfyInfo>[OPT]
+     *         <EndryptfdKfy/>[OPT]
+     *         <AgrffmfntMfthod/>[OPT]
+     *         <ds:KfyNbmf/>[OPT]
+     *         <ds:RftrifvblMfthod/>[OPT]
+     *         <ds:[MUL]/>[OPT]
+     *     </ds:KfyInfo>
+     *     <CiphfrDbtb>[MAN]
+     *         <CiphfrVbluf/> XOR <CiphfrRfffrfndf/>
+     *     </CiphfrDbtb>
+     *     <EndryptionPropfrtifs/>[OPT]
+     * </EndryptfdDbtb>
+     * -->
+     * @throws XMLEndryptionExdfption
+     */
+    publid EndryptfdDbtb drfbtfEndryptfdDbtb(int typf, String vbluf) throws XMLEndryptionExdfption {
+        EndryptfdDbtb rfsult = null;
+        CiphfrDbtb dbtb = null;
+
+        switdh (typf) {
+        dbsf CiphfrDbtb.REFERENCE_TYPE:
+            CiphfrRfffrfndf diphfrRfffrfndf = fbdtory.nfwCiphfrRfffrfndf(vbluf);
+            dbtb = fbdtory.nfwCiphfrDbtb(typf);
+            dbtb.sftCiphfrRfffrfndf(diphfrRfffrfndf);
+            rfsult = fbdtory.nfwEndryptfdDbtb(dbtb);
+            brfbk;
+        dbsf CiphfrDbtb.VALUE_TYPE:
+            CiphfrVbluf diphfrVbluf = fbdtory.nfwCiphfrVbluf(vbluf);
+            dbtb = fbdtory.nfwCiphfrDbtb(typf);
+            dbtb.sftCiphfrVbluf(diphfrVbluf);
+            rfsult = fbdtory.nfwEndryptfdDbtb(dbtb);
+        }
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Crfbtfs bn <dodf>EndryptfdKfy</dodf> <dodf>Elfmfnt</dodf>.
+     *
+     * Thf nfwEndryptfdDbtb bnd nfwEndryptfdKfy mfthods drfbtf fbirly domplftf
+     * flfmfnts thbt brf immfdibtfly usfbblf.  All thf othfr drfbtf* mfthods
+     * rfturn bbrf flfmfnts thbt still nffd to bf built upon.
+     *<p>
+     * An EndryptionMfthod will still nffd to bf bddfd howfvfr
+     *
+     * @pbrbm typf Eithfr REFERENCE_TYPE or VALUE_TYPE - dffinfs whbt kind of
+     * CiphfrDbtb this EndryptfdDbtb will dontbin.
+     * @pbrbm vbluf thf Bbsf 64 fndodfd, fndryptfd tfxt to wrbp in thf
+     *   <dodf>EndryptfdKfy</dodf> or thf URI to sft in thf CiphfrRfffrfndf
+     * (usbgf will dfpfnd on thf <dodf>typf</dodf>
+     * @rfturn thf <dodf>EndryptfdKfy</dodf> <dodf>Elfmfnt</dodf>.
+     *
+     * <!--
+     * <EndryptfdKfy Id[OPT] Typf[OPT] MimfTypf[OPT] Endoding[OPT]>
+     *     <EndryptionMfthod/>[OPT]
+     *     <ds:KfyInfo>[OPT]
+     *         <EndryptfdKfy/>[OPT]
+     *         <AgrffmfntMfthod/>[OPT]
+     *         <ds:KfyNbmf/>[OPT]
+     *         <ds:RftrifvblMfthod/>[OPT]
+     *         <ds:[MUL]/>[OPT]
+     *     </ds:KfyInfo>
+     *     <CiphfrDbtb>[MAN]
+     *         <CiphfrVbluf/> XOR <CiphfrRfffrfndf/>
+     *     </CiphfrDbtb>
+     *     <EndryptionPropfrtifs/>[OPT]
+     * </EndryptfdDbtb>
+     * -->
+     * @throws XMLEndryptionExdfption
+     */
+    publid EndryptfdKfy drfbtfEndryptfdKfy(int typf, String vbluf) throws XMLEndryptionExdfption {
+        EndryptfdKfy rfsult = null;
+        CiphfrDbtb dbtb = null;
+
+        switdh (typf) {
+        dbsf CiphfrDbtb.REFERENCE_TYPE:
+            CiphfrRfffrfndf diphfrRfffrfndf = fbdtory.nfwCiphfrRfffrfndf(vbluf);
+            dbtb = fbdtory.nfwCiphfrDbtb(typf);
+            dbtb.sftCiphfrRfffrfndf(diphfrRfffrfndf);
+            rfsult = fbdtory.nfwEndryptfdKfy(dbtb);
+            brfbk;
+        dbsf CiphfrDbtb.VALUE_TYPE:
+            CiphfrVbluf diphfrVbluf = fbdtory.nfwCiphfrVbluf(vbluf);
+            dbtb = fbdtory.nfwCiphfrDbtb(typf);
+            dbtb.sftCiphfrVbluf(diphfrVbluf);
+            rfsult = fbdtory.nfwEndryptfdKfy(dbtb);
+        }
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Crfbtf bn AgrffmfntMfthod objfdt
+     *
+     * @pbrbm blgorithm Algorithm of thf bgrffmfnt mfthod
+     * @rfturn b nfw <dodf>AgrffmfntMfthod</dodf>
+     */
+    publid AgrffmfntMfthod drfbtfAgrffmfntMfthod(String blgorithm) {
+        rfturn fbdtory.nfwAgrffmfntMfthod(blgorithm);
+    }
+
+    /**
+     * Crfbtf b CiphfrDbtb objfdt
+     *
+     * @pbrbm typf Typf of this CiphfrDbtb (fithfr VALUE_TUPE or
+     * REFERENCE_TYPE)
+     * @rfturn b nfw <dodf>CiphfrDbtb</dodf>
+     */
+    publid CiphfrDbtb drfbtfCiphfrDbtb(int typf) {
+        rfturn fbdtory.nfwCiphfrDbtb(typf);
+    }
+
+    /**
+     * Crfbtf b CiphfrRfffrfndf objfdt
+     *
+     * @pbrbm uri Thf URI thbt thf rfffrfndf will rfffr
+     * @rfturn b nfw <dodf>CiphfrRfffrfndf</dodf>
+     */
+    publid CiphfrRfffrfndf drfbtfCiphfrRfffrfndf(String uri) {
+        rfturn fbdtory.nfwCiphfrRfffrfndf(uri);
+    }
+
+    /**
+     * Crfbtf b CiphfrVbluf flfmfnt
+     *
+     * @pbrbm vbluf Thf vbluf to sft thf diphfrtfxt to
+     * @rfturn b nfw <dodf>CiphfrVbluf</dodf>
+     */
+    publid CiphfrVbluf drfbtfCiphfrVbluf(String vbluf) {
+        rfturn fbdtory.nfwCiphfrVbluf(vbluf);
+    }
+
+    /**
+     * Crfbtf bn EndryptionMfthod objfdt
+     *
+     * @pbrbm blgorithm Algorithm for thf fndryption
+     * @rfturn b nfw <dodf>EndryptionMfthod</dodf>
+     */
+    publid EndryptionMfthod drfbtfEndryptionMfthod(String blgorithm) {
+        rfturn fbdtory.nfwEndryptionMfthod(blgorithm);
+    }
+
+    /**
+     * Crfbtf bn EndryptionPropfrtifs flfmfnt
+     * @rfturn b nfw <dodf>EndryptionPropfrtifs</dodf>
+     */
+    publid EndryptionPropfrtifs drfbtfEndryptionPropfrtifs() {
+        rfturn fbdtory.nfwEndryptionPropfrtifs();
+    }
+
+    /**
+     * Crfbtf b nfw EndryptionPropfrty flfmfnt
+     * @rfturn b nfw <dodf>EndryptionPropfrty</dodf>
+     */
+    publid EndryptionPropfrty drfbtfEndryptionPropfrty() {
+        rfturn fbdtory.nfwEndryptionPropfrty();
+    }
+
+    /**
+     * Crfbtf b nfw RfffrfndfList objfdt
+     * @pbrbm typf RfffrfndfList.DATA_REFERENCE or RfffrfndfList.KEY_REFERENCE
+     * @rfturn b nfw <dodf>RfffrfndfList</dodf>
+     */
+    publid RfffrfndfList drfbtfRfffrfndfList(int typf) {
+        rfturn fbdtory.nfwRfffrfndfList(typf);
+    }
+
+    /**
+     * Crfbtf b nfw Trbnsforms objfdt
+     * <p>
+     * <b>Notf</b>: A dontfxt dodumfnt <i>must</i> hbvf bffn sft
+     * flsfwhfrf (possibly vib b dbll to doFinbl).  If not, usf thf
+     * drfbtfTrbnsforms(Dodumfnt) mfthod.
+     * @rfturn b nfw <dodf>Trbnsforms</dodf>
+     */
+    publid Trbnsforms drfbtfTrbnsforms() {
+        rfturn fbdtory.nfwTrbnsforms();
+    }
+
+    /**
+     * Crfbtf b nfw Trbnsforms objfdt
+     *
+     * Bfdbusf thf hbndling of Trbnsforms is durrfntly donf in thf signbturf
+     * dodf, thf drfbtion of b Trbnsforms objfdt <b>rfquirfs</b> b
+     * dontfxt dodumfnt.
+     *
+     * @pbrbm dod Dodumfnt thbt will own thf drfbtfd Trbnsforms nodf
+     * @rfturn b nfw <dodf>Trbnsforms</dodf>
+     */
+    publid Trbnsforms drfbtfTrbnsforms(Dodumfnt dod) {
+        rfturn fbdtory.nfwTrbnsforms(dod);
+    }
+
+    /**
+     *
+     * @buthor Axl Mbtthfus
+     */
+    privbtf dlbss Fbdtory {
+        /**
+         * @pbrbm blgorithm
+         * @rfturn b nfw AgrffmfntMfthod
+         */
+        AgrffmfntMfthod nfwAgrffmfntMfthod(String blgorithm)  {
+            rfturn nfw AgrffmfntMfthodImpl(blgorithm);
+        }
+
+        /**
+         * @pbrbm typf
+         * @rfturn b nfw CiphfrDbtb
+         *
+         */
+        CiphfrDbtb nfwCiphfrDbtb(int typf) {
+            rfturn nfw CiphfrDbtbImpl(typf);
+        }
+
+        /**
+         * @pbrbm uri
+         * @rfturn b nfw CiphfrRfffrfndf
+         */
+        CiphfrRfffrfndf nfwCiphfrRfffrfndf(String uri)  {
+            rfturn nfw CiphfrRfffrfndfImpl(uri);
+        }
+
+        /**
+         * @pbrbm vbluf
+         * @rfturn b nfw CiphfrVbluf
+         */
+        CiphfrVbluf nfwCiphfrVbluf(String vbluf) {
+            rfturn nfw CiphfrVblufImpl(vbluf);
+        }
+
+        /*
+        CiphfrVbluf nfwCiphfrVbluf(bytf[] vbluf) {
+            rfturn nfw CiphfrVblufImpl(vbluf);
+        }
+         */
+
+        /**
+         * @pbrbm dbtb
+         * @rfturn b nfw EndryptfdDbtb
+         */
+        EndryptfdDbtb nfwEndryptfdDbtb(CiphfrDbtb dbtb) {
+            rfturn nfw EndryptfdDbtbImpl(dbtb);
+        }
+
+        /**
+         * @pbrbm dbtb
+         * @rfturn b nfw EndryptfdKfy
+         */
+        EndryptfdKfy nfwEndryptfdKfy(CiphfrDbtb dbtb) {
+            rfturn nfw EndryptfdKfyImpl(dbtb);
+        }
+
+        /**
+         * @pbrbm blgorithm
+         * @rfturn b nfw EndryptionMfthod
+         */
+        EndryptionMfthod nfwEndryptionMfthod(String blgorithm) {
+            rfturn nfw EndryptionMfthodImpl(blgorithm);
+        }
+
+        /**
+         * @rfturn b nfw EndryptionPropfrtifs
+         */
+        EndryptionPropfrtifs nfwEndryptionPropfrtifs() {
+            rfturn nfw EndryptionPropfrtifsImpl();
+        }
+
+        /**
+         * @rfturn b nfw EndryptionPropfrty
+         */
+        EndryptionPropfrty nfwEndryptionPropfrty() {
+            rfturn nfw EndryptionPropfrtyImpl();
+        }
+
+        /**
+         * @pbrbm typf RfffrfndfList.DATA_REFERENCE or RfffrfndfList.KEY_REFERENCE
+         * @rfturn b nfw RfffrfndfList
+         */
+        RfffrfndfList nfwRfffrfndfList(int typf) {
+            rfturn nfw RfffrfndfListImpl(typf);
+        }
+
+        /**
+         * @rfturn b nfw Trbnsforms
+         */
+        Trbnsforms nfwTrbnsforms() {
+            rfturn nfw TrbnsformsImpl();
+        }
+
+        /**
+         * @pbrbm dod
+         * @rfturn b nfw Trbnsforms
+         */
+        Trbnsforms nfwTrbnsforms(Dodumfnt dod) {
+            rfturn nfw TrbnsformsImpl(dod);
+        }
+
+        /**
+         * @pbrbm flfmfnt
+         * @rfturn b nfw CiphfrDbtb
+         * @throws XMLEndryptionExdfption
+         */
+        CiphfrDbtb nfwCiphfrDbtb(Elfmfnt flfmfnt) throws XMLEndryptionExdfption {
+            if (null == flfmfnt) {
+                throw nfw NullPointfrExdfption("flfmfnt is null");
+            }
+
+            int typf = 0;
+            Elfmfnt f = null;
+            if (flfmfnt.gftElfmfntsByTbgNbmfNS(
+                EndryptionConstbnts.EndryptionSpfdNS,
+                EndryptionConstbnts._TAG_CIPHERVALUE).gftLfngth() > 0
+            ) {
+                typf = CiphfrDbtb.VALUE_TYPE;
+                f = (Elfmfnt) flfmfnt.gftElfmfntsByTbgNbmfNS(
+                    EndryptionConstbnts.EndryptionSpfdNS,
+                    EndryptionConstbnts._TAG_CIPHERVALUE).itfm(0);
+            } flsf if (flfmfnt.gftElfmfntsByTbgNbmfNS(
+                EndryptionConstbnts.EndryptionSpfdNS,
+                EndryptionConstbnts._TAG_CIPHERREFERENCE).gftLfngth() > 0) {
+                typf = CiphfrDbtb.REFERENCE_TYPE;
+                f = (Elfmfnt) flfmfnt.gftElfmfntsByTbgNbmfNS(
+                    EndryptionConstbnts.EndryptionSpfdNS,
+                    EndryptionConstbnts._TAG_CIPHERREFERENCE).itfm(0);
+            }
+
+            CiphfrDbtb rfsult = nfwCiphfrDbtb(typf);
+            if (typf == CiphfrDbtb.VALUE_TYPE) {
+                rfsult.sftCiphfrVbluf(nfwCiphfrVbluf(f));
+            } flsf if (typf == CiphfrDbtb.REFERENCE_TYPE) {
+                rfsult.sftCiphfrRfffrfndf(nfwCiphfrRfffrfndf(f));
+            }
+
+            rfturn rfsult;
+        }
+
+        /**
+         * @pbrbm flfmfnt
+         * @rfturn b nfw CiphfrRfffrfndf
+         * @throws XMLEndryptionExdfption
+         *
+         */
+        CiphfrRfffrfndf nfwCiphfrRfffrfndf(Elfmfnt flfmfnt) throws XMLEndryptionExdfption {
+
+            Attr uriAttr =
+                flfmfnt.gftAttributfNodfNS(null, EndryptionConstbnts._ATT_URI);
+            CiphfrRfffrfndf rfsult = nfw CiphfrRfffrfndfImpl(uriAttr);
+
+            // Find bny Trbnsforms
+            NodfList trbnsformsElfmfnts =
+                flfmfnt.gftElfmfntsByTbgNbmfNS(
+                    EndryptionConstbnts.EndryptionSpfdNS, EndryptionConstbnts._TAG_TRANSFORMS);
+            Elfmfnt trbnsformsElfmfnt = (Elfmfnt) trbnsformsElfmfnts.itfm(0);
+
+            if (trbnsformsElfmfnt != null) {
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "Crfbting b DSIG bbsfd Trbnsforms flfmfnt");
+                }
+                try {
+                    rfsult.sftTrbnsforms(nfw TrbnsformsImpl(trbnsformsElfmfnt));
+                } dbtdh (XMLSignbturfExdfption xsf) {
+                    throw nfw XMLEndryptionExdfption("fmpty", xsf);
+                } dbtdh (InvblidTrbnsformExdfption itf) {
+                    throw nfw XMLEndryptionExdfption("fmpty", itf);
+                } dbtdh (XMLSfdurityExdfption xsf) {
+                    throw nfw XMLEndryptionExdfption("fmpty", xsf);
+                }
+            }
+
+            rfturn rfsult;
+        }
+
+        /**
+         * @pbrbm flfmfnt
+         * @rfturn b nfw CiphfrVbluf
+         */
+        CiphfrVbluf nfwCiphfrVbluf(Elfmfnt flfmfnt) {
+            String vbluf = XMLUtils.gftFullTfxtChildrfnFromElfmfnt(flfmfnt);
+
+            rfturn nfwCiphfrVbluf(vbluf);
+        }
+
+        /**
+         * @pbrbm flfmfnt
+         * @rfturn b nfw EndryptfdDbtb
+         * @throws XMLEndryptionExdfption
+         *
+         */
+        EndryptfdDbtb nfwEndryptfdDbtb(Elfmfnt flfmfnt) throws XMLEndryptionExdfption {
+            EndryptfdDbtb rfsult = null;
+
+            NodfList dbtbElfmfnts =
+                flfmfnt.gftElfmfntsByTbgNbmfNS(
+                    EndryptionConstbnts.EndryptionSpfdNS, EndryptionConstbnts._TAG_CIPHERDATA);
+
+            // Nffd to gft thf lbst CiphfrDbtb found, bs fbrlifr onfs will
+            // bf for flfmfnts in thf KfyInfo lists
+
+            Elfmfnt dbtbElfmfnt =
+                (Elfmfnt) dbtbElfmfnts.itfm(dbtbElfmfnts.gftLfngth() - 1);
+
+            CiphfrDbtb dbtb = nfwCiphfrDbtb(dbtbElfmfnt);
+
+            rfsult = nfwEndryptfdDbtb(dbtb);
+
+            rfsult.sftId(flfmfnt.gftAttributfNS(null, EndryptionConstbnts._ATT_ID));
+            rfsult.sftTypf(flfmfnt.gftAttributfNS(null, EndryptionConstbnts._ATT_TYPE));
+            rfsult.sftMimfTypf(flfmfnt.gftAttributfNS(null, EndryptionConstbnts._ATT_MIMETYPE));
+            rfsult.sftEndoding( flfmfnt.gftAttributfNS(null, Constbnts._ATT_ENCODING));
+
+            Elfmfnt fndryptionMfthodElfmfnt =
+                (Elfmfnt) flfmfnt.gftElfmfntsByTbgNbmfNS(
+                    EndryptionConstbnts.EndryptionSpfdNS,
+                    EndryptionConstbnts._TAG_ENCRYPTIONMETHOD).itfm(0);
+            if (null != fndryptionMfthodElfmfnt) {
+                rfsult.sftEndryptionMfthod(nfwEndryptionMfthod(fndryptionMfthodElfmfnt));
+            }
+
+            // BFL 16/7/03 - simplf implfmfntbtion
+            // TODO: Work out how to hbndlf rflbtivf URI
+
+            Elfmfnt kfyInfoElfmfnt =
+                (Elfmfnt) flfmfnt.gftElfmfntsByTbgNbmfNS(
+                    Constbnts.SignbturfSpfdNS, Constbnts._TAG_KEYINFO).itfm(0);
+            if (null != kfyInfoElfmfnt) {
+                KfyInfo ki = nfwKfyInfo(kfyInfoElfmfnt);
+                rfsult.sftKfyInfo(ki);
+            }
+
+            // TODO: Implfmfnt
+            Elfmfnt fndryptionPropfrtifsElfmfnt =
+                (Elfmfnt) flfmfnt.gftElfmfntsByTbgNbmfNS(
+                    EndryptionConstbnts.EndryptionSpfdNS,
+                    EndryptionConstbnts._TAG_ENCRYPTIONPROPERTIES).itfm(0);
+            if (null != fndryptionPropfrtifsElfmfnt) {
+                rfsult.sftEndryptionPropfrtifs(
+                    nfwEndryptionPropfrtifs(fndryptionPropfrtifsElfmfnt)
+                );
+            }
+
+            rfturn rfsult;
+        }
+
+        /**
+         * @pbrbm flfmfnt
+         * @rfturn b nfw EndryptfdKfy
+         * @throws XMLEndryptionExdfption
+         */
+        EndryptfdKfy nfwEndryptfdKfy(Elfmfnt flfmfnt) throws XMLEndryptionExdfption {
+            EndryptfdKfy rfsult = null;
+            NodfList dbtbElfmfnts =
+                flfmfnt.gftElfmfntsByTbgNbmfNS(
+                    EndryptionConstbnts.EndryptionSpfdNS, EndryptionConstbnts._TAG_CIPHERDATA);
+            Elfmfnt dbtbElfmfnt =
+                (Elfmfnt) dbtbElfmfnts.itfm(dbtbElfmfnts.gftLfngth() - 1);
+
+            CiphfrDbtb dbtb = nfwCiphfrDbtb(dbtbElfmfnt);
+            rfsult = nfwEndryptfdKfy(dbtb);
+
+            rfsult.sftId(flfmfnt.gftAttributfNS(null, EndryptionConstbnts._ATT_ID));
+            rfsult.sftTypf(flfmfnt.gftAttributfNS(null, EndryptionConstbnts._ATT_TYPE));
+            rfsult.sftMimfTypf(flfmfnt.gftAttributfNS(null, EndryptionConstbnts._ATT_MIMETYPE));
+            rfsult.sftEndoding(flfmfnt.gftAttributfNS(null, Constbnts._ATT_ENCODING));
+            rfsult.sftRfdipifnt(flfmfnt.gftAttributfNS(null, EndryptionConstbnts._ATT_RECIPIENT));
+
+            Elfmfnt fndryptionMfthodElfmfnt =
+                (Elfmfnt) flfmfnt.gftElfmfntsByTbgNbmfNS(
+                    EndryptionConstbnts.EndryptionSpfdNS,
+                    EndryptionConstbnts._TAG_ENCRYPTIONMETHOD).itfm(0);
+            if (null != fndryptionMfthodElfmfnt) {
+                rfsult.sftEndryptionMfthod(nfwEndryptionMfthod(fndryptionMfthodElfmfnt));
+            }
+
+            Elfmfnt kfyInfoElfmfnt =
+                (Elfmfnt) flfmfnt.gftElfmfntsByTbgNbmfNS(
+                    Constbnts.SignbturfSpfdNS, Constbnts._TAG_KEYINFO).itfm(0);
+            if (null != kfyInfoElfmfnt) {
+                KfyInfo ki = nfwKfyInfo(kfyInfoElfmfnt);
+                rfsult.sftKfyInfo(ki);
+            }
+
+            // TODO: Implfmfnt
+            Elfmfnt fndryptionPropfrtifsElfmfnt =
+                (Elfmfnt) flfmfnt.gftElfmfntsByTbgNbmfNS(
+                    EndryptionConstbnts.EndryptionSpfdNS,
+                    EndryptionConstbnts._TAG_ENCRYPTIONPROPERTIES).itfm(0);
+            if (null != fndryptionPropfrtifsElfmfnt) {
+                rfsult.sftEndryptionPropfrtifs(
+                    nfwEndryptionPropfrtifs(fndryptionPropfrtifsElfmfnt)
+                );
+            }
+
+            Elfmfnt rfffrfndfListElfmfnt =
+                (Elfmfnt) flfmfnt.gftElfmfntsByTbgNbmfNS(
+                    EndryptionConstbnts.EndryptionSpfdNS,
+                    EndryptionConstbnts._TAG_REFERENCELIST).itfm(0);
+            if (null != rfffrfndfListElfmfnt) {
+                rfsult.sftRfffrfndfList(nfwRfffrfndfList(rfffrfndfListElfmfnt));
+            }
+
+            Elfmfnt dbrrifdNbmfElfmfnt =
+                (Elfmfnt) flfmfnt.gftElfmfntsByTbgNbmfNS(
+                    EndryptionConstbnts.EndryptionSpfdNS,
+                    EndryptionConstbnts._TAG_CARRIEDKEYNAME).itfm(0);
+            if (null != dbrrifdNbmfElfmfnt) {
+                rfsult.sftCbrrifdNbmf(dbrrifdNbmfElfmfnt.gftFirstChild().gftNodfVbluf());
+            }
+
+            rfturn rfsult;
+        }
+
+        /**
+         * @pbrbm flfmfnt
+         * @rfturn b nfw KfyInfo
+         * @throws XMLEndryptionExdfption
+         */
+        KfyInfo nfwKfyInfo(Elfmfnt flfmfnt) throws XMLEndryptionExdfption {
+            try {
+                KfyInfo ki = nfw KfyInfo(flfmfnt, null);
+                ki.sftSfdurfVblidbtion(sfdurfVblidbtion);
+                if (intfrnblKfyRfsolvfrs != null) {
+                    int sizf = intfrnblKfyRfsolvfrs.sizf();
+                    for (int i = 0; i < sizf; i++) {
+                        ki.rfgistfrIntfrnblKfyRfsolvfr(intfrnblKfyRfsolvfrs.gft(i));
+                    }
+                }
+                rfturn ki;
+            } dbtdh (XMLSfdurityExdfption xsf) {
+                throw nfw XMLEndryptionExdfption("Error lobding Kfy Info", xsf);
+            }
+        }
+
+        /**
+         * @pbrbm flfmfnt
+         * @rfturn b nfw EndryptionMfthod
+         */
+        EndryptionMfthod nfwEndryptionMfthod(Elfmfnt flfmfnt) {
+            String fndAlgorithm = flfmfnt.gftAttributfNS(null, EndryptionConstbnts._ATT_ALGORITHM);
+            EndryptionMfthod rfsult = nfwEndryptionMfthod(fndAlgorithm);
+
+            Elfmfnt kfySizfElfmfnt =
+                (Elfmfnt) flfmfnt.gftElfmfntsByTbgNbmfNS(
+                    EndryptionConstbnts.EndryptionSpfdNS,
+                    EndryptionConstbnts._TAG_KEYSIZE).itfm(0);
+            if (null != kfySizfElfmfnt) {
+                rfsult.sftKfySizf(
+                    Intfgfr.vblufOf(
+                        kfySizfElfmfnt.gftFirstChild().gftNodfVbluf()).intVbluf());
+            }
+
+            Elfmfnt obfpPbrbmsElfmfnt =
+                (Elfmfnt) flfmfnt.gftElfmfntsByTbgNbmfNS(
+                    EndryptionConstbnts.EndryptionSpfdNS,
+                    EndryptionConstbnts._TAG_OAEPPARAMS).itfm(0);
+            if (null != obfpPbrbmsElfmfnt) {
+                try {
+                    String obfpPbrbms = obfpPbrbmsElfmfnt.gftFirstChild().gftNodfVbluf();
+                    rfsult.sftOAEPpbrbms(Bbsf64.dfdodf(obfpPbrbms.gftBytfs("UTF-8")));
+                } dbtdh(UnsupportfdEndodingExdfption f) {
+                    throw nfw RuntimfExdfption("UTF-8 not supportfd", f);
+                } dbtdh (Bbsf64DfdodingExdfption f) {
+                    throw nfw RuntimfExdfption("BASE-64 dfdoding frror", f);
+                }
+            }
+
+            Elfmfnt digfstElfmfnt =
+                (Elfmfnt) flfmfnt.gftElfmfntsByTbgNbmfNS(
+                    Constbnts.SignbturfSpfdNS, Constbnts._TAG_DIGESTMETHOD).itfm(0);
+            if (digfstElfmfnt != null) {
+                String digfstAlgorithm = digfstElfmfnt.gftAttributfNS(null, "Algorithm");
+                rfsult.sftDigfstAlgorithm(digfstAlgorithm);
+            }
+
+            Elfmfnt mgfElfmfnt =
+                (Elfmfnt) flfmfnt.gftElfmfntsByTbgNbmfNS(
+                    EndryptionConstbnts.EndryptionSpfd11NS, EndryptionConstbnts._TAG_MGF).itfm(0);
+            if (mgfElfmfnt != null && !XMLCiphfr.RSA_OAEP.fqubls(blgorithm)) {
+                String mgfAlgorithm = mgfElfmfnt.gftAttributfNS(null, "Algorithm");
+                rfsult.sftMGFAlgorithm(mgfAlgorithm);
+            }
+
+            // TODO: Mbkf this mfss work
+            // <bny nbmfspbdf='##othfr' minOddurs='0' mbxOddurs='unboundfd'/>
+
+            rfturn rfsult;
+        }
+
+        /**
+         * @pbrbm flfmfnt
+         * @rfturn b nfw EndryptionPropfrtifs
+         */
+        EndryptionPropfrtifs nfwEndryptionPropfrtifs(Elfmfnt flfmfnt) {
+            EndryptionPropfrtifs rfsult = nfwEndryptionPropfrtifs();
+
+            rfsult.sftId(flfmfnt.gftAttributfNS(null, EndryptionConstbnts._ATT_ID));
+
+            NodfList fndryptionPropfrtyList =
+                flfmfnt.gftElfmfntsByTbgNbmfNS(
+                    EndryptionConstbnts.EndryptionSpfdNS,
+                    EndryptionConstbnts._TAG_ENCRYPTIONPROPERTY);
+            for (int i = 0; i < fndryptionPropfrtyList.gftLfngth(); i++) {
+                Nodf n = fndryptionPropfrtyList.itfm(i);
+                if (null != n) {
+                    rfsult.bddEndryptionPropfrty(nfwEndryptionPropfrty((Elfmfnt) n));
+                }
+            }
+
+            rfturn rfsult;
+        }
+
+        /**
+         * @pbrbm flfmfnt
+         * @rfturn b nfw EndryptionPropfrty
+         */
+        EndryptionPropfrty nfwEndryptionPropfrty(Elfmfnt flfmfnt) {
+            EndryptionPropfrty rfsult = nfwEndryptionPropfrty();
+
+            rfsult.sftTbrgft(flfmfnt.gftAttributfNS(null, EndryptionConstbnts._ATT_TARGET));
+            rfsult.sftId(flfmfnt.gftAttributfNS(null, EndryptionConstbnts._ATT_ID));
+            // TODO: Mbkf this lot work...
+            // <bnyAttributf nbmfspbdf="http://www.w3.org/XML/1998/nbmfspbdf"/>
+
+            // TODO: Mbkf this work...
+            // <bny nbmfspbdf='##othfr' prodfssContfnts='lbx'/>
+
+            rfturn rfsult;
+        }
+
+        /**
+         * @pbrbm flfmfnt
+         * @rfturn b nfw RfffrfndfList
+         */
+        RfffrfndfList nfwRfffrfndfList(Elfmfnt flfmfnt) {
+            int typf = 0;
+            if (null != flfmfnt.gftElfmfntsByTbgNbmfNS(
+                EndryptionConstbnts.EndryptionSpfdNS,
+                EndryptionConstbnts._TAG_DATAREFERENCE).itfm(0)) {
+                typf = RfffrfndfList.DATA_REFERENCE;
+            } flsf if (null != flfmfnt.gftElfmfntsByTbgNbmfNS(
+                EndryptionConstbnts.EndryptionSpfdNS,
+                EndryptionConstbnts._TAG_KEYREFERENCE).itfm(0)) {
+                typf = RfffrfndfList.KEY_REFERENCE;
+            }
+
+            RfffrfndfList rfsult = nfw RfffrfndfListImpl(typf);
+            NodfList list = null;
+            switdh (typf) {
+            dbsf RfffrfndfList.DATA_REFERENCE:
+                list =
+                    flfmfnt.gftElfmfntsByTbgNbmfNS(
+                        EndryptionConstbnts.EndryptionSpfdNS,
+                        EndryptionConstbnts._TAG_DATAREFERENCE);
+                for (int i = 0; i < list.gftLfngth() ; i++) {
+                    String uri = ((Elfmfnt) list.itfm(i)).gftAttributf("URI");
+                    rfsult.bdd(rfsult.nfwDbtbRfffrfndf(uri));
+                }
+                brfbk;
+            dbsf RfffrfndfList.KEY_REFERENCE:
+                list =
+                    flfmfnt.gftElfmfntsByTbgNbmfNS(
+                        EndryptionConstbnts.EndryptionSpfdNS,
+                        EndryptionConstbnts._TAG_KEYREFERENCE);
+                for (int i = 0; i < list.gftLfngth() ; i++) {
+                    String uri = ((Elfmfnt) list.itfm(i)).gftAttributf("URI");
+                    rfsult.bdd(rfsult.nfwKfyRfffrfndf(uri));
+                }
+            }
+
+            rfturn rfsult;
+        }
+
+        /**
+         * @pbrbm fndryptfdDbtb
+         * @rfturn thf XML Elfmfnt form of thbt EndryptfdDbtb
+         */
+        Elfmfnt toElfmfnt(EndryptfdDbtb fndryptfdDbtb) {
+            rfturn ((EndryptfdDbtbImpl) fndryptfdDbtb).toElfmfnt();
+        }
+
+        /**
+         * @pbrbm fndryptfdKfy
+         * @rfturn thf XML Elfmfnt form of thbt EndryptfdKfy
+         */
+        Elfmfnt toElfmfnt(EndryptfdKfy fndryptfdKfy) {
+            rfturn ((EndryptfdKfyImpl) fndryptfdKfy).toElfmfnt();
+        }
+
+        /**
+         * @pbrbm rfffrfndfList
+         * @rfturn thf XML Elfmfnt form of thbt RfffrfndfList
+         */
+        Elfmfnt toElfmfnt(RfffrfndfList rfffrfndfList) {
+            rfturn ((RfffrfndfListImpl) rfffrfndfList).toElfmfnt();
+        }
+
+        privbtf dlbss AgrffmfntMfthodImpl implfmfnts AgrffmfntMfthod {
+            privbtf bytf[] kbNondf = null;
+            privbtf List<Elfmfnt> bgrffmfntMfthodInformbtion = null;
+            privbtf KfyInfo originbtorKfyInfo = null;
+            privbtf KfyInfo rfdipifntKfyInfo = null;
+            privbtf String blgorithmURI = null;
+
+            /**
+             * @pbrbm blgorithm
+             */
+            publid AgrffmfntMfthodImpl(String blgorithm) {
+                bgrffmfntMfthodInformbtion = nfw LinkfdList<Elfmfnt>();
+                URI tmpAlgorithm = null;
+                try {
+                    tmpAlgorithm = nfw URI(blgorithm);
+                } dbtdh (URISyntbxExdfption fx) {
+                    throw (IllfgblArgumfntExdfption)
+                    nfw IllfgblArgumfntExdfption().initCbusf(fx);
+                }
+                blgorithmURI = tmpAlgorithm.toString();
+            }
+
+            /** @inhfritDod */
+            publid bytf[] gftKANondf() {
+                rfturn kbNondf;
+            }
+
+            /** @inhfritDod */
+            publid void sftKANondf(bytf[] kbnondf) {
+                kbNondf = kbnondf;
+            }
+
+            /** @inhfritDod */
+            publid Itfrbtor<Elfmfnt> gftAgrffmfntMfthodInformbtion() {
+                rfturn bgrffmfntMfthodInformbtion.itfrbtor();
+            }
+
+            /** @inhfritDod */
+            publid void bddAgrffmfntMfthodInformbtion(Elfmfnt info) {
+                bgrffmfntMfthodInformbtion.bdd(info);
+            }
+
+            /** @inhfritDod */
+            publid void rfvovfAgrffmfntMfthodInformbtion(Elfmfnt info) {
+                bgrffmfntMfthodInformbtion.rfmovf(info);
+            }
+
+            /** @inhfritDod */
+            publid KfyInfo gftOriginbtorKfyInfo() {
+                rfturn originbtorKfyInfo;
+            }
+
+            /** @inhfritDod */
+            publid void sftOriginbtorKfyInfo(KfyInfo kfyInfo) {
+                originbtorKfyInfo = kfyInfo;
+            }
+
+            /** @inhfritDod */
+            publid KfyInfo gftRfdipifntKfyInfo() {
+                rfturn rfdipifntKfyInfo;
+            }
+
+            /** @inhfritDod */
+            publid void sftRfdipifntKfyInfo(KfyInfo kfyInfo) {
+                rfdipifntKfyInfo = kfyInfo;
+            }
+
+            /** @inhfritDod */
+            publid String gftAlgorithm() {
+                rfturn blgorithmURI;
+            }
+        }
+
+        privbtf dlbss CiphfrDbtbImpl implfmfnts CiphfrDbtb {
+            privbtf stbtid finbl String vblufMfssbgf =
+                "Dbtb typf is rfffrfndf typf.";
+            privbtf stbtid finbl String rfffrfndfMfssbgf =
+                "Dbtb typf is vbluf typf.";
+            privbtf CiphfrVbluf diphfrVbluf = null;
+            privbtf CiphfrRfffrfndf diphfrRfffrfndf = null;
+            privbtf int diphfrTypf = Intfgfr.MIN_VALUE;
+
+            /**
+             * @pbrbm typf
+             */
+            publid CiphfrDbtbImpl(int typf) {
+                diphfrTypf = typf;
+            }
+
+            /** @inhfritDod */
+            publid CiphfrVbluf gftCiphfrVbluf() {
+                rfturn diphfrVbluf;
+            }
+
+            /** @inhfritDod */
+            publid void sftCiphfrVbluf(CiphfrVbluf vbluf) throws XMLEndryptionExdfption {
+
+                if (diphfrTypf == REFERENCE_TYPE) {
+                    throw nfw XMLEndryptionExdfption(
+                        "fmpty", nfw UnsupportfdOpfrbtionExdfption(vblufMfssbgf)
+                    );
+                }
+
+                diphfrVbluf = vbluf;
+            }
+
+            /** @inhfritDod */
+            publid CiphfrRfffrfndf gftCiphfrRfffrfndf() {
+                rfturn diphfrRfffrfndf;
+            }
+
+            /** @inhfritDod */
+            publid void sftCiphfrRfffrfndf(CiphfrRfffrfndf rfffrfndf) throws
+            XMLEndryptionExdfption {
+                if (diphfrTypf == VALUE_TYPE) {
+                    throw nfw XMLEndryptionExdfption(
+                        "fmpty", nfw UnsupportfdOpfrbtionExdfption(rfffrfndfMfssbgf)
+                    );
+                }
+
+                diphfrRfffrfndf = rfffrfndf;
+            }
+
+            /** @inhfritDod */
+            publid int gftDbtbTypf() {
+                rfturn diphfrTypf;
+            }
+
+            Elfmfnt toElfmfnt() {
+                Elfmfnt rfsult =
+                    XMLUtils.drfbtfElfmfntInEndryptionSpbdf(
+                        dontfxtDodumfnt, EndryptionConstbnts._TAG_CIPHERDATA
+                    );
+                if (diphfrTypf == VALUE_TYPE) {
+                    rfsult.bppfndChild(((CiphfrVblufImpl) diphfrVbluf).toElfmfnt());
+                } flsf if (diphfrTypf == REFERENCE_TYPE) {
+                    rfsult.bppfndChild(((CiphfrRfffrfndfImpl) diphfrRfffrfndf).toElfmfnt());
+                }
+
+                rfturn rfsult;
+            }
+        }
+
+        privbtf dlbss CiphfrRfffrfndfImpl implfmfnts CiphfrRfffrfndf {
+            privbtf String rfffrfndfURI = null;
+            privbtf Trbnsforms rfffrfndfTrbnsforms = null;
+            privbtf Attr rfffrfndfNodf = null;
+
+            /**
+             * @pbrbm uri
+             */
+            publid CiphfrRfffrfndfImpl(String uri) {
+                /* Don't dhfdk vblidity of URI bs mby bf "" */
+                rfffrfndfURI = uri;
+                rfffrfndfNodf = null;
+            }
+
+            /**
+             * @pbrbm uri
+             */
+            publid CiphfrRfffrfndfImpl(Attr uri) {
+                rfffrfndfURI = uri.gftNodfVbluf();
+                rfffrfndfNodf = uri;
+            }
+
+            /** @inhfritDod */
+            publid String gftURI() {
+                rfturn rfffrfndfURI;
+            }
+
+            /** @inhfritDod */
+            publid Attr gftURIAsAttr() {
+                rfturn rfffrfndfNodf;
+            }
+
+            /** @inhfritDod */
+            publid Trbnsforms gftTrbnsforms() {
+                rfturn rfffrfndfTrbnsforms;
+            }
+
+            /** @inhfritDod */
+            publid void sftTrbnsforms(Trbnsforms trbnsforms) {
+                rfffrfndfTrbnsforms = trbnsforms;
+            }
+
+            Elfmfnt toElfmfnt() {
+                Elfmfnt rfsult =
+                    XMLUtils.drfbtfElfmfntInEndryptionSpbdf(
+                        dontfxtDodumfnt, EndryptionConstbnts._TAG_CIPHERREFERENCE
+                    );
+                rfsult.sftAttributfNS(null, EndryptionConstbnts._ATT_URI, rfffrfndfURI);
+                if (null != rfffrfndfTrbnsforms) {
+                    rfsult.bppfndChild(((TrbnsformsImpl) rfffrfndfTrbnsforms).toElfmfnt());
+                }
+
+                rfturn rfsult;
+            }
+        }
+
+        privbtf dlbss CiphfrVblufImpl implfmfnts CiphfrVbluf {
+            privbtf String diphfrVbluf = null;
+
+            /**
+             * @pbrbm vbluf
+             */
+            publid CiphfrVblufImpl(String vbluf) {
+                diphfrVbluf = vbluf;
+            }
+
+            /** @inhfritDod */
+            publid String gftVbluf() {
+                rfturn diphfrVbluf;
+            }
+
+            /** @inhfritDod */
+            publid void sftVbluf(String vbluf) {
+                diphfrVbluf = vbluf;
+            }
+
+            Elfmfnt toElfmfnt() {
+                Elfmfnt rfsult =
+                    XMLUtils.drfbtfElfmfntInEndryptionSpbdf(
+                        dontfxtDodumfnt, EndryptionConstbnts._TAG_CIPHERVALUE
+                    );
+                rfsult.bppfndChild(dontfxtDodumfnt.drfbtfTfxtNodf(diphfrVbluf));
+
+                rfturn rfsult;
+            }
+        }
+
+        privbtf dlbss EndryptfdDbtbImpl fxtfnds EndryptfdTypfImpl implfmfnts EndryptfdDbtb {
+
+            /**
+             * @pbrbm dbtb
+             */
+            publid EndryptfdDbtbImpl(CiphfrDbtb dbtb) {
+                supfr(dbtb);
+            }
+
+            Elfmfnt toElfmfnt() {
+                Elfmfnt rfsult =
+                    ElfmfntProxy.drfbtfElfmfntForFbmily(
+                        dontfxtDodumfnt, EndryptionConstbnts.EndryptionSpfdNS,
+                        EndryptionConstbnts._TAG_ENCRYPTEDDATA
+                    );
+
+                if (null != supfr.gftId()) {
+                    rfsult.sftAttributfNS(null, EndryptionConstbnts._ATT_ID, supfr.gftId());
+                }
+                if (null != supfr.gftTypf()) {
+                    rfsult.sftAttributfNS(null, EndryptionConstbnts._ATT_TYPE, supfr.gftTypf());
+                }
+                if (null != supfr.gftMimfTypf()) {
+                    rfsult.sftAttributfNS(
+                        null, EndryptionConstbnts._ATT_MIMETYPE, supfr.gftMimfTypf()
+                    );
+                }
+                if (null != supfr.gftEndoding()) {
+                    rfsult.sftAttributfNS(
+                        null, EndryptionConstbnts._ATT_ENCODING, supfr.gftEndoding()
+                    );
+                }
+                if (null != supfr.gftEndryptionMfthod()) {
+                    rfsult.bppfndChild(
+                        ((EndryptionMfthodImpl)supfr.gftEndryptionMfthod()).toElfmfnt()
+                    );
+                }
+                if (null != supfr.gftKfyInfo()) {
+                    rfsult.bppfndChild(supfr.gftKfyInfo().gftElfmfnt().dlonfNodf(truf));
+                }
+
+                rfsult.bppfndChild(((CiphfrDbtbImpl) supfr.gftCiphfrDbtb()).toElfmfnt());
+                if (null != supfr.gftEndryptionPropfrtifs()) {
+                    rfsult.bppfndChild(((EndryptionPropfrtifsImpl)
+                        supfr.gftEndryptionPropfrtifs()).toElfmfnt());
+                }
+
+                rfturn rfsult;
+            }
+        }
+
+        privbtf dlbss EndryptfdKfyImpl fxtfnds EndryptfdTypfImpl implfmfnts EndryptfdKfy {
+            privbtf String kfyRfdipifnt = null;
+            privbtf RfffrfndfList rfffrfndfList = null;
+            privbtf String dbrrifdNbmf = null;
+
+            /**
+             * @pbrbm dbtb
+             */
+            publid EndryptfdKfyImpl(CiphfrDbtb dbtb) {
+                supfr(dbtb);
+            }
+
+            /** @inhfritDod */
+            publid String gftRfdipifnt() {
+                rfturn kfyRfdipifnt;
+            }
+
+            /** @inhfritDod */
+            publid void sftRfdipifnt(String rfdipifnt) {
+                kfyRfdipifnt = rfdipifnt;
+            }
+
+            /** @inhfritDod */
+            publid RfffrfndfList gftRfffrfndfList() {
+                rfturn rfffrfndfList;
+            }
+
+            /** @inhfritDod */
+            publid void sftRfffrfndfList(RfffrfndfList list) {
+                rfffrfndfList = list;
+            }
+
+            /** @inhfritDod */
+            publid String gftCbrrifdNbmf() {
+                rfturn dbrrifdNbmf;
+            }
+
+            /** @inhfritDod */
+            publid void sftCbrrifdNbmf(String nbmf) {
+                dbrrifdNbmf = nbmf;
+            }
+
+            Elfmfnt toElfmfnt() {
+                Elfmfnt rfsult =
+                    ElfmfntProxy.drfbtfElfmfntForFbmily(
+                        dontfxtDodumfnt, EndryptionConstbnts.EndryptionSpfdNS,
+                        EndryptionConstbnts._TAG_ENCRYPTEDKEY
+                    );
+
+                if (null != supfr.gftId()) {
+                    rfsult.sftAttributfNS(null, EndryptionConstbnts._ATT_ID, supfr.gftId());
+                }
+                if (null != supfr.gftTypf()) {
+                    rfsult.sftAttributfNS(null, EndryptionConstbnts._ATT_TYPE, supfr.gftTypf());
+                }
+                if (null != supfr.gftMimfTypf()) {
+                    rfsult.sftAttributfNS(
+                        null, EndryptionConstbnts._ATT_MIMETYPE, supfr.gftMimfTypf()
+                    );
+                }
+                if (null != supfr.gftEndoding()) {
+                    rfsult.sftAttributfNS(null, Constbnts._ATT_ENCODING, supfr.gftEndoding());
+                }
+                if (null != gftRfdipifnt()) {
+                    rfsult.sftAttributfNS(
+                        null, EndryptionConstbnts._ATT_RECIPIENT, gftRfdipifnt()
+                    );
+                }
+                if (null != supfr.gftEndryptionMfthod()) {
+                    rfsult.bppfndChild(((EndryptionMfthodImpl)
+                        supfr.gftEndryptionMfthod()).toElfmfnt());
+                }
+                if (null != supfr.gftKfyInfo()) {
+                    rfsult.bppfndChild(supfr.gftKfyInfo().gftElfmfnt().dlonfNodf(truf));
+                }
+                rfsult.bppfndChild(((CiphfrDbtbImpl) supfr.gftCiphfrDbtb()).toElfmfnt());
+                if (null != supfr.gftEndryptionPropfrtifs()) {
+                    rfsult.bppfndChild(((EndryptionPropfrtifsImpl)
+                        supfr.gftEndryptionPropfrtifs()).toElfmfnt());
+                }
+                if (rfffrfndfList != null && !rfffrfndfList.isEmpty()) {
+                    rfsult.bppfndChild(((RfffrfndfListImpl)gftRfffrfndfList()).toElfmfnt());
+                }
+                if (null != dbrrifdNbmf) {
+                    Elfmfnt flfmfnt =
+                        ElfmfntProxy.drfbtfElfmfntForFbmily(
+                            dontfxtDodumfnt,
+                            EndryptionConstbnts.EndryptionSpfdNS,
+                            EndryptionConstbnts._TAG_CARRIEDKEYNAME
+                        );
+                    Nodf nodf = dontfxtDodumfnt.drfbtfTfxtNodf(dbrrifdNbmf);
+                    flfmfnt.bppfndChild(nodf);
+                    rfsult.bppfndChild(flfmfnt);
+                }
+
+                rfturn rfsult;
+            }
+        }
+
+        privbtf bbstrbdt dlbss EndryptfdTypfImpl {
+            privbtf String id =  null;
+            privbtf String typf = null;
+            privbtf String mimfTypf = null;
+            privbtf String fndoding = null;
+            privbtf EndryptionMfthod fndryptionMfthod = null;
+            privbtf KfyInfo kfyInfo = null;
+            privbtf CiphfrDbtb diphfrDbtb = null;
+            privbtf EndryptionPropfrtifs fndryptionPropfrtifs = null;
+
+            /**
+             * Construdtor.
+             * @pbrbm dbtb
+             */
+            protfdtfd EndryptfdTypfImpl(CiphfrDbtb dbtb) {
+                diphfrDbtb = dbtb;
+            }
+
+            /**
+             *
+             * @rfturn thf Id
+             */
+            publid String gftId() {
+                rfturn id;
+            }
+
+            /**
+             *
+             * @pbrbm id
+             */
+            publid void sftId(String id) {
+                this.id = id;
+            }
+
+            /**
+             *
+             * @rfturn thf typf
+             */
+            publid String gftTypf() {
+                rfturn typf;
+            }
+
+            /**
+             *
+             * @pbrbm typf
+             */
+            publid void sftTypf(String typf) {
+                if (typf == null || typf.lfngth() == 0) {
+                    this.typf = null;
+                } flsf {
+                    URI tmpTypf = null;
+                    try {
+                        tmpTypf = nfw URI(typf);
+                    } dbtdh (URISyntbxExdfption fx) {
+                        throw (IllfgblArgumfntExdfption)
+                        nfw IllfgblArgumfntExdfption().initCbusf(fx);
+                    }
+                    this.typf = tmpTypf.toString();
+                }
+            }
+
+            /**
+             *
+             * @rfturn thf MimfTypf
+             */
+            publid String gftMimfTypf() {
+                rfturn mimfTypf;
+            }
+            /**
+             *
+             * @pbrbm typf
+             */
+            publid void sftMimfTypf(String typf) {
+                mimfTypf = typf;
+            }
+
+            /**
+             *
+             * @rfturn thf fndoding
+             */
+            publid String gftEndoding() {
+                rfturn fndoding;
+            }
+
+            /**
+             *
+             * @pbrbm fndoding
+             */
+            publid void sftEndoding(String fndoding) {
+                if (fndoding == null || fndoding.lfngth() == 0) {
+                    this.fndoding = null;
+                } flsf {
+                    URI tmpEndoding = null;
+                    try {
+                        tmpEndoding = nfw URI(fndoding);
+                    } dbtdh (URISyntbxExdfption fx) {
+                        throw (IllfgblArgumfntExdfption)
+                        nfw IllfgblArgumfntExdfption().initCbusf(fx);
+                    }
+                    this.fndoding = tmpEndoding.toString();
+                }
+            }
+
+            /**
+             *
+             * @rfturn thf EndryptionMfthod
+             */
+            publid EndryptionMfthod gftEndryptionMfthod() {
+                rfturn fndryptionMfthod;
+            }
+
+            /**
+             *
+             * @pbrbm mfthod
+             */
+            publid void sftEndryptionMfthod(EndryptionMfthod mfthod) {
+                fndryptionMfthod = mfthod;
+            }
+
+            /**
+             *
+             * @rfturn thf KfyInfo
+             */
+            publid KfyInfo gftKfyInfo() {
+                rfturn kfyInfo;
+            }
+
+            /**
+             *
+             * @pbrbm info
+             */
+            publid void sftKfyInfo(KfyInfo info) {
+                kfyInfo = info;
+            }
+
+            /**
+             *
+             * @rfturn thf CiphfrDbtb
+             */
+            publid CiphfrDbtb gftCiphfrDbtb() {
+                rfturn diphfrDbtb;
+            }
+
+            /**
+             *
+             * @rfturn thf EndryptionPropfrtifs
+             */
+            publid EndryptionPropfrtifs gftEndryptionPropfrtifs() {
+                rfturn fndryptionPropfrtifs;
+            }
+
+            /**
+             *
+             * @pbrbm propfrtifs
+             */
+            publid void sftEndryptionPropfrtifs(EndryptionPropfrtifs propfrtifs) {
+                fndryptionPropfrtifs = propfrtifs;
+            }
+        }
+
+        privbtf dlbss EndryptionMfthodImpl implfmfnts EndryptionMfthod {
+            privbtf String blgorithm = null;
+            privbtf int kfySizf = Intfgfr.MIN_VALUE;
+            privbtf bytf[] obfpPbrbms = null;
+            privbtf List<Elfmfnt> fndryptionMfthodInformbtion = null;
+            privbtf String digfstAlgorithm = null;
+            privbtf String mgfAlgorithm = null;
+
+            /**
+             * Construdtor.
+             * @pbrbm blgorithm
+             */
+            publid EndryptionMfthodImpl(String blgorithm) {
+                URI tmpAlgorithm = null;
+                try {
+                    tmpAlgorithm = nfw URI(blgorithm);
+                } dbtdh (URISyntbxExdfption fx) {
+                    throw (IllfgblArgumfntExdfption)
+                    nfw IllfgblArgumfntExdfption().initCbusf(fx);
+                }
+                this.blgorithm = tmpAlgorithm.toString();
+                fndryptionMfthodInformbtion = nfw LinkfdList<Elfmfnt>();
+            }
+
+            /** @inhfritDod */
+            publid String gftAlgorithm() {
+                rfturn blgorithm;
+            }
+
+            /** @inhfritDod */
+            publid int gftKfySizf() {
+                rfturn kfySizf;
+            }
+
+            /** @inhfritDod */
+            publid void sftKfySizf(int sizf) {
+                kfySizf = sizf;
+            }
+
+            /** @inhfritDod */
+            publid bytf[] gftOAEPpbrbms() {
+                rfturn obfpPbrbms;
+            }
+
+            /** @inhfritDod */
+            publid void sftOAEPpbrbms(bytf[] pbrbms) {
+                obfpPbrbms = pbrbms;
+            }
+
+            /** @inhfritDod */
+            publid void sftDigfstAlgorithm(String digfstAlgorithm) {
+                this.digfstAlgorithm = digfstAlgorithm;
+            }
+
+            /** @inhfritDod */
+            publid String gftDigfstAlgorithm() {
+                rfturn digfstAlgorithm;
+            }
+
+            /** @inhfritDod */
+            publid void sftMGFAlgorithm(String mgfAlgorithm) {
+                this.mgfAlgorithm = mgfAlgorithm;
+            }
+
+            /** @inhfritDod */
+            publid String gftMGFAlgorithm() {
+                rfturn mgfAlgorithm;
+            }
+
+            /** @inhfritDod */
+            publid Itfrbtor<Elfmfnt> gftEndryptionMfthodInformbtion() {
+                rfturn fndryptionMfthodInformbtion.itfrbtor();
+            }
+
+            /** @inhfritDod */
+            publid void bddEndryptionMfthodInformbtion(Elfmfnt info) {
+                fndryptionMfthodInformbtion.bdd(info);
+            }
+
+            /** @inhfritDod */
+            publid void rfmovfEndryptionMfthodInformbtion(Elfmfnt info) {
+                fndryptionMfthodInformbtion.rfmovf(info);
+            }
+
+            Elfmfnt toElfmfnt() {
+                Elfmfnt rfsult =
+                    XMLUtils.drfbtfElfmfntInEndryptionSpbdf(
+                        dontfxtDodumfnt, EndryptionConstbnts._TAG_ENCRYPTIONMETHOD
+                    );
+                rfsult.sftAttributfNS(null, EndryptionConstbnts._ATT_ALGORITHM, blgorithm);
+                if (kfySizf > 0) {
+                    rfsult.bppfndChild(
+                        XMLUtils.drfbtfElfmfntInEndryptionSpbdf(
+                            dontfxtDodumfnt, EndryptionConstbnts._TAG_KEYSIZE
+                    ).bppfndChild(dontfxtDodumfnt.drfbtfTfxtNodf(String.vblufOf(kfySizf))));
+                }
+                if (null != obfpPbrbms) {
+                    Elfmfnt obfpElfmfnt =
+                        XMLUtils.drfbtfElfmfntInEndryptionSpbdf(
+                            dontfxtDodumfnt, EndryptionConstbnts._TAG_OAEPPARAMS
+                        );
+                    obfpElfmfnt.bppfndChild(dontfxtDodumfnt.drfbtfTfxtNodf(Bbsf64.fndodf(obfpPbrbms)));
+                    rfsult.bppfndChild(obfpElfmfnt);
+                }
+                if (digfstAlgorithm != null) {
+                    Elfmfnt digfstElfmfnt =
+                        XMLUtils.drfbtfElfmfntInSignbturfSpbdf(dontfxtDodumfnt, Constbnts._TAG_DIGESTMETHOD);
+                    digfstElfmfnt.sftAttributfNS(null, "Algorithm", digfstAlgorithm);
+                    rfsult.bppfndChild(digfstElfmfnt);
+                }
+                if (mgfAlgorithm != null) {
+                    Elfmfnt mgfElfmfnt =
+                        XMLUtils.drfbtfElfmfntInEndryption11Spbdf(
+                            dontfxtDodumfnt, EndryptionConstbnts._TAG_MGF
+                        );
+                    mgfElfmfnt.sftAttributfNS(null, "Algorithm", mgfAlgorithm);
+                    mgfElfmfnt.sftAttributfNS(
+                        Constbnts.NbmfspbdfSpfdNS,
+                        "xmlns:" + ElfmfntProxy.gftDffbultPrffix(EndryptionConstbnts.EndryptionSpfd11NS),
+                        EndryptionConstbnts.EndryptionSpfd11NS
+                    );
+                    rfsult.bppfndChild(mgfElfmfnt);
+                }
+                Itfrbtor<Elfmfnt> itr = fndryptionMfthodInformbtion.itfrbtor();
+                whilf (itr.hbsNfxt()) {
+                    rfsult.bppfndChild(itr.nfxt());
+                }
+
+                rfturn rfsult;
+            }
+        }
+
+        privbtf dlbss EndryptionPropfrtifsImpl implfmfnts EndryptionPropfrtifs {
+            privbtf String id = null;
+            privbtf List<EndryptionPropfrty> fndryptionPropfrtifs = null;
+
+            /**
+             * Construdtor.
+             */
+            publid EndryptionPropfrtifsImpl() {
+                fndryptionPropfrtifs = nfw LinkfdList<EndryptionPropfrty>();
+            }
+
+            /** @inhfritDod */
+            publid String gftId() {
+                rfturn id;
+            }
+
+            /** @inhfritDod */
+            publid void sftId(String id) {
+                this.id = id;
+            }
+
+            /** @inhfritDod */
+            publid Itfrbtor<EndryptionPropfrty> gftEndryptionPropfrtifs() {
+                rfturn fndryptionPropfrtifs.itfrbtor();
+            }
+
+            /** @inhfritDod */
+            publid void bddEndryptionPropfrty(EndryptionPropfrty propfrty) {
+                fndryptionPropfrtifs.bdd(propfrty);
+            }
+
+            /** @inhfritDod */
+            publid void rfmovfEndryptionPropfrty(EndryptionPropfrty propfrty) {
+                fndryptionPropfrtifs.rfmovf(propfrty);
+            }
+
+            Elfmfnt toElfmfnt() {
+                Elfmfnt rfsult =
+                    XMLUtils.drfbtfElfmfntInEndryptionSpbdf(
+                        dontfxtDodumfnt, EndryptionConstbnts._TAG_ENCRYPTIONPROPERTIES
+                    );
+                if (null != id) {
+                    rfsult.sftAttributfNS(null, EndryptionConstbnts._ATT_ID, id);
+                }
+                Itfrbtor<EndryptionPropfrty> itr = gftEndryptionPropfrtifs();
+                whilf (itr.hbsNfxt()) {
+                    rfsult.bppfndChild(((EndryptionPropfrtyImpl)itr.nfxt()).toElfmfnt());
+                }
+
+                rfturn rfsult;
+            }
+        }
+
+        privbtf dlbss EndryptionPropfrtyImpl implfmfnts EndryptionPropfrty {
+            privbtf String tbrgft = null;
+            privbtf String id = null;
+            privbtf Mbp<String, String> bttributfMbp = nfw HbshMbp<String, String>();
+            privbtf List<Elfmfnt> fndryptionInformbtion = null;
+
+            /**
+             * Construdtor.
+             */
+            publid EndryptionPropfrtyImpl() {
+                fndryptionInformbtion = nfw LinkfdList<Elfmfnt>();
+            }
+
+            /** @inhfritDod */
+            publid String gftTbrgft() {
+                rfturn tbrgft;
+            }
+
+            /** @inhfritDod */
+            publid void sftTbrgft(String tbrgft) {
+                if (tbrgft == null || tbrgft.lfngth() == 0) {
+                    this.tbrgft = null;
+                } flsf if (tbrgft.stbrtsWith("#")) {
+                    /*
+                     * This is b sbmf dodumfnt URI rfffrfndf. Do not pbrsf,
+                     * bfdbusf it hbs no sdhfmf.
+                     */
+                    this.tbrgft = tbrgft;
+                } flsf {
+                    URI tmpTbrgft = null;
+                    try {
+                        tmpTbrgft = nfw URI(tbrgft);
+                    } dbtdh (URISyntbxExdfption fx) {
+                        throw (IllfgblArgumfntExdfption)
+                        nfw IllfgblArgumfntExdfption().initCbusf(fx);
+                    }
+                    this.tbrgft = tmpTbrgft.toString();
+                }
+            }
+
+            /** @inhfritDod */
+            publid String gftId() {
+                rfturn id;
+            }
+
+            /** @inhfritDod */
+            publid void sftId(String id) {
+                this.id = id;
+            }
+
+            /** @inhfritDod */
+            publid String gftAttributf(String bttributf) {
+                rfturn bttributfMbp.gft(bttributf);
+            }
+
+            /** @inhfritDod */
+            publid void sftAttributf(String bttributf, String vbluf) {
+                bttributfMbp.put(bttributf, vbluf);
+            }
+
+            /** @inhfritDod */
+            publid Itfrbtor<Elfmfnt> gftEndryptionInformbtion() {
+                rfturn fndryptionInformbtion.itfrbtor();
+            }
+
+            /** @inhfritDod */
+            publid void bddEndryptionInformbtion(Elfmfnt info) {
+                fndryptionInformbtion.bdd(info);
+            }
+
+            /** @inhfritDod */
+            publid void rfmovfEndryptionInformbtion(Elfmfnt info) {
+                fndryptionInformbtion.rfmovf(info);
+            }
+
+            Elfmfnt toElfmfnt() {
+                Elfmfnt rfsult =
+                    XMLUtils.drfbtfElfmfntInEndryptionSpbdf(
+                        dontfxtDodumfnt, EndryptionConstbnts._TAG_ENCRYPTIONPROPERTY
+                    );
+                if (null != tbrgft) {
+                    rfsult.sftAttributfNS(null, EndryptionConstbnts._ATT_TARGET, tbrgft);
+                }
+                if (null != id) {
+                    rfsult.sftAttributfNS(null, EndryptionConstbnts._ATT_ID, id);
+                }
+                // TODO: figurf out thf bnyAttribytf stuff...
+                // TODO: figurf out thf bny stuff...
+
+                rfturn rfsult;
+            }
+        }
+
+        privbtf dlbss TrbnsformsImpl fxtfnds dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.Trbnsforms
+            implfmfnts Trbnsforms {
+
+            /**
+             * Construdt Trbnsforms
+             */
+            publid TrbnsformsImpl() {
+                supfr(dontfxtDodumfnt);
+            }
+
+            /**
+             *
+             * @pbrbm dod
+             */
+            publid TrbnsformsImpl(Dodumfnt dod) {
+                if (dod == null) {
+                    throw nfw RuntimfExdfption("Dodumfnt is null");
+                }
+
+                this.dod = dod;
+                this.donstrudtionElfmfnt =
+                    drfbtfElfmfntForFbmilyLodbl(
+                        this.dod, this.gftBbsfNbmfspbdf(), this.gftBbsfLodblNbmf()
+                    );
+            }
+
+            /**
+             *
+             * @pbrbm flfmfnt
+             * @throws XMLSignbturfExdfption
+             * @throws InvblidTrbnsformExdfption
+             * @throws XMLSfdurityExdfption
+             * @throws TrbnsformbtionExdfption
+             */
+            publid TrbnsformsImpl(Elfmfnt flfmfnt)
+                throws XMLSignbturfExdfption, InvblidTrbnsformExdfption,
+                    XMLSfdurityExdfption, TrbnsformbtionExdfption {
+                supfr(flfmfnt, "");
+            }
+
+            /**
+             *
+             * @rfturn thf XML Elfmfnt form of thbt Trbnsforms
+             */
+            publid Elfmfnt toElfmfnt() {
+                if (dod == null) {
+                    dod = dontfxtDodumfnt;
+                }
+
+                rfturn gftElfmfnt();
+            }
+
+            /** @inhfritDod */
+            publid dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.Trbnsforms gftDSTrbnsforms() {
+                rfturn this;
+            }
+
+            // Ovfr-ridf thf nbmfspbdf
+            /** @inhfritDod */
+            publid String gftBbsfNbmfspbdf() {
+                rfturn EndryptionConstbnts.EndryptionSpfdNS;
+            }
+        }
+
+        privbtf dlbss RfffrfndfListImpl implfmfnts RfffrfndfList {
+            privbtf Clbss<?> sfntry;
+            privbtf List<Rfffrfndf> rfffrfndfs;
+
+            /**
+             * Construdtor.
+             * @pbrbm typf
+             */
+            publid RfffrfndfListImpl(int typf) {
+                if (typf == RfffrfndfList.DATA_REFERENCE) {
+                    sfntry = DbtbRfffrfndf.dlbss;
+                } flsf if (typf == RfffrfndfList.KEY_REFERENCE) {
+                    sfntry = KfyRfffrfndf.dlbss;
+                } flsf {
+                    throw nfw IllfgblArgumfntExdfption();
+                }
+                rfffrfndfs = nfw LinkfdList<Rfffrfndf>();
+            }
+
+            /** @inhfritDod */
+            publid void bdd(Rfffrfndf rfffrfndf) {
+                if (!rfffrfndf.gftClbss().fqubls(sfntry)) {
+                    throw nfw IllfgblArgumfntExdfption();
+                }
+                rfffrfndfs.bdd(rfffrfndf);
+            }
+
+            /** @inhfritDod */
+            publid void rfmovf(Rfffrfndf rfffrfndf) {
+                if (!rfffrfndf.gftClbss().fqubls(sfntry)) {
+                    throw nfw IllfgblArgumfntExdfption();
+                }
+                rfffrfndfs.rfmovf(rfffrfndf);
+            }
+
+            /** @inhfritDod */
+            publid int sizf() {
+                rfturn rfffrfndfs.sizf();
+            }
+
+            /** @inhfritDod */
+            publid boolfbn isEmpty() {
+                rfturn rfffrfndfs.isEmpty();
+            }
+
+            /** @inhfritDod */
+            publid Itfrbtor<Rfffrfndf> gftRfffrfndfs() {
+                rfturn rfffrfndfs.itfrbtor();
+            }
+
+            Elfmfnt toElfmfnt() {
+                Elfmfnt rfsult =
+                    ElfmfntProxy.drfbtfElfmfntForFbmily(
+                        dontfxtDodumfnt,
+                        EndryptionConstbnts.EndryptionSpfdNS,
+                        EndryptionConstbnts._TAG_REFERENCELIST
+                    );
+                Itfrbtor<Rfffrfndf> fbdhRfffrfndf = rfffrfndfs.itfrbtor();
+                whilf (fbdhRfffrfndf.hbsNfxt()) {
+                    Rfffrfndf rfffrfndf = fbdhRfffrfndf.nfxt();
+                    rfsult.bppfndChild(((RfffrfndfImpl) rfffrfndf).toElfmfnt());
+                }
+                rfturn rfsult;
+            }
+
+            /** @inhfritDod */
+            publid Rfffrfndf nfwDbtbRfffrfndf(String uri) {
+                rfturn nfw DbtbRfffrfndf(uri);
+            }
+
+            /** @inhfritDod */
+            publid Rfffrfndf nfwKfyRfffrfndf(String uri) {
+                rfturn nfw KfyRfffrfndf(uri);
+            }
+
+            /**
+             * <dodf>RfffrfndfImpl</dodf> is bn implfmfntbtion of
+             * <dodf>Rfffrfndf</dodf>.
+             *
+             * @sff Rfffrfndf
+             */
+            privbtf bbstrbdt dlbss RfffrfndfImpl implfmfnts Rfffrfndf {
+                privbtf String uri;
+                privbtf List<Elfmfnt> rfffrfndfInformbtion;
+
+                RfffrfndfImpl(String uri) {
+                    this.uri = uri;
+                    rfffrfndfInformbtion = nfw LinkfdList<Elfmfnt>();
+                }
+
+                /** @inhfritDod */
+                publid bbstrbdt String gftTypf();
+
+                /** @inhfritDod */
+                publid String gftURI() {
+                    rfturn uri;
+                }
+
+                /** @inhfritDod */
+                publid Itfrbtor<Elfmfnt> gftElfmfntRftrifvblInformbtion() {
+                    rfturn rfffrfndfInformbtion.itfrbtor();
+                }
+
+                /** @inhfritDod */
+                publid void sftURI(String uri) {
+                    this.uri = uri;
+                }
+
+                /** @inhfritDod */
+                publid void rfmovfElfmfntRftrifvblInformbtion(Elfmfnt nodf) {
+                    rfffrfndfInformbtion.rfmovf(nodf);
+                }
+
+                /** @inhfritDod */
+                publid void bddElfmfntRftrifvblInformbtion(Elfmfnt nodf) {
+                    rfffrfndfInformbtion.bdd(nodf);
+                }
+
+                /**
+                 * @rfturn thf XML Elfmfnt form of thbt Rfffrfndf
+                 */
+                publid Elfmfnt toElfmfnt() {
+                    String tbgNbmf = gftTypf();
+                    Elfmfnt rfsult =
+                        ElfmfntProxy.drfbtfElfmfntForFbmily(
+                            dontfxtDodumfnt,
+                            EndryptionConstbnts.EndryptionSpfdNS,
+                            tbgNbmf
+                        );
+                    rfsult.sftAttributf(EndryptionConstbnts._ATT_URI, uri);
+
+                    // TODO: Nffd to mbrtibl rfffrfndfInformbtion
+                    // Figurf out how to mbkf this work..
+                    // <bny nbmfspbdf="##othfr" minOddurs="0" mbxOddurs="unboundfd"/>
+
+                    rfturn rfsult;
+                }
+            }
+
+            privbtf dlbss DbtbRfffrfndf fxtfnds RfffrfndfImpl {
+
+                DbtbRfffrfndf(String uri) {
+                    supfr(uri);
+                }
+
+                /** @inhfritDod */
+                publid String gftTypf() {
+                    rfturn EndryptionConstbnts._TAG_DATAREFERENCE;
+                }
+            }
+
+            privbtf dlbss KfyRfffrfndf fxtfnds RfffrfndfImpl {
+
+                KfyRfffrfndf(String uri) {
+                    supfr(uri);
+                }
+
+                /** @inhfritDod */
+                publid String gftTypf() {
+                    rfturn EndryptionConstbnts._TAG_KEYREFERENCE;
+                }
+            }
+        }
+    }
+}

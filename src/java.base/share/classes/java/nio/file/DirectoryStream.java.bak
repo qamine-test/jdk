@@ -1,159 +1,159 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.file;
+pbdkbgf jbvb.nio.filf;
 
-import java.util.Iterator;
-import java.io.Closeable;
-import java.io.IOException;
+import jbvb.util.Itfrbtor;
+import jbvb.io.Closfbblf;
+import jbvb.io.IOExdfption;
 
 /**
- * An object to iterate over the entries in a directory. A directory stream
- * allows for the convenient use of the for-each construct to iterate over a
- * directory.
+ * An objfdt to itfrbtf ovfr tif fntrifs in b dirfdtory. A dirfdtory strfbm
+ * bllows for tif donvfnifnt usf of tif for-fbdi donstrudt to itfrbtf ovfr b
+ * dirfdtory.
  *
- * <p> <b> While {@code DirectoryStream} extends {@code Iterable}, it is not a
- * general-purpose {@code Iterable} as it supports only a single {@code
- * Iterator}; invoking the {@link #iterator iterator} method to obtain a second
- * or subsequent iterator throws {@code IllegalStateException}. </b>
+ * <p> <b> Wiilf {@dodf DirfdtoryStrfbm} fxtfnds {@dodf Itfrbblf}, it is not b
+ * gfnfrbl-purposf {@dodf Itfrbblf} bs it supports only b singlf {@dodf
+ * Itfrbtor}; invoking tif {@link #itfrbtor itfrbtor} mftiod to obtbin b sfdond
+ * or subsfqufnt itfrbtor tirows {@dodf IllfgblStbtfExdfption}. </b>
  *
- * <p> An important property of the directory stream's {@code Iterator} is that
- * its {@link Iterator#hasNext() hasNext} method is guaranteed to read-ahead by
- * at least one element. If {@code hasNext} method returns {@code true}, and is
- * followed by a call to the {@code next} method, it is guaranteed that the
- * {@code next} method will not throw an exception due to an I/O error, or
- * because the stream has been {@link #close closed}. The {@code Iterator} does
- * not support the {@link Iterator#remove remove} operation.
+ * <p> An importbnt propfrty of tif dirfdtory strfbm's {@dodf Itfrbtor} is tibt
+ * its {@link Itfrbtor#ibsNfxt() ibsNfxt} mftiod is gubrbntffd to rfbd-bifbd by
+ * bt lfbst onf flfmfnt. If {@dodf ibsNfxt} mftiod rfturns {@dodf truf}, bnd is
+ * followfd by b dbll to tif {@dodf nfxt} mftiod, it is gubrbntffd tibt tif
+ * {@dodf nfxt} mftiod will not tirow bn fxdfption duf to bn I/O frror, or
+ * bfdbusf tif strfbm ibs bffn {@link #dlosf dlosfd}. Tif {@dodf Itfrbtor} dofs
+ * not support tif {@link Itfrbtor#rfmovf rfmovf} opfrbtion.
  *
- * <p> A {@code DirectoryStream} is opened upon creation and is closed by
- * invoking the {@code close} method. Closing a directory stream releases any
- * resources associated with the stream. Failure to close the stream may result
- * in a resource leak. The try-with-resources statement provides a useful
- * construct to ensure that the stream is closed:
- * <pre>
- *   Path dir = ...
- *   try (DirectoryStream&lt;Path&gt; stream = Files.newDirectoryStream(dir)) {
- *       for (Path entry: stream) {
+ * <p> A {@dodf DirfdtoryStrfbm} is opfnfd upon drfbtion bnd is dlosfd by
+ * invoking tif {@dodf dlosf} mftiod. Closing b dirfdtory strfbm rflfbsfs bny
+ * rfsourdfs bssodibtfd witi tif strfbm. Fbilurf to dlosf tif strfbm mby rfsult
+ * in b rfsourdf lfbk. Tif try-witi-rfsourdfs stbtfmfnt providfs b usfful
+ * donstrudt to fnsurf tibt tif strfbm is dlosfd:
+ * <prf>
+ *   Pbti dir = ...
+ *   try (DirfdtoryStrfbm&lt;Pbti&gt; strfbm = Filfs.nfwDirfdtoryStrfbm(dir)) {
+ *       for (Pbti fntry: strfbm) {
  *           ...
  *       }
  *   }
- * </pre>
+ * </prf>
  *
- * <p> Once a directory stream is closed, then further access to the directory,
- * using the {@code Iterator}, behaves as if the end of stream has been reached.
- * Due to read-ahead, the {@code Iterator} may return one or more elements
- * after the directory stream has been closed. Once these buffered elements
- * have been read, then subsequent calls to the {@code hasNext} method returns
- * {@code false}, and subsequent calls to the {@code next} method will throw
- * {@code NoSuchElementException}.
+ * <p> Ondf b dirfdtory strfbm is dlosfd, tifn furtifr bddfss to tif dirfdtory,
+ * using tif {@dodf Itfrbtor}, bfibvfs bs if tif fnd of strfbm ibs bffn rfbdifd.
+ * Duf to rfbd-bifbd, tif {@dodf Itfrbtor} mby rfturn onf or morf flfmfnts
+ * bftfr tif dirfdtory strfbm ibs bffn dlosfd. Ondf tifsf bufffrfd flfmfnts
+ * ibvf bffn rfbd, tifn subsfqufnt dblls to tif {@dodf ibsNfxt} mftiod rfturns
+ * {@dodf fblsf}, bnd subsfqufnt dblls to tif {@dodf nfxt} mftiod will tirow
+ * {@dodf NoSudiElfmfntExdfption}.
  *
- * <p> A directory stream is not required to be <i>asynchronously closeable</i>.
- * If a thread is blocked on the directory stream's iterator reading from the
- * directory, and another thread invokes the {@code close} method, then the
- * second thread may block until the read operation is complete.
+ * <p> A dirfdtory strfbm is not rfquirfd to bf <i>bsyndironously dlosfbblf</i>.
+ * If b tirfbd is blodkfd on tif dirfdtory strfbm's itfrbtor rfbding from tif
+ * dirfdtory, bnd bnotifr tirfbd invokfs tif {@dodf dlosf} mftiod, tifn tif
+ * sfdond tirfbd mby blodk until tif rfbd opfrbtion is domplftf.
  *
- * <p> If an I/O error is encountered when accessing the directory then it
- * causes the {@code Iterator}'s {@code hasNext} or {@code next} methods to
- * throw {@link DirectoryIteratorException} with the {@link IOException} as the
- * cause. As stated above, the {@code hasNext} method is guaranteed to
- * read-ahead by at least one element. This means that if {@code hasNext} method
- * returns {@code true}, and is followed by a call to the {@code next} method,
- * then it is guaranteed that the {@code next} method will not fail with a
- * {@code DirectoryIteratorException}.
+ * <p> If bn I/O frror is fndountfrfd wifn bddfssing tif dirfdtory tifn it
+ * dbusfs tif {@dodf Itfrbtor}'s {@dodf ibsNfxt} or {@dodf nfxt} mftiods to
+ * tirow {@link DirfdtoryItfrbtorExdfption} witi tif {@link IOExdfption} bs tif
+ * dbusf. As stbtfd bbovf, tif {@dodf ibsNfxt} mftiod is gubrbntffd to
+ * rfbd-bifbd by bt lfbst onf flfmfnt. Tiis mfbns tibt if {@dodf ibsNfxt} mftiod
+ * rfturns {@dodf truf}, bnd is followfd by b dbll to tif {@dodf nfxt} mftiod,
+ * tifn it is gubrbntffd tibt tif {@dodf nfxt} mftiod will not fbil witi b
+ * {@dodf DirfdtoryItfrbtorExdfption}.
  *
- * <p> The elements returned by the iterator are in no specific order. Some file
- * systems maintain special links to the directory itself and the directory's
- * parent directory. Entries representing these links are not returned by the
- * iterator.
+ * <p> Tif flfmfnts rfturnfd by tif itfrbtor brf in no spfdifid ordfr. Somf filf
+ * systfms mbintbin spfdibl links to tif dirfdtory itsflf bnd tif dirfdtory's
+ * pbrfnt dirfdtory. Entrifs rfprfsfnting tifsf links brf not rfturnfd by tif
+ * itfrbtor.
  *
- * <p> The iterator is <i>weakly consistent</i>. It is thread safe but does not
- * freeze the directory while iterating, so it may (or may not) reflect updates
- * to the directory that occur after the {@code DirectoryStream} is created.
+ * <p> Tif itfrbtor is <i>wfbkly donsistfnt</i>. It is tirfbd sbff but dofs not
+ * frffzf tif dirfdtory wiilf itfrbting, so it mby (or mby not) rfflfdt updbtfs
+ * to tif dirfdtory tibt oddur bftfr tif {@dodf DirfdtoryStrfbm} is drfbtfd.
  *
- * <p> <b>Usage Examples:</b>
- * Suppose we want a list of the source files in a directory. This example uses
- * both the for-each and try-with-resources constructs.
- * <pre>
- *   List&lt;Path&gt; listSourceFiles(Path dir) throws IOException {
- *       List&lt;Path&gt; result = new ArrayList&lt;&gt;();
- *       try (DirectoryStream&lt;Path&gt; stream = Files.newDirectoryStream(dir, "*.{c,h,cpp,hpp,java}")) {
- *           for (Path entry: stream) {
- *               result.add(entry);
+ * <p> <b>Usbgf Exbmplfs:</b>
+ * Supposf wf wbnt b list of tif sourdf filfs in b dirfdtory. Tiis fxbmplf usfs
+ * boti tif for-fbdi bnd try-witi-rfsourdfs donstrudts.
+ * <prf>
+ *   List&lt;Pbti&gt; listSourdfFilfs(Pbti dir) tirows IOExdfption {
+ *       List&lt;Pbti&gt; rfsult = nfw ArrbyList&lt;&gt;();
+ *       try (DirfdtoryStrfbm&lt;Pbti&gt; strfbm = Filfs.nfwDirfdtoryStrfbm(dir, "*.{d,i,dpp,ipp,jbvb}")) {
+ *           for (Pbti fntry: strfbm) {
+ *               rfsult.bdd(fntry);
  *           }
- *       } catch (DirectoryIteratorException ex) {
- *           // I/O error encounted during the iteration, the cause is an IOException
- *           throw ex.getCause();
+ *       } dbtdi (DirfdtoryItfrbtorExdfption fx) {
+ *           // I/O frror fndountfd during tif itfrbtion, tif dbusf is bn IOExdfption
+ *           tirow fx.gftCbusf();
  *       }
- *       return result;
+ *       rfturn rfsult;
  *   }
- * </pre>
- * @param   <T>     The type of element returned by the iterator
+ * </prf>
+ * @pbrbm   <T>     Tif typf of flfmfnt rfturnfd by tif itfrbtor
  *
- * @since 1.7
+ * @sindf 1.7
  *
- * @see Files#newDirectoryStream(Path)
+ * @sff Filfs#nfwDirfdtoryStrfbm(Pbti)
  */
 
-public interface DirectoryStream<T>
-    extends Closeable, Iterable<T> {
+publid intfrfbdf DirfdtoryStrfbm<T>
+    fxtfnds Closfbblf, Itfrbblf<T> {
     /**
-     * An interface that is implemented by objects that decide if a directory
-     * entry should be accepted or filtered. A {@code Filter} is passed as the
-     * parameter to the {@link Files#newDirectoryStream(Path,DirectoryStream.Filter)}
-     * method when opening a directory to iterate over the entries in the
-     * directory.
+     * An intfrfbdf tibt is implfmfntfd by objfdts tibt dfdidf if b dirfdtory
+     * fntry siould bf bddfptfd or filtfrfd. A {@dodf Filtfr} is pbssfd bs tif
+     * pbrbmftfr to tif {@link Filfs#nfwDirfdtoryStrfbm(Pbti,DirfdtoryStrfbm.Filtfr)}
+     * mftiod wifn opfning b dirfdtory to itfrbtf ovfr tif fntrifs in tif
+     * dirfdtory.
      *
-     * @param   <T>     the type of the directory entry
+     * @pbrbm   <T>     tif typf of tif dirfdtory fntry
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    @FunctionalInterface
-    public static interface Filter<T> {
+    @FundtionblIntfrfbdf
+    publid stbtid intfrfbdf Filtfr<T> {
         /**
-         * Decides if the given directory entry should be accepted or filtered.
+         * Dfdidfs if tif givfn dirfdtory fntry siould bf bddfptfd or filtfrfd.
          *
-         * @param   entry
-         *          the directory entry to be tested
+         * @pbrbm   fntry
+         *          tif dirfdtory fntry to bf tfstfd
          *
-         * @return  {@code true} if the directory entry should be accepted
+         * @rfturn  {@dodf truf} if tif dirfdtory fntry siould bf bddfptfd
          *
-         * @throws  IOException
-         *          If an I/O error occurs
+         * @tirows  IOExdfption
+         *          If bn I/O frror oddurs
          */
-        boolean accept(T entry) throws IOException;
+        boolfbn bddfpt(T fntry) tirows IOExdfption;
     }
 
     /**
-     * Returns the iterator associated with this {@code DirectoryStream}.
+     * Rfturns tif itfrbtor bssodibtfd witi tiis {@dodf DirfdtoryStrfbm}.
      *
-     * @return  the iterator associated with this {@code DirectoryStream}
+     * @rfturn  tif itfrbtor bssodibtfd witi tiis {@dodf DirfdtoryStrfbm}
      *
-     * @throws  IllegalStateException
-     *          if this directory stream is closed or the iterator has already
-     *          been returned
+     * @tirows  IllfgblStbtfExdfption
+     *          if tiis dirfdtory strfbm is dlosfd or tif itfrbtor ibs blrfbdy
+     *          bffn rfturnfd
      */
-    @Override
-    Iterator<T> iterator();
+    @Ovfrridf
+    Itfrbtor<T> itfrbtor();
 }

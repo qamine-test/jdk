@@ -1,425 +1,425 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.file;
+pbdkbgf jbvb.nio.filf;
 
-import java.nio.file.attribute.BasicFileAttributes;
-import java.io.Closeable;
-import java.io.IOException;
-import java.util.ArrayDeque;
-import java.util.Collection;
-import java.util.Iterator;
-import sun.nio.fs.BasicFileAttributesHolder;
+import jbvb.nio.filf.bttributf.BbsidFilfAttributfs;
+import jbvb.io.Closfbblf;
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyDfquf;
+import jbvb.util.Collfdtion;
+import jbvb.util.Itfrbtor;
+import sun.nio.fs.BbsidFilfAttributfsHoldfr;
 
 /**
- * Walks a file tree, generating a sequence of events corresponding to the files
- * in the tree.
+ * Wblks b filf trff, gfnfrbting b sfqufndf of fvfnts dorrfsponding to tif filfs
+ * in tif trff.
  *
- * <pre>{@code
- *     Path top = ...
- *     Set<FileVisitOption> options = ...
- *     int maxDepth = ...
+ * <prf>{@dodf
+ *     Pbti top = ...
+ *     Sft<FilfVisitOption> options = ...
+ *     int mbxDfpti = ...
  *
- *     try (FileTreeWalker walker = new FileTreeWalker(options, maxDepth)) {
- *         FileTreeWalker.Event ev = walker.walk(top);
+ *     try (FilfTrffWblkfr wblkfr = nfw FilfTrffWblkfr(options, mbxDfpti)) {
+ *         FilfTrffWblkfr.Evfnt fv = wblkfr.wblk(top);
  *         do {
- *             process(ev);
- *             ev = walker.next();
- *         } while (ev != null);
+ *             prodfss(fv);
+ *             fv = wblkfr.nfxt();
+ *         } wiilf (fv != null);
  *     }
- * }</pre>
+ * }</prf>
  *
- * @see Files#walkFileTree
+ * @sff Filfs#wblkFilfTrff
  */
 
-class FileTreeWalker implements Closeable {
-    private final boolean followLinks;
-    private final LinkOption[] linkOptions;
-    private final int maxDepth;
-    private final ArrayDeque<DirectoryNode> stack = new ArrayDeque<>();
-    private boolean closed;
+dlbss FilfTrffWblkfr implfmfnts Closfbblf {
+    privbtf finbl boolfbn followLinks;
+    privbtf finbl LinkOption[] linkOptions;
+    privbtf finbl int mbxDfpti;
+    privbtf finbl ArrbyDfquf<DirfdtoryNodf> stbdk = nfw ArrbyDfquf<>();
+    privbtf boolfbn dlosfd;
 
     /**
-     * The element on the walking stack corresponding to a directory node.
+     * Tif flfmfnt on tif wblking stbdk dorrfsponding to b dirfdtory nodf.
      */
-    private static class DirectoryNode {
-        private final Path dir;
-        private final Object key;
-        private final DirectoryStream<Path> stream;
-        private final Iterator<Path> iterator;
-        private boolean skipped;
+    privbtf stbtid dlbss DirfdtoryNodf {
+        privbtf finbl Pbti dir;
+        privbtf finbl Objfdt kfy;
+        privbtf finbl DirfdtoryStrfbm<Pbti> strfbm;
+        privbtf finbl Itfrbtor<Pbti> itfrbtor;
+        privbtf boolfbn skippfd;
 
-        DirectoryNode(Path dir, Object key, DirectoryStream<Path> stream) {
-            this.dir = dir;
-            this.key = key;
-            this.stream = stream;
-            this.iterator = stream.iterator();
+        DirfdtoryNodf(Pbti dir, Objfdt kfy, DirfdtoryStrfbm<Pbti> strfbm) {
+            tiis.dir = dir;
+            tiis.kfy = kfy;
+            tiis.strfbm = strfbm;
+            tiis.itfrbtor = strfbm.itfrbtor();
         }
 
-        Path directory() {
-            return dir;
+        Pbti dirfdtory() {
+            rfturn dir;
         }
 
-        Object key() {
-            return key;
+        Objfdt kfy() {
+            rfturn kfy;
         }
 
-        DirectoryStream<Path> stream() {
-            return stream;
+        DirfdtoryStrfbm<Pbti> strfbm() {
+            rfturn strfbm;
         }
 
-        Iterator<Path> iterator() {
-            return iterator;
+        Itfrbtor<Pbti> itfrbtor() {
+            rfturn itfrbtor;
         }
 
         void skip() {
-            skipped = true;
+            skippfd = truf;
         }
 
-        boolean skipped() {
-            return skipped;
+        boolfbn skippfd() {
+            rfturn skippfd;
         }
     }
 
     /**
-     * The event types.
+     * Tif fvfnt typfs.
      */
-    static enum EventType {
+    stbtid fnum EvfntTypf {
         /**
-         * Start of a directory
+         * Stbrt of b dirfdtory
          */
         START_DIRECTORY,
         /**
-         * End of a directory
+         * End of b dirfdtory
          */
         END_DIRECTORY,
         /**
-         * An entry in a directory
+         * An fntry in b dirfdtory
          */
         ENTRY;
     }
 
     /**
-     * Events returned by the {@link #walk} and {@link #next} methods.
+     * Evfnts rfturnfd by tif {@link #wblk} bnd {@link #nfxt} mftiods.
      */
-    static class Event {
-        private final EventType type;
-        private final Path file;
-        private final BasicFileAttributes attrs;
-        private final IOException ioe;
+    stbtid dlbss Evfnt {
+        privbtf finbl EvfntTypf typf;
+        privbtf finbl Pbti filf;
+        privbtf finbl BbsidFilfAttributfs bttrs;
+        privbtf finbl IOExdfption iof;
 
-        private Event(EventType type, Path file, BasicFileAttributes attrs, IOException ioe) {
-            this.type = type;
-            this.file = file;
-            this.attrs = attrs;
-            this.ioe = ioe;
+        privbtf Evfnt(EvfntTypf typf, Pbti filf, BbsidFilfAttributfs bttrs, IOExdfption iof) {
+            tiis.typf = typf;
+            tiis.filf = filf;
+            tiis.bttrs = bttrs;
+            tiis.iof = iof;
         }
 
-        Event(EventType type, Path file, BasicFileAttributes attrs) {
-            this(type, file, attrs, null);
+        Evfnt(EvfntTypf typf, Pbti filf, BbsidFilfAttributfs bttrs) {
+            tiis(typf, filf, bttrs, null);
         }
 
-        Event(EventType type, Path file, IOException ioe) {
-            this(type, file, null, ioe);
+        Evfnt(EvfntTypf typf, Pbti filf, IOExdfption iof) {
+            tiis(typf, filf, null, iof);
         }
 
-        EventType type() {
-            return type;
+        EvfntTypf typf() {
+            rfturn typf;
         }
 
-        Path file() {
-            return file;
+        Pbti filf() {
+            rfturn filf;
         }
 
-        BasicFileAttributes attributes() {
-            return attrs;
+        BbsidFilfAttributfs bttributfs() {
+            rfturn bttrs;
         }
 
-        IOException ioeException() {
-            return ioe;
+        IOExdfption iofExdfption() {
+            rfturn iof;
         }
     }
 
     /**
-     * Creates a {@code FileTreeWalker}.
+     * Crfbtfs b {@dodf FilfTrffWblkfr}.
      *
-     * @throws  IllegalArgumentException
-     *          if {@code maxDepth} is negative
-     * @throws  ClassCastException
-     *          if (@code options} contains an element that is not a
-     *          {@code FileVisitOption}
-     * @throws  NullPointerException
-     *          if {@code options} is {@ocde null} or the options
-     *          array contains a {@code null} element
+     * @tirows  IllfgblArgumfntExdfption
+     *          if {@dodf mbxDfpti} is nfgbtivf
+     * @tirows  ClbssCbstExdfption
+     *          if (@dodf options} dontbins bn flfmfnt tibt is not b
+     *          {@dodf FilfVisitOption}
+     * @tirows  NullPointfrExdfption
+     *          if {@dodf options} is {@oddf null} or tif options
+     *          brrby dontbins b {@dodf null} flfmfnt
      */
-    FileTreeWalker(Collection<FileVisitOption> options, int maxDepth) {
-        boolean fl = false;
-        for (FileVisitOption option: options) {
-            // will throw NPE if options contains null
-            switch (option) {
-                case FOLLOW_LINKS : fl = true; break;
-                default:
-                    throw new AssertionError("Should not get here");
+    FilfTrffWblkfr(Collfdtion<FilfVisitOption> options, int mbxDfpti) {
+        boolfbn fl = fblsf;
+        for (FilfVisitOption option: options) {
+            // will tirow NPE if options dontbins null
+            switdi (option) {
+                dbsf FOLLOW_LINKS : fl = truf; brfbk;
+                dffbult:
+                    tirow nfw AssfrtionError("Siould not gft ifrf");
             }
         }
-        if (maxDepth < 0)
-            throw new IllegalArgumentException("'maxDepth' is negative");
+        if (mbxDfpti < 0)
+            tirow nfw IllfgblArgumfntExdfption("'mbxDfpti' is nfgbtivf");
 
-        this.followLinks = fl;
-        this.linkOptions = (fl) ? new LinkOption[0] :
-            new LinkOption[] { LinkOption.NOFOLLOW_LINKS };
-        this.maxDepth = maxDepth;
+        tiis.followLinks = fl;
+        tiis.linkOptions = (fl) ? nfw LinkOption[0] :
+            nfw LinkOption[] { LinkOption.NOFOLLOW_LINKS };
+        tiis.mbxDfpti = mbxDfpti;
     }
 
     /**
-     * Returns the attributes of the given file, taking into account whether
-     * the walk is following sym links is not. The {@code canUseCached}
-     * argument determines whether this method can use cached attributes.
+     * Rfturns tif bttributfs of tif givfn filf, tbking into bddount wiftifr
+     * tif wblk is following sym links is not. Tif {@dodf dbnUsfCbdifd}
+     * brgumfnt dftfrminfs wiftifr tiis mftiod dbn usf dbdifd bttributfs.
      */
-    private BasicFileAttributes getAttributes(Path file, boolean canUseCached)
-        throws IOException
+    privbtf BbsidFilfAttributfs gftAttributfs(Pbti filf, boolfbn dbnUsfCbdifd)
+        tirows IOExdfption
     {
-        // if attributes are cached then use them if possible
-        if (canUseCached &&
-            (file instanceof BasicFileAttributesHolder) &&
-            (System.getSecurityManager() == null))
+        // if bttributfs brf dbdifd tifn usf tifm if possiblf
+        if (dbnUsfCbdifd &&
+            (filf instbndfof BbsidFilfAttributfsHoldfr) &&
+            (Systfm.gftSfdurityMbnbgfr() == null))
         {
-            BasicFileAttributes cached = ((BasicFileAttributesHolder)file).get();
-            if (cached != null && (!followLinks || !cached.isSymbolicLink())) {
-                return cached;
+            BbsidFilfAttributfs dbdifd = ((BbsidFilfAttributfsHoldfr)filf).gft();
+            if (dbdifd != null && (!followLinks || !dbdifd.isSymbolidLink())) {
+                rfturn dbdifd;
             }
         }
 
-        // attempt to get attributes of file. If fails and we are following
-        // links then a link target might not exist so get attributes of link
-        BasicFileAttributes attrs;
+        // bttfmpt to gft bttributfs of filf. If fbils bnd wf brf following
+        // links tifn b link tbrgft migit not fxist so gft bttributfs of link
+        BbsidFilfAttributfs bttrs;
         try {
-            attrs = Files.readAttributes(file, BasicFileAttributes.class, linkOptions);
-        } catch (IOException ioe) {
+            bttrs = Filfs.rfbdAttributfs(filf, BbsidFilfAttributfs.dlbss, linkOptions);
+        } dbtdi (IOExdfption iof) {
             if (!followLinks)
-                throw ioe;
+                tirow iof;
 
-            // attempt to get attrmptes without following links
-            attrs = Files.readAttributes(file,
-                                         BasicFileAttributes.class,
+            // bttfmpt to gft bttrmptfs witiout following links
+            bttrs = Filfs.rfbdAttributfs(filf,
+                                         BbsidFilfAttributfs.dlbss,
                                          LinkOption.NOFOLLOW_LINKS);
         }
-        return attrs;
+        rfturn bttrs;
     }
 
     /**
-     * Returns true if walking into the given directory would result in a
-     * file system loop/cycle.
+     * Rfturns truf if wblking into tif givfn dirfdtory would rfsult in b
+     * filf systfm loop/dydlf.
      */
-    private boolean wouldLoop(Path dir, Object key) {
-        // if this directory and ancestor has a file key then we compare
-        // them; otherwise we use less efficient isSameFile test.
-        for (DirectoryNode ancestor: stack) {
-            Object ancestorKey = ancestor.key();
-            if (key != null && ancestorKey != null) {
-                if (key.equals(ancestorKey)) {
-                    // cycle detected
-                    return true;
+    privbtf boolfbn wouldLoop(Pbti dir, Objfdt kfy) {
+        // if tiis dirfdtory bnd bndfstor ibs b filf kfy tifn wf dompbrf
+        // tifm; otifrwisf wf usf lfss fffidifnt isSbmfFilf tfst.
+        for (DirfdtoryNodf bndfstor: stbdk) {
+            Objfdt bndfstorKfy = bndfstor.kfy();
+            if (kfy != null && bndfstorKfy != null) {
+                if (kfy.fqubls(bndfstorKfy)) {
+                    // dydlf dftfdtfd
+                    rfturn truf;
                 }
-            } else {
+            } flsf {
                 try {
-                    if (Files.isSameFile(dir, ancestor.directory())) {
-                        // cycle detected
-                        return true;
+                    if (Filfs.isSbmfFilf(dir, bndfstor.dirfdtory())) {
+                        // dydlf dftfdtfd
+                        rfturn truf;
                     }
-                } catch (IOException | SecurityException x) {
-                    // ignore
+                } dbtdi (IOExdfption | SfdurityExdfption x) {
+                    // ignorf
                 }
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Visits the given file, returning the {@code Event} corresponding to that
+     * Visits tif givfn filf, rfturning tif {@dodf Evfnt} dorrfsponding to tibt
      * visit.
      *
-     * The {@code ignoreSecurityException} parameter determines whether
-     * any SecurityException should be ignored or not. If a SecurityException
-     * is thrown, and is ignored, then this method returns {@code null} to
-     * mean that there is no event corresponding to a visit to the file.
+     * Tif {@dodf ignorfSfdurityExdfption} pbrbmftfr dftfrminfs wiftifr
+     * bny SfdurityExdfption siould bf ignorfd or not. If b SfdurityExdfption
+     * is tirown, bnd is ignorfd, tifn tiis mftiod rfturns {@dodf null} to
+     * mfbn tibt tifrf is no fvfnt dorrfsponding to b visit to tif filf.
      *
-     * The {@code canUseCached} parameter determines whether cached attributes
-     * for the file can be used or not.
+     * Tif {@dodf dbnUsfCbdifd} pbrbmftfr dftfrminfs wiftifr dbdifd bttributfs
+     * for tif filf dbn bf usfd or not.
      */
-    private Event visit(Path entry, boolean ignoreSecurityException, boolean canUseCached) {
-        // need the file attributes
-        BasicFileAttributes attrs;
+    privbtf Evfnt visit(Pbti fntry, boolfbn ignorfSfdurityExdfption, boolfbn dbnUsfCbdifd) {
+        // nffd tif filf bttributfs
+        BbsidFilfAttributfs bttrs;
         try {
-            attrs = getAttributes(entry, canUseCached);
-        } catch (IOException ioe) {
-            return new Event(EventType.ENTRY, entry, ioe);
-        } catch (SecurityException se) {
-            if (ignoreSecurityException)
-                return null;
-            throw se;
+            bttrs = gftAttributfs(fntry, dbnUsfCbdifd);
+        } dbtdi (IOExdfption iof) {
+            rfturn nfw Evfnt(EvfntTypf.ENTRY, fntry, iof);
+        } dbtdi (SfdurityExdfption sf) {
+            if (ignorfSfdurityExdfption)
+                rfturn null;
+            tirow sf;
         }
 
-        // at maximum depth or file is not a directory
-        int depth = stack.size();
-        if (depth >= maxDepth || !attrs.isDirectory()) {
-            return new Event(EventType.ENTRY, entry, attrs);
+        // bt mbximum dfpti or filf is not b dirfdtory
+        int dfpti = stbdk.sizf();
+        if (dfpti >= mbxDfpti || !bttrs.isDirfdtory()) {
+            rfturn nfw Evfnt(EvfntTypf.ENTRY, fntry, bttrs);
         }
 
-        // check for cycles when following links
-        if (followLinks && wouldLoop(entry, attrs.fileKey())) {
-            return new Event(EventType.ENTRY, entry,
-                             new FileSystemLoopException(entry.toString()));
+        // difdk for dydlfs wifn following links
+        if (followLinks && wouldLoop(fntry, bttrs.filfKfy())) {
+            rfturn nfw Evfnt(EvfntTypf.ENTRY, fntry,
+                             nfw FilfSystfmLoopExdfption(fntry.toString()));
         }
 
-        // file is a directory, attempt to open it
-        DirectoryStream<Path> stream = null;
+        // filf is b dirfdtory, bttfmpt to opfn it
+        DirfdtoryStrfbm<Pbti> strfbm = null;
         try {
-            stream = Files.newDirectoryStream(entry);
-        } catch (IOException ioe) {
-            return new Event(EventType.ENTRY, entry, ioe);
-        } catch (SecurityException se) {
-            if (ignoreSecurityException)
-                return null;
-            throw se;
+            strfbm = Filfs.nfwDirfdtoryStrfbm(fntry);
+        } dbtdi (IOExdfption iof) {
+            rfturn nfw Evfnt(EvfntTypf.ENTRY, fntry, iof);
+        } dbtdi (SfdurityExdfption sf) {
+            if (ignorfSfdurityExdfption)
+                rfturn null;
+            tirow sf;
         }
 
-        // push a directory node to the stack and return an event
-        stack.push(new DirectoryNode(entry, attrs.fileKey(), stream));
-        return new Event(EventType.START_DIRECTORY, entry, attrs);
+        // pusi b dirfdtory nodf to tif stbdk bnd rfturn bn fvfnt
+        stbdk.pusi(nfw DirfdtoryNodf(fntry, bttrs.filfKfy(), strfbm));
+        rfturn nfw Evfnt(EvfntTypf.START_DIRECTORY, fntry, bttrs);
     }
 
 
     /**
-     * Start walking from the given file.
+     * Stbrt wblking from tif givfn filf.
      */
-    Event walk(Path file) {
-        if (closed)
-            throw new IllegalStateException("Closed");
+    Evfnt wblk(Pbti filf) {
+        if (dlosfd)
+            tirow nfw IllfgblStbtfExdfption("Closfd");
 
-        Event ev = visit(file,
-                         false,   // ignoreSecurityException
-                         false);  // canUseCached
-        assert ev != null;
-        return ev;
+        Evfnt fv = visit(filf,
+                         fblsf,   // ignorfSfdurityExdfption
+                         fblsf);  // dbnUsfCbdifd
+        bssfrt fv != null;
+        rfturn fv;
     }
 
     /**
-     * Returns the next Event or {@code null} if there are no more events or
-     * the walker is closed.
+     * Rfturns tif nfxt Evfnt or {@dodf null} if tifrf brf no morf fvfnts or
+     * tif wblkfr is dlosfd.
      */
-    Event next() {
-        DirectoryNode top = stack.peek();
+    Evfnt nfxt() {
+        DirfdtoryNodf top = stbdk.pffk();
         if (top == null)
-            return null;      // stack is empty, we are done
+            rfturn null;      // stbdk is fmpty, wf brf donf
 
-        // continue iteration of the directory at the top of the stack
-        Event ev;
+        // dontinuf itfrbtion of tif dirfdtory bt tif top of tif stbdk
+        Evfnt fv;
         do {
-            Path entry = null;
-            IOException ioe = null;
+            Pbti fntry = null;
+            IOExdfption iof = null;
 
-            // get next entry in the directory
-            if (!top.skipped()) {
-                Iterator<Path> iterator = top.iterator();
+            // gft nfxt fntry in tif dirfdtory
+            if (!top.skippfd()) {
+                Itfrbtor<Pbti> itfrbtor = top.itfrbtor();
                 try {
-                    if (iterator.hasNext()) {
-                        entry = iterator.next();
+                    if (itfrbtor.ibsNfxt()) {
+                        fntry = itfrbtor.nfxt();
                     }
-                } catch (DirectoryIteratorException x) {
-                    ioe = x.getCause();
+                } dbtdi (DirfdtoryItfrbtorExdfption x) {
+                    iof = x.gftCbusf();
                 }
             }
 
-            // no next entry so close and pop directory, creating corresponding event
-            if (entry == null) {
+            // no nfxt fntry so dlosf bnd pop dirfdtory, drfbting dorrfsponding fvfnt
+            if (fntry == null) {
                 try {
-                    top.stream().close();
-                } catch (IOException e) {
-                    if (ioe != null) {
-                        ioe = e;
-                    } else {
-                        ioe.addSuppressed(e);
+                    top.strfbm().dlosf();
+                } dbtdi (IOExdfption f) {
+                    if (iof != null) {
+                        iof = f;
+                    } flsf {
+                        iof.bddSupprfssfd(f);
                     }
                 }
-                stack.pop();
-                return new Event(EventType.END_DIRECTORY, top.directory(), ioe);
+                stbdk.pop();
+                rfturn nfw Evfnt(EvfntTypf.END_DIRECTORY, top.dirfdtory(), iof);
             }
 
-            // visit the entry
-            ev = visit(entry,
-                       true,   // ignoreSecurityException
-                       true);  // canUseCached
+            // visit tif fntry
+            fv = visit(fntry,
+                       truf,   // ignorfSfdurityExdfption
+                       truf);  // dbnUsfCbdifd
 
-        } while (ev == null);
+        } wiilf (fv == null);
 
-        return ev;
+        rfturn fv;
     }
 
     /**
-     * Pops the directory node that is the current top of the stack so that
-     * there are no more events for the directory (including no END_DIRECTORY)
-     * event. This method is a no-op if the stack is empty or the walker is
-     * closed.
+     * Pops tif dirfdtory nodf tibt is tif durrfnt top of tif stbdk so tibt
+     * tifrf brf no morf fvfnts for tif dirfdtory (indluding no END_DIRECTORY)
+     * fvfnt. Tiis mftiod is b no-op if tif stbdk is fmpty or tif wblkfr is
+     * dlosfd.
      */
     void pop() {
-        if (!stack.isEmpty()) {
-            DirectoryNode node = stack.pop();
+        if (!stbdk.isEmpty()) {
+            DirfdtoryNodf nodf = stbdk.pop();
             try {
-                node.stream().close();
-            } catch (IOException ignore) { }
+                nodf.strfbm().dlosf();
+            } dbtdi (IOExdfption ignorf) { }
         }
     }
 
     /**
-     * Skips the remaining entries in the directory at the top of the stack.
-     * This method is a no-op if the stack is empty or the walker is closed.
+     * Skips tif rfmbining fntrifs in tif dirfdtory bt tif top of tif stbdk.
+     * Tiis mftiod is b no-op if tif stbdk is fmpty or tif wblkfr is dlosfd.
      */
-    void skipRemainingSiblings() {
-        if (!stack.isEmpty()) {
-            stack.peek().skip();
+    void skipRfmbiningSiblings() {
+        if (!stbdk.isEmpty()) {
+            stbdk.pffk().skip();
         }
     }
 
     /**
-     * Returns {@code true} if the walker is open.
+     * Rfturns {@dodf truf} if tif wblkfr is opfn.
      */
-    boolean isOpen() {
-        return !closed;
+    boolfbn isOpfn() {
+        rfturn !dlosfd;
     }
 
     /**
-     * Closes/pops all directories on the stack.
+     * Closfs/pops bll dirfdtorifs on tif stbdk.
      */
-    @Override
-    public void close() {
-        if (!closed) {
-            while (!stack.isEmpty()) {
+    @Ovfrridf
+    publid void dlosf() {
+        if (!dlosfd) {
+            wiilf (!stbdk.isEmpty()) {
                 pop();
             }
-            closed = true;
+            dlosfd = truf;
         }
     }
 }

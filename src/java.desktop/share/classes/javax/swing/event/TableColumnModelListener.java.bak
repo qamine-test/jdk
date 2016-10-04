@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.event;
+pbdkbgf jbvbx.swing.fvfnt;
 
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ChangeEvent;
-import java.util.EventListener;
+import jbvbx.swing.fvfnt.ListSflfdtionEvfnt;
+import jbvbx.swing.fvfnt.CibngfEvfnt;
+import jbvb.util.EvfntListfnfr;
 
 /**
- * TableColumnModelListener defines the interface for an object that listens
- * to changes in a TableColumnModel.
+ * TbblfColumnModflListfnfr dffinfs tif intfrfbdf for bn objfdt tibt listfns
+ * to dibngfs in b TbblfColumnModfl.
  *
- * @author Alan Chung
- * @see TableColumnModelEvent
+ * @butior Albn Ciung
+ * @sff TbblfColumnModflEvfnt
  */
 
-public interface TableColumnModelListener extends java.util.EventListener
+publid intfrfbdf TbblfColumnModflListfnfr fxtfnds jbvb.util.EvfntListfnfr
 {
     /**
-     * Tells listeners that a column was added to the model.
+     * Tflls listfnfrs tibt b dolumn wbs bddfd to tif modfl.
      *
-     * @param e a {@code TableColumnModelEvent}
+     * @pbrbm f b {@dodf TbblfColumnModflEvfnt}
      */
-    public void columnAdded(TableColumnModelEvent e);
+    publid void dolumnAddfd(TbblfColumnModflEvfnt f);
 
     /**
-     * Tells listeners that a column was removed from the model.
+     * Tflls listfnfrs tibt b dolumn wbs rfmovfd from tif modfl.
      *
-     * @param e a {@code TableColumnModelEvent}
+     * @pbrbm f b {@dodf TbblfColumnModflEvfnt}
      */
-    public void columnRemoved(TableColumnModelEvent e);
+    publid void dolumnRfmovfd(TbblfColumnModflEvfnt f);
 
     /**
-     * Tells listeners that a column was repositioned.
+     * Tflls listfnfrs tibt b dolumn wbs rfpositionfd.
      *
-     * @param e a {@code TableColumnModelEvent}
+     * @pbrbm f b {@dodf TbblfColumnModflEvfnt}
      */
-    public void columnMoved(TableColumnModelEvent e);
+    publid void dolumnMovfd(TbblfColumnModflEvfnt f);
 
     /**
-     * Tells listeners that a column was moved due to a margin change.
+     * Tflls listfnfrs tibt b dolumn wbs movfd duf to b mbrgin dibngf.
      *
-     * @param e a {@code ChangeEvent}
+     * @pbrbm f b {@dodf CibngfEvfnt}
      */
-    public void columnMarginChanged(ChangeEvent e);
+    publid void dolumnMbrginCibngfd(CibngfEvfnt f);
 
     /**
-     * Tells listeners that the selection model of the
-     * TableColumnModel changed.
+     * Tflls listfnfrs tibt tif sflfdtion modfl of tif
+     * TbblfColumnModfl dibngfd.
      *
-     * @param e a {@code ListSelectionEvent}
+     * @pbrbm f b {@dodf ListSflfdtionEvfnt}
      */
-    public void columnSelectionChanged(ListSelectionEvent e);
+    publid void dolumnSflfdtionCibngfd(ListSflfdtionEvfnt f);
 }

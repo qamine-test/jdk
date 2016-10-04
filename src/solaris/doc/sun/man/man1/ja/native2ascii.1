@@ -1,91 +1,91 @@
 '\" t
-.\" Copyright (c) 1997, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
-.\" Title: nbtive2bscii
-.\" Lbngubge: English
-.\" Dbte: 2013年11月21日
-.\" SectDesc: 国際化ツール
-.\" Softwbre: JDK 8
-.\" Arch: 汎用
+.\" Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: nbtivf2bsdii
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: 国際化ツール
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
 .pl 99999
-.TH "nbtive2bscii" "1" "2013年11月21日" "JDK 8" "国際化ツール"
+.TH "nbtivf2bsdii" "1" "2013年11月21日" "JDK 8" "国際化ツール"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-nbtive2bscii \- サポートされている任意の文字エンコーディングの文字を含むファイルを、ASCIIおよびUnicodeでエスケープされたファイルに変換して(またはその逆)、ローカライズ可能なアプリケーションを作成します。
+nbtivf2bsdii \- サポートされている任意の文字エンコーディングの文字を含むファイルを、ASCIIおよびUnidodfでエスケープされたファイルに変換して(またはその逆)、ローカライズ可能なアプリケーションを作成します。
 .SH "概要"
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-\fInbtive2bscii\fR [ \fIinputfile\fR ] [ \fIoutputfile\fR ]
+\fInbtivf2bsdii\fR [ \fIinputfilf\fR ] [ \fIoutputfilf\fR ]
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-\fIinputfile\fR
+\fIinputfilf\fR
 .RS 4
 ASCIIに変換するエンコードされたファイル。
 .RE
 .PP
-\fIoutputfile\fR
+\fIoutputfilf\fR
 .RS 4
 変換されたASCIIファイル。
 .RE
 .SH "説明"
 .PP
-\fInbtive2bscii\fRコマンドは、ASCIIキャラクタ・セットに含まれないすべての文字にUnicodeエスケープ(\fI\eu\fR\fIxxxx\fR)表記法を使用して、Jbvb Runtime Environment (JRE)でサポートされているエンコードされたファイルを、ASCIIでエンコードされたファイルに変換します。このプロセスは、ISO\-8859\-1文字セットに含まれない文字が含まれているプロパティ・ファイルで必要です。このツールは、その逆の変換を実行することもできます。
+\fInbtivf2bsdii\fRコマンドは、ASCIIキャラクタ・セットに含まれないすべての文字にUnidodfエスケープ(\fI\fu\fR\fIxxxx\fR)表記法を使用して、Jbvb Runtimf Environmfnt (JRE)でサポートされているエンコードされたファイルを、ASCIIでエンコードされたファイルに変換します。このプロセスは、ISO\-8859\-1文字セットに含まれない文字が含まれているプロパティ・ファイルで必要です。このツールは、その逆の変換を実行することもできます。
 .PP
-\fIoutputfile\fR値を省略した場合、標準出力に出力されます。さらに、\fIinputfile\fR値を省略した場合、標準入力から入力されます。
+\fIoutputfilf\fR値を省略した場合、標準出力に出力されます。さらに、\fIinputfilf\fR値を省略した場合、標準入力から入力されます。
 .SH "オプション"
 .PP
-\-reverse
+\-rfvfrsf
 .RS 4
-逆の処理を行います。つまり、ISO\-8859\-1でUnicodeエスケープを使用してエンコードされたファイルを、JREでサポートされる文字エンコーディングのファイルに変換します。
+逆の処理を行います。つまり、ISO\-8859\-1でUnidodfエスケープを使用してエンコードされたファイルを、JREでサポートされる文字エンコーディングのファイルに変換します。
 .RE
 .PP
-\-encoding \fIencoding_nbme\fR
+\-fndoding \fIfndoding_nbmf\fR
 .RS 4
-変換処理で使用する文字エンコーディングの名前を指定します。このオプションが存在しない場合は、デフォルトの文字エンコーディング(\fIjbvb\&.nio\&.chbrset\&.Chbrset\&.defbultChbrset\fRメソッドで定義された)が使用されます。\fIencoding_nbme\fR文字列は、JREでサポートされている文字エンコーディングの名前にする必要があります。http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/intl/encoding\&.doc\&.htmlにある
+変換処理で使用する文字エンコーディングの名前を指定します。このオプションが存在しない場合は、デフォルトの文字エンコーディング(\fIjbvb\&.nio\&.dibrsft\&.Cibrsft\&.dffbultCibrsft\fRメソッドで定義された)が使用されます。\fIfndoding_nbmf\fR文字列は、JREでサポートされている文字エンコーディングの名前にする必要があります。ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/intl/fndoding\&.dod\&.itmlにある
 「サポートされているエンコーディング」を参照してください
 .RE
 .PP

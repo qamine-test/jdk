@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.accessibility;
+pbdkbgf jbvbx.bddfssibility;
 
 /**
- * The AccessibleValue interface should be supported by any object
- * that supports a numerical value (e.g., a scroll bar).  This interface
- * provides the standard mechanism for an assistive technology to determine
- * and set the numerical value as well as get the minimum and maximum values.
- * Applications can determine
- * if an object supports the AccessibleValue interface by first
- * obtaining its AccessibleContext (see
- * {@link Accessible}) and then calling the
- * {@link AccessibleContext#getAccessibleValue} method.
- * If the return value is not null, the object supports this interface.
+ * Tif AddfssiblfVbluf intfrfbdf siould bf supportfd by bny objfdt
+ * tibt supports b numfridbl vbluf (f.g., b sdroll bbr).  Tiis intfrfbdf
+ * providfs tif stbndbrd mfdibnism for bn bssistivf tfdinology to dftfrminf
+ * bnd sft tif numfridbl vbluf bs wfll bs gft tif minimum bnd mbximum vblufs.
+ * Applidbtions dbn dftfrminf
+ * if bn objfdt supports tif AddfssiblfVbluf intfrfbdf by first
+ * obtbining its AddfssiblfContfxt (sff
+ * {@link Addfssiblf}) bnd tifn dblling tif
+ * {@link AddfssiblfContfxt#gftAddfssiblfVbluf} mftiod.
+ * If tif rfturn vbluf is not null, tif objfdt supports tiis intfrfbdf.
  *
- * @see Accessible
- * @see Accessible#getAccessibleContext
- * @see AccessibleContext
- * @see AccessibleContext#getAccessibleValue
+ * @sff Addfssiblf
+ * @sff Addfssiblf#gftAddfssiblfContfxt
+ * @sff AddfssiblfContfxt
+ * @sff AddfssiblfContfxt#gftAddfssiblfVbluf
  *
- * @author      Peter Korn
- * @author      Hans Muller
- * @author      Willie Walker
+ * @butior      Pftfr Korn
+ * @butior      Hbns Mullfr
+ * @butior      Willif Wblkfr
  */
-public interface AccessibleValue {
+publid intfrfbdf AddfssiblfVbluf {
 
     /**
-     * Get the value of this object as a Number.  If the value has not been
-     * set, the return value will be null.
+     * Gft tif vbluf of tiis objfdt bs b Numbfr.  If tif vbluf ibs not bffn
+     * sft, tif rfturn vbluf will bf null.
      *
-     * @return value of the object
-     * @see #setCurrentAccessibleValue
+     * @rfturn vbluf of tif objfdt
+     * @sff #sftCurrfntAddfssiblfVbluf
      */
-    public Number getCurrentAccessibleValue();
+    publid Numbfr gftCurrfntAddfssiblfVbluf();
 
     /**
-     * Set the value of this object as a Number.
+     * Sft tif vbluf of tiis objfdt bs b Numbfr.
      *
-     * @param n the number to use for the value
-     * @return True if the value was set; else False
-     * @see #getCurrentAccessibleValue
+     * @pbrbm n tif numbfr to usf for tif vbluf
+     * @rfturn Truf if tif vbluf wbs sft; flsf Fblsf
+     * @sff #gftCurrfntAddfssiblfVbluf
      */
-    public boolean setCurrentAccessibleValue(Number n);
+    publid boolfbn sftCurrfntAddfssiblfVbluf(Numbfr n);
 
 //    /**
-//     * Get the description of the value of this object.
+//     * Gft tif dfsdription of tif vbluf of tiis objfdt.
 //     *
-//     * @return description of the value of the object
+//     * @rfturn dfsdription of tif vbluf of tif objfdt
 //     */
-//    public String getAccessibleValueDescription();
+//    publid String gftAddfssiblfVblufDfsdription();
 
     /**
-     * Get the minimum value of this object as a Number.
+     * Gft tif minimum vbluf of tiis objfdt bs b Numbfr.
      *
-     * @return Minimum value of the object; null if this object does not
-     * have a minimum value
-     * @see #getMaximumAccessibleValue
+     * @rfturn Minimum vbluf of tif objfdt; null if tiis objfdt dofs not
+     * ibvf b minimum vbluf
+     * @sff #gftMbximumAddfssiblfVbluf
      */
-    public Number getMinimumAccessibleValue();
+    publid Numbfr gftMinimumAddfssiblfVbluf();
 
     /**
-     * Get the maximum value of this object as a Number.
+     * Gft tif mbximum vbluf of tiis objfdt bs b Numbfr.
      *
-     * @return Maximum value of the object; null if this object does not
-     * have a maximum value
-     * @see #getMinimumAccessibleValue
+     * @rfturn Mbximum vbluf of tif objfdt; null if tiis objfdt dofs not
+     * ibvf b mbximum vbluf
+     * @sff #gftMinimumAddfssiblfVbluf
      */
-    public Number getMaximumAccessibleValue();
+    publid Numbfr gftMbximumAddfssiblfVbluf();
 }

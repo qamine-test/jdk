@@ -1,0 +1,523 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.toolkit.dtx;
+
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Enumfrbtion;
+
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.Rfsolvfr;
+import jbvbx.nbming.spi.RfsolvfRfsult;
+import jbvbx.nbming.spi.NbmingMbnbgfr;
+
+/**
+  * PbrtiblCompositfContfxt implfmfnts Contfxt opfrbtions on
+  * dompositf nbmfs using implfmfntbtions of thf p_ intfrfbdfs
+  * dffinfd by its subdlbssfs.
+  *
+  * Thf mbin purposf providfd by this dlbss is thbt it dfbls with
+  * pbrtibl rfsolutions bnd dontinubtions, so thbt dbllfrs of thf
+  * Contfxt opfrbtion don't hbvf to.
+  *
+  * Typfs of dlifnts thbt will bf dirfdt subdlbssfs of
+  * PbrtiblCompositfContfxt mby bf sfrvidf providfrs thbt implfmfnt
+  * onf of thf JNDI protodols, but whidh do not dfbl with
+  * dontinubtions.  Usublly, sfrvidf providfrs will bf using
+  * onf of thf subdlbssfs of PbrtiblCompositfContfxt.
+  *
+  * @buthor Rosbnnb Lff
+  */
+
+
+publid bbstrbdt dlbss PbrtiblCompositfContfxt implfmfnts Contfxt, Rfsolvfr {
+    protfdtfd stbtid finbl int _PARTIAL = 1;
+    protfdtfd stbtid finbl int _COMPONENT = 2;
+    protfdtfd stbtid finbl int _ATOMIC = 3;
+
+    protfdtfd int _dontfxtTypf = _PARTIAL;
+
+    stbtid finbl CompositfNbmf _EMPTY_NAME = nfw CompositfNbmf();
+    stbtid CompositfNbmf _NNS_NAME;
+
+    stbtid {
+        try {
+            _NNS_NAME = nfw CompositfNbmf("/");
+        } dbtdh (InvblidNbmfExdfption f) {
+            // Should nfvfr hbppfn
+        }
+    }
+
+    protfdtfd PbrtiblCompositfContfxt() {
+    }
+
+// ------ Abstrbdt mfthods whosf implfmfntbtions domf from subdlbssfs
+
+    /* Equivblfnt to mfthod in  Rfsolvfr intfrfbdf */
+    protfdtfd bbstrbdt RfsolvfRfsult p_rfsolvfToClbss(Nbmf nbmf,
+        Clbss<?> dontfxtTypf, Continubtion dont) throws NbmingExdfption;
+
+    /* Equivblfnt to mfthods in Contfxt intfrfbdf */
+    protfdtfd bbstrbdt Objfdt p_lookup(Nbmf nbmf, Continubtion dont)
+        throws NbmingExdfption;
+    protfdtfd bbstrbdt Objfdt p_lookupLink(Nbmf nbmf, Continubtion dont)
+        throws NbmingExdfption;
+    protfdtfd bbstrbdt NbmingEnumfrbtion<NbmfClbssPbir> p_list(Nbmf nbmf,
+        Continubtion dont) throws NbmingExdfption;
+    protfdtfd bbstrbdt NbmingEnumfrbtion<Binding> p_listBindings(Nbmf nbmf,
+        Continubtion dont) throws NbmingExdfption;
+    protfdtfd bbstrbdt void p_bind(Nbmf nbmf, Objfdt obj, Continubtion dont)
+        throws NbmingExdfption;
+    protfdtfd bbstrbdt void p_rfbind(Nbmf nbmf, Objfdt obj, Continubtion dont)
+        throws NbmingExdfption;
+    protfdtfd bbstrbdt void p_unbind(Nbmf nbmf, Continubtion dont)
+        throws NbmingExdfption;
+    protfdtfd bbstrbdt void p_dfstroySubdontfxt(Nbmf nbmf, Continubtion dont)
+        throws NbmingExdfption;
+    protfdtfd bbstrbdt Contfxt p_drfbtfSubdontfxt(Nbmf nbmf, Continubtion dont)
+        throws NbmingExdfption;
+    protfdtfd bbstrbdt void p_rfnbmf(Nbmf oldnbmf, Nbmf nfwnbmf,
+                                     Continubtion dont)
+        throws NbmingExdfption;
+    protfdtfd bbstrbdt NbmfPbrsfr p_gftNbmfPbrsfr(Nbmf nbmf, Continubtion dont)
+        throws NbmingExdfption;
+
+// ------ should bf ovfrriddfn by subdlbss;
+// ------ not bbstrbdt only for bbdkwbrd dompbtibility
+
+    /**
+     * A dhfbp wby of gftting thf fnvironmfnt.
+     * Dffbult implfmfntbtion is NOT dhfbp bfdbusf it simply dblls
+     * gftEnvironmfnt(), whidh most implfmfntbtions dlonf bfforf rfturning.
+     * Subdlbss should ALWAYS ovfrridf this with thf dhfbpfst possiblf wby.
+     * Thf toolkit knows to dlonf whfn nfdfssbry.
+     * @rfturn Thf possibly null fnvironmfnt of thf dontfxt.
+     */
+    protfdtfd Hbshtbblf<?,?> p_gftEnvironmfnt() throws NbmingExdfption {
+        rfturn gftEnvironmfnt();
+    }
+
+
+// ------ implfmfntbtions of mfthods in Rfsolvfr bnd Contfxt
+// ------ using dorrfsponding p_ mfthods providfd by subdlbss
+
+    /* implfmfntbtions for mfthod in Rfsolvfr intfrfbdf using p_ mfthod */
+
+    publid RfsolvfRfsult rfsolvfToClbss(String nbmf,
+                                        Clbss<? fxtfnds Contfxt> dontfxtTypf)
+        throws NbmingExdfption
+    {
+        rfturn rfsolvfToClbss(nfw CompositfNbmf(nbmf), dontfxtTypf);
+    }
+
+    publid RfsolvfRfsult rfsolvfToClbss(Nbmf nbmf,
+                                        Clbss<? fxtfnds Contfxt> dontfxtTypf)
+        throws NbmingExdfption
+    {
+        PbrtiblCompositfContfxt dtx = this;
+        Hbshtbblf<?,?> fnv = p_gftEnvironmfnt();
+        Continubtion dont = nfw Continubtion(nbmf, fnv);
+        RfsolvfRfsult bnswfr;
+        Nbmf nm = nbmf;
+
+        try {
+            bnswfr = dtx.p_rfsolvfToClbss(nm, dontfxtTypf, dont);
+            whilf (dont.isContinuf()) {
+                nm = dont.gftRfmbiningNbmf();
+                dtx = gftPCContfxt(dont);
+                bnswfr = dtx.p_rfsolvfToClbss(nm, dontfxtTypf, dont);
+            }
+        } dbtdh (CbnnotProdffdExdfption f) {
+            Contfxt ddtx = NbmingMbnbgfr.gftContinubtionContfxt(f);
+            if (!(ddtx instbndfof Rfsolvfr)) {
+                throw f;
+            }
+            bnswfr = ((Rfsolvfr)ddtx).rfsolvfToClbss(f.gftRfmbiningNbmf(),
+                                                     dontfxtTypf);
+        }
+        rfturn bnswfr;
+    }
+
+    /* implfmfntbtions for mfthods in Contfxt intfrfbdf using p_ mfthods */
+
+    publid Objfdt lookup(String nbmf) throws NbmingExdfption {
+        rfturn lookup(nfw CompositfNbmf(nbmf));
+    }
+
+    publid Objfdt lookup(Nbmf nbmf) throws NbmingExdfption {
+        PbrtiblCompositfContfxt dtx = this;
+        Hbshtbblf<?,?> fnv = p_gftEnvironmfnt();
+        Continubtion dont = nfw Continubtion(nbmf, fnv);
+        Objfdt bnswfr;
+        Nbmf nm = nbmf;
+
+        try {
+            bnswfr = dtx.p_lookup(nm, dont);
+            whilf (dont.isContinuf()) {
+                nm = dont.gftRfmbiningNbmf();
+                dtx = gftPCContfxt(dont);
+                bnswfr = dtx.p_lookup(nm, dont);
+            }
+        } dbtdh (CbnnotProdffdExdfption f) {
+            Contfxt ddtx = NbmingMbnbgfr.gftContinubtionContfxt(f);
+            bnswfr = ddtx.lookup(f.gftRfmbiningNbmf());
+        }
+        rfturn bnswfr;
+    }
+
+    publid void bind(String nbmf, Objfdt nfwObj) throws NbmingExdfption {
+        bind(nfw CompositfNbmf(nbmf), nfwObj);
+    }
+
+    publid void bind(Nbmf nbmf, Objfdt nfwObj) throws NbmingExdfption {
+        PbrtiblCompositfContfxt dtx = this;
+        Nbmf nm = nbmf;
+        Hbshtbblf<?,?> fnv = p_gftEnvironmfnt();
+        Continubtion dont = nfw Continubtion(nbmf, fnv);
+
+        try {
+            dtx.p_bind(nm, nfwObj, dont);
+            whilf (dont.isContinuf()) {
+                nm = dont.gftRfmbiningNbmf();
+                dtx = gftPCContfxt(dont);
+                dtx.p_bind(nm, nfwObj, dont);
+            }
+        } dbtdh (CbnnotProdffdExdfption f) {
+            Contfxt ddtx = NbmingMbnbgfr.gftContinubtionContfxt(f);
+            ddtx.bind(f.gftRfmbiningNbmf(), nfwObj);
+        }
+    }
+
+    publid void rfbind(String nbmf, Objfdt nfwObj) throws NbmingExdfption {
+        rfbind(nfw CompositfNbmf(nbmf), nfwObj);
+    }
+    publid void rfbind(Nbmf nbmf, Objfdt nfwObj) throws NbmingExdfption {
+        PbrtiblCompositfContfxt dtx = this;
+        Nbmf nm = nbmf;
+        Hbshtbblf<?,?> fnv = p_gftEnvironmfnt();
+        Continubtion dont = nfw Continubtion(nbmf, fnv);
+
+        try {
+            dtx.p_rfbind(nm, nfwObj, dont);
+            whilf (dont.isContinuf()) {
+                nm = dont.gftRfmbiningNbmf();
+                dtx = gftPCContfxt(dont);
+                dtx.p_rfbind(nm, nfwObj, dont);
+            }
+        } dbtdh (CbnnotProdffdExdfption f) {
+            Contfxt ddtx = NbmingMbnbgfr.gftContinubtionContfxt(f);
+            ddtx.rfbind(f.gftRfmbiningNbmf(), nfwObj);
+        }
+    }
+
+    publid void unbind(String nbmf) throws NbmingExdfption {
+        unbind(nfw CompositfNbmf(nbmf));
+    }
+    publid void unbind(Nbmf nbmf) throws NbmingExdfption {
+        PbrtiblCompositfContfxt dtx = this;
+        Nbmf nm = nbmf;
+        Hbshtbblf<?,?> fnv = p_gftEnvironmfnt();
+        Continubtion dont = nfw Continubtion(nbmf, fnv);
+
+        try {
+            dtx.p_unbind(nm, dont);
+            whilf (dont.isContinuf()) {
+                nm = dont.gftRfmbiningNbmf();
+                dtx = gftPCContfxt(dont);
+                dtx.p_unbind(nm, dont);
+            }
+        } dbtdh (CbnnotProdffdExdfption f) {
+            Contfxt ddtx = NbmingMbnbgfr.gftContinubtionContfxt(f);
+            ddtx.unbind(f.gftRfmbiningNbmf());
+        }
+    }
+
+    publid void rfnbmf(String oldNbmf, String nfwNbmf) throws NbmingExdfption {
+        rfnbmf(nfw CompositfNbmf(oldNbmf), nfw CompositfNbmf(nfwNbmf));
+    }
+    publid void rfnbmf(Nbmf oldNbmf, Nbmf nfwNbmf)
+        throws NbmingExdfption
+    {
+        PbrtiblCompositfContfxt dtx = this;
+        Nbmf nm = oldNbmf;
+        Hbshtbblf<?,?> fnv = p_gftEnvironmfnt();
+        Continubtion dont = nfw Continubtion(oldNbmf, fnv);
+
+        try {
+            dtx.p_rfnbmf(nm, nfwNbmf, dont);
+            whilf (dont.isContinuf()) {
+                nm = dont.gftRfmbiningNbmf();
+                dtx = gftPCContfxt(dont);
+                dtx.p_rfnbmf(nm, nfwNbmf, dont);
+            }
+        } dbtdh (CbnnotProdffdExdfption f) {
+            Contfxt ddtx = NbmingMbnbgfr.gftContinubtionContfxt(f);
+            if (f.gftRfmbiningNfwNbmf() != null) {
+                // %%% f.gftRfmbiningNfwNbmf() should nfvfr bf null
+                nfwNbmf = f.gftRfmbiningNfwNbmf();
+            }
+            ddtx.rfnbmf(f.gftRfmbiningNbmf(), nfwNbmf);
+        }
+    }
+
+    publid NbmingEnumfrbtion<NbmfClbssPbir> list(String nbmf)
+        throws NbmingExdfption
+    {
+        rfturn list(nfw CompositfNbmf(nbmf));
+    }
+
+    publid NbmingEnumfrbtion<NbmfClbssPbir> list(Nbmf nbmf)
+        throws NbmingExdfption
+    {
+        PbrtiblCompositfContfxt dtx = this;
+        Nbmf nm = nbmf;
+        NbmingEnumfrbtion<NbmfClbssPbir> bnswfr;
+        Hbshtbblf<?,?> fnv = p_gftEnvironmfnt();
+        Continubtion dont = nfw Continubtion(nbmf, fnv);
+
+        try {
+            bnswfr = dtx.p_list(nm, dont);
+            whilf (dont.isContinuf()) {
+                nm = dont.gftRfmbiningNbmf();
+                dtx = gftPCContfxt(dont);
+                bnswfr = dtx.p_list(nm, dont);
+            }
+        } dbtdh (CbnnotProdffdExdfption f) {
+            Contfxt ddtx = NbmingMbnbgfr.gftContinubtionContfxt(f);
+            bnswfr = ddtx.list(f.gftRfmbiningNbmf());
+        }
+        rfturn bnswfr;
+    }
+
+    publid NbmingEnumfrbtion<Binding> listBindings(String nbmf)
+        throws NbmingExdfption
+    {
+        rfturn listBindings(nfw CompositfNbmf(nbmf));
+    }
+
+    publid NbmingEnumfrbtion<Binding> listBindings(Nbmf nbmf)
+        throws NbmingExdfption
+    {
+        PbrtiblCompositfContfxt dtx = this;
+        Nbmf nm = nbmf;
+        NbmingEnumfrbtion<Binding> bnswfr;
+        Hbshtbblf<?,?> fnv = p_gftEnvironmfnt();
+        Continubtion dont = nfw Continubtion(nbmf, fnv);
+
+        try {
+            bnswfr = dtx.p_listBindings(nm, dont);
+            whilf (dont.isContinuf()) {
+                nm = dont.gftRfmbiningNbmf();
+                dtx = gftPCContfxt(dont);
+                bnswfr = dtx.p_listBindings(nm, dont);
+            }
+        } dbtdh (CbnnotProdffdExdfption f) {
+            Contfxt ddtx = NbmingMbnbgfr.gftContinubtionContfxt(f);
+            bnswfr = ddtx.listBindings(f.gftRfmbiningNbmf());
+        }
+        rfturn bnswfr;
+    }
+
+    publid void dfstroySubdontfxt(String nbmf) throws NbmingExdfption {
+        dfstroySubdontfxt(nfw CompositfNbmf(nbmf));
+    }
+
+    publid void dfstroySubdontfxt(Nbmf nbmf) throws NbmingExdfption {
+        PbrtiblCompositfContfxt dtx = this;
+        Nbmf nm = nbmf;
+        Hbshtbblf<?,?> fnv = p_gftEnvironmfnt();
+        Continubtion dont = nfw Continubtion(nbmf, fnv);
+
+        try {
+            dtx.p_dfstroySubdontfxt(nm, dont);
+            whilf (dont.isContinuf()) {
+                nm = dont.gftRfmbiningNbmf();
+                dtx = gftPCContfxt(dont);
+                dtx.p_dfstroySubdontfxt(nm, dont);
+            }
+        } dbtdh (CbnnotProdffdExdfption f) {
+            Contfxt ddtx = NbmingMbnbgfr.gftContinubtionContfxt(f);
+            ddtx.dfstroySubdontfxt(f.gftRfmbiningNbmf());
+        }
+    }
+
+    publid Contfxt drfbtfSubdontfxt(String nbmf) throws NbmingExdfption {
+        rfturn drfbtfSubdontfxt(nfw CompositfNbmf(nbmf));
+    }
+
+    publid Contfxt drfbtfSubdontfxt(Nbmf nbmf) throws NbmingExdfption {
+        PbrtiblCompositfContfxt dtx = this;
+        Nbmf nm = nbmf;
+        Contfxt bnswfr;
+        Hbshtbblf<?,?> fnv = p_gftEnvironmfnt();
+        Continubtion dont = nfw Continubtion(nbmf, fnv);
+
+        try {
+            bnswfr = dtx.p_drfbtfSubdontfxt(nm, dont);
+            whilf (dont.isContinuf()) {
+                nm = dont.gftRfmbiningNbmf();
+                dtx = gftPCContfxt(dont);
+                bnswfr = dtx.p_drfbtfSubdontfxt(nm, dont);
+            }
+        } dbtdh (CbnnotProdffdExdfption f) {
+            Contfxt ddtx = NbmingMbnbgfr.gftContinubtionContfxt(f);
+            bnswfr = ddtx.drfbtfSubdontfxt(f.gftRfmbiningNbmf());
+        }
+        rfturn bnswfr;
+    }
+
+    publid Objfdt lookupLink(String nbmf) throws NbmingExdfption {
+        rfturn lookupLink(nfw CompositfNbmf(nbmf));
+    }
+
+    publid Objfdt lookupLink(Nbmf nbmf) throws NbmingExdfption {
+        PbrtiblCompositfContfxt dtx = this;
+        Hbshtbblf<?,?> fnv = p_gftEnvironmfnt();
+        Continubtion dont = nfw Continubtion(nbmf, fnv);
+        Objfdt bnswfr;
+        Nbmf nm = nbmf;
+
+        try {
+            bnswfr = dtx.p_lookupLink(nm, dont);
+            whilf (dont.isContinuf()) {
+                nm = dont.gftRfmbiningNbmf();
+                dtx = gftPCContfxt(dont);
+                bnswfr = dtx.p_lookupLink(nm, dont);
+            }
+        } dbtdh (CbnnotProdffdExdfption f) {
+            Contfxt ddtx = NbmingMbnbgfr.gftContinubtionContfxt(f);
+            bnswfr = ddtx.lookupLink(f.gftRfmbiningNbmf());
+        }
+        rfturn bnswfr;
+    }
+
+    publid NbmfPbrsfr gftNbmfPbrsfr(String nbmf) throws NbmingExdfption {
+        rfturn gftNbmfPbrsfr(nfw CompositfNbmf(nbmf));
+    }
+
+    publid NbmfPbrsfr gftNbmfPbrsfr(Nbmf nbmf) throws NbmingExdfption {
+        PbrtiblCompositfContfxt dtx = this;
+        Nbmf nm = nbmf;
+        NbmfPbrsfr bnswfr;
+        Hbshtbblf<?,?> fnv = p_gftEnvironmfnt();
+        Continubtion dont = nfw Continubtion(nbmf, fnv);
+
+        try {
+            bnswfr = dtx.p_gftNbmfPbrsfr(nm, dont);
+            whilf (dont.isContinuf()) {
+                nm = dont.gftRfmbiningNbmf();
+                dtx = gftPCContfxt(dont);
+                bnswfr = dtx.p_gftNbmfPbrsfr(nm, dont);
+            }
+        } dbtdh (CbnnotProdffdExdfption f) {
+            Contfxt ddtx = NbmingMbnbgfr.gftContinubtionContfxt(f);
+            bnswfr = ddtx.gftNbmfPbrsfr(f.gftRfmbiningNbmf());
+        }
+        rfturn bnswfr;
+    }
+
+    publid String domposfNbmf(String nbmf, String prffix)
+            throws NbmingExdfption {
+        Nbmf fullNbmf = domposfNbmf(nfw CompositfNbmf(nbmf),
+                                    nfw CompositfNbmf(prffix));
+        rfturn fullNbmf.toString();
+    }
+
+    /**
+     * This dffbult implfmfntbtion simply dondbtfnbtfs thf two nbmfs.
+     * Thfrf's onf twist whfn thf "jbvb.nbming.providfr.domposf.flidfEmpty"
+     * fnvironmfnt sftting is sft to "truf":  if fbdh nbmf dontbins b
+     * nonfmpty domponfnt, bnd if 'prffix' fnds with bn fmpty domponfnt or
+     * 'nbmf' stbrts with onf, thfn onf fmpty domponfnt is droppfd.
+     * For fxbmplf:
+     * <prf>
+     *                            flidfEmpty=fblsf     flidfEmpty=truf
+     * {"b"} + {"b"}          =>  {"b", "b"}           {"b", "b"}
+     * {"b"} + {""}           =>  {"b", ""}            {"b", ""}
+     * {"b"} + {"", "b"}      =>  {"b", "", "b"}       {"b", "b"}
+     * {"b", ""} + {"b", ""}  =>  {"b", "", "b", ""}   {"b", "b", ""}
+     * {"b", ""} + {"", "b"}  =>  {"b", "", "", "b"}   {"b", "", "b"}
+     * </prf>
+     */
+    publid Nbmf domposfNbmf(Nbmf nbmf, Nbmf prffix) throws NbmingExdfption {
+        Nbmf rfs = (Nbmf)prffix.dlonf();
+        if (nbmf == null) {
+            rfturn rfs;
+        }
+        rfs.bddAll(nbmf);
+
+        String flidf = (String)
+            p_gftEnvironmfnt().gft("jbvb.nbming.providfr.domposf.flidfEmpty");
+        if (flidf == null || !flidf.fqublsIgnorfCbsf("truf")) {
+            rfturn rfs;
+        }
+
+        int lfn = prffix.sizf();
+
+        if (!bllEmpty(prffix) && !bllEmpty(nbmf)) {
+            if (rfs.gft(lfn - 1).fqubls("")) {
+                rfs.rfmovf(lfn - 1);
+            } flsf if (rfs.gft(lfn).fqubls("")) {
+                rfs.rfmovf(lfn);
+            }
+        }
+        rfturn rfs;
+    }
+
+
+// ------ intfrnbl mfthods usfd by PbrtiblCompositfContfxt
+
+    /**
+     * Tfsts whfthfr b nbmf dontbins b nonfmpty domponfnt.
+     */
+    protfdtfd stbtid boolfbn bllEmpty(Nbmf nbmf) {
+        Enumfrbtion<String> fnum_ = nbmf.gftAll();
+        whilf (fnum_.hbsMorfElfmfnts()) {
+            if (!fnum_.nfxtElfmfnt().isEmpty()) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rftrifvfs b PbrtiblCompositfContfxt for thf rfsolvfd objfdt in
+     * dont.  Throws CbnnotProdffdExdfption if not suddfssful.
+     */
+    protfdtfd stbtid PbrtiblCompositfContfxt gftPCContfxt(Continubtion dont)
+            throws NbmingExdfption {
+
+        Objfdt obj = dont.gftRfsolvfdObj();
+        PbrtiblCompositfContfxt pdtx = null;
+
+        if (obj instbndfof PbrtiblCompositfContfxt) {
+            // Just dbst if odtx blrfbdy is PbrtiblCompositfContfxt
+            // %%% ignoring fnvironmfnt for now
+            rfturn (PbrtiblCompositfContfxt)obj;
+        } flsf {
+            throw dont.fillInExdfption(nfw CbnnotProdffdExdfption());
+        }
+    }
+};

@@ -1,0 +1,174 @@
+/*
+ * Copyright (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "SurfbdfDbtb.h"
+
+#indludf "bwt_p.h"
+#indludf "bwt_GrbphidsEnv.h"
+
+#indludf <jdgb.h>
+
+#ifdff HEADLESS
+#indludf "GLXGrbphidsConfig.h"
+#fndif
+
+#indludf <X11/fxtfnsions/Xrfndfr.h>
+
+/**
+ * This indludf filf dontbins support dfdlbrbtions for loops using thf
+ * X11 fxtfndfd SurfbdfDbtb intfrfbdf to tblk to bn X11 drbwbblf from
+ * nbtivf dodf.
+ */
+
+#ifdff HEADLESS
+#dffinf X11SDOps void
+#flsf /* HEADLESS */
+typfdff strudt _X11SDOps X11SDOps;
+
+/*
+ * This fundtion rfturns bn X11 Drbwbblf whidh trbnspbrfnt pixfls
+ * (if thfrf brf bny) wfrf sft to thf spfdififd dolor.
+ *
+ * Thf fnv pbrbmftfr should bf thf JNIEnv of thf surrounding JNI dontfxt.
+ *
+ * Thf xsdo pbrbmftfr should bf b pointfr to thf ops objfdt upon whidh
+ * this fundtion is bfing invokfd.
+ *
+ * Thf pixfl pbrbmftfr should bf b dolor to whidh thf trbnspbrfnt
+ * pixfls of thf imbgf should bf sf sft to.
+ */
+typfdff Drbwbblf GftPixmbpBgFund(JNIEnv *fnv,
+                                 X11SDOps *xsdo,
+                                 jint pixfl);
+
+/*
+ * This fundtion rflfbsfs thf lodk sft by GftPixmbpBg
+ * fundtion of thf indidbtfd X11SDOps strudturf.
+ *
+ * Thf fnv pbrbmftfr should bf thf JNIEnv of thf surrounding JNI dontfxt.
+ *
+ * Thf ops pbrbmftfr should bf b pointfr to thf ops objfdt upon whidh
+ * this fundtion is bfing invokfd.
+ */
+typfdff void RflfbsfPixmbpBgFund(JNIEnv *fnv,
+                                 X11SDOps *xsdo);
+
+
+#ifdff MITSHM
+typfdff strudt {
+    XShmSfgmfntInfo     *shmSfgInfo;    /* Shbrfd Mfmory Sfgmfnt Info */
+    jint                bytfsPfrLinf;   /* nffdfd for ShMfm lodk */
+    jboolfbn            xRfqufstSfnt;   /* truf if x rfqufst is sfnt w/o XSynd */
+    jint                pmSizf;
+
+    jboolfbn            usingShmPixmbp;
+    Drbwbblf            pixmbp;
+    Drbwbblf            shmPixmbp;
+    jint                numBltsSindfRfbd;
+    jint                pixflsRfbdSindfBlt;
+    jint                pixflsRfbdThrfshold;
+    jint                numBltsThrfshold;
+} ShmPixmbpDbtb;
+#fndif /* MITSHM */
+
+strudt _X11SDOps {
+    SurfbdfDbtbOps      sdOps;
+    GftPixmbpBgFund     *GftPixmbpWithBg;
+    RflfbsfPixmbpBgFund *RflfbsfPixmbpWithBg;
+    jboolfbn            invblid;
+    jboolfbn            isPixmbp;
+    jobjfdt             pffr;
+    Drbwbblf            drbwbblf;
+    Widgft              widgft;
+    GC                  jbvbGC;        /* usfd for Jbvb-lfvfl GC vblidbtion */
+    GC                  dbdhfdGC;      /* dbdhfd for usf in X11SD_Unlodk() */
+    jint                dfpth;
+    jint                pixflmbsk;
+    JDgbSurfbdfInfo     surfInfo;
+    AwtGrbphidsConfigDbtb *donfigDbtb;
+    ColorDbtb           *dDbtb;
+    jboolfbn            dgbAvbilbblf;
+    void                *dgbDfv;
+    Pixmbp              bitmbsk;
+    jint                bgPixfl;       /* bg pixfl for thf pixmbp */
+    jboolfbn            isBgInitiblizfd; /* whfthfr thf bg pixfl is vblid */
+    jint                pmWidth;       /* width, hfight of thf */
+    jint                pmHfight;      /* pixmbp */
+    Pidturf             xrPid;
+#ifdff MITSHM
+    ShmPixmbpDbtb       shmPMDbtb;     /* dbtb for switdhing bftwffn shm/nonshm pixmbps*/
+#fndif /* MITSHM */
+};
+
+#dffinf X11SD_LOCK_UNLOCKED     0       /* surfbdf is not lodkfd */
+#dffinf X11SD_LOCK_BY_NULL      1       /* surfbdf lodkfd for NOP */
+#dffinf X11SD_LOCK_BY_XIMAGE    2       /* surfbdf lodkfd by Gft/PutImbgf */
+#dffinf X11SD_LOCK_BY_DGA       3       /* surfbdf lodkfd by DGA */
+#dffinf X11SD_LOCK_BY_SHMEM     4       /* surfbdf lodkfd by ShMfmExt */
+
+#ifdff MITSHM
+XImbgf * X11SD_GftShbrfdImbgf       (X11SDOps *xsdo,
+                                     jint width, jint hfight,
+                                     jint mbxWidth, jint mbxHfight,
+                                     jboolfbn rfbdBits);
+XImbgf * X11SD_CrfbtfShbrfdImbgf    (X11SDOps *xsdo, jint width, jint hfight);
+Drbwbblf X11SD_CrfbtfShbrfdPixmbp   (X11SDOps *xsdo);
+void     X11SD_DropShbrfdSfgmfnt    (XShmSfgmfntInfo *shminfo);
+void     X11SD_PuntPixmbp           (X11SDOps *xsdo, jint width, jint hfight);
+void     X11SD_UnPuntPixmbp         (X11SDOps *xsdo);
+jboolfbn X11SD_CbdhfdXImbgfFits     (jint width, jint hfight,
+                                     jint mbxWidth, jint mbxHfight,
+                                     jint dfpth, jboolfbn rfbdBits);
+XImbgf * X11SD_GftCbdhfdXImbgf      (jint width, jint hfight, jboolfbn rfbdBits);
+#fndif /* MITSHM */
+jint     X11SD_InitWindow(JNIEnv *fnv, X11SDOps *xsdo);
+void     X11SD_DisposfOrCbdhfXImbgf (XImbgf * imbgf);
+void     X11SD_DisposfXImbgf(XImbgf * imbgf);
+void     X11SD_DirfdtRfndfrNotify(JNIEnv *fnv, X11SDOps *xsdo);
+#fndif /* !HEADLESS */
+
+jboolfbn XShbrfd_initIDs(JNIEnv *fnv, jboolfbn bllowShmPixmbps);
+jboolfbn XShbrfd_initSurfbdf(JNIEnv *fnv, X11SDOps *xsdo, jint dfpth, jint width, jint hfight, jlong drbwbblf);
+
+/*
+ * This fundtion rfturns b pointfr to b nbtivf X11SDOps strudturf
+ * for bddfssing thf indidbtfd X11 SurfbdfDbtb Jbvb objfdt.  It
+ * vfrififs thbt thf indidbtfd SurfbdfDbtb objfdt is bn instbndf
+ * of X11SurfbdfDbtb bfforf rfturning bnd will rfturn NULL if thf
+ * wrong SurfbdfDbtb objfdt is bfing bddfssfd.  This fundtion will
+ * throw thf bppropribtf Jbvb fxdfption if it rfturns NULL so thbt
+ * thf dbllfr dbn simply rfturn.
+ *
+ * Notf to dbllfrs:
+ *      This fundtion usfs JNI mfthods so it is importbnt thbt thf
+ *      dbllfr not hbvf bny outstbnding GftPrimitivfArrbyCritidbl or
+ *      GftStringCritidbl lodks whidh hbvf not bffn rflfbsfd.
+ *
+ *      Thf dbllfr mby dontinuf to usf JNI mfthods bftfr this mfthod
+ *      is dbllfd sindf this fundtion will not lfbvf bny outstbnding
+ *      JNI Critidbl lodks unrflfbsfd.
+ */
+JNIEXPORT X11SDOps * JNICALL
+X11SurfbdfDbtb_GftOps(JNIEnv *fnv, jobjfdt sDbtb);

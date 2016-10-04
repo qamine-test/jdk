@@ -1,0 +1,239 @@
+/*
+ * Copyright (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.lobding;
+
+
+// jbvb import
+
+import jbvb.nft.URL;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+
+/**
+ * This dlbss rfprfsfnts thf dontfnts of thf <CODE>MLET</CODE> tbg.
+ * It dbn bf donsultfd by b subdlbss of {@link MLft} thbt ovfrridfs
+ * thf {@link MLft#dhfdk MLft.dhfdk} mfthod.
+ *
+ * @sindf 1.6
+ */
+publid dlbss MLftContfnt {
+
+
+    /**
+     * A mbp of thf bttributfs of thf <CODE>MLET</CODE> tbg
+     * bnd thfir vblufs.
+     */
+    privbtf Mbp<String,String> bttributfs;
+
+    /**
+     * An ordfrfd list of thf TYPE bttributfs thbt bppfbrfd in nfstfd
+     * &lt;PARAM&gt; tbgs.
+     */
+    privbtf List<String> typfs;
+
+    /**
+     * An ordfrfd list of thf VALUE bttributfs thbt bppfbrfd in nfstfd
+     * &lt;PARAM&gt; tbgs.
+     */
+    privbtf List<String> vblufs;
+
+    /**
+     * Thf MLft tfxt filf's bbsf URL.
+     */
+    privbtf URL dodumfntURL;
+    /**
+     * Thf bbsf URL.
+     */
+    privbtf URL bbsfURL;
+
+
+    /**
+     * Crfbtfs bn <CODE>MLft</CODE> instbndf initiblizfd with bttributfs rfbd
+     * from bn <CODE>MLET</CODE> tbg in bn MLft tfxt filf.
+     *
+     * @pbrbm url Thf URL of thf MLft tfxt filf dontbining thf
+     * <CODE>MLET</CODE> tbg.
+     * @pbrbm bttributfs A mbp of thf bttributfs of thf <CODE>MLET</CODE> tbg.
+     * Thf kfys in this mbp brf thf bttributf nbmfs in lowfrdbsf, for
+     * fxbmplf <dodf>dodfbbsf</dodf>.  Thf vblufs brf thf bssodibtfd bttributf
+     * vblufs.
+     * @pbrbm typfs A list of thf TYPE bttributfs thbt bppfbrfd in nfstfd
+     * &lt;PARAM&gt; tbgs.
+     * @pbrbm vblufs A list of thf VALUE bttributfs thbt bppfbrfd in nfstfd
+     * &lt;PARAM&gt; tbgs.
+     */
+    publid MLftContfnt(URL url, Mbp<String,String> bttributfs,
+                       List<String> typfs, List<String> vblufs) {
+        this.dodumfntURL = url;
+        this.bttributfs = Collfdtions.unmodifibblfMbp(bttributfs);
+        this.typfs = Collfdtions.unmodifibblfList(typfs);
+        this.vblufs = Collfdtions.unmodifibblfList(vblufs);
+
+        // Initiblizf bbsfURL
+        //
+        String btt = gftPbrbmftfr("dodfbbsf");
+        if (btt != null) {
+            if (!btt.fndsWith("/")) {
+                btt += "/";
+            }
+            try {
+                bbsfURL = nfw URL(dodumfntURL, btt);
+            } dbtdh (MblformfdURLExdfption f) {
+                // OK : Movf to nfxt blodk bs bbsfURL dould not bf initiblizfd.
+            }
+        }
+        if (bbsfURL == null) {
+            String filf = dodumfntURL.gftFilf();
+            int i = filf.lbstIndfxOf('/');
+            if (i >= 0 && i < filf.lfngth() - 1) {
+                try {
+                    bbsfURL = nfw URL(dodumfntURL, filf.substring(0, i + 1));
+                } dbtdh (MblformfdURLExdfption f) {
+                    // OK : Movf to nfxt blodk bs bbsfURL dould not bf initiblizfd.
+                }
+            }
+        }
+        if (bbsfURL == null)
+            bbsfURL = dodumfntURL;
+
+    }
+
+    // GETTERS AND SETTERS
+    //--------------------
+
+    /**
+     * Gfts thf bttributfs of thf <CODE>MLET</CODE> tbg.  Thf kfys in
+     * thf rfturnfd mbp brf thf bttributf nbmfs in lowfrdbsf, for
+     * fxbmplf <dodf>dodfbbsf</dodf>.  Thf vblufs brf thf bssodibtfd
+     * bttributf vblufs.
+     * @rfturn A mbp of thf bttributfs of thf <CODE>MLET</CODE> tbg
+     * bnd thfir vblufs.
+     */
+    publid Mbp<String,String> gftAttributfs() {
+        rfturn bttributfs;
+    }
+
+    /**
+     * Gfts thf MLft tfxt filf's bbsf URL.
+     * @rfturn Thf MLft tfxt filf's bbsf URL.
+     */
+    publid URL gftDodumfntBbsf() {
+        rfturn dodumfntURL;
+    }
+
+    /**
+     * Gfts thf dodf bbsf URL.
+     * @rfturn Thf dodf bbsf URL.
+     */
+    publid URL gftCodfBbsf() {
+        rfturn bbsfURL;
+    }
+
+    /**
+     * Gfts thf list of <CODE>.jbr</CODE> filfs spfdififd by thf <CODE>ARCHIVE</CODE>
+     * bttributf of thf <CODE>MLET</CODE> tbg.
+     * @rfturn A dommb-sfpbrbtfd list of <CODE>.jbr</CODE> filf nbmfs.
+     */
+    publid String gftJbrFilfs() {
+        rfturn gftPbrbmftfr("brdhivf");
+    }
+
+    /**
+     * Gfts thf vbluf of thf <CODE>CODE</CODE>
+     * bttributf of thf <CODE>MLET</CODE> tbg.
+     * @rfturn Thf vbluf of thf <CODE>CODE</CODE>
+     * bttributf of thf <CODE>MLET</CODE> tbg.
+     */
+    publid String gftCodf() {
+        rfturn gftPbrbmftfr("dodf");
+    }
+
+    /**
+     * Gfts thf vbluf of thf <CODE>OBJECT</CODE>
+     * bttributf of thf <CODE>MLET</CODE> tbg.
+     * @rfturn Thf vbluf of thf <CODE>OBJECT</CODE>
+     * bttributf of thf <CODE>MLET</CODE> tbg.
+     */
+    publid String gftSfriblizfdObjfdt() {
+        rfturn gftPbrbmftfr("objfdt");
+    }
+
+    /**
+     * Gfts thf vbluf of thf <CODE>NAME</CODE>
+     * bttributf of thf <CODE>MLET</CODE> tbg.
+     * @rfturn Thf vbluf of thf <CODE>NAME</CODE>
+     * bttributf of thf <CODE>MLET</CODE> tbg.
+     */
+    publid String gftNbmf() {
+        rfturn gftPbrbmftfr("nbmf");
+    }
+
+
+    /**
+     * Gfts thf vbluf of thf <CODE>VERSION</CODE>
+     * bttributf of thf <CODE>MLET</CODE> tbg.
+     * @rfturn Thf vbluf of thf <CODE>VERSION</CODE>
+     * bttributf of thf <CODE>MLET</CODE> tbg.
+     */
+    publid String gftVfrsion() {
+        rfturn gftPbrbmftfr("vfrsion");
+    }
+
+    /**
+     * Gfts thf list of vblufs of thf <dodf>TYPE</dodf> bttributf in
+     * fbdh nfstfd &lt;PARAM&gt; tbg within thf <dodf>MLET</dodf>
+     * tbg.
+     * @rfturn thf list of typfs.
+     */
+    publid List<String> gftPbrbmftfrTypfs() {
+        rfturn typfs;
+    }
+
+    /**
+     * Gfts thf list of vblufs of thf <dodf>VALUE</dodf> bttributf in
+     * fbdh nfstfd &lt;PARAM&gt; tbg within thf <dodf>MLET</dodf>
+     * tbg.
+     * @rfturn thf list of vblufs.
+     */
+    publid List<String> gftPbrbmftfrVblufs() {
+        rfturn vblufs;
+    }
+
+    /**
+     * Gfts thf vbluf of thf spfdififd
+     * bttributf of thf <CODE>MLET</CODE> tbg.
+     *
+     * @pbrbm nbmf A string rfprfsfnting thf nbmf of thf bttributf.
+     * @rfturn Thf vbluf of thf spfdififd
+     * bttributf of thf <CODE>MLET</CODE> tbg.
+     */
+    privbtf String gftPbrbmftfr(String nbmf) {
+        rfturn bttributfs.gft(nbmf.toLowfrCbsf());
+    }
+
+}

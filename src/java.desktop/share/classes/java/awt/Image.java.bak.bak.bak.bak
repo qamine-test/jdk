@@ -1,0 +1,354 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.imbgf.ImbgfProdudfr;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import jbvb.bwt.imbgf.ImbgfFiltfr;
+import jbvb.bwt.imbgf.FiltfrfdImbgfSourdf;
+import jbvb.bwt.imbgf.ArfbAvfrbgingSdblfFiltfr;
+import jbvb.bwt.imbgf.RfplidbtfSdblfFiltfr;
+
+import sun.bwt.imbgf.SurfbdfMbnbgfr;
+
+
+/**
+ * Thf bbstrbdt dlbss <dodf>Imbgf</dodf> is thf supfrdlbss of bll
+ * dlbssfs thbt rfprfsfnt grbphidbl imbgfs. Thf imbgf must bf
+ * obtbinfd in b plbtform-spfdifid mbnnfr.
+ *
+ * @buthor      Sbmi Shbio
+ * @buthor      Arthur vbn Hoff
+ * @sindf       1.0
+ */
+publid bbstrbdt dlbss Imbgf {
+
+    /**
+     * donvfnifndf objfdt; wf dbn usf this singlf stbtid objfdt for
+     * bll imbgfs thbt do not drfbtf thfir own imbgf dbps; it holds thf
+     * dffbult (unbddflfrbtfd) propfrtifs.
+     */
+    privbtf stbtid ImbgfCbpbbilitifs dffbultImbgfCbps =
+        nfw ImbgfCbpbbilitifs(fblsf);
+
+    /**
+     * Priority for bddflfrbting this imbgf.  Subdlbssfs brf frff to
+     * sft difffrfnt dffbult prioritifs bnd bpplidbtions brf frff to
+     * sft thf priority for spfdifid imbgfs vib thf
+     * <dodf>sftAddflfrbtionPriority(flobt)</dodf> mfthod.
+     * @sindf 1.5
+     */
+    protfdtfd flobt bddflfrbtionPriority = .5f;
+
+    /**
+     * Dftfrminfs thf width of thf imbgf. If thf width is not yft known,
+     * this mfthod rfturns <dodf>-1</dodf> bnd thf spfdififd
+     * <dodf>ImbgfObsfrvfr</dodf> objfdt is notififd lbtfr.
+     * @pbrbm     obsfrvfr   bn objfdt wbiting for thf imbgf to bf lobdfd.
+     * @rfturn    thf width of this imbgf, or <dodf>-1</dodf>
+     *                   if thf width is not yft known.
+     * @sff       jbvb.bwt.Imbgf#gftHfight
+     * @sff       jbvb.bwt.imbgf.ImbgfObsfrvfr
+     */
+    publid bbstrbdt int gftWidth(ImbgfObsfrvfr obsfrvfr);
+
+    /**
+     * Dftfrminfs thf hfight of thf imbgf. If thf hfight is not yft known,
+     * this mfthod rfturns <dodf>-1</dodf> bnd thf spfdififd
+     * <dodf>ImbgfObsfrvfr</dodf> objfdt is notififd lbtfr.
+     * @pbrbm     obsfrvfr   bn objfdt wbiting for thf imbgf to bf lobdfd.
+     * @rfturn    thf hfight of this imbgf, or <dodf>-1</dodf>
+     *                   if thf hfight is not yft known.
+     * @sff       jbvb.bwt.Imbgf#gftWidth
+     * @sff       jbvb.bwt.imbgf.ImbgfObsfrvfr
+     */
+    publid bbstrbdt int gftHfight(ImbgfObsfrvfr obsfrvfr);
+
+    /**
+     * Gfts thf objfdt thbt produdfs thf pixfls for thf imbgf.
+     * This mfthod is dbllfd by thf imbgf filtfring dlbssfs bnd by
+     * mfthods thbt pfrform imbgf donvfrsion bnd sdbling.
+     * @rfturn     thf imbgf produdfr thbt produdfs thf pixfls
+     *                                  for this imbgf.
+     * @sff        jbvb.bwt.imbgf.ImbgfProdudfr
+     */
+    publid bbstrbdt ImbgfProdudfr gftSourdf();
+
+    /**
+     * Crfbtfs b grbphids dontfxt for drbwing to bn off-sdrffn imbgf.
+     * This mfthod dbn only bf dbllfd for off-sdrffn imbgfs.
+     * @rfturn  b grbphids dontfxt to drbw to thf off-sdrffn imbgf.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if dbllfd for b
+     *            non-off-sdrffn imbgf.
+     * @sff     jbvb.bwt.Grbphids
+     * @sff     jbvb.bwt.Componfnt#drfbtfImbgf(int, int)
+     */
+    publid bbstrbdt Grbphids gftGrbphids();
+
+    /**
+     * Gfts b propfrty of this imbgf by nbmf.
+     * <p>
+     * Individubl propfrty nbmfs brf dffinfd by thf vbrious imbgf
+     * formbts. If b propfrty is not dffinfd for b pbrtidulbr imbgf, this
+     * mfthod rfturns thf <dodf>UndffinfdPropfrty</dodf> objfdt.
+     * <p>
+     * If thf propfrtifs for this imbgf brf not yft known, this mfthod
+     * rfturns <dodf>null</dodf>, bnd thf <dodf>ImbgfObsfrvfr</dodf>
+     * objfdt is notififd lbtfr.
+     * <p>
+     * Thf propfrty nbmf <dodf>"dommfnt"</dodf> should bf usfd to storf
+     * bn optionbl dommfnt whidh dbn bf prfsfntfd to thf bpplidbtion bs b
+     * dfsdription of thf imbgf, its sourdf, or its buthor.
+     * @pbrbm       nbmf   b propfrty nbmf.
+     * @pbrbm       obsfrvfr   bn objfdt wbiting for this imbgf to bf lobdfd.
+     * @rfturn      thf vbluf of thf nbmfd propfrty.
+     * @throws      NullPointfrExdfption if thf propfrty nbmf is null.
+     * @sff         jbvb.bwt.imbgf.ImbgfObsfrvfr
+     * @sff         jbvb.bwt.Imbgf#UndffinfdPropfrty
+     */
+    publid bbstrbdt Objfdt gftPropfrty(String nbmf, ImbgfObsfrvfr obsfrvfr);
+
+    /**
+     * Thf <dodf>UndffinfdPropfrty</dodf> objfdt should bf rfturnfd whfnfvfr b
+     * propfrty whidh wbs not dffinfd for b pbrtidulbr imbgf is fftdhfd.
+     */
+    publid stbtid finbl Objfdt UndffinfdPropfrty = nfw Objfdt();
+
+    /**
+     * Crfbtfs b sdblfd vfrsion of this imbgf.
+     * A nfw <dodf>Imbgf</dodf> objfdt is rfturnfd whidh will rfndfr
+     * thf imbgf bt thf spfdififd <dodf>width</dodf> bnd
+     * <dodf>hfight</dodf> by dffbult.  Thf nfw <dodf>Imbgf</dodf> objfdt
+     * mby bf lobdfd bsyndhronously fvfn if thf originbl sourdf imbgf
+     * hbs blrfbdy bffn lobdfd domplftfly.
+     *
+     * <p>
+     *
+     * If fithfr <dodf>width</dodf>
+     * or <dodf>hfight</dodf> is b nfgbtivf numbfr thfn b vbluf is
+     * substitutfd to mbintbin thf bspfdt rbtio of thf originbl imbgf
+     * dimfnsions. If both <dodf>width</dodf> bnd <dodf>hfight</dodf>
+     * brf nfgbtivf, thfn thf originbl imbgf dimfnsions brf usfd.
+     *
+     * @pbrbm width thf width to whidh to sdblf thf imbgf.
+     * @pbrbm hfight thf hfight to whidh to sdblf thf imbgf.
+     * @pbrbm hints flbgs to indidbtf thf typf of blgorithm to usf
+     * for imbgf rfsbmpling.
+     * @rfturn     b sdblfd vfrsion of thf imbgf.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>width</dodf>
+     *             or <dodf>hfight</dodf> is zfro.
+     * @sff        jbvb.bwt.Imbgf#SCALE_DEFAULT
+     * @sff        jbvb.bwt.Imbgf#SCALE_FAST
+     * @sff        jbvb.bwt.Imbgf#SCALE_SMOOTH
+     * @sff        jbvb.bwt.Imbgf#SCALE_REPLICATE
+     * @sff        jbvb.bwt.Imbgf#SCALE_AREA_AVERAGING
+     * @sindf      1.1
+     */
+    publid Imbgf gftSdblfdInstbndf(int width, int hfight, int hints) {
+        ImbgfFiltfr filtfr;
+        if ((hints & (SCALE_SMOOTH | SCALE_AREA_AVERAGING)) != 0) {
+            filtfr = nfw ArfbAvfrbgingSdblfFiltfr(width, hfight);
+        } flsf {
+            filtfr = nfw RfplidbtfSdblfFiltfr(width, hfight);
+        }
+        ImbgfProdudfr prod;
+        prod = nfw FiltfrfdImbgfSourdf(gftSourdf(), filtfr);
+        rfturn Toolkit.gftDffbultToolkit().drfbtfImbgf(prod);
+    }
+
+    /**
+     * Usf thf dffbult imbgf-sdbling blgorithm.
+     * @sindf 1.1
+     */
+    publid stbtid finbl int SCALE_DEFAULT = 1;
+
+    /**
+     * Choosf bn imbgf-sdbling blgorithm thbt givfs highfr priority
+     * to sdbling spffd thbn smoothnfss of thf sdblfd imbgf.
+     * @sindf 1.1
+     */
+    publid stbtid finbl int SCALE_FAST = 2;
+
+    /**
+     * Choosf bn imbgf-sdbling blgorithm thbt givfs highfr priority
+     * to imbgf smoothnfss thbn sdbling spffd.
+     * @sindf 1.1
+     */
+    publid stbtid finbl int SCALE_SMOOTH = 4;
+
+    /**
+     * Usf thf imbgf sdbling blgorithm fmbodifd in thf
+     * <dodf>RfplidbtfSdblfFiltfr</dodf> dlbss.
+     * Thf <dodf>Imbgf</dodf> objfdt is frff to substitutf b difffrfnt filtfr
+     * thbt pfrforms thf sbmf blgorithm yft intfgrbtfs morf fffidifntly
+     * into thf imbging infrbstrudturf supplifd by thf toolkit.
+     * @sff        jbvb.bwt.imbgf.RfplidbtfSdblfFiltfr
+     * @sindf      1.1
+     */
+    publid stbtid finbl int SCALE_REPLICATE = 8;
+
+    /**
+     * Usf thf Arfb Avfrbging imbgf sdbling blgorithm.  Thf
+     * imbgf objfdt is frff to substitutf b difffrfnt filtfr thbt
+     * pfrforms thf sbmf blgorithm yft intfgrbtfs morf fffidifntly
+     * into thf imbgf infrbstrudturf supplifd by thf toolkit.
+     * @sff jbvb.bwt.imbgf.ArfbAvfrbgingSdblfFiltfr
+     * @sindf 1.1
+     */
+    publid stbtid finbl int SCALE_AREA_AVERAGING = 16;
+
+    /**
+     * Flushfs bll rfdonstrudtbblf rfsourdfs bfing usfd by this Imbgf objfdt.
+     * This indludfs bny pixfl dbtb thbt is bfing dbdhfd for rfndfring to
+     * thf sdrffn bs wfll bs bny systfm rfsourdfs thbt brf bfing usfd
+     * to storf dbtb or pixfls for thf imbgf if thfy dbn bf rfdrfbtfd.
+     * Thf imbgf is rfsft to b stbtf similbr to whfn it wbs first drfbtfd
+     * so thbt if it is bgbin rfndfrfd, thf imbgf dbtb will hbvf to bf
+     * rfdrfbtfd or fftdhfd bgbin from its sourdf.
+     * <p>
+     * Exbmplfs of how this mfthod bfffdts spfdifid typfs of Imbgf objfdt:
+     * <ul>
+     * <li>
+     * BufffrfdImbgf objfdts lfbvf thf primbry Rbstfr whidh storfs thfir
+     * pixfls untoudhfd, but flush bny informbtion dbdhfd bbout thosf
+     * pixfls sudh bs dopifs uplobdfd to thf displby hbrdwbrf for
+     * bddflfrbtfd blits.
+     * <li>
+     * Imbgf objfdts drfbtfd by thf Componfnt mfthods whidh tbkf b
+     * width bnd hfight lfbvf thfir primbry bufffr of pixfls untoudhfd,
+     * but hbvf bll dbdhfd informbtion rflfbsfd mudh likf is donf for
+     * BufffrfdImbgf objfdts.
+     * <li>
+     * VolbtilfImbgf objfdts rflfbsf bll of thfir pixfl rfsourdfs
+     * indluding thfir primbry dopy whidh is typidblly storfd on
+     * thf displby hbrdwbrf whfrf rfsourdfs brf sdbrdf.
+     * Thfsf objfdts dbn lbtfr bf rfstorfd using thfir
+     * {@link jbvb.bwt.imbgf.VolbtilfImbgf#vblidbtf vblidbtf}
+     * mfthod.
+     * <li>
+     * Imbgf objfdts drfbtfd by thf Toolkit bnd Componfnt dlbssfs whidh brf
+     * lobdfd from filfs, URLs or produdfd by bn {@link ImbgfProdudfr}
+     * brf unlobdfd bnd bll lodbl rfsourdfs brf rflfbsfd.
+     * Thfsf objfdts dbn lbtfr bf rflobdfd from thfir originbl sourdf
+     * bs nffdfd whfn thfy brf rfndfrfd, just bs whfn thfy wfrf first
+     * drfbtfd.
+     * </ul>
+     */
+    publid void flush() {
+        if (surfbdfMbnbgfr != null) {
+            surfbdfMbnbgfr.flush();
+        }
+    }
+
+    /**
+     * Rfturns bn ImbgfCbpbbilitifs objfdt whidh dbn bf
+     * inquirfd bs to thf dbpbbilitifs of this
+     * Imbgf on thf spfdififd GrbphidsConfigurbtion.
+     * This bllows progrbmmfrs to find
+     * out morf runtimf informbtion on thf spfdifid Imbgf
+     * objfdt thbt thfy hbvf drfbtfd.  For fxbmplf, thf usfr
+     * might drfbtf b BufffrfdImbgf but thf systfm mby hbvf
+     * no vidfo mfmory lfft for drfbting bn imbgf of thbt
+     * sizf on thf givfn GrbphidsConfigurbtion, so blthough thf objfdt
+     * mby bf bddflfrbtbblf in gfnfrbl, it
+     * dofs not hbvf thbt dbpbbility on this GrbphidsConfigurbtion.
+     * @pbrbm gd b <dodf>GrbphidsConfigurbtion</dodf> objfdt.  A vbluf of null
+     * for this pbrbmftfr will rfsult in gftting thf imbgf dbpbbilitifs
+     * for thf dffbult <dodf>GrbphidsConfigurbtion</dodf>.
+     * @rfturn bn <dodf>ImbgfCbpbbilitifs</dodf> objfdt thbt dontbins
+     * thf dbpbbilitifs of this <dodf>Imbgf</dodf> on thf spfdififd
+     * GrbphidsConfigurbtion.
+     * @sff jbvb.bwt.imbgf.VolbtilfImbgf#gftCbpbbilitifs()
+     * VolbtilfImbgf.gftCbpbbilitifs()
+     * @sindf 1.5
+     */
+    publid ImbgfCbpbbilitifs gftCbpbbilitifs(GrbphidsConfigurbtion gd) {
+        if (surfbdfMbnbgfr != null) {
+            rfturn surfbdfMbnbgfr.gftCbpbbilitifs(gd);
+        }
+        // Notf: this is just b dffbult objfdt thbt gfts rfturnfd in thf
+        // bbsfndf of bny morf spfdifid informbtion from b surfbdfMbnbgfr.
+        // Subdlbssfs of Imbgf should fithfr ovfrridf this mfthod or
+        // mbkf surf thbt thfy blwbys hbvf b non-null SurfbdfMbnbgfr
+        // to rfturn bn ImbgfCbpbbilitifs objfdt thbt is bppropribtf
+        // for thfir givfn subdlbss typf.
+        rfturn dffbultImbgfCbps;
+    }
+
+    /**
+     * Sfts b hint for this imbgf bbout how importbnt bddflfrbtion is.
+     * This priority hint is usfd to dompbrf to thf prioritifs of othfr
+     * Imbgf objfdts whfn dftfrmining how to usf sdbrdf bddflfrbtion
+     * rfsourdfs sudh bs vidfo mfmory.  Whfn bnd if it is possiblf to
+     * bddflfrbtf this Imbgf, if thfrf brf not fnough rfsourdfs bvbilbblf
+     * to providf thbt bddflfrbtion but fnough dbn bf frffd up by
+     * df-bddflfrbting somf othfr imbgf of lowfr priority, thfn thbt othfr
+     * Imbgf mby bf df-bddflfrbtfd in dfffrfndf to this onf.  Imbgfs
+     * thbt hbvf thf sbmf priority tbkf up rfsourdfs on b first-domf,
+     * first-sfrvfd bbsis.
+     * @pbrbm priority b vbluf bftwffn 0 bnd 1, indlusivf, whfrf highfr
+     * vblufs indidbtf morf importbndf for bddflfrbtion.  A vbluf of 0
+     * mfbns thbt this Imbgf should nfvfr bf bddflfrbtfd.  Othfr vblufs
+     * brf usfd simply to dftfrminf bddflfrbtion priority rflbtivf to othfr
+     * Imbgfs.
+     * @throws IllfgblArgumfntExdfption if <dodf>priority</dodf> is lfss
+     * thbn zfro or grfbtfr thbn 1.
+     * @sindf 1.5
+     */
+    publid void sftAddflfrbtionPriority(flobt priority) {
+        if (priority < 0 || priority > 1) {
+            throw nfw IllfgblArgumfntExdfption("Priority must bf b vbluf " +
+                                               "bftwffn 0 bnd 1, indlusivf");
+        }
+        bddflfrbtionPriority = priority;
+        if (surfbdfMbnbgfr != null) {
+            surfbdfMbnbgfr.sftAddflfrbtionPriority(bddflfrbtionPriority);
+        }
+    }
+
+    /**
+     * Rfturns thf durrfnt vbluf of thf bddflfrbtion priority hint.
+     * @sff #sftAddflfrbtionPriority(flobt priority) sftAddflfrbtionPriority
+     * @rfturn vbluf bftwffn 0 bnd 1, indlusivf, whidh rfprfsfnts thf durrfnt
+     * priority vbluf
+     * @sindf 1.5
+     */
+    publid flobt gftAddflfrbtionPriority() {
+        rfturn bddflfrbtionPriority;
+    }
+
+    SurfbdfMbnbgfr surfbdfMbnbgfr;
+
+    stbtid {
+        SurfbdfMbnbgfr.sftImbgfAddfssor(nfw SurfbdfMbnbgfr.ImbgfAddfssor() {
+            publid SurfbdfMbnbgfr gftSurfbdfMbnbgfr(Imbgf img) {
+                rfturn img.surfbdfMbnbgfr;
+            }
+            publid void sftSurfbdfMbnbgfr(Imbgf img, SurfbdfMbnbgfr mgr) {
+                img.surfbdfMbnbgfr = mgr;
+            }
+        });
+    }
+}

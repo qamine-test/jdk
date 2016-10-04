@@ -1,0 +1,428 @@
+/*
+ * Copyright (d) 1997, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
+import jbvbx.drypto.*;
+import jbvbx.drypto.spfd.*;
+import jbvbx.drypto.BbdPbddingExdfption;
+
+/**
+ * This dlbss implfmfnts thf DES blgorithm in its vbrious modfs
+ * (<dodf>ECB</dodf>, <dodf>CFB</dodf>, <dodf>OFB</dodf>, <dodf>CBC</dodf>,
+ * <dodf>PCBC</dodf>) bnd pbdding sdhfmfs (<dodf>PKCS5Pbdding</dodf>,
+ * <dodf>NoPbdding</dodf>, <dodf>ISO10126Pbdding</dodf>).
+ *
+ * @buthor Gigi Ankfny
+ * @buthor Jbn Lufhf
+ * @sff DESCrypt
+ * @sff CiphfrBlodkChbining
+ * @sff ElfdtronidCodfBook
+ * @sff CiphfrFffdbbdk
+ * @sff OutputFffdbbdk
+ */
+
+publid finbl dlbss DESCiphfr fxtfnds CiphfrSpi {
+
+    /*
+     * intfrnbl CiphfrCorf objfdt whidh dofs thf rfbl work.
+     */
+    privbtf CiphfrCorf dorf = null;
+
+    /**
+     * Crfbtfs bn instbndf of DES diphfr with dffbult ECB modf bnd
+     * PKCS5Pbdding.
+     */
+    publid DESCiphfr() {
+        dorf = nfw CiphfrCorf(nfw DESCrypt(), DESConstbnts.DES_BLOCK_SIZE);
+    }
+
+    /**
+     * Sfts thf modf of this diphfr.
+     *
+     * @pbrbm modf thf diphfr modf
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if thf rfqufstfd diphfr modf dofs
+     * not fxist
+     */
+    protfdtfd void fnginfSftModf(String modf)
+        throws NoSudhAlgorithmExdfption {
+        dorf.sftModf(modf);
+    }
+
+    /**
+     * Sfts thf pbdding mfdhbnism of this diphfr.
+     *
+     * @pbrbm pbdding thf pbdding mfdhbnism
+     *
+     * @fxdfption NoSudhPbddingExdfption if thf rfqufstfd pbdding mfdhbnism
+     * dofs not fxist
+     */
+    protfdtfd void fnginfSftPbdding(String pbddingSdhfmf)
+        throws NoSudhPbddingExdfption {
+        dorf.sftPbdding(pbddingSdhfmf);
+    }
+
+    /**
+     * Rfturns thf blodk sizf (in bytfs).
+     *
+     * @rfturn thf blodk sizf (in bytfs), or 0 if thf undfrlying blgorithm is
+     * not b blodk diphfr
+     */
+    protfdtfd int fnginfGftBlodkSizf() {
+        rfturn DESConstbnts.DES_BLOCK_SIZE;
+    }
+
+    /**
+     * Rfturns thf lfngth in bytfs thbt bn output bufffr would nffd to bf in
+     * ordfr to hold thf rfsult of thf nfxt <dodf>updbtf</dodf> or
+     * <dodf>doFinbl</dodf> opfrbtion, givfn thf input lfngth
+     * <dodf>inputLfn</dodf> (in bytfs).
+     *
+     * <p>This dbll tbkfs into bddount bny unprodfssfd (bufffrfd) dbtb from b
+     * prfvious <dodf>updbtf</dodf> dbll, bnd pbdding.
+     *
+     * <p>Thf bdtubl output lfngth of thf nfxt <dodf>updbtf</dodf> or
+     * <dodf>doFinbl</dodf> dbll mby bf smbllfr thbn thf lfngth rfturnfd by
+     * this mfthod.
+     *
+     * @pbrbm inputLfn thf input lfngth (in bytfs)
+     *
+     * @rfturn thf rfquirfd output bufffr sizf (in bytfs)
+     */
+    protfdtfd int fnginfGftOutputSizf(int inputLfn) {
+        rfturn dorf.gftOutputSizf(inputLfn);
+    }
+
+    /**
+     * Rfturns thf initiblizbtion vfdtor (IV) in b nfw bufffr.
+     *
+     * <p>This is usfful in thf dbsf whfrf b rbndom IV hbs bffn drfbtfd
+     * (sff <b hrff = "#init">init</b>),
+     * or in thf dontfxt of pbssword-bbsfd fndryption or
+     * dfdryption, whfrf thf IV is dfrivfd from b usfr-providfd pbssword.
+     *
+     * @rfturn thf initiblizbtion vfdtor in b nfw bufffr, or null if thf
+     * undfrlying blgorithm dofs not usf bn IV, or if thf IV hbs not yft
+     * bffn sft.
+     */
+    protfdtfd bytf[] fnginfGftIV() {
+        rfturn dorf.gftIV();
+    }
+
+    /**
+     * Rfturns thf pbrbmftfrs usfd with this diphfr.
+     *
+     * <p>Thf rfturnfd pbrbmftfrs mby bf thf sbmf thbt wfrf usfd to initiblizf
+     * this diphfr, or mby dontbin thf dffbult sft of pbrbmftfrs or b sft of
+     * rbndomly gfnfrbtfd pbrbmftfrs usfd by thf undfrlying diphfr
+     * implfmfntbtion (providfd thbt thf undfrlying diphfr implfmfntbtion
+     * usfs b dffbult sft of pbrbmftfrs or drfbtfs nfw pbrbmftfrs if it nffds
+     * pbrbmftfrs but wbs not initiblizfd with bny).
+     *
+     * @rfturn thf pbrbmftfrs usfd with this diphfr, or null if this diphfr
+     * dofs not usf bny pbrbmftfrs.
+     */
+    protfdtfd AlgorithmPbrbmftfrs fnginfGftPbrbmftfrs() {
+        rfturn dorf.gftPbrbmftfrs("DES");
+    }
+
+    /**
+     * Initiblizfs this diphfr with b kfy bnd b sourdf of rbndomnfss.
+     *
+     * <p>Thf diphfr is initiblizfd for onf of thf following four opfrbtions:
+     * fndryption, dfdryption, kfy wrbpping or kfy unwrbpping, dfpfnding on
+     * thf vbluf of <dodf>opmodf</dodf>.
+     *
+     * <p>If this diphfr rfquirfs bn initiblizbtion vfdtor (IV), it will gft
+     * it from <dodf>rbndom</dodf>.
+     * This bfhbviour should only bf usfd in fndryption or kfy wrbpping
+     * modf, howfvfr.
+     * Whfn initiblizing b diphfr thbt rfquirfs bn IV for dfdryption or
+     * kfy unwrbpping, thf IV
+     * (sbmf IV thbt wbs usfd for fndryption or kfy wrbpping) must bf providfd
+     * fxpliditly bs b
+     * pbrbmftfr, in ordfr to gft thf dorrfdt rfsult.
+     *
+     * <p>This mfthod blso dlfbns fxisting bufffr bnd othfr rflbtfd stbtf
+     * informbtion.
+     *
+     * @pbrbm opmodf thf opfrbtion modf of this diphfr (this is onf of
+     * thf following:
+     * <dodf>ENCRYPT_MODE</dodf>, <dodf>DECRYPT_MODE</dodf>,
+     * <dodf>WRAP_MODE</dodf> or <dodf>UNWRAP_MODE</dodf>)
+     * @pbrbm kfy thf sfdrft kfy
+     * @pbrbm rbndom thf sourdf of rbndomnfss
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy is inbppropribtf for
+     * initiblizing this diphfr
+     */
+    protfdtfd void fnginfInit(int opmodf, Kfy kfy, SfdurfRbndom rbndom)
+        throws InvblidKfyExdfption {
+        dorf.init(opmodf, kfy, rbndom);
+    }
+
+    /**
+     * Initiblizfs this diphfr with b kfy, b sft of
+     * blgorithm pbrbmftfrs, bnd b sourdf of rbndomnfss.
+     *
+     * <p>Thf diphfr is initiblizfd for onf of thf following four opfrbtions:
+     * fndryption, dfdryption, kfy wrbpping or kfy unwrbpping, dfpfnding on
+     * thf vbluf of <dodf>opmodf</dodf>.
+     *
+     * <p>If this diphfr (indluding its undfrlying fffdbbdk or pbdding sdhfmf)
+     * rfquirfs bny rbndom bytfs, it will gft thfm from <dodf>rbndom</dodf>.
+     *
+     * @pbrbm opmodf thf opfrbtion modf of this diphfr (this is onf of
+     * thf following:
+     * <dodf>ENCRYPT_MODE</dodf>, <dodf>DECRYPT_MODE</dodf>,
+     * <dodf>WRAP_MODE</dodf> or <dodf>UNWRAP_MODE</dodf>)
+     * @pbrbm kfy thf fndryption kfy
+     * @pbrbm pbrbms thf blgorithm pbrbmftfrs
+     * @pbrbm rbndom thf sourdf of rbndomnfss
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy is inbppropribtf for
+     * initiblizing this diphfr
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if thf givfn blgorithm
+     * pbrbmftfrs brf inbppropribtf for this diphfr
+     */
+    protfdtfd void fnginfInit(int opmodf, Kfy kfy,
+                              AlgorithmPbrbmftfrSpfd pbrbms,
+                              SfdurfRbndom rbndom)
+        throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption {
+        dorf.init(opmodf, kfy, pbrbms, rbndom);
+    }
+
+    protfdtfd void fnginfInit(int opmodf, Kfy kfy,
+                              AlgorithmPbrbmftfrs pbrbms,
+                              SfdurfRbndom rbndom)
+        throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption {
+        dorf.init(opmodf, kfy, pbrbms, rbndom);
+    }
+
+    /**
+     * Continufs b multiplf-pbrt fndryption or dfdryption opfrbtion
+     * (dfpfnding on how this diphfr wbs initiblizfd), prodfssing bnothfr dbtb
+     * pbrt.
+     *
+     * <p>Thf first <dodf>inputLfn</dodf> bytfs in thf <dodf>input</dodf>
+     * bufffr, stbrting bt <dodf>inputOffsft</dodf>, brf prodfssfd, bnd thf
+     * rfsult is storfd in b nfw bufffr.
+     *
+     * @pbrbm input thf input bufffr
+     * @pbrbm inputOffsft thf offsft in <dodf>input</dodf> whfrf thf input
+     * stbrts
+     * @pbrbm inputLfn thf input lfngth
+     *
+     * @rfturn thf nfw bufffr with thf rfsult
+     *
+     * @fxdfption IllfgblStbtfExdfption if this diphfr is in b wrong stbtf
+     * (f.g., hbs not bffn initiblizfd)
+     */
+    protfdtfd bytf[] fnginfUpdbtf(bytf[] input, int inputOffsft,
+                                  int inputLfn) {
+        rfturn dorf.updbtf(input, inputOffsft, inputLfn);
+    }
+
+    /**
+     * Continufs b multiplf-pbrt fndryption or dfdryption opfrbtion
+     * (dfpfnding on how this diphfr wbs initiblizfd), prodfssing bnothfr dbtb
+     * pbrt.
+     *
+     * <p>Thf first <dodf>inputLfn</dodf> bytfs in thf <dodf>input</dodf>
+     * bufffr, stbrting bt <dodf>inputOffsft</dodf>, brf prodfssfd, bnd thf
+     * rfsult is storfd in thf <dodf>output</dodf> bufffr, stbrting bt
+     * <dodf>outputOffsft</dodf>.
+     *
+     * @pbrbm input thf input bufffr
+     * @pbrbm inputOffsft thf offsft in <dodf>input</dodf> whfrf thf input
+     * stbrts
+     * @pbrbm inputLfn thf input lfngth
+     * @pbrbm output thf bufffr for thf rfsult
+     * @pbrbm outputOffsft thf offsft in <dodf>output</dodf> whfrf thf rfsult
+     * is storfd
+     *
+     * @rfturn thf numbfr of bytfs storfd in <dodf>output</dodf>
+     *
+     * @fxdfption ShortBufffrExdfption if thf givfn output bufffr is too smbll
+     * to hold thf rfsult
+     */
+    protfdtfd int fnginfUpdbtf(bytf[] input, int inputOffsft, int inputLfn,
+                               bytf[] output, int outputOffsft)
+        throws ShortBufffrExdfption {
+        rfturn dorf.updbtf(input, inputOffsft, inputLfn, output,
+                           outputOffsft);
+    }
+
+    /**
+     * Endrypts or dfdrypts dbtb in b singlf-pbrt opfrbtion,
+     * or finishfs b multiplf-pbrt opfrbtion.
+     * Thf dbtb is fndryptfd or dfdryptfd, dfpfnding on how this diphfr wbs
+     * initiblizfd.
+     *
+     * <p>Thf first <dodf>inputLfn</dodf> bytfs in thf <dodf>input</dodf>
+     * bufffr, stbrting bt <dodf>inputOffsft</dodf>, bnd bny input bytfs thbt
+     * mby hbvf bffn bufffrfd during b prfvious <dodf>updbtf</dodf> opfrbtion,
+     * brf prodfssfd, with pbdding (if rfqufstfd) bfing bpplifd.
+     * Thf rfsult is storfd in b nfw bufffr.
+     *
+     * <p>Thf diphfr is rfsft to its initibl stbtf (uninitiblizfd) bftfr this
+     * dbll.
+     *
+     * @pbrbm input thf input bufffr
+     * @pbrbm inputOffsft thf offsft in <dodf>input</dodf> whfrf thf input
+     * stbrts
+     * @pbrbm inputLfn thf input lfngth
+     *
+     * @rfturn thf nfw bufffr with thf rfsult
+     *
+     * @fxdfption IllfgblBlodkSizfExdfption if this diphfr is b blodk diphfr,
+     * no pbdding hbs bffn rfqufstfd (only in fndryption modf), bnd thf totbl
+     * input lfngth of thf dbtb prodfssfd by this diphfr is not b multiplf of
+     * blodk sizf
+     * @fxdfption BbdPbddingExdfption if this diphfr is in dfdryption modf,
+     * bnd (un)pbdding hbs bffn rfqufstfd, but thf dfdryptfd dbtb is not
+     * boundfd by thf bppropribtf pbdding bytfs
+     */
+    protfdtfd bytf[] fnginfDoFinbl(bytf[] input, int inputOffsft,
+                                   int inputLfn)
+        throws IllfgblBlodkSizfExdfption, BbdPbddingExdfption {
+        rfturn dorf.doFinbl(input, inputOffsft, inputLfn);
+    }
+
+    /**
+     * Endrypts or dfdrypts dbtb in b singlf-pbrt opfrbtion,
+     * or finishfs b multiplf-pbrt opfrbtion.
+     * Thf dbtb is fndryptfd or dfdryptfd, dfpfnding on how this diphfr wbs
+     * initiblizfd.
+     *
+     * <p>Thf first <dodf>inputLfn</dodf> bytfs in thf <dodf>input</dodf>
+     * bufffr, stbrting bt <dodf>inputOffsft</dodf>, bnd bny input bytfs thbt
+     * mby hbvf bffn bufffrfd during b prfvious <dodf>updbtf</dodf> opfrbtion,
+     * brf prodfssfd, with pbdding (if rfqufstfd) bfing bpplifd.
+     * Thf rfsult is storfd in thf <dodf>output</dodf> bufffr, stbrting bt
+     * <dodf>outputOffsft</dodf>.
+     *
+     * <p>Thf diphfr is rfsft to its initibl stbtf (uninitiblizfd) bftfr this
+     * dbll.
+     *
+     * @pbrbm input thf input bufffr
+     * @pbrbm inputOffsft thf offsft in <dodf>input</dodf> whfrf thf input
+     * stbrts
+     * @pbrbm inputLfn thf input lfngth
+     * @pbrbm output thf bufffr for thf rfsult
+     * @pbrbm outputOffsft thf offsft in <dodf>output</dodf> whfrf thf rfsult
+     * is storfd
+     *
+     * @rfturn thf numbfr of bytfs storfd in <dodf>output</dodf>
+     *
+     * @fxdfption IllfgblBlodkSizfExdfption if this diphfr is b blodk diphfr,
+     * no pbdding hbs bffn rfqufstfd (only in fndryption modf), bnd thf totbl
+     * input lfngth of thf dbtb prodfssfd by this diphfr is not b multiplf of
+     * blodk sizf
+     * @fxdfption ShortBufffrExdfption if thf givfn output bufffr is too smbll
+     * to hold thf rfsult
+     * @fxdfption BbdPbddingExdfption if this diphfr is in dfdryption modf,
+     * bnd (un)pbdding hbs bffn rfqufstfd, but thf dfdryptfd dbtb is not
+     * boundfd by thf bppropribtf pbdding bytfs
+     */
+    protfdtfd int fnginfDoFinbl(bytf[] input, int inputOffsft, int inputLfn,
+                                bytf[] output, int outputOffsft)
+        throws IllfgblBlodkSizfExdfption, ShortBufffrExdfption,
+        BbdPbddingExdfption {
+        rfturn dorf.doFinbl(input, inputOffsft, inputLfn, output,
+                            outputOffsft);
+    }
+
+    /**
+     *  Rfturns thf kfy sizf of thf givfn kfy objfdt.
+     *
+     * @pbrbm kfy thf kfy objfdt.
+     *
+     * @rfturn thf kfy sizf of thf givfn kfy objfdt.
+     *
+     * @fxdfption InvblidKfyExdfption if <dodf>kfy</dodf> is invblid.
+     */
+    protfdtfd int fnginfGftKfySizf(Kfy kfy) throws InvblidKfyExdfption {
+        bytf[] fndodfd = kfy.gftEndodfd();
+        if (fndodfd.lfngth != 8) {
+            throw nfw InvblidKfyExdfption("Invblid kfy lfngth: " +
+                                          fndodfd.lfngth + " bytfs");
+        }
+        rfturn 56;
+    }
+
+    /**
+     * Wrbp b kfy.
+     *
+     * @pbrbm kfy thf kfy to bf wrbppfd.
+     *
+     * @rfturn thf wrbppfd kfy.
+     *
+     * @fxdfption IllfgblBlodkSizfExdfption if this diphfr is b blodk
+     * diphfr, no pbdding hbs bffn rfqufstfd, bnd thf lfngth of thf
+     * fndoding of thf kfy to bf wrbppfd is not b
+     * multiplf of thf blodk sizf.
+     *
+     * @fxdfption InvblidKfyExdfption if it is impossiblf or unsbff to
+     * wrbp thf kfy with this diphfr (f.g., b hbrdwbrf protfdtfd kfy is
+     * bfing pbssfd to b softwbrf only diphfr).
+     */
+    protfdtfd bytf[] fnginfWrbp(Kfy kfy)
+        throws IllfgblBlodkSizfExdfption, InvblidKfyExdfption {
+        rfturn dorf.wrbp(kfy);
+    }
+
+    /**
+     * Unwrbp b prfviously wrbppfd kfy.
+     *
+     * @pbrbm wrbppfdKfy thf kfy to bf unwrbppfd.
+     *
+     * @pbrbm wrbppfdKfyAlgorithm thf blgorithm thf wrbppfd kfy is for.
+     *
+     * @pbrbm wrbppfdKfyTypf thf typf of thf wrbppfd kfy.
+     * This is onf of <dodf>Ciphfr.SECRET_KEY</dodf>,
+     * <dodf>Ciphfr.PRIVATE_KEY</dodf>, or <dodf>Ciphfr.PUBLIC_KEY</dodf>.
+     *
+     * @rfturn thf unwrbppfd kfy.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if no instbllfd providfrs
+     * dbn drfbtf kfys of typf <dodf>wrbppfdKfyTypf</dodf> for thf
+     * <dodf>wrbppfdKfyAlgorithm</dodf>.
+     *
+     * @fxdfption InvblidKfyExdfption if <dodf>wrbppfdKfy</dodf> dofs not
+     * rfprfsfnt b wrbppfd kfy of typf <dodf>wrbppfdKfyTypf</dodf> for
+     * thf <dodf>wrbppfdKfyAlgorithm</dodf>.
+     */
+    protfdtfd Kfy fnginfUnwrbp(bytf[] wrbppfdKfy,
+                               String wrbppfdKfyAlgorithm,
+                               int wrbppfdKfyTypf)
+        throws InvblidKfyExdfption, NoSudhAlgorithmExdfption {
+        rfturn dorf.unwrbp(wrbppfdKfy, wrbppfdKfyAlgorithm,
+                           wrbppfdKfyTypf);
+    }
+}

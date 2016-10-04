@@ -1,1621 +1,1621 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
 
-import sun.swing.DefaultLookup;
-import sun.swing.UIAction;
+import sun.swing.DffbultLookup;
+import sun.swing.UIAdtion;
 
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
 
-import java.beans.*;
+import jbvb.bfbns.*;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
 
-import static sun.swing.SwingUtilities2.drawHLine;
-import static sun.swing.SwingUtilities2.drawRect;
-import static sun.swing.SwingUtilities2.drawVLine;
+import stbtid sun.swing.SwingUtilitifs2.drbwHLinf;
+import stbtid sun.swing.SwingUtilitifs2.drbwRfdt;
+import stbtid sun.swing.SwingUtilitifs2.drbwVLinf;
 
 
 /**
- * Implementation of ScrollBarUI for the Basic Look and Feel
+ * Implfmfntbtion of SdrollBbrUI for tif Bbsid Look bnd Fffl
  *
- * @author Rich Schiavi
- * @author David Kloba
- * @author Hans Muller
+ * @butior Ridi Sdiibvi
+ * @butior Dbvid Klobb
+ * @butior Hbns Mullfr
  */
-public class BasicScrollBarUI
-    extends ScrollBarUI implements LayoutManager, SwingConstants
+publid dlbss BbsidSdrollBbrUI
+    fxtfnds SdrollBbrUI implfmfnts LbyoutMbnbgfr, SwingConstbnts
 {
-    private static final int POSITIVE_SCROLL = 1;
-    private static final int NEGATIVE_SCROLL = -1;
+    privbtf stbtid finbl int POSITIVE_SCROLL = 1;
+    privbtf stbtid finbl int NEGATIVE_SCROLL = -1;
 
-    private static final int MIN_SCROLL = 2;
-    private static final int MAX_SCROLL = 3;
+    privbtf stbtid finbl int MIN_SCROLL = 2;
+    privbtf stbtid finbl int MAX_SCROLL = 3;
 
-    // NOTE: DO NOT use this field directly, SynthScrollBarUI assumes you'll
-    // call getMinimumThumbSize to access it.
-    protected Dimension minimumThumbSize;
-    protected Dimension maximumThumbSize;
+    // NOTE: DO NOT usf tiis fifld dirfdtly, SyntiSdrollBbrUI bssumfs you'll
+    // dbll gftMinimumTiumbSizf to bddfss it.
+    protfdtfd Dimfnsion minimumTiumbSizf;
+    protfdtfd Dimfnsion mbximumTiumbSizf;
 
-    protected Color thumbHighlightColor;
-    protected Color thumbLightShadowColor;
-    protected Color thumbDarkShadowColor;
-    protected Color thumbColor;
-    protected Color trackColor;
-    protected Color trackHighlightColor;
+    protfdtfd Color tiumbHigiligitColor;
+    protfdtfd Color tiumbLigitSibdowColor;
+    protfdtfd Color tiumbDbrkSibdowColor;
+    protfdtfd Color tiumbColor;
+    protfdtfd Color trbdkColor;
+    protfdtfd Color trbdkHigiligitColor;
 
-    protected JScrollBar scrollbar;
-    protected JButton incrButton;
-    protected JButton decrButton;
-    protected boolean isDragging;
-    protected TrackListener trackListener;
-    protected ArrowButtonListener buttonListener;
-    protected ModelListener modelListener;
+    protfdtfd JSdrollBbr sdrollbbr;
+    protfdtfd JButton indrButton;
+    protfdtfd JButton dfdrButton;
+    protfdtfd boolfbn isDrbgging;
+    protfdtfd TrbdkListfnfr trbdkListfnfr;
+    protfdtfd ArrowButtonListfnfr buttonListfnfr;
+    protfdtfd ModflListfnfr modflListfnfr;
 
-    protected Rectangle thumbRect;
-    protected Rectangle trackRect;
+    protfdtfd Rfdtbnglf tiumbRfdt;
+    protfdtfd Rfdtbnglf trbdkRfdt;
 
-    protected int trackHighlight;
+    protfdtfd int trbdkHigiligit;
 
-    protected static final int NO_HIGHLIGHT = 0;
-    protected static final int DECREASE_HIGHLIGHT = 1;
-    protected static final int INCREASE_HIGHLIGHT = 2;
+    protfdtfd stbtid finbl int NO_HIGHLIGHT = 0;
+    protfdtfd stbtid finbl int DECREASE_HIGHLIGHT = 1;
+    protfdtfd stbtid finbl int INCREASE_HIGHLIGHT = 2;
 
-    protected ScrollListener scrollListener;
-    protected PropertyChangeListener propertyChangeListener;
-    protected Timer scrollTimer;
+    protfdtfd SdrollListfnfr sdrollListfnfr;
+    protfdtfd PropfrtyCibngfListfnfr propfrtyCibngfListfnfr;
+    protfdtfd Timfr sdrollTimfr;
 
-    private final static int scrollSpeedThrottle = 60; // delay in milli seconds
+    privbtf finbl stbtid int sdrollSpffdTirottlf = 60; // dflby in milli sfdonds
 
-    /** True indicates a middle click will absolutely position the
-     * scrollbar. */
-    private boolean supportsAbsolutePositioning;
+    /** Truf indidbtfs b middlf dlidk will bbsolutfly position tif
+     * sdrollbbr. */
+    privbtf boolfbn supportsAbsolutfPositioning;
 
     /**
-     * Hint as to what width (when vertical) or height (when horizontal)
-     * should be.
+     * Hint bs to wibt widti (wifn vfrtidbl) or ifigit (wifn iorizontbl)
+     * siould bf.
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    protected int scrollBarWidth;
+    protfdtfd int sdrollBbrWidti;
 
-    private Handler handler;
+    privbtf Hbndlfr ibndlfr;
 
-    private boolean thumbActive;
+    privbtf boolfbn tiumbAdtivf;
 
     /**
-     * Determine whether scrollbar layout should use cached value or adjusted
-     * value returned by scrollbar's <code>getValue</code>.
+     * Dftfrminf wiftifr sdrollbbr lbyout siould usf dbdifd vbluf or bdjustfd
+     * vbluf rfturnfd by sdrollbbr's <dodf>gftVbluf</dodf>.
      */
-    private boolean useCachedValue = false;
+    privbtf boolfbn usfCbdifdVbluf = fblsf;
     /**
-     * The scrollbar value is cached to save real value if the view is adjusted.
+     * Tif sdrollbbr vbluf is dbdifd to sbvf rfbl vbluf if tif vifw is bdjustfd.
      */
-    private int scrollBarValue;
+    privbtf int sdrollBbrVbluf;
 
     /**
-     * Distance between the increment button and the track. This may be a negative
-     * number. If negative, then an overlap between the button and track will occur,
-     * which is useful for shaped buttons.
+     * Distbndf bftwffn tif indrfmfnt button bnd tif trbdk. Tiis mby bf b nfgbtivf
+     * numbfr. If nfgbtivf, tifn bn ovfrlbp bftwffn tif button bnd trbdk will oddur,
+     * wiidi is usfful for sibpfd buttons.
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    protected int incrGap;
+    protfdtfd int indrGbp;
 
     /**
-     * Distance between the decrement button and the track. This may be a negative
-     * number. If negative, then an overlap between the button and track will occur,
-     * which is useful for shaped buttons.
+     * Distbndf bftwffn tif dfdrfmfnt button bnd tif trbdk. Tiis mby bf b nfgbtivf
+     * numbfr. If nfgbtivf, tifn bn ovfrlbp bftwffn tif button bnd trbdk will oddur,
+     * wiidi is usfful for sibpfd buttons.
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    protected int decrGap;
+    protfdtfd int dfdrGbp;
 
-    static void loadActionMap(LazyActionMap map) {
-        map.put(new Actions(Actions.POSITIVE_UNIT_INCREMENT));
-        map.put(new Actions(Actions.POSITIVE_BLOCK_INCREMENT));
-        map.put(new Actions(Actions.NEGATIVE_UNIT_INCREMENT));
-        map.put(new Actions(Actions.NEGATIVE_BLOCK_INCREMENT));
-        map.put(new Actions(Actions.MIN_SCROLL));
-        map.put(new Actions(Actions.MAX_SCROLL));
+    stbtid void lobdAdtionMbp(LbzyAdtionMbp mbp) {
+        mbp.put(nfw Adtions(Adtions.POSITIVE_UNIT_INCREMENT));
+        mbp.put(nfw Adtions(Adtions.POSITIVE_BLOCK_INCREMENT));
+        mbp.put(nfw Adtions(Adtions.NEGATIVE_UNIT_INCREMENT));
+        mbp.put(nfw Adtions(Adtions.NEGATIVE_BLOCK_INCREMENT));
+        mbp.put(nfw Adtions(Adtions.MIN_SCROLL));
+        mbp.put(nfw Adtions(Adtions.MAX_SCROLL));
     }
 
 
-    public static ComponentUI createUI(JComponent c)    {
-        return new BasicScrollBarUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d)    {
+        rfturn nfw BbsidSdrollBbrUI();
     }
 
 
-    protected void configureScrollBarColors()
+    protfdtfd void donfigurfSdrollBbrColors()
     {
-        LookAndFeel.installColors(scrollbar, "ScrollBar.background",
-                                  "ScrollBar.foreground");
-        thumbHighlightColor = UIManager.getColor("ScrollBar.thumbHighlight");
-        thumbLightShadowColor = UIManager.getColor("ScrollBar.thumbShadow");
-        thumbDarkShadowColor = UIManager.getColor("ScrollBar.thumbDarkShadow");
-        thumbColor = UIManager.getColor("ScrollBar.thumb");
-        trackColor = UIManager.getColor("ScrollBar.track");
-        trackHighlightColor = UIManager.getColor("ScrollBar.trackHighlight");
+        LookAndFffl.instbllColors(sdrollbbr, "SdrollBbr.bbdkground",
+                                  "SdrollBbr.forfground");
+        tiumbHigiligitColor = UIMbnbgfr.gftColor("SdrollBbr.tiumbHigiligit");
+        tiumbLigitSibdowColor = UIMbnbgfr.gftColor("SdrollBbr.tiumbSibdow");
+        tiumbDbrkSibdowColor = UIMbnbgfr.gftColor("SdrollBbr.tiumbDbrkSibdow");
+        tiumbColor = UIMbnbgfr.gftColor("SdrollBbr.tiumb");
+        trbdkColor = UIMbnbgfr.gftColor("SdrollBbr.trbdk");
+        trbdkHigiligitColor = UIMbnbgfr.gftColor("SdrollBbr.trbdkHigiligit");
     }
 
 
-    public void installUI(JComponent c)   {
-        scrollbar = (JScrollBar)c;
-        thumbRect = new Rectangle(0, 0, 0, 0);
-        trackRect = new Rectangle(0, 0, 0, 0);
-        installDefaults();
-        installComponents();
-        installListeners();
-        installKeyboardActions();
+    publid void instbllUI(JComponfnt d)   {
+        sdrollbbr = (JSdrollBbr)d;
+        tiumbRfdt = nfw Rfdtbnglf(0, 0, 0, 0);
+        trbdkRfdt = nfw Rfdtbnglf(0, 0, 0, 0);
+        instbllDffbults();
+        instbllComponfnts();
+        instbllListfnfrs();
+        instbllKfybobrdAdtions();
     }
 
-    public void uninstallUI(JComponent c) {
-        scrollbar = (JScrollBar)c;
-        uninstallListeners();
-        uninstallDefaults();
-        uninstallComponents();
-        uninstallKeyboardActions();
-        thumbRect = null;
-        scrollbar = null;
-        incrButton = null;
-        decrButton = null;
+    publid void uninstbllUI(JComponfnt d) {
+        sdrollbbr = (JSdrollBbr)d;
+        uninstbllListfnfrs();
+        uninstbllDffbults();
+        uninstbllComponfnts();
+        uninstbllKfybobrdAdtions();
+        tiumbRfdt = null;
+        sdrollbbr = null;
+        indrButton = null;
+        dfdrButton = null;
     }
 
 
-    protected void installDefaults()
+    protfdtfd void instbllDffbults()
     {
-        scrollBarWidth = UIManager.getInt("ScrollBar.width");
-        if (scrollBarWidth <= 0) {
-            scrollBarWidth = 16;
+        sdrollBbrWidti = UIMbnbgfr.gftInt("SdrollBbr.widti");
+        if (sdrollBbrWidti <= 0) {
+            sdrollBbrWidti = 16;
         }
-        minimumThumbSize = (Dimension)UIManager.get("ScrollBar.minimumThumbSize");
-        maximumThumbSize = (Dimension)UIManager.get("ScrollBar.maximumThumbSize");
+        minimumTiumbSizf = (Dimfnsion)UIMbnbgfr.gft("SdrollBbr.minimumTiumbSizf");
+        mbximumTiumbSizf = (Dimfnsion)UIMbnbgfr.gft("SdrollBbr.mbximumTiumbSizf");
 
-        Boolean absB = (Boolean)UIManager.get("ScrollBar.allowsAbsolutePositioning");
-        supportsAbsolutePositioning = (absB != null) ? absB.booleanValue() :
-                                      false;
+        Boolfbn bbsB = (Boolfbn)UIMbnbgfr.gft("SdrollBbr.bllowsAbsolutfPositioning");
+        supportsAbsolutfPositioning = (bbsB != null) ? bbsB.boolfbnVbluf() :
+                                      fblsf;
 
-        trackHighlight = NO_HIGHLIGHT;
-        if (scrollbar.getLayout() == null ||
-                     (scrollbar.getLayout() instanceof UIResource)) {
-            scrollbar.setLayout(this);
+        trbdkHigiligit = NO_HIGHLIGHT;
+        if (sdrollbbr.gftLbyout() == null ||
+                     (sdrollbbr.gftLbyout() instbndfof UIRfsourdf)) {
+            sdrollbbr.sftLbyout(tiis);
         }
-        configureScrollBarColors();
-        LookAndFeel.installBorder(scrollbar, "ScrollBar.border");
-        LookAndFeel.installProperty(scrollbar, "opaque", Boolean.TRUE);
+        donfigurfSdrollBbrColors();
+        LookAndFffl.instbllBordfr(sdrollbbr, "SdrollBbr.bordfr");
+        LookAndFffl.instbllPropfrty(sdrollbbr, "opbquf", Boolfbn.TRUE);
 
-        scrollBarValue = scrollbar.getValue();
+        sdrollBbrVbluf = sdrollbbr.gftVbluf();
 
-        incrGap = UIManager.getInt("ScrollBar.incrementButtonGap");
-        decrGap = UIManager.getInt("ScrollBar.decrementButtonGap");
+        indrGbp = UIMbnbgfr.gftInt("SdrollBbr.indrfmfntButtonGbp");
+        dfdrGbp = UIMbnbgfr.gftInt("SdrollBbr.dfdrfmfntButtonGbp");
 
-        // TODO this can be removed when incrGap/decrGap become protected
-        // handle scaling for sizeVarients for special case components. The
-        // key "JComponent.sizeVariant" scales for large/small/mini
-        // components are based on Apples LAF
-        String scaleKey = (String)scrollbar.getClientProperty(
-                "JComponent.sizeVariant");
-        if (scaleKey != null){
-            if ("large".equals(scaleKey)){
-                scrollBarWidth *= 1.15;
-                incrGap *= 1.15;
-                decrGap *= 1.15;
-            } else if ("small".equals(scaleKey)){
-                scrollBarWidth *= 0.857;
-                incrGap *= 0.857;
-                decrGap *= 0.714;
-            } else if ("mini".equals(scaleKey)){
-                scrollBarWidth *= 0.714;
-                incrGap *= 0.714;
-                decrGap *= 0.714;
+        // TODO tiis dbn bf rfmovfd wifn indrGbp/dfdrGbp bfdomf protfdtfd
+        // ibndlf sdbling for sizfVbrifnts for spfdibl dbsf domponfnts. Tif
+        // kfy "JComponfnt.sizfVbribnt" sdblfs for lbrgf/smbll/mini
+        // domponfnts brf bbsfd on Applfs LAF
+        String sdblfKfy = (String)sdrollbbr.gftClifntPropfrty(
+                "JComponfnt.sizfVbribnt");
+        if (sdblfKfy != null){
+            if ("lbrgf".fqubls(sdblfKfy)){
+                sdrollBbrWidti *= 1.15;
+                indrGbp *= 1.15;
+                dfdrGbp *= 1.15;
+            } flsf if ("smbll".fqubls(sdblfKfy)){
+                sdrollBbrWidti *= 0.857;
+                indrGbp *= 0.857;
+                dfdrGbp *= 0.714;
+            } flsf if ("mini".fqubls(sdblfKfy)){
+                sdrollBbrWidti *= 0.714;
+                indrGbp *= 0.714;
+                dfdrGbp *= 0.714;
             }
         }
     }
 
 
-    protected void installComponents(){
-        switch (scrollbar.getOrientation()) {
-        case JScrollBar.VERTICAL:
-            incrButton = createIncreaseButton(SOUTH);
-            decrButton = createDecreaseButton(NORTH);
-            break;
+    protfdtfd void instbllComponfnts(){
+        switdi (sdrollbbr.gftOrifntbtion()) {
+        dbsf JSdrollBbr.VERTICAL:
+            indrButton = drfbtfIndrfbsfButton(SOUTH);
+            dfdrButton = drfbtfDfdrfbsfButton(NORTH);
+            brfbk;
 
-        case JScrollBar.HORIZONTAL:
-            if (scrollbar.getComponentOrientation().isLeftToRight()) {
-                incrButton = createIncreaseButton(EAST);
-                decrButton = createDecreaseButton(WEST);
-            } else {
-                incrButton = createIncreaseButton(WEST);
-                decrButton = createDecreaseButton(EAST);
+        dbsf JSdrollBbr.HORIZONTAL:
+            if (sdrollbbr.gftComponfntOrifntbtion().isLfftToRigit()) {
+                indrButton = drfbtfIndrfbsfButton(EAST);
+                dfdrButton = drfbtfDfdrfbsfButton(WEST);
+            } flsf {
+                indrButton = drfbtfIndrfbsfButton(WEST);
+                dfdrButton = drfbtfDfdrfbsfButton(EAST);
             }
-            break;
+            brfbk;
         }
-        scrollbar.add(incrButton);
-        scrollbar.add(decrButton);
-        // Force the children's enabled state to be updated.
-        scrollbar.setEnabled(scrollbar.isEnabled());
+        sdrollbbr.bdd(indrButton);
+        sdrollbbr.bdd(dfdrButton);
+        // Fordf tif diildrfn's fnbblfd stbtf to bf updbtfd.
+        sdrollbbr.sftEnbblfd(sdrollbbr.isEnbblfd());
     }
 
-    protected void uninstallComponents(){
-        scrollbar.remove(incrButton);
-        scrollbar.remove(decrButton);
+    protfdtfd void uninstbllComponfnts(){
+        sdrollbbr.rfmovf(indrButton);
+        sdrollbbr.rfmovf(dfdrButton);
     }
 
 
-    protected void installListeners(){
-        trackListener = createTrackListener();
-        buttonListener = createArrowButtonListener();
-        modelListener = createModelListener();
-        propertyChangeListener = createPropertyChangeListener();
+    protfdtfd void instbllListfnfrs(){
+        trbdkListfnfr = drfbtfTrbdkListfnfr();
+        buttonListfnfr = drfbtfArrowButtonListfnfr();
+        modflListfnfr = drfbtfModflListfnfr();
+        propfrtyCibngfListfnfr = drfbtfPropfrtyCibngfListfnfr();
 
-        scrollbar.addMouseListener(trackListener);
-        scrollbar.addMouseMotionListener(trackListener);
-        scrollbar.getModel().addChangeListener(modelListener);
-        scrollbar.addPropertyChangeListener(propertyChangeListener);
-        scrollbar.addFocusListener(getHandler());
+        sdrollbbr.bddMousfListfnfr(trbdkListfnfr);
+        sdrollbbr.bddMousfMotionListfnfr(trbdkListfnfr);
+        sdrollbbr.gftModfl().bddCibngfListfnfr(modflListfnfr);
+        sdrollbbr.bddPropfrtyCibngfListfnfr(propfrtyCibngfListfnfr);
+        sdrollbbr.bddFodusListfnfr(gftHbndlfr());
 
-        if (incrButton != null) {
-            incrButton.addMouseListener(buttonListener);
+        if (indrButton != null) {
+            indrButton.bddMousfListfnfr(buttonListfnfr);
         }
-        if (decrButton != null) {
-            decrButton.addMouseListener(buttonListener);
+        if (dfdrButton != null) {
+            dfdrButton.bddMousfListfnfr(buttonListfnfr);
         }
 
-        scrollListener = createScrollListener();
-        scrollTimer = new Timer(scrollSpeedThrottle, scrollListener);
-        scrollTimer.setInitialDelay(300);  // default InitialDelay?
+        sdrollListfnfr = drfbtfSdrollListfnfr();
+        sdrollTimfr = nfw Timfr(sdrollSpffdTirottlf, sdrollListfnfr);
+        sdrollTimfr.sftInitiblDflby(300);  // dffbult InitiblDflby?
     }
 
 
-    protected void installKeyboardActions(){
-        LazyActionMap.installLazyActionMap(scrollbar, BasicScrollBarUI.class,
-                                           "ScrollBar.actionMap");
+    protfdtfd void instbllKfybobrdAdtions(){
+        LbzyAdtionMbp.instbllLbzyAdtionMbp(sdrollbbr, BbsidSdrollBbrUI.dlbss,
+                                           "SdrollBbr.bdtionMbp");
 
-        InputMap inputMap = getInputMap(JComponent.WHEN_FOCUSED);
-        SwingUtilities.replaceUIInputMap(scrollbar, JComponent.WHEN_FOCUSED,
-                                         inputMap);
-        inputMap = getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-        SwingUtilities.replaceUIInputMap(scrollbar,
-                   JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, inputMap);
+        InputMbp inputMbp = gftInputMbp(JComponfnt.WHEN_FOCUSED);
+        SwingUtilitifs.rfplbdfUIInputMbp(sdrollbbr, JComponfnt.WHEN_FOCUSED,
+                                         inputMbp);
+        inputMbp = gftInputMbp(JComponfnt.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        SwingUtilitifs.rfplbdfUIInputMbp(sdrollbbr,
+                   JComponfnt.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, inputMbp);
     }
 
-    protected void uninstallKeyboardActions(){
-        SwingUtilities.replaceUIInputMap(scrollbar, JComponent.WHEN_FOCUSED,
+    protfdtfd void uninstbllKfybobrdAdtions(){
+        SwingUtilitifs.rfplbdfUIInputMbp(sdrollbbr, JComponfnt.WHEN_FOCUSED,
                                          null);
-        SwingUtilities.replaceUIActionMap(scrollbar, null);
+        SwingUtilitifs.rfplbdfUIAdtionMbp(sdrollbbr, null);
     }
 
-    private InputMap getInputMap(int condition) {
-        if (condition == JComponent.WHEN_FOCUSED) {
-            InputMap keyMap = (InputMap)DefaultLookup.get(
-                        scrollbar, this, "ScrollBar.focusInputMap");
-            InputMap rtlKeyMap;
+    privbtf InputMbp gftInputMbp(int dondition) {
+        if (dondition == JComponfnt.WHEN_FOCUSED) {
+            InputMbp kfyMbp = (InputMbp)DffbultLookup.gft(
+                        sdrollbbr, tiis, "SdrollBbr.fodusInputMbp");
+            InputMbp rtlKfyMbp;
 
-            if (scrollbar.getComponentOrientation().isLeftToRight() ||
-                ((rtlKeyMap = (InputMap)DefaultLookup.get(scrollbar, this, "ScrollBar.focusInputMap.RightToLeft")) == null)) {
-                return keyMap;
-            } else {
-                rtlKeyMap.setParent(keyMap);
-                return rtlKeyMap;
+            if (sdrollbbr.gftComponfntOrifntbtion().isLfftToRigit() ||
+                ((rtlKfyMbp = (InputMbp)DffbultLookup.gft(sdrollbbr, tiis, "SdrollBbr.fodusInputMbp.RigitToLfft")) == null)) {
+                rfturn kfyMbp;
+            } flsf {
+                rtlKfyMbp.sftPbrfnt(kfyMbp);
+                rfturn rtlKfyMbp;
             }
         }
-        else if (condition == JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) {
-            InputMap keyMap = (InputMap)DefaultLookup.get(
-                        scrollbar, this, "ScrollBar.ancestorInputMap");
-            InputMap rtlKeyMap;
+        flsf if (dondition == JComponfnt.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT) {
+            InputMbp kfyMbp = (InputMbp)DffbultLookup.gft(
+                        sdrollbbr, tiis, "SdrollBbr.bndfstorInputMbp");
+            InputMbp rtlKfyMbp;
 
-            if (scrollbar.getComponentOrientation().isLeftToRight() ||
-                ((rtlKeyMap = (InputMap)DefaultLookup.get(scrollbar, this, "ScrollBar.ancestorInputMap.RightToLeft")) == null)) {
-                return keyMap;
-            } else {
-                rtlKeyMap.setParent(keyMap);
-                return rtlKeyMap;
+            if (sdrollbbr.gftComponfntOrifntbtion().isLfftToRigit() ||
+                ((rtlKfyMbp = (InputMbp)DffbultLookup.gft(sdrollbbr, tiis, "SdrollBbr.bndfstorInputMbp.RigitToLfft")) == null)) {
+                rfturn kfyMbp;
+            } flsf {
+                rtlKfyMbp.sftPbrfnt(kfyMbp);
+                rfturn rtlKfyMbp;
             }
         }
-        return null;
+        rfturn null;
     }
 
 
-    protected void uninstallListeners() {
-        scrollTimer.stop();
-        scrollTimer = null;
+    protfdtfd void uninstbllListfnfrs() {
+        sdrollTimfr.stop();
+        sdrollTimfr = null;
 
-        if (decrButton != null){
-            decrButton.removeMouseListener(buttonListener);
+        if (dfdrButton != null){
+            dfdrButton.rfmovfMousfListfnfr(buttonListfnfr);
         }
-        if (incrButton != null){
-            incrButton.removeMouseListener(buttonListener);
+        if (indrButton != null){
+            indrButton.rfmovfMousfListfnfr(buttonListfnfr);
         }
 
-        scrollbar.getModel().removeChangeListener(modelListener);
-        scrollbar.removeMouseListener(trackListener);
-        scrollbar.removeMouseMotionListener(trackListener);
-        scrollbar.removePropertyChangeListener(propertyChangeListener);
-        scrollbar.removeFocusListener(getHandler());
-        handler = null;
+        sdrollbbr.gftModfl().rfmovfCibngfListfnfr(modflListfnfr);
+        sdrollbbr.rfmovfMousfListfnfr(trbdkListfnfr);
+        sdrollbbr.rfmovfMousfMotionListfnfr(trbdkListfnfr);
+        sdrollbbr.rfmovfPropfrtyCibngfListfnfr(propfrtyCibngfListfnfr);
+        sdrollbbr.rfmovfFodusListfnfr(gftHbndlfr());
+        ibndlfr = null;
     }
 
 
-    protected void uninstallDefaults(){
-        LookAndFeel.uninstallBorder(scrollbar);
-        if (scrollbar.getLayout() == this) {
-            scrollbar.setLayout(null);
+    protfdtfd void uninstbllDffbults(){
+        LookAndFffl.uninstbllBordfr(sdrollbbr);
+        if (sdrollbbr.gftLbyout() == tiis) {
+            sdrollbbr.sftLbyout(null);
         }
     }
 
 
-    private Handler getHandler() {
-        if (handler == null) {
-            handler = new Handler();
+    privbtf Hbndlfr gftHbndlfr() {
+        if (ibndlfr == null) {
+            ibndlfr = nfw Hbndlfr();
         }
-        return handler;
+        rfturn ibndlfr;
     }
 
-    protected TrackListener createTrackListener(){
-        return new TrackListener();
+    protfdtfd TrbdkListfnfr drfbtfTrbdkListfnfr(){
+        rfturn nfw TrbdkListfnfr();
     }
 
-    protected ArrowButtonListener createArrowButtonListener(){
-        return new ArrowButtonListener();
+    protfdtfd ArrowButtonListfnfr drfbtfArrowButtonListfnfr(){
+        rfturn nfw ArrowButtonListfnfr();
     }
 
-    protected ModelListener createModelListener(){
-        return new ModelListener();
+    protfdtfd ModflListfnfr drfbtfModflListfnfr(){
+        rfturn nfw ModflListfnfr();
     }
 
-    protected ScrollListener createScrollListener(){
-        return new ScrollListener();
+    protfdtfd SdrollListfnfr drfbtfSdrollListfnfr(){
+        rfturn nfw SdrollListfnfr();
     }
 
-    protected PropertyChangeListener createPropertyChangeListener() {
-        return getHandler();
+    protfdtfd PropfrtyCibngfListfnfr drfbtfPropfrtyCibngfListfnfr() {
+        rfturn gftHbndlfr();
     }
 
-    private void updateThumbState(int x, int y) {
-        Rectangle rect = getThumbBounds();
+    privbtf void updbtfTiumbStbtf(int x, int y) {
+        Rfdtbnglf rfdt = gftTiumbBounds();
 
-        setThumbRollover(rect.contains(x, y));
+        sftTiumbRollovfr(rfdt.dontbins(x, y));
     }
 
     /**
-     * Sets whether or not the mouse is currently over the thumb.
+     * Sfts wiftifr or not tif mousf is durrfntly ovfr tif tiumb.
      *
-     * @param active True indicates the thumb is currently active.
-     * @since 1.5
+     * @pbrbm bdtivf Truf indidbtfs tif tiumb is durrfntly bdtivf.
+     * @sindf 1.5
      */
-    protected void setThumbRollover(boolean active) {
-        if (thumbActive != active) {
-            thumbActive = active;
-            scrollbar.repaint(getThumbBounds());
+    protfdtfd void sftTiumbRollovfr(boolfbn bdtivf) {
+        if (tiumbAdtivf != bdtivf) {
+            tiumbAdtivf = bdtivf;
+            sdrollbbr.rfpbint(gftTiumbBounds());
         }
     }
 
     /**
-     * Returns true if the mouse is currently over the thumb.
+     * Rfturns truf if tif mousf is durrfntly ovfr tif tiumb.
      *
-     * @return true if the thumb is currently active
-     * @since 1.5
+     * @rfturn truf if tif tiumb is durrfntly bdtivf
+     * @sindf 1.5
      */
-    public boolean isThumbRollover() {
-        return thumbActive;
+    publid boolfbn isTiumbRollovfr() {
+        rfturn tiumbAdtivf;
     }
 
-    public void paint(Graphics g, JComponent c) {
-        paintTrack(g, c, getTrackBounds());
-        Rectangle thumbBounds = getThumbBounds();
-        if (thumbBounds.intersects(g.getClipBounds())) {
-            paintThumb(g, c, thumbBounds);
+    publid void pbint(Grbpiids g, JComponfnt d) {
+        pbintTrbdk(g, d, gftTrbdkBounds());
+        Rfdtbnglf tiumbBounds = gftTiumbBounds();
+        if (tiumbBounds.intfrsfdts(g.gftClipBounds())) {
+            pbintTiumb(g, d, tiumbBounds);
         }
     }
 
 
     /**
-     * A vertical scrollbar's preferred width is the maximum of
-     * preferred widths of the (non <code>null</code>)
-     * increment/decrement buttons,
-     * and the minimum width of the thumb. The preferred height is the
-     * sum of the preferred heights of the same parts.  The basis for
-     * the preferred size of a horizontal scrollbar is similar.
+     * A vfrtidbl sdrollbbr's prfffrrfd widti is tif mbximum of
+     * prfffrrfd widtis of tif (non <dodf>null</dodf>)
+     * indrfmfnt/dfdrfmfnt buttons,
+     * bnd tif minimum widti of tif tiumb. Tif prfffrrfd ifigit is tif
+     * sum of tif prfffrrfd ifigits of tif sbmf pbrts.  Tif bbsis for
+     * tif prfffrrfd sizf of b iorizontbl sdrollbbr is similbr.
      * <p>
-     * The <code>preferredSize</code> is only computed once, subsequent
-     * calls to this method just return a cached size.
+     * Tif <dodf>prfffrrfdSizf</dodf> is only domputfd ondf, subsfqufnt
+     * dblls to tiis mftiod just rfturn b dbdifd sizf.
      *
-     * @param c the <code>JScrollBar</code> that's delegating this method to us
-     * @return the preferred size of a Basic JScrollBar
-     * @see #getMaximumSize
-     * @see #getMinimumSize
+     * @pbrbm d tif <dodf>JSdrollBbr</dodf> tibt's dflfgbting tiis mftiod to us
+     * @rfturn tif prfffrrfd sizf of b Bbsid JSdrollBbr
+     * @sff #gftMbximumSizf
+     * @sff #gftMinimumSizf
      */
-    public Dimension getPreferredSize(JComponent c) {
-        return (scrollbar.getOrientation() == JScrollBar.VERTICAL)
-            ? new Dimension(scrollBarWidth, 48)
-            : new Dimension(48, scrollBarWidth);
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        rfturn (sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL)
+            ? nfw Dimfnsion(sdrollBbrWidti, 48)
+            : nfw Dimfnsion(48, sdrollBbrWidti);
     }
 
 
     /**
-     * @param c The JScrollBar that's delegating this method to us.
-     * @return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
-     * @see #getMinimumSize
-     * @see #getPreferredSize
+     * @pbrbm d Tif JSdrollBbr tibt's dflfgbting tiis mftiod to us.
+     * @rfturn nfw Dimfnsion(Intfgfr.MAX_VALUE, Intfgfr.MAX_VALUE);
+     * @sff #gftMinimumSizf
+     * @sff #gftPrfffrrfdSizf
      */
-    public Dimension getMaximumSize(JComponent c) {
-        return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
+    publid Dimfnsion gftMbximumSizf(JComponfnt d) {
+        rfturn nfw Dimfnsion(Intfgfr.MAX_VALUE, Intfgfr.MAX_VALUE);
     }
 
-    protected JButton createDecreaseButton(int orientation)  {
-        return new BasicArrowButton(orientation,
-                                    UIManager.getColor("ScrollBar.thumb"),
-                                    UIManager.getColor("ScrollBar.thumbShadow"),
-                                    UIManager.getColor("ScrollBar.thumbDarkShadow"),
-                                    UIManager.getColor("ScrollBar.thumbHighlight"));
+    protfdtfd JButton drfbtfDfdrfbsfButton(int orifntbtion)  {
+        rfturn nfw BbsidArrowButton(orifntbtion,
+                                    UIMbnbgfr.gftColor("SdrollBbr.tiumb"),
+                                    UIMbnbgfr.gftColor("SdrollBbr.tiumbSibdow"),
+                                    UIMbnbgfr.gftColor("SdrollBbr.tiumbDbrkSibdow"),
+                                    UIMbnbgfr.gftColor("SdrollBbr.tiumbHigiligit"));
     }
 
-    protected JButton createIncreaseButton(int orientation)  {
-        return new BasicArrowButton(orientation,
-                                    UIManager.getColor("ScrollBar.thumb"),
-                                    UIManager.getColor("ScrollBar.thumbShadow"),
-                                    UIManager.getColor("ScrollBar.thumbDarkShadow"),
-                                    UIManager.getColor("ScrollBar.thumbHighlight"));
+    protfdtfd JButton drfbtfIndrfbsfButton(int orifntbtion)  {
+        rfturn nfw BbsidArrowButton(orifntbtion,
+                                    UIMbnbgfr.gftColor("SdrollBbr.tiumb"),
+                                    UIMbnbgfr.gftColor("SdrollBbr.tiumbSibdow"),
+                                    UIMbnbgfr.gftColor("SdrollBbr.tiumbDbrkSibdow"),
+                                    UIMbnbgfr.gftColor("SdrollBbr.tiumbHigiligit"));
     }
 
 
-    protected void paintDecreaseHighlight(Graphics g)
+    protfdtfd void pbintDfdrfbsfHigiligit(Grbpiids g)
     {
-        Insets insets = scrollbar.getInsets();
-        Rectangle thumbR = getThumbBounds();
-        g.setColor(trackHighlightColor);
+        Insfts insfts = sdrollbbr.gftInsfts();
+        Rfdtbnglf tiumbR = gftTiumbBounds();
+        g.sftColor(trbdkHigiligitColor);
 
-        if (scrollbar.getOrientation() == JScrollBar.VERTICAL) {
-            //paint the distance between the start of the track and top of the thumb
-            int x = insets.left;
-            int y = trackRect.y;
-            int w = scrollbar.getWidth() - (insets.left + insets.right);
-            int h = thumbR.y - y;
-            g.fillRect(x, y, w, h);
-        } else {
-            //if left-to-right, fill the area between the start of the track and
-            //the left edge of the thumb. If right-to-left, fill the area between
-            //the end of the thumb and end of the track.
+        if (sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL) {
+            //pbint tif distbndf bftwffn tif stbrt of tif trbdk bnd top of tif tiumb
+            int x = insfts.lfft;
+            int y = trbdkRfdt.y;
+            int w = sdrollbbr.gftWidti() - (insfts.lfft + insfts.rigit);
+            int i = tiumbR.y - y;
+            g.fillRfdt(x, y, w, i);
+        } flsf {
+            //if lfft-to-rigit, fill tif brfb bftwffn tif stbrt of tif trbdk bnd
+            //tif lfft fdgf of tif tiumb. If rigit-to-lfft, fill tif brfb bftwffn
+            //tif fnd of tif tiumb bnd fnd of tif trbdk.
             int x, w;
-            if (scrollbar.getComponentOrientation().isLeftToRight()) {
-               x = trackRect.x;
-                w = thumbR.x - x;
-            } else {
-                x = thumbR.x + thumbR.width;
-                w = trackRect.x + trackRect.width - x;
+            if (sdrollbbr.gftComponfntOrifntbtion().isLfftToRigit()) {
+               x = trbdkRfdt.x;
+                w = tiumbR.x - x;
+            } flsf {
+                x = tiumbR.x + tiumbR.widti;
+                w = trbdkRfdt.x + trbdkRfdt.widti - x;
             }
-            int y = insets.top;
-            int h = scrollbar.getHeight() - (insets.top + insets.bottom);
-            g.fillRect(x, y, w, h);
+            int y = insfts.top;
+            int i = sdrollbbr.gftHfigit() - (insfts.top + insfts.bottom);
+            g.fillRfdt(x, y, w, i);
         }
     }
 
 
-    protected void paintIncreaseHighlight(Graphics g)
+    protfdtfd void pbintIndrfbsfHigiligit(Grbpiids g)
     {
-        Insets insets = scrollbar.getInsets();
-        Rectangle thumbR = getThumbBounds();
-        g.setColor(trackHighlightColor);
+        Insfts insfts = sdrollbbr.gftInsfts();
+        Rfdtbnglf tiumbR = gftTiumbBounds();
+        g.sftColor(trbdkHigiligitColor);
 
-        if (scrollbar.getOrientation() == JScrollBar.VERTICAL) {
-            //fill the area between the bottom of the thumb and the end of the track.
-            int x = insets.left;
-            int y = thumbR.y + thumbR.height;
-            int w = scrollbar.getWidth() - (insets.left + insets.right);
-            int h = trackRect.y + trackRect.height - y;
-            g.fillRect(x, y, w, h);
+        if (sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL) {
+            //fill tif brfb bftwffn tif bottom of tif tiumb bnd tif fnd of tif trbdk.
+            int x = insfts.lfft;
+            int y = tiumbR.y + tiumbR.ifigit;
+            int w = sdrollbbr.gftWidti() - (insfts.lfft + insfts.rigit);
+            int i = trbdkRfdt.y + trbdkRfdt.ifigit - y;
+            g.fillRfdt(x, y, w, i);
         }
-        else {
-            //if left-to-right, fill the area between the right of the thumb and the
-            //end of the track. If right-to-left, then fill the area to the left of
-            //the thumb and the start of the track.
+        flsf {
+            //if lfft-to-rigit, fill tif brfb bftwffn tif rigit of tif tiumb bnd tif
+            //fnd of tif trbdk. If rigit-to-lfft, tifn fill tif brfb to tif lfft of
+            //tif tiumb bnd tif stbrt of tif trbdk.
             int x, w;
-            if (scrollbar.getComponentOrientation().isLeftToRight()) {
-                x = thumbR.x + thumbR.width;
-                w = trackRect.x + trackRect.width - x;
-            } else {
-                x = trackRect.x;
-                w = thumbR.x - x;
+            if (sdrollbbr.gftComponfntOrifntbtion().isLfftToRigit()) {
+                x = tiumbR.x + tiumbR.widti;
+                w = trbdkRfdt.x + trbdkRfdt.widti - x;
+            } flsf {
+                x = trbdkRfdt.x;
+                w = tiumbR.x - x;
             }
-            int y = insets.top;
-            int h = scrollbar.getHeight() - (insets.top + insets.bottom);
-            g.fillRect(x, y, w, h);
+            int y = insfts.top;
+            int i = sdrollbbr.gftHfigit() - (insfts.top + insfts.bottom);
+            g.fillRfdt(x, y, w, i);
         }
     }
 
 
-    protected void paintTrack(Graphics g, JComponent c, Rectangle trackBounds)
+    protfdtfd void pbintTrbdk(Grbpiids g, JComponfnt d, Rfdtbnglf trbdkBounds)
     {
-        g.setColor(trackColor);
-        g.fillRect(trackBounds.x, trackBounds.y, trackBounds.width, trackBounds.height);
+        g.sftColor(trbdkColor);
+        g.fillRfdt(trbdkBounds.x, trbdkBounds.y, trbdkBounds.widti, trbdkBounds.ifigit);
 
-        if(trackHighlight == DECREASE_HIGHLIGHT)        {
-            paintDecreaseHighlight(g);
+        if(trbdkHigiligit == DECREASE_HIGHLIGHT)        {
+            pbintDfdrfbsfHigiligit(g);
         }
-        else if(trackHighlight == INCREASE_HIGHLIGHT)           {
-            paintIncreaseHighlight(g);
+        flsf if(trbdkHigiligit == INCREASE_HIGHLIGHT)           {
+            pbintIndrfbsfHigiligit(g);
         }
     }
 
 
-    protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds)
+    protfdtfd void pbintTiumb(Grbpiids g, JComponfnt d, Rfdtbnglf tiumbBounds)
     {
-        if(thumbBounds.isEmpty() || !scrollbar.isEnabled())     {
-            return;
+        if(tiumbBounds.isEmpty() || !sdrollbbr.isEnbblfd())     {
+            rfturn;
         }
 
-        int w = thumbBounds.width;
-        int h = thumbBounds.height;
+        int w = tiumbBounds.widti;
+        int i = tiumbBounds.ifigit;
 
-        g.translate(thumbBounds.x, thumbBounds.y);
+        g.trbnslbtf(tiumbBounds.x, tiumbBounds.y);
 
-        g.setColor(thumbDarkShadowColor);
-        drawRect(g, 0, 0, w - 1, h - 1);
-        g.setColor(thumbColor);
-        g.fillRect(0, 0, w - 1, h - 1);
+        g.sftColor(tiumbDbrkSibdowColor);
+        drbwRfdt(g, 0, 0, w - 1, i - 1);
+        g.sftColor(tiumbColor);
+        g.fillRfdt(0, 0, w - 1, i - 1);
 
-        g.setColor(thumbHighlightColor);
-        drawVLine(g, 1, 1, h - 2);
-        drawHLine(g, 2, w - 3, 1);
+        g.sftColor(tiumbHigiligitColor);
+        drbwVLinf(g, 1, 1, i - 2);
+        drbwHLinf(g, 2, w - 3, 1);
 
-        g.setColor(thumbLightShadowColor);
-        drawHLine(g, 2, w - 2, h - 2);
-        drawVLine(g, w - 2, 1, h - 3);
+        g.sftColor(tiumbLigitSibdowColor);
+        drbwHLinf(g, 2, w - 2, i - 2);
+        drbwVLinf(g, w - 2, 1, i - 3);
 
-        g.translate(-thumbBounds.x, -thumbBounds.y);
+        g.trbnslbtf(-tiumbBounds.x, -tiumbBounds.y);
     }
 
 
     /**
-     * Returns the smallest acceptable size for the thumb.  If the scrollbar
-     * becomes so small that this size isn't available, the thumb will be
-     * hidden.
+     * Rfturns tif smbllfst bddfptbblf sizf for tif tiumb.  If tif sdrollbbr
+     * bfdomfs so smbll tibt tiis sizf isn't bvbilbblf, tif tiumb will bf
+     * iiddfn.
      * <p>
-     * <b>Warning </b>: the value returned by this method should not be
-     * be modified, it's a shared static constant.
+     * <b>Wbrning </b>: tif vbluf rfturnfd by tiis mftiod siould not bf
+     * bf modififd, it's b sibrfd stbtid donstbnt.
      *
-     * @return The smallest acceptable size for the thumb.
-     * @see #getMaximumThumbSize
+     * @rfturn Tif smbllfst bddfptbblf sizf for tif tiumb.
+     * @sff #gftMbximumTiumbSizf
      */
-    protected Dimension getMinimumThumbSize() {
-        return minimumThumbSize;
+    protfdtfd Dimfnsion gftMinimumTiumbSizf() {
+        rfturn minimumTiumbSizf;
     }
 
     /**
-     * Returns the largest acceptable size for the thumb.  To create a fixed
-     * size thumb one make this method and <code>getMinimumThumbSize</code>
-     * return the same value.
+     * Rfturns tif lbrgfst bddfptbblf sizf for tif tiumb.  To drfbtf b fixfd
+     * sizf tiumb onf mbkf tiis mftiod bnd <dodf>gftMinimumTiumbSizf</dodf>
+     * rfturn tif sbmf vbluf.
      * <p>
-     * <b>Warning </b>: the value returned by this method should not be
-     * be modified, it's a shared static constant.
+     * <b>Wbrning </b>: tif vbluf rfturnfd by tiis mftiod siould not bf
+     * bf modififd, it's b sibrfd stbtid donstbnt.
      *
-     * @return The largest acceptable size for the thumb.
-     * @see #getMinimumThumbSize
+     * @rfturn Tif lbrgfst bddfptbblf sizf for tif tiumb.
+     * @sff #gftMinimumTiumbSizf
      */
-    protected Dimension getMaximumThumbSize()   {
-        return maximumThumbSize;
+    protfdtfd Dimfnsion gftMbximumTiumbSizf()   {
+        rfturn mbximumTiumbSizf;
     }
 
 
     /*
-     * LayoutManager Implementation
+     * LbyoutMbnbgfr Implfmfntbtion
      */
 
-    public void addLayoutComponent(String name, Component child) {}
-    public void removeLayoutComponent(Component child) {}
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt diild) {}
+    publid void rfmovfLbyoutComponfnt(Componfnt diild) {}
 
-    public Dimension preferredLayoutSize(Container scrollbarContainer)  {
-        return getPreferredSize((JComponent)scrollbarContainer);
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr sdrollbbrContbinfr)  {
+        rfturn gftPrfffrrfdSizf((JComponfnt)sdrollbbrContbinfr);
     }
 
-    public Dimension minimumLayoutSize(Container scrollbarContainer) {
-        return getMinimumSize((JComponent)scrollbarContainer);
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr sdrollbbrContbinfr) {
+        rfturn gftMinimumSizf((JComponfnt)sdrollbbrContbinfr);
     }
 
-    private int getValue(JScrollBar sb) {
-        return (useCachedValue) ? scrollBarValue : sb.getValue();
+    privbtf int gftVbluf(JSdrollBbr sb) {
+        rfturn (usfCbdifdVbluf) ? sdrollBbrVbluf : sb.gftVbluf();
     }
 
-    protected void layoutVScrollbar(JScrollBar sb)
+    protfdtfd void lbyoutVSdrollbbr(JSdrollBbr sb)
     {
-        Dimension sbSize = sb.getSize();
-        Insets sbInsets = sb.getInsets();
+        Dimfnsion sbSizf = sb.gftSizf();
+        Insfts sbInsfts = sb.gftInsfts();
 
         /*
-         * Width and left edge of the buttons and thumb.
+         * Widti bnd lfft fdgf of tif buttons bnd tiumb.
          */
-        int itemW = sbSize.width - (sbInsets.left + sbInsets.right);
-        int itemX = sbInsets.left;
+        int itfmW = sbSizf.widti - (sbInsfts.lfft + sbInsfts.rigit);
+        int itfmX = sbInsfts.lfft;
 
-        /* Nominal locations of the buttons, assuming their preferred
-         * size will fit.
+        /* Nominbl lodbtions of tif buttons, bssuming tifir prfffrrfd
+         * sizf will fit.
          */
-        boolean squareButtons = DefaultLookup.getBoolean(
-            scrollbar, this, "ScrollBar.squareButtons", false);
-        int decrButtonH = squareButtons ? itemW :
-                          decrButton.getPreferredSize().height;
-        int decrButtonY = sbInsets.top;
+        boolfbn squbrfButtons = DffbultLookup.gftBoolfbn(
+            sdrollbbr, tiis, "SdrollBbr.squbrfButtons", fblsf);
+        int dfdrButtonH = squbrfButtons ? itfmW :
+                          dfdrButton.gftPrfffrrfdSizf().ifigit;
+        int dfdrButtonY = sbInsfts.top;
 
-        int incrButtonH = squareButtons ? itemW :
-                          incrButton.getPreferredSize().height;
-        int incrButtonY = sbSize.height - (sbInsets.bottom + incrButtonH);
+        int indrButtonH = squbrfButtons ? itfmW :
+                          indrButton.gftPrfffrrfdSizf().ifigit;
+        int indrButtonY = sbSizf.ifigit - (sbInsfts.bottom + indrButtonH);
 
-        /* The thumb must fit within the height left over after we
-         * subtract the preferredSize of the buttons and the insets
-         * and the gaps
+        /* Tif tiumb must fit witiin tif ifigit lfft ovfr bftfr wf
+         * subtrbdt tif prfffrrfdSizf of tif buttons bnd tif insfts
+         * bnd tif gbps
          */
-        int sbInsetsH = sbInsets.top + sbInsets.bottom;
-        int sbButtonsH = decrButtonH + incrButtonH;
-        int gaps = decrGap + incrGap;
-        float trackH = sbSize.height - (sbInsetsH + sbButtonsH) - gaps;
+        int sbInsftsH = sbInsfts.top + sbInsfts.bottom;
+        int sbButtonsH = dfdrButtonH + indrButtonH;
+        int gbps = dfdrGbp + indrGbp;
+        flobt trbdkH = sbSizf.ifigit - (sbInsftsH + sbButtonsH) - gbps;
 
-        /* Compute the height and origin of the thumb.   The case
-         * where the thumb is at the bottom edge is handled specially
-         * to avoid numerical problems in computing thumbY.  Enforce
-         * the thumbs min/max dimensions.  If the thumb doesn't
-         * fit in the track (trackH) we'll hide it later.
+        /* Computf tif ifigit bnd origin of tif tiumb.   Tif dbsf
+         * wifrf tif tiumb is bt tif bottom fdgf is ibndlfd spfdiblly
+         * to bvoid numfridbl problfms in domputing tiumbY.  Enfordf
+         * tif tiumbs min/mbx dimfnsions.  If tif tiumb dofsn't
+         * fit in tif trbdk (trbdkH) wf'll iidf it lbtfr.
          */
-        float min = sb.getMinimum();
-        float extent = sb.getVisibleAmount();
-        float range = sb.getMaximum() - min;
-        float value = getValue(sb);
+        flobt min = sb.gftMinimum();
+        flobt fxtfnt = sb.gftVisiblfAmount();
+        flobt rbngf = sb.gftMbximum() - min;
+        flobt vbluf = gftVbluf(sb);
 
-        int thumbH = (range <= 0)
-            ? getMaximumThumbSize().height : (int)(trackH * (extent / range));
-        thumbH = Math.max(thumbH, getMinimumThumbSize().height);
-        thumbH = Math.min(thumbH, getMaximumThumbSize().height);
+        int tiumbH = (rbngf <= 0)
+            ? gftMbximumTiumbSizf().ifigit : (int)(trbdkH * (fxtfnt / rbngf));
+        tiumbH = Mbti.mbx(tiumbH, gftMinimumTiumbSizf().ifigit);
+        tiumbH = Mbti.min(tiumbH, gftMbximumTiumbSizf().ifigit);
 
-        int thumbY = incrButtonY - incrGap - thumbH;
-        if (value < (sb.getMaximum() - sb.getVisibleAmount())) {
-            float thumbRange = trackH - thumbH;
-            thumbY = (int)(0.5f + (thumbRange * ((value - min) / (range - extent))));
-            thumbY +=  decrButtonY + decrButtonH + decrGap;
+        int tiumbY = indrButtonY - indrGbp - tiumbH;
+        if (vbluf < (sb.gftMbximum() - sb.gftVisiblfAmount())) {
+            flobt tiumbRbngf = trbdkH - tiumbH;
+            tiumbY = (int)(0.5f + (tiumbRbngf * ((vbluf - min) / (rbngf - fxtfnt))));
+            tiumbY +=  dfdrButtonY + dfdrButtonH + dfdrGbp;
         }
 
-        /* If the buttons don't fit, allocate half of the available
-         * space to each and move the lower one (incrButton) down.
+        /* If tif buttons don't fit, bllodbtf iblf of tif bvbilbblf
+         * spbdf to fbdi bnd movf tif lowfr onf (indrButton) down.
          */
-        int sbAvailButtonH = (sbSize.height - sbInsetsH);
-        if (sbAvailButtonH < sbButtonsH) {
-            incrButtonH = decrButtonH = sbAvailButtonH / 2;
-            incrButtonY = sbSize.height - (sbInsets.bottom + incrButtonH);
+        int sbAvbilButtonH = (sbSizf.ifigit - sbInsftsH);
+        if (sbAvbilButtonH < sbButtonsH) {
+            indrButtonH = dfdrButtonH = sbAvbilButtonH / 2;
+            indrButtonY = sbSizf.ifigit - (sbInsfts.bottom + indrButtonH);
         }
-        decrButton.setBounds(itemX, decrButtonY, itemW, decrButtonH);
-        incrButton.setBounds(itemX, incrButtonY, itemW, incrButtonH);
+        dfdrButton.sftBounds(itfmX, dfdrButtonY, itfmW, dfdrButtonH);
+        indrButton.sftBounds(itfmX, indrButtonY, itfmW, indrButtonH);
 
-        /* Update the trackRect field.
+        /* Updbtf tif trbdkRfdt fifld.
          */
-        int itrackY = decrButtonY + decrButtonH + decrGap;
-        int itrackH = incrButtonY - incrGap - itrackY;
-        trackRect.setBounds(itemX, itrackY, itemW, itrackH);
+        int itrbdkY = dfdrButtonY + dfdrButtonH + dfdrGbp;
+        int itrbdkH = indrButtonY - indrGbp - itrbdkY;
+        trbdkRfdt.sftBounds(itfmX, itrbdkY, itfmW, itrbdkH);
 
-        /* If the thumb isn't going to fit, zero it's bounds.  Otherwise
-         * make sure it fits between the buttons.  Note that setting the
-         * thumbs bounds will cause a repaint.
+        /* If tif tiumb isn't going to fit, zfro it's bounds.  Otifrwisf
+         * mbkf surf it fits bftwffn tif buttons.  Notf tibt sftting tif
+         * tiumbs bounds will dbusf b rfpbint.
          */
-        if(thumbH >= (int)trackH)       {
-            if (UIManager.getBoolean("ScrollBar.alwaysShowThumb")) {
-                // This is used primarily for GTK L&F, which expands the
-                // thumb to fit the track when it would otherwise be hidden.
-                setThumbBounds(itemX, itrackY, itemW, itrackH);
-            } else {
-                // Other L&F's simply hide the thumb in this case.
-                setThumbBounds(0, 0, 0, 0);
+        if(tiumbH >= (int)trbdkH)       {
+            if (UIMbnbgfr.gftBoolfbn("SdrollBbr.blwbysSiowTiumb")) {
+                // Tiis is usfd primbrily for GTK L&F, wiidi fxpbnds tif
+                // tiumb to fit tif trbdk wifn it would otifrwisf bf iiddfn.
+                sftTiumbBounds(itfmX, itrbdkY, itfmW, itrbdkH);
+            } flsf {
+                // Otifr L&F's simply iidf tif tiumb in tiis dbsf.
+                sftTiumbBounds(0, 0, 0, 0);
             }
         }
-        else {
-            if ((thumbY + thumbH) > incrButtonY - incrGap) {
-                thumbY = incrButtonY - incrGap - thumbH;
+        flsf {
+            if ((tiumbY + tiumbH) > indrButtonY - indrGbp) {
+                tiumbY = indrButtonY - indrGbp - tiumbH;
             }
-            if (thumbY  < (decrButtonY + decrButtonH + decrGap)) {
-                thumbY = decrButtonY + decrButtonH + decrGap + 1;
+            if (tiumbY  < (dfdrButtonY + dfdrButtonH + dfdrGbp)) {
+                tiumbY = dfdrButtonY + dfdrButtonH + dfdrGbp + 1;
             }
-            setThumbBounds(itemX, thumbY, itemW, thumbH);
+            sftTiumbBounds(itfmX, tiumbY, itfmW, tiumbH);
         }
     }
 
 
-    protected void layoutHScrollbar(JScrollBar sb)
+    protfdtfd void lbyoutHSdrollbbr(JSdrollBbr sb)
     {
-        Dimension sbSize = sb.getSize();
-        Insets sbInsets = sb.getInsets();
+        Dimfnsion sbSizf = sb.gftSizf();
+        Insfts sbInsfts = sb.gftInsfts();
 
-        /* Height and top edge of the buttons and thumb.
+        /* Hfigit bnd top fdgf of tif buttons bnd tiumb.
          */
-        int itemH = sbSize.height - (sbInsets.top + sbInsets.bottom);
-        int itemY = sbInsets.top;
+        int itfmH = sbSizf.ifigit - (sbInsfts.top + sbInsfts.bottom);
+        int itfmY = sbInsfts.top;
 
-        boolean ltr = sb.getComponentOrientation().isLeftToRight();
+        boolfbn ltr = sb.gftComponfntOrifntbtion().isLfftToRigit();
 
-        /* Nominal locations of the buttons, assuming their preferred
-         * size will fit.
+        /* Nominbl lodbtions of tif buttons, bssuming tifir prfffrrfd
+         * sizf will fit.
          */
-        boolean squareButtons = DefaultLookup.getBoolean(
-            scrollbar, this, "ScrollBar.squareButtons", false);
-        int leftButtonW = squareButtons ? itemH :
-                          decrButton.getPreferredSize().width;
-        int rightButtonW = squareButtons ? itemH :
-                          incrButton.getPreferredSize().width;
+        boolfbn squbrfButtons = DffbultLookup.gftBoolfbn(
+            sdrollbbr, tiis, "SdrollBbr.squbrfButtons", fblsf);
+        int lfftButtonW = squbrfButtons ? itfmH :
+                          dfdrButton.gftPrfffrrfdSizf().widti;
+        int rigitButtonW = squbrfButtons ? itfmH :
+                          indrButton.gftPrfffrrfdSizf().widti;
         if (!ltr) {
-            int temp = leftButtonW;
-            leftButtonW = rightButtonW;
-            rightButtonW = temp;
+            int tfmp = lfftButtonW;
+            lfftButtonW = rigitButtonW;
+            rigitButtonW = tfmp;
         }
-        int leftButtonX = sbInsets.left;
-        int rightButtonX = sbSize.width - (sbInsets.right + rightButtonW);
-        int leftGap = ltr ? decrGap : incrGap;
-        int rightGap = ltr ? incrGap : decrGap;
+        int lfftButtonX = sbInsfts.lfft;
+        int rigitButtonX = sbSizf.widti - (sbInsfts.rigit + rigitButtonW);
+        int lfftGbp = ltr ? dfdrGbp : indrGbp;
+        int rigitGbp = ltr ? indrGbp : dfdrGbp;
 
-        /* The thumb must fit within the width left over after we
-         * subtract the preferredSize of the buttons and the insets
-         * and the gaps
+        /* Tif tiumb must fit witiin tif widti lfft ovfr bftfr wf
+         * subtrbdt tif prfffrrfdSizf of tif buttons bnd tif insfts
+         * bnd tif gbps
          */
-        int sbInsetsW = sbInsets.left + sbInsets.right;
-        int sbButtonsW = leftButtonW + rightButtonW;
-        float trackW = sbSize.width - (sbInsetsW + sbButtonsW) - (leftGap + rightGap);
+        int sbInsftsW = sbInsfts.lfft + sbInsfts.rigit;
+        int sbButtonsW = lfftButtonW + rigitButtonW;
+        flobt trbdkW = sbSizf.widti - (sbInsftsW + sbButtonsW) - (lfftGbp + rigitGbp);
 
-        /* Compute the width and origin of the thumb.  Enforce
-         * the thumbs min/max dimensions.  The case where the thumb
-         * is at the right edge is handled specially to avoid numerical
-         * problems in computing thumbX.  If the thumb doesn't
-         * fit in the track (trackH) we'll hide it later.
+        /* Computf tif widti bnd origin of tif tiumb.  Enfordf
+         * tif tiumbs min/mbx dimfnsions.  Tif dbsf wifrf tif tiumb
+         * is bt tif rigit fdgf is ibndlfd spfdiblly to bvoid numfridbl
+         * problfms in domputing tiumbX.  If tif tiumb dofsn't
+         * fit in tif trbdk (trbdkH) wf'll iidf it lbtfr.
          */
-        float min = sb.getMinimum();
-        float max = sb.getMaximum();
-        float extent = sb.getVisibleAmount();
-        float range = max - min;
-        float value = getValue(sb);
+        flobt min = sb.gftMinimum();
+        flobt mbx = sb.gftMbximum();
+        flobt fxtfnt = sb.gftVisiblfAmount();
+        flobt rbngf = mbx - min;
+        flobt vbluf = gftVbluf(sb);
 
-        int thumbW = (range <= 0)
-            ? getMaximumThumbSize().width : (int)(trackW * (extent / range));
-        thumbW = Math.max(thumbW, getMinimumThumbSize().width);
-        thumbW = Math.min(thumbW, getMaximumThumbSize().width);
+        int tiumbW = (rbngf <= 0)
+            ? gftMbximumTiumbSizf().widti : (int)(trbdkW * (fxtfnt / rbngf));
+        tiumbW = Mbti.mbx(tiumbW, gftMinimumTiumbSizf().widti);
+        tiumbW = Mbti.min(tiumbW, gftMbximumTiumbSizf().widti);
 
-        int thumbX = ltr ? rightButtonX - rightGap - thumbW : leftButtonX + leftButtonW + leftGap;
-        if (value < (max - sb.getVisibleAmount())) {
-            float thumbRange = trackW - thumbW;
+        int tiumbX = ltr ? rigitButtonX - rigitGbp - tiumbW : lfftButtonX + lfftButtonW + lfftGbp;
+        if (vbluf < (mbx - sb.gftVisiblfAmount())) {
+            flobt tiumbRbngf = trbdkW - tiumbW;
             if( ltr ) {
-                thumbX = (int)(0.5f + (thumbRange * ((value - min) / (range - extent))));
-            } else {
-                thumbX = (int)(0.5f + (thumbRange * ((max - extent - value) / (range - extent))));
+                tiumbX = (int)(0.5f + (tiumbRbngf * ((vbluf - min) / (rbngf - fxtfnt))));
+            } flsf {
+                tiumbX = (int)(0.5f + (tiumbRbngf * ((mbx - fxtfnt - vbluf) / (rbngf - fxtfnt))));
             }
-            thumbX += leftButtonX + leftButtonW + leftGap;
+            tiumbX += lfftButtonX + lfftButtonW + lfftGbp;
         }
 
-        /* If the buttons don't fit, allocate half of the available
-         * space to each and move the right one over.
+        /* If tif buttons don't fit, bllodbtf iblf of tif bvbilbblf
+         * spbdf to fbdi bnd movf tif rigit onf ovfr.
          */
-        int sbAvailButtonW = (sbSize.width - sbInsetsW);
-        if (sbAvailButtonW < sbButtonsW) {
-            rightButtonW = leftButtonW = sbAvailButtonW / 2;
-            rightButtonX = sbSize.width - (sbInsets.right + rightButtonW + rightGap);
+        int sbAvbilButtonW = (sbSizf.widti - sbInsftsW);
+        if (sbAvbilButtonW < sbButtonsW) {
+            rigitButtonW = lfftButtonW = sbAvbilButtonW / 2;
+            rigitButtonX = sbSizf.widti - (sbInsfts.rigit + rigitButtonW + rigitGbp);
         }
 
-        (ltr ? decrButton : incrButton).setBounds(leftButtonX, itemY, leftButtonW, itemH);
-        (ltr ? incrButton : decrButton).setBounds(rightButtonX, itemY, rightButtonW, itemH);
+        (ltr ? dfdrButton : indrButton).sftBounds(lfftButtonX, itfmY, lfftButtonW, itfmH);
+        (ltr ? indrButton : dfdrButton).sftBounds(rigitButtonX, itfmY, rigitButtonW, itfmH);
 
-        /* Update the trackRect field.
+        /* Updbtf tif trbdkRfdt fifld.
          */
-        int itrackX = leftButtonX + leftButtonW + leftGap;
-        int itrackW = rightButtonX - rightGap - itrackX;
-        trackRect.setBounds(itrackX, itemY, itrackW, itemH);
+        int itrbdkX = lfftButtonX + lfftButtonW + lfftGbp;
+        int itrbdkW = rigitButtonX - rigitGbp - itrbdkX;
+        trbdkRfdt.sftBounds(itrbdkX, itfmY, itrbdkW, itfmH);
 
-        /* Make sure the thumb fits between the buttons.  Note
-         * that setting the thumbs bounds causes a repaint.
+        /* Mbkf surf tif tiumb fits bftwffn tif buttons.  Notf
+         * tibt sftting tif tiumbs bounds dbusfs b rfpbint.
          */
-        if (thumbW >= (int)trackW) {
-            if (UIManager.getBoolean("ScrollBar.alwaysShowThumb")) {
-                // This is used primarily for GTK L&F, which expands the
-                // thumb to fit the track when it would otherwise be hidden.
-                setThumbBounds(itrackX, itemY, itrackW, itemH);
-            } else {
-                // Other L&F's simply hide the thumb in this case.
-                setThumbBounds(0, 0, 0, 0);
+        if (tiumbW >= (int)trbdkW) {
+            if (UIMbnbgfr.gftBoolfbn("SdrollBbr.blwbysSiowTiumb")) {
+                // Tiis is usfd primbrily for GTK L&F, wiidi fxpbnds tif
+                // tiumb to fit tif trbdk wifn it would otifrwisf bf iiddfn.
+                sftTiumbBounds(itrbdkX, itfmY, itrbdkW, itfmH);
+            } flsf {
+                // Otifr L&F's simply iidf tif tiumb in tiis dbsf.
+                sftTiumbBounds(0, 0, 0, 0);
             }
         }
-        else {
-            if (thumbX + thumbW > rightButtonX - rightGap) {
-                thumbX = rightButtonX - rightGap - thumbW;
+        flsf {
+            if (tiumbX + tiumbW > rigitButtonX - rigitGbp) {
+                tiumbX = rigitButtonX - rigitGbp - tiumbW;
             }
-            if (thumbX  < leftButtonX + leftButtonW + leftGap) {
-                thumbX = leftButtonX + leftButtonW + leftGap + 1;
+            if (tiumbX  < lfftButtonX + lfftButtonW + lfftGbp) {
+                tiumbX = lfftButtonX + lfftButtonW + lfftGbp + 1;
             }
-            setThumbBounds(thumbX, itemY, thumbW, itemH);
+            sftTiumbBounds(tiumbX, itfmY, tiumbW, itfmH);
         }
     }
 
-    public void layoutContainer(Container scrollbarContainer)
+    publid void lbyoutContbinfr(Contbinfr sdrollbbrContbinfr)
     {
-        /* If the user is dragging the value, we'll assume that the
-         * scrollbars layout is OK modulo the thumb which is being
-         * handled by the dragging code.
+        /* If tif usfr is drbgging tif vbluf, wf'll bssumf tibt tif
+         * sdrollbbrs lbyout is OK modulo tif tiumb wiidi is bfing
+         * ibndlfd by tif drbgging dodf.
          */
-        if (isDragging) {
-            return;
+        if (isDrbgging) {
+            rfturn;
         }
 
-        JScrollBar scrollbar = (JScrollBar)scrollbarContainer;
-        switch (scrollbar.getOrientation()) {
-        case JScrollBar.VERTICAL:
-            layoutVScrollbar(scrollbar);
-            break;
+        JSdrollBbr sdrollbbr = (JSdrollBbr)sdrollbbrContbinfr;
+        switdi (sdrollbbr.gftOrifntbtion()) {
+        dbsf JSdrollBbr.VERTICAL:
+            lbyoutVSdrollbbr(sdrollbbr);
+            brfbk;
 
-        case JScrollBar.HORIZONTAL:
-            layoutHScrollbar(scrollbar);
-            break;
+        dbsf JSdrollBbr.HORIZONTAL:
+            lbyoutHSdrollbbr(sdrollbbr);
+            brfbk;
         }
     }
 
 
     /**
-     * Set the bounds of the thumb and force a repaint that includes
-     * the old thumbBounds and the new one.
+     * Sft tif bounds of tif tiumb bnd fordf b rfpbint tibt indludfs
+     * tif old tiumbBounds bnd tif nfw onf.
      *
-     * @see #getThumbBounds
+     * @sff #gftTiumbBounds
      */
-    protected void setThumbBounds(int x, int y, int width, int height)
+    protfdtfd void sftTiumbBounds(int x, int y, int widti, int ifigit)
     {
-        /* If the thumbs bounds haven't changed, we're done.
+        /* If tif tiumbs bounds ibvfn't dibngfd, wf'rf donf.
          */
-        if ((thumbRect.x == x) &&
-            (thumbRect.y == y) &&
-            (thumbRect.width == width) &&
-            (thumbRect.height == height)) {
-            return;
+        if ((tiumbRfdt.x == x) &&
+            (tiumbRfdt.y == y) &&
+            (tiumbRfdt.widti == widti) &&
+            (tiumbRfdt.ifigit == ifigit)) {
+            rfturn;
         }
 
-        /* Update thumbRect, and repaint the union of x,y,w,h and
-         * the old thumbRect.
+        /* Updbtf tiumbRfdt, bnd rfpbint tif union of x,y,w,i bnd
+         * tif old tiumbRfdt.
          */
-        int minX = Math.min(x, thumbRect.x);
-        int minY = Math.min(y, thumbRect.y);
-        int maxX = Math.max(x + width, thumbRect.x + thumbRect.width);
-        int maxY = Math.max(y + height, thumbRect.y + thumbRect.height);
+        int minX = Mbti.min(x, tiumbRfdt.x);
+        int minY = Mbti.min(y, tiumbRfdt.y);
+        int mbxX = Mbti.mbx(x + widti, tiumbRfdt.x + tiumbRfdt.widti);
+        int mbxY = Mbti.mbx(y + ifigit, tiumbRfdt.y + tiumbRfdt.ifigit);
 
-        thumbRect.setBounds(x, y, width, height);
-        scrollbar.repaint(minX, minY, maxX - minX, maxY - minY);
+        tiumbRfdt.sftBounds(x, y, widti, ifigit);
+        sdrollbbr.rfpbint(minX, minY, mbxX - minX, mbxY - minY);
 
-        // Once there is API to determine the mouse location this will need
-        // to be changed.
-        setThumbRollover(false);
+        // Ondf tifrf is API to dftfrminf tif mousf lodbtion tiis will nffd
+        // to bf dibngfd.
+        sftTiumbRollovfr(fblsf);
     }
 
 
     /**
-     * Return the current size/location of the thumb.
+     * Rfturn tif durrfnt sizf/lodbtion of tif tiumb.
      * <p>
-     * <b>Warning </b>: the value returned by this method should not be
-     * be modified, it's a reference to the actual rectangle, not a copy.
+     * <b>Wbrning </b>: tif vbluf rfturnfd by tiis mftiod siould not bf
+     * bf modififd, it's b rfffrfndf to tif bdtubl rfdtbnglf, not b dopy.
      *
-     * @return The current size/location of the thumb.
-     * @see #setThumbBounds
+     * @rfturn Tif durrfnt sizf/lodbtion of tif tiumb.
+     * @sff #sftTiumbBounds
      */
-    protected Rectangle getThumbBounds() {
-        return thumbRect;
+    protfdtfd Rfdtbnglf gftTiumbBounds() {
+        rfturn tiumbRfdt;
     }
 
 
     /**
-     * Returns the current bounds of the track, i.e. the space in between
-     * the increment and decrement buttons, less the insets.  The value
-     * returned by this method is updated each time the scrollbar is
-     * laid out (validated).
+     * Rfturns tif durrfnt bounds of tif trbdk, i.f. tif spbdf in bftwffn
+     * tif indrfmfnt bnd dfdrfmfnt buttons, lfss tif insfts.  Tif vbluf
+     * rfturnfd by tiis mftiod is updbtfd fbdi timf tif sdrollbbr is
+     * lbid out (vblidbtfd).
      * <p>
-     * <b>Warning </b>: the value returned by this method should not be
-     * be modified, it's a reference to the actual rectangle, not a copy.
+     * <b>Wbrning </b>: tif vbluf rfturnfd by tiis mftiod siould not bf
+     * bf modififd, it's b rfffrfndf to tif bdtubl rfdtbnglf, not b dopy.
      *
-     * @return the current bounds of the scrollbar track
-     * @see #layoutContainer
+     * @rfturn tif durrfnt bounds of tif sdrollbbr trbdk
+     * @sff #lbyoutContbinfr
      */
-    protected Rectangle getTrackBounds() {
-        return trackRect;
+    protfdtfd Rfdtbnglf gftTrbdkBounds() {
+        rfturn trbdkRfdt;
     }
 
     /*
-     * Method for scrolling by a block increment.
-     * Added for mouse wheel scrolling support, RFE 4202656.
+     * Mftiod for sdrolling by b blodk indrfmfnt.
+     * Addfd for mousf wiffl sdrolling support, RFE 4202656.
      */
-    static void scrollByBlock(JScrollBar scrollbar, int direction) {
-        // This method is called from BasicScrollPaneUI to implement wheel
-        // scrolling, and also from scrollByBlock().
-            int oldValue = scrollbar.getValue();
-            int blockIncrement = scrollbar.getBlockIncrement(direction);
-            int delta = blockIncrement * ((direction > 0) ? +1 : -1);
-            int newValue = oldValue + delta;
+    stbtid void sdrollByBlodk(JSdrollBbr sdrollbbr, int dirfdtion) {
+        // Tiis mftiod is dbllfd from BbsidSdrollPbnfUI to implfmfnt wiffl
+        // sdrolling, bnd blso from sdrollByBlodk().
+            int oldVbluf = sdrollbbr.gftVbluf();
+            int blodkIndrfmfnt = sdrollbbr.gftBlodkIndrfmfnt(dirfdtion);
+            int dfltb = blodkIndrfmfnt * ((dirfdtion > 0) ? +1 : -1);
+            int nfwVbluf = oldVbluf + dfltb;
 
-            // Check for overflow.
-            if (delta > 0 && newValue < oldValue) {
-                newValue = scrollbar.getMaximum();
+            // Cifdk for ovfrflow.
+            if (dfltb > 0 && nfwVbluf < oldVbluf) {
+                nfwVbluf = sdrollbbr.gftMbximum();
             }
-            else if (delta < 0 && newValue > oldValue) {
-                newValue = scrollbar.getMinimum();
+            flsf if (dfltb < 0 && nfwVbluf > oldVbluf) {
+                nfwVbluf = sdrollbbr.gftMinimum();
             }
 
-            scrollbar.setValue(newValue);
+            sdrollbbr.sftVbluf(nfwVbluf);
     }
 
-    protected void scrollByBlock(int direction)
+    protfdtfd void sdrollByBlodk(int dirfdtion)
     {
-        scrollByBlock(scrollbar, direction);
-            trackHighlight = direction > 0 ? INCREASE_HIGHLIGHT : DECREASE_HIGHLIGHT;
-            Rectangle dirtyRect = getTrackBounds();
-            scrollbar.repaint(dirtyRect.x, dirtyRect.y, dirtyRect.width, dirtyRect.height);
+        sdrollByBlodk(sdrollbbr, dirfdtion);
+            trbdkHigiligit = dirfdtion > 0 ? INCREASE_HIGHLIGHT : DECREASE_HIGHLIGHT;
+            Rfdtbnglf dirtyRfdt = gftTrbdkBounds();
+            sdrollbbr.rfpbint(dirtyRfdt.x, dirtyRfdt.y, dirtyRfdt.widti, dirtyRfdt.ifigit);
     }
 
     /*
-     * Method for scrolling by a unit increment.
-     * Added for mouse wheel scrolling support, RFE 4202656.
+     * Mftiod for sdrolling by b unit indrfmfnt.
+     * Addfd for mousf wiffl sdrolling support, RFE 4202656.
      *
-     * If limitByBlock is set to true, the scrollbar will scroll at least 1
-     * unit increment, but will not scroll farther than the block increment.
-     * See BasicScrollPaneUI.Handler.mouseWheelMoved().
+     * If limitByBlodk is sft to truf, tif sdrollbbr will sdroll bt lfbst 1
+     * unit indrfmfnt, but will not sdroll fbrtifr tibn tif blodk indrfmfnt.
+     * Sff BbsidSdrollPbnfUI.Hbndlfr.mousfWifflMovfd().
      */
-    static void scrollByUnits(JScrollBar scrollbar, int direction,
-                              int units, boolean limitToBlock) {
-        // This method is called from BasicScrollPaneUI to implement wheel
-        // scrolling, as well as from scrollByUnit().
-        int delta;
+    stbtid void sdrollByUnits(JSdrollBbr sdrollbbr, int dirfdtion,
+                              int units, boolfbn limitToBlodk) {
+        // Tiis mftiod is dbllfd from BbsidSdrollPbnfUI to implfmfnt wiffl
+        // sdrolling, bs wfll bs from sdrollByUnit().
+        int dfltb;
         int limit = -1;
 
-        if (limitToBlock) {
-            if (direction < 0) {
-                limit = scrollbar.getValue() -
-                                         scrollbar.getBlockIncrement(direction);
+        if (limitToBlodk) {
+            if (dirfdtion < 0) {
+                limit = sdrollbbr.gftVbluf() -
+                                         sdrollbbr.gftBlodkIndrfmfnt(dirfdtion);
             }
-            else {
-                limit = scrollbar.getValue() +
-                                         scrollbar.getBlockIncrement(direction);
+            flsf {
+                limit = sdrollbbr.gftVbluf() +
+                                         sdrollbbr.gftBlodkIndrfmfnt(dirfdtion);
             }
         }
 
         for (int i=0; i<units; i++) {
-            if (direction > 0) {
-                delta = scrollbar.getUnitIncrement(direction);
+            if (dirfdtion > 0) {
+                dfltb = sdrollbbr.gftUnitIndrfmfnt(dirfdtion);
             }
-            else {
-                delta = -scrollbar.getUnitIncrement(direction);
-            }
-
-            int oldValue = scrollbar.getValue();
-            int newValue = oldValue + delta;
-
-            // Check for overflow.
-            if (delta > 0 && newValue < oldValue) {
-                newValue = scrollbar.getMaximum();
-            }
-            else if (delta < 0 && newValue > oldValue) {
-                newValue = scrollbar.getMinimum();
-            }
-            if (oldValue == newValue) {
-                break;
+            flsf {
+                dfltb = -sdrollbbr.gftUnitIndrfmfnt(dirfdtion);
             }
 
-            if (limitToBlock && i > 0) {
-                assert limit != -1;
-                if ((direction < 0 && newValue < limit) ||
-                    (direction > 0 && newValue > limit)) {
-                    break;
+            int oldVbluf = sdrollbbr.gftVbluf();
+            int nfwVbluf = oldVbluf + dfltb;
+
+            // Cifdk for ovfrflow.
+            if (dfltb > 0 && nfwVbluf < oldVbluf) {
+                nfwVbluf = sdrollbbr.gftMbximum();
+            }
+            flsf if (dfltb < 0 && nfwVbluf > oldVbluf) {
+                nfwVbluf = sdrollbbr.gftMinimum();
+            }
+            if (oldVbluf == nfwVbluf) {
+                brfbk;
+            }
+
+            if (limitToBlodk && i > 0) {
+                bssfrt limit != -1;
+                if ((dirfdtion < 0 && nfwVbluf < limit) ||
+                    (dirfdtion > 0 && nfwVbluf > limit)) {
+                    brfbk;
                 }
             }
-            scrollbar.setValue(newValue);
+            sdrollbbr.sftVbluf(nfwVbluf);
         }
     }
 
-    protected void scrollByUnit(int direction)  {
-        scrollByUnits(scrollbar, direction, 1, false);
+    protfdtfd void sdrollByUnit(int dirfdtion)  {
+        sdrollByUnits(sdrollbbr, dirfdtion, 1, fblsf);
     }
 
     /**
-     * Indicates whether the user can absolutely position the thumb with
-     * a mouse gesture (usually the middle mouse button).
+     * Indidbtfs wiftifr tif usfr dbn bbsolutfly position tif tiumb witi
+     * b mousf gfsturf (usublly tif middlf mousf button).
      *
-     * @return true if a mouse gesture can absolutely position the thumb
-     * @since 1.5
+     * @rfturn truf if b mousf gfsturf dbn bbsolutfly position tif tiumb
+     * @sindf 1.5
      */
-    public boolean getSupportsAbsolutePositioning() {
-        return supportsAbsolutePositioning;
+    publid boolfbn gftSupportsAbsolutfPositioning() {
+        rfturn supportsAbsolutfPositioning;
     }
 
     /**
-     * A listener to listen for model changes.
+     * A listfnfr to listfn for modfl dibngfs.
      *
      */
-    protected class ModelListener implements ChangeListener {
-        public void stateChanged(ChangeEvent e) {
-            if (!useCachedValue) {
-                scrollBarValue = scrollbar.getValue();
+    protfdtfd dlbss ModflListfnfr implfmfnts CibngfListfnfr {
+        publid void stbtfCibngfd(CibngfEvfnt f) {
+            if (!usfCbdifdVbluf) {
+                sdrollBbrVbluf = sdrollbbr.gftVbluf();
             }
-            layoutContainer(scrollbar);
-            useCachedValue = false;
+            lbyoutContbinfr(sdrollbbr);
+            usfCbdifdVbluf = fblsf;
         }
     }
 
 
     /**
-     * Track mouse drags.
+     * Trbdk mousf drbgs.
      */
-    protected class TrackListener
-        extends MouseAdapter implements MouseMotionListener
+    protfdtfd dlbss TrbdkListfnfr
+        fxtfnds MousfAdbptfr implfmfnts MousfMotionListfnfr
     {
-        protected transient int offset;
-        protected transient int currentMouseX, currentMouseY;
-        private transient int direction = +1;
+        protfdtfd trbnsifnt int offsft;
+        protfdtfd trbnsifnt int durrfntMousfX, durrfntMousfY;
+        privbtf trbnsifnt int dirfdtion = +1;
 
-        public void mouseReleased(MouseEvent e)
+        publid void mousfRflfbsfd(MousfEvfnt f)
         {
-            if (isDragging) {
-                updateThumbState(e.getX(), e.getY());
+            if (isDrbgging) {
+                updbtfTiumbStbtf(f.gftX(), f.gftY());
             }
-            if (SwingUtilities.isRightMouseButton(e) ||
-                (!getSupportsAbsolutePositioning() &&
-                 SwingUtilities.isMiddleMouseButton(e)))
-                return;
-            if(!scrollbar.isEnabled())
-                return;
+            if (SwingUtilitifs.isRigitMousfButton(f) ||
+                (!gftSupportsAbsolutfPositioning() &&
+                 SwingUtilitifs.isMiddlfMousfButton(f)))
+                rfturn;
+            if(!sdrollbbr.isEnbblfd())
+                rfturn;
 
-            Rectangle r = getTrackBounds();
-            scrollbar.repaint(r.x, r.y, r.width, r.height);
+            Rfdtbnglf r = gftTrbdkBounds();
+            sdrollbbr.rfpbint(r.x, r.y, r.widti, r.ifigit);
 
-            trackHighlight = NO_HIGHLIGHT;
-            isDragging = false;
-            offset = 0;
-            scrollTimer.stop();
-            useCachedValue = true;
-            scrollbar.setValueIsAdjusting(false);
+            trbdkHigiligit = NO_HIGHLIGHT;
+            isDrbgging = fblsf;
+            offsft = 0;
+            sdrollTimfr.stop();
+            usfCbdifdVbluf = truf;
+            sdrollbbr.sftVblufIsAdjusting(fblsf);
         }
 
 
         /**
-         * If the mouse is pressed above the "thumb" component
-         * then reduce the scrollbars value by one page ("page up"),
-         * otherwise increase it by one page.  If there is no
-         * thumb then page up if the mouse is in the upper half
-         * of the track.
+         * If tif mousf is prfssfd bbovf tif "tiumb" domponfnt
+         * tifn rfdudf tif sdrollbbrs vbluf by onf pbgf ("pbgf up"),
+         * otifrwisf indrfbsf it by onf pbgf.  If tifrf is no
+         * tiumb tifn pbgf up if tif mousf is in tif uppfr iblf
+         * of tif trbdk.
          */
-        public void mousePressed(MouseEvent e)
+        publid void mousfPrfssfd(MousfEvfnt f)
         {
-            if (SwingUtilities.isRightMouseButton(e) ||
-                (!getSupportsAbsolutePositioning() &&
-                 SwingUtilities.isMiddleMouseButton(e)))
-                return;
-            if(!scrollbar.isEnabled())
-                return;
+            if (SwingUtilitifs.isRigitMousfButton(f) ||
+                (!gftSupportsAbsolutfPositioning() &&
+                 SwingUtilitifs.isMiddlfMousfButton(f)))
+                rfturn;
+            if(!sdrollbbr.isEnbblfd())
+                rfturn;
 
-            if (!scrollbar.hasFocus() && scrollbar.isRequestFocusEnabled()) {
-                scrollbar.requestFocus();
+            if (!sdrollbbr.ibsFodus() && sdrollbbr.isRfqufstFodusEnbblfd()) {
+                sdrollbbr.rfqufstFodus();
             }
 
-            useCachedValue = true;
-            scrollbar.setValueIsAdjusting(true);
+            usfCbdifdVbluf = truf;
+            sdrollbbr.sftVblufIsAdjusting(truf);
 
-            currentMouseX = e.getX();
-            currentMouseY = e.getY();
+            durrfntMousfX = f.gftX();
+            durrfntMousfY = f.gftY();
 
-            // Clicked in the Thumb area?
-            if(getThumbBounds().contains(currentMouseX, currentMouseY)) {
-                switch (scrollbar.getOrientation()) {
-                case JScrollBar.VERTICAL:
-                    offset = currentMouseY - getThumbBounds().y;
-                    break;
-                case JScrollBar.HORIZONTAL:
-                    offset = currentMouseX - getThumbBounds().x;
-                    break;
+            // Clidkfd in tif Tiumb brfb?
+            if(gftTiumbBounds().dontbins(durrfntMousfX, durrfntMousfY)) {
+                switdi (sdrollbbr.gftOrifntbtion()) {
+                dbsf JSdrollBbr.VERTICAL:
+                    offsft = durrfntMousfY - gftTiumbBounds().y;
+                    brfbk;
+                dbsf JSdrollBbr.HORIZONTAL:
+                    offsft = durrfntMousfX - gftTiumbBounds().x;
+                    brfbk;
                 }
-                isDragging = true;
-                return;
+                isDrbgging = truf;
+                rfturn;
             }
-            else if (getSupportsAbsolutePositioning() &&
-                     SwingUtilities.isMiddleMouseButton(e)) {
-                switch (scrollbar.getOrientation()) {
-                case JScrollBar.VERTICAL:
-                    offset = getThumbBounds().height / 2;
-                    break;
-                case JScrollBar.HORIZONTAL:
-                    offset = getThumbBounds().width / 2;
-                    break;
+            flsf if (gftSupportsAbsolutfPositioning() &&
+                     SwingUtilitifs.isMiddlfMousfButton(f)) {
+                switdi (sdrollbbr.gftOrifntbtion()) {
+                dbsf JSdrollBbr.VERTICAL:
+                    offsft = gftTiumbBounds().ifigit / 2;
+                    brfbk;
+                dbsf JSdrollBbr.HORIZONTAL:
+                    offsft = gftTiumbBounds().widti / 2;
+                    brfbk;
                 }
-                isDragging = true;
-                setValueFrom(e);
-                return;
+                isDrbgging = truf;
+                sftVblufFrom(f);
+                rfturn;
             }
-            isDragging = false;
+            isDrbgging = fblsf;
 
-            Dimension sbSize = scrollbar.getSize();
-            direction = +1;
+            Dimfnsion sbSizf = sdrollbbr.gftSizf();
+            dirfdtion = +1;
 
-            switch (scrollbar.getOrientation()) {
-            case JScrollBar.VERTICAL:
-                if (getThumbBounds().isEmpty()) {
-                    int scrollbarCenter = sbSize.height / 2;
-                    direction = (currentMouseY < scrollbarCenter) ? -1 : +1;
-                } else {
-                    int thumbY = getThumbBounds().y;
-                    direction = (currentMouseY < thumbY) ? -1 : +1;
+            switdi (sdrollbbr.gftOrifntbtion()) {
+            dbsf JSdrollBbr.VERTICAL:
+                if (gftTiumbBounds().isEmpty()) {
+                    int sdrollbbrCfntfr = sbSizf.ifigit / 2;
+                    dirfdtion = (durrfntMousfY < sdrollbbrCfntfr) ? -1 : +1;
+                } flsf {
+                    int tiumbY = gftTiumbBounds().y;
+                    dirfdtion = (durrfntMousfY < tiumbY) ? -1 : +1;
                 }
-                break;
-            case JScrollBar.HORIZONTAL:
-                if (getThumbBounds().isEmpty()) {
-                    int scrollbarCenter = sbSize.width / 2;
-                    direction = (currentMouseX < scrollbarCenter) ? -1 : +1;
-                } else {
-                    int thumbX = getThumbBounds().x;
-                    direction = (currentMouseX < thumbX) ? -1 : +1;
+                brfbk;
+            dbsf JSdrollBbr.HORIZONTAL:
+                if (gftTiumbBounds().isEmpty()) {
+                    int sdrollbbrCfntfr = sbSizf.widti / 2;
+                    dirfdtion = (durrfntMousfX < sdrollbbrCfntfr) ? -1 : +1;
+                } flsf {
+                    int tiumbX = gftTiumbBounds().x;
+                    dirfdtion = (durrfntMousfX < tiumbX) ? -1 : +1;
                 }
-                if (!scrollbar.getComponentOrientation().isLeftToRight()) {
-                    direction = -direction;
+                if (!sdrollbbr.gftComponfntOrifntbtion().isLfftToRigit()) {
+                    dirfdtion = -dirfdtion;
                 }
-                break;
+                brfbk;
             }
-            scrollByBlock(direction);
+            sdrollByBlodk(dirfdtion);
 
-            scrollTimer.stop();
-            scrollListener.setDirection(direction);
-            scrollListener.setScrollByBlock(true);
-            startScrollTimerIfNecessary();
+            sdrollTimfr.stop();
+            sdrollListfnfr.sftDirfdtion(dirfdtion);
+            sdrollListfnfr.sftSdrollByBlodk(truf);
+            stbrtSdrollTimfrIfNfdfssbry();
         }
 
 
         /**
-         * Set the models value to the position of the thumb's top of Vertical
-         * scrollbar, or the left/right of Horizontal scrollbar in
-         * left-to-right/right-to-left scrollbar relative to the origin of the
-         * track.
+         * Sft tif modfls vbluf to tif position of tif tiumb's top of Vfrtidbl
+         * sdrollbbr, or tif lfft/rigit of Horizontbl sdrollbbr in
+         * lfft-to-rigit/rigit-to-lfft sdrollbbr rflbtivf to tif origin of tif
+         * trbdk.
          */
-        public void mouseDragged(MouseEvent e) {
-            if (SwingUtilities.isRightMouseButton(e) ||
-                (!getSupportsAbsolutePositioning() &&
-                 SwingUtilities.isMiddleMouseButton(e)))
-                return;
-            if(!scrollbar.isEnabled() || getThumbBounds().isEmpty()) {
-                return;
+        publid void mousfDrbggfd(MousfEvfnt f) {
+            if (SwingUtilitifs.isRigitMousfButton(f) ||
+                (!gftSupportsAbsolutfPositioning() &&
+                 SwingUtilitifs.isMiddlfMousfButton(f)))
+                rfturn;
+            if(!sdrollbbr.isEnbblfd() || gftTiumbBounds().isEmpty()) {
+                rfturn;
             }
-            if (isDragging) {
-                setValueFrom(e);
-            } else {
-                currentMouseX = e.getX();
-                currentMouseY = e.getY();
-                updateThumbState(currentMouseX, currentMouseY);
-                startScrollTimerIfNecessary();
+            if (isDrbgging) {
+                sftVblufFrom(f);
+            } flsf {
+                durrfntMousfX = f.gftX();
+                durrfntMousfY = f.gftY();
+                updbtfTiumbStbtf(durrfntMousfX, durrfntMousfY);
+                stbrtSdrollTimfrIfNfdfssbry();
             }
         }
 
-        private void setValueFrom(MouseEvent e) {
-            boolean active = isThumbRollover();
-            BoundedRangeModel model = scrollbar.getModel();
-            Rectangle thumbR = getThumbBounds();
-            float trackLength;
-            int thumbMin, thumbMax, thumbPos;
+        privbtf void sftVblufFrom(MousfEvfnt f) {
+            boolfbn bdtivf = isTiumbRollovfr();
+            BoundfdRbngfModfl modfl = sdrollbbr.gftModfl();
+            Rfdtbnglf tiumbR = gftTiumbBounds();
+            flobt trbdkLfngti;
+            int tiumbMin, tiumbMbx, tiumbPos;
 
-            if (scrollbar.getOrientation() == JScrollBar.VERTICAL) {
-                thumbMin = trackRect.y;
-                thumbMax = trackRect.y + trackRect.height - thumbR.height;
-                thumbPos = Math.min(thumbMax, Math.max(thumbMin, (e.getY() - offset)));
-                setThumbBounds(thumbR.x, thumbPos, thumbR.width, thumbR.height);
-                trackLength = getTrackBounds().height;
+            if (sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL) {
+                tiumbMin = trbdkRfdt.y;
+                tiumbMbx = trbdkRfdt.y + trbdkRfdt.ifigit - tiumbR.ifigit;
+                tiumbPos = Mbti.min(tiumbMbx, Mbti.mbx(tiumbMin, (f.gftY() - offsft)));
+                sftTiumbBounds(tiumbR.x, tiumbPos, tiumbR.widti, tiumbR.ifigit);
+                trbdkLfngti = gftTrbdkBounds().ifigit;
             }
-            else {
-                thumbMin = trackRect.x;
-                thumbMax = trackRect.x + trackRect.width - thumbR.width;
-                thumbPos = Math.min(thumbMax, Math.max(thumbMin, (e.getX() - offset)));
-                setThumbBounds(thumbPos, thumbR.y, thumbR.width, thumbR.height);
-                trackLength = getTrackBounds().width;
+            flsf {
+                tiumbMin = trbdkRfdt.x;
+                tiumbMbx = trbdkRfdt.x + trbdkRfdt.widti - tiumbR.widti;
+                tiumbPos = Mbti.min(tiumbMbx, Mbti.mbx(tiumbMin, (f.gftX() - offsft)));
+                sftTiumbBounds(tiumbPos, tiumbR.y, tiumbR.widti, tiumbR.ifigit);
+                trbdkLfngti = gftTrbdkBounds().widti;
             }
 
-            /* Set the scrollbars value.  If the thumb has reached the end of
-             * the scrollbar, then just set the value to its maximum.  Otherwise
-             * compute the value as accurately as possible.
+            /* Sft tif sdrollbbrs vbluf.  If tif tiumb ibs rfbdifd tif fnd of
+             * tif sdrollbbr, tifn just sft tif vbluf to its mbximum.  Otifrwisf
+             * domputf tif vbluf bs bddurbtfly bs possiblf.
              */
-            if (thumbPos == thumbMax) {
-                if (scrollbar.getOrientation() == JScrollBar.VERTICAL ||
-                    scrollbar.getComponentOrientation().isLeftToRight()) {
-                    scrollbar.setValue(model.getMaximum() - model.getExtent());
-                } else {
-                    scrollbar.setValue(model.getMinimum());
+            if (tiumbPos == tiumbMbx) {
+                if (sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL ||
+                    sdrollbbr.gftComponfntOrifntbtion().isLfftToRigit()) {
+                    sdrollbbr.sftVbluf(modfl.gftMbximum() - modfl.gftExtfnt());
+                } flsf {
+                    sdrollbbr.sftVbluf(modfl.gftMinimum());
                 }
             }
-            else {
-                float valueMax = model.getMaximum() - model.getExtent();
-                float valueRange = valueMax - model.getMinimum();
-                float thumbValue = thumbPos - thumbMin;
-                float thumbRange = thumbMax - thumbMin;
-                int value;
-                if (scrollbar.getOrientation() == JScrollBar.VERTICAL ||
-                    scrollbar.getComponentOrientation().isLeftToRight()) {
-                    value = (int)(0.5 + ((thumbValue / thumbRange) * valueRange));
-                } else {
-                    value = (int)(0.5 + (((thumbMax - thumbPos) / thumbRange) * valueRange));
+            flsf {
+                flobt vblufMbx = modfl.gftMbximum() - modfl.gftExtfnt();
+                flobt vblufRbngf = vblufMbx - modfl.gftMinimum();
+                flobt tiumbVbluf = tiumbPos - tiumbMin;
+                flobt tiumbRbngf = tiumbMbx - tiumbMin;
+                int vbluf;
+                if (sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL ||
+                    sdrollbbr.gftComponfntOrifntbtion().isLfftToRigit()) {
+                    vbluf = (int)(0.5 + ((tiumbVbluf / tiumbRbngf) * vblufRbngf));
+                } flsf {
+                    vbluf = (int)(0.5 + (((tiumbMbx - tiumbPos) / tiumbRbngf) * vblufRbngf));
                 }
 
-                useCachedValue = true;
-                scrollBarValue = value + model.getMinimum();
-                scrollbar.setValue(adjustValueIfNecessary(scrollBarValue));
+                usfCbdifdVbluf = truf;
+                sdrollBbrVbluf = vbluf + modfl.gftMinimum();
+                sdrollbbr.sftVbluf(bdjustVblufIfNfdfssbry(sdrollBbrVbluf));
             }
-            setThumbRollover(active);
+            sftTiumbRollovfr(bdtivf);
         }
 
-        private int adjustValueIfNecessary(int value) {
-            if (scrollbar.getParent() instanceof JScrollPane) {
-                JScrollPane scrollpane = (JScrollPane)scrollbar.getParent();
-                JViewport viewport = scrollpane.getViewport();
-                Component view = viewport.getView();
-                if (view instanceof JList) {
-                    JList<?> list = (JList)view;
-                    if (DefaultLookup.getBoolean(list, list.getUI(),
-                                                 "List.lockToPositionOnScroll", false)) {
-                        int adjustedValue = value;
-                        int mode = list.getLayoutOrientation();
-                        int orientation = scrollbar.getOrientation();
-                        if (orientation == JScrollBar.VERTICAL && mode == JList.VERTICAL) {
-                            int index = list.locationToIndex(new Point(0, value));
-                            Rectangle rect = list.getCellBounds(index, index);
-                            if (rect != null) {
-                                adjustedValue = rect.y;
+        privbtf int bdjustVblufIfNfdfssbry(int vbluf) {
+            if (sdrollbbr.gftPbrfnt() instbndfof JSdrollPbnf) {
+                JSdrollPbnf sdrollpbnf = (JSdrollPbnf)sdrollbbr.gftPbrfnt();
+                JVifwport vifwport = sdrollpbnf.gftVifwport();
+                Componfnt vifw = vifwport.gftVifw();
+                if (vifw instbndfof JList) {
+                    JList<?> list = (JList)vifw;
+                    if (DffbultLookup.gftBoolfbn(list, list.gftUI(),
+                                                 "List.lodkToPositionOnSdroll", fblsf)) {
+                        int bdjustfdVbluf = vbluf;
+                        int modf = list.gftLbyoutOrifntbtion();
+                        int orifntbtion = sdrollbbr.gftOrifntbtion();
+                        if (orifntbtion == JSdrollBbr.VERTICAL && modf == JList.VERTICAL) {
+                            int indfx = list.lodbtionToIndfx(nfw Point(0, vbluf));
+                            Rfdtbnglf rfdt = list.gftCfllBounds(indfx, indfx);
+                            if (rfdt != null) {
+                                bdjustfdVbluf = rfdt.y;
                             }
                         }
-                        if (orientation == JScrollBar.HORIZONTAL &&
-                            (mode == JList.VERTICAL_WRAP || mode == JList.HORIZONTAL_WRAP)) {
-                            if (scrollpane.getComponentOrientation().isLeftToRight()) {
-                                int index = list.locationToIndex(new Point(value, 0));
-                                Rectangle rect = list.getCellBounds(index, index);
-                                if (rect != null) {
-                                    adjustedValue = rect.x;
+                        if (orifntbtion == JSdrollBbr.HORIZONTAL &&
+                            (modf == JList.VERTICAL_WRAP || modf == JList.HORIZONTAL_WRAP)) {
+                            if (sdrollpbnf.gftComponfntOrifntbtion().isLfftToRigit()) {
+                                int indfx = list.lodbtionToIndfx(nfw Point(vbluf, 0));
+                                Rfdtbnglf rfdt = list.gftCfllBounds(indfx, indfx);
+                                if (rfdt != null) {
+                                    bdjustfdVbluf = rfdt.x;
                                 }
                             }
-                            else {
-                                Point loc = new Point(value, 0);
-                                int extent = viewport.getExtentSize().width;
-                                loc.x += extent - 1;
-                                int index = list.locationToIndex(loc);
-                                Rectangle rect = list.getCellBounds(index, index);
-                                if (rect != null) {
-                                    adjustedValue = rect.x + rect.width - extent;
+                            flsf {
+                                Point lod = nfw Point(vbluf, 0);
+                                int fxtfnt = vifwport.gftExtfntSizf().widti;
+                                lod.x += fxtfnt - 1;
+                                int indfx = list.lodbtionToIndfx(lod);
+                                Rfdtbnglf rfdt = list.gftCfllBounds(indfx, indfx);
+                                if (rfdt != null) {
+                                    bdjustfdVbluf = rfdt.x + rfdt.widti - fxtfnt;
                                 }
                             }
                         }
-                        value = adjustedValue;
+                        vbluf = bdjustfdVbluf;
 
                     }
                 }
             }
-            return value;
+            rfturn vbluf;
         }
 
-        private void startScrollTimerIfNecessary() {
-            if (scrollTimer.isRunning()) {
-                return;
+        privbtf void stbrtSdrollTimfrIfNfdfssbry() {
+            if (sdrollTimfr.isRunning()) {
+                rfturn;
             }
 
-            Rectangle tb = getThumbBounds();
+            Rfdtbnglf tb = gftTiumbBounds();
 
-            switch (scrollbar.getOrientation()) {
-            case JScrollBar.VERTICAL:
-                if (direction > 0) {
-                    if (tb.y + tb.height < trackListener.currentMouseY) {
-                        scrollTimer.start();
+            switdi (sdrollbbr.gftOrifntbtion()) {
+            dbsf JSdrollBbr.VERTICAL:
+                if (dirfdtion > 0) {
+                    if (tb.y + tb.ifigit < trbdkListfnfr.durrfntMousfY) {
+                        sdrollTimfr.stbrt();
                     }
-                } else if (tb.y > trackListener.currentMouseY) {
-                    scrollTimer.start();
+                } flsf if (tb.y > trbdkListfnfr.durrfntMousfY) {
+                    sdrollTimfr.stbrt();
                 }
-                break;
-            case JScrollBar.HORIZONTAL:
-                if ((direction > 0 && isMouseAfterThumb())
-                        || (direction < 0 && isMouseBeforeThumb())) {
+                brfbk;
+            dbsf JSdrollBbr.HORIZONTAL:
+                if ((dirfdtion > 0 && isMousfAftfrTiumb())
+                        || (dirfdtion < 0 && isMousfBfforfTiumb())) {
 
-                    scrollTimer.start();
+                    sdrollTimfr.stbrt();
                 }
-                break;
+                brfbk;
             }
         }
 
-        public void mouseMoved(MouseEvent e) {
-            if (!isDragging) {
-                updateThumbState(e.getX(), e.getY());
+        publid void mousfMovfd(MousfEvfnt f) {
+            if (!isDrbgging) {
+                updbtfTiumbStbtf(f.gftX(), f.gftY());
             }
         }
 
         /**
-         * Invoked when the mouse exits the scrollbar.
+         * Invokfd wifn tif mousf fxits tif sdrollbbr.
          *
-         * @param e MouseEvent further describing the event
-         * @since 1.5
+         * @pbrbm f MousfEvfnt furtifr dfsdribing tif fvfnt
+         * @sindf 1.5
          */
-        public void mouseExited(MouseEvent e) {
-            if (!isDragging) {
-                setThumbRollover(false);
+        publid void mousfExitfd(MousfEvfnt f) {
+            if (!isDrbgging) {
+                sftTiumbRollovfr(fblsf);
             }
         }
     }
 
 
     /**
-     * Listener for cursor keys.
+     * Listfnfr for dursor kfys.
      */
-    protected class ArrowButtonListener extends MouseAdapter
+    protfdtfd dlbss ArrowButtonListfnfr fxtfnds MousfAdbptfr
     {
-        // Because we are handling both mousePressed and Actions
-        // we need to make sure we don't fire under both conditions.
-        // (keyfocus on scrollbars causes action without mousePress
-        boolean handledEvent;
+        // Bfdbusf wf brf ibndling boti mousfPrfssfd bnd Adtions
+        // wf nffd to mbkf surf wf don't firf undfr boti donditions.
+        // (kfyfodus on sdrollbbrs dbusfs bdtion witiout mousfPrfss
+        boolfbn ibndlfdEvfnt;
 
-        public void mousePressed(MouseEvent e)          {
-            if(!scrollbar.isEnabled()) { return; }
-            // not an unmodified left mouse button
-            //if(e.getModifiers() != InputEvent.BUTTON1_MASK) {return; }
-            if( ! SwingUtilities.isLeftMouseButton(e)) { return; }
+        publid void mousfPrfssfd(MousfEvfnt f)          {
+            if(!sdrollbbr.isEnbblfd()) { rfturn; }
+            // not bn unmodififd lfft mousf button
+            //if(f.gftModififrs() != InputEvfnt.BUTTON1_MASK) {rfturn; }
+            if( ! SwingUtilitifs.isLfftMousfButton(f)) { rfturn; }
 
-            int direction = (e.getSource() == incrButton) ? 1 : -1;
+            int dirfdtion = (f.gftSourdf() == indrButton) ? 1 : -1;
 
-            scrollByUnit(direction);
-            scrollTimer.stop();
-            scrollListener.setDirection(direction);
-            scrollListener.setScrollByBlock(false);
-            scrollTimer.start();
+            sdrollByUnit(dirfdtion);
+            sdrollTimfr.stop();
+            sdrollListfnfr.sftDirfdtion(dirfdtion);
+            sdrollListfnfr.sftSdrollByBlodk(fblsf);
+            sdrollTimfr.stbrt();
 
-            handledEvent = true;
-            if (!scrollbar.hasFocus() && scrollbar.isRequestFocusEnabled()) {
-                scrollbar.requestFocus();
+            ibndlfdEvfnt = truf;
+            if (!sdrollbbr.ibsFodus() && sdrollbbr.isRfqufstFodusEnbblfd()) {
+                sdrollbbr.rfqufstFodus();
             }
         }
 
-        public void mouseReleased(MouseEvent e)         {
-            scrollTimer.stop();
-            handledEvent = false;
-            scrollbar.setValueIsAdjusting(false);
+        publid void mousfRflfbsfd(MousfEvfnt f)         {
+            sdrollTimfr.stop();
+            ibndlfdEvfnt = fblsf;
+            sdrollbbr.sftVblufIsAdjusting(fblsf);
         }
     }
 
 
     /**
-     * Listener for scrolling events initiated in the
-     * <code>ScrollPane</code>.
+     * Listfnfr for sdrolling fvfnts initibtfd in tif
+     * <dodf>SdrollPbnf</dodf>.
      */
-    protected class ScrollListener implements ActionListener
+    protfdtfd dlbss SdrollListfnfr implfmfnts AdtionListfnfr
     {
-        int direction = +1;
-        boolean useBlockIncrement;
+        int dirfdtion = +1;
+        boolfbn usfBlodkIndrfmfnt;
 
-        public ScrollListener() {
-            direction = +1;
-            useBlockIncrement = false;
+        publid SdrollListfnfr() {
+            dirfdtion = +1;
+            usfBlodkIndrfmfnt = fblsf;
         }
 
-        public ScrollListener(int dir, boolean block)   {
-            direction = dir;
-            useBlockIncrement = block;
+        publid SdrollListfnfr(int dir, boolfbn blodk)   {
+            dirfdtion = dir;
+            usfBlodkIndrfmfnt = blodk;
         }
 
-        public void setDirection(int direction) { this.direction = direction; }
-        public void setScrollByBlock(boolean block) { this.useBlockIncrement = block; }
+        publid void sftDirfdtion(int dirfdtion) { tiis.dirfdtion = dirfdtion; }
+        publid void sftSdrollByBlodk(boolfbn blodk) { tiis.usfBlodkIndrfmfnt = blodk; }
 
-        public void actionPerformed(ActionEvent e) {
-            if(useBlockIncrement)       {
-                scrollByBlock(direction);
-                // Stop scrolling if the thumb catches up with the mouse
-                if(scrollbar.getOrientation() == JScrollBar.VERTICAL)   {
-                    if(direction > 0)   {
-                        if(getThumbBounds().y + getThumbBounds().height
-                                >= trackListener.currentMouseY)
-                                    ((Timer)e.getSource()).stop();
-                    } else if(getThumbBounds().y <= trackListener.currentMouseY)        {
-                        ((Timer)e.getSource()).stop();
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            if(usfBlodkIndrfmfnt)       {
+                sdrollByBlodk(dirfdtion);
+                // Stop sdrolling if tif tiumb dbtdifs up witi tif mousf
+                if(sdrollbbr.gftOrifntbtion() == JSdrollBbr.VERTICAL)   {
+                    if(dirfdtion > 0)   {
+                        if(gftTiumbBounds().y + gftTiumbBounds().ifigit
+                                >= trbdkListfnfr.durrfntMousfY)
+                                    ((Timfr)f.gftSourdf()).stop();
+                    } flsf if(gftTiumbBounds().y <= trbdkListfnfr.durrfntMousfY)        {
+                        ((Timfr)f.gftSourdf()).stop();
                     }
-                } else {
-                    if ((direction > 0 && !isMouseAfterThumb())
-                           || (direction < 0 && !isMouseBeforeThumb())) {
+                } flsf {
+                    if ((dirfdtion > 0 && !isMousfAftfrTiumb())
+                           || (dirfdtion < 0 && !isMousfBfforfTiumb())) {
 
-                       ((Timer)e.getSource()).stop();
+                       ((Timfr)f.gftSourdf()).stop();
                     }
                 }
-            } else {
-                scrollByUnit(direction);
+            } flsf {
+                sdrollByUnit(dirfdtion);
             }
 
-            if(direction > 0
-                && scrollbar.getValue()+scrollbar.getVisibleAmount()
-                        >= scrollbar.getMaximum())
-                ((Timer)e.getSource()).stop();
-            else if(direction < 0
-                && scrollbar.getValue() <= scrollbar.getMinimum())
-                ((Timer)e.getSource()).stop();
+            if(dirfdtion > 0
+                && sdrollbbr.gftVbluf()+sdrollbbr.gftVisiblfAmount()
+                        >= sdrollbbr.gftMbximum())
+                ((Timfr)f.gftSourdf()).stop();
+            flsf if(dirfdtion < 0
+                && sdrollbbr.gftVbluf() <= sdrollbbr.gftMinimum())
+                ((Timfr)f.gftSourdf()).stop();
         }
     }
 
-    private boolean isMouseLeftOfThumb() {
-        return trackListener.currentMouseX < getThumbBounds().x;
+    privbtf boolfbn isMousfLfftOfTiumb() {
+        rfturn trbdkListfnfr.durrfntMousfX < gftTiumbBounds().x;
     }
 
-    private boolean isMouseRightOfThumb() {
-        Rectangle tb = getThumbBounds();
-        return trackListener.currentMouseX > tb.x + tb.width;
+    privbtf boolfbn isMousfRigitOfTiumb() {
+        Rfdtbnglf tb = gftTiumbBounds();
+        rfturn trbdkListfnfr.durrfntMousfX > tb.x + tb.widti;
     }
 
-    private boolean isMouseBeforeThumb() {
-        return scrollbar.getComponentOrientation().isLeftToRight()
-            ? isMouseLeftOfThumb()
-            : isMouseRightOfThumb();
+    privbtf boolfbn isMousfBfforfTiumb() {
+        rfturn sdrollbbr.gftComponfntOrifntbtion().isLfftToRigit()
+            ? isMousfLfftOfTiumb()
+            : isMousfRigitOfTiumb();
     }
 
-    private boolean isMouseAfterThumb() {
-        return scrollbar.getComponentOrientation().isLeftToRight()
-            ? isMouseRightOfThumb()
-            : isMouseLeftOfThumb();
+    privbtf boolfbn isMousfAftfrTiumb() {
+        rfturn sdrollbbr.gftComponfntOrifntbtion().isLfftToRigit()
+            ? isMousfRigitOfTiumb()
+            : isMousfLfftOfTiumb();
     }
 
-    private void updateButtonDirections() {
-        int orient = scrollbar.getOrientation();
-        if (scrollbar.getComponentOrientation().isLeftToRight()) {
-            if (incrButton instanceof BasicArrowButton) {
-                ((BasicArrowButton)incrButton).setDirection(
-                        orient == HORIZONTAL? EAST : SOUTH);
+    privbtf void updbtfButtonDirfdtions() {
+        int orifnt = sdrollbbr.gftOrifntbtion();
+        if (sdrollbbr.gftComponfntOrifntbtion().isLfftToRigit()) {
+            if (indrButton instbndfof BbsidArrowButton) {
+                ((BbsidArrowButton)indrButton).sftDirfdtion(
+                        orifnt == HORIZONTAL? EAST : SOUTH);
             }
-            if (decrButton instanceof BasicArrowButton) {
-                ((BasicArrowButton)decrButton).setDirection(
-                        orient == HORIZONTAL? WEST : NORTH);
-            }
-        }
-        else {
-            if (incrButton instanceof BasicArrowButton) {
-                ((BasicArrowButton)incrButton).setDirection(
-                        orient == HORIZONTAL? WEST : SOUTH);
-            }
-            if (decrButton instanceof BasicArrowButton) {
-                ((BasicArrowButton)decrButton).setDirection(
-                        orient == HORIZONTAL ? EAST : NORTH);
+            if (dfdrButton instbndfof BbsidArrowButton) {
+                ((BbsidArrowButton)dfdrButton).sftDirfdtion(
+                        orifnt == HORIZONTAL? WEST : NORTH);
             }
         }
+        flsf {
+            if (indrButton instbndfof BbsidArrowButton) {
+                ((BbsidArrowButton)indrButton).sftDirfdtion(
+                        orifnt == HORIZONTAL? WEST : SOUTH);
+            }
+            if (dfdrButton instbndfof BbsidArrowButton) {
+                ((BbsidArrowButton)dfdrButton).sftDirfdtion(
+                        orifnt == HORIZONTAL ? EAST : NORTH);
+            }
+        }
     }
 
-    public class PropertyChangeHandler implements PropertyChangeListener
+    publid dlbss PropfrtyCibngfHbndlfr implfmfnts PropfrtyCibngfListfnfr
     {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
+        // NOTE: Tiis dlbss fxists only for bbdkwbrd dompbtibility. All
+        // its fundtionblity ibs bffn movfd into Hbndlfr. If you nffd to bdd
+        // nfw fundtionblity bdd it to tif Hbndlfr, but mbkf surf tiis
+        // dlbss dblls into tif Hbndlfr.
 
-        public void propertyChange(PropertyChangeEvent e) {
-            getHandler().propertyChange(e);
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+            gftHbndlfr().propfrtyCibngf(f);
         }
     }
 
 
     /**
-     * Used for scrolling the scrollbar.
+     * Usfd for sdrolling tif sdrollbbr.
      */
-    private static class Actions extends UIAction {
-        private static final String POSITIVE_UNIT_INCREMENT =
-                                    "positiveUnitIncrement";
-        private static final String POSITIVE_BLOCK_INCREMENT =
-                                    "positiveBlockIncrement";
-        private static final String NEGATIVE_UNIT_INCREMENT =
-                                    "negativeUnitIncrement";
-        private static final String NEGATIVE_BLOCK_INCREMENT =
-                                    "negativeBlockIncrement";
-        private static final String MIN_SCROLL = "minScroll";
-        private static final String MAX_SCROLL = "maxScroll";
+    privbtf stbtid dlbss Adtions fxtfnds UIAdtion {
+        privbtf stbtid finbl String POSITIVE_UNIT_INCREMENT =
+                                    "positivfUnitIndrfmfnt";
+        privbtf stbtid finbl String POSITIVE_BLOCK_INCREMENT =
+                                    "positivfBlodkIndrfmfnt";
+        privbtf stbtid finbl String NEGATIVE_UNIT_INCREMENT =
+                                    "nfgbtivfUnitIndrfmfnt";
+        privbtf stbtid finbl String NEGATIVE_BLOCK_INCREMENT =
+                                    "nfgbtivfBlodkIndrfmfnt";
+        privbtf stbtid finbl String MIN_SCROLL = "minSdroll";
+        privbtf stbtid finbl String MAX_SCROLL = "mbxSdroll";
 
-        Actions(String name) {
-            super(name);
+        Adtions(String nbmf) {
+            supfr(nbmf);
         }
 
-        public void actionPerformed(ActionEvent e) {
-            JScrollBar scrollBar = (JScrollBar)e.getSource();
-            String key = getName();
-            if (key == POSITIVE_UNIT_INCREMENT) {
-                scroll(scrollBar, POSITIVE_SCROLL, false);
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JSdrollBbr sdrollBbr = (JSdrollBbr)f.gftSourdf();
+            String kfy = gftNbmf();
+            if (kfy == POSITIVE_UNIT_INCREMENT) {
+                sdroll(sdrollBbr, POSITIVE_SCROLL, fblsf);
             }
-            else if (key == POSITIVE_BLOCK_INCREMENT) {
-                scroll(scrollBar, POSITIVE_SCROLL, true);
+            flsf if (kfy == POSITIVE_BLOCK_INCREMENT) {
+                sdroll(sdrollBbr, POSITIVE_SCROLL, truf);
             }
-            else if (key == NEGATIVE_UNIT_INCREMENT) {
-                scroll(scrollBar, NEGATIVE_SCROLL, false);
+            flsf if (kfy == NEGATIVE_UNIT_INCREMENT) {
+                sdroll(sdrollBbr, NEGATIVE_SCROLL, fblsf);
             }
-            else if (key == NEGATIVE_BLOCK_INCREMENT) {
-                scroll(scrollBar, NEGATIVE_SCROLL, true);
+            flsf if (kfy == NEGATIVE_BLOCK_INCREMENT) {
+                sdroll(sdrollBbr, NEGATIVE_SCROLL, truf);
             }
-            else if (key == MIN_SCROLL) {
-                scroll(scrollBar, BasicScrollBarUI.MIN_SCROLL, true);
+            flsf if (kfy == MIN_SCROLL) {
+                sdroll(sdrollBbr, BbsidSdrollBbrUI.MIN_SCROLL, truf);
             }
-            else if (key == MAX_SCROLL) {
-                scroll(scrollBar, BasicScrollBarUI.MAX_SCROLL, true);
+            flsf if (kfy == MAX_SCROLL) {
+                sdroll(sdrollBbr, BbsidSdrollBbrUI.MAX_SCROLL, truf);
             }
         }
-        private void scroll(JScrollBar scrollBar, int dir, boolean block) {
+        privbtf void sdroll(JSdrollBbr sdrollBbr, int dir, boolfbn blodk) {
 
             if (dir == NEGATIVE_SCROLL || dir == POSITIVE_SCROLL) {
-                int amount;
-                // Don't use the BasicScrollBarUI.scrollByXXX methods as we
-                // don't want to use an invokeLater to reset the trackHighlight
-                // via an invokeLater
-                if (block) {
+                int bmount;
+                // Don't usf tif BbsidSdrollBbrUI.sdrollByXXX mftiods bs wf
+                // don't wbnt to usf bn invokfLbtfr to rfsft tif trbdkHigiligit
+                // vib bn invokfLbtfr
+                if (blodk) {
                     if (dir == NEGATIVE_SCROLL) {
-                        amount = -1 * scrollBar.getBlockIncrement(-1);
+                        bmount = -1 * sdrollBbr.gftBlodkIndrfmfnt(-1);
                     }
-                    else {
-                        amount = scrollBar.getBlockIncrement(1);
+                    flsf {
+                        bmount = sdrollBbr.gftBlodkIndrfmfnt(1);
                     }
                 }
-                else {
+                flsf {
                     if (dir == NEGATIVE_SCROLL) {
-                        amount = -1 * scrollBar.getUnitIncrement(-1);
+                        bmount = -1 * sdrollBbr.gftUnitIndrfmfnt(-1);
                     }
-                    else {
-                        amount = scrollBar.getUnitIncrement(1);
+                    flsf {
+                        bmount = sdrollBbr.gftUnitIndrfmfnt(1);
                     }
                 }
-                scrollBar.setValue(scrollBar.getValue() + amount);
+                sdrollBbr.sftVbluf(sdrollBbr.gftVbluf() + bmount);
             }
-            else if (dir == BasicScrollBarUI.MIN_SCROLL) {
-                scrollBar.setValue(scrollBar.getMinimum());
+            flsf if (dir == BbsidSdrollBbrUI.MIN_SCROLL) {
+                sdrollBbr.sftVbluf(sdrollBbr.gftMinimum());
             }
-            else if (dir == BasicScrollBarUI.MAX_SCROLL) {
-                scrollBar.setValue(scrollBar.getMaximum());
+            flsf if (dir == BbsidSdrollBbrUI.MAX_SCROLL) {
+                sdrollBbr.sftVbluf(sdrollBbr.gftMbximum());
             }
         }
     }
 
 
     //
-    // EventHandler
+    // EvfntHbndlfr
     //
-    private class Handler implements FocusListener, PropertyChangeListener {
+    privbtf dlbss Hbndlfr implfmfnts FodusListfnfr, PropfrtyCibngfListfnfr {
         //
-        // FocusListener
+        // FodusListfnfr
         //
-        public void focusGained(FocusEvent e) {
-            scrollbar.repaint();
+        publid void fodusGbinfd(FodusEvfnt f) {
+            sdrollbbr.rfpbint();
         }
 
-        public void focusLost(FocusEvent e) {
-            scrollbar.repaint();
+        publid void fodusLost(FodusEvfnt f) {
+            sdrollbbr.rfpbint();
         }
 
 
         //
-        // PropertyChangeListener
+        // PropfrtyCibngfListfnfr
         //
-        public void propertyChange(PropertyChangeEvent e) {
-            String propertyName = e.getPropertyName();
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+            String propfrtyNbmf = f.gftPropfrtyNbmf();
 
-            if ("model" == propertyName) {
-                BoundedRangeModel oldModel = (BoundedRangeModel)e.getOldValue();
-                BoundedRangeModel newModel = (BoundedRangeModel)e.getNewValue();
-                oldModel.removeChangeListener(modelListener);
-                newModel.addChangeListener(modelListener);
-                scrollBarValue = scrollbar.getValue();
-                scrollbar.repaint();
-                scrollbar.revalidate();
-            } else if ("orientation" == propertyName) {
-                updateButtonDirections();
-            } else if ("componentOrientation" == propertyName) {
-                updateButtonDirections();
-                InputMap inputMap = getInputMap(JComponent.WHEN_FOCUSED);
-                SwingUtilities.replaceUIInputMap(scrollbar, JComponent.WHEN_FOCUSED, inputMap);
+            if ("modfl" == propfrtyNbmf) {
+                BoundfdRbngfModfl oldModfl = (BoundfdRbngfModfl)f.gftOldVbluf();
+                BoundfdRbngfModfl nfwModfl = (BoundfdRbngfModfl)f.gftNfwVbluf();
+                oldModfl.rfmovfCibngfListfnfr(modflListfnfr);
+                nfwModfl.bddCibngfListfnfr(modflListfnfr);
+                sdrollBbrVbluf = sdrollbbr.gftVbluf();
+                sdrollbbr.rfpbint();
+                sdrollbbr.rfvblidbtf();
+            } flsf if ("orifntbtion" == propfrtyNbmf) {
+                updbtfButtonDirfdtions();
+            } flsf if ("domponfntOrifntbtion" == propfrtyNbmf) {
+                updbtfButtonDirfdtions();
+                InputMbp inputMbp = gftInputMbp(JComponfnt.WHEN_FOCUSED);
+                SwingUtilitifs.rfplbdfUIInputMbp(sdrollbbr, JComponfnt.WHEN_FOCUSED, inputMbp);
             }
         }
     }

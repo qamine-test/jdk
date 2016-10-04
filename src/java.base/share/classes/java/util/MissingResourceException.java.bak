@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 1996, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1998 - All Rigits Rfsfrvfd
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion
+ * is dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd
+ * subsidibry of IBM. Tifsf mbtfribls brf providfd undfr tfrms
+ * of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology
+ * is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
 /**
- * Signals that a resource is missing.
- * @see java.lang.Exception
- * @see ResourceBundle
- * @author      Mark Davis
- * @since       1.1
+ * Signbls tibt b rfsourdf is missing.
+ * @sff jbvb.lbng.Exdfption
+ * @sff RfsourdfBundlf
+ * @butior      Mbrk Dbvis
+ * @sindf       1.1
  */
-public
-class MissingResourceException extends RuntimeException {
+publid
+dlbss MissingRfsourdfExdfption fxtfnds RuntimfExdfption {
 
     /**
-     * Constructs a MissingResourceException with the specified information.
-     * A detail message is a String that describes this particular exception.
-     * @param s the detail message
-     * @param className the name of the resource class
-     * @param key the key for the missing resource.
+     * Construdts b MissingRfsourdfExdfption witi tif spfdififd informbtion.
+     * A dftbil mfssbgf is b String tibt dfsdribfs tiis pbrtidulbr fxdfption.
+     * @pbrbm s tif dftbil mfssbgf
+     * @pbrbm dlbssNbmf tif nbmf of tif rfsourdf dlbss
+     * @pbrbm kfy tif kfy for tif missing rfsourdf.
      */
-    public MissingResourceException(String s, String className, String key) {
-        super(s);
-        this.className = className;
-        this.key = key;
+    publid MissingRfsourdfExdfption(String s, String dlbssNbmf, String kfy) {
+        supfr(s);
+        tiis.dlbssNbmf = dlbssNbmf;
+        tiis.kfy = kfy;
     }
 
     /**
-     * Constructs a <code>MissingResourceException</code> with
-     * <code>message</code>, <code>className</code>, <code>key</code>,
-     * and <code>cause</code>. This constructor is package private for
-     * use by <code>ResourceBundle.getBundle</code>.
+     * Construdts b <dodf>MissingRfsourdfExdfption</dodf> witi
+     * <dodf>mfssbgf</dodf>, <dodf>dlbssNbmf</dodf>, <dodf>kfy</dodf>,
+     * bnd <dodf>dbusf</dodf>. Tiis donstrudtor is pbdkbgf privbtf for
+     * usf by <dodf>RfsourdfBundlf.gftBundlf</dodf>.
      *
-     * @param message
-     *        the detail message
-     * @param className
-     *        the name of the resource class
-     * @param key
-     *        the key for the missing resource.
-     * @param cause
-     *        the cause (which is saved for later retrieval by the
-     *        {@link Throwable.getCause()} method). (A null value is
-     *        permitted, and indicates that the cause is nonexistent
+     * @pbrbm mfssbgf
+     *        tif dftbil mfssbgf
+     * @pbrbm dlbssNbmf
+     *        tif nbmf of tif rfsourdf dlbss
+     * @pbrbm kfy
+     *        tif kfy for tif missing rfsourdf.
+     * @pbrbm dbusf
+     *        tif dbusf (wiidi is sbvfd for lbtfr rftrifvbl by tif
+     *        {@link Tirowbblf.gftCbusf()} mftiod). (A null vbluf is
+     *        pfrmittfd, bnd indidbtfs tibt tif dbusf is nonfxistfnt
      *        or unknown.)
      */
-    MissingResourceException(String message, String className, String key, Throwable cause) {
-        super(message, cause);
-        this.className = className;
-        this.key = key;
+    MissingRfsourdfExdfption(String mfssbgf, String dlbssNbmf, String kfy, Tirowbblf dbusf) {
+        supfr(mfssbgf, dbusf);
+        tiis.dlbssNbmf = dlbssNbmf;
+        tiis.kfy = kfy;
     }
 
     /**
-     * Gets parameter passed by constructor.
+     * Gfts pbrbmftfr pbssfd by donstrudtor.
      *
-     * @return the name of the resource class
+     * @rfturn tif nbmf of tif rfsourdf dlbss
      */
-    public String getClassName() {
-        return className;
+    publid String gftClbssNbmf() {
+        rfturn dlbssNbmf;
     }
 
     /**
-     * Gets parameter passed by constructor.
+     * Gfts pbrbmftfr pbssfd by donstrudtor.
      *
-     * @return the key for the missing resource
+     * @rfturn tif kfy for tif missing rfsourdf
      */
-    public String getKey() {
-        return key;
+    publid String gftKfy() {
+        rfturn kfy;
     }
 
-    //============ privates ============
+    //============ privbtfs ============
 
-    // serialization compatibility with JDK1.1
-    private static final long serialVersionUID = -4876345176062000401L;
-
-    /**
-     * The class name of the resource bundle requested by the user.
-     * @serial
-     */
-    private String className;
+    // sfriblizbtion dompbtibility witi JDK1.1
+    privbtf stbtid finbl long sfriblVfrsionUID = -4876345176062000401L;
 
     /**
-     * The name of the specific resource requested by the user.
-     * @serial
+     * Tif dlbss nbmf of tif rfsourdf bundlf rfqufstfd by tif usfr.
+     * @sfribl
      */
-    private String key;
+    privbtf String dlbssNbmf;
+
+    /**
+     * Tif nbmf of tif spfdifid rfsourdf rfqufstfd by tif usfr.
+     * @sfribl
+     */
+    privbtf String kfy;
 }

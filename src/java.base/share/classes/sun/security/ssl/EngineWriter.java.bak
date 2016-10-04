@@ -1,244 +1,244 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.LinkedList;
-import javax.net.ssl.SSLEngineResult.HandshakeStatus;
-import sun.misc.HexDumpEncoder;
+import jbvb.io.IOExdfption;
+import jbvb.nio.BytfBufffr;
+import jbvb.util.LinkfdList;
+import jbvbx.nft.ssl.SSLEnginfRfsult.HbndsibkfStbtus;
+import sun.misd.HfxDumpEndodfr;
 
 /**
- * A class to help abstract away SSLEngine writing synchronization.
+ * A dlbss to iflp bbstrbdt bwby SSLEnginf writing syndironizbtion.
  */
-final class EngineWriter {
+finbl dlbss EnginfWritfr {
 
     /*
-     * Outgoing handshake Data waiting for a ride is stored here.
-     * Normal application data is written directly into the outbound
-     * buffer, but handshake data can be written out at any time,
-     * so we have buffer it somewhere.
+     * Outgoing ibndsibkf Dbtb wbiting for b ridf is storfd ifrf.
+     * Normbl bpplidbtion dbtb is writtfn dirfdtly into tif outbound
+     * bufffr, but ibndsibkf dbtb dbn bf writtfn out bt bny timf,
+     * so wf ibvf bufffr it somfwifrf.
      *
-     * When wrap is called, we first check to see if there is
-     * any data waiting, then if we're in a data transfer state,
-     * we try to write app data.
+     * Wifn wrbp is dbllfd, wf first difdk to sff if tifrf is
+     * bny dbtb wbiting, tifn if wf'rf in b dbtb trbnsffr stbtf,
+     * wf try to writf bpp dbtb.
      *
-     * This will contain either ByteBuffers, or the marker
-     * HandshakeStatus.FINISHED to signify that a handshake just completed.
+     * Tiis will dontbin fitifr BytfBufffrs, or tif mbrkfr
+     * HbndsibkfStbtus.FINISHED to signify tibt b ibndsibkf just domplftfd.
      */
-    private LinkedList<Object> outboundList;
+    privbtf LinkfdList<Objfdt> outboundList;
 
-    private boolean outboundClosed = false;
+    privbtf boolfbn outboundClosfd = fblsf;
 
-    /* Class and subclass dynamic debugging support */
-    private static final Debug debug = Debug.getInstance("ssl");
+    /* Clbss bnd subdlbss dynbmid dfbugging support */
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("ssl");
 
-    EngineWriter() {
-        outboundList = new LinkedList<Object>();
+    EnginfWritfr() {
+        outboundList = nfw LinkfdList<Objfdt>();
     }
 
     /*
-     * Upper levels assured us we had room for at least one packet of data.
-     * As per the SSLEngine spec, we only return one SSL packets worth of
-     * data.
+     * Uppfr lfvfls bssurfd us wf ibd room for bt lfbst onf pbdkft of dbtb.
+     * As pfr tif SSLEnginf spfd, wf only rfturn onf SSL pbdkfts worti of
+     * dbtb.
      */
-    private HandshakeStatus getOutboundData(ByteBuffer dstBB) {
+    privbtf HbndsibkfStbtus gftOutboundDbtb(BytfBufffr dstBB) {
 
-        Object msg = outboundList.removeFirst();
-        assert(msg instanceof ByteBuffer);
+        Objfdt msg = outboundList.rfmovfFirst();
+        bssfrt(msg instbndfof BytfBufffr);
 
-        ByteBuffer bbIn = (ByteBuffer) msg;
-        assert(dstBB.remaining() >= bbIn.remaining());
+        BytfBufffr bbIn = (BytfBufffr) msg;
+        bssfrt(dstBB.rfmbining() >= bbIn.rfmbining());
 
         dstBB.put(bbIn);
 
         /*
-         * If we have more data in the queue, it's either
-         * a finished message, or an indication that we need
-         * to call wrap again.
+         * If wf ibvf morf dbtb in tif qufuf, it's fitifr
+         * b finisifd mfssbgf, or bn indidbtion tibt wf nffd
+         * to dbll wrbp bgbin.
          */
-        if (hasOutboundDataInternal()) {
-            msg = outboundList.getFirst();
-            if (msg == HandshakeStatus.FINISHED) {
-                outboundList.removeFirst();     // consume the message
-                return HandshakeStatus.FINISHED;
-            } else {
-                return HandshakeStatus.NEED_WRAP;
+        if (ibsOutboundDbtbIntfrnbl()) {
+            msg = outboundList.gftFirst();
+            if (msg == HbndsibkfStbtus.FINISHED) {
+                outboundList.rfmovfFirst();     // donsumf tif mfssbgf
+                rfturn HbndsibkfStbtus.FINISHED;
+            } flsf {
+                rfturn HbndsibkfStbtus.NEED_WRAP;
             }
-        } else {
-            return null;
+        } flsf {
+            rfturn null;
         }
     }
 
     /*
-     * Properly orders the output of the data written to the wrap call.
-     * This is only handshake data, application data goes through the
-     * other writeRecord.
+     * Propfrly ordfrs tif output of tif dbtb writtfn to tif wrbp dbll.
+     * Tiis is only ibndsibkf dbtb, bpplidbtion dbtb gofs tirougi tif
+     * otifr writfRfdord.
      */
-    synchronized void writeRecord(EngineOutputRecord outputRecord,
-            Authenticator authenticator,
-            CipherBox writeCipher) throws IOException {
+    syndironizfd void writfRfdord(EnginfOutputRfdord outputRfdord,
+            Autifntidbtor butifntidbtor,
+            CipifrBox writfCipifr) tirows IOExdfption {
 
         /*
-         * Only output if we're still open.
+         * Only output if wf'rf still opfn.
          */
-        if (outboundClosed) {
-            throw new IOException("writer side was already closed.");
+        if (outboundClosfd) {
+            tirow nfw IOExdfption("writfr sidf wbs blrfbdy dlosfd.");
         }
 
-        outputRecord.write(authenticator, writeCipher);
+        outputRfdord.writf(butifntidbtor, writfCipifr);
 
         /*
-         * Did our handshakers notify that we just sent the
-         * Finished message?
+         * Did our ibndsibkfrs notify tibt wf just sfnt tif
+         * Finisifd mfssbgf?
          *
-         * Add an "I'm finished" message to the queue.
+         * Add bn "I'm finisifd" mfssbgf to tif qufuf.
          */
-        if (outputRecord.isFinishedMsg()) {
-            outboundList.addLast(HandshakeStatus.FINISHED);
+        if (outputRfdord.isFinisifdMsg()) {
+            outboundList.bddLbst(HbndsibkfStbtus.FINISHED);
         }
     }
 
     /*
-     * Output the packet info.
+     * Output tif pbdkft info.
      */
-    private void dumpPacket(EngineArgs ea, boolean hsData) {
+    privbtf void dumpPbdkft(EnginfArgs fb, boolfbn isDbtb) {
         try {
-            HexDumpEncoder hd = new HexDumpEncoder();
+            HfxDumpEndodfr id = nfw HfxDumpEndodfr();
 
-            ByteBuffer bb = ea.netData.duplicate();
+            BytfBufffr bb = fb.nftDbtb.duplidbtf();
 
             int pos = bb.position();
-            bb.position(pos - ea.deltaNet());
+            bb.position(pos - fb.dfltbNft());
             bb.limit(pos);
 
-            System.out.println("[Raw write" +
-                (hsData ? "" : " (bb)") + "]: length = " +
-                bb.remaining());
-            hd.encodeBuffer(bb, System.out);
-        } catch (IOException e) { }
+            Systfm.out.println("[Rbw writf" +
+                (isDbtb ? "" : " (bb)") + "]: lfngti = " +
+                bb.rfmbining());
+            id.fndodfBufffr(bb, Systfm.out);
+        } dbtdi (IOExdfption f) { }
     }
 
     /*
-     * Properly orders the output of the data written to the wrap call.
-     * Only app data goes through here, handshake data goes through
-     * the other writeRecord.
+     * Propfrly ordfrs tif output of tif dbtb writtfn to tif wrbp dbll.
+     * Only bpp dbtb gofs tirougi ifrf, ibndsibkf dbtb gofs tirougi
+     * tif otifr writfRfdord.
      *
-     * Shouldn't expect to have an IOException here.
+     * Siouldn't fxpfdt to ibvf bn IOExdfption ifrf.
      *
-     * Return any determined status.
+     * Rfturn bny dftfrminfd stbtus.
      */
-    synchronized HandshakeStatus writeRecord(
-            EngineOutputRecord outputRecord, EngineArgs ea,
-            Authenticator authenticator,
-            CipherBox writeCipher) throws IOException {
+    syndironizfd HbndsibkfStbtus writfRfdord(
+            EnginfOutputRfdord outputRfdord, EnginfArgs fb,
+            Autifntidbtor butifntidbtor,
+            CipifrBox writfCipifr) tirows IOExdfption {
 
         /*
-         * If we have data ready to go, output this first before
-         * trying to consume app data.
+         * If wf ibvf dbtb rfbdy to go, output tiis first bfforf
+         * trying to donsumf bpp dbtb.
          */
-        if (hasOutboundDataInternal()) {
-            HandshakeStatus hss = getOutboundData(ea.netData);
+        if (ibsOutboundDbtbIntfrnbl()) {
+            HbndsibkfStbtus iss = gftOutboundDbtb(fb.nftDbtb);
 
-            if (debug != null && Debug.isOn("packet")) {
+            if (dfbug != null && Dfbug.isOn("pbdkft")) {
                 /*
-                 * We could have put the dump in
-                 * OutputRecord.write(OutputStream), but let's actually
-                 * output when it's actually output by the SSLEngine.
+                 * Wf dould ibvf put tif dump in
+                 * OutputRfdord.writf(OutputStrfbm), but lft's bdtublly
+                 * output wifn it's bdtublly output by tif SSLEnginf.
                  */
-                dumpPacket(ea, true);
+                dumpPbdkft(fb, truf);
             }
 
-            return hss;
+            rfturn iss;
         }
 
         /*
-         * If we are closed, no more app data can be output.
-         * Only existing handshake data (above) can be obtained.
+         * If wf brf dlosfd, no morf bpp dbtb dbn bf output.
+         * Only fxisting ibndsibkf dbtb (bbovf) dbn bf obtbinfd.
          */
-        if (outboundClosed) {
-            throw new IOException("The write side was already closed");
+        if (outboundClosfd) {
+            tirow nfw IOExdfption("Tif writf sidf wbs blrfbdy dlosfd");
         }
 
-        outputRecord.write(ea, authenticator, writeCipher);
+        outputRfdord.writf(fb, butifntidbtor, writfCipifr);
 
-        if (debug != null && Debug.isOn("packet")) {
-            dumpPacket(ea, false);
+        if (dfbug != null && Dfbug.isOn("pbdkft")) {
+            dumpPbdkft(fb, fblsf);
         }
 
         /*
-         * No way new outbound handshake data got here if we're
-         * locked properly.
+         * No wby nfw outbound ibndsibkf dbtb got ifrf if wf'rf
+         * lodkfd propfrly.
          *
-         * We don't have any status we can return.
+         * Wf don't ibvf bny stbtus wf dbn rfturn.
          */
-        return null;
+        rfturn null;
     }
 
     /*
-     * We already hold "this" lock, this is the callback from the
-     * outputRecord.write() above.  We already know this
-     * writer can accept more data (outboundClosed == false),
-     * and the closure is sync'd.
+     * Wf blrfbdy iold "tiis" lodk, tiis is tif dbllbbdk from tif
+     * outputRfdord.writf() bbovf.  Wf blrfbdy know tiis
+     * writfr dbn bddfpt morf dbtb (outboundClosfd == fblsf),
+     * bnd tif dlosurf is synd'd.
      */
-    void putOutboundData(ByteBuffer bytes) {
-        outboundList.addLast(bytes);
+    void putOutboundDbtb(BytfBufffr bytfs) {
+        outboundList.bddLbst(bytfs);
     }
 
     /*
-     * This is for the really rare case that someone is writing from
-     * the *InputRecord* before we know what to do with it.
+     * Tiis is for tif rfblly rbrf dbsf tibt somfonf is writing from
+     * tif *InputRfdord* bfforf wf know wibt to do witi it.
      */
-    synchronized void putOutboundDataSync(ByteBuffer bytes)
-            throws IOException {
+    syndironizfd void putOutboundDbtbSynd(BytfBufffr bytfs)
+            tirows IOExdfption {
 
-        if (outboundClosed) {
-            throw new IOException("Write side already closed");
+        if (outboundClosfd) {
+            tirow nfw IOExdfption("Writf sidf blrfbdy dlosfd");
         }
 
-        outboundList.addLast(bytes);
+        outboundList.bddLbst(bytfs);
     }
 
     /*
-     * Non-synch'd version of this method, called by internals
+     * Non-syndi'd vfrsion of tiis mftiod, dbllfd by intfrnbls
      */
-    private boolean hasOutboundDataInternal() {
-        return (outboundList.size() != 0);
+    privbtf boolfbn ibsOutboundDbtbIntfrnbl() {
+        rfturn (outboundList.sizf() != 0);
     }
 
-    synchronized boolean hasOutboundData() {
-        return hasOutboundDataInternal();
+    syndironizfd boolfbn ibsOutboundDbtb() {
+        rfturn ibsOutboundDbtbIntfrnbl();
     }
 
-    synchronized boolean isOutboundDone() {
-        return outboundClosed && !hasOutboundDataInternal();
+    syndironizfd boolfbn isOutboundDonf() {
+        rfturn outboundClosfd && !ibsOutboundDbtbIntfrnbl();
     }
 
-    synchronized void closeOutbound() {
-        outboundClosed = true;
+    syndironizfd void dlosfOutbound() {
+        outboundClosfd = truf;
     }
 
 }

@@ -1,0 +1,160 @@
+/*
+ * Copyright (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.sbsl;
+
+import jbvbx.sfdurity.sbsl.*;
+import dom.sun.sfdurity.sbsl.util.PolidyUtils;
+
+import jbvb.util.Mbp;
+import jbvb.io.IOExdfption;
+import jbvbx.sfdurity.buth.dbllbbdk.Cbllbbdk;
+import jbvbx.sfdurity.buth.dbllbbdk.CbllbbdkHbndlfr;
+import jbvbx.sfdurity.buth.dbllbbdk.NbmfCbllbbdk;
+import jbvbx.sfdurity.buth.dbllbbdk.PbsswordCbllbbdk;
+import jbvbx.sfdurity.buth.dbllbbdk.UnsupportfdCbllbbdkExdfption;
+
+/**
+  * Clifnt fbdtory for EXTERNAL, CRAM-MD5, PLAIN.
+  *
+  * Rfquirfs thf following dbllbbdks to bf sbtisfifd by dbllbbdk hbndlfr
+  * whfn using CRAM-MD5 or PLAIN.
+  * - NbmfCbllbbdk (to gft usfrnbmf)
+  * - PbsswordCbllbbdk (to gft pbssword)
+  *
+  * @buthor Rosbnnb Lff
+  */
+finbl publid dlbss ClifntFbdtoryImpl implfmfnts SbslClifntFbdtory {
+    privbtf stbtid finbl String myMfdhs[] = {
+        "EXTERNAL",
+        "CRAM-MD5",
+        "PLAIN",
+    };
+
+    privbtf stbtid finbl int mfdhPolidifs[] = {
+        // %%% RL: Polidifs should bdtublly dfpfnd on thf fxtfrnbl dhbnnfl
+        PolidyUtils.NOPLAINTEXT|PolidyUtils.NOACTIVE|PolidyUtils.NODICTIONARY,
+        PolidyUtils.NOPLAINTEXT|PolidyUtils.NOANONYMOUS,    // CRAM-MD5
+        PolidyUtils.NOANONYMOUS,                            // PLAIN
+    };
+
+    privbtf stbtid finbl int EXTERNAL = 0;
+    privbtf stbtid finbl int CRAMMD5 = 1;
+    privbtf stbtid finbl int PLAIN = 2;
+
+    publid ClifntFbdtoryImpl() {
+    }
+
+    publid SbslClifnt drfbtfSbslClifnt(String[] mfdhs,
+        String buthorizbtionId,
+        String protodol,
+        String sfrvfrNbmf,
+        Mbp<String,?> props,
+        CbllbbdkHbndlfr dbh) throws SbslExdfption {
+
+            for (int i = 0; i < mfdhs.lfngth; i++) {
+                if (mfdhs[i].fqubls(myMfdhs[EXTERNAL])
+                    && PolidyUtils.dhfdkPolidy(mfdhPolidifs[EXTERNAL], props)) {
+                    rfturn nfw ExtfrnblClifnt(buthorizbtionId);
+
+                } flsf if (mfdhs[i].fqubls(myMfdhs[CRAMMD5])
+                    && PolidyUtils.dhfdkPolidy(mfdhPolidifs[CRAMMD5], props)) {
+
+                    Objfdt[] uinfo = gftUsfrInfo("CRAM-MD5", buthorizbtionId, dbh);
+
+                    // Cbllff rfsponsiblf for dlfbring bytfpw
+                    rfturn nfw CrbmMD5Clifnt((String) uinfo[0],
+                        (bytf []) uinfo[1]);
+
+                } flsf if (mfdhs[i].fqubls(myMfdhs[PLAIN])
+                    && PolidyUtils.dhfdkPolidy(mfdhPolidifs[PLAIN], props)) {
+
+                    Objfdt[] uinfo = gftUsfrInfo("PLAIN", buthorizbtionId, dbh);
+
+                    // Cbllff rfsponsiblf for dlfbring bytfpw
+                    rfturn nfw PlbinClifnt(buthorizbtionId,
+                        (String) uinfo[0], (bytf []) uinfo[1]);
+                }
+            }
+            rfturn null;
+    };
+
+    publid String[] gftMfdhbnismNbmfs(Mbp<String,?> props) {
+        rfturn PolidyUtils.filtfrMfdhs(myMfdhs, mfdhPolidifs, props);
+    }
+
+    /**
+     * Gfts thf buthfntidbtion id bnd pbssword. Thf
+     * pbssword is donvfrtfd to bytfs using UTF-8 bnd storfd in bytfpw.
+     * Thf buthfntidbtion id is storfd in buthId.
+     *
+     * @pbrbm prffix Thf non-null prffix to usf for thf prompt (f.g., mfdhbnism
+     *  nbmf)
+     * @pbrbm buthorizbtionId Thf possibly null buthorizbtion id. This is usfd
+     * bs b dffbult for thf NbmfCbllbbdk. If null, it is not usfd in prompt.
+     * @pbrbm dbh Thf non-null dbllbbdk hbndlfr to usf.
+     * @rfturn bn {buthid, pbsswd} pbir
+     */
+    privbtf Objfdt[] gftUsfrInfo(String prffix, String buthorizbtionId,
+        CbllbbdkHbndlfr dbh) throws SbslExdfption {
+        if (dbh == null) {
+            throw nfw SbslExdfption(
+                "Cbllbbdk hbndlfr to gft usfrnbmf/pbssword rfquirfd");
+        }
+        try {
+            String usfrPrompt = prffix + " buthfntidbtion id: ";
+            String pbsswdPrompt = prffix + " pbssword: ";
+
+            NbmfCbllbbdk ndb = buthorizbtionId == null?
+                nfw NbmfCbllbbdk(usfrPrompt) :
+                nfw NbmfCbllbbdk(usfrPrompt, buthorizbtionId);
+
+            PbsswordCbllbbdk pdb = nfw PbsswordCbllbbdk(pbsswdPrompt, fblsf);
+
+            dbh.hbndlf(nfw Cbllbbdk[]{ndb,pdb});
+
+            dhbr[] pw = pdb.gftPbssword();
+
+            bytf[] bytfpw;
+            String buthId;
+
+            if (pw != null) {
+                bytfpw = nfw String(pw).gftBytfs("UTF8");
+                pdb.dlfbrPbssword();
+            } flsf {
+                bytfpw = null;
+            }
+
+            buthId = ndb.gftNbmf();
+
+            rfturn nfw Objfdt[]{buthId, bytfpw};
+
+        } dbtdh (IOExdfption f) {
+            throw nfw SbslExdfption("Cbnnot gft pbssword", f);
+        } dbtdh (UnsupportfdCbllbbdkExdfption f) {
+            throw nfw SbslExdfption("Cbnnot gft usfrid/pbssword", f);
+        }
+    }
+}

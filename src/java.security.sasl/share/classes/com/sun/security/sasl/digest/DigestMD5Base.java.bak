@@ -1,1626 +1,1626 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.security.sasl.digest;
+pbdkbgf dom.sun.sfdurity.sbsl.digfst;
 
-import java.util.Map;
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Level;
-import java.math.BigInteger;
-import java.util.Random;
+import jbvb.util.Mbp;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvb.util.logging.Lfvfl;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.util.Rbndom;
 
-import java.io.ByteArrayOutputStream;
-import java.io.UnsupportedEncodingException;
-import java.io.IOException;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.io.IOExdfption;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.InvalidKeyException;
-import java.security.spec.KeySpec;
-import java.security.spec.InvalidKeySpecException;
-import java.security.InvalidAlgorithmParameterException;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.spfd.KfySpfd;
+import jbvb.sfdurity.spfd.InvblidKfySpfdExdfption;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
 
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.Mac;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-import javax.crypto.spec.DESKeySpec;
-import javax.crypto.spec.DESedeKeySpec;
+import jbvbx.drypto.Cipifr;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.Mbd;
+import jbvbx.drypto.SfdrftKfyFbdtory;
+import jbvbx.drypto.NoSudiPbddingExdfption;
+import jbvbx.drypto.IllfgblBlodkSizfExdfption;
+import jbvbx.drypto.spfd.IvPbrbmftfrSpfd;
+import jbvbx.drypto.spfd.SfdrftKfySpfd;
+import jbvbx.drypto.spfd.DESKfySpfd;
+import jbvbx.drypto.spfd.DESfdfKfySpfd;
 
-import javax.security.sasl.*;
-import com.sun.security.sasl.util.AbstractSaslImpl;
+import jbvbx.sfdurity.sbsl.*;
+import dom.sun.sfdurity.sbsl.util.AbstrbdtSbslImpl;
 
-import javax.security.auth.callback.CallbackHandler;
+import jbvbx.sfdurity.buti.dbllbbdk.CbllbbdkHbndlfr;
 
 /**
- * Utility class for DIGEST-MD5 mechanism. Provides utility methods
- * and contains two inner classes which implement the SecurityCtx
- * interface. The inner classes provide the funtionality to allow
- * for quality-of-protection (QOP) with integrity checking and
- * privacy.
+ * Utility dlbss for DIGEST-MD5 mfdibnism. Providfs utility mftiods
+ * bnd dontbins two innfr dlbssfs wiidi implfmfnt tif SfdurityCtx
+ * intfrfbdf. Tif innfr dlbssfs providf tif funtionblity to bllow
+ * for qublity-of-protfdtion (QOP) witi intfgrity difdking bnd
+ * privbdy.
  *
- * @author Jonathan Bruce
- * @author Rosanna Lee
+ * @butior Jonbtibn Brudf
+ * @butior Rosbnnb Lff
  */
-abstract class DigestMD5Base extends AbstractSaslImpl {
-    /* ------------------------- Constants ------------------------ */
+bbstrbdt dlbss DigfstMD5Bbsf fxtfnds AbstrbdtSbslImpl {
+    /* ------------------------- Constbnts ------------------------ */
 
-    // Used for logging
-    private static final String DI_CLASS_NAME = DigestIntegrity.class.getName();
-    private static final String DP_CLASS_NAME = DigestPrivacy.class.getName();
+    // Usfd for logging
+    privbtf stbtid finbl String DI_CLASS_NAME = DigfstIntfgrity.dlbss.gftNbmf();
+    privbtf stbtid finbl String DP_CLASS_NAME = DigfstPrivbdy.dlbss.gftNbmf();
 
-    /* Constants - defined in RFC2831 */
-    protected static final int MAX_CHALLENGE_LENGTH = 2048;
-    protected static final int MAX_RESPONSE_LENGTH = 4096;
-    protected static final int DEFAULT_MAXBUF = 65536;
+    /* Constbnts - dffinfd in RFC2831 */
+    protfdtfd stbtid finbl int MAX_CHALLENGE_LENGTH = 2048;
+    protfdtfd stbtid finbl int MAX_RESPONSE_LENGTH = 4096;
+    protfdtfd stbtid finbl int DEFAULT_MAXBUF = 65536;
 
-    /* Supported ciphers for 'auth-conf' */
-    protected static final int DES3 = 0;
-    protected static final int RC4 = 1;
-    protected static final int DES = 2;
-    protected static final int RC4_56 = 3;
-    protected static final int RC4_40 = 4;
-    protected static final String[] CIPHER_TOKENS = { "3des",
-                                                      "rc4",
-                                                      "des",
-                                                      "rc4-56",
-                                                      "rc4-40" };
-    private static final String[] JCE_CIPHER_NAME = {
-        "DESede/CBC/NoPadding",
+    /* Supportfd dipifrs for 'buti-donf' */
+    protfdtfd stbtid finbl int DES3 = 0;
+    protfdtfd stbtid finbl int RC4 = 1;
+    protfdtfd stbtid finbl int DES = 2;
+    protfdtfd stbtid finbl int RC4_56 = 3;
+    protfdtfd stbtid finbl int RC4_40 = 4;
+    protfdtfd stbtid finbl String[] CIPHER_TOKENS = { "3dfs",
+                                                      "rd4",
+                                                      "dfs",
+                                                      "rd4-56",
+                                                      "rd4-40" };
+    privbtf stbtid finbl String[] JCE_CIPHER_NAME = {
+        "DESfdf/CBC/NoPbdding",
         "RC4",
-        "DES/CBC/NoPadding",
+        "DES/CBC/NoPbdding",
     };
 
     /*
-     * If QOP is set to 'auth-conf', a DIGEST-MD5 mechanism must have
-     * support for the DES and Triple DES cipher algorithms (optionally,
-     * support for RC4 [128/56/40 bit keys] ciphers) to provide for
-     * confidentiality. See RFC 2831 for details. This implementation
-     * provides support for DES, Triple DES and RC4 ciphers.
+     * If QOP is sft to 'buti-donf', b DIGEST-MD5 mfdibnism must ibvf
+     * support for tif DES bnd Triplf DES dipifr blgoritims (optionblly,
+     * support for RC4 [128/56/40 bit kfys] dipifrs) to providf for
+     * donfidfntiblity. Sff RFC 2831 for dftbils. Tiis implfmfntbtion
+     * providfs support for DES, Triplf DES bnd RC4 dipifrs.
      *
-     * The value of strength effects the strength of cipher used. The mappings
-     * of 'high', 'medium', and 'low' give the following behaviour.
+     * Tif vbluf of strfngti ffffdts tif strfngti of dipifr usfd. Tif mbppings
+     * of 'iigi', 'mfdium', bnd 'low' givf tif following bfibviour.
      *
-     *  HIGH_STRENGTH   - Triple DES
+     *  HIGH_STRENGTH   - Triplf DES
      *                  - RC4 (128bit)
      *  MEDIUM_STRENGTH - DES
      *                  - RC4 (56bit)
      *  LOW_SRENGTH     - RC4 (40bit)
      */
-    protected static final byte DES_3_STRENGTH = HIGH_STRENGTH;
-    protected static final byte RC4_STRENGTH = HIGH_STRENGTH;
-    protected static final byte DES_STRENGTH = MEDIUM_STRENGTH;
-    protected static final byte RC4_56_STRENGTH = MEDIUM_STRENGTH;
-    protected static final byte RC4_40_STRENGTH = LOW_STRENGTH;
-    protected static final byte UNSET = (byte)0;
-    protected static final byte[] CIPHER_MASKS = { DES_3_STRENGTH,
+    protfdtfd stbtid finbl bytf DES_3_STRENGTH = HIGH_STRENGTH;
+    protfdtfd stbtid finbl bytf RC4_STRENGTH = HIGH_STRENGTH;
+    protfdtfd stbtid finbl bytf DES_STRENGTH = MEDIUM_STRENGTH;
+    protfdtfd stbtid finbl bytf RC4_56_STRENGTH = MEDIUM_STRENGTH;
+    protfdtfd stbtid finbl bytf RC4_40_STRENGTH = LOW_STRENGTH;
+    protfdtfd stbtid finbl bytf UNSET = (bytf)0;
+    protfdtfd stbtid finbl bytf[] CIPHER_MASKS = { DES_3_STRENGTH,
                                                    RC4_STRENGTH,
                                                    DES_STRENGTH,
                                                    RC4_56_STRENGTH,
                                                    RC4_40_STRENGTH };
 
-    private static final String SECURITY_LAYER_MARKER =
+    privbtf stbtid finbl String SECURITY_LAYER_MARKER =
         ":00000000000000000000000000000000";
 
-    protected static final byte[] EMPTY_BYTE_ARRAY = new byte[0];
+    protfdtfd stbtid finbl bytf[] EMPTY_BYTE_ARRAY = nfw bytf[0];
 
-    /* ------------------- Variable Fields ----------------------- */
+    /* ------------------- Vbribblf Fiflds ----------------------- */
 
-    /* Used to track progress of authentication; step numbers from RFC 2831 */
-    protected int step;
+    /* Usfd to trbdk progrfss of butifntidbtion; stfp numbfrs from RFC 2831 */
+    protfdtfd int stfp;
 
-    /* Used to get username/password, choose realm for client */
-    /* Used to obtain authorization, pw info, canonicalized authzid for server */
-    protected CallbackHandler cbh;
+    /* Usfd to gft usfrnbmf/pbssword, dioosf rfblm for dlifnt */
+    /* Usfd to obtbin butiorizbtion, pw info, dbnonidblizfd butizid for sfrvfr */
+    protfdtfd CbllbbdkHbndlfr dbi;
 
-    protected SecurityCtx secCtx;
-    protected byte[] H_A1; // component of response-value
+    protfdtfd SfdurityCtx sfdCtx;
+    protfdtfd bytf[] H_A1; // domponfnt of rfsponsf-vbluf
 
-    protected byte[] nonce;         // server generated nonce
+    protfdtfd bytf[] nondf;         // sfrvfr gfnfrbtfd nondf
 
-    /* Variables set when parsing directives in digest challenge/response. */
-    protected String negotiatedStrength;
-    protected String negotiatedCipher;
-    protected String negotiatedQop;
-    protected String negotiatedRealm;
-    protected boolean useUTF8 = false;
-    protected String encoding = "8859_1";  // default unless server specifies utf-8
+    /* Vbribblfs sft wifn pbrsing dirfdtivfs in digfst dibllfngf/rfsponsf. */
+    protfdtfd String nfgotibtfdStrfngti;
+    protfdtfd String nfgotibtfdCipifr;
+    protfdtfd String nfgotibtfdQop;
+    protfdtfd String nfgotibtfdRfblm;
+    protfdtfd boolfbn usfUTF8 = fblsf;
+    protfdtfd String fndoding = "8859_1";  // dffbult unlfss sfrvfr spfdififs utf-8
 
-    protected String digestUri;
-    protected String authzid;       // authzid or canonicalized authzid
-
-    /**
-     * Constucts an instance of DigestMD5Base. Calls super constructor
-     * to parse properties for mechanism.
-     *
-     * @param props A map of property/value pairs
-     * @param className name of class to use for logging
-     * @param firstStep number of first step in authentication state machine
-     * @param digestUri digestUri used in authentication
-     * @param cbh callback handler used to get info required for auth
-     *
-     * @throws SaslException If invalid value found in props.
-     */
-    protected DigestMD5Base(Map<String, ?> props, String className,
-        int firstStep, String digestUri, CallbackHandler cbh)
-        throws SaslException {
-        super(props, className); // sets QOP, STENGTH and BUFFER_SIZE
-
-        step = firstStep;
-        this.digestUri = digestUri;
-        this.cbh = cbh;
-    }
+    protfdtfd String digfstUri;
+    protfdtfd String butizid;       // butizid or dbnonidblizfd butizid
 
     /**
-     * Retrieves the SASL mechanism IANA name.
+     * Constudts bn instbndf of DigfstMD5Bbsf. Cblls supfr donstrudtor
+     * to pbrsf propfrtifs for mfdibnism.
      *
-     * @return The String "DIGEST-MD5"
+     * @pbrbm props A mbp of propfrty/vbluf pbirs
+     * @pbrbm dlbssNbmf nbmf of dlbss to usf for logging
+     * @pbrbm firstStfp numbfr of first stfp in butifntidbtion stbtf mbdiinf
+     * @pbrbm digfstUri digfstUri usfd in butifntidbtion
+     * @pbrbm dbi dbllbbdk ibndlfr usfd to gft info rfquirfd for buti
+     *
+     * @tirows SbslExdfption If invblid vbluf found in props.
      */
-    public String getMechanismName() {
-        return "DIGEST-MD5";
+    protfdtfd DigfstMD5Bbsf(Mbp<String, ?> props, String dlbssNbmf,
+        int firstStfp, String digfstUri, CbllbbdkHbndlfr dbi)
+        tirows SbslExdfption {
+        supfr(props, dlbssNbmf); // sfts QOP, STENGTH bnd BUFFER_SIZE
+
+        stfp = firstStfp;
+        tiis.digfstUri = digfstUri;
+        tiis.dbi = dbi;
     }
 
     /**
-     * Unwrap the incoming message using the wrap method of the secCtx object
-     * instance.
+     * Rftrifvfs tif SASL mfdibnism IANA nbmf.
      *
-     * @param incoming The byte array containing the incoming bytes.
-     * @param start The offset from which to read the byte array.
-     * @param len The number of bytes to read from the offset.
-     * @return The unwrapped message according to either the integrity or
-     * privacy quality-of-protection specifications.
-     * @throws SaslException if an error occurs when unwrapping the incoming
-     * message
+     * @rfturn Tif String "DIGEST-MD5"
      */
-    public byte[] unwrap(byte[] incoming, int start, int len) throws SaslException {
-        if (!completed) {
-            throw new IllegalStateException(
-                "DIGEST-MD5 authentication not completed");
-        }
-
-        if (secCtx == null) {
-            throw new IllegalStateException(
-                "Neither integrity nor privacy was negotiated");
-        }
-
-        return (secCtx.unwrap(incoming, start, len));
+    publid String gftMfdibnismNbmf() {
+        rfturn "DIGEST-MD5";
     }
 
     /**
-     * Wrap outgoing bytes using the wrap method of the secCtx object
-     * instance.
+     * Unwrbp tif indoming mfssbgf using tif wrbp mftiod of tif sfdCtx objfdt
+     * instbndf.
      *
-     * @param outgoing The byte array containing the outgoing bytes.
-     * @param start The offset from which to read the byte array.
-     * @param len The number of bytes to read from the offset.
-     * @return The wrapped message according to either the integrity or
-     * privacy quality-of-protection specifications.
-     * @throws SaslException if an error occurs when wrapping the outgoing
-     * message
+     * @pbrbm indoming Tif bytf brrby dontbining tif indoming bytfs.
+     * @pbrbm stbrt Tif offsft from wiidi to rfbd tif bytf brrby.
+     * @pbrbm lfn Tif numbfr of bytfs to rfbd from tif offsft.
+     * @rfturn Tif unwrbppfd mfssbgf bddording to fitifr tif intfgrity or
+     * privbdy qublity-of-protfdtion spfdifidbtions.
+     * @tirows SbslExdfption if bn frror oddurs wifn unwrbpping tif indoming
+     * mfssbgf
      */
-    public byte[] wrap(byte[] outgoing, int start, int len) throws SaslException {
-        if (!completed) {
-            throw new IllegalStateException(
-                "DIGEST-MD5 authentication not completed");
+    publid bytf[] unwrbp(bytf[] indoming, int stbrt, int lfn) tirows SbslExdfption {
+        if (!domplftfd) {
+            tirow nfw IllfgblStbtfExdfption(
+                "DIGEST-MD5 butifntidbtion not domplftfd");
         }
 
-        if (secCtx == null) {
-            throw new IllegalStateException(
-                "Neither integrity nor privacy was negotiated");
+        if (sfdCtx == null) {
+            tirow nfw IllfgblStbtfExdfption(
+                "Nfitifr intfgrity nor privbdy wbs nfgotibtfd");
         }
 
-        return (secCtx.wrap(outgoing, start, len));
+        rfturn (sfdCtx.unwrbp(indoming, stbrt, lfn));
     }
 
-    public void dispose() throws SaslException {
-        if (secCtx != null) {
-            secCtx = null;
+    /**
+     * Wrbp outgoing bytfs using tif wrbp mftiod of tif sfdCtx objfdt
+     * instbndf.
+     *
+     * @pbrbm outgoing Tif bytf brrby dontbining tif outgoing bytfs.
+     * @pbrbm stbrt Tif offsft from wiidi to rfbd tif bytf brrby.
+     * @pbrbm lfn Tif numbfr of bytfs to rfbd from tif offsft.
+     * @rfturn Tif wrbppfd mfssbgf bddording to fitifr tif intfgrity or
+     * privbdy qublity-of-protfdtion spfdifidbtions.
+     * @tirows SbslExdfption if bn frror oddurs wifn wrbpping tif outgoing
+     * mfssbgf
+     */
+    publid bytf[] wrbp(bytf[] outgoing, int stbrt, int lfn) tirows SbslExdfption {
+        if (!domplftfd) {
+            tirow nfw IllfgblStbtfExdfption(
+                "DIGEST-MD5 butifntidbtion not domplftfd");
+        }
+
+        if (sfdCtx == null) {
+            tirow nfw IllfgblStbtfExdfption(
+                "Nfitifr intfgrity nor privbdy wbs nfgotibtfd");
+        }
+
+        rfturn (sfdCtx.wrbp(outgoing, stbrt, lfn));
+    }
+
+    publid void disposf() tirows SbslExdfption {
+        if (sfdCtx != null) {
+            sfdCtx = null;
         }
     }
 
-    public Object getNegotiatedProperty(String propName) {
-        if (completed) {
-            if (propName.equals(Sasl.STRENGTH)) {
-                return negotiatedStrength;
-            } else if (propName.equals(Sasl.BOUND_SERVER_NAME)) {
-                return digestUri.substring(digestUri.indexOf('/') + 1);
-            } else {
-                return super.getNegotiatedProperty(propName);
+    publid Objfdt gftNfgotibtfdPropfrty(String propNbmf) {
+        if (domplftfd) {
+            if (propNbmf.fqubls(Sbsl.STRENGTH)) {
+                rfturn nfgotibtfdStrfngti;
+            } flsf if (propNbmf.fqubls(Sbsl.BOUND_SERVER_NAME)) {
+                rfturn digfstUri.substring(digfstUri.indfxOf('/') + 1);
+            } flsf {
+                rfturn supfr.gftNfgotibtfdPropfrty(propNbmf);
             }
-        } else {
-            throw new IllegalStateException(
-                "DIGEST-MD5 authentication not completed");
+        } flsf {
+            tirow nfw IllfgblStbtfExdfption(
+                "DIGEST-MD5 butifntidbtion not domplftfd");
         }
     }
 
-    /* ----------------- Digest-MD5 utilities ---------------- */
+    /* ----------------- Digfst-MD5 utilitifs ---------------- */
     /**
-     * Generate random-string used for digest-response.
-     * This method uses Random to get random bytes and then
-     * base64 encodes the bytes. Could also use binaryToHex() but this
-     * is slightly faster and a more compact representation of the same info.
-     * @return A non-null byte array containing the nonce value for the
-     * digest challenge or response.
-     * Could use SecureRandom to be more secure but it is very slow.
+     * Gfnfrbtf rbndom-string usfd for digfst-rfsponsf.
+     * Tiis mftiod usfs Rbndom to gft rbndom bytfs bnd tifn
+     * bbsf64 fndodfs tif bytfs. Could blso usf binbryToHfx() but tiis
+     * is sligitly fbstfr bnd b morf dompbdt rfprfsfntbtion of tif sbmf info.
+     * @rfturn A non-null bytf brrby dontbining tif nondf vbluf for tif
+     * digfst dibllfngf or rfsponsf.
+     * Could usf SfdurfRbndom to bf morf sfdurf but it is vfry slow.
      */
 
-    /** This array maps the characters to their 6 bit values */
-    private final static char pem_array[] = {
+    /** Tiis brrby mbps tif dibrbdtfrs to tifir 6 bit vblufs */
+    privbtf finbl stbtid dibr pfm_brrby[] = {
         //       0   1   2   3   4   5   6   7
                 'A','B','C','D','E','F','G','H', // 0
                 'I','J','K','L','M','N','O','P', // 1
                 'Q','R','S','T','U','V','W','X', // 2
-                'Y','Z','a','b','c','d','e','f', // 3
-                'g','h','i','j','k','l','m','n', // 4
+                'Y','Z','b','b','d','d','f','f', // 3
+                'g','i','i','j','k','l','m','n', // 4
                 'o','p','q','r','s','t','u','v', // 5
                 'w','x','y','z','0','1','2','3', // 6
                 '4','5','6','7','8','9','+','/'  // 7
     };
 
-    // Make sure that this is a multiple of 3
-    private static final int RAW_NONCE_SIZE = 30;
+    // Mbkf surf tibt tiis is b multiplf of 3
+    privbtf stbtid finbl int RAW_NONCE_SIZE = 30;
 
-    // Base 64 encoding turns each 3 bytes into 4
-    private static final int ENCODED_NONCE_SIZE = RAW_NONCE_SIZE*4/3;
+    // Bbsf 64 fndoding turns fbdi 3 bytfs into 4
+    privbtf stbtid finbl int ENCODED_NONCE_SIZE = RAW_NONCE_SIZE*4/3;
 
-    protected static final byte[] generateNonce() {
+    protfdtfd stbtid finbl bytf[] gfnfrbtfNondf() {
 
-        // SecureRandom random = new SecureRandom();
-        Random random = new Random();
-        byte[] randomData = new byte[RAW_NONCE_SIZE];
-        random.nextBytes(randomData);
+        // SfdurfRbndom rbndom = nfw SfdurfRbndom();
+        Rbndom rbndom = nfw Rbndom();
+        bytf[] rbndomDbtb = nfw bytf[RAW_NONCE_SIZE];
+        rbndom.nfxtBytfs(rbndomDbtb);
 
-        byte[] nonce = new byte[ENCODED_NONCE_SIZE];
+        bytf[] nondf = nfw bytf[ENCODED_NONCE_SIZE];
 
-        // Base64-encode bytes
-        byte a, b, c;
+        // Bbsf64-fndodf bytfs
+        bytf b, b, d;
         int j = 0;
-        for (int i = 0; i < randomData.length; i += 3) {
-            a = randomData[i];
-            b = randomData[i+1];
-            c = randomData[i+2];
-            nonce[j++] = (byte)(pem_array[(a >>> 2) & 0x3F]);
-            nonce[j++] = (byte)(pem_array[((a << 4) & 0x30) + ((b >>> 4) & 0xf)]);
-            nonce[j++] = (byte)(pem_array[((b << 2) & 0x3c) + ((c >>> 6) & 0x3)]);
-            nonce[j++] = (byte)(pem_array[c & 0x3F]);
+        for (int i = 0; i < rbndomDbtb.lfngti; i += 3) {
+            b = rbndomDbtb[i];
+            b = rbndomDbtb[i+1];
+            d = rbndomDbtb[i+2];
+            nondf[j++] = (bytf)(pfm_brrby[(b >>> 2) & 0x3F]);
+            nondf[j++] = (bytf)(pfm_brrby[((b << 4) & 0x30) + ((b >>> 4) & 0xf)]);
+            nondf[j++] = (bytf)(pfm_brrby[((b << 2) & 0x3d) + ((d >>> 6) & 0x3)]);
+            nondf[j++] = (bytf)(pfm_brrby[d & 0x3F]);
         }
 
-        return nonce;
+        rfturn nondf;
 
-        // %%% For testing using RFC 2831 example, uncomment the following 2 lines
-        // System.out.println("!!!Using RFC 2831's cnonce for testing!!!");
-        // return "OA6MHXh6VqTrRk".getBytes();
+        // %%% For tfsting using RFC 2831 fxbmplf, undommfnt tif following 2 linfs
+        // Systfm.out.println("!!!Using RFC 2831's dnondf for tfsting!!!");
+        // rfturn "OA6MHXi6VqTrRk".gftBytfs();
     }
 
     /**
-     * Checks if a byte[] contains characters that must be quoted
-     * and write the resulting, possibly escaped, characters to out.
+     * Cifdks if b bytf[] dontbins dibrbdtfrs tibt must bf quotfd
+     * bnd writf tif rfsulting, possibly fsdbpfd, dibrbdtfrs to out.
      */
-    protected static void writeQuotedStringValue(ByteArrayOutputStream out,
-        byte[] buf) {
+    protfdtfd stbtid void writfQuotfdStringVbluf(BytfArrbyOutputStrfbm out,
+        bytf[] buf) {
 
-        int len = buf.length;
-        byte ch;
-        for (int i = 0; i < len; i++) {
-            ch = buf[i];
-            if (needEscape((char)ch)) {
-                out.write('\\');
+        int lfn = buf.lfngti;
+        bytf di;
+        for (int i = 0; i < lfn; i++) {
+            di = buf[i];
+            if (nffdEsdbpf((dibr)di)) {
+                out.writf('\\');
             }
-            out.write(ch);
+            out.writf(di);
         }
     }
 
-    // See Section 7.2 of RFC 2831; double-quote character is not allowed
-    // unless escaped; also escape the escape character and CTL chars except LWS
-    private static boolean needEscape(String str) {
-        int len = str.length();
-        for (int i = 0; i < len; i++) {
-            if (needEscape(str.charAt(i))) {
-                return true;
+    // Sff Sfdtion 7.2 of RFC 2831; doublf-quotf dibrbdtfr is not bllowfd
+    // unlfss fsdbpfd; blso fsdbpf tif fsdbpf dibrbdtfr bnd CTL dibrs fxdfpt LWS
+    privbtf stbtid boolfbn nffdEsdbpf(String str) {
+        int lfn = str.lfngti();
+        for (int i = 0; i < lfn; i++) {
+            if (nffdEsdbpf(str.dibrAt(i))) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    // Determines whether a character needs to be escaped in a quoted string
-    private static boolean needEscape(char ch) {
-        return ch == '"' ||  // escape char
-            ch == '\\' ||    // quote
-            ch == 127 ||     // DEL
+    // Dftfrminfs wiftifr b dibrbdtfr nffds to bf fsdbpfd in b quotfd string
+    privbtf stbtid boolfbn nffdEsdbpf(dibr di) {
+        rfturn di == '"' ||  // fsdbpf dibr
+            di == '\\' ||    // quotf
+            di == 127 ||     // DEL
 
-            // 0 <= ch <= 31 except CR, HT and LF
-            (ch >= 0 && ch <= 31 && ch != 13 && ch != 9 && ch != 10);
+            // 0 <= di <= 31 fxdfpt CR, HT bnd LF
+            (di >= 0 && di <= 31 && di != 13 && di != 9 && di != 10);
     }
 
-    protected static String quotedStringValue(String str) {
-        if (needEscape(str)) {
-            int len = str.length();
-            char[] buf = new char[len+len];
+    protfdtfd stbtid String quotfdStringVbluf(String str) {
+        if (nffdEsdbpf(str)) {
+            int lfn = str.lfngti();
+            dibr[] buf = nfw dibr[lfn+lfn];
             int j = 0;
-            char ch;
-            for (int i = 0; i < len; i++) {
-                ch = str.charAt(i);
-                if (needEscape(ch)) {
+            dibr di;
+            for (int i = 0; i < lfn; i++) {
+                di = str.dibrAt(i);
+                if (nffdEsdbpf(di)) {
                     buf[j++] =  '\\';
                 }
-                buf[j++] = ch;
+                buf[j++] = di;
             }
-            return new String(buf, 0, j);
-        } else {
-            return str;
+            rfturn nfw String(buf, 0, j);
+        } flsf {
+            rfturn str;
         }
     }
 
     /**
-     * Convert a byte array to hexadecimal string.
+     * Convfrt b bytf brrby to ifxbdfdimbl string.
      *
-     * @param a non-null byte array
-     * @return a non-null String contain the HEX value
+     * @pbrbm b non-null bytf brrby
+     * @rfturn b non-null String dontbin tif HEX vbluf
      */
-    protected byte[] binaryToHex(byte[] digest) throws
-    UnsupportedEncodingException {
+    protfdtfd bytf[] binbryToHfx(bytf[] digfst) tirows
+    UnsupportfdEndodingExdfption {
 
-        StringBuilder digestString = new StringBuilder();
+        StringBuildfr digfstString = nfw StringBuildfr();
 
-        for (int i = 0; i < digest.length; i ++) {
-            if ((digest[i] & 0x000000ff) < 0x10) {
-                digestString.append("0"+
-                    Integer.toHexString(digest[i] & 0x000000ff));
-            } else {
-                digestString.append(
-                    Integer.toHexString(digest[i] & 0x000000ff));
+        for (int i = 0; i < digfst.lfngti; i ++) {
+            if ((digfst[i] & 0x000000ff) < 0x10) {
+                digfstString.bppfnd("0"+
+                    Intfgfr.toHfxString(digfst[i] & 0x000000ff));
+            } flsf {
+                digfstString.bppfnd(
+                    Intfgfr.toHfxString(digfst[i] & 0x000000ff));
             }
         }
-        return digestString.toString().getBytes(encoding);
+        rfturn digfstString.toString().gftBytfs(fndoding);
     }
 
     /**
-     * Used to convert username-value, passwd or realm to 8859_1 encoding
-     * if all chars in string are within the 8859_1 (Latin 1) encoding range.
+     * Usfd to donvfrt usfrnbmf-vbluf, pbsswd or rfblm to 8859_1 fndoding
+     * if bll dibrs in string brf witiin tif 8859_1 (Lbtin 1) fndoding rbngf.
      *
-     * @param a non-null String
-     * @return a non-nuill byte array containing the correct character encoding
-     * for username, paswd or realm.
+     * @pbrbm b non-null String
+     * @rfturn b non-nuill bytf brrby dontbining tif dorrfdt dibrbdtfr fndoding
+     * for usfrnbmf, pbswd or rfblm.
      */
-    protected byte[] stringToByte_8859_1(String str) throws SaslException {
+    protfdtfd bytf[] stringToBytf_8859_1(String str) tirows SbslExdfption {
 
-        char[] buffer = str.toCharArray();
+        dibr[] bufffr = str.toCibrArrby();
 
         try {
-            if (useUTF8) {
-                for( int i = 0; i< buffer.length; i++ ) {
-                    if( buffer[i] > '\u00FF' ) {
-                        return str.getBytes("UTF8");
+            if (usfUTF8) {
+                for( int i = 0; i< bufffr.lfngti; i++ ) {
+                    if( bufffr[i] > '\u00FF' ) {
+                        rfturn str.gftBytfs("UTF8");
                     }
                 }
             }
-            return str.getBytes("8859_1");
-        } catch (UnsupportedEncodingException e) {
-            throw new SaslException(
-                "cannot encode string in UTF8 or 8859-1 (Latin-1)", e);
+            rfturn str.gftBytfs("8859_1");
+        } dbtdi (UnsupportfdEndodingExdfption f) {
+            tirow nfw SbslExdfption(
+                "dbnnot fndodf string in UTF8 or 8859-1 (Lbtin-1)", f);
         }
     }
 
-    protected static byte[] getPlatformCiphers() {
-        byte[] ciphers = new byte[CIPHER_TOKENS.length];
+    protfdtfd stbtid bytf[] gftPlbtformCipifrs() {
+        bytf[] dipifrs = nfw bytf[CIPHER_TOKENS.lfngti];
 
-        for (int i = 0; i < JCE_CIPHER_NAME.length; i++) {
+        for (int i = 0; i < JCE_CIPHER_NAME.lfngti; i++) {
             try {
-                // Checking whether the transformation is available from the
-                // current installed providers.
-                Cipher.getInstance(JCE_CIPHER_NAME[i]);
+                // Cifdking wiftifr tif trbnsformbtion is bvbilbblf from tif
+                // durrfnt instbllfd providfrs.
+                Cipifr.gftInstbndf(JCE_CIPHER_NAME[i]);
 
-                logger.log(Level.FINE, "DIGEST01:Platform supports {0}", JCE_CIPHER_NAME[i]);
-                ciphers[i] |= CIPHER_MASKS[i];
-            } catch (NoSuchAlgorithmException e) {
-                // no implementation found for requested algorithm.
-            } catch (NoSuchPaddingException e) {
-                // no implementation found for requested algorithm.
+                loggfr.log(Lfvfl.FINE, "DIGEST01:Plbtform supports {0}", JCE_CIPHER_NAME[i]);
+                dipifrs[i] |= CIPHER_MASKS[i];
+            } dbtdi (NoSudiAlgoritimExdfption f) {
+                // no implfmfntbtion found for rfqufstfd blgoritim.
+            } dbtdi (NoSudiPbddingExdfption f) {
+                // no implfmfntbtion found for rfqufstfd blgoritim.
             }
         }
 
-        if (ciphers[RC4] != UNSET) {
-            ciphers[RC4_56] |= CIPHER_MASKS[RC4_56];
-            ciphers[RC4_40] |= CIPHER_MASKS[RC4_40];
+        if (dipifrs[RC4] != UNSET) {
+            dipifrs[RC4_56] |= CIPHER_MASKS[RC4_56];
+            dipifrs[RC4_40] |= CIPHER_MASKS[RC4_40];
         }
 
-        return ciphers;
+        rfturn dipifrs;
     }
 
     /**
-     * Assembles response-value for digest-response.
+     * Assfmblfs rfsponsf-vbluf for digfst-rfsponsf.
      *
-     * @param authMethod "AUTHENTICATE" for client-generated response;
-     *        "" for server-generated response
-     * @return A non-null byte array containing the repsonse-value.
-     * @throws NoSuchAlgorithmException if the platform does not have MD5
-     * digest support.
-     * @throws UnsupportedEncodingException if a an error occurs
-     * encoding a string into either Latin-1 or UTF-8.
-     * @throws IOException if an error occurs writing to the output
-     * byte array buffer.
+     * @pbrbm butiMftiod "AUTHENTICATE" for dlifnt-gfnfrbtfd rfsponsf;
+     *        "" for sfrvfr-gfnfrbtfd rfsponsf
+     * @rfturn A non-null bytf brrby dontbining tif rfpsonsf-vbluf.
+     * @tirows NoSudiAlgoritimExdfption if tif plbtform dofs not ibvf MD5
+     * digfst support.
+     * @tirows UnsupportfdEndodingExdfption if b bn frror oddurs
+     * fndoding b string into fitifr Lbtin-1 or UTF-8.
+     * @tirows IOExdfption if bn frror oddurs writing to tif output
+     * bytf brrby bufffr.
      */
-    protected byte[] generateResponseValue(
-        String authMethod,
-        String digestUriValue,
-        String qopValue,
-        String usernameValue,
-        String realmValue,
-        char[] passwdValue,
-        byte[] nonceValue,
-        byte[] cNonceValue,
-        int nonceCount,
-        byte[] authzidValue
-        ) throws NoSuchAlgorithmException,
-            UnsupportedEncodingException,
-            IOException {
+    protfdtfd bytf[] gfnfrbtfRfsponsfVbluf(
+        String butiMftiod,
+        String digfstUriVbluf,
+        String qopVbluf,
+        String usfrnbmfVbluf,
+        String rfblmVbluf,
+        dibr[] pbsswdVbluf,
+        bytf[] nondfVbluf,
+        bytf[] dNondfVbluf,
+        int nondfCount,
+        bytf[] butizidVbluf
+        ) tirows NoSudiAlgoritimExdfption,
+            UnsupportfdEndodingExdfption,
+            IOExdfption {
 
-        MessageDigest md5 = MessageDigest.getInstance("MD5");
-        byte[] hexA1, hexA2;
-        ByteArrayOutputStream A2, beginA1, A1, KD;
+        MfssbgfDigfst md5 = MfssbgfDigfst.gftInstbndf("MD5");
+        bytf[] ifxA1, ifxA2;
+        BytfArrbyOutputStrfbm A2, bfginA1, A1, KD;
 
         // A2
         // --
-        // A2 = { "AUTHENTICATE:", digest-uri-value,
-        // [:00000000000000000000000000000000] }  // if auth-int or auth-conf
+        // A2 = { "AUTHENTICATE:", digfst-uri-vbluf,
+        // [:00000000000000000000000000000000] }  // if buti-int or buti-donf
         //
-        A2 = new ByteArrayOutputStream();
-        A2.write((authMethod + ":" + digestUriValue).getBytes(encoding));
-        if (qopValue.equals("auth-conf") ||
-            qopValue.equals("auth-int")) {
+        A2 = nfw BytfArrbyOutputStrfbm();
+        A2.writf((butiMftiod + ":" + digfstUriVbluf).gftBytfs(fndoding));
+        if (qopVbluf.fqubls("buti-donf") ||
+            qopVbluf.fqubls("buti-int")) {
 
-            logger.log(Level.FINE, "DIGEST04:QOP: {0}", qopValue);
+            loggfr.log(Lfvfl.FINE, "DIGEST04:QOP: {0}", qopVbluf);
 
-            A2.write(SECURITY_LAYER_MARKER.getBytes(encoding));
+            A2.writf(SECURITY_LAYER_MARKER.gftBytfs(fndoding));
         }
 
-        if (logger.isLoggable(Level.FINE)) {
-            logger.log(Level.FINE, "DIGEST05:A2: {0}", A2.toString());
+        if (loggfr.isLoggbblf(Lfvfl.FINE)) {
+            loggfr.log(Lfvfl.FINE, "DIGEST05:A2: {0}", A2.toString());
         }
 
-        md5.update(A2.toByteArray());
-        byte[] digest = md5.digest();
-        hexA2 = binaryToHex(digest);
+        md5.updbtf(A2.toBytfArrby());
+        bytf[] digfst = md5.digfst();
+        ifxA2 = binbryToHfx(digfst);
 
-        if (logger.isLoggable(Level.FINE)) {
-            logger.log(Level.FINE, "DIGEST06:HEX(H(A2)): {0}", new String(hexA2));
+        if (loggfr.isLoggbblf(Lfvfl.FINE)) {
+            loggfr.log(Lfvfl.FINE, "DIGEST06:HEX(H(A2)): {0}", nfw String(ifxA2));
         }
 
         // A1
         // --
-        // H(user-name : realm-value : passwd)
+        // H(usfr-nbmf : rfblm-vbluf : pbsswd)
         //
-        beginA1 = new ByteArrayOutputStream();
-        beginA1.write(stringToByte_8859_1(usernameValue));
-        beginA1.write(':');
-        // if no realm, realm will be an empty string
-        beginA1.write(stringToByte_8859_1(realmValue));
-        beginA1.write(':');
-        beginA1.write(stringToByte_8859_1(new String(passwdValue)));
+        bfginA1 = nfw BytfArrbyOutputStrfbm();
+        bfginA1.writf(stringToBytf_8859_1(usfrnbmfVbluf));
+        bfginA1.writf(':');
+        // if no rfblm, rfblm will bf bn fmpty string
+        bfginA1.writf(stringToBytf_8859_1(rfblmVbluf));
+        bfginA1.writf(':');
+        bfginA1.writf(stringToBytf_8859_1(nfw String(pbsswdVbluf)));
 
-        md5.update(beginA1.toByteArray());
-        digest = md5.digest();
+        md5.updbtf(bfginA1.toBytfArrby());
+        digfst = md5.digfst();
 
-        if (logger.isLoggable(Level.FINE)) {
-            logger.log(Level.FINE, "DIGEST07:H({0}) = {1}",
-                new Object[]{beginA1.toString(), new String(binaryToHex(digest))});
+        if (loggfr.isLoggbblf(Lfvfl.FINE)) {
+            loggfr.log(Lfvfl.FINE, "DIGEST07:H({0}) = {1}",
+                nfw Objfdt[]{bfginA1.toString(), nfw String(binbryToHfx(digfst))});
         }
 
         // A1
         // --
-        // A1 = { H ( {user-name : realm-value : passwd } ),
-        // : nonce-value, : cnonce-value : authzid-value
+        // A1 = { H ( {usfr-nbmf : rfblm-vbluf : pbsswd } ),
+        // : nondf-vbluf, : dnondf-vbluf : butizid-vbluf
         //
-        A1 = new ByteArrayOutputStream();
-        A1.write(digest);
-        A1.write(':');
-        A1.write(nonceValue);
-        A1.write(':');
-        A1.write(cNonceValue);
+        A1 = nfw BytfArrbyOutputStrfbm();
+        A1.writf(digfst);
+        A1.writf(':');
+        A1.writf(nondfVbluf);
+        A1.writf(':');
+        A1.writf(dNondfVbluf);
 
-        if (authzidValue != null) {
-            A1.write(':');
-            A1.write(authzidValue);
+        if (butizidVbluf != null) {
+            A1.writf(':');
+            A1.writf(butizidVbluf);
         }
-        md5.update(A1.toByteArray());
-        digest = md5.digest();
-        H_A1 = digest; // Record H(A1). Use for integrity & privacy.
-        hexA1 = binaryToHex(digest);
+        md5.updbtf(A1.toBytfArrby());
+        digfst = md5.digfst();
+        H_A1 = digfst; // Rfdord H(A1). Usf for intfgrity & privbdy.
+        ifxA1 = binbryToHfx(digfst);
 
-        if (logger.isLoggable(Level.FINE)) {
-            logger.log(Level.FINE, "DIGEST08:H(A1) = {0}", new String(hexA1));
+        if (loggfr.isLoggbblf(Lfvfl.FINE)) {
+            loggfr.log(Lfvfl.FINE, "DIGEST08:H(A1) = {0}", nfw String(ifxA1));
         }
 
         //
         // H(k, : , s);
         //
-        KD = new ByteArrayOutputStream();
-        KD.write(hexA1);
-        KD.write(':');
-        KD.write(nonceValue);
-        KD.write(':');
-        KD.write(nonceCountToHex(nonceCount).getBytes(encoding));
-        KD.write(':');
-        KD.write(cNonceValue);
-        KD.write(':');
-        KD.write(qopValue.getBytes(encoding));
-        KD.write(':');
-        KD.write(hexA2);
+        KD = nfw BytfArrbyOutputStrfbm();
+        KD.writf(ifxA1);
+        KD.writf(':');
+        KD.writf(nondfVbluf);
+        KD.writf(':');
+        KD.writf(nondfCountToHfx(nondfCount).gftBytfs(fndoding));
+        KD.writf(':');
+        KD.writf(dNondfVbluf);
+        KD.writf(':');
+        KD.writf(qopVbluf.gftBytfs(fndoding));
+        KD.writf(':');
+        KD.writf(ifxA2);
 
-        if (logger.isLoggable(Level.FINE)) {
-            logger.log(Level.FINE, "DIGEST09:KD: {0}", KD.toString());
+        if (loggfr.isLoggbblf(Lfvfl.FINE)) {
+            loggfr.log(Lfvfl.FINE, "DIGEST09:KD: {0}", KD.toString());
         }
 
-        md5.update(KD.toByteArray());
-        digest = md5.digest();
+        md5.updbtf(KD.toBytfArrby());
+        digfst = md5.digfst();
 
-        byte[] answer = binaryToHex(digest);
+        bytf[] bnswfr = binbryToHfx(digfst);
 
-        if (logger.isLoggable(Level.FINE)) {
-            logger.log(Level.FINE, "DIGEST10:response-value: {0}",
-                new String(answer));
+        if (loggfr.isLoggbblf(Lfvfl.FINE)) {
+            loggfr.log(Lfvfl.FINE, "DIGEST10:rfsponsf-vbluf: {0}",
+                nfw String(bnswfr));
         }
-        return (answer);
+        rfturn (bnswfr);
     }
 
     /**
-     * Takes 'nonceCount' value and returns HEX value of the value.
+     * Tbkfs 'nondfCount' vbluf bnd rfturns HEX vbluf of tif vbluf.
      *
-     * @return A non-null String representing the current NONCE-COUNT
+     * @rfturn A non-null String rfprfsfnting tif durrfnt NONCE-COUNT
      */
-    protected static String nonceCountToHex(int count) {
+    protfdtfd stbtid String nondfCountToHfx(int dount) {
 
-        String str = Integer.toHexString(count);
-        StringBuilder pad = new StringBuilder();
+        String str = Intfgfr.toHfxString(dount);
+        StringBuildfr pbd = nfw StringBuildfr();
 
-        if (str.length() < 8) {
-            for (int i = 0; i < 8-str.length(); i ++) {
-                pad.append("0");
+        if (str.lfngti() < 8) {
+            for (int i = 0; i < 8-str.lfngti(); i ++) {
+                pbd.bppfnd("0");
             }
         }
 
-        return pad.toString() + str;
+        rfturn pbd.toString() + str;
     }
 
     /**
-     * Parses digest-challenge string, extracting each token
-     * and value(s)
+     * Pbrsfs digfst-dibllfngf string, fxtrbdting fbdi tokfn
+     * bnd vbluf(s)
      *
-     * @param buf A non-null digest-challenge string.
-     * @param multipleAllowed true if multiple qop or realm or QOP directives
-     *  are allowed.
-     * @throws SaslException if the buf cannot be parsed according to RFC 2831
+     * @pbrbm buf A non-null digfst-dibllfngf string.
+     * @pbrbm multiplfAllowfd truf if multiplf qop or rfblm or QOP dirfdtivfs
+     *  brf bllowfd.
+     * @tirows SbslExdfption if tif buf dbnnot bf pbrsfd bddording to RFC 2831
      */
-    protected static byte[][] parseDirectives(byte[] buf,
-        String[]keyTable, List<byte[]> realmChoices, int realmIndex) throws SaslException {
+    protfdtfd stbtid bytf[][] pbrsfDirfdtivfs(bytf[] buf,
+        String[]kfyTbblf, List<bytf[]> rfblmCioidfs, int rfblmIndfx) tirows SbslExdfption {
 
-        byte[][] valueTable = new byte[keyTable.length][];
+        bytf[][] vblufTbblf = nfw bytf[kfyTbblf.lfngti][];
 
-        ByteArrayOutputStream key = new ByteArrayOutputStream(10);
-        ByteArrayOutputStream value = new ByteArrayOutputStream(10);
-        boolean gettingKey = true;
-        boolean gettingQuotedValue = false;
-        boolean expectSeparator = false;
-        byte bch;
+        BytfArrbyOutputStrfbm kfy = nfw BytfArrbyOutputStrfbm(10);
+        BytfArrbyOutputStrfbm vbluf = nfw BytfArrbyOutputStrfbm(10);
+        boolfbn gfttingKfy = truf;
+        boolfbn gfttingQuotfdVbluf = fblsf;
+        boolfbn fxpfdtSfpbrbtor = fblsf;
+        bytf bdi;
 
         int i = skipLws(buf, 0);
-        while (i < buf.length) {
-            bch = buf[i];
+        wiilf (i < buf.lfngti) {
+            bdi = buf[i];
 
-            if (gettingKey) {
-                if (bch == ',') {
-                    if (key.size() != 0) {
-                        throw new SaslException("Directive key contains a ',':" +
-                            key);
+            if (gfttingKfy) {
+                if (bdi == ',') {
+                    if (kfy.sizf() != 0) {
+                        tirow nfw SbslExdfption("Dirfdtivf kfy dontbins b ',':" +
+                            kfy);
                     }
-                    // Empty element, skip separator and lws
+                    // Empty flfmfnt, skip sfpbrbtor bnd lws
                     i = skipLws(buf, i+1);
 
-                } else if (bch == '=') {
-                    if (key.size() == 0) {
-                        throw new SaslException("Empty directive key");
+                } flsf if (bdi == '=') {
+                    if (kfy.sizf() == 0) {
+                        tirow nfw SbslExdfption("Empty dirfdtivf kfy");
                     }
-                    gettingKey = false;      // Termination of key
-                    i = skipLws(buf, i+1);   // Skip to next nonwhitespace
+                    gfttingKfy = fblsf;      // Tfrminbtion of kfy
+                    i = skipLws(buf, i+1);   // Skip to nfxt nonwiitfspbdf
 
-                    // Check whether value is quoted
-                    if (i < buf.length) {
+                    // Cifdk wiftifr vbluf is quotfd
+                    if (i < buf.lfngti) {
                         if (buf[i] == '"') {
-                            gettingQuotedValue = true;
-                            ++i; // Skip quote
+                            gfttingQuotfdVbluf = truf;
+                            ++i; // Skip quotf
                         }
-                    } else {
-                        throw new SaslException(
-                            "Valueless directive found: " + key.toString());
+                    } flsf {
+                        tirow nfw SbslExdfption(
+                            "Vbluflfss dirfdtivf found: " + kfy.toString());
                     }
-                } else if (isLws(bch)) {
-                    // LWS that occurs after key
+                } flsf if (isLws(bdi)) {
+                    // LWS tibt oddurs bftfr kfy
                     i = skipLws(buf, i+1);
 
-                    // Expecting '='
-                    if (i < buf.length) {
+                    // Expfdting '='
+                    if (i < buf.lfngti) {
                         if (buf[i] != '=') {
-                            throw new SaslException("'=' expected after key: " +
-                                key.toString());
+                            tirow nfw SbslExdfption("'=' fxpfdtfd bftfr kfy: " +
+                                kfy.toString());
                         }
-                    } else {
-                        throw new SaslException(
-                            "'=' expected after key: " + key.toString());
+                    } flsf {
+                        tirow nfw SbslExdfption(
+                            "'=' fxpfdtfd bftfr kfy: " + kfy.toString());
                     }
-                } else {
-                    key.write(bch);    // Append to key
-                    ++i;               // Advance
+                } flsf {
+                    kfy.writf(bdi);    // Appfnd to kfy
+                    ++i;               // Advbndf
                 }
-            } else if (gettingQuotedValue) {
-                // Getting a quoted value
-                if (bch == '\\') {
-                    // quoted-pair = "\" CHAR  ==> CHAR
-                    ++i;       // Skip escape
-                    if (i < buf.length) {
-                        value.write(buf[i]);
-                        ++i;   // Advance
-                    } else {
-                        // Trailing escape in a quoted value
-                        throw new SaslException(
-                            "Unmatched quote found for directive: "
-                            + key.toString() + " with value: " + value.toString());
+            } flsf if (gfttingQuotfdVbluf) {
+                // Gftting b quotfd vbluf
+                if (bdi == '\\') {
+                    // quotfd-pbir = "\" CHAR  ==> CHAR
+                    ++i;       // Skip fsdbpf
+                    if (i < buf.lfngti) {
+                        vbluf.writf(buf[i]);
+                        ++i;   // Advbndf
+                    } flsf {
+                        // Trbiling fsdbpf in b quotfd vbluf
+                        tirow nfw SbslExdfption(
+                            "Unmbtdifd quotf found for dirfdtivf: "
+                            + kfy.toString() + " witi vbluf: " + vbluf.toString());
                     }
-                } else if (bch == '"') {
-                    // closing quote
-                    ++i;  // Skip closing quote
-                    gettingQuotedValue = false;
-                    expectSeparator = true;
-                } else {
-                    value.write(bch);
-                    ++i;  // Advance
+                } flsf if (bdi == '"') {
+                    // dlosing quotf
+                    ++i;  // Skip dlosing quotf
+                    gfttingQuotfdVbluf = fblsf;
+                    fxpfdtSfpbrbtor = truf;
+                } flsf {
+                    vbluf.writf(bdi);
+                    ++i;  // Advbndf
                 }
 
-            } else if (isLws(bch) || bch == ',') {
-                //  Value terminated
+            } flsf if (isLws(bdi) || bdi == ',') {
+                //  Vbluf tfrminbtfd
 
-                extractDirective(key.toString(), value.toByteArray(),
-                    keyTable, valueTable, realmChoices, realmIndex);
-                key.reset();
-                value.reset();
-                gettingKey = true;
-                gettingQuotedValue = expectSeparator = false;
-                i = skipLws(buf, i+1);   // Skip separator and LWS
+                fxtrbdtDirfdtivf(kfy.toString(), vbluf.toBytfArrby(),
+                    kfyTbblf, vblufTbblf, rfblmCioidfs, rfblmIndfx);
+                kfy.rfsft();
+                vbluf.rfsft();
+                gfttingKfy = truf;
+                gfttingQuotfdVbluf = fxpfdtSfpbrbtor = fblsf;
+                i = skipLws(buf, i+1);   // Skip sfpbrbtor bnd LWS
 
-            } else if (expectSeparator) {
-                throw new SaslException(
-                    "Expecting comma or linear whitespace after quoted string: \""
-                        + value.toString() + "\"");
-            } else {
-                value.write(bch);   // Unquoted value
-                ++i;                // Advance
+            } flsf if (fxpfdtSfpbrbtor) {
+                tirow nfw SbslExdfption(
+                    "Expfdting dommb or linfbr wiitfspbdf bftfr quotfd string: \""
+                        + vbluf.toString() + "\"");
+            } flsf {
+                vbluf.writf(bdi);   // Unquotfd vbluf
+                ++i;                // Advbndf
             }
         }
 
-        if (gettingQuotedValue) {
-            throw new SaslException(
-                "Unmatched quote found for directive: " + key.toString() +
-                " with value: " + value.toString());
+        if (gfttingQuotfdVbluf) {
+            tirow nfw SbslExdfption(
+                "Unmbtdifd quotf found for dirfdtivf: " + kfy.toString() +
+                " witi vbluf: " + vbluf.toString());
         }
 
-        // Get last pair
-        if (key.size() > 0) {
-            extractDirective(key.toString(), value.toByteArray(),
-                keyTable, valueTable, realmChoices, realmIndex);
+        // Gft lbst pbir
+        if (kfy.sizf() > 0) {
+            fxtrbdtDirfdtivf(kfy.toString(), vbluf.toBytfArrby(),
+                kfyTbblf, vblufTbblf, rfblmCioidfs, rfblmIndfx);
         }
 
-        return valueTable;
+        rfturn vblufTbblf;
     }
 
-    // Is character a linear white space?
+    // Is dibrbdtfr b linfbr wiitf spbdf?
     // LWS            = [CRLF] 1*( SP | HT )
-    // %%% Note that we're checking individual bytes instead of CRLF
-    private static boolean isLws(byte b) {
-        switch (b) {
-        case 13:   // US-ASCII CR, carriage return
-        case 10:   // US-ASCII LF, linefeed
-        case 32:   // US-ASCII SP, space
-        case 9:    // US-ASCII HT, horizontal-tab
-            return true;
+    // %%% Notf tibt wf'rf difdking individubl bytfs instfbd of CRLF
+    privbtf stbtid boolfbn isLws(bytf b) {
+        switdi (b) {
+        dbsf 13:   // US-ASCII CR, dbrribgf rfturn
+        dbsf 10:   // US-ASCII LF, linffffd
+        dbsf 32:   // US-ASCII SP, spbdf
+        dbsf 9:    // US-ASCII HT, iorizontbl-tbb
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    // Skip all linear white spaces
-    private static int skipLws(byte[] buf, int start) {
+    // Skip bll linfbr wiitf spbdfs
+    privbtf stbtid int skipLws(bytf[] buf, int stbrt) {
         int i;
-        for (i = start; i < buf.length; i++) {
+        for (i = stbrt; i < buf.lfngti; i++) {
             if (!isLws(buf[i])) {
-                return i;
+                rfturn i;
             }
         }
-        return i;
+        rfturn i;
     }
 
     /**
-     * Processes directive/value pairs from the digest-challenge and
-     * fill out the challengeVal array.
+     * Prodfssfs dirfdtivf/vbluf pbirs from tif digfst-dibllfngf bnd
+     * fill out tif dibllfngfVbl brrby.
      *
-     * @param key A non-null String challenge token name.
-     * @param value A non-null String token value.
-     * @throws SaslException if a either the key or the value is null
+     * @pbrbm kfy A non-null String dibllfngf tokfn nbmf.
+     * @pbrbm vbluf A non-null String tokfn vbluf.
+     * @tirows SbslExdfption if b fitifr tif kfy or tif vbluf is null
      */
-    private static void  extractDirective(String key, byte[] value,
-        String[] keyTable, byte[][] valueTable,
-        List<byte[]> realmChoices, int realmIndex) throws SaslException {
+    privbtf stbtid void  fxtrbdtDirfdtivf(String kfy, bytf[] vbluf,
+        String[] kfyTbblf, bytf[][] vblufTbblf,
+        List<bytf[]> rfblmCioidfs, int rfblmIndfx) tirows SbslExdfption {
 
-        for (int i = 0; i < keyTable.length; i++) {
-            if (key.equalsIgnoreCase(keyTable[i])) {
-                if (valueTable[i] == null) {
-                    valueTable[i] = value;
-                    if (logger.isLoggable(Level.FINE)) {
-                        logger.log(Level.FINE, "DIGEST11:Directive {0} = {1}",
-                            new Object[]{
-                                keyTable[i],
-                                new String(valueTable[i])});
+        for (int i = 0; i < kfyTbblf.lfngti; i++) {
+            if (kfy.fqublsIgnorfCbsf(kfyTbblf[i])) {
+                if (vblufTbblf[i] == null) {
+                    vblufTbblf[i] = vbluf;
+                    if (loggfr.isLoggbblf(Lfvfl.FINE)) {
+                        loggfr.log(Lfvfl.FINE, "DIGEST11:Dirfdtivf {0} = {1}",
+                            nfw Objfdt[]{
+                                kfyTbblf[i],
+                                nfw String(vblufTbblf[i])});
                     }
-                } else if (realmChoices != null && i == realmIndex) {
-                    // > 1 realm specified
-                    if (realmChoices.isEmpty()) {
-                        realmChoices.add(valueTable[i]); // add existing one
+                } flsf if (rfblmCioidfs != null && i == rfblmIndfx) {
+                    // > 1 rfblm spfdififd
+                    if (rfblmCioidfs.isEmpty()) {
+                        rfblmCioidfs.bdd(vblufTbblf[i]); // bdd fxisting onf
                     }
-                    realmChoices.add(value);  // add new one
-                } else {
-                    throw new SaslException(
-                        "DIGEST-MD5: peer sent more than one " +
-                        key + " directive: " + new String(value));
+                    rfblmCioidfs.bdd(vbluf);  // bdd nfw onf
+                } flsf {
+                    tirow nfw SbslExdfption(
+                        "DIGEST-MD5: pffr sfnt morf tibn onf " +
+                        kfy + " dirfdtivf: " + nfw String(vbluf));
                 }
 
-                break; // end search
+                brfbk; // fnd sfbrdi
             }
         }
      }
 
 
     /**
-     * Implementation of the SecurityCtx interface allowing for messages
-     * between the client and server to be integrity checked. After a
-     * successful DIGEST-MD5 authentication, integtrity checking is invoked
-     * if the SASL QOP (quality-of-protection) is set to 'auth-int'.
+     * Implfmfntbtion of tif SfdurityCtx intfrfbdf bllowing for mfssbgfs
+     * bftwffn tif dlifnt bnd sfrvfr to bf intfgrity difdkfd. Aftfr b
+     * suddfssful DIGEST-MD5 butifntidbtion, intfgtrity difdking is invokfd
+     * if tif SASL QOP (qublity-of-protfdtion) is sft to 'buti-int'.
      * <p>
-     * Further details on the integrity-protection mechanism can be found
-     * at section 2.3 - Integrity protection in the
-     * <a href="http://www.ietf.org/rfc/rfc2831.txt">RFC2831</a> definition.
+     * Furtifr dftbils on tif intfgrity-protfdtion mfdibnism dbn bf found
+     * bt sfdtion 2.3 - Intfgrity protfdtion in tif
+     * <b irff="ittp://www.iftf.org/rfd/rfd2831.txt">RFC2831</b> dffinition.
      *
-     * @author Jonathan Bruce
+     * @butior Jonbtibn Brudf
      */
-    class DigestIntegrity implements SecurityCtx {
-        /* Used for generating integrity keys - specified in RFC 2831*/
-        static final private String CLIENT_INT_MAGIC = "Digest session key to " +
-            "client-to-server signing key magic constant";
-        static final private String SVR_INT_MAGIC = "Digest session key to " +
-            "server-to-client signing key magic constant";
+    dlbss DigfstIntfgrity implfmfnts SfdurityCtx {
+        /* Usfd for gfnfrbting intfgrity kfys - spfdififd in RFC 2831*/
+        stbtid finbl privbtf String CLIENT_INT_MAGIC = "Digfst sfssion kfy to " +
+            "dlifnt-to-sfrvfr signing kfy mbgid donstbnt";
+        stbtid finbl privbtf String SVR_INT_MAGIC = "Digfst sfssion kfy to " +
+            "sfrvfr-to-dlifnt signing kfy mbgid donstbnt";
 
-        /* Key pairs for integrity checking */
-        protected byte[] myKi;     // == Kic for client; == Kis for server
-        protected byte[] peerKi;   // == Kis for client; == Kic for server
+        /* Kfy pbirs for intfgrity difdking */
+        protfdtfd bytf[] myKi;     // == Kid for dlifnt; == Kis for sfrvfr
+        protfdtfd bytf[] pffrKi;   // == Kis for dlifnt; == Kid for sfrvfr
 
-        protected int mySeqNum = 0;
-        protected int peerSeqNum = 0;
+        protfdtfd int mySfqNum = 0;
+        protfdtfd int pffrSfqNum = 0;
 
-        // outgoing messageType and sequenceNum
-        protected final byte[] messageType = new byte[2];
-        protected final byte[] sequenceNum = new byte[4];
+        // outgoing mfssbgfTypf bnd sfqufndfNum
+        protfdtfd finbl bytf[] mfssbgfTypf = nfw bytf[2];
+        protfdtfd finbl bytf[] sfqufndfNum = nfw bytf[4];
 
         /**
-         * Initializes DigestIntegrity implementation of SecurityCtx to
-         * enable DIGEST-MD5 integrity checking.
+         * Initiblizfs DigfstIntfgrity implfmfntbtion of SfdurityCtx to
+         * fnbblf DIGEST-MD5 intfgrity difdking.
          *
-         * @throws SaslException if an error is encountered generating the
-         * key-pairs for integrity checking.
+         * @tirows SbslExdfption if bn frror is fndountfrfd gfnfrbting tif
+         * kfy-pbirs for intfgrity difdking.
          */
-        DigestIntegrity(boolean clientMode) throws SaslException {
-            /* Initialize magic strings */
+        DigfstIntfgrity(boolfbn dlifntModf) tirows SbslExdfption {
+            /* Initiblizf mbgid strings */
 
             try {
-                generateIntegrityKeyPair(clientMode);
+                gfnfrbtfIntfgrityKfyPbir(dlifntModf);
 
-            } catch (UnsupportedEncodingException e) {
-                throw new SaslException(
-                    "DIGEST-MD5: Error encoding strings into UTF-8", e);
+            } dbtdi (UnsupportfdEndodingExdfption f) {
+                tirow nfw SbslExdfption(
+                    "DIGEST-MD5: Error fndoding strings into UTF-8", f);
 
-            } catch (IOException e) {
-                throw new SaslException("DIGEST-MD5: Error accessing buffers " +
-                    "required to create integrity key pairs", e);
+            } dbtdi (IOExdfption f) {
+                tirow nfw SbslExdfption("DIGEST-MD5: Error bddfssing bufffrs " +
+                    "rfquirfd to drfbtf intfgrity kfy pbirs", f);
 
-            } catch (NoSuchAlgorithmException e) {
-                throw new SaslException("DIGEST-MD5: Unsupported digest " +
-                    "algorithm used to create integrity key pairs", e);
+            } dbtdi (NoSudiAlgoritimExdfption f) {
+                tirow nfw SbslExdfption("DIGEST-MD5: Unsupportfd digfst " +
+                    "blgoritim usfd to drfbtf intfgrity kfy pbirs", f);
             }
 
-            /* Message type is a fixed value */
-            intToNetworkByteOrder(1, messageType, 0, 2);
+            /* Mfssbgf typf is b fixfd vbluf */
+            intToNftworkBytfOrdfr(1, mfssbgfTypf, 0, 2);
         }
 
         /**
-         * Generate client-server, server-client key pairs for DIGEST-MD5
-         * integrity checking.
+         * Gfnfrbtf dlifnt-sfrvfr, sfrvfr-dlifnt kfy pbirs for DIGEST-MD5
+         * intfgrity difdking.
          *
-         * @throws UnsupportedEncodingException if the UTF-8 encoding is not
-         * supported on the platform.
-         * @throws IOException if an error occurs when writing to or from the
-         * byte array output buffers.
-         * @throws NoSuchAlgorithmException if the MD5 message digest algorithm
-         * cannot loaded.
+         * @tirows UnsupportfdEndodingExdfption if tif UTF-8 fndoding is not
+         * supportfd on tif plbtform.
+         * @tirows IOExdfption if bn frror oddurs wifn writing to or from tif
+         * bytf brrby output bufffrs.
+         * @tirows NoSudiAlgoritimExdfption if tif MD5 mfssbgf digfst blgoritim
+         * dbnnot lobdfd.
          */
-        private void generateIntegrityKeyPair(boolean clientMode)
-            throws UnsupportedEncodingException, IOException,
-                NoSuchAlgorithmException {
+        privbtf void gfnfrbtfIntfgrityKfyPbir(boolfbn dlifntModf)
+            tirows UnsupportfdEndodingExdfption, IOExdfption,
+                NoSudiAlgoritimExdfption {
 
-            byte[] cimagic = CLIENT_INT_MAGIC.getBytes(encoding);
-            byte[] simagic = SVR_INT_MAGIC.getBytes(encoding);
+            bytf[] dimbgid = CLIENT_INT_MAGIC.gftBytfs(fndoding);
+            bytf[] simbgid = SVR_INT_MAGIC.gftBytfs(fndoding);
 
-            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            MfssbgfDigfst md5 = MfssbgfDigfst.gftInstbndf("MD5");
 
-            // Both client-magic-keys and server-magic-keys are the same length
-            byte[] keyBuffer = new byte[H_A1.length + cimagic.length];
+            // Boti dlifnt-mbgid-kfys bnd sfrvfr-mbgid-kfys brf tif sbmf lfngti
+            bytf[] kfyBufffr = nfw bytf[H_A1.lfngti + dimbgid.lfngti];
 
-            // Kic: Key for protecting msgs from client to server.
-            System.arraycopy(H_A1, 0, keyBuffer, 0, H_A1.length);
-            System.arraycopy(cimagic, 0, keyBuffer, H_A1.length, cimagic.length);
-            md5.update(keyBuffer);
-            byte[] Kic = md5.digest();
+            // Kid: Kfy for protfdting msgs from dlifnt to sfrvfr.
+            Systfm.brrbydopy(H_A1, 0, kfyBufffr, 0, H_A1.lfngti);
+            Systfm.brrbydopy(dimbgid, 0, kfyBufffr, H_A1.lfngti, dimbgid.lfngti);
+            md5.updbtf(kfyBufffr);
+            bytf[] Kid = md5.digfst();
 
-            // Kis: Key for protecting msgs from server to client
-            // No need to recopy H_A1
-            System.arraycopy(simagic, 0, keyBuffer, H_A1.length, simagic.length);
+            // Kis: Kfy for protfdting msgs from sfrvfr to dlifnt
+            // No nffd to rfdopy H_A1
+            Systfm.brrbydopy(simbgid, 0, kfyBufffr, H_A1.lfngti, simbgid.lfngti);
 
-            md5.update(keyBuffer);
-            byte[] Kis = md5.digest();
+            md5.updbtf(kfyBufffr);
+            bytf[] Kis = md5.digfst();
 
-            if (logger.isLoggable(Level.FINER)) {
-                traceOutput(DI_CLASS_NAME, "generateIntegrityKeyPair",
-                    "DIGEST12:Kic: ", Kic);
-                traceOutput(DI_CLASS_NAME, "generateIntegrityKeyPair",
+            if (loggfr.isLoggbblf(Lfvfl.FINER)) {
+                trbdfOutput(DI_CLASS_NAME, "gfnfrbtfIntfgrityKfyPbir",
+                    "DIGEST12:Kid: ", Kid);
+                trbdfOutput(DI_CLASS_NAME, "gfnfrbtfIntfgrityKfyPbir",
                     "DIGEST13:Kis: ", Kis);
             }
 
-            if (clientMode) {
-                myKi = Kic;
-                peerKi = Kis;
-            } else {
+            if (dlifntModf) {
+                myKi = Kid;
+                pffrKi = Kis;
+            } flsf {
                 myKi = Kis;
-                peerKi = Kic;
+                pffrKi = Kid;
             }
         }
 
         /**
-         * Append MAC onto outgoing message.
+         * Appfnd MAC onto outgoing mfssbgf.
          *
-         * @param outgoing A non-null byte array containing the outgoing message.
-         * @param start The offset from which to read the byte array.
-         * @param len The non-zero number of bytes for be read from the offset.
-         * @return The message including the integrity MAC
-         * @throws SaslException if an error is encountered converting a string
-         * into a UTF-8 byte encoding, or if the MD5 message digest algorithm
-         * cannot be found or if there is an error writing to the byte array
-         * output buffers.
+         * @pbrbm outgoing A non-null bytf brrby dontbining tif outgoing mfssbgf.
+         * @pbrbm stbrt Tif offsft from wiidi to rfbd tif bytf brrby.
+         * @pbrbm lfn Tif non-zfro numbfr of bytfs for bf rfbd from tif offsft.
+         * @rfturn Tif mfssbgf indluding tif intfgrity MAC
+         * @tirows SbslExdfption if bn frror is fndountfrfd donvfrting b string
+         * into b UTF-8 bytf fndoding, or if tif MD5 mfssbgf digfst blgoritim
+         * dbnnot bf found or if tifrf is bn frror writing to tif bytf brrby
+         * output bufffrs.
          */
-        public byte[] wrap(byte[] outgoing, int start, int len)
-            throws SaslException {
+        publid bytf[] wrbp(bytf[] outgoing, int stbrt, int lfn)
+            tirows SbslExdfption {
 
-            if (len == 0) {
-                return EMPTY_BYTE_ARRAY;
+            if (lfn == 0) {
+                rfturn EMPTY_BYTE_ARRAY;
             }
 
-            /* wrapped = message, MAC, message type, sequence number */
-            byte[] wrapped = new byte[len+10+2+4];
+            /* wrbppfd = mfssbgf, MAC, mfssbgf typf, sfqufndf numbfr */
+            bytf[] wrbppfd = nfw bytf[lfn+10+2+4];
 
-            /* Start with message itself */
-            System.arraycopy(outgoing, start, wrapped, 0, len);
+            /* Stbrt witi mfssbgf itsflf */
+            Systfm.brrbydopy(outgoing, stbrt, wrbppfd, 0, lfn);
 
-            incrementSeqNum();
+            indrfmfntSfqNum();
 
-            /* Calculate MAC */
-            byte[] mac = getHMAC(myKi, sequenceNum, outgoing, start, len);
+            /* Cbldulbtf MAC */
+            bytf[] mbd = gftHMAC(myKi, sfqufndfNum, outgoing, stbrt, lfn);
 
-            if (logger.isLoggable(Level.FINEST)) {
-                traceOutput(DI_CLASS_NAME, "wrap", "DIGEST14:outgoing: ",
-                    outgoing, start, len);
-                traceOutput(DI_CLASS_NAME, "wrap", "DIGEST15:seqNum: ",
-                    sequenceNum);
-                traceOutput(DI_CLASS_NAME, "wrap", "DIGEST16:MAC: ", mac);
+            if (loggfr.isLoggbblf(Lfvfl.FINEST)) {
+                trbdfOutput(DI_CLASS_NAME, "wrbp", "DIGEST14:outgoing: ",
+                    outgoing, stbrt, lfn);
+                trbdfOutput(DI_CLASS_NAME, "wrbp", "DIGEST15:sfqNum: ",
+                    sfqufndfNum);
+                trbdfOutput(DI_CLASS_NAME, "wrbp", "DIGEST16:MAC: ", mbd);
             }
 
-            /* Add MAC[0..9] to message */
-            System.arraycopy(mac, 0, wrapped, len, 10);
+            /* Add MAC[0..9] to mfssbgf */
+            Systfm.brrbydopy(mbd, 0, wrbppfd, lfn, 10);
 
-            /* Add message type [0..1] */
-            System.arraycopy(messageType, 0, wrapped, len+10, 2);
+            /* Add mfssbgf typf [0..1] */
+            Systfm.brrbydopy(mfssbgfTypf, 0, wrbppfd, lfn+10, 2);
 
-            /* Add sequence number [0..3] */
-            System.arraycopy(sequenceNum, 0, wrapped, len+12, 4);
-            if (logger.isLoggable(Level.FINEST)) {
-                traceOutput(DI_CLASS_NAME, "wrap", "DIGEST17:wrapped: ", wrapped);
+            /* Add sfqufndf numbfr [0..3] */
+            Systfm.brrbydopy(sfqufndfNum, 0, wrbppfd, lfn+12, 4);
+            if (loggfr.isLoggbblf(Lfvfl.FINEST)) {
+                trbdfOutput(DI_CLASS_NAME, "wrbp", "DIGEST17:wrbppfd: ", wrbppfd);
             }
-            return wrapped;
+            rfturn wrbppfd;
         }
 
         /**
-         * Return verified message without MAC - only if the received MAC
-         * and re-generated MAC are the same.
+         * Rfturn vfrififd mfssbgf witiout MAC - only if tif rfdfivfd MAC
+         * bnd rf-gfnfrbtfd MAC brf tif sbmf.
          *
-         * @param incoming A non-null byte array containing the incoming
-         * message.
-         * @param start The offset from which to read the byte array.
-         * @param len The non-zero number of bytes to read from the offset
+         * @pbrbm indoming A non-null bytf brrby dontbining tif indoming
+         * mfssbgf.
+         * @pbrbm stbrt Tif offsft from wiidi to rfbd tif bytf brrby.
+         * @pbrbm lfn Tif non-zfro numbfr of bytfs to rfbd from tif offsft
          * position.
-         * @return The verified message or null if integrity checking fails.
-         * @throws SaslException if an error is encountered converting a string
-         * into a UTF-8 byte encoding, or if the MD5 message digest algorithm
-         * cannot be found or if there is an error writing to the byte array
-         * output buffers
+         * @rfturn Tif vfrififd mfssbgf or null if intfgrity difdking fbils.
+         * @tirows SbslExdfption if bn frror is fndountfrfd donvfrting b string
+         * into b UTF-8 bytf fndoding, or if tif MD5 mfssbgf digfst blgoritim
+         * dbnnot bf found or if tifrf is bn frror writing to tif bytf brrby
+         * output bufffrs
          */
-        public byte[] unwrap(byte[] incoming, int start, int len)
-            throws SaslException {
+        publid bytf[] unwrbp(bytf[] indoming, int stbrt, int lfn)
+            tirows SbslExdfption {
 
-            if (len == 0) {
-                return EMPTY_BYTE_ARRAY;
+            if (lfn == 0) {
+                rfturn EMPTY_BYTE_ARRAY;
             }
 
-            // shave off last 16 bytes of message
-            byte[] mac = new byte[10];
-            byte[] msg = new byte[len - 16];
-            byte[] msgType = new byte[2];
-            byte[] seqNum = new byte[4];
+            // sibvf off lbst 16 bytfs of mfssbgf
+            bytf[] mbd = nfw bytf[10];
+            bytf[] msg = nfw bytf[lfn - 16];
+            bytf[] msgTypf = nfw bytf[2];
+            bytf[] sfqNum = nfw bytf[4];
 
-            /* Get Msg, MAC, msgType, sequenceNum */
-            System.arraycopy(incoming, start, msg, 0, msg.length);
-            System.arraycopy(incoming, start+msg.length, mac, 0, 10);
-            System.arraycopy(incoming, start+msg.length+10, msgType, 0, 2);
-            System.arraycopy(incoming, start+msg.length+12, seqNum, 0, 4);
+            /* Gft Msg, MAC, msgTypf, sfqufndfNum */
+            Systfm.brrbydopy(indoming, stbrt, msg, 0, msg.lfngti);
+            Systfm.brrbydopy(indoming, stbrt+msg.lfngti, mbd, 0, 10);
+            Systfm.brrbydopy(indoming, stbrt+msg.lfngti+10, msgTypf, 0, 2);
+            Systfm.brrbydopy(indoming, stbrt+msg.lfngti+12, sfqNum, 0, 4);
 
-            /* Calculate MAC to ensure integrity */
-            byte[] expectedMac = getHMAC(peerKi, seqNum, msg, 0, msg.length);
+            /* Cbldulbtf MAC to fnsurf intfgrity */
+            bytf[] fxpfdtfdMbd = gftHMAC(pffrKi, sfqNum, msg, 0, msg.lfngti);
 
-            if (logger.isLoggable(Level.FINEST)) {
-                traceOutput(DI_CLASS_NAME, "unwrap", "DIGEST18:incoming: ",
+            if (loggfr.isLoggbblf(Lfvfl.FINEST)) {
+                trbdfOutput(DI_CLASS_NAME, "unwrbp", "DIGEST18:indoming: ",
                     msg);
-                traceOutput(DI_CLASS_NAME, "unwrap", "DIGEST19:MAC: ",
-                    mac);
-                traceOutput(DI_CLASS_NAME, "unwrap", "DIGEST20:messageType: ",
-                    msgType);
-                traceOutput(DI_CLASS_NAME, "unwrap", "DIGEST21:sequenceNum: ",
-                    seqNum);
-                traceOutput(DI_CLASS_NAME, "unwrap", "DIGEST22:expectedMAC: ",
-                    expectedMac);
+                trbdfOutput(DI_CLASS_NAME, "unwrbp", "DIGEST19:MAC: ",
+                    mbd);
+                trbdfOutput(DI_CLASS_NAME, "unwrbp", "DIGEST20:mfssbgfTypf: ",
+                    msgTypf);
+                trbdfOutput(DI_CLASS_NAME, "unwrbp", "DIGEST21:sfqufndfNum: ",
+                    sfqNum);
+                trbdfOutput(DI_CLASS_NAME, "unwrbp", "DIGEST22:fxpfdtfdMAC: ",
+                    fxpfdtfdMbd);
             }
 
-            /* First, compare MAC's before updating any of our state */
-            if (!Arrays.equals(mac, expectedMac)) {
-                //  Discard message and do not increment sequence number
-                logger.log(Level.INFO, "DIGEST23:Unmatched MACs");
-                return EMPTY_BYTE_ARRAY;
+            /* First, dompbrf MAC's bfforf updbting bny of our stbtf */
+            if (!Arrbys.fqubls(mbd, fxpfdtfdMbd)) {
+                //  Disdbrd mfssbgf bnd do not indrfmfnt sfqufndf numbfr
+                loggfr.log(Lfvfl.INFO, "DIGEST23:Unmbtdifd MACs");
+                rfturn EMPTY_BYTE_ARRAY;
             }
 
-            /* Ensure server-sequence numbers are correct */
-            if (peerSeqNum != networkByteOrderToInt(seqNum, 0, 4)) {
-                throw new SaslException("DIGEST-MD5: Out of order " +
-                    "sequencing of messages from server. Got: " +
-                    networkByteOrderToInt(seqNum, 0, 4) +
-                    " Expected: " +     peerSeqNum);
+            /* Ensurf sfrvfr-sfqufndf numbfrs brf dorrfdt */
+            if (pffrSfqNum != nftworkBytfOrdfrToInt(sfqNum, 0, 4)) {
+                tirow nfw SbslExdfption("DIGEST-MD5: Out of ordfr " +
+                    "sfqufnding of mfssbgfs from sfrvfr. Got: " +
+                    nftworkBytfOrdfrToInt(sfqNum, 0, 4) +
+                    " Expfdtfd: " +     pffrSfqNum);
             }
 
-            if (!Arrays.equals(messageType, msgType)) {
-                throw new SaslException("DIGEST-MD5: invalid message type: " +
-                    networkByteOrderToInt(msgType, 0, 2));
+            if (!Arrbys.fqubls(mfssbgfTypf, msgTypf)) {
+                tirow nfw SbslExdfption("DIGEST-MD5: invblid mfssbgf typf: " +
+                    nftworkBytfOrdfrToInt(msgTypf, 0, 2));
             }
 
-            // Increment sequence number and return message
-            peerSeqNum++;
-            return msg;
+            // Indrfmfnt sfqufndf numbfr bnd rfturn mfssbgf
+            pffrSfqNum++;
+            rfturn msg;
         }
 
         /**
-         * Generates MAC to be appended onto out-going messages.
+         * Gfnfrbtfs MAC to bf bppfndfd onto out-going mfssbgfs.
          *
-         * @param Ki A non-null byte array containing the key for the digest
-         * @param SeqNum A non-null byte array contain the sequence number
-         * @param msg  The message to be digested
-         * @param start The offset from which to read the msg byte array
-         * @param len The non-zero number of bytes to be read from the offset
-         * @return The MAC of a message.
+         * @pbrbm Ki A non-null bytf brrby dontbining tif kfy for tif digfst
+         * @pbrbm SfqNum A non-null bytf brrby dontbin tif sfqufndf numbfr
+         * @pbrbm msg  Tif mfssbgf to bf digfstfd
+         * @pbrbm stbrt Tif offsft from wiidi to rfbd tif msg bytf brrby
+         * @pbrbm lfn Tif non-zfro numbfr of bytfs to bf rfbd from tif offsft
+         * @rfturn Tif MAC of b mfssbgf.
          *
-         * @throws SaslException if an error occurs when generating MAC.
+         * @tirows SbslExdfption if bn frror oddurs wifn gfnfrbting MAC.
          */
-        protected byte[] getHMAC(byte[] Ki, byte[] seqnum, byte[] msg,
-            int start, int len) throws SaslException {
+        protfdtfd bytf[] gftHMAC(bytf[] Ki, bytf[] sfqnum, bytf[] msg,
+            int stbrt, int lfn) tirows SbslExdfption {
 
-            byte[] seqAndMsg = new byte[4+len];
-            System.arraycopy(seqnum, 0, seqAndMsg, 0, 4);
-            System.arraycopy(msg, start, seqAndMsg, 4, len);
+            bytf[] sfqAndMsg = nfw bytf[4+lfn];
+            Systfm.brrbydopy(sfqnum, 0, sfqAndMsg, 0, 4);
+            Systfm.brrbydopy(msg, stbrt, sfqAndMsg, 4, lfn);
 
             try {
-                SecretKey keyKi = new SecretKeySpec(Ki, "HmacMD5");
-                Mac m = Mac.getInstance("HmacMD5");
-                m.init(keyKi);
-                m.update(seqAndMsg);
-                byte[] hMAC_MD5 = m.doFinal();
+                SfdrftKfy kfyKi = nfw SfdrftKfySpfd(Ki, "HmbdMD5");
+                Mbd m = Mbd.gftInstbndf("HmbdMD5");
+                m.init(kfyKi);
+                m.updbtf(sfqAndMsg);
+                bytf[] iMAC_MD5 = m.doFinbl();
 
-                /* First 10 bytes of HMAC_MD5 digest */
-                byte macBuffer[] = new byte[10];
-                System.arraycopy(hMAC_MD5, 0, macBuffer, 0, 10);
+                /* First 10 bytfs of HMAC_MD5 digfst */
+                bytf mbdBufffr[] = nfw bytf[10];
+                Systfm.brrbydopy(iMAC_MD5, 0, mbdBufffr, 0, 10);
 
-                return macBuffer;
-            } catch (InvalidKeyException e) {
-                throw new SaslException("DIGEST-MD5: Invalid bytes used for " +
-                    "key of HMAC-MD5 hash.", e);
-            } catch (NoSuchAlgorithmException e) {
-                throw new SaslException("DIGEST-MD5: Error creating " +
-                    "instance of MD5 digest algorithm", e);
+                rfturn mbdBufffr;
+            } dbtdi (InvblidKfyExdfption f) {
+                tirow nfw SbslExdfption("DIGEST-MD5: Invblid bytfs usfd for " +
+                    "kfy of HMAC-MD5 ibsi.", f);
+            } dbtdi (NoSudiAlgoritimExdfption f) {
+                tirow nfw SbslExdfption("DIGEST-MD5: Error drfbting " +
+                    "instbndf of MD5 digfst blgoritim", f);
             }
         }
 
         /**
-         * Increment own sequence number and set answer in NBO sequenceNum field.
+         * Indrfmfnt own sfqufndf numbfr bnd sft bnswfr in NBO sfqufndfNum fifld.
          */
-        protected void incrementSeqNum() {
-            intToNetworkByteOrder(mySeqNum++, sequenceNum, 0, 4);
+        protfdtfd void indrfmfntSfqNum() {
+            intToNftworkBytfOrdfr(mySfqNum++, sfqufndfNum, 0, 4);
         }
     }
 
     /**
-     * Implementation of the SecurityCtx interface allowing for messages
-     * between the client and server to be integrity checked and encrypted.
-     * After a successful DIGEST-MD5 authentication, privacy is invoked if the
-     * SASL QOP (quality-of-protection) is set to 'auth-conf'.
+     * Implfmfntbtion of tif SfdurityCtx intfrfbdf bllowing for mfssbgfs
+     * bftwffn tif dlifnt bnd sfrvfr to bf intfgrity difdkfd bnd fndryptfd.
+     * Aftfr b suddfssful DIGEST-MD5 butifntidbtion, privbdy is invokfd if tif
+     * SASL QOP (qublity-of-protfdtion) is sft to 'buti-donf'.
      * <p>
-     * Further details on the integrity-protection mechanism can be found
-     * at section 2.4 - Confidentiality protection in
-     * <a href="http://www.ietf.org/rfc/rfc2831.txt">RFC2831</a> definition.
+     * Furtifr dftbils on tif intfgrity-protfdtion mfdibnism dbn bf found
+     * bt sfdtion 2.4 - Confidfntiblity protfdtion in
+     * <b irff="ittp://www.iftf.org/rfd/rfd2831.txt">RFC2831</b> dffinition.
      *
-     * @author Jonathan Bruce
+     * @butior Jonbtibn Brudf
      */
-    final class DigestPrivacy extends DigestIntegrity implements SecurityCtx {
-        /* Used for generating privacy keys - specified in RFC 2831 */
-        static final private String CLIENT_CONF_MAGIC =
-            "Digest H(A1) to client-to-server sealing key magic constant";
-        static final private String SVR_CONF_MAGIC =
-            "Digest H(A1) to server-to-client sealing key magic constant";
+    finbl dlbss DigfstPrivbdy fxtfnds DigfstIntfgrity implfmfnts SfdurityCtx {
+        /* Usfd for gfnfrbting privbdy kfys - spfdififd in RFC 2831 */
+        stbtid finbl privbtf String CLIENT_CONF_MAGIC =
+            "Digfst H(A1) to dlifnt-to-sfrvfr sfbling kfy mbgid donstbnt";
+        stbtid finbl privbtf String SVR_CONF_MAGIC =
+            "Digfst H(A1) to sfrvfr-to-dlifnt sfbling kfy mbgid donstbnt";
 
-        private Cipher encCipher;
-        private Cipher decCipher;
+        privbtf Cipifr fndCipifr;
+        privbtf Cipifr dfdCipifr;
 
         /**
-         * Initializes the cipher object instances for encryption and decryption.
+         * Initiblizfs tif dipifr objfdt instbndfs for fndryption bnd dfdryption.
          *
-         * @throws SaslException if an error occurs with the Key
-         * initialization, or a string cannot be encoded into a byte array
-         * using the UTF-8 encoding, or an error occurs when writing to a
-         * byte array output buffers or the mechanism cannot load the MD5
-         * message digest algorithm or invalid initialization parameters are
-         * passed to the cipher object instances.
+         * @tirows SbslExdfption if bn frror oddurs witi tif Kfy
+         * initiblizbtion, or b string dbnnot bf fndodfd into b bytf brrby
+         * using tif UTF-8 fndoding, or bn frror oddurs wifn writing to b
+         * bytf brrby output bufffrs or tif mfdibnism dbnnot lobd tif MD5
+         * mfssbgf digfst blgoritim or invblid initiblizbtion pbrbmftfrs brf
+         * pbssfd to tif dipifr objfdt instbndfs.
          */
-        DigestPrivacy(boolean clientMode) throws SaslException {
+        DigfstPrivbdy(boolfbn dlifntModf) tirows SbslExdfption {
 
-            super(clientMode); // generate Kic, Kis keys for integrity-checking.
+            supfr(dlifntModf); // gfnfrbtf Kid, Kis kfys for intfgrity-difdking.
 
             try {
-                generatePrivacyKeyPair(clientMode);
+                gfnfrbtfPrivbdyKfyPbir(dlifntModf);
 
-            } catch (SaslException e) {
-                throw e;
+            } dbtdi (SbslExdfption f) {
+                tirow f;
 
-            } catch (UnsupportedEncodingException e) {
-                throw new SaslException(
-                    "DIGEST-MD5: Error encoding string value into UTF-8", e);
+            } dbtdi (UnsupportfdEndodingExdfption f) {
+                tirow nfw SbslExdfption(
+                    "DIGEST-MD5: Error fndoding string vbluf into UTF-8", f);
 
-            } catch (IOException e) {
-                throw new SaslException("DIGEST-MD5: Error accessing " +
-                    "buffers required to generate cipher keys", e);
-            } catch (NoSuchAlgorithmException e) {
-                throw new SaslException("DIGEST-MD5: Error creating " +
-                    "instance of required cipher or digest", e);
+            } dbtdi (IOExdfption f) {
+                tirow nfw SbslExdfption("DIGEST-MD5: Error bddfssing " +
+                    "bufffrs rfquirfd to gfnfrbtf dipifr kfys", f);
+            } dbtdi (NoSudiAlgoritimExdfption f) {
+                tirow nfw SbslExdfption("DIGEST-MD5: Error drfbting " +
+                    "instbndf of rfquirfd dipifr or digfst", f);
             }
         }
 
         /**
-         * Generates client-server and server-client keys to encrypt and
-         * decrypt messages. Also generates IVs for DES ciphers.
+         * Gfnfrbtfs dlifnt-sfrvfr bnd sfrvfr-dlifnt kfys to fndrypt bnd
+         * dfdrypt mfssbgfs. Also gfnfrbtfs IVs for DES dipifrs.
          *
-         * @throws IOException if an error occurs when writing to or from the
-         * byte array output buffers.
-         * @throws NoSuchAlgorithmException if the MD5 message digest algorithm
-         * cannot loaded.
-         * @throws UnsupportedEncodingException if an UTF-8 encoding is not
-         * supported on the platform.
-         * @throw SaslException if an error occurs initializing the keys and
-         * IVs for the chosen cipher.
+         * @tirows IOExdfption if bn frror oddurs wifn writing to or from tif
+         * bytf brrby output bufffrs.
+         * @tirows NoSudiAlgoritimExdfption if tif MD5 mfssbgf digfst blgoritim
+         * dbnnot lobdfd.
+         * @tirows UnsupportfdEndodingExdfption if bn UTF-8 fndoding is not
+         * supportfd on tif plbtform.
+         * @tirow SbslExdfption if bn frror oddurs initiblizing tif kfys bnd
+         * IVs for tif diosfn dipifr.
          */
-        private void generatePrivacyKeyPair(boolean clientMode)
-            throws IOException, UnsupportedEncodingException,
-            NoSuchAlgorithmException, SaslException {
+        privbtf void gfnfrbtfPrivbdyKfyPbir(boolfbn dlifntModf)
+            tirows IOExdfption, UnsupportfdEndodingExdfption,
+            NoSudiAlgoritimExdfption, SbslExdfption {
 
-            byte[] ccmagic = CLIENT_CONF_MAGIC.getBytes(encoding);
-            byte[] scmagic = SVR_CONF_MAGIC.getBytes(encoding);
+            bytf[] ddmbgid = CLIENT_CONF_MAGIC.gftBytfs(fndoding);
+            bytf[] sdmbgid = SVR_CONF_MAGIC.gftBytfs(fndoding);
 
-            /* Kcc = MD5{H(A1)[0..n], "Digest ... client-to-server"} */
-            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            /* Kdd = MD5{H(A1)[0..n], "Digfst ... dlifnt-to-sfrvfr"} */
+            MfssbgfDigfst md5 = MfssbgfDigfst.gftInstbndf("MD5");
 
             int n;
-            if (negotiatedCipher.equals(CIPHER_TOKENS[RC4_40])) {
+            if (nfgotibtfdCipifr.fqubls(CIPHER_TOKENS[RC4_40])) {
                 n = 5;          /* H(A1)[0..5] */
-            } else if (negotiatedCipher.equals(CIPHER_TOKENS[RC4_56])) {
+            } flsf if (nfgotibtfdCipifr.fqubls(CIPHER_TOKENS[RC4_56])) {
                 n = 7;          /* H(A1)[0..7] */
-            } else { // des and 3des and rc4
+            } flsf { // dfs bnd 3dfs bnd rd4
                 n = 16;         /* H(A1)[0..16] */
             }
 
-            /* {H(A1)[0..n], "Digest ... client-to-server..."} */
-            // Both client-magic-keys and server-magic-keys are the same length
-            byte[] keyBuffer =  new byte[n + ccmagic.length];
-            System.arraycopy(H_A1, 0, keyBuffer, 0, n);   // H(A1)[0..n]
+            /* {H(A1)[0..n], "Digfst ... dlifnt-to-sfrvfr..."} */
+            // Boti dlifnt-mbgid-kfys bnd sfrvfr-mbgid-kfys brf tif sbmf lfngti
+            bytf[] kfyBufffr =  nfw bytf[n + ddmbgid.lfngti];
+            Systfm.brrbydopy(H_A1, 0, kfyBufffr, 0, n);   // H(A1)[0..n]
 
-            /* Kcc: Key for encrypting messages from client->server */
-            System.arraycopy(ccmagic, 0, keyBuffer, n, ccmagic.length);
-            md5.update(keyBuffer);
-            byte[] Kcc = md5.digest();
+            /* Kdd: Kfy for fndrypting mfssbgfs from dlifnt->sfrvfr */
+            Systfm.brrbydopy(ddmbgid, 0, kfyBufffr, n, ddmbgid.lfngti);
+            md5.updbtf(kfyBufffr);
+            bytf[] Kdd = md5.digfst();
 
-            /* Kcs: Key for decrypting messages from server->client */
-            // No need to copy H_A1 again since it hasn't changed
-            System.arraycopy(scmagic, 0, keyBuffer, n, scmagic.length);
-            md5.update(keyBuffer);
-            byte[] Kcs = md5.digest();
+            /* Kds: Kfy for dfdrypting mfssbgfs from sfrvfr->dlifnt */
+            // No nffd to dopy H_A1 bgbin sindf it ibsn't dibngfd
+            Systfm.brrbydopy(sdmbgid, 0, kfyBufffr, n, sdmbgid.lfngti);
+            md5.updbtf(kfyBufffr);
+            bytf[] Kds = md5.digfst();
 
-            if (logger.isLoggable(Level.FINER)) {
-                traceOutput(DP_CLASS_NAME, "generatePrivacyKeyPair",
-                    "DIGEST24:Kcc: ", Kcc);
-                traceOutput(DP_CLASS_NAME, "generatePrivacyKeyPair",
-                    "DIGEST25:Kcs: ", Kcs);
+            if (loggfr.isLoggbblf(Lfvfl.FINER)) {
+                trbdfOutput(DP_CLASS_NAME, "gfnfrbtfPrivbdyKfyPbir",
+                    "DIGEST24:Kdd: ", Kdd);
+                trbdfOutput(DP_CLASS_NAME, "gfnfrbtfPrivbdyKfyPbir",
+                    "DIGEST25:Kds: ", Kds);
             }
 
-            byte[] myKc;
-            byte[] peerKc;
+            bytf[] myKd;
+            bytf[] pffrKd;
 
-            if (clientMode) {
-                myKc = Kcc;
-                peerKc = Kcs;
-            } else {
-                myKc = Kcs;
-                peerKc = Kcc;
+            if (dlifntModf) {
+                myKd = Kdd;
+                pffrKd = Kds;
+            } flsf {
+                myKd = Kds;
+                pffrKd = Kdd;
             }
 
             try {
-                SecretKey encKey;
-                SecretKey decKey;
+                SfdrftKfy fndKfy;
+                SfdrftKfy dfdKfy;
 
-                /* Initialize cipher objects */
-                if (negotiatedCipher.indexOf(CIPHER_TOKENS[RC4]) > -1) {
-                    encCipher = Cipher.getInstance("RC4");
-                    decCipher = Cipher.getInstance("RC4");
+                /* Initiblizf dipifr objfdts */
+                if (nfgotibtfdCipifr.indfxOf(CIPHER_TOKENS[RC4]) > -1) {
+                    fndCipifr = Cipifr.gftInstbndf("RC4");
+                    dfdCipifr = Cipifr.gftInstbndf("RC4");
 
-                    encKey = new SecretKeySpec(myKc, "RC4");
-                    decKey = new SecretKeySpec(peerKc, "RC4");
+                    fndKfy = nfw SfdrftKfySpfd(myKd, "RC4");
+                    dfdKfy = nfw SfdrftKfySpfd(pffrKd, "RC4");
 
-                    encCipher.init(Cipher.ENCRYPT_MODE, encKey);
-                    decCipher.init(Cipher.DECRYPT_MODE, decKey);
+                    fndCipifr.init(Cipifr.ENCRYPT_MODE, fndKfy);
+                    dfdCipifr.init(Cipifr.DECRYPT_MODE, dfdKfy);
 
-                } else if ((negotiatedCipher.equals(CIPHER_TOKENS[DES])) ||
-                    (negotiatedCipher.equals(CIPHER_TOKENS[DES3]))) {
+                } flsf if ((nfgotibtfdCipifr.fqubls(CIPHER_TOKENS[DES])) ||
+                    (nfgotibtfdCipifr.fqubls(CIPHER_TOKENS[DES3]))) {
 
                     // DES or 3DES
-                    String cipherFullname, cipherShortname;
+                    String dipifrFullnbmf, dipifrSiortnbmf;
 
-                        // Use "NoPadding" when specifying cipher names
-                        // RFC 2831 already defines padding rules for producing
-                        // 8-byte aligned blocks
-                    if (negotiatedCipher.equals(CIPHER_TOKENS[DES])) {
-                        cipherFullname = "DES/CBC/NoPadding";
-                        cipherShortname = "des";
-                    } else {
+                        // Usf "NoPbdding" wifn spfdifying dipifr nbmfs
+                        // RFC 2831 blrfbdy dffinfs pbdding rulfs for produding
+                        // 8-bytf blignfd blodks
+                    if (nfgotibtfdCipifr.fqubls(CIPHER_TOKENS[DES])) {
+                        dipifrFullnbmf = "DES/CBC/NoPbdding";
+                        dipifrSiortnbmf = "dfs";
+                    } flsf {
                         /* 3DES */
-                        cipherFullname = "DESede/CBC/NoPadding";
-                        cipherShortname = "desede";
+                        dipifrFullnbmf = "DESfdf/CBC/NoPbdding";
+                        dipifrSiortnbmf = "dfsfdf";
                     }
 
-                    encCipher = Cipher.getInstance(cipherFullname);
-                    decCipher = Cipher.getInstance(cipherFullname);
+                    fndCipifr = Cipifr.gftInstbndf(dipifrFullnbmf);
+                    dfdCipifr = Cipifr.gftInstbndf(dipifrFullnbmf);
 
-                    encKey = makeDesKeys(myKc, cipherShortname);
-                    decKey = makeDesKeys(peerKc, cipherShortname);
+                    fndKfy = mbkfDfsKfys(myKd, dipifrSiortnbmf);
+                    dfdKfy = mbkfDfsKfys(pffrKd, dipifrSiortnbmf);
 
-                    // Set up the DES IV, which is the last 8 bytes of Kcc/Kcs
-                    IvParameterSpec encIv = new IvParameterSpec(myKc, 8, 8);
-                    IvParameterSpec decIv = new IvParameterSpec(peerKc, 8, 8);
+                    // Sft up tif DES IV, wiidi is tif lbst 8 bytfs of Kdd/Kds
+                    IvPbrbmftfrSpfd fndIv = nfw IvPbrbmftfrSpfd(myKd, 8, 8);
+                    IvPbrbmftfrSpfd dfdIv = nfw IvPbrbmftfrSpfd(pffrKd, 8, 8);
 
-                    // Initialize cipher objects
-                    encCipher.init(Cipher.ENCRYPT_MODE, encKey, encIv);
-                    decCipher.init(Cipher.DECRYPT_MODE, decKey, decIv);
+                    // Initiblizf dipifr objfdts
+                    fndCipifr.init(Cipifr.ENCRYPT_MODE, fndKfy, fndIv);
+                    dfdCipifr.init(Cipifr.DECRYPT_MODE, dfdKfy, dfdIv);
 
-                    if (logger.isLoggable(Level.FINER)) {
-                        traceOutput(DP_CLASS_NAME, "generatePrivacyKeyPair",
-                            "DIGEST26:" + negotiatedCipher + " IVcc: ",
-                            encIv.getIV());
-                        traceOutput(DP_CLASS_NAME, "generatePrivacyKeyPair",
-                            "DIGEST27:" + negotiatedCipher + " IVcs: ",
-                            decIv.getIV());
-                        traceOutput(DP_CLASS_NAME, "generatePrivacyKeyPair",
-                            "DIGEST28:" + negotiatedCipher + " encryption key: ",
-                            encKey.getEncoded());
-                        traceOutput(DP_CLASS_NAME, "generatePrivacyKeyPair",
-                            "DIGEST29:" + negotiatedCipher + " decryption key: ",
-                            decKey.getEncoded());
+                    if (loggfr.isLoggbblf(Lfvfl.FINER)) {
+                        trbdfOutput(DP_CLASS_NAME, "gfnfrbtfPrivbdyKfyPbir",
+                            "DIGEST26:" + nfgotibtfdCipifr + " IVdd: ",
+                            fndIv.gftIV());
+                        trbdfOutput(DP_CLASS_NAME, "gfnfrbtfPrivbdyKfyPbir",
+                            "DIGEST27:" + nfgotibtfdCipifr + " IVds: ",
+                            dfdIv.gftIV());
+                        trbdfOutput(DP_CLASS_NAME, "gfnfrbtfPrivbdyKfyPbir",
+                            "DIGEST28:" + nfgotibtfdCipifr + " fndryption kfy: ",
+                            fndKfy.gftEndodfd());
+                        trbdfOutput(DP_CLASS_NAME, "gfnfrbtfPrivbdyKfyPbir",
+                            "DIGEST29:" + nfgotibtfdCipifr + " dfdryption kfy: ",
+                            dfdKfy.gftEndodfd());
                     }
                 }
-            } catch (InvalidKeySpecException e) {
-                throw new SaslException("DIGEST-MD5: Unsupported key " +
-                    "specification used.", e);
-            } catch (InvalidAlgorithmParameterException e) {
-                throw new SaslException("DIGEST-MD5: Invalid cipher " +
-                    "algorithem parameter used to create cipher instance", e);
-            } catch (NoSuchPaddingException e) {
-                throw new SaslException("DIGEST-MD5: Unsupported " +
-                    "padding used for chosen cipher", e);
-            } catch (InvalidKeyException e) {
-                throw new SaslException("DIGEST-MD5: Invalid data " +
-                    "used to initialize keys", e);
+            } dbtdi (InvblidKfySpfdExdfption f) {
+                tirow nfw SbslExdfption("DIGEST-MD5: Unsupportfd kfy " +
+                    "spfdifidbtion usfd.", f);
+            } dbtdi (InvblidAlgoritimPbrbmftfrExdfption f) {
+                tirow nfw SbslExdfption("DIGEST-MD5: Invblid dipifr " +
+                    "blgoritifm pbrbmftfr usfd to drfbtf dipifr instbndf", f);
+            } dbtdi (NoSudiPbddingExdfption f) {
+                tirow nfw SbslExdfption("DIGEST-MD5: Unsupportfd " +
+                    "pbdding usfd for diosfn dipifr", f);
+            } dbtdi (InvblidKfyExdfption f) {
+                tirow nfw SbslExdfption("DIGEST-MD5: Invblid dbtb " +
+                    "usfd to initiblizf kfys", f);
             }
         }
 
         // -------------------------------------------------------------------
 
         /**
-         * Encrypt out-going message.
+         * Endrypt out-going mfssbgf.
          *
-         * @param outgoing A non-null byte array containing the outgoing message.
-         * @param start The offset from which to read the byte array.
-         * @param len The non-zero number of bytes to be read from the offset.
-         * @return The encrypted message.
+         * @pbrbm outgoing A non-null bytf brrby dontbining tif outgoing mfssbgf.
+         * @pbrbm stbrt Tif offsft from wiidi to rfbd tif bytf brrby.
+         * @pbrbm lfn Tif non-zfro numbfr of bytfs to bf rfbd from tif offsft.
+         * @rfturn Tif fndryptfd mfssbgf.
          *
-         * @throws SaslException if an error occurs when writing to or from the
-         * byte array output buffers or if the MD5 message digest algorithm
-         * cannot loaded or if an UTF-8 encoding is not supported on the
-         * platform.
+         * @tirows SbslExdfption if bn frror oddurs wifn writing to or from tif
+         * bytf brrby output bufffrs or if tif MD5 mfssbgf digfst blgoritim
+         * dbnnot lobdfd or if bn UTF-8 fndoding is not supportfd on tif
+         * plbtform.
          */
-        public byte[] wrap(byte[] outgoing, int start, int len)
-            throws SaslException {
+        publid bytf[] wrbp(bytf[] outgoing, int stbrt, int lfn)
+            tirows SbslExdfption {
 
-            if (len == 0) {
-                return EMPTY_BYTE_ARRAY;
+            if (lfn == 0) {
+                rfturn EMPTY_BYTE_ARRAY;
             }
 
-            /* HMAC(Ki, {SeqNum, msg})[0..9] */
-            incrementSeqNum();
-            byte[] mac = getHMAC(myKi, sequenceNum, outgoing, start, len);
+            /* HMAC(Ki, {SfqNum, msg})[0..9] */
+            indrfmfntSfqNum();
+            bytf[] mbd = gftHMAC(myKi, sfqufndfNum, outgoing, stbrt, lfn);
 
-            if (logger.isLoggable(Level.FINEST)) {
-                traceOutput(DP_CLASS_NAME, "wrap", "DIGEST30:Outgoing: ",
-                    outgoing, start, len);
-                traceOutput(DP_CLASS_NAME, "wrap", "seqNum: ",
-                    sequenceNum);
-                traceOutput(DP_CLASS_NAME, "wrap", "MAC: ", mac);
+            if (loggfr.isLoggbblf(Lfvfl.FINEST)) {
+                trbdfOutput(DP_CLASS_NAME, "wrbp", "DIGEST30:Outgoing: ",
+                    outgoing, stbrt, lfn);
+                trbdfOutput(DP_CLASS_NAME, "wrbp", "sfqNum: ",
+                    sfqufndfNum);
+                trbdfOutput(DP_CLASS_NAME, "wrbp", "MAC: ", mbd);
             }
 
-            // Calculate padding
-            int bs = encCipher.getBlockSize();
-            byte[] padding;
+            // Cbldulbtf pbdding
+            int bs = fndCipifr.gftBlodkSizf();
+            bytf[] pbdding;
             if (bs > 1 ) {
-                int pad = bs - ((len + 10) % bs); // add 10 for HMAC[0..9]
-                padding = new byte[pad];
-                for (int i=0; i < pad; i++) {
-                    padding[i] = (byte)pad;
+                int pbd = bs - ((lfn + 10) % bs); // bdd 10 for HMAC[0..9]
+                pbdding = nfw bytf[pbd];
+                for (int i=0; i < pbd; i++) {
+                    pbdding[i] = (bytf)pbd;
                 }
-            } else {
-                padding = EMPTY_BYTE_ARRAY;
+            } flsf {
+                pbdding = EMPTY_BYTE_ARRAY;
             }
 
-            byte[] toBeEncrypted = new byte[len+padding.length+10];
+            bytf[] toBfEndryptfd = nfw bytf[lfn+pbdding.lfngti+10];
 
-            /* {msg, pad, HMAC(Ki, {SeqNum, msg}[0..9])} */
-            System.arraycopy(outgoing, start, toBeEncrypted, 0, len);
-            System.arraycopy(padding, 0, toBeEncrypted, len, padding.length);
-            System.arraycopy(mac, 0, toBeEncrypted, len+padding.length, 10);
+            /* {msg, pbd, HMAC(Ki, {SfqNum, msg}[0..9])} */
+            Systfm.brrbydopy(outgoing, stbrt, toBfEndryptfd, 0, lfn);
+            Systfm.brrbydopy(pbdding, 0, toBfEndryptfd, lfn, pbdding.lfngti);
+            Systfm.brrbydopy(mbd, 0, toBfEndryptfd, lfn+pbdding.lfngti, 10);
 
-            if (logger.isLoggable(Level.FINEST)) {
-                traceOutput(DP_CLASS_NAME, "wrap",
-                    "DIGEST31:{msg, pad, KicMAC}: ", toBeEncrypted);
+            if (loggfr.isLoggbblf(Lfvfl.FINEST)) {
+                trbdfOutput(DP_CLASS_NAME, "wrbp",
+                    "DIGEST31:{msg, pbd, KidMAC}: ", toBfEndryptfd);
             }
 
-            /* CIPHER(Kc, {msg, pad, HMAC(Ki, {SeqNum, msg}[0..9])}) */
-            byte[] cipherBlock;
+            /* CIPHER(Kd, {msg, pbd, HMAC(Ki, {SfqNum, msg}[0..9])}) */
+            bytf[] dipifrBlodk;
             try {
-                // Do CBC (chaining) across packets
-                cipherBlock = encCipher.update(toBeEncrypted);
+                // Do CBC (dibining) bdross pbdkfts
+                dipifrBlodk = fndCipifr.updbtf(toBfEndryptfd);
 
-                if (cipherBlock == null) {
-                    // update() can return null
-                    throw new IllegalBlockSizeException(""+toBeEncrypted.length);
+                if (dipifrBlodk == null) {
+                    // updbtf() dbn rfturn null
+                    tirow nfw IllfgblBlodkSizfExdfption(""+toBfEndryptfd.lfngti);
                 }
-            } catch (IllegalBlockSizeException e) {
-                throw new SaslException(
-                    "DIGEST-MD5: Invalid block size for cipher", e);
+            } dbtdi (IllfgblBlodkSizfExdfption f) {
+                tirow nfw SbslExdfption(
+                    "DIGEST-MD5: Invblid blodk sizf for dipifr", f);
             }
 
-            byte[] wrapped = new byte[cipherBlock.length+2+4];
-            System.arraycopy(cipherBlock, 0, wrapped, 0, cipherBlock.length);
-            System.arraycopy(messageType, 0, wrapped, cipherBlock.length, 2);
-            System.arraycopy(sequenceNum, 0, wrapped, cipherBlock.length+2, 4);
+            bytf[] wrbppfd = nfw bytf[dipifrBlodk.lfngti+2+4];
+            Systfm.brrbydopy(dipifrBlodk, 0, wrbppfd, 0, dipifrBlodk.lfngti);
+            Systfm.brrbydopy(mfssbgfTypf, 0, wrbppfd, dipifrBlodk.lfngti, 2);
+            Systfm.brrbydopy(sfqufndfNum, 0, wrbppfd, dipifrBlodk.lfngti+2, 4);
 
-            if (logger.isLoggable(Level.FINEST)) {
-                traceOutput(DP_CLASS_NAME, "wrap", "DIGEST32:Wrapped: ", wrapped);
+            if (loggfr.isLoggbblf(Lfvfl.FINEST)) {
+                trbdfOutput(DP_CLASS_NAME, "wrbp", "DIGEST32:Wrbppfd: ", wrbppfd);
             }
 
-            return wrapped;
+            rfturn wrbppfd;
         }
 
         /*
-         * Decrypt incoming messages and verify their integrity.
+         * Dfdrypt indoming mfssbgfs bnd vfrify tifir intfgrity.
          *
-         * @param incoming A non-null byte array containing the incoming
-         * encrypted message.
-         * @param start The offset from which to read the byte array.
-         * @param len The non-zero number of bytes to read from the offset
+         * @pbrbm indoming A non-null bytf brrby dontbining tif indoming
+         * fndryptfd mfssbgf.
+         * @pbrbm stbrt Tif offsft from wiidi to rfbd tif bytf brrby.
+         * @pbrbm lfn Tif non-zfro numbfr of bytfs to rfbd from tif offsft
          * position.
-         * @return The decrypted, verified message or null if integrity
-         * checking
-         * fails.
-         * @throws SaslException if there are the SASL buffer is empty or if
-         * if an error occurs reading the SASL buffer.
+         * @rfturn Tif dfdryptfd, vfrififd mfssbgf or null if intfgrity
+         * difdking
+         * fbils.
+         * @tirows SbslExdfption if tifrf brf tif SASL bufffr is fmpty or if
+         * if bn frror oddurs rfbding tif SASL bufffr.
          */
-        public byte[] unwrap(byte[] incoming, int start, int len)
-            throws SaslException {
+        publid bytf[] unwrbp(bytf[] indoming, int stbrt, int lfn)
+            tirows SbslExdfption {
 
-            if (len == 0) {
-                return EMPTY_BYTE_ARRAY;
+            if (lfn == 0) {
+                rfturn EMPTY_BYTE_ARRAY;
             }
 
-            byte[] encryptedMsg = new byte[len - 6];
-            byte[] msgType = new byte[2];
-            byte[] seqNum = new byte[4];
+            bytf[] fndryptfdMsg = nfw bytf[lfn - 6];
+            bytf[] msgTypf = nfw bytf[2];
+            bytf[] sfqNum = nfw bytf[4];
 
-            /* Get cipherMsg; msgType; sequenceNum */
-            System.arraycopy(incoming, start,
-                encryptedMsg, 0, encryptedMsg.length);
-            System.arraycopy(incoming, start+encryptedMsg.length,
-                msgType, 0, 2);
-            System.arraycopy(incoming, start+encryptedMsg.length+2,
-                seqNum, 0, 4);
+            /* Gft dipifrMsg; msgTypf; sfqufndfNum */
+            Systfm.brrbydopy(indoming, stbrt,
+                fndryptfdMsg, 0, fndryptfdMsg.lfngti);
+            Systfm.brrbydopy(indoming, stbrt+fndryptfdMsg.lfngti,
+                msgTypf, 0, 2);
+            Systfm.brrbydopy(indoming, stbrt+fndryptfdMsg.lfngti+2,
+                sfqNum, 0, 4);
 
-            if (logger.isLoggable(Level.FINEST)) {
-                logger.log(Level.FINEST,
-                    "DIGEST33:Expecting sequence num: {0}",
-                    peerSeqNum);
-                traceOutput(DP_CLASS_NAME, "unwrap", "DIGEST34:incoming: ",
-                    encryptedMsg);
+            if (loggfr.isLoggbblf(Lfvfl.FINEST)) {
+                loggfr.log(Lfvfl.FINEST,
+                    "DIGEST33:Expfdting sfqufndf num: {0}",
+                    pffrSfqNum);
+                trbdfOutput(DP_CLASS_NAME, "unwrbp", "DIGEST34:indoming: ",
+                    fndryptfdMsg);
             }
 
-            // Decrypt message
-            /* CIPHER(Kc, {msg, pad, HMAC(Ki, {SeqNum, msg}[0..9])}) */
-            byte[] decryptedMsg;
+            // Dfdrypt mfssbgf
+            /* CIPHER(Kd, {msg, pbd, HMAC(Ki, {SfqNum, msg}[0..9])}) */
+            bytf[] dfdryptfdMsg;
 
             try {
-                // Do CBC (chaining) across packets
-                decryptedMsg = decCipher.update(encryptedMsg);
+                // Do CBC (dibining) bdross pbdkfts
+                dfdryptfdMsg = dfdCipifr.updbtf(fndryptfdMsg);
 
-                if (decryptedMsg == null) {
-                    // update() can return null
-                    throw new IllegalBlockSizeException(""+encryptedMsg.length);
+                if (dfdryptfdMsg == null) {
+                    // updbtf() dbn rfturn null
+                    tirow nfw IllfgblBlodkSizfExdfption(""+fndryptfdMsg.lfngti);
                 }
-            } catch (IllegalBlockSizeException e) {
-                throw new SaslException("DIGEST-MD5: Illegal block " +
-                    "sizes used with chosen cipher", e);
+            } dbtdi (IllfgblBlodkSizfExdfption f) {
+                tirow nfw SbslExdfption("DIGEST-MD5: Illfgbl blodk " +
+                    "sizfs usfd witi diosfn dipifr", f);
             }
 
-            byte[] msgWithPadding = new byte[decryptedMsg.length - 10];
-            byte[] mac = new byte[10];
+            bytf[] msgWitiPbdding = nfw bytf[dfdryptfdMsg.lfngti - 10];
+            bytf[] mbd = nfw bytf[10];
 
-            System.arraycopy(decryptedMsg, 0,
-                msgWithPadding, 0, msgWithPadding.length);
-            System.arraycopy(decryptedMsg, msgWithPadding.length,
-                mac, 0, 10);
+            Systfm.brrbydopy(dfdryptfdMsg, 0,
+                msgWitiPbdding, 0, msgWitiPbdding.lfngti);
+            Systfm.brrbydopy(dfdryptfdMsg, msgWitiPbdding.lfngti,
+                mbd, 0, 10);
 
-            if (logger.isLoggable(Level.FINEST)) {
-                traceOutput(DP_CLASS_NAME, "unwrap",
-                    "DIGEST35:Unwrapped (w/padding): ", msgWithPadding);
-                traceOutput(DP_CLASS_NAME, "unwrap", "DIGEST36:MAC: ", mac);
-                traceOutput(DP_CLASS_NAME, "unwrap", "DIGEST37:messageType: ",
-                    msgType);
-                traceOutput(DP_CLASS_NAME, "unwrap", "DIGEST38:sequenceNum: ",
-                    seqNum);
+            if (loggfr.isLoggbblf(Lfvfl.FINEST)) {
+                trbdfOutput(DP_CLASS_NAME, "unwrbp",
+                    "DIGEST35:Unwrbppfd (w/pbdding): ", msgWitiPbdding);
+                trbdfOutput(DP_CLASS_NAME, "unwrbp", "DIGEST36:MAC: ", mbd);
+                trbdfOutput(DP_CLASS_NAME, "unwrbp", "DIGEST37:mfssbgfTypf: ",
+                    msgTypf);
+                trbdfOutput(DP_CLASS_NAME, "unwrbp", "DIGEST38:sfqufndfNum: ",
+                    sfqNum);
             }
 
-            int msgLength = msgWithPadding.length;
-            int blockSize = decCipher.getBlockSize();
-            if (blockSize > 1) {
-                // get value of last octet of the byte array
-                msgLength -= (int)msgWithPadding[msgWithPadding.length - 1];
-                if (msgLength < 0) {
-                    //  Discard message and do not increment sequence number
-                    if (logger.isLoggable(Level.INFO)) {
-                        logger.log(Level.INFO,
-                            "DIGEST39:Incorrect padding: {0}",
-                            msgWithPadding[msgWithPadding.length - 1]);
+            int msgLfngti = msgWitiPbdding.lfngti;
+            int blodkSizf = dfdCipifr.gftBlodkSizf();
+            if (blodkSizf > 1) {
+                // gft vbluf of lbst odtft of tif bytf brrby
+                msgLfngti -= (int)msgWitiPbdding[msgWitiPbdding.lfngti - 1];
+                if (msgLfngti < 0) {
+                    //  Disdbrd mfssbgf bnd do not indrfmfnt sfqufndf numbfr
+                    if (loggfr.isLoggbblf(Lfvfl.INFO)) {
+                        loggfr.log(Lfvfl.INFO,
+                            "DIGEST39:Indorrfdt pbdding: {0}",
+                            msgWitiPbdding[msgWitiPbdding.lfngti - 1]);
                     }
-                    return EMPTY_BYTE_ARRAY;
+                    rfturn EMPTY_BYTE_ARRAY;
                 }
             }
 
-            /* Re-calculate MAC to ensure integrity */
-            byte[] expectedMac = getHMAC(peerKi, seqNum, msgWithPadding,
-                0, msgLength);
+            /* Rf-dbldulbtf MAC to fnsurf intfgrity */
+            bytf[] fxpfdtfdMbd = gftHMAC(pffrKi, sfqNum, msgWitiPbdding,
+                0, msgLfngti);
 
-            if (logger.isLoggable(Level.FINEST)) {
-                traceOutput(DP_CLASS_NAME, "unwrap", "DIGEST40:KisMAC: ",
-                    expectedMac);
+            if (loggfr.isLoggbblf(Lfvfl.FINEST)) {
+                trbdfOutput(DP_CLASS_NAME, "unwrbp", "DIGEST40:KisMAC: ",
+                    fxpfdtfdMbd);
             }
 
-            // First, compare MACs before updating state
-            if (!Arrays.equals(mac, expectedMac)) {
-                //  Discard message and do not increment sequence number
-                logger.log(Level.INFO, "DIGEST41:Unmatched MACs");
-                return EMPTY_BYTE_ARRAY;
+            // First, dompbrf MACs bfforf updbting stbtf
+            if (!Arrbys.fqubls(mbd, fxpfdtfdMbd)) {
+                //  Disdbrd mfssbgf bnd do not indrfmfnt sfqufndf numbfr
+                loggfr.log(Lfvfl.INFO, "DIGEST41:Unmbtdifd MACs");
+                rfturn EMPTY_BYTE_ARRAY;
             }
 
-            /* Ensure sequence number is correct */
-            if (peerSeqNum != networkByteOrderToInt(seqNum, 0, 4)) {
-                throw new SaslException("DIGEST-MD5: Out of order " +
-                    "sequencing of messages from server. Got: " +
-                    networkByteOrderToInt(seqNum, 0, 4) + " Expected: " +
-                    peerSeqNum);
+            /* Ensurf sfqufndf numbfr is dorrfdt */
+            if (pffrSfqNum != nftworkBytfOrdfrToInt(sfqNum, 0, 4)) {
+                tirow nfw SbslExdfption("DIGEST-MD5: Out of ordfr " +
+                    "sfqufnding of mfssbgfs from sfrvfr. Got: " +
+                    nftworkBytfOrdfrToInt(sfqNum, 0, 4) + " Expfdtfd: " +
+                    pffrSfqNum);
             }
 
-            /* Check message type */
-            if (!Arrays.equals(messageType, msgType)) {
-                throw new SaslException("DIGEST-MD5: invalid message type: " +
-                    networkByteOrderToInt(msgType, 0, 2));
+            /* Cifdk mfssbgf typf */
+            if (!Arrbys.fqubls(mfssbgfTypf, msgTypf)) {
+                tirow nfw SbslExdfption("DIGEST-MD5: invblid mfssbgf typf: " +
+                    nftworkBytfOrdfrToInt(msgTypf, 0, 2));
             }
 
-            // Increment sequence number and return message
-            peerSeqNum++;
+            // Indrfmfnt sfqufndf numbfr bnd rfturn mfssbgf
+            pffrSfqNum++;
 
-            if (msgLength == msgWithPadding.length) {
-                return msgWithPadding; // no padding
-            } else {
-                // Get a copy of the message without padding
-                byte[] clearMsg = new byte[msgLength];
-                System.arraycopy(msgWithPadding, 0, clearMsg, 0, msgLength);
-                return clearMsg;
+            if (msgLfngti == msgWitiPbdding.lfngti) {
+                rfturn msgWitiPbdding; // no pbdding
+            } flsf {
+                // Gft b dopy of tif mfssbgf witiout pbdding
+                bytf[] dlfbrMsg = nfw bytf[msgLfngti];
+                Systfm.brrbydopy(msgWitiPbdding, 0, dlfbrMsg, 0, msgLfngti);
+                rfturn dlfbrMsg;
             }
         }
     }
 
-    // ---------------- DES and 3 DES key manipulation routines
+    // ---------------- DES bnd 3 DES kfy mbnipulbtion routinfs
 
-    private static final BigInteger MASK = new BigInteger("7f", 16);
+    privbtf stbtid finbl BigIntfgfr MASK = nfw BigIntfgfr("7f", 16);
 
     /**
-     * Sets the parity bit (0th bit) in each byte so that each byte
-     * contains an odd number of 1's.
+     * Sfts tif pbrity bit (0ti bit) in fbdi bytf so tibt fbdi bytf
+     * dontbins bn odd numbfr of 1's.
      */
-    private static void setParityBit(byte[] key) {
-        for (int i = 0; i < key.length; i++) {
-            int b = key[i] & 0xfe;
-            b |= (Integer.bitCount(b) & 1) ^ 1;
-            key[i] = (byte) b;
+    privbtf stbtid void sftPbrityBit(bytf[] kfy) {
+        for (int i = 0; i < kfy.lfngti; i++) {
+            int b = kfy[i] & 0xff;
+            b |= (Intfgfr.bitCount(b) & 1) ^ 1;
+            kfy[i] = (bytf) b;
         }
     }
 
     /**
-     * Expands a 7-byte array into an 8-byte array that contains parity bits
-     * The binary format of a cryptographic key is:
+     * Expbnds b 7-bytf brrby into bn 8-bytf brrby tibt dontbins pbrity bits
+     * Tif binbry formbt of b dryptogrbpiid kfy is:
      *     (B1,B2,...,B7,P1,B8,...B14,P2,B15,...,B49,P7,B50,...,B56,P8)
-     * where (B1,B2,...,B56) are the independent bits of a DES key and
-     * (PI,P2,...,P8) are reserved for parity bits computed on the preceding
-     * seven independent bits and set so that the parity of the octet is odd,
-     * i.e., there is an odd number of "1" bits in the octet.
+     * wifrf (B1,B2,...,B56) brf tif indfpfndfnt bits of b DES kfy bnd
+     * (PI,P2,...,P8) brf rfsfrvfd for pbrity bits domputfd on tif prfdfding
+     * sfvfn indfpfndfnt bits bnd sft so tibt tif pbrity of tif odtft is odd,
+     * i.f., tifrf is bn odd numbfr of "1" bits in tif odtft.
      */
-    private static byte[] addDesParity(byte[] input, int offset, int len) {
-        if (len != 7)
-            throw new IllegalArgumentException(
-                "Invalid length of DES Key Value:" + len);
+    privbtf stbtid bytf[] bddDfsPbrity(bytf[] input, int offsft, int lfn) {
+        if (lfn != 7)
+            tirow nfw IllfgblArgumfntExdfption(
+                "Invblid lfngti of DES Kfy Vbluf:" + lfn);
 
-        byte[] raw = new byte[7];
-        System.arraycopy(input, offset, raw, 0, len);
+        bytf[] rbw = nfw bytf[7];
+        Systfm.brrbydopy(input, offsft, rbw, 0, lfn);
 
-        byte[] result = new byte[8];
-        BigInteger in = new BigInteger(raw);
+        bytf[] rfsult = nfw bytf[8];
+        BigIntfgfr in = nfw BigIntfgfr(rbw);
 
-        // Shift 7 bits each time into a byte
-        for (int i=result.length-1; i>=0; i--) {
-            result[i] = in.and(MASK).toByteArray()[0];
-            result[i] <<= 1;         // make room for parity bit
-            in = in.shiftRight(7);
+        // Siift 7 bits fbdi timf into b bytf
+        for (int i=rfsult.lfngti-1; i>=0; i--) {
+            rfsult[i] = in.bnd(MASK).toBytfArrby()[0];
+            rfsult[i] <<= 1;         // mbkf room for pbrity bit
+            in = in.siiftRigit(7);
         }
-        setParityBit(result);
-        return result;
+        sftPbrityBit(rfsult);
+        rfturn rfsult;
     }
 
     /**
-     * Create parity-adjusted keys suitable for DES / DESede encryption.
+     * Crfbtf pbrity-bdjustfd kfys suitbblf for DES / DESfdf fndryption.
      *
-     * @param input A non-null byte array containing key material for
-     * DES / DESede.
-     * @param desStrength A string specifying eithe a DES or a DESede key.
-     * @return SecretKey An instance of either DESKeySpec or DESedeKeySpec.
+     * @pbrbm input A non-null bytf brrby dontbining kfy mbtfribl for
+     * DES / DESfdf.
+     * @pbrbm dfsStrfngti A string spfdifying fitif b DES or b DESfdf kfy.
+     * @rfturn SfdrftKfy An instbndf of fitifr DESKfySpfd or DESfdfKfySpfd.
      *
-     * @throws NoSuchAlgorithmException if the either the DES or DESede
-     * algorithms cannote be lodaed by JCE.
-     * @throws InvalidKeyException if an invalid array of bytes is used
-     * as a key for DES or DESede.
-     * @throws InvalidKeySpecException in an invalid parameter is passed
-     * to either te DESKeySpec of the DESedeKeySpec constructors.
+     * @tirows NoSudiAlgoritimExdfption if tif fitifr tif DES or DESfdf
+     * blgoritims dbnnotf bf lodbfd by JCE.
+     * @tirows InvblidKfyExdfption if bn invblid brrby of bytfs is usfd
+     * bs b kfy for DES or DESfdf.
+     * @tirows InvblidKfySpfdExdfption in bn invblid pbrbmftfr is pbssfd
+     * to fitifr tf DESKfySpfd of tif DESfdfKfySpfd donstrudtors.
      */
-    private static SecretKey makeDesKeys(byte[] input, String desStrength)
-        throws NoSuchAlgorithmException, InvalidKeyException,
-            InvalidKeySpecException {
+    privbtf stbtid SfdrftKfy mbkfDfsKfys(bytf[] input, String dfsStrfngti)
+        tirows NoSudiAlgoritimExdfption, InvblidKfyExdfption,
+            InvblidKfySpfdExdfption {
 
-        // Generate first subkey using first 7 bytes
-        byte[] subkey1 = addDesParity(input, 0, 7);
+        // Gfnfrbtf first subkfy using first 7 bytfs
+        bytf[] subkfy1 = bddDfsPbrity(input, 0, 7);
 
-        KeySpec spec = null;
-        SecretKeyFactory desFactory =
-            SecretKeyFactory.getInstance(desStrength);
-        switch (desStrength) {
-            case "des":
-                spec = new DESKeySpec(subkey1, 0);
-                if (logger.isLoggable(Level.FINEST)) {
-                    traceOutput(DP_CLASS_NAME, "makeDesKeys",
-                        "DIGEST42:DES key input: ", input);
-                    traceOutput(DP_CLASS_NAME, "makeDesKeys",
-                        "DIGEST43:DES key parity-adjusted: ", subkey1);
-                    traceOutput(DP_CLASS_NAME, "makeDesKeys",
-                        "DIGEST44:DES key material: ", ((DESKeySpec)spec).getKey());
-                    logger.log(Level.FINEST, "DIGEST45: is parity-adjusted? {0}",
-                        Boolean.valueOf(DESKeySpec.isParityAdjusted(subkey1, 0)));
+        KfySpfd spfd = null;
+        SfdrftKfyFbdtory dfsFbdtory =
+            SfdrftKfyFbdtory.gftInstbndf(dfsStrfngti);
+        switdi (dfsStrfngti) {
+            dbsf "dfs":
+                spfd = nfw DESKfySpfd(subkfy1, 0);
+                if (loggfr.isLoggbblf(Lfvfl.FINEST)) {
+                    trbdfOutput(DP_CLASS_NAME, "mbkfDfsKfys",
+                        "DIGEST42:DES kfy input: ", input);
+                    trbdfOutput(DP_CLASS_NAME, "mbkfDfsKfys",
+                        "DIGEST43:DES kfy pbrity-bdjustfd: ", subkfy1);
+                    trbdfOutput(DP_CLASS_NAME, "mbkfDfsKfys",
+                        "DIGEST44:DES kfy mbtfribl: ", ((DESKfySpfd)spfd).gftKfy());
+                    loggfr.log(Lfvfl.FINEST, "DIGEST45: is pbrity-bdjustfd? {0}",
+                        Boolfbn.vblufOf(DESKfySpfd.isPbrityAdjustfd(subkfy1, 0)));
                 }
-                break;
-            case "desede":
-                // Generate second subkey using second 7 bytes
-                byte[] subkey2 = addDesParity(input, 7, 7);
-                // Construct 24-byte encryption-decryption-encryption sequence
-                byte[] ede = new byte[subkey1.length*2+subkey2.length];
-                System.arraycopy(subkey1, 0, ede, 0, subkey1.length);
-                System.arraycopy(subkey2, 0, ede, subkey1.length, subkey2.length);
-                System.arraycopy(subkey1, 0, ede, subkey1.length+subkey2.length,
-                    subkey1.length);
-                spec = new DESedeKeySpec(ede, 0);
-                if (logger.isLoggable(Level.FINEST)) {
-                    traceOutput(DP_CLASS_NAME, "makeDesKeys",
-                        "DIGEST46:3DES key input: ", input);
-                    traceOutput(DP_CLASS_NAME, "makeDesKeys",
-                        "DIGEST47:3DES key ede: ", ede);
-                    traceOutput(DP_CLASS_NAME, "makeDesKeys",
-                        "DIGEST48:3DES key material: ",
-                        ((DESedeKeySpec)spec).getKey());
-                    logger.log(Level.FINEST, "DIGEST49: is parity-adjusted? ",
-                        Boolean.valueOf(DESedeKeySpec.isParityAdjusted(ede, 0)));
+                brfbk;
+            dbsf "dfsfdf":
+                // Gfnfrbtf sfdond subkfy using sfdond 7 bytfs
+                bytf[] subkfy2 = bddDfsPbrity(input, 7, 7);
+                // Construdt 24-bytf fndryption-dfdryption-fndryption sfqufndf
+                bytf[] fdf = nfw bytf[subkfy1.lfngti*2+subkfy2.lfngti];
+                Systfm.brrbydopy(subkfy1, 0, fdf, 0, subkfy1.lfngti);
+                Systfm.brrbydopy(subkfy2, 0, fdf, subkfy1.lfngti, subkfy2.lfngti);
+                Systfm.brrbydopy(subkfy1, 0, fdf, subkfy1.lfngti+subkfy2.lfngti,
+                    subkfy1.lfngti);
+                spfd = nfw DESfdfKfySpfd(fdf, 0);
+                if (loggfr.isLoggbblf(Lfvfl.FINEST)) {
+                    trbdfOutput(DP_CLASS_NAME, "mbkfDfsKfys",
+                        "DIGEST46:3DES kfy input: ", input);
+                    trbdfOutput(DP_CLASS_NAME, "mbkfDfsKfys",
+                        "DIGEST47:3DES kfy fdf: ", fdf);
+                    trbdfOutput(DP_CLASS_NAME, "mbkfDfsKfys",
+                        "DIGEST48:3DES kfy mbtfribl: ",
+                        ((DESfdfKfySpfd)spfd).gftKfy());
+                    loggfr.log(Lfvfl.FINEST, "DIGEST49: is pbrity-bdjustfd? ",
+                        Boolfbn.vblufOf(DESfdfKfySpfd.isPbrityAdjustfd(fdf, 0)));
                 }
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid DES strength:" +
-                    desStrength);
+                brfbk;
+            dffbult:
+                tirow nfw IllfgblArgumfntExdfption("Invblid DES strfngti:" +
+                    dfsStrfngti);
         }
-        return desFactory.generateSecret(spec);
+        rfturn dfsFbdtory.gfnfrbtfSfdrft(spfd);
     }
 }

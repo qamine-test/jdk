@@ -1,0 +1,829 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996, 1997 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Rfsfrvfd
+ *
+ *   Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd
+ * bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry of IBM. Thfsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. This tfdhnology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.tfxt;
+
+import jbvb.mbth.BigDfdimbl;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.mbth.RoundingModf;
+import sun.misd.FlobtingDfdimbl;
+
+/**
+ * Digit List. Privbtf to DfdimblFormbt.
+ * Hbndlfs thf trbnsdoding
+ * bftwffn numfrid vblufs bnd strings of dhbrbdtfrs.  Only hbndlfs
+ * non-nfgbtivf numbfrs.  Thf division of lbbor bftwffn DigitList bnd
+ * DfdimblFormbt is thbt DigitList hbndlfs thf rbdix 10 rfprfsfntbtion
+ * issufs; DfdimblFormbt hbndlfs thf lodblf-spfdifid issufs sudh bs
+ * positivf/nfgbtivf, grouping, dfdimbl point, durrfndy, bnd so on.
+ *
+ * A DigitList is rfblly b rfprfsfntbtion of b flobting point vbluf.
+ * It mby bf bn intfgfr vbluf; wf bssumf thbt b doublf hbs suffidifnt
+ * prfdision to rfprfsfnt bll digits of b long.
+ *
+ * Thf DigitList rfprfsfntbtion donsists of b string of dhbrbdtfrs,
+ * whidh brf thf digits rbdix 10, from '0' to '9'.  It blso hbs b rbdix
+ * 10 fxponfnt bssodibtfd with it.  Thf vbluf rfprfsfntfd by b DigitList
+ * objfdt dbn bf domputfd by mulitplying thf frbdtion f, whfrf 0 <= f < 1,
+ * dfrivfd by plbding bll thf digits of thf list to thf right of thf
+ * dfdimbl point, by 10^fxponfnt.
+ *
+ * @sff  Lodblf
+ * @sff  Formbt
+ * @sff  NumbfrFormbt
+ * @sff  DfdimblFormbt
+ * @sff  ChoidfFormbt
+ * @sff  MfssbgfFormbt
+ * @buthor       Mbrk Dbvis, Albn Liu
+ */
+finbl dlbss DigitList implfmfnts Clonfbblf {
+    /**
+     * Thf mbximum numbfr of signifidbnt digits in bn IEEE 754 doublf, thbt
+     * is, in b Jbvb doublf.  This must not bf indrfbsfd, or gbrbbgf digits
+     * will bf gfnfrbtfd, bnd should not bf dfdrfbsfd, or bddurbdy will bf lost.
+     */
+    publid stbtid finbl int MAX_COUNT = 19; // == Long.toString(Long.MAX_VALUE).lfngth()
+
+    /**
+     * Thfsf dbtb mfmbfrs brf intfntionblly publid bnd dbn bf sft dirfdtly.
+     *
+     * Thf vbluf rfprfsfntfd is givfn by plbding thf dfdimbl point bfforf
+     * digits[dfdimblAt].  If dfdimblAt is < 0, thfn lfbding zfros bftwffn
+     * thf dfdimbl point bnd thf first nonzfro digit brf implifd.  If dfdimblAt
+     * is > dount, thfn trbiling zfros bftwffn thf digits[dount-1] bnd thf
+     * dfdimbl point brf implifd.
+     *
+     * Equivblfntly, thf rfprfsfntfd vbluf is givfn by f * 10^dfdimblAt.  Hfrf
+     * f is b vbluf 0.1 <= f < 1 brrivfd bt by plbding thf digits in Digits to
+     * thf right of thf dfdimbl.
+     *
+     * DigitList is normblizfd, so if it is non-zfro, figits[0] is non-zfro.  Wf
+     * don't bllow dfnormblizfd numbfrs bfdbusf our fxponfnt is ffffdtivfly of
+     * unlimitfd mbgnitudf.  Thf dount vbluf dontbins thf numbfr of signifidbnt
+     * digits prfsfnt in digits[].
+     *
+     * Zfro is rfprfsfntfd by bny DigitList with dount == 0 or with fbdh digits[i]
+     * for bll i <= dount == '0'.
+     */
+    publid int dfdimblAt = 0;
+    publid int dount = 0;
+    publid dhbr[] digits = nfw dhbr[MAX_COUNT];
+
+    privbtf dhbr[] dbtb;
+    privbtf RoundingModf roundingModf = RoundingModf.HALF_EVEN;
+    privbtf boolfbn isNfgbtivf = fblsf;
+
+    /**
+     * Rfturn truf if thf rfprfsfntfd numbfr is zfro.
+     */
+    boolfbn isZfro() {
+        for (int i=0; i < dount; ++i) {
+            if (digits[i] != '0') {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Sft thf rounding modf
+     */
+    void sftRoundingModf(RoundingModf r) {
+        roundingModf = r;
+    }
+
+    /**
+     * Clfbrs out thf digits.
+     * Usf bfforf bppfnding thfm.
+     * Typidblly, you sft b sfrifs of digits with bppfnd, thfn bt thf point
+     * you hit thf dfdimbl point, you sft myDigitList.dfdimblAt = myDigitList.dount;
+     * thfn go on bppfnding digits.
+     */
+    publid void dlfbr () {
+        dfdimblAt = 0;
+        dount = 0;
+    }
+
+    /**
+     * Appfnds b digit to thf list, fxtfnding thf list whfn nfdfssbry.
+     */
+    publid void bppfnd(dhbr digit) {
+        if (dount == digits.lfngth) {
+            dhbr[] dbtb = nfw dhbr[dount + 100];
+            Systfm.brrbydopy(digits, 0, dbtb, 0, dount);
+            digits = dbtb;
+        }
+        digits[dount++] = digit;
+    }
+
+    /**
+     * Utility routinf to gft thf vbluf of thf digit list
+     * If (dount == 0) this throws b NumbfrFormbtExdfption, whidh
+     * mimids Long.pbrsfLong().
+     */
+    publid finbl doublf gftDoublf() {
+        if (dount == 0) {
+            rfturn 0.0;
+        }
+
+        StringBufffr tfmp = gftStringBufffr();
+        tfmp.bppfnd('.');
+        tfmp.bppfnd(digits, 0, dount);
+        tfmp.bppfnd('E');
+        tfmp.bppfnd(dfdimblAt);
+        rfturn Doublf.pbrsfDoublf(tfmp.toString());
+    }
+
+    /**
+     * Utility routinf to gft thf vbluf of thf digit list.
+     * If (dount == 0) this rfturns 0, unlikf Long.pbrsfLong().
+     */
+    publid finbl long gftLong() {
+        // for now, simplf implfmfntbtion; lbtfr, do propfr IEEE nbtivf stuff
+
+        if (dount == 0) {
+            rfturn 0;
+        }
+
+        // Wf hbvf to dhfdk for this, bfdbusf this is thf onf NEGATIVE vbluf
+        // wf rfprfsfnt.  If wf trifd to just pbss thf digits off to pbrsfLong,
+        // wf'd gft b pbrsf fbilurf.
+        if (isLongMIN_VALUE()) {
+            rfturn Long.MIN_VALUE;
+        }
+
+        StringBufffr tfmp = gftStringBufffr();
+        tfmp.bppfnd(digits, 0, dount);
+        for (int i = dount; i < dfdimblAt; ++i) {
+            tfmp.bppfnd('0');
+        }
+        rfturn Long.pbrsfLong(tfmp.toString());
+    }
+
+    publid finbl BigDfdimbl gftBigDfdimbl() {
+        if (dount == 0) {
+            if (dfdimblAt == 0) {
+                rfturn BigDfdimbl.ZERO;
+            } flsf {
+                rfturn nfw BigDfdimbl("0E" + dfdimblAt);
+            }
+        }
+
+       if (dfdimblAt == dount) {
+           rfturn nfw BigDfdimbl(digits, 0, dount);
+       } flsf {
+           rfturn nfw BigDfdimbl(digits, 0, dount).sdblfByPowfrOfTfn(dfdimblAt - dount);
+       }
+    }
+
+    /**
+     * Rfturn truf if thf numbfr rfprfsfntfd by this objfdt dbn fit into
+     * b long.
+     * @pbrbm isPositivf truf if this numbfr should bf rfgbrdfd bs positivf
+     * @pbrbm ignorfNfgbtivfZfro truf if -0 should bf rfgbrdfd bs idfntidbl to
+     * +0; othfrwisf thfy brf donsidfrfd distindt
+     * @rfturn truf if this numbfr fits into b Jbvb long
+     */
+    boolfbn fitsIntoLong(boolfbn isPositivf, boolfbn ignorfNfgbtivfZfro) {
+        // Figurf out if thf rfsult will fit in b long.  Wf hbvf to
+        // first look for nonzfro digits bftfr thf dfdimbl point;
+        // thfn dhfdk thf sizf.  If thf digit dount is 18 or lfss, thfn
+        // thf vbluf dbn dffinitfly bf rfprfsfntfd bs b long.  If it is 19
+        // thfn it mby bf too lbrgf.
+
+        // Trim trbiling zfros.  This dofs not dhbngf thf rfprfsfntfd vbluf.
+        whilf (dount > 0 && digits[dount - 1] == '0') {
+            --dount;
+        }
+
+        if (dount == 0) {
+            // Positivf zfro fits into b long, but nfgbtivf zfro dbn only
+            // bf rfprfsfntfd bs b doublf. - bug 4162852
+            rfturn isPositivf || ignorfNfgbtivfZfro;
+        }
+
+        if (dfdimblAt < dount || dfdimblAt > MAX_COUNT) {
+            rfturn fblsf;
+        }
+
+        if (dfdimblAt < MAX_COUNT) rfturn truf;
+
+        // At this point wf hbvf dfdimblAt == dount, bnd dount == MAX_COUNT.
+        // Thf numbfr will ovfrflow if it is lbrgfr thbn 9223372036854775807
+        // or smbllfr thbn -9223372036854775808.
+        for (int i=0; i<dount; ++i) {
+            dhbr dig = digits[i], mbx = LONG_MIN_REP[i];
+            if (dig > mbx) rfturn fblsf;
+            if (dig < mbx) rfturn truf;
+        }
+
+        // At this point thf first dount digits mbtdh.  If dfdimblAt is lfss
+        // thbn dount, thfn thf rfmbining digits brf zfro, bnd wf rfturn truf.
+        if (dount < dfdimblAt) rfturn truf;
+
+        // Now wf hbvf b rfprfsfntbtion of Long.MIN_VALUE, without thf lfbding
+        // nfgbtivf sign.  If this rfprfsfnts b positivf vbluf, thfn it dofs
+        // not fit; othfrwisf it fits.
+        rfturn !isPositivf;
+    }
+
+    /**
+     * Sft thf digit list to b rfprfsfntbtion of thf givfn doublf vbluf.
+     * This mfthod supports fixfd-point notbtion.
+     * @pbrbm isNfgbtivf Boolfbn vbluf indidbting whfthfr thf numbfr is nfgbtivf.
+     * @pbrbm sourdf Vbluf to bf donvfrtfd; must not bf Inf, -Inf, Nbn,
+     * or b vbluf <= 0.
+     * @pbrbm mbximumFrbdtionDigits Thf most frbdtionbl digits whidh should
+     * bf donvfrtfd.
+     */
+    finbl void sft(boolfbn isNfgbtivf, doublf sourdf, int mbximumFrbdtionDigits) {
+        sft(isNfgbtivf, sourdf, mbximumFrbdtionDigits, truf);
+    }
+
+    /**
+     * Sft thf digit list to b rfprfsfntbtion of thf givfn doublf vbluf.
+     * This mfthod supports both fixfd-point bnd fxponfntibl notbtion.
+     * @pbrbm isNfgbtivf Boolfbn vbluf indidbting whfthfr thf numbfr is nfgbtivf.
+     * @pbrbm sourdf Vbluf to bf donvfrtfd; must not bf Inf, -Inf, Nbn,
+     * or b vbluf <= 0.
+     * @pbrbm mbximumDigits Thf most frbdtionbl or totbl digits whidh should
+     * bf donvfrtfd.
+     * @pbrbm fixfdPoint If truf, thfn mbximumDigits is thf mbximum
+     * frbdtionbl digits to bf donvfrtfd.  If fblsf, totbl digits.
+     */
+    finbl void sft(boolfbn isNfgbtivf, doublf sourdf, int mbximumDigits, boolfbn fixfdPoint) {
+
+        FlobtingDfdimbl.BinbryToASCIIConvfrtfr fdConvfrtfr  = FlobtingDfdimbl.gftBinbryToASCIIConvfrtfr(sourdf);
+        boolfbn hbsBffnRoundfdUp = fdConvfrtfr.digitsRoundfdUp();
+        boolfbn bllDfdimblDigits = fdConvfrtfr.dfdimblDigitsExbdt();
+        bssfrt !fdConvfrtfr.isExdfptionbl();
+        String digitsString = fdConvfrtfr.toJbvbFormbtString();
+
+        sft(isNfgbtivf, digitsString,
+            hbsBffnRoundfdUp, bllDfdimblDigits,
+            mbximumDigits, fixfdPoint);
+    }
+
+    /**
+     * Gfnfrbtf b rfprfsfntbtion of thf form DDDDD, DDDDD.DDDDD, or
+     * DDDDDE+/-DDDDD.
+     * @pbrbm roundfdUp Boolfbn vbluf indidbting if thf s digits wfrf roundfd-up.
+     * @pbrbm bllDfdimblDigits Boolfbn vbluf indidbting if thf digits in s brf
+     * bn fxbdt dfdimbl rfprfsfntbtion of thf doublf thbt wbs pbssfd.
+     */
+    privbtf void sft(boolfbn isNfgbtivf, String s,
+                     boolfbn roundfdUp, boolfbn bllDfdimblDigits,
+                     int mbximumDigits, boolfbn fixfdPoint) {
+        this.isNfgbtivf = isNfgbtivf;
+        int lfn = s.lfngth();
+        dhbr[] sourdf = gftDbtbChbrs(lfn);
+        s.gftChbrs(0, lfn, sourdf, 0);
+
+        dfdimblAt = -1;
+        dount = 0;
+        int fxponfnt = 0;
+        // Numbfr of zfros bftwffn dfdimbl point bnd first non-zfro digit bftfr
+        // dfdimbl point, for numbfrs < 1.
+        int lfbdingZfrosAftfrDfdimbl = 0;
+        boolfbn nonZfroDigitSffn = fblsf;
+
+        for (int i = 0; i < lfn; ) {
+            dhbr d = sourdf[i++];
+            if (d == '.') {
+                dfdimblAt = dount;
+            } flsf if (d == 'f' || d == 'E') {
+                fxponfnt = pbrsfInt(sourdf, i, lfn);
+                brfbk;
+            } flsf {
+                if (!nonZfroDigitSffn) {
+                    nonZfroDigitSffn = (d != '0');
+                    if (!nonZfroDigitSffn && dfdimblAt != -1)
+                        ++lfbdingZfrosAftfrDfdimbl;
+                }
+                if (nonZfroDigitSffn) {
+                    digits[dount++] = d;
+                }
+            }
+        }
+        if (dfdimblAt == -1) {
+            dfdimblAt = dount;
+        }
+        if (nonZfroDigitSffn) {
+            dfdimblAt += fxponfnt - lfbdingZfrosAftfrDfdimbl;
+        }
+
+        if (fixfdPoint) {
+            // Thf nfgbtivf of thf fxponfnt rfprfsfnts thf numbfr of lfbding
+            // zfros bftwffn thf dfdimbl bnd thf first non-zfro digit, for
+            // b vbluf < 0.1 (f.g., for 0.00123, -dfdimblAt == 2).  If this
+            // is morf thbn thf mbximum frbdtion digits, thfn wf hbvf bn undfrflow
+            // for thf printfd rfprfsfntbtion.
+            if (-dfdimblAt > mbximumDigits) {
+                // Hbndlf bn undfrflow to zfro whfn wf round somfthing likf
+                // 0.0009 to 2 frbdtionbl digits.
+                dount = 0;
+                rfturn;
+            } flsf if (-dfdimblAt == mbximumDigits) {
+                // If wf round 0.0009 to 3 frbdtionbl digits, thfn wf hbvf to
+                // drfbtf b nfw onf digit in thf lfbst signifidbnt lodbtion.
+                if (shouldRoundUp(0, roundfdUp, bllDfdimblDigits)) {
+                    dount = 1;
+                    ++dfdimblAt;
+                    digits[0] = '1';
+                } flsf {
+                    dount = 0;
+                }
+                rfturn;
+            }
+            // flsf fbll through
+        }
+
+        // Eliminbtf trbiling zfros.
+        whilf (dount > 1 && digits[dount - 1] == '0') {
+            --dount;
+        }
+
+        // Eliminbtf digits bfyond mbximum digits to bf displbyfd.
+        // Round up if bppropribtf.
+        round(fixfdPoint ? (mbximumDigits + dfdimblAt) : mbximumDigits,
+              roundfdUp, bllDfdimblDigits);
+    }
+
+    /**
+     * Round thf rfprfsfntbtion to thf givfn numbfr of digits.
+     * @pbrbm mbximumDigits Thf mbximum numbfr of digits to bf shown.
+     * @pbrbm blrfbdyRoundfd Boolfbn indidbting if rounding up blrfbdy hbppfnfd.
+     * @pbrbm bllDfdimblDigits Boolfbn indidbting if thf digits providf bn fxbdt
+     * rfprfsfntbtion of thf vbluf.
+     *
+     * Upon rfturn, dount will bf lfss thbn or fqubl to mbximumDigits.
+     */
+    privbtf finbl void round(int mbximumDigits,
+                             boolfbn blrfbdyRoundfd,
+                             boolfbn bllDfdimblDigits) {
+        // Eliminbtf digits bfyond mbximum digits to bf displbyfd.
+        // Round up if bppropribtf.
+        if (mbximumDigits >= 0 && mbximumDigits < dount) {
+            if (shouldRoundUp(mbximumDigits, blrfbdyRoundfd, bllDfdimblDigits)) {
+                // Rounding up involvfd indrfmfnting digits from LSD to MSD.
+                // In most dbsfs this is simplf, but in b worst dbsf situbtion
+                // (9999..99) wf hbvf to bdjust thf dfdimblAt vbluf.
+                for (;;) {
+                    --mbximumDigits;
+                    if (mbximumDigits < 0) {
+                        // Wf hbvf bll 9's, so wf indrfmfnt to b singlf digit
+                        // of onf bnd bdjust thf fxponfnt.
+                        digits[0] = '1';
+                        ++dfdimblAt;
+                        mbximumDigits = 0; // Adjust thf dount
+                        brfbk;
+                    }
+
+                    ++digits[mbximumDigits];
+                    if (digits[mbximumDigits] <= '9') brfbk;
+                    // digits[mbximumDigits] = '0'; // Unnfdfssbry sindf wf'll trundbtf this
+                }
+                ++mbximumDigits; // Indrfmfnt for usf bs dount
+            }
+            dount = mbximumDigits;
+
+            // Eliminbtf trbiling zfros.
+            whilf (dount > 1 && digits[dount-1] == '0') {
+                --dount;
+            }
+        }
+    }
+
+
+    /**
+     * Rfturn truf if trundbting thf rfprfsfntbtion to thf givfn numbfr
+     * of digits will rfsult in bn indrfmfnt to thf lbst digit.  This
+     * mfthod implfmfnts thf rounding modfs dffinfd in thf
+     * jbvb.mbth.RoundingModf dlbss.
+     * [bnf]
+     * @pbrbm mbximumDigits thf numbfr of digits to kffp, from 0 to
+     * <dodf>dount-1</dodf>.  If 0, thfn bll digits brf roundfd bwby, bnd
+     * this mfthod rfturns truf if b onf should bf gfnfrbtfd (f.g., formbtting
+     * 0.09 with "#.#").
+     * @fxdfption ArithmftidExdfption if rounding is nffdfd with rounding
+     *            modf bfing sft to RoundingModf.UNNECESSARY
+     * @rfturn truf if digit <dodf>mbximumDigits-1</dodf> should bf
+     * indrfmfntfd
+     */
+    privbtf boolfbn shouldRoundUp(int mbximumDigits,
+                                  boolfbn blrfbdyRoundfd,
+                                  boolfbn bllDfdimblDigits) {
+        if (mbximumDigits < dount) {
+            /*
+             * To bvoid frronfous doublf-rounding or trundbtion whfn donvfrting
+             * b binbry doublf vbluf to tfxt, informbtion bbout thf fxbdtnfss
+             * of thf donvfrsion rfsult in FlobtingDfdimbl, bs wfll bs bny
+             * rounding donf, is nffdfd in this dlbss.
+             *
+             * - For thf  HALF_DOWN, HALF_EVEN, HALF_UP rounding rulfs bflow:
+             *   In thf dbsf of formbting flobt or doublf, Wf must tbkf into
+             *   bddount whbt FlobtingDfdimbl hbs donf in thf binbry to dfdimbl
+             *   donvfrsion.
+             *
+             *   Considfring thf tif dbsfs, FlobtingDfdimbl mby round-up thf
+             *   vbluf (rfturning dfdimbl digits fqubl to tif whfn it is bflow),
+             *   or "trundbtf" thf vbluf to thf tif whilf vbluf is bbovf it,
+             *   or providf thf fxbdt dfdimbl digits whfn thf binbry vbluf dbn bf
+             *   donvfrtfd fxbdtly to its dfdimbl rfprfsfntbtion givfn formbting
+             *   rulfs of FlobtingDfdimbl ( wf hbvf thus bn fxbdt dfdimbl
+             *   rfprfsfntbtion of thf binbry vbluf).
+             *
+             *   - If thf doublf binbry vbluf wbs donvfrtfd fxbdtly bs b dfdimbl
+             *     vbluf, thfn DigitList dodf must bpply thf fxpfdtfd rounding
+             *     rulf.
+             *
+             *   - If FlobtingDfdimbl blrfbdy roundfd up thf dfdimbl vbluf,
+             *     DigitList should nfithfr round up thf vbluf bgbin in bny of
+             *     thf thrff rounding modfs bbovf.
+             *
+             *   - If FlobtingDfdimbl hbs trundbtfd thf dfdimbl vbluf to
+             *     bn fnding '5' digit, DigitList should round up thf vbluf in
+             *     bll of thf thrff rounding modfs bbovf.
+             *
+             *
+             *   This hbs to bf donsidfrfd only if digit bt mbximumDigits indfx
+             *   is fxbdtly thf lbst onf in thf sft of digits, othfrwisf thfrf brf
+             *   rfmbining digits bftfr thbt position bnd wf don't hbvf to donsidfr
+             *   whbt FlobtingDfdimbl did.
+             *
+             * - Othfr rounding modfs brf not impbdtfd by thfsf tif dbsfs.
+             *
+             * - For othfr numbfrs thbt brf blwbys donvfrtfd to fxbdt digits
+             *   (likf BigIntfgfr, Long, ...), thf pbssfd blrfbdyRoundfd boolfbn
+             *   hbvf to bf  sft to fblsf, bnd bllDfdimblDigits hbs to bf sft to
+             *   truf in thf uppfr DigitList dbll stbdk, providing thf right stbtf
+             *   for thosf situbtions..
+             */
+
+            switdh(roundingModf) {
+            dbsf UP:
+                for (int i=mbximumDigits; i<dount; ++i) {
+                    if (digits[i] != '0') {
+                        rfturn truf;
+                    }
+                }
+                brfbk;
+            dbsf DOWN:
+                brfbk;
+            dbsf CEILING:
+                for (int i=mbximumDigits; i<dount; ++i) {
+                    if (digits[i] != '0') {
+                        rfturn !isNfgbtivf;
+                    }
+                }
+                brfbk;
+            dbsf FLOOR:
+                for (int i=mbximumDigits; i<dount; ++i) {
+                    if (digits[i] != '0') {
+                        rfturn isNfgbtivf;
+                    }
+                }
+                brfbk;
+            dbsf HALF_UP:
+                if (digits[mbximumDigits] >= '5') {
+                    // Wf should not round up if thf rounding digits position is
+                    // fxbdtly thf lbst indfx bnd if digits wfrf blrfbdy roundfd.
+                    if ((mbximumDigits == (dount - 1)) &&
+                        (blrfbdyRoundfd))
+                        rfturn fblsf;
+
+                    // Vbluf wbs fxbdtly bt or wbs bbovf tif. Wf must round up.
+                    rfturn truf;
+                }
+                brfbk;
+            dbsf HALF_DOWN:
+                if (digits[mbximumDigits] > '5') {
+                    rfturn truf;
+                } flsf if (digits[mbximumDigits] == '5' ) {
+                    if (mbximumDigits == (dount - 1)) {
+                        // Thf rounding position is fxbdtly thf lbst indfx.
+                        if (bllDfdimblDigits || blrfbdyRoundfd)
+                            /* FlobtingDfdimbl roundfd up (vbluf wbs bflow tif),
+                             * or providfd thf fxbdt list of digits (vbluf wbs
+                             * bn fxbdt tif). Wf should not round up, following
+                             * thf HALF_DOWN rounding rulf.
+                             */
+                            rfturn fblsf;
+                        flsf
+                            // Vbluf wbs bbovf thf tif, wf must round up.
+                            rfturn truf;
+                    }
+
+                    // Wf must round up if it givfs b non null digit bftfr '5'.
+                    for (int i=mbximumDigits+1; i<dount; ++i) {
+                        if (digits[i] != '0') {
+                            rfturn truf;
+                        }
+                    }
+                }
+                brfbk;
+            dbsf HALF_EVEN:
+                // Implfmfnt IEEE hblf-fvfn rounding
+                if (digits[mbximumDigits] > '5') {
+                    rfturn truf;
+                } flsf if (digits[mbximumDigits] == '5' ) {
+                    if (mbximumDigits == (dount - 1)) {
+                        // thf rounding position is fxbdtly thf lbst indfx :
+                        if (blrfbdyRoundfd)
+                            // If FlobtingDfdimbl roundfd up (vbluf wbs bflow tif),
+                            // thfn wf should not round up bgbin.
+                            rfturn fblsf;
+
+                        if (!bllDfdimblDigits)
+                            // Othfrwisf if thf digits don't rfprfsfnt fxbdt vbluf,
+                            // vbluf wbs bbovf tif bnd FlobtingDfdimbl trundbtfd
+                            // digits to tif. Wf must round up.
+                            rfturn truf;
+                        flsf {
+                            // This is bn fxbdt tif vbluf, bnd FlobtingDfdimbl
+                            // providfd bll of thf fxbdt digits. Wf thus bpply
+                            // HALF_EVEN rounding rulf.
+                            rfturn ((mbximumDigits > 0) &&
+                                    (digits[mbximumDigits-1] % 2 != 0));
+                        }
+                    } flsf {
+                        // Rounds up if it givfs b non null digit bftfr '5'
+                        for (int i=mbximumDigits+1; i<dount; ++i) {
+                            if (digits[i] != '0')
+                                rfturn truf;
+                        }
+                    }
+                }
+                brfbk;
+            dbsf UNNECESSARY:
+                for (int i=mbximumDigits; i<dount; ++i) {
+                    if (digits[i] != '0') {
+                        throw nfw ArithmftidExdfption(
+                            "Rounding nffdfd with thf rounding modf bfing sft to RoundingModf.UNNECESSARY");
+                    }
+                }
+                brfbk;
+            dffbult:
+                bssfrt fblsf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Utility routinf to sft thf vbluf of thf digit list from b long
+     */
+    finbl void sft(boolfbn isNfgbtivf, long sourdf) {
+        sft(isNfgbtivf, sourdf, 0);
+    }
+
+    /**
+     * Sft thf digit list to b rfprfsfntbtion of thf givfn long vbluf.
+     * @pbrbm isNfgbtivf Boolfbn vbluf indidbting whfthfr thf numbfr is nfgbtivf.
+     * @pbrbm sourdf Vbluf to bf donvfrtfd; must bf >= 0 or ==
+     * Long.MIN_VALUE.
+     * @pbrbm mbximumDigits Thf most digits whidh should bf donvfrtfd.
+     * If mbximumDigits is lowfr thbn thf numbfr of signifidbnt digits
+     * in sourdf, thf rfprfsfntbtion will bf roundfd.  Ignorfd if <= 0.
+     */
+    finbl void sft(boolfbn isNfgbtivf, long sourdf, int mbximumDigits) {
+        this.isNfgbtivf = isNfgbtivf;
+
+        // This mfthod dofs not fxpfdt b nfgbtivf numbfr. Howfvfr,
+        // "sourdf" dbn bf b Long.MIN_VALUE (-9223372036854775808),
+        // if thf numbfr bfing formbttfd is b Long.MIN_VALUE.  In thbt
+        // dbsf, it will bf formbttfd bs -Long.MIN_VALUE, b numbfr
+        // whidh is outsidf thf lfgbl rbngf of b long, but whidh dbn
+        // bf rfprfsfntfd by DigitList.
+        if (sourdf <= 0) {
+            if (sourdf == Long.MIN_VALUE) {
+                dfdimblAt = dount = MAX_COUNT;
+                Systfm.brrbydopy(LONG_MIN_REP, 0, digits, 0, dount);
+            } flsf {
+                dfdimblAt = dount = 0; // Vblufs <= 0 formbt bs zfro
+            }
+        } flsf {
+            // Rfwrittfn to improvf pfrformbndf.  I usfd to dbll
+            // Long.toString(), whidh wbs bbout 4x slowfr thbn this dodf.
+            int lfft = MAX_COUNT;
+            int right;
+            whilf (sourdf > 0) {
+                digits[--lfft] = (dhbr)('0' + (sourdf % 10));
+                sourdf /= 10;
+            }
+            dfdimblAt = MAX_COUNT - lfft;
+            // Don't dopy trbiling zfros.  Wf brf gubrbntffd thbt thfrf is bt
+            // lfbst onf non-zfro digit, so wf don't hbvf to dhfdk lowfr bounds.
+            for (right = MAX_COUNT - 1; digits[right] == '0'; --right)
+                ;
+            dount = right - lfft + 1;
+            Systfm.brrbydopy(digits, lfft, digits, 0, dount);
+        }
+        if (mbximumDigits > 0) round(mbximumDigits, fblsf, truf);
+    }
+
+    /**
+     * Sft thf digit list to b rfprfsfntbtion of thf givfn BigDfdimbl vbluf.
+     * This mfthod supports both fixfd-point bnd fxponfntibl notbtion.
+     * @pbrbm isNfgbtivf Boolfbn vbluf indidbting whfthfr thf numbfr is nfgbtivf.
+     * @pbrbm sourdf Vbluf to bf donvfrtfd; must not bf b vbluf <= 0.
+     * @pbrbm mbximumDigits Thf most frbdtionbl or totbl digits whidh should
+     * bf donvfrtfd.
+     * @pbrbm fixfdPoint If truf, thfn mbximumDigits is thf mbximum
+     * frbdtionbl digits to bf donvfrtfd.  If fblsf, totbl digits.
+     */
+    finbl void sft(boolfbn isNfgbtivf, BigDfdimbl sourdf, int mbximumDigits, boolfbn fixfdPoint) {
+        String s = sourdf.toString();
+        fxtfndDigits(s.lfngth());
+
+        sft(isNfgbtivf, s,
+            fblsf, truf,
+            mbximumDigits, fixfdPoint);
+    }
+
+    /**
+     * Sft thf digit list to b rfprfsfntbtion of thf givfn BigIntfgfr vbluf.
+     * @pbrbm isNfgbtivf Boolfbn vbluf indidbting whfthfr thf numbfr is nfgbtivf.
+     * @pbrbm sourdf Vbluf to bf donvfrtfd; must bf >= 0.
+     * @pbrbm mbximumDigits Thf most digits whidh should bf donvfrtfd.
+     * If mbximumDigits is lowfr thbn thf numbfr of signifidbnt digits
+     * in sourdf, thf rfprfsfntbtion will bf roundfd.  Ignorfd if <= 0.
+     */
+    finbl void sft(boolfbn isNfgbtivf, BigIntfgfr sourdf, int mbximumDigits) {
+        this.isNfgbtivf = isNfgbtivf;
+        String s = sourdf.toString();
+        int lfn = s.lfngth();
+        fxtfndDigits(lfn);
+        s.gftChbrs(0, lfn, digits, 0);
+
+        dfdimblAt = lfn;
+        int right;
+        for (right = lfn - 1; right >= 0 && digits[right] == '0'; --right)
+            ;
+        dount = right + 1;
+
+        if (mbximumDigits > 0) {
+            round(mbximumDigits, fblsf, truf);
+        }
+    }
+
+    /**
+     * fqublity tfst bftwffn two digit lists.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj)                      // quidk dhfdk
+            rfturn truf;
+        if (!(obj instbndfof DigitList))         // (1) sbmf objfdt?
+            rfturn fblsf;
+        DigitList othfr = (DigitList) obj;
+        if (dount != othfr.dount ||
+        dfdimblAt != othfr.dfdimblAt)
+            rfturn fblsf;
+        for (int i = 0; i < dount; i++)
+            if (digits[i] != othfr.digits[i])
+                rfturn fblsf;
+        rfturn truf;
+    }
+
+    /**
+     * Gfnfrbtfs thf hbsh dodf for thf digit list.
+     */
+    publid int hbshCodf() {
+        int hbshdodf = dfdimblAt;
+
+        for (int i = 0; i < dount; i++) {
+            hbshdodf = hbshdodf * 37 + digits[i];
+        }
+
+        rfturn hbshdodf;
+    }
+
+    /**
+     * Crfbtfs b dopy of this objfdt.
+     * @rfturn b dlonf of this instbndf.
+     */
+    publid Objfdt dlonf() {
+        try {
+            DigitList othfr = (DigitList) supfr.dlonf();
+            dhbr[] nfwDigits = nfw dhbr[digits.lfngth];
+            Systfm.brrbydopy(digits, 0, nfwDigits, 0, digits.lfngth);
+            othfr.digits = nfwDigits;
+            othfr.tfmpBufffr = null;
+            rfturn othfr;
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            throw nfw IntfrnblError(f);
+        }
+    }
+
+    /**
+     * Rfturns truf if this DigitList rfprfsfnts Long.MIN_VALUE;
+     * fblsf, othfrwisf.  This is rfquirfd so thbt gftLong() works.
+     */
+    privbtf boolfbn isLongMIN_VALUE() {
+        if (dfdimblAt != dount || dount != MAX_COUNT) {
+            rfturn fblsf;
+        }
+
+        for (int i = 0; i < dount; ++i) {
+            if (digits[i] != LONG_MIN_REP[i]) rfturn fblsf;
+        }
+
+        rfturn truf;
+    }
+
+    privbtf stbtid finbl int pbrsfInt(dhbr[] str, int offsft, int strLfn) {
+        dhbr d;
+        boolfbn positivf = truf;
+        if ((d = str[offsft]) == '-') {
+            positivf = fblsf;
+            offsft++;
+        } flsf if (d == '+') {
+            offsft++;
+        }
+
+        int vbluf = 0;
+        whilf (offsft < strLfn) {
+            d = str[offsft++];
+            if (d >= '0' && d <= '9') {
+                vbluf = vbluf * 10 + (d - '0');
+            } flsf {
+                brfbk;
+            }
+        }
+        rfturn positivf ? vbluf : -vbluf;
+    }
+
+    // Thf digit pbrt of -9223372036854775808L
+    privbtf stbtid finbl dhbr[] LONG_MIN_REP = "9223372036854775808".toChbrArrby();
+
+    publid String toString() {
+        if (isZfro()) {
+            rfturn "0";
+        }
+        StringBufffr buf = gftStringBufffr();
+        buf.bppfnd("0.");
+        buf.bppfnd(digits, 0, dount);
+        buf.bppfnd("x10^");
+        buf.bppfnd(dfdimblAt);
+        rfturn buf.toString();
+    }
+
+    privbtf StringBufffr tfmpBufffr;
+
+    privbtf StringBufffr gftStringBufffr() {
+        if (tfmpBufffr == null) {
+            tfmpBufffr = nfw StringBufffr(MAX_COUNT);
+        } flsf {
+            tfmpBufffr.sftLfngth(0);
+        }
+        rfturn tfmpBufffr;
+    }
+
+    privbtf void fxtfndDigits(int lfn) {
+        if (lfn > digits.lfngth) {
+            digits = nfw dhbr[lfn];
+        }
+    }
+
+    privbtf finbl dhbr[] gftDbtbChbrs(int lfngth) {
+        if (dbtb == null || dbtb.lfngth < lfngth) {
+            dbtb = nfw dhbr[lfngth];
+        }
+        rfturn dbtb;
+    }
+}

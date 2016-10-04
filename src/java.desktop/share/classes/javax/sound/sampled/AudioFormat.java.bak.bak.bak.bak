@@ -1,0 +1,645 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.sbmplfd;
+
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+
+/**
+ * {@dodf AudioFormbt} is thf dlbss thbt spfdififs b pbrtidulbr brrbngfmfnt of
+ * dbtb in b sound strfbm. By fxbmining thf informbtion storfd in thf budio
+ * formbt, you dbn disdovfr how to intfrprft thf bits in thf binbry sound dbtb.
+ * <p>
+ * Evfry dbtb linf hbs bn budio formbt bssodibtfd with its dbtb strfbm. Thf
+ * budio formbt of b sourdf (plbybbdk) dbtb linf indidbtfs whbt kind of dbtb thf
+ * dbtb linf fxpfdts to rfdfivf for output. For b tbrgft (dbpturf) dbtb linf,
+ * thf budio formbt spfdififs thf kind of thf dbtb thbt dbn bf rfbd from thf
+ * linf.
+ * Sound filfs blso hbvf budio formbts, of doursf. Thf {@link AudioFilfFormbt}
+ * dlbss fndbpsulbtfs bn {@dodf AudioFormbt} in bddition to othfr, filf-spfdifid
+ * informbtion. Similbrly, bn {@link AudioInputStrfbm} hbs bn
+ * {@dodf AudioFormbt}.
+ * <p>
+ * Thf {@dodf AudioFormbt} dlbss bddommodbtfs b numbfr of dommon sound-filf
+ * fndoding tfdhniqufs, indluding pulsf-dodf modulbtion (PCM), mu-lbw fndoding,
+ * bnd b-lbw fndoding. Thfsf fndoding tfdhniqufs brf prfdffinfd, but sfrvidf
+ * providfrs dbn drfbtf nfw fndoding typfs. Thf fndoding thbt b spfdifid formbt
+ * usfs is nbmfd by its {@dodf fndoding} fifld.
+ * <p>
+ * In bddition to thf fndoding, thf budio formbt indludfs othfr propfrtifs thbt
+ * furthfr spfdify thf fxbdt brrbngfmfnt of thf dbtb. Thfsf indludf thf numbfr
+ * of dhbnnfls, sbmplf rbtf, sbmplf sizf, bytf ordfr, frbmf rbtf, bnd frbmf
+ * sizf. Sounds mby hbvf difffrfnt numbfrs of budio dhbnnfls: onf for mono, two
+ * for stfrfo. Thf sbmplf rbtf mfbsurfs how mbny "snbpshots" (sbmplfs) of thf
+ * sound prfssurf brf tbkfn pfr sfdond, pfr dhbnnfl. (If thf sound is stfrfo
+ * rbthfr thbn mono, two sbmplfs brf bdtublly mfbsurfd bt fbdh instbnt of timf:
+ * onf for thf lfft dhbnnfl, bnd bnothfr for thf right dhbnnfl; howfvfr, thf
+ * sbmplf rbtf still mfbsurfs thf numbfr pfr dhbnnfl, so thf rbtf is thf sbmf
+ * rfgbrdlfss of thf numbfr of dhbnnfls. This is thf stbndbrd usf of thf tfrm.)
+ * Thf sbmplf sizf indidbtfs how mbny bits brf usfd to storf fbdh snbpshot; 8
+ * bnd 16 brf typidbl vblufs. For 16-bit sbmplfs (or bny othfr sbmplf sizf
+ * lbrgfr thbn b bytf), bytf ordfr is importbnt; thf bytfs in fbdh sbmplf brf
+ * brrbngfd in fithfr thf "littlf-fndibn" or "big-fndibn" stylf. For fndodings
+ * likf PCM, b frbmf donsists of thf sft of sbmplfs for bll dhbnnfls bt b givfn
+ * point in timf, bnd so thf sizf of b frbmf (in bytfs) is blwbys fqubl to thf
+ * sizf of b sbmplf (in bytfs) timfs thf numbfr of dhbnnfls. Howfvfr, with somf
+ * othfr sorts of fndodings b frbmf dbn dontbin b bundlf of domprfssfd dbtb for
+ * b wholf sfrifs of sbmplfs, bs wfll bs bdditionbl, non-sbmplf dbtb. For sudh
+ * fndodings, thf sbmplf rbtf bnd sbmplf sizf rfffr to thf dbtb bftfr it is
+ * dfdodfd into PCM, bnd so thfy brf domplftfly difffrfnt from thf frbmf rbtf
+ * bnd frbmf sizf.
+ * <p>
+ * An {@dodf AudioFormbt} objfdt dbn indludf b sft of propfrtifs. A propfrty is
+ * b pbir of kfy bnd vbluf: thf kfy is of typf {@dodf String}, thf bssodibtfd
+ * propfrty vbluf is bn brbitrbry objfdt. Propfrtifs spfdify bdditionbl formbt
+ * spfdifidbtions, likf thf bit rbtf for domprfssfd formbts. Propfrtifs brf
+ * mbinly usfd bs b mfbns to trbnsport bdditionbl informbtion of thf budio
+ * formbt to bnd from thf sfrvidf providfrs. Thfrfforf, propfrtifs brf ignorfd
+ * in thf {@link #mbtdhfs(AudioFormbt)} mfthod. Howfvfr, mfthods whidh rfly on
+ * thf instbllfd sfrvidf providfrs, likf
+ * {@link AudioSystfm#isConvfrsionSupportfd (AudioFormbt, AudioFormbt)
+ * isConvfrsionSupportfd} mby donsidfr propfrtifs, dfpfnding on thf rfspfdtivf
+ * sfrvidf providfr implfmfntbtion.
+ * <p>
+ * Thf following tbblf lists somf dommon propfrtifs whidh sfrvidf providfrs
+ * should usf, if bpplidbblf:
+ *
+ * <tbblf bordfr=0>
+ *  <dbption>Audio Formbt Propfrtifs</dbption>
+ *  <tr>
+ *   <th>Propfrty kfy</th>
+ *   <th>Vbluf typf</th>
+ *   <th>Dfsdription</th>
+ *  </tr>
+ *  <tr>
+ *   <td>&quot;bitrbtf&quot;</td>
+ *   <td>{@link jbvb.lbng.Intfgfr Intfgfr}</td>
+ *   <td>bvfrbgf bit rbtf in bits pfr sfdond</td>
+ *  </tr>
+ *  <tr>
+ *   <td>&quot;vbr&quot;</td>
+ *   <td>{@link jbvb.lbng.Boolfbn Boolfbn}</td>
+ *   <td>{@dodf truf}, if thf filf is fndodfd in vbribblf bit
+ *       rbtf (VBR)</td>
+ *  </tr>
+ *  <tr>
+ *   <td>&quot;qublity&quot;</td>
+ *   <td>{@link jbvb.lbng.Intfgfr Intfgfr}</td>
+ *   <td>fndoding/donvfrsion qublity, 1..100</td>
+ *  </tr>
+ * </tbblf>
+ * <p>
+ * Vfndors of sfrvidf providfrs (plugins) brf fndourbgfd to sffk informbtion
+ * bbout othfr blrfbdy fstbblishfd propfrtifs in third pbrty plugins, bnd follow
+ * thf sbmf donvfntions.
+ *
+ * @buthor Kbrb Kytlf
+ * @buthor Floribn Bomfrs
+ * @sff DbtbLinf#gftFormbt
+ * @sff AudioInputStrfbm#gftFormbt
+ * @sff AudioFilfFormbt
+ * @sff jbvbx.sound.sbmplfd.spi.FormbtConvfrsionProvidfr
+ * @sindf 1.3
+ */
+publid dlbss AudioFormbt {
+
+    /**
+     * Thf budio fndoding tfdhniquf usfd by this formbt.
+     */
+    protfdtfd Endoding fndoding;
+
+    /**
+     * Thf numbfr of sbmplfs plbyfd or rfdordfd pfr sfdond, for sounds thbt hbvf
+     * this formbt.
+     */
+    protfdtfd flobt sbmplfRbtf;
+
+    /**
+     * Thf numbfr of bits in fbdh sbmplf of b sound thbt hbs this formbt.
+     */
+    protfdtfd int sbmplfSizfInBits;
+
+    /**
+     * Thf numbfr of budio dhbnnfls in this formbt (1 for mono, 2 for stfrfo).
+     */
+    protfdtfd int dhbnnfls;
+
+    /**
+     * Thf numbfr of bytfs in fbdh frbmf of b sound thbt hbs this formbt.
+     */
+    protfdtfd int frbmfSizf;
+
+    /**
+     * Thf numbfr of frbmfs plbyfd or rfdordfd pfr sfdond, for sounds thbt hbvf
+     * this formbt.
+     */
+    protfdtfd flobt frbmfRbtf;
+
+    /**
+     * Indidbtfs whfthfr thf budio dbtb is storfd in big-fndibn or littlf-fndibn
+     * ordfr.
+     */
+    protfdtfd boolfbn bigEndibn;
+
+    /**
+     * Thf sft of propfrtifs.
+     */
+    privbtf HbshMbp<String, Objfdt> propfrtifs;
+
+    /**
+     * Construdts bn {@dodf AudioFormbt} with thf givfn pbrbmftfrs. Thf fndoding
+     * spfdififs thf donvfntion usfd to rfprfsfnt thf dbtb. Thf othfr pbrbmftfrs
+     * brf furthfr fxplbinfd in thf {@link AudioFormbt dlbss dfsdription}.
+     *
+     * @pbrbm  fndoding thf budio fndoding tfdhniquf
+     * @pbrbm  sbmplfRbtf thf numbfr of sbmplfs pfr sfdond
+     * @pbrbm  sbmplfSizfInBits thf numbfr of bits in fbdh sbmplf
+     * @pbrbm  dhbnnfls thf numbfr of dhbnnfls (1 for mono, 2 for stfrfo,
+     *         bnd so on)
+     * @pbrbm  frbmfSizf thf numbfr of bytfs in fbdh frbmf
+     * @pbrbm  frbmfRbtf thf numbfr of frbmfs pfr sfdond
+     * @pbrbm  bigEndibn indidbtfs whfthfr thf dbtb for b singlf sbmplf is
+     *         storfd in big-fndibn bytf ordfr ({@dodf fblsf} mfbns
+     *         littlf-fndibn)
+     */
+    publid AudioFormbt(Endoding fndoding, flobt sbmplfRbtf, int sbmplfSizfInBits,
+                       int dhbnnfls, int frbmfSizf, flobt frbmfRbtf, boolfbn bigEndibn) {
+
+        this.fndoding = fndoding;
+        this.sbmplfRbtf = sbmplfRbtf;
+        this.sbmplfSizfInBits = sbmplfSizfInBits;
+        this.dhbnnfls = dhbnnfls;
+        this.frbmfSizf = frbmfSizf;
+        this.frbmfRbtf = frbmfRbtf;
+        this.bigEndibn = bigEndibn;
+        this.propfrtifs = null;
+    }
+
+    /**
+     * Construdts bn {@dodf AudioFormbt} with thf givfn pbrbmftfrs. Thf fndoding
+     * spfdififs thf donvfntion usfd to rfprfsfnt thf dbtb. Thf othfr pbrbmftfrs
+     * brf furthfr fxplbinfd in thf {@link AudioFormbt dlbss dfsdription}.
+     *
+     * @pbrbm  fndoding thf budio fndoding tfdhniquf
+     * @pbrbm  sbmplfRbtf thf numbfr of sbmplfs pfr sfdond
+     * @pbrbm  sbmplfSizfInBits thf numbfr of bits in fbdh sbmplf
+     * @pbrbm  dhbnnfls thf numbfr of dhbnnfls (1 for mono, 2 for stfrfo, bnd so
+     *         on)
+     * @pbrbm  frbmfSizf thf numbfr of bytfs in fbdh frbmf
+     * @pbrbm  frbmfRbtf thf numbfr of frbmfs pfr sfdond
+     * @pbrbm  bigEndibn indidbtfs whfthfr thf dbtb for b singlf sbmplf is
+     *         storfd in big-fndibn bytf ordfr ({@dodf fblsf} mfbns littlf-fndibn)
+     * @pbrbm  propfrtifs b {@dodf Mbp<String, Objfdt>} objfdt dontbining formbt
+     *         propfrtifs
+     * @sindf 1.5
+     */
+    publid AudioFormbt(Endoding fndoding, flobt sbmplfRbtf,
+                       int sbmplfSizfInBits, int dhbnnfls,
+                       int frbmfSizf, flobt frbmfRbtf,
+                       boolfbn bigEndibn, Mbp<String, Objfdt> propfrtifs) {
+        this(fndoding, sbmplfRbtf, sbmplfSizfInBits, dhbnnfls,
+             frbmfSizf, frbmfRbtf, bigEndibn);
+        this.propfrtifs = nfw HbshMbp<String, Objfdt>(propfrtifs);
+    }
+
+    /**
+     * Construdts bn {@dodf AudioFormbt} with b linfbr PCM fndoding bnd thf
+     * givfn pbrbmftfrs. Thf frbmf sizf is sft to thf numbfr of bytfs rfquirfd
+     * to dontbin onf sbmplf from fbdh dhbnnfl, bnd thf frbmf rbtf is sft to thf
+     * sbmplf rbtf.
+     *
+     * @pbrbm  sbmplfRbtf thf numbfr of sbmplfs pfr sfdond
+     * @pbrbm  sbmplfSizfInBits thf numbfr of bits in fbdh sbmplf
+     * @pbrbm  dhbnnfls thf numbfr of dhbnnfls (1 for mono, 2 for stfrfo, bnd so
+     *         on)
+     * @pbrbm  signfd indidbtfs whfthfr thf dbtb is signfd or unsignfd
+     * @pbrbm  bigEndibn indidbtfs whfthfr thf dbtb for b singlf sbmplf is
+     *         storfd in big-fndibn bytf ordfr ({@dodf fblsf} mfbns
+     *         littlf-fndibn)
+     */
+    publid AudioFormbt(flobt sbmplfRbtf, int sbmplfSizfInBits,
+                       int dhbnnfls, boolfbn signfd, boolfbn bigEndibn) {
+
+        this((signfd == truf ? Endoding.PCM_SIGNED : Endoding.PCM_UNSIGNED),
+             sbmplfRbtf,
+             sbmplfSizfInBits,
+             dhbnnfls,
+             (dhbnnfls == AudioSystfm.NOT_SPECIFIED || sbmplfSizfInBits == AudioSystfm.NOT_SPECIFIED)?
+             AudioSystfm.NOT_SPECIFIED:
+             ((sbmplfSizfInBits + 7) / 8) * dhbnnfls,
+             sbmplfRbtf,
+             bigEndibn);
+    }
+
+    /**
+     * Obtbins thf typf of fndoding for sounds in this formbt.
+     *
+     * @rfturn thf fndoding typf
+     * @sff Endoding#PCM_SIGNED
+     * @sff Endoding#PCM_UNSIGNED
+     * @sff Endoding#ULAW
+     * @sff Endoding#ALAW
+     */
+    publid Endoding gftEndoding() {
+
+        rfturn fndoding;
+    }
+
+    /**
+     * Obtbins thf sbmplf rbtf. For domprfssfd formbts, thf rfturn vbluf is thf
+     * sbmplf rbtf of thf undomprfssfd budio dbtb. Whfn this AudioFormbt is usfd
+     * for qufrifs (f.g. {@link AudioSystfm#isConvfrsionSupportfd(AudioFormbt,
+     * AudioFormbt) AudioSystfm.isConvfrsionSupportfd}) or dbpbbilitifs (f.g.
+     * {@link DbtbLinf.Info#gftFormbts DbtbLinf.Info.gftFormbts}), b sbmplf rbtf
+     * of {@dodf AudioSystfm.NOT_SPECIFIED} mfbns thbt bny sbmplf rbtf is
+     * bddfptbblf. {@dodf AudioSystfm.NOT_SPECIFIED} is blso rfturnfd whfn thf
+     * sbmplf rbtf is not dffinfd for this budio formbt.
+     *
+     * @rfturn thf numbfr of sbmplfs pfr sfdond, or
+     *         {@dodf AudioSystfm.NOT_SPECIFIED}
+     * @sff #gftFrbmfRbtf()
+     * @sff AudioSystfm#NOT_SPECIFIED
+     */
+    publid flobt gftSbmplfRbtf() {
+
+        rfturn sbmplfRbtf;
+    }
+
+    /**
+     * Obtbins thf sizf of b sbmplf. For domprfssfd formbts, thf rfturn vbluf is
+     * thf sbmplf sizf of thf undomprfssfd budio dbtb. Whfn this AudioFormbt is
+     * usfd for qufrifs (f.g. {@link AudioSystfm#isConvfrsionSupportfd(
+     * AudioFormbt,AudioFormbt) AudioSystfm.isConvfrsionSupportfd}) or
+     * dbpbbilitifs (f.g.
+     * {@link DbtbLinf.Info#gftFormbts DbtbLinf.Info.gftFormbts}), b sbmplf sizf
+     * of {@dodf AudioSystfm.NOT_SPECIFIED} mfbns thbt bny sbmplf sizf is
+     * bddfptbblf. {@dodf AudioSystfm.NOT_SPECIFIED} is blso rfturnfd whfn thf
+     * sbmplf sizf is not dffinfd for this budio formbt.
+     *
+     * @rfturn thf numbfr of bits in fbdh sbmplf, or
+     *         {@dodf AudioSystfm.NOT_SPECIFIED}
+     * @sff #gftFrbmfSizf()
+     * @sff AudioSystfm#NOT_SPECIFIED
+     */
+    publid int gftSbmplfSizfInBits() {
+
+        rfturn sbmplfSizfInBits;
+    }
+
+    /**
+     * Obtbins thf numbfr of dhbnnfls. Whfn this AudioFormbt is usfd for qufrifs
+     * (f.g. {@link AudioSystfm#isConvfrsionSupportfd(AudioFormbt, AudioFormbt)
+     * AudioSystfm.isConvfrsionSupportfd}) or dbpbbilitifs (f.g.
+     * {@link DbtbLinf.Info#gftFormbts DbtbLinf.Info.gftFormbts}), b rfturn
+     * vbluf of {@dodf AudioSystfm.NOT_SPECIFIED} mfbns thbt bny (positivf)
+     * numbfr of dhbnnfls is bddfptbblf.
+     *
+     * @rfturn Thf numbfr of dhbnnfls (1 for mono, 2 for stfrfo, ftd.), or
+     *         {@dodf AudioSystfm.NOT_SPECIFIED}
+     * @sff AudioSystfm#NOT_SPECIFIED
+     */
+    publid int gftChbnnfls() {
+
+        rfturn dhbnnfls;
+    }
+
+    /**
+     * Obtbins thf frbmf sizf in bytfs. Whfn this AudioFormbt is usfd for
+     * qufrifs (f.g. {@link AudioSystfm#isConvfrsionSupportfd(AudioFormbt,
+     * AudioFormbt) AudioSystfm.isConvfrsionSupportfd}) or dbpbbilitifs (f.g.
+     * {@link DbtbLinf.Info#gftFormbts DbtbLinf.Info.gftFormbts}), b frbmf sizf
+     * of {@dodf AudioSystfm.NOT_SPECIFIED} mfbns thbt bny frbmf sizf is
+     * bddfptbblf. {@dodf AudioSystfm.NOT_SPECIFIED} is blso rfturnfd whfn thf
+     * frbmf sizf is not dffinfd for this budio formbt.
+     *
+     * @rfturn thf numbfr of bytfs pfr frbmf, or
+     *         {@dodf AudioSystfm.NOT_SPECIFIED}
+     * @sff #gftSbmplfSizfInBits()
+     * @sff AudioSystfm#NOT_SPECIFIED
+     */
+    publid int gftFrbmfSizf() {
+
+        rfturn frbmfSizf;
+    }
+
+    /**
+     * Obtbins thf frbmf rbtf in frbmfs pfr sfdond. Whfn this AudioFormbt is
+     * usfd for qufrifs (f.g. {@link AudioSystfm#isConvfrsionSupportfd(
+     * AudioFormbt,AudioFormbt) AudioSystfm.isConvfrsionSupportfd}) or
+     * dbpbbilitifs (f.g.
+     * {@link DbtbLinf.Info#gftFormbts DbtbLinf.Info.gftFormbts}), b frbmf rbtf
+     * of {@dodf AudioSystfm.NOT_SPECIFIED} mfbns thbt bny frbmf rbtf is
+     * bddfptbblf. {@dodf AudioSystfm.NOT_SPECIFIED} is blso rfturnfd whfn thf
+     * frbmf rbtf is not dffinfd for this budio formbt.
+     *
+     * @rfturn thf numbfr of frbmfs pfr sfdond, or
+     *         {@dodf AudioSystfm.NOT_SPECIFIED}
+     * @sff #gftSbmplfRbtf()
+     * @sff AudioSystfm#NOT_SPECIFIED
+     */
+    publid flobt gftFrbmfRbtf() {
+
+        rfturn frbmfRbtf;
+    }
+
+    /**
+     * Indidbtfs whfthfr thf budio dbtb is storfd in big-fndibn or littlf-fndibn
+     * bytf ordfr. If thf sbmplf sizf is not morf thbn onf bytf, thf rfturn
+     * vbluf is irrflfvbnt.
+     *
+     * @rfturn {@dodf truf} if thf dbtb is storfd in big-fndibn bytf ordfr,
+     *         {@dodf fblsf} if littlf-fndibn
+     */
+    publid boolfbn isBigEndibn() {
+
+        rfturn bigEndibn;
+    }
+
+    /**
+     * Obtbin bn unmodifibblf mbp of propfrtifs. Thf dondfpt of propfrtifs is
+     * furthfr fxplbinfd in thf {@link AudioFilfFormbt dlbss dfsdription}.
+     *
+     * @rfturn b {@dodf Mbp<String, Objfdt>} objfdt dontbining bll propfrtifs.
+     *         If no propfrtifs brf rfdognizfd, bn fmpty mbp is rfturnfd.
+     * @sff #gftPropfrty(String)
+     * @sindf 1.5
+     */
+    @SupprfssWbrnings("undhfdkfd") // Cbst of rfsult of dlonf.
+    publid Mbp<String,Objfdt> propfrtifs() {
+        Mbp<String,Objfdt> rft;
+        if (propfrtifs == null) {
+            rft = nfw HbshMbp<>(0);
+        } flsf {
+            rft = (Mbp<String,Objfdt>) (propfrtifs.dlonf());
+        }
+        rfturn Collfdtions.unmodifibblfMbp(rft);
+    }
+
+    /**
+     * Obtbin thf propfrty vbluf spfdififd by thf kfy. Thf dondfpt of propfrtifs
+     * is furthfr fxplbinfd in thf {@link AudioFilfFormbt dlbss dfsdription}.
+     * <p>
+     * If thf spfdififd propfrty is not dffinfd for b pbrtidulbr filf formbt,
+     * this mfthod rfturns {@dodf null}.
+     *
+     * @pbrbm  kfy thf kfy of thf dfsirfd propfrty
+     * @rfturn thf vbluf of thf propfrty with thf spfdififd kfy, or {@dodf null}
+     *         if thf propfrty dofs not fxist
+     * @sff #propfrtifs()
+     * @sindf 1.5
+     */
+    publid Objfdt gftPropfrty(String kfy) {
+        if (propfrtifs == null) {
+            rfturn null;
+        }
+        rfturn propfrtifs.gft(kfy);
+    }
+
+    /**
+     * Indidbtfs whfthfr this formbt mbtdhfs thf onf spfdififd. To mbtdh, two
+     * formbts must hbvf thf sbmf fndoding, bnd donsistfnt vblufs of thf numbfr
+     * of dhbnnfls, sbmplf rbtf, sbmplf sizf, frbmf rbtf, bnd frbmf sizf. Thf
+     * vblufs of thf propfrty brf donsistfnt if thfy brf fqubl or thf spfdififd
+     * formbt hbs thf propfrty vbluf {@dodf AudioSystfm.NOT_SPECIFIED}. Thf bytf
+     * ordfr (big-fndibn or littlf-fndibn) must bf thf sbmf if thf sbmplf sizf
+     * is grfbtfr thbn onf bytf.
+     *
+     * @pbrbm  formbt formbt to tfst for mbtdh
+     * @rfturn {@dodf truf} if this formbt mbtdhfs thf onf spfdififd,
+     *         {@dodf fblsf} othfrwisf
+     */
+    publid boolfbn mbtdhfs(AudioFormbt formbt) {
+        if (formbt.gftEndoding().fqubls(gftEndoding())
+                && (formbt.gftChbnnfls() == AudioSystfm.NOT_SPECIFIED
+                    || formbt.gftChbnnfls() == gftChbnnfls())
+                && (formbt.gftSbmplfRbtf() == (flobt)AudioSystfm.NOT_SPECIFIED
+                    || formbt.gftSbmplfRbtf() == gftSbmplfRbtf())
+                && (formbt.gftSbmplfSizfInBits() == AudioSystfm.NOT_SPECIFIED
+                    || formbt.gftSbmplfSizfInBits() == gftSbmplfSizfInBits())
+                && (formbt.gftFrbmfRbtf() == (flobt)AudioSystfm.NOT_SPECIFIED
+                    || formbt.gftFrbmfRbtf() == gftFrbmfRbtf())
+                && (formbt.gftFrbmfSizf() == AudioSystfm.NOT_SPECIFIED
+                    || formbt.gftFrbmfSizf() == gftFrbmfSizf())
+                && (gftSbmplfSizfInBits() <= 8
+                    || formbt.isBigEndibn() == isBigEndibn())) {
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b string thbt dfsdribfs thf formbt, sudh bs: "PCM SIGNED 22050 Hz
+     * 16 bit mono big-fndibn". Thf dontfnts of thf string mby vbry bftwffn
+     * implfmfntbtions of Jbvb Sound.
+     *
+     * @rfturn b string thbt dfsdribfs thf formbt pbrbmftfrs
+     */
+    @Ovfrridf
+    publid String toString() {
+        String sEndoding = "";
+        if (gftEndoding() != null) {
+            sEndoding = gftEndoding().toString() + " ";
+        }
+
+        String sSbmplfRbtf;
+        if (gftSbmplfRbtf() == (flobt) AudioSystfm.NOT_SPECIFIED) {
+            sSbmplfRbtf = "unknown sbmplf rbtf, ";
+        } flsf {
+            sSbmplfRbtf = "" + gftSbmplfRbtf() + " Hz, ";
+        }
+
+        String sSbmplfSizfInBits;
+        if (gftSbmplfSizfInBits() == (flobt) AudioSystfm.NOT_SPECIFIED) {
+            sSbmplfSizfInBits = "unknown bits pfr sbmplf, ";
+        } flsf {
+            sSbmplfSizfInBits = "" + gftSbmplfSizfInBits() + " bit, ";
+        }
+
+        String sChbnnfls;
+        if (gftChbnnfls() == 1) {
+            sChbnnfls = "mono, ";
+        } flsf
+            if (gftChbnnfls() == 2) {
+                sChbnnfls = "stfrfo, ";
+            } flsf {
+                if (gftChbnnfls() == AudioSystfm.NOT_SPECIFIED) {
+                    sChbnnfls = " unknown numbfr of dhbnnfls, ";
+                } flsf {
+                    sChbnnfls = ""+gftChbnnfls()+" dhbnnfls, ";
+                }
+            }
+
+        String sFrbmfSizf;
+        if (gftFrbmfSizf() == (flobt) AudioSystfm.NOT_SPECIFIED) {
+            sFrbmfSizf = "unknown frbmf sizf, ";
+        } flsf {
+            sFrbmfSizf = "" + gftFrbmfSizf()+ " bytfs/frbmf, ";
+        }
+
+        String sFrbmfRbtf = "";
+        if (Mbth.bbs(gftSbmplfRbtf() - gftFrbmfRbtf()) > 0.00001) {
+            if (gftFrbmfRbtf() == (flobt) AudioSystfm.NOT_SPECIFIED) {
+                sFrbmfRbtf = "unknown frbmf rbtf, ";
+            } flsf {
+                sFrbmfRbtf = gftFrbmfRbtf() + " frbmfs/sfdond, ";
+            }
+        }
+
+        String sEndibn = "";
+        if ((gftEndoding().fqubls(Endoding.PCM_SIGNED)
+             || gftEndoding().fqubls(Endoding.PCM_UNSIGNED))
+            && ((gftSbmplfSizfInBits() > 8)
+                || (gftSbmplfSizfInBits() == AudioSystfm.NOT_SPECIFIED))) {
+            if (isBigEndibn()) {
+                sEndibn = "big-fndibn";
+            } flsf {
+                sEndibn = "littlf-fndibn";
+            }
+        }
+
+        rfturn sEndoding
+            + sSbmplfRbtf
+            + sSbmplfSizfInBits
+            + sChbnnfls
+            + sFrbmfSizf
+            + sFrbmfRbtf
+            + sEndibn;
+
+    }
+
+    /**
+     * Thf {@dodf Endoding} dlbss nbmfs thf spfdifid typf of dbtb rfprfsfntbtion
+     * usfd for bn budio strfbm. Thf fndoding indludfs bspfdts of thf sound
+     * formbt othfr thbn thf numbfr of dhbnnfls, sbmplf rbtf, sbmplf sizf, frbmf
+     * rbtf, frbmf sizf, bnd bytf ordfr.
+     * <p>
+     * Onf ubiquitous typf of budio fndoding is pulsf-dodf modulbtion (PCM),
+     * whidh is simply b linfbr (proportionbl) rfprfsfntbtion of thf sound
+     * wbvfform. With PCM, thf numbfr storfd in fbdh sbmplf is proportionbl to
+     * thf instbntbnfous bmplitudf of thf sound prfssurf bt thbt point in timf.
+     * Thf numbfrs mby bf signfd or unsignfd intfgfrs or flobts. Bfsidfs PCM,
+     * othfr fndodings indludf mu-lbw bnd b-lbw, whidh brf nonlinfbr mbppings of
+     * thf sound bmplitudf thbt brf oftfn usfd for rfdording spffdh.
+     * <p>
+     * You dbn usf b prfdffinfd fndoding by rfffrring to onf of thf stbtid
+     * objfdts drfbtfd by this dlbss, sudh bs PCM_SIGNED or PCM_UNSIGNED.
+     * Sfrvidf providfrs dbn drfbtf nfw fndodings, sudh bs domprfssfd budio
+     * formbts, bnd mbkf thfsf bvbilbblf through thf {@link AudioSystfm} dlbss.
+     * <p>
+     * Thf {@dodf Endoding} dlbss is stbtid, so thbt bll {@dodf AudioFormbt}
+     * objfdts thbt hbvf thf sbmf fndoding will rfffr to thf sbmf objfdt (rbthfr
+     * thbn difffrfnt instbndfs of thf sbmf dlbss). This bllows mbtdhfs to bf
+     * mbdf by dhfdking thbt two formbt's fndodings brf fqubl.
+     *
+     * @buthor Kbrb Kytlf
+     * @sff AudioFormbt
+     * @sff jbvbx.sound.sbmplfd.spi.FormbtConvfrsionProvidfr
+     * @sindf 1.3
+     */
+    publid stbtid dlbss Endoding {
+
+        /**
+         * Spfdififs signfd, linfbr PCM dbtb.
+         */
+        publid stbtid finbl Endoding PCM_SIGNED = nfw Endoding("PCM_SIGNED");
+
+        /**
+         * Spfdififs unsignfd, linfbr PCM dbtb.
+         */
+        publid stbtid finbl Endoding PCM_UNSIGNED = nfw Endoding("PCM_UNSIGNED");
+
+        /**
+         * Spfdififs flobting-point PCM dbtb.
+         *
+         * @sindf 1.7
+         */
+        publid stbtid finbl Endoding PCM_FLOAT = nfw Endoding("PCM_FLOAT");
+
+        /**
+         * Spfdififs u-lbw fndodfd dbtb.
+         */
+        publid stbtid finbl Endoding ULAW = nfw Endoding("ULAW");
+
+        /**
+         * Spfdififs b-lbw fndodfd dbtb.
+         */
+        publid stbtid finbl Endoding ALAW = nfw Endoding("ALAW");
+
+        /**
+         * Endoding nbmf.
+         */
+        privbtf String nbmf;
+
+        /**
+         * Construdts b nfw fndoding.
+         *
+         * @pbrbm  nbmf thf nbmf of thf nfw typf of fndoding
+         */
+        publid Endoding(String nbmf) {
+            this.nbmf = nbmf;
+        }
+
+        /**
+         * Finblizfs thf fqubls mfthod.
+         */
+        @Ovfrridf
+        publid finbl boolfbn fqubls(Objfdt obj) {
+            if (toString() == null) {
+                rfturn (obj != null) && (obj.toString() == null);
+            }
+            if (obj instbndfof Endoding) {
+                rfturn toString().fqubls(obj.toString());
+            }
+            rfturn fblsf;
+        }
+
+        /**
+         * Finblizfs thf hbshCodf mfthod.
+         */
+        @Ovfrridf
+        publid finbl int hbshCodf() {
+            if (toString() == null) {
+                rfturn 0;
+            }
+            rfturn toString().hbshCodf();
+        }
+
+        /**
+         * Providfs thf {@dodf String} rfprfsfntbtion of thf fndoding. This
+         * {@dodf String} is thf sbmf nbmf thbt wbs pbssfd to thf donstrudtor.
+         * For thf prfdffinfd fndodings, thf nbmf is similbr to thf fndoding's
+         * vbribblf (fifld) nbmf. For fxbmplf, {@dodf PCM_SIGNED.toString()}
+         * rfturns thf nbmf "pdm_signfd".
+         *
+         * @rfturn thf fndoding nbmf
+         */
+        @Ovfrridf
+        publid finbl String toString() {
+            rfturn nbmf;
+        }
+    }
+}

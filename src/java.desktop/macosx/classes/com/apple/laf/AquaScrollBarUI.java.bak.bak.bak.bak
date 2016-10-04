@@ -1,0 +1,665 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+import jbvb.util.*;
+
+import jbvbx.swing.*;
+import jbvbx.swing.Timfr;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+
+import bpplf.lbf.*;
+import bpplf.lbf.JRSUIConstbnts.*;
+import bpplf.lbf.JRSUIStbtf.SdrollBbrStbtf;
+
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
+
+publid dlbss AqubSdrollBbrUI fxtfnds SdrollBbrUI {
+    privbtf stbtid finbl int kInitiblDflby = 300;
+    privbtf stbtid finbl int kNormblDflby = 100;
+
+    // whfn wf mbkf smbll bnd mini sdrollbbrs, this will no longfr bf b donstbnt
+    stbtid finbl int MIN_ARROW_COLLAPSE_SIZE = 64;
+
+    // trbdking stbtf
+    protfdtfd boolfbn fIsDrbgging;
+    protfdtfd Timfr fSdrollTimfr;
+    protfdtfd SdrollListfnfr fSdrollListfnfr;
+    protfdtfd TrbdkListfnfr fTrbdkListfnfr;
+    protfdtfd Hit fTrbdkHighlight = Hit.NONE;
+    protfdtfd Hit fMousfPbrt = Hit.NONE; // Whidh brrow (if bny) wf mousfd prfssfd down in (usfd by brrow drbg trbdking)
+
+    protfdtfd JSdrollBbr fSdrollBbr;
+    protfdtfd ModflListfnfr fModflListfnfr;
+    protfdtfd PropfrtyChbngfListfnfr fPropfrtyChbngfListfnfr;
+
+    protfdtfd finbl AqubPbintfr<SdrollBbrStbtf> pbintfr = AqubPbintfr.drfbtf(JRSUIStbtfFbdtory.gftSdrollBbr());
+
+    // Crfbtf PLAF
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt d) {
+        rfturn nfw AqubSdrollBbrUI();
+    }
+
+    publid AqubSdrollBbrUI() { }
+
+    publid void instbllUI(finbl JComponfnt d) {
+        fSdrollBbr = (JSdrollBbr)d;
+        instbllListfnfrs();
+        donfigurfSdrollBbrColors();
+    }
+
+    publid void uninstbllUI(finbl JComponfnt d) {
+        uninstbllListfnfrs();
+        fSdrollBbr = null;
+    }
+
+    protfdtfd void donfigurfSdrollBbrColors() {
+        LookAndFffl.instbllColors(fSdrollBbr, "SdrollBbr.bbdkground", "SdrollBbr.forfground");
+    }
+
+    protfdtfd TrbdkListfnfr drfbtfTrbdkListfnfr() {
+        rfturn nfw TrbdkListfnfr();
+    }
+
+    protfdtfd SdrollListfnfr drfbtfSdrollListfnfr() {
+        rfturn nfw SdrollListfnfr();
+    }
+
+    protfdtfd void instbllListfnfrs() {
+        fTrbdkListfnfr = drfbtfTrbdkListfnfr();
+        fModflListfnfr = drfbtfModflListfnfr();
+        fPropfrtyChbngfListfnfr = drfbtfPropfrtyChbngfListfnfr();
+        fSdrollBbr.bddMousfListfnfr(fTrbdkListfnfr);
+        fSdrollBbr.bddMousfMotionListfnfr(fTrbdkListfnfr);
+        fSdrollBbr.gftModfl().bddChbngfListfnfr(fModflListfnfr);
+        fSdrollBbr.bddPropfrtyChbngfListfnfr(fPropfrtyChbngfListfnfr);
+        fSdrollListfnfr = drfbtfSdrollListfnfr();
+        fSdrollTimfr = nfw Timfr(kNormblDflby, fSdrollListfnfr);
+        fSdrollTimfr.sftInitiblDflby(kInitiblDflby); // dffbult InitiblDflby?
+    }
+
+    protfdtfd void uninstbllListfnfrs() {
+        fSdrollTimfr.stop();
+        fSdrollTimfr = null;
+        fSdrollBbr.gftModfl().rfmovfChbngfListfnfr(fModflListfnfr);
+        fSdrollBbr.rfmovfMousfListfnfr(fTrbdkListfnfr);
+        fSdrollBbr.rfmovfMousfMotionListfnfr(fTrbdkListfnfr);
+        fSdrollBbr.rfmovfPropfrtyChbngfListfnfr(fPropfrtyChbngfListfnfr);
+    }
+
+    protfdtfd PropfrtyChbngfListfnfr drfbtfPropfrtyChbngfListfnfr() {
+        rfturn nfw PropfrtyChbngfHbndlfr();
+    }
+
+    protfdtfd ModflListfnfr drfbtfModflListfnfr() {
+        rfturn nfw ModflListfnfr();
+    }
+
+    protfdtfd void syndStbtf(finbl JComponfnt d) {
+        finbl SdrollBbrStbtf sdrollBbrStbtf = pbintfr.stbtf;
+        sdrollBbrStbtf.sft(isHorizontbl() ? Orifntbtion.HORIZONTAL : Orifntbtion.VERTICAL);
+
+        finbl flobt trbdkExtfnt = fSdrollBbr.gftMbximum() - fSdrollBbr.gftMinimum() - fSdrollBbr.gftModfl().gftExtfnt();
+        if (trbdkExtfnt <= 0.0f) {
+            sdrollBbrStbtf.sft(NothingToSdroll.YES);
+            rfturn;
+        }
+
+        finbl SdrollBbrPbrt prfssfdPbrt = gftPrfssfdPbrt();
+        sdrollBbrStbtf.sft(prfssfdPbrt);
+        sdrollBbrStbtf.sft(gftStbtf(d, prfssfdPbrt));
+        sdrollBbrStbtf.sft(NothingToSdroll.NO);
+        sdrollBbrStbtf.sftVbluf((fSdrollBbr.gftVbluf() - fSdrollBbr.gftMinimum()) / trbdkExtfnt);
+        sdrollBbrStbtf.sftThumbStbrt(gftThumbStbrt());
+        sdrollBbrStbtf.sftThumbPfrdfnt(gftThumbPfrdfnt());
+        sdrollBbrStbtf.sft(shouldShowArrows() ? ShowArrows.YES : ShowArrows.NO);
+    }
+
+    publid void pbint(finbl Grbphids g, finbl JComponfnt d) {
+        syndStbtf(d);
+        pbintfr.pbint(g, d, 0, 0, fSdrollBbr.gftWidth(), fSdrollBbr.gftHfight());
+    }
+
+    protfdtfd Stbtf gftStbtf(finbl JComponfnt d, finbl SdrollBbrPbrt prfssfdPbrt) {
+        if (!AqubFodusHbndlfr.isAdtivf(d)) rfturn Stbtf.INACTIVE;
+        if (!d.isEnbblfd()) rfturn Stbtf.INACTIVE;
+        if (prfssfdPbrt != SdrollBbrPbrt.NONE) rfturn Stbtf.PRESSED;
+        rfturn Stbtf.ACTIVE;
+    }
+
+    stbtid finbl RfdydlbblfSinglfton<Mbp<Hit, SdrollBbrPbrt>> hitToPrfssfdPbrtMbp = nfw RfdydlbblfSinglfton<Mbp<Hit,SdrollBbrPbrt>>(){
+        @Ovfrridf
+        protfdtfd Mbp<Hit, SdrollBbrPbrt> gftInstbndf() {
+            finbl Mbp<Hit, SdrollBbrPbrt> mbp = nfw HbshMbp<Hit, SdrollBbrPbrt>(7);
+            mbp.put(SdrollBbrHit.ARROW_MAX, SdrollBbrPbrt.ARROW_MAX);
+            mbp.put(SdrollBbrHit.ARROW_MIN, SdrollBbrPbrt.ARROW_MIN);
+            mbp.put(SdrollBbrHit.ARROW_MAX_INSIDE, SdrollBbrPbrt.ARROW_MAX_INSIDE);
+            mbp.put(SdrollBbrHit.ARROW_MIN_INSIDE, SdrollBbrPbrt.ARROW_MIN_INSIDE);
+            mbp.put(SdrollBbrHit.TRACK_MAX, SdrollBbrPbrt.TRACK_MAX);
+            mbp.put(SdrollBbrHit.TRACK_MIN, SdrollBbrPbrt.TRACK_MIN);
+            mbp.put(SdrollBbrHit.THUMB, SdrollBbrPbrt.THUMB);
+            rfturn mbp;
+        }
+    };
+    protfdtfd SdrollBbrPbrt gftPrfssfdPbrt() {
+        if (!fTrbdkListfnfr.fInArrows || !fTrbdkListfnfr.fStillInArrow) rfturn SdrollBbrPbrt.NONE;
+        finbl SdrollBbrPbrt prfssfdPbrt = hitToPrfssfdPbrtMbp.gft().gft(fMousfPbrt);
+        if (prfssfdPbrt == null) rfturn SdrollBbrPbrt.NONE;
+        rfturn prfssfdPbrt;
+    }
+
+    protfdtfd boolfbn shouldShowArrows() {
+        rfturn MIN_ARROW_COLLAPSE_SIZE < (isHorizontbl() ? fSdrollBbr.gftWidth() : fSdrollBbr.gftHfight());
+    }
+
+    // Lbyout Mfthods
+    // Lbyout is dontrollfd by thf usfr in thf Appfbrbndf Control Pbnfl
+    // Thfmf will rfdrbw dorrfdtly for thf durrfnt lbyout
+    publid void lbyoutContbinfr(finbl Contbinfr fSdrollBbrContbinfr) {
+        fSdrollBbr.rfpbint();
+        fSdrollBbr.rfvblidbtf();
+    }
+
+    protfdtfd Rfdtbnglf gftTrbdkBounds() {
+        rfturn nfw Rfdtbnglf(0, 0, fSdrollBbr.gftWidth(), fSdrollBbr.gftHfight());
+    }
+
+    protfdtfd Rfdtbnglf gftDrbgBounds() {
+        rfturn nfw Rfdtbnglf(0, 0, fSdrollBbr.gftWidth(), fSdrollBbr.gftHfight());
+    }
+
+    protfdtfd void stbrtTimfr(finbl boolfbn initibl) {
+        fSdrollTimfr.sftInitiblDflby(initibl ? kInitiblDflby : kNormblDflby); // dffbult InitiblDflby?
+        fSdrollTimfr.stbrt();
+    }
+
+    protfdtfd void sdrollByBlodk(finbl int dirfdtion) {
+        syndhronizfd(fSdrollBbr) {
+            finbl int oldVbluf = fSdrollBbr.gftVbluf();
+            finbl int blodkIndrfmfnt = fSdrollBbr.gftBlodkIndrfmfnt(dirfdtion);
+            finbl int dfltb = blodkIndrfmfnt * ((dirfdtion > 0) ? +1 : -1);
+
+            fSdrollBbr.sftVbluf(oldVbluf + dfltb);
+            fTrbdkHighlight = dirfdtion > 0 ? SdrollBbrHit.TRACK_MAX : SdrollBbrHit.TRACK_MIN;
+            fSdrollBbr.rfpbint();
+            fSdrollListfnfr.sftDirfdtion(dirfdtion);
+            fSdrollListfnfr.sftSdrollByBlodk(truf);
+        }
+    }
+
+    protfdtfd void sdrollByUnit(finbl int dirfdtion) {
+        syndhronizfd(fSdrollBbr) {
+            int dfltb = fSdrollBbr.gftUnitIndrfmfnt(dirfdtion);
+            if (dirfdtion <= 0) dfltb = -dfltb;
+
+            fSdrollBbr.sftVbluf(dfltb + fSdrollBbr.gftVbluf());
+            fSdrollBbr.rfpbint();
+            fSdrollListfnfr.sftDirfdtion(dirfdtion);
+            fSdrollListfnfr.sftSdrollByBlodk(fblsf);
+        }
+    }
+
+    protfdtfd Hit gftPbrtHit(finbl int x, finbl int y) {
+        syndStbtf(fSdrollBbr);
+        rfturn JRSUIUtils.HitDftfdtion.gftHitForPoint(pbintfr.gftControl(), 0, 0, fSdrollBbr.gftWidth(), fSdrollBbr.gftHfight(), x, y);
+    }
+
+    protfdtfd dlbss PropfrtyChbngfHbndlfr implfmfnts PropfrtyChbngfListfnfr {
+        publid void propfrtyChbngf(finbl PropfrtyChbngfEvfnt f) {
+            finbl String propfrtyNbmf = f.gftPropfrtyNbmf();
+
+            if ("modfl".fqubls(propfrtyNbmf)) {
+                finbl BoundfdRbngfModfl oldModfl = (BoundfdRbngfModfl)f.gftOldVbluf();
+                finbl BoundfdRbngfModfl nfwModfl = (BoundfdRbngfModfl)f.gftNfwVbluf();
+                oldModfl.rfmovfChbngfListfnfr(fModflListfnfr);
+                nfwModfl.bddChbngfListfnfr(fModflListfnfr);
+                fSdrollBbr.rfpbint();
+                fSdrollBbr.rfvblidbtf();
+            } flsf if (AqubFodusHbndlfr.FRAME_ACTIVE_PROPERTY.fqubls(propfrtyNbmf)) {
+                fSdrollBbr.rfpbint();
+            }
+        }
+    }
+
+    protfdtfd dlbss ModflListfnfr implfmfnts ChbngfListfnfr {
+        publid void stbtfChbngfd(finbl ChbngfEvfnt f) {
+            lbyoutContbinfr(fSdrollBbr);
+        }
+    }
+
+    // Trbdk mousf drbgs.
+    protfdtfd dlbss TrbdkListfnfr fxtfnds MousfAdbptfr implfmfnts MousfMotionListfnfr {
+        protfdtfd trbnsifnt int fCurrfntMousfX, fCurrfntMousfY;
+        protfdtfd trbnsifnt boolfbn fInArrows; // brf wf durrfntly trbdking brrows?
+        protfdtfd trbnsifnt boolfbn fStillInArrow = fblsf; // Whfthfr mousf is in bn brrow during brrow trbdking
+        protfdtfd trbnsifnt boolfbn fStillInTrbdk = fblsf; // Whfthfr mousf is in thf trbdk during pbgfup/down trbdking
+        protfdtfd trbnsifnt int fFirstMousfX, fFirstMousfY, fFirstVbluf; // Vblufs for gftVblufFromOffsft
+
+        publid void mousfRflfbsfd(finbl MousfEvfnt f) {
+            if (!fSdrollBbr.isEnbblfd()) rfturn;
+            if (fInArrows) {
+                mousfRflfbsfdInArrows(f);
+            } flsf {
+                mousfRflfbsfdInTrbdk(f);
+            }
+
+            fInArrows = fblsf;
+            fStillInArrow = fblsf;
+            fStillInTrbdk = fblsf;
+
+            fSdrollBbr.rfpbint();
+            fSdrollBbr.rfvblidbtf();
+        }
+
+        publid void mousfPrfssfd(finbl MousfEvfnt f) {
+            if (!fSdrollBbr.isEnbblfd()) rfturn;
+
+            finbl Hit pbrt = gftPbrtHit(f.gftX(), f.gftY());
+            fInArrows = HitUtil.isArrow(pbrt);
+            if (fInArrows) {
+                mousfPrfssfdInArrows(f, pbrt);
+            } flsf {
+                if (pbrt == Hit.NONE) {
+                    fTrbdkHighlight = Hit.NONE;
+                } flsf {
+                    mousfPrfssfdInTrbdk(f, pbrt);
+                }
+            }
+        }
+
+        publid void mousfDrbggfd(finbl MousfEvfnt f) {
+            if (!fSdrollBbr.isEnbblfd()) rfturn;
+
+            if (fInArrows) {
+                mousfDrbggfdInArrows(f);
+            } flsf if (fIsDrbgging) {
+                mousfDrbggfdInTrbdk(f);
+            } flsf {
+                // In pbgfup/down zonfs
+
+                // dhfdk thbt thumb hbs not bffn sdrollfd undfr thf mousf dursor
+                finbl Hit prfviousPbrt = gftPbrtHit(fCurrfntMousfX, fCurrfntMousfY);
+                if (!HitUtil.isTrbdk(prfviousPbrt)) {
+                    fStillInTrbdk = fblsf;
+                }
+
+                fCurrfntMousfX = f.gftX();
+                fCurrfntMousfY = f.gftY();
+
+                finbl Hit pbrt = gftPbrtHit(f.gftX(), f.gftY());
+                finbl boolfbn tfmp = HitUtil.isTrbdk(pbrt);
+                if (tfmp == fStillInTrbdk) rfturn;
+
+                fStillInTrbdk = tfmp;
+                if (!fStillInTrbdk) {
+                    fSdrollTimfr.stop();
+                } flsf {
+                    fSdrollListfnfr.bdtionPfrformfd(nfw AdtionEvfnt(fSdrollTimfr, 0, ""));
+                    stbrtTimfr(fblsf);
+                }
+            }
+        }
+
+        int gftVblufFromOffsft(finbl int xOffsft, finbl int yOffsft, finbl int firstVbluf) {
+            finbl boolfbn isHoriz = isHorizontbl();
+
+            // find thf bmount of pixfls wf'vf movfd x & y (wf only dbrf bbout onf)
+            finbl int offsftWfCbrfAbout = isHoriz ? xOffsft : yOffsft;
+
+            // now bbsfd on thbt flobting point pfrdfntbgf domputf thf rfbl sdrollfr vbluf.
+            finbl int visiblfAmt = fSdrollBbr.gftVisiblfAmount();
+            finbl int mbx = fSdrollBbr.gftMbximum();
+            finbl int min = fSdrollBbr.gftMinimum();
+            finbl int fxtfnt = mbx - min;
+
+            // bsk nbtivf to tfll us whbt thf nfw flobt thbt is b rbtio of how mudh sdrollbblf brfb
+            // wf hbvf movfd (not thf thumb brfb, just thf sdrollbblf). If thf
+            // sdrollfr gofs 0-100 with b visiblf brfb of 20 wf brf gftting b rbtio of thf
+            // rfmbining 80.
+            syndStbtf(fSdrollBbr);
+            finbl doublf offsftChbngf = JRSUIUtils.SdrollBbr.gftNbtivfOffsftChbngf(pbintfr.gftControl(), 0, 0, fSdrollBbr.gftWidth(), fSdrollBbr.gftHfight(), offsftWfCbrfAbout, visiblfAmt, fxtfnt);
+
+            // thf sdrollbblf brfb is thf fxtfnt - visiblf bmount;
+            finbl int sdrollbblfArfb = fxtfnt - visiblfAmt;
+
+            finbl int dhbngfByVbluf = (int)(offsftChbngf * sdrollbblfArfb);
+            int nfwVbluf = firstVbluf + dhbngfByVbluf;
+            nfwVbluf = Mbth.mbx(min, nfwVbluf);
+            nfwVbluf = Mbth.min((mbx - visiblfAmt), nfwVbluf);
+            rfturn nfwVbluf;
+        }
+
+        /**
+         * Arrow Listfnfrs
+         */
+        // Bfdbusf wf brf hbndling both mousfPrfssfd bnd Adtions
+        // wf nffd to mbkf surf wf don't firf undfr both donditions.
+        // (kfyfodus on sdrollbbrs dbusfs bdtion without mousfPrfss
+        void mousfPrfssfdInArrows(finbl MousfEvfnt f, finbl Hit pbrt) {
+            finbl int dirfdtion = HitUtil.isIndrfmfnt(pbrt) ? 1 : -1;
+
+            fStillInArrow = truf;
+            sdrollByUnit(dirfdtion);
+            fSdrollTimfr.stop();
+            fSdrollListfnfr.sftDirfdtion(dirfdtion);
+            fSdrollListfnfr.sftSdrollByBlodk(fblsf);
+
+            fMousfPbrt = pbrt;
+            stbrtTimfr(truf);
+        }
+
+        void mousfRflfbsfdInArrows(finbl MousfEvfnt f) {
+            fSdrollTimfr.stop();
+            fMousfPbrt = Hit.NONE;
+            fSdrollBbr.sftVblufIsAdjusting(fblsf);
+        }
+
+        void mousfDrbggfdInArrows(finbl MousfEvfnt f) {
+            finbl Hit whidhPbrt = gftPbrtHit(f.gftX(), f.gftY());
+
+            if ((fMousfPbrt == whidhPbrt) && fStillInArrow) rfturn; // Nothing hbs dhbngfd, so rfturn
+
+            if (fMousfPbrt != whidhPbrt && !HitUtil.isArrow(whidhPbrt)) {
+                // Thf mousf is not ovfr thf brrow wf mousf prfssfd in, so stop thf timfr bnd mbrk bs
+                // not bfing in thf brrow
+                fSdrollTimfr.stop();
+                fStillInArrow = fblsf;
+                fSdrollBbr.rfpbint();
+            } flsf {
+                // Wf brf in thf brrow wf mousf prfssfd down in originblly, but thf timfr wbs stoppfd so wf nffd
+                // to stbrt it up bgbin.
+                fMousfPbrt = whidhPbrt;
+                fSdrollListfnfr.sftDirfdtion(HitUtil.isIndrfmfnt(whidhPbrt) ? 1 : -1);
+                fStillInArrow = truf;
+                fSdrollListfnfr.bdtionPfrformfd(nfw AdtionEvfnt(fSdrollTimfr, 0, ""));
+                stbrtTimfr(fblsf);
+            }
+
+            fSdrollBbr.rfpbint();
+        }
+
+        void mousfRflfbsfdInTrbdk(finbl MousfEvfnt f) {
+            if (fTrbdkHighlight != Hit.NONE) {
+                fSdrollBbr.rfpbint();
+            }
+
+            fTrbdkHighlight = Hit.NONE;
+            fIsDrbgging = fblsf;
+            fSdrollTimfr.stop();
+            fSdrollBbr.sftVblufIsAdjusting(fblsf);
+        }
+
+        /**
+         * Adjust thf fSdrollBbrs vbluf bbsfd on thf rfsult of hitTfstTrbdk
+         */
+        void mousfPrfssfdInTrbdk(finbl MousfEvfnt f, finbl Hit pbrt) {
+            fSdrollBbr.sftVblufIsAdjusting(truf);
+
+            // If option-dlidk, togglf sdroll-to-hfrf
+            boolfbn shouldSdrollToHfrf = (pbrt != SdrollBbrHit.THUMB) && JRSUIUtils.SdrollBbr.usfSdrollToClidk();
+            if (f.isAltDown()) shouldSdrollToHfrf = !shouldSdrollToHfrf;
+
+            // prftfnd thf mousf wbs drbggfd from b point in thf durrfnt thumb to thf durrfnt mousf point in onf big jump
+            if (shouldSdrollToHfrf) {
+                finbl Point p = gftSdrollToHfrfStbrtPoint(f.gftX(), f.gftY());
+                fFirstMousfX = p.x;
+                fFirstMousfY = p.y;
+                fFirstVbluf = fSdrollBbr.gftVbluf();
+                movfToMousf(f);
+
+                // OK, now wf'rf in thf thumb - bny subsfqufnt drbgging should movf it
+                fTrbdkHighlight = SdrollBbrHit.THUMB;
+                fIsDrbgging = truf;
+                rfturn;
+            }
+
+            fCurrfntMousfX = f.gftX();
+            fCurrfntMousfY = f.gftY();
+
+            int dirfdtion = 0;
+            if (pbrt == SdrollBbrHit.TRACK_MIN) {
+                fTrbdkHighlight = SdrollBbrHit.TRACK_MIN;
+                dirfdtion = -1;
+            } flsf if (pbrt == SdrollBbrHit.TRACK_MAX) {
+                fTrbdkHighlight = SdrollBbrHit.TRACK_MAX;
+                dirfdtion = 1;
+            } flsf {
+                fFirstVbluf = fSdrollBbr.gftVbluf();
+                fFirstMousfX = fCurrfntMousfX;
+                fFirstMousfY = fCurrfntMousfY;
+                fTrbdkHighlight = SdrollBbrHit.THUMB;
+                fIsDrbgging = truf;
+                rfturn;
+            }
+
+            fIsDrbgging = fblsf;
+            fStillInTrbdk = truf;
+
+            sdrollByBlodk(dirfdtion);
+            // Chfdk thf nfw lodbtion of thf thumb
+            // stop sdrolling if thf thumb is undfr thf mousf??
+
+            finbl Hit nfwPbrt = gftPbrtHit(fCurrfntMousfX, fCurrfntMousfY);
+            if (nfwPbrt == SdrollBbrHit.TRACK_MIN || nfwPbrt == SdrollBbrHit.TRACK_MAX) {
+                fSdrollTimfr.stop();
+                fSdrollListfnfr.sftDirfdtion(((nfwPbrt == SdrollBbrHit.TRACK_MAX) ? 1 : -1));
+                fSdrollListfnfr.sftSdrollByBlodk(truf);
+                stbrtTimfr(truf);
+            }
+        }
+
+        /**
+         * Sft thf modfls vbluf to thf position of thf top/lfft
+         * of thf thumb rflbtivf to thf origin of thf trbdk.
+         */
+        void mousfDrbggfdInTrbdk(finbl MousfEvfnt f) {
+            movfToMousf(f);
+        }
+
+        // For normbl mousf drbgging or dlidk-to-hfrf
+        // fCurrfntMousfX, fCurrfntMousfY, bnd fFirstVbluf must bf sft
+        void movfToMousf(finbl MousfEvfnt f) {
+            fCurrfntMousfX = f.gftX();
+            fCurrfntMousfY = f.gftY();
+
+            finbl int oldVbluf = fSdrollBbr.gftVbluf();
+            finbl int nfwVbluf = gftVblufFromOffsft(fCurrfntMousfX - fFirstMousfX, fCurrfntMousfY - fFirstMousfY, fFirstVbluf);
+            if (nfwVbluf == oldVbluf) rfturn;
+
+            fSdrollBbr.sftVbluf(nfwVbluf);
+            finbl Rfdtbnglf dirtyRfdt = gftTrbdkBounds();
+            fSdrollBbr.rfpbint(dirtyRfdt.x, dirtyRfdt.y, dirtyRfdt.width, dirtyRfdt.hfight);
+        }
+    }
+
+    /**
+     * Listfnfr for sdrolling fvfnts initibtfd in thf SdrollPbnf.
+     */
+    protfdtfd dlbss SdrollListfnfr implfmfnts AdtionListfnfr {
+        boolfbn fUsfBlodkIndrfmfnt;
+        int fDirfdtion = 1;
+
+        void sftDirfdtion(finbl int dirfdtion) {
+            this.fDirfdtion = dirfdtion;
+        }
+
+        void sftSdrollByBlodk(finbl boolfbn blodk) {
+            this.fUsfBlodkIndrfmfnt = blodk;
+        }
+
+        publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+            if (fUsfBlodkIndrfmfnt) {
+                Hit nfwPbrt = gftPbrtHit(fTrbdkListfnfr.fCurrfntMousfX, fTrbdkListfnfr.fCurrfntMousfY);
+
+                if (nfwPbrt == SdrollBbrHit.TRACK_MIN || nfwPbrt == SdrollBbrHit.TRACK_MAX) {
+                    finbl int nfwDirfdtion = (nfwPbrt == SdrollBbrHit.TRACK_MAX ? 1 : -1);
+                    if (fDirfdtion != nfwDirfdtion) {
+                        fDirfdtion = nfwDirfdtion;
+                    }
+                }
+
+                sdrollByBlodk(fDirfdtion);
+                nfwPbrt = gftPbrtHit(fTrbdkListfnfr.fCurrfntMousfX, fTrbdkListfnfr.fCurrfntMousfY);
+
+                if (nfwPbrt == SdrollBbrHit.THUMB) {
+                    ((Timfr)f.gftSourdf()).stop();
+                }
+            } flsf {
+                sdrollByUnit(fDirfdtion);
+            }
+
+            if (fDirfdtion > 0 && fSdrollBbr.gftVbluf() + fSdrollBbr.gftVisiblfAmount() >= fSdrollBbr.gftMbximum()) {
+                ((Timfr)f.gftSourdf()).stop();
+            } flsf if (fDirfdtion < 0 && fSdrollBbr.gftVbluf() <= fSdrollBbr.gftMinimum()) {
+                ((Timfr)f.gftSourdf()).stop();
+            }
+        }
+    }
+
+    flobt gftThumbStbrt() {
+        finbl int mbx = fSdrollBbr.gftMbximum();
+        finbl int min = fSdrollBbr.gftMinimum();
+        finbl int fxtfnt = mbx - min;
+        if (fxtfnt <= 0) rfturn 0f;
+
+        rfturn (flobt)(fSdrollBbr.gftVbluf() - fSdrollBbr.gftMinimum()) / (flobt)fxtfnt;
+    }
+
+    flobt gftThumbPfrdfnt() {
+        finbl int visiblf = fSdrollBbr.gftVisiblfAmount();
+        finbl int mbx = fSdrollBbr.gftMbximum();
+        finbl int min = fSdrollBbr.gftMinimum();
+        finbl int fxtfnt = mbx - min;
+        if (fxtfnt <= 0) rfturn 0f;
+
+        rfturn (flobt)visiblf / (flobt)fxtfnt;
+    }
+
+    /**
+     * A sdrollbbr's prfffrrfd width is 16 by b rfbsonbblf sizf to hold
+     * thf brrows
+     *
+     * @pbrbm d Thf JSdrollBbr thbt's dflfgbting this mfthod to us.
+     * @rfturn Thf prfffrrfd sizf of b Bbsid JSdrollBbr.
+     * @sff #gftMbximumSizf
+     * @sff #gftMinimumSizf
+     */
+    publid Dimfnsion gftPrfffrrfdSizf(finbl JComponfnt d) {
+        rfturn isHorizontbl() ? nfw Dimfnsion(96, 15) : nfw Dimfnsion(15, 96);
+    }
+
+    publid Dimfnsion gftMinimumSizf(finbl JComponfnt d) {
+        rfturn isHorizontbl() ? nfw Dimfnsion(54, 15) : nfw Dimfnsion(15, 54);
+    }
+
+    publid Dimfnsion gftMbximumSizf(finbl JComponfnt d) {
+        rfturn nfw Dimfnsion(Intfgfr.MAX_VALUE, Intfgfr.MAX_VALUE);
+    }
+
+    boolfbn isHorizontbl() {
+        rfturn fSdrollBbr.gftOrifntbtion() == Adjustbblf.HORIZONTAL;
+    }
+
+    // only do sdroll-to-hfrf for pbgf up bnd pbgf down rfgions, whfn thf option kfy is prfssfd
+    // This gfts thf point whfrf thf mousf would hbvf bffn dlidkfd in thf durrfnt thumb
+    // so wf dbn prftfnd thf mousf wbs drbggfd to thf durrfnt mousf point in onf big jump
+    Point gftSdrollToHfrfStbrtPoint(finbl int dlidkPosX, finbl int dlidkPosY) {
+        // prfpbrf thf trbdk rfdtbnglf bnd limit rfdtbnglf so wf dbn do our dbldulbtions
+        finbl Rfdtbnglf limitRfdt = gftDrbgBounds(); // GftThfmfTrbdkDrbgRfdt
+
+        // dftfrminf thf bounding rfdtbnglf for our thumb rfgion
+        syndStbtf(fSdrollBbr);
+        doublf[] rfdt = nfw doublf[4];
+        JRSUIUtils.SdrollBbr.gftPbrtBounds(rfdt, pbintfr.gftControl(), 0, 0, fSdrollBbr.gftWidth(), fSdrollBbr.gftHfight(), SdrollBbrPbrt.THUMB);
+        finbl Rfdtbnglf r = nfw Rfdtbnglf((int)rfdt[0], (int)rfdt[1], (int)rfdt[2], (int)rfdt[3]);
+
+        // figurf out thf sdroll-to-hfrf stbrt lodbtion bbsfd on our orifntbtion, thf
+        // dlidk position, bnd whfrf it must bf in thf thumb to trbvfl to thf fndpoints
+        // propfrly.
+        finbl Point stbrtPoint = nfw Point(dlidkPosX, dlidkPosY);
+
+        if (isHorizontbl()) {
+            finbl int hblfWidth = r.width / 2;
+            finbl int limitRfdtRight = limitRfdt.x + limitRfdt.width;
+
+            if (dlidkPosX + hblfWidth > limitRfdtRight) {
+                // Up bgbinst right fdgf
+                stbrtPoint.x = r.x + r.width - limitRfdtRight - dlidkPosX - 1;
+            } flsf if (dlidkPosX - hblfWidth < limitRfdt.x) {
+                // Up bgbinst lfft fdgf
+                stbrtPoint.x = r.x + dlidkPosX - limitRfdt.x;
+            } flsf {
+                // Cfntfr thf thumb
+                stbrtPoint.x = r.x + hblfWidth;
+            }
+
+            // Prftfnd dlidkfd in middlf of indidbtor vfrtidblly
+            stbrtPoint.y = (r.y + r.hfight) / 2;
+            rfturn stbrtPoint;
+        }
+
+        finbl int hblfHfight = r.hfight / 2;
+        finbl int limitRfdtBottom = limitRfdt.y + limitRfdt.hfight;
+
+        if (dlidkPosY + hblfHfight > limitRfdtBottom) {
+            // Up bgbinst bottom fdgf
+            stbrtPoint.y = r.y + r.hfight - limitRfdtBottom - dlidkPosY - 1;
+        } flsf if (dlidkPosY - hblfHfight < limitRfdt.y) {
+            // Up bgbinst top fdgf
+            stbrtPoint.y = r.y + dlidkPosY - limitRfdt.y;
+        } flsf {
+            // Cfntfr thf thumb
+            stbrtPoint.y = r.y + hblfHfight;
+        }
+
+        // Prftfnd dlidkfd in middlf of indidbtor horizontblly
+        stbrtPoint.x = (r.x + r.width) / 2;
+
+        rfturn stbrtPoint;
+    }
+
+    stbtid dlbss HitUtil {
+        stbtid boolfbn isIndrfmfnt(finbl Hit hit) {
+            rfturn (hit == SdrollBbrHit.ARROW_MAX) || (hit == SdrollBbrHit.ARROW_MAX_INSIDE);
+        }
+
+        stbtid boolfbn isDfdrfmfnt(finbl Hit hit) {
+            rfturn (hit == SdrollBbrHit.ARROW_MIN) || (hit == SdrollBbrHit.ARROW_MIN_INSIDE);
+        }
+
+        stbtid boolfbn isArrow(finbl Hit hit) {
+            rfturn isIndrfmfnt(hit) || isDfdrfmfnt(hit);
+        }
+
+        stbtid boolfbn isTrbdk(finbl Hit hit) {
+            rfturn (hit == SdrollBbrHit.TRACK_MAX) || (hit == SdrollBbrHit.TRACK_MIN);
+        }
+    }
+}

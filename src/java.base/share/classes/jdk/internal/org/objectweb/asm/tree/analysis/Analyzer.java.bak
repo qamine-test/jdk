@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,524 +56,524 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree.analysis;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.trff.bnblysis;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.Type;
-import jdk.internal.org.objectweb.asm.tree.AbstractInsnNode;
-import jdk.internal.org.objectweb.asm.tree.IincInsnNode;
-import jdk.internal.org.objectweb.asm.tree.InsnList;
-import jdk.internal.org.objectweb.asm.tree.JumpInsnNode;
-import jdk.internal.org.objectweb.asm.tree.LabelNode;
-import jdk.internal.org.objectweb.asm.tree.LookupSwitchInsnNode;
-import jdk.internal.org.objectweb.asm.tree.MethodNode;
-import jdk.internal.org.objectweb.asm.tree.TableSwitchInsnNode;
-import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
-import jdk.internal.org.objectweb.asm.tree.VarInsnNode;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.AbstrbdtInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.IindInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.InsnList;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.JumpInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.LbbflNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.LookupSwitdiInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.MftiodNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.TbblfSwitdiInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.TryCbtdiBlodkNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.VbrInsnNodf;
 
 /**
- * A semantic bytecode analyzer. <i>This class does not fully check that JSR and
- * RET instructions are valid.</i>
+ * A sfmbntid bytfdodf bnblyzfr. <i>Tiis dlbss dofs not fully difdk tibt JSR bnd
+ * RET instrudtions brf vblid.</i>
  *
- * @param <V>
- *            type of the Value used for the analysis.
+ * @pbrbm <V>
+ *            typf of tif Vbluf usfd for tif bnblysis.
  *
- * @author Eric Bruneton
+ * @butior Erid Brunfton
  */
-public class Analyzer<V extends Value> implements Opcodes {
+publid dlbss Anblyzfr<V fxtfnds Vbluf> implfmfnts Opdodfs {
 
-    private final Interpreter<V> interpreter;
+    privbtf finbl Intfrprftfr<V> intfrprftfr;
 
-    private int n;
+    privbtf int n;
 
-    private InsnList insns;
+    privbtf InsnList insns;
 
-    private List<TryCatchBlockNode>[] handlers;
+    privbtf List<TryCbtdiBlodkNodf>[] ibndlfrs;
 
-    private Frame<V>[] frames;
+    privbtf Frbmf<V>[] frbmfs;
 
-    private Subroutine[] subroutines;
+    privbtf Subroutinf[] subroutinfs;
 
-    private boolean[] queued;
+    privbtf boolfbn[] qufufd;
 
-    private int[] queue;
+    privbtf int[] qufuf;
 
-    private int top;
+    privbtf int top;
 
     /**
-     * Constructs a new {@link Analyzer}.
+     * Construdts b nfw {@link Anblyzfr}.
      *
-     * @param interpreter
-     *            the interpreter to be used to symbolically interpret the
-     *            bytecode instructions.
+     * @pbrbm intfrprftfr
+     *            tif intfrprftfr to bf usfd to symbolidblly intfrprft tif
+     *            bytfdodf instrudtions.
      */
-    public Analyzer(final Interpreter<V> interpreter) {
-        this.interpreter = interpreter;
+    publid Anblyzfr(finbl Intfrprftfr<V> intfrprftfr) {
+        tiis.intfrprftfr = intfrprftfr;
     }
 
     /**
-     * Analyzes the given method.
+     * Anblyzfs tif givfn mftiod.
      *
-     * @param owner
-     *            the internal name of the class to which the method belongs.
-     * @param m
-     *            the method to be analyzed.
-     * @return the symbolic state of the execution stack frame at each bytecode
-     *         instruction of the method. The size of the returned array is
-     *         equal to the number of instructions (and labels) of the method. A
-     *         given frame is <tt>null</tt> if and only if the corresponding
-     *         instruction cannot be reached (dead code).
-     * @throws AnalyzerException
-     *             if a problem occurs during the analysis.
+     * @pbrbm ownfr
+     *            tif intfrnbl nbmf of tif dlbss to wiidi tif mftiod bflongs.
+     * @pbrbm m
+     *            tif mftiod to bf bnblyzfd.
+     * @rfturn tif symbolid stbtf of tif fxfdution stbdk frbmf bt fbdi bytfdodf
+     *         instrudtion of tif mftiod. Tif sizf of tif rfturnfd brrby is
+     *         fqubl to tif numbfr of instrudtions (bnd lbbfls) of tif mftiod. A
+     *         givfn frbmf is <tt>null</tt> if bnd only if tif dorrfsponding
+     *         instrudtion dbnnot bf rfbdifd (dfbd dodf).
+     * @tirows AnblyzfrExdfption
+     *             if b problfm oddurs during tif bnblysis.
      */
-    @SuppressWarnings("unchecked")
-    public Frame<V>[] analyze(final String owner, final MethodNode m)
-            throws AnalyzerException {
-        if ((m.access & (ACC_ABSTRACT | ACC_NATIVE)) != 0) {
-            frames = (Frame<V>[]) new Frame<?>[0];
-            return frames;
+    @SupprfssWbrnings("undifdkfd")
+    publid Frbmf<V>[] bnblyzf(finbl String ownfr, finbl MftiodNodf m)
+            tirows AnblyzfrExdfption {
+        if ((m.bddfss & (ACC_ABSTRACT | ACC_NATIVE)) != 0) {
+            frbmfs = (Frbmf<V>[]) nfw Frbmf<?>[0];
+            rfturn frbmfs;
         }
-        n = m.instructions.size();
-        insns = m.instructions;
-        handlers = (List<TryCatchBlockNode>[]) new List<?>[n];
-        frames = (Frame<V>[]) new Frame<?>[n];
-        subroutines = new Subroutine[n];
-        queued = new boolean[n];
-        queue = new int[n];
+        n = m.instrudtions.sizf();
+        insns = m.instrudtions;
+        ibndlfrs = (List<TryCbtdiBlodkNodf>[]) nfw List<?>[n];
+        frbmfs = (Frbmf<V>[]) nfw Frbmf<?>[n];
+        subroutinfs = nfw Subroutinf[n];
+        qufufd = nfw boolfbn[n];
+        qufuf = nfw int[n];
         top = 0;
 
-        // computes exception handlers for each instruction
-        for (int i = 0; i < m.tryCatchBlocks.size(); ++i) {
-            TryCatchBlockNode tcb = m.tryCatchBlocks.get(i);
-            int begin = insns.indexOf(tcb.start);
-            int end = insns.indexOf(tcb.end);
-            for (int j = begin; j < end; ++j) {
-                List<TryCatchBlockNode> insnHandlers = handlers[j];
-                if (insnHandlers == null) {
-                    insnHandlers = new ArrayList<TryCatchBlockNode>();
-                    handlers[j] = insnHandlers;
+        // domputfs fxdfption ibndlfrs for fbdi instrudtion
+        for (int i = 0; i < m.tryCbtdiBlodks.sizf(); ++i) {
+            TryCbtdiBlodkNodf tdb = m.tryCbtdiBlodks.gft(i);
+            int bfgin = insns.indfxOf(tdb.stbrt);
+            int fnd = insns.indfxOf(tdb.fnd);
+            for (int j = bfgin; j < fnd; ++j) {
+                List<TryCbtdiBlodkNodf> insnHbndlfrs = ibndlfrs[j];
+                if (insnHbndlfrs == null) {
+                    insnHbndlfrs = nfw ArrbyList<TryCbtdiBlodkNodf>();
+                    ibndlfrs[j] = insnHbndlfrs;
                 }
-                insnHandlers.add(tcb);
+                insnHbndlfrs.bdd(tdb);
             }
         }
 
-        // computes the subroutine for each instruction:
-        Subroutine main = new Subroutine(null, m.maxLocals, null);
-        List<AbstractInsnNode> subroutineCalls = new ArrayList<AbstractInsnNode>();
-        Map<LabelNode, Subroutine> subroutineHeads = new HashMap<LabelNode, Subroutine>();
-        findSubroutine(0, main, subroutineCalls);
-        while (!subroutineCalls.isEmpty()) {
-            JumpInsnNode jsr = (JumpInsnNode) subroutineCalls.remove(0);
-            Subroutine sub = subroutineHeads.get(jsr.label);
+        // domputfs tif subroutinf for fbdi instrudtion:
+        Subroutinf mbin = nfw Subroutinf(null, m.mbxLodbls, null);
+        List<AbstrbdtInsnNodf> subroutinfCblls = nfw ArrbyList<AbstrbdtInsnNodf>();
+        Mbp<LbbflNodf, Subroutinf> subroutinfHfbds = nfw HbsiMbp<LbbflNodf, Subroutinf>();
+        findSubroutinf(0, mbin, subroutinfCblls);
+        wiilf (!subroutinfCblls.isEmpty()) {
+            JumpInsnNodf jsr = (JumpInsnNodf) subroutinfCblls.rfmovf(0);
+            Subroutinf sub = subroutinfHfbds.gft(jsr.lbbfl);
             if (sub == null) {
-                sub = new Subroutine(jsr.label, m.maxLocals, jsr);
-                subroutineHeads.put(jsr.label, sub);
-                findSubroutine(insns.indexOf(jsr.label), sub, subroutineCalls);
-            } else {
-                sub.callers.add(jsr);
+                sub = nfw Subroutinf(jsr.lbbfl, m.mbxLodbls, jsr);
+                subroutinfHfbds.put(jsr.lbbfl, sub);
+                findSubroutinf(insns.indfxOf(jsr.lbbfl), sub, subroutinfCblls);
+            } flsf {
+                sub.dbllfrs.bdd(jsr);
             }
         }
         for (int i = 0; i < n; ++i) {
-            if (subroutines[i] != null && subroutines[i].start == null) {
-                subroutines[i] = null;
+            if (subroutinfs[i] != null && subroutinfs[i].stbrt == null) {
+                subroutinfs[i] = null;
             }
         }
 
-        // initializes the data structures for the control flow analysis
-        Frame<V> current = newFrame(m.maxLocals, m.maxStack);
-        Frame<V> handler = newFrame(m.maxLocals, m.maxStack);
-        current.setReturn(interpreter.newValue(Type.getReturnType(m.desc)));
-        Type[] args = Type.getArgumentTypes(m.desc);
-        int local = 0;
-        if ((m.access & ACC_STATIC) == 0) {
-            Type ctype = Type.getObjectType(owner);
-            current.setLocal(local++, interpreter.newValue(ctype));
+        // initiblizfs tif dbtb strudturfs for tif dontrol flow bnblysis
+        Frbmf<V> durrfnt = nfwFrbmf(m.mbxLodbls, m.mbxStbdk);
+        Frbmf<V> ibndlfr = nfwFrbmf(m.mbxLodbls, m.mbxStbdk);
+        durrfnt.sftRfturn(intfrprftfr.nfwVbluf(Typf.gftRfturnTypf(m.dfsd)));
+        Typf[] brgs = Typf.gftArgumfntTypfs(m.dfsd);
+        int lodbl = 0;
+        if ((m.bddfss & ACC_STATIC) == 0) {
+            Typf dtypf = Typf.gftObjfdtTypf(ownfr);
+            durrfnt.sftLodbl(lodbl++, intfrprftfr.nfwVbluf(dtypf));
         }
-        for (int i = 0; i < args.length; ++i) {
-            current.setLocal(local++, interpreter.newValue(args[i]));
-            if (args[i].getSize() == 2) {
-                current.setLocal(local++, interpreter.newValue(null));
+        for (int i = 0; i < brgs.lfngti; ++i) {
+            durrfnt.sftLodbl(lodbl++, intfrprftfr.nfwVbluf(brgs[i]));
+            if (brgs[i].gftSizf() == 2) {
+                durrfnt.sftLodbl(lodbl++, intfrprftfr.nfwVbluf(null));
             }
         }
-        while (local < m.maxLocals) {
-            current.setLocal(local++, interpreter.newValue(null));
+        wiilf (lodbl < m.mbxLodbls) {
+            durrfnt.sftLodbl(lodbl++, intfrprftfr.nfwVbluf(null));
         }
-        merge(0, current, null);
+        mfrgf(0, durrfnt, null);
 
-        init(owner, m);
+        init(ownfr, m);
 
-        // control flow analysis
-        while (top > 0) {
-            int insn = queue[--top];
-            Frame<V> f = frames[insn];
-            Subroutine subroutine = subroutines[insn];
-            queued[insn] = false;
+        // dontrol flow bnblysis
+        wiilf (top > 0) {
+            int insn = qufuf[--top];
+            Frbmf<V> f = frbmfs[insn];
+            Subroutinf subroutinf = subroutinfs[insn];
+            qufufd[insn] = fblsf;
 
-            AbstractInsnNode insnNode = null;
+            AbstrbdtInsnNodf insnNodf = null;
             try {
-                insnNode = m.instructions.get(insn);
-                int insnOpcode = insnNode.getOpcode();
-                int insnType = insnNode.getType();
+                insnNodf = m.instrudtions.gft(insn);
+                int insnOpdodf = insnNodf.gftOpdodf();
+                int insnTypf = insnNodf.gftTypf();
 
-                if (insnType == AbstractInsnNode.LABEL
-                        || insnType == AbstractInsnNode.LINE
-                        || insnType == AbstractInsnNode.FRAME) {
-                    merge(insn + 1, f, subroutine);
-                    newControlFlowEdge(insn, insn + 1);
-                } else {
-                    current.init(f).execute(insnNode, interpreter);
-                    subroutine = subroutine == null ? null : subroutine.copy();
+                if (insnTypf == AbstrbdtInsnNodf.LABEL
+                        || insnTypf == AbstrbdtInsnNodf.LINE
+                        || insnTypf == AbstrbdtInsnNodf.FRAME) {
+                    mfrgf(insn + 1, f, subroutinf);
+                    nfwControlFlowEdgf(insn, insn + 1);
+                } flsf {
+                    durrfnt.init(f).fxfdutf(insnNodf, intfrprftfr);
+                    subroutinf = subroutinf == null ? null : subroutinf.dopy();
 
-                    if (insnNode instanceof JumpInsnNode) {
-                        JumpInsnNode j = (JumpInsnNode) insnNode;
-                        if (insnOpcode != GOTO && insnOpcode != JSR) {
-                            merge(insn + 1, current, subroutine);
-                            newControlFlowEdge(insn, insn + 1);
+                    if (insnNodf instbndfof JumpInsnNodf) {
+                        JumpInsnNodf j = (JumpInsnNodf) insnNodf;
+                        if (insnOpdodf != GOTO && insnOpdodf != JSR) {
+                            mfrgf(insn + 1, durrfnt, subroutinf);
+                            nfwControlFlowEdgf(insn, insn + 1);
                         }
-                        int jump = insns.indexOf(j.label);
-                        if (insnOpcode == JSR) {
-                            merge(jump, current, new Subroutine(j.label,
-                                    m.maxLocals, j));
-                        } else {
-                            merge(jump, current, subroutine);
+                        int jump = insns.indfxOf(j.lbbfl);
+                        if (insnOpdodf == JSR) {
+                            mfrgf(jump, durrfnt, nfw Subroutinf(j.lbbfl,
+                                    m.mbxLodbls, j));
+                        } flsf {
+                            mfrgf(jump, durrfnt, subroutinf);
                         }
-                        newControlFlowEdge(insn, jump);
-                    } else if (insnNode instanceof LookupSwitchInsnNode) {
-                        LookupSwitchInsnNode lsi = (LookupSwitchInsnNode) insnNode;
-                        int jump = insns.indexOf(lsi.dflt);
-                        merge(jump, current, subroutine);
-                        newControlFlowEdge(insn, jump);
-                        for (int j = 0; j < lsi.labels.size(); ++j) {
-                            LabelNode label = lsi.labels.get(j);
-                            jump = insns.indexOf(label);
-                            merge(jump, current, subroutine);
-                            newControlFlowEdge(insn, jump);
+                        nfwControlFlowEdgf(insn, jump);
+                    } flsf if (insnNodf instbndfof LookupSwitdiInsnNodf) {
+                        LookupSwitdiInsnNodf lsi = (LookupSwitdiInsnNodf) insnNodf;
+                        int jump = insns.indfxOf(lsi.dflt);
+                        mfrgf(jump, durrfnt, subroutinf);
+                        nfwControlFlowEdgf(insn, jump);
+                        for (int j = 0; j < lsi.lbbfls.sizf(); ++j) {
+                            LbbflNodf lbbfl = lsi.lbbfls.gft(j);
+                            jump = insns.indfxOf(lbbfl);
+                            mfrgf(jump, durrfnt, subroutinf);
+                            nfwControlFlowEdgf(insn, jump);
                         }
-                    } else if (insnNode instanceof TableSwitchInsnNode) {
-                        TableSwitchInsnNode tsi = (TableSwitchInsnNode) insnNode;
-                        int jump = insns.indexOf(tsi.dflt);
-                        merge(jump, current, subroutine);
-                        newControlFlowEdge(insn, jump);
-                        for (int j = 0; j < tsi.labels.size(); ++j) {
-                            LabelNode label = tsi.labels.get(j);
-                            jump = insns.indexOf(label);
-                            merge(jump, current, subroutine);
-                            newControlFlowEdge(insn, jump);
+                    } flsf if (insnNodf instbndfof TbblfSwitdiInsnNodf) {
+                        TbblfSwitdiInsnNodf tsi = (TbblfSwitdiInsnNodf) insnNodf;
+                        int jump = insns.indfxOf(tsi.dflt);
+                        mfrgf(jump, durrfnt, subroutinf);
+                        nfwControlFlowEdgf(insn, jump);
+                        for (int j = 0; j < tsi.lbbfls.sizf(); ++j) {
+                            LbbflNodf lbbfl = tsi.lbbfls.gft(j);
+                            jump = insns.indfxOf(lbbfl);
+                            mfrgf(jump, durrfnt, subroutinf);
+                            nfwControlFlowEdgf(insn, jump);
                         }
-                    } else if (insnOpcode == RET) {
-                        if (subroutine == null) {
-                            throw new AnalyzerException(insnNode,
-                                    "RET instruction outside of a sub routine");
+                    } flsf if (insnOpdodf == RET) {
+                        if (subroutinf == null) {
+                            tirow nfw AnblyzfrExdfption(insnNodf,
+                                    "RET instrudtion outsidf of b sub routinf");
                         }
-                        for (int i = 0; i < subroutine.callers.size(); ++i) {
-                            JumpInsnNode caller = subroutine.callers.get(i);
-                            int call = insns.indexOf(caller);
-                            if (frames[call] != null) {
-                                merge(call + 1, frames[call], current,
-                                        subroutines[call], subroutine.access);
-                                newControlFlowEdge(insn, call + 1);
+                        for (int i = 0; i < subroutinf.dbllfrs.sizf(); ++i) {
+                            JumpInsnNodf dbllfr = subroutinf.dbllfrs.gft(i);
+                            int dbll = insns.indfxOf(dbllfr);
+                            if (frbmfs[dbll] != null) {
+                                mfrgf(dbll + 1, frbmfs[dbll], durrfnt,
+                                        subroutinfs[dbll], subroutinf.bddfss);
+                                nfwControlFlowEdgf(insn, dbll + 1);
                             }
                         }
-                    } else if (insnOpcode != ATHROW
-                            && (insnOpcode < IRETURN || insnOpcode > RETURN)) {
-                        if (subroutine != null) {
-                            if (insnNode instanceof VarInsnNode) {
-                                int var = ((VarInsnNode) insnNode).var;
-                                subroutine.access[var] = true;
-                                if (insnOpcode == LLOAD || insnOpcode == DLOAD
-                                        || insnOpcode == LSTORE
-                                        || insnOpcode == DSTORE) {
-                                    subroutine.access[var + 1] = true;
+                    } flsf if (insnOpdodf != ATHROW
+                            && (insnOpdodf < IRETURN || insnOpdodf > RETURN)) {
+                        if (subroutinf != null) {
+                            if (insnNodf instbndfof VbrInsnNodf) {
+                                int vbr = ((VbrInsnNodf) insnNodf).vbr;
+                                subroutinf.bddfss[vbr] = truf;
+                                if (insnOpdodf == LLOAD || insnOpdodf == DLOAD
+                                        || insnOpdodf == LSTORE
+                                        || insnOpdodf == DSTORE) {
+                                    subroutinf.bddfss[vbr + 1] = truf;
                                 }
-                            } else if (insnNode instanceof IincInsnNode) {
-                                int var = ((IincInsnNode) insnNode).var;
-                                subroutine.access[var] = true;
+                            } flsf if (insnNodf instbndfof IindInsnNodf) {
+                                int vbr = ((IindInsnNodf) insnNodf).vbr;
+                                subroutinf.bddfss[vbr] = truf;
                             }
                         }
-                        merge(insn + 1, current, subroutine);
-                        newControlFlowEdge(insn, insn + 1);
+                        mfrgf(insn + 1, durrfnt, subroutinf);
+                        nfwControlFlowEdgf(insn, insn + 1);
                     }
                 }
 
-                List<TryCatchBlockNode> insnHandlers = handlers[insn];
-                if (insnHandlers != null) {
-                    for (int i = 0; i < insnHandlers.size(); ++i) {
-                        TryCatchBlockNode tcb = insnHandlers.get(i);
-                        Type type;
-                        if (tcb.type == null) {
-                            type = Type.getObjectType("java/lang/Throwable");
-                        } else {
-                            type = Type.getObjectType(tcb.type);
+                List<TryCbtdiBlodkNodf> insnHbndlfrs = ibndlfrs[insn];
+                if (insnHbndlfrs != null) {
+                    for (int i = 0; i < insnHbndlfrs.sizf(); ++i) {
+                        TryCbtdiBlodkNodf tdb = insnHbndlfrs.gft(i);
+                        Typf typf;
+                        if (tdb.typf == null) {
+                            typf = Typf.gftObjfdtTypf("jbvb/lbng/Tirowbblf");
+                        } flsf {
+                            typf = Typf.gftObjfdtTypf(tdb.typf);
                         }
-                        int jump = insns.indexOf(tcb.handler);
-                        if (newControlFlowExceptionEdge(insn, tcb)) {
-                            handler.init(f);
-                            handler.clearStack();
-                            handler.push(interpreter.newValue(type));
-                            merge(jump, handler, subroutine);
+                        int jump = insns.indfxOf(tdb.ibndlfr);
+                        if (nfwControlFlowExdfptionEdgf(insn, tdb)) {
+                            ibndlfr.init(f);
+                            ibndlfr.dlfbrStbdk();
+                            ibndlfr.pusi(intfrprftfr.nfwVbluf(typf));
+                            mfrgf(jump, ibndlfr, subroutinf);
                         }
                     }
                 }
-            } catch (AnalyzerException e) {
-                throw new AnalyzerException(e.node, "Error at instruction "
-                        + insn + ": " + e.getMessage(), e);
-            } catch (Exception e) {
-                throw new AnalyzerException(insnNode, "Error at instruction "
-                        + insn + ": " + e.getMessage(), e);
+            } dbtdi (AnblyzfrExdfption f) {
+                tirow nfw AnblyzfrExdfption(f.nodf, "Error bt instrudtion "
+                        + insn + ": " + f.gftMfssbgf(), f);
+            } dbtdi (Exdfption f) {
+                tirow nfw AnblyzfrExdfption(insnNodf, "Error bt instrudtion "
+                        + insn + ": " + f.gftMfssbgf(), f);
             }
         }
 
-        return frames;
+        rfturn frbmfs;
     }
 
-    private void findSubroutine(int insn, final Subroutine sub,
-            final List<AbstractInsnNode> calls) throws AnalyzerException {
-        while (true) {
+    privbtf void findSubroutinf(int insn, finbl Subroutinf sub,
+            finbl List<AbstrbdtInsnNodf> dblls) tirows AnblyzfrExdfption {
+        wiilf (truf) {
             if (insn < 0 || insn >= n) {
-                throw new AnalyzerException(null,
-                        "Execution can fall off end of the code");
+                tirow nfw AnblyzfrExdfption(null,
+                        "Exfdution dbn fbll off fnd of tif dodf");
             }
-            if (subroutines[insn] != null) {
-                return;
+            if (subroutinfs[insn] != null) {
+                rfturn;
             }
-            subroutines[insn] = sub.copy();
-            AbstractInsnNode node = insns.get(insn);
+            subroutinfs[insn] = sub.dopy();
+            AbstrbdtInsnNodf nodf = insns.gft(insn);
 
-            // calls findSubroutine recursively on normal successors
-            if (node instanceof JumpInsnNode) {
-                if (node.getOpcode() == JSR) {
-                    // do not follow a JSR, it leads to another subroutine!
-                    calls.add(node);
-                } else {
-                    JumpInsnNode jnode = (JumpInsnNode) node;
-                    findSubroutine(insns.indexOf(jnode.label), sub, calls);
+            // dblls findSubroutinf rfdursivfly on normbl suddfssors
+            if (nodf instbndfof JumpInsnNodf) {
+                if (nodf.gftOpdodf() == JSR) {
+                    // do not follow b JSR, it lfbds to bnotifr subroutinf!
+                    dblls.bdd(nodf);
+                } flsf {
+                    JumpInsnNodf jnodf = (JumpInsnNodf) nodf;
+                    findSubroutinf(insns.indfxOf(jnodf.lbbfl), sub, dblls);
                 }
-            } else if (node instanceof TableSwitchInsnNode) {
-                TableSwitchInsnNode tsnode = (TableSwitchInsnNode) node;
-                findSubroutine(insns.indexOf(tsnode.dflt), sub, calls);
-                for (int i = tsnode.labels.size() - 1; i >= 0; --i) {
-                    LabelNode l = tsnode.labels.get(i);
-                    findSubroutine(insns.indexOf(l), sub, calls);
+            } flsf if (nodf instbndfof TbblfSwitdiInsnNodf) {
+                TbblfSwitdiInsnNodf tsnodf = (TbblfSwitdiInsnNodf) nodf;
+                findSubroutinf(insns.indfxOf(tsnodf.dflt), sub, dblls);
+                for (int i = tsnodf.lbbfls.sizf() - 1; i >= 0; --i) {
+                    LbbflNodf l = tsnodf.lbbfls.gft(i);
+                    findSubroutinf(insns.indfxOf(l), sub, dblls);
                 }
-            } else if (node instanceof LookupSwitchInsnNode) {
-                LookupSwitchInsnNode lsnode = (LookupSwitchInsnNode) node;
-                findSubroutine(insns.indexOf(lsnode.dflt), sub, calls);
-                for (int i = lsnode.labels.size() - 1; i >= 0; --i) {
-                    LabelNode l = lsnode.labels.get(i);
-                    findSubroutine(insns.indexOf(l), sub, calls);
-                }
-            }
-
-            // calls findSubroutine recursively on exception handler successors
-            List<TryCatchBlockNode> insnHandlers = handlers[insn];
-            if (insnHandlers != null) {
-                for (int i = 0; i < insnHandlers.size(); ++i) {
-                    TryCatchBlockNode tcb = insnHandlers.get(i);
-                    findSubroutine(insns.indexOf(tcb.handler), sub, calls);
+            } flsf if (nodf instbndfof LookupSwitdiInsnNodf) {
+                LookupSwitdiInsnNodf lsnodf = (LookupSwitdiInsnNodf) nodf;
+                findSubroutinf(insns.indfxOf(lsnodf.dflt), sub, dblls);
+                for (int i = lsnodf.lbbfls.sizf() - 1; i >= 0; --i) {
+                    LbbflNodf l = lsnodf.lbbfls.gft(i);
+                    findSubroutinf(insns.indfxOf(l), sub, dblls);
                 }
             }
 
-            // if insn does not falls through to the next instruction, return.
-            switch (node.getOpcode()) {
-            case GOTO:
-            case RET:
-            case TABLESWITCH:
-            case LOOKUPSWITCH:
-            case IRETURN:
-            case LRETURN:
-            case FRETURN:
-            case DRETURN:
-            case ARETURN:
-            case RETURN:
-            case ATHROW:
-                return;
+            // dblls findSubroutinf rfdursivfly on fxdfption ibndlfr suddfssors
+            List<TryCbtdiBlodkNodf> insnHbndlfrs = ibndlfrs[insn];
+            if (insnHbndlfrs != null) {
+                for (int i = 0; i < insnHbndlfrs.sizf(); ++i) {
+                    TryCbtdiBlodkNodf tdb = insnHbndlfrs.gft(i);
+                    findSubroutinf(insns.indfxOf(tdb.ibndlfr), sub, dblls);
+                }
+            }
+
+            // if insn dofs not fblls tirougi to tif nfxt instrudtion, rfturn.
+            switdi (nodf.gftOpdodf()) {
+            dbsf GOTO:
+            dbsf RET:
+            dbsf TABLESWITCH:
+            dbsf LOOKUPSWITCH:
+            dbsf IRETURN:
+            dbsf LRETURN:
+            dbsf FRETURN:
+            dbsf DRETURN:
+            dbsf ARETURN:
+            dbsf RETURN:
+            dbsf ATHROW:
+                rfturn;
             }
             insn++;
         }
     }
 
     /**
-     * Returns the symbolic stack frame for each instruction of the last
-     * recently analyzed method.
+     * Rfturns tif symbolid stbdk frbmf for fbdi instrudtion of tif lbst
+     * rfdfntly bnblyzfd mftiod.
      *
-     * @return the symbolic state of the execution stack frame at each bytecode
-     *         instruction of the method. The size of the returned array is
-     *         equal to the number of instructions (and labels) of the method. A
-     *         given frame is <tt>null</tt> if the corresponding instruction
-     *         cannot be reached, or if an error occured during the analysis of
-     *         the method.
+     * @rfturn tif symbolid stbtf of tif fxfdution stbdk frbmf bt fbdi bytfdodf
+     *         instrudtion of tif mftiod. Tif sizf of tif rfturnfd brrby is
+     *         fqubl to tif numbfr of instrudtions (bnd lbbfls) of tif mftiod. A
+     *         givfn frbmf is <tt>null</tt> if tif dorrfsponding instrudtion
+     *         dbnnot bf rfbdifd, or if bn frror oddurfd during tif bnblysis of
+     *         tif mftiod.
      */
-    public Frame<V>[] getFrames() {
-        return frames;
+    publid Frbmf<V>[] gftFrbmfs() {
+        rfturn frbmfs;
     }
 
     /**
-     * Returns the exception handlers for the given instruction.
+     * Rfturns tif fxdfption ibndlfrs for tif givfn instrudtion.
      *
-     * @param insn
-     *            the index of an instruction of the last recently analyzed
-     *            method.
-     * @return a list of {@link TryCatchBlockNode} objects.
+     * @pbrbm insn
+     *            tif indfx of bn instrudtion of tif lbst rfdfntly bnblyzfd
+     *            mftiod.
+     * @rfturn b list of {@link TryCbtdiBlodkNodf} objfdts.
      */
-    public List<TryCatchBlockNode> getHandlers(final int insn) {
-        return handlers[insn];
+    publid List<TryCbtdiBlodkNodf> gftHbndlfrs(finbl int insn) {
+        rfturn ibndlfrs[insn];
     }
 
     /**
-     * Initializes this analyzer. This method is called just before the
-     * execution of control flow analysis loop in #analyze. The default
-     * implementation of this method does nothing.
+     * Initiblizfs tiis bnblyzfr. Tiis mftiod is dbllfd just bfforf tif
+     * fxfdution of dontrol flow bnblysis loop in #bnblyzf. Tif dffbult
+     * implfmfntbtion of tiis mftiod dofs notiing.
      *
-     * @param owner
-     *            the internal name of the class to which the method belongs.
-     * @param m
-     *            the method to be analyzed.
-     * @throws AnalyzerException
-     *             if a problem occurs.
+     * @pbrbm ownfr
+     *            tif intfrnbl nbmf of tif dlbss to wiidi tif mftiod bflongs.
+     * @pbrbm m
+     *            tif mftiod to bf bnblyzfd.
+     * @tirows AnblyzfrExdfption
+     *             if b problfm oddurs.
      */
-    protected void init(String owner, MethodNode m) throws AnalyzerException {
+    protfdtfd void init(String ownfr, MftiodNodf m) tirows AnblyzfrExdfption {
     }
 
     /**
-     * Constructs a new frame with the given size.
+     * Construdts b nfw frbmf witi tif givfn sizf.
      *
-     * @param nLocals
-     *            the maximum number of local variables of the frame.
-     * @param nStack
-     *            the maximum stack size of the frame.
-     * @return the created frame.
+     * @pbrbm nLodbls
+     *            tif mbximum numbfr of lodbl vbribblfs of tif frbmf.
+     * @pbrbm nStbdk
+     *            tif mbximum stbdk sizf of tif frbmf.
+     * @rfturn tif drfbtfd frbmf.
      */
-    protected Frame<V> newFrame(final int nLocals, final int nStack) {
-        return new Frame<V>(nLocals, nStack);
+    protfdtfd Frbmf<V> nfwFrbmf(finbl int nLodbls, finbl int nStbdk) {
+        rfturn nfw Frbmf<V>(nLodbls, nStbdk);
     }
 
     /**
-     * Constructs a new frame that is identical to the given frame.
+     * Construdts b nfw frbmf tibt is idfntidbl to tif givfn frbmf.
      *
-     * @param src
-     *            a frame.
-     * @return the created frame.
+     * @pbrbm srd
+     *            b frbmf.
+     * @rfturn tif drfbtfd frbmf.
      */
-    protected Frame<V> newFrame(final Frame<? extends V> src) {
-        return new Frame<V>(src);
+    protfdtfd Frbmf<V> nfwFrbmf(finbl Frbmf<? fxtfnds V> srd) {
+        rfturn nfw Frbmf<V>(srd);
     }
 
     /**
-     * Creates a control flow graph edge. The default implementation of this
-     * method does nothing. It can be overriden in order to construct the
-     * control flow graph of a method (this method is called by the
-     * {@link #analyze analyze} method during its visit of the method's code).
+     * Crfbtfs b dontrol flow grbpi fdgf. Tif dffbult implfmfntbtion of tiis
+     * mftiod dofs notiing. It dbn bf ovfrridfn in ordfr to donstrudt tif
+     * dontrol flow grbpi of b mftiod (tiis mftiod is dbllfd by tif
+     * {@link #bnblyzf bnblyzf} mftiod during its visit of tif mftiod's dodf).
      *
-     * @param insn
-     *            an instruction index.
-     * @param successor
-     *            index of a successor instruction.
+     * @pbrbm insn
+     *            bn instrudtion indfx.
+     * @pbrbm suddfssor
+     *            indfx of b suddfssor instrudtion.
      */
-    protected void newControlFlowEdge(final int insn, final int successor) {
+    protfdtfd void nfwControlFlowEdgf(finbl int insn, finbl int suddfssor) {
     }
 
     /**
-     * Creates a control flow graph edge corresponding to an exception handler.
-     * The default implementation of this method does nothing. It can be
-     * overridden in order to construct the control flow graph of a method (this
-     * method is called by the {@link #analyze analyze} method during its visit
-     * of the method's code).
+     * Crfbtfs b dontrol flow grbpi fdgf dorrfsponding to bn fxdfption ibndlfr.
+     * Tif dffbult implfmfntbtion of tiis mftiod dofs notiing. It dbn bf
+     * ovfrriddfn in ordfr to donstrudt tif dontrol flow grbpi of b mftiod (tiis
+     * mftiod is dbllfd by tif {@link #bnblyzf bnblyzf} mftiod during its visit
+     * of tif mftiod's dodf).
      *
-     * @param insn
-     *            an instruction index.
-     * @param successor
-     *            index of a successor instruction.
-     * @return true if this edge must be considered in the data flow analysis
-     *         performed by this analyzer, or false otherwise. The default
-     *         implementation of this method always returns true.
+     * @pbrbm insn
+     *            bn instrudtion indfx.
+     * @pbrbm suddfssor
+     *            indfx of b suddfssor instrudtion.
+     * @rfturn truf if tiis fdgf must bf donsidfrfd in tif dbtb flow bnblysis
+     *         pfrformfd by tiis bnblyzfr, or fblsf otifrwisf. Tif dffbult
+     *         implfmfntbtion of tiis mftiod blwbys rfturns truf.
      */
-    protected boolean newControlFlowExceptionEdge(final int insn,
-            final int successor) {
-        return true;
+    protfdtfd boolfbn nfwControlFlowExdfptionEdgf(finbl int insn,
+            finbl int suddfssor) {
+        rfturn truf;
     }
 
     /**
-     * Creates a control flow graph edge corresponding to an exception handler.
-     * The default implementation of this method delegates to
-     * {@link #newControlFlowExceptionEdge(int, int)
-     * newControlFlowExceptionEdge(int, int)}. It can be overridden in order to
-     * construct the control flow graph of a method (this method is called by
-     * the {@link #analyze analyze} method during its visit of the method's
-     * code).
+     * Crfbtfs b dontrol flow grbpi fdgf dorrfsponding to bn fxdfption ibndlfr.
+     * Tif dffbult implfmfntbtion of tiis mftiod dflfgbtfs to
+     * {@link #nfwControlFlowExdfptionEdgf(int, int)
+     * nfwControlFlowExdfptionEdgf(int, int)}. It dbn bf ovfrriddfn in ordfr to
+     * donstrudt tif dontrol flow grbpi of b mftiod (tiis mftiod is dbllfd by
+     * tif {@link #bnblyzf bnblyzf} mftiod during its visit of tif mftiod's
+     * dodf).
      *
-     * @param insn
-     *            an instruction index.
-     * @param tcb
-     *            TryCatchBlockNode corresponding to this edge.
-     * @return true if this edge must be considered in the data flow analysis
-     *         performed by this analyzer, or false otherwise. The default
-     *         implementation of this method delegates to
-     *         {@link #newControlFlowExceptionEdge(int, int)
-     *         newControlFlowExceptionEdge(int, int)}.
+     * @pbrbm insn
+     *            bn instrudtion indfx.
+     * @pbrbm tdb
+     *            TryCbtdiBlodkNodf dorrfsponding to tiis fdgf.
+     * @rfturn truf if tiis fdgf must bf donsidfrfd in tif dbtb flow bnblysis
+     *         pfrformfd by tiis bnblyzfr, or fblsf otifrwisf. Tif dffbult
+     *         implfmfntbtion of tiis mftiod dflfgbtfs to
+     *         {@link #nfwControlFlowExdfptionEdgf(int, int)
+     *         nfwControlFlowExdfptionEdgf(int, int)}.
      */
-    protected boolean newControlFlowExceptionEdge(final int insn,
-            final TryCatchBlockNode tcb) {
-        return newControlFlowExceptionEdge(insn, insns.indexOf(tcb.handler));
+    protfdtfd boolfbn nfwControlFlowExdfptionEdgf(finbl int insn,
+            finbl TryCbtdiBlodkNodf tdb) {
+        rfturn nfwControlFlowExdfptionEdgf(insn, insns.indfxOf(tdb.ibndlfr));
     }
 
     // -------------------------------------------------------------------------
 
-    private void merge(final int insn, final Frame<V> frame,
-            final Subroutine subroutine) throws AnalyzerException {
-        Frame<V> oldFrame = frames[insn];
-        Subroutine oldSubroutine = subroutines[insn];
-        boolean changes;
+    privbtf void mfrgf(finbl int insn, finbl Frbmf<V> frbmf,
+            finbl Subroutinf subroutinf) tirows AnblyzfrExdfption {
+        Frbmf<V> oldFrbmf = frbmfs[insn];
+        Subroutinf oldSubroutinf = subroutinfs[insn];
+        boolfbn dibngfs;
 
-        if (oldFrame == null) {
-            frames[insn] = newFrame(frame);
-            changes = true;
-        } else {
-            changes = oldFrame.merge(frame, interpreter);
+        if (oldFrbmf == null) {
+            frbmfs[insn] = nfwFrbmf(frbmf);
+            dibngfs = truf;
+        } flsf {
+            dibngfs = oldFrbmf.mfrgf(frbmf, intfrprftfr);
         }
 
-        if (oldSubroutine == null) {
-            if (subroutine != null) {
-                subroutines[insn] = subroutine.copy();
-                changes = true;
+        if (oldSubroutinf == null) {
+            if (subroutinf != null) {
+                subroutinfs[insn] = subroutinf.dopy();
+                dibngfs = truf;
             }
-        } else {
-            if (subroutine != null) {
-                changes |= oldSubroutine.merge(subroutine);
+        } flsf {
+            if (subroutinf != null) {
+                dibngfs |= oldSubroutinf.mfrgf(subroutinf);
             }
         }
-        if (changes && !queued[insn]) {
-            queued[insn] = true;
-            queue[top++] = insn;
+        if (dibngfs && !qufufd[insn]) {
+            qufufd[insn] = truf;
+            qufuf[top++] = insn;
         }
     }
 
-    private void merge(final int insn, final Frame<V> beforeJSR,
-            final Frame<V> afterRET, final Subroutine subroutineBeforeJSR,
-            final boolean[] access) throws AnalyzerException {
-        Frame<V> oldFrame = frames[insn];
-        Subroutine oldSubroutine = subroutines[insn];
-        boolean changes;
+    privbtf void mfrgf(finbl int insn, finbl Frbmf<V> bfforfJSR,
+            finbl Frbmf<V> bftfrRET, finbl Subroutinf subroutinfBfforfJSR,
+            finbl boolfbn[] bddfss) tirows AnblyzfrExdfption {
+        Frbmf<V> oldFrbmf = frbmfs[insn];
+        Subroutinf oldSubroutinf = subroutinfs[insn];
+        boolfbn dibngfs;
 
-        afterRET.merge(beforeJSR, access);
+        bftfrRET.mfrgf(bfforfJSR, bddfss);
 
-        if (oldFrame == null) {
-            frames[insn] = newFrame(afterRET);
-            changes = true;
-        } else {
-            changes = oldFrame.merge(afterRET, interpreter);
+        if (oldFrbmf == null) {
+            frbmfs[insn] = nfwFrbmf(bftfrRET);
+            dibngfs = truf;
+        } flsf {
+            dibngfs = oldFrbmf.mfrgf(bftfrRET, intfrprftfr);
         }
 
-        if (oldSubroutine != null && subroutineBeforeJSR != null) {
-            changes |= oldSubroutine.merge(subroutineBeforeJSR);
+        if (oldSubroutinf != null && subroutinfBfforfJSR != null) {
+            dibngfs |= oldSubroutinf.mfrgf(subroutinfBfforfJSR);
         }
-        if (changes && !queued[insn]) {
-            queued[insn] = true;
-            queue[top++] = insn;
+        if (dibngfs && !qufufd[insn]) {
+            qufufd[insn] = truf;
+            qufuf[top++] = insn;
         }
     }
 }

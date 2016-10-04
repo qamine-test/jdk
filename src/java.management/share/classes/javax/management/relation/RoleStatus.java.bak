@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 2000, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.relation;
+pbdkbgf jbvbx.mbnbgfmfnt.rflbtion;
 
 /**
- * This class describes the various problems which can be encountered when
- * accessing a role.
+ * Tiis dlbss dfsdribfs tif vbrious problfms wiidi dbn bf fndountfrfd wifn
+ * bddfssing b rolf.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class RoleStatus {
+publid dlbss RolfStbtus {
 
     //
-    // Possible problems
+    // Possiblf problfms
     //
 
     /**
-     * Problem type when trying to access an unknown role.
+     * Problfm typf wifn trying to bddfss bn unknown rolf.
      */
-    public static final int NO_ROLE_WITH_NAME = 1;
+    publid stbtid finbl int NO_ROLE_WITH_NAME = 1;
     /**
-     * Problem type when trying to read a non-readable attribute.
+     * Problfm typf wifn trying to rfbd b non-rfbdbblf bttributf.
      */
-    public static final int ROLE_NOT_READABLE = 2;
+    publid stbtid finbl int ROLE_NOT_READABLE = 2;
     /**
-     * Problem type when trying to update a non-writable attribute.
+     * Problfm typf wifn trying to updbtf b non-writbblf bttributf.
      */
-    public static final int ROLE_NOT_WRITABLE = 3;
+    publid stbtid finbl int ROLE_NOT_WRITABLE = 3;
     /**
-     * Problem type when trying to set a role value with less ObjectNames than
-     * the minimum expected cardinality.
+     * Problfm typf wifn trying to sft b rolf vbluf witi lfss ObjfdtNbmfs tibn
+     * tif minimum fxpfdtfd dbrdinblity.
      */
-    public static final int LESS_THAN_MIN_ROLE_DEGREE = 4;
+    publid stbtid finbl int LESS_THAN_MIN_ROLE_DEGREE = 4;
     /**
-     * Problem type when trying to set a role value with more ObjectNames than
-     * the maximum expected cardinality.
+     * Problfm typf wifn trying to sft b rolf vbluf witi morf ObjfdtNbmfs tibn
+     * tif mbximum fxpfdtfd dbrdinblity.
      */
-    public static final int MORE_THAN_MAX_ROLE_DEGREE = 5;
+    publid stbtid finbl int MORE_THAN_MAX_ROLE_DEGREE = 5;
     /**
-     * Problem type when trying to set a role value including the ObjectName of
-     * a MBean not of the class expected for that role.
+     * Problfm typf wifn trying to sft b rolf vbluf indluding tif ObjfdtNbmf of
+     * b MBfbn not of tif dlbss fxpfdtfd for tibt rolf.
      */
-    public static final int REF_MBEAN_OF_INCORRECT_CLASS = 6;
+    publid stbtid finbl int REF_MBEAN_OF_INCORRECT_CLASS = 6;
     /**
-     * Problem type when trying to set a role value including the ObjectName of
-     * a MBean not registered in the MBean Server.
+     * Problfm typf wifn trying to sft b rolf vbluf indluding tif ObjfdtNbmf of
+     * b MBfbn not rfgistfrfd in tif MBfbn Sfrvfr.
      */
-    public static final int REF_MBEAN_NOT_REGISTERED = 7;
+    publid stbtid finbl int REF_MBEAN_NOT_REGISTERED = 7;
 
     /**
-     * Returns true if given value corresponds to a known role status, false
-     * otherwise.
+     * Rfturns truf if givfn vbluf dorrfsponds to b known rolf stbtus, fblsf
+     * otifrwisf.
      *
-     * @param status a status code.
+     * @pbrbm stbtus b stbtus dodf.
      *
-     * @return true if this value is a known role status.
+     * @rfturn truf if tiis vbluf is b known rolf stbtus.
      */
-    public static boolean isRoleStatus(int status) {
-        if (status != NO_ROLE_WITH_NAME &&
-            status != ROLE_NOT_READABLE &&
-            status != ROLE_NOT_WRITABLE &&
-            status != LESS_THAN_MIN_ROLE_DEGREE &&
-            status != MORE_THAN_MAX_ROLE_DEGREE &&
-            status != REF_MBEAN_OF_INCORRECT_CLASS &&
-            status != REF_MBEAN_NOT_REGISTERED) {
-            return false;
+    publid stbtid boolfbn isRolfStbtus(int stbtus) {
+        if (stbtus != NO_ROLE_WITH_NAME &&
+            stbtus != ROLE_NOT_READABLE &&
+            stbtus != ROLE_NOT_WRITABLE &&
+            stbtus != LESS_THAN_MIN_ROLE_DEGREE &&
+            stbtus != MORE_THAN_MAX_ROLE_DEGREE &&
+            stbtus != REF_MBEAN_OF_INCORRECT_CLASS &&
+            stbtus != REF_MBEAN_NOT_REGISTERED) {
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 }

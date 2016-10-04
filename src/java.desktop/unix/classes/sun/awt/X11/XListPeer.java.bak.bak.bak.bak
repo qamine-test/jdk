@@ -1,0 +1,2013 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+// Vfry mudh bbsfd on XListPffr from jbvbos
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.util.Objfdts;
+import jbvb.util.Vfdtor;
+import jbvb.bwt.imbgf.*;
+import sun.util.logging.PlbtformLoggfr;
+
+// TODO: somf input bdtions should do nothing if Shift or Control brf down
+
+dlbss XListPffr fxtfnds XComponfntPffr implfmfnts ListPffr, XSdrollbbrClifnt {
+
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XListPffr");
+
+    publid finbl stbtid int     MARGIN = 2;
+    publid finbl stbtid int     SPACE = 1;
+    publid finbl stbtid int     SCROLLBAR_AREA = 17;  // Arfb rfsfrvfd for thf
+                                                      // sdrollbbr
+    publid finbl stbtid int     SCROLLBAR_WIDTH = 13; // Adtubl width of thf
+                                                      // sdrollbbr
+    publid finbl stbtid int     NONE = -1;
+    publid finbl stbtid int     WINDOW = 0;
+    publid finbl stbtid int     VERSCROLLBAR = 1;
+    publid finbl stbtid int     HORSCROLLBAR = 2;
+    publid finbl stbtid int     DEFAULT_VISIBLE_ROWS = 4; // From jbvb.bwt.List,
+    publid finbl stbtid int     HORIZ_SCROLL_AMT = 10;
+
+    privbtf finbl stbtid int    PAINT_VSCROLL = 2;
+    privbtf finbl stbtid int    PAINT_HSCROLL = 4;
+    privbtf finbl stbtid int    PAINT_ITEMS = 8;
+    privbtf finbl stbtid int    PAINT_FOCUS = 16;
+    privbtf finbl stbtid int    PAINT_BACKGROUND = 32;
+    privbtf finbl stbtid int    PAINT_HIDEFOCUS = 64;
+    privbtf finbl stbtid int    PAINT_ALL =
+        PAINT_VSCROLL | PAINT_HSCROLL | PAINT_ITEMS | PAINT_FOCUS | PAINT_BACKGROUND;
+    privbtf finbl stbtid int    COPY_AREA = 128;
+
+    XVfrtidblSdrollbbr       vsb;
+    XHorizontblSdrollbbr     hsb;
+    ListPbintfr pbintfr;
+
+    // TODO: idk - Vfdtor?
+    Vfdtor<String>              itfms;
+    boolfbn                     multiplfSflfdtions;
+    int                         bdtivf = NONE;
+
+    // Holds thf brrby of thf indfxfs of thf flfmfnts whidh is sflfdtfd
+    // This brrby should bf kfpt sortfd, low to high.
+    int                         sflfdtfd[];
+    int                         fontHfight;
+    int                         fontAsdfnt;
+    int                         fontLfbding;
+
+    // Holds thf indfx of thf itfm usfd in thf prfvious opfrbtion (sflfdtItfm, dfsflfdtItfm)
+    // Adding of bn itfm or dlfbring of thf list sfts this indfx to -1
+    // Thf indfx is usfd bt thf momfnt of thf post of ACTION_PERFORMED fvfnt bftfr thf mousf doublf dlidk fvfnt.
+    int                         durrfntIndfx = -1;
+
+    // Usfd for trbdking sflfdtion/dfsflfdtion bftwffn mousfPrfss/Rflfbsf
+    // bnd for ItfmEvfnts
+    int                         fvfntIndfx = -1;
+    int                         fvfntTypf = NONE;
+
+    // Holds thf indfx of thf itfm thbt rfdfivf fodus
+    // This vbribblf is rfbsonbblf only for multiplf list
+    // sindf 'fodusIndfx' bnd 'sflfdtfd[0]' brf fqubl for singlf-sflfdtion list
+    int                         fodusIndfx;
+
+    int                         mbxLfngth;
+    boolfbn                     vsbVis;  // visibility of sdrollbbrs
+    boolfbn                     hsbVis;
+    int                         listWidth;  // Width of list portion of List
+    int                         listHfight; // Hfight of list portion of List
+    // (i.f. without sdrollbbrs)
+
+    privbtf int firstTimfVisiblfIndfx = 0;
+
+    // Motif Lists don't sffm to inhfrit thf bbdkground dolor from thfir
+    // pbrfnt whfn bn bpp is first stbrtfd up.  So, wf trbdk if thf dolors hbvf
+    // bffn sft.  Sff gftListBbdkground()/gftListForfground().
+    boolfbn bgColorSft;
+    boolfbn fgColorSft;
+
+    // Holds thf truf if mousf is drbgging outsidf of thf brfb of thf list
+    // Thf flbg is usfd bt thf momfnt of thf drbgging bnd rflfbsing mousf
+    // Sff 6243382 for morf informbtion
+    boolfbn mousfDrbggfdOutHorizontblly = fblsf;
+    boolfbn mousfDrbggfdOutVfrtidblly = fblsf;
+
+    // Holds thf truf if b mousf fvfnt wbs originbtfd on thf sdrollbbr
+    // Sff 6300527 for morf informbtion
+    boolfbn isSdrollBbrOriginbtfd = fblsf;
+
+    // This vbribblf is sft to truf bftfr thf "mousf prfssfd" fvfnt bnd to fblsf bftfr thf "mousf rflfbsfd" fvfnt
+    // Fixfd 6293432: Kfy fvfnts ('SPACE', 'UP', 'DOWN') brfn't blodkfd if mousf is kfpt in 'PRESSED' stbtf for List, XAWT
+    boolfbn isMousfPrfssfd = fblsf;
+
+    /**
+     * Crfbtf b list
+     */
+    XListPffr(List tbrgft) {
+        supfr(tbrgft);
+    }
+
+    /**
+     * Ovfrriddfn from XWindow
+     */
+    publid void prfInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.prfInit(pbrbms);
+
+        // Stuff thbt must bf initiblizfd bfforf lbyout() is dbllfd
+        itfms = nfw Vfdtor<>();
+        drfbtfVfrSdrollbbr();
+        drfbtfHorSdrollbbr();
+
+        pbintfr = nfw ListPbintfr();
+
+        // Sff 6246467 for morf informbtion
+        bgColorSft = tbrgft.isBbdkgroundSft();
+        fgColorSft = tbrgft.isForfgroundSft();
+    }
+
+    publid void postInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.postInit(pbrbms);
+        initFontMftrids();
+        // TODO: morf fffidifnt wby?
+        //       do wf rfblly wbnt/nffd b dopy of bll thf itfms?
+        // gft bll itfms from tbrgft
+        List l = (List)tbrgft;
+        int stop = l.gftItfmCount();
+        for (int i = 0 ; i < stop; i++) {
+            itfms.bddElfmfnt(l.gftItfm(i));
+        }
+
+        /* mbkf thf visiblf position visiblf. */
+        int indfx = l.gftVisiblfIndfx();
+        if (indfx >= 0) {
+            // Cbn't dbll mbkfVisiblf sindf it dhfdk sdroll bbr,
+            // initiblizf sdroll bbr instfbd
+            vsb.sftVblufs(indfx, 0, 0, itfms.sizf());
+        }
+
+        // NOTE: nffds to hbvf tbrgft sft
+        mbxLfngth = mbxLfngth();
+
+        // gft thf indfx dontbining bll indfxfs to sflfdtfd itfms
+        int sfl[] = l.gftSflfdtfdIndfxfs();
+        sflfdtfd = nfw int[sfl.lfngth];
+        // TODO: shouldn't this bf brrbydopy()?
+        for (int i = 0 ; i < sfl.lfngth ; i ++) {
+            sflfdtfd[i] = sfl[i];
+        }
+        // Thf sflfdt()fd itfm should bfdomf thf fodusfd itfm, but wf don't
+        // gft thf sflfdt() dbll bfdbusf thf pffr gfnfrblly hbsn't yft bffn
+        // drfbtfd during bpp initiblizbtion.
+        // TODO: For multi-sflfdt lists, it should bf thf highfst sflfdtfd indfx
+        if (sfl.lfngth > 0) {
+            sftFodusIndfx(sfl[sfl.lfngth - 1]);
+        }
+        flsf {
+            sftFodusIndfx(0);
+        }
+
+        multiplfSflfdtions = l.isMultiplfModf();
+    }
+
+
+    /**
+     * bdd Vfrtidbl Sdrollbbr
+     */
+    void drfbtfVfrSdrollbbr() {
+        vsb = nfw XVfrtidblSdrollbbr(this);
+        vsb.sftVblufs(0, 0, 0, 0, 1, 1);
+    }
+
+
+    /**
+     * bdd Horizontbl sdrollbbr
+     */
+    void drfbtfHorSdrollbbr() {
+        hsb = nfw XHorizontblSdrollbbr(this);
+        hsb.sftVblufs(0, 0, 0, 0, HORIZ_SCROLL_AMT, HORIZ_SCROLL_AMT);
+    }
+
+    /* Nfw mfthod nbmf for 1.1 */
+    publid void bdd(String itfm, int indfx) {
+        bddItfm(itfm, indfx);
+    }
+
+    /* Nfw mfthod nbmf for 1.1 */
+    publid void rfmovfAll() {
+        dlfbr();
+        mbxLfngth = 0;
+    }
+
+    /* Nfw mfthod nbmf for 1.1 */
+    publid void sftMultiplfModf (boolfbn b) {
+        sftMultiplfSflfdtions(b);
+    }
+
+    /* Nfw mfthod nbmf for 1.1 */
+    publid Dimfnsion gftPrfffrrfdSizf(int rows) {
+        rfturn prfffrrfdSizf(rows);
+    }
+
+    /* Nfw mfthod nbmf for 1.1 */
+    publid Dimfnsion gftMinimumSizf(int rows) {
+        rfturn minimumSizf(rows);
+    }
+
+    /**
+     * Minimum sizf.
+     */
+    publid Dimfnsion minimumSizf() {
+        rfturn minimumSizf(DEFAULT_VISIBLE_ROWS);
+    }
+
+    /**
+     * rfturn thf prfffrrfdSizf
+     */
+    publid Dimfnsion prfffrrfdSizf(int v) {
+        rfturn minimumSizf(v);
+    }
+
+    /**
+     * rfturn thf minimumsizf
+     */
+    publid Dimfnsion minimumSizf(int v) {
+        FontMftrids fm = gftFontMftrids(gftFont());
+        initFontMftrids();
+        rfturn nfw Dimfnsion(20 + fm.stringWidth("0123456789bbddf"),
+                             gftItfmHfight() * v + (2*MARGIN));
+    }
+
+    /**
+     * Cbldulbtf font mftrids
+     */
+    void initFontMftrids() {
+        FontMftrids fm = gftFontMftrids(gftFont());
+        fontHfight = fm.gftHfight();
+        fontAsdfnt = fm.gftAsdfnt();
+        fontLfbding = fm.gftLfbding();
+    }
+
+
+    /**
+     * rfturn thf lfngth of thf lbrgfst itfm in thf list
+     */
+    int mbxLfngth() {
+        FontMftrids fm = gftFontMftrids(gftFont());
+        int m = 0;
+        int fnd = itfms.sizf();
+        for(int i = 0 ; i < fnd ; i++) {
+            int l = fm.stringWidth(itfms.flfmfntAt(i));
+            m = Mbth.mbx(m, l);
+        }
+        rfturn m;
+    }
+
+    /**
+     * Cbldulbtfs thf width of itfm's lbbfl
+     */
+    int gftItfmWidth(int i) {
+        FontMftrids fm = gftFontMftrids(gftFont());
+        rfturn fm.stringWidth(itfms.flfmfntAt(i));
+    }
+
+    /**
+     * rfturn thf on-sdrffn width of thf givfn string "str"
+     */
+    int stringLfngth(String str) {
+        FontMftrids fm = gftFontMftrids(tbrgft.gftFont());
+        rfturn fm.stringWidth(str);
+    }
+
+    publid void sftForfground(Color d) {
+        fgColorSft = truf;
+        supfr.sftForfground(d);
+    }
+
+    publid void sftBbdkground(Color d) {
+        bgColorSft = truf;
+        supfr.sftBbdkground(d);
+    }
+
+    /**
+     * Rfturns thf dolor thbt should bf usfd to pbint thf bbdkground of
+     * thf list of itfms.  Notf thbt this is not thf sbmf bs
+     * tbrgft.gftBbdkground() whidh is thf dolor of thf sdrollbbrs, bnd thf
+     * lowfr-right dornfr of thf Componfnt whfn thf sdrollbbrs brf displbyfd.
+     */
+    privbtf Color gftListBbdkground(Color[] dolors) {
+        if (bgColorSft) {
+            rfturn dolors[BACKGROUND_COLOR];
+        }
+        flsf {
+            rfturn SystfmColor.tfxt;
+        }
+    }
+
+    /**
+     * Rfturns thf dolor thbt should bf usfd to pbint thf list itfm tfxt.
+     */
+    privbtf Color gftListForfground(Color[] dolors) {
+        if (fgColorSft) {
+            rfturn dolors[FOREGROUND_COLOR];
+        }
+        flsf {
+            rfturn SystfmColor.tfxtTfxt;
+        }
+    }
+
+    Rfdtbnglf gftVSdrollBbrRfd() {
+        rfturn nfw Rfdtbnglf(width - (SCROLLBAR_WIDTH), 0, SCROLLBAR_WIDTH+1, hfight);
+    }
+
+    Rfdtbnglf gftHSdrollBbrRfd() {
+        rfturn nfw Rfdtbnglf(0, hfight - SCROLLBAR_WIDTH, width, SCROLLBAR_WIDTH);
+    }
+
+    int gftFirstVisiblfItfm() {
+        if (vsbVis) {
+            rfturn vsb.gftVbluf();
+        } flsf {
+            rfturn 0;
+        }
+    }
+
+    int gftLbstVisiblfItfm() {
+        if (vsbVis) {
+            rfturn Mbth.min(itfms.sizf()-1, vsb.gftVbluf() + itfmsInWindow() -1);
+        } flsf {
+            rfturn Mbth.min(itfms.sizf()-1, itfmsInWindow()-1);
+        }
+    }
+    publid void rfpbintSdrollbbrRfqufst(XSdrollbbr sdrollbbr) {
+        if (sdrollbbr == hsb)  {
+            rfpbint(PAINT_HSCROLL);
+        }
+        flsf if (sdrollbbr == vsb) {
+            rfpbint(PAINT_VSCROLL);
+        }
+    }
+    /**
+     * Ovfrriddfn for pfrformbndf
+     */
+    publid void rfpbint() {
+        rfpbint(gftFirstVisiblfItfm(), gftLbstVisiblfItfm(), PAINT_ALL);
+    }
+
+    privbtf void rfpbint(int options) {
+        rfpbint(gftFirstVisiblfItfm(), gftLbstVisiblfItfm(), options);
+    }
+
+    privbtf void rfpbint(int firstItfm, int lbstItfm, int options) {
+        rfpbint(firstItfm, lbstItfm, options, null, null);
+    }
+
+    /**
+     * In most dbsfs thf fntirf brfb of thf domponfnt dofsn't hbvf
+     * to bf rfpbintfd. Thf mfthod rfpbints thf pbrtidulbr brfbs of
+     * thf domponfnt. Thf brfbs to rfpbint is spfdififd by thf option
+     * pbrbmftfr. Thf possiblf vblufs of thf option pbrbmftfr brf:
+     * PAINT_VSCROLL, PAINT_HSCROLL, PAINT_ITEMS, PAINT_FOCUS,
+     * PAINT_HIDEFOCUS, PAINT_BACKGROUND, PAINT_ALL, COPY_AREA.
+     *
+     * Notf thbt thf COPY_AREA vbluf initibtfs dopy of b sourdf brfb
+     * of thf domponfnt by b distbndf by mfbns of thf dopyArfb mfthod
+     * of thf Grbphids dlbss.
+     *
+     * @pbrbm firstItfm thf position of thf first itfm of thf rbngf to rfpbint
+     * @pbrbm lbstItfm thf position of thf lbst itfm of thf rbngf to rfpbint
+     * @pbrbm options spfdififs thf pbrtidulbr brfb of thf domponfnt to rfpbint
+     * @pbrbm sourdf thf brfb of thf domponfnt to dopy
+     * @pbrbm distbndf thf distbndf to dopy thf sourdf brfb
+     */
+    privbtf void rfpbint(int firstItfm, int lbstItfm, int options, Rfdtbnglf sourdf, Point distbndf) {
+        finbl Grbphids g = gftGrbphids();
+        if (g != null) {
+            try {
+                pbintfr.pbint(g, firstItfm, lbstItfm, options, sourdf, distbndf);
+                postPbintEvfnt(tbrgft, 0, 0, gftWidth(), gftHfight());
+            } finblly {
+                g.disposf();
+            }
+        }
+    }
+    @Ovfrridf
+    void pbintPffr(finbl Grbphids g) {
+        pbintfr.pbint(g, gftFirstVisiblfItfm(), gftLbstVisiblfItfm(), PAINT_ALL);
+    }
+    publid boolfbn isFodusbblf() { rfturn truf; }
+
+    // TODO: shbrf/promotf thf Fodus mfthods?
+    publid void fodusGbinfd(FodusEvfnt f) {
+        supfr.fodusGbinfd(f);
+        rfpbint(PAINT_FOCUS);
+    }
+
+    publid void fodusLost(FodusEvfnt f) {
+        supfr.fodusLost(f);
+        rfpbint(PAINT_FOCUS);
+    }
+
+    /**
+     * Lbyout thf sub-domponfnts of thf List - thbt is, thf sdrollbbrs bnd thf
+     * list of itfms.
+     */
+    publid void lbyout() {
+        int vis, mbximum;
+        boolfbn vsbWbsVisiblf;
+        int origVSBVbl;
+        bssfrt(tbrgft != null);
+
+        // Stbrt with bssumption thfrf is not b horizontbl sdrollbbr,
+        // sff if wf nffd b vfrtidbl sdrollbbr
+
+        // Bug: If thf list DOES hbvf b horiz sdrollbbr bnd thf vbluf is sft to
+        // thf vfry bottom vbluf, vbluf is rfsft in sftVblufs() bfdbusf it isn't
+        // b vblid vbluf for dbsfs whfn thf list DOESN'T hbvf b horiz sdrollbbr.
+        // This is durrfntly workfd-bround with origVSGVbl.
+        origVSBVbl = vsb.gftVbluf();
+        vis = itfmsInWindow(fblsf);
+        mbximum = itfms.sizf() < vis ? vis : itfms.sizf();
+        vsb.sftVblufs(vsb.gftVbluf(), vis, vsb.gftMinimum(), mbximum);
+        vsbVis = vsbWbsVisiblf = vsbIsVisiblf(fblsf);
+        listHfight = hfight;
+
+        // now sff if wf nffd b horizontbl sdrollbbr
+        listWidth = gftListWidth();
+        vis = listWidth - ((2 * SPACE) + (2 * MARGIN));
+        mbximum = mbxLfngth < vis ? vis : mbxLfngth;
+        hsb.sftVblufs(hsb.gftVbluf(), vis, hsb.gftMinimum(), mbximum);
+        hsbVis = hsbIsVisiblf(vsbVis);
+
+        if (hsbVis) {
+            // do nffd b horizontbl sdrollbbr, so rfdbldulbtf hfight of
+            // vfrtidbl s drollbbr
+            listHfight = hfight - SCROLLBAR_AREA;
+            vis = itfmsInWindow(truf);
+            mbximum = itfms.sizf() < vis ? vis : itfms.sizf();
+            vsb.sftVblufs(origVSBVbl, vis, vsb.gftMinimum(), mbximum);
+            vsbVis = vsbIsVisiblf(truf);
+        }
+
+        // now dhfdk to mbkf surf wf hbvfn't dhbngfd nffd for vfrtidbl
+        // sdrollbbr - if wf hbvf, wf nffd to
+        // rfdbldulbtf horizontbl sdrollbbr width - thfn wf'rf donf...
+        if (vsbWbsVisiblf != vsbVis) {
+            listWidth = gftListWidth();
+            vis = listWidth - ((2 * SPACE) + (2 * MARGIN));
+            mbximum = mbxLfngth < vis ? 0 : mbxLfngth;
+            hsb.sftVblufs(hsb.gftVbluf(), vis, hsb.gftMinimum(), mbximum);
+            hsbVis = hsbIsVisiblf(vsbVis);
+        }
+
+        vsb.sftSizf(SCROLLBAR_WIDTH, listHfight);
+        hsb.sftSizf(listWidth, SCROLLBAR_WIDTH);
+
+        vsb.sftBlodkIndrfmfnt(itfmsInWindow());
+        hsb.sftBlodkIndrfmfnt(width - ((2 * SPACE) + (2 * MARGIN) + (vsbVis ? SCROLLBAR_AREA : 0)));
+    }
+
+    int gftItfmWidth() {
+        rfturn width - ((2 * MARGIN) + (vsbVis ? SCROLLBAR_AREA : 0));
+    }
+
+    /* Rfturns hfight of bn itfm in thf list */
+    int gftItfmHfight() {
+        rfturn (fontHfight - fontLfbding) + (2*SPACE);
+    }
+
+    int gftItfmX() {
+        rfturn MARGIN + SPACE;
+    }
+
+    int gftItfmY(int itfm) {
+        rfturn indfx2y(itfm);
+    }
+
+    int gftFodusIndfx() {
+        rfturn fodusIndfx;
+    }
+
+    void sftFodusIndfx(int vbluf) {
+        fodusIndfx = vbluf;
+    }
+
+    /**
+     * Updbtf bnd rfturn thf fodus rfdtbnglf.
+     * Fodus is bround thf fodusfd itfm, if it is visiblf, or
+     * bround thf bordfr of thf list if thf fodusfd itfm is sdrollfd off thf top
+     * or bottom of thf list.
+     */
+    Rfdtbnglf gftFodusRfdt() {
+        Rfdtbnglf fodusRfdt = nfw Rfdtbnglf();
+        // width is blwbys only bbsfd on prfsfndf of vfrt sb
+        fodusRfdt.x = 1;
+        fodusRfdt.width = gftListWidth() - 3;
+        // if fodusfd itfm is not durrfntly displbyfd in thf list,  pbint
+        // fodus bround fntirf list (not indluding sdrollbbrs)
+        if (isIndfxDisplbyfd(gftFodusIndfx())) {
+            // fodus rfdt is bround thf itfm
+            fodusRfdt.y = indfx2y(gftFodusIndfx()) - 2;
+            fodusRfdt.hfight = gftItfmHfight()+1;
+        } flsf {
+            // fodus rfdt is bround thf list
+            fodusRfdt.y = 1;
+            fodusRfdt.hfight = hsbVis ? hfight - SCROLLBAR_AREA : hfight;
+            fodusRfdt.hfight -= 3;
+        }
+        rfturn fodusRfdt;
+    }
+
+    publid void hbndlfConfigurfNotifyEvfnt(XEvfnt xfv) {
+        supfr.hbndlfConfigurfNotifyEvfnt(xfv);
+
+        // Updbtf bufffr
+        pbintfr.invblidbtf();
+    }
+    publid boolfbn hbndlfsWhfflSdrolling() { rfturn truf; }
+
+    // FIXME: nffd to support MousfWhffl sdrolling, too
+    void hbndlfJbvbMousfEvfnt(MousfEvfnt f) {
+        supfr.hbndlfJbvbMousfEvfnt(f);
+        int i = f.gftID();
+        switdh (i) {
+          dbsf MousfEvfnt.MOUSE_PRESSED:
+              mousfPrfssfd(f);
+              brfbk;
+          dbsf MousfEvfnt.MOUSE_RELEASED:
+              mousfRflfbsfd(f);
+              brfbk;
+          dbsf MousfEvfnt.MOUSE_DRAGGED:
+              mousfDrbggfd(f);
+              brfbk;
+        }
+    }
+
+    void hbndlfJbvbMousfWhfflEvfnt(MousfWhfflEvfnt f) {
+        if (ListHflpfr.doWhfflSdroll(vsbVis ? vsb : null,
+                                     hsbVis ? hsb : null, f)) {
+            rfpbint();
+        }
+    }
+
+    void mousfPrfssfd(MousfEvfnt mousfEvfnt) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr(mousfEvfnt.toString() + ", hsb " + hsbVis + ", vsb " + vsbVis);
+        }
+        if (isEnbblfd() && mousfEvfnt.gftButton() == MousfEvfnt.BUTTON1) {
+            if (inWindow(mousfEvfnt.gftX(), mousfEvfnt.gftY())) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf("Mousf prfss in itfms brfb");
+                }
+                bdtivf = WINDOW;
+                int i = y2indfx(mousfEvfnt.gftY());
+                if (i >= 0) {
+                    if (multiplfSflfdtions) {
+                        if (isSflfdtfd(i)) {
+                            // Sff 6243382 for morf informbtion
+                            dfsflfdtItfm(i);
+                            fvfntIndfx = i;
+                            fvfntTypf = ItfmEvfnt.DESELECTED;
+                        }
+                        flsf {
+                            sflfdtItfm(i);
+                            fvfntIndfx = i;
+                            fvfntTypf = ItfmEvfnt.SELECTED;
+                        }
+                    }
+                    // Bbdkwbrd-dompbtiblf bug: fvfn if b singlf-sflfdt
+                    // itfm is blrfbdy sflfdtfd, wf sfnd bn ITEM_STATE_CHANGED/
+                    // SELECTED fvfnt.  Enginffr's Toolbox bppfbrs to rfly on
+                    // this.
+                    //flsf if (!isSflfdtfd(i)) {
+                    flsf {
+                        sflfdtItfm(i);
+                        fvfntIndfx = i;
+                        fvfntTypf = ItfmEvfnt.SELECTED;
+                    }
+                    // Rfstoring Windows bfhbviour
+                    // Wf should updbtf fodus indfx bftfr "mousf prfssfd" fvfnt
+                    sftFodusIndfx(i);
+                    rfpbint(PAINT_FOCUS);
+                } flsf {
+                    // 6426186: rfsft vbribblf to prfvfnt bdtion fvfnt
+                    // if usfr dlidks on unoddupifd brfb of list
+                    durrfntIndfx = -1;
+                }
+            } flsf if (inVfrtidblSdrollbbr(mousfEvfnt.gftX(), mousfEvfnt.gftY())) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf("Mousf prfss in vfrtidbl sdrollbbr");
+                }
+                bdtivf = VERSCROLLBAR;
+                vsb.hbndlfMousfEvfnt(mousfEvfnt.gftID(),
+                                     mousfEvfnt.gftModififrs(),
+                                     mousfEvfnt.gftX() - (width - SCROLLBAR_WIDTH),
+                                     mousfEvfnt.gftY());
+            } flsf if (inHorizontblSdrollbbr(mousfEvfnt.gftX(), mousfEvfnt.gftY())) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf("Mousf prfss in horizontbl sdrollbbr");
+                }
+                bdtivf = HORSCROLLBAR;
+                hsb.hbndlfMousfEvfnt(mousfEvfnt.gftID(),
+                                     mousfEvfnt.gftModififrs(),
+                                     mousfEvfnt.gftX(),
+                                     mousfEvfnt.gftY() - (hfight - SCROLLBAR_WIDTH));
+
+            }
+            isMousfPrfssfd = truf;
+        }
+    }
+    void mousfRflfbsfd(MousfEvfnt mousfEvfnt) {
+        if (isEnbblfd() && mousfEvfnt.gftButton() == MousfEvfnt.BUTTON1) {
+            //winRflfbsfCursorFodus();
+            int dlidkCount = mousfEvfnt.gftClidkCount();
+            if (bdtivf == VERSCROLLBAR) {
+                vsb.hbndlfMousfEvfnt(mousfEvfnt.gftID(),
+                                     mousfEvfnt.gftModififrs(),
+                                     mousfEvfnt.gftX()-(width-SCROLLBAR_WIDTH),
+                                     mousfEvfnt.gftY());
+            } flsf if(bdtivf == HORSCROLLBAR) {
+                hsb.hbndlfMousfEvfnt(mousfEvfnt.gftID(),
+                                     mousfEvfnt.gftModififrs(),
+                                     mousfEvfnt.gftX(),
+                                     mousfEvfnt.gftY()-(hfight-SCROLLBAR_WIDTH));
+            } flsf if ( ( durrfntIndfx >= 0 ) && ( dlidkCount >= 2 ) &&
+                        ( dlidkCount % 2 == 0 ) ) {
+                postEvfnt(nfw AdtionEvfnt(tbrgft,
+                                          AdtionEvfnt.ACTION_PERFORMED,
+                                          itfms.flfmfntAt(durrfntIndfx),
+                                          mousfEvfnt.gftWhfn(),
+                                          mousfEvfnt.gftModififrs()));  // No fxt mods
+            } flsf if (bdtivf == WINDOW) {
+                // Sff 6243382 for morf informbtion
+                trbdkMousfRflfbsfdSdroll();
+
+                if (fvfntTypf == ItfmEvfnt.DESELECTED) {
+                    bssfrt multiplfSflfdtions : "Shouldn't gft b dfsflfdt for b singlf-sflfdt List";
+                    // Pbint dfsflfdtion thf rflfbsf
+                    dfsflfdtItfm(fvfntIndfx);
+                }
+                if (fvfntTypf != NONE) {
+                    postEvfnt(nfw ItfmEvfnt((List)tbrgft,
+                                ItfmEvfnt.ITEM_STATE_CHANGED,
+                                Intfgfr.vblufOf(fvfntIndfx),
+                                fvfntTypf));
+                }
+            }
+            bdtivf = NONE;
+            fvfntIndfx = -1;
+            fvfntTypf = NONE;
+            isMousfPrfssfd = fblsf;
+        }
+    }
+
+    void mousfDrbggfd(MousfEvfnt mousfEvfnt) {
+        // TODO: dbn you drbg w/ bny othfr buttons?  whbt bbout multiplf buttons?
+        if (isEnbblfd() &&
+            (mousfEvfnt.gftModififrsEx() & InputEvfnt.BUTTON1_DOWN_MASK) != 0) {
+            if ((bdtivf == VERSCROLLBAR)) {
+                vsb.hbndlfMousfEvfnt(mousfEvfnt.gftID(),
+                                     mousfEvfnt.gftModififrs(),
+                                     mousfEvfnt.gftX()-(width-SCROLLBAR_WIDTH),
+                                     mousfEvfnt.gftY());
+            } flsf if ((bdtivf == HORSCROLLBAR)) {
+                hsb.hbndlfMousfEvfnt(mousfEvfnt.gftID(),
+                                     mousfEvfnt.gftModififrs(),
+                                     mousfEvfnt.gftX(),
+                                     mousfEvfnt.gftY()-(hfight-SCROLLBAR_WIDTH));
+            } flsf if (bdtivf == WINDOW) {
+                int i = y2indfx(mousfEvfnt.gftY());
+                if (multiplfSflfdtions) {
+                    // Multi-sflfdt only:
+                    // If b sflfdtfd itfm wbs prfssfd on bnd thfn drbggfd off
+                    // of, dbndfl thf pfnding dfsflfdt.
+                    if (fvfntTypf == ItfmEvfnt.DESELECTED) {
+                        if (i != fvfntIndfx) {
+                            fvfntTypf = NONE;
+                            fvfntIndfx = -1;
+                        }
+                    }
+                }
+                flsf if (fvfntTypf == ItfmEvfnt.SELECTED) {
+                    // Singlf-sflfdt only:
+                    // If bn unsflfdtfd itfm wbs prfssfd on, trbdk thf drbg
+                    // bnd sflfdt thf itfm undfr thf mousf
+
+                    // Sff 6243382 for morf informbtion
+                    trbdkMousfDrbggfdSdroll(mousfEvfnt);
+
+                    if (i >= 0 && !isSflfdtfd(i)) {
+                        int oldSfl = fvfntIndfx;
+                        sflfdtItfm(i);
+                        fvfntIndfx = i;
+                        rfpbint(oldSfl, fvfntIndfx, PAINT_ITEMS);
+                    }
+                }
+                // Rfstoring Windows bfhbviour
+                // Wf should updbtf fodus indfx bftfr "mousf drbggfd" fvfnt
+                if (i >= 0) {
+                    sftFodusIndfx(i);
+                    rfpbint(PAINT_FOCUS);
+                }
+            }
+        }
+    }
+
+    /*
+     * Hflpfr mfthod for XListPffr with intfgrbtfd vfrtidbl sdrollbbr.
+     * Stbrt or stop vfrtidbl sdrolling whfn mousf drbggfd in / out thf brfb of thf list if it's rfquirfd
+     * Rfstoring Motif bfhbvior
+     * Sff 6243382 for morf informbtion
+     */
+    void trbdkMousfDrbggfdSdroll(MousfEvfnt mousfEvfnt){
+
+        if (vsb.bfforfThumb(mousfEvfnt.gftX(), mousfEvfnt.gftY())) {
+            vsb.sftModf(AdjustmfntEvfnt.UNIT_DECREMENT);
+        } flsf {
+            vsb.sftModf(AdjustmfntEvfnt.UNIT_INCREMENT);
+        }
+
+        if(mousfEvfnt.gftY() < 0 || mousfEvfnt.gftY() >= listHfight){
+            if (!mousfDrbggfdOutVfrtidblly){
+                mousfDrbggfdOutVfrtidblly = truf;
+                vsb.stbrtSdrollingInstbndf();
+            }
+        }flsf{
+            if (mousfDrbggfdOutVfrtidblly){
+                mousfDrbggfdOutVfrtidblly = fblsf;
+                vsb.stopSdrollingInstbndf();
+            }
+        }
+
+        if (hsb.bfforfThumb(mousfEvfnt.gftX(), mousfEvfnt.gftY())) {
+            hsb.sftModf(AdjustmfntEvfnt.UNIT_DECREMENT);
+        } flsf {
+            hsb.sftModf(AdjustmfntEvfnt.UNIT_INCREMENT);
+        }
+
+        if (mousfEvfnt.gftX() < 0 || mousfEvfnt.gftX() >= listWidth) {
+            if (!mousfDrbggfdOutHorizontblly){
+                mousfDrbggfdOutHorizontblly = truf;
+                hsb.stbrtSdrollingInstbndf();
+            }
+        }flsf{
+            if (mousfDrbggfdOutHorizontblly){
+                mousfDrbggfdOutHorizontblly = fblsf;
+                hsb.stopSdrollingInstbndf();
+            }
+        }
+    }
+
+    /*
+     * Hflpfr mfthod for XListPffr with intfgrbtfd vfrtidbl sdrollbbr.
+     * Stop vfrtidbl sdrolling whfn mousf rflfbsfd in / out thf brfb of thf list if it's rfquirfd
+     * Rfstoring Motif bfhbvior
+     * sff 6243382 for morf informbtion
+     */
+    void trbdkMousfRflfbsfdSdroll(){
+
+        if (mousfDrbggfdOutVfrtidblly){
+            mousfDrbggfdOutVfrtidblly = fblsf;
+            vsb.stopSdrollingInstbndf();
+        }
+
+        if (mousfDrbggfdOutHorizontblly){
+            mousfDrbggfdOutHorizontblly = fblsf;
+            hsb.stopSdrollingInstbndf();
+        }
+    }
+
+    void hbndlfJbvbKfyEvfnt(KfyEvfnt f) {
+        switdh(f.gftID()) {
+          dbsf KfyEvfnt.KEY_PRESSED:
+              if (!isMousfPrfssfd){
+                  kfyPrfssfd(f);
+              }
+              brfbk;
+        }
+    }
+
+    void kfyPrfssfd(KfyEvfnt f) {
+        int kfyCodf = f.gftKfyCodf();
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf(f.toString());
+        }
+        switdh(kfyCodf) {
+          dbsf KfyEvfnt.VK_UP:
+          dbsf KfyEvfnt.VK_KP_UP: // TODO: I bssumf wf blso wbnt this, too
+              if (gftFodusIndfx() > 0) {
+                  sftFodusIndfx(gftFodusIndfx()-1);
+                  rfpbint(PAINT_HIDEFOCUS);
+                  // If singlf-sflfdt, sflfdt thf itfm
+                  if (!multiplfSflfdtions) {
+                      sflfdtItfm(gftFodusIndfx());
+                      postEvfnt(nfw ItfmEvfnt((List)tbrgft,
+                                              ItfmEvfnt.ITEM_STATE_CHANGED,
+                                              Intfgfr.vblufOf(gftFodusIndfx()),
+                                              ItfmEvfnt.SELECTED));
+                  }
+                  if (isItfmHiddfn(gftFodusIndfx())) {
+                      mbkfVisiblf(gftFodusIndfx());
+                  }
+                  flsf {
+                      rfpbint(PAINT_FOCUS);
+                  }
+              }
+              brfbk;
+          dbsf KfyEvfnt.VK_DOWN:
+          dbsf KfyEvfnt.VK_KP_DOWN: // TODO: I bssumf wf blso wbnt this, too
+              if (gftFodusIndfx() < itfms.sizf() - 1) {
+                  sftFodusIndfx(gftFodusIndfx()+1);
+                  rfpbint(PAINT_HIDEFOCUS);
+                  // If singlf-sflfdt, sflfdt thf itfm
+                  if (!multiplfSflfdtions) {
+                      sflfdtItfm(gftFodusIndfx());
+                      postEvfnt(nfw ItfmEvfnt((List)tbrgft,
+                                              ItfmEvfnt.ITEM_STATE_CHANGED,
+                                              Intfgfr.vblufOf(gftFodusIndfx()),
+                                              ItfmEvfnt.SELECTED));
+                  }
+                  if (isItfmHiddfn(gftFodusIndfx())) {
+                      mbkfVisiblf(gftFodusIndfx());
+                  }
+                  flsf {
+                      rfpbint(PAINT_FOCUS);
+                  }
+              }
+              brfbk;
+          dbsf KfyEvfnt.VK_PAGE_UP: {
+              // Assumfs thbt sdrollbbr dofs its own bounds-dhfdking
+              int prfviousVbluf = vsb.gftVbluf();
+              vsb.sftVbluf(vsb.gftVbluf() - vsb.gftBlodkIndrfmfnt());
+              int durrfntVbluf = vsb.gftVbluf();
+              // 6190768 prfssing pg-up on AWT multiplf sflfdtion lists thf itfms but no itfm fvfnt is triggfrfd, on XToolkit
+              // Rfstoring Motif bfhbvior
+              if (prfviousVbluf!=durrfntVbluf) {
+                  sftFodusIndfx(Mbth.mbx(gftFodusIndfx()-itfmsInWindow(), 0));
+                  if (!multiplfSflfdtions){
+                      sflfdtItfm(gftFodusIndfx());
+                      postEvfnt(nfw ItfmEvfnt((List)tbrgft,
+                                              ItfmEvfnt.ITEM_STATE_CHANGED,
+                                              Intfgfr.vblufOf(gftFodusIndfx()),
+                                              ItfmEvfnt.SELECTED));
+                  }
+              }
+              rfpbint();
+              brfbk;
+          }
+          dbsf KfyEvfnt.VK_PAGE_DOWN: {
+              // Assumfs thbt sdrollbbr dofs its own bounds-dhfdking
+              int prfviousVbluf = vsb.gftVbluf();
+              vsb.sftVbluf(vsb.gftVbluf() + vsb.gftBlodkIndrfmfnt());
+              int durrfntVbluf = vsb.gftVbluf();
+              // 6190768 prfssing pg-down on AWT multiplf sflfdtion list sflfdts thf itfms but no itfm fvfnt is triggfrfd, on XToolkit
+              // Rfstoring Motif bfhbvior
+              if (prfviousVbluf!=durrfntVbluf) {
+                  sftFodusIndfx(Mbth.min(gftFodusIndfx() + itfmsInWindow(), itfms.sizf()-1));
+                  if (!multiplfSflfdtions){
+                      sflfdtItfm(gftFodusIndfx());
+                      postEvfnt(nfw ItfmEvfnt((List)tbrgft,
+                                              ItfmEvfnt.ITEM_STATE_CHANGED,
+                                              Intfgfr.vblufOf(gftFodusIndfx()),
+                                              ItfmEvfnt.SELECTED));
+                  }
+              }
+              rfpbint();
+              brfbk;
+          }
+          dbsf KfyEvfnt.VK_LEFT:
+          dbsf KfyEvfnt.VK_KP_LEFT:
+              if (hsbVis & hsb.gftVbluf() > 0) {
+                  hsb.sftVbluf(hsb.gftVbluf() - HORIZ_SCROLL_AMT);
+                  rfpbint();
+              }
+              brfbk;
+          dbsf KfyEvfnt.VK_RIGHT:
+          dbsf KfyEvfnt.VK_KP_RIGHT:
+              if (hsbVis) { // Should dhfdk if blrfbdy bt fnd
+                  hsb.sftVbluf(hsb.gftVbluf() + HORIZ_SCROLL_AMT);
+                  rfpbint();
+              }
+              brfbk;
+          // 6190778 CTRL + HOME, CTRL + END kfys do not work propfrly for list on XToolkit
+          // Rfstoring Motif bfhbvior
+          dbsf KfyEvfnt.VK_HOME:
+              if (!f.isControlDown() || ((List)tbrgft).gftItfmCount() <= 0)
+                  brfbk;
+              if (vsbVis) {
+                  vsb.sftVbluf(vsb.gftMinimum());
+              }
+              sftFodusIndfx(0);
+              if (!multiplfSflfdtions) {
+                  sflfdtItfm(gftFodusIndfx());
+                  postEvfnt(nfw ItfmEvfnt((List)tbrgft,
+                                          ItfmEvfnt.ITEM_STATE_CHANGED,
+                                          Intfgfr.vblufOf(gftFodusIndfx()),
+                                          ItfmEvfnt.SELECTED));
+              }
+              rfpbint();
+              brfbk;
+          dbsf KfyEvfnt.VK_END:
+              if (!f.isControlDown() || ((List)tbrgft).gftItfmCount() <= 0)
+                  brfbk;
+              if (vsbVis) {
+                  vsb.sftVbluf(vsb.gftMbximum());
+              }
+              sftFodusIndfx(itfms.sizf()-1);
+              if (!multiplfSflfdtions) {
+                  sflfdtItfm(gftFodusIndfx());
+                  postEvfnt(nfw ItfmEvfnt((List)tbrgft,
+                                          ItfmEvfnt.ITEM_STATE_CHANGED,
+                                          Intfgfr.vblufOf(gftFodusIndfx()),
+                                          ItfmEvfnt.SELECTED));
+              }
+              rfpbint();
+              brfbk;
+          dbsf KfyEvfnt.VK_SPACE:
+              // Fixfd 6299853: XToolkit: Prfssing spbdf triggfrs ItfmStbtfChbngfd fvfnt bftfr List.rfmovfAll dbllfd
+              // If gftFodusIndfx() is lfss thbn 0, thf fvfnt will not bf triggfrfd whfn spbdf prfssfd
+              if (gftFodusIndfx() < 0 || ((List)tbrgft).gftItfmCount() <= 0) {
+                  brfbk;
+              }
+
+              boolfbn isSflfdtfd = isSflfdtfd(gftFodusIndfx());
+
+              // Spbdfbbr only dfsflfdts for multi-sflfdt Lists
+              if (multiplfSflfdtions && isSflfdtfd) {
+                  dfsflfdtItfm(gftFodusIndfx());
+                  postEvfnt(nfw ItfmEvfnt((List)tbrgft,
+                                          ItfmEvfnt.ITEM_STATE_CHANGED,
+                                          Intfgfr.vblufOf(gftFodusIndfx()),
+                                          ItfmEvfnt.DESELECTED));
+              }
+              flsf if (!isSflfdtfd) { // Notf: this dhbngfs thf Solbris/Linux
+                  // bfhbvior to mbtdh thbt of win32.
+                  // Thbt is, prfssing spbdf bbr on b
+                  // singlf-sflfdt list whfn thf fodusfd
+                  // itfm is blrfbdy sflfdtfd dofs NOT
+                  // sfnd bn ItfmEvfnt.SELECTED fvfnt.
+                  sflfdtItfm(gftFodusIndfx());
+                  postEvfnt(nfw ItfmEvfnt((List)tbrgft,
+                                          ItfmEvfnt.ITEM_STATE_CHANGED,
+                                          Intfgfr.vblufOf(gftFodusIndfx()),
+                                          ItfmEvfnt.SELECTED));
+              }
+              brfbk;
+          dbsf KfyEvfnt.VK_ENTER:
+              // It looks to mf likf thfrf brf bugs bs wfll bs indonsistfndifs
+              // in thf wby thf Entfr kfy is hbndlfd by both Solbris bnd Windows.
+              // So for now in XAWT, I'm going to simply go by whbt thf List dods
+              // sby: "AWT blso gfnfrbtfs bn bdtion fvfnt whfn thf usfr prfssfs
+              // thf rfturn kfy whilf bn itfm in thf list is sflfdtfd."
+              if (sflfdtfd.lfngth > 0) {
+                  postEvfnt(nfw AdtionEvfnt((List)tbrgft,
+                                            AdtionEvfnt.ACTION_PERFORMED,
+                                            itfms.flfmfntAt(gftFodusIndfx()),
+                                            f.gftWhfn(),
+                                            f.gftModififrs()));  // AdtionEvfnt dofsn't hbvf
+                  // fxtfndfd modififrs.
+              }
+              brfbk;
+        }
+    }
+
+    /**
+     * rfturn vbluf from thf sdrollbbr
+     */
+    publid void notifyVbluf(XSdrollbbr obj, int typf, int v, boolfbn isAdjusting) {
+
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("Notify vbluf dhbngfd on " + obj + " to " + v);
+        }
+        int vbluf = obj.gftVbluf();
+        if (obj == vsb) {
+            sdrollVfrtidbl(v - vbluf);
+
+            // Sff 6243382 for morf informbtion
+            int oldSfl = fvfntIndfx;
+            int nfwSfl = fvfntIndfx+v-vbluf;
+            if (mousfDrbggfdOutVfrtidblly && !isSflfdtfd(nfwSfl)){
+                sflfdtItfm(nfwSfl);
+                fvfntIndfx = nfwSfl;
+                rfpbint(oldSfl, fvfntIndfx, PAINT_ITEMS);
+                // Sdrolling sflfdt() should blso sft thf fodus indfx
+                // Othfrwisf, thf updbting of thf 'fodusIndfx' vbribblf will bf indorrfdt
+                // if usfr drbg mousf out of thf brfb of thf list
+                sftFodusIndfx(nfwSfl);
+                rfpbint(PAINT_FOCUS);
+            }
+
+        } flsf if ((XHorizontblSdrollbbr)obj == hsb) {
+            sdrollHorizontbl(v - vbluf);
+        }
+
+    }
+
+    /**
+     * dfsflfdt bll itfms in List
+     */
+    privbtf void dfsflfdtAllItfms() {
+        sflfdtfd = nfw int [0];
+        rfpbint(PAINT_ITEMS);
+    }
+
+    /**
+     * sft multiplf sflfdtions
+     */
+    publid void sftMultiplfSflfdtions(boolfbn v) {
+        if (multiplfSflfdtions != v) {
+            if ( !v) {
+                int sflPos = ( isSflfdtfd( fodusIndfx )) ? fodusIndfx: -1;
+                dfsflfdtAllItfms();
+                if (sflPos != -1){
+                    sflfdtItfm(sflPos);
+                }
+            }
+            multiplfSflfdtions = v;
+        }
+    }
+
+    /**
+     * bdd bn itfm
+     * if thf indfx of thf itfm is < 0 or >= thbn itfms.sizf()
+     * thfn bdd thf itfm to thf fnd of thf list
+     */
+    publid void bddItfm(String itfm, int i) {
+        int oldMbxLfngth = mbxLfngth;
+        boolfbn hsbWbsVis = hsbVis;
+        boolfbn vsbWbsVis = vsbVis;
+
+        int bddfdIndfx = 0; // Indfx whfrf thf nfw itfm fndfd up
+        if (i < 0 || i >= itfms.sizf()) {
+            i = -1;
+        }
+
+        // Why wf sft this vbribblf to -1 in spitf of thf fbdt thbt sflfdtfd[] is dhbngfd in othfr wby?
+        // It's not dlfbr how to rfprodudf indorrfdt bfhbviour bbsfd on this bssignmfnt
+        // sindf bfforf using this vbribblf (mousfRflfbsfd) wf dfrtbinly updbtf it to dorrfdt vbluf
+        // So wf don't modify this bfhbviour now
+        durrfntIndfx = -1;
+
+        if (i == -1) {
+            itfms.bddElfmfnt(itfm);
+            i = 0;              // fix thf mbth for thf pbintItfms tfst
+            bddfdIndfx = itfms.sizf() - 1;
+        } flsf {
+            itfms.insfrtElfmfntAt(itfm, i);
+            bddfdIndfx = i;
+            for (int j = 0 ; j < sflfdtfd.lfngth ; j++) {
+                if (sflfdtfd[j] >= i) {
+                    sflfdtfd[j] += 1;
+                }
+            }
+        }
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr("Adding itfm '" + itfm + "' to " + bddfdIndfx);
+        }
+
+        // Updbtf mbxLfngth
+        boolfbn rfpbintItfms = !isItfmHiddfn(bddfdIndfx);
+        mbxLfngth = Mbth.mbx(mbxLfngth, gftItfmWidth(bddfdIndfx));
+        lbyout();
+
+        int options = 0;
+        if (vsbVis != vsbWbsVis || hsbVis != hsbWbsVis) {
+            // Sdrollbbrs brf bfing bddfd or rfmovfd, so wf must rfpbint bll
+            options = PAINT_ALL;
+        }
+        flsf {
+            options = (rfpbintItfms ? (PAINT_ITEMS):0)
+                | ((mbxLfngth != oldMbxLfngth || (hsbWbsVis ^ hsbVis))?(PAINT_HSCROLL):0)
+                | ((vsb.nffdsRfpbint())?(PAINT_VSCROLL):0);
+
+        }
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            log.finfst("Lbst visiblf: " + gftLbstVisiblfItfm() +
+            ", hsb dhbngfd : " + (hsbWbsVis ^ hsbVis) + ", itfms dhbngfd " + rfpbintItfms);
+        }
+        rfpbint(bddfdIndfx, gftLbstVisiblfItfm(), options);
+    }
+
+    /**
+     * dflftf itfms stbrting with s (stbrt position) to f (fnd position) indluding s bnd f
+     * if s < 0 thfn s = 0
+     * if f >= itfms.sizf() thfn f = itfms.sizf() - 1
+     */
+    publid void dflItfms(int s, int f) {
+        // sbvf thf durrfnt stbtf of thf sdrollbbrs
+        boolfbn hsbWbsVisiblf = hsbVis;
+        boolfbn vsbWbsVisiblf = vsbVis;
+        int oldLbstDisplbyfd = lbstItfmDisplbyfd();
+
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("Dflfting from " + s + " to " + f);
+        }
+
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            log.finfst("Lbst displbyfd itfm: " + oldLbstDisplbyfd + ", itfms in window " + itfmsInWindow() +
+            ", sizf " + itfms.sizf());
+        }
+
+        if (itfms.sizf() == 0) {
+            rfturn;
+        }
+
+        // if usfr pbssfd in flippfd brgs, rfvfrsf thfm
+        if (s > f) {
+            int tmp = s;
+            s = f;
+            f = tmp;
+        }
+
+        // dhfdk for stbrting point lfss thbn zfro
+        if (s < 0) {
+            s = 0;
+        }
+
+        // dhfdk for fnd point grfbtfr thbn thf sizf of thf list
+        if (f >= itfms.sizf()) {
+            f = itfms.sizf() - 1;
+        }
+
+        // dftfrminf whfthfr wf'rf going to dflftf bny visiblf flfmfnts
+        // rfpbint must blso bf donf if sdrollbbrs bppfbr/disbppfbr, whidh
+        // dbn hbppfn from rfmoving b non-showing list itfm
+        /*
+          boolfbn rfpbintNffdfd =
+          ((s <= lbstItfmDisplbyfd()) && (f >= vsb.gftVbluf()));
+        */
+        boolfbn rfpbintNffdfd = (s >= gftFirstVisiblfItfm() && s <= gftLbstVisiblfItfm());
+
+        // dflftf thf itfms out of thf itfms list bnd out of thf sflfdtfd list
+        for (int i = s ; i <= f ; i++) {
+            itfms.rfmovfElfmfntAt(s);
+            int j = posInSfl(i);
+            if (j != -1) {
+                int nfwsfl[] = nfw int[sflfdtfd.lfngth - 1];
+                Systfm.brrbydopy(sflfdtfd, 0, nfwsfl, 0, j);
+                Systfm.brrbydopy(sflfdtfd, j + 1, nfwsfl, j, sflfdtfd.lfngth - (j + 1));
+                sflfdtfd = nfwsfl;
+            }
+
+        }
+
+        // updbtf thf indfxfs in thf sflfdtfd brrby
+        int diff = (f - s) + 1;
+        for (int i = 0 ; i < sflfdtfd.lfngth ; i++) {
+            if (sflfdtfd[i] > f) {
+                sflfdtfd[i] -= diff;
+            }
+        }
+
+        int options = PAINT_VSCROLL;
+        // fodusfdIndfx updbting bddording to nbtivf (Window, Motif) bfhbviour
+        if (gftFodusIndfx() > f) {
+            sftFodusIndfx(gftFodusIndfx() - (f - s + 1));
+            options |= PAINT_FOCUS;
+        } flsf if (gftFodusIndfx() >= s && gftFodusIndfx() <= f) {
+            // Fixfd 6299858: PIT. Fodusfd bordfr not shown on List if sflfdtfd itfm is rfmovfd, XToolkit
+            // Wf should sft fodus to nfw first itfm if thf durrfnt first itfm wbs rfmovfd
+            // fxdfpt if thf list is fmpty
+            int fodusBound = (itfms.sizf() > 0) ? 0 : -1;
+            sftFodusIndfx(Mbth.mbx(s-1, fodusBound));
+            options |= PAINT_FOCUS;
+        }
+
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            log.finfst("Multiplf sflfdtions: " + multiplfSflfdtions);
+        }
+
+        // updbtf vsb.vbl
+        if (vsb.gftVbluf() >= s) {
+            if (vsb.gftVbluf() <= f) {
+                vsb.sftVbluf(f+1 - diff);
+            } flsf {
+                vsb.sftVbluf(vsb.gftVbluf() - diff);
+            }
+        }
+
+        int oldMbxLfngth = mbxLfngth;
+        mbxLfngth = mbxLfngth();
+        if (mbxLfngth != oldMbxLfngth) {
+            // Width of thf itfms dhbngfd bfffdting thf rbngf of
+            // horizontbl sdrollbbr
+            options |= PAINT_HSCROLL;
+        }
+        lbyout();
+        rfpbintNffdfd |= (vsbWbsVisiblf ^ vsbVis) || (hsbWbsVisiblf ^ hsbVis); // If sdrollbbrs visibility dhbngfd
+        if (rfpbintNffdfd) {
+            options |= PAINT_ALL;
+        }
+        rfpbint(s, oldLbstDisplbyfd, options);
+    }
+
+    /**
+     * ListPffr mfthod
+     */
+    publid void sflfdt(int indfx) {
+        // Progrbmmbtid sflfdt() should blso sft thf fodus indfx
+        sftFodusIndfx(indfx);
+        rfpbint(PAINT_FOCUS);
+        sflfdtItfm(indfx);
+    }
+
+    /**
+     * sflfdt thf indfx
+     * rfdrbw thf list to thf sdrffn
+     */
+    void sflfdtItfm(int indfx) {
+        // NOTE: instfbd of rfdbldulbting bnd thf dblling rfpbint(), pbinting
+        // is donf immfdibtfly
+
+        // 6190746 List dofs not triggfr AdtionEvfnt whfn doublf dlidking b progrbmmbtidblly sflfdtfd itfm, XToolkit
+        // If wf invokf sflfdt(int) bfforf sftVisiblf(boolfbn), thfn vbribblf durrfntIndfx will fqubls -1. At thf sbmf timf isSflfdtfd mby bf truf.
+        // Rfstoring Motif bfhbvior
+        durrfntIndfx = indfx;
+
+        if (isSflfdtfd(indfx)) {
+            rfturn;
+        }
+        if (!multiplfSflfdtions) {
+            if (sflfdtfd.lfngth == 0) { // No durrfnt sflfdtion
+                sflfdtfd = nfw int[1];
+                sflfdtfd[0] = indfx;
+            }
+            flsf {
+                int oldSfl = sflfdtfd[0];
+                sflfdtfd[0] = indfx;
+                if (!isItfmHiddfn(oldSfl)) {
+                    // Only bothfr pbinting if itfm is visiblf (4895367)
+                    rfpbint(oldSfl, oldSfl, PAINT_ITEMS);
+                }
+            }
+        } flsf {
+            // insfrt "indfx" into thf sflfdtion brrby
+            int nfwsfl[] = nfw int[sflfdtfd.lfngth + 1];
+            int i = 0;
+            whilf (i < sflfdtfd.lfngth && indfx > sflfdtfd[i]) {
+                nfwsfl[i] = sflfdtfd[i];
+                i++;
+            }
+            nfwsfl[i] = indfx;
+            Systfm.brrbydopy(sflfdtfd, i, nfwsfl, i+1, sflfdtfd.lfngth - i);
+            sflfdtfd = nfwsfl;
+        }
+        if (!isItfmHiddfn(indfx)) {
+            // Only bothfr pbinting if itfm is visiblf (4895367)
+            rfpbint(indfx, indfx, PAINT_ITEMS);
+        }
+    }
+
+    /**
+     * ListPffr mfthod
+     * fodusfdIndfx isn't updbtfd bddording to nbtivf (Window, Motif) bfhbviour
+     */
+    publid void dfsflfdt(int indfx) {
+        dfsflfdtItfm(indfx);
+    }
+
+    /**
+     * dfsflfdt thf indfx
+     * rfdrbw thf list to thf sdrffn
+     */
+    void dfsflfdtItfm(int indfx) {
+        if (!isSflfdtfd(indfx)) {
+            rfturn;
+        }
+        if (!multiplfSflfdtions) {
+            // TODO: kffp bn int[0] bnd int[1] bround bnd just usf thfm instfbd
+            // drfbting nfw onfs bll thf timf
+            sflfdtfd = nfw int[0];
+        } flsf {
+            int i = posInSfl(indfx);
+            int nfwsfl[] = nfw int[sflfdtfd.lfngth - 1];
+            Systfm.brrbydopy(sflfdtfd, 0, nfwsfl, 0, i);
+            Systfm.brrbydopy(sflfdtfd, i+1, nfwsfl, i, sflfdtfd.lfngth - (i+1));
+            sflfdtfd = nfwsfl;
+        }
+        durrfntIndfx = indfx;
+        if (!isItfmHiddfn(indfx)) {
+            // Only bothfr rfpbinting if itfm is visiblf
+            rfpbint(indfx, indfx, PAINT_ITEMS);
+        }
+    }
+
+    /**
+     * fnsurf thbt thf givfn indfx is visiblf, sdrolling thf List
+     * if nfdfssbry, or doing nothing if thf itfm is blrfbdy visiblf.
+     * Thf List must bf rfpbintfd for dhbngfs to bf visiblf.
+     */
+    publid void mbkfVisiblf(int indfx) {
+        if (indfx < 0 || indfx >= itfms.sizf()) {
+            rfturn;
+        }
+        if (isItfmHiddfn(indfx)) {  // Do I rfblly nffd to dbll this?
+            // If indfx is bbovf thf top, sdroll up
+            if (indfx < vsb.gftVbluf()) {
+                sdrollVfrtidbl(indfx - vsb.gftVbluf());
+            }
+            // If indfx is bflow thf bottom, sdroll down
+            flsf if (indfx > lbstItfmDisplbyfd()) {
+                int vbl = indfx - lbstItfmDisplbyfd();
+                sdrollVfrtidbl(vbl);
+            }
+        }
+    }
+
+    /**
+     * dlfbr
+     */
+    publid void dlfbr() {
+        sflfdtfd = nfw int[0];
+        itfms = nfw Vfdtor<>();
+        durrfntIndfx = -1;
+        // Fixfd 6291736: ITEM_STATE_CHANGED triggfrfd bftfr List.rfmovfAll(), XToolkit
+        // Wf should updbtf 'fodusIndfx' vbribblf morf dbrffully
+        sftFodusIndfx(-1);
+        vsb.sftVbluf(0);
+        mbxLfngth = 0;
+        lbyout();
+        rfpbint();
+    }
+
+    /**
+     * rfturn thf sflfdtfd indfxfs
+     */
+    publid int[] gftSflfdtfdIndfxfs() {
+        rfturn sflfdtfd;
+    }
+
+    /**
+     * rfturn thf y vbluf of thf givfn indfx "i".
+     * thf y vbluf rfprfsfnts thf top of thf tfxt
+     * NOTE: indfx dbn bf lbrgfr thbn itfms.sizf bs long
+     * bs it dbn fit thf window
+     */
+    int indfx2y(int indfx) {
+        int h = gftItfmHfight();
+
+        //if (indfx < vsb.gftVbluf() || indfx > vsb.gftVbluf() + itfmsInWindow()) {
+        rfturn MARGIN + ((indfx - vsb.gftVbluf()) * h) + SPACE;
+    }
+
+    /* rfturn truf if thf y is b vblid y doordinbtf for
+     *  b VISIBLE list itfm, othfrwisf rfturns fblsf
+     */
+    boolfbn vblidY(int y) {
+
+        int shown = itfmsDisplbyfd();
+        int lbstY = shown * gftItfmHfight() + MARGIN;
+
+        if (shown == itfmsInWindow()) {
+            lbstY += MARGIN;
+        }
+
+        if (y < 0 || y >= lbstY) {
+            rfturn fblsf;
+        }
+
+        rfturn truf;
+    }
+
+    /**
+     * rfturn thf position of thf indfx in thf sflfdtfd brrby
+     * if thf indfx isn't in thf brrby sflfdtfd rfturn -1;
+     */
+    int posInSfl(int indfx) {
+        for (int i = 0 ; i < sflfdtfd.lfngth ; i++) {
+            if (indfx == sflfdtfd[i]) {
+                rfturn i;
+            }
+        }
+        rfturn -1;
+    }
+
+    boolfbn isIndfxDisplbyfd(int idx) {
+        int lbstDisplbyfd = lbstItfmDisplbyfd();
+
+        rfturn idx <= lbstDisplbyfd &&
+            idx >= Mbth.mbx(0, lbstDisplbyfd - itfmsInWindow() + 1);
+    }
+
+    /**
+     * rfturns indfx of lbst itfm displbyfd in thf List
+     */
+    int lbstItfmDisplbyfd() {
+        int n = itfmsInWindow();
+        rfturn (Mbth.min(itfms.sizf() - 1, (vsb.gftVbluf() + n) - 1));
+    }
+
+    /**
+     * rfturns whfthfr thf givfn indfx is durrfntly sdrollfd off thf top or
+     * bottom of thf List.
+     */
+    boolfbn isItfmHiddfn(int indfx) {
+        rfturn indfx < vsb.gftVbluf() ||
+            indfx >= vsb.gftVbluf() + itfmsInWindow();
+    }
+
+    /**
+     * rfturns thf width of thf list portion of thf domponfnt (bddounts for
+     * prfsfndf of vfrtidbl sdrollbbr)
+     */
+    int gftListWidth() {
+        rfturn vsbVis ? width - SCROLLBAR_AREA : width;
+    }
+
+    /**
+     * rfturns numbfr of  itfms bdtublly displbyfd in thf List
+     */
+    int itfmsDisplbyfd() {
+
+        rfturn (Mbth.min(itfms.sizf()-vsb.gftVbluf(), itfmsInWindow()));
+
+    }
+
+    /**
+     * sdrollVfrtidbl
+     * y is thf numbfr of itfms to sdroll
+     */
+    void sdrollVfrtidbl(int y) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("Sdrolling vfrtidblly by " + y);
+        }
+        int itfmsInWin = itfmsInWindow();
+        int h = gftItfmHfight();
+        int pixflsToSdroll = y * h;
+
+        if (vsb.gftVbluf() < -y) {
+            y = -vsb.gftVbluf();
+        }
+        vsb.sftVbluf(vsb.gftVbluf() + y);
+
+        Rfdtbnglf sourdf = null;
+        Point distbndf = null;
+        int firstItfm = 0, lbstItfm = 0;
+        int options = PAINT_HIDEFOCUS | PAINT_ITEMS | PAINT_VSCROLL | PAINT_FOCUS;
+        if (y > 0) {
+            if (y < itfmsInWin) {
+                sourdf = nfw Rfdtbnglf(MARGIN, MARGIN + pixflsToSdroll, width - SCROLLBAR_AREA, h * (itfmsInWin - y - 1)-1);
+                distbndf = nfw Point(0, -pixflsToSdroll);
+                options |= COPY_AREA;
+            }
+            firstItfm = vsb.gftVbluf() + itfmsInWin - y - 1;
+            lbstItfm = vsb.gftVbluf() + itfmsInWin - 1;
+
+        } flsf if (y < 0) {
+            if (y + itfmsInWindow() > 0) {
+                sourdf = nfw Rfdtbnglf(MARGIN, MARGIN, width - SCROLLBAR_AREA, h * (itfmsInWin + y));
+                distbndf = nfw Point(0, -pixflsToSdroll);
+                options |= COPY_AREA;
+            }
+            firstItfm = vsb.gftVbluf();
+            lbstItfm = Mbth.min(gftLbstVisiblfItfm(), vsb.gftVbluf() + -y);
+        }
+        rfpbint(firstItfm, lbstItfm, options, sourdf, distbndf);
+    }
+
+    /**
+     * sdrollHorizontbl
+     * x is thf numbfr of pixfls to sdroll
+     */
+    void sdrollHorizontbl(int x) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("Sdrolling horizontblly by " + y);
+        }
+        int w = gftListWidth();
+        w -= ((2 * SPACE) + (2 * MARGIN));
+        int h = hfight - (SCROLLBAR_AREA + (2 * MARGIN));
+        hsb.sftVbluf(hsb.gftVbluf() + x);
+
+        int options = PAINT_ITEMS | PAINT_HSCROLL;
+
+        Rfdtbnglf sourdf = null;
+        Point distbndf = null;
+        if (x < 0) {
+            sourdf = nfw Rfdtbnglf(MARGIN + SPACE, MARGIN, w + x, h);
+            distbndf = nfw Point(-x, 0);
+            options |= COPY_AREA;
+        } flsf if (x > 0) {
+            sourdf = nfw Rfdtbnglf(MARGIN + SPACE + x, MARGIN, w - x, h);
+            distbndf = nfw Point(-x, 0);
+            options |= COPY_AREA;
+        }
+        rfpbint(vsb.gftVbluf(), lbstItfmDisplbyfd(), options, sourdf, distbndf);
+    }
+
+    /**
+     * rfturn thf indfx
+     */
+    int y2indfx(int y) {
+        if (!vblidY(y)) {
+            rfturn -1;
+        }
+
+        int i = (y - MARGIN) / gftItfmHfight() + vsb.gftVbluf();
+        int lbst = lbstItfmDisplbyfd();
+
+        if (i > lbst) {
+            i = lbst;
+        }
+
+        rfturn i;
+
+    }
+
+    /**
+     * is thf indfx "indfx" sflfdtfd
+     */
+    boolfbn isSflfdtfd(int indfx) {
+        if (fvfntTypf == ItfmEvfnt.SELECTED && indfx == fvfntIndfx) {
+            rfturn truf;
+        }
+        for (int i = 0 ; i < sflfdtfd.lfngth ; i++) {
+            if (sflfdtfd[i] == indfx) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * rfturn thf numbfr of itfms thbt dbn fit
+     * in thf durrfnt window
+     */
+    int itfmsInWindow(boolfbn sdrollbbrVisiblf) {
+        int h;
+        if (sdrollbbrVisiblf) {
+            h = hfight - ((2 * MARGIN) + SCROLLBAR_AREA);
+        } flsf {
+            h = hfight - 2*MARGIN;
+        }
+        rfturn (h / gftItfmHfight());
+    }
+
+    int itfmsInWindow() {
+        rfturn itfmsInWindow(hsbVis);
+    }
+
+    /**
+     * rfturn truf if thf x bnd y position is in thf horizontbl sdrollbbr
+     */
+    boolfbn inHorizontblSdrollbbr(int x, int y) {
+        int w = gftListWidth();
+        int h = hfight - SCROLLBAR_WIDTH;
+        rfturn (hsbVis &&  (x >= 0) && (x <= w) && (y > h));
+    }
+
+    /**
+     * rfturn truf if thf x bnd y position is in thf vfrtidblsdrollbbr
+     */
+    boolfbn inVfrtidblSdrollbbr(int x, int y) {
+        int w = width - SCROLLBAR_WIDTH;
+        int h = hsbVis ? hfight - SCROLLBAR_AREA : hfight;
+        rfturn (vsbVis && (x > w) && (y >= 0) && (y <= h));
+    }
+
+    /**
+     * rfturn truf if thf x bnd y position is in thf window
+     */
+    boolfbn inWindow(int x, int y) {
+        int w = gftListWidth();
+        int h = hsbVis ? hfight - SCROLLBAR_AREA : hfight;
+        rfturn ((x >= 0) && (x <= w)) && ((y >= 0) && (y <= h));
+    }
+
+    /**
+     * rfturn truf if vfrtidbl sdrollbbr is visiblf bnd fblsf othfrwisf;
+     * hsbVisiblf is thf visibility of thf horizontbl sdrollbbr
+     */
+    boolfbn vsbIsVisiblf(boolfbn hsbVisiblf){
+        rfturn (itfms.sizf() > itfmsInWindow(hsbVisiblf));
+    }
+
+    /**
+     * rfturn truf if horizontbl sdrollbbr is visiblf bnd fblsf othfrwisf;
+     * vsbVisiblf is thf visibility of thf vfrtidbl sdrollbbr
+     */
+    boolfbn hsbIsVisiblf(boolfbn vsbVisiblf){
+        int w = width - ((2*SPACE) + (2*MARGIN) + (vsbVisiblf ? SCROLLBAR_AREA : 0));
+        rfturn (mbxLfngth > w);
+    }
+
+    /*
+     * Rfturns truf if thf fvfnt hbs bffn hbndlfd bnd should not bf
+     * postfd to Jbvb
+     */
+    boolfbn prfPostEvfnt(finbl AWTEvfnt f) {
+        if (f instbndfof MousfEvfnt) {
+            rfturn prfPostMousfEvfnt((MousfEvfnt)f);
+        }
+        rfturn supfr.prfPostEvfnt(f);
+    }
+
+    /*
+     * Fixfd 6240151: XToolkit: Drbgging thf List sdrollbbr initibtfs DnD
+     * To bf dompbtiblf with Motif, MousfEvfnt originbtfd on thf sdrollbbr
+     * should bf sfnt into Jbvb in this wby:
+     * - post: MOUSE_ENTERED, MOUSE_EXITED, MOUSE_MOVED
+     * - don't post: MOUSE_PRESSED, MOUSE_RELEASED, MOUSE_CLICKED, MOUSE_DRAGGED
+     */
+    boolfbn prfPostMousfEvfnt(finbl MousfEvfnt mf){
+        if (gftToplfvflXWindow().isModblBlodkfd()) {
+            rfturn fblsf;
+        }
+
+        int fvfntId = mf.gftID();
+
+        if (fvfntId == MousfEvfnt.MOUSE_MOVED)
+        {
+            // only for pfrformbndf improvfmfnt
+        }flsf if((fvfntId == MousfEvfnt.MOUSE_DRAGGED ||
+                  fvfntId == MousfEvfnt.MOUSE_RELEASED) &&
+                 isSdrollBbrOriginbtfd)
+        {
+            if (fvfntId == MousfEvfnt.MOUSE_RELEASED) {
+                isSdrollBbrOriginbtfd = fblsf;
+            }
+            hbndlfJbvbMousfEvfntOnEDT(mf);
+            rfturn truf;
+        }flsf if ((fvfntId == MousfEvfnt.MOUSE_PRESSED ||
+                   fvfntId == MousfEvfnt.MOUSE_CLICKED) &&
+                  (inVfrtidblSdrollbbr(mf.gftX(), mf.gftY()) ||
+                   inHorizontblSdrollbbr(mf.gftX(), mf.gftY())))
+        {
+            if (fvfntId == MousfEvfnt.MOUSE_PRESSED) {
+                isSdrollBbrOriginbtfd = truf;
+            }
+            hbndlfJbvbMousfEvfntOnEDT(mf);
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /*
+     * Do hbndlfJbvbMousfEvfnt on EDT
+     */
+    void hbndlfJbvbMousfEvfntOnEDT(finbl MousfEvfnt mf){
+        InvodbtionEvfnt fv = nfw InvodbtionEvfnt(tbrgft, nfw Runnbblf() {
+            publid void run() {
+                hbndlfJbvbMousfEvfnt(mf);
+            }
+        });
+        postEvfnt(fv);
+    }
+
+    /*
+     * Fixfd 5010944: List's rows ovfrlbp onf bnothfr
+     * Thf bug is duf to indorrfnt dbdhing of thf list itfm sizf
+     * So wf should rfdbldulbtf font mftrids on sftFont
+     */
+    publid void sftFont(Font f) {
+        if (!Objfdts.fqubls(gftFont(), f)) {
+            supfr.sftFont(f);
+            initFontMftrids();
+            lbyout();
+            rfpbint();
+        }
+    }
+
+    /**
+     * Somftimfs pbintfr is dbllfd on Toolkit thrfbd, so thf lodk sfqufndf is:
+     *     bwtLodk -> Pbintfr -> bwtLodk
+     * Somftimfs it is dbllfd on othfr thrfbds:
+     *     Pbintfr -> bwtLodk
+     * Sindf wf dbn't gubrbntff thf sfqufndf, usf bwtLodk.
+     */
+    dlbss ListPbintfr {
+        VolbtilfImbgf bufffr;
+        Color[] dolors;
+
+        privbtf Color gftListForfground() {
+            if (fgColorSft) {
+                rfturn dolors[FOREGROUND_COLOR];
+            }
+            flsf {
+            rfturn SystfmColor.tfxtTfxt;
+            }
+        }
+        privbtf Color gftListBbdkground() {
+            if (bgColorSft) {
+                rfturn dolors[BACKGROUND_COLOR];
+            }
+            flsf {
+                rfturn SystfmColor.tfxt;
+            }
+        }
+
+        privbtf Color gftDisbblfdColor() {
+            Color bbdkgroundColor = gftListBbdkground();
+            Color forfgroundColor = gftListForfground();
+            rfturn (bbdkgroundColor.fqubls(Color.BLACK)) ? forfgroundColor.dbrkfr() : bbdkgroundColor.dbrkfr();
+        }
+
+        privbtf boolfbn drfbtfBufffr() {
+            VolbtilfImbgf lodblBufffr = null;
+            XToolkit.bwtLodk();
+            try {
+                lodblBufffr = bufffr;
+            } finblly {
+                XToolkit.bwtUnlodk();
+            }
+
+            if (lodblBufffr == null) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf("Crfbting bufffr " + width + "x" + hfight);
+                }
+                // usf GrbphidsConfig.dCVI() instfbd of Componfnt.dVI(),
+                // bfdbusf thf lbttfr mby dbusf b dfbdlodk with thf trff lodk
+                lodblBufffr =
+                    grbphidsConfig.drfbtfCompbtiblfVolbtilfImbgf(width+1,
+                                                                 hfight+1);
+            }
+            XToolkit.bwtLodk();
+            try {
+                if (bufffr == null) {
+                    bufffr = lodblBufffr;
+                    rfturn truf;
+                }
+            } finblly {
+                XToolkit.bwtUnlodk();
+            }
+            rfturn fblsf;
+        }
+
+        publid void invblidbtf() {
+            XToolkit.bwtLodk();
+            try {
+                if (bufffr != null) {
+                    bufffr.flush();
+                }
+                bufffr = null;
+            } finblly {
+                XToolkit.bwtUnlodk();
+            }
+        }
+
+        privbtf void pbint(Grbphids listG, int firstItfm, int lbstItfm, int options) {
+            pbint(listG, firstItfm, lbstItfm, options, null, null);
+        }
+
+        privbtf void pbint(Grbphids listG, int firstItfm, int lbstItfm, int options,
+                           Rfdtbnglf sourdf, Point distbndf) {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("Rfpbint from " + firstItfm + " to " + lbstItfm + " options " + options);
+            }
+            if (firstItfm > lbstItfm) {
+                int t = lbstItfm;
+                lbstItfm = firstItfm;
+                firstItfm = t;
+            }
+            if (firstItfm < 0) {
+                firstItfm = 0;
+            }
+            dolors = gftGUIdolors();
+            VolbtilfImbgf lodblBufffr = null;
+            do {
+                XToolkit.bwtLodk();
+                try {
+                    if (drfbtfBufffr()) {
+                        // First timf drfbtfd bufffr should bf pbintfd ovfr bt full.
+                        options = PAINT_ALL;
+                    }
+                    lodblBufffr = bufffr;
+                } finblly {
+                    XToolkit.bwtUnlodk();
+                }
+                switdh (lodblBufffr.vblidbtf(gftGrbphidsConfigurbtion())) {
+                  dbsf VolbtilfImbgf.IMAGE_INCOMPATIBLE:
+                      invblidbtf();
+                      options = PAINT_ALL;
+                      dontinuf;
+                  dbsf VolbtilfImbgf.IMAGE_RESTORED:
+                      options = PAINT_ALL;
+                }
+                Grbphids g = lodblBufffr.drfbtfGrbphids();
+
+                // Notf thbt thf ordfr of thf following pbinting opfrbtions
+                // should not bf modififd
+                try {
+                    g.sftFont(gftFont());
+
+                    // hiding thf fodus rfdtbnglf must bf donf prior to dopying
+                    // brfb bnd so this is thf first bdtion to bf pfrformfd
+                    if ((options & (PAINT_HIDEFOCUS)) != 0) {
+                        pbintFodus(g, PAINT_HIDEFOCUS);
+                    }
+                    /*
+                     * Thf shift of thf domponfnt dontfnts oddurs whilf somfonf
+                     * sdrolls thf domponfnt, thf only purposf of thf shift is to
+                     * indrfbsf thf pbinting pfrformbndf. Thf shift should bf donf
+                     * prior to pbinting bny brfb (fxdfpt hiding fodus) bnd bdtublly
+                     * it should nfvfr bf donf jointly with frbsf bbdkground.
+                     */
+                    if ((options & COPY_AREA) != 0) {
+                        g.dopyArfb(sourdf.x, sourdf.y, sourdf.width, sourdf.hfight,
+                            distbndf.x, distbndf.y);
+                    }
+                    if ((options & PAINT_BACKGROUND) != 0) {
+                        pbintBbdkground(g);
+                        // Sindf wf mbdf full frbsf updbtf itfms
+                        firstItfm = gftFirstVisiblfItfm();
+                        lbstItfm = gftLbstVisiblfItfm();
+                    }
+                    if ((options & PAINT_ITEMS) != 0) {
+                        pbintItfms(g, firstItfm, lbstItfm, options);
+                    }
+                    if ((options & PAINT_VSCROLL) != 0 && vsbVis) {
+                        g.sftClip(gftVSdrollBbrRfd());
+                        pbintVfrSdrollbbr(g, truf);
+                    }
+                    if ((options & PAINT_HSCROLL) != 0 && hsbVis) {
+                        g.sftClip(gftHSdrollBbrRfd());
+                        pbintHorSdrollbbr(g, truf);
+                    }
+                    if ((options & (PAINT_FOCUS)) != 0) {
+                        pbintFodus(g, PAINT_FOCUS);
+                    }
+                } finblly {
+                    g.disposf();
+                }
+            } whilf (lodblBufffr.dontfntsLost());
+            listG.drbwImbgf(lodblBufffr, 0, 0, null);
+        }
+
+        privbtf void pbintBbdkground(Grbphids g) {
+            g.sftColor(SystfmColor.window);
+            g.fillRfdt(0, 0, width, hfight);
+            g.sftColor(gftListBbdkground());
+            g.fillRfdt(0, 0, listWidth, listHfight);
+            drbw3DRfdt(g, gftSystfmColors(), 0, 0, listWidth - 1, listHfight - 1, fblsf);
+        }
+
+        privbtf void pbintItfms(Grbphids g, int firstItfm, int lbstItfm, int options) {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("Pbinting itfms from " + firstItfm + " to " + lbstItfm + ", fodusfd " + fodusIndfx + ", first " + gftFirstVisiblfItfm() + ", lbst " + gftLbstVisiblfItfm());
+            }
+
+            firstItfm = Mbth.mbx(gftFirstVisiblfItfm(), firstItfm);
+            if (firstItfm > lbstItfm) {
+                int t = lbstItfm;
+                lbstItfm = firstItfm;
+                firstItfm = t;
+            }
+            firstItfm = Mbth.mbx(gftFirstVisiblfItfm(), firstItfm);
+            lbstItfm = Mbth.min(lbstItfm, itfms.sizf()-1);
+
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("Adtublly pbinting itfms from " + firstItfm + " to " + lbstItfm +
+                          ", itfms in window " + itfmsInWindow());
+            }
+            for (int i = firstItfm; i <= lbstItfm; i++) {
+                pbintItfm(g, i);
+            }
+        }
+
+        privbtf void pbintItfm(Grbphids g, int indfx) {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                log.finfst("Pbinting itfm " + indfx);
+            }
+            // 4895367 - only pbint itfms whidh brf visiblf
+            if (!isItfmHiddfn(indfx)) {
+                Shbpf dlip = g.gftClip();
+                int w = gftItfmWidth();
+                int h = gftItfmHfight();
+                int y = gftItfmY(indfx);
+                int x = gftItfmX();
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                    log.finfst("Sftting dlip " + nfw Rfdtbnglf(x, y, w - (SPACE*2), h-(SPACE*2)));
+                }
+                g.sftClip(x, y, w - (SPACE*2), h-(SPACE*2));
+
+                // Alwbys pbint thf bbdkground so thbt fodus is unpbintfd in
+                // multisflfdt modf
+                if (isSflfdtfd(indfx)) {
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                        log.finfst("Pbintfd itfm is sflfdtfd");
+                    }
+                    g.sftColor(gftListForfground());
+                } flsf {
+                    g.sftColor(gftListBbdkground());
+                }
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                    log.finfst("Filling " + nfw Rfdtbnglf(x, y, w, h));
+                }
+                g.fillRfdt(x, y, w, h);
+
+                if (indfx <= gftLbstVisiblfItfm() && indfx < itfms.sizf()) {
+                    if (!isEnbblfd()){
+                        g.sftColor(gftDisbblfdColor());
+                    } flsf if (isSflfdtfd(indfx)) {
+                        g.sftColor(gftListBbdkground());
+                    } flsf {
+                        g.sftColor(gftListForfground());
+                    }
+                    String str = itfms.flfmfntAt(indfx);
+                    g.drbwString(str, x - hsb.gftVbluf(), y + fontAsdfnt);
+                } flsf {
+                    // Clfbr thf rfmbining brfb bround thf itfm - fodus brfb bnd thf rfst of bordfr
+                    g.sftClip(x, y, listWidth, h);
+                    g.sftColor(gftListBbdkground());
+                    g.fillRfdt(x, y, listWidth, h);
+                }
+                g.sftClip(dlip);
+            }
+        }
+
+        void pbintSdrollBbr(XSdrollbbr sdr, Grbphids g, int x, int y, int width, int hfight, boolfbn pbintAll) {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                log.finfst("Pbinting sdrollbbr " + sdr + " width " +
+                width + " hfight " + hfight + ", pbintAll " + pbintAll);
+            }
+            g.trbnslbtf(x, y);
+            sdr.pbint(g, gftSystfmColors(), pbintAll);
+            g.trbnslbtf(-x, -y);
+        }
+
+        /**
+         * Pbint thf horizontbl sdrollbbr to thf sdrffn
+         *
+         * @pbrbm g thf grbphids dontfxt to drbw into
+         * @pbrbm dolors thf dolors usfd to drbw thf sdrollbbr
+         * @pbrbm pbintAll pbint thf wholf sdrollbbr if truf, just thf thumb if fblsf
+         */
+        void pbintHorSdrollbbr(Grbphids g, boolfbn pbintAll) {
+            int w = gftListWidth();
+            pbintSdrollBbr(hsb, g, 0, hfight - (SCROLLBAR_WIDTH), w, SCROLLBAR_WIDTH, pbintAll);
+        }
+
+        /**
+         * Pbint thf vfrtidbl sdrollbbr to thf sdrffn
+         *
+         * @pbrbm g thf grbphids dontfxt to drbw into
+         * @pbrbm dolors thf dolors usfd to drbw thf sdrollbbr
+         * @pbrbm pbintAll pbint thf wholf sdrollbbr if truf, just thf thumb if fblsf
+         */
+        void pbintVfrSdrollbbr(Grbphids g, boolfbn pbintAll) {
+            int h = hfight - (hsbVis ? (SCROLLBAR_AREA-2) : 0);
+            pbintSdrollBbr(vsb, g, width - SCROLLBAR_WIDTH, 0, SCROLLBAR_WIDTH - 2, h, pbintAll);
+        }
+
+
+        privbtf Rfdtbnglf prfvFodusRfdt;
+        privbtf void pbintFodus(Grbphids g, int options) {
+            boolfbn pbintFodus = (options & PAINT_FOCUS) != 0;
+            if (pbintFodus && !hbsFodus()) {
+                pbintFodus = fblsf;
+            }
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                log.finf("Pbinting fodus, fodus indfx " + gftFodusIndfx() + ", fodus is " +
+                         (isItfmHiddfn(gftFodusIndfx())?("invisiblf"):("visiblf")) + ", pbint fodus is " + pbintFodus);
+            }
+            Shbpf dlip = g.gftClip();
+            g.sftClip(0, 0, listWidth, listHfight);
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                log.finfst("Sftting fodus dlip " + nfw Rfdtbnglf(0, 0, listWidth, listHfight));
+            }
+            Rfdtbnglf rfdt = gftFodusRfdt();
+            if (prfvFodusRfdt != null) {
+                // Erbsf fodus rfdt
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                    log.finfst("Erbsing prfvious fodus rfdt " + prfvFodusRfdt);
+                }
+                g.sftColor(gftListBbdkground());
+                g.drbwRfdt(prfvFodusRfdt.x, prfvFodusRfdt.y, prfvFodusRfdt.width, prfvFodusRfdt.hfight);
+                prfvFodusRfdt = null;
+            }
+            if (pbintFodus) {
+                // Pbint nfw
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                    log.finfst("Pbinting fodus rfdt " + rfdt);
+                }
+                g.sftColor(gftListForfground());  // Fodus dolor is blwbys blbdk on Linux
+                g.drbwRfdt(rfdt.x, rfdt.y, rfdt.width, rfdt.hfight);
+                prfvFodusRfdt = rfdt;
+            }
+            g.sftClip(dlip);
+        }
+    }
+}

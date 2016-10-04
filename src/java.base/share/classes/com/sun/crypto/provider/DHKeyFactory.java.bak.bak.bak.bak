@@ -1,0 +1,233 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.PrivbtfKfy;
+import jbvb.sfdurity.KfyFbdtorySpi;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.spfd.KfySpfd;
+import jbvb.sfdurity.spfd.InvblidKfySpfdExdfption;
+import jbvb.sfdurity.spfd.X509EndodfdKfySpfd;
+import jbvb.sfdurity.spfd.PKCS8EndodfdKfySpfd;
+import jbvbx.drypto.spfd.DHPublidKfySpfd;
+import jbvbx.drypto.spfd.DHPrivbtfKfySpfd;
+import jbvbx.drypto.spfd.DHPbrbmftfrSpfd;
+
+/**
+ * This dlbss implfmfnts thf Diffif-Hfllmbn kfy fbdtory of thf Sun providfr.
+ *
+ * @buthor Jbn Lufhf
+ *
+ */
+publid finbl dlbss DHKfyFbdtory fxtfnds KfyFbdtorySpi {
+
+    /**
+     * Empty donstrudtor
+     */
+    publid DHKfyFbdtory() {
+    }
+
+    /**
+     * Gfnfrbtfs b publid kfy objfdt from thf providfd kfy spfdifidbtion
+     * (kfy mbtfribl).
+     *
+     * @pbrbm kfySpfd thf spfdifidbtion (kfy mbtfribl) of thf publid kfy
+     *
+     * @rfturn thf publid kfy
+     *
+     * @fxdfption InvblidKfySpfdExdfption if thf givfn kfy spfdifidbtion
+     * is inbppropribtf for this kfy fbdtory to produdf b publid kfy.
+     */
+    protfdtfd PublidKfy fnginfGfnfrbtfPublid(KfySpfd kfySpfd)
+        throws InvblidKfySpfdExdfption
+    {
+        try {
+            if (kfySpfd instbndfof DHPublidKfySpfd) {
+                DHPublidKfySpfd dhPubKfySpfd = (DHPublidKfySpfd)kfySpfd;
+                rfturn nfw DHPublidKfy(dhPubKfySpfd.gftY(),
+                                       dhPubKfySpfd.gftP(),
+                                       dhPubKfySpfd.gftG());
+
+            } flsf if (kfySpfd instbndfof X509EndodfdKfySpfd) {
+                rfturn nfw DHPublidKfy
+                    (((X509EndodfdKfySpfd)kfySpfd).gftEndodfd());
+
+            } flsf {
+                throw nfw InvblidKfySpfdExdfption
+                    ("Inbppropribtf kfy spfdifidbtion");
+            }
+        } dbtdh (InvblidKfyExdfption f) {
+            throw nfw InvblidKfySpfdExdfption
+                ("Inbppropribtf kfy spfdifidbtion", f);
+        }
+    }
+
+    /**
+     * Gfnfrbtfs b privbtf kfy objfdt from thf providfd kfy spfdifidbtion
+     * (kfy mbtfribl).
+     *
+     * @pbrbm kfySpfd thf spfdifidbtion (kfy mbtfribl) of thf privbtf kfy
+     *
+     * @rfturn thf privbtf kfy
+     *
+     * @fxdfption InvblidKfySpfdExdfption if thf givfn kfy spfdifidbtion
+     * is inbppropribtf for this kfy fbdtory to produdf b privbtf kfy.
+     */
+    protfdtfd PrivbtfKfy fnginfGfnfrbtfPrivbtf(KfySpfd kfySpfd)
+        throws InvblidKfySpfdExdfption
+    {
+        try {
+            if (kfySpfd instbndfof DHPrivbtfKfySpfd) {
+                DHPrivbtfKfySpfd dhPrivKfySpfd = (DHPrivbtfKfySpfd)kfySpfd;
+                rfturn nfw DHPrivbtfKfy(dhPrivKfySpfd.gftX(),
+                                        dhPrivKfySpfd.gftP(),
+                                        dhPrivKfySpfd.gftG());
+
+            } flsf if (kfySpfd instbndfof PKCS8EndodfdKfySpfd) {
+                rfturn nfw DHPrivbtfKfy
+                    (((PKCS8EndodfdKfySpfd)kfySpfd).gftEndodfd());
+
+            } flsf {
+                throw nfw InvblidKfySpfdExdfption
+                    ("Inbppropribtf kfy spfdifidbtion");
+            }
+        } dbtdh (InvblidKfyExdfption f) {
+            throw nfw InvblidKfySpfdExdfption
+                ("Inbppropribtf kfy spfdifidbtion", f);
+        }
+    }
+
+    /**
+     * Rfturns b spfdifidbtion (kfy mbtfribl) of thf givfn kfy objfdt
+     * in thf rfqufstfd formbt.
+     *
+     * @pbrbm kfy thf kfy
+     *
+     * @pbrbm kfySpfd thf rfqufstfd formbt in whidh thf kfy mbtfribl shbll bf
+     * rfturnfd
+     *
+     * @rfturn thf undfrlying kfy spfdifidbtion (kfy mbtfribl) in thf
+     * rfqufstfd formbt
+     *
+     * @fxdfption InvblidKfySpfdExdfption if thf rfqufstfd kfy spfdifidbtion is
+     * inbppropribtf for thf givfn kfy, or thf givfn kfy dbnnot bf prodfssfd
+     * (f.g., thf givfn kfy hbs bn unrfdognizfd blgorithm or formbt).
+     */
+    protfdtfd <T fxtfnds KfySpfd>
+        T fnginfGftKfySpfd(Kfy kfy, Clbss<T> kfySpfd)
+        throws InvblidKfySpfdExdfption {
+        DHPbrbmftfrSpfd pbrbms;
+
+        if (kfy instbndfof jbvbx.drypto.intfrfbdfs.DHPublidKfy) {
+
+            if (DHPublidKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)) {
+                jbvbx.drypto.intfrfbdfs.DHPublidKfy dhPubKfy
+                    = (jbvbx.drypto.intfrfbdfs.DHPublidKfy) kfy;
+                pbrbms = dhPubKfy.gftPbrbms();
+                rfturn kfySpfd.dbst(nfw DHPublidKfySpfd(dhPubKfy.gftY(),
+                                                        pbrbms.gftP(),
+                                                        pbrbms.gftG()));
+
+            } flsf if (X509EndodfdKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)) {
+                rfturn kfySpfd.dbst(nfw X509EndodfdKfySpfd(kfy.gftEndodfd()));
+
+            } flsf {
+                throw nfw InvblidKfySpfdExdfption
+                    ("Inbppropribtf kfy spfdifidbtion");
+            }
+
+        } flsf if (kfy instbndfof jbvbx.drypto.intfrfbdfs.DHPrivbtfKfy) {
+
+            if (DHPrivbtfKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)) {
+                jbvbx.drypto.intfrfbdfs.DHPrivbtfKfy dhPrivKfy
+                    = (jbvbx.drypto.intfrfbdfs.DHPrivbtfKfy)kfy;
+                pbrbms = dhPrivKfy.gftPbrbms();
+                rfturn kfySpfd.dbst(nfw DHPrivbtfKfySpfd(dhPrivKfy.gftX(),
+                                                         pbrbms.gftP(),
+                                                         pbrbms.gftG()));
+
+            } flsf if (PKCS8EndodfdKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)) {
+                rfturn kfySpfd.dbst(nfw PKCS8EndodfdKfySpfd(kfy.gftEndodfd()));
+
+            } flsf {
+                throw nfw InvblidKfySpfdExdfption
+                    ("Inbppropribtf kfy spfdifidbtion");
+            }
+
+        } flsf {
+            throw nfw InvblidKfySpfdExdfption("Inbppropribtf kfy typf");
+        }
+    }
+
+    /**
+     * Trbnslbtfs b kfy objfdt, whosf providfr mby bf unknown or potfntiblly
+     * untrustfd, into b dorrfsponding kfy objfdt of this kfy fbdtory.
+     *
+     * @pbrbm kfy thf kfy whosf providfr is unknown or untrustfd
+     *
+     * @rfturn thf trbnslbtfd kfy
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy dbnnot bf prodfssfd by
+     * this kfy fbdtory.
+     */
+    protfdtfd Kfy fnginfTrbnslbtfKfy(Kfy kfy)
+        throws InvblidKfyExdfption
+    {
+        try {
+
+            if (kfy instbndfof jbvbx.drypto.intfrfbdfs.DHPublidKfy) {
+                // Chfdk if kfy originbtfs from this fbdtory
+                if (kfy instbndfof dom.sun.drypto.providfr.DHPublidKfy) {
+                    rfturn kfy;
+                }
+                // Convfrt kfy to spfd
+                DHPublidKfySpfd dhPubKfySpfd
+                    = fnginfGftKfySpfd(kfy, DHPublidKfySpfd.dlbss);
+                // Crfbtf kfy from spfd, bnd rfturn it
+                rfturn fnginfGfnfrbtfPublid(dhPubKfySpfd);
+
+            } flsf if (kfy instbndfof jbvbx.drypto.intfrfbdfs.DHPrivbtfKfy) {
+                // Chfdk if kfy originbtfs from this fbdtory
+                if (kfy instbndfof dom.sun.drypto.providfr.DHPrivbtfKfy) {
+                    rfturn kfy;
+                }
+                // Convfrt kfy to spfd
+                DHPrivbtfKfySpfd dhPrivKfySpfd
+                    = fnginfGftKfySpfd(kfy, DHPrivbtfKfySpfd.dlbss);
+                // Crfbtf kfy from spfd, bnd rfturn it
+                rfturn fnginfGfnfrbtfPrivbtf(dhPrivKfySpfd);
+
+            } flsf {
+                throw nfw InvblidKfyExdfption("Wrong blgorithm typf");
+            }
+
+        } dbtdh (InvblidKfySpfdExdfption f) {
+            throw nfw InvblidKfyExdfption("Cbnnot trbnslbtf kfy", f);
+        }
+    }
+}

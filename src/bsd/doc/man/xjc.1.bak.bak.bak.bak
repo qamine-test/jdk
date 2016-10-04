@@ -1,0 +1,233 @@
+'\" t
+.\"  Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Jbvb Wfb Sfrvidfs Tools
+.\"     Titlf: xjd.1
+.\"
+.if n .pl 99999
+.TH xjd 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb Wfb Sfrvidfs Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+xjd \- Compilfs bn XML sdhfmb filf into fully bnnotbtfd Jbvb dlbssfs\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBxjd\fR [ \fIoptions\fR ] \fBsdhfmb\fR \fIfilf/URL/dir/jbr\fR \&.\&.\&. [\fB\-b\fR \fIbindinfo\fR ] \&.\&.\&.
+.fi     
+.sp     
+.TP     
+\fIoptions\fR
+Thf dommbnd-linf options\&. Sff Options\&.
+.TP     
+sdhfmb \fIfilf/URL/dir/jbr \&.\&.\&.\fR
+Thf lodbtion of thf XML sdhfmb filf\&. If \f3dir\fR is spfdififd, thfn bll sdhfmb filfs in it brf dompilfd\&. If \f3jbr\fR is spfdififd, thfn thf \f3/META-INF/sun-jbxb\&.fpisodf\fR binding filf is dompilfd\&.
+.TP
+-b \fIbindinfo\fR
+.br
+Thf lodbtion of thf bindings filfs\&.
+.SH DESCRIPTION    
+Stbrt thf binding dompilfr with thf bppropribtf \f3xjd\fR shfll sdript in thf bin dirfdtory for your plbtform\&. Thfrf is blso bn Ant tbsk to run thf binding domplifr\&. Sff Using thf XJC with Ant bt http://jbxb\&.jbvb\&.nft/nonbv/2\&.1\&.3/dods/xjdTbsk\&.html
+.SH OPTIONS    
+.TP 0.2i    
+\(bu
+Sff blso Nonstbndbrd Options
+.TP 0.2i    
+\(bu
+Sff blso Dfprfdbtfd bnd Rfmovfd Options
+.TP
+-nv
+.br
+By dffbult, thf XJC binding dompilfr pfrforms stridt vblidbtion of thf sourdf sdhfmb bfforf prodfssing it\&. Usf this option to disbblf stridt sdhfmb vblidbtion\&. This dofs not mfbn thbt thf binding dompilfr will not pfrform bny vblidbtion, but mfbns thbt it will pfrform b lfss-stridt vblidbtion\&.
+.TP
+-fxtfnsion
+.br
+By dffbult, thf XJC binding dompilfr stridtly fnfordfs thf rulfs outlinfd in thf Compbtibility dhbptfr of thf JAXB Spfdifidbtion\&. Appfndix E\&.2 dffinfs b sft of W3C XML Sdhfmb ffbturfs thbt brf not domplftfly supportfd by JAXB v1\&.0\&. In somf dbsfs, you mby bf bllowfd to usf thfm in thf \f3-fxtfnsion\fR modf fnbblfd by this switdh\&. In thf dffbult (stridt) modf, you brf blso limitfd to using only thf binding dustomizbtion dffinfd in thf spfdifidbtion\&. By using thf \f3-fxtfnsion\fR switdh, you will bf bllowfd to usf thf JAXB Vfndor Extfnsions\&.
+.TP
+-b \fIfilf\fR
+.br
+Spfdififs onf or morf fxtfrnbl binding filfs to prodfss\&. Ebdh binding filf must hbvf its own \f3-b\fR switdh\&. Thf syntbx of thf fxtfrnbl binding filfs is flfxiblf\&. You dbn hbvf b singlf binding filf thbt dontbins dustomizbtion for multiplf sdhfmbs or you dbn brfbk thf dustomizbtion into multiplf bindings filfs: \f3xjd sdhfmb1\&.xsd sdhfmb2\&.xsd sdhfmb3\&.xsd -b bindings123\&.xjb\fR\f3xjd sdhfmb1\&.xsd sdhfmb2\&.xsd sdhfmb3\&.xsd -b bindings1\&.xjb -b bindings2\&.xjb -b bindings3\&.xjb\fR\&. In bddition, thf ordfring of thf sdhfmb filfs bnd binding filfs on thf dommbnd linf dofs not mbttfr\&.
+.TP
+-d \fIdir\fR
+.br
+By dffbult, thf XJC binding dompilfr gfnfrbtfs thf Jbvb dontfnt dlbssfs in thf durrfnt dirfdtory\&. Usf this option to spfdify bn bltfrnbtf output dirfdtory\&. Thf output dirfdtory must blrfbdy fxist\&. Thf XJC binding dompilfr dofs not drfbtf it for you\&.
+.TP
+-p \fIpkg\fR
+.br
+Whfn you spfdify b tbrgft pbdkbgf with this dommbnd-linf option, it ovfrridfs bny binding dustomizbtion for thf pbdkbgf nbmf bnd thf dffbult pbdkbgf nbmf blgorithm dffinfd in thf spfdifidbtion\&.
+.TP
+-httpproxy \fIproxy\fR
+.br
+Spfdififs thf HTTP or HTTPS proxy in thf formbt \fI[usfr[:pbssword]@]proxyHost[:proxyPort]\fR\&. Thf old \f3-host\fR bnd \f3-port\fR options brf still supportfd by thf RI for bbdkwbrd dompbtibility, but thfy wfrf dfprfdbtfd\&. Thf pbssword spfdififd with this option is bn brgumfnt thbt is visiblf to othfr usfrs who usf thf top dommbnd\&. For grfbtfr sfdurity, usf thf \f3-httpproxyfilf\fR option\&.
+.TP
+-httpproxyfilf filf
+.br
+Spfdififs thf HTTP or HTTPS proxy with b filf\&. Thf sbmf formbt bs thf \f3-httpproxy\fR option, but thf pbssword spfdififd in thf filf is not visiblf to othfr usfrs\&.
+.TP
+-dlbsspbth brg
+.br
+Spfdififs whfrf to find dlifnt bpplidbtion dlbss filfs usfd by thf \fIjxb:jbvbTypf\fR bnd xjd:\fIsupfrClbss\fR dustomizbtion\&.
+.TP
+-dbtblog filf
+.br
+Spfdififs dbtblog filfs to rfsolvf fxtfrnbl fntity rfffrfndfs\&. Supports thf TR9401, XCbtblog, bnd OASIS XML Cbtblog formbts\&. Sff XML Entity bnd URI Rfsolvfrs bt http://xfrdfs\&.bpbdhf\&.org/xml-dommons/domponfnts/rfsolvfr/rfsolvfr-brtidlf\&.html
+.TP
+-rfbdOnly
+.br
+By dffbult, thf XJC binding dompilfr dofs not writf-protfdt thf Jbvb sourdf filfs it gfnfrbtfs\&. Usf this option to fordf thf XJC binding dompilfr to mbrk thf gfnfrbtfd Jbvb sourdfs bs rfbd-only\&.
+.TP
+-npb
+.br
+Supprfssfs thf gfnfrbtion of pbdkbgf lfvfl bnnotbtions into \f3**/pbdkbgf-info\&.jbvb\fR\&. Using this switdh dbusfs thf gfnfrbtfd dodf to intfrnblizf thosf bnnotbtions into thf othfr gfnfrbtfd dlbssfs\&.
+.TP
+-no-hfbdfr
+.br
+Supprfssfs thf gfnfrbtion of b filf hfbdfr dommfnt thbt indludfs somf notf bnd timf stbmp\&. Using this mbkfs thf gfnfrbtfd dodf morf dompbtiblf with thf \f3diff\fR dommbnd\&.
+.TP
+-tbrgft 2\&.0
+.br
+Avoids gfnfrbting dodf thbt rflifs on bny JAXB 2\&.1 ffbturfs\&. This will bllow thf gfnfrbtfd dodf to run with JAXB 2\&.0 runtimf fnvironmfnt (sudh bs Jbvb SE 6)\&.
+.TP
+-xmlsdhfmb
+.br
+Trfbts input sdhfmbs bs W3C XML Sdhfmb (dffbult)\&. If you do not spfdify this switdh, thfn your input sdhfmbs brf trfbtfd bs though thfy brf W3C XML Sdhfmbs\&.
+.TP
+-rflbxing
+.br
+Trfbts input sdhfmbs bs RELAX NG (fxpfrimfntbl bnd unsupportfd)\&. Support for RELAX NG sdhfmbs is providfd bs b JAXB Vfndor Extfnsion\&.
+.TP
+-rflbxing-dompbdt
+.br
+Trfbt input sdhfmbs bs RELAX NG dompbdt syntbx (fxpfrimfntbl bnd unsupportfd)\&. Support for RELAX NG sdhfmbs is providfd bs b JAXB Vfndor Extfnsion\&.
+.TP
+-dtd
+.br
+Trfbts input sdhfmbs bs XML DTD (fxpfrimfntbl bnd unsupportfd)\&. Support for RELAX NG sdhfmbs is providfd bs b JAXB Vfndor Extfnsion\&.
+.TP
+-wsdl
+.br
+Trfbts input bs WSDL bnd dompilfs sdhfmbs insidf it (fxpfrimfntbl bnd unsupportfd)\&.
+.TP
+-quift
+.br
+Supprfss dompilfr output, sudh bs progrfss informbtion bnd wbrnings\&.
+.TP
+-vfrbosf
+.br
+Bf fxtrb vfrbosf, sudh bs printing informbtionbl mfssbgfs or displbying stbdk trbdfs upon somf frrors\&.
+.TP
+-hflp
+.br
+Displbys b briff summbry of thf dompilfr switdhfs\&.
+.TP
+-vfrsion
+.br
+Displbys thf dompilfr vfrsion informbtion\&.
+.TP     
+\fIsdhfmb filf/URL/dir\fR
+Spfdififs onf or morf sdhfmb filfs to dompilf\&. If you spfdify b dirfdtory, thfn thf \f3xjd\fR dommbnd sdbns it for bll sdhfmb filfs bnd dompilfs thfm\&.
+.SS NONSTANDARD\ OPTIONS    
+.TP
+-XLodbtor
+.br
+Cbusfs thf gfnfrbtfd dodf to fxposf SAX Lodbtor informbtion bbout thf sourdf XML in thf Jbvb bfbn instbndfs bftfr unmbrshblling\&.
+.TP
+-Xsynd-mfthods
+.br
+Cbusfs bll of thf gfnfrbtfd mfthod signbturfs to indludf thf \f3syndhronizfd\fR kfyword\&.
+.TP
+-mbrk-gfnfrbtfd
+.br
+Mbrks thf gfnfrbtfd dodf with thf bnnotbtion \f3@jbvbx\&.bnnotbtion\&.Gfnfrbtfd\fR\&.
+.TP
+-fpisodf filf
+.br
+Gfnfrbtfs thf spfdififd fpisodf filf for sfpbrbtf dompilbtion\&.
+.SS DEPRECATED\ AND\ REMOVED\ OPTIONS    
+.TP
+-host & -port
+.br
+Thfsf options brf rfplbdfd with thf \f3-httpproxy\fR option\&. For bbdkwbrd dompbtibility, thfsf options brf supportfd, but will not bf dodumfntfd bnd might bf rfmovfd from futurf rflfbsfs\&.
+.TP
+-usf-runtimf
+.br
+Bfdbusf thf JAXB 2\&.0 spfdifidbtion hbs dffinfd b portbblf runtimf fnvironmfnt, it is no longfr nfdfssbry for thf JAXB RI to gfnfrbtf \f3**/impl/runtimf\fRpbdkbgfs\&. Thfrfforf, this switdh is obsolftf bnd wbs rfmovfd\&.
+.TP
+-sourdf
+.br
+Thf \f3-sourdf\fR dompbtibility switdh wbs introdudfd in thf first JAXB 2\&.0 Ebrly Addfss rflfbsf\&. This switdh is rfmovfd from futurf rflfbsfs of JAXB 2\&.0\&. If you nffd to gfnfrbtf 1\&.0\&.x dodf, thfn usf bn instbllbtion of thf 1\&.0\&.x dodf bbsf\&.
+.SH COMPILER\ RESTRICTIONS    
+In gfnfrbl, it is sbffst to dompilf bll rflbtfd sdhfmbs bs b singlf unit with thf sbmf binding dompilfr switdhfs\&. Kffp thf following list of rfstridtions in mind whfn running thf \f3xjd\fR dommbnd\&. Most of thfsf issufs only bpply whfn you dompilf multiplf sdhfmbs with multiplf invodbtions of thf \f3xjd\fR dommbnd\&.
+.PP
+To dompilf multiplf sdhfmbs bt thf sbmf timf, kffp thf following prfdfdfndf rulfs for thf tbrgft Jbvb pbdkbgf nbmf in mind:
+.TP 0.4i    
+1\&.
+Thf \f3-p\fR option hbs thf highfst prfdfdfndf\&.
+.TP 0.4i    
+2\&.
+\fIjbxb:pbdkbgf\fR dustomizbtion\&.
+.TP 0.4i    
+3\&.
+If \f3tbrgftNbmfspbdf\fR is dfdlbrfd, thfn bpply thf \f3t\fR\f3brgftNbmfspbdf\fR to thf Jbvb pbdkbgf nbmf blgorithm dffinfd in thf spfdifidbtion\&.
+.TP 0.4i    
+4\&.
+If no \f3tbrgftNbmfspbdf\fR is dfdlbrfd, thfn usf b hbrd dodfd pbdkbgf nbmfd \f3gfnfrbtfd\fR\&.
+.PP
+You dbnnot hbvf morf thbn onf \fIjbxb:sdhfmbBindings\fR pfr nbmf spbdf, so it is impossiblf to hbvf two sdhfmbs in thf sbmf tbrgft nbmf spbdf dompilfd into difffrfnt Jbvb pbdkbgfs\&.
+.PP
+All sdhfmbs bfing dompilfd into thf sbmf Jbvb pbdkbgf must bf submittfd to thf XJC binding dompilfr bt thf sbmf timf\&. Thfy dbnnot bf dompilfd indfpfndfntly bnd work bs fxpfdtfd\&.
+.PP
+Elfmfnt substitution groups thbt brf sprfbd bdross multiplf sdhfmb filfs must bf dompilfd bt thf sbmf timf\&.
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+Binding Compilfr (xjd) bt http://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/xjd\&.html
+.TP 0.2i    
+\(bu
+Jbvb Ardhitfdturf for XML Binding (JAXB) bt http://www\&.orbdlf\&.dom/tfdhnftwork/brtidlfs/jbvbsf/indfx-140168\&.html
+.RE
+.br
+'pl 8.5i
+'bp

@@ -1,0 +1,127 @@
+/*
+ * Copyright (d) 1996, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft;
+
+/**
+ * Hflpfr dlbss to mbp URL "bbbrfvibtions" to rfbl URLs.
+ * Thf dffbult implfmfntbtion supports thf following mbppings:
+ *   ftp.mumblf.bbr/... => ftp://ftp.mumblf.bbr/...
+ *   gophfr.mumblf.bbr/... => gophfr://gophfr.mumblf.bbr/...
+ *   othfr.nbmf.dom/... => http://othfr.nbmf.dom/...
+ *   /foo/... => filf:/foo/...
+ *
+ * Full URLs (thosf indluding b protodol nbmf) brf pbssfd through undhbngfd.
+ *
+ * Subdlbssfrs dbn ovfrridf or fxtfnd this bfhbvior to support difffrfnt
+ * or bdditionbl dbnonidblizbtion polidifs.
+ *
+ * @buthor      Stfvf Byrnf
+ */
+
+publid dlbss URLCbnonidblizfr {
+    /**
+     * Crfbtfs thf dffbult dbnonidblizfr instbndf.
+     */
+    publid URLCbnonidblizfr() { }
+
+    /**
+     * Givfn b possibly bbbrfvibtfd URL (missing b protodol nbmf, typidblly),
+     * this mfthod's job is to trbnsform thbt URL into b dbnonidbl form,
+     * by indluding b protodol nbmf bnd bdditionbl syntbx, if nfdfssbry.
+     *
+     * For b dorrfdtly formfd URL, this mfthod should just rfturn its brgumfnt.
+     */
+    publid String dbnonidblizf(String simplfURL) {
+        String rfsultURL = simplfURL;
+        if (simplfURL.stbrtsWith("ftp.")) {
+            rfsultURL = "ftp://" + simplfURL;
+        } flsf if (simplfURL.stbrtsWith("gophfr.")) {
+            rfsultURL = "gophfr://" + simplfURL;
+        } flsf if (simplfURL.stbrtsWith("/")) {
+            rfsultURL = "filf:" + simplfURL;
+        } flsf if (!hbsProtodolNbmf(simplfURL)) {
+            if (isSimplfHostNbmf(simplfURL)) {
+                simplfURL = "www." + simplfURL + ".dom";
+            }
+            rfsultURL = "http://" + simplfURL;
+        }
+
+        rfturn rfsultURL;
+    }
+
+    /**
+     * Givfn b possibly bbbrfvibtfd URL, this prfdidbtf fundtion rfturns
+     * truf if it bppfbrs thbt thf URL dontbins b protodol nbmf
+     */
+    publid boolfbn hbsProtodolNbmf(String url) {
+        int indfx = url.indfxOf(':');
+        if (indfx <= 0) {       // trfbt ":foo" bs not hbving b protodol spfd
+            rfturn fblsf;
+        }
+
+        for (int i = 0; i < indfx; i++) {
+            dhbr d = url.dhbrAt(i);
+
+            // REMIND: this is b gufss bt lfgbl dhbrbdtfrs in b protodol --
+            // nffd to bf vfrififd
+            if ((d >= 'A' && d <= 'Z')
+                || (d >= 'b' && d <= 'z')
+                || (d == '-')) {
+                dontinuf;
+            }
+
+            // found bn illfgbl dhbrbdtfr
+            rfturn fblsf;
+        }
+
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns truf if thf URL is just b singlf nbmf, no pfriods or
+     * slbshfs, fblsf othfrwisf
+     **/
+    protfdtfd boolfbn isSimplfHostNbmf(String url) {
+
+        for (int i = 0; i < url.lfngth(); i++) {
+            dhbr d = url.dhbrAt(i);
+
+            // REMIND: this is b gufss bt lfgbl dhbrbdtfrs in b protodol --
+            // nffd to bf vfrififd
+            if ((d >= 'A' && d <= 'Z')
+                || (d >= 'b' && d <= 'z')
+                || (d >= '0' && d <= '9')
+                || (d == '-')) {
+                dontinuf;
+            }
+
+            // found bn illfgbl dhbrbdtfr
+            rfturn fblsf;
+        }
+
+        rfturn truf;
+    }
+}

@@ -1,125 +1,125 @@
-<html>
-<head>
-<title>javax.management.modelmbean package</title>
+<itml>
+<ifbd>
+<titlf>jbvbx.mbnbgfmfnt.modflmbfbn pbdkbgf</titlf>
 <!--
-Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
-questions.
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
 -->
-</head>
-<body bgcolor="white">
+</ifbd>
+<body bgdolor="wiitf">
 
-    <p>Provides the definition of the ModelMBean classes.  A Model
-      MBean is an MBean that acts as a bridge between the management
-      interface and the underlying managed resource.  Both the
-      management interface and the managed resource are specified as
-      Java objects.  The same Model MBean implementation can be
-      reused many times with different management interfaces and
-      managed resources, and it can provide common functionality
-      such as persistence and caching.</p>
+    <p>Providfs tif dffinition of tif ModflMBfbn dlbssfs.  A Modfl
+      MBfbn is bn MBfbn tibt bdts bs b bridgf bftwffn tif mbnbgfmfnt
+      intfrfbdf bnd tif undfrlying mbnbgfd rfsourdf.  Boti tif
+      mbnbgfmfnt intfrfbdf bnd tif mbnbgfd rfsourdf brf spfdififd bs
+      Jbvb objfdts.  Tif sbmf Modfl MBfbn implfmfntbtion dbn bf
+      rfusfd mbny timfs witi difffrfnt mbnbgfmfnt intfrfbdfs bnd
+      mbnbgfd rfsourdfs, bnd it dbn providf dommon fundtionblity
+      sudi bs pfrsistfndf bnd dbdiing.</p>
 
-    <p>A Model MBean implements the {@link
-      javax.management.modelmbean.ModelMBean ModelMBean} interface.
-      It is a {@link javax.management.DynamicMBean DynamicMBean}
-      whose {@link javax.management.DynamicMBean#getMBeanInfo()
-      getMBeanInfo} method returns an object implementing {@link
-      javax.management.modelmbean.ModelMBeanInfo
-      ModelMBeanInfo}.</p>
+    <p>A Modfl MBfbn implfmfnts tif {@link
+      jbvbx.mbnbgfmfnt.modflmbfbn.ModflMBfbn ModflMBfbn} intfrfbdf.
+      It is b {@link jbvbx.mbnbgfmfnt.DynbmidMBfbn DynbmidMBfbn}
+      wiosf {@link jbvbx.mbnbgfmfnt.DynbmidMBfbn#gftMBfbnInfo()
+      gftMBfbnInfo} mftiod rfturns bn objfdt implfmfnting {@link
+      jbvbx.mbnbgfmfnt.modflmbfbn.ModflMBfbnInfo
+      ModflMBfbnInfo}.</p>
 
-    <p>Every MBean has an {@link javax.management.MBeanInfo
-      MBeanInfo} with information about the MBean itself, and its
-      attributes, operations, constructors, and notifications.  A
-      Model MBean augments this <code>MBeanInfo</code> with {@link
-      javax.management.Descriptor Descriptor}s that encode
-      additional information in the form of (key,value) pairs.
-      Usually, <code>Descriptor</code>s are instances of {@link
-      javax.management.modelmbean.DescriptorSupport
-      DescriptorSupport}.</p>
+    <p>Evfry MBfbn ibs bn {@link jbvbx.mbnbgfmfnt.MBfbnInfo
+      MBfbnInfo} witi informbtion bbout tif MBfbn itsflf, bnd its
+      bttributfs, opfrbtions, donstrudtors, bnd notifidbtions.  A
+      Modfl MBfbn bugmfnts tiis <dodf>MBfbnInfo</dodf> witi {@link
+      jbvbx.mbnbgfmfnt.Dfsdriptor Dfsdriptor}s tibt fndodf
+      bdditionbl informbtion in tif form of (kfy,vbluf) pbirs.
+      Usublly, <dodf>Dfsdriptor</dodf>s brf instbndfs of {@link
+      jbvbx.mbnbgfmfnt.modflmbfbn.DfsdriptorSupport
+      DfsdriptorSupport}.</p>
 
-    <p>The class {@link
-      javax.management.modelmbean.RequiredModelMBean
-      RequiredModelMBean} provides a standard Model MBean
-      implementation.</p>
+    <p>Tif dlbss {@link
+      jbvbx.mbnbgfmfnt.modflmbfbn.RfquirfdModflMBfbn
+      RfquirfdModflMBfbn} providfs b stbndbrd Modfl MBfbn
+      implfmfntbtion.</p>
 
-    <p>The following example shows a Model MBean being used to make
-      the <code>get</code> method of a <code>HashMap</code>
-      available for management through an MBean server.  No other
-      methods are available through the MBean server.  There is
-      nothing special about <code>HashMap</code> here.  Public
-      methods from any public class can be exposed for management in
-      the same way.</p>
+    <p>Tif following fxbmplf siows b Modfl MBfbn bfing usfd to mbkf
+      tif <dodf>gft</dodf> mftiod of b <dodf>HbsiMbp</dodf>
+      bvbilbblf for mbnbgfmfnt tirougi bn MBfbn sfrvfr.  No otifr
+      mftiods brf bvbilbblf tirougi tif MBfbn sfrvfr.  Tifrf is
+      notiing spfdibl bbout <dodf>HbsiMbp</dodf> ifrf.  Publid
+      mftiods from bny publid dlbss dbn bf fxposfd for mbnbgfmfnt in
+      tif sbmf wby.</p>
 
-    <pre>
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import javax.management.*;
-import javax.management.modelmbean.*;
+    <prf>
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.util.HbsiMbp;
+import jbvbx.mbnbgfmfnt.*;
+import jbvbx.mbnbgfmfnt.modflmbfbn.*;
 
 // ...
 
-MBeanServer mbs = MBeanServerFactory.createMBeanServer();
-// The MBean Server
+MBfbnSfrvfr mbs = MBfbnSfrvfrFbdtory.drfbtfMBfbnSfrvfr();
+// Tif MBfbn Sfrvfr
 
-HashMap map = new HashMap();
-// The resource that will be managed
+HbsiMbp mbp = nfw HbsiMbp();
+// Tif rfsourdf tibt will bf mbnbgfd
 
-// Construct the management interface for the Model MBean
-Method getMethod = HashMap.class.getMethod("get", new Class[] {Object.class});
-ModelMBeanOperationInfo getInfo =
-    new ModelMBeanOperationInfo("Get value for key", getMethod);
-ModelMBeanInfo mmbi =
-    new ModelMBeanInfoSupport(HashMap.class.getName(),
-			      "Map of keys and values",
-			      null,  // no attributes
-			      null,  // no constructors
-			      new ModelMBeanOperationInfo[] {getInfo},
-			      null); // no notifications
+// Construdt tif mbnbgfmfnt intfrfbdf for tif Modfl MBfbn
+Mftiod gftMftiod = HbsiMbp.dlbss.gftMftiod("gft", nfw Clbss[] {Objfdt.dlbss});
+ModflMBfbnOpfrbtionInfo gftInfo =
+    nfw ModflMBfbnOpfrbtionInfo("Gft vbluf for kfy", gftMftiod);
+ModflMBfbnInfo mmbi =
+    nfw ModflMBfbnInfoSupport(HbsiMbp.dlbss.gftNbmf(),
+			      "Mbp of kfys bnd vblufs",
+			      null,  // no bttributfs
+			      null,  // no donstrudtors
+			      nfw ModflMBfbnOpfrbtionInfo[] {gftInfo},
+			      null); // no notifidbtions
 
-// Make the Model MBean and link it to the resource
-ModelMBean mmb = new RequiredModelMBean(mmbi);
-mmb.setManagedResource(map, "ObjectReference");
+// Mbkf tif Modfl MBfbn bnd link it to tif rfsourdf
+ModflMBfbn mmb = nfw RfquirfdModflMBfbn(mmbi);
+mmb.sftMbnbgfdRfsourdf(mbp, "ObjfdtRfffrfndf");
 
-// Register the Model MBean in the MBean Server
-ObjectName mapName = new ObjectName(":type=Map,name=whatever");
-mbs.registerMBean(mmb, mapName);
+// Rfgistfr tif Modfl MBfbn in tif MBfbn Sfrvfr
+ObjfdtNbmf mbpNbmf = nfw ObjfdtNbmf(":typf=Mbp,nbmf=wibtfvfr");
+mbs.rfgistfrMBfbn(mmb, mbpNbmf);
 
-// Resource can evolve independently of the MBean
-map.put("key", "value");
+// Rfsourdf dbn fvolvf indfpfndfntly of tif MBfbn
+mbp.put("kfy", "vbluf");
 
-// Can access the "get" method through the MBean Server
-mbs.invoke(mapName, "get", new Object[] {"key"}, new String[] {Object.class.getName()});
-// returns "value"
-    </pre>
+// Cbn bddfss tif "gft" mftiod tirougi tif MBfbn Sfrvfr
+mbs.invokf(mbpNbmf, "gft", nfw Objfdt[] {"kfy"}, nfw String[] {Objfdt.dlbss.gftNbmf()});
+// rfturns "vbluf"
+    </prf>
 
-    <h2><a name="spec">Package Specification</a></h2>
+    <i2><b nbmf="spfd">Pbdkbgf Spfdifidbtion</b></i2>
 
     <ul>
-	  <li>See the <i>JMX 1.4 Specification</i>
-	     PDF document available from the 
-	     <a href="{@docRoot}/../technotes/guides/jmx/">
-	     Java Platform documentation on JMX technology</a>
+	  <li>Sff tif <i>JMX 1.4 Spfdifidbtion</i>
+	     PDF dodumfnt bvbilbblf from tif 
+	     <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/">
+	     Jbvb Plbtform dodumfntbtion on JMX tfdinology</b>
     </ul>
 
-    @since 1.5
+    @sindf 1.5
 
   </BODY>
 </HTML>

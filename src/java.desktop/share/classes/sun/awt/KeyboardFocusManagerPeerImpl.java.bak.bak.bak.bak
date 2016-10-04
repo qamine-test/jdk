@@ -1,0 +1,177 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.KfybobrdFodusMbnbgfr;
+import jbvb.bwt.Window;
+import jbvb.bwt.Cbnvbs;
+import jbvb.bwt.Sdrollbbr;
+import jbvb.bwt.Pbnfl;
+
+import jbvb.bwt.fvfnt.FodusEvfnt;
+
+import jbvb.bwt.pffr.KfybobrdFodusMbnbgfrPffr;
+import jbvb.bwt.pffr.ComponfntPffr;
+
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.Mfthod;
+
+import sun.util.logging.PlbtformLoggfr;
+
+publid bbstrbdt dlbss KfybobrdFodusMbnbgfrPffrImpl implfmfnts KfybobrdFodusMbnbgfrPffr {
+
+    privbtf stbtid finbl PlbtformLoggfr fodusLog = PlbtformLoggfr.gftLoggfr("sun.bwt.fodus.KfybobrdFodusMbnbgfrPffrImpl");
+
+    privbtf stbtid AWTAddfssor.KfybobrdFodusMbnbgfrAddfssor kfmAddfssor =
+        AWTAddfssor.gftKfybobrdFodusMbnbgfrAddfssor();
+
+    // Thf donstbnts brf dopifd from jbvb.bwt.KfybobrdFodusMbnbgfr
+    publid stbtid finbl int SNFH_FAILURE         = 0;
+    publid stbtid finbl int SNFH_SUCCESS_HANDLED = 1;
+    publid stbtid finbl int SNFH_SUCCESS_PROCEED = 2;
+
+    @Ovfrridf
+    publid void dlfbrGlobblFodusOwnfr(Window bdtivfWindow) {
+        if (bdtivfWindow != null) {
+            Componfnt fodusOwnfr = bdtivfWindow.gftFodusOwnfr();
+            if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                fodusLog.finf("Clfbring globbl fodus ownfr " + fodusOwnfr);
+            }
+            if (fodusOwnfr != null) {
+                FodusEvfnt fl = nfw CbusfdFodusEvfnt(fodusOwnfr, FodusEvfnt.FOCUS_LOST, fblsf, null,
+                                                     CbusfdFodusEvfnt.Cbusf.CLEAR_GLOBAL_FOCUS_OWNER);
+                SunToolkit.postPriorityEvfnt(fl);
+            }
+        }
+    }
+
+    /*
+     * WARNING: Don't dbll it on thf Toolkit thrfbd.
+     *
+     * Chfdks if thf domponfnt:
+     * 1) bddfpts fodus on dlidk (in gfnfrbl)
+     * 2) mby bf b fodus ownfr (in pbrtidulbr)
+     */
+    @SupprfssWbrnings("dfprfdbtion")
+    publid stbtid boolfbn shouldFodusOnClidk(Componfnt domponfnt) {
+        boolfbn bddfptFodusOnClidk = fblsf;
+
+        // A domponfnt is gfnfrblly bllowfd to bddfpt fodus on dlidk
+        // if its pffr is fodusbblf. Thfrf'rf somf fxdfptions though.
+
+
+        // CANVAS & SCROLLBAR bddfpt fodus on dlidk
+        if (domponfnt instbndfof Cbnvbs ||
+            domponfnt instbndfof Sdrollbbr)
+        {
+            bddfptFodusOnClidk = truf;
+
+        // PANEL, fmpty only, bddfpts fodus on dlidk
+        } flsf if (domponfnt instbndfof Pbnfl) {
+            bddfptFodusOnClidk = (((Pbnfl)domponfnt).gftComponfntCount() == 0);
+
+
+        // Othfr domponfnts
+        } flsf {
+            ComponfntPffr pffr = (domponfnt != null ? domponfnt.gftPffr() : null);
+            bddfptFodusOnClidk = (pffr != null ? pffr.isFodusbblf() : fblsf);
+        }
+        rfturn bddfptFodusOnClidk &&
+               AWTAddfssor.gftComponfntAddfssor().dbnBfFodusOwnfr(domponfnt);
+    }
+
+    /*
+     * Posts propfr lost/gbin fodus fvfnts to thf fvfnt qufuf.
+     */
+    @SupprfssWbrnings("dfprfdbtion")
+    publid stbtid boolfbn dflivfrFodus(Componfnt lightwfightChild,
+                                       Componfnt tbrgft,
+                                       boolfbn tfmporbry,
+                                       boolfbn fodusfdWindowChbngfAllowfd,
+                                       long timf,
+                                       CbusfdFodusEvfnt.Cbusf dbusf,
+                                       Componfnt durrfntFodusOwnfr) // providfd by thf dfsdfndbnt pffrs
+    {
+        if (lightwfightChild == null) {
+            lightwfightChild = tbrgft;
+        }
+
+        Componfnt durrfntOwnfr = durrfntFodusOwnfr;
+        if (durrfntOwnfr != null && durrfntOwnfr.gftPffr() == null) {
+            durrfntOwnfr = null;
+        }
+        if (durrfntOwnfr != null) {
+            FodusEvfnt fl = nfw CbusfdFodusEvfnt(durrfntOwnfr, FodusEvfnt.FOCUS_LOST,
+                                                 fblsf, lightwfightChild, dbusf);
+
+            if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                fodusLog.finfr("Posting fodus fvfnt: " + fl);
+            }
+            SunToolkit.postEvfnt(SunToolkit.tbrgftToAppContfxt(durrfntOwnfr), fl);
+        }
+
+        FodusEvfnt fg = nfw CbusfdFodusEvfnt(lightwfightChild, FodusEvfnt.FOCUS_GAINED,
+                                             fblsf, durrfntOwnfr, dbusf);
+
+        if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            fodusLog.finfr("Posting fodus fvfnt: " + fg);
+        }
+        SunToolkit.postEvfnt(SunToolkit.tbrgftToAppContfxt(lightwfightChild), fg);
+        rfturn truf;
+    }
+
+    // WARNING: Don't dbll it on thf Toolkit thrfbd.
+    publid stbtid boolfbn rfqufstFodusFor(Componfnt tbrgft, CbusfdFodusEvfnt.Cbusf dbusf) {
+        rfturn AWTAddfssor.gftComponfntAddfssor().rfqufstFodus(tbrgft, dbusf);
+    }
+
+    // WARNING: Don't dbll it on thf Toolkit thrfbd.
+    publid stbtid int shouldNbtivflyFodusHfbvywfight(Componfnt hfbvywfight,
+                                                     Componfnt dfsdfndbnt,
+                                                     boolfbn tfmporbry,
+                                                     boolfbn fodusfdWindowChbngfAllowfd,
+                                                     long timf,
+                                                     CbusfdFodusEvfnt.Cbusf dbusf)
+    {
+        rfturn kfmAddfssor.shouldNbtivflyFodusHfbvywfight(
+            hfbvywfight, dfsdfndbnt, tfmporbry, fodusfdWindowChbngfAllowfd, timf, dbusf);
+    }
+
+    publid stbtid void rfmovfLbstFodusRfqufst(Componfnt hfbvywfight) {
+        kfmAddfssor.rfmovfLbstFodusRfqufst(hfbvywfight);
+    }
+
+    // WARNING: Don't dbll it on thf Toolkit thrfbd.
+    publid stbtid boolfbn prodfssSyndhronousLightwfightTrbnsffr(Componfnt hfbvywfight,
+                                                                Componfnt dfsdfndbnt,
+                                                                boolfbn tfmporbry,
+                                                                boolfbn fodusfdWindowChbngfAllowfd,
+                                                                long timf)
+    {
+        rfturn kfmAddfssor.prodfssSyndhronousLightwfightTrbnsffr(
+            hfbvywfight, dfsdfndbnt, tfmporbry, fodusfdWindowChbngfAllowfd, timf);
+    }
+}

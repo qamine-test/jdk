@@ -1,0 +1,233 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.windows;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Point;
+import jbvb.bwt.dnd.DnDConstbnts;
+import jbvb.bwt.dnd.DrbgGfsturfListfnfr;
+import jbvb.bwt.dnd.DrbgSourdf;
+import jbvb.bwt.dnd.MousfDrbgGfsturfRfdognizfr;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+
+import sun.bwt.dnd.SunDrbgSourdfContfxtPffr;
+
+/**
+ * <p>
+ * This subdlbss of MousfDrbgGfsturfRfdognizfr dffinfs b DrbgGfsturfRfdognizfr
+ * for Mousf bbsfd gfsturfs on Win32.
+ * </p>
+ *
+ * @buthor Lburfndf P. G. Cbblf
+ *
+ * @sff jbvb.bwt.dnd.DrbgGfsturfListfnfr
+ * @sff jbvb.bwt.dnd.DrbgGfsturfEvfnt
+ * @sff jbvb.bwt.dnd.DrbgSourdf
+ */
+
+finbl dlbss WMousfDrbgGfsturfRfdognizfr fxtfnds MousfDrbgGfsturfRfdognizfr {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -3527844310018033570L;
+
+    /*
+     * donstbnt for numbfr of pixfls hystfrisis bfforf drbg is dftfrminfd
+     * to hbvf stbrtfd
+     */
+
+    protfdtfd stbtid int motionThrfshold;
+
+    protfdtfd stbtid finbl int ButtonMbsk = InputEvfnt.BUTTON1_DOWN_MASK |
+                                            InputEvfnt.BUTTON2_DOWN_MASK |
+                                            InputEvfnt.BUTTON3_DOWN_MASK;
+
+    /**
+     * donstrudt b nfw WMousfDrbgGfsturfRfdognizfr
+     *
+     * @pbrbm ds  Thf DrbgSourdf for thf Componfnt d
+     * @pbrbm d   Thf Componfnt to obsfrvf
+     * @pbrbm bdt Thf bdtions pfrmittfd for this Drbg
+     * @pbrbm dgl Thf DrbgGfsturfRfdognizfr to notify whfn b gfsturf is dftfdtfd
+     *
+     */
+
+    protfdtfd WMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d, int bdt, DrbgGfsturfListfnfr dgl) {
+        supfr(ds, d, bdt, dgl);
+    }
+
+    /**
+     * donstrudt b nfw WMousfDrbgGfsturfRfdognizfr
+     *
+     * @pbrbm ds  Thf DrbgSourdf for thf Componfnt d
+     * @pbrbm d   Thf Componfnt to obsfrvf
+     * @pbrbm bdt Thf bdtions pfrmittfd for this Drbg
+     */
+
+    protfdtfd WMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d, int bdt) {
+        this(ds, d, bdt, null);
+    }
+
+    /**
+     * donstrudt b nfw WMousfDrbgGfsturfRfdognizfr
+     *
+     * @pbrbm ds  Thf DrbgSourdf for thf Componfnt d
+     * @pbrbm d   Thf Componfnt to obsfrvf
+     */
+
+    protfdtfd WMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds, Componfnt d) {
+        this(ds, d, DnDConstbnts.ACTION_NONE);
+    }
+
+    /**
+     * donstrudt b nfw WMousfDrbgGfsturfRfdognizfr
+     *
+     * @pbrbm ds  Thf DrbgSourdf for thf Componfnt d
+     */
+
+    protfdtfd WMousfDrbgGfsturfRfdognizfr(DrbgSourdf ds) {
+        this(ds, null);
+    }
+
+    /**
+     * dftfrminf thf drop bdtion from thf fvfnt
+     */
+
+    protfdtfd int mbpDrbgOpfrbtionFromModififrs(MousfEvfnt f) {
+        int mods = f.gftModififrsEx();
+        int btns = mods & ButtonMbsk;
+
+        // Prohibit multi-button drbgs.
+        if (!(btns == InputEvfnt.BUTTON1_DOWN_MASK ||
+              btns == InputEvfnt.BUTTON2_DOWN_MASK ||
+              btns == InputEvfnt.BUTTON3_DOWN_MASK)) {
+            rfturn DnDConstbnts.ACTION_NONE;
+        }
+
+        rfturn
+            SunDrbgSourdfContfxtPffr.donvfrtModififrsToDropAdtion(mods,
+                                                                  gftSourdfAdtions());
+    }
+
+    /**
+     * Invokfd whfn thf mousf hbs bffn dlidkfd on b domponfnt.
+     */
+
+    @Ovfrridf
+    publid void mousfClidkfd(MousfEvfnt f) {
+        // do nothing
+    }
+
+    /**
+     * Invokfd whfn b mousf button hbs bffn prfssfd on b domponfnt.
+     */
+
+    @Ovfrridf
+    publid void mousfPrfssfd(MousfEvfnt f) {
+        fvfnts.dlfbr();
+
+        if (mbpDrbgOpfrbtionFromModififrs(f) != DnDConstbnts.ACTION_NONE) {
+            try {
+                motionThrfshold = DrbgSourdf.gftDrbgThrfshold();
+            } dbtdh (Exdfption fxd) {
+                motionThrfshold = 5;
+            }
+            bppfndEvfnt(f);
+        }
+    }
+
+    /**
+     * Invokfd whfn b mousf button hbs bffn rflfbsfd on b domponfnt.
+     */
+
+    @Ovfrridf
+    publid void mousfRflfbsfd(MousfEvfnt f) {
+        fvfnts.dlfbr();
+    }
+
+    /**
+     * Invokfd whfn thf mousf fntfrs b domponfnt.
+     */
+
+    @Ovfrridf
+    publid void mousfEntfrfd(MousfEvfnt f) {
+        fvfnts.dlfbr();
+    }
+
+    /**
+     * Invokfd whfn thf mousf fxits b domponfnt.
+     */
+
+    @Ovfrridf
+    publid void mousfExitfd(MousfEvfnt f) {
+
+        if (!fvfnts.isEmpty()) { // gfsturf pfnding
+            int drbgAdtion = mbpDrbgOpfrbtionFromModififrs(f);
+
+            if (drbgAdtion == DnDConstbnts.ACTION_NONE) {
+                fvfnts.dlfbr();
+            }
+        }
+    }
+
+    /**
+     * Invokfd whfn b mousf button is prfssfd on b domponfnt.
+     */
+
+    @Ovfrridf
+    publid void mousfDrbggfd(MousfEvfnt f) {
+        if (!fvfnts.isEmpty()) { // gfsturf pfnding
+            int dop = mbpDrbgOpfrbtionFromModififrs(f);
+
+            if (dop == DnDConstbnts.ACTION_NONE) {
+                rfturn;
+            }
+
+            MousfEvfnt triggfr = (MousfEvfnt)fvfnts.gft(0);
+
+
+            Point      origin  = triggfr.gftPoint();
+            Point      durrfnt = f.gftPoint();
+
+            int        dx      = Mbth.bbs(origin.x - durrfnt.x);
+            int        dy      = Mbth.bbs(origin.y - durrfnt.y);
+
+            if (dx > motionThrfshold || dy > motionThrfshold) {
+                firfDrbgGfsturfRfdognizfd(dop, ((MousfEvfnt)gftTriggfrEvfnt()).gftPoint());
+            } flsf
+                bppfndEvfnt(f);
+        }
+    }
+
+    /**
+     * Invokfd whfn thf mousf button hbs bffn movfd on b domponfnt
+     * (with no buttons no down).
+     */
+
+    @Ovfrridf
+    publid void mousfMovfd(MousfEvfnt f) {
+        // do nothing
+    }
+}

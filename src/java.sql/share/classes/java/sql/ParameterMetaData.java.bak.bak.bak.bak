@@ -1,0 +1,196 @@
+/*
+ * Copyright (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sql;
+
+/**
+ * An objfdt thbt dbn bf usfd to gft informbtion bbout thf typfs
+ * bnd propfrtifs for fbdh pbrbmftfr mbrkfr in b
+ * <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt. For somf qufrifs bnd drivfr
+ * implfmfntbtions, thf dbtb thbt would bf rfturnfd by b <dodf>PbrbmftfrMftbDbtb</dodf>
+ * objfdt mby not bf bvbilbblf until thf <dodf>PrfpbrfdStbtfmfnt</dodf> hbs
+ * bffn fxfdutfd.
+ *<p>
+ *Somf drivfr implfmfntbtions mby not bf bblf to providf informbtion bbout thf
+ *typfs bnd propfrtifs for fbdh pbrbmftfr mbrkfr in b <dodf>CbllbblfStbtfmfnt</dodf>
+ *objfdt.
+ *
+ * @sindf 1.4
+ */
+
+publid intfrfbdf PbrbmftfrMftbDbtb fxtfnds Wrbppfr {
+
+    /**
+     * Rftrifvfs thf numbfr of pbrbmftfrs in thf <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * objfdt for whidh this <dodf>PbrbmftfrMftbDbtb</dodf> objfdt dontbins
+     * informbtion.
+     *
+     * @rfturn thf numbfr of pbrbmftfrs
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
+     */
+    int gftPbrbmftfrCount() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr null vblufs brf bllowfd in thf dfsignbtfd pbrbmftfr.
+     *
+     * @pbrbm pbrbm thf first pbrbmftfr is 1, thf sfdond is 2, ...
+     * @rfturn thf nullbbility stbtus of thf givfn pbrbmftfr; onf of
+     *        <dodf>PbrbmftfrMftbDbtb.pbrbmftfrNoNulls</dodf>,
+     *        <dodf>PbrbmftfrMftbDbtb.pbrbmftfrNullbblf</dodf>, or
+     *        <dodf>PbrbmftfrMftbDbtb.pbrbmftfrNullbblfUnknown</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
+     */
+    int isNullbblf(int pbrbm) throws SQLExdfption;
+
+    /**
+     * Thf donstbnt indidbting thbt b
+     * pbrbmftfr will not bllow <dodf>NULL</dodf> vblufs.
+     */
+    int pbrbmftfrNoNulls = 0;
+
+    /**
+     * Thf donstbnt indidbting thbt b
+     * pbrbmftfr will bllow <dodf>NULL</dodf> vblufs.
+     */
+    int pbrbmftfrNullbblf = 1;
+
+    /**
+     * Thf donstbnt indidbting thbt thf
+     * nullbbility of b pbrbmftfr is unknown.
+     */
+    int pbrbmftfrNullbblfUnknown = 2;
+
+    /**
+     * Rftrifvfs whfthfr vblufs for thf dfsignbtfd pbrbmftfr dbn bf signfd numbfrs.
+     *
+     * @pbrbm pbrbm thf first pbrbmftfr is 1, thf sfdond is 2, ...
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
+     */
+    boolfbn isSignfd(int pbrbm) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf dfsignbtfd pbrbmftfr's spfdififd dolumn sizf.
+     *
+     * <P>Thf rfturnfd vbluf rfprfsfnts thf mbximum dolumn sizf for thf givfn pbrbmftfr.
+     * For numfrid dbtb, this is thf mbximum prfdision.  For dhbrbdtfr dbtb, this is thf lfngth in dhbrbdtfrs.
+     * For dbtftimf dbtbtypfs, this is thf lfngth in dhbrbdtfrs of thf String rfprfsfntbtion (bssuming thf
+     * mbximum bllowfd prfdision of thf frbdtionbl sfdonds domponfnt). For binbry dbtb, this is thf lfngth in bytfs.  For thf ROWID dbtbtypf,
+     * this is thf lfngth in bytfs. 0 is rfturnfd for dbtb typfs whfrf thf
+     * dolumn sizf is not bpplidbblf.
+     *
+     * @pbrbm pbrbm thf first pbrbmftfr is 1, thf sfdond is 2, ...
+     * @rfturn prfdision
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
+     */
+    int gftPrfdision(int pbrbm) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf dfsignbtfd pbrbmftfr's numbfr of digits to right of thf dfdimbl point.
+     * 0 is rfturnfd for dbtb typfs whfrf thf sdblf is not bpplidbblf.
+     *
+     * @pbrbm pbrbm thf first pbrbmftfr is 1, thf sfdond is 2, ...
+     * @rfturn sdblf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
+     */
+    int gftSdblf(int pbrbm) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf dfsignbtfd pbrbmftfr's SQL typf.
+     *
+     * @pbrbm pbrbm thf first pbrbmftfr is 1, thf sfdond is 2, ...
+     * @rfturn SQL typf from <dodf>jbvb.sql.Typfs</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
+     * @sff Typfs
+     */
+    int gftPbrbmftfrTypf(int pbrbm) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf dfsignbtfd pbrbmftfr's dbtbbbsf-spfdifid typf nbmf.
+     *
+     * @pbrbm pbrbm thf first pbrbmftfr is 1, thf sfdond is 2, ...
+     * @rfturn typf thf nbmf usfd by thf dbtbbbsf. If thf pbrbmftfr typf is
+     * b usfr-dffinfd typf, thfn b fully-qublififd typf nbmf is rfturnfd.
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
+     */
+    String gftPbrbmftfrTypfNbmf(int pbrbm) throws SQLExdfption;
+
+
+    /**
+     * Rftrifvfs thf fully-qublififd nbmf of thf Jbvb dlbss whosf instbndfs
+     * should bf pbssfd to thf mfthod <dodf>PrfpbrfdStbtfmfnt.sftObjfdt</dodf>.
+     *
+     * @pbrbm pbrbm thf first pbrbmftfr is 1, thf sfdond is 2, ...
+     * @rfturn thf fully-qublififd nbmf of thf dlbss in thf Jbvb progrbmming
+     *         lbngubgf thbt would bf usfd by thf mfthod
+     *         <dodf>PrfpbrfdStbtfmfnt.sftObjfdt</dodf> to sft thf vbluf
+     *         in thf spfdififd pbrbmftfr. This is thf dlbss nbmf usfd
+     *         for dustom mbpping.
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
+     */
+    String gftPbrbmftfrClbssNbmf(int pbrbm) throws SQLExdfption;
+
+    /**
+     * Thf donstbnt indidbting thbt thf modf of thf pbrbmftfr is unknown.
+     */
+    int pbrbmftfrModfUnknown = 0;
+
+    /**
+     * Thf donstbnt indidbting thbt thf pbrbmftfr's modf is IN.
+     */
+    int pbrbmftfrModfIn = 1;
+
+    /**
+     * Thf donstbnt indidbting thbt thf pbrbmftfr's modf is INOUT.
+     */
+    int pbrbmftfrModfInOut = 2;
+
+    /**
+     * Thf donstbnt indidbting thbt thf pbrbmftfr's modf is  OUT.
+     */
+    int pbrbmftfrModfOut = 4;
+
+    /**
+     * Rftrifvfs thf dfsignbtfd pbrbmftfr's modf.
+     *
+     * @pbrbm pbrbm thf first pbrbmftfr is 1, thf sfdond is 2, ...
+     * @rfturn modf of thf pbrbmftfr; onf of
+     *        <dodf>PbrbmftfrMftbDbtb.pbrbmftfrModfIn</dodf>,
+     *        <dodf>PbrbmftfrMftbDbtb.pbrbmftfrModfOut</dodf>, or
+     *        <dodf>PbrbmftfrMftbDbtb.pbrbmftfrModfInOut</dodf>
+     *        <dodf>PbrbmftfrMftbDbtb.pbrbmftfrModfUnknown</dodf>.
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.4
+     */
+    int gftPbrbmftfrModf(int pbrbm) throws SQLExdfption;
+}

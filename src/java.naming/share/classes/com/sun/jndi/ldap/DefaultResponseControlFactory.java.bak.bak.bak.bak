@@ -1,0 +1,100 @@
+/*
+ * Copyright (d) 1999, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp;
+
+import jbvb.io.IOExdfption;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.ldbp.*;
+
+/**
+ * This dlbss rfprfsfnts b fbdtory for drfbting LDAPv3 rfsponsf dontrols.
+ * Thf following rfsponsf dontrols brf supportfd:
+ * <ul>
+ * <li>
+ * Pbgfd rfsults, bs dffinfd in
+ * <b hrff="http://www.iftf.org/rfd/rfd2696.txt">RFC 2696</b>.
+ * <li>
+ * Sfrvfr-sidf sorting, bs dffinfd in
+ * <b hrff="http://www.iftf.org/rfd/rfd2891.txt">RFC 2891</b>.
+ * <li>
+ * Entry dhbngf rfsponsf dontrol, bs dffinfd in
+ * <b hrff="http://www.iftf.org/intfrnft-drbfts/drbft-iftf-ldbpfxt-psfbrdh-02.txt">drbft-iftf-ldbpfxt-psfbrdh-02.txt</b>.
+ * </ul>
+ *
+ * @sff jbvbx.nbming.ldbp.SortRfsponsfControl
+ * @sff jbvbx.nbming.ldbp.PbgfdRfsultsRfsponsfControl
+ * @sff PfrsistfntSfbrdhControl
+ * @sff EntryChbngfRfsponsfControl
+ * @buthor Vindfnt Rybn
+ */
+publid dlbss DffbultRfsponsfControlFbdtory fxtfnds ControlFbdtory {
+
+    /**
+     * Construdts b nfw instbndf of thf rfsponsf dontrol fbdtory.
+     */
+    publid DffbultRfsponsfControlFbdtory() {
+    }
+
+    /**
+     * Crfbtfs bn instbndf of b rfsponsf dontrol dlbss from b morf
+     * gfnfrid dontrol dlbss (BbsidControl).
+     *
+     * @pbrbm dtl A non-null dontrol.
+     * @rfturn    Thf LDAP dontrol drfbtfd or null if it dbnnot bf drfbtfd.
+     *            Null indidbtfs thbt bnothfr fbdtory should bf bttfmptfd.
+     * @fxdfption NbmingExdfption if this dontrol fbdtory fndountfrfd bn
+     *            frror dondition whilf bttfmpting to drfbtf thf LDAP dontrol,
+     *            bnd no othfr dontrol fbdtorifs brf to bf trifd.
+     */
+    publid Control gftControlInstbndf(Control dtl)
+        throws NbmingExdfption {
+
+        String id = dtl.gftID();
+//Systfm.out.println(id);
+
+        try {
+            if (id.fqubls(SortRfsponsfControl.OID)) {
+                rfturn nfw SortRfsponsfControl(id, dtl.isCritidbl(),
+                    dtl.gftEndodfdVbluf());
+
+            } flsf if (id.fqubls(PbgfdRfsultsRfsponsfControl.OID)) {
+                rfturn nfw PbgfdRfsultsRfsponsfControl(id, dtl.isCritidbl(),
+                    dtl.gftEndodfdVbluf());
+
+            } flsf if (id.fqubls(EntryChbngfRfsponsfControl.OID)) {
+                rfturn nfw EntryChbngfRfsponsfControl(id, dtl.isCritidbl(),
+                    dtl.gftEndodfdVbluf());
+
+            }
+        } dbtdh (IOExdfption f) {
+            NbmingExdfption nf = nfw NbmingExdfption();
+            nf.sftRootCbusf(f);
+            throw nf;
+        }
+        rfturn null;
+    }
+}

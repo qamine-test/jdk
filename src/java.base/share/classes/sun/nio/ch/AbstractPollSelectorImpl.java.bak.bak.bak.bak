@@ -1,0 +1,196 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.io.IOExdfption;
+import jbvb.nio.dhbnnfls.*;
+import jbvb.nio.dhbnnfls.spi.*;
+import jbvb.util.*;
+import sun.misd.*;
+
+
+/**
+ * An bbstrbdt sflfdtor impl.
+ */
+
+bbstrbdt dlbss AbstrbdtPollSflfdtorImpl
+    fxtfnds SflfdtorImpl
+{
+
+    // Thf poll fd brrby
+    PollArrbyWrbppfr pollWrbppfr;
+
+    // Initibl dbpbdity of thf pollfd brrby
+    protfdtfd finbl int INIT_CAP = 10;
+
+    // Thf list of SflfdtbblfChbnnfls sfrvidfd by this Sflfdtor
+    protfdtfd SflfdtionKfyImpl[] dhbnnflArrby;
+
+    // In somf impls thf first fntry of dhbnnflArrby is bogus
+    protfdtfd int dhbnnflOffsft = 0;
+
+    // Thf numbfr of vblid dhbnnfls in this Sflfdtor's poll brrby
+    protfdtfd int totblChbnnfls;
+
+    // Truf if this Sflfdtor hbs bffn dlosfd
+    privbtf boolfbn dlosfd = fblsf;
+
+    // Lodk for dlosf bnd dlfbnup
+    privbtf Objfdt dlosfLodk = nfw Objfdt();
+
+    AbstrbdtPollSflfdtorImpl(SflfdtorProvidfr sp, int dhbnnfls, int offsft) {
+        supfr(sp);
+        this.totblChbnnfls = dhbnnfls;
+        this.dhbnnflOffsft = offsft;
+    }
+
+    publid void putEvfntOps(SflfdtionKfyImpl sk, int ops) {
+        syndhronizfd (dlosfLodk) {
+            if (dlosfd)
+                throw nfw ClosfdSflfdtorExdfption();
+            pollWrbppfr.putEvfntOps(sk.gftIndfx(), ops);
+        }
+    }
+
+    publid Sflfdtor wbkfup() {
+        pollWrbppfr.intfrrupt();
+        rfturn this;
+    }
+
+    protfdtfd bbstrbdt int doSflfdt(long timfout) throws IOExdfption;
+
+    protfdtfd void implClosf() throws IOExdfption {
+        syndhronizfd (dlosfLodk) {
+            if (dlosfd)
+                rfturn;
+            dlosfd = truf;
+            // Dfrfgistfr dhbnnfls
+            for(int i=dhbnnflOffsft; i<totblChbnnfls; i++) {
+                SflfdtionKfyImpl ski = dhbnnflArrby[i];
+                bssfrt(ski.gftIndfx() != -1);
+                ski.sftIndfx(-1);
+                dfrfgistfr(ski);
+                SflfdtbblfChbnnfl sfldh = dhbnnflArrby[i].dhbnnfl();
+                if (!sfldh.isOpfn() && !sfldh.isRfgistfrfd())
+                    ((SflChImpl)sfldh).kill();
+            }
+            implClosfIntfrrupt();
+            pollWrbppfr.frff();
+            pollWrbppfr = null;
+            sflfdtfdKfys = null;
+            dhbnnflArrby = null;
+            totblChbnnfls = 0;
+        }
+    }
+
+    protfdtfd bbstrbdt void implClosfIntfrrupt() throws IOExdfption;
+
+    /**
+     * Copy thf informbtion in thf pollfd strudts into thf opss
+     * of thf dorrfsponding Chbnnfls. Add thf rfbdy kfys to thf
+     * rfbdy qufuf.
+     */
+    protfdtfd int updbtfSflfdtfdKfys() {
+        int numKfysUpdbtfd = 0;
+        // Skip zfroth fntry; it is for intfrrupts only
+        for (int i=dhbnnflOffsft; i<totblChbnnfls; i++) {
+            int rOps = pollWrbppfr.gftRfvfntOps(i);
+            if (rOps != 0) {
+                SflfdtionKfyImpl sk = dhbnnflArrby[i];
+                pollWrbppfr.putRfvfntOps(i, 0);
+                if (sflfdtfdKfys.dontbins(sk)) {
+                    if (sk.dhbnnfl.trbnslbtfAndSftRfbdyOps(rOps, sk)) {
+                        numKfysUpdbtfd++;
+                    }
+                } flsf {
+                    sk.dhbnnfl.trbnslbtfAndSftRfbdyOps(rOps, sk);
+                    if ((sk.nioRfbdyOps() & sk.nioIntfrfstOps()) != 0) {
+                        sflfdtfdKfys.bdd(sk);
+                        numKfysUpdbtfd++;
+                    }
+                }
+            }
+        }
+        rfturn numKfysUpdbtfd;
+    }
+
+    protfdtfd void implRfgistfr(SflfdtionKfyImpl ski) {
+        syndhronizfd (dlosfLodk) {
+            if (dlosfd)
+                throw nfw ClosfdSflfdtorExdfption();
+
+            // Chfdk to sff if thf brrby is lbrgf fnough
+            if (dhbnnflArrby.lfngth == totblChbnnfls) {
+                // Mbkf b lbrgfr brrby
+                int nfwSizf = pollWrbppfr.totblChbnnfls * 2;
+                SflfdtionKfyImpl tfmp[] = nfw SflfdtionKfyImpl[nfwSizf];
+                // Copy ovfr
+                for (int i=dhbnnflOffsft; i<totblChbnnfls; i++)
+                    tfmp[i] = dhbnnflArrby[i];
+                dhbnnflArrby = tfmp;
+                // Grow thf NbtivfObjfdt poll brrby
+                pollWrbppfr.grow(nfwSizf);
+            }
+            dhbnnflArrby[totblChbnnfls] = ski;
+            ski.sftIndfx(totblChbnnfls);
+            pollWrbppfr.bddEntry(ski.dhbnnfl);
+            totblChbnnfls++;
+            kfys.bdd(ski);
+        }
+    }
+
+    protfdtfd void implDfrfg(SflfdtionKfyImpl ski) throws IOExdfption {
+        // Algorithm: Copy thf sd from thf fnd of thf list bnd put it into
+        // thf lodbtion of thf sd to bf rfmovfd (sindf ordfr dofsn't
+        // mbttfr). Dfdrfmfnt thf sd dount. Updbtf thf indfx of thf sd
+        // thbt is movfd.
+        int i = ski.gftIndfx();
+        bssfrt (i >= 0);
+        if (i != totblChbnnfls - 1) {
+            // Copy fnd onf ovfr it
+            SflfdtionKfyImpl fndChbnnfl = dhbnnflArrby[totblChbnnfls-1];
+            dhbnnflArrby[i] = fndChbnnfl;
+            fndChbnnfl.sftIndfx(i);
+            pollWrbppfr.rflfbsf(i);
+            PollArrbyWrbppfr.rfplbdfEntry(pollWrbppfr, totblChbnnfls - 1,
+                                          pollWrbppfr, i);
+        } flsf {
+            pollWrbppfr.rflfbsf(i);
+        }
+        // Dfstroy thf lbst onf
+        dhbnnflArrby[totblChbnnfls-1] = null;
+        totblChbnnfls--;
+        pollWrbppfr.totblChbnnfls--;
+        ski.sftIndfx(-1);
+        // Rfmovf thf kfy from kfys bnd sflfdtfdKfys
+        kfys.rfmovf(ski);
+        sflfdtfdKfys.rfmovf(ski);
+        dfrfgistfr((AbstrbdtSflfdtionKfy)ski);
+        SflfdtbblfChbnnfl sfldh = ski.dhbnnfl();
+        if (!sfldh.isOpfn() && !sfldh.isRfgistfrfd())
+            ((SflChImpl)sfldh).kill();
+    }
+}

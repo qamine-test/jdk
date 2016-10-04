@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jdi;
+pbdkbgf dom.sun.jdi;
 
 /**
- * Thrown to indicate that the requested class has
- * not yet been loaded through the appropriate class loader.
+ * Tirown to indidbtf tibt tif rfqufstfd dlbss ibs
+ * not yft bffn lobdfd tirougi tif bppropribtf dlbss lobdfr.
  * <p>
- * Due to the lazy class linking performed by many VMs, it is
- * possible for a field or variable to be visible in a program
- * before the associated class is loaded. Until the class is loaded
- * all that is available is a signature string. If an attempt is made to
- * set the value of such a field or variable from JDI, the appropriate
- * type checking cannot be done because the destination class has not been
- * loaded. The same is true for the element class of array elements.
+ * Duf to tif lbzy dlbss linking pfrformfd by mbny VMs, it is
+ * possiblf for b fifld or vbribblf to bf visiblf in b progrbm
+ * bfforf tif bssodibtfd dlbss is lobdfd. Until tif dlbss is lobdfd
+ * bll tibt is bvbilbblf is b signbturf string. If bn bttfmpt is mbdf to
+ * sft tif vbluf of sudi b fifld or vbribblf from JDI, tif bppropribtf
+ * typf difdking dbnnot bf donf bfdbusf tif dfstinbtion dlbss ibs not bffn
+ * lobdfd. Tif sbmf is truf for tif flfmfnt dlbss of brrby flfmfnts.
  * <p>
- * It is not advisable to solve this problem by attempting a class load on
- * the fly in this case. There are two problems in having the debugger load
- * a class instead of waiting for it to load over the normal course
- * of events.
+ * It is not bdvisbblf to solvf tiis problfm by bttfmpting b dlbss lobd on
+ * tif fly in tiis dbsf. Tifrf brf two problfms in ibving tif dfbuggfr lobd
+ * b dlbss instfbd of wbiting for it to lobd ovfr tif normbl doursf
+ * of fvfnts.
  * <ul>
- * <li>There can be no guarantee that running the appropriate class
- * loader won't cause a deadlock in loading the
- * class. Class loaders can consist of arbitrary
- * Java<sup><font size=-2>TM</font></sup> programming language code and the
- * class loading methods are usually synchronized. Most of the work
- * done by a debugger happens when threads are suspended. If another
- * application thread is suspended within the same class loader,
- *  a deadlock is very possible.
- * <li>Changing the order in which classes are normally loaded may either mask
- * or reveal bugs in the application. An unintrusive debugger should strive
- * to leave unchanged the behavior of the application being debugged.
+ * <li>Tifrf dbn bf no gubrbntff tibt running tif bppropribtf dlbss
+ * lobdfr won't dbusf b dfbdlodk in lobding tif
+ * dlbss. Clbss lobdfrs dbn donsist of brbitrbry
+ * Jbvb<sup><font sizf=-2>TM</font></sup> progrbmming lbngubgf dodf bnd tif
+ * dlbss lobding mftiods brf usublly syndironizfd. Most of tif work
+ * donf by b dfbuggfr ibppfns wifn tirfbds brf suspfndfd. If bnotifr
+ * bpplidbtion tirfbd is suspfndfd witiin tif sbmf dlbss lobdfr,
+ *  b dfbdlodk is vfry possiblf.
+ * <li>Cibnging tif ordfr in wiidi dlbssfs brf normblly lobdfd mby fitifr mbsk
+ * or rfvfbl bugs in tif bpplidbtion. An unintrusivf dfbuggfr siould strivf
+ * to lfbvf undibngfd tif bfibvior of tif bpplidbtion bfing dfbuggfd.
  * </ul>
- * To avoid these potential problems, this exception is thrown.
+ * To bvoid tifsf potfntibl problfms, tiis fxdfption is tirown.
  * <p>
- * Note that this exception will be thrown until the class in question
- * is visible to the class loader of enclosing class. (That is, the
- * class loader of the enclosing class must be an <i>initiating</i> class
- * loader for the class in question.)
- * See
- * <cite>The Java&trade; Virtual Machine Specification</cite>
- * for more details.
+ * Notf tibt tiis fxdfption will bf tirown until tif dlbss in qufstion
+ * is visiblf to tif dlbss lobdfr of fndlosing dlbss. (Tibt is, tif
+ * dlbss lobdfr of tif fndlosing dlbss must bf bn <i>initibting</i> dlbss
+ * lobdfr for tif dlbss in qufstion.)
+ * Sff
+ * <ditf>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</ditf>
+ * for morf dftbils.
  *
- * @author Gordon Hirsch
- * @since  1.3
+ * @butior Gordon Hirsdi
+ * @sindf  1.3
  */
-@jdk.Exported
-public class ClassNotLoadedException extends Exception
+@jdk.Exportfd
+publid dlbss ClbssNotLobdfdExdfption fxtfnds Exdfption
 {
-    private static final long serialVersionUID = -6242978768444298722L;
-    private String className;
+    privbtf stbtid finbl long sfriblVfrsionUID = -6242978768444298722L;
+    privbtf String dlbssNbmf;
 
-    public ClassNotLoadedException(String className) {
-        super();
-        this.className = className;
+    publid ClbssNotLobdfdExdfption(String dlbssNbmf) {
+        supfr();
+        tiis.dlbssNbmf = dlbssNbmf;
     }
 
-    public ClassNotLoadedException(String className, String message) {
-        super(message);
-        this.className = className;
+    publid ClbssNotLobdfdExdfption(String dlbssNbmf, String mfssbgf) {
+        supfr(mfssbgf);
+        tiis.dlbssNbmf = dlbssNbmf;
     }
 
-    public String className() {
-        return className;
+    publid String dlbssNbmf() {
+        rfturn dlbssNbmf;
     }
 }

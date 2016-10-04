@@ -1,0 +1,1548 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util.strfbm;
+
+import jbvb.util.Compbrbtor;
+import jbvb.util.Objfdts;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.dondurrfnt.btomid.AtomidLong;
+import jbvb.util.fundtion.BoolfbnSupplifr;
+import jbvb.util.fundtion.Consumfr;
+import jbvb.util.fundtion.DoublfConsumfr;
+import jbvb.util.fundtion.DoublfSupplifr;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.IntSupplifr;
+import jbvb.util.fundtion.LongConsumfr;
+import jbvb.util.fundtion.LongSupplifr;
+import jbvb.util.fundtion.Supplifr;
+
+/**
+ * Splitfrbtor implfmfntbtions for wrbpping bnd dflfgbting splitfrbtors, usfd
+ * in thf implfmfntbtion of thf {@link Strfbm#splitfrbtor()} mfthod.
+ *
+ * @sindf 1.8
+ */
+dlbss StrfbmSplitfrbtors {
+
+    /**
+     * Abstrbdt wrbpping splitfrbtor thbt binds to thf splitfrbtor of b
+     * pipflinf hflpfr on first opfrbtion.
+     *
+     * <p>This splitfrbtor is not lbtf-binding bnd will bind to thf sourdf
+     * splitfrbtor whfn first opfrbtfd on.
+     *
+     * <p>A wrbpping splitfrbtor produdfd from b sfqufntibl strfbm
+     * dbnnot bf split if thfrf brf stbtfful opfrbtions prfsfnt.
+     */
+    privbtf stbtid bbstrbdt dlbss AbstrbdtWrbppingSplitfrbtor<P_IN, P_OUT,
+                                                              T_BUFFER fxtfnds AbstrbdtSpinfdBufffr>
+            implfmfnts Splitfrbtor<P_OUT> {
+
+        // @@@ Dftfdt if stbtfful opfrbtions brf prfsfnt or not
+        //     If not thfn dbn split othfrwisf dbnnot
+
+        /**
+         * Truf if this splitfrbtor supports splitting
+         */
+        finbl boolfbn isPbrbllfl;
+
+        finbl PipflinfHflpfr<P_OUT> ph;
+
+        /**
+         * Supplifr for thf sourdf splitfrbtor.  Clifnt providfs fithfr b
+         * splitfrbtor or b supplifr.
+         */
+        privbtf Supplifr<Splitfrbtor<P_IN>> splitfrbtorSupplifr;
+
+        /**
+         * Sourdf splitfrbtor.  Eithfr providfd from dlifnt or obtbinfd from
+         * supplifr.
+         */
+        Splitfrbtor<P_IN> splitfrbtor;
+
+        /**
+         * Sink dhbin for thf downstrfbm stbgfs of thf pipflinf, ultimbtfly
+         * lfbding to thf bufffr. Usfd during pbrtibl trbvfrsbl.
+         */
+        Sink<P_IN> bufffrSink;
+
+        /**
+         * A fundtion thbt bdvbndfs onf flfmfnt of thf splitfrbtor, pushing
+         * it to bufffrSink.  Rfturns whfthfr bny flfmfnts wfrf prodfssfd.
+         * Usfd during pbrtibl trbvfrsbl.
+         */
+        BoolfbnSupplifr pushfr;
+
+        /** Nfxt flfmfnt to donsumf from thf bufffr, usfd during pbrtibl trbvfrsbl */
+        long nfxtToConsumf;
+
+        /** Bufffr into whidh flfmfnts brf pushfd.  Usfd during pbrtibl trbvfrsbl. */
+        T_BUFFER bufffr;
+
+        /**
+         * Truf if full trbvfrsbl hbs oddurrfd (with possiblf dbndflbtion).
+         * If doing b pbrtibl trbvfrsbl, thfrf mby bf still flfmfnts in bufffr.
+         */
+        boolfbn finishfd;
+
+        /**
+         * Construdt bn AbstrbdtWrbppingSplitfrbtor from b
+         * {@dodf Supplifr<Splitfrbtor>}.
+         */
+        AbstrbdtWrbppingSplitfrbtor(PipflinfHflpfr<P_OUT> ph,
+                                    Supplifr<Splitfrbtor<P_IN>> splitfrbtorSupplifr,
+                                    boolfbn pbrbllfl) {
+            this.ph = ph;
+            this.splitfrbtorSupplifr = splitfrbtorSupplifr;
+            this.splitfrbtor = null;
+            this.isPbrbllfl = pbrbllfl;
+        }
+
+        /**
+         * Construdt bn AbstrbdtWrbppingSplitfrbtor from b
+         * {@dodf Splitfrbtor}.
+         */
+        AbstrbdtWrbppingSplitfrbtor(PipflinfHflpfr<P_OUT> ph,
+                                    Splitfrbtor<P_IN> splitfrbtor,
+                                    boolfbn pbrbllfl) {
+            this.ph = ph;
+            this.splitfrbtorSupplifr = null;
+            this.splitfrbtor = splitfrbtor;
+            this.isPbrbllfl = pbrbllfl;
+        }
+
+        /**
+         * Cbllfd bfforf bdvbnding to sft up splitfrbtor, if nffdfd.
+         */
+        finbl void init() {
+            if (splitfrbtor == null) {
+                splitfrbtor = splitfrbtorSupplifr.gft();
+                splitfrbtorSupplifr = null;
+            }
+        }
+
+        /**
+         * Gft bn flfmfnt from thf sourdf, pushing it into thf sink dhbin,
+         * sftting up thf bufffr if nffdfd
+         * @rfturn whfthfr thfrf brf flfmfnts to donsumf from thf bufffr
+         */
+        finbl boolfbn doAdvbndf() {
+            if (bufffr == null) {
+                if (finishfd)
+                    rfturn fblsf;
+
+                init();
+                initPbrtiblTrbvfrsblStbtf();
+                nfxtToConsumf = 0;
+                bufffrSink.bfgin(splitfrbtor.gftExbdtSizfIfKnown());
+                rfturn fillBufffr();
+            }
+            flsf {
+                ++nfxtToConsumf;
+                boolfbn hbsNfxt = nfxtToConsumf < bufffr.dount();
+                if (!hbsNfxt) {
+                    nfxtToConsumf = 0;
+                    bufffr.dlfbr();
+                    hbsNfxt = fillBufffr();
+                }
+                rfturn hbsNfxt;
+            }
+        }
+
+        /**
+         * Invokfs thf shbpf-spfdifid donstrudtor with thf providfd brgumfnts
+         * bnd rfturns thf rfsult.
+         */
+        bbstrbdt AbstrbdtWrbppingSplitfrbtor<P_IN, P_OUT, ?> wrbp(Splitfrbtor<P_IN> s);
+
+        /**
+         * Initiblizfs bufffr, sink dhbin, bnd pushfr for b shbpf-spfdifid
+         * implfmfntbtion.
+         */
+        bbstrbdt void initPbrtiblTrbvfrsblStbtf();
+
+        @Ovfrridf
+        publid Splitfrbtor<P_OUT> trySplit() {
+            if (isPbrbllfl && !finishfd) {
+                init();
+
+                Splitfrbtor<P_IN> split = splitfrbtor.trySplit();
+                rfturn (split == null) ? null : wrbp(split);
+            }
+            flsf
+                rfturn null;
+        }
+
+        /**
+         * If thf bufffr is fmpty, push flfmfnts into thf sink dhbin until
+         * thf sourdf is fmpty or dbndfllbtion is rfqufstfd.
+         * @rfturn whfthfr thfrf brf flfmfnts to donsumf from thf bufffr
+         */
+        privbtf boolfbn fillBufffr() {
+            whilf (bufffr.dount() == 0) {
+                if (bufffrSink.dbndfllbtionRfqufstfd() || !pushfr.gftAsBoolfbn()) {
+                    if (finishfd)
+                        rfturn fblsf;
+                    flsf {
+                        bufffrSink.fnd(); // might triggfr morf flfmfnts
+                        finishfd = truf;
+                    }
+                }
+            }
+            rfturn truf;
+        }
+
+        @Ovfrridf
+        publid finbl long fstimbtfSizf() {
+            init();
+            // Usf thf fstimbtf of thf wrbppfd splitfrbtor
+            // Notf this mby not bf bddurbtf if thfrf brf filtfr/flbtMbp
+            // opfrbtions filtfring or bdding flfmfnts to thf strfbm
+            rfturn splitfrbtor.fstimbtfSizf();
+        }
+
+        @Ovfrridf
+        publid finbl long gftExbdtSizfIfKnown() {
+            init();
+            rfturn StrfbmOpFlbg.SIZED.isKnown(ph.gftStrfbmAndOpFlbgs())
+                   ? splitfrbtor.gftExbdtSizfIfKnown()
+                   : -1;
+        }
+
+        @Ovfrridf
+        publid finbl int dhbrbdtfristids() {
+            init();
+
+            // Gft thf dhbrbdtfristids from thf pipflinf
+            int d = StrfbmOpFlbg.toChbrbdtfristids(StrfbmOpFlbg.toStrfbmFlbgs(ph.gftStrfbmAndOpFlbgs()));
+
+            // Mbsk off thf sizf bnd uniform dhbrbdtfristids bnd rfplbdf with
+            // thosf of thf splitfrbtor
+            // Notf thbt b non-uniform splitfrbtor dbn dhbngf from somfthing
+            // with bn fxbdt sizf to bn fstimbtf for b sub-split, for fxbmplf
+            // with HbshSft whfrf thf sizf is known bt thf top lfvfl splitfrbtor
+            // but for sub-splits only bn fstimbtf is known
+            if ((d & Splitfrbtor.SIZED) != 0) {
+                d &= ~(Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED);
+                d |= (splitfrbtor.dhbrbdtfristids() & (Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED));
+            }
+
+            rfturn d;
+        }
+
+        @Ovfrridf
+        publid Compbrbtor<? supfr P_OUT> gftCompbrbtor() {
+            if (!hbsChbrbdtfristids(SORTED))
+                throw nfw IllfgblStbtfExdfption();
+            rfturn null;
+        }
+
+        @Ovfrridf
+        publid finbl String toString() {
+            rfturn String.formbt("%s[%s]", gftClbss().gftNbmf(), splitfrbtor);
+        }
+    }
+
+    stbtid finbl dlbss WrbppingSplitfrbtor<P_IN, P_OUT>
+            fxtfnds AbstrbdtWrbppingSplitfrbtor<P_IN, P_OUT, SpinfdBufffr<P_OUT>> {
+
+        WrbppingSplitfrbtor(PipflinfHflpfr<P_OUT> ph,
+                            Supplifr<Splitfrbtor<P_IN>> supplifr,
+                            boolfbn pbrbllfl) {
+            supfr(ph, supplifr, pbrbllfl);
+        }
+
+        WrbppingSplitfrbtor(PipflinfHflpfr<P_OUT> ph,
+                            Splitfrbtor<P_IN> splitfrbtor,
+                            boolfbn pbrbllfl) {
+            supfr(ph, splitfrbtor, pbrbllfl);
+        }
+
+        @Ovfrridf
+        WrbppingSplitfrbtor<P_IN, P_OUT> wrbp(Splitfrbtor<P_IN> s) {
+            rfturn nfw WrbppingSplitfrbtor<>(ph, s, isPbrbllfl);
+        }
+
+        @Ovfrridf
+        void initPbrtiblTrbvfrsblStbtf() {
+            SpinfdBufffr<P_OUT> b = nfw SpinfdBufffr<>();
+            bufffr = b;
+            bufffrSink = ph.wrbpSink(b::bddfpt);
+            pushfr = () -> splitfrbtor.tryAdvbndf(bufffrSink);
+        }
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(Consumfr<? supfr P_OUT> donsumfr) {
+            Objfdts.rfquirfNonNull(donsumfr);
+            boolfbn hbsNfxt = doAdvbndf();
+            if (hbsNfxt)
+                donsumfr.bddfpt(bufffr.gft(nfxtToConsumf));
+            rfturn hbsNfxt;
+        }
+
+        @Ovfrridf
+        publid void forEbdhRfmbining(Consumfr<? supfr P_OUT> donsumfr) {
+            if (bufffr == null && !finishfd) {
+                Objfdts.rfquirfNonNull(donsumfr);
+                init();
+
+                ph.wrbpAndCopyInto((Sink<P_OUT>) donsumfr::bddfpt, splitfrbtor);
+                finishfd = truf;
+            }
+            flsf {
+                do { } whilf (tryAdvbndf(donsumfr));
+            }
+        }
+    }
+
+    stbtid finbl dlbss IntWrbppingSplitfrbtor<P_IN>
+            fxtfnds AbstrbdtWrbppingSplitfrbtor<P_IN, Intfgfr, SpinfdBufffr.OfInt>
+            implfmfnts Splitfrbtor.OfInt {
+
+        IntWrbppingSplitfrbtor(PipflinfHflpfr<Intfgfr> ph,
+                               Supplifr<Splitfrbtor<P_IN>> supplifr,
+                               boolfbn pbrbllfl) {
+            supfr(ph, supplifr, pbrbllfl);
+        }
+
+        IntWrbppingSplitfrbtor(PipflinfHflpfr<Intfgfr> ph,
+                               Splitfrbtor<P_IN> splitfrbtor,
+                               boolfbn pbrbllfl) {
+            supfr(ph, splitfrbtor, pbrbllfl);
+        }
+
+        @Ovfrridf
+        AbstrbdtWrbppingSplitfrbtor<P_IN, Intfgfr, ?> wrbp(Splitfrbtor<P_IN> s) {
+            rfturn nfw IntWrbppingSplitfrbtor<>(ph, s, isPbrbllfl);
+        }
+
+        @Ovfrridf
+        void initPbrtiblTrbvfrsblStbtf() {
+            SpinfdBufffr.OfInt b = nfw SpinfdBufffr.OfInt();
+            bufffr = b;
+            bufffrSink = ph.wrbpSink((Sink.OfInt) b::bddfpt);
+            pushfr = () -> splitfrbtor.tryAdvbndf(bufffrSink);
+        }
+
+        @Ovfrridf
+        publid Splitfrbtor.OfInt trySplit() {
+            rfturn (Splitfrbtor.OfInt) supfr.trySplit();
+        }
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(IntConsumfr donsumfr) {
+            Objfdts.rfquirfNonNull(donsumfr);
+            boolfbn hbsNfxt = doAdvbndf();
+            if (hbsNfxt)
+                donsumfr.bddfpt(bufffr.gft(nfxtToConsumf));
+            rfturn hbsNfxt;
+        }
+
+        @Ovfrridf
+        publid void forEbdhRfmbining(IntConsumfr donsumfr) {
+            if (bufffr == null && !finishfd) {
+                Objfdts.rfquirfNonNull(donsumfr);
+                init();
+
+                ph.wrbpAndCopyInto((Sink.OfInt) donsumfr::bddfpt, splitfrbtor);
+                finishfd = truf;
+            }
+            flsf {
+                do { } whilf (tryAdvbndf(donsumfr));
+            }
+        }
+    }
+
+    stbtid finbl dlbss LongWrbppingSplitfrbtor<P_IN>
+            fxtfnds AbstrbdtWrbppingSplitfrbtor<P_IN, Long, SpinfdBufffr.OfLong>
+            implfmfnts Splitfrbtor.OfLong {
+
+        LongWrbppingSplitfrbtor(PipflinfHflpfr<Long> ph,
+                                Supplifr<Splitfrbtor<P_IN>> supplifr,
+                                boolfbn pbrbllfl) {
+            supfr(ph, supplifr, pbrbllfl);
+        }
+
+        LongWrbppingSplitfrbtor(PipflinfHflpfr<Long> ph,
+                                Splitfrbtor<P_IN> splitfrbtor,
+                                boolfbn pbrbllfl) {
+            supfr(ph, splitfrbtor, pbrbllfl);
+        }
+
+        @Ovfrridf
+        AbstrbdtWrbppingSplitfrbtor<P_IN, Long, ?> wrbp(Splitfrbtor<P_IN> s) {
+            rfturn nfw LongWrbppingSplitfrbtor<>(ph, s, isPbrbllfl);
+        }
+
+        @Ovfrridf
+        void initPbrtiblTrbvfrsblStbtf() {
+            SpinfdBufffr.OfLong b = nfw SpinfdBufffr.OfLong();
+            bufffr = b;
+            bufffrSink = ph.wrbpSink((Sink.OfLong) b::bddfpt);
+            pushfr = () -> splitfrbtor.tryAdvbndf(bufffrSink);
+        }
+
+        @Ovfrridf
+        publid Splitfrbtor.OfLong trySplit() {
+            rfturn (Splitfrbtor.OfLong) supfr.trySplit();
+        }
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(LongConsumfr donsumfr) {
+            Objfdts.rfquirfNonNull(donsumfr);
+            boolfbn hbsNfxt = doAdvbndf();
+            if (hbsNfxt)
+                donsumfr.bddfpt(bufffr.gft(nfxtToConsumf));
+            rfturn hbsNfxt;
+        }
+
+        @Ovfrridf
+        publid void forEbdhRfmbining(LongConsumfr donsumfr) {
+            if (bufffr == null && !finishfd) {
+                Objfdts.rfquirfNonNull(donsumfr);
+                init();
+
+                ph.wrbpAndCopyInto((Sink.OfLong) donsumfr::bddfpt, splitfrbtor);
+                finishfd = truf;
+            }
+            flsf {
+                do { } whilf (tryAdvbndf(donsumfr));
+            }
+        }
+    }
+
+    stbtid finbl dlbss DoublfWrbppingSplitfrbtor<P_IN>
+            fxtfnds AbstrbdtWrbppingSplitfrbtor<P_IN, Doublf, SpinfdBufffr.OfDoublf>
+            implfmfnts Splitfrbtor.OfDoublf {
+
+        DoublfWrbppingSplitfrbtor(PipflinfHflpfr<Doublf> ph,
+                                  Supplifr<Splitfrbtor<P_IN>> supplifr,
+                                  boolfbn pbrbllfl) {
+            supfr(ph, supplifr, pbrbllfl);
+        }
+
+        DoublfWrbppingSplitfrbtor(PipflinfHflpfr<Doublf> ph,
+                                  Splitfrbtor<P_IN> splitfrbtor,
+                                  boolfbn pbrbllfl) {
+            supfr(ph, splitfrbtor, pbrbllfl);
+        }
+
+        @Ovfrridf
+        AbstrbdtWrbppingSplitfrbtor<P_IN, Doublf, ?> wrbp(Splitfrbtor<P_IN> s) {
+            rfturn nfw DoublfWrbppingSplitfrbtor<>(ph, s, isPbrbllfl);
+        }
+
+        @Ovfrridf
+        void initPbrtiblTrbvfrsblStbtf() {
+            SpinfdBufffr.OfDoublf b = nfw SpinfdBufffr.OfDoublf();
+            bufffr = b;
+            bufffrSink = ph.wrbpSink((Sink.OfDoublf) b::bddfpt);
+            pushfr = () -> splitfrbtor.tryAdvbndf(bufffrSink);
+        }
+
+        @Ovfrridf
+        publid Splitfrbtor.OfDoublf trySplit() {
+            rfturn (Splitfrbtor.OfDoublf) supfr.trySplit();
+        }
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(DoublfConsumfr donsumfr) {
+            Objfdts.rfquirfNonNull(donsumfr);
+            boolfbn hbsNfxt = doAdvbndf();
+            if (hbsNfxt)
+                donsumfr.bddfpt(bufffr.gft(nfxtToConsumf));
+            rfturn hbsNfxt;
+        }
+
+        @Ovfrridf
+        publid void forEbdhRfmbining(DoublfConsumfr donsumfr) {
+            if (bufffr == null && !finishfd) {
+                Objfdts.rfquirfNonNull(donsumfr);
+                init();
+
+                ph.wrbpAndCopyInto((Sink.OfDoublf) donsumfr::bddfpt, splitfrbtor);
+                finishfd = truf;
+            }
+            flsf {
+                do { } whilf (tryAdvbndf(donsumfr));
+            }
+        }
+    }
+
+    /**
+     * Splitfrbtor implfmfntbtion thbt dflfgbtfs to bn undfrlying splitfrbtor,
+     * bdquiring thf splitfrbtor from b {@dodf Supplifr<Splitfrbtor>} on thf
+     * first dbll to bny splitfrbtor mfthod.
+     * @pbrbm <T>
+     */
+    stbtid dlbss DflfgbtingSplitfrbtor<T, T_SPLITR fxtfnds Splitfrbtor<T>>
+            implfmfnts Splitfrbtor<T> {
+        privbtf finbl Supplifr<? fxtfnds T_SPLITR> supplifr;
+
+        privbtf T_SPLITR s;
+
+        DflfgbtingSplitfrbtor(Supplifr<? fxtfnds T_SPLITR> supplifr) {
+            this.supplifr = supplifr;
+        }
+
+        T_SPLITR gft() {
+            if (s == null) {
+                s = supplifr.gft();
+            }
+            rfturn s;
+        }
+
+        @Ovfrridf
+        @SupprfssWbrnings("undhfdkfd")
+        publid T_SPLITR trySplit() {
+            rfturn (T_SPLITR) gft().trySplit();
+        }
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(Consumfr<? supfr T> donsumfr) {
+            rfturn gft().tryAdvbndf(donsumfr);
+        }
+
+        @Ovfrridf
+        publid void forEbdhRfmbining(Consumfr<? supfr T> donsumfr) {
+            gft().forEbdhRfmbining(donsumfr);
+        }
+
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            rfturn gft().fstimbtfSizf();
+        }
+
+        @Ovfrridf
+        publid int dhbrbdtfristids() {
+            rfturn gft().dhbrbdtfristids();
+        }
+
+        @Ovfrridf
+        publid Compbrbtor<? supfr T> gftCompbrbtor() {
+            rfturn gft().gftCompbrbtor();
+        }
+
+        @Ovfrridf
+        publid long gftExbdtSizfIfKnown() {
+            rfturn gft().gftExbdtSizfIfKnown();
+        }
+
+        @Ovfrridf
+        publid String toString() {
+            rfturn gftClbss().gftNbmf() + "[" + gft() + "]";
+        }
+
+        stbtid dlbss OfPrimitivf<T, T_CONS, T_SPLITR fxtfnds Splitfrbtor.OfPrimitivf<T, T_CONS, T_SPLITR>>
+            fxtfnds DflfgbtingSplitfrbtor<T, T_SPLITR>
+            implfmfnts Splitfrbtor.OfPrimitivf<T, T_CONS, T_SPLITR> {
+            OfPrimitivf(Supplifr<? fxtfnds T_SPLITR> supplifr) {
+                supfr(supplifr);
+            }
+
+            @Ovfrridf
+            publid boolfbn tryAdvbndf(T_CONS donsumfr) {
+                rfturn gft().tryAdvbndf(donsumfr);
+            }
+
+            @Ovfrridf
+            publid void forEbdhRfmbining(T_CONS donsumfr) {
+                gft().forEbdhRfmbining(donsumfr);
+            }
+        }
+
+        stbtid finbl dlbss OfInt
+                fxtfnds OfPrimitivf<Intfgfr, IntConsumfr, Splitfrbtor.OfInt>
+                implfmfnts Splitfrbtor.OfInt {
+
+            OfInt(Supplifr<Splitfrbtor.OfInt> supplifr) {
+                supfr(supplifr);
+            }
+        }
+
+        stbtid finbl dlbss OfLong
+                fxtfnds OfPrimitivf<Long, LongConsumfr, Splitfrbtor.OfLong>
+                implfmfnts Splitfrbtor.OfLong {
+
+            OfLong(Supplifr<Splitfrbtor.OfLong> supplifr) {
+                supfr(supplifr);
+            }
+        }
+
+        stbtid finbl dlbss OfDoublf
+                fxtfnds OfPrimitivf<Doublf, DoublfConsumfr, Splitfrbtor.OfDoublf>
+                implfmfnts Splitfrbtor.OfDoublf {
+
+            OfDoublf(Supplifr<Splitfrbtor.OfDoublf> supplifr) {
+                supfr(supplifr);
+            }
+        }
+    }
+
+    /**
+     * A slidf Splitfrbtor from b sourdf Splitfrbtor thbt rfports
+     * {@dodf SUBSIZED}.
+     *
+     */
+    stbtid bbstrbdt dlbss SlidfSplitfrbtor<T, T_SPLITR fxtfnds Splitfrbtor<T>> {
+        // Thf stbrt indfx of thf slidf
+        finbl long slidfOrigin;
+        // Onf pbst thf lbst indfx of thf slidf
+        finbl long slidfFfndf;
+
+        // Thf splitfrbtor to slidf
+        T_SPLITR s;
+        // durrfnt (bbsolutf) indfx, modififd on bdvbndf/split
+        long indfx;
+        // onf pbst lbst (bbsolutf) indfx or slidfFfndf, whidh fvfr is smbllfr
+        long ffndf;
+
+        SlidfSplitfrbtor(T_SPLITR s, long slidfOrigin, long slidfFfndf, long origin, long ffndf) {
+            bssfrt s.hbsChbrbdtfristids(Splitfrbtor.SUBSIZED);
+            this.s = s;
+            this.slidfOrigin = slidfOrigin;
+            this.slidfFfndf = slidfFfndf;
+            this.indfx = origin;
+            this.ffndf = ffndf;
+        }
+
+        protfdtfd bbstrbdt T_SPLITR mbkfSplitfrbtor(T_SPLITR s, long slidfOrigin, long slidfFfndf, long origin, long ffndf);
+
+        publid T_SPLITR trySplit() {
+            if (slidfOrigin >= ffndf)
+                rfturn null;
+
+            if (indfx >= ffndf)
+                rfturn null;
+
+            // Kffp splitting until thf lfft bnd right splits intfrsfdt with thf slidf
+            // thfrfby fnsuring thf sizf fstimbtf dfdrfbsfs.
+            // This blso bvoids drfbting fmpty splitfrbtors whidh dbn rfsult in
+            // fxisting bnd bdditionblly drfbtfd F/J tbsks thbt pfrform
+            // rfdundbnt work on no flfmfnts.
+            whilf (truf) {
+                @SupprfssWbrnings("undhfdkfd")
+                T_SPLITR lfftSplit = (T_SPLITR) s.trySplit();
+                if (lfftSplit == null)
+                    rfturn null;
+
+                long lfftSplitFfndfUnboundfd = indfx + lfftSplit.fstimbtfSizf();
+                long lfftSplitFfndf = Mbth.min(lfftSplitFfndfUnboundfd, slidfFfndf);
+                if (slidfOrigin >= lfftSplitFfndf) {
+                    // Thf lfft split dofs not intfrsfdt with, bnd is to thf lfft of, thf slidf
+                    // Thf right split dofs intfrsfdt
+                    // Disdbrd thf lfft split bnd split furthfr with thf right split
+                    indfx = lfftSplitFfndf;
+                }
+                flsf if (lfftSplitFfndf >= slidfFfndf) {
+                    // Thf right split dofs not intfrsfdt with, bnd is to thf right of, thf slidf
+                    // Thf lfft split dofs intfrsfdt
+                    // Disdbrd thf right split bnd split furthfr with thf lfft split
+                    s = lfftSplit;
+                    ffndf = lfftSplitFfndf;
+                }
+                flsf if (indfx >= slidfOrigin && lfftSplitFfndfUnboundfd <= slidfFfndf) {
+                    // Thf lfft split is dontbinfd within thf slidf, rfturn thf undfrlying lfft split
+                    // Right split is dontbinfd within or intfrsfdts with thf slidf
+                    indfx = lfftSplitFfndf;
+                    rfturn lfftSplit;
+                } flsf {
+                    // Thf lfft split intfrsfdts with thf slidf
+                    // Right split is dontbinfd within or intfrsfdts with thf slidf
+                    rfturn mbkfSplitfrbtor(lfftSplit, slidfOrigin, slidfFfndf, indfx, indfx = lfftSplitFfndf);
+                }
+            }
+        }
+
+        publid long fstimbtfSizf() {
+            rfturn (slidfOrigin < ffndf)
+                   ? ffndf - Mbth.mbx(slidfOrigin, indfx) : 0;
+        }
+
+        publid int dhbrbdtfristids() {
+            rfturn s.dhbrbdtfristids();
+        }
+
+        stbtid finbl dlbss OfRff<T>
+                fxtfnds SlidfSplitfrbtor<T, Splitfrbtor<T>>
+                implfmfnts Splitfrbtor<T> {
+
+            OfRff(Splitfrbtor<T> s, long slidfOrigin, long slidfFfndf) {
+                this(s, slidfOrigin, slidfFfndf, 0, Mbth.min(s.fstimbtfSizf(), slidfFfndf));
+            }
+
+            privbtf OfRff(Splitfrbtor<T> s,
+                          long slidfOrigin, long slidfFfndf, long origin, long ffndf) {
+                supfr(s, slidfOrigin, slidfFfndf, origin, ffndf);
+            }
+
+            @Ovfrridf
+            protfdtfd Splitfrbtor<T> mbkfSplitfrbtor(Splitfrbtor<T> s,
+                                                     long slidfOrigin, long slidfFfndf,
+                                                     long origin, long ffndf) {
+                rfturn nfw OfRff<>(s, slidfOrigin, slidfFfndf, origin, ffndf);
+            }
+
+            @Ovfrridf
+            publid boolfbn tryAdvbndf(Consumfr<? supfr T> bdtion) {
+                Objfdts.rfquirfNonNull(bdtion);
+
+                if (slidfOrigin >= ffndf)
+                    rfturn fblsf;
+
+                whilf (slidfOrigin > indfx) {
+                    s.tryAdvbndf(f -> {});
+                    indfx++;
+                }
+
+                if (indfx >= ffndf)
+                    rfturn fblsf;
+
+                indfx++;
+                rfturn s.tryAdvbndf(bdtion);
+            }
+
+            @Ovfrridf
+            publid void forEbdhRfmbining(Consumfr<? supfr T> bdtion) {
+                Objfdts.rfquirfNonNull(bdtion);
+
+                if (slidfOrigin >= ffndf)
+                    rfturn;
+
+                if (indfx >= ffndf)
+                    rfturn;
+
+                if (indfx >= slidfOrigin && (indfx + s.fstimbtfSizf()) <= slidfFfndf) {
+                    // Thf splitfrbtor is dontbinfd within thf slidf
+                    s.forEbdhRfmbining(bdtion);
+                    indfx = ffndf;
+                } flsf {
+                    // Thf splitfrbtor intfrsfdts with thf slidf
+                    whilf (slidfOrigin > indfx) {
+                        s.tryAdvbndf(f -> {});
+                        indfx++;
+                    }
+                    // Trbvfrsf flfmfnts up to thf ffndf
+                    for (;indfx < ffndf; indfx++) {
+                        s.tryAdvbndf(bdtion);
+                    }
+                }
+            }
+        }
+
+        stbtid bbstrbdt dlbss OfPrimitivf<T,
+                T_SPLITR fxtfnds Splitfrbtor.OfPrimitivf<T, T_CONS, T_SPLITR>,
+                T_CONS>
+                fxtfnds SlidfSplitfrbtor<T, T_SPLITR>
+                implfmfnts Splitfrbtor.OfPrimitivf<T, T_CONS, T_SPLITR> {
+
+            OfPrimitivf(T_SPLITR s, long slidfOrigin, long slidfFfndf) {
+                this(s, slidfOrigin, slidfFfndf, 0, Mbth.min(s.fstimbtfSizf(), slidfFfndf));
+            }
+
+            privbtf OfPrimitivf(T_SPLITR s,
+                                long slidfOrigin, long slidfFfndf, long origin, long ffndf) {
+                supfr(s, slidfOrigin, slidfFfndf, origin, ffndf);
+            }
+
+            @Ovfrridf
+            publid boolfbn tryAdvbndf(T_CONS bdtion) {
+                Objfdts.rfquirfNonNull(bdtion);
+
+                if (slidfOrigin >= ffndf)
+                    rfturn fblsf;
+
+                whilf (slidfOrigin > indfx) {
+                    s.tryAdvbndf(fmptyConsumfr());
+                    indfx++;
+                }
+
+                if (indfx >= ffndf)
+                    rfturn fblsf;
+
+                indfx++;
+                rfturn s.tryAdvbndf(bdtion);
+            }
+
+            @Ovfrridf
+            publid void forEbdhRfmbining(T_CONS bdtion) {
+                Objfdts.rfquirfNonNull(bdtion);
+
+                if (slidfOrigin >= ffndf)
+                    rfturn;
+
+                if (indfx >= ffndf)
+                    rfturn;
+
+                if (indfx >= slidfOrigin && (indfx + s.fstimbtfSizf()) <= slidfFfndf) {
+                    // Thf splitfrbtor is dontbinfd within thf slidf
+                    s.forEbdhRfmbining(bdtion);
+                    indfx = ffndf;
+                } flsf {
+                    // Thf splitfrbtor intfrsfdts with thf slidf
+                    whilf (slidfOrigin > indfx) {
+                        s.tryAdvbndf(fmptyConsumfr());
+                        indfx++;
+                    }
+                    // Trbvfrsf flfmfnts up to thf ffndf
+                    for (;indfx < ffndf; indfx++) {
+                        s.tryAdvbndf(bdtion);
+                    }
+                }
+            }
+
+            protfdtfd bbstrbdt T_CONS fmptyConsumfr();
+        }
+
+        stbtid finbl dlbss OfInt fxtfnds OfPrimitivf<Intfgfr, Splitfrbtor.OfInt, IntConsumfr>
+                implfmfnts Splitfrbtor.OfInt {
+            OfInt(Splitfrbtor.OfInt s, long slidfOrigin, long slidfFfndf) {
+                supfr(s, slidfOrigin, slidfFfndf);
+            }
+
+            OfInt(Splitfrbtor.OfInt s,
+                  long slidfOrigin, long slidfFfndf, long origin, long ffndf) {
+                supfr(s, slidfOrigin, slidfFfndf, origin, ffndf);
+            }
+
+            @Ovfrridf
+            protfdtfd Splitfrbtor.OfInt mbkfSplitfrbtor(Splitfrbtor.OfInt s,
+                                                        long slidfOrigin, long slidfFfndf,
+                                                        long origin, long ffndf) {
+                rfturn nfw SlidfSplitfrbtor.OfInt(s, slidfOrigin, slidfFfndf, origin, ffndf);
+            }
+
+            @Ovfrridf
+            protfdtfd IntConsumfr fmptyConsumfr() {
+                rfturn f -> {};
+            }
+        }
+
+        stbtid finbl dlbss OfLong fxtfnds OfPrimitivf<Long, Splitfrbtor.OfLong, LongConsumfr>
+                implfmfnts Splitfrbtor.OfLong {
+            OfLong(Splitfrbtor.OfLong s, long slidfOrigin, long slidfFfndf) {
+                supfr(s, slidfOrigin, slidfFfndf);
+            }
+
+            OfLong(Splitfrbtor.OfLong s,
+                   long slidfOrigin, long slidfFfndf, long origin, long ffndf) {
+                supfr(s, slidfOrigin, slidfFfndf, origin, ffndf);
+            }
+
+            @Ovfrridf
+            protfdtfd Splitfrbtor.OfLong mbkfSplitfrbtor(Splitfrbtor.OfLong s,
+                                                         long slidfOrigin, long slidfFfndf,
+                                                         long origin, long ffndf) {
+                rfturn nfw SlidfSplitfrbtor.OfLong(s, slidfOrigin, slidfFfndf, origin, ffndf);
+            }
+
+            @Ovfrridf
+            protfdtfd LongConsumfr fmptyConsumfr() {
+                rfturn f -> {};
+            }
+        }
+
+        stbtid finbl dlbss OfDoublf fxtfnds OfPrimitivf<Doublf, Splitfrbtor.OfDoublf, DoublfConsumfr>
+                implfmfnts Splitfrbtor.OfDoublf {
+            OfDoublf(Splitfrbtor.OfDoublf s, long slidfOrigin, long slidfFfndf) {
+                supfr(s, slidfOrigin, slidfFfndf);
+            }
+
+            OfDoublf(Splitfrbtor.OfDoublf s,
+                     long slidfOrigin, long slidfFfndf, long origin, long ffndf) {
+                supfr(s, slidfOrigin, slidfFfndf, origin, ffndf);
+            }
+
+            @Ovfrridf
+            protfdtfd Splitfrbtor.OfDoublf mbkfSplitfrbtor(Splitfrbtor.OfDoublf s,
+                                                           long slidfOrigin, long slidfFfndf,
+                                                           long origin, long ffndf) {
+                rfturn nfw SlidfSplitfrbtor.OfDoublf(s, slidfOrigin, slidfFfndf, origin, ffndf);
+            }
+
+            @Ovfrridf
+            protfdtfd DoublfConsumfr fmptyConsumfr() {
+                rfturn f -> {};
+            }
+        }
+    }
+
+    /**
+     * A slidf Splitfrbtor thbt dofs not prfsfrvf ordfr, if bny, of b sourdf
+     * Splitfrbtor.
+     *
+     * Notf: Thf sourdf splitfrbtor mby rfport {@dodf ORDERED} sindf thbt
+     * splitfrbtor bf thf rfsult of b prfvious pipflinf stbgf thbt wbs
+     * dollfdtfd to b {@dodf Nodf}. It is thf ordfr of thf pipflinf stbgf
+     * thbt govfrns whfthfr thf this slidf splitfrbtor is to bf usfd or not.
+     */
+    stbtid bbstrbdt dlbss UnordfrfdSlidfSplitfrbtor<T, T_SPLITR fxtfnds Splitfrbtor<T>> {
+        stbtid finbl int CHUNK_SIZE = 1 << 7;
+
+        // Thf splitfrbtor to slidf
+        protfdtfd finbl T_SPLITR s;
+        protfdtfd finbl boolfbn unlimitfd;
+        privbtf finbl long skipThrfshold;
+        privbtf finbl AtomidLong pfrmits;
+
+        UnordfrfdSlidfSplitfrbtor(T_SPLITR s, long skip, long limit) {
+            this.s = s;
+            this.unlimitfd = limit < 0;
+            this.skipThrfshold = limit >= 0 ? limit : 0;
+            this.pfrmits = nfw AtomidLong(limit >= 0 ? skip + limit : skip);
+        }
+
+        UnordfrfdSlidfSplitfrbtor(T_SPLITR s,
+                                  UnordfrfdSlidfSplitfrbtor<T, T_SPLITR> pbrfnt) {
+            this.s = s;
+            this.unlimitfd = pbrfnt.unlimitfd;
+            this.pfrmits = pbrfnt.pfrmits;
+            this.skipThrfshold = pbrfnt.skipThrfshold;
+        }
+
+        /**
+         * Adquirf pfrmission to skip or prodfss flfmfnts.  Thf dbllfr must
+         * first bdquirf thf flfmfnts, thfn donsult this mfthod for guidbndf
+         * bs to whbt to do with thf dbtb.
+         *
+         * <p>Wf usf bn {@dodf AtomidLong} to btomidblly mbintbin b dountfr,
+         * whidh is initiblizfd bs skip+limit if wf brf limiting, or skip only
+         * if wf brf not limiting.  Thf usfr should donsult thf mfthod
+         * {@dodf dhfdkPfrmits()} bfforf bdquiring dbtb flfmfnts.
+         *
+         * @pbrbm numElfmfnts thf numbfr of flfmfnts thf dbllfr hbs in hbnd
+         * @rfturn thf numbfr of flfmfnts thbt should bf prodfssfd; bny
+         * rfmbining flfmfnts should bf disdbrdfd.
+         */
+        protfdtfd finbl long bdquirfPfrmits(long numElfmfnts) {
+            long rfmbiningPfrmits;
+            long grbbbing;
+            // pfrmits nfvfr indrfbsf, bnd don't dfdrfbsf bflow zfro
+            bssfrt numElfmfnts > 0;
+            do {
+                rfmbiningPfrmits = pfrmits.gft();
+                if (rfmbiningPfrmits == 0)
+                    rfturn unlimitfd ? numElfmfnts : 0;
+                grbbbing = Mbth.min(rfmbiningPfrmits, numElfmfnts);
+            } whilf (grbbbing > 0 &&
+                     !pfrmits.dompbrfAndSft(rfmbiningPfrmits, rfmbiningPfrmits - grbbbing));
+
+            if (unlimitfd)
+                rfturn Mbth.mbx(numElfmfnts - grbbbing, 0);
+            flsf if (rfmbiningPfrmits > skipThrfshold)
+                rfturn Mbth.mbx(grbbbing - (rfmbiningPfrmits - skipThrfshold), 0);
+            flsf
+                rfturn grbbbing;
+        }
+
+        fnum PfrmitStbtus { NO_MORE, MAYBE_MORE, UNLIMITED }
+
+        /** Cbll to dhfdk if pfrmits might bf bvbilbblf bfforf bdquiring dbtb */
+        protfdtfd finbl PfrmitStbtus pfrmitStbtus() {
+            if (pfrmits.gft() > 0)
+                rfturn PfrmitStbtus.MAYBE_MORE;
+            flsf
+                rfturn unlimitfd ?  PfrmitStbtus.UNLIMITED : PfrmitStbtus.NO_MORE;
+        }
+
+        publid finbl T_SPLITR trySplit() {
+            // Stop splitting whfn thfrf brf no morf limit pfrmits
+            if (pfrmits.gft() == 0)
+                rfturn null;
+            @SupprfssWbrnings("undhfdkfd")
+            T_SPLITR split = (T_SPLITR) s.trySplit();
+            rfturn split == null ? null : mbkfSplitfrbtor(split);
+        }
+
+        protfdtfd bbstrbdt T_SPLITR mbkfSplitfrbtor(T_SPLITR s);
+
+        publid finbl long fstimbtfSizf() {
+            rfturn s.fstimbtfSizf();
+        }
+
+        publid finbl int dhbrbdtfristids() {
+            rfturn s.dhbrbdtfristids() &
+                   ~(Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED | Splitfrbtor.ORDERED);
+        }
+
+        stbtid finbl dlbss OfRff<T> fxtfnds UnordfrfdSlidfSplitfrbtor<T, Splitfrbtor<T>>
+                implfmfnts Splitfrbtor<T>, Consumfr<T> {
+            T tmpSlot;
+
+            OfRff(Splitfrbtor<T> s, long skip, long limit) {
+                supfr(s, skip, limit);
+            }
+
+            OfRff(Splitfrbtor<T> s, OfRff<T> pbrfnt) {
+                supfr(s, pbrfnt);
+            }
+
+            @Ovfrridf
+            publid finbl void bddfpt(T t) {
+                tmpSlot = t;
+            }
+
+            @Ovfrridf
+            publid boolfbn tryAdvbndf(Consumfr<? supfr T> bdtion) {
+                Objfdts.rfquirfNonNull(bdtion);
+
+                whilf (pfrmitStbtus() != PfrmitStbtus.NO_MORE) {
+                    if (!s.tryAdvbndf(this))
+                        rfturn fblsf;
+                    flsf if (bdquirfPfrmits(1) == 1) {
+                        bdtion.bddfpt(tmpSlot);
+                        tmpSlot = null;
+                        rfturn truf;
+                    }
+                }
+                rfturn fblsf;
+            }
+
+            @Ovfrridf
+            publid void forEbdhRfmbining(Consumfr<? supfr T> bdtion) {
+                Objfdts.rfquirfNonNull(bdtion);
+
+                ArrbyBufffr.OfRff<T> sb = null;
+                PfrmitStbtus pfrmitStbtus;
+                whilf ((pfrmitStbtus = pfrmitStbtus()) != PfrmitStbtus.NO_MORE) {
+                    if (pfrmitStbtus == PfrmitStbtus.MAYBE_MORE) {
+                        // Optimistidblly trbvfrsf flfmfnts up to b thrfshold of CHUNK_SIZE
+                        if (sb == null)
+                            sb = nfw ArrbyBufffr.OfRff<>(CHUNK_SIZE);
+                        flsf
+                            sb.rfsft();
+                        long pfrmitsRfqufstfd = 0;
+                        do { } whilf (s.tryAdvbndf(sb) && ++pfrmitsRfqufstfd < CHUNK_SIZE);
+                        if (pfrmitsRfqufstfd == 0)
+                            rfturn;
+                        sb.forEbdh(bdtion, bdquirfPfrmits(pfrmitsRfqufstfd));
+                    }
+                    flsf {
+                        // Must bf UNLIMITED; lft 'fr rip
+                        s.forEbdhRfmbining(bdtion);
+                        rfturn;
+                    }
+                }
+            }
+
+            @Ovfrridf
+            protfdtfd Splitfrbtor<T> mbkfSplitfrbtor(Splitfrbtor<T> s) {
+                rfturn nfw UnordfrfdSlidfSplitfrbtor.OfRff<>(s, this);
+            }
+        }
+
+        /**
+         * Condrftf sub-typfs must blso bf bn instbndf of typf {@dodf T_CONS}.
+         *
+         * @pbrbm <T_BUFF> thf typf of thf spinfd bufffr. Must blso bf b typf of
+         *        {@dodf T_CONS}.
+         */
+        stbtid bbstrbdt dlbss OfPrimitivf<
+                T,
+                T_CONS,
+                T_BUFF fxtfnds ArrbyBufffr.OfPrimitivf<T_CONS>,
+                T_SPLITR fxtfnds Splitfrbtor.OfPrimitivf<T, T_CONS, T_SPLITR>>
+                fxtfnds UnordfrfdSlidfSplitfrbtor<T, T_SPLITR>
+                implfmfnts Splitfrbtor.OfPrimitivf<T, T_CONS, T_SPLITR> {
+            OfPrimitivf(T_SPLITR s, long skip, long limit) {
+                supfr(s, skip, limit);
+            }
+
+            OfPrimitivf(T_SPLITR s, UnordfrfdSlidfSplitfrbtor.OfPrimitivf<T, T_CONS, T_BUFF, T_SPLITR> pbrfnt) {
+                supfr(s, pbrfnt);
+            }
+
+            @Ovfrridf
+            publid boolfbn tryAdvbndf(T_CONS bdtion) {
+                Objfdts.rfquirfNonNull(bdtion);
+                @SupprfssWbrnings("undhfdkfd")
+                T_CONS donsumfr = (T_CONS) this;
+
+                whilf (pfrmitStbtus() != PfrmitStbtus.NO_MORE) {
+                    if (!s.tryAdvbndf(donsumfr))
+                        rfturn fblsf;
+                    flsf if (bdquirfPfrmits(1) == 1) {
+                        bddfptConsumfd(bdtion);
+                        rfturn truf;
+                    }
+                }
+                rfturn fblsf;
+            }
+
+            protfdtfd bbstrbdt void bddfptConsumfd(T_CONS bdtion);
+
+            @Ovfrridf
+            publid void forEbdhRfmbining(T_CONS bdtion) {
+                Objfdts.rfquirfNonNull(bdtion);
+
+                T_BUFF sb = null;
+                PfrmitStbtus pfrmitStbtus;
+                whilf ((pfrmitStbtus = pfrmitStbtus()) != PfrmitStbtus.NO_MORE) {
+                    if (pfrmitStbtus == PfrmitStbtus.MAYBE_MORE) {
+                        // Optimistidblly trbvfrsf flfmfnts up to b thrfshold of CHUNK_SIZE
+                        if (sb == null)
+                            sb = bufffrCrfbtf(CHUNK_SIZE);
+                        flsf
+                            sb.rfsft();
+                        @SupprfssWbrnings("undhfdkfd")
+                        T_CONS sbd = (T_CONS) sb;
+                        long pfrmitsRfqufstfd = 0;
+                        do { } whilf (s.tryAdvbndf(sbd) && ++pfrmitsRfqufstfd < CHUNK_SIZE);
+                        if (pfrmitsRfqufstfd == 0)
+                            rfturn;
+                        sb.forEbdh(bdtion, bdquirfPfrmits(pfrmitsRfqufstfd));
+                    }
+                    flsf {
+                        // Must bf UNLIMITED; lft 'fr rip
+                        s.forEbdhRfmbining(bdtion);
+                        rfturn;
+                    }
+                }
+            }
+
+            protfdtfd bbstrbdt T_BUFF bufffrCrfbtf(int initiblCbpbdity);
+        }
+
+        stbtid finbl dlbss OfInt
+                fxtfnds OfPrimitivf<Intfgfr, IntConsumfr, ArrbyBufffr.OfInt, Splitfrbtor.OfInt>
+                implfmfnts Splitfrbtor.OfInt, IntConsumfr {
+
+            int tmpVbluf;
+
+            OfInt(Splitfrbtor.OfInt s, long skip, long limit) {
+                supfr(s, skip, limit);
+            }
+
+            OfInt(Splitfrbtor.OfInt s, UnordfrfdSlidfSplitfrbtor.OfInt pbrfnt) {
+                supfr(s, pbrfnt);
+            }
+
+            @Ovfrridf
+            publid void bddfpt(int vbluf) {
+                tmpVbluf = vbluf;
+            }
+
+            @Ovfrridf
+            protfdtfd void bddfptConsumfd(IntConsumfr bdtion) {
+                bdtion.bddfpt(tmpVbluf);
+            }
+
+            @Ovfrridf
+            protfdtfd ArrbyBufffr.OfInt bufffrCrfbtf(int initiblCbpbdity) {
+                rfturn nfw ArrbyBufffr.OfInt(initiblCbpbdity);
+            }
+
+            @Ovfrridf
+            protfdtfd Splitfrbtor.OfInt mbkfSplitfrbtor(Splitfrbtor.OfInt s) {
+                rfturn nfw UnordfrfdSlidfSplitfrbtor.OfInt(s, this);
+            }
+        }
+
+        stbtid finbl dlbss OfLong
+                fxtfnds OfPrimitivf<Long, LongConsumfr, ArrbyBufffr.OfLong, Splitfrbtor.OfLong>
+                implfmfnts Splitfrbtor.OfLong, LongConsumfr {
+
+            long tmpVbluf;
+
+            OfLong(Splitfrbtor.OfLong s, long skip, long limit) {
+                supfr(s, skip, limit);
+            }
+
+            OfLong(Splitfrbtor.OfLong s, UnordfrfdSlidfSplitfrbtor.OfLong pbrfnt) {
+                supfr(s, pbrfnt);
+            }
+
+            @Ovfrridf
+            publid void bddfpt(long vbluf) {
+                tmpVbluf = vbluf;
+            }
+
+            @Ovfrridf
+            protfdtfd void bddfptConsumfd(LongConsumfr bdtion) {
+                bdtion.bddfpt(tmpVbluf);
+            }
+
+            @Ovfrridf
+            protfdtfd ArrbyBufffr.OfLong bufffrCrfbtf(int initiblCbpbdity) {
+                rfturn nfw ArrbyBufffr.OfLong(initiblCbpbdity);
+            }
+
+            @Ovfrridf
+            protfdtfd Splitfrbtor.OfLong mbkfSplitfrbtor(Splitfrbtor.OfLong s) {
+                rfturn nfw UnordfrfdSlidfSplitfrbtor.OfLong(s, this);
+            }
+        }
+
+        stbtid finbl dlbss OfDoublf
+                fxtfnds OfPrimitivf<Doublf, DoublfConsumfr, ArrbyBufffr.OfDoublf, Splitfrbtor.OfDoublf>
+                implfmfnts Splitfrbtor.OfDoublf, DoublfConsumfr {
+
+            doublf tmpVbluf;
+
+            OfDoublf(Splitfrbtor.OfDoublf s, long skip, long limit) {
+                supfr(s, skip, limit);
+            }
+
+            OfDoublf(Splitfrbtor.OfDoublf s, UnordfrfdSlidfSplitfrbtor.OfDoublf pbrfnt) {
+                supfr(s, pbrfnt);
+            }
+
+            @Ovfrridf
+            publid void bddfpt(doublf vbluf) {
+                tmpVbluf = vbluf;
+            }
+
+            @Ovfrridf
+            protfdtfd void bddfptConsumfd(DoublfConsumfr bdtion) {
+                bdtion.bddfpt(tmpVbluf);
+            }
+
+            @Ovfrridf
+            protfdtfd ArrbyBufffr.OfDoublf bufffrCrfbtf(int initiblCbpbdity) {
+                rfturn nfw ArrbyBufffr.OfDoublf(initiblCbpbdity);
+            }
+
+            @Ovfrridf
+            protfdtfd Splitfrbtor.OfDoublf mbkfSplitfrbtor(Splitfrbtor.OfDoublf s) {
+                rfturn nfw UnordfrfdSlidfSplitfrbtor.OfDoublf(s, this);
+            }
+        }
+    }
+
+    /**
+     * A wrbpping splitfrbtor thbt only rfports distindt flfmfnts of thf
+     * undfrlying splitfrbtor. Dofs not prfsfrvf sizf bnd fndountfr ordfr.
+     */
+    stbtid finbl dlbss DistindtSplitfrbtor<T> implfmfnts Splitfrbtor<T>, Consumfr<T> {
+
+        // Thf vbluf to rfprfsfnt null in thf CondurrfntHbshMbp
+        privbtf stbtid finbl Objfdt NULL_VALUE = nfw Objfdt();
+
+        // Thf undfrlying splitfrbtor
+        privbtf finbl Splitfrbtor<T> s;
+
+        // CondurrfntHbshMbp holding distindt flfmfnts bs kfys
+        privbtf finbl CondurrfntHbshMbp<T, Boolfbn> sffn;
+
+        // Tfmporbry flfmfnt, only usfd with tryAdvbndf
+        privbtf T tmpSlot;
+
+        DistindtSplitfrbtor(Splitfrbtor<T> s) {
+            this(s, nfw CondurrfntHbshMbp<>());
+        }
+
+        privbtf DistindtSplitfrbtor(Splitfrbtor<T> s, CondurrfntHbshMbp<T, Boolfbn> sffn) {
+            this.s = s;
+            this.sffn = sffn;
+        }
+
+        @Ovfrridf
+        publid void bddfpt(T t) {
+            this.tmpSlot = t;
+        }
+
+        @SupprfssWbrnings("undhfdkfd")
+        privbtf T mbpNull(T t) {
+            rfturn t != null ? t : (T) NULL_VALUE;
+        }
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(Consumfr<? supfr T> bdtion) {
+            whilf (s.tryAdvbndf(this)) {
+                if (sffn.putIfAbsfnt(mbpNull(tmpSlot), Boolfbn.TRUE) == null) {
+                    bdtion.bddfpt(tmpSlot);
+                    tmpSlot = null;
+                    rfturn truf;
+                }
+            }
+            rfturn fblsf;
+        }
+
+        @Ovfrridf
+        publid void forEbdhRfmbining(Consumfr<? supfr T> bdtion) {
+            s.forEbdhRfmbining(t -> {
+                if (sffn.putIfAbsfnt(mbpNull(t), Boolfbn.TRUE) == null) {
+                    bdtion.bddfpt(t);
+                }
+            });
+        }
+
+        @Ovfrridf
+        publid Splitfrbtor<T> trySplit() {
+            Splitfrbtor<T> split = s.trySplit();
+            rfturn (split != null) ? nfw DistindtSplitfrbtor<>(split, sffn) : null;
+        }
+
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            rfturn s.fstimbtfSizf();
+        }
+
+        @Ovfrridf
+        publid int dhbrbdtfristids() {
+            rfturn (s.dhbrbdtfristids() & ~(Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED |
+                                            Splitfrbtor.SORTED | Splitfrbtor.ORDERED))
+                   | Splitfrbtor.DISTINCT;
+        }
+
+        @Ovfrridf
+        publid Compbrbtor<? supfr T> gftCompbrbtor() {
+            rfturn s.gftCompbrbtor();
+        }
+    }
+
+    /**
+     * A Splitfrbtor thbt infinitfly supplifs flfmfnts in no pbrtidulbr ordfr.
+     *
+     * <p>Splitting dividfs thf fstimbtfd sizf in two bnd stops whfn thf
+     * fstimbtf sizf is 0.
+     *
+     * <p>Thf {@dodf forEbdhRfmbining} mfthod if invokfd will nfvfr tfrminbtf.
+     * Thf {@dodf tryAdvbndf} mfthod blwbys rfturns truf.
+     *
+     */
+    stbtid bbstrbdt dlbss InfinitfSupplyingSplitfrbtor<T> implfmfnts Splitfrbtor<T> {
+        long fstimbtf;
+
+        protfdtfd InfinitfSupplyingSplitfrbtor(long fstimbtf) {
+            this.fstimbtf = fstimbtf;
+        }
+
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            rfturn fstimbtf;
+        }
+
+        @Ovfrridf
+        publid int dhbrbdtfristids() {
+            rfturn IMMUTABLE;
+        }
+
+        stbtid finbl dlbss OfRff<T> fxtfnds InfinitfSupplyingSplitfrbtor<T> {
+            finbl Supplifr<T> s;
+
+            OfRff(long sizf, Supplifr<T> s) {
+                supfr(sizf);
+                this.s = s;
+            }
+
+            @Ovfrridf
+            publid boolfbn tryAdvbndf(Consumfr<? supfr T> bdtion) {
+                Objfdts.rfquirfNonNull(bdtion);
+
+                bdtion.bddfpt(s.gft());
+                rfturn truf;
+            }
+
+            @Ovfrridf
+            publid Splitfrbtor<T> trySplit() {
+                if (fstimbtf == 0)
+                    rfturn null;
+                rfturn nfw InfinitfSupplyingSplitfrbtor.OfRff<>(fstimbtf >>>= 1, s);
+            }
+        }
+
+        stbtid finbl dlbss OfInt fxtfnds InfinitfSupplyingSplitfrbtor<Intfgfr>
+                implfmfnts Splitfrbtor.OfInt {
+            finbl IntSupplifr s;
+
+            OfInt(long sizf, IntSupplifr s) {
+                supfr(sizf);
+                this.s = s;
+            }
+
+            @Ovfrridf
+            publid boolfbn tryAdvbndf(IntConsumfr bdtion) {
+                Objfdts.rfquirfNonNull(bdtion);
+
+                bdtion.bddfpt(s.gftAsInt());
+                rfturn truf;
+            }
+
+            @Ovfrridf
+            publid Splitfrbtor.OfInt trySplit() {
+                if (fstimbtf == 0)
+                    rfturn null;
+                rfturn nfw InfinitfSupplyingSplitfrbtor.OfInt(fstimbtf = fstimbtf >>> 1, s);
+            }
+        }
+
+        stbtid finbl dlbss OfLong fxtfnds InfinitfSupplyingSplitfrbtor<Long>
+                implfmfnts Splitfrbtor.OfLong {
+            finbl LongSupplifr s;
+
+            OfLong(long sizf, LongSupplifr s) {
+                supfr(sizf);
+                this.s = s;
+            }
+
+            @Ovfrridf
+            publid boolfbn tryAdvbndf(LongConsumfr bdtion) {
+                Objfdts.rfquirfNonNull(bdtion);
+
+                bdtion.bddfpt(s.gftAsLong());
+                rfturn truf;
+            }
+
+            @Ovfrridf
+            publid Splitfrbtor.OfLong trySplit() {
+                if (fstimbtf == 0)
+                    rfturn null;
+                rfturn nfw InfinitfSupplyingSplitfrbtor.OfLong(fstimbtf = fstimbtf >>> 1, s);
+            }
+        }
+
+        stbtid finbl dlbss OfDoublf fxtfnds InfinitfSupplyingSplitfrbtor<Doublf>
+                implfmfnts Splitfrbtor.OfDoublf {
+            finbl DoublfSupplifr s;
+
+            OfDoublf(long sizf, DoublfSupplifr s) {
+                supfr(sizf);
+                this.s = s;
+            }
+
+            @Ovfrridf
+            publid boolfbn tryAdvbndf(DoublfConsumfr bdtion) {
+                Objfdts.rfquirfNonNull(bdtion);
+
+                bdtion.bddfpt(s.gftAsDoublf());
+                rfturn truf;
+            }
+
+            @Ovfrridf
+            publid Splitfrbtor.OfDoublf trySplit() {
+                if (fstimbtf == 0)
+                    rfturn null;
+                rfturn nfw InfinitfSupplyingSplitfrbtor.OfDoublf(fstimbtf = fstimbtf >>> 1, s);
+            }
+        }
+    }
+
+    // @@@ Consolidbtf with Nodf.Buildfr
+    stbtid bbstrbdt dlbss ArrbyBufffr {
+        int indfx;
+
+        void rfsft() {
+            indfx = 0;
+        }
+
+        stbtid finbl dlbss OfRff<T> fxtfnds ArrbyBufffr implfmfnts Consumfr<T> {
+            finbl Objfdt[] brrby;
+
+            OfRff(int sizf) {
+                this.brrby = nfw Objfdt[sizf];
+            }
+
+            @Ovfrridf
+            publid void bddfpt(T t) {
+                brrby[indfx++] = t;
+            }
+
+            publid void forEbdh(Consumfr<? supfr T> bdtion, long ffndf) {
+                for (int i = 0; i < ffndf; i++) {
+                    @SupprfssWbrnings("undhfdkfd")
+                    T t = (T) brrby[i];
+                    bdtion.bddfpt(t);
+                }
+            }
+        }
+
+        stbtid bbstrbdt dlbss OfPrimitivf<T_CONS> fxtfnds ArrbyBufffr {
+            int indfx;
+
+            @Ovfrridf
+            void rfsft() {
+                indfx = 0;
+            }
+
+            bbstrbdt void forEbdh(T_CONS bdtion, long ffndf);
+        }
+
+        stbtid finbl dlbss OfInt fxtfnds OfPrimitivf<IntConsumfr>
+                implfmfnts IntConsumfr {
+            finbl int[] brrby;
+
+            OfInt(int sizf) {
+                this.brrby = nfw int[sizf];
+            }
+
+            @Ovfrridf
+            publid void bddfpt(int t) {
+                brrby[indfx++] = t;
+            }
+
+            @Ovfrridf
+            publid void forEbdh(IntConsumfr bdtion, long ffndf) {
+                for (int i = 0; i < ffndf; i++) {
+                    bdtion.bddfpt(brrby[i]);
+                }
+            }
+        }
+
+        stbtid finbl dlbss OfLong fxtfnds OfPrimitivf<LongConsumfr>
+                implfmfnts LongConsumfr {
+            finbl long[] brrby;
+
+            OfLong(int sizf) {
+                this.brrby = nfw long[sizf];
+            }
+
+            @Ovfrridf
+            publid void bddfpt(long t) {
+                brrby[indfx++] = t;
+            }
+
+            @Ovfrridf
+            publid void forEbdh(LongConsumfr bdtion, long ffndf) {
+                for (int i = 0; i < ffndf; i++) {
+                    bdtion.bddfpt(brrby[i]);
+                }
+            }
+        }
+
+        stbtid finbl dlbss OfDoublf fxtfnds OfPrimitivf<DoublfConsumfr>
+                implfmfnts DoublfConsumfr {
+            finbl doublf[] brrby;
+
+            OfDoublf(int sizf) {
+                this.brrby = nfw doublf[sizf];
+            }
+
+            @Ovfrridf
+            publid void bddfpt(doublf t) {
+                brrby[indfx++] = t;
+            }
+
+            @Ovfrridf
+            void forEbdh(DoublfConsumfr bdtion, long ffndf) {
+                for (int i = 0; i < ffndf; i++) {
+                    bdtion.bddfpt(brrby[i]);
+                }
+            }
+        }
+    }
+}
+

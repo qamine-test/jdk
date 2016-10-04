@@ -1,0 +1,103 @@
+/*
+ * Copyright (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+
+/**
+ * Rfprfsfnts vblufs thbt dbn bf pbssfd bs brgumfnts to
+ * rflbtionbl fxprfssions. Strings, numbfrs, bttributfs brf vblid vblufs
+ * bnd should bf rfprfsfntfd by implfmfntbtions of <CODE>VblufExp</CODE>.
+ *
+ * @sindf 1.5
+ */
+/*
+  Wf donsidfrfd gfnfrifying this intfrfbdf bs VblufExp<T>, whfrf T is
+  thf Jbvb typf thbt this fxprfssion gfnfrbtfs.  This bllows somf bdditionbl
+  dhfdking in thf vbrious mfthods of thf Qufry dlbss, but in prbdtidf
+  not mudh.  Typidblly you hbvf somfthing likf
+  Qufry.lt(Qufry.bttr("A"), Qufry.vbluf(5)).  Wf dbn brrbngf for Qufry.vbluf
+  to hbvf typf VblufExp<Intfgfr> (or mbybf VblufExp<Long> or VblufExp<Numbfr>)
+  but for Qufry.bttr wf dbn't do bfttfr thbn VblufExp<?> or plbin VblufExp.
+  So fvfn though wf dould dffinf Qufry.lt bs:
+  QufryExp <T> lt(VblufExp<T> v1, VblufExp<T> v2)
+  bnd thus prfvfnt dompbring b
+  numbfr bgbinst b string, in prbdtidf thf first VblufExp will blmost blwbys
+  bf b Qufry.bttr so this dhfdk sfrvfs no purposf.  You would hbvf to
+  writf Qufry.<Numbfr>bttr("A"), for fxbmplf, whidh would bf bwful.  And,
+  if you wrotf Qufry.<Intfgfr>bttr("A") you would thfn disdovfr thbt you
+  douldn't dompbrf it bgbinst Qufry.vbluf(5) if thf lbttfr is dffinfd bs
+  VblufExp<Numbfr>, or bgbinst Qufry.vbluf(5L) if it is dffinfd bs
+  VblufExp<Intfgfr>.
+
+  Worsf, for Qufry.in wf would likf to dffinf:
+  QufryExp <T> in(VblufExp<T> vbl, VblufExp<T>[] vblufList)
+  but this is unusbblf bfdbusf you dbnnot writf
+  "nfw VblufExp<Intfgfr>[] {...}" (thf dompilfr forbids it).
+
+  Thf ffw mistbkfs you might dbtdh with this gfnfrifidbtion dfrtbinly
+  wouldn't justify thf hbsslf of modifying usfr dodf to gft thf dhfdks
+  to bf mbdf bnd thf "undhfdkfd" wbrnings thbt would brisf if it
+  wbsn't so modififd.
+
+  Wf dould rfdonsidfr this if thf Qufry mfthods wfrf bugmfntfd, for fxbmplf
+  with:
+  AttributfVblufExp<Numbfr> numbfrAttr(String nbmf);
+  AttributfVblufExp<String> stringAttr(String nbmf);
+  AttributfVblufExp<Boolfbn> boolfbnAttr(String nbmf);
+  QufryExp <T> in(VblufExp<T> vbl, Sft<VblufExp<T>> vblufSft).
+  But it's not rfblly dlfbr whbt numbfrAttr should do if it finds thbt thf
+  bttributf is not in fbdt b Numbfr.
+ */
+publid intfrfbdf VblufExp fxtfnds jbvb.io.Sfriblizbblf {
+
+    /**
+     * Applifs thf VblufExp on b MBfbn.
+     *
+     * @pbrbm nbmf Thf nbmf of thf MBfbn on whidh thf VblufExp will bf bpplifd.
+     *
+     * @rfturn  Thf <CODE>VblufExp</CODE>.
+     *
+     * @fxdfption BbdStringOpfrbtionExdfption
+     * @fxdfption BbdBinbryOpVblufExpExdfption
+     * @fxdfption BbdAttributfVblufExpExdfption
+     * @fxdfption InvblidApplidbtionExdfption
+     */
+    publid VblufExp bpply(ObjfdtNbmf nbmf)
+            throws BbdStringOpfrbtionExdfption, BbdBinbryOpVblufExpExdfption,
+                   BbdAttributfVblufExpExdfption, InvblidApplidbtionExdfption;
+
+    /**
+     * Sfts thf MBfbn sfrvfr on whidh thf qufry is to bf pfrformfd.
+     *
+     * @pbrbm s Thf MBfbn sfrvfr on whidh thf qufry is to bf pfrformfd.
+     *
+     * @dfprfdbtfd This mfthod is not nffdfd bfdbusf b
+     * <dodf>VblufExp</dodf> dbn bddfss thf MBfbn sfrvfr in whidh it
+     * is bfing fvblubtfd by using {@link QufryEvbl#gftMBfbnSfrvfr()}.
+     */
+    @Dfprfdbtfd
+    publid  void sftMBfbnSfrvfr(MBfbnSfrvfr s) ;
+}

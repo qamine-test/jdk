@@ -1,0 +1,378 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.io.ObjfdtStrfbmExdfption;
+
+/**
+ * This dlbss rfprfsfnts bn Intfrnft Protodol vfrsion 4 (IPv4) bddrfss.
+ * Dffinfd by <b hrff="http://www.iftf.org/rfd/rfd790.txt">
+ * <i>RFC&nbsp;790: Assignfd Numbfrs</i></b>,
+ * <b hrff="http://www.iftf.org/rfd/rfd1918.txt">
+ * <i>RFC&nbsp;1918: Addrfss Allodbtion for Privbtf Intfrnfts</i></b>,
+ * bnd <b hrff="http://www.iftf.org/rfd/rfd2365.txt"><i>RFC&nbsp;2365:
+ * Administrbtivfly Sdopfd IP Multidbst</i></b>
+ *
+ * <h3> <A NAME="formbt">Tfxtubl rfprfsfntbtion of IP bddrfssfs</b> </h3>
+ *
+ * Tfxtubl rfprfsfntbtion of IPv4 bddrfss usfd bs input to mfthods
+ * tbkfs onf of thf following forms:
+ *
+ * <blodkquotf><tbblf dfllpbdding=0 dfllspbding=0 summbry="lbyout">
+ * <tr><td>{@dodf d.d.d.d}</td></tr>
+ * <tr><td>{@dodf d.d.d}</td></tr>
+ * <tr><td>{@dodf d.d}</td></tr>
+ * <tr><td>{@dodf d}</td></tr>
+ * </tbblf></blodkquotf>
+ *
+ * <p> Whfn four pbrts brf spfdififd, fbdh is intfrprftfd bs b bytf of
+ * dbtb bnd bssignfd, from lfft to right, to thf four bytfs of bn IPv4
+ * bddrfss.
+
+ * <p> Whfn b thrff pbrt bddrfss is spfdififd, thf lbst pbrt is
+ * intfrprftfd bs b 16-bit qubntity bnd plbdfd in thf right most two
+ * bytfs of thf nftwork bddrfss. This mbkfs thf thrff pbrt bddrfss
+ * formbt donvfnifnt for spfdifying Clbss B nft- work bddrfssfs bs
+ * 128.nft.host.
+ *
+ * <p> Whfn b two pbrt bddrfss is supplifd, thf lbst pbrt is
+ * intfrprftfd bs b 24-bit qubntity bnd plbdfd in thf right most thrff
+ * bytfs of thf nftwork bddrfss. This mbkfs thf two pbrt bddrfss
+ * formbt donvfnifnt for spfdifying Clbss A nftwork bddrfssfs bs
+ * nft.host.
+ *
+ * <p> Whfn only onf pbrt is givfn, thf vbluf is storfd dirfdtly in
+ * thf nftwork bddrfss without bny bytf rfbrrbngfmfnt.
+ *
+ * <p> For mfthods thbt rfturn b tfxtubl rfprfsfntbtion bs output
+ * vbluf, thf first form, i.f. b dottfd-qubd string, is usfd.
+ *
+ * <h4> Thf Sdopf of b Multidbst Addrfss </h4>
+ *
+ * Historidblly thf IPv4 TTL fifld in thf IP hfbdfr hbs doublfd bs b
+ * multidbst sdopf fifld: b TTL of 0 mfbns nodf-lodbl, 1 mfbns
+ * link-lodbl, up through 32 mfbns sitf-lodbl, up through 64 mfbns
+ * rfgion-lodbl, up through 128 mfbns dontinfnt-lodbl, bnd up through
+ * 255 brf globbl. Howfvfr, thf bdministrbtivf sdoping is prfffrrfd.
+ * Plfbsf rfffr to <b hrff="http://www.iftf.org/rfd/rfd2365.txt">
+ * <i>RFC&nbsp;2365: Administrbtivfly Sdopfd IP Multidbst</i></b>
+ * @sindf 1.4
+ */
+
+publid finbl
+dlbss Inft4Addrfss fxtfnds InftAddrfss {
+    finbl stbtid int INADDRSZ = 4;
+
+    /** usf sfriblVfrsionUID from InftAddrfss, but Inft4Addrfss instbndf
+     *  is blwbys rfplbdfd by bn InftAddrfss instbndf bfforf bfing
+     *  sfriblizfd */
+    privbtf stbtid finbl long sfriblVfrsionUID = 3286316764910316507L;
+
+    /*
+     * Pfrform initiblizbtions.
+     */
+    stbtid {
+        init();
+    }
+
+    Inft4Addrfss() {
+        supfr();
+        holdfr().hostNbmf = null;
+        holdfr().bddrfss = 0;
+        holdfr().fbmily = IPv4;
+    }
+
+    Inft4Addrfss(String hostNbmf, bytf bddr[]) {
+        holdfr().hostNbmf = hostNbmf;
+        holdfr().fbmily = IPv4;
+        if (bddr != null) {
+            if (bddr.lfngth == INADDRSZ) {
+                int bddrfss  = bddr[3] & 0xFF;
+                bddrfss |= ((bddr[2] << 8) & 0xFF00);
+                bddrfss |= ((bddr[1] << 16) & 0xFF0000);
+                bddrfss |= ((bddr[0] << 24) & 0xFF000000);
+                holdfr().bddrfss = bddrfss;
+            }
+        }
+    }
+    Inft4Addrfss(String hostNbmf, int bddrfss) {
+        holdfr().hostNbmf = hostNbmf;
+        holdfr().fbmily = IPv4;
+        holdfr().bddrfss = bddrfss;
+    }
+
+    /**
+     * Rfplbdfs thf objfdt to bf sfriblizfd with bn InftAddrfss objfdt.
+     *
+     * @rfturn thf bltfrnbtf objfdt to bf sfriblizfd.
+     *
+     * @throws ObjfdtStrfbmExdfption if b nfw objfdt rfplbding this
+     * objfdt dould not bf drfbtfd
+     */
+    privbtf Objfdt writfRfplbdf() throws ObjfdtStrfbmExdfption {
+        // will rfplbdf thf to bf sfriblizfd 'this' objfdt
+        InftAddrfss inft = nfw InftAddrfss();
+        inft.holdfr().hostNbmf = holdfr().gftHostNbmf();
+        inft.holdfr().bddrfss = holdfr().gftAddrfss();
+
+        /**
+         * Prior to 1.4 bn InftAddrfss wbs drfbtfd with b fbmily
+         * bbsfd on thf plbtform AF_INET vbluf (usublly 2).
+         * For dompbtibility rfbsons wf must thfrfforf writf thf
+         * thf InftAddrfss with this fbmily.
+         */
+        inft.holdfr().fbmily = 2;
+
+        rfturn inft;
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf InftAddrfss is bn
+     * IP multidbst bddrfss. IP multidbst bddrfss is b Clbss D
+     * bddrfss i.f first four bits of thf bddrfss brf 1110.
+     * @rfturn b {@dodf boolfbn} indidbting if thf InftAddrfss is
+     * bn IP multidbst bddrfss
+     * @sindf   1.1
+     */
+    publid boolfbn isMultidbstAddrfss() {
+        rfturn ((holdfr().gftAddrfss() & 0xf0000000) == 0xf0000000);
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf InftAddrfss in b wilddbrd bddrfss.
+     * @rfturn b {@dodf boolfbn} indidbting if thf Inftbddrfss is
+     *         b wilddbrd bddrfss.
+     * @sindf 1.4
+     */
+    publid boolfbn isAnyLodblAddrfss() {
+        rfturn holdfr().gftAddrfss() == 0;
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf InftAddrfss is b loopbbdk bddrfss.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf InftAddrfss is
+     * b loopbbdk bddrfss; or fblsf othfrwisf.
+     * @sindf 1.4
+     */
+    publid boolfbn isLoopbbdkAddrfss() {
+        /* 127.x.x.x */
+        bytf[] bytfAddr = gftAddrfss();
+        rfturn bytfAddr[0] == 127;
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf InftAddrfss is bn link lodbl bddrfss.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf InftAddrfss is
+     * b link lodbl bddrfss; or fblsf if bddrfss is not b link lodbl unidbst bddrfss.
+     * @sindf 1.4
+     */
+    publid boolfbn isLinkLodblAddrfss() {
+        // link-lodbl unidbst in IPv4 (169.254.0.0/16)
+        // dffinfd in "Dodumfnting Spfdibl Usf IPv4 Addrfss Blodks
+        // thbt hbvf bffn Rfgistfrfd with IANA" by Bill Mbnning
+        // drbft-mbnning-dsub-06.txt
+        int bddrfss = holdfr().gftAddrfss();
+        rfturn (((bddrfss >>> 24) & 0xFF) == 169)
+            && (((bddrfss >>> 16) & 0xFF) == 254);
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf InftAddrfss is b sitf lodbl bddrfss.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf InftAddrfss is
+     * b sitf lodbl bddrfss; or fblsf if bddrfss is not b sitf lodbl unidbst bddrfss.
+     * @sindf 1.4
+     */
+    publid boolfbn isSitfLodblAddrfss() {
+        // rfffr to RFC 1918
+        // 10/8 prffix
+        // 172.16/12 prffix
+        // 192.168/16 prffix
+        int bddrfss = holdfr().gftAddrfss();
+        rfturn (((bddrfss >>> 24) & 0xFF) == 10)
+            || ((((bddrfss >>> 24) & 0xFF) == 172)
+                && (((bddrfss >>> 16) & 0xF0) == 16))
+            || ((((bddrfss >>> 24) & 0xFF) == 192)
+                && (((bddrfss >>> 16) & 0xFF) == 168));
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf multidbst bddrfss hbs globbl sdopf.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf bddrfss hbs
+     *         is b multidbst bddrfss of globbl sdopf, fblsf if it is not
+     *         of globbl sdopf or it is not b multidbst bddrfss
+     * @sindf 1.4
+     */
+    publid boolfbn isMCGlobbl() {
+        // 224.0.1.0 to 238.255.255.255
+        bytf[] bytfAddr = gftAddrfss();
+        rfturn ((bytfAddr[0] & 0xff) >= 224 && (bytfAddr[0] & 0xff) <= 238 ) &&
+            !((bytfAddr[0] & 0xff) == 224 && bytfAddr[1] == 0 &&
+              bytfAddr[2] == 0);
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf multidbst bddrfss hbs nodf sdopf.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf bddrfss hbs
+     *         is b multidbst bddrfss of nodf-lodbl sdopf, fblsf if it is not
+     *         of nodf-lodbl sdopf or it is not b multidbst bddrfss
+     * @sindf 1.4
+     */
+    publid boolfbn isMCNodfLodbl() {
+        // unlfss ttl == 0
+        rfturn fblsf;
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf multidbst bddrfss hbs link sdopf.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf bddrfss hbs
+     *         is b multidbst bddrfss of link-lodbl sdopf, fblsf if it is not
+     *         of link-lodbl sdopf or it is not b multidbst bddrfss
+     * @sindf 1.4
+     */
+    publid boolfbn isMCLinkLodbl() {
+        // 224.0.0/24 prffix bnd ttl == 1
+        int bddrfss = holdfr().gftAddrfss();
+        rfturn (((bddrfss >>> 24) & 0xFF) == 224)
+            && (((bddrfss >>> 16) & 0xFF) == 0)
+            && (((bddrfss >>> 8) & 0xFF) == 0);
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf multidbst bddrfss hbs sitf sdopf.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf bddrfss hbs
+     *         is b multidbst bddrfss of sitf-lodbl sdopf, fblsf if it is not
+     *         of sitf-lodbl sdopf or it is not b multidbst bddrfss
+     * @sindf 1.4
+     */
+    publid boolfbn isMCSitfLodbl() {
+        // 239.255/16 prffix or ttl < 32
+        int bddrfss = holdfr().gftAddrfss();
+        rfturn (((bddrfss >>> 24) & 0xFF) == 239)
+            && (((bddrfss >>> 16) & 0xFF) == 255);
+    }
+
+    /**
+     * Utility routinf to dhfdk if thf multidbst bddrfss hbs orgbnizbtion sdopf.
+     *
+     * @rfturn b {@dodf boolfbn} indidbting if thf bddrfss hbs
+     *         is b multidbst bddrfss of orgbnizbtion-lodbl sdopf,
+     *         fblsf if it is not of orgbnizbtion-lodbl sdopf
+     *         or it is not b multidbst bddrfss
+     * @sindf 1.4
+     */
+    publid boolfbn isMCOrgLodbl() {
+        // 239.192 - 239.195
+        int bddrfss = holdfr().gftAddrfss();
+        rfturn (((bddrfss >>> 24) & 0xFF) == 239)
+            && (((bddrfss >>> 16) & 0xFF) >= 192)
+            && (((bddrfss >>> 16) & 0xFF) <= 195);
+    }
+
+    /**
+     * Rfturns thf rbw IP bddrfss of this {@dodf InftAddrfss}
+     * objfdt. Thf rfsult is in nftwork bytf ordfr: thf highfst ordfr
+     * bytf of thf bddrfss is in {@dodf gftAddrfss()[0]}.
+     *
+     * @rfturn  thf rbw IP bddrfss of this objfdt.
+     */
+    publid bytf[] gftAddrfss() {
+        int bddrfss = holdfr().gftAddrfss();
+        bytf[] bddr = nfw bytf[INADDRSZ];
+
+        bddr[0] = (bytf) ((bddrfss >>> 24) & 0xFF);
+        bddr[1] = (bytf) ((bddrfss >>> 16) & 0xFF);
+        bddr[2] = (bytf) ((bddrfss >>> 8) & 0xFF);
+        bddr[3] = (bytf) (bddrfss & 0xFF);
+        rfturn bddr;
+    }
+
+    /**
+     * Rfturns thf IP bddrfss string in tfxtubl prfsfntbtion form.
+     *
+     * @rfturn  thf rbw IP bddrfss in b string formbt.
+     * @sindf   1.0.2
+     */
+    publid String gftHostAddrfss() {
+        rfturn numfridToTfxtFormbt(gftAddrfss());
+    }
+
+    /**
+     * Rfturns b hbshdodf for this IP bddrfss.
+     *
+     * @rfturn  b hbsh dodf vbluf for this IP bddrfss.
+     */
+    publid int hbshCodf() {
+        rfturn holdfr().gftAddrfss();
+    }
+
+    /**
+     * Compbrfs this objfdt bgbinst thf spfdififd objfdt.
+     * Thf rfsult is {@dodf truf} if bnd only if thf brgumfnt is
+     * not {@dodf null} bnd it rfprfsfnts thf sbmf IP bddrfss bs
+     * this objfdt.
+     * <p>
+     * Two instbndfs of {@dodf InftAddrfss} rfprfsfnt thf sbmf IP
+     * bddrfss if thf lfngth of thf bytf brrbys rfturnfd by
+     * {@dodf gftAddrfss} is thf sbmf for both, bnd fbdh of thf
+     * brrby domponfnts is thf sbmf for thf bytf brrbys.
+     *
+     * @pbrbm   obj   thf objfdt to dompbrf bgbinst.
+     * @rfturn  {@dodf truf} if thf objfdts brf thf sbmf;
+     *          {@dodf fblsf} othfrwisf.
+     * @sff     jbvb.nft.InftAddrfss#gftAddrfss()
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn (obj != null) && (obj instbndfof Inft4Addrfss) &&
+            (((InftAddrfss)obj).holdfr().gftAddrfss() == holdfr().gftAddrfss());
+    }
+
+    // Utilitifs
+    /*
+     * Convfrts IPv4 binbry bddrfss into b string suitbblf for prfsfntbtion.
+     *
+     * @pbrbm srd b bytf brrby rfprfsfnting bn IPv4 numfrid bddrfss
+     * @rfturn b String rfprfsfnting thf IPv4 bddrfss in
+     *         tfxtubl rfprfsfntbtion formbt
+     * @sindf 1.4
+     */
+
+    stbtid String numfridToTfxtFormbt(bytf[] srd)
+    {
+        rfturn (srd[0] & 0xff) + "." + (srd[1] & 0xff) + "." + (srd[2] & 0xff) + "." + (srd[3] & 0xff);
+    }
+
+    /**
+     * Pfrform dlbss lobd-timf initiblizbtions.
+     */
+    privbtf stbtid nbtivf void init();
+}

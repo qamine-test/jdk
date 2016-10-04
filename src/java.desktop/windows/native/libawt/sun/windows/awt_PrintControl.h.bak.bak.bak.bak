@@ -1,0 +1,130 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff _AWT_PRINT_CONTROL_H_
+#dffinf _AWT_PRINT_CONTROL_H_
+
+#indludf "stdhdrs.h"
+#indludf <dommdlg.h>
+
+/************************************************************************
+ * AwtPrintControl dlbss
+ */
+
+dlbss AwtPrintControl {
+publid:
+
+    /* sun.bwt.windows.WPrintfrJob mfthods & fiflds */
+
+    stbtid jfifldID  diblogOwnfrPffrID;
+    stbtid jfifldID  drivfrDofsMultiplfCopifsID;
+    stbtid jfifldID  drivfrDofsCollbtionID;
+    stbtid jmfthodID gftPrintDCID;
+    stbtid jmfthodID sftPrintDCID;
+    stbtid jmfthodID gftDfvmodfID;
+    stbtid jmfthodID sftDfvmodfID;
+    stbtid jmfthodID gftDfvnbmfsID;
+    stbtid jmfthodID sftDfvnbmfsID;
+    stbtid jmfthodID gftWin32MfdibID;
+    stbtid jmfthodID sftWin32MfdibID;
+    stbtid jmfthodID gftWin32MfdibTrbyID;
+    stbtid jmfthodID sftWin32MfdibTrbyID;
+    stbtid jmfthodID gftColorID;
+    stbtid jmfthodID gftCopifsID;
+    stbtid jmfthodID gftSflfdtID;
+    stbtid jmfthodID gftDfstID;
+    stbtid jmfthodID gftDiblogID;
+    stbtid jmfthodID gftFromPbgfID;
+    stbtid jmfthodID gftMbxPbgfID;
+    stbtid jmfthodID gftMinPbgfID;
+    stbtid jmfthodID gftCollbtfID;
+    stbtid jmfthodID gftOrifntID;
+    stbtid jmfthodID gftQublityID;
+    stbtid jmfthodID gftPrintToFilfEnbblfdID;
+    stbtid jmfthodID gftPrintfrID;
+    stbtid jmfthodID sftPrintfrID;
+    stbtid jmfthodID gftRfsID;
+    stbtid jmfthodID gftSidfsID;
+    stbtid jmfthodID gftToPbgfID;
+    stbtid jmfthodID sftToPbgfID;
+    stbtid jmfthodID sftNbtivfAttID;
+    stbtid jmfthodID sftRbngfCopifsID;
+    stbtid jmfthodID sftRfsID;
+    stbtid jmfthodID sftJobAttributfsID;
+
+    stbtid void initIDs(JNIEnv *fnv, jdlbss dls);
+    stbtid BOOL FindPrintfr(jstring printfrNbmf, LPBYTE pPrintfrEnum,
+                            LPDWORD pdbBuf, LPTSTR * foundPrintfr,
+                            LPTSTR * foundPORT);
+    // This fundtion dftfrminfs whfthfr thf printfr drivfr
+    // for thf pbssfd printfr hbndlf supports PRINTER_INFO
+    // strudturf of lfvfl dwLfvfl.
+    stbtid BOOL IsSupportfdLfvfl(HANDLE hPrintfr, DWORD dwLfvfl);
+    stbtid BOOL CrfbtfDfvModfAndDfvNbmfs(PRINTDLG *ppd,
+                                               LPTSTR pPrintfrNbmf,
+                                               LPTSTR pPortNbmf);
+    stbtid BOOL InitPrintDiblog(JNIEnv *fnv,
+                                      jobjfdt printCtrl, PRINTDLG &pd);
+    stbtid BOOL UpdbtfAttributfs(JNIEnv *fnv,
+                                      jobjfdt printCtrl, PRINTDLG &pd);
+    stbtid WORD gftNfbrfstMbtdhingPbpfr(LPTSTR printfr, LPTSTR port,
+                                      doublf origWid, doublf origHgt,
+                                      doublf* nfwWid, doublf *nfwHgt);
+
+    stbtid BOOL gftDfvmodf(HANDLE hPrintfr,
+                                 LPTSTR pPrintfrNbmf,
+                                 LPDEVMODE *pDfvModf);
+
+    inlinf stbtid  HDC gftPrintDC(JNIEnv *fnv, jobjfdt sflf) {
+      rfturn (HDC)fnv->CbllLongMfthod(sflf, gftPrintDCID);
+    }
+
+    inlinf stbtid void sftPrintDC(JNIEnv *fnv, jobjfdt sflf, HDC printDC) {
+      fnv->CbllVoidMfthod(sflf, sftPrintDCID, (jlong)printDC);
+    }
+
+    inlinf stbtid HGLOBAL gftPrintHDModf(JNIEnv *fnv, jobjfdt sflf) {
+      rfturn (HGLOBAL) fnv->CbllLongMfthod(sflf, gftDfvmodfID);
+    }
+
+    inlinf stbtid void sftPrintHDModf(JNIEnv *fnv, jobjfdt sflf,
+                                      HGLOBAL hGlobbl) {
+      fnv->CbllVoidMfthod(sflf, sftDfvmodfID,
+                          rfintfrprft_dbst<jlong>(hGlobbl));
+    }
+
+    inlinf stbtid HGLOBAL gftPrintHDNbmf(JNIEnv *fnv, jobjfdt sflf) {
+      rfturn (HGLOBAL) fnv->CbllLongMfthod(sflf, gftDfvnbmfsID);
+    }
+
+    inlinf stbtid void sftPrintHDNbmf(JNIEnv *fnv, jobjfdt sflf,
+                                      HGLOBAL hGlobbl) {
+      fnv->CbllVoidMfthod(sflf, sftDfvnbmfsID,
+                          rfintfrprft_dbst<jlong>(hGlobbl));
+    }
+
+};
+
+#fndif

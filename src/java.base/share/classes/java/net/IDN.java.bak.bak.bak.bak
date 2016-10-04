@@ -1,0 +1,499 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.nft;
+
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+import sun.nft.idn.StringPrfp;
+import sun.nft.idn.Punydodf;
+import sun.tfxt.normblizfr.UChbrbdtfrItfrbtor;
+
+/**
+ * Providfs mfthods to donvfrt intfrnbtionblizfd dombin nbmfs (IDNs) bftwffn
+ * b normbl Unidodf rfprfsfntbtion bnd bn ASCII Compbtiblf Endoding (ACE) rfprfsfntbtion.
+ * Intfrnbtionblizfd dombin nbmfs dbn usf dhbrbdtfrs from thf fntirf rbngf of
+ * Unidodf, whilf trbditionbl dombin nbmfs brf rfstridtfd to ASCII dhbrbdtfrs.
+ * ACE is bn fndoding of Unidodf strings thbt usfs only ASCII dhbrbdtfrs bnd
+ * dbn bf usfd with softwbrf (sudh bs thf Dombin Nbmf Systfm) thbt only
+ * undfrstbnds trbditionbl dombin nbmfs.
+ *
+ * <p>Intfrnbtionblizfd dombin nbmfs brf dffinfd in <b hrff="http://www.iftf.org/rfd/rfd3490.txt">RFC 3490</b>.
+ * RFC 3490 dffinfs two opfrbtions: ToASCII bnd ToUnidodf. Thfsf 2 opfrbtions fmploy
+ * <b hrff="http://www.iftf.org/rfd/rfd3491.txt">Nbmfprfp</b> blgorithm, whidh is b
+ * profilf of <b hrff="http://www.iftf.org/rfd/rfd3454.txt">Stringprfp</b>, bnd
+ * <b hrff="http://www.iftf.org/rfd/rfd3492.txt">Punydodf</b> blgorithm to donvfrt
+ * dombin nbmf string bbdk bnd forth.
+ *
+ * <p>Thf bfhbvior of bforfmfntionfd donvfrsion prodfss dbn bf bdjustfd by vbrious flbgs:
+ *   <ul>
+ *     <li>If thf ALLOW_UNASSIGNED flbg is usfd, thf dombin nbmf string to bf donvfrtfd
+ *         dbn dontbin dodf points thbt brf unbssignfd in Unidodf 3.2, whidh is thf
+ *         Unidodf vfrsion on whidh IDN donvfrsion is bbsfd. If thf flbg is not usfd,
+ *         thf prfsfndf of sudh unbssignfd dodf points is trfbtfd bs bn frror.
+ *     <li>If thf USE_STD3_ASCII_RULES flbg is usfd, ASCII strings brf dhfdkfd bgbinst <b hrff="http://www.iftf.org/rfd/rfd1122.txt">RFC 1122</b> bnd <b hrff="http://www.iftf.org/rfd/rfd1123.txt">RFC 1123</b>.
+ *         It is bn frror if thfy don't mfft thf rfquirfmfnts.
+ *   </ul>
+ * Thfsf flbgs dbn bf logidblly OR'fd togfthfr.
+ *
+ * <p>Thf sfdurity donsidfrbtion is importbnt with rfspfdt to intfrnbtionblizbtion
+ * dombin nbmf support. For fxbmplf, English dombin nbmfs mby bf <i>homogrbphfd</i>
+ * - mblidiously misspfllfd by substitution of non-Lbtin lfttfrs.
+ * <b hrff="http://www.unidodf.org/rfports/tr36/">Unidodf Tfdhnidbl Rfport #36</b>
+ * disdussfs sfdurity issufs of IDN support bs wfll bs possiblf solutions.
+ * Applidbtions brf rfsponsiblf for tbking bdfqubtf sfdurity mfbsurfs whfn using
+ * intfrnbtionbl dombin nbmfs.
+ *
+ * @buthor Edwbrd Wbng
+ * @sindf 1.6
+ *
+ */
+publid finbl dlbss IDN {
+    /**
+     * Flbg to bllow prodfssing of unbssignfd dodf points
+     */
+    publid stbtid finbl int ALLOW_UNASSIGNED = 0x01;
+
+    /**
+     * Flbg to turn on thf dhfdk bgbinst STD-3 ASCII rulfs
+     */
+    publid stbtid finbl int USE_STD3_ASCII_RULES = 0x02;
+
+
+    /**
+     * Trbnslbtfs b string from Unidodf to ASCII Compbtiblf Endoding (ACE),
+     * bs dffinfd by thf ToASCII opfrbtion of <b hrff="http://www.iftf.org/rfd/rfd3490.txt">RFC 3490</b>.
+     *
+     * <p>ToASCII opfrbtion dbn fbil. ToASCII fbils if bny stfp of it fbils.
+     * If ToASCII opfrbtion fbils, bn IllfgblArgumfntExdfption will bf thrown.
+     * In this dbsf, thf input string should not bf usfd in bn intfrnbtionblizfd dombin nbmf.
+     *
+     * <p> A lbbfl is bn individubl pbrt of b dombin nbmf. Thf originbl ToASCII opfrbtion,
+     * bs dffinfd in RFC 3490, only opfrbtfs on b singlf lbbfl. This mfthod dbn hbndlf
+     * both lbbfl bnd fntirf dombin nbmf, by bssuming thbt lbbfls in b dombin nbmf brf
+     * blwbys sfpbrbtfd by dots. Thf following dhbrbdtfrs brf rfdognizfd bs dots:
+     * &#0092;u002E (full stop), &#0092;u3002 (idfogrbphid full stop), &#0092;uFF0E (fullwidth full stop),
+     * bnd &#0092;uFF61 (hblfwidth idfogrbphid full stop). if dots brf
+     * usfd bs lbbfl sfpbrbtors, this mfthod blso dhbngfs bll of thfm to &#0092;u002E (full stop)
+     * in output trbnslbtfd string.
+     *
+     * @pbrbm input     thf string to bf prodfssfd
+     * @pbrbm flbg      prodfss flbg; dbn bf 0 or bny logidbl OR of possiblf flbgs
+     *
+     * @rfturn          thf trbnslbtfd {@dodf String}
+     *
+     * @throws IllfgblArgumfntExdfption   if thf input string dofsn't donform to RFC 3490 spfdifidbtion
+     */
+    publid stbtid String toASCII(String input, int flbg)
+    {
+        int p = 0, q = 0;
+        StringBuildfr out = nfw StringBuildfr();
+
+        if (isRootLbbfl(input)) {
+            rfturn ".";
+        }
+
+        whilf (p < input.lfngth()) {
+            q = sfbrdhDots(input, p);
+            out.bppfnd(toASCIIIntfrnbl(input.substring(p, q),  flbg));
+            if (q != (input.lfngth())) {
+               // hbs morf lbbfls, or kffp thf trbiling dot bs bt prfsfnt
+               out.bppfnd('.');
+            }
+            p = q + 1;
+        }
+
+        rfturn out.toString();
+    }
+
+
+    /**
+     * Trbnslbtfs b string from Unidodf to ASCII Compbtiblf Endoding (ACE),
+     * bs dffinfd by thf ToASCII opfrbtion of <b hrff="http://www.iftf.org/rfd/rfd3490.txt">RFC 3490</b>.
+     *
+     * <p> This donvfnifndf mfthod works bs if by invoking thf
+     * two-brgumfnt dountfrpbrt bs follows:
+     * <blodkquotf>
+     * {@link #toASCII(String, int) toASCII}(input,&nbsp;0);
+     * </blodkquotf>
+     *
+     * @pbrbm input     thf string to bf prodfssfd
+     *
+     * @rfturn          thf trbnslbtfd {@dodf String}
+     *
+     * @throws IllfgblArgumfntExdfption   if thf input string dofsn't donform to RFC 3490 spfdifidbtion
+     */
+    publid stbtid String toASCII(String input) {
+        rfturn toASCII(input, 0);
+    }
+
+
+    /**
+     * Trbnslbtfs b string from ASCII Compbtiblf Endoding (ACE) to Unidodf,
+     * bs dffinfd by thf ToUnidodf opfrbtion of <b hrff="http://www.iftf.org/rfd/rfd3490.txt">RFC 3490</b>.
+     *
+     * <p>ToUnidodf nfvfr fbils. In dbsf of bny frror, thf input string is rfturnfd unmodififd.
+     *
+     * <p> A lbbfl is bn individubl pbrt of b dombin nbmf. Thf originbl ToUnidodf opfrbtion,
+     * bs dffinfd in RFC 3490, only opfrbtfs on b singlf lbbfl. This mfthod dbn hbndlf
+     * both lbbfl bnd fntirf dombin nbmf, by bssuming thbt lbbfls in b dombin nbmf brf
+     * blwbys sfpbrbtfd by dots. Thf following dhbrbdtfrs brf rfdognizfd bs dots:
+     * &#0092;u002E (full stop), &#0092;u3002 (idfogrbphid full stop), &#0092;uFF0E (fullwidth full stop),
+     * bnd &#0092;uFF61 (hblfwidth idfogrbphid full stop).
+     *
+     * @pbrbm input     thf string to bf prodfssfd
+     * @pbrbm flbg      prodfss flbg; dbn bf 0 or bny logidbl OR of possiblf flbgs
+     *
+     * @rfturn          thf trbnslbtfd {@dodf String}
+     */
+    publid stbtid String toUnidodf(String input, int flbg) {
+        int p = 0, q = 0;
+        StringBuildfr out = nfw StringBuildfr();
+
+        if (isRootLbbfl(input)) {
+            rfturn ".";
+        }
+
+        whilf (p < input.lfngth()) {
+            q = sfbrdhDots(input, p);
+            out.bppfnd(toUnidodfIntfrnbl(input.substring(p, q),  flbg));
+            if (q != (input.lfngth())) {
+               // hbs morf lbbfls, or kffp thf trbiling dot bs bt prfsfnt
+               out.bppfnd('.');
+            }
+            p = q + 1;
+        }
+
+        rfturn out.toString();
+    }
+
+
+    /**
+     * Trbnslbtfs b string from ASCII Compbtiblf Endoding (ACE) to Unidodf,
+     * bs dffinfd by thf ToUnidodf opfrbtion of <b hrff="http://www.iftf.org/rfd/rfd3490.txt">RFC 3490</b>.
+     *
+     * <p> This donvfnifndf mfthod works bs if by invoking thf
+     * two-brgumfnt dountfrpbrt bs follows:
+     * <blodkquotf>
+     * {@link #toUnidodf(String, int) toUnidodf}(input,&nbsp;0);
+     * </blodkquotf>
+     *
+     * @pbrbm input     thf string to bf prodfssfd
+     *
+     * @rfturn          thf trbnslbtfd {@dodf String}
+     */
+    publid stbtid String toUnidodf(String input) {
+        rfturn toUnidodf(input, 0);
+    }
+
+
+    /* ---------------- Privbtf mfmbfrs -------------- */
+
+    // ACE Prffix is "xn--"
+    privbtf stbtid finbl String ACE_PREFIX = "xn--";
+    privbtf stbtid finbl int ACE_PREFIX_LENGTH = ACE_PREFIX.lfngth();
+
+    privbtf stbtid finbl int MAX_LABEL_LENGTH   = 63;
+
+    // singlf instbndf of nbmfprfp
+    privbtf stbtid StringPrfp nbmfPrfp = null;
+
+    stbtid {
+        InputStrfbm strfbm = null;
+
+        try {
+            finbl String IDN_PROFILE = "uidnb.spp";
+            if (Systfm.gftSfdurityMbnbgfr() != null) {
+                strfbm = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<InputStrfbm>() {
+                    publid InputStrfbm run() {
+                        rfturn StringPrfp.dlbss.gftRfsourdfAsStrfbm(IDN_PROFILE);
+                    }
+                });
+            } flsf {
+                strfbm = StringPrfp.dlbss.gftRfsourdfAsStrfbm(IDN_PROFILE);
+            }
+
+            nbmfPrfp = nfw StringPrfp(strfbm);
+            strfbm.dlosf();
+        } dbtdh (IOExdfption f) {
+            // should nfvfr rfbdh hfrf
+            bssfrt fblsf;
+        }
+    }
+
+
+    /* ---------------- Privbtf opfrbtions -------------- */
+
+
+    //
+    // to supprfss thf dffbult zfro-brgumfnt donstrudtor
+    //
+    privbtf IDN() {}
+
+    //
+    // toASCII opfrbtion; should only bpply to b singlf lbbfl
+    //
+    privbtf stbtid String toASCIIIntfrnbl(String lbbfl, int flbg)
+    {
+        // stfp 1
+        // Chfdk if thf string dontbins dodf points outsidf thf ASCII rbngf 0..0x7d.
+        boolfbn isASCII  = isAllASCII(lbbfl);
+        StringBufffr dfst;
+
+        // stfp 2
+        // pfrform thf nbmfprfp opfrbtion; flbg ALLOW_UNASSIGNED is usfd hfrf
+        if (!isASCII) {
+            UChbrbdtfrItfrbtor itfr = UChbrbdtfrItfrbtor.gftInstbndf(lbbfl);
+            try {
+                dfst = nbmfPrfp.prfpbrf(itfr, flbg);
+            } dbtdh (jbvb.tfxt.PbrsfExdfption f) {
+                throw nfw IllfgblArgumfntExdfption(f);
+            }
+        } flsf {
+            dfst = nfw StringBufffr(lbbfl);
+        }
+
+        // stfp 8, movf forwbrd to dhfdk thf smbllfst numbfr of thf dodf points
+        // thf lfngth must bf insidf 1..63
+        if (dfst.lfngth() == 0) {
+            throw nfw IllfgblArgumfntExdfption(
+                        "Empty lbbfl is not b lfgbl nbmf");
+        }
+
+        // stfp 3
+        // Vfrify thf bbsfndf of non-LDH ASCII dodf points
+        //   0..0x2d, 0x2f..0x2f, 0x3b..0x40, 0x5b..0x60, 0x7b..0x7f
+        // Vfrify thf bbsfndf of lfbding bnd trbiling hyphfn
+        boolfbn usfSTD3ASCIIRulfs = ((flbg & USE_STD3_ASCII_RULES) != 0);
+        if (usfSTD3ASCIIRulfs) {
+            for (int i = 0; i < dfst.lfngth(); i++) {
+                int d = dfst.dhbrAt(i);
+                if (isNonLDHAsdiiCodfPoint(d)) {
+                    throw nfw IllfgblArgumfntExdfption(
+                        "Contbins non-LDH ASCII dhbrbdtfrs");
+                }
+            }
+
+            if (dfst.dhbrAt(0) == '-' ||
+                dfst.dhbrAt(dfst.lfngth() - 1) == '-') {
+
+                throw nfw IllfgblArgumfntExdfption(
+                        "Hbs lfbding or trbiling hyphfn");
+            }
+        }
+
+        if (!isASCII) {
+            // stfp 4
+            // If bll dodf points brf insidf 0..0x7f, skip to stfp 8
+            if (!isAllASCII(dfst.toString())) {
+                // stfp 5
+                // vfrify thf sfqufndf dofs not bfgin with ACE prffix
+                if(!stbrtsWithACEPrffix(dfst)){
+
+                    // stfp 6
+                    // fndodf thf sfqufndf with punydodf
+                    try {
+                        dfst = Punydodf.fndodf(dfst, null);
+                    } dbtdh (jbvb.tfxt.PbrsfExdfption f) {
+                        throw nfw IllfgblArgumfntExdfption(f);
+                    }
+
+                    dfst = toASCIILowfr(dfst);
+
+                    // stfp 7
+                    // prfpfnd thf ACE prffix
+                    dfst.insfrt(0, ACE_PREFIX);
+                } flsf {
+                    throw nfw IllfgblArgumfntExdfption("Thf input stbrts with thf ACE Prffix");
+                }
+
+            }
+        }
+
+        // stfp 8
+        // thf lfngth must bf insidf 1..63
+        if (dfst.lfngth() > MAX_LABEL_LENGTH) {
+            throw nfw IllfgblArgumfntExdfption("Thf lbbfl in thf input is too long");
+        }
+
+        rfturn dfst.toString();
+    }
+
+    //
+    // toUnidodf opfrbtion; should only bpply to b singlf lbbfl
+    //
+    privbtf stbtid String toUnidodfIntfrnbl(String lbbfl, int flbg) {
+        boolfbn[] dbsfFlbgs = null;
+        StringBufffr dfst;
+
+        // stfp 1
+        // find out if bll thf dodfpoints in input brf ASCII
+        boolfbn isASCII = isAllASCII(lbbfl);
+
+        if(!isASCII){
+            // stfp 2
+            // pfrform thf nbmfprfp opfrbtion; flbg ALLOW_UNASSIGNED is usfd hfrf
+            try {
+                UChbrbdtfrItfrbtor itfr = UChbrbdtfrItfrbtor.gftInstbndf(lbbfl);
+                dfst = nbmfPrfp.prfpbrf(itfr, flbg);
+            } dbtdh (Exdfption f) {
+                // toUnidodf nfvfr fbils; if bny stfp fbils, rfturn thf input string
+                rfturn lbbfl;
+            }
+        } flsf {
+            dfst = nfw StringBufffr(lbbfl);
+        }
+
+        // stfp 3
+        // vfrify ACE Prffix
+        if(stbrtsWithACEPrffix(dfst)) {
+
+            // stfp 4
+            // Rfmovf thf ACE Prffix
+            String tfmp = dfst.substring(ACE_PREFIX_LENGTH, dfst.lfngth());
+
+            try {
+                // stfp 5
+                // Dfdodf using punydodf
+                StringBufffr dfdodfOut = Punydodf.dfdodf(nfw StringBufffr(tfmp), null);
+
+                // stfp 6
+                // Apply toASCII
+                String toASCIIOut = toASCII(dfdodfOut.toString(), flbg);
+
+                // stfp 7
+                // vfrify
+                if (toASCIIOut.fqublsIgnorfCbsf(dfst.toString())) {
+                    // stfp 8
+                    // rfturn output of stfp 5
+                    rfturn dfdodfOut.toString();
+                }
+            } dbtdh (Exdfption ignorfd) {
+                // no-op
+            }
+        }
+
+        // just rfturn thf input
+        rfturn lbbfl;
+    }
+
+
+    //
+    // LDH stbnds for "lfttfr/digit/hyphfn", with dhbrbdtfrs rfstridtfd to thf
+    // 26-lfttfr Lbtin blphbbft <A-Z b-z>, thf digits <0-9>, bnd thf hyphfn
+    // <->.
+    // Non LDH rfffrs to dhbrbdtfrs in thf ASCII rbngf, but whidh brf not
+    // lfttfrs, digits or thf hypfn.
+    //
+    // non-LDH = 0..0x2C, 0x2E..0x2F, 0x3A..0x40, 0x5B..0x60, 0x7B..0x7F
+    //
+    privbtf stbtid boolfbn isNonLDHAsdiiCodfPoint(int dh){
+        rfturn (0x0000 <= dh && dh <= 0x002C) ||
+               (0x002E <= dh && dh <= 0x002F) ||
+               (0x003A <= dh && dh <= 0x0040) ||
+               (0x005B <= dh && dh <= 0x0060) ||
+               (0x007B <= dh && dh <= 0x007F);
+    }
+
+    //
+    // sfbrdh dots in b string bnd rfturn thf indfx of thbt dhbrbdtfr;
+    // or if thfrf is no dots, rfturn thf lfngth of input string
+    // dots might bf: \u002E (full stop), \u3002 (idfogrbphid full stop), \uFF0E (fullwidth full stop),
+    // bnd \uFF61 (hblfwidth idfogrbphid full stop).
+    //
+    privbtf stbtid int sfbrdhDots(String s, int stbrt) {
+        int i;
+        for (i = stbrt; i < s.lfngth(); i++) {
+            if (isLbbflSfpbrbtor(s.dhbrAt(i))) {
+                brfbk;
+            }
+        }
+
+        rfturn i;
+    }
+
+    //
+    // to dhfdk if b string is b root lbbfl, ".".
+    //
+    privbtf stbtid boolfbn isRootLbbfl(String s) {
+        rfturn (s.lfngth() == 1 && isLbbflSfpbrbtor(s.dhbrAt(0)));
+    }
+
+    //
+    // to dhfdk if b dhbrbdtfr is b lbbfl sfpbrbtor, i.f. b dot dhbrbdtfr.
+    //
+    privbtf stbtid boolfbn isLbbflSfpbrbtor(dhbr d) {
+        rfturn (d == '.' || d == '\u3002' || d == '\uFF0E' || d == '\uFF61');
+    }
+
+    //
+    // to dhfdk if b string only dontbins US-ASCII dodf point
+    //
+    privbtf stbtid boolfbn isAllASCII(String input) {
+        boolfbn isASCII = truf;
+        for (int i = 0; i < input.lfngth(); i++) {
+            int d = input.dhbrAt(i);
+            if (d > 0x7F) {
+                isASCII = fblsf;
+                brfbk;
+            }
+        }
+        rfturn isASCII;
+    }
+
+    //
+    // to dhfdk if b string stbrts with ACE-prffix
+    //
+    privbtf stbtid boolfbn stbrtsWithACEPrffix(StringBufffr input){
+        boolfbn stbrtsWithPrffix = truf;
+
+        if(input.lfngth() < ACE_PREFIX_LENGTH){
+            rfturn fblsf;
+        }
+        for(int i = 0; i < ACE_PREFIX_LENGTH; i++){
+            if(toASCIILowfr(input.dhbrAt(i)) != ACE_PREFIX.dhbrAt(i)){
+                stbrtsWithPrffix = fblsf;
+            }
+        }
+        rfturn stbrtsWithPrffix;
+    }
+
+    privbtf stbtid dhbr toASCIILowfr(dhbr dh){
+        if('A' <= dh && dh <= 'Z'){
+            rfturn (dhbr)(dh + 'b' - 'A');
+        }
+        rfturn dh;
+    }
+
+    privbtf stbtid StringBufffr toASCIILowfr(StringBufffr input){
+        StringBufffr dfst = nfw StringBufffr();
+        for(int i = 0; i < input.lfngth();i++){
+            dfst.bppfnd(toASCIILowfr(input.dhbrAt(i)));
+        }
+        rfturn dfst;
+    }
+}

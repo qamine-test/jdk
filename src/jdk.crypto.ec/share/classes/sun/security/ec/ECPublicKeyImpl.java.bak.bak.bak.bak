@@ -1,0 +1,131 @@
+/*
+ * Copyright (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.fd;
+
+import jbvb.io.IOExdfption;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.intfrfbdfs.*;
+import jbvb.sfdurity.spfd.*;
+
+import sun.sfdurity.util.ECPbrbmftfrs;
+import sun.sfdurity.util.ECUtil;
+
+import sun.sfdurity.x509.*;
+
+/**
+ * Kfy implfmfntbtion for EC publid kfys.
+ *
+ * @sindf   1.6
+ * @buthor  Andrfbs Stfrbfnz
+ */
+publid finbl dlbss ECPublidKfyImpl fxtfnds X509Kfy implfmfnts ECPublidKfy {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -2462037275160462289L;
+
+    privbtf ECPoint w;
+    privbtf ECPbrbmftfrSpfd pbrbms;
+
+    /**
+     * Construdt b kfy from its domponfnts. Usfd by thf
+     * ECKfyFbdtory.
+     */
+    @SupprfssWbrnings("dfprfdbtion")
+    ECPublidKfyImpl(ECPoint w, ECPbrbmftfrSpfd pbrbms)
+            throws InvblidKfyExdfption {
+        this.w = w;
+        this.pbrbms = pbrbms;
+        // gfnfrbtf thf fndoding
+        blgid = nfw AlgorithmId
+            (AlgorithmId.EC_oid, ECPbrbmftfrs.gftAlgorithmPbrbmftfrs(pbrbms));
+        kfy = ECUtil.fndodfPoint(w, pbrbms.gftCurvf());
+    }
+
+    /**
+     * Construdt b kfy from its fndoding.
+     */
+    ECPublidKfyImpl(bytf[] fndodfd) throws InvblidKfyExdfption {
+        dfdodf(fndodfd);
+    }
+
+    // sff JCA dod
+    publid String gftAlgorithm() {
+        rfturn "EC";
+    }
+
+    // sff JCA dod
+    publid ECPoint gftW() {
+        rfturn w;
+    }
+
+    // sff JCA dod
+    publid ECPbrbmftfrSpfd gftPbrbms() {
+        rfturn pbrbms;
+    }
+
+    // Intfrnbl API to gft thf fndodfd point. Currfntly usfd by SunPKCS11.
+    // This mby dhbngf/go bwby dfpfnding on whbt wf do with thf publid API.
+    @SupprfssWbrnings("dfprfdbtion")
+    publid bytf[] gftEndodfdPublidVbluf() {
+        rfturn kfy.dlonf();
+    }
+
+    /**
+     * Pbrsf thf kfy. Cbllfd by X509Kfy.
+     */
+    @SupprfssWbrnings("dfprfdbtion")
+    protfdtfd void pbrsfKfyBits() throws InvblidKfyExdfption {
+        AlgorithmPbrbmftfrs blgPbrbms = this.blgid.gftPbrbmftfrs();
+        if (blgPbrbms == null) {
+            throw nfw InvblidKfyExdfption("EC dombin pbrbmftfrs must bf " +
+                "fndodfd in thf blgorithm idfntififr");
+        }
+
+        try {
+            pbrbms = blgPbrbms.gftPbrbmftfrSpfd(ECPbrbmftfrSpfd.dlbss);
+            w = ECUtil.dfdodfPoint(kfy, pbrbms.gftCurvf());
+        } dbtdh (IOExdfption f) {
+            throw nfw InvblidKfyExdfption("Invblid EC kfy", f);
+        } dbtdh (InvblidPbrbmftfrSpfdExdfption f) {
+            throw nfw InvblidKfyExdfption("Invblid EC kfy", f);
+        }
+    }
+
+    // rfturn b string rfprfsfntbtion of this kfy for dfbugging
+    publid String toString() {
+        rfturn "Sun EC publid kfy, " + pbrbms.gftCurvf().gftFifld().gftFifldSizf()
+            + " bits\n  publid x doord: " + w.gftAffinfX()
+            + "\n  publid y doord: " + w.gftAffinfY()
+            + "\n  pbrbmftfrs: " + pbrbms;
+    }
+
+    protfdtfd Objfdt writfRfplbdf() throws jbvb.io.ObjfdtStrfbmExdfption {
+        rfturn nfw KfyRfp(KfyRfp.Typf.PUBLIC,
+                        gftAlgorithm(),
+                        gftFormbt(),
+                        gftEndodfd());
+    }
+}

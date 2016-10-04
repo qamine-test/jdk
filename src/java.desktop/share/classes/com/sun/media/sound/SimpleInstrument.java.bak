@@ -1,196 +1,196 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.sound.midi.Patch;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvbx.sound.midi.Pbtdi;
 
 /**
- * A simple instrument that is made of other ModelInstrument, ModelPerformer
- * objects.
+ * A simplf instrumfnt tibt is mbdf of otifr ModflInstrumfnt, ModflPfrformfr
+ * objfdts.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public class SimpleInstrument extends ModelInstrument {
+publid dlbss SimplfInstrumfnt fxtfnds ModflInstrumfnt {
 
-    private static class SimpleInstrumentPart {
-        ModelPerformer[] performers;
-        int keyFrom;
-        int keyTo;
-        int velFrom;
-        int velTo;
-        int exclusiveClass;
+    privbtf stbtid dlbss SimplfInstrumfntPbrt {
+        ModflPfrformfr[] pfrformfrs;
+        int kfyFrom;
+        int kfyTo;
+        int vflFrom;
+        int vflTo;
+        int fxdlusivfClbss;
     }
-    protected int preset = 0;
-    protected int bank = 0;
-    protected boolean percussion = false;
-    protected String name = "";
-    protected List<SimpleInstrumentPart> parts
-            = new ArrayList<SimpleInstrumentPart>();
+    protfdtfd int prfsft = 0;
+    protfdtfd int bbnk = 0;
+    protfdtfd boolfbn pfrdussion = fblsf;
+    protfdtfd String nbmf = "";
+    protfdtfd List<SimplfInstrumfntPbrt> pbrts
+            = nfw ArrbyList<SimplfInstrumfntPbrt>();
 
-    public SimpleInstrument() {
-        super(null, null, null, null);
-    }
-
-    public void clear() {
-        parts.clear();
+    publid SimplfInstrumfnt() {
+        supfr(null, null, null, null);
     }
 
-    public void add(ModelPerformer[] performers, int keyFrom, int keyTo,
-            int velFrom, int velTo, int exclusiveClass) {
-        SimpleInstrumentPart part = new SimpleInstrumentPart();
-        part.performers = performers;
-        part.keyFrom = keyFrom;
-        part.keyTo = keyTo;
-        part.velFrom = velFrom;
-        part.velTo = velTo;
-        part.exclusiveClass = exclusiveClass;
-        parts.add(part);
+    publid void dlfbr() {
+        pbrts.dlfbr();
     }
 
-    public void add(ModelPerformer[] performers, int keyFrom, int keyTo,
-            int velFrom, int velTo) {
-        add(performers, keyFrom, keyTo, velFrom, velTo, -1);
+    publid void bdd(ModflPfrformfr[] pfrformfrs, int kfyFrom, int kfyTo,
+            int vflFrom, int vflTo, int fxdlusivfClbss) {
+        SimplfInstrumfntPbrt pbrt = nfw SimplfInstrumfntPbrt();
+        pbrt.pfrformfrs = pfrformfrs;
+        pbrt.kfyFrom = kfyFrom;
+        pbrt.kfyTo = kfyTo;
+        pbrt.vflFrom = vflFrom;
+        pbrt.vflTo = vflTo;
+        pbrt.fxdlusivfClbss = fxdlusivfClbss;
+        pbrts.bdd(pbrt);
     }
 
-    public void add(ModelPerformer[] performers, int keyFrom, int keyTo) {
-        add(performers, keyFrom, keyTo, 0, 127, -1);
+    publid void bdd(ModflPfrformfr[] pfrformfrs, int kfyFrom, int kfyTo,
+            int vflFrom, int vflTo) {
+        bdd(pfrformfrs, kfyFrom, kfyTo, vflFrom, vflTo, -1);
     }
 
-    public void add(ModelPerformer[] performers) {
-        add(performers, 0, 127, 0, 127, -1);
+    publid void bdd(ModflPfrformfr[] pfrformfrs, int kfyFrom, int kfyTo) {
+        bdd(pfrformfrs, kfyFrom, kfyTo, 0, 127, -1);
     }
 
-    public void add(ModelPerformer performer, int keyFrom, int keyTo,
-            int velFrom, int velTo, int exclusiveClass) {
-        add(new ModelPerformer[]{performer}, keyFrom, keyTo, velFrom, velTo,
-                exclusiveClass);
+    publid void bdd(ModflPfrformfr[] pfrformfrs) {
+        bdd(pfrformfrs, 0, 127, 0, 127, -1);
     }
 
-    public void add(ModelPerformer performer, int keyFrom, int keyTo,
-            int velFrom, int velTo) {
-        add(new ModelPerformer[]{performer}, keyFrom, keyTo, velFrom, velTo);
+    publid void bdd(ModflPfrformfr pfrformfr, int kfyFrom, int kfyTo,
+            int vflFrom, int vflTo, int fxdlusivfClbss) {
+        bdd(nfw ModflPfrformfr[]{pfrformfr}, kfyFrom, kfyTo, vflFrom, vflTo,
+                fxdlusivfClbss);
     }
 
-    public void add(ModelPerformer performer, int keyFrom, int keyTo) {
-        add(new ModelPerformer[]{performer}, keyFrom, keyTo);
+    publid void bdd(ModflPfrformfr pfrformfr, int kfyFrom, int kfyTo,
+            int vflFrom, int vflTo) {
+        bdd(nfw ModflPfrformfr[]{pfrformfr}, kfyFrom, kfyTo, vflFrom, vflTo);
     }
 
-    public void add(ModelPerformer performer) {
-        add(new ModelPerformer[]{performer});
+    publid void bdd(ModflPfrformfr pfrformfr, int kfyFrom, int kfyTo) {
+        bdd(nfw ModflPfrformfr[]{pfrformfr}, kfyFrom, kfyTo);
     }
 
-    public void add(ModelInstrument ins, int keyFrom, int keyTo, int velFrom,
-            int velTo, int exclusiveClass) {
-        add(ins.getPerformers(), keyFrom, keyTo, velFrom, velTo, exclusiveClass);
+    publid void bdd(ModflPfrformfr pfrformfr) {
+        bdd(nfw ModflPfrformfr[]{pfrformfr});
     }
 
-    public void add(ModelInstrument ins, int keyFrom, int keyTo, int velFrom,
-            int velTo) {
-        add(ins.getPerformers(), keyFrom, keyTo, velFrom, velTo);
+    publid void bdd(ModflInstrumfnt ins, int kfyFrom, int kfyTo, int vflFrom,
+            int vflTo, int fxdlusivfClbss) {
+        bdd(ins.gftPfrformfrs(), kfyFrom, kfyTo, vflFrom, vflTo, fxdlusivfClbss);
     }
 
-    public void add(ModelInstrument ins, int keyFrom, int keyTo) {
-        add(ins.getPerformers(), keyFrom, keyTo);
+    publid void bdd(ModflInstrumfnt ins, int kfyFrom, int kfyTo, int vflFrom,
+            int vflTo) {
+        bdd(ins.gftPfrformfrs(), kfyFrom, kfyTo, vflFrom, vflTo);
     }
 
-    public void add(ModelInstrument ins) {
-        add(ins.getPerformers());
+    publid void bdd(ModflInstrumfnt ins, int kfyFrom, int kfyTo) {
+        bdd(ins.gftPfrformfrs(), kfyFrom, kfyTo);
     }
 
-    public ModelPerformer[] getPerformers() {
+    publid void bdd(ModflInstrumfnt ins) {
+        bdd(ins.gftPfrformfrs());
+    }
 
-        int percount = 0;
-        for (SimpleInstrumentPart part : parts)
-            if (part.performers != null)
-                percount += part.performers.length;
+    publid ModflPfrformfr[] gftPfrformfrs() {
 
-        ModelPerformer[] performers = new ModelPerformer[percount];
+        int pfrdount = 0;
+        for (SimplfInstrumfntPbrt pbrt : pbrts)
+            if (pbrt.pfrformfrs != null)
+                pfrdount += pbrt.pfrformfrs.lfngti;
+
+        ModflPfrformfr[] pfrformfrs = nfw ModflPfrformfr[pfrdount];
         int px = 0;
-        for (SimpleInstrumentPart part : parts) {
-            if (part.performers != null) {
-                for (ModelPerformer mperfm : part.performers) {
-                    ModelPerformer performer = new ModelPerformer();
-                    performer.setName(getName());
-                    performers[px++] = performer;
+        for (SimplfInstrumfntPbrt pbrt : pbrts) {
+            if (pbrt.pfrformfrs != null) {
+                for (ModflPfrformfr mpfrfm : pbrt.pfrformfrs) {
+                    ModflPfrformfr pfrformfr = nfw ModflPfrformfr();
+                    pfrformfr.sftNbmf(gftNbmf());
+                    pfrformfrs[px++] = pfrformfr;
 
-                    performer.setDefaultConnectionsEnabled(
-                            mperfm.isDefaultConnectionsEnabled());
-                    performer.setKeyFrom(mperfm.getKeyFrom());
-                    performer.setKeyTo(mperfm.getKeyTo());
-                    performer.setVelFrom(mperfm.getVelFrom());
-                    performer.setVelTo(mperfm.getVelTo());
-                    performer.setExclusiveClass(mperfm.getExclusiveClass());
-                    performer.setSelfNonExclusive(mperfm.isSelfNonExclusive());
-                    performer.setReleaseTriggered(mperfm.isReleaseTriggered());
-                    if (part.exclusiveClass != -1)
-                        performer.setExclusiveClass(part.exclusiveClass);
-                    if (part.keyFrom > performer.getKeyFrom())
-                        performer.setKeyFrom(part.keyFrom);
-                    if (part.keyTo < performer.getKeyTo())
-                        performer.setKeyTo(part.keyTo);
-                    if (part.velFrom > performer.getVelFrom())
-                        performer.setVelFrom(part.velFrom);
-                    if (part.velTo < performer.getVelTo())
-                        performer.setVelTo(part.velTo);
-                    performer.getOscillators().addAll(mperfm.getOscillators());
-                    performer.getConnectionBlocks().addAll(
-                            mperfm.getConnectionBlocks());
+                    pfrformfr.sftDffbultConnfdtionsEnbblfd(
+                            mpfrfm.isDffbultConnfdtionsEnbblfd());
+                    pfrformfr.sftKfyFrom(mpfrfm.gftKfyFrom());
+                    pfrformfr.sftKfyTo(mpfrfm.gftKfyTo());
+                    pfrformfr.sftVflFrom(mpfrfm.gftVflFrom());
+                    pfrformfr.sftVflTo(mpfrfm.gftVflTo());
+                    pfrformfr.sftExdlusivfClbss(mpfrfm.gftExdlusivfClbss());
+                    pfrformfr.sftSflfNonExdlusivf(mpfrfm.isSflfNonExdlusivf());
+                    pfrformfr.sftRflfbsfTriggfrfd(mpfrfm.isRflfbsfTriggfrfd());
+                    if (pbrt.fxdlusivfClbss != -1)
+                        pfrformfr.sftExdlusivfClbss(pbrt.fxdlusivfClbss);
+                    if (pbrt.kfyFrom > pfrformfr.gftKfyFrom())
+                        pfrformfr.sftKfyFrom(pbrt.kfyFrom);
+                    if (pbrt.kfyTo < pfrformfr.gftKfyTo())
+                        pfrformfr.sftKfyTo(pbrt.kfyTo);
+                    if (pbrt.vflFrom > pfrformfr.gftVflFrom())
+                        pfrformfr.sftVflFrom(pbrt.vflFrom);
+                    if (pbrt.vflTo < pfrformfr.gftVflTo())
+                        pfrformfr.sftVflTo(pbrt.vflTo);
+                    pfrformfr.gftOsdillbtors().bddAll(mpfrfm.gftOsdillbtors());
+                    pfrformfr.gftConnfdtionBlodks().bddAll(
+                            mpfrfm.gftConnfdtionBlodks());
                 }
             }
         }
 
-        return performers;
+        rfturn pfrformfrs;
     }
 
-    public Object getData() {
-        return null;
+    publid Objfdt gftDbtb() {
+        rfturn null;
     }
 
-    public String getName() {
-        return this.name;
+    publid String gftNbmf() {
+        rfturn tiis.nbmf;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    publid void sftNbmf(String nbmf) {
+        tiis.nbmf = nbmf;
     }
 
-    public ModelPatch getPatch() {
-        return new ModelPatch(bank, preset, percussion);
+    publid ModflPbtdi gftPbtdi() {
+        rfturn nfw ModflPbtdi(bbnk, prfsft, pfrdussion);
     }
 
-    public void setPatch(Patch patch) {
-        if (patch instanceof ModelPatch && ((ModelPatch)patch).isPercussion()) {
-            percussion = true;
-            bank = patch.getBank();
-            preset = patch.getProgram();
-        } else {
-            percussion = false;
-            bank = patch.getBank();
-            preset = patch.getProgram();
+    publid void sftPbtdi(Pbtdi pbtdi) {
+        if (pbtdi instbndfof ModflPbtdi && ((ModflPbtdi)pbtdi).isPfrdussion()) {
+            pfrdussion = truf;
+            bbnk = pbtdi.gftBbnk();
+            prfsft = pbtdi.gftProgrbm();
+        } flsf {
+            pfrdussion = fblsf;
+            bbnk = pbtdi.gftBbnk();
+            prfsft = pbtdi.gftProgrbm();
         }
     }
 }

@@ -1,1132 +1,1132 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.misc.Unsafe;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.misd.Unsbff;
 
 /**
- * Win32 and library calls.
+ * Win32 bnd librbry dblls.
  */
 
-class WindowsNativeDispatcher {
-    private WindowsNativeDispatcher() { }
+dlbss WindowsNbtivfDispbtdifr {
+    privbtf WindowsNbtivfDispbtdifr() { }
 
     /**
-     * HANDLE CreateFile(
-     *   LPCTSTR lpFileName,
-     *   DWORD dwDesiredAccess,
-     *   DWORD dwShareMode,
-     *   LPSECURITY_ATTRIBUTES lpSecurityAttributes,
-     *   DWORD dwCreationDisposition,
-     *   DWORD dwFlagsAndAttributes,
-     *   HANDLE hTemplateFile
+     * HANDLE CrfbtfFilf(
+     *   LPCTSTR lpFilfNbmf,
+     *   DWORD dwDfsirfdAddfss,
+     *   DWORD dwSibrfModf,
+     *   LPSECURITY_ATTRIBUTES lpSfdurityAttributfs,
+     *   DWORD dwCrfbtionDisposition,
+     *   DWORD dwFlbgsAndAttributfs,
+     *   HANDLE iTfmplbtfFilf
      * )
      */
-    static long CreateFile(String path,
-                           int dwDesiredAccess,
-                           int dwShareMode,
-                           long lpSecurityAttributes,
-                           int dwCreationDisposition,
-                           int dwFlagsAndAttributes)
-        throws WindowsException
+    stbtid long CrfbtfFilf(String pbti,
+                           int dwDfsirfdAddfss,
+                           int dwSibrfModf,
+                           long lpSfdurityAttributfs,
+                           int dwCrfbtionDisposition,
+                           int dwFlbgsAndAttributfs)
+        tirows WindowsExdfption
     {
-        NativeBuffer buffer = asNativeBuffer(path);
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbti);
         try {
-            return CreateFile0(buffer.address(),
-                               dwDesiredAccess,
-                               dwShareMode,
-                               lpSecurityAttributes,
-                               dwCreationDisposition,
-                               dwFlagsAndAttributes);
-        } finally {
-            buffer.release();
+            rfturn CrfbtfFilf0(bufffr.bddrfss(),
+                               dwDfsirfdAddfss,
+                               dwSibrfModf,
+                               lpSfdurityAttributfs,
+                               dwCrfbtionDisposition,
+                               dwFlbgsAndAttributfs);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    static long CreateFile(String path,
-                           int dwDesiredAccess,
-                           int dwShareMode,
-                           int dwCreationDisposition,
-                           int dwFlagsAndAttributes)
-        throws WindowsException
+    stbtid long CrfbtfFilf(String pbti,
+                           int dwDfsirfdAddfss,
+                           int dwSibrfModf,
+                           int dwCrfbtionDisposition,
+                           int dwFlbgsAndAttributfs)
+        tirows WindowsExdfption
     {
-        return CreateFile(path, dwDesiredAccess, dwShareMode, 0L,
-                          dwCreationDisposition, dwFlagsAndAttributes);
+        rfturn CrfbtfFilf(pbti, dwDfsirfdAddfss, dwSibrfModf, 0L,
+                          dwCrfbtionDisposition, dwFlbgsAndAttributfs);
     }
-    private static native long CreateFile0(long lpFileName,
-                                           int dwDesiredAccess,
-                                           int dwShareMode,
-                                           long lpSecurityAttributes,
-                                           int dwCreationDisposition,
-                                           int dwFlagsAndAttributes)
-        throws WindowsException;
+    privbtf stbtid nbtivf long CrfbtfFilf0(long lpFilfNbmf,
+                                           int dwDfsirfdAddfss,
+                                           int dwSibrfModf,
+                                           long lpSfdurityAttributfs,
+                                           int dwCrfbtionDisposition,
+                                           int dwFlbgsAndAttributfs)
+        tirows WindowsExdfption;
 
     /**
-     * CloseHandle(
-     *   HANDLE hObject
+     * ClosfHbndlf(
+     *   HANDLE iObjfdt
      * )
      */
-    static native void CloseHandle(long handle);
+    stbtid nbtivf void ClosfHbndlf(long ibndlf);
 
     /**
-     * DeleteFile(
-     *   LPCTSTR lpFileName
+     * DflftfFilf(
+     *   LPCTSTR lpFilfNbmf
      * )
      */
-    static void DeleteFile(String path) throws WindowsException {
-        NativeBuffer buffer = asNativeBuffer(path);
+    stbtid void DflftfFilf(String pbti) tirows WindowsExdfption {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbti);
         try {
-            DeleteFile0(buffer.address());
-        } finally {
-            buffer.release();
+            DflftfFilf0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native void DeleteFile0(long lpFileName)
-        throws WindowsException;
+    privbtf stbtid nbtivf void DflftfFilf0(long lpFilfNbmf)
+        tirows WindowsExdfption;
 
     /**
-     * CreateDirectory(
-     *   LPCTSTR lpPathName,
-     *   LPSECURITY_ATTRIBUTES lpSecurityAttributes
+     * CrfbtfDirfdtory(
+     *   LPCTSTR lpPbtiNbmf,
+     *   LPSECURITY_ATTRIBUTES lpSfdurityAttributfs
      * )
      */
-    static void CreateDirectory(String path, long lpSecurityAttributes) throws WindowsException {
-        NativeBuffer buffer = asNativeBuffer(path);
+    stbtid void CrfbtfDirfdtory(String pbti, long lpSfdurityAttributfs) tirows WindowsExdfption {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbti);
         try {
-            CreateDirectory0(buffer.address(), lpSecurityAttributes);
-        } finally {
-            buffer.release();
+            CrfbtfDirfdtory0(bufffr.bddrfss(), lpSfdurityAttributfs);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native void CreateDirectory0(long lpFileName, long lpSecurityAttributes)
-        throws WindowsException;
+    privbtf stbtid nbtivf void CrfbtfDirfdtory0(long lpFilfNbmf, long lpSfdurityAttributfs)
+        tirows WindowsExdfption;
 
     /**
-     * RemoveDirectory(
-     *   LPCTSTR lpPathName
+     * RfmovfDirfdtory(
+     *   LPCTSTR lpPbtiNbmf
      * )
      */
-    static void RemoveDirectory(String path) throws WindowsException {
-        NativeBuffer buffer = asNativeBuffer(path);
+    stbtid void RfmovfDirfdtory(String pbti) tirows WindowsExdfption {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbti);
         try {
-            RemoveDirectory0(buffer.address());
-        } finally {
-            buffer.release();
+            RfmovfDirfdtory0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native void RemoveDirectory0(long lpFileName)
-        throws WindowsException;
+    privbtf stbtid nbtivf void RfmovfDirfdtory0(long lpFilfNbmf)
+        tirows WindowsExdfption;
 
     /**
-     * Marks a file as a sparse file.
+     * Mbrks b filf bs b spbrsf filf.
      *
-     * DeviceIoControl(
+     * DfvidfIoControl(
      *   FSCTL_SET_SPARSE
      * )
      */
-    static native void DeviceIoControlSetSparse(long handle)
-        throws WindowsException;
+    stbtid nbtivf void DfvidfIoControlSftSpbrsf(long ibndlf)
+        tirows WindowsExdfption;
 
     /**
-     * Retrieves the reparse point data associated with the file or directory.
+     * Rftrifvfs tif rfpbrsf point dbtb bssodibtfd witi tif filf or dirfdtory.
      *
-     * DeviceIoControl(
+     * DfvidfIoControl(
      *   FSCTL_GET_REPARSE_POINT
      * )
      */
-    static native void DeviceIoControlGetReparsePoint(long handle,
-        long bufferAddress, int bufferSize) throws WindowsException;
+    stbtid nbtivf void DfvidfIoControlGftRfpbrsfPoint(long ibndlf,
+        long bufffrAddrfss, int bufffrSizf) tirows WindowsExdfption;
 
     /**
-     * HANDLE FindFirstFile(
-     *   LPCTSTR lpFileName,
-     *   LPWIN32_FIND_DATA lpFindFileData
+     * HANDLE FindFirstFilf(
+     *   LPCTSTR lpFilfNbmf,
+     *   LPWIN32_FIND_DATA lpFindFilfDbtb
      * )
      */
-    static FirstFile FindFirstFile(String path) throws WindowsException {
-        NativeBuffer buffer = asNativeBuffer(path);
+    stbtid FirstFilf FindFirstFilf(String pbti) tirows WindowsExdfption {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbti);
         try {
-            FirstFile data = new FirstFile();
-            FindFirstFile0(buffer.address(), data);
-            return data;
-        } finally {
-            buffer.release();
+            FirstFilf dbtb = nfw FirstFilf();
+            FindFirstFilf0(bufffr.bddrfss(), dbtb);
+            rfturn dbtb;
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    static class FirstFile {
-        private long handle;
-        private String name;
-        private int attributes;
+    stbtid dlbss FirstFilf {
+        privbtf long ibndlf;
+        privbtf String nbmf;
+        privbtf int bttributfs;
 
-        private FirstFile() { }
-        public long handle()    { return handle; }
-        public String name()    { return name; }
-        public int attributes() { return attributes; }
+        privbtf FirstFilf() { }
+        publid long ibndlf()    { rfturn ibndlf; }
+        publid String nbmf()    { rfturn nbmf; }
+        publid int bttributfs() { rfturn bttributfs; }
     }
-    private static native void FindFirstFile0(long lpFileName, FirstFile obj)
-        throws WindowsException;
+    privbtf stbtid nbtivf void FindFirstFilf0(long lpFilfNbmf, FirstFilf obj)
+        tirows WindowsExdfption;
 
     /**
-     * HANDLE FindFirstFile(
-     *   LPCTSTR lpFileName,
-     *   LPWIN32_FIND_DATA lpFindFileData
+     * HANDLE FindFirstFilf(
+     *   LPCTSTR lpFilfNbmf,
+     *   LPWIN32_FIND_DATA lpFindFilfDbtb
      * )
      */
-    static long FindFirstFile(String path, long address) throws WindowsException {
-        NativeBuffer buffer = asNativeBuffer(path);
+    stbtid long FindFirstFilf(String pbti, long bddrfss) tirows WindowsExdfption {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbti);
         try {
-            return FindFirstFile1(buffer.address(), address);
-        } finally {
-            buffer.release();
+            rfturn FindFirstFilf1(bufffr.bddrfss(), bddrfss);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native long FindFirstFile1(long lpFileName, long address)
-        throws WindowsException;
+    privbtf stbtid nbtivf long FindFirstFilf1(long lpFilfNbmf, long bddrfss)
+        tirows WindowsExdfption;
 
     /**
-     * FindNextFile(
-     *   HANDLE hFindFile,
-     *   LPWIN32_FIND_DATA lpFindFileData
+     * FindNfxtFilf(
+     *   HANDLE iFindFilf,
+     *   LPWIN32_FIND_DATA lpFindFilfDbtb
      * )
      *
-     * @return  lpFindFileData->cFileName or null
+     * @rfturn  lpFindFilfDbtb->dFilfNbmf or null
      */
-    static native String FindNextFile(long handle, long address)
-        throws WindowsException;
+    stbtid nbtivf String FindNfxtFilf(long ibndlf, long bddrfss)
+        tirows WindowsExdfption;
 
     /**
-     * HANDLE FindFirstStreamW(
-     *   LPCWSTR lpFileName,
-     *   STREAM_INFO_LEVELS InfoLevel,
-     *   LPVOID lpFindStreamData,
-     *   DWORD dwFlags
+     * HANDLE FindFirstStrfbmW(
+     *   LPCWSTR lpFilfNbmf,
+     *   STREAM_INFO_LEVELS InfoLfvfl,
+     *   LPVOID lpFindStrfbmDbtb,
+     *   DWORD dwFlbgs
      * )
      */
-    static FirstStream FindFirstStream(String path) throws WindowsException {
-        NativeBuffer buffer = asNativeBuffer(path);
+    stbtid FirstStrfbm FindFirstStrfbm(String pbti) tirows WindowsExdfption {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbti);
         try {
-            FirstStream data = new FirstStream();
-            FindFirstStream0(buffer.address(), data);
-            if (data.handle() == WindowsConstants.INVALID_HANDLE_VALUE)
-                return null;
-            return data;
-        } finally {
-            buffer.release();
+            FirstStrfbm dbtb = nfw FirstStrfbm();
+            FindFirstStrfbm0(bufffr.bddrfss(), dbtb);
+            if (dbtb.ibndlf() == WindowsConstbnts.INVALID_HANDLE_VALUE)
+                rfturn null;
+            rfturn dbtb;
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    static class FirstStream {
-        private long handle;
-        private String name;
+    stbtid dlbss FirstStrfbm {
+        privbtf long ibndlf;
+        privbtf String nbmf;
 
-        private FirstStream() { }
-        public long handle()    { return handle; }
-        public String name()    { return name; }
+        privbtf FirstStrfbm() { }
+        publid long ibndlf()    { rfturn ibndlf; }
+        publid String nbmf()    { rfturn nbmf; }
     }
-    private static native void FindFirstStream0(long lpFileName, FirstStream obj)
-        throws WindowsException;
+    privbtf stbtid nbtivf void FindFirstStrfbm0(long lpFilfNbmf, FirstStrfbm obj)
+        tirows WindowsExdfption;
 
     /*
-     * FindNextStreamW(
-     *   HANDLE hFindStream,
-     *   LPVOID lpFindStreamData
+     * FindNfxtStrfbmW(
+     *   HANDLE iFindStrfbm,
+     *   LPVOID lpFindStrfbmDbtb
      * )
      */
-    static native String FindNextStream(long handle) throws WindowsException;
+    stbtid nbtivf String FindNfxtStrfbm(long ibndlf) tirows WindowsExdfption;
 
     /**
-     * FindClose(
-     *   HANDLE hFindFile
+     * FindClosf(
+     *   HANDLE iFindFilf
      * )
      */
-    static native void FindClose(long handle) throws WindowsException;
+    stbtid nbtivf void FindClosf(long ibndlf) tirows WindowsExdfption;
 
     /**
-     * GetFileInformationByHandle(
-     *   HANDLE hFile,
-     *   LPBY_HANDLE_FILE_INFORMATION lpFileInformation
+     * GftFilfInformbtionByHbndlf(
+     *   HANDLE iFilf,
+     *   LPBY_HANDLE_FILE_INFORMATION lpFilfInformbtion
      * )
      */
-    static native void GetFileInformationByHandle(long handle, long address)
-        throws WindowsException;
+    stbtid nbtivf void GftFilfInformbtionByHbndlf(long ibndlf, long bddrfss)
+        tirows WindowsExdfption;
 
     /**
-     * CopyFileEx(
-     *   LPCWSTR lpExistingFileName
-     *   LPCWSTR lpNewFileName,
-     *   LPPROGRESS_ROUTINE lpProgressRoutine
-     *   LPVOID lpData,
-     *   LPBOOL pbCancel,
-     *   DWORD dwCopyFlags
+     * CopyFilfEx(
+     *   LPCWSTR lpExistingFilfNbmf
+     *   LPCWSTR lpNfwFilfNbmf,
+     *   LPPROGRESS_ROUTINE lpProgrfssRoutinf
+     *   LPVOID lpDbtb,
+     *   LPBOOL pbCbndfl,
+     *   DWORD dwCopyFlbgs
      * )
      */
-    static void CopyFileEx(String source, String target, int flags,
-                           long addressToPollForCancel)
-        throws WindowsException
+    stbtid void CopyFilfEx(String sourdf, String tbrgft, int flbgs,
+                           long bddrfssToPollForCbndfl)
+        tirows WindowsExdfption
     {
-        NativeBuffer sourceBuffer = asNativeBuffer(source);
-        NativeBuffer targetBuffer = asNativeBuffer(target);
+        NbtivfBufffr sourdfBufffr = bsNbtivfBufffr(sourdf);
+        NbtivfBufffr tbrgftBufffr = bsNbtivfBufffr(tbrgft);
         try {
-            CopyFileEx0(sourceBuffer.address(), targetBuffer.address(), flags,
-                        addressToPollForCancel);
-        } finally {
-            targetBuffer.release();
-            sourceBuffer.release();
+            CopyFilfEx0(sourdfBufffr.bddrfss(), tbrgftBufffr.bddrfss(), flbgs,
+                        bddrfssToPollForCbndfl);
+        } finblly {
+            tbrgftBufffr.rflfbsf();
+            sourdfBufffr.rflfbsf();
         }
     }
-    private static native void CopyFileEx0(long existingAddress, long newAddress,
-        int flags, long addressToPollForCancel) throws WindowsException;
+    privbtf stbtid nbtivf void CopyFilfEx0(long fxistingAddrfss, long nfwAddrfss,
+        int flbgs, long bddrfssToPollForCbndfl) tirows WindowsExdfption;
 
     /**
-     * MoveFileEx(
-     *   LPCTSTR lpExistingFileName,
-     *   LPCTSTR lpNewFileName,
-     *   DWORD dwFlags
+     * MovfFilfEx(
+     *   LPCTSTR lpExistingFilfNbmf,
+     *   LPCTSTR lpNfwFilfNbmf,
+     *   DWORD dwFlbgs
      * )
      */
-    static void MoveFileEx(String source, String target, int flags)
-        throws WindowsException
+    stbtid void MovfFilfEx(String sourdf, String tbrgft, int flbgs)
+        tirows WindowsExdfption
     {
-        NativeBuffer sourceBuffer = asNativeBuffer(source);
-        NativeBuffer targetBuffer = asNativeBuffer(target);
+        NbtivfBufffr sourdfBufffr = bsNbtivfBufffr(sourdf);
+        NbtivfBufffr tbrgftBufffr = bsNbtivfBufffr(tbrgft);
         try {
-            MoveFileEx0(sourceBuffer.address(), targetBuffer.address(), flags);
-        } finally {
-            targetBuffer.release();
-            sourceBuffer.release();
+            MovfFilfEx0(sourdfBufffr.bddrfss(), tbrgftBufffr.bddrfss(), flbgs);
+        } finblly {
+            tbrgftBufffr.rflfbsf();
+            sourdfBufffr.rflfbsf();
         }
     }
-    private static native void MoveFileEx0(long existingAddress, long newAddress,
-        int flags) throws WindowsException;
+    privbtf stbtid nbtivf void MovfFilfEx0(long fxistingAddrfss, long nfwAddrfss,
+        int flbgs) tirows WindowsExdfption;
 
     /**
-     * DWORD GetFileAttributes(
-     *   LPCTSTR lpFileName
+     * DWORD GftFilfAttributfs(
+     *   LPCTSTR lpFilfNbmf
      * )
      */
-    static int GetFileAttributes(String path) throws WindowsException {
-        NativeBuffer buffer = asNativeBuffer(path);
+    stbtid int GftFilfAttributfs(String pbti) tirows WindowsExdfption {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbti);
         try {
-            return GetFileAttributes0(buffer.address());
-        } finally {
-            buffer.release();
+            rfturn GftFilfAttributfs0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native int GetFileAttributes0(long lpFileName)
-        throws WindowsException;
+    privbtf stbtid nbtivf int GftFilfAttributfs0(long lpFilfNbmf)
+        tirows WindowsExdfption;
 
     /**
-     * SetFileAttributes(
-     *   LPCTSTR lpFileName,
-     *   DWORD dwFileAttributes
+     * SftFilfAttributfs(
+     *   LPCTSTR lpFilfNbmf,
+     *   DWORD dwFilfAttributfs
      */
-    static void SetFileAttributes(String path, int dwFileAttributes)
-        throws WindowsException
+    stbtid void SftFilfAttributfs(String pbti, int dwFilfAttributfs)
+        tirows WindowsExdfption
     {
-        NativeBuffer buffer = asNativeBuffer(path);
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbti);
         try {
-            SetFileAttributes0(buffer.address(), dwFileAttributes);
-        } finally {
-            buffer.release();
+            SftFilfAttributfs0(bufffr.bddrfss(), dwFilfAttributfs);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native void SetFileAttributes0(long lpFileName,
-        int dwFileAttributes) throws WindowsException;
+    privbtf stbtid nbtivf void SftFilfAttributfs0(long lpFilfNbmf,
+        int dwFilfAttributfs) tirows WindowsExdfption;
 
     /**
-     * GetFileAttributesEx(
-     *   LPCTSTR lpFileName,
-     *   GET_FILEEX_INFO_LEVELS fInfoLevelId,
-     *   LPVOID lpFileInformation
+     * GftFilfAttributfsEx(
+     *   LPCTSTR lpFilfNbmf,
+     *   GET_FILEEX_INFO_LEVELS fInfoLfvflId,
+     *   LPVOID lpFilfInformbtion
      * );
      */
-    static void GetFileAttributesEx(String path, long address) throws WindowsException {
-        NativeBuffer buffer = asNativeBuffer(path);
+    stbtid void GftFilfAttributfsEx(String pbti, long bddrfss) tirows WindowsExdfption {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbti);
         try {
-            GetFileAttributesEx0(buffer.address(), address);
-        } finally {
-            buffer.release();
+            GftFilfAttributfsEx0(bufffr.bddrfss(), bddrfss);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native void GetFileAttributesEx0(long lpFileName, long address)
-        throws WindowsException;
+    privbtf stbtid nbtivf void GftFilfAttributfsEx0(long lpFilfNbmf, long bddrfss)
+        tirows WindowsExdfption;
     /**
-     * SetFileTime(
-     *   HANDLE hFile,
-     *   CONST FILETIME *lpCreationTime,
-     *   CONST FILETIME *lpLastAccessTime,
-     *   CONST FILETIME *lpLastWriteTime
+     * SftFilfTimf(
+     *   HANDLE iFilf,
+     *   CONST FILETIME *lpCrfbtionTimf,
+     *   CONST FILETIME *lpLbstAddfssTimf,
+     *   CONST FILETIME *lpLbstWritfTimf
      * )
      */
-    static native void SetFileTime(long handle,
-                                   long createTime,
-                                   long lastAccessTime,
-                                   long lastWriteTime)
-        throws WindowsException;
+    stbtid nbtivf void SftFilfTimf(long ibndlf,
+                                   long drfbtfTimf,
+                                   long lbstAddfssTimf,
+                                   long lbstWritfTimf)
+        tirows WindowsExdfption;
 
     /**
-     * SetEndOfFile(
-     *   HANDLE hFile
+     * SftEndOfFilf(
+     *   HANDLE iFilf
      * )
      */
-    static native void SetEndOfFile(long handle) throws WindowsException;
+    stbtid nbtivf void SftEndOfFilf(long ibndlf) tirows WindowsExdfption;
 
     /**
-     * DWORD GetLogicalDrives(VOID)
+     * DWORD GftLogidblDrivfs(VOID)
      */
-    static native int GetLogicalDrives() throws WindowsException;
+    stbtid nbtivf int GftLogidblDrivfs() tirows WindowsExdfption;
 
     /**
-     * GetVolumeInformation(
-     *   LPCTSTR lpRootPathName,
-     *   LPTSTR lpVolumeNameBuffer,
-     *   DWORD nVolumeNameSize,
-     *   LPDWORD lpVolumeSerialNumber,
-     *   LPDWORD lpMaximumComponentLength,
-     *   LPDWORD lpFileSystemFlags,
-     *   LPTSTR lpFileSystemNameBuffer,
-     *   DWORD nFileSystemNameSize
+     * GftVolumfInformbtion(
+     *   LPCTSTR lpRootPbtiNbmf,
+     *   LPTSTR lpVolumfNbmfBufffr,
+     *   DWORD nVolumfNbmfSizf,
+     *   LPDWORD lpVolumfSfriblNumbfr,
+     *   LPDWORD lpMbximumComponfntLfngti,
+     *   LPDWORD lpFilfSystfmFlbgs,
+     *   LPTSTR lpFilfSystfmNbmfBufffr,
+     *   DWORD nFilfSystfmNbmfSizf
      * )
      */
-    static VolumeInformation GetVolumeInformation(String root)
-        throws WindowsException
+    stbtid VolumfInformbtion GftVolumfInformbtion(String root)
+        tirows WindowsExdfption
     {
-        NativeBuffer buffer = asNativeBuffer(root);
+        NbtivfBufffr bufffr = bsNbtivfBufffr(root);
         try {
-            VolumeInformation info = new VolumeInformation();
-            GetVolumeInformation0(buffer.address(), info);
-            return info;
-        } finally {
-            buffer.release();
+            VolumfInformbtion info = nfw VolumfInformbtion();
+            GftVolumfInformbtion0(bufffr.bddrfss(), info);
+            rfturn info;
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    static class VolumeInformation {
-        private String fileSystemName;
-        private String volumeName;
-        private int volumeSerialNumber;
-        private int flags;
-        private VolumeInformation() { }
+    stbtid dlbss VolumfInformbtion {
+        privbtf String filfSystfmNbmf;
+        privbtf String volumfNbmf;
+        privbtf int volumfSfriblNumbfr;
+        privbtf int flbgs;
+        privbtf VolumfInformbtion() { }
 
-        public String fileSystemName()      { return fileSystemName; }
-        public String volumeName()          { return volumeName; }
-        public int volumeSerialNumber()     { return volumeSerialNumber; }
-        public int flags()                  { return flags; }
+        publid String filfSystfmNbmf()      { rfturn filfSystfmNbmf; }
+        publid String volumfNbmf()          { rfturn volumfNbmf; }
+        publid int volumfSfriblNumbfr()     { rfturn volumfSfriblNumbfr; }
+        publid int flbgs()                  { rfturn flbgs; }
     }
-    private static native void GetVolumeInformation0(long lpRoot,
-                                                     VolumeInformation obj)
-        throws WindowsException;
+    privbtf stbtid nbtivf void GftVolumfInformbtion0(long lpRoot,
+                                                     VolumfInformbtion obj)
+        tirows WindowsExdfption;
 
     /**
-     * UINT GetDriveType(
-     *   LPCTSTR lpRootPathName
+     * UINT GftDrivfTypf(
+     *   LPCTSTR lpRootPbtiNbmf
      * )
      */
-    static int GetDriveType(String root) throws WindowsException {
-        NativeBuffer buffer = asNativeBuffer(root);
+    stbtid int GftDrivfTypf(String root) tirows WindowsExdfption {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(root);
         try {
-            return GetDriveType0(buffer.address());
-        } finally {
-            buffer.release();
+            rfturn GftDrivfTypf0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native int GetDriveType0(long lpRoot) throws WindowsException;
+    privbtf stbtid nbtivf int GftDrivfTypf0(long lpRoot) tirows WindowsExdfption;
 
     /**
-     * GetDiskFreeSpaceEx(
-     *   LPCTSTR lpDirectoryName,
-     *   PULARGE_INTEGER lpFreeBytesAvailableToCaller,
-     *   PULARGE_INTEGER lpTotalNumberOfBytes,
-     *   PULARGE_INTEGER lpTotalNumberOfFreeBytes
+     * GftDiskFrffSpbdfEx(
+     *   LPCTSTR lpDirfdtoryNbmf,
+     *   PULARGE_INTEGER lpFrffBytfsAvbilbblfToCbllfr,
+     *   PULARGE_INTEGER lpTotblNumbfrOfBytfs,
+     *   PULARGE_INTEGER lpTotblNumbfrOfFrffBytfs
      * )
      */
-    static DiskFreeSpace GetDiskFreeSpaceEx(String path)
-        throws WindowsException
+    stbtid DiskFrffSpbdf GftDiskFrffSpbdfEx(String pbti)
+        tirows WindowsExdfption
     {
-        NativeBuffer buffer = asNativeBuffer(path);
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbti);
         try {
-            DiskFreeSpace space = new DiskFreeSpace();
-            GetDiskFreeSpaceEx0(buffer.address(), space);
-            return space;
-        } finally {
-            buffer.release();
+            DiskFrffSpbdf spbdf = nfw DiskFrffSpbdf();
+            GftDiskFrffSpbdfEx0(bufffr.bddrfss(), spbdf);
+            rfturn spbdf;
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    static class DiskFreeSpace {
-        private long freeBytesAvailable;
-        private long totalNumberOfBytes;
-        private long totalNumberOfFreeBytes;
-        private DiskFreeSpace() { }
+    stbtid dlbss DiskFrffSpbdf {
+        privbtf long frffBytfsAvbilbblf;
+        privbtf long totblNumbfrOfBytfs;
+        privbtf long totblNumbfrOfFrffBytfs;
+        privbtf DiskFrffSpbdf() { }
 
-        public long freeBytesAvailable()      { return freeBytesAvailable; }
-        public long totalNumberOfBytes()      { return totalNumberOfBytes; }
-        public long totalNumberOfFreeBytes()  { return totalNumberOfFreeBytes; }
+        publid long frffBytfsAvbilbblf()      { rfturn frffBytfsAvbilbblf; }
+        publid long totblNumbfrOfBytfs()      { rfturn totblNumbfrOfBytfs; }
+        publid long totblNumbfrOfFrffBytfs()  { rfturn totblNumbfrOfFrffBytfs; }
     }
-    private static native void GetDiskFreeSpaceEx0(long lpDirectoryName,
-                                                   DiskFreeSpace obj)
-        throws WindowsException;
+    privbtf stbtid nbtivf void GftDiskFrffSpbdfEx0(long lpDirfdtoryNbmf,
+                                                   DiskFrffSpbdf obj)
+        tirows WindowsExdfption;
 
 
     /**
-     * GetVolumePathName(
-     *   LPCTSTR lpszFileName,
-     *   LPTSTR lpszVolumePathName,
-     *   DWORD cchBufferLength
+     * GftVolumfPbtiNbmf(
+     *   LPCTSTR lpszFilfNbmf,
+     *   LPTSTR lpszVolumfPbtiNbmf,
+     *   DWORD ddiBufffrLfngti
      * )
      *
-     * @return  lpFileName
+     * @rfturn  lpFilfNbmf
      */
-    static String GetVolumePathName(String path) throws WindowsException {
-        NativeBuffer buffer = asNativeBuffer(path);
+    stbtid String GftVolumfPbtiNbmf(String pbti) tirows WindowsExdfption {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbti);
         try {
-            return GetVolumePathName0(buffer.address());
-        } finally {
-            buffer.release();
+            rfturn GftVolumfPbtiNbmf0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native String GetVolumePathName0(long lpFileName)
-        throws WindowsException;
+    privbtf stbtid nbtivf String GftVolumfPbtiNbmf0(long lpFilfNbmf)
+        tirows WindowsExdfption;
 
 
     /**
-     * InitializeSecurityDescriptor(
-     *   PSECURITY_DESCRIPTOR pSecurityDescriptor,
-     *   DWORD dwRevision
+     * InitiblizfSfdurityDfsdriptor(
+     *   PSECURITY_DESCRIPTOR pSfdurityDfsdriptor,
+     *   DWORD dwRfvision
      * )
      */
-    static native void InitializeSecurityDescriptor(long sdAddress)
-        throws WindowsException;
+    stbtid nbtivf void InitiblizfSfdurityDfsdriptor(long sdAddrfss)
+        tirows WindowsExdfption;
 
     /**
-     * InitializeAcl(
-     *   PACL pAcl,
-     *   DWORD nAclLength,
-     *   DWORD dwAclRevision
+     * InitiblizfAdl(
+     *   PACL pAdl,
+     *   DWORD nAdlLfngti,
+     *   DWORD dwAdlRfvision
      * )
      */
-    static native void InitializeAcl(long aclAddress, int size)
-         throws WindowsException;
+    stbtid nbtivf void InitiblizfAdl(long bdlAddrfss, int sizf)
+         tirows WindowsExdfption;
 
     /**
-     * GetFileSecurity(
-     *   LPCTSTR lpFileName,
-     *   SECURITY_INFORMATION RequestedInformation,
-     *   PSECURITY_DESCRIPTOR pSecurityDescriptor,
-     *   DWORD nLength,
-     *   LPDWORD lpnLengthNeeded
+     * GftFilfSfdurity(
+     *   LPCTSTR lpFilfNbmf,
+     *   SECURITY_INFORMATION RfqufstfdInformbtion,
+     *   PSECURITY_DESCRIPTOR pSfdurityDfsdriptor,
+     *   DWORD nLfngti,
+     *   LPDWORD lpnLfngtiNffdfd
      * )
      */
-    static int GetFileSecurity(String path,
-                               int requestedInformation,
-                               long pSecurityDescriptor,
-                               int nLength) throws WindowsException
+    stbtid int GftFilfSfdurity(String pbti,
+                               int rfqufstfdInformbtion,
+                               long pSfdurityDfsdriptor,
+                               int nLfngti) tirows WindowsExdfption
     {
-        NativeBuffer buffer = asNativeBuffer(path);
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbti);
         try {
-            return GetFileSecurity0(buffer.address(), requestedInformation,
-                pSecurityDescriptor, nLength);
-        } finally {
-            buffer.release();
+            rfturn GftFilfSfdurity0(bufffr.bddrfss(), rfqufstfdInformbtion,
+                pSfdurityDfsdriptor, nLfngti);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native int GetFileSecurity0(long lpFileName,
-                                               int requestedInformation,
-                                               long pSecurityDescriptor,
-                                               int nLength) throws WindowsException;
+    privbtf stbtid nbtivf int GftFilfSfdurity0(long lpFilfNbmf,
+                                               int rfqufstfdInformbtion,
+                                               long pSfdurityDfsdriptor,
+                                               int nLfngti) tirows WindowsExdfption;
 
     /**
-     * SetFileSecurity(
-     *   LPCTSTR lpFileName,
-     *   SECURITY_INFORMATION SecurityInformation,
-     *   PSECURITY_DESCRIPTOR pSecurityDescriptor
+     * SftFilfSfdurity(
+     *   LPCTSTR lpFilfNbmf,
+     *   SECURITY_INFORMATION SfdurityInformbtion,
+     *   PSECURITY_DESCRIPTOR pSfdurityDfsdriptor
      * )
      */
-    static void SetFileSecurity(String path,
-                                int securityInformation,
-                                long pSecurityDescriptor)
-        throws WindowsException
+    stbtid void SftFilfSfdurity(String pbti,
+                                int sfdurityInformbtion,
+                                long pSfdurityDfsdriptor)
+        tirows WindowsExdfption
     {
-        NativeBuffer buffer = asNativeBuffer(path);
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbti);
         try {
-            SetFileSecurity0(buffer.address(), securityInformation,
-                pSecurityDescriptor);
-        } finally {
-            buffer.release();
+            SftFilfSfdurity0(bufffr.bddrfss(), sfdurityInformbtion,
+                pSfdurityDfsdriptor);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    static native void SetFileSecurity0(long lpFileName, int securityInformation,
-        long pSecurityDescriptor) throws WindowsException;
+    stbtid nbtivf void SftFilfSfdurity0(long lpFilfNbmf, int sfdurityInformbtion,
+        long pSfdurityDfsdriptor) tirows WindowsExdfption;
 
     /**
-     * GetSecurityDescriptorOwner(
-     *   PSECURITY_DESCRIPTOR pSecurityDescriptor
-     *   PSID *pOwner,
-     *   LPBOOL lpbOwnerDefaulted
+     * GftSfdurityDfsdriptorOwnfr(
+     *   PSECURITY_DESCRIPTOR pSfdurityDfsdriptor
+     *   PSID *pOwnfr,
+     *   LPBOOL lpbOwnfrDffbultfd
      * )
      *
-     * @return  pOwner
+     * @rfturn  pOwnfr
      */
-    static native long GetSecurityDescriptorOwner(long pSecurityDescriptor)
-        throws WindowsException;
+    stbtid nbtivf long GftSfdurityDfsdriptorOwnfr(long pSfdurityDfsdriptor)
+        tirows WindowsExdfption;
 
     /**
-     * SetSecurityDescriptorOwner(
-     *   PSECURITY_DESCRIPTOR pSecurityDescriptor,
-     *   PSID pOwner,
-     *   BOOL bOwnerDefaulted
+     * SftSfdurityDfsdriptorOwnfr(
+     *   PSECURITY_DESCRIPTOR pSfdurityDfsdriptor,
+     *   PSID pOwnfr,
+     *   BOOL bOwnfrDffbultfd
      * )
      */
-    static native void SetSecurityDescriptorOwner(long pSecurityDescriptor,
-                                                  long pOwner)
-        throws WindowsException;
+    stbtid nbtivf void SftSfdurityDfsdriptorOwnfr(long pSfdurityDfsdriptor,
+                                                  long pOwnfr)
+        tirows WindowsExdfption;
 
     /**
-     * GetSecurityDescriptorDacl(
-     *   PSECURITY_DESCRIPTOR pSecurityDescriptor,
-     *   LPBOOL lpbDaclPresent,
-     *   PACL *pDacl,
-     *   LPBOOL lpbDaclDefaulted
+     * GftSfdurityDfsdriptorDbdl(
+     *   PSECURITY_DESCRIPTOR pSfdurityDfsdriptor,
+     *   LPBOOL lpbDbdlPrfsfnt,
+     *   PACL *pDbdl,
+     *   LPBOOL lpbDbdlDffbultfd
      * )
      */
-    static native long GetSecurityDescriptorDacl(long pSecurityDescriptor);
+    stbtid nbtivf long GftSfdurityDfsdriptorDbdl(long pSfdurityDfsdriptor);
 
     /**
-     * SetSecurityDescriptorDacl(
-     *   PSECURITY_DESCRIPTOR pSecurityDescriptor,
-     *   BOOL bDaclPresent,
-     *   PACL pDacl,
-     *   BOOL bDaclDefaulted
+     * SftSfdurityDfsdriptorDbdl(
+     *   PSECURITY_DESCRIPTOR pSfdurityDfsdriptor,
+     *   BOOL bDbdlPrfsfnt,
+     *   PACL pDbdl,
+     *   BOOL bDbdlDffbultfd
      * )
      */
-    static native void SetSecurityDescriptorDacl(long pSecurityDescriptor, long pAcl)
-        throws WindowsException;
+    stbtid nbtivf void SftSfdurityDfsdriptorDbdl(long pSfdurityDfsdriptor, long pAdl)
+        tirows WindowsExdfption;
 
 
     /**
-     * GetAclInformation(
-     *   PACL pAcl,
-     *   LPVOID pAclInformation,
-     *   DWORD nAclInformationLength,
-     *   ACL_INFORMATION_CLASS dwAclInformationClass
+     * GftAdlInformbtion(
+     *   PACL pAdl,
+     *   LPVOID pAdlInformbtion,
+     *   DWORD nAdlInformbtionLfngti,
+     *   ACL_INFORMATION_CLASS dwAdlInformbtionClbss
      * )
      */
-    static AclInformation GetAclInformation(long aclAddress) {
-        AclInformation info = new AclInformation();
-        GetAclInformation0(aclAddress, info);
-        return info;
+    stbtid AdlInformbtion GftAdlInformbtion(long bdlAddrfss) {
+        AdlInformbtion info = nfw AdlInformbtion();
+        GftAdlInformbtion0(bdlAddrfss, info);
+        rfturn info;
     }
-    static class AclInformation {
-        private int aceCount;
-        private AclInformation() { }
+    stbtid dlbss AdlInformbtion {
+        privbtf int bdfCount;
+        privbtf AdlInformbtion() { }
 
-        public int aceCount()   { return aceCount; }
+        publid int bdfCount()   { rfturn bdfCount; }
     }
-    private static native void GetAclInformation0(long aclAddress,
-        AclInformation obj);
+    privbtf stbtid nbtivf void GftAdlInformbtion0(long bdlAddrfss,
+        AdlInformbtion obj);
 
     /**
-     * GetAce(
-     *   PACL pAcl,
-     *   DWORD dwAceIndex,
-     *   LPVOID *pAce
+     * GftAdf(
+     *   PACL pAdl,
+     *   DWORD dwAdfIndfx,
+     *   LPVOID *pAdf
      * )
      */
-    static native long GetAce(long aclAddress, int aceIndex);
+    stbtid nbtivf long GftAdf(long bdlAddrfss, int bdfIndfx);
 
     /**
-     * AddAccessAllowedAceEx(
-     *   PACL pAcl,
-     *   DWORD dwAceRevision,
-     *   DWORD AceFlags,
-     *   DWORD AccessMask,
+     * AddAddfssAllowfdAdfEx(
+     *   PACL pAdl,
+     *   DWORD dwAdfRfvision,
+     *   DWORD AdfFlbgs,
+     *   DWORD AddfssMbsk,
      *   PSID pSid
      * )
      */
-    static native void AddAccessAllowedAceEx(long aclAddress, int flags,
-        int mask, long sidAddress) throws WindowsException;
+    stbtid nbtivf void AddAddfssAllowfdAdfEx(long bdlAddrfss, int flbgs,
+        int mbsk, long sidAddrfss) tirows WindowsExdfption;
 
     /**
-     * AddAccessDeniedAceEx(
-     *   PACL pAcl,
-     *   DWORD dwAceRevision,
-     *   DWORD AceFlags,
-     *   DWORD AccessMask,
+     * AddAddfssDfnifdAdfEx(
+     *   PACL pAdl,
+     *   DWORD dwAdfRfvision,
+     *   DWORD AdfFlbgs,
+     *   DWORD AddfssMbsk,
      *   PSID pSid
      * )
      */
-    static native void AddAccessDeniedAceEx(long aclAddress, int flags,
-        int mask, long sidAddress) throws WindowsException;
+    stbtid nbtivf void AddAddfssDfnifdAdfEx(long bdlAddrfss, int flbgs,
+        int mbsk, long sidAddrfss) tirows WindowsExdfption;
 
     /**
-     * LookupAccountSid(
-     *   LPCTSTR lpSystemName,
+     * LookupAddountSid(
+     *   LPCTSTR lpSystfmNbmf,
      *   PSID Sid,
-     *   LPTSTR Name,
-     *   LPDWORD cbName,
-     *   LPTSTR ReferencedDomainName,
-     *   LPDWORD cbReferencedDomainName,
-     *   PSID_NAME_USE peUse
+     *   LPTSTR Nbmf,
+     *   LPDWORD dbNbmf,
+     *   LPTSTR RfffrfndfdDombinNbmf,
+     *   LPDWORD dbRfffrfndfdDombinNbmf,
+     *   PSID_NAME_USE pfUsf
      * )
      */
-    static Account LookupAccountSid(long sidAddress) throws WindowsException {
-        Account acc = new Account();
-        LookupAccountSid0(sidAddress, acc);
-        return acc;
+    stbtid Addount LookupAddountSid(long sidAddrfss) tirows WindowsExdfption {
+        Addount bdd = nfw Addount();
+        LookupAddountSid0(sidAddrfss, bdd);
+        rfturn bdd;
     }
-    static class Account {
-        private String domain;
-        private String name;
-        private int use;
-        private Account() { }
+    stbtid dlbss Addount {
+        privbtf String dombin;
+        privbtf String nbmf;
+        privbtf int usf;
+        privbtf Addount() { }
 
-        public String domain()  { return domain; }
-        public String name()    { return name; }
-        public int use()        { return use; }
+        publid String dombin()  { rfturn dombin; }
+        publid String nbmf()    { rfturn nbmf; }
+        publid int usf()        { rfturn usf; }
     }
-    private static native void LookupAccountSid0(long sidAddress, Account obj)
-        throws WindowsException;
+    privbtf stbtid nbtivf void LookupAddountSid0(long sidAddrfss, Addount obj)
+        tirows WindowsExdfption;
 
     /**
-     * LookupAccountName(
-     *   LPCTSTR lpSystemName,
-     *   LPCTSTR lpAccountName,
+     * LookupAddountNbmf(
+     *   LPCTSTR lpSystfmNbmf,
+     *   LPCTSTR lpAddountNbmf,
      *   PSID Sid,
-     *   LPDWORD cbSid,
-     *   LPTSTR ReferencedDomainName,
-     *   LPDWORD cbReferencedDomainName,
-     *   PSID_NAME_USE peUse
+     *   LPDWORD dbSid,
+     *   LPTSTR RfffrfndfdDombinNbmf,
+     *   LPDWORD dbRfffrfndfdDombinNbmf,
+     *   PSID_NAME_USE pfUsf
      * )
      *
-     * @return  cbSid
+     * @rfturn  dbSid
      */
-    static int LookupAccountName(String accountName,
+    stbtid int LookupAddountNbmf(String bddountNbmf,
                                  long pSid,
-                                 int cbSid) throws WindowsException
+                                 int dbSid) tirows WindowsExdfption
     {
-        NativeBuffer buffer = asNativeBuffer(accountName);
+        NbtivfBufffr bufffr = bsNbtivfBufffr(bddountNbmf);
         try {
-            return LookupAccountName0(buffer.address(), pSid, cbSid);
-        } finally {
-            buffer.release();
+            rfturn LookupAddountNbmf0(bufffr.bddrfss(), pSid, dbSid);
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native int LookupAccountName0(long lpAccountName, long pSid,
-        int cbSid) throws WindowsException;
+    privbtf stbtid nbtivf int LookupAddountNbmf0(long lpAddountNbmf, long pSid,
+        int dbSid) tirows WindowsExdfption;
 
     /**
-     * DWORD GetLengthSid(
+     * DWORD GftLfngtiSid(
      *   PSID pSid
      * )
      */
-    static native int GetLengthSid(long sidAddress);
+    stbtid nbtivf int GftLfngtiSid(long sidAddrfss);
 
     /**
-     * ConvertSidToStringSid(
+     * ConvfrtSidToStringSid(
      *   PSID Sid,
      *   LPTSTR* StringSid
      * )
      *
-     * @return  StringSid
+     * @rfturn  StringSid
      */
-    static native String ConvertSidToStringSid(long sidAddress)
-        throws WindowsException;
+    stbtid nbtivf String ConvfrtSidToStringSid(long sidAddrfss)
+        tirows WindowsExdfption;
 
     /**
-     * ConvertStringSidToSid(
+     * ConvfrtStringSidToSid(
      *   LPCTSTR StringSid,
      *   PSID* pSid
      * )
      *
-     * @return  pSid
+     * @rfturn  pSid
      */
-    static long ConvertStringSidToSid(String sidString)
-        throws WindowsException
+    stbtid long ConvfrtStringSidToSid(String sidString)
+        tirows WindowsExdfption
     {
-        NativeBuffer buffer = asNativeBuffer(sidString);
+        NbtivfBufffr bufffr = bsNbtivfBufffr(sidString);
         try {
-            return ConvertStringSidToSid0(buffer.address());
-        } finally {
-            buffer.release();
+            rfturn ConvfrtStringSidToSid0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native long ConvertStringSidToSid0(long lpStringSid)
-        throws WindowsException;
+    privbtf stbtid nbtivf long ConvfrtStringSidToSid0(long lpStringSid)
+        tirows WindowsExdfption;
 
     /**
-     * HANDLE GetCurrentProcess(VOID)
+     * HANDLE GftCurrfntProdfss(VOID)
      */
-    static native long GetCurrentProcess();
+    stbtid nbtivf long GftCurrfntProdfss();
 
     /**
-     * HANDLE GetCurrentThread(VOID)
+     * HANDLE GftCurrfntTirfbd(VOID)
      */
-    static native long GetCurrentThread();
+    stbtid nbtivf long GftCurrfntTirfbd();
 
     /**
-     * OpenProcessToken(
-     *   HANDLE ProcessHandle,
-     *   DWORD DesiredAccess,
-     *   PHANDLE TokenHandle
+     * OpfnProdfssTokfn(
+     *   HANDLE ProdfssHbndlf,
+     *   DWORD DfsirfdAddfss,
+     *   PHANDLE TokfnHbndlf
      * )
      */
-    static native long OpenProcessToken(long hProcess, int desiredAccess)
-        throws WindowsException;
+    stbtid nbtivf long OpfnProdfssTokfn(long iProdfss, int dfsirfdAddfss)
+        tirows WindowsExdfption;
 
     /**
-     * OpenThreadToken(
-     *   HANDLE ThreadHandle,
-     *   DWORD DesiredAccess,
-     *   BOOL OpenAsSelf,
-     *   PHANDLE TokenHandle
+     * OpfnTirfbdTokfn(
+     *   HANDLE TirfbdHbndlf,
+     *   DWORD DfsirfdAddfss,
+     *   BOOL OpfnAsSflf,
+     *   PHANDLE TokfnHbndlf
      * )
      */
-    static native long OpenThreadToken(long hThread, int desiredAccess,
-        boolean openAsSelf) throws WindowsException;
+    stbtid nbtivf long OpfnTirfbdTokfn(long iTirfbd, int dfsirfdAddfss,
+        boolfbn opfnAsSflf) tirows WindowsExdfption;
 
     /**
      */
-    static native long DuplicateTokenEx(long hThread, int desiredAccess)
-        throws WindowsException;
+    stbtid nbtivf long DuplidbtfTokfnEx(long iTirfbd, int dfsirfdAddfss)
+        tirows WindowsExdfption;
 
     /**
-     * SetThreadToken(
-     *   PHANDLE Thread,
-     *   HANDLE Token
+     * SftTirfbdTokfn(
+     *   PHANDLE Tirfbd,
+     *   HANDLE Tokfn
      * )
      */
-    static native void SetThreadToken(long thread, long hToken)
-        throws WindowsException;
+    stbtid nbtivf void SftTirfbdTokfn(long tirfbd, long iTokfn)
+        tirows WindowsExdfption;
 
     /**
-     * GetTokenInformation(
-     *   HANDLE TokenHandle,
-     *   TOKEN_INFORMATION_CLASS TokenInformationClass,
-     *   LPVOID TokenInformation,
-     *   DWORD TokenInformationLength,
-     *   PDWORD ReturnLength
+     * GftTokfnInformbtion(
+     *   HANDLE TokfnHbndlf,
+     *   TOKEN_INFORMATION_CLASS TokfnInformbtionClbss,
+     *   LPVOID TokfnInformbtion,
+     *   DWORD TokfnInformbtionLfngti,
+     *   PDWORD RfturnLfngti
      * )
      */
-    static native int GetTokenInformation(long token, int tokenInfoClass,
-        long pTokenInfo, int tokenInfoLength) throws WindowsException;
+    stbtid nbtivf int GftTokfnInformbtion(long tokfn, int tokfnInfoClbss,
+        long pTokfnInfo, int tokfnInfoLfngti) tirows WindowsExdfption;
 
     /**
-     * AdjustTokenPrivileges(
-     *   HANDLE TokenHandle,
-     *   BOOL DisableAllPrivileges
-     *   PTOKEN_PRIVILEGES NewState
-     *   DWORD BufferLength
+     * AdjustTokfnPrivilfgfs(
+     *   HANDLE TokfnHbndlf,
+     *   BOOL DisbblfAllPrivilfgfs
+     *   PTOKEN_PRIVILEGES NfwStbtf
+     *   DWORD BufffrLfngti
      *   PTOKEN_PRIVILEGES
-     *   PDWORD ReturnLength
+     *   PDWORD RfturnLfngti
      * )
      */
-    static native void AdjustTokenPrivileges(long token, long luid, int attributes)
-        throws WindowsException;
+    stbtid nbtivf void AdjustTokfnPrivilfgfs(long tokfn, long luid, int bttributfs)
+        tirows WindowsExdfption;
 
 
     /**
-     * AccessCheck(
-     *   PSECURITY_DESCRIPTOR pSecurityDescriptor,
-     *   HANDLE ClientToken,
-     *   DWORD DesiredAccess,
-     *   PGENERIC_MAPPING GenericMapping,
-     *   PPRIVILEGE_SET PrivilegeSet,
-     *   LPDWORD PrivilegeSetLength,
-     *   LPDWORD GrantedAccess,
-     *   LPBOOL AccessStatus
+     * AddfssCifdk(
+     *   PSECURITY_DESCRIPTOR pSfdurityDfsdriptor,
+     *   HANDLE ClifntTokfn,
+     *   DWORD DfsirfdAddfss,
+     *   PGENERIC_MAPPING GfnfridMbpping,
+     *   PPRIVILEGE_SET PrivilfgfSft,
+     *   LPDWORD PrivilfgfSftLfngti,
+     *   LPDWORD GrbntfdAddfss,
+     *   LPBOOL AddfssStbtus
      * )
      */
-    static native boolean AccessCheck(long token, long securityInfo, int accessMask,
-        int genericRead, int genericWrite, int genericExecute, int genericAll)
-        throws WindowsException;
+    stbtid nbtivf boolfbn AddfssCifdk(long tokfn, long sfdurityInfo, int bddfssMbsk,
+        int gfnfridRfbd, int gfnfridWritf, int gfnfridExfdutf, int gfnfridAll)
+        tirows WindowsExdfption;
 
     /**
      */
-    static long LookupPrivilegeValue(String name) throws WindowsException {
-        NativeBuffer buffer = asNativeBuffer(name);
+    stbtid long LookupPrivilfgfVbluf(String nbmf) tirows WindowsExdfption {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(nbmf);
         try {
-            return LookupPrivilegeValue0(buffer.address());
-        } finally {
-            buffer.release();
+            rfturn LookupPrivilfgfVbluf0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native long LookupPrivilegeValue0(long lpName)
-        throws WindowsException;
+    privbtf stbtid nbtivf long LookupPrivilfgfVbluf0(long lpNbmf)
+        tirows WindowsExdfption;
 
     /**
-     * CreateSymbolicLink(
-     *   LPCWSTR lpSymlinkFileName,
-     *   LPCWSTR lpTargetFileName,
-     *   DWORD dwFlags
+     * CrfbtfSymbolidLink(
+     *   LPCWSTR lpSymlinkFilfNbmf,
+     *   LPCWSTR lpTbrgftFilfNbmf,
+     *   DWORD dwFlbgs
      * )
      */
-    static void CreateSymbolicLink(String link, String target, int flags)
-        throws WindowsException
+    stbtid void CrfbtfSymbolidLink(String link, String tbrgft, int flbgs)
+        tirows WindowsExdfption
     {
-        NativeBuffer linkBuffer = asNativeBuffer(link);
-        NativeBuffer targetBuffer = asNativeBuffer(target);
+        NbtivfBufffr linkBufffr = bsNbtivfBufffr(link);
+        NbtivfBufffr tbrgftBufffr = bsNbtivfBufffr(tbrgft);
         try {
-            CreateSymbolicLink0(linkBuffer.address(), targetBuffer.address(),
-                                flags);
-        } finally {
-            targetBuffer.release();
-            linkBuffer.release();
+            CrfbtfSymbolidLink0(linkBufffr.bddrfss(), tbrgftBufffr.bddrfss(),
+                                flbgs);
+        } finblly {
+            tbrgftBufffr.rflfbsf();
+            linkBufffr.rflfbsf();
         }
     }
-    private static native void CreateSymbolicLink0(long linkAddress,
-        long targetAddress, int flags) throws WindowsException;
+    privbtf stbtid nbtivf void CrfbtfSymbolidLink0(long linkAddrfss,
+        long tbrgftAddrfss, int flbgs) tirows WindowsExdfption;
 
     /**
-     * CreateHardLink(
-     *    LPCTSTR lpFileName,
-     *    LPCTSTR lpExistingFileName,
-     *    LPSECURITY_ATTRIBUTES lpSecurityAttributes
+     * CrfbtfHbrdLink(
+     *    LPCTSTR lpFilfNbmf,
+     *    LPCTSTR lpExistingFilfNbmf,
+     *    LPSECURITY_ATTRIBUTES lpSfdurityAttributfs
      * )
      */
-    static void CreateHardLink(String newFile, String existingFile)
-        throws WindowsException
+    stbtid void CrfbtfHbrdLink(String nfwFilf, String fxistingFilf)
+        tirows WindowsExdfption
     {
-        NativeBuffer newFileBuffer = asNativeBuffer(newFile);
-        NativeBuffer existingFileBuffer = asNativeBuffer(existingFile);
+        NbtivfBufffr nfwFilfBufffr = bsNbtivfBufffr(nfwFilf);
+        NbtivfBufffr fxistingFilfBufffr = bsNbtivfBufffr(fxistingFilf);
         try {
-            CreateHardLink0(newFileBuffer.address(), existingFileBuffer.address());
-        } finally {
-            existingFileBuffer.release();
-            newFileBuffer.release();
+            CrfbtfHbrdLink0(nfwFilfBufffr.bddrfss(), fxistingFilfBufffr.bddrfss());
+        } finblly {
+            fxistingFilfBufffr.rflfbsf();
+            nfwFilfBufffr.rflfbsf();
         }
     }
-    private static native void CreateHardLink0(long newFileBuffer,
-        long existingFileBuffer) throws WindowsException;
+    privbtf stbtid nbtivf void CrfbtfHbrdLink0(long nfwFilfBufffr,
+        long fxistingFilfBufffr) tirows WindowsExdfption;
 
     /**
-     * GetFullPathName(
-     *   LPCTSTR lpFileName,
-     *   DWORD nBufferLength,
-     *   LPTSTR lpBuffer,
-     *   LPTSTR *lpFilePart
+     * GftFullPbtiNbmf(
+     *   LPCTSTR lpFilfNbmf,
+     *   DWORD nBufffrLfngti,
+     *   LPTSTR lpBufffr,
+     *   LPTSTR *lpFilfPbrt
      * )
      */
-    static String GetFullPathName(String path) throws WindowsException {
-        NativeBuffer buffer = asNativeBuffer(path);
+    stbtid String GftFullPbtiNbmf(String pbti) tirows WindowsExdfption {
+        NbtivfBufffr bufffr = bsNbtivfBufffr(pbti);
         try {
-            return GetFullPathName0(buffer.address());
-        } finally {
-            buffer.release();
+            rfturn GftFullPbtiNbmf0(bufffr.bddrfss());
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
-    private static native String GetFullPathName0(long pathAddress)
-        throws WindowsException;
+    privbtf stbtid nbtivf String GftFullPbtiNbmf0(long pbtiAddrfss)
+        tirows WindowsExdfption;
 
     /**
-     * GetFinalPathNameByHandle(
-     *   HANDLE hFile,
-     *   LPTSTR lpszFilePath,
-     *   DWORD cchFilePath,
-     *   DWORD dwFlags
+     * GftFinblPbtiNbmfByHbndlf(
+     *   HANDLE iFilf,
+     *   LPTSTR lpszFilfPbti,
+     *   DWORD ddiFilfPbti,
+     *   DWORD dwFlbgs
      * )
      */
-    static native String GetFinalPathNameByHandle(long handle)
-        throws WindowsException;
+    stbtid nbtivf String GftFinblPbtiNbmfByHbndlf(long ibndlf)
+        tirows WindowsExdfption;
 
     /**
-     * FormatMessage(
-     *   DWORD dwFlags,
-     *   LPCVOID lpSource,
-     *   DWORD dwMessageId,
-     *   DWORD dwLanguageId,
-     *   LPTSTR lpBuffer,
-     *   DWORD nSize,
-     *   va_list *Arguments
+     * FormbtMfssbgf(
+     *   DWORD dwFlbgs,
+     *   LPCVOID lpSourdf,
+     *   DWORD dwMfssbgfId,
+     *   DWORD dwLbngubgfId,
+     *   LPTSTR lpBufffr,
+     *   DWORD nSizf,
+     *   vb_list *Argumfnts
      * )
      */
-    static native String FormatMessage(int errorCode);
+    stbtid nbtivf String FormbtMfssbgf(int frrorCodf);
 
     /**
-     * LocalFree(
-     *   HLOCAL hMem
+     * LodblFrff(
+     *   HLOCAL iMfm
      * )
      */
-    static native void LocalFree(long address);
+    stbtid nbtivf void LodblFrff(long bddrfss);
 
     /**
-     * HANDLE CreateIoCompletionPort (
-     *   HANDLE FileHandle,
-     *   HANDLE ExistingCompletionPort,
-     *   ULONG_PTR CompletionKey,
-     *   DWORD NumberOfConcurrentThreads
+     * HANDLE CrfbtfIoComplftionPort (
+     *   HANDLE FilfHbndlf,
+     *   HANDLE ExistingComplftionPort,
+     *   ULONG_PTR ComplftionKfy,
+     *   DWORD NumbfrOfCondurrfntTirfbds
      * )
      */
-    static native long CreateIoCompletionPort(long fileHandle, long existingPort,
-        long completionKey) throws WindowsException;
+    stbtid nbtivf long CrfbtfIoComplftionPort(long filfHbndlf, long fxistingPort,
+        long domplftionKfy) tirows WindowsExdfption;
 
 
     /**
-     * GetQueuedCompletionStatus(
-     *   HANDLE CompletionPort,
-     *   LPDWORD lpNumberOfBytesTransferred,
-     *   PULONG_PTR lpCompletionKey,
-     *   LPOVERLAPPED *lpOverlapped,
-     *   DWORD dwMilliseconds
+     * GftQufufdComplftionStbtus(
+     *   HANDLE ComplftionPort,
+     *   LPDWORD lpNumbfrOfBytfsTrbnsffrrfd,
+     *   PULONG_PTR lpComplftionKfy,
+     *   LPOVERLAPPED *lpOvfrlbppfd,
+     *   DWORD dwMillisfdonds
      */
-    static CompletionStatus GetQueuedCompletionStatus(long completionPort)
-        throws WindowsException
+    stbtid ComplftionStbtus GftQufufdComplftionStbtus(long domplftionPort)
+        tirows WindowsExdfption
     {
-        CompletionStatus status = new CompletionStatus();
-        GetQueuedCompletionStatus0(completionPort, status);
-        return status;
+        ComplftionStbtus stbtus = nfw ComplftionStbtus();
+        GftQufufdComplftionStbtus0(domplftionPort, stbtus);
+        rfturn stbtus;
     }
-    static class CompletionStatus {
-        private int error;
-        private int bytesTransferred;
-        private long completionKey;
-        private CompletionStatus() { }
+    stbtid dlbss ComplftionStbtus {
+        privbtf int frror;
+        privbtf int bytfsTrbnsffrrfd;
+        privbtf long domplftionKfy;
+        privbtf ComplftionStbtus() { }
 
-        int error() { return error; }
-        int bytesTransferred() { return bytesTransferred; }
-        long completionKey() { return completionKey; }
+        int frror() { rfturn frror; }
+        int bytfsTrbnsffrrfd() { rfturn bytfsTrbnsffrrfd; }
+        long domplftionKfy() { rfturn domplftionKfy; }
     }
-    private static native void GetQueuedCompletionStatus0(long completionPort,
-        CompletionStatus status) throws WindowsException;
+    privbtf stbtid nbtivf void GftQufufdComplftionStbtus0(long domplftionPort,
+        ComplftionStbtus stbtus) tirows WindowsExdfption;
 
     /**
-     * PostQueuedCompletionStatus(
-     *   HANDLE CompletionPort,
-     *   DWORD dwNumberOfBytesTransferred,
-     *   ULONG_PTR dwCompletionKey,
-     *   LPOVERLAPPED lpOverlapped
+     * PostQufufdComplftionStbtus(
+     *   HANDLE ComplftionPort,
+     *   DWORD dwNumbfrOfBytfsTrbnsffrrfd,
+     *   ULONG_PTR dwComplftionKfy,
+     *   LPOVERLAPPED lpOvfrlbppfd
      * )
      */
-    static native void PostQueuedCompletionStatus(long completionPort,
-        long completionKey) throws WindowsException;
+    stbtid nbtivf void PostQufufdComplftionStbtus(long domplftionPort,
+        long domplftionKfy) tirows WindowsExdfption;
 
     /**
-     * ReadDirectoryChangesW(
-     *   HANDLE hDirectory,
-     *   LPVOID lpBuffer,
-     *   DWORD nBufferLength,
-     *   BOOL bWatchSubtree,
-     *   DWORD dwNotifyFilter,
-     *   LPDWORD lpBytesReturned,
-     *   LPOVERLAPPED lpOverlapped,
-     *   LPOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine
+     * RfbdDirfdtoryCibngfsW(
+     *   HANDLE iDirfdtory,
+     *   LPVOID lpBufffr,
+     *   DWORD nBufffrLfngti,
+     *   BOOL bWbtdiSubtrff,
+     *   DWORD dwNotifyFiltfr,
+     *   LPDWORD lpBytfsRfturnfd,
+     *   LPOVERLAPPED lpOvfrlbppfd,
+     *   LPOVERLAPPED_COMPLETION_ROUTINE lpComplftionRoutinf
      * )
      */
-    static native void ReadDirectoryChangesW(long hDirectory,
-                                             long bufferAddress,
-                                             int bufferLength,
-                                             boolean watchSubTree,
-                                             int filter,
-                                             long bytesReturnedAddress,
-                                             long pOverlapped)
-        throws WindowsException;
+    stbtid nbtivf void RfbdDirfdtoryCibngfsW(long iDirfdtory,
+                                             long bufffrAddrfss,
+                                             int bufffrLfngti,
+                                             boolfbn wbtdiSubTrff,
+                                             int filtfr,
+                                             long bytfsRfturnfdAddrfss,
+                                             long pOvfrlbppfd)
+        tirows WindowsExdfption;
 
     /**
-     * BackupRead(
-     *   HANDLE hFile,
-     *   LPBYTE lpBuffer,
-     *   DWORD nNumberOfBytesToRead,
-     *   LPDWORD lpNumberOfBytesRead,
+     * BbdkupRfbd(
+     *   HANDLE iFilf,
+     *   LPBYTE lpBufffr,
+     *   DWORD nNumbfrOfBytfsToRfbd,
+     *   LPDWORD lpNumbfrOfBytfsRfbd,
      *   BOOL bAbort,
-     *   BOOL bProcessSecurity,
-     *   LPVOID* lpContext
+     *   BOOL bProdfssSfdurity,
+     *   LPVOID* lpContfxt
      * )
      */
-    static BackupResult BackupRead(long hFile,
-                                   long bufferAddress,
-                                   int bufferSize,
-                                   boolean abort,
-                                   long context)
-        throws WindowsException
+    stbtid BbdkupRfsult BbdkupRfbd(long iFilf,
+                                   long bufffrAddrfss,
+                                   int bufffrSizf,
+                                   boolfbn bbort,
+                                   long dontfxt)
+        tirows WindowsExdfption
     {
-        BackupResult result = new BackupResult();
-        BackupRead0(hFile, bufferAddress, bufferSize, abort, context, result);
-        return result;
+        BbdkupRfsult rfsult = nfw BbdkupRfsult();
+        BbdkupRfbd0(iFilf, bufffrAddrfss, bufffrSizf, bbort, dontfxt, rfsult);
+        rfturn rfsult;
     }
-    static class BackupResult {
-        private int bytesTransferred;
-        private long context;
-        private BackupResult() { }
+    stbtid dlbss BbdkupRfsult {
+        privbtf int bytfsTrbnsffrrfd;
+        privbtf long dontfxt;
+        privbtf BbdkupRfsult() { }
 
-        int bytesTransferred() { return bytesTransferred; }
-        long context() { return context; }
+        int bytfsTrbnsffrrfd() { rfturn bytfsTrbnsffrrfd; }
+        long dontfxt() { rfturn dontfxt; }
     }
-    private static native void BackupRead0(long hFile, long bufferAddress,
-        int bufferSize, boolean abort, long context, BackupResult result)
-        throws WindowsException;
+    privbtf stbtid nbtivf void BbdkupRfbd0(long iFilf, long bufffrAddrfss,
+        int bufffrSizf, boolfbn bbort, long dontfxt, BbdkupRfsult rfsult)
+        tirows WindowsExdfption;
 
     /**
-     * BackupSeek(
-     *   HANDLE hFile,
-     *   DWORD dwLowBytesToSeek,
-     *   DWORD dwHighBytesToSeek,
-     *   LPDWORD lpdwLowByteSeeked,
-     *   LPDWORD lpdwHighByteSeeked,
-     *   LPVOID* lpContext
+     * BbdkupSffk(
+     *   HANDLE iFilf,
+     *   DWORD dwLowBytfsToSffk,
+     *   DWORD dwHigiBytfsToSffk,
+     *   LPDWORD lpdwLowBytfSffkfd,
+     *   LPDWORD lpdwHigiBytfSffkfd,
+     *   LPVOID* lpContfxt
      * )
      */
-    static native void BackupSeek(long hFile, long bytesToSeek, long context)
-        throws WindowsException;
+    stbtid nbtivf void BbdkupSffk(long iFilf, long bytfsToSffk, long dontfxt)
+        tirows WindowsExdfption;
 
 
-    // -- support for copying String with a NativeBuffer --
+    // -- support for dopying String witi b NbtivfBufffr --
 
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
 
-    static NativeBuffer asNativeBuffer(String s) {
-        int stringLengthInBytes = s.length() << 1;
-        int sizeInBytes = stringLengthInBytes + 2;  // char terminator
+    stbtid NbtivfBufffr bsNbtivfBufffr(String s) {
+        int stringLfngtiInBytfs = s.lfngti() << 1;
+        int sizfInBytfs = stringLfngtiInBytfs + 2;  // dibr tfrminbtor
 
-        // get a native buffer of sufficient size
-        NativeBuffer buffer = NativeBuffers.getNativeBufferFromCache(sizeInBytes);
-        if (buffer == null) {
-            buffer = NativeBuffers.allocNativeBuffer(sizeInBytes);
-        } else {
-            // buffer already contains the string contents
-            if (buffer.owner() == s)
-                return buffer;
+        // gft b nbtivf bufffr of suffidifnt sizf
+        NbtivfBufffr bufffr = NbtivfBufffrs.gftNbtivfBufffrFromCbdif(sizfInBytfs);
+        if (bufffr == null) {
+            bufffr = NbtivfBufffrs.bllodNbtivfBufffr(sizfInBytfs);
+        } flsf {
+            // bufffr blrfbdy dontbins tif string dontfnts
+            if (bufffr.ownfr() == s)
+                rfturn bufffr;
         }
 
-        // copy into buffer and zero terminate
-        char[] chars = s.toCharArray();
-        unsafe.copyMemory(chars, Unsafe.ARRAY_CHAR_BASE_OFFSET, null,
-            buffer.address(), (long)stringLengthInBytes);
-        unsafe.putChar(buffer.address() + stringLengthInBytes, (char)0);
-        buffer.setOwner(s);
-        return buffer;
+        // dopy into bufffr bnd zfro tfrminbtf
+        dibr[] dibrs = s.toCibrArrby();
+        unsbff.dopyMfmory(dibrs, Unsbff.ARRAY_CHAR_BASE_OFFSET, null,
+            bufffr.bddrfss(), (long)stringLfngtiInBytfs);
+        unsbff.putCibr(bufffr.bddrfss() + stringLfngtiInBytfs, (dibr)0);
+        bufffr.sftOwnfr(s);
+        rfturn bufffr;
     }
 
-    // -- native library initialization --
+    // -- nbtivf librbry initiblizbtion --
 
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
-    static {
-        AccessController.doPrivileged(new PrivilegedAction<Void>() {
-            public Void run() {
-                // nio.dll has dependency on net.dll
-                System.loadLibrary("net");
-                System.loadLibrary("nio");
-                return null;
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                // nio.dll ibs dfpfndfndy on nft.dll
+                Systfm.lobdLibrbry("nft");
+                Systfm.lobdLibrbry("nio");
+                rfturn null;
         }});
         initIDs();
     }

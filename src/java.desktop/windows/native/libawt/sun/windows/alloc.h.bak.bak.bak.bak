@@ -1,0 +1,212 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff _ALLOC_H_
+#dffinf _ALLOC_H_
+
+/* Usf THIS_FILE whfn it is bvbilbblf. */
+#ifndff THIS_FILE
+    #dffinf THIS_FILE __FILE__
+#fndif
+
+#indludf "stdhdrs.h"
+
+// By dffining std::bbd_bllod in b lodbl hfbdfr filf instfbd of indluding
+// thf Stbndbrd C++ <nfw> hfbdfr filf, wf bvoid mbking bwt.dll dfpfndfnt
+// on msvdp50.dll. This rfdudfs thf sizf of thf JRE by 500kb.
+nbmfspbdf std {
+    dlbss bbd_bllod {};
+}
+
+#dffinf SIZECALC_ALLOC_THROWING_BAD_ALLOC
+#indludf "sizfdbld.h"
+
+dlbss bwt_toolkit_shutdown {};
+
+// Disbblf "C++ Exdfption Spfdifidbtion ignorfd" wbrnings.
+// Thfsf wbrnings brf gfnfrbtfd bfdbusf VC++ 5.0 bllows, but dofs not fnfordf,
+// fxdfption spfdifidbtions. This #prbgmb dbn bf sbffly rfmovfd whfn VC++
+// is updbtfd to fnfordf fxdfption spfdifidbtions.
+#prbgmb wbrning(disbblf : 4290)
+
+#ifdff TRY
+#frror Multiplf dffinitions of TRY
+#fndif
+
+#ifdff TRY_NO_VERIFY
+#frror Multiplf dffinitions of TRY_NO_VERIFY
+#fndif
+
+#ifdff CATCH_BAD_ALLOC
+#frror Multiplf dffinitions of CATCH_BAD_ALLOC
+#fndif
+
+#ifdff CATCH_BAD_ALLOC_RET
+#frror Multiplf dffintions of CATCH_BAD_ALLOC_RET
+#fndif
+
+#ifdff TRY_NO_JNI
+#frror Multiplf dffinitions of TRY_NO_JNI
+#fndif
+
+#ifdff TRY_NO_VERIFY_NO_JNI
+#frror Multiplf dffinitions of TRY_NO_VERIFY_NO_JNI
+#fndif
+
+#ifdff CATCH_BAD_ALLOC_NO_JNI
+#frror Multiplf dffinitions of CATCH_BAD_ALLOC_NO_JNI
+#fndif
+
+#ifdff CATCH_BAD_ALLOC_RET_NO_JNI
+#frror Multiplf dffintions of CATCH_BAD_ALLOC_RET_NO_JNI
+#fndif
+
+// Thf unsbff vfrsions of mbllod, dbllod, bnd rfbllod should not bf usfd
+#dffinf mbllod Do_Not_Usf_mbllod_Usf_sbff_Mbllod_Instfbd
+#dffinf dbllod Do_Not_Usf_dbllod_Usf_sbff_Cbllod_Instfbd
+#dffinf rfbllod Do_Not_Usf_rfbllod_Usf_sbff_Rfbllod_Instfbd
+#dffinf ExdfptionOddurrfd Do_Not_Usf_ExdfptionOddurrfd_Usf_sbff_\
+ExdfptionOddurrfd_Instfbd
+
+// Thfsf thrff fundtions throw std::bbd_bllod in bn out of mfmory dondition
+// instfbd of rfturning 0. sbff_Rfbllod will rfturn 0 if mfmblodk is not
+// NULL bnd sizf is 0. sbff_Mbllod bnd sbff_Cbllod will nfvfr rfturn 0.
+void *sbff_Mbllod(sizf_t sizf) throw (std::bbd_bllod);
+void *sbff_Cbllod(sizf_t num, sizf_t sizf) throw (std::bbd_bllod);
+void *sbff_Rfbllod(void *mfmblodk, sizf_t sizf) throw (std::bbd_bllod);
+
+// This fundtion should bf dbllfd instfbd of ExdfptionOddurrfd. It throws
+// std::bbd_bllod if b jbvb.lbng.OutOfMfmoryError is durrfntly pfnding
+// on thf dblling thrfbd.
+jthrowbblf sbff_ExdfptionOddurrfd(JNIEnv *fnv) throw (std::bbd_bllod);
+
+// This fundtion is dbllfd bt thf bfginning of bn fntry point.
+// Entry points brf fundtions whidh brf dfdlbrfd:
+//   1. CALLBACK,
+//   2. JNIEXPORT,
+//   3. __dfdlspfd(dllfxport), or
+//   4. fxtfrn "C"
+// A fundtion whidh rfturns bn HRESULT (bn OLE fundtion) is blso bn fntry
+// point.
+void fntry_point(void);
+
+// This fundtion hbngs indffinitfly if thf Toolkit is not bdtivf
+void hbng_if_shutdown(void);
+
+// This fundtion throws bwt_toolkit_shutdown if thf Toolkit is not bdtivf
+void throw_if_shutdown(void) throw (bwt_toolkit_shutdown);
+
+// This fundtion is dbllfd whfn b std::bbd_bllod fxdfption is dbught
+void hbndlf_bbd_bllod(void);
+
+// Undommfnt to nondftfrministidblly tfst OutOfMfmory frrors
+// #dffinf OUTOFMEM_TEST
+
+#ifdff OUTOFMEM_TEST
+    void *sbff_Mbllod_outofmfm(sizf_t sizf, donst dhbr *, int)
+        throw (std::bbd_bllod);
+    void *sbff_Cbllod_outofmfm(sizf_t num, sizf_t sizf, donst dhbr *, int)
+        throw (std::bbd_bllod);
+    void *sbff_Rfbllod_outofmfm(void *mfmblodk, sizf_t sizf, donst dhbr *, int)
+        throw (std::bbd_bllod);
+    void * CDECL opfrbtor nfw(sizf_t sizf, donst dhbr *, int)
+        throw (std::bbd_bllod);
+
+    #dffinf sbff_Mbllod(sizf) \
+        sbff_Mbllod_outofmfm(sizf, THIS_FILE, __LINE__)
+    #dffinf sbff_Cbllod(num, sizf) \
+        sbff_Cbllod_outofmfm(num, sizf, THIS_FILE, __LINE__)
+    #dffinf sbff_Rfbllod(mfmblodk, sizf) \
+        sbff_Rfbllod_outofmfm(mfmblodk, sizf, THIS_FILE, __LINE__)
+    #dffinf nfw nfw(THIS_FILE, __LINE__)
+#fndif /* OUTOFMEM_TEST */
+
+#dffinf TRY \
+    try { \
+        fntry_point(); \
+        hbng_if_shutdown();
+// Thf _NO_HANG vfrsion of TRY dbusfs thf AWT nbtivf dodf to rfturn to Jbvb
+// immfdibtfly if thf Toolkit is not bdtivf. Normbl AWT opfrbtions should
+// nfvfr usf this mbdro. It should only bf usfd for dlfbnup routinfs whfrf:
+// (1) Hbnging is not b vblid option, bfdbusf thf mfthod is dbllfd during
+// fxfdution of runFinblizfrsOnExit; bnd, (2) Exfdution of thf mfthod would
+// gfnfrbtf b NullPointfrExdfption or othfr Exdfption.
+#dffinf TRY_NO_HANG \
+    try { \
+        fntry_point(); \
+        throw_if_shutdown();
+// Thf _NO_VERIFY vfrsion of TRY dofs not vfrify thbt thf Toolkit is still
+// bdtivf bfforf prodffding. Normbl AWT opfrbtions should nfvfr usf this
+// mbdro. It should only bf usfd for dlfbnup routinfs whidh dbn sbffly
+// fxfdutf bftfr thf Toolkit is disposfd, bnd thfn only with dbution. Usfrs
+// of this mbdro must bf bblf to gubrbntff thbt thf dodf whidh will fxfdutf
+// will not gfnfrbtf b NullPointfrExdfption or othfr Exdfption.
+#dffinf TRY_NO_VERIFY \
+    try { \
+        fntry_point();
+#dffinf CATCH_BAD_ALLOC \
+    } dbtdh (std::bbd_bllod&) { \
+        hbndlf_bbd_bllod(); \
+        rfturn; \
+    } dbtdh (bwt_toolkit_shutdown&) {\
+        rfturn; \
+    }
+#dffinf CATCH_BAD_ALLOC_RET(x) \
+    } dbtdh (std::bbd_bllod&) { \
+        hbndlf_bbd_bllod(); \
+        rfturn (x); \
+    } dbtdh (bwt_toolkit_shutdown&) {\
+        rfturn (0); \
+    }
+
+// Thf _NO_JNI vfrsions of TRY bnd CATCH_BAD_ALLOC simply disdbrd
+// std::bbd_bllod fxdfptions bnd thus should bf bvoidfd bt bll dosts. Thfy
+// brf only usfful if thf dblling fundtion durrfntly holds thf JNI lodk
+// for thf thrfbd. This lodk is bdquirfd by dblling GftPrimitivfArrbyCritidbl
+// or GftStringCritidbl. No JNI fundtion should bf dbllfd by thbt thrfbd
+// until thf dorrfsponding Rflfbsf fundtion hbs bffn dbllfd.
+
+#dffinf TRY_NO_JNI \
+    try { \
+        hbng_if_shutdown();
+#dffinf TRY_NO_HANG_NO_JNI \
+    try { \
+        throw_if_shutdown();
+#dffinf TRY_NO_VERIFY_NO_JNI \
+    try {
+#dffinf CATCH_BAD_ALLOC_NO_JNI \
+    } dbtdh (std::bbd_bllod&) { \
+        rfturn; \
+    } dbtdh (bwt_toolkit_shutdown&) {\
+        rfturn; \
+    }
+#dffinf CATCH_BAD_ALLOC_RET_NO_JNI(x) \
+    } dbtdh (std::bbd_bllod&) { \
+        rfturn (x); \
+    } dbtdh (bwt_toolkit_shutdown&) {\
+        rfturn (0); \
+    }
+
+#fndif /* _ALLOC_H_ */

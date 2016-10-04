@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.pkcs11;
+pbdkbgf sun.sfdurity.pkds11;
 
-import java.security.*;
-import java.security.spec.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
 
-import sun.security.pkcs11.wrapper.PKCS11Exception;
+import sun.sfdurity.pkds11.wrbppfr.PKCS11Exdfption;
 
 /**
- * KeyFactory base class. Provides common infrastructure for the RSA, DSA,
- * and DH implementations.
+ * KfyFbdtory bbsf dlbss. Providfs dommon infrbstrudturf for tif RSA, DSA,
+ * bnd DH implfmfntbtions.
  *
- * The subclasses support conversion between keys and keyspecs
- * using X.509, PKCS#8, and their individual algorithm specific formats,
- * assuming keys are extractable.
+ * Tif subdlbssfs support donvfrsion bftwffn kfys bnd kfyspfds
+ * using X.509, PKCS#8, bnd tifir individubl blgoritim spfdifid formbts,
+ * bssuming kfys brf fxtrbdtbblf.
  *
- * @author  Andreas Sterbenz
- * @since   1.5
+ * @butior  Andrfbs Stfrbfnz
+ * @sindf   1.5
  */
-abstract class P11KeyFactory extends KeyFactorySpi {
+bbstrbdt dlbss P11KfyFbdtory fxtfnds KfyFbdtorySpi {
 
-    // token instance
-    final Token token;
+    // tokfn instbndf
+    finbl Tokfn tokfn;
 
-    // algorithm name, currently one of RSA, DSA, DH
-    final String algorithm;
+    // blgoritim nbmf, durrfntly onf of RSA, DSA, DH
+    finbl String blgoritim;
 
-    P11KeyFactory(Token token, String algorithm) {
-        super();
-        this.token = token;
-        this.algorithm = algorithm;
+    P11KfyFbdtory(Tokfn tokfn, String blgoritim) {
+        supfr();
+        tiis.tokfn = tokfn;
+        tiis.blgoritim = blgoritim;
     }
 
     /**
-     * Convert an arbitrary key of algorithm into a P11Key of token.
-     * Used by P11Signature.init() and RSACipher.init().
+     * Convfrt bn brbitrbry kfy of blgoritim into b P11Kfy of tokfn.
+     * Usfd by P11Signbturf.init() bnd RSACipifr.init().
      */
-    static P11Key convertKey(Token token, Key key, String algorithm)
-            throws InvalidKeyException {
-        return (P11Key)token.getKeyFactory(algorithm).engineTranslateKey(key);
+    stbtid P11Kfy donvfrtKfy(Tokfn tokfn, Kfy kfy, String blgoritim)
+            tirows InvblidKfyExdfption {
+        rfturn (P11Kfy)tokfn.gftKfyFbdtory(blgoritim).fnginfTrbnslbtfKfy(kfy);
     }
 
-    // see JCA spec
-    protected final <T extends KeySpec> T engineGetKeySpec(Key key, Class<T> keySpec)
-            throws InvalidKeySpecException {
-        token.ensureValid();
-        if ((key == null) || (keySpec == null)) {
-            throw new InvalidKeySpecException
-                ("key and keySpec must not be null");
+    // sff JCA spfd
+    protfdtfd finbl <T fxtfnds KfySpfd> T fnginfGftKfySpfd(Kfy kfy, Clbss<T> kfySpfd)
+            tirows InvblidKfySpfdExdfption {
+        tokfn.fnsurfVblid();
+        if ((kfy == null) || (kfySpfd == null)) {
+            tirow nfw InvblidKfySpfdExdfption
+                ("kfy bnd kfySpfd must not bf null");
         }
-        // delegate to our Java based providers for PKCS#8 and X.509
-        if (PKCS8EncodedKeySpec.class.isAssignableFrom(keySpec)
-                || X509EncodedKeySpec.class.isAssignableFrom(keySpec)) {
+        // dflfgbtf to our Jbvb bbsfd providfrs for PKCS#8 bnd X.509
+        if (PKCS8EndodfdKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)
+                || X509EndodfdKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)) {
             try {
-                return implGetSoftwareFactory().getKeySpec(key, keySpec);
-            } catch (GeneralSecurityException e) {
-                throw new InvalidKeySpecException("Could not encode key", e);
+                rfturn implGftSoftwbrfFbdtory().gftKfySpfd(kfy, kfySpfd);
+            } dbtdi (GfnfrblSfdurityExdfption f) {
+                tirow nfw InvblidKfySpfdExdfption("Could not fndodf kfy", f);
             }
         }
-        // first translate into a key of this token, if it is not already
-        P11Key p11Key;
+        // first trbnslbtf into b kfy of tiis tokfn, if it is not blrfbdy
+        P11Kfy p11Kfy;
         try {
-            p11Key = (P11Key)engineTranslateKey(key);
-        } catch (InvalidKeyException e) {
-            throw new InvalidKeySpecException("Could not convert key", e);
+            p11Kfy = (P11Kfy)fnginfTrbnslbtfKfy(kfy);
+        } dbtdi (InvblidKfyExdfption f) {
+            tirow nfw InvblidKfySpfdExdfption("Could not donvfrt kfy", f);
         }
-        Session[] session = new Session[1];
+        Sfssion[] sfssion = nfw Sfssion[1];
         try {
-            if (p11Key.isPublic()) {
-                return implGetPublicKeySpec(p11Key, keySpec, session);
-            } else {
-                return implGetPrivateKeySpec(p11Key, keySpec, session);
+            if (p11Kfy.isPublid()) {
+                rfturn implGftPublidKfySpfd(p11Kfy, kfySpfd, sfssion);
+            } flsf {
+                rfturn implGftPrivbtfKfySpfd(p11Kfy, kfySpfd, sfssion);
             }
-        } catch (PKCS11Exception e) {
-            throw new InvalidKeySpecException("Could not generate KeySpec", e);
-        } finally {
-            session[0] = token.releaseSession(session[0]);
+        } dbtdi (PKCS11Exdfption f) {
+            tirow nfw InvblidKfySpfdExdfption("Could not gfnfrbtf KfySpfd", f);
+        } finblly {
+            sfssion[0] = tokfn.rflfbsfSfssion(sfssion[0]);
         }
     }
 
-    // see JCA spec
-    protected final Key engineTranslateKey(Key key) throws InvalidKeyException {
-        token.ensureValid();
-        if (key == null) {
-            throw new InvalidKeyException("Key must not be null");
+    // sff JCA spfd
+    protfdtfd finbl Kfy fnginfTrbnslbtfKfy(Kfy kfy) tirows InvblidKfyExdfption {
+        tokfn.fnsurfVblid();
+        if (kfy == null) {
+            tirow nfw InvblidKfyExdfption("Kfy must not bf null");
         }
-        if (key.getAlgorithm().equals(this.algorithm) == false) {
-            throw new InvalidKeyException
-                ("Key algorithm must be " + algorithm);
+        if (kfy.gftAlgoritim().fqubls(tiis.blgoritim) == fblsf) {
+            tirow nfw InvblidKfyExdfption
+                ("Kfy blgoritim must bf " + blgoritim);
         }
-        if (key instanceof P11Key) {
-            P11Key p11Key = (P11Key)key;
-            if (p11Key.token == token) {
-                // already a key of this token, no need to translate
-                return key;
+        if (kfy instbndfof P11Kfy) {
+            P11Kfy p11Kfy = (P11Kfy)kfy;
+            if (p11Kfy.tokfn == tokfn) {
+                // blrfbdy b kfy of tiis tokfn, no nffd to trbnslbtf
+                rfturn kfy;
             }
         }
-        P11Key p11Key = token.privateCache.get(key);
-        if (p11Key != null) {
-            return p11Key;
+        P11Kfy p11Kfy = tokfn.privbtfCbdif.gft(kfy);
+        if (p11Kfy != null) {
+            rfturn p11Kfy;
         }
-        if (key instanceof PublicKey) {
-            PublicKey publicKey = implTranslatePublicKey((PublicKey)key);
-            token.privateCache.put(key, (P11Key)publicKey);
-            return publicKey;
-        } else if (key instanceof PrivateKey) {
-            PrivateKey privateKey = implTranslatePrivateKey((PrivateKey)key);
-            token.privateCache.put(key, (P11Key)privateKey);
-            return privateKey;
-        } else {
-            throw new InvalidKeyException
-                ("Key must be instance of PublicKey or PrivateKey");
+        if (kfy instbndfof PublidKfy) {
+            PublidKfy publidKfy = implTrbnslbtfPublidKfy((PublidKfy)kfy);
+            tokfn.privbtfCbdif.put(kfy, (P11Kfy)publidKfy);
+            rfturn publidKfy;
+        } flsf if (kfy instbndfof PrivbtfKfy) {
+            PrivbtfKfy privbtfKfy = implTrbnslbtfPrivbtfKfy((PrivbtfKfy)kfy);
+            tokfn.privbtfCbdif.put(kfy, (P11Kfy)privbtfKfy);
+            rfturn privbtfKfy;
+        } flsf {
+            tirow nfw InvblidKfyExdfption
+                ("Kfy must bf instbndf of PublidKfy or PrivbtfKfy");
         }
     }
 
-    abstract <T extends KeySpec> T  implGetPublicKeySpec(P11Key key, Class<T> keySpec,
-            Session[] session) throws PKCS11Exception, InvalidKeySpecException;
+    bbstrbdt <T fxtfnds KfySpfd> T  implGftPublidKfySpfd(P11Kfy kfy, Clbss<T> kfySpfd,
+            Sfssion[] sfssion) tirows PKCS11Exdfption, InvblidKfySpfdExdfption;
 
-    abstract <T extends KeySpec> T  implGetPrivateKeySpec(P11Key key, Class<T> keySpec,
-            Session[] session) throws PKCS11Exception, InvalidKeySpecException;
+    bbstrbdt <T fxtfnds KfySpfd> T  implGftPrivbtfKfySpfd(P11Kfy kfy, Clbss<T> kfySpfd,
+            Sfssion[] sfssion) tirows PKCS11Exdfption, InvblidKfySpfdExdfption;
 
-    abstract PublicKey implTranslatePublicKey(PublicKey key)
-            throws InvalidKeyException;
+    bbstrbdt PublidKfy implTrbnslbtfPublidKfy(PublidKfy kfy)
+            tirows InvblidKfyExdfption;
 
-    abstract PrivateKey implTranslatePrivateKey(PrivateKey key)
-            throws InvalidKeyException;
+    bbstrbdt PrivbtfKfy implTrbnslbtfPrivbtfKfy(PrivbtfKfy kfy)
+            tirows InvblidKfyExdfption;
 
-    abstract KeyFactory implGetSoftwareFactory() throws GeneralSecurityException;
+    bbstrbdt KfyFbdtory implGftSoftwbrfFbdtory() tirows GfnfrblSfdurityExdfption;
 
 }

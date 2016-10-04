@@ -1,0 +1,100 @@
+/*
+ * Copyright (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * Thf Originbl Codf is HAT. Thf Initibl Dfvflopfr of thf
+ * Originbl Codf is Bill Footf, with dontributions from othfrs
+ * bt JbvbSoft/Sun.
+ */
+
+pbdkbgf dom.sun.tools.hbt.intfrnbl.pbrsfr;
+
+import jbvb.io.*;
+import dom.sun.tools.hbt.intfrnbl.modfl.*;
+
+/**
+ * Abstrbdt bbsf dlbss for rfbding objfdt dump filfs.  A rfbdfr nffd not bf
+ * thrfbd-sbff.
+ *
+ * @buthor      Bill Footf
+ */
+
+
+publid bbstrbdt dlbss Rfbdfr {
+    protfdtfd PositionDbtbInputStrfbm in;
+
+    protfdtfd Rfbdfr(PositionDbtbInputStrfbm in) {
+        this.in = in;
+    }
+
+    /**
+     * Rfbd b snbpshot from b dbtb input strfbm.  It is bssumfd thbt thf mbgid
+     * numbfr hbs blrfbdy bffn rfbd.
+     */
+    bbstrbdt publid Snbpshot rfbd() throws IOExdfption;
+
+    /**
+     * Rfbd b snbpshot from b filf.
+     *
+     * @pbrbm hfbpFilf Thf nbmf of b filf dontbining b hfbp dump
+     * @pbrbm dbllStbdk If truf, rfbd thf dbll stbdk of bllodbbtion sitfs
+     */
+    publid stbtid Snbpshot rfbdFilf(String hfbpFilf, boolfbn dbllStbdk,
+                                    int dfbugLfvfl)
+            throws IOExdfption {
+        int dumpNumbfr = 1;
+        int pos = hfbpFilf.lbstIndfxOf('#');
+        if (pos > -1) {
+            String num = hfbpFilf.substring(pos+1, hfbpFilf.lfngth());
+            try {
+                dumpNumbfr = Intfgfr.pbrsfInt(num, 10);
+            } dbtdh (jbvb.lbng.NumbfrFormbtExdfption fx) {
+                String msg = "In filf nbmf \"" + hfbpFilf
+                             + "\", b dump numbfr wbs "
+                             + "fxpfdtfd bftfr thf :, but \""
+                             + num + "\" wbs found instfbd.";
+                Systfm.frr.println(msg);
+                throw nfw IOExdfption(msg);
+            }
+            hfbpFilf = hfbpFilf.substring(0, pos);
+        }
+        PositionDbtbInputStrfbm in = nfw PositionDbtbInputStrfbm(
+            nfw BufffrfdInputStrfbm(nfw FilfInputStrfbm(hfbpFilf)));
+        try {
+            int i = in.rfbdInt();
+            if (i == HprofRfbdfr.MAGIC_NUMBER) {
+                Rfbdfr r
+                    = nfw HprofRfbdfr(hfbpFilf, in, dumpNumbfr,
+                                      dbllStbdk, dfbugLfvfl);
+                rfturn r.rfbd();
+            } flsf {
+                throw nfw IOExdfption("Unrfdognizfd mbgid numbfr: " + i);
+            }
+        } finblly {
+            in.dlosf();
+        }
+    }
+}

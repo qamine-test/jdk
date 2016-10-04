@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,1626 +30,1626 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-/* Main source file, the basic JVMTI connection/startup code. */
+/* Mbin sourdf filf, tif bbsid JVMTI donnfdtion/stbrtup dodf. */
 
-#include "hprof.h"
+#indludf "iprof.i"
 
-#include "java_crw_demo.h"
+#indludf "jbvb_drw_dfmo.i"
 
 /*
- * This file contains all the startup logic (Agent_Onload) and
- *   connection to the JVMTI interface.
- * All JVMTI Event callbacks are in this file.
- * All setting of global data (gdata) is done here.
- * Options are parsed here.
- * Option help messages are here.
- * Termination handled here (VM_DEATH) and shutdown (Agent_OnUnload).
- * Spawning of the cpu sample loop thread and listener thread is done here.
+ * Tiis filf dontbins bll tif stbrtup logid (Agfnt_Onlobd) bnd
+ *   donnfdtion to tif JVMTI intfrfbdf.
+ * All JVMTI Evfnt dbllbbdks brf in tiis filf.
+ * All sftting of globbl dbtb (gdbtb) is donf ifrf.
+ * Options brf pbrsfd ifrf.
+ * Option iflp mfssbgfs brf ifrf.
+ * Tfrminbtion ibndlfd ifrf (VM_DEATH) bnd siutdown (Agfnt_OnUnlobd).
+ * Spbwning of tif dpu sbmplf loop tirfbd bnd listfnfr tirfbd is donf ifrf.
  *
- * Use of private 'static' data has been limited, most shared static data
- *    should be found in the GlobalData structure pointed to by gdata
- *    (see hprof.h).
+ * Usf of privbtf 'stbtid' dbtb ibs bffn limitfd, most sibrfd stbtid dbtb
+ *    siould bf found in tif GlobblDbtb strudturf pointfd to by gdbtb
+ *    (sff iprof.i).
  *
  */
 
-/* The default output filenames. */
+/* Tif dffbult output filfnbmfs. */
 
-#define DEFAULT_TXT_SUFFIX      ".txt"
-#define DEFAULT_OUTPUTFILE      "java.hprof"
-#define DEFAULT_OUTPUTTEMP      "java.hprof.temp"
+#dffinf DEFAULT_TXT_SUFFIX      ".txt"
+#dffinf DEFAULT_OUTPUTFILE      "jbvb.iprof"
+#dffinf DEFAULT_OUTPUTTEMP      "jbvb.iprof.tfmp"
 
-/* The only global variable, defined by this library */
-GlobalData *gdata;
+/* Tif only globbl vbribblf, dffinfd by tiis librbry */
+GlobblDbtb *gdbtb;
 
-/* Experimental options */
-#define EXPERIMENT_NO_EARLY_HOOK 0x1
+/* Expfrimfntbl options */
+#dffinf EXPERIMENT_NO_EARLY_HOOK 0x1
 
-/* Default trace depth */
-#define DEFAULT_TRACE_DEPTH 4
+/* Dffbult trbdf dfpti */
+#dffinf DEFAULT_TRACE_DEPTH 4
 
-/* Default sample interval */
-#define DEFAULT_SAMPLE_INTERVAL 10
+/* Dffbult sbmplf intfrvbl */
+#dffinf DEFAULT_SAMPLE_INTERVAL 10
 
-/* Default cutoff */
-#define DEFAULT_CUTOFF_POINT 0.0001
+/* Dffbult dutoff */
+#dffinf DEFAULT_CUTOFF_POINT 0.0001
 
-/* Stringize macros for help. */
-#define _TO_STR(a) #a
-#define TO_STR(a) _TO_STR(a)
+/* Stringizf mbdros for iflp. */
+#dffinf _TO_STR(b) #b
+#dffinf TO_STR(b) _TO_STR(b)
 
-/* Macros to surround callback code (non-VM_DEATH callbacks).
- *   Note that this just keeps a count of the non-VM_DEATH callbacks that
- *   are currently active, it does not prevent these callbacks from
- *   operating in parallel. It's the VM_DEATH callback that will wait
- *   for all these callbacks to either complete and block, or just block.
- *   We need to hold back these threads so they don't die during the final
- *   VM_DEATH processing.
- *   If the VM_DEATH callback is active in the beginning, then this callback
- *   just blocks to prevent further execution of the thread.
- *   If the VM_DEATH callback is active at the end, then this callback
- *   will notify the VM_DEATH callback if it's the last one.
- *   In all cases, the last thing they do is Enter/Exit the monitor
- *   gdata->callbackBlock, which will block this callback if VM_DEATH
+/* Mbdros to surround dbllbbdk dodf (non-VM_DEATH dbllbbdks).
+ *   Notf tibt tiis just kffps b dount of tif non-VM_DEATH dbllbbdks tibt
+ *   brf durrfntly bdtivf, it dofs not prfvfnt tifsf dbllbbdks from
+ *   opfrbting in pbrbllfl. It's tif VM_DEATH dbllbbdk tibt will wbit
+ *   for bll tifsf dbllbbdks to fitifr domplftf bnd blodk, or just blodk.
+ *   Wf nffd to iold bbdk tifsf tirfbds so tify don't dif during tif finbl
+ *   VM_DEATH prodfssing.
+ *   If tif VM_DEATH dbllbbdk is bdtivf in tif bfginning, tifn tiis dbllbbdk
+ *   just blodks to prfvfnt furtifr fxfdution of tif tirfbd.
+ *   If tif VM_DEATH dbllbbdk is bdtivf bt tif fnd, tifn tiis dbllbbdk
+ *   will notify tif VM_DEATH dbllbbdk if it's tif lbst onf.
+ *   In bll dbsfs, tif lbst tiing tify do is Entfr/Exit tif monitor
+ *   gdbtb->dbllbbdkBlodk, wiidi will blodk tiis dbllbbdk if VM_DEATH
  *   is running.
  *
- *   WARNING: No not 'return' or 'goto' out of the BEGIN_CALLBACK/END_CALLBACK
- *            block, this will mess up the count.
+ *   WARNING: No not 'rfturn' or 'goto' out of tif BEGIN_CALLBACK/END_CALLBACK
+ *            blodk, tiis will mfss up tif dount.
  */
 
-#define BEGIN_CALLBACK()                                            \
+#dffinf BEGIN_CALLBACK()                                            \
 { /* BEGIN OF CALLBACK */                                           \
-    jboolean bypass;                                                \
-    rawMonitorEnter(gdata->callbackLock);                           \
-    if (gdata->vm_death_callback_active) {                          \
-        /* VM_DEATH is active, we will bypass the CALLBACK CODE */  \
-        bypass = JNI_TRUE;                                          \
-        rawMonitorExit(gdata->callbackLock);                        \
-        /* Bypassed CALLBACKS block here until VM_DEATH done */     \
-        rawMonitorEnter(gdata->callbackBlock);                      \
-        rawMonitorExit(gdata->callbackBlock);                       \
-    } else {                                                        \
-        /* We will be executing the CALLBACK CODE in this case */   \
-        gdata->active_callbacks++;                                  \
-        bypass = JNI_FALSE;                                         \
-        rawMonitorExit(gdata->callbackLock);                        \
+    jboolfbn bypbss;                                                \
+    rbwMonitorEntfr(gdbtb->dbllbbdkLodk);                           \
+    if (gdbtb->vm_dfbti_dbllbbdk_bdtivf) {                          \
+        /* VM_DEATH is bdtivf, wf will bypbss tif CALLBACK CODE */  \
+        bypbss = JNI_TRUE;                                          \
+        rbwMonitorExit(gdbtb->dbllbbdkLodk);                        \
+        /* Bypbssfd CALLBACKS blodk ifrf until VM_DEATH donf */     \
+        rbwMonitorEntfr(gdbtb->dbllbbdkBlodk);                      \
+        rbwMonitorExit(gdbtb->dbllbbdkBlodk);                       \
+    } flsf {                                                        \
+        /* Wf will bf fxfduting tif CALLBACK CODE in tiis dbsf */   \
+        gdbtb->bdtivf_dbllbbdks++;                                  \
+        bypbss = JNI_FALSE;                                         \
+        rbwMonitorExit(gdbtb->dbllbbdkLodk);                        \
     }                                                               \
-    if ( !bypass ) {                                                \
-        /* BODY OF CALLBACK CODE (with no callback locks held) */
+    if ( !bypbss ) {                                                \
+        /* BODY OF CALLBACK CODE (witi no dbllbbdk lodks ifld) */
 
-#define END_CALLBACK() /* Part of bypass if body */                 \
-        rawMonitorEnter(gdata->callbackLock);                       \
-        gdata->active_callbacks--;                                  \
-        /* If VM_DEATH is active, and last one, send notify. */     \
-        if (gdata->vm_death_callback_active) {                      \
-            if (gdata->active_callbacks == 0) {                     \
-                rawMonitorNotifyAll(gdata->callbackLock);           \
+#dffinf END_CALLBACK() /* Pbrt of bypbss if body */                 \
+        rbwMonitorEntfr(gdbtb->dbllbbdkLodk);                       \
+        gdbtb->bdtivf_dbllbbdks--;                                  \
+        /* If VM_DEATH is bdtivf, bnd lbst onf, sfnd notify. */     \
+        if (gdbtb->vm_dfbti_dbllbbdk_bdtivf) {                      \
+            if (gdbtb->bdtivf_dbllbbdks == 0) {                     \
+                rbwMonitorNotifyAll(gdbtb->dbllbbdkLodk);           \
             }                                                       \
         }                                                           \
-        rawMonitorExit(gdata->callbackLock);                        \
-        /* Non-Bypassed CALLBACKS block here until VM_DEATH done */ \
-        rawMonitorEnter(gdata->callbackBlock);                      \
-        rawMonitorExit(gdata->callbackBlock);                       \
+        rbwMonitorExit(gdbtb->dbllbbdkLodk);                        \
+        /* Non-Bypbssfd CALLBACKS blodk ifrf until VM_DEATH donf */ \
+        rbwMonitorEntfr(gdbtb->dbllbbdkBlodk);                      \
+        rbwMonitorExit(gdbtb->dbllbbdkBlodk);                       \
     }                                                               \
 } /* END OF CALLBACK */
 
-/* Forward declarations */
-static void set_callbacks(jboolean on);
+/* Forwbrd dfdlbrbtions */
+stbtid void sft_dbllbbdks(jboolfbn on);
 
 /* ------------------------------------------------------------------- */
-/* Global data initialization */
+/* Globbl dbtb initiblizbtion */
 
-/* Get initialized global data area */
-static GlobalData *
-get_gdata(void)
+/* Gft initiblizfd globbl dbtb brfb */
+stbtid GlobblDbtb *
+gft_gdbtb(void)
 {
-    static GlobalData data;
+    stbtid GlobblDbtb dbtb;
 
-    /* Create initial default values */
-    (void)memset(&data, 0, sizeof(GlobalData));
+    /* Crfbtf initibl dffbult vblufs */
+    (void)mfmsft(&dbtb, 0, sizfof(GlobblDbtb));
 
-    data.fd                             = -1; /* Non-zero file or socket. */
-    data.heap_fd                        = -1; /* For heap=dump, see hprof_io */
-    data.check_fd                       = -1; /* For heap=dump, see hprof_io */
-    data.max_trace_depth                = DEFAULT_TRACE_DEPTH;
-    data.prof_trace_depth               = DEFAULT_TRACE_DEPTH;
-    data.sample_interval                = DEFAULT_SAMPLE_INTERVAL;
-    data.lineno_in_traces               = JNI_TRUE;
-    data.output_format                  = 'a';      /* 'b' for binary */
-    data.cutoff_point                   = DEFAULT_CUTOFF_POINT;
-    data.dump_on_exit                   = JNI_TRUE;
-    data.gc_start_time                  = -1L;
-#ifdef DEBUG
-    data.debug                          = JNI_TRUE;
-    data.coredump                       = JNI_TRUE;
-#endif
-    data.micro_state_accounting         = JNI_FALSE;
-    data.force_output                   = JNI_TRUE;
-    data.verbose                        = JNI_TRUE;
-    data.primfields                     = JNI_TRUE;
-    data.primarrays                     = JNI_TRUE;
+    dbtb.fd                             = -1; /* Non-zfro filf or sodkft. */
+    dbtb.ifbp_fd                        = -1; /* For ifbp=dump, sff iprof_io */
+    dbtb.difdk_fd                       = -1; /* For ifbp=dump, sff iprof_io */
+    dbtb.mbx_trbdf_dfpti                = DEFAULT_TRACE_DEPTH;
+    dbtb.prof_trbdf_dfpti               = DEFAULT_TRACE_DEPTH;
+    dbtb.sbmplf_intfrvbl                = DEFAULT_SAMPLE_INTERVAL;
+    dbtb.linfno_in_trbdfs               = JNI_TRUE;
+    dbtb.output_formbt                  = 'b';      /* 'b' for binbry */
+    dbtb.dutoff_point                   = DEFAULT_CUTOFF_POINT;
+    dbtb.dump_on_fxit                   = JNI_TRUE;
+    dbtb.gd_stbrt_timf                  = -1L;
+#ifdff DEBUG
+    dbtb.dfbug                          = JNI_TRUE;
+    dbtb.dorfdump                       = JNI_TRUE;
+#fndif
+    dbtb.midro_stbtf_bddounting         = JNI_FALSE;
+    dbtb.fordf_output                   = JNI_TRUE;
+    dbtb.vfrbosf                        = JNI_TRUE;
+    dbtb.primfiflds                     = JNI_TRUE;
+    dbtb.primbrrbys                     = JNI_TRUE;
 
-    data.table_serial_number_start    = 1;
-    data.class_serial_number_start    = 100000;
-    data.thread_serial_number_start   = 200000;
-    data.trace_serial_number_start    = 300000;
-    data.object_serial_number_start   = 400000;
-    data.frame_serial_number_start    = 500000;
-    data.gref_serial_number_start     = 1;
+    dbtb.tbblf_sfribl_numbfr_stbrt    = 1;
+    dbtb.dlbss_sfribl_numbfr_stbrt    = 100000;
+    dbtb.tirfbd_sfribl_numbfr_stbrt   = 200000;
+    dbtb.trbdf_sfribl_numbfr_stbrt    = 300000;
+    dbtb.objfdt_sfribl_numbfr_stbrt   = 400000;
+    dbtb.frbmf_sfribl_numbfr_stbrt    = 500000;
+    dbtb.grff_sfribl_numbfr_stbrt     = 1;
 
-    data.table_serial_number_counter  = data.table_serial_number_start;
-    data.class_serial_number_counter  = data.class_serial_number_start;
-    data.thread_serial_number_counter = data.thread_serial_number_start;
-    data.trace_serial_number_counter  = data.trace_serial_number_start;
-    data.object_serial_number_counter = data.object_serial_number_start;
-    data.frame_serial_number_counter  = data.frame_serial_number_start;
-    data.gref_serial_number_counter   = data.gref_serial_number_start;
+    dbtb.tbblf_sfribl_numbfr_dountfr  = dbtb.tbblf_sfribl_numbfr_stbrt;
+    dbtb.dlbss_sfribl_numbfr_dountfr  = dbtb.dlbss_sfribl_numbfr_stbrt;
+    dbtb.tirfbd_sfribl_numbfr_dountfr = dbtb.tirfbd_sfribl_numbfr_stbrt;
+    dbtb.trbdf_sfribl_numbfr_dountfr  = dbtb.trbdf_sfribl_numbfr_stbrt;
+    dbtb.objfdt_sfribl_numbfr_dountfr = dbtb.objfdt_sfribl_numbfr_stbrt;
+    dbtb.frbmf_sfribl_numbfr_dountfr  = dbtb.frbmf_sfribl_numbfr_stbrt;
+    dbtb.grff_sfribl_numbfr_dountfr   = dbtb.grff_sfribl_numbfr_stbrt;
 
-    data.unknown_thread_serial_num    = data.thread_serial_number_counter++;
-    return &data;
+    dbtb.unknown_tirfbd_sfribl_num    = dbtb.tirfbd_sfribl_numbfr_dountfr++;
+    rfturn &dbtb;
 }
 
 /* ------------------------------------------------------------------- */
-/* Error handler callback for the java_crw_demo (classfile read write) functions. */
+/* Error ibndlfr dbllbbdk for tif jbvb_drw_dfmo (dlbssfilf rfbd writf) fundtions. */
 
-static void
-my_crw_fatal_error_handler(const char * msg, const char *file, int line)
+stbtid void
+my_drw_fbtbl_frror_ibndlfr(donst dibr * msg, donst dibr *filf, int linf)
 {
-    char errmsg[256];
+    dibr frrmsg[256];
 
-    (void)md_snprintf(errmsg, sizeof(errmsg),
-                "%s [%s:%d]", msg, file, line);
-    errmsg[sizeof(errmsg)-1] = 0;
-    HPROF_ERROR(JNI_TRUE, errmsg);
+    (void)md_snprintf(frrmsg, sizfof(frrmsg),
+                "%s [%s:%d]", msg, filf, linf);
+    frrmsg[sizfof(frrmsg)-1] = 0;
+    HPROF_ERROR(JNI_TRUE, frrmsg);
 }
 
-static void
-list_all_tables(void)
+stbtid void
+list_bll_tbblfs(void)
 {
     string_list();
-    class_list();
-    frame_list();
-    site_list();
-    object_list();
-    trace_list();
+    dlbss_list();
+    frbmf_list();
+    sitf_list();
+    objfdt_list();
+    trbdf_list();
     monitor_list();
     tls_list();
-    loader_list();
+    lobdfr_list();
 }
 
 /* ------------------------------------------------------------------- */
-/* Option Parsing support */
+/* Option Pbrsing support */
 
 /**
- * Socket connection
+ * Sodkft donnfdtion
  */
 
 /*
- * Return a socket  connect()ed to a "hostname" that is
- * accept()ing heap profile data on "port." Return a value <= 0 if
- * such a connection can't be made.
+ * Rfturn b sodkft  donnfdt()fd to b "iostnbmf" tibt is
+ * bddfpt()ing ifbp profilf dbtb on "port." Rfturn b vbluf <= 0 if
+ * sudi b donnfdtion dbn't bf mbdf.
  */
-static int
-connect_to_socket(char *hostname, int port)
+stbtid int
+donnfdt_to_sodkft(dibr *iostnbmf, int port)
 {
     int fd;
 
     if (port == 0 || port > 65535) {
-        HPROF_ERROR(JNI_FALSE, "invalid port number");
-        return -1;
+        HPROF_ERROR(JNI_FALSE, "invblid port numbfr");
+        rfturn -1;
     }
-    if (hostname == NULL) {
-        HPROF_ERROR(JNI_FALSE, "hostname is NULL");
-        return -1;
+    if (iostnbmf == NULL) {
+        HPROF_ERROR(JNI_FALSE, "iostnbmf is NULL");
+        rfturn -1;
     }
 
-    /* create a socket */
-    fd = md_connect(hostname, (unsigned short)port);
-    return fd;
+    /* drfbtf b sodkft */
+    fd = md_donnfdt(iostnbmf, (unsignfd siort)port);
+    rfturn fd;
 }
 
-/* Accept a filename, and adjust the name so that it is unique for this PID */
-static void
-make_unique_filename(char **filename)
+/* Addfpt b filfnbmf, bnd bdjust tif nbmf so tibt it is uniquf for tiis PID */
+stbtid void
+mbkf_uniquf_filfnbmf(dibr **filfnbmf)
 {
     int fd;
 
-    /* Find a file that doesn't exist */
-    fd = md_open(*filename);
+    /* Find b filf tibt dofsn't fxist */
+    fd = md_opfn(*filfnbmf);
     if ( fd >= 0 ) {
         int   pid;
-        char *new_name;
-        char *old_name;
-        char *prefix;
-        char  suffix[5];
-        int   new_len;
+        dibr *nfw_nbmf;
+        dibr *old_nbmf;
+        dibr *prffix;
+        dibr  suffix[5];
+        int   nfw_lfn;
 
-        /* Close the file. */
-        md_close(fd);
+        /* Closf tif filf. */
+        md_dlosf(fd);
 
-        /* Make filename name.PID[.txt] */
-        pid = md_getpid();
-        old_name = *filename;
-        new_len = (int)strlen(old_name)+64;
-        new_name = HPROF_MALLOC(new_len);
-        prefix = old_name;
+        /* Mbkf filfnbmf nbmf.PID[.txt] */
+        pid = md_gftpid();
+        old_nbmf = *filfnbmf;
+        nfw_lfn = (int)strlfn(old_nbmf)+64;
+        nfw_nbmf = HPROF_MALLOC(nfw_lfn);
+        prffix = old_nbmf;
         suffix[0] = 0;
 
-        /* Look for .txt suffix if not binary output */
-        if (gdata->output_format != 'b') {
-            char *dot;
-            char *format_suffix;
+        /* Look for .txt suffix if not binbry output */
+        if (gdbtb->output_formbt != 'b') {
+            dibr *dot;
+            dibr *formbt_suffix;
 
-            format_suffix = DEFAULT_TXT_SUFFIX;
+            formbt_suffix = DEFAULT_TXT_SUFFIX;
 
-            (void)strcpy(suffix, format_suffix);
+            (void)strdpy(suffix, formbt_suffix);
 
-            dot = strrchr(old_name, '.');
+            dot = strrdir(old_nbmf, '.');
             if ( dot != NULL ) {
                 int i;
-                int slen;
-                int match;
+                int slfn;
+                int mbtdi;
 
-                slen = (int)strlen(format_suffix);
-                match = 1;
-                for ( i = 0; i < slen; i++ ) {
+                slfn = (int)strlfn(formbt_suffix);
+                mbtdi = 1;
+                for ( i = 0; i < slfn; i++ ) {
                     if ( dot[i]==0 ||
-                         tolower(format_suffix[i]) != tolower(dot[i]) ) {
-                        match = 0;
-                        break;
+                         tolowfr(formbt_suffix[i]) != tolowfr(dot[i]) ) {
+                        mbtdi = 0;
+                        brfbk;
                     }
                 }
-                if ( match ) {
-                    (void)strcpy(suffix, dot);
-                    *dot = 0; /* truncates prefix and old_name */
+                if ( mbtdi ) {
+                    (void)strdpy(suffix, dot);
+                    *dot = 0; /* trundbtfs prffix bnd old_nbmf */
                 }
             }
         }
 
-        /* Construct the name */
-        (void)md_snprintf(new_name, new_len,
-                   "%s.%d%s", prefix, pid, suffix);
-        *filename = new_name;
-        HPROF_FREE(old_name);
+        /* Construdt tif nbmf */
+        (void)md_snprintf(nfw_nbmf, nfw_lfn,
+                   "%s.%d%s", prffix, pid, suffix);
+        *filfnbmf = nfw_nbmf;
+        HPROF_FREE(old_nbmf);
 
-        /* Odds are with Windows, this file may not be so unique. */
-        (void)remove(gdata->output_filename);
+        /* Odds brf witi Windows, tiis filf mby not bf so uniquf. */
+        (void)rfmovf(gdbtb->output_filfnbmf);
     }
 }
 
-static int
-get_tok(char **src, char *buf, int buflen, int sep)
+stbtid int
+gft_tok(dibr **srd, dibr *buf, int buflfn, int sfp)
 {
-    int len;
-    char *p;
+    int lfn;
+    dibr *p;
 
     buf[0] = 0;
-    if ( **src == 0 ) {
-        return 0;
+    if ( **srd == 0 ) {
+        rfturn 0;
     }
-    p = strchr(*src, sep);
+    p = strdir(*srd, sfp);
     if ( p==NULL ) {
-        len = (int)strlen(*src);
-        p = (*src) + len;
-    } else {
+        lfn = (int)strlfn(*srd);
+        p = (*srd) + lfn;
+    } flsf {
         /*LINTED*/
-        len = (int)(p - (*src));
+        lfn = (int)(p - (*srd));
     }
-    if ( (len+1) > buflen ) {
-        return 0;
+    if ( (lfn+1) > buflfn ) {
+        rfturn 0;
     }
-    (void)memcpy(buf, *src, len);
-    buf[len] = 0;
-    if ( *p != 0 && *p == sep ) {
-        (*src) = p+1;
-    } else {
-        (*src) = p;
+    (void)mfmdpy(buf, *srd, lfn);
+    buf[lfn] = 0;
+    if ( *p != 0 && *p == sfp ) {
+        (*srd) = p+1;
+    } flsf {
+        (*srd) = p;
     }
-    return len;
+    rfturn lfn;
 }
 
-static jboolean
-setBinarySwitch(char **src, jboolean *ptr)
+stbtid jboolfbn
+sftBinbrySwitdi(dibr **srd, jboolfbn *ptr)
 {
-    char buf[80];
+    dibr buf[80];
 
-    if (!get_tok(src, buf, (int)sizeof(buf), ',')) {
-        return JNI_FALSE;
+    if (!gft_tok(srd, buf, (int)sizfof(buf), ',')) {
+        rfturn JNI_FALSE;
     }
-    if (strcmp(buf, "y") == 0) {
+    if (strdmp(buf, "y") == 0) {
         *ptr = JNI_TRUE;
-    } else if (strcmp(buf, "n") == 0) {
+    } flsf if (strdmp(buf, "n") == 0) {
         *ptr = JNI_FALSE;
-    } else {
-        return JNI_FALSE;
+    } flsf {
+        rfturn JNI_FALSE;
     }
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-static void
-print_usage(void)
+stbtid void
+print_usbgf(void)
 {
 
     (void)fprintf(stdout,
 "\n"
-"     HPROF: Heap and CPU Profiling Agent (JVMTI Demonstration Code)\n"
+"     HPROF: Hfbp bnd CPU Profiling Agfnt (JVMTI Dfmonstrbtion Codf)\n"
 "\n"
-AGENTNAME " usage: java " AGENTLIB "=[help]|[<option>=<value>, ...]\n"
+AGENTNAME " usbgf: jbvb " AGENTLIB "=[iflp]|[<option>=<vbluf>, ...]\n"
 "\n"
-"Option Name and Value  Description                    Default\n"
+"Option Nbmf bnd Vbluf  Dfsdription                    Dffbult\n"
 "---------------------  -----------                    -------\n"
-"heap=dump|sites|all    heap profiling                 all\n"
-"cpu=samples|times|old  CPU usage                      off\n"
-"monitor=y|n            monitor contention             n\n"
-"format=a|b             text(txt) or binary output     a\n"
-"file=<file>            write data to file             " DEFAULT_OUTPUTFILE "[{" DEFAULT_TXT_SUFFIX "}]\n"
-"net=<host>:<port>      send data over a socket        off\n"
-"depth=<size>           stack trace depth              " TO_STR(DEFAULT_TRACE_DEPTH) "\n"
-"interval=<ms>          sample interval in ms          " TO_STR(DEFAULT_SAMPLE_INTERVAL) "\n"
-"cutoff=<value>         output cutoff point            " TO_STR(DEFAULT_CUTOFF_POINT) "\n"
-"lineno=y|n             line number in traces?         y\n"
-"thread=y|n             thread in traces?              n\n"
-"doe=y|n                dump on exit?                  y\n"
-"msa=y|n                Solaris micro state accounting n\n"
-"force=y|n              force output to <file>         y\n"
-"verbose=y|n            print messages about dumps     y\n"
+"ifbp=dump|sitfs|bll    ifbp profiling                 bll\n"
+"dpu=sbmplfs|timfs|old  CPU usbgf                      off\n"
+"monitor=y|n            monitor dontfntion             n\n"
+"formbt=b|b             tfxt(txt) or binbry output     b\n"
+"filf=<filf>            writf dbtb to filf             " DEFAULT_OUTPUTFILE "[{" DEFAULT_TXT_SUFFIX "}]\n"
+"nft=<iost>:<port>      sfnd dbtb ovfr b sodkft        off\n"
+"dfpti=<sizf>           stbdk trbdf dfpti              " TO_STR(DEFAULT_TRACE_DEPTH) "\n"
+"intfrvbl=<ms>          sbmplf intfrvbl in ms          " TO_STR(DEFAULT_SAMPLE_INTERVAL) "\n"
+"dutoff=<vbluf>         output dutoff point            " TO_STR(DEFAULT_CUTOFF_POINT) "\n"
+"linfno=y|n             linf numbfr in trbdfs?         y\n"
+"tirfbd=y|n             tirfbd in trbdfs?              n\n"
+"dof=y|n                dump on fxit?                  y\n"
+"msb=y|n                Solbris midro stbtf bddounting n\n"
+"fordf=y|n              fordf output to <filf>         y\n"
+"vfrbosf=y|n            print mfssbgfs bbout dumps     y\n"
 "\n"
-"Obsolete Options\n"
+"Obsolftf Options\n"
 "----------------\n"
-"gc_okay=y|n\n"
+"gd_okby=y|n\n"
 
-#ifdef DEBUG
+#ifdff DEBUG
 "\n"
-"DEBUG Option           Description                    Default\n"
+"DEBUG Option           Dfsdription                    Dffbult\n"
 "------------           -----------                    -------\n"
-"primfields=y|n         include primitive field values y\n"
-"primarrays=y|n         include primitive array values y\n"
-"debugflags=MASK        Various debug flags            0\n"
-"                        0x01   Report refs in and of unprepared classes\n"
-"logflags=MASK          Logging to stderr              0\n"
-"                        " TO_STR(LOG_DUMP_MISC)    " Misc logging\n"
-"                        " TO_STR(LOG_DUMP_LISTS)   " Dump out the tables\n"
-"                        " TO_STR(LOG_CHECK_BINARY) " Verify & dump format=b\n"
-"coredump=y|n           Core dump on fatal             n\n"
-"errorexit=y|n          Exit on any error              n\n"
-"pause=y|n              Pause on onload & echo PID     n\n"
-"debug=y|n              Turn on all debug checking     n\n"
-"X=MASK                 Internal use only              0\n"
+"primfiflds=y|n         indludf primitivf fifld vblufs y\n"
+"primbrrbys=y|n         indludf primitivf brrby vblufs y\n"
+"dfbugflbgs=MASK        Vbrious dfbug flbgs            0\n"
+"                        0x01   Rfport rffs in bnd of unprfpbrfd dlbssfs\n"
+"logflbgs=MASK          Logging to stdfrr              0\n"
+"                        " TO_STR(LOG_DUMP_MISC)    " Misd logging\n"
+"                        " TO_STR(LOG_DUMP_LISTS)   " Dump out tif tbblfs\n"
+"                        " TO_STR(LOG_CHECK_BINARY) " Vfrify & dump formbt=b\n"
+"dorfdump=y|n           Corf dump on fbtbl             n\n"
+"frrorfxit=y|n          Exit on bny frror              n\n"
+"pbusf=y|n              Pbusf on onlobd & fdio PID     n\n"
+"dfbug=y|n              Turn on bll dfbug difdking     n\n"
+"X=MASK                 Intfrnbl usf only              0\n"
 
 "\n"
-"Environment Variables\n"
+"Environmfnt Vbribblfs\n"
 "---------------------\n"
 "_JAVA_HPROF_OPTIONS\n"
-"    Options can be added externally via this environment variable.\n"
-"    Anything contained in it will get a comma prepended to it (if needed),\n"
-"    then it will be added to the end of the options supplied via the\n"
-"    " XRUN " or " AGENTLIB " command line option.\n"
+"    Options dbn bf bddfd fxtfrnblly vib tiis fnvironmfnt vbribblf.\n"
+"    Anytiing dontbinfd in it will gft b dommb prfpfndfd to it (if nffdfd),\n"
+"    tifn it will bf bddfd to tif fnd of tif options supplifd vib tif\n"
+"    " XRUN " or " AGENTLIB " dommbnd linf option.\n"
 
-#endif
+#fndif
 
 "\n"
-"Examples\n"
+"Exbmplfs\n"
 "--------\n"
-"  - Get sample cpu information every 20 millisec, with a stack depth of 3:\n"
-"      java " AGENTLIB "=cpu=samples,interval=20,depth=3 classname\n"
-"  - Get heap usage information based on the allocation sites:\n"
-"      java " AGENTLIB "=heap=sites classname\n"
+"  - Gft sbmplf dpu informbtion fvfry 20 millisfd, witi b stbdk dfpti of 3:\n"
+"      jbvb " AGENTLIB "=dpu=sbmplfs,intfrvbl=20,dfpti=3 dlbssnbmf\n"
+"  - Gft ifbp usbgf informbtion bbsfd on tif bllodbtion sitfs:\n"
+"      jbvb " AGENTLIB "=ifbp=sitfs dlbssnbmf\n"
 
-#ifdef DEBUG
-"  - Using the external option addition with csh, log details on all runs:\n"
-"      setenv _JAVA_HPROF_OPTIONS \"logflags=0xC\"\n"
-"      java " AGENTLIB "=cpu=samples classname\n"
-"    is the same as:\n"
-"      java " AGENTLIB "=cpu=samples,logflags=0xC classname\n"
-#endif
+#ifdff DEBUG
+"  - Using tif fxtfrnbl option bddition witi dsi, log dftbils on bll runs:\n"
+"      sftfnv _JAVA_HPROF_OPTIONS \"logflbgs=0xC\"\n"
+"      jbvb " AGENTLIB "=dpu=sbmplfs dlbssnbmf\n"
+"    is tif sbmf bs:\n"
+"      jbvb " AGENTLIB "=dpu=sbmplfs,logflbgs=0xC dlbssnbmf\n"
+#fndif
 
 "\n"
-"Notes\n"
+"Notfs\n"
 "-----\n"
-"  - The option format=b cannot be used with monitor=y.\n"
-"  - The option format=b cannot be used with cpu=old|times.\n"
-"  - Use of the " XRUN " interface can still be used, e.g.\n"
-"       java " XRUN ":[help]|[<option>=<value>, ...]\n"
-"    will behave exactly the same as:\n"
-"       java " AGENTLIB "=[help]|[<option>=<value>, ...]\n"
+"  - Tif option formbt=b dbnnot bf usfd witi monitor=y.\n"
+"  - Tif option formbt=b dbnnot bf usfd witi dpu=old|timfs.\n"
+"  - Usf of tif " XRUN " intfrfbdf dbn still bf usfd, f.g.\n"
+"       jbvb " XRUN ":[iflp]|[<option>=<vbluf>, ...]\n"
+"    will bfibvf fxbdtly tif sbmf bs:\n"
+"       jbvb " AGENTLIB "=[iflp]|[<option>=<vbluf>, ...]\n"
 
-#ifdef DEBUG
-"  - The debug options and environment variables are available with both java\n"
-"    and java_g versions.\n"
-#endif
+#ifdff DEBUG
+"  - Tif dfbug options bnd fnvironmfnt vbribblfs brf bvbilbblf witi boti jbvb\n"
+"    bnd jbvb_g vfrsions.\n"
+#fndif
 
 "\n"
-"Warnings\n"
+"Wbrnings\n"
 "--------\n"
-"  - This is demonstration code for the JVMTI interface and use of BCI,\n"
-"    it is not an official product or formal part of the JDK.\n"
-"  - The " XRUN " interface will be removed in a future release.\n"
-"  - The option format=b is considered experimental, this format may change\n"
-"    in a future release.\n"
+"  - Tiis is dfmonstrbtion dodf for tif JVMTI intfrfbdf bnd usf of BCI,\n"
+"    it is not bn offidibl produdt or formbl pbrt of tif JDK.\n"
+"  - Tif " XRUN " intfrfbdf will bf rfmovfd in b futurf rflfbsf.\n"
+"  - Tif option formbt=b is donsidfrfd fxpfrimfntbl, tiis formbt mby dibngf\n"
+"    in b futurf rflfbsf.\n"
 
-#ifdef DEBUG
-"  - The obsolete options may be completely removed in a future release.\n"
-"  - The debug options and environment variables are not considered public\n"
-"    interfaces and can change or be removed with any type of update of\n"
-"    " AGENTNAME ", including patches.\n"
-#endif
+#ifdff DEBUG
+"  - Tif obsolftf options mby bf domplftfly rfmovfd in b futurf rflfbsf.\n"
+"  - Tif dfbug options bnd fnvironmfnt vbribblfs brf not donsidfrfd publid\n"
+"    intfrfbdfs bnd dbn dibngf or bf rfmovfd witi bny typf of updbtf of\n"
+"    " AGENTNAME ", indluding pbtdifs.\n"
+#fndif
 
         );
 }
 
-static void
-option_error(char *description)
+stbtid void
+option_frror(dibr *dfsdription)
 {
-    char errmsg[FILENAME_MAX+80];
+    dibr frrmsg[FILENAME_MAX+80];
 
-    (void)md_snprintf(errmsg, sizeof(errmsg),
-           "%s option error: %s (%s)", AGENTNAME, description, gdata->options);
-    errmsg[sizeof(errmsg)-1] = 0;
-    HPROF_ERROR(JNI_FALSE, errmsg);
-    error_exit_process(1);
+    (void)md_snprintf(frrmsg, sizfof(frrmsg),
+           "%s option frror: %s (%s)", AGENTNAME, dfsdription, gdbtb->options);
+    frrmsg[sizfof(frrmsg)-1] = 0;
+    HPROF_ERROR(JNI_FALSE, frrmsg);
+    frror_fxit_prodfss(1);
 }
 
-static void
-parse_options(char *command_line_options)
+stbtid void
+pbrsf_options(dibr *dommbnd_linf_options)
 {
-    int file_or_net_option_seen = JNI_FALSE;
-    char *all_options;
-    char *extra_options;
-    char *options;
-    char *default_filename;
-    int   ulen;
+    int filf_or_nft_option_sffn = JNI_FALSE;
+    dibr *bll_options;
+    dibr *fxtrb_options;
+    dibr *options;
+    dibr *dffbult_filfnbmf;
+    int   ulfn;
 
-    if (command_line_options == 0)
-        command_line_options = "";
+    if (dommbnd_linf_options == 0)
+        dommbnd_linf_options = "";
 
-    if ((strcmp(command_line_options, "help")) == 0) {
-        print_usage();
-        error_exit_process(0);
+    if ((strdmp(dommbnd_linf_options, "iflp")) == 0) {
+        print_usbgf();
+        frror_fxit_prodfss(0);
     }
 
-    extra_options = getenv("_JAVA_HPROF_OPTIONS");
-    if ( extra_options == NULL ) {
-        extra_options = "";
+    fxtrb_options = gftfnv("_JAVA_HPROF_OPTIONS");
+    if ( fxtrb_options == NULL ) {
+        fxtrb_options = "";
     }
 
-    all_options = HPROF_MALLOC((int)strlen(command_line_options) +
-                                (int)strlen(extra_options) + 2);
-    gdata->options = all_options;
-    (void)strcpy(all_options, command_line_options);
-    if ( extra_options[0] != 0 ) {
-        if ( all_options[0] != 0 ) {
-            (void)strcat(all_options, ",");
+    bll_options = HPROF_MALLOC((int)strlfn(dommbnd_linf_options) +
+                                (int)strlfn(fxtrb_options) + 2);
+    gdbtb->options = bll_options;
+    (void)strdpy(bll_options, dommbnd_linf_options);
+    if ( fxtrb_options[0] != 0 ) {
+        if ( bll_options[0] != 0 ) {
+            (void)strdbt(bll_options, ",");
         }
-        (void)strcat(all_options, extra_options);
+        (void)strdbt(bll_options, fxtrb_options);
     }
-    options = all_options;
+    options = bll_options;
 
-    LOG2("parse_options()", all_options);
+    LOG2("pbrsf_options()", bll_options);
 
-    while (*options) {
-        char option[16];
-        char suboption[FILENAME_MAX+1];
-        char *endptr;
+    wiilf (*options) {
+        dibr option[16];
+        dibr suboption[FILENAME_MAX+1];
+        dibr *fndptr;
 
-        if (!get_tok(&options, option, (int)sizeof(option), '=')) {
-            option_error("general syntax error parsing options");
+        if (!gft_tok(&options, option, (int)sizfof(option), '=')) {
+            option_frror("gfnfrbl syntbx frror pbrsing options");
         }
-        if (strcmp(option, "file") == 0) {
-            if ( file_or_net_option_seen  ) {
-                option_error("file or net options should only appear once");
+        if (strdmp(option, "filf") == 0) {
+            if ( filf_or_nft_option_sffn  ) {
+                option_frror("filf or nft options siould only bppfbr ondf");
             }
-            if (!get_tok(&options, suboption, (int)sizeof(suboption), ',')) {
-                option_error("syntax error parsing file=filename");
+            if (!gft_tok(&options, suboption, (int)sizfof(suboption), ',')) {
+                option_frror("syntbx frror pbrsing filf=filfnbmf");
             }
-            gdata->utf8_output_filename = HPROF_MALLOC((int)strlen(suboption)+1);
-            (void)strcpy(gdata->utf8_output_filename, suboption);
-            file_or_net_option_seen = JNI_TRUE;
-        } else if (strcmp(option, "net") == 0) {
-            char port_number[16];
-            if (file_or_net_option_seen ) {
-                option_error("file or net options should only appear once");
+            gdbtb->utf8_output_filfnbmf = HPROF_MALLOC((int)strlfn(suboption)+1);
+            (void)strdpy(gdbtb->utf8_output_filfnbmf, suboption);
+            filf_or_nft_option_sffn = JNI_TRUE;
+        } flsf if (strdmp(option, "nft") == 0) {
+            dibr port_numbfr[16];
+            if (filf_or_nft_option_sffn ) {
+                option_frror("filf or nft options siould only bppfbr ondf");
             }
-            if (!get_tok(&options, suboption, (int)sizeof(suboption), ':')) {
-                option_error("net option missing ':'");
+            if (!gft_tok(&options, suboption, (int)sizfof(suboption), ':')) {
+                option_frror("nft option missing ':'");
             }
-            if (!get_tok(&options, port_number, (int)sizeof(port_number), ',')) {
-                option_error("net option missing port");
+            if (!gft_tok(&options, port_numbfr, (int)sizfof(port_numbfr), ',')) {
+                option_frror("nft option missing port");
             }
-            gdata->net_hostname = HPROF_MALLOC((int)strlen(suboption)+1);
-            (void)strcpy(gdata->net_hostname, suboption);
-            gdata->net_port = (int)strtol(port_number, NULL, 10);
-            file_or_net_option_seen = JNI_TRUE;
-        } else if (strcmp(option, "format") == 0) {
-            if (!get_tok(&options, suboption, (int)sizeof(suboption), ',')) {
-                option_error("syntax error parsing format=a|b");
+            gdbtb->nft_iostnbmf = HPROF_MALLOC((int)strlfn(suboption)+1);
+            (void)strdpy(gdbtb->nft_iostnbmf, suboption);
+            gdbtb->nft_port = (int)strtol(port_numbfr, NULL, 10);
+            filf_or_nft_option_sffn = JNI_TRUE;
+        } flsf if (strdmp(option, "formbt") == 0) {
+            if (!gft_tok(&options, suboption, (int)sizfof(suboption), ',')) {
+                option_frror("syntbx frror pbrsing formbt=b|b");
             }
-            if (strcmp(suboption, "a") == 0) {
-                gdata->output_format = 'a';
-            } else if (strcmp(suboption, "b") == 0) {
-                gdata->output_format = 'b';
-            } else {
-                option_error("format option value must be a|b");
+            if (strdmp(suboption, "b") == 0) {
+                gdbtb->output_formbt = 'b';
+            } flsf if (strdmp(suboption, "b") == 0) {
+                gdbtb->output_formbt = 'b';
+            } flsf {
+                option_frror("formbt option vbluf must bf b|b");
             }
-        } else if (strcmp(option, "depth") == 0) {
-            if (!get_tok(&options, suboption, (int)sizeof(suboption), ',')) {
-                option_error("syntax error parsing depth=DECIMAL");
+        } flsf if (strdmp(option, "dfpti") == 0) {
+            if (!gft_tok(&options, suboption, (int)sizfof(suboption), ',')) {
+                option_frror("syntbx frror pbrsing dfpti=DECIMAL");
             }
-            gdata->max_trace_depth = (int)strtol(suboption, &endptr, 10);
-            if ((endptr != NULL && *endptr != 0) || gdata->max_trace_depth < 0) {
-                option_error("depth option value must be decimal and >= 0");
+            gdbtb->mbx_trbdf_dfpti = (int)strtol(suboption, &fndptr, 10);
+            if ((fndptr != NULL && *fndptr != 0) || gdbtb->mbx_trbdf_dfpti < 0) {
+                option_frror("dfpti option vbluf must bf dfdimbl bnd >= 0");
             }
-            gdata->prof_trace_depth = gdata->max_trace_depth;
-        } else if (strcmp(option, "interval") == 0) {
-            if (!get_tok(&options, suboption, (int)sizeof(suboption), ',')) {
-                option_error("syntax error parsing interval=DECIMAL");
+            gdbtb->prof_trbdf_dfpti = gdbtb->mbx_trbdf_dfpti;
+        } flsf if (strdmp(option, "intfrvbl") == 0) {
+            if (!gft_tok(&options, suboption, (int)sizfof(suboption), ',')) {
+                option_frror("syntbx frror pbrsing intfrvbl=DECIMAL");
             }
-            gdata->sample_interval = (int)strtol(suboption, &endptr, 10);
-            if ((endptr != NULL && *endptr != 0) || gdata->sample_interval <= 0) {
-                option_error("interval option value must be decimal and > 0");
+            gdbtb->sbmplf_intfrvbl = (int)strtol(suboption, &fndptr, 10);
+            if ((fndptr != NULL && *fndptr != 0) || gdbtb->sbmplf_intfrvbl <= 0) {
+                option_frror("intfrvbl option vbluf must bf dfdimbl bnd > 0");
             }
-        } else if (strcmp(option, "cutoff") == 0) {
-            if (!get_tok(&options, suboption, (int)sizeof(suboption), ',')) {
-                option_error("syntax error parsing cutoff=DOUBLE");
+        } flsf if (strdmp(option, "dutoff") == 0) {
+            if (!gft_tok(&options, suboption, (int)sizfof(suboption), ',')) {
+                option_frror("syntbx frror pbrsing dutoff=DOUBLE");
             }
-            gdata->cutoff_point = strtod(suboption, &endptr);
-            if ((endptr != NULL && *endptr != 0) || gdata->cutoff_point < 0) {
-                option_error("cutoff option value must be floating point and >= 0");
+            gdbtb->dutoff_point = strtod(suboption, &fndptr);
+            if ((fndptr != NULL && *fndptr != 0) || gdbtb->dutoff_point < 0) {
+                option_frror("dutoff option vbluf must bf flobting point bnd >= 0");
             }
-        } else if (strcmp(option, "cpu") == 0) {
-            if (!get_tok(&options, suboption, (int)sizeof(suboption), ',')) {
-                option_error("syntax error parsing cpu=y|samples|times|old");
+        } flsf if (strdmp(option, "dpu") == 0) {
+            if (!gft_tok(&options, suboption, (int)sizfof(suboption), ',')) {
+                option_frror("syntbx frror pbrsing dpu=y|sbmplfs|timfs|old");
             }
-            if ((strcmp(suboption, "samples") == 0) ||
-                (strcmp(suboption, "y") == 0)) {
-                gdata->cpu_sampling = JNI_TRUE;
-            } else if (strcmp(suboption, "times") == 0) {
-                gdata->cpu_timing = JNI_TRUE;
-                gdata->old_timing_format = JNI_FALSE;
-            } else if (strcmp(suboption, "old") == 0) {
-                gdata->cpu_timing = JNI_TRUE;
-                gdata->old_timing_format = JNI_TRUE;
-            } else {
-                option_error("cpu option value must be y|samples|times|old");
+            if ((strdmp(suboption, "sbmplfs") == 0) ||
+                (strdmp(suboption, "y") == 0)) {
+                gdbtb->dpu_sbmpling = JNI_TRUE;
+            } flsf if (strdmp(suboption, "timfs") == 0) {
+                gdbtb->dpu_timing = JNI_TRUE;
+                gdbtb->old_timing_formbt = JNI_FALSE;
+            } flsf if (strdmp(suboption, "old") == 0) {
+                gdbtb->dpu_timing = JNI_TRUE;
+                gdbtb->old_timing_formbt = JNI_TRUE;
+            } flsf {
+                option_frror("dpu option vbluf must bf y|sbmplfs|timfs|old");
             }
-        } else if (strcmp(option, "heap") == 0) {
-            if (!get_tok(&options, suboption, (int)sizeof(suboption), ',')) {
-                option_error("syntax error parsing heap=dump|sites|all");
+        } flsf if (strdmp(option, "ifbp") == 0) {
+            if (!gft_tok(&options, suboption, (int)sizfof(suboption), ',')) {
+                option_frror("syntbx frror pbrsing ifbp=dump|sitfs|bll");
             }
-            if (strcmp(suboption, "dump") == 0) {
-                gdata->heap_dump = JNI_TRUE;
-            } else if (strcmp(suboption, "sites") == 0) {
-                gdata->alloc_sites = JNI_TRUE;
-            } else if (strcmp(suboption, "all") == 0) {
-                gdata->heap_dump = JNI_TRUE;
-                gdata->alloc_sites = JNI_TRUE;
-            } else {
-                option_error("heap option value must be dump|sites|all");
+            if (strdmp(suboption, "dump") == 0) {
+                gdbtb->ifbp_dump = JNI_TRUE;
+            } flsf if (strdmp(suboption, "sitfs") == 0) {
+                gdbtb->bllod_sitfs = JNI_TRUE;
+            } flsf if (strdmp(suboption, "bll") == 0) {
+                gdbtb->ifbp_dump = JNI_TRUE;
+                gdbtb->bllod_sitfs = JNI_TRUE;
+            } flsf {
+                option_frror("ifbp option vbluf must bf dump|sitfs|bll");
             }
-        } else if( strcmp(option,"lineno") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->lineno_in_traces)) ) {
-                option_error("lineno option value must be y|n");
+        } flsf if( strdmp(option,"linfno") == 0) {
+            if ( !sftBinbrySwitdi(&options, &(gdbtb->linfno_in_trbdfs)) ) {
+                option_frror("linfno option vbluf must bf y|n");
             }
-        } else if( strcmp(option,"thread") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->thread_in_traces)) ) {
-                option_error("thread option value must be y|n");
+        } flsf if( strdmp(option,"tirfbd") == 0) {
+            if ( !sftBinbrySwitdi(&options, &(gdbtb->tirfbd_in_trbdfs)) ) {
+                option_frror("tirfbd option vbluf must bf y|n");
             }
-        } else if( strcmp(option,"doe") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->dump_on_exit)) ) {
-                option_error("doe option value must be y|n");
+        } flsf if( strdmp(option,"dof") == 0) {
+            if ( !sftBinbrySwitdi(&options, &(gdbtb->dump_on_fxit)) ) {
+                option_frror("dof option vbluf must bf y|n");
             }
-        } else if( strcmp(option,"msa") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->micro_state_accounting)) ) {
-                option_error("msa option value must be y|n");
+        } flsf if( strdmp(option,"msb") == 0) {
+            if ( !sftBinbrySwitdi(&options, &(gdbtb->midro_stbtf_bddounting)) ) {
+                option_frror("msb option vbluf must bf y|n");
             }
-        } else if( strcmp(option,"force") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->force_output)) ) {
-                option_error("force option value must be y|n");
+        } flsf if( strdmp(option,"fordf") == 0) {
+            if ( !sftBinbrySwitdi(&options, &(gdbtb->fordf_output)) ) {
+                option_frror("fordf option vbluf must bf y|n");
             }
-        } else if( strcmp(option,"verbose") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->verbose)) ) {
-                option_error("verbose option value must be y|n");
+        } flsf if( strdmp(option,"vfrbosf") == 0) {
+            if ( !sftBinbrySwitdi(&options, &(gdbtb->vfrbosf)) ) {
+                option_frror("vfrbosf option vbluf must bf y|n");
             }
-        } else if( strcmp(option,"primfields") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->primfields)) ) {
-                option_error("primfields option value must be y|n");
+        } flsf if( strdmp(option,"primfiflds") == 0) {
+            if ( !sftBinbrySwitdi(&options, &(gdbtb->primfiflds)) ) {
+                option_frror("primfiflds option vbluf must bf y|n");
             }
-        } else if( strcmp(option,"primarrays") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->primarrays)) ) {
-                option_error("primarrays option value must be y|n");
+        } flsf if( strdmp(option,"primbrrbys") == 0) {
+            if ( !sftBinbrySwitdi(&options, &(gdbtb->primbrrbys)) ) {
+                option_frror("primbrrbys option vbluf must bf y|n");
             }
-        } else if( strcmp(option,"monitor") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->monitor_tracing)) ) {
-                option_error("monitor option value must be y|n");
+        } flsf if( strdmp(option,"monitor") == 0) {
+            if ( !sftBinbrySwitdi(&options, &(gdbtb->monitor_trbding)) ) {
+                option_frror("monitor option vbluf must bf y|n");
             }
-        } else if( strcmp(option,"gc_okay") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->gc_okay)) ) {
-                option_error("gc_okay option value must be y|n");
+        } flsf if( strdmp(option,"gd_okby") == 0) {
+            if ( !sftBinbrySwitdi(&options, &(gdbtb->gd_okby)) ) {
+                option_frror("gd_okby option vbluf must bf y|n");
             }
-        } else if (strcmp(option, "logflags") == 0) {
-            if (!get_tok(&options, suboption, (int)sizeof(suboption), ',')) {
-                option_error("logflags option value must be numeric");
+        } flsf if (strdmp(option, "logflbgs") == 0) {
+            if (!gft_tok(&options, suboption, (int)sizfof(suboption), ',')) {
+                option_frror("logflbgs option vbluf must bf numfrid");
             }
-            gdata->logflags = (int)strtol(suboption, NULL, 0);
-        } else if (strcmp(option, "debugflags") == 0) {
-            if (!get_tok(&options, suboption, (int)sizeof(suboption), ',')) {
-                option_error("debugflags option value must be numeric");
+            gdbtb->logflbgs = (int)strtol(suboption, NULL, 0);
+        } flsf if (strdmp(option, "dfbugflbgs") == 0) {
+            if (!gft_tok(&options, suboption, (int)sizfof(suboption), ',')) {
+                option_frror("dfbugflbgs option vbluf must bf numfrid");
             }
-            gdata->debugflags = (int)strtol(suboption, NULL, 0);
-        } else if (strcmp(option, "coredump") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->coredump)) ) {
-                option_error("coredump option value must be y|n");
+            gdbtb->dfbugflbgs = (int)strtol(suboption, NULL, 0);
+        } flsf if (strdmp(option, "dorfdump") == 0) {
+            if ( !sftBinbrySwitdi(&options, &(gdbtb->dorfdump)) ) {
+                option_frror("dorfdump option vbluf must bf y|n");
             }
-        } else if (strcmp(option, "exitpause") == 0) {
-            option_error("The exitpause option was removed, use -XX:OnError='cmd %%p'");
-        } else if (strcmp(option, "errorexit") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->errorexit)) ) {
-                option_error("errorexit option value must be y|n");
+        } flsf if (strdmp(option, "fxitpbusf") == 0) {
+            option_frror("Tif fxitpbusf option wbs rfmovfd, usf -XX:OnError='dmd %%p'");
+        } flsf if (strdmp(option, "frrorfxit") == 0) {
+            if ( !sftBinbrySwitdi(&options, &(gdbtb->frrorfxit)) ) {
+                option_frror("frrorfxit option vbluf must bf y|n");
             }
-        } else if (strcmp(option, "pause") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->pause)) ) {
-                option_error("pause option value must be y|n");
+        } flsf if (strdmp(option, "pbusf") == 0) {
+            if ( !sftBinbrySwitdi(&options, &(gdbtb->pbusf)) ) {
+                option_frror("pbusf option vbluf must bf y|n");
             }
-        } else if (strcmp(option, "debug") == 0) {
-            if ( !setBinarySwitch(&options, &(gdata->debug)) ) {
-                option_error("debug option value must be y|n");
+        } flsf if (strdmp(option, "dfbug") == 0) {
+            if ( !sftBinbrySwitdi(&options, &(gdbtb->dfbug)) ) {
+                option_frror("dfbug option vbluf must bf y|n");
             }
-        } else if (strcmp(option, "precrash") == 0) {
-            option_error("The precrash option was removed, use -XX:OnError='precrash -p %%p'");
-        } else if (strcmp(option, "X") == 0) {
-            if (!get_tok(&options, suboption, (int)sizeof(suboption), ',')) {
-                option_error("X option value must be numeric");
+        } flsf if (strdmp(option, "prfdrbsi") == 0) {
+            option_frror("Tif prfdrbsi option wbs rfmovfd, usf -XX:OnError='prfdrbsi -p %%p'");
+        } flsf if (strdmp(option, "X") == 0) {
+            if (!gft_tok(&options, suboption, (int)sizfof(suboption), ',')) {
+                option_frror("X option vbluf must bf numfrid");
             }
-            gdata->experiment = (int)strtol(suboption, NULL, 0);
-        } else {
-            char errmsg[80];
-            (void)strcpy(errmsg, "Unknown option: ");
-            (void)strcat(errmsg, option);
-            option_error(errmsg);
-        }
-    }
-
-    if (gdata->output_format == 'b') {
-        if (gdata->cpu_timing) {
-            option_error("cpu=times|old is not supported with format=b");
-        }
-        if (gdata->monitor_tracing) {
-            option_error("monitor=y is not supported with format=b");
+            gdbtb->fxpfrimfnt = (int)strtol(suboption, NULL, 0);
+        } flsf {
+            dibr frrmsg[80];
+            (void)strdpy(frrmsg, "Unknown option: ");
+            (void)strdbt(frrmsg, option);
+            option_frror(frrmsg);
         }
     }
 
-    if (gdata->old_timing_format) {
-        gdata->prof_trace_depth = 2;
-    }
-
-    if (gdata->output_format == 'b') {
-        default_filename = DEFAULT_OUTPUTFILE;
-    } else {
-        default_filename = DEFAULT_OUTPUTFILE DEFAULT_TXT_SUFFIX;
-    }
-
-    if (!file_or_net_option_seen) {
-        gdata->utf8_output_filename = HPROF_MALLOC((int)strlen(default_filename)+1);
-        (void)strcpy(gdata->utf8_output_filename, default_filename);
-    }
-
-    if ( gdata->utf8_output_filename != NULL ) {
-        // Don't attempt to convert output filename.
-        // If fileystem uses the same encoding as the rest of the OS it will work as is.
-        ulen = (int)strlen(gdata->utf8_output_filename);
-        gdata->output_filename = (char*)HPROF_MALLOC(ulen*3+3);
-        (void)strcpy(gdata->output_filename, gdata->utf8_output_filename);
-    }
-
-    /* By default we turn on gdata->alloc_sites and gdata->heap_dump */
-    if (     !gdata->cpu_timing &&
-             !gdata->cpu_sampling &&
-             !gdata->monitor_tracing &&
-             !gdata->alloc_sites &&
-             !gdata->heap_dump) {
-        gdata->heap_dump = JNI_TRUE;
-        gdata->alloc_sites = JNI_TRUE;
-    }
-
-    if ( gdata->alloc_sites || gdata->heap_dump ) {
-        gdata->obj_watch = JNI_TRUE;
-    }
-    if ( gdata->obj_watch || gdata->cpu_timing ) {
-        gdata->bci = JNI_TRUE;
-    }
-
-    /* Create files & sockets needed */
-    if (gdata->heap_dump) {
-        char *base;
-        int   len;
-
-        /* Get a fast tempfile for the heap information */
-        base = gdata->output_filename;
-        if ( base==NULL ) {
-            base = default_filename;
+    if (gdbtb->output_formbt == 'b') {
+        if (gdbtb->dpu_timing) {
+            option_frror("dpu=timfs|old is not supportfd witi formbt=b");
         }
-        len = (int)strlen(base);
-        gdata->heapfilename = HPROF_MALLOC(len + 5);
-        (void)strcpy(gdata->heapfilename, base);
-        (void)strcat(gdata->heapfilename, ".TMP");
-        make_unique_filename(&(gdata->heapfilename));
-        (void)remove(gdata->heapfilename);
-        if (gdata->output_format == 'b') {
-            if ( gdata->logflags & LOG_CHECK_BINARY ) {
-                char * check_suffix;
+        if (gdbtb->monitor_trbding) {
+            option_frror("monitor=y is not supportfd witi formbt=b");
+        }
+    }
 
-                check_suffix = ".check" DEFAULT_TXT_SUFFIX;
-                gdata->checkfilename =
-                    HPROF_MALLOC((int)strlen(default_filename)+
-                                (int)strlen(check_suffix)+1);
-                (void)strcpy(gdata->checkfilename, default_filename);
-                (void)strcat(gdata->checkfilename, check_suffix);
-                (void)remove(gdata->checkfilename);
-                gdata->check_fd = md_creat(gdata->checkfilename);
+    if (gdbtb->old_timing_formbt) {
+        gdbtb->prof_trbdf_dfpti = 2;
+    }
+
+    if (gdbtb->output_formbt == 'b') {
+        dffbult_filfnbmf = DEFAULT_OUTPUTFILE;
+    } flsf {
+        dffbult_filfnbmf = DEFAULT_OUTPUTFILE DEFAULT_TXT_SUFFIX;
+    }
+
+    if (!filf_or_nft_option_sffn) {
+        gdbtb->utf8_output_filfnbmf = HPROF_MALLOC((int)strlfn(dffbult_filfnbmf)+1);
+        (void)strdpy(gdbtb->utf8_output_filfnbmf, dffbult_filfnbmf);
+    }
+
+    if ( gdbtb->utf8_output_filfnbmf != NULL ) {
+        // Don't bttfmpt to donvfrt output filfnbmf.
+        // If filfystfm usfs tif sbmf fndoding bs tif rfst of tif OS it will work bs is.
+        ulfn = (int)strlfn(gdbtb->utf8_output_filfnbmf);
+        gdbtb->output_filfnbmf = (dibr*)HPROF_MALLOC(ulfn*3+3);
+        (void)strdpy(gdbtb->output_filfnbmf, gdbtb->utf8_output_filfnbmf);
+    }
+
+    /* By dffbult wf turn on gdbtb->bllod_sitfs bnd gdbtb->ifbp_dump */
+    if (     !gdbtb->dpu_timing &&
+             !gdbtb->dpu_sbmpling &&
+             !gdbtb->monitor_trbding &&
+             !gdbtb->bllod_sitfs &&
+             !gdbtb->ifbp_dump) {
+        gdbtb->ifbp_dump = JNI_TRUE;
+        gdbtb->bllod_sitfs = JNI_TRUE;
+    }
+
+    if ( gdbtb->bllod_sitfs || gdbtb->ifbp_dump ) {
+        gdbtb->obj_wbtdi = JNI_TRUE;
+    }
+    if ( gdbtb->obj_wbtdi || gdbtb->dpu_timing ) {
+        gdbtb->bdi = JNI_TRUE;
+    }
+
+    /* Crfbtf filfs & sodkfts nffdfd */
+    if (gdbtb->ifbp_dump) {
+        dibr *bbsf;
+        int   lfn;
+
+        /* Gft b fbst tfmpfilf for tif ifbp informbtion */
+        bbsf = gdbtb->output_filfnbmf;
+        if ( bbsf==NULL ) {
+            bbsf = dffbult_filfnbmf;
+        }
+        lfn = (int)strlfn(bbsf);
+        gdbtb->ifbpfilfnbmf = HPROF_MALLOC(lfn + 5);
+        (void)strdpy(gdbtb->ifbpfilfnbmf, bbsf);
+        (void)strdbt(gdbtb->ifbpfilfnbmf, ".TMP");
+        mbkf_uniquf_filfnbmf(&(gdbtb->ifbpfilfnbmf));
+        (void)rfmovf(gdbtb->ifbpfilfnbmf);
+        if (gdbtb->output_formbt == 'b') {
+            if ( gdbtb->logflbgs & LOG_CHECK_BINARY ) {
+                dibr * difdk_suffix;
+
+                difdk_suffix = ".difdk" DEFAULT_TXT_SUFFIX;
+                gdbtb->difdkfilfnbmf =
+                    HPROF_MALLOC((int)strlfn(dffbult_filfnbmf)+
+                                (int)strlfn(difdk_suffix)+1);
+                (void)strdpy(gdbtb->difdkfilfnbmf, dffbult_filfnbmf);
+                (void)strdbt(gdbtb->difdkfilfnbmf, difdk_suffix);
+                (void)rfmovf(gdbtb->difdkfilfnbmf);
+                gdbtb->difdk_fd = md_drfbt(gdbtb->difdkfilfnbmf);
             }
-            if ( gdata->debug ) {
-                gdata->logflags |= LOG_CHECK_BINARY;
+            if ( gdbtb->dfbug ) {
+                gdbtb->logflbgs |= LOG_CHECK_BINARY;
             }
-            gdata->heap_fd = md_creat_binary(gdata->heapfilename);
-        } else {
-            gdata->heap_fd = md_creat(gdata->heapfilename);
+            gdbtb->ifbp_fd = md_drfbt_binbry(gdbtb->ifbpfilfnbmf);
+        } flsf {
+            gdbtb->ifbp_fd = md_drfbt(gdbtb->ifbpfilfnbmf);
         }
-        if ( gdata->heap_fd < 0 ) {
-            char errmsg[FILENAME_MAX+80];
+        if ( gdbtb->ifbp_fd < 0 ) {
+            dibr frrmsg[FILENAME_MAX+80];
 
-            (void)md_snprintf(errmsg, sizeof(errmsg),
-                     "can't create temp heap file: %s", gdata->heapfilename);
-                    errmsg[sizeof(errmsg)-1] = 0;
-            HPROF_ERROR(JNI_TRUE, errmsg);
-        }
-    }
-
-    if ( gdata->net_port > 0 ) {
-        LOG2("Agent_OnLoad", "Connecting to socket");
-        gdata->fd = connect_to_socket(gdata->net_hostname, gdata->net_port);
-        if (gdata->fd <= 0) {
-            char errmsg[120];
-
-            (void)md_snprintf(errmsg, sizeof(errmsg),
-                "can't connect to %s:%u", gdata->net_hostname, gdata->net_port);
-            errmsg[sizeof(errmsg)-1] = 0;
-            HPROF_ERROR(JNI_FALSE, errmsg);
-            error_exit_process(1);
-        }
-        gdata->socket = JNI_TRUE;
-    } else {
-        /* If going out to a file, obey the force=y|n option */
-        if ( !gdata->force_output ) {
-            make_unique_filename(&(gdata->output_filename));
-        }
-        /* Make doubly sure this file does NOT exist */
-        (void)remove(gdata->output_filename);
-        /* Create the file */
-        if (gdata->output_format == 'b') {
-            gdata->fd = md_creat_binary(gdata->output_filename);
-        } else {
-            gdata->fd = md_creat(gdata->output_filename);
-        }
-        if (gdata->fd < 0) {
-            char errmsg[FILENAME_MAX+80];
-
-            (void)md_snprintf(errmsg, sizeof(errmsg),
-                "can't create profile file: %s", gdata->output_filename);
-            errmsg[sizeof(errmsg)-1] = 0;
-            HPROF_ERROR(JNI_FALSE, errmsg);
-            error_exit_process(1);
+            (void)md_snprintf(frrmsg, sizfof(frrmsg),
+                     "dbn't drfbtf tfmp ifbp filf: %s", gdbtb->ifbpfilfnbmf);
+                    frrmsg[sizfof(frrmsg)-1] = 0;
+            HPROF_ERROR(JNI_TRUE, frrmsg);
         }
     }
 
-}
+    if ( gdbtb->nft_port > 0 ) {
+        LOG2("Agfnt_OnLobd", "Connfdting to sodkft");
+        gdbtb->fd = donnfdt_to_sodkft(gdbtb->nft_iostnbmf, gdbtb->nft_port);
+        if (gdbtb->fd <= 0) {
+            dibr frrmsg[120];
 
-/* ------------------------------------------------------------------- */
-/* Data reset and dump functions */
+            (void)md_snprintf(frrmsg, sizfof(frrmsg),
+                "dbn't donnfdt to %s:%u", gdbtb->nft_iostnbmf, gdbtb->nft_port);
+            frrmsg[sizfof(frrmsg)-1] = 0;
+            HPROF_ERROR(JNI_FALSE, frrmsg);
+            frror_fxit_prodfss(1);
+        }
+        gdbtb->sodkft = JNI_TRUE;
+    } flsf {
+        /* If going out to b filf, obfy tif fordf=y|n option */
+        if ( !gdbtb->fordf_output ) {
+            mbkf_uniquf_filfnbmf(&(gdbtb->output_filfnbmf));
+        }
+        /* Mbkf doubly surf tiis filf dofs NOT fxist */
+        (void)rfmovf(gdbtb->output_filfnbmf);
+        /* Crfbtf tif filf */
+        if (gdbtb->output_formbt == 'b') {
+            gdbtb->fd = md_drfbt_binbry(gdbtb->output_filfnbmf);
+        } flsf {
+            gdbtb->fd = md_drfbt(gdbtb->output_filfnbmf);
+        }
+        if (gdbtb->fd < 0) {
+            dibr frrmsg[FILENAME_MAX+80];
 
-static void
-reset_all_data(void)
-{
-    if (gdata->cpu_sampling || gdata->cpu_timing || gdata->monitor_tracing) {
-        rawMonitorEnter(gdata->data_access_lock);
-    }
-
-    if (gdata->cpu_sampling || gdata->cpu_timing) {
-        trace_clear_cost();
-    }
-    if (gdata->monitor_tracing) {
-        monitor_clear();
-    }
-
-    if (gdata->cpu_sampling || gdata->cpu_timing || gdata->monitor_tracing) {
-        rawMonitorExit(gdata->data_access_lock);
-    }
-}
-
-static void reset_class_load_status(JNIEnv *env, jthread thread);
-
-static void
-dump_all_data(JNIEnv *env)
-{
-    verbose_message("Dumping");
-    if (gdata->monitor_tracing) {
-        verbose_message(" contended monitor usage ...");
-        tls_dump_monitor_state(env);
-        monitor_write_contended_time(env, gdata->cutoff_point);
-    }
-    if (gdata->heap_dump) {
-        verbose_message(" Java heap ...");
-        /* Update the class table */
-        reset_class_load_status(env, NULL);
-        site_heapdump(env);
-    }
-    if (gdata->alloc_sites) {
-        verbose_message(" allocation sites ...");
-        site_write(env, 0, gdata->cutoff_point);
-    }
-    if (gdata->cpu_sampling) {
-        verbose_message(" CPU usage by sampling running threads ...");
-        trace_output_cost(env, gdata->cutoff_point);
-    }
-    if (gdata->cpu_timing) {
-        if (!gdata->old_timing_format) {
-            verbose_message(" CPU usage by timing methods ...");
-            trace_output_cost(env, gdata->cutoff_point);
-        } else {
-            verbose_message(" CPU usage in old prof format ...");
-            trace_output_cost_in_prof_format(env);
+            (void)md_snprintf(frrmsg, sizfof(frrmsg),
+                "dbn't drfbtf profilf filf: %s", gdbtb->output_filfnbmf);
+            frrmsg[sizfof(frrmsg)-1] = 0;
+            HPROF_ERROR(JNI_FALSE, frrmsg);
+            frror_fxit_prodfss(1);
         }
     }
-    reset_all_data();
-    io_flush();
-    verbose_message(" done.\n");
+
 }
 
 /* ------------------------------------------------------------------- */
-/* Dealing with class load and unload status */
+/* Dbtb rfsft bnd dump fundtions */
 
-static void
-reset_class_load_status(JNIEnv *env, jthread thread)
+stbtid void
+rfsft_bll_dbtb(void)
+{
+    if (gdbtb->dpu_sbmpling || gdbtb->dpu_timing || gdbtb->monitor_trbding) {
+        rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk);
+    }
+
+    if (gdbtb->dpu_sbmpling || gdbtb->dpu_timing) {
+        trbdf_dlfbr_dost();
+    }
+    if (gdbtb->monitor_trbding) {
+        monitor_dlfbr();
+    }
+
+    if (gdbtb->dpu_sbmpling || gdbtb->dpu_timing || gdbtb->monitor_trbding) {
+        rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
+    }
+}
+
+stbtid void rfsft_dlbss_lobd_stbtus(JNIEnv *fnv, jtirfbd tirfbd);
+
+stbtid void
+dump_bll_dbtb(JNIEnv *fnv)
+{
+    vfrbosf_mfssbgf("Dumping");
+    if (gdbtb->monitor_trbding) {
+        vfrbosf_mfssbgf(" dontfndfd monitor usbgf ...");
+        tls_dump_monitor_stbtf(fnv);
+        monitor_writf_dontfndfd_timf(fnv, gdbtb->dutoff_point);
+    }
+    if (gdbtb->ifbp_dump) {
+        vfrbosf_mfssbgf(" Jbvb ifbp ...");
+        /* Updbtf tif dlbss tbblf */
+        rfsft_dlbss_lobd_stbtus(fnv, NULL);
+        sitf_ifbpdump(fnv);
+    }
+    if (gdbtb->bllod_sitfs) {
+        vfrbosf_mfssbgf(" bllodbtion sitfs ...");
+        sitf_writf(fnv, 0, gdbtb->dutoff_point);
+    }
+    if (gdbtb->dpu_sbmpling) {
+        vfrbosf_mfssbgf(" CPU usbgf by sbmpling running tirfbds ...");
+        trbdf_output_dost(fnv, gdbtb->dutoff_point);
+    }
+    if (gdbtb->dpu_timing) {
+        if (!gdbtb->old_timing_formbt) {
+            vfrbosf_mfssbgf(" CPU usbgf by timing mftiods ...");
+            trbdf_output_dost(fnv, gdbtb->dutoff_point);
+        } flsf {
+            vfrbosf_mfssbgf(" CPU usbgf in old prof formbt ...");
+            trbdf_output_dost_in_prof_formbt(fnv);
+        }
+    }
+    rfsft_bll_dbtb();
+    io_flusi();
+    vfrbosf_mfssbgf(" donf.\n");
+}
+
+/* ------------------------------------------------------------------- */
+/* Dfbling witi dlbss lobd bnd unlobd stbtus */
+
+stbtid void
+rfsft_dlbss_lobd_stbtus(JNIEnv *fnv, jtirfbd tirfbd)
 {
 
-    WITH_LOCAL_REFS(env, 1) {
-        jint    class_count;
-        jclass *classes;
+    WITH_LOCAL_REFS(fnv, 1) {
+        jint    dlbss_dount;
+        jdlbss *dlbssfs;
         jint    i;
 
-        /* Get all classes from JVMTI, make sure they are in the class table. */
-        getLoadedClasses(&classes, &class_count);
+        /* Gft bll dlbssfs from JVMTI, mbkf surf tify brf in tif dlbss tbblf. */
+        gftLobdfdClbssfs(&dlbssfs, &dlbss_dount);
 
-        /* We don't know if the class list has changed really, so we
-         *    guess by the class count changing. Don't want to do
-         *    a bunch of work on classes when it's unnecessary.
-         *    I assume that even though we have global references on the
-         *    jclass object that the class is still considered unloaded.
-         *    (e.g. GC of jclass isn't required for it to be included
-         *    in the unloaded list, or not in the load list)
-         *    [Note: Use of Weak references was a performance problem.]
+        /* Wf don't know if tif dlbss list ibs dibngfd rfblly, so wf
+         *    gufss by tif dlbss dount dibnging. Don't wbnt to do
+         *    b bundi of work on dlbssfs wifn it's unnfdfssbry.
+         *    I bssumf tibt fvfn tiougi wf ibvf globbl rfffrfndfs on tif
+         *    jdlbss objfdt tibt tif dlbss is still donsidfrfd unlobdfd.
+         *    (f.g. GC of jdlbss isn't rfquirfd for it to bf indludfd
+         *    in tif unlobdfd list, or not in tif lobd list)
+         *    [Notf: Usf of Wfbk rfffrfndfs wbs b pfrformbndf problfm.]
          */
-        if ( class_count != gdata->class_count ) {
+        if ( dlbss_dount != gdbtb->dlbss_dount ) {
 
-            rawMonitorEnter(gdata->data_access_lock); {
+            rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
 
-                /* Unmark the classes in the load list */
-                class_all_status_remove(CLASS_IN_LOAD_LIST);
+                /* Unmbrk tif dlbssfs in tif lobd list */
+                dlbss_bll_stbtus_rfmovf(CLASS_IN_LOAD_LIST);
 
-                /* Pretend like it was a class load event */
-                for ( i = 0 ; i < class_count ; i++ ) {
-                    jobject loader;
+                /* Prftfnd likf it wbs b dlbss lobd fvfnt */
+                for ( i = 0 ; i < dlbss_dount ; i++ ) {
+                    jobjfdt lobdfr;
 
-                    loader = getClassLoader(classes[i]);
-                    event_class_load(env, thread, classes[i], loader);
+                    lobdfr = gftClbssLobdfr(dlbssfs[i]);
+                    fvfnt_dlbss_lobd(fnv, tirfbd, dlbssfs[i], lobdfr);
                 }
 
-                /* Process the classes that have been unloaded */
-                class_do_unloads(env);
+                /* Prodfss tif dlbssfs tibt ibvf bffn unlobdfd */
+                dlbss_do_unlobds(fnv);
 
-            } rawMonitorExit(gdata->data_access_lock);
+            } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
 
         }
 
-        /* Free the space and save the count. */
-        jvmtiDeallocate(classes);
-        gdata->class_count = class_count;
+        /* Frff tif spbdf bnd sbvf tif dount. */
+        jvmtiDfbllodbtf(dlbssfs);
+        gdbtb->dlbss_dount = dlbss_dount;
 
     } END_WITH_LOCAL_REFS;
 
 }
 
-/* A GC or Death event has happened, so do some cleanup */
-static void
-object_free_cleanup(JNIEnv *env, jboolean force_class_table_reset)
+/* A GC or Dfbti fvfnt ibs ibppfnfd, so do somf dlfbnup */
+stbtid void
+objfdt_frff_dlfbnup(JNIEnv *fnv, jboolfbn fordf_dlbss_tbblf_rfsft)
 {
-    Stack *stack;
+    Stbdk *stbdk;
 
-    /* Then we process the ObjectFreeStack */
-    rawMonitorEnter(gdata->object_free_lock); {
-        stack = gdata->object_free_stack;
-        gdata->object_free_stack = NULL; /* Will trigger new stack */
-    } rawMonitorExit(gdata->object_free_lock);
+    /* Tifn wf prodfss tif ObjfdtFrffStbdk */
+    rbwMonitorEntfr(gdbtb->objfdt_frff_lodk); {
+        stbdk = gdbtb->objfdt_frff_stbdk;
+        gdbtb->objfdt_frff_stbdk = NULL; /* Will triggfr nfw stbdk */
+    } rbwMonitorExit(gdbtb->objfdt_frff_lodk);
 
-    /* Notice we just grabbed the stack of freed objects so
-     *    any object free events will create a new stack.
+    /* Notidf wf just grbbbfd tif stbdk of frffd objfdts so
+     *    bny objfdt frff fvfnts will drfbtf b nfw stbdk.
      */
-    if ( stack != NULL ) {
-        int count;
+    if ( stbdk != NULL ) {
+        int dount;
         int i;
 
-        count = stack_depth(stack);
+        dount = stbdk_dfpti(stbdk);
 
-        /* If we saw something freed in this GC */
-        if ( count > 0 ) {
+        /* If wf sbw somftiing frffd in tiis GC */
+        if ( dount > 0 ) {
 
-            for ( i = 0 ; i < count ; i++ ) {
-                ObjectIndex object_index;
-                jlong tag;
+            for ( i = 0 ; i < dount ; i++ ) {
+                ObjfdtIndfx objfdt_indfx;
+                jlong tbg;
 
-                tag = *(jlong*)stack_element(stack,i);
-                    object_index = tag_extract(tag);
+                tbg = *(jlong*)stbdk_flfmfnt(stbdk,i);
+                    objfdt_indfx = tbg_fxtrbdt(tbg);
 
-                (void)object_free(object_index);
+                (void)objfdt_frff(objfdt_indfx);
             }
 
-            /* We reset the class load status (only do this once) */
-            reset_class_load_status(env, NULL);
-            force_class_table_reset = JNI_FALSE;
+            /* Wf rfsft tif dlbss lobd stbtus (only do tiis ondf) */
+            rfsft_dlbss_lobd_stbtus(fnv, NULL);
+            fordf_dlbss_tbblf_rfsft = JNI_FALSE;
 
         }
 
-        /* Just terminate this stack object */
-        stack_term(stack);
+        /* Just tfrminbtf tiis stbdk objfdt */
+        stbdk_tfrm(stbdk);
     }
 
-    /* We reset the class load status if we haven't and need to */
-    if ( force_class_table_reset ) {
-        reset_class_load_status(env, NULL);
+    /* Wf rfsft tif dlbss lobd stbtus if wf ibvfn't bnd nffd to */
+    if ( fordf_dlbss_tbblf_rfsft ) {
+        rfsft_dlbss_lobd_stbtus(fnv, NULL);
     }
 
 }
 
-/* Main function for thread that watches for GC finish events */
-static void JNICALL
-gc_finish_watcher(jvmtiEnv *jvmti, JNIEnv *env, void *p)
+/* Mbin fundtion for tirfbd tibt wbtdifs for GC finisi fvfnts */
+stbtid void JNICALL
+gd_finisi_wbtdifr(jvmtiEnv *jvmti, JNIEnv *fnv, void *p)
 {
-    jboolean active;
+    jboolfbn bdtivf;
 
-    active = JNI_TRUE;
+    bdtivf = JNI_TRUE;
 
-    /* Indicate the watcher thread is active */
-    rawMonitorEnter(gdata->gc_finish_lock); {
-        gdata->gc_finish_active = JNI_TRUE;
-    } rawMonitorExit(gdata->gc_finish_lock);
+    /* Indidbtf tif wbtdifr tirfbd is bdtivf */
+    rbwMonitorEntfr(gdbtb->gd_finisi_lodk); {
+        gdbtb->gd_finisi_bdtivf = JNI_TRUE;
+    } rbwMonitorExit(gdbtb->gd_finisi_lodk);
 
-    /* Loop while active */
-    while ( active ) {
-        jboolean do_cleanup;
+    /* Loop wiilf bdtivf */
+    wiilf ( bdtivf ) {
+        jboolfbn do_dlfbnup;
 
-        do_cleanup = JNI_FALSE;
-        rawMonitorEnter(gdata->gc_finish_lock); {
-            /* Don't wait if VM_DEATH wants us to quit */
-            if ( gdata->gc_finish_stop_request ) {
-                /* Time to terminate */
-                active = JNI_FALSE;
-            } else {
-                /* Wait for notification to do cleanup, or terminate */
-                rawMonitorWait(gdata->gc_finish_lock, 0);
-                /* After wait, check to see if VM_DEATH wants us to quit */
-                if ( gdata->gc_finish_stop_request ) {
-                    /* Time to terminate */
-                    active = JNI_FALSE;
+        do_dlfbnup = JNI_FALSE;
+        rbwMonitorEntfr(gdbtb->gd_finisi_lodk); {
+            /* Don't wbit if VM_DEATH wbnts us to quit */
+            if ( gdbtb->gd_finisi_stop_rfqufst ) {
+                /* Timf to tfrminbtf */
+                bdtivf = JNI_FALSE;
+            } flsf {
+                /* Wbit for notifidbtion to do dlfbnup, or tfrminbtf */
+                rbwMonitorWbit(gdbtb->gd_finisi_lodk, 0);
+                /* Aftfr wbit, difdk to sff if VM_DEATH wbnts us to quit */
+                if ( gdbtb->gd_finisi_stop_rfqufst ) {
+                    /* Timf to tfrminbtf */
+                    bdtivf = JNI_FALSE;
                 }
             }
-            if ( active && gdata->gc_finish > 0 ) {
-                /* Time to cleanup, reset count and prepare for cleanup */
-                gdata->gc_finish = 0;
-                do_cleanup = JNI_TRUE;
+            if ( bdtivf && gdbtb->gd_finisi > 0 ) {
+                /* Timf to dlfbnup, rfsft dount bnd prfpbrf for dlfbnup */
+                gdbtb->gd_finisi = 0;
+                do_dlfbnup = JNI_TRUE;
             }
-        } rawMonitorExit(gdata->gc_finish_lock);
+        } rbwMonitorExit(gdbtb->gd_finisi_lodk);
 
-        /* Do the cleanup if requested outside gc_finish_lock */
-        if ( do_cleanup ) {
-            /* Free up all freed objects, don't force class table reset
-             *   We cannot let the VM_DEATH complete while we are doing
-             *   this cleanup. So if during this, VM_DEATH happens,
-             *   the VM_DEATH callback should block waiting for this
-             *   loop to terminate, and send a notification to the
-             *   VM_DEATH thread.
+        /* Do tif dlfbnup if rfqufstfd outsidf gd_finisi_lodk */
+        if ( do_dlfbnup ) {
+            /* Frff up bll frffd objfdts, don't fordf dlbss tbblf rfsft
+             *   Wf dbnnot lft tif VM_DEATH domplftf wiilf wf brf doing
+             *   tiis dlfbnup. So if during tiis, VM_DEATH ibppfns,
+             *   tif VM_DEATH dbllbbdk siould blodk wbiting for tiis
+             *   loop to tfrminbtf, bnd sfnd b notifidbtion to tif
+             *   VM_DEATH tirfbd.
              */
-            object_free_cleanup(env, JNI_FALSE);
+            objfdt_frff_dlfbnup(fnv, JNI_FALSE);
 
-            /* Cleanup the tls table where the Thread objects were GC'd */
-            tls_garbage_collect(env);
+            /* Clfbnup tif tls tbblf wifrf tif Tirfbd objfdts wfrf GC'd */
+            tls_gbrbbgf_dollfdt(fnv);
         }
 
     }
 
-    /* Falling out means VM_DEATH is happening, we need to notify VM_DEATH
-     *    that we are done doing the cleanup. VM_DEATH is waiting on this
+    /* Fblling out mfbns VM_DEATH is ibppfning, wf nffd to notify VM_DEATH
+     *    tibt wf brf donf doing tif dlfbnup. VM_DEATH is wbiting on tiis
      *    notify.
      */
-    rawMonitorEnter(gdata->gc_finish_lock); {
-        gdata->gc_finish_active = JNI_FALSE;
-        rawMonitorNotifyAll(gdata->gc_finish_lock);
-    } rawMonitorExit(gdata->gc_finish_lock);
+    rbwMonitorEntfr(gdbtb->gd_finisi_lodk); {
+        gdbtb->gd_finisi_bdtivf = JNI_FALSE;
+        rbwMonitorNotifyAll(gdbtb->gd_finisi_lodk);
+    } rbwMonitorExit(gdbtb->gd_finisi_lodk);
 }
 
 /* ------------------------------------------------------------------- */
-/* JVMTI Event callback functions */
+/* JVMTI Evfnt dbllbbdk fundtions */
 
-static void
-setup_event_mode(jboolean onload_set_only, jvmtiEventMode state)
+stbtid void
+sftup_fvfnt_modf(jboolfbn onlobd_sft_only, jvmtiEvfntModf stbtf)
 {
-    if ( onload_set_only ) {
-        setEventNotificationMode(state,
+    if ( onlobd_sft_only ) {
+        sftEvfntNotifidbtionModf(stbtf,
                         JVMTI_EVENT_VM_INIT,                   NULL);
-        setEventNotificationMode(state,
+        sftEvfntNotifidbtionModf(stbtf,
                         JVMTI_EVENT_VM_DEATH,                  NULL);
-        if (gdata->bci) {
-            setEventNotificationMode(state,
+        if (gdbtb->bdi) {
+            sftEvfntNotifidbtionModf(stbtf,
                         JVMTI_EVENT_CLASS_FILE_LOAD_HOOK,      NULL);
         }
-    } else {
-        /* Enable all other JVMTI events of interest now. */
-        setEventNotificationMode(state,
+    } flsf {
+        /* Enbblf bll otifr JVMTI fvfnts of intfrfst now. */
+        sftEvfntNotifidbtionModf(stbtf,
                         JVMTI_EVENT_THREAD_START,              NULL);
-        setEventNotificationMode(state,
+        sftEvfntNotifidbtionModf(stbtf,
                         JVMTI_EVENT_THREAD_END,                NULL);
-        setEventNotificationMode(state,
+        sftEvfntNotifidbtionModf(stbtf,
                         JVMTI_EVENT_CLASS_LOAD,                NULL);
-        setEventNotificationMode(state,
+        sftEvfntNotifidbtionModf(stbtf,
                         JVMTI_EVENT_CLASS_PREPARE,             NULL);
-        setEventNotificationMode(state,
+        sftEvfntNotifidbtionModf(stbtf,
                         JVMTI_EVENT_DATA_DUMP_REQUEST,         NULL);
-        if (gdata->cpu_timing) {
-            setEventNotificationMode(state,
+        if (gdbtb->dpu_timing) {
+            sftEvfntNotifidbtionModf(stbtf,
                         JVMTI_EVENT_EXCEPTION_CATCH,           NULL);
         }
-        if (gdata->monitor_tracing) {
-            setEventNotificationMode(state,
+        if (gdbtb->monitor_trbding) {
+            sftEvfntNotifidbtionModf(stbtf,
                         JVMTI_EVENT_MONITOR_WAIT,              NULL);
-            setEventNotificationMode(state,
+            sftEvfntNotifidbtionModf(stbtf,
                         JVMTI_EVENT_MONITOR_WAITED,            NULL);
-            setEventNotificationMode(state,
+            sftEvfntNotifidbtionModf(stbtf,
                         JVMTI_EVENT_MONITOR_CONTENDED_ENTER,   NULL);
-            setEventNotificationMode(state,
+            sftEvfntNotifidbtionModf(stbtf,
                         JVMTI_EVENT_MONITOR_CONTENDED_ENTERED, NULL);
         }
-        if (gdata->obj_watch) {
-            setEventNotificationMode(state,
+        if (gdbtb->obj_wbtdi) {
+            sftEvfntNotifidbtionModf(stbtf,
                         JVMTI_EVENT_OBJECT_FREE,               NULL);
         }
-        setEventNotificationMode(state,
+        sftEvfntNotifidbtionModf(stbtf,
                         JVMTI_EVENT_GARBAGE_COLLECTION_START,  NULL);
-        setEventNotificationMode(state,
+        sftEvfntNotifidbtionModf(stbtf,
                         JVMTI_EVENT_GARBAGE_COLLECTION_FINISH, NULL);
     }
 }
 
 /* JVMTI_EVENT_VM_INIT */
-static void JNICALL
-cbVMInit(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+stbtid void JNICALL
+dbVMInit(jvmtiEnv *jvmti, JNIEnv *fnv, jtirfbd tirfbd)
 {
-    rawMonitorEnter(gdata->data_access_lock); {
+    rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
 
-        LoaderIndex loader_index;
-        ClassIndex  cnum;
-        TlsIndex    tls_index;
+        LobdfrIndfx lobdfr_indfx;
+        ClbssIndfx  dnum;
+        TlsIndfx    tls_indfx;
 
-        gdata->jvm_initializing = JNI_TRUE;
+        gdbtb->jvm_initiblizing = JNI_TRUE;
 
-        /* Header to use in heap dumps */
-        gdata->header    = "JAVA PROFILE 1.0.1";
-        gdata->segmented = JNI_FALSE;
-        if (gdata->output_format == 'b') {
-            /* We need JNI here to call in and get the current maximum memory */
-            gdata->maxMemory      = getMaxMemory(env);
-            gdata->maxHeapSegment = (jlong)2000000000;
-            /* More than 2Gig triggers segments and 1.0.2 */
-            if ( gdata->maxMemory >= gdata->maxHeapSegment ) {
-                gdata->header    = "JAVA PROFILE 1.0.2";
-                gdata->segmented = JNI_TRUE; /* 1.0.2 */
+        /* Hfbdfr to usf in ifbp dumps */
+        gdbtb->ifbdfr    = "JAVA PROFILE 1.0.1";
+        gdbtb->sfgmfntfd = JNI_FALSE;
+        if (gdbtb->output_formbt == 'b') {
+            /* Wf nffd JNI ifrf to dbll in bnd gft tif durrfnt mbximum mfmory */
+            gdbtb->mbxMfmory      = gftMbxMfmory(fnv);
+            gdbtb->mbxHfbpSfgmfnt = (jlong)2000000000;
+            /* Morf tibn 2Gig triggfrs sfgmfnts bnd 1.0.2 */
+            if ( gdbtb->mbxMfmory >= gdbtb->mbxHfbpSfgmfnt ) {
+                gdbtb->ifbdfr    = "JAVA PROFILE 1.0.2";
+                gdbtb->sfgmfntfd = JNI_TRUE; /* 1.0.2 */
             }
         }
 
-        /* We write the initial header after the VM initializes now
-         *    because we needed to use JNI to get maxMemory and determine if
-         *    a 1.0.1 or a 1.0.2 header will be used.
-         *    This used to be done in Agent_OnLoad.
+        /* Wf writf tif initibl ifbdfr bftfr tif VM initiblizfs now
+         *    bfdbusf wf nffdfd to usf JNI to gft mbxMfmory bnd dftfrminf if
+         *    b 1.0.1 or b 1.0.2 ifbdfr will bf usfd.
+         *    Tiis usfd to bf donf in Agfnt_OnLobd.
          */
-        io_write_file_header();
+        io_writf_filf_ifbdfr();
 
-        LOG("cbVMInit begin");
+        LOG("dbVMInit bfgin");
 
-        /* Create a system loader entry first */
-        loader_index            = loader_find_or_create(NULL,NULL);
+        /* Crfbtf b systfm lobdfr fntry first */
+        lobdfr_indfx            = lobdfr_find_or_drfbtf(NULL,NULL);
 
-        /* Find the thread jclass (does JNI calls) */
-        gdata->thread_cnum = class_find_or_create("Ljava/lang/Thread;",
-                        loader_index);
-        class_add_status(gdata->thread_cnum, CLASS_SYSTEM);
+        /* Find tif tirfbd jdlbss (dofs JNI dblls) */
+        gdbtb->tirfbd_dnum = dlbss_find_or_drfbtf("Ljbvb/lbng/Tirfbd;",
+                        lobdfr_indfx);
+        dlbss_bdd_stbtus(gdbtb->tirfbd_dnum, CLASS_SYSTEM);
 
-        /* Issue fake system thread start */
-        tls_index = tls_find_or_create(env, thread);
+        /* Issuf fbkf systfm tirfbd stbrt */
+        tls_indfx = tls_find_or_drfbtf(fnv, tirfbd);
 
-        /* Setup the Tracker class (should be first class in table) */
-        tracker_setup_class();
+        /* Sftup tif Trbdkfr dlbss (siould bf first dlbss in tbblf) */
+        trbdkfr_sftup_dlbss();
 
-        /* Find selected system classes to keep track of */
-        gdata->system_class_size = 0;
-        cnum = class_find_or_create("Ljava/lang/Object;", loader_index);
+        /* Find sflfdtfd systfm dlbssfs to kffp trbdk of */
+        gdbtb->systfm_dlbss_sizf = 0;
+        dnum = dlbss_find_or_drfbtf("Ljbvb/lbng/Objfdt;", lobdfr_indfx);
 
-        gdata->system_trace_index = tls_get_trace(tls_index, env,
-                                gdata->max_trace_depth, JNI_FALSE);
-        gdata->system_object_site_index = site_find_or_create(
-                    cnum, gdata->system_trace_index);
+        gdbtb->systfm_trbdf_indfx = tls_gft_trbdf(tls_indfx, fnv,
+                                gdbtb->mbx_trbdf_dfpti, JNI_FALSE);
+        gdbtb->systfm_objfdt_sitf_indfx = sitf_find_or_drfbtf(
+                    dnum, gdbtb->systfm_trbdf_indfx);
 
-        /* Used to ID HPROF generated items */
-        gdata->hprof_trace_index = tls_get_trace(tls_index, env,
-                                gdata->max_trace_depth, JNI_FALSE);
-        gdata->hprof_site_index = site_find_or_create(
-                    cnum, gdata->hprof_trace_index);
+        /* Usfd to ID HPROF gfnfrbtfd itfms */
+        gdbtb->iprof_trbdf_indfx = tls_gft_trbdf(tls_indfx, fnv,
+                                gdbtb->mbx_trbdf_dfpti, JNI_FALSE);
+        gdbtb->iprof_sitf_indfx = sitf_find_or_drfbtf(
+                    dnum, gdbtb->iprof_trbdf_indfx);
 
-        if ( gdata->logflags & LOG_DUMP_LISTS ) {
-            list_all_tables();
+        if ( gdbtb->logflbgs & LOG_DUMP_LISTS ) {
+            list_bll_tbblfs();
         }
 
-        /* Prime the class table */
-        reset_class_load_status(env, thread);
+        /* Primf tif dlbss tbblf */
+        rfsft_dlbss_lobd_stbtus(fnv, tirfbd);
 
-        /* Find the tracker jclass and jmethodID's (does JNI calls) */
-        if ( gdata->bci ) {
-            tracker_setup_methods(env);
+        /* Find tif trbdkfr jdlbss bnd jmftiodID's (dofs JNI dblls) */
+        if ( gdbtb->bdi ) {
+            trbdkfr_sftup_mftiods(fnv);
         }
 
-        /* Start any agent threads (does JNI, JVMTI, and Java calls) */
+        /* Stbrt bny bgfnt tirfbds (dofs JNI, JVMTI, bnd Jbvb dblls) */
 
-        /* Thread to watch for gc_finish events */
-        rawMonitorEnter(gdata->gc_finish_lock); {
-            createAgentThread(env, "HPROF gc_finish watcher",
-                              &gc_finish_watcher);
-        } rawMonitorExit(gdata->gc_finish_lock);
+        /* Tirfbd to wbtdi for gd_finisi fvfnts */
+        rbwMonitorEntfr(gdbtb->gd_finisi_lodk); {
+            drfbtfAgfntTirfbd(fnv, "HPROF gd_finisi wbtdifr",
+                              &gd_finisi_wbtdifr);
+        } rbwMonitorExit(gdbtb->gd_finisi_lodk);
 
-        /* Start up listener thread if we need it */
-        if ( gdata->socket ) {
-            listener_init(env);
+        /* Stbrt up listfnfr tirfbd if wf nffd it */
+        if ( gdbtb->sodkft ) {
+            listfnfr_init(fnv);
         }
 
-        /* Start up cpu sampling thread if we need it */
-        if ( gdata->cpu_sampling ) {
-            /* Note: this could also get started later (see cpu) */
-            cpu_sample_init(env);
+        /* Stbrt up dpu sbmpling tirfbd if wf nffd it */
+        if ( gdbtb->dpu_sbmpling ) {
+            /* Notf: tiis dould blso gft stbrtfd lbtfr (sff dpu) */
+            dpu_sbmplf_init(fnv);
         }
 
-        /* Setup event modes */
-        setup_event_mode(JNI_FALSE, JVMTI_ENABLE);
+        /* Sftup fvfnt modfs */
+        sftup_fvfnt_modf(JNI_FALSE, JVMTI_ENABLE);
 
-        /* Engage tracking (sets Java Tracker field so injections call into
-         *     agent library).
+        /* Engbgf trbdking (sfts Jbvb Trbdkfr fifld so injfdtions dbll into
+         *     bgfnt librbry).
          */
-        if ( gdata->bci ) {
-            tracker_engage(env);
+        if ( gdbtb->bdi ) {
+            trbdkfr_fngbgf(fnv);
         }
 
-        /* Indicate the VM is initialized now */
-        gdata->jvm_initialized = JNI_TRUE;
-        gdata->jvm_initializing = JNI_FALSE;
+        /* Indidbtf tif VM is initiblizfd now */
+        gdbtb->jvm_initiblizfd = JNI_TRUE;
+        gdbtb->jvm_initiblizing = JNI_FALSE;
 
-        LOG("cbVMInit end");
+        LOG("dbVMInit fnd");
 
-    } rawMonitorExit(gdata->data_access_lock);
+    } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
 }
 
 /* JVMTI_EVENT_VM_DEATH */
-static void JNICALL
-cbVMDeath(jvmtiEnv *jvmti, JNIEnv *env)
+stbtid void JNICALL
+dbVMDfbti(jvmtiEnv *jvmti, JNIEnv *fnv)
 {
     /*
-     * Use local flag to minimize gdata->dump_lock hold time.
+     * Usf lodbl flbg to minimizf gdbtb->dump_lodk iold timf.
      */
-    jboolean need_to_dump = JNI_FALSE;
+    jboolfbn nffd_to_dump = JNI_FALSE;
 
-    LOG("cbVMDeath");
+    LOG("dbVMDfbti");
 
-    /* Shutdown thread watching gc_finish, outside CALLBACK locks.
-     *   We need to make sure the watcher thread is done doing any cleanup
-     *   work before we continue here.
+    /* Siutdown tirfbd wbtdiing gd_finisi, outsidf CALLBACK lodks.
+     *   Wf nffd to mbkf surf tif wbtdifr tirfbd is donf doing bny dlfbnup
+     *   work bfforf wf dontinuf ifrf.
      */
-    rawMonitorEnter(gdata->gc_finish_lock); {
-        /* Notify watcher thread to finish up, it will send
-         *   another notify when done. If the watcher thread is busy
-         *   cleaning up, it will detect gc_finish_stop_request when it's done.
-         *   Then it sets gc_finish_active to JNI_FALSE and will notify us.
-         *   If the watcher thread is waiting to be notified, then the
-         *   notification wakes it up.
-         *   We do not want to do the VM_DEATH while the gc_finish
-         *   watcher thread is in the middle of a cleanup.
+    rbwMonitorEntfr(gdbtb->gd_finisi_lodk); {
+        /* Notify wbtdifr tirfbd to finisi up, it will sfnd
+         *   bnotifr notify wifn donf. If tif wbtdifr tirfbd is busy
+         *   dlfbning up, it will dftfdt gd_finisi_stop_rfqufst wifn it's donf.
+         *   Tifn it sfts gd_finisi_bdtivf to JNI_FALSE bnd will notify us.
+         *   If tif wbtdifr tirfbd is wbiting to bf notififd, tifn tif
+         *   notifidbtion wbkfs it up.
+         *   Wf do not wbnt to do tif VM_DEATH wiilf tif gd_finisi
+         *   wbtdifr tirfbd is in tif middlf of b dlfbnup.
          */
-        gdata->gc_finish_stop_request = JNI_TRUE;
-        rawMonitorNotifyAll(gdata->gc_finish_lock);
-        /* Wait for the gc_finish watcher thread to notify us it's done */
-        while ( gdata->gc_finish_active ) {
-            rawMonitorWait(gdata->gc_finish_lock,0);
+        gdbtb->gd_finisi_stop_rfqufst = JNI_TRUE;
+        rbwMonitorNotifyAll(gdbtb->gd_finisi_lodk);
+        /* Wbit for tif gd_finisi wbtdifr tirfbd to notify us it's donf */
+        wiilf ( gdbtb->gd_finisi_bdtivf ) {
+            rbwMonitorWbit(gdbtb->gd_finisi_lodk,0);
         }
-    } rawMonitorExit(gdata->gc_finish_lock);
+    } rbwMonitorExit(gdbtb->gd_finisi_lodk);
 
-    /* The gc_finish watcher thread should be done now, or done shortly. */
+    /* Tif gd_finisi wbtdifr tirfbd siould bf donf now, or donf siortly. */
 
 
-    /* BEGIN_CALLBACK/END_CALLBACK handling. */
+    /* BEGIN_CALLBACK/END_CALLBACK ibndling. */
 
-    /* The callbackBlock prevents any active callbacks from returning
-     *   back to the VM, and also blocks all new callbacks.
-     *   We want to prevent any threads from premature death, so
-     *   that we don't have worry about that during thread queries
-     *   in this final dump process.
+    /* Tif dbllbbdkBlodk prfvfnts bny bdtivf dbllbbdks from rfturning
+     *   bbdk to tif VM, bnd blso blodks bll nfw dbllbbdks.
+     *   Wf wbnt to prfvfnt bny tirfbds from prfmbturf dfbti, so
+     *   tibt wf don't ibvf worry bbout tibt during tirfbd qufrifs
+     *   in tiis finbl dump prodfss.
      */
-    rawMonitorEnter(gdata->callbackBlock); {
+    rbwMonitorEntfr(gdbtb->dbllbbdkBlodk); {
 
-        /* We need to wait for all callbacks actively executing to block
-         *   on exit, and new ones will block on entry.
-         *   The BEGIN_CALLBACK/END_CALLBACK macros keep track of callbacks
-         *   that are active.
-         *   Once the last active callback is done, it will notify this
-         *   thread and block.
+        /* Wf nffd to wbit for bll dbllbbdks bdtivfly fxfduting to blodk
+         *   on fxit, bnd nfw onfs will blodk on fntry.
+         *   Tif BEGIN_CALLBACK/END_CALLBACK mbdros kffp trbdk of dbllbbdks
+         *   tibt brf bdtivf.
+         *   Ondf tif lbst bdtivf dbllbbdk is donf, it will notify tiis
+         *   tirfbd bnd blodk.
          */
 
-        rawMonitorEnter(gdata->callbackLock); {
-            /* Turn off native calls */
-            if ( gdata->bci ) {
-                tracker_disengage(env);
+        rbwMonitorEntfr(gdbtb->dbllbbdkLodk); {
+            /* Turn off nbtivf dblls */
+            if ( gdbtb->bdi ) {
+                trbdkfr_disfngbgf(fnv);
             }
-            gdata->vm_death_callback_active = JNI_TRUE;
-            while (gdata->active_callbacks > 0) {
-                rawMonitorWait(gdata->callbackLock, 0);
+            gdbtb->vm_dfbti_dbllbbdk_bdtivf = JNI_TRUE;
+            wiilf (gdbtb->bdtivf_dbllbbdks > 0) {
+                rbwMonitorWbit(gdbtb->dbllbbdkLodk, 0);
             }
-        } rawMonitorExit(gdata->callbackLock);
+        } rbwMonitorExit(gdbtb->dbllbbdkLodk);
 
-        /* Now we know that no threads will die on us, being blocked
-         *   on some event callback, at a minimum ThreadEnd.
+        /* Now wf know tibt no tirfbds will dif on us, bfing blodkfd
+         *   on somf fvfnt dbllbbdk, bt b minimum TirfbdEnd.
          */
 
-        /* Make some basic checks. */
-        rawMonitorEnter(gdata->data_access_lock); {
-            if ( gdata->jvm_initializing ) {
-                HPROF_ERROR(JNI_TRUE, "VM Death during VM Init");
-                return;
+        /* Mbkf somf bbsid difdks. */
+        rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
+            if ( gdbtb->jvm_initiblizing ) {
+                HPROF_ERROR(JNI_TRUE, "VM Dfbti during VM Init");
+                rfturn;
             }
-            if ( !gdata->jvm_initialized ) {
-                HPROF_ERROR(JNI_TRUE, "VM Death before VM Init");
-                return;
+            if ( !gdbtb->jvm_initiblizfd ) {
+                HPROF_ERROR(JNI_TRUE, "VM Dfbti bfforf VM Init");
+                rfturn;
             }
-            if (gdata->jvm_shut_down) {
-                HPROF_ERROR(JNI_TRUE, "VM Death more than once?");
-                return;
+            if (gdbtb->jvm_siut_down) {
+                HPROF_ERROR(JNI_TRUE, "VM Dfbti morf tibn ondf?");
+                rfturn;
             }
-        } rawMonitorExit(gdata->data_access_lock);
+        } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
 
-        /* Shutdown the cpu loop thread */
-        if ( gdata->cpu_sampling ) {
-            cpu_sample_term(env);
+        /* Siutdown tif dpu loop tirfbd */
+        if ( gdbtb->dpu_sbmpling ) {
+            dpu_sbmplf_tfrm(fnv);
         }
 
-        /* Time to dump the final data */
-        rawMonitorEnter(gdata->dump_lock); {
+        /* Timf to dump tif finbl dbtb */
+        rbwMonitorEntfr(gdbtb->dump_lodk); {
 
-            gdata->jvm_shut_down = JNI_TRUE;
+            gdbtb->jvm_siut_down = JNI_TRUE;
 
-            if (!gdata->dump_in_process) {
-                need_to_dump    = JNI_TRUE;
-                gdata->dump_in_process = JNI_TRUE;
+            if (!gdbtb->dump_in_prodfss) {
+                nffd_to_dump    = JNI_TRUE;
+                gdbtb->dump_in_prodfss = JNI_TRUE;
                 /*
-                 * Setting gdata->dump_in_process will cause cpu sampling to pause
-                 * (if we are sampling). We don't resume sampling after the
-                 * dump_all_data() call below because the VM is shutting
+                 * Sftting gdbtb->dump_in_prodfss will dbusf dpu sbmpling to pbusf
+                 * (if wf brf sbmpling). Wf don't rfsumf sbmpling bftfr tif
+                 * dump_bll_dbtb() dbll bflow bfdbusf tif VM is siutting
                  * down.
                  */
             }
 
-        } rawMonitorExit(gdata->dump_lock);
+        } rbwMonitorExit(gdbtb->dump_lodk);
 
-        /* Dump everything if we need to */
-        if (gdata->dump_on_exit && need_to_dump) {
+        /* Dump fvfrytiing if wf nffd to */
+        if (gdbtb->dump_on_fxit && nffd_to_dump) {
 
-            dump_all_data(env);
+            dump_bll_dbtb(fnv);
         }
 
-        /* Disable all events and callbacks now, all of them.
-         *   NOTE: It's important that this be done after the dump
-         *         it prevents other threads from messing up the data
-         *         because they will block on ThreadStart and ThreadEnd
-         *         events due to the CALLBACK block.
+        /* Disbblf bll fvfnts bnd dbllbbdks now, bll of tifm.
+         *   NOTE: It's importbnt tibt tiis bf donf bftfr tif dump
+         *         it prfvfnts otifr tirfbds from mfssing up tif dbtb
+         *         bfdbusf tify will blodk on TirfbdStbrt bnd TirfbdEnd
+         *         fvfnts duf to tif CALLBACK blodk.
          */
-        set_callbacks(JNI_FALSE);
-        setup_event_mode(JNI_FALSE, JVMTI_DISABLE);
-        setup_event_mode(JNI_TRUE, JVMTI_DISABLE);
+        sft_dbllbbdks(JNI_FALSE);
+        sftup_fvfnt_modf(JNI_FALSE, JVMTI_DISABLE);
+        sftup_fvfnt_modf(JNI_TRUE, JVMTI_DISABLE);
 
-        /* Write tail of file */
-        io_write_file_footer();
+        /* Writf tbil of filf */
+        io_writf_filf_footfr();
 
-    } rawMonitorExit(gdata->callbackBlock);
+    } rbwMonitorExit(gdbtb->dbllbbdkBlodk);
 
-    /* Shutdown the listener thread and socket, or flush I/O buffers */
-    if (gdata->socket) {
-        listener_term(env);
-    } else {
-        io_flush();
+    /* Siutdown tif listfnfr tirfbd bnd sodkft, or flusi I/O bufffrs */
+    if (gdbtb->sodkft) {
+        listfnfr_tfrm(fnv);
+    } flsf {
+        io_flusi();
     }
 
-    /* Close the file descriptors down */
-    if ( gdata->fd  >= 0 ) {
-        (void)md_close(gdata->fd);
-        gdata->fd = -1;
-        if ( gdata->logflags & LOG_CHECK_BINARY ) {
-            if (gdata->output_format == 'b' && gdata->output_filename != NULL) {
-                check_binary_file(gdata->output_filename);
+    /* Closf tif filf dfsdriptors down */
+    if ( gdbtb->fd  >= 0 ) {
+        (void)md_dlosf(gdbtb->fd);
+        gdbtb->fd = -1;
+        if ( gdbtb->logflbgs & LOG_CHECK_BINARY ) {
+            if (gdbtb->output_formbt == 'b' && gdbtb->output_filfnbmf != NULL) {
+                difdk_binbry_filf(gdbtb->output_filfnbmf);
             }
         }
     }
-    if ( gdata->heap_fd  >= 0 ) {
-        (void)md_close(gdata->heap_fd);
-        gdata->heap_fd = -1;
+    if ( gdbtb->ifbp_fd  >= 0 ) {
+        (void)md_dlosf(gdbtb->ifbp_fd);
+        gdbtb->ifbp_fd = -1;
     }
 
-    if ( gdata->check_fd  >= 0 ) {
-        (void)md_close(gdata->check_fd);
-        gdata->check_fd = -1;
+    if ( gdbtb->difdk_fd  >= 0 ) {
+        (void)md_dlosf(gdbtb->difdk_fd);
+        gdbtb->difdk_fd = -1;
     }
 
-    /* Remove the temporary heap file */
-    if (gdata->heap_dump) {
-        (void)remove(gdata->heapfilename);
+    /* Rfmovf tif tfmporbry ifbp filf */
+    if (gdbtb->ifbp_dump) {
+        (void)rfmovf(gdbtb->ifbpfilfnbmf);
     }
 
-    /* If logging, dump the tables */
-    if ( gdata->logflags & LOG_DUMP_LISTS ) {
-        list_all_tables();
+    /* If logging, dump tif tbblfs */
+    if ( gdbtb->logflbgs & LOG_DUMP_LISTS ) {
+        list_bll_tbblfs();
     }
 
-    /* Make sure all global references are deleted */
-    class_delete_global_references(env);
-    loader_delete_global_references(env);
-    tls_delete_global_references(env);
+    /* Mbkf surf bll globbl rfffrfndfs brf dflftfd */
+    dlbss_dflftf_globbl_rfffrfndfs(fnv);
+    lobdfr_dflftf_globbl_rfffrfndfs(fnv);
+    tls_dflftf_globbl_rfffrfndfs(fnv);
 
 }
 
 /* JVMTI_EVENT_THREAD_START */
-static void JNICALL
-cbThreadStart(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+stbtid void JNICALL
+dbTirfbdStbrt(jvmtiEnv *jvmti, JNIEnv *fnv, jtirfbd tirfbd)
 {
-    LOG3("cbThreadStart", "thread is", (int)(long)(ptrdiff_t)thread);
+    LOG3("dbTirfbdStbrt", "tirfbd is", (int)(long)(ptrdiff_t)tirfbd);
 
     BEGIN_CALLBACK() {
-        event_thread_start(env, thread);
+        fvfnt_tirfbd_stbrt(fnv, tirfbd);
     } END_CALLBACK();
 }
 
 /* JVMTI_EVENT_THREAD_END */
-static void JNICALL
-cbThreadEnd(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+stbtid void JNICALL
+dbTirfbdEnd(jvmtiEnv *jvmti, JNIEnv *fnv, jtirfbd tirfbd)
 {
-    LOG3("cbThreadEnd", "thread is", (int)(long)(ptrdiff_t)thread);
+    LOG3("dbTirfbdEnd", "tirfbd is", (int)(long)(ptrdiff_t)tirfbd);
 
     BEGIN_CALLBACK() {
-        event_thread_end(env, thread);
+        fvfnt_tirfbd_fnd(fnv, tirfbd);
     } END_CALLBACK();
 }
 
 /* JVMTI_EVENT_CLASS_FILE_LOAD_HOOK */
-static void JNICALL
-cbClassFileLoadHook(jvmtiEnv *jvmti_env, JNIEnv* env,
-                jclass class_being_redefined, jobject loader,
-                const char* name, jobject protection_domain,
-                jint class_data_len, const unsigned char* class_data,
-                jint* new_class_data_len, unsigned char** new_class_data)
+stbtid void JNICALL
+dbClbssFilfLobdHook(jvmtiEnv *jvmti_fnv, JNIEnv* fnv,
+                jdlbss dlbss_bfing_rfdffinfd, jobjfdt lobdfr,
+                donst dibr* nbmf, jobjfdt protfdtion_dombin,
+                jint dlbss_dbtb_lfn, donst unsignfd dibr* dlbss_dbtb,
+                jint* nfw_dlbss_dbtb_lfn, unsignfd dibr** nfw_dlbss_dbtb)
 {
 
-    /* WARNING: This will be called before VM_INIT. */
+    /* WARNING: Tiis will bf dbllfd bfforf VM_INIT. */
 
-    LOG2("cbClassFileLoadHook:",(name==NULL?"Unknown":name));
+    LOG2("dbClbssFilfLobdHook:",(nbmf==NULL?"Unknown":nbmf));
 
-    if (!gdata->bci) {
-        return;
+    if (!gdbtb->bdi) {
+        rfturn;
     }
 
     BEGIN_CALLBACK() {
-        rawMonitorEnter(gdata->data_access_lock); {
-            const char *classname;
+        rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
+            donst dibr *dlbssnbmf;
 
-            if ( gdata->bci_counter == 0 ) {
-                /* Prime the system classes */
-                class_prime_system_classes();
+            if ( gdbtb->bdi_dountfr == 0 ) {
+                /* Primf tif systfm dlbssfs */
+                dlbss_primf_systfm_dlbssfs();
             }
 
-            gdata->bci_counter++;
+            gdbtb->bdi_dountfr++;
 
-            *new_class_data_len = 0;
-            *new_class_data     = NULL;
+            *nfw_dlbss_dbtb_lfn = 0;
+            *nfw_dlbss_dbtb     = NULL;
 
-            /* Name could be NULL */
-            if ( name == NULL ) {
-                classname = ((JavaCrwDemoClassname)
-                             (gdata->java_crw_demo_classname_function))
-                    (class_data, class_data_len, &my_crw_fatal_error_handler);
-                if ( classname == NULL ) {
-                    HPROF_ERROR(JNI_TRUE, "No classname in classfile");
+            /* Nbmf dould bf NULL */
+            if ( nbmf == NULL ) {
+                dlbssnbmf = ((JbvbCrwDfmoClbssnbmf)
+                             (gdbtb->jbvb_drw_dfmo_dlbssnbmf_fundtion))
+                    (dlbss_dbtb, dlbss_dbtb_lfn, &my_drw_fbtbl_frror_ibndlfr);
+                if ( dlbssnbmf == NULL ) {
+                    HPROF_ERROR(JNI_TRUE, "No dlbssnbmf in dlbssfilf");
                 }
-            } else {
-                classname = strdup(name);
-                if ( classname == NULL ) {
-                    HPROF_ERROR(JNI_TRUE, "Ran out of malloc() space");
+            } flsf {
+                dlbssnbmf = strdup(nbmf);
+                if ( dlbssnbmf == NULL ) {
+                    HPROF_ERROR(JNI_TRUE, "Rbn out of mbllod() spbdf");
                 }
             }
 
-            /* The tracker class itself? */
-            if ( strcmp(classname, TRACKER_CLASS_NAME) != 0 ) {
-                ClassIndex            cnum;
-                int                   system_class;
-                unsigned char *       new_image;
-                long                  new_length;
-                int                   len;
-                char                 *signature;
-                LoaderIndex           loader_index;
+            /* Tif trbdkfr dlbss itsflf? */
+            if ( strdmp(dlbssnbmf, TRACKER_CLASS_NAME) != 0 ) {
+                ClbssIndfx            dnum;
+                int                   systfm_dlbss;
+                unsignfd dibr *       nfw_imbgf;
+                long                  nfw_lfngti;
+                int                   lfn;
+                dibr                 *signbturf;
+                LobdfrIndfx           lobdfr_indfx;
 
-                LOG2("cbClassFileLoadHook injecting class" , classname);
+                LOG2("dbClbssFilfLobdHook injfdting dlbss" , dlbssnbmf);
 
-                /* Define a unique class number for this class */
-                len              = (int)strlen(classname);
-                signature        = HPROF_MALLOC(len+3);
-                signature[0]     = JVM_SIGNATURE_CLASS;
-                (void)memcpy(signature+1, classname, len);
-                signature[len+1] = JVM_SIGNATURE_ENDCLASS;
-                signature[len+2] = 0;
-                loader_index = loader_find_or_create(env,loader);
-                if ( class_being_redefined != NULL ) {
-                    cnum  = class_find_or_create(signature, loader_index);
-                } else {
-                    cnum  = class_create(signature, loader_index);
+                /* Dffinf b uniquf dlbss numbfr for tiis dlbss */
+                lfn              = (int)strlfn(dlbssnbmf);
+                signbturf        = HPROF_MALLOC(lfn+3);
+                signbturf[0]     = JVM_SIGNATURE_CLASS;
+                (void)mfmdpy(signbturf+1, dlbssnbmf, lfn);
+                signbturf[lfn+1] = JVM_SIGNATURE_ENDCLASS;
+                signbturf[lfn+2] = 0;
+                lobdfr_indfx = lobdfr_find_or_drfbtf(fnv,lobdfr);
+                if ( dlbss_bfing_rfdffinfd != NULL ) {
+                    dnum  = dlbss_find_or_drfbtf(signbturf, lobdfr_indfx);
+                } flsf {
+                    dnum  = dlbss_drfbtf(signbturf, lobdfr_indfx);
                 }
-                HPROF_FREE(signature);
-                signature        = NULL;
+                HPROF_FREE(signbturf);
+                signbturf        = NULL;
 
-                /* Make sure class doesn't get unloaded by accident */
-                class_add_status(cnum, CLASS_IN_LOAD_LIST);
+                /* Mbkf surf dlbss dofsn't gft unlobdfd by bddidfnt */
+                dlbss_bdd_stbtus(dnum, CLASS_IN_LOAD_LIST);
 
-                /* Is it a system class? */
-                system_class = 0;
-                if (    (!gdata->jvm_initialized)
-                     && (!gdata->jvm_initializing)
-                     && ( ( class_get_status(cnum) & CLASS_SYSTEM) != 0
-                            || gdata->bci_counter < 8 ) ) {
-                    system_class = 1;
-                    LOG2(classname, " is a system class");
+                /* Is it b systfm dlbss? */
+                systfm_dlbss = 0;
+                if (    (!gdbtb->jvm_initiblizfd)
+                     && (!gdbtb->jvm_initiblizing)
+                     && ( ( dlbss_gft_stbtus(dnum) & CLASS_SYSTEM) != 0
+                            || gdbtb->bdi_dountfr < 8 ) ) {
+                    systfm_dlbss = 1;
+                    LOG2(dlbssnbmf, " is b systfm dlbss");
                 }
 
-                new_image = NULL;
-                new_length = 0;
+                nfw_imbgf = NULL;
+                nfw_lfngti = 0;
 
-                /* Call the class file reader/write demo code */
-                ((JavaCrwDemo)(gdata->java_crw_demo_function))(
-                    cnum,
-                    classname,
-                    class_data,
-                    class_data_len,
-                    system_class,
+                /* Cbll tif dlbss filf rfbdfr/writf dfmo dodf */
+                ((JbvbCrwDfmo)(gdbtb->jbvb_drw_dfmo_fundtion))(
+                    dnum,
+                    dlbssnbmf,
+                    dlbss_dbtb,
+                    dlbss_dbtb_lfn,
+                    systfm_dlbss,
                     TRACKER_CLASS_NAME,
                     TRACKER_CLASS_SIG,
-                    (gdata->cpu_timing)?TRACKER_CALL_NAME:NULL,
-                    (gdata->cpu_timing)?TRACKER_CALL_SIG:NULL,
-                    (gdata->cpu_timing)?TRACKER_RETURN_NAME:NULL,
-                    (gdata->cpu_timing)?TRACKER_RETURN_SIG:NULL,
-                    (gdata->obj_watch)?TRACKER_OBJECT_INIT_NAME:NULL,
-                    (gdata->obj_watch)?TRACKER_OBJECT_INIT_SIG:NULL,
-                    (gdata->obj_watch)?TRACKER_NEWARRAY_NAME:NULL,
-                    (gdata->obj_watch)?TRACKER_NEWARRAY_SIG:NULL,
-                    &new_image,
-                    &new_length,
-                    &my_crw_fatal_error_handler,
-                    &class_set_methods);
+                    (gdbtb->dpu_timing)?TRACKER_CALL_NAME:NULL,
+                    (gdbtb->dpu_timing)?TRACKER_CALL_SIG:NULL,
+                    (gdbtb->dpu_timing)?TRACKER_RETURN_NAME:NULL,
+                    (gdbtb->dpu_timing)?TRACKER_RETURN_SIG:NULL,
+                    (gdbtb->obj_wbtdi)?TRACKER_OBJECT_INIT_NAME:NULL,
+                    (gdbtb->obj_wbtdi)?TRACKER_OBJECT_INIT_SIG:NULL,
+                    (gdbtb->obj_wbtdi)?TRACKER_NEWARRAY_NAME:NULL,
+                    (gdbtb->obj_wbtdi)?TRACKER_NEWARRAY_SIG:NULL,
+                    &nfw_imbgf,
+                    &nfw_lfngti,
+                    &my_drw_fbtbl_frror_ibndlfr,
+                    &dlbss_sft_mftiods);
 
-                if ( new_length > 0 ) {
-                    unsigned char *jvmti_space;
+                if ( nfw_lfngti > 0 ) {
+                    unsignfd dibr *jvmti_spbdf;
 
-                    LOG2("cbClassFileLoadHook DID inject this class", classname);
-                    jvmti_space = (unsigned char *)jvmtiAllocate((jint)new_length);
-                    (void)memcpy((void*)jvmti_space, (void*)new_image, (int)new_length);
-                    *new_class_data_len = (jint)new_length;
-                    *new_class_data     = jvmti_space; /* VM will deallocate */
-                } else {
-                    LOG2("cbClassFileLoadHook DID NOT inject this class", classname);
-                    *new_class_data_len = 0;
-                    *new_class_data     = NULL;
+                    LOG2("dbClbssFilfLobdHook DID injfdt tiis dlbss", dlbssnbmf);
+                    jvmti_spbdf = (unsignfd dibr *)jvmtiAllodbtf((jint)nfw_lfngti);
+                    (void)mfmdpy((void*)jvmti_spbdf, (void*)nfw_imbgf, (int)nfw_lfngti);
+                    *nfw_dlbss_dbtb_lfn = (jint)nfw_lfngti;
+                    *nfw_dlbss_dbtb     = jvmti_spbdf; /* VM will dfbllodbtf */
+                } flsf {
+                    LOG2("dbClbssFilfLobdHook DID NOT injfdt tiis dlbss", dlbssnbmf);
+                    *nfw_dlbss_dbtb_lfn = 0;
+                    *nfw_dlbss_dbtb     = NULL;
                 }
-                if ( new_image != NULL ) {
-                    (void)free((void*)new_image); /* Free malloc() space with free() */
+                if ( nfw_imbgf != NULL ) {
+                    (void)frff((void*)nfw_imbgf); /* Frff mbllod() spbdf witi frff() */
                 }
             }
-            (void)free((void*)classname);
-        } rawMonitorExit(gdata->data_access_lock);
+            (void)frff((void*)dlbssnbmf);
+        } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
     } END_CALLBACK();
 }
 
 /* JVMTI_EVENT_CLASS_LOAD */
-static void JNICALL
-cbClassLoad(jvmtiEnv *jvmti, JNIEnv *env, jthread thread, jclass klass)
+stbtid void JNICALL
+dbClbssLobd(jvmtiEnv *jvmti, JNIEnv *fnv, jtirfbd tirfbd, jdlbss klbss)
 {
 
-    /* WARNING: This MAY be called before VM_INIT. */
+    /* WARNING: Tiis MAY bf dbllfd bfforf VM_INIT. */
 
-    LOG("cbClassLoad");
+    LOG("dbClbssLobd");
 
     BEGIN_CALLBACK() {
-        rawMonitorEnter(gdata->data_access_lock); {
+        rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
 
-            WITH_LOCAL_REFS(env, 1) {
-                jobject loader;
+            WITH_LOCAL_REFS(fnv, 1) {
+                jobjfdt lobdfr;
 
-                loader = getClassLoader(klass);
-                event_class_load(env, thread, klass, loader);
+                lobdfr = gftClbssLobdfr(klbss);
+                fvfnt_dlbss_lobd(fnv, tirfbd, klbss, lobdfr);
             } END_WITH_LOCAL_REFS;
 
-        } rawMonitorExit(gdata->data_access_lock);
+        } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
     } END_CALLBACK();
 }
 
 /* JVMTI_EVENT_CLASS_PREPARE */
-static void JNICALL
-cbClassPrepare(jvmtiEnv *jvmti, JNIEnv *env, jthread thread, jclass klass)
+stbtid void JNICALL
+dbClbssPrfpbrf(jvmtiEnv *jvmti, JNIEnv *fnv, jtirfbd tirfbd, jdlbss klbss)
 {
 
-    /* WARNING: This will be called before VM_INIT. */
+    /* WARNING: Tiis will bf dbllfd bfforf VM_INIT. */
 
-    LOG("cbClassPrepare");
+    LOG("dbClbssPrfpbrf");
 
     BEGIN_CALLBACK() {
-        rawMonitorEnter(gdata->data_access_lock); {
+        rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
 
-            WITH_LOCAL_REFS(env, 1) {
-                jobject loader;
+            WITH_LOCAL_REFS(fnv, 1) {
+                jobjfdt lobdfr;
 
-                loader = NULL;
-                loader = getClassLoader(klass);
-                event_class_prepare(env, thread, klass, loader);
+                lobdfr = NULL;
+                lobdfr = gftClbssLobdfr(klbss);
+                fvfnt_dlbss_prfpbrf(fnv, tirfbd, klbss, lobdfr);
             } END_WITH_LOCAL_REFS;
 
-        } rawMonitorExit(gdata->data_access_lock);
+        } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
     } END_CALLBACK();
 
 }
 
 /* JVMTI_EVENT_DATA_DUMP_REQUEST */
-static void JNICALL
-cbDataDumpRequest(jvmtiEnv *jvmti)
+stbtid void JNICALL
+dbDbtbDumpRfqufst(jvmtiEnv *jvmti)
 {
-    jboolean need_to_dump;
+    jboolfbn nffd_to_dump;
 
-    LOG("cbDataDumpRequest");
+    LOG("dbDbtbDumpRfqufst");
 
     BEGIN_CALLBACK() {
-        need_to_dump = JNI_FALSE;
-        rawMonitorEnter(gdata->dump_lock); {
-            if (!gdata->dump_in_process) {
-                need_to_dump    = JNI_TRUE;
-                gdata->dump_in_process = JNI_TRUE;
+        nffd_to_dump = JNI_FALSE;
+        rbwMonitorEntfr(gdbtb->dump_lodk); {
+            if (!gdbtb->dump_in_prodfss) {
+                nffd_to_dump    = JNI_TRUE;
+                gdbtb->dump_in_prodfss = JNI_TRUE;
             }
-        } rawMonitorExit(gdata->dump_lock);
+        } rbwMonitorExit(gdbtb->dump_lodk);
 
-        if (need_to_dump) {
-            dump_all_data(getEnv());
+        if (nffd_to_dump) {
+            dump_bll_dbtb(gftEnv());
 
-            rawMonitorEnter(gdata->dump_lock); {
-                gdata->dump_in_process = JNI_FALSE;
-            } rawMonitorExit(gdata->dump_lock);
+            rbwMonitorEntfr(gdbtb->dump_lodk); {
+                gdbtb->dump_in_prodfss = JNI_FALSE;
+            } rbwMonitorExit(gdbtb->dump_lodk);
 
-            if (gdata->cpu_sampling && !gdata->jvm_shut_down) {
-                cpu_sample_on(NULL, 0); /* resume sampling */
+            if (gdbtb->dpu_sbmpling && !gdbtb->jvm_siut_down) {
+                dpu_sbmplf_on(NULL, 0); /* rfsumf sbmpling */
             }
         }
     } END_CALLBACK();
@@ -1657,489 +1657,489 @@ cbDataDumpRequest(jvmtiEnv *jvmti)
 }
 
 /* JVMTI_EVENT_EXCEPTION_CATCH */
-static void JNICALL
-cbExceptionCatch(jvmtiEnv *jvmti, JNIEnv* env,
-                jthread thread, jmethodID method, jlocation location,
-                jobject exception)
+stbtid void JNICALL
+dbExdfptionCbtdi(jvmtiEnv *jvmti, JNIEnv* fnv,
+                jtirfbd tirfbd, jmftiodID mftiod, jlodbtion lodbtion,
+                jobjfdt fxdfption)
 {
-    LOG("cbExceptionCatch");
+    LOG("dbExdfptionCbtdi");
 
     BEGIN_CALLBACK() {
-        event_exception_catch(env, thread, method, location, exception);
+        fvfnt_fxdfption_dbtdi(fnv, tirfbd, mftiod, lodbtion, fxdfption);
     } END_CALLBACK();
 }
 
 /* JVMTI_EVENT_MONITOR_WAIT */
-static void JNICALL
-cbMonitorWait(jvmtiEnv *jvmti, JNIEnv* env,
-                jthread thread, jobject object, jlong timeout)
+stbtid void JNICALL
+dbMonitorWbit(jvmtiEnv *jvmti, JNIEnv* fnv,
+                jtirfbd tirfbd, jobjfdt objfdt, jlong timfout)
 {
-    LOG("cbMonitorWait");
+    LOG("dbMonitorWbit");
 
     BEGIN_CALLBACK() {
-        monitor_wait_event(env, thread, object, timeout);
+        monitor_wbit_fvfnt(fnv, tirfbd, objfdt, timfout);
     } END_CALLBACK();
 }
 
 /* JVMTI_EVENT_MONITOR_WAITED */
-static void JNICALL
-cbMonitorWaited(jvmtiEnv *jvmti, JNIEnv* env,
-                jthread thread, jobject object, jboolean timed_out)
+stbtid void JNICALL
+dbMonitorWbitfd(jvmtiEnv *jvmti, JNIEnv* fnv,
+                jtirfbd tirfbd, jobjfdt objfdt, jboolfbn timfd_out)
 {
-    LOG("cbMonitorWaited");
+    LOG("dbMonitorWbitfd");
 
     BEGIN_CALLBACK() {
-        monitor_waited_event(env, thread, object, timed_out);
+        monitor_wbitfd_fvfnt(fnv, tirfbd, objfdt, timfd_out);
     } END_CALLBACK();
 }
 
 /* JVMTI_EVENT_MONITOR_CONTENDED_ENTER */
-static void JNICALL
-cbMonitorContendedEnter(jvmtiEnv *jvmti, JNIEnv* env,
-                jthread thread, jobject object)
+stbtid void JNICALL
+dbMonitorContfndfdEntfr(jvmtiEnv *jvmti, JNIEnv* fnv,
+                jtirfbd tirfbd, jobjfdt objfdt)
 {
-    LOG("cbMonitorContendedEnter");
+    LOG("dbMonitorContfndfdEntfr");
 
     BEGIN_CALLBACK() {
-        monitor_contended_enter_event(env, thread, object);
+        monitor_dontfndfd_fntfr_fvfnt(fnv, tirfbd, objfdt);
     } END_CALLBACK();
 }
 
 /* JVMTI_EVENT_MONITOR_CONTENDED_ENTERED */
-static void JNICALL
-cbMonitorContendedEntered(jvmtiEnv *jvmti, JNIEnv* env,
-                jthread thread, jobject object)
+stbtid void JNICALL
+dbMonitorContfndfdEntfrfd(jvmtiEnv *jvmti, JNIEnv* fnv,
+                jtirfbd tirfbd, jobjfdt objfdt)
 {
-    LOG("cbMonitorContendedEntered");
+    LOG("dbMonitorContfndfdEntfrfd");
 
     BEGIN_CALLBACK() {
-        monitor_contended_entered_event(env, thread, object);
+        monitor_dontfndfd_fntfrfd_fvfnt(fnv, tirfbd, objfdt);
     } END_CALLBACK();
 }
 
 /* JVMTI_EVENT_GARBAGE_COLLECTION_START */
-static void JNICALL
-cbGarbageCollectionStart(jvmtiEnv *jvmti)
+stbtid void JNICALL
+dbGbrbbgfCollfdtionStbrt(jvmtiEnv *jvmti)
 {
-    LOG("cbGarbageCollectionStart");
+    LOG("dbGbrbbgfCollfdtionStbrt");
 
-    /* Only calls to Allocate, Deallocate, RawMonitorEnter & RawMonitorExit
-     *   are allowed here (see the JVMTI Spec).
+    /* Only dblls to Allodbtf, Dfbllodbtf, RbwMonitorEntfr & RbwMonitorExit
+     *   brf bllowfd ifrf (sff tif JVMTI Spfd).
      */
 
-    gdata->gc_start_time = md_get_timemillis();
+    gdbtb->gd_stbrt_timf = md_gft_timfmillis();
 }
 
 /* JVMTI_EVENT_GARBAGE_COLLECTION_FINISH */
-static void JNICALL
-cbGarbageCollectionFinish(jvmtiEnv *jvmti)
+stbtid void JNICALL
+dbGbrbbgfCollfdtionFinisi(jvmtiEnv *jvmti)
 {
-    LOG("cbGarbageCollectionFinish");
+    LOG("dbGbrbbgfCollfdtionFinisi");
 
-    /* Only calls to Allocate, Deallocate, RawMonitorEnter & RawMonitorExit
-     *   are allowed here (see the JVMTI Spec).
+    /* Only dblls to Allodbtf, Dfbllodbtf, RbwMonitorEntfr & RbwMonitorExit
+     *   brf bllowfd ifrf (sff tif JVMTI Spfd).
      */
 
-    if ( gdata->gc_start_time != -1L ) {
-        gdata->time_in_gc += (md_get_timemillis() - gdata->gc_start_time);
-        gdata->gc_start_time = -1L;
+    if ( gdbtb->gd_stbrt_timf != -1L ) {
+        gdbtb->timf_in_gd += (md_gft_timfmillis() - gdbtb->gd_stbrt_timf);
+        gdbtb->gd_stbrt_timf = -1L;
     }
 
-    /* Increment gc_finish counter, notify watcher thread */
-    rawMonitorEnter(gdata->gc_finish_lock); {
-        /* If VM_DEATH is trying to shut it down, don't do anything at all.
-         *    Never send notify if VM_DEATH wants the watcher thread to quit.
+    /* Indrfmfnt gd_finisi dountfr, notify wbtdifr tirfbd */
+    rbwMonitorEntfr(gdbtb->gd_finisi_lodk); {
+        /* If VM_DEATH is trying to siut it down, don't do bnytiing bt bll.
+         *    Nfvfr sfnd notify if VM_DEATH wbnts tif wbtdifr tirfbd to quit.
          */
-        if ( gdata->gc_finish_active ) {
-            gdata->gc_finish++;
-            rawMonitorNotifyAll(gdata->gc_finish_lock);
+        if ( gdbtb->gd_finisi_bdtivf ) {
+            gdbtb->gd_finisi++;
+            rbwMonitorNotifyAll(gdbtb->gd_finisi_lodk);
         }
-    } rawMonitorExit(gdata->gc_finish_lock);
+    } rbwMonitorExit(gdbtb->gd_finisi_lodk);
 }
 
 /* JVMTI_EVENT_OBJECT_FREE */
-static void JNICALL
-cbObjectFree(jvmtiEnv *jvmti, jlong tag)
+stbtid void JNICALL
+dbObjfdtFrff(jvmtiEnv *jvmti, jlong tbg)
 {
-    LOG3("cbObjectFree", "tag", (int)tag);
+    LOG3("dbObjfdtFrff", "tbg", (int)tbg);
 
-    /* Only calls to Allocate, Deallocate, RawMonitorEnter & RawMonitorExit
-     *   are allowed here (see the JVMTI Spec).
+    /* Only dblls to Allodbtf, Dfbllodbtf, RbwMonitorEntfr & RbwMonitorExit
+     *   brf bllowfd ifrf (sff tif JVMTI Spfd).
      */
 
-    HPROF_ASSERT(tag!=(jlong)0);
-    rawMonitorEnter(gdata->object_free_lock); {
-        if ( !gdata->jvm_shut_down ) {
-            Stack *stack;
+    HPROF_ASSERT(tbg!=(jlong)0);
+    rbwMonitorEntfr(gdbtb->objfdt_frff_lodk); {
+        if ( !gdbtb->jvm_siut_down ) {
+            Stbdk *stbdk;
 
-            stack = gdata->object_free_stack;
-            if ( stack == NULL ) {
-                gdata->object_free_stack = stack_init(512, 512, sizeof(jlong));
-                stack = gdata->object_free_stack;
+            stbdk = gdbtb->objfdt_frff_stbdk;
+            if ( stbdk == NULL ) {
+                gdbtb->objfdt_frff_stbdk = stbdk_init(512, 512, sizfof(jlong));
+                stbdk = gdbtb->objfdt_frff_stbdk;
             }
-            stack_push(stack, (void*)&tag);
+            stbdk_pusi(stbdk, (void*)&tbg);
         }
-    } rawMonitorExit(gdata->object_free_lock);
+    } rbwMonitorExit(gdbtb->objfdt_frff_lodk);
 }
 
-static void
-set_callbacks(jboolean on)
+stbtid void
+sft_dbllbbdks(jboolfbn on)
 {
-    jvmtiEventCallbacks callbacks;
+    jvmtiEvfntCbllbbdks dbllbbdks;
 
-    (void)memset(&callbacks,0,sizeof(callbacks));
+    (void)mfmsft(&dbllbbdks,0,sizfof(dbllbbdks));
     if ( ! on ) {
-        setEventCallbacks(&callbacks);
-        return;
+        sftEvfntCbllbbdks(&dbllbbdks);
+        rfturn;
     }
 
     /* JVMTI_EVENT_VM_INIT */
-    callbacks.VMInit                     = &cbVMInit;
+    dbllbbdks.VMInit                     = &dbVMInit;
     /* JVMTI_EVENT_VM_DEATH */
-    callbacks.VMDeath                    = &cbVMDeath;
+    dbllbbdks.VMDfbti                    = &dbVMDfbti;
     /* JVMTI_EVENT_THREAD_START */
-    callbacks.ThreadStart                = &cbThreadStart;
+    dbllbbdks.TirfbdStbrt                = &dbTirfbdStbrt;
     /* JVMTI_EVENT_THREAD_END */
-    callbacks.ThreadEnd                  = &cbThreadEnd;
+    dbllbbdks.TirfbdEnd                  = &dbTirfbdEnd;
     /* JVMTI_EVENT_CLASS_FILE_LOAD_HOOK */
-    callbacks.ClassFileLoadHook          = &cbClassFileLoadHook;
+    dbllbbdks.ClbssFilfLobdHook          = &dbClbssFilfLobdHook;
     /* JVMTI_EVENT_CLASS_LOAD */
-    callbacks.ClassLoad                  = &cbClassLoad;
+    dbllbbdks.ClbssLobd                  = &dbClbssLobd;
     /* JVMTI_EVENT_CLASS_PREPARE */
-    callbacks.ClassPrepare               = &cbClassPrepare;
+    dbllbbdks.ClbssPrfpbrf               = &dbClbssPrfpbrf;
     /* JVMTI_EVENT_DATA_DUMP_REQUEST */
-    callbacks.DataDumpRequest            = &cbDataDumpRequest;
+    dbllbbdks.DbtbDumpRfqufst            = &dbDbtbDumpRfqufst;
     /* JVMTI_EVENT_EXCEPTION_CATCH */
-    callbacks.ExceptionCatch             = &cbExceptionCatch;
+    dbllbbdks.ExdfptionCbtdi             = &dbExdfptionCbtdi;
     /* JVMTI_EVENT_MONITOR_WAIT */
-    callbacks.MonitorWait                = &cbMonitorWait;
+    dbllbbdks.MonitorWbit                = &dbMonitorWbit;
     /* JVMTI_EVENT_MONITOR_WAITED */
-    callbacks.MonitorWaited              = &cbMonitorWaited;
+    dbllbbdks.MonitorWbitfd              = &dbMonitorWbitfd;
     /* JVMTI_EVENT_MONITOR_CONTENDED_ENTER */
-    callbacks.MonitorContendedEnter      = &cbMonitorContendedEnter;
+    dbllbbdks.MonitorContfndfdEntfr      = &dbMonitorContfndfdEntfr;
     /* JVMTI_EVENT_MONITOR_CONTENDED_ENTERED */
-    callbacks.MonitorContendedEntered    = &cbMonitorContendedEntered;
+    dbllbbdks.MonitorContfndfdEntfrfd    = &dbMonitorContfndfdEntfrfd;
     /* JVMTI_EVENT_GARBAGE_COLLECTION_START */
-    callbacks.GarbageCollectionStart     = &cbGarbageCollectionStart;
+    dbllbbdks.GbrbbgfCollfdtionStbrt     = &dbGbrbbgfCollfdtionStbrt;
     /* JVMTI_EVENT_GARBAGE_COLLECTION_FINISH */
-    callbacks.GarbageCollectionFinish    = &cbGarbageCollectionFinish;
+    dbllbbdks.GbrbbgfCollfdtionFinisi    = &dbGbrbbgfCollfdtionFinisi;
     /* JVMTI_EVENT_OBJECT_FREE */
-    callbacks.ObjectFree                 = &cbObjectFree;
+    dbllbbdks.ObjfdtFrff                 = &dbObjfdtFrff;
 
-    setEventCallbacks(&callbacks);
-
-}
-
-static void
-getCapabilities(void)
-{
-    jvmtiCapabilities needed_capabilities;
-    jvmtiCapabilities potential_capabilities;
-
-    /* Fill in ones that we must have */
-    (void)memset(&needed_capabilities,0,sizeof(needed_capabilities));
-    needed_capabilities.can_generate_garbage_collection_events   = 1;
-    needed_capabilities.can_tag_objects                          = 1;
-    if (gdata->bci) {
-        needed_capabilities.can_generate_all_class_hook_events   = 1;
-    }
-    if (gdata->obj_watch) {
-        needed_capabilities.can_generate_object_free_events      = 1;
-    }
-    if (gdata->cpu_timing || gdata->cpu_sampling) {
-        #if 0 /* Not needed until we call JVMTI for CpuTime */
-        needed_capabilities.can_get_thread_cpu_time              = 1;
-        needed_capabilities.can_get_current_thread_cpu_time      = 1;
-        #endif
-        needed_capabilities.can_generate_exception_events        = 1;
-    }
-    if (gdata->monitor_tracing) {
-        #if 0 /* Not needed until we call JVMTI for CpuTime */
-        needed_capabilities.can_get_thread_cpu_time              = 1;
-        needed_capabilities.can_get_current_thread_cpu_time      = 1;
-        #endif
-        needed_capabilities.can_get_owned_monitor_info           = 1;
-        needed_capabilities.can_get_current_contended_monitor    = 1;
-        needed_capabilities.can_get_monitor_info                 = 1;
-        needed_capabilities.can_generate_monitor_events          = 1;
-    }
-
-    /* Get potential capabilities */
-    getPotentialCapabilities(&potential_capabilities);
-
-    /* Some capabilities would be nicer to have */
-    needed_capabilities.can_get_source_file_name        =
-        potential_capabilities.can_get_source_file_name;
-    needed_capabilities.can_get_line_numbers    =
-        potential_capabilities.can_get_line_numbers;
-
-    /* Add the capabilities */
-    addCapabilities(&needed_capabilities);
+    sftEvfntCbllbbdks(&dbllbbdks);
 
 }
 
-/* Dynamic library loading */
-static void *
-load_library(char *name)
+stbtid void
+gftCbpbbilitifs(void)
 {
-    char  lname[FILENAME_MAX+1];
-    char  err_buf[256+FILENAME_MAX+1];
-    char *boot_path;
-    void *handle;
+    jvmtiCbpbbilitifs nffdfd_dbpbbilitifs;
+    jvmtiCbpbbilitifs potfntibl_dbpbbilitifs;
 
-    handle = NULL;
+    /* Fill in onfs tibt wf must ibvf */
+    (void)mfmsft(&nffdfd_dbpbbilitifs,0,sizfof(nffdfd_dbpbbilitifs));
+    nffdfd_dbpbbilitifs.dbn_gfnfrbtf_gbrbbgf_dollfdtion_fvfnts   = 1;
+    nffdfd_dbpbbilitifs.dbn_tbg_objfdts                          = 1;
+    if (gdbtb->bdi) {
+        nffdfd_dbpbbilitifs.dbn_gfnfrbtf_bll_dlbss_iook_fvfnts   = 1;
+    }
+    if (gdbtb->obj_wbtdi) {
+        nffdfd_dbpbbilitifs.dbn_gfnfrbtf_objfdt_frff_fvfnts      = 1;
+    }
+    if (gdbtb->dpu_timing || gdbtb->dpu_sbmpling) {
+        #if 0 /* Not nffdfd until wf dbll JVMTI for CpuTimf */
+        nffdfd_dbpbbilitifs.dbn_gft_tirfbd_dpu_timf              = 1;
+        nffdfd_dbpbbilitifs.dbn_gft_durrfnt_tirfbd_dpu_timf      = 1;
+        #fndif
+        nffdfd_dbpbbilitifs.dbn_gfnfrbtf_fxdfption_fvfnts        = 1;
+    }
+    if (gdbtb->monitor_trbding) {
+        #if 0 /* Not nffdfd until wf dbll JVMTI for CpuTimf */
+        nffdfd_dbpbbilitifs.dbn_gft_tirfbd_dpu_timf              = 1;
+        nffdfd_dbpbbilitifs.dbn_gft_durrfnt_tirfbd_dpu_timf      = 1;
+        #fndif
+        nffdfd_dbpbbilitifs.dbn_gft_ownfd_monitor_info           = 1;
+        nffdfd_dbpbbilitifs.dbn_gft_durrfnt_dontfndfd_monitor    = 1;
+        nffdfd_dbpbbilitifs.dbn_gft_monitor_info                 = 1;
+        nffdfd_dbpbbilitifs.dbn_gfnfrbtf_monitor_fvfnts          = 1;
+    }
 
-    /* The library may be located in different ways, try both, but
-     *   if it comes from outside the SDK/jre it isn't ours.
+    /* Gft potfntibl dbpbbilitifs */
+    gftPotfntiblCbpbbilitifs(&potfntibl_dbpbbilitifs);
+
+    /* Somf dbpbbilitifs would bf nidfr to ibvf */
+    nffdfd_dbpbbilitifs.dbn_gft_sourdf_filf_nbmf        =
+        potfntibl_dbpbbilitifs.dbn_gft_sourdf_filf_nbmf;
+    nffdfd_dbpbbilitifs.dbn_gft_linf_numbfrs    =
+        potfntibl_dbpbbilitifs.dbn_gft_linf_numbfrs;
+
+    /* Add tif dbpbbilitifs */
+    bddCbpbbilitifs(&nffdfd_dbpbbilitifs);
+
+}
+
+/* Dynbmid librbry lobding */
+stbtid void *
+lobd_librbry(dibr *nbmf)
+{
+    dibr  lnbmf[FILENAME_MAX+1];
+    dibr  frr_buf[256+FILENAME_MAX+1];
+    dibr *boot_pbti;
+    void *ibndlf;
+
+    ibndlf = NULL;
+
+    /* Tif librbry mby bf lodbtfd in difffrfnt wbys, try boti, but
+     *   if it domfs from outsidf tif SDK/jrf it isn't ours.
      */
-    getSystemProperty("sun.boot.library.path", &boot_path);
-    md_build_library_name(lname, FILENAME_MAX, boot_path, name);
-    if ( strlen(lname) == 0 ) {
-        HPROF_ERROR(JNI_TRUE, "Could not find library");
+    gftSystfmPropfrty("sun.boot.librbry.pbti", &boot_pbti);
+    md_build_librbry_nbmf(lnbmf, FILENAME_MAX, boot_pbti, nbmf);
+    if ( strlfn(lnbmf) == 0 ) {
+        HPROF_ERROR(JNI_TRUE, "Could not find librbry");
     }
-    jvmtiDeallocate(boot_path);
-    handle = md_load_library(lname, err_buf, (int)sizeof(err_buf));
-    if ( handle == NULL ) {
-        /* This may be necessary on Windows. */
-        md_build_library_name(lname, FILENAME_MAX, "", name);
-        if ( strlen(lname) == 0 ) {
-            HPROF_ERROR(JNI_TRUE, "Could not find library");
+    jvmtiDfbllodbtf(boot_pbti);
+    ibndlf = md_lobd_librbry(lnbmf, frr_buf, (int)sizfof(frr_buf));
+    if ( ibndlf == NULL ) {
+        /* Tiis mby bf nfdfssbry on Windows. */
+        md_build_librbry_nbmf(lnbmf, FILENAME_MAX, "", nbmf);
+        if ( strlfn(lnbmf) == 0 ) {
+            HPROF_ERROR(JNI_TRUE, "Could not find librbry");
         }
-        handle = md_load_library(lname, err_buf, (int)sizeof(err_buf));
-        if ( handle == NULL ) {
-            HPROF_ERROR(JNI_TRUE, err_buf);
+        ibndlf = md_lobd_librbry(lnbmf, frr_buf, (int)sizfof(frr_buf));
+        if ( ibndlf == NULL ) {
+            HPROF_ERROR(JNI_TRUE, frr_buf);
         }
     }
-    return handle;
+    rfturn ibndlf;
 }
 
-/* Lookup dynamic function pointer in shared library */
-static void *
-lookup_library_symbol(void *library, char **symbols, int nsymbols)
+/* Lookup dynbmid fundtion pointfr in sibrfd librbry */
+stbtid void *
+lookup_librbry_symbol(void *librbry, dibr **symbols, int nsymbols)
 {
-    void *addr;
+    void *bddr;
     int   i;
 
-    addr = NULL;
+    bddr = NULL;
     for( i = 0 ; i < nsymbols; i++ ) {
-        addr = md_find_library_entry(library, symbols[i]);
-        if ( addr != NULL ) {
-            break;
+        bddr = md_find_librbry_fntry(librbry, symbols[i]);
+        if ( bddr != NULL ) {
+            brfbk;
         }
     }
-    if ( addr == NULL ) {
-        char errmsg[256];
+    if ( bddr == NULL ) {
+        dibr frrmsg[256];
 
-        (void)md_snprintf(errmsg, sizeof(errmsg),
-                    "Cannot find library symbol '%s'", symbols[0]);
-        HPROF_ERROR(JNI_TRUE, errmsg);
+        (void)md_snprintf(frrmsg, sizfof(frrmsg),
+                    "Cbnnot find librbry symbol '%s'", symbols[0]);
+        HPROF_ERROR(JNI_TRUE, frrmsg);
     }
-    return addr;
+    rfturn bddr;
 }
 
 /* ------------------------------------------------------------------- */
-/* The OnLoad interface */
+/* Tif OnLobd intfrfbdf */
 
 JNIEXPORT jint JNICALL
-Agent_OnLoad(JavaVM *vm, char *options, void *reserved)
+Agfnt_OnLobd(JbvbVM *vm, dibr *options, void *rfsfrvfd)
 {
-    char *boot_path = NULL;
+    dibr *boot_pbti = NULL;
 
-    /* See if it's already loaded */
-    if ( gdata!=NULL && gdata->isLoaded==JNI_TRUE ) {
-        HPROF_ERROR(JNI_TRUE, "Cannot load this JVM TI agent twice, check your java command line for duplicate hprof options.");
-        return JNI_ERR;
+    /* Sff if it's blrfbdy lobdfd */
+    if ( gdbtb!=NULL && gdbtb->isLobdfd==JNI_TRUE ) {
+        HPROF_ERROR(JNI_TRUE, "Cbnnot lobd tiis JVM TI bgfnt twidf, difdk your jbvb dommbnd linf for duplidbtf iprof options.");
+        rfturn JNI_ERR;
     }
 
-    gdata = get_gdata();
+    gdbtb = gft_gdbtb();
 
-    gdata->isLoaded = JNI_TRUE;
+    gdbtb->isLobdfd = JNI_TRUE;
 
-    error_setup();
+    frror_sftup();
 
-    LOG2("Agent_OnLoad", "gdata setup");
+    LOG2("Agfnt_OnLobd", "gdbtb sftup");
 
-    gdata->jvm = vm;
+    gdbtb->jvm = vm;
 
-    /* Get the JVMTI environment */
-    getJvmti();
+    /* Gft tif JVMTI fnvironmfnt */
+    gftJvmti();
 
-    /* Lock needed to protect debug_malloc() code, which is not MT safe */
-    #ifdef DEBUG
-        gdata->debug_malloc_lock = createRawMonitor("HPROF debug_malloc lock");
-    #endif
+    /* Lodk nffdfd to protfdt dfbug_mbllod() dodf, wiidi is not MT sbff */
+    #ifdff DEBUG
+        gdbtb->dfbug_mbllod_lodk = drfbtfRbwMonitor("HPROF dfbug_mbllod lodk");
+    #fndif
 
-    parse_options(options);
+    pbrsf_options(options);
 
-    LOG2("Agent_OnLoad", "Has jvmtiEnv and options parsed");
+    LOG2("Agfnt_OnLobd", "Hbs jvmtiEnv bnd options pbrsfd");
 
-    /* Initialize machine dependent code (micro state accounting) */
+    /* Initiblizf mbdiinf dfpfndfnt dodf (midro stbtf bddounting) */
     md_init();
 
-    string_init();      /* Table index values look like: 0x10000000 */
+    string_init();      /* Tbblf indfx vblufs look likf: 0x10000000 */
 
-    class_init();       /* Table index values look like: 0x20000000 */
-    tls_init();         /* Table index values look like: 0x30000000 */
-    trace_init();       /* Table index values look like: 0x40000000 */
-    object_init();      /* Table index values look like: 0x50000000 */
+    dlbss_init();       /* Tbblf indfx vblufs look likf: 0x20000000 */
+    tls_init();         /* Tbblf indfx vblufs look likf: 0x30000000 */
+    trbdf_init();       /* Tbblf indfx vblufs look likf: 0x40000000 */
+    objfdt_init();      /* Tbblf indfx vblufs look likf: 0x50000000 */
 
-    site_init();        /* Table index values look like: 0x60000000 */
-    frame_init();       /* Table index values look like: 0x70000000 */
-    monitor_init();     /* Table index values look like: 0x80000000 */
-    loader_init();      /* Table index values look like: 0x90000000 */
+    sitf_init();        /* Tbblf indfx vblufs look likf: 0x60000000 */
+    frbmf_init();       /* Tbblf indfx vblufs look likf: 0x70000000 */
+    monitor_init();     /* Tbblf indfx vblufs look likf: 0x80000000 */
+    lobdfr_init();      /* Tbblf indfx vblufs look likf: 0x90000000 */
 
-    LOG2("Agent_OnLoad", "Tables initialized");
+    LOG2("Agfnt_OnLobd", "Tbblfs initiblizfd");
 
-    if ( gdata->pause ) {
-        error_do_pause();
+    if ( gdbtb->pbusf ) {
+        frror_do_pbusf();
     }
 
-    getCapabilities();
+    gftCbpbbilitifs();
 
-    /* Set the JVMTI callback functions  (do this only once)*/
-    set_callbacks(JNI_TRUE);
+    /* Sft tif JVMTI dbllbbdk fundtions  (do tiis only ondf)*/
+    sft_dbllbbdks(JNI_TRUE);
 
-    /* Create basic locks */
-    gdata->dump_lock          = createRawMonitor("HPROF dump lock");
-    gdata->data_access_lock   = createRawMonitor("HPROF data access lock");
-    gdata->callbackLock       = createRawMonitor("HPROF callback lock");
-    gdata->callbackBlock      = createRawMonitor("HPROF callback block");
-    gdata->object_free_lock   = createRawMonitor("HPROF object free lock");
-    gdata->gc_finish_lock     = createRawMonitor("HPROF gc_finish lock");
+    /* Crfbtf bbsid lodks */
+    gdbtb->dump_lodk          = drfbtfRbwMonitor("HPROF dump lodk");
+    gdbtb->dbtb_bddfss_lodk   = drfbtfRbwMonitor("HPROF dbtb bddfss lodk");
+    gdbtb->dbllbbdkLodk       = drfbtfRbwMonitor("HPROF dbllbbdk lodk");
+    gdbtb->dbllbbdkBlodk      = drfbtfRbwMonitor("HPROF dbllbbdk blodk");
+    gdbtb->objfdt_frff_lodk   = drfbtfRbwMonitor("HPROF objfdt frff lodk");
+    gdbtb->gd_finisi_lodk     = drfbtfRbwMonitor("HPROF gd_finisi lodk");
 
-    /* Set Onload events mode. */
-    setup_event_mode(JNI_TRUE, JVMTI_ENABLE);
+    /* Sft Onlobd fvfnts modf. */
+    sftup_fvfnt_modf(JNI_TRUE, JVMTI_ENABLE);
 
-    LOG2("Agent_OnLoad", "JVMTI capabilities, callbacks and initial notifications setup");
+    LOG2("Agfnt_OnLobd", "JVMTI dbpbbilitifs, dbllbbdks bnd initibl notifidbtions sftup");
 
-    /* Used in VM_DEATH to wait for callbacks to complete */
-    gdata->jvm_initializing             = JNI_FALSE;
-    gdata->jvm_initialized              = JNI_FALSE;
-    gdata->vm_death_callback_active     = JNI_FALSE;
-    gdata->active_callbacks             = 0;
+    /* Usfd in VM_DEATH to wbit for dbllbbdks to domplftf */
+    gdbtb->jvm_initiblizing             = JNI_FALSE;
+    gdbtb->jvm_initiblizfd              = JNI_FALSE;
+    gdbtb->vm_dfbti_dbllbbdk_bdtivf     = JNI_FALSE;
+    gdbtb->bdtivf_dbllbbdks             = 0;
 
-    /* Write the header information */
-    io_setup();
+    /* Writf tif ifbdfr informbtion */
+    io_sftup();
 
-    /* We sample the start time now so that the time increments can be
-     *    placed in the various heap dump segments in micro seconds.
+    /* Wf sbmplf tif stbrt timf now so tibt tif timf indrfmfnts dbn bf
+     *    plbdfd in tif vbrious ifbp dump sfgmfnts in midro sfdonds.
      */
-    gdata->micro_sec_ticks = md_get_microsecs();
+    gdbtb->midro_sfd_tidks = md_gft_midrosfds();
 
-    /* Load java_crw_demo library and find function "java_crw_demo" */
-    if ( gdata->bci ) {
+    /* Lobd jbvb_drw_dfmo librbry bnd find fundtion "jbvb_drw_dfmo" */
+    if ( gdbtb->bdi ) {
 
-        /* Load the library or get the handle to it */
-        gdata->java_crw_demo_library = load_library("java_crw_demo");
+        /* Lobd tif librbry or gft tif ibndlf to it */
+        gdbtb->jbvb_drw_dfmo_librbry = lobd_librbry("jbvb_drw_dfmo");
 
-        { /* "java_crw_demo" */
-            static char *symbols[]  = JAVA_CRW_DEMO_SYMBOLS;
-            gdata->java_crw_demo_function =
-                   lookup_library_symbol(gdata->java_crw_demo_library,
-                              symbols, (int)(sizeof(symbols)/sizeof(char*)));
+        { /* "jbvb_drw_dfmo" */
+            stbtid dibr *symbols[]  = JAVA_CRW_DEMO_SYMBOLS;
+            gdbtb->jbvb_drw_dfmo_fundtion =
+                   lookup_librbry_symbol(gdbtb->jbvb_drw_dfmo_librbry,
+                              symbols, (int)(sizfof(symbols)/sizfof(dibr*)));
         }
-        { /* "java_crw_demo_classname" */
-            static char *symbols[] = JAVA_CRW_DEMO_CLASSNAME_SYMBOLS;
-            gdata->java_crw_demo_classname_function =
-                   lookup_library_symbol(gdata->java_crw_demo_library,
-                              symbols, (int)(sizeof(symbols)/sizeof(char*)));
+        { /* "jbvb_drw_dfmo_dlbssnbmf" */
+            stbtid dibr *symbols[] = JAVA_CRW_DEMO_CLASSNAME_SYMBOLS;
+            gdbtb->jbvb_drw_dfmo_dlbssnbmf_fundtion =
+                   lookup_librbry_symbol(gdbtb->jbvb_drw_dfmo_librbry,
+                              symbols, (int)(sizfof(symbols)/sizfof(dibr*)));
         }
     }
 
-    return JNI_OK;
+    rfturn JNI_OK;
 }
 
 JNIEXPORT void JNICALL
-Agent_OnUnload(JavaVM *vm)
+Agfnt_OnUnlobd(JbvbVM *vm)
 {
-    Stack *stack;
+    Stbdk *stbdk;
 
-    LOG("Agent_OnUnload");
+    LOG("Agfnt_OnUnlobd");
 
-    gdata->isLoaded = JNI_FALSE;
+    gdbtb->isLobdfd = JNI_FALSE;
 
-    stack = gdata->object_free_stack;
-    gdata->object_free_stack = NULL;
-    if ( stack != NULL ) {
-        stack_term(stack);
+    stbdk = gdbtb->objfdt_frff_stbdk;
+    gdbtb->objfdt_frff_stbdk = NULL;
+    if ( stbdk != NULL ) {
+        stbdk_tfrm(stbdk);
     }
 
-    io_cleanup();
-    loader_cleanup();
-    tls_cleanup();
-    monitor_cleanup();
-    trace_cleanup();
-    site_cleanup();
-    object_cleanup();
-    frame_cleanup();
-    class_cleanup();
-    string_cleanup();
+    io_dlfbnup();
+    lobdfr_dlfbnup();
+    tls_dlfbnup();
+    monitor_dlfbnup();
+    trbdf_dlfbnup();
+    sitf_dlfbnup();
+    objfdt_dlfbnup();
+    frbmf_dlfbnup();
+    dlbss_dlfbnup();
+    string_dlfbnup();
 
-    /* Deallocate any memory in gdata */
-    if ( gdata->net_hostname != NULL ) {
-        HPROF_FREE(gdata->net_hostname);
+    /* Dfbllodbtf bny mfmory in gdbtb */
+    if ( gdbtb->nft_iostnbmf != NULL ) {
+        HPROF_FREE(gdbtb->nft_iostnbmf);
     }
-    if ( gdata->utf8_output_filename != NULL ) {
-        HPROF_FREE(gdata->utf8_output_filename);
+    if ( gdbtb->utf8_output_filfnbmf != NULL ) {
+        HPROF_FREE(gdbtb->utf8_output_filfnbmf);
     }
-    if ( gdata->output_filename != NULL ) {
-        HPROF_FREE(gdata->output_filename);
+    if ( gdbtb->output_filfnbmf != NULL ) {
+        HPROF_FREE(gdbtb->output_filfnbmf);
     }
-    if ( gdata->heapfilename != NULL ) {
-        HPROF_FREE(gdata->heapfilename);
+    if ( gdbtb->ifbpfilfnbmf != NULL ) {
+        HPROF_FREE(gdbtb->ifbpfilfnbmf);
     }
-    if ( gdata->checkfilename != NULL ) {
-        HPROF_FREE(gdata->checkfilename);
+    if ( gdbtb->difdkfilfnbmf != NULL ) {
+        HPROF_FREE(gdbtb->difdkfilfnbmf);
     }
-    if ( gdata->options != NULL ) {
-        HPROF_FREE(gdata->options);
+    if ( gdbtb->options != NULL ) {
+        HPROF_FREE(gdbtb->options);
     }
 
-    /* Verify all allocated memory has been taken care of. */
-    malloc_police();
+    /* Vfrify bll bllodbtfd mfmory ibs bffn tbkfn dbrf of. */
+    mbllod_polidf();
 
-    /* Cleanup is hard to do when other threads might still be running
-     *  so we skip destroying some raw monitors which still might be in use
-     *  and we skip disposal of the jvmtiEnv* which might still be needed.
-     *  Only raw monitors that could be held by other threads are left
-     *  alone. So we explicitly do NOT do this:
-     *      destroyRawMonitor(gdata->callbackLock);
-     *      destroyRawMonitor(gdata->callbackBlock);
-     *      destroyRawMonitor(gdata->gc_finish_lock);
-     *      destroyRawMonitor(gdata->object_free_lock);
-     *      destroyRawMonitor(gdata->listener_loop_lock);
-     *      destroyRawMonitor(gdata->cpu_loop_lock);
-     *      disposeEnvironment();
-     *      gdata->jvmti = NULL;
+    /* Clfbnup is ibrd to do wifn otifr tirfbds migit still bf running
+     *  so wf skip dfstroying somf rbw monitors wiidi still migit bf in usf
+     *  bnd wf skip disposbl of tif jvmtiEnv* wiidi migit still bf nffdfd.
+     *  Only rbw monitors tibt dould bf ifld by otifr tirfbds brf lfft
+     *  blonf. So wf fxpliditly do NOT do tiis:
+     *      dfstroyRbwMonitor(gdbtb->dbllbbdkLodk);
+     *      dfstroyRbwMonitor(gdbtb->dbllbbdkBlodk);
+     *      dfstroyRbwMonitor(gdbtb->gd_finisi_lodk);
+     *      dfstroyRbwMonitor(gdbtb->objfdt_frff_lodk);
+     *      dfstroyRbwMonitor(gdbtb->listfnfr_loop_lodk);
+     *      dfstroyRbwMonitor(gdbtb->dpu_loop_lodk);
+     *      disposfEnvironmfnt();
+     *      gdbtb->jvmti = NULL;
      */
 
-    /* Destroy basic locks */
-    destroyRawMonitor(gdata->dump_lock);
-    gdata->dump_lock = NULL;
-    destroyRawMonitor(gdata->data_access_lock);
-    gdata->data_access_lock = NULL;
-    if ( gdata->cpu_sample_lock != NULL ) {
-        destroyRawMonitor(gdata->cpu_sample_lock);
-        gdata->cpu_sample_lock = NULL;
+    /* Dfstroy bbsid lodks */
+    dfstroyRbwMonitor(gdbtb->dump_lodk);
+    gdbtb->dump_lodk = NULL;
+    dfstroyRbwMonitor(gdbtb->dbtb_bddfss_lodk);
+    gdbtb->dbtb_bddfss_lodk = NULL;
+    if ( gdbtb->dpu_sbmplf_lodk != NULL ) {
+        dfstroyRbwMonitor(gdbtb->dpu_sbmplf_lodk);
+        gdbtb->dpu_sbmplf_lodk = NULL;
     }
-    #ifdef DEBUG
-        destroyRawMonitor(gdata->debug_malloc_lock);
-        gdata->debug_malloc_lock = NULL;
-    #endif
+    #ifdff DEBUG
+        dfstroyRbwMonitor(gdbtb->dfbug_mbllod_lodk);
+        gdbtb->dfbug_mbllod_lodk = NULL;
+    #fndif
 
-    /* Unload java_crw_demo library */
-    if ( gdata->bci && gdata->java_crw_demo_library != NULL ) {
-        md_unload_library(gdata->java_crw_demo_library);
-        gdata->java_crw_demo_library = NULL;
+    /* Unlobd jbvb_drw_dfmo librbry */
+    if ( gdbtb->bdi && gdbtb->jbvb_drw_dfmo_librbry != NULL ) {
+        md_unlobd_librbry(gdbtb->jbvb_drw_dfmo_librbry);
+        gdbtb->jbvb_drw_dfmo_librbry = NULL;
     }
 
-    /* You would think you could clear out gdata and set it to NULL, but
-     *   turns out that isn't a good idea.  Some of the threads could be
-     *   blocked inside the CALLBACK*() macros, where they got blocked up
-     *   waiting for the VM_DEATH callback to complete. They only have
-     *   some raw monitor actions to do, but they need access to gdata to do it.
-     *   So do not do this:
-     *       (void)memset(gdata, 0, sizeof(GlobalData));
-     *       gdata = NULL;
+    /* You would tiink you dould dlfbr out gdbtb bnd sft it to NULL, but
+     *   turns out tibt isn't b good idfb.  Somf of tif tirfbds dould bf
+     *   blodkfd insidf tif CALLBACK*() mbdros, wifrf tify got blodkfd up
+     *   wbiting for tif VM_DEATH dbllbbdk to domplftf. Tify only ibvf
+     *   somf rbw monitor bdtions to do, but tify nffd bddfss to gdbtb to do it.
+     *   So do not do tiis:
+     *       (void)mfmsft(gdbtb, 0, sizfof(GlobblDbtb));
+     *       gdbtb = NULL;
      */
 }

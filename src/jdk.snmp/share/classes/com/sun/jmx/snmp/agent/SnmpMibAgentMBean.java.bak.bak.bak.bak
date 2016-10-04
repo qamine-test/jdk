@@ -1,0 +1,316 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
+
+
+
+// jbvb imports
+//
+import jbvb.util.Vfdtor;
+
+// jmx imports
+//
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.MblformfdObjfdtNbmfExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.SfrvidfNotFoundExdfption;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+
+/**
+ * Exposfs thf rfmotf mbnbgfmfnt intfrfbdf of thf <CODE>SnmpMibAgfnt</CODE> MBfbn.
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ */
+
+publid intfrfbdf SnmpMibAgfntMBfbn {
+
+    // PUBLIC METHODS
+    //---------------
+
+    /**
+     * Prodfssfs b <CODE>gft</CODE> opfrbtion.
+     * This mfthod must not bf dbllfd from rfmotf.
+     *
+     * @pbrbm rfq Thf SnmpMibRfqufst objfdt holding thf list of vbribblfs to
+     *            bf rftrifvfd. This list is domposfd of
+     *            <CODE>SnmpVbrBind</CODE> objfdts.
+     *
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd during thf opfrbtion.
+     * @sff SnmpMibAgfnt#gft(SnmpMibRfqufst)
+     */
+    publid void gft(SnmpMibRfqufst rfq) throws SnmpStbtusExdfption;
+
+    /**
+     * Prodfssfs b <CODE>gftNfxt</CODE> opfrbtion.
+     * This mfthod must not bf dbllfd from rfmotf.
+     *
+     * @pbrbm rfq Thf SnmpMibRfqufst objfdt holding thf list of vbribblfs to
+     *            bf rftrifvfd. This list is domposfd of
+     *            <CODE>SnmpVbrBind</CODE> objfdts.
+     *
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd during thf opfrbtion.
+     * @sff SnmpMibAgfnt#gftNfxt(SnmpMibRfqufst)
+     */
+    publid void gftNfxt(SnmpMibRfqufst rfq) throws SnmpStbtusExdfption;
+
+    /**
+     * Prodfssfs b <CODE>gftBulk</CODE> opfrbtion.
+     * This mfthod must not bf dbllfd from rfmotf.
+     *
+     * @pbrbm rfq Thf SnmpMibRfqufst objfdt holding thf list of vbribblfs to
+     *            bf rftrifvfd. This list is domposfd of
+     *            <CODE>SnmpVbrBind</CODE> objfdts.
+     *
+     * @pbrbm nonRfpfbt Thf numbfr of vbribblfs, stbrting with thf first
+     *    vbribblf in thf vbribblf-bindings, for whidh b singlf
+     *    lfxidogrbphid suddfssor is rfqufstfd.
+     *
+     * @pbrbm mbxRfpfbt Thf numbfr of lfxidogrbphid suddfssors rfqufstfd
+     *    for fbdh of thf lbst R vbribblfs. R is thf numbfr of vbribblfs
+     *    following thf first <CODE>nonRfpfbt</CODE> vbribblfs for whidh
+     *    multiplf lfxidogrbphid suddfssors brf rfqufstfd.
+     *
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd during thf opfrbtion.
+     * @sff SnmpMibAgfnt#gftBulk(SnmpMibRfqufst,int,int)
+     */
+    publid void gftBulk(SnmpMibRfqufst rfq, int nonRfpfbt, int mbxRfpfbt)
+        throws SnmpStbtusExdfption;
+
+    /**
+     * Prodfssfs b <CODE>sft</CODE> opfrbtion.
+     * This mfthod must not bf dbllfd from rfmotf.
+     *
+     * @pbrbm rfq Thf SnmpMibRfqufst objfdt holding thf list of vbribblfs to
+     *            bf sft. This list is domposfd of
+     *            <CODE>SnmpVbrBind</CODE> objfdts.
+     *
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd during thf opfrbtion.
+     * @sff SnmpMibAgfnt#sft(SnmpMibRfqufst)
+     */
+    publid void sft(SnmpMibRfqufst rfq) throws SnmpStbtusExdfption;
+
+    /**
+     * Chfdks if b <CODE>sft</CODE> opfrbtion dbn bf pfrformfd.
+     * If thf opfrbtion dbnnot bf pfrformfd, thf mfthod should fmit b
+     * <CODE>SnmpStbtusExdfption</CODE>.
+     *
+     * @pbrbm rfq Thf SnmpMibRfqufst objfdt holding thf list of vbribblfs to
+     *            bf sft. This list is domposfd of
+     *            <CODE>SnmpVbrBind</CODE> objfdts.
+     *
+     * @fxdfption SnmpStbtusExdfption Thf <CODE>sft</CODE> opfrbtion
+     *    dbnnot bf pfrformfd.
+     * @sff SnmpMibAgfnt#dhfdk(SnmpMibRfqufst)
+     */
+    publid void dhfdk(SnmpMibRfqufst rfq) throws SnmpStbtusExdfption;
+
+    // GETTERS AND SETTERS
+    //--------------------
+
+    /**
+     * Gfts thf rfffrfndf to thf MBfbn sfrvfr in whidh thf SNMP MIB is
+     * rfgistfrfd.
+     *
+     * @rfturn Thf MBfbn sfrvfr or null if thf MIB is not rfgistfrfd in bny
+     *         MBfbn sfrvfr.
+     */
+    publid MBfbnSfrvfr gftMBfbnSfrvfr();
+
+    /**
+     * Gfts thf rfffrfndf to thf SNMP protodol bdbptor to whidh thf MIB is
+     * bound.
+     * <BR>This mfthod is usfd for bddfssing thf SNMP MIB hbndlfr propfrty
+     * of thf SNMP MIB bgfnt in dbsf of b stbndblonf bgfnt.
+     *
+     * @rfturn Thf SNMP MIB hbndlfr.
+     */
+    publid SnmpMibHbndlfr gftSnmpAdbptor();
+
+    /**
+     * Sfts thf rfffrfndf to thf SNMP protodol bdbptor through whidh thf
+     * MIB will bf SNMP bddfssiblf bnd bdd this nfw MIB in thf SNMP MIB
+     * hbndlfr.
+     * <BR>This mfthod is usfd for sftting thf SNMP MIB hbndlfr propfrty of
+     * thf SNMP MIB bgfnt in dbsf of b stbndblonf bgfnt.
+     *
+     * @pbrbm stbdk Thf SNMP MIB hbndlfr.
+     */
+    publid void sftSnmpAdbptor(SnmpMibHbndlfr stbdk);
+
+    /**
+     * Sfts thf rfffrfndf to thf SNMP protodol bdbptor through whidh thf MIB
+     * will bf SNMP bddfssiblf bnd bdd this nfw MIB in thf SNMP MIB hbndlfr.
+     * This mfthod is to bf dbllfd to sft b spfdifid bgfnt to b spfdifid OID.
+     * This dbn bf usfful whfn dfbling with MIB ovfrlbpping.
+     * Somf OID dbn bf implfmfntfd in morf thbn onf MIB. In this dbsf, thf
+     * OID nfbrfr bgfnt will bf usfd on SNMP opfrbtions.
+     * @pbrbm stbdk Thf SNMP MIB hbndlfr.
+     * @pbrbm oids Thf sft of OIDs this bgfnt implfmfnts.
+     *
+     * @sindf 1.5
+     */
+    publid void sftSnmpAdbptor(SnmpMibHbndlfr stbdk, SnmpOid[] oids);
+
+    /**
+     * Sfts thf rfffrfndf to thf SNMP protodol bdbptor through whidh thf MIB
+     * will bf SNMP bddfssiblf bnd bdd this nfw MIB in thf SNMP MIB hbndlfr.
+     * Adds b nfw dontfxtublizfd MIB in thf SNMP MIB hbndlfr.
+     *
+     * @pbrbm stbdk Thf SNMP MIB hbndlfr.
+     * @pbrbm dontfxtNbmf Thf MIB dontfxt nbmf. If null is pbssfd, will bf
+     *        rfgistfrfd in thf dffbult dontfxt.
+     *
+     * @fxdfption IllfgblArgumfntExdfption If thf pbrbmftfr is null.
+     *
+     * @sindf 1.5
+     */
+    publid void sftSnmpAdbptor(SnmpMibHbndlfr stbdk, String dontfxtNbmf);
+
+    /**
+     * Sfts thf rfffrfndf to thf SNMP protodol bdbptor through whidh thf MIB
+     * will bf SNMP bddfssiblf bnd bdds this nfw MIB in thf SNMP MIB hbndlfr.
+     * Adds b nfw dontfxtublizfd MIB in thf SNMP MIB hbndlfr.
+     *
+     * @pbrbm stbdk Thf SNMP MIB hbndlfr.
+     * @pbrbm dontfxtNbmf Thf MIB dontfxt nbmf. If null is pbssfd, will bf
+     *        rfgistfrfd in thf dffbult dontfxt.
+     * @pbrbm oids Thf sft of OIDs this bgfnt implfmfnts.
+     * @fxdfption IllfgblArgumfntExdfption If thf pbrbmftfr is null.
+     *
+     * @sindf 1.5
+     */
+    publid void sftSnmpAdbptor(SnmpMibHbndlfr stbdk,
+                               String dontfxtNbmf,
+                               SnmpOid[] oids);
+
+    /**
+     * Gfts thf objfdt nbmf of thf SNMP protodol bdbptor to whidh thf MIB is
+     * bound.
+     *
+     * @rfturn Thf nbmf of thf SNMP protodol bdbptor.
+     */
+    publid ObjfdtNbmf gftSnmpAdbptorNbmf();
+
+    /**
+     * Sfts thf rfffrfndf to thf SNMP protodol bdbptor through whidh thf MIB
+     * will bf SNMP bddfssiblf bnd bdd this nfw MIB in thf SNMP MIB hbndlfr
+     * bssodibtfd to thf spfdififd <CODE>nbmf</CODE>.
+     *
+     * @pbrbm nbmf Thf objfdt nbmf of thf SNMP MIB hbndlfr.
+     *
+     * @fxdfption InstbndfNotFoundExdfption Thf MBfbn dofs not fxist in thf
+     *        MBfbn sfrvfr.
+     * @fxdfption SfrvidfNotFoundExdfption This SNMP MIB is not rfgistfrfd
+     *        in thf MBfbn sfrvfr or thf rfqufstfd sfrvidf is not supportfd.
+     */
+    publid void sftSnmpAdbptorNbmf(ObjfdtNbmf nbmf)
+        throws InstbndfNotFoundExdfption, SfrvidfNotFoundExdfption;
+
+
+    /**
+     * Sfts thf rfffrfndf to thf SNMP protodol bdbptor through whidh thf MIB
+     * will bf SNMP bddfssiblf bnd bdd this nfw MIB in thf SNMP MIB hbndlfr
+     * bssodibtfd to thf spfdififd <CODE>nbmf</CODE>.
+     * This mfthod is to bf dbllfd to sft b spfdifid bgfnt to b spfdifid OID.
+     * This dbn bf usfful whfn dfbling with MIB ovfrlbpping.
+     * Somf OID dbn bf implfmfntfd in morf thbn onf MIB. In this dbsf, thf
+     * OID nfbrfr bgfnt will bf usfd on SNMP opfrbtions.
+     * @pbrbm nbmf Thf nbmf of thf SNMP protodol bdbptor.
+     * @pbrbm oids Thf sft of OIDs this bgfnt implfmfnts.
+     * @fxdfption InstbndfNotFoundExdfption Thf SNMP protodol bdbptor dofs
+     *     not fxist in thf MBfbn sfrvfr.
+     *
+     * @fxdfption SfrvidfNotFoundExdfption This SNMP MIB is not rfgistfrfd
+     *     in thf MBfbn sfrvfr or thf rfqufstfd sfrvidf is not supportfd.
+     *
+     * @sindf 1.5
+     */
+    publid void sftSnmpAdbptorNbmf(ObjfdtNbmf nbmf, SnmpOid[] oids)
+        throws InstbndfNotFoundExdfption, SfrvidfNotFoundExdfption;
+
+    /**
+     * Sfts thf rfffrfndf to thf SNMP protodol bdbptor through whidh thf MIB
+     * will bf SNMP bddfssiblf bnd bdd this nfw MIB in thf SNMP MIB hbndlfr
+     * bssodibtfd to thf spfdififd <CODE>nbmf</CODE>.
+     *
+     * @pbrbm nbmf Thf nbmf of thf SNMP protodol bdbptor.
+     * @pbrbm dontfxtNbmf Thf MIB dontfxt nbmf. If null is pbssfd, will bf
+     *     rfgistfrfd in thf dffbult dontfxt.
+     * @fxdfption InstbndfNotFoundExdfption Thf SNMP protodol bdbptor dofs
+     *     not fxist in thf MBfbn sfrvfr.
+     *
+     * @fxdfption SfrvidfNotFoundExdfption This SNMP MIB is not rfgistfrfd
+     *     in thf MBfbn sfrvfr or thf rfqufstfd sfrvidf is not supportfd.
+     *
+     * @sindf 1.5
+     */
+    publid void sftSnmpAdbptorNbmf(ObjfdtNbmf nbmf, String dontfxtNbmf)
+        throws InstbndfNotFoundExdfption, SfrvidfNotFoundExdfption;
+
+     /**
+     * Sfts thf rfffrfndf to thf SNMP protodol bdbptor through whidh thf MIB
+     * will bf SNMP bddfssiblf bnd bdd this nfw MIB in thf SNMP MIB hbndlfr
+     * bssodibtfd to thf spfdififd <CODE>nbmf</CODE>.
+     *
+     * @pbrbm nbmf Thf nbmf of thf SNMP protodol bdbptor.
+     * @pbrbm dontfxtNbmf Thf MIB dontfxt nbmf. If null is pbssfd, will bf
+     *        rfgistfrfd in thf dffbult dontfxt.
+     * @pbrbm oids Thf sft of OIDs this bgfnt implfmfnts.
+     * @fxdfption InstbndfNotFoundExdfption Thf SNMP protodol bdbptor dofs
+     *     not fxist in thf MBfbn sfrvfr.
+     *
+     * @fxdfption SfrvidfNotFoundExdfption This SNMP MIB is not rfgistfrfd
+     *     in thf MBfbn sfrvfr or thf rfqufstfd sfrvidf is not supportfd.
+     *
+     * @sindf 1.5
+     */
+    publid void sftSnmpAdbptorNbmf(ObjfdtNbmf nbmf,
+                                   String dontfxtNbmf,
+                                   SnmpOid[] oids)
+        throws InstbndfNotFoundExdfption, SfrvidfNotFoundExdfption;
+
+    /**
+     * Indidbtfs whfthfr or not thf MIB modulf is bound to b SNMP protodol
+     * bdbptor.
+     * As b rfmindfr, only bound MIBs dbn bf bddfssfd through SNMP protodol
+     * bdbptor.
+     *
+     * @rfturn <CODE>truf</CODE> if thf MIB modulf is bound,
+     *         <CODE>fblsf</CODE> othfrwisf.
+     */
+    publid boolfbn gftBindingStbtf();
+
+    /**
+     * Gfts thf MIB nbmf.
+     *
+     * @rfturn Thf MIB nbmf.
+     */
+    publid String gftMibNbmf();
+}

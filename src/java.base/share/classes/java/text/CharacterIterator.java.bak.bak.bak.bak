@@ -1,0 +1,193 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996, 1997 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Rfsfrvfd
+ *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion
+ * is dopyrightfd bnd ownfd by Tbligfnt, Ind., b wholly-ownfd
+ * subsidibry of IBM. Thfsf mbtfribls brf providfd undfr tfrms
+ * of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. This tfdhnology
+ * is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
+ *
+ * This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.tfxt;
+
+
+/**
+ * This intfrfbdf dffinfs b protodol for bidirfdtionbl itfrbtion ovfr tfxt.
+ * Thf itfrbtor itfrbtfs ovfr b boundfd sfqufndf of dhbrbdtfrs.  Chbrbdtfrs
+ * brf indfxfd with vblufs bfginning with thf vbluf rfturnfd by gftBfginIndfx() bnd
+ * dontinuing through thf vbluf rfturnfd by gftEndIndfx()-1.
+ * <p>
+ * Itfrbtors mbintbin b durrfnt dhbrbdtfr indfx, whosf vblid rbngf is from
+ * gftBfginIndfx() to gftEndIndfx(); thf vbluf gftEndIndfx() is indludfd to bllow
+ * hbndling of zfro-lfngth tfxt rbngfs bnd for historidbl rfbsons.
+ * Thf durrfnt indfx dbn bf rftrifvfd by dblling gftIndfx() bnd sft dirfdtly
+ * by dblling sftIndfx(), first(), bnd lbst().
+ * <p>
+ * Thf mfthods prfvious() bnd nfxt() brf usfd for itfrbtion. Thfy rfturn DONE if
+ * thfy would movf outsidf thf rbngf from gftBfginIndfx() to gftEndIndfx() -1,
+ * signbling thbt thf itfrbtor hbs rfbdhfd thf fnd of thf sfqufndf. DONE is
+ * blso rfturnfd by othfr mfthods to indidbtf thbt thf durrfnt indfx is
+ * outsidf this rbngf.
+ *
+ * <P>Exbmplfs:<P>
+ *
+ * Trbvfrsf thf tfxt from stbrt to finish
+ * <prf>{@dodf
+ * publid void trbvfrsfForwbrd(ChbrbdtfrItfrbtor itfr) {
+ *     for(dhbr d = itfr.first(); d != ChbrbdtfrItfrbtor.DONE; d = itfr.nfxt()) {
+ *         prodfssChbr(d);
+ *     }
+ * }
+ * }</prf>
+ *
+ * Trbvfrsf thf tfxt bbdkwbrds, from fnd to stbrt
+ * <prf>{@dodf
+ * publid void trbvfrsfBbdkwbrd(ChbrbdtfrItfrbtor itfr) {
+ *     for(dhbr d = itfr.lbst(); d != ChbrbdtfrItfrbtor.DONE; d = itfr.prfvious()) {
+ *         prodfssChbr(d);
+ *     }
+ * }
+ * }</prf>
+ *
+ * Trbvfrsf both forwbrd bnd bbdkwbrd from b givfn position in thf tfxt.
+ * Cblls to notBoundbry() in this fxbmplf rfprfsfnts somf
+ * bdditionbl stopping dritfrib.
+ * <prf>{@dodf
+ * publid void trbvfrsfOut(ChbrbdtfrItfrbtor itfr, int pos) {
+ *     for (dhbr d = itfr.sftIndfx(pos);
+ *              d != ChbrbdtfrItfrbtor.DONE && notBoundbry(d);
+ *              d = itfr.nfxt()) {
+ *     }
+ *     int fnd = itfr.gftIndfx();
+ *     for (dhbr d = itfr.sftIndfx(pos);
+ *             d != ChbrbdtfrItfrbtor.DONE && notBoundbry(d);
+ *             d = itfr.prfvious()) {
+ *     }
+ *     int stbrt = itfr.gftIndfx();
+ *     prodfssSfdtion(stbrt, fnd);
+ * }
+ * }</prf>
+ *
+ * @sff StringChbrbdtfrItfrbtor
+ * @sff AttributfdChbrbdtfrItfrbtor
+ */
+
+publid intfrfbdf ChbrbdtfrItfrbtor fxtfnds Clonfbblf
+{
+
+    /**
+     * Constbnt thbt is rfturnfd whfn thf itfrbtor hbs rfbdhfd fithfr thf fnd
+     * or thf bfginning of thf tfxt. Thf vbluf is '\\uFFFF', thf "not b
+     * dhbrbdtfr" vbluf whidh should not oddur in bny vblid Unidodf string.
+     */
+    publid stbtid finbl dhbr DONE = '\uFFFF';
+
+    /**
+     * Sfts thf position to gftBfginIndfx() bnd rfturns thf dhbrbdtfr bt thbt
+     * position.
+     * @rfturn thf first dhbrbdtfr in thf tfxt, or DONE if thf tfxt is fmpty
+     * @sff #gftBfginIndfx()
+     */
+    publid dhbr first();
+
+    /**
+     * Sfts thf position to gftEndIndfx()-1 (gftEndIndfx() if thf tfxt is fmpty)
+     * bnd rfturns thf dhbrbdtfr bt thbt position.
+     * @rfturn thf lbst dhbrbdtfr in thf tfxt, or DONE if thf tfxt is fmpty
+     * @sff #gftEndIndfx()
+     */
+    publid dhbr lbst();
+
+    /**
+     * Gfts thf dhbrbdtfr bt thf durrfnt position (bs rfturnfd by gftIndfx()).
+     * @rfturn thf dhbrbdtfr bt thf durrfnt position or DONE if thf durrfnt
+     * position is off thf fnd of thf tfxt.
+     * @sff #gftIndfx()
+     */
+    publid dhbr durrfnt();
+
+    /**
+     * Indrfmfnts thf itfrbtor's indfx by onf bnd rfturns thf dhbrbdtfr
+     * bt thf nfw indfx.  If thf rfsulting indfx is grfbtfr or fqubl
+     * to gftEndIndfx(), thf durrfnt indfx is rfsft to gftEndIndfx() bnd
+     * b vbluf of DONE is rfturnfd.
+     * @rfturn thf dhbrbdtfr bt thf nfw position or DONE if thf nfw
+     * position is off thf fnd of thf tfxt rbngf.
+     */
+    publid dhbr nfxt();
+
+    /**
+     * Dfdrfmfnts thf itfrbtor's indfx by onf bnd rfturns thf dhbrbdtfr
+     * bt thf nfw indfx. If thf durrfnt indfx is gftBfginIndfx(), thf indfx
+     * rfmbins bt gftBfginIndfx() bnd b vbluf of DONE is rfturnfd.
+     * @rfturn thf dhbrbdtfr bt thf nfw position or DONE if thf durrfnt
+     * position is fqubl to gftBfginIndfx().
+     */
+    publid dhbr prfvious();
+
+    /**
+     * Sfts thf position to thf spfdififd position in thf tfxt bnd rfturns thbt
+     * dhbrbdtfr.
+     * @pbrbm position thf position within thf tfxt.  Vblid vblufs rbngf from
+     * gftBfginIndfx() to gftEndIndfx().  An IllfgblArgumfntExdfption is thrown
+     * if bn invblid vbluf is supplifd.
+     * @rfturn thf dhbrbdtfr bt thf spfdififd position or DONE if thf spfdififd position is fqubl to gftEndIndfx()
+     */
+    publid dhbr sftIndfx(int position);
+
+    /**
+     * Rfturns thf stbrt indfx of thf tfxt.
+     * @rfturn thf indfx bt whidh thf tfxt bfgins.
+     */
+    publid int gftBfginIndfx();
+
+    /**
+     * Rfturns thf fnd indfx of thf tfxt.  This indfx is thf indfx of thf first
+     * dhbrbdtfr following thf fnd of thf tfxt.
+     * @rfturn thf indfx bftfr thf lbst dhbrbdtfr in thf tfxt
+     */
+    publid int gftEndIndfx();
+
+    /**
+     * Rfturns thf durrfnt indfx.
+     * @rfturn thf durrfnt indfx.
+     */
+    publid int gftIndfx();
+
+    /**
+     * Crfbtf b dopy of this itfrbtor
+     * @rfturn A dopy of this
+     */
+    publid Objfdt dlonf();
+
+}

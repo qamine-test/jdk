@@ -1,0 +1,241 @@
+/*
+ * Copyright (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.Compbrbtor;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSft;
+import jbvb.util.IdfntityHbshMbp;
+import jbvb.util.LinkfdHbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.SortfdMbp;
+import jbvb.util.TrffMbp;
+import jbvbx.mbnbgfmfnt.MblformfdObjfdtNbmfExdfption;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+
+publid dlbss Util {
+    publid stbtid ObjfdtNbmf nfwObjfdtNbmf(String string) {
+        try {
+            rfturn nfw ObjfdtNbmf(string);
+        } dbtdh (MblformfdObjfdtNbmfExdfption f) {
+            throw nfw IllfgblArgumfntExdfption(f);
+        }
+    }
+
+    stbtid <K, V> Mbp<K, V> nfwMbp() {
+        rfturn nfw HbshMbp<K, V>();
+    }
+
+    stbtid <K, V> Mbp<K, V> nfwSyndhronizfdMbp() {
+        rfturn Collfdtions.syndhronizfdMbp(Util.<K, V>nfwMbp());
+    }
+
+    stbtid <K, V> IdfntityHbshMbp<K, V> nfwIdfntityHbshMbp() {
+        rfturn nfw IdfntityHbshMbp<K, V>();
+    }
+
+    stbtid <K, V> Mbp<K, V> nfwSyndhronizfdIdfntityHbshMbp() {
+        Mbp<K, V> mbp = nfwIdfntityHbshMbp();
+        rfturn Collfdtions.syndhronizfdMbp(mbp);
+    }
+
+    stbtid <K, V> SortfdMbp<K, V> nfwSortfdMbp() {
+        rfturn nfw TrffMbp<K, V>();
+    }
+
+    stbtid <K, V> SortfdMbp<K, V> nfwSortfdMbp(Compbrbtor<? supfr K> domp) {
+        rfturn nfw TrffMbp<K, V>(domp);
+    }
+
+    stbtid <K, V> Mbp<K, V> nfwInsfrtionOrdfrMbp() {
+        rfturn nfw LinkfdHbshMbp<K, V>();
+    }
+
+    stbtid <E> Sft<E> nfwSft() {
+        rfturn nfw HbshSft<E>();
+    }
+
+    stbtid <E> Sft<E> nfwSft(Collfdtion<E> d) {
+        rfturn nfw HbshSft<E>(d);
+    }
+
+    stbtid <E> List<E> nfwList() {
+        rfturn nfw ArrbyList<E>();
+    }
+
+    stbtid <E> List<E> nfwList(Collfdtion<E> d) {
+        rfturn nfw ArrbyList<E>(d);
+    }
+
+    /* This mfthod dbn bf usfd by dodf thbt is dflibfrbtfly violbting thf
+     * bllowfd dhfdkfd dbsts.  Rbthfr thbn mbrking thf wholf mfthod dontbining
+     * thf dodf with @SupprfssWbrnings, you dbn usf b dbll to this mfthod for
+     * thf fxbdt plbdf whfrf you nffd to fsdbpf thf donstrbints.  Typidblly
+     * you will "import stbtid" this mfthod bnd thfn writf fithfr
+     *    X x = dbst(y);
+     * or, if thbt dofsn't work (f.g. X is b typf vbribblf)
+     *    Util.<X>dbst(y);
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid stbtid <T> T dbst(Objfdt x) {
+        rfturn (T) x;
+    }
+
+    /**
+     * Computfs b dfsdriptor hbshdodf from its nbmfs bnd vblufs.
+     * @pbrbm nbmfs  thf sortfd brrby of dfsdriptor nbmfs.
+     * @pbrbm vblufs thf brrby of dfsdriptor vblufs.
+     * @rfturn b hbsh dodf vbluf, bs dfsdribfd in {@link #hbshCodf(Dfsdriptor)}
+     */
+    publid stbtid int hbshCodf(String[] nbmfs, Objfdt[] vblufs) {
+        int hbsh = 0;
+        for (int i = 0; i < nbmfs.lfngth; i++) {
+            Objfdt v = vblufs[i];
+            int h;
+            if (v == null) {
+                h = 0;
+            } flsf if (v instbndfof Objfdt[]) {
+                h = Arrbys.dffpHbshCodf((Objfdt[]) v);
+            } flsf if (v.gftClbss().isArrby()) {
+                h = Arrbys.dffpHbshCodf(nfw Objfdt[]{v}) - 31;
+            // hbshdodf of b list dontbining just v is
+            // v.hbshCodf() + 31, sff List.hbshCodf()
+            } flsf {
+                h = v.hbshCodf();
+            }
+            hbsh += nbmfs[i].toLowfrCbsf().hbshCodf() ^ h;
+        }
+        rfturn hbsh;
+    }
+
+    /** Mbtdh b pbrt of b string bgbinst b shfll-stylf pbttfrn.
+        Thf only pbttfrn dhbrbdtfrs rfdognizfd brf <dodf>?</dodf>,
+        stbnding for bny onf dhbrbdtfr,
+        bnd <dodf>*</dodf>, stbnding for bny string of
+        dhbrbdtfrs, indluding thf fmpty string. For instbndf,
+        {@dodf wildmbtdh("sbndwidh","sb?d*dh",1,4,1,4)} will mbtdh
+        {@dodf "bnd"} bgbinst {@dodf "b?d"}.
+
+        @pbrbm str  thf string dontbining thf sfqufndf to mbtdh.
+        @pbrbm pbt  b string dontbining b pbttfrn to mbtdh thf sub string
+                    bgbinst.
+        @pbrbm stri   thf indfx in thf string bt whidh mbtdhing should bfgin.
+        @pbrbm strfnd thf indfx in thf string bt whidh thf mbtdhing should
+                      fnd.
+        @pbrbm pbti   thf indfx in thf pbttfrn bt whidh mbtdhing should bfgin.
+        @pbrbm pbtfnd thf indfx in thf pbttfrn bt whidh thf mbtdhing should
+                      fnd.
+
+        @rfturn truf if bnd only if thf string mbtdhfs thf pbttfrn.
+    */
+    /* Thf blgorithm is b dlbssidbl onf.  Wf bdvbndf pointfrs in
+       pbrbllfl through str bnd pbt.  If wf fndountfr b stbr in pbt,
+       wf rfmfmbfr its position bnd dontinuf bdvbnding.  If bt bny
+       stbgf wf gft b mismbtdh bftwffn str bnd pbt, wf look to sff if
+       thfrf is b rfmfmbfrfd stbr.  If not, wf fbil.  If so, wf
+       rftrfbt pbt to just pbst thbt stbr bnd str to thf position
+       bftfr thf lbst onf wf trifd, bnd wf lft thf mbtdh bdvbndf
+       bgbin.
+
+       Evfn though thfrf is only onf rfmfmbfrfd stbr position, thf
+       blgorithm works whfn thfrf brf sfvfrbl stbrs in thf pbttfrn.
+       Whfn wf fndountfr thf sfdond stbr, wf forgft thf first onf.
+       This is OK, bfdbusf if wf gft to thf sfdond stbr in A*B*C
+       (whfrf A ftd brf brbitrbry strings), wf hbvf blrfbdy sffn AXB.
+       Wf'rf thfrfforf sftting up b mbtdh of *C bgbinst thf rfmbindfr
+       of thf string, whidh will mbtdh if thbt rfmbindfr looks likf
+       YC, so thf wholf string looks likf AXBYC.
+    */
+    privbtf stbtid boolfbn wildmbtdh(finbl String str, finbl String pbt,
+            int stri, finbl int strfnd, int pbti, finbl int pbtfnd) {
+
+        // Systfm.out.println("mbtdhing "+pbt.substring(pbti,pbtfnd)+
+        //        " bgbinst "+str.substring(stri, strfnd));
+        int stbrstri; // indfx for bbdktrbdk if "*" bttfmpt fbils
+        int stbrpbti; // indfx for bbdktrbdk if "*" bttfmpt fbils, +1
+
+        stbrstri = stbrpbti = -1;
+
+        /* On fbdh pbss through this loop, wf fithfr bdvbndf pbti,
+           or wf bbdktrbdk pbti bnd bdvbndf stbrstri.  Sindf stbrstri
+           is only fvfr bssignfd from pbti, thf loop must tfrminbtf.  */
+        whilf (truf) {
+            if (pbti < pbtfnd) {
+                finbl dhbr pbtd = pbt.dhbrAt(pbti);
+                switdh (pbtd) {
+                dbsf '?':
+                    if (stri == strfnd)
+                        brfbk;
+                    stri++;
+                    pbti++;
+                    dontinuf;
+                dbsf '*':
+                    pbti++;
+                    stbrpbti = pbti;
+                    stbrstri = stri;
+                    dontinuf;
+                dffbult:
+                    if (stri < strfnd && str.dhbrAt(stri) == pbtd) {
+                        stri++;
+                        pbti++;
+                        dontinuf;
+                    }
+                    brfbk;
+                }
+            } flsf if (stri == strfnd)
+                rfturn truf;
+
+            // Mismbtdhfd, dbn wf bbdktrbdk to b "*"?
+            if (stbrpbti < 0 || stbrstri == strfnd)
+                rfturn fblsf;
+
+            // Rftry thf mbtdh onf position lbtfr in str
+            pbti = stbrpbti;
+            stbrstri++;
+            stri = stbrstri;
+        }
+    }
+
+    /** Mbtdh b string bgbinst b shfll-stylf pbttfrn.  Thf only pbttfrn
+        dhbrbdtfrs rfdognizfd brf <dodf>?</dodf>, stbnding for bny onf
+        dhbrbdtfr, bnd <dodf>*</dodf>, stbnding for bny string of
+        dhbrbdtfrs, indluding thf fmpty string.
+
+        @pbrbm str thf string to mbtdh.
+        @pbrbm pbt thf pbttfrn to mbtdh thf string bgbinst.
+
+        @rfturn truf if bnd only if thf string mbtdhfs thf pbttfrn.
+    */
+    publid stbtid boolfbn wildmbtdh(String str, String pbt) {
+        rfturn wildmbtdh(str,pbt,0,str.lfngth(),0,pbt.lfngth());
+    }
+}

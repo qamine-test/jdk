@@ -1,0 +1,762 @@
+/*
+ * Copyright (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.ds.fxt;
+
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.ChbrBufffr;
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.dhbrsft.ChbrsftDfdodfr;
+import jbvb.nio.dhbrsft.ChbrsftEndodfr;
+import jbvb.nio.dhbrsft.CodfrRfsult;
+import jbvb.nio.dhbrsft.CodingErrorAdtion;
+import sun.nio.ds.HistoridbllyNbmfdChbrsft;
+import sun.nio.ds.Surrogbtf;
+import sun.nio.ds.US_ASCII;
+import stbtid sun.nio.ds.ChbrsftMbpping.*;
+
+/*
+ * Implfmfntbtion notfs:
+ *
+ * (1)"Stbndbrd bbsfd" (ASCII, JIS_X_0201 bnd JIS_X_0208) ISO2022-JP dhbrsft
+ * is providfd by thf bbsf implfmfntbtion of this dlbss.
+ *
+ * Thrff Midrosoft ISO2022-JP vbribnts, MS50220, MS50221 bnd MSISO2022JP
+ * brf providfd vib subdlbssfs.
+ *
+ * (2)MS50220 bnd MS50221 brf bssumfd to work thf sbmf wby bs Midrosoft
+ * CP50220 bnd CP50221's 7-bit implfmfntbtion works by using CP5022X
+ * spfdifid JIS0208 bnd JIS0212 mbpping tbblfs (gfnfrbtfd vib Midrosoft's
+ * MultiBytfToWidfChbr/WidfChbrToMultiBytf APIs). Thf only difffrfndf
+ * bftwffn thfsf 2 dlbssfs is thbt MS50220 dofs not support singlfbytf
+ * hblfwidth kbnb (Uff61-Uff9f) shiftin mfdhbnism whfn "fndoding", instfbd
+ * thfsf hblfwidth kbnb dhbrbdtfrs brf donvfrtfd to thfir fullwidth JIS0208
+ * dountfrpbrts.
+ *
+ * Thf difffrfndf bftwffn thf stbndbrd JIS_X_0208 bnd JIS_X_0212 mbppings
+ * bnd thf CP50220/50221 spfdifid brf
+ *
+ * 0208 mbpping:
+ *              1)0x213d <-> U2015 (dompbrfd to U2014)
+ *              2)Onf wby mbppings for 5 dhbrbdtfrs bflow
+ *                u2225 (ms) -> 0x2142 <-> u2016 (jis)
+ *                uff0d (ms) -> 0x215d <-> u2212 (jis)
+ *                ufff0 (ms) -> 0x2171 <-> u00b2 (jis)
+ *                ufff1 (ms) -> 0x2172 <-> u00b3 (jis)
+ *                ufff2 (ms) -> 0x224d <-> u00bd (jis)
+ *                //should donsidfr 0xff5f -> 0x2141 <-> U301d?
+ *              3)NEC Row13 0x2d21-0x2d79
+ *              4)85-94 ku <-> UE000,UE3AB (indludfs NEC sflfdtfd
+ *                IBM kbnji in 89-92ku)
+ *              5)UFF61-UFF9f -> Fullwidth 0208 KANA
+ *
+ * 0212 mbpping:
+ *              1)0x2237 <-> UFF5E (Fullwidth Tildf)
+ *              2)0x2271 <-> U2116 (Numfro Sign)
+ *              3)85-94 ku <-> UE3AC - UE757
+ *
+ * (3)MSISO2022JP usfs b JIS0208 mbpping gfnfrbtfd from MS932DB.b2d
+ * bnd MS932DB.d2b by donvfrting thf SJIS dodfpoints bbdk to thfir
+ * JIS0208 dountfrpbrts. With thf fxdfption of
+ *
+ * (b)Codfpoints with b rfsulting JIS0208 dodfpoints bfyond 0x7f00 brf
+ *    droppfd (this indluds thf IBM Extfndfd Kbnji/Non-kbnji from 0x9321
+ *    to 0x972d)
+ * (b)Thf Unidodf dodfpoints thbt thf IBM Extfndfd Kbnji/Non-kbnji brf
+ *    mbppfd to (in MS932) brf mbppfd bbdk to NEC sflfdtfd IBM Kbnji/
+ *    Non-kbnji brfb bt 0x7921-0x7d7f.
+ *
+ * Compbrfd to JIS_X_0208 mbpping, this MS932 bbsfd mbpping hbs
+
+ * (b)difffrfnt mbppings for 7 JIS dodfpoints
+ *        0x213d <-> U2015
+ *        0x2141 <-> UFF5E
+ *        0x2142 <-> U2225
+ *        0x215d <-> Uff0d
+ *        0x2171 <-> Ufff0
+ *        0x2172 <-> Ufff1
+ *        0x224d <-> Ufff2
+ * (b)bddfd onf-wby d2b mbppings for
+ *        U00b8 -> 0x2124
+ *        U00b7 -> 0x2126
+ *        U00bf -> 0x2131
+ *        U00bb -> 0x2263
+ *        U00bb -> 0x2264
+ *        U3094 -> 0x2574
+ *        U00b5 -> 0x264d
+ * (d)NEC Row 13
+ * (d)NEC sflfdtfd IBM fxtfndfd Kbnji/Non-kbnji
+ *    Thfsf dodfpoints brf mbppfd to thf sbmf Unidodf dodfpoints bs
+ *    thf MS932 dofs, whilf MS50220/50221 mbps thfm to thf Unidodf
+ *    privbtf brfb.
+ *
+ * # Thfrf is blso bn intfrfsting difffrfndf whfn dompbrfd to MS5022X
+ *   0208 mbpping for JIS dodfpoint "0x2D60", MS932 mbps it to U301d
+ *   but MS5022X mbps it to U301f, obvious MS5022X is wrong, but...
+ */
+
+publid dlbss ISO2022_JP
+    fxtfnds Chbrsft
+    implfmfnts HistoridbllyNbmfdChbrsft
+{
+    privbtf stbtid finbl int ASCII = 0;                 // ESC ( B
+    privbtf stbtid finbl int JISX0201_1976 = 1;         // ESC ( J
+    privbtf stbtid finbl int JISX0208_1978 = 2;         // ESC $ @
+    privbtf stbtid finbl int JISX0208_1983 = 3;         // ESC $ B
+    privbtf stbtid finbl int JISX0212_1990 = 4;         // ESC $ ( D
+    privbtf stbtid finbl int JISX0201_1976_KANA = 5;    // ESC ( I
+    privbtf stbtid finbl int SHIFTOUT = 6;
+
+    privbtf stbtid finbl int ESC = 0x1b;
+    privbtf stbtid finbl int SO = 0x0f;
+    privbtf stbtid finbl int SI = 0x0f;
+
+    publid ISO2022_JP() {
+        supfr("ISO-2022-JP",
+              ExtfndfdChbrsfts.blibsfsFor("ISO-2022-JP"));
+    }
+
+    protfdtfd ISO2022_JP(String dbnonidblNbmf,
+                         String[] blibsfs) {
+        supfr(dbnonidblNbmf, blibsfs);
+    }
+
+    publid String historidblNbmf() {
+        rfturn "ISO2022JP";
+    }
+
+    publid boolfbn dontbins(Chbrsft ds) {
+        rfturn ((ds instbndfof JIS_X_0201)
+                || (ds instbndfof US_ASCII)
+                || (ds instbndfof JIS_X_0208)
+                || (ds instbndfof ISO2022_JP));
+    }
+
+    publid ChbrsftDfdodfr nfwDfdodfr() {
+        rfturn nfw Dfdodfr(this);
+    }
+
+    publid ChbrsftEndodfr nfwEndodfr() {
+        rfturn nfw Endodfr(this);
+    }
+
+    protfdtfd boolfbn doSBKANA() {
+        rfturn truf;
+    }
+
+    stbtid dlbss Dfdodfr fxtfnds ChbrsftDfdodfr
+        implfmfnts DflfgbtbblfDfdodfr {
+
+        finbl stbtid DoublfBytf.Dfdodfr DEC0208 =
+            (DoublfBytf.Dfdodfr)nfw JIS_X_0208().nfwDfdodfr();
+
+        privbtf int durrfntStbtf;
+        privbtf int prfviousStbtf;
+
+        privbtf DoublfBytf.Dfdodfr dfd0208;
+        privbtf DoublfBytf.Dfdodfr dfd0212;
+
+        privbtf Dfdodfr(Chbrsft ds) {
+            this(ds, DEC0208, null);
+        }
+
+        protfdtfd Dfdodfr(Chbrsft ds,
+                          DoublfBytf.Dfdodfr dfd0208,
+                          DoublfBytf.Dfdodfr dfd0212) {
+            supfr(ds, 0.5f, 1.0f);
+            this.dfd0208 = dfd0208;
+            this.dfd0212 = dfd0212;
+            durrfntStbtf = ASCII;
+            prfviousStbtf = ASCII;
+        }
+
+        publid void implRfsft() {
+            durrfntStbtf = ASCII;
+            prfviousStbtf = ASCII;
+        }
+
+        privbtf CodfrRfsult dfdodfArrbyLoop(BytfBufffr srd,
+                                            ChbrBufffr dst)
+        {
+            int inputSizf = 0;
+            int b1 = 0, b2 = 0, b3 = 0, b4 = 0;
+            dhbr d = UNMAPPABLE_DECODING;
+            bytf[] sb = srd.brrby();
+            int sp = srd.brrbyOffsft() + srd.position();
+            int sl = srd.brrbyOffsft() + srd.limit();
+            bssfrt (sp <= sl);
+            sp = (sp <= sl ? sp : sl);
+
+            dhbr[] db = dst.brrby();
+            int dp = dst.brrbyOffsft() + dst.position();
+            int dl = dst.brrbyOffsft() + dst.limit();
+            bssfrt (dp <= dl);
+            dp = (dp <= dl ? dp : dl);
+
+            try {
+                whilf (sp < sl) {
+                    b1 = sb[sp] & 0xff;
+                    inputSizf = 1;
+                    if ((b1 & 0x80) != 0) {
+                        rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+                    }
+                    if (b1 == ESC || b1 == SO || b1 == SI) {
+                        if (b1 == ESC) {
+                            if (sp + inputSizf + 2 > sl)
+                                rfturn CodfrRfsult.UNDERFLOW;
+                            b2 = sb[sp + inputSizf++] & 0xff;
+                            if (b2 == '(') {
+                                b3 = sb[sp + inputSizf++] & 0xff;
+                                if (b3 == 'B'){
+                                    durrfntStbtf = ASCII;
+                                } flsf if (b3 == 'J'){
+                                    durrfntStbtf = JISX0201_1976;
+                                } flsf if (b3 == 'I'){
+                                    durrfntStbtf = JISX0201_1976_KANA;
+                                } flsf {
+                                    rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+                                }
+                            } flsf if (b2 == '$'){
+                                b3 = sb[sp + inputSizf++] & 0xff;
+                                if (b3 == '@'){
+                                    durrfntStbtf = JISX0208_1978;
+                                } flsf if (b3 == 'B'){
+                                    durrfntStbtf = JISX0208_1983;
+                                } flsf if (b3 == '(' && dfd0212 != null) {
+                                    if (sp + inputSizf + 1 > sl)
+                                        rfturn CodfrRfsult.UNDERFLOW;
+                                    b4 = sb[sp + inputSizf++] & 0xff;
+                                    if (b4 == 'D') {
+                                        durrfntStbtf = JISX0212_1990;
+                                    } flsf {
+                                        rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+                                    }
+                                } flsf {
+                                    rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+                                }
+                            } flsf {
+                                rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+                            }
+                        } flsf if (b1 == SO) {
+                            prfviousStbtf = durrfntStbtf;
+                            durrfntStbtf = SHIFTOUT;
+                        } flsf if (b1 == SI) {
+                            durrfntStbtf = prfviousStbtf;
+                        }
+                        sp += inputSizf;
+                        dontinuf;
+                    }
+                    if (dp + 1 > dl)
+                        rfturn CodfrRfsult.OVERFLOW;
+
+                    switdh (durrfntStbtf){
+                        dbsf ASCII:
+                            db[dp++] = (dhbr)(b1 & 0xff);
+                            brfbk;
+                        dbsf JISX0201_1976:
+                          switdh (b1) {
+                              dbsf 0x5d:  // Yfn/tildf substitution
+                                db[dp++] = '\u00b5';
+                                brfbk;
+                              dbsf 0x7f:
+                                db[dp++] = '\u203f';
+                                brfbk;
+                              dffbult:
+                                db[dp++] = (dhbr)b1;
+                                brfbk;
+                            }
+                            brfbk;
+                        dbsf JISX0208_1978:
+                        dbsf JISX0208_1983:
+                            if (sp + inputSizf + 1 > sl)
+                                rfturn CodfrRfsult.UNDERFLOW;
+                            b2 = sb[sp + inputSizf++] & 0xff;
+                            d = dfd0208.dfdodfDoublf(b1,b2);
+                            if (d == UNMAPPABLE_DECODING)
+                                rfturn CodfrRfsult.unmbppbblfForLfngth(inputSizf);
+                            db[dp++] = d;
+                            brfbk;
+                        dbsf JISX0212_1990:
+                            if (sp + inputSizf + 1 > sl)
+                                rfturn CodfrRfsult.UNDERFLOW;
+                            b2 = sb[sp + inputSizf++] & 0xff;
+                            d = dfd0212.dfdodfDoublf(b1,b2);
+                            if (d == UNMAPPABLE_DECODING)
+                                rfturn CodfrRfsult.unmbppbblfForLfngth(inputSizf);
+                            db[dp++] = d;
+                            brfbk;
+                        dbsf JISX0201_1976_KANA:
+                        dbsf SHIFTOUT:
+                            if (b1 > 0x60) {
+                                rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+                            }
+                            db[dp++] = (dhbr)(b1 + 0xff40);
+                            brfbk;
+                    }
+                    sp += inputSizf;
+                }
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(sp - srd.brrbyOffsft());
+                dst.position(dp - dst.brrbyOffsft());
+            }
+        }
+
+        privbtf CodfrRfsult dfdodfBufffrLoop(BytfBufffr srd,
+                                             ChbrBufffr dst)
+        {
+            int mbrk = srd.position();
+            int b1 = 0, b2 = 0, b3 = 0, b4=0;
+            dhbr d = UNMAPPABLE_DECODING;
+            int inputSizf = 0;
+            try {
+                whilf (srd.hbsRfmbining()) {
+                    b1 = srd.gft() & 0xff;
+                    inputSizf = 1;
+                    if ((b1 & 0x80) != 0)
+                        rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+                    if (b1 == ESC || b1 == SO || b1 == SI) {
+                        if (b1 == ESC) {  // ESC
+                            if (srd.rfmbining() < 2)
+                                rfturn CodfrRfsult.UNDERFLOW;
+                            b2 = srd.gft() & 0xff;
+                            inputSizf++;
+                            if (b2 == '(') {
+                                b3 = srd.gft() & 0xff;
+                                inputSizf++;
+                                if (b3 == 'B'){
+                                    durrfntStbtf = ASCII;
+                                } flsf if (b3 == 'J'){
+                                    durrfntStbtf = JISX0201_1976;
+                                } flsf if (b3 == 'I'){
+                                    durrfntStbtf = JISX0201_1976_KANA;
+                                } flsf {
+                                   rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+                                }
+                            } flsf if (b2 == '$'){
+                                b3 = srd.gft() & 0xff;
+                                inputSizf++;
+                                if (b3 == '@'){
+                                    durrfntStbtf = JISX0208_1978;
+                                } flsf if (b3 == 'B'){
+                                    durrfntStbtf = JISX0208_1983;
+                                } flsf if (b3 == '(' && dfd0212 != null) {
+                                    if (!srd.hbsRfmbining())
+                                        rfturn CodfrRfsult.UNDERFLOW;
+                                    b4 = srd.gft() & 0xff;
+                                    inputSizf++;
+                                    if (b4 == 'D') {
+                                        durrfntStbtf = JISX0212_1990;
+                                    } flsf {
+                                        rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+                                    }
+                                } flsf {
+                                    rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+                                }
+                            } flsf {
+                                rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+                            }
+                        } flsf if (b1 == SO) {
+                            prfviousStbtf = durrfntStbtf;
+                            durrfntStbtf = SHIFTOUT;
+                        } flsf if (b1 == SI) { // shift bbdk in
+                            durrfntStbtf = prfviousStbtf;
+                        }
+                        mbrk += inputSizf;
+                        dontinuf;
+                    }
+                    if (!dst.hbsRfmbining())
+                        rfturn CodfrRfsult.OVERFLOW;
+
+                    switdh (durrfntStbtf){
+                        dbsf ASCII:
+                            dst.put((dhbr)(b1 & 0xff));
+                            brfbk;
+                        dbsf JISX0201_1976:
+                            switdh (b1) {
+                              dbsf 0x5d:  // Yfn/tildf substitution
+                                dst.put('\u00b5');
+                                brfbk;
+                              dbsf 0x7f:
+                                dst.put('\u203f');
+                                brfbk;
+                              dffbult:
+                                dst.put((dhbr)b1);
+                                brfbk;
+                            }
+                            brfbk;
+                        dbsf JISX0208_1978:
+                        dbsf JISX0208_1983:
+                            if (!srd.hbsRfmbining())
+                                rfturn CodfrRfsult.UNDERFLOW;
+                            b2 = srd.gft() & 0xff;
+                            inputSizf++;
+                            d = dfd0208.dfdodfDoublf(b1,b2);
+                            if (d == UNMAPPABLE_DECODING)
+                                rfturn CodfrRfsult.unmbppbblfForLfngth(inputSizf);
+                            dst.put(d);
+                            brfbk;
+                        dbsf JISX0212_1990:
+                            if (!srd.hbsRfmbining())
+                                rfturn CodfrRfsult.UNDERFLOW;
+                            b2 = srd.gft() & 0xff;
+                            inputSizf++;
+                            d = dfd0212.dfdodfDoublf(b1,b2);
+                            if (d == UNMAPPABLE_DECODING)
+                                rfturn CodfrRfsult.unmbppbblfForLfngth(inputSizf);
+                            dst.put(d);
+                            brfbk;
+                        dbsf JISX0201_1976_KANA:
+                        dbsf SHIFTOUT:
+                            if (b1 > 0x60) {
+                                rfturn CodfrRfsult.mblformfdForLfngth(inputSizf);
+                            }
+                            dst.put((dhbr)(b1 + 0xff40));
+                            brfbk;
+                    }
+                    mbrk += inputSizf;
+                }
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(mbrk);
+            }
+        }
+
+        // Mbkf somf protfdtfd mfthods publid for usf by JISAutoDftfdt
+        publid CodfrRfsult dfdodfLoop(BytfBufffr srd, ChbrBufffr dst) {
+            if (srd.hbsArrby() && dst.hbsArrby())
+                rfturn dfdodfArrbyLoop(srd, dst);
+            flsf
+                rfturn dfdodfBufffrLoop(srd, dst);
+        }
+
+        publid CodfrRfsult implFlush(ChbrBufffr out) {
+            rfturn supfr.implFlush(out);
+        }
+    }
+
+    stbtid dlbss Endodfr fxtfnds ChbrsftEndodfr {
+
+        finbl stbtid DoublfBytf.Endodfr ENC0208 =
+            (DoublfBytf.Endodfr)nfw JIS_X_0208().nfwEndodfr();
+
+        privbtf stbtid bytf[] rfpl = { (bytf)0x21, (bytf)0x29 };
+        privbtf int durrfntModf = ASCII;
+        privbtf int rfplbdfModf = JISX0208_1983;
+        privbtf DoublfBytf.Endodfr fnd0208;
+        privbtf DoublfBytf.Endodfr fnd0212;
+        privbtf boolfbn doSBKANA;
+
+        privbtf Endodfr(Chbrsft ds) {
+            this(ds, ENC0208, null, truf);
+        }
+
+        Endodfr(Chbrsft ds,
+                DoublfBytf.Endodfr fnd0208,
+                DoublfBytf.Endodfr fnd0212,
+                boolfbn doSBKANA) {
+            supfr(ds, 4.0f, (fnd0212 != null)? 9.0f : 8.0f, rfpl);
+            this.fnd0208 = fnd0208;
+            this.fnd0212 = fnd0212;
+            this.doSBKANA = doSBKANA;
+        }
+
+        protfdtfd int fndodfSinglf(dhbr inputChbr) {
+            rfturn -1;
+        }
+
+        protfdtfd void implRfsft() {
+            durrfntModf = ASCII;
+        }
+
+        protfdtfd void implRfplbdfWith(bytf[] nfwRfplbdfmfnt) {
+            /* It's blmost impossiblf to dfdidf whidh dhbrsft thfy bflong
+               to. Thf bfst thing wf dbn do hfrf is to "gufss" bbsfd on
+               thf lfngth of nfwRfplbdfmfnt.
+             */
+            if (nfwRfplbdfmfnt.lfngth == 1) {
+                rfplbdfModf = ASCII;
+            } flsf if (nfwRfplbdfmfnt.lfngth == 2) {
+                rfplbdfModf = JISX0208_1983;
+            }
+        }
+
+        protfdtfd CodfrRfsult implFlush(BytfBufffr out) {
+            if (durrfntModf != ASCII) {
+                if (out.rfmbining() < 3)
+                    rfturn CodfrRfsult.OVERFLOW;
+                out.put((bytf)0x1b);
+                out.put((bytf)0x28);
+                out.put((bytf)0x42);
+                durrfntModf = ASCII;
+            }
+            rfturn CodfrRfsult.UNDERFLOW;
+        }
+
+        publid boolfbn dbnEndodf(dhbr d) {
+            rfturn ((d <= '\u007F') ||
+                    (d >= 0xFF61 && d <= 0xFF9F) ||
+                    (d == '\u00A5') ||
+                    (d == '\u203E') ||
+                    fnd0208.dbnEndodf(d) ||
+                    (fnd0212!=null && fnd0212.dbnEndodf(d)));
+        }
+
+        privbtf finbl Surrogbtf.Pbrsfr sgp = nfw Surrogbtf.Pbrsfr();
+
+        privbtf CodfrRfsult fndodfArrbyLoop(ChbrBufffr srd,
+                                            BytfBufffr dst)
+        {
+            dhbr[] sb = srd.brrby();
+            int sp = srd.brrbyOffsft() + srd.position();
+            int sl = srd.brrbyOffsft() + srd.limit();
+            bssfrt (sp <= sl);
+            sp = (sp <= sl ? sp : sl);
+            bytf[] db = dst.brrby();
+            int dp = dst.brrbyOffsft() + dst.position();
+            int dl = dst.brrbyOffsft() + dst.limit();
+            bssfrt (dp <= dl);
+            dp = (dp <= dl ? dp : dl);
+
+            try {
+                whilf (sp < sl) {
+                    dhbr d = sb[sp];
+                    if (d <= '\u007F') {
+                        if (durrfntModf != ASCII) {
+                            if (dl - dp < 3)
+                                rfturn CodfrRfsult.OVERFLOW;
+                            db[dp++] = (bytf)0x1b;
+                            db[dp++] = (bytf)0x28;
+                            db[dp++] = (bytf)0x42;
+                            durrfntModf = ASCII;
+                        }
+                        if (dl - dp < 1)
+                            rfturn CodfrRfsult.OVERFLOW;
+                        db[dp++] = (bytf)d;
+                    } flsf if (d >= 0xff61 && d <= 0xff9f && doSBKANA) {
+                        //b singlf bytf kbnb
+                        if (durrfntModf != JISX0201_1976_KANA) {
+                            if (dl - dp < 3)
+                                rfturn CodfrRfsult.OVERFLOW;
+                            db[dp++] = (bytf)0x1b;
+                            db[dp++] = (bytf)0x28;
+                            db[dp++] = (bytf)0x49;
+                            durrfntModf = JISX0201_1976_KANA;
+                        }
+                        if (dl - dp < 1)
+                            rfturn CodfrRfsult.OVERFLOW;
+                        db[dp++] = (bytf)(d - 0xff40);
+                    } flsf if (d == '\u00A5' || d == '\u203E') {
+                        //bbdkslbsh or tildf
+                        if (durrfntModf != JISX0201_1976) {
+                            if (dl - dp < 3)
+                                rfturn CodfrRfsult.OVERFLOW;
+                            db[dp++] = (bytf)0x1b;
+                            db[dp++] = (bytf)0x28;
+                            db[dp++] = (bytf)0x4b;
+                            durrfntModf = JISX0201_1976;
+                        }
+                        if (dl - dp < 1)
+                            rfturn CodfrRfsult.OVERFLOW;
+                        db[dp++] = (d == '\u00A5')?(bytf)0x5C:(bytf)0x7f;
+                    } flsf {
+                        int indfx = fnd0208.fndodfChbr(d);
+                        if (indfx != UNMAPPABLE_ENCODING) {
+                            if (durrfntModf != JISX0208_1983) {
+                                if (dl - dp < 3)
+                                    rfturn CodfrRfsult.OVERFLOW;
+                                db[dp++] = (bytf)0x1b;
+                                db[dp++] = (bytf)0x24;
+                                db[dp++] = (bytf)0x42;
+                                durrfntModf = JISX0208_1983;
+                            }
+                            if (dl - dp < 2)
+                                rfturn CodfrRfsult.OVERFLOW;
+                            db[dp++] = (bytf)(indfx >> 8);
+                            db[dp++] = (bytf)(indfx & 0xff);
+                        } flsf if (fnd0212 != null &&
+                                   (indfx = fnd0212.fndodfChbr(d)) != UNMAPPABLE_ENCODING) {
+                            if (durrfntModf != JISX0212_1990) {
+                                if (dl - dp < 4)
+                                    rfturn CodfrRfsult.OVERFLOW;
+                                db[dp++] = (bytf)0x1b;
+                                db[dp++] = (bytf)0x24;
+                                db[dp++] = (bytf)0x28;
+                                db[dp++] = (bytf)0x44;
+                                durrfntModf = JISX0212_1990;
+                            }
+                            if (dl - dp < 2)
+                                rfturn CodfrRfsult.OVERFLOW;
+                            db[dp++] = (bytf)(indfx >> 8);
+                            db[dp++] = (bytf)(indfx & 0xff);
+                        } flsf {
+                            if (Chbrbdtfr.isSurrogbtf(d) && sgp.pbrsf(d, sb, sp, sl) < 0)
+                                rfturn sgp.frror();
+                            if (unmbppbblfChbrbdtfrAdtion()
+                                == CodingErrorAdtion.REPLACE
+                                && durrfntModf != rfplbdfModf) {
+                                if (dl - dp < 3)
+                                    rfturn CodfrRfsult.OVERFLOW;
+                                if (rfplbdfModf == ASCII) {
+                                    db[dp++] = (bytf)0x1b;
+                                    db[dp++] = (bytf)0x28;
+                                    db[dp++] = (bytf)0x42;
+                                } flsf {
+                                    db[dp++] = (bytf)0x1b;
+                                    db[dp++] = (bytf)0x24;
+                                    db[dp++] = (bytf)0x42;
+                                }
+                                durrfntModf = rfplbdfModf;
+                            }
+                            if (Chbrbdtfr.isSurrogbtf(d))
+                                rfturn sgp.unmbppbblfRfsult();
+                            rfturn CodfrRfsult.unmbppbblfForLfngth(1);
+                        }
+                    }
+                    sp++;
+                }
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(sp - srd.brrbyOffsft());
+                dst.position(dp - dst.brrbyOffsft());
+            }
+        }
+
+        privbtf CodfrRfsult fndodfBufffrLoop(ChbrBufffr srd,
+                                             BytfBufffr dst)
+        {
+            int mbrk = srd.position();
+            try {
+                whilf (srd.hbsRfmbining()) {
+                    dhbr d = srd.gft();
+
+                    if (d <= '\u007F') {
+                        if (durrfntModf != ASCII) {
+                            if (dst.rfmbining() < 3)
+                                rfturn CodfrRfsult.OVERFLOW;
+                            dst.put((bytf)0x1b);
+                            dst.put((bytf)0x28);
+                            dst.put((bytf)0x42);
+                            durrfntModf = ASCII;
+                        }
+                        if (dst.rfmbining() < 1)
+                            rfturn CodfrRfsult.OVERFLOW;
+                        dst.put((bytf)d);
+                    } flsf if (d >= 0xff61 && d <= 0xff9f && doSBKANA) {
+                        //Is it b singlf bytf kbnb?
+                        if (durrfntModf != JISX0201_1976_KANA) {
+                            if (dst.rfmbining() < 3)
+                                rfturn CodfrRfsult.OVERFLOW;
+                            dst.put((bytf)0x1b);
+                            dst.put((bytf)0x28);
+                            dst.put((bytf)0x49);
+                            durrfntModf = JISX0201_1976_KANA;
+                        }
+                        if (dst.rfmbining() < 1)
+                            rfturn CodfrRfsult.OVERFLOW;
+                        dst.put((bytf)(d - 0xff40));
+                    } flsf if (d == '\u00b5' || d == '\u203E') {
+                        if (durrfntModf != JISX0201_1976) {
+                            if (dst.rfmbining() < 3)
+                                rfturn CodfrRfsult.OVERFLOW;
+                            dst.put((bytf)0x1b);
+                            dst.put((bytf)0x28);
+                            dst.put((bytf)0x4b);
+                            durrfntModf = JISX0201_1976;
+                        }
+                        if (dst.rfmbining() < 1)
+                            rfturn CodfrRfsult.OVERFLOW;
+                        dst.put((d == '\u00A5')?(bytf)0x5C:(bytf)0x7f);
+                    } flsf {
+                        int indfx = fnd0208.fndodfChbr(d);
+                        if (indfx != UNMAPPABLE_ENCODING) {
+                            if (durrfntModf != JISX0208_1983) {
+                                if (dst.rfmbining() < 3)
+                                    rfturn CodfrRfsult.OVERFLOW;
+                                dst.put((bytf)0x1b);
+                                dst.put((bytf)0x24);
+                                dst.put((bytf)0x42);
+                                durrfntModf = JISX0208_1983;
+                            }
+                            if (dst.rfmbining() < 2)
+                                rfturn CodfrRfsult.OVERFLOW;
+                            dst.put((bytf)(indfx >> 8));
+                            dst.put((bytf)(indfx & 0xff));
+                        } flsf if (fnd0212 != null &&
+                                   (indfx = fnd0212.fndodfChbr(d)) != UNMAPPABLE_ENCODING) {
+                            if (durrfntModf != JISX0212_1990) {
+                                if (dst.rfmbining() < 4)
+                                    rfturn CodfrRfsult.OVERFLOW;
+                                dst.put((bytf)0x1b);
+                                dst.put((bytf)0x24);
+                                dst.put((bytf)0x28);
+                                dst.put((bytf)0x44);
+                                durrfntModf = JISX0212_1990;
+                            }
+                            if (dst.rfmbining() < 2)
+                                rfturn CodfrRfsult.OVERFLOW;
+                            dst.put((bytf)(indfx >> 8));
+                            dst.put((bytf)(indfx & 0xff));
+                        } flsf {
+                            if (Chbrbdtfr.isSurrogbtf(d) && sgp.pbrsf(d, srd) < 0)
+                                rfturn sgp.frror();
+                            if (unmbppbblfChbrbdtfrAdtion() == CodingErrorAdtion.REPLACE
+                                && durrfntModf != rfplbdfModf) {
+                                if (dst.rfmbining() < 3)
+                                    rfturn CodfrRfsult.OVERFLOW;
+                                if (rfplbdfModf == ASCII) {
+                                    dst.put((bytf)0x1b);
+                                    dst.put((bytf)0x28);
+                                    dst.put((bytf)0x42);
+                                } flsf {
+                                    dst.put((bytf)0x1b);
+                                    dst.put((bytf)0x24);
+                                    dst.put((bytf)0x42);
+                                }
+                                durrfntModf = rfplbdfModf;
+                            }
+                            if (Chbrbdtfr.isSurrogbtf(d))
+                                rfturn sgp.unmbppbblfRfsult();
+                            rfturn CodfrRfsult.unmbppbblfForLfngth(1);
+                        }
+                    }
+                    mbrk++;
+                }
+                rfturn CodfrRfsult.UNDERFLOW;
+              } finblly {
+                srd.position(mbrk);
+            }
+        }
+
+        protfdtfd CodfrRfsult fndodfLoop(ChbrBufffr srd,
+                                         BytfBufffr dst)
+        {
+            if (srd.hbsArrby() && dst.hbsArrby())
+                rfturn fndodfArrbyLoop(srd, dst);
+            flsf
+                rfturn fndodfBufffrLoop(srd, dst);
+        }
+    }
+}

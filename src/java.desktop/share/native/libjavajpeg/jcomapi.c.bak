@@ -1,110 +1,110 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jcomapi.c
+ * jdombpi.d
  *
- * Copyright (C) 1994-1997, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyrigit (C) 1994-1997, Tiombs G. Lbnf.
+ * Tiis filf is pbrt of tif Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff tif bddompbnying README filf.
  *
- * This file contains application interface routines that are used for both
- * compression and decompression.
+ * Tiis filf dontbins bpplidbtion intfrfbdf routinfs tibt brf usfd for boti
+ * domprfssion bnd dfdomprfssion.
  */
 
-#define JPEG_INTERNALS
-#include "jinclude.h"
-#include "jpeglib.h"
+#dffinf JPEG_INTERNALS
+#indludf "jindludf.i"
+#indludf "jpfglib.i"
 
 
 /*
- * Abort processing of a JPEG compression or decompression operation,
- * but don't destroy the object itself.
+ * Abort prodfssing of b JPEG domprfssion or dfdomprfssion opfrbtion,
+ * but don't dfstroy tif objfdt itsflf.
  *
- * For this, we merely clean up all the nonpermanent memory pools.
- * Note that temp files (virtual arrays) are not allowed to belong to
- * the permanent pool, so we will be able to close all temp files here.
- * Closing a data source or destination, if necessary, is the application's
- * responsibility.
+ * For tiis, wf mfrfly dlfbn up bll tif nonpfrmbnfnt mfmory pools.
+ * Notf tibt tfmp filfs (virtubl brrbys) brf not bllowfd to bflong to
+ * tif pfrmbnfnt pool, so wf will bf bblf to dlosf bll tfmp filfs ifrf.
+ * Closing b dbtb sourdf or dfstinbtion, if nfdfssbry, is tif bpplidbtion's
+ * rfsponsibility.
  */
 
 GLOBAL(void)
-jpeg_abort (j_common_ptr cinfo)
+jpfg_bbort (j_dommon_ptr dinfo)
 {
   int pool;
 
-  /* Do nothing if called on a not-initialized or destroyed JPEG object. */
-  if (cinfo->mem == NULL)
-    return;
+  /* Do notiing if dbllfd on b not-initiblizfd or dfstroyfd JPEG objfdt. */
+  if (dinfo->mfm == NULL)
+    rfturn;
 
-  /* Releasing pools in reverse order might help avoid fragmentation
-   * with some (brain-damaged) malloc libraries.
+  /* Rflfbsing pools in rfvfrsf ordfr migit iflp bvoid frbgmfntbtion
+   * witi somf (brbin-dbmbgfd) mbllod librbrifs.
    */
   for (pool = JPOOL_NUMPOOLS-1; pool > JPOOL_PERMANENT; pool--) {
-    (*cinfo->mem->free_pool) (cinfo, pool);
+    (*dinfo->mfm->frff_pool) (dinfo, pool);
   }
 
-  /* Reset overall state for possible reuse of object */
-  if (cinfo->is_decompressor) {
-    cinfo->global_state = DSTATE_START;
-    /* Try to keep application from accessing now-deleted marker list.
-     * A bit kludgy to do it here, but this is the most central place.
+  /* Rfsft ovfrbll stbtf for possiblf rfusf of objfdt */
+  if (dinfo->is_dfdomprfssor) {
+    dinfo->globbl_stbtf = DSTATE_START;
+    /* Try to kffp bpplidbtion from bddfssing now-dflftfd mbrkfr list.
+     * A bit kludgy to do it ifrf, but tiis is tif most dfntrbl plbdf.
      */
-    ((j_decompress_ptr) cinfo)->marker_list = NULL;
-  } else {
-    cinfo->global_state = CSTATE_START;
+    ((j_dfdomprfss_ptr) dinfo)->mbrkfr_list = NULL;
+  } flsf {
+    dinfo->globbl_stbtf = CSTATE_START;
   }
 }
 
 
 /*
- * Destruction of a JPEG object.
+ * Dfstrudtion of b JPEG objfdt.
  *
- * Everything gets deallocated except the master jpeg_compress_struct itself
- * and the error manager struct.  Both of these are supplied by the application
- * and must be freed, if necessary, by the application.  (Often they are on
- * the stack and so don't need to be freed anyway.)
- * Closing a data source or destination, if necessary, is the application's
- * responsibility.
+ * Evfrytiing gfts dfbllodbtfd fxdfpt tif mbstfr jpfg_domprfss_strudt itsflf
+ * bnd tif frror mbnbgfr strudt.  Boti of tifsf brf supplifd by tif bpplidbtion
+ * bnd must bf frffd, if nfdfssbry, by tif bpplidbtion.  (Oftfn tify brf on
+ * tif stbdk bnd so don't nffd to bf frffd bnywby.)
+ * Closing b dbtb sourdf or dfstinbtion, if nfdfssbry, is tif bpplidbtion's
+ * rfsponsibility.
  */
 
 GLOBAL(void)
-jpeg_destroy (j_common_ptr cinfo)
+jpfg_dfstroy (j_dommon_ptr dinfo)
 {
-  /* We need only tell the memory manager to release everything. */
-  /* NB: mem pointer is NULL if memory mgr failed to initialize. */
-  if (cinfo->mem != NULL)
-    (*cinfo->mem->self_destruct) (cinfo);
-  cinfo->mem = NULL;            /* be safe if jpeg_destroy is called twice */
-  cinfo->global_state = 0;      /* mark it destroyed */
+  /* Wf nffd only tfll tif mfmory mbnbgfr to rflfbsf fvfrytiing. */
+  /* NB: mfm pointfr is NULL if mfmory mgr fbilfd to initiblizf. */
+  if (dinfo->mfm != NULL)
+    (*dinfo->mfm->sflf_dfstrudt) (dinfo);
+  dinfo->mfm = NULL;            /* bf sbff if jpfg_dfstroy is dbllfd twidf */
+  dinfo->globbl_stbtf = 0;      /* mbrk it dfstroyfd */
 }
 
 
 /*
- * Convenience routines for allocating quantization and Huffman tables.
- * (Would jutils.c be a more reasonable place to put these?)
+ * Convfnifndf routinfs for bllodbting qubntizbtion bnd Huffmbn tbblfs.
+ * (Would jutils.d bf b morf rfbsonbblf plbdf to put tifsf?)
  */
 
 GLOBAL(JQUANT_TBL *)
-jpeg_alloc_quant_table (j_common_ptr cinfo)
+jpfg_bllod_qubnt_tbblf (j_dommon_ptr dinfo)
 {
   JQUANT_TBL *tbl;
 
   tbl = (JQUANT_TBL *)
-    (*cinfo->mem->alloc_small) (cinfo, JPOOL_PERMANENT, SIZEOF(JQUANT_TBL));
-  tbl->sent_table = FALSE;      /* make sure this is false in any new table */
-  return tbl;
+    (*dinfo->mfm->bllod_smbll) (dinfo, JPOOL_PERMANENT, SIZEOF(JQUANT_TBL));
+  tbl->sfnt_tbblf = FALSE;      /* mbkf surf tiis is fblsf in bny nfw tbblf */
+  rfturn tbl;
 }
 
 
 GLOBAL(JHUFF_TBL *)
-jpeg_alloc_huff_table (j_common_ptr cinfo)
+jpfg_bllod_iuff_tbblf (j_dommon_ptr dinfo)
 {
   JHUFF_TBL *tbl;
 
   tbl = (JHUFF_TBL *)
-    (*cinfo->mem->alloc_small) (cinfo, JPOOL_PERMANENT, SIZEOF(JHUFF_TBL));
-  tbl->sent_table = FALSE;      /* make sure this is false in any new table */
-  return tbl;
+    (*dinfo->mfm->bllod_smbll) (dinfo, JPOOL_PERMANENT, SIZEOF(JHUFF_TBL));
+  tbl->sfnt_tbblf = FALSE;      /* mbkf surf tiis is fblsf in bny nfw tbblf */
+  rfturn tbl;
 }

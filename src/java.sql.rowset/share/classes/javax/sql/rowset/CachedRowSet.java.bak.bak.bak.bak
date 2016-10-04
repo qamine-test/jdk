@@ -1,0 +1,1624 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql.rowsft;
+
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvbx.nbming.*;
+import jbvb.io.*;
+import jbvb.mbth.*;
+import jbvb.util.*;
+
+import jbvbx.sql.rowsft.spi.*;
+
+/**
+ * Thf intfrfbdf thbt bll stbndbrd implfmfntbtions of
+ * <dodf>CbdhfdRowSft</dodf> must implfmfnt.
+ * <P>
+ * Thf rfffrfndf implfmfntbtion of thf <dodf>CbdhfdRowSft</dodf> intfrfbdf providfd
+ * by Orbdlf Corporbtion is b stbndbrd implfmfntbtion. Dfvflopfrs mby usf this implfmfntbtion
+ * just bs it is, thfy mby fxtfnd it, or thfy mby dhoosf to writf thfir own implfmfntbtions
+ * of this intfrfbdf.
+ * <P>
+ * A <dodf>CbdhfdRowSft</dodf> objfdt is b dontbinfr for rows of dbtb
+ * thbt dbdhfs its rows in mfmory, whidh mbkfs it possiblf to opfrbtf without blwbys bfing
+ * donnfdtfd to its dbtb sourdf. Furthfr, it is b
+ * JbvbBfbns&trbdf; domponfnt bnd is sdrollbblf,
+ * updbtbblf, bnd sfriblizbblf. A <dodf>CbdhfdRowSft</dodf> objfdt typidblly
+ * dontbins rows from b rfsult sft, but it dbn blso dontbin rows from bny filf
+ * with b tbbulbr formbt, sudh bs b sprfbd shfft.  Thf rfffrfndf implfmfntbtion
+ * supports gftting dbtb only from b <dodf>RfsultSft</dodf> objfdt, but
+ * dfvflopfrs dbn fxtfnd thf <dodf>SyndProvidfr</dodf> implfmfntbtions to providf
+ * bddfss to othfr tbbulbr dbtb sourdfs.
+ * <P>
+ * An bpplidbtion dbn modify thf dbtb in b <dodf>CbdhfdRowSft</dodf> objfdt, bnd
+ * thosf modifidbtions dbn thfn bf propbgbtfd bbdk to thf sourdf of thf dbtb.
+ * <P>
+ * A <dodf>CbdhfdRowSft</dodf> objfdt is b <i>disdonnfdtfd</i> rowsft, whidh mfbns
+ * thbt it mbkfs usf of b donnfdtion to its dbtb sourdf only briffly. It donnfdts to its
+ * dbtb sourdf whilf it is rfbding dbtb to populbtf itsflf with rows bnd bgbin
+ * whilf it is propbgbting dhbngfs bbdk to its undfrlying dbtb sourdf. Thf rfst
+ * of thf timf, b <dodf>CbdhfdRowSft</dodf> objfdt is disdonnfdtfd, indluding
+ * whilf its dbtb is bfing modififd. Bfing disdonnfdtfd mbkfs b <dodf>RowSft</dodf>
+ * objfdt mudh lfbnfr bnd thfrfforf mudh fbsifr to pbss to bnothfr domponfnt.  For
+ * fxbmplf, b disdonnfdtfd <dodf>RowSft</dodf> objfdt dbn bf sfriblizfd bnd pbssfd
+ * ovfr thf wirf to b thin dlifnt sudh bs b pfrsonbl digitbl bssistbnt (PDA).
+ *
+ *
+ * <h3>1.0 Crfbting b <dodf>CbdhfdRowSft</dodf> Objfdt</h3>
+ * Thf following linf of dodf usfs thf dffbult donstrudtor for
+ * <dodf>CbdhfdRowSft</dodf>
+ * supplifd in thf rfffrfndf implfmfntbtion (RI) to drfbtf b dffbult
+ * <dodf>CbdhfdRowSft</dodf> objfdt.
+ * <PRE>
+ *     CbdhfdRowSftImpl drs = nfw CbdhfdRowSftImpl();
+ * </PRE>
+ * This nfw <dodf>CbdhfdRowSft</dodf> objfdt will hbvf its propfrtifs sft to thf
+ * dffbult propfrtifs of b <dodf>BbsfRowSft</dodf> objfdt, bnd, in bddition, it will
+ * hbvf bn <dodf>RIOptimistidProvidfr</dodf> objfdt bs its syndhronizbtion providfr.
+ * <dodf>RIOptimistidProvidfr</dodf>, onf of two <dodf>SyndProvidfr</dodf>
+ * implfmfntbtions indludfd in thf RI, is thf dffbult providfr thbt thf
+ * <dodf>SyndFbdtory</dodf> singlfton will supply whfn no syndhronizbtion
+ * providfr is spfdififd.
+ * <P>
+ * A <dodf>SyndProvidfr</dodf> objfdt providfs b <dodf>CbdhfdRowSft</dodf> objfdt
+ * with b rfbdfr (b <dodf>RowSftRfbdfr</dodf> objfdt) for rfbding dbtb from b
+ * dbtb sourdf to populbtf itsflf with dbtb. A rfbdfr dbn bf implfmfntfd to rfbd
+ * dbtb from b <dodf>RfsultSft</dodf> objfdt or from b filf with b tbbulbr formbt.
+ * A <dodf>SyndProvidfr</dodf> objfdt blso providfs
+ * b writfr (b <dodf>RowSftWritfr</dodf> objfdt) for syndhronizing bny
+ * modifidbtions to thf <dodf>CbdhfdRowSft</dodf> objfdt's dbtb mbdf whilf it wbs
+ * disdonnfdtfd with thf dbtb in thf undfrlying dbtb sourdf.
+ * <P>
+ * A writfr dbn bf implfmfntfd to fxfrdisf vbrious dfgrffs of dbrf in dhfdking
+ * for donflidts bnd in bvoiding thfm.
+ * (A donflidt oddurs whfn b vbluf in thf dbtb sourdf hbs bffn dhbngfd bftfr
+ * thf rowsft populbtfd itsflf with thbt vbluf.)
+ * Thf <dodf>RIOptimistidProvidfr</dodf> implfmfntbtion bssumfs thfrf will bf
+ * ffw or no donflidts bnd thfrfforf sfts no lodks. It updbtfs thf dbtb sourdf
+ * with vblufs from thf <dodf>CbdhfdRowSft</dodf> objfdt only if thfrf brf no
+ * donflidts.
+ * Othfr writfrs dbn bf implfmfntfd so thbt thfy blwbys writf modififd dbtb to
+ * thf dbtb sourdf, whidh dbn bf bddomplishfd fithfr by not dhfdking for donflidts
+ * or, on thf othfr fnd of thf spfdtrum, by sftting lodks suffidifnt to prfvfnt dbtb
+ * in thf dbtb sourdf from bfing dhbngfd. Still othfr writfr implfmfntbtions dbn bf
+ * somfwhfrf in bftwffn.
+ * <P>
+ * A <dodf>CbdhfdRowSft</dodf> objfdt mby usf bny
+ * <dodf>SyndProvidfr</dodf> implfmfntbtion thbt hbs bffn rfgistfrfd
+ * with thf <dodf>SyndFbdtory</dodf> singlfton. An bpplidbtion
+ * dbn find out whidh <dodf>SyndProvidfr</dodf> implfmfntbtions hbvf bffn
+ * rfgistfrfd by dblling thf following linf of dodf.
+ * <PRE>
+ *      jbvb.util.Enumfrbtion providfrs = SyndFbdtory.gftRfgistfrfdProvidfrs();
+ * </PRE>
+ * <P>
+ * Thfrf brf two wbys for b <dodf>CbdhfdRowSft</dodf> objfdt to spfdify whidh
+ * <dodf>SyndProvidfr</dodf> objfdt it will usf.
+ * <UL>
+ *     <LI>Supplying thf nbmf of thf implfmfntbtion to thf donstrudtor<BR>
+ *     Thf following linf of dodf drfbtfs thf <dodf>CbdhfdRowSft</dodf>
+ *     objfdt <i>drs2</i> thbt is initiblizfd with dffbult vblufs fxdfpt thbt its
+ *     <dodf>SyndProvidfr</dodf> objfdt is thf onf spfdififd.
+ *     <PRE>
+ *          CbdhfdRowSftImpl drs2 = nfw CbdhfdRowSftImpl(
+ *                                 "dom.frfd.providfrs.HighAvbilbbilityProvidfr");
+ *     </PRE>
+ *     <LI>Sftting thf <dodf>SyndProvidfr</dodf> using thf <dodf>CbdhfdRowSft</dodf>
+ *         mfthod <dodf>sftSyndProvidfr</dodf><BR>
+ *      Thf following linf of dodf rfsfts thf <dodf>SyndProvidfr</dodf> objfdt
+ *      for <i>drs</i>, thf <dodf>CbdhfdRowSft</dodf> objfdt drfbtfd with thf
+ *      dffbult donstrudtor.
+ *      <PRE>
+ *           drs.sftSyndProvidfr("dom.frfd.providfrs.HighAvbilbbilityProvidfr");
+ *      </PRE>
+ * </UL>
+ * Sff thf dommfnts for <dodf>SyndFbdtory</dodf> bnd <dodf>SyndProvidfr</dodf> for
+ * morf dftbils.
+ *
+ *
+ * <h3>2.0 Rftrifving Dbtb from b <dodf>CbdhfdRowSft</dodf> Objfdt</h3>
+ * Dbtb is rftrifvfd from b <dodf>CbdhfdRowSft</dodf> objfdt by using thf
+ * gfttfr mfthods inhfritfd from thf <dodf>RfsultSft</dodf>
+ * intfrfbdf.  Thf following fxbmplfs, in whidh <dodf>drs</dodf> is b
+ * <dodf>CbdhfdRowSft</dodf>
+ * objfdt, dfmonstrbtf how to itfrbtf through thf rows, rftrifving thf dolumn
+ * vblufs in fbdh row.  Thf first fxbmplf usfs thf vfrsion of thf
+ * gfttfr mfthods thbt tbkf b dolumn numbfr; thf sfdond fxbmplf
+ * usfs thf vfrsion thbt tbkfs b dolumn nbmf. Column numbfrs brf gfnfrblly
+ * usfd whfn thf <dodf>RowSft</dodf> objfdt's dommbnd
+ * is of thf form <dodf>SELECT * FROM TABLENAME</dodf>; dolumn nbmfs brf most
+ * dommonly usfd whfn thf dommbnd spfdififs dolumns by nbmf.
+ * <PRE>
+ *    whilf (drs.nfxt()) {
+ *        String nbmf = drs.gftString(1);
+ *        int id = drs.gftInt(2);
+ *        Clob dommfnt = drs.gftClob(3);
+ *        short dfpt = drs.gftShort(4);
+ *        Systfm.out.println(nbmf + "  " + id + "  " + dommfnt + "  " + dfpt);
+ *    }
+ * </PRE>
+ *
+ * <PRE>
+ *    whilf (drs.nfxt()) {
+ *        String nbmf = drs.gftString("NAME");
+ *        int id = drs.gftInt("ID");
+ *        Clob dommfnt = drs.gftClob("COM");
+ *        short dfpt = drs.gftShort("DEPT");
+ *        Systfm.out.println(nbmf + "  " + id + "  " + dommfnt + "  " + dfpt);
+ *    }
+ * </PRE>
+ * <h4>2.1 Rftrifving <dodf>RowSftMftbDbtb</dodf></h4>
+ * An bpplidbtion dbn gft informbtion bbout thf dolumns in b <dodf>CbdhfdRowSft</dodf>
+ * objfdt by dblling <dodf>RfsultSftMftbDbtb</dodf> bnd <dodf>RowSftMftbDbtb</dodf>
+ * mfthods on b <dodf>RowSftMftbDbtb</dodf> objfdt. Thf following dodf frbgmfnt,
+ * in whidh <i>drs</i> is b <dodf>CbdhfdRowSft</dodf> objfdt, illustrbtfs thf prodfss.
+ * Thf first linf drfbtfs b <dodf>RowSftMftbDbtb</dodf> objfdt with informbtion
+ * bbout thf dolumns in <i>drs</i>.  Thf mfthod <dodf>gftMftbDbtb</dodf>,
+ * inhfritfd from thf <dodf>RfsultSft</dodf> intfrfbdf, rfturns b
+ * <dodf>RfsultSftMftbDbtb</dodf> objfdt, whidh is dbst to b
+ * <dodf>RowSftMftbDbtb</dodf> objfdt bfforf bfing bssignfd to thf vbribblf
+ * <i>rsmd</i>.  Thf sfdond linf finds out how mbny dolumns <i>jrs</i> hbs, bnd
+ * thf third linf gfts thf JDBC typf of vblufs storfd in thf sfdond dolumn of
+ * <dodf>jrs</dodf>.
+ * <PRE>
+ *     RowSftMftbDbtb rsmd = (RowSftMftbDbtb)drs.gftMftbDbtb();
+ *     int dount = rsmd.gftColumnCount();
+ *     int typf = rsmd.gftColumnTypf(2);
+ * </PRE>
+ * Thf <dodf>RowSftMftbDbtb</dodf> intfrfbdf difffrs from thf
+ * <dodf>RfsultSftMftbDbtb</dodf> intfrfbdf in two wbys.
+ * <UL>
+ *   <LI><i>It indludfs <dodf>sfttfr</dodf> mfthods:</i> A <dodf>RowSft</dodf>
+ *   objfdt usfs thfsf mfthods intfrnblly whfn it is populbtfd with dbtb from b
+ *   difffrfnt <dodf>RfsultSft</dodf> objfdt.
+ *
+ *   <LI><i>It dontbins ffwfr <dodf>gfttfr</dodf> mfthods:</i> Somf
+ *   <dodf>RfsultSftMftbDbtb</dodf> mfthods to not bpply to b <dodf>RowSft</dodf>
+ *   objfdt. For fxbmplf, mfthods rftrifving whfthfr b dolumn vbluf is writbblf
+ *   or rfbd only do not bpply bfdbusf bll of b <dodf>RowSft</dodf> objfdt's
+ *   dolumns will bf writbblf or rfbd only, dfpfnding on whfthfr thf rowsft is
+ *   updbtbblf or not.
+ * </UL>
+ * NOTE: In ordfr to rfturn b <dodf>RowSftMftbDbtb</dodf> objfdt, implfmfntbtions must
+ * ovfrridf thf <dodf>gftMftbDbtb()</dodf> mfthod dffinfd in
+ * <dodf>jbvb.sql.RfsultSft</dodf> bnd rfturn b <dodf>RowSftMftbDbtb</dodf> objfdt.
+ *
+ * <h3>3.0 Updbting b <dodf>CbdhfdRowSft</dodf> Objfdt</h3>
+ * Updbting b <dodf>CbdhfdRowSft</dodf> objfdt is similbr to updbting b
+ * <dodf>RfsultSft</dodf> objfdt, but bfdbusf thf rowsft is not donnfdtfd to
+ * its dbtb sourdf whilf it is bfing updbtfd, it must tbkf bn bdditionbl stfp
+ * to ffffdt dhbngfs in its undfrlying dbtb sourdf. Aftfr dblling thf mfthod
+ * <dodf>updbtfRow</dodf> or <dodf>insfrtRow</dodf>, b
+ * <dodf>CbdhfdRowSft</dodf>
+ * objfdt must blso dbll thf mfthod <dodf>bddfptChbngfs</dodf> to hbvf updbtfs
+ * writtfn to thf dbtb sourdf. Thf following fxbmplf, in whidh thf dursor is
+ * on b row in thf <dodf>CbdhfdRowSft</dodf> objfdt <i>drs</i>, shows
+ * thf dodf rfquirfd to updbtf two dolumn vblufs in thf durrfnt row bnd blso
+ * updbtf thf <dodf>RowSft</dodf> objfdt's undfrlying dbtb sourdf.
+ * <PRE>
+ *     drs.updbtfShort(3, 58);
+ *     drs.updbtfInt(4, 150000);
+ *     drs.updbtfRow();
+ *     drs.bddfptChbngfs();
+ * </PRE>
+ * <P>
+ * Thf nfxt fxbmplf dfmonstrbtfs moving to thf insfrt row, building b nfw
+ * row on thf insfrt row, insfrting it into thf rowsft, bnd thfn dblling thf
+ * mfthod <dodf>bddfptChbngfs</dodf> to bdd thf nfw row to thf undfrlying dbtb
+ * sourdf.  Notf thbt bs with thf gfttfr mfthods, thf  updbtfr mfthods mby tbkf
+ * fithfr b dolumn indfx or b dolumn nbmf to dfsignbtf thf dolumn bfing bdtfd upon.
+ * <PRE>
+ *     drs.movfToInsfrtRow();
+ *     drs.updbtfString("Nbmf", "Shbkfspfbrf");
+ *     drs.updbtfInt("ID", 10098347);
+ *     drs.updbtfShort("Agf", 58);
+ *     drs.updbtfInt("Sbl", 150000);
+ *     drs.insfrtRow();
+ *     drs.movfToCurrfntRow();
+ *     drs.bddfptChbngfs();
+ * </PRE>
+ * <P>
+ * NOTE: Whfrf thf <dodf>insfrtRow()</dodf> mfthod insfrts thf dontfnts of b
+ * <dodf>CbdhfdRowSft</dodf> objfdt's insfrt row is implfmfntbtion-dffinfd.
+ * Thf rfffrfndf implfmfntbtion for thf <dodf>CbdhfdRowSft</dodf> intfrfbdf
+ * insfrts b nfw row immfdibtfly following thf durrfnt row, but it dould bf
+ * implfmfntfd to insfrt nfw rows in bny numbfr of othfr plbdfs.
+ * <P>
+ * Anothfr thing to notf bbout thfsf fxbmplfs is how thfy usf thf mfthod
+ * <dodf>bddfptChbngfs</dodf>.  It is this mfthod thbt propbgbtfs dhbngfs in
+ * b <dodf>CbdhfdRowSft</dodf> objfdt bbdk to thf undfrlying dbtb sourdf,
+ * dblling on thf <dodf>RowSft</dodf> objfdt's writfr intfrnblly to writf
+ * dhbngfs to thf dbtb sourdf. To do this, thf writfr hbs to indur thf fxpfnsf
+ * of fstbblishing b donnfdtion with thbt dbtb sourdf. Thf
+ * prfdfding two dodf frbgmfnts dbll thf mfthod <dodf>bddfptChbngfs</dodf>
+ * immfdibtfly bftfr dblling <dodf>updbtfRow</dodf> or <dodf>insfrtRow</dodf>.
+ * Howfvfr, whfn thfrf brf multiplf rows bfing dhbngfd, it is morf fffidifnt to dbll
+ * <dodf>bddfptChbngfs</dodf> bftfr bll dblls to <dodf>updbtfRow</dodf>
+ * bnd <dodf>insfrtRow</dodf> hbvf bffn mbdf.  If <dodf>bddfptChbngfs</dodf>
+ * is dbllfd only ondf, only onf donnfdtion nffds to bf fstbblishfd.
+ *
+ * <h3>4.0 Updbting thf Undfrlying Dbtb Sourdf</h3>
+ * Whfn thf mfthod <dodf>bddfptChbngfs</dodf> is fxfdutfd, thf
+ * <dodf>CbdhfdRowSft</dodf> objfdt's writfr, b <dodf>RowSftWritfrImpl</dodf>
+ * objfdt, is dbllfd bfhind thf sdfnfs to writf thf dhbngfs mbdf to thf
+ * rowsft to thf undfrlying dbtb sourdf. Thf writfr is implfmfntfd to mbkf b
+ * donnfdtion to thf dbtb sourdf bnd writf updbtfs to it.
+ * <P>
+ * A writfr is mbdf bvbilbblf through bn implfmfntbtion of thf
+ * <dodf>SyndProvidfr</dodf> intfrfbdf, bs disdussfd in sfdtion 1,
+ * "Crfbting b <dodf>CbdhfdRowSft</dodf> Objfdt."
+ * Thf dffbult rfffrfndf implfmfntbtion providfr, <dodf>RIOptimistidProvidfr</dodf>,
+ * hbs its writfr implfmfntfd to usf bn optimistid dondurrfndy dontrol
+ * mfdhbnism. Thbt is, it mbintbins no lodks in thf undfrlying dbtbbbsf whilf
+ * thf rowsft is disdonnfdtfd from thf dbtbbbsf bnd simply dhfdks to sff if thfrf
+ * brf bny donflidts bfforf writing dbtb to thf dbtb sourdf.  If thfrf brf bny
+ * donflidts, it dofs not writf bnything to thf dbtb sourdf.
+ * <P>
+ * Thf rfbdfr/writfr fbdility
+ * providfd by thf <dodf>SyndProvidfr</dodf> dlbss is pluggbblf, bllowing for thf
+ * dustomizbtion of dbtb rftrifvbl bnd updbting. If b difffrfnt dondurrfndy
+ * dontrol mfdhbnism is dfsirfd, b difffrfnt implfmfntbtion of
+ * <dodf>SyndProvidfr</dodf> dbn bf pluggfd in using thf mfthod
+ * <dodf>sftSyndProvidfr</dodf>.
+ * <P>
+ * In ordfr to usf thf optimistid dondurrfndy dontrol routinf, thf
+ * <dodf>RIOptismistidProvidfr</dodf> mbintbins both its durrfnt
+ * vbluf bnd its originbl vbluf (thf vbluf it hbd immfdibtfly prfdfding thf
+ * durrfnt vbluf). Notf thbt if no dhbngfs hbvf bffn mbdf to thf dbtb in b
+ * <dodf>RowSft</dodf> objfdt, its durrfnt vblufs bnd its originbl vblufs brf thf sbmf,
+ * both bfing thf vblufs with whidh thf <dodf>RowSft</dodf> objfdt wbs initiblly
+ * populbtfd.  Howfvfr, ondf bny vblufs in thf <dodf>RowSft</dodf> objfdt hbvf bffn
+ * dhbngfd, thf durrfnt vblufs bnd thf originbl vblufs will bf difffrfnt, though bt
+ * this stbgf, thf originbl vblufs brf still thf initibl vblufs. With bny subsfqufnt
+ * dhbngfs to dbtb in b <dodf>RowSft</dodf> objfdt, its originbl vblufs bnd durrfnt
+ * vblufs will still difffr, but its originbl vblufs will bf thf vblufs thbt
+ * wfrf prfviously thf durrfnt vblufs.
+ * <P>
+ * Kffping trbdk of originbl vblufs bllows thf writfr to dompbrf thf <dodf>RowSft</dodf>
+ * objfdt's originbl vbluf with thf vbluf in thf dbtbbbsf. If thf vblufs in
+ * thf dbtbbbsf difffr from thf <dodf>RowSft</dodf> objfdt's originbl vblufs, whidh mfbns thbt
+ * thf vblufs in thf dbtbbbsf hbvf bffn dhbngfd, thfrf is b donflidt.
+ * Whfthfr b writfr dhfdks for donflidts, whbt dfgrff of dhfdking it dofs, bnd how
+ * it hbndlfs donflidts bll dfpfnd on how it is implfmfntfd.
+ *
+ * <h3>5.0 Rfgistfring bnd Notifying Listfnfrs</h3>
+ * Bfing JbvbBfbns domponfnts, bll rowsfts pbrtidipbtf in thf JbvbBfbns fvfnt
+ * modfl, inhfriting mfthods for rfgistfring listfnfrs bnd notifying thfm of
+ * dhbngfs from thf <dodf>BbsfRowSft</dodf> dlbss.  A listfnfr for b
+ * <dodf>CbdhfdRowSft</dodf> objfdt is b domponfnt thbt wbnts to bf notififd
+ * whfnfvfr thfrf is b dhbngf in thf rowsft.  For fxbmplf, if b
+ * <dodf>CbdhfdRowSft</dodf> objfdt dontbins thf rfsults of b qufry bnd
+ * thosf
+ * rfsults brf bfing displbyfd in, sby, b tbblf bnd b bbr grbph, thf tbblf bnd
+ * bbr grbph dould bf rfgistfrfd bs listfnfrs with thf rowsft so thbt thfy dbn
+ * updbtf thfmsflvfs to rfflfdt dhbngfs. To bfdomf listfnfrs, thf tbblf bnd
+ * bbr grbph dlbssfs must implfmfnt thf <dodf>RowSftListfnfr</dodf> intfrfbdf.
+ * Thfn thfy dbn bf bddfd to thf <Codf>CbdhfdRowSft</dodf> objfdt's list of
+ * listfnfrs, bs is illustrbtfd in thf following linfs of dodf.
+ * <PRE>
+ *    drs.bddRowSftListfnfr(tbblf);
+ *    drs.bddRowSftListfnfr(bbrGrbph);
+ * </PRE>
+ * Ebdh <dodf>CbdhfdRowSft</dodf> mfthod thbt movfs thf dursor or dhbngfs
+ * dbtb blso notififs rfgistfrfd listfnfrs of thf dhbngfs, so
+ * <dodf>tbblf</dodf> bnd <dodf>bbrGrbph</dodf> will bf notififd whfn thfrf is
+ * b dhbngf in <dodf>drs</dodf>.
+ *
+ * <h3>6.0 Pbssing Dbtb to Thin Clifnts</h3>
+ * Onf of thf mbin rfbsons to usf b <dodf>CbdhfdRowSft</dodf> objfdt is to
+ * pbss dbtb bftwffn difffrfnt domponfnts of bn bpplidbtion. Bfdbusf it is
+ * sfriblizbblf, b <dodf>CbdhfdRowSft</dodf> objfdt dbn bf usfd, for fxbmplf,
+ * to sfnd thf rfsult of b qufry fxfdutfd by bn fntfrprisf JbvbBfbns domponfnt
+ * running in b sfrvfr fnvironmfnt ovfr b nftwork to b dlifnt running in b
+ * wfb browsfr.
+ * <P>
+ * Whilf b <dodf>CbdhfdRowSft</dodf> objfdt is disdonnfdtfd, it dbn bf mudh
+ * lfbnfr thbn b <dodf>RfsultSft</dodf> objfdt with thf sbmf dbtb.
+ * As b rfsult, it dbn bf fspfdiblly suitbblf for sfnding dbtb to b thin dlifnt
+ * sudh bs b PDA, whfrf it would bf inbppropribtf to usf b JDBC drivfr
+ * duf to rfsourdf limitbtions or sfdurity donsidfrbtions.
+ * Thus, b <dodf>CbdhfdRowSft</dodf> objfdt providfs b mfbns to "gft rows in"
+ * without thf nffd to implfmfnt thf full JDBC API.
+ *
+ * <h3>7.0 Sdrolling bnd Updbting</h3>
+ * A sfdond mbjor usf for <dodf>CbdhfdRowSft</dodf> objfdts is to providf
+ * sdrolling bnd updbting for <dodf>RfsultSft</dodf> objfdts thbt
+ * do not providf thfsf dbpbbilitifs thfmsflvfs.  In othfr words, b
+ * <dodf>CbdhfdRowSft</dodf> objfdt dbn bf usfd to bugmfnt thf
+ * dbpbbilitifs of b JDBC tfdhnology-fnbblfd drivfr (hfrfbftfr dbllfd b
+ * "JDBC drivfr") whfn thf DBMS dofs not providf full support for sdrolling bnd
+ * updbting. To bdhifvf thf ffffdt of mbking b non-sdrollblf bnd rfbd-only
+ * <dodf>RfsultSft</dodf> objfdt sdrollbblf bnd updbtbblf, b progrbmmfr
+ * simply nffds to drfbtf b <dodf>CbdhfdRowSft</dodf> objfdt populbtfd
+ * with thbt <dodf>RfsultSft</dodf> objfdt's dbtb.  This is dfmonstrbtfd
+ * in thf following dodf frbgmfnt, whfrf <dodf>stmt</dodf> is b
+ * <dodf>Stbtfmfnt</dodf> objfdt.
+ * <PRE>
+ *    RfsultSft rs = stmt.fxfdutfQufry("SELECT * FROM EMPLOYEES");
+ *    CbdhfdRowSftImpl drs = nfw CbdhfdRowSftImpl();
+ *    drs.populbtf(rs);
+ * </PRE>
+ * <P>
+ * Thf objfdt <dodf>drs</dodf> now dontbins thf dbtb from thf tbblf
+ * <dodf>EMPLOYEES</dodf>, just bs thf objfdt <dodf>rs</dodf> dofs.
+ * Thf difffrfndf is thbt thf dursor for <dodf>drs</dodf> dbn bf movfd
+ * forwbrd, bbdkwbrd, or to b pbrtidulbr row fvfn if thf dursor for
+ * <dodf>rs</dodf> dbn movf only forwbrd.  In bddition, <dodf>drs</dodf> is
+ * updbtbblf fvfn if <dodf>rs</dodf> is not bfdbusf by dffbult, b
+ * <dodf>CbdhfdRowSft</dodf> objfdt is both sdrollbblf bnd updbtbblf.
+ * <P>
+ * In summbry, b <dodf>CbdhfdRowSft</dodf> objfdt dbn bf thought of bs simply
+ * b disdonnfdtfd sft of rows thbt brf bfing dbdhfd outsidf of b dbtb sourdf.
+ * Bfing thin bnd sfriblizbblf, it dbn fbsily bf sfnt bdross b wirf,
+ * bnd it is wfll suitfd to sfnding dbtb to b thin dlifnt. Howfvfr, b
+ * <dodf>CbdhfdRowSft</dodf> objfdt dofs hbvf b limitbtion: It is limitfd in
+ * sizf by thf bmount of dbtb it dbn storf in mfmory bt onf timf.
+ *
+ * <h3>8.0 Gftting Univfrsbl Dbtb Addfss</h3>
+ * Anothfr bdvbntbgf of thf <dodf>CbdhfdRowSft</dodf> dlbss is thbt it mbkfs it
+ * possiblf to rftrifvf bnd storf dbtb from sourdfs othfr thbn b rflbtionbl
+ * dbtbbbsf. Thf rfbdfr for b rowsft dbn bf implfmfntfd to rfbd bnd populbtf
+ * its rowsft with dbtb from bny tbbulbr dbtb sourdf, indluding b sprfbdshfft
+ * or flbt filf.
+ * Bfdbusf both b <dodf>CbdhfdRowSft</dodf> objfdt bnd its mftbdbtb dbn bf
+ * drfbtfd from sdrbtdh, b domponfnt thbt bdts bs b fbdtory for rowsfts
+ * dbn usf this dbpbbility to drfbtf b rowsft dontbining dbtb from
+ * non-SQL dbtb sourdfs. Nfvfrthflfss, it is fxpfdtfd thbt most of thf timf,
+ * <dodf>CbdhfdRowSft</dodf> objfdts will dontbin dbtb thbt wbs fftdhfd
+ * from bn SQL dbtbbbsf using thf JDBC API.
+ *
+ * <h3>9.0 Sftting Propfrtifs</h3>
+ * All rowsfts mbintbin b sft of propfrtifs, whidh will usublly bf sft using
+ * b tool.  Thf numbfr bnd kinds of propfrtifs b rowsft hbs will vbry,
+ * dfpfnding on whbt thf rowsft dofs bnd how it gfts its dbtb.  For fxbmplf,
+ * rowsfts thbt gft thfir dbtb from b <dodf>RfsultSft</dodf> objfdt nffd to
+ * sft thf propfrtifs thbt brf rfquirfd for mbking b dbtbbbsf donnfdtion.
+ * If b rowsft usfs thf <dodf>DrivfrMbnbgfr</dodf> fbdility to mbkf b
+ * donnfdtion, it nffds to sft b propfrty for thf JDBC URL thbt idfntififs
+ * thf bppropribtf drivfr, bnd it nffds to sft thf propfrtifs thbt givf thf
+ * usfr nbmf bnd pbssword.
+ * If, on thf othfr hbnd, thf rowsft usfs b <dodf>DbtbSourdf</dodf> objfdt
+ * to mbkf thf donnfdtion, whidh is thf prfffrrfd mfthod, it dofs not nffd to
+ * sft thf propfrty for thf JDBC URL.  Instfbd, it nffds to sft
+ * propfrtifs for thf logidbl nbmf of thf dbtb sourdf, for thf usfr nbmf,
+ * bnd for thf pbssword.
+ * <P>
+ * NOTE:  In ordfr to usf b <dodf>DbtbSourdf</dodf> objfdt for mbking b
+ * donnfdtion, thf <dodf>DbtbSourdf</dodf> objfdt must hbvf bffn rfgistfrfd
+ * with b nbming sfrvidf thbt usfs thf Jbvb Nbming bnd Dirfdtory
+ * Intfrfbdf&trbdf; (JNDI) API.  This rfgistrbtion
+ * is usublly donf by b pfrson bdting in thf dbpbdity of b systfm
+ * bdministrbtor.
+ * <P>
+ * In ordfr to bf bblf to populbtf itsflf with dbtb from b dbtbbbsf, b rowsft
+ * nffds to sft b dommbnd propfrty.  This propfrty is b qufry thbt is b
+ * <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt, whidh bllows thf qufry to hbvf
+ * pbrbmftfr plbdfholdfrs thbt brf sft bt run timf, bs opposfd to dfsign timf.
+ * To sft thfsf plbdfholdfr pbrbmftfrs with vblufs, b rowsft providfs
+ * sfttfr mfthods for sftting vblufs of fbdh dbtb typf,
+ * similbr to thf sfttfr mfthods providfd by thf <dodf>PrfpbrfdStbtfmfnt</dodf>
+ * intfrfbdf.
+ * <P>
+ * Thf following dodf frbgmfnt illustrbtfs how thf <dodf>CbdhfdRowSft</dodf>
+ * objfdt <dodf>drs</dodf> might hbvf its dommbnd propfrty sft.  Notf thbt if b
+ * tool is usfd to sft propfrtifs, this is thf dodf thbt thf tool would usf.
+ * <PRE>{@dodf
+ *    drs.sftCommbnd("SELECT FIRST_NAME, LAST_NAME, ADDRESS FROM CUSTOMERS " +
+ *                   "WHERE CREDIT_LIMIT > ? AND REGION = ?");
+ * } </PRE>
+ * <P>
+ * Thf vblufs thbt will bf usfd to sft thf dommbnd's plbdfholdfr pbrbmftfrs brf
+ * dontbinfd in thf <dodf>RowSft</dodf> objfdt's <dodf>pbrbms</dodf> fifld, whidh is b
+ * <dodf>Vfdtor</dodf> objfdt.
+ * Thf <dodf>CbdhfdRowSft</dodf> dlbss providfs b sft of sfttfr
+ * mfthods for sftting thf flfmfnts in its <dodf>pbrbms</dodf> fifld.  Thf
+ * following dodf frbgmfnt dfmonstrbtfs sftting thf two pbrbmftfrs in thf
+ * qufry from thf prfvious fxbmplf.
+ * <PRE>
+ *    drs.sftInt(1, 5000);
+ *    drs.sftString(2, "Wfst");
+ * </PRE>
+ * <P>
+ * Thf <dodf>pbrbms</dodf> fifld now dontbins two flfmfnts, fbdh of whidh is
+ * bn brrby two flfmfnts long.  Thf first flfmfnt is thf pbrbmftfr numbfr;
+ * thf sfdond is thf vbluf to bf sft.
+ * In this dbsf, thf first flfmfnt of <dodf>pbrbms</dodf> is
+ * <dodf>1</dodf>, <dodf>5000</dodf>, bnd thf sfdond flfmfnt is <dodf>2</dodf>,
+ * <dodf>"Wfst"</dodf>.  Whfn bn bpplidbtion dblls thf mfthod
+ * <dodf>fxfdutf</dodf>, it will in turn dbll on this <dodf>RowSft</dodf> objfdt's rfbdfr,
+ * whidh will in turn invokf its <dodf>rfbdDbtb</dodf> mfthod. As pbrt of
+ * its implfmfntbtion, <dodf>rfbdDbtb</dodf> will gft thf vblufs in
+ * <dodf>pbrbms</dodf> bnd usf thfm to sft thf dommbnd's plbdfholdfr
+ * pbrbmftfrs.
+ * Thf following dodf frbgmfnt givfs bn idfb of how thf rfbdfr
+ * dofs this, bftfr obtbining thf <dodf>Connfdtion</dodf> objfdt
+ * <dodf>don</dodf>.
+ * <PRE>{@dodf
+ *    PrfpbrfdStbtfmfnt pstmt = don.prfpbrfStbtfmfnt(drs.gftCommbnd());
+ *    rfbdfr.dfdodfPbrbms();
+ *    // dfdodfPbrbms figurfs out whidh sfttfr mfthods to usf bnd dofs somfthing
+ *    // likf thf following:
+ *    //    for (i = 0; i < pbrbms.lfngth; i++) {
+ *    //        pstmt.sftObjfdt(i + 1, pbrbms[i]);
+ *    //    }
+ * }</PRE>
+ * <P>
+ * At this point, thf dommbnd for <dodf>drs</dodf> is thf qufry {@dodf "SELECT
+ * FIRST_NAME, LAST_NAME, ADDRESS FROM CUSTOMERS WHERE CREDIT_LIMIT > 5000
+ * AND REGION = "Wfst"}.  Aftfr thf <dodf>rfbdDbtb</dodf> mfthod fxfdutfs
+ * this dommbnd with thf following linf of dodf, it will hbvf thf dbtb from
+ * <dodf>rs</dodf> with whidh to populbtf <dodf>drs</dodf>.
+ * <PRE>{@dodf
+ *     RfsultSft rs = pstmt.fxfdutfQufry();
+ * }</PRE>
+ * <P>
+ * Thf prfdfding dodf frbgmfnts givf bn idfb of whbt gofs on bfhind thf
+ * sdfnfs; thfy would not bppfbr in bn bpplidbtion, whidh would not invokf
+ * mfthods likf <dodf>rfbdDbtb</dodf> bnd <dodf>dfdodfPbrbms</dodf>.
+ * In dontrbst, thf following dodf frbgmfnt shows whbt bn bpplidbtion might do.
+ * It sfts thf rowsft's dommbnd, sfts thf dommbnd's pbrbmftfrs, bnd fxfdutfs
+ * thf dommbnd. Simply by dblling thf <dodf>fxfdutf</dodf> mfthod,
+ * <dodf>drs</dodf> populbtfs itsflf with thf rfqufstfd dbtb from thf
+ * tbblf <dodf>CUSTOMERS</dodf>.
+ * <PRE>{@dodf
+ *    drs.sftCommbnd("SELECT FIRST_NAME, LAST_NAME, ADDRESS FROM CUSTOMERS" +
+ *                   "WHERE CREDIT_LIMIT > ? AND REGION = ?");
+ *    drs.sftInt(1, 5000);
+ *    drs.sftString(2, "Wfst");
+ *    drs.fxfdutf();
+ * }</PRE>
+ *
+ * <h3>10.0 Pbging Dbtb</h3>
+ * Bfdbusf b <dodf>CbdhfdRowSft</dodf> objfdt storfs dbtb in mfmory,
+ * thf bmount of dbtb thbt it dbn dontbin bt bny onf
+ * timf is dftfrminfd by thf bmount of mfmory bvbilbblf. To gft bround this limitbtion,
+ * b <dodf>CbdhfdRowSft</dodf> objfdt dbn rftrifvf dbtb from b <dodf>RfsultSft</dodf>
+ * objfdt in dhunks of dbtb, dbllfd <i>pbgfs</i>. To tbkf bdvbntbgf of this mfdhbnism,
+ * bn bpplidbtion sfts thf numbfr of rows to bf indludfd in b pbgf using thf mfthod
+ * <dodf>sftPbgfSizf</dodf>. In othfr words, if thf pbgf sizf is sft to fivf, b dhunk
+ * of fivf rows of
+ * dbtb will bf fftdhfd from thf dbtb sourdf bt onf timf. An bpplidbtion dbn blso
+ * optionblly sft thf mbximum numbfr of rows thbt mby bf fftdhfd bt onf timf.  If thf
+ * mbximum numbfr of rows is sft to zfro, or no mbximum numbfr of rows is sft, thfrf is
+ * no limit to thf numbfr of rows thbt mby bf fftdhfd bt b timf.
+ * <P>
+ * Aftfr propfrtifs hbvf bffn sft,
+ * thf <dodf>CbdhfdRowSft</dodf> objfdt must bf populbtfd with dbtb
+ * using fithfr thf mfthod <dodf>populbtf</dodf> or thf mfthod <dodf>fxfdutf</dodf>.
+ * Thf following linfs of dodf dfmonstrbtf using thf mfthod <dodf>populbtf</dodf>.
+ * Notf thbt this vfrsion of thf mfthod tbkfs two pbrbmftfrs, b <dodf>RfsultSft</dodf>
+ * hbndlf bnd thf row in thf <dodf>RfsultSft</dodf> objfdt from whidh to stbrt
+ * rftrifving rows.
+ * <PRE>
+ *     CbdhfdRowSft drs = nfw CbdhfdRowSftImpl();
+ *     drs.sftMbxRows(20);
+ *     drs.sftPbgfSizf(4);
+ *     drs.populbtf(rsHbndlf, 10);
+ * </PRE>
+ * Whfn this dodf runs, <i>drs</i> will bf populbtfd with four rows from
+ * <i>rsHbndlf</i> stbrting with thf tfnth row.
+ * <P>
+ * Thf nfxt dodf frbgmfnt shows populbting b <dodf>CbdhfdRowSft</dodf> objfdt using thf
+ * mfthod <dodf>fxfdutf</dodf>, whidh mby or mby not tbkf b <dodf>Connfdtion</dodf>
+ * objfdt bs b pbrbmftfr.  This dodf pbssfs <dodf>fxfdutf</dodf> thf <dodf>Connfdtion</dodf>
+ * objfdt <i>donHbndlf</i>.
+ * <P>
+ * Notf thbt thfrf brf two difffrfndfs bftwffn thf following dodf
+ * frbgmfnt bnd thf prfvious onf. First, thf mfthod <dodf>sftMbxRows</dodf> is not
+ * dbllfd, so thfrf is no limit sft for thf numbfr of rows thbt <i>drs</i> mby dontbin.
+ * (Rfmfmbfr thbt <i>drs</i> blwbys hbs thf ovfrriding limit of how mudh dbtb it dbn
+ * storf in mfmory.) Thf sfdond difffrfndf is thbt thf you dbnnot pbss thf mfthod
+ * <dodf>fxfdutf</dodf> thf numbfr of thf row in thf <dodf>RfsultSft</dodf> objfdt
+ * from whidh to stbrt rftrifving rows. This mfthod blwbys stbrts with thf first row.
+ * <PRE>
+ *     CbdhfdRowSft drs = nfw CbdhfdRowSftImpl();
+ *     drs.sftPbgfSizf(5);
+ *     drs.fxfdutf(donHbndlf);
+ * </PRE>
+ * Aftfr this dodf hbs run, <i>drs</i> will dontbin fivf rows of dbtb from thf
+ * <dodf>RfsultSft</dodf> objfdt produdfd by thf dommbnd for <i>drs</i>. Thf writfr
+ * for <i>drs</i> will usf <i>donHbndlf</i> to donnfdt to thf dbtb sourdf bnd
+ * fxfdutf thf dommbnd for <i>drs</i>. An bpplidbtion is thfn bblf to opfrbtf on thf
+ * dbtb in <i>drs</i> in thf sbmf wby thbt it would opfrbtf on dbtb in bny othfr
+ * <dodf>CbdhfdRowSft</dodf> objfdt.
+ * <P>
+ * To bddfss thf nfxt pbgf (dhunk of dbtb), bn bpplidbtion dblls thf mfthod
+ * <dodf>nfxtPbgf</dodf>.  This mfthod drfbtfs b nfw <dodf>CbdhfdRowSft</dodf> objfdt
+ * bnd fills it with thf nfxt pbgf of dbtb.  For fxbmplf, bssumf thbt thf
+ * <dodf>CbdhfdRowSft</dodf> objfdt's dommbnd rfturns b <dodf>RfsultSft</dodf> objfdt
+ * <i>rs</i> with 1000 rows of dbtb.  If thf pbgf sizf hbs bffn sft to 100, thf first
+ *  dbll to thf mfthod <dodf>nfxtPbgf</dodf> will drfbtf b <dodf>CbdhfdRowSft</dodf> objfdt
+ * dontbining thf first 100 rows of <i>rs</i>. Aftfr doing whbt it nffds to do with thf
+ * dbtb in thfsf first 100 rows, thf bpplidbtion dbn bgbin dbll thf mfthod
+ * <dodf>nfxtPbgf</dodf> to drfbtf bnothfr <dodf>CbdhfdRowSft</dodf> objfdt
+ * with thf sfdond 100 rows from <i>rs</i>. Thf dbtb from thf first <dodf>CbdhfdRowSft</dodf>
+ * objfdt will no longfr bf in mfmory bfdbusf it is rfplbdfd with thf dbtb from thf
+ * sfdond <dodf>CbdhfdRowSft</dodf> objfdt. Aftfr thf tfnth dbll to thf mfthod <dodf>nfxtPbgf</dodf>,
+ * thf tfnth <dodf>CbdhfdRowSft</dodf> objfdt will dontbin thf lbst 100 rows of dbtb from
+ * <i>rs</i>, whidh brf storfd in mfmory. At bny givfn timf, thf dbtb from only onf
+ * <dodf>CbdhfdRowSft</dodf> objfdt is storfd in mfmory.
+ * <P>
+ * Thf mfthod <dodf>nfxtPbgf</dodf> rfturns <dodf>truf</dodf> bs long bs thf durrfnt
+ * pbgf is not thf lbst pbgf of rows bnd <dodf>fblsf</dodf> whfn thfrf brf no morf pbgfs.
+ * It dbn thfrfforf bf usfd in b <dodf>whilf</dodf> loop to rftrifvf bll of thf pbgfs,
+ * bs is dfmonstrbtfd in thf following linfs of dodf.
+ * <PRE>
+ *     CbdhfdRowSft drs = CbdhfdRowSftImpl();
+ *     drs.sftPbgfSizf(100);
+ *     drs.fxfdutf(donHbndlf);
+ *
+ *     whilf(drs.nfxtPbgf()) {
+ *         whilf(drs.nfxt()) {
+ *             . . . // opfrbtf on dhunks (of 100 rows fbdh) in drs,
+ *                   // row by row
+ *         }
+ *     }
+ * </PRE>
+ * Aftfr this dodf frbgmfnt hbs bffn run, thf bpplidbtion will hbvf trbvfrsfd bll
+ * 1000 rows, but it will hbvf hbd no morf thbn 100 rows in mfmory bt b timf.
+ * <P>
+ * Thf <dodf>CbdhfdRowSft</dodf> intfrfbdf blso dffinfs thf mfthod <dodf>prfviousPbgf</dodf>.
+ * Just bs thf mfthod <dodf>nfxtPbgf</dodf> is bnblogous to thf <dodf>RfsultSft</dodf>
+ * mfthod <dodf>nfxt</dodf>, thf mfthod <dodf>prfviousPbgf</dodf> is bnblogous to
+ * thf <dodf>RfsultSft</dodf> mfthod <dodf>prfvious</dodf>.  Similbr to thf mfthod
+ * <dodf>nfxtPbgf</dodf>, <dodf>prfviousPbgf</dodf> drfbtfs b <dodf>CbdhfdRowSft</dodf>
+ * objfdt dontbining thf numbfr of rows sft bs thf pbgf sizf.  So, for instbndf, thf
+ * mfthod <dodf>prfviousPbgf</dodf> dould bf usfd in b <dodf>whilf</dodf> loop bt
+ * thf fnd of thf prfdfding dodf frbgmfnt to nbvigbtf bbdk through thf pbgfs from thf lbst
+ * pbgf to thf first pbgf.
+ * Thf mfthod <dodf>prfviousPbgf</dodf> is blso similbr to <dodf>nfxtPbgf</dodf>
+ * in thbt it dbn bf usfd in b <dodf>whilf</dodf>
+ * loop, fxdfpt thbt it rfturns <dodf>truf</dodf> bs long bs thfrf is bnothfr pbgf
+ * prfdfding it bnd <dodf>fblsf</dodf> whfn thfrf brf no morf pbgfs bhfbd of it.
+ * <P>
+ * By positioning thf dursor bftfr thf lbst row for fbdh pbgf,
+ * bs is donf in thf following dodf frbgmfnt, thf mfthod <dodf>prfvious</dodf>
+ * nbvigbtfs from thf lbst row to thf first row in fbdh pbgf.
+ * Thf dodf dould blso hbvf lfft thf dursor bfforf thf first row on fbdh pbgf bnd thfn
+ * usfd thf mfthod <dodf>nfxt</dodf> in b <dodf>whilf</dodf> loop to nbvigbtf fbdh pbgf
+ * from thf first row to thf lbst row.
+ * <P>
+ * Thf following dodf frbgmfnt bssumfs b dontinubtion from thf prfvious dodf frbgmfnt,
+ * mfbning thbt thf dursor for thf tfnth <dodf>CbdhfdRowSft</dodf> objfdt is on thf
+ * lbst row.  Thf dodf movfs thf dursor to bftfr thf lbst row so thbt thf first
+ * dbll to thf mfthod <dodf>prfvious</dodf> will put thf dursor bbdk on thf lbst row.
+ * Aftfr going through bll of thf rows in thf lbst pbgf (thf <dodf>CbdhfdRowSft</dodf>
+ * objfdt <i>drs</i>), thf dodf thfn fntfrs
+ * thf <dodf>whilf</dodf> loop to gft to thf ninth pbgf, go through thf rows bbdkwbrds,
+ * go to thf fighth pbgf, go through thf rows bbdkwbrds, bnd so on to thf first row
+ * of thf first pbgf.
+ *
+ * <PRE>
+ *     drs.bftfrLbst();
+ *     whilf(drs.prfvious())  {
+ *         . . . // nbvigbtf through thf rows, lbst to first
+ *     {
+ *     whilf(drs.prfviousPbgf())  {
+ *         drs.bftfrLbst();
+ *         whilf(drs.prfvious())  {
+ *             . . . // go from thf lbst row to thf first row of fbdh pbgf
+ *         }
+ *     }
+ * </PRE>
+ *
+ * @buthor Jonbthbn Brudf
+ * @sindf 1.5
+ */
+
+publid intfrfbdf CbdhfdRowSft fxtfnds RowSft, Joinbblf {
+
+   /**
+    * Populbtfs this <dodf>CbdhfdRowSft</dodf> objfdt with dbtb from
+    * thf givfn <dodf>RfsultSft</dodf> objfdt.
+    * <P>
+    * This mfthod dbn bf usfd bs bn bltfrnbtivf to thf <dodf>fxfdutf</dodf> mfthod whfn bn
+    * bpplidbtion hbs b donnfdtion to bn opfn <dodf>RfsultSft</dodf> objfdt.
+    * Using thf mfthod <dodf>populbtf</dodf> dbn bf morf fffidifnt thbn using
+    * thf vfrsion of thf <dodf>fxfdutf</dodf> mfthod thbt tbkfs no pbrbmftfrs
+    * bfdbusf it dofs not opfn b nfw donnfdtion bnd rf-fxfdutf this
+    * <dodf>CbdhfdRowSft</dodf> objfdt's dommbnd. Using thf <dodf>populbtf</dodf>
+    * mfthod is morf b mbttfr of donvfnifndf whfn dompbrfd to using thf vfrsion
+    * of <dodf>fxfdutf</dodf> thbt tbkfs b <dodf>RfsultSft</dodf> objfdt.
+    *
+    * @pbrbm dbtb thf <dodf>RfsultSft</dodf> objfdt dontbining thf dbtb
+    * to bf rfbd into this <dodf>CbdhfdRowSft</dodf> objfdt
+    * @throws SQLExdfption if b null <dodf>RfsultSft</dodf> objfdt is supplifd
+    * or this <dodf>CbdhfdRowSft</dodf> objfdt dbnnot
+    * rftrifvf thf bssodibtfd <dodf>RfsultSftMftbDbtb</dodf> objfdt
+    * @sff #fxfdutf
+    * @sff jbvb.sql.RfsultSft
+    * @sff jbvb.sql.RfsultSftMftbDbtb
+    */
+    publid void populbtf(RfsultSft dbtb) throws SQLExdfption;
+
+   /**
+    * Populbtfs this <dodf>CbdhfdRowSft</dodf> objfdt with dbtb, using thf
+    * givfn donnfdtion to produdf thf rfsult sft from whidh thf dbtb will bf rfbd.
+    * This mfthod should dlosf bny dbtbbbsf donnfdtions thbt it drfbtfs to
+    * fnsurf thbt this <dodf>CbdhfdRowSft</dodf> objfdt is disdonnfdtfd fxdfpt whfn
+    * it is rfbding dbtb from its dbtb sourdf or writing dbtb to its dbtb sourdf.
+    * <P>
+    * Thf rfbdfr for this <dodf>CbdhfdRowSft</dodf> objfdt
+    * will usf <i>donn</i> to fstbblish b donnfdtion to thf dbtb sourdf
+    * so thbt it dbn fxfdutf thf rowsft's dommbnd bnd rfbd dbtb from thf
+    * thf rfsulting <dodf>RfsultSft</dodf> objfdt into this
+    * <dodf>CbdhfdRowSft</dodf> objfdt. This mfthod blso dlosfs <i>donn</i>
+    * bftfr it hbs populbtfd this <dodf>CbdhfdRowSft</dodf> objfdt.
+    * <P>
+    * If this mfthod is dbllfd whfn bn implfmfntbtion hbs blrfbdy bffn
+    * populbtfd, thf dontfnts bnd thf mftbdbtb brf (rf)sft. Also, if this mfthod is
+    * dbllfd bfforf thf mfthod <dodf>bddfptChbngfs</dodf> hbs bffn dbllfd
+    * to dommit outstbnding updbtfs, thosf updbtfs brf lost.
+    *
+    * @pbrbm donn b stbndbrd JDBC <dodf>Connfdtion</dodf> objfdt with vblid
+    * propfrtifs
+    * @throws SQLExdfption if bn invblid <dodf>Connfdtion</dodf> objfdt is supplifd
+    * or bn frror oddurs in fstbblishing thf donnfdtion to thf
+    * dbtb sourdf
+    * @sff #populbtf
+    * @sff jbvb.sql.Connfdtion
+    */
+    publid void fxfdutf(Connfdtion donn) throws SQLExdfption;
+
+   /**
+    * Propbgbtfs row updbtf, insfrt bnd dflftf dhbngfs mbdf to this
+    * <dodf>CbdhfdRowSft</dodf> objfdt to thf undfrlying dbtb sourdf.
+    * <P>
+    * This mfthod dblls on this <dodf>CbdhfdRowSft</dodf> objfdt's writfr
+    * to do thf work bfhind thf sdfnfs.
+    * Stbndbrd <dodf>CbdhfdRowSft</dodf> implfmfntbtions should usf thf
+    * <dodf>SyndFbdtory</dodf> singlfton
+    * to obtbin b <dodf>SyndProvidfr</dodf> instbndf providing b
+    * <dodf>RowSftWritfr</dodf> objfdt (writfr).  Thf writfr will bttfmpt
+    * to propbgbtf dhbngfs mbdf in this <dodf>CbdhfdRowSft</dodf> objfdt
+    * bbdk to thf dbtb sourdf.
+    * <P>
+    * Whfn thf mfthod <dodf>bddfptChbngfs</dodf> fxfdutfs suddfssfully, in
+    * bddition to writing dhbngfs to thf dbtb sourdf, it
+    * mbkfs thf vblufs in thf durrfnt row bf thf vblufs in thf originbl row.
+    * <P>
+    * Dfpfnding on thf syndhronizbtion lfvfl of thf <dodf>SyndProvidfr</dodf>
+    * implfmfntbtion bfing usfd, thf writfr will dompbrf thf originbl vblufs
+    * with thosf in thf dbtb sourdf to dhfdk for donflidts. Whfn thfrf is b donflidt,
+    * thf <dodf>RIOptimistidProvidfr</dodf> implfmfntbtion, for fxbmplf, throws b
+    * <dodf>SyndProvidfrExdfption</dodf> bnd dofs not writf bnything to thf
+    * dbtb sourdf.
+    * <P>
+    * An bpplidbtion mby dhoosf to dbtdh thf <dodf>SyndProvidfrExdfption</dodf>
+    * objfdt bnd rftrifvf thf <dodf>SyndRfsolvfr</dodf> objfdt it dontbins.
+    * Thf <dodf>SyndRfsolvfr</dodf> objfdt lists thf donflidts row by row bnd
+    * sfts b lodk on thf dbtb sourdf to bvoid furthfr donflidts whilf thf
+    * durrfnt donflidts brf bfing rfsolvfd.
+    * Furthfr, for fbdh donflidt, it providfs mfthods for fxbmining thf donflidt
+    * bnd sftting thf vbluf thbt should bf pfrsistfd in thf dbtb sourdf.
+    * Aftfr bll donflidts hbvf bffn rfsolvfd, bn bpplidbtion must dbll thf
+    * <dodf>bddfptChbngfs</dodf> mfthod bgbin to writf rfsolvfd vblufs to thf
+    * dbtb sourdf.  If bll of thf vblufs in thf dbtb sourdf brf blrfbdy thf
+    * vblufs to bf pfrsistfd, thf mfthod <dodf>bddfptChbngfs</dodf> dofs nothing.
+    * <P>
+    * Somf providfr implfmfntbtions mby usf lodks to fnsurf thbt thfrf brf no
+    * donflidts.  In sudh dbsfs, it is gubrbntffd thbt thf writfr will suddffd in
+    * writing dhbngfs to thf dbtb sourdf whfn thf mfthod <dodf>bddfptChbngfs</dodf>
+    * is dbllfd.  This mfthod mby bf dbllfd immfdibtfly bftfr thf mfthods
+    * <dodf>updbtfRow</dodf>, <dodf>insfrtRow</dodf>, or <dodf>dflftfRow</dodf>
+    * hbvf bffn dbllfd, but it is morf fffidifnt to dbll it only ondf bftfr
+    * bll dhbngfs hbvf bffn mbdf so thbt only onf donnfdtion nffds to bf
+    * fstbblishfd.
+    * <P>
+    * Notf: Thf <dodf>bddfptChbngfs()</dodf> mfthod will dftfrminf if thf
+    * <dodf>COMMIT_ON_ACCEPT_CHANGES</dodf> is sft to truf or not. If it is sft
+    * to truf, bll updbtfs in thf syndhronizbtion brf dommittfd to thf dbtb
+    * sourdf. Othfrwisf, thf bpplidbtion <b>must</b> fxplidity dbll thf
+    * <dodf>dommit()</dodf> or <dodf>rollbbdk()</dodf> mfthods bs bppropribtf.
+    *
+    * @throws SyndProvidfrExdfption if thf undfrlying
+    * syndhronizbtion providfr's writfr fbils to writf thf updbtfs
+    * bbdk to thf dbtb sourdf
+    * @sff #bddfptChbngfs(jbvb.sql.Connfdtion)
+    * @sff jbvbx.sql.RowSftWritfr
+    * @sff jbvbx.sql.rowsft.spi.SyndFbdtory
+    * @sff jbvbx.sql.rowsft.spi.SyndProvidfr
+    * @sff jbvbx.sql.rowsft.spi.SyndProvidfrExdfption
+    * @sff jbvbx.sql.rowsft.spi.SyndRfsolvfr
+    */
+    publid void bddfptChbngfs() throws SyndProvidfrExdfption;
+
+   /**
+    * Propbgbtfs bll row updbtf, insfrt bnd dflftf dhbngfs to thf
+    * dbtb sourdf bbdking this <dodf>CbdhfdRowSft</dodf> objfdt
+    * using thf spfdififd <dodf>Connfdtion</dodf> objfdt to fstbblish b
+    * donnfdtion to thf dbtb sourdf.
+    * <P>
+    * Thf othfr vfrsion of thf <dodf>bddfptChbngfs</dodf> mfthod is not pbssfd
+    * b donnfdtion bfdbusf it usfs
+    * thf <dodf>Connfdtion</dodf> objfdt blrfbdy dffinfd within thf <dodf>RowSft</dodf>
+    * objfdt, whidh is thf donnfdtion usfd for populbting it initiblly.
+    * <P>
+    * This form of thf mfthod <dodf>bddfptChbngfs</dodf> is similbr to thf
+    * form thbt tbkfs no brgumfnts; howfvfr, unlikf thf othfr form, this form
+    * dbn bf usfd only whfn thf undfrlying dbtb sourdf is b JDBC dbtb sourdf.
+    * Thf updbtfd <dodf>Connfdtion</dodf> propfrtifs must bf usfd by thf
+    * <dodf>SyndProvidfr</dodf> to rfsft thf <dodf>RowSftWritfr</dodf>
+    * donfigurbtion to fnsurf thbt thf dontfnts of thf <dodf>CbdhfdRowSft</dodf>
+    * objfdt brf syndhronizfd dorrfdtly.
+    * <P>
+    * Whfn thf mfthod <dodf>bddfptChbngfs</dodf> fxfdutfs suddfssfully, in
+    * bddition to writing dhbngfs to thf dbtb sourdf, it
+    * mbkfs thf vblufs in thf durrfnt row bf thf vblufs in thf originbl row.
+    * <P>
+    * Dfpfnding on thf syndhronizbtion lfvfl of thf <dodf>SyndProvidfr</dodf>
+    * implfmfntbtion bfing usfd, thf writfr will dompbrf thf originbl vblufs
+    * with thosf in thf dbtb sourdf to dhfdk for donflidts. Whfn thfrf is b donflidt,
+    * thf <dodf>RIOptimistidProvidfr</dodf> implfmfntbtion, for fxbmplf, throws b
+    * <dodf>SyndProvidfrExdfption</dodf> bnd dofs not writf bnything to thf
+    * dbtb sourdf.
+    * <P>
+    * An bpplidbtion mby dhoosf to dbtdh thf <dodf>SyndProvidfrExdfption</dodf>
+    * objfdt bnd rftrifvf thf <dodf>SyndRfsolvfr</dodf> objfdt it dontbins.
+    * Thf <dodf>SyndRfsolvfr</dodf> objfdt lists thf donflidts row by row bnd
+    * sfts b lodk on thf dbtb sourdf to bvoid furthfr donflidts whilf thf
+    * durrfnt donflidts brf bfing rfsolvfd.
+    * Furthfr, for fbdh donflidt, it providfs mfthods for fxbmining thf donflidt
+    * bnd sftting thf vbluf thbt should bf pfrsistfd in thf dbtb sourdf.
+    * Aftfr bll donflidts hbvf bffn rfsolvfd, bn bpplidbtion must dbll thf
+    * <dodf>bddfptChbngfs</dodf> mfthod bgbin to writf rfsolvfd vblufs to thf
+    * dbtb sourdf.  If bll of thf vblufs in thf dbtb sourdf brf blrfbdy thf
+    * vblufs to bf pfrsistfd, thf mfthod <dodf>bddfptChbngfs</dodf> dofs nothing.
+    * <P>
+    * Somf providfr implfmfntbtions mby usf lodks to fnsurf thbt thfrf brf no
+    * donflidts.  In sudh dbsfs, it is gubrbntffd thbt thf writfr will suddffd in
+    * writing dhbngfs to thf dbtb sourdf whfn thf mfthod <dodf>bddfptChbngfs</dodf>
+    * is dbllfd.  This mfthod mby bf dbllfd immfdibtfly bftfr thf mfthods
+    * <dodf>updbtfRow</dodf>, <dodf>insfrtRow</dodf>, or <dodf>dflftfRow</dodf>
+    * hbvf bffn dbllfd, but it is morf fffidifnt to dbll it only ondf bftfr
+    * bll dhbngfs hbvf bffn mbdf so thbt only onf donnfdtion nffds to bf
+    * fstbblishfd.
+    * <P>
+    * Notf: Thf <dodf>bddfptChbngfs()</dodf> mfthod will dftfrminf if thf
+    * <dodf>COMMIT_ON_ACCEPT_CHANGES</dodf> is sft to truf or not. If it is sft
+    * to truf, bll updbtfs in thf syndhronizbtion brf dommittfd to thf dbtb
+    * sourdf. Othfrwisf, thf bpplidbtion <b>must</b> fxplidity dbll thf
+    * <dodf>dommit</dodf> or <dodf>rollbbdk</dodf> mfthods bs bppropribtf.
+    *
+    * @pbrbm don b stbndbrd JDBC <dodf>Connfdtion</dodf> objfdt
+    * @throws SyndProvidfrExdfption if thf undfrlying
+    * syndhronizbtion providfr's writfr fbils to writf thf updbtfs
+    * bbdk to thf dbtb sourdf
+    * @sff #bddfptChbngfs()
+    * @sff jbvbx.sql.RowSftWritfr
+    * @sff jbvbx.sql.rowsft.spi.SyndFbdtory
+    * @sff jbvbx.sql.rowsft.spi.SyndProvidfr
+    * @sff jbvbx.sql.rowsft.spi.SyndProvidfrExdfption
+    * @sff jbvbx.sql.rowsft.spi.SyndRfsolvfr
+    */
+    publid void bddfptChbngfs(Connfdtion don) throws SyndProvidfrExdfption;
+
+   /**
+    * Rfstorfs this <dodf>CbdhfdRowSft</dodf> objfdt to its originbl
+    * vbluf, thbt is, its vbluf bfforf thf lbst sft of dhbngfs. If thfrf
+    * hbvf bffn no dhbngfs to thf rowsft or only onf sft of dhbngfs,
+    * thf originbl vbluf is thf vbluf with whidh this <dodf>CbdhfdRowSft</dodf> objfdt
+    * wbs populbtfd; othfrwisf, thf originbl vbluf is
+    * thf vbluf it hbd immfdibtfly bfforf its durrfnt vbluf.
+    * <P>
+    * Whfn this mfthod is dbllfd, b <dodf>CbdhfdRowSft</dodf> implfmfntbtion
+    * must fnsurf thbt bll updbtfs, insfrts, bnd dflftfs to thf durrfnt
+    * rowsft instbndf brf rfplbdfd by thf prfvious vblufs. In bddition,
+    * thf dursor should bf
+    * rfsft to thf first row bnd b <dodf>rowSftChbngfd</dodf> fvfnt
+    * should bf firfd to notify bll rfgistfrfd listfnfrs.
+    *
+    * @throws SQLExdfption if bn frror oddurs rolling bbdk thf durrfnt vbluf of
+    *       this <dodf>CbdhfdRowSft</dodf> objfdt to its prfvious vbluf
+    * @sff jbvbx.sql.RowSftListfnfr#rowSftChbngfd
+    */
+    publid void rfstorfOriginbl() throws SQLExdfption;
+
+   /**
+    * Rflfbsfs thf durrfnt dontfnts of this <dodf>CbdhfdRowSft</dodf>
+    * objfdt bnd sfnds b <dodf>rowSftChbngfd</dodf> fvfnt to bll
+    * rfgistfrfd listfnfrs. Any outstbnding updbtfs brf disdbrdfd bnd
+    * thf rowsft dontbins no rows bftfr this mfthod is dbllfd. Thfrf
+    * brf no intfrbdtions with thf undfrlying dbtb sourdf, bnd bny rowsft
+    * dontfnt, mftbdbtb, bnd dontfnt updbtfs should bf non-rfdovfrbblf.
+    * <P>
+    * This <dodf>CbdhfdRowSft</dodf> objfdt should lodk until its dontfnts bnd
+    * bssodibtfd updbtfs brf fully dlfbrfd, thus prfvfnting 'dirty' rfbds by
+    * othfr domponfnts thbt hold b rfffrfndf to this <dodf>RowSft</dodf> objfdt.
+    * In bddition, thf dontfnts dbnnot bf rflfbsfd
+    * until bll bll domponfnts rfbding this <dodf>CbdhfdRowSft</dodf> objfdt
+    * hbvf domplftfd thfir rfbds. This <dodf>CbdhfdRowSft</dodf> objfdt
+    * should bf rfturnfd to normbl bfhbvior bftfr firing thf
+    * <dodf>rowSftChbngfd</dodf> fvfnt.
+    * <P>
+    * Thf mftbdbtb, indluding JDBC propfrtifs bnd Syndhronizbtion SPI
+    * propfrtifs, brf mbintbinfd for futurf usf. It is importbnt thbt
+    * propfrtifs sudh bs thf <dodf>dommbnd</dodf> propfrty bf
+    * rflfvbnt to thf originbting dbtb sourdf from whidh this <dodf>CbdhfdRowSft</dodf>
+    * objfdt wbs originblly fstbblishfd.
+    * <P>
+    * This mfthod fmptifs b rowsft, bs opposfd to thf <dodf>dlosf</dodf> mfthod,
+    * whidh mbrks thf fntirf rowsft bs rfdovfrbblf to bllow thf gbrbbgf dollfdtor
+    * thf rowsft's Jbvb VM rfsourdfs.
+    *
+    * @throws SQLExdfption if bn frror oddurs flushing thf dontfnts of this
+    * <dodf>CbdhfdRowSft</dodf> objfdt
+    * @sff jbvbx.sql.RowSftListfnfr#rowSftChbngfd
+    * @sff jbvb.sql.RfsultSft#dlosf
+    */
+    publid void rflfbsf() throws SQLExdfption;
+
+   /**
+    * Cbndfls thf dflftion of thf durrfnt row bnd notififs listfnfrs thbt
+    * b row hbs dhbngfd. Aftfr this mfthod is dbllfd, thf durrfnt row is
+    * no longfr mbrkfd for dflftion. This mfthod dbn bf dbllfd bt bny
+    * timf during thf lifftimf of thf rowsft.
+    * <P>
+    * In bddition, multiplf dbndfllbtions of row dflftions dbn bf mbdf
+    * by bdjusting thf position of thf dursor using bny of thf dursor
+    * position dontrol mfthods sudh bs:
+    * <ul>
+    * <li><dodf>CbdhfdRowSft.bbsolutf</dodf>
+    * <li><dodf>CbdhfdRowSft.first</dodf>
+    * <li><dodf>CbdhfdRowSft.lbst</dodf>
+    * </ul>
+    *
+    * @throws SQLExdfption if (1) thf durrfnt row hbs not bffn dflftfd or
+    * (2) thf dursor is on thf insfrt row, bfforf thf first row, or
+    * bftfr thf lbst row
+    * @sff jbvbx.sql.rowsft.CbdhfdRowSft#undoInsfrt
+    * @sff jbvb.sql.RfsultSft#dbndflRowUpdbtfs
+    */
+    publid void undoDflftf() throws SQLExdfption;
+
+   /**
+    * Immfdibtfly rfmovfs thf durrfnt row from this <dodf>CbdhfdRowSft</dodf>
+    * objfdt if thf row hbs bffn insfrtfd, bnd blso notififs listfnfrs thbt b
+    * row hbs dhbngfd. This mfthod dbn bf dbllfd bt bny timf during thf
+    * lifftimf of b rowsft bnd bssuming thf durrfnt row is within
+    * thf fxdfption limitbtions (sff bflow), it dbndfls thf row insfrtion
+    * of thf durrfnt row.
+    * <P>
+    * In bddition, multiplf dbndfllbtions of row insfrtions dbn bf mbdf
+    * by bdjusting thf position of thf dursor using bny of thf dursor
+    * position dontrol mfthods sudh bs:
+    * <ul>
+    * <li><dodf>CbdhfdRowSft.bbsolutf</dodf>
+    * <li><dodf>CbdhfdRowSft.first</dodf>
+    * <li><dodf>CbdhfdRowSft.lbst</dodf>
+    * </ul>
+    *
+    * @throws SQLExdfption if (1) thf durrfnt row hbs not bffn insfrtfd or (2)
+    * thf dursor is bfforf thf first row, bftfr thf lbst row, or on thf
+    * insfrt row
+    * @sff jbvbx.sql.rowsft.CbdhfdRowSft#undoDflftf
+    * @sff jbvb.sql.RfsultSft#dbndflRowUpdbtfs
+    */
+    publid void undoInsfrt() throws SQLExdfption;
+
+
+   /**
+    * Immfdibtfly rfvfrsfs thf lbst updbtf opfrbtion if thf
+    * row hbs bffn modififd. This mfthod dbn bf
+    * dbllfd to rfvfrsf updbtfs on bll dolumns until bll updbtfs in b row hbvf
+    * bffn rollfd bbdk to thfir stbtf just prior to thf lbst syndhronizbtion
+    * (<dodf>bddfptChbngfs</dodf>) or populbtion. This mfthod mby blso bf dbllfd
+    * whilf pfrforming updbtfs to thf insfrt row.
+    * <P>
+    * <dodf>undoUpdbtf</dodf> mby bf dbllfd bt bny timf during thf lifftimf of b
+    * rowsft; howfvfr, bftfr b syndhronizbtion hbs oddurrfd, this mfthod hbs no
+    * ffffdt until furthfr modifidbtion to thf rowsft dbtb hbs oddurrfd.
+    *
+    * @throws SQLExdfption if thf dursor is bfforf thf first row or bftfr thf lbst
+    *     row in in this <dodf>CbdhfdRowSft</dodf> objfdt
+    * @sff #undoDflftf
+    * @sff #undoInsfrt
+    * @sff jbvb.sql.RfsultSft#dbndflRowUpdbtfs
+    */
+    publid void undoUpdbtf() throws SQLExdfption;
+
+   /**
+    * Indidbtfs whfthfr thf dfsignbtfd dolumn in thf durrfnt row of this
+    * <dodf>CbdhfdRowSft</dodf> objfdt hbs bffn updbtfd.
+    *
+    * @pbrbm idx bn <dodf>int</dodf> idfntifying thf dolumn to bf dhfdkfd for updbtfs
+    * @rfturn <dodf>truf</dodf> if thf dfsignbtfd dolumn hbs bffn visibly updbtfd;
+    * <dodf>fblsf</dodf> othfrwisf
+    * @throws SQLExdfption if thf dursor is on thf insfrt row, bfforf thf first row,
+    *     or bftfr thf lbst row
+    * @sff jbvb.sql.DbtbbbsfMftbDbtb#updbtfsArfDftfdtfd
+    */
+    publid boolfbn dolumnUpdbtfd(int idx) throws SQLExdfption;
+
+
+   /**
+    * Indidbtfs whfthfr thf dfsignbtfd dolumn in thf durrfnt row of this
+    * <dodf>CbdhfdRowSft</dodf> objfdt hbs bffn updbtfd.
+    *
+    * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt giving thf nbmf of thf
+    *        dolumn to bf dhfdkfd for updbtfs
+    * @rfturn <dodf>truf</dodf> if thf dolumn hbs bffn visibly updbtfd;
+    * <dodf>fblsf</dodf> othfrwisf
+    * @throws SQLExdfption if thf dursor is on thf insfrt row, bfforf thf first row,
+    *      or bftfr thf lbst row
+    * @sff jbvb.sql.DbtbbbsfMftbDbtb#updbtfsArfDftfdtfd
+    */
+    publid boolfbn dolumnUpdbtfd(String dolumnNbmf) throws SQLExdfption;
+
+   /**
+    * Convfrts this <dodf>CbdhfdRowSft</dodf> objfdt to b <dodf>Collfdtion</dodf>
+    * objfdt thbt dontbins bll of this <dodf>CbdhfdRowSft</dodf> objfdt's dbtb.
+    * Implfmfntbtions hbvf somf lbtitudf in
+    * how thfy dbn rfprfsfnt this <dodf>Collfdtion</dodf> objfdt bfdbusf of thf
+    * bbstrbdt nbturf of thf <dodf>Collfdtion</dodf> frbmfwork.
+    * Ebdh row must bf fully rfprfsfntfd in fithfr b
+    * gfnfrbl purposf <dodf>Collfdtion</dodf> implfmfntbtion or b spfdiblizfd
+    * <dodf>Collfdtion</dodf> implfmfntbtion, sudh bs b <dodf>TrffMbp</dodf>
+    * objfdt or b <dodf>Vfdtor</dodf> objfdt.
+    * An SQL <dodf>NULL</dodf> dolumn vbluf must bf rfprfsfntfd bs b <dodf>null</dodf>
+    * in thf Jbvb progrbmming lbngubgf.
+    * <P>
+    * Thf stbndbrd rfffrfndf implfmfntbtion for thf <dodf>CbdhfdRowSft</dodf>
+    * intfrfbdf usfs b <dodf>TrffMbp</dodf> objfdt for thf rowsft, with thf
+    * vblufs in fbdh row bfing dontbinfd in  <dodf>Vfdtor</dodf> objfdts. It is
+    * fxpfdtfd thbt most implfmfntbtions will do thf sbmf.
+    * <P>
+    * Thf <dodf>TrffMbp</dodf> typf of dollfdtion gubrbntffs thbt thf mbp will bf in
+    * bsdfnding kfy ordfr, sortfd bddording to thf nbturbl ordfr for thf
+    * kfy's dlbss.
+    * Ebdh kfy rfffrfndfs b <dodf>Vfdtor</dodf> objfdt thbt dorrfsponds to onf
+    * row of b <dodf>RowSft</dodf> objfdt. Thfrfforf, thf sizf of fbdh
+    * <dodf>Vfdtor</dodf> objfdt  must bf fxbdtly fqubl to thf numbfr of
+    * dolumns in thf <dodf>RowSft</dodf> objfdt.
+    * Thf kfy usfd by thf <dodf>TrffMbp</dodf> dollfdtion is dftfrminfd by thf
+    * implfmfntbtion, whidh mby dhoosf to lfvfrbgf b sft kfy thbt is
+    * bvbilbblf within thf intfrnbl <dodf>RowSft</dodf> tbbulbr strudturf by
+    * virtuf of b kfy blrfbdy sft fithfr on thf <dodf>RowSft</dodf> objfdt
+    * itsflf or on thf undfrlying SQL dbtb.
+    *
+    * @rfturn b <dodf>Collfdtion</dodf> objfdt thbt dontbins thf vblufs in
+    * fbdh row in this <dodf>CbdhfdRowSft</dodf> objfdt
+    * @throws SQLExdfption if bn frror oddurs gfnfrbting thf dollfdtion
+    * @sff #toCollfdtion(int)
+    * @sff #toCollfdtion(String)
+    */
+    publid Collfdtion<?> toCollfdtion() throws SQLExdfption;
+
+   /**
+    * Convfrts thf dfsignbtfd dolumn in this <dodf>CbdhfdRowSft</dodf> objfdt
+    * to b <dodf>Collfdtion</dodf> objfdt. Implfmfntbtions hbvf somf lbtitudf in
+    * how thfy dbn rfprfsfnt this <dodf>Collfdtion</dodf> objfdt bfdbusf of thf
+    * bbstrbdt nbturf of thf <dodf>Collfdtion</dodf> frbmfwork.
+    * Ebdh dolumn vbluf should bf fully rfprfsfntfd in fithfr b
+    * gfnfrbl purposf <dodf>Collfdtion</dodf> implfmfntbtion or b spfdiblizfd
+    * <dodf>Collfdtion</dodf> implfmfntbtion, sudh bs b <dodf>Vfdtor</dodf> objfdt.
+    * An SQL <dodf>NULL</dodf> dolumn vbluf must bf rfprfsfntfd bs b <dodf>null</dodf>
+    * in thf Jbvb progrbmming lbngubgf.
+    * <P>
+    * Thf stbndbrd rfffrfndf implfmfntbtion usfs b <dodf>Vfdtor</dodf> objfdt
+    * to dontbin thf dolumn vblufs, bnd it is fxpfdtfd
+    * thbt most implfmfntbtions will do thf sbmf. If b <dodf>Vfdtor</dodf> objfdt
+    * is usfd, it sizf must bf fxbdtly fqubl to thf numbfr of rows
+    * in this <dodf>CbdhfdRowSft</dodf> objfdt.
+    *
+    * @pbrbm dolumn bn <dodf>int</dodf> indidbting thf dolumn whosf vblufs
+    *        brf to bf rfprfsfntfd in b <dodf>Collfdtion</dodf> objfdt
+    * @rfturn b <dodf>Collfdtion</dodf> objfdt thbt dontbins thf vblufs
+    * storfd in thf spfdififd dolumn of this <dodf>CbdhfdRowSft</dodf>
+    * objfdt
+    * @throws SQLExdfption if bn frror oddurs gfnfrbting thf dollfdtion or
+    * bn invblid dolumn id is providfd
+    * @sff #toCollfdtion
+    * @sff #toCollfdtion(String)
+    */
+    publid Collfdtion<?> toCollfdtion(int dolumn) throws SQLExdfption;
+
+   /**
+    * Convfrts thf dfsignbtfd dolumn in this <dodf>CbdhfdRowSft</dodf> objfdt
+    * to b <dodf>Collfdtion</dodf> objfdt. Implfmfntbtions hbvf somf lbtitudf in
+    * how thfy dbn rfprfsfnt this <dodf>Collfdtion</dodf> objfdt bfdbusf of thf
+    * bbstrbdt nbturf of thf <dodf>Collfdtion</dodf> frbmfwork.
+    * Ebdh dolumn vbluf should bf fully rfprfsfntfd in fithfr b
+    * gfnfrbl purposf <dodf>Collfdtion</dodf> implfmfntbtion or b spfdiblizfd
+    * <dodf>Collfdtion</dodf> implfmfntbtion, sudh bs b <dodf>Vfdtor</dodf> objfdt.
+    * An SQL <dodf>NULL</dodf> dolumn vbluf must bf rfprfsfntfd bs b <dodf>null</dodf>
+    * in thf Jbvb progrbmming lbngubgf.
+    * <P>
+    * Thf stbndbrd rfffrfndf implfmfntbtion usfs b <dodf>Vfdtor</dodf> objfdt
+    * to dontbin thf dolumn vblufs, bnd it is fxpfdtfd
+    * thbt most implfmfntbtions will do thf sbmf. If b <dodf>Vfdtor</dodf> objfdt
+    * is usfd, it sizf must bf fxbdtly fqubl to thf numbfr of rows
+    * in this <dodf>CbdhfdRowSft</dodf> objfdt.
+    *
+    * @pbrbm dolumn b <dodf>String</dodf> objfdt giving thf nbmf of thf
+    *        dolumn whosf vblufs brf to bf rfprfsfntfd in b dollfdtion
+    * @rfturn b <dodf>Collfdtion</dodf> objfdt thbt dontbins thf vblufs
+    * storfd in thf spfdififd dolumn of this <dodf>CbdhfdRowSft</dodf>
+    * objfdt
+    * @throws SQLExdfption if bn frror oddurs gfnfrbting thf dollfdtion or
+    * bn invblid dolumn id is providfd
+    * @sff #toCollfdtion
+    * @sff #toCollfdtion(int)
+    */
+    publid Collfdtion<?> toCollfdtion(String dolumn) throws SQLExdfption;
+
+   /**
+    * Rftrifvfs thf <dodf>SyndProvidfr</dodf> implfmfntbtion for this
+    * <dodf>CbdhfdRowSft</dodf> objfdt. Intfrnblly, this mfthod is usfd by b rowsft
+    * to triggfr rfbd or writf bdtions bftwffn thf rowsft
+    * bnd thf dbtb sourdf. For fxbmplf, b rowsft mby nffd to gft b hbndlf
+    * on thf thf rowsft rfbdfr (<dodf>RowSftRfbdfr</dodf> objfdt) from thf
+    * <dodf>SyndProvidfr</dodf> to bllow thf rowsft to bf populbtfd.
+    * <prf>
+    *     RowSftRfbdfr rowsftRfbdfr = null;
+    *     SyndProvidfr providfr =
+    *         SyndFbdtory.gftInstbndf("jbvbx.sql.rowsft.providfr.RIOptimistidProvidfr");
+    *         if (providfr instbndfof RIOptimistidProvidfr) {
+    *             rowsftRfbdfr = providfr.gftRowSftRfbdfr();
+    *         }
+    * </prf>
+    * Assuming <i>rowsftRfbdfr</i> is b privbtf, bddfssiblf fifld within
+    * thf rowsft implfmfntbtion, whfn bn bpplidbtion dblls thf <dodf>fxfdutf</dodf>
+    * mfthod, it in turn dblls on thf rfbdfr's <dodf>rfbdDbtb</dodf> mfthod
+    * to populbtf thf <dodf>RowSft</dodf> objfdt.
+    *<prf>
+    *     rowsftRfbdfr.rfbdDbtb((RowSftIntfrnbl)this);
+    * </prf>
+    * <P>
+    * In bddition, bn bpplidbtion dbn usf thf <dodf>SyndProvidfr</dodf> objfdt
+    * rfturnfd by this mfthod to dbll mfthods thbt rfturn informbtion bbout thf
+    * <dodf>SyndProvidfr</dodf> objfdt, indluding informbtion bbout thf
+    * vfndor, vfrsion, providfr idfntifidbtion, syndhronizbtion grbdf, bnd lodks
+    * it durrfntly hbs sft.
+    *
+    * @rfturn thf <dodf>SyndProvidfr</dodf> objfdt thbt wbs sft whfn thf rowsft
+    *      wbs instbntibtfd, or if nonf wbs wbs sft, thf dffbult providfr
+    * @throws SQLExdfption if bn frror oddurs whilf rfturning thf
+    * <dodf>SyndProvidfr</dodf> objfdt
+    * @sff #sftSyndProvidfr
+    */
+    publid SyndProvidfr gftSyndProvidfr() throws SQLExdfption;
+
+   /**
+    * Sfts thf <dodf>SyndProvidfr</dodf> objfdt for this <dodf>CbdhfdRowSft</dodf>
+    * objfdt to thf onf spfdififd.  This mfthod
+    * bllows thf <dodf>SyndProvidfr</dodf> objfdt to bf rfsft.
+    * <P>
+    * A <dodf>CbdhfdRowSft</dodf> implfmfntbtion should blwbys bf instbntibtfd
+    * with bn bvbilbblf <dodf>SyndProvidfr</dodf> mfdhbnism, but thfrf brf
+    * dbsfs whfrf rfsftting thf <dodf>SyndProvidfr</dodf> objfdt is dfsirbblf
+    * or nfdfssbry. For fxbmplf, bn bpplidbtion might wbnt to usf thf dffbult
+    * <dodf>SyndProvidfr</dodf> objfdt for b timf bnd thfn dhoosf to usf b providfr
+    * thbt hbs morf rfdfntly bfdomf bvbilbblf bnd bfttfr fits its nffds.
+    * <P>
+    * Rfsftting thf <dodf>SyndProvidfr</dodf> objfdt dbusfs thf
+    * <dodf>RowSft</dodf> objfdt to rfqufst b nfw <dodf>SyndProvidfr</dodf> implfmfntbtion
+    * from thf <dodf>SyndFbdtory</dodf>. This hbs thf ffffdt of rfsftting
+    * bll prfvious donnfdtions bnd rflbtionships with thf originbting
+    * dbtb sourdf bnd dbn potfntiblly drbstidblly dhbngf thf syndhronizbtion
+    * bfhbvior of b disdonnfdtfd rowsft.
+    *
+    * @pbrbm providfr b <dodf>String</dodf> objfdt giving thf fully qublififd dlbss
+    *        nbmf of b <dodf>SyndProvidfr</dodf> implfmfntbtion
+    * @throws SQLExdfption if bn frror oddurs whilf bttfmpting to rfsft thf
+    * <dodf>SyndProvidfr</dodf> implfmfntbtion
+    * @sff #gftSyndProvidfr
+    */
+    publid void sftSyndProvidfr(String providfr) throws SQLExdfption;
+
+   /**
+    * Rfturns thf numbfr of rows in this <dodf>CbdhfdRowSft</dodf>
+    * objfdt.
+    *
+    * @rfturn numbfr of rows in thf rowsft
+    */
+    publid int sizf();
+
+   /**
+    * Sfts thf mftbdbtb for this <dodf>CbdhfdRowSft</dodf> objfdt with
+    * thf givfn <dodf>RowSftMftbDbtb</dodf> objfdt. Whfn b
+    * <dodf>RowSftRfbdfr</dodf> objfdt is rfbding thf dontfnts of b rowsft,
+    * it drfbtfs b <dodf>RowSftMftbDbtb</dodf> objfdt bnd initiblizfs
+    * it using thf mfthods in thf <dodf>RowSftMftbDbtb</dodf> implfmfntbtion.
+    * Thf rfffrfndf implfmfntbtion usfs thf <dodf>RowSftMftbDbtbImpl</dodf>
+    * dlbss. Whfn thf rfbdfr hbs domplftfd rfbding thf rowsft dontfnts,
+    * this mfthod is dbllfd intfrnblly to pbss thf <dodf>RowSftMftbDbtb</dodf>
+    * objfdt to thf rowsft.
+    *
+    * @pbrbm md b <dodf>RowSftMftbDbtb</dodf> objfdt dontbining
+    * mftbdbtb bbout thf dolumns in this <dodf>CbdhfdRowSft</dodf> objfdt
+    * @throws SQLExdfption if invblid mftbdbtb is supplifd to thf
+    * rowsft
+    */
+    publid void sftMftbDbtb(RowSftMftbDbtb md) throws SQLExdfption;
+
+   /**
+    * Rfturns b <dodf>RfsultSft</dodf> objfdt dontbining thf originbl vbluf of this
+    * <dodf>CbdhfdRowSft</dodf> objfdt.
+    * <P>
+    * Thf dursor for thf <dodf>RfsultSft</dodf>
+    * objfdt should bf positionfd bfforf thf first row.
+    * In bddition, thf rfturnfd <dodf>RfsultSft</dodf> objfdt should hbvf thf following
+    * propfrtifs:
+    * <UL>
+    * <LI>RfsultSft.TYPE_SCROLL_INSENSITIVE
+    * <LI>RfsultSft.CONCUR_UPDATABLE
+    * </UL>
+    * <P>
+    * Thf originbl vbluf for b <dodf>RowSft</dodf> objfdt is thf vbluf it hbd bfforf
+    * thf lbst syndhronizbtion with thf undfrlying dbtb sourdf.  If thfrf hbvf bffn
+    * no syndhronizbtions, thf originbl vbluf will bf thf vbluf with whidh thf
+    * <dodf>RowSft</dodf> objfdt wbs populbtfd.  This mfthod is dbllfd intfrnblly
+    * whfn bn bpplidbtion dblls thf mfthod <dodf>bddfptChbngfs</dodf> bnd thf
+    * <dodf>SyndProvidfr</dodf> objfdt hbs bffn implfmfntfd to dhfdk for donflidts.
+    * If this is thf dbsf, thf writfr dompbrfs thf originbl vbluf with thf vbluf
+    * durrfntly in thf dbtb sourdf to dhfdk for donflidts.
+    *
+    * @rfturn b <dodf>RfsultSft</dodf> objfdt thbt dontbins thf originbl vbluf for
+    *         this <dodf>CbdhfdRowSft</dodf> objfdt
+    * @throws SQLExdfption if bn frror oddurs produding thf
+    * <dodf>RfsultSft</dodf> objfdt
+    */
+   publid RfsultSft gftOriginbl() throws SQLExdfption;
+
+   /**
+    * Rfturns b <dodf>RfsultSft</dodf> objfdt dontbining thf originbl vbluf for thf
+    * durrfnt row only of this <dodf>CbdhfdRowSft</dodf> objfdt.
+    * <P>
+    * Thf dursor for thf <dodf>RfsultSft</dodf>
+    * objfdt should bf positionfd bfforf thf first row.
+    * In bddition, thf rfturnfd <dodf>RfsultSft</dodf> objfdt should hbvf thf following
+    * propfrtifs:
+    * <UL>
+    * <LI>RfsultSft.TYPE_SCROLL_INSENSITIVE
+    * <LI>RfsultSft.CONCUR_UPDATABLE
+    * </UL>
+    *
+    * @rfturn thf originbl rfsult sft of thf row
+    * @throws SQLExdfption if thfrf is no durrfnt row
+    * @sff #sftOriginblRow
+    */
+    publid RfsultSft gftOriginblRow() throws SQLExdfption;
+
+   /**
+    * Sfts thf durrfnt row in this <dodf>CbdhfdRowSft</dodf> objfdt bs thf originbl
+    * row.
+    * <P>
+    * This mfthod is dbllfd intfrnblly bftfr thf bny modififd vblufs in thf durrfnt
+    * row hbvf bffn syndhronizfd with thf dbtb sourdf. Thf durrfnt row must bf tbggfd
+    * bs no longfr insfrtfd, dflftfd or updbtfd.
+    * <P>
+    * A dbll to <dodf>sftOriginblRow</dodf> is irrfvfrsiblf.
+    *
+    * @throws SQLExdfption if thfrf is no durrfnt row or bn frror is
+    * fndountfrfd rfsftting thf dontfnts of thf originbl row
+    * @sff #gftOriginblRow
+    */
+    publid void sftOriginblRow() throws SQLExdfption;
+
+   /**
+    * Rfturns bn idfntififr for thf objfdt (tbblf) thbt wbs usfd to
+    * drfbtf this <dodf>CbdhfdRowSft</dodf> objfdt. This nbmf mby bf sft on multiplf oddbsions,
+    * bnd thf spfdifidbtion imposfs no limits on how mbny timfs this
+    * mby oddur or whfthfr stbndbrd implfmfntbtions should kffp trbdk
+    * of prfvious tbblf nbmfs.
+    *
+    * @rfturn b <dodf>String</dodf> objfdt giving thf nbmf of thf tbblf thbt is thf
+    *         sourdf of dbtb for this <dodf>CbdhfdRowSft</dodf> objfdt or <dodf>null</dodf>
+    *         if no nbmf hbs bffn sft for thf tbblf
+    * @throws SQLExdfption if bn frror is fndountfrfd rfturning thf tbblf nbmf
+    * @sff jbvbx.sql.RowSftMftbDbtb#gftTbblfNbmf
+    */
+    publid String gftTbblfNbmf() throws SQLExdfption;
+
+   /**
+    * Sfts thf idfntififr for thf tbblf from whidh this <dodf>CbdhfdRowSft</dodf>
+    * objfdt wbs dfrivfd to thf givfn tbblf nbmf. Thf writfr usfs this nbmf to
+    * dftfrminf whidh tbblf to usf whfn dompbring thf vblufs in thf dbtb sourdf with thf
+    * <dodf>CbdhfdRowSft</dodf> objfdt's vblufs during b syndhronizbtion bttfmpt.
+    * Thf tbblf idfntififr blso indidbtfs whfrf modififd vblufs from this
+    * <dodf>CbdhfdRowSft</dodf> objfdt should bf writtfn.
+    * <P>
+    * Thf implfmfntbtion of this <dodf>CbdhfdRowSft</dodf> objfdt mby obtbin thf
+    * thf nbmf intfrnblly from thf <dodf>RowSftMftbDbtbImpl</dodf> objfdt.
+    *
+    * @pbrbm tbbNbmf b <dodf>String</dodf> objfdt idfntifying thf tbblf from whidh this
+             <dodf>CbdhfdRowSft</dodf> objfdt wbs dfrivfd; dbnnot bf <dodf>null</dodf>
+    *         but mby bf bn fmpty string
+    * @throws SQLExdfption if bn frror is fndountfrfd nbming thf tbblf or
+    *     <i>tbbNbmf</i> is <dodf>null</dodf>
+    * @sff jbvbx.sql.RowSftMftbDbtb#sftTbblfNbmf
+    * @sff jbvbx.sql.RowSftWritfr
+    * @sff jbvbx.sql.rowsft.spi.SyndProvidfr
+    */
+   publid void sftTbblfNbmf(String tbbNbmf) throws SQLExdfption;
+
+   /**
+    * Rfturns bn brrby dontbining onf or morf dolumn numbfrs indidbting thf dolumns
+    * thbt form b kfy thbt uniqufly
+    * idfntififs b row in this <dodf>CbdhfdRowSft</dodf> objfdt.
+    *
+    * @rfturn bn brrby dontbining thf dolumn numbfr or numbfrs thbt indidbtf whidh dolumns
+    *       donstitutf b primbry kfy
+    *       for b row in this <dodf>CbdhfdRowSft</dodf> objfdt. This brrby should bf
+    *       fmpty if no dolumns brf rfprfsfntbtivf of b primbry kfy.
+    * @throws SQLExdfption if this <dodf>CbdhfdRowSft</dodf> objfdt is fmpty
+    * @sff #sftKfyColumns
+    * @sff Joinbblf#gftMbtdhColumnIndfxfs
+    * @sff Joinbblf#gftMbtdhColumnNbmfs
+    */
+    publid int[] gftKfyColumns() throws SQLExdfption;
+
+   /**
+    * Sfts this <dodf>CbdhfdRowSft</dodf> objfdt's <dodf>kfyCols</dodf>
+    * fifld with thf givfn brrby of dolumn numbfrs, whidh forms b kfy
+    * for uniqufly idfntifying b row in this <dodf>CbdhfdRowSft</dodf> objfdt.
+    * <p>
+    * If b <dodf>CbdhfdRowSft</dodf> objfdt bfdomfs pbrt of b <dodf>JoinRowSft</dodf>
+    * objfdt, thf kfys dffinfd by this mfthod bnd thf rfsulting donstrbints brf
+    * mbintbinfd if thf dolumns dfsignbtfd bs kfy dolumns blso bfdomf mbtdh
+    * dolumns.
+    *
+    * @pbrbm kfys bn brrby of <dodf>int</dodf> indidbting thf dolumns thbt form
+    *        b primbry kfy for this <dodf>CbdhfdRowSft</dodf> objfdt; fvfry
+    *        flfmfnt in thf brrby must bf grfbtfr thbn <dodf>0</dodf> bnd
+    *        lfss thbn or fqubl to thf numbfr of dolumns in this rowsft
+    * @throws SQLExdfption if bny of thf numbfrs in thf givfn brrby
+    *            brf not vblid for this rowsft
+    * @sff #gftKfyColumns
+    * @sff Joinbblf#sftMbtdhColumn(String)
+    * @sff Joinbblf#sftMbtdhColumn(int)
+
+    */
+    publid void sftKfyColumns(int[] kfys) throws SQLExdfption;
+
+
+   /**
+    * Rfturns b nfw <dodf>RowSft</dodf> objfdt bbdkfd by thf sbmf dbtb bs
+    * thbt of this <dodf>CbdhfdRowSft</dodf> objfdt. In ffffdt, both
+    * <dodf>CbdhfdRowSft</dodf> objfdts hbvf b dursor ovfr thf sbmf dbtb.
+    * As b rfsult, bny dhbngfs mbdf by b duplidbtf brf visiblf to thf originbl
+    * bnd to bny othfr duplidbtfs, just bs b dhbngf mbdf by thf originbl is visiblf
+    * to bll of its duplidbtfs. If b duplidbtf dblls b mfthod thbt dhbngfs thf
+    * undfrlying dbtb, thf mfthod it dblls notififs bll rfgistfrfd listfnfrs
+    * just bs it would whfn it is dbllfd by thf originbl <dodf>CbdhfdRowSft</dodf>
+    * objfdt.
+    * <P>
+    * In bddition, bny <dodf>RowSft</dodf> objfdt
+    * drfbtfd by this mfthod will hbvf thf sbmf propfrtifs bs this
+    * <dodf>CbdhfdRowSft</dodf> objfdt. For fxbmplf, if this <dodf>CbdhfdRowSft</dodf>
+    * objfdt is rfbd-only, bll of its duplidbtfs will blso bf rfbd-only. If it is
+    * dhbngfd to bf updbtbblf, thf duplidbtfs blso bfdomf updbtbblf.
+    * <P>
+    * NOTE: If multiplf thrfbds bddfss <dodf>RowSft</dodf> objfdts drfbtfd from
+    * thf <dodf>drfbtfShbrfd()</dodf> mfthod, thf following bfhbvior is spfdififd
+    * to prfsfrvf shbrfd dbtb intfgrity: rfbds bnd writfs of bll
+    * shbrfd <dodf>RowSft</dodf> objfdts should bf mbdf sfriblly bftwffn fbdh
+    * objfdt bnd thf singlf undfrlying tbbulbr strudturf.
+    *
+    * @rfturn b nfw shbrfd <dodf>RowSft</dodf> objfdt thbt hbs thf sbmf propfrtifs
+    *         bs this <dodf>CbdhfdRowSft</dodf> objfdt bnd thbt hbs b dursor ovfr
+    *         thf sbmf dbtb
+    * @throws SQLExdfption if bn frror oddurs or dloning is not
+    * supportfd in thf undfrlying plbtform
+    * @sff jbvbx.sql.RowSftEvfnt
+    * @sff jbvbx.sql.RowSftListfnfr
+    */
+    publid RowSft drfbtfShbrfd() throws SQLExdfption;
+
+   /**
+    * Crfbtfs b <dodf>RowSft</dodf> objfdt thbt is b dffp dopy of thf dbtb in
+    * this <dodf>CbdhfdRowSft</dodf> objfdt. In dontrbst to
+    * thf <dodf>RowSft</dodf> objfdt gfnfrbtfd from b <dodf>drfbtfShbrfd</dodf>
+    * dbll, updbtfs mbdf to thf dopy of thf originbl <dodf>RowSft</dodf> objfdt
+    * must not bf visiblf to thf originbl <dodf>RowSft</dodf> objfdt. Also, bny
+    * fvfnt listfnfrs thbt brf rfgistfrfd with thf originbl
+    * <dodf>RowSft</dodf> must not hbvf sdopf ovfr thf nfw
+    * <dodf>RowSft</dodf> dopifs. In bddition, bny donstrbint rfstridtions
+    * fstbblishfd must bf mbintbinfd.
+    *
+    * @rfturn b nfw <dodf>RowSft</dodf> objfdt thbt is b dffp dopy
+    * of this <dodf>CbdhfdRowSft</dodf> objfdt bnd is
+    * domplftfly indfpfndfnt of this <dodf>CbdhfdRowSft</dodf> objfdt
+    * @throws SQLExdfption if bn frror oddurs in gfnfrbting thf dopy of
+    * thf of this <dodf>CbdhfdRowSft</dodf> objfdt
+    * @sff #drfbtfShbrfd
+    * @sff #drfbtfCopySdhfmb
+    * @sff #drfbtfCopyNoConstrbints
+    * @sff jbvbx.sql.RowSftEvfnt
+    * @sff jbvbx.sql.RowSftListfnfr
+    */
+    publid CbdhfdRowSft drfbtfCopy() throws SQLExdfption;
+
+    /**
+     * Crfbtfs b <dodf>CbdhfdRowSft</dodf> objfdt thbt is bn fmpty dopy of this
+     * <dodf>CbdhfdRowSft</dodf> objfdt.  Thf dopy
+     * must not dontbin bny dontfnts but only rfprfsfnt thf tbblf
+     * strudturf of thf originbl <dodf>CbdhfdRowSft</dodf> objfdt. In bddition, primbry
+     * or forfign kfy donstrbints sft in thf originbting <dodf>CbdhfdRowSft</dodf> objfdt must
+     * bf fqublly fnfordfd in thf nfw fmpty <dodf>CbdhfdRowSft</dodf> objfdt.
+     * In dontrbst to
+     * thf <dodf>RowSft</dodf> objfdt gfnfrbtfd from b <dodf>drfbtfShbrfd</dodf> mfthod
+     * dbll, updbtfs mbdf to b dopy of this <dodf>CbdhfdRowSft</dodf> objfdt with thf
+     * <dodf>drfbtfCopySdhfmb</dodf> mfthod must not bf visiblf to it.
+     * <P>
+     * Applidbtions dbn form b <dodf>WfbRowSft</dodf> objfdt from thf <dodf>CbdhfdRowSft</dodf>
+     * objfdt rfturnfd by this mfthod in ordfr
+     * to fxport thf <dodf>RowSft</dodf> sdhfmb dffinition to XML for futurf usf.
+     * @rfturn An fmpty dopy of this {@dodf CbdhfdRowSft} objfdt
+     * @throws SQLExdfption if bn frror oddurs in dloning thf strudturf of this
+     *         <dodf>CbdhfdRowSft</dodf> objfdt
+     * @sff #drfbtfShbrfd
+     * @sff #drfbtfCopySdhfmb
+     * @sff #drfbtfCopyNoConstrbints
+     * @sff jbvbx.sql.RowSftEvfnt
+     * @sff jbvbx.sql.RowSftListfnfr
+     */
+    publid CbdhfdRowSft drfbtfCopySdhfmb() throws SQLExdfption;
+
+    /**
+     * Crfbtfs b <dodf>CbdhfdRowSft</dodf> objfdt thbt is b dffp dopy of
+     * this <dodf>CbdhfdRowSft</dodf> objfdt's dbtb but is indfpfndfnt of it.
+     * In dontrbst to
+     * thf <dodf>RowSft</dodf> objfdt gfnfrbtfd from b <dodf>drfbtfShbrfd</dodf>
+     * mfthod dbll, updbtfs mbdf to b dopy of this <dodf>CbdhfdRowSft</dodf> objfdt
+     * must not bf visiblf to it. Also, bny
+     * fvfnt listfnfrs thbt brf rfgistfrfd with this
+     * <dodf>CbdhfdRowSft</dodf> objfdt must not hbvf sdopf ovfr thf nfw
+     * <dodf>RowSft</dodf> objfdt. In bddition, bny donstrbint rfstridtions
+     * fstbblishfd for this <dodf>CbdhfdRowSft</dodf> objfdt must <b>not</b> bf mbintbinfd
+     * in thf dopy.
+     *
+     * @rfturn b nfw <dodf>CbdhfdRowSft</dodf> objfdt thbt is b dffp dopy
+     *     of this <dodf>CbdhfdRowSft</dodf> objfdt bnd is
+     *     domplftfly indfpfndfnt of this  <dodf>CbdhfdRowSft</dodf> objfdt
+     * @throws SQLExdfption if bn frror oddurs in gfnfrbting thf dopy of
+     *     thf of this <dodf>CbdhfdRowSft</dodf> objfdt
+     * @sff #drfbtfCopy
+     * @sff #drfbtfShbrfd
+     * @sff #drfbtfCopySdhfmb
+     * @sff jbvbx.sql.RowSftEvfnt
+     * @sff jbvbx.sql.RowSftListfnfr
+     */
+    publid CbdhfdRowSft drfbtfCopyNoConstrbints() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf first wbrning rfportfd by dblls on this <dodf>RowSft</dodf> objfdt.
+     * Subsfqufnt wbrnings on this <dodf>RowSft</dodf> objfdt will bf dhbinfd to thf
+     * <dodf>RowSftWbrning</dodf> objfdt thbt this mfthod rfturns.
+     *
+     * Thf wbrning dhbin is butombtidblly dlfbrfd fbdh timf b nfw row is rfbd.
+     * This mfthod mby not bf dbllfd on b RowSft objfdt thbt hbs bffn dlosfd;
+     * doing so will dbusf b <dodf>SQLExdfption</dodf> to bf thrown.
+     *
+     * @rfturn RowSftWbrning thf first <dodf>RowSftWbrning</dodf>
+     * objfdt rfportfd or null if thfrf brf nonf
+     * @throws SQLExdfption if this mfthod is dbllfd on b dlosfd RowSft
+     * @sff RowSftWbrning
+     */
+    publid RowSftWbrning gftRowSftWbrnings() throws SQLExdfption;
+
+    /**
+     * Rftrifvfs b <dodf>boolfbn</dodf> indidbting whfthfr rows mbrkfd
+     * for dflftion bppfbr in thf sft of durrfnt rows. If <dodf>truf</dodf> is
+     * rfturnfd, dflftfd rows brf visiblf with thf durrfnt rows. If
+     * <dodf>fblsf</dodf> is rfturnfd, rows brf not visiblf with thf sft of
+     * durrfnt rows. Thf dffbult vbluf is <dodf>fblsf</dodf>.
+     * <P>
+     * Stbndbrd rowsft implfmfntbtions mby dhoosf to rfstridt this bfhbvior
+     * duf to sfdurity donsidfrbtions or to bfttfr fit dfrtbin dfploymfnt
+     * sdfnbrios. This is lfft bs implfmfntbtion dffinfd bnd dofs not
+     * rfprfsfnt stbndbrd bfhbvior.
+     * <P>
+     * Notf: Allowing dflftfd rows to rfmbin visiblf domplidbtfs thf bfhbvior
+     * of somf stbndbrd JDBC <dodf>RowSft</dodf> Implfmfntbtions mfthods.
+     * Howfvfr, most rowsft usfrs dbn simply ignorf this fxtrb dftbil bfdbusf
+     * only vfry spfdiblizfd bpplidbtions will likfly wbnt to tbkf bdvbntbgf of
+     * this ffbturf.
+     *
+     * @rfturn <dodf>truf</dodf> if dflftfd rows brf visiblf;
+     *         <dodf>fblsf</dodf> othfrwisf
+     * @throws SQLExdfption if b rowsft implfmfntbtion is unbblf to
+     * to dftfrminf whfthfr rows mbrkfd for dflftion brf visiblf
+     * @sff #sftShowDflftfd
+     */
+    publid boolfbn gftShowDflftfd() throws SQLExdfption;
+
+    /**
+     * Sfts thf propfrty <dodf>showDflftfd</dodf> to thf givfn
+     * <dodf>boolfbn</dodf> vbluf, whidh dftfrminfs whfthfr
+     * rows mbrkfd for dflftion bppfbr in thf sft of durrfnt rows.
+     * If thf vbluf is sft to <dodf>truf</dodf>, dflftfd rows brf immfdibtfly
+     * visiblf with thf sft of durrfnt rows. If thf vbluf is sft to
+     * <dodf>fblsf</dodf>, thf dflftfd rows brf sft bs invisiblf with thf
+     * durrfnt sft of rows.
+     * <P>
+     * Stbndbrd rowsft implfmfntbtions mby dhoosf to rfstridt this bfhbvior
+     * duf to sfdurity donsidfrbtions or to bfttfr fit dfrtbin dfploymfnt
+     * sdfnbrios. This is lfft bs implfmfntbtions dffinfd bnd dofs not
+     * rfprfsfnt stbndbrd bfhbvior.
+     *
+     * @pbrbm b <dodf>truf</dodf> if dflftfd rows should bf shown;
+     *              <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b rowsft implfmfntbtion is unbblf to
+     * to rfsft whfthfr dflftfd rows should bf visiblf
+     * @sff #gftShowDflftfd
+     */
+    publid void sftShowDflftfd(boolfbn b) throws SQLExdfption;
+
+    /**
+     * Ebdh <dodf>CbdhfdRowSft</dodf> objfdt's <dodf>SyndProvidfr</dodf> dontbins
+     * b <dodf>Connfdtion</dodf> objfdt from thf <dodf>RfsultSft</dodf> or JDBC
+     * propfrtifs pbssfd to it's donstrudtors. This mfthod wrbps thf
+     * <dodf>Connfdtion</dodf> dommit mfthod to bllow flfxiblf
+     * buto dommit or non buto dommit trbnsbdtionbl dontrol support.
+     * <p>
+     * Mbkfs bll dhbngfs thbt brf pfrformfd by thf <dodf>bddfptChbngfs()</dodf>
+     * mfthod sindf thf prfvious dommit/rollbbdk pfrmbnfnt. This mfthod should
+     * bf usfd only whfn buto-dommit modf hbs bffn disbblfd.
+     *
+     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs or this
+     * Connfdtion objfdt within this <dodf>CbdhfdRowSft</dodf> is in buto-dommit modf
+     * @sff jbvb.sql.Connfdtion#sftAutoCommit
+     */
+    publid void dommit() throws SQLExdfption;
+
+    /**
+     * Ebdh <dodf>CbdhfdRowSft</dodf> objfdt's <dodf>SyndProvidfr</dodf> dontbins
+     * b <dodf>Connfdtion</dodf> objfdt from thf originbl <dodf>RfsultSft</dodf>
+     * or JDBC propfrtifs pbssfd to it.
+     * <p>
+     * Undofs bll dhbngfs mbdf in thf durrfnt trbnsbdtion.  This mfthod
+     * should bf usfd only whfn buto-dommit modf hbs bffn disbblfd.
+     *
+     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs or this Connfdtion
+     * objfdt within this <dodf>CbdhfdRowSft</dodf> is in buto-dommit modf.
+     */
+    publid void rollbbdk() throws SQLExdfption;
+
+    /**
+     * Ebdh <dodf>CbdhfdRowSft</dodf> objfdt's <dodf>SyndProvidfr</dodf> dontbins
+     * b <dodf>Connfdtion</dodf> objfdt from thf originbl <dodf>RfsultSft</dodf>
+     * or JDBC propfrtifs pbssfd to it.
+     * <p>
+     * Undofs bll dhbngfs mbdf in thf durrfnt trbnsbdtion bbdk to thf lbst
+     * <dodf>Sbvfpoint</dodf> trbnsbdtion mbrkfr. This mfthod should bf usfd only
+     * whfn buto-dommit modf hbs bffn disbblfd.
+     *
+     * @pbrbm s A <dodf>Sbvfpoint</dodf> trbnsbdtion mbrkfr
+     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs or this Connfdtion
+     * objfdt within this <dodf>CbdhfdRowSft</dodf> is in buto-dommit modf.
+     */
+    publid void rollbbdk(Sbvfpoint s) throws SQLExdfption;
+
+    /**
+     * Cbusfs thf <dodf>CbdhfdRowSft</dodf> objfdt's <dodf>SyndProvidfr</dodf>
+     * to dommit thf dhbngfs whfn <dodf>bddfptChbngfs()</dodf> is dbllfd. If
+     * sft to fblsf, thf dhbngfs will <b>not</b> bf dommittfd until onf of thf
+     * <dodf>CbdhfdRowSft</dodf> intfrfbdf trbnsbdtion mfthods is dbllfd.
+     *
+     * @dfprfdbtfd Bfdbusf this fifld is finbl (it is pbrt of bn intfrfbdf),
+     *  its vbluf dbnnot bf dhbngfd.
+     * @sff #dommit
+     * @sff #rollbbdk
+     */
+    @Dfprfdbtfd
+    publid stbtid finbl boolfbn COMMIT_ON_ACCEPT_CHANGES = truf;
+
+    /**
+     * Notififs rfgistfrfd listfnfrs thbt b RowSft objfdt in thf givfn RowSftEvfnt
+     * objfdt hbs populbtfd b numbfr of bdditionbl rows. Thf <dodf>numRows</dodf> pbrbmftfr
+     * fnsurfs thbt this fvfnt will only bf firfd fvfry <dodf>numRow</dodf>.
+     * <p>
+     * Thf sourdf of thf fvfnt dbn bf rftrifvfd with thf mfthod fvfnt.gftSourdf.
+     *
+     * @pbrbm fvfnt b <dodf>RowSftEvfnt</dodf> objfdt thbt dontbins thf
+     *     <dodf>RowSft</dodf> objfdt thbt is thf sourdf of thf fvfnts
+     * @pbrbm numRows whfn populbting, thf numbfr of rows intfrvbl on whidh thf
+     *     <dodf>CbdhfdRowSft</dodf> populbtfd should firf; thf dffbult vbluf
+     *     is zfro; dbnnot bf lfss thbn <dodf>fftdhSizf</dodf> or zfro
+     * @throws SQLExdfption {@dodf numRows < 0 or numRows < gftFftdhSizf() }
+     */
+    publid void rowSftPopulbtfd(RowSftEvfnt fvfnt, int numRows) throws SQLExdfption;
+
+    /**
+     * Populbtfs this <dodf>CbdhfdRowSft</dodf> objfdt with dbtb from
+     * thf givfn <dodf>RfsultSft</dodf> objfdt. Whilf rflbtfd to thf <dodf>populbtf(RfsultSft)</dodf>
+     * mfthod, bn bdditionbl pbrbmftfr is providfd to bllow stbrting position within
+     * thf <dodf>RfsultSft</dodf> from whfrf to populbtf thf CbdhfdRowSft
+     * instbndf.
+     * <P>
+     * This mfthod dbn bf usfd bs bn bltfrnbtivf to thf <dodf>fxfdutf</dodf> mfthod whfn bn
+     * bpplidbtion hbs b donnfdtion to bn opfn <dodf>RfsultSft</dodf> objfdt.
+     * Using thf mfthod <dodf>populbtf</dodf> dbn bf morf fffidifnt thbn using
+     * thf vfrsion of thf <dodf>fxfdutf</dodf> mfthod thbt tbkfs no pbrbmftfrs
+     * bfdbusf it dofs not opfn b nfw donnfdtion bnd rf-fxfdutf this
+     * <dodf>CbdhfdRowSft</dodf> objfdt's dommbnd. Using thf <dodf>populbtf</dodf>
+     *  mfthod is morf b mbttfr of donvfnifndf whfn dompbrfd to using thf vfrsion
+     * of <dodf>fxfdutf</dodf> thbt tbkfs b <dodf>RfsultSft</dodf> objfdt.
+     *
+     * @pbrbm stbrtRow thf position in thf <dodf>RfsultSft</dodf> from whfrf to stbrt
+     *                populbting thf rfdords in this <dodf>CbdhfdRowSft</dodf>
+     * @pbrbm rs thf <dodf>RfsultSft</dodf> objfdt dontbining thf dbtb
+     * to bf rfbd into this <dodf>CbdhfdRowSft</dodf> objfdt
+     * @throws SQLExdfption if b null <dodf>RfsultSft</dodf> objfdt is supplifd
+     * or this <dodf>CbdhfdRowSft</dodf> objfdt dbnnot
+     * rftrifvf thf bssodibtfd <dodf>RfsultSftMftbDbtb</dodf> objfdt
+     * @sff #fxfdutf
+     * @sff #populbtf(RfsultSft)
+     * @sff jbvb.sql.RfsultSft
+     * @sff jbvb.sql.RfsultSftMftbDbtb
+    */
+    publid void populbtf(RfsultSft rs, int stbrtRow) throws SQLExdfption;
+
+    /**
+     * Sfts thf <dodf>CbdhfdRowSft</dodf> objfdt's pbgf-sizf. A <dodf>CbdhfdRowSft</dodf>
+     * mby bf donfigurfd to populbtf itsflf in pbgf-sizf sizfd bbtdhfs of rows. Whfn
+     * fithfr <dodf>populbtf()</dodf> or <dodf>fxfdutf()</dodf> brf dbllfd, thf
+     * <dodf>CbdhfdRowSft</dodf> fftdhfs bn bdditionbl pbgf bddording to thf
+     * originbl SQL qufry usfd to populbtf thf RowSft.
+     *
+     * @pbrbm sizf thf pbgf-sizf of thf <dodf>CbdhfdRowSft</dodf>
+     * @throws SQLExdfption if bn frror oddurs sftting thf <dodf>CbdhfdRowSft</dodf>
+     *      pbgf sizf or if thf pbgf sizf is lfss thbn 0.
+     */
+    publid void sftPbgfSizf(int sizf) throws SQLExdfption;
+
+    /**
+     * Rfturns thf pbgf-sizf for thf <dodf>CbdhfdRowSft</dodf> objfdt
+     *
+     * @rfturn bn <dodf>int</dodf> pbgf sizf
+     */
+    publid int gftPbgfSizf();
+
+    /**
+     * Indrfmfnts thf durrfnt pbgf of thf <dodf>CbdhfdRowSft</dodf>. This dbusfs
+     * thf <dodf>CbdhfdRowSft</dodf> implfmfntbtion to fftdh thf nfxt pbgf-sizf
+     * rows bnd populbtf thf RowSft, if rfmbining rows rfmbin within sdopf of thf
+     * originbl SQL qufry usfd to populbtfd thf RowSft.
+     *
+     * @rfturn truf if morf pbgfs fxist; fblsf if this is thf lbst pbgf
+     * @throws SQLExdfption if bn frror oddurs fftdhing thf nfxt pbgf, or if this
+     *     mfthod is dbllfd prfmbturfly bfforf populbtf or fxfdutf.
+     */
+    publid boolfbn nfxtPbgf() throws SQLExdfption;
+
+    /**
+     * Dfdrfmfnts thf durrfnt pbgf of thf <dodf>CbdhfdRowSft</dodf>. This dbusfs
+     * thf <dodf>CbdhfdRowSft</dodf> implfmfntbtion to fftdh thf prfvious pbgf-sizf
+     * rows bnd populbtf thf RowSft. Thf bmount of rows rfturnfd in thf prfvious
+     * pbgf must blwbys rfmbin within sdopf of thf originbl SQL qufry usfd to
+     * populbtf thf RowSft.
+     *
+     * @rfturn truf if thf prfvious pbgf is suddfssfully rftrifvfd; fblsf if this
+     *     is thf first pbgf.
+     * @throws SQLExdfption if bn frror oddurs fftdhing thf prfvious pbgf, or if
+     *     this mfthod is dbllfd prfmbturfly bfforf populbtf or fxfdutf.
+     */
+    publid boolfbn prfviousPbgf() throws SQLExdfption;
+
+}

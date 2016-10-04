@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
 
 /**
- * Any component that can be placed into a menu should implement this interface.
- * This interface is used by {@code MenuSelectionManager}
- * to handle selection and navigation in menu hierarchies.
+ * Any domponfnt tibt dbn bf plbdfd into b mfnu siould implfmfnt tiis intfrfbdf.
+ * Tiis intfrfbdf is usfd by {@dodf MfnuSflfdtionMbnbgfr}
+ * to ibndlf sflfdtion bnd nbvigbtion in mfnu iifrbrdiifs.
  *
- * @author Arnaud Weber
- * @since 1.2
+ * @butior Arnbud Wfbfr
+ * @sindf 1.2
  */
 
-public interface MenuElement {
+publid intfrfbdf MfnuElfmfnt {
 
     /**
-     * Processes a mouse event. {@code event} is a {@code MouseEvent} with
-     * source being the receiving element's component. {@code path} is the
-     * path of the receiving element in the menu hierarchy including the
-     * receiving element itself. {@code manager} is the
-     * {@code MenuSelectionManager}for the menu hierarchy. This method should
-     * process the {@code MouseEvent} and change the menu selection if necessary
-     * by using {@code MenuSelectionManager}'s API Note: you do not have to
-     * forward the event to sub-components. This is done automatically by the
-     * {@code MenuSelectionManager}.
+     * Prodfssfs b mousf fvfnt. {@dodf fvfnt} is b {@dodf MousfEvfnt} witi
+     * sourdf bfing tif rfdfiving flfmfnt's domponfnt. {@dodf pbti} is tif
+     * pbti of tif rfdfiving flfmfnt in tif mfnu iifrbrdiy indluding tif
+     * rfdfiving flfmfnt itsflf. {@dodf mbnbgfr} is tif
+     * {@dodf MfnuSflfdtionMbnbgfr}for tif mfnu iifrbrdiy. Tiis mftiod siould
+     * prodfss tif {@dodf MousfEvfnt} bnd dibngf tif mfnu sflfdtion if nfdfssbry
+     * by using {@dodf MfnuSflfdtionMbnbgfr}'s API Notf: you do not ibvf to
+     * forwbrd tif fvfnt to sub-domponfnts. Tiis is donf butombtidblly by tif
+     * {@dodf MfnuSflfdtionMbnbgfr}.
      *
-     * @param event a {@code MouseEvent} to be processed
-     * @param path the path of the receiving element in the menu hierarchy
-     * @param manager the {@code MenuSelectionManager} for the menu hierarchy
+     * @pbrbm fvfnt b {@dodf MousfEvfnt} to bf prodfssfd
+     * @pbrbm pbti tif pbti of tif rfdfiving flfmfnt in tif mfnu iifrbrdiy
+     * @pbrbm mbnbgfr tif {@dodf MfnuSflfdtionMbnbgfr} for tif mfnu iifrbrdiy
      */
-    public void processMouseEvent(MouseEvent event, MenuElement path[], MenuSelectionManager manager);
+    publid void prodfssMousfEvfnt(MousfEvfnt fvfnt, MfnuElfmfnt pbti[], MfnuSflfdtionMbnbgfr mbnbgfr);
 
 
     /**
-     *  Process a key event.
+     *  Prodfss b kfy fvfnt.
      *
-     * @param event a {@code KeyEvent} to be processed
-     * @param path the path of the receiving element in the menu hierarchy
-     * @param manager the {@code MenuSelectionManager} for the menu hierarchy
+     * @pbrbm fvfnt b {@dodf KfyEvfnt} to bf prodfssfd
+     * @pbrbm pbti tif pbti of tif rfdfiving flfmfnt in tif mfnu iifrbrdiy
+     * @pbrbm mbnbgfr tif {@dodf MfnuSflfdtionMbnbgfr} for tif mfnu iifrbrdiy
      */
-    public void processKeyEvent(KeyEvent event, MenuElement path[], MenuSelectionManager manager);
+    publid void prodfssKfyEvfnt(KfyEvfnt fvfnt, MfnuElfmfnt pbti[], MfnuSflfdtionMbnbgfr mbnbgfr);
 
     /**
-     * Call by the {@code MenuSelectionManager} when the {@code MenuElement} is
-     * added or removed from the menu selection.
+     * Cbll by tif {@dodf MfnuSflfdtionMbnbgfr} wifn tif {@dodf MfnuElfmfnt} is
+     * bddfd or rfmovfd from tif mfnu sflfdtion.
      *
-     * @param isIncluded can be used to indicate if this {@code MenuElement} is
-     *        active (if it is a menu) or is on the part of the menu path that
-     *        changed (if it is a menu item).
+     * @pbrbm isIndludfd dbn bf usfd to indidbtf if tiis {@dodf MfnuElfmfnt} is
+     *        bdtivf (if it is b mfnu) or is on tif pbrt of tif mfnu pbti tibt
+     *        dibngfd (if it is b mfnu itfm).
      */
-    public void menuSelectionChanged(boolean isIncluded);
+    publid void mfnuSflfdtionCibngfd(boolfbn isIndludfd);
 
     /**
-     * This method should return an array containing the sub-elements for the
-     * receiving menu element.
+     * Tiis mftiod siould rfturn bn brrby dontbining tif sub-flfmfnts for tif
+     * rfdfiving mfnu flfmfnt.
      *
-     * @return an array of {@code MenuElement}s
+     * @rfturn bn brrby of {@dodf MfnuElfmfnt}s
      */
-    public MenuElement[] getSubElements();
+    publid MfnuElfmfnt[] gftSubElfmfnts();
 
     /**
-     * This method should return the {@code java.awt.Component} used to paint the
-     * receiving element. The returned component will be used to convert events
-     * and detect if an event is inside a {@code MenuElement}'s component.
+     * Tiis mftiod siould rfturn tif {@dodf jbvb.bwt.Componfnt} usfd to pbint tif
+     * rfdfiving flfmfnt. Tif rfturnfd domponfnt will bf usfd to donvfrt fvfnts
+     * bnd dftfdt if bn fvfnt is insidf b {@dodf MfnuElfmfnt}'s domponfnt.
      *
-     * @return the {@code Component} value
+     * @rfturn tif {@dodf Componfnt} vbluf
      */
-    public Component getComponent();
+    publid Componfnt gftComponfnt();
 }

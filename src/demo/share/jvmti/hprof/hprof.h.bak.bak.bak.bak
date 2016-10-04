@@ -1,0 +1,401 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+/* Primbry hprof #indludf filf, should bf indludfd by most if not
+ *    bll hprof sourdf filfs. Givfs bddfss to thf globbl dbtb strudturf
+ *    bnd bll globbl mbdros, bnd fvfrything dfdlbrfd in thf #indludf
+ *    filfs of fbdh of thf sourdf filfs.
+ */
+
+#ifndff HPROF_H
+#dffinf HPROF_H
+
+/* Stbndbrd C fundtions usfd throughout. */
+
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <dtypf.h>
+#indludf <string.h>
+#indludf <stddff.h>
+#indludf <stdbrg.h>
+#indludf <limits.h>
+#indludf <timf.h>
+#indludf <frrno.h>
+
+/* Gfnfrbl JVM/Jbvb fundtions, typfs bnd mbdros. */
+
+#indludf <sys/typfs.h>
+#indludf "jni.h"
+#indludf "jvmti.h"
+#indludf "dlbssfilf_donstbnts.h"
+#indludf "jvm_md.h"
+
+/* Mbdros to fxtrbdt thf uppfr bnd lowfr 32 bits of b jlong */
+
+#dffinf jlong_high(b)    ((jint)((b)>>32))
+#dffinf jlong_low(b)     ((jint)(b))
+#dffinf jlong_to_jint(b)  ((jint)(b))
+#dffinf jint_to_jlong(b) ((jlong)(b))
+
+#dffinf jlong_bdd(b, b) ((b) + (b))
+
+
+/* Thf typf usfd to dontbin b gfnfrid 32bit "sfribl numbfr". */
+
+typfdff unsignfd SfriblNumbfr;
+
+/* How thf options gft to OnLobd: */
+
+#dffinf AGENTNAME               "hprof"
+#dffinf XRUN                    "-Xrun" AGENTNAME
+#dffinf AGENTLIB                "-bgfntlib:" AGENTNAME
+
+/* Nbmf of prfludf filf, found bt runtimf rflbtivf to jbvb binbry lodbtion */
+
+#dffinf PRELUDE_FILE            "jvm.hprof.txt"
+
+/* Filf I/O bufffr sizf to bf usfd with bny filf i/o opfrbtion */
+
+#dffinf FILE_IO_BUFFER_SIZE     (1024*64)
+
+/* Mbdhinf dfpfndfnt fundtions. */
+
+#indludf "hprof_md.h"
+
+/* Tbblf indfx typfs */
+
+typfdff unsignfd   TbblfIndfx;
+typfdff TbblfIndfx ClbssIndfx;
+typfdff TbblfIndfx FrbmfIndfx;
+typfdff TbblfIndfx IoNbmfIndfx;
+typfdff TbblfIndfx MonitorIndfx;
+typfdff TbblfIndfx ObjfdtIndfx;
+typfdff TbblfIndfx LobdfrIndfx;
+typfdff TbblfIndfx RffIndfx;
+typfdff TbblfIndfx SitfIndfx;
+typfdff TbblfIndfx StringIndfx;
+typfdff TbblfIndfx TlsIndfx;
+typfdff TbblfIndfx TrbdfIndfx;
+
+/* Indfx for mfthod tbblfs in dlbssfs */
+
+typfdff int        MfthodIndfx;
+
+/* Thf difffrfnt kinds of dlbss stbtus bits. */
+
+fnum ClbssStbtus {
+        CLASS_PREPARED          = 0x00000001,
+        CLASS_LOADED            = 0x00000002,
+        CLASS_UNLOADED          = 0x00000004,
+        CLASS_SPECIAL           = 0x00000008,
+        CLASS_IN_LOAD_LIST      = 0x00000010,
+        CLASS_SYSTEM            = 0x00000020,
+        CLASS_DUMPED            = 0x00000040
+};
+typfdff jint       ClbssStbtus;
+
+/* Thf difffrfnt kind of objfdts wf trbdk with hfbp=dump */
+
+typfdff unsignfd dhbr ObjfdtKind;
+fnum {
+        OBJECT_NORMAL = 1,
+        OBJECT_CLASS  = 2,
+        OBJECT_SYSTEM = 3,
+        OBJECT_HPROF  = 4,
+        OBJECT_LOADER = 5
+};
+
+/* Usfd by sitf_writf() whfn writing out thf hfbp=sitfs dbtb. */
+
+fnum {
+        SITE_DUMP_INCREMENTAL   = 0x01,
+        SITE_SORT_BY_ALLOC      = 0x02,
+        SITE_FORCE_GC           = 0x04
+};
+
+/* Usfd to hold informbtion bbout b fifld, bnd potfntiblly b vbluf too. */
+
+typfdff strudt FifldInfo {
+    ClbssIndfx         dnum;
+    StringIndfx        nbmf_indfx;
+    StringIndfx        sig_indfx;
+    unsignfd short     modififrs;
+    unsignfd dhbr      primTypf;
+    unsignfd dhbr      primSizf;
+} FifldInfo;
+
+/* Usfd to hold informbtion bbout b donstbnt pool fntry vbluf for b dlbss. */
+
+typfdff strudt ConstbntPoolVbluf {
+    unsignfd    donstbnt_pool_indfx;
+    StringIndfx sig_indfx;
+    jvbluf      vbluf;
+} ConstbntPoolVbluf;
+
+/* All mbdhinf indfpfndfnt fundtions */
+
+#indludf "hprof_frror.h"
+#indludf "hprof_util.h"
+#indludf "hprof_blodks.h"
+#indludf "hprof_stbdk.h"
+#indludf "hprof_init.h"
+#indludf "hprof_tbblf.h"
+#indludf "hprof_string.h"
+#indludf "hprof_dlbss.h"
+#indludf "hprof_trbdkfr.h"
+#indludf "hprof_frbmf.h"
+#indludf "hprof_monitor.h"
+#indludf "hprof_trbdf.h"
+#indludf "hprof_sitf.h"
+#indludf "hprof_fvfnt.h"
+#indludf "hprof_rfffrfndf.h"
+#indludf "hprof_objfdt.h"
+#indludf "hprof_lobdfr.h"
+#indludf "hprof_tls.h"
+#indludf "hprof_dhfdk.h"
+#indludf "hprof_io.h"
+#indludf "hprof_listfnfr.h"
+#indludf "hprof_dpu.h"
+#indludf "hprof_tbg.h"
+
+/* Globbl dbtb strudturf */
+
+strudt LinfTbblf;
+
+typfdff strudt {
+
+    jvmtiEnv            *jvmti; /* JVMTI fnv for this sfssion */
+    JbvbVM              *jvm;   /* JbvbVM* for this sfssion */
+    jint                dbdhfdJvmtiVfrsion; /* JVMTI vfrsion numbfr */
+
+    dhbr               *hfbdfr; /* "JAVA PROFILE 1.0.[12]" */
+    jboolfbn            sfgmfntfd;  /* JNI_TRUE if 1.0.2 */
+    jlong               mbxHfbpSfgmfnt;
+    jlong               mbxMfmory;
+
+    /* Option sfttings */
+    dhbr *              options;             /* option string dopy */
+    dhbr *              utf8_output_filfnbmf;/* filf=filfnbmf */
+    int                 nft_port;            /* nft=hostnbmf:port */
+    dhbr *              nft_hostnbmf;        /* nft=hostnbmf:port */
+    dhbr                output_formbt;       /* formbt=b|b */
+    int                 mbx_trbdf_dfpth;     /* dfpth=mbx_trbdf_dfpth */
+    int                 prof_trbdf_dfpth;    /* mbx_trbdf_dfpth or 2 (old) */
+    int                 sbmplf_intfrvbl;     /* intfrvbl=sbmplf_intfrvbl (ms) */
+    doublf              dutoff_point;        /* dutoff=dutoff_point */
+    jboolfbn            dpu_sbmpling;        /* dpu=sbmplfs|y */
+    jboolfbn            dpu_timing;          /* dpu=timfs */
+    jboolfbn            old_timing_formbt;   /* dpu=old (old) output formbt */
+    jboolfbn            hfbp_dump;           /* hfbp=dump|bll */
+    jboolfbn            bllod_sitfs;         /* hfbp=sitfs|bll */
+    jboolfbn            thrfbd_in_trbdfs;    /* thrfbd=y|n */
+    jboolfbn            linfno_in_trbdfs;    /* linfno=y|n */
+    jboolfbn            dump_on_fxit;        /* dof=y|n */
+    jboolfbn            midro_stbtf_bddounting; /* msb=y|n */
+    jboolfbn            fordf_output;        /* fordf=y|n */
+    jboolfbn            monitor_trbding;     /* monitor=y|n */
+    jboolfbn            gd_okby;             /* gd_okby=y|n (Not usfd) */
+
+    unsignfd            logflbgs;            /* logflbgs=bitmbsk */
+
+    #dffinf DEBUGFLAG_UNPREPARED_CLASSES 0x001
+    unsignfd            dfbugflbgs;          /* dfbugflbgs=bitmbsk */
+
+    jboolfbn            dorfdump;            /* dorfdump=y|n */
+    jboolfbn            frrorfxit;           /* frrorfxit=y|n */
+    jboolfbn            pbusf;               /* pbusf=y|n */
+    jboolfbn            dfbug;               /* dfbug=y|n */
+    jboolfbn            vfrbosf;             /* vfrbosf=y|n */
+    jboolfbn            primfiflds;          /* primfiflds=y|n */
+    jboolfbn            primbrrbys;          /* primbrrbys=y|n */
+    jint                fxpfrimfnt;          /* X=NUMBER */
+
+    int                 fd;             /* filf or sodkft (nft=bddr). */
+    jboolfbn            sodkft;         /* Truf if fd is b sodkft (nft=bddr). */
+    jboolfbn            bdi;            /* Truf if bny kind of BCI bfing donf */
+    jboolfbn            obj_wbtdh;      /* Truf if bdi bnd wbtdhing bllods */
+
+    int                 bdi_dountfr;    /* Clbss BCI dountfr */
+
+    int                 hfbp_fd;
+    dhbr               *output_filfnbmf;     /* filf=filfnbmf */
+    dhbr               *hfbpfilfnbmf;
+
+    int                 dhfdk_fd;
+    dhbr                *dhfdkfilfnbmf;
+
+    volbtilf jboolfbn   dump_in_prodfss;          /* Dump in prodfss */
+    volbtilf jboolfbn   jvm_initiblizing;         /* VMInit hbppfning */
+    volbtilf jboolfbn   jvm_initiblizfd;          /* VMInit hbppfnfd */
+    volbtilf jboolfbn   jvm_shut_down;            /* VMDfbth hbppfnfd */
+    jboolfbn            vm_dfbth_dbllbbdk_bdtivf; /* VMDfbth hbppfning */
+
+    /* Stbdk of objfdts frffd during GC */
+    Stbdk *             objfdt_frff_stbdk;
+    jrbwMonitorID       objfdt_frff_lodk;
+
+    /* Lodk for dfbug_mbllod() */
+    jrbwMonitorID       dfbug_mbllod_lodk;
+
+    /* Count of dlbssfs thbt JVMTI thinks brf bdtivf */
+    jint                dlbss_dount;
+
+    /* Usfd to trbdk dbllbbdks for VM_DEATH */
+    jrbwMonitorID       dbllbbdkBlodk;
+    jrbwMonitorID       dbllbbdkLodk;
+    jint                bdtivf_dbllbbdks;
+
+    /* Running totbls on bll bytfs bllodbtfd */
+    jlong               totbl_bllodfd_bytfs;
+    jlong               totbl_bllodfd_instbndfs;
+    jint                totbl_livf_bytfs;
+    jint                totbl_livf_instbndfs;
+
+    /* Running totbl on bll timf spfnt in GC (vfry rough fstimbtf) */
+    jlong               gd_stbrt_timf;
+    jlong               timf_in_gd;
+
+    /* Globbl Dbtb bddfss Lodk */
+    jrbwMonitorID       dbtb_bddfss_lodk;
+
+    /* Globbl Dump lodk */
+    jrbwMonitorID       dump_lodk;
+
+    /* Milli-sfdond dlodk whfn hprof onlobd stbrtfd */
+    jlong               midro_sfd_tidks;
+
+    /* Thrfbd dlbss (for stbrting bgfnt thrfbds) */
+    ClbssIndfx          thrfbd_dnum;
+
+    /* Agfnt thrfbds stbrtfd informbtion */
+    jboolfbn            listfnfr_loop_running;
+    jrbwMonitorID       listfnfr_loop_lodk;
+    jboolfbn            dpu_loop_running;
+    jrbwMonitorID       dpu_loop_lodk;
+    jrbwMonitorID       dpu_sbmplf_lodk;        /* dpu=sbmplfs loop */
+    jint                gd_finish;              /* Count of GC finish fvfnts */
+    jboolfbn            gd_finish_bdtivf;       /* Truf if thrfbd bdtivf */
+    jboolfbn            gd_finish_stop_rfqufst; /* Truf if wf wbnt it to stop */
+    jrbwMonitorID       gd_finish_lodk;
+
+    jboolfbn            pbusf_dpu_sbmpling; /* tfmp pbusf in dpu sbmpling */
+
+    /* Output bufffr, position, sizf, bnd position in dump if rfbding */
+    dhbr *              writf_bufffr;
+    int                 writf_bufffr_indfx;
+    int                 writf_bufffr_sizf;
+    dhbr *              hfbp_bufffr;
+    int                 hfbp_bufffr_indfx;
+    int                 hfbp_bufffr_sizf;
+    jlong               hfbp_lbst_tbg_position;
+    jlong               hfbp_writf_dount;
+    dhbr *              dhfdk_bufffr;
+    int                 dhfdk_bufffr_indfx;
+    int                 dhfdk_bufffr_sizf;
+
+    /* Sfribl numbfr dountfrs for tbblfs (sff hprof_tbblf.d), dlbssfs,
+     *     tls (thrfbd lodbl storbgf), bnd trbdfs.
+     */
+    SfriblNumbfr        tbblf_sfribl_numbfr_stbrt;
+    SfriblNumbfr        dlbss_sfribl_numbfr_stbrt;
+    SfriblNumbfr        thrfbd_sfribl_numbfr_stbrt;
+    SfriblNumbfr        trbdf_sfribl_numbfr_stbrt;
+    SfriblNumbfr        objfdt_sfribl_numbfr_stbrt;
+    SfriblNumbfr        frbmf_sfribl_numbfr_stbrt;
+    SfriblNumbfr        grff_sfribl_numbfr_stbrt;
+
+    SfriblNumbfr        tbblf_sfribl_numbfr_dountfr;
+    SfriblNumbfr        dlbss_sfribl_numbfr_dountfr;
+    SfriblNumbfr        thrfbd_sfribl_numbfr_dountfr;
+    SfriblNumbfr        trbdf_sfribl_numbfr_dountfr;
+    SfriblNumbfr        objfdt_sfribl_numbfr_dountfr;
+    SfriblNumbfr        frbmf_sfribl_numbfr_dountfr;
+    SfriblNumbfr        grff_sfribl_numbfr_dountfr;
+
+    /* Thf mfthodID for thf Objfdt <init> mfthod. */
+    jmfthodID           objfdt_init_mfthod;
+
+    /* Kffping trbdk of thf trbdkfr dlbss bnd it's mfthods */
+    volbtilf jint       trbdking_fngbgfd;       /* !=0 mfbns it's on */
+    ClbssIndfx          trbdkfr_dnum;
+    int                 trbdkfr_mfthod_dount;
+    strudt {
+        StringIndfx nbmf;               /* String indfx for nbmf */
+        StringIndfx sig;                /* String indfx for signbturf */
+        jmfthodID mfthod;       /* Mfthod ID */
+    } trbdkfr_mfthods[12];      /* MAX 12 Trbdkfr dlbss mfthods */
+
+    /* Indfx to somf dommon itfms */
+    LobdfrIndfx         systfm_lobdfr;
+    SfriblNumbfr        unknown_thrfbd_sfribl_num;
+    TrbdfIndfx          systfm_trbdf_indfx;
+    SitfIndfx           systfm_objfdt_sitf_indfx;
+    jint                systfm_dlbss_sizf;
+    TrbdfIndfx          hprof_trbdf_indfx;
+    SitfIndfx           hprof_sitf_indfx;
+
+    /* Tbblfs for strings, dlbssfs, sitfs, ftd. */
+    strudt LookupTbblf * string_tbblf;
+    strudt LookupTbblf * ionbmf_tbblf;
+    strudt LookupTbblf * dlbss_tbblf;
+    strudt LookupTbblf * sitf_tbblf;
+    strudt LookupTbblf * objfdt_tbblf;
+    strudt LookupTbblf * rfffrfndf_tbblf;
+    strudt LookupTbblf * frbmf_tbblf;
+    strudt LookupTbblf * trbdf_tbblf;
+    strudt LookupTbblf * monitor_tbblf;
+    strudt LookupTbblf * tls_tbblf;
+    strudt LookupTbblf * lobdfr_tbblf;
+
+    /* Hbndlfs to jbvb_drw_dfmo librbry */
+    void * jbvb_drw_dfmo_librbry;
+    void * jbvb_drw_dfmo_fundtion;
+    void * jbvb_drw_dfmo_dlbssnbmf_fundtion;
+
+    /* Indidbtion thbt thf bgfnt hbs bffn lobdfd */
+    jboolfbn isLobdfd;
+
+} GlobblDbtb;
+
+/* This should bf thf only 'fxtfrn' in thf librbry (not fxportfd). */
+
+fxtfrn GlobblDbtb * gdbtb;
+
+#fndif

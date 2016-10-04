@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.channels.spi;
+pbdkbgf jbvb.nio.dibnnfls.spi;
 
-import java.nio.channels.*;
+import jbvb.nio.dibnnfls.*;
 
 
 /**
- * Base implementation class for selection keys.
+ * Bbsf implfmfntbtion dlbss for sflfdtion kfys.
  *
- * <p> This class tracks the validity of the key and implements cancellation.
+ * <p> Tiis dlbss trbdks tif vblidity of tif kfy bnd implfmfnts dbndfllbtion.
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
- * @since 1.4
+ * @butior Mbrk Rfiniold
+ * @butior JSR-51 Expfrt Group
+ * @sindf 1.4
  */
 
-public abstract class AbstractSelectionKey
-    extends SelectionKey
+publid bbstrbdt dlbss AbstrbdtSflfdtionKfy
+    fxtfnds SflfdtionKfy
 {
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
      */
-    protected AbstractSelectionKey() { }
+    protfdtfd AbstrbdtSflfdtionKfy() { }
 
-    private volatile boolean valid = true;
+    privbtf volbtilf boolfbn vblid = truf;
 
-    public final boolean isValid() {
-        return valid;
+    publid finbl boolfbn isVblid() {
+        rfturn vblid;
     }
 
-    void invalidate() {                                 // package-private
-        valid = false;
+    void invblidbtf() {                                 // pbdkbgf-privbtf
+        vblid = fblsf;
     }
 
     /**
-     * Cancels this key.
+     * Cbndfls tiis kfy.
      *
-     * <p> If this key has not yet been cancelled then it is added to its
-     * selector's cancelled-key set while synchronized on that set.  </p>
+     * <p> If tiis kfy ibs not yft bffn dbndfllfd tifn it is bddfd to its
+     * sflfdtor's dbndfllfd-kfy sft wiilf syndironizfd on tibt sft.  </p>
      */
-    public final void cancel() {
-        // Synchronizing "this" to prevent this key from getting canceled
-        // multiple times by different threads, which might cause race
-        // condition between selector's select() and channel's close().
-        synchronized (this) {
-            if (valid) {
-                valid = false;
-                ((AbstractSelector)selector()).cancel(this);
+    publid finbl void dbndfl() {
+        // Syndironizing "tiis" to prfvfnt tiis kfy from gftting dbndflfd
+        // multiplf timfs by difffrfnt tirfbds, wiidi migit dbusf rbdf
+        // dondition bftwffn sflfdtor's sflfdt() bnd dibnnfl's dlosf().
+        syndironizfd (tiis) {
+            if (vblid) {
+                vblid = fblsf;
+                ((AbstrbdtSflfdtor)sflfdtor()).dbndfl(tiis);
             }
         }
     }

@@ -1,834 +1,834 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.util.*;
-import java.awt.peer.ChoicePeer;
-import java.awt.event.*;
-import java.util.EventListener;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.util.*;
+import jbvb.bwt.pffr.CioidfPffr;
+import jbvb.bwt.fvfnt.*;
+import jbvb.util.EvfntListfnfr;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
 
-import javax.accessibility.*;
+import jbvbx.bddfssibility.*;
 
 
 /**
- * The <code>Choice</code> class presents a pop-up menu of choices.
- * The current choice is displayed as the title of the menu.
+ * Tif <dodf>Cioidf</dodf> dlbss prfsfnts b pop-up mfnu of dioidfs.
+ * Tif durrfnt dioidf is displbyfd bs tif titlf of tif mfnu.
  * <p>
- * The following code example produces a pop-up menu:
+ * Tif following dodf fxbmplf produdfs b pop-up mfnu:
  *
- * <hr><blockquote><pre>
- * Choice ColorChooser = new Choice();
- * ColorChooser.add("Green");
- * ColorChooser.add("Red");
- * ColorChooser.add("Blue");
- * </pre></blockquote><hr>
+ * <ir><blodkquotf><prf>
+ * Cioidf ColorCioosfr = nfw Cioidf();
+ * ColorCioosfr.bdd("Grffn");
+ * ColorCioosfr.bdd("Rfd");
+ * ColorCioosfr.bdd("Bluf");
+ * </prf></blodkquotf><ir>
  * <p>
- * After this choice menu has been added to a panel,
- * it appears as follows in its normal state:
+ * Aftfr tiis dioidf mfnu ibs bffn bddfd to b pbnfl,
+ * it bppfbrs bs follows in its normbl stbtf:
  * <p>
- * <img src="doc-files/Choice-1.gif" alt="The following text describes the graphic"
- * style="float:center; margin: 7px 10px;">
+ * <img srd="dod-filfs/Cioidf-1.gif" blt="Tif following tfxt dfsdribfs tif grbpiid"
+ * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
  * <p>
- * In the picture, <code>"Green"</code> is the current choice.
- * Pushing the mouse button down on the object causes a menu to
- * appear with the current choice highlighted.
+ * In tif pidturf, <dodf>"Grffn"</dodf> is tif durrfnt dioidf.
+ * Pusiing tif mousf button down on tif objfdt dbusfs b mfnu to
+ * bppfbr witi tif durrfnt dioidf iigiligitfd.
  * <p>
- * Some native platforms do not support arbitrary resizing of
- * <code>Choice</code> components and the behavior of
- * <code>setSize()/getSize()</code> is bound by
- * such limitations.
- * Native GUI <code>Choice</code> components' size are often bound by such
- * attributes as font size and length of items contained within
- * the <code>Choice</code>.
+ * Somf nbtivf plbtforms do not support brbitrbry rfsizing of
+ * <dodf>Cioidf</dodf> domponfnts bnd tif bfibvior of
+ * <dodf>sftSizf()/gftSizf()</dodf> is bound by
+ * sudi limitbtions.
+ * Nbtivf GUI <dodf>Cioidf</dodf> domponfnts' sizf brf oftfn bound by sudi
+ * bttributfs bs font sizf bnd lfngti of itfms dontbinfd witiin
+ * tif <dodf>Cioidf</dodf>.
  *
- * @author      Sami Shaio
- * @author      Arthur van Hoff
- * @since       1.0
+ * @butior      Sbmi Sibio
+ * @butior      Artiur vbn Hoff
+ * @sindf       1.0
  */
-public class Choice extends Component implements ItemSelectable, Accessible {
+publid dlbss Cioidf fxtfnds Componfnt implfmfnts ItfmSflfdtbblf, Addfssiblf {
     /**
-     * The items for the <code>Choice</code>.
-     * This can be a <code>null</code> value.
-     * @serial
-     * @see #add(String)
-     * @see #addItem(String)
-     * @see #getItem(int)
-     * @see #getItemCount()
-     * @see #insert(String, int)
-     * @see #remove(String)
+     * Tif itfms for tif <dodf>Cioidf</dodf>.
+     * Tiis dbn bf b <dodf>null</dodf> vbluf.
+     * @sfribl
+     * @sff #bdd(String)
+     * @sff #bddItfm(String)
+     * @sff #gftItfm(int)
+     * @sff #gftItfmCount()
+     * @sff #insfrt(String, int)
+     * @sff #rfmovf(String)
      */
-    Vector<String> pItems;
+    Vfdtor<String> pItfms;
 
     /**
-     * The index of the current choice for this <code>Choice</code>
-     * or -1 if nothing is selected.
-     * @serial
-     * @see #getSelectedItem()
-     * @see #select(int)
+     * Tif indfx of tif durrfnt dioidf for tiis <dodf>Cioidf</dodf>
+     * or -1 if notiing is sflfdtfd.
+     * @sfribl
+     * @sff #gftSflfdtfdItfm()
+     * @sff #sflfdt(int)
      */
-    int selectedIndex = -1;
+    int sflfdtfdIndfx = -1;
 
-    transient ItemListener itemListener;
+    trbnsifnt ItfmListfnfr itfmListfnfr;
 
-    private static final String base = "choice";
-    private static int nameCounter = 0;
+    privbtf stbtid finbl String bbsf = "dioidf";
+    privbtf stbtid int nbmfCountfr = 0;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-    private static final long serialVersionUID = -4075310674757313071L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -4075310674757313071L;
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        /* initialize JNI field and method ids */
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtid {
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        /* initiblizf JNI fifld bnd mftiod ids */
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
             initIDs();
         }
     }
 
     /**
-     * Creates a new choice menu. The menu initially has no items in it.
+     * Crfbtfs b nfw dioidf mfnu. Tif mfnu initiblly ibs no itfms in it.
      * <p>
-     * By default, the first item added to the choice menu becomes the
-     * selected item, until a different selection is made by the user
-     * by calling one of the <code>select</code> methods.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     * returns true
-     * @see       java.awt.GraphicsEnvironment#isHeadless
-     * @see       #select(int)
-     * @see       #select(java.lang.String)
+     * By dffbult, tif first itfm bddfd to tif dioidf mfnu bfdomfs tif
+     * sflfdtfd itfm, until b difffrfnt sflfdtion is mbdf by tif usfr
+     * by dblling onf of tif <dodf>sflfdt</dodf> mftiods.
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf
+     * @sff       jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff       #sflfdt(int)
+     * @sff       #sflfdt(jbvb.lbng.String)
      */
-    public Choice() throws HeadlessException {
-        GraphicsEnvironment.checkHeadless();
-        pItems = new Vector<>();
+    publid Cioidf() tirows HfbdlfssExdfption {
+        GrbpiidsEnvironmfnt.difdkHfbdlfss();
+        pItfms = nfw Vfdtor<>();
     }
 
     /**
-     * Constructs a name for this component.  Called by
-     * <code>getName</code> when the name is <code>null</code>.
+     * Construdts b nbmf for tiis domponfnt.  Cbllfd by
+     * <dodf>gftNbmf</dodf> wifn tif nbmf is <dodf>null</dodf>.
      */
-    String constructComponentName() {
-        synchronized (Choice.class) {
-            return base + nameCounter++;
+    String donstrudtComponfntNbmf() {
+        syndironizfd (Cioidf.dlbss) {
+            rfturn bbsf + nbmfCountfr++;
         }
     }
 
     /**
-     * Creates the <code>Choice</code>'s peer.  This peer allows us
-     * to change the look
-     * of the <code>Choice</code> without changing its functionality.
-     * @see     java.awt.Toolkit#createChoice(java.awt.Choice)
-     * @see     java.awt.Component#getToolkit()
+     * Crfbtfs tif <dodf>Cioidf</dodf>'s pffr.  Tiis pffr bllows us
+     * to dibngf tif look
+     * of tif <dodf>Cioidf</dodf> witiout dibnging its fundtionblity.
+     * @sff     jbvb.bwt.Toolkit#drfbtfCioidf(jbvb.bwt.Cioidf)
+     * @sff     jbvb.bwt.Componfnt#gftToolkit()
      */
-    public void addNotify() {
-        synchronized (getTreeLock()) {
-            if (peer == null)
-                peer = getToolkit().createChoice(this);
-            super.addNotify();
+    publid void bddNotify() {
+        syndironizfd (gftTrffLodk()) {
+            if (pffr == null)
+                pffr = gftToolkit().drfbtfCioidf(tiis);
+            supfr.bddNotify();
         }
     }
 
     /**
-     * Returns the number of items in this <code>Choice</code> menu.
+     * Rfturns tif numbfr of itfms in tiis <dodf>Cioidf</dodf> mfnu.
      *
-     * @return the number of items in this <code>Choice</code> menu
-     * @see     #getItem
-     * @since   1.1
+     * @rfturn tif numbfr of itfms in tiis <dodf>Cioidf</dodf> mfnu
+     * @sff     #gftItfm
+     * @sindf   1.1
      */
-    public int getItemCount() {
-        return countItems();
+    publid int gftItfmCount() {
+        rfturn dountItfms();
     }
 
     /**
-     * Returns the number of items in this {@code Choice} menu.
+     * Rfturns tif numbfr of itfms in tiis {@dodf Cioidf} mfnu.
      *
-     * @return the number of items in this {@code Choice} menu
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getItemCount()</code>.
+     * @rfturn tif numbfr of itfms in tiis {@dodf Cioidf} mfnu
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>gftItfmCount()</dodf>.
      */
-    @Deprecated
-    public int countItems() {
-        return pItems.size();
+    @Dfprfdbtfd
+    publid int dountItfms() {
+        rfturn pItfms.sizf();
     }
 
     /**
-     * Gets the string at the specified index in this
-     * <code>Choice</code> menu.
+     * Gfts tif string bt tif spfdififd indfx in tiis
+     * <dodf>Cioidf</dodf> mfnu.
      *
-     * @param  index the index at which to begin
-     * @return the item at the specified index
-     * @see    #getItemCount
+     * @pbrbm  indfx tif indfx bt wiidi to bfgin
+     * @rfturn tif itfm bt tif spfdififd indfx
+     * @sff    #gftItfmCount
      */
-    public String getItem(int index) {
-        return getItemImpl(index);
+    publid String gftItfm(int indfx) {
+        rfturn gftItfmImpl(indfx);
     }
 
     /*
-     * This is called by the native code, so client code can't
-     * be called on the toolkit thread.
+     * Tiis is dbllfd by tif nbtivf dodf, so dlifnt dodf dbn't
+     * bf dbllfd on tif toolkit tirfbd.
      */
-    final String getItemImpl(int index) {
-        return pItems.elementAt(index);
+    finbl String gftItfmImpl(int indfx) {
+        rfturn pItfms.flfmfntAt(indfx);
     }
 
     /**
-     * Adds an item to this <code>Choice</code> menu.
-     * @param      item    the item to be added
-     * @exception  NullPointerException   if the item's value is
-     *                  <code>null</code>
-     * @since      1.1
+     * Adds bn itfm to tiis <dodf>Cioidf</dodf> mfnu.
+     * @pbrbm      itfm    tif itfm to bf bddfd
+     * @fxdfption  NullPointfrExdfption   if tif itfm's vbluf is
+     *                  <dodf>null</dodf>
+     * @sindf      1.1
      */
-    public void add(String item) {
-        addItem(item);
+    publid void bdd(String itfm) {
+        bddItfm(itfm);
     }
 
     /**
-     * Obsolete as of Java 2 platform v1.1.  Please use the
-     * <code>add</code> method instead.
+     * Obsolftf bs of Jbvb 2 plbtform v1.1.  Plfbsf usf tif
+     * <dodf>bdd</dodf> mftiod instfbd.
      * <p>
-     * Adds an item to this <code>Choice</code> menu.
-     * @param item the item to be added
-     * @exception NullPointerException if the item's value is equal to
-     *          <code>null</code>
+     * Adds bn itfm to tiis <dodf>Cioidf</dodf> mfnu.
+     * @pbrbm itfm tif itfm to bf bddfd
+     * @fxdfption NullPointfrExdfption if tif itfm's vbluf is fqubl to
+     *          <dodf>null</dodf>
      */
-    public void addItem(String item) {
-        synchronized (this) {
-            insertNoInvalidate(item, pItems.size());
+    publid void bddItfm(String itfm) {
+        syndironizfd (tiis) {
+            insfrtNoInvblidbtf(itfm, pItfms.sizf());
         }
 
-        // This could change the preferred size of the Component.
-        invalidateIfValid();
+        // Tiis dould dibngf tif prfffrrfd sizf of tif Componfnt.
+        invblidbtfIfVblid();
     }
 
     /**
-     * Inserts an item to this <code>Choice</code>,
-     * but does not invalidate the <code>Choice</code>.
-     * Client methods must provide their own synchronization before
-     * invoking this method.
-     * @param item the item to be added
-     * @param index the new item position
-     * @exception NullPointerException if the item's value is equal to
-     *          <code>null</code>
+     * Insfrts bn itfm to tiis <dodf>Cioidf</dodf>,
+     * but dofs not invblidbtf tif <dodf>Cioidf</dodf>.
+     * Clifnt mftiods must providf tifir own syndironizbtion bfforf
+     * invoking tiis mftiod.
+     * @pbrbm itfm tif itfm to bf bddfd
+     * @pbrbm indfx tif nfw itfm position
+     * @fxdfption NullPointfrExdfption if tif itfm's vbluf is fqubl to
+     *          <dodf>null</dodf>
      */
-    private void insertNoInvalidate(String item, int index) {
-        if (item == null) {
-            throw new
-                NullPointerException("cannot add null item to Choice");
+    privbtf void insfrtNoInvblidbtf(String itfm, int indfx) {
+        if (itfm == null) {
+            tirow nfw
+                NullPointfrExdfption("dbnnot bdd null itfm to Cioidf");
         }
-        pItems.insertElementAt(item, index);
-        ChoicePeer peer = (ChoicePeer)this.peer;
-        if (peer != null) {
-            peer.add(item, index);
+        pItfms.insfrtElfmfntAt(itfm, indfx);
+        CioidfPffr pffr = (CioidfPffr)tiis.pffr;
+        if (pffr != null) {
+            pffr.bdd(itfm, indfx);
         }
-        // no selection or selection shifted up
-        if (selectedIndex < 0 || selectedIndex >= index) {
-            select(0);
+        // no sflfdtion or sflfdtion siiftfd up
+        if (sflfdtfdIndfx < 0 || sflfdtfdIndfx >= indfx) {
+            sflfdt(0);
         }
     }
 
 
     /**
-     * Inserts the item into this choice at the specified position.
-     * Existing items at an index greater than or equal to
-     * <code>index</code> are shifted up by one to accommodate
-     * the new item.  If <code>index</code> is greater than or
-     * equal to the number of items in this choice,
-     * <code>item</code> is added to the end of this choice.
+     * Insfrts tif itfm into tiis dioidf bt tif spfdififd position.
+     * Existing itfms bt bn indfx grfbtfr tibn or fqubl to
+     * <dodf>indfx</dodf> brf siiftfd up by onf to bddommodbtf
+     * tif nfw itfm.  If <dodf>indfx</dodf> is grfbtfr tibn or
+     * fqubl to tif numbfr of itfms in tiis dioidf,
+     * <dodf>itfm</dodf> is bddfd to tif fnd of tiis dioidf.
      * <p>
-     * If the item is the first one being added to the choice,
-     * then the item becomes selected.  Otherwise, if the
-     * selected item was one of the items shifted, the first
-     * item in the choice becomes the selected item.  If the
-     * selected item was no among those shifted, it remains
-     * the selected item.
-     * @param item the non-<code>null</code> item to be inserted
-     * @param index the position at which the item should be inserted
-     * @exception IllegalArgumentException if index is less than 0
+     * If tif itfm is tif first onf bfing bddfd to tif dioidf,
+     * tifn tif itfm bfdomfs sflfdtfd.  Otifrwisf, if tif
+     * sflfdtfd itfm wbs onf of tif itfms siiftfd, tif first
+     * itfm in tif dioidf bfdomfs tif sflfdtfd itfm.  If tif
+     * sflfdtfd itfm wbs no bmong tiosf siiftfd, it rfmbins
+     * tif sflfdtfd itfm.
+     * @pbrbm itfm tif non-<dodf>null</dodf> itfm to bf insfrtfd
+     * @pbrbm indfx tif position bt wiidi tif itfm siould bf insfrtfd
+     * @fxdfption IllfgblArgumfntExdfption if indfx is lfss tibn 0
      */
-    public void insert(String item, int index) {
-        synchronized (this) {
-            if (index < 0) {
-                throw new IllegalArgumentException("index less than zero.");
+    publid void insfrt(String itfm, int indfx) {
+        syndironizfd (tiis) {
+            if (indfx < 0) {
+                tirow nfw IllfgblArgumfntExdfption("indfx lfss tibn zfro.");
             }
-            /* if the index greater than item count, add item to the end */
-            index = Math.min(index, pItems.size());
+            /* if tif indfx grfbtfr tibn itfm dount, bdd itfm to tif fnd */
+            indfx = Mbti.min(indfx, pItfms.sizf());
 
-            insertNoInvalidate(item, index);
+            insfrtNoInvblidbtf(itfm, indfx);
         }
 
-        // This could change the preferred size of the Component.
-        invalidateIfValid();
+        // Tiis dould dibngf tif prfffrrfd sizf of tif Componfnt.
+        invblidbtfIfVblid();
     }
 
     /**
-     * Removes the first occurrence of <code>item</code>
-     * from the <code>Choice</code> menu.  If the item
-     * being removed is the currently selected item,
-     * then the first item in the choice becomes the
-     * selected item.  Otherwise, the currently selected
-     * item remains selected (and the selected index is
-     * updated accordingly).
-     * @param      item  the item to remove from this <code>Choice</code> menu
-     * @exception  IllegalArgumentException  if the item doesn't
-     *                     exist in the choice menu
-     * @since      1.1
+     * Rfmovfs tif first oddurrfndf of <dodf>itfm</dodf>
+     * from tif <dodf>Cioidf</dodf> mfnu.  If tif itfm
+     * bfing rfmovfd is tif durrfntly sflfdtfd itfm,
+     * tifn tif first itfm in tif dioidf bfdomfs tif
+     * sflfdtfd itfm.  Otifrwisf, tif durrfntly sflfdtfd
+     * itfm rfmbins sflfdtfd (bnd tif sflfdtfd indfx is
+     * updbtfd bddordingly).
+     * @pbrbm      itfm  tif itfm to rfmovf from tiis <dodf>Cioidf</dodf> mfnu
+     * @fxdfption  IllfgblArgumfntExdfption  if tif itfm dofsn't
+     *                     fxist in tif dioidf mfnu
+     * @sindf      1.1
      */
-    public void remove(String item) {
-        synchronized (this) {
-            int index = pItems.indexOf(item);
-            if (index < 0) {
-                throw new IllegalArgumentException("item " + item +
-                                                   " not found in choice");
-            } else {
-                removeNoInvalidate(index);
+    publid void rfmovf(String itfm) {
+        syndironizfd (tiis) {
+            int indfx = pItfms.indfxOf(itfm);
+            if (indfx < 0) {
+                tirow nfw IllfgblArgumfntExdfption("itfm " + itfm +
+                                                   " not found in dioidf");
+            } flsf {
+                rfmovfNoInvblidbtf(indfx);
             }
         }
 
-        // This could change the preferred size of the Component.
-        invalidateIfValid();
+        // Tiis dould dibngf tif prfffrrfd sizf of tif Componfnt.
+        invblidbtfIfVblid();
     }
 
     /**
-     * Removes an item from the choice menu
-     * at the specified position.  If the item
-     * being removed is the currently selected item,
-     * then the first item in the choice becomes the
-     * selected item.  Otherwise, the currently selected
-     * item remains selected (and the selected index is
-     * updated accordingly).
-     * @param      position the position of the item
-     * @throws IndexOutOfBoundsException if the specified
+     * Rfmovfs bn itfm from tif dioidf mfnu
+     * bt tif spfdififd position.  If tif itfm
+     * bfing rfmovfd is tif durrfntly sflfdtfd itfm,
+     * tifn tif first itfm in tif dioidf bfdomfs tif
+     * sflfdtfd itfm.  Otifrwisf, tif durrfntly sflfdtfd
+     * itfm rfmbins sflfdtfd (bnd tif sflfdtfd indfx is
+     * updbtfd bddordingly).
+     * @pbrbm      position tif position of tif itfm
+     * @tirows IndfxOutOfBoundsExdfption if tif spfdififd
      *          position is out of bounds
-     * @since      1.1
+     * @sindf      1.1
      */
-    public void remove(int position) {
-        synchronized (this) {
-            removeNoInvalidate(position);
+    publid void rfmovf(int position) {
+        syndironizfd (tiis) {
+            rfmovfNoInvblidbtf(position);
         }
 
-        // This could change the preferred size of the Component.
-        invalidateIfValid();
+        // Tiis dould dibngf tif prfffrrfd sizf of tif Componfnt.
+        invblidbtfIfVblid();
     }
 
     /**
-     * Removes an item from the <code>Choice</code> at the
-     * specified position, but does not invalidate the <code>Choice</code>.
-     * Client methods must provide their
-     * own synchronization before invoking this method.
-     * @param      position   the position of the item
+     * Rfmovfs bn itfm from tif <dodf>Cioidf</dodf> bt tif
+     * spfdififd position, but dofs not invblidbtf tif <dodf>Cioidf</dodf>.
+     * Clifnt mftiods must providf tifir
+     * own syndironizbtion bfforf invoking tiis mftiod.
+     * @pbrbm      position   tif position of tif itfm
      */
-    private void removeNoInvalidate(int position) {
-        pItems.removeElementAt(position);
-        ChoicePeer peer = (ChoicePeer)this.peer;
-        if (peer != null) {
-            peer.remove(position);
+    privbtf void rfmovfNoInvblidbtf(int position) {
+        pItfms.rfmovfElfmfntAt(position);
+        CioidfPffr pffr = (CioidfPffr)tiis.pffr;
+        if (pffr != null) {
+            pffr.rfmovf(position);
         }
-        /* Adjust selectedIndex if selected item was removed. */
-        if (pItems.size() == 0) {
-            selectedIndex = -1;
-        } else if (selectedIndex == position) {
-            select(0);
-        } else if (selectedIndex > position) {
-            select(selectedIndex-1);
+        /* Adjust sflfdtfdIndfx if sflfdtfd itfm wbs rfmovfd. */
+        if (pItfms.sizf() == 0) {
+            sflfdtfdIndfx = -1;
+        } flsf if (sflfdtfdIndfx == position) {
+            sflfdt(0);
+        } flsf if (sflfdtfdIndfx > position) {
+            sflfdt(sflfdtfdIndfx-1);
         }
     }
 
 
     /**
-     * Removes all items from the choice menu.
-     * @see       #remove
-     * @since     1.1
+     * Rfmovfs bll itfms from tif dioidf mfnu.
+     * @sff       #rfmovf
+     * @sindf     1.1
      */
-    public void removeAll() {
-        synchronized (this) {
-            if (peer != null) {
-                ((ChoicePeer)peer).removeAll();
+    publid void rfmovfAll() {
+        syndironizfd (tiis) {
+            if (pffr != null) {
+                ((CioidfPffr)pffr).rfmovfAll();
             }
-            pItems.removeAllElements();
-            selectedIndex = -1;
+            pItfms.rfmovfAllElfmfnts();
+            sflfdtfdIndfx = -1;
         }
 
-        // This could change the preferred size of the Component.
-        invalidateIfValid();
+        // Tiis dould dibngf tif prfffrrfd sizf of tif Componfnt.
+        invblidbtfIfVblid();
     }
 
     /**
-     * Gets a representation of the current choice as a string.
-     * @return    a string representation of the currently
-     *                     selected item in this choice menu
-     * @see       #getSelectedIndex
+     * Gfts b rfprfsfntbtion of tif durrfnt dioidf bs b string.
+     * @rfturn    b string rfprfsfntbtion of tif durrfntly
+     *                     sflfdtfd itfm in tiis dioidf mfnu
+     * @sff       #gftSflfdtfdIndfx
      */
-    public synchronized String getSelectedItem() {
-        return (selectedIndex >= 0) ? getItem(selectedIndex) : null;
+    publid syndironizfd String gftSflfdtfdItfm() {
+        rfturn (sflfdtfdIndfx >= 0) ? gftItfm(sflfdtfdIndfx) : null;
     }
 
     /**
-     * Returns an array (length 1) containing the currently selected
-     * item.  If this choice has no items, returns <code>null</code>.
-     * @see ItemSelectable
+     * Rfturns bn brrby (lfngti 1) dontbining tif durrfntly sflfdtfd
+     * itfm.  If tiis dioidf ibs no itfms, rfturns <dodf>null</dodf>.
+     * @sff ItfmSflfdtbblf
      */
-    public synchronized Object[] getSelectedObjects() {
-        if (selectedIndex >= 0) {
-            Object[] items = new Object[1];
-            items[0] = getItem(selectedIndex);
-            return items;
+    publid syndironizfd Objfdt[] gftSflfdtfdObjfdts() {
+        if (sflfdtfdIndfx >= 0) {
+            Objfdt[] itfms = nfw Objfdt[1];
+            itfms[0] = gftItfm(sflfdtfdIndfx);
+            rfturn itfms;
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns the index of the currently selected item.
-     * If nothing is selected, returns -1.
+     * Rfturns tif indfx of tif durrfntly sflfdtfd itfm.
+     * If notiing is sflfdtfd, rfturns -1.
      *
-     * @return the index of the currently selected item, or -1 if nothing
-     *  is currently selected
-     * @see #getSelectedItem
+     * @rfturn tif indfx of tif durrfntly sflfdtfd itfm, or -1 if notiing
+     *  is durrfntly sflfdtfd
+     * @sff #gftSflfdtfdItfm
      */
-    public int getSelectedIndex() {
-        return selectedIndex;
+    publid int gftSflfdtfdIndfx() {
+        rfturn sflfdtfdIndfx;
     }
 
     /**
-     * Sets the selected item in this <code>Choice</code> menu to be the
-     * item at the specified position.
+     * Sfts tif sflfdtfd itfm in tiis <dodf>Cioidf</dodf> mfnu to bf tif
+     * itfm bt tif spfdififd position.
      *
-     * <p>Note that this method should be primarily used to
-     * initially select an item in this component.
-     * Programmatically calling this method will <i>not</i> trigger
-     * an <code>ItemEvent</code>.  The only way to trigger an
-     * <code>ItemEvent</code> is by user interaction.
+     * <p>Notf tibt tiis mftiod siould bf primbrily usfd to
+     * initiblly sflfdt bn itfm in tiis domponfnt.
+     * Progrbmmbtidblly dblling tiis mftiod will <i>not</i> triggfr
+     * bn <dodf>ItfmEvfnt</dodf>.  Tif only wby to triggfr bn
+     * <dodf>ItfmEvfnt</dodf> is by usfr intfrbdtion.
      *
-     * @param      pos      the position of the selected item
-     * @exception  IllegalArgumentException if the specified
-     *                            position is greater than the
-     *                            number of items or less than zero
-     * @see        #getSelectedItem
-     * @see        #getSelectedIndex
+     * @pbrbm      pos      tif position of tif sflfdtfd itfm
+     * @fxdfption  IllfgblArgumfntExdfption if tif spfdififd
+     *                            position is grfbtfr tibn tif
+     *                            numbfr of itfms or lfss tibn zfro
+     * @sff        #gftSflfdtfdItfm
+     * @sff        #gftSflfdtfdIndfx
      */
-    public synchronized void select(int pos) {
-        if ((pos >= pItems.size()) || (pos < 0)) {
-            throw new IllegalArgumentException("illegal Choice item position: " + pos);
+    publid syndironizfd void sflfdt(int pos) {
+        if ((pos >= pItfms.sizf()) || (pos < 0)) {
+            tirow nfw IllfgblArgumfntExdfption("illfgbl Cioidf itfm position: " + pos);
         }
-        if (pItems.size() > 0) {
-            selectedIndex = pos;
-            ChoicePeer peer = (ChoicePeer)this.peer;
-            if (peer != null) {
-                peer.select(pos);
+        if (pItfms.sizf() > 0) {
+            sflfdtfdIndfx = pos;
+            CioidfPffr pffr = (CioidfPffr)tiis.pffr;
+            if (pffr != null) {
+                pffr.sflfdt(pos);
             }
         }
     }
 
     /**
-     * Sets the selected item in this <code>Choice</code> menu
-     * to be the item whose name is equal to the specified string.
-     * If more than one item matches (is equal to) the specified string,
-     * the one with the smallest index is selected.
+     * Sfts tif sflfdtfd itfm in tiis <dodf>Cioidf</dodf> mfnu
+     * to bf tif itfm wiosf nbmf is fqubl to tif spfdififd string.
+     * If morf tibn onf itfm mbtdifs (is fqubl to) tif spfdififd string,
+     * tif onf witi tif smbllfst indfx is sflfdtfd.
      *
-     * <p>Note that this method should be primarily used to
-     * initially select an item in this component.
-     * Programmatically calling this method will <i>not</i> trigger
-     * an <code>ItemEvent</code>.  The only way to trigger an
-     * <code>ItemEvent</code> is by user interaction.
+     * <p>Notf tibt tiis mftiod siould bf primbrily usfd to
+     * initiblly sflfdt bn itfm in tiis domponfnt.
+     * Progrbmmbtidblly dblling tiis mftiod will <i>not</i> triggfr
+     * bn <dodf>ItfmEvfnt</dodf>.  Tif only wby to triggfr bn
+     * <dodf>ItfmEvfnt</dodf> is by usfr intfrbdtion.
      *
-     * @param       str     the specified string
-     * @see         #getSelectedItem
-     * @see         #getSelectedIndex
+     * @pbrbm       str     tif spfdififd string
+     * @sff         #gftSflfdtfdItfm
+     * @sff         #gftSflfdtfdIndfx
      */
-    public synchronized void select(String str) {
-        int index = pItems.indexOf(str);
-        if (index >= 0) {
-            select(index);
+    publid syndironizfd void sflfdt(String str) {
+        int indfx = pItfms.indfxOf(str);
+        if (indfx >= 0) {
+            sflfdt(indfx);
         }
     }
 
     /**
-     * Adds the specified item listener to receive item events from
-     * this <code>Choice</code> menu.  Item events are sent in response
-     * to user input, but not in response to calls to <code>select</code>.
-     * If l is <code>null</code>, no exception is thrown and no action
-     * is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
-     * @param         l    the item listener
-     * @see           #removeItemListener
-     * @see           #getItemListeners
-     * @see           #select
-     * @see           java.awt.event.ItemEvent
-     * @see           java.awt.event.ItemListener
-     * @since         1.1
+     * Adds tif spfdififd itfm listfnfr to rfdfivf itfm fvfnts from
+     * tiis <dodf>Cioidf</dodf> mfnu.  Itfm fvfnts brf sfnt in rfsponsf
+     * to usfr input, but not in rfsponsf to dblls to <dodf>sflfdt</dodf>.
+     * If l is <dodf>null</dodf>, no fxdfption is tirown bnd no bdtion
+     * is pfrformfd.
+     * <p>Rfffr to <b irff="dod-filfs/AWTTirfbdIssufs.itml#ListfnfrsTirfbds"
+     * >AWT Tirfbding Issufs</b> for dftbils on AWT's tirfbding modfl.
+     * @pbrbm         l    tif itfm listfnfr
+     * @sff           #rfmovfItfmListfnfr
+     * @sff           #gftItfmListfnfrs
+     * @sff           #sflfdt
+     * @sff           jbvb.bwt.fvfnt.ItfmEvfnt
+     * @sff           jbvb.bwt.fvfnt.ItfmListfnfr
+     * @sindf         1.1
      */
-    public synchronized void addItemListener(ItemListener l) {
+    publid syndironizfd void bddItfmListfnfr(ItfmListfnfr l) {
         if (l == null) {
-           return;
+           rfturn;
         }
-        itemListener = AWTEventMulticaster.add(itemListener, l);
-        newEventsOnly = true;
+        itfmListfnfr = AWTEvfntMultidbstfr.bdd(itfmListfnfr, l);
+        nfwEvfntsOnly = truf;
     }
 
     /**
-     * Removes the specified item listener so that it no longer receives
-     * item events from this <code>Choice</code> menu.
-     * If l is <code>null</code>, no exception is thrown and no
-     * action is performed.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
-     * @param         l    the item listener
-     * @see           #addItemListener
-     * @see           #getItemListeners
-     * @see           java.awt.event.ItemEvent
-     * @see           java.awt.event.ItemListener
-     * @since         1.1
+     * Rfmovfs tif spfdififd itfm listfnfr so tibt it no longfr rfdfivfs
+     * itfm fvfnts from tiis <dodf>Cioidf</dodf> mfnu.
+     * If l is <dodf>null</dodf>, no fxdfption is tirown bnd no
+     * bdtion is pfrformfd.
+     * <p>Rfffr to <b irff="dod-filfs/AWTTirfbdIssufs.itml#ListfnfrsTirfbds"
+     * >AWT Tirfbding Issufs</b> for dftbils on AWT's tirfbding modfl.
+     * @pbrbm         l    tif itfm listfnfr
+     * @sff           #bddItfmListfnfr
+     * @sff           #gftItfmListfnfrs
+     * @sff           jbvb.bwt.fvfnt.ItfmEvfnt
+     * @sff           jbvb.bwt.fvfnt.ItfmListfnfr
+     * @sindf         1.1
      */
-    public synchronized void removeItemListener(ItemListener l) {
+    publid syndironizfd void rfmovfItfmListfnfr(ItfmListfnfr l) {
         if (l == null) {
-            return;
+            rfturn;
         }
-        itemListener = AWTEventMulticaster.remove(itemListener, l);
+        itfmListfnfr = AWTEvfntMultidbstfr.rfmovf(itfmListfnfr, l);
     }
 
     /**
-     * Returns an array of all the item listeners
-     * registered on this choice.
+     * Rfturns bn brrby of bll tif itfm listfnfrs
+     * rfgistfrfd on tiis dioidf.
      *
-     * @return all of this choice's <code>ItemListener</code>s
-     *         or an empty array if no item
-     *         listeners are currently registered
+     * @rfturn bll of tiis dioidf's <dodf>ItfmListfnfr</dodf>s
+     *         or bn fmpty brrby if no itfm
+     *         listfnfrs brf durrfntly rfgistfrfd
      *
-     * @see           #addItemListener
-     * @see           #removeItemListener
-     * @see           java.awt.event.ItemEvent
-     * @see           java.awt.event.ItemListener
-     * @since 1.4
+     * @sff           #bddItfmListfnfr
+     * @sff           #rfmovfItfmListfnfr
+     * @sff           jbvb.bwt.fvfnt.ItfmEvfnt
+     * @sff           jbvb.bwt.fvfnt.ItfmListfnfr
+     * @sindf 1.4
      */
-    public synchronized ItemListener[] getItemListeners() {
-        return getListeners(ItemListener.class);
+    publid syndironizfd ItfmListfnfr[] gftItfmListfnfrs() {
+        rfturn gftListfnfrs(ItfmListfnfr.dlbss);
     }
 
     /**
-     * Returns an array of all the objects currently registered
-     * as <code><em>Foo</em>Listener</code>s
-     * upon this <code>Choice</code>.
-     * <code><em>Foo</em>Listener</code>s are registered using the
-     * <code>add<em>Foo</em>Listener</code> method.
+     * Rfturns bn brrby of bll tif objfdts durrfntly rfgistfrfd
+     * bs <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * upon tiis <dodf>Cioidf</dodf>.
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s brf rfgistfrfd using tif
+     * <dodf>bdd<fm>Foo</fm>Listfnfr</dodf> mftiod.
      *
      * <p>
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal, such as
-     * <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a
-     * <code>Choice</code> <code>c</code>
-     * for its item listeners with the following code:
+     * You dbn spfdify tif <dodf>listfnfrTypf</dodf> brgumfnt
+     * witi b dlbss litfrbl, sudi bs
+     * <dodf><fm>Foo</fm>Listfnfr.dlbss</dodf>.
+     * For fxbmplf, you dbn qufry b
+     * <dodf>Cioidf</dodf> <dodf>d</dodf>
+     * for its itfm listfnfrs witi tif following dodf:
      *
-     * <pre>ItemListener[] ils = (ItemListener[])(c.getListeners(ItemListener.class));</pre>
+     * <prf>ItfmListfnfr[] ils = (ItfmListfnfr[])(d.gftListfnfrs(ItfmListfnfr.dlbss));</prf>
      *
-     * If no such listeners exist, this method returns an empty array.
+     * If no sudi listfnfrs fxist, tiis mftiod rfturns bn fmpty brrby.
      *
-     * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
-     *          <code><em>Foo</em>Listener</code>s on this choice,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     * @pbrbm listfnfrTypf tif typf of listfnfrs rfqufstfd; tiis pbrbmftfr
+     *          siould spfdify bn intfrfbdf tibt dfsdfnds from
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @rfturn bn brrby of bll objfdts rfgistfrfd bs
+     *          <dodf><fm>Foo</fm>Listfnfr</dodf>s on tiis dioidf,
+     *          or bn fmpty brrby if no sudi
+     *          listfnfrs ibvf bffn bddfd
+     * @fxdfption ClbssCbstExdfption if <dodf>listfnfrTypf</dodf>
+     *          dofsn't spfdify b dlbss or intfrfbdf tibt implfmfnts
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
      *
-     * @see #getItemListeners
-     * @since 1.3
+     * @sff #gftItfmListfnfrs
+     * @sindf 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
-        EventListener l = null;
-        if  (listenerType == ItemListener.class) {
-            l = itemListener;
-        } else {
-            return super.getListeners(listenerType);
+    publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+        EvfntListfnfr l = null;
+        if  (listfnfrTypf == ItfmListfnfr.dlbss) {
+            l = itfmListfnfr;
+        } flsf {
+            rfturn supfr.gftListfnfrs(listfnfrTypf);
         }
-        return AWTEventMulticaster.getListeners(l, listenerType);
+        rfturn AWTEvfntMultidbstfr.gftListfnfrs(l, listfnfrTypf);
     }
 
-    // REMIND: remove when filtering is done at lower level
-    boolean eventEnabled(AWTEvent e) {
-        if (e.id == ItemEvent.ITEM_STATE_CHANGED) {
-            if ((eventMask & AWTEvent.ITEM_EVENT_MASK) != 0 ||
-                itemListener != null) {
-                return true;
+    // REMIND: rfmovf wifn filtfring is donf bt lowfr lfvfl
+    boolfbn fvfntEnbblfd(AWTEvfnt f) {
+        if (f.id == ItfmEvfnt.ITEM_STATE_CHANGED) {
+            if ((fvfntMbsk & AWTEvfnt.ITEM_EVENT_MASK) != 0 ||
+                itfmListfnfr != null) {
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
-        return super.eventEnabled(e);
+        rfturn supfr.fvfntEnbblfd(f);
     }
 
     /**
-     * Processes events on this choice. If the event is an
-     * instance of <code>ItemEvent</code>, it invokes the
-     * <code>processItemEvent</code> method. Otherwise, it calls its
-     * superclass's <code>processEvent</code> method.
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
-     * exception.
+     * Prodfssfs fvfnts on tiis dioidf. If tif fvfnt is bn
+     * instbndf of <dodf>ItfmEvfnt</dodf>, it invokfs tif
+     * <dodf>prodfssItfmEvfnt</dodf> mftiod. Otifrwisf, it dblls its
+     * supfrdlbss's <dodf>prodfssEvfnt</dodf> mftiod.
+     * <p>Notf tibt if tif fvfnt pbrbmftfr is <dodf>null</dodf>
+     * tif bfibvior is unspfdififd bnd mby rfsult in bn
+     * fxdfption.
      *
-     * @param      e the event
-     * @see        java.awt.event.ItemEvent
-     * @see        #processItemEvent
-     * @since      1.1
+     * @pbrbm      f tif fvfnt
+     * @sff        jbvb.bwt.fvfnt.ItfmEvfnt
+     * @sff        #prodfssItfmEvfnt
+     * @sindf      1.1
      */
-    protected void processEvent(AWTEvent e) {
-        if (e instanceof ItemEvent) {
-            processItemEvent((ItemEvent)e);
-            return;
+    protfdtfd void prodfssEvfnt(AWTEvfnt f) {
+        if (f instbndfof ItfmEvfnt) {
+            prodfssItfmEvfnt((ItfmEvfnt)f);
+            rfturn;
         }
-        super.processEvent(e);
+        supfr.prodfssEvfnt(f);
     }
 
     /**
-     * Processes item events occurring on this <code>Choice</code>
-     * menu by dispatching them to any registered
-     * <code>ItemListener</code> objects.
+     * Prodfssfs itfm fvfnts oddurring on tiis <dodf>Cioidf</dodf>
+     * mfnu by dispbtdiing tifm to bny rfgistfrfd
+     * <dodf>ItfmListfnfr</dodf> objfdts.
      * <p>
-     * This method is not called unless item events are
-     * enabled for this component. Item events are enabled
-     * when one of the following occurs:
+     * Tiis mftiod is not dbllfd unlfss itfm fvfnts brf
+     * fnbblfd for tiis domponfnt. Itfm fvfnts brf fnbblfd
+     * wifn onf of tif following oddurs:
      * <ul>
-     * <li>An <code>ItemListener</code> object is registered
-     * via <code>addItemListener</code>.
-     * <li>Item events are enabled via <code>enableEvents</code>.
+     * <li>An <dodf>ItfmListfnfr</dodf> objfdt is rfgistfrfd
+     * vib <dodf>bddItfmListfnfr</dodf>.
+     * <li>Itfm fvfnts brf fnbblfd vib <dodf>fnbblfEvfnts</dodf>.
      * </ul>
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
-     * exception.
+     * <p>Notf tibt if tif fvfnt pbrbmftfr is <dodf>null</dodf>
+     * tif bfibvior is unspfdififd bnd mby rfsult in bn
+     * fxdfption.
      *
-     * @param       e the item event
-     * @see         java.awt.event.ItemEvent
-     * @see         java.awt.event.ItemListener
-     * @see         #addItemListener(ItemListener)
-     * @see         java.awt.Component#enableEvents
-     * @since       1.1
+     * @pbrbm       f tif itfm fvfnt
+     * @sff         jbvb.bwt.fvfnt.ItfmEvfnt
+     * @sff         jbvb.bwt.fvfnt.ItfmListfnfr
+     * @sff         #bddItfmListfnfr(ItfmListfnfr)
+     * @sff         jbvb.bwt.Componfnt#fnbblfEvfnts
+     * @sindf       1.1
      */
-    protected void processItemEvent(ItemEvent e) {
-        ItemListener listener = itemListener;
-        if (listener != null) {
-            listener.itemStateChanged(e);
+    protfdtfd void prodfssItfmEvfnt(ItfmEvfnt f) {
+        ItfmListfnfr listfnfr = itfmListfnfr;
+        if (listfnfr != null) {
+            listfnfr.itfmStbtfCibngfd(f);
         }
     }
 
     /**
-     * Returns a string representing the state of this <code>Choice</code>
-     * menu. This method is intended to be used only for debugging purposes,
-     * and the content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not be
-     * <code>null</code>.
+     * Rfturns b string rfprfsfnting tif stbtf of tiis <dodf>Cioidf</dodf>
+     * mfnu. Tiis mftiod is intfndfd to bf usfd only for dfbugging purposfs,
+     * bnd tif dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not bf
+     * <dodf>null</dodf>.
      *
-     * @return    the parameter string of this <code>Choice</code> menu
+     * @rfturn    tif pbrbmftfr string of tiis <dodf>Cioidf</dodf> mfnu
      */
-    protected String paramString() {
-        return super.paramString() + ",current=" + getSelectedItem();
+    protfdtfd String pbrbmString() {
+        rfturn supfr.pbrbmString() + ",durrfnt=" + gftSflfdtfdItfm();
     }
 
 
-    /* Serialization support.
+    /* Sfriblizbtion support.
      */
 
     /*
-     * Choice Serial Data Version.
-     * @serial
+     * Cioidf Sfribl Dbtb Vfrsion.
+     * @sfribl
      */
-    private int choiceSerializedDataVersion = 1;
+    privbtf int dioidfSfriblizfdDbtbVfrsion = 1;
 
     /**
-     * Writes default serializable fields to stream.  Writes
-     * a list of serializable <code>ItemListeners</code>
-     * as optional data. The non-serializable
-     * <code>ItemListeners</code> are detected and
-     * no attempt is made to serialize them.
+     * Writfs dffbult sfriblizbblf fiflds to strfbm.  Writfs
+     * b list of sfriblizbblf <dodf>ItfmListfnfrs</dodf>
+     * bs optionbl dbtb. Tif non-sfriblizbblf
+     * <dodf>ItfmListfnfrs</dodf> brf dftfdtfd bnd
+     * no bttfmpt is mbdf to sfriblizf tifm.
      *
-     * @param s the <code>ObjectOutputStream</code> to write
-     * @serialData <code>null</code> terminated sequence of 0
-     *   or more pairs; the pair consists of a <code>String</code>
-     *   and an <code>Object</code>; the <code>String</code> indicates
-     *   the type of object and is one of the following:
-     *   <code>itemListenerK</code> indicating an
-     *     <code>ItemListener</code> object
+     * @pbrbm s tif <dodf>ObjfdtOutputStrfbm</dodf> to writf
+     * @sfriblDbtb <dodf>null</dodf> tfrminbtfd sfqufndf of 0
+     *   or morf pbirs; tif pbir donsists of b <dodf>String</dodf>
+     *   bnd bn <dodf>Objfdt</dodf>; tif <dodf>String</dodf> indidbtfs
+     *   tif typf of objfdt bnd is onf of tif following:
+     *   <dodf>itfmListfnfrK</dodf> indidbting bn
+     *     <dodf>ItfmListfnfr</dodf> objfdt
      *
-     * @see AWTEventMulticaster#save(ObjectOutputStream, String, EventListener)
-     * @see java.awt.Component#itemListenerK
-     * @see #readObject(ObjectInputStream)
+     * @sff AWTEvfntMultidbstfr#sbvf(ObjfdtOutputStrfbm, String, EvfntListfnfr)
+     * @sff jbvb.bwt.Componfnt#itfmListfnfrK
+     * @sff #rfbdObjfdt(ObjfdtInputStrfbm)
      */
-    private void writeObject(ObjectOutputStream s)
-      throws java.io.IOException
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+      tirows jbvb.io.IOExdfption
     {
-      s.defaultWriteObject();
+      s.dffbultWritfObjfdt();
 
-      AWTEventMulticaster.save(s, itemListenerK, itemListener);
-      s.writeObject(null);
+      AWTEvfntMultidbstfr.sbvf(s, itfmListfnfrK, itfmListfnfr);
+      s.writfObjfdt(null);
     }
 
     /**
-     * Reads the <code>ObjectInputStream</code> and if it
-     * isn't <code>null</code> adds a listener to receive
-     * item events fired by the <code>Choice</code> item.
-     * Unrecognized keys or values will be ignored.
+     * Rfbds tif <dodf>ObjfdtInputStrfbm</dodf> bnd if it
+     * isn't <dodf>null</dodf> bdds b listfnfr to rfdfivf
+     * itfm fvfnts firfd by tif <dodf>Cioidf</dodf> itfm.
+     * Unrfdognizfd kfys or vblufs will bf ignorfd.
      *
-     * @param s the <code>ObjectInputStream</code> to read
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
-     *   <code>true</code>
-     * @serial
-     * @see #removeItemListener(ItemListener)
-     * @see #addItemListener(ItemListener)
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #writeObject(ObjectOutputStream)
+     * @pbrbm s tif <dodf>ObjfdtInputStrfbm</dodf> to rfbd
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sfribl
+     * @sff #rfmovfItfmListfnfr(ItfmListfnfr)
+     * @sff #bddItfmListfnfr(ItfmListfnfr)
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff #writfObjfdt(ObjfdtOutputStrfbm)
      */
-    private void readObject(ObjectInputStream s)
-      throws ClassNotFoundException, IOException, HeadlessException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+      tirows ClbssNotFoundExdfption, IOExdfption, HfbdlfssExdfption
     {
-      GraphicsEnvironment.checkHeadless();
-      s.defaultReadObject();
+      GrbpiidsEnvironmfnt.difdkHfbdlfss();
+      s.dffbultRfbdObjfdt();
 
-      Object keyOrNull;
-      while(null != (keyOrNull = s.readObject())) {
-        String key = ((String)keyOrNull).intern();
+      Objfdt kfyOrNull;
+      wiilf(null != (kfyOrNull = s.rfbdObjfdt())) {
+        String kfy = ((String)kfyOrNull).intfrn();
 
-        if (itemListenerK == key)
-          addItemListener((ItemListener)(s.readObject()));
+        if (itfmListfnfrK == kfy)
+          bddItfmListfnfr((ItfmListfnfr)(s.rfbdObjfdt()));
 
-        else // skip value for unrecognized key
-          s.readObject();
+        flsf // skip vbluf for unrfdognizfd kfy
+          s.rfbdObjfdt();
       }
     }
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblizf JNI fifld bnd mftiod IDs
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
 
     /**
-     * Gets the <code>AccessibleContext</code> associated with this
-     * <code>Choice</code>. For <code>Choice</code> components,
-     * the <code>AccessibleContext</code> takes the form of an
-     * <code>AccessibleAWTChoice</code>. A new <code>AccessibleAWTChoice</code>
-     * instance is created if necessary.
+     * Gfts tif <dodf>AddfssiblfContfxt</dodf> bssodibtfd witi tiis
+     * <dodf>Cioidf</dodf>. For <dodf>Cioidf</dodf> domponfnts,
+     * tif <dodf>AddfssiblfContfxt</dodf> tbkfs tif form of bn
+     * <dodf>AddfssiblfAWTCioidf</dodf>. A nfw <dodf>AddfssiblfAWTCioidf</dodf>
+     * instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an <code>AccessibleAWTChoice</code> that serves as the
-     *         <code>AccessibleContext</code> of this <code>Choice</code>
-     * @since 1.3
+     * @rfturn bn <dodf>AddfssiblfAWTCioidf</dodf> tibt sfrvfs bs tif
+     *         <dodf>AddfssiblfContfxt</dodf> of tiis <dodf>Cioidf</dodf>
+     * @sindf 1.3
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleAWTChoice();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfAWTCioidf();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>Choice</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to choice user-interface elements.
-     * @since 1.3
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>Cioidf</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to dioidf usfr-intfrfbdf flfmfnts.
+     * @sindf 1.3
      */
-    protected class AccessibleAWTChoice extends AccessibleAWTComponent
-        implements AccessibleAction
+    protfdtfd dlbss AddfssiblfAWTCioidf fxtfnds AddfssiblfAWTComponfnt
+        implfmfnts AddfssiblfAdtion
     {
         /*
-         * JDK 1.3 serialVersionUID
+         * JDK 1.3 sfriblVfrsionUID
          */
-        private static final long serialVersionUID = 7175603582428509322L;
+        privbtf stbtid finbl long sfriblVfrsionUID = 7175603582428509322L;
 
         /**
-         * Constructor for {@code AccessibleAWTChoice}
+         * Construdtor for {@dodf AddfssiblfAWTCioidf}
          */
-        public AccessibleAWTChoice() {
-            super();
+        publid AddfssiblfAWTCioidf() {
+            supfr();
         }
 
         /**
-         * Get the AccessibleAction associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
-         * return this object, which is responsible for implementing the
-         * AccessibleAction interface on behalf of itself.
+         * Gft tif AddfssiblfAdtion bssodibtfd witi tiis objfdt.  In tif
+         * implfmfntbtion of tif Jbvb Addfssibility API for tiis dlbss,
+         * rfturn tiis objfdt, wiidi is rfsponsiblf for implfmfnting tif
+         * AddfssiblfAdtion intfrfbdf on bfiblf of itsflf.
          *
-         * @return this object
-         * @see AccessibleAction
+         * @rfturn tiis objfdt
+         * @sff AddfssiblfAdtion
          */
-        public AccessibleAction getAccessibleAction() {
-            return this;
+        publid AddfssiblfAdtion gftAddfssiblfAdtion() {
+            rfturn tiis;
         }
 
         /**
-         * Get the role of this object.
+         * Gft tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of the
-         * object
-         * @see AccessibleRole
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         * objfdt
+         * @sff AddfssiblfRolf
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.COMBO_BOX;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.COMBO_BOX;
         }
 
         /**
-         * Returns the number of accessible actions available in this object
-         * If there are more than one, the first one is considered the "default"
-         * action of the object.
+         * Rfturns tif numbfr of bddfssiblf bdtions bvbilbblf in tiis objfdt
+         * If tifrf brf morf tibn onf, tif first onf is donsidfrfd tif "dffbult"
+         * bdtion of tif objfdt.
          *
-         * @return the zero-based number of Actions in this object
+         * @rfturn tif zfro-bbsfd numbfr of Adtions in tiis objfdt
          */
-        public int getAccessibleActionCount() {
-            return 0;  //  To be fully implemented in a future release
+        publid int gftAddfssiblfAdtionCount() {
+            rfturn 0;  //  To bf fully implfmfntfd in b futurf rflfbsf
         }
 
         /**
-         * Returns a description of the specified action of the object.
+         * Rfturns b dfsdription of tif spfdififd bdtion of tif objfdt.
          *
-         * @param i zero-based index of the actions
-         * @return a String description of the action
-         * @see #getAccessibleActionCount
+         * @pbrbm i zfro-bbsfd indfx of tif bdtions
+         * @rfturn b String dfsdription of tif bdtion
+         * @sff #gftAddfssiblfAdtionCount
          */
-        public String getAccessibleActionDescription(int i) {
-            return null;  //  To be fully implemented in a future release
+        publid String gftAddfssiblfAdtionDfsdription(int i) {
+            rfturn null;  //  To bf fully implfmfntfd in b futurf rflfbsf
         }
 
         /**
-         * Perform the specified Action on the object
+         * Pfrform tif spfdififd Adtion on tif objfdt
          *
-         * @param i zero-based index of actions
-         * @return true if the action was performed; otherwise false.
-         * @see #getAccessibleActionCount
+         * @pbrbm i zfro-bbsfd indfx of bdtions
+         * @rfturn truf if tif bdtion wbs pfrformfd; otifrwisf fblsf.
+         * @sff #gftAddfssiblfAdtionCount
          */
-        public boolean doAccessibleAction(int i) {
-            return false;  //  To be fully implemented in a future release
+        publid boolfbn doAddfssiblfAdtion(int i) {
+            rfturn fblsf;  //  To bf fully implfmfntfd in b futurf rflfbsf
         }
 
-    } // inner class AccessibleAWTChoice
+    } // innfr dlbss AddfssiblfAWTCioidf
 
 }

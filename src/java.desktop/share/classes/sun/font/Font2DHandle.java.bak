@@ -1,72 +1,72 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
 /*
- * This class is used so that a java.awt.Font does not directly
- * reference a Font2D object. This introduces occasional minor
- * de-referencing overhead but increases robustness of the
- * implementation when "bad fonts" are encountered.
- * A handle is created by a Font2D constructor and references
- * the Font2D itself. In the event that the Font2D implementation
- * determines it the font resource has errors (a bad font file)
- * it makes its handle point at another "stable" Font2D.
- * Once all referers no longer have a reference to the Font2D it
- * may be GC'd and its resources freed.
- * This does not immediately help in the case that objects are
- * already using a bad Font2D (ie have already dereferenced the
- * handle) so there is a window for more problems. However this
- * is already the case as this is the code which must detect the
- * problem.
- * However there is also the possibility of intercepting problems
- * even when a font2D reference is already directly held. Certain
- * validation points may check that font2Dhandle.font2D == font2D
- * If this is not true, then this font2D is not valid. Arguably
- * this check also just needs to be a de-referencing assignment :
- * font2D = font2DHandle.font2D.
- * The net effect of these steps is that very soon after a font
- * is identified as bad, that references and uses of it will be
- * eliminated.
- * In the initial implementation a Font2DHandle is what is held by
- * - java.awt.Font
- * - FontManager.initialisedFonts map
- * Font2D is held by
- * - FontFamily objects
- * - FontManager.registeredFonts map
- * - FontInfo object on a SunGraphics2D
+ * Tiis dlbss is usfd so tibt b jbvb.bwt.Font dofs not dirfdtly
+ * rfffrfndf b Font2D objfdt. Tiis introdudfs oddbsionbl minor
+ * df-rfffrfnding ovfrifbd but indrfbsfs robustnfss of tif
+ * implfmfntbtion wifn "bbd fonts" brf fndountfrfd.
+ * A ibndlf is drfbtfd by b Font2D donstrudtor bnd rfffrfndfs
+ * tif Font2D itsflf. In tif fvfnt tibt tif Font2D implfmfntbtion
+ * dftfrminfs it tif font rfsourdf ibs frrors (b bbd font filf)
+ * it mbkfs its ibndlf point bt bnotifr "stbblf" Font2D.
+ * Ondf bll rfffrfrs no longfr ibvf b rfffrfndf to tif Font2D it
+ * mby bf GC'd bnd its rfsourdfs frffd.
+ * Tiis dofs not immfdibtfly iflp in tif dbsf tibt objfdts brf
+ * blrfbdy using b bbd Font2D (if ibvf blrfbdy dfrfffrfndfd tif
+ * ibndlf) so tifrf is b window for morf problfms. Howfvfr tiis
+ * is blrfbdy tif dbsf bs tiis is tif dodf wiidi must dftfdt tif
+ * problfm.
+ * Howfvfr tifrf is blso tif possibility of intfrdfpting problfms
+ * fvfn wifn b font2D rfffrfndf is blrfbdy dirfdtly ifld. Cfrtbin
+ * vblidbtion points mby difdk tibt font2Dibndlf.font2D == font2D
+ * If tiis is not truf, tifn tiis font2D is not vblid. Argubbly
+ * tiis difdk blso just nffds to bf b df-rfffrfnding bssignmfnt :
+ * font2D = font2DHbndlf.font2D.
+ * Tif nft ffffdt of tifsf stfps is tibt vfry soon bftfr b font
+ * is idfntififd bs bbd, tibt rfffrfndfs bnd usfs of it will bf
+ * fliminbtfd.
+ * In tif initibl implfmfntbtion b Font2DHbndlf is wibt is ifld by
+ * - jbvb.bwt.Font
+ * - FontMbnbgfr.initiblisfdFonts mbp
+ * Font2D is ifld by
+ * - FontFbmily objfdts
+ * - FontMbnbgfr.rfgistfrfdFonts mbp
+ * - FontInfo objfdt on b SunGrbpiids2D
  *
- * On discovering a bad font, all but the latter remove references to
- * the font. See FontManager.deRegisterBadFont(Font2D)
+ * On disdovfring b bbd font, bll but tif lbttfr rfmovf rfffrfndfs to
+ * tif font. Sff FontMbnbgfr.dfRfgistfrBbdFont(Font2D)
  */
 
-public final class Font2DHandle {
+publid finbl dlbss Font2DHbndlf {
 
-    public Font2D font2D;
+    publid Font2D font2D;
 
-    public Font2DHandle(Font2D font) {
+    publid Font2DHbndlf(Font2D font) {
         font2D = font;
     }
 }

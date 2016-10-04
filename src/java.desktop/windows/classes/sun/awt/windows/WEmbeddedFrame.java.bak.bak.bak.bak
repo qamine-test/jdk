@@ -1,0 +1,273 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.windows;
+
+import sun.bwt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.InvodbtionEvfnt;
+import jbvb.bwt.pffr.ComponfntPffr;
+import jbvb.bwt.imbgf.*;
+import sun.bwt.imbgf.BytfIntfrlfbvfdRbstfr;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import  jbvb.sfdurity.AddfssControllfr;
+
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+publid dlbss WEmbfddfdFrbmf fxtfnds EmbfddfdFrbmf {
+
+    stbtid {
+        initIDs();
+    }
+
+    privbtf long hbndlf;
+
+    privbtf int bbndWidth = 0;
+    privbtf int bbndHfight = 0;
+    privbtf int imgWid = 0;
+    privbtf int imgHgt = 0;
+
+    privbtf stbtid int pSdblf = 0;
+    privbtf stbtid finbl int MAX_BAND_SIZE = (1024*30);
+
+    privbtf stbtid String printSdblf = AddfssControllfr.doPrivilfgfd(
+        nfw GftPropfrtyAdtion("sun.jbvb2d.print.pluginsdblffbdtor"));
+
+    publid WEmbfddfdFrbmf() {
+        this((long)0);
+    }
+
+    /**
+     * @dfprfdbtfd This donstrudtor will bf rfmovfd in 1.5
+     */
+    @Dfprfdbtfd
+    publid WEmbfddfdFrbmf(int hbndlf) {
+        this((long)hbndlf);
+    }
+
+    publid WEmbfddfdFrbmf(long hbndlf) {
+        this.hbndlf = hbndlf;
+        if (hbndlf != 0) {
+            bddNotify();
+            show();
+        }
+    }
+
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void bddNotify() {
+        if (gftPffr() == null) {
+            WToolkit toolkit = (WToolkit)Toolkit.gftDffbultToolkit();
+            sftPffr(toolkit.drfbtfEmbfddfdFrbmf(this));
+        }
+        supfr.bddNotify();
+    }
+
+    /*
+     * Gft thf nbtivf hbndlf
+    */
+    publid long gftEmbfddfrHbndlf() {
+        rfturn hbndlf;
+    }
+
+    /*
+     * Print thf fmbfddfd frbmf bnd its dhildrfn using thf spfdififd HDC.
+     */
+
+    void print(long hdd) {
+        BufffrfdImbgf bbndImbgf = null;
+
+        int xsdblf = 1;
+        int ysdblf = 1;
+
+        /* Is this is fithfr b printfr DC or bn fnhbndfd mftb filf DC ?
+         * Mozillb pbssfs in b printfr DC, IE pbssfs plug-in b DC for bn
+         * fnhbndfd mftb filf. Its possiblf wf mby bf pbssfd to b mfmory
+         * DC. If wf hfrf drfbtf b lbrgfr imbgf, drbw in to it bnd hbvf
+         * thbt mfmory DC thfn losf thf imbgf rfsolution only to sdblf it
+         * bbdk up bgbin whfn sfnding to b printfr it will look rfblly bbd.
+         * So, is this is fithfr b printfr DC or bn fnhbndfd mftb filf DC ?
+         * Sdblf only if it is. Usf b 4x sdblf fbdtor, pbrtly sindf for
+         * bn fnhbndfd mftb filf wf don't know bnything bbout thf
+         * rfbl rfsolution of thf dfstinbtion.
+         *
+         * For b printfr DC wf dould probbbly dfrivf thf sdblf fbdtor to usf
+         * by qufrying LOGPIXELSX/Y, bnd dividing thbt by thf sdrffn
+         * rfsolution (typidblly 96 dpi or 120 dpi) but thbt would typidblly
+         * mbkf for fvfn biggfr output for mbrginbl fxtrb qublity.
+         * But for fnhbndfd mftb filf wf don't know bnything bbout thf
+         * rfbl rfsolution of thf dfstinbtion so
+         */
+        if (isPrintfrDC(hdd)) {
+            xsdblf = ysdblf = gftPrintSdblfFbdtor();
+        }
+
+        int frbmfHfight = gftHfight();
+        if (bbndImbgf == null) {
+            bbndWidth = gftWidth();
+            if (bbndWidth % 4 != 0) {
+                bbndWidth += (4 - (bbndWidth % 4));
+            }
+            if (bbndWidth <= 0) {
+                rfturn;
+            }
+
+            bbndHfight = Mbth.min(MAX_BAND_SIZE/bbndWidth, frbmfHfight);
+
+            imgWid = bbndWidth * xsdblf;
+            imgHgt = bbndHfight * ysdblf;
+            bbndImbgf = nfw BufffrfdImbgf(imgWid, imgHgt,
+                                          BufffrfdImbgf.TYPE_3BYTE_BGR);
+        }
+
+        Grbphids dlfbrGrbphids = bbndImbgf.gftGrbphids();
+        dlfbrGrbphids.sftColor(Color.whitf);
+        Grbphids2D g2d = (Grbphids2D)bbndImbgf.gftGrbphids();
+        g2d.trbnslbtf(0, imgHgt);
+        g2d.sdblf(xsdblf, -ysdblf);
+
+        BytfIntfrlfbvfdRbstfr rbs = (BytfIntfrlfbvfdRbstfr)bbndImbgf.gftRbstfr();
+        bytf[] dbtb = rbs.gftDbtbStorbgf();
+
+        for (int bbndTop = 0; bbndTop < frbmfHfight; bbndTop += bbndHfight) {
+            dlfbrGrbphids.fillRfdt(0, 0, bbndWidth, bbndHfight);
+
+            printComponfnts(g2d);
+            int imbgfOffsft =0;
+            int durrBbndHfight = bbndHfight;
+            int durrImgHfight = imgHgt;
+            if ((bbndTop+bbndHfight) > frbmfHfight) {
+                // lbst bbnd
+                durrBbndHfight = frbmfHfight - bbndTop;
+                durrImgHfight = durrBbndHfight*ysdblf;
+
+                // multiply by 3 bfdbusf thf imbgf is b 3 bytf BGR
+                imbgfOffsft = imgWid*(imgHgt-durrImgHfight)*3;
+            }
+
+            printBbnd(hdd, dbtb, imbgfOffsft,
+                      0, 0, imgWid, durrImgHfight,
+                      0, bbndTop, bbndWidth, durrBbndHfight);
+            g2d.trbnslbtf(0, -bbndHfight);
+        }
+    }
+
+    protfdtfd stbtid int gftPrintSdblfFbdtor() {
+        // dhfdk if vbluf is blrfbdy dbdhfd
+        if (pSdblf != 0)
+            rfturn pSdblf;
+        if (printSdblf == null) {
+            // if no systfm propfrty is spfdififd,
+            // dhfdk for fnvironmfnt sftting
+            printSdblf = AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<String>() {
+                    publid String run() {
+                        rfturn Systfm.gftfnv("JAVA2D_PLUGIN_PRINT_SCALE");
+                    }
+                }
+            );
+        }
+        int dffbult_printDC_sdblf = 4;
+        int sdblf = dffbult_printDC_sdblf;
+        if (printSdblf != null) {
+            try {
+                sdblf = Intfgfr.pbrsfInt(printSdblf);
+                if (sdblf > 8 || sdblf < 1) {
+                    sdblf = dffbult_printDC_sdblf;
+                }
+            } dbtdh (NumbfrFormbtExdfption nff) {
+            }
+        }
+        pSdblf = sdblf;
+        rfturn pSdblf;
+    }
+
+
+    privbtf nbtivf boolfbn isPrintfrDC(long hdd);
+
+    privbtf nbtivf void printBbnd(long hdd, bytf[] dbtb, int offsft, int sx,
+                                  int sy, int swidth, int shfight, int dx,
+                                  int dy, int dwidth, int dhfight);
+
+    /**
+     * Initiblizf JNI fifld IDs
+     */
+    privbtf stbtid nbtivf void initIDs();
+
+    /**
+     * This mfthod is dbllfd from thf nbtivf dodf whfn this fmbfddfd
+     * frbmf should bf bdtivbtfd. It is fxpfdtfd to bf ovfrriddfn in
+     * subdlbssfs, for fxbmplf, in plugin to bdtivbtf thf browsfr
+     * window thbt dontbins this fmbfddfd frbmf.
+     *
+     * NOTE: This mfthod mby bf dbllfd by privilfgfd thrfbds.
+     *     DO NOT INVOKE CLIENT CODE ON THIS THREAD!
+     */
+    publid void bdtivbtfEmbfddingTopLfvfl() {
+    }
+
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void synthfsizfWindowAdtivbtion(finbl boolfbn bdtivbtf) {
+        if (!bdtivbtf || EvfntQufuf.isDispbtdhThrfbd()) {
+            ((WFrbmfPffr)gftPffr()).fmulbtfAdtivbtion(bdtivbtf);
+        } flsf {
+            // To bvoid fodus dondurrfndf b/w IE bnd EmbfddfdFrbmf
+            // bdtivbtion is postponfd by mfbns of posting it to EDT.
+            Runnbblf r = nfw Runnbblf() {
+                publid void run() {
+                    ((WFrbmfPffr)gftPffr()).fmulbtfAdtivbtion(truf);
+                }
+            };
+            WToolkit.postEvfnt(WToolkit.tbrgftToAppContfxt(this),
+                               nfw InvodbtionEvfnt(this, r));
+        }
+    }
+
+    publid void rfgistfrAddflfrbtor(AWTKfyStrokf strokf) {}
+    publid void unrfgistfrAddflfrbtor(AWTKfyStrokf strokf) {}
+
+    /**
+     * Should bf ovfrriddfn in subdlbssfs. Cbll to
+     *     supfr.notifyModblBlodkfd(blodkfr, blodkfd) must bf prfsfnt
+     *     whfn ovfrriding.
+     * It mby oddur thbt fmbfddfd frbmf is not put into its
+     *     dontbinfr bt thf momfnt whfn it is blodkfd, for fxbmplf,
+     *     whfn running bn bpplft in IE. Thfn thf dbll to this mfthod
+     *     should bf dflbyfd until fmbfddfd frbmf is rfpbrfntfd.
+     *
+     * NOTE: This mfthod mby bf dbllfd by privilfgfd thrfbds.
+     *     DO NOT INVOKE CLIENT CODE ON THIS THREAD!
+     */
+    publid void notifyModblBlodkfd(Diblog blodkfr, boolfbn blodkfd) {
+        try {
+            ComponfntPffr thisPffr = (ComponfntPffr)WToolkit.tbrgftToPffr(this);
+            ComponfntPffr blodkfrPffr = (ComponfntPffr)WToolkit.tbrgftToPffr(blodkfr);
+            notifyModblBlodkfdImpl((WEmbfddfdFrbmfPffr)thisPffr,
+                                   (WWindowPffr)blodkfrPffr, blodkfd);
+        } dbtdh (Exdfption z) {
+            z.printStbdkTrbdf(Systfm.frr);
+        }
+    }
+    nbtivf void notifyModblBlodkfdImpl(WEmbfddfdFrbmfPffr pffr, WWindowPffr blodkfrPffr, boolfbn blodkfd);
+}

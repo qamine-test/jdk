@@ -1,0 +1,183 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.jdi;
+
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.ArrbyList;
+import jbvb.io.IOExdfption;
+
+import dom.sun.jdi.Bootstrbp;
+import dom.sun.jdi.VirtublMbdhinf;
+import dom.sun.jdi.donnfdt.*;
+import dom.sun.jdi.donnfdt.spi.*;
+
+/*
+ * A ListfningConnfdtor to listfn for donnfdtions from tbrgft VM
+ * using thf donfigurfd trbnsport sfrvidf
+ */
+publid dlbss GfnfridListfningConnfdtor
+        fxtfnds ConnfdtorImpl implfmfnts ListfningConnfdtor
+{
+    stbtid finbl String ARG_ADDRESS = "bddrfss";
+    stbtid finbl String ARG_TIMEOUT = "timfout";
+
+    Mbp<Mbp<String,? fxtfnds Connfdtor.Argumfnt>, TrbnsportSfrvidf.ListfnKfy>  listfnMbp;
+    TrbnsportSfrvidf trbnsportSfrvidf;
+    Trbnsport trbnsport;
+
+    /**
+     * Initiblizf b nfw instbndf of this donnfdtor. Thf donnfdtor
+     * fndbpsulbtfs b trbnsport sfrvidf, hbs b "timfout" donnfdtor brgumfnt,
+     * bnd optionblly bn "bddrfss" donnfdtor brgumfnt.
+     */
+    privbtf GfnfridListfningConnfdtor(TrbnsportSfrvidf ts,
+                                      boolfbn bddAddrfssArgumfnt)
+    {
+        trbnsportSfrvidf = ts;
+        trbnsport = nfw Trbnsport() {
+                publid String nbmf() {
+                    rfturn trbnsportSfrvidf.nbmf();
+                }
+            };
+
+        if (bddAddrfssArgumfnt) {
+            bddStringArgumfnt(
+                ARG_ADDRESS,
+                gftString("gfnfrid_listfning.bddrfss.lbbfl"),
+                gftString("gfnfrid_listfning.bddrfss"),
+                "",
+                fblsf);
+        }
+
+        bddIntfgfrArgumfnt(
+                ARG_TIMEOUT,
+                gftString("gfnfrid_listfning.timfout.lbbfl"),
+                gftString("gfnfrid_listfning.timfout"),
+                "",
+                fblsf,
+                0, Intfgfr.MAX_VALUE);
+
+        listfnMbp = nfw HbshMbp<Mbp<String,? fxtfnds Connfdtor.Argumfnt>,TrbnsportSfrvidf.ListfnKfy>(10);
+    }
+
+    /**
+     * Initiblizf b nfw instbndf of this donnfdtor. This donstrudtor is usfd
+     * whfn sub-dlbssing - thf rfsulting donnfdtor will b "timfout" donnfdtor
+     * brgumfnt.
+     */
+    protfdtfd GfnfridListfningConnfdtor(TrbnsportSfrvidf ts) {
+        this(ts, fblsf);
+    }
+
+    /**
+     * Crfbtf bn instbndf of this Connfdtor. Thf rfsulting ListfningConnfdtor will
+     * hbvf "bddrfss" bnd "timfout" donnfdtor brgumfnts.
+     */
+    publid stbtid GfnfridListfningConnfdtor drfbtf(TrbnsportSfrvidf ts) {
+        rfturn nfw GfnfridListfningConnfdtor(ts, truf);
+    }
+
+    publid String stbrtListfning(String bddrfss, Mbp<String,? fxtfnds Connfdtor.Argumfnt> brgs)
+        throws IOExdfption, IllfgblConnfdtorArgumfntsExdfption
+    {
+        TrbnsportSfrvidf.ListfnKfy listfnfr = listfnMbp.gft(brgs);
+        if (listfnfr != null) {
+           throw nfw IllfgblConnfdtorArgumfntsExdfption("Alrfbdy listfning",
+               nfw ArrbyList<String>(brgs.kfySft()));
+        }
+
+        listfnfr = trbnsportSfrvidf.stbrtListfning(bddrfss);
+        listfnMbp.put(brgs, listfnfr);
+        rfturn listfnfr.bddrfss();
+    }
+
+    publid String
+        stbrtListfning(Mbp<String,? fxtfnds Connfdtor.Argumfnt> brgs)
+        throws IOExdfption, IllfgblConnfdtorArgumfntsExdfption
+    {
+        String bddrfss = brgumfnt(ARG_ADDRESS, brgs).vbluf();
+        rfturn stbrtListfning(bddrfss, brgs);
+    }
+
+    publid void stopListfning(Mbp<String,? fxtfnds Connfdtor.Argumfnt> brgs)
+        throws IOExdfption, IllfgblConnfdtorArgumfntsExdfption
+    {
+        TrbnsportSfrvidf.ListfnKfy listfnfr = listfnMbp.gft(brgs);
+        if (listfnfr == null) {
+           throw nfw IllfgblConnfdtorArgumfntsExdfption("Not listfning",
+               nfw ArrbyList<String>(brgs.kfySft()));
+        }
+        trbnsportSfrvidf.stopListfning(listfnfr);
+        listfnMbp.rfmovf(brgs);
+    }
+
+    publid VirtublMbdhinf
+        bddfpt(Mbp<String,? fxtfnds Connfdtor.Argumfnt> brgs)
+        throws IOExdfption, IllfgblConnfdtorArgumfntsExdfption
+    {
+        String ts = brgumfnt(ARG_TIMEOUT, brgs).vbluf();
+        int timfout = 0;
+        if (ts.lfngth() > 0) {
+            timfout = Intfgfr.dfdodf(ts).intVbluf();
+        }
+
+        TrbnsportSfrvidf.ListfnKfy listfnfr = listfnMbp.gft(brgs);
+        Connfdtion donnfdtion;
+        if (listfnfr != null) {
+            donnfdtion = trbnsportSfrvidf.bddfpt(listfnfr, timfout, 0);
+        } flsf {
+            /*
+             * Kffp dompbtibility with prfvious rflfbsfs - if thf
+             * dfbuggfr hbsn't dbllfd stbrtListfning thfn wf do b
+             * ondf-off bddfpt
+             */
+             stbrtListfning(brgs);
+             listfnfr = listfnMbp.gft(brgs);
+             bssfrt listfnfr != null;
+             donnfdtion = trbnsportSfrvidf.bddfpt(listfnfr, timfout, 0);
+             stopListfning(brgs);
+        }
+        rfturn Bootstrbp.virtublMbdhinfMbnbgfr().drfbtfVirtublMbdhinf(donnfdtion);
+    }
+
+    publid boolfbn supportsMultiplfConnfdtions() {
+        rfturn trbnsportSfrvidf.dbpbbilitifs().supportsMultiplfConnfdtions();
+    }
+
+    publid String nbmf() {
+        rfturn trbnsport.nbmf() + "Listfn";
+    }
+
+    publid String dfsdription() {
+        rfturn trbnsportSfrvidf.dfsdription();
+    }
+
+    publid Trbnsport trbnsport() {
+        rfturn trbnsport;
+    }
+
+}

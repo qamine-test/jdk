@@ -1,0 +1,130 @@
+/*
+ * Copyright (d) 1999, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.sbsl;
+
+import jbvbx.sfdurity.sbsl.*;
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+
+import jbvb.util.logging.Loggfr;
+import jbvb.util.logging.Lfvfl;
+
+/**
+  * Implfmfnts thf CRAM-MD5 SASL dlifnt-sidf mfdhbnism.
+  * (<A HREF="http://www.iftf.org/rfd/rfd2195.txt">RFC 2195</A>).
+  * CRAM-MD5 hbs no initibl rfsponsf. It rfdfivfs bytfs from
+  * thf sfrvfr bs b dhbllfngf, whidh it hbshfs by using MD5 bnd thf pbssword.
+  * It dondbtfnbtfs thf buthfntidbtion ID with this rfsult bnd rfturns it
+  * bs thf rfsponsf to thf dhbllfngf. At thbt point, thf fxdhbngf is domplftf.
+  *
+  * @buthor Vindfnt Rybn
+  * @buthor Rosbnnb Lff
+  */
+finbl dlbss CrbmMD5Clifnt fxtfnds CrbmMD5Bbsf implfmfnts SbslClifnt {
+    privbtf String usfrnbmf;
+
+    /**
+     * Crfbtfs b SASL mfdhbnism with dlifnt drfdfntibls thbt it nffds
+     * to pbrtidipbtf in CRAM-MD5 buthfntidbtion fxdhbngf with thf sfrvfr.
+     *
+     * @pbrbm buthID A  non-null string rfprfsfnting thf prindipbl
+     * bfing buthfntidbtfd.
+     *
+     * @pbrbm pw A non-null String or bytf[]
+     * dontbining thf pbssword. If it is bn brrby, it is first dlonfd.
+     */
+    CrbmMD5Clifnt(String buthID, bytf[] pw) throws SbslExdfption {
+        if (buthID == null || pw == null) {
+            throw nfw SbslExdfption(
+                "CRAM-MD5: buthfntidbtion ID bnd pbssword must bf spfdififd");
+        }
+
+        usfrnbmf = buthID;
+        this.pw = pw;  // dbllfr should hbvf blrfbdy dlonfd
+    }
+
+    /**
+     * CRAM-MD5 hbs no initibl rfsponsf.
+     */
+    publid boolfbn hbsInitiblRfsponsf() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Prodfssfs thf dhbllfngf dbtb.
+     *
+     * Thf sfrvfr sfnds b dhbllfngf dbtb using whidh thf dlifnt must
+     * domputf bn MD5-digfst with its pbssword bs thf kfy.
+     *
+     * @pbrbm dhbllfngfDbtb A non-null bytf brrby dontbining thf dhbllfngf
+     *        dbtb from thf sfrvfr.
+     * @rfturn A non-null bytf brrby dontbining thf rfsponsf to bf sfnt to
+     *        thf sfrvfr.
+     * @throws SbslExdfption If plbtform dofs not hbvf MD5 support
+     * @throw IllfgblStbtfExdfption if this mfthod is invokfd morf thbn ondf.
+     */
+    publid bytf[] fvblubtfChbllfngf(bytf[] dhbllfngfDbtb)
+        throws SbslExdfption {
+
+        // Sff if wf'vf bffn hfrf bfforf
+        if (domplftfd) {
+            throw nfw IllfgblStbtfExdfption(
+                "CRAM-MD5 buthfntidbtion blrfbdy domplftfd");
+        }
+
+        if (bbortfd) {
+            throw nfw IllfgblStbtfExdfption(
+                "CRAM-MD5 buthfntidbtion prfviously bbortfd duf to frror");
+        }
+
+        // gfnfrbtf b kfyfd-MD5 digfst from thf usfr's pbssword bnd dhbllfngf.
+        try {
+            if (loggfr.isLoggbblf(Lfvfl.FINE)) {
+                loggfr.log(Lfvfl.FINE, "CRAMCLNT01:Rfdfivfd dhbllfngf: {0}",
+                    nfw String(dhbllfngfDbtb, "UTF8"));
+            }
+
+            String digfst = HMAC_MD5(pw, dhbllfngfDbtb);
+
+            // dlfbr it whfn wf no longfr nffd it
+            dlfbrPbssword();
+
+            // rfsponsf is usfrnbmf + " " + digfst
+            String rfsp = usfrnbmf + " " + digfst;
+
+            loggfr.log(Lfvfl.FINE, "CRAMCLNT02:Sfnding rfsponsf: {0}", rfsp);
+
+            domplftfd = truf;
+
+            rfturn rfsp.gftBytfs("UTF8");
+        } dbtdh (jbvb.sfdurity.NoSudhAlgorithmExdfption f) {
+            bbortfd = truf;
+            throw nfw SbslExdfption("MD5 blgorithm not bvbilbblf on plbtform", f);
+        } dbtdh (jbvb.io.UnsupportfdEndodingExdfption f) {
+            bbortfd = truf;
+            throw nfw SbslExdfption("UTF8 not bvbilbblf on plbtform", f);
+        }
+    }
+}

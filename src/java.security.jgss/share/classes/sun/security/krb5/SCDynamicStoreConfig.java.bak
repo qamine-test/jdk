@@ -1,143 +1,143 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.krb5;
+pbdkbgf sun.sfdurity.krb5;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Hashtable;
-import java.util.Vector;
+import jbvb.io.IOExdfption;
+import jbvb.util.Collfdtion;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Vfdtor;
 
 
-public class SCDynamicStoreConfig {
-    private static native void installNotificationCallback();
-    private static native Hashtable<String, Object> getKerberosConfig();
-    private static boolean DEBUG = sun.security.krb5.internal.Krb5.DEBUG;
+publid dlbss SCDynbmidStorfConfig {
+    privbtf stbtid nbtivf void instbllNotifidbtionCbllbbdk();
+    privbtf stbtid nbtivf Hbsitbblf<String, Objfdt> gftKfrbfrosConfig();
+    privbtf stbtid boolfbn DEBUG = sun.sfdurity.krb5.intfrnbl.Krb5.DEBUG;
 
-    static {
-        boolean isMac = java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Boolean>() {
-                public Boolean run() {
-                    String osname = System.getProperty("os.name");
-                    if (osname.contains("OS X")) {
-                        System.loadLibrary("osxkrb5");
-                        return true;
+    stbtid {
+        boolfbn isMbd = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Boolfbn>() {
+                publid Boolfbn run() {
+                    String osnbmf = Systfm.gftPropfrty("os.nbmf");
+                    if (osnbmf.dontbins("OS X")) {
+                        Systfm.lobdLibrbry("osxkrb5");
+                        rfturn truf;
                     }
-                    return false;
+                    rfturn fblsf;
                 }
             });
-        if (isMac) installNotificationCallback();
+        if (isMbd) instbllNotifidbtionCbllbbdk();
     }
 
-    private static Vector<String> unwrapHost(
-            Collection<Hashtable<String, String>> c) {
-        Vector<String> vector = new Vector<String>();
-        for (Hashtable<String, String> m : c) {
-            vector.add(m.get("host"));
+    privbtf stbtid Vfdtor<String> unwrbpHost(
+            Collfdtion<Hbsitbblf<String, String>> d) {
+        Vfdtor<String> vfdtor = nfw Vfdtor<String>();
+        for (Hbsitbblf<String, String> m : d) {
+            vfdtor.bdd(m.gft("iost"));
         }
-        return vector;
+        rfturn vfdtor;
     }
 
     /**
-     * convertRealmConfigs: Maps the Object graph that we get from JNI to the
-     * object graph that Config expects. Also the items inside the kdc array
-     * are wrapped inside Hashtables
+     * donvfrtRfblmConfigs: Mbps tif Objfdt grbpi tibt wf gft from JNI to tif
+     * objfdt grbpi tibt Config fxpfdts. Also tif itfms insidf tif kdd brrby
+     * brf wrbppfd insidf Hbsitbblfs
      */
-    @SuppressWarnings("unchecked")
-    private static Hashtable<String, Object>
-            convertRealmConfigs(Hashtable<String, ?> configs) {
-        Hashtable<String, Object> realmsTable = new Hashtable<String, Object>();
+    @SupprfssWbrnings("undifdkfd")
+    privbtf stbtid Hbsitbblf<String, Objfdt>
+            donvfrtRfblmConfigs(Hbsitbblf<String, ?> donfigs) {
+        Hbsitbblf<String, Objfdt> rfblmsTbblf = nfw Hbsitbblf<String, Objfdt>();
 
-        for (String realm : configs.keySet()) {
-            // get the kdc
-            Hashtable<String, Collection<?>> map =
-                    (Hashtable<String, Collection<?>>) configs.get(realm);
-            Hashtable<String, Vector<String>> realmMap =
-                    new Hashtable<String, Vector<String>>();
+        for (String rfblm : donfigs.kfySft()) {
+            // gft tif kdd
+            Hbsitbblf<String, Collfdtion<?>> mbp =
+                    (Hbsitbblf<String, Collfdtion<?>>) donfigs.gft(rfblm);
+            Hbsitbblf<String, Vfdtor<String>> rfblmMbp =
+                    nfw Hbsitbblf<String, Vfdtor<String>>();
 
-            // put the kdc into the realmMap
-            Collection<Hashtable<String, String>> kdc =
-                    (Collection<Hashtable<String, String>>) map.get("kdc");
-            if (kdc != null) realmMap.put("kdc", unwrapHost(kdc));
+            // put tif kdd into tif rfblmMbp
+            Collfdtion<Hbsitbblf<String, String>> kdd =
+                    (Collfdtion<Hbsitbblf<String, String>>) mbp.gft("kdd");
+            if (kdd != null) rfblmMbp.put("kdd", unwrbpHost(kdd));
 
-            // put the admin server into the realmMap
-            Collection<Hashtable<String, String>> kadmin =
-                    (Collection<Hashtable<String, String>>) map.get("kadmin");
-            if (kadmin != null) realmMap.put("admin_server", unwrapHost(kadmin));
+            // put tif bdmin sfrvfr into tif rfblmMbp
+            Collfdtion<Hbsitbblf<String, String>> kbdmin =
+                    (Collfdtion<Hbsitbblf<String, String>>) mbp.gft("kbdmin");
+            if (kbdmin != null) rfblmMbp.put("bdmin_sfrvfr", unwrbpHost(kbdmin));
 
-            // add the full entry to the realmTable
-            realmsTable.put(realm, realmMap);
+            // bdd tif full fntry to tif rfblmTbblf
+            rfblmsTbblf.put(rfblm, rfblmMbp);
         }
 
-        return realmsTable;
+        rfturn rfblmsTbblf;
     }
 
     /**
-     * Calls down to JNI to get the raw Kerberos Config and maps the object
-     * graph to the one that Kerberos Config in Java expects
+     * Cblls down to JNI to gft tif rbw Kfrbfros Config bnd mbps tif objfdt
+     * grbpi to tif onf tibt Kfrbfros Config in Jbvb fxpfdts
      *
-     * @return
-     * @throws IOException
+     * @rfturn
+     * @tirows IOExdfption
      */
-    public static Hashtable<String, Object> getConfig() throws IOException {
-        Hashtable<String, Object> stanzaTable = getKerberosConfig();
-        if (stanzaTable == null) {
-            throw new IOException(
-                    "Could not load configuration from SCDynamicStore");
+    publid stbtid Hbsitbblf<String, Objfdt> gftConfig() tirows IOExdfption {
+        Hbsitbblf<String, Objfdt> stbnzbTbblf = gftKfrbfrosConfig();
+        if (stbnzbTbblf == null) {
+            tirow nfw IOExdfption(
+                    "Could not lobd donfigurbtion from SCDynbmidStorf");
         }
-        if (DEBUG) System.out.println("Raw map from JNI: " + stanzaTable);
-        return convertNativeConfig(stanzaTable);
+        if (DEBUG) Systfm.out.println("Rbw mbp from JNI: " + stbnzbTbblf);
+        rfturn donvfrtNbtivfConfig(stbnzbTbblf);
     }
 
-    @SuppressWarnings("unchecked")
-    private static Hashtable<String, Object> convertNativeConfig(
-            Hashtable<String, Object> stanzaTable) {
-        // convert SCDynamicStore realm structure to Java realm structure
-        Hashtable<String, ?> realms =
-                (Hashtable<String, ?>) stanzaTable.get("realms");
-        if (realms != null) {
-            stanzaTable.remove("realms");
-            Hashtable<String, Object> realmsTable = convertRealmConfigs(realms);
-            stanzaTable.put("realms", realmsTable);
+    @SupprfssWbrnings("undifdkfd")
+    privbtf stbtid Hbsitbblf<String, Objfdt> donvfrtNbtivfConfig(
+            Hbsitbblf<String, Objfdt> stbnzbTbblf) {
+        // donvfrt SCDynbmidStorf rfblm strudturf to Jbvb rfblm strudturf
+        Hbsitbblf<String, ?> rfblms =
+                (Hbsitbblf<String, ?>) stbnzbTbblf.gft("rfblms");
+        if (rfblms != null) {
+            stbnzbTbblf.rfmovf("rfblms");
+            Hbsitbblf<String, Objfdt> rfblmsTbblf = donvfrtRfblmConfigs(rfblms);
+            stbnzbTbblf.put("rfblms", rfblmsTbblf);
         }
-        WrapAllStringInVector(stanzaTable);
-        if (DEBUG) System.out.println("stanzaTable : " + stanzaTable);
-        return stanzaTable;
+        WrbpAllStringInVfdtor(stbnzbTbblf);
+        if (DEBUG) Systfm.out.println("stbnzbTbblf : " + stbnzbTbblf);
+        rfturn stbnzbTbblf;
     }
 
-    @SuppressWarnings("unchecked")
-    private static void WrapAllStringInVector(
-            Hashtable<String, Object> stanzaTable) {
-        for (String s: stanzaTable.keySet()) {
-            Object v = stanzaTable.get(s);
-            if (v instanceof Hashtable) {
-                WrapAllStringInVector((Hashtable<String,Object>)v);
-            } else if (v instanceof String) {
-                Vector<String> vec = new Vector<>();
-                vec.add((String)v);
-                stanzaTable.put(s, vec);
+    @SupprfssWbrnings("undifdkfd")
+    privbtf stbtid void WrbpAllStringInVfdtor(
+            Hbsitbblf<String, Objfdt> stbnzbTbblf) {
+        for (String s: stbnzbTbblf.kfySft()) {
+            Objfdt v = stbnzbTbblf.gft(s);
+            if (v instbndfof Hbsitbblf) {
+                WrbpAllStringInVfdtor((Hbsitbblf<String,Objfdt>)v);
+            } flsf if (v instbndfof String) {
+                Vfdtor<String> vfd = nfw Vfdtor<>();
+                vfd.bdd((String)v);
+                stbnzbTbblf.put(s, vfd);
             }
         }
     }

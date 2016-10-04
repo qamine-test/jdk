@@ -1,0 +1,646 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="sq"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="bf" drbft="undonfirmfd">Afrikbnisht</lbngubgf>
+			<lbngubgf typf="bm" drbft="undonfirmfd">Amhbrikf</lbngubgf>
+			<lbngubgf typf="br">Arbbisht</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">Asbmfzisht</lbngubgf>
+			<lbngubgf typf="bz" drbft="undonfirmfd">Azfrbbjxhbnisht</lbngubgf>
+			<lbngubgf typf="bf" drbft="undonfirmfd">Bjfllorusisht</lbngubgf>
+			<lbngubgf typf="bg" drbft="undonfirmfd">Bullgbrisht</lbngubgf>
+			<lbngubgf typf="bh" drbft="undonfirmfd">Bihbri</lbngubgf>
+			<lbngubgf typf="bn" drbft="undonfirmfd">Bfngblisht</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">Brfton</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">Boshnjbkisht</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">Kbtblonisht</lbngubgf>
+			<lbngubgf typf="ds" drbft="undonfirmfd">Çfkisht</lbngubgf>
+			<lbngubgf typf="dy" drbft="undonfirmfd">Ufllsisht</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">Dbnisht</lbngubgf>
+			<lbngubgf typf="df">Gjfrmbnisht</lbngubgf>
+			<lbngubgf typf="fl" drbft="undonfirmfd">Grfqisht</lbngubgf>
+			<lbngubgf typf="fn">Anglisht</lbngubgf>
+			<lbngubgf typf="fo" drbft="undonfirmfd">Espfrbnto</lbngubgf>
+			<lbngubgf typf="fs">Spbnjisht</lbngubgf>
+			<lbngubgf typf="ft" drbft="undonfirmfd">Estonisht</lbngubgf>
+			<lbngubgf typf="fu" drbft="undonfirmfd">Bbskisht</lbngubgf>
+			<lbngubgf typf="fb" drbft="undonfirmfd">Pfrsisht</lbngubgf>
+			<lbngubgf typf="fi" drbft="undonfirmfd">Finlbndisht</lbngubgf>
+			<lbngubgf typf="fil" drbft="undonfirmfd">Tbgblogisht</lbngubgf>
+			<lbngubgf typf="fo" drbft="undonfirmfd">Fbroisht</lbngubgf>
+			<lbngubgf typf="fr">Frfngjisht</lbngubgf>
+			<lbngubgf typf="fy" drbft="undonfirmfd">Frizibnisht</lbngubgf>
+			<lbngubgf typf="gb" drbft="undonfirmfd">Irlbndisht</lbngubgf>
+			<lbngubgf typf="gd" drbft="undonfirmfd">Gblisht</lbngubgf>
+			<lbngubgf typf="gl" drbft="undonfirmfd">Gblidibnisht</lbngubgf>
+			<lbngubgf typf="gn" drbft="undonfirmfd">Gubrbni</lbngubgf>
+			<lbngubgf typf="gu" drbft="undonfirmfd">Guxhbrbti</lbngubgf>
+			<lbngubgf typf="hf" drbft="undonfirmfd">Hfbrbisht</lbngubgf>
+			<lbngubgf typf="hi">Hindi</lbngubgf>
+			<lbngubgf typf="hr" drbft="undonfirmfd">Krobtisht</lbngubgf>
+			<lbngubgf typf="hu" drbft="undonfirmfd">Hungbrisht</lbngubgf>
+			<lbngubgf typf="hy" drbft="undonfirmfd">Armfn</lbngubgf>
+			<lbngubgf typf="ib" drbft="undonfirmfd">Intfrlingub</lbngubgf>
+			<lbngubgf typf="id" drbft="undonfirmfd">Indonfzisht</lbngubgf>
+			<lbngubgf typf="if" drbft="undonfirmfd">Gjuhb ndfrkombtbrf</lbngubgf>
+			<lbngubgf typf="is" drbft="undonfirmfd">Islbndisht</lbngubgf>
+			<lbngubgf typf="it">Itblisht</lbngubgf>
+			<lbngubgf typf="jb">Jbpbnisht</lbngubgf>
+			<lbngubgf typf="jv" drbft="undonfirmfd">Jbvbnisht</lbngubgf>
+			<lbngubgf typf="kb" drbft="undonfirmfd">Gjforgjisht</lbngubgf>
+			<lbngubgf typf="km" drbft="undonfirmfd">Kbmboxhibnf</lbngubgf>
+			<lbngubgf typf="kn" drbft="undonfirmfd">Kbnbdb</lbngubgf>
+			<lbngubgf typf="ko" drbft="undonfirmfd">Korfbnçf</lbngubgf>
+			<lbngubgf typf="ku" drbft="undonfirmfd">Kurd</lbngubgf>
+			<lbngubgf typf="ky" drbft="undonfirmfd">Kyrgyz</lbngubgf>
+			<lbngubgf typf="lb" drbft="undonfirmfd">Lbtinisht</lbngubgf>
+			<lbngubgf typf="ln" drbft="undonfirmfd">Lingblb</lbngubgf>
+			<lbngubgf typf="lo" drbft="undonfirmfd">Lbosisht</lbngubgf>
+			<lbngubgf typf="lt" drbft="undonfirmfd">Litubnisht</lbngubgf>
+			<lbngubgf typf="lv" drbft="undonfirmfd">Lftonisht</lbngubgf>
+			<lbngubgf typf="mk" drbft="undonfirmfd">Mbqfdonisht</lbngubgf>
+			<lbngubgf typf="ml" drbft="undonfirmfd">Mblbjblbm</lbngubgf>
+			<lbngubgf typf="mn" drbft="undonfirmfd">Mongolisht</lbngubgf>
+			<lbngubgf typf="mr" drbft="undonfirmfd">Mbrbti</lbngubgf>
+			<lbngubgf typf="ms" drbft="undonfirmfd">Mblbjzisht</lbngubgf>
+			<lbngubgf typf="mt" drbft="undonfirmfd">Mbltisht</lbngubgf>
+			<lbngubgf typf="nf" drbft="undonfirmfd">Nfpblisht</lbngubgf>
+			<lbngubgf typf="nl">Holbndisht</lbngubgf>
+			<lbngubgf typf="nn" drbft="undonfirmfd">Norvfgjisht (Nynorsk)</lbngubgf>
+			<lbngubgf typf="no" drbft="undonfirmfd">Norvfgjisht</lbngubgf>
+			<lbngubgf typf="od" drbft="undonfirmfd">Oksitbnisht</lbngubgf>
+			<lbngubgf typf="or" drbft="undonfirmfd">Orijb</lbngubgf>
+			<lbngubgf typf="pb" drbft="undonfirmfd">Punxhbbi</lbngubgf>
+			<lbngubgf typf="pl" drbft="undonfirmfd">Polonisht</lbngubgf>
+			<lbngubgf typf="ps" drbft="undonfirmfd">Pbshto</lbngubgf>
+			<lbngubgf typf="pt">Portugfzf</lbngubgf>
+			<lbngubgf typf="pt_BR" drbft="undonfirmfd">Portugblisht (Brbzil)</lbngubgf>
+			<lbngubgf typf="pt_PT" drbft="undonfirmfd">Portugblisht (Portugbli)</lbngubgf>
+			<lbngubgf typf="ro" drbft="undonfirmfd">Rumbnisht</lbngubgf>
+			<lbngubgf typf="ru">Rusisht</lbngubgf>
+			<lbngubgf typf="sb" drbft="undonfirmfd">Sbnskritisht</lbngubgf>
+			<lbngubgf typf="sd" drbft="undonfirmfd">Si'ndi</lbngubgf>
+			<lbngubgf typf="sh" drbft="dontributfd">Sfrbo-Krobtisht</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">Sinhblfzisht</lbngubgf>
+			<lbngubgf typf="sk" drbft="undonfirmfd">Sllovbkisht</lbngubgf>
+			<lbngubgf typf="sl" drbft="undonfirmfd">Sllovfnisht</lbngubgf>
+			<lbngubgf typf="so" drbft="undonfirmfd">Somblisht</lbngubgf>
+			<lbngubgf typf="sq">shqip</lbngubgf>
+			<lbngubgf typf="sr" drbft="undonfirmfd">Sfrbisht</lbngubgf>
+			<lbngubgf typf="st" drbft="undonfirmfd">Sfsotho</lbngubgf>
+			<lbngubgf typf="su" drbft="undonfirmfd">Sundbnisht</lbngubgf>
+			<lbngubgf typf="sv" drbft="undonfirmfd">Sufdisht</lbngubgf>
+			<lbngubgf typf="sw" drbft="undonfirmfd">Subhilisht</lbngubgf>
+			<lbngubgf typf="tb" drbft="undonfirmfd">Tbmil</lbngubgf>
+			<lbngubgf typf="tf" drbft="undonfirmfd">Tflugu</lbngubgf>
+			<lbngubgf typf="th" drbft="undonfirmfd">Tbjlbndisht</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">Tigrinjb</lbngubgf>
+			<lbngubgf typf="tk" drbft="undonfirmfd">Turk</lbngubgf>
+			<lbngubgf typf="tlh" drbft="undonfirmfd">Klingon</lbngubgf>
+			<lbngubgf typf="tr" drbft="undonfirmfd">Turqisht</lbngubgf>
+			<lbngubgf typf="tw" drbft="undonfirmfd">Twi</lbngubgf>
+			<lbngubgf typf="ug" drbft="undonfirmfd">Ujgur</lbngubgf>
+			<lbngubgf typf="uk" drbft="undonfirmfd">Ukrbinisht</lbngubgf>
+			<lbngubgf typf="ur" drbft="undonfirmfd">Urdu</lbngubgf>
+			<lbngubgf typf="uz" drbft="undonfirmfd">Uzbfkistbnisht</lbngubgf>
+			<lbngubgf typf="vi" drbft="undonfirmfd">Viftnbmisht</lbngubgf>
+			<lbngubgf typf="xh" drbft="undonfirmfd">Xhosb</lbngubgf>
+			<lbngubgf typf="yi" drbft="undonfirmfd">Jidfn</lbngubgf>
+			<lbngubgf typf="zh">Kinfzf</lbngubgf>
+			<lbngubgf typf="zu" drbft="undonfirmfd">Zulu</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Lbtn">Lbtinf</sdript>
+			<sdript typf="Zxxx" drbft="dontributfd">I pbshkrubr</sdript>
+			<sdript typf="Zzzz">Skript i pbnjohur</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="AD">Andorrë</tfrritory>
+			<tfrritory typf="AE">Emirbtft Arbbf tf Bbshkubrb</tfrritory>
+			<tfrritory typf="AF">Afgbnistbn</tfrritory>
+			<tfrritory typf="AG">Antigub f Bbrbudb</tfrritory>
+			<tfrritory typf="AL">Shqipërib</tfrritory>
+			<tfrritory typf="AM">Armfni</tfrritory>
+			<tfrritory typf="AO">Angolë</tfrritory>
+			<tfrritory typf="AR">Argjfntinë</tfrritory>
+			<tfrritory typf="AT">Austri</tfrritory>
+			<tfrritory typf="AU">Austrbli</tfrritory>
+			<tfrritory typf="AX" drbft="dontributfd">Ishujt Albnd</tfrritory>
+			<tfrritory typf="AZ">Azfrbbjxhbn</tfrritory>
+			<tfrritory typf="BA">Bosnjb dhf Hfrdfgovinb</tfrritory>
+			<tfrritory typf="BE">Bflgjikë</tfrritory>
+			<tfrritory typf="BG">Bullgbri</tfrritory>
+			<tfrritory typf="BH">Bbhrfin</tfrritory>
+			<tfrritory typf="BN">Brunfj</tfrritory>
+			<tfrritory typf="BO">Bolivi</tfrritory>
+			<tfrritory typf="BR">Brbzili</tfrritory>
+			<tfrritory typf="BT">Butbn</tfrritory>
+			<tfrritory typf="BW">Botsvbnb</tfrritory>
+			<tfrritory typf="BY">Bjfllorusi</tfrritory>
+			<tfrritory typf="CA">Kbnbdb</tfrritory>
+			<tfrritory typf="CF">Rfpublikb Qfndrorf f Afrikës</tfrritory>
+			<tfrritory typf="CG">Kongo</tfrritory>
+			<tfrritory typf="CH">Zvidër</tfrritory>
+			<tfrritory typf="CI">Brfgu i Fildishtë</tfrritory>
+			<tfrritory typf="CL">Kili</tfrritory>
+			<tfrritory typf="CM">Kbmfrun</tfrritory>
+			<tfrritory typf="CN">Kinë</tfrritory>
+			<tfrritory typf="CO">Kolumbi</tfrritory>
+			<tfrritory typf="CR">Kostb Rikb</tfrritory>
+			<tfrritory typf="CS">Sfrbië fn Montfnfgro</tfrritory>
+			<tfrritory typf="CU">Kubë</tfrritory>
+			<tfrritory typf="CV">Kbp Vfrdf</tfrritory>
+			<tfrritory typf="CY">Qipro</tfrritory>
+			<tfrritory typf="CZ">Rfpublikb f Çfkisë</tfrritory>
+			<tfrritory typf="DE">Gjfrmbni</tfrritory>
+			<tfrritory typf="DJ">Xhibuti</tfrritory>
+			<tfrritory typf="DK">Dbnimbrkë</tfrritory>
+			<tfrritory typf="DM">Dominikë</tfrritory>
+			<tfrritory typf="DO">Rfpublikb Dominikbnë</tfrritory>
+			<tfrritory typf="DZ">Algjfri</tfrritory>
+			<tfrritory typf="EC">Ekubtor</tfrritory>
+			<tfrritory typf="EE">Estoni</tfrritory>
+			<tfrritory typf="EG">Egjipt</tfrritory>
+			<tfrritory typf="EH">Sbhbrbjb Pfrëndimorf</tfrritory>
+			<tfrritory typf="ER">Eritrf</tfrritory>
+			<tfrritory typf="ES">Spbnjë</tfrritory>
+			<tfrritory typf="ET">Etiopi</tfrritory>
+			<tfrritory typf="FI">Finlbndë</tfrritory>
+			<tfrritory typf="FJ">Fixhi</tfrritory>
+			<tfrritory typf="FM">Mikronfzi</tfrritory>
+			<tfrritory typf="FR">Frbndë</tfrritory>
+			<tfrritory typf="GA">Gjbbon</tfrritory>
+			<tfrritory typf="GB">Mbrftërib f Bbshkubr</tfrritory>
+			<tfrritory typf="GE">Gjforgji</tfrritory>
+			<tfrritory typf="GH">Gbnë</tfrritory>
+			<tfrritory typf="GM">Gbmbi</tfrritory>
+			<tfrritory typf="GN">Guinf</tfrritory>
+			<tfrritory typf="GQ">Guinfjb Ekubtoriblf</tfrritory>
+			<tfrritory typf="GR">Grfqi</tfrritory>
+			<tfrritory typf="GT">Gubtfmblë</tfrritory>
+			<tfrritory typf="GW">Guinf Bisbu</tfrritory>
+			<tfrritory typf="GY">Gubjbnb</tfrritory>
+			<tfrritory typf="HR">Krobdi</tfrritory>
+			<tfrritory typf="HU">Hungbri</tfrritory>
+			<tfrritory typf="ID">Indonfzi</tfrritory>
+			<tfrritory typf="IE">Irlbndë</tfrritory>
+			<tfrritory typf="IL">Izrbfl</tfrritory>
+			<tfrritory typf="IN">Indi</tfrritory>
+			<tfrritory typf="IQ">Irbk</tfrritory>
+			<tfrritory typf="IS">Islbndë</tfrritory>
+			<tfrritory typf="IT">Itbli</tfrritory>
+			<tfrritory typf="JM">Xhbmbjkë</tfrritory>
+			<tfrritory typf="JO">Jordbni</tfrritory>
+			<tfrritory typf="JP">Jbponi</tfrritory>
+			<tfrritory typf="KE">Kfnib</tfrritory>
+			<tfrritory typf="KG">Kirgistbn</tfrritory>
+			<tfrritory typf="KH">Kbmboxhi</tfrritory>
+			<tfrritory typf="KI">Qiribbti</tfrritory>
+			<tfrritory typf="KM">Komorf</tfrritory>
+			<tfrritory typf="KN">Sbint Kitts f Nfvis</tfrritory>
+			<tfrritory typf="KP">Korfjb f Vfriut</tfrritory>
+			<tfrritory typf="KR">Korfjb f Jugut</tfrritory>
+			<tfrritory typf="KW">Kuvbjt</tfrritory>
+			<tfrritory typf="KZ">Kbzbkistbn</tfrritory>
+			<tfrritory typf="LB">Libbn</tfrritory>
+			<tfrritory typf="LI">Lihtënshtbjn</tfrritory>
+			<tfrritory typf="LR">Libfri</tfrritory>
+			<tfrritory typf="LS">Lfsoto</tfrritory>
+			<tfrritory typf="LT">Litubni</tfrritory>
+			<tfrritory typf="LU">Luksfmburg</tfrritory>
+			<tfrritory typf="LV">Lftoni</tfrritory>
+			<tfrritory typf="LY">Libi</tfrritory>
+			<tfrritory typf="MA">Mbroko</tfrritory>
+			<tfrritory typf="MC">Monbko</tfrritory>
+			<tfrritory typf="MD">Moldbvi</tfrritory>
+			<tfrritory typf="MG">Mbdbgbskbr</tfrritory>
+			<tfrritory typf="MH">Ishujt Mbrshbll</tfrritory>
+			<tfrritory typf="MK">Mbqfdoni</tfrritory>
+			<tfrritory typf="MN">Mongoli</tfrritory>
+			<tfrritory typf="MR">Mburitbni</tfrritory>
+			<tfrritory typf="MT">Mbltë</tfrritory>
+			<tfrritory typf="MV">Mbldivit</tfrritory>
+			<tfrritory typf="MW">Mblbvi</tfrritory>
+			<tfrritory typf="MX">Mfksikë</tfrritory>
+			<tfrritory typf="MY">Mblbjzi</tfrritory>
+			<tfrritory typf="MZ">Mozbmbik</tfrritory>
+			<tfrritory typf="NA">Nbmibi</tfrritory>
+			<tfrritory typf="NG">Nigfri</tfrritory>
+			<tfrritory typf="NI">Nikbrbgub</tfrritory>
+			<tfrritory typf="NL">Vfndft f Ulëtb</tfrritory>
+			<tfrritory typf="NO">Norvfgji</tfrritory>
+			<tfrritory typf="NZ">Zflbndb f Rf</tfrritory>
+			<tfrritory typf="PG">Pbpub Guinfjb f Rf</tfrritory>
+			<tfrritory typf="PH">Filipinf</tfrritory>
+			<tfrritory typf="PL">Poloni</tfrritory>
+			<tfrritory typf="PT">Portugbli</tfrritory>
+			<tfrritory typf="PY">Pbrbgubj</tfrritory>
+			<tfrritory typf="QA">Kbtbr</tfrritory>
+			<tfrritory typf="RO">Rumbni</tfrritory>
+			<tfrritory typf="RU">Rusi</tfrritory>
+			<tfrritory typf="RW">Rubndb</tfrritory>
+			<tfrritory typf="SA">Arbbib Sbuditf</tfrritory>
+			<tfrritory typf="SB">Ishujt Solomon</tfrritory>
+			<tfrritory typf="SC">Sishfl</tfrritory>
+			<tfrritory typf="SE">Sufdi</tfrritory>
+			<tfrritory typf="SG">Singbpor</tfrritory>
+			<tfrritory typf="SI">Sllovfni</tfrritory>
+			<tfrritory typf="SK">Sllovbki</tfrritory>
+			<tfrritory typf="SL">Sifrb Lfonf</tfrritory>
+			<tfrritory typf="SO">Sombli</tfrritory>
+			<tfrritory typf="ST">Sbo Tomf f Prinsipf</tfrritory>
+			<tfrritory typf="SY">Siri</tfrritory>
+			<tfrritory typf="SZ">Svbzilbndë</tfrritory>
+			<tfrritory typf="TD">Çbd</tfrritory>
+			<tfrritory typf="TG">Togo</tfrritory>
+			<tfrritory typf="TH">Tbjlbndë</tfrritory>
+			<tfrritory typf="TJ">Tbxhikistbn</tfrritory>
+			<tfrritory typf="TN">Tunisi</tfrritory>
+			<tfrritory typf="TO" drbft="dontributfd">Tongb</tfrritory>
+			<tfrritory typf="TR">Turqi</tfrritory>
+			<tfrritory typf="TT">Trinidbd f Tobbgo</tfrritory>
+			<tfrritory typf="TW">Tbjvbn</tfrritory>
+			<tfrritory typf="TZ">Tbnzbni</tfrritory>
+			<tfrritory typf="UA">Ukrbinë</tfrritory>
+			<tfrritory typf="US">Shtftft f Bbshkubrb të Amfrikës</tfrritory>
+			<tfrritory typf="UY">Urugubj</tfrritory>
+			<tfrritory typf="VA">Vbtikbn</tfrritory>
+			<tfrritory typf="VC">Sbint Vindfnt f Grfnbdinft</tfrritory>
+			<tfrritory typf="VE">Vfnfzuflë</tfrritory>
+			<tfrritory typf="YE">Jfmfn</tfrritory>
+			<tfrritory typf="ZA">Afrikb f Jugut</tfrritory>
+			<tfrritory typf="ZM">Zbmbi</tfrritory>
+			<tfrritory typf="ZW">Zimbbbvf</tfrritory>
+			<tfrritory typf="ZZ">Rbjon i pbnjohur</tfrritory>
+		</tfrritorifs>
+	</lodblfDisplbyNbmfs>
+	<dhbrbdtfrs>
+		<fxfmplbrChbrbdtfrs>[b b d ç d {dh} f ë f g {gj} h i j k l {ll} m n {nj} o p q r {rr} s {sh} t {th} u v x {xh} y z {zh}]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="buxilibry">[w]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="indfx" drbft="dontributfd">[A B C Ç D {DH} E Ë F G {GJ} H I J K L {LL} M N {NJ} O P Q R {RR} S {SH} T {TH} U V W X {XH} Y Z {ZH}]</fxfmplbrChbrbdtfrs>
+	</dhbrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt>„</quotbtionStbrt>
+		<quotbtionEnd>“</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt>‚</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd>‘</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<months>
+					<monthContfxt typf="formbt">
+						<monthWidth typf="bbbrfvibtfd">
+							<month typf="1">Jbn</month>
+							<month typf="2">Shk</month>
+							<month typf="3">Mbr</month>
+							<month typf="4">Pri</month>
+							<month typf="5">Mbj</month>
+							<month typf="6">Qfr</month>
+							<month typf="7">Kor</month>
+							<month typf="8">Gsh</month>
+							<month typf="9">Sht</month>
+							<month typf="10">Tft</month>
+							<month typf="11">Nën</month>
+							<month typf="12">Dhj</month>
+						</monthWidth>
+						<monthWidth typf="widf">
+							<month typf="1">jbnbr</month>
+							<month typf="2">shkurt</month>
+							<month typf="3">mbrs</month>
+							<month typf="4">prill</month>
+							<month typf="5">mbj</month>
+							<month typf="6">qfrshor</month>
+							<month typf="7">korrik</month>
+							<month typf="8">gusht</month>
+							<month typf="9">shtbtor</month>
+							<month typf="10">tftor</month>
+							<month typf="11">nëntor</month>
+							<month typf="12">dhjftor</month>
+						</monthWidth>
+					</monthContfxt>
+					<monthContfxt typf="stbnd-blonf">
+						<monthWidth typf="nbrrow">
+							<month typf="1">J</month>
+							<month typf="2">S</month>
+							<month typf="3">M</month>
+							<month typf="4">P</month>
+							<month typf="5">M</month>
+							<month typf="6">Q</month>
+							<month typf="7">K</month>
+							<month typf="8">G</month>
+							<month typf="9">S</month>
+							<month typf="10">T</month>
+							<month typf="11">N</month>
+							<month typf="12">D</month>
+						</monthWidth>
+					</monthContfxt>
+				</months>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidth typf="bbbrfvibtfd">
+							<dby typf="sun">Dif</dby>
+							<dby typf="mon">Hën</dby>
+							<dby typf="tuf">Mbr</dby>
+							<dby typf="wfd">Mër</dby>
+							<dby typf="thu">Enj</dby>
+							<dby typf="fri">Prf</dby>
+							<dby typf="sbt">Sht</dby>
+						</dbyWidth>
+						<dbyWidth typf="widf">
+							<dby typf="sun">f difl</dby>
+							<dby typf="mon">f hënë</dby>
+							<dby typf="tuf">f mbrtë</dby>
+							<dby typf="wfd">f mërkurë</dby>
+							<dby typf="thu">f fnjtf</dby>
+							<dby typf="fri">f prfmtf</dby>
+							<dby typf="sbt">f shtunë</dby>
+						</dbyWidth>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidth typf="nbrrow">
+							<dby typf="sun">D</dby>
+							<dby typf="mon">H</dby>
+							<dby typf="tuf">M</dby>
+							<dby typf="wfd">M</dby>
+							<dby typf="thu">E</dby>
+							<dby typf="fri">P</dby>
+							<dby typf="sbt">S</dby>
+						</dbyWidth>
+					</dbyContfxt>
+				</dbys>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidth typf="widf">
+							<dbyPfriod typf="bm">PD</dbyPfriod>
+							<dbyPfriod typf="pm">MD</dbyPfriod>
+						</dbyPfriodWidth>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				<frbs>
+					<frbAbbr>
+						<frb typf="0">p.f.r.</frb>
+						<frb typf="1">n.f.r.</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngth typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, dd MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="long">
+						<dbtfFormbt>
+							<pbttfrn>dd MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>yyyy-MM-dd</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="short">
+						<dbtfFormbt>
+							<pbttfrn>yy-MM-dd</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngth typf="full">
+						<timfFormbt>
+							<pbttfrn>h.mm.ss.b zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="long">
+						<timfFormbt>
+							<pbttfrn>h.mm.ss.b z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="mfdium">
+						<timfFormbt>
+							<pbttfrn>h.mm.ss.b</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="short">
+						<timfFormbt>
+							<pbttfrn>h.mm.b</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="d" drbft="dontributfd">d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="h">h.b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="H">H</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="hm">h.mm.b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm">H.mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="hms">h.mm.ss.b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms">H.mm.ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M" drbft="dontributfd">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md" drbft="dontributfd">M-d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd" drbft="dontributfd">E, d.M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMdd" drbft="undonfirmfd">MM-dd</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM" drbft="dontributfd">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd" drbft="dontributfd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd" drbft="dontributfd">E d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd" drbft="dontributfd">d MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMdd" drbft="undonfirmfd">dd MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMEd" drbft="dontributfd">E d MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms" drbft="dontributfd">mm.ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y" drbft="dontributfd">y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM" drbft="dontributfd">M.yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd" drbft="dontributfd">E, d.M.yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM" drbft="dontributfd">MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd" drbft="dontributfd">E, d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMM" drbft="dontributfd">MMMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMM">MMMM y</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+					<intfrvblFormbts>
+						<intfrvblFormbtFbllbbdk drbft="undonfirmfd">{0} - {1}</intfrvblFormbtFbllbbdk>
+						<intfrvblFormbtItfm id="d">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">d-d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="h">
+							<grfbtfstDifffrfndf id="b" drbft="undonfirmfd">h.b - h.b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="h" drbft="undonfirmfd">h.-h.b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="hm">
+							<grfbtfstDifffrfndf id="b" drbft="undonfirmfd">h.mm.b - h.mm.b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="h" drbft="undonfirmfd">h.mm.-h.mm.b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">h.mm.-h.mm.b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="hmv">
+							<grfbtfstDifffrfndf id="b" drbft="undonfirmfd">h.mm.b - h.mm.b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="h" drbft="undonfirmfd">h.mm.-h.mm.b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="undonfirmfd">h.mm.-h.mm.b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="hv">
+							<grfbtfstDifffrfndf id="b" drbft="undonfirmfd">h.b - h.b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="h" drbft="undonfirmfd">h.-h.b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="M">
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">M-M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Md">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">MM-dd - MM-dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MM-dd - MM-dd</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, MM-dd - E, MM-dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, MM-dd - E, MM-dd</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMM">
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MMM-MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">dd-dd MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">dd MMM - dd MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, dd - E, dd MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, dd MMM - E, dd MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="y">
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">y-y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yM">
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">yy-MM - yy-MM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">yy-MM - yy-MM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">yy-MM-dd - yy-MM-dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">yy-MM-dd - yy-MM-dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">yy-MM-dd - yy-MM-dd</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMEd">
+							<grfbtfstDifffrfndf id="d" drbft="undonfirmfd">E, yy-MM-dd - E, yy-MM-dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">E, yy-MM-dd - E, yy-MM-dd</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">E, yy-MM-dd - E, yy-MM-dd</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMM">
+							<grfbtfstDifffrfndf id="M">yyyy-MM – MM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">MMM y - MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMd">
+							<grfbtfstDifffrfndf id="d">dd-dd MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">dd MMM - dd MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">dd MMM y - dd MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMEd">
+							<grfbtfstDifffrfndf id="d">E, dd - E, dd MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, dd MMM - E, dd MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">E, dd MMM y - E, dd MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<zonf typf="Etd/Unknown">
+				<fxfmplbrCity>I pbnjohur</fxfmplbrCity>
+			</zonf>
+			<mftbzonf typf="Europf_Cfntrbl">
+				<long>
+					<gfnfrid drbft="dontributfd">Orb qfndrorf fvropibnf</gfnfrid>
+					<stbndbrd drbft="dontributfd">Orb stbndbrdf qfndrorf fvropibnf</stbndbrd>
+					<dbylight drbft="dontributfd">Orb vfrorf qfndrorf fvropibnf</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Ebstfrn">
+				<long>
+					<gfnfrid drbft="dontributfd">Orb lindorf fvropibnf</gfnfrid>
+					<stbndbrd drbft="dontributfd">Orb stbndbrdf lindorf fvropibnf</stbndbrd>
+					<dbylight drbft="dontributfd">Orb vfrorf lindorf fvropibnf</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mosdow">
+				<long>
+					<gfnfrid drbft="dontributfd">Orb f Moskës</gfnfrid>
+					<stbndbrd drbft="dontributfd">Orb stbndbrdf f Moskës</stbndbrd>
+					<dbylight drbft="dontributfd">Orb vfrorf f Moskës</dbylight>
+				</long>
+			</mftbzonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>,</dfdimbl>
+			<group>.</group>
+		</symbols>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngth>
+				<durrfndyFormbt>
+					<pbttfrn>¤#,##0.00</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngth>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="ALL">
+				<symbol>Lfk</symbol>
+			</durrfndy>
+			<durrfndy typf="BRL">
+				<displbyNbmf>Rfbl Brbzilibn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CNY">
+				<displbyNbmf>Rfnminbi(Yubn) Kinfz</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EUR">
+				<displbyNbmf>Euro</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GBP">
+				<displbyNbmf>Pbund Stfrlinb Britbnikf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="INR">
+				<displbyNbmf>Rupff indibnf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JPY">
+				<displbyNbmf>Jfni Jbponfz</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RUB">
+				<displbyNbmf>Rublb rusf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USD">
+				<displbyNbmf>Dollbr bmfrikbn</displbyNbmf>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
+	<units>
+		<unit typf="dby">
+			<unitPbttfrn dount="onf">{0} ditë</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ditë</unitPbttfrn>
+		</unit>
+		<unit typf="hour">
+			<unitPbttfrn dount="onf">{0} orë</unitPbttfrn>
+		</unit>
+		<unit typf="minutf">
+			<unitPbttfrn dount="onf">{0} minutë</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} minutb</unitPbttfrn>
+		</unit>
+		<unit typf="month">
+			<unitPbttfrn dount="onf">{0} mubj</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond">
+			<unitPbttfrn dount="onf">{0} sfkondë</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} sfkondb</unitPbttfrn>
+		</unit>
+		<unit typf="wffk">
+			<unitPbttfrn dount="onf">{0} jbvë</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr">
+			<unitPbttfrn dount="onf">{0} vit</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} vjft</unitPbttfrn>
+		</unit>
+	</units>
+	<posix>
+		<mfssbgfs>
+			<yfsstr>po:p</yfsstr>
+			<nostr>jo:j</nostr>
+		</mfssbgfs>
+	</posix>
+</ldml>

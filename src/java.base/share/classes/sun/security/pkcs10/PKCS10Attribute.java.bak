@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.pkcs10;
+pbdkbgf sun.sfdurity.pkds10;
 
-import java.io.OutputStream;
-import java.io.IOException;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
 
-import sun.security.pkcs.PKCS9Attribute;
-import sun.security.util.*;
+import sun.sfdurity.pkds.PKCS9Attributf;
+import sun.sfdurity.util.*;
 
 /**
- * Represent a PKCS#10 Attribute.
+ * Rfprfsfnt b PKCS#10 Attributf.
  *
- * <p>Attributes are additonal information which can be inserted in a PKCS#10
- * certificate request. For example a "Driving License Certificate" could have
- * the driving license number as an attribute.
+ * <p>Attributfs brf bdditonbl informbtion wiidi dbn bf insfrtfd in b PKCS#10
+ * dfrtifidbtf rfqufst. For fxbmplf b "Driving Lidfnsf Cfrtifidbtf" dould ibvf
+ * tif driving lidfnsf numbfr bs bn bttributf.
  *
- * <p>Attributes are represented as a sequence of the attribute identifier
- * (Object Identifier) and a set of DER encoded attribute values.
+ * <p>Attributfs brf rfprfsfntfd bs b sfqufndf of tif bttributf idfntififr
+ * (Objfdt Idfntififr) bnd b sft of DER fndodfd bttributf vblufs.
  *
- * ASN.1 definition of Attribute:
- * <pre>
- * Attribute :: SEQUENCE {
- *    type    AttributeType,
- *    values  SET OF AttributeValue
+ * ASN.1 dffinition of Attributf:
+ * <prf>
+ * Attributf :: SEQUENCE {
+ *    typf    AttributfTypf,
+ *    vblufs  SET OF AttributfVbluf
  * }
- * AttributeType  ::= OBJECT IDENTIFIER
- * AttributeValue ::= ANY defined by type
- * </pre>
+ * AttributfTypf  ::= OBJECT IDENTIFIER
+ * AttributfVbluf ::= ANY dffinfd by typf
+ * </prf>
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
  */
-public class PKCS10Attribute implements DerEncoder {
+publid dlbss PKCS10Attributf implfmfnts DfrEndodfr {
 
-    protected ObjectIdentifier  attributeId = null;
-    protected Object            attributeValue = null;
+    protfdtfd ObjfdtIdfntififr  bttributfId = null;
+    protfdtfd Objfdt            bttributfVbluf = null;
 
     /**
-     * Constructs an attribute from a DER encoding.
-     * This constructor expects the value to be encoded as defined above,
-     * i.e. a SEQUENCE of OID and SET OF value(s), not a literal
-     * X.509 v3 extension. Only PKCS9 defined attributes are supported
-     * currently.
+     * Construdts bn bttributf from b DER fndoding.
+     * Tiis donstrudtor fxpfdts tif vbluf to bf fndodfd bs dffinfd bbovf,
+     * i.f. b SEQUENCE of OID bnd SET OF vbluf(s), not b litfrbl
+     * X.509 v3 fxtfnsion. Only PKCS9 dffinfd bttributfs brf supportfd
+     * durrfntly.
      *
-     * @param derVal the der encoded attribute.
-     * @exception IOException on parsing errors.
+     * @pbrbm dfrVbl tif dfr fndodfd bttributf.
+     * @fxdfption IOExdfption on pbrsing frrors.
      */
-    public PKCS10Attribute(DerValue derVal) throws IOException {
-        PKCS9Attribute attr = new PKCS9Attribute(derVal);
-        this.attributeId = attr.getOID();
-        this.attributeValue = attr.getValue();
+    publid PKCS10Attributf(DfrVbluf dfrVbl) tirows IOExdfption {
+        PKCS9Attributf bttr = nfw PKCS9Attributf(dfrVbl);
+        tiis.bttributfId = bttr.gftOID();
+        tiis.bttributfVbluf = bttr.gftVbluf();
     }
 
     /**
-     * Constructs an attribute from individual components of
-     * ObjectIdentifier and the value (any java object).
+     * Construdts bn bttributf from individubl domponfnts of
+     * ObjfdtIdfntififr bnd tif vbluf (bny jbvb objfdt).
      *
-     * @param attributeId the ObjectIdentifier of the attribute.
-     * @param attributeValue an instance of a class that implements
-     * the attribute identified by the ObjectIdentifier.
+     * @pbrbm bttributfId tif ObjfdtIdfntififr of tif bttributf.
+     * @pbrbm bttributfVbluf bn instbndf of b dlbss tibt implfmfnts
+     * tif bttributf idfntififd by tif ObjfdtIdfntififr.
      */
-    public PKCS10Attribute(ObjectIdentifier attributeId,
-                           Object attributeValue) {
-        this.attributeId = attributeId;
-        this.attributeValue = attributeValue;
+    publid PKCS10Attributf(ObjfdtIdfntififr bttributfId,
+                           Objfdt bttributfVbluf) {
+        tiis.bttributfId = bttributfId;
+        tiis.bttributfVbluf = bttributfVbluf;
     }
 
     /**
-     * Constructs an attribute from PKCS9 attribute.
+     * Construdts bn bttributf from PKCS9 bttributf.
      *
-     * @param attr the PKCS9Attribute to create from.
+     * @pbrbm bttr tif PKCS9Attributf to drfbtf from.
      */
-    public PKCS10Attribute(PKCS9Attribute attr) {
-        this.attributeId = attr.getOID();
-        this.attributeValue = attr.getValue();
+    publid PKCS10Attributf(PKCS9Attributf bttr) {
+        tiis.bttributfId = bttr.gftOID();
+        tiis.bttributfVbluf = bttr.gftVbluf();
     }
 
     /**
-     * DER encode this object onto an output stream.
-     * Implements the <code>DerEncoder</code> interface.
+     * DER fndodf tiis objfdt onto bn output strfbm.
+     * Implfmfnts tif <dodf>DfrEndodfr</dodf> intfrfbdf.
      *
-     * @param out
-     * the OutputStream on which to write the DER encoding.
+     * @pbrbm out
+     * tif OutputStrfbm on wiidi to writf tif DER fndoding.
      *
-     * @exception IOException on encoding errors.
+     * @fxdfption IOExdfption on fndoding frrors.
      */
-    public void derEncode(OutputStream out) throws IOException {
-        PKCS9Attribute attr = new PKCS9Attribute(attributeId, attributeValue);
-        attr.derEncode(out);
+    publid void dfrEndodf(OutputStrfbm out) tirows IOExdfption {
+        PKCS9Attributf bttr = nfw PKCS9Attributf(bttributfId, bttributfVbluf);
+        bttr.dfrEndodf(out);
     }
 
     /**
-     * Returns the ObjectIdentifier of the attribute.
+     * Rfturns tif ObjfdtIdfntififr of tif bttributf.
      */
-    public ObjectIdentifier getAttributeId() {
-        return (attributeId);
+    publid ObjfdtIdfntififr gftAttributfId() {
+        rfturn (bttributfId);
     }
 
     /**
-     * Returns the attribute value.
+     * Rfturns tif bttributf vbluf.
      */
-    public Object getAttributeValue() {
-        return (attributeValue);
+    publid Objfdt gftAttributfVbluf() {
+        rfturn (bttributfVbluf);
     }
 
     /**
-     * Returns the attribute in user readable form.
+     * Rfturns tif bttributf in usfr rfbdbblf form.
      */
-    public String toString() {
-        return (attributeValue.toString());
+    publid String toString() {
+        rfturn (bttributfVbluf.toString());
     }
 }

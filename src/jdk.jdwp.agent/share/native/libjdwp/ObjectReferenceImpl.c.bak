@@ -1,366 +1,366 @@
 /*
- * Copyright (c) 1998, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "util.h"
-#include "ObjectReferenceImpl.h"
-#include "commonRef.h"
-#include "inStream.h"
-#include "outStream.h"
+#indludf "util.i"
+#indludf "ObjfdtRfffrfndfImpl.i"
+#indludf "dommonRff.i"
+#indludf "inStrfbm.i"
+#indludf "outStrfbm.i"
 
-static jboolean
-referenceType(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+rfffrfndfTypf(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    JNIEnv *env;
-    jobject object;
+    JNIEnv *fnv;
+    jobjfdt objfdt;
 
-    env = getEnv();
+    fnv = gftEnv();
 
-    object = inStream_readObjectRef(env, in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    objfdt = inStrfbm_rfbdObjfdtRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    WITH_LOCAL_REFS(env, 1) {
+    WITH_LOCAL_REFS(fnv, 1) {
 
-        jbyte tag;
-        jclass clazz;
+        jbytf tbg;
+        jdlbss dlbzz;
 
-        clazz = JNI_FUNC_PTR(env,GetObjectClass)(env, object);
-        tag = referenceTypeTag(clazz);
+        dlbzz = JNI_FUNC_PTR(fnv,GftObjfdtClbss)(fnv, objfdt);
+        tbg = rfffrfndfTypfTbg(dlbzz);
 
-        (void)outStream_writeByte(out, tag);
-        (void)outStream_writeObjectRef(env, out, clazz);
+        (void)outStrfbm_writfBytf(out, tbg);
+        (void)outStrfbm_writfObjfdtRff(fnv, out, dlbzz);
 
-    } END_WITH_LOCAL_REFS(env);
+    } END_WITH_LOCAL_REFS(fnv);
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-static jboolean
-getValues(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+gftVblufs(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    sharedGetFieldValues(in, out, JNI_FALSE);
-    return JNI_TRUE;
+    sibrfdGftFifldVblufs(in, out, JNI_FALSE);
+    rfturn JNI_TRUE;
 }
 
 
-static jvmtiError
-readFieldValue(JNIEnv *env, PacketInputStream *in, jclass clazz,
-               jobject object, jfieldID field, char *signature)
+stbtid jvmtiError
+rfbdFifldVbluf(JNIEnv *fnv, PbdkftInputStrfbm *in, jdlbss dlbzz,
+               jobjfdt objfdt, jfifldID fifld, dibr *signbturf)
 {
-    jvalue value;
-    jvmtiError error;
+    jvbluf vbluf;
+    jvmtiError frror;
 
-    switch (signature[0]) {
-        case JDWP_TAG(ARRAY):
-        case JDWP_TAG(OBJECT):
-            value.l = inStream_readObjectRef(env, in);
-            JNI_FUNC_PTR(env,SetObjectField)(env, object, field, value.l);
-            break;
+    switdi (signbturf[0]) {
+        dbsf JDWP_TAG(ARRAY):
+        dbsf JDWP_TAG(OBJECT):
+            vbluf.l = inStrfbm_rfbdObjfdtRff(fnv, in);
+            JNI_FUNC_PTR(fnv,SftObjfdtFifld)(fnv, objfdt, fifld, vbluf.l);
+            brfbk;
 
-        case JDWP_TAG(BYTE):
-            value.b = inStream_readByte(in);
-            JNI_FUNC_PTR(env,SetByteField)(env, object, field, value.b);
-            break;
+        dbsf JDWP_TAG(BYTE):
+            vbluf.b = inStrfbm_rfbdBytf(in);
+            JNI_FUNC_PTR(fnv,SftBytfFifld)(fnv, objfdt, fifld, vbluf.b);
+            brfbk;
 
-        case JDWP_TAG(CHAR):
-            value.c = inStream_readChar(in);
-            JNI_FUNC_PTR(env,SetCharField)(env, object, field, value.c);
-            break;
+        dbsf JDWP_TAG(CHAR):
+            vbluf.d = inStrfbm_rfbdCibr(in);
+            JNI_FUNC_PTR(fnv,SftCibrFifld)(fnv, objfdt, fifld, vbluf.d);
+            brfbk;
 
-        case JDWP_TAG(FLOAT):
-            value.f = inStream_readFloat(in);
-            JNI_FUNC_PTR(env,SetFloatField)(env, object, field, value.f);
-            break;
+        dbsf JDWP_TAG(FLOAT):
+            vbluf.f = inStrfbm_rfbdFlobt(in);
+            JNI_FUNC_PTR(fnv,SftFlobtFifld)(fnv, objfdt, fifld, vbluf.f);
+            brfbk;
 
-        case JDWP_TAG(DOUBLE):
-            value.d = inStream_readDouble(in);
-            JNI_FUNC_PTR(env,SetDoubleField)(env, object, field, value.d);
-            break;
+        dbsf JDWP_TAG(DOUBLE):
+            vbluf.d = inStrfbm_rfbdDoublf(in);
+            JNI_FUNC_PTR(fnv,SftDoublfFifld)(fnv, objfdt, fifld, vbluf.d);
+            brfbk;
 
-        case JDWP_TAG(INT):
-            value.i = inStream_readInt(in);
-            JNI_FUNC_PTR(env,SetIntField)(env, object, field, value.i);
-            break;
+        dbsf JDWP_TAG(INT):
+            vbluf.i = inStrfbm_rfbdInt(in);
+            JNI_FUNC_PTR(fnv,SftIntFifld)(fnv, objfdt, fifld, vbluf.i);
+            brfbk;
 
-        case JDWP_TAG(LONG):
-            value.j = inStream_readLong(in);
-            JNI_FUNC_PTR(env,SetLongField)(env, object, field, value.j);
-            break;
+        dbsf JDWP_TAG(LONG):
+            vbluf.j = inStrfbm_rfbdLong(in);
+            JNI_FUNC_PTR(fnv,SftLongFifld)(fnv, objfdt, fifld, vbluf.j);
+            brfbk;
 
-        case JDWP_TAG(SHORT):
-            value.s = inStream_readShort(in);
-            JNI_FUNC_PTR(env,SetShortField)(env, object, field, value.s);
-            break;
+        dbsf JDWP_TAG(SHORT):
+            vbluf.s = inStrfbm_rfbdSiort(in);
+            JNI_FUNC_PTR(fnv,SftSiortFifld)(fnv, objfdt, fifld, vbluf.s);
+            brfbk;
 
-        case JDWP_TAG(BOOLEAN):
-            value.z = inStream_readBoolean(in);
-            JNI_FUNC_PTR(env,SetBooleanField)(env, object, field, value.z);
-            break;
+        dbsf JDWP_TAG(BOOLEAN):
+            vbluf.z = inStrfbm_rfbdBoolfbn(in);
+            JNI_FUNC_PTR(fnv,SftBoolfbnFifld)(fnv, objfdt, fifld, vbluf.z);
+            brfbk;
     }
 
-    error = JVMTI_ERROR_NONE;
-    if (JNI_FUNC_PTR(env,ExceptionOccurred)(env)) {
-        error = AGENT_ERROR_JNI_EXCEPTION;
+    frror = JVMTI_ERROR_NONE;
+    if (JNI_FUNC_PTR(fnv,ExdfptionOddurrfd)(fnv)) {
+        frror = AGENT_ERROR_JNI_EXCEPTION;
     }
 
-    return error;
+    rfturn frror;
 }
 
-static jboolean
-setValues(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+sftVblufs(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    JNIEnv *env;
-    jint count;
-    jvmtiError error;
-    jobject object;
+    JNIEnv *fnv;
+    jint dount;
+    jvmtiError frror;
+    jobjfdt objfdt;
 
-    env = getEnv();
+    fnv = gftEnv();
 
-    object = inStream_readObjectRef(env, in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    objfdt = inStrfbm_rfbdObjfdtRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
-    count = inStream_readInt(in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    dount = inStrfbm_rfbdInt(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    error = JVMTI_ERROR_NONE;
+    frror = JVMTI_ERROR_NONE;
 
-    WITH_LOCAL_REFS(env, count + 1) {
+    WITH_LOCAL_REFS(fnv, dount + 1) {
 
-        jclass clazz;
+        jdlbss dlbzz;
 
-        clazz = JNI_FUNC_PTR(env,GetObjectClass)(env, object);
+        dlbzz = JNI_FUNC_PTR(fnv,GftObjfdtClbss)(fnv, objfdt);
 
-        if (clazz != NULL ) {
+        if (dlbzz != NULL ) {
 
             int i;
 
-            for (i = 0; (i < count) && !inStream_error(in); i++) {
+            for (i = 0; (i < dount) && !inStrfbm_frror(in); i++) {
 
-                jfieldID field;
-                char *signature = NULL;
+                jfifldID fifld;
+                dibr *signbturf = NULL;
 
-                field = inStream_readFieldID(in);
-                if (inStream_error(in))
-                    break;
+                fifld = inStrfbm_rfbdFifldID(in);
+                if (inStrfbm_frror(in))
+                    brfbk;
 
-                error = fieldSignature(clazz, field, NULL, &signature, NULL);
-                if (error != JVMTI_ERROR_NONE) {
-                    break;
+                frror = fifldSignbturf(dlbzz, fifld, NULL, &signbturf, NULL);
+                if (frror != JVMTI_ERROR_NONE) {
+                    brfbk;
                 }
 
-                error = readFieldValue(env, in, clazz, object, field, signature);
-                jvmtiDeallocate(signature);
+                frror = rfbdFifldVbluf(fnv, in, dlbzz, objfdt, fifld, signbturf);
+                jvmtiDfbllodbtf(signbturf);
 
-                if (error != JVMTI_ERROR_NONE) {
-                    break;
+                if (frror != JVMTI_ERROR_NONE) {
+                    brfbk;
                 }
             }
         }
 
-        if (error != JVMTI_ERROR_NONE) {
-            outStream_setError(out, map2jdwpError(error));
+        if (frror != JVMTI_ERROR_NONE) {
+            outStrfbm_sftError(out, mbp2jdwpError(frror));
         }
 
-    } END_WITH_LOCAL_REFS(env);
+    } END_WITH_LOCAL_REFS(fnv);
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-static jboolean
-monitorInfo(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+monitorInfo(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    JNIEnv *env;
-    jobject object;
+    JNIEnv *fnv;
+    jobjfdt objfdt;
 
-    env = getEnv();
+    fnv = gftEnv();
 
-    object = inStream_readObjectRef(env, in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    objfdt = inStrfbm_rfbdObjfdtRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    WITH_LOCAL_REFS(env, 1) {
+    WITH_LOCAL_REFS(fnv, 1) {
 
-        jvmtiError error;
-        jvmtiMonitorUsage info;
+        jvmtiError frror;
+        jvmtiMonitorUsbgf info;
 
-        (void)memset(&info, 0, sizeof(info));
-        error = JVMTI_FUNC_PTR(gdata->jvmti,GetObjectMonitorUsage)
-                        (gdata->jvmti, object, &info);
-        if (error != JVMTI_ERROR_NONE) {
-            outStream_setError(out, map2jdwpError(error));
-        } else {
+        (void)mfmsft(&info, 0, sizfof(info));
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftObjfdtMonitorUsbgf)
+                        (gdbtb->jvmti, objfdt, &info);
+        if (frror != JVMTI_ERROR_NONE) {
+            outStrfbm_sftError(out, mbp2jdwpError(frror));
+        } flsf {
             int i;
-            (void)outStream_writeObjectRef(env, out, info.owner);
-            (void)outStream_writeInt(out, info.entry_count);
-            (void)outStream_writeInt(out, info.waiter_count);
-            for (i = 0; i < info.waiter_count; i++) {
-                (void)outStream_writeObjectRef(env, out, info.waiters[i]);
+            (void)outStrfbm_writfObjfdtRff(fnv, out, info.ownfr);
+            (void)outStrfbm_writfInt(out, info.fntry_dount);
+            (void)outStrfbm_writfInt(out, info.wbitfr_dount);
+            for (i = 0; i < info.wbitfr_dount; i++) {
+                (void)outStrfbm_writfObjfdtRff(fnv, out, info.wbitfrs[i]);
             }
         }
 
-        if (info.waiters != NULL )
-            jvmtiDeallocate(info.waiters);
+        if (info.wbitfrs != NULL )
+            jvmtiDfbllodbtf(info.wbitfrs);
 
-    } END_WITH_LOCAL_REFS(env);
+    } END_WITH_LOCAL_REFS(fnv);
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-static jboolean
-invokeInstance(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+invokfInstbndf(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    return sharedInvoke(in, out);
+    rfturn sibrfdInvokf(in, out);
 }
 
-static jboolean
-disableCollection(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+disbblfCollfdtion(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
     jlong id;
-    jvmtiError error;
+    jvmtiError frror;
 
-    id = inStream_readObjectID(in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    id = inStrfbm_rfbdObjfdtID(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    error = commonRef_pin(id);
-    if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
+    frror = dommonRff_pin(id);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
     }
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-static jboolean
-enableCollection(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+fnbblfCollfdtion(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    jvmtiError error;
+    jvmtiError frror;
     jlong id;
 
-    id = inStream_readObjectID(in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    id = inStrfbm_rfbdObjfdtID(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    error = commonRef_unpin(id);
-    if (error != JVMTI_ERROR_NONE) {
-        outStream_setError(out, map2jdwpError(error));
+    frror = dommonRff_unpin(id);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
     }
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-static jboolean
-isCollected(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+isCollfdtfd(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    jobject ref;
+    jobjfdt rff;
     jlong id;
-    JNIEnv *env;
+    JNIEnv *fnv;
 
-    env = getEnv();
-    id = inStream_readObjectID(in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    fnv = gftEnv();
+    id = inStrfbm_rfbdObjfdtID(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
     if (id == NULL_OBJECT_ID) {
-        outStream_setError(out, JDWP_ERROR(INVALID_OBJECT));
-        return JNI_TRUE;
+        outStrfbm_sftError(out, JDWP_ERROR(INVALID_OBJECT));
+        rfturn JNI_TRUE;
     }
 
-    ref = commonRef_idToRef(env, id);
-    (void)outStream_writeBoolean(out, (jboolean)(ref == NULL));
+    rff = dommonRff_idToRff(fnv, id);
+    (void)outStrfbm_writfBoolfbn(out, (jboolfbn)(rff == NULL));
 
-    commonRef_idToRef_delete(env, ref);
+    dommonRff_idToRff_dflftf(fnv, rff);
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
 
-static jboolean
-referringObjects(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+rfffrringObjfdts(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    jobject object;
-    jint    maxReferrers;
-    JNIEnv *env;
+    jobjfdt objfdt;
+    jint    mbxRfffrrfrs;
+    JNIEnv *fnv;
 
-    env = getEnv();
+    fnv = gftEnv();
 
-    if (gdata->vmDead) {
-        outStream_setError(out, JDWP_ERROR(VM_DEAD));
-        return JNI_TRUE;
+    if (gdbtb->vmDfbd) {
+        outStrfbm_sftError(out, JDWP_ERROR(VM_DEAD));
+        rfturn JNI_TRUE;
     }
 
-    object = inStream_readObjectRef(env,in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    objfdt = inStrfbm_rfbdObjfdtRff(fnv,in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    maxReferrers = inStream_readInt(in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    mbxRfffrrfrs = inStrfbm_rfbdInt(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    WITH_LOCAL_REFS(env, 1) {
-        jvmtiError   error;
-        ObjectBatch  referrerBatch;
+    WITH_LOCAL_REFS(fnv, 1) {
+        jvmtiError   frror;
+        ObjfdtBbtdi  rfffrrfrBbtdi;
 
-        error = objectReferrers(object, &referrerBatch, maxReferrers);
-        if (error != JVMTI_ERROR_NONE) {
-            outStream_setError(out, map2jdwpError(error));
-        } else {
+        frror = objfdtRfffrrfrs(objfdt, &rfffrrfrBbtdi, mbxRfffrrfrs);
+        if (frror != JVMTI_ERROR_NONE) {
+            outStrfbm_sftError(out, mbp2jdwpError(frror));
+        } flsf {
             int kk;
 
-            (void)outStream_writeInt(out, referrerBatch.count);
-            for (kk = 0; kk < referrerBatch.count; kk++) {
-                jobject ref;
+            (void)outStrfbm_writfInt(out, rfffrrfrBbtdi.dount);
+            for (kk = 0; kk < rfffrrfrBbtdi.dount; kk++) {
+                jobjfdt rff;
 
-                ref = referrerBatch.objects[kk];
-                (void)outStream_writeByte(out, specificTypeKey(env, ref));
-                (void)outStream_writeObjectRef(env, out, ref);
+                rff = rfffrrfrBbtdi.objfdts[kk];
+                (void)outStrfbm_writfBytf(out, spfdifidTypfKfy(fnv, rff));
+                (void)outStrfbm_writfObjfdtRff(fnv, out, rff);
             }
-            jvmtiDeallocate(referrerBatch.objects);
+            jvmtiDfbllodbtf(rfffrrfrBbtdi.objfdts);
         }
-    } END_WITH_LOCAL_REFS(env);
-    return JNI_TRUE;
+    } END_WITH_LOCAL_REFS(fnv);
+    rfturn JNI_TRUE;
 }
 
-void *ObjectReference_Cmds[] = { (void *)10
-    ,(void *)referenceType
-    ,(void *)getValues
-    ,(void *)setValues
-    ,(void *)NULL      /* no longer used */
+void *ObjfdtRfffrfndf_Cmds[] = { (void *)10
+    ,(void *)rfffrfndfTypf
+    ,(void *)gftVblufs
+    ,(void *)sftVblufs
+    ,(void *)NULL      /* no longfr usfd */
     ,(void *)monitorInfo
-    ,(void *)invokeInstance
-    ,(void *)disableCollection
-    ,(void *)enableCollection
-    ,(void *)isCollected
-    ,(void *)referringObjects
+    ,(void *)invokfInstbndf
+    ,(void *)disbblfCollfdtion
+    ,(void *)fnbblfCollfdtion
+    ,(void *)isCollfdtfd
+    ,(void *)rfffrringObjfdts
     };

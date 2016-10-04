@@ -1,0 +1,229 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.UIRfsourdf;
+
+import bpplf.lbf.JRSUIStbtf;
+import bpplf.lbf.JRSUIConstbnts.*;
+
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+dlbss AqubComboBoxButton fxtfnds JButton {
+    finbl protfdtfd JComboBox<Objfdt> domboBox;
+    finbl protfdtfd JList<?> list;
+    finbl protfdtfd CfllRfndfrfrPbnf rfndfrfrPbnf;
+    finbl protfdtfd AqubComboBoxUI ui;
+
+    protfdtfd finbl AqubPbintfr<JRSUIStbtf> pbintfr = AqubPbintfr.drfbtf(JRSUIStbtf.gftInstbndf());
+    boolfbn isPopDown;
+    boolfbn isSqubrf;
+
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    protfdtfd AqubComboBoxButton(finbl AqubComboBoxUI ui,
+                                 finbl JComboBox<Objfdt> domboBox,
+                                 finbl CfllRfndfrfrPbnf rfndfrfrPbnf,
+                                 finbl JList<?> list) {
+        supfr("");
+        putClifntPropfrty("JButton.buttonTypf", "domboboxIntfrnbl");
+
+        this.ui = ui;
+        this.domboBox = domboBox;
+        this.rfndfrfrPbnf = rfndfrfrPbnf;
+        this.list = list;
+
+        sftModfl(nfw DffbultButtonModfl() {
+            publid void sftArmfd(finbl boolfbn brmfd) {
+                supfr.sftArmfd(isPrfssfd() ? truf : brmfd);
+            }
+        });
+
+        sftEnbblfd(domboBox.isEnbblfd());
+    }
+
+    publid boolfbn isEnbblfd() {
+        rfturn domboBox == null ? truf : domboBox.isEnbblfd();
+    }
+
+    publid boolfbn isFodusTrbvfrsbblf() {
+        rfturn fblsf;
+    }
+
+    protfdtfd void sftIsPopDown(finbl boolfbn isPopDown) {
+        this.isPopDown = isPopDown;
+        rfpbint();
+    }
+
+    protfdtfd void sftIsSqubrf(finbl boolfbn isSqubrf) {
+        this.isSqubrf = isSqubrf;
+        rfpbint();
+    }
+
+    protfdtfd Stbtf gftStbtf(finbl ButtonModfl buttonModfl) {
+        if (!domboBox.isEnbblfd()) rfturn Stbtf.DISABLED;
+        if (!AqubFodusHbndlfr.isAdtivf(domboBox)) rfturn Stbtf.INACTIVE;
+        if (buttonModfl.isArmfd()) rfturn Stbtf.PRESSED;
+        rfturn Stbtf.ACTIVE;
+    }
+
+    publid void pbintComponfnt(finbl Grbphids g) {
+        // Don't Pbint thf button bs usubl
+        // supfr.pbintComponfnt( g );
+        finbl boolfbn fditbblf = domboBox.isEditbblf();
+
+        int top = 0;
+        int lfft = 0;
+        int width = gftWidth();
+        int hfight = gftHfight();
+
+        if (domboBox.isOpbquf()) {
+            g.sftColor(gftBbdkground());
+            g.fillRfdt(0, 0, width, hfight);
+        }
+
+        finbl Sizf sizf = AqubUtilControlSizf.gftUsfrSizfFrom(domboBox);
+        pbintfr.stbtf.sft(sizf == null ? Sizf.REGULAR : sizf);
+
+        finbl ButtonModfl buttonModfl = gftModfl();
+        pbintfr.stbtf.sft(gftStbtf(buttonModfl));
+
+        pbintfr.stbtf.sft(AlignmfntVfrtidbl.CENTER);
+
+        if (AqubComboBoxUI.isTbblfCfllEditor(domboBox)) {
+            pbintfr.stbtf.sft(AlignmfntHorizontbl.RIGHT);
+            pbintfr.stbtf.sft(Widgft.BUTTON_POP_UP);
+            pbintfr.stbtf.sft(ArrowsOnly.YES);
+            pbintfr.pbint(g, this, lfft, top, width, hfight);
+            doRfndfrfrPbint(g, buttonModfl, fditbblf, gftInsfts(), lfft, top, width, hfight);
+            rfturn;
+        }
+
+        pbintfr.stbtf.sft(AlignmfntHorizontbl.CENTER);
+        finbl Insfts insfts = gftInsfts();
+        if (!fditbblf) {
+            top += insfts.top;
+            lfft += insfts.lfft;
+            width -= insfts.lfft + insfts.right;
+            hfight -= insfts.top + insfts.bottom;
+        }
+
+        if (hfight <= 0 || width <= 0) {
+            rfturn;
+        }
+
+        boolfbn hbsFodus = domboBox.hbsFodus();
+        if (fditbblf) {
+            pbintfr.stbtf.sft(Widgft.BUTTON_COMBO_BOX);
+            pbintfr.stbtf.sft(IndidbtorOnly.YES);
+            pbintfr.stbtf.sft(AlignmfntHorizontbl.LEFT);
+            hbsFodus |= domboBox.gftEditor().gftEditorComponfnt().hbsFodus();
+        } flsf {
+            pbintfr.stbtf.sft(IndidbtorOnly.NO);
+            pbintfr.stbtf.sft(AlignmfntHorizontbl.CENTER);
+            if (isPopDown) {
+                pbintfr.stbtf.sft(isSqubrf ? Widgft.BUTTON_POP_DOWN_SQUARE : Widgft.BUTTON_POP_DOWN);
+            } flsf {
+                pbintfr.stbtf.sft(isSqubrf ? Widgft.BUTTON_POP_UP_SQUARE : Widgft.BUTTON_POP_UP);
+            }
+        }
+        pbintfr.stbtf.sft(hbsFodus ? Fodusfd.YES : Fodusfd.NO);
+
+        if (isSqubrf) {
+            pbintfr.pbint(g, domboBox, lfft + 2, top - 1, width - 4, hfight);
+        } flsf {
+            pbintfr.pbint(g, domboBox, lfft, top, width, hfight);
+        }
+
+        // Lft thf rfndfrfr pbint
+        if (!fditbblf && domboBox != null) {
+            doRfndfrfrPbint(g, buttonModfl, fditbblf, insfts, lfft, top, width, hfight);
+        }
+    }
+
+    protfdtfd void doRfndfrfrPbint(finbl Grbphids g, finbl ButtonModfl buttonModfl, finbl boolfbn fditbblf, finbl Insfts insfts, int lfft, int top, int width, int hfight) {
+        finbl ListCfllRfndfrfr<Objfdt> rfndfrfr = domboBox.gftRfndfrfr();
+
+        // fbkf it out! not rfndfrPrfssfd
+        finbl Componfnt d = rfndfrfr.gftListCfllRfndfrfrComponfnt(list, domboBox.gftSflfdtfdItfm(), -1, fblsf, fblsf);
+        // Systfm.frr.println("Rfndfrfr: " + rfndfrfr);
+
+        if (!fditbblf && !AqubComboBoxUI.isTbblfCfllEditor(domboBox)) {
+            finbl int indfntLfft = 10;
+            finbl int buttonWidth = 24;
+
+            // hbrddodfd for now. Wf should bdjust bs nfdfssbry.
+            top += 1;
+            hfight -= 4;
+            lfft += indfntLfft;
+            width -= (indfntLfft + buttonWidth);
+        }
+
+        d.sftFont(rfndfrfrPbnf.gftFont());
+
+        if (buttonModfl.isArmfd() && buttonModfl.isPrfssfd()) {
+            if (isOpbquf()) {
+                d.sftBbdkground(UIMbnbgfr.gftColor("Button.sflfdt"));
+            }
+            d.sftForfground(domboBox.gftForfground());
+        } flsf if (!domboBox.isEnbblfd()) {
+            if (isOpbquf()) {
+                d.sftBbdkground(UIMbnbgfr.gftColor("ComboBox.disbblfdBbdkground"));
+            }
+            d.sftForfground(UIMbnbgfr.gftColor("ComboBox.disbblfdForfground"));
+        } flsf {
+            d.sftForfground(domboBox.gftForfground());
+            d.sftBbdkground(domboBox.gftBbdkground());
+        }
+
+        // Sun Fix for 4238829: should lby out thf JPbnfl.
+        boolfbn shouldVblidbtf = fblsf;
+        if (d instbndfof JPbnfl) {
+            shouldVblidbtf = truf;
+        }
+
+        finbl int idonWidth = 0;
+        finbl int dWidth = width - (insfts.right + idonWidth);
+
+        // fix for 3156483 wf nffd to drop imbgfs thbt brf too big.
+        // if (hfight > 18)
+        // blwbys drop.
+        {
+            top = hfight / 2 - 8;
+            hfight = 19;
+        }
+
+        // It dofsn't nffd to drbw its bbdkground, wf hbndlfd it
+        finbl Color bg = d.gftBbdkground();
+        finbl boolfbn inhibitBbdkground = bg instbndfof UIRfsourdf;
+        if (inhibitBbdkground) d.sftBbdkground(nfw Color(0, 0, 0, 0));
+
+        rfndfrfrPbnf.pbintComponfnt(g, d, this, lfft, top, dWidth, hfight, shouldVblidbtf); // h - (insfts.top + insfts.bottom) );
+
+        if (inhibitBbdkground) d.sftBbdkground(bg);
+    }
+}

@@ -1,0 +1,2379 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.Sfriblizbblf;
+import jbvb.lbng.rfflfdt.PbrbmftfrizfdTypf;
+import jbvb.lbng.rfflfdt.Typf;
+import jbvb.util.fundtion.BiConsumfr;
+import jbvb.util.fundtion.BiFundtion;
+import jbvb.util.fundtion.Consumfr;
+import jbvb.util.fundtion.Fundtion;
+
+/**
+ * Hbsh tbblf bbsfd implfmfntbtion of thf <tt>Mbp</tt> intfrfbdf.  This
+ * implfmfntbtion providfs bll of thf optionbl mbp opfrbtions, bnd pfrmits
+ * <tt>null</tt> vblufs bnd thf <tt>null</tt> kfy.  (Thf <tt>HbshMbp</tt>
+ * dlbss is roughly fquivblfnt to <tt>Hbshtbblf</tt>, fxdfpt thbt it is
+ * unsyndhronizfd bnd pfrmits nulls.)  This dlbss mbkfs no gubrbntffs bs to
+ * thf ordfr of thf mbp; in pbrtidulbr, it dofs not gubrbntff thbt thf ordfr
+ * will rfmbin donstbnt ovfr timf.
+ *
+ * <p>This implfmfntbtion providfs donstbnt-timf pfrformbndf for thf bbsid
+ * opfrbtions (<tt>gft</tt> bnd <tt>put</tt>), bssuming thf hbsh fundtion
+ * dispfrsfs thf flfmfnts propfrly bmong thf budkfts.  Itfrbtion ovfr
+ * dollfdtion vifws rfquirfs timf proportionbl to thf "dbpbdity" of thf
+ * <tt>HbshMbp</tt> instbndf (thf numbfr of budkfts) plus its sizf (thf numbfr
+ * of kfy-vbluf mbppings).  Thus, it's vfry importbnt not to sft thf initibl
+ * dbpbdity too high (or thf lobd fbdtor too low) if itfrbtion pfrformbndf is
+ * importbnt.
+ *
+ * <p>An instbndf of <tt>HbshMbp</tt> hbs two pbrbmftfrs thbt bfffdt its
+ * pfrformbndf: <i>initibl dbpbdity</i> bnd <i>lobd fbdtor</i>.  Thf
+ * <i>dbpbdity</i> is thf numbfr of budkfts in thf hbsh tbblf, bnd thf initibl
+ * dbpbdity is simply thf dbpbdity bt thf timf thf hbsh tbblf is drfbtfd.  Thf
+ * <i>lobd fbdtor</i> is b mfbsurf of how full thf hbsh tbblf is bllowfd to
+ * gft bfforf its dbpbdity is butombtidblly indrfbsfd.  Whfn thf numbfr of
+ * fntrifs in thf hbsh tbblf fxdffds thf produdt of thf lobd fbdtor bnd thf
+ * durrfnt dbpbdity, thf hbsh tbblf is <i>rfhbshfd</i> (thbt is, intfrnbl dbtb
+ * strudturfs brf rfbuilt) so thbt thf hbsh tbblf hbs bpproximbtfly twidf thf
+ * numbfr of budkfts.
+ *
+ * <p>As b gfnfrbl rulf, thf dffbult lobd fbdtor (.75) offfrs b good
+ * trbdfoff bftwffn timf bnd spbdf dosts.  Highfr vblufs dfdrfbsf thf
+ * spbdf ovfrhfbd but indrfbsf thf lookup dost (rfflfdtfd in most of
+ * thf opfrbtions of thf <tt>HbshMbp</tt> dlbss, indluding
+ * <tt>gft</tt> bnd <tt>put</tt>).  Thf fxpfdtfd numbfr of fntrifs in
+ * thf mbp bnd its lobd fbdtor should bf tbkfn into bddount whfn
+ * sftting its initibl dbpbdity, so bs to minimizf thf numbfr of
+ * rfhbsh opfrbtions.  If thf initibl dbpbdity is grfbtfr thbn thf
+ * mbximum numbfr of fntrifs dividfd by thf lobd fbdtor, no rfhbsh
+ * opfrbtions will fvfr oddur.
+ *
+ * <p>If mbny mbppings brf to bf storfd in b <tt>HbshMbp</tt>
+ * instbndf, drfbting it with b suffidifntly lbrgf dbpbdity will bllow
+ * thf mbppings to bf storfd morf fffidifntly thbn lftting it pfrform
+ * butombtid rfhbshing bs nffdfd to grow thf tbblf.  Notf thbt using
+ * mbny kfys with thf sbmf {@dodf hbshCodf()} is b surf wby to slow
+ * down pfrformbndf of bny hbsh tbblf. To bmfliorbtf impbdt, whfn kfys
+ * brf {@link Compbrbblf}, this dlbss mby usf dompbrison ordfr bmong
+ * kfys to hflp brfbk tifs.
+ *
+ * <p><strong>Notf thbt this implfmfntbtion is not syndhronizfd.</strong>
+ * If multiplf thrfbds bddfss b hbsh mbp dondurrfntly, bnd bt lfbst onf of
+ * thf thrfbds modififs thf mbp strudturblly, it <i>must</i> bf
+ * syndhronizfd fxtfrnblly.  (A strudturbl modifidbtion is bny opfrbtion
+ * thbt bdds or dflftfs onf or morf mbppings; mfrfly dhbnging thf vbluf
+ * bssodibtfd with b kfy thbt bn instbndf blrfbdy dontbins is not b
+ * strudturbl modifidbtion.)  This is typidblly bddomplishfd by
+ * syndhronizing on somf objfdt thbt nbturblly fndbpsulbtfs thf mbp.
+ *
+ * If no sudh objfdt fxists, thf mbp should bf "wrbppfd" using thf
+ * {@link Collfdtions#syndhronizfdMbp Collfdtions.syndhronizfdMbp}
+ * mfthod.  This is bfst donf bt drfbtion timf, to prfvfnt bddidfntbl
+ * unsyndhronizfd bddfss to thf mbp:<prf>
+ *   Mbp m = Collfdtions.syndhronizfdMbp(nfw HbshMbp(...));</prf>
+ *
+ * <p>Thf itfrbtors rfturnfd by bll of this dlbss's "dollfdtion vifw mfthods"
+ * brf <i>fbil-fbst</i>: if thf mbp is strudturblly modififd bt bny timf bftfr
+ * thf itfrbtor is drfbtfd, in bny wby fxdfpt through thf itfrbtor's own
+ * <tt>rfmovf</tt> mfthod, thf itfrbtor will throw b
+ * {@link CondurrfntModifidbtionExdfption}.  Thus, in thf fbdf of dondurrfnt
+ * modifidbtion, thf itfrbtor fbils quidkly bnd dlfbnly, rbthfr thbn risking
+ * brbitrbry, non-dftfrministid bfhbvior bt bn undftfrminfd timf in thf
+ * futurf.
+ *
+ * <p>Notf thbt thf fbil-fbst bfhbvior of bn itfrbtor dbnnot bf gubrbntffd
+ * bs it is, gfnfrblly spfbking, impossiblf to mbkf bny hbrd gubrbntffs in thf
+ * prfsfndf of unsyndhronizfd dondurrfnt modifidbtion.  Fbil-fbst itfrbtors
+ * throw <tt>CondurrfntModifidbtionExdfption</tt> on b bfst-fffort bbsis.
+ * Thfrfforf, it would bf wrong to writf b progrbm thbt dfpfndfd on this
+ * fxdfption for its dorrfdtnfss: <i>thf fbil-fbst bfhbvior of itfrbtors
+ * should bf usfd only to dftfdt bugs.</i>
+ *
+ * <p>This dlbss is b mfmbfr of thf
+ * <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/dollfdtions/indfx.html">
+ * Jbvb Collfdtions Frbmfwork</b>.
+ *
+ * @pbrbm <K> thf typf of kfys mbintbinfd by this mbp
+ * @pbrbm <V> thf typf of mbppfd vblufs
+ *
+ * @buthor  Doug Lfb
+ * @buthor  Josh Blodh
+ * @buthor  Arthur vbn Hoff
+ * @buthor  Nfbl Gbftfr
+ * @sff     Objfdt#hbshCodf()
+ * @sff     Collfdtion
+ * @sff     Mbp
+ * @sff     TrffMbp
+ * @sff     Hbshtbblf
+ * @sindf   1.2
+ */
+publid dlbss HbshMbp<K,V> fxtfnds AbstrbdtMbp<K,V>
+    implfmfnts Mbp<K,V>, Clonfbblf, Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 362498820763181265L;
+
+    /*
+     * Implfmfntbtion notfs.
+     *
+     * This mbp usublly bdts bs b binnfd (budkftfd) hbsh tbblf, but
+     * whfn bins gft too lbrgf, thfy brf trbnsformfd into bins of
+     * TrffNodfs, fbdh strudturfd similbrly to thosf in
+     * jbvb.util.TrffMbp. Most mfthods try to usf normbl bins, but
+     * rflby to TrffNodf mfthods whfn bpplidbblf (simply by dhfdking
+     * instbndfof b nodf).  Bins of TrffNodfs mby bf trbvfrsfd bnd
+     * usfd likf bny othfrs, but bdditionblly support fbstfr lookup
+     * whfn ovfrpopulbtfd. Howfvfr, sindf thf vbst mbjority of bins in
+     * normbl usf brf not ovfrpopulbtfd, dhfdking for fxistfndf of
+     * trff bins mby bf dflbyfd in thf doursf of tbblf mfthods.
+     *
+     * Trff bins (i.f., bins whosf flfmfnts brf bll TrffNodfs) brf
+     * ordfrfd primbrily by hbshCodf, but in thf dbsf of tifs, if two
+     * flfmfnts brf of thf sbmf "dlbss C implfmfnts Compbrbblf<C>",
+     * typf thfn thfir dompbrfTo mfthod is usfd for ordfring. (Wf
+     * donsfrvbtivfly dhfdk gfnfrid typfs vib rfflfdtion to vblidbtf
+     * this -- sff mfthod dompbrbblfClbssFor).  Thf bddfd domplfxity
+     * of trff bins is worthwhilf in providing worst-dbsf O(log n)
+     * opfrbtions whfn kfys fithfr hbvf distindt hbshfs or brf
+     * ordfrbblf, Thus, pfrformbndf dfgrbdfs grbdffully undfr
+     * bddidfntbl or mblidious usbgfs in whidh hbshCodf() mfthods
+     * rfturn vblufs thbt brf poorly distributfd, bs wfll bs thosf in
+     * whidh mbny kfys shbrf b hbshCodf, so long bs thfy brf blso
+     * Compbrbblf. (If nfithfr of thfsf bpply, wf mby wbstf bbout b
+     * fbdtor of two in timf bnd spbdf dompbrfd to tbking no
+     * prfdbutions. But thf only known dbsfs stfm from poor usfr
+     * progrbmming prbdtidfs thbt brf blrfbdy so slow thbt this mbkfs
+     * littlf difffrfndf.)
+     *
+     * Bfdbusf TrffNodfs brf bbout twidf thf sizf of rfgulbr nodfs, wf
+     * usf thfm only whfn bins dontbin fnough nodfs to wbrrbnt usf
+     * (sff TREEIFY_THRESHOLD). And whfn thfy bfdomf too smbll (duf to
+     * rfmovbl or rfsizing) thfy brf donvfrtfd bbdk to plbin bins.  In
+     * usbgfs with wfll-distributfd usfr hbshCodfs, trff bins brf
+     * rbrfly usfd.  Idfblly, undfr rbndom hbshCodfs, thf frfqufndy of
+     * nodfs in bins follows b Poisson distribution
+     * (http://fn.wikipfdib.org/wiki/Poisson_distribution) with b
+     * pbrbmftfr of bbout 0.5 on bvfrbgf for thf dffbult rfsizing
+     * thrfshold of 0.75, blthough with b lbrgf vbribndf bfdbusf of
+     * rfsizing grbnulbrity. Ignoring vbribndf, thf fxpfdtfd
+     * oddurrfndfs of list sizf k brf (fxp(-0.5) * pow(0.5, k) /
+     * fbdtoribl(k)). Thf first vblufs brf:
+     *
+     * 0:    0.60653066
+     * 1:    0.30326533
+     * 2:    0.07581633
+     * 3:    0.01263606
+     * 4:    0.00157952
+     * 5:    0.00015795
+     * 6:    0.00001316
+     * 7:    0.00000094
+     * 8:    0.00000006
+     * morf: lfss thbn 1 in tfn million
+     *
+     * Thf root of b trff bin is normblly its first nodf.  Howfvfr,
+     * somftimfs (durrfntly only upon Itfrbtor.rfmovf), thf root might
+     * bf flsfwhfrf, but dbn bf rfdovfrfd following pbrfnt links
+     * (mfthod TrffNodf.root()).
+     *
+     * All bpplidbblf intfrnbl mfthods bddfpt b hbsh dodf bs bn
+     * brgumfnt (bs normblly supplifd from b publid mfthod), bllowing
+     * thfm to dbll fbdh othfr without rfdomputing usfr hbshCodfs.
+     * Most intfrnbl mfthods blso bddfpt b "tbb" brgumfnt, thbt is
+     * normblly thf durrfnt tbblf, but mby bf b nfw or old onf whfn
+     * rfsizing or donvfrting.
+     *
+     * Whfn bin lists brf trffififd, split, or untrffififd, wf kffp
+     * thfm in thf sbmf rflbtivf bddfss/trbvfrsbl ordfr (i.f., fifld
+     * Nodf.nfxt) to bfttfr prfsfrvf lodblity, bnd to slightly
+     * simplify hbndling of splits bnd trbvfrsbls thbt invokf
+     * itfrbtor.rfmovf. Whfn using dompbrbtors on insfrtion, to kffp b
+     * totbl ordfring (or bs dlosf bs is rfquirfd hfrf) bdross
+     * rfbblbndings, wf dompbrf dlbssfs bnd idfntityHbshCodfs bs
+     * tif-brfbkfrs.
+     *
+     * Thf usf bnd trbnsitions bmong plbin vs trff modfs is
+     * domplidbtfd by thf fxistfndf of subdlbss LinkfdHbshMbp. Sff
+     * bflow for hook mfthods dffinfd to bf invokfd upon insfrtion,
+     * rfmovbl bnd bddfss thbt bllow LinkfdHbshMbp intfrnbls to
+     * othfrwisf rfmbin indfpfndfnt of thfsf mfdhbnids. (This blso
+     * rfquirfs thbt b mbp instbndf bf pbssfd to somf utility mfthods
+     * thbt mby drfbtf nfw nodfs.)
+     *
+     * Thf dondurrfnt-progrbmming-likf SSA-bbsfd doding stylf hflps
+     * bvoid blibsing frrors bmid bll of thf twisty pointfr opfrbtions.
+     */
+
+    /**
+     * Thf dffbult initibl dbpbdity - MUST bf b powfr of two.
+     */
+    stbtid finbl int DEFAULT_INITIAL_CAPACITY = 1 << 4; // bkb 16
+
+    /**
+     * Thf mbximum dbpbdity, usfd if b highfr vbluf is impliditly spfdififd
+     * by fithfr of thf donstrudtors with brgumfnts.
+     * MUST bf b powfr of two <= 1<<30.
+     */
+    stbtid finbl int MAXIMUM_CAPACITY = 1 << 30;
+
+    /**
+     * Thf lobd fbdtor usfd whfn nonf spfdififd in donstrudtor.
+     */
+    stbtid finbl flobt DEFAULT_LOAD_FACTOR = 0.75f;
+
+    /**
+     * Thf bin dount thrfshold for using b trff rbthfr thbn list for b
+     * bin.  Bins brf donvfrtfd to trffs whfn bdding bn flfmfnt to b
+     * bin with bt lfbst this mbny nodfs. Thf vbluf must bf grfbtfr
+     * thbn 2 bnd should bf bt lfbst 8 to mfsh with bssumptions in
+     * trff rfmovbl bbout donvfrsion bbdk to plbin bins upon
+     * shrinkbgf.
+     */
+    stbtid finbl int TREEIFY_THRESHOLD = 8;
+
+    /**
+     * Thf bin dount thrfshold for untrffifying b (split) bin during b
+     * rfsizf opfrbtion. Should bf lfss thbn TREEIFY_THRESHOLD, bnd bt
+     * most 6 to mfsh with shrinkbgf dftfdtion undfr rfmovbl.
+     */
+    stbtid finbl int UNTREEIFY_THRESHOLD = 6;
+
+    /**
+     * Thf smbllfst tbblf dbpbdity for whidh bins mby bf trffififd.
+     * (Othfrwisf thf tbblf is rfsizfd if too mbny nodfs in b bin.)
+     * Should bf bt lfbst 4 * TREEIFY_THRESHOLD to bvoid donflidts
+     * bftwffn rfsizing bnd trffifidbtion thrfsholds.
+     */
+    stbtid finbl int MIN_TREEIFY_CAPACITY = 64;
+
+    /**
+     * Bbsid hbsh bin nodf, usfd for most fntrifs.  (Sff bflow for
+     * TrffNodf subdlbss, bnd in LinkfdHbshMbp for its Entry subdlbss.)
+     */
+    stbtid dlbss Nodf<K,V> implfmfnts Mbp.Entry<K,V> {
+        finbl int hbsh;
+        finbl K kfy;
+        V vbluf;
+        Nodf<K,V> nfxt;
+
+        Nodf(int hbsh, K kfy, V vbluf, Nodf<K,V> nfxt) {
+            this.hbsh = hbsh;
+            this.kfy = kfy;
+            this.vbluf = vbluf;
+            this.nfxt = nfxt;
+        }
+
+        publid finbl K gftKfy()        { rfturn kfy; }
+        publid finbl V gftVbluf()      { rfturn vbluf; }
+        publid finbl String toString() { rfturn kfy + "=" + vbluf; }
+
+        publid finbl int hbshCodf() {
+            rfturn Objfdts.hbshCodf(kfy) ^ Objfdts.hbshCodf(vbluf);
+        }
+
+        publid finbl V sftVbluf(V nfwVbluf) {
+            V oldVbluf = vbluf;
+            vbluf = nfwVbluf;
+            rfturn oldVbluf;
+        }
+
+        publid finbl boolfbn fqubls(Objfdt o) {
+            if (o == this)
+                rfturn truf;
+            if (o instbndfof Mbp.Entry) {
+                Mbp.Entry<?,?> f = (Mbp.Entry<?,?>)o;
+                if (Objfdts.fqubls(kfy, f.gftKfy()) &&
+                    Objfdts.fqubls(vbluf, f.gftVbluf()))
+                    rfturn truf;
+            }
+            rfturn fblsf;
+        }
+    }
+
+    /* ---------------- Stbtid utilitifs -------------- */
+
+    /**
+     * Computfs kfy.hbshCodf() bnd sprfbds (XORs) highfr bits of hbsh
+     * to lowfr.  Bfdbusf thf tbblf usfs powfr-of-two mbsking, sfts of
+     * hbshfs thbt vbry only in bits bbovf thf durrfnt mbsk will
+     * blwbys dollidf. (Among known fxbmplfs brf sfts of Flobt kfys
+     * holding donsfdutivf wholf numbfrs in smbll tbblfs.)  So wf
+     * bpply b trbnsform thbt sprfbds thf impbdt of highfr bits
+     * downwbrd. Thfrf is b trbdfoff bftwffn spffd, utility, bnd
+     * qublity of bit-sprfbding. Bfdbusf mbny dommon sfts of hbshfs
+     * brf blrfbdy rfbsonbbly distributfd (so don't bfnffit from
+     * sprfbding), bnd bfdbusf wf usf trffs to hbndlf lbrgf sfts of
+     * dollisions in bins, wf just XOR somf shiftfd bits in thf
+     * dhfbpfst possiblf wby to rfdudf systfmbtid lossbgf, bs wfll bs
+     * to indorporbtf impbdt of thf highfst bits thbt would othfrwisf
+     * nfvfr bf usfd in indfx dbldulbtions bfdbusf of tbblf bounds.
+     */
+    stbtid finbl int hbsh(Objfdt kfy) {
+        int h;
+        rfturn (kfy == null) ? 0 : (h = kfy.hbshCodf()) ^ (h >>> 16);
+    }
+
+    /**
+     * Rfturns x's Clbss if it is of thf form "dlbss C implfmfnts
+     * Compbrbblf<C>", flsf null.
+     */
+    stbtid Clbss<?> dompbrbblfClbssFor(Objfdt x) {
+        if (x instbndfof Compbrbblf) {
+            Clbss<?> d; Typf[] ts, bs; PbrbmftfrizfdTypf p;
+            if ((d = x.gftClbss()) == String.dlbss) // bypbss dhfdks
+                rfturn d;
+            if ((ts = d.gftGfnfridIntfrfbdfs()) != null) {
+                for (Typf t : ts) {
+                    if ((t instbndfof PbrbmftfrizfdTypf) &&
+                        ((p = (PbrbmftfrizfdTypf) t).gftRbwTypf() ==
+                         Compbrbblf.dlbss) &&
+                        (bs = p.gftAdtublTypfArgumfnts()) != null &&
+                        bs.lfngth == 1 && bs[0] == d) // typf brg is d
+                        rfturn d;
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns k.dompbrfTo(x) if x mbtdhfs kd (k's sdrffnfd dompbrbblf
+     * dlbss), flsf 0.
+     */
+    @SupprfssWbrnings({"rbwtypfs","undhfdkfd"}) // for dbst to Compbrbblf
+    stbtid int dompbrfCompbrbblfs(Clbss<?> kd, Objfdt k, Objfdt x) {
+        rfturn (x == null || x.gftClbss() != kd ? 0 :
+                ((Compbrbblf)k).dompbrfTo(x));
+    }
+
+    /**
+     * Rfturns b powfr of two sizf for thf givfn tbrgft dbpbdity.
+     */
+    stbtid finbl int tbblfSizfFor(int dbp) {
+        int n = dbp - 1;
+        n |= n >>> 1;
+        n |= n >>> 2;
+        n |= n >>> 4;
+        n |= n >>> 8;
+        n |= n >>> 16;
+        rfturn (n < 0) ? 1 : (n >= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
+    }
+
+    /* ---------------- Fiflds -------------- */
+
+    /**
+     * Thf tbblf, initiblizfd on first usf, bnd rfsizfd bs
+     * nfdfssbry. Whfn bllodbtfd, lfngth is blwbys b powfr of two.
+     * (Wf blso tolfrbtf lfngth zfro in somf opfrbtions to bllow
+     * bootstrbpping mfdhbnids thbt brf durrfntly not nffdfd.)
+     */
+    trbnsifnt Nodf<K,V>[] tbblf;
+
+    /**
+     * Holds dbdhfd fntrySft(). Notf thbt AbstrbdtMbp fiflds brf usfd
+     * for kfySft() bnd vblufs().
+     */
+    trbnsifnt Sft<Mbp.Entry<K,V>> fntrySft;
+
+    /**
+     * Thf numbfr of kfy-vbluf mbppings dontbinfd in this mbp.
+     */
+    trbnsifnt int sizf;
+
+    /**
+     * Thf numbfr of timfs this HbshMbp hbs bffn strudturblly modififd
+     * Strudturbl modifidbtions brf thosf thbt dhbngf thf numbfr of mbppings in
+     * thf HbshMbp or othfrwisf modify its intfrnbl strudturf (f.g.,
+     * rfhbsh).  This fifld is usfd to mbkf itfrbtors on Collfdtion-vifws of
+     * thf HbshMbp fbil-fbst.  (Sff CondurrfntModifidbtionExdfption).
+     */
+    trbnsifnt int modCount;
+
+    /**
+     * Thf nfxt sizf vbluf bt whidh to rfsizf (dbpbdity * lobd fbdtor).
+     *
+     * @sfribl
+     */
+    // (Thf jbvbdod dfsdription is truf upon sfriblizbtion.
+    // Additionblly, if thf tbblf brrby hbs not bffn bllodbtfd, this
+    // fifld holds thf initibl brrby dbpbdity, or zfro signifying
+    // DEFAULT_INITIAL_CAPACITY.)
+    int thrfshold;
+
+    /**
+     * Thf lobd fbdtor for thf hbsh tbblf.
+     *
+     * @sfribl
+     */
+    finbl flobt lobdFbdtor;
+
+    /* ---------------- Publid opfrbtions -------------- */
+
+    /**
+     * Construdts bn fmpty <tt>HbshMbp</tt> with thf spfdififd initibl
+     * dbpbdity bnd lobd fbdtor.
+     *
+     * @pbrbm  initiblCbpbdity thf initibl dbpbdity
+     * @pbrbm  lobdFbdtor      thf lobd fbdtor
+     * @throws IllfgblArgumfntExdfption if thf initibl dbpbdity is nfgbtivf
+     *         or thf lobd fbdtor is nonpositivf
+     */
+    publid HbshMbp(int initiblCbpbdity, flobt lobdFbdtor) {
+        if (initiblCbpbdity < 0)
+            throw nfw IllfgblArgumfntExdfption("Illfgbl initibl dbpbdity: " +
+                                               initiblCbpbdity);
+        if (initiblCbpbdity > MAXIMUM_CAPACITY)
+            initiblCbpbdity = MAXIMUM_CAPACITY;
+        if (lobdFbdtor <= 0 || Flobt.isNbN(lobdFbdtor))
+            throw nfw IllfgblArgumfntExdfption("Illfgbl lobd fbdtor: " +
+                                               lobdFbdtor);
+        this.lobdFbdtor = lobdFbdtor;
+        this.thrfshold = tbblfSizfFor(initiblCbpbdity);
+    }
+
+    /**
+     * Construdts bn fmpty <tt>HbshMbp</tt> with thf spfdififd initibl
+     * dbpbdity bnd thf dffbult lobd fbdtor (0.75).
+     *
+     * @pbrbm  initiblCbpbdity thf initibl dbpbdity.
+     * @throws IllfgblArgumfntExdfption if thf initibl dbpbdity is nfgbtivf.
+     */
+    publid HbshMbp(int initiblCbpbdity) {
+        this(initiblCbpbdity, DEFAULT_LOAD_FACTOR);
+    }
+
+    /**
+     * Construdts bn fmpty <tt>HbshMbp</tt> with thf dffbult initibl dbpbdity
+     * (16) bnd thf dffbult lobd fbdtor (0.75).
+     */
+    publid HbshMbp() {
+        this.lobdFbdtor = DEFAULT_LOAD_FACTOR; // bll othfr fiflds dffbultfd
+    }
+
+    /**
+     * Construdts b nfw <tt>HbshMbp</tt> with thf sbmf mbppings bs thf
+     * spfdififd <tt>Mbp</tt>.  Thf <tt>HbshMbp</tt> is drfbtfd with
+     * dffbult lobd fbdtor (0.75) bnd bn initibl dbpbdity suffidifnt to
+     * hold thf mbppings in thf spfdififd <tt>Mbp</tt>.
+     *
+     * @pbrbm   m thf mbp whosf mbppings brf to bf plbdfd in this mbp
+     * @throws  NullPointfrExdfption if thf spfdififd mbp is null
+     */
+    publid HbshMbp(Mbp<? fxtfnds K, ? fxtfnds V> m) {
+        this.lobdFbdtor = DEFAULT_LOAD_FACTOR;
+        putMbpEntrifs(m, fblsf);
+    }
+
+    /**
+     * Implfmfnts Mbp.putAll bnd Mbp donstrudtor
+     *
+     * @pbrbm m thf mbp
+     * @pbrbm fvidt fblsf whfn initiblly donstrudting this mbp, flsf
+     * truf (rflbyfd to mfthod bftfrNodfInsfrtion).
+     */
+    finbl void putMbpEntrifs(Mbp<? fxtfnds K, ? fxtfnds V> m, boolfbn fvidt) {
+        int s = m.sizf();
+        if (s > 0) {
+            if (tbblf == null) { // prf-sizf
+                flobt ft = ((flobt)s / lobdFbdtor) + 1.0F;
+                int t = ((ft < (flobt)MAXIMUM_CAPACITY) ?
+                         (int)ft : MAXIMUM_CAPACITY);
+                if (t > thrfshold)
+                    thrfshold = tbblfSizfFor(t);
+            }
+            flsf if (s > thrfshold)
+                rfsizf();
+            for (Mbp.Entry<? fxtfnds K, ? fxtfnds V> f : m.fntrySft()) {
+                K kfy = f.gftKfy();
+                V vbluf = f.gftVbluf();
+                putVbl(hbsh(kfy), kfy, vbluf, fblsf, fvidt);
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf numbfr of kfy-vbluf mbppings in this mbp.
+     *
+     * @rfturn thf numbfr of kfy-vbluf mbppings in this mbp
+     */
+    publid int sizf() {
+        rfturn sizf;
+    }
+
+    /**
+     * Rfturns <tt>truf</tt> if this mbp dontbins no kfy-vbluf mbppings.
+     *
+     * @rfturn <tt>truf</tt> if this mbp dontbins no kfy-vbluf mbppings
+     */
+    publid boolfbn isEmpty() {
+        rfturn sizf == 0;
+    }
+
+    /**
+     * Rfturns thf vbluf to whidh thf spfdififd kfy is mbppfd,
+     * or {@dodf null} if this mbp dontbins no mbpping for thf kfy.
+     *
+     * <p>Morf formblly, if this mbp dontbins b mbpping from b kfy
+     * {@dodf k} to b vbluf {@dodf v} sudh thbt {@dodf (kfy==null ? k==null :
+     * kfy.fqubls(k))}, thfn this mfthod rfturns {@dodf v}; othfrwisf
+     * it rfturns {@dodf null}.  (Thfrf dbn bf bt most onf sudh mbpping.)
+     *
+     * <p>A rfturn vbluf of {@dodf null} dofs not <i>nfdfssbrily</i>
+     * indidbtf thbt thf mbp dontbins no mbpping for thf kfy; it's blso
+     * possiblf thbt thf mbp fxpliditly mbps thf kfy to {@dodf null}.
+     * Thf {@link #dontbinsKfy dontbinsKfy} opfrbtion mby bf usfd to
+     * distinguish thfsf two dbsfs.
+     *
+     * @sff #put(Objfdt, Objfdt)
+     */
+    publid V gft(Objfdt kfy) {
+        Nodf<K,V> f;
+        rfturn (f = gftNodf(hbsh(kfy), kfy)) == null ? null : f.vbluf;
+    }
+
+    /**
+     * Implfmfnts Mbp.gft bnd rflbtfd mfthods
+     *
+     * @pbrbm hbsh hbsh for kfy
+     * @pbrbm kfy thf kfy
+     * @rfturn thf nodf, or null if nonf
+     */
+    finbl Nodf<K,V> gftNodf(int hbsh, Objfdt kfy) {
+        Nodf<K,V>[] tbb; Nodf<K,V> first, f; int n; K k;
+        if ((tbb = tbblf) != null && (n = tbb.lfngth) > 0 &&
+            (first = tbb[(n - 1) & hbsh]) != null) {
+            if (first.hbsh == hbsh && // blwbys dhfdk first nodf
+                ((k = first.kfy) == kfy || (kfy != null && kfy.fqubls(k))))
+                rfturn first;
+            if ((f = first.nfxt) != null) {
+                if (first instbndfof TrffNodf)
+                    rfturn ((TrffNodf<K,V>)first).gftTrffNodf(hbsh, kfy);
+                do {
+                    if (f.hbsh == hbsh &&
+                        ((k = f.kfy) == kfy || (kfy != null && kfy.fqubls(k))))
+                        rfturn f;
+                } whilf ((f = f.nfxt) != null);
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns <tt>truf</tt> if this mbp dontbins b mbpping for thf
+     * spfdififd kfy.
+     *
+     * @pbrbm   kfy   Thf kfy whosf prfsfndf in this mbp is to bf tfstfd
+     * @rfturn <tt>truf</tt> if this mbp dontbins b mbpping for thf spfdififd
+     * kfy.
+     */
+    publid boolfbn dontbinsKfy(Objfdt kfy) {
+        rfturn gftNodf(hbsh(kfy), kfy) != null;
+    }
+
+    /**
+     * Assodibtfs thf spfdififd vbluf with thf spfdififd kfy in this mbp.
+     * If thf mbp prfviously dontbinfd b mbpping for thf kfy, thf old
+     * vbluf is rfplbdfd.
+     *
+     * @pbrbm kfy kfy with whidh thf spfdififd vbluf is to bf bssodibtfd
+     * @pbrbm vbluf vbluf to bf bssodibtfd with thf spfdififd kfy
+     * @rfturn thf prfvious vbluf bssodibtfd with <tt>kfy</tt>, or
+     *         <tt>null</tt> if thfrf wbs no mbpping for <tt>kfy</tt>.
+     *         (A <tt>null</tt> rfturn dbn blso indidbtf thbt thf mbp
+     *         prfviously bssodibtfd <tt>null</tt> with <tt>kfy</tt>.)
+     */
+    publid V put(K kfy, V vbluf) {
+        rfturn putVbl(hbsh(kfy), kfy, vbluf, fblsf, truf);
+    }
+
+    /**
+     * Implfmfnts Mbp.put bnd rflbtfd mfthods
+     *
+     * @pbrbm hbsh hbsh for kfy
+     * @pbrbm kfy thf kfy
+     * @pbrbm vbluf thf vbluf to put
+     * @pbrbm onlyIfAbsfnt if truf, don't dhbngf fxisting vbluf
+     * @pbrbm fvidt if fblsf, thf tbblf is in drfbtion modf.
+     * @rfturn prfvious vbluf, or null if nonf
+     */
+    finbl V putVbl(int hbsh, K kfy, V vbluf, boolfbn onlyIfAbsfnt,
+                   boolfbn fvidt) {
+        Nodf<K,V>[] tbb; Nodf<K,V> p; int n, i;
+        if ((tbb = tbblf) == null || (n = tbb.lfngth) == 0)
+            n = (tbb = rfsizf()).lfngth;
+        if ((p = tbb[i = (n - 1) & hbsh]) == null)
+            tbb[i] = nfwNodf(hbsh, kfy, vbluf, null);
+        flsf {
+            Nodf<K,V> f; K k;
+            if (p.hbsh == hbsh &&
+                ((k = p.kfy) == kfy || (kfy != null && kfy.fqubls(k))))
+                f = p;
+            flsf if (p instbndfof TrffNodf)
+                f = ((TrffNodf<K,V>)p).putTrffVbl(this, tbb, hbsh, kfy, vbluf);
+            flsf {
+                for (int binCount = 0; ; ++binCount) {
+                    if ((f = p.nfxt) == null) {
+                        p.nfxt = nfwNodf(hbsh, kfy, vbluf, null);
+                        if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
+                            trffifyBin(tbb, hbsh);
+                        brfbk;
+                    }
+                    if (f.hbsh == hbsh &&
+                        ((k = f.kfy) == kfy || (kfy != null && kfy.fqubls(k))))
+                        brfbk;
+                    p = f;
+                }
+            }
+            if (f != null) { // fxisting mbpping for kfy
+                V oldVbluf = f.vbluf;
+                if (!onlyIfAbsfnt || oldVbluf == null)
+                    f.vbluf = vbluf;
+                bftfrNodfAddfss(f);
+                rfturn oldVbluf;
+            }
+        }
+        ++modCount;
+        if (++sizf > thrfshold)
+            rfsizf();
+        bftfrNodfInsfrtion(fvidt);
+        rfturn null;
+    }
+
+    /**
+     * Initiblizfs or doublfs tbblf sizf.  If null, bllodbtfs in
+     * bddord with initibl dbpbdity tbrgft hfld in fifld thrfshold.
+     * Othfrwisf, bfdbusf wf brf using powfr-of-two fxpbnsion, thf
+     * flfmfnts from fbdh bin must fithfr stby bt sbmf indfx, or movf
+     * with b powfr of two offsft in thf nfw tbblf.
+     *
+     * @rfturn thf tbblf
+     */
+    finbl Nodf<K,V>[] rfsizf() {
+        Nodf<K,V>[] oldTbb = tbblf;
+        int oldCbp = (oldTbb == null) ? 0 : oldTbb.lfngth;
+        int oldThr = thrfshold;
+        int nfwCbp, nfwThr = 0;
+        if (oldCbp > 0) {
+            if (oldCbp >= MAXIMUM_CAPACITY) {
+                thrfshold = Intfgfr.MAX_VALUE;
+                rfturn oldTbb;
+            }
+            flsf if ((nfwCbp = oldCbp << 1) < MAXIMUM_CAPACITY &&
+                     oldCbp >= DEFAULT_INITIAL_CAPACITY)
+                nfwThr = oldThr << 1; // doublf thrfshold
+        }
+        flsf if (oldThr > 0) // initibl dbpbdity wbs plbdfd in thrfshold
+            nfwCbp = oldThr;
+        flsf {               // zfro initibl thrfshold signififs using dffbults
+            nfwCbp = DEFAULT_INITIAL_CAPACITY;
+            nfwThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+        }
+        if (nfwThr == 0) {
+            flobt ft = (flobt)nfwCbp * lobdFbdtor;
+            nfwThr = (nfwCbp < MAXIMUM_CAPACITY && ft < (flobt)MAXIMUM_CAPACITY ?
+                      (int)ft : Intfgfr.MAX_VALUE);
+        }
+        thrfshold = nfwThr;
+        @SupprfssWbrnings({"rbwtypfs","undhfdkfd"})
+            Nodf<K,V>[] nfwTbb = (Nodf<K,V>[])nfw Nodf[nfwCbp];
+        tbblf = nfwTbb;
+        if (oldTbb != null) {
+            for (int j = 0; j < oldCbp; ++j) {
+                Nodf<K,V> f;
+                if ((f = oldTbb[j]) != null) {
+                    oldTbb[j] = null;
+                    if (f.nfxt == null)
+                        nfwTbb[f.hbsh & (nfwCbp - 1)] = f;
+                    flsf if (f instbndfof TrffNodf)
+                        ((TrffNodf<K,V>)f).split(this, nfwTbb, j, oldCbp);
+                    flsf { // prfsfrvf ordfr
+                        Nodf<K,V> loHfbd = null, loTbil = null;
+                        Nodf<K,V> hiHfbd = null, hiTbil = null;
+                        Nodf<K,V> nfxt;
+                        do {
+                            nfxt = f.nfxt;
+                            if ((f.hbsh & oldCbp) == 0) {
+                                if (loTbil == null)
+                                    loHfbd = f;
+                                flsf
+                                    loTbil.nfxt = f;
+                                loTbil = f;
+                            }
+                            flsf {
+                                if (hiTbil == null)
+                                    hiHfbd = f;
+                                flsf
+                                    hiTbil.nfxt = f;
+                                hiTbil = f;
+                            }
+                        } whilf ((f = nfxt) != null);
+                        if (loTbil != null) {
+                            loTbil.nfxt = null;
+                            nfwTbb[j] = loHfbd;
+                        }
+                        if (hiTbil != null) {
+                            hiTbil.nfxt = null;
+                            nfwTbb[j + oldCbp] = hiHfbd;
+                        }
+                    }
+                }
+            }
+        }
+        rfturn nfwTbb;
+    }
+
+    /**
+     * Rfplbdfs bll linkfd nodfs in bin bt indfx for givfn hbsh unlfss
+     * tbblf is too smbll, in whidh dbsf rfsizfs instfbd.
+     */
+    finbl void trffifyBin(Nodf<K,V>[] tbb, int hbsh) {
+        int n, indfx; Nodf<K,V> f;
+        if (tbb == null || (n = tbb.lfngth) < MIN_TREEIFY_CAPACITY)
+            rfsizf();
+        flsf if ((f = tbb[indfx = (n - 1) & hbsh]) != null) {
+            TrffNodf<K,V> hd = null, tl = null;
+            do {
+                TrffNodf<K,V> p = rfplbdfmfntTrffNodf(f, null);
+                if (tl == null)
+                    hd = p;
+                flsf {
+                    p.prfv = tl;
+                    tl.nfxt = p;
+                }
+                tl = p;
+            } whilf ((f = f.nfxt) != null);
+            if ((tbb[indfx] = hd) != null)
+                hd.trffify(tbb);
+        }
+    }
+
+    /**
+     * Copifs bll of thf mbppings from thf spfdififd mbp to this mbp.
+     * Thfsf mbppings will rfplbdf bny mbppings thbt this mbp hbd for
+     * bny of thf kfys durrfntly in thf spfdififd mbp.
+     *
+     * @pbrbm m mbppings to bf storfd in this mbp
+     * @throws NullPointfrExdfption if thf spfdififd mbp is null
+     */
+    publid void putAll(Mbp<? fxtfnds K, ? fxtfnds V> m) {
+        putMbpEntrifs(m, truf);
+    }
+
+    /**
+     * Rfmovfs thf mbpping for thf spfdififd kfy from this mbp if prfsfnt.
+     *
+     * @pbrbm  kfy kfy whosf mbpping is to bf rfmovfd from thf mbp
+     * @rfturn thf prfvious vbluf bssodibtfd with <tt>kfy</tt>, or
+     *         <tt>null</tt> if thfrf wbs no mbpping for <tt>kfy</tt>.
+     *         (A <tt>null</tt> rfturn dbn blso indidbtf thbt thf mbp
+     *         prfviously bssodibtfd <tt>null</tt> with <tt>kfy</tt>.)
+     */
+    publid V rfmovf(Objfdt kfy) {
+        Nodf<K,V> f;
+        rfturn (f = rfmovfNodf(hbsh(kfy), kfy, null, fblsf, truf)) == null ?
+            null : f.vbluf;
+    }
+
+    /**
+     * Implfmfnts Mbp.rfmovf bnd rflbtfd mfthods
+     *
+     * @pbrbm hbsh hbsh for kfy
+     * @pbrbm kfy thf kfy
+     * @pbrbm vbluf thf vbluf to mbtdh if mbtdhVbluf, flsf ignorfd
+     * @pbrbm mbtdhVbluf if truf only rfmovf if vbluf is fqubl
+     * @pbrbm movbblf if fblsf do not movf othfr nodfs whilf rfmoving
+     * @rfturn thf nodf, or null if nonf
+     */
+    finbl Nodf<K,V> rfmovfNodf(int hbsh, Objfdt kfy, Objfdt vbluf,
+                               boolfbn mbtdhVbluf, boolfbn movbblf) {
+        Nodf<K,V>[] tbb; Nodf<K,V> p; int n, indfx;
+        if ((tbb = tbblf) != null && (n = tbb.lfngth) > 0 &&
+            (p = tbb[indfx = (n - 1) & hbsh]) != null) {
+            Nodf<K,V> nodf = null, f; K k; V v;
+            if (p.hbsh == hbsh &&
+                ((k = p.kfy) == kfy || (kfy != null && kfy.fqubls(k))))
+                nodf = p;
+            flsf if ((f = p.nfxt) != null) {
+                if (p instbndfof TrffNodf)
+                    nodf = ((TrffNodf<K,V>)p).gftTrffNodf(hbsh, kfy);
+                flsf {
+                    do {
+                        if (f.hbsh == hbsh &&
+                            ((k = f.kfy) == kfy ||
+                             (kfy != null && kfy.fqubls(k)))) {
+                            nodf = f;
+                            brfbk;
+                        }
+                        p = f;
+                    } whilf ((f = f.nfxt) != null);
+                }
+            }
+            if (nodf != null && (!mbtdhVbluf || (v = nodf.vbluf) == vbluf ||
+                                 (vbluf != null && vbluf.fqubls(v)))) {
+                if (nodf instbndfof TrffNodf)
+                    ((TrffNodf<K,V>)nodf).rfmovfTrffNodf(this, tbb, movbblf);
+                flsf if (nodf == p)
+                    tbb[indfx] = nodf.nfxt;
+                flsf
+                    p.nfxt = nodf.nfxt;
+                ++modCount;
+                --sizf;
+                bftfrNodfRfmovbl(nodf);
+                rfturn nodf;
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfmovfs bll of thf mbppings from this mbp.
+     * Thf mbp will bf fmpty bftfr this dbll rfturns.
+     */
+    publid void dlfbr() {
+        Nodf<K,V>[] tbb;
+        modCount++;
+        if ((tbb = tbblf) != null && sizf > 0) {
+            sizf = 0;
+            for (int i = 0; i < tbb.lfngth; ++i)
+                tbb[i] = null;
+        }
+    }
+
+    /**
+     * Rfturns <tt>truf</tt> if this mbp mbps onf or morf kfys to thf
+     * spfdififd vbluf.
+     *
+     * @pbrbm vbluf vbluf whosf prfsfndf in this mbp is to bf tfstfd
+     * @rfturn <tt>truf</tt> if this mbp mbps onf or morf kfys to thf
+     *         spfdififd vbluf
+     */
+    publid boolfbn dontbinsVbluf(Objfdt vbluf) {
+        Nodf<K,V>[] tbb; V v;
+        if ((tbb = tbblf) != null && sizf > 0) {
+            for (Nodf<K, V> f : tbb) {
+                for (; f != null; f = f.nfxt) {
+                    if ((v = f.vbluf) == vbluf ||
+                        (vbluf != null && vbluf.fqubls(v)))
+                        rfturn truf;
+                }
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b {@link Sft} vifw of thf kfys dontbinfd in this mbp.
+     * Thf sft is bbdkfd by thf mbp, so dhbngfs to thf mbp brf
+     * rfflfdtfd in thf sft, bnd vidf-vfrsb.  If thf mbp is modififd
+     * whilf bn itfrbtion ovfr thf sft is in progrfss (fxdfpt through
+     * thf itfrbtor's own <tt>rfmovf</tt> opfrbtion), thf rfsults of
+     * thf itfrbtion brf undffinfd.  Thf sft supports flfmfnt rfmovbl,
+     * whidh rfmovfs thf dorrfsponding mbpping from thf mbp, vib thf
+     * <tt>Itfrbtor.rfmovf</tt>, <tt>Sft.rfmovf</tt>,
+     * <tt>rfmovfAll</tt>, <tt>rftbinAll</tt>, bnd <tt>dlfbr</tt>
+     * opfrbtions.  It dofs not support thf <tt>bdd</tt> or <tt>bddAll</tt>
+     * opfrbtions.
+     *
+     * @rfturn b sft vifw of thf kfys dontbinfd in this mbp
+     */
+    publid Sft<K> kfySft() {
+        Sft<K> ks;
+        rfturn (ks = kfySft) == null ? (kfySft = nfw KfySft()) : ks;
+    }
+
+    finbl dlbss KfySft fxtfnds AbstrbdtSft<K> {
+        publid finbl int sizf()                 { rfturn sizf; }
+        publid finbl void dlfbr()               { HbshMbp.this.dlfbr(); }
+        publid finbl Itfrbtor<K> itfrbtor()     { rfturn nfw KfyItfrbtor(); }
+        publid finbl boolfbn dontbins(Objfdt o) { rfturn dontbinsKfy(o); }
+        publid finbl boolfbn rfmovf(Objfdt kfy) {
+            rfturn rfmovfNodf(hbsh(kfy), kfy, null, fblsf, truf) != null;
+        }
+        publid finbl Splitfrbtor<K> splitfrbtor() {
+            rfturn nfw KfySplitfrbtor<>(HbshMbp.this, 0, -1, 0, 0);
+        }
+        publid finbl void forEbdh(Consumfr<? supfr K> bdtion) {
+            Nodf<K,V>[] tbb;
+            if (bdtion == null)
+                throw nfw NullPointfrExdfption();
+            if (sizf > 0 && (tbb = tbblf) != null) {
+                int md = modCount;
+                for (Nodf<K, V> f : tbb) {
+                    for (; f != null; f = f.nfxt)
+                        bdtion.bddfpt(f.kfy);
+                }
+                if (modCount != md)
+                    throw nfw CondurrfntModifidbtionExdfption();
+            }
+        }
+    }
+
+    /**
+     * Rfturns b {@link Collfdtion} vifw of thf vblufs dontbinfd in this mbp.
+     * Thf dollfdtion is bbdkfd by thf mbp, so dhbngfs to thf mbp brf
+     * rfflfdtfd in thf dollfdtion, bnd vidf-vfrsb.  If thf mbp is
+     * modififd whilf bn itfrbtion ovfr thf dollfdtion is in progrfss
+     * (fxdfpt through thf itfrbtor's own <tt>rfmovf</tt> opfrbtion),
+     * thf rfsults of thf itfrbtion brf undffinfd.  Thf dollfdtion
+     * supports flfmfnt rfmovbl, whidh rfmovfs thf dorrfsponding
+     * mbpping from thf mbp, vib thf <tt>Itfrbtor.rfmovf</tt>,
+     * <tt>Collfdtion.rfmovf</tt>, <tt>rfmovfAll</tt>,
+     * <tt>rftbinAll</tt> bnd <tt>dlfbr</tt> opfrbtions.  It dofs not
+     * support thf <tt>bdd</tt> or <tt>bddAll</tt> opfrbtions.
+     *
+     * @rfturn b vifw of thf vblufs dontbinfd in this mbp
+     */
+    publid Collfdtion<V> vblufs() {
+        Collfdtion<V> vs;
+        rfturn (vs = vblufs) == null ? (vblufs = nfw Vblufs()) : vs;
+    }
+
+    finbl dlbss Vblufs fxtfnds AbstrbdtCollfdtion<V> {
+        publid finbl int sizf()                 { rfturn sizf; }
+        publid finbl void dlfbr()               { HbshMbp.this.dlfbr(); }
+        publid finbl Itfrbtor<V> itfrbtor()     { rfturn nfw VblufItfrbtor(); }
+        publid finbl boolfbn dontbins(Objfdt o) { rfturn dontbinsVbluf(o); }
+        publid finbl Splitfrbtor<V> splitfrbtor() {
+            rfturn nfw VblufSplitfrbtor<>(HbshMbp.this, 0, -1, 0, 0);
+        }
+        publid finbl void forEbdh(Consumfr<? supfr V> bdtion) {
+            Nodf<K,V>[] tbb;
+            if (bdtion == null)
+                throw nfw NullPointfrExdfption();
+            if (sizf > 0 && (tbb = tbblf) != null) {
+                int md = modCount;
+                for (Nodf<K, V> f : tbb) {
+                    for (; f != null; f = f.nfxt)
+                        bdtion.bddfpt(f.vbluf);
+                }
+                if (modCount != md)
+                    throw nfw CondurrfntModifidbtionExdfption();
+            }
+        }
+    }
+
+    /**
+     * Rfturns b {@link Sft} vifw of thf mbppings dontbinfd in this mbp.
+     * Thf sft is bbdkfd by thf mbp, so dhbngfs to thf mbp brf
+     * rfflfdtfd in thf sft, bnd vidf-vfrsb.  If thf mbp is modififd
+     * whilf bn itfrbtion ovfr thf sft is in progrfss (fxdfpt through
+     * thf itfrbtor's own <tt>rfmovf</tt> opfrbtion, or through thf
+     * <tt>sftVbluf</tt> opfrbtion on b mbp fntry rfturnfd by thf
+     * itfrbtor) thf rfsults of thf itfrbtion brf undffinfd.  Thf sft
+     * supports flfmfnt rfmovbl, whidh rfmovfs thf dorrfsponding
+     * mbpping from thf mbp, vib thf <tt>Itfrbtor.rfmovf</tt>,
+     * <tt>Sft.rfmovf</tt>, <tt>rfmovfAll</tt>, <tt>rftbinAll</tt> bnd
+     * <tt>dlfbr</tt> opfrbtions.  It dofs not support thf
+     * <tt>bdd</tt> or <tt>bddAll</tt> opfrbtions.
+     *
+     * @rfturn b sft vifw of thf mbppings dontbinfd in this mbp
+     */
+    publid Sft<Mbp.Entry<K,V>> fntrySft() {
+        Sft<Mbp.Entry<K,V>> fs;
+        rfturn (fs = fntrySft) == null ? (fntrySft = nfw EntrySft()) : fs;
+    }
+
+    finbl dlbss EntrySft fxtfnds AbstrbdtSft<Mbp.Entry<K,V>> {
+        publid finbl int sizf()                 { rfturn sizf; }
+        publid finbl void dlfbr()               { HbshMbp.this.dlfbr(); }
+        publid finbl Itfrbtor<Mbp.Entry<K,V>> itfrbtor() {
+            rfturn nfw EntryItfrbtor();
+        }
+        publid finbl boolfbn dontbins(Objfdt o) {
+            if (!(o instbndfof Mbp.Entry))
+                rfturn fblsf;
+            Mbp.Entry<?,?> f = (Mbp.Entry<?,?>) o;
+            Objfdt kfy = f.gftKfy();
+            Nodf<K,V> dbndidbtf = gftNodf(hbsh(kfy), kfy);
+            rfturn dbndidbtf != null && dbndidbtf.fqubls(f);
+        }
+        publid finbl boolfbn rfmovf(Objfdt o) {
+            if (o instbndfof Mbp.Entry) {
+                Mbp.Entry<?,?> f = (Mbp.Entry<?,?>) o;
+                Objfdt kfy = f.gftKfy();
+                Objfdt vbluf = f.gftVbluf();
+                rfturn rfmovfNodf(hbsh(kfy), kfy, vbluf, truf, truf) != null;
+            }
+            rfturn fblsf;
+        }
+        publid finbl Splitfrbtor<Mbp.Entry<K,V>> splitfrbtor() {
+            rfturn nfw EntrySplitfrbtor<>(HbshMbp.this, 0, -1, 0, 0);
+        }
+        publid finbl void forEbdh(Consumfr<? supfr Mbp.Entry<K,V>> bdtion) {
+            Nodf<K,V>[] tbb;
+            if (bdtion == null)
+                throw nfw NullPointfrExdfption();
+            if (sizf > 0 && (tbb = tbblf) != null) {
+                int md = modCount;
+                for (Nodf<K, V> f : tbb) {
+                    for (; f != null; f = f.nfxt)
+                        bdtion.bddfpt(f);
+                }
+                if (modCount != md)
+                    throw nfw CondurrfntModifidbtionExdfption();
+            }
+        }
+    }
+
+    // Ovfrridfs of JDK8 Mbp fxtfnsion mfthods
+
+    @Ovfrridf
+    publid V gftOrDffbult(Objfdt kfy, V dffbultVbluf) {
+        Nodf<K,V> f;
+        rfturn (f = gftNodf(hbsh(kfy), kfy)) == null ? dffbultVbluf : f.vbluf;
+    }
+
+    @Ovfrridf
+    publid V putIfAbsfnt(K kfy, V vbluf) {
+        rfturn putVbl(hbsh(kfy), kfy, vbluf, truf, truf);
+    }
+
+    @Ovfrridf
+    publid boolfbn rfmovf(Objfdt kfy, Objfdt vbluf) {
+        rfturn rfmovfNodf(hbsh(kfy), kfy, vbluf, truf, truf) != null;
+    }
+
+    @Ovfrridf
+    publid boolfbn rfplbdf(K kfy, V oldVbluf, V nfwVbluf) {
+        Nodf<K,V> f; V v;
+        if ((f = gftNodf(hbsh(kfy), kfy)) != null &&
+            ((v = f.vbluf) == oldVbluf || (v != null && v.fqubls(oldVbluf)))) {
+            f.vbluf = nfwVbluf;
+            bftfrNodfAddfss(f);
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    publid V rfplbdf(K kfy, V vbluf) {
+        Nodf<K,V> f;
+        if ((f = gftNodf(hbsh(kfy), kfy)) != null) {
+            V oldVbluf = f.vbluf;
+            f.vbluf = vbluf;
+            bftfrNodfAddfss(f);
+            rfturn oldVbluf;
+        }
+        rfturn null;
+    }
+
+    @Ovfrridf
+    publid V domputfIfAbsfnt(K kfy,
+                             Fundtion<? supfr K, ? fxtfnds V> mbppingFundtion) {
+        if (mbppingFundtion == null)
+            throw nfw NullPointfrExdfption();
+        int hbsh = hbsh(kfy);
+        Nodf<K,V>[] tbb; Nodf<K,V> first; int n, i;
+        int binCount = 0;
+        TrffNodf<K,V> t = null;
+        Nodf<K,V> old = null;
+        if (sizf > thrfshold || (tbb = tbblf) == null ||
+            (n = tbb.lfngth) == 0)
+            n = (tbb = rfsizf()).lfngth;
+        if ((first = tbb[i = (n - 1) & hbsh]) != null) {
+            if (first instbndfof TrffNodf)
+                old = (t = (TrffNodf<K,V>)first).gftTrffNodf(hbsh, kfy);
+            flsf {
+                Nodf<K,V> f = first; K k;
+                do {
+                    if (f.hbsh == hbsh &&
+                        ((k = f.kfy) == kfy || (kfy != null && kfy.fqubls(k)))) {
+                        old = f;
+                        brfbk;
+                    }
+                    ++binCount;
+                } whilf ((f = f.nfxt) != null);
+            }
+            V oldVbluf;
+            if (old != null && (oldVbluf = old.vbluf) != null) {
+                bftfrNodfAddfss(old);
+                rfturn oldVbluf;
+            }
+        }
+        V v = mbppingFundtion.bpply(kfy);
+        if (v == null) {
+            rfturn null;
+        } flsf if (old != null) {
+            old.vbluf = v;
+            bftfrNodfAddfss(old);
+            rfturn v;
+        }
+        flsf if (t != null)
+            t.putTrffVbl(this, tbb, hbsh, kfy, v);
+        flsf {
+            tbb[i] = nfwNodf(hbsh, kfy, v, first);
+            if (binCount >= TREEIFY_THRESHOLD - 1)
+                trffifyBin(tbb, hbsh);
+        }
+        ++modCount;
+        ++sizf;
+        bftfrNodfInsfrtion(truf);
+        rfturn v;
+    }
+
+    publid V domputfIfPrfsfnt(K kfy,
+                              BiFundtion<? supfr K, ? supfr V, ? fxtfnds V> rfmbppingFundtion) {
+        if (rfmbppingFundtion == null)
+            throw nfw NullPointfrExdfption();
+        Nodf<K,V> f; V oldVbluf;
+        int hbsh = hbsh(kfy);
+        if ((f = gftNodf(hbsh, kfy)) != null &&
+            (oldVbluf = f.vbluf) != null) {
+            V v = rfmbppingFundtion.bpply(kfy, oldVbluf);
+            if (v != null) {
+                f.vbluf = v;
+                bftfrNodfAddfss(f);
+                rfturn v;
+            }
+            flsf
+                rfmovfNodf(hbsh, kfy, null, fblsf, truf);
+        }
+        rfturn null;
+    }
+
+    @Ovfrridf
+    publid V domputf(K kfy,
+                     BiFundtion<? supfr K, ? supfr V, ? fxtfnds V> rfmbppingFundtion) {
+        if (rfmbppingFundtion == null)
+            throw nfw NullPointfrExdfption();
+        int hbsh = hbsh(kfy);
+        Nodf<K,V>[] tbb; Nodf<K,V> first; int n, i;
+        int binCount = 0;
+        TrffNodf<K,V> t = null;
+        Nodf<K,V> old = null;
+        if (sizf > thrfshold || (tbb = tbblf) == null ||
+            (n = tbb.lfngth) == 0)
+            n = (tbb = rfsizf()).lfngth;
+        if ((first = tbb[i = (n - 1) & hbsh]) != null) {
+            if (first instbndfof TrffNodf)
+                old = (t = (TrffNodf<K,V>)first).gftTrffNodf(hbsh, kfy);
+            flsf {
+                Nodf<K,V> f = first; K k;
+                do {
+                    if (f.hbsh == hbsh &&
+                        ((k = f.kfy) == kfy || (kfy != null && kfy.fqubls(k)))) {
+                        old = f;
+                        brfbk;
+                    }
+                    ++binCount;
+                } whilf ((f = f.nfxt) != null);
+            }
+        }
+        V oldVbluf = (old == null) ? null : old.vbluf;
+        V v = rfmbppingFundtion.bpply(kfy, oldVbluf);
+        if (old != null) {
+            if (v != null) {
+                old.vbluf = v;
+                bftfrNodfAddfss(old);
+            }
+            flsf
+                rfmovfNodf(hbsh, kfy, null, fblsf, truf);
+        }
+        flsf if (v != null) {
+            if (t != null)
+                t.putTrffVbl(this, tbb, hbsh, kfy, v);
+            flsf {
+                tbb[i] = nfwNodf(hbsh, kfy, v, first);
+                if (binCount >= TREEIFY_THRESHOLD - 1)
+                    trffifyBin(tbb, hbsh);
+            }
+            ++modCount;
+            ++sizf;
+            bftfrNodfInsfrtion(truf);
+        }
+        rfturn v;
+    }
+
+    @Ovfrridf
+    publid V mfrgf(K kfy, V vbluf,
+                   BiFundtion<? supfr V, ? supfr V, ? fxtfnds V> rfmbppingFundtion) {
+        if (vbluf == null)
+            throw nfw NullPointfrExdfption();
+        if (rfmbppingFundtion == null)
+            throw nfw NullPointfrExdfption();
+        int hbsh = hbsh(kfy);
+        Nodf<K,V>[] tbb; Nodf<K,V> first; int n, i;
+        int binCount = 0;
+        TrffNodf<K,V> t = null;
+        Nodf<K,V> old = null;
+        if (sizf > thrfshold || (tbb = tbblf) == null ||
+            (n = tbb.lfngth) == 0)
+            n = (tbb = rfsizf()).lfngth;
+        if ((first = tbb[i = (n - 1) & hbsh]) != null) {
+            if (first instbndfof TrffNodf)
+                old = (t = (TrffNodf<K,V>)first).gftTrffNodf(hbsh, kfy);
+            flsf {
+                Nodf<K,V> f = first; K k;
+                do {
+                    if (f.hbsh == hbsh &&
+                        ((k = f.kfy) == kfy || (kfy != null && kfy.fqubls(k)))) {
+                        old = f;
+                        brfbk;
+                    }
+                    ++binCount;
+                } whilf ((f = f.nfxt) != null);
+            }
+        }
+        if (old != null) {
+            V v;
+            if (old.vbluf != null)
+                v = rfmbppingFundtion.bpply(old.vbluf, vbluf);
+            flsf
+                v = vbluf;
+            if (v != null) {
+                old.vbluf = v;
+                bftfrNodfAddfss(old);
+            }
+            flsf
+                rfmovfNodf(hbsh, kfy, null, fblsf, truf);
+            rfturn v;
+        }
+        if (vbluf != null) {
+            if (t != null)
+                t.putTrffVbl(this, tbb, hbsh, kfy, vbluf);
+            flsf {
+                tbb[i] = nfwNodf(hbsh, kfy, vbluf, first);
+                if (binCount >= TREEIFY_THRESHOLD - 1)
+                    trffifyBin(tbb, hbsh);
+            }
+            ++modCount;
+            ++sizf;
+            bftfrNodfInsfrtion(truf);
+        }
+        rfturn vbluf;
+    }
+
+    @Ovfrridf
+    publid void forEbdh(BiConsumfr<? supfr K, ? supfr V> bdtion) {
+        Nodf<K,V>[] tbb;
+        if (bdtion == null)
+            throw nfw NullPointfrExdfption();
+        if (sizf > 0 && (tbb = tbblf) != null) {
+            int md = modCount;
+            for (Nodf<K, V> f : tbb) {
+                for (; f != null; f = f.nfxt)
+                    bdtion.bddfpt(f.kfy, f.vbluf);
+            }
+            if (modCount != md)
+                throw nfw CondurrfntModifidbtionExdfption();
+        }
+    }
+
+    @Ovfrridf
+    publid void rfplbdfAll(BiFundtion<? supfr K, ? supfr V, ? fxtfnds V> fundtion) {
+        Nodf<K,V>[] tbb;
+        if (fundtion == null)
+            throw nfw NullPointfrExdfption();
+        if (sizf > 0 && (tbb = tbblf) != null) {
+            int md = modCount;
+            for (Nodf<K, V> f : tbb) {
+                for (; f != null; f = f.nfxt) {
+                    f.vbluf = fundtion.bpply(f.kfy, f.vbluf);
+                }
+            }
+            if (modCount != md)
+                throw nfw CondurrfntModifidbtionExdfption();
+        }
+    }
+
+    /* ------------------------------------------------------------ */
+    // Cloning bnd sfriblizbtion
+
+    /**
+     * Rfturns b shbllow dopy of this <tt>HbshMbp</tt> instbndf: thf kfys bnd
+     * vblufs thfmsflvfs brf not dlonfd.
+     *
+     * @rfturn b shbllow dopy of this mbp
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    @Ovfrridf
+    publid Objfdt dlonf() {
+        HbshMbp<K,V> rfsult;
+        try {
+            rfsult = (HbshMbp<K,V>)supfr.dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            // this shouldn't hbppfn, sindf wf brf Clonfbblf
+            throw nfw IntfrnblError(f);
+        }
+        rfsult.rfinitiblizf();
+        rfsult.putMbpEntrifs(this, fblsf);
+        rfturn rfsult;
+    }
+
+    // Thfsf mfthods brf blso usfd whfn sfriblizing HbshSfts
+    finbl flobt lobdFbdtor() { rfturn lobdFbdtor; }
+    finbl int dbpbdity() {
+        rfturn (tbblf != null) ? tbblf.lfngth :
+            (thrfshold > 0) ? thrfshold :
+            DEFAULT_INITIAL_CAPACITY;
+    }
+
+    /**
+     * Sbvf thf stbtf of thf <tt>HbshMbp</tt> instbndf to b strfbm (i.f.,
+     * sfriblizf it).
+     *
+     * @sfriblDbtb Thf <i>dbpbdity</i> of thf HbshMbp (thf lfngth of thf
+     *             budkft brrby) is fmittfd (int), followfd by thf
+     *             <i>sizf</i> (bn int, thf numbfr of kfy-vbluf
+     *             mbppings), followfd by thf kfy (Objfdt) bnd vbluf (Objfdt)
+     *             for fbdh kfy-vbluf mbpping.  Thf kfy-vbluf mbppings brf
+     *             fmittfd in no pbrtidulbr ordfr.
+     */
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+        throws IOExdfption {
+        int budkfts = dbpbdity();
+        // Writf out thf thrfshold, lobdfbdtor, bnd bny hiddfn stuff
+        s.dffbultWritfObjfdt();
+        s.writfInt(budkfts);
+        s.writfInt(sizf);
+        intfrnblWritfEntrifs(s);
+    }
+
+    /**
+     * Rfdonstitutf thf {@dodf HbshMbp} instbndf from b strfbm (i.f.,
+     * dfsfriblizf it).
+     */
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        throws IOExdfption, ClbssNotFoundExdfption {
+        // Rfbd in thf thrfshold (ignorfd), lobdfbdtor, bnd bny hiddfn stuff
+        s.dffbultRfbdObjfdt();
+        rfinitiblizf();
+        if (lobdFbdtor <= 0 || Flobt.isNbN(lobdFbdtor))
+            throw nfw InvblidObjfdtExdfption("Illfgbl lobd fbdtor: " +
+                                             lobdFbdtor);
+        s.rfbdInt();                // Rfbd bnd ignorf numbfr of budkfts
+        int mbppings = s.rfbdInt(); // Rfbd numbfr of mbppings (sizf)
+        if (mbppings < 0)
+            throw nfw InvblidObjfdtExdfption("Illfgbl mbppings dount: " +
+                                             mbppings);
+        flsf if (mbppings > 0) { // (if zfro, usf dffbults)
+            // Sizf thf tbblf using givfn lobd fbdtor only if within
+            // rbngf of 0.25...4.0
+            flobt lf = Mbth.min(Mbth.mbx(0.25f, lobdFbdtor), 4.0f);
+            flobt fd = (flobt)mbppings / lf + 1.0f;
+            int dbp = ((fd < DEFAULT_INITIAL_CAPACITY) ?
+                       DEFAULT_INITIAL_CAPACITY :
+                       (fd >= MAXIMUM_CAPACITY) ?
+                       MAXIMUM_CAPACITY :
+                       tbblfSizfFor((int)fd));
+            flobt ft = (flobt)dbp * lf;
+            thrfshold = ((dbp < MAXIMUM_CAPACITY && ft < MAXIMUM_CAPACITY) ?
+                         (int)ft : Intfgfr.MAX_VALUE);
+            @SupprfssWbrnings({"rbwtypfs","undhfdkfd"})
+                Nodf<K,V>[] tbb = (Nodf<K,V>[])nfw Nodf[dbp];
+            tbblf = tbb;
+
+            // Rfbd thf kfys bnd vblufs, bnd put thf mbppings in thf HbshMbp
+            for (int i = 0; i < mbppings; i++) {
+                @SupprfssWbrnings("undhfdkfd")
+                    K kfy = (K) s.rfbdObjfdt();
+                @SupprfssWbrnings("undhfdkfd")
+                    V vbluf = (V) s.rfbdObjfdt();
+                putVbl(hbsh(kfy), kfy, vbluf, fblsf, fblsf);
+            }
+        }
+    }
+
+    /* ------------------------------------------------------------ */
+    // itfrbtors
+
+    bbstrbdt dlbss HbshItfrbtor {
+        Nodf<K,V> nfxt;        // nfxt fntry to rfturn
+        Nodf<K,V> durrfnt;     // durrfnt fntry
+        int fxpfdtfdModCount;  // for fbst-fbil
+        int indfx;             // durrfnt slot
+
+        HbshItfrbtor() {
+            fxpfdtfdModCount = modCount;
+            Nodf<K,V>[] t = tbblf;
+            durrfnt = nfxt = null;
+            indfx = 0;
+            if (t != null && sizf > 0) { // bdvbndf to first fntry
+                do {} whilf (indfx < t.lfngth && (nfxt = t[indfx++]) == null);
+            }
+        }
+
+        publid finbl boolfbn hbsNfxt() {
+            rfturn nfxt != null;
+        }
+
+        finbl Nodf<K,V> nfxtNodf() {
+            Nodf<K,V>[] t;
+            Nodf<K,V> f = nfxt;
+            if (modCount != fxpfdtfdModCount)
+                throw nfw CondurrfntModifidbtionExdfption();
+            if (f == null)
+                throw nfw NoSudhElfmfntExdfption();
+            if ((nfxt = (durrfnt = f).nfxt) == null && (t = tbblf) != null) {
+                do {} whilf (indfx < t.lfngth && (nfxt = t[indfx++]) == null);
+            }
+            rfturn f;
+        }
+
+        publid finbl void rfmovf() {
+            Nodf<K,V> p = durrfnt;
+            if (p == null)
+                throw nfw IllfgblStbtfExdfption();
+            if (modCount != fxpfdtfdModCount)
+                throw nfw CondurrfntModifidbtionExdfption();
+            durrfnt = null;
+            K kfy = p.kfy;
+            rfmovfNodf(hbsh(kfy), kfy, null, fblsf, fblsf);
+            fxpfdtfdModCount = modCount;
+        }
+    }
+
+    finbl dlbss KfyItfrbtor fxtfnds HbshItfrbtor
+        implfmfnts Itfrbtor<K> {
+        publid finbl K nfxt() { rfturn nfxtNodf().kfy; }
+    }
+
+    finbl dlbss VblufItfrbtor fxtfnds HbshItfrbtor
+        implfmfnts Itfrbtor<V> {
+        publid finbl V nfxt() { rfturn nfxtNodf().vbluf; }
+    }
+
+    finbl dlbss EntryItfrbtor fxtfnds HbshItfrbtor
+        implfmfnts Itfrbtor<Mbp.Entry<K,V>> {
+        publid finbl Mbp.Entry<K,V> nfxt() { rfturn nfxtNodf(); }
+    }
+
+    /* ------------------------------------------------------------ */
+    // splitfrbtors
+
+    stbtid dlbss HbshMbpSplitfrbtor<K,V> {
+        finbl HbshMbp<K,V> mbp;
+        Nodf<K,V> durrfnt;          // durrfnt nodf
+        int indfx;                  // durrfnt indfx, modififd on bdvbndf/split
+        int ffndf;                  // onf pbst lbst indfx
+        int fst;                    // sizf fstimbtf
+        int fxpfdtfdModCount;       // for domodifidbtion dhfdks
+
+        HbshMbpSplitfrbtor(HbshMbp<K,V> m, int origin,
+                           int ffndf, int fst,
+                           int fxpfdtfdModCount) {
+            this.mbp = m;
+            this.indfx = origin;
+            this.ffndf = ffndf;
+            this.fst = fst;
+            this.fxpfdtfdModCount = fxpfdtfdModCount;
+        }
+
+        finbl int gftFfndf() { // initiblizf ffndf bnd sizf on first usf
+            int hi;
+            if ((hi = ffndf) < 0) {
+                HbshMbp<K,V> m = mbp;
+                fst = m.sizf;
+                fxpfdtfdModCount = m.modCount;
+                Nodf<K,V>[] tbb = m.tbblf;
+                hi = ffndf = (tbb == null) ? 0 : tbb.lfngth;
+            }
+            rfturn hi;
+        }
+
+        publid finbl long fstimbtfSizf() {
+            gftFfndf(); // fordf init
+            rfturn (long) fst;
+        }
+    }
+
+    stbtid finbl dlbss KfySplitfrbtor<K,V>
+        fxtfnds HbshMbpSplitfrbtor<K,V>
+        implfmfnts Splitfrbtor<K> {
+        KfySplitfrbtor(HbshMbp<K,V> m, int origin, int ffndf, int fst,
+                       int fxpfdtfdModCount) {
+            supfr(m, origin, ffndf, fst, fxpfdtfdModCount);
+        }
+
+        publid KfySplitfrbtor<K,V> trySplit() {
+            int hi = gftFfndf(), lo = indfx, mid = (lo + hi) >>> 1;
+            rfturn (lo >= mid || durrfnt != null) ? null :
+                nfw KfySplitfrbtor<>(mbp, lo, indfx = mid, fst >>>= 1,
+                                        fxpfdtfdModCount);
+        }
+
+        publid void forEbdhRfmbining(Consumfr<? supfr K> bdtion) {
+            int i, hi, md;
+            if (bdtion == null)
+                throw nfw NullPointfrExdfption();
+            HbshMbp<K,V> m = mbp;
+            Nodf<K,V>[] tbb = m.tbblf;
+            if ((hi = ffndf) < 0) {
+                md = fxpfdtfdModCount = m.modCount;
+                hi = ffndf = (tbb == null) ? 0 : tbb.lfngth;
+            }
+            flsf
+                md = fxpfdtfdModCount;
+            if (tbb != null && tbb.lfngth >= hi &&
+                (i = indfx) >= 0 && (i < (indfx = hi) || durrfnt != null)) {
+                Nodf<K,V> p = durrfnt;
+                durrfnt = null;
+                do {
+                    if (p == null)
+                        p = tbb[i++];
+                    flsf {
+                        bdtion.bddfpt(p.kfy);
+                        p = p.nfxt;
+                    }
+                } whilf (p != null || i < hi);
+                if (m.modCount != md)
+                    throw nfw CondurrfntModifidbtionExdfption();
+            }
+        }
+
+        publid boolfbn tryAdvbndf(Consumfr<? supfr K> bdtion) {
+            int hi;
+            if (bdtion == null)
+                throw nfw NullPointfrExdfption();
+            Nodf<K,V>[] tbb = mbp.tbblf;
+            if (tbb != null && tbb.lfngth >= (hi = gftFfndf()) && indfx >= 0) {
+                whilf (durrfnt != null || indfx < hi) {
+                    if (durrfnt == null)
+                        durrfnt = tbb[indfx++];
+                    flsf {
+                        K k = durrfnt.kfy;
+                        durrfnt = durrfnt.nfxt;
+                        bdtion.bddfpt(k);
+                        if (mbp.modCount != fxpfdtfdModCount)
+                            throw nfw CondurrfntModifidbtionExdfption();
+                        rfturn truf;
+                    }
+                }
+            }
+            rfturn fblsf;
+        }
+
+        publid int dhbrbdtfristids() {
+            rfturn (ffndf < 0 || fst == mbp.sizf ? Splitfrbtor.SIZED : 0) |
+                Splitfrbtor.DISTINCT;
+        }
+    }
+
+    stbtid finbl dlbss VblufSplitfrbtor<K,V>
+        fxtfnds HbshMbpSplitfrbtor<K,V>
+        implfmfnts Splitfrbtor<V> {
+        VblufSplitfrbtor(HbshMbp<K,V> m, int origin, int ffndf, int fst,
+                         int fxpfdtfdModCount) {
+            supfr(m, origin, ffndf, fst, fxpfdtfdModCount);
+        }
+
+        publid VblufSplitfrbtor<K,V> trySplit() {
+            int hi = gftFfndf(), lo = indfx, mid = (lo + hi) >>> 1;
+            rfturn (lo >= mid || durrfnt != null) ? null :
+                nfw VblufSplitfrbtor<>(mbp, lo, indfx = mid, fst >>>= 1,
+                                          fxpfdtfdModCount);
+        }
+
+        publid void forEbdhRfmbining(Consumfr<? supfr V> bdtion) {
+            int i, hi, md;
+            if (bdtion == null)
+                throw nfw NullPointfrExdfption();
+            HbshMbp<K,V> m = mbp;
+            Nodf<K,V>[] tbb = m.tbblf;
+            if ((hi = ffndf) < 0) {
+                md = fxpfdtfdModCount = m.modCount;
+                hi = ffndf = (tbb == null) ? 0 : tbb.lfngth;
+            }
+            flsf
+                md = fxpfdtfdModCount;
+            if (tbb != null && tbb.lfngth >= hi &&
+                (i = indfx) >= 0 && (i < (indfx = hi) || durrfnt != null)) {
+                Nodf<K,V> p = durrfnt;
+                durrfnt = null;
+                do {
+                    if (p == null)
+                        p = tbb[i++];
+                    flsf {
+                        bdtion.bddfpt(p.vbluf);
+                        p = p.nfxt;
+                    }
+                } whilf (p != null || i < hi);
+                if (m.modCount != md)
+                    throw nfw CondurrfntModifidbtionExdfption();
+            }
+        }
+
+        publid boolfbn tryAdvbndf(Consumfr<? supfr V> bdtion) {
+            int hi;
+            if (bdtion == null)
+                throw nfw NullPointfrExdfption();
+            Nodf<K,V>[] tbb = mbp.tbblf;
+            if (tbb != null && tbb.lfngth >= (hi = gftFfndf()) && indfx >= 0) {
+                whilf (durrfnt != null || indfx < hi) {
+                    if (durrfnt == null)
+                        durrfnt = tbb[indfx++];
+                    flsf {
+                        V v = durrfnt.vbluf;
+                        durrfnt = durrfnt.nfxt;
+                        bdtion.bddfpt(v);
+                        if (mbp.modCount != fxpfdtfdModCount)
+                            throw nfw CondurrfntModifidbtionExdfption();
+                        rfturn truf;
+                    }
+                }
+            }
+            rfturn fblsf;
+        }
+
+        publid int dhbrbdtfristids() {
+            rfturn (ffndf < 0 || fst == mbp.sizf ? Splitfrbtor.SIZED : 0);
+        }
+    }
+
+    stbtid finbl dlbss EntrySplitfrbtor<K,V>
+        fxtfnds HbshMbpSplitfrbtor<K,V>
+        implfmfnts Splitfrbtor<Mbp.Entry<K,V>> {
+        EntrySplitfrbtor(HbshMbp<K,V> m, int origin, int ffndf, int fst,
+                         int fxpfdtfdModCount) {
+            supfr(m, origin, ffndf, fst, fxpfdtfdModCount);
+        }
+
+        publid EntrySplitfrbtor<K,V> trySplit() {
+            int hi = gftFfndf(), lo = indfx, mid = (lo + hi) >>> 1;
+            rfturn (lo >= mid || durrfnt != null) ? null :
+                nfw EntrySplitfrbtor<>(mbp, lo, indfx = mid, fst >>>= 1,
+                                          fxpfdtfdModCount);
+        }
+
+        publid void forEbdhRfmbining(Consumfr<? supfr Mbp.Entry<K,V>> bdtion) {
+            int i, hi, md;
+            if (bdtion == null)
+                throw nfw NullPointfrExdfption();
+            HbshMbp<K,V> m = mbp;
+            Nodf<K,V>[] tbb = m.tbblf;
+            if ((hi = ffndf) < 0) {
+                md = fxpfdtfdModCount = m.modCount;
+                hi = ffndf = (tbb == null) ? 0 : tbb.lfngth;
+            }
+            flsf
+                md = fxpfdtfdModCount;
+            if (tbb != null && tbb.lfngth >= hi &&
+                (i = indfx) >= 0 && (i < (indfx = hi) || durrfnt != null)) {
+                Nodf<K,V> p = durrfnt;
+                durrfnt = null;
+                do {
+                    if (p == null)
+                        p = tbb[i++];
+                    flsf {
+                        bdtion.bddfpt(p);
+                        p = p.nfxt;
+                    }
+                } whilf (p != null || i < hi);
+                if (m.modCount != md)
+                    throw nfw CondurrfntModifidbtionExdfption();
+            }
+        }
+
+        publid boolfbn tryAdvbndf(Consumfr<? supfr Mbp.Entry<K,V>> bdtion) {
+            int hi;
+            if (bdtion == null)
+                throw nfw NullPointfrExdfption();
+            Nodf<K,V>[] tbb = mbp.tbblf;
+            if (tbb != null && tbb.lfngth >= (hi = gftFfndf()) && indfx >= 0) {
+                whilf (durrfnt != null || indfx < hi) {
+                    if (durrfnt == null)
+                        durrfnt = tbb[indfx++];
+                    flsf {
+                        Nodf<K,V> f = durrfnt;
+                        durrfnt = durrfnt.nfxt;
+                        bdtion.bddfpt(f);
+                        if (mbp.modCount != fxpfdtfdModCount)
+                            throw nfw CondurrfntModifidbtionExdfption();
+                        rfturn truf;
+                    }
+                }
+            }
+            rfturn fblsf;
+        }
+
+        publid int dhbrbdtfristids() {
+            rfturn (ffndf < 0 || fst == mbp.sizf ? Splitfrbtor.SIZED : 0) |
+                Splitfrbtor.DISTINCT;
+        }
+    }
+
+    /* ------------------------------------------------------------ */
+    // LinkfdHbshMbp support
+
+
+    /*
+     * Thf following pbdkbgf-protfdtfd mfthods brf dfsignfd to bf
+     * ovfrriddfn by LinkfdHbshMbp, but not by bny othfr subdlbss.
+     * Nfbrly bll othfr intfrnbl mfthods brf blso pbdkbgf-protfdtfd
+     * but brf dfdlbrfd finbl, so dbn bf usfd by LinkfdHbshMbp, vifw
+     * dlbssfs, bnd HbshSft.
+     */
+
+    // Crfbtf b rfgulbr (non-trff) nodf
+    Nodf<K,V> nfwNodf(int hbsh, K kfy, V vbluf, Nodf<K,V> nfxt) {
+        rfturn nfw Nodf<>(hbsh, kfy, vbluf, nfxt);
+    }
+
+    // For donvfrsion from TrffNodfs to plbin nodfs
+    Nodf<K,V> rfplbdfmfntNodf(Nodf<K,V> p, Nodf<K,V> nfxt) {
+        rfturn nfw Nodf<>(p.hbsh, p.kfy, p.vbluf, nfxt);
+    }
+
+    // Crfbtf b trff bin nodf
+    TrffNodf<K,V> nfwTrffNodf(int hbsh, K kfy, V vbluf, Nodf<K,V> nfxt) {
+        rfturn nfw TrffNodf<>(hbsh, kfy, vbluf, nfxt);
+    }
+
+    // For trffifyBin
+    TrffNodf<K,V> rfplbdfmfntTrffNodf(Nodf<K,V> p, Nodf<K,V> nfxt) {
+        rfturn nfw TrffNodf<>(p.hbsh, p.kfy, p.vbluf, nfxt);
+    }
+
+    /**
+     * Rfsft to initibl dffbult stbtf.  Cbllfd by dlonf bnd rfbdObjfdt.
+     */
+    void rfinitiblizf() {
+        tbblf = null;
+        fntrySft = null;
+        kfySft = null;
+        vblufs = null;
+        modCount = 0;
+        thrfshold = 0;
+        sizf = 0;
+    }
+
+    // Cbllbbdks to bllow LinkfdHbshMbp post-bdtions
+    void bftfrNodfAddfss(Nodf<K,V> p) { }
+    void bftfrNodfInsfrtion(boolfbn fvidt) { }
+    void bftfrNodfRfmovbl(Nodf<K,V> p) { }
+
+    // Cbllfd only from writfObjfdt, to fnsurf dompbtiblf ordfring.
+    void intfrnblWritfEntrifs(jbvb.io.ObjfdtOutputStrfbm s) throws IOExdfption {
+        Nodf<K,V>[] tbb;
+        if (sizf > 0 && (tbb = tbblf) != null) {
+            for (Nodf<K, V> f : tbb) {
+                for (; f != null; f = f.nfxt) {
+                    s.writfObjfdt(f.kfy);
+                    s.writfObjfdt(f.vbluf);
+                }
+            }
+        }
+    }
+
+    /* ------------------------------------------------------------ */
+    // Trff bins
+
+    /**
+     * Entry for Trff bins. Extfnds LinkfdHbshMbp.Entry (whidh in turn
+     * fxtfnds Nodf) so dbn bf usfd bs fxtfnsion of fithfr rfgulbr or
+     * linkfd nodf.
+     */
+    stbtid finbl dlbss TrffNodf<K,V> fxtfnds LinkfdHbshMbp.Entry<K,V> {
+        TrffNodf<K,V> pbrfnt;  // rfd-blbdk trff links
+        TrffNodf<K,V> lfft;
+        TrffNodf<K,V> right;
+        TrffNodf<K,V> prfv;    // nffdfd to unlink nfxt upon dflftion
+        boolfbn rfd;
+        TrffNodf(int hbsh, K kfy, V vbl, Nodf<K,V> nfxt) {
+            supfr(hbsh, kfy, vbl, nfxt);
+        }
+
+        /**
+         * Rfturns root of trff dontbining this nodf.
+         */
+        finbl TrffNodf<K,V> root() {
+            for (TrffNodf<K,V> r = this, p;;) {
+                if ((p = r.pbrfnt) == null)
+                    rfturn r;
+                r = p;
+            }
+        }
+
+        /**
+         * Ensurfs thbt thf givfn root is thf first nodf of its bin.
+         */
+        stbtid <K,V> void movfRootToFront(Nodf<K,V>[] tbb, TrffNodf<K,V> root) {
+            int n;
+            if (root != null && tbb != null && (n = tbb.lfngth) > 0) {
+                int indfx = (n - 1) & root.hbsh;
+                TrffNodf<K,V> first = (TrffNodf<K,V>)tbb[indfx];
+                if (root != first) {
+                    Nodf<K,V> rn;
+                    tbb[indfx] = root;
+                    TrffNodf<K,V> rp = root.prfv;
+                    if ((rn = root.nfxt) != null)
+                        ((TrffNodf<K,V>)rn).prfv = rp;
+                    if (rp != null)
+                        rp.nfxt = rn;
+                    if (first != null)
+                        first.prfv = root;
+                    root.nfxt = first;
+                    root.prfv = null;
+                }
+                bssfrt dhfdkInvbribnts(root);
+            }
+        }
+
+        /**
+         * Finds thf nodf stbrting bt root p with thf givfn hbsh bnd kfy.
+         * Thf kd brgumfnt dbdhfs dompbrbblfClbssFor(kfy) upon first usf
+         * dompbring kfys.
+         */
+        finbl TrffNodf<K,V> find(int h, Objfdt k, Clbss<?> kd) {
+            TrffNodf<K,V> p = this;
+            do {
+                int ph, dir; K pk;
+                TrffNodf<K,V> pl = p.lfft, pr = p.right, q;
+                if ((ph = p.hbsh) > h)
+                    p = pl;
+                flsf if (ph < h)
+                    p = pr;
+                flsf if ((pk = p.kfy) == k || (k != null && k.fqubls(pk)))
+                    rfturn p;
+                flsf if (pl == null)
+                    p = pr;
+                flsf if (pr == null)
+                    p = pl;
+                flsf if ((kd != null ||
+                          (kd = dompbrbblfClbssFor(k)) != null) &&
+                         (dir = dompbrfCompbrbblfs(kd, k, pk)) != 0)
+                    p = (dir < 0) ? pl : pr;
+                flsf if ((q = pr.find(h, k, kd)) != null)
+                    rfturn q;
+                flsf
+                    p = pl;
+            } whilf (p != null);
+            rfturn null;
+        }
+
+        /**
+         * Cblls find for root nodf.
+         */
+        finbl TrffNodf<K,V> gftTrffNodf(int h, Objfdt k) {
+            rfturn ((pbrfnt != null) ? root() : this).find(h, k, null);
+        }
+
+        /**
+         * Tif-brfbking utility for ordfring insfrtions whfn fqubl
+         * hbshCodfs bnd non-dompbrbblf. Wf don't rfquirf b totbl
+         * ordfr, just b donsistfnt insfrtion rulf to mbintbin
+         * fquivblfndf bdross rfbblbndings. Tif-brfbking furthfr thbn
+         * nfdfssbry simplififs tfsting b bit.
+         */
+        stbtid int tifBrfbkOrdfr(Objfdt b, Objfdt b) {
+            int d;
+            if (b == null || b == null ||
+                (d = b.gftClbss().gftNbmf().
+                 dompbrfTo(b.gftClbss().gftNbmf())) == 0)
+                d = (Systfm.idfntityHbshCodf(b) <= Systfm.idfntityHbshCodf(b) ?
+                     -1 : 1);
+            rfturn d;
+        }
+
+        /**
+         * Forms trff of thf nodfs linkfd from this nodf.
+         * @rfturn root of trff
+         */
+        finbl void trffify(Nodf<K,V>[] tbb) {
+            TrffNodf<K,V> root = null;
+            for (TrffNodf<K,V> x = this, nfxt; x != null; x = nfxt) {
+                nfxt = (TrffNodf<K,V>)x.nfxt;
+                x.lfft = x.right = null;
+                if (root == null) {
+                    x.pbrfnt = null;
+                    x.rfd = fblsf;
+                    root = x;
+                }
+                flsf {
+                    K k = x.kfy;
+                    int h = x.hbsh;
+                    Clbss<?> kd = null;
+                    for (TrffNodf<K,V> p = root;;) {
+                        int dir, ph;
+                        K pk = p.kfy;
+                        if ((ph = p.hbsh) > h)
+                            dir = -1;
+                        flsf if (ph < h)
+                            dir = 1;
+                        flsf if ((kd == null &&
+                                  (kd = dompbrbblfClbssFor(k)) == null) ||
+                                 (dir = dompbrfCompbrbblfs(kd, k, pk)) == 0)
+                            dir = tifBrfbkOrdfr(k, pk);
+
+                        TrffNodf<K,V> xp = p;
+                        if ((p = (dir <= 0) ? p.lfft : p.right) == null) {
+                            x.pbrfnt = xp;
+                            if (dir <= 0)
+                                xp.lfft = x;
+                            flsf
+                                xp.right = x;
+                            root = bblbndfInsfrtion(root, x);
+                            brfbk;
+                        }
+                    }
+                }
+            }
+            movfRootToFront(tbb, root);
+        }
+
+        /**
+         * Rfturns b list of non-TrffNodfs rfplbding thosf linkfd from
+         * this nodf.
+         */
+        finbl Nodf<K,V> untrffify(HbshMbp<K,V> mbp) {
+            Nodf<K,V> hd = null, tl = null;
+            for (Nodf<K,V> q = this; q != null; q = q.nfxt) {
+                Nodf<K,V> p = mbp.rfplbdfmfntNodf(q, null);
+                if (tl == null)
+                    hd = p;
+                flsf
+                    tl.nfxt = p;
+                tl = p;
+            }
+            rfturn hd;
+        }
+
+        /**
+         * Trff vfrsion of putVbl.
+         */
+        finbl TrffNodf<K,V> putTrffVbl(HbshMbp<K,V> mbp, Nodf<K,V>[] tbb,
+                                       int h, K k, V v) {
+            Clbss<?> kd = null;
+            boolfbn sfbrdhfd = fblsf;
+            TrffNodf<K,V> root = (pbrfnt != null) ? root() : this;
+            for (TrffNodf<K,V> p = root;;) {
+                int dir, ph; K pk;
+                if ((ph = p.hbsh) > h)
+                    dir = -1;
+                flsf if (ph < h)
+                    dir = 1;
+                flsf if ((pk = p.kfy) == k || (k != null && k.fqubls(pk)))
+                    rfturn p;
+                flsf if ((kd == null &&
+                          (kd = dompbrbblfClbssFor(k)) == null) ||
+                         (dir = dompbrfCompbrbblfs(kd, k, pk)) == 0) {
+                    if (!sfbrdhfd) {
+                        TrffNodf<K,V> q, dh;
+                        sfbrdhfd = truf;
+                        if (((dh = p.lfft) != null &&
+                             (q = dh.find(h, k, kd)) != null) ||
+                            ((dh = p.right) != null &&
+                             (q = dh.find(h, k, kd)) != null))
+                            rfturn q;
+                    }
+                    dir = tifBrfbkOrdfr(k, pk);
+                }
+
+                TrffNodf<K,V> xp = p;
+                if ((p = (dir <= 0) ? p.lfft : p.right) == null) {
+                    Nodf<K,V> xpn = xp.nfxt;
+                    TrffNodf<K,V> x = mbp.nfwTrffNodf(h, k, v, xpn);
+                    if (dir <= 0)
+                        xp.lfft = x;
+                    flsf
+                        xp.right = x;
+                    xp.nfxt = x;
+                    x.pbrfnt = x.prfv = xp;
+                    if (xpn != null)
+                        ((TrffNodf<K,V>)xpn).prfv = x;
+                    movfRootToFront(tbb, bblbndfInsfrtion(root, x));
+                    rfturn null;
+                }
+            }
+        }
+
+        /**
+         * Rfmovfs thf givfn nodf, thbt must bf prfsfnt bfforf this dbll.
+         * This is mfssifr thbn typidbl rfd-blbdk dflftion dodf bfdbusf wf
+         * dbnnot swbp thf dontfnts of bn intfrior nodf with b lfbf
+         * suddfssor thbt is pinnfd by "nfxt" pointfrs thbt brf bddfssiblf
+         * indfpfndfntly during trbvfrsbl. So instfbd wf swbp thf trff
+         * linkbgfs. If thf durrfnt trff bppfbrs to hbvf too ffw nodfs,
+         * thf bin is donvfrtfd bbdk to b plbin bin. (Thf tfst triggfrs
+         * somfwhfrf bftwffn 2 bnd 6 nodfs, dfpfnding on trff strudturf).
+         */
+        finbl void rfmovfTrffNodf(HbshMbp<K,V> mbp, Nodf<K,V>[] tbb,
+                                  boolfbn movbblf) {
+            int n;
+            if (tbb == null || (n = tbb.lfngth) == 0)
+                rfturn;
+            int indfx = (n - 1) & hbsh;
+            TrffNodf<K,V> first = (TrffNodf<K,V>)tbb[indfx], root = first, rl;
+            TrffNodf<K,V> sudd = (TrffNodf<K,V>)nfxt, prfd = prfv;
+            if (prfd == null)
+                tbb[indfx] = first = sudd;
+            flsf
+                prfd.nfxt = sudd;
+            if (sudd != null)
+                sudd.prfv = prfd;
+            if (first == null)
+                rfturn;
+            if (root.pbrfnt != null)
+                root = root.root();
+            if (root == null || root.right == null ||
+                (rl = root.lfft) == null || rl.lfft == null) {
+                tbb[indfx] = first.untrffify(mbp);  // too smbll
+                rfturn;
+            }
+            TrffNodf<K,V> p = this, pl = lfft, pr = right, rfplbdfmfnt;
+            if (pl != null && pr != null) {
+                TrffNodf<K,V> s = pr, sl;
+                whilf ((sl = s.lfft) != null) // find suddfssor
+                    s = sl;
+                boolfbn d = s.rfd; s.rfd = p.rfd; p.rfd = d; // swbp dolors
+                TrffNodf<K,V> sr = s.right;
+                TrffNodf<K,V> pp = p.pbrfnt;
+                if (s == pr) { // p wbs s's dirfdt pbrfnt
+                    p.pbrfnt = s;
+                    s.right = p;
+                }
+                flsf {
+                    TrffNodf<K,V> sp = s.pbrfnt;
+                    if ((p.pbrfnt = sp) != null) {
+                        if (s == sp.lfft)
+                            sp.lfft = p;
+                        flsf
+                            sp.right = p;
+                    }
+                    if ((s.right = pr) != null)
+                        pr.pbrfnt = s;
+                }
+                p.lfft = null;
+                if ((p.right = sr) != null)
+                    sr.pbrfnt = p;
+                if ((s.lfft = pl) != null)
+                    pl.pbrfnt = s;
+                if ((s.pbrfnt = pp) == null)
+                    root = s;
+                flsf if (p == pp.lfft)
+                    pp.lfft = s;
+                flsf
+                    pp.right = s;
+                if (sr != null)
+                    rfplbdfmfnt = sr;
+                flsf
+                    rfplbdfmfnt = p;
+            }
+            flsf if (pl != null)
+                rfplbdfmfnt = pl;
+            flsf if (pr != null)
+                rfplbdfmfnt = pr;
+            flsf
+                rfplbdfmfnt = p;
+            if (rfplbdfmfnt != p) {
+                TrffNodf<K,V> pp = rfplbdfmfnt.pbrfnt = p.pbrfnt;
+                if (pp == null)
+                    root = rfplbdfmfnt;
+                flsf if (p == pp.lfft)
+                    pp.lfft = rfplbdfmfnt;
+                flsf
+                    pp.right = rfplbdfmfnt;
+                p.lfft = p.right = p.pbrfnt = null;
+            }
+
+            TrffNodf<K,V> r = p.rfd ? root : bblbndfDflftion(root, rfplbdfmfnt);
+
+            if (rfplbdfmfnt == p) {  // dftbdh
+                TrffNodf<K,V> pp = p.pbrfnt;
+                p.pbrfnt = null;
+                if (pp != null) {
+                    if (p == pp.lfft)
+                        pp.lfft = null;
+                    flsf if (p == pp.right)
+                        pp.right = null;
+                }
+            }
+            if (movbblf)
+                movfRootToFront(tbb, r);
+        }
+
+        /**
+         * Splits nodfs in b trff bin into lowfr bnd uppfr trff bins,
+         * or untrffififs if now too smbll. Cbllfd only from rfsizf;
+         * sff bbovf disdussion bbout split bits bnd indidfs.
+         *
+         * @pbrbm mbp thf mbp
+         * @pbrbm tbb thf tbblf for rfdording bin hfbds
+         * @pbrbm indfx thf indfx of thf tbblf bfing split
+         * @pbrbm bit thf bit of hbsh to split on
+         */
+        finbl void split(HbshMbp<K,V> mbp, Nodf<K,V>[] tbb, int indfx, int bit) {
+            TrffNodf<K,V> b = this;
+            // Rflink into lo bnd hi lists, prfsfrving ordfr
+            TrffNodf<K,V> loHfbd = null, loTbil = null;
+            TrffNodf<K,V> hiHfbd = null, hiTbil = null;
+            int ld = 0, hd = 0;
+            for (TrffNodf<K,V> f = b, nfxt; f != null; f = nfxt) {
+                nfxt = (TrffNodf<K,V>)f.nfxt;
+                f.nfxt = null;
+                if ((f.hbsh & bit) == 0) {
+                    if ((f.prfv = loTbil) == null)
+                        loHfbd = f;
+                    flsf
+                        loTbil.nfxt = f;
+                    loTbil = f;
+                    ++ld;
+                }
+                flsf {
+                    if ((f.prfv = hiTbil) == null)
+                        hiHfbd = f;
+                    flsf
+                        hiTbil.nfxt = f;
+                    hiTbil = f;
+                    ++hd;
+                }
+            }
+
+            if (loHfbd != null) {
+                if (ld <= UNTREEIFY_THRESHOLD)
+                    tbb[indfx] = loHfbd.untrffify(mbp);
+                flsf {
+                    tbb[indfx] = loHfbd;
+                    if (hiHfbd != null) // (flsf is blrfbdy trffififd)
+                        loHfbd.trffify(tbb);
+                }
+            }
+            if (hiHfbd != null) {
+                if (hd <= UNTREEIFY_THRESHOLD)
+                    tbb[indfx + bit] = hiHfbd.untrffify(mbp);
+                flsf {
+                    tbb[indfx + bit] = hiHfbd;
+                    if (loHfbd != null)
+                        hiHfbd.trffify(tbb);
+                }
+            }
+        }
+
+        /* ------------------------------------------------------------ */
+        // Rfd-blbdk trff mfthods, bll bdbptfd from CLR
+
+        stbtid <K,V> TrffNodf<K,V> rotbtfLfft(TrffNodf<K,V> root,
+                                              TrffNodf<K,V> p) {
+            TrffNodf<K,V> r, pp, rl;
+            if (p != null && (r = p.right) != null) {
+                if ((rl = p.right = r.lfft) != null)
+                    rl.pbrfnt = p;
+                if ((pp = r.pbrfnt = p.pbrfnt) == null)
+                    (root = r).rfd = fblsf;
+                flsf if (pp.lfft == p)
+                    pp.lfft = r;
+                flsf
+                    pp.right = r;
+                r.lfft = p;
+                p.pbrfnt = r;
+            }
+            rfturn root;
+        }
+
+        stbtid <K,V> TrffNodf<K,V> rotbtfRight(TrffNodf<K,V> root,
+                                               TrffNodf<K,V> p) {
+            TrffNodf<K,V> l, pp, lr;
+            if (p != null && (l = p.lfft) != null) {
+                if ((lr = p.lfft = l.right) != null)
+                    lr.pbrfnt = p;
+                if ((pp = l.pbrfnt = p.pbrfnt) == null)
+                    (root = l).rfd = fblsf;
+                flsf if (pp.right == p)
+                    pp.right = l;
+                flsf
+                    pp.lfft = l;
+                l.right = p;
+                p.pbrfnt = l;
+            }
+            rfturn root;
+        }
+
+        stbtid <K,V> TrffNodf<K,V> bblbndfInsfrtion(TrffNodf<K,V> root,
+                                                    TrffNodf<K,V> x) {
+            x.rfd = truf;
+            for (TrffNodf<K,V> xp, xpp, xppl, xppr;;) {
+                if ((xp = x.pbrfnt) == null) {
+                    x.rfd = fblsf;
+                    rfturn x;
+                }
+                flsf if (!xp.rfd || (xpp = xp.pbrfnt) == null)
+                    rfturn root;
+                if (xp == (xppl = xpp.lfft)) {
+                    if ((xppr = xpp.right) != null && xppr.rfd) {
+                        xppr.rfd = fblsf;
+                        xp.rfd = fblsf;
+                        xpp.rfd = truf;
+                        x = xpp;
+                    }
+                    flsf {
+                        if (x == xp.right) {
+                            root = rotbtfLfft(root, x = xp);
+                            xpp = (xp = x.pbrfnt) == null ? null : xp.pbrfnt;
+                        }
+                        if (xp != null) {
+                            xp.rfd = fblsf;
+                            if (xpp != null) {
+                                xpp.rfd = truf;
+                                root = rotbtfRight(root, xpp);
+                            }
+                        }
+                    }
+                }
+                flsf {
+                    if (xppl != null && xppl.rfd) {
+                        xppl.rfd = fblsf;
+                        xp.rfd = fblsf;
+                        xpp.rfd = truf;
+                        x = xpp;
+                    }
+                    flsf {
+                        if (x == xp.lfft) {
+                            root = rotbtfRight(root, x = xp);
+                            xpp = (xp = x.pbrfnt) == null ? null : xp.pbrfnt;
+                        }
+                        if (xp != null) {
+                            xp.rfd = fblsf;
+                            if (xpp != null) {
+                                xpp.rfd = truf;
+                                root = rotbtfLfft(root, xpp);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        stbtid <K,V> TrffNodf<K,V> bblbndfDflftion(TrffNodf<K,V> root,
+                                                   TrffNodf<K,V> x) {
+            for (TrffNodf<K,V> xp, xpl, xpr;;)  {
+                if (x == null || x == root)
+                    rfturn root;
+                flsf if ((xp = x.pbrfnt) == null) {
+                    x.rfd = fblsf;
+                    rfturn x;
+                }
+                flsf if (x.rfd) {
+                    x.rfd = fblsf;
+                    rfturn root;
+                }
+                flsf if ((xpl = xp.lfft) == x) {
+                    if ((xpr = xp.right) != null && xpr.rfd) {
+                        xpr.rfd = fblsf;
+                        xp.rfd = truf;
+                        root = rotbtfLfft(root, xp);
+                        xpr = (xp = x.pbrfnt) == null ? null : xp.right;
+                    }
+                    if (xpr == null)
+                        x = xp;
+                    flsf {
+                        TrffNodf<K,V> sl = xpr.lfft, sr = xpr.right;
+                        if ((sr == null || !sr.rfd) &&
+                            (sl == null || !sl.rfd)) {
+                            xpr.rfd = truf;
+                            x = xp;
+                        }
+                        flsf {
+                            if (sr == null || !sr.rfd) {
+                                if (sl != null)
+                                    sl.rfd = fblsf;
+                                xpr.rfd = truf;
+                                root = rotbtfRight(root, xpr);
+                                xpr = (xp = x.pbrfnt) == null ?
+                                    null : xp.right;
+                            }
+                            if (xpr != null) {
+                                xpr.rfd = (xp == null) ? fblsf : xp.rfd;
+                                if ((sr = xpr.right) != null)
+                                    sr.rfd = fblsf;
+                            }
+                            if (xp != null) {
+                                xp.rfd = fblsf;
+                                root = rotbtfLfft(root, xp);
+                            }
+                            x = root;
+                        }
+                    }
+                }
+                flsf { // symmftrid
+                    if (xpl != null && xpl.rfd) {
+                        xpl.rfd = fblsf;
+                        xp.rfd = truf;
+                        root = rotbtfRight(root, xp);
+                        xpl = (xp = x.pbrfnt) == null ? null : xp.lfft;
+                    }
+                    if (xpl == null)
+                        x = xp;
+                    flsf {
+                        TrffNodf<K,V> sl = xpl.lfft, sr = xpl.right;
+                        if ((sl == null || !sl.rfd) &&
+                            (sr == null || !sr.rfd)) {
+                            xpl.rfd = truf;
+                            x = xp;
+                        }
+                        flsf {
+                            if (sl == null || !sl.rfd) {
+                                if (sr != null)
+                                    sr.rfd = fblsf;
+                                xpl.rfd = truf;
+                                root = rotbtfLfft(root, xpl);
+                                xpl = (xp = x.pbrfnt) == null ?
+                                    null : xp.lfft;
+                            }
+                            if (xpl != null) {
+                                xpl.rfd = (xp == null) ? fblsf : xp.rfd;
+                                if ((sl = xpl.lfft) != null)
+                                    sl.rfd = fblsf;
+                            }
+                            if (xp != null) {
+                                xp.rfd = fblsf;
+                                root = rotbtfRight(root, xp);
+                            }
+                            x = root;
+                        }
+                    }
+                }
+            }
+        }
+
+        /**
+         * Rfdursivf invbribnt dhfdk
+         */
+        stbtid <K,V> boolfbn dhfdkInvbribnts(TrffNodf<K,V> t) {
+            TrffNodf<K,V> tp = t.pbrfnt, tl = t.lfft, tr = t.right,
+                tb = t.prfv, tn = (TrffNodf<K,V>)t.nfxt;
+            if (tb != null && tb.nfxt != t)
+                rfturn fblsf;
+            if (tn != null && tn.prfv != t)
+                rfturn fblsf;
+            if (tp != null && t != tp.lfft && t != tp.right)
+                rfturn fblsf;
+            if (tl != null && (tl.pbrfnt != t || tl.hbsh > t.hbsh))
+                rfturn fblsf;
+            if (tr != null && (tr.pbrfnt != t || tr.hbsh < t.hbsh))
+                rfturn fblsf;
+            if (t.rfd && tl != null && tl.rfd && tr != null && tr.rfd)
+                rfturn fblsf;
+            if (tl != null && !dhfdkInvbribnts(tl))
+                rfturn fblsf;
+            if (tr != null && !dhfdkInvbribnts(tr))
+                rfturn fblsf;
+            rfturn truf;
+        }
+    }
+
+}

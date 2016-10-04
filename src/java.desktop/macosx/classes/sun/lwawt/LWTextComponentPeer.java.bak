@@ -1,237 +1,237 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.lwawt;
+pbdkbgf sun.lwbwt;
 
-import java.awt.Dimension;
-import java.awt.FontMetrics;
-import java.awt.Insets;
-import java.awt.SystemColor;
-import java.awt.TextComponent;
-import java.awt.event.TextEvent;
-import java.awt.event.InputMethodListener;
-import java.awt.event.InputMethodEvent;
-import java.awt.im.InputMethodRequests;
-import java.awt.peer.TextComponentPeer;
-import sun.awt.AWTAccessor;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.FontMftrids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.SystfmColor;
+import jbvb.bwt.TfxtComponfnt;
+import jbvb.bwt.fvfnt.TfxtEvfnt;
+import jbvb.bwt.fvfnt.InputMftiodListfnfr;
+import jbvb.bwt.fvfnt.InputMftiodEvfnt;
+import jbvb.bwt.im.InputMftiodRfqufsts;
+import jbvb.bwt.pffr.TfxtComponfntPffr;
+import sun.bwt.AWTAddfssor;
 
-import javax.swing.JComponent;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.Document;
-import javax.swing.text.JTextComponent;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.fvfnt.DodumfntEvfnt;
+import jbvbx.swing.fvfnt.DodumfntListfnfr;
+import jbvbx.swing.tfxt.Dodumfnt;
+import jbvbx.swing.tfxt.JTfxtComponfnt;
 
 /**
- * Lightweight implementation of {@link TextComponentPeer}. Provides useful
- * methods for {@link LWTextAreaPeer} and {@link LWTextFieldPeer}
+ * Ligitwfigit implfmfntbtion of {@link TfxtComponfntPffr}. Providfs usfful
+ * mftiods for {@link LWTfxtArfbPffr} bnd {@link LWTfxtFifldPffr}
  */
-abstract class LWTextComponentPeer<T extends TextComponent, D extends JComponent>
-        extends LWComponentPeer<T, D>
-        implements DocumentListener, TextComponentPeer, InputMethodListener {
+bbstrbdt dlbss LWTfxtComponfntPffr<T fxtfnds TfxtComponfnt, D fxtfnds JComponfnt>
+        fxtfnds LWComponfntPffr<T, D>
+        implfmfnts DodumfntListfnfr, TfxtComponfntPffr, InputMftiodListfnfr {
 
-    private volatile boolean firstChangeSkipped;
+    privbtf volbtilf boolfbn firstCibngfSkippfd;
 
-    LWTextComponentPeer(final T target,
-                        final PlatformComponent platformComponent) {
-        super(target, platformComponent);
-        if (!getTarget().isBackgroundSet()) {
-            getTarget().setBackground(SystemColor.text);
+    LWTfxtComponfntPffr(finbl T tbrgft,
+                        finbl PlbtformComponfnt plbtformComponfnt) {
+        supfr(tbrgft, plbtformComponfnt);
+        if (!gftTbrgft().isBbdkgroundSft()) {
+            gftTbrgft().sftBbdkground(SystfmColor.tfxt);
         }
     }
 
-    @Override
-    void initializeImpl() {
-        super.initializeImpl();
-        synchronized (getDelegateLock()) {
-            // This listener should be added before setText().
-            getTextComponent().getDocument().addDocumentListener(this);
+    @Ovfrridf
+    void initiblizfImpl() {
+        supfr.initiblizfImpl();
+        syndironizfd (gftDflfgbtfLodk()) {
+            // Tiis listfnfr siould bf bddfd bfforf sftTfxt().
+            gftTfxtComponfnt().gftDodumfnt().bddDodumfntListfnfr(tiis);
         }
-        setEditable(getTarget().isEditable());
-        setText(getTarget().getText());
-        setCaretPosition(getTarget().getCaretPosition());
-        getTarget().addInputMethodListener(this);
-        final int start = getTarget().getSelectionStart();
-        final int end = getTarget().getSelectionEnd();
-        if (end > start) {
-            // Should be called after setText() and setCaretPosition()
-            select(start, end);
+        sftEditbblf(gftTbrgft().isEditbblf());
+        sftTfxt(gftTbrgft().gftTfxt());
+        sftCbrftPosition(gftTbrgft().gftCbrftPosition());
+        gftTbrgft().bddInputMftiodListfnfr(tiis);
+        finbl int stbrt = gftTbrgft().gftSflfdtionStbrt();
+        finbl int fnd = gftTbrgft().gftSflfdtionEnd();
+        if (fnd > stbrt) {
+            // Siould bf dbllfd bftfr sftTfxt() bnd sftCbrftPosition()
+            sflfdt(stbrt, fnd);
         }
-        firstChangeSkipped = true;
+        firstCibngfSkippfd = truf;
     }
 
-    @Override
-    protected final void disposeImpl() {
-        synchronized (getDelegateLock()) {
-            // visible caret has a timer thread which must be stopped
-            getTextComponent().getCaret().setVisible(false);
+    @Ovfrridf
+    protfdtfd finbl void disposfImpl() {
+        syndironizfd (gftDflfgbtfLodk()) {
+            // visiblf dbrft ibs b timfr tirfbd wiidi must bf stoppfd
+            gftTfxtComponfnt().gftCbrft().sftVisiblf(fblsf);
         }
-        super.disposeImpl();
+        supfr.disposfImpl();
     }
 
     /**
-     * This method should be called under getDelegateLock().
+     * Tiis mftiod siould bf dbllfd undfr gftDflfgbtfLodk().
      */
-    abstract JTextComponent getTextComponent();
+    bbstrbdt JTfxtComponfnt gftTfxtComponfnt();
 
-    public Dimension getMinimumSize(final int rows, final int columns) {
-        final Insets insets;
-        synchronized (getDelegateLock()) {
-            insets = getTextComponent().getInsets();
+    publid Dimfnsion gftMinimumSizf(finbl int rows, finbl int dolumns) {
+        finbl Insfts insfts;
+        syndironizfd (gftDflfgbtfLodk()) {
+            insfts = gftTfxtComponfnt().gftInsfts();
         }
-        final int borderHeight = insets.top + insets.bottom;
-        final int borderWidth = insets.left + insets.right;
-        final FontMetrics fm = getFontMetrics(getFont());
-        return new Dimension(fm.charWidth(WIDE_CHAR) * columns + borderWidth,
-                             fm.getHeight() * rows + borderHeight);
+        finbl int bordfrHfigit = insfts.top + insfts.bottom;
+        finbl int bordfrWidti = insfts.lfft + insfts.rigit;
+        finbl FontMftrids fm = gftFontMftrids(gftFont());
+        rfturn nfw Dimfnsion(fm.dibrWidti(WIDE_CHAR) * dolumns + bordfrWidti,
+                             fm.gftHfigit() * rows + bordfrHfigit);
     }
 
-    @Override
-    public final void setEditable(final boolean editable) {
-        synchronized (getDelegateLock()) {
-            getTextComponent().setEditable(editable);
-        }
-    }
-
-    @Override
-    public final String getText() {
-        synchronized (getDelegateLock()) {
-            return getTextComponent().getText();
+    @Ovfrridf
+    publid finbl void sftEditbblf(finbl boolfbn fditbblf) {
+        syndironizfd (gftDflfgbtfLodk()) {
+            gftTfxtComponfnt().sftEditbblf(fditbblf);
         }
     }
 
-    @Override
-    public final void setText(final String text) {
-        synchronized (getDelegateLock()) {
-            // JTextArea.setText() posts two different events (remove & insert).
-            // Since we make no differences between text events,
-            // the document listener has to be disabled while
-            // JTextArea.setText() is called.
-            final Document document = getTextComponent().getDocument();
-            document.removeDocumentListener(this);
-            getTextComponent().setText(text);
-            revalidate();
-            if (firstChangeSkipped) {
-                postEvent(new TextEvent(getTarget(),
-                                        TextEvent.TEXT_VALUE_CHANGED));
+    @Ovfrridf
+    publid finbl String gftTfxt() {
+        syndironizfd (gftDflfgbtfLodk()) {
+            rfturn gftTfxtComponfnt().gftTfxt();
+        }
+    }
+
+    @Ovfrridf
+    publid finbl void sftTfxt(finbl String tfxt) {
+        syndironizfd (gftDflfgbtfLodk()) {
+            // JTfxtArfb.sftTfxt() posts two difffrfnt fvfnts (rfmovf & insfrt).
+            // Sindf wf mbkf no difffrfndfs bftwffn tfxt fvfnts,
+            // tif dodumfnt listfnfr ibs to bf disbblfd wiilf
+            // JTfxtArfb.sftTfxt() is dbllfd.
+            finbl Dodumfnt dodumfnt = gftTfxtComponfnt().gftDodumfnt();
+            dodumfnt.rfmovfDodumfntListfnfr(tiis);
+            gftTfxtComponfnt().sftTfxt(tfxt);
+            rfvblidbtf();
+            if (firstCibngfSkippfd) {
+                postEvfnt(nfw TfxtEvfnt(gftTbrgft(),
+                                        TfxtEvfnt.TEXT_VALUE_CHANGED));
             }
-            document.addDocumentListener(this);
+            dodumfnt.bddDodumfntListfnfr(tiis);
         }
-        repaintPeer();
+        rfpbintPffr();
     }
 
-    @Override
-    public final int getSelectionStart() {
-        synchronized (getDelegateLock()) {
-            return getTextComponent().getSelectionStart();
-        }
-    }
-
-    @Override
-    public final int getSelectionEnd() {
-        synchronized (getDelegateLock()) {
-            return getTextComponent().getSelectionEnd();
+    @Ovfrridf
+    publid finbl int gftSflfdtionStbrt() {
+        syndironizfd (gftDflfgbtfLodk()) {
+            rfturn gftTfxtComponfnt().gftSflfdtionStbrt();
         }
     }
 
-    @Override
-    public final void select(final int selStart, final int selEnd) {
-        synchronized (getDelegateLock()) {
-            getTextComponent().select(selStart, selEnd);
-        }
-        repaintPeer();
-    }
-
-    @Override
-    public final void setCaretPosition(final int pos) {
-        synchronized (getDelegateLock()) {
-            getTextComponent().setCaretPosition(pos);
-        }
-        repaintPeer();
-    }
-
-    @Override
-    public final int getCaretPosition() {
-        synchronized (getDelegateLock()) {
-            return getTextComponent().getCaretPosition();
+    @Ovfrridf
+    publid finbl int gftSflfdtionEnd() {
+        syndironizfd (gftDflfgbtfLodk()) {
+            rfturn gftTfxtComponfnt().gftSflfdtionEnd();
         }
     }
 
-    @Override
-    public final InputMethodRequests getInputMethodRequests() {
-        synchronized (getDelegateLock()) {
-            return getTextComponent().getInputMethodRequests();
+    @Ovfrridf
+    publid finbl void sflfdt(finbl int sflStbrt, finbl int sflEnd) {
+        syndironizfd (gftDflfgbtfLodk()) {
+            gftTfxtComponfnt().sflfdt(sflStbrt, sflEnd);
+        }
+        rfpbintPffr();
+    }
+
+    @Ovfrridf
+    publid finbl void sftCbrftPosition(finbl int pos) {
+        syndironizfd (gftDflfgbtfLodk()) {
+            gftTfxtComponfnt().sftCbrftPosition(pos);
+        }
+        rfpbintPffr();
+    }
+
+    @Ovfrridf
+    publid finbl int gftCbrftPosition() {
+        syndironizfd (gftDflfgbtfLodk()) {
+            rfturn gftTfxtComponfnt().gftCbrftPosition();
         }
     }
 
-    //TODO IN XAWT we just return true..
-    @Override
-    public final boolean isFocusable() {
-        return getTarget().isFocusable();
-    }
-
-    protected final void revalidate() {
-        synchronized (getDelegateLock()) {
-            getTextComponent().invalidate();
-            getDelegate().validate();
+    @Ovfrridf
+    publid finbl InputMftiodRfqufsts gftInputMftiodRfqufsts() {
+        syndironizfd (gftDflfgbtfLodk()) {
+            rfturn gftTfxtComponfnt().gftInputMftiodRfqufsts();
         }
     }
 
-    protected final void postTextEvent() {
-        postEvent(new TextEvent(getTarget(), TextEvent.TEXT_VALUE_CHANGED));
-        synchronized (getDelegateLock()) {
-            revalidate();
+    //TODO IN XAWT wf just rfturn truf..
+    @Ovfrridf
+    publid finbl boolfbn isFodusbblf() {
+        rfturn gftTbrgft().isFodusbblf();
+    }
+
+    protfdtfd finbl void rfvblidbtf() {
+        syndironizfd (gftDflfgbtfLodk()) {
+            gftTfxtComponfnt().invblidbtf();
+            gftDflfgbtf().vblidbtf();
         }
     }
 
-    @Override
-    public final void changedUpdate(final DocumentEvent e) {
-        postTextEvent();
-    }
-
-    @Override
-    public final void insertUpdate(final DocumentEvent e) {
-        postTextEvent();
-    }
-
-    @Override
-    public final void removeUpdate(final DocumentEvent e) {
-        postTextEvent();
-    }
-
-    @Override
-    public void inputMethodTextChanged(final InputMethodEvent event) {
-        synchronized (getDelegateLock()) {
-            AWTAccessor.getComponentAccessor().processEvent(getTextComponent(), event);
+    protfdtfd finbl void postTfxtEvfnt() {
+        postEvfnt(nfw TfxtEvfnt(gftTbrgft(), TfxtEvfnt.TEXT_VALUE_CHANGED));
+        syndironizfd (gftDflfgbtfLodk()) {
+            rfvblidbtf();
         }
     }
 
-    @Override
-    public void caretPositionChanged(final InputMethodEvent event) {
-        synchronized (getDelegateLock()) {
-            AWTAccessor.getComponentAccessor().processEvent(getTextComponent(), event);
+    @Ovfrridf
+    publid finbl void dibngfdUpdbtf(finbl DodumfntEvfnt f) {
+        postTfxtEvfnt();
+    }
+
+    @Ovfrridf
+    publid finbl void insfrtUpdbtf(finbl DodumfntEvfnt f) {
+        postTfxtEvfnt();
+    }
+
+    @Ovfrridf
+    publid finbl void rfmovfUpdbtf(finbl DodumfntEvfnt f) {
+        postTfxtEvfnt();
+    }
+
+    @Ovfrridf
+    publid void inputMftiodTfxtCibngfd(finbl InputMftiodEvfnt fvfnt) {
+        syndironizfd (gftDflfgbtfLodk()) {
+            AWTAddfssor.gftComponfntAddfssor().prodfssEvfnt(gftTfxtComponfnt(), fvfnt);
+        }
+    }
+
+    @Ovfrridf
+    publid void dbrftPositionCibngfd(finbl InputMftiodEvfnt fvfnt) {
+        syndironizfd (gftDflfgbtfLodk()) {
+            AWTAddfssor.gftComponfntAddfssor().prodfssEvfnt(gftTfxtComponfnt(), fvfnt);
         }
     }
 }

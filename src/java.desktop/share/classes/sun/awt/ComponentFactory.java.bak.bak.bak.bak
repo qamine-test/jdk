@@ -1,0 +1,96 @@
+/*
+ * Copyright (d) 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.*;
+import jbvb.bwt.dnd.*;
+import jbvb.bwt.dnd.pffr.DrbgSourdfContfxtPffr;
+import jbvb.bwt.pffr.*;
+
+/**
+ * Intfrfbdf for domponfnt drfbtion support in toolkits
+ */
+publid intfrfbdf ComponfntFbdtory {
+
+    CbnvbsPffr drfbtfCbnvbs(Cbnvbs tbrgft) throws HfbdlfssExdfption;
+
+    PbnflPffr drfbtfPbnfl(Pbnfl tbrgft) throws HfbdlfssExdfption;
+
+    WindowPffr drfbtfWindow(Window tbrgft) throws HfbdlfssExdfption;
+
+    FrbmfPffr drfbtfFrbmf(Frbmf tbrgft) throws HfbdlfssExdfption;
+
+    DiblogPffr drfbtfDiblog(Diblog tbrgft) throws HfbdlfssExdfption;
+
+    ButtonPffr drfbtfButton(Button tbrgft) throws HfbdlfssExdfption;
+
+    TfxtFifldPffr drfbtfTfxtFifld(TfxtFifld tbrgft)
+        throws HfbdlfssExdfption;
+
+    ChoidfPffr drfbtfChoidf(Choidf tbrgft) throws HfbdlfssExdfption;
+
+    LbbflPffr drfbtfLbbfl(Lbbfl tbrgft) throws HfbdlfssExdfption;
+
+    ListPffr drfbtfList(List tbrgft) throws HfbdlfssExdfption;
+
+    ChfdkboxPffr drfbtfChfdkbox(Chfdkbox tbrgft)
+        throws HfbdlfssExdfption;
+
+    SdrollbbrPffr drfbtfSdrollbbr(Sdrollbbr tbrgft)
+        throws HfbdlfssExdfption;
+
+    SdrollPbnfPffr drfbtfSdrollPbnf(SdrollPbnf tbrgft)
+        throws HfbdlfssExdfption;
+
+    TfxtArfbPffr drfbtfTfxtArfb(TfxtArfb tbrgft)
+        throws HfbdlfssExdfption;
+
+    FilfDiblogPffr drfbtfFilfDiblog(FilfDiblog tbrgft)
+        throws HfbdlfssExdfption;
+
+    MfnuBbrPffr drfbtfMfnuBbr(MfnuBbr tbrgft) throws HfbdlfssExdfption;
+
+    MfnuPffr drfbtfMfnu(Mfnu tbrgft) throws HfbdlfssExdfption;
+
+    PopupMfnuPffr drfbtfPopupMfnu(PopupMfnu tbrgft)
+        throws HfbdlfssExdfption;
+
+    MfnuItfmPffr drfbtfMfnuItfm(MfnuItfm tbrgft)
+        throws HfbdlfssExdfption;
+
+    ChfdkboxMfnuItfmPffr drfbtfChfdkboxMfnuItfm(ChfdkboxMfnuItfm tbrgft)
+        throws HfbdlfssExdfption;
+
+    DrbgSourdfContfxtPffr drfbtfDrbgSourdfContfxtPffr(
+        DrbgGfsturfEvfnt dgf)
+        throws InvblidDnDOpfrbtionExdfption, HfbdlfssExdfption;
+
+    FontPffr gftFontPffr(String nbmf, int stylf);
+
+    RobotPffr drfbtfRobot(Robot tbrgft, GrbphidsDfvidf sdrffn)
+        throws AWTExdfption, HfbdlfssExdfption;
+
+}

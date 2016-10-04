@@ -1,271 +1,271 @@
 '\" t
-.\"  Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 6 August 2013
-.\"     SectDesc: Security Tools
-.\"     Title: keytool.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 6 August 2013
+.\"     SfdtDfsd: Sfdurity Tools
+.\"     Titlf: kfytool.1
 .\"
 .if n .pl 99999
-.TH keytool 1 "6 August 2013" "JDK 8" "Security Tools"
+.TH kfytool 1 "6 August 2013" "JDK 8" "Sfdurity Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-keytool \- Manages a keystore (database) of cryptographic keys, X\&.509 certificate chains, and trusted certificates\&.
+kfytool \- Mbnbgfs b kfystorf (dbtbbbsf) of dryptogrbpiid kfys, X\&.509 dfrtifidbtf dibins, bnd trustfd dfrtifidbtfs\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBkeytool\fR [\fIcommands\fR]
+\fBkfytool\fR [\fIdommbnds\fR]
 .fi     
 .sp     
 .TP     
-\fIcommands\fR
-See Commands\&. These commands are categorized by task as follows:
+\fIdommbnds\fR
+Sff Commbnds\&. Tifsf dommbnds brf dbtfgorizfd by tbsk bs follows:
 .RS     
 .TP 0.2i    
 \(bu
-Create or Add Data to the Keystore
+Crfbtf or Add Dbtb to tif Kfystorf
 .RS     
 .TP 0.2i    
 \(bu
--gencert
+-gfndfrt
 .TP 0.2i    
 \(bu
--genkeypair
+-gfnkfypbir
 .TP 0.2i    
 \(bu
--genseckey
+-gfnsfdkfy
 .TP 0.2i    
 \(bu
--importcert
+-importdfrt
 .TP 0.2i    
 \(bu
--importpassword
+-importpbssword
 .RE     
 
 .TP 0.2i    
 \(bu
-Import Contents From Another Keystore
+Import Contfnts From Anotifr Kfystorf
 .RS     
 .TP 0.2i    
 \(bu
--importkeystore
+-importkfystorf
 .RE     
 
 .TP 0.2i    
 \(bu
-Generate Certificate Request
+Gfnfrbtf Cfrtifidbtf Rfqufst
 .RS     
 .TP 0.2i    
 \(bu
--certreq
+-dfrtrfq
 .RE     
 
 .TP 0.2i    
 \(bu
-Export Data
+Export Dbtb
 .RS     
 .TP 0.2i    
 \(bu
--exportcert
+-fxportdfrt
 .RE     
 
 .TP 0.2i    
 \(bu
-Display Data
+Displby Dbtb
 .RS     
 .TP 0.2i    
 \(bu
 -list
 .TP 0.2i    
 \(bu
--printcert
+-printdfrt
 .TP 0.2i    
 \(bu
--printcertreq
+-printdfrtrfq
 .TP 0.2i    
 \(bu
--printcrl
+-printdrl
 .RE     
 
 .TP 0.2i    
 \(bu
-Manage the Keystore
+Mbnbgf tif Kfystorf
 .RS     
 .TP 0.2i    
 \(bu
--storepasswd
+-storfpbsswd
 .TP 0.2i    
 \(bu
--keypasswd
+-kfypbsswd
 .TP 0.2i    
 \(bu
--delete
+-dflftf
 .TP 0.2i    
 \(bu
--changealias
+-dibngfblibs
 .RE     
 
 .TP 0.2i    
 \(bu
-Get Help
+Gft Hflp
 .RS     
 .TP 0.2i    
 \(bu
--help
+-iflp
 .RE     
 
 .RE     
 
 .SH DESCRIPTION    
-The \f3keytool\fR command is a key and certificate management utility\&. It enables users to administer their own public/private key pairs and associated certificates for use in self-authentication (where the user authenticates himself or herself to other users and services) or data integrity and authentication services, using digital signatures\&. The \f3keytool\fR command also enables users to cache the public keys (in the form of certificates) of their communicating peers\&.
+Tif \f3kfytool\fR dommbnd is b kfy bnd dfrtifidbtf mbnbgfmfnt utility\&. It fnbblfs usfrs to bdministfr tifir own publid/privbtf kfy pbirs bnd bssodibtfd dfrtifidbtfs for usf in sflf-butifntidbtion (wifrf tif usfr butifntidbtfs iimsflf or ifrsflf to otifr usfrs bnd sfrvidfs) or dbtb intfgrity bnd butifntidbtion sfrvidfs, using digitbl signbturfs\&. Tif \f3kfytool\fR dommbnd blso fnbblfs usfrs to dbdif tif publid kfys (in tif form of dfrtifidbtfs) of tifir dommunidbting pffrs\&.
 .PP
-A certificate is a digitally signed statement from one entity (person, company, and so on\&.), that says that the public key (and some other information) of some other entity has a particular value\&. (See Certificate\&.) When data is digitally signed, the signature can be verified to check the data integrity and authenticity\&. Integrity means that the data has not been modified or tampered with, and authenticity means the data comes from whoever claims to have created and signed it\&.
+A dfrtifidbtf is b digitblly signfd stbtfmfnt from onf fntity (pfrson, dompbny, bnd so on\&.), tibt sbys tibt tif publid kfy (bnd somf otifr informbtion) of somf otifr fntity ibs b pbrtidulbr vbluf\&. (Sff Cfrtifidbtf\&.) Wifn dbtb is digitblly signfd, tif signbturf dbn bf vfrififd to difdk tif dbtb intfgrity bnd butifntidity\&. Intfgrity mfbns tibt tif dbtb ibs not bffn modififd or tbmpfrfd witi, bnd butifntidity mfbns tif dbtb domfs from wiofvfr dlbims to ibvf drfbtfd bnd signfd it\&.
 .PP
-The \f3keytool\fR command also enables users to administer secret keys and passphrases used in symmetric encryption and decryption (DES)\&.
+Tif \f3kfytool\fR dommbnd blso fnbblfs usfrs to bdministfr sfdrft kfys bnd pbsspirbsfs usfd in symmftrid fndryption bnd dfdryption (DES)\&.
 .PP
-The \f3keytool\fR command stores the keys and certificates in a keystore\&. See KeyStore aliases\&.
+Tif \f3kfytool\fR dommbnd storfs tif kfys bnd dfrtifidbtfs in b kfystorf\&. Sff KfyStorf blibsfs\&.
 .SH COMMAND\ AND\ OPTION\ NOTES    
-See Commands for a listing and description of the various commands\&.
+Sff Commbnds for b listing bnd dfsdription of tif vbrious dommbnds\&.
 .TP 0.2i    
 \(bu
-All command and option names are preceded by a minus sign (-)\&.
+All dommbnd bnd option nbmfs brf prfdfdfd by b minus sign (-)\&.
 .TP 0.2i    
 \(bu
-The options for each command can be provided in any order\&.
+Tif options for fbdi dommbnd dbn bf providfd in bny ordfr\&.
 .TP 0.2i    
 \(bu
-All items not italicized or in braces or brackets are required to appear as is\&.
+All itfms not itblidizfd or in brbdfs or brbdkfts brf rfquirfd to bppfbr bs is\&.
 .TP 0.2i    
 \(bu
-Braces surrounding an option signify that a default value will be used when the option is not specified on the command line\&. See Option Defaults\&. Braces are also used around the \f3-v\fR, \f3-rfc\fR, and \f3-J\fR options, which only have meaning when they appear on the command line\&. They do not have any default values other than not existing\&.
+Brbdfs surrounding bn option signify tibt b dffbult vbluf will bf usfd wifn tif option is not spfdififd on tif dommbnd linf\&. Sff Option Dffbults\&. Brbdfs brf blso usfd bround tif \f3-v\fR, \f3-rfd\fR, bnd \f3-J\fR options, wiidi only ibvf mfbning wifn tify bppfbr on tif dommbnd linf\&. Tify do not ibvf bny dffbult vblufs otifr tibn not fxisting\&.
 .TP 0.2i    
 \(bu
-Brackets surrounding an option signify that the user is prompted for the values when the option is not specified on the command line\&. For the \f3-keypass\fR option, if you do not specify the option on the command line, then the \f3keytool\fR command first attempts to use the keystore password to recover the private/secret key\&. If this attempt fails, then the \f3keytool\fR command prompts you for the private/secret key password\&.
+Brbdkfts surrounding bn option signify tibt tif usfr is promptfd for tif vblufs wifn tif option is not spfdififd on tif dommbnd linf\&. For tif \f3-kfypbss\fR option, if you do not spfdify tif option on tif dommbnd linf, tifn tif \f3kfytool\fR dommbnd first bttfmpts to usf tif kfystorf pbssword to rfdovfr tif privbtf/sfdrft kfy\&. If tiis bttfmpt fbils, tifn tif \f3kfytool\fR dommbnd prompts you for tif privbtf/sfdrft kfy pbssword\&.
 .TP 0.2i    
 \(bu
-Items in italics (option values) represent the actual values that must be supplied\&. For example, here is the format of the \f3-printcert\fR command:
+Itfms in itblids (option vblufs) rfprfsfnt tif bdtubl vblufs tibt must bf supplifd\&. For fxbmplf, ifrf is tif formbt of tif \f3-printdfrt\fR dommbnd:
 
-\f3keytool -printcert {-file cert_file} {-v}\fR
+\f3kfytool -printdfrt {-filf dfrt_filf} {-v}\fR
 
-When you specify a \f3-printcert\fR command, replace \f3cert_file\fR with the actual file name, as follows: \f3keytool -printcert -file VScert\&.cer\fR
+Wifn you spfdify b \f3-printdfrt\fR dommbnd, rfplbdf \f3dfrt_filf\fR witi tif bdtubl filf nbmf, bs follows: \f3kfytool -printdfrt -filf VSdfrt\&.dfr\fR
 .TP 0.2i    
 \(bu
-Option values must be put in quotation marks when they contain a blank (space)\&.
+Option vblufs must bf put in quotbtion mbrks wifn tify dontbin b blbnk (spbdf)\&.
 .TP 0.2i    
 \(bu
-The \f3-help\fR option is the default\&. The \f3keytool\fR command is the same as \f3keytool -help\fR\&.
+Tif \f3-iflp\fR option is tif dffbult\&. Tif \f3kfytool\fR dommbnd is tif sbmf bs \f3kfytool -iflp\fR\&.
 .SH OPTION\ DEFAULTS    
-The following examples show the defaults for various option values\&.
+Tif following fxbmplfs siow tif dffbults for vbrious option vblufs\&.
 .sp     
 .nf     
-\f3\-alias "mykey"\fP
+\f3\-blibs "mykfy"\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3\-keyalg\fP
+\f3\-kfyblg\fP
 .fi     
 .nf     
-\f3    "DSA" (when using \-genkeypair)\fP
+\f3    "DSA" (wifn using \-gfnkfypbir)\fP
 .fi     
 .nf     
-\f3    "DES" (when using \-genseckey)\fP
-.fi     
-.nf     
-\f3\fP
-.fi     
-.nf     
-\f3\-keysize\fP
-.fi     
-.nf     
-\f3    2048 (when using \-genkeypair and \-keyalg is "RSA")\fP
-.fi     
-.nf     
-\f3    1024 (when using \-genkeypair and \-keyalg is "DSA")\fP
-.fi     
-.nf     
-\f3    256 (when using \-genkeypair and \-keyalg is "EC")\fP
-.fi     
-.nf     
-\f3    56 (when using \-genseckey and \-keyalg is "DES")\fP
-.fi     
-.nf     
-\f3    168 (when using \-genseckey and \-keyalg is "DESede")\fP
+\f3    "DES" (wifn using \-gfnsfdkfy)\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3\-validity 90\fP
+\f3\-kfysizf\fP
+.fi     
+.nf     
+\f3    2048 (wifn using \-gfnkfypbir bnd \-kfyblg is "RSA")\fP
+.fi     
+.nf     
+\f3    1024 (wifn using \-gfnkfypbir bnd \-kfyblg is "DSA")\fP
+.fi     
+.nf     
+\f3    256 (wifn using \-gfnkfypbir bnd \-kfyblg is "EC")\fP
+.fi     
+.nf     
+\f3    56 (wifn using \-gfnsfdkfy bnd \-kfyblg is "DES")\fP
+.fi     
+.nf     
+\f3    168 (wifn using \-gfnsfdkfy bnd \-kfyblg is "DESfdf")\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3\-keystore <the file named \&.keystore in the user\&'s home directory>\fP
+\f3\-vblidity 90\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3\-storetype <the value of the "keystore\&.type" property in the\fP
-.fi     
-.nf     
-\f3    security properties file, which is returned by the static\fP
-.fi     
-.nf     
-\f3    getDefaultType method in java\&.security\&.KeyStore>\fP
+\f3\-kfystorf <tif filf nbmfd \&.kfystorf in tif usfr\&'s iomf dirfdtory>\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3\-file\fP
+\f3\-storftypf <tif vbluf of tif "kfystorf\&.typf" propfrty in tif\fP
 .fi     
 .nf     
-\f3    stdin (if reading)\fP
+\f3    sfdurity propfrtifs filf, wiidi is rfturnfd by tif stbtid\fP
+.fi     
+.nf     
+\f3    gftDffbultTypf mftiod in jbvb\&.sfdurity\&.KfyStorf>\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.nf     
+\f3\-filf\fP
+.fi     
+.nf     
+\f3    stdin (if rfbding)\fP
 .fi     
 .nf     
 \f3    stdout (if writing)\fP
@@ -274,145 +274,145 @@ The following examples show the defaults for various option values\&.
 \f3\fP
 .fi     
 .nf     
-\f3\-protected false\fP
+\f3\-protfdtfd fblsf\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-In generating a public/private key pair, the signature algorithm (\f3-sigalg\fR option) is derived from the algorithm of the underlying private key:
+In gfnfrbting b publid/privbtf kfy pbir, tif signbturf blgoritim (\f3-sigblg\fR option) is dfrivfd from tif blgoritim of tif undfrlying privbtf kfy:
 .TP 0.2i    
 \(bu
-If the underlying private key is of type DSA, then the \f3-sigalg\fR option defaults to SHA1withDSA\&.
+If tif undfrlying privbtf kfy is of typf DSA, tifn tif \f3-sigblg\fR option dffbults to SHA1witiDSA\&.
 .TP 0.2i    
 \(bu
-If the underlying private key is of type RSA, then the \f3-sigalg\fR option defaults to SHA256withRSA\&.
+If tif undfrlying privbtf kfy is of typf RSA, tifn tif \f3-sigblg\fR option dffbults to SHA256witiRSA\&.
 .TP 0.2i    
 \(bu
-If the underlying private key is of type EC, then the \f3-sigalg\fR option defaults to SHA256withECDSA\&.
+If tif undfrlying privbtf kfy is of typf EC, tifn tif \f3-sigblg\fR option dffbults to SHA256witiECDSA\&.
 .PP
-For a full list of \f3-keyalg\fR and \f3-sigalg\fR arguments, see Java Cryptography Architecture (JCA) Reference Guide at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec\&.html#AppA
+For b full list of \f3-kfyblg\fR bnd \f3-sigblg\fR brgumfnts, sff Jbvb Cryptogrbpiy Ardiitfdturf (JCA) Rfffrfndf Guidf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd\&.itml#AppA
 .SH COMMON\ OPTIONS    
-The \f3-v\fR option can appear for all commands except \f3-help\fR\&. When the \f3-v\fR option appears, it signifies verbose mode, which means that more information is provided in the output\&.
+Tif \f3-v\fR option dbn bppfbr for bll dommbnds fxdfpt \f3-iflp\fR\&. Wifn tif \f3-v\fR option bppfbrs, it signififs vfrbosf modf, wiidi mfbns tibt morf informbtion is providfd in tif output\&.
 .PP
-There is also a \f3-Jjavaoption\fR argument that can appear for any command\&. When the \f3-Jjavaoption\fR appears, the specified \f3javaoption\fR string is passed directly to the Java interpreter\&. This option does not contain any spaces\&. It is useful for adjusting the execution environment or memory usage\&. For a list of possible interpreter options, type \f3java -h\fR or \f3java -X\fR at the command line\&.
+Tifrf is blso b \f3-Jjbvboption\fR brgumfnt tibt dbn bppfbr for bny dommbnd\&. Wifn tif \f3-Jjbvboption\fR bppfbrs, tif spfdififd \f3jbvboption\fR string is pbssfd dirfdtly to tif Jbvb intfrprftfr\&. Tiis option dofs not dontbin bny spbdfs\&. It is usfful for bdjusting tif fxfdution fnvironmfnt or mfmory usbgf\&. For b list of possiblf intfrprftfr options, typf \f3jbvb -i\fR or \f3jbvb -X\fR bt tif dommbnd linf\&.
 .PP
-These options can appear for all commands operating on a keystore:
+Tifsf options dbn bppfbr for bll dommbnds opfrbting on b kfystorf:
 .TP
--storetype \fIstoretype\fR
+-storftypf \fIstorftypf\fR
 .br
-This qualifier specifies the type of keystore to be instantiated\&.
+Tiis qublififr spfdififs tif typf of kfystorf to bf instbntibtfd\&.
 .TP
--keystore \fIkeystore\fR
+-kfystorf \fIkfystorf\fR
 .br
-The keystore location\&.
+Tif kfystorf lodbtion\&.
 
-If the JKS \f3storetype\fR is used and a keystore file does not yet exist, then certain \f3keytool\fR commands can result in a new keystore file being created\&. For example, if \f3keytool -genkeypair\fR is called and the \f3-keystore\fR option is not specified, the default keystore file named \f3\&.keystore\fR in the user\&'s home directory is created when it does not already exist\&. Similarly, if the \f3-keystore ks_file\fR option is specified but ks_file does not exist, then it is created\&. For more information on the JKS \f3storetype\fR, see the \fIKeyStore Implementation\fR section in KeyStore aliases\&.
+If tif JKS \f3storftypf\fR is usfd bnd b kfystorf filf dofs not yft fxist, tifn dfrtbin \f3kfytool\fR dommbnds dbn rfsult in b nfw kfystorf filf bfing drfbtfd\&. For fxbmplf, if \f3kfytool -gfnkfypbir\fR is dbllfd bnd tif \f3-kfystorf\fR option is not spfdififd, tif dffbult kfystorf filf nbmfd \f3\&.kfystorf\fR in tif usfr\&'s iomf dirfdtory is drfbtfd wifn it dofs not blrfbdy fxist\&. Similbrly, if tif \f3-kfystorf ks_filf\fR option is spfdififd but ks_filf dofs not fxist, tifn it is drfbtfd\&. For morf informbtion on tif JKS \f3storftypf\fR, sff tif \fIKfyStorf Implfmfntbtion\fR sfdtion in KfyStorf blibsfs\&.
 
-Note that the input stream from the \f3-keystore\fR option is passed to the \f3KeyStore\&.load\fR method\&. If \f3NONE\fR is specified as the URL, then a null stream is passed to the \f3KeyStore\&.load\fR method\&. \f3NONE\fR should be specified if the keystore is not file-based\&. For example, when it resides on a hardware token device\&.
+Notf tibt tif input strfbm from tif \f3-kfystorf\fR option is pbssfd to tif \f3KfyStorf\&.lobd\fR mftiod\&. If \f3NONE\fR is spfdififd bs tif URL, tifn b null strfbm is pbssfd to tif \f3KfyStorf\&.lobd\fR mftiod\&. \f3NONE\fR siould bf spfdififd if tif kfystorf is not filf-bbsfd\&. For fxbmplf, wifn it rfsidfs on b ibrdwbrf tokfn dfvidf\&.
 .TP
--storepass[:\fIenv\fR| :\fIfile\fR] argument
+-storfpbss[:\fIfnv\fR| :\fIfilf\fR] brgumfnt
 .br
-The password that is used to protect the integrity of the keystore\&.
+Tif pbssword tibt is usfd to protfdt tif intfgrity of tif kfystorf\&.
 
-If the modifier \f3env\fR or \f3file\fR is not specified, then the password has the \f3value\fR argument, which must be at least 6 characters long\&. Otherwise, the password is retrieved as follows:
+If tif modififr \f3fnv\fR or \f3filf\fR is not spfdififd, tifn tif pbssword ibs tif \f3vbluf\fR brgumfnt, wiidi must bf bt lfbst 6 dibrbdtfrs long\&. Otifrwisf, tif pbssword is rftrifvfd bs follows:
 .RS     
 .TP 0.2i    
 \(bu
-\f3env\fR: Retrieve the password from the environment variable named \f3argument\fR\&.
+\f3fnv\fR: Rftrifvf tif pbssword from tif fnvironmfnt vbribblf nbmfd \f3brgumfnt\fR\&.
 .TP 0.2i    
 \(bu
-\f3file\fR: Retrieve the password from the file named argument\&.
+\f3filf\fR: Rftrifvf tif pbssword from tif filf nbmfd brgumfnt\&.
 .RE     
 
 
-\fINote:\fR All other options that require passwords, such as \f3-keypass\fR, \f3-srckeypass\fR, -\f3destkeypass\fR, \f3-srcstorepass\fR, and \f3-deststorepass\fR, accept the \fIenv\fR and \fIfile\fR modifiers\&. Remember to separate the password option and the modifier with a colon (:)\&.
+\fINotf:\fR All otifr options tibt rfquirf pbsswords, sudi bs \f3-kfypbss\fR, \f3-srdkfypbss\fR, -\f3dfstkfypbss\fR, \f3-srdstorfpbss\fR, bnd \f3-dfststorfpbss\fR, bddfpt tif \fIfnv\fR bnd \fIfilf\fR modififrs\&. Rfmfmbfr to sfpbrbtf tif pbssword option bnd tif modififr witi b dolon (:)\&.
 
-The password must be provided to all commands that access the keystore contents\&. For such commands, when the \f3-storepass\fR option is not provided at the command line, the user is prompted for it\&.
+Tif pbssword must bf providfd to bll dommbnds tibt bddfss tif kfystorf dontfnts\&. For sudi dommbnds, wifn tif \f3-storfpbss\fR option is not providfd bt tif dommbnd linf, tif usfr is promptfd for it\&.
 
-When retrieving information from the keystore, the password is optional\&. If no password is specified, then the integrity of the retrieved information cannot be verified and a warning is displayed\&.
+Wifn rftrifving informbtion from tif kfystorf, tif pbssword is optionbl\&. If no pbssword is spfdififd, tifn tif intfgrity of tif rftrifvfd informbtion dbnnot bf vfrififd bnd b wbrning is displbyfd\&.
 .TP
--providerName \fIprovider_name\fR
+-providfrNbmf \fIprovidfr_nbmf\fR
 .br
-Used to identify a cryptographic service provider\&'s name when listed in the security properties file\&.
+Usfd to idfntify b dryptogrbpiid sfrvidf providfr\&'s nbmf wifn listfd in tif sfdurity propfrtifs filf\&.
 .TP
--providerClass \fIprovider_class_name\fR
+-providfrClbss \fIprovidfr_dlbss_nbmf\fR
 .br
-Used to specify the name of a cryptographic service provider\&'s master class file when the service provider is not listed in the security properties file\&.
+Usfd to spfdify tif nbmf of b dryptogrbpiid sfrvidf providfr\&'s mbstfr dlbss filf wifn tif sfrvidf providfr is not listfd in tif sfdurity propfrtifs filf\&.
 .TP
--providerArg \fIprovider_arg\fR
+-providfrArg \fIprovidfr_brg\fR
 .br
-Used with the \f3-providerClass\fR option to represent an optional string input argument for the constructor of \f3provider_class_name\fR\&.
+Usfd witi tif \f3-providfrClbss\fR option to rfprfsfnt bn optionbl string input brgumfnt for tif donstrudtor of \f3providfr_dlbss_nbmf\fR\&.
 .TP
--protected
+-protfdtfd
 .br
-Either \f3true\fR or \f3false\fR\&. This value should be specified as \f3true\fR when a password must be specified by way of a protected authentication path such as a dedicated PIN reader\&.Because there are two keystores involved in the \f3-importkeystore\fR command, the following two options \f3-srcprotected\fR and -\f3destprotected\fR are provided for the source keystore and the destination keystore respectively\&.
+Eitifr \f3truf\fR or \f3fblsf\fR\&. Tiis vbluf siould bf spfdififd bs \f3truf\fR wifn b pbssword must bf spfdififd by wby of b protfdtfd butifntidbtion pbti sudi bs b dfdidbtfd PIN rfbdfr\&.Bfdbusf tifrf brf two kfystorfs involvfd in tif \f3-importkfystorf\fR dommbnd, tif following two options \f3-srdprotfdtfd\fR bnd -\f3dfstprotfdtfd\fR brf providfd for tif sourdf kfystorf bnd tif dfstinbtion kfystorf rfspfdtivfly\&.
 .TP
--ext \fI{name{:critical} {=value}}\fR
+-fxt \fI{nbmf{:dritidbl} {=vbluf}}\fR
 .br
-Denotes an X\&.509 certificate extension\&. The option can be used in \f3-genkeypair\fR and \f3-gencert\fR to embed extensions into the certificate generated, or in \f3-certreq\fR to show what extensions are requested in the certificate request\&. The option can appear multiple times\&. The \f3name\fR argument can be a supported extension name (see Named Extensions) or an arbitrary OID number\&. The \f3value\fR argument, when provided, denotes the argument for the extension\&. When \fIvalue\fR is omitted, that means that the default value of the extension or the extension requires no argument\&. The \f3:critical\fR modifier, when provided, means the extension\&'s \f3isCritical\fR attribute is \f3true\fR; otherwise, it is \f3false\fR\&. You can use \f3:c\fR in place of \f3:critical\fR\&.
+Dfnotfs bn X\&.509 dfrtifidbtf fxtfnsion\&. Tif option dbn bf usfd in \f3-gfnkfypbir\fR bnd \f3-gfndfrt\fR to fmbfd fxtfnsions into tif dfrtifidbtf gfnfrbtfd, or in \f3-dfrtrfq\fR to siow wibt fxtfnsions brf rfqufstfd in tif dfrtifidbtf rfqufst\&. Tif option dbn bppfbr multiplf timfs\&. Tif \f3nbmf\fR brgumfnt dbn bf b supportfd fxtfnsion nbmf (sff Nbmfd Extfnsions) or bn brbitrbry OID numbfr\&. Tif \f3vbluf\fR brgumfnt, wifn providfd, dfnotfs tif brgumfnt for tif fxtfnsion\&. Wifn \fIvbluf\fR is omittfd, tibt mfbns tibt tif dffbult vbluf of tif fxtfnsion or tif fxtfnsion rfquirfs no brgumfnt\&. Tif \f3:dritidbl\fR modififr, wifn providfd, mfbns tif fxtfnsion\&'s \f3isCritidbl\fR bttributf is \f3truf\fR; otifrwisf, it is \f3fblsf\fR\&. You dbn usf \f3:d\fR in plbdf of \f3:dritidbl\fR\&.
 .SH NAMED\ EXTENSIONS    
-The \f3keytool\fR command supports these named extensions\&. The names are not case-sensitive)\&.
+Tif \f3kfytool\fR dommbnd supports tifsf nbmfd fxtfnsions\&. Tif nbmfs brf not dbsf-sfnsitivf)\&.
 .TP     
-BC or BasicContraints
-\fIValues\fR: The full form is: \f3ca:{true|false}[,pathlen:<len>]\fR or \f3<len>\fR, which is short for \f3ca:true,pathlen:<len>\fR\&. When <\f3len\fR> is omitted, you have \f3ca:true\fR\&.
+BC or BbsidContrbints
+\fIVblufs\fR: Tif full form is: \f3db:{truf|fblsf}[,pbtilfn:<lfn>]\fR or \f3<lfn>\fR, wiidi is siort for \f3db:truf,pbtilfn:<lfn>\fR\&. Wifn <\f3lfn\fR> is omittfd, you ibvf \f3db:truf\fR\&.
 .TP     
-KU or KeyUsage
-\fIValues\fR: \f3usage\fR(,\f3usage\fR)*, where \fIusage\fR can be one of \f3digitalSignature\fR, \f3nonRepudiation\fR (contentCommitment), \f3keyEncipherment\fR, \f3dataEncipherment\fR, \f3keyAgreement\fR, \f3keyCertSign\fR, \f3cRLSign\fR, \f3encipherOnly\fR, \f3decipherOnly\fR\&. The \fIusage\fR argument can be abbreviated with the first few letters (\f3dig\fR for \f3digitalSignature\fR) or in camel-case style (\f3dS\fR for \f3digitalSignature\fR or \f3cRLS\fR for \f3cRLSign\fR), as long as no ambiguity is found\&. The \f3usage\fR values are case-sensitive\&.
+KU or KfyUsbgf
+\fIVblufs\fR: \f3usbgf\fR(,\f3usbgf\fR)*, wifrf \fIusbgf\fR dbn bf onf of \f3digitblSignbturf\fR, \f3nonRfpudibtion\fR (dontfntCommitmfnt), \f3kfyEndipifrmfnt\fR, \f3dbtbEndipifrmfnt\fR, \f3kfyAgrffmfnt\fR, \f3kfyCfrtSign\fR, \f3dRLSign\fR, \f3fndipifrOnly\fR, \f3dfdipifrOnly\fR\&. Tif \fIusbgf\fR brgumfnt dbn bf bbbrfvibtfd witi tif first ffw lfttfrs (\f3dig\fR for \f3digitblSignbturf\fR) or in dbmfl-dbsf stylf (\f3dS\fR for \f3digitblSignbturf\fR or \f3dRLS\fR for \f3dRLSign\fR), bs long bs no bmbiguity is found\&. Tif \f3usbgf\fR vblufs brf dbsf-sfnsitivf\&.
 .TP     
-EKU or ExtendedKeyUsage
-\fIValues\fR: \f3usage\fR(,\f3usage\fR)*, where \fIusage\fR can be one of \f3anyExtendedKeyUsage\fR, \f3serverAuth\fR, \f3clientAuth\fR, \f3codeSigning\fR, \f3emailProtection\fR, \f3timeStamping\fR, \f3OCSPSigning\fR, or any \fIOID string\fR\&. The \fIusage\fR argument can be abbreviated with the first few letters or in camel-case style, as long as no ambiguity is found\&. The \f3usage\fR values are case-sensitive\&.
+EKU or ExtfndfdKfyUsbgf
+\fIVblufs\fR: \f3usbgf\fR(,\f3usbgf\fR)*, wifrf \fIusbgf\fR dbn bf onf of \f3bnyExtfndfdKfyUsbgf\fR, \f3sfrvfrAuti\fR, \f3dlifntAuti\fR, \f3dodfSigning\fR, \f3fmbilProtfdtion\fR, \f3timfStbmping\fR, \f3OCSPSigning\fR, or bny \fIOID string\fR\&. Tif \fIusbgf\fR brgumfnt dbn bf bbbrfvibtfd witi tif first ffw lfttfrs or in dbmfl-dbsf stylf, bs long bs no bmbiguity is found\&. Tif \f3usbgf\fR vblufs brf dbsf-sfnsitivf\&.
 .TP     
-SAN or SubjectAlternativeName
-\fIValues\fR: \f3type\fR:\f3value\fR(,t\f3ype:value\fR)*, where \f3type\fR can be \f3EMAIL\fR, \f3URI\fR, \f3DNS\fR, \f3IP\fR, or \f3OID\fR\&. The \f3value\fR argument is the string format value for the \f3type\fR\&.
+SAN or SubjfdtAltfrnbtivfNbmf
+\fIVblufs\fR: \f3typf\fR:\f3vbluf\fR(,t\f3ypf:vbluf\fR)*, wifrf \f3typf\fR dbn bf \f3EMAIL\fR, \f3URI\fR, \f3DNS\fR, \f3IP\fR, or \f3OID\fR\&. Tif \f3vbluf\fR brgumfnt is tif string formbt vbluf for tif \f3typf\fR\&.
 .TP     
-IAN or IssuerAlternativeName
-\fIValues\fR: Same as \f3SubjectAlternativeName\fR\&.
+IAN or IssufrAltfrnbtivfNbmf
+\fIVblufs\fR: Sbmf bs \f3SubjfdtAltfrnbtivfNbmf\fR\&.
 .TP     
-SIA or SubjectInfoAccess
-\fIValues\fR: \f3method\fR:\f3location-type\fR:\f3location-value\fR (,\f3method:location-type\fR:\f3location-value\fR)*, where \f3method\fR can be \f3timeStamping\fR, \f3caRepository\fR or any OID\&. The \f3location-type\fR and \f3location-value\fR arguments can be any \f3type\fR:\f3value\fR supported by the \f3SubjectAlternativeName\fR extension\&.
+SIA or SubjfdtInfoAddfss
+\fIVblufs\fR: \f3mftiod\fR:\f3lodbtion-typf\fR:\f3lodbtion-vbluf\fR (,\f3mftiod:lodbtion-typf\fR:\f3lodbtion-vbluf\fR)*, wifrf \f3mftiod\fR dbn bf \f3timfStbmping\fR, \f3dbRfpository\fR or bny OID\&. Tif \f3lodbtion-typf\fR bnd \f3lodbtion-vbluf\fR brgumfnts dbn bf bny \f3typf\fR:\f3vbluf\fR supportfd by tif \f3SubjfdtAltfrnbtivfNbmf\fR fxtfnsion\&.
 .TP     
-AIA or AuthorityInfoAccess
-\fIValues\fR: Same as \f3SubjectInfoAccess\fR\&. The \f3method\fR argument can be \f3ocsp\fR,\f3caIssuers\fR, or any OID\&.
+AIA or AutiorityInfoAddfss
+\fIVblufs\fR: Sbmf bs \f3SubjfdtInfoAddfss\fR\&. Tif \f3mftiod\fR brgumfnt dbn bf \f3odsp\fR,\f3dbIssufrs\fR, or bny OID\&.
 .PP
-When \f3name\fR is OID, the value is the hexadecimal dumped DER encoding of the \f3extnValue\fR for the extension excluding the OCTET STRING type and length bytes\&. Any extra character other than standard hexadecimal numbers (0-9, a-f, A-F) are ignored in the HEX string\&. Therefore, both 01:02:03:04 and 01020304 are accepted as identical values\&. When there is no value, the extension has an empty value field\&.
+Wifn \f3nbmf\fR is OID, tif vbluf is tif ifxbdfdimbl dumpfd DER fndoding of tif \f3fxtnVbluf\fR for tif fxtfnsion fxdluding tif OCTET STRING typf bnd lfngti bytfs\&. Any fxtrb dibrbdtfr otifr tibn stbndbrd ifxbdfdimbl numbfrs (0-9, b-f, A-F) brf ignorfd in tif HEX string\&. Tifrfforf, boti 01:02:03:04 bnd 01020304 brf bddfptfd bs idfntidbl vblufs\&. Wifn tifrf is no vbluf, tif fxtfnsion ibs bn fmpty vbluf fifld\&.
 .PP
-A special name \f3honored\fR, used in \f3-gencert\fR only, denotes how the extensions included in the certificate request should be honored\&. The value for this name is a comma separated list of \f3all\fR (all requested extensions are honored), \f3name{:[critical|non-critical]}\fR (the named extension is honored, but using a different \f3isCritical\fR attribute) and \f3-name\fR (used with \f3all\fR, denotes an exception)\&. Requested extensions are not honored by default\&.
+A spfdibl nbmf \f3ionorfd\fR, usfd in \f3-gfndfrt\fR only, dfnotfs iow tif fxtfnsions indludfd in tif dfrtifidbtf rfqufst siould bf ionorfd\&. Tif vbluf for tiis nbmf is b dommb sfpbrbtfd list of \f3bll\fR (bll rfqufstfd fxtfnsions brf ionorfd), \f3nbmf{:[dritidbl|non-dritidbl]}\fR (tif nbmfd fxtfnsion is ionorfd, but using b difffrfnt \f3isCritidbl\fR bttributf) bnd \f3-nbmf\fR (usfd witi \f3bll\fR, dfnotfs bn fxdfption)\&. Rfqufstfd fxtfnsions brf not ionorfd by dffbult\&.
 .PP
-If, besides the\f3-ext honored\fR option, another named or OID \f3-ext\fR option is provided, this extension is added to those already honored\&. However, if this name (or OID) also appears in the honored value, then its value and criticality overrides the one in the request\&.
+If, bfsidfs tif\f3-fxt ionorfd\fR option, bnotifr nbmfd or OID \f3-fxt\fR option is providfd, tiis fxtfnsion is bddfd to tiosf blrfbdy ionorfd\&. Howfvfr, if tiis nbmf (or OID) blso bppfbrs in tif ionorfd vbluf, tifn its vbluf bnd dritidblity ovfrridfs tif onf in tif rfqufst\&.
 .PP
-The \f3subjectKeyIdentifier\fR extension is always created\&. For non-self-signed certificates, the \f3authorityKeyIdentifier\fR is created\&.
+Tif \f3subjfdtKfyIdfntififr\fR fxtfnsion is blwbys drfbtfd\&. For non-sflf-signfd dfrtifidbtfs, tif \f3butiorityKfyIdfntififr\fR is drfbtfd\&.
 .PP
-\fINote:\fR Users should be aware that some combinations of extensions (and other certificate fields) may not conform to the Internet standard\&. See Certificate Conformance Warning\&.
+\fINotf:\fR Usfrs siould bf bwbrf tibt somf dombinbtions of fxtfnsions (bnd otifr dfrtifidbtf fiflds) mby not donform to tif Intfrnft stbndbrd\&. Sff Cfrtifidbtf Conformbndf Wbrning\&.
 .SH COMMANDS    
 .TP
--gencert
+-gfndfrt
 .br
-\f3{-rfc} {-infile infile} {-outfile outfile} {-alias alias} {-sigalg sigalg} {-dname dname} {-startdate startdate {-ext ext}* {-validity valDays} [-keypass keypass] {-keystore keystore} [-storepass storepass] {-storetype storetype} {-providername provider_name} {-providerClass provider_class_name {-providerArg provider_arg}} {-v} {-protected} {-Jjavaoption}\fR
+\f3{-rfd} {-infilf infilf} {-outfilf outfilf} {-blibs blibs} {-sigblg sigblg} {-dnbmf dnbmf} {-stbrtdbtf stbrtdbtf {-fxt fxt}* {-vblidity vblDbys} [-kfypbss kfypbss] {-kfystorf kfystorf} [-storfpbss storfpbss] {-storftypf storftypf} {-providfrnbmf providfr_nbmf} {-providfrClbss providfr_dlbss_nbmf {-providfrArg providfr_brg}} {-v} {-protfdtfd} {-Jjbvboption}\fR
 
-Generates a certificate as a response to a certificate request file (which can be created by the \f3keytool\fR\f3-certreq\fR command)\&. The command reads the request from \fIinfile\fR (if omitted, from the standard input), signs it using alias\&'s private key, and outputs the X\&.509 certificate into \fIoutfile\fR (if omitted, to the standard output)\&. When\f3-rfc\fR is specified, the output format is Base64-encoded PEM; otherwise, a binary DER is created\&.
+Gfnfrbtfs b dfrtifidbtf bs b rfsponsf to b dfrtifidbtf rfqufst filf (wiidi dbn bf drfbtfd by tif \f3kfytool\fR\f3-dfrtrfq\fR dommbnd)\&. Tif dommbnd rfbds tif rfqufst from \fIinfilf\fR (if omittfd, from tif stbndbrd input), signs it using blibs\&'s privbtf kfy, bnd outputs tif X\&.509 dfrtifidbtf into \fIoutfilf\fR (if omittfd, to tif stbndbrd output)\&. Wifn\f3-rfd\fR is spfdififd, tif output formbt is Bbsf64-fndodfd PEM; otifrwisf, b binbry DER is drfbtfd\&.
 
-The \f3sigalg\fR value specifies the algorithm that should be used to sign the certificate\&. The \f3startdate\fR argument is the start time and date that the certificate is valid\&. The \f3valDays\fR argument tells the number of days for which the certificate should be considered valid\&.
+Tif \f3sigblg\fR vbluf spfdififs tif blgoritim tibt siould bf usfd to sign tif dfrtifidbtf\&. Tif \f3stbrtdbtf\fR brgumfnt is tif stbrt timf bnd dbtf tibt tif dfrtifidbtf is vblid\&. Tif \f3vblDbys\fR brgumfnt tflls tif numbfr of dbys for wiidi tif dfrtifidbtf siould bf donsidfrfd vblid\&.
 
-When \f3dname\fR is provided, it is used as the subject of the generated certificate\&. Otherwise, the one from the certificate request is used\&.
+Wifn \f3dnbmf\fR is providfd, it is usfd bs tif subjfdt of tif gfnfrbtfd dfrtifidbtf\&. Otifrwisf, tif onf from tif dfrtifidbtf rfqufst is usfd\&.
 
-The \f3ext\fR value shows what X\&.509 extensions will be embedded in the certificate\&. Read Common Options for the grammar of \f3-ext\fR\&.
+Tif \f3fxt\fR vbluf siows wibt X\&.509 fxtfnsions will bf fmbfddfd in tif dfrtifidbtf\&. Rfbd Common Options for tif grbmmbr of \f3-fxt\fR\&.
 
-The \f3-gencert\fR option enables you to create certificate chains\&. The following example creates a certificate, \f3e1\fR, that contains three certificates in its certificate chain\&.
+Tif \f3-gfndfrt\fR option fnbblfs you to drfbtf dfrtifidbtf dibins\&. Tif following fxbmplf drfbtfs b dfrtifidbtf, \f3f1\fR, tibt dontbins tirff dfrtifidbtfs in its dfrtifidbtf dibin\&.
 
-The following commands creates four key pairs named \f3ca\fR, \f3ca1\fR, \f3ca2\fR, and \f3e1\fR:
+Tif following dommbnds drfbtfs four kfy pbirs nbmfd \f3db\fR, \f3db1\fR, \f3db2\fR, bnd \f3f1\fR:
 .sp     
 .nf     
-\f3keytool \-alias ca \-dname CN=CA \-genkeypair\fP
+\f3kfytool \-blibs db \-dnbmf CN=CA \-gfnkfypbir\fP
 .fi     
 .nf     
-\f3keytool \-alias ca1 \-dname CN=CA \-genkeypair\fP
+\f3kfytool \-blibs db1 \-dnbmf CN=CA \-gfnkfypbir\fP
 .fi     
 .nf     
-\f3keytool \-alias ca2 \-dname CN=CA \-genkeypair\fP
+\f3kfytool \-blibs db2 \-dnbmf CN=CA \-gfnkfypbir\fP
 .fi     
 .nf     
-\f3keytool \-alias e1 \-dname CN=E1 \-genkeypair\fP
+\f3kfytool \-blibs f1 \-dnbmf CN=E1 \-gfnkfypbir\fP
 .fi     
 .nf     
 \f3\fP
@@ -420,28 +420,28 @@ The following commands creates four key pairs named \f3ca\fR, \f3ca1\fR, \f3ca2\
 .sp     
 
 
-The following two commands create a chain of signed certificates; \f3ca\fR signs \f3ca1\fR and \f3ca1\fR signs \f3ca2\fR, all of which are self-issued:
+Tif following two dommbnds drfbtf b dibin of signfd dfrtifidbtfs; \f3db\fR signs \f3db1\fR bnd \f3db1\fR signs \f3db2\fR, bll of wiidi brf sflf-issufd:
 .sp     
 .nf     
-\f3keytool \-alias ca1 \-certreq |\fP
+\f3kfytool \-blibs db1 \-dfrtrfq |\fP
 .fi     
 .nf     
-\f3    keytool \-alias ca \-gencert \-ext san=dns:ca1 |\fP
+\f3    kfytool \-blibs db \-gfndfrt \-fxt sbn=dns:db1 |\fP
 .fi     
 .nf     
-\f3    keytool \-alias ca1 \-importcert\fP
+\f3    kfytool \-blibs db1 \-importdfrt\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3keytool \-alias ca2 \-certreq |\fP
+\f3kfytool \-blibs db2 \-dfrtrfq |\fP
 .fi     
 .nf     
-\f3    $KT \-alias ca1 \-gencert \-ext san=dns:ca2 |\fP
+\f3    $KT \-blibs db1 \-gfndfrt \-fxt sbn=dns:db2 |\fP
 .fi     
 .nf     
-\f3    $KT \-alias ca2 \-importcert\fP
+\f3    $KT \-blibs db2 \-importdfrt\fP
 .fi     
 .nf     
 \f3\fP
@@ -449,10 +449,10 @@ The following two commands create a chain of signed certificates; \f3ca\fR signs
 .sp     
 
 
-The following command creates the certificate \f3e1\fR and stores it in the file \f3e1\&.cert\fR, which is signed by \f3ca2\fR\&. As a result, \f3e1\fR should contain \f3ca\fR, \f3ca1\fR, and \f3ca2\fR in its certificate chain:
+Tif following dommbnd drfbtfs tif dfrtifidbtf \f3f1\fR bnd storfs it in tif filf \f3f1\&.dfrt\fR, wiidi is signfd by \f3db2\fR\&. As b rfsult, \f3f1\fR siould dontbin \f3db\fR, \f3db1\fR, bnd \f3db2\fR in its dfrtifidbtf dibin:
 .sp     
 .nf     
-\f3keytool \-alias e1 \-certreq | keytool \-alias ca2 \-gencert > e1\&.cert\fP
+\f3kfytool \-blibs f1 \-dfrtrfq | kfytool \-blibs db2 \-gfndfrt > f1\&.dfrt\fP
 .fi     
 .nf     
 \f3\fP
@@ -460,42 +460,42 @@ The following command creates the certificate \f3e1\fR and stores it in the file
 .sp     
 
 .TP
--genkeypair
+-gfnkfypbir
 .br
-\f3{-alias alias} {-keyalg keyalg} {-keysize keysize} {-sigalg sigalg} [-dname dname] [-keypass keypass] {-startdate value} {-ext ext}* {-validity valDays} {-storetype storetype} {-keystore keystore} [-storepass storepass] {-providerClass provider_class_name {-providerArg provider_arg}} {-v} {-protected} {-Jjavaoption}\fR
+\f3{-blibs blibs} {-kfyblg kfyblg} {-kfysizf kfysizf} {-sigblg sigblg} [-dnbmf dnbmf] [-kfypbss kfypbss] {-stbrtdbtf vbluf} {-fxt fxt}* {-vblidity vblDbys} {-storftypf storftypf} {-kfystorf kfystorf} [-storfpbss storfpbss] {-providfrClbss providfr_dlbss_nbmf {-providfrArg providfr_brg}} {-v} {-protfdtfd} {-Jjbvboption}\fR
 
-Generates a key pair (a public key and associated private key)\&. Wraps the public key into an X\&.509 v3 self-signed certificate, which is stored as a single-element certificate chain\&. This certificate chain and the private key are stored in a new keystore entry identified by alias\&.
+Gfnfrbtfs b kfy pbir (b publid kfy bnd bssodibtfd privbtf kfy)\&. Wrbps tif publid kfy into bn X\&.509 v3 sflf-signfd dfrtifidbtf, wiidi is storfd bs b singlf-flfmfnt dfrtifidbtf dibin\&. Tiis dfrtifidbtf dibin bnd tif privbtf kfy brf storfd in b nfw kfystorf fntry idfntififd by blibs\&.
 
-The \f3keyalg\fR value specifies the algorithm to be used to generate the key pair, and the \f3keysize\fR value specifies the size of each key to be generated\&. The \f3sigalg\fR value specifies the algorithm that should be used to sign the self-signed certificate\&. This algorithm must be compatible with the \f3keyalg\fR value\&.
+Tif \f3kfyblg\fR vbluf spfdififs tif blgoritim to bf usfd to gfnfrbtf tif kfy pbir, bnd tif \f3kfysizf\fR vbluf spfdififs tif sizf of fbdi kfy to bf gfnfrbtfd\&. Tif \f3sigblg\fR vbluf spfdififs tif blgoritim tibt siould bf usfd to sign tif sflf-signfd dfrtifidbtf\&. Tiis blgoritim must bf dompbtiblf witi tif \f3kfyblg\fR vbluf\&.
 
-The \f3dname\fR value specifies the X\&.500 Distinguished Name to be associated with the value of \f3alias\fR, and is used as the issuer and subject fields in the self-signed certificate\&. If no distinguished name is provided at the command line, then the user is prompted for one\&.
+Tif \f3dnbmf\fR vbluf spfdififs tif X\&.500 Distinguisifd Nbmf to bf bssodibtfd witi tif vbluf of \f3blibs\fR, bnd is usfd bs tif issufr bnd subjfdt fiflds in tif sflf-signfd dfrtifidbtf\&. If no distinguisifd nbmf is providfd bt tif dommbnd linf, tifn tif usfr is promptfd for onf\&.
 
-The value of \f3keypass\fR is a password used to protect the private key of the generated key pair\&. If no password is provided, then the user is prompted for it\&. If you press \fIthe Return key\fR at the prompt, then the key password is set to the same password as the keystore password\&. The \f3keypass\fR value must be at least 6 characters\&.
+Tif vbluf of \f3kfypbss\fR is b pbssword usfd to protfdt tif privbtf kfy of tif gfnfrbtfd kfy pbir\&. If no pbssword is providfd, tifn tif usfr is promptfd for it\&. If you prfss \fItif Rfturn kfy\fR bt tif prompt, tifn tif kfy pbssword is sft to tif sbmf pbssword bs tif kfystorf pbssword\&. Tif \f3kfypbss\fR vbluf must bf bt lfbst 6 dibrbdtfrs\&.
 
-The value of \f3startdate\fR specifies the issue time of the certificate, also known as the "Not Before" value of the X\&.509 certificate\&'s Validity field\&.
+Tif vbluf of \f3stbrtdbtf\fR spfdififs tif issuf timf of tif dfrtifidbtf, blso known bs tif "Not Bfforf" vbluf of tif X\&.509 dfrtifidbtf\&'s Vblidity fifld\&.
 
-The option value can be set in one of these two forms:
+Tif option vbluf dbn bf sft in onf of tifsf two forms:
 
 \f3([+-]nnn[ymdHMS])+\fR
 
 \f3[yyyy/mm/dd] [HH:MM:SS]\fR
 
-With the first form, the issue time is shifted by the specified value from the current time\&. The value is a concatenation of a sequence of subvalues\&. Inside each subvalue, the plus sign (+) means shift forward, and the minus sign (-) means shift backward\&. The time to be shifted is \f3nnn\fR units of years, months, days, hours, minutes, or seconds (denoted by a single character of \f3y\fR, \f3m\fR, \f3d\fR, \f3H\fR, \f3M\fR, or \f3S\fR respectively)\&. The exact value of the issue time is calculated using the \f3java\&.util\&.GregorianCalendar\&.add(int field, int amount)\fR method on each subvalue, from left to right\&. For example, by specifying, the issue time will be:
+Witi tif first form, tif issuf timf is siiftfd by tif spfdififd vbluf from tif durrfnt timf\&. Tif vbluf is b dondbtfnbtion of b sfqufndf of subvblufs\&. Insidf fbdi subvbluf, tif plus sign (+) mfbns siift forwbrd, bnd tif minus sign (-) mfbns siift bbdkwbrd\&. Tif timf to bf siiftfd is \f3nnn\fR units of yfbrs, montis, dbys, iours, minutfs, or sfdonds (dfnotfd by b singlf dibrbdtfr of \f3y\fR, \f3m\fR, \f3d\fR, \f3H\fR, \f3M\fR, or \f3S\fR rfspfdtivfly)\&. Tif fxbdt vbluf of tif issuf timf is dbldulbtfd using tif \f3jbvb\&.util\&.GrfgoribnCblfndbr\&.bdd(int fifld, int bmount)\fR mftiod on fbdi subvbluf, from lfft to rigit\&. For fxbmplf, by spfdifying, tif issuf timf will bf:
 .sp     
 .nf     
-\f3Calendar c = new GregorianCalendar();\fP
+\f3Cblfndbr d = nfw GrfgoribnCblfndbr();\fP
 .fi     
 .nf     
-\f3c\&.add(Calendar\&.YEAR, \-1);\fP
+\f3d\&.bdd(Cblfndbr\&.YEAR, \-1);\fP
 .fi     
 .nf     
-\f3c\&.add(Calendar\&.MONTH, 1);\fP
+\f3d\&.bdd(Cblfndbr\&.MONTH, 1);\fP
 .fi     
 .nf     
-\f3c\&.add(Calendar\&.DATE, \-1);\fP
+\f3d\&.bdd(Cblfndbr\&.DATE, \-1);\fP
 .fi     
 .nf     
-\f3return c\&.getTime()\fP
+\f3rfturn d\&.gftTimf()\fP
 .fi     
 .nf     
 \f3\fP
@@ -503,300 +503,300 @@ With the first form, the issue time is shifted by the specified value from the c
 .sp     
 
 
-With the second form, the user sets the exact issue time in two parts, year/month/day and hour:minute:second (using the local time zone)\&. The user can provide only one part, which means the other part is the same as the current date (or time)\&. The user must provide the exact number of digits as shown in the format definition (padding with 0 when shorter)\&. When both the date and time are provided, there is one (and only one) space character between the two parts\&. The hour should always be provided in 24 hour format\&.
+Witi tif sfdond form, tif usfr sfts tif fxbdt issuf timf in two pbrts, yfbr/monti/dby bnd iour:minutf:sfdond (using tif lodbl timf zonf)\&. Tif usfr dbn providf only onf pbrt, wiidi mfbns tif otifr pbrt is tif sbmf bs tif durrfnt dbtf (or timf)\&. Tif usfr must providf tif fxbdt numbfr of digits bs siown in tif formbt dffinition (pbdding witi 0 wifn siortfr)\&. Wifn boti tif dbtf bnd timf brf providfd, tifrf is onf (bnd only onf) spbdf dibrbdtfr bftwffn tif two pbrts\&. Tif iour siould blwbys bf providfd in 24 iour formbt\&.
 
-When the option is not provided, the start date is the current time\&. The option can be provided at most once\&.
+Wifn tif option is not providfd, tif stbrt dbtf is tif durrfnt timf\&. Tif option dbn bf providfd bt most ondf\&.
 
-The value of \f3valDays\fR specifies the number of days (starting at the date specified by \f3-startdate\fR, or the current date when \f3-startdate\fR is not specified) for which the certificate should be considered valid\&.
+Tif vbluf of \f3vblDbys\fR spfdififs tif numbfr of dbys (stbrting bt tif dbtf spfdififd by \f3-stbrtdbtf\fR, or tif durrfnt dbtf wifn \f3-stbrtdbtf\fR is not spfdififd) for wiidi tif dfrtifidbtf siould bf donsidfrfd vblid\&.
 
-This command was named \f3-genkey\fR in earlier releases\&. The old name is still supported in this release\&. The new name, \f3-genkeypair\fR, is preferred going forward\&.
+Tiis dommbnd wbs nbmfd \f3-gfnkfy\fR in fbrlifr rflfbsfs\&. Tif old nbmf is still supportfd in tiis rflfbsf\&. Tif nfw nbmf, \f3-gfnkfypbir\fR, is prfffrrfd going forwbrd\&.
 .TP
--genseckey
+-gfnsfdkfy
 .br
-\f3-genseckey {-alias alias} {-keyalg keyalg} {-keysize keysize} [-keypass keypass] {-storetype storetype} {-keystore keystore} [-storepass storepass] {-providerClass provider_class_name {-providerArg provider_arg}} {-v} {-protected} {-Jjavaoption}\fR
+\f3-gfnsfdkfy {-blibs blibs} {-kfyblg kfyblg} {-kfysizf kfysizf} [-kfypbss kfypbss] {-storftypf storftypf} {-kfystorf kfystorf} [-storfpbss storfpbss] {-providfrClbss providfr_dlbss_nbmf {-providfrArg providfr_brg}} {-v} {-protfdtfd} {-Jjbvboption}\fR
 
-Generates a secret key and stores it in a new \f3KeyStore\&.SecretKeyEntry\fR identified by \f3alias\fR\&.
+Gfnfrbtfs b sfdrft kfy bnd storfs it in b nfw \f3KfyStorf\&.SfdrftKfyEntry\fR idfntififd by \f3blibs\fR\&.
 
-The value of \f3keyalg\fR specifies the algorithm to be used to generate the secret key, and the value of \f3keysize\fR specifies the size of the key to be generated\&. The \f3keypass\fR value is a password that protects the secret key\&. If no password is provided, then the user is prompted for it\&. If you press the Return key at the prompt, then the key password is set to the same password that is used for the \f3keystore\fR\&. The \f3keypass\fR value must be at least 6 characters\&.
+Tif vbluf of \f3kfyblg\fR spfdififs tif blgoritim to bf usfd to gfnfrbtf tif sfdrft kfy, bnd tif vbluf of \f3kfysizf\fR spfdififs tif sizf of tif kfy to bf gfnfrbtfd\&. Tif \f3kfypbss\fR vbluf is b pbssword tibt protfdts tif sfdrft kfy\&. If no pbssword is providfd, tifn tif usfr is promptfd for it\&. If you prfss tif Rfturn kfy bt tif prompt, tifn tif kfy pbssword is sft to tif sbmf pbssword tibt is usfd for tif \f3kfystorf\fR\&. Tif \f3kfypbss\fR vbluf must bf bt lfbst 6 dibrbdtfrs\&.
 .TP
--importcert
+-importdfrt
 .br
-\f3-importcert {-alias alias} {-file cert_file} [-keypass keypass] {-noprompt} {-trustcacerts} {-storetype storetype} {-keystore keystore} [-storepass storepass] {-providerName provider_name} {-providerClass provider_class_name {-providerArg provider_arg}} {-v} {-protected} {-Jjavaoption}\fR
+\f3-importdfrt {-blibs blibs} {-filf dfrt_filf} [-kfypbss kfypbss] {-noprompt} {-trustdbdfrts} {-storftypf storftypf} {-kfystorf kfystorf} [-storfpbss storfpbss] {-providfrNbmf providfr_nbmf} {-providfrClbss providfr_dlbss_nbmf {-providfrArg providfr_brg}} {-v} {-protfdtfd} {-Jjbvboption}\fR
 
-Reads the certificate or certificate chain (where the latter is supplied in a PKCS#7 formatted reply or a sequence of X\&.509 certificates) from the file \f3cert_file\fR, and stores it in the \f3keystore\fR entry identified by \f3alias\fR\&. If no file is specified, then the certificate or certificate chain is read from \f3stdin\fR\&.
+Rfbds tif dfrtifidbtf or dfrtifidbtf dibin (wifrf tif lbttfr is supplifd in b PKCS#7 formbttfd rfply or b sfqufndf of X\&.509 dfrtifidbtfs) from tif filf \f3dfrt_filf\fR, bnd storfs it in tif \f3kfystorf\fR fntry idfntififd by \f3blibs\fR\&. If no filf is spfdififd, tifn tif dfrtifidbtf or dfrtifidbtf dibin is rfbd from \f3stdin\fR\&.
 
-The \f3keytool\fR command can import X\&.509 v1, v2, and v3 certificates, and PKCS#7 formatted certificate chains consisting of certificates of that type\&. The data to be imported must be provided either in binary encoding format or in printable encoding format (also known as Base64 encoding) as defined by the Internet RFC 1421 standard\&. In the latter case, the encoding must be bounded at the beginning by a string that starts with \f3-\fR\f3----BEGIN\fR, and bounded at the end by a string that starts with \f3-----END\fR\&.
+Tif \f3kfytool\fR dommbnd dbn import X\&.509 v1, v2, bnd v3 dfrtifidbtfs, bnd PKCS#7 formbttfd dfrtifidbtf dibins donsisting of dfrtifidbtfs of tibt typf\&. Tif dbtb to bf importfd must bf providfd fitifr in binbry fndoding formbt or in printbblf fndoding formbt (blso known bs Bbsf64 fndoding) bs dffinfd by tif Intfrnft RFC 1421 stbndbrd\&. In tif lbttfr dbsf, tif fndoding must bf boundfd bt tif bfginning by b string tibt stbrts witi \f3-\fR\f3----BEGIN\fR, bnd boundfd bt tif fnd by b string tibt stbrts witi \f3-----END\fR\&.
 
-You import a certificate for two reasons: To add it to the list of trusted certificates, and to import a certificate reply received from a certificate authority (CA) as the result of submitting a Certificate Signing Request to that CA (see the \f3-certreq\fR option in Commands)\&.
+You import b dfrtifidbtf for two rfbsons: To bdd it to tif list of trustfd dfrtifidbtfs, bnd to import b dfrtifidbtf rfply rfdfivfd from b dfrtifidbtf butiority (CA) bs tif rfsult of submitting b Cfrtifidbtf Signing Rfqufst to tibt CA (sff tif \f3-dfrtrfq\fR option in Commbnds)\&.
 
-Which type of import is intended is indicated by the value of the \f3-alias\fR option\&. If the alias does not point to a key entry, then the \f3keytool\fR command assumes you are adding a trusted certificate entry\&. In this case, the alias should not already exist in the keystore\&. If the alias does already exist, then the \f3keytool\fR command outputs an error because there is already a trusted certificate for that alias, and does not import the certificate\&. If the alias points to a key entry, then the \f3keytool\fR command assumes you are importing a certificate reply\&.
+Wiidi typf of import is intfndfd is indidbtfd by tif vbluf of tif \f3-blibs\fR option\&. If tif blibs dofs not point to b kfy fntry, tifn tif \f3kfytool\fR dommbnd bssumfs you brf bdding b trustfd dfrtifidbtf fntry\&. In tiis dbsf, tif blibs siould not blrfbdy fxist in tif kfystorf\&. If tif blibs dofs blrfbdy fxist, tifn tif \f3kfytool\fR dommbnd outputs bn frror bfdbusf tifrf is blrfbdy b trustfd dfrtifidbtf for tibt blibs, bnd dofs not import tif dfrtifidbtf\&. If tif blibs points to b kfy fntry, tifn tif \f3kfytool\fR dommbnd bssumfs you brf importing b dfrtifidbtf rfply\&.
 .TP
--importpassword
+-importpbssword
 .br
-\f3{-alias alias} [-keypass keypass] {-storetype storetype} {-keystore keystore} [-storepass storepass] {-providerClass provider_class_name {-providerArg provider_arg}} {-v} {-protected} {-Jjavaoption}\fR
+\f3{-blibs blibs} [-kfypbss kfypbss] {-storftypf storftypf} {-kfystorf kfystorf} [-storfpbss storfpbss] {-providfrClbss providfr_dlbss_nbmf {-providfrArg providfr_brg}} {-v} {-protfdtfd} {-Jjbvboption}\fR
 
-Imports a passphrase and stores it in a new \f3KeyStore\&.SecretKeyEntry\fR identified by \f3alias\fR\&. The passphrase may be supplied via the standard input stream; otherwise the user is prompted for it\&. \f3keypass\fR is a password used to protect the imported passphrase\&. If no password is provided, the user is prompted for it\&. If you press the Return key at the prompt, the key password is set to the same password as that used for the \f3keystore\fR\&. \f3keypass\fR must be at least 6 characters long\&.
+Imports b pbsspirbsf bnd storfs it in b nfw \f3KfyStorf\&.SfdrftKfyEntry\fR idfntififd by \f3blibs\fR\&. Tif pbsspirbsf mby bf supplifd vib tif stbndbrd input strfbm; otifrwisf tif usfr is promptfd for it\&. \f3kfypbss\fR is b pbssword usfd to protfdt tif importfd pbsspirbsf\&. If no pbssword is providfd, tif usfr is promptfd for it\&. If you prfss tif Rfturn kfy bt tif prompt, tif kfy pbssword is sft to tif sbmf pbssword bs tibt usfd for tif \f3kfystorf\fR\&. \f3kfypbss\fR must bf bt lfbst 6 dibrbdtfrs long\&.
 .TP
--importkeystore
+-importkfystorf
 .br
-\f3{-srcstoretype srcstoretype} {-deststoretype deststoretype} [-srcstorepass srcstorepass] [-deststorepass deststorepass] {-srcprotected} {-destprotected} {-srcalias srcalias {-destalias destalias} [-srckeypass srckeypass] } [-destkeypass destkeypass] {-noprompt} {-srcProviderName src_provider_name} {-destProviderName dest_provider_name} {-providerClass provider_class_name {-providerArg provider_arg}} {-v} {-protected} {-Jjavaoption}\fR
+\f3{-srdstorftypf srdstorftypf} {-dfststorftypf dfststorftypf} [-srdstorfpbss srdstorfpbss] [-dfststorfpbss dfststorfpbss] {-srdprotfdtfd} {-dfstprotfdtfd} {-srdblibs srdblibs {-dfstblibs dfstblibs} [-srdkfypbss srdkfypbss] } [-dfstkfypbss dfstkfypbss] {-noprompt} {-srdProvidfrNbmf srd_providfr_nbmf} {-dfstProvidfrNbmf dfst_providfr_nbmf} {-providfrClbss providfr_dlbss_nbmf {-providfrArg providfr_brg}} {-v} {-protfdtfd} {-Jjbvboption}\fR
 
-Imports a single entry or all entries from a source keystore to a destination keystore\&.
+Imports b singlf fntry or bll fntrifs from b sourdf kfystorf to b dfstinbtion kfystorf\&.
 
-When the \f3-srcalias\fR option is provided, the command imports the single entry identified by the alias to the destination keystore\&. If a destination alias is not provided with \f3destalias\fR, then \f3srcalias\fR is used as the destination alias\&. If the source entry is protected by a password, then \f3srckeypass\fR is used to recover the entry\&. If \fIsrckeypass\fR is not provided, then the \f3keytool\fR command attempts to use \f3srcstorepass\fR to recover the entry\&. If \f3srcstorepass\fR is either not provided or is incorrect, then the user is prompted for a password\&. The destination entry is protected with \f3destkeypass\fR\&. If \f3destkeypass\fR is not provided, then the destination entry is protected with the source entry password\&. For example, most third-party tools require \f3storepass\fR and \f3keypass\fR in a PKCS #12 keystore to be the same\&. In order to create a PKCS #12 keystore for these tools, always specify a \f3-destkeypass\fR to be the same as \f3-deststorepass\fR\&.
+Wifn tif \f3-srdblibs\fR option is providfd, tif dommbnd imports tif singlf fntry idfntififd by tif blibs to tif dfstinbtion kfystorf\&. If b dfstinbtion blibs is not providfd witi \f3dfstblibs\fR, tifn \f3srdblibs\fR is usfd bs tif dfstinbtion blibs\&. If tif sourdf fntry is protfdtfd by b pbssword, tifn \f3srdkfypbss\fR is usfd to rfdovfr tif fntry\&. If \fIsrdkfypbss\fR is not providfd, tifn tif \f3kfytool\fR dommbnd bttfmpts to usf \f3srdstorfpbss\fR to rfdovfr tif fntry\&. If \f3srdstorfpbss\fR is fitifr not providfd or is indorrfdt, tifn tif usfr is promptfd for b pbssword\&. Tif dfstinbtion fntry is protfdtfd witi \f3dfstkfypbss\fR\&. If \f3dfstkfypbss\fR is not providfd, tifn tif dfstinbtion fntry is protfdtfd witi tif sourdf fntry pbssword\&. For fxbmplf, most tiird-pbrty tools rfquirf \f3storfpbss\fR bnd \f3kfypbss\fR in b PKCS #12 kfystorf to bf tif sbmf\&. In ordfr to drfbtf b PKCS #12 kfystorf for tifsf tools, blwbys spfdify b \f3-dfstkfypbss\fR to bf tif sbmf bs \f3-dfststorfpbss\fR\&.
 
-If the \f3-srcalias\fR option is not provided, then all entries in the source keystore are imported into the destination keystore\&. Each destination entry is stored under the alias from the source entry\&. If the source entry is protected by a password, then \f3srcstorepass\fR is used to recover the entry\&. If \f3srcstorepass\fR is either not provided or is incorrect, then the user is prompted for a password\&. If a source keystore entry type is not supported in the destination keystore, or if an error occurs while storing an entry into the destination keystore, then the user is prompted whether to skip the entry and continue or to quit\&. The destination entry is protected with the source entry password\&.
+If tif \f3-srdblibs\fR option is not providfd, tifn bll fntrifs in tif sourdf kfystorf brf importfd into tif dfstinbtion kfystorf\&. Ebdi dfstinbtion fntry is storfd undfr tif blibs from tif sourdf fntry\&. If tif sourdf fntry is protfdtfd by b pbssword, tifn \f3srdstorfpbss\fR is usfd to rfdovfr tif fntry\&. If \f3srdstorfpbss\fR is fitifr not providfd or is indorrfdt, tifn tif usfr is promptfd for b pbssword\&. If b sourdf kfystorf fntry typf is not supportfd in tif dfstinbtion kfystorf, or if bn frror oddurs wiilf storing bn fntry into tif dfstinbtion kfystorf, tifn tif usfr is promptfd wiftifr to skip tif fntry bnd dontinuf or to quit\&. Tif dfstinbtion fntry is protfdtfd witi tif sourdf fntry pbssword\&.
 
-If the destination alias already exists in the destination keystore, then the user is prompted to either overwrite the entry or to create a new entry under a different alias name\&.
+If tif dfstinbtion blibs blrfbdy fxists in tif dfstinbtion kfystorf, tifn tif usfr is promptfd to fitifr ovfrwritf tif fntry or to drfbtf b nfw fntry undfr b difffrfnt blibs nbmf\&.
 
-If the \f3-noprompt\fR option is provided, then the user is not prompted for a new destination alias\&. Existing entries are overwritten with the destination alias name\&. Entries that cannot be imported are skipped and a warning is displayed\&.
+If tif \f3-noprompt\fR option is providfd, tifn tif usfr is not promptfd for b nfw dfstinbtion blibs\&. Existing fntrifs brf ovfrwrittfn witi tif dfstinbtion blibs nbmf\&. Entrifs tibt dbnnot bf importfd brf skippfd bnd b wbrning is displbyfd\&.
 .TP
--printcertreq
+-printdfrtrfq
 .br
-\f3{-file file}\fR
+\f3{-filf filf}\fR
 
-Prints the content of a PKCS #10 format certificate request, which can be generated by the \f3keytool\fR\f3-certreq\fR command\&. The command reads the request from file\&. If there is no file, then the request is read from the standard input\&.
+Prints tif dontfnt of b PKCS #10 formbt dfrtifidbtf rfqufst, wiidi dbn bf gfnfrbtfd by tif \f3kfytool\fR\f3-dfrtrfq\fR dommbnd\&. Tif dommbnd rfbds tif rfqufst from filf\&. If tifrf is no filf, tifn tif rfqufst is rfbd from tif stbndbrd input\&.
 .TP
--certreq
+-dfrtrfq
 .br
-\f3{-alias alias} {-dname dname} {-sigalg sigalg} {-file certreq_file} [-keypass keypass] {-storetype storetype} {-keystore keystore} [-storepass storepass] {-providerName provider_name} {-providerClass provider_class_name {-providerArg provider_arg}} {-v} {-protected} {-Jjavaoption}\fR
+\f3{-blibs blibs} {-dnbmf dnbmf} {-sigblg sigblg} {-filf dfrtrfq_filf} [-kfypbss kfypbss] {-storftypf storftypf} {-kfystorf kfystorf} [-storfpbss storfpbss] {-providfrNbmf providfr_nbmf} {-providfrClbss providfr_dlbss_nbmf {-providfrArg providfr_brg}} {-v} {-protfdtfd} {-Jjbvboption}\fR
 
-Generates a Certificate Signing Request (CSR) using the PKCS #10 format\&.
+Gfnfrbtfs b Cfrtifidbtf Signing Rfqufst (CSR) using tif PKCS #10 formbt\&.
 
-A CSR is intended to be sent to a certificate authority (CA)\&. The CA authenticates the certificate requestor (usually off-line) and will return a certificate or certificate chain, used to replace the existing certificate chain (which initially consists of a self-signed certificate) in the keystore\&.
+A CSR is intfndfd to bf sfnt to b dfrtifidbtf butiority (CA)\&. Tif CA butifntidbtfs tif dfrtifidbtf rfqufstor (usublly off-linf) bnd will rfturn b dfrtifidbtf or dfrtifidbtf dibin, usfd to rfplbdf tif fxisting dfrtifidbtf dibin (wiidi initiblly donsists of b sflf-signfd dfrtifidbtf) in tif kfystorf\&.
 
-The private key associated with alias is used to create the PKCS #10 certificate request\&. To access the private key, the correct password must be provided\&. If \f3keypass\fR is not provided at the command line and is different from the password used to protect the integrity of the keystore, then the user is prompted for it\&. If \f3dname\fR is provided, then it is used as the subject in the CSR\&. Otherwise, the X\&.500 Distinguished Name associated with alias is used\&.
+Tif privbtf kfy bssodibtfd witi blibs is usfd to drfbtf tif PKCS #10 dfrtifidbtf rfqufst\&. To bddfss tif privbtf kfy, tif dorrfdt pbssword must bf providfd\&. If \f3kfypbss\fR is not providfd bt tif dommbnd linf bnd is difffrfnt from tif pbssword usfd to protfdt tif intfgrity of tif kfystorf, tifn tif usfr is promptfd for it\&. If \f3dnbmf\fR is providfd, tifn it is usfd bs tif subjfdt in tif CSR\&. Otifrwisf, tif X\&.500 Distinguisifd Nbmf bssodibtfd witi blibs is usfd\&.
 
-The \f3sigalg\fR value specifies the algorithm that should be used to sign the CSR\&.
+Tif \f3sigblg\fR vbluf spfdififs tif blgoritim tibt siould bf usfd to sign tif CSR\&.
 
-The CSR is stored in the file certreq_file\&. If no file is specified, then the CSR is output to \f3stdout\fR\&.
+Tif CSR is storfd in tif filf dfrtrfq_filf\&. If no filf is spfdififd, tifn tif CSR is output to \f3stdout\fR\&.
 
-Use the \f3importcert\fR command to import the response from the CA\&.
+Usf tif \f3importdfrt\fR dommbnd to import tif rfsponsf from tif CA\&.
 .TP
--exportcert
+-fxportdfrt
 .br
-\f3{-alias alias} {-file cert_file} {-storetype storetype} {-keystore keystore} [-storepass storepass] {-providerName provider_name} {-providerClass provider_class_name {-providerArg provider_arg}} {-rfc} {-v} {-protected} {-Jjavaoption}\fR
+\f3{-blibs blibs} {-filf dfrt_filf} {-storftypf storftypf} {-kfystorf kfystorf} [-storfpbss storfpbss] {-providfrNbmf providfr_nbmf} {-providfrClbss providfr_dlbss_nbmf {-providfrArg providfr_brg}} {-rfd} {-v} {-protfdtfd} {-Jjbvboption}\fR
 
-Reads from the keystore the certificate associated with \fIalias\fR and stores it in the cert_file file\&. When no file is specified, the certificate is output to \f3stdout\fR\&.
+Rfbds from tif kfystorf tif dfrtifidbtf bssodibtfd witi \fIblibs\fR bnd storfs it in tif dfrt_filf filf\&. Wifn no filf is spfdififd, tif dfrtifidbtf is output to \f3stdout\fR\&.
 
-The certificate is by default output in binary encoding\&. If the \f3-rfc\fR option is specified, then the output in the printable encoding format defined by the Internet RFC 1421 Certificate Encoding Standard\&.
+Tif dfrtifidbtf is by dffbult output in binbry fndoding\&. If tif \f3-rfd\fR option is spfdififd, tifn tif output in tif printbblf fndoding formbt dffinfd by tif Intfrnft RFC 1421 Cfrtifidbtf Endoding Stbndbrd\&.
 
-If \f3alias\fR refers to a trusted certificate, then that certificate is output\&. Otherwise, \f3alias\fR refers to a key entry with an associated certificate chain\&. In that case, the first certificate in the chain is returned\&. This certificate authenticates the public key of the entity addressed by \f3alias\fR\&.
+If \f3blibs\fR rfffrs to b trustfd dfrtifidbtf, tifn tibt dfrtifidbtf is output\&. Otifrwisf, \f3blibs\fR rfffrs to b kfy fntry witi bn bssodibtfd dfrtifidbtf dibin\&. In tibt dbsf, tif first dfrtifidbtf in tif dibin is rfturnfd\&. Tiis dfrtifidbtf butifntidbtfs tif publid kfy of tif fntity bddrfssfd by \f3blibs\fR\&.
 
-This command was named \f3-export\fR in earlier releases\&. The old name is still supported in this release\&. The new name, \f3-exportcert\fR, is preferred going forward\&.
+Tiis dommbnd wbs nbmfd \f3-fxport\fR in fbrlifr rflfbsfs\&. Tif old nbmf is still supportfd in tiis rflfbsf\&. Tif nfw nbmf, \f3-fxportdfrt\fR, is prfffrrfd going forwbrd\&.
 .TP
 -list
 .br
-\f3{-alias alias} {-storetype storetype} {-keystore keystore} [-storepass storepass] {-providerName provider_name} {-providerClass provider_class_name {-providerArg provider_arg}} {-v | -rfc} {-protected} {-Jjavaoption}\fR
+\f3{-blibs blibs} {-storftypf storftypf} {-kfystorf kfystorf} [-storfpbss storfpbss] {-providfrNbmf providfr_nbmf} {-providfrClbss providfr_dlbss_nbmf {-providfrArg providfr_brg}} {-v | -rfd} {-protfdtfd} {-Jjbvboption}\fR
 
-Prints to \f3stdout\fR the contents of the keystore entry identified by \f3alias\fR\&. If no \f3alias\fR is specified, then the contents of the entire keystore are printed\&.
+Prints to \f3stdout\fR tif dontfnts of tif kfystorf fntry idfntififd by \f3blibs\fR\&. If no \f3blibs\fR is spfdififd, tifn tif dontfnts of tif fntirf kfystorf brf printfd\&.
 
-This command by default prints the SHA1 fingerprint of a certificate\&. If the \f3-v\fR option is specified, then the certificate is printed in human-readable format, with additional information such as the owner, issuer, serial number, and any extensions\&. If the \f3-rfc\fR option is specified, then the certificate contents are printed using the printable encoding format, as defined by the Internet RFC 1421 Certificate Encoding Standard\&.
+Tiis dommbnd by dffbult prints tif SHA1 fingfrprint of b dfrtifidbtf\&. If tif \f3-v\fR option is spfdififd, tifn tif dfrtifidbtf is printfd in iumbn-rfbdbblf formbt, witi bdditionbl informbtion sudi bs tif ownfr, issufr, sfribl numbfr, bnd bny fxtfnsions\&. If tif \f3-rfd\fR option is spfdififd, tifn tif dfrtifidbtf dontfnts brf printfd using tif printbblf fndoding formbt, bs dffinfd by tif Intfrnft RFC 1421 Cfrtifidbtf Endoding Stbndbrd\&.
 
-You cannot specify both \f3-v\fR and \f3-rfc\fR\&.
+You dbnnot spfdify boti \f3-v\fR bnd \f3-rfd\fR\&.
 .TP
--printcert
+-printdfrt
 .br
-\f3{-file cert_file | -sslserver host[:port]} {-jarfile JAR_file {-rfc} {-v} {-Jjavaoption}\fR
+\f3{-filf dfrt_filf | -sslsfrvfr iost[:port]} {-jbrfilf JAR_filf {-rfd} {-v} {-Jjbvboption}\fR
 
-Reads the certificate from the file cert_file, the SSL server located at host:port, or the signed JAR file \f3JAR_file\fR (with the \f3-jarfile\fR option and prints its contents in a human-readable format\&. When no port is specified, the standard HTTPS port 443 is assumed\&. Note that \f3-sslserver\fR and -file options cannot be provided at the same time\&. Otherwise, an error is reported\&. If neither option is specified, then the certificate is read from \f3stdin\fR\&.
+Rfbds tif dfrtifidbtf from tif filf dfrt_filf, tif SSL sfrvfr lodbtfd bt iost:port, or tif signfd JAR filf \f3JAR_filf\fR (witi tif \f3-jbrfilf\fR option bnd prints its dontfnts in b iumbn-rfbdbblf formbt\&. Wifn no port is spfdififd, tif stbndbrd HTTPS port 443 is bssumfd\&. Notf tibt \f3-sslsfrvfr\fR bnd -filf options dbnnot bf providfd bt tif sbmf timf\&. Otifrwisf, bn frror is rfportfd\&. If nfitifr option is spfdififd, tifn tif dfrtifidbtf is rfbd from \f3stdin\fR\&.
 
-When\f3-rfc\fR is specified, the \f3keytool\fR command prints the certificate in PEM mode as defined by the Internet RFC 1421 Certificate Encoding standard\&. See Internet RFC 1421 Certificate Encoding Standard\&.
+Wifn\f3-rfd\fR is spfdififd, tif \f3kfytool\fR dommbnd prints tif dfrtifidbtf in PEM modf bs dffinfd by tif Intfrnft RFC 1421 Cfrtifidbtf Endoding stbndbrd\&. Sff Intfrnft RFC 1421 Cfrtifidbtf Endoding Stbndbrd\&.
 
-If the certificate is read from a file or \f3stdin\fR, then it might be either binary encoded or in printable encoding format, as defined by the RFC 1421 Certificate Encoding standard\&.
+If tif dfrtifidbtf is rfbd from b filf or \f3stdin\fR, tifn it migit bf fitifr binbry fndodfd or in printbblf fndoding formbt, bs dffinfd by tif RFC 1421 Cfrtifidbtf Endoding stbndbrd\&.
 
-If the SSL server is behind a firewall, then the \f3-J-Dhttps\&.proxyHost=proxyhost\fR and \f3-J-Dhttps\&.proxyPort=proxyport\fR options can be specified on the command line for proxy tunneling\&. See Java Secure Socket Extension (JSSE) Reference Guide at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide\&.html
+If tif SSL sfrvfr is bfiind b firfwbll, tifn tif \f3-J-Dittps\&.proxyHost=proxyiost\fR bnd \f3-J-Dittps\&.proxyPort=proxyport\fR options dbn bf spfdififd on tif dommbnd linf for proxy tunnfling\&. Sff Jbvb Sfdurf Sodkft Extfnsion (JSSE) Rfffrfndf Guidf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/jssf/JSSERffGuidf\&.itml
 
-\fINote:\fR This option can be used independently of a keystore\&.
+\fINotf:\fR Tiis option dbn bf usfd indfpfndfntly of b kfystorf\&.
 .TP
--printcrl
+-printdrl
 .br
-\f3-file crl_ {-v}\fR
+\f3-filf drl_ {-v}\fR
 
-Reads the Certificate Revocation List (CRL) from the file \f3crl_\fR\&. A CRL is a list of digital certificates that were revoked by the CA that issued them\&. The CA generates the \f3crl_\fR file\&.
+Rfbds tif Cfrtifidbtf Rfvodbtion List (CRL) from tif filf \f3drl_\fR\&. A CRL is b list of digitbl dfrtifidbtfs tibt wfrf rfvokfd by tif CA tibt issufd tifm\&. Tif CA gfnfrbtfs tif \f3drl_\fR filf\&.
 
-\fINote:\fR This option can be used independently of a keystore\&.
+\fINotf:\fR Tiis option dbn bf usfd indfpfndfntly of b kfystorf\&.
 .TP
--storepasswd
+-storfpbsswd
 .br
-\f3[-new new_storepass] {-storetype storetype} {-keystore keystore} [-storepass storepass] {-providerName provider_name} {-providerClass provider_class_name {-providerArg provider_arg}} {-v} {-Jjavaoption}\fR
+\f3[-nfw nfw_storfpbss] {-storftypf storftypf} {-kfystorf kfystorf} [-storfpbss storfpbss] {-providfrNbmf providfr_nbmf} {-providfrClbss providfr_dlbss_nbmf {-providfrArg providfr_brg}} {-v} {-Jjbvboption}\fR
 
-Changes the password used to protect the integrity of the keystore contents\&. The new password is \f3new_storepass\fR, which must be at least 6 characters\&.
+Cibngfs tif pbssword usfd to protfdt tif intfgrity of tif kfystorf dontfnts\&. Tif nfw pbssword is \f3nfw_storfpbss\fR, wiidi must bf bt lfbst 6 dibrbdtfrs\&.
 .TP
--keypasswd
+-kfypbsswd
 .br
-\f3{-alias alias} [-keypass old_keypass] [-new new_keypass] {-storetype storetype} {-keystore keystore} [-storepass storepass] {-providerName provider_name} {-providerClass provider_class_name {-providerArg provider_arg}} {-v} {-Jjavaoption}\fR
+\f3{-blibs blibs} [-kfypbss old_kfypbss] [-nfw nfw_kfypbss] {-storftypf storftypf} {-kfystorf kfystorf} [-storfpbss storfpbss] {-providfrNbmf providfr_nbmf} {-providfrClbss providfr_dlbss_nbmf {-providfrArg providfr_brg}} {-v} {-Jjbvboption}\fR
 
-Changes the password under which the private/secret key identified by \f3alias\fR is protected, from \f3old_keypass\fR to \f3new_keypass\fR, which must be at least 6 characters\&.
+Cibngfs tif pbssword undfr wiidi tif privbtf/sfdrft kfy idfntififd by \f3blibs\fR is protfdtfd, from \f3old_kfypbss\fR to \f3nfw_kfypbss\fR, wiidi must bf bt lfbst 6 dibrbdtfrs\&.
 
-If the \f3-keypass\fR option is not provided at the command line, and the key password is different from the keystore password, then the user is prompted for it\&.
+If tif \f3-kfypbss\fR option is not providfd bt tif dommbnd linf, bnd tif kfy pbssword is difffrfnt from tif kfystorf pbssword, tifn tif usfr is promptfd for it\&.
 
-If the \f3-new\fR option is not provided at the command line, then the user is prompted for it
+If tif \f3-nfw\fR option is not providfd bt tif dommbnd linf, tifn tif usfr is promptfd for it
 .TP
--delete
+-dflftf
 .br
-\f3[-alias alias] {-storetype storetype} {-keystore keystore} [-storepass storepass] {-providerName provider_name} {-providerClass provider_class_name {-providerArg provider_arg}} {-v} {-protected} {-Jjavaoption}\fR
+\f3[-blibs blibs] {-storftypf storftypf} {-kfystorf kfystorf} [-storfpbss storfpbss] {-providfrNbmf providfr_nbmf} {-providfrClbss providfr_dlbss_nbmf {-providfrArg providfr_brg}} {-v} {-protfdtfd} {-Jjbvboption}\fR
 
-Deletes from the keystore the entry identified by \f3alias\fR\&. The user is prompted for the alias, when no alias is provided at the command line\&.
+Dflftfs from tif kfystorf tif fntry idfntififd by \f3blibs\fR\&. Tif usfr is promptfd for tif blibs, wifn no blibs is providfd bt tif dommbnd linf\&.
 .TP
--changealias
+-dibngfblibs
 .br
-\f3{-alias alias} [-destalias destalias] [-keypass keypass] {-storetype storetype} {-keystore keystore} [-storepass storepass] {-providerName provider_name} {-providerClass provider_class_name {-providerArg provider_arg}} {-v} {-protected} {-Jjavaoption}\fR
+\f3{-blibs blibs} [-dfstblibs dfstblibs] [-kfypbss kfypbss] {-storftypf storftypf} {-kfystorf kfystorf} [-storfpbss storfpbss] {-providfrNbmf providfr_nbmf} {-providfrClbss providfr_dlbss_nbmf {-providfrArg providfr_brg}} {-v} {-protfdtfd} {-Jjbvboption}\fR
 
-Move an existing keystore entry from the specified \f3alias\fR to a new alias, \f3destalias\fR\&. If no destination alias is provided, then the command prompts for one\&. If the original entry is protected with an entry password, then the password can be supplied with the \f3-keypass\fR option\&. If no key password is provided, then the \f3storepass\fR (if provided) is attempted first\&. If the attempt fails, then the user is prompted for a password\&.
+Movf bn fxisting kfystorf fntry from tif spfdififd \f3blibs\fR to b nfw blibs, \f3dfstblibs\fR\&. If no dfstinbtion blibs is providfd, tifn tif dommbnd prompts for onf\&. If tif originbl fntry is protfdtfd witi bn fntry pbssword, tifn tif pbssword dbn bf supplifd witi tif \f3-kfypbss\fR option\&. If no kfy pbssword is providfd, tifn tif \f3storfpbss\fR (if providfd) is bttfmptfd first\&. If tif bttfmpt fbils, tifn tif usfr is promptfd for b pbssword\&.
 .TP
--help
+-iflp
 .br
-Lists the basic commands and their options\&.
+Lists tif bbsid dommbnds bnd tifir options\&.
 
-For more information about a specific command, enter the following, where \f3command_name\fR is the name of the command: \f3keytool -command_name -help\fR\&.
+For morf informbtion bbout b spfdifid dommbnd, fntfr tif following, wifrf \f3dommbnd_nbmf\fR is tif nbmf of tif dommbnd: \f3kfytool -dommbnd_nbmf -iflp\fR\&.
 .SH EXAMPLES    
-This example walks through the sequence of steps to create a keystore for managing public/private key pair and certificates from trusted entities\&.
+Tiis fxbmplf wblks tirougi tif sfqufndf of stfps to drfbtf b kfystorf for mbnbging publid/privbtf kfy pbir bnd dfrtifidbtfs from trustfd fntitifs\&.
 .SS GENERATE\ THE\ KEY\ PAIR    
-First, create a keystore and generate the key pair\&. You can use a command such as the following typed as a single line:
+First, drfbtf b kfystorf bnd gfnfrbtf tif kfy pbir\&. You dbn usf b dommbnd sudi bs tif following typfd bs b singlf linf:
 .sp     
 .nf     
-\f3keytool \-genkeypair \-dname "cn=Mark Jones, ou=Java, o=Oracle, c=US"\fP
+\f3kfytool \-gfnkfypbir \-dnbmf "dn=Mbrk Jonfs, ou=Jbvb, o=Orbdlf, d=US"\fP
 .fi     
 .nf     
-\f3    \-alias business \-keypass <new password for private key>\fP
+\f3    \-blibs businfss \-kfypbss <nfw pbssword for privbtf kfy>\fP
 .fi     
 .nf     
-\f3    \-keystore /working/mykeystore\fP
+\f3    \-kfystorf /working/mykfystorf\fP
 .fi     
 .nf     
-\f3    \-storepass <new password for keystore> \-validity 180\fP
+\f3    \-storfpbss <nfw pbssword for kfystorf> \-vblidity 180\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-The command creates the keystore named \f3mykeystore\fR in the working directory (assuming it does not already exist), and assigns it the password specified by \f3<new password for keystore>\fR\&. It generates a public/private key pair for the entity whose distinguished name has a common name of Mark Jones, organizational unit of Java, organization of Oracle and two-letter country code of US\&. It uses the default DSA key generation algorithm to create the keys; both are 1024 bits\&.
+Tif dommbnd drfbtfs tif kfystorf nbmfd \f3mykfystorf\fR in tif working dirfdtory (bssuming it dofs not blrfbdy fxist), bnd bssigns it tif pbssword spfdififd by \f3<nfw pbssword for kfystorf>\fR\&. It gfnfrbtfs b publid/privbtf kfy pbir for tif fntity wiosf distinguisifd nbmf ibs b dommon nbmf of Mbrk Jonfs, orgbnizbtionbl unit of Jbvb, orgbnizbtion of Orbdlf bnd two-lfttfr dountry dodf of US\&. It usfs tif dffbult DSA kfy gfnfrbtion blgoritim to drfbtf tif kfys; boti brf 1024 bits\&.
 .PP
-The command uses the default SHA1withDSA signature algorithm to create a self-signed certificate that includes the public key and the distinguished name information\&. The certificate is valid for 180 days, and is associated with the private key in a keystore entry referred to by the alias \f3business\fR\&. The private key is assigned the password specified by \f3<new password for private key>\fR\&.
+Tif dommbnd usfs tif dffbult SHA1witiDSA signbturf blgoritim to drfbtf b sflf-signfd dfrtifidbtf tibt indludfs tif publid kfy bnd tif distinguisifd nbmf informbtion\&. Tif dfrtifidbtf is vblid for 180 dbys, bnd is bssodibtfd witi tif privbtf kfy in b kfystorf fntry rfffrrfd to by tif blibs \f3businfss\fR\&. Tif privbtf kfy is bssignfd tif pbssword spfdififd by \f3<nfw pbssword for privbtf kfy>\fR\&.
 .PP
-The command is significantly shorter when the option defaults are accepted\&. In this case, no options are required, and the defaults are used for unspecified options that have default values\&. You are prompted for any required values\&. You could have the following:
+Tif dommbnd is signifidbntly siortfr wifn tif option dffbults brf bddfptfd\&. In tiis dbsf, no options brf rfquirfd, bnd tif dffbults brf usfd for unspfdififd options tibt ibvf dffbult vblufs\&. You brf promptfd for bny rfquirfd vblufs\&. You dould ibvf tif following:
 .sp     
 .nf     
-\f3keytool \-genkeypair\fP
+\f3kfytool \-gfnkfypbir\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-In this case, a keystore entry with the alias \f3mykey\fR is created, with a newly generated key pair and a certificate that is valid for 90 days\&. This entry is placed in the keystore named \f3\&.keystore\fR in your home directory\&. The keystore is created when it does not already exist\&. You are prompted for the distinguished name information, the keystore password, and the private key password\&.
+In tiis dbsf, b kfystorf fntry witi tif blibs \f3mykfy\fR is drfbtfd, witi b nfwly gfnfrbtfd kfy pbir bnd b dfrtifidbtf tibt is vblid for 90 dbys\&. Tiis fntry is plbdfd in tif kfystorf nbmfd \f3\&.kfystorf\fR in your iomf dirfdtory\&. Tif kfystorf is drfbtfd wifn it dofs not blrfbdy fxist\&. You brf promptfd for tif distinguisifd nbmf informbtion, tif kfystorf pbssword, bnd tif privbtf kfy pbssword\&.
 .PP
-The rest of the examples assume you executed the \f3-genkeypair\fR command without options specified, and that you responded to the prompts with values equal to those specified in the first \f3-genkeypair\fR command\&. For example, a distinguished name of \f3cn=Mark Jones\fR, \f3ou=Java\fR, \f3o=Oracle\fR, \f3c=US\fR)\&.
+Tif rfst of tif fxbmplfs bssumf you fxfdutfd tif \f3-gfnkfypbir\fR dommbnd witiout options spfdififd, bnd tibt you rfspondfd to tif prompts witi vblufs fqubl to tiosf spfdififd in tif first \f3-gfnkfypbir\fR dommbnd\&. For fxbmplf, b distinguisifd nbmf of \f3dn=Mbrk Jonfs\fR, \f3ou=Jbvb\fR, \f3o=Orbdlf\fR, \f3d=US\fR)\&.
 .SS REQUEST\ A\ SIGNED\ CERTIFICATE\ FROM\ A\ CA    
-Generating the key pair created a self-signed certificate\&. A certificate is more likely to be trusted by others when it is signed by a Certification Authority (CA)\&. To get a CA signature, first generate a Certificate Signing Request (CSR), as follows:
+Gfnfrbting tif kfy pbir drfbtfd b sflf-signfd dfrtifidbtf\&. A dfrtifidbtf is morf likfly to bf trustfd by otifrs wifn it is signfd by b Cfrtifidbtion Autiority (CA)\&. To gft b CA signbturf, first gfnfrbtf b Cfrtifidbtf Signing Rfqufst (CSR), bs follows:
 .sp     
 .nf     
-\f3keytool \-certreq \-file MarkJ\&.csr\fP
+\f3kfytool \-dfrtrfq \-filf MbrkJ\&.dsr\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-This creates a CSR for the entity identified by the default alias \f3mykey\fR and puts the request in the file named MarkJ\&.csr\&. Submit this file to a CA, such as VeriSign\&. The CA authenticates you, the requestor (usually off-line), and returns a certificate, signed by them, authenticating your public key\&. In some cases, the CA returns a chain of certificates, each one authenticating the public key of the signer of the previous certificate in the chain\&.
+Tiis drfbtfs b CSR for tif fntity idfntififd by tif dffbult blibs \f3mykfy\fR bnd puts tif rfqufst in tif filf nbmfd MbrkJ\&.dsr\&. Submit tiis filf to b CA, sudi bs VfriSign\&. Tif CA butifntidbtfs you, tif rfqufstor (usublly off-linf), bnd rfturns b dfrtifidbtf, signfd by tifm, butifntidbting your publid kfy\&. In somf dbsfs, tif CA rfturns b dibin of dfrtifidbtfs, fbdi onf butifntidbting tif publid kfy of tif signfr of tif prfvious dfrtifidbtf in tif dibin\&.
 .SS IMPORT\ A\ CERTIFICATE\ FOR\ THE\ CA    
-You now need to replace the self-signed certificate with a certificate chain, where each certificate in the chain authenticates the public key of the signer of the previous certificate in the chain, up to a root CA\&.
+You now nffd to rfplbdf tif sflf-signfd dfrtifidbtf witi b dfrtifidbtf dibin, wifrf fbdi dfrtifidbtf in tif dibin butifntidbtfs tif publid kfy of tif signfr of tif prfvious dfrtifidbtf in tif dibin, up to b root CA\&.
 .PP
-Before you import the certificate reply from a CA, you need one or more trusted certificates in your keystore or in the \f3cacerts\fR keystore file\&. See \f3-importcert\fR in Commands\&.
+Bfforf you import tif dfrtifidbtf rfply from b CA, you nffd onf or morf trustfd dfrtifidbtfs in your kfystorf or in tif \f3dbdfrts\fR kfystorf filf\&. Sff \f3-importdfrt\fR in Commbnds\&.
 .TP 0.2i    
 \(bu
-If the certificate reply is a certificate chain, then you need the top certificate of the chain\&. The root CA certificate that authenticates the public key of the CA\&.
+If tif dfrtifidbtf rfply is b dfrtifidbtf dibin, tifn you nffd tif top dfrtifidbtf of tif dibin\&. Tif root CA dfrtifidbtf tibt butifntidbtfs tif publid kfy of tif CA\&.
 .TP 0.2i    
 \(bu
-If the certificate reply is a single certificate, then you need a certificate for the issuing CA (the one that signed it)\&. If that certificate is not self-signed, then you need a certificate for its signer, and so on, up to a self-signed root CA certificate\&.
+If tif dfrtifidbtf rfply is b singlf dfrtifidbtf, tifn you nffd b dfrtifidbtf for tif issuing CA (tif onf tibt signfd it)\&. If tibt dfrtifidbtf is not sflf-signfd, tifn you nffd b dfrtifidbtf for its signfr, bnd so on, up to b sflf-signfd root CA dfrtifidbtf\&.
 .PP
-The \f3cacerts\fR keystore file ships with several VeriSign root CA certificates, so you probably will not need to import a VeriSign certificate as a trusted certificate in your keystore\&. But if you request a signed certificate from a different CA, and a certificate authenticating that CA\&'s public key was not added to \f3cacerts\fR, then you must import a certificate from the CA as a trusted certificate\&.
+Tif \f3dbdfrts\fR kfystorf filf siips witi sfvfrbl VfriSign root CA dfrtifidbtfs, so you probbbly will not nffd to import b VfriSign dfrtifidbtf bs b trustfd dfrtifidbtf in your kfystorf\&. But if you rfqufst b signfd dfrtifidbtf from b difffrfnt CA, bnd b dfrtifidbtf butifntidbting tibt CA\&'s publid kfy wbs not bddfd to \f3dbdfrts\fR, tifn you must import b dfrtifidbtf from tif CA bs b trustfd dfrtifidbtf\&.
 .PP
-A certificate from a CA is usually either self-signed or signed by another CA, in which case you need a certificate that authenticates that CA\&'s public key\&. Suppose company ABC, Inc\&., is a CA, and you obtain a file named A\f3BCCA\&.cer\fR that is supposed to be a self-signed certificate from ABC, that authenticates that CA\&'s public key\&. Be careful to ensure the certificate is valid before you import it as a trusted certificate\&. View it first with the \f3keytool -printcert\fR command or the \f3keytool -importcert\fR command without the \f3-noprompt\fR option, and make sure that the displayed certificate fingerprints match the expected ones\&. You can call the person who sent the certificate, and compare the fingerprints that you see with the ones that they show or that a secure public key repository shows\&. Only when the fingerprints are equal is it guaranteed that the certificate was not replaced in transit with somebody else\&'s (for example, an attacker\&'s) certificate\&. If such an attack takes place, and you did not check the certificate before you imported it, then you would be trusting anything the attacker has signed\&.
+A dfrtifidbtf from b CA is usublly fitifr sflf-signfd or signfd by bnotifr CA, in wiidi dbsf you nffd b dfrtifidbtf tibt butifntidbtfs tibt CA\&'s publid kfy\&. Supposf dompbny ABC, Ind\&., is b CA, bnd you obtbin b filf nbmfd A\f3BCCA\&.dfr\fR tibt is supposfd to bf b sflf-signfd dfrtifidbtf from ABC, tibt butifntidbtfs tibt CA\&'s publid kfy\&. Bf dbrfful to fnsurf tif dfrtifidbtf is vblid bfforf you import it bs b trustfd dfrtifidbtf\&. Vifw it first witi tif \f3kfytool -printdfrt\fR dommbnd or tif \f3kfytool -importdfrt\fR dommbnd witiout tif \f3-noprompt\fR option, bnd mbkf surf tibt tif displbyfd dfrtifidbtf fingfrprints mbtdi tif fxpfdtfd onfs\&. You dbn dbll tif pfrson wio sfnt tif dfrtifidbtf, bnd dompbrf tif fingfrprints tibt you sff witi tif onfs tibt tify siow or tibt b sfdurf publid kfy rfpository siows\&. Only wifn tif fingfrprints brf fqubl is it gubrbntffd tibt tif dfrtifidbtf wbs not rfplbdfd in trbnsit witi somfbody flsf\&'s (for fxbmplf, bn bttbdkfr\&'s) dfrtifidbtf\&. If sudi bn bttbdk tbkfs plbdf, bnd you did not difdk tif dfrtifidbtf bfforf you importfd it, tifn you would bf trusting bnytiing tif bttbdkfr ibs signfd\&.
 .PP
-If you trust that the certificate is valid, then you can add it to your keystore with the following command:
+If you trust tibt tif dfrtifidbtf is vblid, tifn you dbn bdd it to your kfystorf witi tif following dommbnd:
 .sp     
 .nf     
-\f3keytool \-importcert \-alias abc \-file ABCCA\&.cer\fP
+\f3kfytool \-importdfrt \-blibs bbd \-filf ABCCA\&.dfr\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-This command creates a trusted certificate entry in the keystore, with the data from the file ABCCA\&.cer, and assigns the alias \f3abc\fR to the entry\&.
+Tiis dommbnd drfbtfs b trustfd dfrtifidbtf fntry in tif kfystorf, witi tif dbtb from tif filf ABCCA\&.dfr, bnd bssigns tif blibs \f3bbd\fR to tif fntry\&.
 .SS IMPORT\ THE\ CERTIFICATE\ REPLY\ FROM\ THE\ CA    
-After you import a certificate that authenticates the public key of the CA you submitted your certificate signing request to (or there is already such a certificate in the cacerts file), you can import the certificate reply and replace your self-signed certificate with a certificate chain\&. This chain is the one returned by the CA in response to your request (when the CA reply is a chain), or one constructed (when the CA reply is a single certificate) using the certificate reply and trusted certificates that are already available in the keystore where you import the reply or in the \f3cacerts\fR keystore file\&.
+Aftfr you import b dfrtifidbtf tibt butifntidbtfs tif publid kfy of tif CA you submittfd your dfrtifidbtf signing rfqufst to (or tifrf is blrfbdy sudi b dfrtifidbtf in tif dbdfrts filf), you dbn import tif dfrtifidbtf rfply bnd rfplbdf your sflf-signfd dfrtifidbtf witi b dfrtifidbtf dibin\&. Tiis dibin is tif onf rfturnfd by tif CA in rfsponsf to your rfqufst (wifn tif CA rfply is b dibin), or onf donstrudtfd (wifn tif CA rfply is b singlf dfrtifidbtf) using tif dfrtifidbtf rfply bnd trustfd dfrtifidbtfs tibt brf blrfbdy bvbilbblf in tif kfystorf wifrf you import tif rfply or in tif \f3dbdfrts\fR kfystorf filf\&.
 .PP
-For example, if you sent your certificate signing request to VeriSign, then you can import the reply with the following, which assumes the returned certificate is named VSMarkJ\&.cer:
+For fxbmplf, if you sfnt your dfrtifidbtf signing rfqufst to VfriSign, tifn you dbn import tif rfply witi tif following, wiidi bssumfs tif rfturnfd dfrtifidbtf is nbmfd VSMbrkJ\&.dfr:
 .sp     
 .nf     
-\f3keytool \-importcert \-trustcacerts \-file VSMarkJ\&.cer\fP
+\f3kfytool \-importdfrt \-trustdbdfrts \-filf VSMbrkJ\&.dfr\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
 .SS EXPORT\ A\ CERTIFICATE\ THAT\ AUTHENTICATES\ THE\ PUBLIC\ KEY    
-If you used the \f3jarsigner\fR command to sign a Java Archive (JAR) file, then clients that want to use the file will want to authenticate your signature\&. One way the clients can authenticate you is by first importing your public key certificate into their keystore as a trusted entry\&.
+If you usfd tif \f3jbrsignfr\fR dommbnd to sign b Jbvb Ardiivf (JAR) filf, tifn dlifnts tibt wbnt to usf tif filf will wbnt to butifntidbtf your signbturf\&. Onf wby tif dlifnts dbn butifntidbtf you is by first importing your publid kfy dfrtifidbtf into tifir kfystorf bs b trustfd fntry\&.
 .PP
-You can export the certificate and supply it to your clients\&. As an example, you can copy your certificate to a file named MJ\&.cer with the following command that assumes the entry has an alias of \f3mykey\fR:
+You dbn fxport tif dfrtifidbtf bnd supply it to your dlifnts\&. As bn fxbmplf, you dbn dopy your dfrtifidbtf to b filf nbmfd MJ\&.dfr witi tif following dommbnd tibt bssumfs tif fntry ibs bn blibs of \f3mykfy\fR:
 .sp     
 .nf     
-\f3keytool \-exportcert \-alias mykey \-file MJ\&.cer\fP
+\f3kfytool \-fxportdfrt \-blibs mykfy \-filf MJ\&.dfr\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-With the certificate and the signed JAR file, a client can use the \f3jarsigner\fR command to authenticate your signature\&.
+Witi tif dfrtifidbtf bnd tif signfd JAR filf, b dlifnt dbn usf tif \f3jbrsignfr\fR dommbnd to butifntidbtf your signbturf\&.
 .SS IMPORT\ KEYSTORE    
-The command \f3importkeystore\fR is used to import an entire keystore into another keystore, which means all entries from the source keystore, including keys and certificates, are all imported to the destination keystore within a single command\&. You can use this command to import entries from a different type of keystore\&. During the import, all new entries in the destination keystore will have the same alias names and protection passwords (for secret keys and private keys)\&. If the \f3keytool\fR command cannot recover the private keys or secret keys from the source keystore, then it prompts you for a password\&. If it detects alias duplication, then it asks you for a new alias, and you can specify a new alias or simply allow the \f3keytool\fR command to overwrite the existing one\&.
+Tif dommbnd \f3importkfystorf\fR is usfd to import bn fntirf kfystorf into bnotifr kfystorf, wiidi mfbns bll fntrifs from tif sourdf kfystorf, indluding kfys bnd dfrtifidbtfs, brf bll importfd to tif dfstinbtion kfystorf witiin b singlf dommbnd\&. You dbn usf tiis dommbnd to import fntrifs from b difffrfnt typf of kfystorf\&. During tif import, bll nfw fntrifs in tif dfstinbtion kfystorf will ibvf tif sbmf blibs nbmfs bnd protfdtion pbsswords (for sfdrft kfys bnd privbtf kfys)\&. If tif \f3kfytool\fR dommbnd dbnnot rfdovfr tif privbtf kfys or sfdrft kfys from tif sourdf kfystorf, tifn it prompts you for b pbssword\&. If it dftfdts blibs duplidbtion, tifn it bsks you for b nfw blibs, bnd you dbn spfdify b nfw blibs or simply bllow tif \f3kfytool\fR dommbnd to ovfrwritf tif fxisting onf\&.
 .PP
-For example, to import entries from a typical JKS type keystore key\&.jks into a PKCS #11 type hardware-based keystore, use the command:
+For fxbmplf, to import fntrifs from b typidbl JKS typf kfystorf kfy\&.jks into b PKCS #11 typf ibrdwbrf-bbsfd kfystorf, usf tif dommbnd:
 .sp     
 .nf     
-\f3keytool \-importkeystore\fP
+\f3kfytool \-importkfystorf\fP
 .fi     
 .nf     
-\f3    \-srckeystore key\&.jks \-destkeystore NONE\fP
+\f3    \-srdkfystorf kfy\&.jks \-dfstkfystorf NONE\fP
 .fi     
 .nf     
-\f3    \-srcstoretype JKS \-deststoretype PKCS11\fP
+\f3    \-srdstorftypf JKS \-dfststorftypf PKCS11\fP
 .fi     
 .nf     
-\f3    \-srcstorepass <src keystore password>\fP
+\f3    \-srdstorfpbss <srd kfystorf pbssword>\fP
 .fi     
 .nf     
-\f3    \-deststorepass <destination keystore pwd>\fP
+\f3    \-dfststorfpbss <dfstinbtion kfystorf pwd>\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-The \f3importkeystore\fR command can also be used to import a single entry from a source keystore to a destination keystore\&. In this case, besides the options you see in the previous example, you need to specify the alias you want to import\&. With the \f3-srcalias\fR option specified, you can also specify the destination alias name in the command line, as well as protection password for a secret/private key and the destination protection password you want\&. The following command demonstrates this:
+Tif \f3importkfystorf\fR dommbnd dbn blso bf usfd to import b singlf fntry from b sourdf kfystorf to b dfstinbtion kfystorf\&. In tiis dbsf, bfsidfs tif options you sff in tif prfvious fxbmplf, you nffd to spfdify tif blibs you wbnt to import\&. Witi tif \f3-srdblibs\fR option spfdififd, you dbn blso spfdify tif dfstinbtion blibs nbmf in tif dommbnd linf, bs wfll bs protfdtion pbssword for b sfdrft/privbtf kfy bnd tif dfstinbtion protfdtion pbssword you wbnt\&. Tif following dommbnd dfmonstrbtfs tiis:
 .sp     
 .nf     
-\f3keytool \-importkeystore\fP
+\f3kfytool \-importkfystorf\fP
 .fi     
 .nf     
-\f3    \-srckeystore key\&.jks \-destkeystore NONE\fP
+\f3    \-srdkfystorf kfy\&.jks \-dfstkfystorf NONE\fP
 .fi     
 .nf     
-\f3    \-srcstoretype JKS \-deststoretype PKCS11\fP
+\f3    \-srdstorftypf JKS \-dfststorftypf PKCS11\fP
 .fi     
 .nf     
-\f3    \-srcstorepass <src keystore password>\fP
+\f3    \-srdstorfpbss <srd kfystorf pbssword>\fP
 .fi     
 .nf     
-\f3    \-deststorepass <destination keystore pwd>\fP
+\f3    \-dfststorfpbss <dfstinbtion kfystorf pwd>\fP
 .fi     
 .nf     
-\f3    \-srcalias myprivatekey \-destalias myoldprivatekey\fP
+\f3    \-srdblibs myprivbtfkfy \-dfstblibs myoldprivbtfkfy\fP
 .fi     
 .nf     
-\f3    \-srckeypass <source entry password>\fP
+\f3    \-srdkfypbss <sourdf fntry pbssword>\fP
 .fi     
 .nf     
-\f3    \-destkeypass <destination entry password>\fP
+\f3    \-dfstkfypbss <dfstinbtion fntry pbssword>\fP
 .fi     
 .nf     
 \f3    \-noprompt\fP
@@ -806,55 +806,55 @@ The \f3importkeystore\fR command can also be used to import a single entry from 
 .fi     
 .sp     
 .SS GENERATE\ CERTIFICATES\ FOR\ AN\ SSL\ SERVER    
-The following are \f3keytool\fR commands to generate key pairs and certificates for three entities: Root CA (\f3root\fR), Intermediate CA (\f3ca\fR), and SSL server (\f3server\fR)\&. Ensure that you store all the certificates in the same keystore\&. In these examples, RSA is the recommended the key algorithm\&.
+Tif following brf \f3kfytool\fR dommbnds to gfnfrbtf kfy pbirs bnd dfrtifidbtfs for tirff fntitifs: Root CA (\f3root\fR), Intfrmfdibtf CA (\f3db\fR), bnd SSL sfrvfr (\f3sfrvfr\fR)\&. Ensurf tibt you storf bll tif dfrtifidbtfs in tif sbmf kfystorf\&. In tifsf fxbmplfs, RSA is tif rfdommfndfd tif kfy blgoritim\&.
 .sp     
 .nf     
-\f3keytool \-genkeypair \-keystore root\&.jks \-alias root \-ext bc:c\fP
+\f3kfytool \-gfnkfypbir \-kfystorf root\&.jks \-blibs root \-fxt bd:d\fP
 .fi     
 .nf     
-\f3keytool \-genkeypair \-keystore ca\&.jks \-alias ca \-ext bc:c\fP
+\f3kfytool \-gfnkfypbir \-kfystorf db\&.jks \-blibs db \-fxt bd:d\fP
 .fi     
 .nf     
-\f3keytool \-genkeypair \-keystore server\&.jks \-alias server\fP
-.fi     
-.nf     
-\f3\fP
-.fi     
-.nf     
-\f3keytool \-keystore root\&.jks \-alias root \-exportcert \-rfc > root\&.pem\fP
+\f3kfytool \-gfnkfypbir \-kfystorf sfrvfr\&.jks \-blibs sfrvfr\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3keytool \-storepass <storepass> \-keystore ca\&.jks \-certreq \-alias ca |\fP
-.fi     
-.nf     
-\f3    keytool \-storepass <storepass> \-keystore root\&.jks\fP
-.fi     
-.nf     
-\f3    \-gencert \-alias root \-ext BC=0 \-rfc > ca\&.pem\fP
-.fi     
-.nf     
-\f3keytool \-keystore ca\&.jks \-importcert \-alias ca \-file ca\&.pem\fP
+\f3kfytool \-kfystorf root\&.jks \-blibs root \-fxportdfrt \-rfd > root\&.pfm\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3keytool \-storepass <storepass> \-keystore server\&.jks \-certreq \-alias server |\fP
+\f3kfytool \-storfpbss <storfpbss> \-kfystorf db\&.jks \-dfrtrfq \-blibs db |\fP
 .fi     
 .nf     
-\f3    keytool \-storepass <storepass> \-keystore ca\&.jks \-gencert \-alias ca\fP
+\f3    kfytool \-storfpbss <storfpbss> \-kfystorf root\&.jks\fP
 .fi     
 .nf     
-\f3    \-ext ku:c=dig,kE \-rfc > server\&.pem\fP
+\f3    \-gfndfrt \-blibs root \-fxt BC=0 \-rfd > db\&.pfm\fP
 .fi     
 .nf     
-\f3cat root\&.pem ca\&.pem server\&.pem |\fP
+\f3kfytool \-kfystorf db\&.jks \-importdfrt \-blibs db \-filf db\&.pfm\fP
 .fi     
 .nf     
-\f3    keytool \-keystore server\&.jks \-importcert \-alias server\fP
+\f3\fP
+.fi     
+.nf     
+\f3kfytool \-storfpbss <storfpbss> \-kfystorf sfrvfr\&.jks \-dfrtrfq \-blibs sfrvfr |\fP
+.fi     
+.nf     
+\f3    kfytool \-storfpbss <storfpbss> \-kfystorf db\&.jks \-gfndfrt \-blibs db\fP
+.fi     
+.nf     
+\f3    \-fxt ku:d=dig,kE \-rfd > sfrvfr\&.pfm\fP
+.fi     
+.nf     
+\f3dbt root\&.pfm db\&.pfm sfrvfr\&.pfm |\fP
+.fi     
+.nf     
+\f3    kfytool \-kfystorf sfrvfr\&.jks \-importdfrt \-blibs sfrvfr\fP
 .fi     
 .nf     
 \f3\fP
@@ -862,25 +862,25 @@ The following are \f3keytool\fR commands to generate key pairs and certificates 
 .sp     
 .SH TERMS    
 .TP     
-Keystore
-A keystore is a storage facility for cryptographic keys and certificates\&.
+Kfystorf
+A kfystorf is b storbgf fbdility for dryptogrbpiid kfys bnd dfrtifidbtfs\&.
 .TP     
-Keystore entries
-Keystores can have different types of entries\&. The two most applicable entry types for the \f3keytool\fR command include the following:
+Kfystorf fntrifs
+Kfystorfs dbn ibvf difffrfnt typfs of fntrifs\&. Tif two most bpplidbblf fntry typfs for tif \f3kfytool\fR dommbnd indludf tif following:
 
-\fIKey entries\fR: Each entry holds very sensitive cryptographic key information, which is stored in a protected format to prevent unauthorized access\&. Typically, a key stored in this type of entry is a secret key, or a private key accompanied by the certificate chain for the corresponding public key\&. See Certificate Chains\&. The \f3keytool\fR command can handle both types of entries, while the \f3jarsigner\fR tool only handles the latter type of entry, that is private keys and their associated certificate chains\&.
+\fIKfy fntrifs\fR: Ebdi fntry iolds vfry sfnsitivf dryptogrbpiid kfy informbtion, wiidi is storfd in b protfdtfd formbt to prfvfnt unbutiorizfd bddfss\&. Typidblly, b kfy storfd in tiis typf of fntry is b sfdrft kfy, or b privbtf kfy bddompbnifd by tif dfrtifidbtf dibin for tif dorrfsponding publid kfy\&. Sff Cfrtifidbtf Cibins\&. Tif \f3kfytool\fR dommbnd dbn ibndlf boti typfs of fntrifs, wiilf tif \f3jbrsignfr\fR tool only ibndlfs tif lbttfr typf of fntry, tibt is privbtf kfys bnd tifir bssodibtfd dfrtifidbtf dibins\&.
 
-\fITrusted certificate entries\fR: Each entry contains a single public key certificate that belongs to another party\&. The entry is called a trusted certificate because the keystore owner trusts that the public key in the certificate belongs to the identity identified by the subject (owner) of the certificate\&. The issuer of the certificate vouches for this, by signing the certificate\&.
+\fITrustfd dfrtifidbtf fntrifs\fR: Ebdi fntry dontbins b singlf publid kfy dfrtifidbtf tibt bflongs to bnotifr pbrty\&. Tif fntry is dbllfd b trustfd dfrtifidbtf bfdbusf tif kfystorf ownfr trusts tibt tif publid kfy in tif dfrtifidbtf bflongs to tif idfntity idfntififd by tif subjfdt (ownfr) of tif dfrtifidbtf\&. Tif issufr of tif dfrtifidbtf voudifs for tiis, by signing tif dfrtifidbtf\&.
 .TP     
-KeyStore aliases
-All keystore entries (key and trusted certificate entries) are accessed by way of unique aliases\&.
+KfyStorf blibsfs
+All kfystorf fntrifs (kfy bnd trustfd dfrtifidbtf fntrifs) brf bddfssfd by wby of uniquf blibsfs\&.
 
-An alias is specified when you add an entity to the keystore with the \f3-genseckey\fR command to generate a secret key, the \f3-genkeypair\fR command to generate a key pair (public and private key), or the \f3-importcert\fR command to add a certificate or certificate chain to the list of trusted certificates\&. Subsequent \f3keytool\fR commands must use this same alias to refer to the entity\&.
+An blibs is spfdififd wifn you bdd bn fntity to tif kfystorf witi tif \f3-gfnsfdkfy\fR dommbnd to gfnfrbtf b sfdrft kfy, tif \f3-gfnkfypbir\fR dommbnd to gfnfrbtf b kfy pbir (publid bnd privbtf kfy), or tif \f3-importdfrt\fR dommbnd to bdd b dfrtifidbtf or dfrtifidbtf dibin to tif list of trustfd dfrtifidbtfs\&. Subsfqufnt \f3kfytool\fR dommbnds must usf tiis sbmf blibs to rfffr to tif fntity\&.
 
-For example, you can use the alias \f3duke\fR to generate a new public/private key pair and wrap the public key into a self-signed certificate with the following command\&. See Certificate Chains\&.
+For fxbmplf, you dbn usf tif blibs \f3dukf\fR to gfnfrbtf b nfw publid/privbtf kfy pbir bnd wrbp tif publid kfy into b sflf-signfd dfrtifidbtf witi tif following dommbnd\&. Sff Cfrtifidbtf Cibins\&.
 .sp     
 .nf     
-\f3keytool \-genkeypair \-alias duke \-keypass dukekeypasswd\fP
+\f3kfytool \-gfnkfypbir \-blibs dukf \-kfypbss dukfkfypbsswd\fP
 .fi     
 .nf     
 \f3\fP
@@ -888,10 +888,10 @@ For example, you can use the alias \f3duke\fR to generate a new public/private k
 .sp     
 
 
-This example specifies an initial password of \f3dukekeypasswd\fR required by subsequent commands to access the private key associated with the alias \f3duke\fR\&. If you later want to change Duke\&'s private key password, use a command such as the following:
+Tiis fxbmplf spfdififs bn initibl pbssword of \f3dukfkfypbsswd\fR rfquirfd by subsfqufnt dommbnds to bddfss tif privbtf kfy bssodibtfd witi tif blibs \f3dukf\fR\&. If you lbtfr wbnt to dibngf Dukf\&'s privbtf kfy pbssword, usf b dommbnd sudi bs tif following:
 .sp     
 .nf     
-\f3keytool \-keypasswd \-alias duke \-keypass dukekeypasswd \-new newpass\fP
+\f3kfytool \-kfypbsswd \-blibs dukf \-kfypbss dukfkfypbsswd \-nfw nfwpbss\fP
 .fi     
 .nf     
 \f3\fP
@@ -899,29 +899,29 @@ This example specifies an initial password of \f3dukekeypasswd\fR required by su
 .sp     
 
 
-This changes the password from \f3dukekeypasswd\fR to \f3newpass\fR\&. A password should not be specified on a command line or in a script unless it is for testing purposes, or you are on a secure system\&. If you do not specify a required password option on a command line, then you are prompted for it\&.
+Tiis dibngfs tif pbssword from \f3dukfkfypbsswd\fR to \f3nfwpbss\fR\&. A pbssword siould not bf spfdififd on b dommbnd linf or in b sdript unlfss it is for tfsting purposfs, or you brf on b sfdurf systfm\&. If you do not spfdify b rfquirfd pbssword option on b dommbnd linf, tifn you brf promptfd for it\&.
 .TP     
-KeyStore implementation
-The \f3KeyStore\fR class provided in the \f3java\&.security\fR package supplies well-defined interfaces to access and modify the information in a keystore\&. It is possible for there to be multiple different concrete implementations, where each implementation is that for a particular type of keystore\&.
+KfyStorf implfmfntbtion
+Tif \f3KfyStorf\fR dlbss providfd in tif \f3jbvb\&.sfdurity\fR pbdkbgf supplifs wfll-dffinfd intfrfbdfs to bddfss bnd modify tif informbtion in b kfystorf\&. It is possiblf for tifrf to bf multiplf difffrfnt dondrftf implfmfntbtions, wifrf fbdi implfmfntbtion is tibt for b pbrtidulbr typf of kfystorf\&.
 
-Currently, two command-line tools (\f3keytool\fR and \f3jarsigner\fR) and a GUI-based tool named Policy Tool make use of keystore implementations\&. Because the \f3KeyStore\fR class is \f3public\fR, users can write additional security applications that use it\&.
+Currfntly, two dommbnd-linf tools (\f3kfytool\fR bnd \f3jbrsignfr\fR) bnd b GUI-bbsfd tool nbmfd Polidy Tool mbkf usf of kfystorf implfmfntbtions\&. Bfdbusf tif \f3KfyStorf\fR dlbss is \f3publid\fR, usfrs dbn writf bdditionbl sfdurity bpplidbtions tibt usf it\&.
 
-There is a built-in default implementation, provided by Oracle\&. It implements the keystore as a file with a proprietary keystore type (format) named JKS\&. It protects each private key with its individual password, and also protects the integrity of the entire keystore with a (possibly different) password\&.
+Tifrf is b built-in dffbult implfmfntbtion, providfd by Orbdlf\&. It implfmfnts tif kfystorf bs b filf witi b propriftbry kfystorf typf (formbt) nbmfd JKS\&. It protfdts fbdi privbtf kfy witi its individubl pbssword, bnd blso protfdts tif intfgrity of tif fntirf kfystorf witi b (possibly difffrfnt) pbssword\&.
 
-Keystore implementations are provider-based\&. More specifically, the application interfaces supplied by \f3KeyStore\fR are implemented in terms of a Service Provider Interface (SPI)\&. That is, there is a corresponding abstract \f3KeystoreSpi\fR class, also in the \f3java\&.security package\fR, which defines the Service Provider Interface methods that providers must implement\&. The term \fIprovider\fR refers to a package or a set of packages that supply a concrete implementation of a subset of services that can be accessed by the Java Security API\&. To provide a keystore implementation, clients must implement a provider and supply a \f3KeystoreSpi\fR subclass implementation, as described in How to Implement a Provider in the Java Cryptography Architecture at http://docs\&.oracle\&.com/javase/8/docs/technotes/guides/security/crypto/HowToImplAProvider\&.html
+Kfystorf implfmfntbtions brf providfr-bbsfd\&. Morf spfdifidblly, tif bpplidbtion intfrfbdfs supplifd by \f3KfyStorf\fR brf implfmfntfd in tfrms of b Sfrvidf Providfr Intfrfbdf (SPI)\&. Tibt is, tifrf is b dorrfsponding bbstrbdt \f3KfystorfSpi\fR dlbss, blso in tif \f3jbvb\&.sfdurity pbdkbgf\fR, wiidi dffinfs tif Sfrvidf Providfr Intfrfbdf mftiods tibt providfrs must implfmfnt\&. Tif tfrm \fIprovidfr\fR rfffrs to b pbdkbgf or b sft of pbdkbgfs tibt supply b dondrftf implfmfntbtion of b subsft of sfrvidfs tibt dbn bf bddfssfd by tif Jbvb Sfdurity API\&. To providf b kfystorf implfmfntbtion, dlifnts must implfmfnt b providfr bnd supply b \f3KfystorfSpi\fR subdlbss implfmfntbtion, bs dfsdribfd in How to Implfmfnt b Providfr in tif Jbvb Cryptogrbpiy Ardiitfdturf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/sfdurity/drypto/HowToImplAProvidfr\&.itml
 
-Applications can choose different types of keystore implementations from different providers, using the \f3getInstance\fR factory method supplied in the \f3KeyStore\fR class\&. A keystore type defines the storage and data format of the keystore information, and the algorithms used to protect private/secret keys in the keystore and the integrity of the keystore\&. Keystore implementations of different types are not compatible\&.
+Applidbtions dbn dioosf difffrfnt typfs of kfystorf implfmfntbtions from difffrfnt providfrs, using tif \f3gftInstbndf\fR fbdtory mftiod supplifd in tif \f3KfyStorf\fR dlbss\&. A kfystorf typf dffinfs tif storbgf bnd dbtb formbt of tif kfystorf informbtion, bnd tif blgoritims usfd to protfdt privbtf/sfdrft kfys in tif kfystorf bnd tif intfgrity of tif kfystorf\&. Kfystorf implfmfntbtions of difffrfnt typfs brf not dompbtiblf\&.
 
-The \f3keytool\fR command works on any file-based keystore implementation\&. It treats the keystore location that is passed to it at the command line as a file name and converts it to a \f3FileInputStream\fR, from which it loads the keystore information\&.)The \f3jarsigner\fR and \f3policytool\fR commands can read a keystore from any location that can be specified with a URL\&.
+Tif \f3kfytool\fR dommbnd works on bny filf-bbsfd kfystorf implfmfntbtion\&. It trfbts tif kfystorf lodbtion tibt is pbssfd to it bt tif dommbnd linf bs b filf nbmf bnd donvfrts it to b \f3FilfInputStrfbm\fR, from wiidi it lobds tif kfystorf informbtion\&.)Tif \f3jbrsignfr\fR bnd \f3polidytool\fR dommbnds dbn rfbd b kfystorf from bny lodbtion tibt dbn bf spfdififd witi b URL\&.
 
-For \f3keytool\fR and \f3jarsigner\fR, you can specify a keystore type at the command line, with the \f3-storetype\fR option\&. For Policy Tool, you can specify a keystore type with the \fIKeystore\fR menu\&.
+For \f3kfytool\fR bnd \f3jbrsignfr\fR, you dbn spfdify b kfystorf typf bt tif dommbnd linf, witi tif \f3-storftypf\fR option\&. For Polidy Tool, you dbn spfdify b kfystorf typf witi tif \fIKfystorf\fR mfnu\&.
 
-If you do not explicitly specify a keystore type, then the tools choose a keystore implementation based on the value of the \f3keystore\&.type\fR property specified in the security properties file\&. The security properties file is called \f3java\&.security\fR, and resides in the security properties directory, \f3java\&.home\elib\esecurity\fR on Windows and \f3java\&.home/lib/security\fR on Oracle Solaris, where \f3java\&.home\fR is the runtime environment directory\&. The \f3jre\fR directory in the SDK or the top-level directory of the Java Runtime Environment (JRE)\&.
+If you do not fxpliditly spfdify b kfystorf typf, tifn tif tools dioosf b kfystorf implfmfntbtion bbsfd on tif vbluf of tif \f3kfystorf\&.typf\fR propfrty spfdififd in tif sfdurity propfrtifs filf\&. Tif sfdurity propfrtifs filf is dbllfd \f3jbvb\&.sfdurity\fR, bnd rfsidfs in tif sfdurity propfrtifs dirfdtory, \f3jbvb\&.iomf\flib\fsfdurity\fR on Windows bnd \f3jbvb\&.iomf/lib/sfdurity\fR on Orbdlf Solbris, wifrf \f3jbvb\&.iomf\fR is tif runtimf fnvironmfnt dirfdtory\&. Tif \f3jrf\fR dirfdtory in tif SDK or tif top-lfvfl dirfdtory of tif Jbvb Runtimf Environmfnt (JRE)\&.
 
-Each tool gets the \f3keystore\&.type\fR value and then examines all the currently installed providers until it finds one that implements a keystores of that type\&. It then uses the keystore implementation from that provider\&.The \f3KeyStore\fR class defines a static method named \f3getDefaultType\fR that lets applications and applets retrieve the value of the \f3keystore\&.type\fR property\&. The following line of code creates an instance of the default keystore type as specified in the \f3keystore\&.type\fR property:
+Ebdi tool gfts tif \f3kfystorf\&.typf\fR vbluf bnd tifn fxbminfs bll tif durrfntly instbllfd providfrs until it finds onf tibt implfmfnts b kfystorfs of tibt typf\&. It tifn usfs tif kfystorf implfmfntbtion from tibt providfr\&.Tif \f3KfyStorf\fR dlbss dffinfs b stbtid mftiod nbmfd \f3gftDffbultTypf\fR tibt lfts bpplidbtions bnd bpplfts rftrifvf tif vbluf of tif \f3kfystorf\&.typf\fR propfrty\&. Tif following linf of dodf drfbtfs bn instbndf of tif dffbult kfystorf typf bs spfdififd in tif \f3kfystorf\&.typf\fR propfrty:
 .sp     
 .nf     
-\f3KeyStore keyStore = KeyStore\&.getInstance(KeyStore\&.getDefaultType());\fP
+\f3KfyStorf kfyStorf = KfyStorf\&.gftInstbndf(KfyStorf\&.gftDffbultTypf());\fP
 .fi     
 .nf     
 \f3\fP
@@ -929,10 +929,10 @@ Each tool gets the \f3keystore\&.type\fR value and then examines all the current
 .sp     
 
 
-The default keystore type is \f3jks\fR, which is the proprietary type of the keystore implementation provided by Oracle\&. This is specified by the following line in the security properties file:
+Tif dffbult kfystorf typf is \f3jks\fR, wiidi is tif propriftbry typf of tif kfystorf implfmfntbtion providfd by Orbdlf\&. Tiis is spfdififd by tif following linf in tif sfdurity propfrtifs filf:
 .sp     
 .nf     
-\f3keystore\&.type=jks\fP
+\f3kfystorf\&.typf=jks\fP
 .fi     
 .nf     
 \f3\fP
@@ -940,10 +940,10 @@ The default keystore type is \f3jks\fR, which is the proprietary type of the key
 .sp     
 
 
-To have the tools utilize a keystore implementation other than the default, you can change that line to specify a different keystore type\&. For example, if you have a provider package that supplies a keystore implementation for a keystore type called \f3pkcs12\fR, then change the line to the following:
+To ibvf tif tools utilizf b kfystorf implfmfntbtion otifr tibn tif dffbult, you dbn dibngf tibt linf to spfdify b difffrfnt kfystorf typf\&. For fxbmplf, if you ibvf b providfr pbdkbgf tibt supplifs b kfystorf implfmfntbtion for b kfystorf typf dbllfd \f3pkds12\fR, tifn dibngf tif linf to tif following:
 .sp     
 .nf     
-\f3keystore\&.type=pkcs12\fP
+\f3kfystorf\&.typf=pkds12\fP
 .fi     
 .nf     
 \f3\fP
@@ -951,54 +951,54 @@ To have the tools utilize a keystore implementation other than the default, you 
 .sp     
 
 
-\fINote:\fR Case does not matter in keystore type designations\&. For example, JKS would be considered the same as jks\&.
+\fINotf:\fR Cbsf dofs not mbttfr in kfystorf typf dfsignbtions\&. For fxbmplf, JKS would bf donsidfrfd tif sbmf bs jks\&.
 .TP     
-Certificate
-A certificate (or public-key certificate) is a digitally signed statement from one entity (the issuer), saying that the public key and some other information of another entity (the subject) has some specific value\&. The following terms are related to certificates:
+Cfrtifidbtf
+A dfrtifidbtf (or publid-kfy dfrtifidbtf) is b digitblly signfd stbtfmfnt from onf fntity (tif issufr), sbying tibt tif publid kfy bnd somf otifr informbtion of bnotifr fntity (tif subjfdt) ibs somf spfdifid vbluf\&. Tif following tfrms brf rflbtfd to dfrtifidbtfs:
 
-\fIPublic Keys\fR: These are numbers associated with a particular entity, and are intended to be known to everyone who needs to have trusted interactions with that entity\&. Public keys are used to verify signatures\&.
+\fIPublid Kfys\fR: Tifsf brf numbfrs bssodibtfd witi b pbrtidulbr fntity, bnd brf intfndfd to bf known to fvfryonf wio nffds to ibvf trustfd intfrbdtions witi tibt fntity\&. Publid kfys brf usfd to vfrify signbturfs\&.
 
-\fIDigitally Signed\fR: If some data is digitally signed, then it is stored with the identity of an entity and a signature that proves that entity knows about the data\&. The data is rendered unforgeable by signing with the entity\&'s private key\&.
+\fIDigitblly Signfd\fR: If somf dbtb is digitblly signfd, tifn it is storfd witi tif idfntity of bn fntity bnd b signbturf tibt provfs tibt fntity knows bbout tif dbtb\&. Tif dbtb is rfndfrfd unforgfbblf by signing witi tif fntity\&'s privbtf kfy\&.
 
-\fIIdentity\fR: A known way of addressing an entity\&. In some systems, the identity is the public key, and in others it can be anything from an Oracle Solaris UID to an email address to an X\&.509 distinguished name\&.
+\fIIdfntity\fR: A known wby of bddrfssing bn fntity\&. In somf systfms, tif idfntity is tif publid kfy, bnd in otifrs it dbn bf bnytiing from bn Orbdlf Solbris UID to bn fmbil bddrfss to bn X\&.509 distinguisifd nbmf\&.
 
-\fISignature\fR: A signature is computed over some data using the private key of an entity\&. The signer, which in the case of a certificate is also known as the issuer\&.
+\fISignbturf\fR: A signbturf is domputfd ovfr somf dbtb using tif privbtf kfy of bn fntity\&. Tif signfr, wiidi in tif dbsf of b dfrtifidbtf is blso known bs tif issufr\&.
 
-\fIPrivate Keys\fR: These are numbers, each of which is supposed to be known only to the particular entity whose private key it is (that is, it is supposed to be kept secret)\&. Private and public keys exist in pairs in all public key cryptography systems (also referred to as public key crypto systems)\&. In a typical public key crypto system, such as DSA, a private key corresponds to exactly one public key\&. Private keys are used to compute signatures\&.
+\fIPrivbtf Kfys\fR: Tifsf brf numbfrs, fbdi of wiidi is supposfd to bf known only to tif pbrtidulbr fntity wiosf privbtf kfy it is (tibt is, it is supposfd to bf kfpt sfdrft)\&. Privbtf bnd publid kfys fxist in pbirs in bll publid kfy dryptogrbpiy systfms (blso rfffrrfd to bs publid kfy drypto systfms)\&. In b typidbl publid kfy drypto systfm, sudi bs DSA, b privbtf kfy dorrfsponds to fxbdtly onf publid kfy\&. Privbtf kfys brf usfd to domputf signbturfs\&.
 
-\fIEntity\fR: An entity is a person, organization, program, computer, business, bank, or something else you are trusting to some degree\&.
+\fIEntity\fR: An fntity is b pfrson, orgbnizbtion, progrbm, domputfr, businfss, bbnk, or somftiing flsf you brf trusting to somf dfgrff\&.
 
-Public key cryptography requires access to users\&' public keys\&. In a large-scale networked environment, it is impossible to guarantee that prior relationships between communicating entities were established or that a trusted repository exists with all used public keys\&. Certificates were invented as a solution to this public key distribution problem\&. Now a Certification Authority (CA) can act as a trusted third party\&. CAs are entities such as businesses that are trusted to sign (issue) certificates for other entities\&. It is assumed that CAs only create valid and reliable certificates because they are bound by legal agreements\&. There are many public Certification Authorities, such as VeriSign, Thawte, Entrust, and so on\&.
+Publid kfy dryptogrbpiy rfquirfs bddfss to usfrs\&' publid kfys\&. In b lbrgf-sdblf nftworkfd fnvironmfnt, it is impossiblf to gubrbntff tibt prior rflbtionsiips bftwffn dommunidbting fntitifs wfrf fstbblisifd or tibt b trustfd rfpository fxists witi bll usfd publid kfys\&. Cfrtifidbtfs wfrf invfntfd bs b solution to tiis publid kfy distribution problfm\&. Now b Cfrtifidbtion Autiority (CA) dbn bdt bs b trustfd tiird pbrty\&. CAs brf fntitifs sudi bs businfssfs tibt brf trustfd to sign (issuf) dfrtifidbtfs for otifr fntitifs\&. It is bssumfd tibt CAs only drfbtf vblid bnd rflibblf dfrtifidbtfs bfdbusf tify brf bound by lfgbl bgrffmfnts\&. Tifrf brf mbny publid Cfrtifidbtion Autioritifs, sudi bs VfriSign, Tibwtf, Entrust, bnd so on\&.
 
-You can also run your own Certification Authority using products such as Microsoft Certificate Server or the Entrust CA product for your organization\&. With the \f3keytool\fR command, it is possible to display, import, and export certificates\&. It is also possible to generate self-signed certificates\&.
+You dbn blso run your own Cfrtifidbtion Autiority using produdts sudi bs Midrosoft Cfrtifidbtf Sfrvfr or tif Entrust CA produdt for your orgbnizbtion\&. Witi tif \f3kfytool\fR dommbnd, it is possiblf to displby, import, bnd fxport dfrtifidbtfs\&. It is blso possiblf to gfnfrbtf sflf-signfd dfrtifidbtfs\&.
 
-The \f3keytool\fR command currently handles X\&.509 certificates\&.
+Tif \f3kfytool\fR dommbnd durrfntly ibndlfs X\&.509 dfrtifidbtfs\&.
 .TP     
-X\&.509 Certificates
-The X\&.509 standard defines what information can go into a certificate and describes how to write it down (the data format)\&. All the data in a certificate is encoded with two related standards called ASN\&.1/DER\&. Abstract Syntax Notation 1 describes data\&. The Definite Encoding Rules describe a single way to store and transfer that data\&.
+X\&.509 Cfrtifidbtfs
+Tif X\&.509 stbndbrd dffinfs wibt informbtion dbn go into b dfrtifidbtf bnd dfsdribfs iow to writf it down (tif dbtb formbt)\&. All tif dbtb in b dfrtifidbtf is fndodfd witi two rflbtfd stbndbrds dbllfd ASN\&.1/DER\&. Abstrbdt Syntbx Notbtion 1 dfsdribfs dbtb\&. Tif Dffinitf Endoding Rulfs dfsdribf b singlf wby to storf bnd trbnsffr tibt dbtb\&.
 
-All X\&.509 certificates have the following data, in addition to the signature:
+All X\&.509 dfrtifidbtfs ibvf tif following dbtb, in bddition to tif signbturf:
 
-\fIVersion\fR: This identifies which version of the X\&.509 standard applies to this certificate, which affects what information can be specified in it\&. Thus far, three versions are defined\&. The \f3keytool\fR command can import and export v1, v2, and v3 certificates\&. It generates v3 certificates\&.
+\fIVfrsion\fR: Tiis idfntififs wiidi vfrsion of tif X\&.509 stbndbrd bpplifs to tiis dfrtifidbtf, wiidi bfffdts wibt informbtion dbn bf spfdififd in it\&. Tius fbr, tirff vfrsions brf dffinfd\&. Tif \f3kfytool\fR dommbnd dbn import bnd fxport v1, v2, bnd v3 dfrtifidbtfs\&. It gfnfrbtfs v3 dfrtifidbtfs\&.
 
-X\&.509 Version 1 has been available since 1988, is widely deployed, and is the most generic\&.
+X\&.509 Vfrsion 1 ibs bffn bvbilbblf sindf 1988, is widfly dfployfd, bnd is tif most gfnfrid\&.
 
-X\&.509 Version 2 introduced the concept of subject and issuer unique identifiers to handle the possibility of reuse of subject or issuer names over time\&. Most certificate profile documents strongly recommend that names not be reused and that certificates should not make use of unique identifiers\&. Version 2 certificates are not widely used\&.
+X\&.509 Vfrsion 2 introdudfd tif dondfpt of subjfdt bnd issufr uniquf idfntififrs to ibndlf tif possibility of rfusf of subjfdt or issufr nbmfs ovfr timf\&. Most dfrtifidbtf profilf dodumfnts strongly rfdommfnd tibt nbmfs not bf rfusfd bnd tibt dfrtifidbtfs siould not mbkf usf of uniquf idfntififrs\&. Vfrsion 2 dfrtifidbtfs brf not widfly usfd\&.
 
-X\&.509 Version 3 is the most recent (1996) and supports the notion of extensions where anyone can define an extension and include it in the certificate\&. Some common extensions are: KeyUsage (limits the use of the keys to particular purposes such as \f3signing-only\fR) and AlternativeNames (allows other identities to also be associated with this public key, for example\&. DNS names, email addresses, IP addresses)\&. Extensions can be marked critical to indicate that the extension should be checked and enforced or used\&. For example, if a certificate has the KeyUsage extension marked critical and set to \f3keyCertSign\fR, then when this certificate is presented during SSL communication, it should be rejected because the certificate extension indicates that the associated private key should only be used for signing certificates and not for SSL use\&.
+X\&.509 Vfrsion 3 is tif most rfdfnt (1996) bnd supports tif notion of fxtfnsions wifrf bnyonf dbn dffinf bn fxtfnsion bnd indludf it in tif dfrtifidbtf\&. Somf dommon fxtfnsions brf: KfyUsbgf (limits tif usf of tif kfys to pbrtidulbr purposfs sudi bs \f3signing-only\fR) bnd AltfrnbtivfNbmfs (bllows otifr idfntitifs to blso bf bssodibtfd witi tiis publid kfy, for fxbmplf\&. DNS nbmfs, fmbil bddrfssfs, IP bddrfssfs)\&. Extfnsions dbn bf mbrkfd dritidbl to indidbtf tibt tif fxtfnsion siould bf difdkfd bnd fnfordfd or usfd\&. For fxbmplf, if b dfrtifidbtf ibs tif KfyUsbgf fxtfnsion mbrkfd dritidbl bnd sft to \f3kfyCfrtSign\fR, tifn wifn tiis dfrtifidbtf is prfsfntfd during SSL dommunidbtion, it siould bf rfjfdtfd bfdbusf tif dfrtifidbtf fxtfnsion indidbtfs tibt tif bssodibtfd privbtf kfy siould only bf usfd for signing dfrtifidbtfs bnd not for SSL usf\&.
 
-\fISerial number\fR: The entity that created the certificate is responsible for assigning it a serial number to distinguish it from other certificates it issues\&. This information is used in numerous ways\&. For example, when a certificate is revoked its serial number is placed in a Certificate Revocation List (CRL)\&.
+\fISfribl numbfr\fR: Tif fntity tibt drfbtfd tif dfrtifidbtf is rfsponsiblf for bssigning it b sfribl numbfr to distinguisi it from otifr dfrtifidbtfs it issufs\&. Tiis informbtion is usfd in numfrous wbys\&. For fxbmplf, wifn b dfrtifidbtf is rfvokfd its sfribl numbfr is plbdfd in b Cfrtifidbtf Rfvodbtion List (CRL)\&.
 
-\fISignature algorithm identifier\fR: This identifies the algorithm used by the CA to sign the certificate\&.
+\fISignbturf blgoritim idfntififr\fR: Tiis idfntififs tif blgoritim usfd by tif CA to sign tif dfrtifidbtf\&.
 
-\fIIssuer name\fR: The X\&.500 Distinguished Name of the entity that signed the certificate\&. See X\&.500 Distinguished Names\&. This is typically a CA\&. Using this certificate implies trusting the entity that signed this certificate\&. In some cases, such as root or top-level CA certificates, the issuer signs its own certificate\&.
+\fIIssufr nbmf\fR: Tif X\&.500 Distinguisifd Nbmf of tif fntity tibt signfd tif dfrtifidbtf\&. Sff X\&.500 Distinguisifd Nbmfs\&. Tiis is typidblly b CA\&. Using tiis dfrtifidbtf implifs trusting tif fntity tibt signfd tiis dfrtifidbtf\&. In somf dbsfs, sudi bs root or top-lfvfl CA dfrtifidbtfs, tif issufr signs its own dfrtifidbtf\&.
 
-\fIValidity period\fR: Each certificate is valid only for a limited amount of time\&. This period is described by a start date and time and an end date and time, and can be as short as a few seconds or almost as long as a century\&. The validity period chosen depends on a number of factors, such as the strength of the private key used to sign the certificate, or the amount one is willing to pay for a certificate\&. This is the expected period that entities can rely on the public value, when the associated private key has not been compromised\&.
+\fIVblidity pfriod\fR: Ebdi dfrtifidbtf is vblid only for b limitfd bmount of timf\&. Tiis pfriod is dfsdribfd by b stbrt dbtf bnd timf bnd bn fnd dbtf bnd timf, bnd dbn bf bs siort bs b ffw sfdonds or blmost bs long bs b dfntury\&. Tif vblidity pfriod diosfn dfpfnds on b numbfr of fbdtors, sudi bs tif strfngti of tif privbtf kfy usfd to sign tif dfrtifidbtf, or tif bmount onf is willing to pby for b dfrtifidbtf\&. Tiis is tif fxpfdtfd pfriod tibt fntitifs dbn rfly on tif publid vbluf, wifn tif bssodibtfd privbtf kfy ibs not bffn dompromisfd\&.
 
-\fISubject name\fR: The name of the entity whose public key the certificate identifies\&. This name uses the X\&.500 standard, so it is intended to be unique across the Internet\&. This is the X\&.500 Distinguished Name (DN) of the entity\&. See X\&.500 Distinguished Names\&. For example,
+\fISubjfdt nbmf\fR: Tif nbmf of tif fntity wiosf publid kfy tif dfrtifidbtf idfntififs\&. Tiis nbmf usfs tif X\&.500 stbndbrd, so it is intfndfd to bf uniquf bdross tif Intfrnft\&. Tiis is tif X\&.500 Distinguisifd Nbmf (DN) of tif fntity\&. Sff X\&.500 Distinguisifd Nbmfs\&. For fxbmplf,
 .sp     
 .nf     
-\f3CN=Java Duke, OU=Java Software Division, O=Oracle Corporation, C=US\fP
+\f3CN=Jbvb Dukf, OU=Jbvb Softwbrf Division, O=Orbdlf Corporbtion, C=US\fP
 .fi     
 .nf     
 \f3\fP
@@ -1006,32 +1006,32 @@ X\&.509 Version 3 is the most recent (1996) and supports the notion of extension
 .sp     
 
 
-These refer to the subject\&'s common name (CN), organizational unit (OU), organization (O), and country (C)\&.
+Tifsf rfffr to tif subjfdt\&'s dommon nbmf (CN), orgbnizbtionbl unit (OU), orgbnizbtion (O), bnd dountry (C)\&.
 
-\fISubject public key information\fR: This is the public key of the entity being named with an algorithm identifier that specifies which public key crypto system this key belongs to and any associated key parameters\&.
+\fISubjfdt publid kfy informbtion\fR: Tiis is tif publid kfy of tif fntity bfing nbmfd witi bn blgoritim idfntififr tibt spfdififs wiidi publid kfy drypto systfm tiis kfy bflongs to bnd bny bssodibtfd kfy pbrbmftfrs\&.
 .TP     
-Certificate Chains
-The \f3keytool\fR command can create and manage keystore key entries that each contain a private key and an associated certificate chain\&. The first certificate in the chain contains the public key that corresponds to the private key\&.
+Cfrtifidbtf Cibins
+Tif \f3kfytool\fR dommbnd dbn drfbtf bnd mbnbgf kfystorf kfy fntrifs tibt fbdi dontbin b privbtf kfy bnd bn bssodibtfd dfrtifidbtf dibin\&. Tif first dfrtifidbtf in tif dibin dontbins tif publid kfy tibt dorrfsponds to tif privbtf kfy\&.
 
-When keys are first generated, the chain starts off containing a single element, a self-signed certificate\&. See \f3-genkeypair\fR in Commands\&. A self-signed certificate is one for which the issuer (signer) is the same as the subject\&. The subject is the entity whose public key is being authenticated by the certificate\&. Whenever the \f3-genkeypair\fR command is called to generate a new public/private key pair, it also wraps the public key into a self-signed certificate\&.
+Wifn kfys brf first gfnfrbtfd, tif dibin stbrts off dontbining b singlf flfmfnt, b sflf-signfd dfrtifidbtf\&. Sff \f3-gfnkfypbir\fR in Commbnds\&. A sflf-signfd dfrtifidbtf is onf for wiidi tif issufr (signfr) is tif sbmf bs tif subjfdt\&. Tif subjfdt is tif fntity wiosf publid kfy is bfing butifntidbtfd by tif dfrtifidbtf\&. Wifnfvfr tif \f3-gfnkfypbir\fR dommbnd is dbllfd to gfnfrbtf b nfw publid/privbtf kfy pbir, it blso wrbps tif publid kfy into b sflf-signfd dfrtifidbtf\&.
 
-Later, after a Certificate Signing Request (CSR) was generated with the \f3-certreq\fR command and sent to a Certification Authority (CA), the response from the CA is imported with \f3-importcert\fR, and the self-signed certificate is replaced by a chain of certificates\&. See the \f3-certreq\fR and \f3-importcert\fR options in Commands\&. At the bottom of the chain is the certificate (reply) issued by the CA authenticating the subject\&'s public key\&. The next certificate in the chain is one that authenticates the CA\&'s public key\&.
+Lbtfr, bftfr b Cfrtifidbtf Signing Rfqufst (CSR) wbs gfnfrbtfd witi tif \f3-dfrtrfq\fR dommbnd bnd sfnt to b Cfrtifidbtion Autiority (CA), tif rfsponsf from tif CA is importfd witi \f3-importdfrt\fR, bnd tif sflf-signfd dfrtifidbtf is rfplbdfd by b dibin of dfrtifidbtfs\&. Sff tif \f3-dfrtrfq\fR bnd \f3-importdfrt\fR options in Commbnds\&. At tif bottom of tif dibin is tif dfrtifidbtf (rfply) issufd by tif CA butifntidbting tif subjfdt\&'s publid kfy\&. Tif nfxt dfrtifidbtf in tif dibin is onf tibt butifntidbtfs tif CA\&'s publid kfy\&.
 
-In many cases, this is a self-signed certificate, which is a certificate from the CA authenticating its own public key, and the last certificate in the chain\&. In other cases, the CA might return a chain of certificates\&. In this case, the bottom certificate in the chain is the same (a certificate signed by the CA, authenticating the public key of the key entry), but the second certificate in the chain is a certificate signed by a different CA that authenticates the public key of the CA you sent the CSR to\&. The next certificate in the chain is a certificate that authenticates the second CA\&'s key, and so on, until a self-signed root certificate is reached\&. Each certificate in the chain (after the first) authenticates the public key of the signer of the previous certificate in the chain\&.
+In mbny dbsfs, tiis is b sflf-signfd dfrtifidbtf, wiidi is b dfrtifidbtf from tif CA butifntidbting its own publid kfy, bnd tif lbst dfrtifidbtf in tif dibin\&. In otifr dbsfs, tif CA migit rfturn b dibin of dfrtifidbtfs\&. In tiis dbsf, tif bottom dfrtifidbtf in tif dibin is tif sbmf (b dfrtifidbtf signfd by tif CA, butifntidbting tif publid kfy of tif kfy fntry), but tif sfdond dfrtifidbtf in tif dibin is b dfrtifidbtf signfd by b difffrfnt CA tibt butifntidbtfs tif publid kfy of tif CA you sfnt tif CSR to\&. Tif nfxt dfrtifidbtf in tif dibin is b dfrtifidbtf tibt butifntidbtfs tif sfdond CA\&'s kfy, bnd so on, until b sflf-signfd root dfrtifidbtf is rfbdifd\&. Ebdi dfrtifidbtf in tif dibin (bftfr tif first) butifntidbtfs tif publid kfy of tif signfr of tif prfvious dfrtifidbtf in tif dibin\&.
 
-Many CAs only return the issued certificate, with no supporting chain, especially when there is a flat hierarchy (no intermediates CAs)\&. In this case, the certificate chain must be established from trusted certificate information already stored in the keystore\&.
+Mbny CAs only rfturn tif issufd dfrtifidbtf, witi no supporting dibin, fspfdiblly wifn tifrf is b flbt iifrbrdiy (no intfrmfdibtfs CAs)\&. In tiis dbsf, tif dfrtifidbtf dibin must bf fstbblisifd from trustfd dfrtifidbtf informbtion blrfbdy storfd in tif kfystorf\&.
 
-A different reply format (defined by the PKCS #7 standard) includes the supporting certificate chain in addition to the issued certificate\&. Both reply formats can be handled by the \f3keytool\fR command\&.
+A difffrfnt rfply formbt (dffinfd by tif PKCS #7 stbndbrd) indludfs tif supporting dfrtifidbtf dibin in bddition to tif issufd dfrtifidbtf\&. Boti rfply formbts dbn bf ibndlfd by tif \f3kfytool\fR dommbnd\&.
 
-The top-level (root) CA certificate is self-signed\&. However, the trust into the root\&'s public key does not come from the root certificate itself, but from other sources such as a newspaper\&. This is because anybody could generate a self-signed certificate with the distinguished name of, for example, the VeriSign root CA\&. The root CA public key is widely known\&. The only reason it is stored in a certificate is because this is the format understood by most tools, so the certificate in this case is only used as a vehicle to transport the root CA\&'s public key\&. Before you add the root CA certificate to your keystore, you should view it with the \f3-printcert\fR option and compare the displayed fingerprint with the well-known fingerprint obtained from a newspaper, the root CA\&'s Web page, and so on\&.
+Tif top-lfvfl (root) CA dfrtifidbtf is sflf-signfd\&. Howfvfr, tif trust into tif root\&'s publid kfy dofs not domf from tif root dfrtifidbtf itsflf, but from otifr sourdfs sudi bs b nfwspbpfr\&. Tiis is bfdbusf bnybody dould gfnfrbtf b sflf-signfd dfrtifidbtf witi tif distinguisifd nbmf of, for fxbmplf, tif VfriSign root CA\&. Tif root CA publid kfy is widfly known\&. Tif only rfbson it is storfd in b dfrtifidbtf is bfdbusf tiis is tif formbt undfrstood by most tools, so tif dfrtifidbtf in tiis dbsf is only usfd bs b vfiidlf to trbnsport tif root CA\&'s publid kfy\&. Bfforf you bdd tif root CA dfrtifidbtf to your kfystorf, you siould vifw it witi tif \f3-printdfrt\fR option bnd dompbrf tif displbyfd fingfrprint witi tif wfll-known fingfrprint obtbinfd from b nfwspbpfr, tif root CA\&'s Wfb pbgf, bnd so on\&.
 .TP     
-The cacerts Certificates File
-A certificates file named \f3cacerts\fR resides in the security properties directory, \f3java\&.home\elib\esecurity\fR on Windows and \f3java\&.home/lib/security\fR on Oracle Solaris, where \f3java\&.home\fR is the runtime environment\&'s directory, which would be the \f3jre\fR directory in the SDK or the top-level directory of the JRE\&.
+Tif dbdfrts Cfrtifidbtfs Filf
+A dfrtifidbtfs filf nbmfd \f3dbdfrts\fR rfsidfs in tif sfdurity propfrtifs dirfdtory, \f3jbvb\&.iomf\flib\fsfdurity\fR on Windows bnd \f3jbvb\&.iomf/lib/sfdurity\fR on Orbdlf Solbris, wifrf \f3jbvb\&.iomf\fR is tif runtimf fnvironmfnt\&'s dirfdtory, wiidi would bf tif \f3jrf\fR dirfdtory in tif SDK or tif top-lfvfl dirfdtory of tif JRE\&.
 
-The \f3cacerts\fR file represents a system-wide keystore with CA certificates\&. System administrators can configure and manage that file with the \f3keytool\fR command by specifying \f3jks\fR as the keystore type\&. The \f3cacerts\fR keystore file ships with a default set of root CA certificates\&. You can list the default certificates with the following command:
+Tif \f3dbdfrts\fR filf rfprfsfnts b systfm-widf kfystorf witi CA dfrtifidbtfs\&. Systfm bdministrbtors dbn donfigurf bnd mbnbgf tibt filf witi tif \f3kfytool\fR dommbnd by spfdifying \f3jks\fR bs tif kfystorf typf\&. Tif \f3dbdfrts\fR kfystorf filf siips witi b dffbult sft of root CA dfrtifidbtfs\&. You dbn list tif dffbult dfrtifidbtfs witi tif following dommbnd:
 .sp     
 .nf     
-\f3keytool \-list \-keystore java\&.home/lib/security/cacerts\fP
+\f3kfytool \-list \-kfystorf jbvb\&.iomf/lib/sfdurity/dbdfrts\fP
 .fi     
 .nf     
 \f3\fP
@@ -1039,20 +1039,20 @@ The \f3cacerts\fR file represents a system-wide keystore with CA certificates\&.
 .sp     
 
 
-The initial password of the \f3cacerts\fR keystore file is \f3changeit\fR\&. System administrators should change that password and the default access permission of that file upon installing the SDK\&.
+Tif initibl pbssword of tif \f3dbdfrts\fR kfystorf filf is \f3dibngfit\fR\&. Systfm bdministrbtors siould dibngf tibt pbssword bnd tif dffbult bddfss pfrmission of tibt filf upon instblling tif SDK\&.
 
-\fINote:\fR It is important to verify your \f3cacerts\fR file\&. Because you trust the CAs in the \f3cacerts\fR file as entities for signing and issuing certificates to other entities, you must manage the \f3cacerts\fR file carefully\&. The \f3cacerts\fR file should contain only certificates of the CAs you trust\&. It is your responsibility to verify the trusted root CA certificates bundled in the \f3cacerts\fR file and make your own trust decisions\&.
+\fINotf:\fR It is importbnt to vfrify your \f3dbdfrts\fR filf\&. Bfdbusf you trust tif CAs in tif \f3dbdfrts\fR filf bs fntitifs for signing bnd issuing dfrtifidbtfs to otifr fntitifs, you must mbnbgf tif \f3dbdfrts\fR filf dbrffully\&. Tif \f3dbdfrts\fR filf siould dontbin only dfrtifidbtfs of tif CAs you trust\&. It is your rfsponsibility to vfrify tif trustfd root CA dfrtifidbtfs bundlfd in tif \f3dbdfrts\fR filf bnd mbkf your own trust dfdisions\&.
 
-To remove an untrusted CA certificate from the \f3cacerts\fR file, use the \f3delete\fR option of the \f3keytool\fR command\&. You can find the \f3cacerts\fR file in the JRE installation directory\&. Contact your system administrator if you do not have permission to edit this file
+To rfmovf bn untrustfd CA dfrtifidbtf from tif \f3dbdfrts\fR filf, usf tif \f3dflftf\fR option of tif \f3kfytool\fR dommbnd\&. You dbn find tif \f3dbdfrts\fR filf in tif JRE instbllbtion dirfdtory\&. Contbdt your systfm bdministrbtor if you do not ibvf pfrmission to fdit tiis filf
 .TP     
-Internet RFC 1421 Certificate Encoding Standard
-Certificates are often stored using the printable encoding format defined by the Internet RFC 1421 standard, instead of their binary encoding\&. This certificate format, also known as Base64 encoding, makes it easy to export certificates to other applications by email or through some other mechanism\&.
+Intfrnft RFC 1421 Cfrtifidbtf Endoding Stbndbrd
+Cfrtifidbtfs brf oftfn storfd using tif printbblf fndoding formbt dffinfd by tif Intfrnft RFC 1421 stbndbrd, instfbd of tifir binbry fndoding\&. Tiis dfrtifidbtf formbt, blso known bs Bbsf64 fndoding, mbkfs it fbsy to fxport dfrtifidbtfs to otifr bpplidbtions by fmbil or tirougi somf otifr mfdibnism\&.
 
-Certificates read by the \f3-importcert\fR and \f3-printcert\fR commands can be in either this format or binary encoded\&. The \f3-exportcert\fR command by default outputs a certificate in binary encoding, but will instead output a certificate in the printable encoding format, when the \f3-rfc\fR option is specified\&.
+Cfrtifidbtfs rfbd by tif \f3-importdfrt\fR bnd \f3-printdfrt\fR dommbnds dbn bf in fitifr tiis formbt or binbry fndodfd\&. Tif \f3-fxportdfrt\fR dommbnd by dffbult outputs b dfrtifidbtf in binbry fndoding, but will instfbd output b dfrtifidbtf in tif printbblf fndoding formbt, wifn tif \f3-rfd\fR option is spfdififd\&.
 
-The \f3-list\fR command by default prints the SHA1 fingerprint of a certificate\&. If the \f3-v\fR option is specified, then the certificate is printed in human-readable format\&. If the \f3-rfc\fR option is specified, then the certificate is output in the printable encoding format\&.
+Tif \f3-list\fR dommbnd by dffbult prints tif SHA1 fingfrprint of b dfrtifidbtf\&. If tif \f3-v\fR option is spfdififd, tifn tif dfrtifidbtf is printfd in iumbn-rfbdbblf formbt\&. If tif \f3-rfd\fR option is spfdififd, tifn tif dfrtifidbtf is output in tif printbblf fndoding formbt\&.
 
-In its printable encoding format, the encoded certificate is bounded at the beginning and end by the following text:
+In its printbblf fndoding formbt, tif fndodfd dfrtifidbtf is boundfd bt tif bfginning bnd fnd by tif following tfxt:
 .sp     
 .nf     
 \f3\-\-\-\-\-BEGIN CERTIFICATE\-\-\-\-\-\fP
@@ -1061,7 +1061,7 @@ In its printable encoding format, the encoded certificate is bounded at the begi
 \f3\fP
 .fi     
 .nf     
-\f3encoded certificate goes here\&. \fP
+\f3fndodfd dfrtifidbtf gofs ifrf\&. \fP
 .fi     
 .nf     
 \f3\fP
@@ -1075,23 +1075,23 @@ In its printable encoding format, the encoded certificate is bounded at the begi
 .sp     
 
 .TP     
-X\&.500 Distinguished Names
-X\&.500 Distinguished Names are used to identify entities, such as those that are named by the \f3subject\fR and \f3issuer\fR (signer) fields of X\&.509 certificates\&. The \f3keytool\fR command supports the following subparts:
+X\&.500 Distinguisifd Nbmfs
+X\&.500 Distinguisifd Nbmfs brf usfd to idfntify fntitifs, sudi bs tiosf tibt brf nbmfd by tif \f3subjfdt\fR bnd \f3issufr\fR (signfr) fiflds of X\&.509 dfrtifidbtfs\&. Tif \f3kfytool\fR dommbnd supports tif following subpbrts:
 
-\fIcommonName\fR: The common name of a person such as Susan Jones\&.
+\fIdommonNbmf\fR: Tif dommon nbmf of b pfrson sudi bs Susbn Jonfs\&.
 
-\fIorganizationUnit\fR: The small organization (such as department or division) name\&. For example, Purchasing\&.
+\fIorgbnizbtionUnit\fR: Tif smbll orgbnizbtion (sudi bs dfpbrtmfnt or division) nbmf\&. For fxbmplf, Purdibsing\&.
 
-\fIlocalityName\fR: The locality (city) name, for example, Palo Alto\&.
+\fIlodblityNbmf\fR: Tif lodblity (dity) nbmf, for fxbmplf, Pblo Alto\&.
 
-\fIstateName\fR: State or province name, for example, California\&.
+\fIstbtfNbmf\fR: Stbtf or provindf nbmf, for fxbmplf, Cblifornib\&.
 
-\fIcountry\fR: Two-letter country code, for example, CH\&.
+\fIdountry\fR: Two-lfttfr dountry dodf, for fxbmplf, CH\&.
 
-When you supply a distinguished name string as the value of a \f3-dname\fR option, such as for the \f3-genkeypair\fR command, the string must be in the following format:
+Wifn you supply b distinguisifd nbmf string bs tif vbluf of b \f3-dnbmf\fR option, sudi bs for tif \f3-gfnkfypbir\fR dommbnd, tif string must bf in tif following formbt:
 .sp     
 .nf     
-\f3CN=cName, OU=orgUnit, O=org, L=city, S=state, C=countryCode\fP
+\f3CN=dNbmf, OU=orgUnit, O=org, L=dity, S=stbtf, C=dountryCodf\fP
 .fi     
 .nf     
 \f3\fP
@@ -1099,25 +1099,25 @@ When you supply a distinguished name string as the value of a \f3-dname\fR optio
 .sp     
 
 
-All the italicized items represent actual values and the previous keywords are abbreviations for the following:
+All tif itblidizfd itfms rfprfsfnt bdtubl vblufs bnd tif prfvious kfywords brf bbbrfvibtions for tif following:
 .sp     
 .nf     
-\f3CN=commonName\fP
+\f3CN=dommonNbmf\fP
 .fi     
 .nf     
-\f3OU=organizationUnit\fP
+\f3OU=orgbnizbtionUnit\fP
 .fi     
 .nf     
-\f3O=organizationName\fP
+\f3O=orgbnizbtionNbmf\fP
 .fi     
 .nf     
-\f3L=localityName\fP
+\f3L=lodblityNbmf\fP
 .fi     
 .nf     
-\f3S=stateName\fP
+\f3S=stbtfNbmf\fP
 .fi     
 .nf     
-\f3C=country\fP
+\f3C=dountry\fP
 .fi     
 .nf     
 \f3\fP
@@ -1125,10 +1125,10 @@ All the italicized items represent actual values and the previous keywords are a
 .sp     
 
 
-A sample distinguished name string is:
+A sbmplf distinguisifd nbmf string is:
 .sp     
 .nf     
-\f3CN=Mark Smith, OU=Java, O=Oracle, L=Cupertino, S=California, C=US\fP
+\f3CN=Mbrk Smiti, OU=Jbvb, O=Orbdlf, L=Cupfrtino, S=Cblifornib, C=US\fP
 .fi     
 .nf     
 \f3\fP
@@ -1136,13 +1136,13 @@ A sample distinguished name string is:
 .sp     
 
 
-A sample command using such a string is:
+A sbmplf dommbnd using sudi b string is:
 .sp     
 .nf     
-\f3keytool \-genkeypair \-dname "CN=Mark Smith, OU=Java, O=Oracle, L=Cupertino,\fP
+\f3kfytool \-gfnkfypbir \-dnbmf "CN=Mbrk Smiti, OU=Jbvb, O=Orbdlf, L=Cupfrtino,\fP
 .fi     
 .nf     
-\f3S=California, C=US" \-alias mark\fP
+\f3S=Cblifornib, C=US" \-blibs mbrk\fP
 .fi     
 .nf     
 \f3\fP
@@ -1150,12 +1150,12 @@ A sample command using such a string is:
 .sp     
 
 
-Case does not matter for the keyword abbreviations\&. For example, CN, cn, and Cn are all treated the same\&.
+Cbsf dofs not mbttfr for tif kfyword bbbrfvibtions\&. For fxbmplf, CN, dn, bnd Cn brf bll trfbtfd tif sbmf\&.
 
-Order matters; each subcomponent must appear in the designated order\&. However, it is not necessary to have all the subcomponents\&. You can use a subset, for example:
+Ordfr mbttfrs; fbdi subdomponfnt must bppfbr in tif dfsignbtfd ordfr\&. Howfvfr, it is not nfdfssbry to ibvf bll tif subdomponfnts\&. You dbn usf b subsft, for fxbmplf:
 .sp     
 .nf     
-\f3CN=Steve Meier, OU=Java, O=Oracle, C=US\fP
+\f3CN=Stfvf Mfifr, OU=Jbvb, O=Orbdlf, C=US\fP
 .fi     
 .nf     
 \f3\fP
@@ -1163,10 +1163,10 @@ Order matters; each subcomponent must appear in the designated order\&. However,
 .sp     
 
 
-If a distinguished name string value contains a comma, then the comma must be escaped by a backslash (\e) character when you specify the string on a command line, as in:
+If b distinguisifd nbmf string vbluf dontbins b dommb, tifn tif dommb must bf fsdbpfd by b bbdkslbsi (\f) dibrbdtfr wifn you spfdify tif string on b dommbnd linf, bs in:
 .sp     
 .nf     
-\f3cn=Peter Schuster, ou=Java\e, Product Development, o=Oracle, c=US\fP
+\f3dn=Pftfr Sdiustfr, ou=Jbvb\f, Produdt Dfvflopmfnt, o=Orbdlf, d=US\fP
 .fi     
 .nf     
 \f3\fP
@@ -1174,32 +1174,32 @@ If a distinguished name string value contains a comma, then the comma must be es
 .sp     
 
 
-It is never necessary to specify a distinguished name string on a command line\&. When the distinguished name is needed for a command, but not supplied on the command line, the user is prompted for each of the subcomponents\&. In this case, a comma does not need to be escaped by a backslash (\e)\&.
+It is nfvfr nfdfssbry to spfdify b distinguisifd nbmf string on b dommbnd linf\&. Wifn tif distinguisifd nbmf is nffdfd for b dommbnd, but not supplifd on tif dommbnd linf, tif usfr is promptfd for fbdi of tif subdomponfnts\&. In tiis dbsf, b dommb dofs not nffd to bf fsdbpfd by b bbdkslbsi (\f)\&.
 .SH WARNINGS    
 .SS IMPORTING\ TRUSTED\ CERTIFICATES\ WARNING    
-\fIImportant\fR: Be sure to check a certificate very carefully before importing it as a trusted certificate\&.
+\fIImportbnt\fR: Bf surf to difdk b dfrtifidbtf vfry dbrffully bfforf importing it bs b trustfd dfrtifidbtf\&.
 .PP
-Windows Example:
+Windows Exbmplf:
 
-View the certificate first with the \f3-printcert\fR command or the \f3-importcert\fR command without the \f3-noprompt\fR option\&. Ensure that the displayed certificate fingerprints match the expected ones\&. For example, suppose sends or emails you a certificate that you put it in a file named \f3\etmp\ecert\fR\&. Before you consider adding the certificate to your list of trusted certificates, you can execute a \f3-printcert\fR command to view its fingerprints, as follows:
+Vifw tif dfrtifidbtf first witi tif \f3-printdfrt\fR dommbnd or tif \f3-importdfrt\fR dommbnd witiout tif \f3-noprompt\fR option\&. Ensurf tibt tif displbyfd dfrtifidbtf fingfrprints mbtdi tif fxpfdtfd onfs\&. For fxbmplf, supposf sfnds or fmbils you b dfrtifidbtf tibt you put it in b filf nbmfd \f3\ftmp\fdfrt\fR\&. Bfforf you donsidfr bdding tif dfrtifidbtf to your list of trustfd dfrtifidbtfs, you dbn fxfdutf b \f3-printdfrt\fR dommbnd to vifw its fingfrprints, bs follows:
 .sp     
 .nf     
-\f3  keytool \-printcert \-file \etmp\ecert\fP
+\f3  kfytool \-printdfrt \-filf \ftmp\fdfrt\fP
 .fi     
 .nf     
-\f3    Owner: CN=ll, OU=ll, O=ll, L=ll, S=ll, C=ll\fP
+\f3    Ownfr: CN=ll, OU=ll, O=ll, L=ll, S=ll, C=ll\fP
 .fi     
 .nf     
-\f3    Issuer: CN=ll, OU=ll, O=ll, L=ll, S=ll, C=ll\fP
+\f3    Issufr: CN=ll, OU=ll, O=ll, L=ll, S=ll, C=ll\fP
 .fi     
 .nf     
-\f3    Serial Number: 59092b34\fP
+\f3    Sfribl Numbfr: 59092b34\fP
 .fi     
 .nf     
-\f3    Valid from: Thu Sep 25 18:01:13 PDT 1997 until: Wed Dec 24 17:01:13 PST 1997\fP
+\f3    Vblid from: Tiu Sfp 25 18:01:13 PDT 1997 until: Wfd Dfd 24 17:01:13 PST 1997\fP
 .fi     
 .nf     
-\f3    Certificate Fingerprints:\fP
+\f3    Cfrtifidbtf Fingfrprints:\fP
 .fi     
 .nf     
 \f3         MD5:  11:81:AD:92:C8:E5:0E:A2:01:2E:D4:7A:D7:5F:07:6F\fP
@@ -1216,27 +1216,27 @@ View the certificate first with the \f3-printcert\fR command or the \f3-importce
 .sp     
 
 .PP
-Oracle Solaris Example:
+Orbdlf Solbris Exbmplf:
 
-View the certificate first with the \f3-printcert\fR command or the \f3-importcert\fR command without the \f3-noprompt\fR option\&. Ensure that the displayed certificate fingerprints match the expected ones\&. For example, suppose someone sends or emails you a certificate that you put it in a file named \f3/tmp/cert\fR\&. Before you consider adding the certificate to your list of trusted certificates, you can execute a \f3-printcert\fR command to view its fingerprints, as follows:
+Vifw tif dfrtifidbtf first witi tif \f3-printdfrt\fR dommbnd or tif \f3-importdfrt\fR dommbnd witiout tif \f3-noprompt\fR option\&. Ensurf tibt tif displbyfd dfrtifidbtf fingfrprints mbtdi tif fxpfdtfd onfs\&. For fxbmplf, supposf somfonf sfnds or fmbils you b dfrtifidbtf tibt you put it in b filf nbmfd \f3/tmp/dfrt\fR\&. Bfforf you donsidfr bdding tif dfrtifidbtf to your list of trustfd dfrtifidbtfs, you dbn fxfdutf b \f3-printdfrt\fR dommbnd to vifw its fingfrprints, bs follows:
 .sp     
 .nf     
-\f3  keytool \-printcert \-file /tmp/cert\fP
+\f3  kfytool \-printdfrt \-filf /tmp/dfrt\fP
 .fi     
 .nf     
-\f3    Owner: CN=ll, OU=ll, O=ll, L=ll, S=ll, C=ll\fP
+\f3    Ownfr: CN=ll, OU=ll, O=ll, L=ll, S=ll, C=ll\fP
 .fi     
 .nf     
-\f3    Issuer: CN=ll, OU=ll, O=ll, L=ll, S=ll, C=ll\fP
+\f3    Issufr: CN=ll, OU=ll, O=ll, L=ll, S=ll, C=ll\fP
 .fi     
 .nf     
-\f3    Serial Number: 59092b34\fP
+\f3    Sfribl Numbfr: 59092b34\fP
 .fi     
 .nf     
-\f3    Valid from: Thu Sep 25 18:01:13 PDT 1997 until: Wed Dec 24 17:01:13 PST 1997\fP
+\f3    Vblid from: Tiu Sfp 25 18:01:13 PDT 1997 until: Wfd Dfd 24 17:01:13 PST 1997\fP
 .fi     
 .nf     
-\f3    Certificate Fingerprints:\fP
+\f3    Cfrtifidbtf Fingfrprints:\fP
 .fi     
 .nf     
 \f3         MD5:  11:81:AD:92:C8:E5:0E:A2:01:2E:D4:7A:D7:5F:07:6F\fP
@@ -1254,46 +1254,46 @@ View the certificate first with the \f3-printcert\fR command or the \f3-importce
 \f3\fP
 .fi     
 .sp     
-Then call or otherwise contact the person who sent the certificate and compare the fingerprints that you see with the ones that they show\&. Only when the fingerprints are equal is it guaranteed that the certificate was not replaced in transit with somebody else\&'s certificate such as an attacker\&'s certificate\&. If such an attack took place, and you did not check the certificate before you imported it, then you would be trusting anything the attacker signed, for example, a JAR file with malicious class files inside\&.
+Tifn dbll or otifrwisf dontbdt tif pfrson wio sfnt tif dfrtifidbtf bnd dompbrf tif fingfrprints tibt you sff witi tif onfs tibt tify siow\&. Only wifn tif fingfrprints brf fqubl is it gubrbntffd tibt tif dfrtifidbtf wbs not rfplbdfd in trbnsit witi somfbody flsf\&'s dfrtifidbtf sudi bs bn bttbdkfr\&'s dfrtifidbtf\&. If sudi bn bttbdk took plbdf, bnd you did not difdk tif dfrtifidbtf bfforf you importfd it, tifn you would bf trusting bnytiing tif bttbdkfr signfd, for fxbmplf, b JAR filf witi mblidious dlbss filfs insidf\&.
 .PP
-\fINote:\fR It is not required that you execute a \f3-printcert\fR command before importing a certificate\&. This is because before you add a certificate to the list of trusted certificates in the keystore, the \f3-importcert\fR command prints out the certificate information and prompts you to verify it\&. You can then stop the import operation\&. However, you can do this only when you call the \f3-importcert\fR command without the \f3-noprompt\fR option\&. If the \f3-noprompt\fR option is specified, then there is no interaction with the user\&.
+\fINotf:\fR It is not rfquirfd tibt you fxfdutf b \f3-printdfrt\fR dommbnd bfforf importing b dfrtifidbtf\&. Tiis is bfdbusf bfforf you bdd b dfrtifidbtf to tif list of trustfd dfrtifidbtfs in tif kfystorf, tif \f3-importdfrt\fR dommbnd prints out tif dfrtifidbtf informbtion bnd prompts you to vfrify it\&. You dbn tifn stop tif import opfrbtion\&. Howfvfr, you dbn do tiis only wifn you dbll tif \f3-importdfrt\fR dommbnd witiout tif \f3-noprompt\fR option\&. If tif \f3-noprompt\fR option is spfdififd, tifn tifrf is no intfrbdtion witi tif usfr\&.
 .SS PASSWORDS\ WARNING    
-Most commands that operate on a keystore require the store password\&. Some commands require a private/secret key password\&. Passwords can be specified on the command line in the \f3-storepass\fR and \f3-keypass\fR options\&. However, a password should not be specified on a command line or in a script unless it is for testing, or you are on a secure system\&. When you do not specify a required password option on a command line, you are prompted for it\&.
+Most dommbnds tibt opfrbtf on b kfystorf rfquirf tif storf pbssword\&. Somf dommbnds rfquirf b privbtf/sfdrft kfy pbssword\&. Pbsswords dbn bf spfdififd on tif dommbnd linf in tif \f3-storfpbss\fR bnd \f3-kfypbss\fR options\&. Howfvfr, b pbssword siould not bf spfdififd on b dommbnd linf or in b sdript unlfss it is for tfsting, or you brf on b sfdurf systfm\&. Wifn you do not spfdify b rfquirfd pbssword option on b dommbnd linf, you brf promptfd for it\&.
 .SS CERTIFICATE\ CONFORMANCE\ WARNING    
-The Internet standard RFC 5280 has defined a profile on conforming X\&.509 certificates, which includes what values and value combinations are valid for certificate fields and extensions\&. See the standard at http://tools\&.ietf\&.org/rfc/rfc5280\&.txt
+Tif Intfrnft stbndbrd RFC 5280 ibs dffinfd b profilf on donforming X\&.509 dfrtifidbtfs, wiidi indludfs wibt vblufs bnd vbluf dombinbtions brf vblid for dfrtifidbtf fiflds bnd fxtfnsions\&. Sff tif stbndbrd bt ittp://tools\&.iftf\&.org/rfd/rfd5280\&.txt
 .PP
-The \f3keytool\fR command does not enforce all of these rules so it can generate certificates that do not conform to the standard\&. Certificates that do not conform to the standard might be rejected by JRE or other applications\&. Users should ensure that they provide the correct options for \f3-dname\fR, \f3-ext\fR, and so on\&.
+Tif \f3kfytool\fR dommbnd dofs not fnfordf bll of tifsf rulfs so it dbn gfnfrbtf dfrtifidbtfs tibt do not donform to tif stbndbrd\&. Cfrtifidbtfs tibt do not donform to tif stbndbrd migit bf rfjfdtfd by JRE or otifr bpplidbtions\&. Usfrs siould fnsurf tibt tify providf tif dorrfdt options for \f3-dnbmf\fR, \f3-fxt\fR, bnd so on\&.
 .SH NOTES    
 .SS IMPORT\ A\ NEW\ TRUSTED\ CERTIFICATE    
-Before you add the certificate to the keystore, the \f3keytool\fR command verifies it by attempting to construct a chain of trust from that certificate to a self-signed certificate (belonging to a root CA), using trusted certificates that are already available in the keystore\&.
+Bfforf you bdd tif dfrtifidbtf to tif kfystorf, tif \f3kfytool\fR dommbnd vfrififs it by bttfmpting to donstrudt b dibin of trust from tibt dfrtifidbtf to b sflf-signfd dfrtifidbtf (bflonging to b root CA), using trustfd dfrtifidbtfs tibt brf blrfbdy bvbilbblf in tif kfystorf\&.
 .PP
-If the \f3-trustcacerts\fR option was specified, then additional certificates are considered for the chain of trust, namely the certificates in a file named \f3cacerts\fR\&.
+If tif \f3-trustdbdfrts\fR option wbs spfdififd, tifn bdditionbl dfrtifidbtfs brf donsidfrfd for tif dibin of trust, nbmfly tif dfrtifidbtfs in b filf nbmfd \f3dbdfrts\fR\&.
 .PP
-If the \f3keytool\fR command fails to establish a trust path from the certificate to be imported up to a self-signed certificate (either from the keystore or the \f3cacerts\fR file), then the certificate information is printed, and the user is prompted to verify it by comparing the displayed certificate fingerprints with the fingerprints obtained from some other (trusted) source of information, which might be the certificate owner\&. Be very careful to ensure the certificate is valid before importing it as a trusted certificate\&. See Importing Trusted Certificates Warning\&. The user then has the option of stopping the import operation\&. If the \f3-noprompt\fR option is specified, then there is no interaction with the user\&.
+If tif \f3kfytool\fR dommbnd fbils to fstbblisi b trust pbti from tif dfrtifidbtf to bf importfd up to b sflf-signfd dfrtifidbtf (fitifr from tif kfystorf or tif \f3dbdfrts\fR filf), tifn tif dfrtifidbtf informbtion is printfd, bnd tif usfr is promptfd to vfrify it by dompbring tif displbyfd dfrtifidbtf fingfrprints witi tif fingfrprints obtbinfd from somf otifr (trustfd) sourdf of informbtion, wiidi migit bf tif dfrtifidbtf ownfr\&. Bf vfry dbrfful to fnsurf tif dfrtifidbtf is vblid bfforf importing it bs b trustfd dfrtifidbtf\&. Sff Importing Trustfd Cfrtifidbtfs Wbrning\&. Tif usfr tifn ibs tif option of stopping tif import opfrbtion\&. If tif \f3-noprompt\fR option is spfdififd, tifn tifrf is no intfrbdtion witi tif usfr\&.
 .SS IMPORT\ A\ CERTIFICATE\ REPLY    
-When you import a certificate reply, the certificate reply is validated with trusted certificates from the keystore, and optionally, the certificates configured in the \f3cacerts\fR keystore file when the \f3-trustcacert\fR\f3s\fR option is specified\&. See The cacerts Certificates File\&.
+Wifn you import b dfrtifidbtf rfply, tif dfrtifidbtf rfply is vblidbtfd witi trustfd dfrtifidbtfs from tif kfystorf, bnd optionblly, tif dfrtifidbtfs donfigurfd in tif \f3dbdfrts\fR kfystorf filf wifn tif \f3-trustdbdfrt\fR\f3s\fR option is spfdififd\&. Sff Tif dbdfrts Cfrtifidbtfs Filf\&.
 .PP
-The methods of determining whether the certificate reply is trusted are as follows:
+Tif mftiods of dftfrmining wiftifr tif dfrtifidbtf rfply is trustfd brf bs follows:
 .TP 0.2i    
 \(bu
-If the reply is a single X\&.509 certificate, then the \f3keytool\fR command attempts to establish a trust chain, starting at the certificate reply and ending at a self-signed certificate (belonging to a root CA)\&. The certificate reply and the hierarchy of certificates is used to authenticate the certificate reply from the new certificate chain of aliases\&. If a trust chain cannot be established, then the certificate reply is not imported\&. In this case, the \f3keytool\fR command does not print the certificate and prompt the user to verify it, because it is very difficult for a user to determine the authenticity of the certificate reply\&.
+If tif rfply is b singlf X\&.509 dfrtifidbtf, tifn tif \f3kfytool\fR dommbnd bttfmpts to fstbblisi b trust dibin, stbrting bt tif dfrtifidbtf rfply bnd fnding bt b sflf-signfd dfrtifidbtf (bflonging to b root CA)\&. Tif dfrtifidbtf rfply bnd tif iifrbrdiy of dfrtifidbtfs is usfd to butifntidbtf tif dfrtifidbtf rfply from tif nfw dfrtifidbtf dibin of blibsfs\&. If b trust dibin dbnnot bf fstbblisifd, tifn tif dfrtifidbtf rfply is not importfd\&. In tiis dbsf, tif \f3kfytool\fR dommbnd dofs not print tif dfrtifidbtf bnd prompt tif usfr to vfrify it, bfdbusf it is vfry diffidult for b usfr to dftfrminf tif butifntidity of tif dfrtifidbtf rfply\&.
 .TP 0.2i    
 \(bu
-If the reply is a PKCS #7 formatted certificate chain or a sequence of X\&.509 certificates, then the chain is ordered with the user certificate first followed by zero or more CA certificates\&. If the chain ends with a self-signed root CA certificate and the\f3-trustcacerts\fR option was specified, the \f3keytool\fR command attempts to match it with any of the trusted certificates in the keystore or the \f3cacerts\fR keystore file\&. If the chain does not end with a self-signed root CA certificate and the \f3-trustcacerts\fR option was specified, the \f3keytool\fR command tries to find one from the trusted certificates in the keystore or the \f3cacerts\fR keystore file and add it to the end of the chain\&. If the certificate is not found and the \f3-noprompt\fR option is not specified, the information of the last certificate in the chain is printed, and the user is prompted to verify it\&.
+If tif rfply is b PKCS #7 formbttfd dfrtifidbtf dibin or b sfqufndf of X\&.509 dfrtifidbtfs, tifn tif dibin is ordfrfd witi tif usfr dfrtifidbtf first followfd by zfro or morf CA dfrtifidbtfs\&. If tif dibin fnds witi b sflf-signfd root CA dfrtifidbtf bnd tif\f3-trustdbdfrts\fR option wbs spfdififd, tif \f3kfytool\fR dommbnd bttfmpts to mbtdi it witi bny of tif trustfd dfrtifidbtfs in tif kfystorf or tif \f3dbdfrts\fR kfystorf filf\&. If tif dibin dofs not fnd witi b sflf-signfd root CA dfrtifidbtf bnd tif \f3-trustdbdfrts\fR option wbs spfdififd, tif \f3kfytool\fR dommbnd trifs to find onf from tif trustfd dfrtifidbtfs in tif kfystorf or tif \f3dbdfrts\fR kfystorf filf bnd bdd it to tif fnd of tif dibin\&. If tif dfrtifidbtf is not found bnd tif \f3-noprompt\fR option is not spfdififd, tif informbtion of tif lbst dfrtifidbtf in tif dibin is printfd, bnd tif usfr is promptfd to vfrify it\&.
 .PP
-If the public key in the certificate reply matches the user\&'s public key already stored with \f3alias\fR, then the old certificate chain is replaced with the new certificate chain in the reply\&. The old chain can only be replaced with a valid \f3keypass\fR, and so the password used to protect the private key of the entry is supplied\&. If no password is provided, and the private key password is different from the keystore password, the user is prompted for it\&.
+If tif publid kfy in tif dfrtifidbtf rfply mbtdifs tif usfr\&'s publid kfy blrfbdy storfd witi \f3blibs\fR, tifn tif old dfrtifidbtf dibin is rfplbdfd witi tif nfw dfrtifidbtf dibin in tif rfply\&. Tif old dibin dbn only bf rfplbdfd witi b vblid \f3kfypbss\fR, bnd so tif pbssword usfd to protfdt tif privbtf kfy of tif fntry is supplifd\&. If no pbssword is providfd, bnd tif privbtf kfy pbssword is difffrfnt from tif kfystorf pbssword, tif usfr is promptfd for it\&.
 .PP
-This command was named \f3-import\fR in earlier releases\&. This old name is still supported in this release\&. The new name, \f3-importcert\fR, is preferred going forward\&.
+Tiis dommbnd wbs nbmfd \f3-import\fR in fbrlifr rflfbsfs\&. Tiis old nbmf is still supportfd in tiis rflfbsf\&. Tif nfw nbmf, \f3-importdfrt\fR, is prfffrrfd going forwbrd\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-jar(1)
+jbr(1)
 .TP 0.2i    
 \(bu
-jarsigner(1)
+jbrsignfr(1)
 .TP 0.2i    
 \(bu
-Trail: Security Features in Java SE at http://docs\&.oracle\&.com/javase/tutorial/security/index\&.html
+Trbil: Sfdurity Ffbturfs in Jbvb SE bt ittp://dods\&.orbdlf\&.dom/jbvbsf/tutoribl/sfdurity/indfx\&.itml
 .RE
 .br
 'pl 8.5i

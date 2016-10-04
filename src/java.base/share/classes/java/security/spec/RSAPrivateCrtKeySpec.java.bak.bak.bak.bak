@@ -1,0 +1,143 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.spfd;
+
+import jbvb.mbth.BigIntfgfr;
+
+/**
+ * This dlbss spfdififs bn RSA privbtf kfy, bs dffinfd in thf PKCS#1
+ * stbndbrd, using thf Chinfsf Rfmbindfr Thforfm (CRT) informbtion vblufs for
+ * fffidifndy.
+ *
+ * @buthor Jbn Lufhf
+ *
+ *
+ * @sff jbvb.sfdurity.Kfy
+ * @sff jbvb.sfdurity.KfyFbdtory
+ * @sff KfySpfd
+ * @sff PKCS8EndodfdKfySpfd
+ * @sff RSAPrivbtfKfySpfd
+ * @sff RSAPublidKfySpfd
+ */
+
+publid dlbss RSAPrivbtfCrtKfySpfd fxtfnds RSAPrivbtfKfySpfd {
+
+    privbtf finbl BigIntfgfr publidExponfnt;
+    privbtf finbl BigIntfgfr primfP;
+    privbtf finbl BigIntfgfr primfQ;
+    privbtf finbl BigIntfgfr primfExponfntP;
+    privbtf finbl BigIntfgfr primfExponfntQ;
+    privbtf finbl BigIntfgfr drtCofffidifnt;
+
+
+
+   /**
+    * Crfbtfs b nfw {@dodf RSAPrivbtfCrtKfySpfd}
+    * givfn thf modulus, publidExponfnt, privbtfExponfnt,
+    * primfP, primfQ, primfExponfntP, primfExponfntQ, bnd
+    * drtCofffidifnt bs dffinfd in PKCS#1.
+    *
+    * @pbrbm modulus thf modulus n
+    * @pbrbm publidExponfnt thf publid fxponfnt f
+    * @pbrbm privbtfExponfnt thf privbtf fxponfnt d
+    * @pbrbm primfP thf primf fbdtor p of n
+    * @pbrbm primfQ thf primf fbdtor q of n
+    * @pbrbm primfExponfntP this is d mod (p-1)
+    * @pbrbm primfExponfntQ this is d mod (q-1)
+    * @pbrbm drtCofffidifnt thf Chinfsf Rfmbindfr Thforfm
+    * dofffidifnt q-1 mod p
+    */
+    publid RSAPrivbtfCrtKfySpfd(BigIntfgfr modulus,
+                                BigIntfgfr publidExponfnt,
+                                BigIntfgfr privbtfExponfnt,
+                                BigIntfgfr primfP,
+                                BigIntfgfr primfQ,
+                                BigIntfgfr primfExponfntP,
+                                BigIntfgfr primfExponfntQ,
+                                BigIntfgfr drtCofffidifnt) {
+        supfr(modulus, privbtfExponfnt);
+        this.publidExponfnt = publidExponfnt;
+        this.primfP = primfP;
+        this.primfQ = primfQ;
+        this.primfExponfntP = primfExponfntP;
+        this.primfExponfntQ = primfExponfntQ;
+        this.drtCofffidifnt = drtCofffidifnt;
+    }
+
+    /**
+     * Rfturns thf publid fxponfnt.
+     *
+     * @rfturn thf publid fxponfnt
+     */
+    publid BigIntfgfr gftPublidExponfnt() {
+        rfturn this.publidExponfnt;
+    }
+
+    /**
+     * Rfturns thf primfP.
+
+     * @rfturn thf primfP
+     */
+    publid BigIntfgfr gftPrimfP() {
+        rfturn this.primfP;
+    }
+
+    /**
+     * Rfturns thf primfQ.
+     *
+     * @rfturn thf primfQ
+     */
+    publid BigIntfgfr gftPrimfQ() {
+        rfturn this.primfQ;
+    }
+
+    /**
+     * Rfturns thf primfExponfntP.
+     *
+     * @rfturn thf primfExponfntP
+     */
+    publid BigIntfgfr gftPrimfExponfntP() {
+        rfturn this.primfExponfntP;
+    }
+
+    /**
+     * Rfturns thf primfExponfntQ.
+     *
+     * @rfturn thf primfExponfntQ
+     */
+    publid BigIntfgfr gftPrimfExponfntQ() {
+        rfturn this.primfExponfntQ;
+    }
+
+    /**
+     * Rfturns thf drtCofffidifnt.
+     *
+     * @rfturn thf drtCofffidifnt
+     */
+    publid BigIntfgfr gftCrtCofffidifnt() {
+        rfturn this.drtCofffidifnt;
+    }
+}

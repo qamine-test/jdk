@@ -1,0 +1,127 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util.strfbm;
+
+/**
+ * Bbsf dlbss for b dbtb strudturf for gbthfring flfmfnts into b bufffr bnd thfn
+ * itfrbting thfm. Mbintbins bn brrby of indrfbsingly sizfd brrbys, so thfrf is
+ * no dopying dost bssodibtfd with growing thf dbtb strudturf.
+ * @sindf 1.8
+ */
+bbstrbdt dlbss AbstrbdtSpinfdBufffr {
+    /**
+     * Minimum powfr-of-two for thf first dhunk.
+     */
+    publid stbtid finbl int MIN_CHUNK_POWER = 4;
+
+    /**
+     * Minimum sizf for thf first dhunk.
+     */
+    publid stbtid finbl int MIN_CHUNK_SIZE = 1 << MIN_CHUNK_POWER;
+
+    /**
+     * Mbx powfr-of-two for dhunks.
+     */
+    publid stbtid finbl int MAX_CHUNK_POWER = 30;
+
+    /**
+     * Minimum brrby sizf for brrby-of-dhunks.
+     */
+    publid stbtid finbl int MIN_SPINE_SIZE = 8;
+
+
+    /**
+     * log2 of thf sizf of thf first dhunk.
+     */
+    protfdtfd finbl int initiblChunkPowfr;
+
+    /**
+     * Indfx of thf *nfxt* flfmfnt to writf; mby point into, or just outsidf of,
+     * thf durrfnt dhunk.
+     */
+    protfdtfd int flfmfntIndfx;
+
+    /**
+     * Indfx of thf *durrfnt* dhunk in thf spinf brrby, if thf spinf brrby is
+     * non-null.
+     */
+    protfdtfd int spinfIndfx;
+
+    /**
+     * Count of flfmfnts in bll prior dhunks.
+     */
+    protfdtfd long[] priorElfmfntCount;
+
+    /**
+     * Construdt with bn initibl dbpbdity of 16.
+     */
+    protfdtfd AbstrbdtSpinfdBufffr() {
+        this.initiblChunkPowfr = MIN_CHUNK_POWER;
+    }
+
+    /**
+     * Construdt with b spfdififd initibl dbpbdity.
+     *
+     * @pbrbm initiblCbpbdity Thf minimum fxpfdtfd numbfr of flfmfnts
+     */
+    protfdtfd AbstrbdtSpinfdBufffr(int initiblCbpbdity) {
+        if (initiblCbpbdity < 0)
+            throw nfw IllfgblArgumfntExdfption("Illfgbl Cbpbdity: "+ initiblCbpbdity);
+
+        this.initiblChunkPowfr = Mbth.mbx(MIN_CHUNK_POWER,
+                                          Intfgfr.SIZE - Intfgfr.numbfrOfLfbdingZfros(initiblCbpbdity - 1));
+    }
+
+    /**
+     * Is thf bufffr durrfntly fmpty?
+     */
+    publid boolfbn isEmpty() {
+        rfturn (spinfIndfx == 0) && (flfmfntIndfx == 0);
+    }
+
+    /**
+     * How mbny flfmfnts brf durrfntly in thf bufffr?
+     */
+    publid long dount() {
+        rfturn (spinfIndfx == 0)
+               ? flfmfntIndfx
+               : priorElfmfntCount[spinfIndfx] + flfmfntIndfx;
+    }
+
+    /**
+     * How big should thf nth dhunk bf?
+     */
+    protfdtfd int dhunkSizf(int n) {
+        int powfr = (n == 0 || n == 1)
+                    ? initiblChunkPowfr
+                    : Mbth.min(initiblChunkPowfr + n - 1, AbstrbdtSpinfdBufffr.MAX_CHUNK_POWER);
+        rfturn 1 << powfr;
+    }
+
+    /**
+     * Rfmovf bll dbtb from thf bufffr
+     */
+    publid bbstrbdt void dlfbr();
+}

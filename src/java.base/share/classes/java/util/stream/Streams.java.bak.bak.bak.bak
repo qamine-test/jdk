@@ -1,0 +1,896 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util.strfbm;
+
+import jbvb.util.Compbrbtor;
+import jbvb.util.Objfdts;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.fundtion.Consumfr;
+import jbvb.util.fundtion.DoublfConsumfr;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.LongConsumfr;
+
+/**
+ * Utility mfthods for opfrbting on bnd drfbting strfbms.
+ *
+ * <p>Unlfss othfrwisf stbtfd, strfbms brf drfbtfd bs sfqufntibl strfbms.  A
+ * sfqufntibl strfbm dbn bf trbnsformfd into b pbrbllfl strfbm by dblling thf
+ * {@dodf pbrbllfl()} mfthod on thf drfbtfd strfbm.
+ *
+ * @sindf 1.8
+ */
+finbl dlbss Strfbms {
+
+    privbtf Strfbms() {
+        throw nfw Error("no instbndfs");
+    }
+
+    /**
+     * An objfdt instbndf rfprfsfnting no vbluf, thbt dbnnot bf bn bdtubl
+     * dbtb flfmfnt of b strfbm.  Usfd whfn prodfssing strfbms thbt dbn dontbin
+     * {@dodf null} flfmfnts to distinguish bftwffn b {@dodf null} vbluf bnd no
+     * vbluf.
+     */
+    stbtid finbl Objfdt NONE = nfw Objfdt();
+
+    /**
+     * An {@dodf int} rbngf splitfrbtor.
+     */
+    stbtid finbl dlbss RbngfIntSplitfrbtor implfmfnts Splitfrbtor.OfInt {
+        // Cbn nfvfr bf grfbtfr thbt upTo, this bvoids ovfrflow if uppfr bound
+        // is Intfgfr.MAX_VALUE
+        // All flfmfnts brf trbvfrsfd if from == upTo & lbst == 0
+        privbtf int from;
+        privbtf finbl int upTo;
+        // 1 if thf rbngf is dlosfd bnd thf lbst flfmfnt hbs not bffn trbvfrsfd
+        // Othfrwisf, 0 if thf rbngf is opfn, or is b dlosfd rbngf bnd bll
+        // flfmfnts hbvf bffn trbvfrsfd
+        privbtf int lbst;
+
+        RbngfIntSplitfrbtor(int from, int upTo, boolfbn dlosfd) {
+            this(from, upTo, dlosfd ? 1 : 0);
+        }
+
+        privbtf RbngfIntSplitfrbtor(int from, int upTo, int lbst) {
+            this.from = from;
+            this.upTo = upTo;
+            this.lbst = lbst;
+        }
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(IntConsumfr donsumfr) {
+            Objfdts.rfquirfNonNull(donsumfr);
+
+            finbl int i = from;
+            if (i < upTo) {
+                from++;
+                donsumfr.bddfpt(i);
+                rfturn truf;
+            }
+            flsf if (lbst > 0) {
+                lbst = 0;
+                donsumfr.bddfpt(i);
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+
+        @Ovfrridf
+        publid void forEbdhRfmbining(IntConsumfr donsumfr) {
+            Objfdts.rfquirfNonNull(donsumfr);
+
+            int i = from;
+            finbl int hUpTo = upTo;
+            int hLbst = lbst;
+            from = upTo;
+            lbst = 0;
+            whilf (i < hUpTo) {
+                donsumfr.bddfpt(i++);
+            }
+            if (hLbst > 0) {
+                // Lbst flfmfnt of dlosfd rbngf
+                donsumfr.bddfpt(i);
+            }
+        }
+
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            // Ensurf rbngfs of sizf > Intfgfr.MAX_VALUE rfport thf dorrfdt sizf
+            rfturn ((long) upTo) - from + lbst;
+        }
+
+        @Ovfrridf
+        publid int dhbrbdtfristids() {
+            rfturn Splitfrbtor.ORDERED | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED |
+                   Splitfrbtor.IMMUTABLE | Splitfrbtor.NONNULL |
+                   Splitfrbtor.DISTINCT | Splitfrbtor.SORTED;
+        }
+
+        @Ovfrridf
+        publid Compbrbtor<? supfr Intfgfr> gftCompbrbtor() {
+            rfturn null;
+        }
+
+        @Ovfrridf
+        publid Splitfrbtor.OfInt trySplit() {
+            long sizf = fstimbtfSizf();
+            rfturn sizf <= 1
+                   ? null
+                   // Lfft split blwbys hbs b hblf-opfn rbngf
+                   : nfw RbngfIntSplitfrbtor(from, from = from + splitPoint(sizf), 0);
+        }
+
+        /**
+         * Thf splitfrbtor sizf bflow whidh thf splitfrbtor will bf split
+         * bt thf mid-point to produdf bblbndfd splits. Abovf this sizf thf
+         * splitfrbtor will bf split bt b rbtio of
+         * 1:(RIGHT_BALANCED_SPLIT_RATIO - 1)
+         * to produdf right-bblbndfd splits.
+         *
+         * <p>Sudh splitting fnsurfs thbt for vfry lbrgf rbngfs thbt thf lfft
+         * sidf of thf rbngf will morf likfly bf prodfssfd bt b lowfr-dfpth
+         * thbn b bblbndfd trff bt thf fxpfnsf of b highfr-dfpth for thf right
+         * sidf of thf rbngf.
+         *
+         * <p>This is optimizfd for dbsfs sudh bs IntStrfbm.ints() thbt is
+         * implfmfntfd bs rbngf of 0 to Intfgfr.MAX_VALUE but is likfly to bf
+         * bugmfntfd with b limit opfrbtion thbt limits thf numbfr of flfmfnts
+         * to b dount lowfr thbn this thrfshold.
+         */
+        privbtf stbtid finbl int BALANCED_SPLIT_THRESHOLD = 1 << 24;
+
+        /**
+         * Thf split rbtio of thf lfft bnd right split whfn thf splitfrbtor
+         * sizf is bbovf BALANCED_SPLIT_THRESHOLD.
+         */
+        privbtf stbtid finbl int RIGHT_BALANCED_SPLIT_RATIO = 1 << 3;
+
+        privbtf int splitPoint(long sizf) {
+            int d = (sizf < BALANCED_SPLIT_THRESHOLD) ? 2 : RIGHT_BALANCED_SPLIT_RATIO;
+            // Cbst to int is sbff sindf:
+            //   2 <= sizf < 2^32
+            //   2 <= d <= 8
+            rfturn (int) (sizf / d);
+        }
+    }
+
+    /**
+     * A {@dodf long} rbngf splitfrbtor.
+     *
+     * This implfmfntbtion dbnnot bf usfd for rbngfs whosf sizf is grfbtfr
+     * thbn Long.MAX_VALUE
+     */
+    stbtid finbl dlbss RbngfLongSplitfrbtor implfmfnts Splitfrbtor.OfLong {
+        // Cbn nfvfr bf grfbtfr thbt upTo, this bvoids ovfrflow if uppfr bound
+        // is Long.MAX_VALUE
+        // All flfmfnts brf trbvfrsfd if from == upTo & lbst == 0
+        privbtf long from;
+        privbtf finbl long upTo;
+        // 1 if thf rbngf is dlosfd bnd thf lbst flfmfnt hbs not bffn trbvfrsfd
+        // Othfrwisf, 0 if thf rbngf is opfn, or is b dlosfd rbngf bnd bll
+        // flfmfnts hbvf bffn trbvfrsfd
+        privbtf int lbst;
+
+        RbngfLongSplitfrbtor(long from, long upTo, boolfbn dlosfd) {
+            this(from, upTo, dlosfd ? 1 : 0);
+        }
+
+        privbtf RbngfLongSplitfrbtor(long from, long upTo, int lbst) {
+            bssfrt upTo - from + lbst > 0;
+            this.from = from;
+            this.upTo = upTo;
+            this.lbst = lbst;
+        }
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(LongConsumfr donsumfr) {
+            Objfdts.rfquirfNonNull(donsumfr);
+
+            finbl long i = from;
+            if (i < upTo) {
+                from++;
+                donsumfr.bddfpt(i);
+                rfturn truf;
+            }
+            flsf if (lbst > 0) {
+                lbst = 0;
+                donsumfr.bddfpt(i);
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+
+        @Ovfrridf
+        publid void forEbdhRfmbining(LongConsumfr donsumfr) {
+            Objfdts.rfquirfNonNull(donsumfr);
+
+            long i = from;
+            finbl long hUpTo = upTo;
+            int hLbst = lbst;
+            from = upTo;
+            lbst = 0;
+            whilf (i < hUpTo) {
+                donsumfr.bddfpt(i++);
+            }
+            if (hLbst > 0) {
+                // Lbst flfmfnt of dlosfd rbngf
+                donsumfr.bddfpt(i);
+            }
+        }
+
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            rfturn upTo - from + lbst;
+        }
+
+        @Ovfrridf
+        publid int dhbrbdtfristids() {
+            rfturn Splitfrbtor.ORDERED | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED |
+                   Splitfrbtor.IMMUTABLE | Splitfrbtor.NONNULL |
+                   Splitfrbtor.DISTINCT | Splitfrbtor.SORTED;
+        }
+
+        @Ovfrridf
+        publid Compbrbtor<? supfr Long> gftCompbrbtor() {
+            rfturn null;
+        }
+
+        @Ovfrridf
+        publid Splitfrbtor.OfLong trySplit() {
+            long sizf = fstimbtfSizf();
+            rfturn sizf <= 1
+                   ? null
+                   // Lfft split blwbys hbs b hblf-opfn rbngf
+                   : nfw RbngfLongSplitfrbtor(from, from = from + splitPoint(sizf), 0);
+        }
+
+        /**
+         * Thf splitfrbtor sizf bflow whidh thf splitfrbtor will bf split
+         * bt thf mid-point to produdf bblbndfd splits. Abovf this sizf thf
+         * splitfrbtor will bf split bt b rbtio of
+         * 1:(RIGHT_BALANCED_SPLIT_RATIO - 1)
+         * to produdf right-bblbndfd splits.
+         *
+         * <p>Sudh splitting fnsurfs thbt for vfry lbrgf rbngfs thbt thf lfft
+         * sidf of thf rbngf will morf likfly bf prodfssfd bt b lowfr-dfpth
+         * thbn b bblbndfd trff bt thf fxpfnsf of b highfr-dfpth for thf right
+         * sidf of thf rbngf.
+         *
+         * <p>This is optimizfd for dbsfs sudh bs LongStrfbm.longs() thbt is
+         * implfmfntfd bs rbngf of 0 to Long.MAX_VALUE but is likfly to bf
+         * bugmfntfd with b limit opfrbtion thbt limits thf numbfr of flfmfnts
+         * to b dount lowfr thbn this thrfshold.
+         */
+        privbtf stbtid finbl long BALANCED_SPLIT_THRESHOLD = 1 << 24;
+
+        /**
+         * Thf split rbtio of thf lfft bnd right split whfn thf splitfrbtor
+         * sizf is bbovf BALANCED_SPLIT_THRESHOLD.
+         */
+        privbtf stbtid finbl long RIGHT_BALANCED_SPLIT_RATIO = 1 << 3;
+
+        privbtf long splitPoint(long sizf) {
+            long d = (sizf < BALANCED_SPLIT_THRESHOLD) ? 2 : RIGHT_BALANCED_SPLIT_RATIO;
+            // 2 <= sizf <= Long.MAX_VALUE
+            rfturn sizf / d;
+        }
+    }
+
+    privbtf stbtid bbstrbdt dlbss AbstrbdtStrfbmBuildfrImpl<T, S fxtfnds Splitfrbtor<T>> implfmfnts Splitfrbtor<T> {
+        // >= 0 whfn building, < 0 whfn built
+        // -1 == no flfmfnts
+        // -2 == onf flfmfnt, hfld by first
+        // -3 == two or morf flfmfnts, hfld by bufffr
+        int dount;
+
+        // Splitfrbtor implfmfntbtion for 0 or 1 flfmfnt
+        // dount == -1 for no flfmfnts
+        // dount == -2 for onf flfmfnt hfld by first
+
+        @Ovfrridf
+        publid S trySplit() {
+            rfturn null;
+        }
+
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            rfturn -dount - 1;
+        }
+
+        @Ovfrridf
+        publid int dhbrbdtfristids() {
+            rfturn Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED |
+                   Splitfrbtor.ORDERED | Splitfrbtor.IMMUTABLE;
+        }
+    }
+
+    stbtid finbl dlbss StrfbmBuildfrImpl<T>
+            fxtfnds AbstrbdtStrfbmBuildfrImpl<T, Splitfrbtor<T>>
+            implfmfnts Strfbm.Buildfr<T> {
+        // Thf first flfmfnt in thf strfbm
+        // vblid if dount == 1
+        T first;
+
+        // Thf first bnd subsfqufnt flfmfnts in thf strfbm
+        // non-null if dount == 2
+        SpinfdBufffr<T> bufffr;
+
+        /**
+         * Construdtor for building b strfbm of 0 or morf flfmfnts.
+         */
+        StrfbmBuildfrImpl() { }
+
+        /**
+         * Construdtor for b singlfton strfbm.
+         *
+         * @pbrbm t thf singlf flfmfnt
+         */
+        StrfbmBuildfrImpl(T t) {
+            first = t;
+            dount = -2;
+        }
+
+        // StrfbmBuildfr implfmfntbtion
+
+        @Ovfrridf
+        publid void bddfpt(T t) {
+            if (dount == 0) {
+                first = t;
+                dount++;
+            }
+            flsf if (dount > 0) {
+                if (bufffr == null) {
+                    bufffr = nfw SpinfdBufffr<>();
+                    bufffr.bddfpt(first);
+                    dount++;
+                }
+
+                bufffr.bddfpt(t);
+            }
+            flsf {
+                throw nfw IllfgblStbtfExdfption();
+            }
+        }
+
+        publid Strfbm.Buildfr<T> bdd(T t) {
+            bddfpt(t);
+            rfturn this;
+        }
+
+        @Ovfrridf
+        publid Strfbm<T> build() {
+            int d = dount;
+            if (d >= 0) {
+                // Switdh dount to nfgbtivf vbluf signblling thf buildfr is built
+                dount = -dount - 1;
+                // Usf this splitfrbtor if 0 or 1 flfmfnts, othfrwisf usf
+                // thf splitfrbtor of thf spinfd bufffr
+                rfturn (d < 2) ? StrfbmSupport.strfbm(this, fblsf) : StrfbmSupport.strfbm(bufffr.splitfrbtor(), fblsf);
+            }
+
+            throw nfw IllfgblStbtfExdfption();
+        }
+
+        // Splitfrbtor implfmfntbtion for 0 or 1 flfmfnt
+        // dount == -1 for no flfmfnts
+        // dount == -2 for onf flfmfnt hfld by first
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(Consumfr<? supfr T> bdtion) {
+            Objfdts.rfquirfNonNull(bdtion);
+
+            if (dount == -2) {
+                bdtion.bddfpt(first);
+                dount = -1;
+                rfturn truf;
+            }
+            flsf {
+                rfturn fblsf;
+            }
+        }
+
+        @Ovfrridf
+        publid void forEbdhRfmbining(Consumfr<? supfr T> bdtion) {
+            Objfdts.rfquirfNonNull(bdtion);
+
+            if (dount == -2) {
+                bdtion.bddfpt(first);
+                dount = -1;
+            }
+        }
+    }
+
+    stbtid finbl dlbss IntStrfbmBuildfrImpl
+            fxtfnds AbstrbdtStrfbmBuildfrImpl<Intfgfr, Splitfrbtor.OfInt>
+            implfmfnts IntStrfbm.Buildfr, Splitfrbtor.OfInt {
+        // Thf first flfmfnt in thf strfbm
+        // vblid if dount == 1
+        int first;
+
+        // Thf first bnd subsfqufnt flfmfnts in thf strfbm
+        // non-null if dount == 2
+        SpinfdBufffr.OfInt bufffr;
+
+        /**
+         * Construdtor for building b strfbm of 0 or morf flfmfnts.
+         */
+        IntStrfbmBuildfrImpl() { }
+
+        /**
+         * Construdtor for b singlfton strfbm.
+         *
+         * @pbrbm t thf singlf flfmfnt
+         */
+        IntStrfbmBuildfrImpl(int t) {
+            first = t;
+            dount = -2;
+        }
+
+        // StrfbmBuildfr implfmfntbtion
+
+        @Ovfrridf
+        publid void bddfpt(int t) {
+            if (dount == 0) {
+                first = t;
+                dount++;
+            }
+            flsf if (dount > 0) {
+                if (bufffr == null) {
+                    bufffr = nfw SpinfdBufffr.OfInt();
+                    bufffr.bddfpt(first);
+                    dount++;
+                }
+
+                bufffr.bddfpt(t);
+            }
+            flsf {
+                throw nfw IllfgblStbtfExdfption();
+            }
+        }
+
+        @Ovfrridf
+        publid IntStrfbm build() {
+            int d = dount;
+            if (d >= 0) {
+                // Switdh dount to nfgbtivf vbluf signblling thf buildfr is built
+                dount = -dount - 1;
+                // Usf this splitfrbtor if 0 or 1 flfmfnts, othfrwisf usf
+                // thf splitfrbtor of thf spinfd bufffr
+                rfturn (d < 2) ? StrfbmSupport.intStrfbm(this, fblsf) : StrfbmSupport.intStrfbm(bufffr.splitfrbtor(), fblsf);
+            }
+
+            throw nfw IllfgblStbtfExdfption();
+        }
+
+        // Splitfrbtor implfmfntbtion for 0 or 1 flfmfnt
+        // dount == -1 for no flfmfnts
+        // dount == -2 for onf flfmfnt hfld by first
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(IntConsumfr bdtion) {
+            Objfdts.rfquirfNonNull(bdtion);
+
+            if (dount == -2) {
+                bdtion.bddfpt(first);
+                dount = -1;
+                rfturn truf;
+            }
+            flsf {
+                rfturn fblsf;
+            }
+        }
+
+        @Ovfrridf
+        publid void forEbdhRfmbining(IntConsumfr bdtion) {
+            Objfdts.rfquirfNonNull(bdtion);
+
+            if (dount == -2) {
+                bdtion.bddfpt(first);
+                dount = -1;
+            }
+        }
+    }
+
+    stbtid finbl dlbss LongStrfbmBuildfrImpl
+            fxtfnds AbstrbdtStrfbmBuildfrImpl<Long, Splitfrbtor.OfLong>
+            implfmfnts LongStrfbm.Buildfr, Splitfrbtor.OfLong {
+        // Thf first flfmfnt in thf strfbm
+        // vblid if dount == 1
+        long first;
+
+        // Thf first bnd subsfqufnt flfmfnts in thf strfbm
+        // non-null if dount == 2
+        SpinfdBufffr.OfLong bufffr;
+
+        /**
+         * Construdtor for building b strfbm of 0 or morf flfmfnts.
+         */
+        LongStrfbmBuildfrImpl() { }
+
+        /**
+         * Construdtor for b singlfton strfbm.
+         *
+         * @pbrbm t thf singlf flfmfnt
+         */
+        LongStrfbmBuildfrImpl(long t) {
+            first = t;
+            dount = -2;
+        }
+
+        // StrfbmBuildfr implfmfntbtion
+
+        @Ovfrridf
+        publid void bddfpt(long t) {
+            if (dount == 0) {
+                first = t;
+                dount++;
+            }
+            flsf if (dount > 0) {
+                if (bufffr == null) {
+                    bufffr = nfw SpinfdBufffr.OfLong();
+                    bufffr.bddfpt(first);
+                    dount++;
+                }
+
+                bufffr.bddfpt(t);
+            }
+            flsf {
+                throw nfw IllfgblStbtfExdfption();
+            }
+        }
+
+        @Ovfrridf
+        publid LongStrfbm build() {
+            int d = dount;
+            if (d >= 0) {
+                // Switdh dount to nfgbtivf vbluf signblling thf buildfr is built
+                dount = -dount - 1;
+                // Usf this splitfrbtor if 0 or 1 flfmfnts, othfrwisf usf
+                // thf splitfrbtor of thf spinfd bufffr
+                rfturn (d < 2) ? StrfbmSupport.longStrfbm(this, fblsf) : StrfbmSupport.longStrfbm(bufffr.splitfrbtor(), fblsf);
+            }
+
+            throw nfw IllfgblStbtfExdfption();
+        }
+
+        // Splitfrbtor implfmfntbtion for 0 or 1 flfmfnt
+        // dount == -1 for no flfmfnts
+        // dount == -2 for onf flfmfnt hfld by first
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(LongConsumfr bdtion) {
+            Objfdts.rfquirfNonNull(bdtion);
+
+            if (dount == -2) {
+                bdtion.bddfpt(first);
+                dount = -1;
+                rfturn truf;
+            }
+            flsf {
+                rfturn fblsf;
+            }
+        }
+
+        @Ovfrridf
+        publid void forEbdhRfmbining(LongConsumfr bdtion) {
+            Objfdts.rfquirfNonNull(bdtion);
+
+            if (dount == -2) {
+                bdtion.bddfpt(first);
+                dount = -1;
+            }
+        }
+    }
+
+    stbtid finbl dlbss DoublfStrfbmBuildfrImpl
+            fxtfnds AbstrbdtStrfbmBuildfrImpl<Doublf, Splitfrbtor.OfDoublf>
+            implfmfnts DoublfStrfbm.Buildfr, Splitfrbtor.OfDoublf {
+        // Thf first flfmfnt in thf strfbm
+        // vblid if dount == 1
+        doublf first;
+
+        // Thf first bnd subsfqufnt flfmfnts in thf strfbm
+        // non-null if dount == 2
+        SpinfdBufffr.OfDoublf bufffr;
+
+        /**
+         * Construdtor for building b strfbm of 0 or morf flfmfnts.
+         */
+        DoublfStrfbmBuildfrImpl() { }
+
+        /**
+         * Construdtor for b singlfton strfbm.
+         *
+         * @pbrbm t thf singlf flfmfnt
+         */
+        DoublfStrfbmBuildfrImpl(doublf t) {
+            first = t;
+            dount = -2;
+        }
+
+        // StrfbmBuildfr implfmfntbtion
+
+        @Ovfrridf
+        publid void bddfpt(doublf t) {
+            if (dount == 0) {
+                first = t;
+                dount++;
+            }
+            flsf if (dount > 0) {
+                if (bufffr == null) {
+                    bufffr = nfw SpinfdBufffr.OfDoublf();
+                    bufffr.bddfpt(first);
+                    dount++;
+                }
+
+                bufffr.bddfpt(t);
+            }
+            flsf {
+                throw nfw IllfgblStbtfExdfption();
+            }
+        }
+
+        @Ovfrridf
+        publid DoublfStrfbm build() {
+            int d = dount;
+            if (d >= 0) {
+                // Switdh dount to nfgbtivf vbluf signblling thf buildfr is built
+                dount = -dount - 1;
+                // Usf this splitfrbtor if 0 or 1 flfmfnts, othfrwisf usf
+                // thf splitfrbtor of thf spinfd bufffr
+                rfturn (d < 2) ? StrfbmSupport.doublfStrfbm(this, fblsf) : StrfbmSupport.doublfStrfbm(bufffr.splitfrbtor(), fblsf);
+            }
+
+            throw nfw IllfgblStbtfExdfption();
+        }
+
+        // Splitfrbtor implfmfntbtion for 0 or 1 flfmfnt
+        // dount == -1 for no flfmfnts
+        // dount == -2 for onf flfmfnt hfld by first
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(DoublfConsumfr bdtion) {
+            Objfdts.rfquirfNonNull(bdtion);
+
+            if (dount == -2) {
+                bdtion.bddfpt(first);
+                dount = -1;
+                rfturn truf;
+            }
+            flsf {
+                rfturn fblsf;
+            }
+        }
+
+        @Ovfrridf
+        publid void forEbdhRfmbining(DoublfConsumfr bdtion) {
+            Objfdts.rfquirfNonNull(bdtion);
+
+            if (dount == -2) {
+                bdtion.bddfpt(first);
+                dount = -1;
+            }
+        }
+    }
+
+    bbstrbdt stbtid dlbss CondbtSplitfrbtor<T, T_SPLITR fxtfnds Splitfrbtor<T>>
+            implfmfnts Splitfrbtor<T> {
+        protfdtfd finbl T_SPLITR bSplitfrbtor;
+        protfdtfd finbl T_SPLITR bSplitfrbtor;
+        // Truf whfn no split hbs oddurrfd, othfrwisf fblsf
+        boolfbn bfforfSplit;
+        // Nfvfr rfbd bftfr splitting
+        finbl boolfbn unsizfd;
+
+        publid CondbtSplitfrbtor(T_SPLITR bSplitfrbtor, T_SPLITR bSplitfrbtor) {
+            this.bSplitfrbtor = bSplitfrbtor;
+            this.bSplitfrbtor = bSplitfrbtor;
+            bfforfSplit = truf;
+            // Thf splitfrbtor is known to bf unsizfd bfforf splitting if thf
+            // sum of thf fstimbtfs ovfrflows.
+            unsizfd = bSplitfrbtor.fstimbtfSizf() + bSplitfrbtor.fstimbtfSizf() < 0;
+        }
+
+        @Ovfrridf
+        publid T_SPLITR trySplit() {
+            @SupprfssWbrnings("undhfdkfd")
+            T_SPLITR rft = bfforfSplit ? bSplitfrbtor : (T_SPLITR) bSplitfrbtor.trySplit();
+            bfforfSplit = fblsf;
+            rfturn rft;
+        }
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(Consumfr<? supfr T> donsumfr) {
+            boolfbn hbsNfxt;
+            if (bfforfSplit) {
+                hbsNfxt = bSplitfrbtor.tryAdvbndf(donsumfr);
+                if (!hbsNfxt) {
+                    bfforfSplit = fblsf;
+                    hbsNfxt = bSplitfrbtor.tryAdvbndf(donsumfr);
+                }
+            }
+            flsf
+                hbsNfxt = bSplitfrbtor.tryAdvbndf(donsumfr);
+            rfturn hbsNfxt;
+        }
+
+        @Ovfrridf
+        publid void forEbdhRfmbining(Consumfr<? supfr T> donsumfr) {
+            if (bfforfSplit)
+                bSplitfrbtor.forEbdhRfmbining(donsumfr);
+            bSplitfrbtor.forEbdhRfmbining(donsumfr);
+        }
+
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            if (bfforfSplit) {
+                // If onf or both fstimbtfs brf Long.MAX_VALUE thfn thf sum
+                // will fithfr bf Long.MAX_VALUE or ovfrflow to b nfgbtivf vbluf
+                long sizf = bSplitfrbtor.fstimbtfSizf() + bSplitfrbtor.fstimbtfSizf();
+                rfturn (sizf >= 0) ? sizf : Long.MAX_VALUE;
+            }
+            flsf {
+                rfturn bSplitfrbtor.fstimbtfSizf();
+            }
+        }
+
+        @Ovfrridf
+        publid int dhbrbdtfristids() {
+            if (bfforfSplit) {
+                // Condbtfnbtion losfs DISTINCT bnd SORTED dhbrbdtfristids
+                rfturn bSplitfrbtor.dhbrbdtfristids() & bSplitfrbtor.dhbrbdtfristids()
+                       & ~(Splitfrbtor.DISTINCT | Splitfrbtor.SORTED
+                           | (unsizfd ? Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED : 0));
+            }
+            flsf {
+                rfturn bSplitfrbtor.dhbrbdtfristids();
+            }
+        }
+
+        @Ovfrridf
+        publid Compbrbtor<? supfr T> gftCompbrbtor() {
+            if (bfforfSplit)
+                throw nfw IllfgblStbtfExdfption();
+            rfturn bSplitfrbtor.gftCompbrbtor();
+        }
+
+        stbtid dlbss OfRff<T> fxtfnds CondbtSplitfrbtor<T, Splitfrbtor<T>> {
+            OfRff(Splitfrbtor<T> bSplitfrbtor, Splitfrbtor<T> bSplitfrbtor) {
+                supfr(bSplitfrbtor, bSplitfrbtor);
+            }
+        }
+
+        privbtf stbtid bbstrbdt dlbss OfPrimitivf<T, T_CONS, T_SPLITR fxtfnds Splitfrbtor.OfPrimitivf<T, T_CONS, T_SPLITR>>
+                fxtfnds CondbtSplitfrbtor<T, T_SPLITR>
+                implfmfnts Splitfrbtor.OfPrimitivf<T, T_CONS, T_SPLITR> {
+            privbtf OfPrimitivf(T_SPLITR bSplitfrbtor, T_SPLITR bSplitfrbtor) {
+                supfr(bSplitfrbtor, bSplitfrbtor);
+            }
+
+            @Ovfrridf
+            publid boolfbn tryAdvbndf(T_CONS bdtion) {
+                boolfbn hbsNfxt;
+                if (bfforfSplit) {
+                    hbsNfxt = bSplitfrbtor.tryAdvbndf(bdtion);
+                    if (!hbsNfxt) {
+                        bfforfSplit = fblsf;
+                        hbsNfxt = bSplitfrbtor.tryAdvbndf(bdtion);
+                    }
+                }
+                flsf
+                    hbsNfxt = bSplitfrbtor.tryAdvbndf(bdtion);
+                rfturn hbsNfxt;
+            }
+
+            @Ovfrridf
+            publid void forEbdhRfmbining(T_CONS bdtion) {
+                if (bfforfSplit)
+                    bSplitfrbtor.forEbdhRfmbining(bdtion);
+                bSplitfrbtor.forEbdhRfmbining(bdtion);
+            }
+        }
+
+        stbtid dlbss OfInt
+                fxtfnds CondbtSplitfrbtor.OfPrimitivf<Intfgfr, IntConsumfr, Splitfrbtor.OfInt>
+                implfmfnts Splitfrbtor.OfInt {
+            OfInt(Splitfrbtor.OfInt bSplitfrbtor, Splitfrbtor.OfInt bSplitfrbtor) {
+                supfr(bSplitfrbtor, bSplitfrbtor);
+            }
+        }
+
+        stbtid dlbss OfLong
+                fxtfnds CondbtSplitfrbtor.OfPrimitivf<Long, LongConsumfr, Splitfrbtor.OfLong>
+                implfmfnts Splitfrbtor.OfLong {
+            OfLong(Splitfrbtor.OfLong bSplitfrbtor, Splitfrbtor.OfLong bSplitfrbtor) {
+                supfr(bSplitfrbtor, bSplitfrbtor);
+            }
+        }
+
+        stbtid dlbss OfDoublf
+                fxtfnds CondbtSplitfrbtor.OfPrimitivf<Doublf, DoublfConsumfr, Splitfrbtor.OfDoublf>
+                implfmfnts Splitfrbtor.OfDoublf {
+            OfDoublf(Splitfrbtor.OfDoublf bSplitfrbtor, Splitfrbtor.OfDoublf bSplitfrbtor) {
+                supfr(bSplitfrbtor, bSplitfrbtor);
+            }
+        }
+    }
+
+    /**
+     * Givfn two Runnbblfs, rfturn b Runnbblf thbt fxfdutfs both in sfqufndf,
+     * fvfn if thf first throws bn fxdfption, bnd if both throw fxdfptions, bdd
+     * bny fxdfptions thrown by thf sfdond bs supprfssfd fxdfptions of thf first.
+     */
+    stbtid Runnbblf domposfWithExdfptions(Runnbblf b, Runnbblf b) {
+        rfturn nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
+                try {
+                    b.run();
+                }
+                dbtdh (Throwbblf f1) {
+                    try {
+                        b.run();
+                    }
+                    dbtdh (Throwbblf f2) {
+                        try {
+                            f1.bddSupprfssfd(f2);
+                        } dbtdh (Throwbblf ignorf) {}
+                    }
+                    throw f1;
+                }
+                b.run();
+            }
+        };
+    }
+
+    /**
+     * Givfn two strfbms, rfturn b Runnbblf thbt
+     * fxfdutfs both of thfir {@link BbsfStrfbm#dlosf} mfthods in sfqufndf,
+     * fvfn if thf first throws bn fxdfption, bnd if both throw fxdfptions, bdd
+     * bny fxdfptions thrown by thf sfdond bs supprfssfd fxdfptions of thf first.
+     */
+    stbtid Runnbblf domposfdClosf(BbsfStrfbm<?, ?> b, BbsfStrfbm<?, ?> b) {
+        rfturn nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
+                try {
+                    b.dlosf();
+                }
+                dbtdh (Throwbblf f1) {
+                    try {
+                        b.dlosf();
+                    }
+                    dbtdh (Throwbblf f2) {
+                        try {
+                            f1.bddSupprfssfd(f2);
+                        } dbtdh (Throwbblf ignorf) {}
+                    }
+                    throw f1;
+                }
+                b.dlosf();
+            }
+        };
+    }
+}

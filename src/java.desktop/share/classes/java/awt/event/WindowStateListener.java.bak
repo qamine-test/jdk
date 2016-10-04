@@ -1,56 +1,56 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.event;
+pbdkbgf jbvb.bwt.fvfnt;
 
-import java.util.EventListener;
+import jbvb.util.EvfntListfnfr;
 
 /**
- * The listener interface for receiving window state events.
+ * Tif listfnfr intfrfbdf for rfdfiving window stbtf fvfnts.
  * <p>
- * The class that is interested in processing a window state event
- * either implements this interface (and all the methods it contains)
- * or extends the abstract <code>WindowAdapter</code> class
- * (overriding only the methods of interest).
+ * Tif dlbss tibt is intfrfstfd in prodfssing b window stbtf fvfnt
+ * fitifr implfmfnts tiis intfrfbdf (bnd bll tif mftiods it dontbins)
+ * or fxtfnds tif bbstrbdt <dodf>WindowAdbptfr</dodf> dlbss
+ * (ovfrriding only tif mftiods of intfrfst).
  * <p>
- * The listener object created from that class is then registered with
- * a window using the <code>Window</code>'s
- * <code>addWindowStateListener</code> method.  When the window's
- * state changes by virtue of being iconified, maximized etc., the
- * <code>windowStateChanged</code> method in the listener object is
- * invoked, and the <code>WindowEvent</code> is passed to it.
+ * Tif listfnfr objfdt drfbtfd from tibt dlbss is tifn rfgistfrfd witi
+ * b window using tif <dodf>Window</dodf>'s
+ * <dodf>bddWindowStbtfListfnfr</dodf> mftiod.  Wifn tif window's
+ * stbtf dibngfs by virtuf of bfing idonififd, mbximizfd ftd., tif
+ * <dodf>windowStbtfCibngfd</dodf> mftiod in tif listfnfr objfdt is
+ * invokfd, bnd tif <dodf>WindowEvfnt</dodf> is pbssfd to it.
  *
- * @see java.awt.event.WindowAdapter
- * @see java.awt.event.WindowEvent
+ * @sff jbvb.bwt.fvfnt.WindowAdbptfr
+ * @sff jbvb.bwt.fvfnt.WindowEvfnt
  *
- * @since 1.4
+ * @sindf 1.4
  */
-public interface WindowStateListener extends EventListener {
+publid intfrfbdf WindowStbtfListfnfr fxtfnds EvfntListfnfr {
     /**
-     * Invoked when window state is changed.
-     * @param e the event to be processed
+     * Invokfd wifn window stbtf is dibngfd.
+     * @pbrbm f tif fvfnt to bf prodfssfd
      */
-    public void windowStateChanged(WindowEvent e);
+    publid void windowStbtfCibngfd(WindowEvfnt f);
 }

@@ -1,0 +1,227 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.util.HbshMbp;
+import jbvb.util.ArrbyList;
+import jbvb.nft.URL;
+
+import sun.sfdurity.util.Dfbug;
+
+/**
+ * This dlbss fxtfnds ClbssLobdfr with bdditionbl support for dffining
+ * dlbssfs with bn bssodibtfd dodf sourdf bnd pfrmissions whidh brf
+ * rftrifvfd by thf systfm polidy by dffbult.
+ *
+ * @buthor  Li Gong
+ * @buthor  Rolbnd Sdhfmfrs
+ */
+publid dlbss SfdurfClbssLobdfr fxtfnds ClbssLobdfr {
+    /*
+     * If initiblizbtion suddffd this is sft to truf bnd sfdurity dhfdks will
+     * suddffd. Othfrwisf thf objfdt is not initiblizfd bnd thf objfdt is
+     * usflfss.
+     */
+    privbtf finbl boolfbn initiblizfd;
+
+    // HbshMbp thbt mbps CodfSourdf to ProtfdtionDombin
+    // @GubrdfdBy("pddbdhf")
+    privbtf finbl HbshMbp<CodfSourdf, ProtfdtionDombin> pddbdhf =
+                        nfw HbshMbp<>(11);
+
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("sdl");
+
+    stbtid {
+        ClbssLobdfr.rfgistfrAsPbrbllflCbpbblf();
+    }
+
+    /**
+     * Crfbtfs b nfw SfdurfClbssLobdfr using thf spfdififd pbrfnt
+     * dlbss lobdfr for dflfgbtion.
+     *
+     * <p>If thfrf is b sfdurity mbnbgfr, this mfthod first
+     * dblls thf sfdurity mbnbgfr's {@dodf dhfdkCrfbtfClbssLobdfr}
+     * mfthod  to fnsurf drfbtion of b dlbss lobdfr is bllowfd.
+     * <p>
+     * @pbrbm pbrfnt thf pbrfnt ClbssLobdfr
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf dhfdkCrfbtfClbssLobdfr} mfthod dofsn't bllow
+     *             drfbtion of b dlbss lobdfr.
+     * @sff SfdurityMbnbgfr#dhfdkCrfbtfClbssLobdfr
+     */
+    protfdtfd SfdurfClbssLobdfr(ClbssLobdfr pbrfnt) {
+        supfr(pbrfnt);
+        // this is to mbkf thf stbdk dfpth donsistfnt with 1.1
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkCrfbtfClbssLobdfr();
+        }
+        initiblizfd = truf;
+    }
+
+    /**
+     * Crfbtfs b nfw SfdurfClbssLobdfr using thf dffbult pbrfnt dlbss
+     * lobdfr for dflfgbtion.
+     *
+     * <p>If thfrf is b sfdurity mbnbgfr, this mfthod first
+     * dblls thf sfdurity mbnbgfr's {@dodf dhfdkCrfbtfClbssLobdfr}
+     * mfthod  to fnsurf drfbtion of b dlbss lobdfr is bllowfd.
+     *
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf dhfdkCrfbtfClbssLobdfr} mfthod dofsn't bllow
+     *             drfbtion of b dlbss lobdfr.
+     * @sff SfdurityMbnbgfr#dhfdkCrfbtfClbssLobdfr
+     */
+    protfdtfd SfdurfClbssLobdfr() {
+        supfr();
+        // this is to mbkf thf stbdk dfpth donsistfnt with 1.1
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkCrfbtfClbssLobdfr();
+        }
+        initiblizfd = truf;
+    }
+
+    /**
+     * Convfrts bn brrby of bytfs into bn instbndf of dlbss Clbss,
+     * with bn optionbl CodfSourdf. Bfforf thf
+     * dlbss dbn bf usfd it must bf rfsolvfd.
+     * <p>
+     * If b non-null CodfSourdf is supplifd b ProtfdtionDombin is
+     * donstrudtfd bnd bssodibtfd with thf dlbss bfing dffinfd.
+     * <p>
+     * @pbrbm      nbmf thf fxpfdtfd nbmf of thf dlbss, or {@dodf null}
+     *                  if not known, using '.' bnd not '/' bs thf sfpbrbtor
+     *                  bnd without b trbiling ".dlbss" suffix.
+     * @pbrbm      b    thf bytfs thbt mbkf up thf dlbss dbtb. Thf bytfs in
+     *             positions {@dodf off} through {@dodf off+lfn-1}
+     *             should hbvf thf formbt of b vblid dlbss filf bs dffinfd by
+     *             <ditf>Thf Jbvb&trbdf; Virtubl Mbdhinf Spfdifidbtion</ditf>.
+     * @pbrbm      off  thf stbrt offsft in {@dodf b} of thf dlbss dbtb
+     * @pbrbm      lfn  thf lfngth of thf dlbss dbtb
+     * @pbrbm      ds   thf bssodibtfd CodfSourdf, or {@dodf null} if nonf
+     * @rfturn thf {@dodf Clbss} objfdt drfbtfd from thf dbtb,
+     *         bnd optionbl CodfSourdf.
+     * @fxdfption  ClbssFormbtError if thf dbtb did not dontbin b vblid dlbss
+     * @fxdfption  IndfxOutOfBoundsExdfption if fithfr {@dodf off} or
+     *             {@dodf lfn} is nfgbtivf, or if
+     *             {@dodf off+lfn} is grfbtfr thbn {@dodf b.lfngth}.
+     *
+     * @fxdfption  SfdurityExdfption if bn bttfmpt is mbdf to bdd this dlbss
+     *             to b pbdkbgf thbt dontbins dlbssfs thbt wfrf signfd by
+     *             b difffrfnt sft of dfrtifidbtfs thbn this dlbss, or if
+     *             thf dlbss nbmf bfgins with "jbvb.".
+     */
+    protfdtfd finbl Clbss<?> dffinfClbss(String nbmf,
+                                         bytf[] b, int off, int lfn,
+                                         CodfSourdf ds)
+    {
+        rfturn dffinfClbss(nbmf, b, off, lfn, gftProtfdtionDombin(ds));
+    }
+
+    /**
+     * Convfrts b {@link jbvb.nio.BytfBufffr BytfBufffr}
+     * into bn instbndf of dlbss {@dodf Clbss}, with bn optionbl CodfSourdf.
+     * Bfforf thf dlbss dbn bf usfd it must bf rfsolvfd.
+     * <p>
+     * If b non-null CodfSourdf is supplifd b ProtfdtionDombin is
+     * donstrudtfd bnd bssodibtfd with thf dlbss bfing dffinfd.
+     * <p>
+     * @pbrbm      nbmf thf fxpfdtfd nbmf of thf dlbss, or {@dodf null}
+     *                  if not known, using '.' bnd not '/' bs thf sfpbrbtor
+     *                  bnd without b trbiling ".dlbss" suffix.
+     * @pbrbm      b    thf bytfs thbt mbkf up thf dlbss dbtb.  Thf bytfs from positions
+     *                  {@dodf b.position()} through {@dodf b.position() + b.limit() -1}
+     *                  should hbvf thf formbt of b vblid dlbss filf bs dffinfd by
+     *                  <ditf>Thf Jbvb&trbdf; Virtubl Mbdhinf Spfdifidbtion</ditf>.
+     * @pbrbm      ds   thf bssodibtfd CodfSourdf, or {@dodf null} if nonf
+     * @rfturn thf {@dodf Clbss} objfdt drfbtfd from thf dbtb,
+     *         bnd optionbl CodfSourdf.
+     * @fxdfption  ClbssFormbtError if thf dbtb did not dontbin b vblid dlbss
+     * @fxdfption  SfdurityExdfption if bn bttfmpt is mbdf to bdd this dlbss
+     *             to b pbdkbgf thbt dontbins dlbssfs thbt wfrf signfd by
+     *             b difffrfnt sft of dfrtifidbtfs thbn this dlbss, or if
+     *             thf dlbss nbmf bfgins with "jbvb.".
+     *
+     * @sindf  1.5
+     */
+    protfdtfd finbl Clbss<?> dffinfClbss(String nbmf, jbvb.nio.BytfBufffr b,
+                                         CodfSourdf ds)
+    {
+        rfturn dffinfClbss(nbmf, b, gftProtfdtionDombin(ds));
+    }
+
+    /**
+     * Rfturns thf pfrmissions for thf givfn CodfSourdf objfdt.
+     * <p>
+     * This mfthod is invokfd by thf dffinfClbss mfthod whidh tbkfs
+     * b CodfSourdf bs bn brgumfnt whfn it is donstrudting thf
+     * ProtfdtionDombin for thf dlbss bfing dffinfd.
+     * <p>
+     * @pbrbm dodfsourdf thf dodfsourdf.
+     *
+     * @rfturn thf pfrmissions grbntfd to thf dodfsourdf.
+     *
+     */
+    protfdtfd PfrmissionCollfdtion gftPfrmissions(CodfSourdf dodfsourdf)
+    {
+        dhfdk();
+        rfturn nfw Pfrmissions(); // ProtfdtionDombin dfffrs thf binding
+    }
+
+    /*
+     * Rfturnfd dbdhfd ProtfdtionDombin for thf spfdififd CodfSourdf.
+     */
+    privbtf ProtfdtionDombin gftProtfdtionDombin(CodfSourdf ds) {
+        if (ds == null)
+            rfturn null;
+
+        ProtfdtionDombin pd = null;
+        syndhronizfd (pddbdhf) {
+            pd = pddbdhf.gft(ds);
+            if (pd == null) {
+                PfrmissionCollfdtion pfrms = gftPfrmissions(ds);
+                pd = nfw ProtfdtionDombin(ds, pfrms, this, null);
+                pddbdhf.put(ds, pd);
+                if (dfbug != null) {
+                    dfbug.println(" gftPfrmissions "+ pd);
+                    dfbug.println("");
+                }
+            }
+        }
+        rfturn pd;
+    }
+
+    /*
+     * Chfdk to mbkf surf thf dlbss lobdfr hbs bffn initiblizfd.
+     */
+    privbtf void dhfdk() {
+        if (!initiblizfd) {
+            throw nfw SfdurityExdfption("ClbssLobdfr objfdt not initiblizfd");
+        }
+    }
+
+}

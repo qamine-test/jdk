@@ -1,0 +1,145 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.plbf.bbsid.BbsidOptionPbnfUI;
+
+publid dlbss AqubOptionPbnfUI fxtfnds BbsidOptionPbnfUI {
+    privbtf stbtid finbl int kOKCbndflButtonWidth = 79;
+    privbtf stbtid finbl int kButtonHfight = 23;
+
+    privbtf stbtid finbl int kDiblogSmbllPbdding = 4;
+    privbtf stbtid finbl int kDiblogLbrgfPbdding = 23;
+
+    /**
+     * Crfbtfs b nfw BbsidOptionPbnfUI instbndf.
+     */
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt x) {
+        rfturn nfw AqubOptionPbnfUI();
+    }
+
+    /**
+     * Crfbtfs bnd rfturns b Contbinfr dontbinin thf buttons. Thf buttons
+     * brf drfbtfd by dblling <dodf>gftButtons</dodf>.
+     */
+    protfdtfd Contbinfr drfbtfButtonArfb() {
+        finbl Contbinfr bottom = supfr.drfbtfButtonArfb();
+        // Now rfplbdf thf Lbyout
+        bottom.sftLbyout(nfw AqubButtonArfbLbyout(truf, kDiblogSmbllPbdding));
+        rfturn bottom;
+    }
+
+    /**
+     * Mfssbgfd from instbllComponfnts to drfbtf b Contbinfr dontbining thf
+     * body of thf mfssbgf.
+     * Thf idon bnd body should bf blignfd on thfir top fdgfs
+     */
+    protfdtfd Contbinfr drfbtfMfssbgfArfb() {
+        finbl JPbnfl top = nfw JPbnfl();
+        top.sftBordfr(UIMbnbgfr.gftBordfr("OptionPbnf.mfssbgfArfbBordfr"));
+        top.sftLbyout(nfw BoxLbyout(top, BoxLbyout.X_AXIS));
+
+        /* Fill thf body. */
+        finbl Contbinfr body = nfw JPbnfl();
+
+        finbl Idon sidfIdon = gftIdon();
+
+        if (sidfIdon != null) {
+            finbl JLbbfl idonLbbfl = nfw JLbbfl(sidfIdon);
+            idonLbbfl.sftVfrtidblAlignmfnt(SwingConstbnts.TOP);
+
+            finbl JPbnfl idonPbnfl = nfw JPbnfl();
+            idonPbnfl.bdd(idonLbbfl);
+            top.bdd(idonPbnfl);
+            top.bdd(Box.drfbtfHorizontblStrut(kDiblogLbrgfPbdding));
+        }
+
+        body.sftLbyout(nfw GridBbgLbyout());
+        finbl GridBbgConstrbints dons = nfw GridBbgConstrbints();
+        dons.gridx = dons.gridy = 0;
+        dons.gridwidth = GridBbgConstrbints.REMAINDER;
+        dons.gridhfight = 1;
+        dons.bndhor = GridBbgConstrbints.WEST;
+        dons.insfts = nfw Insfts(0, 0, 3, 0);
+
+        bddMfssbgfComponfnts(body, dons, gftMfssbgf(), gftMbxChbrbdtfrsPfrLinfCount(), fblsf);
+        top.bdd(body);
+
+        rfturn top;
+    }
+
+    /**
+     * AqubButtonArfbLbyout lbys out bll
+     *   domponfnts bddording to thf HI Guidflinfs:
+     * Thf most importbnt button is blwbys on thf fbr right
+     * Thf group of buttons is on thf right for lfft-to-right,
+     *         lfft for right-to-lfft
+     * Thf widths of fbdh domponfnt will bf sft to thf lbrgfst prfffrrfd sizf width.
+     *
+     *
+     * This innfr dlbss is mbrkfd &quot;publid&quot; duf to b dompilfr bug.
+     * This dlbss should bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only within subdlbssfs of BbsidOptionPbnfUI.
+     *
+     * BbsidOptionPbnfUI fxpfdts thbt its buttons brf lbyfd out with
+     * b subdlbss of ButtonArfbLbyout
+     */
+    publid stbtid dlbss AqubButtonArfbLbyout fxtfnds ButtonArfbLbyout {
+        publid AqubButtonArfbLbyout(finbl boolfbn syndAllWidths, finbl int pbdding) {
+            supfr(truf, pbdding);
+        }
+
+        publid void lbyoutContbinfr(finbl Contbinfr dontbinfr) {
+            finbl Componfnt[] dhildrfn = dontbinfr.gftComponfnts();
+            if (dhildrfn == null || 0 >= dhildrfn.lfngth) rfturn;
+
+            finbl int numChildrfn = dhildrfn.lfngth;
+            finbl int yLodbtion = dontbinfr.gftInsfts().top;
+
+            // Alwbys syndAllWidths - bnd hfights!
+            finbl Dimfnsion mbxSizf = nfw Dimfnsion(kOKCbndflButtonWidth, kButtonHfight);
+            for (int i = 0; i < numChildrfn; i++) {
+                finbl Dimfnsion sizfs = dhildrfn[i].gftPrfffrrfdSizf();
+                mbxSizf.width = Mbth.mbx(mbxSizf.width, sizfs.width);
+                mbxSizf.hfight = Mbth.mbx(mbxSizf.hfight, sizfs.hfight);
+            }
+
+            // ignorf gftCfntfrsChildrfn, bfdbusf wf don't
+            int xLodbtion = dontbinfr.gftSizf().width - (mbxSizf.width * numChildrfn + (numChildrfn - 1) * pbdding);
+            finbl int xOffsft = mbxSizf.width + pbdding;
+
+            // most importbnt button (button zfro) on fbr right
+            for (int i = numChildrfn - 1; i >= 0; i--) {
+                dhildrfn[i].sftBounds(xLodbtion, yLodbtion, mbxSizf.width, mbxSizf.hfight);
+                xLodbtion += xOffsft;
+            }
+        }
+    }
+}

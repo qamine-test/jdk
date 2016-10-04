@@ -1,0 +1,941 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jlong.h"
+#indludf "jvm.h"
+#indludf "mbnbgfmfnt.h"
+#indludf "sun_mbnbgfmfnt_OpfrbtingSystfmImpl.h"
+
+#indludf <psbpi.h>
+#indludf <frrno.h>
+#indludf <stdlib.h>
+
+#indludf <mbllod.h>
+#prbgmb wbrning (push,0)
+#indludf <windows.h>
+#prbgmb wbrning (pop)
+#indludf <stdio.h>
+#indludf <timf.h>
+#indludf <stdint.h>
+#indludf <bssfrt.h>
+
+/* Disbblf wbrnings duf to brokfn hfbdfr filfs from Midrosoft... */
+#prbgmb wbrning(push, 3)
+#indludf <pdh.h>
+#indludf <pdhmsg.h>
+#indludf <prodfss.h>
+#prbgmb wbrning(pop)
+
+typfdff unsignfd __int32 juint;
+typfdff unsignfd __int64 julong;
+
+typfdff fnum boolfbn_vblufs { fblsf=0, truf=1};
+
+stbtid void sft_low(jlong* vbluf, jint low) {
+    *vbluf &= (jlong)0xffffffff << 32;
+    *vbluf |= (jlong)(julong)(juint)low;
+}
+
+stbtid void sft_high(jlong* vbluf, jint high) {
+    *vbluf &= (jlong)(julong)(juint)0xffffffff;
+    *vbluf |= (jlong)high       << 32;
+}
+
+stbtid jlong jlong_from(jint h, jint l) {
+  jlong rfsult = 0; // initiblizbtion to bvoid wbrning
+  sft_high(&rfsult, h);
+  sft_low(&rfsult,  l);
+  rfturn rfsult;
+}
+
+stbtid HANDLE mbin_prodfss;
+
+int pfrfiInit(void);
+
+JNIEXPORT void JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_initiblizf0
+  (JNIEnv *fnv, jdlbss dls)
+{
+    mbin_prodfss = GftCurrfntProdfss();
+     pfrfiInit();
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftCommittfdVirtublMfmorySizf0
+  (JNIEnv *fnv, jobjfdt mbfbn)
+{
+    PROCESS_MEMORY_COUNTERS pmd;
+    if (GftProdfssMfmoryInfo(mbin_prodfss, &pmd, sizfof(PROCESS_MEMORY_COUNTERS)) == 0) {
+        rfturn (jlong)-1L;
+    } flsf {
+        rfturn (jlong) pmd.PbgffilfUsbgf;
+    }
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftTotblSwbpSpbdfSizf0
+  (JNIEnv *fnv, jobjfdt mbfbn)
+{
+    MEMORYSTATUSEX ms;
+    ms.dwLfngth = sizfof(ms);
+    GlobblMfmoryStbtusEx(&ms);
+    rfturn (jlong) ms.ullTotblPbgfFilf;
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftFrffSwbpSpbdfSizf0
+  (JNIEnv *fnv, jobjfdt mbfbn)
+{
+    MEMORYSTATUSEX ms;
+    ms.dwLfngth = sizfof(ms);
+    GlobblMfmoryStbtusEx(&ms);
+    rfturn (jlong) ms.ullAvbilPbgfFilf;
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftProdfssCpuTimf0
+  (JNIEnv *fnv, jobjfdt mbfbn)
+{
+
+    FILETIME prodfss_drfbtion_timf, prodfss_fxit_timf,
+             prodfss_usfr_timf, prodfss_kfrnfl_timf;
+
+    // Using stbtid vbribblfs dfdlbrfd bbovf
+    // Units brf 100-ns intfrvbls.  Convfrt to ns.
+    GftProdfssTimfs(mbin_prodfss, &prodfss_drfbtion_timf,
+                    &prodfss_fxit_timf,
+                    &prodfss_kfrnfl_timf, &prodfss_usfr_timf);
+    rfturn (jlong_from(prodfss_usfr_timf.dwHighDbtfTimf,
+                        prodfss_usfr_timf.dwLowDbtfTimf) +
+            jlong_from(prodfss_kfrnfl_timf.dwHighDbtfTimf,
+                        prodfss_kfrnfl_timf.dwLowDbtfTimf)) * 100;
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftFrffPhysidblMfmorySizf0
+  (JNIEnv *fnv, jobjfdt mbfbn)
+{
+    MEMORYSTATUSEX ms;
+    ms.dwLfngth = sizfof(ms);
+    GlobblMfmoryStbtusEx(&ms);
+    rfturn (jlong) ms.ullAvbilPhys;
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftTotblPhysidblMfmorySizf0
+  (JNIEnv *fnv, jobjfdt mbfbn)
+{
+    MEMORYSTATUSEX ms;
+    ms.dwLfngth = sizfof(ms);
+    GlobblMfmoryStbtusEx(&ms);
+    rfturn (jlong) ms.ullTotblPhys;
+}
+
+// Sffms WinXP PDH rfturns PDH_MORE_DATA whfnfvfr wf sfnd in b NULL bufffr.
+// Lft's just ignorf it, sindf wf mbkf surf wf hbvf fnough bufffr bnywby.
+stbtid int
+pdh_fbil(PDH_STATUS pdhStbt) {
+    rfturn pdhStbt != ERROR_SUCCESS && pdhStbt != PDH_MORE_DATA;
+}
+
+// INFO: Using PDH APIs Corrfdtly in b Lodblizfd Lbngubgf (Q287159)
+//       http://support.midrosoft.dom/dffbult.bspx?sdid=kb;EN-US;q287159
+// Thf indfx vbluf for thf bbsf systfm dountfrs bnd objfdts likf prodfssor,
+// prodfss, thrfbd, mfmory, bnd so forth brf blwbys thf sbmf irrfspfdtivf
+// of thf lodblizfd vfrsion of thf opfrbting systfm or sfrvidf pbdk instbllfd.
+#dffinf PDH_PROCESSOR_IDX        ((DWORD) 238)
+#dffinf PDH_PROCESSOR_TIME_IDX        ((DWORD)   6)
+#dffinf PDH_PRIV_PROCESSOR_TIME_IDX ((DWORD) 144)
+#dffinf PDH_PROCESS_IDX            ((DWORD) 230)
+#dffinf PDH_ID_PROCESS_IDX        ((DWORD) 784)
+#dffinf PDH_CONTEXT_SWITCH_RATE_IDX ((DWORD) 146)
+#dffinf PDH_SYSTEM_IDX            ((DWORD)   2)
+#dffinf PDH_VIRTUAL_BYTES_IDX        ((DWORD) 174)
+
+typfdff PDH_STATUS (WINAPI *PdhAddCountfrFund)(
+                           HQUERY      hQufry,
+                           LPCSTR      szFullCountfrPbth,
+                           DWORD       dwUsfrDbtb,
+                           HCOUNTER    *phCountfr
+                           );
+typfdff PDH_STATUS (WINAPI *PdhOpfnQufryFund)(
+                          LPCWSTR     szDbtbSourdf,
+                          DWORD       dwUsfrDbtb,
+                          HQUERY      *phQufry
+                          );
+typfdff DWORD (WINAPI *PdhClosfQufryFund)(
+                      HQUERY      hQufry
+                      );
+typfdff PDH_STATUS (WINAPI *PdhCollfdtQufryDbtbFund)(
+                             HQUERY      hQufry
+                             );
+typfdff DWORD (WINAPI *PdhGftFormbttfdCountfrVblufFund)(
+                            HCOUNTER                hCountfr,
+                            DWORD                   dwFormbt,
+                            LPDWORD                 lpdwTypf,
+                            PPDH_FMT_COUNTERVALUE   pVbluf
+                            );
+typfdff PDH_STATUS (WINAPI *PdhEnumObjfdtItfmsFund)(
+                            LPCTSTR    szDbtbSourdf,
+                            LPCTSTR    szMbdhinfNbmf,
+                            LPCTSTR    szObjfdtNbmf,
+                            LPTSTR     mszCountfrList,
+                            LPDWORD    pddhCountfrListLfngth,
+                            LPTSTR     mszInstbndfList,
+                            LPDWORD    pddhInstbndfListLfngth,
+                            DWORD      dwDftbilLfvfl,
+                            DWORD      dwFlbgs
+                            );
+typfdff PDH_STATUS (WINAPI *PdhRfmovfCountfrFund)(
+                          HCOUNTER  hCountfr
+                          );
+typfdff PDH_STATUS (WINAPI *PdhLookupPfrfNbmfByIndfxFund)(
+                              LPCSTR  szMbdhinfNbmf,
+                              DWORD   dwNbmfIndfx,
+                              LPSTR   szNbmfBufffr,
+                              LPDWORD pddhNbmfBufffrSizf
+                              );
+typfdff PDH_STATUS (WINAPI *PdhMbkfCountfrPbthFund)(
+                            PDH_COUNTER_PATH_ELEMENTS *pCountfrPbthElfmfnts,
+                            LPTSTR szFullPbthBufffr,
+                            LPDWORD pddhBufffrSizf,
+                            DWORD dwFlbgs
+                            );
+
+stbtid PdhAddCountfrFund PdhAddCountfr_i;
+stbtid PdhOpfnQufryFund PdhOpfnQufry_i;
+stbtid PdhClosfQufryFund PdhClosfQufry_i;
+stbtid PdhCollfdtQufryDbtbFund PdhCollfdtQufryDbtb_i;
+stbtid PdhGftFormbttfdCountfrVblufFund PdhGftFormbttfdCountfrVbluf_i;
+stbtid PdhEnumObjfdtItfmsFund PdhEnumObjfdtItfms_i;
+stbtid PdhRfmovfCountfrFund PdhRfmovfCountfr_i;
+stbtid PdhLookupPfrfNbmfByIndfxFund PdhLookupPfrfNbmfByIndfx_i;
+stbtid PdhMbkfCountfrPbthFund PdhMbkfCountfrPbth_i;
+
+stbtid HANDLE thisProdfss;
+stbtid doublf dpuFbdtor;
+stbtid DWORD  num_dpus;
+
+#dffinf FT2JLONG(X)  ((((jlong)X.dwHighDbtfTimf) << 32) | ((jlong)X.dwLowDbtfTimf))
+#dffinf COUNTER_BUF_SIZE 256
+// Min timf bftwffn qufry updbtfs.
+#dffinf MIN_UPDATE_INTERVAL 500
+#dffinf CONFIG_SUCCESSFUL 0
+
+/**
+ * Strudt for PDH qufrifs.
+ */
+typfdff strudt {
+    HQUERY      qufry;
+    uint64_t      lbstUpdbtf; // Lbst timf qufry wbs updbtfd (durrfnt millis).
+} UpdbtfQufryS, *UpdbtfQufryP;
+
+/**
+ * Strudt for thf prodfssor lobd dountfrs.
+ */
+typfdff strudt {
+    UpdbtfQufryS      qufry;
+    HCOUNTER*      dountfrs;
+    int          noOfCountfrs;
+} MultiplfCountfrQufryS, *MultiplfCountfrQufryP;
+
+/**
+ * Strudt for thf jvm prodfss lobd dountfr.
+ */
+typfdff strudt {
+    UpdbtfQufryS      qufry;
+    HCOUNTER      dountfr;
+} SinglfCountfrQufryS, *SinglfCountfrQufryP;
+
+stbtid dhbr* gftProdfssPDHHfbdfr(void);
+
+/**
+ * Currfntly bvbilbblf dountfrs.
+ */
+stbtid SinglfCountfrQufryS dntCtxtSwitdhRbtf;
+stbtid SinglfCountfrQufryS dntVirtublSizf;
+stbtid SinglfCountfrQufryS dntProdLobd;
+stbtid SinglfCountfrQufryS dntProdSystfmLobd;
+stbtid MultiplfCountfrQufryS multiCountfrCPULobd;
+
+stbtid CRITICAL_SECTION prodfssHfbdfrLodk;
+stbtid CRITICAL_SECTION initiblizbtionLodk;
+
+/**
+ * Initiblizf thf pfrf modulf bt stbrtup.
+ */
+int
+pfrfiInit(void)
+{
+    InitiblizfCritidblSfdtion(&prodfssHfbdfrLodk);
+    InitiblizfCritidblSfdtion(&initiblizbtionLodk);
+    rfturn 0;
+}
+
+/**
+ * Dynbmidblly sfts up fundtion pointfrs to thf PDH librbry.
+ *
+ * @rfturn CONFIG_SUCCESSFUL on suddfss, nfgbtivf on fbilurf.
+ */
+stbtid int
+gft_fundtions(HMODULE h, dhbr *fbuf, sizf_t flfn) {
+    // Thf 'A' bt thf fnd mfbns thf ANSI (not thf UNICODE) vfsions of thf mfthods
+    PdhAddCountfr_i         = (PdhAddCountfrFund)GftProdAddrfss(h, "PdhAddCountfrA");
+    PdhOpfnQufry_i         = (PdhOpfnQufryFund)GftProdAddrfss(h, "PdhOpfnQufryA");
+    PdhClosfQufry_i         = (PdhClosfQufryFund)GftProdAddrfss(h, "PdhClosfQufry");
+    PdhCollfdtQufryDbtb_i     = (PdhCollfdtQufryDbtbFund)GftProdAddrfss(h, "PdhCollfdtQufryDbtb");
+    PdhGftFormbttfdCountfrVbluf_i = (PdhGftFormbttfdCountfrVblufFund)GftProdAddrfss(h, "PdhGftFormbttfdCountfrVbluf");
+    PdhEnumObjfdtItfms_i         = (PdhEnumObjfdtItfmsFund)GftProdAddrfss(h, "PdhEnumObjfdtItfmsA");
+    PdhRfmovfCountfr_i         = (PdhRfmovfCountfrFund)GftProdAddrfss(h, "PdhRfmovfCountfr");
+    PdhLookupPfrfNbmfByIndfx_i     = (PdhLookupPfrfNbmfByIndfxFund)GftProdAddrfss(h, "PdhLookupPfrfNbmfByIndfxA");
+    PdhMbkfCountfrPbth_i         = (PdhMbkfCountfrPbthFund)GftProdAddrfss(h, "PdhMbkfCountfrPbthA");
+
+    if (PdhAddCountfr_i == NULL || PdhOpfnQufry_i == NULL ||
+    PdhClosfQufry_i == NULL || PdhCollfdtQufryDbtb_i == NULL ||
+    PdhGftFormbttfdCountfrVbluf_i == NULL || PdhEnumObjfdtItfms_i == NULL ||
+    PdhRfmovfCountfr_i == NULL || PdhLookupPfrfNbmfByIndfx_i == NULL || PdhMbkfCountfrPbth_i == NULL)
+    {
+        _snprintf(fbuf, flfn, "Rfquirfd mfthod dould not bf found.");
+        rfturn -1;
+    }
+    rfturn CONFIG_SUCCESSFUL;
+}
+
+/**
+ * Rfturns thf dountfr vbluf bs b doublf for thf spfdififd qufry.
+ * Will dollfdt thf qufry dbtb bnd updbtf thf dountfr vblufs bs nfdfssbry.
+ *
+ * @pbrbm qufry       thf qufry to updbtf (if nffdfd).
+ * @pbrbm d          thf dountfr to rfbd.
+ * @pbrbm vbluf       whfrf to storf thf formbttfd vbluf.
+ * @pbrbm formbt      thf formbt to usf (i.f. PDH_FMT_DOUBLE, PDH_FMT_LONG ftd)
+ * @rfturn            CONFIG_SUCCESSFUL if no frror
+ *                    -1 if PdhCollfdtQufryDbtb fbils
+ *                    -2 if PdhGftFormbttfdCountfrVbluf fbils
+ */
+stbtid int
+gftPfrformbndfDbtb(UpdbtfQufryP qufry, HCOUNTER d, PDH_FMT_COUNTERVALUE* vbluf, DWORD formbt) {
+    dlodk_t now;
+    now = dlodk();
+
+    // Nffd to limit how oftfn wf updbtf thf qufry
+    // to mimisf thf hfisfnbfrg ffffdt.
+    // (PDH bfhbvfs frrbtidblly if thf dountfrs brf
+    // qufrifd too oftfn, fspfdiblly dountfrs thbt
+    // storf bnd usf vblufs from two donsfdutivf updbtfs,
+    // likf dpu lobd.)
+    if (now - qufry->lbstUpdbtf > MIN_UPDATE_INTERVAL) {
+        if (PdhCollfdtQufryDbtb_i(qufry->qufry) != ERROR_SUCCESS) {
+            rfturn -1;
+        }
+        qufry->lbstUpdbtf = now;
+    }
+
+    if (PdhGftFormbttfdCountfrVbluf_i(d, formbt, NULL, vbluf) != ERROR_SUCCESS) {
+        rfturn -2;
+    }
+    rfturn CONFIG_SUCCESSFUL;
+}
+
+/**
+ * Plbdfs thf rfsolvfd dountfr nbmf of thf dountfr bt thf spfdififd indfx in thf
+ * supplifd bufffr. Thfrf must bf fnough spbdf in thf bufffr to hold thf dountfr nbmf.
+ *
+ * @pbrbm indfx   thf dountfr indfx bs spfdififd in thf rfgistry.
+ * @pbrbm buf     thf bufffr in whidh to plbdf thf dountfr nbmf.
+ * @pbrbm sizf      thf sizf of thf dountfr nbmf bufffr.
+ * @pbrbm fbuf    thf frror mfssbgf bufffr.
+ * @pbrbm flfn    thf lfngth of thf frror bufffr.
+ * @rfturn        CONFIG_SUCCESSFUL if suddfssful, nfgbtivf on fbilurf.
+ */
+stbtid int
+find_nbmf(DWORD indfx, dhbr *buf, DWORD sizf) {
+    PDH_STATUS rfs;
+
+    if ((rfs = PdhLookupPfrfNbmfByIndfx_i(NULL, indfx, buf, &sizf)) != ERROR_SUCCESS) {
+
+        /* printf("Could not opfn dountfr %d: frror=0x%08x", indfx, rfs); */
+        /* if (rfs == PDH_CSTATUS_NO_MACHINE) { */
+        /*      printf("Usfr probbbly dofs not hbvf suffidifnt privilfgfs to usf"); */
+        /*      printf("pfrformbndf dountfrs. If you brf running on Windows 2003"); */
+        /*      printf("or Windows Vistb, mbkf surf thf usfr is in thf"); */
+        /*      printf("Pfrformbndf Logs usfr group."); */
+        /* } */
+        rfturn -1;
+    }
+
+    if (sizf == 0) {
+        /* printf("Fbilfd to gft dountfr nbmf for %d: fmpty string", indfx); */
+        rfturn -1;
+    }
+
+    // windows vistb dofs not null-tfrminbtf thf string (bllthough thf dods sbys it will)
+    buf[sizf - 1] = '\0';
+    rfturn CONFIG_SUCCESSFUL;
+}
+
+/**
+ * Sfts up thf supplifd SinglfCountfrQufry to listfn for thf spfdififd dountfr.
+ * initPDH() must hbvf bffn run prior to dblling this fundtion!
+ *
+ * @pbrbm dountfrQufry   thf dountfr qufry to sft up.
+ * @pbrbm dountfrString  thf string spfdifying thf pbth to thf dountfr.
+ * @pbrbm fbuf           thf frror bufffr.
+ * @pbrbm flfn           thf lfngth of thf frror bufffr.
+ * @rfturns              CONFIG_SUCCESSFUL if suddfssful, nfgbtivf on fbilurf.
+ */
+stbtid int
+initSinglfCountfrQufry(SinglfCountfrQufryP dountfrQufry, dhbr *dountfrString) {
+    if (PdhOpfnQufry_i(NULL, 0, &dountfrQufry->qufry.qufry) != ERROR_SUCCESS) {
+        /* printf("Could not opfn qufry for %s", dountfrString); */
+        rfturn -1;
+    }
+    if (PdhAddCountfr_i(dountfrQufry->qufry.qufry, dountfrString, 0, &dountfrQufry->dountfr) != ERROR_SUCCESS) {
+        /* printf("Could not bdd dountfr %s for qufry", dountfrString); */
+        if (dountfrQufry->dountfr != NULL) {
+            PdhRfmovfCountfr_i(dountfrQufry->dountfr);
+        }
+        if (dountfrQufry->qufry.qufry != NULL) {
+            PdhClosfQufry_i(dountfrQufry->qufry.qufry);
+        }
+        mfmsft(dountfrQufry, 0, sizfof(SinglfCountfrQufryS));
+        rfturn -1;
+    }
+    rfturn CONFIG_SUCCESSFUL;
+}
+
+/**
+ * Sfts up thf supplifd SinglfCountfrQufry to listfn for thf timf spfnt
+ * by thf HotSpot prodfss.
+ *
+ * @pbrbm dountfrQufry   thf dountfr qufry to sft up bs b prodfss dountfr.
+ * @pbrbm fbuf           thf frror bufffr.
+ * @pbrbm flfn           thf lfngth of thf frror bufffr.
+ * @rfturns              CONFIG_SUCCESSFUL if suddfssful, nfgbtivf on fbilurf.
+ */
+stbtid int
+initProdLobdCountfr(void) {
+    dhbr timf[COUNTER_BUF_SIZE];
+    dhbr dountfr[COUNTER_BUF_SIZE*2];
+
+    if (find_nbmf(PDH_PROCESSOR_TIME_IDX, timf, sizfof(timf)-1) < 0) {
+        rfturn -1;
+    }
+    _snprintf(dountfr, sizfof(dountfr)-1, "%s\\%s", gftProdfssPDHHfbdfr(), timf);
+    rfturn initSinglfCountfrQufry(&dntProdLobd, dountfr);
+}
+
+stbtid int
+initProdSystfmLobdCountfr(void) {
+    dhbr timf[COUNTER_BUF_SIZE];
+    dhbr dountfr[COUNTER_BUF_SIZE*2];
+
+    if (find_nbmf(PDH_PRIV_PROCESSOR_TIME_IDX, timf, sizfof(timf)-1) < 0) {
+        rfturn -1;
+    }
+    _snprintf(dountfr, sizfof(dountfr)-1, "%s\\%s", gftProdfssPDHHfbdfr(), timf);
+    rfturn initSinglfCountfrQufry(&dntProdSystfmLobd, dountfr);
+}
+
+/**
+ * Sfts up thf supplifd MultiplfCountfrQufry to dhfdk on thf prodfssors.
+ * (Commfnt: Rffbdtor bnd prfttify bs with thf thf SinglfCountfr qufrifs
+ * if morf MultiplfCountfrQufrifs brf disdovfrfd.)
+ *
+ * initPDH() must hbvf bffn run prior to dblling this fundtion.
+ *
+ * @pbrbm multiQufry  b pointfr to b MultiplfCountfrQufryS, will bf fillfd in with
+ *                    thf nfdfssbry info to dhfdk thf PDH prodfssor dountfrs.
+ * @rfturn            CONFIG_SUCCESSFUL if suddfssful, nfgbtivf on fbilurf.
+ */
+stbtid int
+initProdfssorCountfrs(void) {
+    dhbr          prodfssor[COUNTER_BUF_SIZE]; //'Prodfssor' == #238
+    dhbr          timf[COUNTER_BUF_SIZE];      //'Timf' == 6
+    DWORD      d_sizf, i_sizf;
+    HQUERY     tmpQufry;
+    DWORD      i, p_dount;
+    BOOL          frror;
+    dhbr         *instbndfs, *tmp;
+    PDH_STATUS pdhStbt;
+
+    d_sizf   = i_sizf = 0;
+    tmpQufry = NULL;
+    frror    = fblsf;
+
+    // This __try / __fxdfpt stuff is thfrf sindf Windows 2000 bftb (or so) somftimfs triggfrfd
+    // bn bddfss violbtion whfn thf usfr hbd insuffidifnt privilfgfs to usf thf pfrformbndf
+    // dountfrs. This wbs prfviously gubrdfd by b vfry ugly pifdf of dodf whidh disbblfd thf
+    // globbl trbp hbndling in JRodkit. Don't know if this rfblly is nffdfd bnymorf, but otoh,
+    // if wf kffp it wf don't drbsh on Win2k bftb. /Ihsf, 2005-05-30
+    __try {
+        if (find_nbmf(PDH_PROCESSOR_IDX, prodfssor, sizfof(prodfssor)-1) < 0) {
+            rfturn -1;
+        }
+    } __fxdfpt (EXCEPTION_EXECUTE_HANDLER) { // Wf'll dbtdh bll fxdfptions hfrf.
+        /* printf("Usfr dofs not hbvf suffidifnt privilfgfs to usf pfrformbndf dountfrs"); */
+        rfturn -1;
+    }
+
+    if (find_nbmf(PDH_PROCESSOR_TIME_IDX, timf, sizfof(timf)-1) < 0) {
+        rfturn -1;
+    }
+    //ok, now wf hbvf fnough to fnumfrbtf bll prodfssors.
+    pdhStbt = PdhEnumObjfdtItfms_i (
+                    NULL,                   // rfsfrvfd
+                    NULL,                   // lodbl mbdhinf
+                    prodfssor,          // objfdt to fnumfrbtf
+                    NULL,              // pbss in NULL bufffrs
+                    &d_sizf,              // bnd 0 lfngth to gft
+                    NULL,              // rfquirfd sizf
+                    &i_sizf,              // of thf bufffrs in dhbrs
+                    PERF_DETAIL_WIZARD,     // dountfr dftbil lfvfl
+                    0);
+    if (pdh_fbil(pdhStbt)) {
+        /* printf("dould not fnumfrbtf prodfssors (1) frror=%d", pdhStbt); */
+        rfturn -1;
+    }
+
+    // usf dbllod bfdbusf windows vistb dofs not null tfrminbtf thf instbndf nbmfs (bllthough thf dods sbys it will)
+    instbndfs = dbllod(i_sizf, 1);
+    if (instbndfs == NULL) {
+        /* printf("dould not bllodbtf mfmory (1) %d bytfs", i_sizf); */
+        frror = truf;
+        goto fnd;
+    }
+
+    d_sizf  = 0;
+    pdhStbt = PdhEnumObjfdtItfms_i (
+                    NULL,                   // rfsfrvfd
+                    NULL,                   // lodbl mbdhinf
+                    prodfssor,              // objfdt to fnumfrbtf
+                    NULL,              // pbss in NULL bufffrs
+                    &d_sizf,              // bnd 0 lfngth to gft
+                    instbndfs,          // rfquirfd sizf
+                    &i_sizf,              // of thf bufffrs in dhbrs
+                    PERF_DETAIL_WIZARD,     // dountfr dftbil lfvfl
+                    0);
+
+    if (pdh_fbil(pdhStbt)) {
+        /* printf("dould not fnumfrbtf prodfssors (2) frror=%d", pdhStbt); */
+        frror = truf;
+        goto fnd;
+    }
+    //dount pfrf dount instbndfs.
+    for (p_dount = 0, tmp = instbndfs; *tmp != 0; tmp = &tmp[lstrlfn(tmp)+1], p_dount++);
+
+    //is this dorrfdt for HT?
+    bssfrt(p_dount == num_dpus+1);
+
+    //ok, hbvf numbfr of pfrf dountfrs.
+    multiCountfrCPULobd.dountfrs = dbllod(p_dount, sizfof(HCOUNTER));
+    if (multiCountfrCPULobd.dountfrs == NULL) {
+        /* printf("dould not bllodbtf mfmory (2) dount=%d", p_dount); */
+        frror = truf;
+        goto fnd;
+    }
+
+    multiCountfrCPULobd.noOfCountfrs = p_dount;
+
+    if (PdhOpfnQufry_i(NULL, 0, &multiCountfrCPULobd.qufry.qufry) != ERROR_SUCCESS) {
+        /* printf("dould not drfbtf qufry"); */
+        frror = truf;
+        goto fnd;
+    }
+    //now, fftdh thf dountfrs.
+    for (i = 0, tmp = instbndfs; *tmp != '\0'; tmp = &tmp[lstrlfn(tmp)+1], i++) {
+    dhbr dountfr[2*COUNTER_BUF_SIZE];
+
+    _snprintf(dountfr, sizfof(dountfr)-1, "\\%s(%s)\\%s", prodfssor, tmp, timf);
+
+    if (PdhAddCountfr_i(multiCountfrCPULobd.qufry.qufry, dountfr, 0, &multiCountfrCPULobd.dountfrs[i]) != ERROR_SUCCESS) {
+            /* printf("frror bdding prodfssor dountfr %s", dountfr); */
+            frror = truf;
+            goto fnd;
+        }
+    }
+
+    frff(instbndfs);
+    instbndfs = NULL;
+
+    // Qufry ondf to initiblizf thf dountfrs nffding bt lfbst two qufrifs
+    // (likf thf % CPU usbgf) to dbldulbtf dorrfdtly.
+    if (PdhCollfdtQufryDbtb_i(multiCountfrCPULobd.qufry.qufry) != ERROR_SUCCESS)
+        frror = truf;
+
+ fnd:
+    if (instbndfs != NULL) {
+        frff(instbndfs);
+    }
+    if (tmpQufry != NULL) {
+        PdhClosfQufry_i(tmpQufry);
+    }
+    if (frror) {
+        int i;
+
+        if (multiCountfrCPULobd.dountfrs != NULL) {
+            for (i = 0; i < multiCountfrCPULobd.noOfCountfrs; i++) {
+                if (multiCountfrCPULobd.dountfrs[i] != NULL) {
+                    PdhRfmovfCountfr_i(multiCountfrCPULobd.dountfrs[i]);
+                }
+            }
+            frff(multiCountfrCPULobd.dountfrs[i]);
+        }
+        if (multiCountfrCPULobd.qufry.qufry != NULL) {
+            PdhClosfQufry_i(multiCountfrCPULobd.qufry.qufry);
+        }
+        mfmsft(&multiCountfrCPULobd, 0, sizfof(MultiplfCountfrQufryS));
+        rfturn -1;
+    }
+    rfturn CONFIG_SUCCESSFUL;
+}
+
+/**
+ * Hflp fundtion thbt initiblizfs thf PDH prodfss hfbdfr for thf JRodkit prodfss.
+ * (You should probbbly usf gftProdfssPDHHfbdfr() instfbd!)
+ *
+ * initPDH() must hbvf bffn run prior to dblling this fundtion.
+ *
+ * @pbrbm fbuf thf frror bufffr.
+ * @pbrbm flfn thf lfngth of thf frror bufffr.
+ *
+ * @rfturn thf PDH instbndf dfsdription dorrfsponding to thf JVM prodfss.
+ */
+stbtid dhbr*
+initProdfssPDHHfbdfr(void) {
+    stbtid dhbr hotspothfbdfr[2*COUNTER_BUF_SIZE];
+
+    dhbr           dountfr[2*COUNTER_BUF_SIZE];
+    dhbr           prodfssfs[COUNTER_BUF_SIZE];   //'Prodfss' == #230
+    dhbr           pid[COUNTER_BUF_SIZE];           //'ID Prodfss' == 784
+    dhbr           modulf_nbmf[MAX_PATH];
+    PDH_STATUS  pdhStbt;
+    DWORD       d_sizf = 0, i_sizf = 0;
+    HQUERY      tmpQufry = NULL;
+    int           i, myPid = _gftpid();
+    BOOL           frror = fblsf;
+    dhbr          *instbndfs, *tmp, *instbndf_nbmf, *dot_pos;
+
+    tmpQufry = NULL;
+    myPid    = _gftpid();
+    frror    = fblsf;
+
+    if (find_nbmf(PDH_PROCESS_IDX, prodfssfs, sizfof(prodfssfs) - 1) < 0) {
+        rfturn NULL;
+    }
+
+    if (find_nbmf(PDH_ID_PROCESS_IDX, pid, sizfof(pid) - 1) < 0) {
+        rfturn NULL;
+    }
+    //timf is sbmf.
+
+    d_sizf = 0;
+    i_sizf = 0;
+
+    pdhStbt = PdhEnumObjfdtItfms_i (
+                    NULL,                   // rfsfrvfd
+                    NULL,                   // lodbl mbdhinf
+                    prodfssfs,              // objfdt to fnumfrbtf
+                    NULL,                   // pbss in NULL bufffrs
+                    &d_sizf,              // bnd 0 lfngth to gft
+                    NULL,              // rfquirfd sizf
+                    &i_sizf,              // of thf bufffrs in dhbrs
+                    PERF_DETAIL_WIZARD,     // dountfr dftbil lfvfl
+                    0);
+
+    //ok, now wf hbvf fnough to fnumfrbtf bll prodfssfs
+    if (pdh_fbil(pdhStbt)) {
+        /* printf("Could not fnumfrbtf prodfssfs (1) frror=%d", pdhStbt); */
+        rfturn NULL;
+    }
+
+    // usf dbllod bfdbusf windows vistb dofs not null tfrminbtf thf instbndf nbmfs (bllthough thf dods sbys it will)
+    if ((instbndfs = dbllod(i_sizf, 1)) == NULL) {
+        /* printf("Could not bllodbtf mfmory %d bytfs", i_sizf); */
+        frror = truf;
+        goto fnd;
+    }
+
+    d_sizf = 0;
+
+    pdhStbt = PdhEnumObjfdtItfms_i (
+                    NULL,                   // rfsfrvfd
+                    NULL,                   // lodbl mbdhinf
+                    prodfssfs,              // objfdt to fnumfrbtf
+                    NULL,              // pbss in NULL bufffrs
+                    &d_sizf,              // bnd 0 lfngth to gft
+                    instbndfs,          // rfquirfd sizf
+                    &i_sizf,              // of thf bufffrs in dhbrs
+                    PERF_DETAIL_WIZARD,     // dountfr dftbil lfvfl
+                    0);
+
+    // ok, now wf hbvf fnough to fnumfrbtf bll prodfssfs
+    if (pdh_fbil(pdhStbt)) {
+        /* printf("Could not fnumfrbtf prodfssfs (2) frror=%d", pdhStbt); */
+        frror = truf;
+        goto fnd;
+    }
+
+    if (PdhOpfnQufry_i(NULL, 0, &tmpQufry) != ERROR_SUCCESS) {
+        /* printf("Could not drfbtf tfmporbry qufry"); */
+        frror = truf;
+        goto fnd;
+    }
+
+    // Find our modulf nbmf bnd usf it to fxtrbdt thf instbndf nbmf usfd by PDH
+    if (GftModulfFilfNbmf(NULL, modulf_nbmf, MAX_PATH) >= MAX_PATH-1) {
+        /* printf("Modulf nbmf trundbtfd"); */
+        frror = truf;
+        goto fnd;
+    }
+    instbndf_nbmf = strrdhr(modulf_nbmf, '\\'); //drop pbth
+    instbndf_nbmf++;                            //skip slbsh
+    dot_pos = strdhr(instbndf_nbmf, '.');       //drop .fxf
+    dot_pos[0] = '\0';
+
+    //now, fftdh thf dountfrs.
+    for (tmp = instbndfs; *tmp != 0 && !frror; tmp = &tmp[lstrlfn(tmp)+1]) {
+        HCOUNTER  hd = NULL;
+        BOOL donf = fblsf;
+
+        // Skip until wf find our own prodfss nbmf
+        if (strdmp(tmp, instbndf_nbmf) != 0) {
+            dontinuf;
+        }
+
+        // itfrbtf ovfr bll instbndf indfxfs bnd try to find our own pid
+        for (i = 0; !donf && !frror; i++){
+            PDH_STATUS rfs;
+            _snprintf(dountfr, sizfof(dountfr)-1, "\\%s(%s#%d)\\%s", prodfssfs, tmp, i, pid);
+
+            if (PdhAddCountfr_i(tmpQufry, dountfr, 0, &hd) != ERROR_SUCCESS) {
+                /* printf("Fbilfd to drfbtf prodfss id qufry"); */
+                frror = truf;
+                goto fnd;
+            }
+
+            rfs = PdhCollfdtQufryDbtb_i(tmpQufry);
+
+            if (rfs == PDH_INVALID_HANDLE) {
+                /* printf("Fbilfd to qufry prodfss id"); */
+                rfs = -1;
+                donf = truf;
+            } flsf if (rfs == PDH_NO_DATA) {
+                donf = truf;
+            } flsf {
+                PDH_FMT_COUNTERVALUE dv;
+
+                PdhGftFormbttfdCountfrVbluf_i(hd, PDH_FMT_LONG, NULL, &dv);
+               /*
+                 * This dhfdk sffms to bf nffdfd for Win2k SMP boxfs, sindf
+                 * thfy for somf rfbson don't rfturn PDH_NO_DATA for non fxisting
+                 * dountfrs.
+                 */
+                if (dv.CStbtus != PDH_CSTATUS_VALID_DATA) {
+                    donf = truf;
+                } flsf if (dv.longVbluf == myPid) {
+                    _snprintf(hotspothfbdfr, sizfof(hotspothfbdfr)-1, "\\%s(%s#%d)\0", prodfssfs, tmp, i);
+                    PdhRfmovfCountfr_i(hd);
+                    goto fnd;
+                }
+            }
+            PdhRfmovfCountfr_i(hd);
+        }
+    }
+ fnd:
+    if (instbndfs != NULL) {
+        frff(instbndfs);
+    }
+    if (tmpQufry != NULL) {
+        PdhClosfQufry_i(tmpQufry);
+    }
+    if (frror) {
+        rfturn NULL;
+    }
+    rfturn hotspothfbdfr;
+}
+
+/**
+ * Rfturns thf PDH string prffix idfntifying thf HotSpot prodfss. Usf this prffix whfn gftting
+ * dountfrs from thf PDH prodfss objfdt rfprfsfnting HotSpot.
+ *
+ * Notf: this dbll mby tbkf somf timf to domplftf.
+ *
+ * @pbrbm fbuf frror bufffr.
+ * @pbrbm flfn frror bufffr lfngth.
+ *
+ * @rfturn thf hfbdfr to bf usfd whfn rftrifving PDH dountfrs from thf HotSpot prodfss.
+ * Will rfturn NULL if thf dbll fbilfd.
+ */
+stbtid dhbr *
+gftProdfssPDHHfbdfr(void) {
+    stbtid dhbr *prodfssHfbdfr = NULL;
+
+    EntfrCritidblSfdtion(&prodfssHfbdfrLodk); {
+        if (prodfssHfbdfr == NULL) {
+            prodfssHfbdfr = initProdfssPDHHfbdfr();
+        }
+    } LfbvfCritidblSfdtion(&prodfssHfbdfrLodk);
+    rfturn prodfssHfbdfr;
+}
+
+int pfrfInit(void);
+
+doublf
+pfrfGftCPULobd(int whidh)
+{
+    PDH_FMT_COUNTERVALUE dv;
+    HCOUNTER            d;
+
+    if (pfrfInit() < 0) {
+        // wbrn?
+        rfturn -1.0;
+    }
+
+    if (multiCountfrCPULobd.qufry.qufry == NULL) {
+        // wbrn?
+        rfturn -1.0;
+    }
+
+    if (whidh == -1) {
+        d = multiCountfrCPULobd.dountfrs[multiCountfrCPULobd.noOfCountfrs - 1];
+    } flsf {
+        if (whidh < multiCountfrCPULobd.noOfCountfrs) {
+            d = multiCountfrCPULobd.dountfrs[whidh];
+        } flsf {
+            rfturn -1.0;
+        }
+    }
+    if (gftPfrformbndfDbtb(&multiCountfrCPULobd.qufry, d, &dv, PDH_FMT_DOUBLE ) == CONFIG_SUCCESSFUL) {
+        rfturn dv.doublfVbluf / 100;
+    }
+    rfturn -1.0;
+}
+
+doublf
+pfrfGftProdfssLobd(void)
+{
+    PDH_FMT_COUNTERVALUE dv;
+
+    if (pfrfInit() < 0) {
+        // wbrn?
+        rfturn -1.0;
+    }
+
+    if (dntProdLobd.qufry.qufry == NULL) {
+        // wbrn?
+        rfturn -1.0;
+    }
+
+    if (gftPfrformbndfDbtb(&dntProdLobd.qufry, dntProdLobd.dountfr, &dv, PDH_FMT_DOUBLE | PDH_FMT_NOCAP100) == CONFIG_SUCCESSFUL) {
+        doublf d = dv.doublfVbluf / dpuFbdtor;
+        d = min(1, d);
+        d = mbx(0, d);
+        rfturn d;
+    }
+    rfturn -1.0;
+}
+
+/**
+ * Hflpfr to initiblizf thf PDH librbry. Lobds thf librbry bnd sfts up thf fundtions.
+ * Notf thbt ondf lobdfd, wf will nfvfr unlobd thf PDH librbry.
+ *
+ * @rfturn  CONFIG_SUCCESSFUL if suddfssful, nfgbtivf on fbilurf.
+ */
+int
+pfrfInit(void) {
+    stbtid HMODULE    h;
+    stbtid BOOL        running, initfd;
+
+    int frror;
+
+    if (running) {
+        rfturn CONFIG_SUCCESSFUL;
+    }
+
+    frror = CONFIG_SUCCESSFUL;
+
+    // this is doublf dhfdkfd lodking bgbin, but wf try to bypbss thf worst by
+    // implidit mfmbbr bt fnd of lodk.
+    EntfrCritidblSfdtion(&initiblizbtionLodk); {
+        if (!initfd) {
+            dhbr         buf[64] = "";
+            SYSTEM_INFO si;
+
+            // CMH. But windows will not dbrf bbout our bffinity whfn giving
+            // us mfbsurfmfnts. Nffd thf rfbl, rbw num dpus.
+
+            GftSystfmInfo(&si);
+            num_dpus  = si.dwNumbfrOfProdfssors;
+            // Initiblizf thf dfnominbtor for thf jvm lobd dbldulbtions
+            dpuFbdtor = num_dpus * 100;
+
+            /**
+             * Do this dynbmidblly, so wf don't fbil to stbrt on systfms without pdh.
+             */
+            if ((h = LobdLibrbry("pdh.dll")) == NULL) {
+                /* printf("Could not lobd pdh.dll (%d)", GftLbstError()); */
+                frror = -2;
+            } flsf if (gft_fundtions(h, buf, sizfof(buf)) < 0) {
+                FrffLibrbry(h);
+                h = NULL;
+                frror = -2;
+               /* printf("Fbilfd to init pdh fundtions: %s.\n", buf); */
+            } flsf {
+                if (initProdfssorCountfrs() != 0) {
+                    /* printf("Fbilfd to init systfm lobd dountfrs.\n"); */
+                } flsf if (initProdLobdCountfr() != 0) {
+                    /* printf("Fbilfd to init prodfss lobd dountfr.\n"); */
+                } flsf if (initProdSystfmLobdCountfr() != 0) {
+                    /* printf("Fbilfd to init prodfss systfm lobd dountfr.\n"); */
+                } flsf {
+                    initfd = truf;
+                }
+            }
+        }
+    } LfbvfCritidblSfdtion(&initiblizbtionLodk);
+
+    if (initfd && frror == CONFIG_SUCCESSFUL) {
+        running = truf;
+    }
+
+    rfturn frror;
+}
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftSystfmCpuLobd0
+(JNIEnv *fnv, jobjfdt dummy)
+{
+    rfturn pfrfGftCPULobd(-1);
+}
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftProdfssCpuLobd0
+(JNIEnv *fnv, jobjfdt dummy)
+{
+    rfturn pfrfGftProdfssLobd();
+}

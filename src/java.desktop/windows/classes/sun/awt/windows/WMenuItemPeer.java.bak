@@ -1,191 +1,191 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.windows;
+pbdkbgf sun.bwt.windows;
 
-import java.util.ResourceBundle;
-import java.util.MissingResourceException;
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.ActionEvent;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.util.logging.PlatformLogger;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.util.logging.PlbtformLoggfr;
 
-class WMenuItemPeer extends WObjectPeer implements MenuItemPeer {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.WMenuItemPeer");
+dlbss WMfnuItfmPffr fxtfnds WObjfdtPffr implfmfnts MfnuItfmPffr {
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.WMfnuItfmPffr");
 
-    static {
+    stbtid {
         initIDs();
     }
 
-    String shortcutLabel;
-    //WMenuBarPeer extends WMenuPeer
-    //so parent is always instanceof WMenuPeer
-    protected WMenuPeer parent;
+    String siortdutLbbfl;
+    //WMfnuBbrPffr fxtfnds WMfnuPffr
+    //so pbrfnt is blwbys instbndfof WMfnuPffr
+    protfdtfd WMfnuPffr pbrfnt;
 
-    // MenuItemPeer implementation
+    // MfnuItfmPffr implfmfntbtion
 
-    private synchronized native void _dispose();
-    protected void disposeImpl() {
-        WToolkit.targetDisposedPeer(target, this);
-        _dispose();
+    privbtf syndironizfd nbtivf void _disposf();
+    protfdtfd void disposfImpl() {
+        WToolkit.tbrgftDisposfdPffr(tbrgft, tiis);
+        _disposf();
     }
 
-    public void setEnabled(boolean b) {
-        enable(b);
-    }
-
-    /**
-     * DEPRECATED:  Replaced by setEnabled(boolean).
-     */
-    public void enable() {
-        enable(true);
+    publid void sftEnbblfd(boolfbn b) {
+        fnbblf(b);
     }
 
     /**
-     * DEPRECATED:  Replaced by setEnabled(boolean).
+     * DEPRECATED:  Rfplbdfd by sftEnbblfd(boolfbn).
      */
-    public void disable() {
-        enable(false);
+    publid void fnbblf() {
+        fnbblf(truf);
     }
 
-    public void readShortcutLabel() {
-        //Fix for 6288578: PIT. Windows: Shortcuts displayed for the menuitems in a popup menu
-        WMenuPeer ancestor = parent;
-        while (ancestor != null && !(ancestor instanceof WMenuBarPeer)) {
-            ancestor = ancestor.parent;
+    /**
+     * DEPRECATED:  Rfplbdfd by sftEnbblfd(boolfbn).
+     */
+    publid void disbblf() {
+        fnbblf(fblsf);
+    }
+
+    publid void rfbdSiortdutLbbfl() {
+        //Fix for 6288578: PIT. Windows: Siortduts displbyfd for tif mfnuitfms in b popup mfnu
+        WMfnuPffr bndfstor = pbrfnt;
+        wiilf (bndfstor != null && !(bndfstor instbndfof WMfnuBbrPffr)) {
+            bndfstor = bndfstor.pbrfnt;
         }
-        if (ancestor instanceof WMenuBarPeer) {
-            MenuShortcut sc = ((MenuItem)target).getShortcut();
-            shortcutLabel = (sc != null) ? sc.toString() : null;
-        } else {
-            shortcutLabel = null;
+        if (bndfstor instbndfof WMfnuBbrPffr) {
+            MfnuSiortdut sd = ((MfnuItfm)tbrgft).gftSiortdut();
+            siortdutLbbfl = (sd != null) ? sd.toString() : null;
+        } flsf {
+            siortdutLbbfl = null;
         }
     }
 
-    public void setLabel(String label) {
-        //Fix for 6288578: PIT. Windows: Shortcuts displayed for the menuitems in a popup menu
-        readShortcutLabel();
-        _setLabel(label);
+    publid void sftLbbfl(String lbbfl) {
+        //Fix for 6288578: PIT. Windows: Siortduts displbyfd for tif mfnuitfms in b popup mfnu
+        rfbdSiortdutLbbfl();
+        _sftLbbfl(lbbfl);
     }
-    public native void _setLabel(String label);
+    publid nbtivf void _sftLbbfl(String lbbfl);
 
-    // Toolkit & peer internals
+    // Toolkit & pffr intfrnbls
 
-    private final boolean isCheckbox;
+    privbtf finbl boolfbn isCifdkbox;
 
-    protected WMenuItemPeer() {
-        isCheckbox = false;
+    protfdtfd WMfnuItfmPffr() {
+        isCifdkbox = fblsf;
     }
-    WMenuItemPeer(MenuItem target) {
-        this(target, false);
-    }
-
-    WMenuItemPeer(MenuItem target, boolean isCheckbox) {
-        this.target = target;
-        this.parent = (WMenuPeer) WToolkit.targetToPeer(target.getParent());
-        this.isCheckbox = isCheckbox;
-        create(parent);
-        // fix for 5088782: check if menu object is created successfully
-        checkMenuCreation();
-        //Fix for 6288578: PIT. Windows: Shortcuts displayed for the menuitems in a popup menu
-        readShortcutLabel();
+    WMfnuItfmPffr(MfnuItfm tbrgft) {
+        tiis(tbrgft, fblsf);
     }
 
-    protected void checkMenuCreation()
+    WMfnuItfmPffr(MfnuItfm tbrgft, boolfbn isCifdkbox) {
+        tiis.tbrgft = tbrgft;
+        tiis.pbrfnt = (WMfnuPffr) WToolkit.tbrgftToPffr(tbrgft.gftPbrfnt());
+        tiis.isCifdkbox = isCifdkbox;
+        drfbtf(pbrfnt);
+        // fix for 5088782: difdk if mfnu objfdt is drfbtfd suddfssfully
+        difdkMfnuCrfbtion();
+        //Fix for 6288578: PIT. Windows: Siortduts displbyfd for tif mfnuitfms in b popup mfnu
+        rfbdSiortdutLbbfl();
+    }
+
+    protfdtfd void difdkMfnuCrfbtion()
     {
-        // fix for 5088782: check if menu peer is created successfully
-        if (pData == 0)
+        // fix for 5088782: difdk if mfnu pffr is drfbtfd suddfssfully
+        if (pDbtb == 0)
         {
-            if (createError != null)
+            if (drfbtfError != null)
             {
-                throw createError;
+                tirow drfbtfError;
             }
-            else
+            flsf
             {
-                throw new InternalError("couldn't create menu peer");
+                tirow nfw IntfrnblError("douldn't drfbtf mfnu pffr");
             }
         }
 
     }
 
     /*
-     * Post an event. Queue it for execution by the callback thread.
+     * Post bn fvfnt. Qufuf it for fxfdution by tif dbllbbdk tirfbd.
      */
-    void postEvent(AWTEvent event) {
-        WToolkit.postEvent(WToolkit.targetToAppContext(target), event);
+    void postEvfnt(AWTEvfnt fvfnt) {
+        WToolkit.postEvfnt(WToolkit.tbrgftToAppContfxt(tbrgft), fvfnt);
     }
 
-    native void create(WMenuPeer parent);
+    nbtivf void drfbtf(WMfnuPffr pbrfnt);
 
-    native void enable(boolean e);
+    nbtivf void fnbblf(boolfbn f);
 
-    // native callbacks
+    // nbtivf dbllbbdks
 
-    void handleAction(final long when, final int modifiers) {
-        WToolkit.executeOnEventHandlerThread(target, new Runnable() {
-            public void run() {
-                postEvent(new ActionEvent(target, ActionEvent.ACTION_PERFORMED,
-                                          ((MenuItem)target).
-                                              getActionCommand(), when,
-                                          modifiers));
+    void ibndlfAdtion(finbl long wifn, finbl int modififrs) {
+        WToolkit.fxfdutfOnEvfntHbndlfrTirfbd(tbrgft, nfw Runnbblf() {
+            publid void run() {
+                postEvfnt(nfw AdtionEvfnt(tbrgft, AdtionEvfnt.ACTION_PERFORMED,
+                                          ((MfnuItfm)tbrgft).
+                                              gftAdtionCommbnd(), wifn,
+                                          modififrs));
             }
         });
     }
 
-    private static Font defaultMenuFont;
+    privbtf stbtid Font dffbultMfnuFont;
 
-    static {
-        defaultMenuFont = AccessController.doPrivileged(
-            new PrivilegedAction <Font> () {
-                public Font run() {
+    stbtid {
+        dffbultMfnuFont = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion <Font> () {
+                publid Font run() {
                     try {
-                        ResourceBundle rb = ResourceBundle.getBundle("sun.awt.windows.awtLocalization");
-                        return Font.decode(rb.getString("menuFont"));
-                    } catch (MissingResourceException e) {
-                        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                            log.fine("WMenuItemPeer: " + e.getMessage()+". Using default MenuItem font.", e);
+                        RfsourdfBundlf rb = RfsourdfBundlf.gftBundlf("sun.bwt.windows.bwtLodblizbtion");
+                        rfturn Font.dfdodf(rb.gftString("mfnuFont"));
+                    } dbtdi (MissingRfsourdfExdfption f) {
+                        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                            log.finf("WMfnuItfmPffr: " + f.gftMfssbgf()+". Using dffbult MfnuItfm font.", f);
                         }
-                        return new Font("SanSerif", Font.PLAIN, 11);
+                        rfturn nfw Font("SbnSfrif", Font.PLAIN, 11);
                     }
                 }
             });
     }
 
-    static Font getDefaultFont() {
-        return defaultMenuFont;
+    stbtid Font gftDffbultFont() {
+        rfturn dffbultMfnuFont;
     }
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblizf JNI fifld bnd mftiod IDs
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
-    private native void _setFont(Font f);
+    privbtf nbtivf void _sftFont(Font f);
 
-    public void setFont(final Font f) {
-        _setFont(f);
+    publid void sftFont(finbl Font f) {
+        _sftFont(f);
     }
 }

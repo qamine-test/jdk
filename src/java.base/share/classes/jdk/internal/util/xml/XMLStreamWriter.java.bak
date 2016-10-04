@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package jdk.internal.util.xml;
+pbdkbgf jdk.intfrnbl.util.xml;
 
 /**
- * Basic XMLStreamWriter for writing simple XML files such as those
- * defined in java.util.Properties
+ * Bbsid XMLStrfbmWritfr for writing simplf XML filfs sudi bs tiosf
+ * dffinfd in jbvb.util.Propfrtifs
  *
- * This is a subset of javax.xml.stream.XMLStreamWriter
+ * Tiis is b subsft of jbvbx.xml.strfbm.XMLStrfbmWritfr
  *
- * @author Joe Wang
+ * @butior Jof Wbng
  */
-public  interface XMLStreamWriter {
+publid  intfrfbdf XMLStrfbmWritfr {
 
-    //Defaults the XML version to 1.0, and the encoding to utf-8
-    public final static String DEFAULT_XML_VERSION = "1.0";
-    public final static String DEFAULT_ENCODING = "UTF-8";
+    //Dffbults tif XML vfrsion to 1.0, bnd tif fndoding to utf-8
+    publid finbl stbtid String DEFAULT_XML_VERSION = "1.0";
+    publid finbl stbtid String DEFAULT_ENCODING = "UTF-8";
 
     /**
-     * Writes a start tag to the output.  All writeStartElement methods
-     * open a new scope in the internal namespace context.  Writing the
-     * corresponding EndElement causes the scope to be closed.
-     * @param localName local name of the tag, may not be null
-     * @throws XMLStreamException
+     * Writfs b stbrt tbg to tif output.  All writfStbrtElfmfnt mftiods
+     * opfn b nfw sdopf in tif intfrnbl nbmfspbdf dontfxt.  Writing tif
+     * dorrfsponding EndElfmfnt dbusfs tif sdopf to bf dlosfd.
+     * @pbrbm lodblNbmf lodbl nbmf of tif tbg, mby not bf null
+     * @tirows XMLStrfbmExdfption
      */
-    public void writeStartElement(String localName) throws XMLStreamException;
+    publid void writfStbrtElfmfnt(String lodblNbmf) tirows XMLStrfbmExdfption;
 
     /**
-     * Writes an empty element tag to the output
-     * @param localName local name of the tag, may not be null
-     * @throws XMLStreamException
+     * Writfs bn fmpty flfmfnt tbg to tif output
+     * @pbrbm lodblNbmf lodbl nbmf of tif tbg, mby not bf null
+     * @tirows XMLStrfbmExdfption
      */
-    public void writeEmptyElement(String localName) throws XMLStreamException;
+    publid void writfEmptyElfmfnt(String lodblNbmf) tirows XMLStrfbmExdfption;
 
     /**
-     * Writes an end tag to the output relying on the internal
-     * state of the writer to determine the prefix and local name
-     * of the event.
-     * @throws XMLStreamException
+     * Writfs bn fnd tbg to tif output rflying on tif intfrnbl
+     * stbtf of tif writfr to dftfrminf tif prffix bnd lodbl nbmf
+     * of tif fvfnt.
+     * @tirows XMLStrfbmExdfption
      */
-    public void writeEndElement() throws XMLStreamException;
+    publid void writfEndElfmfnt() tirows XMLStrfbmExdfption;
 
     /**
-     * Closes any start tags and writes corresponding end tags.
-     * @throws XMLStreamException
+     * Closfs bny stbrt tbgs bnd writfs dorrfsponding fnd tbgs.
+     * @tirows XMLStrfbmExdfption
      */
-    public void writeEndDocument() throws XMLStreamException;
+    publid void writfEndDodumfnt() tirows XMLStrfbmExdfption;
 
     /**
-     * Close this writer and free any resources associated with the
-     * writer.  This must not close the underlying output stream.
-     * @throws XMLStreamException
+     * Closf tiis writfr bnd frff bny rfsourdfs bssodibtfd witi tif
+     * writfr.  Tiis must not dlosf tif undfrlying output strfbm.
+     * @tirows XMLStrfbmExdfption
      */
-    public void close() throws XMLStreamException;
+    publid void dlosf() tirows XMLStrfbmExdfption;
 
     /**
-     * Write any cached data to the underlying output mechanism.
-     * @throws XMLStreamException
+     * Writf bny dbdifd dbtb to tif undfrlying output mfdibnism.
+     * @tirows XMLStrfbmExdfption
      */
-    public void flush() throws XMLStreamException;
+    publid void flusi() tirows XMLStrfbmExdfption;
 
     /**
-     * Writes an attribute to the output stream without
-     * a prefix.
-     * @param localName the local name of the attribute
-     * @param value the value of the attribute
-     * @throws IllegalStateException if the current state does not allow Attribute writing
-     * @throws XMLStreamException
+     * Writfs bn bttributf to tif output strfbm witiout
+     * b prffix.
+     * @pbrbm lodblNbmf tif lodbl nbmf of tif bttributf
+     * @pbrbm vbluf tif vbluf of tif bttributf
+     * @tirows IllfgblStbtfExdfption if tif durrfnt stbtf dofs not bllow Attributf writing
+     * @tirows XMLStrfbmExdfption
      */
-    public void writeAttribute(String localName, String value)
-            throws XMLStreamException;
+    publid void writfAttributf(String lodblNbmf, String vbluf)
+            tirows XMLStrfbmExdfption;
 
     /**
-     * Writes a CData section
-     * @param data the data contained in the CData Section, may not be null
-     * @throws XMLStreamException
+     * Writfs b CDbtb sfdtion
+     * @pbrbm dbtb tif dbtb dontbinfd in tif CDbtb Sfdtion, mby not bf null
+     * @tirows XMLStrfbmExdfption
      */
-    public void writeCData(String data) throws XMLStreamException;
+    publid void writfCDbtb(String dbtb) tirows XMLStrfbmExdfption;
 
     /**
-     * Write a DTD section.  This string represents the entire doctypedecl production
-     * from the XML 1.0 specification.
+     * Writf b DTD sfdtion.  Tiis string rfprfsfnts tif fntirf dodtypfdfdl produdtion
+     * from tif XML 1.0 spfdifidbtion.
      *
-     * @param dtd the DTD to be written
-     * @throws XMLStreamException
+     * @pbrbm dtd tif DTD to bf writtfn
+     * @tirows XMLStrfbmExdfption
      */
-    public void writeDTD(String dtd) throws XMLStreamException;
+    publid void writfDTD(String dtd) tirows XMLStrfbmExdfption;
 
     /**
-     * Write the XML Declaration. Defaults the XML version to 1.0, and the encoding to utf-8
-     * @throws XMLStreamException
+     * Writf tif XML Dfdlbrbtion. Dffbults tif XML vfrsion to 1.0, bnd tif fndoding to utf-8
+     * @tirows XMLStrfbmExdfption
      */
-    public void writeStartDocument() throws XMLStreamException;
+    publid void writfStbrtDodumfnt() tirows XMLStrfbmExdfption;
 
     /**
-     * Write the XML Declaration. Defaults the the encoding to utf-8
-     * @param version version of the xml document
-     * @throws XMLStreamException
+     * Writf tif XML Dfdlbrbtion. Dffbults tif tif fndoding to utf-8
+     * @pbrbm vfrsion vfrsion of tif xml dodumfnt
+     * @tirows XMLStrfbmExdfption
      */
-    public void writeStartDocument(String version) throws XMLStreamException;
+    publid void writfStbrtDodumfnt(String vfrsion) tirows XMLStrfbmExdfption;
 
     /**
-     * Write the XML Declaration.  Note that the encoding parameter does
-     * not set the actual encoding of the underlying output.  That must
-     * be set when the instance of the XMLStreamWriter is created using the
-     * XMLOutputFactory
-     * @param encoding encoding of the xml declaration
-     * @param version version of the xml document
-     * @throws XMLStreamException If given encoding does not match encoding
-     * of the underlying stream
+     * Writf tif XML Dfdlbrbtion.  Notf tibt tif fndoding pbrbmftfr dofs
+     * not sft tif bdtubl fndoding of tif undfrlying output.  Tibt must
+     * bf sft wifn tif instbndf of tif XMLStrfbmWritfr is drfbtfd using tif
+     * XMLOutputFbdtory
+     * @pbrbm fndoding fndoding of tif xml dfdlbrbtion
+     * @pbrbm vfrsion vfrsion of tif xml dodumfnt
+     * @tirows XMLStrfbmExdfption If givfn fndoding dofs not mbtdi fndoding
+     * of tif undfrlying strfbm
      */
-    public void writeStartDocument(String encoding, String version)
-        throws XMLStreamException;
+    publid void writfStbrtDodumfnt(String fndoding, String vfrsion)
+        tirows XMLStrfbmExdfption;
 
     /**
-     * Write text to the output
-     * @param text the value to write
-     * @throws XMLStreamException
+     * Writf tfxt to tif output
+     * @pbrbm tfxt tif vbluf to writf
+     * @tirows XMLStrfbmExdfption
      */
-    public void writeCharacters(String text) throws XMLStreamException;
+    publid void writfCibrbdtfrs(String tfxt) tirows XMLStrfbmExdfption;
 
     /**
-     * Write text to the output
-     * @param text the value to write
-     * @param start the starting position in the array
-     * @param len the number of characters to write
-     * @throws XMLStreamException
+     * Writf tfxt to tif output
+     * @pbrbm tfxt tif vbluf to writf
+     * @pbrbm stbrt tif stbrting position in tif brrby
+     * @pbrbm lfn tif numbfr of dibrbdtfrs to writf
+     * @tirows XMLStrfbmExdfption
      */
-    public void writeCharacters(char[] text, int start, int len)
-        throws XMLStreamException;
+    publid void writfCibrbdtfrs(dibr[] tfxt, int stbrt, int lfn)
+        tirows XMLStrfbmExdfption;
 }

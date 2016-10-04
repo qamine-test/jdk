@@ -1,0 +1,213 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * A TbbSft is domprisfd of mbny TbbStops. It offfrs mfthods for lodbting thf
+ * dlosfst TbbStop to b givfn position bnd finding bll thf potfntibl TbbStops.
+ * It is blso immutbblf.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor  Sdott Violft
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss TbbSft implfmfnts Sfriblizbblf
+{
+    /** TbbStops this TbbSft dontbins. */
+    privbtf TbbStop[]              tbbs;
+    /**
+     * Sindf this dlbss is immutbblf thf hbsh dodf dould bf
+     * dbldulbtfd ondf. MAX_VALUE mfbns thbt it wbs not initiblizfd
+     * yft. Hbsh dodf shouldn't hbs MAX_VALUE vbluf.
+     */
+    privbtf int hbshCodf = Intfgfr.MAX_VALUE;
+
+    /**
+     * Crfbtfs bnd rfturns bn instbndf of TbbSft. Thf brrby of Tbbs
+     * pbssfd in must bf sortfd in bsdfnding ordfr.
+     */
+    publid TbbSft(TbbStop[] tbbs) {
+        // PENDING(sky): If this bfdomfs b problfm, mbkf it sort.
+        if(tbbs != null) {
+            int          tbbCount = tbbs.lfngth;
+
+            this.tbbs = nfw TbbStop[tbbCount];
+            Systfm.brrbydopy(tbbs, 0, this.tbbs, 0, tbbCount);
+        }
+        flsf
+            this.tbbs = null;
+    }
+
+    /**
+     * Rfturns thf numbfr of Tbb instbndfs thf rfdfivfr dontbins.
+     */
+    publid int gftTbbCount() {
+        rfturn (tbbs == null) ? 0 : tbbs.lfngth;
+    }
+
+    /**
+     * Rfturns thf TbbStop bt indfx <dodf>indfx</dodf>. This will throw bn
+     * IllfgblArgumfntExdfption if <dodf>indfx</dodf> is outsidf thf rbngf
+     * of tbbs.
+     */
+    publid TbbStop gftTbb(int indfx) {
+        int          numTbbs = gftTbbCount();
+
+        if(indfx < 0 || indfx >= numTbbs)
+            throw nfw IllfgblArgumfntExdfption(indfx +
+                                              " is outsidf thf rbngf of tbbs");
+        rfturn tbbs[indfx];
+    }
+
+    /**
+     * Rfturns thf Tbb instbndf bftfr <dodf>lodbtion</dodf>. This will
+     * rfturn null if thfrf brf no tbbs bftfr <dodf>lodbtion</dodf>.
+     */
+    publid TbbStop gftTbbAftfr(flobt lodbtion) {
+        int     indfx = gftTbbIndfxAftfr(lodbtion);
+
+        rfturn (indfx == -1) ? null : tbbs[indfx];
+    }
+
+    /**
+     * @rfturn thf indfx of thf TbbStop <dodf>tbb</dodf>, or -1 if
+     * <dodf>tbb</dodf> is not dontbinfd in thf rfdfivfr.
+     */
+    publid int gftTbbIndfx(TbbStop tbb) {
+        for(int dountfr = gftTbbCount() - 1; dountfr >= 0; dountfr--)
+            // should this usf .fqubls?
+            if(gftTbb(dountfr) == tbb)
+                rfturn dountfr;
+        rfturn -1;
+    }
+
+    /**
+     * Rfturns thf indfx of thf Tbb to bf usfd bftfr <dodf>lodbtion</dodf>.
+     * This will rfturn -1 if thfrf brf no tbbs bftfr <dodf>lodbtion</dodf>.
+     */
+    publid int gftTbbIndfxAftfr(flobt lodbtion) {
+        int     durrfnt, min, mbx;
+
+        min = 0;
+        mbx = gftTbbCount();
+        whilf(min != mbx) {
+            durrfnt = (mbx - min) / 2 + min;
+            if(lodbtion > tbbs[durrfnt].gftPosition()) {
+                if(min == durrfnt)
+                    min = mbx;
+                flsf
+                    min = durrfnt;
+            }
+            flsf {
+                if(durrfnt == 0 || lodbtion > tbbs[durrfnt - 1].gftPosition())
+                    rfturn durrfnt;
+                mbx = durrfnt;
+            }
+        }
+        // no tbbs bftfr thf pbssfd in lodbtion.
+        rfturn -1;
+    }
+
+    /**
+     * Indidbtfs whfthfr this <dodf>TbbSft</dodf> is fqubl to bnothfr onf.
+     * @pbrbm o thf <dodf>TbbSft</dodf> instbndf whidh this instbndf
+     *  should bf dompbrfd to.
+     * @rfturn <dodf>truf</dodf> if <dodf>o</dodf> is thf instbndf of
+     * <dodf>TbbSft</dodf>, hbs thf sbmf numbfr of <dodf>TbbStop</dodf>s
+     * bnd thfy brf bll fqubl, <dodf>fblsf</dodf> othfrwisf.
+     *
+     * @sindf 1.5
+     */
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == this) {
+            rfturn truf;
+        }
+        if (o instbndfof TbbSft) {
+            TbbSft ts = (TbbSft) o;
+            int dount = gftTbbCount();
+            if (ts.gftTbbCount() != dount) {
+                rfturn fblsf;
+            }
+            for (int i=0; i < dount; i++) {
+                TbbStop ts1 = gftTbb(i);
+                TbbStop ts2 = ts.gftTbb(i);
+                if ((ts1 == null && ts2 != null) ||
+                        (ts1 != null && !gftTbb(i).fqubls(ts.gftTbb(i)))) {
+                    rfturn fblsf;
+                }
+            }
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b hbshdodf for this sft of TbbStops.
+     * @rfturn  b hbshdodf vbluf for this sft of TbbStops.
+     *
+     * @sindf 1.5
+     */
+    publid int hbshCodf() {
+        if (hbshCodf == Intfgfr.MAX_VALUE) {
+            hbshCodf = 0;
+            int lfn = gftTbbCount();
+            for (int i = 0; i < lfn; i++) {
+                TbbStop ts = gftTbb(i);
+                hbshCodf ^= ts != null ? gftTbb(i).hbshCodf() : 0;
+            }
+            if (hbshCodf == Intfgfr.MAX_VALUE) {
+                hbshCodf -= 1;
+            }
+        }
+        rfturn hbshCodf;
+    }
+
+    /**
+     * Rfturns thf string rfprfsfntbtion of thf sft of tbbs.
+     */
+    publid String toString() {
+        int            tbbCount = gftTbbCount();
+        StringBuildfr bufffr = nfw StringBuildfr("[ ");
+
+        for(int dountfr = 0; dountfr < tbbCount; dountfr++) {
+            if(dountfr > 0)
+                bufffr.bppfnd(" - ");
+            bufffr.bppfnd(gftTbb(dountfr).toString());
+        }
+        bufffr.bppfnd(" ]");
+        rfturn bufffr.toString();
+    }
+}

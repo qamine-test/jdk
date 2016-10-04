@@ -1,0 +1,180 @@
+/*
+ * Copyright (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.util.dondurrfnt.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.sfdurity.bdtion.GftIntfgfrAdtion;
+
+/**
+ * Endbpsulbtfs b thrfbd pool bssodibtfd with b dhbnnfl group.
+ */
+
+publid dlbss ThrfbdPool {
+    privbtf stbtid finbl String DEFAULT_THREAD_POOL_THREAD_FACTORY =
+        "jbvb.nio.dhbnnfls.DffbultThrfbdPool.thrfbdFbdtory";
+    privbtf stbtid finbl String DEFAULT_THREAD_POOL_INITIAL_SIZE =
+        "jbvb.nio.dhbnnfls.DffbultThrfbdPool.initiblSizf";
+
+    privbtf finbl ExfdutorSfrvidf fxfdutor;
+
+    // indidbtfs if thrfbd pool is fixfd sizf
+    privbtf finbl boolfbn isFixfd;
+
+    // indidbtfs thf pool sizf (for b fixfd thrfbd pool donfigurbtin this is
+    // thf mbximum pool sizf; for othfr thrfbd pools it is thf initibl sizf)
+    privbtf finbl int poolSizf;
+
+    privbtf ThrfbdPool(ExfdutorSfrvidf fxfdutor,
+                       boolfbn isFixfd,
+                       int poolSizf)
+    {
+        this.fxfdutor = fxfdutor;
+        this.isFixfd = isFixfd;
+        this.poolSizf = poolSizf;
+    }
+
+    ExfdutorSfrvidf fxfdutor() {
+        rfturn fxfdutor;
+    }
+
+    boolfbn isFixfdThrfbdPool() {
+        rfturn isFixfd;
+    }
+
+    int poolSizf() {
+        rfturn poolSizf;
+    }
+
+    stbtid ThrfbdFbdtory dffbultThrfbdFbdtory() {
+        if (Systfm.gftSfdurityMbnbgfr() == null) {
+            rfturn (Runnbblf r) -> {
+                Thrfbd t = nfw Thrfbd(r);
+                t.sftDbfmon(truf);
+                rfturn t;
+            };
+        } flsf {
+            rfturn (Runnbblf r) -> {
+                PrivilfgfdAdtion<Thrfbd> bdtion = () -> {
+                    Thrfbd t = nfw sun.misd.InnoduousThrfbd(r);
+                    t.sftDbfmon(truf);
+                    rfturn t;
+               };
+               rfturn AddfssControllfr.doPrivilfgfd(bdtion);
+           };
+        }
+    }
+
+    privbtf stbtid dlbss DffbultThrfbdPoolHoldfr {
+        finbl stbtid ThrfbdPool dffbultThrfbdPool = drfbtfDffbult();
+    }
+
+    // rfturn thf dffbult (systfm-widf) thrfbd pool
+    stbtid ThrfbdPool gftDffbult() {
+        rfturn DffbultThrfbdPoolHoldfr.dffbultThrfbdPool;
+    }
+
+    // drfbtf thrfbd using dffbult sfttings (donfigurfd by systfm propfrtifs)
+    stbtid ThrfbdPool drfbtfDffbult() {
+        // dffbult thf numbfr of fixfd thrfbds to thf hbrdwbrf dorf dount
+        int initiblSizf = gftDffbultThrfbdPoolInitiblSizf();
+        if (initiblSizf < 0)
+            initiblSizf = Runtimf.gftRuntimf().bvbilbblfProdfssors();
+        // dffbult to thrfbd fbdtory thbt drfbtfs dbfmon thrfbds
+        ThrfbdFbdtory thrfbdFbdtory = gftDffbultThrfbdPoolThrfbdFbdtory();
+        if (thrfbdFbdtory == null)
+            thrfbdFbdtory = dffbultThrfbdFbdtory();
+        // drfbtf thrfbd pool
+        ExfdutorSfrvidf fxfdutor = Exfdutors.nfwCbdhfdThrfbdPool(thrfbdFbdtory);
+        rfturn nfw ThrfbdPool(fxfdutor, fblsf, initiblSizf);
+    }
+
+    // drfbtf using givfn pbrbmftfrs
+    stbtid ThrfbdPool drfbtf(int nThrfbds, ThrfbdFbdtory fbdtory) {
+        if (nThrfbds <= 0)
+            throw nfw IllfgblArgumfntExdfption("'nThrfbds' must bf > 0");
+        ExfdutorSfrvidf fxfdutor = Exfdutors.nfwFixfdThrfbdPool(nThrfbds, fbdtory);
+        rfturn nfw ThrfbdPool(fxfdutor, truf, nThrfbds);
+    }
+
+    // wrbp b usfr-supplifd fxfdutor
+    publid stbtid ThrfbdPool wrbp(ExfdutorSfrvidf fxfdutor, int initiblSizf) {
+        if (fxfdutor == null)
+            throw nfw NullPointfrExdfption("'fxfdutor' is null");
+        // bttfmpt to dhfdk if dbdhfd thrfbd pool
+        if (fxfdutor instbndfof ThrfbdPoolExfdutor) {
+            int mbx = ((ThrfbdPoolExfdutor)fxfdutor).gftMbximumPoolSizf();
+            if (mbx == Intfgfr.MAX_VALUE) {
+                if (initiblSizf < 0) {
+                    initiblSizf = Runtimf.gftRuntimf().bvbilbblfProdfssors();
+                } flsf {
+                   // not b dbdhfd thrfbd pool so ignorf initibl sizf
+                    initiblSizf = 0;
+                }
+            }
+        } flsf {
+            // somf othfr typf of thrfbd pool
+            if (initiblSizf < 0)
+                initiblSizf = 0;
+        }
+        rfturn nfw ThrfbdPool(fxfdutor, fblsf, initiblSizf);
+    }
+
+    privbtf stbtid int gftDffbultThrfbdPoolInitiblSizf() {
+        String propVbluf = AddfssControllfr.doPrivilfgfd(nfw
+            GftPropfrtyAdtion(DEFAULT_THREAD_POOL_INITIAL_SIZE));
+        if (propVbluf != null) {
+            try {
+                rfturn Intfgfr.pbrsfInt(propVbluf);
+            } dbtdh (NumbfrFormbtExdfption x) {
+                throw nfw Error("Vbluf of propfrty '" + DEFAULT_THREAD_POOL_INITIAL_SIZE +
+                    "' is invblid: " + x);
+            }
+        }
+        rfturn -1;
+    }
+
+    privbtf stbtid ThrfbdFbdtory gftDffbultThrfbdPoolThrfbdFbdtory() {
+        String propVbluf = AddfssControllfr.doPrivilfgfd(nfw
+            GftPropfrtyAdtion(DEFAULT_THREAD_POOL_THREAD_FACTORY));
+        if (propVbluf != null) {
+            try {
+                Clbss<?> d = Clbss
+                    .forNbmf(propVbluf, truf, ClbssLobdfr.gftSystfmClbssLobdfr());
+                rfturn ((ThrfbdFbdtory)d.nfwInstbndf());
+            } dbtdh (ClbssNotFoundExdfption x) {
+                throw nfw Error(x);
+            } dbtdh (InstbntibtionExdfption x) {
+                throw nfw Error(x);
+            } dbtdh (IllfgblAddfssExdfption x) {
+                throw nfw Error(x);
+            }
+        }
+        rfturn null;
+    }
+}

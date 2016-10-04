@@ -1,733 +1,733 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.management.remote;
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf;
 
 
-import com.sun.jmx.remote.util.ClassLogger;
-import com.sun.jmx.remote.util.EnvHelp;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
+import dom.sun.jmx.rfmotf.util.ClbssLoggfr;
+import dom.sun.jmx.rfmotf.util.EnvHflp;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
 
-import java.io.Serializable;
-import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.UnknownHostException;
-import java.util.BitSet;
-import java.util.StringTokenizer;
+import jbvb.io.Sfriblizbblf;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.util.BitSft;
+import jbvb.util.StringTokfnizfr;
 
 /**
- * <p>The address of a JMX API connector server.  Instances of this class
- * are immutable.</p>
+ * <p>Tif bddrfss of b JMX API donnfdtor sfrvfr.  Instbndfs of tiis dlbss
+ * brf immutbblf.</p>
  *
- * <p>The address is an <em>Abstract Service URL</em> for SLP, as
- * defined in RFC 2609 and amended by RFC 3111.  It must look like
- * this:</p>
+ * <p>Tif bddrfss is bn <fm>Abstrbdt Sfrvidf URL</fm> for SLP, bs
+ * dffinfd in RFC 2609 bnd bmfndfd by RFC 3111.  It must look likf
+ * tiis:</p>
  *
- * <blockquote>
+ * <blodkquotf>
  *
- * <code>service:jmx:<em>protocol</em>:<em>sap</em></code>
+ * <dodf>sfrvidf:jmx:<fm>protodol</fm>:<fm>sbp</fm></dodf>
  *
- * </blockquote>
+ * </blodkquotf>
  *
- * <p>Here, <code><em>protocol</em></code> is the transport
- * protocol to be used to connect to the connector server.  It is
- * a string of one or more ASCII characters, each of which is a
- * letter, a digit, or one of the characters <code>+</code> or
- * <code>-</code>.  The first character must be a letter.
- * Uppercase letters are converted into lowercase ones.</p>
+ * <p>Hfrf, <dodf><fm>protodol</fm></dodf> is tif trbnsport
+ * protodol to bf usfd to donnfdt to tif donnfdtor sfrvfr.  It is
+ * b string of onf or morf ASCII dibrbdtfrs, fbdi of wiidi is b
+ * lfttfr, b digit, or onf of tif dibrbdtfrs <dodf>+</dodf> or
+ * <dodf>-</dodf>.  Tif first dibrbdtfr must bf b lfttfr.
+ * Uppfrdbsf lfttfrs brf donvfrtfd into lowfrdbsf onfs.</p>
  *
- * <p><code><em>sap</em></code> is the address at which the connector
- * server is found.  This address uses a subset of the syntax defined
- * by RFC 2609 for IP-based protocols.  It is a subset because the
- * <code>user@host</code> syntax is not supported.</p>
+ * <p><dodf><fm>sbp</fm></dodf> is tif bddrfss bt wiidi tif donnfdtor
+ * sfrvfr is found.  Tiis bddrfss usfs b subsft of tif syntbx dffinfd
+ * by RFC 2609 for IP-bbsfd protodols.  It is b subsft bfdbusf tif
+ * <dodf>usfr@iost</dodf> syntbx is not supportfd.</p>
  *
- * <p>The other syntaxes defined by RFC 2609 are not currently
- * supported by this class.</p>
+ * <p>Tif otifr syntbxfs dffinfd by RFC 2609 brf not durrfntly
+ * supportfd by tiis dlbss.</p>
  *
- * <p>The supported syntax is:</p>
+ * <p>Tif supportfd syntbx is:</p>
  *
- * <blockquote>
+ * <blodkquotf>
  *
- * <code>//<em>[host[</em>:<em>port]][url-path]</em></code>
+ * <dodf>//<fm>[iost[</fm>:<fm>port]][url-pbti]</fm></dodf>
  *
- * </blockquote>
+ * </blodkquotf>
  *
- * <p>Square brackets <code>[]</code> indicate optional parts of
- * the address.  Not all protocols will recognize all optional
- * parts.</p>
+ * <p>Squbrf brbdkfts <dodf>[]</dodf> indidbtf optionbl pbrts of
+ * tif bddrfss.  Not bll protodols will rfdognizf bll optionbl
+ * pbrts.</p>
  *
- * <p>The <code><em>host</em></code> is a host name, an IPv4 numeric
- * host address, or an IPv6 numeric address enclosed in square
- * brackets.</p>
+ * <p>Tif <dodf><fm>iost</fm></dodf> is b iost nbmf, bn IPv4 numfrid
+ * iost bddrfss, or bn IPv6 numfrid bddrfss fndlosfd in squbrf
+ * brbdkfts.</p>
  *
- * <p>The <code><em>port</em></code> is a decimal port number.  0
- * means a default or anonymous port, depending on the protocol.</p>
+ * <p>Tif <dodf><fm>port</fm></dodf> is b dfdimbl port numbfr.  0
+ * mfbns b dffbult or bnonymous port, dfpfnding on tif protodol.</p>
  *
- * <p>The <code><em>host</em></code> and <code><em>port</em></code>
- * can be omitted.  The <code><em>port</em></code> cannot be supplied
- * without a <code><em>host</em></code>.</p>
+ * <p>Tif <dodf><fm>iost</fm></dodf> bnd <dodf><fm>port</fm></dodf>
+ * dbn bf omittfd.  Tif <dodf><fm>port</fm></dodf> dbnnot bf supplifd
+ * witiout b <dodf><fm>iost</fm></dodf>.</p>
  *
- * <p>The <code><em>url-path</em></code>, if any, begins with a slash
- * (<code>/</code>) or a semicolon (<code>;</code>) and continues to
- * the end of the address.  It can contain attributes using the
- * semicolon syntax specified in RFC 2609.  Those attributes are not
- * parsed by this class and incorrect attribute syntax is not
- * detected.</p>
+ * <p>Tif <dodf><fm>url-pbti</fm></dodf>, if bny, bfgins witi b slbsi
+ * (<dodf>/</dodf>) or b sfmidolon (<dodf>;</dodf>) bnd dontinufs to
+ * tif fnd of tif bddrfss.  It dbn dontbin bttributfs using tif
+ * sfmidolon syntbx spfdififd in RFC 2609.  Tiosf bttributfs brf not
+ * pbrsfd by tiis dlbss bnd indorrfdt bttributf syntbx is not
+ * dftfdtfd.</p>
  *
- * <p>Although it is legal according to RFC 2609 to have a
- * <code><em>url-path</em></code> that begins with a semicolon, not
- * all implementations of SLP allow it, so it is recommended to avoid
- * that syntax.</p>
+ * <p>Altiougi it is lfgbl bddording to RFC 2609 to ibvf b
+ * <dodf><fm>url-pbti</fm></dodf> tibt bfgins witi b sfmidolon, not
+ * bll implfmfntbtions of SLP bllow it, so it is rfdommfndfd to bvoid
+ * tibt syntbx.</p>
  *
- * <p>Case is not significant in the initial
- * <code>service:jmx:<em>protocol</em></code> string or in the host
- * part of the address.  Depending on the protocol, case can be
- * significant in the <code><em>url-path</em></code>.</p>
+ * <p>Cbsf is not signifidbnt in tif initibl
+ * <dodf>sfrvidf:jmx:<fm>protodol</fm></dodf> string or in tif iost
+ * pbrt of tif bddrfss.  Dfpfnding on tif protodol, dbsf dbn bf
+ * signifidbnt in tif <dodf><fm>url-pbti</fm></dodf>.</p>
  *
- * @see <a
- * href="http://www.ietf.org/rfc/rfc2609.txt">RFC 2609,
- * "Service Templates and <code>Service:</code> Schemes"</a>
- * @see <a
- * href="http://www.ietf.org/rfc/rfc3111.txt">RFC 3111,
- * "Service Location Protocol Modifications for IPv6"</a>
+ * @sff <b
+ * irff="ittp://www.iftf.org/rfd/rfd2609.txt">RFC 2609,
+ * "Sfrvidf Tfmplbtfs bnd <dodf>Sfrvidf:</dodf> Sdifmfs"</b>
+ * @sff <b
+ * irff="ittp://www.iftf.org/rfd/rfd3111.txt">RFC 3111,
+ * "Sfrvidf Lodbtion Protodol Modifidbtions for IPv6"</b>
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class JMXServiceURL implements Serializable {
+publid dlbss JMXSfrvidfURL implfmfnts Sfriblizbblf {
 
-    private static final long serialVersionUID = 8173364409860779292L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 8173364409860779292L;
 
     /**
-     * <p>Constructs a <code>JMXServiceURL</code> by parsing a Service URL
+     * <p>Construdts b <dodf>JMXSfrvidfURL</dodf> by pbrsing b Sfrvidf URL
      * string.</p>
      *
-     * @param serviceURL the URL string to be parsed.
+     * @pbrbm sfrvidfURL tif URL string to bf pbrsfd.
      *
-     * @exception NullPointerException if <code>serviceURL</code> is
+     * @fxdfption NullPointfrExdfption if <dodf>sfrvidfURL</dodf> is
      * null.
      *
-     * @exception MalformedURLException if <code>serviceURL</code>
-     * does not conform to the syntax for an Abstract Service URL or
-     * if it is not a valid name for a JMX Remote API service.  A
-     * <code>JMXServiceURL</code> must begin with the string
-     * <code>"service:jmx:"</code> (case-insensitive).  It must not
-     * contain any characters that are not printable ASCII characters.
+     * @fxdfption MblformfdURLExdfption if <dodf>sfrvidfURL</dodf>
+     * dofs not donform to tif syntbx for bn Abstrbdt Sfrvidf URL or
+     * if it is not b vblid nbmf for b JMX Rfmotf API sfrvidf.  A
+     * <dodf>JMXSfrvidfURL</dodf> must bfgin witi tif string
+     * <dodf>"sfrvidf:jmx:"</dodf> (dbsf-insfnsitivf).  It must not
+     * dontbin bny dibrbdtfrs tibt brf not printbblf ASCII dibrbdtfrs.
      */
-    public JMXServiceURL(String serviceURL) throws MalformedURLException {
-        final int serviceURLLength = serviceURL.length();
+    publid JMXSfrvidfURL(String sfrvidfURL) tirows MblformfdURLExdfption {
+        finbl int sfrvidfURLLfngti = sfrvidfURL.lfngti();
 
-        /* Check that there are no non-ASCII characters in the URL,
+        /* Cifdk tibt tifrf brf no non-ASCII dibrbdtfrs in tif URL,
            following RFC 2609.  */
-        for (int i = 0; i < serviceURLLength; i++) {
-            char c = serviceURL.charAt(i);
-            if (c < 32 || c >= 127) {
-                throw new MalformedURLException("Service URL contains " +
-                                                "non-ASCII character 0x" +
-                                                Integer.toHexString(c));
+        for (int i = 0; i < sfrvidfURLLfngti; i++) {
+            dibr d = sfrvidfURL.dibrAt(i);
+            if (d < 32 || d >= 127) {
+                tirow nfw MblformfdURLExdfption("Sfrvidf URL dontbins " +
+                                                "non-ASCII dibrbdtfr 0x" +
+                                                Intfgfr.toHfxString(d));
             }
         }
 
-        // Parse the required prefix
-        final String requiredPrefix = "service:jmx:";
-        final int requiredPrefixLength = requiredPrefix.length();
-        if (!serviceURL.regionMatches(true, // ignore case
-                                      0,    // serviceURL offset
-                                      requiredPrefix,
-                                      0,    // requiredPrefix offset
-                                      requiredPrefixLength)) {
-            throw new MalformedURLException("Service URL must start with " +
-                                            requiredPrefix);
+        // Pbrsf tif rfquirfd prffix
+        finbl String rfquirfdPrffix = "sfrvidf:jmx:";
+        finbl int rfquirfdPrffixLfngti = rfquirfdPrffix.lfngti();
+        if (!sfrvidfURL.rfgionMbtdifs(truf, // ignorf dbsf
+                                      0,    // sfrvidfURL offsft
+                                      rfquirfdPrffix,
+                                      0,    // rfquirfdPrffix offsft
+                                      rfquirfdPrffixLfngti)) {
+            tirow nfw MblformfdURLExdfption("Sfrvidf URL must stbrt witi " +
+                                            rfquirfdPrffix);
         }
 
-        // Parse the protocol name
-        final int protoStart = requiredPrefixLength;
-        final int protoEnd = indexOf(serviceURL, ':', protoStart);
-        this.protocol =
-            serviceURL.substring(protoStart, protoEnd).toLowerCase();
+        // Pbrsf tif protodol nbmf
+        finbl int protoStbrt = rfquirfdPrffixLfngti;
+        finbl int protoEnd = indfxOf(sfrvidfURL, ':', protoStbrt);
+        tiis.protodol =
+            sfrvidfURL.substring(protoStbrt, protoEnd).toLowfrCbsf();
 
-        if (!serviceURL.regionMatches(protoEnd, "://", 0, 3)) {
-            throw new MalformedURLException("Missing \"://\" after " +
-                                            "protocol name");
+        if (!sfrvidfURL.rfgionMbtdifs(protoEnd, "://", 0, 3)) {
+            tirow nfw MblformfdURLExdfption("Missing \"://\" bftfr " +
+                                            "protodol nbmf");
         }
 
-        // Parse the host name
-        final int hostStart = protoEnd + 3;
-        final int hostEnd;
-        if (hostStart < serviceURLLength
-            && serviceURL.charAt(hostStart) == '[') {
-            hostEnd = serviceURL.indexOf(']', hostStart) + 1;
-            if (hostEnd == 0)
-                throw new MalformedURLException("Bad host name: [ without ]");
-            this.host = serviceURL.substring(hostStart + 1, hostEnd - 1);
-            if (!isNumericIPv6Address(this.host)) {
-                throw new MalformedURLException("Address inside [...] must " +
-                                                "be numeric IPv6 address");
+        // Pbrsf tif iost nbmf
+        finbl int iostStbrt = protoEnd + 3;
+        finbl int iostEnd;
+        if (iostStbrt < sfrvidfURLLfngti
+            && sfrvidfURL.dibrAt(iostStbrt) == '[') {
+            iostEnd = sfrvidfURL.indfxOf(']', iostStbrt) + 1;
+            if (iostEnd == 0)
+                tirow nfw MblformfdURLExdfption("Bbd iost nbmf: [ witiout ]");
+            tiis.iost = sfrvidfURL.substring(iostStbrt + 1, iostEnd - 1);
+            if (!isNumfridIPv6Addrfss(tiis.iost)) {
+                tirow nfw MblformfdURLExdfption("Addrfss insidf [...] must " +
+                                                "bf numfrid IPv6 bddrfss");
             }
-        } else {
-            hostEnd =
-                indexOfFirstNotInSet(serviceURL, hostNameBitSet, hostStart);
-            this.host = serviceURL.substring(hostStart, hostEnd);
+        } flsf {
+            iostEnd =
+                indfxOfFirstNotInSft(sfrvidfURL, iostNbmfBitSft, iostStbrt);
+            tiis.iost = sfrvidfURL.substring(iostStbrt, iostEnd);
         }
 
-        // Parse the port number
-        final int portEnd;
-        if (hostEnd < serviceURLLength && serviceURL.charAt(hostEnd) == ':') {
-            if (this.host.length() == 0) {
-                throw new MalformedURLException("Cannot give port number " +
-                                                "without host name");
+        // Pbrsf tif port numbfr
+        finbl int portEnd;
+        if (iostEnd < sfrvidfURLLfngti && sfrvidfURL.dibrAt(iostEnd) == ':') {
+            if (tiis.iost.lfngti() == 0) {
+                tirow nfw MblformfdURLExdfption("Cbnnot givf port numbfr " +
+                                                "witiout iost nbmf");
             }
-            final int portStart = hostEnd + 1;
+            finbl int portStbrt = iostEnd + 1;
             portEnd =
-                indexOfFirstNotInSet(serviceURL, numericBitSet, portStart);
-            final String portString = serviceURL.substring(portStart, portEnd);
+                indfxOfFirstNotInSft(sfrvidfURL, numfridBitSft, portStbrt);
+            finbl String portString = sfrvidfURL.substring(portStbrt, portEnd);
             try {
-                this.port = Integer.parseInt(portString);
-            } catch (NumberFormatException e) {
-                throw new MalformedURLException("Bad port number: \"" +
-                                                portString + "\": " + e);
+                tiis.port = Intfgfr.pbrsfInt(portString);
+            } dbtdi (NumbfrFormbtExdfption f) {
+                tirow nfw MblformfdURLExdfption("Bbd port numbfr: \"" +
+                                                portString + "\": " + f);
             }
-        } else {
-            portEnd = hostEnd;
-            this.port = 0;
+        } flsf {
+            portEnd = iostEnd;
+            tiis.port = 0;
         }
 
-        // Parse the URL path
-        final int urlPathStart = portEnd;
-        if (urlPathStart < serviceURLLength)
-            this.urlPath = serviceURL.substring(urlPathStart);
-        else
-            this.urlPath = "";
+        // Pbrsf tif URL pbti
+        finbl int urlPbtiStbrt = portEnd;
+        if (urlPbtiStbrt < sfrvidfURLLfngti)
+            tiis.urlPbti = sfrvidfURL.substring(urlPbtiStbrt);
+        flsf
+            tiis.urlPbti = "";
 
-        validate();
+        vblidbtf();
     }
 
     /**
-     * <p>Constructs a <code>JMXServiceURL</code> with the given protocol,
-     * host, and port.  This constructor is equivalent to
-     * {@link #JMXServiceURL(String, String, int, String)
-     * JMXServiceURL(protocol, host, port, null)}.</p>
+     * <p>Construdts b <dodf>JMXSfrvidfURL</dodf> witi tif givfn protodol,
+     * iost, bnd port.  Tiis donstrudtor is fquivblfnt to
+     * {@link #JMXSfrvidfURL(String, String, int, String)
+     * JMXSfrvidfURL(protodol, iost, port, null)}.</p>
      *
-     * @param protocol the protocol part of the URL.  If null, defaults
-     * to <code>jmxmp</code>.
+     * @pbrbm protodol tif protodol pbrt of tif URL.  If null, dffbults
+     * to <dodf>jmxmp</dodf>.
      *
-     * @param host the host part of the URL.  If null, defaults to the
-     * local host name, as determined by
-     * <code>InetAddress.getLocalHost().getHostName()</code>.  If it
-     * is a numeric IPv6 address, it can optionally be enclosed in
-     * square brackets <code>[]</code>.
+     * @pbrbm iost tif iost pbrt of tif URL.  If null, dffbults to tif
+     * lodbl iost nbmf, bs dftfrminfd by
+     * <dodf>InftAddrfss.gftLodblHost().gftHostNbmf()</dodf>.  If it
+     * is b numfrid IPv6 bddrfss, it dbn optionblly bf fndlosfd in
+     * squbrf brbdkfts <dodf>[]</dodf>.
      *
-     * @param port the port part of the URL.
+     * @pbrbm port tif port pbrt of tif URL.
      *
-     * @exception MalformedURLException if one of the parts is
-     * syntactically incorrect, or if <code>host</code> is null and it
-     * is not possible to find the local host name, or if
-     * <code>port</code> is negative.
+     * @fxdfption MblformfdURLExdfption if onf of tif pbrts is
+     * syntbdtidblly indorrfdt, or if <dodf>iost</dodf> is null bnd it
+     * is not possiblf to find tif lodbl iost nbmf, or if
+     * <dodf>port</dodf> is nfgbtivf.
      */
-    public JMXServiceURL(String protocol, String host, int port)
-            throws MalformedURLException {
-        this(protocol, host, port, null);
+    publid JMXSfrvidfURL(String protodol, String iost, int port)
+            tirows MblformfdURLExdfption {
+        tiis(protodol, iost, port, null);
     }
 
     /**
-     * <p>Constructs a <code>JMXServiceURL</code> with the given parts.
+     * <p>Construdts b <dodf>JMXSfrvidfURL</dodf> witi tif givfn pbrts.
      *
-     * @param protocol the protocol part of the URL.  If null, defaults
-     * to <code>jmxmp</code>.
+     * @pbrbm protodol tif protodol pbrt of tif URL.  If null, dffbults
+     * to <dodf>jmxmp</dodf>.
      *
-     * @param host the host part of the URL.  If null, defaults to the
-     * local host name, as determined by
-     * <code>InetAddress.getLocalHost().getHostName()</code>.  If it
-     * is a numeric IPv6 address, it can optionally be enclosed in
-     * square brackets <code>[]</code>.
+     * @pbrbm iost tif iost pbrt of tif URL.  If null, dffbults to tif
+     * lodbl iost nbmf, bs dftfrminfd by
+     * <dodf>InftAddrfss.gftLodblHost().gftHostNbmf()</dodf>.  If it
+     * is b numfrid IPv6 bddrfss, it dbn optionblly bf fndlosfd in
+     * squbrf brbdkfts <dodf>[]</dodf>.
      *
-     * @param port the port part of the URL.
+     * @pbrbm port tif port pbrt of tif URL.
      *
-     * @param urlPath the URL path part of the URL.  If null, defaults to
-     * the empty string.
+     * @pbrbm urlPbti tif URL pbti pbrt of tif URL.  If null, dffbults to
+     * tif fmpty string.
      *
-     * @exception MalformedURLException if one of the parts is
-     * syntactically incorrect, or if <code>host</code> is null and it
-     * is not possible to find the local host name, or if
-     * <code>port</code> is negative.
+     * @fxdfption MblformfdURLExdfption if onf of tif pbrts is
+     * syntbdtidblly indorrfdt, or if <dodf>iost</dodf> is null bnd it
+     * is not possiblf to find tif lodbl iost nbmf, or if
+     * <dodf>port</dodf> is nfgbtivf.
      */
-    public JMXServiceURL(String protocol, String host, int port,
-                         String urlPath)
-            throws MalformedURLException {
-        if (protocol == null)
-            protocol = "jmxmp";
+    publid JMXSfrvidfURL(String protodol, String iost, int port,
+                         String urlPbti)
+            tirows MblformfdURLExdfption {
+        if (protodol == null)
+            protodol = "jmxmp";
 
-        if (host == null) {
-            InetAddress local;
+        if (iost == null) {
+            InftAddrfss lodbl;
             try {
-                local = InetAddress.getLocalHost();
-            } catch (UnknownHostException e) {
-                throw new MalformedURLException("Local host name unknown: " +
-                                                e);
+                lodbl = InftAddrfss.gftLodblHost();
+            } dbtdi (UnknownHostExdfption f) {
+                tirow nfw MblformfdURLExdfption("Lodbl iost nbmf unknown: " +
+                                                f);
             }
 
-            host = local.getHostName();
+            iost = lodbl.gftHostNbmf();
 
-            /* We might have a hostname that violates DNS naming
-               rules, for example that contains an `_'.  While we
-               could be strict and throw an exception, this is rather
-               user-hostile.  Instead we use its numerical IP address.
-               We can only reasonably do this for the host==null case.
-               If we're given an explicit host name that is illegal we
-               have to reject it.  (Bug 5057532.)  */
+            /* Wf migit ibvf b iostnbmf tibt violbtfs DNS nbming
+               rulfs, for fxbmplf tibt dontbins bn `_'.  Wiilf wf
+               dould bf stridt bnd tirow bn fxdfption, tiis is rbtifr
+               usfr-iostilf.  Instfbd wf usf its numfridbl IP bddrfss.
+               Wf dbn only rfbsonbbly do tiis for tif iost==null dbsf.
+               If wf'rf givfn bn fxplidit iost nbmf tibt is illfgbl wf
+               ibvf to rfjfdt it.  (Bug 5057532.)  */
             try {
-                validateHost(host, port);
-            } catch (MalformedURLException e) {
-                if (logger.fineOn()) {
-                    logger.fine("JMXServiceURL",
-                                "Replacing illegal local host name " +
-                                host + " with numeric IP address " +
-                                "(see RFC 1034)", e);
+                vblidbtfHost(iost, port);
+            } dbtdi (MblformfdURLExdfption f) {
+                if (loggfr.finfOn()) {
+                    loggfr.finf("JMXSfrvidfURL",
+                                "Rfplbding illfgbl lodbl iost nbmf " +
+                                iost + " witi numfrid IP bddrfss " +
+                                "(sff RFC 1034)", f);
                 }
-                host = local.getHostAddress();
-                /* Use the numeric address, which could be either IPv4
-                   or IPv6.  validateHost will accept either.  */
+                iost = lodbl.gftHostAddrfss();
+                /* Usf tif numfrid bddrfss, wiidi dould bf fitifr IPv4
+                   or IPv6.  vblidbtfHost will bddfpt fitifr.  */
             }
         }
 
-        if (host.startsWith("[")) {
-            if (!host.endsWith("]")) {
-                throw new MalformedURLException("Host starts with [ but " +
-                                                "does not end with ]");
+        if (iost.stbrtsWiti("[")) {
+            if (!iost.fndsWiti("]")) {
+                tirow nfw MblformfdURLExdfption("Host stbrts witi [ but " +
+                                                "dofs not fnd witi ]");
             }
-            host = host.substring(1, host.length() - 1);
-            if (!isNumericIPv6Address(host)) {
-                throw new MalformedURLException("Address inside [...] must " +
-                                                "be numeric IPv6 address");
+            iost = iost.substring(1, iost.lfngti() - 1);
+            if (!isNumfridIPv6Addrfss(iost)) {
+                tirow nfw MblformfdURLExdfption("Addrfss insidf [...] must " +
+                                                "bf numfrid IPv6 bddrfss");
             }
-            if (host.startsWith("["))
-                throw new MalformedURLException("More than one [[...]]");
+            if (iost.stbrtsWiti("["))
+                tirow nfw MblformfdURLExdfption("Morf tibn onf [[...]]");
         }
 
-        this.protocol = protocol.toLowerCase();
-        this.host = host;
-        this.port = port;
+        tiis.protodol = protodol.toLowfrCbsf();
+        tiis.iost = iost;
+        tiis.port = port;
 
-        if (urlPath == null)
-            urlPath = "";
-        this.urlPath = urlPath;
+        if (urlPbti == null)
+            urlPbti = "";
+        tiis.urlPbti = urlPbti;
 
-        validate();
+        vblidbtf();
     }
 
-    private static final String INVALID_INSTANCE_MSG =
-            "Trying to deserialize an invalid instance of JMXServiceURL";
-    private void readObject(ObjectInputStream  inputStream) throws IOException, ClassNotFoundException {
-        ObjectInputStream.GetField gf = inputStream.readFields();
-        String h = (String)gf.get("host", null);
-        int p = gf.get("port", -1);
-        String proto = (String)gf.get("protocol", null);
-        String url = (String)gf.get("urlPath", null);
+    privbtf stbtid finbl String INVALID_INSTANCE_MSG =
+            "Trying to dfsfriblizf bn invblid instbndf of JMXSfrvidfURL";
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm  inputStrfbm) tirows IOExdfption, ClbssNotFoundExdfption {
+        ObjfdtInputStrfbm.GftFifld gf = inputStrfbm.rfbdFiflds();
+        String i = (String)gf.gft("iost", null);
+        int p = gf.gft("port", -1);
+        String proto = (String)gf.gft("protodol", null);
+        String url = (String)gf.gft("urlPbti", null);
 
-        if (proto == null || url == null || h == null) {
-            StringBuilder sb = new StringBuilder(INVALID_INSTANCE_MSG).append('[');
-            boolean empty = true;
+        if (proto == null || url == null || i == null) {
+            StringBuildfr sb = nfw StringBuildfr(INVALID_INSTANCE_MSG).bppfnd('[');
+            boolfbn fmpty = truf;
             if (proto == null) {
-                sb.append("protocol=null");
-                empty = false;
+                sb.bppfnd("protodol=null");
+                fmpty = fblsf;
             }
-            if (h == null) {
-                sb.append(empty ? "" : ",").append("host=null");
-                empty = false;
+            if (i == null) {
+                sb.bppfnd(fmpty ? "" : ",").bppfnd("iost=null");
+                fmpty = fblsf;
             }
             if (url == null) {
-                sb.append(empty ? "" : ",").append("urlPath=null");
+                sb.bppfnd(fmpty ? "" : ",").bppfnd("urlPbti=null");
             }
-            sb.append(']');
-            throw new InvalidObjectException(sb.toString());
+            sb.bppfnd(']');
+            tirow nfw InvblidObjfdtExdfption(sb.toString());
         }
 
-        if (h.contains("[") || h.contains("]")) {
-            throw new InvalidObjectException("Invalid host name: " + h);
+        if (i.dontbins("[") || i.dontbins("]")) {
+            tirow nfw InvblidObjfdtExdfption("Invblid iost nbmf: " + i);
         }
 
         try {
-            validate(proto, h, p, url);
-            this.protocol = proto;
-            this.host = h;
-            this.port = p;
-            this.urlPath = url;
-        } catch (MalformedURLException e) {
-            throw new InvalidObjectException(INVALID_INSTANCE_MSG + ": " +
-                                             e.getMessage());
+            vblidbtf(proto, i, p, url);
+            tiis.protodol = proto;
+            tiis.iost = i;
+            tiis.port = p;
+            tiis.urlPbti = url;
+        } dbtdi (MblformfdURLExdfption f) {
+            tirow nfw InvblidObjfdtExdfption(INVALID_INSTANCE_MSG + ": " +
+                                             f.gftMfssbgf());
         }
 
     }
 
-    private void validate(String proto, String h, int p, String url)
-        throws MalformedURLException {
-        // Check protocol
-        final int protoEnd = indexOfFirstNotInSet(proto, protocolBitSet, 0);
-        if (protoEnd == 0 || protoEnd < proto.length()
-            || !alphaBitSet.get(proto.charAt(0))) {
-            throw new MalformedURLException("Missing or invalid protocol " +
-                                            "name: \"" + proto + "\"");
+    privbtf void vblidbtf(String proto, String i, int p, String url)
+        tirows MblformfdURLExdfption {
+        // Cifdk protodol
+        finbl int protoEnd = indfxOfFirstNotInSft(proto, protodolBitSft, 0);
+        if (protoEnd == 0 || protoEnd < proto.lfngti()
+            || !blpibBitSft.gft(proto.dibrAt(0))) {
+            tirow nfw MblformfdURLExdfption("Missing or invblid protodol " +
+                                            "nbmf: \"" + proto + "\"");
         }
 
-        // Check host
-        validateHost(h, p);
+        // Cifdk iost
+        vblidbtfHost(i, p);
 
-        // Check port
+        // Cifdk port
         if (p < 0)
-            throw new MalformedURLException("Bad port: " + p);
+            tirow nfw MblformfdURLExdfption("Bbd port: " + p);
 
-        // Check URL path
-        if (url.length() > 0) {
-            if (!url.startsWith("/") && !url.startsWith(";"))
-                throw new MalformedURLException("Bad URL path: " + url);
+        // Cifdk URL pbti
+        if (url.lfngti() > 0) {
+            if (!url.stbrtsWiti("/") && !url.stbrtsWiti(";"))
+                tirow nfw MblformfdURLExdfption("Bbd URL pbti: " + url);
         }
     }
 
-    private void validate() throws MalformedURLException {
-        validate(this.protocol, this.host, this.port, this.urlPath);
+    privbtf void vblidbtf() tirows MblformfdURLExdfption {
+        vblidbtf(tiis.protodol, tiis.iost, tiis.port, tiis.urlPbti);
     }
 
-    private static void validateHost(String h, int port)
-            throws MalformedURLException {
+    privbtf stbtid void vblidbtfHost(String i, int port)
+            tirows MblformfdURLExdfption {
 
-        if (h.length() == 0) {
+        if (i.lfngti() == 0) {
             if (port != 0) {
-                throw new MalformedURLException("Cannot give port number " +
-                                                "without host name");
+                tirow nfw MblformfdURLExdfption("Cbnnot givf port numbfr " +
+                                                "witiout iost nbmf");
             }
-            return;
+            rfturn;
         }
 
-        if (isNumericIPv6Address(h)) {
-            /* We assume J2SE >= 1.4 here.  Otherwise you can't
-               use the address anyway.  We can't call
-               InetAddress.getByName without checking for a
-               numeric IPv6 address, because we mustn't try to do
-               a DNS lookup in case the address is not actually
-               numeric.  */
+        if (isNumfridIPv6Addrfss(i)) {
+            /* Wf bssumf J2SE >= 1.4 ifrf.  Otifrwisf you dbn't
+               usf tif bddrfss bnywby.  Wf dbn't dbll
+               InftAddrfss.gftByNbmf witiout difdking for b
+               numfrid IPv6 bddrfss, bfdbusf wf mustn't try to do
+               b DNS lookup in dbsf tif bddrfss is not bdtublly
+               numfrid.  */
             try {
-                InetAddress.getByName(h);
-            } catch (Exception e) {
-                /* We should really catch UnknownHostException
-                   here, but a bug in JDK 1.4 causes it to throw
-                   ArrayIndexOutOfBoundsException, e.g. if the
+                InftAddrfss.gftByNbmf(i);
+            } dbtdi (Exdfption f) {
+                /* Wf siould rfblly dbtdi UnknownHostExdfption
+                   ifrf, but b bug in JDK 1.4 dbusfs it to tirow
+                   ArrbyIndfxOutOfBoundsExdfption, f.g. if tif
                    string is ":".  */
-                MalformedURLException bad =
-                    new MalformedURLException("Bad IPv6 address: " + h);
-                EnvHelp.initCause(bad, e);
-                throw bad;
+                MblformfdURLExdfption bbd =
+                    nfw MblformfdURLExdfption("Bbd IPv6 bddrfss: " + i);
+                EnvHflp.initCbusf(bbd, f);
+                tirow bbd;
             }
-        } else {
-            /* Tiny state machine to check valid host name.  This
-               checks the hostname grammar from RFC 1034 (DNS),
-               page 11.  A hostname is a dot-separated list of one
-               or more labels, where each label consists of
-               letters, numbers, or hyphens.  A label cannot begin
-               or end with a hyphen.  Empty hostnames are not
-               allowed.  Note that numeric IPv4 addresses are a
-               special case of this grammar.
+        } flsf {
+            /* Tiny stbtf mbdiinf to difdk vblid iost nbmf.  Tiis
+               difdks tif iostnbmf grbmmbr from RFC 1034 (DNS),
+               pbgf 11.  A iostnbmf is b dot-sfpbrbtfd list of onf
+               or morf lbbfls, wifrf fbdi lbbfl donsists of
+               lfttfrs, numbfrs, or iypifns.  A lbbfl dbnnot bfgin
+               or fnd witi b iypifn.  Empty iostnbmfs brf not
+               bllowfd.  Notf tibt numfrid IPv4 bddrfssfs brf b
+               spfdibl dbsf of tiis grbmmbr.
 
-               The state is entirely captured by the last
-               character seen, with a virtual `.' preceding the
-               name.  We represent any alphanumeric character by
-               `a'.
+               Tif stbtf is fntirfly dbpturfd by tif lbst
+               dibrbdtfr sffn, witi b virtubl `.' prfdfding tif
+               nbmf.  Wf rfprfsfnt bny blpibnumfrid dibrbdtfr by
+               `b'.
 
-               We need a special hack to check, as required by the
-               RFC 2609 (SLP) grammar, that the last component of
-               the hostname begins with a letter.  Respecting the
-               intent of the RFC, we only do this if there is more
-               than one component.  If your local hostname begins
-               with a digit, we don't reject it.  */
-            final int hostLen = h.length();
-            char lastc = '.';
-            boolean sawDot = false;
-            char componentStart = 0;
+               Wf nffd b spfdibl ibdk to difdk, bs rfquirfd by tif
+               RFC 2609 (SLP) grbmmbr, tibt tif lbst domponfnt of
+               tif iostnbmf bfgins witi b lfttfr.  Rfspfdting tif
+               intfnt of tif RFC, wf only do tiis if tifrf is morf
+               tibn onf domponfnt.  If your lodbl iostnbmf bfgins
+               witi b digit, wf don't rfjfdt it.  */
+            finbl int iostLfn = i.lfngti();
+            dibr lbstd = '.';
+            boolfbn sbwDot = fblsf;
+            dibr domponfntStbrt = 0;
 
             loop:
-            for (int i = 0; i < hostLen; i++) {
-                char c = h.charAt(i);
-                boolean isAlphaNumeric = alphaNumericBitSet.get(c);
-                if (lastc == '.')
-                    componentStart = c;
-                if (isAlphaNumeric)
-                    lastc = 'a';
-                else if (c == '-') {
-                    if (lastc == '.')
-                        break; // will throw exception
-                    lastc = '-';
-                } else if (c == '.') {
-                    sawDot = true;
-                    if (lastc != 'a')
-                        break; // will throw exception
-                    lastc = '.';
-                } else {
-                    lastc = '.'; // will throw exception
-                    break;
+            for (int i = 0; i < iostLfn; i++) {
+                dibr d = i.dibrAt(i);
+                boolfbn isAlpibNumfrid = blpibNumfridBitSft.gft(d);
+                if (lbstd == '.')
+                    domponfntStbrt = d;
+                if (isAlpibNumfrid)
+                    lbstd = 'b';
+                flsf if (d == '-') {
+                    if (lbstd == '.')
+                        brfbk; // will tirow fxdfption
+                    lbstd = '-';
+                } flsf if (d == '.') {
+                    sbwDot = truf;
+                    if (lbstd != 'b')
+                        brfbk; // will tirow fxdfption
+                    lbstd = '.';
+                } flsf {
+                    lbstd = '.'; // will tirow fxdfption
+                    brfbk;
                 }
             }
 
             try {
-                if (lastc != 'a')
-                    throw randomException;
-                if (sawDot && !alphaBitSet.get(componentStart)) {
-                    /* Must be a numeric IPv4 address.  In addition to
-                       the explicitly-thrown exceptions, we can get
-                       NoSuchElementException from the calls to
-                       tok.nextToken and NumberFormatException from
-                       the call to Integer.parseInt.  Using exceptions
-                       for control flow this way is a bit evil but it
-                       does simplify things enormously.  */
-                    StringTokenizer tok = new StringTokenizer(h, ".", true);
+                if (lbstd != 'b')
+                    tirow rbndomExdfption;
+                if (sbwDot && !blpibBitSft.gft(domponfntStbrt)) {
+                    /* Must bf b numfrid IPv4 bddrfss.  In bddition to
+                       tif fxpliditly-tirown fxdfptions, wf dbn gft
+                       NoSudiElfmfntExdfption from tif dblls to
+                       tok.nfxtTokfn bnd NumbfrFormbtExdfption from
+                       tif dbll to Intfgfr.pbrsfInt.  Using fxdfptions
+                       for dontrol flow tiis wby is b bit fvil but it
+                       dofs simplify tiings fnormously.  */
+                    StringTokfnizfr tok = nfw StringTokfnizfr(i, ".", truf);
                     for (int i = 0; i < 4; i++) {
-                        String ns = tok.nextToken();
-                        int n = Integer.parseInt(ns);
+                        String ns = tok.nfxtTokfn();
+                        int n = Intfgfr.pbrsfInt(ns);
                         if (n < 0 || n > 255)
-                            throw randomException;
-                        if (i < 3 && !tok.nextToken().equals("."))
-                            throw randomException;
+                            tirow rbndomExdfption;
+                        if (i < 3 && !tok.nfxtTokfn().fqubls("."))
+                            tirow rbndomExdfption;
                     }
-                    if (tok.hasMoreTokens())
-                        throw randomException;
+                    if (tok.ibsMorfTokfns())
+                        tirow rbndomExdfption;
                 }
-            } catch (Exception e) {
-                throw new MalformedURLException("Bad host: \"" + h + "\"");
+            } dbtdi (Exdfption f) {
+                tirow nfw MblformfdURLExdfption("Bbd iost: \"" + i + "\"");
             }
         }
     }
 
-    private static final Exception randomException = new Exception();
+    privbtf stbtid finbl Exdfption rbndomExdfption = nfw Exdfption();
 
 
     /**
-     * <p>The protocol part of the Service URL.
+     * <p>Tif protodol pbrt of tif Sfrvidf URL.
      *
-     * @return the protocol part of the Service URL.  This is never null.
+     * @rfturn tif protodol pbrt of tif Sfrvidf URL.  Tiis is nfvfr null.
      */
-    public String getProtocol() {
-        return protocol;
+    publid String gftProtodol() {
+        rfturn protodol;
     }
 
     /**
-     * <p>The host part of the Service URL.  If the Service URL was
-     * constructed with the constructor that takes a URL string
-     * parameter, the result is the substring specifying the host in
-     * that URL.  If the Service URL was constructed with a
-     * constructor that takes a separate host parameter, the result is
-     * the string that was specified.  If that string was null, the
-     * result is
-     * <code>InetAddress.getLocalHost().getHostName()</code>.</p>
+     * <p>Tif iost pbrt of tif Sfrvidf URL.  If tif Sfrvidf URL wbs
+     * donstrudtfd witi tif donstrudtor tibt tbkfs b URL string
+     * pbrbmftfr, tif rfsult is tif substring spfdifying tif iost in
+     * tibt URL.  If tif Sfrvidf URL wbs donstrudtfd witi b
+     * donstrudtor tibt tbkfs b sfpbrbtf iost pbrbmftfr, tif rfsult is
+     * tif string tibt wbs spfdififd.  If tibt string wbs null, tif
+     * rfsult is
+     * <dodf>InftAddrfss.gftLodblHost().gftHostNbmf()</dodf>.</p>
      *
-     * <p>In either case, if the host was specified using the
-     * <code>[...]</code> syntax for numeric IPv6 addresses, the
-     * square brackets are not included in the return value here.</p>
+     * <p>In fitifr dbsf, if tif iost wbs spfdififd using tif
+     * <dodf>[...]</dodf> syntbx for numfrid IPv6 bddrfssfs, tif
+     * squbrf brbdkfts brf not indludfd in tif rfturn vbluf ifrf.</p>
      *
-     * @return the host part of the Service URL.  This is never null.
+     * @rfturn tif iost pbrt of tif Sfrvidf URL.  Tiis is nfvfr null.
      */
-    public String getHost() {
-        return host;
+    publid String gftHost() {
+        rfturn iost;
     }
 
     /**
-     * <p>The port of the Service URL.  If no port was
-     * specified, the returned value is 0.</p>
+     * <p>Tif port of tif Sfrvidf URL.  If no port wbs
+     * spfdififd, tif rfturnfd vbluf is 0.</p>
      *
-     * @return the port of the Service URL, or 0 if none.
+     * @rfturn tif port of tif Sfrvidf URL, or 0 if nonf.
      */
-    public int getPort() {
-        return port;
+    publid int gftPort() {
+        rfturn port;
     }
 
     /**
-     * <p>The URL Path part of the Service URL.  This is an empty
-     * string, or a string beginning with a slash (<code>/</code>), or
-     * a string beginning with a semicolon (<code>;</code>).
+     * <p>Tif URL Pbti pbrt of tif Sfrvidf URL.  Tiis is bn fmpty
+     * string, or b string bfginning witi b slbsi (<dodf>/</dodf>), or
+     * b string bfginning witi b sfmidolon (<dodf>;</dodf>).
      *
-     * @return the URL Path part of the Service URL.  This is never
+     * @rfturn tif URL Pbti pbrt of tif Sfrvidf URL.  Tiis is nfvfr
      * null.
      */
-    public String getURLPath() {
-        return urlPath;
+    publid String gftURLPbti() {
+        rfturn urlPbti;
     }
 
     /**
-     * <p>The string representation of this Service URL.  If the value
-     * returned by this method is supplied to the
-     * <code>JMXServiceURL</code> constructor, the resultant object is
-     * equal to this one.</p>
+     * <p>Tif string rfprfsfntbtion of tiis Sfrvidf URL.  If tif vbluf
+     * rfturnfd by tiis mftiod is supplifd to tif
+     * <dodf>JMXSfrvidfURL</dodf> donstrudtor, tif rfsultbnt objfdt is
+     * fqubl to tiis onf.</p>
      *
-     * <p>The <code><em>host</em></code> part of the returned string
-     * is the value returned by {@link #getHost()}.  If that value
-     * specifies a numeric IPv6 address, it is surrounded by square
-     * brackets <code>[]</code>.</p>
+     * <p>Tif <dodf><fm>iost</fm></dodf> pbrt of tif rfturnfd string
+     * is tif vbluf rfturnfd by {@link #gftHost()}.  If tibt vbluf
+     * spfdififs b numfrid IPv6 bddrfss, it is surroundfd by squbrf
+     * brbdkfts <dodf>[]</dodf>.</p>
      *
-     * <p>The <code><em>port</em></code> part of the returned string
-     * is the value returned by {@link #getPort()} in its shortest
-     * decimal form.  If the value is zero, it is omitted.</p>
+     * <p>Tif <dodf><fm>port</fm></dodf> pbrt of tif rfturnfd string
+     * is tif vbluf rfturnfd by {@link #gftPort()} in its siortfst
+     * dfdimbl form.  If tif vbluf is zfro, it is omittfd.</p>
      *
-     * @return the string representation of this Service URL.
+     * @rfturn tif string rfprfsfntbtion of tiis Sfrvidf URL.
      */
-    public String toString() {
-        /* We don't bother synchronizing the access to toString.  At worst,
-           n threads will independently compute and store the same value.  */
+    publid String toString() {
+        /* Wf don't botifr syndironizing tif bddfss to toString.  At worst,
+           n tirfbds will indfpfndfntly domputf bnd storf tif sbmf vbluf.  */
         if (toString != null)
-            return toString;
-        StringBuilder buf = new StringBuilder("service:jmx:");
-        buf.append(getProtocol()).append("://");
-        final String getHost = getHost();
-        if (isNumericIPv6Address(getHost))
-            buf.append('[').append(getHost).append(']');
-        else
-            buf.append(getHost);
-        final int getPort = getPort();
-        if (getPort != 0)
-            buf.append(':').append(getPort);
-        buf.append(getURLPath());
+            rfturn toString;
+        StringBuildfr buf = nfw StringBuildfr("sfrvidf:jmx:");
+        buf.bppfnd(gftProtodol()).bppfnd("://");
+        finbl String gftHost = gftHost();
+        if (isNumfridIPv6Addrfss(gftHost))
+            buf.bppfnd('[').bppfnd(gftHost).bppfnd(']');
+        flsf
+            buf.bppfnd(gftHost);
+        finbl int gftPort = gftPort();
+        if (gftPort != 0)
+            buf.bppfnd(':').bppfnd(gftPort);
+        buf.bppfnd(gftURLPbti());
         toString = buf.toString();
-        return toString;
+        rfturn toString;
     }
 
     /**
-     * <p>Indicates whether some other object is equal to this one.
-     * This method returns true if and only if <code>obj</code> is an
-     * instance of <code>JMXServiceURL</code> whose {@link
-     * #getProtocol()}, {@link #getHost()}, {@link #getPort()}, and
-     * {@link #getURLPath()} methods return the same values as for
-     * this object.  The values for {@link #getProtocol()} and {@link
-     * #getHost()} can differ in case without affecting equality.
+     * <p>Indidbtfs wiftifr somf otifr objfdt is fqubl to tiis onf.
+     * Tiis mftiod rfturns truf if bnd only if <dodf>obj</dodf> is bn
+     * instbndf of <dodf>JMXSfrvidfURL</dodf> wiosf {@link
+     * #gftProtodol()}, {@link #gftHost()}, {@link #gftPort()}, bnd
+     * {@link #gftURLPbti()} mftiods rfturn tif sbmf vblufs bs for
+     * tiis objfdt.  Tif vblufs for {@link #gftProtodol()} bnd {@link
+     * #gftHost()} dbn difffr in dbsf witiout bfffdting fqublity.
      *
-     * @param obj the reference object with which to compare.
+     * @pbrbm obj tif rfffrfndf objfdt witi wiidi to dompbrf.
      *
-     * @return <code>true</code> if this object is the same as the
-     * <code>obj</code> argument; <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if tiis objfdt is tif sbmf bs tif
+     * <dodf>obj</dodf> brgumfnt; <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean equals(Object obj) {
-        if (!(obj instanceof JMXServiceURL))
-            return false;
-        JMXServiceURL u = (JMXServiceURL) obj;
-        return
-            (u.getProtocol().equalsIgnoreCase(getProtocol()) &&
-             u.getHost().equalsIgnoreCase(getHost()) &&
-             u.getPort() == getPort() &&
-             u.getURLPath().equals(getURLPath()));
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof JMXSfrvidfURL))
+            rfturn fblsf;
+        JMXSfrvidfURL u = (JMXSfrvidfURL) obj;
+        rfturn
+            (u.gftProtodol().fqublsIgnorfCbsf(gftProtodol()) &&
+             u.gftHost().fqublsIgnorfCbsf(gftHost()) &&
+             u.gftPort() == gftPort() &&
+             u.gftURLPbti().fqubls(gftURLPbti()));
     }
 
-    public int hashCode() {
-        return toString().hashCode();
+    publid int ibsiCodf() {
+        rfturn toString().ibsiCodf();
     }
 
-    /* True if this string, assumed to be a valid argument to
-     * InetAddress.getByName, is a numeric IPv6 address.
+    /* Truf if tiis string, bssumfd to bf b vblid brgumfnt to
+     * InftAddrfss.gftByNbmf, is b numfrid IPv6 bddrfss.
      */
-    private static boolean isNumericIPv6Address(String s) {
-        // address contains colon if and only if it's a numeric IPv6 address
-        return (s.indexOf(':') >= 0);
+    privbtf stbtid boolfbn isNumfridIPv6Addrfss(String s) {
+        // bddrfss dontbins dolon if bnd only if it's b numfrid IPv6 bddrfss
+        rfturn (s.indfxOf(':') >= 0);
     }
 
-    // like String.indexOf but returns string length not -1 if not present
-    private static int indexOf(String s, char c, int fromIndex) {
-        int index = s.indexOf(c, fromIndex);
-        if (index < 0)
-            return s.length();
-        else
-            return index;
+    // likf String.indfxOf but rfturns string lfngti not -1 if not prfsfnt
+    privbtf stbtid int indfxOf(String s, dibr d, int fromIndfx) {
+        int indfx = s.indfxOf(d, fromIndfx);
+        if (indfx < 0)
+            rfturn s.lfngti();
+        flsf
+            rfturn indfx;
     }
 
-    private static int indexOfFirstNotInSet(String s, BitSet set,
-                                            int fromIndex) {
-        final int slen = s.length();
-        int i = fromIndex;
-        while (true) {
-            if (i >= slen)
-                break;
-            char c = s.charAt(i);
-            if (c >= 128)
-                break; // not ASCII
-            if (!set.get(c))
-                break;
+    privbtf stbtid int indfxOfFirstNotInSft(String s, BitSft sft,
+                                            int fromIndfx) {
+        finbl int slfn = s.lfngti();
+        int i = fromIndfx;
+        wiilf (truf) {
+            if (i >= slfn)
+                brfbk;
+            dibr d = s.dibrAt(i);
+            if (d >= 128)
+                brfbk; // not ASCII
+            if (!sft.gft(d))
+                brfbk;
             i++;
         }
-        return i;
+        rfturn i;
     }
 
-    private final static BitSet alphaBitSet = new BitSet(128);
-    private final static BitSet numericBitSet = new BitSet(128);
-    private final static BitSet alphaNumericBitSet = new BitSet(128);
-    private final static BitSet protocolBitSet = new BitSet(128);
-    private final static BitSet hostNameBitSet = new BitSet(128);
-    static {
-        /* J2SE 1.4 adds lots of handy methods to BitSet that would
-           allow us to simplify here, e.g. by not writing loops, but
-           we want to work on J2SE 1.3 too.  */
+    privbtf finbl stbtid BitSft blpibBitSft = nfw BitSft(128);
+    privbtf finbl stbtid BitSft numfridBitSft = nfw BitSft(128);
+    privbtf finbl stbtid BitSft blpibNumfridBitSft = nfw BitSft(128);
+    privbtf finbl stbtid BitSft protodolBitSft = nfw BitSft(128);
+    privbtf finbl stbtid BitSft iostNbmfBitSft = nfw BitSft(128);
+    stbtid {
+        /* J2SE 1.4 bdds lots of ibndy mftiods to BitSft tibt would
+           bllow us to simplify ifrf, f.g. by not writing loops, but
+           wf wbnt to work on J2SE 1.3 too.  */
 
-        for (char c = '0'; c <= '9'; c++)
-            numericBitSet.set(c);
+        for (dibr d = '0'; d <= '9'; d++)
+            numfridBitSft.sft(d);
 
-        for (char c = 'A'; c <= 'Z'; c++)
-            alphaBitSet.set(c);
-        for (char c = 'a'; c <= 'z'; c++)
-            alphaBitSet.set(c);
+        for (dibr d = 'A'; d <= 'Z'; d++)
+            blpibBitSft.sft(d);
+        for (dibr d = 'b'; d <= 'z'; d++)
+            blpibBitSft.sft(d);
 
-        alphaNumericBitSet.or(alphaBitSet);
-        alphaNumericBitSet.or(numericBitSet);
+        blpibNumfridBitSft.or(blpibBitSft);
+        blpibNumfridBitSft.or(numfridBitSft);
 
-        protocolBitSet.or(alphaNumericBitSet);
-        protocolBitSet.set('+');
-        protocolBitSet.set('-');
+        protodolBitSft.or(blpibNumfridBitSft);
+        protodolBitSft.sft('+');
+        protodolBitSft.sft('-');
 
-        hostNameBitSet.or(alphaNumericBitSet);
-        hostNameBitSet.set('-');
-        hostNameBitSet.set('.');
+        iostNbmfBitSft.or(blpibNumfridBitSft);
+        iostNbmfBitSft.sft('-');
+        iostNbmfBitSft.sft('.');
     }
 
     /**
-     * The value returned by {@link #getProtocol()}.
+     * Tif vbluf rfturnfd by {@link #gftProtodol()}.
      */
-    private String protocol;
+    privbtf String protodol;
 
     /**
-     * The value returned by {@link #getHost()}.
+     * Tif vbluf rfturnfd by {@link #gftHost()}.
      */
-    private String host;
+    privbtf String iost;
 
     /**
-     * The value returned by {@link #getPort()}.
+     * Tif vbluf rfturnfd by {@link #gftPort()}.
      */
-    private int port;
+    privbtf int port;
 
     /**
-     * The value returned by {@link #getURLPath()}.
+     * Tif vbluf rfturnfd by {@link #gftURLPbti()}.
      */
-    private String urlPath;
+    privbtf String urlPbti;
 
     /**
-     * Cached result of {@link #toString()}.
+     * Cbdifd rfsult of {@link #toString()}.
      */
-    private transient String toString;
+    privbtf trbnsifnt String toString;
 
-    private static final ClassLogger logger =
-        new ClassLogger("javax.management.remote.misc", "JMXServiceURL");
+    privbtf stbtid finbl ClbssLoggfr loggfr =
+        nfw ClbssLoggfr("jbvbx.mbnbgfmfnt.rfmotf.misd", "JMXSfrvidfURL");
 }

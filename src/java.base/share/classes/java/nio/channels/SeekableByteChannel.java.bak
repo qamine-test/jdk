@@ -1,168 +1,168 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.channels;
+pbdkbgf jbvb.nio.dibnnfls;
 
-import java.nio.ByteBuffer;
-import java.io.IOException;
+import jbvb.nio.BytfBufffr;
+import jbvb.io.IOExdfption;
 
 /**
- * A byte channel that maintains a current <i>position</i> and allows the
- * position to be changed.
+ * A bytf dibnnfl tibt mbintbins b durrfnt <i>position</i> bnd bllows tif
+ * position to bf dibngfd.
  *
- * <p> A seekable byte channel is connected to an entity, typically a file,
- * that contains a variable-length sequence of bytes that can be read and
- * written. The current position can be {@link #position() <i>queried</i>} and
- * {@link #position(long) <i>modified</i>}. The channel also provides access to
- * the current <i>size</i> of the entity to which the channel is connected. The
- * size increases when bytes are written beyond its current size; the size
- * decreases when it is {@link #truncate <i>truncated</i>}.
+ * <p> A sffkbblf bytf dibnnfl is donnfdtfd to bn fntity, typidblly b filf,
+ * tibt dontbins b vbribblf-lfngti sfqufndf of bytfs tibt dbn bf rfbd bnd
+ * writtfn. Tif durrfnt position dbn bf {@link #position() <i>qufrifd</i>} bnd
+ * {@link #position(long) <i>modififd</i>}. Tif dibnnfl blso providfs bddfss to
+ * tif durrfnt <i>sizf</i> of tif fntity to wiidi tif dibnnfl is donnfdtfd. Tif
+ * sizf indrfbsfs wifn bytfs brf writtfn bfyond its durrfnt sizf; tif sizf
+ * dfdrfbsfs wifn it is {@link #trundbtf <i>trundbtfd</i>}.
  *
- * <p> The {@link #position(long) position} and {@link #truncate truncate} methods
- * which do not otherwise have a value to return are specified to return the
- * channel upon which they are invoked. This allows method invocations to be
- * chained. Implementations of this interface should specialize the return type
- * so that method invocations on the implementation class can be chained.
+ * <p> Tif {@link #position(long) position} bnd {@link #trundbtf trundbtf} mftiods
+ * wiidi do not otifrwisf ibvf b vbluf to rfturn brf spfdififd to rfturn tif
+ * dibnnfl upon wiidi tify brf invokfd. Tiis bllows mftiod invodbtions to bf
+ * dibinfd. Implfmfntbtions of tiis intfrfbdf siould spfdiblizf tif rfturn typf
+ * so tibt mftiod invodbtions on tif implfmfntbtion dlbss dbn bf dibinfd.
  *
- * @since 1.7
- * @see java.nio.file.Files#newByteChannel
+ * @sindf 1.7
+ * @sff jbvb.nio.filf.Filfs#nfwBytfCibnnfl
  */
 
-public interface SeekableByteChannel
-    extends ByteChannel
+publid intfrfbdf SffkbblfBytfCibnnfl
+    fxtfnds BytfCibnnfl
 {
     /**
-     * Reads a sequence of bytes from this channel into the given buffer.
+     * Rfbds b sfqufndf of bytfs from tiis dibnnfl into tif givfn bufffr.
      *
-     * <p> Bytes are read starting at this channel's current position, and
-     * then the position is updated with the number of bytes actually read.
-     * Otherwise this method behaves exactly as specified in the {@link
-     * ReadableByteChannel} interface.
+     * <p> Bytfs brf rfbd stbrting bt tiis dibnnfl's durrfnt position, bnd
+     * tifn tif position is updbtfd witi tif numbfr of bytfs bdtublly rfbd.
+     * Otifrwisf tiis mftiod bfibvfs fxbdtly bs spfdififd in tif {@link
+     * RfbdbblfBytfCibnnfl} intfrfbdf.
      */
-    @Override
-    int read(ByteBuffer dst) throws IOException;
+    @Ovfrridf
+    int rfbd(BytfBufffr dst) tirows IOExdfption;
 
     /**
-     * Writes a sequence of bytes to this channel from the given buffer.
+     * Writfs b sfqufndf of bytfs to tiis dibnnfl from tif givfn bufffr.
      *
-     * <p> Bytes are written starting at this channel's current position, unless
-     * the channel is connected to an entity such as a file that is opened with
-     * the {@link java.nio.file.StandardOpenOption#APPEND APPEND} option, in
-     * which case the position is first advanced to the end. The entity to which
-     * the channel is connected is grown, if necessary, to accommodate the
-     * written bytes, and then the position is updated with the number of bytes
-     * actually written. Otherwise this method behaves exactly as specified by
-     * the {@link WritableByteChannel} interface.
+     * <p> Bytfs brf writtfn stbrting bt tiis dibnnfl's durrfnt position, unlfss
+     * tif dibnnfl is donnfdtfd to bn fntity sudi bs b filf tibt is opfnfd witi
+     * tif {@link jbvb.nio.filf.StbndbrdOpfnOption#APPEND APPEND} option, in
+     * wiidi dbsf tif position is first bdvbndfd to tif fnd. Tif fntity to wiidi
+     * tif dibnnfl is donnfdtfd is grown, if nfdfssbry, to bddommodbtf tif
+     * writtfn bytfs, bnd tifn tif position is updbtfd witi tif numbfr of bytfs
+     * bdtublly writtfn. Otifrwisf tiis mftiod bfibvfs fxbdtly bs spfdififd by
+     * tif {@link WritbblfBytfCibnnfl} intfrfbdf.
      */
-    @Override
-    int write(ByteBuffer src) throws IOException;
+    @Ovfrridf
+    int writf(BytfBufffr srd) tirows IOExdfption;
 
     /**
-     * Returns this channel's position.
+     * Rfturns tiis dibnnfl's position.
      *
-     * @return  This channel's position,
-     *          a non-negative integer counting the number of bytes
-     *          from the beginning of the entity to the current position
+     * @rfturn  Tiis dibnnfl's position,
+     *          b non-nfgbtivf intfgfr dounting tif numbfr of bytfs
+     *          from tif bfginning of tif fntity to tif durrfnt position
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      */
-    long position() throws IOException;
+    long position() tirows IOExdfption;
 
     /**
-     * Sets this channel's position.
+     * Sfts tiis dibnnfl's position.
      *
-     * <p> Setting the position to a value that is greater than the current size
-     * is legal but does not change the size of the entity.  A later attempt to
-     * read bytes at such a position will immediately return an end-of-file
-     * indication.  A later attempt to write bytes at such a position will cause
-     * the entity to grow to accommodate the new bytes; the values of any bytes
-     * between the previous end-of-file and the newly-written bytes are
-     * unspecified.
+     * <p> Sftting tif position to b vbluf tibt is grfbtfr tibn tif durrfnt sizf
+     * is lfgbl but dofs not dibngf tif sizf of tif fntity.  A lbtfr bttfmpt to
+     * rfbd bytfs bt sudi b position will immfdibtfly rfturn bn fnd-of-filf
+     * indidbtion.  A lbtfr bttfmpt to writf bytfs bt sudi b position will dbusf
+     * tif fntity to grow to bddommodbtf tif nfw bytfs; tif vblufs of bny bytfs
+     * bftwffn tif prfvious fnd-of-filf bnd tif nfwly-writtfn bytfs brf
+     * unspfdififd.
      *
-     * <p> Setting the channel's position is not recommended when connected to
-     * an entity, typically a file, that is opened with the {@link
-     * java.nio.file.StandardOpenOption#APPEND APPEND} option. When opened for
-     * append, the position is first advanced to the end before writing.
+     * <p> Sftting tif dibnnfl's position is not rfdommfndfd wifn donnfdtfd to
+     * bn fntity, typidblly b filf, tibt is opfnfd witi tif {@link
+     * jbvb.nio.filf.StbndbrdOpfnOption#APPEND APPEND} option. Wifn opfnfd for
+     * bppfnd, tif position is first bdvbndfd to tif fnd bfforf writing.
      *
-     * @param  newPosition
-     *         The new position, a non-negative integer counting
-     *         the number of bytes from the beginning of the entity
+     * @pbrbm  nfwPosition
+     *         Tif nfw position, b non-nfgbtivf intfgfr dounting
+     *         tif numbfr of bytfs from tif bfginning of tif fntity
      *
-     * @return  This channel
+     * @rfturn  Tiis dibnnfl
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
-     * @throws  IllegalArgumentException
-     *          If the new position is negative
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif nfw position is nfgbtivf
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      */
-    SeekableByteChannel position(long newPosition) throws IOException;
+    SffkbblfBytfCibnnfl position(long nfwPosition) tirows IOExdfption;
 
     /**
-     * Returns the current size of entity to which this channel is connected.
+     * Rfturns tif durrfnt sizf of fntity to wiidi tiis dibnnfl is donnfdtfd.
      *
-     * @return  The current size, measured in bytes
+     * @rfturn  Tif durrfnt sizf, mfbsurfd in bytfs
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      */
-    long size() throws IOException;
+    long sizf() tirows IOExdfption;
 
     /**
-     * Truncates the entity, to which this channel is connected, to the given
-     * size.
+     * Trundbtfs tif fntity, to wiidi tiis dibnnfl is donnfdtfd, to tif givfn
+     * sizf.
      *
-     * <p> If the given size is less than the current size then the entity is
-     * truncated, discarding any bytes beyond the new end. If the given size is
-     * greater than or equal to the current size then the entity is not modified.
-     * In either case, if the current position is greater than the given size
-     * then it is set to that size.
+     * <p> If tif givfn sizf is lfss tibn tif durrfnt sizf tifn tif fntity is
+     * trundbtfd, disdbrding bny bytfs bfyond tif nfw fnd. If tif givfn sizf is
+     * grfbtfr tibn or fqubl to tif durrfnt sizf tifn tif fntity is not modififd.
+     * In fitifr dbsf, if tif durrfnt position is grfbtfr tibn tif givfn sizf
+     * tifn it is sft to tibt sizf.
      *
-     * <p> An implementation of this interface may prohibit truncation when
-     * connected to an entity, typically a file, opened with the {@link
-     * java.nio.file.StandardOpenOption#APPEND APPEND} option.
+     * <p> An implfmfntbtion of tiis intfrfbdf mby proiibit trundbtion wifn
+     * donnfdtfd to bn fntity, typidblly b filf, opfnfd witi tif {@link
+     * jbvb.nio.filf.StbndbrdOpfnOption#APPEND APPEND} option.
      *
-     * @param  size
-     *         The new size, a non-negative byte count
+     * @pbrbm  sizf
+     *         Tif nfw sizf, b non-nfgbtivf bytf dount
      *
-     * @return  This channel
+     * @rfturn  Tiis dibnnfl
      *
-     * @throws  NonWritableChannelException
-     *          If this channel was not opened for writing
-     * @throws  ClosedChannelException
-     *          If this channel is closed
-     * @throws  IllegalArgumentException
-     *          If the new size is negative
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  NonWritbblfCibnnflExdfption
+     *          If tiis dibnnfl wbs not opfnfd for writing
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif nfw sizf is nfgbtivf
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      */
-    SeekableByteChannel truncate(long size) throws IOException;
+    SffkbblfBytfCibnnfl trundbtf(long sizf) tirows IOExdfption;
 }

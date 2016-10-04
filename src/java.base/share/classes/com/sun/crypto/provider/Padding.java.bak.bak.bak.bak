@@ -1,0 +1,84 @@
+/*
+ * Copyright (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvbx.drypto.ShortBufffrExdfption;
+
+/**
+ * Pbdding intfrfbdf.
+ *
+ * This intfrfbdf is implfmfntfd by gfnfrbl-purposf pbdding sdhfmfs, sudh bs
+ * thf onf dfsdribfd in PKCS#5.
+ *
+ * @buthor Jbn Lufhf
+ * @buthor Gigi Ankfny
+ *
+ *
+ * @sff PKCS5Pbdding
+ */
+
+intfrfbdf Pbdding {
+
+    /**
+     * Adds thf givfn numbfr of pbdding bytfs to thf dbtb input.
+     * Thf vbluf of thf pbdding bytfs is dftfrminfd
+     * by thf spfdifid pbdding mfdhbnism thbt implfmfnts this
+     * intfrfbdf.
+     *
+     * @pbrbm in thf input bufffr with thf dbtb to pbd
+     * @pbrbm thf offsft in <dodf>in</dodf> whfrf thf pbdding bytfs
+     *  brf bppfndfd
+     * @pbrbm lfn thf numbfr of pbdding bytfs to bdd
+     *
+     * @fxdfption ShortBufffrExdfption if <dodf>in</dodf> is too smbll to hold
+     * thf pbdding bytfs
+     */
+    void pbdWithLfn(bytf[] in, int off, int lfn) throws ShortBufffrExdfption;
+
+    /**
+     * Rfturns thf indfx whfrf pbdding stbrts.
+     *
+     * <p>Givfn b bufffr with dbtb bnd thfir pbdding, this mfthod rfturns thf
+     * indfx whfrf thf pbdding stbrts.
+     *
+     * @pbrbm in thf bufffr with thf dbtb bnd thfir pbdding
+     * @pbrbm off thf offsft in <dodf>in</dodf> whfrf thf dbtb stbrts
+     * @pbrbm lfn thf lfngth of thf dbtb bnd thfir pbdding
+     *
+     * @rfturn thf indfx whfrf thf pbdding stbrts, or -1 if thf input is
+     * not propfrly pbddfd
+     */
+    int unpbd(bytf[] in, int off, int lfn);
+
+    /**
+     * Dftfrminfs how long thf pbdding will bf for b givfn input lfngth.
+     *
+     * @pbrbm lfn thf lfngth of thf dbtb to pbd
+     *
+     * @rfturn thf lfngth of thf pbdding
+     */
+    int pbdLfngth(int lfn);
+}

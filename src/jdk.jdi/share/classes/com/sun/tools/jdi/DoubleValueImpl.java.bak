@@ -1,164 +1,164 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.*;
+import dom.sun.jdi.*;
 
-public class DoubleValueImpl extends PrimitiveValueImpl
-                             implements DoubleValue {
-    private double value;
+publid dlbss DoublfVblufImpl fxtfnds PrimitivfVblufImpl
+                             implfmfnts DoublfVbluf {
+    privbtf doublf vbluf;
 
-    DoubleValueImpl(VirtualMachine aVm,double aValue) {
-        super(aVm);
+    DoublfVblufImpl(VirtublMbdiinf bVm,doublf bVbluf) {
+        supfr(bVm);
 
-        value = aValue;
+        vbluf = bVbluf;
     }
 
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof DoubleValue)) {
-            return (value == ((DoubleValue)obj).value()) &&
-                   super.equals(obj);
-        } else {
-            return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj != null) && (obj instbndfof DoublfVbluf)) {
+            rfturn (vbluf == ((DoublfVbluf)obj).vbluf()) &&
+                   supfr.fqubls(obj);
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    public int compareTo(DoubleValue obj) {
-        double other = obj.value();
-        if (value() < other) {
-            return -1;
-        } else if (value() == other) {
-            return 0;
-        } else {
-            return 1;
+    publid int dompbrfTo(DoublfVbluf obj) {
+        doublf otifr = obj.vbluf();
+        if (vbluf() < otifr) {
+            rfturn -1;
+        } flsf if (vbluf() == otifr) {
+            rfturn 0;
+        } flsf {
+            rfturn 1;
         }
     }
 
-    public int hashCode() {
+    publid int ibsiCodf() {
         /*
-         * TO DO: Better hash code
+         * TO DO: Bfttfr ibsi dodf
          */
-        return intValue();
+        rfturn intVbluf();
     }
 
-    public Type type() {
-        return vm.theDoubleType();
+    publid Typf typf() {
+        rfturn vm.tifDoublfTypf();
     }
 
-    public double value() {
-        return value;
+    publid doublf vbluf() {
+        rfturn vbluf;
     }
 
-    public boolean booleanValue() {
-        return(value == 0.0)?false:true;
+    publid boolfbn boolfbnVbluf() {
+        rfturn(vbluf == 0.0)?fblsf:truf;
     }
 
-    public byte byteValue() {
-        return(byte)value;
+    publid bytf bytfVbluf() {
+        rfturn(bytf)vbluf;
     }
 
-    public char charValue() {
-        return(char)value;
+    publid dibr dibrVbluf() {
+        rfturn(dibr)vbluf;
     }
 
-    public short shortValue() {
-        return(short)value;
+    publid siort siortVbluf() {
+        rfturn(siort)vbluf;
     }
 
-    public int intValue() {
-        return(int)value;
+    publid int intVbluf() {
+        rfturn(int)vbluf;
     }
 
-    public long longValue() {
-        return(long)value;
+    publid long longVbluf() {
+        rfturn(long)vbluf;
     }
 
-    public float floatValue() {
-        return(float)value;
+    publid flobt flobtVbluf() {
+        rfturn(flobt)vbluf;
     }
 
-    public double doubleValue() {
-        return value;
+    publid doublf doublfVbluf() {
+        rfturn vbluf;
     }
 
-    byte checkedByteValue() throws InvalidTypeException {
-        if ((value > Byte.MAX_VALUE) || (value < Byte.MIN_VALUE)) {
-            throw new InvalidTypeException("Can't convert " + value + " to byte");
-        } else {
-            return super.checkedByteValue();
+    bytf difdkfdBytfVbluf() tirows InvblidTypfExdfption {
+        if ((vbluf > Bytf.MAX_VALUE) || (vbluf < Bytf.MIN_VALUE)) {
+            tirow nfw InvblidTypfExdfption("Cbn't donvfrt " + vbluf + " to bytf");
+        } flsf {
+            rfturn supfr.difdkfdBytfVbluf();
         }
     }
 
-    char checkedCharValue() throws InvalidTypeException {
-        if ((value > Character.MAX_VALUE) || (value < Character.MIN_VALUE)) {
-            throw new InvalidTypeException("Can't convert " + value + " to char");
-        } else {
-            return super.checkedCharValue();
+    dibr difdkfdCibrVbluf() tirows InvblidTypfExdfption {
+        if ((vbluf > Cibrbdtfr.MAX_VALUE) || (vbluf < Cibrbdtfr.MIN_VALUE)) {
+            tirow nfw InvblidTypfExdfption("Cbn't donvfrt " + vbluf + " to dibr");
+        } flsf {
+            rfturn supfr.difdkfdCibrVbluf();
         }
     }
 
-    short checkedShortValue() throws InvalidTypeException {
-        if ((value > Short.MAX_VALUE) || (value < Short.MIN_VALUE)) {
-            throw new InvalidTypeException("Can't convert " + value + " to short");
-        } else {
-            return super.checkedShortValue();
+    siort difdkfdSiortVbluf() tirows InvblidTypfExdfption {
+        if ((vbluf > Siort.MAX_VALUE) || (vbluf < Siort.MIN_VALUE)) {
+            tirow nfw InvblidTypfExdfption("Cbn't donvfrt " + vbluf + " to siort");
+        } flsf {
+            rfturn supfr.difdkfdSiortVbluf();
         }
     }
 
-    int checkedIntValue() throws InvalidTypeException {
-        if ((value > Integer.MAX_VALUE) || (value < Integer.MIN_VALUE)) {
-            throw new InvalidTypeException("Can't convert " + value + " to int");
-        } else {
-            return super.checkedIntValue();
+    int difdkfdIntVbluf() tirows InvblidTypfExdfption {
+        if ((vbluf > Intfgfr.MAX_VALUE) || (vbluf < Intfgfr.MIN_VALUE)) {
+            tirow nfw InvblidTypfExdfption("Cbn't donvfrt " + vbluf + " to int");
+        } flsf {
+            rfturn supfr.difdkfdIntVbluf();
         }
     }
 
-    long checkedLongValue() throws InvalidTypeException {
-        long longValue = (long)value;
-        if (longValue != value) {
-            throw new InvalidTypeException("Can't convert " + value + " to long");
-        } else {
-            return super.checkedLongValue();
+    long difdkfdLongVbluf() tirows InvblidTypfExdfption {
+        long longVbluf = (long)vbluf;
+        if (longVbluf != vbluf) {
+            tirow nfw InvblidTypfExdfption("Cbn't donvfrt " + vbluf + " to long");
+        } flsf {
+            rfturn supfr.difdkfdLongVbluf();
         }
     }
 
-    float checkedFloatValue() throws InvalidTypeException {
-        float floatValue = (float)value;
-        if (floatValue != value) {
-            throw new InvalidTypeException("Can't convert " + value + " to float");
-        } else {
-            return super.checkedFloatValue();
+    flobt difdkfdFlobtVbluf() tirows InvblidTypfExdfption {
+        flobt flobtVbluf = (flobt)vbluf;
+        if (flobtVbluf != vbluf) {
+            tirow nfw InvblidTypfExdfption("Cbn't donvfrt " + vbluf + " to flobt");
+        } flsf {
+            rfturn supfr.difdkfdFlobtVbluf();
         }
     }
 
-    public String toString() {
-        return "" + value;
+    publid String toString() {
+        rfturn "" + vbluf;
     }
 
-    byte typeValueKey() {
-        return JDWP.Tag.DOUBLE;
+    bytf typfVblufKfy() {
+        rfturn JDWP.Tbg.DOUBLE;
     }
 }

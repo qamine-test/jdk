@@ -1,930 +1,930 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.dnd;
+pbdkbgf sun.bwt.dnd;
 
-import java.awt.Component;
-import java.awt.Point;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Point;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
+import jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsffr.Trbnsffrbblf;
+import jbvb.bwt.dbtbtrbnsffr.UnsupportfdFlbvorExdfption;
 
-import java.awt.dnd.DnDConstants;
+import jbvb.bwt.dnd.DnDConstbnts;
 
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetContext;
-import java.awt.dnd.DropTargetListener;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.InvalidDnDOperationException;
+import jbvb.bwt.dnd.DropTbrgft;
+import jbvb.bwt.dnd.DropTbrgftContfxt;
+import jbvb.bwt.dnd.DropTbrgftListfnfr;
+import jbvb.bwt.dnd.DropTbrgftEvfnt;
+import jbvb.bwt.dnd.DropTbrgftDrbgEvfnt;
+import jbvb.bwt.dnd.DropTbrgftDropEvfnt;
+import jbvb.bwt.dnd.InvblidDnDOpfrbtionExdfption;
 
-import java.awt.dnd.peer.DropTargetContextPeer;
+import jbvb.bwt.dnd.pffr.DropTbrgftContfxtPffr;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Arrays;
+import jbvb.util.HbsiSft;
+import jbvb.util.Mbp;
+import jbvb.util.Arrbys;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLoggfr;
 
-import java.io.IOException;
-import java.io.InputStream;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
 
-import sun.awt.AppContext;
-import sun.awt.AWTPermissions;
-import sun.awt.SunToolkit;
-import sun.awt.datatransfer.DataTransferer;
-import sun.awt.datatransfer.ToolkitThreadBlockedHandler;
+import sun.bwt.AppContfxt;
+import sun.bwt.AWTPfrmissions;
+import sun.bwt.SunToolkit;
+import sun.bwt.dbtbtrbnsffr.DbtbTrbnsffrfr;
+import sun.bwt.dbtbtrbnsffr.ToolkitTirfbdBlodkfdHbndlfr;
 
 /**
  * <p>
- * The SunDropTargetContextPeer class is the generic class responsible for handling
- * the interaction between a windowing systems DnD system and Java.
+ * Tif SunDropTbrgftContfxtPffr dlbss is tif gfnfrid dlbss rfsponsiblf for ibndling
+ * tif intfrbdtion bftwffn b windowing systfms DnD systfm bnd Jbvb.
  * </p>
  *
- * @since 1.3.1
+ * @sindf 1.3.1
  *
  */
 
-public abstract class SunDropTargetContextPeer implements DropTargetContextPeer, Transferable {
+publid bbstrbdt dlbss SunDropTbrgftContfxtPffr implfmfnts DropTbrgftContfxtPffr, Trbnsffrbblf {
 
     /*
-     * A boolean constant that requires the peer to wait until the
-     * SunDropTargetEvent is processed and return the status back
-     * to the native code.
+     * A boolfbn donstbnt tibt rfquirfs tif pffr to wbit until tif
+     * SunDropTbrgftEvfnt is prodfssfd bnd rfturn tif stbtus bbdk
+     * to tif nbtivf dodf.
      */
-    public static final boolean DISPATCH_SYNC = true;
-    private   DropTarget              currentDT;
-    private   DropTargetContext       currentDTC;
-    private   long[]                  currentT;
-    private   int                     currentA;   // target actions
-    private   int                     currentSA;  // source actions
-    private   int                     currentDA;  // current drop action
-    private   int                     previousDA;
+    publid stbtid finbl boolfbn DISPATCH_SYNC = truf;
+    privbtf   DropTbrgft              durrfntDT;
+    privbtf   DropTbrgftContfxt       durrfntDTC;
+    privbtf   long[]                  durrfntT;
+    privbtf   int                     durrfntA;   // tbrgft bdtions
+    privbtf   int                     durrfntSA;  // sourdf bdtions
+    privbtf   int                     durrfntDA;  // durrfnt drop bdtion
+    privbtf   int                     prfviousDA;
 
-    private   long                    nativeDragContext;
+    privbtf   long                    nbtivfDrbgContfxt;
 
-    private   Transferable            local;
+    privbtf   Trbnsffrbblf            lodbl;
 
-    private boolean                   dragRejected = false;
+    privbtf boolfbn                   drbgRfjfdtfd = fblsf;
 
-    protected int                     dropStatus   = STATUS_NONE;
-    protected boolean                 dropComplete = false;
+    protfdtfd int                     dropStbtus   = STATUS_NONE;
+    protfdtfd boolfbn                 dropComplftf = fblsf;
 
-    // The flag is used to monitor whether the drop action is
-    // handled by a user. That allows to distinct during
-    // which operation getTransferData() method is invoked.
-    boolean                           dropInProcess = false;
+    // Tif flbg is usfd to monitor wiftifr tif drop bdtion is
+    // ibndlfd by b usfr. Tibt bllows to distindt during
+    // wiidi opfrbtion gftTrbnsffrDbtb() mftiod is invokfd.
+    boolfbn                           dropInProdfss = fblsf;
 
     /*
-     * global lock
+     * globbl lodk
      */
 
-    protected static final Object _globalLock = new Object();
+    protfdtfd stbtid finbl Objfdt _globblLodk = nfw Objfdt();
 
-    private static final PlatformLogger dndLog = PlatformLogger.getLogger("sun.awt.dnd.SunDropTargetContextPeer");
+    privbtf stbtid finbl PlbtformLoggfr dndLog = PlbtformLoggfr.gftLoggfr("sun.bwt.dnd.SunDropTbrgftContfxtPffr");
 
     /*
-     * a primitive mechanism for advertising intra-JVM Transferables
+     * b primitivf mfdibnism for bdvfrtising intrb-JVM Trbnsffrbblfs
      */
 
-    protected static Transferable         currentJVMLocalSourceTransferable = null;
+    protfdtfd stbtid Trbnsffrbblf         durrfntJVMLodblSourdfTrbnsffrbblf = null;
 
-    public static void setCurrentJVMLocalSourceTransferable(Transferable t) throws InvalidDnDOperationException {
-        synchronized(_globalLock) {
-            if (t != null && currentJVMLocalSourceTransferable != null) {
-                    throw new InvalidDnDOperationException();
-            } else {
-                currentJVMLocalSourceTransferable = t;
+    publid stbtid void sftCurrfntJVMLodblSourdfTrbnsffrbblf(Trbnsffrbblf t) tirows InvblidDnDOpfrbtionExdfption {
+        syndironizfd(_globblLodk) {
+            if (t != null && durrfntJVMLodblSourdfTrbnsffrbblf != null) {
+                    tirow nfw InvblidDnDOpfrbtionExdfption();
+            } flsf {
+                durrfntJVMLodblSourdfTrbnsffrbblf = t;
             }
         }
     }
 
     /**
-     * obtain the transferable iff the operation is in the same VM
+     * obtbin tif trbnsffrbblf iff tif opfrbtion is in tif sbmf VM
      */
 
-    private static Transferable getJVMLocalSourceTransferable() {
-        return currentJVMLocalSourceTransferable;
+    privbtf stbtid Trbnsffrbblf gftJVMLodblSourdfTrbnsffrbblf() {
+        rfturn durrfntJVMLodblSourdfTrbnsffrbblf;
     }
 
     /*
-     * constants used by dropAccept() or dropReject()
+     * donstbnts usfd by dropAddfpt() or dropRfjfdt()
      */
 
-    protected final static int STATUS_NONE   =  0; // none pending
-    protected final static int STATUS_WAIT   =  1; // drop pending
-    protected final static int STATUS_ACCEPT =  2;
-    protected final static int STATUS_REJECT = -1;
+    protfdtfd finbl stbtid int STATUS_NONE   =  0; // nonf pfnding
+    protfdtfd finbl stbtid int STATUS_WAIT   =  1; // drop pfnding
+    protfdtfd finbl stbtid int STATUS_ACCEPT =  2;
+    protfdtfd finbl stbtid int STATUS_REJECT = -1;
 
     /**
-     * create the peer
+     * drfbtf tif pffr
      */
 
-    public SunDropTargetContextPeer() {
-        super();
+    publid SunDropTbrgftContfxtPffr() {
+        supfr();
     }
 
     /**
-     * @return the DropTarget associated with this peer
+     * @rfturn tif DropTbrgft bssodibtfd witi tiis pffr
      */
 
-    public DropTarget getDropTarget() { return currentDT; }
+    publid DropTbrgft gftDropTbrgft() { rfturn durrfntDT; }
 
     /**
-     * @param actions set the current actions
+     * @pbrbm bdtions sft tif durrfnt bdtions
      */
 
-    public synchronized void setTargetActions(int actions) {
-        currentA = actions &
-            (DnDConstants.ACTION_COPY_OR_MOVE | DnDConstants.ACTION_LINK);
+    publid syndironizfd void sftTbrgftAdtions(int bdtions) {
+        durrfntA = bdtions &
+            (DnDConstbnts.ACTION_COPY_OR_MOVE | DnDConstbnts.ACTION_LINK);
     }
 
     /**
-     * @return the current target actions
+     * @rfturn tif durrfnt tbrgft bdtions
      */
 
-    public int getTargetActions() {
-        return currentA;
+    publid int gftTbrgftAdtions() {
+        rfturn durrfntA;
     }
 
     /**
-     * get the Transferable associated with the drop
+     * gft tif Trbnsffrbblf bssodibtfd witi tif drop
      */
 
-    public Transferable getTransferable() {
-        return this;
+    publid Trbnsffrbblf gftTrbnsffrbblf() {
+        rfturn tiis;
     }
 
     /**
-     * @return current DataFlavors available
+     * @rfturn durrfnt DbtbFlbvors bvbilbblf
      */
-    // NOTE: This method may be called by privileged threads.
+    // NOTE: Tiis mftiod mby bf dbllfd by privilfgfd tirfbds.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
 
-    public DataFlavor[] getTransferDataFlavors() {
-        final Transferable    localTransferable = local;
+    publid DbtbFlbvor[] gftTrbnsffrDbtbFlbvors() {
+        finbl Trbnsffrbblf    lodblTrbnsffrbblf = lodbl;
 
-        if (localTransferable != null) {
-            return localTransferable.getTransferDataFlavors();
-        } else {
-            return DataTransferer.getInstance().getFlavorsForFormatsAsArray
-                (currentT, DataTransferer.adaptFlavorMap
-                    (currentDT.getFlavorMap()));
+        if (lodblTrbnsffrbblf != null) {
+            rfturn lodblTrbnsffrbblf.gftTrbnsffrDbtbFlbvors();
+        } flsf {
+            rfturn DbtbTrbnsffrfr.gftInstbndf().gftFlbvorsForFormbtsAsArrby
+                (durrfntT, DbtbTrbnsffrfr.bdbptFlbvorMbp
+                    (durrfntDT.gftFlbvorMbp()));
         }
     }
 
     /**
-     * @return if the flavor is supported
+     * @rfturn if tif flbvor is supportfd
      */
 
-    public boolean isDataFlavorSupported(DataFlavor df) {
-        Transferable localTransferable = local;
+    publid boolfbn isDbtbFlbvorSupportfd(DbtbFlbvor df) {
+        Trbnsffrbblf lodblTrbnsffrbblf = lodbl;
 
-        if (localTransferable != null) {
-            return localTransferable.isDataFlavorSupported(df);
-        } else {
-            return DataTransferer.getInstance().getFlavorsForFormats
-                (currentT, DataTransferer.adaptFlavorMap
-                    (currentDT.getFlavorMap())).
-                containsKey(df);
+        if (lodblTrbnsffrbblf != null) {
+            rfturn lodblTrbnsffrbblf.isDbtbFlbvorSupportfd(df);
+        } flsf {
+            rfturn DbtbTrbnsffrfr.gftInstbndf().gftFlbvorsForFormbts
+                (durrfntT, DbtbTrbnsffrfr.bdbptFlbvorMbp
+                    (durrfntDT.gftFlbvorMbp())).
+                dontbinsKfy(df);
         }
     }
 
     /**
-     * @return the data
+     * @rfturn tif dbtb
      */
 
-    public Object getTransferData(DataFlavor df)
-      throws UnsupportedFlavorException, IOException,
-        InvalidDnDOperationException
+    publid Objfdt gftTrbnsffrDbtb(DbtbFlbvor df)
+      tirows UnsupportfdFlbvorExdfption, IOExdfption,
+        InvblidDnDOpfrbtionExdfption
     {
 
-        SecurityManager sm = System.getSecurityManager();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         try {
-            if (!dropInProcess && sm != null) {
-                sm.checkPermission(AWTPermissions.ACCESS_CLIPBOARD_PERMISSION);
+            if (!dropInProdfss && sm != null) {
+                sm.difdkPfrmission(AWTPfrmissions.ACCESS_CLIPBOARD_PERMISSION);
             }
-        } catch (Exception e) {
-            Thread currentThread = Thread.currentThread();
-            currentThread.getUncaughtExceptionHandler().uncaughtException(currentThread, e);
-            return null;
+        } dbtdi (Exdfption f) {
+            Tirfbd durrfntTirfbd = Tirfbd.durrfntTirfbd();
+            durrfntTirfbd.gftUndbugitExdfptionHbndlfr().undbugitExdfption(durrfntTirfbd, f);
+            rfturn null;
         }
 
-        Long lFormat = null;
-        Transferable localTransferable = local;
+        Long lFormbt = null;
+        Trbnsffrbblf lodblTrbnsffrbblf = lodbl;
 
-        if (localTransferable != null) {
-            return localTransferable.getTransferData(df);
-        } else if (df.isMimeTypeEqual(DataFlavor.javaJVMLocalObjectMimeType)) {
-            // Workaround to JDK-8024061: Exception thrown when drag and drop
-            //      between two components is executed quickly.
-            // It is expected localTransferable is not null if javaJVMLocalObjectMimeType
-            // is used. Executing further results in ClassCastException, so null is
-            // returned here as no transfer data is available in this case.
-            return null;
+        if (lodblTrbnsffrbblf != null) {
+            rfturn lodblTrbnsffrbblf.gftTrbnsffrDbtb(df);
+        } flsf if (df.isMimfTypfEqubl(DbtbFlbvor.jbvbJVMLodblObjfdtMimfTypf)) {
+            // Workbround to JDK-8024061: Exdfption tirown wifn drbg bnd drop
+            //      bftwffn two domponfnts is fxfdutfd quidkly.
+            // It is fxpfdtfd lodblTrbnsffrbblf is not null if jbvbJVMLodblObjfdtMimfTypf
+            // is usfd. Exfduting furtifr rfsults in ClbssCbstExdfption, so null is
+            // rfturnfd ifrf bs no trbnsffr dbtb is bvbilbblf in tiis dbsf.
+            rfturn null;
         }
 
-        if (dropStatus != STATUS_ACCEPT || dropComplete) {
-            throw new InvalidDnDOperationException("No drop current");
+        if (dropStbtus != STATUS_ACCEPT || dropComplftf) {
+            tirow nfw InvblidDnDOpfrbtionExdfption("No drop durrfnt");
         }
 
-        Map<DataFlavor, Long> flavorMap = DataTransferer.getInstance()
-            .getFlavorsForFormats(currentT, DataTransferer.adaptFlavorMap
-                (currentDT.getFlavorMap()));
+        Mbp<DbtbFlbvor, Long> flbvorMbp = DbtbTrbnsffrfr.gftInstbndf()
+            .gftFlbvorsForFormbts(durrfntT, DbtbTrbnsffrfr.bdbptFlbvorMbp
+                (durrfntDT.gftFlbvorMbp()));
 
-        lFormat = flavorMap.get(df);
-        if (lFormat == null) {
-            throw new UnsupportedFlavorException(df);
+        lFormbt = flbvorMbp.gft(df);
+        if (lFormbt == null) {
+            tirow nfw UnsupportfdFlbvorExdfption(df);
         }
 
-        if (df.isRepresentationClassRemote() &&
-            currentDA != DnDConstants.ACTION_LINK) {
-            throw new InvalidDnDOperationException("only ACTION_LINK is permissable for transfer of java.rmi.Remote objects");
+        if (df.isRfprfsfntbtionClbssRfmotf() &&
+            durrfntDA != DnDConstbnts.ACTION_LINK) {
+            tirow nfw InvblidDnDOpfrbtionExdfption("only ACTION_LINK is pfrmissbblf for trbnsffr of jbvb.rmi.Rfmotf objfdts");
         }
 
-        final long format = lFormat.longValue();
+        finbl long formbt = lFormbt.longVbluf();
 
-        Object ret = getNativeData(format);
+        Objfdt rft = gftNbtivfDbtb(formbt);
 
-        if (ret instanceof byte[]) {
+        if (rft instbndfof bytf[]) {
             try {
-                return DataTransferer.getInstance().
-                    translateBytes((byte[])ret, df, format, this);
-            } catch (IOException e) {
-                throw new InvalidDnDOperationException(e.getMessage());
+                rfturn DbtbTrbnsffrfr.gftInstbndf().
+                    trbnslbtfBytfs((bytf[])rft, df, formbt, tiis);
+            } dbtdi (IOExdfption f) {
+                tirow nfw InvblidDnDOpfrbtionExdfption(f.gftMfssbgf());
             }
-        } else if (ret instanceof InputStream) {
+        } flsf if (rft instbndfof InputStrfbm) {
             try {
-                return DataTransferer.getInstance().
-                    translateStream((InputStream)ret, df, format, this);
-            } catch (IOException e) {
-                throw new InvalidDnDOperationException(e.getMessage());
+                rfturn DbtbTrbnsffrfr.gftInstbndf().
+                    trbnslbtfStrfbm((InputStrfbm)rft, df, formbt, tiis);
+            } dbtdi (IOExdfption f) {
+                tirow nfw InvblidDnDOpfrbtionExdfption(f.gftMfssbgf());
             }
-        } else {
-            throw new IOException("no native data was transfered");
+        } flsf {
+            tirow nfw IOExdfption("no nbtivf dbtb wbs trbnsffrfd");
         }
     }
 
-    protected abstract Object getNativeData(long format)
-      throws IOException;
+    protfdtfd bbstrbdt Objfdt gftNbtivfDbtb(long formbt)
+      tirows IOExdfption;
 
     /**
-     * @return if the transfer is a local one
+     * @rfturn if tif trbnsffr is b lodbl onf
      */
-    public boolean isTransferableJVMLocal() {
-        return local != null || getJVMLocalSourceTransferable() != null;
+    publid boolfbn isTrbnsffrbblfJVMLodbl() {
+        rfturn lodbl != null || gftJVMLodblSourdfTrbnsffrbblf() != null;
     }
 
-    private int handleEnterMessage(final Component component,
-                                   final int x, final int y,
-                                   final int dropAction,
-                                   final int actions, final long[] formats,
-                                   final long nativeCtxt) {
-        return postDropTargetEvent(component, x, y, dropAction, actions,
-                                   formats, nativeCtxt,
-                                   SunDropTargetEvent.MOUSE_ENTERED,
-                                   SunDropTargetContextPeer.DISPATCH_SYNC);
-    }
-
-    /**
-     * actual processing on EventQueue Thread
-     */
-
-    protected void processEnterMessage(SunDropTargetEvent event) {
-        Component  c    = (Component)event.getSource();
-        DropTarget dt   = c.getDropTarget();
-        Point      hots = event.getPoint();
-
-        local = getJVMLocalSourceTransferable();
-
-        if (currentDTC != null) { // some wreckage from last time
-            currentDTC.removeNotify();
-            currentDTC = null;
-        }
-
-        if (c.isShowing() && dt != null && dt.isActive()) {
-            currentDT  = dt;
-            currentDTC = currentDT.getDropTargetContext();
-
-            currentDTC.addNotify(this);
-
-            currentA   = dt.getDefaultActions();
-
-            try {
-                ((DropTargetListener)dt).dragEnter(new DropTargetDragEvent(currentDTC,
-                                                                           hots,
-                                                                           currentDA,
-                                                                           currentSA));
-            } catch (Exception e) {
-                e.printStackTrace();
-                currentDA = DnDConstants.ACTION_NONE;
-            }
-        } else {
-            currentDT  = null;
-            currentDTC = null;
-            currentDA   = DnDConstants.ACTION_NONE;
-            currentSA   = DnDConstants.ACTION_NONE;
-            currentA   = DnDConstants.ACTION_NONE;
-        }
-
+    privbtf int ibndlfEntfrMfssbgf(finbl Componfnt domponfnt,
+                                   finbl int x, finbl int y,
+                                   finbl int dropAdtion,
+                                   finbl int bdtions, finbl long[] formbts,
+                                   finbl long nbtivfCtxt) {
+        rfturn postDropTbrgftEvfnt(domponfnt, x, y, dropAdtion, bdtions,
+                                   formbts, nbtivfCtxt,
+                                   SunDropTbrgftEvfnt.MOUSE_ENTERED,
+                                   SunDropTbrgftContfxtPffr.DISPATCH_SYNC);
     }
 
     /**
-     * upcall to handle exit messages
+     * bdtubl prodfssing on EvfntQufuf Tirfbd
      */
 
-    private void handleExitMessage(final Component component,
-                                   final long nativeCtxt) {
+    protfdtfd void prodfssEntfrMfssbgf(SunDropTbrgftEvfnt fvfnt) {
+        Componfnt  d    = (Componfnt)fvfnt.gftSourdf();
+        DropTbrgft dt   = d.gftDropTbrgft();
+        Point      iots = fvfnt.gftPoint();
+
+        lodbl = gftJVMLodblSourdfTrbnsffrbblf();
+
+        if (durrfntDTC != null) { // somf wrfdkbgf from lbst timf
+            durrfntDTC.rfmovfNotify();
+            durrfntDTC = null;
+        }
+
+        if (d.isSiowing() && dt != null && dt.isAdtivf()) {
+            durrfntDT  = dt;
+            durrfntDTC = durrfntDT.gftDropTbrgftContfxt();
+
+            durrfntDTC.bddNotify(tiis);
+
+            durrfntA   = dt.gftDffbultAdtions();
+
+            try {
+                ((DropTbrgftListfnfr)dt).drbgEntfr(nfw DropTbrgftDrbgEvfnt(durrfntDTC,
+                                                                           iots,
+                                                                           durrfntDA,
+                                                                           durrfntSA));
+            } dbtdi (Exdfption f) {
+                f.printStbdkTrbdf();
+                durrfntDA = DnDConstbnts.ACTION_NONE;
+            }
+        } flsf {
+            durrfntDT  = null;
+            durrfntDTC = null;
+            durrfntDA   = DnDConstbnts.ACTION_NONE;
+            durrfntSA   = DnDConstbnts.ACTION_NONE;
+            durrfntA   = DnDConstbnts.ACTION_NONE;
+        }
+
+    }
+
+    /**
+     * updbll to ibndlf fxit mfssbgfs
+     */
+
+    privbtf void ibndlfExitMfssbgf(finbl Componfnt domponfnt,
+                                   finbl long nbtivfCtxt) {
         /*
-         * Even though the return value is irrelevant for this event, it is
-         * dispatched synchronously to fix 4393148 properly.
+         * Evfn tiougi tif rfturn vbluf is irrflfvbnt for tiis fvfnt, it is
+         * dispbtdifd syndironously to fix 4393148 propfrly.
          */
-        postDropTargetEvent(component, 0, 0, DnDConstants.ACTION_NONE,
-                            DnDConstants.ACTION_NONE, null, nativeCtxt,
-                            SunDropTargetEvent.MOUSE_EXITED,
-                            SunDropTargetContextPeer.DISPATCH_SYNC);
+        postDropTbrgftEvfnt(domponfnt, 0, 0, DnDConstbnts.ACTION_NONE,
+                            DnDConstbnts.ACTION_NONE, null, nbtivfCtxt,
+                            SunDropTbrgftEvfnt.MOUSE_EXITED,
+                            SunDropTbrgftContfxtPffr.DISPATCH_SYNC);
     }
 
     /**
      *
      */
 
-    protected void processExitMessage(SunDropTargetEvent event) {
-        Component         c   = (Component)event.getSource();
-        DropTarget        dt  = c.getDropTarget();
-        DropTargetContext dtc = null;
+    protfdtfd void prodfssExitMfssbgf(SunDropTbrgftEvfnt fvfnt) {
+        Componfnt         d   = (Componfnt)fvfnt.gftSourdf();
+        DropTbrgft        dt  = d.gftDropTbrgft();
+        DropTbrgftContfxt dtd = null;
 
         if (dt == null) {
-            currentDT = null;
-            currentT  = null;
+            durrfntDT = null;
+            durrfntT  = null;
 
-            if (currentDTC != null) {
-                currentDTC.removeNotify();
+            if (durrfntDTC != null) {
+                durrfntDTC.rfmovfNotify();
             }
 
-            currentDTC = null;
+            durrfntDTC = null;
 
-            return;
+            rfturn;
         }
 
-        if (dt != currentDT) {
+        if (dt != durrfntDT) {
 
-            if (currentDTC != null) {
-                currentDTC.removeNotify();
+            if (durrfntDTC != null) {
+                durrfntDTC.rfmovfNotify();
             }
 
-            currentDT  = dt;
-            currentDTC = dt.getDropTargetContext();
+            durrfntDT  = dt;
+            durrfntDTC = dt.gftDropTbrgftContfxt();
 
-            currentDTC.addNotify(this);
+            durrfntDTC.bddNotify(tiis);
         }
 
-        dtc = currentDTC;
+        dtd = durrfntDTC;
 
-        if (dt.isActive()) try {
-            ((DropTargetListener)dt).dragExit(new DropTargetEvent(dtc));
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            currentA  = DnDConstants.ACTION_NONE;
-            currentSA = DnDConstants.ACTION_NONE;
-            currentDA = DnDConstants.ACTION_NONE;
-            currentDT = null;
-            currentT  = null;
+        if (dt.isAdtivf()) try {
+            ((DropTbrgftListfnfr)dt).drbgExit(nfw DropTbrgftEvfnt(dtd));
+        } dbtdi (Exdfption f) {
+            f.printStbdkTrbdf();
+        } finblly {
+            durrfntA  = DnDConstbnts.ACTION_NONE;
+            durrfntSA = DnDConstbnts.ACTION_NONE;
+            durrfntDA = DnDConstbnts.ACTION_NONE;
+            durrfntDT = null;
+            durrfntT  = null;
 
-            currentDTC.removeNotify();
-            currentDTC = null;
+            durrfntDTC.rfmovfNotify();
+            durrfntDTC = null;
 
-            local = null;
+            lodbl = null;
 
-            dragRejected = false;
-        }
-    }
-
-    private int handleMotionMessage(final Component component,
-                                    final int x, final int y,
-                                    final int dropAction,
-                                    final int actions, final long[] formats,
-                                    final long nativeCtxt) {
-        return postDropTargetEvent(component, x, y, dropAction, actions,
-                                   formats, nativeCtxt,
-                                   SunDropTargetEvent.MOUSE_DRAGGED,
-                                   SunDropTargetContextPeer.DISPATCH_SYNC);
-    }
-
-    /**
-     *
-     */
-
-    protected void processMotionMessage(SunDropTargetEvent event,
-                                      boolean operationChanged) {
-        Component         c    = (Component)event.getSource();
-        Point             hots = event.getPoint();
-        int               id   = event.getID();
-        DropTarget        dt   = c.getDropTarget();
-        DropTargetContext dtc  = null;
-
-        if (c.isShowing() && (dt != null) && dt.isActive()) {
-            if (currentDT != dt) {
-                if (currentDTC != null) {
-                    currentDTC.removeNotify();
-                }
-
-                currentDT  = dt;
-                currentDTC = null;
-            }
-
-            dtc = currentDT.getDropTargetContext();
-            if (dtc != currentDTC) {
-                if (currentDTC != null) {
-                    currentDTC.removeNotify();
-                }
-
-                currentDTC = dtc;
-                currentDTC.addNotify(this);
-            }
-
-            currentA = currentDT.getDefaultActions();
-
-            try {
-                DropTargetDragEvent dtde = new DropTargetDragEvent(dtc,
-                                                                   hots,
-                                                                   currentDA,
-                                                                   currentSA);
-                DropTargetListener dtl = (DropTargetListener)dt;
-                if (operationChanged) {
-                    dtl.dropActionChanged(dtde);
-                } else {
-                    dtl.dragOver(dtde);
-                }
-
-                if (dragRejected) {
-                    currentDA = DnDConstants.ACTION_NONE;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                currentDA = DnDConstants.ACTION_NONE;
-            }
-        } else {
-            currentDA = DnDConstants.ACTION_NONE;
+            drbgRfjfdtfd = fblsf;
         }
     }
 
-    /**
-     * upcall to handle the Drop message
-     */
-
-    private void handleDropMessage(final Component component,
-                                   final int x, final int y,
-                                   final int dropAction, final int actions,
-                                   final long[] formats,
-                                   final long nativeCtxt) {
-        postDropTargetEvent(component, x, y, dropAction, actions,
-                            formats, nativeCtxt,
-                            SunDropTargetEvent.MOUSE_DROPPED,
-                            !SunDropTargetContextPeer.DISPATCH_SYNC);
+    privbtf int ibndlfMotionMfssbgf(finbl Componfnt domponfnt,
+                                    finbl int x, finbl int y,
+                                    finbl int dropAdtion,
+                                    finbl int bdtions, finbl long[] formbts,
+                                    finbl long nbtivfCtxt) {
+        rfturn postDropTbrgftEvfnt(domponfnt, x, y, dropAdtion, bdtions,
+                                   formbts, nbtivfCtxt,
+                                   SunDropTbrgftEvfnt.MOUSE_DRAGGED,
+                                   SunDropTbrgftContfxtPffr.DISPATCH_SYNC);
     }
 
     /**
      *
      */
 
-    protected void processDropMessage(SunDropTargetEvent event) {
-        Component  c    = (Component)event.getSource();
-        Point      hots = event.getPoint();
-        DropTarget dt   = c.getDropTarget();
+    protfdtfd void prodfssMotionMfssbgf(SunDropTbrgftEvfnt fvfnt,
+                                      boolfbn opfrbtionCibngfd) {
+        Componfnt         d    = (Componfnt)fvfnt.gftSourdf();
+        Point             iots = fvfnt.gftPoint();
+        int               id   = fvfnt.gftID();
+        DropTbrgft        dt   = d.gftDropTbrgft();
+        DropTbrgftContfxt dtd  = null;
 
-        dropStatus   = STATUS_WAIT; // drop pending ACK
-        dropComplete = false;
+        if (d.isSiowing() && (dt != null) && dt.isAdtivf()) {
+            if (durrfntDT != dt) {
+                if (durrfntDTC != null) {
+                    durrfntDTC.rfmovfNotify();
+                }
 
-        if (c.isShowing() && dt != null && dt.isActive()) {
-            DropTargetContext dtc = dt.getDropTargetContext();
-
-            currentDT = dt;
-
-            if (currentDTC != null) {
-                currentDTC.removeNotify();
+                durrfntDT  = dt;
+                durrfntDTC = null;
             }
 
-            currentDTC = dtc;
-            currentDTC.addNotify(this);
-            currentA = dt.getDefaultActions();
+            dtd = durrfntDT.gftDropTbrgftContfxt();
+            if (dtd != durrfntDTC) {
+                if (durrfntDTC != null) {
+                    durrfntDTC.rfmovfNotify();
+                }
 
-            synchronized(_globalLock) {
-                if ((local = getJVMLocalSourceTransferable()) != null)
-                    setCurrentJVMLocalSourceTransferable(null);
+                durrfntDTC = dtd;
+                durrfntDTC.bddNotify(tiis);
             }
 
-            dropInProcess = true;
+            durrfntA = durrfntDT.gftDffbultAdtions();
 
             try {
-                ((DropTargetListener)dt).drop(new DropTargetDropEvent(dtc,
-                                                                      hots,
-                                                                      currentDA,
-                                                                      currentSA,
-                                                                      local != null));
-            } finally {
-                if (dropStatus == STATUS_WAIT) {
-                    rejectDrop();
-                } else if (dropComplete == false) {
-                    dropComplete(false);
+                DropTbrgftDrbgEvfnt dtdf = nfw DropTbrgftDrbgEvfnt(dtd,
+                                                                   iots,
+                                                                   durrfntDA,
+                                                                   durrfntSA);
+                DropTbrgftListfnfr dtl = (DropTbrgftListfnfr)dt;
+                if (opfrbtionCibngfd) {
+                    dtl.dropAdtionCibngfd(dtdf);
+                } flsf {
+                    dtl.drbgOvfr(dtdf);
                 }
-                dropInProcess = false;
+
+                if (drbgRfjfdtfd) {
+                    durrfntDA = DnDConstbnts.ACTION_NONE;
+                }
+            } dbtdi (Exdfption f) {
+                f.printStbdkTrbdf();
+                durrfntDA = DnDConstbnts.ACTION_NONE;
             }
-        } else {
-            rejectDrop();
+        } flsf {
+            durrfntDA = DnDConstbnts.ACTION_NONE;
         }
     }
 
-    protected int postDropTargetEvent(final Component component,
-                                      final int x, final int y,
-                                      final int dropAction,
-                                      final int actions,
-                                      final long[] formats,
-                                      final long nativeCtxt,
-                                      final int eventID,
-                                      final boolean dispatchType) {
-        AppContext appContext = SunToolkit.targetToAppContext(component);
+    /**
+     * updbll to ibndlf tif Drop mfssbgf
+     */
 
-        EventDispatcher dispatcher =
-            new EventDispatcher(this, dropAction, actions, formats, nativeCtxt,
-                                dispatchType);
+    privbtf void ibndlfDropMfssbgf(finbl Componfnt domponfnt,
+                                   finbl int x, finbl int y,
+                                   finbl int dropAdtion, finbl int bdtions,
+                                   finbl long[] formbts,
+                                   finbl long nbtivfCtxt) {
+        postDropTbrgftEvfnt(domponfnt, x, y, dropAdtion, bdtions,
+                            formbts, nbtivfCtxt,
+                            SunDropTbrgftEvfnt.MOUSE_DROPPED,
+                            !SunDropTbrgftContfxtPffr.DISPATCH_SYNC);
+    }
 
-        SunDropTargetEvent event =
-            new SunDropTargetEvent(component, eventID, x, y, dispatcher);
+    /**
+     *
+     */
 
-        if (dispatchType == SunDropTargetContextPeer.DISPATCH_SYNC) {
-            DataTransferer.getInstance().getToolkitThreadBlockedHandler().lock();
-        }
+    protfdtfd void prodfssDropMfssbgf(SunDropTbrgftEvfnt fvfnt) {
+        Componfnt  d    = (Componfnt)fvfnt.gftSourdf();
+        Point      iots = fvfnt.gftPoint();
+        DropTbrgft dt   = d.gftDropTbrgft();
 
-        // schedule callback
-        SunToolkit.postEvent(appContext, event);
+        dropStbtus   = STATUS_WAIT; // drop pfnding ACK
+        dropComplftf = fblsf;
 
-        eventPosted(event);
+        if (d.isSiowing() && dt != null && dt.isAdtivf()) {
+            DropTbrgftContfxt dtd = dt.gftDropTbrgftContfxt();
 
-        if (dispatchType == SunDropTargetContextPeer.DISPATCH_SYNC) {
-            while (!dispatcher.isDone()) {
-                DataTransferer.getInstance().getToolkitThreadBlockedHandler().enter();
+            durrfntDT = dt;
+
+            if (durrfntDTC != null) {
+                durrfntDTC.rfmovfNotify();
             }
 
-            DataTransferer.getInstance().getToolkitThreadBlockedHandler().unlock();
+            durrfntDTC = dtd;
+            durrfntDTC.bddNotify(tiis);
+            durrfntA = dt.gftDffbultAdtions();
 
-            // return target's response
-            return dispatcher.getReturnValue();
-        } else {
-            return 0;
+            syndironizfd(_globblLodk) {
+                if ((lodbl = gftJVMLodblSourdfTrbnsffrbblf()) != null)
+                    sftCurrfntJVMLodblSourdfTrbnsffrbblf(null);
+            }
+
+            dropInProdfss = truf;
+
+            try {
+                ((DropTbrgftListfnfr)dt).drop(nfw DropTbrgftDropEvfnt(dtd,
+                                                                      iots,
+                                                                      durrfntDA,
+                                                                      durrfntSA,
+                                                                      lodbl != null));
+            } finblly {
+                if (dropStbtus == STATUS_WAIT) {
+                    rfjfdtDrop();
+                } flsf if (dropComplftf == fblsf) {
+                    dropComplftf(fblsf);
+                }
+                dropInProdfss = fblsf;
+            }
+        } flsf {
+            rfjfdtDrop();
+        }
+    }
+
+    protfdtfd int postDropTbrgftEvfnt(finbl Componfnt domponfnt,
+                                      finbl int x, finbl int y,
+                                      finbl int dropAdtion,
+                                      finbl int bdtions,
+                                      finbl long[] formbts,
+                                      finbl long nbtivfCtxt,
+                                      finbl int fvfntID,
+                                      finbl boolfbn dispbtdiTypf) {
+        AppContfxt bppContfxt = SunToolkit.tbrgftToAppContfxt(domponfnt);
+
+        EvfntDispbtdifr dispbtdifr =
+            nfw EvfntDispbtdifr(tiis, dropAdtion, bdtions, formbts, nbtivfCtxt,
+                                dispbtdiTypf);
+
+        SunDropTbrgftEvfnt fvfnt =
+            nfw SunDropTbrgftEvfnt(domponfnt, fvfntID, x, y, dispbtdifr);
+
+        if (dispbtdiTypf == SunDropTbrgftContfxtPffr.DISPATCH_SYNC) {
+            DbtbTrbnsffrfr.gftInstbndf().gftToolkitTirfbdBlodkfdHbndlfr().lodk();
+        }
+
+        // sdifdulf dbllbbdk
+        SunToolkit.postEvfnt(bppContfxt, fvfnt);
+
+        fvfntPostfd(fvfnt);
+
+        if (dispbtdiTypf == SunDropTbrgftContfxtPffr.DISPATCH_SYNC) {
+            wiilf (!dispbtdifr.isDonf()) {
+                DbtbTrbnsffrfr.gftInstbndf().gftToolkitTirfbdBlodkfdHbndlfr().fntfr();
+            }
+
+            DbtbTrbnsffrfr.gftInstbndf().gftToolkitTirfbdBlodkfdHbndlfr().unlodk();
+
+            // rfturn tbrgft's rfsponsf
+            rfturn dispbtdifr.gftRfturnVbluf();
+        } flsf {
+            rfturn 0;
         }
     }
 
     /**
-     * acceptDrag
+     * bddfptDrbg
      */
 
-    public synchronized void acceptDrag(int dragOperation) {
-        if (currentDT == null) {
-            throw new InvalidDnDOperationException("No Drag pending");
+    publid syndironizfd void bddfptDrbg(int drbgOpfrbtion) {
+        if (durrfntDT == null) {
+            tirow nfw InvblidDnDOpfrbtionExdfption("No Drbg pfnding");
         }
-        currentDA = mapOperation(dragOperation);
-        if (currentDA != DnDConstants.ACTION_NONE) {
-            dragRejected = false;
+        durrfntDA = mbpOpfrbtion(drbgOpfrbtion);
+        if (durrfntDA != DnDConstbnts.ACTION_NONE) {
+            drbgRfjfdtfd = fblsf;
         }
     }
 
     /**
-     * rejectDrag
+     * rfjfdtDrbg
      */
 
-    public synchronized void rejectDrag() {
-        if (currentDT == null) {
-            throw new InvalidDnDOperationException("No Drag pending");
+    publid syndironizfd void rfjfdtDrbg() {
+        if (durrfntDT == null) {
+            tirow nfw InvblidDnDOpfrbtionExdfption("No Drbg pfnding");
         }
-        currentDA = DnDConstants.ACTION_NONE;
-        dragRejected = true;
+        durrfntDA = DnDConstbnts.ACTION_NONE;
+        drbgRfjfdtfd = truf;
     }
 
     /**
-     * acceptDrop
+     * bddfptDrop
      */
 
-    public synchronized void acceptDrop(int dropOperation) {
-        if (dropOperation == DnDConstants.ACTION_NONE)
-            throw new IllegalArgumentException("invalid acceptDrop() action");
+    publid syndironizfd void bddfptDrop(int dropOpfrbtion) {
+        if (dropOpfrbtion == DnDConstbnts.ACTION_NONE)
+            tirow nfw IllfgblArgumfntExdfption("invblid bddfptDrop() bdtion");
 
-        if (dropStatus == STATUS_WAIT || dropStatus == STATUS_ACCEPT) {
-            currentDA = currentA = mapOperation(dropOperation & currentSA);
+        if (dropStbtus == STATUS_WAIT || dropStbtus == STATUS_ACCEPT) {
+            durrfntDA = durrfntA = mbpOpfrbtion(dropOpfrbtion & durrfntSA);
 
-            dropStatus   = STATUS_ACCEPT;
-            dropComplete = false;
-        } else {
-            throw new InvalidDnDOperationException("invalid acceptDrop()");
+            dropStbtus   = STATUS_ACCEPT;
+            dropComplftf = fblsf;
+        } flsf {
+            tirow nfw InvblidDnDOpfrbtionExdfption("invblid bddfptDrop()");
         }
     }
 
     /**
-     * reject Drop
+     * rfjfdt Drop
      */
 
-    public synchronized void rejectDrop() {
-        if (dropStatus != STATUS_WAIT) {
-            throw new InvalidDnDOperationException("invalid rejectDrop()");
+    publid syndironizfd void rfjfdtDrop() {
+        if (dropStbtus != STATUS_WAIT) {
+            tirow nfw InvblidDnDOpfrbtionExdfption("invblid rfjfdtDrop()");
         }
-        dropStatus = STATUS_REJECT;
+        dropStbtus = STATUS_REJECT;
         /*
          * Fix for 4285634.
-         * The target rejected the drop means that it doesn't perform any
-         * drop action. This change is to make Solaris behavior consistent
-         * with Win32.
+         * Tif tbrgft rfjfdtfd tif drop mfbns tibt it dofsn't pfrform bny
+         * drop bdtion. Tiis dibngf is to mbkf Solbris bfibvior donsistfnt
+         * witi Win32.
          */
-        currentDA = DnDConstants.ACTION_NONE;
-        dropComplete(false);
+        durrfntDA = DnDConstbnts.ACTION_NONE;
+        dropComplftf(fblsf);
     }
 
     /**
-     * mapOperation
+     * mbpOpfrbtion
      */
 
-    private int mapOperation(int operation) {
-        int[] operations = {
-                DnDConstants.ACTION_MOVE,
-                DnDConstants.ACTION_COPY,
-                DnDConstants.ACTION_LINK,
+    privbtf int mbpOpfrbtion(int opfrbtion) {
+        int[] opfrbtions = {
+                DnDConstbnts.ACTION_MOVE,
+                DnDConstbnts.ACTION_COPY,
+                DnDConstbnts.ACTION_LINK,
         };
-        int   ret = DnDConstants.ACTION_NONE;
+        int   rft = DnDConstbnts.ACTION_NONE;
 
-        for (int i = 0; i < operations.length; i++) {
-            if ((operation & operations[i]) == operations[i]) {
-                    ret = operations[i];
-                    break;
+        for (int i = 0; i < opfrbtions.lfngti; i++) {
+            if ((opfrbtion & opfrbtions[i]) == opfrbtions[i]) {
+                    rft = opfrbtions[i];
+                    brfbk;
             }
         }
 
-        return ret;
+        rfturn rft;
     }
 
     /**
-     * signal drop complete
+     * signbl drop domplftf
      */
 
-    public synchronized void dropComplete(boolean success) {
-        if (dropStatus == STATUS_NONE) {
-            throw new InvalidDnDOperationException("No Drop pending");
+    publid syndironizfd void dropComplftf(boolfbn suddfss) {
+        if (dropStbtus == STATUS_NONE) {
+            tirow nfw InvblidDnDOpfrbtionExdfption("No Drop pfnding");
         }
 
-        if (currentDTC != null) currentDTC.removeNotify();
+        if (durrfntDTC != null) durrfntDTC.rfmovfNotify();
 
-        currentDT  = null;
-        currentDTC = null;
-        currentT   = null;
-        currentA   = DnDConstants.ACTION_NONE;
+        durrfntDT  = null;
+        durrfntDTC = null;
+        durrfntT   = null;
+        durrfntA   = DnDConstbnts.ACTION_NONE;
 
-        synchronized(_globalLock) {
-            currentJVMLocalSourceTransferable = null;
+        syndironizfd(_globblLodk) {
+            durrfntJVMLodblSourdfTrbnsffrbblf = null;
         }
 
-        dropStatus   = STATUS_NONE;
-        dropComplete = true;
+        dropStbtus   = STATUS_NONE;
+        dropComplftf = truf;
 
         try {
-            doDropDone(success, currentDA, local != null);
-        } finally {
-            currentDA = DnDConstants.ACTION_NONE;
-            // The native context is invalid after the drop is done.
-            // Clear the reference to prohibit access.
-            nativeDragContext = 0;
+            doDropDonf(suddfss, durrfntDA, lodbl != null);
+        } finblly {
+            durrfntDA = DnDConstbnts.ACTION_NONE;
+            // Tif nbtivf dontfxt is invblid bftfr tif drop is donf.
+            // Clfbr tif rfffrfndf to proiibit bddfss.
+            nbtivfDrbgContfxt = 0;
         }
     }
 
-    protected abstract void doDropDone(boolean success,
-                                       int dropAction, boolean isLocal);
+    protfdtfd bbstrbdt void doDropDonf(boolfbn suddfss,
+                                       int dropAdtion, boolfbn isLodbl);
 
-    protected synchronized long getNativeDragContext() {
-        return nativeDragContext;
+    protfdtfd syndironizfd long gftNbtivfDrbgContfxt() {
+        rfturn nbtivfDrbgContfxt;
     }
 
-    protected void eventPosted(SunDropTargetEvent e) {}
+    protfdtfd void fvfntPostfd(SunDropTbrgftEvfnt f) {}
 
-    protected void eventProcessed(SunDropTargetEvent e, int returnValue,
-                                  boolean dispatcherDone) {}
+    protfdtfd void fvfntProdfssfd(SunDropTbrgftEvfnt f, int rfturnVbluf,
+                                  boolfbn dispbtdifrDonf) {}
 
-    protected static class EventDispatcher {
+    protfdtfd stbtid dlbss EvfntDispbtdifr {
 
-        private final SunDropTargetContextPeer peer;
+        privbtf finbl SunDropTbrgftContfxtPffr pffr;
 
-        // context fields
-        private final int dropAction;
-        private final int actions;
-        private final long[] formats;
-        private long nativeCtxt;
-        private final boolean dispatchType;
-        private boolean dispatcherDone = false;
+        // dontfxt fiflds
+        privbtf finbl int dropAdtion;
+        privbtf finbl int bdtions;
+        privbtf finbl long[] formbts;
+        privbtf long nbtivfCtxt;
+        privbtf finbl boolfbn dispbtdiTypf;
+        privbtf boolfbn dispbtdifrDonf = fblsf;
 
-        // dispatcher state fields
-        private int returnValue = 0;
-        // set of events to be dispatched by this dispatcher
-        private final HashSet<SunDropTargetEvent> eventSet = new HashSet<>(3);
+        // dispbtdifr stbtf fiflds
+        privbtf int rfturnVbluf = 0;
+        // sft of fvfnts to bf dispbtdifd by tiis dispbtdifr
+        privbtf finbl HbsiSft<SunDropTbrgftEvfnt> fvfntSft = nfw HbsiSft<>(3);
 
-        static final ToolkitThreadBlockedHandler handler =
-            DataTransferer.getInstance().getToolkitThreadBlockedHandler();
+        stbtid finbl ToolkitTirfbdBlodkfdHbndlfr ibndlfr =
+            DbtbTrbnsffrfr.gftInstbndf().gftToolkitTirfbdBlodkfdHbndlfr();
 
-        EventDispatcher(SunDropTargetContextPeer peer,
-                        int dropAction,
-                        int actions,
-                        long[] formats,
-                        long nativeCtxt,
-                        boolean dispatchType) {
+        EvfntDispbtdifr(SunDropTbrgftContfxtPffr pffr,
+                        int dropAdtion,
+                        int bdtions,
+                        long[] formbts,
+                        long nbtivfCtxt,
+                        boolfbn dispbtdiTypf) {
 
-            this.peer         = peer;
-            this.nativeCtxt   = nativeCtxt;
-            this.dropAction   = dropAction;
-            this.actions      = actions;
-            this.formats =
-                     (null == formats) ? null : Arrays.copyOf(formats, formats.length);
-            this.dispatchType = dispatchType;
+            tiis.pffr         = pffr;
+            tiis.nbtivfCtxt   = nbtivfCtxt;
+            tiis.dropAdtion   = dropAdtion;
+            tiis.bdtions      = bdtions;
+            tiis.formbts =
+                     (null == formbts) ? null : Arrbys.dopyOf(formbts, formbts.lfngti);
+            tiis.dispbtdiTypf = dispbtdiTypf;
         }
 
-        void dispatchEvent(SunDropTargetEvent e) {
-            int id = e.getID();
+        void dispbtdiEvfnt(SunDropTbrgftEvfnt f) {
+            int id = f.gftID();
 
-            switch (id) {
-            case SunDropTargetEvent.MOUSE_ENTERED:
-                dispatchEnterEvent(e);
-                break;
-            case SunDropTargetEvent.MOUSE_DRAGGED:
-                dispatchMotionEvent(e);
-                break;
-            case SunDropTargetEvent.MOUSE_EXITED:
-                dispatchExitEvent(e);
-                break;
-            case SunDropTargetEvent.MOUSE_DROPPED:
-                dispatchDropEvent(e);
-                break;
-            default:
-                throw new InvalidDnDOperationException();
+            switdi (id) {
+            dbsf SunDropTbrgftEvfnt.MOUSE_ENTERED:
+                dispbtdiEntfrEvfnt(f);
+                brfbk;
+            dbsf SunDropTbrgftEvfnt.MOUSE_DRAGGED:
+                dispbtdiMotionEvfnt(f);
+                brfbk;
+            dbsf SunDropTbrgftEvfnt.MOUSE_EXITED:
+                dispbtdiExitEvfnt(f);
+                brfbk;
+            dbsf SunDropTbrgftEvfnt.MOUSE_DROPPED:
+                dispbtdiDropEvfnt(f);
+                brfbk;
+            dffbult:
+                tirow nfw InvblidDnDOpfrbtionExdfption();
             }
         }
 
-        private void dispatchEnterEvent(SunDropTargetEvent e) {
-            synchronized (peer) {
+        privbtf void dispbtdiEntfrEvfnt(SunDropTbrgftEvfnt f) {
+            syndironizfd (pffr) {
 
-                // store the drop action here to track operation changes
-                peer.previousDA = dropAction;
+                // storf tif drop bdtion ifrf to trbdk opfrbtion dibngfs
+                pffr.prfviousDA = dropAdtion;
 
-                // setup peer context
-                peer.nativeDragContext = nativeCtxt;
-                peer.currentT          = formats;
-                peer.currentSA         = actions;
-                peer.currentDA         = dropAction;
-                // To allow data retrieval.
-                peer.dropStatus        = STATUS_ACCEPT;
-                peer.dropComplete      = false;
+                // sftup pffr dontfxt
+                pffr.nbtivfDrbgContfxt = nbtivfCtxt;
+                pffr.durrfntT          = formbts;
+                pffr.durrfntSA         = bdtions;
+                pffr.durrfntDA         = dropAdtion;
+                // To bllow dbtb rftrifvbl.
+                pffr.dropStbtus        = STATUS_ACCEPT;
+                pffr.dropComplftf      = fblsf;
 
                 try {
-                    peer.processEnterMessage(e);
-                } finally {
-                    peer.dropStatus        = STATUS_NONE;
+                    pffr.prodfssEntfrMfssbgf(f);
+                } finblly {
+                    pffr.dropStbtus        = STATUS_NONE;
                 }
 
-                setReturnValue(peer.currentDA);
+                sftRfturnVbluf(pffr.durrfntDA);
             }
         }
 
-        private void dispatchMotionEvent(SunDropTargetEvent e) {
-            synchronized (peer) {
+        privbtf void dispbtdiMotionEvfnt(SunDropTbrgftEvfnt f) {
+            syndironizfd (pffr) {
 
-                boolean operationChanged = peer.previousDA != dropAction;
-                peer.previousDA = dropAction;
+                boolfbn opfrbtionCibngfd = pffr.prfviousDA != dropAdtion;
+                pffr.prfviousDA = dropAdtion;
 
-                // setup peer context
-                peer.nativeDragContext = nativeCtxt;
-                peer.currentT          = formats;
-                peer.currentSA         = actions;
-                peer.currentDA         = dropAction;
-                // To allow data retrieval.
-                peer.dropStatus        = STATUS_ACCEPT;
-                peer.dropComplete      = false;
+                // sftup pffr dontfxt
+                pffr.nbtivfDrbgContfxt = nbtivfCtxt;
+                pffr.durrfntT          = formbts;
+                pffr.durrfntSA         = bdtions;
+                pffr.durrfntDA         = dropAdtion;
+                // To bllow dbtb rftrifvbl.
+                pffr.dropStbtus        = STATUS_ACCEPT;
+                pffr.dropComplftf      = fblsf;
 
                 try {
-                    peer.processMotionMessage(e, operationChanged);
-                } finally {
-                    peer.dropStatus        = STATUS_NONE;
+                    pffr.prodfssMotionMfssbgf(f, opfrbtionCibngfd);
+                } finblly {
+                    pffr.dropStbtus        = STATUS_NONE;
                 }
 
-                setReturnValue(peer.currentDA);
+                sftRfturnVbluf(pffr.durrfntDA);
             }
         }
 
-        private void dispatchExitEvent(SunDropTargetEvent e) {
-            synchronized (peer) {
+        privbtf void dispbtdiExitEvfnt(SunDropTbrgftEvfnt f) {
+            syndironizfd (pffr) {
 
-                // setup peer context
-                peer.nativeDragContext = nativeCtxt;
+                // sftup pffr dontfxt
+                pffr.nbtivfDrbgContfxt = nbtivfCtxt;
 
-                peer.processExitMessage(e);
+                pffr.prodfssExitMfssbgf(f);
             }
         }
 
-        private void dispatchDropEvent(SunDropTargetEvent e) {
-            synchronized (peer) {
+        privbtf void dispbtdiDropEvfnt(SunDropTbrgftEvfnt f) {
+            syndironizfd (pffr) {
 
-                // setup peer context
-                peer.nativeDragContext = nativeCtxt;
-                peer.currentT          = formats;
-                peer.currentSA         = actions;
-                peer.currentDA         = dropAction;
+                // sftup pffr dontfxt
+                pffr.nbtivfDrbgContfxt = nbtivfCtxt;
+                pffr.durrfntT          = formbts;
+                pffr.durrfntSA         = bdtions;
+                pffr.durrfntDA         = dropAdtion;
 
-                peer.processDropMessage(e);
+                pffr.prodfssDropMfssbgf(f);
             }
         }
 
-        void setReturnValue(int ret) {
-            returnValue = ret;
+        void sftRfturnVbluf(int rft) {
+            rfturnVbluf = rft;
         }
 
-        int getReturnValue() {
-            return returnValue;
+        int gftRfturnVbluf() {
+            rfturn rfturnVbluf;
         }
 
-        boolean isDone() {
-            return eventSet.isEmpty();
+        boolfbn isDonf() {
+            rfturn fvfntSft.isEmpty();
         }
 
-        void registerEvent(SunDropTargetEvent e) {
-            handler.lock();
-            if (!eventSet.add(e) && dndLog.isLoggable(PlatformLogger.Level.FINE)) {
-                dndLog.fine("Event is already registered: " + e);
+        void rfgistfrEvfnt(SunDropTbrgftEvfnt f) {
+            ibndlfr.lodk();
+            if (!fvfntSft.bdd(f) && dndLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                dndLog.finf("Evfnt is blrfbdy rfgistfrfd: " + f);
             }
-            handler.unlock();
+            ibndlfr.unlodk();
         }
 
-        void unregisterEvent(SunDropTargetEvent e) {
-            handler.lock();
+        void unrfgistfrEvfnt(SunDropTbrgftEvfnt f) {
+            ibndlfr.lodk();
             try {
-                if (!eventSet.remove(e)) {
-                    // This event has already been unregistered.
-                    return;
+                if (!fvfntSft.rfmovf(f)) {
+                    // Tiis fvfnt ibs blrfbdy bffn unrfgistfrfd.
+                    rfturn;
                 }
-                if (eventSet.isEmpty()) {
-                    if (!dispatcherDone && dispatchType == DISPATCH_SYNC) {
-                        handler.exit();
+                if (fvfntSft.isEmpty()) {
+                    if (!dispbtdifrDonf && dispbtdiTypf == DISPATCH_SYNC) {
+                        ibndlfr.fxit();
                     }
-                    dispatcherDone = true;
+                    dispbtdifrDonf = truf;
                 }
-            } finally {
-                handler.unlock();
+            } finblly {
+                ibndlfr.unlodk();
             }
 
             try {
-                peer.eventProcessed(e, returnValue, dispatcherDone);
-            } finally {
+                pffr.fvfntProdfssfd(f, rfturnVbluf, dispbtdifrDonf);
+            } finblly {
                 /*
-                 * Clear the reference to the native context if all copies of
-                 * the original event are processed.
+                 * Clfbr tif rfffrfndf to tif nbtivf dontfxt if bll dopifs of
+                 * tif originbl fvfnt brf prodfssfd.
                  */
-                if (dispatcherDone) {
-                    nativeCtxt = 0;
+                if (dispbtdifrDonf) {
+                    nbtivfCtxt = 0;
                     // Fix for 6342381
-                    peer.nativeDragContext = 0;
+                    pffr.nbtivfDrbgContfxt = 0;
 
                 }
             }
         }
 
-        public void unregisterAllEvents() {
-            Object[] events = null;
-            handler.lock();
+        publid void unrfgistfrAllEvfnts() {
+            Objfdt[] fvfnts = null;
+            ibndlfr.lodk();
             try {
-                events = eventSet.toArray();
-            } finally {
-                handler.unlock();
+                fvfnts = fvfntSft.toArrby();
+            } finblly {
+                ibndlfr.unlodk();
             }
 
-            if (events != null) {
-                for (int i = 0; i < events.length; i++) {
-                    unregisterEvent((SunDropTargetEvent)events[i]);
+            if (fvfnts != null) {
+                for (int i = 0; i < fvfnts.lfngti; i++) {
+                    unrfgistfrEvfnt((SunDropTbrgftEvfnt)fvfnts[i]);
                 }
             }
         }

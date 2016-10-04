@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2007, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.channels;
+pbdkbgf jbvb.nio.dibnnfls;
 
 /**
- * A handler for consuming the result of an asynchronous I/O operation.
+ * A ibndlfr for donsuming tif rfsult of bn bsyndironous I/O opfrbtion.
  *
- * <p> The asynchronous channels defined in this package allow a completion
- * handler to be specified to consume the result of an asynchronous operation.
- * The {@link #completed completed} method is invoked when the I/O operation
- * completes successfully. The {@link #failed failed} method is invoked if the
- * I/O operations fails. The implementations of these methods should complete
- * in a timely manner so as to avoid keeping the invoking thread from dispatching
- * to other completion handlers.
+ * <p> Tif bsyndironous dibnnfls dffinfd in tiis pbdkbgf bllow b domplftion
+ * ibndlfr to bf spfdififd to donsumf tif rfsult of bn bsyndironous opfrbtion.
+ * Tif {@link #domplftfd domplftfd} mftiod is invokfd wifn tif I/O opfrbtion
+ * domplftfs suddfssfully. Tif {@link #fbilfd fbilfd} mftiod is invokfd if tif
+ * I/O opfrbtions fbils. Tif implfmfntbtions of tifsf mftiods siould domplftf
+ * in b timfly mbnnfr so bs to bvoid kffping tif invoking tirfbd from dispbtdiing
+ * to otifr domplftion ibndlfrs.
  *
- * @param   <V>     The result type of the I/O operation
- * @param   <A>     The type of the object attached to the I/O operation
+ * @pbrbm   <V>     Tif rfsult typf of tif I/O opfrbtion
+ * @pbrbm   <A>     Tif typf of tif objfdt bttbdifd to tif I/O opfrbtion
  *
- * @since 1.7
+ * @sindf 1.7
  */
 
-public interface CompletionHandler<V,A> {
+publid intfrfbdf ComplftionHbndlfr<V,A> {
 
     /**
-     * Invoked when an operation has completed.
+     * Invokfd wifn bn opfrbtion ibs domplftfd.
      *
-     * @param   result
-     *          The result of the I/O operation.
-     * @param   attachment
-     *          The object attached to the I/O operation when it was initiated.
+     * @pbrbm   rfsult
+     *          Tif rfsult of tif I/O opfrbtion.
+     * @pbrbm   bttbdimfnt
+     *          Tif objfdt bttbdifd to tif I/O opfrbtion wifn it wbs initibtfd.
      */
-    void completed(V result, A attachment);
+    void domplftfd(V rfsult, A bttbdimfnt);
 
     /**
-     * Invoked when an operation fails.
+     * Invokfd wifn bn opfrbtion fbils.
      *
-     * @param   exc
-     *          The exception to indicate why the I/O operation failed
-     * @param   attachment
-     *          The object attached to the I/O operation when it was initiated.
+     * @pbrbm   fxd
+     *          Tif fxdfption to indidbtf wiy tif I/O opfrbtion fbilfd
+     * @pbrbm   bttbdimfnt
+     *          Tif objfdt bttbdifd to tif I/O opfrbtion wifn it wbs initibtfd.
      */
-    void failed(Throwable exc, A attachment);
+    void fbilfd(Tirowbblf fxd, A bttbdimfnt);
 }

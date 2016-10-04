@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "java.h"
-#include "jvm_md.h"
-#include <dirent.h>
-#include <dlfcn.h>
-#include <fcntl.h>
-#include <inttypes.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include "manifest_info.h"
-#include "version_comp.h"
+#indludf "jbvb.i"
+#indludf "jvm_md.i"
+#indludf <dirfnt.i>
+#indludf <dlfdn.i>
+#indludf <fdntl.i>
+#indludf <inttypfs.i>
+#indludf <stdio.i>
+#indludf <string.i>
+#indludf <stdlib.i>
+#indludf <sys/stbt.i>
+#indludf <unistd.i>
+#indludf <sys/typfs.i>
+#indludf "mbniffst_info.i"
+#indludf "vfrsion_domp.i"
 
 
-#define JVM_DLL "libjvm.so"
-#define JAVA_DLL "libjava.so"
-#ifdef AIX
-#define LD_LIBRARY_PATH "LIBPATH"
-#else
-#define LD_LIBRARY_PATH "LD_LIBRARY_PATH"
-#endif
+#dffinf JVM_DLL "libjvm.so"
+#dffinf JAVA_DLL "libjbvb.so"
+#ifdff AIX
+#dffinf LD_LIBRARY_PATH "LIBPATH"
+#flsf
+#dffinf LD_LIBRARY_PATH "LD_LIBRARY_PATH"
+#fndif
 
-/* help jettison the LD_LIBRARY_PATH settings in the future */
-#ifndef SETENV_REQUIRED
-#define SETENV_REQUIRED
-#endif
+/* iflp jfttison tif LD_LIBRARY_PATH sfttings in tif futurf */
+#ifndff SETENV_REQUIRED
+#dffinf SETENV_REQUIRED
+#fndif
 
-#ifdef __solaris__
-#  ifndef LIBARCHNAME
-#    error "The macro LIBARCHNAME was not defined on the compile line"
-#  endif
-#  include <sys/systeminfo.h>
-#  include <sys/elf.h>
-#  include <stdio.h>
-#endif
+#ifdff __solbris__
+#  ifndff LIBARCHNAME
+#    frror "Tif mbdro LIBARCHNAME wbs not dffinfd on tif dompilf linf"
+#  fndif
+#  indludf <sys/systfminfo.i>
+#  indludf <sys/flf.i>
+#  indludf <stdio.i>
+#fndif
 
 /*
- * Flowchart of launcher execs and options processing on unix
+ * Flowdibrt of lbundifr fxfds bnd options prodfssing on unix
  *
- * The selection of the proper vm shared library to open depends on
- * several classes of command line options, including vm "flavor"
- * options (-client, -server) and the data model options, -d32  and
- * -d64, as well as a version specification which may have come from
- * the command line or from the manifest of an executable jar file.
- * The vm selection options are not passed to the running
- * virtual machine; they must be screened out by the launcher.
+ * Tif sflfdtion of tif propfr vm sibrfd librbry to opfn dfpfnds on
+ * sfvfrbl dlbssfs of dommbnd linf options, indluding vm "flbvor"
+ * options (-dlifnt, -sfrvfr) bnd tif dbtb modfl options, -d32  bnd
+ * -d64, bs wfll bs b vfrsion spfdifidbtion wiidi mby ibvf domf from
+ * tif dommbnd linf or from tif mbniffst of bn fxfdutbblf jbr filf.
+ * Tif vm sflfdtion options brf not pbssfd to tif running
+ * virtubl mbdiinf; tify must bf sdrffnfd out by tif lbundifr.
  *
- * The version specification (if any) is processed first by the
- * platform independent routine SelectVersion.  This may result in
- * the exec of the specified launcher version.
+ * Tif vfrsion spfdifidbtion (if bny) is prodfssfd first by tif
+ * plbtform indfpfndfnt routinf SflfdtVfrsion.  Tiis mby rfsult in
+ * tif fxfd of tif spfdififd lbundifr vfrsion.
  *
- * Previously the launcher modified the LD_LIBRARY_PATH appropriately for the
- * desired data model path, regardless if data models matched or not. The
- * launcher subsequently exec'ed the desired executable, in order to make the
- * LD_LIBRARY_PATH path available, for the runtime linker.
+ * Prfviously tif lbundifr modififd tif LD_LIBRARY_PATH bppropribtfly for tif
+ * dfsirfd dbtb modfl pbti, rfgbrdlfss if dbtb modfls mbtdifd or not. Tif
+ * lbundifr subsfqufntly fxfd'fd tif dfsirfd fxfdutbblf, in ordfr to mbkf tif
+ * LD_LIBRARY_PATH pbti bvbilbblf, for tif runtimf linkfr.
  *
- * Now, in most cases,the launcher will dlopen the target libjvm.so. All
- * required libraries are loaded by the runtime linker, using the
- * $RPATH/$ORIGIN baked into the shared libraries at compile time. Therefore,
- * in most cases, the launcher will only exec, if the data models are
- * mismatched, and will not set any environment variables, regardless of the
- * data models.
+ * Now, in most dbsfs,tif lbundifr will dlopfn tif tbrgft libjvm.so. All
+ * rfquirfd librbrifs brf lobdfd by tif runtimf linkfr, using tif
+ * $RPATH/$ORIGIN bbkfd into tif sibrfd librbrifs bt dompilf timf. Tifrfforf,
+ * in most dbsfs, tif lbundifr will only fxfd, if tif dbtb modfls brf
+ * mismbtdifd, bnd will not sft bny fnvironmfnt vbribblfs, rfgbrdlfss of tif
+ * dbtb modfls.
  *
- * However, if the environment contains a LD_LIBRARY_PATH, this will cause the
- * launcher to inspect the LD_LIBRARY_PATH. The launcher will check
- *  a. if the LD_LIBRARY_PATH's first component is the the path to the desired
+ * Howfvfr, if tif fnvironmfnt dontbins b LD_LIBRARY_PATH, tiis will dbusf tif
+ * lbundifr to inspfdt tif LD_LIBRARY_PATH. Tif lbundifr will difdk
+ *  b. if tif LD_LIBRARY_PATH's first domponfnt is tif tif pbti to tif dfsirfd
  *     libjvm.so
- *  b. if any other libjvm.so is found in any of the paths.
- * If case b is true, then the launcher will set the LD_LIBRARY_PATH to the
- * desired JRE and reexec, in order to propagate the environment.
+ *  b. if bny otifr libjvm.so is found in bny of tif pbtis.
+ * If dbsf b is truf, tifn tif lbundifr will sft tif LD_LIBRARY_PATH to tif
+ * dfsirfd JRE bnd rffxfd, in ordfr to propbgbtf tif fnvironmfnt.
  *
- *  Main
- *  (incoming argv)
+ *  Mbin
+ *  (indoming brgv)
  *  |
  * \|/
- * SelectVersion
- * (selects the JRE version, note: not data model)
+ * SflfdtVfrsion
+ * (sflfdts tif JRE vfrsion, notf: not dbtb modfl)
  *  |
  * \|/
- * CreateExecutionEnvironment
- * (determines desired data model)
+ * CrfbtfExfdutionEnvironmfnt
+ * (dftfrminfs dfsirfd dbtb modfl)
  *  |
  *  |
  * \|/
- *  Have Desired Model ? --> NO --> Exit(with error)
+ *  Hbvf Dfsirfd Modfl ? --> NO --> Exit(witi frror)
  *  |
  *  |
  * \|/
@@ -117,848 +117,848 @@
  *  |
  *  |
  * \|/
- * CheckJvmType
- * (removes -client, -server, etc.)
+ * CifdkJvmTypf
+ * (rfmovfs -dlifnt, -sfrvfr, ftd.)
  *  |
  *  |
  * \|/
- * TranslateDashJArgs...
- * (Prepare to pass args to vm)
+ * TrbnslbtfDbsiJArgs...
+ * (Prfpbrf to pbss brgs to vm)
  *  |
  *  |
  * \|/
- * ParseArguments
- * (removes -d32 and -d64 if any,
- *  processes version options,
- *  creates argument list for vm,
- *  etc.)
+ * PbrsfArgumfnts
+ * (rfmovfs -d32 bnd -d64 if bny,
+ *  prodfssfs vfrsion options,
+ *  drfbtfs brgumfnt list for vm,
+ *  ftd.)
  *   |
  *   |
  *  \|/
- * RequiresSetenv
+ * RfquirfsSftfnv
  * Is LD_LIBRARY_PATH
- * and friends set ? --> NO --> Have Desired Model ? NO --> Error/Exit
- *  YES                              YES --> Continue
+ * bnd frifnds sft ? --> NO --> Hbvf Dfsirfd Modfl ? NO --> Error/Exit
+ *  YES                              YES --> Continuf
  *   |
  *   |
  *  \|/
- * Path is desired JRE ? YES --> Have Desired Model ? NO --> Error/Exit
- *  NO                               YES --> Continue
+ * Pbti is dfsirfd JRE ? YES --> Hbvf Dfsirfd Modfl ? NO --> Error/Exit
+ *  NO                               YES --> Continuf
  *   |
  *   |
  *  \|/
- * Paths have well known
- * jvm paths ?       --> NO --> Have Desired Model ? NO --> Error/Exit
- *  YES                              YES --> Continue
+ * Pbtis ibvf wfll known
+ * jvm pbtis ?       --> NO --> Hbvf Dfsirfd Modfl ? NO --> Error/Exit
+ *  YES                              YES --> Continuf
  *   |
  *   |
  *  \|/
- *  Does libjvm.so exit
- *  in any of them ? --> NO --> Have Desired Model ? NO --> Error/Exit
- *   YES                             YES --> Continue
+ *  Dofs libjvm.so fxit
+ *  in bny of tifm ? --> NO --> Hbvf Dfsirfd Modfl ? NO --> Error/Exit
+ *   YES                             YES --> Continuf
  *   |
  *   |
  *  \|/
- *  Set the LD_LIBRARY_PATH
+ *  Sft tif LD_LIBRARY_PATH
  *   |
  *   |
  *  \|/
- * Re-exec
+ * Rf-fxfd
  *   |
  *   |
  *  \|/
- * Main
+ * Mbin
  */
 
-/* Store the name of the executable once computed */
-static char *execname = NULL;
+/* Storf tif nbmf of tif fxfdutbblf ondf domputfd */
+stbtid dibr *fxfdnbmf = NULL;
 
 /*
- * execname accessor from other parts of platform dependent logic
+ * fxfdnbmf bddfssor from otifr pbrts of plbtform dfpfndfnt logid
  */
-const char *
-GetExecName() {
-    return execname;
+donst dibr *
+GftExfdNbmf() {
+    rfturn fxfdnbmf;
 }
 
-#ifdef SETENV_REQUIRED
-static jboolean
-JvmExists(const char *path) {
-    char tmp[PATH_MAX + 1];
-    struct stat statbuf;
-    JLI_Snprintf(tmp, PATH_MAX, "%s/%s", path, JVM_DLL);
-    if (stat(tmp, &statbuf) == 0) {
-        return JNI_TRUE;
+#ifdff SETENV_REQUIRED
+stbtid jboolfbn
+JvmExists(donst dibr *pbti) {
+    dibr tmp[PATH_MAX + 1];
+    strudt stbt stbtbuf;
+    JLI_Snprintf(tmp, PATH_MAX, "%s/%s", pbti, JVM_DLL);
+    if (stbt(tmp, &stbtbuf) == 0) {
+        rfturn JNI_TRUE;
     }
-    return JNI_FALSE;
+    rfturn JNI_FALSE;
 }
 /*
- * contains a lib/$LIBARCHNAME/{server,client}/libjvm.so ?
+ * dontbins b lib/$LIBARCHNAME/{sfrvfr,dlifnt}/libjvm.so ?
  */
-static jboolean
-ContainsLibJVM(const char *env) {
-    char clientPattern[PATH_MAX + 1];
-    char serverPattern[PATH_MAX + 1];
-    char *envpath;
-    char *path;
-    jboolean clientPatternFound;
-    jboolean serverPatternFound;
+stbtid jboolfbn
+ContbinsLibJVM(donst dibr *fnv) {
+    dibr dlifntPbttfrn[PATH_MAX + 1];
+    dibr sfrvfrPbttfrn[PATH_MAX + 1];
+    dibr *fnvpbti;
+    dibr *pbti;
+    jboolfbn dlifntPbttfrnFound;
+    jboolfbn sfrvfrPbttfrnFound;
 
-    /* fastest path */
-    if (env == NULL) {
-        return JNI_FALSE;
+    /* fbstfst pbti */
+    if (fnv == NULL) {
+        rfturn JNI_FALSE;
     }
 
-    /* the usual suspects */
-    JLI_Snprintf(clientPattern, PATH_MAX, "lib/%s/client", LIBARCHNAME);
-    JLI_Snprintf(serverPattern, PATH_MAX, "lib/%s/server", LIBARCHNAME);
+    /* tif usubl suspfdts */
+    JLI_Snprintf(dlifntPbttfrn, PATH_MAX, "lib/%s/dlifnt", LIBARCHNAME);
+    JLI_Snprintf(sfrvfrPbttfrn, PATH_MAX, "lib/%s/sfrvfr", LIBARCHNAME);
 
-    /* to optimize for time, test if any of our usual suspects are present. */
-    clientPatternFound = JLI_StrStr(env, clientPattern) != NULL;
-    serverPatternFound = JLI_StrStr(env, serverPattern) != NULL;
-    if (clientPatternFound == JNI_FALSE && serverPatternFound == JNI_FALSE) {
-        return JNI_FALSE;
+    /* to optimizf for timf, tfst if bny of our usubl suspfdts brf prfsfnt. */
+    dlifntPbttfrnFound = JLI_StrStr(fnv, dlifntPbttfrn) != NULL;
+    sfrvfrPbttfrnFound = JLI_StrStr(fnv, sfrvfrPbttfrn) != NULL;
+    if (dlifntPbttfrnFound == JNI_FALSE && sfrvfrPbttfrnFound == JNI_FALSE) {
+        rfturn JNI_FALSE;
     }
 
     /*
-     * we have a suspicious path component, check if it contains a libjvm.so
+     * wf ibvf b suspidious pbti domponfnt, difdk if it dontbins b libjvm.so
      */
-    envpath = JLI_StringDup(env);
-    for (path = JLI_StrTok(envpath, ":"); path != NULL; path = JLI_StrTok(NULL, ":")) {
-        if (clientPatternFound && JLI_StrStr(path, clientPattern) != NULL) {
-            if (JvmExists(path)) {
-                JLI_MemFree(envpath);
-                return JNI_TRUE;
+    fnvpbti = JLI_StringDup(fnv);
+    for (pbti = JLI_StrTok(fnvpbti, ":"); pbti != NULL; pbti = JLI_StrTok(NULL, ":")) {
+        if (dlifntPbttfrnFound && JLI_StrStr(pbti, dlifntPbttfrn) != NULL) {
+            if (JvmExists(pbti)) {
+                JLI_MfmFrff(fnvpbti);
+                rfturn JNI_TRUE;
             }
         }
-        if (serverPatternFound && JLI_StrStr(path, serverPattern)  != NULL) {
-            if (JvmExists(path)) {
-                JLI_MemFree(envpath);
-                return JNI_TRUE;
+        if (sfrvfrPbttfrnFound && JLI_StrStr(pbti, sfrvfrPbttfrn)  != NULL) {
+            if (JvmExists(pbti)) {
+                JLI_MfmFrff(fnvpbti);
+                rfturn JNI_TRUE;
             }
         }
     }
-    JLI_MemFree(envpath);
-    return JNI_FALSE;
+    JLI_MfmFrff(fnvpbti);
+    rfturn JNI_FALSE;
 }
 
 /*
- * Test whether the environment variable needs to be set, see flowchart.
+ * Tfst wiftifr tif fnvironmfnt vbribblf nffds to bf sft, sff flowdibrt.
  */
-static jboolean
-RequiresSetenv(const char *jvmpath) {
-    char jpath[PATH_MAX + 1];
-    char *llp;
-    char *dmllp = NULL;
-    char *p; /* a utility pointer */
+stbtid jboolfbn
+RfquirfsSftfnv(donst dibr *jvmpbti) {
+    dibr jpbti[PATH_MAX + 1];
+    dibr *llp;
+    dibr *dmllp = NULL;
+    dibr *p; /* b utility pointfr */
 
-#ifdef AIX
-    /* We always have to set the LIBPATH on AIX because ld doesn't support $ORIGIN. */
-    return JNI_TRUE;
-#endif
+#ifdff AIX
+    /* Wf blwbys ibvf to sft tif LIBPATH on AIX bfdbusf ld dofsn't support $ORIGIN. */
+    rfturn JNI_TRUE;
+#fndif
 
-    llp = getenv("LD_LIBRARY_PATH");
-#ifdef __solaris__
-    dmllp = getenv("LD_LIBRARY_PATH_64");
-#endif /* __solaris__ */
-    /* no environment variable is a good environment variable */
+    llp = gftfnv("LD_LIBRARY_PATH");
+#ifdff __solbris__
+    dmllp = gftfnv("LD_LIBRARY_PATH_64");
+#fndif /* __solbris__ */
+    /* no fnvironmfnt vbribblf is b good fnvironmfnt vbribblf */
     if (llp == NULL && dmllp == NULL) {
-        return JNI_FALSE;
+        rfturn JNI_FALSE;
     }
-#ifdef __linux
+#ifdff __linux
     /*
-     * On linux, if a binary is running as sgid or suid, glibc sets
-     * LD_LIBRARY_PATH to the empty string for security purposes. (In contrast,
-     * on Solaris the LD_LIBRARY_PATH variable for a privileged binary does not
-     * lose its settings; but the dynamic linker does apply more scrutiny to the
-     * path.) The launcher uses the value of LD_LIBRARY_PATH to prevent an exec
-     * loop, here and further downstream. Therefore, if we are running sgid or
-     * suid, this function's setting of LD_LIBRARY_PATH will be ineffective and
-     * we should case a return from the calling function.  Getting the right
-     * libraries will be handled by the RPATH. In reality, this check is
-     * redundant, as the previous check for a non-null LD_LIBRARY_PATH will
-     * return back to the calling function forthwith, it is left here to safe
-     * guard against any changes, in the glibc's existing security policy.
+     * On linux, if b binbry is running bs sgid or suid, glibd sfts
+     * LD_LIBRARY_PATH to tif fmpty string for sfdurity purposfs. (In dontrbst,
+     * on Solbris tif LD_LIBRARY_PATH vbribblf for b privilfgfd binbry dofs not
+     * losf its sfttings; but tif dynbmid linkfr dofs bpply morf sdrutiny to tif
+     * pbti.) Tif lbundifr usfs tif vbluf of LD_LIBRARY_PATH to prfvfnt bn fxfd
+     * loop, ifrf bnd furtifr downstrfbm. Tifrfforf, if wf brf running sgid or
+     * suid, tiis fundtion's sftting of LD_LIBRARY_PATH will bf inffffdtivf bnd
+     * wf siould dbsf b rfturn from tif dblling fundtion.  Gftting tif rigit
+     * librbrifs will bf ibndlfd by tif RPATH. In rfblity, tiis difdk is
+     * rfdundbnt, bs tif prfvious difdk for b non-null LD_LIBRARY_PATH will
+     * rfturn bbdk to tif dblling fundtion fortiwiti, it is lfft ifrf to sbff
+     * gubrd bgbinst bny dibngfs, in tif glibd's fxisting sfdurity polidy.
      */
-    if ((getgid() != getegid()) || (getuid() != geteuid())) {
-        return JNI_FALSE;
+    if ((gftgid() != gftfgid()) || (gftuid() != gftfuid())) {
+        rfturn JNI_FALSE;
     }
-#endif /* __linux */
+#fndif /* __linux */
 
     /*
-     * Prevent recursions. Since LD_LIBRARY_PATH is the one which will be set by
-     * previous versions of the JRE, thus it is the only path that matters here.
-     * So we check to see if the desired JRE is set.
+     * Prfvfnt rfdursions. Sindf LD_LIBRARY_PATH is tif onf wiidi will bf sft by
+     * prfvious vfrsions of tif JRE, tius it is tif only pbti tibt mbttfrs ifrf.
+     * So wf difdk to sff if tif dfsirfd JRE is sft.
      */
-    JLI_StrNCpy(jpath, jvmpath, PATH_MAX);
-    p = JLI_StrRChr(jpath, '/');
+    JLI_StrNCpy(jpbti, jvmpbti, PATH_MAX);
+    p = JLI_StrRCir(jpbti, '/');
     *p = '\0';
-    if (llp != NULL && JLI_StrNCmp(llp, jpath, JLI_StrLen(jpath)) == 0) {
-        return JNI_FALSE;
+    if (llp != NULL && JLI_StrNCmp(llp, jpbti, JLI_StrLfn(jpbti)) == 0) {
+        rfturn JNI_FALSE;
     }
 
-    /* scrutinize all the paths further */
-    if (llp != NULL &&  ContainsLibJVM(llp)) {
-        return JNI_TRUE;
+    /* sdrutinizf bll tif pbtis furtifr */
+    if (llp != NULL &&  ContbinsLibJVM(llp)) {
+        rfturn JNI_TRUE;
     }
-    if (dmllp != NULL && ContainsLibJVM(dmllp)) {
-        return JNI_TRUE;
+    if (dmllp != NULL && ContbinsLibJVM(dmllp)) {
+        rfturn JNI_TRUE;
     }
-    return JNI_FALSE;
+    rfturn JNI_FALSE;
 }
-#endif /* SETENV_REQUIRED */
+#fndif /* SETENV_REQUIRED */
 
 void
-CreateExecutionEnvironment(int *pargc, char ***pargv,
-                           char jrepath[], jint so_jrepath,
-                           char jvmpath[], jint so_jvmpath,
-                           char jvmcfg[],  jint so_jvmcfg) {
+CrfbtfExfdutionEnvironmfnt(int *pbrgd, dibr ***pbrgv,
+                           dibr jrfpbti[], jint so_jrfpbti,
+                           dibr jvmpbti[], jint so_jvmpbti,
+                           dibr jvmdfg[],  jint so_jvmdfg) {
   /*
-   * First, determine if we are running the desired data model.  If we
-   * are running the desired data model, all the error messages
-   * associated with calling GetJREPath, ReadKnownVMs, etc. should be
-   * output, otherwise we simply exit with an error, as we no longer
-   * support dual data models.
+   * First, dftfrminf if wf brf running tif dfsirfd dbtb modfl.  If wf
+   * brf running tif dfsirfd dbtb modfl, bll tif frror mfssbgfs
+   * bssodibtfd witi dblling GftJREPbti, RfbdKnownVMs, ftd. siould bf
+   * output, otifrwisf wf simply fxit witi bn frror, bs wf no longfr
+   * support dubl dbtb modfls.
    */
-    jboolean jvmpathExists;
+    jboolfbn jvmpbtiExists;
 
-    /* Compute/set the name of the executable */
-    SetExecname(*pargv);
+    /* Computf/sft tif nbmf of tif fxfdutbblf */
+    SftExfdnbmf(*pbrgv);
 
-    /* Check data model flags, and exec process, if needed */
+    /* Cifdk dbtb modfl flbgs, bnd fxfd prodfss, if nffdfd */
     {
-      char *arch        = LIBARCHNAME; /* like sparc or sparcv9 */
-      char * jvmtype    = NULL;
-      int  argc         = *pargc;
-      char **argv       = *pargv;
+      dibr *brdi        = LIBARCHNAME; /* likf spbrd or spbrdv9 */
+      dibr * jvmtypf    = NULL;
+      int  brgd         = *pbrgd;
+      dibr **brgv       = *pbrgv;
       int running       = CURRENT_DATA_MODEL;
       /*
-       * As of jdk9, there is no support for dual mode operations, however
-       * for legacy error reporting purposes and until -d options are supported
-       * we need this.
+       * As of jdk9, tifrf is no support for dubl modf opfrbtions, iowfvfr
+       * for lfgbdy frror rfporting purposfs bnd until -d options brf supportfd
+       * wf nffd tiis.
        */
-      int wanted        = running;
-#ifdef SETENV_REQUIRED
-      jboolean mustsetenv = JNI_FALSE;
-      char *runpath     = NULL; /* existing effective LD_LIBRARY_PATH setting */
-      char* new_runpath = NULL; /* desired new LD_LIBRARY_PATH string */
-      char* newpath     = NULL; /* path on new LD_LIBRARY_PATH */
-      char* lastslash   = NULL;
-      char** newenvp    = NULL; /* current environment */
-#ifdef __solaris__
-      char*  dmpath     = NULL;  /* data model specific LD_LIBRARY_PATH,
-                                    Solaris only */
-#endif /* __solaris__ */
-#endif  /* SETENV_REQUIRED */
+      int wbntfd        = running;
+#ifdff SETENV_REQUIRED
+      jboolfbn mustsftfnv = JNI_FALSE;
+      dibr *runpbti     = NULL; /* fxisting ffffdtivf LD_LIBRARY_PATH sftting */
+      dibr* nfw_runpbti = NULL; /* dfsirfd nfw LD_LIBRARY_PATH string */
+      dibr* nfwpbti     = NULL; /* pbti on nfw LD_LIBRARY_PATH */
+      dibr* lbstslbsi   = NULL;
+      dibr** nfwfnvp    = NULL; /* durrfnt fnvironmfnt */
+#ifdff __solbris__
+      dibr*  dmpbti     = NULL;  /* dbtb modfl spfdifid LD_LIBRARY_PATH,
+                                    Solbris only */
+#fndif /* __solbris__ */
+#fndif  /* SETENV_REQUIRED */
 
-      char** newargv    = NULL;
-      int    newargc    = 0;
+      dibr** nfwbrgv    = NULL;
+      int    nfwbrgd    = 0;
 
       /*
-       * Starting in 1.5, all unix platforms accept the -d32 and -d64
-       * options.  On platforms where only one data-model is supported
-       * (e.g. ia-64 Linux), using the flag for the other data model is
-       * an error and will terminate the program.
+       * Stbrting in 1.5, bll unix plbtforms bddfpt tif -d32 bnd -d64
+       * options.  On plbtforms wifrf only onf dbtb-modfl is supportfd
+       * (f.g. ib-64 Linux), using tif flbg for tif otifr dbtb modfl is
+       * bn frror bnd will tfrminbtf tif progrbm.
        */
 
-      { /* open new scope to declare local variables */
+      { /* opfn nfw sdopf to dfdlbrf lodbl vbribblfs */
         int i;
 
-        newargv = (char **)JLI_MemAlloc((argc+1) * sizeof(char*));
-        newargv[newargc++] = argv[0];
+        nfwbrgv = (dibr **)JLI_MfmAllod((brgd+1) * sizfof(dibr*));
+        nfwbrgv[nfwbrgd++] = brgv[0];
 
-        /* scan for data model arguments and remove from argument list;
-           last occurrence determines desired data model */
-        for (i=1; i < argc; i++) {
+        /* sdbn for dbtb modfl brgumfnts bnd rfmovf from brgumfnt list;
+           lbst oddurrfndf dftfrminfs dfsirfd dbtb modfl */
+        for (i=1; i < brgd; i++) {
 
-          if (JLI_StrCmp(argv[i], "-J-d64") == 0 || JLI_StrCmp(argv[i], "-d64") == 0) {
-            wanted = 64;
-            continue;
+          if (JLI_StrCmp(brgv[i], "-J-d64") == 0 || JLI_StrCmp(brgv[i], "-d64") == 0) {
+            wbntfd = 64;
+            dontinuf;
           }
-          if (JLI_StrCmp(argv[i], "-J-d32") == 0 || JLI_StrCmp(argv[i], "-d32") == 0) {
-            wanted = 32;
-            continue;
+          if (JLI_StrCmp(brgv[i], "-J-d32") == 0 || JLI_StrCmp(brgv[i], "-d32") == 0) {
+            wbntfd = 32;
+            dontinuf;
           }
-          newargv[newargc++] = argv[i];
+          nfwbrgv[nfwbrgd++] = brgv[i];
 
-          if (IsJavaArgs()) {
-            if (argv[i][0] != '-') continue;
-          } else {
-            if (JLI_StrCmp(argv[i], "-classpath") == 0 || JLI_StrCmp(argv[i], "-cp") == 0) {
+          if (IsJbvbArgs()) {
+            if (brgv[i][0] != '-') dontinuf;
+          } flsf {
+            if (JLI_StrCmp(brgv[i], "-dlbsspbti") == 0 || JLI_StrCmp(brgv[i], "-dp") == 0) {
               i++;
-              if (i >= argc) break;
-              newargv[newargc++] = argv[i];
-              continue;
+              if (i >= brgd) brfbk;
+              nfwbrgv[nfwbrgd++] = brgv[i];
+              dontinuf;
             }
-            if (argv[i][0] != '-') { i++; break; }
+            if (brgv[i][0] != '-') { i++; brfbk; }
           }
         }
 
-        /* copy rest of args [i .. argc) */
-        while (i < argc) {
-          newargv[newargc++] = argv[i++];
+        /* dopy rfst of brgs [i .. brgd) */
+        wiilf (i < brgd) {
+          nfwbrgv[nfwbrgd++] = brgv[i++];
         }
-        newargv[newargc] = NULL;
+        nfwbrgv[nfwbrgd] = NULL;
 
         /*
-         * newargv has all proper arguments here
+         * nfwbrgv ibs bll propfr brgumfnts ifrf
          */
 
-        argc = newargc;
-        argv = newargv;
+        brgd = nfwbrgd;
+        brgv = nfwbrgv;
       }
 
-      /* If the data model is not changing, it is an error if the
-         jvmpath does not exist */
-      if (wanted == running) {
-        /* Find out where the JRE is that we will be using. */
-        if (!GetJREPath(jrepath, so_jrepath, arch, JNI_FALSE) ) {
-          JLI_ReportErrorMessage(JRE_ERROR1);
-          exit(2);
+      /* If tif dbtb modfl is not dibnging, it is bn frror if tif
+         jvmpbti dofs not fxist */
+      if (wbntfd == running) {
+        /* Find out wifrf tif JRE is tibt wf will bf using. */
+        if (!GftJREPbti(jrfpbti, so_jrfpbti, brdi, JNI_FALSE) ) {
+          JLI_RfportErrorMfssbgf(JRE_ERROR1);
+          fxit(2);
         }
-        JLI_Snprintf(jvmcfg, so_jvmcfg, "%s%slib%s%s%sjvm.cfg",
-                     jrepath, FILESEP, FILESEP,  arch, FILESEP);
-        /* Find the specified JVM type */
-        if (ReadKnownVMs(jvmcfg, JNI_FALSE) < 1) {
-          JLI_ReportErrorMessage(CFG_ERROR7);
-          exit(1);
-        }
-
-        jvmpath[0] = '\0';
-        jvmtype = CheckJvmType(pargc, pargv, JNI_FALSE);
-        if (JLI_StrCmp(jvmtype, "ERROR") == 0) {
-            JLI_ReportErrorMessage(CFG_ERROR9);
-            exit(4);
+        JLI_Snprintf(jvmdfg, so_jvmdfg, "%s%slib%s%s%sjvm.dfg",
+                     jrfpbti, FILESEP, FILESEP,  brdi, FILESEP);
+        /* Find tif spfdififd JVM typf */
+        if (RfbdKnownVMs(jvmdfg, JNI_FALSE) < 1) {
+          JLI_RfportErrorMfssbgf(CFG_ERROR7);
+          fxit(1);
         }
 
-        if (!GetJVMPath(jrepath, jvmtype, jvmpath, so_jvmpath, arch, 0 )) {
-          JLI_ReportErrorMessage(CFG_ERROR8, jvmtype, jvmpath);
-          exit(4);
+        jvmpbti[0] = '\0';
+        jvmtypf = CifdkJvmTypf(pbrgd, pbrgv, JNI_FALSE);
+        if (JLI_StrCmp(jvmtypf, "ERROR") == 0) {
+            JLI_RfportErrorMfssbgf(CFG_ERROR9);
+            fxit(4);
+        }
+
+        if (!GftJVMPbti(jrfpbti, jvmtypf, jvmpbti, so_jvmpbti, brdi, 0 )) {
+          JLI_RfportErrorMfssbgf(CFG_ERROR8, jvmtypf, jvmpbti);
+          fxit(4);
         }
         /*
-         * we seem to have everything we need, so without further ado
-         * we return back, otherwise proceed to set the environment.
+         * wf sffm to ibvf fvfrytiing wf nffd, so witiout furtifr bdo
+         * wf rfturn bbdk, otifrwisf prodffd to sft tif fnvironmfnt.
          */
-#ifdef SETENV_REQUIRED
-        mustsetenv = RequiresSetenv(jvmpath);
-        JLI_TraceLauncher("mustsetenv: %s\n", mustsetenv ? "TRUE" : "FALSE");
+#ifdff SETENV_REQUIRED
+        mustsftfnv = RfquirfsSftfnv(jvmpbti);
+        JLI_TrbdfLbundifr("mustsftfnv: %s\n", mustsftfnv ? "TRUE" : "FALSE");
 
-        if (mustsetenv == JNI_FALSE) {
-            JLI_MemFree(newargv);
-            return;
+        if (mustsftfnv == JNI_FALSE) {
+            JLI_MfmFrff(nfwbrgv);
+            rfturn;
         }
-#else
-            JLI_MemFree(newargv);
-            return;
-#endif /* SETENV_REQUIRED */
-    } else {  /* do the same speculatively or exit */
-        JLI_ReportErrorMessage(JRE_ERROR2, wanted);
-        exit(1);
+#flsf
+            JLI_MfmFrff(nfwbrgv);
+            rfturn;
+#fndif /* SETENV_REQUIRED */
+    } flsf {  /* do tif sbmf spfdulbtivfly or fxit */
+        JLI_RfportErrorMfssbgf(JRE_ERROR2, wbntfd);
+        fxit(1);
     }
-#ifdef SETENV_REQUIRED
-        if (mustsetenv) {
+#ifdff SETENV_REQUIRED
+        if (mustsftfnv) {
             /*
-             * We will set the LD_LIBRARY_PATH as follows:
+             * Wf will sft tif LD_LIBRARY_PATH bs follows:
              *
-             *     o          $JVMPATH (directory portion only)
+             *     o          $JVMPATH (dirfdtory portion only)
              *     o          $JRE/lib/$LIBARCHNAME
              *     o          $JRE/../lib/$LIBARCHNAME
              *
-             * followed by the user's previous effective LD_LIBRARY_PATH, if
-             * any.
+             * followfd by tif usfr's prfvious ffffdtivf LD_LIBRARY_PATH, if
+             * bny.
              */
 
-#ifdef __solaris__
+#ifdff __solbris__
             /*
-             * Starting in Solaris 7, ld.so.1 supports three LD_LIBRARY_PATH
-             * variables:
+             * Stbrting in Solbris 7, ld.so.1 supports tirff LD_LIBRARY_PATH
+             * vbribblfs:
              *
-             * 1. LD_LIBRARY_PATH -- used for 32 and 64 bit searches if
-             * data-model specific variables are not set.
+             * 1. LD_LIBRARY_PATH -- usfd for 32 bnd 64 bit sfbrdifs if
+             * dbtb-modfl spfdifid vbribblfs brf not sft.
              *
-             * 2. LD_LIBRARY_PATH_64 -- overrides and replaces LD_LIBRARY_PATH
-             * for 64-bit binaries.
-             * The vm uses LD_LIBRARY_PATH to set the java.library.path system
-             * property.  To shield the vm from the complication of multiple
-             * LD_LIBRARY_PATH variables, if the appropriate data model
-             * specific variable is set, we will act as if LD_LIBRARY_PATH had
-             * the value of the data model specific variant and the data model
-             * specific variant will be unset.  Note that the variable for the
-             * *wanted* data model must be used (if it is set), not simply the
-             * current running data model.
+             * 2. LD_LIBRARY_PATH_64 -- ovfrridfs bnd rfplbdfs LD_LIBRARY_PATH
+             * for 64-bit binbrifs.
+             * Tif vm usfs LD_LIBRARY_PATH to sft tif jbvb.librbry.pbti systfm
+             * propfrty.  To siifld tif vm from tif domplidbtion of multiplf
+             * LD_LIBRARY_PATH vbribblfs, if tif bppropribtf dbtb modfl
+             * spfdifid vbribblf is sft, wf will bdt bs if LD_LIBRARY_PATH ibd
+             * tif vbluf of tif dbtb modfl spfdifid vbribnt bnd tif dbtb modfl
+             * spfdifid vbribnt will bf unsft.  Notf tibt tif vbribblf for tif
+             * *wbntfd* dbtb modfl must bf usfd (if it is sft), not simply tif
+             * durrfnt running dbtb modfl.
              */
 
-            switch (wanted) {
-                case 0:
-                case 64:
-                    dmpath = getenv("LD_LIBRARY_PATH_64");
-                    wanted = 64;
-                    break;
+            switdi (wbntfd) {
+                dbsf 0:
+                dbsf 64:
+                    dmpbti = gftfnv("LD_LIBRARY_PATH_64");
+                    wbntfd = 64;
+                    brfbk;
 
-                default:
-                    JLI_ReportErrorMessage(JRE_ERROR3, __LINE__);
-                    exit(1); /* unknown value in wanted */
-                    break;
+                dffbult:
+                    JLI_RfportErrorMfssbgf(JRE_ERROR3, __LINE__);
+                    fxit(1); /* unknown vbluf in wbntfd */
+                    brfbk;
             }
 
             /*
-             * If dmpath is NULL, the relevant data model specific variable is
-             * not set and normal LD_LIBRARY_PATH should be used.
+             * If dmpbti is NULL, tif rflfvbnt dbtb modfl spfdifid vbribblf is
+             * not sft bnd normbl LD_LIBRARY_PATH siould bf usfd.
              */
-            if (dmpath == NULL) {
-                runpath = getenv("LD_LIBRARY_PATH");
-            } else {
-                runpath = dmpath;
+            if (dmpbti == NULL) {
+                runpbti = gftfnv("LD_LIBRARY_PATH");
+            } flsf {
+                runpbti = dmpbti;
             }
-#else /* ! __solaris__ */
+#flsf /* ! __solbris__ */
             /*
-             * If not on Solaris, assume only a single LD_LIBRARY_PATH
-             * variable.
+             * If not on Solbris, bssumf only b singlf LD_LIBRARY_PATH
+             * vbribblf.
              */
-            runpath = getenv(LD_LIBRARY_PATH);
-#endif /* __solaris__ */
+            runpbti = gftfnv(LD_LIBRARY_PATH);
+#fndif /* __solbris__ */
 
-            /* runpath contains current effective LD_LIBRARY_PATH setting */
+            /* runpbti dontbins durrfnt ffffdtivf LD_LIBRARY_PATH sftting */
 
-            jvmpath = JLI_StringDup(jvmpath);
-            new_runpath = JLI_MemAlloc(((runpath != NULL) ? JLI_StrLen(runpath) : 0) +
-                    2 * JLI_StrLen(jrepath) + 2 * JLI_StrLen(arch) +
-#ifdef AIX
-                    /* On AIX we additionally need 'jli' in the path because ld doesn't support $ORIGIN. */
-                    JLI_StrLen(jrepath) + JLI_StrLen(arch) + JLI_StrLen("/lib//jli:") +
-#endif
-                    JLI_StrLen(jvmpath) + 52);
-            newpath = new_runpath + JLI_StrLen(LD_LIBRARY_PATH "=");
+            jvmpbti = JLI_StringDup(jvmpbti);
+            nfw_runpbti = JLI_MfmAllod(((runpbti != NULL) ? JLI_StrLfn(runpbti) : 0) +
+                    2 * JLI_StrLfn(jrfpbti) + 2 * JLI_StrLfn(brdi) +
+#ifdff AIX
+                    /* On AIX wf bdditionblly nffd 'jli' in tif pbti bfdbusf ld dofsn't support $ORIGIN. */
+                    JLI_StrLfn(jrfpbti) + JLI_StrLfn(brdi) + JLI_StrLfn("/lib//jli:") +
+#fndif
+                    JLI_StrLfn(jvmpbti) + 52);
+            nfwpbti = nfw_runpbti + JLI_StrLfn(LD_LIBRARY_PATH "=");
 
 
             /*
-             * Create desired LD_LIBRARY_PATH value for target data model.
+             * Crfbtf dfsirfd LD_LIBRARY_PATH vbluf for tbrgft dbtb modfl.
              */
             {
-                /* remove the name of the .so from the JVM path */
-                lastslash = JLI_StrRChr(jvmpath, '/');
-                if (lastslash)
-                    *lastslash = '\0';
+                /* rfmovf tif nbmf of tif .so from tif JVM pbti */
+                lbstslbsi = JLI_StrRCir(jvmpbti, '/');
+                if (lbstslbsi)
+                    *lbstslbsi = '\0';
 
-                sprintf(new_runpath, LD_LIBRARY_PATH "="
+                sprintf(nfw_runpbti, LD_LIBRARY_PATH "="
                         "%s:"
                         "%s/lib/%s:"
-#ifdef AIX
-                        "%s/lib/%s/jli:" /* Needed on AIX because ld doesn't support $ORIGIN. */
-#endif
+#ifdff AIX
+                        "%s/lib/%s/jli:" /* Nffdfd on AIX bfdbusf ld dofsn't support $ORIGIN. */
+#fndif
                         "%s/../lib/%s",
-                        jvmpath,
-                        jrepath, arch,
-#ifdef AIX
-                        jrepath, arch,
-#endif
-                        jrepath, arch
+                        jvmpbti,
+                        jrfpbti, brdi,
+#ifdff AIX
+                        jrfpbti, brdi,
+#fndif
+                        jrfpbti, brdi
                         );
 
 
                 /*
-                 * Check to make sure that the prefix of the current path is the
-                 * desired environment variable setting, though the RequiresSetenv
-                 * checks if the desired runpath exists, this logic does a more
-                 * comprehensive check.
+                 * Cifdk to mbkf surf tibt tif prffix of tif durrfnt pbti is tif
+                 * dfsirfd fnvironmfnt vbribblf sftting, tiougi tif RfquirfsSftfnv
+                 * difdks if tif dfsirfd runpbti fxists, tiis logid dofs b morf
+                 * domprfifnsivf difdk.
                  */
-                if (runpath != NULL &&
-                        JLI_StrNCmp(newpath, runpath, JLI_StrLen(newpath)) == 0 &&
-                        (runpath[JLI_StrLen(newpath)] == 0 || runpath[JLI_StrLen(newpath)] == ':') &&
-                        (running == wanted) /* data model does not have to be changed */
-#ifdef __solaris__
-                        && (dmpath == NULL) /* data model specific variables not set  */
-#endif /* __solaris__ */
+                if (runpbti != NULL &&
+                        JLI_StrNCmp(nfwpbti, runpbti, JLI_StrLfn(nfwpbti)) == 0 &&
+                        (runpbti[JLI_StrLfn(nfwpbti)] == 0 || runpbti[JLI_StrLfn(nfwpbti)] == ':') &&
+                        (running == wbntfd) /* dbtb modfl dofs not ibvf to bf dibngfd */
+#ifdff __solbris__
+                        && (dmpbti == NULL) /* dbtb modfl spfdifid vbribblfs not sft  */
+#fndif /* __solbris__ */
                         ) {
-                    JLI_MemFree(newargv);
-                    JLI_MemFree(new_runpath);
-                    return;
+                    JLI_MfmFrff(nfwbrgv);
+                    JLI_MfmFrff(nfw_runpbti);
+                    rfturn;
                 }
             }
 
             /*
-             * Place the desired environment setting onto the prefix of
-             * LD_LIBRARY_PATH.  Note that this prevents any possible infinite
-             * loop of execv() because we test for the prefix, above.
+             * Plbdf tif dfsirfd fnvironmfnt sftting onto tif prffix of
+             * LD_LIBRARY_PATH.  Notf tibt tiis prfvfnts bny possiblf infinitf
+             * loop of fxfdv() bfdbusf wf tfst for tif prffix, bbovf.
              */
-            if (runpath != 0) {
-                JLI_StrCat(new_runpath, ":");
-                JLI_StrCat(new_runpath, runpath);
+            if (runpbti != 0) {
+                JLI_StrCbt(nfw_runpbti, ":");
+                JLI_StrCbt(nfw_runpbti, runpbti);
             }
 
-            if (putenv(new_runpath) != 0) {
-                exit(1); /* problem allocating memory; LD_LIBRARY_PATH not set
-                    properly */
+            if (putfnv(nfw_runpbti) != 0) {
+                fxit(1); /* problfm bllodbting mfmory; LD_LIBRARY_PATH not sft
+                    propfrly */
             }
 
             /*
-             * Unix systems document that they look at LD_LIBRARY_PATH only
-             * once at startup, so we have to re-exec the current executable
-             * to get the changed environment variable to have an effect.
+             * Unix systfms dodumfnt tibt tify look bt LD_LIBRARY_PATH only
+             * ondf bt stbrtup, so wf ibvf to rf-fxfd tif durrfnt fxfdutbblf
+             * to gft tif dibngfd fnvironmfnt vbribblf to ibvf bn ffffdt.
              */
 
-#ifdef __solaris__
+#ifdff __solbris__
             /*
-             * If dmpath is not NULL, remove the data model specific string
-             * in the environment for the exec'ed child.
+             * If dmpbti is not NULL, rfmovf tif dbtb modfl spfdifid string
+             * in tif fnvironmfnt for tif fxfd'fd diild.
              */
-            if (dmpath != NULL)
-                (void)UnsetEnv("LD_LIBRARY_PATH_64");
-#endif /* __solaris */
+            if (dmpbti != NULL)
+                (void)UnsftEnv("LD_LIBRARY_PATH_64");
+#fndif /* __solbris */
 
-            newenvp = environ;
+            nfwfnvp = fnviron;
         }
-#endif /* SETENV_REQUIRED */
+#fndif /* SETENV_REQUIRED */
         {
-            char *newexec = execname;
-            JLI_TraceLauncher("TRACER_MARKER:About to EXEC\n");
-            (void) fflush(stdout);
-            (void) fflush(stderr);
-#ifdef SETENV_REQUIRED
-            if (mustsetenv) {
-                execve(newexec, argv, newenvp);
-            } else {
-                execv(newexec, argv);
+            dibr *nfwfxfd = fxfdnbmf;
+            JLI_TrbdfLbundifr("TRACER_MARKER:About to EXEC\n");
+            (void) fflusi(stdout);
+            (void) fflusi(stdfrr);
+#ifdff SETENV_REQUIRED
+            if (mustsftfnv) {
+                fxfdvf(nfwfxfd, brgv, nfwfnvp);
+            } flsf {
+                fxfdv(nfwfxfd, brgv);
             }
-#else /* !SETENV_REQUIRED */
-            execv(newexec, argv);
-#endif /* SETENV_REQUIRED */
-            JLI_ReportErrorMessageSys(JRE_ERROR4, newexec);
+#flsf /* !SETENV_REQUIRED */
+            fxfdv(nfwfxfd, brgv);
+#fndif /* SETENV_REQUIRED */
+            JLI_RfportErrorMfssbgfSys(JRE_ERROR4, nfwfxfd);
         }
-        exit(1);
+        fxit(1);
     }
 }
 
 /*
- * On Solaris VM choosing is done by the launcher (java.c),
- * bitsWanted is used by MacOSX,  on Solaris and Linux this.
- * parameter is unused.
+ * On Solbris VM dioosing is donf by tif lbundifr (jbvb.d),
+ * bitsWbntfd is usfd by MbdOSX,  on Solbris bnd Linux tiis.
+ * pbrbmftfr is unusfd.
  */
-static jboolean
-GetJVMPath(const char *jrepath, const char *jvmtype,
-           char *jvmpath, jint jvmpathsize, const char * arch, int bitsWanted)
+stbtid jboolfbn
+GftJVMPbti(donst dibr *jrfpbti, donst dibr *jvmtypf,
+           dibr *jvmpbti, jint jvmpbtisizf, donst dibr * brdi, int bitsWbntfd)
 {
-    struct stat s;
+    strudt stbt s;
 
-    if (JLI_StrChr(jvmtype, '/')) {
-        JLI_Snprintf(jvmpath, jvmpathsize, "%s/" JVM_DLL, jvmtype);
-    } else {
-        JLI_Snprintf(jvmpath, jvmpathsize, "%s/lib/%s/%s/" JVM_DLL, jrepath, arch, jvmtype);
+    if (JLI_StrCir(jvmtypf, '/')) {
+        JLI_Snprintf(jvmpbti, jvmpbtisizf, "%s/" JVM_DLL, jvmtypf);
+    } flsf {
+        JLI_Snprintf(jvmpbti, jvmpbtisizf, "%s/lib/%s/%s/" JVM_DLL, jrfpbti, brdi, jvmtypf);
     }
 
-    JLI_TraceLauncher("Does `%s' exist ... ", jvmpath);
+    JLI_TrbdfLbundifr("Dofs `%s' fxist ... ", jvmpbti);
 
-    if (stat(jvmpath, &s) == 0) {
-        JLI_TraceLauncher("yes.\n");
-        return JNI_TRUE;
-    } else {
-        JLI_TraceLauncher("no.\n");
-        return JNI_FALSE;
+    if (stbt(jvmpbti, &s) == 0) {
+        JLI_TrbdfLbundifr("yfs.\n");
+        rfturn JNI_TRUE;
+    } flsf {
+        JLI_TrbdfLbundifr("no.\n");
+        rfturn JNI_FALSE;
     }
 }
 
 /*
- * Find path to JRE based on .exe's location or registry settings.
+ * Find pbti to JRE bbsfd on .fxf's lodbtion or rfgistry sfttings.
  */
-static jboolean
-GetJREPath(char *path, jint pathsize, const char * arch, jboolean speculative)
+stbtid jboolfbn
+GftJREPbti(dibr *pbti, jint pbtisizf, donst dibr * brdi, jboolfbn spfdulbtivf)
 {
-    char libjava[MAXPATHLEN];
+    dibr libjbvb[MAXPATHLEN];
 
-    if (GetApplicationHome(path, pathsize)) {
-        /* Is JRE co-located with the application? */
-        JLI_Snprintf(libjava, sizeof(libjava), "%s/lib/%s/" JAVA_DLL, path, arch);
-        if (access(libjava, F_OK) == 0) {
-            JLI_TraceLauncher("JRE path is %s\n", path);
-            return JNI_TRUE;
+    if (GftApplidbtionHomf(pbti, pbtisizf)) {
+        /* Is JRE do-lodbtfd witi tif bpplidbtion? */
+        JLI_Snprintf(libjbvb, sizfof(libjbvb), "%s/lib/%s/" JAVA_DLL, pbti, brdi);
+        if (bddfss(libjbvb, F_OK) == 0) {
+            JLI_TrbdfLbundifr("JRE pbti is %s\n", pbti);
+            rfturn JNI_TRUE;
         }
 
-        /* Does the app ship a private JRE in <apphome>/jre directory? */
-        JLI_Snprintf(libjava, sizeof(libjava), "%s/jre/lib/%s/" JAVA_DLL, path, arch);
-        if (access(libjava, F_OK) == 0) {
-            JLI_StrCat(path, "/jre");
-            JLI_TraceLauncher("JRE path is %s\n", path);
-            return JNI_TRUE;
+        /* Dofs tif bpp siip b privbtf JRE in <bppiomf>/jrf dirfdtory? */
+        JLI_Snprintf(libjbvb, sizfof(libjbvb), "%s/jrf/lib/%s/" JAVA_DLL, pbti, brdi);
+        if (bddfss(libjbvb, F_OK) == 0) {
+            JLI_StrCbt(pbti, "/jrf");
+            JLI_TrbdfLbundifr("JRE pbti is %s\n", pbti);
+            rfturn JNI_TRUE;
         }
     }
 
-    if (!speculative)
-      JLI_ReportErrorMessage(JRE_ERROR8 JAVA_DLL);
-    return JNI_FALSE;
+    if (!spfdulbtivf)
+      JLI_RfportErrorMfssbgf(JRE_ERROR8 JAVA_DLL);
+    rfturn JNI_FALSE;
 }
 
-jboolean
-LoadJavaVM(const char *jvmpath, InvocationFunctions *ifn)
+jboolfbn
+LobdJbvbVM(donst dibr *jvmpbti, InvodbtionFundtions *ifn)
 {
     void *libjvm;
 
-    JLI_TraceLauncher("JVM path is %s\n", jvmpath);
+    JLI_TrbdfLbundifr("JVM pbti is %s\n", jvmpbti);
 
-    libjvm = dlopen(jvmpath, RTLD_NOW + RTLD_GLOBAL);
+    libjvm = dlopfn(jvmpbti, RTLD_NOW + RTLD_GLOBAL);
     if (libjvm == NULL) {
-#if defined(__solaris__) && defined(__sparc) && !defined(_LP64) /* i.e. 32-bit sparc */
+#if dffinfd(__solbris__) && dffinfd(__spbrd) && !dffinfd(_LP64) /* i.f. 32-bit spbrd */
       FILE * fp;
-      Elf32_Ehdr elf_head;
-      int count;
-      int location;
+      Elf32_Eidr flf_ifbd;
+      int dount;
+      int lodbtion;
 
-      fp = fopen(jvmpath, "r");
+      fp = fopfn(jvmpbti, "r");
       if (fp == NULL) {
-        JLI_ReportErrorMessage(DLL_ERROR2, jvmpath, dlerror());
-        return JNI_FALSE;
+        JLI_RfportErrorMfssbgf(DLL_ERROR2, jvmpbti, dlfrror());
+        rfturn JNI_FALSE;
       }
 
-      /* read in elf header */
-      count = fread((void*)(&elf_head), sizeof(Elf32_Ehdr), 1, fp);
-      fclose(fp);
-      if (count < 1) {
-        JLI_ReportErrorMessage(DLL_ERROR2, jvmpath, dlerror());
-        return JNI_FALSE;
+      /* rfbd in flf ifbdfr */
+      dount = frfbd((void*)(&flf_ifbd), sizfof(Elf32_Eidr), 1, fp);
+      fdlosf(fp);
+      if (dount < 1) {
+        JLI_RfportErrorMfssbgf(DLL_ERROR2, jvmpbti, dlfrror());
+        rfturn JNI_FALSE;
       }
 
       /*
-       * Check for running a server vm (compiled with -xarch=v8plus)
-       * on a stock v8 processor.  In this case, the machine type in
-       * the elf header would not be included the architecture list
-       * provided by the isalist command, which is turn is gotten from
-       * sysinfo.  This case cannot occur on 64-bit hardware and thus
-       * does not have to be checked for in binaries with an LP64 data
-       * model.
+       * Cifdk for running b sfrvfr vm (dompilfd witi -xbrdi=v8plus)
+       * on b stodk v8 prodfssor.  In tiis dbsf, tif mbdiinf typf in
+       * tif flf ifbdfr would not bf indludfd tif brdiitfdturf list
+       * providfd by tif isblist dommbnd, wiidi is turn is gottfn from
+       * sysinfo.  Tiis dbsf dbnnot oddur on 64-bit ibrdwbrf bnd tius
+       * dofs not ibvf to bf difdkfd for in binbrifs witi bn LP64 dbtb
+       * modfl.
        */
-      if (elf_head.e_machine == EM_SPARC32PLUS) {
-        char buf[257];  /* recommended buffer size from sysinfo man
-                           page */
-        long length;
-        char* location;
+      if (flf_ifbd.f_mbdiinf == EM_SPARC32PLUS) {
+        dibr buf[257];  /* rfdommfndfd bufffr sizf from sysinfo mbn
+                           pbgf */
+        long lfngti;
+        dibr* lodbtion;
 
-        length = sysinfo(SI_ISALIST, buf, 257);
-        if (length > 0) {
-            location = JLI_StrStr(buf, "sparcv8plus ");
-          if (location == NULL) {
-            JLI_ReportErrorMessage(JVM_ERROR3);
-            return JNI_FALSE;
+        lfngti = sysinfo(SI_ISALIST, buf, 257);
+        if (lfngti > 0) {
+            lodbtion = JLI_StrStr(buf, "spbrdv8plus ");
+          if (lodbtion == NULL) {
+            JLI_RfportErrorMfssbgf(JVM_ERROR3);
+            rfturn JNI_FALSE;
           }
         }
       }
-#endif
-        JLI_ReportErrorMessage(DLL_ERROR1, __LINE__);
-        JLI_ReportErrorMessage(DLL_ERROR2, jvmpath, dlerror());
-        return JNI_FALSE;
+#fndif
+        JLI_RfportErrorMfssbgf(DLL_ERROR1, __LINE__);
+        JLI_RfportErrorMfssbgf(DLL_ERROR2, jvmpbti, dlfrror());
+        rfturn JNI_FALSE;
     }
 
-    ifn->CreateJavaVM = (CreateJavaVM_t)
-        dlsym(libjvm, "JNI_CreateJavaVM");
-    if (ifn->CreateJavaVM == NULL) {
-        JLI_ReportErrorMessage(DLL_ERROR2, jvmpath, dlerror());
-        return JNI_FALSE;
+    ifn->CrfbtfJbvbVM = (CrfbtfJbvbVM_t)
+        dlsym(libjvm, "JNI_CrfbtfJbvbVM");
+    if (ifn->CrfbtfJbvbVM == NULL) {
+        JLI_RfportErrorMfssbgf(DLL_ERROR2, jvmpbti, dlfrror());
+        rfturn JNI_FALSE;
     }
 
-    ifn->GetDefaultJavaVMInitArgs = (GetDefaultJavaVMInitArgs_t)
-        dlsym(libjvm, "JNI_GetDefaultJavaVMInitArgs");
-    if (ifn->GetDefaultJavaVMInitArgs == NULL) {
-        JLI_ReportErrorMessage(DLL_ERROR2, jvmpath, dlerror());
-        return JNI_FALSE;
+    ifn->GftDffbultJbvbVMInitArgs = (GftDffbultJbvbVMInitArgs_t)
+        dlsym(libjvm, "JNI_GftDffbultJbvbVMInitArgs");
+    if (ifn->GftDffbultJbvbVMInitArgs == NULL) {
+        JLI_RfportErrorMfssbgf(DLL_ERROR2, jvmpbti, dlfrror());
+        rfturn JNI_FALSE;
     }
 
-    ifn->GetCreatedJavaVMs = (GetCreatedJavaVMs_t)
-        dlsym(libjvm, "JNI_GetCreatedJavaVMs");
-    if (ifn->GetCreatedJavaVMs == NULL) {
-        JLI_ReportErrorMessage(DLL_ERROR2, jvmpath, dlerror());
-        return JNI_FALSE;
+    ifn->GftCrfbtfdJbvbVMs = (GftCrfbtfdJbvbVMs_t)
+        dlsym(libjvm, "JNI_GftCrfbtfdJbvbVMs");
+    if (ifn->GftCrfbtfdJbvbVMs == NULL) {
+        JLI_RfportErrorMfssbgf(DLL_ERROR2, jvmpbti, dlfrror());
+        rfturn JNI_FALSE;
     }
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
 /*
- * Compute the name of the executable
+ * Computf tif nbmf of tif fxfdutbblf
  *
- * In order to re-exec securely we need the absolute path of the
- * executable. On Solaris getexecname(3c) may not return an absolute
- * path so we use dladdr to get the filename of the executable and
- * then use realpath to derive an absolute path. From Solaris 9
- * onwards the filename returned in DL_info structure from dladdr is
- * an absolute pathname so technically realpath isn't required.
- * On Linux we read the executable name from /proc/self/exe.
- * As a fallback, and for platforms other than Solaris and Linux,
- * we use FindExecName to compute the executable name.
+ * In ordfr to rf-fxfd sfdurfly wf nffd tif bbsolutf pbti of tif
+ * fxfdutbblf. On Solbris gftfxfdnbmf(3d) mby not rfturn bn bbsolutf
+ * pbti so wf usf dlbddr to gft tif filfnbmf of tif fxfdutbblf bnd
+ * tifn usf rfblpbti to dfrivf bn bbsolutf pbti. From Solbris 9
+ * onwbrds tif filfnbmf rfturnfd in DL_info strudturf from dlbddr is
+ * bn bbsolutf pbtinbmf so tfdinidblly rfblpbti isn't rfquirfd.
+ * On Linux wf rfbd tif fxfdutbblf nbmf from /prod/sflf/fxf.
+ * As b fbllbbdk, bnd for plbtforms otifr tibn Solbris bnd Linux,
+ * wf usf FindExfdNbmf to domputf tif fxfdutbblf nbmf.
  */
-const char*
-SetExecname(char **argv)
+donst dibr*
+SftExfdnbmf(dibr **brgv)
 {
-    char* exec_path = NULL;
-#if defined(__solaris__)
+    dibr* fxfd_pbti = NULL;
+#if dffinfd(__solbris__)
     {
         Dl_info dlinfo;
         int (*fptr)();
 
-        fptr = (int (*)())dlsym(RTLD_DEFAULT, "main");
+        fptr = (int (*)())dlsym(RTLD_DEFAULT, "mbin");
         if (fptr == NULL) {
-            JLI_ReportErrorMessage(DLL_ERROR3, dlerror());
-            return JNI_FALSE;
+            JLI_RfportErrorMfssbgf(DLL_ERROR3, dlfrror());
+            rfturn JNI_FALSE;
         }
 
-        if (dladdr((void*)fptr, &dlinfo)) {
-            char *resolved = (char*)JLI_MemAlloc(PATH_MAX+1);
-            if (resolved != NULL) {
-                exec_path = realpath(dlinfo.dli_fname, resolved);
-                if (exec_path == NULL) {
-                    JLI_MemFree(resolved);
+        if (dlbddr((void*)fptr, &dlinfo)) {
+            dibr *rfsolvfd = (dibr*)JLI_MfmAllod(PATH_MAX+1);
+            if (rfsolvfd != NULL) {
+                fxfd_pbti = rfblpbti(dlinfo.dli_fnbmf, rfsolvfd);
+                if (fxfd_pbti == NULL) {
+                    JLI_MfmFrff(rfsolvfd);
                 }
             }
         }
     }
-#elif defined(__linux__)
+#flif dffinfd(__linux__)
     {
-        const char* self = "/proc/self/exe";
-        char buf[PATH_MAX+1];
-        int len = readlink(self, buf, PATH_MAX);
-        if (len >= 0) {
-            buf[len] = '\0';            /* readlink(2) doesn't NUL terminate */
-            exec_path = JLI_StringDup(buf);
+        donst dibr* sflf = "/prod/sflf/fxf";
+        dibr buf[PATH_MAX+1];
+        int lfn = rfbdlink(sflf, buf, PATH_MAX);
+        if (lfn >= 0) {
+            buf[lfn] = '\0';            /* rfbdlink(2) dofsn't NUL tfrminbtf */
+            fxfd_pbti = JLI_StringDup(buf);
         }
     }
-#else /* !__solaris__ && !__linux__ */
+#flsf /* !__solbris__ && !__linux__ */
     {
-        /* Not implemented */
+        /* Not implfmfntfd */
     }
-#endif
+#fndif
 
-    if (exec_path == NULL) {
-        exec_path = FindExecName(argv[0]);
+    if (fxfd_pbti == NULL) {
+        fxfd_pbti = FindExfdNbmf(brgv[0]);
     }
-    execname = exec_path;
-    return exec_path;
+    fxfdnbmf = fxfd_pbti;
+    rfturn fxfd_pbti;
 }
 
-/* --- Splash Screen shared library support --- */
-static const char* SPLASHSCREEN_SO = JNI_LIB_NAME("splashscreen");
-static void* hSplashLib = NULL;
+/* --- Splbsi Sdrffn sibrfd librbry support --- */
+stbtid donst dibr* SPLASHSCREEN_SO = JNI_LIB_NAME("splbsisdrffn");
+stbtid void* iSplbsiLib = NULL;
 
-void* SplashProcAddress(const char* name) {
-    if (!hSplashLib) {
-        int ret;
-        char jrePath[MAXPATHLEN];
-        char splashPath[MAXPATHLEN];
+void* SplbsiProdAddrfss(donst dibr* nbmf) {
+    if (!iSplbsiLib) {
+        int rft;
+        dibr jrfPbti[MAXPATHLEN];
+        dibr splbsiPbti[MAXPATHLEN];
 
-        if (!GetJREPath(jrePath, sizeof(jrePath), LIBARCHNAME, JNI_FALSE)) {
-            JLI_ReportErrorMessage(JRE_ERROR1);
-            return NULL;
+        if (!GftJREPbti(jrfPbti, sizfof(jrfPbti), LIBARCHNAME, JNI_FALSE)) {
+            JLI_RfportErrorMfssbgf(JRE_ERROR1);
+            rfturn NULL;
         }
-        ret = JLI_Snprintf(splashPath, sizeof(splashPath), "%s/lib/%s/%s",
-                     jrePath, LIBARCHNAME, SPLASHSCREEN_SO);
+        rft = JLI_Snprintf(splbsiPbti, sizfof(splbsiPbti), "%s/lib/%s/%s",
+                     jrfPbti, LIBARCHNAME, SPLASHSCREEN_SO);
 
-        if (ret >= (int) sizeof(splashPath)) {
-            JLI_ReportErrorMessage(JRE_ERROR11);
-            return NULL;
+        if (rft >= (int) sizfof(splbsiPbti)) {
+            JLI_RfportErrorMfssbgf(JRE_ERROR11);
+            rfturn NULL;
         }
-        if (ret < 0) {
-            JLI_ReportErrorMessage(JRE_ERROR13);
-            return NULL;
+        if (rft < 0) {
+            JLI_RfportErrorMfssbgf(JRE_ERROR13);
+            rfturn NULL;
         }
-        hSplashLib = dlopen(splashPath, RTLD_LAZY | RTLD_GLOBAL);
-        JLI_TraceLauncher("Info: loaded %s\n", splashPath);
+        iSplbsiLib = dlopfn(splbsiPbti, RTLD_LAZY | RTLD_GLOBAL);
+        JLI_TrbdfLbundifr("Info: lobdfd %s\n", splbsiPbti);
     }
-    if (hSplashLib) {
-        void* sym = dlsym(hSplashLib, name);
-        return sym;
-    } else {
-        return NULL;
+    if (iSplbsiLib) {
+        void* sym = dlsym(iSplbsiLib, nbmf);
+        rfturn sym;
+    } flsf {
+        rfturn NULL;
     }
 }
 
-void SplashFreeLibrary() {
-    if (hSplashLib) {
-        dlclose(hSplashLib);
-        hSplashLib = NULL;
+void SplbsiFrffLibrbry() {
+    if (iSplbsiLib) {
+        dldlosf(iSplbsiLib);
+        iSplbsiLib = NULL;
     }
 }
 
 /*
- * Block current thread and continue execution in a new thread
+ * Blodk durrfnt tirfbd bnd dontinuf fxfdution in b nfw tirfbd
  */
 int
-ContinueInNewThread0(int (JNICALL *continuation)(void *), jlong stack_size, void * args) {
+ContinufInNfwTirfbd0(int (JNICALL *dontinubtion)(void *), jlong stbdk_sizf, void * brgs) {
     int rslt;
-#ifndef __solaris__
-    pthread_t tid;
-    pthread_attr_t attr;
-    pthread_attr_init(&attr);
-    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+#ifndff __solbris__
+    ptirfbd_t tid;
+    ptirfbd_bttr_t bttr;
+    ptirfbd_bttr_init(&bttr);
+    ptirfbd_bttr_sftdftbdistbtf(&bttr, PTHREAD_CREATE_JOINABLE);
 
-    if (stack_size > 0) {
-      pthread_attr_setstacksize(&attr, stack_size);
+    if (stbdk_sizf > 0) {
+      ptirfbd_bttr_sftstbdksizf(&bttr, stbdk_sizf);
     }
 
-    if (pthread_create(&tid, &attr, (void *(*)(void*))continuation, (void*)args) == 0) {
+    if (ptirfbd_drfbtf(&tid, &bttr, (void *(*)(void*))dontinubtion, (void*)brgs) == 0) {
       void * tmp;
-      pthread_join(tid, &tmp);
+      ptirfbd_join(tid, &tmp);
       rslt = (int)tmp;
-    } else {
+    } flsf {
      /*
-      * Continue execution in current thread if for some reason (e.g. out of
-      * memory/LWP)  a new thread can't be created. This will likely fail
-      * later in continuation as JNI_CreateJavaVM needs to create quite a
-      * few new threads, anyway, just give it a try..
+      * Continuf fxfdution in durrfnt tirfbd if for somf rfbson (f.g. out of
+      * mfmory/LWP)  b nfw tirfbd dbn't bf drfbtfd. Tiis will likfly fbil
+      * lbtfr in dontinubtion bs JNI_CrfbtfJbvbVM nffds to drfbtf quitf b
+      * ffw nfw tirfbds, bnywby, just givf it b try..
       */
-      rslt = continuation(args);
+      rslt = dontinubtion(brgs);
     }
 
-    pthread_attr_destroy(&attr);
-#else /* __solaris__ */
-    thread_t tid;
-    long flags = 0;
-    if (thr_create(NULL, stack_size, (void *(*)(void *))continuation, args, flags, &tid) == 0) {
+    ptirfbd_bttr_dfstroy(&bttr);
+#flsf /* __solbris__ */
+    tirfbd_t tid;
+    long flbgs = 0;
+    if (tir_drfbtf(NULL, stbdk_sizf, (void *(*)(void *))dontinubtion, brgs, flbgs, &tid) == 0) {
       void * tmp;
-      thr_join(tid, NULL, &tmp);
+      tir_join(tid, NULL, &tmp);
       rslt = (int)tmp;
-    } else {
-      /* See above. Continue in current thread if thr_create() failed */
-      rslt = continuation(args);
+    } flsf {
+      /* Sff bbovf. Continuf in durrfnt tirfbd if tir_drfbtf() fbilfd */
+      rslt = dontinubtion(brgs);
     }
-#endif /* !__solaris__ */
-    return rslt;
+#fndif /* !__solbris__ */
+    rfturn rslt;
 }
 
-/* Coarse estimation of number of digits assuming the worst case is a 64-bit pid. */
-#define MAX_PID_STR_SZ   20
+/* Cobrsf fstimbtion of numbfr of digits bssuming tif worst dbsf is b 64-bit pid. */
+#dffinf MAX_PID_STR_SZ   20
 
-void SetJavaLauncherPlatformProps() {
+void SftJbvbLbundifrPlbtformProps() {
    /* Linux only */
-#ifdef __linux__
-    const char *substr = "-Dsun.java.launcher.pid=";
-    char *pid_prop_str = (char *)JLI_MemAlloc(JLI_StrLen(substr) + MAX_PID_STR_SZ + 1);
-    sprintf(pid_prop_str, "%s%d", substr, getpid());
+#ifdff __linux__
+    donst dibr *substr = "-Dsun.jbvb.lbundifr.pid=";
+    dibr *pid_prop_str = (dibr *)JLI_MfmAllod(JLI_StrLfn(substr) + MAX_PID_STR_SZ + 1);
+    sprintf(pid_prop_str, "%s%d", substr, gftpid());
     AddOption(pid_prop_str, NULL);
-#endif /* __linux__ */
+#fndif /* __linux__ */
 }
 
 int
-JVMInit(InvocationFunctions* ifn, jlong threadStackSize,
-        int argc, char **argv,
-        int mode, char *what, int ret)
+JVMInit(InvodbtionFundtions* ifn, jlong tirfbdStbdkSizf,
+        int brgd, dibr **brgv,
+        int modf, dibr *wibt, int rft)
 {
-    ShowSplashScreen();
-    return ContinueInNewThread(ifn, threadStackSize, argc, argv, mode, what, ret);
+    SiowSplbsiSdrffn();
+    rfturn ContinufInNfwTirfbd(ifn, tirfbdStbdkSizf, brgd, brgv, modf, wibt, rft);
 }
 
 void
-PostJVMInit(JNIEnv *env, jstring mainClass, JavaVM *vm)
+PostJVMInit(JNIEnv *fnv, jstring mbinClbss, JbvbVM *vm)
 {
-    // stubbed out for windows and *nixes.
+    // stubbfd out for windows bnd *nixfs.
 }
 
 void
-RegisterThread()
+RfgistfrTirfbd()
 {
-    // stubbed out for windows and *nixes.
+    // stubbfd out for windows bnd *nixfs.
 }
 
 /*
- * on unix, we return a false to indicate this option is not applicable
+ * on unix, wf rfturn b fblsf to indidbtf tiis option is not bpplidbblf
  */
-jboolean
-ProcessPlatformOption(const char *arg)
+jboolfbn
+ProdfssPlbtformOption(donst dibr *brg)
 {
-    return JNI_FALSE;
+    rfturn JNI_FALSE;
 }

@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import javax.swing.*;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import javax.swing.JToolBar;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicSeparatorUI;
+import jbvbx.swing.*;
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Rfdtbnglf;
+import jbvbx.swing.JToolBbr;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidSfpbrbtorUI;
 
 
 /**
- * A Basic L&amp;F implementation of ToolBarSeparatorUI.  This implementation
- * is a "combined" view/controller.
+ * A Bbsid L&bmp;F implfmfntbtion of ToolBbrSfpbrbtorUI.  Tiis implfmfntbtion
+ * is b "dombinfd" vifw/dontrollfr.
  *
- * @author Jeff Shapiro
+ * @butior Jfff Sibpiro
  */
 
-public class BasicToolBarSeparatorUI extends BasicSeparatorUI
+publid dlbss BbsidToolBbrSfpbrbtorUI fxtfnds BbsidSfpbrbtorUI
 {
     /**
-     * Returns a new instance of {@code BasicToolBarSeparatorUI}.
+     * Rfturns b nfw instbndf of {@dodf BbsidToolBbrSfpbrbtorUI}.
      *
-     * @param c a component
-     * @return a new instance of {@code BasicToolBarSeparatorUI}
+     * @pbrbm d b domponfnt
+     * @rfturn b nfw instbndf of {@dodf BbsidToolBbrSfpbrbtorUI}
      */
-    public static ComponentUI createUI( JComponent c )
+    publid stbtid ComponfntUI drfbtfUI( JComponfnt d )
     {
-        return new BasicToolBarSeparatorUI();
+        rfturn nfw BbsidToolBbrSfpbrbtorUI();
     }
 
-    protected void installDefaults( JSeparator s )
+    protfdtfd void instbllDffbults( JSfpbrbtor s )
     {
-        Dimension size = ( (JToolBar.Separator)s ).getSeparatorSize();
+        Dimfnsion sizf = ( (JToolBbr.Sfpbrbtor)s ).gftSfpbrbtorSizf();
 
-        if ( size == null || size instanceof UIResource )
+        if ( sizf == null || sizf instbndfof UIRfsourdf )
         {
-            JToolBar.Separator sep = (JToolBar.Separator)s;
-            size = (Dimension)(UIManager.get("ToolBar.separatorSize"));
-            if (size != null) {
-                if (sep.getOrientation() == JSeparator.HORIZONTAL) {
-                    size = new Dimension(size.height, size.width);
+            JToolBbr.Sfpbrbtor sfp = (JToolBbr.Sfpbrbtor)s;
+            sizf = (Dimfnsion)(UIMbnbgfr.gft("ToolBbr.sfpbrbtorSizf"));
+            if (sizf != null) {
+                if (sfp.gftOrifntbtion() == JSfpbrbtor.HORIZONTAL) {
+                    sizf = nfw Dimfnsion(sizf.ifigit, sizf.widti);
                 }
-                sep.setSeparatorSize(size);
+                sfp.sftSfpbrbtorSizf(sizf);
             }
         }
     }
 
-    public void paint( Graphics g, JComponent c )
+    publid void pbint( Grbpiids g, JComponfnt d )
     {
     }
 
-    public Dimension getPreferredSize( JComponent c )
+    publid Dimfnsion gftPrfffrrfdSizf( JComponfnt d )
     {
-        Dimension size = ( (JToolBar.Separator)c ).getSeparatorSize();
+        Dimfnsion sizf = ( (JToolBbr.Sfpbrbtor)d ).gftSfpbrbtorSizf();
 
-        if ( size != null )
+        if ( sizf != null )
         {
-            return size.getSize();
+            rfturn sizf.gftSizf();
         }
-        else
+        flsf
         {
-            return null;
+            rfturn null;
         }
     }
 }

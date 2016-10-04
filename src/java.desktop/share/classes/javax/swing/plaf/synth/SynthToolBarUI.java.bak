@@ -1,561 +1,561 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.synth;
+pbdkbgf jbvbx.swing.plbf.synti;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.LayoutManager;
-import java.awt.Rectangle;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import javax.swing.Box;
-import javax.swing.Icon;
-import javax.swing.JComponent;
-import javax.swing.JSeparator;
-import javax.swing.JToolBar;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicToolBarUI;
-import sun.swing.plaf.synth.SynthIcon;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.LbyoutMbnbgfr;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvbx.swing.Box;
+import jbvbx.swing.Idon;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JSfpbrbtor;
+import jbvbx.swing.JToolBbr;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.plbf.bbsid.BbsidToolBbrUI;
+import sun.swing.plbf.synti.SyntiIdon;
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JToolBar}.
+ * Providfs tif Synti L&bmp;F UI dflfgbtf for
+ * {@link jbvbx.swing.JToolBbr}.
  *
- * @since 1.7
+ * @sindf 1.7
  */
-public class SynthToolBarUI extends BasicToolBarUI
-                            implements PropertyChangeListener, SynthUI {
-    private Icon handleIcon = null;
-    private Rectangle contentRect = new Rectangle();
+publid dlbss SyntiToolBbrUI fxtfnds BbsidToolBbrUI
+                            implfmfnts PropfrtyCibngfListfnfr, SyntiUI {
+    privbtf Idon ibndlfIdon = null;
+    privbtf Rfdtbnglf dontfntRfdt = nfw Rfdtbnglf();
 
-    private SynthStyle style;
-    private SynthStyle contentStyle;
-    private SynthStyle dragWindowStyle;
+    privbtf SyntiStylf stylf;
+    privbtf SyntiStylf dontfntStylf;
+    privbtf SyntiStylf drbgWindowStylf;
 
     /**
-     * Creates a new UI object for the given component.
+     * Crfbtfs b nfw UI objfdt for tif givfn domponfnt.
      *
-     * @param c component to create UI object for
-     * @return the UI object
+     * @pbrbm d domponfnt to drfbtf UI objfdt for
+     * @rfturn tif UI objfdt
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new SynthToolBarUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw SyntiToolBbrUI();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void installDefaults() {
-        toolBar.setLayout(createLayout());
-        updateStyle(toolBar);
+    @Ovfrridf
+    protfdtfd void instbllDffbults() {
+        toolBbr.sftLbyout(drfbtfLbyout());
+        updbtfStylf(toolBbr);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void installListeners() {
-        super.installListeners();
-        toolBar.addPropertyChangeListener(this);
+    @Ovfrridf
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        toolBbr.bddPropfrtyCibngfListfnfr(tiis);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void uninstallListeners() {
-        super.uninstallListeners();
-        toolBar.removePropertyChangeListener(this);
+    @Ovfrridf
+    protfdtfd void uninstbllListfnfrs() {
+        supfr.uninstbllListfnfrs();
+        toolBbr.rfmovfPropfrtyCibngfListfnfr(tiis);
     }
 
-    private void updateStyle(JToolBar c) {
-        SynthContext context = getContext(
-                c, Region.TOOL_BAR_CONTENT, null, ENABLED);
-        contentStyle = SynthLookAndFeel.updateStyle(context, this);
-        context.dispose();
+    privbtf void updbtfStylf(JToolBbr d) {
+        SyntiContfxt dontfxt = gftContfxt(
+                d, Rfgion.TOOL_BAR_CONTENT, null, ENABLED);
+        dontfntStylf = SyntiLookAndFffl.updbtfStylf(dontfxt, tiis);
+        dontfxt.disposf();
 
-        context = getContext(c, Region.TOOL_BAR_DRAG_WINDOW, null, ENABLED);
-        dragWindowStyle = SynthLookAndFeel.updateStyle(context, this);
-        context.dispose();
+        dontfxt = gftContfxt(d, Rfgion.TOOL_BAR_DRAG_WINDOW, null, ENABLED);
+        drbgWindowStylf = SyntiLookAndFffl.updbtfStylf(dontfxt, tiis);
+        dontfxt.disposf();
 
-        context = getContext(c, ENABLED);
-        SynthStyle oldStyle = style;
+        dontfxt = gftContfxt(d, ENABLED);
+        SyntiStylf oldStylf = stylf;
 
-        style = SynthLookAndFeel.updateStyle(context, this);
-        if (oldStyle != style) {
-            handleIcon =
-                style.getIcon(context, "ToolBar.handleIcon");
-            if (oldStyle != null) {
-                uninstallKeyboardActions();
-                installKeyboardActions();
+        stylf = SyntiLookAndFffl.updbtfStylf(dontfxt, tiis);
+        if (oldStylf != stylf) {
+            ibndlfIdon =
+                stylf.gftIdon(dontfxt, "ToolBbr.ibndlfIdon");
+            if (oldStylf != null) {
+                uninstbllKfybobrdAdtions();
+                instbllKfybobrdAdtions();
             }
         }
-        context.dispose();
+        dontfxt.disposf();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void uninstallDefaults() {
-        SynthContext context = getContext(toolBar, ENABLED);
+    @Ovfrridf
+    protfdtfd void uninstbllDffbults() {
+        SyntiContfxt dontfxt = gftContfxt(toolBbr, ENABLED);
 
-        style.uninstallDefaults(context);
-        context.dispose();
-        style = null;
+        stylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        stylf = null;
 
-        handleIcon = null;
+        ibndlfIdon = null;
 
-        context = getContext(toolBar, Region.TOOL_BAR_CONTENT,
-                             contentStyle, ENABLED);
-        contentStyle.uninstallDefaults(context);
-        context.dispose();
-        contentStyle = null;
+        dontfxt = gftContfxt(toolBbr, Rfgion.TOOL_BAR_CONTENT,
+                             dontfntStylf, ENABLED);
+        dontfntStylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        dontfntStylf = null;
 
-        context = getContext(toolBar, Region.TOOL_BAR_DRAG_WINDOW,
-                             dragWindowStyle, ENABLED);
-        dragWindowStyle.uninstallDefaults(context);
-        context.dispose();
-        dragWindowStyle = null;
+        dontfxt = gftContfxt(toolBbr, Rfgion.TOOL_BAR_DRAG_WINDOW,
+                             drbgWindowStylf, ENABLED);
+        drbgWindowStylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        drbgWindowStylf = null;
 
-        toolBar.setLayout(null);
+        toolBbr.sftLbyout(null);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void installComponents() {}
+    @Ovfrridf
+    protfdtfd void instbllComponfnts() {}
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void uninstallComponents() {}
+    @Ovfrridf
+    protfdtfd void uninstbllComponfnts() {}
 
     /**
-     * Creates a {@code LayoutManager} to use with the toolbar.
+     * Crfbtfs b {@dodf LbyoutMbnbgfr} to usf witi tif toolbbr.
      *
-     * @return a {@code LayoutManager} instance
+     * @rfturn b {@dodf LbyoutMbnbgfr} instbndf
      */
-    protected LayoutManager createLayout() {
-        return new SynthToolBarLayoutManager();
+    protfdtfd LbyoutMbnbgfr drfbtfLbyout() {
+        rfturn nfw SyntiToolBbrLbyoutMbnbgfr();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public SynthContext getContext(JComponent c) {
-        return getContext(c, SynthLookAndFeel.getComponentState(c));
+    @Ovfrridf
+    publid SyntiContfxt gftContfxt(JComponfnt d) {
+        rfturn gftContfxt(d, SyntiLookAndFffl.gftComponfntStbtf(d));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbtf SyntiContfxt gftContfxt(JComponfnt d, int stbtf) {
+        rfturn SyntiContfxt.gftContfxt(d, stylf, stbtf);
     }
 
-    private SynthContext getContext(JComponent c, Region region, SynthStyle style) {
-        return SynthContext.getContext(c, region,
-                                       style, getComponentState(c, region));
+    privbtf SyntiContfxt gftContfxt(JComponfnt d, Rfgion rfgion, SyntiStylf stylf) {
+        rfturn SyntiContfxt.gftContfxt(d, rfgion,
+                                       stylf, gftComponfntStbtf(d, rfgion));
     }
 
-    private SynthContext getContext(JComponent c, Region region,
-                                    SynthStyle style, int state) {
-        return SynthContext.getContext(c, region, style, state);
+    privbtf SyntiContfxt gftContfxt(JComponfnt d, Rfgion rfgion,
+                                    SyntiStylf stylf, int stbtf) {
+        rfturn SyntiContfxt.gftContfxt(d, rfgion, stylf, stbtf);
     }
 
-    private int getComponentState(JComponent c, Region region) {
-        return SynthLookAndFeel.getComponentState(c);
+    privbtf int gftComponfntStbtf(JComponfnt d, Rfgion rfgion) {
+        rfturn SyntiLookAndFffl.gftComponfntStbtf(d);
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notififs tiis UI dflfgbtf to rfpbint tif spfdififd domponfnt.
+     * Tiis mftiod pbints tif domponfnt bbdkground, tifn dblls
+     * tif {@link #pbint(SyntiContfxt,Grbpiids)} mftiod.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In gfnfrbl, tiis mftiod dofs not nffd to bf ovfrriddfn by subdlbssfs.
+     * All Look bnd Fffl rfndfring dodf siould rfsidf in tif {@dodf pbint} mftiod.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint(SyntiContfxt,Grbpiids)
      */
-    @Override
-    public void update(Graphics g, JComponent c) {
-        SynthContext context = getContext(c);
+    @Ovfrridf
+    publid void updbtf(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintToolBarBackground(context,
-                          g, 0, 0, c.getWidth(), c.getHeight(),
-                          toolBar.getOrientation());
-        paint(context, g);
-        context.dispose();
+        SyntiLookAndFffl.updbtf(dontfxt, g);
+        dontfxt.gftPbintfr().pbintToolBbrBbdkground(dontfxt,
+                          g, 0, 0, d.gftWidti(), d.gftHfigit(),
+                          toolBbr.gftOrifntbtion());
+        pbint(dontfxt, g);
+        dontfxt.disposf();
     }
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints tif spfdififd domponfnt bddording to tif Look bnd Fffl.
+     * <p>Tiis mftiod is not usfd by Synti Look bnd Fffl.
+     * Pbinting is ibndlfd by tif {@link #pbint(SyntiContfxt,Grbpiids)} mftiod.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint(SyntiContfxt,Grbpiids)
      */
-    @Override
-    public void paint(Graphics g, JComponent c) {
-        SynthContext context = getContext(c);
+    @Ovfrridf
+    publid void pbint(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
 
-        paint(context, g);
-        context.dispose();
+        pbint(dontfxt, g);
+        dontfxt.disposf();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
-                            int y, int w, int h) {
-        context.getPainter().paintToolBarBorder(context, g, x, y, w, h,
-                                                toolBar.getOrientation());
+    @Ovfrridf
+    publid void pbintBordfr(SyntiContfxt dontfxt, Grbpiids g, int x,
+                            int y, int w, int i) {
+        dontfxt.gftPbintfr().pbintToolBbrBordfr(dontfxt, g, x, y, w, i,
+                                                toolBbr.gftOrifntbtion());
     }
 
     /**
-     * This implementation does nothing, because the {@code rollover}
-     * property of the {@code JToolBar} class is not used
-     * in the Synth Look and Feel.
+     * Tiis implfmfntbtion dofs notiing, bfdbusf tif {@dodf rollovfr}
+     * propfrty of tif {@dodf JToolBbr} dlbss is not usfd
+     * in tif Synti Look bnd Fffl.
      */
-    @Override
-    protected void setBorderToNonRollover(Component c) {}
+    @Ovfrridf
+    protfdtfd void sftBordfrToNonRollovfr(Componfnt d) {}
 
     /**
-     * This implementation does nothing, because the {@code rollover}
-     * property of the {@code JToolBar} class is not used
-     * in the Synth Look and Feel.
+     * Tiis implfmfntbtion dofs notiing, bfdbusf tif {@dodf rollovfr}
+     * propfrty of tif {@dodf JToolBbr} dlbss is not usfd
+     * in tif Synti Look bnd Fffl.
      */
-    @Override
-    protected void setBorderToRollover(Component c) {}
+    @Ovfrridf
+    protfdtfd void sftBordfrToRollovfr(Componfnt d) {}
 
     /**
-     * This implementation does nothing, because the {@code rollover}
-     * property of the {@code JToolBar} class is not used
-     * in the Synth Look and Feel.
+     * Tiis implfmfntbtion dofs notiing, bfdbusf tif {@dodf rollovfr}
+     * propfrty of tif {@dodf JToolBbr} dlbss is not usfd
+     * in tif Synti Look bnd Fffl.
      */
-    @Override
-    protected void setBorderToNormal(Component c) {}
+    @Ovfrridf
+    protfdtfd void sftBordfrToNormbl(Componfnt d) {}
 
     /**
-     * Paints the toolbar.
+     * Pbints tif toolbbr.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm dontfxt dontfxt for tif domponfnt bfing pbintfd
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @sff #updbtf(Grbpiids,JComponfnt)
      */
-    protected void paint(SynthContext context, Graphics g) {
-        if (handleIcon != null && toolBar.isFloatable()) {
-            int startX = toolBar.getComponentOrientation().isLeftToRight() ?
-                0 : toolBar.getWidth() -
-                    SynthIcon.getIconWidth(handleIcon, context);
-            SynthIcon.paintIcon(handleIcon, context, g, startX, 0,
-                    SynthIcon.getIconWidth(handleIcon, context),
-                    SynthIcon.getIconHeight(handleIcon, context));
+    protfdtfd void pbint(SyntiContfxt dontfxt, Grbpiids g) {
+        if (ibndlfIdon != null && toolBbr.isFlobtbblf()) {
+            int stbrtX = toolBbr.gftComponfntOrifntbtion().isLfftToRigit() ?
+                0 : toolBbr.gftWidti() -
+                    SyntiIdon.gftIdonWidti(ibndlfIdon, dontfxt);
+            SyntiIdon.pbintIdon(ibndlfIdon, dontfxt, g, stbrtX, 0,
+                    SyntiIdon.gftIdonWidti(ibndlfIdon, dontfxt),
+                    SyntiIdon.gftIdonHfigit(ibndlfIdon, dontfxt));
         }
 
-        SynthContext subcontext = getContext(
-                toolBar, Region.TOOL_BAR_CONTENT, contentStyle);
-        paintContent(subcontext, g, contentRect);
-        subcontext.dispose();
+        SyntiContfxt subdontfxt = gftContfxt(
+                toolBbr, Rfgion.TOOL_BAR_CONTENT, dontfntStylf);
+        pbintContfnt(subdontfxt, g, dontfntRfdt);
+        subdontfxt.disposf();
     }
 
     /**
-     * Paints the toolbar content.
+     * Pbints tif toolbbr dontfnt.
      *
-     * @param context context for the component being painted
-     * @param g {@code Graphics} object used for painting
-     * @param bounds bounding box for the toolbar
+     * @pbrbm dontfxt dontfxt for tif domponfnt bfing pbintfd
+     * @pbrbm g {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm bounds bounding box for tif toolbbr
      */
-    protected void paintContent(SynthContext context, Graphics g,
-            Rectangle bounds) {
-        SynthLookAndFeel.updateSubregion(context, g, bounds);
-        context.getPainter().paintToolBarContentBackground(context, g,
-                             bounds.x, bounds.y, bounds.width, bounds.height,
-                             toolBar.getOrientation());
-        context.getPainter().paintToolBarContentBorder(context, g,
-                             bounds.x, bounds.y, bounds.width, bounds.height,
-                             toolBar.getOrientation());
+    protfdtfd void pbintContfnt(SyntiContfxt dontfxt, Grbpiids g,
+            Rfdtbnglf bounds) {
+        SyntiLookAndFffl.updbtfSubrfgion(dontfxt, g, bounds);
+        dontfxt.gftPbintfr().pbintToolBbrContfntBbdkground(dontfxt, g,
+                             bounds.x, bounds.y, bounds.widti, bounds.ifigit,
+                             toolBbr.gftOrifntbtion());
+        dontfxt.gftPbintfr().pbintToolBbrContfntBordfr(dontfxt, g,
+                             bounds.x, bounds.y, bounds.widti, bounds.ifigit,
+                             toolBbr.gftOrifntbtion());
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void paintDragWindow(Graphics g) {
-        int w = dragWindow.getWidth();
-        int h = dragWindow.getHeight();
-        SynthContext context = getContext(
-                toolBar, Region.TOOL_BAR_DRAG_WINDOW, dragWindowStyle);
-        SynthLookAndFeel.updateSubregion(
-                context, g, new Rectangle(0, 0, w, h));
-        context.getPainter().paintToolBarDragWindowBackground(context,
-                                                           g, 0, 0, w, h,
-                                                           dragWindow.getOrientation());
-        context.getPainter().paintToolBarDragWindowBorder(context, g, 0, 0, w, h,
-                                                          dragWindow.getOrientation());
-        context.dispose();
+    @Ovfrridf
+    protfdtfd void pbintDrbgWindow(Grbpiids g) {
+        int w = drbgWindow.gftWidti();
+        int i = drbgWindow.gftHfigit();
+        SyntiContfxt dontfxt = gftContfxt(
+                toolBbr, Rfgion.TOOL_BAR_DRAG_WINDOW, drbgWindowStylf);
+        SyntiLookAndFffl.updbtfSubrfgion(
+                dontfxt, g, nfw Rfdtbnglf(0, 0, w, i));
+        dontfxt.gftPbintfr().pbintToolBbrDrbgWindowBbdkground(dontfxt,
+                                                           g, 0, 0, w, i,
+                                                           drbgWindow.gftOrifntbtion());
+        dontfxt.gftPbintfr().pbintToolBbrDrbgWindowBordfr(dontfxt, g, 0, 0, w, i,
+                                                          drbgWindow.gftOrifntbtion());
+        dontfxt.disposf();
     }
 
     //
-    // PropertyChangeListener
+    // PropfrtyCibngfListfnfr
     //
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void propertyChange(PropertyChangeEvent e) {
-        if (SynthLookAndFeel.shouldUpdateStyle(e)) {
-            updateStyle((JToolBar)e.getSource());
+    @Ovfrridf
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+        if (SyntiLookAndFffl.siouldUpdbtfStylf(f)) {
+            updbtfStylf((JToolBbr)f.gftSourdf());
         }
     }
 
 
-    class SynthToolBarLayoutManager implements LayoutManager {
-        public void addLayoutComponent(String name, Component comp) {}
+    dlbss SyntiToolBbrLbyoutMbnbgfr implfmfnts LbyoutMbnbgfr {
+        publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {}
 
-        public void removeLayoutComponent(Component comp) {}
+        publid void rfmovfLbyoutComponfnt(Componfnt domp) {}
 
-        public Dimension minimumLayoutSize(Container parent) {
-            JToolBar tb = (JToolBar)parent;
-            Insets insets = tb.getInsets();
-            Dimension dim = new Dimension();
-            SynthContext context = getContext(tb);
+        publid Dimfnsion minimumLbyoutSizf(Contbinfr pbrfnt) {
+            JToolBbr tb = (JToolBbr)pbrfnt;
+            Insfts insfts = tb.gftInsfts();
+            Dimfnsion dim = nfw Dimfnsion();
+            SyntiContfxt dontfxt = gftContfxt(tb);
 
-            if (tb.getOrientation() == JToolBar.HORIZONTAL) {
-                dim.width = tb.isFloatable() ?
-                    SynthIcon.getIconWidth(handleIcon, context) : 0;
-                Dimension compDim;
-                for (int i = 0; i < tb.getComponentCount(); i++) {
-                    Component component = tb.getComponent(i);
-                    if (component.isVisible()) {
-                        compDim = component.getMinimumSize();
-                        dim.width += compDim.width;
-                        dim.height = Math.max(dim.height, compDim.height);
+            if (tb.gftOrifntbtion() == JToolBbr.HORIZONTAL) {
+                dim.widti = tb.isFlobtbblf() ?
+                    SyntiIdon.gftIdonWidti(ibndlfIdon, dontfxt) : 0;
+                Dimfnsion dompDim;
+                for (int i = 0; i < tb.gftComponfntCount(); i++) {
+                    Componfnt domponfnt = tb.gftComponfnt(i);
+                    if (domponfnt.isVisiblf()) {
+                        dompDim = domponfnt.gftMinimumSizf();
+                        dim.widti += dompDim.widti;
+                        dim.ifigit = Mbti.mbx(dim.ifigit, dompDim.ifigit);
                     }
                 }
-            } else {
-                dim.height = tb.isFloatable() ?
-                    SynthIcon.getIconHeight(handleIcon, context) : 0;
-                Dimension compDim;
-                for (int i = 0; i < tb.getComponentCount(); i++) {
-                    Component component = tb.getComponent(i);
-                    if (component.isVisible()) {
-                        compDim = component.getMinimumSize();
-                        dim.width = Math.max(dim.width, compDim.width);
-                        dim.height += compDim.height;
+            } flsf {
+                dim.ifigit = tb.isFlobtbblf() ?
+                    SyntiIdon.gftIdonHfigit(ibndlfIdon, dontfxt) : 0;
+                Dimfnsion dompDim;
+                for (int i = 0; i < tb.gftComponfntCount(); i++) {
+                    Componfnt domponfnt = tb.gftComponfnt(i);
+                    if (domponfnt.isVisiblf()) {
+                        dompDim = domponfnt.gftMinimumSizf();
+                        dim.widti = Mbti.mbx(dim.widti, dompDim.widti);
+                        dim.ifigit += dompDim.ifigit;
                     }
                 }
             }
-            dim.width += insets.left + insets.right;
-            dim.height += insets.top + insets.bottom;
+            dim.widti += insfts.lfft + insfts.rigit;
+            dim.ifigit += insfts.top + insfts.bottom;
 
-            context.dispose();
-            return dim;
+            dontfxt.disposf();
+            rfturn dim;
         }
 
-        public Dimension preferredLayoutSize(Container parent) {
-            JToolBar tb = (JToolBar)parent;
-            Insets insets = tb.getInsets();
-            Dimension dim = new Dimension();
-            SynthContext context = getContext(tb);
+        publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr pbrfnt) {
+            JToolBbr tb = (JToolBbr)pbrfnt;
+            Insfts insfts = tb.gftInsfts();
+            Dimfnsion dim = nfw Dimfnsion();
+            SyntiContfxt dontfxt = gftContfxt(tb);
 
-            if (tb.getOrientation() == JToolBar.HORIZONTAL) {
-                dim.width = tb.isFloatable() ?
-                    SynthIcon.getIconWidth(handleIcon, context) : 0;
-                Dimension compDim;
-                for (int i = 0; i < tb.getComponentCount(); i++) {
-                    Component component = tb.getComponent(i);
-                    if (component.isVisible()) {
-                        compDim = component.getPreferredSize();
-                        dim.width += compDim.width;
-                        dim.height = Math.max(dim.height, compDim.height);
+            if (tb.gftOrifntbtion() == JToolBbr.HORIZONTAL) {
+                dim.widti = tb.isFlobtbblf() ?
+                    SyntiIdon.gftIdonWidti(ibndlfIdon, dontfxt) : 0;
+                Dimfnsion dompDim;
+                for (int i = 0; i < tb.gftComponfntCount(); i++) {
+                    Componfnt domponfnt = tb.gftComponfnt(i);
+                    if (domponfnt.isVisiblf()) {
+                        dompDim = domponfnt.gftPrfffrrfdSizf();
+                        dim.widti += dompDim.widti;
+                        dim.ifigit = Mbti.mbx(dim.ifigit, dompDim.ifigit);
                     }
                 }
-            } else {
-                dim.height = tb.isFloatable() ?
-                    SynthIcon.getIconHeight(handleIcon, context) : 0;
-                Dimension compDim;
-                for (int i = 0; i < tb.getComponentCount(); i++) {
-                    Component component = tb.getComponent(i);
-                    if (component.isVisible()) {
-                        compDim = component.getPreferredSize();
-                        dim.width = Math.max(dim.width, compDim.width);
-                        dim.height += compDim.height;
+            } flsf {
+                dim.ifigit = tb.isFlobtbblf() ?
+                    SyntiIdon.gftIdonHfigit(ibndlfIdon, dontfxt) : 0;
+                Dimfnsion dompDim;
+                for (int i = 0; i < tb.gftComponfntCount(); i++) {
+                    Componfnt domponfnt = tb.gftComponfnt(i);
+                    if (domponfnt.isVisiblf()) {
+                        dompDim = domponfnt.gftPrfffrrfdSizf();
+                        dim.widti = Mbti.mbx(dim.widti, dompDim.widti);
+                        dim.ifigit += dompDim.ifigit;
                     }
                 }
             }
-            dim.width += insets.left + insets.right;
-            dim.height += insets.top + insets.bottom;
+            dim.widti += insfts.lfft + insfts.rigit;
+            dim.ifigit += insfts.top + insfts.bottom;
 
-            context.dispose();
-            return dim;
+            dontfxt.disposf();
+            rfturn dim;
         }
 
-        public void layoutContainer(Container parent) {
-            JToolBar tb = (JToolBar)parent;
-            Insets insets = tb.getInsets();
-            boolean ltr = tb.getComponentOrientation().isLeftToRight();
-            SynthContext context = getContext(tb);
+        publid void lbyoutContbinfr(Contbinfr pbrfnt) {
+            JToolBbr tb = (JToolBbr)pbrfnt;
+            Insfts insfts = tb.gftInsfts();
+            boolfbn ltr = tb.gftComponfntOrifntbtion().isLfftToRigit();
+            SyntiContfxt dontfxt = gftContfxt(tb);
 
-            Component c;
-            Dimension d;
+            Componfnt d;
+            Dimfnsion d;
 
-            // JToolBar by default uses a somewhat modified BoxLayout as
-            // its layout manager. For compatibility reasons, we want to
-            // support Box "glue" as a way to move things around on the
-            // toolbar. "glue" is represented in BoxLayout as a Box.Filler
-            // with a minimum and preferred size of (0,0).
-            // So what we do here is find the number of such glue fillers
-            // and figure out how much space should be allocated to them.
-            int glueCount = 0;
-            for (int i=0; i<tb.getComponentCount(); i++) {
-                if (isGlue(tb.getComponent(i))) glueCount++;
+            // JToolBbr by dffbult usfs b somfwibt modififd BoxLbyout bs
+            // its lbyout mbnbgfr. For dompbtibility rfbsons, wf wbnt to
+            // support Box "gluf" bs b wby to movf tiings bround on tif
+            // toolbbr. "gluf" is rfprfsfntfd in BoxLbyout bs b Box.Fillfr
+            // witi b minimum bnd prfffrrfd sizf of (0,0).
+            // So wibt wf do ifrf is find tif numbfr of sudi gluf fillfrs
+            // bnd figurf out iow mudi spbdf siould bf bllodbtfd to tifm.
+            int glufCount = 0;
+            for (int i=0; i<tb.gftComponfntCount(); i++) {
+                if (isGluf(tb.gftComponfnt(i))) glufCount++;
             }
 
-            if (tb.getOrientation() == JToolBar.HORIZONTAL) {
-                int handleWidth = tb.isFloatable() ?
-                    SynthIcon.getIconWidth(handleIcon, context) : 0;
+            if (tb.gftOrifntbtion() == JToolBbr.HORIZONTAL) {
+                int ibndlfWidti = tb.isFlobtbblf() ?
+                    SyntiIdon.gftIdonWidti(ibndlfIdon, dontfxt) : 0;
 
-                // Note: contentRect does not take insets into account
-                // since it is used for determining the bounds that are
-                // passed to paintToolBarContentBackground().
-                contentRect.x = ltr ? handleWidth : 0;
-                contentRect.y = 0;
-                contentRect.width = tb.getWidth() - handleWidth;
-                contentRect.height = tb.getHeight();
+                // Notf: dontfntRfdt dofs not tbkf insfts into bddount
+                // sindf it is usfd for dftfrmining tif bounds tibt brf
+                // pbssfd to pbintToolBbrContfntBbdkground().
+                dontfntRfdt.x = ltr ? ibndlfWidti : 0;
+                dontfntRfdt.y = 0;
+                dontfntRfdt.widti = tb.gftWidti() - ibndlfWidti;
+                dontfntRfdt.ifigit = tb.gftHfigit();
 
-                // However, we do take the insets into account here for
-                // the purposes of laying out the toolbar child components.
+                // Howfvfr, wf do tbkf tif insfts into bddount ifrf for
+                // tif purposfs of lbying out tif toolbbr diild domponfnts.
                 int x = ltr ?
-                    handleWidth + insets.left :
-                    tb.getWidth() - handleWidth - insets.right;
-                int baseY = insets.top;
-                int baseH = tb.getHeight() - insets.top - insets.bottom;
+                    ibndlfWidti + insfts.lfft :
+                    tb.gftWidti() - ibndlfWidti - insfts.rigit;
+                int bbsfY = insfts.top;
+                int bbsfH = tb.gftHfigit() - insfts.top - insfts.bottom;
 
-                // we need to get the minimum width for laying things out
-                // so that we can calculate how much empty space needs to
-                // be distributed among the "glue", if any
-                int extraSpacePerGlue = 0;
-                if (glueCount > 0) {
-                    int minWidth = minimumLayoutSize(parent).width;
-                    extraSpacePerGlue = (tb.getWidth() - minWidth) / glueCount;
-                    if (extraSpacePerGlue < 0) extraSpacePerGlue = 0;
+                // wf nffd to gft tif minimum widti for lbying tiings out
+                // so tibt wf dbn dbldulbtf iow mudi fmpty spbdf nffds to
+                // bf distributfd bmong tif "gluf", if bny
+                int fxtrbSpbdfPfrGluf = 0;
+                if (glufCount > 0) {
+                    int minWidti = minimumLbyoutSizf(pbrfnt).widti;
+                    fxtrbSpbdfPfrGluf = (tb.gftWidti() - minWidti) / glufCount;
+                    if (fxtrbSpbdfPfrGluf < 0) fxtrbSpbdfPfrGluf = 0;
                 }
 
-                for (int i = 0; i < tb.getComponentCount(); i++) {
-                    c = tb.getComponent(i);
-                    if (c.isVisible()) {
-                        d = c.getPreferredSize();
-                        int y, h;
-                        if (d.height >= baseH || c instanceof JSeparator) {
-                            // Fill available height
-                            y = baseY;
-                            h = baseH;
-                        } else {
-                            // Center component vertically in the available space
-                            y = baseY + (baseH / 2) - (d.height / 2);
-                            h = d.height;
+                for (int i = 0; i < tb.gftComponfntCount(); i++) {
+                    d = tb.gftComponfnt(i);
+                    if (d.isVisiblf()) {
+                        d = d.gftPrfffrrfdSizf();
+                        int y, i;
+                        if (d.ifigit >= bbsfH || d instbndfof JSfpbrbtor) {
+                            // Fill bvbilbblf ifigit
+                            y = bbsfY;
+                            i = bbsfH;
+                        } flsf {
+                            // Cfntfr domponfnt vfrtidblly in tif bvbilbblf spbdf
+                            y = bbsfY + (bbsfH / 2) - (d.ifigit / 2);
+                            i = d.ifigit;
                         }
-                        //if the component is a "glue" component then add to its
-                        //width the extraSpacePerGlue it is due
-                        if (isGlue(c)) d.width += extraSpacePerGlue;
-                        c.setBounds(ltr ? x : x - d.width, y, d.width, h);
-                        x = ltr ? x + d.width : x - d.width;
+                        //if tif domponfnt is b "gluf" domponfnt tifn bdd to its
+                        //widti tif fxtrbSpbdfPfrGluf it is duf
+                        if (isGluf(d)) d.widti += fxtrbSpbdfPfrGluf;
+                        d.sftBounds(ltr ? x : x - d.widti, y, d.widti, i);
+                        x = ltr ? x + d.widti : x - d.widti;
                     }
                 }
-            } else {
-                int handleHeight = tb.isFloatable() ?
-                    SynthIcon.getIconHeight(handleIcon, context) : 0;
+            } flsf {
+                int ibndlfHfigit = tb.isFlobtbblf() ?
+                    SyntiIdon.gftIdonHfigit(ibndlfIdon, dontfxt) : 0;
 
-                // See notes above regarding the use of insets
-                contentRect.x = 0;
-                contentRect.y = handleHeight;
-                contentRect.width = tb.getWidth();
-                contentRect.height = tb.getHeight() - handleHeight;
+                // Sff notfs bbovf rfgbrding tif usf of insfts
+                dontfntRfdt.x = 0;
+                dontfntRfdt.y = ibndlfHfigit;
+                dontfntRfdt.widti = tb.gftWidti();
+                dontfntRfdt.ifigit = tb.gftHfigit() - ibndlfHfigit;
 
-                int baseX = insets.left;
-                int baseW = tb.getWidth() - insets.left - insets.right;
-                int y = handleHeight + insets.top;
+                int bbsfX = insfts.lfft;
+                int bbsfW = tb.gftWidti() - insfts.lfft - insfts.rigit;
+                int y = ibndlfHfigit + insfts.top;
 
-                // we need to get the minimum height for laying things out
-                // so that we can calculate how much empty space needs to
-                // be distributed among the "glue", if any
-                int extraSpacePerGlue = 0;
-                if (glueCount > 0) {
-                    int minHeight = minimumLayoutSize(parent).height;
-                    extraSpacePerGlue = (tb.getHeight() - minHeight) / glueCount;
-                    if (extraSpacePerGlue < 0) extraSpacePerGlue = 0;
+                // wf nffd to gft tif minimum ifigit for lbying tiings out
+                // so tibt wf dbn dbldulbtf iow mudi fmpty spbdf nffds to
+                // bf distributfd bmong tif "gluf", if bny
+                int fxtrbSpbdfPfrGluf = 0;
+                if (glufCount > 0) {
+                    int minHfigit = minimumLbyoutSizf(pbrfnt).ifigit;
+                    fxtrbSpbdfPfrGluf = (tb.gftHfigit() - minHfigit) / glufCount;
+                    if (fxtrbSpbdfPfrGluf < 0) fxtrbSpbdfPfrGluf = 0;
                 }
 
-                for (int i = 0; i < tb.getComponentCount(); i++) {
-                    c = tb.getComponent(i);
-                    if (c.isVisible()) {
-                        d = c.getPreferredSize();
+                for (int i = 0; i < tb.gftComponfntCount(); i++) {
+                    d = tb.gftComponfnt(i);
+                    if (d.isVisiblf()) {
+                        d = d.gftPrfffrrfdSizf();
                         int x, w;
-                        if (d.width >= baseW || c instanceof JSeparator) {
-                            // Fill available width
-                            x = baseX;
-                            w = baseW;
-                        } else {
-                            // Center component horizontally in the available space
-                            x = baseX + (baseW / 2) - (d.width / 2);
-                            w = d.width;
+                        if (d.widti >= bbsfW || d instbndfof JSfpbrbtor) {
+                            // Fill bvbilbblf widti
+                            x = bbsfX;
+                            w = bbsfW;
+                        } flsf {
+                            // Cfntfr domponfnt iorizontblly in tif bvbilbblf spbdf
+                            x = bbsfX + (bbsfW / 2) - (d.widti / 2);
+                            w = d.widti;
                         }
-                        //if the component is a "glue" component then add to its
-                        //height the extraSpacePerGlue it is due
-                        if (isGlue(c)) d.height += extraSpacePerGlue;
-                        c.setBounds(x, y, w, d.height);
-                        y += d.height;
+                        //if tif domponfnt is b "gluf" domponfnt tifn bdd to its
+                        //ifigit tif fxtrbSpbdfPfrGluf it is duf
+                        if (isGluf(d)) d.ifigit += fxtrbSpbdfPfrGluf;
+                        d.sftBounds(x, y, w, d.ifigit);
+                        y += d.ifigit;
                     }
                 }
             }
-            context.dispose();
+            dontfxt.disposf();
         }
 
-        private boolean isGlue(Component c) {
-            if (c.isVisible() && c instanceof Box.Filler) {
-                Box.Filler f = (Box.Filler)c;
-                Dimension min = f.getMinimumSize();
-                Dimension pref = f.getPreferredSize();
-                return min.width == 0 &&  min.height == 0 &&
-                        pref.width == 0 && pref.height == 0;
+        privbtf boolfbn isGluf(Componfnt d) {
+            if (d.isVisiblf() && d instbndfof Box.Fillfr) {
+                Box.Fillfr f = (Box.Fillfr)d;
+                Dimfnsion min = f.gftMinimumSizf();
+                Dimfnsion prff = f.gftPrfffrrfdSizf();
+                rfturn min.widti == 0 &&  min.ifigit == 0 &&
+                        prff.widti == 0 && prff.ifigit == 0;
             }
-            return false;
+            rfturn fblsf;
         }
     }
 }

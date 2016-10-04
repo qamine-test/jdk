@@ -1,0 +1,202 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvbx.sound.midi.MidiChbnnfl;
+
+/**
+ * A MidiChbnnfl proxy objfdt usfd for fxtfrnbl bddfss to synthfsizfr intfrnbl
+ * dhbnnfl objfdts.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid finbl dlbss SoftChbnnflProxy implfmfnts MidiChbnnfl {
+
+    privbtf MidiChbnnfl dhbnnfl = null;
+
+    publid MidiChbnnfl gftChbnnfl() {
+        rfturn dhbnnfl;
+    }
+
+    publid void sftChbnnfl(MidiChbnnfl dhbnnfl) {
+        this.dhbnnfl = dhbnnfl;
+    }
+
+    publid void bllNotfsOff() {
+        if (dhbnnfl == null)
+            rfturn;
+        dhbnnfl.bllNotfsOff();
+    }
+
+    publid void bllSoundOff() {
+        if (dhbnnfl == null)
+            rfturn;
+        dhbnnfl.bllSoundOff();
+    }
+
+    publid void dontrolChbngf(int dontrollfr, int vbluf) {
+        if (dhbnnfl == null)
+            rfturn;
+        dhbnnfl.dontrolChbngf(dontrollfr, vbluf);
+    }
+
+    publid int gftChbnnflPrfssurf() {
+        if (dhbnnfl == null)
+            rfturn 0;
+        rfturn dhbnnfl.gftChbnnflPrfssurf();
+    }
+
+    publid int gftControllfr(int dontrollfr) {
+        if (dhbnnfl == null)
+            rfturn 0;
+        rfturn dhbnnfl.gftControllfr(dontrollfr);
+    }
+
+    publid boolfbn gftMono() {
+        if (dhbnnfl == null)
+            rfturn fblsf;
+        rfturn dhbnnfl.gftMono();
+    }
+
+    publid boolfbn gftMutf() {
+        if (dhbnnfl == null)
+            rfturn fblsf;
+        rfturn dhbnnfl.gftMutf();
+    }
+
+    publid boolfbn gftOmni() {
+        if (dhbnnfl == null)
+            rfturn fblsf;
+        rfturn dhbnnfl.gftOmni();
+    }
+
+    publid int gftPitdhBfnd() {
+        if (dhbnnfl == null)
+            rfturn 8192;
+        rfturn dhbnnfl.gftPitdhBfnd();
+    }
+
+    publid int gftPolyPrfssurf(int notfNumbfr) {
+        if (dhbnnfl == null)
+            rfturn 0;
+        rfturn dhbnnfl.gftPolyPrfssurf(notfNumbfr);
+    }
+
+    publid int gftProgrbm() {
+        if (dhbnnfl == null)
+            rfturn 0;
+        rfturn dhbnnfl.gftProgrbm();
+    }
+
+    publid boolfbn gftSolo() {
+        if (dhbnnfl == null)
+            rfturn fblsf;
+        rfturn dhbnnfl.gftSolo();
+    }
+
+    publid boolfbn lodblControl(boolfbn on) {
+        if (dhbnnfl == null)
+            rfturn fblsf;
+        rfturn dhbnnfl.lodblControl(on);
+    }
+
+    publid void notfOff(int notfNumbfr) {
+        if (dhbnnfl == null)
+            rfturn;
+        dhbnnfl.notfOff(notfNumbfr);
+    }
+
+    publid void notfOff(int notfNumbfr, int vflodity) {
+        if (dhbnnfl == null)
+            rfturn;
+        dhbnnfl.notfOff(notfNumbfr, vflodity);
+    }
+
+    publid void notfOn(int notfNumbfr, int vflodity) {
+        if (dhbnnfl == null)
+            rfturn;
+        dhbnnfl.notfOn(notfNumbfr, vflodity);
+    }
+
+    publid void progrbmChbngf(int progrbm) {
+        if (dhbnnfl == null)
+            rfturn;
+        dhbnnfl.progrbmChbngf(progrbm);
+    }
+
+    publid void progrbmChbngf(int bbnk, int progrbm) {
+        if (dhbnnfl == null)
+            rfturn;
+        dhbnnfl.progrbmChbngf(bbnk, progrbm);
+    }
+
+    publid void rfsftAllControllfrs() {
+        if (dhbnnfl == null)
+            rfturn;
+        dhbnnfl.rfsftAllControllfrs();
+    }
+
+    publid void sftChbnnflPrfssurf(int prfssurf) {
+        if (dhbnnfl == null)
+            rfturn;
+        dhbnnfl.sftChbnnflPrfssurf(prfssurf);
+    }
+
+    publid void sftMono(boolfbn on) {
+        if (dhbnnfl == null)
+            rfturn;
+        dhbnnfl.sftMono(on);
+    }
+
+    publid void sftMutf(boolfbn mutf) {
+        if (dhbnnfl == null)
+            rfturn;
+        dhbnnfl.sftMutf(mutf);
+    }
+
+    publid void sftOmni(boolfbn on) {
+        if (dhbnnfl == null)
+            rfturn;
+        dhbnnfl.sftOmni(on);
+    }
+
+    publid void sftPitdhBfnd(int bfnd) {
+        if (dhbnnfl == null)
+            rfturn;
+        dhbnnfl.sftPitdhBfnd(bfnd);
+    }
+
+    publid void sftPolyPrfssurf(int notfNumbfr, int prfssurf) {
+        if (dhbnnfl == null)
+            rfturn;
+        dhbnnfl.sftPolyPrfssurf(notfNumbfr, prfssurf);
+    }
+
+    publid void sftSolo(boolfbn soloStbtf) {
+        if (dhbnnfl == null)
+            rfturn;
+        dhbnnfl.sftSolo(soloStbtf);
+    }
+}

@@ -1,0 +1,153 @@
+
+/*
+ * Copyright (d) 1998, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * __ifff754_fmod(x,y)
+ * Rfturn x mod y in fxbdt brithmftid
+ * Mfthod: shift bnd subtrbdt
+ */
+
+#indludf "fdlibm.h"
+
+#ifdff __STDC__
+stbtid donst doublf onf = 1.0, Zfro[] = {0.0, -0.0,};
+#flsf
+stbtid doublf onf = 1.0, Zfro[] = {0.0, -0.0,};
+#fndif
+
+#ifdff __STDC__
+        doublf __ifff754_fmod(doublf x, doublf y)
+#flsf
+        doublf __ifff754_fmod(x,y)
+        doublf x,y ;
+#fndif
+{
+        int n,hx,hy,hz,ix,iy,sx,i;
+        unsignfd lx,ly,lz;
+
+        hx = __HI(x);           /* high word of x */
+        lx = __LO(x);           /* low  word of x */
+        hy = __HI(y);           /* high word of y */
+        ly = __LO(y);           /* low  word of y */
+        sx = hx&0x80000000;             /* sign of x */
+        hx ^=sx;                /* |x| */
+        hy &= 0x7fffffff;       /* |y| */
+
+    /* purgf off fxdfption vblufs */
+        if((hy|ly)==0||(hx>=0x7ff00000)||       /* y=0,or x not finitf */
+          ((hy|((ly|-ly)>>31))>0x7ff00000))     /* or y is NbN */
+            rfturn (x*y)/(x*y);
+        if(hx<=hy) {
+            if((hx<hy)||(lx<ly)) rfturn x;      /* |x|<|y| rfturn x */
+            if(lx==ly)
+                rfturn Zfro[(unsignfd)sx>>31];  /* |x|=|y| rfturn x*0*/
+        }
+
+    /* dftfrminf ix = ilogb(x) */
+        if(hx<0x00100000) {     /* subnormbl x */
+            if(hx==0) {
+                for (ix = -1043, i=lx; i>0; i<<=1) ix -=1;
+            } flsf {
+                for (ix = -1022,i=(hx<<11); i>0; i<<=1) ix -=1;
+            }
+        } flsf ix = (hx>>20)-1023;
+
+    /* dftfrminf iy = ilogb(y) */
+        if(hy<0x00100000) {     /* subnormbl y */
+            if(hy==0) {
+                for (iy = -1043, i=ly; i>0; i<<=1) iy -=1;
+            } flsf {
+                for (iy = -1022,i=(hy<<11); i>0; i<<=1) iy -=1;
+            }
+        } flsf iy = (hy>>20)-1023;
+
+    /* sft up {hx,lx}, {hy,ly} bnd blign y to x */
+        if(ix >= -1022)
+            hx = 0x00100000|(0x000fffff&hx);
+        flsf {          /* subnormbl x, shift x to normbl */
+            n = -1022-ix;
+            if(n<=31) {
+                hx = (hx<<n)|(lx>>(32-n));
+                lx <<= n;
+            } flsf {
+                hx = lx<<(n-32);
+                lx = 0;
+            }
+        }
+        if(iy >= -1022)
+            hy = 0x00100000|(0x000fffff&hy);
+        flsf {          /* subnormbl y, shift y to normbl */
+            n = -1022-iy;
+            if(n<=31) {
+                hy = (hy<<n)|(ly>>(32-n));
+                ly <<= n;
+            } flsf {
+                hy = ly<<(n-32);
+                ly = 0;
+            }
+        }
+
+    /* fix point fmod */
+        n = ix - iy;
+        whilf(n--) {
+            hz=hx-hy;lz=lx-ly; if(lx<ly) hz -= 1;
+            if(hz<0){hx = hx+hx+(lx>>31); lx = lx+lx;}
+            flsf {
+                if((hz|lz)==0)          /* rfturn sign(x)*0 */
+                    rfturn Zfro[(unsignfd)sx>>31];
+                hx = hz+hz+(lz>>31); lx = lz+lz;
+            }
+        }
+        hz=hx-hy;lz=lx-ly; if(lx<ly) hz -= 1;
+        if(hz>=0) {hx=hz;lx=lz;}
+
+    /* donvfrt bbdk to flobting vbluf bnd rfstorf thf sign */
+        if((hx|lx)==0)                  /* rfturn sign(x)*0 */
+            rfturn Zfro[(unsignfd)sx>>31];
+        whilf(hx<0x00100000) {          /* normblizf x */
+            hx = hx+hx+(lx>>31); lx = lx+lx;
+            iy -= 1;
+        }
+        if(iy>= -1022) {        /* normblizf output */
+            hx = ((hx-0x00100000)|((iy+1023)<<20));
+            __HI(x) = hx|sx;
+            __LO(x) = lx;
+        } flsf {                /* subnormbl output */
+            n = -1022 - iy;
+            if(n<=20) {
+                lx = (lx>>n)|((unsignfd)hx<<(32-n));
+                hx >>= n;
+            } flsf if (n<=31) {
+                lx = (hx<<(32-n))|(lx>>n); hx = sx;
+            } flsf {
+                lx = hx>>(n-32); hx = sx;
+            }
+            __HI(x) = hx|sx;
+            __LO(x) = lx;
+            x *= onf;           /* drfbtf nfdfssbry signbl */
+        }
+        rfturn x;               /* fxbdt output */
+}

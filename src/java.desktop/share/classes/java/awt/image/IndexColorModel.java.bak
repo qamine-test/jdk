@@ -1,1535 +1,1535 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.image;
+pbdkbgf jbvb.bwt.imbgf;
 
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
-import java.math.BigInteger;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.mbti.BigIntfgfr;
 
 /**
- * The <code>IndexColorModel</code> class is a <code>ColorModel</code>
- * class that works with pixel values consisting of a
- * single sample that is an index into a fixed colormap in the default
- * sRGB color space.  The colormap specifies red, green, blue, and
- * optional alpha components corresponding to each index.  All components
- * are represented in the colormap as 8-bit unsigned integral values.
- * Some constructors allow the caller to specify "holes" in the colormap
- * by indicating which colormap entries are valid and which represent
- * unusable colors via the bits set in a <code>BigInteger</code> object.
- * This color model is similar to an X11 PseudoColor visual.
+ * Tif <dodf>IndfxColorModfl</dodf> dlbss is b <dodf>ColorModfl</dodf>
+ * dlbss tibt works witi pixfl vblufs donsisting of b
+ * singlf sbmplf tibt is bn indfx into b fixfd dolormbp in tif dffbult
+ * sRGB dolor spbdf.  Tif dolormbp spfdififs rfd, grffn, bluf, bnd
+ * optionbl blpib domponfnts dorrfsponding to fbdi indfx.  All domponfnts
+ * brf rfprfsfntfd in tif dolormbp bs 8-bit unsignfd intfgrbl vblufs.
+ * Somf donstrudtors bllow tif dbllfr to spfdify "iolfs" in tif dolormbp
+ * by indidbting wiidi dolormbp fntrifs brf vblid bnd wiidi rfprfsfnt
+ * unusbblf dolors vib tif bits sft in b <dodf>BigIntfgfr</dodf> objfdt.
+ * Tiis dolor modfl is similbr to bn X11 PsfudoColor visubl.
  * <p>
- * Some constructors provide a means to specify an alpha component
- * for each pixel in the colormap, while others either provide no
- * such means or, in some cases, a flag to indicate whether the
- * colormap data contains alpha values.  If no alpha is supplied to
- * the constructor, an opaque alpha component (alpha = 1.0) is
- * assumed for each entry.
- * An optional transparent pixel value can be supplied that indicates a
- * pixel to be made completely transparent, regardless of any alpha
- * component supplied or assumed for that pixel value.
- * Note that the color components in the colormap of an
- * <code>IndexColorModel</code> objects are never pre-multiplied with
- * the alpha components.
+ * Somf donstrudtors providf b mfbns to spfdify bn blpib domponfnt
+ * for fbdi pixfl in tif dolormbp, wiilf otifrs fitifr providf no
+ * sudi mfbns or, in somf dbsfs, b flbg to indidbtf wiftifr tif
+ * dolormbp dbtb dontbins blpib vblufs.  If no blpib is supplifd to
+ * tif donstrudtor, bn opbquf blpib domponfnt (blpib = 1.0) is
+ * bssumfd for fbdi fntry.
+ * An optionbl trbnspbrfnt pixfl vbluf dbn bf supplifd tibt indidbtfs b
+ * pixfl to bf mbdf domplftfly trbnspbrfnt, rfgbrdlfss of bny blpib
+ * domponfnt supplifd or bssumfd for tibt pixfl vbluf.
+ * Notf tibt tif dolor domponfnts in tif dolormbp of bn
+ * <dodf>IndfxColorModfl</dodf> objfdts brf nfvfr prf-multiplifd witi
+ * tif blpib domponfnts.
  * <p>
- * <a name="transparency">
- * The transparency of an <code>IndexColorModel</code> object is
- * determined by examining the alpha components of the colors in the
- * colormap and choosing the most specific value after considering
- * the optional alpha values and any transparent index specified.
- * The transparency value is <code>Transparency.OPAQUE</code>
- * only if all valid colors in
- * the colormap are opaque and there is no valid transparent pixel.
- * If all valid colors
- * in the colormap are either completely opaque (alpha = 1.0) or
- * completely transparent (alpha = 0.0), which typically occurs when
- * a valid transparent pixel is specified,
- * the value is <code>Transparency.BITMASK</code>.
- * Otherwise, the value is <code>Transparency.TRANSLUCENT</code>, indicating
- * that some valid color has an alpha component that is
- * neither completely transparent nor completely opaque
- * (0.0 &lt; alpha &lt; 1.0).
- * </a>
+ * <b nbmf="trbnspbrfndy">
+ * Tif trbnspbrfndy of bn <dodf>IndfxColorModfl</dodf> objfdt is
+ * dftfrminfd by fxbmining tif blpib domponfnts of tif dolors in tif
+ * dolormbp bnd dioosing tif most spfdifid vbluf bftfr donsidfring
+ * tif optionbl blpib vblufs bnd bny trbnspbrfnt indfx spfdififd.
+ * Tif trbnspbrfndy vbluf is <dodf>Trbnspbrfndy.OPAQUE</dodf>
+ * only if bll vblid dolors in
+ * tif dolormbp brf opbquf bnd tifrf is no vblid trbnspbrfnt pixfl.
+ * If bll vblid dolors
+ * in tif dolormbp brf fitifr domplftfly opbquf (blpib = 1.0) or
+ * domplftfly trbnspbrfnt (blpib = 0.0), wiidi typidblly oddurs wifn
+ * b vblid trbnspbrfnt pixfl is spfdififd,
+ * tif vbluf is <dodf>Trbnspbrfndy.BITMASK</dodf>.
+ * Otifrwisf, tif vbluf is <dodf>Trbnspbrfndy.TRANSLUCENT</dodf>, indidbting
+ * tibt somf vblid dolor ibs bn blpib domponfnt tibt is
+ * nfitifr domplftfly trbnspbrfnt nor domplftfly opbquf
+ * (0.0 &lt; blpib &lt; 1.0).
+ * </b>
  *
  * <p>
- * If an <code>IndexColorModel</code> object has
- * a transparency value of <code>Transparency.OPAQUE</code>,
- * then the <code>hasAlpha</code>
- * and <code>getNumComponents</code> methods
- * (both inherited from <code>ColorModel</code>)
- * return false and 3, respectively.
- * For any other transparency value,
- * <code>hasAlpha</code> returns true
- * and <code>getNumComponents</code> returns 4.
+ * If bn <dodf>IndfxColorModfl</dodf> objfdt ibs
+ * b trbnspbrfndy vbluf of <dodf>Trbnspbrfndy.OPAQUE</dodf>,
+ * tifn tif <dodf>ibsAlpib</dodf>
+ * bnd <dodf>gftNumComponfnts</dodf> mftiods
+ * (boti inifritfd from <dodf>ColorModfl</dodf>)
+ * rfturn fblsf bnd 3, rfspfdtivfly.
+ * For bny otifr trbnspbrfndy vbluf,
+ * <dodf>ibsAlpib</dodf> rfturns truf
+ * bnd <dodf>gftNumComponfnts</dodf> rfturns 4.
  *
  * <p>
- * <a name="index_values">
- * The values used to index into the colormap are taken from the least
- * significant <em>n</em> bits of pixel representations where
- * <em>n</em> is based on the pixel size specified in the constructor.
- * For pixel sizes smaller than 8 bits, <em>n</em> is rounded up to a
- * power of two (3 becomes 4 and 5,6,7 become 8).
- * For pixel sizes between 8 and 16 bits, <em>n</em> is equal to the
- * pixel size.
- * Pixel sizes larger than 16 bits are not supported by this class.
- * Higher order bits beyond <em>n</em> are ignored in pixel representations.
- * Index values greater than or equal to the map size, but less than
- * 2<sup><em>n</em></sup>, are undefined and return 0 for all color and
- * alpha components.
- * </a>
+ * <b nbmf="indfx_vblufs">
+ * Tif vblufs usfd to indfx into tif dolormbp brf tbkfn from tif lfbst
+ * signifidbnt <fm>n</fm> bits of pixfl rfprfsfntbtions wifrf
+ * <fm>n</fm> is bbsfd on tif pixfl sizf spfdififd in tif donstrudtor.
+ * For pixfl sizfs smbllfr tibn 8 bits, <fm>n</fm> is roundfd up to b
+ * powfr of two (3 bfdomfs 4 bnd 5,6,7 bfdomf 8).
+ * For pixfl sizfs bftwffn 8 bnd 16 bits, <fm>n</fm> is fqubl to tif
+ * pixfl sizf.
+ * Pixfl sizfs lbrgfr tibn 16 bits brf not supportfd by tiis dlbss.
+ * Higifr ordfr bits bfyond <fm>n</fm> brf ignorfd in pixfl rfprfsfntbtions.
+ * Indfx vblufs grfbtfr tibn or fqubl to tif mbp sizf, but lfss tibn
+ * 2<sup><fm>n</fm></sup>, brf undffinfd bnd rfturn 0 for bll dolor bnd
+ * blpib domponfnts.
+ * </b>
  * <p>
- * For those methods that use a primitive array pixel representation of
- * type <code>transferType</code>, the array length is always one.
- * The transfer types supported are <code>DataBuffer.TYPE_BYTE</code> and
- * <code>DataBuffer.TYPE_USHORT</code>.  A single int pixel
- * representation is valid for all objects of this class, since it is
- * always possible to represent pixel values used with this class in a
- * single int.  Therefore, methods that use this representation do
- * not throw an <code>IllegalArgumentException</code> due to an invalid
- * pixel value.
+ * For tiosf mftiods tibt usf b primitivf brrby pixfl rfprfsfntbtion of
+ * typf <dodf>trbnsffrTypf</dodf>, tif brrby lfngti is blwbys onf.
+ * Tif trbnsffr typfs supportfd brf <dodf>DbtbBufffr.TYPE_BYTE</dodf> bnd
+ * <dodf>DbtbBufffr.TYPE_USHORT</dodf>.  A singlf int pixfl
+ * rfprfsfntbtion is vblid for bll objfdts of tiis dlbss, sindf it is
+ * blwbys possiblf to rfprfsfnt pixfl vblufs usfd witi tiis dlbss in b
+ * singlf int.  Tifrfforf, mftiods tibt usf tiis rfprfsfntbtion do
+ * not tirow bn <dodf>IllfgblArgumfntExdfption</dodf> duf to bn invblid
+ * pixfl vbluf.
  * <p>
- * Many of the methods in this class are final.  The reason for
- * this is that the underlying native graphics code makes assumptions
- * about the layout and operation of this class and those assumptions
- * are reflected in the implementations of the methods here that are
- * marked final.  You can subclass this class for other reasons, but
- * you cannot override or modify the behaviour of those methods.
+ * Mbny of tif mftiods in tiis dlbss brf finbl.  Tif rfbson for
+ * tiis is tibt tif undfrlying nbtivf grbpiids dodf mbkfs bssumptions
+ * bbout tif lbyout bnd opfrbtion of tiis dlbss bnd tiosf bssumptions
+ * brf rfflfdtfd in tif implfmfntbtions of tif mftiods ifrf tibt brf
+ * mbrkfd finbl.  You dbn subdlbss tiis dlbss for otifr rfbsons, but
+ * you dbnnot ovfrridf or modify tif bfibviour of tiosf mftiods.
  *
- * @see ColorModel
- * @see ColorSpace
- * @see DataBuffer
+ * @sff ColorModfl
+ * @sff ColorSpbdf
+ * @sff DbtbBufffr
  *
  */
-public class IndexColorModel extends ColorModel {
-    private int rgb[];
-    private int map_size;
-    private int pixel_mask;
-    private int transparent_index = -1;
-    private boolean allgrayopaque;
-    private BigInteger validBits;
+publid dlbss IndfxColorModfl fxtfnds ColorModfl {
+    privbtf int rgb[];
+    privbtf int mbp_sizf;
+    privbtf int pixfl_mbsk;
+    privbtf int trbnspbrfnt_indfx = -1;
+    privbtf boolfbn bllgrbyopbquf;
+    privbtf BigIntfgfr vblidBits;
 
-    private sun.awt.image.BufImgSurfaceData.ICMColorData colorData = null;
+    privbtf sun.bwt.imbgf.BufImgSurfbdfDbtb.ICMColorDbtb dolorDbtb = null;
 
-    private static int[] opaqueBits = {8, 8, 8};
-    private static int[] alphaBits = {8, 8, 8, 8};
+    privbtf stbtid int[] opbqufBits = {8, 8, 8};
+    privbtf stbtid int[] blpibBits = {8, 8, 8, 8};
 
-    static private native void initIDs();
-    static {
-        ColorModel.loadLibraries();
+    stbtid privbtf nbtivf void initIDs();
+    stbtid {
+        ColorModfl.lobdLibrbrifs();
         initIDs();
     }
     /**
-     * Constructs an <code>IndexColorModel</code> from the specified
-     * arrays of red, green, and blue components.  Pixels described
-     * by this color model all have alpha components of 255
-     * unnormalized (1.0&nbsp;normalized), which means they
-     * are fully opaque.  All of the arrays specifying the color
-     * components must have at least the specified number of entries.
-     * The <code>ColorSpace</code> is the default sRGB space.
-     * Since there is no alpha information in any of the arguments
-     * to this constructor, the transparency value is always
-     * <code>Transparency.OPAQUE</code>.
-     * The transfer type is the smallest of <code>DataBuffer.TYPE_BYTE</code>
-     * or <code>DataBuffer.TYPE_USHORT</code> that can hold a single pixel.
-     * @param bits      the number of bits each pixel occupies
-     * @param size      the size of the color component arrays
-     * @param r         the array of red color components
-     * @param g         the array of green color components
-     * @param b         the array of blue color components
-     * @throws IllegalArgumentException if <code>bits</code> is less
-     *         than 1 or greater than 16
-     * @throws IllegalArgumentException if <code>size</code> is less
-     *         than 1
+     * Construdts bn <dodf>IndfxColorModfl</dodf> from tif spfdififd
+     * brrbys of rfd, grffn, bnd bluf domponfnts.  Pixfls dfsdribfd
+     * by tiis dolor modfl bll ibvf blpib domponfnts of 255
+     * unnormblizfd (1.0&nbsp;normblizfd), wiidi mfbns tify
+     * brf fully opbquf.  All of tif brrbys spfdifying tif dolor
+     * domponfnts must ibvf bt lfbst tif spfdififd numbfr of fntrifs.
+     * Tif <dodf>ColorSpbdf</dodf> is tif dffbult sRGB spbdf.
+     * Sindf tifrf is no blpib informbtion in bny of tif brgumfnts
+     * to tiis donstrudtor, tif trbnspbrfndy vbluf is blwbys
+     * <dodf>Trbnspbrfndy.OPAQUE</dodf>.
+     * Tif trbnsffr typf is tif smbllfst of <dodf>DbtbBufffr.TYPE_BYTE</dodf>
+     * or <dodf>DbtbBufffr.TYPE_USHORT</dodf> tibt dbn iold b singlf pixfl.
+     * @pbrbm bits      tif numbfr of bits fbdi pixfl oddupifs
+     * @pbrbm sizf      tif sizf of tif dolor domponfnt brrbys
+     * @pbrbm r         tif brrby of rfd dolor domponfnts
+     * @pbrbm g         tif brrby of grffn dolor domponfnts
+     * @pbrbm b         tif brrby of bluf dolor domponfnts
+     * @tirows IllfgblArgumfntExdfption if <dodf>bits</dodf> is lfss
+     *         tibn 1 or grfbtfr tibn 16
+     * @tirows IllfgblArgumfntExdfption if <dodf>sizf</dodf> is lfss
+     *         tibn 1
      */
-    public IndexColorModel(int bits, int size,
-                           byte r[], byte g[], byte b[]) {
-        super(bits, opaqueBits,
-              ColorSpace.getInstance(ColorSpace.CS_sRGB),
-              false, false, OPAQUE,
-              ColorModel.getDefaultTransferType(bits));
+    publid IndfxColorModfl(int bits, int sizf,
+                           bytf r[], bytf g[], bytf b[]) {
+        supfr(bits, opbqufBits,
+              ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB),
+              fblsf, fblsf, OPAQUE,
+              ColorModfl.gftDffbultTrbnsffrTypf(bits));
         if (bits < 1 || bits > 16) {
-            throw new IllegalArgumentException("Number of bits must be between"
-                                               +" 1 and 16.");
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of bits must bf bftwffn"
+                                               +" 1 bnd 16.");
         }
-        setRGBs(size, r, g, b, null);
-        calculatePixelMask();
+        sftRGBs(sizf, r, g, b, null);
+        dbldulbtfPixflMbsk();
     }
 
     /**
-     * Constructs an <code>IndexColorModel</code> from the given arrays
-     * of red, green, and blue components.  Pixels described by this color
-     * model all have alpha components of 255 unnormalized
-     * (1.0&nbsp;normalized), which means they are fully opaque, except
-     * for the indicated pixel to be made transparent.  All of the arrays
-     * specifying the color components must have at least the specified
-     * number of entries.
-     * The <code>ColorSpace</code> is the default sRGB space.
-     * The transparency value may be <code>Transparency.OPAQUE</code> or
-     * <code>Transparency.BITMASK</code> depending on the arguments, as
-     * specified in the <a href="#transparency">class description</a> above.
-     * The transfer type is the smallest of <code>DataBuffer.TYPE_BYTE</code>
-     * or <code>DataBuffer.TYPE_USHORT</code> that can hold a
-     * single pixel.
-     * @param bits      the number of bits each pixel occupies
-     * @param size      the size of the color component arrays
-     * @param r         the array of red color components
-     * @param g         the array of green color components
-     * @param b         the array of blue color components
-     * @param trans     the index of the transparent pixel
-     * @throws IllegalArgumentException if <code>bits</code> is less than
-     *          1 or greater than 16
-     * @throws IllegalArgumentException if <code>size</code> is less than
+     * Construdts bn <dodf>IndfxColorModfl</dodf> from tif givfn brrbys
+     * of rfd, grffn, bnd bluf domponfnts.  Pixfls dfsdribfd by tiis dolor
+     * modfl bll ibvf blpib domponfnts of 255 unnormblizfd
+     * (1.0&nbsp;normblizfd), wiidi mfbns tify brf fully opbquf, fxdfpt
+     * for tif indidbtfd pixfl to bf mbdf trbnspbrfnt.  All of tif brrbys
+     * spfdifying tif dolor domponfnts must ibvf bt lfbst tif spfdififd
+     * numbfr of fntrifs.
+     * Tif <dodf>ColorSpbdf</dodf> is tif dffbult sRGB spbdf.
+     * Tif trbnspbrfndy vbluf mby bf <dodf>Trbnspbrfndy.OPAQUE</dodf> or
+     * <dodf>Trbnspbrfndy.BITMASK</dodf> dfpfnding on tif brgumfnts, bs
+     * spfdififd in tif <b irff="#trbnspbrfndy">dlbss dfsdription</b> bbovf.
+     * Tif trbnsffr typf is tif smbllfst of <dodf>DbtbBufffr.TYPE_BYTE</dodf>
+     * or <dodf>DbtbBufffr.TYPE_USHORT</dodf> tibt dbn iold b
+     * singlf pixfl.
+     * @pbrbm bits      tif numbfr of bits fbdi pixfl oddupifs
+     * @pbrbm sizf      tif sizf of tif dolor domponfnt brrbys
+     * @pbrbm r         tif brrby of rfd dolor domponfnts
+     * @pbrbm g         tif brrby of grffn dolor domponfnts
+     * @pbrbm b         tif brrby of bluf dolor domponfnts
+     * @pbrbm trbns     tif indfx of tif trbnspbrfnt pixfl
+     * @tirows IllfgblArgumfntExdfption if <dodf>bits</dodf> is lfss tibn
+     *          1 or grfbtfr tibn 16
+     * @tirows IllfgblArgumfntExdfption if <dodf>sizf</dodf> is lfss tibn
      *          1
      */
-    public IndexColorModel(int bits, int size,
-                           byte r[], byte g[], byte b[], int trans) {
-        super(bits, opaqueBits,
-              ColorSpace.getInstance(ColorSpace.CS_sRGB),
-              false, false, OPAQUE,
-              ColorModel.getDefaultTransferType(bits));
+    publid IndfxColorModfl(int bits, int sizf,
+                           bytf r[], bytf g[], bytf b[], int trbns) {
+        supfr(bits, opbqufBits,
+              ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB),
+              fblsf, fblsf, OPAQUE,
+              ColorModfl.gftDffbultTrbnsffrTypf(bits));
         if (bits < 1 || bits > 16) {
-            throw new IllegalArgumentException("Number of bits must be between"
-                                               +" 1 and 16.");
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of bits must bf bftwffn"
+                                               +" 1 bnd 16.");
         }
-        setRGBs(size, r, g, b, null);
-        setTransparentPixel(trans);
-        calculatePixelMask();
+        sftRGBs(sizf, r, g, b, null);
+        sftTrbnspbrfntPixfl(trbns);
+        dbldulbtfPixflMbsk();
     }
 
     /**
-     * Constructs an <code>IndexColorModel</code> from the given
-     * arrays of red, green, blue and alpha components.  All of the
-     * arrays specifying the components must have at least the specified
-     * number of entries.
-     * The <code>ColorSpace</code> is the default sRGB space.
-     * The transparency value may be any of <code>Transparency.OPAQUE</code>,
-     * <code>Transparency.BITMASK</code>,
-     * or <code>Transparency.TRANSLUCENT</code>
-     * depending on the arguments, as specified
-     * in the <a href="#transparency">class description</a> above.
-     * The transfer type is the smallest of <code>DataBuffer.TYPE_BYTE</code>
-     * or <code>DataBuffer.TYPE_USHORT</code> that can hold a single pixel.
-     * @param bits      the number of bits each pixel occupies
-     * @param size      the size of the color component arrays
-     * @param r         the array of red color components
-     * @param g         the array of green color components
-     * @param b         the array of blue color components
-     * @param a         the array of alpha value components
-     * @throws IllegalArgumentException if <code>bits</code> is less
-     *           than 1 or greater than 16
-     * @throws IllegalArgumentException if <code>size</code> is less
-     *           than 1
+     * Construdts bn <dodf>IndfxColorModfl</dodf> from tif givfn
+     * brrbys of rfd, grffn, bluf bnd blpib domponfnts.  All of tif
+     * brrbys spfdifying tif domponfnts must ibvf bt lfbst tif spfdififd
+     * numbfr of fntrifs.
+     * Tif <dodf>ColorSpbdf</dodf> is tif dffbult sRGB spbdf.
+     * Tif trbnspbrfndy vbluf mby bf bny of <dodf>Trbnspbrfndy.OPAQUE</dodf>,
+     * <dodf>Trbnspbrfndy.BITMASK</dodf>,
+     * or <dodf>Trbnspbrfndy.TRANSLUCENT</dodf>
+     * dfpfnding on tif brgumfnts, bs spfdififd
+     * in tif <b irff="#trbnspbrfndy">dlbss dfsdription</b> bbovf.
+     * Tif trbnsffr typf is tif smbllfst of <dodf>DbtbBufffr.TYPE_BYTE</dodf>
+     * or <dodf>DbtbBufffr.TYPE_USHORT</dodf> tibt dbn iold b singlf pixfl.
+     * @pbrbm bits      tif numbfr of bits fbdi pixfl oddupifs
+     * @pbrbm sizf      tif sizf of tif dolor domponfnt brrbys
+     * @pbrbm r         tif brrby of rfd dolor domponfnts
+     * @pbrbm g         tif brrby of grffn dolor domponfnts
+     * @pbrbm b         tif brrby of bluf dolor domponfnts
+     * @pbrbm b         tif brrby of blpib vbluf domponfnts
+     * @tirows IllfgblArgumfntExdfption if <dodf>bits</dodf> is lfss
+     *           tibn 1 or grfbtfr tibn 16
+     * @tirows IllfgblArgumfntExdfption if <dodf>sizf</dodf> is lfss
+     *           tibn 1
      */
-    public IndexColorModel(int bits, int size,
-                           byte r[], byte g[], byte b[], byte a[]) {
-        super (bits, alphaBits,
-               ColorSpace.getInstance(ColorSpace.CS_sRGB),
-               true, false, TRANSLUCENT,
-               ColorModel.getDefaultTransferType(bits));
+    publid IndfxColorModfl(int bits, int sizf,
+                           bytf r[], bytf g[], bytf b[], bytf b[]) {
+        supfr (bits, blpibBits,
+               ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB),
+               truf, fblsf, TRANSLUCENT,
+               ColorModfl.gftDffbultTrbnsffrTypf(bits));
         if (bits < 1 || bits > 16) {
-            throw new IllegalArgumentException("Number of bits must be between"
-                                               +" 1 and 16.");
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of bits must bf bftwffn"
+                                               +" 1 bnd 16.");
         }
-        setRGBs (size, r, g, b, a);
-        calculatePixelMask();
+        sftRGBs (sizf, r, g, b, b);
+        dbldulbtfPixflMbsk();
     }
 
     /**
-     * Constructs an <code>IndexColorModel</code> from a single
-     * array of interleaved red, green, blue and optional alpha
-     * components.  The array must have enough values in it to
-     * fill all of the needed component arrays of the specified
-     * size.  The <code>ColorSpace</code> is the default sRGB space.
-     * The transparency value may be any of <code>Transparency.OPAQUE</code>,
-     * <code>Transparency.BITMASK</code>,
-     * or <code>Transparency.TRANSLUCENT</code>
-     * depending on the arguments, as specified
-     * in the <a href="#transparency">class description</a> above.
-     * The transfer type is the smallest of
-     * <code>DataBuffer.TYPE_BYTE</code> or <code>DataBuffer.TYPE_USHORT</code>
-     * that can hold a single pixel.
+     * Construdts bn <dodf>IndfxColorModfl</dodf> from b singlf
+     * brrby of intfrlfbvfd rfd, grffn, bluf bnd optionbl blpib
+     * domponfnts.  Tif brrby must ibvf fnougi vblufs in it to
+     * fill bll of tif nffdfd domponfnt brrbys of tif spfdififd
+     * sizf.  Tif <dodf>ColorSpbdf</dodf> is tif dffbult sRGB spbdf.
+     * Tif trbnspbrfndy vbluf mby bf bny of <dodf>Trbnspbrfndy.OPAQUE</dodf>,
+     * <dodf>Trbnspbrfndy.BITMASK</dodf>,
+     * or <dodf>Trbnspbrfndy.TRANSLUCENT</dodf>
+     * dfpfnding on tif brgumfnts, bs spfdififd
+     * in tif <b irff="#trbnspbrfndy">dlbss dfsdription</b> bbovf.
+     * Tif trbnsffr typf is tif smbllfst of
+     * <dodf>DbtbBufffr.TYPE_BYTE</dodf> or <dodf>DbtbBufffr.TYPE_USHORT</dodf>
+     * tibt dbn iold b singlf pixfl.
      *
-     * @param bits      the number of bits each pixel occupies
-     * @param size      the size of the color component arrays
-     * @param cmap      the array of color components
-     * @param start     the starting offset of the first color component
-     * @param hasalpha  indicates whether alpha values are contained in
-     *                  the <code>cmap</code> array
-     * @throws IllegalArgumentException if <code>bits</code> is less
-     *           than 1 or greater than 16
-     * @throws IllegalArgumentException if <code>size</code> is less
-     *           than 1
+     * @pbrbm bits      tif numbfr of bits fbdi pixfl oddupifs
+     * @pbrbm sizf      tif sizf of tif dolor domponfnt brrbys
+     * @pbrbm dmbp      tif brrby of dolor domponfnts
+     * @pbrbm stbrt     tif stbrting offsft of tif first dolor domponfnt
+     * @pbrbm ibsblpib  indidbtfs wiftifr blpib vblufs brf dontbinfd in
+     *                  tif <dodf>dmbp</dodf> brrby
+     * @tirows IllfgblArgumfntExdfption if <dodf>bits</dodf> is lfss
+     *           tibn 1 or grfbtfr tibn 16
+     * @tirows IllfgblArgumfntExdfption if <dodf>sizf</dodf> is lfss
+     *           tibn 1
      */
-    public IndexColorModel(int bits, int size, byte cmap[], int start,
-                           boolean hasalpha) {
-        this(bits, size, cmap, start, hasalpha, -1);
+    publid IndfxColorModfl(int bits, int sizf, bytf dmbp[], int stbrt,
+                           boolfbn ibsblpib) {
+        tiis(bits, sizf, dmbp, stbrt, ibsblpib, -1);
         if (bits < 1 || bits > 16) {
-            throw new IllegalArgumentException("Number of bits must be between"
-                                               +" 1 and 16.");
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of bits must bf bftwffn"
+                                               +" 1 bnd 16.");
         }
     }
 
     /**
-     * Constructs an <code>IndexColorModel</code> from a single array of
-     * interleaved red, green, blue and optional alpha components.  The
-     * specified transparent index represents a pixel that is made
-     * entirely transparent regardless of any alpha value specified
-     * for it.  The array must have enough values in it to fill all
-     * of the needed component arrays of the specified size.
-     * The <code>ColorSpace</code> is the default sRGB space.
-     * The transparency value may be any of <code>Transparency.OPAQUE</code>,
-     * <code>Transparency.BITMASK</code>,
-     * or <code>Transparency.TRANSLUCENT</code>
-     * depending on the arguments, as specified
-     * in the <a href="#transparency">class description</a> above.
-     * The transfer type is the smallest of
-     * <code>DataBuffer.TYPE_BYTE</code> or <code>DataBuffer.TYPE_USHORT</code>
-     * that can hold a single pixel.
-     * @param bits      the number of bits each pixel occupies
-     * @param size      the size of the color component arrays
-     * @param cmap      the array of color components
-     * @param start     the starting offset of the first color component
-     * @param hasalpha  indicates whether alpha values are contained in
-     *                  the <code>cmap</code> array
-     * @param trans     the index of the fully transparent pixel
-     * @throws IllegalArgumentException if <code>bits</code> is less than
-     *               1 or greater than 16
-     * @throws IllegalArgumentException if <code>size</code> is less than
+     * Construdts bn <dodf>IndfxColorModfl</dodf> from b singlf brrby of
+     * intfrlfbvfd rfd, grffn, bluf bnd optionbl blpib domponfnts.  Tif
+     * spfdififd trbnspbrfnt indfx rfprfsfnts b pixfl tibt is mbdf
+     * fntirfly trbnspbrfnt rfgbrdlfss of bny blpib vbluf spfdififd
+     * for it.  Tif brrby must ibvf fnougi vblufs in it to fill bll
+     * of tif nffdfd domponfnt brrbys of tif spfdififd sizf.
+     * Tif <dodf>ColorSpbdf</dodf> is tif dffbult sRGB spbdf.
+     * Tif trbnspbrfndy vbluf mby bf bny of <dodf>Trbnspbrfndy.OPAQUE</dodf>,
+     * <dodf>Trbnspbrfndy.BITMASK</dodf>,
+     * or <dodf>Trbnspbrfndy.TRANSLUCENT</dodf>
+     * dfpfnding on tif brgumfnts, bs spfdififd
+     * in tif <b irff="#trbnspbrfndy">dlbss dfsdription</b> bbovf.
+     * Tif trbnsffr typf is tif smbllfst of
+     * <dodf>DbtbBufffr.TYPE_BYTE</dodf> or <dodf>DbtbBufffr.TYPE_USHORT</dodf>
+     * tibt dbn iold b singlf pixfl.
+     * @pbrbm bits      tif numbfr of bits fbdi pixfl oddupifs
+     * @pbrbm sizf      tif sizf of tif dolor domponfnt brrbys
+     * @pbrbm dmbp      tif brrby of dolor domponfnts
+     * @pbrbm stbrt     tif stbrting offsft of tif first dolor domponfnt
+     * @pbrbm ibsblpib  indidbtfs wiftifr blpib vblufs brf dontbinfd in
+     *                  tif <dodf>dmbp</dodf> brrby
+     * @pbrbm trbns     tif indfx of tif fully trbnspbrfnt pixfl
+     * @tirows IllfgblArgumfntExdfption if <dodf>bits</dodf> is lfss tibn
+     *               1 or grfbtfr tibn 16
+     * @tirows IllfgblArgumfntExdfption if <dodf>sizf</dodf> is lfss tibn
      *               1
      */
-    public IndexColorModel(int bits, int size, byte cmap[], int start,
-                           boolean hasalpha, int trans) {
-        // REMIND: This assumes the ordering: RGB[A]
-        super(bits, opaqueBits,
-              ColorSpace.getInstance(ColorSpace.CS_sRGB),
-              false, false, OPAQUE,
-              ColorModel.getDefaultTransferType(bits));
+    publid IndfxColorModfl(int bits, int sizf, bytf dmbp[], int stbrt,
+                           boolfbn ibsblpib, int trbns) {
+        // REMIND: Tiis bssumfs tif ordfring: RGB[A]
+        supfr(bits, opbqufBits,
+              ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB),
+              fblsf, fblsf, OPAQUE,
+              ColorModfl.gftDffbultTrbnsffrTypf(bits));
 
         if (bits < 1 || bits > 16) {
-            throw new IllegalArgumentException("Number of bits must be between"
-                                               +" 1 and 16.");
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of bits must bf bftwffn"
+                                               +" 1 bnd 16.");
         }
-        if (size < 1) {
-            throw new IllegalArgumentException("Map size ("+size+
-                                               ") must be >= 1");
+        if (sizf < 1) {
+            tirow nfw IllfgblArgumfntExdfption("Mbp sizf ("+sizf+
+                                               ") must bf >= 1");
         }
-        map_size = size;
-        rgb = new int[calcRealMapSize(bits, size)];
-        int j = start;
-        int alpha = 0xff;
-        boolean allgray = true;
-        int transparency = OPAQUE;
-        for (int i = 0; i < size; i++) {
-            int r = cmap[j++] & 0xff;
-            int g = cmap[j++] & 0xff;
-            int b = cmap[j++] & 0xff;
-            allgray = allgray && (r == g) && (g == b);
-            if (hasalpha) {
-                alpha = cmap[j++] & 0xff;
-                if (alpha != 0xff) {
-                    if (alpha == 0x00) {
-                        if (transparency == OPAQUE) {
-                            transparency = BITMASK;
+        mbp_sizf = sizf;
+        rgb = nfw int[dbldRfblMbpSizf(bits, sizf)];
+        int j = stbrt;
+        int blpib = 0xff;
+        boolfbn bllgrby = truf;
+        int trbnspbrfndy = OPAQUE;
+        for (int i = 0; i < sizf; i++) {
+            int r = dmbp[j++] & 0xff;
+            int g = dmbp[j++] & 0xff;
+            int b = dmbp[j++] & 0xff;
+            bllgrby = bllgrby && (r == g) && (g == b);
+            if (ibsblpib) {
+                blpib = dmbp[j++] & 0xff;
+                if (blpib != 0xff) {
+                    if (blpib == 0x00) {
+                        if (trbnspbrfndy == OPAQUE) {
+                            trbnspbrfndy = BITMASK;
                         }
-                        if (transparent_index < 0) {
-                            transparent_index = i;
+                        if (trbnspbrfnt_indfx < 0) {
+                            trbnspbrfnt_indfx = i;
                         }
-                    } else {
-                        transparency = TRANSLUCENT;
+                    } flsf {
+                        trbnspbrfndy = TRANSLUCENT;
                     }
-                    allgray = false;
+                    bllgrby = fblsf;
                 }
             }
-            rgb[i] = (alpha << 24) | (r << 16) | (g << 8) | b;
+            rgb[i] = (blpib << 24) | (r << 16) | (g << 8) | b;
         }
-        this.allgrayopaque = allgray;
-        setTransparency(transparency);
-        setTransparentPixel(trans);
-        calculatePixelMask();
+        tiis.bllgrbyopbquf = bllgrby;
+        sftTrbnspbrfndy(trbnspbrfndy);
+        sftTrbnspbrfntPixfl(trbns);
+        dbldulbtfPixflMbsk();
     }
 
     /**
-     * Constructs an <code>IndexColorModel</code> from an array of
-     * ints where each int is comprised of red, green, blue, and
-     * optional alpha components in the default RGB color model format.
-     * The specified transparent index represents a pixel that is made
-     * entirely transparent regardless of any alpha value specified
-     * for it.  The array must have enough values in it to fill all
-     * of the needed component arrays of the specified size.
-     * The <code>ColorSpace</code> is the default sRGB space.
-     * The transparency value may be any of <code>Transparency.OPAQUE</code>,
-     * <code>Transparency.BITMASK</code>,
-     * or <code>Transparency.TRANSLUCENT</code>
-     * depending on the arguments, as specified
-     * in the <a href="#transparency">class description</a> above.
-     * @param bits      the number of bits each pixel occupies
-     * @param size      the size of the color component arrays
-     * @param cmap      the array of color components
-     * @param start     the starting offset of the first color component
-     * @param hasalpha  indicates whether alpha values are contained in
-     *                  the <code>cmap</code> array
-     * @param trans     the index of the fully transparent pixel
-     * @param transferType the data type of the array used to represent
-     *           pixel values.  The data type must be either
-     *           <code>DataBuffer.TYPE_BYTE</code> or
-     *           <code>DataBuffer.TYPE_USHORT</code>.
-     * @throws IllegalArgumentException if <code>bits</code> is less
-     *           than 1 or greater than 16
-     * @throws IllegalArgumentException if <code>size</code> is less
-     *           than 1
-     * @throws IllegalArgumentException if <code>transferType</code> is not
-     *           one of <code>DataBuffer.TYPE_BYTE</code> or
-     *           <code>DataBuffer.TYPE_USHORT</code>
+     * Construdts bn <dodf>IndfxColorModfl</dodf> from bn brrby of
+     * ints wifrf fbdi int is domprisfd of rfd, grffn, bluf, bnd
+     * optionbl blpib domponfnts in tif dffbult RGB dolor modfl formbt.
+     * Tif spfdififd trbnspbrfnt indfx rfprfsfnts b pixfl tibt is mbdf
+     * fntirfly trbnspbrfnt rfgbrdlfss of bny blpib vbluf spfdififd
+     * for it.  Tif brrby must ibvf fnougi vblufs in it to fill bll
+     * of tif nffdfd domponfnt brrbys of tif spfdififd sizf.
+     * Tif <dodf>ColorSpbdf</dodf> is tif dffbult sRGB spbdf.
+     * Tif trbnspbrfndy vbluf mby bf bny of <dodf>Trbnspbrfndy.OPAQUE</dodf>,
+     * <dodf>Trbnspbrfndy.BITMASK</dodf>,
+     * or <dodf>Trbnspbrfndy.TRANSLUCENT</dodf>
+     * dfpfnding on tif brgumfnts, bs spfdififd
+     * in tif <b irff="#trbnspbrfndy">dlbss dfsdription</b> bbovf.
+     * @pbrbm bits      tif numbfr of bits fbdi pixfl oddupifs
+     * @pbrbm sizf      tif sizf of tif dolor domponfnt brrbys
+     * @pbrbm dmbp      tif brrby of dolor domponfnts
+     * @pbrbm stbrt     tif stbrting offsft of tif first dolor domponfnt
+     * @pbrbm ibsblpib  indidbtfs wiftifr blpib vblufs brf dontbinfd in
+     *                  tif <dodf>dmbp</dodf> brrby
+     * @pbrbm trbns     tif indfx of tif fully trbnspbrfnt pixfl
+     * @pbrbm trbnsffrTypf tif dbtb typf of tif brrby usfd to rfprfsfnt
+     *           pixfl vblufs.  Tif dbtb typf must bf fitifr
+     *           <dodf>DbtbBufffr.TYPE_BYTE</dodf> or
+     *           <dodf>DbtbBufffr.TYPE_USHORT</dodf>.
+     * @tirows IllfgblArgumfntExdfption if <dodf>bits</dodf> is lfss
+     *           tibn 1 or grfbtfr tibn 16
+     * @tirows IllfgblArgumfntExdfption if <dodf>sizf</dodf> is lfss
+     *           tibn 1
+     * @tirows IllfgblArgumfntExdfption if <dodf>trbnsffrTypf</dodf> is not
+     *           onf of <dodf>DbtbBufffr.TYPE_BYTE</dodf> or
+     *           <dodf>DbtbBufffr.TYPE_USHORT</dodf>
      */
-    public IndexColorModel(int bits, int size,
-                           int cmap[], int start,
-                           boolean hasalpha, int trans, int transferType) {
-        // REMIND: This assumes the ordering: RGB[A]
-        super(bits, opaqueBits,
-              ColorSpace.getInstance(ColorSpace.CS_sRGB),
-              false, false, OPAQUE,
-              transferType);
+    publid IndfxColorModfl(int bits, int sizf,
+                           int dmbp[], int stbrt,
+                           boolfbn ibsblpib, int trbns, int trbnsffrTypf) {
+        // REMIND: Tiis bssumfs tif ordfring: RGB[A]
+        supfr(bits, opbqufBits,
+              ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB),
+              fblsf, fblsf, OPAQUE,
+              trbnsffrTypf);
 
         if (bits < 1 || bits > 16) {
-            throw new IllegalArgumentException("Number of bits must be between"
-                                               +" 1 and 16.");
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of bits must bf bftwffn"
+                                               +" 1 bnd 16.");
         }
-        if (size < 1) {
-            throw new IllegalArgumentException("Map size ("+size+
-                                               ") must be >= 1");
+        if (sizf < 1) {
+            tirow nfw IllfgblArgumfntExdfption("Mbp sizf ("+sizf+
+                                               ") must bf >= 1");
         }
-        if ((transferType != DataBuffer.TYPE_BYTE) &&
-            (transferType != DataBuffer.TYPE_USHORT)) {
-            throw new IllegalArgumentException("transferType must be either" +
-                "DataBuffer.TYPE_BYTE or DataBuffer.TYPE_USHORT");
+        if ((trbnsffrTypf != DbtbBufffr.TYPE_BYTE) &&
+            (trbnsffrTypf != DbtbBufffr.TYPE_USHORT)) {
+            tirow nfw IllfgblArgumfntExdfption("trbnsffrTypf must bf fitifr" +
+                "DbtbBufffr.TYPE_BYTE or DbtbBufffr.TYPE_USHORT");
         }
 
-        setRGBs(size, cmap, start, hasalpha);
-        setTransparentPixel(trans);
-        calculatePixelMask();
+        sftRGBs(sizf, dmbp, stbrt, ibsblpib);
+        sftTrbnspbrfntPixfl(trbns);
+        dbldulbtfPixflMbsk();
     }
 
     /**
-     * Constructs an <code>IndexColorModel</code> from an
-     * <code>int</code> array where each <code>int</code> is
-     * comprised of red, green, blue, and alpha
-     * components in the default RGB color model format.
-     * The array must have enough values in it to fill all
-     * of the needed component arrays of the specified size.
-     * The <code>ColorSpace</code> is the default sRGB space.
-     * The transparency value may be any of <code>Transparency.OPAQUE</code>,
-     * <code>Transparency.BITMASK</code>,
-     * or <code>Transparency.TRANSLUCENT</code>
-     * depending on the arguments, as specified
-     * in the <a href="#transparency">class description</a> above.
-     * The transfer type must be one of <code>DataBuffer.TYPE_BYTE</code>
-     * <code>DataBuffer.TYPE_USHORT</code>.
-     * The <code>BigInteger</code> object specifies the valid/invalid pixels
-     * in the <code>cmap</code> array.  A pixel is valid if the
-     * <code>BigInteger</code> value at that index is set, and is invalid
-     * if the <code>BigInteger</code> bit  at that index is not set.
-     * @param bits the number of bits each pixel occupies
-     * @param size the size of the color component array
-     * @param cmap the array of color components
-     * @param start the starting offset of the first color component
-     * @param transferType the specified data type
-     * @param validBits a <code>BigInteger</code> object.  If a bit is
-     *    set in the BigInteger, the pixel at that index is valid.
-     *    If a bit is not set, the pixel at that index
-     *    is considered invalid.  If null, all pixels are valid.
-     *    Only bits from 0 to the map size are considered.
-     * @throws IllegalArgumentException if <code>bits</code> is less
-     *           than 1 or greater than 16
-     * @throws IllegalArgumentException if <code>size</code> is less
-     *           than 1
-     * @throws IllegalArgumentException if <code>transferType</code> is not
-     *           one of <code>DataBuffer.TYPE_BYTE</code> or
-     *           <code>DataBuffer.TYPE_USHORT</code>
+     * Construdts bn <dodf>IndfxColorModfl</dodf> from bn
+     * <dodf>int</dodf> brrby wifrf fbdi <dodf>int</dodf> is
+     * domprisfd of rfd, grffn, bluf, bnd blpib
+     * domponfnts in tif dffbult RGB dolor modfl formbt.
+     * Tif brrby must ibvf fnougi vblufs in it to fill bll
+     * of tif nffdfd domponfnt brrbys of tif spfdififd sizf.
+     * Tif <dodf>ColorSpbdf</dodf> is tif dffbult sRGB spbdf.
+     * Tif trbnspbrfndy vbluf mby bf bny of <dodf>Trbnspbrfndy.OPAQUE</dodf>,
+     * <dodf>Trbnspbrfndy.BITMASK</dodf>,
+     * or <dodf>Trbnspbrfndy.TRANSLUCENT</dodf>
+     * dfpfnding on tif brgumfnts, bs spfdififd
+     * in tif <b irff="#trbnspbrfndy">dlbss dfsdription</b> bbovf.
+     * Tif trbnsffr typf must bf onf of <dodf>DbtbBufffr.TYPE_BYTE</dodf>
+     * <dodf>DbtbBufffr.TYPE_USHORT</dodf>.
+     * Tif <dodf>BigIntfgfr</dodf> objfdt spfdififs tif vblid/invblid pixfls
+     * in tif <dodf>dmbp</dodf> brrby.  A pixfl is vblid if tif
+     * <dodf>BigIntfgfr</dodf> vbluf bt tibt indfx is sft, bnd is invblid
+     * if tif <dodf>BigIntfgfr</dodf> bit  bt tibt indfx is not sft.
+     * @pbrbm bits tif numbfr of bits fbdi pixfl oddupifs
+     * @pbrbm sizf tif sizf of tif dolor domponfnt brrby
+     * @pbrbm dmbp tif brrby of dolor domponfnts
+     * @pbrbm stbrt tif stbrting offsft of tif first dolor domponfnt
+     * @pbrbm trbnsffrTypf tif spfdififd dbtb typf
+     * @pbrbm vblidBits b <dodf>BigIntfgfr</dodf> objfdt.  If b bit is
+     *    sft in tif BigIntfgfr, tif pixfl bt tibt indfx is vblid.
+     *    If b bit is not sft, tif pixfl bt tibt indfx
+     *    is donsidfrfd invblid.  If null, bll pixfls brf vblid.
+     *    Only bits from 0 to tif mbp sizf brf donsidfrfd.
+     * @tirows IllfgblArgumfntExdfption if <dodf>bits</dodf> is lfss
+     *           tibn 1 or grfbtfr tibn 16
+     * @tirows IllfgblArgumfntExdfption if <dodf>sizf</dodf> is lfss
+     *           tibn 1
+     * @tirows IllfgblArgumfntExdfption if <dodf>trbnsffrTypf</dodf> is not
+     *           onf of <dodf>DbtbBufffr.TYPE_BYTE</dodf> or
+     *           <dodf>DbtbBufffr.TYPE_USHORT</dodf>
      *
-     * @since 1.3
+     * @sindf 1.3
      */
-    public IndexColorModel(int bits, int size, int cmap[], int start,
-                           int transferType, BigInteger validBits) {
-        super (bits, alphaBits,
-               ColorSpace.getInstance(ColorSpace.CS_sRGB),
-               true, false, TRANSLUCENT,
-               transferType);
+    publid IndfxColorModfl(int bits, int sizf, int dmbp[], int stbrt,
+                           int trbnsffrTypf, BigIntfgfr vblidBits) {
+        supfr (bits, blpibBits,
+               ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB),
+               truf, fblsf, TRANSLUCENT,
+               trbnsffrTypf);
 
         if (bits < 1 || bits > 16) {
-            throw new IllegalArgumentException("Number of bits must be between"
-                                               +" 1 and 16.");
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of bits must bf bftwffn"
+                                               +" 1 bnd 16.");
         }
-        if (size < 1) {
-            throw new IllegalArgumentException("Map size ("+size+
-                                               ") must be >= 1");
+        if (sizf < 1) {
+            tirow nfw IllfgblArgumfntExdfption("Mbp sizf ("+sizf+
+                                               ") must bf >= 1");
         }
-        if ((transferType != DataBuffer.TYPE_BYTE) &&
-            (transferType != DataBuffer.TYPE_USHORT)) {
-            throw new IllegalArgumentException("transferType must be either" +
-                "DataBuffer.TYPE_BYTE or DataBuffer.TYPE_USHORT");
+        if ((trbnsffrTypf != DbtbBufffr.TYPE_BYTE) &&
+            (trbnsffrTypf != DbtbBufffr.TYPE_USHORT)) {
+            tirow nfw IllfgblArgumfntExdfption("trbnsffrTypf must bf fitifr" +
+                "DbtbBufffr.TYPE_BYTE or DbtbBufffr.TYPE_USHORT");
         }
 
-        if (validBits != null) {
-            // Check to see if it is all valid
-            for (int i=0; i < size; i++) {
-                if (!validBits.testBit(i)) {
-                    this.validBits = validBits;
-                    break;
+        if (vblidBits != null) {
+            // Cifdk to sff if it is bll vblid
+            for (int i=0; i < sizf; i++) {
+                if (!vblidBits.tfstBit(i)) {
+                    tiis.vblidBits = vblidBits;
+                    brfbk;
                 }
             }
         }
 
-        setRGBs(size, cmap, start, true);
-        calculatePixelMask();
+        sftRGBs(sizf, dmbp, stbrt, truf);
+        dbldulbtfPixflMbsk();
     }
 
-    private void setRGBs(int size, byte r[], byte g[], byte b[], byte a[]) {
-        if (size < 1) {
-            throw new IllegalArgumentException("Map size ("+size+
-                                               ") must be >= 1");
+    privbtf void sftRGBs(int sizf, bytf r[], bytf g[], bytf b[], bytf b[]) {
+        if (sizf < 1) {
+            tirow nfw IllfgblArgumfntExdfption("Mbp sizf ("+sizf+
+                                               ") must bf >= 1");
         }
-        map_size = size;
-        rgb = new int[calcRealMapSize(pixel_bits, size)];
-        int alpha = 0xff;
-        int transparency = OPAQUE;
-        boolean allgray = true;
-        for (int i = 0; i < size; i++) {
-            int rc = r[i] & 0xff;
-            int gc = g[i] & 0xff;
-            int bc = b[i] & 0xff;
-            allgray = allgray && (rc == gc) && (gc == bc);
-            if (a != null) {
-                alpha = a[i] & 0xff;
-                if (alpha != 0xff) {
-                    if (alpha == 0x00) {
-                        if (transparency == OPAQUE) {
-                            transparency = BITMASK;
+        mbp_sizf = sizf;
+        rgb = nfw int[dbldRfblMbpSizf(pixfl_bits, sizf)];
+        int blpib = 0xff;
+        int trbnspbrfndy = OPAQUE;
+        boolfbn bllgrby = truf;
+        for (int i = 0; i < sizf; i++) {
+            int rd = r[i] & 0xff;
+            int gd = g[i] & 0xff;
+            int bd = b[i] & 0xff;
+            bllgrby = bllgrby && (rd == gd) && (gd == bd);
+            if (b != null) {
+                blpib = b[i] & 0xff;
+                if (blpib != 0xff) {
+                    if (blpib == 0x00) {
+                        if (trbnspbrfndy == OPAQUE) {
+                            trbnspbrfndy = BITMASK;
                         }
-                        if (transparent_index < 0) {
-                            transparent_index = i;
+                        if (trbnspbrfnt_indfx < 0) {
+                            trbnspbrfnt_indfx = i;
                         }
-                    } else {
-                        transparency = TRANSLUCENT;
+                    } flsf {
+                        trbnspbrfndy = TRANSLUCENT;
                     }
-                    allgray = false;
+                    bllgrby = fblsf;
                 }
             }
-            rgb[i] = (alpha << 24) | (rc << 16) | (gc << 8) | bc;
+            rgb[i] = (blpib << 24) | (rd << 16) | (gd << 8) | bd;
         }
-        this.allgrayopaque = allgray;
-        setTransparency(transparency);
+        tiis.bllgrbyopbquf = bllgrby;
+        sftTrbnspbrfndy(trbnspbrfndy);
     }
 
-    private void setRGBs(int size, int cmap[], int start, boolean hasalpha) {
-        map_size = size;
-        rgb = new int[calcRealMapSize(pixel_bits, size)];
-        int j = start;
-        int transparency = OPAQUE;
-        boolean allgray = true;
-        BigInteger validBits = this.validBits;
-        for (int i = 0; i < size; i++, j++) {
-            if (validBits != null && !validBits.testBit(i)) {
-                continue;
+    privbtf void sftRGBs(int sizf, int dmbp[], int stbrt, boolfbn ibsblpib) {
+        mbp_sizf = sizf;
+        rgb = nfw int[dbldRfblMbpSizf(pixfl_bits, sizf)];
+        int j = stbrt;
+        int trbnspbrfndy = OPAQUE;
+        boolfbn bllgrby = truf;
+        BigIntfgfr vblidBits = tiis.vblidBits;
+        for (int i = 0; i < sizf; i++, j++) {
+            if (vblidBits != null && !vblidBits.tfstBit(i)) {
+                dontinuf;
             }
-            int cmaprgb = cmap[j];
-            int r = (cmaprgb >> 16) & 0xff;
-            int g = (cmaprgb >>  8) & 0xff;
-            int b = (cmaprgb      ) & 0xff;
-            allgray = allgray && (r == g) && (g == b);
-            if (hasalpha) {
-                int alpha = cmaprgb >>> 24;
-                if (alpha != 0xff) {
-                    if (alpha == 0x00) {
-                        if (transparency == OPAQUE) {
-                            transparency = BITMASK;
+            int dmbprgb = dmbp[j];
+            int r = (dmbprgb >> 16) & 0xff;
+            int g = (dmbprgb >>  8) & 0xff;
+            int b = (dmbprgb      ) & 0xff;
+            bllgrby = bllgrby && (r == g) && (g == b);
+            if (ibsblpib) {
+                int blpib = dmbprgb >>> 24;
+                if (blpib != 0xff) {
+                    if (blpib == 0x00) {
+                        if (trbnspbrfndy == OPAQUE) {
+                            trbnspbrfndy = BITMASK;
                         }
-                        if (transparent_index < 0) {
-                            transparent_index = i;
+                        if (trbnspbrfnt_indfx < 0) {
+                            trbnspbrfnt_indfx = i;
                         }
-                    } else {
-                        transparency = TRANSLUCENT;
+                    } flsf {
+                        trbnspbrfndy = TRANSLUCENT;
                     }
-                    allgray = false;
+                    bllgrby = fblsf;
                 }
-            } else {
-                cmaprgb |= 0xff000000;
+            } flsf {
+                dmbprgb |= 0xff000000;
             }
-            rgb[i] = cmaprgb;
+            rgb[i] = dmbprgb;
         }
-        this.allgrayopaque = allgray;
-        setTransparency(transparency);
+        tiis.bllgrbyopbquf = bllgrby;
+        sftTrbnspbrfndy(trbnspbrfndy);
     }
 
-    private int calcRealMapSize(int bits, int size) {
-        int newSize = Math.max(1 << bits, size);
-        return Math.max(newSize, 256);
+    privbtf int dbldRfblMbpSizf(int bits, int sizf) {
+        int nfwSizf = Mbti.mbx(1 << bits, sizf);
+        rfturn Mbti.mbx(nfwSizf, 256);
     }
 
-    private BigInteger getAllValid() {
-        int numbytes = (map_size+7)/8;
-        byte[] valid = new byte[numbytes];
-        java.util.Arrays.fill(valid, (byte)0xff);
-        valid[0] = (byte)(0xff >>> (numbytes*8 - map_size));
+    privbtf BigIntfgfr gftAllVblid() {
+        int numbytfs = (mbp_sizf+7)/8;
+        bytf[] vblid = nfw bytf[numbytfs];
+        jbvb.util.Arrbys.fill(vblid, (bytf)0xff);
+        vblid[0] = (bytf)(0xff >>> (numbytfs*8 - mbp_sizf));
 
-        return new BigInteger(1, valid);
+        rfturn nfw BigIntfgfr(1, vblid);
     }
 
     /**
-     * Returns the transparency.  Returns either OPAQUE, BITMASK,
+     * Rfturns tif trbnspbrfndy.  Rfturns fitifr OPAQUE, BITMASK,
      * or TRANSLUCENT
-     * @return the transparency of this <code>IndexColorModel</code>
-     * @see Transparency#OPAQUE
-     * @see Transparency#BITMASK
-     * @see Transparency#TRANSLUCENT
+     * @rfturn tif trbnspbrfndy of tiis <dodf>IndfxColorModfl</dodf>
+     * @sff Trbnspbrfndy#OPAQUE
+     * @sff Trbnspbrfndy#BITMASK
+     * @sff Trbnspbrfndy#TRANSLUCENT
      */
-    public int getTransparency() {
-        return transparency;
+    publid int gftTrbnspbrfndy() {
+        rfturn trbnspbrfndy;
     }
 
     /**
-     * Returns an array of the number of bits for each color/alpha component.
-     * The array contains the color components in the order red, green,
-     * blue, followed by the alpha component, if present.
-     * @return an array containing the number of bits of each color
-     *         and alpha component of this <code>IndexColorModel</code>
+     * Rfturns bn brrby of tif numbfr of bits for fbdi dolor/blpib domponfnt.
+     * Tif brrby dontbins tif dolor domponfnts in tif ordfr rfd, grffn,
+     * bluf, followfd by tif blpib domponfnt, if prfsfnt.
+     * @rfturn bn brrby dontbining tif numbfr of bits of fbdi dolor
+     *         bnd blpib domponfnt of tiis <dodf>IndfxColorModfl</dodf>
      */
-    public int[] getComponentSize() {
+    publid int[] gftComponfntSizf() {
         if (nBits == null) {
-            if (supportsAlpha) {
-                nBits = new int[4];
+            if (supportsAlpib) {
+                nBits = nfw int[4];
                 nBits[3] = 8;
             }
-            else {
-                nBits = new int[3];
+            flsf {
+                nBits = nfw int[3];
             }
             nBits[0] = nBits[1] = nBits[2] = 8;
         }
-        return nBits.clone();
+        rfturn nBits.dlonf();
     }
 
     /**
-     * Returns the size of the color/alpha component arrays in this
-     * <code>IndexColorModel</code>.
-     * @return the size of the color and alpha component arrays.
+     * Rfturns tif sizf of tif dolor/blpib domponfnt brrbys in tiis
+     * <dodf>IndfxColorModfl</dodf>.
+     * @rfturn tif sizf of tif dolor bnd blpib domponfnt brrbys.
      */
-    final public int getMapSize() {
-        return map_size;
+    finbl publid int gftMbpSizf() {
+        rfturn mbp_sizf;
     }
 
     /**
-     * Returns the index of a transparent pixel in this
-     * <code>IndexColorModel</code> or -1 if there is no pixel
-     * with an alpha value of 0.  If a transparent pixel was
-     * explicitly specified in one of the constructors by its
-     * index, then that index will be preferred, otherwise,
-     * the index of any pixel which happens to be fully transparent
-     * may be returned.
-     * @return the index of a transparent pixel in this
-     *         <code>IndexColorModel</code> object, or -1 if there
-     *         is no such pixel
+     * Rfturns tif indfx of b trbnspbrfnt pixfl in tiis
+     * <dodf>IndfxColorModfl</dodf> or -1 if tifrf is no pixfl
+     * witi bn blpib vbluf of 0.  If b trbnspbrfnt pixfl wbs
+     * fxpliditly spfdififd in onf of tif donstrudtors by its
+     * indfx, tifn tibt indfx will bf prfffrrfd, otifrwisf,
+     * tif indfx of bny pixfl wiidi ibppfns to bf fully trbnspbrfnt
+     * mby bf rfturnfd.
+     * @rfturn tif indfx of b trbnspbrfnt pixfl in tiis
+     *         <dodf>IndfxColorModfl</dodf> objfdt, or -1 if tifrf
+     *         is no sudi pixfl
      */
-    final public int getTransparentPixel() {
-        return transparent_index;
+    finbl publid int gftTrbnspbrfntPixfl() {
+        rfturn trbnspbrfnt_indfx;
     }
 
     /**
-     * Copies the array of red color components into the specified array.
-     * Only the initial entries of the array as specified by
-     * {@link #getMapSize() getMapSize} are written.
-     * @param r the specified array into which the elements of the
-     *      array of red color components are copied
+     * Copifs tif brrby of rfd dolor domponfnts into tif spfdififd brrby.
+     * Only tif initibl fntrifs of tif brrby bs spfdififd by
+     * {@link #gftMbpSizf() gftMbpSizf} brf writtfn.
+     * @pbrbm r tif spfdififd brrby into wiidi tif flfmfnts of tif
+     *      brrby of rfd dolor domponfnts brf dopifd
      */
-    final public void getReds(byte r[]) {
-        for (int i = 0; i < map_size; i++) {
-            r[i] = (byte) (rgb[i] >> 16);
+    finbl publid void gftRfds(bytf r[]) {
+        for (int i = 0; i < mbp_sizf; i++) {
+            r[i] = (bytf) (rgb[i] >> 16);
         }
     }
 
     /**
-     * Copies the array of green color components into the specified array.
-     * Only the initial entries of the array as specified by
-     * <code>getMapSize</code> are written.
-     * @param g the specified array into which the elements of the
-     *      array of green color components are copied
+     * Copifs tif brrby of grffn dolor domponfnts into tif spfdififd brrby.
+     * Only tif initibl fntrifs of tif brrby bs spfdififd by
+     * <dodf>gftMbpSizf</dodf> brf writtfn.
+     * @pbrbm g tif spfdififd brrby into wiidi tif flfmfnts of tif
+     *      brrby of grffn dolor domponfnts brf dopifd
      */
-    final public void getGreens(byte g[]) {
-        for (int i = 0; i < map_size; i++) {
-            g[i] = (byte) (rgb[i] >> 8);
+    finbl publid void gftGrffns(bytf g[]) {
+        for (int i = 0; i < mbp_sizf; i++) {
+            g[i] = (bytf) (rgb[i] >> 8);
         }
     }
 
     /**
-     * Copies the array of blue color components into the specified array.
-     * Only the initial entries of the array as specified by
-     * <code>getMapSize</code> are written.
-     * @param b the specified array into which the elements of the
-     *      array of blue color components are copied
+     * Copifs tif brrby of bluf dolor domponfnts into tif spfdififd brrby.
+     * Only tif initibl fntrifs of tif brrby bs spfdififd by
+     * <dodf>gftMbpSizf</dodf> brf writtfn.
+     * @pbrbm b tif spfdififd brrby into wiidi tif flfmfnts of tif
+     *      brrby of bluf dolor domponfnts brf dopifd
      */
-    final public void getBlues(byte b[]) {
-        for (int i = 0; i < map_size; i++) {
-            b[i] = (byte) rgb[i];
+    finbl publid void gftBlufs(bytf b[]) {
+        for (int i = 0; i < mbp_sizf; i++) {
+            b[i] = (bytf) rgb[i];
         }
     }
 
     /**
-     * Copies the array of alpha transparency components into the
-     * specified array.  Only the initial entries of the array as specified
-     * by <code>getMapSize</code> are written.
-     * @param a the specified array into which the elements of the
-     *      array of alpha components are copied
+     * Copifs tif brrby of blpib trbnspbrfndy domponfnts into tif
+     * spfdififd brrby.  Only tif initibl fntrifs of tif brrby bs spfdififd
+     * by <dodf>gftMbpSizf</dodf> brf writtfn.
+     * @pbrbm b tif spfdififd brrby into wiidi tif flfmfnts of tif
+     *      brrby of blpib domponfnts brf dopifd
      */
-    final public void getAlphas(byte a[]) {
-        for (int i = 0; i < map_size; i++) {
-            a[i] = (byte) (rgb[i] >> 24);
+    finbl publid void gftAlpibs(bytf b[]) {
+        for (int i = 0; i < mbp_sizf; i++) {
+            b[i] = (bytf) (rgb[i] >> 24);
         }
     }
 
     /**
-     * Converts data for each index from the color and alpha component
-     * arrays to an int in the default RGB ColorModel format and copies
-     * the resulting 32-bit ARGB values into the specified array.  Only
-     * the initial entries of the array as specified by
-     * <code>getMapSize</code> are
-     * written.
-     * @param rgb the specified array into which the converted ARGB
-     *        values from this array of color and alpha components
-     *        are copied.
+     * Convfrts dbtb for fbdi indfx from tif dolor bnd blpib domponfnt
+     * brrbys to bn int in tif dffbult RGB ColorModfl formbt bnd dopifs
+     * tif rfsulting 32-bit ARGB vblufs into tif spfdififd brrby.  Only
+     * tif initibl fntrifs of tif brrby bs spfdififd by
+     * <dodf>gftMbpSizf</dodf> brf
+     * writtfn.
+     * @pbrbm rgb tif spfdififd brrby into wiidi tif donvfrtfd ARGB
+     *        vblufs from tiis brrby of dolor bnd blpib domponfnts
+     *        brf dopifd.
      */
-    final public void getRGBs(int rgb[]) {
-        System.arraycopy(this.rgb, 0, rgb, 0, map_size);
+    finbl publid void gftRGBs(int rgb[]) {
+        Systfm.brrbydopy(tiis.rgb, 0, rgb, 0, mbp_sizf);
     }
 
-    private void setTransparentPixel(int trans) {
-        if (trans >= 0 && trans < map_size) {
-            rgb[trans] &= 0x00ffffff;
-            transparent_index = trans;
-            allgrayopaque = false;
-            if (this.transparency == OPAQUE) {
-                setTransparency(BITMASK);
+    privbtf void sftTrbnspbrfntPixfl(int trbns) {
+        if (trbns >= 0 && trbns < mbp_sizf) {
+            rgb[trbns] &= 0x00ffffff;
+            trbnspbrfnt_indfx = trbns;
+            bllgrbyopbquf = fblsf;
+            if (tiis.trbnspbrfndy == OPAQUE) {
+                sftTrbnspbrfndy(BITMASK);
             }
         }
     }
 
-    private void setTransparency(int transparency) {
-        if (this.transparency != transparency) {
-            this.transparency = transparency;
-            if (transparency == OPAQUE) {
-                supportsAlpha = false;
-                numComponents = 3;
-                nBits = opaqueBits;
-            } else {
-                supportsAlpha = true;
-                numComponents = 4;
-                nBits = alphaBits;
+    privbtf void sftTrbnspbrfndy(int trbnspbrfndy) {
+        if (tiis.trbnspbrfndy != trbnspbrfndy) {
+            tiis.trbnspbrfndy = trbnspbrfndy;
+            if (trbnspbrfndy == OPAQUE) {
+                supportsAlpib = fblsf;
+                numComponfnts = 3;
+                nBits = opbqufBits;
+            } flsf {
+                supportsAlpib = truf;
+                numComponfnts = 4;
+                nBits = blpibBits;
             }
         }
     }
 
     /**
-     * This method is called from the constructors to set the pixel_mask
-     * value, which is based on the value of pixel_bits.  The pixel_mask
-     * value is used to mask off the pixel parameters for methods such
-     * as getRed(), getGreen(), getBlue(), getAlpha(), and getRGB().
+     * Tiis mftiod is dbllfd from tif donstrudtors to sft tif pixfl_mbsk
+     * vbluf, wiidi is bbsfd on tif vbluf of pixfl_bits.  Tif pixfl_mbsk
+     * vbluf is usfd to mbsk off tif pixfl pbrbmftfrs for mftiods sudi
+     * bs gftRfd(), gftGrffn(), gftBluf(), gftAlpib(), bnd gftRGB().
      */
-    private final void calculatePixelMask() {
-        // Note that we adjust the mask so that our masking behavior here
-        // is consistent with that of our native rendering loops.
-        int maskbits = pixel_bits;
-        if (maskbits == 3) {
-            maskbits = 4;
-        } else if (maskbits > 4 && maskbits < 8) {
-            maskbits = 8;
+    privbtf finbl void dbldulbtfPixflMbsk() {
+        // Notf tibt wf bdjust tif mbsk so tibt our mbsking bfibvior ifrf
+        // is donsistfnt witi tibt of our nbtivf rfndfring loops.
+        int mbskbits = pixfl_bits;
+        if (mbskbits == 3) {
+            mbskbits = 4;
+        } flsf if (mbskbits > 4 && mbskbits < 8) {
+            mbskbits = 8;
         }
-        pixel_mask = (1 << maskbits) - 1;
+        pixfl_mbsk = (1 << mbskbits) - 1;
     }
 
     /**
-     * Returns the red color component for the specified pixel, scaled
-     * from 0 to 255 in the default RGB ColorSpace, sRGB.  The pixel value
-     * is specified as an int.
-     * Only the lower <em>n</em> bits of the pixel value, as specified in the
-     * <a href="#index_values">class description</a> above, are used to
-     * calculate the returned value.
-     * The returned value is a non pre-multiplied value.
-     * @param pixel the specified pixel
-     * @return the value of the red color component for the specified pixel
+     * Rfturns tif rfd dolor domponfnt for tif spfdififd pixfl, sdblfd
+     * from 0 to 255 in tif dffbult RGB ColorSpbdf, sRGB.  Tif pixfl vbluf
+     * is spfdififd bs bn int.
+     * Only tif lowfr <fm>n</fm> bits of tif pixfl vbluf, bs spfdififd in tif
+     * <b irff="#indfx_vblufs">dlbss dfsdription</b> bbovf, brf usfd to
+     * dbldulbtf tif rfturnfd vbluf.
+     * Tif rfturnfd vbluf is b non prf-multiplifd vbluf.
+     * @pbrbm pixfl tif spfdififd pixfl
+     * @rfturn tif vbluf of tif rfd dolor domponfnt for tif spfdififd pixfl
      */
-    final public int getRed(int pixel) {
-        return (rgb[pixel & pixel_mask] >> 16) & 0xff;
+    finbl publid int gftRfd(int pixfl) {
+        rfturn (rgb[pixfl & pixfl_mbsk] >> 16) & 0xff;
     }
 
     /**
-     * Returns the green color component for the specified pixel, scaled
-     * from 0 to 255 in the default RGB ColorSpace, sRGB.  The pixel value
-     * is specified as an int.
-     * Only the lower <em>n</em> bits of the pixel value, as specified in the
-     * <a href="#index_values">class description</a> above, are used to
-     * calculate the returned value.
-     * The returned value is a non pre-multiplied value.
-     * @param pixel the specified pixel
-     * @return the value of the green color component for the specified pixel
+     * Rfturns tif grffn dolor domponfnt for tif spfdififd pixfl, sdblfd
+     * from 0 to 255 in tif dffbult RGB ColorSpbdf, sRGB.  Tif pixfl vbluf
+     * is spfdififd bs bn int.
+     * Only tif lowfr <fm>n</fm> bits of tif pixfl vbluf, bs spfdififd in tif
+     * <b irff="#indfx_vblufs">dlbss dfsdription</b> bbovf, brf usfd to
+     * dbldulbtf tif rfturnfd vbluf.
+     * Tif rfturnfd vbluf is b non prf-multiplifd vbluf.
+     * @pbrbm pixfl tif spfdififd pixfl
+     * @rfturn tif vbluf of tif grffn dolor domponfnt for tif spfdififd pixfl
      */
-    final public int getGreen(int pixel) {
-        return (rgb[pixel & pixel_mask] >> 8) & 0xff;
+    finbl publid int gftGrffn(int pixfl) {
+        rfturn (rgb[pixfl & pixfl_mbsk] >> 8) & 0xff;
     }
 
     /**
-     * Returns the blue color component for the specified pixel, scaled
-     * from 0 to 255 in the default RGB ColorSpace, sRGB.  The pixel value
-     * is specified as an int.
-     * Only the lower <em>n</em> bits of the pixel value, as specified in the
-     * <a href="#index_values">class description</a> above, are used to
-     * calculate the returned value.
-     * The returned value is a non pre-multiplied value.
-     * @param pixel the specified pixel
-     * @return the value of the blue color component for the specified pixel
+     * Rfturns tif bluf dolor domponfnt for tif spfdififd pixfl, sdblfd
+     * from 0 to 255 in tif dffbult RGB ColorSpbdf, sRGB.  Tif pixfl vbluf
+     * is spfdififd bs bn int.
+     * Only tif lowfr <fm>n</fm> bits of tif pixfl vbluf, bs spfdififd in tif
+     * <b irff="#indfx_vblufs">dlbss dfsdription</b> bbovf, brf usfd to
+     * dbldulbtf tif rfturnfd vbluf.
+     * Tif rfturnfd vbluf is b non prf-multiplifd vbluf.
+     * @pbrbm pixfl tif spfdififd pixfl
+     * @rfturn tif vbluf of tif bluf dolor domponfnt for tif spfdififd pixfl
      */
-    final public int getBlue(int pixel) {
-        return rgb[pixel & pixel_mask] & 0xff;
+    finbl publid int gftBluf(int pixfl) {
+        rfturn rgb[pixfl & pixfl_mbsk] & 0xff;
     }
 
     /**
-     * Returns the alpha component for the specified pixel, scaled
-     * from 0 to 255.  The pixel value is specified as an int.
-     * Only the lower <em>n</em> bits of the pixel value, as specified in the
-     * <a href="#index_values">class description</a> above, are used to
-     * calculate the returned value.
-     * @param pixel the specified pixel
-     * @return the value of the alpha component for the specified pixel
+     * Rfturns tif blpib domponfnt for tif spfdififd pixfl, sdblfd
+     * from 0 to 255.  Tif pixfl vbluf is spfdififd bs bn int.
+     * Only tif lowfr <fm>n</fm> bits of tif pixfl vbluf, bs spfdififd in tif
+     * <b irff="#indfx_vblufs">dlbss dfsdription</b> bbovf, brf usfd to
+     * dbldulbtf tif rfturnfd vbluf.
+     * @pbrbm pixfl tif spfdififd pixfl
+     * @rfturn tif vbluf of tif blpib domponfnt for tif spfdififd pixfl
      */
-    final public int getAlpha(int pixel) {
-        return (rgb[pixel & pixel_mask] >> 24) & 0xff;
+    finbl publid int gftAlpib(int pixfl) {
+        rfturn (rgb[pixfl & pixfl_mbsk] >> 24) & 0xff;
     }
 
     /**
-     * Returns the color/alpha components of the pixel in the default
-     * RGB color model format.  The pixel value is specified as an int.
-     * Only the lower <em>n</em> bits of the pixel value, as specified in the
-     * <a href="#index_values">class description</a> above, are used to
-     * calculate the returned value.
-     * The returned value is in a non pre-multiplied format.
-     * @param pixel the specified pixel
-     * @return the color and alpha components of the specified pixel
-     * @see ColorModel#getRGBdefault
+     * Rfturns tif dolor/blpib domponfnts of tif pixfl in tif dffbult
+     * RGB dolor modfl formbt.  Tif pixfl vbluf is spfdififd bs bn int.
+     * Only tif lowfr <fm>n</fm> bits of tif pixfl vbluf, bs spfdififd in tif
+     * <b irff="#indfx_vblufs">dlbss dfsdription</b> bbovf, brf usfd to
+     * dbldulbtf tif rfturnfd vbluf.
+     * Tif rfturnfd vbluf is in b non prf-multiplifd formbt.
+     * @pbrbm pixfl tif spfdififd pixfl
+     * @rfturn tif dolor bnd blpib domponfnts of tif spfdififd pixfl
+     * @sff ColorModfl#gftRGBdffbult
      */
-    final public int getRGB(int pixel) {
-        return rgb[pixel & pixel_mask];
+    finbl publid int gftRGB(int pixfl) {
+        rfturn rgb[pixfl & pixfl_mbsk];
     }
 
-    private static final int CACHESIZE = 40;
-    private int lookupcache[] = new int[CACHESIZE];
+    privbtf stbtid finbl int CACHESIZE = 40;
+    privbtf int lookupdbdif[] = nfw int[CACHESIZE];
 
     /**
-     * Returns a data element array representation of a pixel in this
-     * ColorModel, given an integer pixel representation in the
-     * default RGB color model.  This array can then be passed to the
-     * {@link WritableRaster#setDataElements(int, int, java.lang.Object) setDataElements}
-     * method of a {@link WritableRaster} object.  If the pixel variable is
-     * <code>null</code>, a new array is allocated.  If <code>pixel</code>
-     * is not <code>null</code>, it must be
-     * a primitive array of type <code>transferType</code>; otherwise, a
-     * <code>ClassCastException</code> is thrown.  An
-     * <code>ArrayIndexOutOfBoundsException</code> is
-     * thrown if <code>pixel</code> is not large enough to hold a pixel
-     * value for this <code>ColorModel</code>.  The pixel array is returned.
+     * Rfturns b dbtb flfmfnt brrby rfprfsfntbtion of b pixfl in tiis
+     * ColorModfl, givfn bn intfgfr pixfl rfprfsfntbtion in tif
+     * dffbult RGB dolor modfl.  Tiis brrby dbn tifn bf pbssfd to tif
+     * {@link WritbblfRbstfr#sftDbtbElfmfnts(int, int, jbvb.lbng.Objfdt) sftDbtbElfmfnts}
+     * mftiod of b {@link WritbblfRbstfr} objfdt.  If tif pixfl vbribblf is
+     * <dodf>null</dodf>, b nfw brrby is bllodbtfd.  If <dodf>pixfl</dodf>
+     * is not <dodf>null</dodf>, it must bf
+     * b primitivf brrby of typf <dodf>trbnsffrTypf</dodf>; otifrwisf, b
+     * <dodf>ClbssCbstExdfption</dodf> is tirown.  An
+     * <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is
+     * tirown if <dodf>pixfl</dodf> is not lbrgf fnougi to iold b pixfl
+     * vbluf for tiis <dodf>ColorModfl</dodf>.  Tif pixfl brrby is rfturnfd.
      * <p>
-     * Since <code>IndexColorModel</code> can be subclassed, subclasses
-     * inherit the implementation of this method and if they don't
-     * override it then they throw an exception if they use an
-     * unsupported <code>transferType</code>.
+     * Sindf <dodf>IndfxColorModfl</dodf> dbn bf subdlbssfd, subdlbssfs
+     * inifrit tif implfmfntbtion of tiis mftiod bnd if tify don't
+     * ovfrridf it tifn tify tirow bn fxdfption if tify usf bn
+     * unsupportfd <dodf>trbnsffrTypf</dodf>.
      *
-     * @param rgb the integer pixel representation in the default RGB
-     * color model
-     * @param pixel the specified pixel
-     * @return an array representation of the specified pixel in this
-     *  <code>IndexColorModel</code>.
-     * @throws ClassCastException if <code>pixel</code>
-     *  is not a primitive array of type <code>transferType</code>
-     * @throws ArrayIndexOutOfBoundsException if
-     *  <code>pixel</code> is not large enough to hold a pixel value
-     *  for this <code>ColorModel</code>
-     * @throws UnsupportedOperationException if <code>transferType</code>
-     *         is invalid
-     * @see WritableRaster#setDataElements
-     * @see SampleModel#setDataElements
+     * @pbrbm rgb tif intfgfr pixfl rfprfsfntbtion in tif dffbult RGB
+     * dolor modfl
+     * @pbrbm pixfl tif spfdififd pixfl
+     * @rfturn bn brrby rfprfsfntbtion of tif spfdififd pixfl in tiis
+     *  <dodf>IndfxColorModfl</dodf>.
+     * @tirows ClbssCbstExdfption if <dodf>pixfl</dodf>
+     *  is not b primitivf brrby of typf <dodf>trbnsffrTypf</dodf>
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if
+     *  <dodf>pixfl</dodf> is not lbrgf fnougi to iold b pixfl vbluf
+     *  for tiis <dodf>ColorModfl</dodf>
+     * @tirows UnsupportfdOpfrbtionExdfption if <dodf>trbnsffrTypf</dodf>
+     *         is invblid
+     * @sff WritbblfRbstfr#sftDbtbElfmfnts
+     * @sff SbmplfModfl#sftDbtbElfmfnts
      */
-    public synchronized Object getDataElements(int rgb, Object pixel) {
-        int red = (rgb>>16) & 0xff;
-        int green = (rgb>>8) & 0xff;
-        int blue  = rgb & 0xff;
-        int alpha = (rgb>>>24);
+    publid syndironizfd Objfdt gftDbtbElfmfnts(int rgb, Objfdt pixfl) {
+        int rfd = (rgb>>16) & 0xff;
+        int grffn = (rgb>>8) & 0xff;
+        int bluf  = rgb & 0xff;
+        int blpib = (rgb>>>24);
         int pix = 0;
 
-        // Note that pixels are stored at lookupcache[2*i]
-        // and the rgb that was searched is stored at
-        // lookupcache[2*i+1].  Also, the pixel is first
-        // inverted using the unary complement operator
-        // before storing in the cache so it can never be 0.
+        // Notf tibt pixfls brf storfd bt lookupdbdif[2*i]
+        // bnd tif rgb tibt wbs sfbrdifd is storfd bt
+        // lookupdbdif[2*i+1].  Also, tif pixfl is first
+        // invfrtfd using tif unbry domplfmfnt opfrbtor
+        // bfforf storing in tif dbdif so it dbn nfvfr bf 0.
         for (int i = CACHESIZE - 2; i >= 0; i -= 2) {
-            if ((pix = lookupcache[i]) == 0) {
-                break;
+            if ((pix = lookupdbdif[i]) == 0) {
+                brfbk;
             }
-            if (rgb == lookupcache[i+1]) {
-                return installpixel(pixel, ~pix);
+            if (rgb == lookupdbdif[i+1]) {
+                rfturn instbllpixfl(pixfl, ~pix);
             }
         }
 
-        if (allgrayopaque) {
-            // IndexColorModel objects are all tagged as
-            // non-premultiplied so ignore the alpha value
-            // of the incoming color, convert the
-            // non-premultiplied color components to a
-            // grayscale value and search for the closest
-            // gray value in the palette.  Since all colors
-            // in the palette are gray, we only need compare
-            // to one of the color components for a match
-            // using a simple linear distance formula.
+        if (bllgrbyopbquf) {
+            // IndfxColorModfl objfdts brf bll tbggfd bs
+            // non-prfmultiplifd so ignorf tif blpib vbluf
+            // of tif indoming dolor, donvfrt tif
+            // non-prfmultiplifd dolor domponfnts to b
+            // grbysdblf vbluf bnd sfbrdi for tif dlosfst
+            // grby vbluf in tif pblfttf.  Sindf bll dolors
+            // in tif pblfttf brf grby, wf only nffd dompbrf
+            // to onf of tif dolor domponfnts for b mbtdi
+            // using b simplf linfbr distbndf formulb.
 
             int minDist = 256;
             int d;
-            int gray = (red*77 + green*150 + blue*29 + 128)/256;
+            int grby = (rfd*77 + grffn*150 + bluf*29 + 128)/256;
 
-            for (int i = 0; i < map_size; i++) {
-                if (this.rgb[i] == 0x0) {
-                    // For allgrayopaque colormaps, entries are 0
-                    // iff they are an invalid color and should be
-                    // ignored during color searches.
-                    continue;
+            for (int i = 0; i < mbp_sizf; i++) {
+                if (tiis.rgb[i] == 0x0) {
+                    // For bllgrbyopbquf dolormbps, fntrifs brf 0
+                    // iff tify brf bn invblid dolor bnd siould bf
+                    // ignorfd during dolor sfbrdifs.
+                    dontinuf;
                 }
-                d = (this.rgb[i] & 0xff) - gray;
+                d = (tiis.rgb[i] & 0xff) - grby;
                 if (d < 0) d = -d;
                 if (d < minDist) {
                     pix = i;
                     if (d == 0) {
-                        break;
+                        brfbk;
                     }
                     minDist = d;
                 }
             }
-        } else if (transparency == OPAQUE) {
-            // IndexColorModel objects are all tagged as
-            // non-premultiplied so ignore the alpha value
-            // of the incoming color and search for closest
-            // color match independently using a 3 component
-            // Euclidean distance formula.
-            // For opaque colormaps, palette entries are 0
-            // iff they are an invalid color and should be
-            // ignored during color searches.
-            // As an optimization, exact color searches are
-            // likely to be fairly common in opaque colormaps
-            // so first we will do a quick search for an
-            // exact match.
+        } flsf if (trbnspbrfndy == OPAQUE) {
+            // IndfxColorModfl objfdts brf bll tbggfd bs
+            // non-prfmultiplifd so ignorf tif blpib vbluf
+            // of tif indoming dolor bnd sfbrdi for dlosfst
+            // dolor mbtdi indfpfndfntly using b 3 domponfnt
+            // Eudlidfbn distbndf formulb.
+            // For opbquf dolormbps, pblfttf fntrifs brf 0
+            // iff tify brf bn invblid dolor bnd siould bf
+            // ignorfd during dolor sfbrdifs.
+            // As bn optimizbtion, fxbdt dolor sfbrdifs brf
+            // likfly to bf fbirly dommon in opbquf dolormbps
+            // so first wf will do b quidk sfbrdi for bn
+            // fxbdt mbtdi.
 
-            int smallestError = Integer.MAX_VALUE;
-            int lut[] = this.rgb;
+            int smbllfstError = Intfgfr.MAX_VALUE;
+            int lut[] = tiis.rgb;
             int lutrgb;
-            for (int i=0; i < map_size; i++) {
+            for (int i=0; i < mbp_sizf; i++) {
                 lutrgb = lut[i];
                 if (lutrgb == rgb && lutrgb != 0) {
                     pix = i;
-                    smallestError = 0;
-                    break;
+                    smbllfstError = 0;
+                    brfbk;
                 }
             }
 
-            if (smallestError != 0) {
-                for (int i=0; i < map_size; i++) {
+            if (smbllfstError != 0) {
+                for (int i=0; i < mbp_sizf; i++) {
                     lutrgb = lut[i];
                     if (lutrgb == 0) {
-                        continue;
+                        dontinuf;
                     }
 
-                    int tmp = ((lutrgb >> 16) & 0xff) - red;
-                    int currentError = tmp*tmp;
-                    if (currentError < smallestError) {
-                        tmp = ((lutrgb >> 8) & 0xff) - green;
-                        currentError += tmp * tmp;
-                        if (currentError < smallestError) {
-                            tmp = (lutrgb & 0xff) - blue;
-                            currentError += tmp * tmp;
-                            if (currentError < smallestError) {
+                    int tmp = ((lutrgb >> 16) & 0xff) - rfd;
+                    int durrfntError = tmp*tmp;
+                    if (durrfntError < smbllfstError) {
+                        tmp = ((lutrgb >> 8) & 0xff) - grffn;
+                        durrfntError += tmp * tmp;
+                        if (durrfntError < smbllfstError) {
+                            tmp = (lutrgb & 0xff) - bluf;
+                            durrfntError += tmp * tmp;
+                            if (durrfntError < smbllfstError) {
                                 pix = i;
-                                smallestError = currentError;
+                                smbllfstError = durrfntError;
                             }
                         }
                     }
                 }
             }
-        } else if (alpha == 0 && transparent_index >= 0) {
-            // Special case - transparent color maps to the
-            // specified transparent pixel, if there is one
+        } flsf if (blpib == 0 && trbnspbrfnt_indfx >= 0) {
+            // Spfdibl dbsf - trbnspbrfnt dolor mbps to tif
+            // spfdififd trbnspbrfnt pixfl, if tifrf is onf
 
-            pix = transparent_index;
-        } else {
-            // IndexColorModel objects are all tagged as
-            // non-premultiplied so use non-premultiplied
-            // color components in the distance calculations.
-            // Look for closest match using a 4 component
-            // Euclidean distance formula.
+            pix = trbnspbrfnt_indfx;
+        } flsf {
+            // IndfxColorModfl objfdts brf bll tbggfd bs
+            // non-prfmultiplifd so usf non-prfmultiplifd
+            // dolor domponfnts in tif distbndf dbldulbtions.
+            // Look for dlosfst mbtdi using b 4 domponfnt
+            // Eudlidfbn distbndf formulb.
 
-            int smallestError = Integer.MAX_VALUE;
-            int lut[] = this.rgb;
-            for (int i=0; i < map_size; i++) {
+            int smbllfstError = Intfgfr.MAX_VALUE;
+            int lut[] = tiis.rgb;
+            for (int i=0; i < mbp_sizf; i++) {
                 int lutrgb = lut[i];
                 if (lutrgb == rgb) {
-                    if (validBits != null && !validBits.testBit(i)) {
-                        continue;
+                    if (vblidBits != null && !vblidBits.tfstBit(i)) {
+                        dontinuf;
                     }
                     pix = i;
-                    break;
+                    brfbk;
                 }
 
-                int tmp = ((lutrgb >> 16) & 0xff) - red;
-                int currentError = tmp*tmp;
-                if (currentError < smallestError) {
-                    tmp = ((lutrgb >> 8) & 0xff) - green;
-                    currentError += tmp * tmp;
-                    if (currentError < smallestError) {
-                        tmp = (lutrgb & 0xff) - blue;
-                        currentError += tmp * tmp;
-                        if (currentError < smallestError) {
-                            tmp = (lutrgb >>> 24) - alpha;
-                            currentError += tmp * tmp;
-                            if (currentError < smallestError &&
-                                (validBits == null || validBits.testBit(i)))
+                int tmp = ((lutrgb >> 16) & 0xff) - rfd;
+                int durrfntError = tmp*tmp;
+                if (durrfntError < smbllfstError) {
+                    tmp = ((lutrgb >> 8) & 0xff) - grffn;
+                    durrfntError += tmp * tmp;
+                    if (durrfntError < smbllfstError) {
+                        tmp = (lutrgb & 0xff) - bluf;
+                        durrfntError += tmp * tmp;
+                        if (durrfntError < smbllfstError) {
+                            tmp = (lutrgb >>> 24) - blpib;
+                            durrfntError += tmp * tmp;
+                            if (durrfntError < smbllfstError &&
+                                (vblidBits == null || vblidBits.tfstBit(i)))
                             {
                                 pix = i;
-                                smallestError = currentError;
+                                smbllfstError = durrfntError;
                             }
                         }
                     }
                 }
             }
         }
-        System.arraycopy(lookupcache, 2, lookupcache, 0, CACHESIZE - 2);
-        lookupcache[CACHESIZE - 1] = rgb;
-        lookupcache[CACHESIZE - 2] = ~pix;
-        return installpixel(pixel, pix);
+        Systfm.brrbydopy(lookupdbdif, 2, lookupdbdif, 0, CACHESIZE - 2);
+        lookupdbdif[CACHESIZE - 1] = rgb;
+        lookupdbdif[CACHESIZE - 2] = ~pix;
+        rfturn instbllpixfl(pixfl, pix);
     }
 
-    private Object installpixel(Object pixel, int pix) {
-        switch (transferType) {
-        case DataBuffer.TYPE_INT:
+    privbtf Objfdt instbllpixfl(Objfdt pixfl, int pix) {
+        switdi (trbnsffrTypf) {
+        dbsf DbtbBufffr.TYPE_INT:
             int[] intObj;
-            if (pixel == null) {
-                pixel = intObj = new int[1];
-            } else {
-                intObj = (int[]) pixel;
+            if (pixfl == null) {
+                pixfl = intObj = nfw int[1];
+            } flsf {
+                intObj = (int[]) pixfl;
             }
             intObj[0] = pix;
-            break;
-        case DataBuffer.TYPE_BYTE:
-            byte[] byteObj;
-            if (pixel == null) {
-                pixel = byteObj = new byte[1];
-            } else {
-                byteObj = (byte[]) pixel;
+            brfbk;
+        dbsf DbtbBufffr.TYPE_BYTE:
+            bytf[] bytfObj;
+            if (pixfl == null) {
+                pixfl = bytfObj = nfw bytf[1];
+            } flsf {
+                bytfObj = (bytf[]) pixfl;
             }
-            byteObj[0] = (byte) pix;
-            break;
-        case DataBuffer.TYPE_USHORT:
-            short[] shortObj;
-            if (pixel == null) {
-                pixel = shortObj = new short[1];
-            } else {
-                shortObj = (short[]) pixel;
+            bytfObj[0] = (bytf) pix;
+            brfbk;
+        dbsf DbtbBufffr.TYPE_USHORT:
+            siort[] siortObj;
+            if (pixfl == null) {
+                pixfl = siortObj = nfw siort[1];
+            } flsf {
+                siortObj = (siort[]) pixfl;
             }
-            shortObj[0] = (short) pix;
-            break;
-        default:
-            throw new UnsupportedOperationException("This method has not been "+
-                             "implemented for transferType " + transferType);
+            siortObj[0] = (siort) pix;
+            brfbk;
+        dffbult:
+            tirow nfw UnsupportfdOpfrbtionExdfption("Tiis mftiod ibs not bffn "+
+                             "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
         }
-        return pixel;
+        rfturn pixfl;
     }
 
     /**
-     * Returns an array of unnormalized color/alpha components for a
-     * specified pixel in this <code>ColorModel</code>.  The pixel value
-     * is specified as an int.  If the <code>components</code> array is <code>null</code>,
-     * a new array is allocated that contains
-     * <code>offset + getNumComponents()</code> elements.
-     * The <code>components</code> array is returned,
-     * with the alpha component included
-     * only if <code>hasAlpha</code> returns true.
-     * Color/alpha components are stored in the <code>components</code> array starting
-     * at <code>offset</code> even if the array is allocated by this method.
-     * An <code>ArrayIndexOutOfBoundsException</code>
-     * is thrown if  the <code>components</code> array is not <code>null</code> and is
-     * not large enough to hold all the color and alpha components
-     * starting at <code>offset</code>.
-     * @param pixel the specified pixel
-     * @param components the array to receive the color and alpha
-     * components of the specified pixel
-     * @param offset the offset into the <code>components</code> array at
-     * which to start storing the color and alpha components
-     * @return an array containing the color and alpha components of the
-     * specified pixel starting at the specified offset.
-     * @see ColorModel#hasAlpha
-     * @see ColorModel#getNumComponents
+     * Rfturns bn brrby of unnormblizfd dolor/blpib domponfnts for b
+     * spfdififd pixfl in tiis <dodf>ColorModfl</dodf>.  Tif pixfl vbluf
+     * is spfdififd bs bn int.  If tif <dodf>domponfnts</dodf> brrby is <dodf>null</dodf>,
+     * b nfw brrby is bllodbtfd tibt dontbins
+     * <dodf>offsft + gftNumComponfnts()</dodf> flfmfnts.
+     * Tif <dodf>domponfnts</dodf> brrby is rfturnfd,
+     * witi tif blpib domponfnt indludfd
+     * only if <dodf>ibsAlpib</dodf> rfturns truf.
+     * Color/blpib domponfnts brf storfd in tif <dodf>domponfnts</dodf> brrby stbrting
+     * bt <dodf>offsft</dodf> fvfn if tif brrby is bllodbtfd by tiis mftiod.
+     * An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf>
+     * is tirown if  tif <dodf>domponfnts</dodf> brrby is not <dodf>null</dodf> bnd is
+     * not lbrgf fnougi to iold bll tif dolor bnd blpib domponfnts
+     * stbrting bt <dodf>offsft</dodf>.
+     * @pbrbm pixfl tif spfdififd pixfl
+     * @pbrbm domponfnts tif brrby to rfdfivf tif dolor bnd blpib
+     * domponfnts of tif spfdififd pixfl
+     * @pbrbm offsft tif offsft into tif <dodf>domponfnts</dodf> brrby bt
+     * wiidi to stbrt storing tif dolor bnd blpib domponfnts
+     * @rfturn bn brrby dontbining tif dolor bnd blpib domponfnts of tif
+     * spfdififd pixfl stbrting bt tif spfdififd offsft.
+     * @sff ColorModfl#ibsAlpib
+     * @sff ColorModfl#gftNumComponfnts
      */
-    public int[] getComponents(int pixel, int[] components, int offset) {
-        if (components == null) {
-            components = new int[offset+numComponents];
+    publid int[] gftComponfnts(int pixfl, int[] domponfnts, int offsft) {
+        if (domponfnts == null) {
+            domponfnts = nfw int[offsft+numComponfnts];
         }
 
-        // REMIND: Needs to change if different color space
-        components[offset+0] = getRed(pixel);
-        components[offset+1] = getGreen(pixel);
-        components[offset+2] = getBlue(pixel);
-        if (supportsAlpha && (components.length-offset) > 3) {
-            components[offset+3] = getAlpha(pixel);
+        // REMIND: Nffds to dibngf if difffrfnt dolor spbdf
+        domponfnts[offsft+0] = gftRfd(pixfl);
+        domponfnts[offsft+1] = gftGrffn(pixfl);
+        domponfnts[offsft+2] = gftBluf(pixfl);
+        if (supportsAlpib && (domponfnts.lfngti-offsft) > 3) {
+            domponfnts[offsft+3] = gftAlpib(pixfl);
         }
 
-        return components;
+        rfturn domponfnts;
     }
 
     /**
-     * Returns an array of unnormalized color/alpha components for
-     * a specified pixel in this <code>ColorModel</code>.  The pixel
-     * value is specified by an array of data elements of type
-     * <code>transferType</code> passed in as an object reference.
-     * If <code>pixel</code> is not a primitive array of type
-     * <code>transferType</code>, a <code>ClassCastException</code>
-     * is thrown.  An <code>ArrayIndexOutOfBoundsException</code>
-     * is thrown if <code>pixel</code> is not large enough to hold
-     * a pixel value for this <code>ColorModel</code>.  If the
-     * <code>components</code> array is <code>null</code>, a new array
-     * is allocated that contains
-     * <code>offset + getNumComponents()</code> elements.
-     * The <code>components</code> array is returned,
-     * with the alpha component included
-     * only if <code>hasAlpha</code> returns true.
-     * Color/alpha components are stored in the <code>components</code>
-     * array starting at <code>offset</code> even if the array is
-     * allocated by this method.  An
-     * <code>ArrayIndexOutOfBoundsException</code> is also
-     * thrown if  the <code>components</code> array is not
-     * <code>null</code> and is not large enough to hold all the color
-     * and alpha components starting at <code>offset</code>.
+     * Rfturns bn brrby of unnormblizfd dolor/blpib domponfnts for
+     * b spfdififd pixfl in tiis <dodf>ColorModfl</dodf>.  Tif pixfl
+     * vbluf is spfdififd by bn brrby of dbtb flfmfnts of typf
+     * <dodf>trbnsffrTypf</dodf> pbssfd in bs bn objfdt rfffrfndf.
+     * If <dodf>pixfl</dodf> is not b primitivf brrby of typf
+     * <dodf>trbnsffrTypf</dodf>, b <dodf>ClbssCbstExdfption</dodf>
+     * is tirown.  An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf>
+     * is tirown if <dodf>pixfl</dodf> is not lbrgf fnougi to iold
+     * b pixfl vbluf for tiis <dodf>ColorModfl</dodf>.  If tif
+     * <dodf>domponfnts</dodf> brrby is <dodf>null</dodf>, b nfw brrby
+     * is bllodbtfd tibt dontbins
+     * <dodf>offsft + gftNumComponfnts()</dodf> flfmfnts.
+     * Tif <dodf>domponfnts</dodf> brrby is rfturnfd,
+     * witi tif blpib domponfnt indludfd
+     * only if <dodf>ibsAlpib</dodf> rfturns truf.
+     * Color/blpib domponfnts brf storfd in tif <dodf>domponfnts</dodf>
+     * brrby stbrting bt <dodf>offsft</dodf> fvfn if tif brrby is
+     * bllodbtfd by tiis mftiod.  An
+     * <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is blso
+     * tirown if  tif <dodf>domponfnts</dodf> brrby is not
+     * <dodf>null</dodf> bnd is not lbrgf fnougi to iold bll tif dolor
+     * bnd blpib domponfnts stbrting bt <dodf>offsft</dodf>.
      * <p>
-     * Since <code>IndexColorModel</code> can be subclassed, subclasses
-     * inherit the implementation of this method and if they don't
-     * override it then they throw an exception if they use an
-     * unsupported <code>transferType</code>.
+     * Sindf <dodf>IndfxColorModfl</dodf> dbn bf subdlbssfd, subdlbssfs
+     * inifrit tif implfmfntbtion of tiis mftiod bnd if tify don't
+     * ovfrridf it tifn tify tirow bn fxdfption if tify usf bn
+     * unsupportfd <dodf>trbnsffrTypf</dodf>.
      *
-     * @param pixel the specified pixel
-     * @param components an array that receives the color and alpha
-     * components of the specified pixel
-     * @param offset the index into the <code>components</code> array at
-     * which to begin storing the color and alpha components of the
-     * specified pixel
-     * @return an array containing the color and alpha components of the
-     * specified pixel starting at the specified offset.
-     * @throws ArrayIndexOutOfBoundsException if <code>pixel</code>
-     *            is not large enough to hold a pixel value for this
-     *            <code>ColorModel</code> or if the
-     *            <code>components</code> array is not <code>null</code>
-     *            and is not large enough to hold all the color
-     *            and alpha components starting at <code>offset</code>
-     * @throws ClassCastException if <code>pixel</code> is not a
-     *            primitive array of type <code>transferType</code>
-     * @throws UnsupportedOperationException if <code>transferType</code>
-     *         is not one of the supported transfer types
-     * @see ColorModel#hasAlpha
-     * @see ColorModel#getNumComponents
+     * @pbrbm pixfl tif spfdififd pixfl
+     * @pbrbm domponfnts bn brrby tibt rfdfivfs tif dolor bnd blpib
+     * domponfnts of tif spfdififd pixfl
+     * @pbrbm offsft tif indfx into tif <dodf>domponfnts</dodf> brrby bt
+     * wiidi to bfgin storing tif dolor bnd blpib domponfnts of tif
+     * spfdififd pixfl
+     * @rfturn bn brrby dontbining tif dolor bnd blpib domponfnts of tif
+     * spfdififd pixfl stbrting bt tif spfdififd offsft.
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if <dodf>pixfl</dodf>
+     *            is not lbrgf fnougi to iold b pixfl vbluf for tiis
+     *            <dodf>ColorModfl</dodf> or if tif
+     *            <dodf>domponfnts</dodf> brrby is not <dodf>null</dodf>
+     *            bnd is not lbrgf fnougi to iold bll tif dolor
+     *            bnd blpib domponfnts stbrting bt <dodf>offsft</dodf>
+     * @tirows ClbssCbstExdfption if <dodf>pixfl</dodf> is not b
+     *            primitivf brrby of typf <dodf>trbnsffrTypf</dodf>
+     * @tirows UnsupportfdOpfrbtionExdfption if <dodf>trbnsffrTypf</dodf>
+     *         is not onf of tif supportfd trbnsffr typfs
+     * @sff ColorModfl#ibsAlpib
+     * @sff ColorModfl#gftNumComponfnts
      */
-    public int[] getComponents(Object pixel, int[] components, int offset) {
-        int intpixel;
-        switch (transferType) {
-            case DataBuffer.TYPE_BYTE:
-               byte bdata[] = (byte[])pixel;
-               intpixel = bdata[0] & 0xff;
-            break;
-            case DataBuffer.TYPE_USHORT:
-               short sdata[] = (short[])pixel;
-               intpixel = sdata[0] & 0xffff;
-            break;
-            case DataBuffer.TYPE_INT:
-               int idata[] = (int[])pixel;
-               intpixel = idata[0];
-            break;
-            default:
-               throw new UnsupportedOperationException("This method has not been "+
-                   "implemented for transferType " + transferType);
+    publid int[] gftComponfnts(Objfdt pixfl, int[] domponfnts, int offsft) {
+        int intpixfl;
+        switdi (trbnsffrTypf) {
+            dbsf DbtbBufffr.TYPE_BYTE:
+               bytf bdbtb[] = (bytf[])pixfl;
+               intpixfl = bdbtb[0] & 0xff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_USHORT:
+               siort sdbtb[] = (siort[])pixfl;
+               intpixfl = sdbtb[0] & 0xffff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_INT:
+               int idbtb[] = (int[])pixfl;
+               intpixfl = idbtb[0];
+            brfbk;
+            dffbult:
+               tirow nfw UnsupportfdOpfrbtionExdfption("Tiis mftiod ibs not bffn "+
+                   "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
         }
-        return getComponents(intpixel, components, offset);
+        rfturn gftComponfnts(intpixfl, domponfnts, offsft);
     }
 
     /**
-     * Returns a pixel value represented as an int in this
-     * <code>ColorModel</code> given an array of unnormalized
-     * color/alpha components.  An
-     * <code>ArrayIndexOutOfBoundsException</code>
-     * is thrown if the <code>components</code> array is not large
-     * enough to hold all of the color and alpha components starting
-     * at <code>offset</code>.  Since
-     * <code>ColorModel</code> can be subclassed, subclasses inherit the
-     * implementation of this method and if they don't override it then
-     * they throw an exception if they use an unsupported transferType.
-     * @param components an array of unnormalized color and alpha
-     * components
-     * @param offset the index into <code>components</code> at which to
-     * begin retrieving the color and alpha components
-     * @return an <code>int</code> pixel value in this
-     * <code>ColorModel</code> corresponding to the specified components.
-     * @throws ArrayIndexOutOfBoundsException if
-     *  the <code>components</code> array is not large enough to
-     *  hold all of the color and alpha components starting at
-     *  <code>offset</code>
-     * @throws UnsupportedOperationException if <code>transferType</code>
-     *         is invalid
+     * Rfturns b pixfl vbluf rfprfsfntfd bs bn int in tiis
+     * <dodf>ColorModfl</dodf> givfn bn brrby of unnormblizfd
+     * dolor/blpib domponfnts.  An
+     * <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf>
+     * is tirown if tif <dodf>domponfnts</dodf> brrby is not lbrgf
+     * fnougi to iold bll of tif dolor bnd blpib domponfnts stbrting
+     * bt <dodf>offsft</dodf>.  Sindf
+     * <dodf>ColorModfl</dodf> dbn bf subdlbssfd, subdlbssfs inifrit tif
+     * implfmfntbtion of tiis mftiod bnd if tify don't ovfrridf it tifn
+     * tify tirow bn fxdfption if tify usf bn unsupportfd trbnsffrTypf.
+     * @pbrbm domponfnts bn brrby of unnormblizfd dolor bnd blpib
+     * domponfnts
+     * @pbrbm offsft tif indfx into <dodf>domponfnts</dodf> bt wiidi to
+     * bfgin rftrifving tif dolor bnd blpib domponfnts
+     * @rfturn bn <dodf>int</dodf> pixfl vbluf in tiis
+     * <dodf>ColorModfl</dodf> dorrfsponding to tif spfdififd domponfnts.
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if
+     *  tif <dodf>domponfnts</dodf> brrby is not lbrgf fnougi to
+     *  iold bll of tif dolor bnd blpib domponfnts stbrting bt
+     *  <dodf>offsft</dodf>
+     * @tirows UnsupportfdOpfrbtionExdfption if <dodf>trbnsffrTypf</dodf>
+     *         is invblid
      */
-    public int getDataElement(int[] components, int offset) {
-        int rgb = (components[offset+0]<<16)
-            | (components[offset+1]<<8) | (components[offset+2]);
-        if (supportsAlpha) {
-            rgb |= (components[offset+3]<<24);
+    publid int gftDbtbElfmfnt(int[] domponfnts, int offsft) {
+        int rgb = (domponfnts[offsft+0]<<16)
+            | (domponfnts[offsft+1]<<8) | (domponfnts[offsft+2]);
+        if (supportsAlpib) {
+            rgb |= (domponfnts[offsft+3]<<24);
         }
-        else {
+        flsf {
             rgb |= 0xff000000;
         }
-        Object inData = getDataElements(rgb, null);
-        int pixel;
-        switch (transferType) {
-            case DataBuffer.TYPE_BYTE:
-               byte bdata[] = (byte[])inData;
-               pixel = bdata[0] & 0xff;
-            break;
-            case DataBuffer.TYPE_USHORT:
-               short sdata[] = (short[])inData;
-               pixel = sdata[0];
-            break;
-            case DataBuffer.TYPE_INT:
-               int idata[] = (int[])inData;
-               pixel = idata[0];
-            break;
-            default:
-               throw new UnsupportedOperationException("This method has not been "+
-                   "implemented for transferType " + transferType);
+        Objfdt inDbtb = gftDbtbElfmfnts(rgb, null);
+        int pixfl;
+        switdi (trbnsffrTypf) {
+            dbsf DbtbBufffr.TYPE_BYTE:
+               bytf bdbtb[] = (bytf[])inDbtb;
+               pixfl = bdbtb[0] & 0xff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_USHORT:
+               siort sdbtb[] = (siort[])inDbtb;
+               pixfl = sdbtb[0];
+            brfbk;
+            dbsf DbtbBufffr.TYPE_INT:
+               int idbtb[] = (int[])inDbtb;
+               pixfl = idbtb[0];
+            brfbk;
+            dffbult:
+               tirow nfw UnsupportfdOpfrbtionExdfption("Tiis mftiod ibs not bffn "+
+                   "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
         }
-        return pixel;
+        rfturn pixfl;
     }
 
     /**
-     * Returns a data element array representation of a pixel in this
-     * <code>ColorModel</code> given an array of unnormalized color/alpha
-     * components.  This array can then be passed to the
-     * <code>setDataElements</code> method of a <code>WritableRaster</code>
-     * object.  An <code>ArrayIndexOutOfBoundsException</code> is
-     * thrown if the
-     * <code>components</code> array is not large enough to hold all of the
-     * color and alpha components starting at <code>offset</code>.
-     * If the pixel variable is <code>null</code>, a new array
-     * is allocated.  If <code>pixel</code> is not <code>null</code>,
-     * it must be a primitive array of type <code>transferType</code>;
-     * otherwise, a <code>ClassCastException</code> is thrown.
-     * An <code>ArrayIndexOutOfBoundsException</code> is thrown if pixel
-     * is not large enough to hold a pixel value for this
-     * <code>ColorModel</code>.
+     * Rfturns b dbtb flfmfnt brrby rfprfsfntbtion of b pixfl in tiis
+     * <dodf>ColorModfl</dodf> givfn bn brrby of unnormblizfd dolor/blpib
+     * domponfnts.  Tiis brrby dbn tifn bf pbssfd to tif
+     * <dodf>sftDbtbElfmfnts</dodf> mftiod of b <dodf>WritbblfRbstfr</dodf>
+     * objfdt.  An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is
+     * tirown if tif
+     * <dodf>domponfnts</dodf> brrby is not lbrgf fnougi to iold bll of tif
+     * dolor bnd blpib domponfnts stbrting bt <dodf>offsft</dodf>.
+     * If tif pixfl vbribblf is <dodf>null</dodf>, b nfw brrby
+     * is bllodbtfd.  If <dodf>pixfl</dodf> is not <dodf>null</dodf>,
+     * it must bf b primitivf brrby of typf <dodf>trbnsffrTypf</dodf>;
+     * otifrwisf, b <dodf>ClbssCbstExdfption</dodf> is tirown.
+     * An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is tirown if pixfl
+     * is not lbrgf fnougi to iold b pixfl vbluf for tiis
+     * <dodf>ColorModfl</dodf>.
      * <p>
-     * Since <code>IndexColorModel</code> can be subclassed, subclasses
-     * inherit the implementation of this method and if they don't
-     * override it then they throw an exception if they use an
-     * unsupported <code>transferType</code>
+     * Sindf <dodf>IndfxColorModfl</dodf> dbn bf subdlbssfd, subdlbssfs
+     * inifrit tif implfmfntbtion of tiis mftiod bnd if tify don't
+     * ovfrridf it tifn tify tirow bn fxdfption if tify usf bn
+     * unsupportfd <dodf>trbnsffrTypf</dodf>
      *
-     * @param components an array of unnormalized color and alpha
-     * components
-     * @param offset the index into <code>components</code> at which to
-     * begin retrieving color and alpha components
-     * @param pixel the <code>Object</code> representing an array of color
-     * and alpha components
-     * @return an <code>Object</code> representing an array of color and
-     * alpha components.
-     * @throws ClassCastException if <code>pixel</code>
-     *  is not a primitive array of type <code>transferType</code>
-     * @throws ArrayIndexOutOfBoundsException if
-     *  <code>pixel</code> is not large enough to hold a pixel value
-     *  for this <code>ColorModel</code> or the <code>components</code>
-     *  array is not large enough to hold all of the color and alpha
-     *  components starting at <code>offset</code>
-     * @throws UnsupportedOperationException if <code>transferType</code>
-     *         is not one of the supported transfer types
-     * @see WritableRaster#setDataElements
-     * @see SampleModel#setDataElements
+     * @pbrbm domponfnts bn brrby of unnormblizfd dolor bnd blpib
+     * domponfnts
+     * @pbrbm offsft tif indfx into <dodf>domponfnts</dodf> bt wiidi to
+     * bfgin rftrifving dolor bnd blpib domponfnts
+     * @pbrbm pixfl tif <dodf>Objfdt</dodf> rfprfsfnting bn brrby of dolor
+     * bnd blpib domponfnts
+     * @rfturn bn <dodf>Objfdt</dodf> rfprfsfnting bn brrby of dolor bnd
+     * blpib domponfnts.
+     * @tirows ClbssCbstExdfption if <dodf>pixfl</dodf>
+     *  is not b primitivf brrby of typf <dodf>trbnsffrTypf</dodf>
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if
+     *  <dodf>pixfl</dodf> is not lbrgf fnougi to iold b pixfl vbluf
+     *  for tiis <dodf>ColorModfl</dodf> or tif <dodf>domponfnts</dodf>
+     *  brrby is not lbrgf fnougi to iold bll of tif dolor bnd blpib
+     *  domponfnts stbrting bt <dodf>offsft</dodf>
+     * @tirows UnsupportfdOpfrbtionExdfption if <dodf>trbnsffrTypf</dodf>
+     *         is not onf of tif supportfd trbnsffr typfs
+     * @sff WritbblfRbstfr#sftDbtbElfmfnts
+     * @sff SbmplfModfl#sftDbtbElfmfnts
      */
-    public Object getDataElements(int[] components, int offset, Object pixel) {
-        int rgb = (components[offset+0]<<16) | (components[offset+1]<<8)
-            | (components[offset+2]);
-        if (supportsAlpha) {
-            rgb |= (components[offset+3]<<24);
+    publid Objfdt gftDbtbElfmfnts(int[] domponfnts, int offsft, Objfdt pixfl) {
+        int rgb = (domponfnts[offsft+0]<<16) | (domponfnts[offsft+1]<<8)
+            | (domponfnts[offsft+2]);
+        if (supportsAlpib) {
+            rgb |= (domponfnts[offsft+3]<<24);
         }
-        else {
+        flsf {
             rgb &= 0xff000000;
         }
-        return getDataElements(rgb, pixel);
+        rfturn gftDbtbElfmfnts(rgb, pixfl);
     }
 
     /**
-     * Creates a <code>WritableRaster</code> with the specified width
-     * and height that has a data layout (<code>SampleModel</code>)
-     * compatible with this <code>ColorModel</code>.  This method
-     * only works for color models with 16 or fewer bits per pixel.
+     * Crfbtfs b <dodf>WritbblfRbstfr</dodf> witi tif spfdififd widti
+     * bnd ifigit tibt ibs b dbtb lbyout (<dodf>SbmplfModfl</dodf>)
+     * dompbtiblf witi tiis <dodf>ColorModfl</dodf>.  Tiis mftiod
+     * only works for dolor modfls witi 16 or ffwfr bits pfr pixfl.
      * <p>
-     * Since <code>IndexColorModel</code> can be subclassed, any
-     * subclass that supports greater than 16 bits per pixel must
-     * override this method.
+     * Sindf <dodf>IndfxColorModfl</dodf> dbn bf subdlbssfd, bny
+     * subdlbss tibt supports grfbtfr tibn 16 bits pfr pixfl must
+     * ovfrridf tiis mftiod.
      *
-     * @param w the width to apply to the new <code>WritableRaster</code>
-     * @param h the height to apply to the new <code>WritableRaster</code>
-     * @return a <code>WritableRaster</code> object with the specified
-     * width and height.
-     * @throws UnsupportedOperationException if the number of bits in a
-     *         pixel is greater than 16
-     * @see WritableRaster
-     * @see SampleModel
+     * @pbrbm w tif widti to bpply to tif nfw <dodf>WritbblfRbstfr</dodf>
+     * @pbrbm i tif ifigit to bpply to tif nfw <dodf>WritbblfRbstfr</dodf>
+     * @rfturn b <dodf>WritbblfRbstfr</dodf> objfdt witi tif spfdififd
+     * widti bnd ifigit.
+     * @tirows UnsupportfdOpfrbtionExdfption if tif numbfr of bits in b
+     *         pixfl is grfbtfr tibn 16
+     * @sff WritbblfRbstfr
+     * @sff SbmplfModfl
      */
-    public WritableRaster createCompatibleWritableRaster(int w, int h) {
-        WritableRaster raster;
+    publid WritbblfRbstfr drfbtfCompbtiblfWritbblfRbstfr(int w, int i) {
+        WritbblfRbstfr rbstfr;
 
-        if (pixel_bits == 1 || pixel_bits == 2 || pixel_bits == 4) {
+        if (pixfl_bits == 1 || pixfl_bits == 2 || pixfl_bits == 4) {
             // TYPE_BINARY
-            raster = Raster.createPackedRaster(DataBuffer.TYPE_BYTE,
-                                               w, h, 1, pixel_bits, null);
+            rbstfr = Rbstfr.drfbtfPbdkfdRbstfr(DbtbBufffr.TYPE_BYTE,
+                                               w, i, 1, pixfl_bits, null);
         }
-        else if (pixel_bits <= 8) {
-            raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE,
-                                                  w,h,1,null);
+        flsf if (pixfl_bits <= 8) {
+            rbstfr = Rbstfr.drfbtfIntfrlfbvfdRbstfr(DbtbBufffr.TYPE_BYTE,
+                                                  w,i,1,null);
         }
-        else if (pixel_bits <= 16) {
-            raster = Raster.createInterleavedRaster(DataBuffer.TYPE_USHORT,
-                                                  w,h,1,null);
+        flsf if (pixfl_bits <= 16) {
+            rbstfr = Rbstfr.drfbtfIntfrlfbvfdRbstfr(DbtbBufffr.TYPE_USHORT,
+                                                  w,i,1,null);
         }
-        else {
-            throw new
-                UnsupportedOperationException("This method is not supported "+
-                                              " for pixel bits > 16.");
+        flsf {
+            tirow nfw
+                UnsupportfdOpfrbtionExdfption("Tiis mftiod is not supportfd "+
+                                              " for pixfl bits > 16.");
         }
-        return raster;
+        rfturn rbstfr;
     }
 
     /**
-      * Returns <code>true</code> if <code>raster</code> is compatible
-      * with this <code>ColorModel</code> or <code>false</code> if it
-      * is not compatible with this <code>ColorModel</code>.
-      * @param raster the {@link Raster} object to test for compatibility
-      * @return <code>true</code> if <code>raster</code> is compatible
-      * with this <code>ColorModel</code>; <code>false</code> otherwise.
+      * Rfturns <dodf>truf</dodf> if <dodf>rbstfr</dodf> is dompbtiblf
+      * witi tiis <dodf>ColorModfl</dodf> or <dodf>fblsf</dodf> if it
+      * is not dompbtiblf witi tiis <dodf>ColorModfl</dodf>.
+      * @pbrbm rbstfr tif {@link Rbstfr} objfdt to tfst for dompbtibility
+      * @rfturn <dodf>truf</dodf> if <dodf>rbstfr</dodf> is dompbtiblf
+      * witi tiis <dodf>ColorModfl</dodf>; <dodf>fblsf</dodf> otifrwisf.
       *
       */
-    public boolean isCompatibleRaster(Raster raster) {
+    publid boolfbn isCompbtiblfRbstfr(Rbstfr rbstfr) {
 
-        int size = raster.getSampleModel().getSampleSize(0);
-        return ((raster.getTransferType() == transferType) &&
-                (raster.getNumBands() == 1) && ((1 << size) >= map_size));
+        int sizf = rbstfr.gftSbmplfModfl().gftSbmplfSizf(0);
+        rfturn ((rbstfr.gftTrbnsffrTypf() == trbnsffrTypf) &&
+                (rbstfr.gftNumBbnds() == 1) && ((1 << sizf) >= mbp_sizf));
     }
 
     /**
-     * Creates a <code>SampleModel</code> with the specified
-     * width and height that has a data layout compatible with
-     * this <code>ColorModel</code>.
-     * @param w the width to apply to the new <code>SampleModel</code>
-     * @param h the height to apply to the new <code>SampleModel</code>
-     * @return a <code>SampleModel</code> object with the specified
-     * width and height.
-     * @throws IllegalArgumentException if <code>w</code> or
-     *         <code>h</code> is not greater than 0
-     * @see SampleModel
+     * Crfbtfs b <dodf>SbmplfModfl</dodf> witi tif spfdififd
+     * widti bnd ifigit tibt ibs b dbtb lbyout dompbtiblf witi
+     * tiis <dodf>ColorModfl</dodf>.
+     * @pbrbm w tif widti to bpply to tif nfw <dodf>SbmplfModfl</dodf>
+     * @pbrbm i tif ifigit to bpply to tif nfw <dodf>SbmplfModfl</dodf>
+     * @rfturn b <dodf>SbmplfModfl</dodf> objfdt witi tif spfdififd
+     * widti bnd ifigit.
+     * @tirows IllfgblArgumfntExdfption if <dodf>w</dodf> or
+     *         <dodf>i</dodf> is not grfbtfr tibn 0
+     * @sff SbmplfModfl
      */
-    public SampleModel createCompatibleSampleModel(int w, int h) {
-        int[] off = new int[1];
+    publid SbmplfModfl drfbtfCompbtiblfSbmplfModfl(int w, int i) {
+        int[] off = nfw int[1];
         off[0] = 0;
-        if (pixel_bits == 1 || pixel_bits == 2 || pixel_bits == 4) {
-            return new MultiPixelPackedSampleModel(transferType, w, h,
-                                                   pixel_bits);
+        if (pixfl_bits == 1 || pixfl_bits == 2 || pixfl_bits == 4) {
+            rfturn nfw MultiPixflPbdkfdSbmplfModfl(trbnsffrTypf, w, i,
+                                                   pixfl_bits);
         }
-        else {
-            return new ComponentSampleModel(transferType, w, h, 1, w,
+        flsf {
+            rfturn nfw ComponfntSbmplfModfl(trbnsffrTypf, w, i, 1, w,
                                             off);
         }
     }
 
     /**
-     * Checks if the specified <code>SampleModel</code> is compatible
-     * with this <code>ColorModel</code>.  If <code>sm</code> is
-     * <code>null</code>, this method returns <code>false</code>.
-     * @param sm the specified <code>SampleModel</code>,
-     *           or <code>null</code>
-     * @return <code>true</code> if the specified <code>SampleModel</code>
-     * is compatible with this <code>ColorModel</code>; <code>false</code>
-     * otherwise.
-     * @see SampleModel
+     * Cifdks if tif spfdififd <dodf>SbmplfModfl</dodf> is dompbtiblf
+     * witi tiis <dodf>ColorModfl</dodf>.  If <dodf>sm</dodf> is
+     * <dodf>null</dodf>, tiis mftiod rfturns <dodf>fblsf</dodf>.
+     * @pbrbm sm tif spfdififd <dodf>SbmplfModfl</dodf>,
+     *           or <dodf>null</dodf>
+     * @rfturn <dodf>truf</dodf> if tif spfdififd <dodf>SbmplfModfl</dodf>
+     * is dompbtiblf witi tiis <dodf>ColorModfl</dodf>; <dodf>fblsf</dodf>
+     * otifrwisf.
+     * @sff SbmplfModfl
      */
-    public boolean isCompatibleSampleModel(SampleModel sm) {
+    publid boolfbn isCompbtiblfSbmplfModfl(SbmplfModfl sm) {
         // fix 4238629
-        if (! (sm instanceof ComponentSampleModel) &&
-            ! (sm instanceof MultiPixelPackedSampleModel)   ) {
-            return false;
+        if (! (sm instbndfof ComponfntSbmplfModfl) &&
+            ! (sm instbndfof MultiPixflPbdkfdSbmplfModfl)   ) {
+            rfturn fblsf;
         }
 
-        // Transfer type must be the same
-        if (sm.getTransferType() != transferType) {
-            return false;
+        // Trbnsffr typf must bf tif sbmf
+        if (sm.gftTrbnsffrTypf() != trbnsffrTypf) {
+            rfturn fblsf;
         }
 
-        if (sm.getNumBands() != 1) {
-            return false;
+        if (sm.gftNumBbnds() != 1) {
+            rfturn fblsf;
         }
 
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns a new <code>BufferedImage</code> of TYPE_INT_ARGB or
-     * TYPE_INT_RGB that has a <code>Raster</code> with pixel data
-     * computed by expanding the indices in the source <code>Raster</code>
-     * using the color/alpha component arrays of this <code>ColorModel</code>.
-     * Only the lower <em>n</em> bits of each index value in the source
-     * <code>Raster</code>, as specified in the
-     * <a href="#index_values">class description</a> above, are used to
-     * compute the color/alpha values in the returned image.
-     * If <code>forceARGB</code> is <code>true</code>, a TYPE_INT_ARGB image is
-     * returned regardless of whether or not this <code>ColorModel</code>
-     * has an alpha component array or a transparent pixel.
-     * @param raster the specified <code>Raster</code>
-     * @param forceARGB if <code>true</code>, the returned
-     *     <code>BufferedImage</code> is TYPE_INT_ARGB; otherwise it is
+     * Rfturns b nfw <dodf>BufffrfdImbgf</dodf> of TYPE_INT_ARGB or
+     * TYPE_INT_RGB tibt ibs b <dodf>Rbstfr</dodf> witi pixfl dbtb
+     * domputfd by fxpbnding tif indidfs in tif sourdf <dodf>Rbstfr</dodf>
+     * using tif dolor/blpib domponfnt brrbys of tiis <dodf>ColorModfl</dodf>.
+     * Only tif lowfr <fm>n</fm> bits of fbdi indfx vbluf in tif sourdf
+     * <dodf>Rbstfr</dodf>, bs spfdififd in tif
+     * <b irff="#indfx_vblufs">dlbss dfsdription</b> bbovf, brf usfd to
+     * domputf tif dolor/blpib vblufs in tif rfturnfd imbgf.
+     * If <dodf>fordfARGB</dodf> is <dodf>truf</dodf>, b TYPE_INT_ARGB imbgf is
+     * rfturnfd rfgbrdlfss of wiftifr or not tiis <dodf>ColorModfl</dodf>
+     * ibs bn blpib domponfnt brrby or b trbnspbrfnt pixfl.
+     * @pbrbm rbstfr tif spfdififd <dodf>Rbstfr</dodf>
+     * @pbrbm fordfARGB if <dodf>truf</dodf>, tif rfturnfd
+     *     <dodf>BufffrfdImbgf</dodf> is TYPE_INT_ARGB; otifrwisf it is
      *     TYPE_INT_RGB
-     * @return a <code>BufferedImage</code> created with the specified
-     *     <code>Raster</code>
-     * @throws IllegalArgumentException if the raster argument is not
-     *           compatible with this IndexColorModel
+     * @rfturn b <dodf>BufffrfdImbgf</dodf> drfbtfd witi tif spfdififd
+     *     <dodf>Rbstfr</dodf>
+     * @tirows IllfgblArgumfntExdfption if tif rbstfr brgumfnt is not
+     *           dompbtiblf witi tiis IndfxColorModfl
      */
-    public BufferedImage convertToIntDiscrete(Raster raster,
-                                              boolean forceARGB) {
-        ColorModel cm;
+    publid BufffrfdImbgf donvfrtToIntDisdrftf(Rbstfr rbstfr,
+                                              boolfbn fordfARGB) {
+        ColorModfl dm;
 
-        if (!isCompatibleRaster(raster)) {
-            throw new IllegalArgumentException("This raster is not compatible" +
-                 "with this IndexColorModel.");
+        if (!isCompbtiblfRbstfr(rbstfr)) {
+            tirow nfw IllfgblArgumfntExdfption("Tiis rbstfr is not dompbtiblf" +
+                 "witi tiis IndfxColorModfl.");
         }
-        if (forceARGB || transparency == TRANSLUCENT) {
-            cm = ColorModel.getRGBdefault();
+        if (fordfARGB || trbnspbrfndy == TRANSLUCENT) {
+            dm = ColorModfl.gftRGBdffbult();
         }
-        else if (transparency == BITMASK) {
-            cm = new DirectColorModel(25, 0xff0000, 0x00ff00, 0x0000ff,
+        flsf if (trbnspbrfndy == BITMASK) {
+            dm = nfw DirfdtColorModfl(25, 0xff0000, 0x00ff00, 0x0000ff,
                                       0x1000000);
         }
-        else {
-            cm = new DirectColorModel(24, 0xff0000, 0x00ff00, 0x0000ff);
+        flsf {
+            dm = nfw DirfdtColorModfl(24, 0xff0000, 0x00ff00, 0x0000ff);
         }
 
-        int w = raster.getWidth();
-        int h = raster.getHeight();
-        WritableRaster discreteRaster =
-                  cm.createCompatibleWritableRaster(w, h);
-        Object obj = null;
-        int[] data = null;
+        int w = rbstfr.gftWidti();
+        int i = rbstfr.gftHfigit();
+        WritbblfRbstfr disdrftfRbstfr =
+                  dm.drfbtfCompbtiblfWritbblfRbstfr(w, i);
+        Objfdt obj = null;
+        int[] dbtb = null;
 
-        int rX = raster.getMinX();
-        int rY = raster.getMinY();
+        int rX = rbstfr.gftMinX();
+        int rY = rbstfr.gftMinY();
 
-        for (int y=0; y < h; y++, rY++) {
-            obj = raster.getDataElements(rX, rY, w, 1, obj);
-            if (obj instanceof int[]) {
-                data = (int[])obj;
-            } else {
-                data = DataBuffer.toIntArray(obj);
+        for (int y=0; y < i; y++, rY++) {
+            obj = rbstfr.gftDbtbElfmfnts(rX, rY, w, 1, obj);
+            if (obj instbndfof int[]) {
+                dbtb = (int[])obj;
+            } flsf {
+                dbtb = DbtbBufffr.toIntArrby(obj);
             }
             for (int x=0; x < w; x++) {
-                data[x] = rgb[data[x] & pixel_mask];
+                dbtb[x] = rgb[dbtb[x] & pixfl_mbsk];
             }
-            discreteRaster.setDataElements(0, y, w, 1, data);
+            disdrftfRbstfr.sftDbtbElfmfnts(0, y, w, 1, dbtb);
         }
 
-        return new BufferedImage(cm, discreteRaster, false, null);
+        rfturn nfw BufffrfdImbgf(dm, disdrftfRbstfr, fblsf, null);
     }
 
     /**
-     * Returns whether or not the pixel is valid.
-     * @param pixel the specified pixel value
-     * @return <code>true</code> if <code>pixel</code>
-     * is valid; <code>false</code> otherwise.
-     * @since 1.3
+     * Rfturns wiftifr or not tif pixfl is vblid.
+     * @pbrbm pixfl tif spfdififd pixfl vbluf
+     * @rfturn <dodf>truf</dodf> if <dodf>pixfl</dodf>
+     * is vblid; <dodf>fblsf</dodf> otifrwisf.
+     * @sindf 1.3
      */
-    public boolean isValid(int pixel) {
-        return ((pixel >= 0 && pixel < map_size) &&
-                (validBits == null || validBits.testBit(pixel)));
+    publid boolfbn isVblid(int pixfl) {
+        rfturn ((pixfl >= 0 && pixfl < mbp_sizf) &&
+                (vblidBits == null || vblidBits.tfstBit(pixfl)));
     }
 
     /**
-     * Returns whether or not all of the pixels are valid.
-     * @return <code>true</code> if all pixels are valid;
-     * <code>false</code> otherwise.
-     * @since 1.3
+     * Rfturns wiftifr or not bll of tif pixfls brf vblid.
+     * @rfturn <dodf>truf</dodf> if bll pixfls brf vblid;
+     * <dodf>fblsf</dodf> otifrwisf.
+     * @sindf 1.3
      */
-    public boolean isValid() {
-        return (validBits == null);
+    publid boolfbn isVblid() {
+        rfturn (vblidBits == null);
     }
 
     /**
-     * Returns a <code>BigInteger</code> that indicates the valid/invalid
-     * pixels in the colormap.  A bit is valid if the
-     * <code>BigInteger</code> value at that index is set, and is invalid
-     * if the <code>BigInteger</code> value at that index is not set.
-     * The only valid ranges to query in the <code>BigInteger</code> are
-     * between 0 and the map size.
-     * @return a <code>BigInteger</code> indicating the valid/invalid pixels.
-     * @since 1.3
+     * Rfturns b <dodf>BigIntfgfr</dodf> tibt indidbtfs tif vblid/invblid
+     * pixfls in tif dolormbp.  A bit is vblid if tif
+     * <dodf>BigIntfgfr</dodf> vbluf bt tibt indfx is sft, bnd is invblid
+     * if tif <dodf>BigIntfgfr</dodf> vbluf bt tibt indfx is not sft.
+     * Tif only vblid rbngfs to qufry in tif <dodf>BigIntfgfr</dodf> brf
+     * bftwffn 0 bnd tif mbp sizf.
+     * @rfturn b <dodf>BigIntfgfr</dodf> indidbting tif vblid/invblid pixfls.
+     * @sindf 1.3
      */
-    public BigInteger getValidPixels() {
-        if (validBits == null) {
-            return getAllValid();
+    publid BigIntfgfr gftVblidPixfls() {
+        if (vblidBits == null) {
+            rfturn gftAllVblid();
         }
-        else {
-            return validBits;
+        flsf {
+            rfturn vblidBits;
         }
     }
 
     /**
-     * Disposes of system resources associated with this
-     * <code>ColorModel</code> once this <code>ColorModel</code> is no
-     * longer referenced.
+     * Disposfs of systfm rfsourdfs bssodibtfd witi tiis
+     * <dodf>ColorModfl</dodf> ondf tiis <dodf>ColorModfl</dodf> is no
+     * longfr rfffrfndfd.
      */
-    public void finalize() {
+    publid void finblizf() {
     }
 
     /**
-     * Returns the <code>String</code> representation of the contents of
-     * this <code>ColorModel</code>object.
-     * @return a <code>String</code> representing the contents of this
-     * <code>ColorModel</code> object.
+     * Rfturns tif <dodf>String</dodf> rfprfsfntbtion of tif dontfnts of
+     * tiis <dodf>ColorModfl</dodf>objfdt.
+     * @rfturn b <dodf>String</dodf> rfprfsfnting tif dontfnts of tiis
+     * <dodf>ColorModfl</dodf> objfdt.
      */
-    public String toString() {
-       return new String("IndexColorModel: #pixelBits = "+pixel_bits
-                         + " numComponents = "+numComponents
-                         + " color space = "+colorSpace
-                         + " transparency = "+transparency
-                         + " transIndex   = "+transparent_index
-                         + " has alpha = "+supportsAlpha
-                         + " isAlphaPre = "+isAlphaPremultiplied
+    publid String toString() {
+       rfturn nfw String("IndfxColorModfl: #pixflBits = "+pixfl_bits
+                         + " numComponfnts = "+numComponfnts
+                         + " dolor spbdf = "+dolorSpbdf
+                         + " trbnspbrfndy = "+trbnspbrfndy
+                         + " trbnsIndfx   = "+trbnspbrfnt_indfx
+                         + " ibs blpib = "+supportsAlpib
+                         + " isAlpibPrf = "+isAlpibPrfmultiplifd
                          );
     }
 }

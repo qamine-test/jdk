@@ -1,358 +1,358 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.relation;
+pbdkbgf jbvbx.mbnbgfmfnt.rflbtion;
 
-import static com.sun.jmx.mbeanserver.Util.cast;
-import com.sun.jmx.mbeanserver.GetPropertyAction;
+import stbtid dom.sun.jmx.mbfbnsfrvfr.Util.dbst;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.io.Serializable;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.io.Sfriblizbblf;
 
-import java.security.AccessController;
+import jbvb.sfdurity.AddfssControllfr;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
 
-import javax.management.ObjectName;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
 
 /**
- * Represents an unresolved role: a role not retrieved from a relation due
- * to a problem. It provides the role name, value (if problem when trying to
- * set the role) and an integer defining the problem (constants defined in
- * RoleStatus).
+ * Rfprfsfnts bn unrfsolvfd rolf: b rolf not rftrifvfd from b rflbtion duf
+ * to b problfm. It providfs tif rolf nbmf, vbluf (if problfm wifn trying to
+ * sft tif rolf) bnd bn intfgfr dffining tif problfm (donstbnts dffinfd in
+ * RolfStbtus).
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>-48350262537070138L</code>.
+ * <p>Tif <b>sfriblVfrsionUID</b> of tiis dlbss is <dodf>-48350262537070138L</dodf>.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-@SuppressWarnings("serial")  // serialVersionUID not constant
-public class RoleUnresolved implements Serializable {
+@SupprfssWbrnings("sfribl")  // sfriblVfrsionUID not donstbnt
+publid dlbss RolfUnrfsolvfd implfmfnts Sfriblizbblf {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Sfriblizbtion dompbtibility stuff:
+    // Two sfribl forms brf supportfd in tiis dlbss. Tif sflfdtfd form dfpfnds
+    // on systfm propfrty "jmx.sfribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny otifr vbluf for JMX 1.1 bnd iigifr
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = -9026457686611660144L;
+    // Sfribl vfrsion for old sfribl form
+    privbtf stbtid finbl long oldSfriblVfrsionUID = -9026457686611660144L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = -48350262537070138L;
+    // Sfribl vfrsion for nfw sfribl form
+    privbtf stbtid finbl long nfwSfriblVfrsionUID = -48350262537070138L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Sfriblizbblf fiflds in old sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] oldSfriblPfrsistfntFiflds =
     {
-      new ObjectStreamField("myRoleName", String.class),
-      new ObjectStreamField("myRoleValue", ArrayList.class),
-      new ObjectStreamField("myPbType", int.class)
+      nfw ObjfdtStrfbmFifld("myRolfNbmf", String.dlbss),
+      nfw ObjfdtStrfbmFifld("myRolfVbluf", ArrbyList.dlbss),
+      nfw ObjfdtStrfbmFifld("myPbTypf", int.dlbss)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Sfriblizbblf fiflds in nfw sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] nfwSfriblPfrsistfntFiflds =
     {
-      new ObjectStreamField("roleName", String.class),
-      new ObjectStreamField("roleValue", List.class),
-      new ObjectStreamField("problemType", int.class)
+      nfw ObjfdtStrfbmFifld("rolfNbmf", String.dlbss),
+      nfw ObjfdtStrfbmFifld("rolfVbluf", List.dlbss),
+      nfw ObjfdtStrfbmFifld("problfmTypf", int.dlbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
-    /** @serialField roleName String Role name
-     *  @serialField roleValue List Role value ({@link List} of {@link ObjectName} objects)
-     *  @serialField problemType int Problem type
+    // Adtubl sfribl vfrsion bnd sfribl form
+    privbtf stbtid finbl long sfriblVfrsionUID;
+    /** @sfriblFifld rolfNbmf String Rolf nbmf
+     *  @sfriblFifld rolfVbluf List Rolf vbluf ({@link List} of {@link ObjfdtNbmf} objfdts)
+     *  @sfriblFifld problfmTypf int Problfm typf
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private static boolean compat = false;
-    static {
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds;
+    privbtf stbtid boolfbn dompbt = fblsf;
+    stbtid {
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK : Too bad, no compat with 1.0
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            dompbt = (form != null && form.fqubls("1.0"));
+        } dbtdi (Exdfption f) {
+            // OK : Too bbd, no dompbt witi 1.0
         }
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
-        } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+        if (dompbt) {
+            sfriblPfrsistfntFiflds = oldSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = oldSfriblVfrsionUID;
+        } flsf {
+            sfriblPfrsistfntFiflds = nfwSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = nfwSfriblVfrsionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Sfriblizbtion dompbtibility stuff
 
     //
-    // Private members
-    //
-
-    /**
-     * @serial Role name
-     */
-    private String roleName = null;
-
-    /**
-     * @serial Role value ({@link List} of {@link ObjectName} objects)
-     */
-    private List<ObjectName> roleValue = null;
-
-    /**
-     * @serial Problem type
-     */
-    private int problemType;
-
-    //
-    // Constructor
+    // Privbtf mfmbfrs
     //
 
     /**
-     * Constructor.
-     *
-     * @param name  name of the role
-     * @param value  value of the role (if problem when setting the
-     * role)
-     * @param pbType  type of problem (according to known problem types,
-     * listed as static final members).
-     *
-     * @exception IllegalArgumentException  if null parameter or incorrect
-     * problem type
+     * @sfribl Rolf nbmf
      */
-    public RoleUnresolved(String name,
-                          List<ObjectName> value,
-                          int pbType)
-        throws IllegalArgumentException {
+    privbtf String rolfNbmf = null;
 
-        if (name == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
-        }
+    /**
+     * @sfribl Rolf vbluf ({@link List} of {@link ObjfdtNbmf} objfdts)
+     */
+    privbtf List<ObjfdtNbmf> rolfVbluf = null;
 
-        setRoleName(name);
-        setRoleValue(value);
-        // Can throw IllegalArgumentException
-        setProblemType(pbType);
-        return;
-    }
+    /**
+     * @sfribl Problfm typf
+     */
+    privbtf int problfmTypf;
 
     //
-    // Accessors
+    // Construdtor
     //
 
     /**
-     * Retrieves role name.
+     * Construdtor.
      *
-     * @return the role name.
+     * @pbrbm nbmf  nbmf of tif rolf
+     * @pbrbm vbluf  vbluf of tif rolf (if problfm wifn sftting tif
+     * rolf)
+     * @pbrbm pbTypf  typf of problfm (bddording to known problfm typfs,
+     * listfd bs stbtid finbl mfmbfrs).
      *
-     * @see #setRoleName
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr or indorrfdt
+     * problfm typf
      */
-    public String getRoleName() {
-        return roleName;
-    }
+    publid RolfUnrfsolvfd(String nbmf,
+                          List<ObjfdtNbmf> vbluf,
+                          int pbTypf)
+        tirows IllfgblArgumfntExdfption {
 
-    /**
-     * Retrieves role value.
-     *
-     * @return an ArrayList of ObjectName objects, the one provided to be set
-     * in given role. Null if the unresolved role is returned for a read
-     * access.
-     *
-     * @see #setRoleValue
-     */
-    public List<ObjectName> getRoleValue() {
-        return roleValue;
-    }
-
-    /**
-     * Retrieves problem type.
-     *
-     * @return an integer corresponding to a problem, those being described as
-     * static final members of current class.
-     *
-     * @see #setProblemType
-     */
-    public int getProblemType() {
-        return problemType;
-    }
-
-    /**
-     * Sets role name.
-     *
-     * @param name the new role name.
-     *
-     * @exception IllegalArgumentException  if null parameter
-     *
-     * @see #getRoleName
-     */
-    public void setRoleName(String name)
-        throws IllegalArgumentException {
-
-        if (name == null) {
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (nbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            tirow nfw IllfgblArgumfntExdfption(fxdMsg);
         }
 
-        roleName = name;
-        return;
+        sftRolfNbmf(nbmf);
+        sftRolfVbluf(vbluf);
+        // Cbn tirow IllfgblArgumfntExdfption
+        sftProblfmTypf(pbTypf);
+        rfturn;
+    }
+
+    //
+    // Addfssors
+    //
+
+    /**
+     * Rftrifvfs rolf nbmf.
+     *
+     * @rfturn tif rolf nbmf.
+     *
+     * @sff #sftRolfNbmf
+     */
+    publid String gftRolfNbmf() {
+        rfturn rolfNbmf;
     }
 
     /**
-     * Sets role value.
+     * Rftrifvfs rolf vbluf.
      *
-     * @param value  List of ObjectName objects for referenced
-     * MBeans not set in role.
+     * @rfturn bn ArrbyList of ObjfdtNbmf objfdts, tif onf providfd to bf sft
+     * in givfn rolf. Null if tif unrfsolvfd rolf is rfturnfd for b rfbd
+     * bddfss.
      *
-     * @see #getRoleValue
+     * @sff #sftRolfVbluf
      */
-    public void setRoleValue(List<ObjectName> value) {
+    publid List<ObjfdtNbmf> gftRolfVbluf() {
+        rfturn rolfVbluf;
+    }
 
-        if (value != null) {
-            roleValue = new ArrayList<ObjectName>(value);
-        } else {
-            roleValue = null;
+    /**
+     * Rftrifvfs problfm typf.
+     *
+     * @rfturn bn intfgfr dorrfsponding to b problfm, tiosf bfing dfsdribfd bs
+     * stbtid finbl mfmbfrs of durrfnt dlbss.
+     *
+     * @sff #sftProblfmTypf
+     */
+    publid int gftProblfmTypf() {
+        rfturn problfmTypf;
+    }
+
+    /**
+     * Sfts rolf nbmf.
+     *
+     * @pbrbm nbmf tif nfw rolf nbmf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     *
+     * @sff #gftRolfNbmf
+     */
+    publid void sftRolfNbmf(String nbmf)
+        tirows IllfgblArgumfntExdfption {
+
+        if (nbmf == null) {
+            String fxdMsg = "Invblid pbrbmftfr.";
+            tirow nfw IllfgblArgumfntExdfption(fxdMsg);
         }
-        return;
+
+        rolfNbmf = nbmf;
+        rfturn;
     }
 
     /**
-     * Sets problem type.
+     * Sfts rolf vbluf.
      *
-     * @param pbType  integer corresponding to a problem. Must be one of
-     * those described as static final members of current class.
+     * @pbrbm vbluf  List of ObjfdtNbmf objfdts for rfffrfndfd
+     * MBfbns not sft in rolf.
      *
-     * @exception IllegalArgumentException  if incorrect problem type
-     *
-     * @see #getProblemType
+     * @sff #gftRolfVbluf
      */
-    public void setProblemType(int pbType)
-        throws IllegalArgumentException {
+    publid void sftRolfVbluf(List<ObjfdtNbmf> vbluf) {
 
-        if (!(RoleStatus.isRoleStatus(pbType))) {
-            String excMsg = "Incorrect problem type.";
-            throw new IllegalArgumentException(excMsg);
+        if (vbluf != null) {
+            rolfVbluf = nfw ArrbyList<ObjfdtNbmf>(vbluf);
+        } flsf {
+            rolfVbluf = null;
         }
-        problemType = pbType;
-        return;
+        rfturn;
     }
 
     /**
-     * Clone this object.
+     * Sfts problfm typf.
      *
-     * @return an independent clone.
+     * @pbrbm pbTypf  intfgfr dorrfsponding to b problfm. Must bf onf of
+     * tiosf dfsdribfd bs stbtid finbl mfmbfrs of durrfnt dlbss.
+     *
+     * @fxdfption IllfgblArgumfntExdfption  if indorrfdt problfm typf
+     *
+     * @sff #gftProblfmTypf
      */
-    public Object clone() {
+    publid void sftProblfmTypf(int pbTypf)
+        tirows IllfgblArgumfntExdfption {
+
+        if (!(RolfStbtus.isRolfStbtus(pbTypf))) {
+            String fxdMsg = "Indorrfdt problfm typf.";
+            tirow nfw IllfgblArgumfntExdfption(fxdMsg);
+        }
+        problfmTypf = pbTypf;
+        rfturn;
+    }
+
+    /**
+     * Clonf tiis objfdt.
+     *
+     * @rfturn bn indfpfndfnt dlonf.
+     */
+    publid Objfdt dlonf() {
         try {
-            return new RoleUnresolved(roleName, roleValue, problemType);
-        } catch (IllegalArgumentException exc) {
-            return null; // :)
+            rfturn nfw RolfUnrfsolvfd(rolfNbmf, rolfVbluf, problfmTypf);
+        } dbtdi (IllfgblArgumfntExdfption fxd) {
+            rfturn null; // :)
         }
     }
 
     /**
-     * Return a string describing this object.
+     * Rfturn b string dfsdribing tiis objfdt.
      *
-     * @return a description of this RoleUnresolved object.
+     * @rfturn b dfsdription of tiis RolfUnrfsolvfd objfdt.
      */
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append("role name: " + roleName);
-        if (roleValue != null) {
-            result.append("; value: ");
-            for (Iterator<ObjectName> objNameIter = roleValue.iterator();
-                 objNameIter.hasNext();) {
-                ObjectName currObjName = objNameIter.next();
-                result.append(currObjName.toString());
-                if (objNameIter.hasNext()) {
-                    result.append(", ");
+    publid String toString() {
+        StringBuildfr rfsult = nfw StringBuildfr();
+        rfsult.bppfnd("rolf nbmf: " + rolfNbmf);
+        if (rolfVbluf != null) {
+            rfsult.bppfnd("; vbluf: ");
+            for (Itfrbtor<ObjfdtNbmf> objNbmfItfr = rolfVbluf.itfrbtor();
+                 objNbmfItfr.ibsNfxt();) {
+                ObjfdtNbmf durrObjNbmf = objNbmfItfr.nfxt();
+                rfsult.bppfnd(durrObjNbmf.toString());
+                if (objNbmfItfr.ibsNfxt()) {
+                    rfsult.bppfnd(", ");
                 }
             }
         }
-        result.append("; problem type: " + problemType);
-        return result.toString();
+        rfsult.bppfnd("; problfm typf: " + problfmTypf);
+        rfturn rfsult.toString();
     }
 
     /**
-     * Deserializes a {@link RoleUnresolved} from an {@link ObjectInputStream}.
+     * Dfsfriblizfs b {@link RolfUnrfsolvfd} from bn {@link ObjfdtInputStrfbm}.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-      if (compat)
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+      if (dompbt)
       {
-        // Read an object serialized in the old serial form
+        // Rfbd bn objfdt sfriblizfd in tif old sfribl form
         //
-        ObjectInputStream.GetField fields = in.readFields();
-        roleName = (String) fields.get("myRoleName", null);
-        if (fields.defaulted("myRoleName"))
+        ObjfdtInputStrfbm.GftFifld fiflds = in.rfbdFiflds();
+        rolfNbmf = (String) fiflds.gft("myRolfNbmf", null);
+        if (fiflds.dffbultfd("myRolfNbmf"))
         {
-          throw new NullPointerException("myRoleName");
+          tirow nfw NullPointfrExdfption("myRolfNbmf");
         }
-        roleValue = cast(fields.get("myRoleValue", null));
-        if (fields.defaulted("myRoleValue"))
+        rolfVbluf = dbst(fiflds.gft("myRolfVbluf", null));
+        if (fiflds.dffbultfd("myRolfVbluf"))
         {
-          throw new NullPointerException("myRoleValue");
+          tirow nfw NullPointfrExdfption("myRolfVbluf");
         }
-        problemType = fields.get("myPbType", 0);
-        if (fields.defaulted("myPbType"))
+        problfmTypf = fiflds.gft("myPbTypf", 0);
+        if (fiflds.dffbultfd("myPbTypf"))
         {
-          throw new NullPointerException("myPbType");
+          tirow nfw NullPointfrExdfption("myPbTypf");
         }
       }
-      else
+      flsf
       {
-        // Read an object serialized in the new serial form
+        // Rfbd bn objfdt sfriblizfd in tif nfw sfribl form
         //
-        in.defaultReadObject();
+        in.dffbultRfbdObjfdt();
       }
     }
 
 
     /**
-     * Serializes a {@link RoleUnresolved} to an {@link ObjectOutputStream}.
+     * Sfriblizfs b {@link RolfUnrfsolvfd} to bn {@link ObjfdtOutputStrfbm}.
      */
-    private void writeObject(ObjectOutputStream out)
-            throws IOException {
-      if (compat)
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+            tirows IOExdfption {
+      if (dompbt)
       {
-        // Serializes this instance in the old serial form
+        // Sfriblizfs tiis instbndf in tif old sfribl form
         //
-        ObjectOutputStream.PutField fields = out.putFields();
-        fields.put("myRoleName", roleName);
-        fields.put("myRoleValue", roleValue);
-        fields.put("myPbType", problemType);
-        out.writeFields();
+        ObjfdtOutputStrfbm.PutFifld fiflds = out.putFiflds();
+        fiflds.put("myRolfNbmf", rolfNbmf);
+        fiflds.put("myRolfVbluf", rolfVbluf);
+        fiflds.put("myPbTypf", problfmTypf);
+        out.writfFiflds();
       }
-      else
+      flsf
       {
-        // Serializes this instance in the new serial form
+        // Sfriblizfs tiis instbndf in tif nfw sfribl form
         //
-        out.defaultWriteObject();
+        out.dffbultWritfObjfdt();
       }
     }
 }

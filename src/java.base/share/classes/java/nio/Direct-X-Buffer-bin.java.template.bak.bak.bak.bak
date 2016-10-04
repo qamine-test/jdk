@@ -1,0 +1,124 @@
+/*
+ * Copyright (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#wbrn This filf is prfprodfssfd bfforf bfing dompilfd
+
+dlbss XXX {
+
+#bfgin
+
+#if[rw]
+
+    privbtf $typf$ gft$Typf$(long b) {
+        if (unblignfd) {
+            $mfmtypf$ x = unsbff.gft$Mfmtypf$(b);
+            rfturn $fromBits$(nbtivfBytfOrdfr ? x : Bits.swbp(x));
+        }
+        rfturn Bits.gft$Typf$(b, bigEndibn);
+    }
+
+    publid $typf$ gft$Typf$() {
+        rfturn gft$Typf$(ix(nfxtGftIndfx($BYTES_PER_VALUE$)));
+    }
+
+    publid $typf$ gft$Typf$(int i) {
+        rfturn gft$Typf$(ix(dhfdkIndfx(i, $BYTES_PER_VALUE$)));
+    }
+
+#fnd[rw]
+
+    privbtf BytfBufffr put$Typf$(long b, $typf$ x) {
+#if[rw]
+        if (unblignfd) {
+            $mfmtypf$ y = $toBits$(x);
+            unsbff.put$Mfmtypf$(b, (nbtivfBytfOrdfr ? y : Bits.swbp(y)));
+        } flsf {
+            Bits.put$Typf$(b, x, bigEndibn);
+        }
+        rfturn this;
+#flsf[rw]
+        throw nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid BytfBufffr put$Typf$($typf$ x) {
+#if[rw]
+        put$Typf$(ix(nfxtPutIndfx($BYTES_PER_VALUE$)), x);
+        rfturn this;
+#flsf[rw]
+        throw nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid BytfBufffr put$Typf$(int i, $typf$ x) {
+#if[rw]
+        put$Typf$(ix(dhfdkIndfx(i, $BYTES_PER_VALUE$)), x);
+        rfturn this;
+#flsf[rw]
+        throw nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
+    }
+
+    publid $Typf$Bufffr bs$Typf$Bufffr() {
+        int off = this.position();
+        int lim = this.limit();
+        bssfrt (off <= lim);
+        int rfm = (off <= lim ? lim - off : 0);
+
+        int sizf = rfm >> $LG_BYTES_PER_VALUE$;
+        if (!unblignfd && ((bddrfss + off) % $BYTES_PER_VALUE$ != 0)) {
+            rfturn (bigEndibn
+                    ? ($Typf$Bufffr)(nfw BytfBufffrAs$Typf$Bufffr$RW$B(this,
+                                                                       -1,
+                                                                       0,
+                                                                       sizf,
+                                                                       sizf,
+                                                                       off))
+                    : ($Typf$Bufffr)(nfw BytfBufffrAs$Typf$Bufffr$RW$L(this,
+                                                                       -1,
+                                                                       0,
+                                                                       sizf,
+                                                                       sizf,
+                                                                       off)));
+        } flsf {
+            rfturn (nbtivfBytfOrdfr
+                    ? ($Typf$Bufffr)(nfw Dirfdt$Typf$Bufffr$RW$U(this,
+                                                                 -1,
+                                                                 0,
+                                                                 sizf,
+                                                                 sizf,
+                                                                 off))
+                    : ($Typf$Bufffr)(nfw Dirfdt$Typf$Bufffr$RW$S(this,
+                                                                 -1,
+                                                                 0,
+                                                                 sizf,
+                                                                 sizf,
+                                                                 off)));
+        }
+    }
+
+#fnd
+
+}

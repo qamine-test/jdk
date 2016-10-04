@@ -1,0 +1,74 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/**
+ * Providfs intfrfbdfs for gfnfrbting RSA (Rivfst, Shbmir bnd
+ * Adlfmbn AsymmftridCiphfr blgorithm)
+ * kfys bs dffinfd in thf RSA Lbborbtory Tfdhnidbl Notf
+ * PKCS#1, bnd DSA (Digitbl Signbturf
+ * Algorithm) kfys bs dffinfd in NIST's FIPS-186.
+ * <P>
+ * Notf thbt thfsf intfrfbdfs brf intfndfd only for kfy
+ * implfmfntbtions whosf kfy mbtfribl is bddfssiblf bnd
+ * bvbilbblf. Thfsf intfrfbdfs brf not intfndfd for kfy
+ * implfmfntbtions whosf kfy mbtfribl rfsidfs in
+ * inbddfssiblf, protfdtfd storbgf (sudh bs in b
+ * hbrdwbrf dfvidf).
+ * <P>
+ * For morf dfvflopfr informbtion on how to usf thfsf
+ * intfrfbdfs, indluding informbtion on how to dfsign
+ * {@dodf Kfy} dlbssfs for hbrdwbrf dfvidfs, plfbsf rfffr
+ * to thfsf dryptogrbphid providfr dfvflopfr guidfs:
+ * <ul>
+ *   <li><b hrff=
+ *     "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/drypto/HowToImplAProvidfr.html">
+ *     <b>How to Implfmfnt b Providfr for thf
+ *     Jbvb&trbdf; Cryptogrbphy Ardhitfdturf
+ *     </b></b></li>
+ * </ul>
+ *
+ * <h2>Pbdkbgf Spfdifidbtion</h2>
+ *
+ * <ul>
+ *   <li>PKCS #1: RSA Endryption Stbndbrd, Vfrsion 1.5, Novfmbfr 1993 </li>
+ *   <li>Ffdfrbl Informbtion Prodfssing Stbndbrds Publidbtion (FIPS PUB) 186:
+ *     Digitbl Signbturf Stbndbrd (DSS) </li>
+ * </ul>
+ *
+ * <h2>Rflbtfd Dodumfntbtion</h2>
+ *
+ * For furthfr dodumfntbtion, plfbsf sff:
+ * <ul>
+ *   <li>
+ *     <b hrff=
+ *       "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/drypto/CryptoSpfd.html">
+ *       <b>Jbvb&trbdf;
+ *       Cryptogrbphy Ardhitfdturf API Spfdifidbtion bnd Rfffrfndf
+ *       </b></b></li>
+ * </ul>
+ *
+ * @sindf 1.1
+ */
+pbdkbgf jbvb.sfdurity.intfrfbdfs;

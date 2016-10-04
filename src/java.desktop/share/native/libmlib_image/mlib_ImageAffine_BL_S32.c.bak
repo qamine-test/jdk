@@ -1,365 +1,365 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /*
  * FUNCTION
- *   Internal functions for mlib_ImageAffine with bilinear filtering.
+ *   Intfrnbl fundtions for mlib_ImbgfAffinf witi bilinfbr filtfring.
  */
 
-#include "mlib_ImageAffine.h"
+#indludf "mlib_ImbgfAffinf.i"
 
 /***************************************************************/
-#define DTYPE  mlib_s32
-#define FTYPE  mlib_d64
-/* handle FTYPE to DTYPE conversion like in mlib_ImageAffine_BC_S32.c */
-#define STORE(res, x)  SAT_32(res, x)
+#dffinf DTYPE  mlib_s32
+#dffinf FTYPE  mlib_d64
+/* ibndlf FTYPE to DTYPE donvfrsion likf in mlib_ImbgfAffinf_BC_S32.d */
+#dffinf STORE(rfs, x)  SAT_32(rfs, x)
 
-#define FUN_NAME(CHAN) mlib_ImageAffine_s32_##CHAN##_bl
+#dffinf FUN_NAME(CHAN) mlib_ImbgfAffinf_s32_##CHAN##_bl
 
 /***************************************************************/
-mlib_status FUN_NAME(1ch)(mlib_affine_param *param)
+mlib_stbtus FUN_NAME(1di)(mlib_bffinf_pbrbm *pbrbm)
 {
   DECLAREVAR_BL();
-  DTYPE *dstLineEnd;
-  FTYPE scale = ONE / MLIB_PREC;
-  mlib_s32 srcYStride1;
+  DTYPE *dstLinfEnd;
+  FTYPE sdblf = ONE / MLIB_PREC;
+  mlib_s32 srdYStridf1;
 
-  srcYStride /= sizeof(DTYPE);
-  srcYStride1 = srcYStride + 1;
+  srdYStridf /= sizfof(DTYPE);
+  srdYStridf1 = srdYStridf + 1;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinisi; j++) {
     FTYPE t, u, k0, k1, k2, k3;
-    FTYPE a00_0, a01_0, a10_0, a11_0;
+    FTYPE b00_0, b01_0, b10_0, b11_0;
     FTYPE pix0;
 
     CLIP(1);
-    dstLineEnd = (DTYPE *) dstData + xRight;
+    dstLinfEnd = (DTYPE *) dstDbtb + xRigit;
 
-    t = (X & MLIB_MASK) * scale;
-    u = (Y & MLIB_MASK) * scale;
-    ySrc = MLIB_POINTER_SHIFT(Y);
+    t = (X & MLIB_MASK) * sdblf;
+    u = (Y & MLIB_MASK) * sdblf;
+    ySrd = MLIB_POINTER_SHIFT(Y);
     Y += dY;
-    xSrc = X >> MLIB_SHIFT;
+    xSrd = X >> MLIB_SHIFT;
     X += dX;
-    srcPixelPtr = MLIB_POINTER_GET(lineAddr, ySrc) + xSrc;
+    srdPixflPtr = MLIB_POINTER_GET(linfAddr, ySrd) + xSrd;
     k3 = t * u;
     k2 = (ONE - t) * u;
     k1 = t * (ONE - u);
     k0 = (ONE - t) * (ONE - u);
-    a00_0 = srcPixelPtr[0];
-    a01_0 = srcPixelPtr[1];
-    a10_0 = srcPixelPtr[srcYStride];
-    a11_0 = srcPixelPtr[srcYStride1];
+    b00_0 = srdPixflPtr[0];
+    b01_0 = srdPixflPtr[1];
+    b10_0 = srdPixflPtr[srdYStridf];
+    b11_0 = srdPixflPtr[srdYStridf1];
 
-    for (; dstPixelPtr < dstLineEnd; dstPixelPtr++) {
-      pix0 = k0 * a00_0 + k1 * a01_0 + k2 * a10_0 + k3 * a11_0;
-      t = (X & MLIB_MASK) * scale;
-      u = (Y & MLIB_MASK) * scale;
-      ySrc = MLIB_POINTER_SHIFT(Y);
+    for (; dstPixflPtr < dstLinfEnd; dstPixflPtr++) {
+      pix0 = k0 * b00_0 + k1 * b01_0 + k2 * b10_0 + k3 * b11_0;
+      t = (X & MLIB_MASK) * sdblf;
+      u = (Y & MLIB_MASK) * sdblf;
+      ySrd = MLIB_POINTER_SHIFT(Y);
       Y += dY;
-      xSrc = X >> MLIB_SHIFT;
+      xSrd = X >> MLIB_SHIFT;
       X += dX;
-      srcPixelPtr = *(DTYPE **) ((mlib_u8 *) lineAddr + ySrc) + xSrc;
+      srdPixflPtr = *(DTYPE **) ((mlib_u8 *) linfAddr + ySrd) + xSrd;
       k3 = t * u;
       k2 = (ONE - t) * u;
       k1 = t * (ONE - u);
       k0 = (ONE - t) * (ONE - u);
-      a00_0 = srcPixelPtr[0];
-      a01_0 = srcPixelPtr[1];
-      a10_0 = srcPixelPtr[srcYStride];
-      a11_0 = srcPixelPtr[srcYStride1];
-      STORE(dstPixelPtr[0], pix0);
+      b00_0 = srdPixflPtr[0];
+      b01_0 = srdPixflPtr[1];
+      b10_0 = srdPixflPtr[srdYStridf];
+      b11_0 = srdPixflPtr[srdYStridf1];
+      STORE(dstPixflPtr[0], pix0);
     }
 
-    pix0 = k0 * a00_0 + k1 * a01_0 + k2 * a10_0 + k3 * a11_0;
-    STORE(dstPixelPtr[0], pix0);
+    pix0 = k0 * b00_0 + k1 * b01_0 + k2 * b10_0 + k3 * b11_0;
+    STORE(dstPixflPtr[0], pix0);
   }
 
-  return MLIB_SUCCESS;
+  rfturn MLIB_SUCCESS;
 }
 
 /***************************************************************/
-mlib_status FUN_NAME(2ch)(mlib_affine_param *param)
+mlib_stbtus FUN_NAME(2di)(mlib_bffinf_pbrbm *pbrbm)
 {
   DECLAREVAR_BL();
-  DTYPE *dstLineEnd;
-  FTYPE scale = ONE / MLIB_PREC;
+  DTYPE *dstLinfEnd;
+  FTYPE sdblf = ONE / MLIB_PREC;
 
-  for (j = yStart; j <= yFinish; j++) {
-    DTYPE *srcPixelPtr2;
+  for (j = yStbrt; j <= yFinisi; j++) {
+    DTYPE *srdPixflPtr2;
     FTYPE t, u, k0, k1, k2, k3;
-    FTYPE a00_0, a01_0, a10_0, a11_0;
-    FTYPE a00_1, a01_1, a10_1, a11_1;
+    FTYPE b00_0, b01_0, b10_0, b11_0;
+    FTYPE b00_1, b01_1, b10_1, b11_1;
     FTYPE pix0, pix1;
 
     CLIP(2);
-    dstLineEnd = (DTYPE *) dstData + 2 * xRight;
+    dstLinfEnd = (DTYPE *) dstDbtb + 2 * xRigit;
 
-    t = (X & MLIB_MASK) * scale;
-    u = (Y & MLIB_MASK) * scale;
-    ySrc = MLIB_POINTER_SHIFT(Y);
+    t = (X & MLIB_MASK) * sdblf;
+    u = (Y & MLIB_MASK) * sdblf;
+    ySrd = MLIB_POINTER_SHIFT(Y);
     Y += dY;
-    xSrc = X >> MLIB_SHIFT;
+    xSrd = X >> MLIB_SHIFT;
     X += dX;
-    srcPixelPtr = MLIB_POINTER_GET(lineAddr, ySrc) + 2 * xSrc;
-    srcPixelPtr2 = (DTYPE *) ((mlib_u8 *) srcPixelPtr + srcYStride);
+    srdPixflPtr = MLIB_POINTER_GET(linfAddr, ySrd) + 2 * xSrd;
+    srdPixflPtr2 = (DTYPE *) ((mlib_u8 *) srdPixflPtr + srdYStridf);
     k3 = t * u;
     k2 = (ONE - t) * u;
     k1 = t * (ONE - u);
     k0 = (ONE - t) * (ONE - u);
-    a00_0 = srcPixelPtr[0];
-    a00_1 = srcPixelPtr[1];
-    a01_0 = srcPixelPtr[2];
-    a01_1 = srcPixelPtr[3];
-    a10_0 = srcPixelPtr2[0];
-    a10_1 = srcPixelPtr2[1];
-    a11_0 = srcPixelPtr2[2];
-    a11_1 = srcPixelPtr2[3];
+    b00_0 = srdPixflPtr[0];
+    b00_1 = srdPixflPtr[1];
+    b01_0 = srdPixflPtr[2];
+    b01_1 = srdPixflPtr[3];
+    b10_0 = srdPixflPtr2[0];
+    b10_1 = srdPixflPtr2[1];
+    b11_0 = srdPixflPtr2[2];
+    b11_1 = srdPixflPtr2[3];
 
-    for (; dstPixelPtr < dstLineEnd; dstPixelPtr += 2) {
-      pix0 = k0 * a00_0 + k1 * a01_0 + k2 * a10_0 + k3 * a11_0;
-      pix1 = k0 * a00_1 + k1 * a01_1 + k2 * a10_1 + k3 * a11_1;
-      t = (X & MLIB_MASK) * scale;
-      u = (Y & MLIB_MASK) * scale;
-      ySrc = MLIB_POINTER_SHIFT(Y);
+    for (; dstPixflPtr < dstLinfEnd; dstPixflPtr += 2) {
+      pix0 = k0 * b00_0 + k1 * b01_0 + k2 * b10_0 + k3 * b11_0;
+      pix1 = k0 * b00_1 + k1 * b01_1 + k2 * b10_1 + k3 * b11_1;
+      t = (X & MLIB_MASK) * sdblf;
+      u = (Y & MLIB_MASK) * sdblf;
+      ySrd = MLIB_POINTER_SHIFT(Y);
       Y += dY;
-      xSrc = X >> MLIB_SHIFT;
+      xSrd = X >> MLIB_SHIFT;
       X += dX;
-      srcPixelPtr = MLIB_POINTER_GET(lineAddr, ySrc) + 2 * xSrc;
-      srcPixelPtr2 = (DTYPE *) ((mlib_u8 *) srcPixelPtr + srcYStride);
+      srdPixflPtr = MLIB_POINTER_GET(linfAddr, ySrd) + 2 * xSrd;
+      srdPixflPtr2 = (DTYPE *) ((mlib_u8 *) srdPixflPtr + srdYStridf);
       k3 = t * u;
       k2 = (ONE - t) * u;
       k1 = t * (ONE - u);
       k0 = (ONE - t) * (ONE - u);
-      a01_0 = srcPixelPtr[2];
-      a01_1 = srcPixelPtr[3];
-      a00_0 = srcPixelPtr[0];
-      a00_1 = srcPixelPtr[1];
-      a10_0 = srcPixelPtr2[0];
-      a10_1 = srcPixelPtr2[1];
-      a11_0 = srcPixelPtr2[2];
-      a11_1 = srcPixelPtr2[3];
-      STORE(dstPixelPtr[0], pix0);
-      STORE(dstPixelPtr[1], pix1);
+      b01_0 = srdPixflPtr[2];
+      b01_1 = srdPixflPtr[3];
+      b00_0 = srdPixflPtr[0];
+      b00_1 = srdPixflPtr[1];
+      b10_0 = srdPixflPtr2[0];
+      b10_1 = srdPixflPtr2[1];
+      b11_0 = srdPixflPtr2[2];
+      b11_1 = srdPixflPtr2[3];
+      STORE(dstPixflPtr[0], pix0);
+      STORE(dstPixflPtr[1], pix1);
     }
 
-    pix0 = k0 * a00_0 + k1 * a01_0 + k2 * a10_0 + k3 * a11_0;
-    pix1 = k0 * a00_1 + k1 * a01_1 + k2 * a10_1 + k3 * a11_1;
-    STORE(dstPixelPtr[0], pix0);
-    STORE(dstPixelPtr[1], pix1);
+    pix0 = k0 * b00_0 + k1 * b01_0 + k2 * b10_0 + k3 * b11_0;
+    pix1 = k0 * b00_1 + k1 * b01_1 + k2 * b10_1 + k3 * b11_1;
+    STORE(dstPixflPtr[0], pix0);
+    STORE(dstPixflPtr[1], pix1);
   }
 
-  return MLIB_SUCCESS;
+  rfturn MLIB_SUCCESS;
 }
 
 /***************************************************************/
-mlib_status FUN_NAME(3ch)(mlib_affine_param *param)
+mlib_stbtus FUN_NAME(3di)(mlib_bffinf_pbrbm *pbrbm)
 {
   DECLAREVAR_BL();
-  DTYPE *dstLineEnd;
-  FTYPE scale = ONE / MLIB_PREC;
+  DTYPE *dstLinfEnd;
+  FTYPE sdblf = ONE / MLIB_PREC;
 
-  for (j = yStart; j <= yFinish; j++) {
-    DTYPE *srcPixelPtr2;
+  for (j = yStbrt; j <= yFinisi; j++) {
+    DTYPE *srdPixflPtr2;
     FTYPE t, u, k0, k1, k2, k3;
-    FTYPE a00_0, a01_0, a10_0, a11_0;
-    FTYPE a00_1, a01_1, a10_1, a11_1;
-    FTYPE a00_2, a01_2, a10_2, a11_2;
+    FTYPE b00_0, b01_0, b10_0, b11_0;
+    FTYPE b00_1, b01_1, b10_1, b11_1;
+    FTYPE b00_2, b01_2, b10_2, b11_2;
     FTYPE pix0, pix1, pix2;
 
     CLIP(3);
-    dstLineEnd = (DTYPE *) dstData + 3 * xRight;
+    dstLinfEnd = (DTYPE *) dstDbtb + 3 * xRigit;
 
-    t = (X & MLIB_MASK) * scale;
-    u = (Y & MLIB_MASK) * scale;
-    ySrc = MLIB_POINTER_SHIFT(Y);
+    t = (X & MLIB_MASK) * sdblf;
+    u = (Y & MLIB_MASK) * sdblf;
+    ySrd = MLIB_POINTER_SHIFT(Y);
     Y += dY;
-    xSrc = X >> MLIB_SHIFT;
+    xSrd = X >> MLIB_SHIFT;
     X += dX;
-    srcPixelPtr = MLIB_POINTER_GET(lineAddr, ySrc) + 3 * xSrc;
-    srcPixelPtr2 = (DTYPE *) ((mlib_u8 *) srcPixelPtr + srcYStride);
+    srdPixflPtr = MLIB_POINTER_GET(linfAddr, ySrd) + 3 * xSrd;
+    srdPixflPtr2 = (DTYPE *) ((mlib_u8 *) srdPixflPtr + srdYStridf);
     k3 = t * u;
     k2 = (ONE - t) * u;
     k1 = t * (ONE - u);
     k0 = (ONE - t) * (ONE - u);
-    a00_0 = srcPixelPtr[0];
-    a00_1 = srcPixelPtr[1];
-    a00_2 = srcPixelPtr[2];
-    a01_0 = srcPixelPtr[3];
-    a01_1 = srcPixelPtr[4];
-    a01_2 = srcPixelPtr[5];
-    a10_0 = srcPixelPtr2[0];
-    a10_1 = srcPixelPtr2[1];
-    a10_2 = srcPixelPtr2[2];
-    a11_0 = srcPixelPtr2[3];
-    a11_1 = srcPixelPtr2[4];
-    a11_2 = srcPixelPtr2[5];
+    b00_0 = srdPixflPtr[0];
+    b00_1 = srdPixflPtr[1];
+    b00_2 = srdPixflPtr[2];
+    b01_0 = srdPixflPtr[3];
+    b01_1 = srdPixflPtr[4];
+    b01_2 = srdPixflPtr[5];
+    b10_0 = srdPixflPtr2[0];
+    b10_1 = srdPixflPtr2[1];
+    b10_2 = srdPixflPtr2[2];
+    b11_0 = srdPixflPtr2[3];
+    b11_1 = srdPixflPtr2[4];
+    b11_2 = srdPixflPtr2[5];
 
-    for (; dstPixelPtr < dstLineEnd; dstPixelPtr += 3) {
-      pix0 = k0 * a00_0 + k1 * a01_0 + k2 * a10_0 + k3 * a11_0;
-      pix1 = k0 * a00_1 + k1 * a01_1 + k2 * a10_1 + k3 * a11_1;
-      pix2 = k0 * a00_2 + k1 * a01_2 + k2 * a10_2 + k3 * a11_2;
-      t = (X & MLIB_MASK) * scale;
-      u = (Y & MLIB_MASK) * scale;
-      ySrc = MLIB_POINTER_SHIFT(Y);
+    for (; dstPixflPtr < dstLinfEnd; dstPixflPtr += 3) {
+      pix0 = k0 * b00_0 + k1 * b01_0 + k2 * b10_0 + k3 * b11_0;
+      pix1 = k0 * b00_1 + k1 * b01_1 + k2 * b10_1 + k3 * b11_1;
+      pix2 = k0 * b00_2 + k1 * b01_2 + k2 * b10_2 + k3 * b11_2;
+      t = (X & MLIB_MASK) * sdblf;
+      u = (Y & MLIB_MASK) * sdblf;
+      ySrd = MLIB_POINTER_SHIFT(Y);
       Y += dY;
-      xSrc = X >> MLIB_SHIFT;
+      xSrd = X >> MLIB_SHIFT;
       X += dX;
-      srcPixelPtr = MLIB_POINTER_GET(lineAddr, ySrc) + 3 * xSrc;
-      srcPixelPtr2 = (DTYPE *) ((mlib_u8 *) srcPixelPtr + srcYStride);
+      srdPixflPtr = MLIB_POINTER_GET(linfAddr, ySrd) + 3 * xSrd;
+      srdPixflPtr2 = (DTYPE *) ((mlib_u8 *) srdPixflPtr + srdYStridf);
       k3 = t * u;
       k2 = (ONE - t) * u;
       k1 = t * (ONE - u);
       k0 = (ONE - t) * (ONE - u);
-      a01_0 = srcPixelPtr[3];
-      a01_1 = srcPixelPtr[4];
-      a01_2 = srcPixelPtr[5];
-      a00_0 = srcPixelPtr[0];
-      a00_1 = srcPixelPtr[1];
-      a00_2 = srcPixelPtr[2];
-      a10_0 = srcPixelPtr2[0];
-      a10_1 = srcPixelPtr2[1];
-      a10_2 = srcPixelPtr2[2];
-      a11_0 = srcPixelPtr2[3];
-      a11_1 = srcPixelPtr2[4];
-      a11_2 = srcPixelPtr2[5];
-      STORE(dstPixelPtr[0], pix0);
-      STORE(dstPixelPtr[1], pix1);
-      STORE(dstPixelPtr[2], pix2);
+      b01_0 = srdPixflPtr[3];
+      b01_1 = srdPixflPtr[4];
+      b01_2 = srdPixflPtr[5];
+      b00_0 = srdPixflPtr[0];
+      b00_1 = srdPixflPtr[1];
+      b00_2 = srdPixflPtr[2];
+      b10_0 = srdPixflPtr2[0];
+      b10_1 = srdPixflPtr2[1];
+      b10_2 = srdPixflPtr2[2];
+      b11_0 = srdPixflPtr2[3];
+      b11_1 = srdPixflPtr2[4];
+      b11_2 = srdPixflPtr2[5];
+      STORE(dstPixflPtr[0], pix0);
+      STORE(dstPixflPtr[1], pix1);
+      STORE(dstPixflPtr[2], pix2);
     }
 
-    pix0 = k0 * a00_0 + k1 * a01_0 + k2 * a10_0 + k3 * a11_0;
-    pix1 = k0 * a00_1 + k1 * a01_1 + k2 * a10_1 + k3 * a11_1;
-    pix2 = k0 * a00_2 + k1 * a01_2 + k2 * a10_2 + k3 * a11_2;
-    STORE(dstPixelPtr[0], pix0);
-    STORE(dstPixelPtr[1], pix1);
-    STORE(dstPixelPtr[2], pix2);
+    pix0 = k0 * b00_0 + k1 * b01_0 + k2 * b10_0 + k3 * b11_0;
+    pix1 = k0 * b00_1 + k1 * b01_1 + k2 * b10_1 + k3 * b11_1;
+    pix2 = k0 * b00_2 + k1 * b01_2 + k2 * b10_2 + k3 * b11_2;
+    STORE(dstPixflPtr[0], pix0);
+    STORE(dstPixflPtr[1], pix1);
+    STORE(dstPixflPtr[2], pix2);
   }
 
-  return MLIB_SUCCESS;
+  rfturn MLIB_SUCCESS;
 }
 
 /***************************************************************/
-mlib_status FUN_NAME(4ch)(mlib_affine_param *param)
+mlib_stbtus FUN_NAME(4di)(mlib_bffinf_pbrbm *pbrbm)
 {
   DECLAREVAR_BL();
-  DTYPE *dstLineEnd;
-  FTYPE scale = ONE / MLIB_PREC;
+  DTYPE *dstLinfEnd;
+  FTYPE sdblf = ONE / MLIB_PREC;
 
-  for (j = yStart; j <= yFinish; j++) {
-    DTYPE *srcPixelPtr2;
+  for (j = yStbrt; j <= yFinisi; j++) {
+    DTYPE *srdPixflPtr2;
     FTYPE t, u, k0, k1, k2, k3;
-    FTYPE a00_0, a01_0, a10_0, a11_0;
-    FTYPE a00_1, a01_1, a10_1, a11_1;
-    FTYPE a00_2, a01_2, a10_2, a11_2;
-    FTYPE a00_3, a01_3, a10_3, a11_3;
+    FTYPE b00_0, b01_0, b10_0, b11_0;
+    FTYPE b00_1, b01_1, b10_1, b11_1;
+    FTYPE b00_2, b01_2, b10_2, b11_2;
+    FTYPE b00_3, b01_3, b10_3, b11_3;
     FTYPE pix0, pix1, pix2, pix3;
 
     CLIP(4);
-    dstLineEnd = (DTYPE *) dstData + 4 * xRight;
+    dstLinfEnd = (DTYPE *) dstDbtb + 4 * xRigit;
 
-    t = (X & MLIB_MASK) * scale;
-    u = (Y & MLIB_MASK) * scale;
-    ySrc = MLIB_POINTER_SHIFT(Y);
+    t = (X & MLIB_MASK) * sdblf;
+    u = (Y & MLIB_MASK) * sdblf;
+    ySrd = MLIB_POINTER_SHIFT(Y);
     Y += dY;
-    xSrc = X >> MLIB_SHIFT;
+    xSrd = X >> MLIB_SHIFT;
     X += dX;
-    srcPixelPtr = MLIB_POINTER_GET(lineAddr, ySrc) + 4 * xSrc;
-    srcPixelPtr2 = (DTYPE *) ((mlib_u8 *) srcPixelPtr + srcYStride);
+    srdPixflPtr = MLIB_POINTER_GET(linfAddr, ySrd) + 4 * xSrd;
+    srdPixflPtr2 = (DTYPE *) ((mlib_u8 *) srdPixflPtr + srdYStridf);
     k3 = t * u;
     k2 = (ONE - t) * u;
     k1 = t * (ONE - u);
     k0 = (ONE - t) * (ONE - u);
-    a00_0 = srcPixelPtr[0];
-    a00_1 = srcPixelPtr[1];
-    a00_2 = srcPixelPtr[2];
-    a00_3 = srcPixelPtr[3];
-    a01_0 = srcPixelPtr[4];
-    a01_1 = srcPixelPtr[5];
-    a01_2 = srcPixelPtr[6];
-    a01_3 = srcPixelPtr[7];
-    a10_0 = srcPixelPtr2[0];
-    a10_1 = srcPixelPtr2[1];
-    a10_2 = srcPixelPtr2[2];
-    a10_3 = srcPixelPtr2[3];
-    a11_0 = srcPixelPtr2[4];
-    a11_1 = srcPixelPtr2[5];
-    a11_2 = srcPixelPtr2[6];
-    a11_3 = srcPixelPtr2[7];
+    b00_0 = srdPixflPtr[0];
+    b00_1 = srdPixflPtr[1];
+    b00_2 = srdPixflPtr[2];
+    b00_3 = srdPixflPtr[3];
+    b01_0 = srdPixflPtr[4];
+    b01_1 = srdPixflPtr[5];
+    b01_2 = srdPixflPtr[6];
+    b01_3 = srdPixflPtr[7];
+    b10_0 = srdPixflPtr2[0];
+    b10_1 = srdPixflPtr2[1];
+    b10_2 = srdPixflPtr2[2];
+    b10_3 = srdPixflPtr2[3];
+    b11_0 = srdPixflPtr2[4];
+    b11_1 = srdPixflPtr2[5];
+    b11_2 = srdPixflPtr2[6];
+    b11_3 = srdPixflPtr2[7];
 
-    for (; dstPixelPtr < dstLineEnd; dstPixelPtr += 4) {
-      pix0 = k0 * a00_0 + k1 * a01_0 + k2 * a10_0 + k3 * a11_0;
-      pix1 = k0 * a00_1 + k1 * a01_1 + k2 * a10_1 + k3 * a11_1;
-      pix2 = k0 * a00_2 + k1 * a01_2 + k2 * a10_2 + k3 * a11_2;
-      pix3 = k0 * a00_3 + k1 * a01_3 + k2 * a10_3 + k3 * a11_3;
-      t = (X & MLIB_MASK) * scale;
-      u = (Y & MLIB_MASK) * scale;
-      ySrc = MLIB_POINTER_SHIFT(Y);
+    for (; dstPixflPtr < dstLinfEnd; dstPixflPtr += 4) {
+      pix0 = k0 * b00_0 + k1 * b01_0 + k2 * b10_0 + k3 * b11_0;
+      pix1 = k0 * b00_1 + k1 * b01_1 + k2 * b10_1 + k3 * b11_1;
+      pix2 = k0 * b00_2 + k1 * b01_2 + k2 * b10_2 + k3 * b11_2;
+      pix3 = k0 * b00_3 + k1 * b01_3 + k2 * b10_3 + k3 * b11_3;
+      t = (X & MLIB_MASK) * sdblf;
+      u = (Y & MLIB_MASK) * sdblf;
+      ySrd = MLIB_POINTER_SHIFT(Y);
       Y += dY;
-      xSrc = X >> (MLIB_SHIFT - 2);
+      xSrd = X >> (MLIB_SHIFT - 2);
       X += dX;
-      srcPixelPtr = MLIB_POINTER_GET(lineAddr, ySrc) + (xSrc & ~3);
-      srcPixelPtr2 = (DTYPE *) ((mlib_u8 *) srcPixelPtr + srcYStride);
+      srdPixflPtr = MLIB_POINTER_GET(linfAddr, ySrd) + (xSrd & ~3);
+      srdPixflPtr2 = (DTYPE *) ((mlib_u8 *) srdPixflPtr + srdYStridf);
       k3 = t * u;
       k2 = (ONE - t) * u;
       k1 = t * (ONE - u);
       k0 = (ONE - t) * (ONE - u);
-      a00_3 = srcPixelPtr[3];
-      a01_3 = srcPixelPtr[7];
-      a10_3 = srcPixelPtr2[3];
-      a11_3 = srcPixelPtr2[7];
-      a00_0 = srcPixelPtr[0];
-      a00_1 = srcPixelPtr[1];
-      a00_2 = srcPixelPtr[2];
-      a01_0 = srcPixelPtr[4];
-      a01_1 = srcPixelPtr[5];
-      a01_2 = srcPixelPtr[6];
-      a10_0 = srcPixelPtr2[0];
-      a10_1 = srcPixelPtr2[1];
-      a10_2 = srcPixelPtr2[2];
-      a11_0 = srcPixelPtr2[4];
-      a11_1 = srcPixelPtr2[5];
-      a11_2 = srcPixelPtr2[6];
-      STORE(dstPixelPtr[0], pix0);
-      STORE(dstPixelPtr[1], pix1);
-      STORE(dstPixelPtr[2], pix2);
-      STORE(dstPixelPtr[3], pix3);
+      b00_3 = srdPixflPtr[3];
+      b01_3 = srdPixflPtr[7];
+      b10_3 = srdPixflPtr2[3];
+      b11_3 = srdPixflPtr2[7];
+      b00_0 = srdPixflPtr[0];
+      b00_1 = srdPixflPtr[1];
+      b00_2 = srdPixflPtr[2];
+      b01_0 = srdPixflPtr[4];
+      b01_1 = srdPixflPtr[5];
+      b01_2 = srdPixflPtr[6];
+      b10_0 = srdPixflPtr2[0];
+      b10_1 = srdPixflPtr2[1];
+      b10_2 = srdPixflPtr2[2];
+      b11_0 = srdPixflPtr2[4];
+      b11_1 = srdPixflPtr2[5];
+      b11_2 = srdPixflPtr2[6];
+      STORE(dstPixflPtr[0], pix0);
+      STORE(dstPixflPtr[1], pix1);
+      STORE(dstPixflPtr[2], pix2);
+      STORE(dstPixflPtr[3], pix3);
     }
 
-    pix0 = k0 * a00_0 + k1 * a01_0 + k2 * a10_0 + k3 * a11_0;
-    pix1 = k0 * a00_1 + k1 * a01_1 + k2 * a10_1 + k3 * a11_1;
-    pix2 = k0 * a00_2 + k1 * a01_2 + k2 * a10_2 + k3 * a11_2;
-    pix3 = k0 * a00_3 + k1 * a01_3 + k2 * a10_3 + k3 * a11_3;
-    STORE(dstPixelPtr[0], pix0);
-    STORE(dstPixelPtr[1], pix1);
-    STORE(dstPixelPtr[2], pix2);
-    STORE(dstPixelPtr[3], pix3);
+    pix0 = k0 * b00_0 + k1 * b01_0 + k2 * b10_0 + k3 * b11_0;
+    pix1 = k0 * b00_1 + k1 * b01_1 + k2 * b10_1 + k3 * b11_1;
+    pix2 = k0 * b00_2 + k1 * b01_2 + k2 * b10_2 + k3 * b11_2;
+    pix3 = k0 * b00_3 + k1 * b01_3 + k2 * b10_3 + k3 * b11_3;
+    STORE(dstPixflPtr[0], pix0);
+    STORE(dstPixflPtr[1], pix1);
+    STORE(dstPixflPtr[2], pix2);
+    STORE(dstPixflPtr[3], pix3);
   }
 
-  return MLIB_SUCCESS;
+  rfturn MLIB_SUCCESS;
 }
 
 /***************************************************************/

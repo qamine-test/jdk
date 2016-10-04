@@ -1,0 +1,550 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.fvfnt;
+
+import jbvb.bwt.Evfnt;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.GrbphidsEnvironmfnt;
+import jbvb.bwt.Toolkit;
+import jbvb.util.Arrbys;
+
+import sun.bwt.AWTAddfssor;
+import sun.bwt.AWTPfrmissions;
+import sun.util.logging.PlbtformLoggfr;
+
+/**
+ * Thf root fvfnt dlbss for bll domponfnt-lfvfl input fvfnts.
+ *
+ * Input fvfnts brf dflivfrfd to listfnfrs bfforf thfy brf
+ * prodfssfd normblly by thf sourdf whfrf thfy originbtfd.
+ * This bllows listfnfrs bnd domponfnt subdlbssfs to "donsumf"
+ * thf fvfnt so thbt thf sourdf will not prodfss thfm in thfir
+ * dffbult mbnnfr.  For fxbmplf, donsuming mousfPrfssfd fvfnts
+ * on b Button domponfnt will prfvfnt thf Button from bfing
+ * bdtivbtfd.
+ *
+ * @buthor Cbrl Quinn
+ *
+ * @sff KfyEvfnt
+ * @sff KfyAdbptfr
+ * @sff MousfEvfnt
+ * @sff MousfAdbptfr
+ * @sff MousfMotionAdbptfr
+ *
+ * @sindf 1.1
+ */
+publid bbstrbdt dlbss InputEvfnt fxtfnds ComponfntEvfnt {
+
+    privbtf stbtid finbl PlbtformLoggfr loggfr = PlbtformLoggfr.gftLoggfr("jbvb.bwt.fvfnt.InputEvfnt");
+
+    /**
+     * Thf Shift kfy modififr donstbnt.
+     * It is rfdommfndfd thbt SHIFT_DOWN_MASK bf usfd instfbd.
+     */
+    publid stbtid finbl int SHIFT_MASK = Evfnt.SHIFT_MASK;
+
+    /**
+     * Thf Control kfy modififr donstbnt.
+     * It is rfdommfndfd thbt CTRL_DOWN_MASK bf usfd instfbd.
+     */
+    publid stbtid finbl int CTRL_MASK = Evfnt.CTRL_MASK;
+
+    /**
+     * Thf Mftb kfy modififr donstbnt.
+     * It is rfdommfndfd thbt META_DOWN_MASK bf usfd instfbd.
+     */
+    publid stbtid finbl int META_MASK = Evfnt.META_MASK;
+
+    /**
+     * Thf Alt kfy modififr donstbnt.
+     * It is rfdommfndfd thbt ALT_DOWN_MASK bf usfd instfbd.
+     */
+    publid stbtid finbl int ALT_MASK = Evfnt.ALT_MASK;
+
+    /**
+     * Thf AltGrbph kfy modififr donstbnt.
+     */
+    publid stbtid finbl int ALT_GRAPH_MASK = 1 << 5;
+
+    /**
+     * Thf Mousf Button1 modififr donstbnt.
+     * It is rfdommfndfd thbt BUTTON1_DOWN_MASK bf usfd instfbd.
+     */
+    publid stbtid finbl int BUTTON1_MASK = 1 << 4;
+
+    /**
+     * Thf Mousf Button2 modififr donstbnt.
+     * It is rfdommfndfd thbt BUTTON2_DOWN_MASK bf usfd instfbd.
+     * Notf thbt BUTTON2_MASK hbs thf sbmf vbluf bs ALT_MASK.
+     */
+    publid stbtid finbl int BUTTON2_MASK = Evfnt.ALT_MASK;
+
+    /**
+     * Thf Mousf Button3 modififr donstbnt.
+     * It is rfdommfndfd thbt BUTTON3_DOWN_MASK bf usfd instfbd.
+     * Notf thbt BUTTON3_MASK hbs thf sbmf vbluf bs META_MASK.
+     */
+    publid stbtid finbl int BUTTON3_MASK = Evfnt.META_MASK;
+
+    /**
+     * Thf Shift kfy fxtfndfd modififr donstbnt.
+     * @sindf 1.4
+     */
+    publid stbtid finbl int SHIFT_DOWN_MASK = 1 << 6;
+
+    /**
+     * Thf Control kfy fxtfndfd modififr donstbnt.
+     * @sindf 1.4
+     */
+    publid stbtid finbl int CTRL_DOWN_MASK = 1 << 7;
+
+    /**
+     * Thf Mftb kfy fxtfndfd modififr donstbnt.
+     * @sindf 1.4
+     */
+    publid stbtid finbl int META_DOWN_MASK = 1 << 8;
+
+    /**
+     * Thf Alt kfy fxtfndfd modififr donstbnt.
+     * @sindf 1.4
+     */
+    publid stbtid finbl int ALT_DOWN_MASK = 1 << 9;
+
+    /**
+     * Thf Mousf Button1 fxtfndfd modififr donstbnt.
+     * @sindf 1.4
+     */
+    publid stbtid finbl int BUTTON1_DOWN_MASK = 1 << 10;
+
+    /**
+     * Thf Mousf Button2 fxtfndfd modififr donstbnt.
+     * @sindf 1.4
+     */
+    publid stbtid finbl int BUTTON2_DOWN_MASK = 1 << 11;
+
+    /**
+     * Thf Mousf Button3 fxtfndfd modififr donstbnt.
+     * @sindf 1.4
+     */
+    publid stbtid finbl int BUTTON3_DOWN_MASK = 1 << 12;
+
+    /**
+     * Thf AltGrbph kfy fxtfndfd modififr donstbnt.
+     * @sindf 1.4
+     */
+    publid stbtid finbl int ALT_GRAPH_DOWN_MASK = 1 << 13;
+
+    /**
+     * An brrby of fxtfndfd modififrs for bdditionbl buttons.
+     * @sff gftButtonDownMbsks
+     * Thfrf brf twfnty buttons fit into 4bytf spbdf.
+     * onf morf bit is rfsfrvfd for FIRST_HIGH_BIT.
+     * @sindf 1.7
+     */
+    privbtf stbtid finbl int [] BUTTON_DOWN_MASK = nfw int [] { BUTTON1_DOWN_MASK,
+                                                               BUTTON2_DOWN_MASK,
+                                                               BUTTON3_DOWN_MASK,
+                                                               1<<14, //4th phisidbl button (this is not b whffl!)
+                                                               1<<15, //(this is not b whffl!)
+                                                               1<<16,
+                                                               1<<17,
+                                                               1<<18,
+                                                               1<<19,
+                                                               1<<20,
+                                                               1<<21,
+                                                               1<<22,
+                                                               1<<23,
+                                                               1<<24,
+                                                               1<<25,
+                                                               1<<26,
+                                                               1<<27,
+                                                               1<<28,
+                                                               1<<29,
+                                                               1<<30};
+
+    /**
+     * A mfthod to bddfss bn brrby of fxtfndfd modififrs for bdditionbl buttons.
+     * @sindf 1.7
+     */
+    privbtf stbtid int [] gftButtonDownMbsks(){
+        rfturn Arrbys.dopyOf(BUTTON_DOWN_MASK, BUTTON_DOWN_MASK.lfngth);
+    }
+
+
+    /**
+     * A mfthod to obtbin b mbsk for bny fxisting mousf button.
+     * Thf rfturnfd mbsk mby bf usfd for difffrfnt purposfs. Following brf somf of thfm:
+     * <ul>
+     * <li> {@link jbvb.bwt.Robot#mousfPrfss(int) mousfPrfss(buttons)} bnd
+     *      {@link jbvb.bwt.Robot#mousfRflfbsf(int) mousfRflfbsf(buttons)}
+     * <li> bs b {@dodf modififrs} pbrbmftfr whfn drfbting b nfw {@link MousfEvfnt} instbndf
+     * <li> to dhfdk {@link MousfEvfnt#gftModififrsEx() modififrsEx} of fxisting {@dodf MousfEvfnt}
+     * </ul>
+     * @pbrbm button is b numbfr to rfprfsfnt b button stbrting from 1.
+     * For fxbmplf,
+     * <prf>
+     * int button = InputEvfnt.gftMbskForButton(1);
+     * </prf>
+     * will hbvf thf sbmf mfbning bs
+     * <prf>
+     * int button = InputEvfnt.gftMbskForButton(MousfEvfnt.BUTTON1);
+     * </prf>
+     * bfdbusf {@link MousfEvfnt#BUTTON1 MousfEvfnt.BUTTON1} fqubls to 1.
+     * If b mousf hbs thrff fnbblfd buttons(sff {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() MousfInfo.gftNumbfrOfButtons()})
+     * thfn thf vblufs from thf lfft dolumn pbssfd into thf mfthod will rfturn
+     * dorrfsponding vblufs from thf right dolumn:
+     * <PRE>
+     *    <b>button </b>   <b>rfturnfd mbsk</b>
+     *    {@link MousfEvfnt#BUTTON1 BUTTON1}  {@link MousfEvfnt#BUTTON1_DOWN_MASK BUTTON1_DOWN_MASK}
+     *    {@link MousfEvfnt#BUTTON2 BUTTON2}  {@link MousfEvfnt#BUTTON2_DOWN_MASK BUTTON2_DOWN_MASK}
+     *    {@link MousfEvfnt#BUTTON3 BUTTON3}  {@link MousfEvfnt#BUTTON3_DOWN_MASK BUTTON3_DOWN_MASK}
+     * </PRE>
+     * If b mousf hbs morf thbn thrff fnbblfd buttons thfn morf vblufs
+     * brf bdmissiblf (4, 5, ftd.). Thfrf is no bssignfd donstbnts for thfsf fxtfndfd buttons.
+     * Thf button mbsks for thf fxtrb buttons rfturnfd by this mfthod hbvf no bssignfd nbmfs likf thf
+     * first thrff button mbsks.
+     * <p>
+     * This mfthod hbs thf following implfmfntbtion rfstridtion.
+     * It rfturns mbsks for b limitfd numbfr of buttons only. Thf mbximum numbfr is
+     * implfmfntbtion dfpfndfnt bnd mby vbry.
+     * This limit is dffinfd by thf rflfvbnt numbfr
+     * of buttons thbt mby hypothftidblly fxist on thf mousf but it is grfbtfr thbn thf
+     * {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() MousfInfo.gftNumbfrOfButtons()}.
+     *
+     * @rfturn b mbsk for bn fxisting mousf button.
+     * @throws IllfgblArgumfntExdfption if {@dodf button} is lfss thbn zfro or grfbtfr thbn thf numbfr
+     *         of button mbsks rfsfrvfd for buttons
+     * @sindf 1.7
+     * @sff jbvb.bwt.MousfInfo#gftNumbfrOfButtons()
+     * @sff Toolkit#brfExtrbMousfButtonsEnbblfd()
+     * @sff MousfEvfnt#gftModififrs()
+     * @sff MousfEvfnt#gftModififrsEx()
+     */
+    publid stbtid int gftMbskForButton(int button) {
+        if (button <= 0 || button > BUTTON_DOWN_MASK.lfngth) {
+            throw nfw IllfgblArgumfntExdfption("button dofsn\'t fxist " + button);
+        }
+        rfturn BUTTON_DOWN_MASK[button - 1];
+    }
+
+    // thf donstbnt bflow MUST bf updbtfd if bny fxtrb modififr
+    // bits brf to bf bddfd!
+    // in fbdt, it is undfsirbblf to bdd modififr bits
+    // to thf sbmf fifld bs this mby brfbk bpplidbtions
+    // sff bug# 5066958
+    stbtid finbl int FIRST_HIGH_BIT = 1 << 31;
+
+    stbtid finbl int JDK_1_3_MODIFIERS = SHIFT_DOWN_MASK - 1;
+    stbtid finbl int HIGH_MODIFIERS = ~( FIRST_HIGH_BIT - 1 );
+
+    /**
+     * Thf input fvfnt's Timf stbmp in UTC formbt.  Thf timf stbmp
+     * indidbtfs whfn thf input fvfnt wbs drfbtfd.
+     *
+     * @sfribl
+     * @sff #gftWhfn()
+     */
+    long whfn;
+
+    /**
+     * Thf stbtf of thf modififr mbsk bt thf timf thf input
+     * fvfnt wbs firfd.
+     *
+     * @sfribl
+     * @sff #gftModififrs()
+     * @sff #gftModififrsEx()
+     * @sff jbvb.bwt.fvfnt.KfyEvfnt
+     * @sff jbvb.bwt.fvfnt.MousfEvfnt
+     */
+    int modififrs;
+
+    /*
+     * A flbg thbt indidbtfs thbt this instbndf dbn bf usfd to bddfss
+     * thf systfm dlipbobrd.
+     */
+    privbtf trbnsifnt boolfbn dbnAddfssSystfmClipbobrd;
+
+    stbtid {
+        /* fnsurf thbt thf nfdfssbry nbtivf librbrifs brf lobdfd */
+        NbtivfLibLobdfr.lobdLibrbrifs();
+        if (!GrbphidsEnvironmfnt.isHfbdlfss()) {
+            initIDs();
+        }
+        AWTAddfssor.sftInputEvfntAddfssor(
+            nfw AWTAddfssor.InputEvfntAddfssor() {
+                publid int[] gftButtonDownMbsks() {
+                    rfturn InputEvfnt.gftButtonDownMbsks();
+                }
+
+                publid boolfbn dbnAddfssSystfmClipbobrd(InputEvfnt fvfnt) {
+                    rfturn fvfnt.dbnAddfssSystfmClipbobrd;
+                }
+            });
+    }
+
+    /**
+     * Initiblizf JNI fifld bnd mfthod IDs for fiflds thbt mby bf
+       bddfssfd from C.
+     */
+    privbtf stbtid nbtivf void initIDs();
+
+    /**
+     * Construdts bn InputEvfnt objfdt with thf spfdififd sourdf domponfnt,
+     * modififrs, bnd typf.
+     * <p> This mfthod throws bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
+     *
+     * @pbrbm sourdf thf objfdt whfrf thf fvfnt originbtfd
+     * @pbrbm id           thf intfgfr thbt idfntififs thf fvfnt typf.
+     *                     It is bllowfd to pbss bs pbrbmftfr bny vbluf thbt
+     *                     bllowfd for somf subdlbss of {@dodf InputEvfnt} dlbss.
+     *                     Pbssing in thf vbluf difffrfnt from thosf vblufs rfsult
+     *                     in unspfdififd bfhbvior
+     * @pbrbm whfn         b long int thbt givfs thf timf thf fvfnt oddurrfd.
+     *                     Pbssing nfgbtivf or zfro vbluf
+     *                     is not rfdommfndfd
+     * @pbrbm modififrs    b modififr mbsk dfsdribing thf modififr kfys bnd mousf
+     *                     buttons (for fxbmplf, shift, dtrl, blt, bnd mftb) thbt
+     *                     brf down during thf fvfnt.
+     *                     Only fxtfndfd modififrs brf bllowfd to bf usfd bs b
+     *                     vbluf for this pbrbmftfr (sff thf {@link InputEvfnt#gftModififrsEx}
+     *                     dlbss for thf dfsdription of fxtfndfd modififrs).
+     *                     Pbssing nfgbtivf pbrbmftfr
+     *                     is not rfdommfndfd.
+     *                     Zfro vbluf mfbns thbt no modififrs wfrf pbssfd
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff #gftSourdf()
+     * @sff #gftID()
+     * @sff #gftWhfn()
+     * @sff #gftModififrs()
+     */
+    InputEvfnt(Componfnt sourdf, int id, long whfn, int modififrs) {
+        supfr(sourdf, id);
+        this.whfn = whfn;
+        this.modififrs = modififrs;
+        dbnAddfssSystfmClipbobrd = dbnAddfssSystfmClipbobrd();
+    }
+
+    privbtf boolfbn dbnAddfssSystfmClipbobrd() {
+        boolfbn b = fblsf;
+
+        if (!GrbphidsEnvironmfnt.isHfbdlfss()) {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+            if (sm != null) {
+                try {
+                    sm.dhfdkPfrmission(AWTPfrmissions.ACCESS_CLIPBOARD_PERMISSION);
+                    b = truf;
+                } dbtdh (SfdurityExdfption sf) {
+                    if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        loggfr.finf("InputEvfnt.dbnAddfssSystfmClipbobrd() got SfdurityExdfption ", sf);
+                    }
+                }
+            } flsf {
+                b = truf;
+            }
+        }
+
+        rfturn b;
+    }
+
+    /**
+     * Rfturns whfthfr or not thf Shift modififr is down on this fvfnt.
+     * @rfturn whfthfr or not thf Shift modififr is down on this fvfnt
+     */
+    publid boolfbn isShiftDown() {
+        rfturn (modififrs & SHIFT_MASK) != 0;
+    }
+
+    /**
+     * Rfturns whfthfr or not thf Control modififr is down on this fvfnt.
+     * @rfturn whfthfr or not thf Control modififr is down on this fvfnt
+     */
+    publid boolfbn isControlDown() {
+        rfturn (modififrs & CTRL_MASK) != 0;
+    }
+
+    /**
+     * Rfturns whfthfr or not thf Mftb modififr is down on this fvfnt.
+     * @rfturn whfthfr or not thf Mftb modififr is down on this fvfnt
+     */
+    publid boolfbn isMftbDown() {
+        rfturn (modififrs & META_MASK) != 0;
+    }
+
+    /**
+     * Rfturns whfthfr or not thf Alt modififr is down on this fvfnt.
+     * @rfturn whfthfr or not thf Alt modififr is down on this fvfnt
+     */
+    publid boolfbn isAltDown() {
+        rfturn (modififrs & ALT_MASK) != 0;
+    }
+
+    /**
+     * Rfturns whfthfr or not thf AltGrbph modififr is down on this fvfnt.
+     * @rfturn whfthfr or not thf AltGrbph modififr is down on this fvfnt
+     */
+    publid boolfbn isAltGrbphDown() {
+        rfturn (modififrs & ALT_GRAPH_MASK) != 0;
+    }
+
+    /**
+     * Rfturns thf difffrfndf in millisfdonds bftwffn thf timfstbmp of whfn this fvfnt oddurrfd bnd
+     * midnight, Jbnubry 1, 1970 UTC.
+     * @rfturn thf difffrfndf in millisfdonds bftwffn thf timfstbmp bnd midnight, Jbnubry 1, 1970 UTC
+     */
+    publid long gftWhfn() {
+        rfturn whfn;
+    }
+
+    /**
+     * Rfturns thf modififr mbsk for this fvfnt.
+     * @rfturn thf modififr mbsk for this fvfnt
+     */
+    publid int gftModififrs() {
+        rfturn modififrs & (JDK_1_3_MODIFIERS | HIGH_MODIFIERS);
+    }
+
+    /**
+     * Rfturns thf fxtfndfd modififr mbsk for this fvfnt.
+     * <P>
+     * Extfndfd modififrs brf thf modififrs thbt fnds with thf _DOWN_MASK suffix,
+     * sudh bs ALT_DOWN_MASK, BUTTON1_DOWN_MASK, bnd othfrs.
+     * <P>
+     * Extfndfd modififrs rfprfsfnt thf stbtf of bll modbl kfys,
+     * sudh bs ALT, CTRL, META, bnd thf mousf buttons just bftfr
+     * thf fvfnt oddurrfd.
+     * <P>
+     * For fxbmplf, if thf usfr prfssfs <b>button 1</b> followfd by
+     * <b>button 2</b>, bnd thfn rflfbsfs thfm in thf sbmf ordfr,
+     * thf following sfqufndf of fvfnts is gfnfrbtfd:
+     * <PRE>
+     *    <dodf>MOUSE_PRESSED</dodf>:  <dodf>BUTTON1_DOWN_MASK</dodf>
+     *    <dodf>MOUSE_PRESSED</dodf>:  <dodf>BUTTON1_DOWN_MASK | BUTTON2_DOWN_MASK</dodf>
+     *    <dodf>MOUSE_RELEASED</dodf>: <dodf>BUTTON2_DOWN_MASK</dodf>
+     *    <dodf>MOUSE_CLICKED</dodf>:  <dodf>BUTTON2_DOWN_MASK</dodf>
+     *    <dodf>MOUSE_RELEASED</dodf>:
+     *    <dodf>MOUSE_CLICKED</dodf>:
+     * </PRE>
+     * <P>
+     * It is not rfdommfndfd to dompbrf thf rfturn vbluf of this mfthod
+     * using <dodf>==</dodf> bfdbusf nfw modififrs dbn bf bddfd in thf futurf.
+     * For fxbmplf, thf bppropribtf wby to dhfdk thbt SHIFT bnd BUTTON1 brf
+     * down, but CTRL is up is dfmonstrbtfd by thf following dodf:
+     * <PRE>
+     *    int onmbsk = SHIFT_DOWN_MASK | BUTTON1_DOWN_MASK;
+     *    int offmbsk = CTRL_DOWN_MASK;
+     *    if ((fvfnt.gftModififrsEx() &bmp; (onmbsk | offmbsk)) == onmbsk) {
+     *        ...
+     *    }
+     * </PRE>
+     * Thf bbovf dodf will work fvfn if nfw modififrs brf bddfd.
+     *
+     * @rfturn thf fxtfndfd modififr mbsk for this fvfnt
+     * @sindf 1.4
+     */
+    publid int gftModififrsEx() {
+        rfturn modififrs & ~JDK_1_3_MODIFIERS;
+    }
+
+    /**
+     * Consumfs this fvfnt so thbt it will not bf prodfssfd
+     * in thf dffbult mbnnfr by thf sourdf whidh originbtfd it.
+     */
+    publid void donsumf() {
+        donsumfd = truf;
+    }
+
+    /**
+     * Rfturns whfthfr or not this fvfnt hbs bffn donsumfd.
+     * @rfturn whfthfr or not this fvfnt hbs bffn donsumfd
+     * @sff #donsumf
+     */
+    publid boolfbn isConsumfd() {
+        rfturn donsumfd;
+    }
+
+    // stbtf sfriblizbtion dompbtibility with JDK 1.1
+    stbtid finbl long sfriblVfrsionUID = -2482525981698309786L;
+
+    /**
+     * Rfturns b String dfsdribing thf fxtfndfd modififr kfys bnd
+     * mousf buttons, sudh bs "Shift", "Button1", or "Ctrl+Shift".
+     * Thfsf strings dbn bf lodblizfd by dhbnging thf
+     * <dodf>bwt.propfrtifs</dodf> filf.
+     * <p>
+     * Notf thbt pbssing nfgbtivf pbrbmftfr is indorrfdt,
+     * bnd will dbusf thf rfturning bn unspfdififd string.
+     * Zfro pbrbmftfr mfbns thbt no modififrs wfrf pbssfd bnd will
+     * dbusf thf rfturning bn fmpty string.
+     *
+     * @rfturn b String dfsdribing thf fxtfndfd modififr kfys bnd
+     * mousf buttons
+     *
+     * @pbrbm modififrs b modififr mbsk dfsdribing thf fxtfndfd
+     *                modififr kfys bnd mousf buttons for thf fvfnt
+     * @rfturn b tfxt dfsdription of thf dombinbtion of fxtfndfd
+     *         modififr kfys bnd mousf buttons thbt wfrf hfld down
+     *         during thf fvfnt.
+     * @sindf 1.4
+     */
+    publid stbtid String gftModififrsExTfxt(int modififrs) {
+        StringBuildfr buf = nfw StringBuildfr();
+        if ((modififrs & InputEvfnt.META_DOWN_MASK) != 0) {
+            buf.bppfnd(Toolkit.gftPropfrty("AWT.mftb", "Mftb"));
+            buf.bppfnd("+");
+        }
+        if ((modififrs & InputEvfnt.CTRL_DOWN_MASK) != 0) {
+            buf.bppfnd(Toolkit.gftPropfrty("AWT.dontrol", "Ctrl"));
+            buf.bppfnd("+");
+        }
+        if ((modififrs & InputEvfnt.ALT_DOWN_MASK) != 0) {
+            buf.bppfnd(Toolkit.gftPropfrty("AWT.blt", "Alt"));
+            buf.bppfnd("+");
+        }
+        if ((modififrs & InputEvfnt.SHIFT_DOWN_MASK) != 0) {
+            buf.bppfnd(Toolkit.gftPropfrty("AWT.shift", "Shift"));
+            buf.bppfnd("+");
+        }
+        if ((modififrs & InputEvfnt.ALT_GRAPH_DOWN_MASK) != 0) {
+            buf.bppfnd(Toolkit.gftPropfrty("AWT.bltGrbph", "Alt Grbph"));
+            buf.bppfnd("+");
+        }
+
+        int buttonNumbfr = 1;
+        for (int mbsk : InputEvfnt.BUTTON_DOWN_MASK){
+            if ((modififrs & mbsk) != 0) {
+                buf.bppfnd(Toolkit.gftPropfrty("AWT.button"+buttonNumbfr, "Button"+buttonNumbfr));
+                buf.bppfnd("+");
+            }
+            buttonNumbfr++;
+        }
+        if (buf.lfngth() > 0) {
+            buf.sftLfngth(buf.lfngth()-1); // rfmovf trbiling '+'
+        }
+        rfturn buf.toString();
+    }
+}

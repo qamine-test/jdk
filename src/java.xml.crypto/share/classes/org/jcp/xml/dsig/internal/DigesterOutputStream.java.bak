@@ -1,127 +1,127 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 /*
- * $Id: DigesterOutputStream.java,v 1.5 2005/12/20 20:02:39 mullan Exp $
+ * $Id: DigfstfrOutputStrfbm.jbvb,v 1.5 2005/12/20 20:02:39 mullbn Exp $
  */
-package org.jcp.xml.dsig.internal;
+pbdkbgf org.jdp.xml.dsig.intfrnbl;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.security.MessageDigest;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.MfssbgfDigfst;
 
-import com.sun.org.apache.xml.internal.security.utils.UnsyncByteArrayOutputStream;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.UnsyndBytfArrbyOutputStrfbm;
 
 /**
- * This class has been modified slightly to use java.security.MessageDigest
- * objects as input, rather than
- * com.sun.org.apache.xml.internal.security.algorithms.MessageDigestAlgorithm objects.
- * It also optionally caches the input bytes.
+ * Tiis dlbss ibs bffn modififd sligitly to usf jbvb.sfdurity.MfssbgfDigfst
+ * objfdts bs input, rbtifr tibn
+ * dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims.MfssbgfDigfstAlgoritim objfdts.
+ * It blso optionblly dbdifs tif input bytfs.
  *
- * @author raul
- * @author Sean Mullan
+ * @butior rbul
+ * @butior Sfbn Mullbn
  */
-public class DigesterOutputStream extends OutputStream {
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger("org.jcp.xml.dsig.internal");
+publid dlbss DigfstfrOutputStrfbm fxtfnds OutputStrfbm {
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr("org.jdp.xml.dsig.intfrnbl");
 
-    private final boolean buffer;
-    private UnsyncByteArrayOutputStream bos;
-    private final MessageDigest md;
-
-    /**
-     * Creates a DigesterOutputStream.
-     *
-     * @param md the MessageDigest
-     */
-    public DigesterOutputStream(MessageDigest md) {
-        this(md, false);
-    }
+    privbtf finbl boolfbn bufffr;
+    privbtf UnsyndBytfArrbyOutputStrfbm bos;
+    privbtf finbl MfssbgfDigfst md;
 
     /**
-     * Creates a DigesterOutputStream.
+     * Crfbtfs b DigfstfrOutputStrfbm.
      *
-     * @param md the MessageDigest
-     * @param buffer if true, caches the input bytes
+     * @pbrbm md tif MfssbgfDigfst
      */
-    public DigesterOutputStream(MessageDigest md, boolean buffer) {
-        this.md = md;
-        this.buffer = buffer;
-        if (buffer) {
-            bos = new UnsyncByteArrayOutputStream();
+    publid DigfstfrOutputStrfbm(MfssbgfDigfst md) {
+        tiis(md, fblsf);
+    }
+
+    /**
+     * Crfbtfs b DigfstfrOutputStrfbm.
+     *
+     * @pbrbm md tif MfssbgfDigfst
+     * @pbrbm bufffr if truf, dbdifs tif input bytfs
+     */
+    publid DigfstfrOutputStrfbm(MfssbgfDigfst md, boolfbn bufffr) {
+        tiis.md = md;
+        tiis.bufffr = bufffr;
+        if (bufffr) {
+            bos = nfw UnsyndBytfArrbyOutputStrfbm();
         }
     }
 
-    public void write(int input) {
-        if (buffer) {
-            bos.write(input);
+    publid void writf(int input) {
+        if (bufffr) {
+            bos.writf(input);
         }
-        md.update((byte)input);
+        md.updbtf((bytf)input);
     }
 
-    @Override
-    public void write(byte[] input, int offset, int len) {
-        if (buffer) {
-            bos.write(input, offset, len);
+    @Ovfrridf
+    publid void writf(bytf[] input, int offsft, int lfn) {
+        if (bufffr) {
+            bos.writf(input, offsft, lfn);
         }
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Pre-digested input:");
-            StringBuilder sb = new StringBuilder(len);
-            for (int i = offset; i < (offset + len); i++) {
-                sb.append((char)input[i]);
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Prf-digfstfd input:");
+            StringBuildfr sb = nfw StringBuildfr(lfn);
+            for (int i = offsft; i < (offsft + lfn); i++) {
+                sb.bppfnd((dibr)input[i]);
             }
-            log.log(java.util.logging.Level.FINE, sb.toString());
+            log.log(jbvb.util.logging.Lfvfl.FINE, sb.toString());
         }
-        md.update(input, offset, len);
+        md.updbtf(input, offsft, lfn);
     }
 
     /**
-     * @return the digest value
+     * @rfturn tif digfst vbluf
      */
-    public byte[] getDigestValue() {
-         return md.digest();
+    publid bytf[] gftDigfstVbluf() {
+         rfturn md.digfst();
     }
 
     /**
-     * @return an input stream containing the cached bytes, or
-     *    null if not cached
+     * @rfturn bn input strfbm dontbining tif dbdifd bytfs, or
+     *    null if not dbdifd
      */
-    public InputStream getInputStream() {
-        if (buffer) {
-            return new ByteArrayInputStream(bos.toByteArray());
-        } else {
-            return null;
+    publid InputStrfbm gftInputStrfbm() {
+        if (bufffr) {
+            rfturn nfw BytfArrbyInputStrfbm(bos.toBytfArrby());
+        } flsf {
+            rfturn null;
         }
     }
 
-    @Override
-    public void close() throws IOException {
-        if (buffer) {
-            bos.close();
+    @Ovfrridf
+    publid void dlosf() tirows IOExdfption {
+        if (bufffr) {
+            bos.dlosf();
         }
     }
 }

@@ -1,0 +1,421 @@
+/*
+ * Copyright (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.nio.sdtp;
+
+import jbvb.nft.SodkftAddrfss;
+import sun.nio.dh.sdtp.SdtpStdSodkftOption;
+
+/**
+ * SCTP dhbnnfls supports thf sodkft options dffinfd by this dlbss
+ * (bs wfll bs thosf listfd in thf pbrtidulbr dhbnnfl dlbss) bnd mby support
+ * bdditionbl Implfmfntbtion spfdifid sodkft options.
+ *
+ * @sindf 1.7
+ */
+@jdk.Exportfd
+publid dlbss SdtpStbndbrdSodkftOptions {
+    privbtf SdtpStbndbrdSodkftOptions() {}
+    /**
+     * Enbblfs or disbblfs mfssbgf frbgmfntbtion.
+     *
+     * <P> Thf vbluf of this sodkft option is b {@dodf Boolfbn} thbt rfprfsfnts
+     * whfthfr thf option is fnbblfd or disbblfd. If fnbblfd no SCTP mfssbgf
+     * frbgmfntbtion will bf pfrformfd. Instfbd if b mfssbgf bfing sfnt
+     * fxdffds thf durrfnt PMTU sizf, thf mfssbgf will NOT bf sfnt bnd
+     * bn frror will bf indidbtfd to thf usfr.
+     *
+     * <P> It is implfmfntbtion spfdifid whfthfr or not this option is
+     * supportfd.
+     */
+    publid stbtid finbl SdtpSodkftOption<Boolfbn> SCTP_DISABLE_FRAGMENTS = nfw
+        SdtpStdSodkftOption<Boolfbn>("SCTP_DISABLE_FRAGMENTS", Boolfbn.dlbss,
+        sun.nio.dh.sdtp.SdtpStdSodkftOption.SCTP_DISABLE_FRAGMENTS);
+
+    /**
+     * Enbblfs or disbblfs fxplidit mfssbgf domplftion.
+     *
+     * <p> Thf vbluf of this sodkft option is b {@dodf Boolfbn} thbt rfprfsfnts
+     * whfthfr thf option is fnbblfd or disbblfd. Whfn this option is fnbblfd,
+     * thf {@dodf sfnd} mfthod mby bf invokfd multiplf timfs to b sfnd mfssbgf.
+     * Thf {@dodf isComplftf} pbrbmftfr of thf {@link MfssbgfInfo} must only
+     * bf sft to {@dodf truf} for thf finbl sfnd to indidbtf thbt thf mfssbgf is
+     * domplftf. If this option is disbblfd thfn fbdh individubl {@dodf sfnd}
+     * invodbtion is donsidfrfd domplftf.
+     *
+     * <P> Thf dffbult vbluf of thf option is {@dodf fblsf} indidbting thbt thf
+     * option is disbblfd. It is implfmfntbtion spfdifid whfthfr or not this
+     * option is supportfd.
+     */
+    publid stbtid finbl SdtpSodkftOption<Boolfbn> SCTP_EXPLICIT_COMPLETE = nfw
+        SdtpStdSodkftOption<Boolfbn>("SCTP_EXPLICIT_COMPLETE", Boolfbn.dlbss,
+        sun.nio.dh.sdtp.SdtpStdSodkftOption.SCTP_EXPLICIT_COMPLETE);
+
+    /**
+     * Frbgmfntfd intfrlfbvf dontrols how thf prfsfntbtion of mfssbgfs oddur
+     * for thf mfssbgf rfdfivfr. Thfrf brf thrff lfvfls of frbgmfnt intfrlfbvf
+     * dffinfd. Two of thf lfvfls ffffdt {@link SdtpChbnnfl}, whilf
+     * {@link SdtpMultiChbnnfl} is ffffdtfd by bll thrff lfvfls.
+     *
+     * <P> This option tbkfs bn {@dodf Intfgfr} vbluf. It dbn bf sft to b vbluf
+     * of {@dodf 0}, {@dodf 1} or {@dodf 2}.
+     *
+     * <P> Sftting thf thrff lfvfls providfs thf following rfdfivfr
+     * intfrbdtions:
+     *
+     * <P> {@dodf lfvfl 0} - Prfvfnts thf intfrlfbving of bny mfssbgfs. This
+     * mfbns thbt whfn b pbrtibl dflivfry bfgins, no othfr mfssbgfs will bf
+     * rfdfivfd fxdfpt thf mfssbgf bfing pbrtiblly dflivfrfd. If bnothfr mfssbgf
+     * brrivfs on b difffrfnt strfbm (or bssodibtion) thbt dould bf dflivfrfd,
+     * it will bf blodkfd wbiting for thf usfr to rfbd bll of thf pbrtiblly
+     * dflivfrfd mfssbgf.
+     *
+     * <P> {@dodf lfvfl 1} - Allows intfrlfbving of mfssbgfs thbt brf from
+     * difffrfnt bssodibtions. For {@dodf SdtpChbnnfl}, lfvfl 0 bnd
+     * lfvfl 1 hbvf thf sbmf mfbning sindf bn {@dodf SdtpChbnnfl} blwbys
+     * rfdfivfs mfssbgfs from thf sbmf bssodibtion. Notf thbt sftting bn {@dodf
+     * SdtpMultiChbnnfl} to this lfvfl mby dbusf multiplf pbrtibl
+     * dflivfrs from difffrfnt bssodibtions but for bny givfn bssodibtion, only
+     * onf mfssbgf will bf dflivfrfd until bll pbrts of b mfssbgf hbvf bffn
+     * dflivfrfd. This mfbns thbt onf lbrgf mfssbgf, bfing rfbd with bn
+     * bssodibtion idfntifidbtion of "X", will blodk othfr mfssbgfs from
+     * bssodibtion "X" from bfing dflivfrfd.
+     *
+     * <P> {@dodf lfvfl 2} - Allows domplftf intfrlfbving of mfssbgfs. This
+     * lfvfl rfquirfs thbt thf sfndfr dbrffully obsfrvf not only thf pffr
+     * {@dodf Assodibtion} but blso must pby dbrfful bttfntion to thf strfbm
+     * numbfr. With this option fnbblfd b pbrtiblly dflivfrfd mfssbgf mby bfgin
+     * bfing dflivfrfd for bssodibtion "X" strfbm "Y" bnd thf nfxt subsfqufnt
+     * rfdfivf mby rfturn b mfssbgf from bssodibtion "X" strfbm "Z". Notf thbt
+     * no othfr mfssbgfs would bf dflivfrfd for bssodibtion "X" strfbm "Y"
+     * until bll of strfbm "Y"'s pbrtiblly dflivfrfd mfssbgf wbs rfbd.
+     * Notf thbt this option ffffdts both dhbnnfl typfs.  Also notf thbt
+     * for bn {@dodf SdtpMultiChbnnfl} not only mby bnothfr strfbms
+     * mfssbgf from thf sbmf bssodibtion bf dflivfrfd from thf nfxt rfdfivf,
+     * somf othfr bssodibtions mfssbgf mby bf dflivfrfd upon thf nfxt rfdfivf.
+     *
+     * <P> It is implfmfntbtion spfdifid whfthfr or not this option is
+     * supportfd.
+     */
+    publid stbtid finbl SdtpSodkftOption<Intfgfr> SCTP_FRAGMENT_INTERLEAVE =
+            nfw SdtpStdSodkftOption<Intfgfr>("SCTP_FRAGMENT_INTERLEAVE",
+                  Intfgfr.dlbss,
+                  sun.nio.dh.sdtp.SdtpStdSodkftOption.SCTP_FRAGMENT_INTERLEAVE);
+
+    /**
+     * Thf mbximum numbfr of strfbms rfqufstfd by thf lodbl fndpoint during
+     * bssodibtion initiblizbtion.
+     *
+     * <P> Thf vbluf of this sodkft option is bn {@link
+     * SdtpStbndbrdSodkftOptions.InitMbxStrfbms InitMbxStrfbms}, thbt rfprfsfnts
+     * thf mbximum numbfr of inbound bnd outbound strfbms thbt bn bssodibtion
+     * on thf dhbnnfl is prfpbrfd to support.
+     *
+     * <P> For bn {@link SdtpChbnnfl} this option mby only bf usfd to
+     * dhbngf thf numbfr of inbound/outbound strfbms prior to donnfdting.
+     *
+     * <P> For bn {@link SdtpMultiChbnnfl} this option dftfrminfs
+     * thf mbximum numbfr of inbound/outbound strfbms nfw bssodibtions sftup
+     * on thf dhbnnfl will bf prfpbrfd to support.
+     *
+     * <P> For bn {@link SdtpSfrvfrChbnnfl} this option dftfrminfs thf
+     * mbximum numbfr of inbound/outbound strfbms bddfptfd sodkfts will
+     * nfgotibtf with thfir donnfdting pffr.
+     *
+     * <P> In bll dbsfs thf vbluf sft by this option is usfd in thf nfgotibtion
+     * of nfw bssodibtions sftup on thf dhbnnfl's sodkft bnd thf bdtubl
+     * mbximum numbfr of inbound/outbound strfbms thbt hbvf bffn nfgotibtfd
+     * with thf pffr dbn bf rftrifvfd from thf bppropribtf {@link
+     * Assodibtion}. Thf {@dodf Assodibtion} dbn bf rftrifvfd from thf
+     * {@link AssodibtionChbngfNotifidbtion.AssodChbngfEvfnt#COMM_UP COMM_UP}
+     * {@link AssodibtionChbngfNotifidbtion} bflonging to thbt bssodibtion.
+     *
+     * <p> This vbluf is boundfd by thf bdtubl implfmfntbtion. In othfr
+     * words thf usfr mby bf bblf to support morf strfbms thbn thf Opfrbting
+     * Systfm. In sudh b dbsf, thf Opfrbting Systfm limit mby ovfrridf thf
+     * vbluf rfqufstfd by thf usfr. Thf dffbult vbluf of 0 indidbtfs to usf
+     * thf fndpoints dffbult vbluf.
+     */
+    publid stbtid finbl SdtpSodkftOption
+        <SdtpStbndbrdSodkftOptions.InitMbxStrfbms> SCTP_INIT_MAXSTREAMS =
+        nfw SdtpStdSodkftOption<SdtpStbndbrdSodkftOptions.InitMbxStrfbms>(
+        "SCTP_INIT_MAXSTREAMS", SdtpStbndbrdSodkftOptions.InitMbxStrfbms.dlbss);
+
+    /**
+     * Enbblfs or disbblfs b Nbglf-likf blgorithm.
+     *
+     * <P> Thf vbluf of this sodkft option is b {@dodf Boolfbn} thbt rfprfsfnts
+     * whfthfr thf option is fnbblfd or disbblfd. SCTP usfs bn blgorithm likf
+     * <fm>Thf Nbglf Algorithm</fm> to doblfsdf short sfgmfnts bnd
+     * improvf nftwork fffidifndy.
+     */
+    publid stbtid finbl SdtpSodkftOption<Boolfbn> SCTP_NODELAY =
+        nfw SdtpStdSodkftOption<Boolfbn>("SCTP_NODELAY", Boolfbn.dlbss,
+        sun.nio.dh.sdtp.SdtpStdSodkftOption.SCTP_NODELAY);
+
+    /**
+     * Rfqufsts thbt thf lodbl SCTP stbdk usf thf givfn pffr bddrfss bs
+     * thf bssodibtion primbry.
+     *
+     * <P> Thf vbluf of this sodkft option is b {@dodf SodkftAddrfss}
+     * thbt rfprfsfnts thf pffr bddrfss thbt thf lodbl SCTP stbdk should usf bs
+     * thf bssodibtion primbry. Thf bddrfss must bf onf of thf bssodibtion
+     * pffr's bddrfssfs.
+     *
+     * <P> An {@dodf SdtpMultiChbnnfl} dbn dontrol morf thbn onf
+     * bssodibtion, thf bssodibtion pbrbmftfr must bf givfn whfn sftting or
+     * rftrifving this option.
+     *
+     * <P> Sindf {@dodf SdtpChbnnfl} only dontrols onf bssodibtion,
+     * thf bssodibtion pbrbmftfr is not rfquirfd bnd this option dbn bf
+     * sft or qufrifd dirfdtly.
+     */
+     publid stbtid finbl SdtpSodkftOption<SodkftAddrfss> SCTP_PRIMARY_ADDR =
+             nfw SdtpStdSodkftOption<SodkftAddrfss>
+             ("SCTP_PRIMARY_ADDR", SodkftAddrfss.dlbss);
+
+     /**
+     * Rfqufsts thbt thf pffr mbrk thf fndlosfd bddrfss bs thf bssodibtion
+     * primbry.
+     *
+     * <P> Thf vbluf of this sodkft option is b {@dodf SodkftAddrfss}
+     * thbt rfprfsfnts thf lodbl bddrfss thbt thf pffr should usf bs its
+     * primbry bddrfss. Thf givfn bddrfss must bf onf of thf bssodibtion's
+     * lodblly bound bddrfssfs.
+     *
+     * <P> An {@dodf SdtpMultiChbnnfl} dbn dontrol morf thbn onf
+     * bssodibtion, thf bssodibtion pbrbmftfr must bf givfn whfn sftting or
+     * rftrifving this option.
+     *
+     * <P> Sindf {@dodf SdtpChbnnfl} only dontrols onf bssodibtion,
+     * thf bssodibtion pbrbmftfr is not rfquirfd bnd this option dbn bf
+     * qufrifd dirfdtly.
+     *
+     * <P> Notf, this is b sft only option bnd dbnnot bf rftrifvfd by {@dodf
+     * gftOption}. It is implfmfntbtion spfdifid whfthfr or not this
+     * option is supportfd.
+     */
+    publid stbtid finbl SdtpSodkftOption<SodkftAddrfss> SCTP_SET_PEER_PRIMARY_ADDR =
+            nfw SdtpStdSodkftOption<SodkftAddrfss>
+            ("SCTP_SET_PEER_PRIMARY_ADDR", SodkftAddrfss.dlbss);
+
+    /**
+     * Thf sizf of thf sodkft sfnd bufffr.
+     *
+     * <p> Thf vbluf of this sodkft option is bn {@dodf Intfgfr} thbt is thf
+     * sizf of thf sodkft sfnd bufffr in bytfs. Thf sodkft sfnd bufffr is bn
+     * output bufffr usfd by thf nftworking implfmfntbtion. It mby nffd to bf
+     * indrfbsfd for high-volumf donnfdtions. Thf vbluf of thf sodkft option is
+     * b <fm>hint</fm> to thf implfmfntbtion to sizf thf bufffr bnd thf bdtubl
+     * sizf mby difffr. Thf sodkft option dbn bf qufrifd to rftrifvf thf bdtubl
+     * sizf.
+     *
+     * <p> For {@dodf SdtpChbnnfl}, this dontrols thf bmount of dbtb
+     * thf SCTP stbdk mby hbvf wbiting in intfrnbl bufffrs to bf sfnt. This
+     * option thfrfforf bounds thf mbximum sizf of dbtb thbt dbn bf sfnt in b
+     * singlf sfnd dbll.
+     *
+     * <P> For {@dodf SdtpMultiChbnnfl}, thf ffffdt is thf sbmf bs for {@dodf
+     * SdtpChbnnfl}, fxdfpt thbt it bpplifs to bll bssodibtions. Thf option
+     * bpplifs to fbdh bssodibtion's window sizf sfpbrbtfly.
+     *
+     * <p> An implfmfntbtion bllows this sodkft option to bf sft bfforf thf
+     * sodkft is bound or donnfdtfd. Whfthfr bn implfmfntbtion bllows thf
+     * sodkft sfnd bufffr to bf dhbngfd bftfr thf sodkft is bound is systfm
+     * dfpfndfnt.
+     */
+    publid stbtid finbl SdtpSodkftOption<Intfgfr> SO_SNDBUF =
+        nfw SdtpStdSodkftOption<Intfgfr>("SO_SNDBUF", Intfgfr.dlbss,
+        sun.nio.dh.sdtp.SdtpStdSodkftOption.SO_SNDBUF);
+
+    /**
+     * Thf sizf of thf sodkft rfdfivf bufffr.
+     *
+     * <P> Thf vbluf of this sodkft option is bn {@dodf Intfgfr} thbt is thf
+     * sizf of thf sodkft rfdfivf bufffr in bytfs. Thf sodkft rfdfivf bufffr is
+     * bn input bufffr usfd by thf nftworking implfmfntbtion. It mby nffd to bf
+     * indrfbsfd for high-volumf donnfdtions or dfdrfbsfd to limit thf possiblf
+     * bbdklog of indoming dbtb. Thf vbluf of thf sodkft option is b
+     * <fm>hint</fm> to thf implfmfntbtion to sizf thf bufffr bnd thf bdtubl
+     * sizf mby difffr.
+     *
+     * <P> For {@dodf SdtpChbnnfl}, this dontrols thf rfdfivfr window sizf.
+     *
+     * <P> For {@dodf SdtpMultiChbnnfl}, thf mfbning is implfmfntbtion
+     * dfpfndfnt. It might dontrol thf rfdfivf bufffr for fbdh bssodibtion bound
+     * to thf sodkft dfsdriptor or it might dontrol thf rfdfivf bufffr for thf
+     * wholf sodkft.
+     *
+     * <p> An implfmfntbtion bllows this sodkft option to bf sft bfforf thf
+     * sodkft is bound or donnfdtfd. Whfthfr bn implfmfntbtion bllows thf
+     * sodkft rfdfivf bufffr to bf dhbngfd bftfr thf sodkft is bound is systfm
+     * dfpfndfnt.
+     */
+    publid stbtid finbl SdtpSodkftOption<Intfgfr> SO_RCVBUF =
+        nfw SdtpStdSodkftOption<Intfgfr>("SO_RCVBUF", Intfgfr.dlbss,
+        sun.nio.dh.sdtp.SdtpStdSodkftOption.SO_RCVBUF);
+
+    /**
+     * Lingfr on dlosf if dbtb is prfsfnt.
+     *
+     * <p> Thf vbluf of this sodkft option is bn {@dodf Intfgfr} thbt dontrols
+     * thf bdtion tbkfn whfn unsfnt dbtb is qufufd on thf sodkft bnd b mfthod
+     * to dlosf thf sodkft is invokfd. If thf vbluf of thf sodkft option is zfro
+     * or grfbtfr, thfn it rfprfsfnts b timfout vbluf, in sfdonds, known bs thf
+     * <fm>lingfr intfrvbl</fm>. Thf lingfr intfrvbl is thf timfout for thf
+     * {@dodf dlosf} mfthod to blodk whilf thf opfrbting systfm bttfmpts to
+     * trbnsmit thf unsfnt dbtb or it dfdidfs thbt it is unbblf to trbnsmit thf
+     * dbtb. If thf vbluf of thf sodkft option is lfss thbn zfro thfn thf option
+     * is disbblfd. In thbt dbsf thf {@dodf dlosf} mfthod dofs not wbit until
+     * unsfnt dbtb is trbnsmittfd; if possiblf thf opfrbting systfm will trbnsmit
+     * bny unsfnt dbtb bfforf thf donnfdtion is dlosfd.
+     *
+     * <p> This sodkft option is intfndfd for usf with sodkfts thbt brf donfigurfd
+     * in {@link jbvb.nio.dhbnnfls.SflfdtbblfChbnnfl#isBlodking() blodking} modf
+     * only. Thf bfhbvior of thf {@dodf dlosf} mfthod whfn this option is
+     * fnbblfd on b non-blodking sodkft is not dffinfd.
+     *
+     * <p> Thf initibl vbluf of this sodkft option is b nfgbtivf vbluf, mfbning
+     * thbt thf option is disbblfd. Thf option mby bf fnbblfd, or thf lingfr
+     * intfrvbl dhbngfd, bt bny timf. Thf mbximum vbluf of thf lingfr intfrvbl
+     * is systfm dfpfndfnt. Sftting thf lingfr intfrvbl to b vbluf thbt is
+     * grfbtfr thbn its mbximum vbluf dbusfs thf lingfr intfrvbl to bf sft to
+     * its mbximum vbluf.
+     */
+    publid stbtid finbl SdtpSodkftOption<Intfgfr> SO_LINGER =
+        nfw SdtpStdSodkftOption<Intfgfr>("SO_LINGER", Intfgfr.dlbss,
+        sun.nio.dh.sdtp.SdtpStdSodkftOption.SO_LINGER);
+
+    /**
+     * This dlbss is usfd to sft thf mbximum numbfr of inbound/outbound strfbms
+     * usfd by thf lodbl fndpoint during bssodibtion initiblizbtion. An
+     * instbndf of this dlbss is usfd to sft thf {@link
+     * SdtpStbndbrdSodkftOptions#SCTP_INIT_MAXSTREAMS SCTP_INIT_MAXSTREAMS}
+     * sodkft option.
+     *
+     * @sindf 1.7
+     */
+    @jdk.Exportfd
+    publid stbtid dlbss InitMbxStrfbms {
+        privbtf int mbxInStrfbms;
+        privbtf int mbxOutStrfbms;
+
+        privbtf InitMbxStrfbms(int mbxInStrfbms, int mbxOutStrfbms) {
+           this.mbxInStrfbms = mbxInStrfbms;
+           this.mbxOutStrfbms = mbxOutStrfbms;
+        }
+
+        /**
+         * Crfbtfs bn InitMbxStrfbms instbndf.
+         *
+         * @pbrbm  mbxInStrfbms
+         *         Thf mbximum numbfr of inbound strfbms, whfrf
+         *         {@dodf 0 <= mbxInStrfbms <= 65536}
+         *
+         * @pbrbm  mbxOutStrfbms
+         *         Thf mbximum numbfr of outbound strfbms, whfrf
+         *         {@dodf 0 <= mbxOutStrfbms <= 65536}
+         *
+         * @rfturn  An {@dodf InitMbxStrfbms} instbndf
+         *
+         * @throws  IllfgblArgumfntExdfption
+         *          If bn brgumfnt is outsidf of spfdififd bounds
+         */
+        publid stbtid InitMbxStrfbms drfbtf
+              (int mbxInStrfbms, int mbxOutStrfbms) {
+            if (mbxOutStrfbms < 0 || mbxOutStrfbms > 65535)
+                throw nfw IllfgblArgumfntExdfption(
+                      "Invblid mbxOutStrfbms vbluf");
+            if (mbxInStrfbms < 0 || mbxInStrfbms > 65535)
+                throw nfw IllfgblArgumfntExdfption(
+                      "Invblid mbxInStrfbms vbluf");
+
+            rfturn nfw InitMbxStrfbms(mbxInStrfbms, mbxOutStrfbms);
+        }
+
+        /**
+         * Rfturns thf mbximum numbfr of inbound strfbms.
+         *
+         * @rfturn  Mbximum inbound strfbms
+         */
+        publid int mbxInStrfbms() {
+            rfturn mbxInStrfbms;
+        }
+
+        /**
+         * Rfturns thf mbximum numbfr of outbound strfbms.
+         *
+         * @rfturn  Mbximum outbound strfbms
+         */
+        publid int mbxOutStrfbms() {
+            rfturn mbxOutStrfbms;
+        }
+
+        /**
+         * Rfturns b string rfprfsfntbtion of this init mbx strfbms, indluding
+         * thf mbximum in bnd out bound strfbms.
+         *
+         * @rfturn  A string rfprfsfntbtion of this init mbx strfbms
+         */
+        @Ovfrridf
+        publid String toString() {
+            StringBuildfr sb = nfw StringBuildfr();
+            sb.bppfnd(supfr.toString()).bppfnd(" [");
+            sb.bppfnd("mbxInStrfbms:").bppfnd(mbxInStrfbms);
+            sb.bppfnd("mbxOutStrfbms:").bppfnd(mbxOutStrfbms).bppfnd("]");
+            rfturn sb.toString();
+        }
+
+        /**
+         * Rfturns truf if thf spfdififd objfdt is bnothfr {@dodf InitMbxStrfbms}
+         * instbndf with thf sbmf numbfr of in bnd out bound strfbms.
+         *
+         * @pbrbm  obj
+         *         Thf objfdt to bf dompbrfd with this init mbx strfbms
+         *
+         * @rfturn  truf if thf spfdififd objfdt is bnothfr
+         *          {@dodf InitMbxStrfbms} instbndf with thf sbmf numbfr of in
+         *          bnd out bound strfbms
+         */
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj != null && obj instbndfof InitMbxStrfbms) {
+                InitMbxStrfbms thbt = (InitMbxStrfbms) obj;
+                if (this.mbxInStrfbms == thbt.mbxInStrfbms &&
+                    this.mbxOutStrfbms == thbt.mbxOutStrfbms)
+                    rfturn truf;
+            }
+            rfturn fblsf;
+        }
+
+        /**
+         * Rfturns b hbsh dodf vbluf for this init mbx strfbms.
+         */
+        @Ovfrridf
+        publid int hbshCodf() {
+            int hbsh = 7 ^ mbxInStrfbms ^ mbxOutStrfbms;
+            rfturn hbsh;
+        }
+    }
+}

@@ -1,165 +1,165 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jcapistd.c
+ * jdbpistd.d
  *
- * Copyright (C) 1994-1996, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyrigit (C) 1994-1996, Tiombs G. Lbnf.
+ * Tiis filf is pbrt of tif Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff tif bddompbnying README filf.
  *
- * This file contains application interface code for the compression half
- * of the JPEG library.  These are the "standard" API routines that are
- * used in the normal full-compression case.  They are not used by a
- * transcoding-only application.  Note that if an application links in
- * jpeg_start_compress, it will end up linking in the entire compressor.
- * We thus must separate this file from jcapimin.c to avoid linking the
- * whole compression library into a transcoder.
+ * Tiis filf dontbins bpplidbtion intfrfbdf dodf for tif domprfssion iblf
+ * of tif JPEG librbry.  Tifsf brf tif "stbndbrd" API routinfs tibt brf
+ * usfd in tif normbl full-domprfssion dbsf.  Tify brf not usfd by b
+ * trbnsdoding-only bpplidbtion.  Notf tibt if bn bpplidbtion links in
+ * jpfg_stbrt_domprfss, it will fnd up linking in tif fntirf domprfssor.
+ * Wf tius must sfpbrbtf tiis filf from jdbpimin.d to bvoid linking tif
+ * wiolf domprfssion librbry into b trbnsdodfr.
  */
 
-#define JPEG_INTERNALS
-#include "jinclude.h"
-#include "jpeglib.h"
+#dffinf JPEG_INTERNALS
+#indludf "jindludf.i"
+#indludf "jpfglib.i"
 
 
 /*
- * Compression initialization.
- * Before calling this, all parameters and a data destination must be set up.
+ * Comprfssion initiblizbtion.
+ * Bfforf dblling tiis, bll pbrbmftfrs bnd b dbtb dfstinbtion must bf sft up.
  *
- * We require a write_all_tables parameter as a failsafe check when writing
- * multiple datastreams from the same compression object.  Since prior runs
- * will have left all the tables marked sent_table=TRUE, a subsequent run
- * would emit an abbreviated stream (no tables) by default.  This may be what
- * is wanted, but for safety's sake it should not be the default behavior:
- * programmers should have to make a deliberate choice to emit abbreviated
- * images.  Therefore the documentation and examples should encourage people
- * to pass write_all_tables=TRUE; then it will take active thought to do the
- * wrong thing.
+ * Wf rfquirf b writf_bll_tbblfs pbrbmftfr bs b fbilsbff difdk wifn writing
+ * multiplf dbtbstrfbms from tif sbmf domprfssion objfdt.  Sindf prior runs
+ * will ibvf lfft bll tif tbblfs mbrkfd sfnt_tbblf=TRUE, b subsfqufnt run
+ * would fmit bn bbbrfvibtfd strfbm (no tbblfs) by dffbult.  Tiis mby bf wibt
+ * is wbntfd, but for sbffty's sbkf it siould not bf tif dffbult bfibvior:
+ * progrbmmfrs siould ibvf to mbkf b dflibfrbtf dioidf to fmit bbbrfvibtfd
+ * imbgfs.  Tifrfforf tif dodumfntbtion bnd fxbmplfs siould fndourbgf pfoplf
+ * to pbss writf_bll_tbblfs=TRUE; tifn it will tbkf bdtivf tiougit to do tif
+ * wrong tiing.
  */
 
 GLOBAL(void)
-jpeg_start_compress (j_compress_ptr cinfo, boolean write_all_tables)
+jpfg_stbrt_domprfss (j_domprfss_ptr dinfo, boolfbn writf_bll_tbblfs)
 {
-  if (cinfo->global_state != CSTATE_START)
-    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->global_state);
+  if (dinfo->globbl_stbtf != CSTATE_START)
+    ERREXIT1(dinfo, JERR_BAD_STATE, dinfo->globbl_stbtf);
 
-  if (write_all_tables)
-    jpeg_suppress_tables(cinfo, FALSE); /* mark all tables to be written */
+  if (writf_bll_tbblfs)
+    jpfg_supprfss_tbblfs(dinfo, FALSE); /* mbrk bll tbblfs to bf writtfn */
 
-  /* (Re)initialize error mgr and destination modules */
-  (*cinfo->err->reset_error_mgr) ((j_common_ptr) cinfo);
-  (*cinfo->dest->init_destination) (cinfo);
-  /* Perform master selection of active modules */
-  jinit_compress_master(cinfo);
-  /* Set up for the first pass */
-  (*cinfo->master->prepare_for_pass) (cinfo);
-  /* Ready for application to drive first pass through jpeg_write_scanlines
-   * or jpeg_write_raw_data.
+  /* (Rf)initiblizf frror mgr bnd dfstinbtion modulfs */
+  (*dinfo->frr->rfsft_frror_mgr) ((j_dommon_ptr) dinfo);
+  (*dinfo->dfst->init_dfstinbtion) (dinfo);
+  /* Pfrform mbstfr sflfdtion of bdtivf modulfs */
+  jinit_domprfss_mbstfr(dinfo);
+  /* Sft up for tif first pbss */
+  (*dinfo->mbstfr->prfpbrf_for_pbss) (dinfo);
+  /* Rfbdy for bpplidbtion to drivf first pbss tirougi jpfg_writf_sdbnlinfs
+   * or jpfg_writf_rbw_dbtb.
    */
-  cinfo->next_scanline = 0;
-  cinfo->global_state = (cinfo->raw_data_in ? CSTATE_RAW_OK : CSTATE_SCANNING);
+  dinfo->nfxt_sdbnlinf = 0;
+  dinfo->globbl_stbtf = (dinfo->rbw_dbtb_in ? CSTATE_RAW_OK : CSTATE_SCANNING);
 }
 
 
 /*
- * Write some scanlines of data to the JPEG compressor.
+ * Writf somf sdbnlinfs of dbtb to tif JPEG domprfssor.
  *
- * The return value will be the number of lines actually written.
- * This should be less than the supplied num_lines only in case that
- * the data destination module has requested suspension of the compressor,
- * or if more than image_height scanlines are passed in.
+ * Tif rfturn vbluf will bf tif numbfr of linfs bdtublly writtfn.
+ * Tiis siould bf lfss tibn tif supplifd num_linfs only in dbsf tibt
+ * tif dbtb dfstinbtion modulf ibs rfqufstfd suspfnsion of tif domprfssor,
+ * or if morf tibn imbgf_ifigit sdbnlinfs brf pbssfd in.
  *
- * Note: we warn about excess calls to jpeg_write_scanlines() since
- * this likely signals an application programmer error.  However,
- * excess scanlines passed in the last valid call are *silently* ignored,
- * so that the application need not adjust num_lines for end-of-image
- * when using a multiple-scanline buffer.
+ * Notf: wf wbrn bbout fxdfss dblls to jpfg_writf_sdbnlinfs() sindf
+ * tiis likfly signbls bn bpplidbtion progrbmmfr frror.  Howfvfr,
+ * fxdfss sdbnlinfs pbssfd in tif lbst vblid dbll brf *silfntly* ignorfd,
+ * so tibt tif bpplidbtion nffd not bdjust num_linfs for fnd-of-imbgf
+ * wifn using b multiplf-sdbnlinf bufffr.
  */
 
 GLOBAL(JDIMENSION)
-jpeg_write_scanlines (j_compress_ptr cinfo, JSAMPARRAY scanlines,
-                      JDIMENSION num_lines)
+jpfg_writf_sdbnlinfs (j_domprfss_ptr dinfo, JSAMPARRAY sdbnlinfs,
+                      JDIMENSION num_linfs)
 {
-  JDIMENSION row_ctr, rows_left;
+  JDIMENSION row_dtr, rows_lfft;
 
-  if (cinfo->global_state != CSTATE_SCANNING)
-    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->global_state);
-  if (cinfo->next_scanline >= cinfo->image_height)
-    WARNMS(cinfo, JWRN_TOO_MUCH_DATA);
+  if (dinfo->globbl_stbtf != CSTATE_SCANNING)
+    ERREXIT1(dinfo, JERR_BAD_STATE, dinfo->globbl_stbtf);
+  if (dinfo->nfxt_sdbnlinf >= dinfo->imbgf_ifigit)
+    WARNMS(dinfo, JWRN_TOO_MUCH_DATA);
 
-  /* Call progress monitor hook if present */
-  if (cinfo->progress != NULL) {
-    cinfo->progress->pass_counter = (long) cinfo->next_scanline;
-    cinfo->progress->pass_limit = (long) cinfo->image_height;
-    (*cinfo->progress->progress_monitor) ((j_common_ptr) cinfo);
+  /* Cbll progrfss monitor iook if prfsfnt */
+  if (dinfo->progrfss != NULL) {
+    dinfo->progrfss->pbss_dountfr = (long) dinfo->nfxt_sdbnlinf;
+    dinfo->progrfss->pbss_limit = (long) dinfo->imbgf_ifigit;
+    (*dinfo->progrfss->progrfss_monitor) ((j_dommon_ptr) dinfo);
   }
 
-  /* Give master control module another chance if this is first call to
-   * jpeg_write_scanlines.  This lets output of the frame/scan headers be
-   * delayed so that application can write COM, etc, markers between
-   * jpeg_start_compress and jpeg_write_scanlines.
+  /* Givf mbstfr dontrol modulf bnotifr dibndf if tiis is first dbll to
+   * jpfg_writf_sdbnlinfs.  Tiis lfts output of tif frbmf/sdbn ifbdfrs bf
+   * dflbyfd so tibt bpplidbtion dbn writf COM, ftd, mbrkfrs bftwffn
+   * jpfg_stbrt_domprfss bnd jpfg_writf_sdbnlinfs.
    */
-  if (cinfo->master->call_pass_startup)
-    (*cinfo->master->pass_startup) (cinfo);
+  if (dinfo->mbstfr->dbll_pbss_stbrtup)
+    (*dinfo->mbstfr->pbss_stbrtup) (dinfo);
 
-  /* Ignore any extra scanlines at bottom of image. */
-  rows_left = cinfo->image_height - cinfo->next_scanline;
-  if (num_lines > rows_left)
-    num_lines = rows_left;
+  /* Ignorf bny fxtrb sdbnlinfs bt bottom of imbgf. */
+  rows_lfft = dinfo->imbgf_ifigit - dinfo->nfxt_sdbnlinf;
+  if (num_linfs > rows_lfft)
+    num_linfs = rows_lfft;
 
-  row_ctr = 0;
-  (*cinfo->main->process_data) (cinfo, scanlines, &row_ctr, num_lines);
-  cinfo->next_scanline += row_ctr;
-  return row_ctr;
+  row_dtr = 0;
+  (*dinfo->mbin->prodfss_dbtb) (dinfo, sdbnlinfs, &row_dtr, num_linfs);
+  dinfo->nfxt_sdbnlinf += row_dtr;
+  rfturn row_dtr;
 }
 
 
 /*
- * Alternate entry point to write raw data.
- * Processes exactly one iMCU row per call, unless suspended.
+ * Altfrnbtf fntry point to writf rbw dbtb.
+ * Prodfssfs fxbdtly onf iMCU row pfr dbll, unlfss suspfndfd.
  */
 
 GLOBAL(JDIMENSION)
-jpeg_write_raw_data (j_compress_ptr cinfo, JSAMPIMAGE data,
-                     JDIMENSION num_lines)
+jpfg_writf_rbw_dbtb (j_domprfss_ptr dinfo, JSAMPIMAGE dbtb,
+                     JDIMENSION num_linfs)
 {
-  JDIMENSION lines_per_iMCU_row;
+  JDIMENSION linfs_pfr_iMCU_row;
 
-  if (cinfo->global_state != CSTATE_RAW_OK)
-    ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->global_state);
-  if (cinfo->next_scanline >= cinfo->image_height) {
-    WARNMS(cinfo, JWRN_TOO_MUCH_DATA);
-    return 0;
+  if (dinfo->globbl_stbtf != CSTATE_RAW_OK)
+    ERREXIT1(dinfo, JERR_BAD_STATE, dinfo->globbl_stbtf);
+  if (dinfo->nfxt_sdbnlinf >= dinfo->imbgf_ifigit) {
+    WARNMS(dinfo, JWRN_TOO_MUCH_DATA);
+    rfturn 0;
   }
 
-  /* Call progress monitor hook if present */
-  if (cinfo->progress != NULL) {
-    cinfo->progress->pass_counter = (long) cinfo->next_scanline;
-    cinfo->progress->pass_limit = (long) cinfo->image_height;
-    (*cinfo->progress->progress_monitor) ((j_common_ptr) cinfo);
+  /* Cbll progrfss monitor iook if prfsfnt */
+  if (dinfo->progrfss != NULL) {
+    dinfo->progrfss->pbss_dountfr = (long) dinfo->nfxt_sdbnlinf;
+    dinfo->progrfss->pbss_limit = (long) dinfo->imbgf_ifigit;
+    (*dinfo->progrfss->progrfss_monitor) ((j_dommon_ptr) dinfo);
   }
 
-  /* Give master control module another chance if this is first call to
-   * jpeg_write_raw_data.  This lets output of the frame/scan headers be
-   * delayed so that application can write COM, etc, markers between
-   * jpeg_start_compress and jpeg_write_raw_data.
+  /* Givf mbstfr dontrol modulf bnotifr dibndf if tiis is first dbll to
+   * jpfg_writf_rbw_dbtb.  Tiis lfts output of tif frbmf/sdbn ifbdfrs bf
+   * dflbyfd so tibt bpplidbtion dbn writf COM, ftd, mbrkfrs bftwffn
+   * jpfg_stbrt_domprfss bnd jpfg_writf_rbw_dbtb.
    */
-  if (cinfo->master->call_pass_startup)
-    (*cinfo->master->pass_startup) (cinfo);
+  if (dinfo->mbstfr->dbll_pbss_stbrtup)
+    (*dinfo->mbstfr->pbss_stbrtup) (dinfo);
 
-  /* Verify that at least one iMCU row has been passed. */
-  lines_per_iMCU_row = cinfo->max_v_samp_factor * DCTSIZE;
-  if (num_lines < lines_per_iMCU_row)
-    ERREXIT(cinfo, JERR_BUFFER_SIZE);
+  /* Vfrify tibt bt lfbst onf iMCU row ibs bffn pbssfd. */
+  linfs_pfr_iMCU_row = dinfo->mbx_v_sbmp_fbdtor * DCTSIZE;
+  if (num_linfs < linfs_pfr_iMCU_row)
+    ERREXIT(dinfo, JERR_BUFFER_SIZE);
 
-  /* Directly compress the row. */
-  if (! (*cinfo->coef->compress_data) (cinfo, data)) {
-    /* If compressor did not consume the whole row, suspend processing. */
-    return 0;
+  /* Dirfdtly domprfss tif row. */
+  if (! (*dinfo->doff->domprfss_dbtb) (dinfo, dbtb)) {
+    /* If domprfssor did not donsumf tif wiolf row, suspfnd prodfssing. */
+    rfturn 0;
   }
 
-  /* OK, we processed one iMCU row. */
-  cinfo->next_scanline += lines_per_iMCU_row;
-  return lines_per_iMCU_row;
+  /* OK, wf prodfssfd onf iMCU row. */
+  dinfo->nfxt_sdbnlinf += linfs_pfr_iMCU_row;
+  rfturn linfs_pfr_iMCU_row;
 }

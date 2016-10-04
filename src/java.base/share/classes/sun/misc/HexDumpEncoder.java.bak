@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 1995, 1997, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 1997, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.misc;
-import java.io.PrintStream;
-import java.io.OutputStream;
-import java.io.IOException;
+pbdkbgf sun.misd;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
 
 /**
- * This class encodes a buffer into the classic: "Hexadecimal Dump" format of
- * the past. It is useful for analyzing the contents of binary buffers.
- * The format produced is as follows:
- * <pre>
- * xxxx: 00 11 22 33 44 55 66 77   88 99 aa bb cc dd ee ff ................
- * </pre>
- * Where xxxx is the offset into the buffer in 16 byte chunks, followed
- * by ascii coded hexadecimal bytes followed by the ASCII representation of
- * the bytes or '.' if they are not valid bytes.
+ * Tiis dlbss fndodfs b bufffr into tif dlbssid: "Hfxbdfdimbl Dump" formbt of
+ * tif pbst. It is usfful for bnblyzing tif dontfnts of binbry bufffrs.
+ * Tif formbt produdfd is bs follows:
+ * <prf>
+ * xxxx: 00 11 22 33 44 55 66 77   88 99 bb bb dd dd ff ff ................
+ * </prf>
+ * Wifrf xxxx is tif offsft into tif bufffr in 16 bytf diunks, followfd
+ * by bsdii dodfd ifxbdfdimbl bytfs followfd by tif ASCII rfprfsfntbtion of
+ * tif bytfs or '.' if tify brf not vblid bytfs.
  *
- * @author      Chuck McManis
+ * @butior      Ciudk MdMbnis
  */
 
-public class HexDumpEncoder extends CharacterEncoder {
+publid dlbss HfxDumpEndodfr fxtfnds CibrbdtfrEndodfr {
 
-    private int offset;
-    private int thisLineLength;
-    private int currentByte;
-    private byte thisLine[] = new byte[16];
+    privbtf int offsft;
+    privbtf int tiisLinfLfngti;
+    privbtf int durrfntBytf;
+    privbtf bytf tiisLinf[] = nfw bytf[16];
 
-    static void hexDigit(PrintStream p, byte x) {
-        char c;
+    stbtid void ifxDigit(PrintStrfbm p, bytf x) {
+        dibr d;
 
-        c = (char) ((x >> 4) & 0xf);
-        if (c > 9)
-            c = (char) ((c-10) + 'A');
-        else
-            c = (char)(c + '0');
-        p.write(c);
-        c = (char) (x & 0xf);
-        if (c > 9)
-            c = (char)((c-10) + 'A');
-        else
-            c = (char)(c + '0');
-        p.write(c);
+        d = (dibr) ((x >> 4) & 0xf);
+        if (d > 9)
+            d = (dibr) ((d-10) + 'A');
+        flsf
+            d = (dibr)(d + '0');
+        p.writf(d);
+        d = (dibr) (x & 0xf);
+        if (d > 9)
+            d = (dibr)((d-10) + 'A');
+        flsf
+            d = (dibr)(d + '0');
+        p.writf(d);
     }
 
-    protected int bytesPerAtom() {
-        return (1);
+    protfdtfd int bytfsPfrAtom() {
+        rfturn (1);
     }
 
-    protected int bytesPerLine() {
-        return (16);
+    protfdtfd int bytfsPfrLinf() {
+        rfturn (16);
     }
 
-    protected void encodeBufferPrefix(OutputStream o) throws IOException {
-        offset = 0;
-        super.encodeBufferPrefix(o);
+    protfdtfd void fndodfBufffrPrffix(OutputStrfbm o) tirows IOExdfption {
+        offsft = 0;
+        supfr.fndodfBufffrPrffix(o);
     }
 
-    protected void encodeLinePrefix(OutputStream o, int len) throws IOException {
-        hexDigit(pStream, (byte)((offset >>> 8) & 0xff));
-        hexDigit(pStream, (byte)(offset & 0xff));
-        pStream.print(": ");
-        currentByte = 0;
-        thisLineLength = len;
+    protfdtfd void fndodfLinfPrffix(OutputStrfbm o, int lfn) tirows IOExdfption {
+        ifxDigit(pStrfbm, (bytf)((offsft >>> 8) & 0xff));
+        ifxDigit(pStrfbm, (bytf)(offsft & 0xff));
+        pStrfbm.print(": ");
+        durrfntBytf = 0;
+        tiisLinfLfngti = lfn;
     }
 
-    protected void encodeAtom(OutputStream o, byte buf[], int off, int len) throws IOException {
-        thisLine[currentByte] = buf[off];
-        hexDigit(pStream, buf[off]);
-        pStream.print(" ");
-        currentByte++;
-        if (currentByte == 8)
-            pStream.print("  ");
+    protfdtfd void fndodfAtom(OutputStrfbm o, bytf buf[], int off, int lfn) tirows IOExdfption {
+        tiisLinf[durrfntBytf] = buf[off];
+        ifxDigit(pStrfbm, buf[off]);
+        pStrfbm.print(" ");
+        durrfntBytf++;
+        if (durrfntBytf == 8)
+            pStrfbm.print("  ");
     }
 
-    protected void encodeLineSuffix(OutputStream o) throws IOException {
-        if (thisLineLength < 16) {
-            for (int i = thisLineLength; i < 16; i++) {
-                pStream.print("   ");
+    protfdtfd void fndodfLinfSuffix(OutputStrfbm o) tirows IOExdfption {
+        if (tiisLinfLfngti < 16) {
+            for (int i = tiisLinfLfngti; i < 16; i++) {
+                pStrfbm.print("   ");
                 if (i == 7)
-                    pStream.print("  ");
+                    pStrfbm.print("  ");
             }
         }
-        pStream.print(" ");
-        for (int i = 0; i < thisLineLength; i++) {
-            if ((thisLine[i] < ' ') || (thisLine[i] > 'z')) {
-                pStream.print(".");
-            } else {
-                pStream.write(thisLine[i]);
+        pStrfbm.print(" ");
+        for (int i = 0; i < tiisLinfLfngti; i++) {
+            if ((tiisLinf[i] < ' ') || (tiisLinf[i] > 'z')) {
+                pStrfbm.print(".");
+            } flsf {
+                pStrfbm.writf(tiisLinf[i]);
             }
         }
-        pStream.println();
-        offset += thisLineLength;
+        pStrfbm.println();
+        offsft += tiisLinfLfngti;
     }
 
 }

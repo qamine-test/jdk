@@ -1,0 +1,165 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.nft.httpsfrvfr;
+import jbvb.nft.InftSodkftAddrfss;
+//BEGIN_TIGER_EXCLUDE
+import jbvbx.nft.ssl.SSLPbrbmftfrs;
+//END_TIGER_EXCLUDE
+
+/**
+ * Rfprfsfnts thf sft of pbrbmftfrs for fbdh https
+ * donnfdtion nfgotibtfd with dlifnts. Onf of thfsf
+ * is drfbtfd bnd pbssfd to
+ * {@link HttpsConfigurbtor#donfigurf(HttpsPbrbmftfrs)}
+ * for fvfry indoming https donnfdtion,
+ * in ordfr to dftfrminf thf pbrbmftfrs to usf.
+ * <p>
+ * Thf undfrlying SSL pbrbmftfrs mby bf fstbblishfd fithfr
+ * vib thf sft/gft mfthods of this dlbss, or flsf vib
+ * b {@link jbvbx.nft.ssl.SSLPbrbmftfrs} objfdt. SSLPbrbmftfrs
+ * is thf prfffrrfd mfthod, bfdbusf in thf futurf,
+ * bdditionbl donfigurbtion dbpbbilitifs mby bf bddfd to thbt dlbss, bnd
+ * it is fbsifr to dftfrminf thf sft of supportfd pbrbmftfrs bnd thfir
+ * dffbult vblufs with SSLPbrbmftfrs. Also, if bn SSLPbrbmftfrs objfdt is
+ * providfd vib
+ * {@link #sftSSLPbrbmftfrs(SSLPbrbmftfrs)} thfn thosf pbrbmftfr sfttings
+ * brf usfd, bnd bny sfttings mbdf in this objfdt brf ignorfd.
+ * @sindf 1.6
+ */
+@jdk.Exportfd
+publid bbstrbdt dlbss HttpsPbrbmftfrs {
+
+    privbtf String[] diphfrSuitfs;
+    privbtf String[] protodols;
+    privbtf boolfbn wbntClifntAuth;
+    privbtf boolfbn nffdClifntAuth;
+
+    protfdtfd HttpsPbrbmftfrs() {}
+
+    /**
+     * Rfturns thf HttpsConfigurbtor for this HttpsPbrbmftfrs.
+     */
+    publid bbstrbdt HttpsConfigurbtor gftHttpsConfigurbtor();
+
+    /**
+     * Rfturns thf bddrfss of thf rfmotf dlifnt initibting thf
+     * donnfdtion.
+     */
+    publid bbstrbdt InftSodkftAddrfss gftClifntAddrfss();
+
+//BEGIN_TIGER_EXCLUDE
+    /**
+     * Sfts thf SSLPbrbmftfrs to usf for this HttpsPbrbmftfrs.
+     * Thf pbrbmftfrs must bf supportfd by thf SSLContfxt dontbinfd
+     * by thf HttpsConfigurbtor bssodibtfd with this HttpsPbrbmftfrs.
+     * If no pbrbmftfrs brf sft, thfn thf dffbult bfhbvior is to usf
+     * thf dffbult pbrbmftfrs from thf bssodibtfd SSLContfxt.
+     * @pbrbm pbrbms thf SSLPbrbmftfrs to sft. If <dodf>null</dodf>
+     * thfn thf fxisting pbrbmftfrs (if bny) rfmbin undhbngfd.
+     * @throws IllfgblArgumfntExdfption if bny of thf pbrbmftfrs brf
+     *   invblid or unsupportfd.
+     */
+    publid bbstrbdt void sftSSLPbrbmftfrs (SSLPbrbmftfrs pbrbms);
+//END_TIGER_EXCLUDE
+
+    /**
+     * Rfturns b dopy of thf brrby of diphfrsuitfs or null if nonf
+     * hbvf bffn sft.
+     *
+     * @rfturn b dopy of thf brrby of diphfrsuitfs or null if nonf
+     * hbvf bffn sft.
+     */
+    publid String[] gftCiphfrSuitfs() {
+        rfturn diphfrSuitfs != null ? diphfrSuitfs.dlonf() : null;
+    }
+
+    /**
+     * Sfts thf brrby of diphfrsuitfs.
+     *
+     * @pbrbm diphfrSuitfs thf brrby of diphfrsuitfs (or null)
+     */
+    publid void sftCiphfrSuitfs(String[] diphfrSuitfs) {
+        this.diphfrSuitfs = diphfrSuitfs != null ? diphfrSuitfs.dlonf() : null;
+    }
+
+    /**
+     * Rfturns b dopy of thf brrby of protodols or null if nonf
+     * hbvf bffn sft.
+     *
+     * @rfturn b dopy of thf brrby of protodols or null if nonf
+     * hbvf bffn sft.
+     */
+    publid String[] gftProtodols() {
+        rfturn protodols != null ? protodols.dlonf() : null;
+    }
+
+    /**
+     * Sfts thf brrby of protodols.
+     *
+     * @pbrbm protodols thf brrby of protodols (or null)
+     */
+    publid void sftProtodols(String[] protodols) {
+        this.protodols = protodols != null ? protodols.dlonf() : null;
+    }
+
+    /**
+     * Rfturns whfthfr dlifnt buthfntidbtion should bf rfqufstfd.
+     *
+     * @rfturn whfthfr dlifnt buthfntidbtion should bf rfqufstfd.
+     */
+    publid boolfbn gftWbntClifntAuth() {
+        rfturn wbntClifntAuth;
+    }
+
+    /**
+     * Sfts whfthfr dlifnt buthfntidbtion should bf rfqufstfd. Cblling
+     * this mfthod dlfbrs thf <dodf>nffdClifntAuth</dodf> flbg.
+     *
+     * @pbrbm wbntClifntAuth whfthfr dlifnt buthfntidbtion should bf rfqufstfd
+     */
+    publid void sftWbntClifntAuth(boolfbn wbntClifntAuth) {
+        this.wbntClifntAuth = wbntClifntAuth;
+    }
+
+    /**
+     * Rfturns whfthfr dlifnt buthfntidbtion should bf rfquirfd.
+     *
+     * @rfturn whfthfr dlifnt buthfntidbtion should bf rfquirfd.
+     */
+    publid boolfbn gftNffdClifntAuth() {
+        rfturn nffdClifntAuth;
+    }
+
+    /**
+     * Sfts whfthfr dlifnt buthfntidbtion should bf rfquirfd. Cblling
+     * this mfthod dlfbrs thf <dodf>wbntClifntAuth</dodf> flbg.
+     *
+     * @pbrbm nffdClifntAuth whfthfr dlifnt buthfntidbtion should bf rfquirfd
+     */
+    publid void sftNffdClifntAuth(boolfbn nffdClifntAuth) {
+        this.nffdClifntAuth = nffdClifntAuth;
+    }
+}

@@ -1,1330 +1,1330 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
 
-import javax.swing.plaf.ComponentUI;
-import javax.swing.border.*;
-import javax.swing.event.SwingPropertyChangeSupport;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.fvfnt.SwingPropfrtyCibngfSupport;
 
-import java.lang.reflect.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.ResourceBundle;
-import java.util.ResourceBundle.Control;
-import java.util.Locale;
-import java.util.Vector;
-import java.util.MissingResourceException;
-import java.awt.Font;
-import java.awt.Color;
-import java.awt.Insets;
-import java.awt.Dimension;
-import java.lang.reflect.Method;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.security.AccessController;
-import java.security.AccessControlContext;
-import java.security.PrivilegedAction;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.RfsourdfBundlf.Control;
+import jbvb.util.Lodblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.bwt.Font;
+import jbvb.bwt.Color;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Dimfnsion;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
-import sun.reflect.misc.MethodUtil;
-import sun.reflect.misc.ReflectUtil;
-import sun.swing.SwingUtilities2;
-import sun.util.CoreResourceBundleControl;
+import sun.rfflfdt.misd.MftiodUtil;
+import sun.rfflfdt.misd.RfflfdtUtil;
+import sun.swing.SwingUtilitifs2;
+import sun.util.CorfRfsourdfBundlfControl;
 
 /**
- * A table of defaults for Swing components.  Applications can set/get
- * default values via the <code>UIManager</code>.
+ * A tbblf of dffbults for Swing domponfnts.  Applidbtions dbn sft/gft
+ * dffbult vblufs vib tif <dodf>UIMbnbgfr</dodf>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @see UIManager
- * @author Hans Muller
- * @since 1.2
+ * @sff UIMbnbgfr
+ * @butior Hbns Mullfr
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class UIDefaults extends Hashtable<Object,Object>
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss UIDffbults fxtfnds Hbsitbblf<Objfdt,Objfdt>
 {
-    private static final Object PENDING = "Pending";
+    privbtf stbtid finbl Objfdt PENDING = "Pfnding";
 
-    private SwingPropertyChangeSupport changeSupport;
+    privbtf SwingPropfrtyCibngfSupport dibngfSupport;
 
-    private Vector<String> resourceBundles;
+    privbtf Vfdtor<String> rfsourdfBundlfs;
 
-    private Locale defaultLocale = Locale.getDefault();
-
-    /**
-     * Maps from a Locale to a cached Map of the ResourceBundle. This is done
-     * so as to avoid an exception being thrown when a value is asked for.
-     * Access to this should be done while holding a lock on the
-     * UIDefaults, eg synchronized(this).
-     */
-    private Map<Locale, Map<String, Object>> resourceCache;
+    privbtf Lodblf dffbultLodblf = Lodblf.gftDffbult();
 
     /**
-     * Creates an empty defaults table.
+     * Mbps from b Lodblf to b dbdifd Mbp of tif RfsourdfBundlf. Tiis is donf
+     * so bs to bvoid bn fxdfption bfing tirown wifn b vbluf is bskfd for.
+     * Addfss to tiis siould bf donf wiilf iolding b lodk on tif
+     * UIDffbults, fg syndironizfd(tiis).
      */
-    public UIDefaults() {
-        this(700, .75f);
+    privbtf Mbp<Lodblf, Mbp<String, Objfdt>> rfsourdfCbdif;
+
+    /**
+     * Crfbtfs bn fmpty dffbults tbblf.
+     */
+    publid UIDffbults() {
+        tiis(700, .75f);
     }
 
     /**
-     * Creates an empty defaults table with the specified initial capacity and
-     * load factor.
+     * Crfbtfs bn fmpty dffbults tbblf witi tif spfdififd initibl dbpbdity bnd
+     * lobd fbdtor.
      *
-     * @param initialCapacity   the initial capacity of the defaults table
-     * @param loadFactor        the load factor of the defaults table
-     * @see java.util.Hashtable
-     * @since 1.6
+     * @pbrbm initiblCbpbdity   tif initibl dbpbdity of tif dffbults tbblf
+     * @pbrbm lobdFbdtor        tif lobd fbdtor of tif dffbults tbblf
+     * @sff jbvb.util.Hbsitbblf
+     * @sindf 1.6
      */
-    public UIDefaults(int initialCapacity, float loadFactor) {
-        super(initialCapacity, loadFactor);
-        resourceCache = new HashMap<Locale, Map<String, Object>>();
+    publid UIDffbults(int initiblCbpbdity, flobt lobdFbdtor) {
+        supfr(initiblCbpbdity, lobdFbdtor);
+        rfsourdfCbdif = nfw HbsiMbp<Lodblf, Mbp<String, Objfdt>>();
     }
 
 
     /**
-     * Creates a defaults table initialized with the specified
-     * key/value pairs.  For example:
-     * <pre>
-        Object[] uiDefaults = {
-             "Font", new Font("Dialog", Font.BOLD, 12),
-            "Color", Color.red,
-             "five", new Integer(5)
+     * Crfbtfs b dffbults tbblf initiblizfd witi tif spfdififd
+     * kfy/vbluf pbirs.  For fxbmplf:
+     * <prf>
+        Objfdt[] uiDffbults = {
+             "Font", nfw Font("Diblog", Font.BOLD, 12),
+            "Color", Color.rfd,
+             "fivf", nfw Intfgfr(5)
         }
-        UIDefaults myDefaults = new UIDefaults(uiDefaults);
-     * </pre>
-     * @param keyValueList  an array of objects containing the key/value
-     *          pairs
+        UIDffbults myDffbults = nfw UIDffbults(uiDffbults);
+     * </prf>
+     * @pbrbm kfyVblufList  bn brrby of objfdts dontbining tif kfy/vbluf
+     *          pbirs
      */
-    public UIDefaults(Object[] keyValueList) {
-        super(keyValueList.length / 2);
-        for(int i = 0; i < keyValueList.length; i += 2) {
-            super.put(keyValueList[i], keyValueList[i + 1]);
+    publid UIDffbults(Objfdt[] kfyVblufList) {
+        supfr(kfyVblufList.lfngti / 2);
+        for(int i = 0; i < kfyVblufList.lfngti; i += 2) {
+            supfr.put(kfyVblufList[i], kfyVblufList[i + 1]);
         }
     }
 
     /**
-     * Returns the value for key.  If the value is a
-     * <code>UIDefaults.LazyValue</code> then the real
-     * value is computed with <code>LazyValue.createValue()</code>,
-     * the table entry is replaced, and the real value is returned.
-     * If the value is an <code>UIDefaults.ActiveValue</code>
-     * the table entry is not replaced - the value is computed
-     * with <code>ActiveValue.createValue()</code> for each
-     * <code>get()</code> call.
+     * Rfturns tif vbluf for kfy.  If tif vbluf is b
+     * <dodf>UIDffbults.LbzyVbluf</dodf> tifn tif rfbl
+     * vbluf is domputfd witi <dodf>LbzyVbluf.drfbtfVbluf()</dodf>,
+     * tif tbblf fntry is rfplbdfd, bnd tif rfbl vbluf is rfturnfd.
+     * If tif vbluf is bn <dodf>UIDffbults.AdtivfVbluf</dodf>
+     * tif tbblf fntry is not rfplbdfd - tif vbluf is domputfd
+     * witi <dodf>AdtivfVbluf.drfbtfVbluf()</dodf> for fbdi
+     * <dodf>gft()</dodf> dbll.
      *
-     * If the key is not found in the table then it is searched for in the list
-     * of resource bundles maintained by this object.  The resource bundles are
-     * searched most recently added first using the locale returned by
-     * <code>getDefaultLocale</code>.  <code>LazyValues</code> and
-     * <code>ActiveValues</code> are not supported in the resource bundles.
+     * If tif kfy is not found in tif tbblf tifn it is sfbrdifd for in tif list
+     * of rfsourdf bundlfs mbintbinfd by tiis objfdt.  Tif rfsourdf bundlfs brf
+     * sfbrdifd most rfdfntly bddfd first using tif lodblf rfturnfd by
+     * <dodf>gftDffbultLodblf</dodf>.  <dodf>LbzyVblufs</dodf> bnd
+     * <dodf>AdtivfVblufs</dodf> brf not supportfd in tif rfsourdf bundlfs.
 
      *
-     * @param key the desired key
-     * @return the value for <code>key</code>
-     * @see LazyValue
-     * @see ActiveValue
-     * @see java.util.Hashtable#get
-     * @see #getDefaultLocale
-     * @see #addResourceBundle
-     * @since 1.4
+     * @pbrbm kfy tif dfsirfd kfy
+     * @rfturn tif vbluf for <dodf>kfy</dodf>
+     * @sff LbzyVbluf
+     * @sff AdtivfVbluf
+     * @sff jbvb.util.Hbsitbblf#gft
+     * @sff #gftDffbultLodblf
+     * @sff #bddRfsourdfBundlf
+     * @sindf 1.4
      */
-    public Object get(Object key) {
-        Object value = getFromHashtable( key );
-        return (value != null) ? value : getFromResourceBundle(key, null);
+    publid Objfdt gft(Objfdt kfy) {
+        Objfdt vbluf = gftFromHbsitbblf( kfy );
+        rfturn (vbluf != null) ? vbluf : gftFromRfsourdfBundlf(kfy, null);
     }
 
     /**
-     * Looks up up the given key in our Hashtable and resolves LazyValues
-     * or ActiveValues.
+     * Looks up up tif givfn kfy in our Hbsitbblf bnd rfsolvfs LbzyVblufs
+     * or AdtivfVblufs.
      */
-    private Object getFromHashtable(Object key) {
-        /* Quickly handle the common case, without grabbing
-         * a lock.
+    privbtf Objfdt gftFromHbsitbblf(Objfdt kfy) {
+        /* Quidkly ibndlf tif dommon dbsf, witiout grbbbing
+         * b lodk.
          */
-        Object value = super.get(key);
-        if ((value != PENDING) &&
-            !(value instanceof ActiveValue) &&
-            !(value instanceof LazyValue)) {
-            return value;
+        Objfdt vbluf = supfr.gft(kfy);
+        if ((vbluf != PENDING) &&
+            !(vbluf instbndfof AdtivfVbluf) &&
+            !(vbluf instbndfof LbzyVbluf)) {
+            rfturn vbluf;
         }
 
-        /* If the LazyValue for key is being constructed by another
-         * thread then wait and then return the new value, otherwise drop
-         * the lock and construct the ActiveValue or the LazyValue.
-         * We use the special value PENDING to mark LazyValues that
-         * are being constructed.
+        /* If tif LbzyVbluf for kfy is bfing donstrudtfd by bnotifr
+         * tirfbd tifn wbit bnd tifn rfturn tif nfw vbluf, otifrwisf drop
+         * tif lodk bnd donstrudt tif AdtivfVbluf or tif LbzyVbluf.
+         * Wf usf tif spfdibl vbluf PENDING to mbrk LbzyVblufs tibt
+         * brf bfing donstrudtfd.
          */
-        synchronized(this) {
-            value = super.get(key);
-            if (value == PENDING) {
+        syndironizfd(tiis) {
+            vbluf = supfr.gft(kfy);
+            if (vbluf == PENDING) {
                 do {
                     try {
-                        this.wait();
+                        tiis.wbit();
                     }
-                    catch (InterruptedException e) {
+                    dbtdi (IntfrruptfdExdfption f) {
                     }
-                    value = super.get(key);
+                    vbluf = supfr.gft(kfy);
                 }
-                while(value == PENDING);
-                return value;
+                wiilf(vbluf == PENDING);
+                rfturn vbluf;
             }
-            else if (value instanceof LazyValue) {
-                super.put(key, PENDING);
+            flsf if (vbluf instbndfof LbzyVbluf) {
+                supfr.put(kfy, PENDING);
             }
-            else if (!(value instanceof ActiveValue)) {
-                return value;
+            flsf if (!(vbluf instbndfof AdtivfVbluf)) {
+                rfturn vbluf;
             }
         }
 
-        /* At this point we know that the value of key was
-         * a LazyValue or an ActiveValue.
+        /* At tiis point wf know tibt tif vbluf of kfy wbs
+         * b LbzyVbluf or bn AdtivfVbluf.
          */
-        if (value instanceof LazyValue) {
+        if (vbluf instbndfof LbzyVbluf) {
             try {
-                /* If an exception is thrown we'll just put the LazyValue
-                 * back in the table.
+                /* If bn fxdfption is tirown wf'll just put tif LbzyVbluf
+                 * bbdk in tif tbblf.
                  */
-                value = ((LazyValue)value).createValue(this);
+                vbluf = ((LbzyVbluf)vbluf).drfbtfVbluf(tiis);
             }
-            finally {
-                synchronized(this) {
-                    if (value == null) {
-                        super.remove(key);
+            finblly {
+                syndironizfd(tiis) {
+                    if (vbluf == null) {
+                        supfr.rfmovf(kfy);
                     }
-                    else {
-                        super.put(key, value);
+                    flsf {
+                        supfr.put(kfy, vbluf);
                     }
-                    this.notifyAll();
+                    tiis.notifyAll();
                 }
             }
         }
-        else {
-            value = ((ActiveValue)value).createValue(this);
+        flsf {
+            vbluf = ((AdtivfVbluf)vbluf).drfbtfVbluf(tiis);
         }
 
-        return value;
+        rfturn vbluf;
     }
 
 
     /**
-     * Returns the value for key associated with the given locale.
-     * If the value is a <code>UIDefaults.LazyValue</code> then the real
-     * value is computed with <code>LazyValue.createValue()</code>,
-     * the table entry is replaced, and the real value is returned.
-     * If the value is an <code>UIDefaults.ActiveValue</code>
-     * the table entry is not replaced - the value is computed
-     * with <code>ActiveValue.createValue()</code> for each
-     * <code>get()</code> call.
+     * Rfturns tif vbluf for kfy bssodibtfd witi tif givfn lodblf.
+     * If tif vbluf is b <dodf>UIDffbults.LbzyVbluf</dodf> tifn tif rfbl
+     * vbluf is domputfd witi <dodf>LbzyVbluf.drfbtfVbluf()</dodf>,
+     * tif tbblf fntry is rfplbdfd, bnd tif rfbl vbluf is rfturnfd.
+     * If tif vbluf is bn <dodf>UIDffbults.AdtivfVbluf</dodf>
+     * tif tbblf fntry is not rfplbdfd - tif vbluf is domputfd
+     * witi <dodf>AdtivfVbluf.drfbtfVbluf()</dodf> for fbdi
+     * <dodf>gft()</dodf> dbll.
      *
-     * If the key is not found in the table then it is searched for in the list
-     * of resource bundles maintained by this object.  The resource bundles are
-     * searched most recently added first using the given locale.
-     * <code>LazyValues</code> and <code>ActiveValues</code> are not supported
-     * in the resource bundles.
+     * If tif kfy is not found in tif tbblf tifn it is sfbrdifd for in tif list
+     * of rfsourdf bundlfs mbintbinfd by tiis objfdt.  Tif rfsourdf bundlfs brf
+     * sfbrdifd most rfdfntly bddfd first using tif givfn lodblf.
+     * <dodf>LbzyVblufs</dodf> bnd <dodf>AdtivfVblufs</dodf> brf not supportfd
+     * in tif rfsourdf bundlfs.
      *
-     * @param key the desired key
-     * @param l the desired <code>locale</code>
-     * @return the value for <code>key</code>
-     * @see LazyValue
-     * @see ActiveValue
-     * @see java.util.Hashtable#get
-     * @see #addResourceBundle
-     * @since 1.4
+     * @pbrbm kfy tif dfsirfd kfy
+     * @pbrbm l tif dfsirfd <dodf>lodblf</dodf>
+     * @rfturn tif vbluf for <dodf>kfy</dodf>
+     * @sff LbzyVbluf
+     * @sff AdtivfVbluf
+     * @sff jbvb.util.Hbsitbblf#gft
+     * @sff #bddRfsourdfBundlf
+     * @sindf 1.4
      */
-    public Object get(Object key, Locale l) {
-        Object value = getFromHashtable( key );
-        return (value != null) ? value : getFromResourceBundle(key, l);
+    publid Objfdt gft(Objfdt kfy, Lodblf l) {
+        Objfdt vbluf = gftFromHbsitbblf( kfy );
+        rfturn (vbluf != null) ? vbluf : gftFromRfsourdfBundlf(kfy, l);
     }
 
     /**
-     * Looks up given key in our resource bundles.
+     * Looks up givfn kfy in our rfsourdf bundlfs.
      */
-    private Object getFromResourceBundle(Object key, Locale l) {
+    privbtf Objfdt gftFromRfsourdfBundlf(Objfdt kfy, Lodblf l) {
 
-        if( resourceBundles == null ||
-            resourceBundles.isEmpty() ||
-            !(key instanceof String) ) {
-            return null;
+        if( rfsourdfBundlfs == null ||
+            rfsourdfBundlfs.isEmpty() ||
+            !(kfy instbndfof String) ) {
+            rfturn null;
         }
 
-        // A null locale means use the default locale.
+        // A null lodblf mfbns usf tif dffbult lodblf.
         if( l == null ) {
-            if( defaultLocale == null )
-                return null;
-            else
-                l = defaultLocale;
+            if( dffbultLodblf == null )
+                rfturn null;
+            flsf
+                l = dffbultLodblf;
         }
 
-        synchronized(this) {
-            return getResourceCache(l).get(key);
+        syndironizfd(tiis) {
+            rfturn gftRfsourdfCbdif(l).gft(kfy);
         }
     }
 
     /**
-     * Returns a Map of the known resources for the given locale.
+     * Rfturns b Mbp of tif known rfsourdfs for tif givfn lodblf.
      */
-    private Map<String, Object> getResourceCache(Locale l) {
-        Map<String, Object> values = resourceCache.get(l);
+    privbtf Mbp<String, Objfdt> gftRfsourdfCbdif(Lodblf l) {
+        Mbp<String, Objfdt> vblufs = rfsourdfCbdif.gft(l);
 
-        if (values == null) {
-            values = new TextAndMnemonicHashMap();
-            for (int i=resourceBundles.size()-1; i >= 0; i--) {
-                String bundleName = resourceBundles.get(i);
+        if (vblufs == null) {
+            vblufs = nfw TfxtAndMnfmonidHbsiMbp();
+            for (int i=rfsourdfBundlfs.sizf()-1; i >= 0; i--) {
+                String bundlfNbmf = rfsourdfBundlfs.gft(i);
                 try {
-                    Control c = CoreResourceBundleControl.getRBControlInstance(bundleName);
-                    ResourceBundle b;
-                    if (c != null) {
-                        b = ResourceBundle.getBundle(bundleName, l, c);
-                    } else {
-                        b = ResourceBundle.getBundle(bundleName, l);
+                    Control d = CorfRfsourdfBundlfControl.gftRBControlInstbndf(bundlfNbmf);
+                    RfsourdfBundlf b;
+                    if (d != null) {
+                        b = RfsourdfBundlf.gftBundlf(bundlfNbmf, l, d);
+                    } flsf {
+                        b = RfsourdfBundlf.gftBundlf(bundlfNbmf, l);
                     }
-                    Enumeration<String> keys = b.getKeys();
+                    Enumfrbtion<String> kfys = b.gftKfys();
 
-                    while (keys.hasMoreElements()) {
-                        String key = keys.nextElement();
+                    wiilf (kfys.ibsMorfElfmfnts()) {
+                        String kfy = kfys.nfxtElfmfnt();
 
-                        if (values.get(key) == null) {
-                            Object value = b.getObject(key);
+                        if (vblufs.gft(kfy) == null) {
+                            Objfdt vbluf = b.gftObjfdt(kfy);
 
-                            values.put(key, value);
+                            vblufs.put(kfy, vbluf);
                         }
                     }
-                } catch( MissingResourceException mre ) {
-                    // Keep looking
+                } dbtdi( MissingRfsourdfExdfption mrf ) {
+                    // Kffp looking
                 }
             }
-            resourceCache.put(l, values);
+            rfsourdfCbdif.put(l, vblufs);
         }
-        return values;
+        rfturn vblufs;
     }
 
     /**
-     * Sets the value of <code>key</code> to <code>value</code> for all locales.
-     * If <code>key</code> is a string and the new value isn't
-     * equal to the old one, fire a <code>PropertyChangeEvent</code>.
-     * If value is <code>null</code>, the key is removed from the table.
+     * Sfts tif vbluf of <dodf>kfy</dodf> to <dodf>vbluf</dodf> for bll lodblfs.
+     * If <dodf>kfy</dodf> is b string bnd tif nfw vbluf isn't
+     * fqubl to tif old onf, firf b <dodf>PropfrtyCibngfEvfnt</dodf>.
+     * If vbluf is <dodf>null</dodf>, tif kfy is rfmovfd from tif tbblf.
      *
-     * @param key    the unique <code>Object</code> who's value will be used
-     *          to retrieve the data value associated with it
-     * @param value  the new <code>Object</code> to store as data under
-     *          that key
-     * @return the previous <code>Object</code> value, or <code>null</code>
-     * @see #putDefaults
-     * @see java.util.Hashtable#put
+     * @pbrbm kfy    tif uniquf <dodf>Objfdt</dodf> wio's vbluf will bf usfd
+     *          to rftrifvf tif dbtb vbluf bssodibtfd witi it
+     * @pbrbm vbluf  tif nfw <dodf>Objfdt</dodf> to storf bs dbtb undfr
+     *          tibt kfy
+     * @rfturn tif prfvious <dodf>Objfdt</dodf> vbluf, or <dodf>null</dodf>
+     * @sff #putDffbults
+     * @sff jbvb.util.Hbsitbblf#put
      */
-    public Object put(Object key, Object value) {
-        Object oldValue = (value == null) ? super.remove(key) : super.put(key, value);
-        if (key instanceof String) {
-            firePropertyChange((String)key, oldValue, value);
+    publid Objfdt put(Objfdt kfy, Objfdt vbluf) {
+        Objfdt oldVbluf = (vbluf == null) ? supfr.rfmovf(kfy) : supfr.put(kfy, vbluf);
+        if (kfy instbndfof String) {
+            firfPropfrtyCibngf((String)kfy, oldVbluf, vbluf);
         }
-        return oldValue;
+        rfturn oldVbluf;
     }
 
 
     /**
-     * Puts all of the key/value pairs in the database and
-     * unconditionally generates one <code>PropertyChangeEvent</code>.
-     * The events oldValue and newValue will be <code>null</code> and its
-     * <code>propertyName</code> will be "UIDefaults".  The key/value pairs are
-     * added for all locales.
+     * Puts bll of tif kfy/vbluf pbirs in tif dbtbbbsf bnd
+     * undonditionblly gfnfrbtfs onf <dodf>PropfrtyCibngfEvfnt</dodf>.
+     * Tif fvfnts oldVbluf bnd nfwVbluf will bf <dodf>null</dodf> bnd its
+     * <dodf>propfrtyNbmf</dodf> will bf "UIDffbults".  Tif kfy/vbluf pbirs brf
+     * bddfd for bll lodblfs.
      *
-     * @param keyValueList  an array of key/value pairs
-     * @see #put
-     * @see java.util.Hashtable#put
+     * @pbrbm kfyVblufList  bn brrby of kfy/vbluf pbirs
+     * @sff #put
+     * @sff jbvb.util.Hbsitbblf#put
      */
-    public void putDefaults(Object[] keyValueList) {
-        for(int i = 0, max = keyValueList.length; i < max; i += 2) {
-            Object value = keyValueList[i + 1];
-            if (value == null) {
-                super.remove(keyValueList[i]);
+    publid void putDffbults(Objfdt[] kfyVblufList) {
+        for(int i = 0, mbx = kfyVblufList.lfngti; i < mbx; i += 2) {
+            Objfdt vbluf = kfyVblufList[i + 1];
+            if (vbluf == null) {
+                supfr.rfmovf(kfyVblufList[i]);
             }
-            else {
-                super.put(keyValueList[i], value);
+            flsf {
+                supfr.put(kfyVblufList[i], vbluf);
             }
         }
-        firePropertyChange("UIDefaults", null, null);
+        firfPropfrtyCibngf("UIDffbults", null, null);
     }
 
 
     /**
-     * If the value of <code>key</code> is a <code>Font</code> return it,
-     * otherwise return <code>null</code>.
-     * @param key the desired key
-     * @return if the value for <code>key</code> is a <code>Font</code>,
-     *          return the <code>Font</code> object; otherwise return
-     *          <code>null</code>
+     * If tif vbluf of <dodf>kfy</dodf> is b <dodf>Font</dodf> rfturn it,
+     * otifrwisf rfturn <dodf>null</dodf>.
+     * @pbrbm kfy tif dfsirfd kfy
+     * @rfturn if tif vbluf for <dodf>kfy</dodf> is b <dodf>Font</dodf>,
+     *          rfturn tif <dodf>Font</dodf> objfdt; otifrwisf rfturn
+     *          <dodf>null</dodf>
      */
-    public Font getFont(Object key) {
-        Object value = get(key);
-        return (value instanceof Font) ? (Font)value : null;
+    publid Font gftFont(Objfdt kfy) {
+        Objfdt vbluf = gft(kfy);
+        rfturn (vbluf instbndfof Font) ? (Font)vbluf : null;
     }
 
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is a <code>Font</code> return it, otherwise return <code>null</code>.
-     * @param key the desired key
-     * @param l the desired locale
-     * @return if the value for <code>key</code> and <code>Locale</code>
-     *          is a <code>Font</code>,
-     *          return the <code>Font</code> object; otherwise return
-     *          <code>null</code>
-     * @since 1.4
+     * If tif vbluf of <dodf>kfy</dodf> for tif givfn <dodf>Lodblf</dodf>
+     * is b <dodf>Font</dodf> rfturn it, otifrwisf rfturn <dodf>null</dodf>.
+     * @pbrbm kfy tif dfsirfd kfy
+     * @pbrbm l tif dfsirfd lodblf
+     * @rfturn if tif vbluf for <dodf>kfy</dodf> bnd <dodf>Lodblf</dodf>
+     *          is b <dodf>Font</dodf>,
+     *          rfturn tif <dodf>Font</dodf> objfdt; otifrwisf rfturn
+     *          <dodf>null</dodf>
+     * @sindf 1.4
      */
-    public Font getFont(Object key, Locale l) {
-        Object value = get(key,l);
-        return (value instanceof Font) ? (Font)value : null;
+    publid Font gftFont(Objfdt kfy, Lodblf l) {
+        Objfdt vbluf = gft(kfy,l);
+        rfturn (vbluf instbndfof Font) ? (Font)vbluf : null;
     }
 
     /**
-     * If the value of <code>key</code> is a <code>Color</code> return it,
-     * otherwise return <code>null</code>.
-     * @param key the desired key
-     * @return if the value for <code>key</code> is a <code>Color</code>,
-     *          return the <code>Color</code> object; otherwise return
-     *          <code>null</code>
+     * If tif vbluf of <dodf>kfy</dodf> is b <dodf>Color</dodf> rfturn it,
+     * otifrwisf rfturn <dodf>null</dodf>.
+     * @pbrbm kfy tif dfsirfd kfy
+     * @rfturn if tif vbluf for <dodf>kfy</dodf> is b <dodf>Color</dodf>,
+     *          rfturn tif <dodf>Color</dodf> objfdt; otifrwisf rfturn
+     *          <dodf>null</dodf>
      */
-    public Color getColor(Object key) {
-        Object value = get(key);
-        return (value instanceof Color) ? (Color)value : null;
+    publid Color gftColor(Objfdt kfy) {
+        Objfdt vbluf = gft(kfy);
+        rfturn (vbluf instbndfof Color) ? (Color)vbluf : null;
     }
 
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is a <code>Color</code> return it, otherwise return <code>null</code>.
-     * @param key the desired key
-     * @param l the desired locale
-     * @return if the value for <code>key</code> and <code>Locale</code>
-     *          is a <code>Color</code>,
-     *          return the <code>Color</code> object; otherwise return
-     *          <code>null</code>
-     * @since 1.4
+     * If tif vbluf of <dodf>kfy</dodf> for tif givfn <dodf>Lodblf</dodf>
+     * is b <dodf>Color</dodf> rfturn it, otifrwisf rfturn <dodf>null</dodf>.
+     * @pbrbm kfy tif dfsirfd kfy
+     * @pbrbm l tif dfsirfd lodblf
+     * @rfturn if tif vbluf for <dodf>kfy</dodf> bnd <dodf>Lodblf</dodf>
+     *          is b <dodf>Color</dodf>,
+     *          rfturn tif <dodf>Color</dodf> objfdt; otifrwisf rfturn
+     *          <dodf>null</dodf>
+     * @sindf 1.4
      */
-    public Color getColor(Object key, Locale l) {
-        Object value = get(key,l);
-        return (value instanceof Color) ? (Color)value : null;
+    publid Color gftColor(Objfdt kfy, Lodblf l) {
+        Objfdt vbluf = gft(kfy,l);
+        rfturn (vbluf instbndfof Color) ? (Color)vbluf : null;
     }
 
 
     /**
-     * If the value of <code>key</code> is an <code>Icon</code> return it,
-     * otherwise return <code>null</code>.
-     * @param key the desired key
-     * @return if the value for <code>key</code> is an <code>Icon</code>,
-     *          return the <code>Icon</code> object; otherwise return
-     *          <code>null</code>
+     * If tif vbluf of <dodf>kfy</dodf> is bn <dodf>Idon</dodf> rfturn it,
+     * otifrwisf rfturn <dodf>null</dodf>.
+     * @pbrbm kfy tif dfsirfd kfy
+     * @rfturn if tif vbluf for <dodf>kfy</dodf> is bn <dodf>Idon</dodf>,
+     *          rfturn tif <dodf>Idon</dodf> objfdt; otifrwisf rfturn
+     *          <dodf>null</dodf>
      */
-    public Icon getIcon(Object key) {
-        Object value = get(key);
-        return (value instanceof Icon) ? (Icon)value : null;
+    publid Idon gftIdon(Objfdt kfy) {
+        Objfdt vbluf = gft(kfy);
+        rfturn (vbluf instbndfof Idon) ? (Idon)vbluf : null;
     }
 
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is an <code>Icon</code> return it, otherwise return <code>null</code>.
-     * @param key the desired key
-     * @param l the desired locale
-     * @return if the value for <code>key</code> and <code>Locale</code>
-     *          is an <code>Icon</code>,
-     *          return the <code>Icon</code> object; otherwise return
-     *          <code>null</code>
-     * @since 1.4
+     * If tif vbluf of <dodf>kfy</dodf> for tif givfn <dodf>Lodblf</dodf>
+     * is bn <dodf>Idon</dodf> rfturn it, otifrwisf rfturn <dodf>null</dodf>.
+     * @pbrbm kfy tif dfsirfd kfy
+     * @pbrbm l tif dfsirfd lodblf
+     * @rfturn if tif vbluf for <dodf>kfy</dodf> bnd <dodf>Lodblf</dodf>
+     *          is bn <dodf>Idon</dodf>,
+     *          rfturn tif <dodf>Idon</dodf> objfdt; otifrwisf rfturn
+     *          <dodf>null</dodf>
+     * @sindf 1.4
      */
-    public Icon getIcon(Object key, Locale l) {
-        Object value = get(key,l);
-        return (value instanceof Icon) ? (Icon)value : null;
+    publid Idon gftIdon(Objfdt kfy, Lodblf l) {
+        Objfdt vbluf = gft(kfy,l);
+        rfturn (vbluf instbndfof Idon) ? (Idon)vbluf : null;
     }
 
 
     /**
-     * If the value of <code>key</code> is a <code>Border</code> return it,
-     * otherwise return <code>null</code>.
-     * @param key the desired key
-     * @return if the value for <code>key</code> is a <code>Border</code>,
-     *          return the <code>Border</code> object; otherwise return
-     *          <code>null</code>
+     * If tif vbluf of <dodf>kfy</dodf> is b <dodf>Bordfr</dodf> rfturn it,
+     * otifrwisf rfturn <dodf>null</dodf>.
+     * @pbrbm kfy tif dfsirfd kfy
+     * @rfturn if tif vbluf for <dodf>kfy</dodf> is b <dodf>Bordfr</dodf>,
+     *          rfturn tif <dodf>Bordfr</dodf> objfdt; otifrwisf rfturn
+     *          <dodf>null</dodf>
      */
-    public Border getBorder(Object key) {
-        Object value = get(key);
-        return (value instanceof Border) ? (Border)value : null;
+    publid Bordfr gftBordfr(Objfdt kfy) {
+        Objfdt vbluf = gft(kfy);
+        rfturn (vbluf instbndfof Bordfr) ? (Bordfr)vbluf : null;
     }
 
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is a <code>Border</code> return it, otherwise return <code>null</code>.
-     * @param key the desired key
-     * @param l the desired locale
-     * @return if the value for <code>key</code> and <code>Locale</code>
-     *          is a <code>Border</code>,
-     *          return the <code>Border</code> object; otherwise return
-     *          <code>null</code>
-     * @since 1.4
+     * If tif vbluf of <dodf>kfy</dodf> for tif givfn <dodf>Lodblf</dodf>
+     * is b <dodf>Bordfr</dodf> rfturn it, otifrwisf rfturn <dodf>null</dodf>.
+     * @pbrbm kfy tif dfsirfd kfy
+     * @pbrbm l tif dfsirfd lodblf
+     * @rfturn if tif vbluf for <dodf>kfy</dodf> bnd <dodf>Lodblf</dodf>
+     *          is b <dodf>Bordfr</dodf>,
+     *          rfturn tif <dodf>Bordfr</dodf> objfdt; otifrwisf rfturn
+     *          <dodf>null</dodf>
+     * @sindf 1.4
      */
-    public Border getBorder(Object key, Locale l)  {
-        Object value = get(key,l);
-        return (value instanceof Border) ? (Border)value : null;
+    publid Bordfr gftBordfr(Objfdt kfy, Lodblf l)  {
+        Objfdt vbluf = gft(kfy,l);
+        rfturn (vbluf instbndfof Bordfr) ? (Bordfr)vbluf : null;
     }
 
 
     /**
-     * If the value of <code>key</code> is a <code>String</code> return it,
-     * otherwise return <code>null</code>.
-     * @param key the desired key
-     * @return if the value for <code>key</code> is a <code>String</code>,
-     *          return the <code>String</code> object; otherwise return
-     *          <code>null</code>
+     * If tif vbluf of <dodf>kfy</dodf> is b <dodf>String</dodf> rfturn it,
+     * otifrwisf rfturn <dodf>null</dodf>.
+     * @pbrbm kfy tif dfsirfd kfy
+     * @rfturn if tif vbluf for <dodf>kfy</dodf> is b <dodf>String</dodf>,
+     *          rfturn tif <dodf>String</dodf> objfdt; otifrwisf rfturn
+     *          <dodf>null</dodf>
      */
-    public String getString(Object key) {
-        Object value = get(key);
-        return (value instanceof String) ? (String)value : null;
+    publid String gftString(Objfdt kfy) {
+        Objfdt vbluf = gft(kfy);
+        rfturn (vbluf instbndfof String) ? (String)vbluf : null;
     }
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is a <code>String</code> return it, otherwise return <code>null</code>.
-     * @param key the desired key
-     * @param l the desired <code>Locale</code>
-     * @return if the value for <code>key</code> for the given
-     *          <code>Locale</code> is a <code>String</code>,
-     *          return the <code>String</code> object; otherwise return
-     *          <code>null</code>
-     * @since 1.4
+     * If tif vbluf of <dodf>kfy</dodf> for tif givfn <dodf>Lodblf</dodf>
+     * is b <dodf>String</dodf> rfturn it, otifrwisf rfturn <dodf>null</dodf>.
+     * @pbrbm kfy tif dfsirfd kfy
+     * @pbrbm l tif dfsirfd <dodf>Lodblf</dodf>
+     * @rfturn if tif vbluf for <dodf>kfy</dodf> for tif givfn
+     *          <dodf>Lodblf</dodf> is b <dodf>String</dodf>,
+     *          rfturn tif <dodf>String</dodf> objfdt; otifrwisf rfturn
+     *          <dodf>null</dodf>
+     * @sindf 1.4
      */
-    public String getString(Object key, Locale l) {
-        Object value = get(key,l);
-        return (value instanceof String) ? (String)value : null;
+    publid String gftString(Objfdt kfy, Lodblf l) {
+        Objfdt vbluf = gft(kfy,l);
+        rfturn (vbluf instbndfof String) ? (String)vbluf : null;
     }
 
     /**
-     * If the value of <code>key</code> is an <code>Integer</code> return its
-     * integer value, otherwise return 0.
-     * @param key the desired key
-     * @return if the value for <code>key</code> is an <code>Integer</code>,
-     *          return its value, otherwise return 0
+     * If tif vbluf of <dodf>kfy</dodf> is bn <dodf>Intfgfr</dodf> rfturn its
+     * intfgfr vbluf, otifrwisf rfturn 0.
+     * @pbrbm kfy tif dfsirfd kfy
+     * @rfturn if tif vbluf for <dodf>kfy</dodf> is bn <dodf>Intfgfr</dodf>,
+     *          rfturn its vbluf, otifrwisf rfturn 0
      */
-    public int getInt(Object key) {
-        Object value = get(key);
-        return (value instanceof Integer) ? ((Integer)value).intValue() : 0;
+    publid int gftInt(Objfdt kfy) {
+        Objfdt vbluf = gft(kfy);
+        rfturn (vbluf instbndfof Intfgfr) ? ((Intfgfr)vbluf).intVbluf() : 0;
     }
 
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is an <code>Integer</code> return its integer value, otherwise return 0.
-     * @param key the desired key
-     * @param l the desired locale
-     * @return if the value for <code>key</code> and <code>Locale</code>
-     *          is an <code>Integer</code>,
-     *          return its value, otherwise return 0
-     * @since 1.4
+     * If tif vbluf of <dodf>kfy</dodf> for tif givfn <dodf>Lodblf</dodf>
+     * is bn <dodf>Intfgfr</dodf> rfturn its intfgfr vbluf, otifrwisf rfturn 0.
+     * @pbrbm kfy tif dfsirfd kfy
+     * @pbrbm l tif dfsirfd lodblf
+     * @rfturn if tif vbluf for <dodf>kfy</dodf> bnd <dodf>Lodblf</dodf>
+     *          is bn <dodf>Intfgfr</dodf>,
+     *          rfturn its vbluf, otifrwisf rfturn 0
+     * @sindf 1.4
      */
-    public int getInt(Object key, Locale l) {
-        Object value = get(key,l);
-        return (value instanceof Integer) ? ((Integer)value).intValue() : 0;
+    publid int gftInt(Objfdt kfy, Lodblf l) {
+        Objfdt vbluf = gft(kfy,l);
+        rfturn (vbluf instbndfof Intfgfr) ? ((Intfgfr)vbluf).intVbluf() : 0;
     }
 
 
     /**
-     * If the value of <code>key</code> is boolean, return the
-     * boolean value, otherwise return false.
+     * If tif vbluf of <dodf>kfy</dodf> is boolfbn, rfturn tif
+     * boolfbn vbluf, otifrwisf rfturn fblsf.
      *
-     * @param key an <code>Object</code> specifying the key for the desired boolean value
-     * @return if the value of <code>key</code> is boolean, return the
-     *         boolean value, otherwise return false.
-     * @since 1.4
+     * @pbrbm kfy bn <dodf>Objfdt</dodf> spfdifying tif kfy for tif dfsirfd boolfbn vbluf
+     * @rfturn if tif vbluf of <dodf>kfy</dodf> is boolfbn, rfturn tif
+     *         boolfbn vbluf, otifrwisf rfturn fblsf.
+     * @sindf 1.4
      */
-    public boolean getBoolean(Object key) {
-        Object value = get(key);
-        return (value instanceof Boolean) ? ((Boolean)value).booleanValue() : false;
+    publid boolfbn gftBoolfbn(Objfdt kfy) {
+        Objfdt vbluf = gft(kfy);
+        rfturn (vbluf instbndfof Boolfbn) ? ((Boolfbn)vbluf).boolfbnVbluf() : fblsf;
     }
 
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is boolean, return the boolean value, otherwise return false.
+     * If tif vbluf of <dodf>kfy</dodf> for tif givfn <dodf>Lodblf</dodf>
+     * is boolfbn, rfturn tif boolfbn vbluf, otifrwisf rfturn fblsf.
      *
-     * @param key an <code>Object</code> specifying the key for the desired boolean value
-     * @param l the desired locale
-     * @return if the value for <code>key</code> and <code>Locale</code>
-     *         is boolean, return the
-     *         boolean value, otherwise return false.
-     * @since 1.4
+     * @pbrbm kfy bn <dodf>Objfdt</dodf> spfdifying tif kfy for tif dfsirfd boolfbn vbluf
+     * @pbrbm l tif dfsirfd lodblf
+     * @rfturn if tif vbluf for <dodf>kfy</dodf> bnd <dodf>Lodblf</dodf>
+     *         is boolfbn, rfturn tif
+     *         boolfbn vbluf, otifrwisf rfturn fblsf.
+     * @sindf 1.4
      */
-    public boolean getBoolean(Object key, Locale l) {
-        Object value = get(key,l);
-        return (value instanceof Boolean) ? ((Boolean)value).booleanValue() : false;
+    publid boolfbn gftBoolfbn(Objfdt kfy, Lodblf l) {
+        Objfdt vbluf = gft(kfy,l);
+        rfturn (vbluf instbndfof Boolfbn) ? ((Boolfbn)vbluf).boolfbnVbluf() : fblsf;
     }
 
 
     /**
-     * If the value of <code>key</code> is an <code>Insets</code> return it,
-     * otherwise return <code>null</code>.
-     * @param key the desired key
-     * @return if the value for <code>key</code> is an <code>Insets</code>,
-     *          return the <code>Insets</code> object; otherwise return
-     *          <code>null</code>
+     * If tif vbluf of <dodf>kfy</dodf> is bn <dodf>Insfts</dodf> rfturn it,
+     * otifrwisf rfturn <dodf>null</dodf>.
+     * @pbrbm kfy tif dfsirfd kfy
+     * @rfturn if tif vbluf for <dodf>kfy</dodf> is bn <dodf>Insfts</dodf>,
+     *          rfturn tif <dodf>Insfts</dodf> objfdt; otifrwisf rfturn
+     *          <dodf>null</dodf>
      */
-    public Insets getInsets(Object key) {
-        Object value = get(key);
-        return (value instanceof Insets) ? (Insets)value : null;
+    publid Insfts gftInsfts(Objfdt kfy) {
+        Objfdt vbluf = gft(kfy);
+        rfturn (vbluf instbndfof Insfts) ? (Insfts)vbluf : null;
     }
 
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is an <code>Insets</code> return it, otherwise return <code>null</code>.
-     * @param key the desired key
-     * @param l the desired locale
-     * @return if the value for <code>key</code> and <code>Locale</code>
-     *          is an <code>Insets</code>,
-     *          return the <code>Insets</code> object; otherwise return
-     *          <code>null</code>
-     * @since 1.4
+     * If tif vbluf of <dodf>kfy</dodf> for tif givfn <dodf>Lodblf</dodf>
+     * is bn <dodf>Insfts</dodf> rfturn it, otifrwisf rfturn <dodf>null</dodf>.
+     * @pbrbm kfy tif dfsirfd kfy
+     * @pbrbm l tif dfsirfd lodblf
+     * @rfturn if tif vbluf for <dodf>kfy</dodf> bnd <dodf>Lodblf</dodf>
+     *          is bn <dodf>Insfts</dodf>,
+     *          rfturn tif <dodf>Insfts</dodf> objfdt; otifrwisf rfturn
+     *          <dodf>null</dodf>
+     * @sindf 1.4
      */
-    public Insets getInsets(Object key, Locale l) {
-        Object value = get(key,l);
-        return (value instanceof Insets) ? (Insets)value : null;
+    publid Insfts gftInsfts(Objfdt kfy, Lodblf l) {
+        Objfdt vbluf = gft(kfy,l);
+        rfturn (vbluf instbndfof Insfts) ? (Insfts)vbluf : null;
     }
 
 
     /**
-     * If the value of <code>key</code> is a <code>Dimension</code> return it,
-     * otherwise return <code>null</code>.
-     * @param key the desired key
-     * @return if the value for <code>key</code> is a <code>Dimension</code>,
-     *          return the <code>Dimension</code> object; otherwise return
-     *          <code>null</code>
+     * If tif vbluf of <dodf>kfy</dodf> is b <dodf>Dimfnsion</dodf> rfturn it,
+     * otifrwisf rfturn <dodf>null</dodf>.
+     * @pbrbm kfy tif dfsirfd kfy
+     * @rfturn if tif vbluf for <dodf>kfy</dodf> is b <dodf>Dimfnsion</dodf>,
+     *          rfturn tif <dodf>Dimfnsion</dodf> objfdt; otifrwisf rfturn
+     *          <dodf>null</dodf>
      */
-    public Dimension getDimension(Object key) {
-        Object value = get(key);
-        return (value instanceof Dimension) ? (Dimension)value : null;
+    publid Dimfnsion gftDimfnsion(Objfdt kfy) {
+        Objfdt vbluf = gft(kfy);
+        rfturn (vbluf instbndfof Dimfnsion) ? (Dimfnsion)vbluf : null;
     }
 
 
     /**
-     * If the value of <code>key</code> for the given <code>Locale</code>
-     * is a <code>Dimension</code> return it, otherwise return <code>null</code>.
-     * @param key the desired key
-     * @param l the desired locale
-     * @return if the value for <code>key</code> and <code>Locale</code>
-     *          is a <code>Dimension</code>,
-     *          return the <code>Dimension</code> object; otherwise return
-     *          <code>null</code>
-     * @since 1.4
+     * If tif vbluf of <dodf>kfy</dodf> for tif givfn <dodf>Lodblf</dodf>
+     * is b <dodf>Dimfnsion</dodf> rfturn it, otifrwisf rfturn <dodf>null</dodf>.
+     * @pbrbm kfy tif dfsirfd kfy
+     * @pbrbm l tif dfsirfd lodblf
+     * @rfturn if tif vbluf for <dodf>kfy</dodf> bnd <dodf>Lodblf</dodf>
+     *          is b <dodf>Dimfnsion</dodf>,
+     *          rfturn tif <dodf>Dimfnsion</dodf> objfdt; otifrwisf rfturn
+     *          <dodf>null</dodf>
+     * @sindf 1.4
      */
-    public Dimension getDimension(Object key, Locale l) {
-        Object value = get(key,l);
-        return (value instanceof Dimension) ? (Dimension)value : null;
+    publid Dimfnsion gftDimfnsion(Objfdt kfy, Lodblf l) {
+        Objfdt vbluf = gft(kfy,l);
+        rfturn (vbluf instbndfof Dimfnsion) ? (Dimfnsion)vbluf : null;
     }
 
 
     /**
-     * The value of <code>get(uidClassID)</code> must be the
-     * <code>String</code> name of a
-     * class that implements the corresponding <code>ComponentUI</code>
-     * class.  If the class hasn't been loaded before, this method looks
-     * up the class with <code>uiClassLoader.loadClass()</code> if a non
-     * <code>null</code>
-     * class loader is provided, <code>classForName()</code> otherwise.
+     * Tif vbluf of <dodf>gft(uidClbssID)</dodf> must bf tif
+     * <dodf>String</dodf> nbmf of b
+     * dlbss tibt implfmfnts tif dorrfsponding <dodf>ComponfntUI</dodf>
+     * dlbss.  If tif dlbss ibsn't bffn lobdfd bfforf, tiis mftiod looks
+     * up tif dlbss witi <dodf>uiClbssLobdfr.lobdClbss()</dodf> if b non
+     * <dodf>null</dodf>
+     * dlbss lobdfr is providfd, <dodf>dlbssForNbmf()</dodf> otifrwisf.
      * <p>
-     * If a mapping for <code>uiClassID</code> exists or if the specified
-     * class can't be found, return <code>null</code>.
+     * If b mbpping for <dodf>uiClbssID</dodf> fxists or if tif spfdififd
+     * dlbss dbn't bf found, rfturn <dodf>null</dodf>.
      * <p>
-     * This method is used by <code>getUI</code>, it's usually
-     * not necessary to call it directly.
+     * Tiis mftiod is usfd by <dodf>gftUI</dodf>, it's usublly
+     * not nfdfssbry to dbll it dirfdtly.
      *
-     * @param uiClassID  a string containing the class ID
-     * @param uiClassLoader the object which will load the class
-     * @return the value of <code>Class.forName(get(uidClassID))</code>
-     * @see #getUI
+     * @pbrbm uiClbssID  b string dontbining tif dlbss ID
+     * @pbrbm uiClbssLobdfr tif objfdt wiidi will lobd tif dlbss
+     * @rfturn tif vbluf of <dodf>Clbss.forNbmf(gft(uidClbssID))</dodf>
+     * @sff #gftUI
      */
-    public Class<? extends ComponentUI>
-        getUIClass(String uiClassID, ClassLoader uiClassLoader)
+    publid Clbss<? fxtfnds ComponfntUI>
+        gftUIClbss(String uiClbssID, ClbssLobdfr uiClbssLobdfr)
     {
         try {
-            String className = (String)get(uiClassID);
-            if (className != null) {
-                ReflectUtil.checkPackageAccess(className);
+            String dlbssNbmf = (String)gft(uiClbssID);
+            if (dlbssNbmf != null) {
+                RfflfdtUtil.difdkPbdkbgfAddfss(dlbssNbmf);
 
-                Class<?> cls = (Class)get(className);
-                if (cls == null) {
-                    if (uiClassLoader == null) {
-                        cls = SwingUtilities.loadSystemClass(className);
+                Clbss<?> dls = (Clbss)gft(dlbssNbmf);
+                if (dls == null) {
+                    if (uiClbssLobdfr == null) {
+                        dls = SwingUtilitifs.lobdSystfmClbss(dlbssNbmf);
                     }
-                    else {
-                        cls = uiClassLoader.loadClass(className);
+                    flsf {
+                        dls = uiClbssLobdfr.lobdClbss(dlbssNbmf);
                     }
-                    if (cls != null) {
-                        // Save lookup for future use, as forName is slow.
-                        put(className, cls);
+                    if (dls != null) {
+                        // Sbvf lookup for futurf usf, bs forNbmf is slow.
+                        put(dlbssNbmf, dls);
                     }
                 }
-                @SuppressWarnings("unchecked")
-                Class<? extends ComponentUI> tmp = (Class<? extends ComponentUI>)cls;
-                return tmp;
+                @SupprfssWbrnings("undifdkfd")
+                Clbss<? fxtfnds ComponfntUI> tmp = (Clbss<? fxtfnds ComponfntUI>)dls;
+                rfturn tmp;
             }
         }
-        catch (ClassNotFoundException | ClassCastException e) {
-            return null;
+        dbtdi (ClbssNotFoundExdfption | ClbssCbstExdfption f) {
+            rfturn null;
         }
-        return null;
+        rfturn null;
     }
 
 
     /**
-     * Returns the L&amp;F class that renders this component.
+     * Rfturns tif L&bmp;F dlbss tibt rfndfrs tiis domponfnt.
      *
-     * @param uiClassID a string containing the class ID
-     * @return the Class object returned by
-     *          <code>getUIClass(uiClassID, null)</code>
+     * @pbrbm uiClbssID b string dontbining tif dlbss ID
+     * @rfturn tif Clbss objfdt rfturnfd by
+     *          <dodf>gftUIClbss(uiClbssID, null)</dodf>
      */
-    public Class<? extends ComponentUI> getUIClass(String uiClassID) {
-        return getUIClass(uiClassID, null);
+    publid Clbss<? fxtfnds ComponfntUI> gftUIClbss(String uiClbssID) {
+        rfturn gftUIClbss(uiClbssID, null);
     }
 
 
     /**
-     * If <code>getUI()</code> fails for any reason,
-     * it calls this method before returning <code>null</code>.
-     * Subclasses may choose to do more or less here.
+     * If <dodf>gftUI()</dodf> fbils for bny rfbson,
+     * it dblls tiis mftiod bfforf rfturning <dodf>null</dodf>.
+     * Subdlbssfs mby dioosf to do morf or lfss ifrf.
      *
-     * @param msg message string to print
-     * @see #getUI
+     * @pbrbm msg mfssbgf string to print
+     * @sff #gftUI
      */
-    protected void getUIError(String msg) {
-        System.err.println("UIDefaults.getUI() failed: " + msg);
+    protfdtfd void gftUIError(String msg) {
+        Systfm.frr.println("UIDffbults.gftUI() fbilfd: " + msg);
         try {
-            throw new Error();
+            tirow nfw Error();
         }
-        catch (Throwable e) {
-            e.printStackTrace();
+        dbtdi (Tirowbblf f) {
+            f.printStbdkTrbdf();
         }
     }
 
     /**
-     * Creates an <code>ComponentUI</code> implementation for the
-     * specified component.  In other words create the look
-     * and feel specific delegate object for <code>target</code>.
-     * This is done in two steps:
+     * Crfbtfs bn <dodf>ComponfntUI</dodf> implfmfntbtion for tif
+     * spfdififd domponfnt.  In otifr words drfbtf tif look
+     * bnd fffl spfdifid dflfgbtf objfdt for <dodf>tbrgft</dodf>.
+     * Tiis is donf in two stfps:
      * <ul>
-     * <li> Look up the name of the <code>ComponentUI</code> implementation
-     * class under the value returned by <code>target.getUIClassID()</code>.
-     * <li> Use the implementation classes static <code>createUI()</code>
-     * method to construct a look and feel delegate.
+     * <li> Look up tif nbmf of tif <dodf>ComponfntUI</dodf> implfmfntbtion
+     * dlbss undfr tif vbluf rfturnfd by <dodf>tbrgft.gftUIClbssID()</dodf>.
+     * <li> Usf tif implfmfntbtion dlbssfs stbtid <dodf>drfbtfUI()</dodf>
+     * mftiod to donstrudt b look bnd fffl dflfgbtf.
      * </ul>
-     * @param target  the <code>JComponent</code> which needs a UI
-     * @return the <code>ComponentUI</code> object
+     * @pbrbm tbrgft  tif <dodf>JComponfnt</dodf> wiidi nffds b UI
+     * @rfturn tif <dodf>ComponfntUI</dodf> objfdt
      */
-    public ComponentUI getUI(JComponent target) {
+    publid ComponfntUI gftUI(JComponfnt tbrgft) {
 
-        Object cl = get("ClassLoader");
-        ClassLoader uiClassLoader =
-            (cl != null) ? (ClassLoader)cl : target.getClass().getClassLoader();
-        Class<? extends ComponentUI> uiClass = getUIClass(target.getUIClassID(), uiClassLoader);
-        Object uiObject = null;
+        Objfdt dl = gft("ClbssLobdfr");
+        ClbssLobdfr uiClbssLobdfr =
+            (dl != null) ? (ClbssLobdfr)dl : tbrgft.gftClbss().gftClbssLobdfr();
+        Clbss<? fxtfnds ComponfntUI> uiClbss = gftUIClbss(tbrgft.gftUIClbssID(), uiClbssLobdfr);
+        Objfdt uiObjfdt = null;
 
-        if (uiClass == null) {
-            getUIError("no ComponentUI class for: " + target);
+        if (uiClbss == null) {
+            gftUIError("no ComponfntUI dlbss for: " + tbrgft);
         }
-        else {
+        flsf {
             try {
-                Method m = (Method)get(uiClass);
+                Mftiod m = (Mftiod)gft(uiClbss);
                 if (m == null) {
-                    m = uiClass.getMethod("createUI", new Class<?>[]{JComponent.class});
-                    put(uiClass, m);
+                    m = uiClbss.gftMftiod("drfbtfUI", nfw Clbss<?>[]{JComponfnt.dlbss});
+                    put(uiClbss, m);
                 }
-                uiObject = MethodUtil.invoke(m, null, new Object[]{target});
+                uiObjfdt = MftiodUtil.invokf(m, null, nfw Objfdt[]{tbrgft});
             }
-            catch (NoSuchMethodException e) {
-                getUIError("static createUI() method not found in " + uiClass);
+            dbtdi (NoSudiMftiodExdfption f) {
+                gftUIError("stbtid drfbtfUI() mftiod not found in " + uiClbss);
             }
-            catch (Exception e) {
-                getUIError("createUI() failed for " + target + " " + e);
+            dbtdi (Exdfption f) {
+                gftUIError("drfbtfUI() fbilfd for " + tbrgft + " " + f);
             }
         }
 
-        return (ComponentUI)uiObject;
+        rfturn (ComponfntUI)uiObjfdt;
     }
 
     /**
-     * Adds a <code>PropertyChangeListener</code> to the listener list.
-     * The listener is registered for all properties.
+     * Adds b <dodf>PropfrtyCibngfListfnfr</dodf> to tif listfnfr list.
+     * Tif listfnfr is rfgistfrfd for bll propfrtifs.
      * <p>
-     * A <code>PropertyChangeEvent</code> will get fired whenever a default
-     * is changed.
+     * A <dodf>PropfrtyCibngfEvfnt</dodf> will gft firfd wifnfvfr b dffbult
+     * is dibngfd.
      *
-     * @param listener  the <code>PropertyChangeListener</code> to be added
-     * @see java.beans.PropertyChangeSupport
+     * @pbrbm listfnfr  tif <dodf>PropfrtyCibngfListfnfr</dodf> to bf bddfd
+     * @sff jbvb.bfbns.PropfrtyCibngfSupport
      */
-    public synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
-        if (changeSupport == null) {
-            changeSupport = new SwingPropertyChangeSupport(this);
+    publid syndironizfd void bddPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr listfnfr) {
+        if (dibngfSupport == null) {
+            dibngfSupport = nfw SwingPropfrtyCibngfSupport(tiis);
         }
-        changeSupport.addPropertyChangeListener(listener);
+        dibngfSupport.bddPropfrtyCibngfListfnfr(listfnfr);
     }
 
 
     /**
-     * Removes a <code>PropertyChangeListener</code> from the listener list.
-     * This removes a <code>PropertyChangeListener</code> that was registered
-     * for all properties.
+     * Rfmovfs b <dodf>PropfrtyCibngfListfnfr</dodf> from tif listfnfr list.
+     * Tiis rfmovfs b <dodf>PropfrtyCibngfListfnfr</dodf> tibt wbs rfgistfrfd
+     * for bll propfrtifs.
      *
-     * @param listener  the <code>PropertyChangeListener</code> to be removed
-     * @see java.beans.PropertyChangeSupport
+     * @pbrbm listfnfr  tif <dodf>PropfrtyCibngfListfnfr</dodf> to bf rfmovfd
+     * @sff jbvb.bfbns.PropfrtyCibngfSupport
      */
-    public synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
-        if (changeSupport != null) {
-            changeSupport.removePropertyChangeListener(listener);
-        }
-    }
-
-
-    /**
-     * Returns an array of all the <code>PropertyChangeListener</code>s added
-     * to this UIDefaults with addPropertyChangeListener().
-     *
-     * @return all of the <code>PropertyChangeListener</code>s added or an empty
-     *         array if no listeners have been added
-     * @since 1.4
-     */
-    public synchronized PropertyChangeListener[] getPropertyChangeListeners() {
-        if (changeSupport == null) {
-            return new PropertyChangeListener[0];
-        }
-        return changeSupport.getPropertyChangeListeners();
-    }
-
-
-    /**
-     * Support for reporting bound property changes.  If oldValue and
-     * newValue are not equal and the <code>PropertyChangeEvent</code>x
-     * listener list isn't empty, then fire a
-     * <code>PropertyChange</code> event to each listener.
-     *
-     * @param propertyName  the programmatic name of the property
-     *          that was changed
-     * @param oldValue  the old value of the property
-     * @param newValue  the new value of the property
-     * @see java.beans.PropertyChangeSupport
-     */
-    protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
-        if (changeSupport != null) {
-            changeSupport.firePropertyChange(propertyName, oldValue, newValue);
+    publid syndironizfd void rfmovfPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr listfnfr) {
+        if (dibngfSupport != null) {
+            dibngfSupport.rfmovfPropfrtyCibngfListfnfr(listfnfr);
         }
     }
 
 
     /**
-     * Adds a resource bundle to the list of resource bundles that are
-     * searched for localized values.  Resource bundles are searched in the
-     * reverse order they were added.  In other words, the most recently added
-     * bundle is searched first.
+     * Rfturns bn brrby of bll tif <dodf>PropfrtyCibngfListfnfr</dodf>s bddfd
+     * to tiis UIDffbults witi bddPropfrtyCibngfListfnfr().
      *
-     * @param bundleName  the base name of the resource bundle to be added
-     * @see java.util.ResourceBundle
-     * @see #removeResourceBundle
-     * @since 1.4
+     * @rfturn bll of tif <dodf>PropfrtyCibngfListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs ibvf bffn bddfd
+     * @sindf 1.4
      */
-    public synchronized void addResourceBundle( String bundleName ) {
-        if( bundleName == null ) {
-            return;
+    publid syndironizfd PropfrtyCibngfListfnfr[] gftPropfrtyCibngfListfnfrs() {
+        if (dibngfSupport == null) {
+            rfturn nfw PropfrtyCibngfListfnfr[0];
         }
-        if( resourceBundles == null ) {
-            resourceBundles = new Vector<String>(5);
-        }
-        if (!resourceBundles.contains(bundleName)) {
-            resourceBundles.add( bundleName );
-            resourceCache.clear();
+        rfturn dibngfSupport.gftPropfrtyCibngfListfnfrs();
+    }
+
+
+    /**
+     * Support for rfporting bound propfrty dibngfs.  If oldVbluf bnd
+     * nfwVbluf brf not fqubl bnd tif <dodf>PropfrtyCibngfEvfnt</dodf>x
+     * listfnfr list isn't fmpty, tifn firf b
+     * <dodf>PropfrtyCibngf</dodf> fvfnt to fbdi listfnfr.
+     *
+     * @pbrbm propfrtyNbmf  tif progrbmmbtid nbmf of tif propfrty
+     *          tibt wbs dibngfd
+     * @pbrbm oldVbluf  tif old vbluf of tif propfrty
+     * @pbrbm nfwVbluf  tif nfw vbluf of tif propfrty
+     * @sff jbvb.bfbns.PropfrtyCibngfSupport
+     */
+    protfdtfd void firfPropfrtyCibngf(String propfrtyNbmf, Objfdt oldVbluf, Objfdt nfwVbluf) {
+        if (dibngfSupport != null) {
+            dibngfSupport.firfPropfrtyCibngf(propfrtyNbmf, oldVbluf, nfwVbluf);
         }
     }
 
 
     /**
-     * Removes a resource bundle from the list of resource bundles that are
-     * searched for localized defaults.
+     * Adds b rfsourdf bundlf to tif list of rfsourdf bundlfs tibt brf
+     * sfbrdifd for lodblizfd vblufs.  Rfsourdf bundlfs brf sfbrdifd in tif
+     * rfvfrsf ordfr tify wfrf bddfd.  In otifr words, tif most rfdfntly bddfd
+     * bundlf is sfbrdifd first.
      *
-     * @param bundleName  the base name of the resource bundle to be removed
-     * @see java.util.ResourceBundle
-     * @see #addResourceBundle
-     * @since 1.4
+     * @pbrbm bundlfNbmf  tif bbsf nbmf of tif rfsourdf bundlf to bf bddfd
+     * @sff jbvb.util.RfsourdfBundlf
+     * @sff #rfmovfRfsourdfBundlf
+     * @sindf 1.4
      */
-    public synchronized void removeResourceBundle( String bundleName ) {
-        if( resourceBundles != null ) {
-            resourceBundles.remove( bundleName );
+    publid syndironizfd void bddRfsourdfBundlf( String bundlfNbmf ) {
+        if( bundlfNbmf == null ) {
+            rfturn;
         }
-        resourceCache.clear();
+        if( rfsourdfBundlfs == null ) {
+            rfsourdfBundlfs = nfw Vfdtor<String>(5);
+        }
+        if (!rfsourdfBundlfs.dontbins(bundlfNbmf)) {
+            rfsourdfBundlfs.bdd( bundlfNbmf );
+            rfsourdfCbdif.dlfbr();
+        }
     }
 
+
     /**
-     * Sets the default locale.  The default locale is used in retrieving
-     * localized values via <code>get</code> methods that do not take a
-     * locale argument.  As of release 1.4, Swing UI objects should retrieve
-     * localized values using the locale of their component rather than the
-     * default locale.  The default locale exists to provide compatibility with
-     * pre 1.4 behaviour.
+     * Rfmovfs b rfsourdf bundlf from tif list of rfsourdf bundlfs tibt brf
+     * sfbrdifd for lodblizfd dffbults.
      *
-     * @param l the new default locale
-     * @see #getDefaultLocale
-     * @see #get(Object)
-     * @see #get(Object,Locale)
-     * @since 1.4
+     * @pbrbm bundlfNbmf  tif bbsf nbmf of tif rfsourdf bundlf to bf rfmovfd
+     * @sff jbvb.util.RfsourdfBundlf
+     * @sff #bddRfsourdfBundlf
+     * @sindf 1.4
      */
-    public void setDefaultLocale( Locale l ) {
-        defaultLocale = l;
+    publid syndironizfd void rfmovfRfsourdfBundlf( String bundlfNbmf ) {
+        if( rfsourdfBundlfs != null ) {
+            rfsourdfBundlfs.rfmovf( bundlfNbmf );
+        }
+        rfsourdfCbdif.dlfbr();
     }
 
     /**
-     * Returns the default locale.  The default locale is used in retrieving
-     * localized values via <code>get</code> methods that do not take a
-     * locale argument.  As of release 1.4, Swing UI objects should retrieve
-     * localized values using the locale of their component rather than the
-     * default locale.  The default locale exists to provide compatibility with
-     * pre 1.4 behaviour.
+     * Sfts tif dffbult lodblf.  Tif dffbult lodblf is usfd in rftrifving
+     * lodblizfd vblufs vib <dodf>gft</dodf> mftiods tibt do not tbkf b
+     * lodblf brgumfnt.  As of rflfbsf 1.4, Swing UI objfdts siould rftrifvf
+     * lodblizfd vblufs using tif lodblf of tifir domponfnt rbtifr tibn tif
+     * dffbult lodblf.  Tif dffbult lodblf fxists to providf dompbtibility witi
+     * prf 1.4 bfibviour.
      *
-     * @return the default locale
-     * @see #setDefaultLocale
-     * @see #get(Object)
-     * @see #get(Object,Locale)
-     * @since 1.4
+     * @pbrbm l tif nfw dffbult lodblf
+     * @sff #gftDffbultLodblf
+     * @sff #gft(Objfdt)
+     * @sff #gft(Objfdt,Lodblf)
+     * @sindf 1.4
      */
-    public Locale getDefaultLocale() {
-        return defaultLocale;
+    publid void sftDffbultLodblf( Lodblf l ) {
+        dffbultLodblf = l;
     }
 
     /**
-     * This class enables one to store an entry in the defaults
-     * table that isn't constructed until the first time it's
-     * looked up with one of the <code>getXXX(key)</code> methods.
-     * Lazy values are useful for defaults that are expensive
-     * to construct or are seldom retrieved.  The first time
-     * a <code>LazyValue</code> is retrieved its "real value" is computed
-     * by calling <code>LazyValue.createValue()</code> and the real
-     * value is used to replace the <code>LazyValue</code> in the
-     * <code>UIDefaults</code>
-     * table.  Subsequent lookups for the same key return
-     * the real value.  Here's an example of a <code>LazyValue</code>
-     * that constructs a <code>Border</code>:
-     * <pre>
-     *  Object borderLazyValue = new UIDefaults.LazyValue() {
-     *      public Object createValue(UIDefaults table) {
-     *          return new BorderFactory.createLoweredBevelBorder();
+     * Rfturns tif dffbult lodblf.  Tif dffbult lodblf is usfd in rftrifving
+     * lodblizfd vblufs vib <dodf>gft</dodf> mftiods tibt do not tbkf b
+     * lodblf brgumfnt.  As of rflfbsf 1.4, Swing UI objfdts siould rftrifvf
+     * lodblizfd vblufs using tif lodblf of tifir domponfnt rbtifr tibn tif
+     * dffbult lodblf.  Tif dffbult lodblf fxists to providf dompbtibility witi
+     * prf 1.4 bfibviour.
+     *
+     * @rfturn tif dffbult lodblf
+     * @sff #sftDffbultLodblf
+     * @sff #gft(Objfdt)
+     * @sff #gft(Objfdt,Lodblf)
+     * @sindf 1.4
+     */
+    publid Lodblf gftDffbultLodblf() {
+        rfturn dffbultLodblf;
+    }
+
+    /**
+     * Tiis dlbss fnbblfs onf to storf bn fntry in tif dffbults
+     * tbblf tibt isn't donstrudtfd until tif first timf it's
+     * lookfd up witi onf of tif <dodf>gftXXX(kfy)</dodf> mftiods.
+     * Lbzy vblufs brf usfful for dffbults tibt brf fxpfnsivf
+     * to donstrudt or brf sfldom rftrifvfd.  Tif first timf
+     * b <dodf>LbzyVbluf</dodf> is rftrifvfd its "rfbl vbluf" is domputfd
+     * by dblling <dodf>LbzyVbluf.drfbtfVbluf()</dodf> bnd tif rfbl
+     * vbluf is usfd to rfplbdf tif <dodf>LbzyVbluf</dodf> in tif
+     * <dodf>UIDffbults</dodf>
+     * tbblf.  Subsfqufnt lookups for tif sbmf kfy rfturn
+     * tif rfbl vbluf.  Hfrf's bn fxbmplf of b <dodf>LbzyVbluf</dodf>
+     * tibt donstrudts b <dodf>Bordfr</dodf>:
+     * <prf>
+     *  Objfdt bordfrLbzyVbluf = nfw UIDffbults.LbzyVbluf() {
+     *      publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+     *          rfturn nfw BordfrFbdtory.drfbtfLowfrfdBfvflBordfr();
      *      }
      *  };
      *
-     *  uiDefaultsTable.put("MyBorder", borderLazyValue);
-     * </pre>
+     *  uiDffbultsTbblf.put("MyBordfr", bordfrLbzyVbluf);
+     * </prf>
      *
-     * @see UIDefaults#get
+     * @sff UIDffbults#gft
      */
-    public interface LazyValue {
+    publid intfrfbdf LbzyVbluf {
         /**
-         * Creates the actual value retrieved from the <code>UIDefaults</code>
-         * table. When an object that implements this interface is
-         * retrieved from the table, this method is used to create
-         * the real value, which is then stored in the table and
-         * returned to the calling method.
+         * Crfbtfs tif bdtubl vbluf rftrifvfd from tif <dodf>UIDffbults</dodf>
+         * tbblf. Wifn bn objfdt tibt implfmfnts tiis intfrfbdf is
+         * rftrifvfd from tif tbblf, tiis mftiod is usfd to drfbtf
+         * tif rfbl vbluf, wiidi is tifn storfd in tif tbblf bnd
+         * rfturnfd to tif dblling mftiod.
          *
-         * @param table  a <code>UIDefaults</code> table
-         * @return the created <code>Object</code>
+         * @pbrbm tbblf  b <dodf>UIDffbults</dodf> tbblf
+         * @rfturn tif drfbtfd <dodf>Objfdt</dodf>
          */
-        Object createValue(UIDefaults table);
+        Objfdt drfbtfVbluf(UIDffbults tbblf);
     }
 
 
     /**
-     * This class enables one to store an entry in the defaults
-     * table that's constructed each time it's looked up with one of
-     * the <code>getXXX(key)</code> methods. Here's an example of
-     * an <code>ActiveValue</code> that constructs a
-     * <code>DefaultListCellRenderer</code>:
-     * <pre>
-     *  Object cellRendererActiveValue = new UIDefaults.ActiveValue() {
-     *      public Object createValue(UIDefaults table) {
-     *          return new DefaultListCellRenderer();
+     * Tiis dlbss fnbblfs onf to storf bn fntry in tif dffbults
+     * tbblf tibt's donstrudtfd fbdi timf it's lookfd up witi onf of
+     * tif <dodf>gftXXX(kfy)</dodf> mftiods. Hfrf's bn fxbmplf of
+     * bn <dodf>AdtivfVbluf</dodf> tibt donstrudts b
+     * <dodf>DffbultListCfllRfndfrfr</dodf>:
+     * <prf>
+     *  Objfdt dfllRfndfrfrAdtivfVbluf = nfw UIDffbults.AdtivfVbluf() {
+     *      publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+     *          rfturn nfw DffbultListCfllRfndfrfr();
      *      }
      *  };
      *
-     *  uiDefaultsTable.put("MyRenderer", cellRendererActiveValue);
-     * </pre>
+     *  uiDffbultsTbblf.put("MyRfndfrfr", dfllRfndfrfrAdtivfVbluf);
+     * </prf>
      *
-     * @see UIDefaults#get
+     * @sff UIDffbults#gft
      */
-    public interface ActiveValue {
+    publid intfrfbdf AdtivfVbluf {
         /**
-         * Creates the value retrieved from the <code>UIDefaults</code> table.
-         * The object is created each time it is accessed.
+         * Crfbtfs tif vbluf rftrifvfd from tif <dodf>UIDffbults</dodf> tbblf.
+         * Tif objfdt is drfbtfd fbdi timf it is bddfssfd.
          *
-         * @param table  a <code>UIDefaults</code> table
-         * @return the created <code>Object</code>
+         * @pbrbm tbblf  b <dodf>UIDffbults</dodf> tbblf
+         * @rfturn tif drfbtfd <dodf>Objfdt</dodf>
          */
-        Object createValue(UIDefaults table);
+        Objfdt drfbtfVbluf(UIDffbults tbblf);
     }
 
     /**
-     * This class provides an implementation of <code>LazyValue</code>
-     * which can be
-     * used to delay loading of the Class for the instance to be created.
-     * It also avoids creation of an anonymous inner class for the
-     * <code>LazyValue</code>
-     * subclass.  Both of these improve performance at the time that a
-     * a Look and Feel is loaded, at the cost of a slight performance
-     * reduction the first time <code>createValue</code> is called
-     * (since Reflection APIs are used).
-     * @since 1.3
+     * Tiis dlbss providfs bn implfmfntbtion of <dodf>LbzyVbluf</dodf>
+     * wiidi dbn bf
+     * usfd to dflby lobding of tif Clbss for tif instbndf to bf drfbtfd.
+     * It blso bvoids drfbtion of bn bnonymous innfr dlbss for tif
+     * <dodf>LbzyVbluf</dodf>
+     * subdlbss.  Boti of tifsf improvf pfrformbndf bt tif timf tibt b
+     * b Look bnd Fffl is lobdfd, bt tif dost of b sligit pfrformbndf
+     * rfdudtion tif first timf <dodf>drfbtfVbluf</dodf> is dbllfd
+     * (sindf Rfflfdtion APIs brf usfd).
+     * @sindf 1.3
      */
-    public static class ProxyLazyValue implements LazyValue {
-        private AccessControlContext acc;
-        private String className;
-        private String methodName;
-        private Object[] args;
+    publid stbtid dlbss ProxyLbzyVbluf implfmfnts LbzyVbluf {
+        privbtf AddfssControlContfxt bdd;
+        privbtf String dlbssNbmf;
+        privbtf String mftiodNbmf;
+        privbtf Objfdt[] brgs;
 
         /**
-         * Creates a <code>LazyValue</code> which will construct an instance
-         * when asked.
+         * Crfbtfs b <dodf>LbzyVbluf</dodf> wiidi will donstrudt bn instbndf
+         * wifn bskfd.
          *
-         * @param c    a <code>String</code> specifying the classname
-         *             of the instance to be created on demand
+         * @pbrbm d    b <dodf>String</dodf> spfdifying tif dlbssnbmf
+         *             of tif instbndf to bf drfbtfd on dfmbnd
          */
-        public ProxyLazyValue(String c) {
-            this(c, (String)null);
+        publid ProxyLbzyVbluf(String d) {
+            tiis(d, (String)null);
         }
         /**
-         * Creates a <code>LazyValue</code> which will construct an instance
-         * when asked.
+         * Crfbtfs b <dodf>LbzyVbluf</dodf> wiidi will donstrudt bn instbndf
+         * wifn bskfd.
          *
-         * @param c    a <code>String</code> specifying the classname of
-         *              the class
-         *              containing a static method to be called for
-         *              instance creation
-         * @param m    a <code>String</code> specifying the static
-         *              method to be called on class c
+         * @pbrbm d    b <dodf>String</dodf> spfdifying tif dlbssnbmf of
+         *              tif dlbss
+         *              dontbining b stbtid mftiod to bf dbllfd for
+         *              instbndf drfbtion
+         * @pbrbm m    b <dodf>String</dodf> spfdifying tif stbtid
+         *              mftiod to bf dbllfd on dlbss d
          */
-        public ProxyLazyValue(String c, String m) {
-            this(c, m, null);
+        publid ProxyLbzyVbluf(String d, String m) {
+            tiis(d, m, null);
         }
         /**
-         * Creates a <code>LazyValue</code> which will construct an instance
-         * when asked.
+         * Crfbtfs b <dodf>LbzyVbluf</dodf> wiidi will donstrudt bn instbndf
+         * wifn bskfd.
          *
-         * @param c    a <code>String</code> specifying the classname
-         *              of the instance to be created on demand
-         * @param o    an array of <code>Objects</code> to be passed as
-         *              paramaters to the constructor in class c
+         * @pbrbm d    b <dodf>String</dodf> spfdifying tif dlbssnbmf
+         *              of tif instbndf to bf drfbtfd on dfmbnd
+         * @pbrbm o    bn brrby of <dodf>Objfdts</dodf> to bf pbssfd bs
+         *              pbrbmbtfrs to tif donstrudtor in dlbss d
          */
-        public ProxyLazyValue(String c, Object[] o) {
-            this(c, null, o);
+        publid ProxyLbzyVbluf(String d, Objfdt[] o) {
+            tiis(d, null, o);
         }
         /**
-         * Creates a <code>LazyValue</code> which will construct an instance
-         * when asked.
+         * Crfbtfs b <dodf>LbzyVbluf</dodf> wiidi will donstrudt bn instbndf
+         * wifn bskfd.
          *
-         * @param c    a <code>String</code> specifying the classname
-         *              of the class
-         *              containing a static method to be called for
-         *              instance creation.
-         * @param m    a <code>String</code> specifying the static method
-         *              to be called on class c
-         * @param o    an array of <code>Objects</code> to be passed as
-         *              paramaters to the static method in class c
+         * @pbrbm d    b <dodf>String</dodf> spfdifying tif dlbssnbmf
+         *              of tif dlbss
+         *              dontbining b stbtid mftiod to bf dbllfd for
+         *              instbndf drfbtion.
+         * @pbrbm m    b <dodf>String</dodf> spfdifying tif stbtid mftiod
+         *              to bf dbllfd on dlbss d
+         * @pbrbm o    bn brrby of <dodf>Objfdts</dodf> to bf pbssfd bs
+         *              pbrbmbtfrs to tif stbtid mftiod in dlbss d
          */
-        public ProxyLazyValue(String c, String m, Object[] o) {
-            acc = AccessController.getContext();
-            className = c;
-            methodName = m;
+        publid ProxyLbzyVbluf(String d, String m, Objfdt[] o) {
+            bdd = AddfssControllfr.gftContfxt();
+            dlbssNbmf = d;
+            mftiodNbmf = m;
             if (o != null) {
-                args = o.clone();
+                brgs = o.dlonf();
             }
         }
 
         /**
-         * Creates the value retrieved from the <code>UIDefaults</code> table.
-         * The object is created each time it is accessed.
+         * Crfbtfs tif vbluf rftrifvfd from tif <dodf>UIDffbults</dodf> tbblf.
+         * Tif objfdt is drfbtfd fbdi timf it is bddfssfd.
          *
-         * @param table  a <code>UIDefaults</code> table
-         * @return the created <code>Object</code>
+         * @pbrbm tbblf  b <dodf>UIDffbults</dodf> tbblf
+         * @rfturn tif drfbtfd <dodf>Objfdt</dodf>
          */
-        public Object createValue(final UIDefaults table) {
-            // In order to pick up the security policy in effect at the
-            // time of creation we use a doPrivileged with the
-            // AccessControlContext that was in place when this was created.
-            if (acc == null && System.getSecurityManager() != null) {
-                throw new SecurityException("null AccessControlContext");
+        publid Objfdt drfbtfVbluf(finbl UIDffbults tbblf) {
+            // In ordfr to pidk up tif sfdurity polidy in ffffdt bt tif
+            // timf of drfbtion wf usf b doPrivilfgfd witi tif
+            // AddfssControlContfxt tibt wbs in plbdf wifn tiis wbs drfbtfd.
+            if (bdd == null && Systfm.gftSfdurityMbnbgfr() != null) {
+                tirow nfw SfdurityExdfption("null AddfssControlContfxt");
             }
-            return AccessController.doPrivileged(new PrivilegedAction<Object>() {
-                public Object run() {
+            rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+                publid Objfdt run() {
                     try {
-                        Class<?> c;
-                        Object cl;
-                        // See if we should use a separate ClassLoader
-                        if (table == null || !((cl = table.get("ClassLoader"))
-                                               instanceof ClassLoader)) {
-                            cl = Thread.currentThread().
-                                        getContextClassLoader();
-                            if (cl == null) {
-                                // Fallback to the system class loader.
-                                cl = ClassLoader.getSystemClassLoader();
+                        Clbss<?> d;
+                        Objfdt dl;
+                        // Sff if wf siould usf b sfpbrbtf ClbssLobdfr
+                        if (tbblf == null || !((dl = tbblf.gft("ClbssLobdfr"))
+                                               instbndfof ClbssLobdfr)) {
+                            dl = Tirfbd.durrfntTirfbd().
+                                        gftContfxtClbssLobdfr();
+                            if (dl == null) {
+                                // Fbllbbdk to tif systfm dlbss lobdfr.
+                                dl = ClbssLobdfr.gftSystfmClbssLobdfr();
                             }
                         }
-                        ReflectUtil.checkPackageAccess(className);
-                        c = Class.forName(className, true, (ClassLoader)cl);
-                        SwingUtilities2.checkAccess(c.getModifiers());
-                        if (methodName != null) {
-                            Class<?>[] types = getClassArray(args);
-                            Method m = c.getMethod(methodName, types);
-                            return MethodUtil.invoke(m, c, args);
-                        } else {
-                            Class<?>[] types = getClassArray(args);
-                            Constructor<?> constructor = c.getConstructor(types);
-                            SwingUtilities2.checkAccess(constructor.getModifiers());
-                            return constructor.newInstance(args);
+                        RfflfdtUtil.difdkPbdkbgfAddfss(dlbssNbmf);
+                        d = Clbss.forNbmf(dlbssNbmf, truf, (ClbssLobdfr)dl);
+                        SwingUtilitifs2.difdkAddfss(d.gftModififrs());
+                        if (mftiodNbmf != null) {
+                            Clbss<?>[] typfs = gftClbssArrby(brgs);
+                            Mftiod m = d.gftMftiod(mftiodNbmf, typfs);
+                            rfturn MftiodUtil.invokf(m, d, brgs);
+                        } flsf {
+                            Clbss<?>[] typfs = gftClbssArrby(brgs);
+                            Construdtor<?> donstrudtor = d.gftConstrudtor(typfs);
+                            SwingUtilitifs2.difdkAddfss(donstrudtor.gftModififrs());
+                            rfturn donstrudtor.nfwInstbndf(brgs);
                         }
-                    } catch(Exception e) {
-                        // Ideally we would throw an exception, unfortunately
-                        // often times there are errors as an initial look and
-                        // feel is loaded before one can be switched. Perhaps a
-                        // flag should be added for debugging, so that if true
-                        // the exception would be thrown.
+                    } dbtdi(Exdfption f) {
+                        // Idfblly wf would tirow bn fxdfption, unfortunbtfly
+                        // oftfn timfs tifrf brf frrors bs bn initibl look bnd
+                        // fffl is lobdfd bfforf onf dbn bf switdifd. Pfribps b
+                        // flbg siould bf bddfd for dfbugging, so tibt if truf
+                        // tif fxdfption would bf tirown.
                     }
-                    return null;
+                    rfturn null;
                 }
-            }, acc);
+            }, bdd);
         }
 
         /*
-         * Coerce the array of class types provided into one which
-         * looks the way the Reflection APIs expect.  This is done
-         * by substituting primitive types for their Object counterparts,
-         * and superclasses for subclasses used to add the
-         * <code>UIResource</code> tag.
+         * Cofrdf tif brrby of dlbss typfs providfd into onf wiidi
+         * looks tif wby tif Rfflfdtion APIs fxpfdt.  Tiis is donf
+         * by substituting primitivf typfs for tifir Objfdt dountfrpbrts,
+         * bnd supfrdlbssfs for subdlbssfs usfd to bdd tif
+         * <dodf>UIRfsourdf</dodf> tbg.
          */
-        private Class<?>[] getClassArray(Object[] args) {
-            Class<?>[] types = null;
-            if (args!=null) {
-                types = new Class<?>[args.length];
-                for (int i = 0; i< args.length; i++) {
-                    /* PENDING(ges): At present only the primitive types
-                       used are handled correctly; this should eventually
-                       handle all primitive types */
-                    if (args[i] instanceof java.lang.Integer) {
-                        types[i]=Integer.TYPE;
-                    } else if (args[i] instanceof java.lang.Boolean) {
-                        types[i]=Boolean.TYPE;
-                    } else if (args[i] instanceof javax.swing.plaf.ColorUIResource) {
-                        /* PENDING(ges) Currently the Reflection APIs do not
-                           search superclasses of parameters supplied for
-                           constructor/method lookup.  Since we only have
-                           one case where this is needed, we substitute
-                           directly instead of adding a massive amount
-                           of mechanism for this.  Eventually this will
-                           probably need to handle the general case as well.
+        privbtf Clbss<?>[] gftClbssArrby(Objfdt[] brgs) {
+            Clbss<?>[] typfs = null;
+            if (brgs!=null) {
+                typfs = nfw Clbss<?>[brgs.lfngti];
+                for (int i = 0; i< brgs.lfngti; i++) {
+                    /* PENDING(gfs): At prfsfnt only tif primitivf typfs
+                       usfd brf ibndlfd dorrfdtly; tiis siould fvfntublly
+                       ibndlf bll primitivf typfs */
+                    if (brgs[i] instbndfof jbvb.lbng.Intfgfr) {
+                        typfs[i]=Intfgfr.TYPE;
+                    } flsf if (brgs[i] instbndfof jbvb.lbng.Boolfbn) {
+                        typfs[i]=Boolfbn.TYPE;
+                    } flsf if (brgs[i] instbndfof jbvbx.swing.plbf.ColorUIRfsourdf) {
+                        /* PENDING(gfs) Currfntly tif Rfflfdtion APIs do not
+                           sfbrdi supfrdlbssfs of pbrbmftfrs supplifd for
+                           donstrudtor/mftiod lookup.  Sindf wf only ibvf
+                           onf dbsf wifrf tiis is nffdfd, wf substitutf
+                           dirfdtly instfbd of bdding b mbssivf bmount
+                           of mfdibnism for tiis.  Evfntublly tiis will
+                           probbbly nffd to ibndlf tif gfnfrbl dbsf bs wfll.
                            */
-                        types[i]=java.awt.Color.class;
-                    } else {
-                        types[i]=args[i].getClass();
+                        typfs[i]=jbvb.bwt.Color.dlbss;
+                    } flsf {
+                        typfs[i]=brgs[i].gftClbss();
                     }
                 }
             }
-            return types;
+            rfturn typfs;
         }
 
-        private String printArgs(Object[] array) {
+        privbtf String printArgs(Objfdt[] brrby) {
             String s = "{";
-            if (array !=null) {
-                for (int i = 0 ; i < array.length-1; i++) {
-                    s = s.concat(array[i] + ",");
+            if (brrby !=null) {
+                for (int i = 0 ; i < brrby.lfngti-1; i++) {
+                    s = s.dondbt(brrby[i] + ",");
                 }
-                s = s.concat(array[array.length-1] + "}");
-            } else {
-                s = s.concat("}");
+                s = s.dondbt(brrby[brrby.lfngti-1] + "}");
+            } flsf {
+                s = s.dondbt("}");
             }
-            return s;
+            rfturn s;
         }
     }
 
 
     /**
-     * <code>LazyInputMap</code> will create a <code>InputMap</code>
-     * in its <code>createValue</code>
-     * method. The bindings are passed in in the constructor.
-     * The bindings are an array with
-     * the even number entries being string <code>KeyStrokes</code>
-     * (eg "alt SPACE") and
-     * the odd number entries being the value to use in the
-     * <code>InputMap</code> (and the key in the <code>ActionMap</code>).
-     * @since 1.3
+     * <dodf>LbzyInputMbp</dodf> will drfbtf b <dodf>InputMbp</dodf>
+     * in its <dodf>drfbtfVbluf</dodf>
+     * mftiod. Tif bindings brf pbssfd in in tif donstrudtor.
+     * Tif bindings brf bn brrby witi
+     * tif fvfn numbfr fntrifs bfing string <dodf>KfyStrokfs</dodf>
+     * (fg "blt SPACE") bnd
+     * tif odd numbfr fntrifs bfing tif vbluf to usf in tif
+     * <dodf>InputMbp</dodf> (bnd tif kfy in tif <dodf>AdtionMbp</dodf>).
+     * @sindf 1.3
      */
-    public static class LazyInputMap implements LazyValue {
-        /** Key bindings are registered under. */
-        private Object[] bindings;
+    publid stbtid dlbss LbzyInputMbp implfmfnts LbzyVbluf {
+        /** Kfy bindings brf rfgistfrfd undfr. */
+        privbtf Objfdt[] bindings;
 
-        public LazyInputMap(Object[] bindings) {
-            this.bindings = bindings;
+        publid LbzyInputMbp(Objfdt[] bindings) {
+            tiis.bindings = bindings;
         }
 
         /**
-         * Creates an <code>InputMap</code> with the bindings that are
-         * passed in.
+         * Crfbtfs bn <dodf>InputMbp</dodf> witi tif bindings tibt brf
+         * pbssfd in.
          *
-         * @param table a <code>UIDefaults</code> table
-         * @return the <code>InputMap</code>
+         * @pbrbm tbblf b <dodf>UIDffbults</dodf> tbblf
+         * @rfturn tif <dodf>InputMbp</dodf>
          */
-        public Object createValue(UIDefaults table) {
+        publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
             if (bindings != null) {
-                InputMap km = LookAndFeel.makeInputMap(bindings);
-                return km;
+                InputMbp km = LookAndFffl.mbkfInputMbp(bindings);
+                rfturn km;
             }
-            return null;
+            rfturn null;
         }
     }
 
     /**
-     * <code>TextAndMnemonicHashMap</code> stores swing resource strings. Many of strings
-     * can have a mnemonic. For example:
-     *   FileChooser.saveButton.textAndMnemonic=&Save
-     * For this case method get returns "Save" for the key "FileChooser.saveButtonText" and
-     * mnemonic "S" for the key "FileChooser.saveButtonMnemonic"
+     * <dodf>TfxtAndMnfmonidHbsiMbp</dodf> storfs swing rfsourdf strings. Mbny of strings
+     * dbn ibvf b mnfmonid. For fxbmplf:
+     *   FilfCioosfr.sbvfButton.tfxtAndMnfmonid=&Sbvf
+     * For tiis dbsf mftiod gft rfturns "Sbvf" for tif kfy "FilfCioosfr.sbvfButtonTfxt" bnd
+     * mnfmonid "S" for tif kfy "FilfCioosfr.sbvfButtonMnfmonid"
      *
-     * There are several patterns for the text and mnemonic suffixes which are checked by the
-     * <code>TextAndMnemonicHashMap</code> class.
-     * Patterns which are converted to the xxx.textAndMnemonic key:
-     * (xxxNameText, xxxNameMnemonic)
-     * (xxxNameText, xxxMnemonic)
-     * (xxx.nameText, xxx.mnemonic)
-     * (xxxText, xxxMnemonic)
+     * Tifrf brf sfvfrbl pbttfrns for tif tfxt bnd mnfmonid suffixfs wiidi brf difdkfd by tif
+     * <dodf>TfxtAndMnfmonidHbsiMbp</dodf> dlbss.
+     * Pbttfrns wiidi brf donvfrtfd to tif xxx.tfxtAndMnfmonid kfy:
+     * (xxxNbmfTfxt, xxxNbmfMnfmonid)
+     * (xxxNbmfTfxt, xxxMnfmonid)
+     * (xxx.nbmfTfxt, xxx.mnfmonid)
+     * (xxxTfxt, xxxMnfmonid)
      *
-     * These patterns can have a mnemonic index in format
-     * (xxxDisplayedMnemonicIndex)
+     * Tifsf pbttfrns dbn ibvf b mnfmonid indfx in formbt
+     * (xxxDisplbyfdMnfmonidIndfx)
      *
-     * Pattern which is converted to the xxx.titleAndMnemonic key:
-     * (xxxTitle, xxxMnemonic)
+     * Pbttfrn wiidi is donvfrtfd to tif xxx.titlfAndMnfmonid kfy:
+     * (xxxTitlf, xxxMnfmonid)
      *
      */
-    private static class TextAndMnemonicHashMap extends HashMap<String, Object> {
+    privbtf stbtid dlbss TfxtAndMnfmonidHbsiMbp fxtfnds HbsiMbp<String, Objfdt> {
 
-        static final String AND_MNEMONIC = "AndMnemonic";
-        static final String TITLE_SUFFIX = ".titleAndMnemonic";
-        static final String TEXT_SUFFIX = ".textAndMnemonic";
+        stbtid finbl String AND_MNEMONIC = "AndMnfmonid";
+        stbtid finbl String TITLE_SUFFIX = ".titlfAndMnfmonid";
+        stbtid finbl String TEXT_SUFFIX = ".tfxtAndMnfmonid";
 
-        @Override
-        public Object get(Object key) {
+        @Ovfrridf
+        publid Objfdt gft(Objfdt kfy) {
 
-            Object value = super.get(key);
+            Objfdt vbluf = supfr.gft(kfy);
 
-            if (value == null) {
+            if (vbluf == null) {
 
-                boolean checkTitle = false;
+                boolfbn difdkTitlf = fblsf;
 
-                String stringKey = key.toString();
-                String compositeKey = null;
+                String stringKfy = kfy.toString();
+                String dompositfKfy = null;
 
-                if (stringKey.endsWith(AND_MNEMONIC)) {
-                    return null;
+                if (stringKfy.fndsWiti(AND_MNEMONIC)) {
+                    rfturn null;
                 }
 
-                if (stringKey.endsWith(".mnemonic")) {
-                    compositeKey = composeKey(stringKey, 9, TEXT_SUFFIX);
-                } else if (stringKey.endsWith("NameMnemonic")) {
-                    compositeKey = composeKey(stringKey, 12, TEXT_SUFFIX);
-                } else if (stringKey.endsWith("Mnemonic")) {
-                    compositeKey = composeKey(stringKey, 8, TEXT_SUFFIX);
-                    checkTitle = true;
+                if (stringKfy.fndsWiti(".mnfmonid")) {
+                    dompositfKfy = domposfKfy(stringKfy, 9, TEXT_SUFFIX);
+                } flsf if (stringKfy.fndsWiti("NbmfMnfmonid")) {
+                    dompositfKfy = domposfKfy(stringKfy, 12, TEXT_SUFFIX);
+                } flsf if (stringKfy.fndsWiti("Mnfmonid")) {
+                    dompositfKfy = domposfKfy(stringKfy, 8, TEXT_SUFFIX);
+                    difdkTitlf = truf;
                 }
 
-                if (compositeKey != null) {
-                    value = super.get(compositeKey);
-                    if (value == null && checkTitle) {
-                        compositeKey = composeKey(stringKey, 8, TITLE_SUFFIX);
-                        value = super.get(compositeKey);
+                if (dompositfKfy != null) {
+                    vbluf = supfr.gft(dompositfKfy);
+                    if (vbluf == null && difdkTitlf) {
+                        dompositfKfy = domposfKfy(stringKfy, 8, TITLE_SUFFIX);
+                        vbluf = supfr.gft(dompositfKfy);
                     }
 
-                    return value == null ? null : getMnemonicFromProperty(value.toString());
+                    rfturn vbluf == null ? null : gftMnfmonidFromPropfrty(vbluf.toString());
                 }
 
-                if (stringKey.endsWith("NameText")) {
-                    compositeKey = composeKey(stringKey, 8, TEXT_SUFFIX);
-                } else if (stringKey.endsWith(".nameText")) {
-                    compositeKey = composeKey(stringKey, 9, TEXT_SUFFIX);
-                } else if (stringKey.endsWith("Text")) {
-                    compositeKey = composeKey(stringKey, 4, TEXT_SUFFIX);
-                } else if (stringKey.endsWith("Title")) {
-                    compositeKey = composeKey(stringKey, 5, TITLE_SUFFIX);
+                if (stringKfy.fndsWiti("NbmfTfxt")) {
+                    dompositfKfy = domposfKfy(stringKfy, 8, TEXT_SUFFIX);
+                } flsf if (stringKfy.fndsWiti(".nbmfTfxt")) {
+                    dompositfKfy = domposfKfy(stringKfy, 9, TEXT_SUFFIX);
+                } flsf if (stringKfy.fndsWiti("Tfxt")) {
+                    dompositfKfy = domposfKfy(stringKfy, 4, TEXT_SUFFIX);
+                } flsf if (stringKfy.fndsWiti("Titlf")) {
+                    dompositfKfy = domposfKfy(stringKfy, 5, TITLE_SUFFIX);
                 }
 
-                if (compositeKey != null) {
-                    value = super.get(compositeKey);
-                    return value == null ? null : getTextFromProperty(value.toString());
+                if (dompositfKfy != null) {
+                    vbluf = supfr.gft(dompositfKfy);
+                    rfturn vbluf == null ? null : gftTfxtFromPropfrty(vbluf.toString());
                 }
 
-                if (stringKey.endsWith("DisplayedMnemonicIndex")) {
-                    compositeKey = composeKey(stringKey, 22, TEXT_SUFFIX);
-                    value = super.get(compositeKey);
-                    if (value == null) {
-                        compositeKey = composeKey(stringKey, 22, TITLE_SUFFIX);
-                        value = super.get(compositeKey);
+                if (stringKfy.fndsWiti("DisplbyfdMnfmonidIndfx")) {
+                    dompositfKfy = domposfKfy(stringKfy, 22, TEXT_SUFFIX);
+                    vbluf = supfr.gft(dompositfKfy);
+                    if (vbluf == null) {
+                        dompositfKfy = domposfKfy(stringKfy, 22, TITLE_SUFFIX);
+                        vbluf = supfr.gft(dompositfKfy);
                     }
-                    return value == null ? null : getIndexFromProperty(value.toString());
+                    rfturn vbluf == null ? null : gftIndfxFromPropfrty(vbluf.toString());
                 }
             }
 
-            return value;
+            rfturn vbluf;
         }
 
-        String composeKey(String key, int reduce, String sufix) {
-            return key.substring(0, key.length() - reduce) + sufix;
+        String domposfKfy(String kfy, int rfdudf, String sufix) {
+            rfturn kfy.substring(0, kfy.lfngti() - rfdudf) + sufix;
         }
 
-        String getTextFromProperty(String text) {
-            return text.replace("&", "");
+        String gftTfxtFromPropfrty(String tfxt) {
+            rfturn tfxt.rfplbdf("&", "");
         }
 
-        String getMnemonicFromProperty(String text) {
-            int index = text.indexOf('&');
-            if (0 <= index && index < text.length() - 1) {
-                char c = text.charAt(index + 1);
-                return Integer.toString((int) Character.toUpperCase(c));
+        String gftMnfmonidFromPropfrty(String tfxt) {
+            int indfx = tfxt.indfxOf('&');
+            if (0 <= indfx && indfx < tfxt.lfngti() - 1) {
+                dibr d = tfxt.dibrAt(indfx + 1);
+                rfturn Intfgfr.toString((int) Cibrbdtfr.toUppfrCbsf(d));
             }
-            return null;
+            rfturn null;
         }
 
-        String getIndexFromProperty(String text) {
-            int index = text.indexOf('&');
-            return (index == -1) ? null : Integer.toString(index);
+        String gftIndfxFromPropfrty(String tfxt) {
+            int indfx = tfxt.indfxOf('&');
+            rfturn (indfx == -1) ? null : Intfgfr.toString(indfx);
         }
     }
 

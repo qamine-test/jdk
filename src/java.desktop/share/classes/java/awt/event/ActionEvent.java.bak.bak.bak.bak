@@ -1,0 +1,289 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.fvfnt;
+
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.Evfnt;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+
+/**
+ * A sfmbntid fvfnt whidh indidbtfs thbt b domponfnt-dffinfd bdtion oddurrfd.
+ * This high-lfvfl fvfnt is gfnfrbtfd by b domponfnt (sudh bs b
+ * <dodf>Button</dodf>) whfn
+ * thf domponfnt-spfdifid bdtion oddurs (sudh bs bfing prfssfd).
+ * Thf fvfnt is pbssfd to fvfry <dodf>AdtionListfnfr</dodf> objfdt
+ * thbt rfgistfrfd to rfdfivf sudh fvfnts using thf domponfnt's
+ * <dodf>bddAdtionListfnfr</dodf> mfthod.
+ * <p>
+ * <b>Notf:</b> To invokf bn <dodf>AdtionEvfnt</dodf> on b
+ * <dodf>Button</dodf> using thf kfybobrd, usf thf Spbdf bbr.
+ * <P>
+ * Thf objfdt thbt implfmfnts thf <dodf>AdtionListfnfr</dodf> intfrfbdf
+ * gfts this <dodf>AdtionEvfnt</dodf> whfn thf fvfnt oddurs. Thf listfnfr
+ * is thfrfforf spbrfd thf dftbils of prodfssing individubl mousf movfmfnts
+ * bnd mousf dlidks, bnd dbn instfbd prodfss b "mfbningful" (sfmbntid)
+ * fvfnt likf "button prfssfd".
+ * <p>
+ * An unspfdififd bfhbvior will bf dbusfd if thf {@dodf id} pbrbmftfr
+ * of bny pbrtidulbr {@dodf AdtionEvfnt} instbndf is not
+ * in thf rbngf from {@dodf ACTION_FIRST} to {@dodf ACTION_LAST}.
+ *
+ * @sff AdtionListfnfr
+ * @sff <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/fvfnts/bdtionlistfnfr.html">Tutoribl: How to Writf bn Adtion Listfnfr</b>
+ *
+ * @buthor Cbrl Quinn
+ * @sindf 1.1
+ */
+publid dlbss AdtionEvfnt fxtfnds AWTEvfnt {
+
+    /**
+     * Thf shift modififr. An indidbtor thbt thf shift kfy wbs hfld
+     * down during thf fvfnt.
+     */
+    publid stbtid finbl int SHIFT_MASK          = Evfnt.SHIFT_MASK;
+
+    /**
+     * Thf dontrol modififr. An indidbtor thbt thf dontrol kfy wbs hfld
+     * down during thf fvfnt.
+     */
+    publid stbtid finbl int CTRL_MASK           = Evfnt.CTRL_MASK;
+
+    /**
+     * Thf mftb modififr. An indidbtor thbt thf mftb kfy wbs hfld
+     * down during thf fvfnt.
+     */
+    publid stbtid finbl int META_MASK           = Evfnt.META_MASK;
+
+    /**
+     * Thf blt modififr. An indidbtor thbt thf blt kfy wbs hfld
+     * down during thf fvfnt.
+     */
+    publid stbtid finbl int ALT_MASK            = Evfnt.ALT_MASK;
+
+
+    /**
+     * Thf first numbfr in thf rbngf of ids usfd for bdtion fvfnts.
+     */
+    publid stbtid finbl int ACTION_FIRST                = 1001;
+
+    /**
+     * Thf lbst numbfr in thf rbngf of ids usfd for bdtion fvfnts.
+     */
+    publid stbtid finbl int ACTION_LAST                 = 1001;
+
+    /**
+     * This fvfnt id indidbtfs thbt b mfbningful bdtion oddurrfd.
+     */
+    @Nbtivf publid stbtid finbl int ACTION_PERFORMED    = ACTION_FIRST; //Evfnt.ACTION_EVENT
+
+    /**
+     * Thf nonlodblizfd string thbt givfs morf dftbils
+     * of whbt bdtublly dbusfd thf fvfnt.
+     * This informbtion is vfry spfdifid to thf domponfnt
+     * thbt firfd it.
+
+     * @sfribl
+     * @sff #gftAdtionCommbnd
+     */
+    String bdtionCommbnd;
+
+    /**
+     * Timfstbmp of whfn this fvfnt oddurrfd. Bfdbusf bn AdtionEvfnt is b high-
+     * lfvfl, sfmbntid fvfnt, thf timfstbmp is typidblly thf sbmf bs bn
+     * undfrlying InputEvfnt.
+     *
+     * @sfribl
+     * @sff #gftWhfn
+     */
+    long whfn;
+
+    /**
+     * This rfprfsfnts thf kfy modififr thbt wbs sflfdtfd,
+     * bnd is usfd to dftfrminf thf stbtf of thf sflfdtfd kfy.
+     * If no modififr hbs bffn sflfdtfd it will dffbult to
+     * zfro.
+     *
+     * @sfribl
+     * @sff #gftModififrs
+     */
+    int modififrs;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -7671078796273832149L;
+
+    /**
+     * Construdts bn <dodf>AdtionEvfnt</dodf> objfdt.
+     * <p>
+     * This mfthod throws bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
+     * A <dodf>null</dodf> <dodf>dommbnd</dodf> string is lfgbl,
+     * but not rfdommfndfd.
+     *
+     * @pbrbm sourdf  Thf objfdt thbt originbtfd thf fvfnt
+     * @pbrbm id      An intfgfr thbt idfntififs thf fvfnt.
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     thf dlbss dfsdription for {@link AdtionEvfnt}
+     * @pbrbm dommbnd A string thbt mby spfdify b dommbnd (possibly onf
+     *                of sfvfrbl) bssodibtfd with thf fvfnt
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff #gftSourdf()
+     * @sff #gftID()
+     * @sff #gftAdtionCommbnd()
+     */
+    publid AdtionEvfnt(Objfdt sourdf, int id, String dommbnd) {
+        this(sourdf, id, dommbnd, 0);
+    }
+
+    /**
+     * Construdts bn <dodf>AdtionEvfnt</dodf> objfdt with modififr kfys.
+     * <p>
+     * This mfthod throws bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
+     * A <dodf>null</dodf> <dodf>dommbnd</dodf> string is lfgbl,
+     * but not rfdommfndfd.
+     *
+     * @pbrbm sourdf  Thf objfdt thbt originbtfd thf fvfnt
+     * @pbrbm id      An intfgfr thbt idfntififs thf fvfnt.
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     thf dlbss dfsdription for {@link AdtionEvfnt}
+     * @pbrbm dommbnd A string thbt mby spfdify b dommbnd (possibly onf
+     *                of sfvfrbl) bssodibtfd with thf fvfnt
+     * @pbrbm modififrs Thf modififr kfys down during fvfnt
+     *                  (shift, dtrl, blt, mftb).
+     *                  Pbssing nfgbtivf pbrbmftfr is not rfdommfndfd.
+     *                  Zfro vbluf mfbns thbt no modififrs wfrf pbssfd
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff #gftSourdf()
+     * @sff #gftID()
+     * @sff #gftAdtionCommbnd()
+     * @sff #gftModififrs()
+     */
+    publid AdtionEvfnt(Objfdt sourdf, int id, String dommbnd, int modififrs) {
+        this(sourdf, id, dommbnd, 0, modififrs);
+    }
+
+    /**
+     * Construdts bn <dodf>AdtionEvfnt</dodf> objfdt with thf spfdififd
+     * modififr kfys bnd timfstbmp.
+     * <p>
+     * This mfthod throws bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
+     * A <dodf>null</dodf> <dodf>dommbnd</dodf> string is lfgbl,
+     * but not rfdommfndfd.
+     *
+     * @pbrbm sourdf    Thf objfdt thbt originbtfd thf fvfnt
+     * @pbrbm id      An intfgfr thbt idfntififs thf fvfnt.
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     thf dlbss dfsdription for {@link AdtionEvfnt}
+     * @pbrbm dommbnd A string thbt mby spfdify b dommbnd (possibly onf
+     *                of sfvfrbl) bssodibtfd with thf fvfnt
+     * @pbrbm modififrs Thf modififr kfys down during fvfnt
+     *                  (shift, dtrl, blt, mftb).
+     *                  Pbssing nfgbtivf pbrbmftfr is not rfdommfndfd.
+     *                  Zfro vbluf mfbns thbt no modififrs wfrf pbssfd
+     * @pbrbm whfn   A long thbt givfs thf timf thf fvfnt oddurrfd.
+     *               Pbssing nfgbtivf or zfro vbluf
+     *               is not rfdommfndfd
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff #gftSourdf()
+     * @sff #gftID()
+     * @sff #gftAdtionCommbnd()
+     * @sff #gftModififrs()
+     * @sff #gftWhfn()
+     *
+     * @sindf 1.4
+     */
+    publid AdtionEvfnt(Objfdt sourdf, int id, String dommbnd, long whfn,
+                       int modififrs) {
+        supfr(sourdf, id);
+        this.bdtionCommbnd = dommbnd;
+        this.whfn = whfn;
+        this.modififrs = modififrs;
+    }
+
+    /**
+     * Rfturns thf dommbnd string bssodibtfd with this bdtion.
+     * This string bllows b "modbl" domponfnt to spfdify onf of sfvfrbl
+     * dommbnds, dfpfnding on its stbtf. For fxbmplf, b singlf button might
+     * togglf bftwffn "show dftbils" bnd "hidf dftbils". Thf sourdf objfdt
+     * bnd thf fvfnt would bf thf sbmf in fbdh dbsf, but thf dommbnd string
+     * would idfntify thf intfndfd bdtion.
+     * <p>
+     * Notf thbt if b <dodf>null</dodf> dommbnd string wbs pbssfd
+     * to thf donstrudtor for this <dodf>AdtionEvfnt</dodf>, this
+     * this mfthod rfturns <dodf>null</dodf>.
+     *
+     * @rfturn thf string idfntifying thf dommbnd for this fvfnt
+     */
+    publid String gftAdtionCommbnd() {
+        rfturn bdtionCommbnd;
+    }
+
+    /**
+     * Rfturns thf timfstbmp of whfn this fvfnt oddurrfd. Bfdbusf bn
+     * AdtionEvfnt is b high-lfvfl, sfmbntid fvfnt, thf timfstbmp is typidblly
+     * thf sbmf bs bn undfrlying InputEvfnt.
+     *
+     * @rfturn this fvfnt's timfstbmp
+     * @sindf 1.4
+     */
+    publid long gftWhfn() {
+        rfturn whfn;
+    }
+
+    /**
+     * Rfturns thf modififr kfys hfld down during this bdtion fvfnt.
+     *
+     * @rfturn thf bitwisf-or of thf modififr donstbnts
+     */
+    publid int gftModififrs() {
+        rfturn modififrs;
+    }
+
+    /**
+     * Rfturns b pbrbmftfr string idfntifying this bdtion fvfnt.
+     * This mfthod is usfful for fvfnt-logging bnd for dfbugging.
+     *
+     * @rfturn b string idfntifying thf fvfnt bnd its bssodibtfd dommbnd
+     */
+    publid String pbrbmString() {
+        String typfStr;
+        switdh(id) {
+          dbsf ACTION_PERFORMED:
+              typfStr = "ACTION_PERFORMED";
+              brfbk;
+          dffbult:
+              typfStr = "unknown typf";
+        }
+        rfturn typfStr + ",dmd="+bdtionCommbnd+",whfn="+whfn+",modififrs="+
+            KfyEvfnt.gftKfyModififrsTfxt(modififrs);
+    }
+}

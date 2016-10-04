@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.net.httpserver;
+pbdkbgf dom.sun.nft.ittpsfrvfr;
 
-import java.net.*;
-import java.io.*;
-import java.nio.*;
-import java.security.*;
-import java.nio.channels.*;
-import java.util.*;
-import java.util.concurrent.*;
-import javax.net.ssl.*;
+import jbvb.nft.*;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.sfdurity.*;
+import jbvb.nio.dibnnfls.*;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.*;
+import jbvbx.nft.ssl.*;
 
 
 /**
- * This class is used to configure the https parameters for each incoming
- * https connection on a HttpsServer. Applications need to override
- * the {@link #configure(HttpsParameters)} method in order to change
- * the default configuration.
+ * Tiis dlbss is usfd to donfigurf tif ittps pbrbmftfrs for fbdi indoming
+ * ittps donnfdtion on b HttpsSfrvfr. Applidbtions nffd to ovfrridf
+ * tif {@link #donfigurf(HttpsPbrbmftfrs)} mftiod in ordfr to dibngf
+ * tif dffbult donfigurbtion.
  * <p>
- * The following <a name="example">example</a> shows how this may be done:
+ * Tif following <b nbmf="fxbmplf">fxbmplf</b> siows iow tiis mby bf donf:
  * <p>
- * <pre><blockquote>
- * SSLContext sslContext = SSLContext.getInstance (....);
- * HttpsServer server = HttpsServer.create();
+ * <prf><blodkquotf>
+ * SSLContfxt sslContfxt = SSLContfxt.gftInstbndf (....);
+ * HttpsSfrvfr sfrvfr = HttpsSfrvfr.drfbtf();
  *
- * server.setHttpsConfigurator (new HttpsConfigurator(sslContext) {
- *     public void configure (HttpsParameters params) {
+ * sfrvfr.sftHttpsConfigurbtor (nfw HttpsConfigurbtor(sslContfxt) {
+ *     publid void donfigurf (HttpsPbrbmftfrs pbrbms) {
  *
- *         // get the remote address if needed
- *         InetSocketAddress remote = params.getClientAddress();
+ *         // gft tif rfmotf bddrfss if nffdfd
+ *         InftSodkftAddrfss rfmotf = pbrbms.gftClifntAddrfss();
  *
- *         SSLContext c = getSSLContext();
+ *         SSLContfxt d = gftSSLContfxt();
  *
- *         // get the default parameters
- *         SSLParameters sslparams = c.getDefaultSSLParameters();
- *         if (remote.equals (...) ) {
- *             // modify the default set for client x
+ *         // gft tif dffbult pbrbmftfrs
+ *         SSLPbrbmftfrs sslpbrbms = d.gftDffbultSSLPbrbmftfrs();
+ *         if (rfmotf.fqubls (...) ) {
+ *             // modify tif dffbult sft for dlifnt x
  *         }
  *
- *         params.setSSLParameters(sslparams);
+ *         pbrbms.sftSSLPbrbmftfrs(sslpbrbms);
  *     }
  * });
- * </blockquote></pre>
- * @since 1.6
+ * </blodkquotf></prf>
+ * @sindf 1.6
  */
-@jdk.Exported
-public class HttpsConfigurator {
+@jdk.Exportfd
+publid dlbss HttpsConfigurbtor {
 
-    private SSLContext context;
+    privbtf SSLContfxt dontfxt;
 
     /**
-     * Creates an Https configuration, with the given SSLContext.
-     * @param context the SSLContext to use for this configurator
-     * @throws NullPointerException if no SSLContext supplied
+     * Crfbtfs bn Https donfigurbtion, witi tif givfn SSLContfxt.
+     * @pbrbm dontfxt tif SSLContfxt to usf for tiis donfigurbtor
+     * @tirows NullPointfrExdfption if no SSLContfxt supplifd
      */
-    public HttpsConfigurator (SSLContext context) {
-        if (context == null) {
-            throw new NullPointerException ("null SSLContext");
+    publid HttpsConfigurbtor (SSLContfxt dontfxt) {
+        if (dontfxt == null) {
+            tirow nfw NullPointfrExdfption ("null SSLContfxt");
         }
-        this.context = context;
+        tiis.dontfxt = dontfxt;
     }
 
     /**
-     * Returns the SSLContext for this HttpsConfigurator.
-     * @return the SSLContext
+     * Rfturns tif SSLContfxt for tiis HttpsConfigurbtor.
+     * @rfturn tif SSLContfxt
      */
-    public SSLContext getSSLContext() {
-        return context;
+    publid SSLContfxt gftSSLContfxt() {
+        rfturn dontfxt;
     }
 
 //BEGIN_TIGER_EXCLUDE
    /**
-    * Called by the HttpsServer to configure the parameters
-    * for a https connection currently being established.
-    * The implementation of configure() must call
-    * {@link HttpsParameters#setSSLParameters(SSLParameters)}
-    * in order to set the SSL parameters for the connection.
+    * Cbllfd by tif HttpsSfrvfr to donfigurf tif pbrbmftfrs
+    * for b ittps donnfdtion durrfntly bfing fstbblisifd.
+    * Tif implfmfntbtion of donfigurf() must dbll
+    * {@link HttpsPbrbmftfrs#sftSSLPbrbmftfrs(SSLPbrbmftfrs)}
+    * in ordfr to sft tif SSL pbrbmftfrs for tif donnfdtion.
     * <p>
-    * The default implementation of this method uses the
-    * SSLParameters returned from <p>
-    * <code>getSSLContext().getDefaultSSLParameters()</code>
+    * Tif dffbult implfmfntbtion of tiis mftiod usfs tif
+    * SSLPbrbmftfrs rfturnfd from <p>
+    * <dodf>gftSSLContfxt().gftDffbultSSLPbrbmftfrs()</dodf>
     * <p>
-    * configure() may be overridden in order to modify this behavior.
-    * See, the example <a href="#example">above</a>.
-    * @param params the HttpsParameters to be configured.
+    * donfigurf() mby bf ovfrriddfn in ordfr to modify tiis bfibvior.
+    * Sff, tif fxbmplf <b irff="#fxbmplf">bbovf</b>.
+    * @pbrbm pbrbms tif HttpsPbrbmftfrs to bf donfigurfd.
     *
-    * @since 1.6
+    * @sindf 1.6
     */
-    public void configure (HttpsParameters params) {
-        params.setSSLParameters (getSSLContext().getDefaultSSLParameters());
+    publid void donfigurf (HttpsPbrbmftfrs pbrbms) {
+        pbrbms.sftSSLPbrbmftfrs (gftSSLContfxt().gftDffbultSSLPbrbmftfrs());
     }
 //END_TIGER_EXCLUDE
 }

@@ -1,164 +1,164 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
 /**
- * The <tt>Formattable</tt> interface must be implemented by any class that
- * needs to perform custom formatting using the <tt>'s'</tt> conversion
- * specifier of {@link java.util.Formatter}.  This interface allows basic
- * control for formatting arbitrary objects.
+ * Tif <tt>Formbttbblf</tt> intfrfbdf must bf implfmfntfd by bny dlbss tibt
+ * nffds to pfrform dustom formbtting using tif <tt>'s'</tt> donvfrsion
+ * spfdififr of {@link jbvb.util.Formbttfr}.  Tiis intfrfbdf bllows bbsid
+ * dontrol for formbtting brbitrbry objfdts.
  *
- * For example, the following class prints out different representations of a
- * stock's name depending on the flags and length constraints:
+ * For fxbmplf, tif following dlbss prints out difffrfnt rfprfsfntbtions of b
+ * stodk's nbmf dfpfnding on tif flbgs bnd lfngti donstrbints:
  *
- * {@code
- *   import java.nio.CharBuffer;
- *   import java.util.Formatter;
- *   import java.util.Formattable;
- *   import java.util.Locale;
- *   import static java.util.FormattableFlags.*;
+ * {@dodf
+ *   import jbvb.nio.CibrBufffr;
+ *   import jbvb.util.Formbttfr;
+ *   import jbvb.util.Formbttbblf;
+ *   import jbvb.util.Lodblf;
+ *   import stbtid jbvb.util.FormbttbblfFlbgs.*;
  *
  *  ...
  *
- *   public class StockName implements Formattable {
- *       private String symbol, companyName, frenchCompanyName;
- *       public StockName(String symbol, String companyName,
- *                        String frenchCompanyName) {
+ *   publid dlbss StodkNbmf implfmfnts Formbttbblf {
+ *       privbtf String symbol, dompbnyNbmf, frfndiCompbnyNbmf;
+ *       publid StodkNbmf(String symbol, String dompbnyNbmf,
+ *                        String frfndiCompbnyNbmf) {
  *           ...
  *       }
  *
  *       ...
  *
- *       public void formatTo(Formatter fmt, int f, int width, int precision) {
- *           StringBuilder sb = new StringBuilder();
+ *       publid void formbtTo(Formbttfr fmt, int f, int widti, int prfdision) {
+ *           StringBuildfr sb = nfw StringBuildfr();
  *
- *           // decide form of name
- *           String name = companyName;
- *           if (fmt.locale().equals(Locale.FRANCE))
- *               name = frenchCompanyName;
- *           boolean alternate = (f & ALTERNATE) == ALTERNATE;
- *           boolean usesymbol = alternate || (precision != -1 && precision < 10);
- *           String out = (usesymbol ? symbol : name);
+ *           // dfdidf form of nbmf
+ *           String nbmf = dompbnyNbmf;
+ *           if (fmt.lodblf().fqubls(Lodblf.FRANCE))
+ *               nbmf = frfndiCompbnyNbmf;
+ *           boolfbn bltfrnbtf = (f & ALTERNATE) == ALTERNATE;
+ *           boolfbn usfsymbol = bltfrnbtf || (prfdision != -1 && prfdision < 10);
+ *           String out = (usfsymbol ? symbol : nbmf);
  *
- *           // apply precision
- *           if (precision == -1 || out.length() < precision) {
- *               // write it all
- *               sb.append(out);
- *           } else {
- *               sb.append(out.substring(0, precision - 1)).append('*');
+ *           // bpply prfdision
+ *           if (prfdision == -1 || out.lfngti() < prfdision) {
+ *               // writf it bll
+ *               sb.bppfnd(out);
+ *           } flsf {
+ *               sb.bppfnd(out.substring(0, prfdision - 1)).bppfnd('*');
  *           }
  *
- *           // apply width and justification
- *           int len = sb.length();
- *           if (len < width)
- *               for (int i = 0; i < width - len; i++)
+ *           // bpply widti bnd justifidbtion
+ *           int lfn = sb.lfngti();
+ *           if (lfn < widti)
+ *               for (int i = 0; i < widti - lfn; i++)
  *                   if ((f & LEFT_JUSTIFY) == LEFT_JUSTIFY)
- *                       sb.append(' ');
- *                   else
- *                       sb.insert(0, ' ');
+ *                       sb.bppfnd(' ');
+ *                   flsf
+ *                       sb.insfrt(0, ' ');
  *
- *           fmt.format(sb.toString());
+ *           fmt.formbt(sb.toString());
  *       }
  *
- *       public String toString() {
- *           return String.format("%s - %s", symbol, companyName);
+ *       publid String toString() {
+ *           rfturn String.formbt("%s - %s", symbol, dompbnyNbmf);
  *       }
  *   }
  * }
  *
- * <p> When used in conjunction with the {@link java.util.Formatter}, the above
- * class produces the following output for various format strings.
+ * <p> Wifn usfd in donjundtion witi tif {@link jbvb.util.Formbttfr}, tif bbovf
+ * dlbss produdfs tif following output for vbrious formbt strings.
  *
- * {@code
- *   Formatter fmt = new Formatter();
- *   StockName sn = new StockName("HUGE", "Huge Fruit, Inc.",
- *                                "Fruit Titanesque, Inc.");
- *   fmt.format("%s", sn);                   //   -> "Huge Fruit, Inc."
- *   fmt.format("%s", sn.toString());        //   -> "HUGE - Huge Fruit, Inc."
- *   fmt.format("%#s", sn);                  //   -> "HUGE"
- *   fmt.format("%-10.8s", sn);              //   -> "HUGE      "
- *   fmt.format("%.12s", sn);                //   -> "Huge Fruit,*"
- *   fmt.format(Locale.FRANCE, "%25s", sn);  //   -> "   Fruit Titanesque, Inc."
+ * {@dodf
+ *   Formbttfr fmt = nfw Formbttfr();
+ *   StodkNbmf sn = nfw StodkNbmf("HUGE", "Hugf Fruit, Ind.",
+ *                                "Fruit Titbnfsquf, Ind.");
+ *   fmt.formbt("%s", sn);                   //   -> "Hugf Fruit, Ind."
+ *   fmt.formbt("%s", sn.toString());        //   -> "HUGE - Hugf Fruit, Ind."
+ *   fmt.formbt("%#s", sn);                  //   -> "HUGE"
+ *   fmt.formbt("%-10.8s", sn);              //   -> "HUGE      "
+ *   fmt.formbt("%.12s", sn);                //   -> "Hugf Fruit,*"
+ *   fmt.formbt(Lodblf.FRANCE, "%25s", sn);  //   -> "   Fruit Titbnfsquf, Ind."
  * }
  *
- * <p> Formattables are not necessarily safe for multithreaded access.  Thread
- * safety is optional and may be enforced by classes that extend and implement
- * this interface.
+ * <p> Formbttbblfs brf not nfdfssbrily sbff for multitirfbdfd bddfss.  Tirfbd
+ * sbffty is optionbl bnd mby bf fnfordfd by dlbssfs tibt fxtfnd bnd implfmfnt
+ * tiis intfrfbdf.
  *
- * <p> Unless otherwise specified, passing a <tt>null</tt> argument to
- * any method in this interface will cause a {@link
- * NullPointerException} to be thrown.
+ * <p> Unlfss otifrwisf spfdififd, pbssing b <tt>null</tt> brgumfnt to
+ * bny mftiod in tiis intfrfbdf will dbusf b {@link
+ * NullPointfrExdfption} to bf tirown.
  *
- * @since  1.5
+ * @sindf  1.5
  */
-public interface Formattable {
+publid intfrfbdf Formbttbblf {
 
     /**
-     * Formats the object using the provided {@link Formatter formatter}.
+     * Formbts tif objfdt using tif providfd {@link Formbttfr formbttfr}.
      *
-     * @param  formatter
-     *         The {@link Formatter formatter}.  Implementing classes may call
-     *         {@link Formatter#out() formatter.out()} or {@link
-     *         Formatter#locale() formatter.locale()} to obtain the {@link
-     *         Appendable} or {@link Locale} used by this
-     *         <tt>formatter</tt> respectively.
+     * @pbrbm  formbttfr
+     *         Tif {@link Formbttfr formbttfr}.  Implfmfnting dlbssfs mby dbll
+     *         {@link Formbttfr#out() formbttfr.out()} or {@link
+     *         Formbttfr#lodblf() formbttfr.lodblf()} to obtbin tif {@link
+     *         Appfndbblf} or {@link Lodblf} usfd by tiis
+     *         <tt>formbttfr</tt> rfspfdtivfly.
      *
-     * @param  flags
-     *         The flags modify the output format.  The value is interpreted as
-     *         a bitmask.  Any combination of the following flags may be set:
-     *         {@link FormattableFlags#LEFT_JUSTIFY}, {@link
-     *         FormattableFlags#UPPERCASE}, and {@link
-     *         FormattableFlags#ALTERNATE}.  If no flags are set, the default
-     *         formatting of the implementing class will apply.
+     * @pbrbm  flbgs
+     *         Tif flbgs modify tif output formbt.  Tif vbluf is intfrprftfd bs
+     *         b bitmbsk.  Any dombinbtion of tif following flbgs mby bf sft:
+     *         {@link FormbttbblfFlbgs#LEFT_JUSTIFY}, {@link
+     *         FormbttbblfFlbgs#UPPERCASE}, bnd {@link
+     *         FormbttbblfFlbgs#ALTERNATE}.  If no flbgs brf sft, tif dffbult
+     *         formbtting of tif implfmfnting dlbss will bpply.
      *
-     * @param  width
-     *         The minimum number of characters to be written to the output.
-     *         If the length of the converted value is less than the
-     *         <tt>width</tt> then the output will be padded by
-     *         <tt>'&nbsp;&nbsp;'</tt> until the total number of characters
-     *         equals width.  The padding is at the beginning by default.  If
-     *         the {@link FormattableFlags#LEFT_JUSTIFY} flag is set then the
-     *         padding will be at the end.  If <tt>width</tt> is <tt>-1</tt>
-     *         then there is no minimum.
+     * @pbrbm  widti
+     *         Tif minimum numbfr of dibrbdtfrs to bf writtfn to tif output.
+     *         If tif lfngti of tif donvfrtfd vbluf is lfss tibn tif
+     *         <tt>widti</tt> tifn tif output will bf pbddfd by
+     *         <tt>'&nbsp;&nbsp;'</tt> until tif totbl numbfr of dibrbdtfrs
+     *         fqubls widti.  Tif pbdding is bt tif bfginning by dffbult.  If
+     *         tif {@link FormbttbblfFlbgs#LEFT_JUSTIFY} flbg is sft tifn tif
+     *         pbdding will bf bt tif fnd.  If <tt>widti</tt> is <tt>-1</tt>
+     *         tifn tifrf is no minimum.
      *
-     * @param  precision
-     *         The maximum number of characters to be written to the output.
-     *         The precision is applied before the width, thus the output will
-     *         be truncated to <tt>precision</tt> characters even if the
-     *         <tt>width</tt> is greater than the <tt>precision</tt>.  If
-     *         <tt>precision</tt> is <tt>-1</tt> then there is no explicit
-     *         limit on the number of characters.
+     * @pbrbm  prfdision
+     *         Tif mbximum numbfr of dibrbdtfrs to bf writtfn to tif output.
+     *         Tif prfdision is bpplifd bfforf tif widti, tius tif output will
+     *         bf trundbtfd to <tt>prfdision</tt> dibrbdtfrs fvfn if tif
+     *         <tt>widti</tt> is grfbtfr tibn tif <tt>prfdision</tt>.  If
+     *         <tt>prfdision</tt> is <tt>-1</tt> tifn tifrf is no fxplidit
+     *         limit on tif numbfr of dibrbdtfrs.
      *
-     * @throws  IllegalFormatException
-     *          If any of the parameters are invalid.  For specification of all
-     *          possible formatting errors, see the <a
-     *          href="../util/Formatter.html#detail">Details</a> section of the
-     *          formatter class specification.
+     * @tirows  IllfgblFormbtExdfption
+     *          If bny of tif pbrbmftfrs brf invblid.  For spfdifidbtion of bll
+     *          possiblf formbtting frrors, sff tif <b
+     *          irff="../util/Formbttfr.itml#dftbil">Dftbils</b> sfdtion of tif
+     *          formbttfr dlbss spfdifidbtion.
      */
-    void formatTo(Formatter formatter, int flags, int width, int precision);
+    void formbtTo(Formbttfr formbttfr, int flbgs, int widti, int prfdision);
 }

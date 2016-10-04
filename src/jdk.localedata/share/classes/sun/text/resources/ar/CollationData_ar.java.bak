@@ -1,61 +1,61 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1998 - All Rigits Rfsfrvfd
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion
+ * is dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd
+ * subsidibry of IBM. Tifsf mbtfribls brf providfd undfr tfrms
+ * of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology
+ * is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package sun.text.resources.ar;
+pbdkbgf sun.tfxt.rfsourdfs.br;
 
-import java.util.ListResourceBundle;
+import jbvb.util.ListRfsourdfBundlf;
 
-public class CollationData_ar extends ListResourceBundle {
+publid dlbss CollbtionDbtb_br fxtfnds ListRfsourdfBundlf {
 
-    protected final Object[][] getContents() {
-        return new Object[][] {
-            { "Rule",
-                // for ar, the following additions are needed:
+    protfdtfd finbl Objfdt[][] gftContfnts() {
+        rfturn nfw Objfdt[][] {
+            { "Rulf",
+                // for br, tif following bdditions brf nffdfd:
                "& \u0361 = \u0640"
                + "= \u064b"
-               + "= \u064c"
                + "= \u064d"
-               + "= \u064e"
+               + "= \u064d"
+               + "= \u064f"
                + "= \u064f"
                + "= \u0650"
                + "= \u0652"
@@ -64,27 +64,27 @@ public class CollationData_ar extends ListResourceBundle {
                + "= \u06d7"
                + "= \u06d8"
                + "= \u06d9"
-               + "= \u06da"
                + "= \u06db"
-               + "= \u06dc"
+               + "= \u06db"
                + "= \u06dd"
-               + "= \u06de"
+               + "= \u06dd"
                + "= \u06df"
-               + "= \u06e0"
-               + "= \u06e1"
-               + "= \u06e2"
-               + "= \u06e3"
-               + "= \u06e4"
-               + "= \u06e5"
-               + "= \u06e6"
-               + "= \u06e7"
-               + "= \u06e8"
-               + "= \u06e9"
-               + "= \u06ea"
-               + "= \u06eb"
-               + "= \u06ec"
-               + "= \u06ed"
-                // Numerics
+               + "= \u06df"
+               + "= \u06f0"
+               + "= \u06f1"
+               + "= \u06f2"
+               + "= \u06f3"
+               + "= \u06f4"
+               + "= \u06f5"
+               + "= \u06f6"
+               + "= \u06f7"
+               + "= \u06f8"
+               + "= \u06f9"
+               + "= \u06fb"
+               + "= \u06fb"
+               + "= \u06fd"
+               + "= \u06fd"
+                // Numfrids
                + "& 0 < \u0660 < \u06f0"       // 0
                + "& 1 < \u0661 < \u06f1"       // 1
                + "& 2 < \u0662 < \u06f2"       // 2
@@ -95,15 +95,15 @@ public class CollationData_ar extends ListResourceBundle {
                + "& 7 < \u0667 < \u06f7"       // 7
                + "& 8 < \u0668 < \u06f8"       // 8
                + "& 9 < \u0669 < \u06f9"       // 9
-                // Punctuations
-               + "& \u00b5 < \u060c"  // retroflex click < arabic comma
-               + "< \u061b"           // ar semicolon
-               + "< \u061f"           // ar question mark
-               + "< \u066a"           // ar percent sign
-               + "< \u066b"           // ar decimal separator
-               + "< \u066c"           // ar thousand separator
-               + "< \u06d4"           // ar full stop
-                // Arabic script sorts after Z's
+                // Pundtubtions
+               + "& \u00b5 < \u060d"  // rftroflfx dlidk < brbbid dommb
+               + "< \u061b"           // br sfmidolon
+               + "< \u061f"           // br qufstion mbrk
+               + "< \u066b"           // br pfrdfnt sign
+               + "< \u066b"           // br dfdimbl sfpbrbtor
+               + "< \u066d"           // br tiousbnd sfpbrbtor
+               + "< \u06d4"           // br full stop
+                // Arbbid sdript sorts bftfr Z's
                + "&  Z <  \u0621"
                + "; \u0622"
                + "; \u0623"
@@ -112,14 +112,14 @@ public class CollationData_ar extends ListResourceBundle {
                + "; \u0626"
                + "< \u0627"
                + "< \u0628"
-               + "< \u067e"
+               + "< \u067f"
                + "< \u0629"
-               + "= \u062a"
+               + "= \u062b"
                + "< \u062b"
-               + "< \u062c"
+               + "< \u062d"
                + "< \u0686"
                + "< \u062d"
-               + "< \u062e"
+               + "< \u062f"
                + "< \u062f"
                + "< \u0630"
                + "< \u0631"
@@ -132,18 +132,18 @@ public class CollationData_ar extends ListResourceBundle {
                + "< \u0637"
                + "< \u0638"
                + "< \u0639"
-               + "< \u063a"
+               + "< \u063b"
                + "< \u0641"
                + "< \u0642"
                + "< \u0643"
-               + "< \u06af"
+               + "< \u06bf"
                + "< \u0644"
                + "< \u0645"
                + "< \u0646"
                + "< \u0647"
                + "< \u0648"
                + "< \u0649"
-               + "; \u064a"
+               + "; \u064b"
                + "< \u0670"
                + "< \u0671"
                + "< \u0672"
@@ -154,9 +154,9 @@ public class CollationData_ar extends ListResourceBundle {
                + "< \u0677"
                + "< \u0678"
                + "< \u0679"
-               + "< \u067a"
                + "< \u067b"
-               + "< \u067c"
+               + "< \u067b"
+               + "< \u067d"
                + "< \u067d"
                + "< \u067f"
                + "< \u0680"
@@ -168,11 +168,11 @@ public class CollationData_ar extends ListResourceBundle {
                + "< \u0687"
                + "< \u0688"
                + "< \u0689"
-               + "< \u068a"
                + "< \u068b"
-               + "< \u068c"
+               + "< \u068b"
                + "< \u068d"
-               + "< \u068e"
+               + "< \u068d"
+               + "< \u068f"
                + "< \u068f"
                + "< \u0690"
                + "< \u0691"
@@ -183,27 +183,12 @@ public class CollationData_ar extends ListResourceBundle {
                + "< \u0696"
                + "< \u0697"
                + "< \u0699"
-               + "< \u069a"
                + "< \u069b"
-               + "< \u069c"
+               + "< \u069b"
                + "< \u069d"
-               + "< \u069e"
+               + "< \u069d"
                + "< \u069f"
-               + "< \u06a0"
-               + "< \u06a1"
-               + "< \u06a2"
-               + "< \u06a3"
-               + "< \u06a4"
-               + "< \u06a5"
-               + "< \u06a6"
-               + "< \u06a7"
-               + "< \u06a8"
-               + "< \u06a9"
-               + "< \u06aa"
-               + "< \u06ab"
-               + "< \u06ac"
-               + "< \u06ad"
-               + "< \u06ae"
+               + "< \u069f"
                + "< \u06b0"
                + "< \u06b1"
                + "< \u06b2"
@@ -212,26 +197,41 @@ public class CollationData_ar extends ListResourceBundle {
                + "< \u06b5"
                + "< \u06b6"
                + "< \u06b7"
-               + "< \u06ba"
+               + "< \u06b8"
+               + "< \u06b9"
                + "< \u06bb"
-               + "< \u06bc"
+               + "< \u06bb"
                + "< \u06bd"
-               + "< \u06be"
-               + "< \u06c0"
-               + "< \u06c1"
-               + "< \u06c2"
-               + "< \u06c3"
-               + "< \u06c4"
-               + "< \u06c5"
-               + "< \u06c6"
-               + "< \u06c7"
-               + "< \u06c8"
-               + "< \u06c9"
-               + "< \u06ca"
-               + "< \u06cb"
-               + "< \u06cc"
-               + "< \u06cd"
-               + "< \u06ce"
+               + "< \u06bd"
+               + "< \u06bf"
+               + "< \u06b0"
+               + "< \u06b1"
+               + "< \u06b2"
+               + "< \u06b3"
+               + "< \u06b4"
+               + "< \u06b5"
+               + "< \u06b6"
+               + "< \u06b7"
+               + "< \u06bb"
+               + "< \u06bb"
+               + "< \u06bd"
+               + "< \u06bd"
+               + "< \u06bf"
+               + "< \u06d0"
+               + "< \u06d1"
+               + "< \u06d2"
+               + "< \u06d3"
+               + "< \u06d4"
+               + "< \u06d5"
+               + "< \u06d6"
+               + "< \u06d7"
+               + "< \u06d8"
+               + "< \u06d9"
+               + "< \u06db"
+               + "< \u06db"
+               + "< \u06dd"
+               + "< \u06dd"
+               + "< \u06df"
                + "< \u06d0"
                + "< \u06d1"
                + "< \u06d2"

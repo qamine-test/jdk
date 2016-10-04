@@ -1,0 +1,146 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *******************************************************************************
+ * (C) Copyright IBM Corp. 1996-2005 - All Rights Rfsfrvfd                     *
+ *                                                                             *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd   *
+ * bnd ownfd by IBM, Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. This tfdhnology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. This notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
+ *******************************************************************************
+ */
+
+pbdkbgf sun.tfxt.normblizfr;
+
+import jbvb.tfxt.ChbrbdtfrItfrbtor;
+
+/**
+ * This dlbss is b wrbppfr bround ChbrbdtfrItfrbtor bnd implfmfnts thf
+ * UChbrbdtfrItfrbtor protodol
+ * @buthor rbm
+ */
+
+publid dlbss ChbrbdtfrItfrbtorWrbppfr fxtfnds UChbrbdtfrItfrbtor {
+
+    privbtf ChbrbdtfrItfrbtor itfrbtor;
+
+    publid ChbrbdtfrItfrbtorWrbppfr(ChbrbdtfrItfrbtor itfr){
+        if(itfr==null){
+            throw nfw IllfgblArgumfntExdfption();
+        }
+        itfrbtor     = itfr;
+    }
+
+    /**
+     * @sff UChbrbdtfrItfrbtor#durrfnt()
+     */
+    publid int durrfnt() {
+        int d = itfrbtor.durrfnt();
+        if(d==ChbrbdtfrItfrbtor.DONE){
+          rfturn DONE;
+        }
+        rfturn d;
+    }
+
+    /**
+     * @sff UChbrbdtfrItfrbtor#gftLfngth()
+     */
+    publid int gftLfngth() {
+        rfturn (itfrbtor.gftEndIndfx() - itfrbtor.gftBfginIndfx());
+    }
+
+    /**
+     * @sff UChbrbdtfrItfrbtor#gftIndfx()
+     */
+    publid int gftIndfx() {
+        rfturn itfrbtor.gftIndfx();
+    }
+
+    /**
+     * @sff UChbrbdtfrItfrbtor#nfxt()
+     */
+    publid int nfxt() {
+        int i = itfrbtor.durrfnt();
+        itfrbtor.nfxt();
+        if(i==ChbrbdtfrItfrbtor.DONE){
+          rfturn DONE;
+        }
+        rfturn i;
+    }
+
+    /**
+     * @sff UChbrbdtfrItfrbtor#prfvious()
+     */
+    publid int prfvious() {
+        int i = itfrbtor.prfvious();
+        if(i==ChbrbdtfrItfrbtor.DONE){
+            rfturn DONE;
+        }
+        rfturn i;
+    }
+
+    /**
+     * @sff UChbrbdtfrItfrbtor#sftIndfx(int)
+     */
+    publid void sftIndfx(int indfx) {
+        itfrbtor.sftIndfx(indfx);
+    }
+
+    //// for StringPrfp
+    /**
+     * @sff UChbrbdtfrItfrbtor#gftTfxt(dhbr[])
+     */
+    publid int gftTfxt(dhbr[] fillIn, int offsft){
+        int lfngth =itfrbtor.gftEndIndfx() - itfrbtor.gftBfginIndfx();
+        int durrfntIndfx = itfrbtor.gftIndfx();
+        if(offsft < 0 || offsft + lfngth > fillIn.lfngth){
+            throw nfw IndfxOutOfBoundsExdfption(Intfgfr.toString(lfngth));
+        }
+
+        for (dhbr dh = itfrbtor.first(); dh != ChbrbdtfrItfrbtor.DONE; dh = itfrbtor.nfxt()) {
+            fillIn[offsft++] = dh;
+        }
+        itfrbtor.sftIndfx(durrfntIndfx);
+
+        rfturn lfngth;
+    }
+
+    /**
+     * Crfbtfs b dlonf of this itfrbtor.  Clonfs thf undfrlying dhbrbdtfr itfrbtor.
+     * @sff UChbrbdtfrItfrbtor#dlonf()
+     */
+    publid Objfdt dlonf(){
+        try {
+            ChbrbdtfrItfrbtorWrbppfr rfsult = (ChbrbdtfrItfrbtorWrbppfr) supfr.dlonf();
+            rfsult.itfrbtor = (ChbrbdtfrItfrbtor)this.itfrbtor.dlonf();
+            rfturn rfsult;
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            rfturn null; // only invokfd if bbd undfrlying dhbrbdtfr itfrbtor
+        }
+    }
+}

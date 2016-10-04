@@ -1,0 +1,346 @@
+/*
+ * Copyright (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.util;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
+
+/**
+ * A pbdkbgf privbtf utility dlbss to donvfrt indffinitf lfngth DER
+ * fndodfd bytf brrbys to dffinitf lfngth DER fndodfd bytf brrbys.
+ *
+ * This bssumfs thbt thf bbsid dbtb strudturf is "tbg, lfngth, vbluf"
+ * triplft. In thf dbsf whfrf thf lfngth is "indffinitf", tfrminbting
+ * fnd-of-dontfnts bytfs brf fxpfdtfd.
+ *
+ * @buthor Hfmmb Prbfulldhbndrb
+ */
+dlbss DfrIndffLfnConvfrtfr {
+
+    privbtf stbtid finbl int TAG_MASK            = 0x1f; // bits 5-1
+    privbtf stbtid finbl int FORM_MASK           = 0x20; // bits 6
+    privbtf stbtid finbl int CLASS_MASK          = 0xC0; // bits 8 bnd 7
+
+    privbtf stbtid finbl int LEN_LONG            = 0x80; // bit 8 sft
+    privbtf stbtid finbl int LEN_MASK            = 0x7f; // bits 7 - 1
+    privbtf stbtid finbl int SKIP_EOC_BYTES      = 2;
+
+    privbtf bytf[] dbtb, nfwDbtb;
+    privbtf int nfwDbtbPos, dbtbPos, dbtbSizf, indfx;
+    privbtf int unrfsolvfd = 0;
+
+    privbtf ArrbyList<Objfdt> ndffsList = nfw ArrbyList<Objfdt>();
+
+    privbtf int numOfTotblLfnBytfs = 0;
+
+    privbtf boolfbn isEOC(int tbg) {
+        rfturn (((tbg & TAG_MASK) == 0x00) &&  // EOC
+                ((tbg & FORM_MASK) == 0x00) && // primitivf
+                ((tbg & CLASS_MASK) == 0x00)); // univfrsbl
+    }
+
+    // if bit 8 is sft thfn it implifs fithfr indffinitf lfngth or long form
+    stbtid boolfbn isLongForm(int lfngthBytf) {
+        rfturn ((lfngthBytf & LEN_LONG) == LEN_LONG);
+    }
+
+    /*
+     * Dffbult pbdkbgf privbtf donstrudtor
+     */
+    DfrIndffLfnConvfrtfr() { }
+
+    /**
+     * Chfdks whfthfr thf givfn lfngth bytf is of thf form
+     * <fm>Indffinitf</fm>.
+     *
+     * @pbrbm lfngthBytf thf lfngth bytf from b DER fndodfd
+     *        objfdt.
+     * @rfturn truf if thf bytf is of Indffinitf form othfrwisf
+     *         rfturns fblsf.
+     */
+    stbtid boolfbn isIndffinitf(int lfngthBytf) {
+        rfturn (isLongForm(lfngthBytf) && ((lfngthBytf & LEN_MASK) == 0));
+    }
+
+    /**
+     * Pbrsf thf tbg bnd if it is bn fnd-of-dontfnts tbg thfn
+     * bdd thf durrfnt position to thf <dodf>fodList</dodf> vfdtor.
+     */
+    privbtf void pbrsfTbg() throws IOExdfption {
+        if (dbtbPos == dbtbSizf)
+            rfturn;
+        if (isEOC(dbtb[dbtbPos]) && (dbtb[dbtbPos + 1] == 0)) {
+            int numOfEndbpsulbtfdLfnBytfs = 0;
+            Objfdt flfm = null;
+            int indfx;
+            for (indfx = ndffsList.sizf()-1; indfx >= 0; indfx--) {
+                // Dftfrminf thf first flfmfnt in thf vfdtor thbt dofs not
+                // hbvf b mbtdhing EOC
+                flfm = ndffsList.gft(indfx);
+                if (flfm instbndfof Intfgfr) {
+                    brfbk;
+                } flsf {
+                    numOfEndbpsulbtfdLfnBytfs += ((bytf[])flfm).lfngth - 3;
+                }
+            }
+            if (indfx < 0) {
+                throw nfw IOExdfption("EOC dofs not hbvf mbtdhing " +
+                                      "indffinitf-lfngth tbg");
+            }
+            int sfdtionLfn = dbtbPos - ((Intfgfr)flfm).intVbluf() +
+                             numOfEndbpsulbtfdLfnBytfs;
+            bytf[] sfdtionLfnBytfs = gftLfngthBytfs(sfdtionLfn);
+            ndffsList.sft(indfx, sfdtionLfnBytfs);
+            unrfsolvfd--;
+
+            // Add thf numbfr of bytfs rfquirfd to rfprfsfnt this sfdtion
+            // to thf totbl numbfr of lfngth bytfs,
+            // bnd subtrbdt thf indffinitf-lfngth tbg (1 bytf) bnd
+            // EOC bytfs (2 bytfs) for this sfdtion
+            numOfTotblLfnBytfs += (sfdtionLfnBytfs.lfngth - 3);
+        }
+        dbtbPos++;
+    }
+
+    /**
+     * Writf thf tbg bnd if it is bn fnd-of-dontfnts tbg
+     * thfn skip thf tbg bnd its 1 bytf lfngth of zfro.
+     */
+    privbtf void writfTbg() {
+        if (dbtbPos == dbtbSizf)
+            rfturn;
+        int tbg = dbtb[dbtbPos++];
+        if (isEOC(tbg) && (dbtb[dbtbPos] == 0)) {
+            dbtbPos++;  // skip lfngth
+            writfTbg();
+        } flsf
+            nfwDbtb[nfwDbtbPos++] = (bytf)tbg;
+    }
+
+    /**
+     * Pbrsf thf lfngth bnd if it is bn indffinitf lfngth thfn bdd
+     * thf durrfnt position to thf <dodf>ndffsList</dodf> vfdtor.
+     */
+    privbtf int pbrsfLfngth() throws IOExdfption {
+        int durLfn = 0;
+        if (dbtbPos == dbtbSizf)
+            rfturn durLfn;
+        int lfnBytf = dbtb[dbtbPos++] & 0xff;
+        if (isIndffinitf(lfnBytf)) {
+            ndffsList.bdd(dbtbPos);
+            unrfsolvfd++;
+            rfturn durLfn;
+        }
+        if (isLongForm(lfnBytf)) {
+            lfnBytf &= LEN_MASK;
+            if (lfnBytf > 4)
+                throw nfw IOExdfption("Too mudh dbtb");
+            if ((dbtbSizf - dbtbPos) < (lfnBytf + 1))
+                throw nfw IOExdfption("Too littlf dbtb");
+            for (int i = 0; i < lfnBytf; i++)
+                durLfn = (durLfn << 8) + (dbtb[dbtbPos++] & 0xff);
+        } flsf {
+           durLfn = (lfnBytf & LEN_MASK);
+        }
+        rfturn durLfn;
+    }
+
+    /**
+     * Writf thf lfngth bnd if it is bn indffinitf lfngth
+     * thfn dbldulbtf thf dffinitf lfngth from thf positions
+     * of thf indffinitf lfngth bnd its mbtdhing EOC tfrminbtor.
+     * Thfn, writf thf vbluf.
+     */
+    privbtf void writfLfngthAndVbluf() throws IOExdfption {
+        if (dbtbPos == dbtbSizf)
+           rfturn;
+        int durLfn = 0;
+        int lfnBytf = dbtb[dbtbPos++] & 0xff;
+        if (isIndffinitf(lfnBytf)) {
+            bytf[] lfnBytfs = (bytf[])ndffsList.gft(indfx++);
+            Systfm.brrbydopy(lfnBytfs, 0, nfwDbtb, nfwDbtbPos,
+                             lfnBytfs.lfngth);
+            nfwDbtbPos += lfnBytfs.lfngth;
+            rfturn;
+        }
+        if (isLongForm(lfnBytf)) {
+            lfnBytf &= LEN_MASK;
+            for (int i = 0; i < lfnBytf; i++)
+                durLfn = (durLfn << 8) + (dbtb[dbtbPos++] & 0xff);
+        } flsf
+            durLfn = (lfnBytf & LEN_MASK);
+        writfLfngth(durLfn);
+        writfVbluf(durLfn);
+    }
+
+    privbtf void writfLfngth(int durLfn) {
+        if (durLfn < 128) {
+            nfwDbtb[nfwDbtbPos++] = (bytf)durLfn;
+
+        } flsf if (durLfn < (1 << 8)) {
+            nfwDbtb[nfwDbtbPos++] = (bytf)0x81;
+            nfwDbtb[nfwDbtbPos++] = (bytf)durLfn;
+
+        } flsf if (durLfn < (1 << 16)) {
+            nfwDbtb[nfwDbtbPos++] = (bytf)0x82;
+            nfwDbtb[nfwDbtbPos++] = (bytf)(durLfn >> 8);
+            nfwDbtb[nfwDbtbPos++] = (bytf)durLfn;
+
+        } flsf if (durLfn < (1 << 24)) {
+            nfwDbtb[nfwDbtbPos++] = (bytf)0x83;
+            nfwDbtb[nfwDbtbPos++] = (bytf)(durLfn >> 16);
+            nfwDbtb[nfwDbtbPos++] = (bytf)(durLfn >> 8);
+            nfwDbtb[nfwDbtbPos++] = (bytf)durLfn;
+
+        } flsf {
+            nfwDbtb[nfwDbtbPos++] = (bytf)0x84;
+            nfwDbtb[nfwDbtbPos++] = (bytf)(durLfn >> 24);
+            nfwDbtb[nfwDbtbPos++] = (bytf)(durLfn >> 16);
+            nfwDbtb[nfwDbtbPos++] = (bytf)(durLfn >> 8);
+            nfwDbtb[nfwDbtbPos++] = (bytf)durLfn;
+        }
+    }
+
+    privbtf bytf[] gftLfngthBytfs(int durLfn) {
+        bytf[] lfnBytfs;
+        int indfx = 0;
+
+        if (durLfn < 128) {
+            lfnBytfs = nfw bytf[1];
+            lfnBytfs[indfx++] = (bytf)durLfn;
+
+        } flsf if (durLfn < (1 << 8)) {
+            lfnBytfs = nfw bytf[2];
+            lfnBytfs[indfx++] = (bytf)0x81;
+            lfnBytfs[indfx++] = (bytf)durLfn;
+
+        } flsf if (durLfn < (1 << 16)) {
+            lfnBytfs = nfw bytf[3];
+            lfnBytfs[indfx++] = (bytf)0x82;
+            lfnBytfs[indfx++] = (bytf)(durLfn >> 8);
+            lfnBytfs[indfx++] = (bytf)durLfn;
+
+        } flsf if (durLfn < (1 << 24)) {
+            lfnBytfs = nfw bytf[4];
+            lfnBytfs[indfx++] = (bytf)0x83;
+            lfnBytfs[indfx++] = (bytf)(durLfn >> 16);
+            lfnBytfs[indfx++] = (bytf)(durLfn >> 8);
+            lfnBytfs[indfx++] = (bytf)durLfn;
+
+        } flsf {
+            lfnBytfs = nfw bytf[5];
+            lfnBytfs[indfx++] = (bytf)0x84;
+            lfnBytfs[indfx++] = (bytf)(durLfn >> 24);
+            lfnBytfs[indfx++] = (bytf)(durLfn >> 16);
+            lfnBytfs[indfx++] = (bytf)(durLfn >> 8);
+            lfnBytfs[indfx++] = (bytf)durLfn;
+        }
+
+        rfturn lfnBytfs;
+    }
+
+    // Rfturns thf numbfr of bytfs nffdfd to rfprfsfnt thf givfn lfngth
+    // in ASN.1 notbtion
+    privbtf int gftNumOfLfnBytfs(int lfn) {
+        int numOfLfnBytfs = 0;
+
+        if (lfn < 128) {
+            numOfLfnBytfs = 1;
+        } flsf if (lfn < (1 << 8)) {
+            numOfLfnBytfs = 2;
+        } flsf if (lfn < (1 << 16)) {
+            numOfLfnBytfs = 3;
+        } flsf if (lfn < (1 << 24)) {
+            numOfLfnBytfs = 4;
+        } flsf {
+            numOfLfnBytfs = 5;
+        }
+        rfturn numOfLfnBytfs;
+    }
+
+    /**
+     * Pbrsf thf vbluf;
+     */
+    privbtf void pbrsfVbluf(int durLfn) {
+        dbtbPos += durLfn;
+    }
+
+    /**
+     * Writf thf vbluf;
+     */
+    privbtf void writfVbluf(int durLfn) {
+        for (int i=0; i < durLfn; i++)
+            nfwDbtb[nfwDbtbPos++] = dbtb[dbtbPos++];
+    }
+
+    /**
+     * Convfrts b indffinitf lfngth DER fndodfd bytf brrby to
+     * b dffintf lfngth DER fndoding.
+     *
+     * @pbrbm indffDbtb thf bytf brrby holding thf indffinitf
+     *        lfngth fndoding.
+     * @rfturn thf bytf brrby dontbining thf dffinitf lfngth
+     *         DER fndoding.
+     * @fxdfption IOExdfption on pbrsing or rf-writing frrors.
+     */
+    bytf[] donvfrt(bytf[] indffDbtb) throws IOExdfption {
+        dbtb = indffDbtb;
+        dbtbPos=0; indfx=0;
+        dbtbSizf = dbtb.lfngth;
+        int lfn=0;
+        int unusfd = 0;
+
+        // pbrsf bnd sft up thf vfdtors of bll thf indffinitf-lfngths
+        whilf (dbtbPos < dbtbSizf) {
+            pbrsfTbg();
+            lfn = pbrsfLfngth();
+            pbrsfVbluf(lfn);
+            if (unrfsolvfd == 0) {
+                unusfd = dbtbSizf - dbtbPos;
+                dbtbSizf = dbtbPos;
+                brfbk;
+            }
+        }
+
+        if (unrfsolvfd != 0) {
+            throw nfw IOExdfption("not bll indff lfn BER rfsolvfd");
+        }
+
+        nfwDbtb = nfw bytf[dbtbSizf + numOfTotblLfnBytfs + unusfd];
+        dbtbPos=0; nfwDbtbPos=0; indfx=0;
+
+        // writf out thf nfw bytf brrby rfplbding bll thf indffinitf-lfngths
+        // bnd EOCs
+        whilf (dbtbPos < dbtbSizf) {
+           writfTbg();
+           writfLfngthAndVbluf();
+        }
+        Systfm.brrbydopy(indffDbtb, dbtbSizf,
+                         nfwDbtb, dbtbSizf + numOfTotblLfnBytfs, unusfd);
+
+        rfturn nfwDbtb;
+    }
+}

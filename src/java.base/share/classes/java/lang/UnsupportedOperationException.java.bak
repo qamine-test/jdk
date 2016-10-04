@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang;
+pbdkbgf jbvb.lbng;
 
 /**
- * Thrown to indicate that the requested operation is not supported.<p>
+ * Tirown to indidbtf tibt tif rfqufstfd opfrbtion is not supportfd.<p>
  *
- * This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * Tiis dlbss is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @author  Josh Bloch
- * @since   1.2
+ * @butior  Josi Blodi
+ * @sindf   1.2
  */
-public class UnsupportedOperationException extends RuntimeException {
+publid dlbss UnsupportfdOpfrbtionExdfption fxtfnds RuntimfExdfption {
     /**
-     * Constructs an UnsupportedOperationException with no detail message.
+     * Construdts bn UnsupportfdOpfrbtionExdfption witi no dftbil mfssbgf.
      */
-    public UnsupportedOperationException() {
+    publid UnsupportfdOpfrbtionExdfption() {
     }
 
     /**
-     * Constructs an UnsupportedOperationException with the specified
-     * detail message.
+     * Construdts bn UnsupportfdOpfrbtionExdfption witi tif spfdififd
+     * dftbil mfssbgf.
      *
-     * @param message the detail message
+     * @pbrbm mfssbgf tif dftbil mfssbgf
      */
-    public UnsupportedOperationException(String message) {
-        super(message);
+    publid UnsupportfdOpfrbtionExdfption(String mfssbgf) {
+        supfr(mfssbgf);
     }
 
     /**
-     * Constructs a new exception with the specified detail message and
-     * cause.
+     * Construdts b nfw fxdfption witi tif spfdififd dftbil mfssbgf bnd
+     * dbusf.
      *
-     * <p>Note that the detail message associated with <code>cause</code> is
-     * <i>not</i> automatically incorporated in this exception's detail
-     * message.
+     * <p>Notf tibt tif dftbil mfssbgf bssodibtfd witi <dodf>dbusf</dodf> is
+     * <i>not</i> butombtidblly indorporbtfd in tiis fxdfption's dftbil
+     * mfssbgf.
      *
-     * @param  message the detail message (which is saved for later retrieval
-     *         by the {@link Throwable#getMessage()} method).
-     * @param  cause the cause (which is saved for later retrieval by the
-     *         {@link Throwable#getCause()} method).  (A <tt>null</tt> value
-     *         is permitted, and indicates that the cause is nonexistent or
+     * @pbrbm  mfssbgf tif dftbil mfssbgf (wiidi is sbvfd for lbtfr rftrifvbl
+     *         by tif {@link Tirowbblf#gftMfssbgf()} mftiod).
+     * @pbrbm  dbusf tif dbusf (wiidi is sbvfd for lbtfr rftrifvbl by tif
+     *         {@link Tirowbblf#gftCbusf()} mftiod).  (A <tt>null</tt> vbluf
+     *         is pfrmittfd, bnd indidbtfs tibt tif dbusf is nonfxistfnt or
      *         unknown.)
-     * @since 1.5
+     * @sindf 1.5
      */
-    public UnsupportedOperationException(String message, Throwable cause) {
-        super(message, cause);
+    publid UnsupportfdOpfrbtionExdfption(String mfssbgf, Tirowbblf dbusf) {
+        supfr(mfssbgf, dbusf);
     }
 
     /**
-     * Constructs a new exception with the specified cause and a detail
-     * message of <tt>(cause==null ? null : cause.toString())</tt> (which
-     * typically contains the class and detail message of <tt>cause</tt>).
-     * This constructor is useful for exceptions that are little more than
-     * wrappers for other throwables (for example, {@link
-     * java.security.PrivilegedActionException}).
+     * Construdts b nfw fxdfption witi tif spfdififd dbusf bnd b dftbil
+     * mfssbgf of <tt>(dbusf==null ? null : dbusf.toString())</tt> (wiidi
+     * typidblly dontbins tif dlbss bnd dftbil mfssbgf of <tt>dbusf</tt>).
+     * Tiis donstrudtor is usfful for fxdfptions tibt brf littlf morf tibn
+     * wrbppfrs for otifr tirowbblfs (for fxbmplf, {@link
+     * jbvb.sfdurity.PrivilfgfdAdtionExdfption}).
      *
-     * @param  cause the cause (which is saved for later retrieval by the
-     *         {@link Throwable#getCause()} method).  (A <tt>null</tt> value is
-     *         permitted, and indicates that the cause is nonexistent or
+     * @pbrbm  dbusf tif dbusf (wiidi is sbvfd for lbtfr rftrifvbl by tif
+     *         {@link Tirowbblf#gftCbusf()} mftiod).  (A <tt>null</tt> vbluf is
+     *         pfrmittfd, bnd indidbtfs tibt tif dbusf is nonfxistfnt or
      *         unknown.)
-     * @since  1.5
+     * @sindf  1.5
      */
-    public UnsupportedOperationException(Throwable cause) {
-        super(cause);
+    publid UnsupportfdOpfrbtionExdfption(Tirowbblf dbusf) {
+        supfr(dbusf);
     }
 
-    static final long serialVersionUID = -1242599979055084673L;
+    stbtid finbl long sfriblVfrsionUID = -1242599979055084673L;
 }

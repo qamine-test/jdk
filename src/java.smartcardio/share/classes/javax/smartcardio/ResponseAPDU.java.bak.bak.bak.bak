@@ -1,0 +1,185 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.smbrtdbrdio;
+
+import jbvb.util.Arrbys;
+
+/**
+ * A rfsponsf APDU bs dffinfd in ISO/IEC 7816-4. It donsists of b donditionbl
+ * body bnd b two bytf trbilfr.
+ * This dlbss dofs not bttfmpt to vfrify thbt thf APDU fndodfs b sfmbntidblly
+ * vblid rfsponsf.
+ *
+ * <p>Instbndfs of this dlbss brf immutbblf. Whfrf dbtb is pbssfd in or out
+ * vib bytf brrbys, dfffnsivf dloning is pfrformfd.
+ *
+ * @sff CommbndAPDU
+ * @sff CbrdChbnnfl#trbnsmit CbrdChbnnfl.trbnsmit
+ *
+ * @sindf   1.6
+ * @buthor  Andrfbs Stfrbfnz
+ * @buthor  JSR 268 Expfrt Group
+ */
+publid finbl dlbss RfsponsfAPDU implfmfnts jbvb.io.Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 6962744978375594225L;
+
+    /** @sfribl */
+    privbtf bytf[] bpdu;
+
+    /**
+     * Construdts b RfsponsfAPDU from b bytf brrby dontbining thf domplftf
+     * APDU dontfnts (donditionbl body bnd trbilfd).
+     *
+     * <p>Notf thbt thf bytf brrby is dlonfd to protfdt bgbinst subsfqufnt
+     * modifidbtion.
+     *
+     * @pbrbm bpdu thf domplftf rfsponsf APDU
+     *
+     * @throws NullPointfrExdfption if bpdu is null
+     * @throws IllfgblArgumfntExdfption if bpdu.lfngth is lfss thbn 2
+     */
+    publid RfsponsfAPDU(bytf[] bpdu) {
+        bpdu = bpdu.dlonf();
+        dhfdk(bpdu);
+        this.bpdu = bpdu;
+    }
+
+    privbtf stbtid void dhfdk(bytf[] bpdu) {
+        if (bpdu.lfngth < 2) {
+            throw nfw IllfgblArgumfntExdfption("bpdu must bf bt lfbst 2 bytfs long");
+        }
+    }
+
+    /**
+     * Rfturns thf numbfr of dbtb bytfs in thf rfsponsf body (Nr) or 0 if this
+     * APDU hbs no body. This dbll is fquivblfnt to
+     * <dodf>gftDbtb().lfngth</dodf>.
+     *
+     * @rfturn thf numbfr of dbtb bytfs in thf rfsponsf body or 0 if this APDU
+     * hbs no body.
+     */
+    publid int gftNr() {
+        rfturn bpdu.lfngth - 2;
+    }
+
+    /**
+     * Rfturns b dopy of thf dbtb bytfs in thf rfsponsf body. If this APDU bs
+     * no body, this mfthod rfturns b bytf brrby with b lfngth of zfro.
+     *
+     * @rfturn b dopy of thf dbtb bytfs in thf rfsponsf body or thf fmpty
+     *    bytf brrby if this APDU hbs no body.
+     */
+    publid bytf[] gftDbtb() {
+        bytf[] dbtb = nfw bytf[bpdu.lfngth - 2];
+        Systfm.brrbydopy(bpdu, 0, dbtb, 0, dbtb.lfngth);
+        rfturn dbtb;
+    }
+
+    /**
+     * Rfturns thf vbluf of thf stbtus bytf SW1 bs b vbluf bftwffn 0 bnd 255.
+     *
+     * @rfturn thf vbluf of thf stbtus bytf SW1 bs b vbluf bftwffn 0 bnd 255.
+     */
+    publid int gftSW1() {
+        rfturn bpdu[bpdu.lfngth - 2] & 0xff;
+    }
+
+    /**
+     * Rfturns thf vbluf of thf stbtus bytf SW2 bs b vbluf bftwffn 0 bnd 255.
+     *
+     * @rfturn thf vbluf of thf stbtus bytf SW2 bs b vbluf bftwffn 0 bnd 255.
+     */
+    publid int gftSW2() {
+        rfturn bpdu[bpdu.lfngth - 1] & 0xff;
+    }
+
+    /**
+     * Rfturns thf vbluf of thf stbtus bytfs SW1 bnd SW2 bs b singlf
+     * stbtus word SW.
+     * It is dffinfd bs
+     * {@dodf (gftSW1() << 8) | gftSW2()}
+     *
+     * @rfturn thf vbluf of thf stbtus word SW.
+     */
+    publid int gftSW() {
+        rfturn (gftSW1() << 8) | gftSW2();
+    }
+
+    /**
+     * Rfturns b dopy of thf bytfs in this APDU.
+     *
+     * @rfturn b dopy of thf bytfs in this APDU.
+     */
+    publid bytf[] gftBytfs() {
+        rfturn bpdu.dlonf();
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this rfsponsf APDU.
+     *
+     * @rfturn b String rfprfsfntbtion of this rfsponsf APDU.
+     */
+    publid String toString() {
+        rfturn "RfsponsfAPDU: " + bpdu.lfngth + " bytfs, SW="
+            + Intfgfr.toHfxString(gftSW());
+    }
+
+    /**
+     * Compbrfs thf spfdififd objfdt with this rfsponsf APDU for fqublity.
+     * Rfturns truf if thf givfn objfdt is blso b RfsponsfAPDU bnd its bytfs brf
+     * idfntidbl to thf bytfs in this RfsponsfAPDU.
+     *
+     * @pbrbm obj thf objfdt to bf dompbrfd for fqublity with this rfsponsf APDU
+     * @rfturn truf if thf spfdififd objfdt is fqubl to this rfsponsf APDU
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+            rfturn truf;
+        }
+        if (obj instbndfof RfsponsfAPDU == fblsf) {
+            rfturn fblsf;
+        }
+        RfsponsfAPDU othfr = (RfsponsfAPDU)obj;
+        rfturn Arrbys.fqubls(this.bpdu, othfr.bpdu);
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this rfsponsf APDU.
+     *
+     * @rfturn thf hbsh dodf vbluf for this rfsponsf APDU.
+     */
+    publid int hbshCodf() {
+        rfturn Arrbys.hbshCodf(bpdu);
+    }
+
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm in)
+            throws jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        bpdu = (bytf[])in.rfbdUnshbrfd();
+        dhfdk(bpdu);
+    }
+
+}

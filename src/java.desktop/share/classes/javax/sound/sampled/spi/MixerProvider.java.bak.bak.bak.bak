@@ -1,0 +1,96 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.sbmplfd.spi;
+
+import jbvbx.sound.sbmplfd.Mixfr;
+
+/**
+ * A providfr or fbdtory for b pbrtidulbr mixfr typf. This mfdhbnism bllows thf
+ * implfmfntbtion to dftfrminf how rfsourdfs brf mbnbgfd in drfbtion /
+ * mbnbgfmfnt of b mixfr.
+ *
+ * @buthor Kbrb Kytlf
+ * @sindf 1.3
+ */
+publid bbstrbdt dlbss MixfrProvidfr {
+
+    /**
+     * Indidbtfs whfthfr thf mixfr providfr supports thf mixfr rfprfsfntfd by
+     * thf spfdififd mixfr info objfdt.
+     * <p>
+     * Thf full sft of mixfr info objfdts thbt rfprfsfnt thf mixfrs supportfd by
+     * this {@dodf MixfrProvidfr} mby bf obtbinfd through thf
+     * {@dodf gftMixfrInfo} mfthod.
+     *
+     * @pbrbm  info bn info objfdt thbt dfsdribfs thf mixfr for whidh support is
+     *         qufrifd
+     * @rfturn {@dodf truf} if thf spfdififd mixfr is supportfd, othfrwisf
+     *         {@dodf fblsf}
+     * @sff #gftMixfrInfo()
+     */
+    publid boolfbn isMixfrSupportfd(Mixfr.Info info) {
+
+        Mixfr.Info infos[] = gftMixfrInfo();
+
+        for(int i=0; i<infos.lfngth; i++){
+            if( info.fqubls( infos[i] ) ) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Obtbins thf sft of info objfdts rfprfsfnting thf mixfr or mixfrs providfd
+     * by this MixfrProvidfr.
+     * <p>
+     * Thf {@dodf isMixfrSupportfd} mfthod rfturns {@dodf truf} for bll thf info
+     * objfdts rfturnfd by this mfthod. Thf dorrfsponding mixfr instbndfs for
+     * thf info objfdts brf rfturnfd by thf {@dodf gftMixfr} mfthod.
+     *
+     * @rfturn b sft of mixfr info objfdts
+     * @sff #gftMixfr(Mixfr.Info)
+     * @sff #isMixfrSupportfd(Mixfr.Info)
+     */
+    publid bbstrbdt Mixfr.Info[] gftMixfrInfo();
+
+    /**
+     * Obtbins bn instbndf of thf mixfr rfprfsfntfd by thf info objfdt.
+     * <p>
+     * Thf full sft of thf mixfr info objfdts thbt rfprfsfnt thf mixfrs
+     * supportfd by this {@dodf MixfrProvidfr} mby bf obtbinfd through thf
+     * {@dodf gftMixfrInfo} mfthod. Usf thf {@dodf isMixfrSupportfd} mfthod to
+     * tfst whfthfr this {@dodf MixfrProvidfr} supports b pbrtidulbr mixfr.
+     *
+     * @pbrbm  info bn info objfdt thbt dfsdribfs thf dfsirfd mixfr
+     * @rfturn mixfr instbndf
+     * @throws IllfgblArgumfntExdfption if thf info objfdt spfdififd dofs not
+     *         mbtdh thf info objfdt for b mixfr supportfd by this MixfrProvidfr
+     * @sff #gftMixfrInfo()
+     * @sff #isMixfrSupportfd(Mixfr.Info)
+     */
+    publid bbstrbdt Mixfr gftMixfr(Mixfr.Info info);
+}

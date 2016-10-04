@@ -1,179 +1,179 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdlib.h>
-#include <string.h>
-#include <sys/time.h>
-#include <sys/utsname.h>
-#include <sys/types.h>
-#include <errno.h>
-#include <dlfcn.h>
-#include "jni.h"
-#include <jni_util.h>
-#include "jvm_md.h"
-#include "awt_Mlib.h"
-#include "java_awt_image_BufferedImage.h"
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <sys/timf.i>
+#indludf <sys/utsnbmf.i>
+#indludf <sys/typfs.i>
+#indludf <frrno.i>
+#indludf <dlfdn.i>
+#indludf "jni.i"
+#indludf <jni_util.i>
+#indludf "jvm_md.i"
+#indludf "bwt_Mlib.i"
+#indludf "jbvb_bwt_imbgf_BufffrfdImbgf.i"
 
-static void start_timer(int numsec);
-static void stop_timer(int numsec, int ntimes);
+stbtid void stbrt_timfr(int numsfd);
+stbtid void stop_timfr(int numsfd, int ntimfs);
 
 /*
- * This is called by awt_ImagingLib.initLib() to figure out if we
- * can use the VIS version of medialib
+ * Tiis is dbllfd by bwt_ImbgingLib.initLib() to figurf out if wf
+ * dbn usf tif VIS vfrsion of mfdiblib
  */
-mlib_status awt_getImagingLib(JNIEnv *env, mlibFnS_t *sMlibFns,
+mlib_stbtus bwt_gftImbgingLib(JNIEnv *fnv, mlibFnS_t *sMlibFns,
                               mlibSysFnS_t *sMlibSysFns) {
-    int status;
+    int stbtus;
     jstring jstr = NULL;
     mlibFnS_t *mptr;
     void *(*vPtr)();
     int (*intPtr)();
-    mlib_status (*fPtr)();
+    mlib_stbtus (*fPtr)();
     int i;
-    void *handle = NULL;
-    mlibSysFnS_t tempSysFns;
-    static int s_timeIt = 0;
-    static int s_verbose = 1;
-    mlib_status ret = MLIB_SUCCESS;
-    struct utsname name;
+    void *ibndlf = NULL;
+    mlibSysFnS_t tfmpSysFns;
+    stbtid int s_timfIt = 0;
+    stbtid int s_vfrbosf = 1;
+    mlib_stbtus rft = MLIB_SUCCESS;
+    strudt utsnbmf nbmf;
 
     /*
-     * Find out the machine name. If it is an SUN ultra, we
-     * can use the vis library
+     * Find out tif mbdiinf nbmf. If it is bn SUN ultrb, wf
+     * dbn usf tif vis librbry
      */
-    if ((uname(&name) >= 0) && (getenv("NO_VIS") == NULL) &&
-        (strncmp(name.machine, "sun4u" , 5) == 0) ||
-        ((strncmp(name.machine, "sun4v" , 5) == 0) &&
-         (getenv("USE_VIS_ON_SUN4V") != NULL)))
+    if ((unbmf(&nbmf) >= 0) && (gftfnv("NO_VIS") == NULL) &&
+        (strndmp(nbmf.mbdiinf, "sun4u" , 5) == 0) ||
+        ((strndmp(nbmf.mbdiinf, "sun4v" , 5) == 0) &&
+         (gftfnv("USE_VIS_ON_SUN4V") != NULL)))
     {
-        handle = dlopen(JNI_LIB_NAME("mlib_image_v"), RTLD_LAZY);
+        ibndlf = dlopfn(JNI_LIB_NAME("mlib_imbgf_v"), RTLD_LAZY);
     }
 
-    if (handle == NULL) {
-        handle = dlopen(JNI_LIB_NAME("mlib_image"), RTLD_LAZY);
+    if (ibndlf == NULL) {
+        ibndlf = dlopfn(JNI_LIB_NAME("mlib_imbgf"), RTLD_LAZY);
     }
 
-    if (handle == NULL) {
-        if (s_timeIt || s_verbose) {
-            printf ("error in dlopen: %s", dlerror());
+    if (ibndlf == NULL) {
+        if (s_timfIt || s_vfrbosf) {
+            printf ("frror in dlopfn: %s", dlfrror());
         }
-        return MLIB_FAILURE;
+        rfturn MLIB_FAILURE;
     }
 
-    /* So, if we are here, then either vis or generic version of
-     * medialib library was sucessfuly loaded.
-     * Let's try to initialize handlers...
+    /* So, if wf brf ifrf, tifn fitifr vis or gfnfrid vfrsion of
+     * mfdiblib librbry wbs sudfssfuly lobdfd.
+     * Lft's try to initiblizf ibndlfrs...
      */
-    if ((tempSysFns.createFP = (MlibCreateFP_t)dlsym(handle,
-                                       "j2d_mlib_ImageCreate")) == NULL) {
-        if (s_timeIt) {
-            printf ("error in dlsym: %s", dlerror());
+    if ((tfmpSysFns.drfbtfFP = (MlibCrfbtfFP_t)dlsym(ibndlf,
+                                       "j2d_mlib_ImbgfCrfbtf")) == NULL) {
+        if (s_timfIt) {
+            printf ("frror in dlsym: %s", dlfrror());
         }
-        ret = MLIB_FAILURE;
+        rft = MLIB_FAILURE;
     }
 
-    if (ret == MLIB_SUCCESS) {
-        if ((tempSysFns.createStructFP = (MlibCreateStructFP_t)dlsym(handle,
-                                          "j2d_mlib_ImageCreateStruct")) == NULL) {
-            if (s_timeIt) {
-                printf ("error in dlsym: %s", dlerror());
+    if (rft == MLIB_SUCCESS) {
+        if ((tfmpSysFns.drfbtfStrudtFP = (MlibCrfbtfStrudtFP_t)dlsym(ibndlf,
+                                          "j2d_mlib_ImbgfCrfbtfStrudt")) == NULL) {
+            if (s_timfIt) {
+                printf ("frror in dlsym: %s", dlfrror());
             }
-            ret = MLIB_FAILURE;
+            rft = MLIB_FAILURE;
         }
     }
 
-    if (ret == MLIB_SUCCESS) {
-        if ((tempSysFns.deleteImageFP = (MlibDeleteFP_t)dlsym(handle,
-                                                 "j2d_mlib_ImageDelete")) == NULL) {
-            if (s_timeIt) {
-                printf ("error in dlsym: %s", dlerror());
+    if (rft == MLIB_SUCCESS) {
+        if ((tfmpSysFns.dflftfImbgfFP = (MlibDflftfFP_t)dlsym(ibndlf,
+                                                 "j2d_mlib_ImbgfDflftf")) == NULL) {
+            if (s_timfIt) {
+                printf ("frror in dlsym: %s", dlfrror());
             }
-            ret = MLIB_FAILURE;
+            rft = MLIB_FAILURE;
         }
     }
 
-    /* Set the system functions */
-    if (ret == MLIB_SUCCESS) {
-        *sMlibSysFns = tempSysFns;
+    /* Sft tif systfm fundtions */
+    if (rft == MLIB_SUCCESS) {
+        *sMlibSysFns = tfmpSysFns;
     }
 
-    /* Loop through all of the fns and load them from the next library */
+    /* Loop tirougi bll of tif fns bnd lobd tifm from tif nfxt librbry */
     mptr = sMlibFns;
     i = 0;
-    while ((ret == MLIB_SUCCESS) && (mptr[i].fname != NULL)) {
-        fPtr = (mlib_status (*)())dlsym(handle, mptr[i].fname);
+    wiilf ((rft == MLIB_SUCCESS) && (mptr[i].fnbmf != NULL)) {
+        fPtr = (mlib_stbtus (*)())dlsym(ibndlf, mptr[i].fnbmf);
         if (fPtr != NULL) {
             mptr[i].fptr = fPtr;
-        } else {
-            ret = MLIB_FAILURE;
+        } flsf {
+            rft = MLIB_FAILURE;
         }
         i++;
     }
-    if (ret != MLIB_SUCCESS) {
-        dlclose(handle);
+    if (rft != MLIB_SUCCESS) {
+        dldlosf(ibndlf);
     }
-    return ret;
+    rfturn rft;
 }
 
-mlib_start_timer awt_setMlibStartTimer() {
-    return start_timer;
+mlib_stbrt_timfr bwt_sftMlibStbrtTimfr() {
+    rfturn stbrt_timfr;
 }
 
-mlib_stop_timer awt_setMlibStopTimer() {
-    return stop_timer;
+mlib_stop_timfr bwt_sftMlibStopTimfr() {
+    rfturn stop_timfr;
 }
 
 /***************************************************************************
- *                          Static Functions                               *
+ *                          Stbtid Fundtions                               *
  ***************************************************************************/
 
-static void start_timer(int numsec)
+stbtid void stbrt_timfr(int numsfd)
 {
-    struct itimerval interval;
+    strudt itimfrvbl intfrvbl;
 
-    interval.it_interval.tv_sec = numsec;
-    interval.it_interval.tv_usec = 0;
-    interval.it_value.tv_sec = numsec;
-    interval.it_value.tv_usec = 0;
-    setitimer(ITIMER_REAL, &interval, 0);
+    intfrvbl.it_intfrvbl.tv_sfd = numsfd;
+    intfrvbl.it_intfrvbl.tv_usfd = 0;
+    intfrvbl.it_vbluf.tv_sfd = numsfd;
+    intfrvbl.it_vbluf.tv_usfd = 0;
+    sftitimfr(ITIMER_REAL, &intfrvbl, 0);
 }
 
 
-static void stop_timer(int numsec, int ntimes)
+stbtid void stop_timfr(int numsfd, int ntimfs)
 {
-    struct itimerval interval;
-    double sec;
+    strudt itimfrvbl intfrvbl;
+    doublf sfd;
 
-    getitimer(ITIMER_REAL, &interval);
-    sec = (((double) (numsec - 1)) - (double) interval.it_value.tv_sec) +
-            (1000000.0 - interval.it_value.tv_usec)/1000000.0;
-    sec = sec/((double) ntimes);
-    printf("%f msec per update\n", sec * 1000.0);
-    interval.it_interval.tv_sec = 0;
-    interval.it_interval.tv_usec = 0;
-    interval.it_value.tv_sec = 0;
-    interval.it_value.tv_usec = 0;
-    setitimer(ITIMER_PROF, &interval, 0);
+    gftitimfr(ITIMER_REAL, &intfrvbl);
+    sfd = (((doublf) (numsfd - 1)) - (doublf) intfrvbl.it_vbluf.tv_sfd) +
+            (1000000.0 - intfrvbl.it_vbluf.tv_usfd)/1000000.0;
+    sfd = sfd/((doublf) ntimfs);
+    printf("%f msfd pfr updbtf\n", sfd * 1000.0);
+    intfrvbl.it_intfrvbl.tv_sfd = 0;
+    intfrvbl.it_intfrvbl.tv_usfd = 0;
+    intfrvbl.it_vbluf.tv_sfd = 0;
+    intfrvbl.it_vbluf.tv_usfd = 0;
+    sftitimfr(ITIMER_PROF, &intfrvbl, 0);
 }

@@ -1,0 +1,211 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.buth.dbllbbdk;
+
+/**
+ * <p> Undfrlying sfdurity sfrvidfs instbntibtf bnd pbss b
+ * {@dodf ChoidfCbllbbdk} to thf {@dodf hbndlf}
+ * mfthod of b {@dodf CbllbbdkHbndlfr} to displby b list of dhoidfs
+ * bnd to rftrifvf thf sflfdtfd dhoidf(s).
+ *
+ * @sff jbvbx.sfdurity.buth.dbllbbdk.CbllbbdkHbndlfr
+ */
+publid dlbss ChoidfCbllbbdk implfmfnts Cbllbbdk, jbvb.io.Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -3975664071579892167L;
+
+    /**
+     * @sfribl
+     * @sindf 1.4
+     */
+    privbtf String prompt;
+    /**
+     * @sfribl thf list of dhoidfs
+     * @sindf 1.4
+     */
+    privbtf String[] dhoidfs;
+    /**
+     * @sfribl thf dhoidf to bf usfd bs thf dffbult dhoidf
+     * @sindf 1.4
+     */
+    privbtf int dffbultChoidf;
+    /**
+     * @sfribl whfthfr multiplf sflfdtions brf bllowfd from thf list of
+     * dhoidfs
+     * @sindf 1.4
+     */
+    privbtf boolfbn multiplfSflfdtionsAllowfd;
+    /**
+     * @sfribl thf sflfdtfd dhoidfs, rfprfsfntfd bs indfxfs into thf
+     *          {@dodf dhoidfs} list.
+     * @sindf 1.4
+     */
+    privbtf int[] sflfdtions;
+
+    /**
+     * Construdt b {@dodf ChoidfCbllbbdk} with b prompt,
+     * b list of dhoidfs, b dffbult dhoidf, bnd b boolfbn spfdifying
+     * whfthfr or not multiplf sflfdtions from thf list of dhoidfs brf bllowfd.
+     *
+     * <p>
+     *
+     * @pbrbm prompt thf prompt usfd to dfsdribf thf list of dhoidfs. <p>
+     *
+     * @pbrbm dhoidfs thf list of dhoidfs. <p>
+     *
+     * @pbrbm dffbultChoidf thf dhoidf to bf usfd bs thf dffbult dhoidf
+     *                  whfn thf list of dhoidfs brf displbyfd.  This vbluf
+     *                  is rfprfsfntfd bs bn indfx into thf
+     *                  {@dodf dhoidfs} brrby. <p>
+     *
+     * @pbrbm multiplfSflfdtionsAllowfd boolfbn spfdifying whfthfr or
+     *                  not multiplf sflfdtions dbn bf mbdf from thf
+     *                  list of dhoidfs.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf prompt} is null,
+     *                  if {@dodf prompt} hbs b lfngth of 0,
+     *                  if {@dodf dhoidfs} is null,
+     *                  if {@dodf dhoidfs} hbs b lfngth of 0,
+     *                  if bny flfmfnt from {@dodf dhoidfs} is null,
+     *                  if bny flfmfnt from {@dodf dhoidfs}
+     *                  hbs b lfngth of 0 or if {@dodf dffbultChoidf}
+     *                  dofs not fbll within thf brrby boundbrifs of
+     *                  {@dodf dhoidfs}.
+     */
+    publid ChoidfCbllbbdk(String prompt, String[] dhoidfs,
+                int dffbultChoidf, boolfbn multiplfSflfdtionsAllowfd) {
+
+        if (prompt == null || prompt.lfngth() == 0 ||
+            dhoidfs == null || dhoidfs.lfngth == 0 ||
+            dffbultChoidf < 0 || dffbultChoidf >= dhoidfs.lfngth)
+            throw nfw IllfgblArgumfntExdfption();
+
+        for (int i = 0; i < dhoidfs.lfngth; i++) {
+            if (dhoidfs[i] == null || dhoidfs[i].lfngth() == 0)
+                throw nfw IllfgblArgumfntExdfption();
+        }
+
+        this.prompt = prompt;
+        this.dhoidfs = dhoidfs;
+        this.dffbultChoidf = dffbultChoidf;
+        this.multiplfSflfdtionsAllowfd = multiplfSflfdtionsAllowfd;
+    }
+
+    /**
+     * Gft thf prompt.
+     *
+     * <p>
+     *
+     * @rfturn thf prompt.
+     */
+    publid String gftPrompt() {
+        rfturn prompt;
+    }
+
+    /**
+     * Gft thf list of dhoidfs.
+     *
+     * <p>
+     *
+     * @rfturn thf list of dhoidfs.
+     */
+    publid String[] gftChoidfs() {
+        rfturn dhoidfs;
+    }
+
+    /**
+     * Gft thf dffbultChoidf.
+     *
+     * <p>
+     *
+     * @rfturn thf dffbultChoidf, rfprfsfntfd bs bn indfx into
+     *          thf {@dodf dhoidfs} list.
+     */
+    publid int gftDffbultChoidf() {
+        rfturn dffbultChoidf;
+    }
+
+    /**
+     * Gft thf boolfbn dftfrmining whfthfr multiplf sflfdtions from
+     * thf {@dodf dhoidfs} list brf bllowfd.
+     *
+     * <p>
+     *
+     * @rfturn whfthfr multiplf sflfdtions brf bllowfd.
+     */
+    publid boolfbn bllowMultiplfSflfdtions() {
+        rfturn multiplfSflfdtionsAllowfd;
+    }
+
+    /**
+     * Sft thf sflfdtfd dhoidf.
+     *
+     * <p>
+     *
+     * @pbrbm sflfdtion thf sflfdtion rfprfsfntfd bs bn indfx into thf
+     *          {@dodf dhoidfs} list.
+     *
+     * @sff #gftSflfdtfdIndfxfs
+     */
+    publid void sftSflfdtfdIndfx(int sflfdtion) {
+        this.sflfdtions = nfw int[1];
+        this.sflfdtions[0] = sflfdtion;
+    }
+
+    /**
+     * Sft thf sflfdtfd dhoidfs.
+     *
+     * <p>
+     *
+     * @pbrbm sflfdtions thf sflfdtions rfprfsfntfd bs indfxfs into thf
+     *          {@dodf dhoidfs} list.
+     *
+     * @fxdfption UnsupportfdOpfrbtionExdfption if multiplf sflfdtions brf
+     *          not bllowfd, bs dftfrminfd by
+     *          {@dodf bllowMultiplfSflfdtions}.
+     *
+     * @sff #gftSflfdtfdIndfxfs
+     */
+    publid void sftSflfdtfdIndfxfs(int[] sflfdtions) {
+        if (!multiplfSflfdtionsAllowfd)
+            throw nfw UnsupportfdOpfrbtionExdfption();
+        this.sflfdtions = sflfdtions;
+    }
+
+    /**
+     * Gft thf sflfdtfd dhoidfs.
+     *
+     * <p>
+     *
+     * @rfturn thf sflfdtfd dhoidfs, rfprfsfntfd bs indfxfs into thf
+     *          {@dodf dhoidfs} list.
+     *
+     * @sff #sftSflfdtfdIndfxfs
+     */
+    publid int[] gftSflfdtfdIndfxfs() {
+        rfturn sflfdtions;
+    }
+}

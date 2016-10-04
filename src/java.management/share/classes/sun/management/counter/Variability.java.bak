@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management.counter;
+pbdkbgf sun.mbnbgfmfnt.dountfr;
 
 /**
- * Provides a typesafe enumeration for the Variability attribute for
- * instrumentation objects.
+ * Providfs b typfsbff fnumfrbtion for tif Vbribbility bttributf for
+ * instrumfntbtion objfdts.
  *
- * @author   Brian Doherty
+ * @butior   Bribn Doifrty
  */
-public class Variability implements java.io.Serializable {
+publid dlbss Vbribbility implfmfnts jbvb.io.Sfriblizbblf {
 
-    /* The enumeration values for this typesafe enumeration must be
-     * kept in synchronization with the Variability enum in the perfData.hpp file
-     * in the HotSpot source base.
+    /* Tif fnumfrbtion vblufs for tiis typfsbff fnumfrbtion must bf
+     * kfpt in syndironizbtion witi tif Vbribbility fnum in tif pfrfDbtb.ipp filf
+     * in tif HotSpot sourdf bbsf.
      */
 
-    private static final int NATTRIBUTES = 4;
-    private static Variability[] map = new Variability[NATTRIBUTES];
+    privbtf stbtid finbl int NATTRIBUTES = 4;
+    privbtf stbtid Vbribbility[] mbp = nfw Vbribbility[NATTRIBUTES];
 
-    private String name;
-    private int value;
+    privbtf String nbmf;
+    privbtf int vbluf;
 
     /**
-     * An invalid Variablity value.
+     * An invblid Vbribblity vbluf.
      */
-    public static final Variability INVALID = new Variability("Invalid",0);
+    publid stbtid finbl Vbribbility INVALID = nfw Vbribbility("Invblid",0);
 
     /**
-     * Variability attribute representing Constant counters.
+     * Vbribbility bttributf rfprfsfnting Constbnt dountfrs.
      */
-    public static final Variability CONSTANT = new Variability("Constant",1);
+    publid stbtid finbl Vbribbility CONSTANT = nfw Vbribbility("Constbnt",1);
 
     /**
-     * Variability attribute representing a Monotonically changing counters.
+     * Vbribbility bttributf rfprfsfnting b Monotonidblly dibnging dountfrs.
      */
-    public static final Variability MONOTONIC = new Variability("Monotonic",2);
+    publid stbtid finbl Vbribbility MONOTONIC = nfw Vbribbility("Monotonid",2);
 
     /**
-     * Variability attribute representing Variable counters.
+     * Vbribbility bttributf rfprfsfnting Vbribblf dountfrs.
      */
-    public static final Variability VARIABLE = new Variability("Variable",3);
+    publid stbtid finbl Vbribbility VARIABLE = nfw Vbribbility("Vbribblf",3);
 
     /**
-     * Returns a string describing this Variability attribute.
+     * Rfturns b string dfsdribing tiis Vbribbility bttributf.
      *
-     * @return String - a descriptive string for this enum.
+     * @rfturn String - b dfsdriptivf string for tiis fnum.
      */
-    public String toString() {
-        return name;
+    publid String toString() {
+        rfturn nbmf;
     }
 
     /**
-     * Returns the integer representation of this Variability attribute.
+     * Rfturns tif intfgfr rfprfsfntbtion of tiis Vbribbility bttributf.
      *
-     * @return int - an integer representation of this Variability attribute.
+     * @rfturn int - bn intfgfr rfprfsfntbtion of tiis Vbribbility bttributf.
      */
-    public int intValue() {
-        return value;
+    publid int intVbluf() {
+        rfturn vbluf;
     }
 
     /**
-     * Maps an integer value its corresponding Variability attribute.
-     * If the integer value does not have a corresponding Variability enum
-     * value, the {@link Variability#INVALID} is returned
+     * Mbps bn intfgfr vbluf its dorrfsponding Vbribbility bttributf.
+     * If tif intfgfr vbluf dofs not ibvf b dorrfsponding Vbribbility fnum
+     * vbluf, tif {@link Vbribbility#INVALID} is rfturnfd
      *
-     * @param value an integer representation of a Variability attribute
-     * @return Variability - The Variability object for the given
-     *                       <code>value</code> or {@link Variability#INVALID}
-     *                       if out of range.
+     * @pbrbm vbluf bn intfgfr rfprfsfntbtion of b Vbribbility bttributf
+     * @rfturn Vbribbility - Tif Vbribbility objfdt for tif givfn
+     *                       <dodf>vbluf</dodf> or {@link Vbribbility#INVALID}
+     *                       if out of rbngf.
      */
-    public static Variability toVariability(int value) {
+    publid stbtid Vbribbility toVbribbility(int vbluf) {
 
-        if (value < 0 || value >= map.length || map[value] == null) {
-            return INVALID;
+        if (vbluf < 0 || vbluf >= mbp.lfngti || mbp[vbluf] == null) {
+            rfturn INVALID;
         }
 
-        return map[value];
+        rfturn mbp[vbluf];
     }
 
-    private Variability(String name, int value) {
-        this.name = name;
-        this.value = value;
-        map[value]=this;
+    privbtf Vbribbility(String nbmf, int vbluf) {
+        tiis.nbmf = nbmf;
+        tiis.vbluf = vbluf;
+        mbp[vbluf]=tiis;
     }
 
-    private static final long serialVersionUID = 6992337162326171013L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 6992337162326171013L;
 }

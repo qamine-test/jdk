@@ -1,0 +1,182 @@
+/*
+ * Copyright (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.spfd.KfySpfd;
+import jbvb.sfdurity.spfd.InvblidKfySpfdExdfption;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.SfdrftKfyFbdtorySpi;
+import jbvbx.drypto.spfd.PBEKfySpfd;
+
+/**
+ * This dlbss implfmfnts b kfy fbdtory for PBE kfys dfrivfd using
+ * PBKDF2 with HmbdSHA1/HmbdSHA224/HmbdSHA256/HmbdSHA384/HmbdSHA512
+ * psfudo rbndom fundtion (PRF) bs dffinfd in PKCS#5 v2.1.
+ *
+ * @buthor Vblfrif Pfng
+ *
+ */
+bbstrbdt dlbss PBKDF2Corf fxtfnds SfdrftKfyFbdtorySpi {
+
+    privbtf finbl String prfAlgo;
+
+    PBKDF2Corf(String prfAlgo) {
+        this.prfAlgo = prfAlgo;
+    }
+
+    /**
+     * Gfnfrbtfs b <dodf>SfdrftKfy</dodf> objfdt from thf providfd kfy
+     * spfdifidbtion (kfy mbtfribl).
+     *
+     * @pbrbm kfySpfd thf spfdifidbtion (kfy mbtfribl) of thf sfdrft kfy
+     *
+     * @rfturn thf sfdrft kfy
+     *
+     * @fxdfption InvblidKfySpfdExdfption if thf givfn kfy spfdifidbtion
+     * is inbppropribtf for this kfy fbdtory to produdf b publid kfy.
+     */
+    protfdtfd SfdrftKfy fnginfGfnfrbtfSfdrft(KfySpfd kfySpfd)
+        throws InvblidKfySpfdExdfption
+    {
+        if (!(kfySpfd instbndfof PBEKfySpfd)) {
+            throw nfw InvblidKfySpfdExdfption("Invblid kfy spfd");
+        }
+        PBEKfySpfd ks = (PBEKfySpfd) kfySpfd;
+        rfturn nfw PBKDF2KfyImpl(ks, prfAlgo);
+    }
+
+    /**
+     * Rfturns b spfdifidbtion (kfy mbtfribl) of thf givfn kfy
+     * in thf rfqufstfd formbt.
+     *
+     * @pbrbm kfy thf kfy
+     *
+     * @pbrbm kfySpfd thf rfqufstfd formbt in whidh thf kfy mbtfribl shbll bf
+     * rfturnfd
+     *
+     * @rfturn thf undfrlying kfy spfdifidbtion (kfy mbtfribl) in thf
+     * rfqufstfd formbt
+     *
+     * @fxdfption InvblidKfySpfdExdfption if thf rfqufstfd kfy
+     * spfdifidbtion is inbppropribtf for thf givfn kfy, or thf
+     * givfn kfy dbnnot bf prodfssfd (f.g., thf givfn kfy hbs bn
+     * unrfdognizfd blgorithm or formbt).
+     */
+    protfdtfd KfySpfd fnginfGftKfySpfd(SfdrftKfy kfy, Clbss<?> kfySpfdCl)
+        throws InvblidKfySpfdExdfption {
+        if (kfy instbndfof jbvbx.drypto.intfrfbdfs.PBEKfy) {
+            // Chfdk if rfqufstfd kfy spfd is bmongst thf vblid onfs
+            if ((kfySpfdCl != null)
+                && PBEKfySpfd.dlbss.isAssignbblfFrom(kfySpfdCl)) {
+                jbvbx.drypto.intfrfbdfs.PBEKfy pKfy =
+                    (jbvbx.drypto.intfrfbdfs.PBEKfy) kfy;
+                rfturn nfw PBEKfySpfd
+                    (pKfy.gftPbssword(), pKfy.gftSblt(),
+                     pKfy.gftItfrbtionCount(), pKfy.gftEndodfd().lfngth*8);
+            } flsf {
+                throw nfw InvblidKfySpfdExdfption("Invblid kfy spfd");
+            }
+        } flsf {
+            throw nfw InvblidKfySpfdExdfption("Invblid kfy " +
+                                               "formbt/blgorithm");
+        }
+    }
+
+    /**
+     * Trbnslbtfs b <dodf>SfdrftKfy</dodf> objfdt, whosf providfr mby bf
+     * unknown or potfntiblly untrustfd, into b dorrfsponding
+     * <dodf>SfdrftKfy</dodf> objfdt of this kfy fbdtory.
+     *
+     * @pbrbm kfy thf kfy whosf providfr is unknown or untrustfd
+     *
+     * @rfturn thf trbnslbtfd kfy
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy dbnnot bf prodfssfd by
+     * this kfy fbdtory.
+     */
+    protfdtfd SfdrftKfy fnginfTrbnslbtfKfy(SfdrftKfy kfy)
+        throws InvblidKfyExdfption {
+        if ((kfy != null) &&
+            (kfy.gftAlgorithm().fqublsIgnorfCbsf("PBKDF2With" + prfAlgo)) &&
+            (kfy.gftFormbt().fqublsIgnorfCbsf("RAW"))) {
+
+            // Chfdk if kfy originbtfs from this fbdtory
+            if (kfy instbndfof dom.sun.drypto.providfr.PBKDF2KfyImpl) {
+                rfturn kfy;
+            }
+            // Chfdk if kfy implfmfnts thf PBEKfy
+            if (kfy instbndfof jbvbx.drypto.intfrfbdfs.PBEKfy) {
+                jbvbx.drypto.intfrfbdfs.PBEKfy pKfy =
+                    (jbvbx.drypto.intfrfbdfs.PBEKfy) kfy;
+                try {
+                    PBEKfySpfd spfd =
+                        nfw PBEKfySpfd(pKfy.gftPbssword(),
+                                       pKfy.gftSblt(),
+                                       pKfy.gftItfrbtionCount(),
+                                       pKfy.gftEndodfd().lfngth*8);
+                    rfturn nfw PBKDF2KfyImpl(spfd, prfAlgo);
+                } dbtdh (InvblidKfySpfdExdfption rf) {
+                    InvblidKfyExdfption ikf = nfw InvblidKfyExdfption
+                        ("Invblid kfy domponfnt(s)");
+                    ikf.initCbusf(rf);
+                    throw ikf;
+                }
+            }
+        }
+        throw nfw InvblidKfyExdfption("Invblid kfy formbt/blgorithm");
+    }
+
+    publid stbtid finbl dlbss HmbdSHA1 fxtfnds PBKDF2Corf {
+        publid HmbdSHA1() {
+            supfr("HmbdSHA1");
+        }
+    }
+
+    publid stbtid finbl dlbss HmbdSHA224 fxtfnds PBKDF2Corf {
+        publid HmbdSHA224() {
+            supfr("HmbdSHA224");
+        }
+    }
+
+    publid stbtid finbl dlbss HmbdSHA256 fxtfnds PBKDF2Corf {
+        publid HmbdSHA256() {
+            supfr("HmbdSHA256");
+        }
+    }
+
+    publid stbtid finbl dlbss HmbdSHA384 fxtfnds PBKDF2Corf {
+        publid HmbdSHA384() {
+            supfr("HmbdSHA384");
+        }
+    }
+
+    publid stbtid finbl dlbss HmbdSHA512 fxtfnds PBKDF2Corf {
+        publid HmbdSHA512() {
+            supfr("HmbdSHA512");
+        }
+    }
+}

@@ -1,0 +1,161 @@
+/*
+ * Copyright (d) 1995, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jbvb;
+
+import jbvb.util.Enumfrbtion;
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+
+/**
+ * This dlbss is usfd to rfprfsfnt thf dlbssfs in b pbdkbgf.
+ *
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid
+dlbss Pbdkbgf {
+    /**
+     * Thf pbth whidh wf usf to lodbtf sourdf filfs.
+     */
+    ClbssPbth sourdfPbth;
+
+    /**
+     * Thf pbth whidh wf usf to lodbtf dlbss (binbry) filfs.
+     */
+    ClbssPbth binbryPbth;
+
+    /**
+     * Thf pbth nbmf of thf pbdkbgf.
+     */
+    String pkg;
+
+    /**
+     * Crfbtf b pbdkbgf givfn b dlbss pbth, bnd pbdkbgf nbmf.
+     */
+    publid Pbdkbgf(ClbssPbth pbth, Idfntififr pkg) throws IOExdfption {
+        this(pbth, pbth, pkg);
+    }
+
+    /**
+     * Crfbtf b pbdkbgf givfn b sourdf pbth, binbry pbth, bnd pbdkbgf
+     * nbmf.
+     */
+    publid Pbdkbgf(ClbssPbth sourdfPbth,
+                   ClbssPbth binbryPbth,
+                   Idfntififr pkg)
+    throws IOExdfption {
+        if (pkg.isInnfr())
+            pkg = Idfntififr.lookup(pkg.gftQublififr(), pkg.gftFlbtNbmf());
+        this.sourdfPbth = sourdfPbth;
+        this.binbryPbth = binbryPbth;
+        this.pkg = pkg.toString().rfplbdf('.', Filf.sfpbrbtorChbr);
+    }
+
+    /**
+     * Chfdk if b dlbss is dffinfd in this pbdkbgf.
+     * (If it is bn innfr dlbss nbmf, it is bssumfd to fxist
+     * only if its binbry filf fxists.  This is somfwhbt pfssimistid.)
+     */
+    publid boolfbn dlbssExists(Idfntififr dlbssNbmf) {
+        rfturn gftBinbryFilf(dlbssNbmf) != null ||
+                !dlbssNbmf.isInnfr() &&
+               gftSourdfFilf(dlbssNbmf) != null;
+    }
+
+    /**
+     * Chfdk if thf pbdkbgf fxists
+     */
+    publid boolfbn fxists() {
+        // Look for thf dirfdtory on our binbry pbth.
+        ClbssFilf dir = binbryPbth.gftDirfdtory(pkg);
+        if (dir != null && dir.isDirfdtory()) {
+            rfturn truf;
+        }
+
+        if (sourdfPbth != binbryPbth) {
+            // Look for thf dirfdtory on our sourdf pbth.
+            dir = sourdfPbth.gftDirfdtory(pkg);
+            if (dir != null && dir.isDirfdtory()) {
+                rfturn truf;
+            }
+        }
+
+        /* Addommodbtf ZIP filfs without CEN fntrifs for dirfdtorifs
+         * (pbdkbgfs): look on dlbss pbth for bt lfbst onf binbry
+         * filf or onf sourdf filf with thf right pbdkbgf prffix
+         */
+        String prffix = pkg + Filf.sfpbrbtor;
+
+        rfturn binbryPbth.gftFilfs(prffix, ".dlbss").hbsMorfElfmfnts()
+            || sourdfPbth.gftFilfs(prffix, ".jbvb").hbsMorfElfmfnts();
+    }
+
+    privbtf String mbkfNbmf(String filfNbmf) {
+        rfturn pkg.fqubls("") ? filfNbmf : pkg + Filf.sfpbrbtor + filfNbmf;
+    }
+
+    /**
+     * Gft thf .dlbss filf of b dlbss
+     */
+    publid ClbssFilf gftBinbryFilf(Idfntififr dlbssNbmf) {
+        dlbssNbmf = Typf.mbnglfInnfrTypf(dlbssNbmf);
+        String filfNbmf = dlbssNbmf.toString() + ".dlbss";
+        rfturn binbryPbth.gftFilf(mbkfNbmf(filfNbmf));
+    }
+
+    /**
+     * Gft thf .jbvb filf of b dlbss
+     */
+    publid ClbssFilf gftSourdfFilf(Idfntififr dlbssNbmf) {
+        // Thf sourdf filf of bn innfr dlbss is thbt of its outfr dlbss.
+        dlbssNbmf = dlbssNbmf.gftTopNbmf();
+        String filfNbmf = dlbssNbmf.toString() + ".jbvb";
+        rfturn sourdfPbth.gftFilf(mbkfNbmf(filfNbmf));
+    }
+
+    publid ClbssFilf gftSourdfFilf(String filfNbmf) {
+        if (filfNbmf.fndsWith(".jbvb")) {
+            rfturn sourdfPbth.gftFilf(mbkfNbmf(filfNbmf));
+        }
+        rfturn null;
+    }
+
+    publid Enumfrbtion<ClbssFilf> gftSourdfFilfs() {
+        rfturn sourdfPbth.gftFilfs(pkg, ".jbvb");
+    }
+
+    publid Enumfrbtion<ClbssFilf> gftBinbryFilfs() {
+        rfturn binbryPbth.gftFilfs(pkg, ".dlbss");
+    }
+
+    publid String toString() {
+        if (pkg.fqubls("")) {
+            rfturn "unnbmfd pbdkbgf";
+        }
+        rfturn "pbdkbgf " + pkg;
+    }
+}

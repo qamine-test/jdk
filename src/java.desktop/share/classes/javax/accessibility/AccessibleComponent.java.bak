@@ -1,315 +1,315 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.accessibility;
+pbdkbgf jbvbx.bddfssibility;
 
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
 
 /**
- * The AccessibleComponent interface should be supported by any object
- * that is rendered on the screen.  This interface provides the standard
- * mechanism for an assistive technology to determine and set the
- * graphical representation of an object.  Applications can determine
- * if an object supports the AccessibleComponent interface by first
- * obtaining its AccessibleContext
- * and then calling the
- * {@link AccessibleContext#getAccessibleComponent} method.
- * If the return value is not null, the object supports this interface.
+ * Tif AddfssiblfComponfnt intfrfbdf siould bf supportfd by bny objfdt
+ * tibt is rfndfrfd on tif sdrffn.  Tiis intfrfbdf providfs tif stbndbrd
+ * mfdibnism for bn bssistivf tfdinology to dftfrminf bnd sft tif
+ * grbpiidbl rfprfsfntbtion of bn objfdt.  Applidbtions dbn dftfrminf
+ * if bn objfdt supports tif AddfssiblfComponfnt intfrfbdf by first
+ * obtbining its AddfssiblfContfxt
+ * bnd tifn dblling tif
+ * {@link AddfssiblfContfxt#gftAddfssiblfComponfnt} mftiod.
+ * If tif rfturn vbluf is not null, tif objfdt supports tiis intfrfbdf.
  *
- * @see Accessible
- * @see Accessible#getAccessibleContext
- * @see AccessibleContext
- * @see AccessibleContext#getAccessibleComponent
+ * @sff Addfssiblf
+ * @sff Addfssiblf#gftAddfssiblfContfxt
+ * @sff AddfssiblfContfxt
+ * @sff AddfssiblfContfxt#gftAddfssiblfComponfnt
  *
- * @author      Peter Korn
- * @author      Hans Muller
- * @author      Willie Walker
+ * @butior      Pftfr Korn
+ * @butior      Hbns Mullfr
+ * @butior      Willif Wblkfr
  */
-public interface AccessibleComponent {
+publid intfrfbdf AddfssiblfComponfnt {
 
     /**
-     * Gets the background color of this object.
+     * Gfts tif bbdkground dolor of tiis objfdt.
      *
-     * @return the background color, if supported, of the object;
-     * otherwise, null
-     * @see #setBackground
+     * @rfturn tif bbdkground dolor, if supportfd, of tif objfdt;
+     * otifrwisf, null
+     * @sff #sftBbdkground
      */
-    public Color getBackground();
+    publid Color gftBbdkground();
 
     /**
-     * Sets the background color of this object.
+     * Sfts tif bbdkground dolor of tiis objfdt.
      *
-     * @param c the new Color for the background
-     * @see #setBackground
+     * @pbrbm d tif nfw Color for tif bbdkground
+     * @sff #sftBbdkground
      */
-    public void setBackground(Color c);
+    publid void sftBbdkground(Color d);
 
     /**
-     * Gets the foreground color of this object.
+     * Gfts tif forfground dolor of tiis objfdt.
      *
-     * @return the foreground color, if supported, of the object;
-     * otherwise, null
-     * @see #setForeground
+     * @rfturn tif forfground dolor, if supportfd, of tif objfdt;
+     * otifrwisf, null
+     * @sff #sftForfground
      */
-    public Color getForeground();
+    publid Color gftForfground();
 
     /**
-     * Sets the foreground color of this object.
+     * Sfts tif forfground dolor of tiis objfdt.
      *
-     * @param c the new Color for the foreground
-     * @see #getForeground
+     * @pbrbm d tif nfw Color for tif forfground
+     * @sff #gftForfground
      */
-    public void setForeground(Color c);
+    publid void sftForfground(Color d);
 
     /**
-     * Gets the Cursor of this object.
+     * Gfts tif Cursor of tiis objfdt.
      *
-     * @return the Cursor, if supported, of the object; otherwise, null
-     * @see #setCursor
+     * @rfturn tif Cursor, if supportfd, of tif objfdt; otifrwisf, null
+     * @sff #sftCursor
      */
-    public Cursor getCursor();
+    publid Cursor gftCursor();
 
     /**
-     * Sets the Cursor of this object.
+     * Sfts tif Cursor of tiis objfdt.
      *
-     * @param cursor  the new Cursor for the object
-     * @see #getCursor
+     * @pbrbm dursor  tif nfw Cursor for tif objfdt
+     * @sff #gftCursor
      */
-    public void setCursor(Cursor cursor);
+    publid void sftCursor(Cursor dursor);
 
     /**
-     * Gets the Font of this object.
+     * Gfts tif Font of tiis objfdt.
      *
-     * @return the Font,if supported, for the object; otherwise, null
-     * @see #setFont
+     * @rfturn tif Font,if supportfd, for tif objfdt; otifrwisf, null
+     * @sff #sftFont
      */
-    public Font getFont();
+    publid Font gftFont();
 
     /**
-     * Sets the Font of this object.
+     * Sfts tif Font of tiis objfdt.
      *
-     * @param f the new Font for the object
-     * @see #getFont
+     * @pbrbm f tif nfw Font for tif objfdt
+     * @sff #gftFont
      */
-    public void setFont(Font f);
+    publid void sftFont(Font f);
 
     /**
-     * Gets the FontMetrics of this object.
+     * Gfts tif FontMftrids of tiis objfdt.
      *
-     * @param f the Font
-     * @return the FontMetrics, if supported, the object; otherwise, null
-     * @see #getFont
+     * @pbrbm f tif Font
+     * @rfturn tif FontMftrids, if supportfd, tif objfdt; otifrwisf, null
+     * @sff #gftFont
      */
-    public FontMetrics getFontMetrics(Font f);
+    publid FontMftrids gftFontMftrids(Font f);
 
     /**
-     * Determines if the object is enabled.  Objects that are enabled
-     * will also have the AccessibleState.ENABLED state set in their
-     * AccessibleStateSets.
+     * Dftfrminfs if tif objfdt is fnbblfd.  Objfdts tibt brf fnbblfd
+     * will blso ibvf tif AddfssiblfStbtf.ENABLED stbtf sft in tifir
+     * AddfssiblfStbtfSfts.
      *
-     * @return true if object is enabled; otherwise, false
-     * @see #setEnabled
-     * @see AccessibleContext#getAccessibleStateSet
-     * @see AccessibleState#ENABLED
-     * @see AccessibleStateSet
+     * @rfturn truf if objfdt is fnbblfd; otifrwisf, fblsf
+     * @sff #sftEnbblfd
+     * @sff AddfssiblfContfxt#gftAddfssiblfStbtfSft
+     * @sff AddfssiblfStbtf#ENABLED
+     * @sff AddfssiblfStbtfSft
      */
-    public boolean isEnabled();
+    publid boolfbn isEnbblfd();
 
     /**
-     * Sets the enabled state of the object.
+     * Sfts tif fnbblfd stbtf of tif objfdt.
      *
-     * @param b if true, enables this object; otherwise, disables it
-     * @see #isEnabled
+     * @pbrbm b if truf, fnbblfs tiis objfdt; otifrwisf, disbblfs it
+     * @sff #isEnbblfd
      */
-    public void setEnabled(boolean b);
+    publid void sftEnbblfd(boolfbn b);
 
     /**
-     * Determines if the object is visible.  Note: this means that the
-     * object intends to be visible; however, it may not be
-     * showing on the screen because one of the objects that this object
-     * is contained by is currently not visible.  To determine if an object is
-     * showing on the screen, use isShowing().
-     * <p>Objects that are visible will also have the
-     * AccessibleState.VISIBLE state set in their AccessibleStateSets.
+     * Dftfrminfs if tif objfdt is visiblf.  Notf: tiis mfbns tibt tif
+     * objfdt intfnds to bf visiblf; iowfvfr, it mby not bf
+     * siowing on tif sdrffn bfdbusf onf of tif objfdts tibt tiis objfdt
+     * is dontbinfd by is durrfntly not visiblf.  To dftfrminf if bn objfdt is
+     * siowing on tif sdrffn, usf isSiowing().
+     * <p>Objfdts tibt brf visiblf will blso ibvf tif
+     * AddfssiblfStbtf.VISIBLE stbtf sft in tifir AddfssiblfStbtfSfts.
      *
-     * @return true if object is visible; otherwise, false
-     * @see #setVisible
-     * @see AccessibleContext#getAccessibleStateSet
-     * @see AccessibleState#VISIBLE
-     * @see AccessibleStateSet
+     * @rfturn truf if objfdt is visiblf; otifrwisf, fblsf
+     * @sff #sftVisiblf
+     * @sff AddfssiblfContfxt#gftAddfssiblfStbtfSft
+     * @sff AddfssiblfStbtf#VISIBLE
+     * @sff AddfssiblfStbtfSft
      */
-    public boolean isVisible();
+    publid boolfbn isVisiblf();
 
     /**
-     * Sets the visible state of the object.
+     * Sfts tif visiblf stbtf of tif objfdt.
      *
-     * @param b if true, shows this object; otherwise, hides it
-     * @see #isVisible
+     * @pbrbm b if truf, siows tiis objfdt; otifrwisf, iidfs it
+     * @sff #isVisiblf
      */
-    public void setVisible(boolean b);
+    publid void sftVisiblf(boolfbn b);
 
     /**
-     * Determines if the object is showing.  This is determined by checking
-     * the visibility of the object and its ancestors.
-     * Note: this
-     * will return true even if the object is obscured by another (for example,
-     * it is underneath a menu that was pulled down).
+     * Dftfrminfs if tif objfdt is siowing.  Tiis is dftfrminfd by difdking
+     * tif visibility of tif objfdt bnd its bndfstors.
+     * Notf: tiis
+     * will rfturn truf fvfn if tif objfdt is obsdurfd by bnotifr (for fxbmplf,
+     * it is undfrnfbti b mfnu tibt wbs pullfd down).
      *
-     * @return true if object is showing; otherwise, false
+     * @rfturn truf if objfdt is siowing; otifrwisf, fblsf
      */
-    public boolean isShowing();
+    publid boolfbn isSiowing();
 
     /**
-     * Checks whether the specified point is within this object's bounds,
-     * where the point's x and y coordinates are defined to be relative to the
-     * coordinate system of the object.
+     * Cifdks wiftifr tif spfdififd point is witiin tiis objfdt's bounds,
+     * wifrf tif point's x bnd y doordinbtfs brf dffinfd to bf rflbtivf to tif
+     * doordinbtf systfm of tif objfdt.
      *
-     * @param p the Point relative to the coordinate system of the object
-     * @return true if object contains Point; otherwise false
-     * @see #getBounds
+     * @pbrbm p tif Point rflbtivf to tif doordinbtf systfm of tif objfdt
+     * @rfturn truf if objfdt dontbins Point; otifrwisf fblsf
+     * @sff #gftBounds
      */
-    public boolean contains(Point p);
+    publid boolfbn dontbins(Point p);
 
     /**
-     * Returns the location of the object on the screen.
+     * Rfturns tif lodbtion of tif objfdt on tif sdrffn.
      *
-     * @return the location of the object on screen; null if this object
-     * is not on the screen
-     * @see #getBounds
-     * @see #getLocation
+     * @rfturn tif lodbtion of tif objfdt on sdrffn; null if tiis objfdt
+     * is not on tif sdrffn
+     * @sff #gftBounds
+     * @sff #gftLodbtion
      */
-    public Point getLocationOnScreen();
+    publid Point gftLodbtionOnSdrffn();
 
     /**
-     * Gets the location of the object relative to the parent in the form
-     * of a point specifying the object's top-left corner in the screen's
-     * coordinate space.
+     * Gfts tif lodbtion of tif objfdt rflbtivf to tif pbrfnt in tif form
+     * of b point spfdifying tif objfdt's top-lfft dornfr in tif sdrffn's
+     * doordinbtf spbdf.
      *
-     * @return An instance of Point representing the top-left corner of the
-     * object's bounds in the coordinate space of the screen; null if
-     * this object or its parent are not on the screen
-     * @see #getBounds
-     * @see #getLocationOnScreen
+     * @rfturn An instbndf of Point rfprfsfnting tif top-lfft dornfr of tif
+     * objfdt's bounds in tif doordinbtf spbdf of tif sdrffn; null if
+     * tiis objfdt or its pbrfnt brf not on tif sdrffn
+     * @sff #gftBounds
+     * @sff #gftLodbtionOnSdrffn
      */
-    public Point getLocation();
+    publid Point gftLodbtion();
 
     /**
-     * Sets the location of the object relative to the parent.
-     * @param p the new position for the top-left corner
-     * @see #getLocation
+     * Sfts tif lodbtion of tif objfdt rflbtivf to tif pbrfnt.
+     * @pbrbm p tif nfw position for tif top-lfft dornfr
+     * @sff #gftLodbtion
      */
-    public void setLocation(Point p);
+    publid void sftLodbtion(Point p);
 
     /**
-     * Gets the bounds of this object in the form of a Rectangle object.
-     * The bounds specify this object's width, height, and location
-     * relative to its parent.
+     * Gfts tif bounds of tiis objfdt in tif form of b Rfdtbnglf objfdt.
+     * Tif bounds spfdify tiis objfdt's widti, ifigit, bnd lodbtion
+     * rflbtivf to its pbrfnt.
      *
-     * @return A rectangle indicating this component's bounds; null if
-     * this object is not on the screen.
-     * @see #contains
+     * @rfturn A rfdtbnglf indidbting tiis domponfnt's bounds; null if
+     * tiis objfdt is not on tif sdrffn.
+     * @sff #dontbins
      */
-    public Rectangle getBounds();
+    publid Rfdtbnglf gftBounds();
 
     /**
-     * Sets the bounds of this object in the form of a Rectangle object.
-     * The bounds specify this object's width, height, and location
-     * relative to its parent.
+     * Sfts tif bounds of tiis objfdt in tif form of b Rfdtbnglf objfdt.
+     * Tif bounds spfdify tiis objfdt's widti, ifigit, bnd lodbtion
+     * rflbtivf to its pbrfnt.
      *
-     * @param r rectangle indicating this component's bounds
-     * @see #getBounds
+     * @pbrbm r rfdtbnglf indidbting tiis domponfnt's bounds
+     * @sff #gftBounds
      */
-    public void setBounds(Rectangle r);
+    publid void sftBounds(Rfdtbnglf r);
 
     /**
-     * Returns the size of this object in the form of a Dimension object.
-     * The height field of the Dimension object contains this object's
-     * height, and the width field of the Dimension object contains this
-     * object's width.
+     * Rfturns tif sizf of tiis objfdt in tif form of b Dimfnsion objfdt.
+     * Tif ifigit fifld of tif Dimfnsion objfdt dontbins tiis objfdt's
+     * ifigit, bnd tif widti fifld of tif Dimfnsion objfdt dontbins tiis
+     * objfdt's widti.
      *
-     * @return A Dimension object that indicates the size of this component;
-     * null if this object is not on the screen
-     * @see #setSize
+     * @rfturn A Dimfnsion objfdt tibt indidbtfs tif sizf of tiis domponfnt;
+     * null if tiis objfdt is not on tif sdrffn
+     * @sff #sftSizf
      */
-    public Dimension getSize();
+    publid Dimfnsion gftSizf();
 
     /**
-     * Resizes this object so that it has width and height.
+     * Rfsizfs tiis objfdt so tibt it ibs widti bnd ifigit.
      *
-     * @param d The dimension specifying the new size of the object.
-     * @see #getSize
+     * @pbrbm d Tif dimfnsion spfdifying tif nfw sizf of tif objfdt.
+     * @sff #gftSizf
      */
-    public void setSize(Dimension d);
+    publid void sftSizf(Dimfnsion d);
 
     /**
-     * Returns the Accessible child, if one exists, contained at the local
-     * coordinate Point.
+     * Rfturns tif Addfssiblf diild, if onf fxists, dontbinfd bt tif lodbl
+     * doordinbtf Point.
      *
-     * @param p The point relative to the coordinate system of this object.
-     * @return the Accessible, if it exists, at the specified location;
-     * otherwise null
+     * @pbrbm p Tif point rflbtivf to tif doordinbtf systfm of tiis objfdt.
+     * @rfturn tif Addfssiblf, if it fxists, bt tif spfdififd lodbtion;
+     * otifrwisf null
      */
-    public Accessible getAccessibleAt(Point p);
+    publid Addfssiblf gftAddfssiblfAt(Point p);
 
     /**
-     * Returns whether this object can accept focus or not.   Objects that
-     * can accept focus will also have the AccessibleState.FOCUSABLE state
-     * set in their AccessibleStateSets.
+     * Rfturns wiftifr tiis objfdt dbn bddfpt fodus or not.   Objfdts tibt
+     * dbn bddfpt fodus will blso ibvf tif AddfssiblfStbtf.FOCUSABLE stbtf
+     * sft in tifir AddfssiblfStbtfSfts.
      *
-     * @return true if object can accept focus; otherwise false
-     * @see AccessibleContext#getAccessibleStateSet
-     * @see AccessibleState#FOCUSABLE
-     * @see AccessibleState#FOCUSED
-     * @see AccessibleStateSet
+     * @rfturn truf if objfdt dbn bddfpt fodus; otifrwisf fblsf
+     * @sff AddfssiblfContfxt#gftAddfssiblfStbtfSft
+     * @sff AddfssiblfStbtf#FOCUSABLE
+     * @sff AddfssiblfStbtf#FOCUSED
+     * @sff AddfssiblfStbtfSft
      */
-    public boolean isFocusTraversable();
+    publid boolfbn isFodusTrbvfrsbblf();
 
     /**
-     * Requests focus for this object.  If this object cannot accept focus,
-     * nothing will happen.  Otherwise, the object will attempt to take
-     * focus.
-     * @see #isFocusTraversable
+     * Rfqufsts fodus for tiis objfdt.  If tiis objfdt dbnnot bddfpt fodus,
+     * notiing will ibppfn.  Otifrwisf, tif objfdt will bttfmpt to tbkf
+     * fodus.
+     * @sff #isFodusTrbvfrsbblf
      */
-    public void requestFocus();
+    publid void rfqufstFodus();
 
     /**
-     * Adds the specified focus listener to receive focus events from this
-     * component.
+     * Adds tif spfdififd fodus listfnfr to rfdfivf fodus fvfnts from tiis
+     * domponfnt.
      *
-     * @param l the focus listener
-     * @see #removeFocusListener
+     * @pbrbm l tif fodus listfnfr
+     * @sff #rfmovfFodusListfnfr
      */
-    public void addFocusListener(FocusListener l);
+    publid void bddFodusListfnfr(FodusListfnfr l);
 
     /**
-     * Removes the specified focus listener so it no longer receives focus
-     * events from this component.
+     * Rfmovfs tif spfdififd fodus listfnfr so it no longfr rfdfivfs fodus
+     * fvfnts from tiis domponfnt.
      *
-     * @param l the focus listener
-     * @see #addFocusListener
+     * @pbrbm l tif fodus listfnfr
+     * @sff #bddFodusListfnfr
      */
-    public void removeFocusListener(FocusListener l);
+    publid void rfmovfFodusListfnfr(FodusListfnfr l);
 }

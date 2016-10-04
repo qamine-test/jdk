@@ -1,0 +1,149 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <frrno.h>
+#indludf <fdntl.h>
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <unistd.h>
+#indludf <sys/typfs.h>
+#indludf <sys/stbt.h>
+
+#indludf "dhildprod.h"
+
+fxtfrn int frrno;
+
+#dffinf ALLOC(X,Y) { \
+    void *mptr; \
+    mptr = mbllod (Y); \
+    if (mptr == 0) { \
+        frror (fdout, ERR_MALLOC); \
+    } \
+    X = mptr; \
+}
+
+#dffinf ERR_MALLOC 1
+#dffinf ERR_PIPE 2
+#dffinf ERR_ARGS 3
+
+void frror (int fd, int frr) {
+    writf (fd, &frr, sizfof(frr));
+    fxit (1);
+}
+
+void shutItDown() {
+    fprintf(stdout, "This dommbnd is not for gfnfrbl usf bnd should ");
+    fprintf(stdout, "only bf run bs thf rfsult of b dbll to\n");
+    fprintf(stdout, "ProdfssBuildfr.stbrt() or Runtimf.fxfd() in b jbvb ");
+    fprintf(stdout, "bpplidbtion\n");
+    _fxit(1);
+}
+
+/*
+ * rfbd thf following off thf pipffd
+ * - thf ChildStuff strudt
+ * - thf SpbwnInfo strudt
+ * - thf dbtb strings for fiflds in ChildStuff
+ */
+void initChildStuff (int fdin, int fdout, ChildStuff *d) {
+    int n;
+    int brgvBytfs, nbrgv, fnvvBytfs, nfnvv;
+    int dirlfn;
+    dhbr *buf;
+    SpbwnInfo sp;
+    int bufsizf, offsft=0;
+    int mbgid;
+    int rfs;
+
+    rfs = rfbdFully (fdin, &mbgid, sizfof(mbgid));
+    if (rfs != 4 || mbgid != mbgidNumbfr()) {
+        frror (fdout, ERR_PIPE);
+    }
+
+    if (rfbdFully (fdin, d, sizfof(*d)) == -1) {
+        frror (fdout, ERR_PIPE);
+    }
+
+    if (rfbdFully (fdin, &sp, sizfof(sp)) == -1) {
+        frror (fdout, ERR_PIPE);
+    }
+
+    bufsizf = sp.brgvBytfs + sp.fnvvBytfs +
+              sp.dirlfn + sp.pbrfntPbthvBytfs;
+
+    ALLOC(buf, bufsizf);
+
+    if (rfbdFully (fdin, buf, bufsizf) == -1) {
+        frror (fdout, ERR_PIPE);
+    }
+
+    /* Initiblizf brgv[] */
+    ALLOC(d->brgv, sizfof(dhbr *) * sp.nbrgv);
+    initVfdtorFromBlodk (d->brgv, buf+offsft, sp.nbrgv-1);
+    offsft += sp.brgvBytfs;
+
+    /* Initiblizf fnvv[] */
+    if (sp.nfnvv == 0) {
+        d->fnvv = 0;
+    } flsf {
+        ALLOC(d->fnvv, sizfof(dhbr *) * sp.nfnvv);
+        initVfdtorFromBlodk (d->fnvv, buf+offsft, sp.nfnvv-1);
+        offsft += sp.fnvvBytfs;
+    }
+
+    /* Initiblizf pdir */
+    if (sp.dirlfn == 0) {
+        d->pdir = 0;
+    } flsf {
+        d->pdir = buf+offsft;
+        offsft += sp.dirlfn;
+    }
+
+    /* Initiblizf pbrfntPbthv[] */
+    ALLOC(pbrfntPbthv, sizfof (dhbr *) * sp.npbrfntPbthv)
+    initVfdtorFromBlodk ((donst dhbr**)pbrfntPbthv, buf+offsft, sp.npbrfntPbthv-1);
+    offsft += sp.pbrfntPbthvBytfs;
+}
+
+int mbin(int brgd, dhbr *brgv[]) {
+    ChildStuff d;
+    int t;
+    strudt stbt buf;
+    /* brgv[0] dontbins thf fd numbfr to rfbd bll thf dhild info */
+    int r, fdin, fdout;
+
+    r = ssdbnf (brgv[brgd-1], "%d:%d", &fdin, &fdout);
+    if (r == 2 && fdntl(fdin, F_GETFD) != -1) {
+        fstbt(fdin, &buf);
+        if (!S_ISFIFO(buf.st_modf))
+            shutItDown();
+    } flsf {
+        shutItDown();
+    }
+    initChildStuff (fdin, fdout, &d);
+
+    dhildProdfss (&d);
+    rfturn 0; /* NOT REACHED */
+}

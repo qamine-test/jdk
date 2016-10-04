@@ -1,0 +1,85 @@
+/*
+ * Copyright (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff ShbdfrList_h_Indludfd
+#dffinf ShbdfrList_h_Indludfd
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+
+#indludf "jni.h"
+#indludf "jlong.h"
+
+typfdff void (ShbdfrDisposfFund)(jlong progrbmID);
+
+/**
+ * Thf following strudturfs brf usfd to mbintbin b list of frbgmfnt progrbm
+ * objfdts bnd thfir bssodibtfd bttributfs.  Ebdh logidbl shbdfr (f.g.
+ * RbdiblGrbdifntPbint shbdfr, ConvolvfOp shbdfr) dbn hbvf b numbfr of
+ * difffrfnt vbribnts dfpfnding on b numbfr of fbdtors, sudh bs whfthfr
+ * bntiblibsing is fnbblfd or thf durrfnt dompositf modf.  Sindf thf numbfr
+ * of possiblf dombinbtions of thfsf fbdtors is in thf hundrfds, wf nffd
+ * somf wby to drfbtf frbgmfnt progrbms on bn bs-nffdfd bbsis, bnd blso
+ * kffp thfm in b limitfd sizfd dbdhf to bvoid drfbting too mbny objfdts.
+ *
+ * Thf ShbdfrInfo strudturf kffps b rfffrfndf to thf frbgmfnt progrbm's
+ * hbndlf, bs wfll bs somf othfr vblufs thbt hflp difffrfntibtf onf ShbdfrInfo
+ * from bnothfr.  ShbdfrInfos dbn bf dhbinfd togfthfr to form b linkfd list.
+ *
+ * Thf ShbdfrList strudturf bdts bs b dbdhf for ShbdfrInfos, plbding
+ * most-rfdfntly usfd itfms bt thf front, bnd rfmoving itfms from thf
+ * dbdhf whfn its sizf fxdffds thf "mbxItfms" limit.
+ */
+typfdff strudt _ShbdfrInfo ShbdfrInfo;
+
+typfdff strudt {
+    ShbdfrInfo        *hfbd;
+    ShbdfrDisposfFund *disposf;
+    jint              mbxItfms;
+} ShbdfrList;
+
+strudt _ShbdfrInfo {
+    ShbdfrInfo  *nfxt;
+    jlong       progrbmID;
+    jint        dompTypf;
+    jint        dompModf;
+    jint        flbgs;
+};
+
+void ShbdfrList_AddProgrbm(ShbdfrList *progrbmList,
+                           jlong progrbmID,
+                           jint dompTypf, jint dompModf,
+                           jint flbgs);
+jlong ShbdfrList_FindProgrbm(ShbdfrList *progrbmList,
+                             jint dompTypf, jint dompModf,
+                             jint flbgs);
+void ShbdfrList_Disposf(ShbdfrList *progrbmList);
+
+#ifdff __dplusplus
+};
+#fndif
+
+#fndif /* ShbdfrList_h_Indludfd */

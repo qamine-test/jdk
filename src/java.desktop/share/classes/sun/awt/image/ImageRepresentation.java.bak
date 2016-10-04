@@ -1,951 +1,951 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.image;
+pbdkbgf sun.bwt.imbgf;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Transparency;
-import java.awt.AWTException;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.DirectColorModel;
-import java.awt.image.IndexColorModel;
-import java.awt.image.ImageConsumer;
-import java.awt.image.ImageObserver;
-import sun.awt.image.ByteComponentRaster;
-import sun.awt.image.IntegerComponentRaster;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferInt;
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
-import sun.awt.image.ImageWatched;
-import java.util.Hashtable;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.AWTExdfption;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.DirfdtColorModfl;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.imbgf.ImbgfConsumfr;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import sun.bwt.imbgf.BytfComponfntRbstfr;
+import sun.bwt.imbgf.IntfgfrComponfntRbstfr;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.DbtbBufffrInt;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import sun.bwt.imbgf.ImbgfWbtdifd;
+import jbvb.util.Hbsitbblf;
 
-public class ImageRepresentation extends ImageWatched implements ImageConsumer
+publid dlbss ImbgfRfprfsfntbtion fxtfnds ImbgfWbtdifd implfmfnts ImbgfConsumfr
 {
-    InputStreamImageSource src;
-    ToolkitImage image;
-    int tag;
+    InputStrfbmImbgfSourdf srd;
+    ToolkitImbgf imbgf;
+    int tbg;
 
-    long pData; // used by windows native code only -- internal state REMIND ATTN @@
+    long pDbtb; // usfd by windows nbtivf dodf only -- intfrnbl stbtf REMIND ATTN @@
 
-    int width = -1;
-    int height = -1;
-    int hints;
+    int widti = -1;
+    int ifigit = -1;
+    int iints;
 
-    int availinfo;
+    int bvbilinfo;
 
-    Rectangle newbits;
+    Rfdtbnglf nfwbits;
 
-    BufferedImage bimage;
-    WritableRaster biRaster;
-    protected ColorModel cmodel;
-    ColorModel srcModel = null;
-    int[] srcLUT = null;
-    int srcLUTtransIndex = -1;
-    int numSrcLUT = 0;
-    boolean forceCMhint;
-    int sstride;
-    boolean isDefaultBI = false;
-    boolean isSameCM = false;
+    BufffrfdImbgf bimbgf;
+    WritbblfRbstfr biRbstfr;
+    protfdtfd ColorModfl dmodfl;
+    ColorModfl srdModfl = null;
+    int[] srdLUT = null;
+    int srdLUTtrbnsIndfx = -1;
+    int numSrdLUT = 0;
+    boolfbn fordfCMiint;
+    int sstridf;
+    boolfbn isDffbultBI = fblsf;
+    boolfbn isSbmfCM = fblsf;
 
-    private native static void initIDs();
+    privbtf nbtivf stbtid void initIDs();
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        NativeLibLoader.loadLibraries();
+    stbtid {
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        NbtivfLibLobdfr.lobdLibrbrifs();
         initIDs();
     }
 
     /**
-     * Create an ImageRepresentation for the given Image.  The
-     * width and height are unknown at this point.  The color
-     * model is a hint as to the color model to use when creating
-     * the buffered image.  If null, the src color model will
-     * be used.
+     * Crfbtf bn ImbgfRfprfsfntbtion for tif givfn Imbgf.  Tif
+     * widti bnd ifigit brf unknown bt tiis point.  Tif dolor
+     * modfl is b iint bs to tif dolor modfl to usf wifn drfbting
+     * tif bufffrfd imbgf.  If null, tif srd dolor modfl will
+     * bf usfd.
      */
-    public ImageRepresentation(ToolkitImage im, ColorModel cmodel, boolean
-                               forceCMhint) {
-        image = im;
+    publid ImbgfRfprfsfntbtion(ToolkitImbgf im, ColorModfl dmodfl, boolfbn
+                               fordfCMiint) {
+        imbgf = im;
 
-        if (image.getSource() instanceof InputStreamImageSource) {
-            src = (InputStreamImageSource) image.getSource();
+        if (imbgf.gftSourdf() instbndfof InputStrfbmImbgfSourdf) {
+            srd = (InputStrfbmImbgfSourdf) imbgf.gftSourdf();
         }
 
-        setColorModel(cmodel);
+        sftColorModfl(dmodfl);
 
-        this.forceCMhint = forceCMhint;
+        tiis.fordfCMiint = fordfCMiint;
     }
 
-    /* REMIND: Only used for Frame.setIcon - should use ImageWatcher instead */
-    public synchronized void reconstruct(int flags) {
-        if (src != null) {
-            src.checkSecurity(null, false);
+    /* REMIND: Only usfd for Frbmf.sftIdon - siould usf ImbgfWbtdifr instfbd */
+    publid syndironizfd void rfdonstrudt(int flbgs) {
+        if (srd != null) {
+            srd.difdkSfdurity(null, fblsf);
         }
-        int missinginfo = flags & ~availinfo;
-        if ((availinfo & ImageObserver.ERROR) == 0 && missinginfo != 0) {
-            numWaiters++;
+        int missinginfo = flbgs & ~bvbilinfo;
+        if ((bvbilinfo & ImbgfObsfrvfr.ERROR) == 0 && missinginfo != 0) {
+            numWbitfrs++;
             try {
-                startProduction();
-                missinginfo = flags & ~availinfo;
-                while ((availinfo & ImageObserver.ERROR) == 0 &&
+                stbrtProdudtion();
+                missinginfo = flbgs & ~bvbilinfo;
+                wiilf ((bvbilinfo & ImbgfObsfrvfr.ERROR) == 0 &&
                        missinginfo != 0)
                 {
                     try {
-                        wait();
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                        return;
+                        wbit();
+                    } dbtdi (IntfrruptfdExdfption f) {
+                        Tirfbd.durrfntTirfbd().intfrrupt();
+                        rfturn;
                     }
-                    missinginfo = flags & ~availinfo;
+                    missinginfo = flbgs & ~bvbilinfo;
                 }
-            } finally {
-                decrementWaiters();
+            } finblly {
+                dfdrfmfntWbitfrs();
             }
         }
     }
 
-    public void setDimensions(int w, int h) {
-        if (src != null) {
-            src.checkSecurity(null, false);
+    publid void sftDimfnsions(int w, int i) {
+        if (srd != null) {
+            srd.difdkSfdurity(null, fblsf);
         }
 
-        image.setDimensions(w, h);
+        imbgf.sftDimfnsions(w, i);
 
-        newInfo(image, (ImageObserver.WIDTH | ImageObserver.HEIGHT),
-                0, 0, w, h);
+        nfwInfo(imbgf, (ImbgfObsfrvfr.WIDTH | ImbgfObsfrvfr.HEIGHT),
+                0, 0, w, i);
 
-        if (w <= 0 || h <= 0) {
-            imageComplete(ImageConsumer.IMAGEERROR);
-            return;
+        if (w <= 0 || i <= 0) {
+            imbgfComplftf(ImbgfConsumfr.IMAGEERROR);
+            rfturn;
         }
 
-        if (width != w || height != h) {
-            // dimension mismatch => trigger recreation of the buffer
-            bimage = null;
+        if (widti != w || ifigit != i) {
+            // dimfnsion mismbtdi => triggfr rfdrfbtion of tif bufffr
+            bimbgf = null;
         }
 
-        width = w;
-        height = h;
+        widti = w;
+        ifigit = i;
 
-        availinfo |= ImageObserver.WIDTH | ImageObserver.HEIGHT;
+        bvbilinfo |= ImbgfObsfrvfr.WIDTH | ImbgfObsfrvfr.HEIGHT;
     }
 
-    public int getWidth() {
-        return width;
+    publid int gftWidti() {
+        rfturn widti;
     }
 
-    public int getHeight() {
-        return height;
+    publid int gftHfigit() {
+        rfturn ifigit;
     }
 
-    ColorModel getColorModel() {
-        return cmodel;
+    ColorModfl gftColorModfl() {
+        rfturn dmodfl;
     }
 
-    BufferedImage getBufferedImage() {
-        return bimage;
+    BufffrfdImbgf gftBufffrfdImbgf() {
+        rfturn bimbgf;
     }
 
     /**
-     * Returns the BufferedImage that will be used as the representation of
-     * the pixel data.  Subclasses can override this method to return
-     * platform specific subclasses of BufferedImage that may or may not be
-     * accelerated.
+     * Rfturns tif BufffrfdImbgf tibt will bf usfd bs tif rfprfsfntbtion of
+     * tif pixfl dbtb.  Subdlbssfs dbn ovfrridf tiis mftiod to rfturn
+     * plbtform spfdifid subdlbssfs of BufffrfdImbgf tibt mby or mby not bf
+     * bddflfrbtfd.
      *
-     * It is subclass' responsibility to propagate acceleration priority
-     * to the newly created image.
+     * It is subdlbss' rfsponsibility to propbgbtf bddflfrbtion priority
+     * to tif nfwly drfbtfd imbgf.
      */
-    protected BufferedImage createImage(ColorModel cm,
-                                        WritableRaster raster,
-                                        boolean isRasterPremultiplied,
-                                        Hashtable<?,?> properties)
+    protfdtfd BufffrfdImbgf drfbtfImbgf(ColorModfl dm,
+                                        WritbblfRbstfr rbstfr,
+                                        boolfbn isRbstfrPrfmultiplifd,
+                                        Hbsitbblf<?,?> propfrtifs)
     {
-        BufferedImage bi =
-            new BufferedImage(cm, raster, isRasterPremultiplied, null);
-        bi.setAccelerationPriority(image.getAccelerationPriority());
-        return bi;
+        BufffrfdImbgf bi =
+            nfw BufffrfdImbgf(dm, rbstfr, isRbstfrPrfmultiplifd, null);
+        bi.sftAddflfrbtionPriority(imbgf.gftAddflfrbtionPriority());
+        rfturn bi;
     }
 
-    public void setProperties(Hashtable<?,?> props) {
-        if (src != null) {
-            src.checkSecurity(null, false);
+    publid void sftPropfrtifs(Hbsitbblf<?,?> props) {
+        if (srd != null) {
+            srd.difdkSfdurity(null, fblsf);
         }
-        image.setProperties(props);
-        newInfo(image, ImageObserver.PROPERTIES, 0, 0, 0, 0);
+        imbgf.sftPropfrtifs(props);
+        nfwInfo(imbgf, ImbgfObsfrvfr.PROPERTIES, 0, 0, 0, 0);
     }
 
-    public void setColorModel(ColorModel model) {
-        if (src != null) {
-            src.checkSecurity(null, false);
+    publid void sftColorModfl(ColorModfl modfl) {
+        if (srd != null) {
+            srd.difdkSfdurity(null, fblsf);
         }
-        srcModel = model;
+        srdModfl = modfl;
 
-        // Check to see if model is INT_RGB
-        if (model instanceof IndexColorModel) {
-            if (model.getTransparency() == Transparency.TRANSLUCENT) {
+        // Cifdk to sff if modfl is INT_RGB
+        if (modfl instbndfof IndfxColorModfl) {
+            if (modfl.gftTrbnspbrfndy() == Trbnspbrfndy.TRANSLUCENT) {
                 // REMIND:
-                // Probably need to composite anyway so force ARGB
-                cmodel = ColorModel.getRGBdefault();
-                srcLUT = null;
+                // Probbbly nffd to dompositf bnywby so fordf ARGB
+                dmodfl = ColorModfl.gftRGBdffbult();
+                srdLUT = null;
             }
-            else {
-                IndexColorModel icm = (IndexColorModel) model;
-                numSrcLUT = icm.getMapSize();
-                srcLUT = new int[Math.max(numSrcLUT, 256)];
-                icm.getRGBs(srcLUT);
-                srcLUTtransIndex = icm.getTransparentPixel();
-                cmodel = model;
+            flsf {
+                IndfxColorModfl idm = (IndfxColorModfl) modfl;
+                numSrdLUT = idm.gftMbpSizf();
+                srdLUT = nfw int[Mbti.mbx(numSrdLUT, 256)];
+                idm.gftRGBs(srdLUT);
+                srdLUTtrbnsIndfx = idm.gftTrbnspbrfntPixfl();
+                dmodfl = modfl;
             }
         }
-        else {
-            if (cmodel == null) {
-                cmodel = model;
-                srcLUT   = null;
+        flsf {
+            if (dmodfl == null) {
+                dmodfl = modfl;
+                srdLUT   = null;
             }
-            else if (model instanceof DirectColorModel) {
-                // If it is INT_RGB or INT_ARGB, use the model
-                DirectColorModel dcm = (DirectColorModel) model;
-                if ((dcm.getRedMask() == 0xff0000) &&
-                    (dcm.getGreenMask() == 0xff00) &&
-                    (dcm.getBlueMask()  == 0x00ff)) {
-                    cmodel   = model;
-                    srcLUT   = null;
+            flsf if (modfl instbndfof DirfdtColorModfl) {
+                // If it is INT_RGB or INT_ARGB, usf tif modfl
+                DirfdtColorModfl ddm = (DirfdtColorModfl) modfl;
+                if ((ddm.gftRfdMbsk() == 0xff0000) &&
+                    (ddm.gftGrffnMbsk() == 0xff00) &&
+                    (ddm.gftBlufMbsk()  == 0x00ff)) {
+                    dmodfl   = modfl;
+                    srdLUT   = null;
                 }
             }
         }
 
-        isSameCM = (cmodel == model);
+        isSbmfCM = (dmodfl == modfl);
     }
 
-    void createBufferedImage() {
-        // REMIND:  Be careful!  Is this called everytime there is a
-        // startProduction?  We only want to call it if it is new or
-        // there is an error
-        isDefaultBI = false;
+    void drfbtfBufffrfdImbgf() {
+        // REMIND:  Bf dbrfful!  Is tiis dbllfd fvfrytimf tifrf is b
+        // stbrtProdudtion?  Wf only wbnt to dbll it if it is nfw or
+        // tifrf is bn frror
+        isDffbultBI = fblsf;
         try {
-            biRaster = cmodel.createCompatibleWritableRaster(width, height);
-            bimage = createImage(cmodel, biRaster,
-                                 cmodel.isAlphaPremultiplied(), null);
-        } catch (Exception e) {
-            // Create a default image
-            cmodel = ColorModel.getRGBdefault();
-            biRaster = cmodel.createCompatibleWritableRaster(width, height);
-            bimage = createImage(cmodel, biRaster, false, null);
+            biRbstfr = dmodfl.drfbtfCompbtiblfWritbblfRbstfr(widti, ifigit);
+            bimbgf = drfbtfImbgf(dmodfl, biRbstfr,
+                                 dmodfl.isAlpibPrfmultiplifd(), null);
+        } dbtdi (Exdfption f) {
+            // Crfbtf b dffbult imbgf
+            dmodfl = ColorModfl.gftRGBdffbult();
+            biRbstfr = dmodfl.drfbtfCompbtiblfWritbblfRbstfr(widti, ifigit);
+            bimbgf = drfbtfImbgf(dmodfl, biRbstfr, fblsf, null);
         }
-        int type = bimage.getType();
+        int typf = bimbgf.gftTypf();
 
-        if ((cmodel == ColorModel.getRGBdefault()) ||
-               (type == BufferedImage.TYPE_INT_RGB) ||
-               (type == BufferedImage.TYPE_INT_ARGB_PRE)) {
-            isDefaultBI = true;
+        if ((dmodfl == ColorModfl.gftRGBdffbult()) ||
+               (typf == BufffrfdImbgf.TYPE_INT_RGB) ||
+               (typf == BufffrfdImbgf.TYPE_INT_ARGB_PRE)) {
+            isDffbultBI = truf;
         }
-        else if (cmodel instanceof DirectColorModel) {
-            DirectColorModel dcm = (DirectColorModel) cmodel;
-            if (dcm.getRedMask() == 0xff0000 &&
-                dcm.getGreenMask() == 0xff00 &&
-                dcm.getBlueMask()  == 0xff) {
-                isDefaultBI = true;
+        flsf if (dmodfl instbndfof DirfdtColorModfl) {
+            DirfdtColorModfl ddm = (DirfdtColorModfl) dmodfl;
+            if (ddm.gftRfdMbsk() == 0xff0000 &&
+                ddm.gftGrffnMbsk() == 0xff00 &&
+                ddm.gftBlufMbsk()  == 0xff) {
+                isDffbultBI = truf;
             }
         }
     }
 
-    private void convertToRGB() {
-        int w = bimage.getWidth();
-        int h = bimage.getHeight();
-        int size = w*h;
+    privbtf void donvfrtToRGB() {
+        int w = bimbgf.gftWidti();
+        int i = bimbgf.gftHfigit();
+        int sizf = w*i;
 
-        DataBufferInt dbi = new DataBufferInt(size);
-        // Note that stealData() requires a markDirty() afterwards
-        // since we modify the data in it.
-        int newpixels[] = SunWritableRaster.stealData(dbi, 0);
-        if (cmodel instanceof IndexColorModel &&
-            biRaster instanceof ByteComponentRaster &&
-            biRaster.getNumDataElements() == 1)
+        DbtbBufffrInt dbi = nfw DbtbBufffrInt(sizf);
+        // Notf tibt stfblDbtb() rfquirfs b mbrkDirty() bftfrwbrds
+        // sindf wf modify tif dbtb in it.
+        int nfwpixfls[] = SunWritbblfRbstfr.stfblDbtb(dbi, 0);
+        if (dmodfl instbndfof IndfxColorModfl &&
+            biRbstfr instbndfof BytfComponfntRbstfr &&
+            biRbstfr.gftNumDbtbElfmfnts() == 1)
         {
-            ByteComponentRaster bct = (ByteComponentRaster) biRaster;
-            byte[] data = bct.getDataStorage();
-            int coff = bct.getDataOffset(0);
-            for (int i=0; i < size; i++) {
-                newpixels[i] = srcLUT[data[coff+i]&0xff];
+            BytfComponfntRbstfr bdt = (BytfComponfntRbstfr) biRbstfr;
+            bytf[] dbtb = bdt.gftDbtbStorbgf();
+            int doff = bdt.gftDbtbOffsft(0);
+            for (int i=0; i < sizf; i++) {
+                nfwpixfls[i] = srdLUT[dbtb[doff+i]&0xff];
             }
         }
-        else {
-            Object srcpixels = null;
+        flsf {
+            Objfdt srdpixfls = null;
             int off=0;
-            for (int y=0; y < h; y++) {
+            for (int y=0; y < i; y++) {
                 for (int x=0; x < w; x++) {
-                    srcpixels=biRaster.getDataElements(x, y, srcpixels);
-                    newpixels[off++] = cmodel.getRGB(srcpixels);
+                    srdpixfls=biRbstfr.gftDbtbElfmfnts(x, y, srdpixfls);
+                    nfwpixfls[off++] = dmodfl.gftRGB(srdpixfls);
                 }
             }
         }
-        // We modified the data array directly above so mark it as dirty now...
-        SunWritableRaster.markDirty(dbi);
+        // Wf modififd tif dbtb brrby dirfdtly bbovf so mbrk it bs dirty now...
+        SunWritbblfRbstfr.mbrkDirty(dbi);
 
-        isSameCM = false;
-        cmodel = ColorModel.getRGBdefault();
+        isSbmfCM = fblsf;
+        dmodfl = ColorModfl.gftRGBdffbult();
 
-        int bandMasks[] = {0x00ff0000,
+        int bbndMbsks[] = {0x00ff0000,
                            0x0000ff00,
                            0x000000ff,
                            0xff000000};
 
-        biRaster = Raster.createPackedRaster(dbi,w,h,w,
-                                             bandMasks,null);
+        biRbstfr = Rbstfr.drfbtfPbdkfdRbstfr(dbi,w,i,w,
+                                             bbndMbsks,null);
 
-        bimage = createImage(cmodel, biRaster,
-                             cmodel.isAlphaPremultiplied(), null);
-        srcLUT = null;
-        isDefaultBI = true;
+        bimbgf = drfbtfImbgf(dmodfl, biRbstfr,
+                             dmodfl.isAlpibPrfmultiplifd(), null);
+        srdLUT = null;
+        isDffbultBI = truf;
     }
 
-    public void setHints(int h) {
-        if (src != null) {
-            src.checkSecurity(null, false);
+    publid void sftHints(int i) {
+        if (srd != null) {
+            srd.difdkSfdurity(null, fblsf);
         }
-        hints = h;
+        iints = i;
     }
 
-    private native boolean setICMpixels(int x, int y, int w, int h, int[] lut,
-                                    byte[] pix, int off, int scansize,
-                                    IntegerComponentRaster ict);
-    private native boolean setDiffICM(int x, int y, int w, int h, int[] lut,
-                                 int transPix, int numLut, IndexColorModel icm,
-                                 byte[] pix, int off, int scansize,
-                                 ByteComponentRaster bct, int chanOff);
-    static boolean s_useNative = true;
+    privbtf nbtivf boolfbn sftICMpixfls(int x, int y, int w, int i, int[] lut,
+                                    bytf[] pix, int off, int sdbnsizf,
+                                    IntfgfrComponfntRbstfr idt);
+    privbtf nbtivf boolfbn sftDiffICM(int x, int y, int w, int i, int[] lut,
+                                 int trbnsPix, int numLut, IndfxColorModfl idm,
+                                 bytf[] pix, int off, int sdbnsizf,
+                                 BytfComponfntRbstfr bdt, int dibnOff);
+    stbtid boolfbn s_usfNbtivf = truf;
 
-    public void setPixels(int x, int y, int w, int h,
-                          ColorModel model,
-                          byte pix[], int off, int scansize) {
-        int lineOff=off;
+    publid void sftPixfls(int x, int y, int w, int i,
+                          ColorModfl modfl,
+                          bytf pix[], int off, int sdbnsizf) {
+        int linfOff=off;
         int poff;
-        int[] newLUT=null;
+        int[] nfwLUT=null;
 
-        if (src != null) {
-            src.checkSecurity(null, false);
+        if (srd != null) {
+            srd.difdkSfdurity(null, fblsf);
         }
 
-        // REMIND: What if the model doesn't fit in default color model?
-        synchronized (this) {
-            if (bimage == null) {
-                if (cmodel == null) {
-                    cmodel = model;
+        // REMIND: Wibt if tif modfl dofsn't fit in dffbult dolor modfl?
+        syndironizfd (tiis) {
+            if (bimbgf == null) {
+                if (dmodfl == null) {
+                    dmodfl = modfl;
                 }
-                createBufferedImage();
+                drfbtfBufffrfdImbgf();
             }
 
-            if (w <= 0 || h <= 0) {
-                return;
+            if (w <= 0 || i <= 0) {
+                rfturn;
             }
 
-            int biWidth = biRaster.getWidth();
-            int biHeight = biRaster.getHeight();
+            int biWidti = biRbstfr.gftWidti();
+            int biHfigit = biRbstfr.gftHfigit();
 
-            int x1 = x+w;  // Overflow protection below
-            int y1 = y+h;  // Overflow protection below
+            int x1 = x+w;  // Ovfrflow protfdtion bflow
+            int y1 = y+i;  // Ovfrflow protfdtion bflow
             if (x < 0) {
                 off -= x;
                 x = 0;
-            } else if (x1 < 0) {
-                x1 = biWidth;  // Must be overflow
+            } flsf if (x1 < 0) {
+                x1 = biWidti;  // Must bf ovfrflow
             }
             if (y < 0) {
-                off -= y*scansize;
+                off -= y*sdbnsizf;
                 y = 0;
-            } else if (y1 < 0) {
-                y1 = biHeight;  // Must be overflow
+            } flsf if (y1 < 0) {
+                y1 = biHfigit;  // Must bf ovfrflow
             }
-            if (x1 > biWidth) {
-                x1 = biWidth;
+            if (x1 > biWidti) {
+                x1 = biWidti;
             }
-            if (y1 > biHeight) {
-                y1 = biHeight;
+            if (y1 > biHfigit) {
+                y1 = biHfigit;
             }
             if (x >= x1 || y >= y1) {
-                return;
+                rfturn;
             }
-            // x,y,x1,y1 are all >= 0, so w,h must be >= 0
+            // x,y,x1,y1 brf bll >= 0, so w,i must bf >= 0
             w = x1-x;
-            h = y1-y;
-            // off is first pixel read so it must be in bounds
-            if (off < 0 || off >= pix.length) {
-                // They overflowed their own array
-                throw new ArrayIndexOutOfBoundsException("Data offset out of bounds.");
+            i = y1-y;
+            // off is first pixfl rfbd so it must bf in bounds
+            if (off < 0 || off >= pix.lfngti) {
+                // Tify ovfrflowfd tifir own brrby
+                tirow nfw ArrbyIndfxOutOfBoundsExdfption("Dbtb offsft out of bounds.");
             }
-            // pix.length and off are >= 0 so remainder >= 0
-            int remainder = pix.length - off;
-            if (remainder < w) {
-                // They overflowed their own array
-                throw new ArrayIndexOutOfBoundsException("Data array is too short.");
+            // pix.lfngti bnd off brf >= 0 so rfmbindfr >= 0
+            int rfmbindfr = pix.lfngti - off;
+            if (rfmbindfr < w) {
+                // Tify ovfrflowfd tifir own brrby
+                tirow nfw ArrbyIndfxOutOfBoundsExdfption("Dbtb brrby is too siort.");
             }
             int num;
-            if (scansize < 0) {
-                num = (off / -scansize) + 1;
-            } else if (scansize > 0) {
-                num = ((remainder-w) / scansize) + 1;
-            } else {
-                num = h;
+            if (sdbnsizf < 0) {
+                num = (off / -sdbnsizf) + 1;
+            } flsf if (sdbnsizf > 0) {
+                num = ((rfmbindfr-w) / sdbnsizf) + 1;
+            } flsf {
+                num = i;
             }
-            if (h > num) {
-                // They overflowed their own array.
-                throw new ArrayIndexOutOfBoundsException("Data array is too short.");
+            if (i > num) {
+                // Tify ovfrflowfd tifir own brrby.
+                tirow nfw ArrbyIndfxOutOfBoundsExdfption("Dbtb brrby is too siort.");
             }
 
-            if (isSameCM && (cmodel != model) && (srcLUT != null) &&
-                (model instanceof IndexColorModel) &&
-                (biRaster instanceof ByteComponentRaster))
+            if (isSbmfCM && (dmodfl != modfl) && (srdLUT != null) &&
+                (modfl instbndfof IndfxColorModfl) &&
+                (biRbstfr instbndfof BytfComponfntRbstfr))
             {
-                IndexColorModel icm = (IndexColorModel) model;
-                ByteComponentRaster bct = (ByteComponentRaster) biRaster;
-                int numlut = numSrcLUT;
-                if (!setDiffICM(x, y, w, h, srcLUT, srcLUTtransIndex,
-                               numSrcLUT, icm,
-                               pix, off, scansize, bct,
-                               bct.getDataOffset(0))) {
-                    convertToRGB();
+                IndfxColorModfl idm = (IndfxColorModfl) modfl;
+                BytfComponfntRbstfr bdt = (BytfComponfntRbstfr) biRbstfr;
+                int numlut = numSrdLUT;
+                if (!sftDiffICM(x, y, w, i, srdLUT, srdLUTtrbnsIndfx,
+                               numSrdLUT, idm,
+                               pix, off, sdbnsizf, bdt,
+                               bdt.gftDbtbOffsft(0))) {
+                    donvfrtToRGB();
                 }
-                else {
-                    // Note that setDiffICM modified the raster directly
-                    // so we must mark it as changed
-                    bct.markDirty();
-                    if (numlut != numSrcLUT) {
-                        boolean hasAlpha = icm.hasAlpha();
-                        if (srcLUTtransIndex != -1) {
-                            hasAlpha = true;
+                flsf {
+                    // Notf tibt sftDiffICM modififd tif rbstfr dirfdtly
+                    // so wf must mbrk it bs dibngfd
+                    bdt.mbrkDirty();
+                    if (numlut != numSrdLUT) {
+                        boolfbn ibsAlpib = idm.ibsAlpib();
+                        if (srdLUTtrbnsIndfx != -1) {
+                            ibsAlpib = truf;
                         }
-                        int nbits = icm.getPixelSize();
-                        icm = new IndexColorModel(nbits,
-                                                  numSrcLUT, srcLUT,
-                                                  0, hasAlpha,
-                                                  srcLUTtransIndex,
+                        int nbits = idm.gftPixflSizf();
+                        idm = nfw IndfxColorModfl(nbits,
+                                                  numSrdLUT, srdLUT,
+                                                  0, ibsAlpib,
+                                                  srdLUTtrbnsIndfx,
                                                   (nbits > 8
-                                                   ? DataBuffer.TYPE_USHORT
-                                                   : DataBuffer.TYPE_BYTE));
-                        cmodel = icm;
-                        bimage = createImage(icm, bct, false, null);
+                                                   ? DbtbBufffr.TYPE_USHORT
+                                                   : DbtbBufffr.TYPE_BYTE));
+                        dmodfl = idm;
+                        bimbgf = drfbtfImbgf(idm, bdt, fblsf, null);
                     }
-                    return;
+                    rfturn;
                 }
             }
 
-            if (isDefaultBI) {
-                int pixel;
-                IntegerComponentRaster iraster =
-                                          (IntegerComponentRaster) biRaster;
-                if (srcLUT != null && model instanceof IndexColorModel) {
-                    if (model != srcModel) {
-                        // Fill in the new lut
-                        ((IndexColorModel)model).getRGBs(srcLUT);
-                        srcModel = model;
+            if (isDffbultBI) {
+                int pixfl;
+                IntfgfrComponfntRbstfr irbstfr =
+                                          (IntfgfrComponfntRbstfr) biRbstfr;
+                if (srdLUT != null && modfl instbndfof IndfxColorModfl) {
+                    if (modfl != srdModfl) {
+                        // Fill in tif nfw lut
+                        ((IndfxColorModfl)modfl).gftRGBs(srdLUT);
+                        srdModfl = modfl;
                     }
 
-                    if (s_useNative) {
-                        // Note that setICMpixels modifies the raster directly
-                        // so we must mark it as changed afterwards
-                        if (setICMpixels(x, y, w, h, srcLUT, pix, off, scansize,
-                                     iraster))
+                    if (s_usfNbtivf) {
+                        // Notf tibt sftICMpixfls modififs tif rbstfr dirfdtly
+                        // so wf must mbrk it bs dibngfd bftfrwbrds
+                        if (sftICMpixfls(x, y, w, i, srdLUT, pix, off, sdbnsizf,
+                                     irbstfr))
                         {
-                            iraster.markDirty();
-                        } else {
-                            abort();
-                            return;
+                            irbstfr.mbrkDirty();
+                        } flsf {
+                            bbort();
+                            rfturn;
                         }
                     }
-                    else {
-                        int[] storage = new int[w*h];
+                    flsf {
+                        int[] storbgf = nfw int[w*i];
                         int soff = 0;
-                        // It is an IndexColorModel
-                        for (int yoff=0; yoff < h; yoff++,
-                                 lineOff += scansize) {
-                            poff = lineOff;
+                        // It is bn IndfxColorModfl
+                        for (int yoff=0; yoff < i; yoff++,
+                                 linfOff += sdbnsizf) {
+                            poff = linfOff;
                             for (int i=0; i < w; i++) {
-                                storage[soff++] = srcLUT[pix[poff++]&0xff];
+                                storbgf[soff++] = srdLUT[pix[poff++]&0xff];
                             }
                         }
-                        iraster.setDataElements(x, y, w, h, storage);
+                        irbstfr.sftDbtbElfmfnts(x, y, w, i, storbgf);
                     }
                 }
-                else {
-                    int[] storage = new int[w];
-                    for (int yoff=y; yoff < y+h; yoff++, lineOff += scansize) {
-                        poff = lineOff;
+                flsf {
+                    int[] storbgf = nfw int[w];
+                    for (int yoff=y; yoff < y+i; yoff++, linfOff += sdbnsizf) {
+                        poff = linfOff;
                         for (int i=0; i < w; i++) {
-                            storage[i] = model.getRGB(pix[poff++]&0xff);
+                            storbgf[i] = modfl.gftRGB(pix[poff++]&0xff);
                         }
-                        iraster.setDataElements(x, yoff, w, 1, storage);
+                        irbstfr.sftDbtbElfmfnts(x, yoff, w, 1, storbgf);
                     }
-                    availinfo |= ImageObserver.SOMEBITS;
+                    bvbilinfo |= ImbgfObsfrvfr.SOMEBITS;
                 }
             }
-            else if ((cmodel == model) &&
-                     (biRaster instanceof ByteComponentRaster) &&
-                     (biRaster.getNumDataElements() == 1)){
-                ByteComponentRaster bt = (ByteComponentRaster) biRaster;
-                if (off == 0 && scansize == w) {
-                    bt.putByteData(x, y, w, h, pix);
+            flsf if ((dmodfl == modfl) &&
+                     (biRbstfr instbndfof BytfComponfntRbstfr) &&
+                     (biRbstfr.gftNumDbtbElfmfnts() == 1)){
+                BytfComponfntRbstfr bt = (BytfComponfntRbstfr) biRbstfr;
+                if (off == 0 && sdbnsizf == w) {
+                    bt.putBytfDbtb(x, y, w, i, pix);
                 }
-                else {
-                    byte[] bpix = new byte[w];
+                flsf {
+                    bytf[] bpix = nfw bytf[w];
                     poff = off;
-                    for (int yoff=y; yoff < y+h; yoff++) {
-                        System.arraycopy(pix, poff, bpix, 0, w);
-                        bt.putByteData(x, yoff, w, 1, bpix);
-                        poff += scansize;
+                    for (int yoff=y; yoff < y+i; yoff++) {
+                        Systfm.brrbydopy(pix, poff, bpix, 0, w);
+                        bt.putBytfDbtb(x, yoff, w, 1, bpix);
+                        poff += sdbnsizf;
                     }
                 }
             }
-            else {
-                for (int yoff=y; yoff < y+h; yoff++, lineOff += scansize) {
-                    poff = lineOff;
+            flsf {
+                for (int yoff=y; yoff < y+i; yoff++, linfOff += sdbnsizf) {
+                    poff = linfOff;
                     for (int xoff=x; xoff < x+w; xoff++) {
-                        bimage.setRGB(xoff, yoff,
-                                      model.getRGB(pix[poff++]&0xff));
+                        bimbgf.sftRGB(xoff, yoff,
+                                      modfl.gftRGB(pix[poff++]&0xff));
                     }
                 }
-                availinfo |= ImageObserver.SOMEBITS;
+                bvbilinfo |= ImbgfObsfrvfr.SOMEBITS;
             }
         }
 
-        if ((availinfo & ImageObserver.FRAMEBITS) == 0) {
-            newInfo(image, ImageObserver.SOMEBITS, x, y, w, h);
+        if ((bvbilinfo & ImbgfObsfrvfr.FRAMEBITS) == 0) {
+            nfwInfo(imbgf, ImbgfObsfrvfr.SOMEBITS, x, y, w, i);
         }
     }
 
 
-    public void setPixels(int x, int y, int w, int h, ColorModel model,
-                          int pix[], int off, int scansize)
+    publid void sftPixfls(int x, int y, int w, int i, ColorModfl modfl,
+                          int pix[], int off, int sdbnsizf)
     {
-        int lineOff=off;
+        int linfOff=off;
         int poff;
 
-        if (src != null) {
-            src.checkSecurity(null, false);
+        if (srd != null) {
+            srd.difdkSfdurity(null, fblsf);
         }
 
-        // REMIND: What if the model doesn't fit in default color model?
-        synchronized (this) {
-            if (bimage == null) {
-                if (cmodel == null) {
-                    cmodel = model;
+        // REMIND: Wibt if tif modfl dofsn't fit in dffbult dolor modfl?
+        syndironizfd (tiis) {
+            if (bimbgf == null) {
+                if (dmodfl == null) {
+                    dmodfl = modfl;
                 }
-                createBufferedImage();
+                drfbtfBufffrfdImbgf();
             }
 
-            int[] storage = new int[w];
+            int[] storbgf = nfw int[w];
             int yoff;
-            int pixel;
+            int pixfl;
 
-            if (cmodel instanceof IndexColorModel) {
-                // REMIND: Right now we don't support writing back into ICM
-                // images.
-                convertToRGB();
+            if (dmodfl instbndfof IndfxColorModfl) {
+                // REMIND: Rigit now wf don't support writing bbdk into ICM
+                // imbgfs.
+                donvfrtToRGB();
             }
 
-            if ((model == cmodel) &&
-                (biRaster instanceof IntegerComponentRaster)) {
-                IntegerComponentRaster iraster =
-                                         (IntegerComponentRaster) biRaster;
+            if ((modfl == dmodfl) &&
+                (biRbstfr instbndfof IntfgfrComponfntRbstfr)) {
+                IntfgfrComponfntRbstfr irbstfr =
+                                         (IntfgfrComponfntRbstfr) biRbstfr;
 
-                if (off == 0 && scansize == w) {
-                    iraster.setDataElements(x, y, w, h, pix);
+                if (off == 0 && sdbnsizf == w) {
+                    irbstfr.sftDbtbElfmfnts(x, y, w, i, pix);
                 }
-                else {
-                    // Need to pack the data
-                    for (yoff=y; yoff < y+h; yoff++, lineOff+=scansize) {
-                        System.arraycopy(pix, lineOff, storage, 0, w);
-                        iraster.setDataElements(x, yoff, w, 1, storage);
+                flsf {
+                    // Nffd to pbdk tif dbtb
+                    for (yoff=y; yoff < y+i; yoff++, linfOff+=sdbnsizf) {
+                        Systfm.brrbydopy(pix, linfOff, storbgf, 0, w);
+                        irbstfr.sftDbtbElfmfnts(x, yoff, w, 1, storbgf);
                     }
                 }
             }
-            else {
-                if (model.getTransparency() != Transparency.OPAQUE &&
-                    cmodel.getTransparency() == Transparency.OPAQUE) {
-                    convertToRGB();
+            flsf {
+                if (modfl.gftTrbnspbrfndy() != Trbnspbrfndy.OPAQUE &&
+                    dmodfl.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE) {
+                    donvfrtToRGB();
                 }
 
-                if (isDefaultBI) {
-                    IntegerComponentRaster iraster =
-                                        (IntegerComponentRaster) biRaster;
-                    int[] data = iraster.getDataStorage();
-                    if (cmodel.equals(model)) {
-                        int sstride = iraster.getScanlineStride();
-                        int doff = y*sstride + x;
-                        for (yoff=0; yoff < h; yoff++, lineOff += scansize) {
-                            System.arraycopy(pix, lineOff, data, doff, w);
-                            doff += sstride;
+                if (isDffbultBI) {
+                    IntfgfrComponfntRbstfr irbstfr =
+                                        (IntfgfrComponfntRbstfr) biRbstfr;
+                    int[] dbtb = irbstfr.gftDbtbStorbgf();
+                    if (dmodfl.fqubls(modfl)) {
+                        int sstridf = irbstfr.gftSdbnlinfStridf();
+                        int doff = y*sstridf + x;
+                        for (yoff=0; yoff < i; yoff++, linfOff += sdbnsizf) {
+                            Systfm.brrbydopy(pix, linfOff, dbtb, doff, w);
+                            doff += sstridf;
                         }
-                        // Note: manual modification of pixels, mark the
-                        // raster as changed
-                        iraster.markDirty();
+                        // Notf: mbnubl modifidbtion of pixfls, mbrk tif
+                        // rbstfr bs dibngfd
+                        irbstfr.mbrkDirty();
                     }
-                    else {
-                        for (yoff=y; yoff < y+h; yoff++, lineOff += scansize) {
-                            poff = lineOff;
+                    flsf {
+                        for (yoff=y; yoff < y+i; yoff++, linfOff += sdbnsizf) {
+                            poff = linfOff;
                             for (int i=0; i < w; i++) {
-                                storage[i]=model.getRGB(pix[poff++]);
+                                storbgf[i]=modfl.gftRGB(pix[poff++]);
                             }
-                            iraster.setDataElements(x, yoff, w, 1, storage);
+                            irbstfr.sftDbtbElfmfnts(x, yoff, w, 1, storbgf);
                         }
                     }
 
-                    availinfo |= ImageObserver.SOMEBITS;
+                    bvbilinfo |= ImbgfObsfrvfr.SOMEBITS;
                 }
-                else {
-                    Object tmp = null;
+                flsf {
+                    Objfdt tmp = null;
 
-                    for (yoff=y; yoff < y+h; yoff++, lineOff += scansize) {
-                        poff = lineOff;
+                    for (yoff=y; yoff < y+i; yoff++, linfOff += sdbnsizf) {
+                        poff = linfOff;
                         for (int xoff=x; xoff < x+w; xoff++) {
-                            pixel = model.getRGB(pix[poff++]);
-                            tmp = cmodel.getDataElements(pixel,tmp);
-                            biRaster.setDataElements(xoff, yoff,tmp);
+                            pixfl = modfl.gftRGB(pix[poff++]);
+                            tmp = dmodfl.gftDbtbElfmfnts(pixfl,tmp);
+                            biRbstfr.sftDbtbElfmfnts(xoff, yoff,tmp);
                         }
                     }
-                    availinfo |= ImageObserver.SOMEBITS;
+                    bvbilinfo |= ImbgfObsfrvfr.SOMEBITS;
                 }
             }
         }
 
-        // Can't do this here since we might need to transform/clip
-        // the region
-        if (((availinfo & ImageObserver.FRAMEBITS) == 0)) {
-            newInfo(image, ImageObserver.SOMEBITS, x, y, w, h);
+        // Cbn't do tiis ifrf sindf wf migit nffd to trbnsform/dlip
+        // tif rfgion
+        if (((bvbilinfo & ImbgfObsfrvfr.FRAMEBITS) == 0)) {
+            nfwInfo(imbgf, ImbgfObsfrvfr.SOMEBITS, x, y, w, i);
         }
     }
 
-    public BufferedImage getOpaqueRGBImage() {
-        if (bimage.getType() == BufferedImage.TYPE_INT_ARGB) {
-            int w = bimage.getWidth();
-            int h = bimage.getHeight();
-            int size = w * h;
+    publid BufffrfdImbgf gftOpbqufRGBImbgf() {
+        if (bimbgf.gftTypf() == BufffrfdImbgf.TYPE_INT_ARGB) {
+            int w = bimbgf.gftWidti();
+            int i = bimbgf.gftHfigit();
+            int sizf = w * i;
 
-            // Note that we steal the data array here, but only for reading...
-            DataBufferInt db = (DataBufferInt)biRaster.getDataBuffer();
-            int[] pixels = SunWritableRaster.stealData(db, 0);
+            // Notf tibt wf stfbl tif dbtb brrby ifrf, but only for rfbding...
+            DbtbBufffrInt db = (DbtbBufffrInt)biRbstfr.gftDbtbBufffr();
+            int[] pixfls = SunWritbblfRbstfr.stfblDbtb(db, 0);
 
-            for (int i = 0; i < size; i++) {
-                if ((pixels[i] >>> 24) != 0xff) {
-                    return bimage;
+            for (int i = 0; i < sizf; i++) {
+                if ((pixfls[i] >>> 24) != 0xff) {
+                    rfturn bimbgf;
                 }
             }
 
-            ColorModel opModel = new DirectColorModel(24,
+            ColorModfl opModfl = nfw DirfdtColorModfl(24,
                                                       0x00ff0000,
                                                       0x0000ff00,
                                                       0x000000ff);
 
-            int bandmasks[] = {0x00ff0000, 0x0000ff00, 0x000000ff};
-            WritableRaster opRaster = Raster.createPackedRaster(db, w, h, w,
-                                                                bandmasks,
+            int bbndmbsks[] = {0x00ff0000, 0x0000ff00, 0x000000ff};
+            WritbblfRbstfr opRbstfr = Rbstfr.drfbtfPbdkfdRbstfr(db, w, i, w,
+                                                                bbndmbsks,
                                                                 null);
 
             try {
-                BufferedImage opImage = createImage(opModel, opRaster,
-                                                    false, null);
-                return opImage;
-            } catch (Exception e) {
-                return bimage;
+                BufffrfdImbgf opImbgf = drfbtfImbgf(opModfl, opRbstfr,
+                                                    fblsf, null);
+                rfturn opImbgf;
+            } dbtdi (Exdfption f) {
+                rfturn bimbgf;
             }
         }
-        return bimage;
+        rfturn bimbgf;
     }
 
-    private boolean consuming = false;
+    privbtf boolfbn donsuming = fblsf;
 
-    public void imageComplete(int status) {
-        if (src != null) {
-            src.checkSecurity(null, false);
+    publid void imbgfComplftf(int stbtus) {
+        if (srd != null) {
+            srd.difdkSfdurity(null, fblsf);
         }
-        boolean done;
+        boolfbn donf;
         int info;
-        switch (status) {
-        default:
-        case ImageConsumer.IMAGEABORTED:
-            done = true;
-            info = ImageObserver.ABORT;
-            break;
-        case ImageConsumer.IMAGEERROR:
-            image.addInfo(ImageObserver.ERROR);
-            done = true;
-            info = ImageObserver.ERROR;
-            dispose();
-            break;
-        case ImageConsumer.STATICIMAGEDONE:
-            done = true;
-            info = ImageObserver.ALLBITS;
-            break;
-        case ImageConsumer.SINGLEFRAMEDONE:
-            done = false;
-            info = ImageObserver.FRAMEBITS;
-            break;
+        switdi (stbtus) {
+        dffbult:
+        dbsf ImbgfConsumfr.IMAGEABORTED:
+            donf = truf;
+            info = ImbgfObsfrvfr.ABORT;
+            brfbk;
+        dbsf ImbgfConsumfr.IMAGEERROR:
+            imbgf.bddInfo(ImbgfObsfrvfr.ERROR);
+            donf = truf;
+            info = ImbgfObsfrvfr.ERROR;
+            disposf();
+            brfbk;
+        dbsf ImbgfConsumfr.STATICIMAGEDONE:
+            donf = truf;
+            info = ImbgfObsfrvfr.ALLBITS;
+            brfbk;
+        dbsf ImbgfConsumfr.SINGLEFRAMEDONE:
+            donf = fblsf;
+            info = ImbgfObsfrvfr.FRAMEBITS;
+            brfbk;
         }
-        synchronized (this) {
-            if (done) {
-                image.getSource().removeConsumer(this);
-                consuming = false;
-                newbits = null;
+        syndironizfd (tiis) {
+            if (donf) {
+                imbgf.gftSourdf().rfmovfConsumfr(tiis);
+                donsuming = fblsf;
+                nfwbits = null;
 
-                if (bimage != null) {
-                    bimage = getOpaqueRGBImage();
+                if (bimbgf != null) {
+                    bimbgf = gftOpbqufRGBImbgf();
                 }
             }
-            availinfo |= info;
+            bvbilinfo |= info;
             notifyAll();
         }
 
-        newInfo(image, info, 0, 0, width, height);
+        nfwInfo(imbgf, info, 0, 0, widti, ifigit);
 
-        image.infoDone(status);
+        imbgf.infoDonf(stbtus);
     }
 
-    /*synchronized*/ void startProduction() {
-        if (!consuming) {
-            consuming = true;
-            image.getSource().startProduction(this);
+    /*syndironizfd*/ void stbrtProdudtion() {
+        if (!donsuming) {
+            donsuming = truf;
+            imbgf.gftSourdf().stbrtProdudtion(tiis);
         }
     }
 
-    private int numWaiters;
+    privbtf int numWbitfrs;
 
-    private synchronized void checkConsumption() {
-        if (isWatcherListEmpty() && numWaiters == 0 &&
-            ((availinfo & ImageObserver.ALLBITS) == 0))
+    privbtf syndironizfd void difdkConsumption() {
+        if (isWbtdifrListEmpty() && numWbitfrs == 0 &&
+            ((bvbilinfo & ImbgfObsfrvfr.ALLBITS) == 0))
         {
-            dispose();
+            disposf();
         }
     }
 
-    public synchronized void notifyWatcherListEmpty() {
-        checkConsumption();
+    publid syndironizfd void notifyWbtdifrListEmpty() {
+        difdkConsumption();
     }
 
-    private synchronized void decrementWaiters() {
-        --numWaiters;
-        checkConsumption();
+    privbtf syndironizfd void dfdrfmfntWbitfrs() {
+        --numWbitfrs;
+        difdkConsumption();
     }
 
-    public boolean prepare(ImageObserver iw) {
-        if (src != null) {
-            src.checkSecurity(null, false);
+    publid boolfbn prfpbrf(ImbgfObsfrvfr iw) {
+        if (srd != null) {
+            srd.difdkSfdurity(null, fblsf);
         }
-        if ((availinfo & ImageObserver.ERROR) != 0) {
+        if ((bvbilinfo & ImbgfObsfrvfr.ERROR) != 0) {
             if (iw != null) {
-                iw.imageUpdate(image, ImageObserver.ERROR|ImageObserver.ABORT,
+                iw.imbgfUpdbtf(imbgf, ImbgfObsfrvfr.ERROR|ImbgfObsfrvfr.ABORT,
                                -1, -1, -1, -1);
             }
-            return false;
+            rfturn fblsf;
         }
-        boolean done = ((availinfo & ImageObserver.ALLBITS) != 0);
-        if (!done) {
-            addWatcher(iw);
-            startProduction();
-            // Some producers deliver image data synchronously
-            done = ((availinfo & ImageObserver.ALLBITS) != 0);
+        boolfbn donf = ((bvbilinfo & ImbgfObsfrvfr.ALLBITS) != 0);
+        if (!donf) {
+            bddWbtdifr(iw);
+            stbrtProdudtion();
+            // Somf produdfrs dflivfr imbgf dbtb syndironously
+            donf = ((bvbilinfo & ImbgfObsfrvfr.ALLBITS) != 0);
         }
-        return done;
+        rfturn donf;
     }
 
-    public int check(ImageObserver iw) {
+    publid int difdk(ImbgfObsfrvfr iw) {
 
-        if (src != null) {
-            src.checkSecurity(null, false);
+        if (srd != null) {
+            srd.difdkSfdurity(null, fblsf);
         }
-        if ((availinfo & (ImageObserver.ERROR | ImageObserver.ALLBITS)) == 0) {
-            addWatcher(iw);
+        if ((bvbilinfo & (ImbgfObsfrvfr.ERROR | ImbgfObsfrvfr.ALLBITS)) == 0) {
+            bddWbtdifr(iw);
         }
 
-        return availinfo;
+        rfturn bvbilinfo;
     }
 
-    public boolean drawToBufImage(Graphics g, ToolkitImage img,
+    publid boolfbn drbwToBufImbgf(Grbpiids g, ToolkitImbgf img,
                                   int x, int y, Color bg,
-                                  ImageObserver iw) {
+                                  ImbgfObsfrvfr iw) {
 
-        if (src != null) {
-            src.checkSecurity(null, false);
+        if (srd != null) {
+            srd.difdkSfdurity(null, fblsf);
         }
-        if ((availinfo & ImageObserver.ERROR) != 0) {
+        if ((bvbilinfo & ImbgfObsfrvfr.ERROR) != 0) {
             if (iw != null) {
-                iw.imageUpdate(image, ImageObserver.ERROR|ImageObserver.ABORT,
+                iw.imbgfUpdbtf(imbgf, ImbgfObsfrvfr.ERROR|ImbgfObsfrvfr.ABORT,
                                -1, -1, -1, -1);
             }
-            return false;
+            rfturn fblsf;
         }
-        boolean done  = ((availinfo & ImageObserver.ALLBITS) != 0);
-        boolean abort = ((availinfo & ImageObserver.ABORT) != 0);
+        boolfbn donf  = ((bvbilinfo & ImbgfObsfrvfr.ALLBITS) != 0);
+        boolfbn bbort = ((bvbilinfo & ImbgfObsfrvfr.ABORT) != 0);
 
-        if (!done && !abort) {
-            addWatcher(iw);
-            startProduction();
-            // Some producers deliver image data synchronously
-            done = ((availinfo & ImageObserver.ALLBITS) != 0);
-        }
-
-        if (done || (0 != (availinfo & ImageObserver.FRAMEBITS))) {
-            g.drawImage (bimage, x, y, bg, null);
+        if (!donf && !bbort) {
+            bddWbtdifr(iw);
+            stbrtProdudtion();
+            // Somf produdfrs dflivfr imbgf dbtb syndironously
+            donf = ((bvbilinfo & ImbgfObsfrvfr.ALLBITS) != 0);
         }
 
-        return done;
+        if (donf || (0 != (bvbilinfo & ImbgfObsfrvfr.FRAMEBITS))) {
+            g.drbwImbgf (bimbgf, x, y, bg, null);
+        }
+
+        rfturn donf;
     }
 
-    public boolean drawToBufImage(Graphics g, ToolkitImage img,
-                                  int x, int y, int w, int h,
-                                  Color bg, ImageObserver iw) {
+    publid boolfbn drbwToBufImbgf(Grbpiids g, ToolkitImbgf img,
+                                  int x, int y, int w, int i,
+                                  Color bg, ImbgfObsfrvfr iw) {
 
-        if (src != null) {
-            src.checkSecurity(null, false);
+        if (srd != null) {
+            srd.difdkSfdurity(null, fblsf);
         }
-        if ((availinfo & ImageObserver.ERROR) != 0) {
+        if ((bvbilinfo & ImbgfObsfrvfr.ERROR) != 0) {
             if (iw != null) {
-                iw.imageUpdate(image, ImageObserver.ERROR|ImageObserver.ABORT,
+                iw.imbgfUpdbtf(imbgf, ImbgfObsfrvfr.ERROR|ImbgfObsfrvfr.ABORT,
                                -1, -1, -1, -1);
             }
-            return false;
+            rfturn fblsf;
         }
 
-        boolean done  = ((availinfo & ImageObserver.ALLBITS) != 0);
-        boolean abort = ((availinfo & ImageObserver.ABORT) != 0);
+        boolfbn donf  = ((bvbilinfo & ImbgfObsfrvfr.ALLBITS) != 0);
+        boolfbn bbort = ((bvbilinfo & ImbgfObsfrvfr.ABORT) != 0);
 
-        if (!done && !abort) {
-            addWatcher(iw);
-            startProduction();
-            // Some producers deliver image data synchronously
-            done = ((availinfo & ImageObserver.ALLBITS) != 0);
+        if (!donf && !bbort) {
+            bddWbtdifr(iw);
+            stbrtProdudtion();
+            // Somf produdfrs dflivfr imbgf dbtb syndironously
+            donf = ((bvbilinfo & ImbgfObsfrvfr.ALLBITS) != 0);
         }
 
-        if (done || (0 != (availinfo & ImageObserver.FRAMEBITS))) {
-            g.drawImage (bimage, x, y, w, h, bg, null);
+        if (donf || (0 != (bvbilinfo & ImbgfObsfrvfr.FRAMEBITS))) {
+            g.drbwImbgf (bimbgf, x, y, w, i, bg, null);
         }
 
-        return done;
+        rfturn donf;
     }
 
-    public boolean drawToBufImage(Graphics g, ToolkitImage img,
+    publid boolfbn drbwToBufImbgf(Grbpiids g, ToolkitImbgf img,
                                   int dx1, int dy1, int dx2, int dy2,
                                   int sx1, int sy1, int sx2, int sy2,
-                                  Color bg, ImageObserver iw) {
+                                  Color bg, ImbgfObsfrvfr iw) {
 
-        if (src != null) {
-            src.checkSecurity(null, false);
+        if (srd != null) {
+            srd.difdkSfdurity(null, fblsf);
         }
-        if ((availinfo & ImageObserver.ERROR) != 0) {
+        if ((bvbilinfo & ImbgfObsfrvfr.ERROR) != 0) {
             if (iw != null) {
-                iw.imageUpdate(image, ImageObserver.ERROR|ImageObserver.ABORT,
+                iw.imbgfUpdbtf(imbgf, ImbgfObsfrvfr.ERROR|ImbgfObsfrvfr.ABORT,
                                -1, -1, -1, -1);
             }
-            return false;
+            rfturn fblsf;
         }
-        boolean done  = ((availinfo & ImageObserver.ALLBITS) != 0);
-        boolean abort = ((availinfo & ImageObserver.ABORT) != 0);
+        boolfbn donf  = ((bvbilinfo & ImbgfObsfrvfr.ALLBITS) != 0);
+        boolfbn bbort = ((bvbilinfo & ImbgfObsfrvfr.ABORT) != 0);
 
-        if (!done && !abort) {
-            addWatcher(iw);
-            startProduction();
-            // Some producers deliver image data synchronously
-            done = ((availinfo & ImageObserver.ALLBITS) != 0);
+        if (!donf && !bbort) {
+            bddWbtdifr(iw);
+            stbrtProdudtion();
+            // Somf produdfrs dflivfr imbgf dbtb syndironously
+            donf = ((bvbilinfo & ImbgfObsfrvfr.ALLBITS) != 0);
         }
 
-        if (done || (0 != (availinfo & ImageObserver.FRAMEBITS))) {
-            g.drawImage (bimage,
+        if (donf || (0 != (bvbilinfo & ImbgfObsfrvfr.FRAMEBITS))) {
+            g.drbwImbgf (bimbgf,
                          dx1, dy1, dx2, dy2,
                          sx1, sy1, sx2, sy2,
                          bg, null);
         }
 
-        return done;
+        rfturn donf;
     }
 
-    public boolean drawToBufImage(Graphics g, ToolkitImage img,
-                                  AffineTransform xform,
-                                  ImageObserver iw)
+    publid boolfbn drbwToBufImbgf(Grbpiids g, ToolkitImbgf img,
+                                  AffinfTrbnsform xform,
+                                  ImbgfObsfrvfr iw)
     {
-        Graphics2D g2 = (Graphics2D) g;
+        Grbpiids2D g2 = (Grbpiids2D) g;
 
-        if (src != null) {
-            src.checkSecurity(null, false);
+        if (srd != null) {
+            srd.difdkSfdurity(null, fblsf);
         }
-        if ((availinfo & ImageObserver.ERROR) != 0) {
+        if ((bvbilinfo & ImbgfObsfrvfr.ERROR) != 0) {
             if (iw != null) {
-                iw.imageUpdate(image, ImageObserver.ERROR|ImageObserver.ABORT,
+                iw.imbgfUpdbtf(imbgf, ImbgfObsfrvfr.ERROR|ImbgfObsfrvfr.ABORT,
                                -1, -1, -1, -1);
             }
-            return false;
+            rfturn fblsf;
         }
-        boolean done  = ((availinfo & ImageObserver.ALLBITS) != 0);
-        boolean abort = ((availinfo & ImageObserver.ABORT) != 0);
+        boolfbn donf  = ((bvbilinfo & ImbgfObsfrvfr.ALLBITS) != 0);
+        boolfbn bbort = ((bvbilinfo & ImbgfObsfrvfr.ABORT) != 0);
 
-        if (!done && !abort) {
-            addWatcher(iw);
-            startProduction();
-            // Some producers deliver image data synchronously
-            done = ((availinfo & ImageObserver.ALLBITS) != 0);
-        }
-
-        if (done || (0 != (availinfo & ImageObserver.FRAMEBITS))) {
-            g2.drawImage (bimage, xform, null);
+        if (!donf && !bbort) {
+            bddWbtdifr(iw);
+            stbrtProdudtion();
+            // Somf produdfrs dflivfr imbgf dbtb syndironously
+            donf = ((bvbilinfo & ImbgfObsfrvfr.ALLBITS) != 0);
         }
 
-        return done;
+        if (donf || (0 != (bvbilinfo & ImbgfObsfrvfr.FRAMEBITS))) {
+            g2.drbwImbgf (bimbgf, xform, null);
+        }
+
+        rfturn donf;
     }
 
-    synchronized void abort() {
-        image.getSource().removeConsumer(this);
-        consuming = false;
-        newbits = null;
-        bimage = null;
-        biRaster = null;
-        cmodel = null;
-        srcLUT = null;
-        isDefaultBI = false;
-        isSameCM = false;
+    syndironizfd void bbort() {
+        imbgf.gftSourdf().rfmovfConsumfr(tiis);
+        donsuming = fblsf;
+        nfwbits = null;
+        bimbgf = null;
+        biRbstfr = null;
+        dmodfl = null;
+        srdLUT = null;
+        isDffbultBI = fblsf;
+        isSbmfCM = fblsf;
 
-        newInfo(image, ImageObserver.ABORT, -1, -1, -1, -1);
-        availinfo &= ~(ImageObserver.SOMEBITS
-                       | ImageObserver.FRAMEBITS
-                       | ImageObserver.ALLBITS
-                       | ImageObserver.ERROR);
+        nfwInfo(imbgf, ImbgfObsfrvfr.ABORT, -1, -1, -1, -1);
+        bvbilinfo &= ~(ImbgfObsfrvfr.SOMEBITS
+                       | ImbgfObsfrvfr.FRAMEBITS
+                       | ImbgfObsfrvfr.ALLBITS
+                       | ImbgfObsfrvfr.ERROR);
     }
 
-    synchronized void dispose() {
-        image.getSource().removeConsumer(this);
-        consuming = false;
-        newbits = null;
-        availinfo &= ~(ImageObserver.SOMEBITS
-                       | ImageObserver.FRAMEBITS
-                       | ImageObserver.ALLBITS);
+    syndironizfd void disposf() {
+        imbgf.gftSourdf().rfmovfConsumfr(tiis);
+        donsuming = fblsf;
+        nfwbits = null;
+        bvbilinfo &= ~(ImbgfObsfrvfr.SOMEBITS
+                       | ImbgfObsfrvfr.FRAMEBITS
+                       | ImbgfObsfrvfr.ALLBITS);
     }
 
-    public void setAccelerationPriority(float priority) {
-        if (bimage != null) {
-            bimage.setAccelerationPriority(priority);
+    publid void sftAddflfrbtionPriority(flobt priority) {
+        if (bimbgf != null) {
+            bimbgf.sftAddflfrbtionPriority(priority);
         }
     }
 }

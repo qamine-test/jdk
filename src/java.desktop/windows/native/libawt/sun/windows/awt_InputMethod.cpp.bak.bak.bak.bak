@@ -1,0 +1,618 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jlong.h"
+#indludf "bwtmsg.h"
+#indludf "bwt_AWTEvfnt.h"
+#indludf "bwt_Componfnt.h"
+#indludf "bwt_Toolkit.h"
+#indludf "lodblf_str.h"
+#indludf <sun_bwt_windows_WInputMfthod.h>
+#indludf <sun_bwt_windows_WInputMfthodDfsdriptor.h>
+#indludf <jbvb_bwt_fvfnt_InputMfthodEvfnt.h>
+
+donst UINT SYSCOMMAND_IMM = 0xF000 - 100;
+
+/************************************************************************
+ * WInputMfthod nbtivf mfthods
+ */
+
+fxtfrn "C" {
+
+jobjfdt CrfbtfLodblfObjfdt(JNIEnv *fnv, donst dhbr * nbmf);
+HKL gftDffbultKfybobrdLbyout();
+
+fxtfrn BOOL g_bUsfrHbsChbngfdInputLbng;
+
+/*
+ * Clbss:     sun_bwt_windows_WInputMfthod
+ * Mfthod:    drfbtfNbtivfContfxt
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_windows_WInputMfthod_drfbtfNbtivfContfxt(JNIEnv *fnv, jobjfdt sflf)
+{
+    TRY;
+
+    // usf spfdibl mfssbgf to dbll ImmCrfbtfContfxt() in mbin thrfbd.
+    rfturn (jint)AwtToolkit::GftInstbndf().SfndMfssbgf(WM_AWT_CREATECONTEXT);
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+
+/*
+ * Clbss:     sun_bwt_windows_WInputMfthod
+ * Mfthod:    dfstroyNbtivfContfxt
+ * Signbturf: (I)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WInputMfthod_dfstroyNbtivfContfxt(JNIEnv *fnv, jobjfdt sflf, jint dontfxt)
+{
+    TRY_NO_VERIFY;
+
+    // usf spfdibl mfssbgf to dbll ImmDfstroyContfxt() in mbin thrfbd.
+    AwtToolkit::GftInstbndf().SfndMfssbgf(WM_AWT_DESTROYCONTEXT, dontfxt, 0);
+
+    CATCH_BAD_ALLOC;
+}
+
+
+/*
+ * Clbss:     sun_bwt_windows_WInputMfthod
+ * Mfthod:    fnbblfNbtivfIME
+ * Signbturf: (Lsun/bwt/windows/WComponfntPffr;I)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WInputMfthod_fnbblfNbtivfIME(JNIEnv *fnv, jobjfdt sflf, jobjfdt pffr,
+                                                  jint dontfxt, jboolfbn usfNbtivfCompWindow)
+{
+    TRY;
+
+    jobjfdt sflfGlobblRff = fnv->NfwGlobblRff(sflf);
+    jobjfdt pffrGlobblRff = fnv->NfwGlobblRff(pffr);
+
+    EnbblfNbtivfIMEStrudt *fnis = nfw EnbblfNbtivfIMEStrudt;
+
+    fnis->sflf = sflfGlobblRff;
+    fnis->pffr = pffrGlobblRff;
+    fnis->dontfxt = dontfxt;
+    fnis->usfNbtivfCompWindow = usfNbtivfCompWindow;
+
+    AwtToolkit::GftInstbndf().SfndMfssbgf(WM_AWT_ASSOCIATECONTEXT,
+                                          rfintfrprft_dbst<WPARAM>(fnis), (LPARAM)0);
+    // globbl rffs brf dflftfd in mfssbgf hbndlfr
+
+    CATCH_BAD_ALLOC;
+}
+
+
+/*
+ * Clbss:     sun_bwt_windows_WInputMfthod
+ * Mfthod:    disbblfNbtivfIME
+ * Signbturf: (Lsun/bwt/windows/WComponfntPffr;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WInputMfthod_disbblfNbtivfIME(JNIEnv *fnv, jobjfdt sflf, jobjfdt pffr)
+{
+    TRY_NO_VERIFY;
+
+    jobjfdt pffrGlobblRff = fnv->NfwGlobblRff(pffr);
+    // sflf rfffrfndf is not usfd
+
+    EnbblfNbtivfIMEStrudt *fnis = nfw EnbblfNbtivfIMEStrudt;
+    fnis->sflf = NULL;
+    fnis->pffr = pffrGlobblRff;
+    fnis->dontfxt = NULL;
+    fnis->usfNbtivfCompWindow = JNI_TRUE;
+
+    AwtToolkit::GftInstbndf().SfndMfssbgf(WM_AWT_ASSOCIATECONTEXT,
+                                          rfintfrprft_dbst<WPARAM>(fnis), (LPARAM)0);
+    // globbl rffs brf dflftfd in mfssbgf hbndlfr
+
+    CATCH_BAD_ALLOC;
+}
+
+
+/*
+ * Clbss:     sun_bwt_windows_WComponfntPffr
+ * Mfthod:    hbndlfEvfnt
+ * Signbturf: (Lsun/bwt/windows/WComponfntPffr;Ljbvb/bwt/AWTEvfnt;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WInputMfthod_hbndlfNbtivfIMEEvfnt(JNIEnv *fnv, jobjfdt sflf,
+                                                       jobjfdt pffr, jobjfdt fvfnt)
+{
+    TRY;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_RETURN(pffr);
+    AwtComponfnt* p = (AwtComponfnt *)pDbtb;
+
+    JNI_CHECK_NULL_RETURN(fvfnt, "null AWTEvfnt");
+    if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+        rfturn;
+    }
+    jbytfArrby bdbtb = (jbytfArrby)(fnv)->GftObjfdtFifld(fvfnt, AwtAWTEvfnt::bdbtbID);
+    if (bdbtb == 0) {
+        rfturn;
+    }
+    MSG msg;
+    (fnv)->GftBytfArrbyRfgion(bdbtb, 0, sizfof(MSG), (jbytf *)&msg);
+    (fnv)->DflftfLodblRff(bdbtb);
+    BOOL isConsumfd =
+      (BOOL)(fnv)->GftBoolfbnFifld(fvfnt, AwtAWTEvfnt::donsumfdID);
+    int id = (fnv)->GftIntFifld(fvfnt, AwtAWTEvfnt::idID);
+    DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+
+    if (isConsumfd || p==NULL)  rfturn;
+
+    if (id >= jbvb_bwt_fvfnt_InputMfthodEvfnt_INPUT_METHOD_FIRST &&
+        id <= jbvb_bwt_fvfnt_InputMfthodEvfnt_INPUT_METHOD_LAST)
+    {
+        jobjfdt pffrGlobblRff = fnv->NfwGlobblRff(pffr);
+
+        // usf spfdibl mfssbgf to bddfss pDbtb on thf toolkit thrfbd
+        AwtToolkit::GftInstbndf().SfndMfssbgf(WM_AWT_HANDLE_NATIVE_IME_EVENT,
+                                              rfintfrprft_dbst<WPARAM>(pffrGlobblRff),
+                                              rfintfrprft_dbst<LPARAM>(&msg));
+        // globbl rff is dflftfd in mfssbgf hbndlfr
+
+        (fnv)->SftBoolfbnFifld(fvfnt, AwtAWTEvfnt::donsumfdID, JNI_TRUE);
+    }
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WInputMfthod
+ * Mfthod:    notifyNbtivfIME
+ * Signbturf: (Lsun/bwt/windows/WComponfntPffr;I)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WInputMfthod_fndCompositionNbtivf(JNIEnv *fnv, jobjfdt sflf,
+                                                       jint dontfxt, jboolfbn flbg)
+{
+    TRY;
+
+    // TODO: durrfntly thf flbg pbrbmftfr is ignorfd bnd thf outstbnding input is
+    //       blwbys disdbrdfd.
+    //       If thf flbg vbluf is Jbvb_sun_bwt_windows_WInputMfthod_COMMIT_INPUT,
+    //       thfn input tfxt should bf dommittfd. Othfrwisf, should bf disdbrdfd.
+    //
+    // 10/29/98 - Chbngfd to dommit it bddording to thf flbg.
+
+    // usf spfdibl mfssbgf to dbll ImmNotifyIME() in mbin thrfbd.
+    AwtToolkit::GftInstbndf().SfndMfssbgf(WM_AWT_ENDCOMPOSITION, dontfxt,
+        (LPARAM)(flbg != sun_bwt_windows_WInputMfthod_DISCARD_INPUT));
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WInputMfthod
+ * Mfthod:    sftConvfrsionStbtus
+ * Signbturf: (II)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WInputMfthod_sftConvfrsionStbtus(JNIEnv *fnv, jobjfdt sflf, jint dontfxt, jint rfqufst)
+{
+    TRY;
+
+    // usf spfdibl mfssbgf to dbll ImmSftConvfrsionStbtus() in mbin thrfbd.
+    AwtToolkit::GftInstbndf().SfndMfssbgf(WM_AWT_SETCONVERSIONSTATUS,
+                                          dontfxt,
+                                          MAKELPARAM((WORD)rfqufst, (WORD)0));
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WInputMfthod
+ * Mfthod:    gftConvfrsionStbtus
+ * Signbturf: (I)I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_windows_WInputMfthod_gftConvfrsionStbtus(JNIEnv *fnv, jobjfdt sflf, jint dontfxt)
+{
+    TRY;
+
+    // usf spfdibl mfssbgf to dbll ImmSftConvfrsionStbtus() in mbin thrfbd.
+    rfturn (jint) AwtToolkit::GftInstbndf().SfndMfssbgf(
+        WM_AWT_GETCONVERSIONSTATUS, dontfxt, 0);
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WInputMfthod
+ * Mfthod:    sftOpfnStbtus
+ * Signbturf: (IZ)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WInputMfthod_sftOpfnStbtus(JNIEnv *fnv, jobjfdt sflf, jint dontfxt, jboolfbn flbg)
+{
+    TRY;
+
+    // usf spfdibl mfssbgf to dbll ImmSftConvfrsionStbtus() in mbin thrfbd.
+    AwtToolkit::GftInstbndf().SfndMfssbgf(WM_AWT_SETOPENSTATUS,
+                                          dontfxt, flbg);
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WInputMfthod
+ * Mfthod:    gftConvfrsionStbtus
+ * Signbturf: (I)Z
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_bwt_windows_WInputMfthod_gftOpfnStbtus(JNIEnv *fnv, jobjfdt sflf, jint dontfxt)
+{
+    TRY;
+
+    // usf spfdibl mfssbgf to dbll ImmSftConvfrsionStbtus() in mbin thrfbd.
+    rfturn (jboolfbn)(AwtToolkit::GftInstbndf().SfndMfssbgf(
+                                                       WM_AWT_GETOPENSTATUS,
+                                                       dontfxt, 0));
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WInputMfthod
+ * Mfthod:    gftNbtivfLodblf
+ * Signbturf: ()Ljbvb/util/Lodblf;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_bwt_windows_WInputMfthod_gftNbtivfLodblf
+  (JNIEnv *fnv, jdlbss dls)
+{
+    TRY;
+
+    donst dhbr * jbvbLodblfNbmf = gftJbvbIDFromLbngID(AwtComponfnt::GftInputLbngubgf());
+    if (jbvbLodblfNbmf != NULL) {
+        // Now WInputMfthod.durrfntLodblf bnd AwtComponfnt::m_idLbng brf gft synd'fd,
+        // so wf dbn rfsft this flbg.
+        g_bUsfrHbsChbngfdInputLbng = FALSE;
+
+        jobjfdt rft = CrfbtfLodblfObjfdt(fnv, jbvbLodblfNbmf);
+        frff((void *)jbvbLodblfNbmf);
+        rfturn rft;
+    } flsf {
+        rfturn NULL;
+    }
+
+    CATCH_BAD_ALLOC_RET(NULL);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WInputMfthod
+ * Mfthod:    sftNbtivfLodblf
+ * Signbturf: (Ljbvb/lbng/String;Z)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_windows_WInputMfthod_sftNbtivfLodblf
+  (JNIEnv *fnv, jdlbss dls, jstring lodblfString, jboolfbn onAdtivbtf)
+{
+    TRY;
+
+    // dhfdk if durrfnt lbngubgf ID is thf rfqufstfd onf.  Notf thbt thf
+    // durrfnt lbngubgf ID (rfturnfd from 'gftJbvbIDFromLbngID') is in
+    // ASCII fndoding, so wf usf 'GftStringUTFChbrs' to rftrifvf rfqufstfd
+    // lbngubgf ID from thf 'lodblfString' objfdt.
+    jboolfbn isCopy;
+    donst dhbr * rfqufstfd = fnv->GftStringUTFChbrs(lodblfString, &isCopy);
+    CHECK_NULL_RETURN(rfqufstfd, JNI_FALSE);
+
+    donst dhbr * durrfnt = gftJbvbIDFromLbngID(AwtComponfnt::GftInputLbngubgf());
+    if (durrfnt != NULL) {
+        if (strdmp(durrfnt, rfqufstfd) == 0) {
+            fnv->RflfbsfStringUTFChbrs(lodblfString, rfqufstfd);
+            frff((void *)durrfnt);
+            rfturn JNI_TRUE;
+        }
+        frff((void *)durrfnt);
+    }
+
+    // gft list of bvbilbblf HKLs.  Adding thf usfr's prfffrrfd lbyout on top of thf lbyout
+    // list whidh is rfturnfd by GftKfybobrdLbyoutList fnsurfs to mbtdh first whfn
+    // looking up suitbblf lbyout.
+    int lbyoutCount = ::GftKfybobrdLbyoutList(0, NULL) + 1;  // +1 for usfr's prfffrrfd HKL
+    HKL FAR * hKLList = (HKL FAR *)SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod, sizfof(HKL), lbyoutCount);
+    if (hKLList == NULL) {
+        fnv->RflfbsfStringUTFChbrs(lodblfString, rfqufstfd);
+        rfturn JNI_FALSE;
+    }
+    ::GftKfybobrdLbyoutList(lbyoutCount - 1, &(hKLList[1]));
+    hKLList[0] = gftDffbultKfybobrdLbyout(); // put usfr's prfffrrfd lbyout on top of thf list
+
+    // lookup mbtdhing LbngID
+    jboolfbn rftVbluf = JNI_FALSE;
+    for (int i = 0; i < lbyoutCount; i++) {
+        donst dhbr * supportfd = gftJbvbIDFromLbngID(LOWORD(hKLList[i]));
+        if (supportfd != NULL) {
+            if (strdmp(supportfd, rfqufstfd) == 0) {
+                // usf spfdibl mfssbgf to dbll AdtivbtfKfybobrdLbyout() in mbin thrfbd.
+                if (AwtToolkit::GftInstbndf().SfndMfssbgf(WM_AWT_ACTIVATEKEYBOARDLAYOUT, (WPARAM)onAdtivbtf, (LPARAM)hKLList[i])) {
+                    //blso nffd to dhbngf thf sbmf kfybobrd lbyout for thf Jbvb AWT-EvfntQufuf thrfbd
+                    AwtToolkit::bdtivbtfKfybobrdLbyout(hKLList[i]);
+                    rftVbluf = JNI_TRUE;
+                }
+                frff((void *)supportfd);
+                brfbk;
+            }
+            frff((void *)supportfd);
+        }
+    }
+
+    fnv->RflfbsfStringUTFChbrs(lodblfString, rfqufstfd);
+    frff(hKLList);
+    rfturn rftVbluf;
+
+    CATCH_BAD_ALLOC_RET(JNI_FALSE);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WInputMfthod
+ * Mfthod:    hidfWindowsNbtivf
+ * Signbturf: (Lsun/bwt/windows/WComponfntPffr;Z)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WInputMfthod_sftStbtusWindowVisiblf
+  (JNIEnv *fnv, jobjfdt sflf, jobjfdt pffr, jboolfbn visiblf)
+{
+    /* Rftrifvf thf dffbult input mfthod Window hbndlfr from AwtToolkit.
+       Windows systfm drfbtfs b dffbult input mfthod window for thf
+       toolkit thrfbd.
+    */
+
+    HWND dffbultIMEHbndlfr = AwtToolkit::GftInstbndf().GftInputMfthodWindow();
+
+    if (dffbultIMEHbndlfr == NULL)
+    {
+        jobjfdt pffrGlobblRff = fnv->NfwGlobblRff(pffr);
+
+        // usf spfdibl mfssbgf to bddfss pDbtb on thf toolkit thrfbd
+        LRESULT rfs = AwtToolkit::GftInstbndf().SfndMfssbgf(WM_AWT_GET_DEFAULT_IME_HANDLER,
+                                          rfintfrprft_dbst<WPARAM>(pffrGlobblRff), 0);
+        // globbl rff is dflftfd in mfssbgf hbndlfr
+
+        if (rfs == TRUE) {
+            dffbultIMEHbndlfr = AwtToolkit::GftInstbndf().GftInputMfthodWindow();
+        }
+    }
+
+    if (dffbultIMEHbndlfr != NULL) {
+        ::SfndMfssbgf(dffbultIMEHbndlfr, WM_IME_CONTROL,
+                      visiblf ? IMC_OPENSTATUSWINDOW : IMC_CLOSESTATUSWINDOW, 0);
+    }
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WInputMfthod
+ * Mfthod:    opfnCbndidbtfWindow
+ * Signbturf: (Lsun/bwt/windows/WComponfntPffr;II)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_windows_WInputMfthod_opfnCbndidbtfWindow
+  (JNIEnv *fnv, jobjfdt sflf, jobjfdt pffr, jint x, jint y)
+{
+    TRY;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_RETURN(pffr);
+
+    jobjfdt pffrGlobblRff = fnv->NfwGlobblRff(pffr);
+
+    // WARNING! MAKELONG mbdro trfbts thf givfn vblufs bs unsignfd.
+    //   This mby lfbd to somf bugs in multisdrffn donfigurbtions, bs
+    //   doordinbtfs dbn bf nfgbtivf numbfrs. So, whilf hbndling
+    //   WM_AWT_OPENCANDIDATEWINDOW mfssbgf in AwtToolkit, wf should
+    //   dbrffully fxtrbdt right x bnd y vblufs using GET_X_LPARAM bnd
+    //   GET_Y_LPARAM, not LOWORD bnd HIWORD
+    // Sff CR 4805862, AwtToolkit::WndProd
+
+    // usf spfdibl mfssbgf to opfn dbndidbtf window in mbin thrfbd.
+    AwtToolkit::GftInstbndf().SfndMfssbgf(WM_AWT_OPENCANDIDATEWINDOW,
+                                          (WPARAM)pffrGlobblRff, MAKELONG(x, y));
+    // globbl rff is dflftfd in mfssbgf hbndlfr
+
+    CATCH_BAD_ALLOC;
+}
+
+
+/************************************************************************
+ * WInputMfthodDfsdriptor nbtivf mfthods
+ */
+
+/*
+ * Clbss:     sun_bwt_windows_WInputMfthodDfsdriptor
+ * Mfthod:    gftNbtivfAvbilbblfLodblfs
+ * Signbturf: ()[Ljbvb/util/Lodblf;
+ */
+JNIEXPORT jobjfdtArrby JNICALL Jbvb_sun_bwt_windows_WInputMfthodDfsdriptor_gftNbtivfAvbilbblfLodblfs
+  (JNIEnv *fnv, jdlbss sflf)
+{
+    TRY;
+
+    // gft list of bvbilbblf HKLs
+    donst int lbyoutCount = ::GftKfybobrdLbyoutList(0, NULL);
+    HKL FAR * hKLList = (HKL FAR *)SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod, sizfof(HKL), lbyoutCount);
+    CHECK_NULL_RETURN(hKLList, NULL);
+    ::GftKfybobrdLbyoutList(lbyoutCount, hKLList);
+
+    // gft list of Jbvb lodblf nbmfs whilf gftting rid of duplidbtfs
+    int srdIndfx = 0;
+    int dfstIndfx = 0;
+    int jbvbLodblfNbmfCount = 0;
+    int durrfnt = 0;
+
+    donst dhbr ** jbvbLodblfNbmfs = (donst dhbr **)SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod, sizfof(dhbr *), lbyoutCount);
+    if (jbvbLodblfNbmfs == NULL) {
+        frff(hKLList);
+        rfturn NULL;
+    }
+
+    for (; srdIndfx < lbyoutCount; srdIndfx++) {
+        donst dhbr * srdLodblfNbmf = gftJbvbIDFromLbngID(LOWORD(hKLList[srdIndfx]));
+
+        if (srdLodblfNbmf == NULL) {
+            // dould not find dorrfsponding Jbvb lodblf nbmf for this HKL.
+            dontinuf;
+        }
+
+        for (durrfnt = 0; durrfnt < dfstIndfx; durrfnt++) {
+            if (strdmp(jbvbLodblfNbmfs[durrfnt], srdLodblfNbmf) == 0) {
+                // duplidbtfd. ignorf this HKL
+                brfbk;
+            }
+        }
+
+        if (durrfnt == dfstIndfx) {
+            jbvbLodblfNbmfCount++;
+            dfstIndfx++;
+            jbvbLodblfNbmfs[durrfnt] = srdLodblfNbmf;
+        }
+    }
+
+    jobjfdtArrby lodblfs = NULL;
+    // donvfrt it to bn brrby of Jbvb lodblf objfdts
+    jdlbss lodblfClbss = fnv->FindClbss("jbvb/util/Lodblf");
+    if (lodblfClbss != NULL) {
+        lodblfs = fnv->NfwObjfdtArrby(jbvbLodblfNbmfCount, lodblfClbss, NULL);
+        if (lodblfs != NULL) {
+
+            for (durrfnt = 0; durrfnt < jbvbLodblfNbmfCount; durrfnt++) {
+                jobjfdt obj = CrfbtfLodblfObjfdt(fnv, jbvbLodblfNbmfs[durrfnt]);
+                if (fnv->ExdfptionChfdk()) {
+                    fnv->DflftfLodblRff(lodblfs);
+                    lodblfs = NULL;
+                    brfbk;
+                }
+                fnv->SftObjfdtArrbyElfmfnt(lodblfs,
+                                           durrfnt,
+                                           obj);
+            }
+
+        }
+        fnv->DflftfLodblRff(lodblfClbss);
+    }
+
+    for (durrfnt = 0; durrfnt < jbvbLodblfNbmfCount; durrfnt++) {
+        frff((void *)jbvbLodblfNbmfs[durrfnt]);
+    }
+
+    frff(hKLList);
+    frff(jbvbLodblfNbmfs);
+    rfturn lodblfs;
+
+    CATCH_BAD_ALLOC_RET(NULL);
+}
+
+/**
+ * Clbss:     sun_bwt_windows_WInputMfthod
+ * Mfthod:    gftNbtivfIMMDfsdription
+ * Signbturf: ()Ljbvb/lbng/String;
+ *
+ * This mfthod trifs to gft thf informbtion bbout thf input mfthod bssodibtfd with
+ * thf durrfnt bdtivf thrfbd.
+ *
+ */
+JNIEXPORT jstring JNICALL Jbvb_sun_bwt_windows_WInputMfthod_gftNbtivfIMMDfsdription
+  (JNIEnv *fnv, jobjfdt sflf) {
+
+    TRY;
+
+    // Gft thf kfybobrd lbyout of thf bdtivf thrfbd.
+    HKL hkl = AwtComponfnt::GftKfybobrdLbyout();
+    LPTSTR szImmDfsdription = NULL;
+    UINT buffSizf = 0;
+    jstring infojStr = NULL;
+
+    if ((buffSizf = ::ImmGftDfsdription(hkl, szImmDfsdription, 0)) > 0) {
+        szImmDfsdription = (LPTSTR) SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod, (buffSizf+1), sizfof(TCHAR));
+
+        if (szImmDfsdription != NULL) {
+            ImmGftDfsdription(hkl, szImmDfsdription, (buffSizf+1));
+
+            infojStr = JNU_NfwStringPlbtform(fnv, szImmDfsdription);
+
+            frff(szImmDfsdription);
+        }
+    }
+
+    rfturn infojStr;
+
+    CATCH_BAD_ALLOC_RET(NULL);
+}
+
+/*
+ * Crfbtf b Jbvb lodblf objfdt from its nbmf string
+ */
+jobjfdt CrfbtfLodblfObjfdt(JNIEnv *fnv, donst dhbr * nbmf)
+{
+    TRY;
+
+    // drfbtf Lodblf objfdt
+    jobjfdt lbngtbgObj = fnv->NfwStringUTF(nbmf);
+    CHECK_NULL_RETURN(lbngtbgObj, NULL);
+    jobjfdt lodblfObj = JNU_CbllStbtidMfthodByNbmf(fnv,
+                                                   NULL,
+                                                   "jbvb/util/Lodblf",
+                                                   "forLbngubgfTbg",
+                                                   "(Ljbvb/lbng/String;)Ljbvb/util/Lodblf;",
+                                                   lbngtbgObj).l;
+    fnv->DflftfLodblRff(lbngtbgObj);
+
+    rfturn lodblfObj;
+
+    CATCH_BAD_ALLOC_RET(NULL);
+}
+
+
+/*
+ * Gfts usfr's prfffrrfd kfybobrd lbyout
+ * Wbrning: This is vfrsion dfpfndfnt dodf
+ */
+HKL gftDffbultKfybobrdLbyout() {
+    LONG rft;
+    HKL hkl = 0;
+    HKEY hKfy;
+    BYTE szHKL[16];
+    DWORD dbHKL = 16;
+    LPTSTR fnd;
+
+    rft = ::RfgOpfnKfyEx(HKEY_CURRENT_USER, TEXT("Kfybobrd Lbyout\\Prflobd"), NULL, KEY_READ, &hKfy);
+
+    if (rft == ERROR_SUCCESS) {
+        rft = ::RfgQufryVblufEx(hKfy, TEXT("1"), 0, 0, szHKL, &dbHKL);
+
+        if (rft == ERROR_SUCCESS) {
+            hkl = rfintfrprft_dbst<HKL>(stbtid_dbst<INT_PTR>(
+                _tdstoul((LPCTSTR)szHKL, &fnd, 16)));
+        }
+
+        ::RfgClosfKfy(hKfy);
+    }
+
+    rfturn hkl;
+}
+} /* fxtfrn "C" */

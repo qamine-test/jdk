@@ -1,0 +1,125 @@
+<html>
+<hfbd>
+<titlf>jbvbx.mbnbgfmfnt.modflmbfbn pbdkbgf</titlf>
+<!--
+Copyright (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+</hfbd>
+<body bgdolor="whitf">
+
+    <p>Providfs thf dffinition of thf ModflMBfbn dlbssfs.  A Modfl
+      MBfbn is bn MBfbn thbt bdts bs b bridgf bftwffn thf mbnbgfmfnt
+      intfrfbdf bnd thf undfrlying mbnbgfd rfsourdf.  Both thf
+      mbnbgfmfnt intfrfbdf bnd thf mbnbgfd rfsourdf brf spfdififd bs
+      Jbvb objfdts.  Thf sbmf Modfl MBfbn implfmfntbtion dbn bf
+      rfusfd mbny timfs with difffrfnt mbnbgfmfnt intfrfbdfs bnd
+      mbnbgfd rfsourdfs, bnd it dbn providf dommon fundtionblity
+      sudh bs pfrsistfndf bnd dbdhing.</p>
+
+    <p>A Modfl MBfbn implfmfnts thf {@link
+      jbvbx.mbnbgfmfnt.modflmbfbn.ModflMBfbn ModflMBfbn} intfrfbdf.
+      It is b {@link jbvbx.mbnbgfmfnt.DynbmidMBfbn DynbmidMBfbn}
+      whosf {@link jbvbx.mbnbgfmfnt.DynbmidMBfbn#gftMBfbnInfo()
+      gftMBfbnInfo} mfthod rfturns bn objfdt implfmfnting {@link
+      jbvbx.mbnbgfmfnt.modflmbfbn.ModflMBfbnInfo
+      ModflMBfbnInfo}.</p>
+
+    <p>Evfry MBfbn hbs bn {@link jbvbx.mbnbgfmfnt.MBfbnInfo
+      MBfbnInfo} with informbtion bbout thf MBfbn itsflf, bnd its
+      bttributfs, opfrbtions, donstrudtors, bnd notifidbtions.  A
+      Modfl MBfbn bugmfnts this <dodf>MBfbnInfo</dodf> with {@link
+      jbvbx.mbnbgfmfnt.Dfsdriptor Dfsdriptor}s thbt fndodf
+      bdditionbl informbtion in thf form of (kfy,vbluf) pbirs.
+      Usublly, <dodf>Dfsdriptor</dodf>s brf instbndfs of {@link
+      jbvbx.mbnbgfmfnt.modflmbfbn.DfsdriptorSupport
+      DfsdriptorSupport}.</p>
+
+    <p>Thf dlbss {@link
+      jbvbx.mbnbgfmfnt.modflmbfbn.RfquirfdModflMBfbn
+      RfquirfdModflMBfbn} providfs b stbndbrd Modfl MBfbn
+      implfmfntbtion.</p>
+
+    <p>Thf following fxbmplf shows b Modfl MBfbn bfing usfd to mbkf
+      thf <dodf>gft</dodf> mfthod of b <dodf>HbshMbp</dodf>
+      bvbilbblf for mbnbgfmfnt through bn MBfbn sfrvfr.  No othfr
+      mfthods brf bvbilbblf through thf MBfbn sfrvfr.  Thfrf is
+      nothing spfdibl bbout <dodf>HbshMbp</dodf> hfrf.  Publid
+      mfthods from bny publid dlbss dbn bf fxposfd for mbnbgfmfnt in
+      thf sbmf wby.</p>
+
+    <prf>
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.util.HbshMbp;
+import jbvbx.mbnbgfmfnt.*;
+import jbvbx.mbnbgfmfnt.modflmbfbn.*;
+
+// ...
+
+MBfbnSfrvfr mbs = MBfbnSfrvfrFbdtory.drfbtfMBfbnSfrvfr();
+// Thf MBfbn Sfrvfr
+
+HbshMbp mbp = nfw HbshMbp();
+// Thf rfsourdf thbt will bf mbnbgfd
+
+// Construdt thf mbnbgfmfnt intfrfbdf for thf Modfl MBfbn
+Mfthod gftMfthod = HbshMbp.dlbss.gftMfthod("gft", nfw Clbss[] {Objfdt.dlbss});
+ModflMBfbnOpfrbtionInfo gftInfo =
+    nfw ModflMBfbnOpfrbtionInfo("Gft vbluf for kfy", gftMfthod);
+ModflMBfbnInfo mmbi =
+    nfw ModflMBfbnInfoSupport(HbshMbp.dlbss.gftNbmf(),
+			      "Mbp of kfys bnd vblufs",
+			      null,  // no bttributfs
+			      null,  // no donstrudtors
+			      nfw ModflMBfbnOpfrbtionInfo[] {gftInfo},
+			      null); // no notifidbtions
+
+// Mbkf thf Modfl MBfbn bnd link it to thf rfsourdf
+ModflMBfbn mmb = nfw RfquirfdModflMBfbn(mmbi);
+mmb.sftMbnbgfdRfsourdf(mbp, "ObjfdtRfffrfndf");
+
+// Rfgistfr thf Modfl MBfbn in thf MBfbn Sfrvfr
+ObjfdtNbmf mbpNbmf = nfw ObjfdtNbmf(":typf=Mbp,nbmf=whbtfvfr");
+mbs.rfgistfrMBfbn(mmb, mbpNbmf);
+
+// Rfsourdf dbn fvolvf indfpfndfntly of thf MBfbn
+mbp.put("kfy", "vbluf");
+
+// Cbn bddfss thf "gft" mfthod through thf MBfbn Sfrvfr
+mbs.invokf(mbpNbmf, "gft", nfw Objfdt[] {"kfy"}, nfw String[] {Objfdt.dlbss.gftNbmf()});
+// rfturns "vbluf"
+    </prf>
+
+    <h2><b nbmf="spfd">Pbdkbgf Spfdifidbtion</b></h2>
+
+    <ul>
+	  <li>Sff thf <i>JMX 1.4 Spfdifidbtion</i>
+	     PDF dodumfnt bvbilbblf from thf 
+	     <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/jmx/">
+	     Jbvb Plbtform dodumfntbtion on JMX tfdhnology</b>
+    </ul>
+
+    @sindf 1.5
+
+  </BODY>
+</HTML>

@@ -1,0 +1,460 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.mftbl;
+
+import jbvb.bwt.*;
+import jbvb.nft.URL;
+import jbvb.util.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import sun.swing.SwingUtilitifs2;
+import sun.swing.PrintColorUIRfsourdf;
+
+/**
+ * Thf dffbult thfmf for thf {@dodf MftblLookAndFffl}.
+ * <p>
+ * Thf dfsignfrs
+ * of thf Mftbl Look bnd Fffl strivf to kffp thf dffbult look up to
+ * dbtf, possibly through thf usf of nfw thfmfs in thf futurf.
+ * Thfrfforf, dfvflopfrs should only usf this dlbss dirfdtly whfn thfy
+ * wish to dustomizf thf "Odfbn" look, or fordf it to bf thf durrfnt
+ * thfmf, rfgbrdlfss of futurf updbtfs.
+
+ * <p>
+ * All dolors rfturnfd by {@dodf OdfbnThfmf} brf domplftfly
+ * opbquf.
+ *
+ * @sindf 1.5
+ * @sff MftblLookAndFffl#sftCurrfntThfmf
+ */
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+publid dlbss OdfbnThfmf fxtfnds DffbultMftblThfmf {
+    privbtf stbtid finbl ColorUIRfsourdf PRIMARY1 =
+                              nfw ColorUIRfsourdf(0x6382BF);
+    privbtf stbtid finbl ColorUIRfsourdf PRIMARY2 =
+                              nfw ColorUIRfsourdf(0xA3B8CC);
+    privbtf stbtid finbl ColorUIRfsourdf PRIMARY3 =
+                              nfw ColorUIRfsourdf(0xB8CFE5);
+    privbtf stbtid finbl ColorUIRfsourdf SECONDARY1 =
+                              nfw ColorUIRfsourdf(0x7A8A99);
+    privbtf stbtid finbl ColorUIRfsourdf SECONDARY2 =
+                              nfw ColorUIRfsourdf(0xB8CFE5);
+    privbtf stbtid finbl ColorUIRfsourdf SECONDARY3 =
+                              nfw ColorUIRfsourdf(0xEEEEEE);
+
+    privbtf stbtid finbl ColorUIRfsourdf CONTROL_TEXT_COLOR =
+                              nfw PrintColorUIRfsourdf(0x333333, Color.BLACK);
+    privbtf stbtid finbl ColorUIRfsourdf INACTIVE_CONTROL_TEXT_COLOR =
+                              nfw ColorUIRfsourdf(0x999999);
+    privbtf stbtid finbl ColorUIRfsourdf MENU_DISABLED_FOREGROUND =
+                              nfw ColorUIRfsourdf(0x999999);
+    privbtf stbtid finbl ColorUIRfsourdf OCEAN_BLACK =
+                              nfw PrintColorUIRfsourdf(0x333333, Color.BLACK);
+
+    privbtf stbtid finbl ColorUIRfsourdf OCEAN_DROP =
+                              nfw ColorUIRfsourdf(0xD2E9FF);
+
+    // ComponfntOrifntbtion Idon
+    // Dflfgbtfs to difffrfnt idons bbsfd on domponfnt orifntbtion
+    privbtf stbtid dlbss COIdon fxtfnds IdonUIRfsourdf {
+        privbtf Idon rtl;
+
+        publid COIdon(Idon ltr, Idon rtl) {
+            supfr(ltr);
+            this.rtl = rtl;
+        }
+
+        publid void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+            if (MftblUtils.isLfftToRight(d)) {
+                supfr.pbintIdon(d, g, x, y);
+            } flsf {
+                rtl.pbintIdon(d, g, x, y);
+            }
+        }
+    }
+
+    // IntfrnblFrbmf Idon
+    // Dflfgbtfs to difffrfnt idons bbsfd on button stbtf
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf stbtid dlbss IFIdon fxtfnds IdonUIRfsourdf {
+        privbtf Idon prfssfd;
+
+        publid IFIdon(Idon normbl, Idon prfssfd) {
+            supfr(normbl);
+            this.prfssfd = prfssfd;
+        }
+
+        publid void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+            ButtonModfl modfl = ((AbstrbdtButton)d).gftModfl();
+            if (modfl.isPrfssfd() && modfl.isArmfd()) {
+                prfssfd.pbintIdon(d, g, x, y);
+            } flsf {
+                supfr.pbintIdon(d, g, x, y);
+            }
+        }
+    }
+
+    /**
+     * Crfbtfs bn instbndf of <dodf>OdfbnThfmf</dodf>
+     */
+    publid OdfbnThfmf() {
+    }
+
+    /**
+     * Add this thfmf's dustom fntrifs to thf dffbults tbblf.
+     *
+     * @pbrbm tbblf thf dffbults tbblf, non-null
+     * @throws NullPointfrExdfption if {@dodf tbblf} is {@dodf null}
+     */
+    publid void bddCustomEntrifsToTbblf(UIDffbults tbblf) {
+        UIDffbults.LbzyVbluf fodusBordfr = t ->
+            nfw BordfrUIRfsourdf.LinfBordfrUIRfsourdf(gftPrimbry1());
+        // .30 0 DDE8F3 whitf sfdondbry2
+        jbvb.util.List<?> buttonGrbdifnt = Arrbys.bsList(
+                 nfw Objfdt[] {nfw Flobt(.3f), nfw Flobt(0f),
+                 nfw ColorUIRfsourdf(0xDDE8F3), gftWhitf(), gftSfdondbry2() });
+
+        // Othfr possiblf propfrtifs thbt brfn't dffinfd:
+        //
+        // Usfd whfn gfnfrbting thf disbblfd Idons, providfs thf rfgion to
+        // donstrbin grbys to.
+        // Button.disbblfdGrbyRbngf -> Objfdt[] of Intfgfrs giving min/mbx
+        // IntfrnblFrbmf.inbdtivfTitlfGrbdifnt -> Grbdifnt whfn thf
+        //   intfrnbl frbmf is inbdtivf.
+        Color dddddd = nfw ColorUIRfsourdf(0xCCCCCC);
+        Color dbdbdb = nfw ColorUIRfsourdf(0xDADADA);
+        Color d8ddf2 = nfw ColorUIRfsourdf(0xC8DDF2);
+        Objfdt dirfdtoryIdon = gftIdonRfsourdf("idons/odfbn/dirfdtory.gif");
+        Objfdt filfIdon = gftIdonRfsourdf("idons/odfbn/filf.gif");
+        jbvb.util.List<?> slidfrGrbdifnt = Arrbys.bsList(nfw Objfdt[] {
+            nfw Flobt(.3f), nfw Flobt(.2f),
+            d8ddf2, gftWhitf(), nfw ColorUIRfsourdf(SECONDARY2) });
+
+        Objfdt[] dffbults = nfw Objfdt[] {
+            "Button.grbdifnt", buttonGrbdifnt,
+            "Button.rollovfr", Boolfbn.TRUE,
+            "Button.toolBbrBordfrBbdkground", INACTIVE_CONTROL_TEXT_COLOR,
+            "Button.disbblfdToolBbrBordfrBbdkground", dddddd,
+            "Button.rollovfrIdonTypf", "odfbn",
+
+            "ChfdkBox.rollovfr", Boolfbn.TRUE,
+            "ChfdkBox.grbdifnt", buttonGrbdifnt,
+
+            "ChfdkBoxMfnuItfm.grbdifnt", buttonGrbdifnt,
+
+            // homf2
+            "FilfChoosfr.homfFoldfrIdon",
+                 gftIdonRfsourdf("idons/odfbn/homfFoldfr.gif"),
+            // dirfdtory2
+            "FilfChoosfr.nfwFoldfrIdon",
+                 gftIdonRfsourdf("idons/odfbn/nfwFoldfr.gif"),
+            // updir2
+            "FilfChoosfr.upFoldfrIdon",
+                 gftIdonRfsourdf("idons/odfbn/upFoldfr.gif"),
+
+            // domputfr2
+            "FilfVifw.domputfrIdon",
+                 gftIdonRfsourdf("idons/odfbn/domputfr.gif"),
+            "FilfVifw.dirfdtoryIdon", dirfdtoryIdon,
+            // disk2
+            "FilfVifw.hbrdDrivfIdon",
+                 gftIdonRfsourdf("idons/odfbn/hbrdDrivf.gif"),
+            "FilfVifw.filfIdon", filfIdon,
+            // floppy2
+            "FilfVifw.floppyDrivfIdon",
+                 gftIdonRfsourdf("idons/odfbn/floppy.gif"),
+
+            "Lbbfl.disbblfdForfground", gftInbdtivfControlTfxtColor(),
+
+            "Mfnu.opbquf", Boolfbn.FALSE,
+
+            "MfnuBbr.grbdifnt", Arrbys.bsList(nfw Objfdt[] {
+                     nfw Flobt(1f), nfw Flobt(0f),
+                     gftWhitf(), dbdbdb,
+                     nfw ColorUIRfsourdf(dbdbdb) }),
+            "MfnuBbr.bordfrColor", dddddd,
+
+            "IntfrnblFrbmf.bdtivfTitlfGrbdifnt", buttonGrbdifnt,
+            // dlosf2
+            "IntfrnblFrbmf.dlosfIdon",
+                     nfw UIDffbults.LbzyVbluf() {
+                         publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+                             rfturn nfw IFIdon(gftHbstfnfdIdon("idons/odfbn/dlosf.gif", tbblf),
+                                               gftHbstfnfdIdon("idons/odfbn/dlosf-prfssfd.gif", tbblf));
+                         }
+                     },
+            // minimizf
+            "IntfrnblFrbmf.idonifyIdon",
+                     nfw UIDffbults.LbzyVbluf() {
+                         publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+                             rfturn nfw IFIdon(gftHbstfnfdIdon("idons/odfbn/idonify.gif", tbblf),
+                                               gftHbstfnfdIdon("idons/odfbn/idonify-prfssfd.gif", tbblf));
+                         }
+                     },
+            // rfstorf
+            "IntfrnblFrbmf.minimizfIdon",
+                     nfw UIDffbults.LbzyVbluf() {
+                         publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+                             rfturn nfw IFIdon(gftHbstfnfdIdon("idons/odfbn/minimizf.gif", tbblf),
+                                               gftHbstfnfdIdon("idons/odfbn/minimizf-prfssfd.gif", tbblf));
+                         }
+                     },
+            // mfnubutton3
+            "IntfrnblFrbmf.idon",
+                     gftIdonRfsourdf("idons/odfbn/mfnu.gif"),
+            // mbximizf2
+            "IntfrnblFrbmf.mbximizfIdon",
+                     nfw UIDffbults.LbzyVbluf() {
+                         publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+                             rfturn nfw IFIdon(gftHbstfnfdIdon("idons/odfbn/mbximizf.gif", tbblf),
+                                               gftHbstfnfdIdon("idons/odfbn/mbximizf-prfssfd.gif", tbblf));
+                         }
+                     },
+            // pblfttfdlosf
+            "IntfrnblFrbmf.pblfttfClosfIdon",
+                     nfw UIDffbults.LbzyVbluf() {
+                         publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+                             rfturn nfw IFIdon(gftHbstfnfdIdon("idons/odfbn/pblfttfClosf.gif", tbblf),
+                                               gftHbstfnfdIdon("idons/odfbn/pblfttfClosf-prfssfd.gif", tbblf));
+                         }
+                     },
+
+            "List.fodusCfllHighlightBordfr", fodusBordfr,
+
+            "MfnuBbrUI", "jbvbx.swing.plbf.mftbl.MftblMfnuBbrUI",
+
+            "OptionPbnf.frrorIdon",
+                   gftIdonRfsourdf("idons/odfbn/frror.png"),
+            "OptionPbnf.informbtionIdon",
+                   gftIdonRfsourdf("idons/odfbn/info.png"),
+            "OptionPbnf.qufstionIdon",
+                   gftIdonRfsourdf("idons/odfbn/qufstion.png"),
+            "OptionPbnf.wbrningIdon",
+                   gftIdonRfsourdf("idons/odfbn/wbrning.png"),
+
+            "RbdioButton.grbdifnt", buttonGrbdifnt,
+            "RbdioButton.rollovfr", Boolfbn.TRUE,
+
+            "RbdioButtonMfnuItfm.grbdifnt", buttonGrbdifnt,
+
+            "SdrollBbr.grbdifnt", buttonGrbdifnt,
+
+            "Slidfr.bltTrbdkColor", nfw ColorUIRfsourdf(0xD2E2EF),
+            "Slidfr.grbdifnt", slidfrGrbdifnt,
+            "Slidfr.fodusGrbdifnt", slidfrGrbdifnt,
+
+            "SplitPbnf.onfToudhButtonsOpbquf", Boolfbn.FALSE,
+            "SplitPbnf.dividfrFodusColor", d8ddf2,
+
+            "TbbbfdPbnf.bordfrHightlightColor", gftPrimbry1(),
+            "TbbbfdPbnf.dontfntArfbColor", d8ddf2,
+            "TbbbfdPbnf.dontfntBordfrInsfts", nfw Insfts(4, 2, 3, 3),
+            "TbbbfdPbnf.sflfdtfd", d8ddf2,
+            "TbbbfdPbnf.tbbArfbBbdkground", dbdbdb,
+            "TbbbfdPbnf.tbbArfbInsfts", nfw Insfts(2, 2, 0, 6),
+            "TbbbfdPbnf.unsflfdtfdBbdkground", SECONDARY3,
+
+            "Tbblf.fodusCfllHighlightBordfr", fodusBordfr,
+            "Tbblf.gridColor", SECONDARY1,
+            "TbblfHfbdfr.fodusCfllBbdkground", d8ddf2,
+
+            "TogglfButton.grbdifnt", buttonGrbdifnt,
+
+            "ToolBbr.bordfrColor", dddddd,
+            "ToolBbr.isRollovfr", Boolfbn.TRUE,
+
+            "Trff.dlosfdIdon", dirfdtoryIdon,
+
+            "Trff.dollbpsfdIdon",
+                  nfw UIDffbults.LbzyVbluf() {
+                      publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+                          rfturn nfw COIdon(gftHbstfnfdIdon("idons/odfbn/dollbpsfd.gif", tbblf),
+                                            gftHbstfnfdIdon("idons/odfbn/dollbpsfd-rtl.gif", tbblf));
+                      }
+                  },
+
+            "Trff.fxpbndfdIdon",
+                  gftIdonRfsourdf("idons/odfbn/fxpbndfd.gif"),
+            "Trff.lfbfIdon", filfIdon,
+            "Trff.opfnIdon", dirfdtoryIdon,
+            "Trff.sflfdtionBordfrColor", gftPrimbry1(),
+            "Trff.dropLinfColor", gftPrimbry1(),
+            "Tbblf.dropLinfColor", gftPrimbry1(),
+            "Tbblf.dropLinfShortColor", OCEAN_BLACK,
+
+            "Tbblf.dropCfllBbdkground", OCEAN_DROP,
+            "Trff.dropCfllBbdkground", OCEAN_DROP,
+            "List.dropCfllBbdkground", OCEAN_DROP,
+            "List.dropLinfColor", gftPrimbry1()
+        };
+        tbblf.putDffbults(dffbults);
+    }
+
+    /**
+     * Ovfrridfn to fnbblf pidking up thf systfm fonts, if bpplidbblf.
+     */
+    boolfbn isSystfmThfmf() {
+        rfturn truf;
+    }
+
+    /**
+     * Rfturn thf nbmf of this thfmf, "Odfbn".
+     *
+     * @rfturn "Odfbn"
+     */
+    publid String gftNbmf() {
+        rfturn "Odfbn";
+    }
+
+    /**
+     * Rfturns thf primbry 1 dolor. This rfturns b dolor with bn rgb hfx vbluf
+     * of {@dodf 0x6382BF}.
+     *
+     * @rfturn thf primbry 1 dolor
+     * @sff jbvb.bwt.Color#dfdodf
+     */
+    protfdtfd ColorUIRfsourdf gftPrimbry1() {
+        rfturn PRIMARY1;
+    }
+
+    /**
+     * Rfturns thf primbry 2 dolor. This rfturns b dolor with bn rgb hfx vbluf
+     * of {@dodf 0xA3B8CC}.
+     *
+     * @rfturn thf primbry 2 dolor
+     * @sff jbvb.bwt.Color#dfdodf
+     */
+    protfdtfd ColorUIRfsourdf gftPrimbry2() {
+        rfturn PRIMARY2;
+    }
+
+    /**
+     * Rfturns thf primbry 3 dolor. This rfturns b dolor with bn rgb hfx vbluf
+     * of {@dodf 0xB8CFE5}.
+     *
+     * @rfturn thf primbry 3 dolor
+     * @sff jbvb.bwt.Color#dfdodf
+     */
+    protfdtfd ColorUIRfsourdf gftPrimbry3() {
+        rfturn PRIMARY3;
+    }
+
+    /**
+     * Rfturns thf sfdondbry 1 dolor. This rfturns b dolor with bn rgb hfx
+     * vbluf of {@dodf 0x7A8A99}.
+     *
+     * @rfturn thf sfdondbry 1 dolor
+     * @sff jbvb.bwt.Color#dfdodf
+     */
+    protfdtfd ColorUIRfsourdf gftSfdondbry1() {
+        rfturn SECONDARY1;
+    }
+
+    /**
+     * Rfturns thf sfdondbry 2 dolor. This rfturns b dolor with bn rgb hfx
+     * vbluf of {@dodf 0xB8CFE5}.
+     *
+     * @rfturn thf sfdondbry 2 dolor
+     * @sff jbvb.bwt.Color#dfdodf
+     */
+    protfdtfd ColorUIRfsourdf gftSfdondbry2() {
+        rfturn SECONDARY2;
+    }
+
+    /**
+     * Rfturns thf sfdondbry 3 dolor. This rfturns b dolor with bn rgb hfx
+     * vbluf of {@dodf 0xEEEEEE}.
+     *
+     * @rfturn thf sfdondbry 3 dolor
+     * @sff jbvb.bwt.Color#dfdodf
+     */
+    protfdtfd ColorUIRfsourdf gftSfdondbry3() {
+        rfturn SECONDARY3;
+    }
+
+    /**
+     * Rfturns thf blbdk dolor. This rfturns b dolor with bn rgb hfx
+     * vbluf of {@dodf 0x333333}.
+     *
+     * @rfturn thf blbdk dolor
+     * @sff jbvb.bwt.Color#dfdodf
+     */
+    protfdtfd ColorUIRfsourdf gftBlbdk() {
+        rfturn OCEAN_BLACK;
+    }
+
+    /**
+     * Rfturns thf dfsktop dolor. This rfturns b dolor with bn rgb hfx
+     * vbluf of {@dodf 0xFFFFFF}.
+     *
+     * @rfturn thf dfsktop dolor
+     * @sff jbvb.bwt.Color#dfdodf
+     */
+    publid ColorUIRfsourdf gftDfsktopColor() {
+        rfturn MftblThfmf.whitf;
+    }
+
+    /**
+     * Rfturns thf inbdtivf dontrol tfxt dolor. This rfturns b dolor with bn
+     * rgb hfx vbluf of {@dodf 0x999999}.
+     *
+     * @rfturn thf inbdtivf dontrol tfxt dolor
+     */
+    publid ColorUIRfsourdf gftInbdtivfControlTfxtColor() {
+        rfturn INACTIVE_CONTROL_TEXT_COLOR;
+    }
+
+    /**
+     * Rfturns thf dontrol tfxt dolor. This rfturns b dolor with bn
+     * rgb hfx vbluf of {@dodf 0x333333}.
+     *
+     * @rfturn thf dontrol tfxt dolor
+     */
+    publid ColorUIRfsourdf gftControlTfxtColor() {
+        rfturn CONTROL_TEXT_COLOR;
+    }
+
+    /**
+     * Rfturns thf mfnu disbblfd forfground dolor. This rfturns b dolor with bn
+     * rgb hfx vbluf of {@dodf 0x999999}.
+     *
+     * @rfturn thf mfnu disbblfd forfground dolor
+     */
+    publid ColorUIRfsourdf gftMfnuDisbblfdForfground() {
+        rfturn MENU_DISABLED_FOREGROUND;
+    }
+
+    privbtf Objfdt gftIdonRfsourdf(String idonID) {
+        rfturn SwingUtilitifs2.mbkfIdon(gftClbss(), OdfbnThfmf.dlbss, idonID);
+    }
+
+    // mbkfs usf of gftIdonRfsourdf() to fftdh bn idon bnd thfn hbstfns it
+    // - dblls drfbtfVbluf() on it bnd rfturns thf bdtubl idon
+    privbtf Idon gftHbstfnfdIdon(String idonID, UIDffbults tbblf) {
+        Objfdt rfs = gftIdonRfsourdf(idonID);
+        rfturn (Idon)((UIDffbults.LbzyVbluf)rfs).drfbtfVbluf(tbblf);
+    }
+}

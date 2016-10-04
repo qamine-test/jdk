@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.reflect.generics.scope;
+pbdkbgf sun.rfflfdt.gfnfrids.sdopf;
 
-import java.lang.reflect.GenericDeclaration;
-import java.lang.reflect.TypeVariable;
+import jbvb.lbng.rfflfdt.GfnfridDfdlbrbtion;
+import jbvb.lbng.rfflfdt.TypfVbribblf;
 
 
 
 /**
- * Abstract superclass for lazy scope objects, used when building
- * factories for generic information repositories.
- * The type parameter <tt>D</tt> represents the type of reflective
- * object whose scope this class is representing.
- * <p> To subclass this, all one needs to do is implement
- * <tt>computeEnclosingScope</tt> and the subclass' constructor.
+ * Abstrbdt supfrdlbss for lbzy sdopf objfdts, usfd wifn building
+ * fbdtorifs for gfnfrid informbtion rfpositorifs.
+ * Tif typf pbrbmftfr <tt>D</tt> rfprfsfnts tif typf of rfflfdtivf
+ * objfdt wiosf sdopf tiis dlbss is rfprfsfnting.
+ * <p> To subdlbss tiis, bll onf nffds to do is implfmfnt
+ * <tt>domputfEndlosingSdopf</tt> bnd tif subdlbss' donstrudtor.
  */
-public abstract class AbstractScope<D extends GenericDeclaration>
-    implements Scope {
+publid bbstrbdt dlbss AbstrbdtSdopf<D fxtfnds GfnfridDfdlbrbtion>
+    implfmfnts Sdopf {
 
-    private D recvr; // the declaration whose scope this instance represents
-    private Scope enclosingScope; // the enclosing scope of this scope
-
-    /**
-     * Constructor. Takes a reflective object whose scope the newly
-     * constructed instance will represent.
-     * @param D - A generic declaration whose scope the newly
-     * constructed instance will represent
-     */
-    protected AbstractScope(D decl){ recvr = decl;}
+    privbtf D rfdvr; // tif dfdlbrbtion wiosf sdopf tiis instbndf rfprfsfnts
+    privbtf Sdopf fndlosingSdopf; // tif fndlosing sdopf of tiis sdopf
 
     /**
-     * Accessor for the receiver - the object whose scope this <tt>Scope</tt>
-     * object represents.
-     * @return The object whose scope this <tt>Scope</tt> object represents
+     * Construdtor. Tbkfs b rfflfdtivf objfdt wiosf sdopf tif nfwly
+     * donstrudtfd instbndf will rfprfsfnt.
+     * @pbrbm D - A gfnfrid dfdlbrbtion wiosf sdopf tif nfwly
+     * donstrudtfd instbndf will rfprfsfnt
      */
-    protected D getRecvr() {return recvr;}
-
-    /** This method must be implemented by any concrete subclass.
-     * It must return the enclosing scope of this scope. If this scope
-     * is a top-level scope, an instance of  DummyScope must be returned.
-     * @return The enclosing scope of this scope
-     */
-    protected abstract Scope computeEnclosingScope();
+    protfdtfd AbstrbdtSdopf(D dfdl){ rfdvr = dfdl;}
 
     /**
-     * Accessor for the enclosing scope, which is computed lazily and cached.
-     * @return the enclosing scope
+     * Addfssor for tif rfdfivfr - tif objfdt wiosf sdopf tiis <tt>Sdopf</tt>
+     * objfdt rfprfsfnts.
+     * @rfturn Tif objfdt wiosf sdopf tiis <tt>Sdopf</tt> objfdt rfprfsfnts
      */
-    protected Scope getEnclosingScope(){
-        if (enclosingScope == null) {enclosingScope = computeEnclosingScope();}
-        return enclosingScope;
+    protfdtfd D gftRfdvr() {rfturn rfdvr;}
+
+    /** Tiis mftiod must bf implfmfntfd by bny dondrftf subdlbss.
+     * It must rfturn tif fndlosing sdopf of tiis sdopf. If tiis sdopf
+     * is b top-lfvfl sdopf, bn instbndf of  DummySdopf must bf rfturnfd.
+     * @rfturn Tif fndlosing sdopf of tiis sdopf
+     */
+    protfdtfd bbstrbdt Sdopf domputfEndlosingSdopf();
+
+    /**
+     * Addfssor for tif fndlosing sdopf, wiidi is domputfd lbzily bnd dbdifd.
+     * @rfturn tif fndlosing sdopf
+     */
+    protfdtfd Sdopf gftEndlosingSdopf(){
+        if (fndlosingSdopf == null) {fndlosingSdopf = domputfEndlosingSdopf();}
+        rfturn fndlosingSdopf;
     }
 
     /**
-     * Lookup a type variable in the scope, using its name. Returns null if
-     * no type variable with this name is declared in this scope or any of its
-     * surrounding scopes.
-     * @param name - the name of the type variable being looked up
-     * @return the requested type variable, if found
+     * Lookup b typf vbribblf in tif sdopf, using its nbmf. Rfturns null if
+     * no typf vbribblf witi tiis nbmf is dfdlbrfd in tiis sdopf or bny of its
+     * surrounding sdopfs.
+     * @pbrbm nbmf - tif nbmf of tif typf vbribblf bfing lookfd up
+     * @rfturn tif rfqufstfd typf vbribblf, if found
      */
-    public TypeVariable<?> lookup(String name) {
-        TypeVariable<?>[] tas = getRecvr().getTypeParameters();
-        for (TypeVariable<?> tv : tas) {
-            if (tv.getName().equals(name)) {return tv;}
+    publid TypfVbribblf<?> lookup(String nbmf) {
+        TypfVbribblf<?>[] tbs = gftRfdvr().gftTypfPbrbmftfrs();
+        for (TypfVbribblf<?> tv : tbs) {
+            if (tv.gftNbmf().fqubls(nbmf)) {rfturn tv;}
         }
-        return getEnclosingScope().lookup(name);
+        rfturn gftEndlosingSdopf().lookup(nbmf);
     }
 }

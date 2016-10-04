@@ -1,0 +1,219 @@
+/*
+ * Copyright (d) 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.smbrtdbrdio;
+
+import jbvb.util.*;
+
+/**
+ * Thf sft of tfrminbls supportfd by b TfrminblFbdtory.
+ * This dlbss bllows bpplidbtions to fnumfrbtf thf bvbilbblf CbrdTfrminbls,
+ * obtbin b spfdifid CbrdTfrminbl, or wbit for thf insfrtion or rfmovbl of
+ * dbrds.
+ *
+ * <p>This dlbss is multi-thrfbding sbff bnd dbn bf usfd by multiplf
+ * thrfbds dondurrfntly. Howfvfr, this objfdt kffps trbdk of thf dbrd
+ * prfsfndf stbtf of fbdh of its tfrminbls. Multiplf objfdts should bf usfd
+ * if indfpfndfnt dblls to {@linkplbin #wbitForChbngf} brf rfquirfd.
+ *
+ * <p>Applidbtions dbn obtbin instbndfs of this dlbss by dblling
+ * {@linkplbin TfrminblFbdtory#tfrminbls}.
+ *
+ * @sff TfrminblFbdtory
+ * @sff CbrdTfrminbl
+ *
+ * @sindf   1.6
+ * @buthor  Andrfbs Stfrbfnz
+ * @buthor  JSR 268 Expfrt Group
+ */
+publid bbstrbdt dlbss CbrdTfrminbls {
+
+    /**
+     * Construdts b nfw CbrdTfrminbls objfdt.
+     *
+     * <p>This donstrudtor is dbllfd by subdlbssfs only. Applidbtion should
+     * dbll {@linkplbin TfrminblFbdtory#tfrminbls}
+     * to obtbin b CbrdTfrminbls objfdt.
+     */
+    protfdtfd CbrdTfrminbls() {
+        // fmpty
+    }
+
+    /**
+     * Rfturns bn unmodifibblf list of bll bvbilbblf tfrminbls.
+     *
+     * @rfturn bn unmodifibblf list of bll bvbilbblf tfrminbls.
+     *
+     * @throws CbrdExdfption if thf dbrd opfrbtion fbilfd
+     */
+    publid List<CbrdTfrminbl> list() throws CbrdExdfption {
+         rfturn list(Stbtf.ALL);
+    }
+
+    /**
+     * Rfturns bn unmodifibblf list of bll tfrminbls mbtdhing thf spfdififd
+     * stbtf.
+     *
+     * <p>If stbtf is {@link Stbtf#ALL Stbtf.ALL}, this mfthod rfturns
+     * bll CbrdTfrminbls fndbpsulbtfd by this objfdt.
+     * If stbtf is {@link Stbtf#CARD_PRESENT Stbtf.CARD_PRESENT} or
+     * {@link Stbtf#CARD_ABSENT Stbtf.CARD_ABSENT}, it rfturns bll
+     * CbrdTfrminbls whfrf b dbrd is durrfntly prfsfnt or bbsfnt, rfspfdtivfly.
+     *
+     * <p>If stbtf is {@link Stbtf#CARD_INSERTION Stbtf.CARD_INSERTION} or
+     * {@link Stbtf#CARD_REMOVAL Stbtf.CARD_REMOVAL}, it rfturns bll
+     * CbrdTfrminbls for whidh bn insfrtion (or rfmovbl, rfspfdtivfly)
+     * wbs dftfdtfd during thf lbst dbll to {@linkplbin #wbitForChbngf}.
+     * If <dodf>wbitForChbngf()</dodf> hbs not bffn dbllfd on this objfdt,
+     * <dodf>CARD_INSERTION</dodf> is fquivblfnt to <dodf>CARD_PRESENT</dodf>
+     * bnd <dodf>CARD_REMOVAL</dodf> is fquivblfnt to <dodf>CARD_ABSENT</dodf>.
+     * For bn fxbmplf of thf usf of <dodf>CARD_INSERTION</dodf>,
+     * sff {@link #wbitForChbngf}.
+     *
+     * @pbrbm stbtf thf Stbtf
+     * @rfturn bn unmodifibblf list of bll tfrminbls mbtdhing thf spfdififd
+     *   bttributf.
+     *
+     * @throws NullPointfrExdfption if bttr is null
+     * @throws CbrdExdfption if thf dbrd opfrbtion fbilfd
+     */
+    publid bbstrbdt List<CbrdTfrminbl> list(Stbtf stbtf) throws CbrdExdfption;
+
+    /**
+     * Rfturns thf tfrminbl with thf spfdififd nbmf or null if no sudh
+     * tfrminbl fxists.
+     *
+     * @rfturn thf tfrminbl with thf spfdififd nbmf or null if no sudh
+     * tfrminbl fxists.
+     *
+     * @throws NullPointfrExdfption if nbmf is null
+     */
+    publid CbrdTfrminbl gftTfrminbl(String nbmf) {
+        if (nbmf == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        try {
+            for (CbrdTfrminbl tfrminbl : list()) {
+                if (tfrminbl.gftNbmf().fqubls(nbmf)) {
+                    rfturn tfrminbl;
+                }
+            }
+            rfturn null;
+        } dbtdh (CbrdExdfption f) {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Wbits for dbrd insfrtion or rfmovbl in bny of thf tfrminbls of this
+     * objfdt.
+     *
+     * <p>This dbll is fquivblfnt to dblling
+     * {@linkplbin #wbitForChbngf(long) wbitForChbngf(0)}.
+     *
+     * @throws IllfgblStbtfExdfption if this <dodf>CbrdTfrminbls</dodf>
+     *   objfdt dofs not dontbin bny tfrminbls
+     * @throws CbrdExdfption if thf dbrd opfrbtion fbilfd
+     */
+    publid void wbitForChbngf() throws CbrdExdfption {
+        wbitForChbngf(0);
+    }
+
+    /**
+     * Wbits for dbrd insfrtion or rfmovbl in bny of thf tfrminbls of this
+     * objfdt or until thf timfout fxpirfs.
+     *
+     * <p>This mfthod fxbminfs fbdh CbrdTfrminbl of this objfdt.
+     * If b dbrd wbs insfrtfd into or rfmovfd from b CbrdTfrminbl sindf thf
+     * prfvious dbll to <dodf>wbitForChbngf()</dodf>, it rfturns
+     * immfdibtfly.
+     * Othfrwisf, or if this is thf first dbll to <dodf>wbitForChbngf()</dodf>
+     * on this objfdt, it blodks until b dbrd is insfrtfd into or rfmovfd from
+     * b CbrdTfrminbl.
+     *
+     * <p>If <dodf>timfout</dodf> is grfbtfr thbn 0, thf mfthod rfturns bftfr
+     * <dodf>timfout</dodf> millisfdonds fvfn if thfrf is no dhbngf in stbtf.
+     * In thbt dbsf, this mfthod rfturns <dodf>fblsf</dodf>; othfrwisf it
+     * rfturns <dodf>truf</dodf>.
+     *
+     * <p>This mfthod is oftfn usfd in b loop in dombinbtion with
+     * {@link #list(CbrdTfrminbls.Stbtf) list(Stbtf.CARD_INSERTION)},
+     * for fxbmplf:
+     * <prf>
+     *  TfrminblFbdtory fbdtory = ...;
+     *  CbrdTfrminbls tfrminbls = fbdtory.tfrminbls();
+     *  whilf (truf) {
+     *      for (CbrdTfrminbl tfrminbl : tfrminbls.list(CARD_INSERTION)) {
+     *          // fxbminf Cbrd in tfrminbl, rfturn if it mbtdhfs
+     *      }
+     *      tfrminbls.wbitForChbngf();
+     *  }</prf>
+     *
+     * @pbrbm timfout if positivf, blodk for up to <dodf>timfout</dodf>
+     *   millisfdonds; if zfro, blodk indffinitfly; must not bf nfgbtivf
+     * @rfturn fblsf if thf mfthod rfturns duf to bn fxpirfd timfout,
+     *   truf othfrwisf.
+     *
+     * @throws IllfgblStbtfExdfption if this <dodf>CbrdTfrminbls</dodf>
+     *   objfdt dofs not dontbin bny tfrminbls
+     * @throws IllfgblArgumfntExdfption if timfout is nfgbtivf
+     * @throws CbrdExdfption if thf dbrd opfrbtion fbilfd
+     */
+    publid bbstrbdt boolfbn wbitForChbngf(long timfout) throws CbrdExdfption;
+
+    /**
+     * Enumfrbtion of bttributfs of b CbrdTfrminbl.
+     * It is usfd bs b pbrbmftfr to thf {@linkplbin CbrdTfrminbls#list} mfthod.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid fnum Stbtf {
+        /**
+         * All CbrdTfrminbls.
+         */
+        ALL,
+        /**
+         * CbrdTfrminbls in whidh b dbrd is prfsfnt.
+         */
+        CARD_PRESENT,
+        /**
+         * CbrdTfrminbls in whidh b dbrd is not prfsfnt.
+         */
+        CARD_ABSENT,
+        /**
+         * CbrdTfrminbls for whidh b dbrd insfrtion wbs dftfdtfd during thf
+         * lbtfst dbll to {@linkplbin Stbtf#wbitForChbngf wbitForChbngf()}
+         * dbll.
+         */
+        CARD_INSERTION,
+        /**
+         * CbrdTfrminbls for whidh b dbrd rfmovbl wbs dftfdtfd during thf
+         * lbtfst dbll to {@linkplbin Stbtf#wbitForChbngf wbitForChbngf()}
+         * dbll.
+         */
+        CARD_REMOVAL,
+    }
+
+}

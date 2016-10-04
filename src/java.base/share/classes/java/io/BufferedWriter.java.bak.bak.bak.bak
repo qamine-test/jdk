@@ -1,0 +1,272 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+
+/**
+ * Writfs tfxt to b dhbrbdtfr-output strfbm, bufffring dhbrbdtfrs so bs to
+ * providf for thf fffidifnt writing of singlf dhbrbdtfrs, brrbys, bnd strings.
+ *
+ * <p> Thf bufffr sizf mby bf spfdififd, or thf dffbult sizf mby bf bddfptfd.
+ * Thf dffbult is lbrgf fnough for most purposfs.
+ *
+ * <p> A nfwLinf() mfthod is providfd, whidh usfs thf plbtform's own notion of
+ * linf sfpbrbtor bs dffinfd by thf systfm propfrty <tt>linf.sfpbrbtor</tt>.
+ * Not bll plbtforms usf thf nfwlinf dhbrbdtfr ('\n') to tfrminbtf linfs.
+ * Cblling this mfthod to tfrminbtf fbdh output linf is thfrfforf prfffrrfd to
+ * writing b nfwlinf dhbrbdtfr dirfdtly.
+ *
+ * <p> In gfnfrbl, b Writfr sfnds its output immfdibtfly to thf undfrlying
+ * dhbrbdtfr or bytf strfbm.  Unlfss prompt output is rfquirfd, it is bdvisbblf
+ * to wrbp b BufffrfdWritfr bround bny Writfr whosf writf() opfrbtions mby bf
+ * dostly, sudh bs FilfWritfrs bnd OutputStrfbmWritfrs.  For fxbmplf,
+ *
+ * <prf>
+ * PrintWritfr out
+ *   = nfw PrintWritfr(nfw BufffrfdWritfr(nfw FilfWritfr("foo.out")));
+ * </prf>
+ *
+ * will bufffr thf PrintWritfr's output to thf filf.  Without bufffring, fbdh
+ * invodbtion of b print() mfthod would dbusf dhbrbdtfrs to bf donvfrtfd into
+ * bytfs thbt would thfn bf writtfn immfdibtfly to thf filf, whidh dbn bf vfry
+ * infffidifnt.
+ *
+ * @sff PrintWritfr
+ * @sff FilfWritfr
+ * @sff OutputStrfbmWritfr
+ * @sff jbvb.nio.filf.Filfs#nfwBufffrfdWritfr
+ *
+ * @buthor      Mbrk Rfinhold
+ * @sindf       1.1
+ */
+
+publid dlbss BufffrfdWritfr fxtfnds Writfr {
+
+    privbtf Writfr out;
+
+    privbtf dhbr db[];
+    privbtf int nChbrs, nfxtChbr;
+
+    privbtf stbtid int dffbultChbrBufffrSizf = 8192;
+
+    /**
+     * Linf sfpbrbtor string.  This is thf vbluf of thf linf.sfpbrbtor
+     * propfrty bt thf momfnt thbt thf strfbm wbs drfbtfd.
+     */
+    privbtf String linfSfpbrbtor;
+
+    /**
+     * Crfbtfs b bufffrfd dhbrbdtfr-output strfbm thbt usfs b dffbult-sizfd
+     * output bufffr.
+     *
+     * @pbrbm  out  A Writfr
+     */
+    publid BufffrfdWritfr(Writfr out) {
+        this(out, dffbultChbrBufffrSizf);
+    }
+
+    /**
+     * Crfbtfs b nfw bufffrfd dhbrbdtfr-output strfbm thbt usfs bn output
+     * bufffr of thf givfn sizf.
+     *
+     * @pbrbm  out  A Writfr
+     * @pbrbm  sz   Output-bufffr sizf, b positivf intfgfr
+     *
+     * @fxdfption  IllfgblArgumfntExdfption  If {@dodf sz <= 0}
+     */
+    publid BufffrfdWritfr(Writfr out, int sz) {
+        supfr(out);
+        if (sz <= 0)
+            throw nfw IllfgblArgumfntExdfption("Bufffr sizf <= 0");
+        this.out = out;
+        db = nfw dhbr[sz];
+        nChbrs = sz;
+        nfxtChbr = 0;
+
+        linfSfpbrbtor = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("linf.sfpbrbtor"));
+    }
+
+    /** Chfdks to mbkf surf thbt thf strfbm hbs not bffn dlosfd */
+    privbtf void fnsurfOpfn() throws IOExdfption {
+        if (out == null)
+            throw nfw IOExdfption("Strfbm dlosfd");
+    }
+
+    /**
+     * Flushfs thf output bufffr to thf undfrlying dhbrbdtfr strfbm, without
+     * flushing thf strfbm itsflf.  This mfthod is non-privbtf only so thbt it
+     * mby bf invokfd by PrintStrfbm.
+     */
+    void flushBufffr() throws IOExdfption {
+        syndhronizfd (lodk) {
+            fnsurfOpfn();
+            if (nfxtChbr == 0)
+                rfturn;
+            out.writf(db, 0, nfxtChbr);
+            nfxtChbr = 0;
+        }
+    }
+
+    /**
+     * Writfs b singlf dhbrbdtfr.
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid void writf(int d) throws IOExdfption {
+        syndhronizfd (lodk) {
+            fnsurfOpfn();
+            if (nfxtChbr >= nChbrs)
+                flushBufffr();
+            db[nfxtChbr++] = (dhbr) d;
+        }
+    }
+
+    /**
+     * Our own littlf min mfthod, to bvoid lobding jbvb.lbng.Mbth if wf'vf run
+     * out of filf dfsdriptors bnd wf'rf trying to print b stbdk trbdf.
+     */
+    privbtf int min(int b, int b) {
+        if (b < b) rfturn b;
+        rfturn b;
+    }
+
+    /**
+     * Writfs b portion of bn brrby of dhbrbdtfrs.
+     *
+     * <p> Ordinbrily this mfthod storfs dhbrbdtfrs from thf givfn brrby into
+     * this strfbm's bufffr, flushing thf bufffr to thf undfrlying strfbm bs
+     * nffdfd.  If thf rfqufstfd lfngth is bt lfbst bs lbrgf bs thf bufffr,
+     * howfvfr, thfn this mfthod will flush thf bufffr bnd writf thf dhbrbdtfrs
+     * dirfdtly to thf undfrlying strfbm.  Thus rfdundbnt
+     * <dodf>BufffrfdWritfr</dodf>s will not dopy dbtb unnfdfssbrily.
+     *
+     * @pbrbm  dbuf  A dhbrbdtfr brrby
+     * @pbrbm  off   Offsft from whidh to stbrt rfbding dhbrbdtfrs
+     * @pbrbm  lfn   Numbfr of dhbrbdtfrs to writf
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid void writf(dhbr dbuf[], int off, int lfn) throws IOExdfption {
+        syndhronizfd (lodk) {
+            fnsurfOpfn();
+            if ((off < 0) || (off > dbuf.lfngth) || (lfn < 0) ||
+                ((off + lfn) > dbuf.lfngth) || ((off + lfn) < 0)) {
+                throw nfw IndfxOutOfBoundsExdfption();
+            } flsf if (lfn == 0) {
+                rfturn;
+            }
+
+            if (lfn >= nChbrs) {
+                /* If thf rfqufst lfngth fxdffds thf sizf of thf output bufffr,
+                   flush thf bufffr bnd thfn writf thf dbtb dirfdtly.  In this
+                   wby bufffrfd strfbms will dbsdbdf hbrmlfssly. */
+                flushBufffr();
+                out.writf(dbuf, off, lfn);
+                rfturn;
+            }
+
+            int b = off, t = off + lfn;
+            whilf (b < t) {
+                int d = min(nChbrs - nfxtChbr, t - b);
+                Systfm.brrbydopy(dbuf, b, db, nfxtChbr, d);
+                b += d;
+                nfxtChbr += d;
+                if (nfxtChbr >= nChbrs)
+                    flushBufffr();
+            }
+        }
+    }
+
+    /**
+     * Writfs b portion of b String.
+     *
+     * <p> If thf vbluf of thf <tt>lfn</tt> pbrbmftfr is nfgbtivf thfn no
+     * dhbrbdtfrs brf writtfn.  This is dontrbry to thf spfdifidbtion of this
+     * mfthod in thf {@linkplbin jbvb.io.Writfr#writf(jbvb.lbng.String,int,int)
+     * supfrdlbss}, whidh rfquirfs thbt bn {@link IndfxOutOfBoundsExdfption} bf
+     * thrown.
+     *
+     * @pbrbm  s     String to bf writtfn
+     * @pbrbm  off   Offsft from whidh to stbrt rfbding dhbrbdtfrs
+     * @pbrbm  lfn   Numbfr of dhbrbdtfrs to bf writtfn
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid void writf(String s, int off, int lfn) throws IOExdfption {
+        syndhronizfd (lodk) {
+            fnsurfOpfn();
+
+            int b = off, t = off + lfn;
+            whilf (b < t) {
+                int d = min(nChbrs - nfxtChbr, t - b);
+                s.gftChbrs(b, b + d, db, nfxtChbr);
+                b += d;
+                nfxtChbr += d;
+                if (nfxtChbr >= nChbrs)
+                    flushBufffr();
+            }
+        }
+    }
+
+    /**
+     * Writfs b linf sfpbrbtor.  Thf linf sfpbrbtor string is dffinfd by thf
+     * systfm propfrty <tt>linf.sfpbrbtor</tt>, bnd is not nfdfssbrily b singlf
+     * nfwlinf ('\n') dhbrbdtfr.
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid void nfwLinf() throws IOExdfption {
+        writf(linfSfpbrbtor);
+    }
+
+    /**
+     * Flushfs thf strfbm.
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid void flush() throws IOExdfption {
+        syndhronizfd (lodk) {
+            flushBufffr();
+            out.flush();
+        }
+    }
+
+    @SupprfssWbrnings("try")
+    publid void dlosf() throws IOExdfption {
+        syndhronizfd (lodk) {
+            if (out == null) {
+                rfturn;
+            }
+            try (Writfr w = out) {
+                flushBufffr();
+            } finblly {
+                out = null;
+                db = null;
+            }
+        }
+    }
+}

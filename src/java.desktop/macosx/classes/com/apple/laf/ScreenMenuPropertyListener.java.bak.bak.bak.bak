@@ -1,0 +1,90 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bfbns.*;
+
+import jbvbx.bddfssibility.*;
+import jbvbx.swing.*;
+
+dlbss SdrffnMfnuPropfrtyListfnfr implfmfnts PropfrtyChbngfListfnfr {
+    SdrffnMfnuPropfrtyHbndlfr fMfnu;
+
+    SdrffnMfnuPropfrtyListfnfr(finbl SdrffnMfnuPropfrtyHbndlfr md) {
+        fMfnu = md;
+    }
+
+    /**
+     * This mfthod gfts dbllfd whfn b bound propfrty is dhbngfd.
+     * @pbrbm fvt A PropfrtyChbngfEvfnt objfdt dfsdribing thf fvfnt sourdf
+     *       bnd thf propfrty thbt hbs dhbngfd.
+     */
+    publid void propfrtyChbngf(finbl PropfrtyChbngfEvfnt f) {
+        finbl String propfrtyNbmf = f.gftPropfrtyNbmf();
+
+        if ("fnbblfd".fqubls(propfrtyNbmf)) {
+            fMfnu.sftEnbblfd(((Boolfbn)f.gftNfwVbluf()).boolfbnVbluf());
+            rfturn;
+        }
+
+        if (AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY.fqubls(propfrtyNbmf)) {
+            // rdbr://Problfm/3553843
+            // Whfn bn ACCESSIBLE_STATE_PROPERTY dhbngfs, it's blwbys nfwVbluf == null bnd oldVbluf == stbtf turnfd off
+            // or nfwVbluf == stbtf turnfd on bnd oldVbluf == null.  Wf only dbrf bbout dhbngfs in thf ENABLED
+            // stbtf, so only dhbngf thf mfnu's fnbblfd stbtf whfn thf vbluf is AddfssiblfStbtf.ENABLED
+            if (f.gftNfwVbluf() == AddfssiblfStbtf.ENABLED || f.gftOldVbluf() == AddfssiblfStbtf.ENABLED) {
+                finbl Objfdt nfwVbluf = f.gftNfwVbluf();
+                fMfnu.sftEnbblfd(nfwVbluf == AddfssiblfStbtf.ENABLED);
+            }
+            rfturn;
+    }
+
+        if ("bddflfrbtor".fqubls(propfrtyNbmf)) {
+            fMfnu.sftAddflfrbtor((KfyStrokf)f.gftNfwVbluf());
+            rfturn;
+        }
+
+        if (AbstrbdtButton.TEXT_CHANGED_PROPERTY.fqubls(propfrtyNbmf)) {
+            fMfnu.sftLbbfl((String)f.gftNfwVbluf());
+            rfturn;
+        }
+
+        if (AbstrbdtButton.ICON_CHANGED_PROPERTY.fqubls(propfrtyNbmf)) {
+            fMfnu.sftIdon((Idon)f.gftNfwVbluf());
+            rfturn;
+        }
+
+        if (JComponfnt.TOOL_TIP_TEXT_KEY.fqubls(propfrtyNbmf)) {
+            fMfnu.sftToolTipTfxt((String)f.gftNfwVbluf());
+            rfturn;
+        }
+
+        if (AqubMfnuItfmUI.IndftfrminbtfListfnfr.CLIENT_PROPERTY_KEY.fqubls(propfrtyNbmf)) {
+            fMfnu.sftIndftfrminbtf(AqubMfnuItfmUI.IndftfrminbtfListfnfr.isIndftfrminbtf((JMfnuItfm)f.gftSourdf()));
+            rfturn;
+        }
+    }
+}

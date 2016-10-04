@@ -1,0 +1,98 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+
+/**
+ * A dlbss thbt bufffrs without syndhronizing its mfthods
+ * @buthor rbul
+ */
+publid dlbss UnsyndBufffrfdOutputStrfbm fxtfnds OutputStrfbm {
+    stbtid finbl int sizf = 8*1024;
+
+    privbtf int pointfr = 0;
+    privbtf finbl OutputStrfbm out;
+
+    privbtf finbl bytf[] buf;
+
+    /**
+     * Crfbtfs b bufffrfd output strfbm without syndhronizbtion
+     * @pbrbm out thf outputstrfbm to bufffr
+     */
+    publid UnsyndBufffrfdOutputStrfbm(OutputStrfbm out) {
+        buf = nfw bytf[sizf];
+        this.out = out;
+    }
+
+    /** @inhfritDod */
+    publid void writf(bytf[] brg0) throws IOExdfption {
+        writf(brg0, 0, brg0.lfngth);
+    }
+
+    /** @inhfritDod */
+    publid void writf(bytf[] brg0, int brg1, int lfn) throws IOExdfption {
+        int nfwLfn = pointfr+lfn;
+        if (nfwLfn > sizf) {
+            flushBufffr();
+            if (lfn > sizf) {
+                out.writf(brg0, brg1,lfn);
+                rfturn;
+            }
+            nfwLfn = lfn;
+        }
+        Systfm.brrbydopy(brg0, brg1, buf, pointfr, lfn);
+        pointfr = nfwLfn;
+    }
+
+    privbtf void flushBufffr() throws IOExdfption {
+        if (pointfr > 0) {
+            out.writf(buf, 0, pointfr);
+        }
+        pointfr = 0;
+
+    }
+
+    /** @inhfritDod */
+    publid void writf(int brg0) throws IOExdfption {
+        if (pointfr >= sizf) {
+            flushBufffr();
+        }
+        buf[pointfr++] = (bytf)brg0;
+
+    }
+
+    /** @inhfritDod */
+    publid void flush() throws IOExdfption {
+        flushBufffr();
+        out.flush();
+    }
+
+    /** @inhfritDod */
+    publid void dlosf() throws IOExdfption {
+        flush();
+        out.dlosf();
+    }
+
+}

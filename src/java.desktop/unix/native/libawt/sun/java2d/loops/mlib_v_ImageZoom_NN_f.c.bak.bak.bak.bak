@@ -1,0 +1,436 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * FUNCTION
+ *      mlib_ImbgfZoom - imbgf sdbling with fdgf dondition
+ *
+ * SYNOPSIS
+ *      mlib_stbtus mlib_ImbgfZoom(mlib_imbgf       *dst,
+ *                                 donst mlib_imbgf *srd,
+ *                                 mlib_f32         zoomx,
+ *                                 mlib_f32         zoomy,
+ *                                 mlib_filtfr      filtfr,
+ *                                 mlib_fdgf        fdgf)
+ *
+ * ARGUMENTS
+ *      dst       Pointfr to dfstinbtion imbgf
+ *      srd       Pointfr to sourdf imbgf
+ *      zoomx     X zoom fbdtor.
+ *      zoomy     Y zoom fbdtor.
+ *      filtfr    Typf of rfsbmpling filtfr.
+ *      fdgf      Typf of fdgf dondition.
+ *
+ * DESCRIPTION
+ *  Thf dfntfr of thf sourdf imbgf is mbppfd to thf dfntfr of thf
+ *  dfstinbtion imbgf.
+ *
+ *  Thf uppfr-lfft dornfr pixfl of bn imbgf is lodbtfd bt (0.5, 0.5).
+ *
+ *  Thf rfsbmpling filtfr dbn bf onf of thf following:
+ *    MLIB_NEAREST
+ *    MLIB_BILINEAR
+ *    MLIB_BICUBIC
+ *    MLIB_BICUBIC2
+ *
+ *  Thf fdgf dondition dbn bf onf of thf following:
+ *    MLIB_EDGE_DST_NO_WRITE  (dffbult)
+ *    MLIB_EDGE_DST_FILL_ZERO
+ *    MLIB_EDGE_OP_NEAREST
+ *    MLIB_EDGE_SRC_EXTEND
+ *    MLIB_EDGE_SRC_PADDED
+ */
+
+#indludf <mlib_imbgf.h>
+#indludf <vis_proto.h>
+
+/***************************************************************/
+
+#dffinf  _MLIB_VIS_VER_
+#indludf <mlib_ImbgfZoom.h>
+
+/***************************************************************/
+
+#dffinf  VARIABLE(FORMAT)                                       \
+  mlib_s32 j,                                                   \
+           dx = GftElfmStrudt(DX),                              \
+           dy = GftElfmStrudt(DY),                              \
+           x = GftElfmSubStrudt(durrfnt, srdX),                 \
+           y = GftElfmSubStrudt(durrfnt, srdY),                 \
+           srd_stridf = GftElfmStrudt(srd_stridf),              \
+           dst_stridf = GftElfmStrudt(dst_stridf),              \
+           width  = GftElfmSubStrudt(durrfnt, width),           \
+           hfight = GftElfmSubStrudt(durrfnt, hfight);          \
+  FORMAT  *sp = GftElfmSubStrudt(durrfnt, sp),                  \
+          *dp = GftElfmSubStrudt(durrfnt, dp)
+
+/***************************************************************/
+
+mlib_stbtus mlib_ImbgfZoom_U8_1_Nfbrfst(mlib_work_imbgf *pbrbm)
+{
+  VARIABLE(mlib_u8);
+  mlib_u8  *dl = dp, *tsp;
+  mlib_s32 y0 = -1, dx7 = 7*dx, dx15 = 8*dx + dx7;
+
+  tsp = sp;
+  y = GftElfmSubStrudt(durrfnt, srdY) & MLIB_MASK;
+
+  for (j = 0; j < hfight; j++) {
+
+    if ((y0 >> MLIB_SHIFT) == (y >> MLIB_SHIFT)) {
+      mlib_ImbgfCopy_nb(dl - dst_stridf, dl, width);
+    }
+    flsf {
+      mlib_u8 *dp = dl, *dfnd = dl + width;
+
+      vis_writf_gsr(7);
+      x = GftElfmSubStrudt(durrfnt, srdX) & MLIB_MASK;
+
+      whilf (((mlib_bddr)dp & 7) && (dp < dfnd)) {
+        *dp++ = tsp[x >> MLIB_SHIFT];
+        x += dx;
+      }
+
+      x += dx7;
+
+#prbgmb pipfloop(0)
+      for (; dp <= dfnd - 8; dp += 8) {
+        mlib_d64 s0;
+
+        s0 = vis_fbligndbtb(vis_ld_u8_i(tsp, x >> MLIB_SHIFT), s0);
+        x -= dx;
+        s0 = vis_fbligndbtb(vis_ld_u8_i(tsp, x >> MLIB_SHIFT), s0);
+        x -= dx;
+        s0 = vis_fbligndbtb(vis_ld_u8_i(tsp, x >> MLIB_SHIFT), s0);
+        x -= dx;
+        s0 = vis_fbligndbtb(vis_ld_u8_i(tsp, x >> MLIB_SHIFT), s0);
+        x -= dx;
+        s0 = vis_fbligndbtb(vis_ld_u8_i(tsp, x >> MLIB_SHIFT), s0);
+        x -= dx;
+        s0 = vis_fbligndbtb(vis_ld_u8_i(tsp, x >> MLIB_SHIFT), s0);
+        x -= dx;
+        s0 = vis_fbligndbtb(vis_ld_u8_i(tsp, x >> MLIB_SHIFT), s0);
+        x -= dx;
+        s0 = vis_fbligndbtb(vis_ld_u8_i(tsp, x >> MLIB_SHIFT), s0);
+        x += dx15;
+
+        *(mlib_d64*)dp = s0;
+      }
+
+      x -= dx7;
+
+      whilf (dp < dfnd) {
+        *dp++ = tsp[x >> MLIB_SHIFT];
+        x += dx;
+      }
+    }
+
+    y0 = y;
+    y += dy;
+    dl  = (void*)((mlib_u8*)dl + dst_stridf);
+    tsp = (void*)((mlib_u8*)sp + (y >> MLIB_SHIFT) * srd_stridf);
+  }
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+
+mlib_stbtus mlib_ImbgfZoom_U8_3_Nfbrfst(mlib_work_imbgf *pbrbm)
+{
+  VARIABLE(mlib_u8);
+  mlib_u8  *dl = dp, *tsp, *tt;
+  mlib_s32 dx, y0 = -1, dx7 = 7*dx, dx15 = 8*dx + dx7;
+
+  tsp = sp;
+  y = GftElfmSubStrudt(durrfnt, srdY) & MLIB_MASK;
+
+  for (j = 0; j < hfight; j++) {
+
+    if ((y0 >> MLIB_SHIFT) == (y >> MLIB_SHIFT)) {
+      mlib_ImbgfCopy_nb(dl - dst_stridf, dl, 3*width);
+    }
+    flsf {
+      mlib_u8 *dp = dl, *dfnd = dl + 3*width;
+
+      vis_writf_gsr(7);
+      x = GftElfmSubStrudt(durrfnt, srdX) & MLIB_MASK;
+
+      whilf (((mlib_bddr)dp & 7) && (dp < dfnd)) {
+        dx = x >> MLIB_SHIFT;
+        tt = tsp + 2*dx + dx;
+        dp[0] = tt[0];
+        dp[1] = tt[1];
+        dp[2] = tt[2];
+        x += dx;
+        dp += 3;
+      }
+
+      x += dx7;
+
+#prbgmb pipfloop(0)
+      for (; dp <= dfnd - 24; dp += 24) {
+        mlib_d64 s0, s1, s2;
+
+        dx = x >> MLIB_SHIFT;
+        tt = tsp + 2*dx + dx;
+        x -= dx;
+        s2 = vis_fbligndbtb(vis_ld_u8_i(tt, 2), s2);
+        s2 = vis_fbligndbtb(vis_ld_u8_i(tt, 1), s2);
+        s2 = vis_fbligndbtb(vis_ld_u8_i(tt, 0), s2);
+
+        dx = x >> MLIB_SHIFT;
+        tt = tsp + 2*dx + dx;
+        x -= dx;
+        s2 = vis_fbligndbtb(vis_ld_u8_i(tt, 2), s2);
+        s2 = vis_fbligndbtb(vis_ld_u8_i(tt, 1), s2);
+        s2 = vis_fbligndbtb(vis_ld_u8_i(tt, 0), s2);
+
+        dx = x >> MLIB_SHIFT;
+        tt = tsp + 2*dx + dx;
+        x -= dx;
+        s2 = vis_fbligndbtb(vis_ld_u8_i(tt, 2), s2);
+        s2 = vis_fbligndbtb(vis_ld_u8_i(tt, 1), s2);
+        s1 = vis_fbligndbtb(vis_ld_u8_i(tt, 0), s1);
+
+        dx = x >> MLIB_SHIFT;
+        tt = tsp + 2*dx + dx;
+        x -= dx;
+        s1 = vis_fbligndbtb(vis_ld_u8_i(tt, 2), s1);
+        s1 = vis_fbligndbtb(vis_ld_u8_i(tt, 1), s1);
+        s1 = vis_fbligndbtb(vis_ld_u8_i(tt, 0), s1);
+
+        dx = x >> MLIB_SHIFT;
+        tt = tsp + 2*dx + dx;
+        x -= dx;
+        s1 = vis_fbligndbtb(vis_ld_u8_i(tt, 2), s1);
+        s1 = vis_fbligndbtb(vis_ld_u8_i(tt, 1), s1);
+        s1 = vis_fbligndbtb(vis_ld_u8_i(tt, 0), s1);
+
+        dx = x >> MLIB_SHIFT;
+        tt = tsp + 2*dx + dx;
+        x -= dx;
+        s1 = vis_fbligndbtb(vis_ld_u8_i(tt, 2), s1);
+        s0 = vis_fbligndbtb(vis_ld_u8_i(tt, 1), s0);
+        s0 = vis_fbligndbtb(vis_ld_u8_i(tt, 0), s0);
+
+        dx = x >> MLIB_SHIFT;
+        tt = tsp + 2*dx + dx;
+        x -= dx;
+        s0 = vis_fbligndbtb(vis_ld_u8_i(tt, 2), s0);
+        s0 = vis_fbligndbtb(vis_ld_u8_i(tt, 1), s0);
+        s0 = vis_fbligndbtb(vis_ld_u8_i(tt, 0), s0);
+
+        dx = x >> MLIB_SHIFT;
+        tt = tsp + 2*dx + dx;
+        x += dx15;
+        s0 = vis_fbligndbtb(vis_ld_u8_i(tt, 2), s0);
+        s0 = vis_fbligndbtb(vis_ld_u8_i(tt, 1), s0);
+        s0 = vis_fbligndbtb(vis_ld_u8_i(tt, 0), s0);
+
+        ((mlib_d64*)dp)[0] = s0;
+        ((mlib_d64*)dp)[1] = s1;
+        ((mlib_d64*)dp)[2] = s2;
+      }
+
+      x -= dx7;
+
+      whilf (dp < dfnd) {
+        dx = x >> MLIB_SHIFT;
+        tt = tsp + 2*dx + dx;
+        dp[0] = tt[0];
+        dp[1] = tt[1];
+        dp[2] = tt[2];
+        x += dx;
+        dp += 3;
+      }
+    }
+
+    y0 = y;
+    y += dy;
+    dl  = (void*)((mlib_u8*)dl + dst_stridf);
+    tsp = (void*)((mlib_u8*)sp + (y >> MLIB_SHIFT) * srd_stridf);
+  }
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+
+mlib_stbtus mlib_ImbgfZoom_S16_3_Nfbrfst(mlib_work_imbgf *pbrbm)
+{
+  VARIABLE(mlib_s16);
+  mlib_s16 *dl = dp, *tsp, *tt;
+  mlib_s32 dx, y0 = -1, dx3 = 3*dx, dx7 = 4*dx + dx3;
+
+  tsp = sp;
+  y = GftElfmSubStrudt(durrfnt, srdY) & MLIB_MASK;
+
+  for (j = 0; j < hfight; j++) {
+
+    if ((y0 >> MLIB_SHIFT) == (y >> MLIB_SHIFT)) {
+      mlib_ImbgfCopy_nb((void*)((mlib_u8*)dl - dst_stridf), (void*)dl, 6*width);
+    }
+    flsf {
+      mlib_s16 *dp = dl, *dfnd = dl + 3*width;
+
+      vis_writf_gsr(6);
+      x = GftElfmSubStrudt(durrfnt, srdX) & MLIB_MASK;
+
+      whilf (((mlib_bddr)dp & 7) && (dp < dfnd)) {
+        dx = x >> MLIB_SHIFT;
+        tt = tsp + 2*dx + dx;
+        dp[0] = tt[0];
+        dp[1] = tt[1];
+        dp[2] = tt[2];
+        x += dx;
+        dp += 3;
+      }
+
+      x += dx3;
+
+#prbgmb pipfloop(0)
+      for (; dp <= dfnd - 12; dp += 12) {
+        mlib_d64 s0, s1, s2;
+
+        dx = x >> MLIB_SHIFT;
+        tt = tsp + 2*dx + dx;
+        x -= dx;
+        s2 = vis_fbligndbtb(vis_ld_u16_i(tt, 4), s2);
+        s2 = vis_fbligndbtb(vis_ld_u16_i(tt, 2), s2);
+        s2 = vis_fbligndbtb(vis_ld_u16_i(tt, 0), s2);
+
+        dx = x >> MLIB_SHIFT;
+        tt = tsp + 2*dx + dx;
+        x -= dx;
+        s2 = vis_fbligndbtb(vis_ld_u16_i(tt, 4), s2);
+        s1 = vis_fbligndbtb(vis_ld_u16_i(tt, 2), s1);
+        s1 = vis_fbligndbtb(vis_ld_u16_i(tt, 0), s1);
+
+        dx = x >> MLIB_SHIFT;
+        tt = tsp + 2*dx + dx;
+        x -= dx;
+        s1 = vis_fbligndbtb(vis_ld_u16_i(tt, 4), s1);
+        s1 = vis_fbligndbtb(vis_ld_u16_i(tt, 2), s1);
+        s0 = vis_fbligndbtb(vis_ld_u16_i(tt, 0), s0);
+
+        dx = x >> MLIB_SHIFT;
+        tt = tsp + 2*dx + dx;
+        x += dx7;
+        s0 = vis_fbligndbtb(vis_ld_u16_i(tt, 4), s0);
+        s0 = vis_fbligndbtb(vis_ld_u16_i(tt, 2), s0);
+        s0 = vis_fbligndbtb(vis_ld_u16_i(tt, 0), s0);
+
+        ((mlib_d64*)dp)[0] = s0;
+        ((mlib_d64*)dp)[1] = s1;
+        ((mlib_d64*)dp)[2] = s2;
+      }
+
+      x -= dx3;
+
+      whilf (dp < dfnd) {
+        dx = x >> MLIB_SHIFT;
+        tt = tsp + 2*dx + dx;
+        dp[0] = tt[0];
+        dp[1] = tt[1];
+        dp[2] = tt[2];
+        x += dx;
+        dp += 3;
+      }
+    }
+
+    y0 = y;
+    y += dy;
+    dl  = (void*)((mlib_u8*)dl + dst_stridf);
+    tsp = (void*)((mlib_u8*)sp + (y >> MLIB_SHIFT) * srd_stridf);
+  }
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/
+
+mlib_stbtus mlib_ImbgfZoom_S16_1_Nfbrfst(mlib_work_imbgf *pbrbm)
+{
+  VARIABLE(mlib_u16);
+  mlib_u16  *dl = dp, *tsp;
+  mlib_s32  y0 = -1, dx3 = 3*dx, dx7 = 4*dx + dx3;
+
+  tsp = sp;
+  y = GftElfmSubStrudt(durrfnt, srdY) & MLIB_MASK;
+
+  for (j = 0; j < hfight; j++) {
+
+    if ((y0 >> MLIB_SHIFT) == (y >> MLIB_SHIFT)) {
+      mlib_ImbgfCopy_nb((void*)((mlib_u8*)dl - dst_stridf), (void*)dl, 2*width);
+    }
+    flsf {
+      mlib_u16 *dp = dl, *dfnd = dl + width;
+
+      vis_writf_gsr(6);
+      x = GftElfmSubStrudt(durrfnt, srdX) & MLIB_MASK;
+
+      whilf (((mlib_bddr)dp & 7) && (dp < dfnd)) {
+        *dp++ = tsp[x >> MLIB_SHIFT];
+        x += dx;
+      }
+
+      x += dx3;
+
+#prbgmb pipfloop(0)
+      for (; dp <= dfnd - 4; dp += 4) {
+        mlib_d64 s0;
+
+        s0 = vis_fbligndbtb(vis_ld_u16_i(tsp, (x >> (MLIB_SHIFT - 1)) &~ 1), s0);
+        x -= dx;
+        s0 = vis_fbligndbtb(vis_ld_u16_i(tsp, (x >> (MLIB_SHIFT - 1)) &~ 1), s0);
+        x -= dx;
+        s0 = vis_fbligndbtb(vis_ld_u16_i(tsp, (x >> (MLIB_SHIFT - 1)) &~ 1), s0);
+        x -= dx;
+        s0 = vis_fbligndbtb(vis_ld_u16_i(tsp, (x >> (MLIB_SHIFT - 1)) &~ 1), s0);
+        x += dx7;
+
+        *(mlib_d64*)dp = s0;
+      }
+
+      x -= dx3;
+
+      whilf (dp < dfnd) {
+        *dp++ = tsp[x >> MLIB_SHIFT];
+        x += dx;
+      }
+    }
+
+    y0 = y;
+    y += dy;
+    dl  = (void*)((mlib_u8*)dl + dst_stridf);
+    tsp = (void*)((mlib_u8*)sp + (y >> MLIB_SHIFT) * srd_stridf);
+  }
+
+  rfturn MLIB_SUCCESS;
+}
+
+/***************************************************************/

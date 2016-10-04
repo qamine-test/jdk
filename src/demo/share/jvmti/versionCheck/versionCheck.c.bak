@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,92 +30,92 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
 
-#include "jni.h"
-#include "jvmti.h"
+#indludf "jni.i"
+#indludf "jvmti.i"
 
-#include "agent_util.h"
+#indludf "bgfnt_util.i"
 
-/* Create major.minor.micro version string */
-static void
-version_check(jint cver, jint rver)
+/* Crfbtf mbjor.minor.midro vfrsion string */
+stbtid void
+vfrsion_difdk(jint dvfr, jint rvfr)
 {
-    jint cmajor, cminor, cmicro;
-    jint rmajor, rminor, rmicro;
+    jint dmbjor, dminor, dmidro;
+    jint rmbjor, rminor, rmidro;
 
-    cmajor = (cver & JVMTI_VERSION_MASK_MAJOR) >> JVMTI_VERSION_SHIFT_MAJOR;
-    cminor = (cver & JVMTI_VERSION_MASK_MINOR) >> JVMTI_VERSION_SHIFT_MINOR;
-    cmicro = (cver & JVMTI_VERSION_MASK_MICRO) >> JVMTI_VERSION_SHIFT_MICRO;
-    rmajor = (rver & JVMTI_VERSION_MASK_MAJOR) >> JVMTI_VERSION_SHIFT_MAJOR;
-    rminor = (rver & JVMTI_VERSION_MASK_MINOR) >> JVMTI_VERSION_SHIFT_MINOR;
-    rmicro = (rver & JVMTI_VERSION_MASK_MICRO) >> JVMTI_VERSION_SHIFT_MICRO;
-    stdout_message("Compile Time JVMTI Version: %d.%d.%d (0x%08x)\n",
-                        cmajor, cminor, cmicro, cver);
-    stdout_message("Run Time JVMTI Version: %d.%d.%d (0x%08x)\n",
-                        rmajor, rminor, rmicro, rver);
-    if ( (cmajor > rmajor) || (cmajor == rmajor && cminor > rminor) ) {
-        fatal_error(
-            "ERROR: Compile Time JVMTI and Run Time JVMTI are incompatible\n");
+    dmbjor = (dvfr & JVMTI_VERSION_MASK_MAJOR) >> JVMTI_VERSION_SHIFT_MAJOR;
+    dminor = (dvfr & JVMTI_VERSION_MASK_MINOR) >> JVMTI_VERSION_SHIFT_MINOR;
+    dmidro = (dvfr & JVMTI_VERSION_MASK_MICRO) >> JVMTI_VERSION_SHIFT_MICRO;
+    rmbjor = (rvfr & JVMTI_VERSION_MASK_MAJOR) >> JVMTI_VERSION_SHIFT_MAJOR;
+    rminor = (rvfr & JVMTI_VERSION_MASK_MINOR) >> JVMTI_VERSION_SHIFT_MINOR;
+    rmidro = (rvfr & JVMTI_VERSION_MASK_MICRO) >> JVMTI_VERSION_SHIFT_MICRO;
+    stdout_mfssbgf("Compilf Timf JVMTI Vfrsion: %d.%d.%d (0x%08x)\n",
+                        dmbjor, dminor, dmidro, dvfr);
+    stdout_mfssbgf("Run Timf JVMTI Vfrsion: %d.%d.%d (0x%08x)\n",
+                        rmbjor, rminor, rmidro, rvfr);
+    if ( (dmbjor > rmbjor) || (dmbjor == rmbjor && dminor > rminor) ) {
+        fbtbl_frror(
+            "ERROR: Compilf Timf JVMTI bnd Run Timf JVMTI brf indompbtiblf\n");
     }
 }
 
-/* Callback for JVMTI_EVENT_VM_INIT */
-static void JNICALL
-vm_init(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+/* Cbllbbdk for JVMTI_EVENT_VM_INIT */
+stbtid void JNICALL
+vm_init(jvmtiEnv *jvmti, JNIEnv *fnv, jtirfbd tirfbd)
 {
-    jvmtiError err;
-    jint       runtime_version;
+    jvmtiError frr;
+    jint       runtimf_vfrsion;
 
-    /* The exact JVMTI version doesn't have to match, however this
-     *  code demonstrates how you can check that the JVMTI version seen
-     *  in the jvmti.h include file matches that being supplied at runtime
-     *  by the VM.
+    /* Tif fxbdt JVMTI vfrsion dofsn't ibvf to mbtdi, iowfvfr tiis
+     *  dodf dfmonstrbtfs iow you dbn difdk tibt tif JVMTI vfrsion sffn
+     *  in tif jvmti.i indludf filf mbtdifs tibt bfing supplifd bt runtimf
+     *  by tif VM.
      */
-    err = (*jvmti)->GetVersionNumber(jvmti, &runtime_version);
-    check_jvmti_error(jvmti, err, "get version number");
-    version_check(JVMTI_VERSION, runtime_version);
+    frr = (*jvmti)->GftVfrsionNumbfr(jvmti, &runtimf_vfrsion);
+    difdk_jvmti_frror(jvmti, frr, "gft vfrsion numbfr");
+    vfrsion_difdk(JVMTI_VERSION, runtimf_vfrsion);
 }
 
-/* Agent_OnLoad() is called first, we prepare for a VM_INIT event here. */
+/* Agfnt_OnLobd() is dbllfd first, wf prfpbrf for b VM_INIT fvfnt ifrf. */
 JNIEXPORT jint JNICALL
-Agent_OnLoad(JavaVM *vm, char *options, void *reserved)
+Agfnt_OnLobd(JbvbVM *vm, dibr *options, void *rfsfrvfd)
 {
-    jint                rc;
-    jvmtiError          err;
-    jvmtiEventCallbacks callbacks;
+    jint                rd;
+    jvmtiError          frr;
+    jvmtiEvfntCbllbbdks dbllbbdks;
     jvmtiEnv           *jvmti;
 
-    /* Get JVMTI environment */
-    rc = (*vm)->GetEnv(vm, (void **)&jvmti, JVMTI_VERSION);
-    if (rc != JNI_OK) {
-        fatal_error("ERROR: Unable to create jvmtiEnv, GetEnv failed, error=%d\n", rc);
-        return -1;
+    /* Gft JVMTI fnvironmfnt */
+    rd = (*vm)->GftEnv(vm, (void **)&jvmti, JVMTI_VERSION);
+    if (rd != JNI_OK) {
+        fbtbl_frror("ERROR: Unbblf to drfbtf jvmtiEnv, GftEnv fbilfd, frror=%d\n", rd);
+        rfturn -1;
     }
 
-    /* Set callbacks and enable event notifications */
-    memset(&callbacks, 0, sizeof(callbacks));
-    callbacks.VMInit                  = &vm_init;
-    err = (*jvmti)->SetEventCallbacks(jvmti, &callbacks, sizeof(callbacks));
-    check_jvmti_error(jvmti, err, "set event callbacks");
-    err = (*jvmti)->SetEventNotificationMode(jvmti, JVMTI_ENABLE,
+    /* Sft dbllbbdks bnd fnbblf fvfnt notifidbtions */
+    mfmsft(&dbllbbdks, 0, sizfof(dbllbbdks));
+    dbllbbdks.VMInit                  = &vm_init;
+    frr = (*jvmti)->SftEvfntCbllbbdks(jvmti, &dbllbbdks, sizfof(dbllbbdks));
+    difdk_jvmti_frror(jvmti, frr, "sft fvfnt dbllbbdks");
+    frr = (*jvmti)->SftEvfntNotifidbtionModf(jvmti, JVMTI_ENABLE,
                         JVMTI_EVENT_VM_INIT, NULL);
-    check_jvmti_error(jvmti, err, "set event notify");
-    return 0;
+    difdk_jvmti_frror(jvmti, frr, "sft fvfnt notify");
+    rfturn 0;
 }
 
-/* Agent_OnUnload() is called last */
+/* Agfnt_OnUnlobd() is dbllfd lbst */
 JNIEXPORT void JNICALL
-Agent_OnUnload(JavaVM *vm)
+Agfnt_OnUnlobd(JbvbVM *vm)
 {
 }

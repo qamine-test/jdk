@@ -1,0 +1,316 @@
+/*
+ * Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Copyright 2003 Wily Tfdhnology, Ind.
+ */
+
+#ifndff _JPLISAGENT_H_
+#dffinf _JPLISAGENT_H_
+
+#indludf    <jni.h>
+#indludf    <jvmti.h>
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+
+/*
+ *  Thf JPLISAgfnt mbnbgfs thf initiblizbtion bll of thf Jbvb progrbmming lbngubgf Agfnts.
+ *  It blso supports thf nbtivf mfthod bridgf bftwffn thf JPLIS bnd thf JVMTI.
+ *  It mbintbins b singlf JVMTI Env thbt bll JPL bgfnts shbrf.
+ *  It pbrsfs dommbnd linf rfqufsts bnd drfbtfs individubl Jbvb bgfnts.
+ */
+
+
+/*
+ *  Forwbrd dffinitions
+ */
+strudt  _JPLISAgfnt;
+
+typfdff strudt _JPLISAgfnt        JPLISAgfnt;
+typfdff strudt _JPLISEnvironmfnt  JPLISEnvironmfnt;
+
+
+/* donstbnts for dlbss nbmfs bnd mfthods nbmfs bnd sudh
+    thfsf bll must stby in synd with Jbvb dodf & intfrfbdfs
+*/
+#dffinf JPLIS_INSTRUMENTIMPL_CLASSNAME                      "sun/instrumfnt/InstrumfntbtionImpl"
+#dffinf JPLIS_INSTRUMENTIMPL_CONSTRUCTOR_METHODNAME         "<init>"
+#dffinf JPLIS_INSTRUMENTIMPL_CONSTRUCTOR_METHODSIGNATURE    "(JZZ)V"
+#dffinf JPLIS_INSTRUMENTIMPL_PREMAININVOKER_METHODNAME      "lobdClbssAndCbllPrfmbin"
+#dffinf JPLIS_INSTRUMENTIMPL_PREMAININVOKER_METHODSIGNATURE "(Ljbvb/lbng/String;Ljbvb/lbng/String;)V"
+#dffinf JPLIS_INSTRUMENTIMPL_AGENTMAININVOKER_METHODNAME      "lobdClbssAndCbllAgfntmbin"
+#dffinf JPLIS_INSTRUMENTIMPL_AGENTMAININVOKER_METHODSIGNATURE "(Ljbvb/lbng/String;Ljbvb/lbng/String;)V"
+#dffinf JPLIS_INSTRUMENTIMPL_TRANSFORM_METHODNAME           "trbnsform"
+#dffinf JPLIS_INSTRUMENTIMPL_TRANSFORM_METHODSIGNATURE      \
+    "(Ljbvb/lbng/ClbssLobdfr;Ljbvb/lbng/String;Ljbvb/lbng/Clbss;Ljbvb/sfdurity/ProtfdtionDombin;[BZ)[B"
+
+
+/*
+ *  Error mfssbgfs
+ */
+#dffinf JPLIS_ERRORMESSAGE_CANNOTSTART              "prodfssing of -jbvbbgfnt fbilfd"
+
+
+/*
+ *  Our initiblizbtion frrors
+ */
+typfdff fnum {
+  JPLIS_INIT_ERROR_NONE,
+  JPLIS_INIT_ERROR_CANNOT_CREATE_NATIVE_AGENT,
+  JPLIS_INIT_ERROR_FAILURE,
+  JPLIS_INIT_ERROR_ALLOCATION_FAILURE,
+  JPLIS_INIT_ERROR_AGENT_CLASS_NOT_SPECIFIED
+} JPLISInitiblizbtionError;
+
+
+strudt _JPLISEnvironmfnt {
+    jvmtiEnv *              mJVMTIEnv;              /* thf JVM TI fnvironmfnt */
+    JPLISAgfnt *            mAgfnt;                 /* dorrfsponding bgfnt */
+    jboolfbn                mIsRftrbnsformfr;       /* indidbtfs if spfdibl fnvironmfnt */
+};
+
+strudt _JPLISAgfnt {
+    JbvbVM *                mJVM;                   /* hbndlf to thf JVM */
+    JPLISEnvironmfnt        mNormblEnvironmfnt;     /* for fvfry thing but rftrbnsform stuff */
+    JPLISEnvironmfnt        mRftrbnsformEnvironmfnt;/* for rftrbnsform stuff only */
+    jobjfdt                 mInstrumfntbtionImpl;   /* hbndlf to thf Instrumfntbtion instbndf */
+    jmfthodID               mPrfmbinCbllfr;         /* mfthod on thf InstrumfntbtionImpl thbt dofs thf prfmbin stuff (dbdhfd to sbvf lots of lookups) */
+    jmfthodID               mAgfntmbinCbllfr;       /* mfthod on thf InstrumfntbtionImpl for bgfnts lobdfd vib bttbdh mfdhbnism */
+    jmfthodID               mTrbnsform;             /* mfthod on thf InstrumfntbtionImpl thbt dofs thf dlbss filf trbnsform */
+    jboolfbn                mRfdffinfAvbilbblf;     /* dbdhfd bnswfr to "dofs this bgfnt support rfdffinf" */
+    jboolfbn                mRfdffinfAddfd;         /* indidbtfs if dbn_rfdffinf_dlbssfs dbpbbility hbs bffn bddfd */
+    jboolfbn                mNbtivfMfthodPrffixAvbilbblf; /* dbdhfd bnswfr to "dofs this bgfnt support prffixing" */
+    jboolfbn                mNbtivfMfthodPrffixAddfd;     /* indidbtfs if dbn_sft_nbtivf_mfthod_prffix dbpbbility hbs bffn bddfd */
+    dhbr donst *            mAgfntClbssNbmf;        /* bgfnt dlbss nbmf */
+    dhbr donst *            mOptionsString;         /* -jbvbbgfnt options string */
+};
+
+/*
+ * JVMTI fvfnt hbndlfrs
+ */
+
+/* VMInit fvfnt hbndlfr. Instbllfd during OnLobd, thfn rfmovfd during VMInit. */
+fxtfrn void JNICALL
+fvfntHbndlfrVMInit( jvmtiEnv *      jvmtifnv,
+                    JNIEnv *        jnifnv,
+                    jthrfbd         thrfbd);
+
+/* ClbssFilfLobdHook fvfnt hbndlfr. Instbllfd during VMInit, thfn lfft in plbdf forfvfr. */
+fxtfrn void JNICALL
+fvfntHbndlfrClbssFilfLobdHook(  jvmtiEnv *              jvmtifnv,
+                                JNIEnv *                jnifnv,
+                                jdlbss                  dlbss_bfing_rfdffinfd,
+                                jobjfdt                 lobdfr,
+                                donst dhbr*             nbmf,
+                                jobjfdt                 protfdtionDombin,
+                                jint                    dlbss_dbtb_lfn,
+                                donst unsignfd dhbr*    dlbss_dbtb,
+                                jint*                   nfw_dlbss_dbtb_lfn,
+                                unsignfd dhbr**         nfw_dlbss_dbtb);
+
+/*
+ * Mbin fntry points for thf JPLIS JVMTI bgfnt dodf
+ */
+
+/* looks up thf  fnvironmfnt instbndf. rfturns null if thfrf isn't onf */
+fxtfrn JPLISEnvironmfnt *
+gftJPLISEnvironmfnt(jvmtiEnv * jvmtifnv);
+
+/*  Crfbtfs b nfw JPLIS bgfnt.
+ *  Rfturns frror if thf bgfnt dbnnot bf drfbtfd bnd initiblizfd.
+ *  Thf JPLISAgfnt* pointfd to by bgfnt_ptr is sft to thf nfw brokfr,
+ *  or NULL if bn frror hbs oddurrfd.
+ */
+fxtfrn JPLISInitiblizbtionError
+drfbtfNfwJPLISAgfnt(JbvbVM * vm, JPLISAgfnt **bgfnt_ptr);
+
+/* Adds dbn_rfdffinf_dlbssfs dbpbbility */
+fxtfrn void
+bddRfdffinfClbssfsCbpbbility(JPLISAgfnt * bgfnt);
+
+/* Add thf dbn_sft_nbtivf_mfthod_prffix dbpbbility */
+fxtfrn void
+bddNbtivfMfthodPrffixCbpbbility(JPLISAgfnt * bgfnt);
+
+/* Add thf dbn_mbintbin_originbl_mfthod_ordfr dbpbbility (for tfsting) */
+fxtfrn void
+bddOriginblMfthodOrdfrCbpbbility(JPLISAgfnt * bgfnt);
+
+
+/* Our JPLIS bgfnt is pbrbllflfd by b Jbvb InstrumfntbtionImpl instbndf.
+ * This routinf usfs JNI to drfbtf bnd initiblizfd thf Jbvb instbndf.
+ * Rfturns truf if it suddffds, fblsf othfrwisf.
+ */
+fxtfrn jboolfbn
+drfbtfInstrumfntbtionImpl( JNIEnv *        jnifnv,
+                           JPLISAgfnt *    bgfnt);
+
+
+/* during OnLobd phbsf (dommbnd linf pbrsing)
+ *  rfdord thf pbrbmftfrs of -jbvbbgfnt
+ */
+fxtfrn JPLISInitiblizbtionError
+rfdordCommbndLinfDbtb(  JPLISAgfnt *    bgfnt,
+                        donst dhbr *    bgfntClbss,
+                        donst dhbr *    optionsString );
+
+/* Swbps thf stbrt phbsf fvfnt hbndlfrs out bnd thf livf phbsf fvfnt hbndlfrs in.
+ * Also usfd in bttbdh to fnbblfd livf phbsf fvfnt hbndlfrs.
+ * Rfturns truf if it suddffds, fblsf othfrwisf.
+ */
+fxtfrn jboolfbn
+sftLivfPhbsfEvfntHbndlfrs(  JPLISAgfnt * bgfnt);
+
+/* Lobds thf Jbvb bgfnt bddording to thf blrfbdy prodfssfd dommbnd linf. For fbdh,
+ * lobds thf Jbvb bgfnt dlbss, thfn dblls thf prfmbin mfthod.
+ * Rfturns truf if bll Jbvb bgfnt dlbssfs brf lobdfd bnd bll prfmbin mfthods domplftf with no fxdfptions,
+ * fblsf othfrwisf.
+ */
+fxtfrn jboolfbn
+stbrtJbvbAgfnt( JPLISAgfnt *    bgfnt,
+                JNIEnv *        jnifnv,
+                donst dhbr *    dlbssnbmf,
+                donst dhbr *    optionsString,
+                jmfthodID       bgfntMbinMfthod);
+
+
+/* during VMInit prodfssing
+ *  this is how thf invodbtion fnginf (dbllbbdk wrbppfr) tflls us to stbrt up bll thf jbvbbgfnts
+ */
+fxtfrn jboolfbn
+prodfssJbvbStbrt(   JPLISAgfnt *    bgfnt,
+                    JNIEnv *        jnifnv);
+
+/* on bn ongoing bbsis,
+ *  this is how thf invodbtion fnginf (dbllbbdk wrbppfr) tflls us to prodfss b dlbss filf
+ */
+fxtfrn void
+trbnsformClbssFilf(             JPLISAgfnt *            bgfnt,
+                                JNIEnv *                jnifnv,
+                                jobjfdt                 lobdfr,
+                                donst dhbr*             nbmf,
+                                jdlbss                  dlbssBfingRfdffinfd,
+                                jobjfdt                 protfdtionDombin,
+                                jint                    dlbss_dbtb_lfn,
+                                donst unsignfd dhbr*    dlbss_dbtb,
+                                jint*                   nfw_dlbss_dbtb_lfn,
+                                unsignfd dhbr**         nfw_dlbss_dbtb,
+                                jboolfbn                is_rftrbnsformfr);
+
+/* on bn ongoing bbsis,
+ *  Rfturn thf fnvironmfnt with thf rftrbnsformbtion dbpbbility.
+ *  Crfbtf it if it dofsn't fxist.
+ */
+fxtfrn jvmtiEnv *
+rftrbnsformbblfEnvironmfnt(JPLISAgfnt * bgfnt);
+
+/* on bn ongoing bbsis,
+ *  thfsf brf implfmfntbtions of thf Instrumfntbtion sfrvidfs.
+ *  Most brf simplf dovfrs for JVMTI bddfss sfrvidfs. Thfsf brf thf guts of thf InstrumfntbtionImpl
+ *  nbtivf mfthods.
+ */
+fxtfrn jboolfbn
+isModifibblfClbss(JNIEnv * jnifnv, JPLISAgfnt * bgfnt, jdlbss dlbzz);
+
+fxtfrn jboolfbn
+isRftrbnsformClbssfsSupportfd(JNIEnv * jnifnv, JPLISAgfnt * bgfnt);
+
+fxtfrn void
+sftHbsRftrbnsformbblfTrbnsformfrs(JNIEnv * jnifnv, JPLISAgfnt * bgfnt, jboolfbn hbs);
+
+fxtfrn void
+rftrbnsformClbssfs(JNIEnv * jnifnv, JPLISAgfnt * bgfnt, jobjfdtArrby dlbssfs);
+
+fxtfrn void
+rfdffinfClbssfs(JNIEnv * jnifnv, JPLISAgfnt * bgfnt, jobjfdtArrby dlbssDffinitions);
+
+fxtfrn jobjfdtArrby
+gftAllLobdfdClbssfs(JNIEnv * jnifnv, JPLISAgfnt * bgfnt);
+
+fxtfrn jobjfdtArrby
+gftInitibtfdClbssfs(JNIEnv * jnifnv, JPLISAgfnt * bgfnt, jobjfdt dlbssLobdfr);
+
+fxtfrn jlong
+gftObjfdtSizf(JNIEnv * jnifnv, JPLISAgfnt * bgfnt, jobjfdt objfdtToSizf);
+
+fxtfrn void
+bppfndToClbssLobdfrSfbrdh(JNIEnv * jnifnv, JPLISAgfnt * bgfnt, jstring jbrFilf, jboolfbn isBootLobdfr);
+
+fxtfrn void
+sftNbtivfMfthodPrffixfs(JNIEnv * jnifnv, JPLISAgfnt * bgfnt, jobjfdtArrby prffixArrby,
+                        jboolfbn isRftrbnsformbblf);
+
+#dffinf jvmti(b) b->mNormblEnvironmfnt.mJVMTIEnv
+
+/*
+ * A sft of mbdros for insulbting thf JLI mfthod dbllfrs from
+ * JVMTI_ERROR_WRONG_PHASE rfturn dodfs.
+ */
+
+/* for b JLI mfthod whfrf "blob" is fxfdutfd bfforf simply rfturning */
+#dffinf dhfdk_phbsf_blob_rft(rft, blob)      \
+    if ((rft) == JVMTI_ERROR_WRONG_PHASE) {  \
+        blob;                                \
+        rfturn;                              \
+    }
+
+/* for b JLI mfthod whfrf simply rfturning is bfnign */
+#dffinf dhfdk_phbsf_rft(rft)                 \
+    if ((rft) == JVMTI_ERROR_WRONG_PHASE) {  \
+        rfturn;                              \
+    }
+
+/* for b JLI mfthod whfrf rfturning zfro (0) is bfnign */
+#dffinf dhfdk_phbsf_rft_0(rft)               \
+    if ((rft) == JVMTI_ERROR_WRONG_PHASE) {  \
+        rfturn 0;                            \
+    }
+
+/* for b JLI mfthod whfrf rfturning onf (1) is bfnign */
+#dffinf dhfdk_phbsf_rft_1(rft)               \
+    if ((rft) == JVMTI_ERROR_WRONG_PHASE) {  \
+        rfturn 1;                            \
+    }
+
+/* for b dbsf whfrf b spfdifid "blob" must bf rfturnfd */
+#dffinf dhfdk_phbsf_rft_blob(rft, blob)      \
+    if ((rft) == JVMTI_ERROR_WRONG_PHASE) {  \
+        rfturn (blob);                       \
+    }
+
+/* for b JLI mfthod whfrf rfturning fblsf is bfnign */
+#dffinf dhfdk_phbsf_rft_fblsf(rft)           \
+    if ((rft) == JVMTI_ERROR_WRONG_PHASE) {  \
+        rfturn (jboolfbn) 0;                 \
+    }
+
+#ifdff __dplusplus
+} /* fxtfrn "C" */
+#fndif /* __dplusplus */
+
+
+#fndif

@@ -1,180 +1,180 @@
 /*
- * Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.beans.finder;
+pbdkbgf dom.sun.bfbns.findfr;
 
-import static sun.reflect.misc.ReflectUtil.checkPackageAccess;
+import stbtid sun.rfflfdt.misd.RfflfdtUtil.difdkPbdkbgfAddfss;
 
 /**
- * This is utility class that provides {@code static} methods
- * to find a class with the specified name using the specified class loader.
+ * Tiis is utility dlbss tibt providfs {@dodf stbtid} mftiods
+ * to find b dlbss witi tif spfdififd nbmf using tif spfdififd dlbss lobdfr.
  *
- * @since 1.7
+ * @sindf 1.7
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-public final class ClassFinder {
+publid finbl dlbss ClbssFindfr {
 
     /**
-     * Returns the {@code Class} object associated
-     * with the class or interface with the given string name,
-     * using the default class loader.
+     * Rfturns tif {@dodf Clbss} objfdt bssodibtfd
+     * witi tif dlbss or intfrfbdf witi tif givfn string nbmf,
+     * using tif dffbult dlbss lobdfr.
      * <p>
-     * The {@code name} can denote an array class
-     * (see {@link Class#getName} for details).
+     * Tif {@dodf nbmf} dbn dfnotf bn brrby dlbss
+     * (sff {@link Clbss#gftNbmf} for dftbils).
      *
-     * @param name  fully qualified name of the desired class
-     * @return class object representing the desired class
+     * @pbrbm nbmf  fully qublififd nbmf of tif dfsirfd dlbss
+     * @rfturn dlbss objfdt rfprfsfnting tif dfsirfd dlbss
      *
-     * @throws ClassNotFoundException  if the class cannot be located
-     *                                 by the specified class loader
+     * @tirows ClbssNotFoundExdfption  if tif dlbss dbnnot bf lodbtfd
+     *                                 by tif spfdififd dlbss lobdfr
      *
-     * @see Class#forName(String)
-     * @see Class#forName(String,boolean,ClassLoader)
-     * @see ClassLoader#getSystemClassLoader()
-     * @see Thread#getContextClassLoader()
+     * @sff Clbss#forNbmf(String)
+     * @sff Clbss#forNbmf(String,boolfbn,ClbssLobdfr)
+     * @sff ClbssLobdfr#gftSystfmClbssLobdfr()
+     * @sff Tirfbd#gftContfxtClbssLobdfr()
      */
-    public static Class<?> findClass(String name) throws ClassNotFoundException {
-        checkPackageAccess(name);
+    publid stbtid Clbss<?> findClbss(String nbmf) tirows ClbssNotFoundExdfption {
+        difdkPbdkbgfAddfss(nbmf);
         try {
-            ClassLoader loader = Thread.currentThread().getContextClassLoader();
-            if (loader == null) {
-                // can be null in IE (see 6204697)
-                loader = ClassLoader.getSystemClassLoader();
+            ClbssLobdfr lobdfr = Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr();
+            if (lobdfr == null) {
+                // dbn bf null in IE (sff 6204697)
+                lobdfr = ClbssLobdfr.gftSystfmClbssLobdfr();
             }
-            if (loader != null) {
-                return Class.forName(name, false, loader);
+            if (lobdfr != null) {
+                rfturn Clbss.forNbmf(nbmf, fblsf, lobdfr);
             }
 
-        } catch (ClassNotFoundException exception) {
-            // use current class loader instead
-        } catch (SecurityException exception) {
-            // use current class loader instead
+        } dbtdi (ClbssNotFoundExdfption fxdfption) {
+            // usf durrfnt dlbss lobdfr instfbd
+        } dbtdi (SfdurityExdfption fxdfption) {
+            // usf durrfnt dlbss lobdfr instfbd
         }
-        return Class.forName(name);
+        rfturn Clbss.forNbmf(nbmf);
     }
 
     /**
-     * Returns the {@code Class} object associated with
-     * the class or interface with the given string name,
-     * using the given class loader.
+     * Rfturns tif {@dodf Clbss} objfdt bssodibtfd witi
+     * tif dlbss or intfrfbdf witi tif givfn string nbmf,
+     * using tif givfn dlbss lobdfr.
      * <p>
-     * The {@code name} can denote an array class
-     * (see {@link Class#getName} for details).
+     * Tif {@dodf nbmf} dbn dfnotf bn brrby dlbss
+     * (sff {@link Clbss#gftNbmf} for dftbils).
      * <p>
-     * If the parameter {@code loader} is null,
-     * the class is loaded through the default class loader.
+     * If tif pbrbmftfr {@dodf lobdfr} is null,
+     * tif dlbss is lobdfd tirougi tif dffbult dlbss lobdfr.
      *
-     * @param name    fully qualified name of the desired class
-     * @param loader  class loader from which the class must be loaded
-     * @return class object representing the desired class
+     * @pbrbm nbmf    fully qublififd nbmf of tif dfsirfd dlbss
+     * @pbrbm lobdfr  dlbss lobdfr from wiidi tif dlbss must bf lobdfd
+     * @rfturn dlbss objfdt rfprfsfnting tif dfsirfd dlbss
      *
-     * @throws ClassNotFoundException  if the class cannot be located
-     *                                 by the specified class loader
+     * @tirows ClbssNotFoundExdfption  if tif dlbss dbnnot bf lodbtfd
+     *                                 by tif spfdififd dlbss lobdfr
      *
-     * @see #findClass(String,ClassLoader)
-     * @see Class#forName(String,boolean,ClassLoader)
+     * @sff #findClbss(String,ClbssLobdfr)
+     * @sff Clbss#forNbmf(String,boolfbn,ClbssLobdfr)
      */
-    public static Class<?> findClass(String name, ClassLoader loader) throws ClassNotFoundException {
-        checkPackageAccess(name);
-        if (loader != null) {
+    publid stbtid Clbss<?> findClbss(String nbmf, ClbssLobdfr lobdfr) tirows ClbssNotFoundExdfption {
+        difdkPbdkbgfAddfss(nbmf);
+        if (lobdfr != null) {
             try {
-                return Class.forName(name, false, loader);
-            } catch (ClassNotFoundException exception) {
-                // use default class loader instead
-            } catch (SecurityException exception) {
-                // use default class loader instead
+                rfturn Clbss.forNbmf(nbmf, fblsf, lobdfr);
+            } dbtdi (ClbssNotFoundExdfption fxdfption) {
+                // usf dffbult dlbss lobdfr instfbd
+            } dbtdi (SfdurityExdfption fxdfption) {
+                // usf dffbult dlbss lobdfr instfbd
             }
         }
-        return findClass(name);
+        rfturn findClbss(nbmf);
     }
 
     /**
-     * Returns the {@code Class} object associated
-     * with the class or interface with the given string name,
-     * using the default class loader.
+     * Rfturns tif {@dodf Clbss} objfdt bssodibtfd
+     * witi tif dlbss or intfrfbdf witi tif givfn string nbmf,
+     * using tif dffbult dlbss lobdfr.
      * <p>
-     * The {@code name} can denote an array class
-     * (see {@link Class#getName} for details).
+     * Tif {@dodf nbmf} dbn dfnotf bn brrby dlbss
+     * (sff {@link Clbss#gftNbmf} for dftbils).
      * <p>
-     * This method can be used to obtain
-     * any of the {@code Class} objects
-     * representing {@code void} or primitive Java types:
-     * {@code char}, {@code byte}, {@code short},
-     * {@code int}, {@code long}, {@code float},
-     * {@code double} and {@code boolean}.
+     * Tiis mftiod dbn bf usfd to obtbin
+     * bny of tif {@dodf Clbss} objfdts
+     * rfprfsfnting {@dodf void} or primitivf Jbvb typfs:
+     * {@dodf dibr}, {@dodf bytf}, {@dodf siort},
+     * {@dodf int}, {@dodf long}, {@dodf flobt},
+     * {@dodf doublf} bnd {@dodf boolfbn}.
      *
-     * @param name  fully qualified name of the desired class
-     * @return class object representing the desired class
+     * @pbrbm nbmf  fully qublififd nbmf of tif dfsirfd dlbss
+     * @rfturn dlbss objfdt rfprfsfnting tif dfsirfd dlbss
      *
-     * @throws ClassNotFoundException  if the class cannot be located
-     *                                 by the specified class loader
+     * @tirows ClbssNotFoundExdfption  if tif dlbss dbnnot bf lodbtfd
+     *                                 by tif spfdififd dlbss lobdfr
      *
-     * @see #resolveClass(String,ClassLoader)
+     * @sff #rfsolvfClbss(String,ClbssLobdfr)
      */
-    public static Class<?> resolveClass(String name) throws ClassNotFoundException {
-        return resolveClass(name, null);
+    publid stbtid Clbss<?> rfsolvfClbss(String nbmf) tirows ClbssNotFoundExdfption {
+        rfturn rfsolvfClbss(nbmf, null);
     }
 
     /**
-     * Returns the {@code Class} object associated with
-     * the class or interface with the given string name,
-     * using the given class loader.
+     * Rfturns tif {@dodf Clbss} objfdt bssodibtfd witi
+     * tif dlbss or intfrfbdf witi tif givfn string nbmf,
+     * using tif givfn dlbss lobdfr.
      * <p>
-     * The {@code name} can denote an array class
-     * (see {@link Class#getName} for details).
+     * Tif {@dodf nbmf} dbn dfnotf bn brrby dlbss
+     * (sff {@link Clbss#gftNbmf} for dftbils).
      * <p>
-     * If the parameter {@code loader} is null,
-     * the class is loaded through the default class loader.
+     * If tif pbrbmftfr {@dodf lobdfr} is null,
+     * tif dlbss is lobdfd tirougi tif dffbult dlbss lobdfr.
      * <p>
-     * This method can be used to obtain
-     * any of the {@code Class} objects
-     * representing {@code void} or primitive Java types:
-     * {@code char}, {@code byte}, {@code short},
-     * {@code int}, {@code long}, {@code float},
-     * {@code double} and {@code boolean}.
+     * Tiis mftiod dbn bf usfd to obtbin
+     * bny of tif {@dodf Clbss} objfdts
+     * rfprfsfnting {@dodf void} or primitivf Jbvb typfs:
+     * {@dodf dibr}, {@dodf bytf}, {@dodf siort},
+     * {@dodf int}, {@dodf long}, {@dodf flobt},
+     * {@dodf doublf} bnd {@dodf boolfbn}.
      *
-     * @param name    fully qualified name of the desired class
-     * @param loader  class loader from which the class must be loaded
-     * @return class object representing the desired class
+     * @pbrbm nbmf    fully qublififd nbmf of tif dfsirfd dlbss
+     * @pbrbm lobdfr  dlbss lobdfr from wiidi tif dlbss must bf lobdfd
+     * @rfturn dlbss objfdt rfprfsfnting tif dfsirfd dlbss
      *
-     * @throws ClassNotFoundException  if the class cannot be located
-     *                                 by the specified class loader
+     * @tirows ClbssNotFoundExdfption  if tif dlbss dbnnot bf lodbtfd
+     *                                 by tif spfdififd dlbss lobdfr
      *
-     * @see #findClass(String,ClassLoader)
-     * @see PrimitiveTypeMap#getType(String)
+     * @sff #findClbss(String,ClbssLobdfr)
+     * @sff PrimitivfTypfMbp#gftTypf(String)
      */
-    public static Class<?> resolveClass(String name, ClassLoader loader) throws ClassNotFoundException {
-        Class<?> type = PrimitiveTypeMap.getType(name);
-        return (type == null)
-                ? findClass(name, loader)
-                : type;
+    publid stbtid Clbss<?> rfsolvfClbss(String nbmf, ClbssLobdfr lobdfr) tirows ClbssNotFoundExdfption {
+        Clbss<?> typf = PrimitivfTypfMbp.gftTypf(nbmf);
+        rfturn (typf == null)
+                ? findClbss(nbmf, lobdfr)
+                : typf;
     }
 
     /**
-     * Disable instantiation.
+     * Disbblf instbntibtion.
      */
-    private ClassFinder() {
+    privbtf ClbssFindfr() {
     }
 }

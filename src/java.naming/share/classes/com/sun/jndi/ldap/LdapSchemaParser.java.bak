@@ -1,1303 +1,1303 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap;
+pbdkbgf dom.sun.jndi.ldbp;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import java.util.Vector;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvb.util.Vfdtor;
 
 /**
- * Netscape's 3.1 servers have some schema bugs:
- * - It puts quotes around OIDs (such as those for SUP, SYNTAX).
- * - When you try to write out the MUST/MAY list (such as "MUST cn"),
- *   it wants ("MUST (cn)") instead
+ * Nftsdbpf's 3.1 sfrvfrs ibvf somf sdifmb bugs:
+ * - It puts quotfs bround OIDs (sudi bs tiosf for SUP, SYNTAX).
+ * - Wifn you try to writf out tif MUST/MAY list (sudi bs "MUST dn"),
+ *   it wbnts ("MUST (dn)") instfbd
  */
 
-final class LdapSchemaParser {
+finbl dlbss LdbpSdifmbPbrsfr {
 
-    // do debugging
-    private static final boolean debug = false;
+    // do dfbugging
+    privbtf stbtid finbl boolfbn dfbug = fblsf;
 
 
-    // names of attribute IDs in the LDAP schema entry
-    static final String OBJECTCLASSDESC_ATTR_ID = "objectClasses";
-    static final String ATTRIBUTEDESC_ATTR_ID = "attributeTypes";
-    static final String SYNTAXDESC_ATTR_ID = "ldapSyntaxes";
-    static final String MATCHRULEDESC_ATTR_ID = "matchingRules";
+    // nbmfs of bttributf IDs in tif LDAP sdifmb fntry
+    stbtid finbl String OBJECTCLASSDESC_ATTR_ID = "objfdtClbssfs";
+    stbtid finbl String ATTRIBUTEDESC_ATTR_ID = "bttributfTypfs";
+    stbtid finbl String SYNTAXDESC_ATTR_ID = "ldbpSyntbxfs";
+    stbtid finbl String MATCHRULEDESC_ATTR_ID = "mbtdiingRulfs";
 
-    // information for creating internal nodes in JNDI schema tree
-    static final String OBJECTCLASS_DEFINITION_NAME =
-                        "ClassDefinition";
-    private static final String[] CLASS_DEF_ATTRS = {
-                         "objectclass", "ClassDefinition"};
-            static final String ATTRIBUTE_DEFINITION_NAME =
-                        "AttributeDefinition";
-    private static final String[] ATTR_DEF_ATTRS = {
-                        "objectclass", "AttributeDefinition" };
-            static final String SYNTAX_DEFINITION_NAME =
-                        "SyntaxDefinition";
-    private static final String[] SYNTAX_DEF_ATTRS = {
-                        "objectclass", "SyntaxDefinition" };
-            static final String MATCHRULE_DEFINITION_NAME =
-                        "MatchingRule";
-    private static final String[] MATCHRULE_DEF_ATTRS = {
-                        "objectclass", "MatchingRule" };
+    // informbtion for drfbting intfrnbl nodfs in JNDI sdifmb trff
+    stbtid finbl String OBJECTCLASS_DEFINITION_NAME =
+                        "ClbssDffinition";
+    privbtf stbtid finbl String[] CLASS_DEF_ATTRS = {
+                         "objfdtdlbss", "ClbssDffinition"};
+            stbtid finbl String ATTRIBUTE_DEFINITION_NAME =
+                        "AttributfDffinition";
+    privbtf stbtid finbl String[] ATTR_DEF_ATTRS = {
+                        "objfdtdlbss", "AttributfDffinition" };
+            stbtid finbl String SYNTAX_DEFINITION_NAME =
+                        "SyntbxDffinition";
+    privbtf stbtid finbl String[] SYNTAX_DEF_ATTRS = {
+                        "objfdtdlbss", "SyntbxDffinition" };
+            stbtid finbl String MATCHRULE_DEFINITION_NAME =
+                        "MbtdiingRulf";
+    privbtf stbtid finbl String[] MATCHRULE_DEF_ATTRS = {
+                        "objfdtdlbss", "MbtdiingRulf" };
 
-    // special tokens used in LDAP schema descriptions
-    private static final char   SINGLE_QUOTE = '\'';
-    private static final char   WHSP = ' ';
-    private static final char   OID_LIST_BEGIN = '(';
-    private static final char   OID_LIST_END = ')';
-    private static final char   OID_SEPARATOR = '$';
+    // spfdibl tokfns usfd in LDAP sdifmb dfsdriptions
+    privbtf stbtid finbl dibr   SINGLE_QUOTE = '\'';
+    privbtf stbtid finbl dibr   WHSP = ' ';
+    privbtf stbtid finbl dibr   OID_LIST_BEGIN = '(';
+    privbtf stbtid finbl dibr   OID_LIST_END = ')';
+    privbtf stbtid finbl dibr   OID_SEPARATOR = '$';
 
-    // common IDs
-    private static final String  NUMERICOID_ID = "NUMERICOID";
-    private static final String        NAME_ID = "NAME";
-    private static final String        DESC_ID = "DESC";
-    private static final String    OBSOLETE_ID = "OBSOLETE";
-    private static final String         SUP_ID = "SUP";
-    private static final String     PRIVATE_ID = "X-";
+    // dommon IDs
+    privbtf stbtid finbl String  NUMERICOID_ID = "NUMERICOID";
+    privbtf stbtid finbl String        NAME_ID = "NAME";
+    privbtf stbtid finbl String        DESC_ID = "DESC";
+    privbtf stbtid finbl String    OBSOLETE_ID = "OBSOLETE";
+    privbtf stbtid finbl String         SUP_ID = "SUP";
+    privbtf stbtid finbl String     PRIVATE_ID = "X-";
 
-    // Object Class specific IDs
-    private static final String    ABSTRACT_ID = "ABSTRACT";
-    private static final String  STRUCTURAL_ID = "STRUCTURAL";
-    private static final String   AUXILIARY_ID = "AUXILIARY";
-    private static final String        MUST_ID = "MUST";
-    private static final String         MAY_ID = "MAY";
+    // Objfdt Clbss spfdifid IDs
+    privbtf stbtid finbl String    ABSTRACT_ID = "ABSTRACT";
+    privbtf stbtid finbl String  STRUCTURAL_ID = "STRUCTURAL";
+    privbtf stbtid finbl String   AUXILIARY_ID = "AUXILIARY";
+    privbtf stbtid finbl String        MUST_ID = "MUST";
+    privbtf stbtid finbl String         MAY_ID = "MAY";
 
-    // Attribute Type specific IDs
-    private static final String    EQUALITY_ID = "EQUALITY";
-    private static final String    ORDERING_ID = "ORDERING";
-    private static final String      SUBSTR_ID = "SUBSTR";
-    private static final String      SYNTAX_ID = "SYNTAX";
-    private static final String  SINGLE_VAL_ID = "SINGLE-VALUE";
-    private static final String  COLLECTIVE_ID = "COLLECTIVE";
-    private static final String NO_USER_MOD_ID = "NO-USER-MODIFICATION";
-    private static final String       USAGE_ID = "USAGE";
+    // Attributf Typf spfdifid IDs
+    privbtf stbtid finbl String    EQUALITY_ID = "EQUALITY";
+    privbtf stbtid finbl String    ORDERING_ID = "ORDERING";
+    privbtf stbtid finbl String      SUBSTR_ID = "SUBSTR";
+    privbtf stbtid finbl String      SYNTAX_ID = "SYNTAX";
+    privbtf stbtid finbl String  SINGLE_VAL_ID = "SINGLE-VALUE";
+    privbtf stbtid finbl String  COLLECTIVE_ID = "COLLECTIVE";
+    privbtf stbtid finbl String NO_USER_MOD_ID = "NO-USER-MODIFICATION";
+    privbtf stbtid finbl String       USAGE_ID = "USAGE";
 
-    // The string value we give to boolean variables
-    private static final String SCHEMA_TRUE_VALUE = "true";
+    // Tif string vbluf wf givf to boolfbn vbribblfs
+    privbtf stbtid finbl String SCHEMA_TRUE_VALUE = "truf";
 
-    // To get around writing schemas that crash Netscape server
-    private boolean netscapeBug;
+    // To gft bround writing sdifmbs tibt drbsi Nftsdbpf sfrvfr
+    privbtf boolfbn nftsdbpfBug;
 
-    LdapSchemaParser(boolean netscapeBug) {
-        this.netscapeBug = netscapeBug;
+    LdbpSdifmbPbrsfr(boolfbn nftsdbpfBug) {
+        tiis.nftsdbpfBug = nftsdbpfBug;
     }
 
-    final static void LDAP2JNDISchema(Attributes schemaAttrs,
-        LdapSchemaCtx schemaRoot) throws NamingException {
-        Attribute               objectClassesAttr = null;
-        Attribute               attributeDefAttr = null;
-        Attribute               syntaxDefAttr = null;
-        Attribute               matchRuleDefAttr = null;
+    finbl stbtid void LDAP2JNDISdifmb(Attributfs sdifmbAttrs,
+        LdbpSdifmbCtx sdifmbRoot) tirows NbmingExdfption {
+        Attributf               objfdtClbssfsAttr = null;
+        Attributf               bttributfDffAttr = null;
+        Attributf               syntbxDffAttr = null;
+        Attributf               mbtdiRulfDffAttr = null;
 
-        objectClassesAttr = schemaAttrs.get(OBJECTCLASSDESC_ATTR_ID);
-        if(objectClassesAttr != null) {
-            objectDescs2ClassDefs(objectClassesAttr,schemaRoot);
+        objfdtClbssfsAttr = sdifmbAttrs.gft(OBJECTCLASSDESC_ATTR_ID);
+        if(objfdtClbssfsAttr != null) {
+            objfdtDfsds2ClbssDffs(objfdtClbssfsAttr,sdifmbRoot);
         }
 
-        attributeDefAttr = schemaAttrs.get(ATTRIBUTEDESC_ATTR_ID);
-        if(attributeDefAttr != null) {
-            attrDescs2AttrDefs(attributeDefAttr, schemaRoot);
+        bttributfDffAttr = sdifmbAttrs.gft(ATTRIBUTEDESC_ATTR_ID);
+        if(bttributfDffAttr != null) {
+            bttrDfsds2AttrDffs(bttributfDffAttr, sdifmbRoot);
         }
 
-        syntaxDefAttr = schemaAttrs.get(SYNTAXDESC_ATTR_ID);
-        if(syntaxDefAttr != null) {
-            syntaxDescs2SyntaxDefs(syntaxDefAttr, schemaRoot);
+        syntbxDffAttr = sdifmbAttrs.gft(SYNTAXDESC_ATTR_ID);
+        if(syntbxDffAttr != null) {
+            syntbxDfsds2SyntbxDffs(syntbxDffAttr, sdifmbRoot);
         }
 
-        matchRuleDefAttr = schemaAttrs.get(MATCHRULEDESC_ATTR_ID);
-        if(matchRuleDefAttr != null) {
-            matchRuleDescs2MatchRuleDefs(matchRuleDefAttr, schemaRoot);
+        mbtdiRulfDffAttr = sdifmbAttrs.gft(MATCHRULEDESC_ATTR_ID);
+        if(mbtdiRulfDffAttr != null) {
+            mbtdiRulfDfsds2MbtdiRulfDffs(mbtdiRulfDffAttr, sdifmbRoot);
         }
     }
 
-    final private static DirContext objectDescs2ClassDefs(Attribute objDescsAttr,
-                                                   LdapSchemaCtx schemaRoot)
-        throws NamingException {
+    finbl privbtf stbtid DirContfxt objfdtDfsds2ClbssDffs(Attributf objDfsdsAttr,
+                                                   LdbpSdifmbCtx sdifmbRoot)
+        tirows NbmingExdfption {
 
-        NamingEnumeration<?> objDescs;
-        Attributes                objDef;
-        LdapSchemaCtx             classDefTree;
+        NbmingEnumfrbtion<?> objDfsds;
+        Attributfs                objDff;
+        LdbpSdifmbCtx             dlbssDffTrff;
 
-        // create the class def subtree
-        Attributes attrs = new BasicAttributes(LdapClient.caseIgnore);
-        attrs.put(CLASS_DEF_ATTRS[0], CLASS_DEF_ATTRS[1]);
-        classDefTree = schemaRoot.setup(LdapSchemaCtx.OBJECTCLASS_ROOT,
-            OBJECTCLASS_DEFINITION_NAME, attrs);
+        // drfbtf tif dlbss dff subtrff
+        Attributfs bttrs = nfw BbsidAttributfs(LdbpClifnt.dbsfIgnorf);
+        bttrs.put(CLASS_DEF_ATTRS[0], CLASS_DEF_ATTRS[1]);
+        dlbssDffTrff = sdifmbRoot.sftup(LdbpSdifmbCtx.OBJECTCLASS_ROOT,
+            OBJECTCLASS_DEFINITION_NAME, bttrs);
 
-        objDescs = objDescsAttr.getAll();
-        String currentName;
-        while(objDescs.hasMore()) {
-            String objDesc = (String)objDescs.next();
+        objDfsds = objDfsdsAttr.gftAll();
+        String durrfntNbmf;
+        wiilf(objDfsds.ibsMorf()) {
+            String objDfsd = (String)objDfsds.nfxt();
             try {
-                Object[] def = desc2Def(objDesc);
-                currentName = (String) def[0];
-                objDef = (Attributes) def[1];
-                classDefTree.setup(LdapSchemaCtx.OBJECTCLASS,
-                    currentName, objDef);
-            } catch (NamingException ne) {
-                // error occurred while parsing, ignore current entry
+                Objfdt[] dff = dfsd2Dff(objDfsd);
+                durrfntNbmf = (String) dff[0];
+                objDff = (Attributfs) dff[1];
+                dlbssDffTrff.sftup(LdbpSdifmbCtx.OBJECTCLASS,
+                    durrfntNbmf, objDff);
+            } dbtdi (NbmingExdfption nf) {
+                // frror oddurrfd wiilf pbrsing, ignorf durrfnt fntry
             }
         }
 
-        return classDefTree;
+        rfturn dlbssDffTrff;
     }
 
-    final private static DirContext attrDescs2AttrDefs(Attribute attributeDescAttr,
-                                                LdapSchemaCtx schemaRoot)
-        throws NamingException {
+    finbl privbtf stbtid DirContfxt bttrDfsds2AttrDffs(Attributf bttributfDfsdAttr,
+                                                LdbpSdifmbCtx sdifmbRoot)
+        tirows NbmingExdfption {
 
-        NamingEnumeration<?> attrDescs;
-        Attributes           attrDef;
-        LdapSchemaCtx        attrDefTree;
+        NbmingEnumfrbtion<?> bttrDfsds;
+        Attributfs           bttrDff;
+        LdbpSdifmbCtx        bttrDffTrff;
 
-        // create the AttributeDef subtree
-        Attributes attrs = new BasicAttributes(LdapClient.caseIgnore);
-        attrs.put(ATTR_DEF_ATTRS[0], ATTR_DEF_ATTRS[1]);
-        attrDefTree = schemaRoot.setup(LdapSchemaCtx.ATTRIBUTE_ROOT,
-            ATTRIBUTE_DEFINITION_NAME, attrs);
+        // drfbtf tif AttributfDff subtrff
+        Attributfs bttrs = nfw BbsidAttributfs(LdbpClifnt.dbsfIgnorf);
+        bttrs.put(ATTR_DEF_ATTRS[0], ATTR_DEF_ATTRS[1]);
+        bttrDffTrff = sdifmbRoot.sftup(LdbpSdifmbCtx.ATTRIBUTE_ROOT,
+            ATTRIBUTE_DEFINITION_NAME, bttrs);
 
-        attrDescs = attributeDescAttr.getAll();
-        String currentName;
-        while(attrDescs.hasMore()) {
-            String attrDesc = (String)attrDescs.next();
+        bttrDfsds = bttributfDfsdAttr.gftAll();
+        String durrfntNbmf;
+        wiilf(bttrDfsds.ibsMorf()) {
+            String bttrDfsd = (String)bttrDfsds.nfxt();
             try {
-                Object[] def = desc2Def(attrDesc);
-                currentName = (String) def[0];
-                attrDef = (Attributes) def[1];
-                attrDefTree.setup(LdapSchemaCtx.ATTRIBUTE,
-                    currentName, attrDef);
-            } catch (NamingException ne) {
-                // error occurred while parsing, ignore current entry
+                Objfdt[] dff = dfsd2Dff(bttrDfsd);
+                durrfntNbmf = (String) dff[0];
+                bttrDff = (Attributfs) dff[1];
+                bttrDffTrff.sftup(LdbpSdifmbCtx.ATTRIBUTE,
+                    durrfntNbmf, bttrDff);
+            } dbtdi (NbmingExdfption nf) {
+                // frror oddurrfd wiilf pbrsing, ignorf durrfnt fntry
             }
         }
 
-        return attrDefTree;
+        rfturn bttrDffTrff;
     }
 
-    final private static DirContext syntaxDescs2SyntaxDefs(
-                                                Attribute syntaxDescAttr,
-                                                LdapSchemaCtx schemaRoot)
-        throws NamingException {
+    finbl privbtf stbtid DirContfxt syntbxDfsds2SyntbxDffs(
+                                                Attributf syntbxDfsdAttr,
+                                                LdbpSdifmbCtx sdifmbRoot)
+        tirows NbmingExdfption {
 
-        NamingEnumeration<?> syntaxDescs;
-        Attributes           syntaxDef;
-        LdapSchemaCtx        syntaxDefTree;
+        NbmingEnumfrbtion<?> syntbxDfsds;
+        Attributfs           syntbxDff;
+        LdbpSdifmbCtx        syntbxDffTrff;
 
-        // create the SyntaxDef subtree
-        Attributes attrs = new BasicAttributes(LdapClient.caseIgnore);
-        attrs.put(SYNTAX_DEF_ATTRS[0], SYNTAX_DEF_ATTRS[1]);
-        syntaxDefTree = schemaRoot.setup(LdapSchemaCtx.SYNTAX_ROOT,
-            SYNTAX_DEFINITION_NAME, attrs);
+        // drfbtf tif SyntbxDff subtrff
+        Attributfs bttrs = nfw BbsidAttributfs(LdbpClifnt.dbsfIgnorf);
+        bttrs.put(SYNTAX_DEF_ATTRS[0], SYNTAX_DEF_ATTRS[1]);
+        syntbxDffTrff = sdifmbRoot.sftup(LdbpSdifmbCtx.SYNTAX_ROOT,
+            SYNTAX_DEFINITION_NAME, bttrs);
 
-        syntaxDescs = syntaxDescAttr.getAll();
-        String currentName;
-        while(syntaxDescs.hasMore()) {
-            String syntaxDesc = (String)syntaxDescs.next();
+        syntbxDfsds = syntbxDfsdAttr.gftAll();
+        String durrfntNbmf;
+        wiilf(syntbxDfsds.ibsMorf()) {
+            String syntbxDfsd = (String)syntbxDfsds.nfxt();
             try {
-                Object[] def = desc2Def(syntaxDesc);
-                currentName = (String) def[0];
-                syntaxDef = (Attributes) def[1];
-                syntaxDefTree.setup(LdapSchemaCtx.SYNTAX,
-                    currentName, syntaxDef);
-            } catch (NamingException ne) {
-                // error occurred while parsing, ignore current entry
+                Objfdt[] dff = dfsd2Dff(syntbxDfsd);
+                durrfntNbmf = (String) dff[0];
+                syntbxDff = (Attributfs) dff[1];
+                syntbxDffTrff.sftup(LdbpSdifmbCtx.SYNTAX,
+                    durrfntNbmf, syntbxDff);
+            } dbtdi (NbmingExdfption nf) {
+                // frror oddurrfd wiilf pbrsing, ignorf durrfnt fntry
             }
         }
 
-        return syntaxDefTree;
+        rfturn syntbxDffTrff;
     }
 
-    final private static DirContext matchRuleDescs2MatchRuleDefs(
-                                                Attribute matchRuleDescAttr,
-                                                LdapSchemaCtx schemaRoot)
-        throws NamingException {
+    finbl privbtf stbtid DirContfxt mbtdiRulfDfsds2MbtdiRulfDffs(
+                                                Attributf mbtdiRulfDfsdAttr,
+                                                LdbpSdifmbCtx sdifmbRoot)
+        tirows NbmingExdfption {
 
-        NamingEnumeration<?> matchRuleDescs;
-        Attributes           matchRuleDef;
-        LdapSchemaCtx        matchRuleDefTree;
+        NbmingEnumfrbtion<?> mbtdiRulfDfsds;
+        Attributfs           mbtdiRulfDff;
+        LdbpSdifmbCtx        mbtdiRulfDffTrff;
 
-        // create the MatchRuleDef subtree
-        Attributes attrs = new BasicAttributes(LdapClient.caseIgnore);
-        attrs.put(MATCHRULE_DEF_ATTRS[0], MATCHRULE_DEF_ATTRS[1]);
-        matchRuleDefTree = schemaRoot.setup(LdapSchemaCtx.MATCHRULE_ROOT,
-            MATCHRULE_DEFINITION_NAME, attrs);
+        // drfbtf tif MbtdiRulfDff subtrff
+        Attributfs bttrs = nfw BbsidAttributfs(LdbpClifnt.dbsfIgnorf);
+        bttrs.put(MATCHRULE_DEF_ATTRS[0], MATCHRULE_DEF_ATTRS[1]);
+        mbtdiRulfDffTrff = sdifmbRoot.sftup(LdbpSdifmbCtx.MATCHRULE_ROOT,
+            MATCHRULE_DEFINITION_NAME, bttrs);
 
-        matchRuleDescs = matchRuleDescAttr.getAll();
-        String currentName;
-        while(matchRuleDescs.hasMore()) {
-            String matchRuleDesc = (String)matchRuleDescs.next();
+        mbtdiRulfDfsds = mbtdiRulfDfsdAttr.gftAll();
+        String durrfntNbmf;
+        wiilf(mbtdiRulfDfsds.ibsMorf()) {
+            String mbtdiRulfDfsd = (String)mbtdiRulfDfsds.nfxt();
             try {
-                Object[] def = desc2Def(matchRuleDesc);
-                currentName = (String) def[0];
-                matchRuleDef = (Attributes) def[1];
-                matchRuleDefTree.setup(LdapSchemaCtx.MATCHRULE,
-                    currentName, matchRuleDef);
-            } catch (NamingException ne) {
-                // error occurred while parsing, ignore current entry
+                Objfdt[] dff = dfsd2Dff(mbtdiRulfDfsd);
+                durrfntNbmf = (String) dff[0];
+                mbtdiRulfDff = (Attributfs) dff[1];
+                mbtdiRulfDffTrff.sftup(LdbpSdifmbCtx.MATCHRULE,
+                    durrfntNbmf, mbtdiRulfDff);
+            } dbtdi (NbmingExdfption nf) {
+                // frror oddurrfd wiilf pbrsing, ignorf durrfnt fntry
             }
         }
 
-        return matchRuleDefTree;
+        rfturn mbtdiRulfDffTrff;
     }
 
-    final private static Object[] desc2Def(String desc)
-        throws NamingException {
-            //System.err.println(desc);
+    finbl privbtf stbtid Objfdt[] dfsd2Dff(String dfsd)
+        tirows NbmingExdfption {
+            //Systfm.frr.println(dfsd);
 
-        Attributes      attrs = new BasicAttributes(LdapClient.caseIgnore);
-        Attribute       attr = null;
-        int[]           pos = new int[]{1}; // tolerate missing leading space
-        boolean         moreTags = true;
+        Attributfs      bttrs = nfw BbsidAttributfs(LdbpClifnt.dbsfIgnorf);
+        Attributf       bttr = null;
+        int[]           pos = nfw int[]{1}; // tolfrbtf missing lfbding spbdf
+        boolfbn         morfTbgs = truf;
 
-        // Always begins with <whsp numericoid whsp>
-        attr = readNumericOID(desc, pos);
-        String currentName = (String) attr.get(0);  // name is OID by default
-        attrs.put(attr);
+        // Alwbys bfgins witi <wisp numfridoid wisp>
+        bttr = rfbdNumfridOID(dfsd, pos);
+        String durrfntNbmf = (String) bttr.gft(0);  // nbmf is OID by dffbult
+        bttrs.put(bttr);
 
-        skipWhitespace(desc, pos);
+        skipWiitfspbdf(dfsd, pos);
 
-        while (moreTags) {
-            attr = readNextTag(desc, pos);
-            attrs.put(attr);
+        wiilf (morfTbgs) {
+            bttr = rfbdNfxtTbg(dfsd, pos);
+            bttrs.put(bttr);
 
-            if (attr.getID().equals(NAME_ID)) {
-                currentName = (String) attr.get(0);  // use NAME attribute as name
+            if (bttr.gftID().fqubls(NAME_ID)) {
+                durrfntNbmf = (String) bttr.gft(0);  // usf NAME bttributf bs nbmf
             }
 
-            skipWhitespace(desc, pos);
+            skipWiitfspbdf(dfsd, pos);
 
-            if( pos[0] >= desc.length() -1 ) {
-                moreTags = false;
+            if( pos[0] >= dfsd.lfngti() -1 ) {
+                morfTbgs = fblsf;
             }
         }
 
-        return new Object[] {currentName, attrs};
+        rfturn nfw Objfdt[] {durrfntNbmf, bttrs};
     }
 
-    // returns the index of the first whitespace char of a linear whitespace
-    // sequence ending at the given position.
-    final private static int findTrailingWhitespace(String string, int pos) {
+    // rfturns tif indfx of tif first wiitfspbdf dibr of b linfbr wiitfspbdf
+    // sfqufndf fnding bt tif givfn position.
+    finbl privbtf stbtid int findTrbilingWiitfspbdf(String string, int pos) {
         for(int i = pos; i > 0; i--) {
-            if(string.charAt(i) != WHSP) {
-                return i + 1;
+            if(string.dibrAt(i) != WHSP) {
+                rfturn i + 1;
             }
         }
-        return 0;
+        rfturn 0;
     }
 
-    final private static void skipWhitespace(String string, int[] pos) {
-        for(int i=pos[0]; i < string.length(); i++) {
-            if(string.charAt(i) != WHSP) {
+    finbl privbtf stbtid void skipWiitfspbdf(String string, int[] pos) {
+        for(int i=pos[0]; i < string.lfngti(); i++) {
+            if(string.dibrAt(i) != WHSP) {
                 pos[0] = i;
-                if (debug) {
-                    System.err.println("skipWhitespace: skipping to "+i);
+                if (dfbug) {
+                    Systfm.frr.println("skipWiitfspbdf: skipping to "+i);
                 }
-                return;
+                rfturn;
             }
         }
     }
 
-    final private static Attribute readNumericOID(String string, int[] pos)
-        throws NamingException {
+    finbl privbtf stbtid Attributf rfbdNumfridOID(String string, int[] pos)
+        tirows NbmingExdfption {
 
-        if (debug) {
-            System.err.println("readNumericoid: pos="+pos[0]);
+        if (dfbug) {
+            Systfm.frr.println("rfbdNumfridoid: pos="+pos[0]);
         }
 
-        int begin, end;
-        String value = null;
+        int bfgin, fnd;
+        String vbluf = null;
 
-        skipWhitespace(string, pos);
+        skipWiitfspbdf(string, pos);
 
-        begin = pos[0];
-        end = string.indexOf(WHSP, begin);
+        bfgin = pos[0];
+        fnd = string.indfxOf(WHSP, bfgin);
 
-        if (end == -1 || end - begin < 1) {
-            throw new InvalidAttributeValueException("no numericoid found: "
+        if (fnd == -1 || fnd - bfgin < 1) {
+            tirow nfw InvblidAttributfVblufExdfption("no numfridoid found: "
                                                      + string);
         }
 
-        value = string.substring(begin, end);
+        vbluf = string.substring(bfgin, fnd);
 
-        pos[0] += value.length();
+        pos[0] += vbluf.lfngti();
 
-        return new BasicAttribute(NUMERICOID_ID, value);
+        rfturn nfw BbsidAttributf(NUMERICOID_ID, vbluf);
     }
 
-    final private static Attribute readNextTag(String string, int[] pos)
-        throws NamingException {
+    finbl privbtf stbtid Attributf rfbdNfxtTbg(String string, int[] pos)
+        tirows NbmingExdfption {
 
-        Attribute       attr = null;
-        String          tagName = null;
-        String[]        values = null;
+        Attributf       bttr = null;
+        String          tbgNbmf = null;
+        String[]        vblufs = null;
 
-        skipWhitespace(string, pos);
+        skipWiitfspbdf(string, pos);
 
-        if (debug) {
-            System.err.println("readNextTag: pos="+pos[0]);
+        if (dfbug) {
+            Systfm.frr.println("rfbdNfxtTbg: pos="+pos[0]);
         }
 
-        // get the name and values of the attribute to return
-        int trailingSpace = string.indexOf( WHSP, pos[0] );
+        // gft tif nbmf bnd vblufs of tif bttributf to rfturn
+        int trbilingSpbdf = string.indfxOf( WHSP, pos[0] );
 
-        // tolerate a schema that omits the trailing space
-        if (trailingSpace < 0) {
-            tagName = string.substring( pos[0], string.length() - 1);
-        } else {
-            tagName = string.substring( pos[0], trailingSpace );
+        // tolfrbtf b sdifmb tibt omits tif trbiling spbdf
+        if (trbilingSpbdf < 0) {
+            tbgNbmf = string.substring( pos[0], string.lfngti() - 1);
+        } flsf {
+            tbgNbmf = string.substring( pos[0], trbilingSpbdf );
         }
 
-        values = readTag(tagName, string, pos);
+        vblufs = rfbdTbg(tbgNbmf, string, pos);
 
-        // make sure at least one value was returned
-        if(values.length < 0) {
-            throw new InvalidAttributeValueException("no values for " +
-                                                     "attribute \"" +
-                                                     tagName + "\"");
+        // mbkf surf bt lfbst onf vbluf wbs rfturnfd
+        if(vblufs.lfngti < 0) {
+            tirow nfw InvblidAttributfVblufExdfption("no vblufs for " +
+                                                     "bttributf \"" +
+                                                     tbgNbmf + "\"");
         }
 
-        // create the attribute, using the first value
-        attr = new BasicAttribute(tagName, values[0]);
+        // drfbtf tif bttributf, using tif first vbluf
+        bttr = nfw BbsidAttributf(tbgNbmf, vblufs[0]);
 
-        // add other values if there are any
-        for(int i = 1; i < values.length; i++) {
-            attr.add(values[i]);
+        // bdd otifr vblufs if tifrf brf bny
+        for(int i = 1; i < vblufs.lfngti; i++) {
+            bttr.bdd(vblufs[i]);
         }
 
-        return attr;
+        rfturn bttr;
     }
 
-    final private static String[] readTag(String tag, String string, int[] pos)
-        throws NamingException {
+    finbl privbtf stbtid String[] rfbdTbg(String tbg, String string, int[] pos)
+        tirows NbmingExdfption {
 
-        if (debug) {
-            System.err.println("ReadTag: " + tag + " pos="+pos[0]);
+        if (dfbug) {
+            Systfm.frr.println("RfbdTbg: " + tbg + " pos="+pos[0]);
         }
 
-        // move parser past tag name
-        pos[0] += tag.length();
-        skipWhitespace(string, pos);
+        // movf pbrsfr pbst tbg nbmf
+        pos[0] += tbg.lfngti();
+        skipWiitfspbdf(string, pos);
 
-        if (tag.equals(NAME_ID)) {
-            return readQDescrs(string, pos);  // names[0] is NAME
+        if (tbg.fqubls(NAME_ID)) {
+            rfturn rfbdQDfsdrs(string, pos);  // nbmfs[0] is NAME
         }
 
-        if(tag.equals(DESC_ID)) {
-           return readQDString(string, pos);
+        if(tbg.fqubls(DESC_ID)) {
+           rfturn rfbdQDString(string, pos);
         }
 
         if (
-           tag.equals(EQUALITY_ID) ||
-           tag.equals(ORDERING_ID) ||
-           tag.equals(SUBSTR_ID) ||
-           tag.equals(SYNTAX_ID)) {
-            return readWOID(string, pos);
+           tbg.fqubls(EQUALITY_ID) ||
+           tbg.fqubls(ORDERING_ID) ||
+           tbg.fqubls(SUBSTR_ID) ||
+           tbg.fqubls(SYNTAX_ID)) {
+            rfturn rfbdWOID(string, pos);
         }
 
-        if (tag.equals(OBSOLETE_ID) ||
-            tag.equals(ABSTRACT_ID) ||
-            tag.equals(STRUCTURAL_ID) ||
-            tag.equals(AUXILIARY_ID) ||
-            tag.equals(SINGLE_VAL_ID) ||
-            tag.equals(COLLECTIVE_ID) ||
-            tag.equals(NO_USER_MOD_ID)) {
-            return new String[] {SCHEMA_TRUE_VALUE};
+        if (tbg.fqubls(OBSOLETE_ID) ||
+            tbg.fqubls(ABSTRACT_ID) ||
+            tbg.fqubls(STRUCTURAL_ID) ||
+            tbg.fqubls(AUXILIARY_ID) ||
+            tbg.fqubls(SINGLE_VAL_ID) ||
+            tbg.fqubls(COLLECTIVE_ID) ||
+            tbg.fqubls(NO_USER_MOD_ID)) {
+            rfturn nfw String[] {SCHEMA_TRUE_VALUE};
         }
 
-        if (tag.equals(SUP_ID) ||   // oid list for object class; WOID for attribute
-            tag.equals(MUST_ID) ||
-            tag.equals(MAY_ID) ||
-            tag.equals(USAGE_ID)) {
-            return readOIDs(string, pos);
+        if (tbg.fqubls(SUP_ID) ||   // oid list for objfdt dlbss; WOID for bttributf
+            tbg.fqubls(MUST_ID) ||
+            tbg.fqubls(MAY_ID) ||
+            tbg.fqubls(USAGE_ID)) {
+            rfturn rfbdOIDs(string, pos);
         }
 
-        // otherwise it's a schema element with a quoted string value
-        return readQDStrings(string, pos);
+        // otifrwisf it's b sdifmb flfmfnt witi b quotfd string vbluf
+        rfturn rfbdQDStrings(string, pos);
     }
 
-    final private static String[] readQDString(String string, int[] pos)
-        throws NamingException {
+    finbl privbtf stbtid String[] rfbdQDString(String string, int[] pos)
+        tirows NbmingExdfption {
 
-        int begin, end;
+        int bfgin, fnd;
 
-        begin = string.indexOf(SINGLE_QUOTE, pos[0]) + 1;
-        end = string.indexOf(SINGLE_QUOTE, begin);
+        bfgin = string.indfxOf(SINGLE_QUOTE, pos[0]) + 1;
+        fnd = string.indfxOf(SINGLE_QUOTE, bfgin);
 
-        if (debug) {
-            System.err.println("ReadQDString: pos=" + pos[0] +
-                               " begin=" + begin + " end=" + end);
+        if (dfbug) {
+            Systfm.frr.println("RfbdQDString: pos=" + pos[0] +
+                               " bfgin=" + bfgin + " fnd=" + fnd);
         }
 
-        if(begin == -1 || end == -1 || begin == end) {
-            throw new InvalidAttributeIdentifierException("malformed " +
+        if(bfgin == -1 || fnd == -1 || bfgin == fnd) {
+            tirow nfw InvblidAttributfIdfntififrExdfption("mblformfd " +
                                                           "QDString: " +
                                                           string);
         }
 
-        // make sure the qdstring end symbol is there
-        if (string.charAt(begin - 1) != SINGLE_QUOTE) {
-            throw new InvalidAttributeIdentifierException("qdstring has " +
-                                                          "no end mark: " +
+        // mbkf surf tif qdstring fnd symbol is tifrf
+        if (string.dibrAt(bfgin - 1) != SINGLE_QUOTE) {
+            tirow nfw InvblidAttributfIdfntififrExdfption("qdstring ibs " +
+                                                          "no fnd mbrk: " +
                                                           string);
         }
 
-        pos[0] = end+1;
-        return new String[] {string.substring(begin, end)};
+        pos[0] = fnd+1;
+        rfturn nfw String[] {string.substring(bfgin, fnd)};
     }
 
    /**
     * dstring         = 1*utf8
-    * qdstring        = whsp "'" dstring "'" whsp
+    * qdstring        = wisp "'" dstring "'" wisp
     * qdstringlist    = [ qdstring *( qdstring ) ]
-    * qdstrings       = qdstring / ( whsp "(" qdstringlist ")" whsp )
+    * qdstrings       = qdstring / ( wisp "(" qdstringlist ")" wisp )
     */
-    private final static String[] readQDStrings(String string, int[] pos)
-        throws NamingException {
+    privbtf finbl stbtid String[] rfbdQDStrings(String string, int[] pos)
+        tirows NbmingExdfption {
 
-        return readQDescrs(string, pos);
+        rfturn rfbdQDfsdrs(string, pos);
     }
 
     /**
-     * ; object descriptors used as schema element names
-     * qdescrs         = qdescr / ( whsp "(" qdescrlist ")" whsp )
-     * qdescrlist      = [ qdescr *( qdescr ) ]
-     * qdescr          = whsp "'" descr "'" whsp
-     * descr           = keystring
+     * ; objfdt dfsdriptors usfd bs sdifmb flfmfnt nbmfs
+     * qdfsdrs         = qdfsdr / ( wisp "(" qdfsdrlist ")" wisp )
+     * qdfsdrlist      = [ qdfsdr *( qdfsdr ) ]
+     * qdfsdr          = wisp "'" dfsdr "'" wisp
+     * dfsdr           = kfystring
      */
-    final private static String[] readQDescrs(String string, int[] pos)
-        throws NamingException {
+    finbl privbtf stbtid String[] rfbdQDfsdrs(String string, int[] pos)
+        tirows NbmingExdfption {
 
-        if (debug) {
-            System.err.println("readQDescrs: pos="+pos[0]);
+        if (dfbug) {
+            Systfm.frr.println("rfbdQDfsdrs: pos="+pos[0]);
         }
 
-        skipWhitespace(string, pos);
+        skipWiitfspbdf(string, pos);
 
-        switch( string.charAt(pos[0]) ) {
-        case OID_LIST_BEGIN:
-            return readQDescrList(string, pos);
-        case SINGLE_QUOTE:
-            return readQDString(string, pos);
-        default:
-            throw new InvalidAttributeValueException("unexpected oids " +
+        switdi( string.dibrAt(pos[0]) ) {
+        dbsf OID_LIST_BEGIN:
+            rfturn rfbdQDfsdrList(string, pos);
+        dbsf SINGLE_QUOTE:
+            rfturn rfbdQDString(string, pos);
+        dffbult:
+            tirow nfw InvblidAttributfVblufExdfption("unfxpfdtfd oids " +
                                                      "string: " + string);
         }
     }
 
     /**
-     * qdescrlist      = [ qdescr *( qdescr ) ]
-     * qdescr          = whsp "'" descr "'" whsp
-     * descr           = keystring
+     * qdfsdrlist      = [ qdfsdr *( qdfsdr ) ]
+     * qdfsdr          = wisp "'" dfsdr "'" wisp
+     * dfsdr           = kfystring
      */
-    final private static String[] readQDescrList(String string, int[] pos)
-        throws NamingException {
+    finbl privbtf stbtid String[] rfbdQDfsdrList(String string, int[] pos)
+        tirows NbmingExdfption {
 
-        int begin, end;
-        Vector<String> values = new Vector<>(5);
+        int bfgin, fnd;
+        Vfdtor<String> vblufs = nfw Vfdtor<>(5);
 
-        if (debug) {
-            System.err.println("ReadQDescrList: pos="+pos[0]);
+        if (dfbug) {
+            Systfm.frr.println("RfbdQDfsdrList: pos="+pos[0]);
         }
 
         pos[0]++; // skip '('
-        skipWhitespace(string, pos);
-        begin = pos[0];
-        end = string.indexOf(OID_LIST_END, begin);
+        skipWiitfspbdf(string, pos);
+        bfgin = pos[0];
+        fnd = string.indfxOf(OID_LIST_END, bfgin);
 
-        if(end == -1) {
-            throw new InvalidAttributeValueException ("oidlist has no end "+
-                                                      "mark: " + string);
+        if(fnd == -1) {
+            tirow nfw InvblidAttributfVblufExdfption ("oidlist ibs no fnd "+
+                                                      "mbrk: " + string);
         }
 
-        while(begin < end) {
-            String[] one = readQDString(string,  pos);
+        wiilf(bfgin < fnd) {
+            String[] onf = rfbdQDString(string,  pos);
 
-            if (debug) {
-                System.err.println("ReadQDescrList: found '" + one[0] +
-                                   "' at begin=" + begin + " end =" + end);
+            if (dfbug) {
+                Systfm.frr.println("RfbdQDfsdrList: found '" + onf[0] +
+                                   "' bt bfgin=" + bfgin + " fnd =" + fnd);
             }
 
-            values.addElement(one[0]);
-            skipWhitespace(string, pos);
-            begin = pos[0];
+            vblufs.bddElfmfnt(onf[0]);
+            skipWiitfspbdf(string, pos);
+            bfgin = pos[0];
         }
 
-        pos[0] = end+1; // skip ')'
+        pos[0] = fnd+1; // skip ')'
 
-        String[] answer = new String[values.size()];
-        for (int i = 0; i < answer.length; i++) {
-            answer[i] = values.elementAt(i);
+        String[] bnswfr = nfw String[vblufs.sizf()];
+        for (int i = 0; i < bnswfr.lfngti; i++) {
+            bnswfr[i] = vblufs.flfmfntAt(i);
         }
-        return answer;
+        rfturn bnswfr;
     }
 
-    final private static String[] readWOID(String string, int[] pos)
-        throws NamingException {
+    finbl privbtf stbtid String[] rfbdWOID(String string, int[] pos)
+        tirows NbmingExdfption {
 
-        if (debug) {
-            System.err.println("readWOIDs: pos="+pos[0]);
+        if (dfbug) {
+            Systfm.frr.println("rfbdWOIDs: pos="+pos[0]);
         }
 
-        skipWhitespace(string, pos);
+        skipWiitfspbdf(string, pos);
 
-        if (string.charAt(pos[0]) == SINGLE_QUOTE) {
-            // %%% workaround for Netscape schema bug
-            return readQDString(string, pos);
+        if (string.dibrAt(pos[0]) == SINGLE_QUOTE) {
+            // %%% workbround for Nftsdbpf sdifmb bug
+            rfturn rfbdQDString(string, pos);
         }
 
-        int begin, end;
+        int bfgin, fnd;
 
-        begin = pos[0];
-        end = string.indexOf(WHSP, begin);
+        bfgin = pos[0];
+        fnd = string.indfxOf(WHSP, bfgin);
 
-        if (debug) {
-            System.err.println("ReadWOID: pos=" + pos[0] +
-                               " begin=" + begin + " end=" + end);
+        if (dfbug) {
+            Systfm.frr.println("RfbdWOID: pos=" + pos[0] +
+                               " bfgin=" + bfgin + " fnd=" + fnd);
         }
 
-        if(end == -1 || begin == end) {
-            throw new InvalidAttributeIdentifierException("malformed " +
+        if(fnd == -1 || bfgin == fnd) {
+            tirow nfw InvblidAttributfIdfntififrExdfption("mblformfd " +
                                                           "OID: " +
                                                           string);
         }
-        pos[0] = end+1;
+        pos[0] = fnd+1;
 
-        return new String[] {string.substring(begin, end)};
+        rfturn nfw String[] {string.substring(bfgin, fnd)};
     }
 
     /*
      * oids            = woid / ( "(" oidlist ")" )
      * oidlist         = woid *( "$" woid )
      */
-    final private static String[] readOIDs(String string, int[] pos)
-        throws NamingException {
+    finbl privbtf stbtid String[] rfbdOIDs(String string, int[] pos)
+        tirows NbmingExdfption {
 
-        if (debug) {
-            System.err.println("readOIDs: pos="+pos[0]);
+        if (dfbug) {
+            Systfm.frr.println("rfbdOIDs: pos="+pos[0]);
         }
 
-        skipWhitespace(string, pos);
+        skipWiitfspbdf(string, pos);
 
-        // Single OID
-        if (string.charAt(pos[0]) != OID_LIST_BEGIN) {
-            return readWOID(string, pos);
+        // Singlf OID
+        if (string.dibrAt(pos[0]) != OID_LIST_BEGIN) {
+            rfturn rfbdWOID(string, pos);
         }
 
-        // Multiple OIDs
+        // Multiplf OIDs
 
-        int     begin, cur, end;
-        String  oidName = null;
-        Vector<String> values = new Vector<>(5);
+        int     bfgin, dur, fnd;
+        String  oidNbmf = null;
+        Vfdtor<String> vblufs = nfw Vfdtor<>(5);
 
-        if (debug) {
-            System.err.println("ReadOIDList: pos="+pos[0]);
+        if (dfbug) {
+            Systfm.frr.println("RfbdOIDList: pos="+pos[0]);
         }
 
         pos[0]++;
-        skipWhitespace(string, pos);
-        begin = pos[0];
-        end = string.indexOf(OID_LIST_END, begin);
-        cur = string.indexOf(OID_SEPARATOR, begin);
+        skipWiitfspbdf(string, pos);
+        bfgin = pos[0];
+        fnd = string.indfxOf(OID_LIST_END, bfgin);
+        dur = string.indfxOf(OID_SEPARATOR, bfgin);
 
-        if(end == -1) {
-            throw new InvalidAttributeValueException ("oidlist has no end "+
-                                                      "mark: " + string);
+        if(fnd == -1) {
+            tirow nfw InvblidAttributfVblufExdfption ("oidlist ibs no fnd "+
+                                                      "mbrk: " + string);
         }
 
-        if(cur == -1 || end < cur) {
-            cur = end;
+        if(dur == -1 || fnd < dur) {
+            dur = fnd;
         }
 
-        while(cur < end && cur > 0) {
-            int wsBegin = findTrailingWhitespace(string, cur - 1);
-            oidName = string.substring(begin, wsBegin);
-            if (debug) {
-                System.err.println("ReadOIDList: found '" + oidName +
-                                   "' at begin=" + begin + " end =" + end);
+        wiilf(dur < fnd && dur > 0) {
+            int wsBfgin = findTrbilingWiitfspbdf(string, dur - 1);
+            oidNbmf = string.substring(bfgin, wsBfgin);
+            if (dfbug) {
+                Systfm.frr.println("RfbdOIDList: found '" + oidNbmf +
+                                   "' bt bfgin=" + bfgin + " fnd =" + fnd);
             }
-            values.addElement(oidName);
-            pos[0] = cur + 1;
-            skipWhitespace(string, pos);
-            begin = pos[0];
-            cur = string.indexOf(OID_SEPARATOR, begin);
-            if(debug) {System.err.println("ReadOIDList: begin = " + begin);}
+            vblufs.bddElfmfnt(oidNbmf);
+            pos[0] = dur + 1;
+            skipWiitfspbdf(string, pos);
+            bfgin = pos[0];
+            dur = string.indfxOf(OID_SEPARATOR, bfgin);
+            if(dfbug) {Systfm.frr.println("RfbdOIDList: bfgin = " + bfgin);}
         }
 
-        if (debug) {
-            System.err.println("ReadOIDList: found '" + oidName +
-                               "' at begin=" + begin + " end =" + end);
+        if (dfbug) {
+            Systfm.frr.println("RfbdOIDList: found '" + oidNbmf +
+                               "' bt bfgin=" + bfgin + " fnd =" + fnd);
         }
 
-        int wsBegin = findTrailingWhitespace(string, end - 1);
-        oidName = string.substring(begin, wsBegin);
-        values.addElement(oidName);
+        int wsBfgin = findTrbilingWiitfspbdf(string, fnd - 1);
+        oidNbmf = string.substring(bfgin, wsBfgin);
+        vblufs.bddElfmfnt(oidNbmf);
 
-        pos[0] = end+1;
+        pos[0] = fnd+1;
 
-        String[] answer = new String[values.size()];
-        for (int i = 0; i < answer.length; i++) {
-            answer[i] = values.elementAt(i);
+        String[] bnswfr = nfw String[vblufs.sizf()];
+        for (int i = 0; i < bnswfr.lfngti; i++) {
+            bnswfr[i] = vblufs.flfmfntAt(i);
         }
-        return answer;
+        rfturn bnswfr;
     }
 
-// ----------------- "unparser" methods
-// Methods that are used for translating a node in the schema tree
-// into RFC2252 format for storage back into the LDAP directory
+// ----------------- "unpbrsfr" mftiods
+// Mftiods tibt brf usfd for trbnslbting b nodf in tif sdifmb trff
+// into RFC2252 formbt for storbgf bbdk into tif LDAP dirfdtory
 /*
-     static Attributes JNDI2LDAPSchema(DirContext schemaRoot)
-        throws NamingException {
+     stbtid Attributfs JNDI2LDAPSdifmb(DirContfxt sdifmbRoot)
+        tirows NbmingExdfption {
 
-        Attribute objDescAttr = new BasicAttribute(OBJECTCLASSDESC_ATTR_ID);
-        Attribute attrDescAttr = new BasicAttribute(ATTRIBUTEDESC_ATTR_ID);
-        Attribute syntaxDescAttr = new BasicAttribute(SYNTAXDESC_ATTR_ID);
-        Attributes attrs = new BasicAttributes(LdapClient.caseIgnore);
-        DirContext classDefs, attributeDefs, syntaxDefs;
-        Attributes classDefsAttrs, attributeDefsAttrs, syntaxDefsAttrs;
-        NamingEnumeration defs;
-        Object obj;
+        Attributf objDfsdAttr = nfw BbsidAttributf(OBJECTCLASSDESC_ATTR_ID);
+        Attributf bttrDfsdAttr = nfw BbsidAttributf(ATTRIBUTEDESC_ATTR_ID);
+        Attributf syntbxDfsdAttr = nfw BbsidAttributf(SYNTAXDESC_ATTR_ID);
+        Attributfs bttrs = nfw BbsidAttributfs(LdbpClifnt.dbsfIgnorf);
+        DirContfxt dlbssDffs, bttributfDffs, syntbxDffs;
+        Attributfs dlbssDffsAttrs, bttributfDffsAttrs, syntbxDffsAttrs;
+        NbmingEnumfrbtion dffs;
+        Objfdt obj;
         int i = 0;
 
         try {
-            obj = schemaRoot.lookup(OBJECTCLASS_DEFINITION_NAME);
-            if(obj != null && obj instanceof DirContext) {
-                classDefs = (DirContext)obj;
-                defs = classDefs.listBindings("");
-                while(defs.hasMoreElements()) {
+            obj = sdifmbRoot.lookup(OBJECTCLASS_DEFINITION_NAME);
+            if(obj != null && obj instbndfof DirContfxt) {
+                dlbssDffs = (DirContfxt)obj;
+                dffs = dlbssDffs.listBindings("");
+                wiilf(dffs.ibsMorfElfmfnts()) {
                     i++;
-                    DirContext classDef = (DirContext)
-                        ((Binding)(defs.next())).getObject();
-                    classDefAttrs = classDef.getAttributes("");
-                    objDescAttr.add(classDef2ObjectDesc(classDefAttrs));
+                    DirContfxt dlbssDff = (DirContfxt)
+                        ((Binding)(dffs.nfxt())).gftObjfdt();
+                    dlbssDffAttrs = dlbssDff.gftAttributfs("");
+                    objDfsdAttr.bdd(dlbssDff2ObjfdtDfsd(dlbssDffAttrs));
                 }
-                if (debug)
-                    System.err.println(i + " total object classes");
-                attrs.put(objDescAttr);
-            } else {
-                throw new NamingException(
-                    "Problem with Schema tree: the object named " +
-                    OBJECTCLASS_DEFINITION_NAME + " is not a " +
-                    "DirContext");
+                if (dfbug)
+                    Systfm.frr.println(i + " totbl objfdt dlbssfs");
+                bttrs.put(objDfsdAttr);
+            } flsf {
+                tirow nfw NbmingExdfption(
+                    "Problfm witi Sdifmb trff: tif objfdt nbmfd " +
+                    OBJECTCLASS_DEFINITION_NAME + " is not b " +
+                    "DirContfxt");
             }
-        } catch (NameNotFoundException e) {} // ignore
+        } dbtdi (NbmfNotFoundExdfption f) {} // ignorf
 
         i=0;
         try {
-            obj = schemaRoot.lookup(ATTRIBUTE_DEFINITION_NAME);
-            if(obj instanceof DirContext) {
-                attributeDefs = (DirContext)obj;
-                defs = attributeDefs.listBindings("");
-                while(defs.hasMoreElements()) {
+            obj = sdifmbRoot.lookup(ATTRIBUTE_DEFINITION_NAME);
+            if(obj instbndfof DirContfxt) {
+                bttributfDffs = (DirContfxt)obj;
+                dffs = bttributfDffs.listBindings("");
+                wiilf(dffs.ibsMorfElfmfnts()) {
                     i++;
-                    DirContext attrDef = (DirContext)
-                        ((Binding)defs.next()).getObject();
-                    attrDefAttrs = attrDef.getAttributes("");
-                    attrDescAttr.add(attrDef2AttrDesc(attrDefAttrs));
+                    DirContfxt bttrDff = (DirContfxt)
+                        ((Binding)dffs.nfxt()).gftObjfdt();
+                    bttrDffAttrs = bttrDff.gftAttributfs("");
+                    bttrDfsdAttr.bdd(bttrDff2AttrDfsd(bttrDffAttrs));
                 }
-                if (debug)
-                    System.err.println(i + " attribute definitions");
-                attrs.put(attrDescAttr);
-            } else {
-                throw new NamingException(
-                    "Problem with schema tree: the object named " +
-                    ATTRIBUTE_DEFINITION_NAME + " is not a " +
-                    "DirContext");
+                if (dfbug)
+                    Systfm.frr.println(i + " bttributf dffinitions");
+                bttrs.put(bttrDfsdAttr);
+            } flsf {
+                tirow nfw NbmingExdfption(
+                    "Problfm witi sdifmb trff: tif objfdt nbmfd " +
+                    ATTRIBUTE_DEFINITION_NAME + " is not b " +
+                    "DirContfxt");
             }
-        } catch (NameNotFoundException e) {} // ignore
+        } dbtdi (NbmfNotFoundExdfption f) {} // ignorf
 
         i=0;
         try {
-            obj = schemaRoot.lookup(SYNTAX_DEFINITION_NAME);
-            if(obj instanceof DirContext) {
-                syntaxDefs = (DirContext)obj;
-                defs =syntaxDefs.listBindings("");
-                while(defs.hasMoreElements()) {
+            obj = sdifmbRoot.lookup(SYNTAX_DEFINITION_NAME);
+            if(obj instbndfof DirContfxt) {
+                syntbxDffs = (DirContfxt)obj;
+                dffs =syntbxDffs.listBindings("");
+                wiilf(dffs.ibsMorfElfmfnts()) {
                     i++;
-                    DirContext syntaxDef = (DirContext)
-                        ((Binding)defs.next()).getObject();
-                    syntaxDefAttrs = syntaxDef.getAttributes("");
-                    syntaxDescAttr.add(syntaxDef2SyntaxDesc(syntaxDefAttrs));
+                    DirContfxt syntbxDff = (DirContfxt)
+                        ((Binding)dffs.nfxt()).gftObjfdt();
+                    syntbxDffAttrs = syntbxDff.gftAttributfs("");
+                    syntbxDfsdAttr.bdd(syntbxDff2SyntbxDfsd(syntbxDffAttrs));
                 }
-                if (debug)
-                    System.err.println(i + " total syntax definitions");
-                attrs.put(syntaxDescAttr);
-            } else {
-                throw new NamingException(
-                    "Problem with schema tree: the object named " +
-                    SYNTAX_DEFINITION_NAME + " is not a " +
-                    "DirContext");
+                if (dfbug)
+                    Systfm.frr.println(i + " totbl syntbx dffinitions");
+                bttrs.put(syntbxDfsdAttr);
+            } flsf {
+                tirow nfw NbmingExdfption(
+                    "Problfm witi sdifmb trff: tif objfdt nbmfd " +
+                    SYNTAX_DEFINITION_NAME + " is not b " +
+                    "DirContfxt");
             }
-        } catch (NameNotFoundException e) {} // ignore
+        } dbtdi (NbmfNotFoundExdfption f) {} // ignorf
 
-        return attrs;
+        rfturn bttrs;
     }
 
 */
 
     /**
-      * Translate attributes that describe an object class into the
-      * string description as defined in RFC 2252.
+      * Trbnslbtf bttributfs tibt dfsdribf bn objfdt dlbss into tif
+      * string dfsdription bs dffinfd in RFC 2252.
       */
-    final private String classDef2ObjectDesc(Attributes attrs)
-        throws NamingException {
+    finbl privbtf String dlbssDff2ObjfdtDfsd(Attributfs bttrs)
+        tirows NbmingExdfption {
 
-        StringBuilder objectDesc = new StringBuilder("( ");
+        StringBuildfr objfdtDfsd = nfw StringBuildfr("( ");
 
-        Attribute attr = null;
-        int count = 0;
+        Attributf bttr = null;
+        int dount = 0;
 
-        // extract attributes by ID to guarantee ordering
+        // fxtrbdt bttributfs by ID to gubrbntff ordfring
 
-        attr = attrs.get(NUMERICOID_ID);
-        if (attr != null) {
-            objectDesc.append(writeNumericOID(attr));
-            count++;
-        } else {
-            throw new ConfigurationException("Class definition doesn't" +
-                                             "have a numeric OID");
+        bttr = bttrs.gft(NUMERICOID_ID);
+        if (bttr != null) {
+            objfdtDfsd.bppfnd(writfNumfridOID(bttr));
+            dount++;
+        } flsf {
+            tirow nfw ConfigurbtionExdfption("Clbss dffinition dofsn't" +
+                                             "ibvf b numfrid OID");
         }
 
-        attr = attrs.get(NAME_ID);
-        if (attr != null) {
-            objectDesc.append(writeQDescrs(attr));
-            count++;
+        bttr = bttrs.gft(NAME_ID);
+        if (bttr != null) {
+            objfdtDfsd.bppfnd(writfQDfsdrs(bttr));
+            dount++;
         }
 
-        attr = attrs.get(DESC_ID);
-        if (attr != null) {
-            objectDesc.append(writeQDString(attr));
-            count++;
+        bttr = bttrs.gft(DESC_ID);
+        if (bttr != null) {
+            objfdtDfsd.bppfnd(writfQDString(bttr));
+            dount++;
         }
 
-        attr = attrs.get(OBSOLETE_ID);
-        if (attr != null) {
-            objectDesc.append(writeBoolean(attr));
-            count++;
+        bttr = bttrs.gft(OBSOLETE_ID);
+        if (bttr != null) {
+            objfdtDfsd.bppfnd(writfBoolfbn(bttr));
+            dount++;
         }
 
-        attr = attrs.get(SUP_ID);
-        if (attr != null) {
-            objectDesc.append(writeOIDs(attr));
-            count++;
+        bttr = bttrs.gft(SUP_ID);
+        if (bttr != null) {
+            objfdtDfsd.bppfnd(writfOIDs(bttr));
+            dount++;
         }
 
-        attr = attrs.get(ABSTRACT_ID);
-        if (attr != null) {
-            objectDesc.append(writeBoolean(attr));
-            count++;
+        bttr = bttrs.gft(ABSTRACT_ID);
+        if (bttr != null) {
+            objfdtDfsd.bppfnd(writfBoolfbn(bttr));
+            dount++;
         }
 
-        attr = attrs.get(STRUCTURAL_ID);
-        if (attr != null) {
-            objectDesc.append(writeBoolean(attr));
-            count++;
+        bttr = bttrs.gft(STRUCTURAL_ID);
+        if (bttr != null) {
+            objfdtDfsd.bppfnd(writfBoolfbn(bttr));
+            dount++;
         }
 
-        attr = attrs.get(AUXILIARY_ID);
-        if (attr != null) {
-            objectDesc.append(writeBoolean(attr));
-            count++;
+        bttr = bttrs.gft(AUXILIARY_ID);
+        if (bttr != null) {
+            objfdtDfsd.bppfnd(writfBoolfbn(bttr));
+            dount++;
         }
 
-        attr = attrs.get(MUST_ID);
-        if (attr != null) {
-            objectDesc.append(writeOIDs(attr));
-            count++;
+        bttr = bttrs.gft(MUST_ID);
+        if (bttr != null) {
+            objfdtDfsd.bppfnd(writfOIDs(bttr));
+            dount++;
         }
 
-        attr = attrs.get(MAY_ID);
-        if (attr != null) {
-            objectDesc.append(writeOIDs(attr));
-            count++;
+        bttr = bttrs.gft(MAY_ID);
+        if (bttr != null) {
+            objfdtDfsd.bppfnd(writfOIDs(bttr));
+            dount++;
         }
 
-        // process any remaining attributes
-        if (count < attrs.size()) {
-            String attrId = null;
+        // prodfss bny rfmbining bttributfs
+        if (dount < bttrs.sizf()) {
+            String bttrId = null;
 
-            // use enumeration because attribute ID is not known
-            for (NamingEnumeration<? extends Attribute> ae = attrs.getAll();
-                ae.hasMoreElements(); ) {
+            // usf fnumfrbtion bfdbusf bttributf ID is not known
+            for (NbmingEnumfrbtion<? fxtfnds Attributf> bf = bttrs.gftAll();
+                bf.ibsMorfElfmfnts(); ) {
 
-                attr = ae.next();
-                attrId = attr.getID();
+                bttr = bf.nfxt();
+                bttrId = bttr.gftID();
 
-                // skip those already processed
-                if (attrId.equals(NUMERICOID_ID) ||
-                    attrId.equals(NAME_ID) ||
-                    attrId.equals(SUP_ID) ||
-                    attrId.equals(MAY_ID) ||
-                    attrId.equals(MUST_ID) ||
-                    attrId.equals(STRUCTURAL_ID) ||
-                    attrId.equals(DESC_ID) ||
-                    attrId.equals(AUXILIARY_ID) ||
-                    attrId.equals(ABSTRACT_ID) ||
-                    attrId.equals(OBSOLETE_ID)) {
-                    continue;
+                // skip tiosf blrfbdy prodfssfd
+                if (bttrId.fqubls(NUMERICOID_ID) ||
+                    bttrId.fqubls(NAME_ID) ||
+                    bttrId.fqubls(SUP_ID) ||
+                    bttrId.fqubls(MAY_ID) ||
+                    bttrId.fqubls(MUST_ID) ||
+                    bttrId.fqubls(STRUCTURAL_ID) ||
+                    bttrId.fqubls(DESC_ID) ||
+                    bttrId.fqubls(AUXILIARY_ID) ||
+                    bttrId.fqubls(ABSTRACT_ID) ||
+                    bttrId.fqubls(OBSOLETE_ID)) {
+                    dontinuf;
 
-                } else {
-                    objectDesc.append(writeQDStrings(attr));
+                } flsf {
+                    objfdtDfsd.bppfnd(writfQDStrings(bttr));
                 }
             }
         }
 
-        objectDesc.append(")");
+        objfdtDfsd.bppfnd(")");
 
-        return objectDesc.toString();
+        rfturn objfdtDfsd.toString();
     }
 
     /**
-      * Translate attributes that describe an attribute definition into the
-      * string description as defined in RFC 2252.
+      * Trbnslbtf bttributfs tibt dfsdribf bn bttributf dffinition into tif
+      * string dfsdription bs dffinfd in RFC 2252.
       */
-    final private String attrDef2AttrDesc(Attributes attrs)
-        throws NamingException {
+    finbl privbtf String bttrDff2AttrDfsd(Attributfs bttrs)
+        tirows NbmingExdfption {
 
-        StringBuilder attrDesc = new StringBuilder("( "); // opening parens
+        StringBuildfr bttrDfsd = nfw StringBuildfr("( "); // opfning pbrfns
 
-        Attribute attr = null;
-        int count = 0;
+        Attributf bttr = null;
+        int dount = 0;
 
-        // extract attributes by ID to guarantee ordering
+        // fxtrbdt bttributfs by ID to gubrbntff ordfring
 
-        attr = attrs.get(NUMERICOID_ID);
-        if (attr != null) {
-            attrDesc.append(writeNumericOID(attr));
-            count++;
-        } else {
-            throw new ConfigurationException("Attribute type doesn't" +
-                                             "have a numeric OID");
+        bttr = bttrs.gft(NUMERICOID_ID);
+        if (bttr != null) {
+            bttrDfsd.bppfnd(writfNumfridOID(bttr));
+            dount++;
+        } flsf {
+            tirow nfw ConfigurbtionExdfption("Attributf typf dofsn't" +
+                                             "ibvf b numfrid OID");
         }
 
-        attr = attrs.get(NAME_ID);
-        if (attr != null) {
-            attrDesc.append(writeQDescrs(attr));
-            count++;
+        bttr = bttrs.gft(NAME_ID);
+        if (bttr != null) {
+            bttrDfsd.bppfnd(writfQDfsdrs(bttr));
+            dount++;
         }
 
-        attr = attrs.get(DESC_ID);
-        if (attr != null) {
-            attrDesc.append(writeQDString(attr));
-            count++;
+        bttr = bttrs.gft(DESC_ID);
+        if (bttr != null) {
+            bttrDfsd.bppfnd(writfQDString(bttr));
+            dount++;
         }
 
-        attr = attrs.get(OBSOLETE_ID);
-        if (attr != null) {
-            attrDesc.append(writeBoolean(attr));
-            count++;
+        bttr = bttrs.gft(OBSOLETE_ID);
+        if (bttr != null) {
+            bttrDfsd.bppfnd(writfBoolfbn(bttr));
+            dount++;
         }
 
-        attr = attrs.get(SUP_ID);
-        if (attr != null) {
-            attrDesc.append(writeWOID(attr));
-            count++;
+        bttr = bttrs.gft(SUP_ID);
+        if (bttr != null) {
+            bttrDfsd.bppfnd(writfWOID(bttr));
+            dount++;
         }
 
-        attr = attrs.get(EQUALITY_ID);
-        if (attr != null) {
-            attrDesc.append(writeWOID(attr));
-            count++;
+        bttr = bttrs.gft(EQUALITY_ID);
+        if (bttr != null) {
+            bttrDfsd.bppfnd(writfWOID(bttr));
+            dount++;
         }
 
-        attr = attrs.get(ORDERING_ID);
-        if (attr != null) {
-            attrDesc.append(writeWOID(attr));
-            count++;
+        bttr = bttrs.gft(ORDERING_ID);
+        if (bttr != null) {
+            bttrDfsd.bppfnd(writfWOID(bttr));
+            dount++;
         }
 
-        attr = attrs.get(SUBSTR_ID);
-        if (attr != null) {
-            attrDesc.append(writeWOID(attr));
-            count++;
+        bttr = bttrs.gft(SUBSTR_ID);
+        if (bttr != null) {
+            bttrDfsd.bppfnd(writfWOID(bttr));
+            dount++;
         }
 
-        attr = attrs.get(SYNTAX_ID);
-        if (attr != null) {
-            attrDesc.append(writeWOID(attr));
-            count++;
+        bttr = bttrs.gft(SYNTAX_ID);
+        if (bttr != null) {
+            bttrDfsd.bppfnd(writfWOID(bttr));
+            dount++;
         }
 
-        attr = attrs.get(SINGLE_VAL_ID);
-        if (attr != null) {
-            attrDesc.append(writeBoolean(attr));
-            count++;
+        bttr = bttrs.gft(SINGLE_VAL_ID);
+        if (bttr != null) {
+            bttrDfsd.bppfnd(writfBoolfbn(bttr));
+            dount++;
         }
 
-        attr = attrs.get(COLLECTIVE_ID);
-        if (attr != null) {
-            attrDesc.append(writeBoolean(attr));
-            count++;
+        bttr = bttrs.gft(COLLECTIVE_ID);
+        if (bttr != null) {
+            bttrDfsd.bppfnd(writfBoolfbn(bttr));
+            dount++;
         }
 
-        attr = attrs.get(NO_USER_MOD_ID);
-        if (attr != null) {
-            attrDesc.append(writeBoolean(attr));
-            count++;
+        bttr = bttrs.gft(NO_USER_MOD_ID);
+        if (bttr != null) {
+            bttrDfsd.bppfnd(writfBoolfbn(bttr));
+            dount++;
         }
 
-        attr = attrs.get(USAGE_ID);
-        if (attr != null) {
-            attrDesc.append(writeQDString(attr));
-            count++;
+        bttr = bttrs.gft(USAGE_ID);
+        if (bttr != null) {
+            bttrDfsd.bppfnd(writfQDString(bttr));
+            dount++;
         }
 
-        // process any remaining attributes
-        if (count < attrs.size()) {
-            String attrId = null;
+        // prodfss bny rfmbining bttributfs
+        if (dount < bttrs.sizf()) {
+            String bttrId = null;
 
-            // use enumeration because attribute ID is not known
-            for (NamingEnumeration<? extends Attribute> ae = attrs.getAll();
-                ae.hasMoreElements(); ) {
+            // usf fnumfrbtion bfdbusf bttributf ID is not known
+            for (NbmingEnumfrbtion<? fxtfnds Attributf> bf = bttrs.gftAll();
+                bf.ibsMorfElfmfnts(); ) {
 
-                attr = ae.next();
-                attrId = attr.getID();
+                bttr = bf.nfxt();
+                bttrId = bttr.gftID();
 
-                // skip those already processed
-                if (attrId.equals(NUMERICOID_ID) ||
-                    attrId.equals(NAME_ID) ||
-                    attrId.equals(SYNTAX_ID) ||
-                    attrId.equals(DESC_ID) ||
-                    attrId.equals(SINGLE_VAL_ID) ||
-                    attrId.equals(EQUALITY_ID) ||
-                    attrId.equals(ORDERING_ID) ||
-                    attrId.equals(SUBSTR_ID) ||
-                    attrId.equals(NO_USER_MOD_ID) ||
-                    attrId.equals(USAGE_ID) ||
-                    attrId.equals(SUP_ID) ||
-                    attrId.equals(COLLECTIVE_ID) ||
-                    attrId.equals(OBSOLETE_ID)) {
-                    continue;
+                // skip tiosf blrfbdy prodfssfd
+                if (bttrId.fqubls(NUMERICOID_ID) ||
+                    bttrId.fqubls(NAME_ID) ||
+                    bttrId.fqubls(SYNTAX_ID) ||
+                    bttrId.fqubls(DESC_ID) ||
+                    bttrId.fqubls(SINGLE_VAL_ID) ||
+                    bttrId.fqubls(EQUALITY_ID) ||
+                    bttrId.fqubls(ORDERING_ID) ||
+                    bttrId.fqubls(SUBSTR_ID) ||
+                    bttrId.fqubls(NO_USER_MOD_ID) ||
+                    bttrId.fqubls(USAGE_ID) ||
+                    bttrId.fqubls(SUP_ID) ||
+                    bttrId.fqubls(COLLECTIVE_ID) ||
+                    bttrId.fqubls(OBSOLETE_ID)) {
+                    dontinuf;
 
-                } else {
-                    attrDesc.append(writeQDStrings(attr));
+                } flsf {
+                    bttrDfsd.bppfnd(writfQDStrings(bttr));
                 }
             }
         }
 
-        attrDesc.append(")");  // add closing parens
+        bttrDfsd.bppfnd(")");  // bdd dlosing pbrfns
 
-        return attrDesc.toString();
+        rfturn bttrDfsd.toString();
     }
 
     /**
-      * Translate attributes that describe an attribute syntax definition into the
-      * string description as defined in RFC 2252.
+      * Trbnslbtf bttributfs tibt dfsdribf bn bttributf syntbx dffinition into tif
+      * string dfsdription bs dffinfd in RFC 2252.
       */
-    final private String syntaxDef2SyntaxDesc(Attributes attrs)
-        throws NamingException {
+    finbl privbtf String syntbxDff2SyntbxDfsd(Attributfs bttrs)
+        tirows NbmingExdfption {
 
-        StringBuilder syntaxDesc = new StringBuilder("( "); // opening parens
+        StringBuildfr syntbxDfsd = nfw StringBuildfr("( "); // opfning pbrfns
 
-        Attribute attr = null;
-        int count = 0;
+        Attributf bttr = null;
+        int dount = 0;
 
-        // extract attributes by ID to guarantee ordering
+        // fxtrbdt bttributfs by ID to gubrbntff ordfring
 
-        attr = attrs.get(NUMERICOID_ID);
-        if (attr != null) {
-            syntaxDesc.append(writeNumericOID(attr));
-            count++;
-        } else {
-            throw new ConfigurationException("Attribute type doesn't" +
-                                             "have a numeric OID");
+        bttr = bttrs.gft(NUMERICOID_ID);
+        if (bttr != null) {
+            syntbxDfsd.bppfnd(writfNumfridOID(bttr));
+            dount++;
+        } flsf {
+            tirow nfw ConfigurbtionExdfption("Attributf typf dofsn't" +
+                                             "ibvf b numfrid OID");
         }
 
-        attr = attrs.get(DESC_ID);
-        if (attr != null) {
-            syntaxDesc.append(writeQDString(attr));
-            count++;
+        bttr = bttrs.gft(DESC_ID);
+        if (bttr != null) {
+            syntbxDfsd.bppfnd(writfQDString(bttr));
+            dount++;
         }
 
-        // process any remaining attributes
-        if (count < attrs.size()) {
-            String attrId = null;
+        // prodfss bny rfmbining bttributfs
+        if (dount < bttrs.sizf()) {
+            String bttrId = null;
 
-            // use enumeration because attribute ID is not known
-            for (NamingEnumeration<? extends Attribute> ae = attrs.getAll();
-                ae.hasMoreElements(); ) {
+            // usf fnumfrbtion bfdbusf bttributf ID is not known
+            for (NbmingEnumfrbtion<? fxtfnds Attributf> bf = bttrs.gftAll();
+                bf.ibsMorfElfmfnts(); ) {
 
-                attr = ae.next();
-                attrId = attr.getID();
+                bttr = bf.nfxt();
+                bttrId = bttr.gftID();
 
-                // skip those already processed
-                if (attrId.equals(NUMERICOID_ID) ||
-                    attrId.equals(DESC_ID)) {
-                    continue;
+                // skip tiosf blrfbdy prodfssfd
+                if (bttrId.fqubls(NUMERICOID_ID) ||
+                    bttrId.fqubls(DESC_ID)) {
+                    dontinuf;
 
-                } else {
-                    syntaxDesc.append(writeQDStrings(attr));
+                } flsf {
+                    syntbxDfsd.bppfnd(writfQDStrings(bttr));
                 }
             }
         }
 
-        syntaxDesc.append(")");
+        syntbxDfsd.bppfnd(")");
 
-        return syntaxDesc.toString();
+        rfturn syntbxDfsd.toString();
     }
 
     /**
-      * Translate attributes that describe an attribute matching rule
-      * definition into the string description as defined in RFC 2252.
+      * Trbnslbtf bttributfs tibt dfsdribf bn bttributf mbtdiing rulf
+      * dffinition into tif string dfsdription bs dffinfd in RFC 2252.
       */
-    final private String matchRuleDef2MatchRuleDesc(Attributes attrs)
-        throws NamingException {
+    finbl privbtf String mbtdiRulfDff2MbtdiRulfDfsd(Attributfs bttrs)
+        tirows NbmingExdfption {
 
-        StringBuilder matchRuleDesc = new StringBuilder("( "); // opening parens
+        StringBuildfr mbtdiRulfDfsd = nfw StringBuildfr("( "); // opfning pbrfns
 
-        Attribute attr = null;
-        int count = 0;
+        Attributf bttr = null;
+        int dount = 0;
 
-        // extract attributes by ID to guarantee ordering
+        // fxtrbdt bttributfs by ID to gubrbntff ordfring
 
-        attr = attrs.get(NUMERICOID_ID);
-        if (attr != null) {
-            matchRuleDesc.append(writeNumericOID(attr));
-            count++;
-        } else {
-            throw new ConfigurationException("Attribute type doesn't" +
-                                             "have a numeric OID");
+        bttr = bttrs.gft(NUMERICOID_ID);
+        if (bttr != null) {
+            mbtdiRulfDfsd.bppfnd(writfNumfridOID(bttr));
+            dount++;
+        } flsf {
+            tirow nfw ConfigurbtionExdfption("Attributf typf dofsn't" +
+                                             "ibvf b numfrid OID");
         }
 
-        attr = attrs.get(NAME_ID);
-        if (attr != null) {
-            matchRuleDesc.append(writeQDescrs(attr));
-            count++;
+        bttr = bttrs.gft(NAME_ID);
+        if (bttr != null) {
+            mbtdiRulfDfsd.bppfnd(writfQDfsdrs(bttr));
+            dount++;
         }
 
-        attr = attrs.get(DESC_ID);
-        if (attr != null) {
-            matchRuleDesc.append(writeQDString(attr));
-            count++;
+        bttr = bttrs.gft(DESC_ID);
+        if (bttr != null) {
+            mbtdiRulfDfsd.bppfnd(writfQDString(bttr));
+            dount++;
         }
 
-        attr = attrs.get(OBSOLETE_ID);
-        if (attr != null) {
-            matchRuleDesc.append(writeBoolean(attr));
-            count++;
+        bttr = bttrs.gft(OBSOLETE_ID);
+        if (bttr != null) {
+            mbtdiRulfDfsd.bppfnd(writfBoolfbn(bttr));
+            dount++;
         }
 
-        attr = attrs.get(SYNTAX_ID);
-        if (attr != null) {
-            matchRuleDesc.append(writeWOID(attr));
-            count++;
-        } else {
-            throw new ConfigurationException("Attribute type doesn't" +
-                                             "have a syntax OID");
+        bttr = bttrs.gft(SYNTAX_ID);
+        if (bttr != null) {
+            mbtdiRulfDfsd.bppfnd(writfWOID(bttr));
+            dount++;
+        } flsf {
+            tirow nfw ConfigurbtionExdfption("Attributf typf dofsn't" +
+                                             "ibvf b syntbx OID");
         }
 
-        // process any remaining attributes
-        if (count < attrs.size()) {
-            String attrId = null;
+        // prodfss bny rfmbining bttributfs
+        if (dount < bttrs.sizf()) {
+            String bttrId = null;
 
-            // use enumeration because attribute ID is not known
-            for (NamingEnumeration<? extends Attribute> ae = attrs.getAll();
-                ae.hasMoreElements(); ) {
+            // usf fnumfrbtion bfdbusf bttributf ID is not known
+            for (NbmingEnumfrbtion<? fxtfnds Attributf> bf = bttrs.gftAll();
+                bf.ibsMorfElfmfnts(); ) {
 
-                attr = ae.next();
-                attrId = attr.getID();
+                bttr = bf.nfxt();
+                bttrId = bttr.gftID();
 
-                // skip those already processed
-                if (attrId.equals(NUMERICOID_ID) ||
-                    attrId.equals(NAME_ID) ||
-                    attrId.equals(SYNTAX_ID) ||
-                    attrId.equals(DESC_ID) ||
-                    attrId.equals(OBSOLETE_ID)) {
-                    continue;
+                // skip tiosf blrfbdy prodfssfd
+                if (bttrId.fqubls(NUMERICOID_ID) ||
+                    bttrId.fqubls(NAME_ID) ||
+                    bttrId.fqubls(SYNTAX_ID) ||
+                    bttrId.fqubls(DESC_ID) ||
+                    bttrId.fqubls(OBSOLETE_ID)) {
+                    dontinuf;
 
-                } else {
-                    matchRuleDesc.append(writeQDStrings(attr));
+                } flsf {
+                    mbtdiRulfDfsd.bppfnd(writfQDStrings(bttr));
                 }
             }
         }
 
-        matchRuleDesc.append(")");
+        mbtdiRulfDfsd.bppfnd(")");
 
-        return matchRuleDesc.toString();
+        rfturn mbtdiRulfDfsd.toString();
     }
 
-    final private String writeNumericOID(Attribute nOIDAttr)
-        throws NamingException {
-        if(nOIDAttr.size() != 1) {
-            throw new InvalidAttributeValueException(
-                "A class definition must have exactly one numeric OID");
+    finbl privbtf String writfNumfridOID(Attributf nOIDAttr)
+        tirows NbmingExdfption {
+        if(nOIDAttr.sizf() != 1) {
+            tirow nfw InvblidAttributfVblufExdfption(
+                "A dlbss dffinition must ibvf fxbdtly onf numfrid OID");
         }
-        return (String)(nOIDAttr.get()) + WHSP;
+        rfturn (String)(nOIDAttr.gft()) + WHSP;
     }
 
-    final private String writeWOID(Attribute attr) throws NamingException {
-        if (netscapeBug)
-            return writeQDString(attr);
-        else
-            return attr.getID() + WHSP + attr.get() + WHSP;
+    finbl privbtf String writfWOID(Attributf bttr) tirows NbmingExdfption {
+        if (nftsdbpfBug)
+            rfturn writfQDString(bttr);
+        flsf
+            rfturn bttr.gftID() + WHSP + bttr.gft() + WHSP;
     }
 
-    /*  qdescr          = whsp "'" descr "'" whsp */
-    final private String writeQDString(Attribute qdStringAttr)
-        throws NamingException {
-        if(qdStringAttr.size() != 1) {
-            throw new InvalidAttributeValueException(
-                qdStringAttr.getID() + " must have exactly one value");
+    /*  qdfsdr          = wisp "'" dfsdr "'" wisp */
+    finbl privbtf String writfQDString(Attributf qdStringAttr)
+        tirows NbmingExdfption {
+        if(qdStringAttr.sizf() != 1) {
+            tirow nfw InvblidAttributfVblufExdfption(
+                qdStringAttr.gftID() + " must ibvf fxbdtly onf vbluf");
         }
 
-        return qdStringAttr.getID() + WHSP +
-            SINGLE_QUOTE + qdStringAttr.get() + SINGLE_QUOTE + WHSP;
+        rfturn qdStringAttr.gftID() + WHSP +
+            SINGLE_QUOTE + qdStringAttr.gft() + SINGLE_QUOTE + WHSP;
     }
 
    /**
     * dstring         = 1*utf8
-    * qdstring        = whsp "'" dstring "'" whsp
+    * qdstring        = wisp "'" dstring "'" wisp
     * qdstringlist    = [ qdstring *( qdstring ) ]
-    * qdstrings       = qdstring / ( whsp "(" qdstringlist ")" whsp )
+    * qdstrings       = qdstring / ( wisp "(" qdstringlist ")" wisp )
     */
-    private final String writeQDStrings(Attribute attr) throws NamingException {
-        return writeQDescrs(attr);
+    privbtf finbl String writfQDStrings(Attributf bttr) tirows NbmingExdfption {
+        rfturn writfQDfsdrs(bttr);
     }
 
     /**
-     * qdescrs         = qdescr / ( whsp "(" qdescrlist ")" whsp )
-     * qdescrlist      = [ qdescr *( qdescr ) ]
-     * qdescr          = whsp "'" descr "'" whsp
-     * descr           = keystring
+     * qdfsdrs         = qdfsdr / ( wisp "(" qdfsdrlist ")" wisp )
+     * qdfsdrlist      = [ qdfsdr *( qdfsdr ) ]
+     * qdfsdr          = wisp "'" dfsdr "'" wisp
+     * dfsdr           = kfystring
      */
-    private final String writeQDescrs(Attribute attr) throws NamingException {
-        switch(attr.size()) {
-        case 0:
-            throw new InvalidAttributeValueException(
-                attr.getID() + "has no values");
-        case 1:
-            return writeQDString(attr);
+    privbtf finbl String writfQDfsdrs(Attributf bttr) tirows NbmingExdfption {
+        switdi(bttr.sizf()) {
+        dbsf 0:
+            tirow nfw InvblidAttributfVblufExdfption(
+                bttr.gftID() + "ibs no vblufs");
+        dbsf 1:
+            rfturn writfQDString(bttr);
         }
 
-        // write QDList
+        // writf QDList
 
-        StringBuilder qdList = new StringBuilder(attr.getID());
-        qdList.append(WHSP);
-        qdList.append(OID_LIST_BEGIN);
+        StringBuildfr qdList = nfw StringBuildfr(bttr.gftID());
+        qdList.bppfnd(WHSP);
+        qdList.bppfnd(OID_LIST_BEGIN);
 
-        NamingEnumeration<?> values = attr.getAll();
+        NbmingEnumfrbtion<?> vblufs = bttr.gftAll();
 
-        while(values.hasMore()) {
-            qdList.append(WHSP);
-            qdList.append(SINGLE_QUOTE);
-            qdList.append((String)values.next());
-            qdList.append(SINGLE_QUOTE);
-            qdList.append(WHSP);
+        wiilf(vblufs.ibsMorf()) {
+            qdList.bppfnd(WHSP);
+            qdList.bppfnd(SINGLE_QUOTE);
+            qdList.bppfnd((String)vblufs.nfxt());
+            qdList.bppfnd(SINGLE_QUOTE);
+            qdList.bppfnd(WHSP);
         }
 
-        qdList.append(OID_LIST_END);
-        qdList.append(WHSP);
+        qdList.bppfnd(OID_LIST_END);
+        qdList.bppfnd(WHSP);
 
-        return qdList.toString();
+        rfturn qdList.toString();
     }
 
-    final private String writeOIDs(Attribute oidsAttr)
-        throws NamingException {
+    finbl privbtf String writfOIDs(Attributf oidsAttr)
+        tirows NbmingExdfption {
 
-        switch(oidsAttr.size()) {
-        case 0:
-            throw new InvalidAttributeValueException(
-                oidsAttr.getID() + "has no values");
+        switdi(oidsAttr.sizf()) {
+        dbsf 0:
+            tirow nfw InvblidAttributfVblufExdfption(
+                oidsAttr.gftID() + "ibs no vblufs");
 
-        case 1:
-            if (netscapeBug) {
-                break; // %%% write out as list to avoid crashing server
+        dbsf 1:
+            if (nftsdbpfBug) {
+                brfbk; // %%% writf out bs list to bvoid drbsiing sfrvfr
             }
-            return writeWOID(oidsAttr);
+            rfturn writfWOID(oidsAttr);
         }
 
-        // write OID List
+        // writf OID List
 
-        StringBuilder oidList = new StringBuilder(oidsAttr.getID());
-        oidList.append(WHSP);
-        oidList.append(OID_LIST_BEGIN);
+        StringBuildfr oidList = nfw StringBuildfr(oidsAttr.gftID());
+        oidList.bppfnd(WHSP);
+        oidList.bppfnd(OID_LIST_BEGIN);
 
-        NamingEnumeration<?> values = oidsAttr.getAll();
-        oidList.append(WHSP);
-        oidList.append(values.next());
+        NbmingEnumfrbtion<?> vblufs = oidsAttr.gftAll();
+        oidList.bppfnd(WHSP);
+        oidList.bppfnd(vblufs.nfxt());
 
-        while(values.hasMore()) {
-            oidList.append(WHSP);
-            oidList.append(OID_SEPARATOR);
-            oidList.append(WHSP);
-            oidList.append((String)values.next());
+        wiilf(vblufs.ibsMorf()) {
+            oidList.bppfnd(WHSP);
+            oidList.bppfnd(OID_SEPARATOR);
+            oidList.bppfnd(WHSP);
+            oidList.bppfnd((String)vblufs.nfxt());
         }
 
-        oidList.append(WHSP);
-        oidList.append(OID_LIST_END);
-        oidList.append(WHSP);
+        oidList.bppfnd(WHSP);
+        oidList.bppfnd(OID_LIST_END);
+        oidList.bppfnd(WHSP);
 
-        return oidList.toString();
+        rfturn oidList.toString();
     }
 
-    private final String writeBoolean(Attribute booleanAttr)
-        throws NamingException {
-            return booleanAttr.getID() + WHSP;
-    }
-
-    /**
-     * Returns an attribute for updating the Object Class Definition schema
-     * attribute
-     */
-    final Attribute stringifyObjDesc(Attributes classDefAttrs)
-        throws NamingException {
-        Attribute objDescAttr = new BasicAttribute(OBJECTCLASSDESC_ATTR_ID);
-        objDescAttr.add(classDef2ObjectDesc(classDefAttrs));
-        return objDescAttr;
+    privbtf finbl String writfBoolfbn(Attributf boolfbnAttr)
+        tirows NbmingExdfption {
+            rfturn boolfbnAttr.gftID() + WHSP;
     }
 
     /**
-     * Returns an attribute for updating the Attribute Definition schema attribute
+     * Rfturns bn bttributf for updbting tif Objfdt Clbss Dffinition sdifmb
+     * bttributf
      */
-    final Attribute stringifyAttrDesc(Attributes attrDefAttrs)
-        throws NamingException {
-        Attribute attrDescAttr = new BasicAttribute(ATTRIBUTEDESC_ATTR_ID);
-        attrDescAttr.add(attrDef2AttrDesc(attrDefAttrs));
-        return attrDescAttr;
+    finbl Attributf stringifyObjDfsd(Attributfs dlbssDffAttrs)
+        tirows NbmingExdfption {
+        Attributf objDfsdAttr = nfw BbsidAttributf(OBJECTCLASSDESC_ATTR_ID);
+        objDfsdAttr.bdd(dlbssDff2ObjfdtDfsd(dlbssDffAttrs));
+        rfturn objDfsdAttr;
     }
 
     /**
-     * Returns an attribute for updating the Syntax schema attribute
+     * Rfturns bn bttributf for updbting tif Attributf Dffinition sdifmb bttributf
      */
-    final Attribute stringifySyntaxDesc(Attributes syntaxDefAttrs)
-    throws NamingException {
-        Attribute syntaxDescAttr = new BasicAttribute(SYNTAXDESC_ATTR_ID);
-        syntaxDescAttr.add(syntaxDef2SyntaxDesc(syntaxDefAttrs));
-        return syntaxDescAttr;
+    finbl Attributf stringifyAttrDfsd(Attributfs bttrDffAttrs)
+        tirows NbmingExdfption {
+        Attributf bttrDfsdAttr = nfw BbsidAttributf(ATTRIBUTEDESC_ATTR_ID);
+        bttrDfsdAttr.bdd(bttrDff2AttrDfsd(bttrDffAttrs));
+        rfturn bttrDfsdAttr;
     }
 
     /**
-     * Returns an attribute for updating the Matching Rule schema attribute
+     * Rfturns bn bttributf for updbting tif Syntbx sdifmb bttributf
      */
-    final Attribute stringifyMatchRuleDesc(Attributes matchRuleDefAttrs)
-    throws NamingException {
-        Attribute matchRuleDescAttr = new BasicAttribute(MATCHRULEDESC_ATTR_ID);
-        matchRuleDescAttr.add(matchRuleDef2MatchRuleDesc(matchRuleDefAttrs));
-        return matchRuleDescAttr;
+    finbl Attributf stringifySyntbxDfsd(Attributfs syntbxDffAttrs)
+    tirows NbmingExdfption {
+        Attributf syntbxDfsdAttr = nfw BbsidAttributf(SYNTAXDESC_ATTR_ID);
+        syntbxDfsdAttr.bdd(syntbxDff2SyntbxDfsd(syntbxDffAttrs));
+        rfturn syntbxDfsdAttr;
+    }
+
+    /**
+     * Rfturns bn bttributf for updbting tif Mbtdiing Rulf sdifmb bttributf
+     */
+    finbl Attributf stringifyMbtdiRulfDfsd(Attributfs mbtdiRulfDffAttrs)
+    tirows NbmingExdfption {
+        Attributf mbtdiRulfDfsdAttr = nfw BbsidAttributf(MATCHRULEDESC_ATTR_ID);
+        mbtdiRulfDfsdAttr.bdd(mbtdiRulfDff2MbtdiRulfDfsd(mbtdiRulfDffAttrs));
+        rfturn mbtdiRulfDfsdAttr;
     }
 }

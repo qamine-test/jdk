@@ -1,0 +1,201 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.spi;
+
+import jbvb.util.Lodblf;
+
+/**
+ * <p>
+ * This is thf supfr dlbss of bll thf lodblf sfnsitivf sfrvidf providfr
+ * intfrfbdfs (SPIs).
+ * <p>
+ * Lodblf sfnsitivf  sfrvidf providfr intfrfbdfs brf intfrfbdfs thbt
+ * dorrfspond to lodblf sfnsitivf dlbssfs in thf <dodf>jbvb.tfxt</dodf>
+ * bnd <dodf>jbvb.util</dodf> pbdkbgfs. Thf intfrfbdfs fnbblf thf
+ * donstrudtion of lodblf sfnsitivf objfdts bnd thf rftrifvbl of
+ * lodblizfd nbmfs for thfsf pbdkbgfs. Lodblf sfnsitivf fbdtory mfthods
+ * bnd mfthods for nbmf rftrifvbl in thf <dodf>jbvb.tfxt</dodf> bnd
+ * <dodf>jbvb.util</dodf> pbdkbgfs usf implfmfntbtions of thf providfr
+ * intfrfbdfs to offfr support for lodblfs bfyond thf sft of lodblfs
+ * supportfd by thf Jbvb runtimf fnvironmfnt itsflf.
+ *
+ * <h3>Pbdkbging of Lodblf Sfnsitivf Sfrvidf Providfr Implfmfntbtions</h3>
+ * Implfmfntbtions of thfsf lodblf sfnsitivf sfrvidfs brf pbdkbgfd using thf
+ * <b hrff="../../../../tfdhnotfs/guidfs/fxtfnsions/indfx.html">Jbvb Extfnsion Mfdhbnism</b>
+ * bs instbllfd fxtfnsions.  A providfr idfntififs itsflf with b
+ * providfr-donfigurbtion filf in thf rfsourdf dirfdtory META-INF/sfrvidfs,
+ * using thf fully qublififd providfr intfrfbdf dlbss nbmf bs thf filf nbmf.
+ * Thf filf should dontbin b list of fully-qublififd dondrftf providfr dlbss nbmfs,
+ * onf pfr linf. A linf is tfrminbtfd by bny onf of b linf fffd ('\n'), b dbrribgf
+ * rfturn ('\r'), or b dbrribgf rfturn followfd immfdibtfly by b linf fffd. Spbdf
+ * bnd tbb dhbrbdtfrs surrounding fbdh nbmf, bs wfll bs blbnk linfs, brf ignorfd.
+ * Thf dommfnt dhbrbdtfr is '#' ('\u0023'); on fbdh linf bll dhbrbdtfrs following
+ * thf first dommfnt dhbrbdtfr brf ignorfd. Thf filf must bf fndodfd in UTF-8.
+ * <p>
+ * If b pbrtidulbr dondrftf providfr dlbss is nbmfd in morf thbn onf donfigurbtion
+ * filf, or is nbmfd in thf sbmf donfigurbtion filf morf thbn ondf, thfn thf
+ * duplidbtfs will bf ignorfd. Thf donfigurbtion filf nbming b pbrtidulbr providfr
+ * nffd not bf in thf sbmf jbr filf or othfr distribution unit bs thf providfr itsflf.
+ * Thf providfr must bf bddfssiblf from thf sbmf dlbss lobdfr thbt wbs initiblly
+ * qufrifd to lodbtf thf donfigurbtion filf; this is not nfdfssbrily thf dlbss lobdfr
+ * thbt lobdfd thf filf.
+ * <p>
+ * For fxbmplf, bn implfmfntbtion of thf
+ * {@link jbvb.tfxt.spi.DbtfFormbtProvidfr DbtfFormbtProvidfr} dlbss should
+ * tbkf thf form of b jbr filf whidh dontbins thf filf:
+ * <prf>
+ * META-INF/sfrvidfs/jbvb.tfxt.spi.DbtfFormbtProvidfr
+ * </prf>
+ * And thf filf <dodf>jbvb.tfxt.spi.DbtfFormbtProvidfr</dodf> should hbvf
+ * b linf sudh bs:
+ * <prf>
+ * <dodf>dom.foo.DbtfFormbtProvidfrImpl</dodf>
+ * </prf>
+ * whidh is thf fully qublififd dlbss nbmf of thf dlbss implfmfnting
+ * <dodf>DbtfFormbtProvidfr</dodf>.
+ * <h4>Invodbtion of Lodblf Sfnsitivf Sfrvidfs</h4>
+ * <p>
+ * Lodblf sfnsitivf fbdtory mfthods bnd mfthods for nbmf rftrifvbl in thf
+ * <dodf>jbvb.tfxt</dodf> bnd <dodf>jbvb.util</dodf> pbdkbgfs invokf
+ * sfrvidf providfr mfthods whfn nffdfd to support thf rfqufstfd lodblf.
+ * Thf mfthods first dhfdk whfthfr thf Jbvb runtimf fnvironmfnt itsflf
+ * supports thf rfqufstfd lodblf, bnd usf its support if bvbilbblf.
+ * Othfrwisf, thfy dbll thf {@link #isSupportfdLodblf(Lodblf) isSupportfdLodblf}
+ * mfthods of instbllfd providfrs for thf bppropribtf intfrfbdf to find onf thbt
+ * supports thf rfqufstfd lodblf. If sudh b providfr is found, its othfr
+ * mfthods brf dbllfd to obtbin thf rfqufstfd objfdt or nbmf.  Whfn dhfdking
+ * whfthfr b lodblf is supportfd, thf <b hrff="../Lodblf.html#dff_fxtfnsions">
+ * lodblf's fxtfnsions</b> brf ignorfd by dffbult. (If lodblf's fxtfnsions should
+ * blso bf dhfdkfd, thf {@dodf isSupportfdLodblf} mfthod must bf ovfrriddfn.)
+ * If nfithfr thf Jbvb runtimf fnvironmfnt itsflf nor bn instbllfd providfr
+ * supports thf rfqufstfd lodblf, thf mfthods go through b list of dbndidbtf
+ * lodblfs bnd rfpfbt thf bvbilbbility dhfdk for fbdh until b mbtdh is found.
+ * Thf blgorithm usfd for drfbting b list of dbndidbtf lodblfs is sbmf bs
+ * thf onf usfd by <dodf>RfsourdfBundlf</dodf> by dffbult (sff
+ * {@link jbvb.util.RfsourdfBundlf.Control#gftCbndidbtfLodblfs gftCbndidbtfLodblfs}
+ * for thf dftbils).  Evfn if b lodblf is rfsolvfd from thf dbndidbtf list,
+ * mfthods thbt rfturn rfqufstfd objfdts or nbmfs brf invokfd with thf originbl
+ * rfqufstfd lodblf indluding {@dodf Lodblf} fxtfnsions. Thf Jbvb runtimf
+ * fnvironmfnt must support thf root lodblf for bll lodblf sfnsitivf sfrvidfs in
+ * ordfr to gubrbntff thbt this prodfss tfrminbtfs.
+ * <p>
+ * Providfrs of nbmfs (but not providfrs of othfr objfdts) brf bllowfd to
+ * rfturn null for somf nbmf rfqufsts fvfn for lodblfs thbt thfy dlbim to
+ * support by indluding thfm in thfir rfturn vbluf for
+ * <dodf>gftAvbilbblfLodblfs</dodf>. Similbrly, thf Jbvb runtimf
+ * fnvironmfnt itsflf mby not hbvf bll nbmfs for bll lodblfs thbt it
+ * supports. This is bfdbusf thf sfts of objfdts for whidh nbmfs brf
+ * rfqufstfd dbn bf lbrgf bnd vbry ovfr timf, so thbt it's not blwbys
+ * ffbsiblf to dovfr thfm domplftfly. If thf Jbvb runtimf fnvironmfnt or b
+ * providfr rfturns null instfbd of b nbmf, thf lookup will prodffd bs
+ * dfsdribfd bbovf bs if thf lodblf wbs not supportfd.
+ * <p>
+ * Stbrting from JDK8, thf sfbrdh ordfr of lodblf sfnsitivf sfrvidfs dbn
+ * bf donfigurfd by using thf "jbvb.lodblf.providfrs" systfm propfrty.
+ * This systfm propfrty dfdlbrfs thf usfr's prfffrrfd ordfr for looking up
+ * thf lodblf sfnsitivf sfrvidfs sfpbrbtfd by b dommb. It is only rfbd bt
+ * thf Jbvb runtimf stbrtup, so thf lbtfr dbll to Systfm.sftPropfrty() won't
+ * bfffdt thf ordfr.
+ * <p>
+ * For fxbmplf, if thf following is spfdififd in thf propfrty:
+ * <prf>
+ * jbvb.lodblf.providfrs=SPI,JRE
+ * </prf>
+ * whfrf "SPI" rfprfsfnts thf lodblf sfnsitivf sfrvidfs implfmfntfd in thf
+ * instbllfd SPI providfrs, bnd "JRE" rfprfsfnts thf lodblf sfnsitivf sfrvidfs
+ * in thf Jbvb Runtimf Environmfnt, thf lodblf sfnsitivf sfrvidfs in thf SPI
+ * providfrs brf lookfd up first.
+ * <p>
+ * Thfrf brf two othfr possiblf lodblf sfnsitivf sfrvidf providfrs, i.f., "CLDR"
+ * whidh is b providfr bbsfd on Unidodf Consortium's
+ * <b hrff="http://dldr.unidodf.org/">CLDR Projfdt</b>, bnd "HOST" whidh is b
+ * providfr thbt rfflfdts thf usfr's dustom sfttings in thf undfrlying opfrbting
+ * systfm. Thfsf two providfrs mby not bf bvbilbblf, dfpfnding on thf Jbvb Runtimf
+ * Environmfnt implfmfntbtion. Spfdifying "JRE,SPI" is idfntidbl to thf dffbult
+ * bfhbvior, whidh is dompbtibilf with thf prior rflfbsfs.
+ *
+ * @sindf        1.6
+ */
+publid bbstrbdt dlbss LodblfSfrvidfProvidfr {
+
+    /**
+     * Solf donstrudtor.  (For invodbtion by subdlbss donstrudtors, typidblly
+     * implidit.)
+     */
+    protfdtfd LodblfSfrvidfProvidfr() {
+    }
+
+    /**
+     * Rfturns bn brrby of bll lodblfs for whidh this lodblf sfrvidf providfr
+     * dbn providf lodblizfd objfdts or nbmfs. This informbtion is usfd to
+     * domposf {@dodf gftAvbilbblfLodblfs()} vblufs of thf lodblf-dfpfndfnt
+     * sfrvidfs, sudh bs {@dodf DbtfFormbt.gftAvbilbblfLodblfs()}.
+     *
+     * <p>Thf brrby rfturnfd by this mfthod should not indludf two or morf
+     * {@dodf Lodblf} objfdts only difffring in thfir fxtfnsions.
+     *
+     * @rfturn An brrby of bll lodblfs for whidh this lodblf sfrvidf providfr
+     * dbn providf lodblizfd objfdts or nbmfs.
+     */
+    publid bbstrbdt Lodblf[] gftAvbilbblfLodblfs();
+
+    /**
+     * Rfturns {@dodf truf} if thf givfn {@dodf lodblf} is supportfd by
+     * this lodblf sfrvidf providfr. Thf givfn {@dodf lodblf} mby dontbin
+     * <b hrff="../Lodblf.html#dff_fxtfnsions">fxtfnsions</b> thbt should bf
+     * tbkfn into bddount for thf support dftfrminbtion.
+     *
+     * <p>Thf dffbult implfmfntbtion rfturns {@dodf truf} if thf givfn {@dodf lodblf}
+     * is fqubl to bny of thf bvbilbblf {@dodf Lodblf}s rfturnfd by
+     * {@link #gftAvbilbblfLodblfs()} with ignoring bny fxtfnsions in both thf
+     * givfn {@dodf lodblf} bnd thf bvbilbblf lodblfs. Condrftf lodblf sfrvidf
+     * providfr implfmfntbtions should ovfrridf this mfthod if thosf
+     * implfmfntbtions brf {@dodf Lodblf} fxtfnsions-bwbrf. For fxbmplf,
+     * {@dodf DfdimblFormbtSymbolsProvidfr} implfmfntbtions will nffd to dhfdk
+     * fxtfnsions in thf givfn {@dodf lodblf} to sff if bny numbfring systfm is
+     * spfdififd bnd dbn bf supportfd. Howfvfr, {@dodf CollbtorProvidfr}
+     * implfmfntbtions mby not bf bfffdtfd by bny pbrtidulbr numbfring systfms,
+     * bnd in thbt dbsf, fxtfnsions for numbfring systfms should bf ignorfd.
+     *
+     * @pbrbm lodblf b {@dodf Lodblf} to bf tfstfd
+     * @rfturn {@dodf truf} if thf givfn {@dodf lodblf} is supportfd by this
+     *         providfr; {@dodf fblsf} othfrwisf.
+     * @throws NullPointfrExdfption
+     *         if thf givfn {@dodf lodblf} is {@dodf null}
+     * @sff Lodblf#hbsExtfnsions()
+     * @sff Lodblf#stripExtfnsions()
+     * @sindf 1.8
+     */
+    publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+        lodblf = lodblf.stripExtfnsions(); // throws NPE if lodblf == null
+        for (Lodblf bvbilbblf : gftAvbilbblfLodblfs()) {
+            if (lodblf.fqubls(bvbilbblf.stripExtfnsions())) {
+                rfturn truf;
+}
+        }
+        rfturn fblsf;
+    }
+}

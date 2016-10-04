@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.cosnaming;
+pbdkbgf dom.sun.jndi.dosnbming;
 
-import javax.naming.*;
-import javax.naming.spi.StateFactory;
-import java.util.Hashtable;
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.StbtfFbdtory;
+import jbvb.util.Hbsitbblf;
 
 import org.omg.CORBA.ORB;
 
-import java.rmi.Remote;
-import java.rmi.server.ExportException;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.sfrvfr.ExportExdfption;
 
-import com.sun.jndi.toolkit.corba.CorbaUtils;  // for RMI-IIOP
+import dom.sun.jndi.toolkit.dorbb.CorbbUtils;  // for RMI-IIOP
 
 /**
-  * StateFactory that turns java.rmi.Remote objects to org.omg.CORBA.Object.
+  * StbtfFbdtory tibt turns jbvb.rmi.Rfmotf objfdts to org.omg.CORBA.Objfdt.
   *
-  * @author Rosanna Lee
+  * @butior Rosbnnb Lff
   */
 
-public class RemoteToCorba implements StateFactory {
-    public RemoteToCorba() {
+publid dlbss RfmotfToCorbb implfmfnts StbtfFbdtory {
+    publid RfmotfToCorbb() {
     }
 
     /**
-     * Returns the CORBA object for a Remote object.
-     * If input is not a Remote object, or if Remote object uses JRMP, return null.
-     * If the RMI-IIOP library is not available, throw ConfigurationException.
+     * Rfturns tif CORBA objfdt for b Rfmotf objfdt.
+     * If input is not b Rfmotf objfdt, or if Rfmotf objfdt usfs JRMP, rfturn null.
+     * If tif RMI-IIOP librbry is not bvbilbblf, tirow ConfigurbtionExdfption.
      *
-     * @param orig The object to turn into a CORBA object. If not Remote,
-     *             or if is a JRMP stub or impl, return null.
-     * @param name Ignored
-     * @param ctx The non-null CNCtx whose ORB to use.
-     * @param env Ignored
-     * @return The CORBA object for <tt>orig</tt> or null.
-     * @exception ConfigurationException If the CORBA object cannot be obtained
-     *    due to configuration problems, for instance, if RMI-IIOP not available.
-     * @exception NamingException If some other problem prevented a CORBA
-     *    object from being obtained from the Remote object.
+     * @pbrbm orig Tif objfdt to turn into b CORBA objfdt. If not Rfmotf,
+     *             or if is b JRMP stub or impl, rfturn null.
+     * @pbrbm nbmf Ignorfd
+     * @pbrbm dtx Tif non-null CNCtx wiosf ORB to usf.
+     * @pbrbm fnv Ignorfd
+     * @rfturn Tif CORBA objfdt for <tt>orig</tt> or null.
+     * @fxdfption ConfigurbtionExdfption If tif CORBA objfdt dbnnot bf obtbinfd
+     *    duf to donfigurbtion problfms, for instbndf, if RMI-IIOP not bvbilbblf.
+     * @fxdfption NbmingExdfption If somf otifr problfm prfvfntfd b CORBA
+     *    objfdt from bfing obtbinfd from tif Rfmotf objfdt.
      */
-    public Object getStateToBind(Object orig, Name name, Context ctx,
-        Hashtable<?,?> env) throws NamingException {
-        if (orig instanceof org.omg.CORBA.Object) {
-            // Already a CORBA object, just use it
-            return null;
+    publid Objfdt gftStbtfToBind(Objfdt orig, Nbmf nbmf, Contfxt dtx,
+        Hbsitbblf<?,?> fnv) tirows NbmingExdfption {
+        if (orig instbndfof org.omg.CORBA.Objfdt) {
+            // Alrfbdy b CORBA objfdt, just usf it
+            rfturn null;
         }
 
-        if (orig instanceof Remote) {
-            // Turn remote object into org.omg.CORBA.Object
-            // Returns null if JRMP; let next factory try
-            // CNCtx will eventually throw IllegalArgumentException if
-            // no CORBA object gotten
-            return CorbaUtils.remoteToCorba((Remote)orig, ((CNCtx)ctx)._orb);
+        if (orig instbndfof Rfmotf) {
+            // Turn rfmotf objfdt into org.omg.CORBA.Objfdt
+            // Rfturns null if JRMP; lft nfxt fbdtory try
+            // CNCtx will fvfntublly tirow IllfgblArgumfntExdfption if
+            // no CORBA objfdt gottfn
+            rfturn CorbbUtils.rfmotfToCorbb((Rfmotf)orig, ((CNCtx)dtx)._orb);
         }
-        return null; // pass and let next state factory try
+        rfturn null; // pbss bnd lft nfxt stbtf fbdtory try
     }
 }

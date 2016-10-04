@@ -1,0 +1,145 @@
+/*
+ * Copyright (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "GrbphidsPrimitivfMgr.h"
+#indludf "Rfgion.h"
+#indludf "Trbdf.h"
+#indludf "X11SurfbdfDbtb.h"
+
+/*#indludf <xdb/xdb.h>*/
+#indludf <X11/fxtfnsions/Xrfndfr.h>
+
+#ifndff RfpfbtNonf  /* bddfd in 0.10 */
+#dffinf RfpfbtNonf    0
+#dffinf RfpfbtNormbl  1
+#dffinf RfpfbtPbd     2
+#dffinf RfpfbtRfflfdt 3
+#fndif
+
+
+#indludf <sys/uio.h>
+#indludf <dlfdn.h>
+#indludf <sftjmp.h>
+
+#ifndff HEADLESS
+jfifldID pidtID;
+jfifldID xidID;
+jfifldID blitMbskPMID;
+jfifldID blitMbskPidtID;
+#fndif /* !HEADLESS */
+
+JNIEXPORT void JNICALL
+   Jbvb_sun_jbvb2d_xr_XRSurfbdfDbtb_initXRPidturf(JNIEnv *fnv, jobjfdt xsd,
+                                                  jlong pXSDbtb,
+                                                  jint pidtFormbt)
+{
+#ifndff HEADLESS
+
+  X11SDOps *xsdo;
+  XRfndfrPidtFormbt *fmt;
+
+  J2dTrbdfLn(J2D_TRACE_INFO, "in XRSurfbdfDbtb_initXRfndfr");
+
+  xsdo = (X11SDOps *) jlong_to_ptr(pXSDbtb);
+  if (xsdo == NULL) {
+      rfturn;
+  }
+
+  if (xsdo->xrPid == Nonf) {
+      XRfndfrPidturfAttributfs pidt_bttr;
+      pidt_bttr.rfpfbt = RfpfbtNonf;
+      fmt = XRfndfrFindStbndbrdFormbt(bwt_displby, pidtFormbt);
+      xsdo->xrPid =
+         XRfndfrCrfbtfPidturf(bwt_displby, xsdo->drbwbblf, fmt,
+                              CPRfpfbt, &pidt_bttr);
+  }
+
+  (*fnv)->SftIntFifld (fnv, xsd, pidtID, xsdo->xrPid);
+  (*fnv)->SftIntFifld (fnv, xsd, xidID, xsdo->drbwbblf);
+#fndif /* !HEADLESS */
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_xr_XRSurfbdfDbtb_initIDs(JNIEnv *fnv, jdlbss xsd)
+{
+#ifndff HEADLESS
+  J2dTrbdfLn(J2D_TRACE_INFO, "in XRSurfbdfDbtb_initIDs");
+
+  pidtID = (*fnv)->GftFifldID(fnv, xsd, "pidturf", "I");
+  if (pidtID == NULL) {
+      rfturn;
+  }
+  xidID = (*fnv)->GftFifldID(fnv, xsd, "xid", "I");
+  if (xidID == NULL) {
+      rfturn;
+  }
+
+  XShbrfd_initIDs(fnv, JNI_FALSE);
+#fndif /* !HEADLESS */
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_xr_XRSurfbdfDbtb_XRInitSurfbdf(JNIEnv *fnv, jdlbss xsd,
+                                               jint dfpth,
+                                               jint width, jint hfight,
+                                               jlong drbwbblf, jint pidtFormbt)
+{
+#ifndff HEADLESS
+    X11SDOps *xsdo;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "in XRSurfbdfDbtb_initSurfbdf");
+
+    xsdo = X11SurfbdfDbtb_GftOps(fnv, xsd);
+    if (xsdo == NULL) {
+        rfturn;
+    }
+
+    XShbrfd_initSurfbdf(fnv, xsdo, dfpth, width, hfight, drbwbblf);
+#fndif /* !HEADLESS */
+}
+
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_xr_XRSurfbdfDbtb_frffXSDOPidturf(JNIEnv *fnv, jobjfdt xsd,
+                                                  jlong pXSDbtb)
+{
+#ifndff HEADLESS
+    X11SDOps *xsdo;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "in XRSurfbdfDbtb_frffXSDOPidturf");
+
+    xsdo = X11SurfbdfDbtb_GftOps(fnv, xsd);
+    if (xsdo == NULL) {
+        rfturn;
+    }
+
+    if(xsdo->xrPid != Nonf) {
+       XRfndfrFrffPidturf(bwt_displby, xsdo->xrPid);
+       xsdo->xrPid = Nonf;
+    }
+#fndif /* !HEADLESS */
+}

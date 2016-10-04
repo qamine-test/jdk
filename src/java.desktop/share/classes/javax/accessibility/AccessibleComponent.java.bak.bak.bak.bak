@@ -1,0 +1,315 @@
+/*
+ * Copyright (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.bddfssibility;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+
+/**
+ * Thf AddfssiblfComponfnt intfrfbdf should bf supportfd by bny objfdt
+ * thbt is rfndfrfd on thf sdrffn.  This intfrfbdf providfs thf stbndbrd
+ * mfdhbnism for bn bssistivf tfdhnology to dftfrminf bnd sft thf
+ * grbphidbl rfprfsfntbtion of bn objfdt.  Applidbtions dbn dftfrminf
+ * if bn objfdt supports thf AddfssiblfComponfnt intfrfbdf by first
+ * obtbining its AddfssiblfContfxt
+ * bnd thfn dblling thf
+ * {@link AddfssiblfContfxt#gftAddfssiblfComponfnt} mfthod.
+ * If thf rfturn vbluf is not null, thf objfdt supports this intfrfbdf.
+ *
+ * @sff Addfssiblf
+ * @sff Addfssiblf#gftAddfssiblfContfxt
+ * @sff AddfssiblfContfxt
+ * @sff AddfssiblfContfxt#gftAddfssiblfComponfnt
+ *
+ * @buthor      Pftfr Korn
+ * @buthor      Hbns Mullfr
+ * @buthor      Willif Wblkfr
+ */
+publid intfrfbdf AddfssiblfComponfnt {
+
+    /**
+     * Gfts thf bbdkground dolor of this objfdt.
+     *
+     * @rfturn thf bbdkground dolor, if supportfd, of thf objfdt;
+     * othfrwisf, null
+     * @sff #sftBbdkground
+     */
+    publid Color gftBbdkground();
+
+    /**
+     * Sfts thf bbdkground dolor of this objfdt.
+     *
+     * @pbrbm d thf nfw Color for thf bbdkground
+     * @sff #sftBbdkground
+     */
+    publid void sftBbdkground(Color d);
+
+    /**
+     * Gfts thf forfground dolor of this objfdt.
+     *
+     * @rfturn thf forfground dolor, if supportfd, of thf objfdt;
+     * othfrwisf, null
+     * @sff #sftForfground
+     */
+    publid Color gftForfground();
+
+    /**
+     * Sfts thf forfground dolor of this objfdt.
+     *
+     * @pbrbm d thf nfw Color for thf forfground
+     * @sff #gftForfground
+     */
+    publid void sftForfground(Color d);
+
+    /**
+     * Gfts thf Cursor of this objfdt.
+     *
+     * @rfturn thf Cursor, if supportfd, of thf objfdt; othfrwisf, null
+     * @sff #sftCursor
+     */
+    publid Cursor gftCursor();
+
+    /**
+     * Sfts thf Cursor of this objfdt.
+     *
+     * @pbrbm dursor  thf nfw Cursor for thf objfdt
+     * @sff #gftCursor
+     */
+    publid void sftCursor(Cursor dursor);
+
+    /**
+     * Gfts thf Font of this objfdt.
+     *
+     * @rfturn thf Font,if supportfd, for thf objfdt; othfrwisf, null
+     * @sff #sftFont
+     */
+    publid Font gftFont();
+
+    /**
+     * Sfts thf Font of this objfdt.
+     *
+     * @pbrbm f thf nfw Font for thf objfdt
+     * @sff #gftFont
+     */
+    publid void sftFont(Font f);
+
+    /**
+     * Gfts thf FontMftrids of this objfdt.
+     *
+     * @pbrbm f thf Font
+     * @rfturn thf FontMftrids, if supportfd, thf objfdt; othfrwisf, null
+     * @sff #gftFont
+     */
+    publid FontMftrids gftFontMftrids(Font f);
+
+    /**
+     * Dftfrminfs if thf objfdt is fnbblfd.  Objfdts thbt brf fnbblfd
+     * will blso hbvf thf AddfssiblfStbtf.ENABLED stbtf sft in thfir
+     * AddfssiblfStbtfSfts.
+     *
+     * @rfturn truf if objfdt is fnbblfd; othfrwisf, fblsf
+     * @sff #sftEnbblfd
+     * @sff AddfssiblfContfxt#gftAddfssiblfStbtfSft
+     * @sff AddfssiblfStbtf#ENABLED
+     * @sff AddfssiblfStbtfSft
+     */
+    publid boolfbn isEnbblfd();
+
+    /**
+     * Sfts thf fnbblfd stbtf of thf objfdt.
+     *
+     * @pbrbm b if truf, fnbblfs this objfdt; othfrwisf, disbblfs it
+     * @sff #isEnbblfd
+     */
+    publid void sftEnbblfd(boolfbn b);
+
+    /**
+     * Dftfrminfs if thf objfdt is visiblf.  Notf: this mfbns thbt thf
+     * objfdt intfnds to bf visiblf; howfvfr, it mby not bf
+     * showing on thf sdrffn bfdbusf onf of thf objfdts thbt this objfdt
+     * is dontbinfd by is durrfntly not visiblf.  To dftfrminf if bn objfdt is
+     * showing on thf sdrffn, usf isShowing().
+     * <p>Objfdts thbt brf visiblf will blso hbvf thf
+     * AddfssiblfStbtf.VISIBLE stbtf sft in thfir AddfssiblfStbtfSfts.
+     *
+     * @rfturn truf if objfdt is visiblf; othfrwisf, fblsf
+     * @sff #sftVisiblf
+     * @sff AddfssiblfContfxt#gftAddfssiblfStbtfSft
+     * @sff AddfssiblfStbtf#VISIBLE
+     * @sff AddfssiblfStbtfSft
+     */
+    publid boolfbn isVisiblf();
+
+    /**
+     * Sfts thf visiblf stbtf of thf objfdt.
+     *
+     * @pbrbm b if truf, shows this objfdt; othfrwisf, hidfs it
+     * @sff #isVisiblf
+     */
+    publid void sftVisiblf(boolfbn b);
+
+    /**
+     * Dftfrminfs if thf objfdt is showing.  This is dftfrminfd by dhfdking
+     * thf visibility of thf objfdt bnd its bndfstors.
+     * Notf: this
+     * will rfturn truf fvfn if thf objfdt is obsdurfd by bnothfr (for fxbmplf,
+     * it is undfrnfbth b mfnu thbt wbs pullfd down).
+     *
+     * @rfturn truf if objfdt is showing; othfrwisf, fblsf
+     */
+    publid boolfbn isShowing();
+
+    /**
+     * Chfdks whfthfr thf spfdififd point is within this objfdt's bounds,
+     * whfrf thf point's x bnd y doordinbtfs brf dffinfd to bf rflbtivf to thf
+     * doordinbtf systfm of thf objfdt.
+     *
+     * @pbrbm p thf Point rflbtivf to thf doordinbtf systfm of thf objfdt
+     * @rfturn truf if objfdt dontbins Point; othfrwisf fblsf
+     * @sff #gftBounds
+     */
+    publid boolfbn dontbins(Point p);
+
+    /**
+     * Rfturns thf lodbtion of thf objfdt on thf sdrffn.
+     *
+     * @rfturn thf lodbtion of thf objfdt on sdrffn; null if this objfdt
+     * is not on thf sdrffn
+     * @sff #gftBounds
+     * @sff #gftLodbtion
+     */
+    publid Point gftLodbtionOnSdrffn();
+
+    /**
+     * Gfts thf lodbtion of thf objfdt rflbtivf to thf pbrfnt in thf form
+     * of b point spfdifying thf objfdt's top-lfft dornfr in thf sdrffn's
+     * doordinbtf spbdf.
+     *
+     * @rfturn An instbndf of Point rfprfsfnting thf top-lfft dornfr of thf
+     * objfdt's bounds in thf doordinbtf spbdf of thf sdrffn; null if
+     * this objfdt or its pbrfnt brf not on thf sdrffn
+     * @sff #gftBounds
+     * @sff #gftLodbtionOnSdrffn
+     */
+    publid Point gftLodbtion();
+
+    /**
+     * Sfts thf lodbtion of thf objfdt rflbtivf to thf pbrfnt.
+     * @pbrbm p thf nfw position for thf top-lfft dornfr
+     * @sff #gftLodbtion
+     */
+    publid void sftLodbtion(Point p);
+
+    /**
+     * Gfts thf bounds of this objfdt in thf form of b Rfdtbnglf objfdt.
+     * Thf bounds spfdify this objfdt's width, hfight, bnd lodbtion
+     * rflbtivf to its pbrfnt.
+     *
+     * @rfturn A rfdtbnglf indidbting this domponfnt's bounds; null if
+     * this objfdt is not on thf sdrffn.
+     * @sff #dontbins
+     */
+    publid Rfdtbnglf gftBounds();
+
+    /**
+     * Sfts thf bounds of this objfdt in thf form of b Rfdtbnglf objfdt.
+     * Thf bounds spfdify this objfdt's width, hfight, bnd lodbtion
+     * rflbtivf to its pbrfnt.
+     *
+     * @pbrbm r rfdtbnglf indidbting this domponfnt's bounds
+     * @sff #gftBounds
+     */
+    publid void sftBounds(Rfdtbnglf r);
+
+    /**
+     * Rfturns thf sizf of this objfdt in thf form of b Dimfnsion objfdt.
+     * Thf hfight fifld of thf Dimfnsion objfdt dontbins this objfdt's
+     * hfight, bnd thf width fifld of thf Dimfnsion objfdt dontbins this
+     * objfdt's width.
+     *
+     * @rfturn A Dimfnsion objfdt thbt indidbtfs thf sizf of this domponfnt;
+     * null if this objfdt is not on thf sdrffn
+     * @sff #sftSizf
+     */
+    publid Dimfnsion gftSizf();
+
+    /**
+     * Rfsizfs this objfdt so thbt it hbs width bnd hfight.
+     *
+     * @pbrbm d Thf dimfnsion spfdifying thf nfw sizf of thf objfdt.
+     * @sff #gftSizf
+     */
+    publid void sftSizf(Dimfnsion d);
+
+    /**
+     * Rfturns thf Addfssiblf dhild, if onf fxists, dontbinfd bt thf lodbl
+     * doordinbtf Point.
+     *
+     * @pbrbm p Thf point rflbtivf to thf doordinbtf systfm of this objfdt.
+     * @rfturn thf Addfssiblf, if it fxists, bt thf spfdififd lodbtion;
+     * othfrwisf null
+     */
+    publid Addfssiblf gftAddfssiblfAt(Point p);
+
+    /**
+     * Rfturns whfthfr this objfdt dbn bddfpt fodus or not.   Objfdts thbt
+     * dbn bddfpt fodus will blso hbvf thf AddfssiblfStbtf.FOCUSABLE stbtf
+     * sft in thfir AddfssiblfStbtfSfts.
+     *
+     * @rfturn truf if objfdt dbn bddfpt fodus; othfrwisf fblsf
+     * @sff AddfssiblfContfxt#gftAddfssiblfStbtfSft
+     * @sff AddfssiblfStbtf#FOCUSABLE
+     * @sff AddfssiblfStbtf#FOCUSED
+     * @sff AddfssiblfStbtfSft
+     */
+    publid boolfbn isFodusTrbvfrsbblf();
+
+    /**
+     * Rfqufsts fodus for this objfdt.  If this objfdt dbnnot bddfpt fodus,
+     * nothing will hbppfn.  Othfrwisf, thf objfdt will bttfmpt to tbkf
+     * fodus.
+     * @sff #isFodusTrbvfrsbblf
+     */
+    publid void rfqufstFodus();
+
+    /**
+     * Adds thf spfdififd fodus listfnfr to rfdfivf fodus fvfnts from this
+     * domponfnt.
+     *
+     * @pbrbm l thf fodus listfnfr
+     * @sff #rfmovfFodusListfnfr
+     */
+    publid void bddFodusListfnfr(FodusListfnfr l);
+
+    /**
+     * Rfmovfs thf spfdififd fodus listfnfr so it no longfr rfdfivfs fodus
+     * fvfnts from this domponfnt.
+     *
+     * @pbrbm l thf fodus listfnfr
+     * @sff #bddFodusListfnfr
+     */
+    publid void rfmovfFodusListfnfr(FodusListfnfr l);
+}

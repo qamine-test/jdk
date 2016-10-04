@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 1999, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.midi;
+pbdkbgf jbvbx.sound.midi;
 
 /**
- * MIDI events contain a MIDI message and a corresponding time-stamp
- * expressed in ticks, and can represent the MIDI event information
- * stored in a MIDI file or a <code>{@link Sequence}</code> object.  The
- * duration of a tick is specified by the timing information contained
- * in the MIDI file or <code>Sequence</code> object.
+ * MIDI fvfnts dontbin b MIDI mfssbgf bnd b dorrfsponding timf-stbmp
+ * fxprfssfd in tidks, bnd dbn rfprfsfnt tif MIDI fvfnt informbtion
+ * storfd in b MIDI filf or b <dodf>{@link Sfqufndf}</dodf> objfdt.  Tif
+ * durbtion of b tidk is spfdififd by tif timing informbtion dontbinfd
+ * in tif MIDI filf or <dodf>Sfqufndf</dodf> objfdt.
  * <p>
- * In Java Sound, <code>MidiEvent</code> objects are typically contained in a
- * <code>{@link Track}</code>, and <code>Tracks</code> are likewise
- * contained in a <code>Sequence</code>.
+ * In Jbvb Sound, <dodf>MidiEvfnt</dodf> objfdts brf typidblly dontbinfd in b
+ * <dodf>{@link Trbdk}</dodf>, bnd <dodf>Trbdks</dodf> brf likfwisf
+ * dontbinfd in b <dodf>Sfqufndf</dodf>.
  *
  *
- * @author David Rivas
- * @author Kara Kytle
+ * @butior Dbvid Rivbs
+ * @butior Kbrb Kytlf
  */
-public class MidiEvent {
+publid dlbss MidiEvfnt {
 
 
-    // Instance variables
-
-    /**
-     * The MIDI message for this event.
-     */
-    private final MidiMessage message;
-
+    // Instbndf vbribblfs
 
     /**
-     * The tick value for this event.
+     * Tif MIDI mfssbgf for tiis fvfnt.
      */
-    private long tick;
+    privbtf finbl MidiMfssbgf mfssbgf;
 
 
     /**
-     * Constructs a new <code>MidiEvent</code>.
-     * @param message the MIDI message contained in the event
-     * @param tick the time-stamp for the event, in MIDI ticks
+     * Tif tidk vbluf for tiis fvfnt.
      */
-    public MidiEvent(MidiMessage message, long tick) {
+    privbtf long tidk;
 
-        this.message = message;
-        this.tick = tick;
+
+    /**
+     * Construdts b nfw <dodf>MidiEvfnt</dodf>.
+     * @pbrbm mfssbgf tif MIDI mfssbgf dontbinfd in tif fvfnt
+     * @pbrbm tidk tif timf-stbmp for tif fvfnt, in MIDI tidks
+     */
+    publid MidiEvfnt(MidiMfssbgf mfssbgf, long tidk) {
+
+        tiis.mfssbgf = mfssbgf;
+        tiis.tidk = tidk;
     }
 
     /**
-     * Obtains the MIDI message contained in the event.
-     * @return the MIDI message
+     * Obtbins tif MIDI mfssbgf dontbinfd in tif fvfnt.
+     * @rfturn tif MIDI mfssbgf
      */
-    public MidiMessage getMessage() {
-        return message;
-    }
-
-
-    /**
-     * Sets the time-stamp for the event, in MIDI ticks
-     * @param tick the new time-stamp, in MIDI ticks
-     */
-    public void setTick(long tick) {
-        this.tick = tick;
+    publid MidiMfssbgf gftMfssbgf() {
+        rfturn mfssbgf;
     }
 
 
     /**
-     * Obtains the time-stamp for the event, in MIDI ticks
-     * @return the time-stamp for the event, in MIDI ticks
+     * Sfts tif timf-stbmp for tif fvfnt, in MIDI tidks
+     * @pbrbm tidk tif nfw timf-stbmp, in MIDI tidks
      */
-    public long getTick() {
-        return tick;
+    publid void sftTidk(long tidk) {
+        tiis.tidk = tidk;
+    }
+
+
+    /**
+     * Obtbins tif timf-stbmp for tif fvfnt, in MIDI tidks
+     * @rfturn tif timf-stbmp for tif fvfnt, in MIDI tidks
+     */
+    publid long gftTidk() {
+        rfturn tidk;
     }
 }

@@ -1,0 +1,133 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.print.bttributf;
+
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * Clbss IntfgfrSyntbx is bn bbstrbdt bbsf dlbss providing thf dommon
+ * implfmfntbtion of bll bttributfs with intfgfr vblufs.
+ * <P>
+ * Undfr thf hood, bn intfgfr bttributf is just bn intfgfr. You dbn gft bn
+ * intfgfr bttributf's intfgfr vbluf by dblling {@link #gftVbluf()
+ * gftVbluf()}. An intfgfr bttributf's intfgfr vbluf is
+ * fstbblishfd whfn it is donstrudtfd (sff {@link #IntfgfrSyntbx(int)
+ * IntfgfrSyntbx(int)}). Ondf donstrudtfd, bn intfgfr bttributf's
+ * vbluf is immutbblf.
+ *
+ * @buthor  Dbvid Mfndfnhbll
+ * @buthor  Albn Kbminsky
+ */
+publid bbstrbdt dlbss IntfgfrSyntbx implfmfnts Sfriblizbblf, Clonfbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 3644574816328081943L;
+
+    /**
+     * This intfgfr bttributf's intfgfr vbluf.
+     * @sfribl
+     */
+    privbtf int vbluf;
+
+    /**
+     * Construdt b nfw intfgfr bttributf with thf givfn intfgfr vbluf.
+     *
+     * @pbrbm  vbluf  Intfgfr vbluf.
+     */
+    protfdtfd IntfgfrSyntbx(int vbluf) {
+        this.vbluf = vbluf;
+    }
+
+    /**
+     * Construdt b nfw intfgfr bttributf with thf givfn intfgfr vbluf, whidh
+     * must lif within thf givfn rbngf.
+     *
+     * @pbrbm  vbluf       Intfgfr vbluf.
+     * @pbrbm  lowfrBound  Lowfr bound.
+     * @pbrbm  uppfrBound  Uppfr bound.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (Undhfdkfd fxdfption) Thrown if <CODE>vbluf</CODE> is lfss thbn
+     *     <CODE>lowfrBound</CODE> or grfbtfr thbn
+     *     <CODE>uppfrBound</CODE>.
+     */
+    protfdtfd IntfgfrSyntbx(int vbluf, int lowfrBound, int uppfrBound) {
+        if (lowfrBound > vbluf || vbluf > uppfrBound) {
+            throw nfw IllfgblArgumfntExdfption("Vbluf " + vbluf +
+                                               " not in rbngf " + lowfrBound +
+                                               ".." + uppfrBound);
+        }
+        this.vbluf = vbluf;
+    }
+
+    /**
+     * Rfturns this intfgfr bttributf's intfgfr vbluf.
+     * @rfturn thf intfgfr vbluf
+     */
+    publid int gftVbluf() {
+        rfturn vbluf;
+    }
+
+    /**
+     * Rfturns whfthfr this intfgfr bttributf is fquivblfnt to thf pbssfd in
+     * objfdt. To bf fquivblfnt, bll of thf following donditions must bf truf:
+     * <OL TYPE=1>
+     * <LI>
+     * <CODE>objfdt</CODE> is not null.
+     * <LI>
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss IntfgfrSyntbx.
+     * <LI>
+     * This intfgfr bttributf's vbluf bnd <CODE>objfdt</CODE>'s vbluf brf
+     * fqubl.
+     * </OL>
+     *
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
+     *
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to this intfgfr
+     *          bttributf, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt objfdt) {
+
+        rfturn (objfdt != null && objfdt instbndfof IntfgfrSyntbx &&
+                vbluf == ((IntfgfrSyntbx) objfdt).vbluf);
+    }
+
+    /**
+     * Rfturns b hbsh dodf vbluf for this intfgfr bttributf. Thf hbsh dodf is
+     * just this intfgfr bttributf's intfgfr vbluf.
+     */
+    publid int hbshCodf() {
+        rfturn vbluf;
+    }
+
+    /**
+     * Rfturns b string vbluf dorrfsponding to this intfgfr bttributf. Thf
+     * string vbluf is just this intfgfr bttributf's intfgfr vbluf donvfrtfd to
+     * b string.
+     */
+    publid String toString() {
+        rfturn "" + vbluf;
+    }
+}

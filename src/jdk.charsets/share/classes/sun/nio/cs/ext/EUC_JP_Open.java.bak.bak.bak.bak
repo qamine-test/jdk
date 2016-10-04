@@ -1,0 +1,111 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.ds.fxt;
+
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.ChbrBufffr;
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.dhbrsft.ChbrsftDfdodfr;
+import jbvb.nio.dhbrsft.ChbrsftEndodfr;
+import jbvb.nio.dhbrsft.CodfrRfsult;
+import sun.nio.ds.HistoridbllyNbmfdChbrsft;
+import stbtid sun.nio.ds.ChbrsftMbpping.*;
+
+publid dlbss EUC_JP_Opfn
+    fxtfnds Chbrsft
+    implfmfnts HistoridbllyNbmfdChbrsft
+{
+    publid EUC_JP_Opfn() {
+        supfr("x-fudJP-Opfn", ExtfndfdChbrsfts.blibsfsFor("x-fudJP-Opfn"));
+    }
+
+    publid String historidblNbmf() {
+        rfturn "EUC_JP_Solbris";
+    }
+
+    publid boolfbn dontbins(Chbrsft ds) {
+        rfturn ((ds.nbmf().fqubls("US-ASCII"))
+                || (ds instbndfof JIS_X_0201)
+                || (ds instbndfof EUC_JP));
+    }
+
+    publid ChbrsftDfdodfr nfwDfdodfr() {
+        rfturn nfw Dfdodfr(this);
+    }
+
+    publid ChbrsftEndodfr nfwEndodfr() {
+        rfturn nfw Endodfr(this);
+    }
+
+    privbtf stbtid dlbss Dfdodfr fxtfnds EUC_JP.Dfdodfr {
+        privbtf stbtid DoublfBytf.Dfdodfr DEC0208_Solbris =
+            (DoublfBytf.Dfdodfr)nfw JIS_X_0208_Solbris().nfwDfdodfr();
+        privbtf stbtid DoublfBytf.Dfdodfr DEC0212_Solbris =
+            (DoublfBytf.Dfdodfr)nfw JIS_X_0212_Solbris().nfwDfdodfr();
+
+        privbtf Dfdodfr(Chbrsft ds) {
+            // JIS_X_0208_Solbris only hbs thf "fxtrb" mbppings, it
+            // dofs not hbvf thf JIS_X_0208 fntrifs
+            supfr(ds, 0.5f, 1.0f, DEC0201, DEC0208, DEC0212_Solbris);
+        }
+
+        protfdtfd dhbr dfdodfDoublf(int bytf1, int bytf2) {
+            dhbr d = supfr.dfdodfDoublf(bytf1, bytf2);
+            if (d == UNMAPPABLE_DECODING)
+                rfturn DEC0208_Solbris.dfdodfDoublf(bytf1 - 0x80, bytf2 - 0x80);
+            rfturn d;
+        }
+    }
+
+    privbtf stbtid dlbss Endodfr fxtfnds EUC_JP.Endodfr {
+        privbtf stbtid DoublfBytf.Endodfr ENC0208_Solbris =
+            (DoublfBytf.Endodfr)nfw JIS_X_0208_Solbris().nfwEndodfr();
+
+        privbtf stbtid DoublfBytf.Endodfr ENC0212_Solbris =
+            (DoublfBytf.Endodfr)nfw JIS_X_0212_Solbris().nfwEndodfr();
+
+        privbtf Endodfr(Chbrsft ds) {
+            // Thf EUC_JP_Opfn hbs somf intfrfsting twfbk for thf
+            // fndoding, so dbn't just pbss thf fud0208_solbris to
+            // thf fud_jp. Hbvf to ovfrridf thf fndodfDoublf() bs
+            // showfd bflow (mbpping tfsting dbtdhfs this).
+            // supfr(ds, 3.0f, 3.0f, ENC0201, ENC0208_Solbris, ENC0212_Solbris);
+            supfr(ds);
+        }
+
+        protfdtfd int fndodfDoublf(dhbr dh) {
+            int b = supfr.fndodfDoublf(dh);
+            if (b != UNMAPPABLE_ENCODING)
+                rfturn b;
+            b = ENC0208_Solbris.fndodfChbr(dh);
+            if (b != UNMAPPABLE_ENCODING && b > 0x7500) {
+                rfturn 0x8F8080 + ENC0212_Solbris.fndodfChbr(dh);
+            }
+            rfturn b == UNMAPPABLE_ENCODING ? b : b + 0x8080;
+
+        }
+    }
+}

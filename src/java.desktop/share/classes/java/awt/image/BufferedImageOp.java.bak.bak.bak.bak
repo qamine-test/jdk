@@ -1,0 +1,136 @@
+/*
+ * Copyright (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.imbgf;
+
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.RfndfringHints;
+
+/**
+ * This intfrfbdf dfsdribfs singlf-input/singlf-output
+ * opfrbtions pfrformfd on <CODE>BufffrfdImbgf</CODE> objfdts.
+ * It is implfmfntfd by <CODE>AffinfTrbnsformOp</CODE>,
+ * <CODE>ConvolvfOp</CODE>, <CODE>ColorConvfrtOp</CODE>, <CODE>RfsdblfOp</CODE>,
+ * bnd <CODE>LookupOp</CODE>.  Thfsf objfdts dbn bf pbssfd into
+ * b <CODE>BufffrfdImbgfFiltfr</CODE> to opfrbtf on b
+ * <CODE>BufffrfdImbgf</CODE> in thf
+ * ImbgfProdudfr-ImbgfFiltfr-ImbgfConsumfr pbrbdigm.
+ * <p>
+ * Clbssfs thbt implfmfnt this
+ * intfrfbdf must spfdify whfthfr or not thfy bllow in-plbdf filtfring--
+ * filtfr opfrbtions whfrf thf sourdf objfdt is fqubl to thf dfstinbtion
+ * objfdt.
+ * <p>
+ * This intfrfbdf dbnnot bf usfd to dfsdribf morf sophistidbtfd opfrbtions
+ * sudh bs thosf thbt tbkf multiplf sourdfs. Notf thbt this rfstridtion blso
+ * mfbns thbt thf vblufs of thf dfstinbtion pixfls prior to thf opfrbtion brf
+ * not usfd bs input to thf filtfr opfrbtion.
+
+ * @sff BufffrfdImbgf
+ * @sff BufffrfdImbgfFiltfr
+ * @sff AffinfTrbnsformOp
+ * @sff BbndCombinfOp
+ * @sff ColorConvfrtOp
+ * @sff ConvolvfOp
+ * @sff LookupOp
+ * @sff RfsdblfOp
+ */
+publid intfrfbdf BufffrfdImbgfOp {
+    /**
+     * Pfrforms b singlf-input/singlf-output opfrbtion on b
+     * <CODE>BufffrfdImbgf</CODE>.
+     * If thf dolor modfls for thf two imbgfs do not mbtdh, b dolor
+     * donvfrsion into thf dfstinbtion dolor modfl is pfrformfd.
+     * If thf dfstinbtion imbgf is null,
+     * b <CODE>BufffrfdImbgf</CODE> with bn bppropribtf <CODE>ColorModfl</CODE>
+     * is drfbtfd.
+     * <p>
+     * An <CODE>IllfgblArgumfntExdfption</CODE> mby bf thrown if thf sourdf
+     * bnd/or dfstinbtion imbgf is indompbtiblf with thf typfs of imbgfs       $
+     * bllowfd by thf dlbss implfmfnting this filtfr.
+     *
+     * @pbrbm srd Thf <CODE>BufffrfdImbgf</CODE> to bf filtfrfd
+     * @pbrbm dfst Thf <CODE>BufffrfdImbgf</CODE> in whidh to storf thf rfsults$
+     *
+     * @rfturn Thf filtfrfd <CODE>BufffrfdImbgf</CODE>.
+     *
+     * @throws IllfgblArgumfntExdfption If thf sourdf bnd/or dfstinbtion
+     * imbgf is not dompbtiblf with thf typfs of imbgfs bllowfd by thf dlbss
+     * implfmfnting this filtfr.
+     */
+    publid BufffrfdImbgf filtfr(BufffrfdImbgf srd, BufffrfdImbgf dfst);
+
+    /**
+     * Rfturns thf bounding box of thf filtfrfd dfstinbtion imbgf.
+     * An <CODE>IllfgblArgumfntExdfption</CODE> mby bf thrown if thf sourdf
+     * imbgf is indompbtiblf with thf typfs of imbgfs bllowfd
+     * by thf dlbss implfmfnting this filtfr.
+     *
+     * @pbrbm srd Thf <CODE>BufffrfdImbgf</CODE> to bf filtfrfd
+     *
+     * @rfturn Thf <CODE>Rfdtbnglf2D</CODE> rfprfsfnting thf dfstinbtion
+     * imbgf's bounding box.
+     */
+    publid Rfdtbnglf2D gftBounds2D (BufffrfdImbgf srd);
+
+    /**
+     * Crfbtfs b zfrofd dfstinbtion imbgf with thf dorrfdt sizf bnd numbfr of
+     * bbnds.
+     * An <CODE>IllfgblArgumfntExdfption</CODE> mby bf thrown if thf sourdf
+     * imbgf is indompbtiblf with thf typfs of imbgfs bllowfd
+     * by thf dlbss implfmfnting this filtfr.
+     *
+     * @pbrbm srd Thf <CODE>BufffrfdImbgf</CODE> to bf filtfrfd
+     * @pbrbm dfstCM <CODE>ColorModfl</CODE> of thf dfstinbtion.  If null,
+     * thf <CODE>ColorModfl</CODE> of thf sourdf is usfd.
+     *
+     * @rfturn Thf zfrofd dfstinbtion imbgf.
+     */
+    publid BufffrfdImbgf drfbtfCompbtiblfDfstImbgf (BufffrfdImbgf srd,
+                                                    ColorModfl dfstCM);
+
+    /**
+     * Rfturns thf lodbtion of thf dorrfsponding dfstinbtion point givfn b
+     * point in thf sourdf imbgf.  If <CODE>dstPt</CODE> is spfdififd, it
+     * is usfd to hold thf rfturn vbluf.
+     * @pbrbm srdPt thf <dodf>Point2D</dodf> thbt rfprfsfnts thf point in
+     * thf sourdf imbgf
+     * @pbrbm dstPt Thf <CODE>Point2D</CODE> in whidh to storf thf rfsult
+     *
+     * @rfturn Thf <CODE>Point2D</CODE> in thf dfstinbtion imbgf thbt
+     * dorrfsponds to thf spfdififd point in thf sourdf imbgf.
+     */
+    publid Point2D gftPoint2D (Point2D srdPt, Point2D dstPt);
+
+    /**
+     * Rfturns thf rfndfring hints for this opfrbtion.
+     *
+     * @rfturn Thf <CODE>RfndfringHints</CODE> objfdt for this
+     * <CODE>BufffrfdImbgfOp</CODE>.  Rfturns
+     * null if no hints hbvf bffn sft.
+     */
+    publid RfndfringHints gftRfndfringHints();
+}

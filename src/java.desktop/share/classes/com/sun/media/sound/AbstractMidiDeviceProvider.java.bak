@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import javax.sound.midi.MidiDevice;
-import javax.sound.midi.spi.MidiDeviceProvider;
+import jbvbx.sound.midi.MidiDfvidf;
+import jbvbx.sound.midi.spi.MidiDfvidfProvidfr;
 
 
 /**
- * Super class for MIDI input or output device provider.
+ * Supfr dlbss for MIDI input or output dfvidf providfr.
  *
- * @author Florian Bomers
+ * @butior Floribn Bomfrs
  */
-public abstract class AbstractMidiDeviceProvider extends MidiDeviceProvider {
+publid bbstrbdt dlbss AbstrbdtMidiDfvidfProvidfr fxtfnds MidiDfvidfProvidfr {
 
-    private static final boolean enabled;
+    privbtf stbtid finbl boolfbn fnbblfd;
 
     /**
-     * Create objects representing all MIDI output devices on the system.
+     * Crfbtf objfdts rfprfsfnting bll MIDI output dfvidfs on tif systfm.
      */
-    static {
-        if (Printer.trace) Printer.trace("AbstractMidiDeviceProvider: static");
-        Platform.initialize();
-        enabled = Platform.isMidiIOEnabled();
-        if (Printer.trace) Printer.trace("AbstractMidiDeviceProvider: enabled: " + enabled);
+    stbtid {
+        if (Printfr.trbdf) Printfr.trbdf("AbstrbdtMidiDfvidfProvidfr: stbtid");
+        Plbtform.initiblizf();
+        fnbblfd = Plbtform.isMidiIOEnbblfd();
+        if (Printfr.trbdf) Printfr.trbdf("AbstrbdtMidiDfvidfProvidfr: fnbblfd: " + fnbblfd);
 
-        // $$fb number of MIDI devices may change with time
-        // also for memory's sake, do not initialize the arrays here
+        // $$fb numbfr of MIDI dfvidfs mby dibngf witi timf
+        // blso for mfmory's sbkf, do not initiblizf tif brrbys ifrf
     }
 
 
-    final synchronized void readDeviceInfos() {
-        Info[] infos = getInfoCache();
-        MidiDevice[] devices = getDeviceCache();
-        if (!enabled) {
-            if (infos == null || infos.length != 0) {
-                setInfoCache(new Info[0]);
+    finbl syndironizfd void rfbdDfvidfInfos() {
+        Info[] infos = gftInfoCbdif();
+        MidiDfvidf[] dfvidfs = gftDfvidfCbdif();
+        if (!fnbblfd) {
+            if (infos == null || infos.lfngti != 0) {
+                sftInfoCbdif(nfw Info[0]);
             }
-            if (devices == null || devices.length != 0) {
-                setDeviceCache(new MidiDevice[0]);
+            if (dfvidfs == null || dfvidfs.lfngti != 0) {
+                sftDfvidfCbdif(nfw MidiDfvidf[0]);
             }
-            return;
+            rfturn;
         }
 
-        int oldNumDevices = (infos==null)?-1:infos.length;
-        int newNumDevices = getNumDevices();
-        if (oldNumDevices != newNumDevices) {
-            if (Printer.trace) Printer.trace(getClass().toString()
-                                             +": readDeviceInfos: old numDevices: "+oldNumDevices
-                                             +"  newNumDevices: "+ newNumDevices);
+        int oldNumDfvidfs = (infos==null)?-1:infos.lfngti;
+        int nfwNumDfvidfs = gftNumDfvidfs();
+        if (oldNumDfvidfs != nfwNumDfvidfs) {
+            if (Printfr.trbdf) Printfr.trbdf(gftClbss().toString()
+                                             +": rfbdDfvidfInfos: old numDfvidfs: "+oldNumDfvidfs
+                                             +"  nfwNumDfvidfs: "+ nfwNumDfvidfs);
 
-            // initialize the arrays
-            Info[] newInfos = new Info[newNumDevices];
-            MidiDevice[] newDevices = new MidiDevice[newNumDevices];
+            // initiblizf tif brrbys
+            Info[] nfwInfos = nfw Info[nfwNumDfvidfs];
+            MidiDfvidf[] nfwDfvidfs = nfw MidiDfvidf[nfwNumDfvidfs];
 
-            for (int i = 0; i < newNumDevices; i++) {
-                Info newInfo = createInfo(i);
+            for (int i = 0; i < nfwNumDfvidfs; i++) {
+                Info nfwInfo = drfbtfInfo(i);
 
-                // in case that we are re-reading devices, try to find
-                // the previous one and reuse it
+                // in dbsf tibt wf brf rf-rfbding dfvidfs, try to find
+                // tif prfvious onf bnd rfusf it
                 if (infos != null) {
-                    for (int ii = 0; ii < infos.length; ii++) {
+                    for (int ii = 0; ii < infos.lfngti; ii++) {
                         Info info = infos[ii];
-                        if (info != null && info.equalStrings(newInfo)) {
-                            // new info matches the still existing info. Use old one
-                            newInfos[i] = info;
-                            info.setIndex(i);
-                            infos[ii] = null; // prevent re-use
-                            newDevices[i] = devices[ii];
-                            devices[ii] = null;
-                            break;
+                        if (info != null && info.fqublStrings(nfwInfo)) {
+                            // nfw info mbtdifs tif still fxisting info. Usf old onf
+                            nfwInfos[i] = info;
+                            info.sftIndfx(i);
+                            infos[ii] = null; // prfvfnt rf-usf
+                            nfwDfvidfs[i] = dfvidfs[ii];
+                            dfvidfs[ii] = null;
+                            brfbk;
                         }
                     }
                 }
-                if (newInfos[i] == null) {
-                    newInfos[i] = newInfo;
+                if (nfwInfos[i] == null) {
+                    nfwInfos[i] = nfwInfo;
                 }
             }
-            // the remaining MidiDevice.Info instances in the infos array
-            // have become obsolete.
+            // tif rfmbining MidiDfvidf.Info instbndfs in tif infos brrby
+            // ibvf bfdomf obsolftf.
             if (infos != null) {
-                for (int i = 0; i < infos.length; i++) {
+                for (int i = 0; i < infos.lfngti; i++) {
                     if (infos[i] != null) {
-                        // disable this device info
-                        infos[i].setIndex(-1);
+                        // disbblf tiis dfvidf info
+                        infos[i].sftIndfx(-1);
                     }
-                    // what to do with the MidiDevice instances that are left
-                    // in the devices array ?? Close them ?
+                    // wibt to do witi tif MidiDfvidf instbndfs tibt brf lfft
+                    // in tif dfvidfs brrby ?? Closf tifm ?
                 }
             }
-            // commit new list of infos.
-            setInfoCache(newInfos);
-            setDeviceCache(newDevices);
+            // dommit nfw list of infos.
+            sftInfoCbdif(nfwInfos);
+            sftDfvidfCbdif(nfwDfvidfs);
         }
     }
 
 
-    public final MidiDevice.Info[] getDeviceInfo() {
-        readDeviceInfos();
-        Info[] infos = getInfoCache();
-        MidiDevice.Info[] localArray = new MidiDevice.Info[infos.length];
-        System.arraycopy(infos, 0, localArray, 0, infos.length);
-        return localArray;
+    publid finbl MidiDfvidf.Info[] gftDfvidfInfo() {
+        rfbdDfvidfInfos();
+        Info[] infos = gftInfoCbdif();
+        MidiDfvidf.Info[] lodblArrby = nfw MidiDfvidf.Info[infos.lfngti];
+        Systfm.brrbydopy(infos, 0, lodblArrby, 0, infos.lfngti);
+        rfturn lodblArrby;
     }
 
 
-    public final MidiDevice getDevice(MidiDevice.Info info) {
-        if (info instanceof Info) {
-            readDeviceInfos();
-            MidiDevice[] devices = getDeviceCache();
-            Info[] infos = getInfoCache();
-            Info thisInfo = (Info) info;
-            int index = thisInfo.getIndex();
-            if (index >= 0 && index < devices.length && infos[index] == info) {
-                if (devices[index] == null) {
-                    devices[index] = createDevice(thisInfo);
+    publid finbl MidiDfvidf gftDfvidf(MidiDfvidf.Info info) {
+        if (info instbndfof Info) {
+            rfbdDfvidfInfos();
+            MidiDfvidf[] dfvidfs = gftDfvidfCbdif();
+            Info[] infos = gftInfoCbdif();
+            Info tiisInfo = (Info) info;
+            int indfx = tiisInfo.gftIndfx();
+            if (indfx >= 0 && indfx < dfvidfs.lfngti && infos[indfx] == info) {
+                if (dfvidfs[indfx] == null) {
+                    dfvidfs[indfx] = drfbtfDfvidf(tiisInfo);
                 }
-                if (devices[index] != null) {
-                    return devices[index];
+                if (dfvidfs[indfx] != null) {
+                    rfturn dfvidfs[indfx];
                 }
             }
         }
 
-        throw new IllegalArgumentException("MidiDevice " + info.toString()
-                                           + " not supported by this provider.");
+        tirow nfw IllfgblArgumfntExdfption("MidiDfvidf " + info.toString()
+                                           + " not supportfd by tiis providfr.");
     }
 
 
@@ -153,44 +153,44 @@ public abstract class AbstractMidiDeviceProvider extends MidiDeviceProvider {
 
 
     /**
-     * Info class for MidiDevices.  Adds an index value for
-     * making native references to a particular device.
+     * Info dlbss for MidiDfvidfs.  Adds bn indfx vbluf for
+     * mbking nbtivf rfffrfndfs to b pbrtidulbr dfvidf.
      */
-    static class Info extends MidiDevice.Info {
-        private int index;
+    stbtid dlbss Info fxtfnds MidiDfvidf.Info {
+        privbtf int indfx;
 
-        Info(String name, String vendor, String description, String version, int index) {
-            super(name, vendor, description, version);
-            this.index = index;
+        Info(String nbmf, String vfndor, String dfsdription, String vfrsion, int indfx) {
+            supfr(nbmf, vfndor, dfsdription, vfrsion);
+            tiis.indfx = indfx;
         }
 
-        final boolean equalStrings(Info info) {
-            return      (info != null
-                         && getName().equals(info.getName())
-                         && getVendor().equals(info.getVendor())
-                         && getDescription().equals(info.getDescription())
-                         && getVersion().equals(info.getVersion()));
+        finbl boolfbn fqublStrings(Info info) {
+            rfturn      (info != null
+                         && gftNbmf().fqubls(info.gftNbmf())
+                         && gftVfndor().fqubls(info.gftVfndor())
+                         && gftDfsdription().fqubls(info.gftDfsdription())
+                         && gftVfrsion().fqubls(info.gftVfrsion()));
         }
 
-        final int getIndex() {
-            return index;
+        finbl int gftIndfx() {
+            rfturn indfx;
         }
 
-        final void setIndex(int index) {
-            this.index = index;
+        finbl void sftIndfx(int indfx) {
+            tiis.indfx = indfx;
         }
 
-    } // class Info
+    } // dlbss Info
 
 
     // ABSTRACT METHODS
 
-    abstract int getNumDevices();
-    abstract MidiDevice[] getDeviceCache();
-    abstract void setDeviceCache(MidiDevice[] devices);
-    abstract Info[] getInfoCache();
-    abstract void setInfoCache(Info[] infos);
+    bbstrbdt int gftNumDfvidfs();
+    bbstrbdt MidiDfvidf[] gftDfvidfCbdif();
+    bbstrbdt void sftDfvidfCbdif(MidiDfvidf[] dfvidfs);
+    bbstrbdt Info[] gftInfoCbdif();
+    bbstrbdt void sftInfoCbdif(Info[] infos);
 
-    abstract Info createInfo(int index);
-    abstract MidiDevice createDevice(Info info);
+    bbstrbdt Info drfbtfInfo(int indfx);
+    bbstrbdt MidiDfvidf drfbtfDfvidf(Info info);
 }

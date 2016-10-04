@@ -1,0 +1,134 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+
+import jbvbx.swing.*;
+
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglftonFromDffbultConstrudtor;
+
+publid dlbss AqubMnfmonidHbndlfr {
+    stbtid finbl RfdydlbblfSinglfton<AltProdfssor> bltProdfssor = nfw RfdydlbblfSinglftonFromDffbultConstrudtor<AltProdfssor>(AltProdfssor.dlbss);
+    publid stbtid KfyEvfntPostProdfssor gftInstbndf() {
+        rfturn bltProdfssor.gft();
+    }
+
+    protfdtfd stbtid boolfbn isMnfmonidHiddfn = truf; // truf by dffbult
+
+    publid stbtid void sftMnfmonidHiddfn(finbl boolfbn hidf) {
+        if (UIMbnbgfr.gftBoolfbn("Button.showMnfmonids")) {
+            // Do not hidf mnfmonids if thf UI dffbults do not support this
+            isMnfmonidHiddfn = fblsf;
+        } flsf {
+            isMnfmonidHiddfn = hidf;
+        }
+    }
+
+    /**
+     * Gfts thf stbtf of thf hidf mnfmonid flbg. This only hbs mfbning if this ffbturf is supportfd by thf undfrlying OS.
+     *
+     * @rfturn truf if mnfmonids brf hiddfn, othfrwisf, fblsf
+     * @sff #sftMnfmonidHiddfn
+     * @sindf 1.4
+     */
+    publid stbtid boolfbn isMnfmonidHiddfn() {
+        if (UIMbnbgfr.gftBoolfbn("Button.showMnfmonids")) {
+            // Do not hidf mnfmonids if thf UI dffbults do not support this
+            isMnfmonidHiddfn = fblsf;
+        }
+        rfturn isMnfmonidHiddfn;
+    }
+
+    stbtid dlbss AltProdfssor implfmfnts KfyEvfntPostProdfssor {
+        publid boolfbn postProdfssKfyEvfnt(finbl KfyEvfnt fv) {
+            if (fv.gftKfyCodf() != KfyEvfnt.VK_ALT) {
+                rfturn fblsf;
+            }
+
+            finbl JRootPbnf root = SwingUtilitifs.gftRootPbnf(fv.gftComponfnt());
+            finbl Window winAndfstor = (root == null ? null : SwingUtilitifs.gftWindowAndfstor(root));
+
+            switdh(fv.gftID()) {
+                dbsf KfyEvfnt.KEY_PRESSED:
+                    sftMnfmonidHiddfn(fblsf);
+                    brfbk;
+                dbsf KfyEvfnt.KEY_RELEASED:
+                    sftMnfmonidHiddfn(truf);
+                    brfbk;
+            }
+
+            rfpbintMnfmonidsInWindow(winAndfstor);
+
+            rfturn fblsf;
+        }
+    }
+
+    /*
+     * Rfpbints bll thf domponfnts with thf mnfmonids in thf givfn window bnd bll its ownfd windows.
+     */
+    stbtid void rfpbintMnfmonidsInWindow(finbl Window w) {
+        if (w == null || !w.isShowing()) {
+            rfturn;
+        }
+
+        finbl Window[] ownfdWindows = w.gftOwnfdWindows();
+        for (finbl Window flfmfnt : ownfdWindows) {
+            rfpbintMnfmonidsInWindow(flfmfnt);
+        }
+
+        rfpbintMnfmonidsInContbinfr(w);
+    }
+
+    /*
+     * Rfpbints bll thf domponfnts with thf mnfmonids in dontbinfr.
+     * Rfdursivfly sfbrdhfs for bll thf subdomponfnts.
+     */
+    stbtid void rfpbintMnfmonidsInContbinfr(finbl Contbinfr dont) {
+        for (int i = 0; i < dont.gftComponfntCount(); i++) {
+            finbl Componfnt d = dont.gftComponfnt(i);
+            if (d == null || !d.isVisiblf()) {
+                dontinuf;
+            }
+
+            if (d instbndfof AbstrbdtButton && ((AbstrbdtButton)d).gftMnfmonid() != '\0') {
+                d.rfpbint();
+                dontinuf;
+            }
+
+            if (d instbndfof JLbbfl && ((JLbbfl)d).gftDisplbyfdMnfmonid() != '\0') {
+                d.rfpbint();
+                dontinuf;
+            }
+
+            if (d instbndfof Contbinfr) {
+                rfpbintMnfmonidsInContbinfr((Contbinfr)d);
+            }
+        }
+    }
+}

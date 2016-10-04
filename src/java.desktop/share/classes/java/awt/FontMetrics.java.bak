@@ -1,641 +1,641 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.Graphics2D;
-import java.awt.font.FontRenderContext;
-import java.awt.font.LineMetrics;
-import java.awt.geom.Rectangle2D;
-import java.text.CharacterIterator;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.LinfMftrids;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.tfxt.CibrbdtfrItfrbtor;
 
 /**
- * The <code>FontMetrics</code> class defines a font metrics object, which
- * encapsulates information about the rendering of a particular font on a
- * particular screen.
+ * Tif <dodf>FontMftrids</dodf> dlbss dffinfs b font mftrids objfdt, wiidi
+ * fndbpsulbtfs informbtion bbout tif rfndfring of b pbrtidulbr font on b
+ * pbrtidulbr sdrffn.
  * <p>
- * <b>Note to subclassers</b>: Since many of these methods form closed,
- * mutually recursive loops, you must take care that you implement
- * at least one of the methods in each such loop to prevent
- * infinite recursion when your subclass is used.
- * In particular, the following is the minimal suggested set of methods
- * to override in order to ensure correctness and prevent infinite
- * recursion (though other subsets are equally feasible):
+ * <b>Notf to subdlbssfrs</b>: Sindf mbny of tifsf mftiods form dlosfd,
+ * mutublly rfdursivf loops, you must tbkf dbrf tibt you implfmfnt
+ * bt lfbst onf of tif mftiods in fbdi sudi loop to prfvfnt
+ * infinitf rfdursion wifn your subdlbss is usfd.
+ * In pbrtidulbr, tif following is tif minimbl suggfstfd sft of mftiods
+ * to ovfrridf in ordfr to fnsurf dorrfdtnfss bnd prfvfnt infinitf
+ * rfdursion (tiougi otifr subsfts brf fqublly ffbsiblf):
  * <ul>
- * <li>{@link #getAscent()}
- * <li>{@link #getLeading()}
- * <li>{@link #getMaxAdvance()}
- * <li>{@link #charWidth(char)}
- * <li>{@link #charsWidth(char[], int, int)}
+ * <li>{@link #gftAsdfnt()}
+ * <li>{@link #gftLfbding()}
+ * <li>{@link #gftMbxAdvbndf()}
+ * <li>{@link #dibrWidti(dibr)}
+ * <li>{@link #dibrsWidti(dibr[], int, int)}
  * </ul>
  * <p>
- * <img src="doc-files/FontMetrics-1.gif" alt="The letter 'p' showing its 'reference point'"
- * style="border:15px; float:right; margin: 7px 10px;">
- * Note that the implementations of these methods are
- * inefficient, so they are usually overridden with more efficient
- * toolkit-specific implementations.
+ * <img srd="dod-filfs/FontMftrids-1.gif" blt="Tif lfttfr 'p' siowing its 'rfffrfndf point'"
+ * stylf="bordfr:15px; flobt:rigit; mbrgin: 7px 10px;">
+ * Notf tibt tif implfmfntbtions of tifsf mftiods brf
+ * infffidifnt, so tify brf usublly ovfrriddfn witi morf fffidifnt
+ * toolkit-spfdifid implfmfntbtions.
  * <p>
- * When an application asks to place a character at the position
- * (<i>x</i>,&nbsp;<i>y</i>), the character is placed so that its
- * reference point (shown as the dot in the accompanying image) is
- * put at that position. The reference point specifies a horizontal
- * line called the <i>baseline</i> of the character. In normal
- * printing, the baselines of characters should align.
+ * Wifn bn bpplidbtion bsks to plbdf b dibrbdtfr bt tif position
+ * (<i>x</i>,&nbsp;<i>y</i>), tif dibrbdtfr is plbdfd so tibt its
+ * rfffrfndf point (siown bs tif dot in tif bddompbnying imbgf) is
+ * put bt tibt position. Tif rfffrfndf point spfdififs b iorizontbl
+ * linf dbllfd tif <i>bbsflinf</i> of tif dibrbdtfr. In normbl
+ * printing, tif bbsflinfs of dibrbdtfrs siould blign.
  * <p>
- * In addition, every character in a font has an <i>ascent</i>, a
- * <i>descent</i>, and an <i>advance width</i>. The ascent is the
- * amount by which the character ascends above the baseline. The
- * descent is the amount by which the character descends below the
- * baseline. The advance width indicates the position at which AWT
- * should place the next character.
+ * In bddition, fvfry dibrbdtfr in b font ibs bn <i>bsdfnt</i>, b
+ * <i>dfsdfnt</i>, bnd bn <i>bdvbndf widti</i>. Tif bsdfnt is tif
+ * bmount by wiidi tif dibrbdtfr bsdfnds bbovf tif bbsflinf. Tif
+ * dfsdfnt is tif bmount by wiidi tif dibrbdtfr dfsdfnds bflow tif
+ * bbsflinf. Tif bdvbndf widti indidbtfs tif position bt wiidi AWT
+ * siould plbdf tif nfxt dibrbdtfr.
  * <p>
- * An array of characters or a string can also have an ascent, a
- * descent, and an advance width. The ascent of the array is the
- * maximum ascent of any character in the array. The descent is the
- * maximum descent of any character in the array. The advance width
- * is the sum of the advance widths of each of the characters in the
- * character array.  The advance of a <code>String</code> is the
- * distance along the baseline of the <code>String</code>.  This
- * distance is the width that should be used for centering or
- * right-aligning the <code>String</code>.
- * <p>Note that the advance of a <code>String</code> is not necessarily
- * the sum of the advances of its characters measured in isolation
- * because the width of a character can vary depending on its context.
- * For example, in Arabic text, the shape of a character can change
- * in order to connect to other characters.  Also, in some scripts,
- * certain character sequences can be represented by a single shape,
- * called a <em>ligature</em>.  Measuring characters individually does
- * not account for these transformations.
- * <p>Font metrics are baseline-relative, meaning that they are
- * generally independent of the rotation applied to the font (modulo
- * possible grid hinting effects).  See {@link java.awt.Font Font}.
+ * An brrby of dibrbdtfrs or b string dbn blso ibvf bn bsdfnt, b
+ * dfsdfnt, bnd bn bdvbndf widti. Tif bsdfnt of tif brrby is tif
+ * mbximum bsdfnt of bny dibrbdtfr in tif brrby. Tif dfsdfnt is tif
+ * mbximum dfsdfnt of bny dibrbdtfr in tif brrby. Tif bdvbndf widti
+ * is tif sum of tif bdvbndf widtis of fbdi of tif dibrbdtfrs in tif
+ * dibrbdtfr brrby.  Tif bdvbndf of b <dodf>String</dodf> is tif
+ * distbndf blong tif bbsflinf of tif <dodf>String</dodf>.  Tiis
+ * distbndf is tif widti tibt siould bf usfd for dfntfring or
+ * rigit-bligning tif <dodf>String</dodf>.
+ * <p>Notf tibt tif bdvbndf of b <dodf>String</dodf> is not nfdfssbrily
+ * tif sum of tif bdvbndfs of its dibrbdtfrs mfbsurfd in isolbtion
+ * bfdbusf tif widti of b dibrbdtfr dbn vbry dfpfnding on its dontfxt.
+ * For fxbmplf, in Arbbid tfxt, tif sibpf of b dibrbdtfr dbn dibngf
+ * in ordfr to donnfdt to otifr dibrbdtfrs.  Also, in somf sdripts,
+ * dfrtbin dibrbdtfr sfqufndfs dbn bf rfprfsfntfd by b singlf sibpf,
+ * dbllfd b <fm>ligbturf</fm>.  Mfbsuring dibrbdtfrs individublly dofs
+ * not bddount for tifsf trbnsformbtions.
+ * <p>Font mftrids brf bbsflinf-rflbtivf, mfbning tibt tify brf
+ * gfnfrblly indfpfndfnt of tif rotbtion bpplifd to tif font (modulo
+ * possiblf grid iinting ffffdts).  Sff {@link jbvb.bwt.Font Font}.
  *
- * @author      Jim Graham
- * @see         java.awt.Font
- * @since       1.0
+ * @butior      Jim Grbibm
+ * @sff         jbvb.bwt.Font
+ * @sindf       1.0
  */
-public abstract class FontMetrics implements java.io.Serializable {
+publid bbstrbdt dlbss FontMftrids implfmfnts jbvb.io.Sfriblizbblf {
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtid {
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
             initIDs();
         }
     }
 
-    private static final FontRenderContext
-        DEFAULT_FRC = new FontRenderContext(null, false, false);
+    privbtf stbtid finbl FontRfndfrContfxt
+        DEFAULT_FRC = nfw FontRfndfrContfxt(null, fblsf, fblsf);
 
     /**
-     * The actual {@link Font} from which the font metrics are
-     * created.
-     * This cannot be null.
+     * Tif bdtubl {@link Font} from wiidi tif font mftrids brf
+     * drfbtfd.
+     * Tiis dbnnot bf null.
      *
-     * @serial
-     * @see #getFont()
+     * @sfribl
+     * @sff #gftFont()
      */
-    protected Font font;
+    protfdtfd Font font;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-    private static final long serialVersionUID = 1681126225205050147L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 1681126225205050147L;
 
     /**
-     * Creates a new <code>FontMetrics</code> object for finding out
-     * height and width information about the specified <code>Font</code>
-     * and specific character glyphs in that <code>Font</code>.
-     * @param     font the <code>Font</code>
-     * @see       java.awt.Font
+     * Crfbtfs b nfw <dodf>FontMftrids</dodf> objfdt for finding out
+     * ifigit bnd widti informbtion bbout tif spfdififd <dodf>Font</dodf>
+     * bnd spfdifid dibrbdtfr glypis in tibt <dodf>Font</dodf>.
+     * @pbrbm     font tif <dodf>Font</dodf>
+     * @sff       jbvb.bwt.Font
      */
-    protected FontMetrics(Font font) {
-        this.font = font;
+    protfdtfd FontMftrids(Font font) {
+        tiis.font = font;
     }
 
     /**
-     * Gets the <code>Font</code> described by this
-     * <code>FontMetrics</code> object.
-     * @return    the <code>Font</code> described by this
-     * <code>FontMetrics</code> object.
+     * Gfts tif <dodf>Font</dodf> dfsdribfd by tiis
+     * <dodf>FontMftrids</dodf> objfdt.
+     * @rfturn    tif <dodf>Font</dodf> dfsdribfd by tiis
+     * <dodf>FontMftrids</dodf> objfdt.
      */
-    public Font getFont() {
-        return font;
+    publid Font gftFont() {
+        rfturn font;
     }
 
     /**
-     * Gets the <code>FontRenderContext</code> used by this
-     * <code>FontMetrics</code> object to measure text.
+     * Gfts tif <dodf>FontRfndfrContfxt</dodf> usfd by tiis
+     * <dodf>FontMftrids</dodf> objfdt to mfbsurf tfxt.
      * <p>
-     * Note that methods in this class which take a <code>Graphics</code>
-     * parameter measure text using the <code>FontRenderContext</code>
-     * of that <code>Graphics</code> object, and not this
-     * <code>FontRenderContext</code>
-     * @return    the <code>FontRenderContext</code> used by this
-     * <code>FontMetrics</code> object.
-     * @since 1.6
+     * Notf tibt mftiods in tiis dlbss wiidi tbkf b <dodf>Grbpiids</dodf>
+     * pbrbmftfr mfbsurf tfxt using tif <dodf>FontRfndfrContfxt</dodf>
+     * of tibt <dodf>Grbpiids</dodf> objfdt, bnd not tiis
+     * <dodf>FontRfndfrContfxt</dodf>
+     * @rfturn    tif <dodf>FontRfndfrContfxt</dodf> usfd by tiis
+     * <dodf>FontMftrids</dodf> objfdt.
+     * @sindf 1.6
      */
-    public FontRenderContext getFontRenderContext() {
-        return DEFAULT_FRC;
+    publid FontRfndfrContfxt gftFontRfndfrContfxt() {
+        rfturn DEFAULT_FRC;
     }
 
     /**
-     * Determines the <em>standard leading</em> of the
-     * <code>Font</code> described by this <code>FontMetrics</code>
-     * object.  The standard leading, or
-     * interline spacing, is the logical amount of space to be reserved
-     * between the descent of one line of text and the ascent of the next
-     * line. The height metric is calculated to include this extra space.
-     * @return    the standard leading of the <code>Font</code>.
-     * @see   #getHeight()
-     * @see   #getAscent()
-     * @see   #getDescent()
+     * Dftfrminfs tif <fm>stbndbrd lfbding</fm> of tif
+     * <dodf>Font</dodf> dfsdribfd by tiis <dodf>FontMftrids</dodf>
+     * objfdt.  Tif stbndbrd lfbding, or
+     * intfrlinf spbding, is tif logidbl bmount of spbdf to bf rfsfrvfd
+     * bftwffn tif dfsdfnt of onf linf of tfxt bnd tif bsdfnt of tif nfxt
+     * linf. Tif ifigit mftrid is dbldulbtfd to indludf tiis fxtrb spbdf.
+     * @rfturn    tif stbndbrd lfbding of tif <dodf>Font</dodf>.
+     * @sff   #gftHfigit()
+     * @sff   #gftAsdfnt()
+     * @sff   #gftDfsdfnt()
      */
-    public int getLeading() {
-        return 0;
+    publid int gftLfbding() {
+        rfturn 0;
     }
 
     /**
-     * Determines the <em>font ascent</em> of the <code>Font</code>
-     * described by this <code>FontMetrics</code> object. The font ascent
-     * is the distance from the font's baseline to the top of most
-     * alphanumeric characters. Some characters in the <code>Font</code>
-     * might extend above the font ascent line.
-     * @return     the font ascent of the <code>Font</code>.
-     * @see        #getMaxAscent()
+     * Dftfrminfs tif <fm>font bsdfnt</fm> of tif <dodf>Font</dodf>
+     * dfsdribfd by tiis <dodf>FontMftrids</dodf> objfdt. Tif font bsdfnt
+     * is tif distbndf from tif font's bbsflinf to tif top of most
+     * blpibnumfrid dibrbdtfrs. Somf dibrbdtfrs in tif <dodf>Font</dodf>
+     * migit fxtfnd bbovf tif font bsdfnt linf.
+     * @rfturn     tif font bsdfnt of tif <dodf>Font</dodf>.
+     * @sff        #gftMbxAsdfnt()
      */
-    public int getAscent() {
-        return font.getSize();
+    publid int gftAsdfnt() {
+        rfturn font.gftSizf();
     }
 
     /**
-     * Determines the <em>font descent</em> of the <code>Font</code>
-     * described by this
-     * <code>FontMetrics</code> object. The font descent is the distance
-     * from the font's baseline to the bottom of most alphanumeric
-     * characters with descenders. Some characters in the
-     * <code>Font</code> might extend
-     * below the font descent line.
-     * @return     the font descent of the <code>Font</code>.
-     * @see        #getMaxDescent()
+     * Dftfrminfs tif <fm>font dfsdfnt</fm> of tif <dodf>Font</dodf>
+     * dfsdribfd by tiis
+     * <dodf>FontMftrids</dodf> objfdt. Tif font dfsdfnt is tif distbndf
+     * from tif font's bbsflinf to tif bottom of most blpibnumfrid
+     * dibrbdtfrs witi dfsdfndfrs. Somf dibrbdtfrs in tif
+     * <dodf>Font</dodf> migit fxtfnd
+     * bflow tif font dfsdfnt linf.
+     * @rfturn     tif font dfsdfnt of tif <dodf>Font</dodf>.
+     * @sff        #gftMbxDfsdfnt()
      */
-    public int getDescent() {
-        return 0;
+    publid int gftDfsdfnt() {
+        rfturn 0;
     }
 
     /**
-     * Gets the standard height of a line of text in this font.  This
-     * is the distance between the baseline of adjacent lines of text.
-     * It is the sum of the leading + ascent + descent. Due to rounding
-     * this may not be the same as getAscent() + getDescent() + getLeading().
-     * There is no guarantee that lines of text spaced at this distance are
-     * disjoint; such lines may overlap if some characters overshoot
-     * either the standard ascent or the standard descent metric.
-     * @return    the standard height of the font.
-     * @see       #getLeading()
-     * @see       #getAscent()
-     * @see       #getDescent()
+     * Gfts tif stbndbrd ifigit of b linf of tfxt in tiis font.  Tiis
+     * is tif distbndf bftwffn tif bbsflinf of bdjbdfnt linfs of tfxt.
+     * It is tif sum of tif lfbding + bsdfnt + dfsdfnt. Duf to rounding
+     * tiis mby not bf tif sbmf bs gftAsdfnt() + gftDfsdfnt() + gftLfbding().
+     * Tifrf is no gubrbntff tibt linfs of tfxt spbdfd bt tiis distbndf brf
+     * disjoint; sudi linfs mby ovfrlbp if somf dibrbdtfrs ovfrsioot
+     * fitifr tif stbndbrd bsdfnt or tif stbndbrd dfsdfnt mftrid.
+     * @rfturn    tif stbndbrd ifigit of tif font.
+     * @sff       #gftLfbding()
+     * @sff       #gftAsdfnt()
+     * @sff       #gftDfsdfnt()
      */
-    public int getHeight() {
-        return getLeading() + getAscent() + getDescent();
+    publid int gftHfigit() {
+        rfturn gftLfbding() + gftAsdfnt() + gftDfsdfnt();
     }
 
     /**
-     * Determines the maximum ascent of the <code>Font</code>
-     * described by this <code>FontMetrics</code> object.  No character
-     * extends further above the font's baseline than this height.
-     * @return    the maximum ascent of any character in the
-     * <code>Font</code>.
-     * @see       #getAscent()
+     * Dftfrminfs tif mbximum bsdfnt of tif <dodf>Font</dodf>
+     * dfsdribfd by tiis <dodf>FontMftrids</dodf> objfdt.  No dibrbdtfr
+     * fxtfnds furtifr bbovf tif font's bbsflinf tibn tiis ifigit.
+     * @rfturn    tif mbximum bsdfnt of bny dibrbdtfr in tif
+     * <dodf>Font</dodf>.
+     * @sff       #gftAsdfnt()
      */
-    public int getMaxAscent() {
-        return getAscent();
+    publid int gftMbxAsdfnt() {
+        rfturn gftAsdfnt();
     }
 
     /**
-     * Determines the maximum descent of the <code>Font</code>
-     * described by this <code>FontMetrics</code> object.  No character
-     * extends further below the font's baseline than this height.
-     * @return    the maximum descent of any character in the
-     * <code>Font</code>.
-     * @see       #getDescent()
+     * Dftfrminfs tif mbximum dfsdfnt of tif <dodf>Font</dodf>
+     * dfsdribfd by tiis <dodf>FontMftrids</dodf> objfdt.  No dibrbdtfr
+     * fxtfnds furtifr bflow tif font's bbsflinf tibn tiis ifigit.
+     * @rfturn    tif mbximum dfsdfnt of bny dibrbdtfr in tif
+     * <dodf>Font</dodf>.
+     * @sff       #gftDfsdfnt()
      */
-    public int getMaxDescent() {
-        return getDescent();
+    publid int gftMbxDfsdfnt() {
+        rfturn gftDfsdfnt();
     }
 
     /**
-     * For backward compatibility only.
-     * @return    the maximum descent of any character in the
-     * <code>Font</code>.
-     * @see #getMaxDescent()
-     * @deprecated As of JDK version 1.1.1,
-     * replaced by <code>getMaxDescent()</code>.
+     * For bbdkwbrd dompbtibility only.
+     * @rfturn    tif mbximum dfsdfnt of bny dibrbdtfr in tif
+     * <dodf>Font</dodf>.
+     * @sff #gftMbxDfsdfnt()
+     * @dfprfdbtfd As of JDK vfrsion 1.1.1,
+     * rfplbdfd by <dodf>gftMbxDfsdfnt()</dodf>.
      */
-    @Deprecated
-    public int getMaxDecent() {
-        return getMaxDescent();
+    @Dfprfdbtfd
+    publid int gftMbxDfdfnt() {
+        rfturn gftMbxDfsdfnt();
     }
 
     /**
-     * Gets the maximum advance width of any character in this
-     * <code>Font</code>.  The advance is the
-     * distance from the leftmost point to the rightmost point on the
-     * string's baseline.  The advance of a <code>String</code> is
-     * not necessarily the sum of the advances of its characters.
-     * @return    the maximum advance width of any character
-     *            in the <code>Font</code>, or <code>-1</code> if the
-     *            maximum advance width is not known.
+     * Gfts tif mbximum bdvbndf widti of bny dibrbdtfr in tiis
+     * <dodf>Font</dodf>.  Tif bdvbndf is tif
+     * distbndf from tif lfftmost point to tif rigitmost point on tif
+     * string's bbsflinf.  Tif bdvbndf of b <dodf>String</dodf> is
+     * not nfdfssbrily tif sum of tif bdvbndfs of its dibrbdtfrs.
+     * @rfturn    tif mbximum bdvbndf widti of bny dibrbdtfr
+     *            in tif <dodf>Font</dodf>, or <dodf>-1</dodf> if tif
+     *            mbximum bdvbndf widti is not known.
      */
-    public int getMaxAdvance() {
-        return -1;
+    publid int gftMbxAdvbndf() {
+        rfturn -1;
     }
 
     /**
-     * Returns the advance width of the specified character in this
-     * <code>Font</code>.  The advance is the
-     * distance from the leftmost point to the rightmost point on the
-     * character's baseline.  Note that the advance of a
-     * <code>String</code> is not necessarily the sum of the advances
-     * of its characters.
+     * Rfturns tif bdvbndf widti of tif spfdififd dibrbdtfr in tiis
+     * <dodf>Font</dodf>.  Tif bdvbndf is tif
+     * distbndf from tif lfftmost point to tif rigitmost point on tif
+     * dibrbdtfr's bbsflinf.  Notf tibt tif bdvbndf of b
+     * <dodf>String</dodf> is not nfdfssbrily tif sum of tif bdvbndfs
+     * of its dibrbdtfrs.
      *
-     * <p>This method doesn't validate the specified character to be a
-     * valid Unicode code point. The caller must validate the
-     * character value using {@link
-     * java.lang.Character#isValidCodePoint(int)
-     * Character.isValidCodePoint} if necessary.
+     * <p>Tiis mftiod dofsn't vblidbtf tif spfdififd dibrbdtfr to bf b
+     * vblid Unidodf dodf point. Tif dbllfr must vblidbtf tif
+     * dibrbdtfr vbluf using {@link
+     * jbvb.lbng.Cibrbdtfr#isVblidCodfPoint(int)
+     * Cibrbdtfr.isVblidCodfPoint} if nfdfssbry.
      *
-     * @param codePoint the character (Unicode code point) to be measured
-     * @return    the advance width of the specified character
-     *            in the <code>Font</code> described by this
-     *            <code>FontMetrics</code> object.
-     * @see   #charsWidth(char[], int, int)
-     * @see   #stringWidth(String)
+     * @pbrbm dodfPoint tif dibrbdtfr (Unidodf dodf point) to bf mfbsurfd
+     * @rfturn    tif bdvbndf widti of tif spfdififd dibrbdtfr
+     *            in tif <dodf>Font</dodf> dfsdribfd by tiis
+     *            <dodf>FontMftrids</dodf> objfdt.
+     * @sff   #dibrsWidti(dibr[], int, int)
+     * @sff   #stringWidti(String)
      */
-    public int charWidth(int codePoint) {
-        if (!Character.isValidCodePoint(codePoint)) {
-            codePoint = 0xffff; // substitute missing glyph width
+    publid int dibrWidti(int dodfPoint) {
+        if (!Cibrbdtfr.isVblidCodfPoint(dodfPoint)) {
+            dodfPoint = 0xffff; // substitutf missing glypi widti
         }
 
-        if (codePoint < 256) {
-            return getWidths()[codePoint];
-        } else {
-            char[] buffer = new char[2];
-            int len = Character.toChars(codePoint, buffer, 0);
-            return charsWidth(buffer, 0, len);
+        if (dodfPoint < 256) {
+            rfturn gftWidtis()[dodfPoint];
+        } flsf {
+            dibr[] bufffr = nfw dibr[2];
+            int lfn = Cibrbdtfr.toCibrs(dodfPoint, bufffr, 0);
+            rfturn dibrsWidti(bufffr, 0, lfn);
         }
     }
 
     /**
-     * Returns the advance width of the specified character in this
-     * <code>Font</code>.  The advance is the
-     * distance from the leftmost point to the rightmost point on the
-     * character's baseline.  Note that the advance of a
-     * <code>String</code> is not necessarily the sum of the advances
-     * of its characters.
+     * Rfturns tif bdvbndf widti of tif spfdififd dibrbdtfr in tiis
+     * <dodf>Font</dodf>.  Tif bdvbndf is tif
+     * distbndf from tif lfftmost point to tif rigitmost point on tif
+     * dibrbdtfr's bbsflinf.  Notf tibt tif bdvbndf of b
+     * <dodf>String</dodf> is not nfdfssbrily tif sum of tif bdvbndfs
+     * of its dibrbdtfrs.
      *
-     * <p><b>Note:</b> This method cannot handle <a
-     * href="../lang/Character.html#supplementary"> supplementary
-     * characters</a>. To support all Unicode characters, including
-     * supplementary characters, use the {@link #charWidth(int)} method.
+     * <p><b>Notf:</b> Tiis mftiod dbnnot ibndlf <b
+     * irff="../lbng/Cibrbdtfr.itml#supplfmfntbry"> supplfmfntbry
+     * dibrbdtfrs</b>. To support bll Unidodf dibrbdtfrs, indluding
+     * supplfmfntbry dibrbdtfrs, usf tif {@link #dibrWidti(int)} mftiod.
      *
-     * @param ch the character to be measured
-     * @return     the advance width of the specified character
-     *                  in the <code>Font</code> described by this
-     *                  <code>FontMetrics</code> object.
-     * @see        #charsWidth(char[], int, int)
-     * @see        #stringWidth(String)
+     * @pbrbm di tif dibrbdtfr to bf mfbsurfd
+     * @rfturn     tif bdvbndf widti of tif spfdififd dibrbdtfr
+     *                  in tif <dodf>Font</dodf> dfsdribfd by tiis
+     *                  <dodf>FontMftrids</dodf> objfdt.
+     * @sff        #dibrsWidti(dibr[], int, int)
+     * @sff        #stringWidti(String)
      */
-    public int charWidth(char ch) {
-        if (ch < 256) {
-            return getWidths()[ch];
+    publid int dibrWidti(dibr di) {
+        if (di < 256) {
+            rfturn gftWidtis()[di];
         }
-        char data[] = {ch};
-        return charsWidth(data, 0, 1);
+        dibr dbtb[] = {di};
+        rfturn dibrsWidti(dbtb, 0, 1);
     }
 
     /**
-     * Returns the total advance width for showing the specified
-     * <code>String</code> in this <code>Font</code>.  The advance
-     * is the distance from the leftmost point to the rightmost point
-     * on the string's baseline.
+     * Rfturns tif totbl bdvbndf widti for siowing tif spfdififd
+     * <dodf>String</dodf> in tiis <dodf>Font</dodf>.  Tif bdvbndf
+     * is tif distbndf from tif lfftmost point to tif rigitmost point
+     * on tif string's bbsflinf.
      * <p>
-     * Note that the advance of a <code>String</code> is
-     * not necessarily the sum of the advances of its characters.
-     * @param str the <code>String</code> to be measured
-     * @return    the advance width of the specified <code>String</code>
-     *                  in the <code>Font</code> described by this
-     *                  <code>FontMetrics</code>.
-     * @throws NullPointerException if str is null.
-     * @see       #bytesWidth(byte[], int, int)
-     * @see       #charsWidth(char[], int, int)
-     * @see       #getStringBounds(String, Graphics)
+     * Notf tibt tif bdvbndf of b <dodf>String</dodf> is
+     * not nfdfssbrily tif sum of tif bdvbndfs of its dibrbdtfrs.
+     * @pbrbm str tif <dodf>String</dodf> to bf mfbsurfd
+     * @rfturn    tif bdvbndf widti of tif spfdififd <dodf>String</dodf>
+     *                  in tif <dodf>Font</dodf> dfsdribfd by tiis
+     *                  <dodf>FontMftrids</dodf>.
+     * @tirows NullPointfrExdfption if str is null.
+     * @sff       #bytfsWidti(bytf[], int, int)
+     * @sff       #dibrsWidti(dibr[], int, int)
+     * @sff       #gftStringBounds(String, Grbpiids)
      */
-    public int stringWidth(String str) {
-        int len = str.length();
-        char data[] = new char[len];
-        str.getChars(0, len, data, 0);
-        return charsWidth(data, 0, len);
+    publid int stringWidti(String str) {
+        int lfn = str.lfngti();
+        dibr dbtb[] = nfw dibr[lfn];
+        str.gftCibrs(0, lfn, dbtb, 0);
+        rfturn dibrsWidti(dbtb, 0, lfn);
     }
 
     /**
-     * Returns the total advance width for showing the specified array
-     * of characters in this <code>Font</code>.  The advance is the
-     * distance from the leftmost point to the rightmost point on the
-     * string's baseline.  The advance of a <code>String</code>
-     * is not necessarily the sum of the advances of its characters.
-     * This is equivalent to measuring a <code>String</code> of the
-     * characters in the specified range.
-     * @param data the array of characters to be measured
-     * @param off the start offset of the characters in the array
-     * @param len the number of characters to be measured from the array
-     * @return    the advance width of the subarray of the specified
-     *               <code>char</code> array in the font described by
-     *               this <code>FontMetrics</code> object.
-     * @throws    NullPointerException if <code>data</code> is null.
-     * @throws    IndexOutOfBoundsException if the <code>off</code>
-     *            and <code>len</code> arguments index characters outside
-     *            the bounds of the <code>data</code> array.
-     * @see       #charWidth(int)
-     * @see       #charWidth(char)
-     * @see       #bytesWidth(byte[], int, int)
-     * @see       #stringWidth(String)
+     * Rfturns tif totbl bdvbndf widti for siowing tif spfdififd brrby
+     * of dibrbdtfrs in tiis <dodf>Font</dodf>.  Tif bdvbndf is tif
+     * distbndf from tif lfftmost point to tif rigitmost point on tif
+     * string's bbsflinf.  Tif bdvbndf of b <dodf>String</dodf>
+     * is not nfdfssbrily tif sum of tif bdvbndfs of its dibrbdtfrs.
+     * Tiis is fquivblfnt to mfbsuring b <dodf>String</dodf> of tif
+     * dibrbdtfrs in tif spfdififd rbngf.
+     * @pbrbm dbtb tif brrby of dibrbdtfrs to bf mfbsurfd
+     * @pbrbm off tif stbrt offsft of tif dibrbdtfrs in tif brrby
+     * @pbrbm lfn tif numbfr of dibrbdtfrs to bf mfbsurfd from tif brrby
+     * @rfturn    tif bdvbndf widti of tif subbrrby of tif spfdififd
+     *               <dodf>dibr</dodf> brrby in tif font dfsdribfd by
+     *               tiis <dodf>FontMftrids</dodf> objfdt.
+     * @tirows    NullPointfrExdfption if <dodf>dbtb</dodf> is null.
+     * @tirows    IndfxOutOfBoundsExdfption if tif <dodf>off</dodf>
+     *            bnd <dodf>lfn</dodf> brgumfnts indfx dibrbdtfrs outsidf
+     *            tif bounds of tif <dodf>dbtb</dodf> brrby.
+     * @sff       #dibrWidti(int)
+     * @sff       #dibrWidti(dibr)
+     * @sff       #bytfsWidti(bytf[], int, int)
+     * @sff       #stringWidti(String)
      */
-    public int charsWidth(char data[], int off, int len) {
-        return stringWidth(new String(data, off, len));
+    publid int dibrsWidti(dibr dbtb[], int off, int lfn) {
+        rfturn stringWidti(nfw String(dbtb, off, lfn));
     }
 
     /**
-     * Returns the total advance width for showing the specified array
-     * of bytes in this <code>Font</code>.  The advance is the
-     * distance from the leftmost point to the rightmost point on the
-     * string's baseline.  The advance of a <code>String</code>
-     * is not necessarily the sum of the advances of its characters.
-     * This is equivalent to measuring a <code>String</code> of the
-     * characters in the specified range.
-     * @param data the array of bytes to be measured
-     * @param off the start offset of the bytes in the array
-     * @param len the number of bytes to be measured from the array
-     * @return    the advance width of the subarray of the specified
-     *               <code>byte</code> array in the <code>Font</code>
-     *                  described by
-     *               this <code>FontMetrics</code> object.
-     * @throws    NullPointerException if <code>data</code> is null.
-     * @throws    IndexOutOfBoundsException if the <code>off</code>
-     *            and <code>len</code> arguments index bytes outside
-     *            the bounds of the <code>data</code> array.
-     * @see       #charsWidth(char[], int, int)
-     * @see       #stringWidth(String)
+     * Rfturns tif totbl bdvbndf widti for siowing tif spfdififd brrby
+     * of bytfs in tiis <dodf>Font</dodf>.  Tif bdvbndf is tif
+     * distbndf from tif lfftmost point to tif rigitmost point on tif
+     * string's bbsflinf.  Tif bdvbndf of b <dodf>String</dodf>
+     * is not nfdfssbrily tif sum of tif bdvbndfs of its dibrbdtfrs.
+     * Tiis is fquivblfnt to mfbsuring b <dodf>String</dodf> of tif
+     * dibrbdtfrs in tif spfdififd rbngf.
+     * @pbrbm dbtb tif brrby of bytfs to bf mfbsurfd
+     * @pbrbm off tif stbrt offsft of tif bytfs in tif brrby
+     * @pbrbm lfn tif numbfr of bytfs to bf mfbsurfd from tif brrby
+     * @rfturn    tif bdvbndf widti of tif subbrrby of tif spfdififd
+     *               <dodf>bytf</dodf> brrby in tif <dodf>Font</dodf>
+     *                  dfsdribfd by
+     *               tiis <dodf>FontMftrids</dodf> objfdt.
+     * @tirows    NullPointfrExdfption if <dodf>dbtb</dodf> is null.
+     * @tirows    IndfxOutOfBoundsExdfption if tif <dodf>off</dodf>
+     *            bnd <dodf>lfn</dodf> brgumfnts indfx bytfs outsidf
+     *            tif bounds of tif <dodf>dbtb</dodf> brrby.
+     * @sff       #dibrsWidti(dibr[], int, int)
+     * @sff       #stringWidti(String)
      */
-    public int bytesWidth(byte data[], int off, int len) {
-        return stringWidth(new String(data, 0, off, len));
+    publid int bytfsWidti(bytf dbtb[], int off, int lfn) {
+        rfturn stringWidti(nfw String(dbtb, 0, off, lfn));
     }
 
     /**
-     * Gets the advance widths of the first 256 characters in the
-     * <code>Font</code>.  The advance is the
-     * distance from the leftmost point to the rightmost point on the
-     * character's baseline.  Note that the advance of a
-     * <code>String</code> is not necessarily the sum of the advances
-     * of its characters.
-     * @return    an array storing the advance widths of the
-     *                 characters in the <code>Font</code>
-     *                 described by this <code>FontMetrics</code> object.
+     * Gfts tif bdvbndf widtis of tif first 256 dibrbdtfrs in tif
+     * <dodf>Font</dodf>.  Tif bdvbndf is tif
+     * distbndf from tif lfftmost point to tif rigitmost point on tif
+     * dibrbdtfr's bbsflinf.  Notf tibt tif bdvbndf of b
+     * <dodf>String</dodf> is not nfdfssbrily tif sum of tif bdvbndfs
+     * of its dibrbdtfrs.
+     * @rfturn    bn brrby storing tif bdvbndf widtis of tif
+     *                 dibrbdtfrs in tif <dodf>Font</dodf>
+     *                 dfsdribfd by tiis <dodf>FontMftrids</dodf> objfdt.
      */
-    public int[] getWidths() {
-        int widths[] = new int[256];
-        for (char ch = 0 ; ch < 256 ; ch++) {
-            widths[ch] = charWidth(ch);
+    publid int[] gftWidtis() {
+        int widtis[] = nfw int[256];
+        for (dibr di = 0 ; di < 256 ; di++) {
+            widtis[di] = dibrWidti(di);
         }
-        return widths;
+        rfturn widtis;
     }
 
     /**
-     * Checks to see if the <code>Font</code> has uniform line metrics.  A
-     * composite font may consist of several different fonts to cover
-     * various character sets.  In such cases, the
-     * <code>FontLineMetrics</code> objects are not uniform.
-     * Different fonts may have a different ascent, descent, metrics and
-     * so on.  This information is sometimes necessary for line
-     * measuring and line breaking.
-     * @return <code>true</code> if the font has uniform line metrics;
-     * <code>false</code> otherwise.
-     * @see java.awt.Font#hasUniformLineMetrics()
+     * Cifdks to sff if tif <dodf>Font</dodf> ibs uniform linf mftrids.  A
+     * dompositf font mby donsist of sfvfrbl difffrfnt fonts to dovfr
+     * vbrious dibrbdtfr sfts.  In sudi dbsfs, tif
+     * <dodf>FontLinfMftrids</dodf> objfdts brf not uniform.
+     * Difffrfnt fonts mby ibvf b difffrfnt bsdfnt, dfsdfnt, mftrids bnd
+     * so on.  Tiis informbtion is somftimfs nfdfssbry for linf
+     * mfbsuring bnd linf brfbking.
+     * @rfturn <dodf>truf</dodf> if tif font ibs uniform linf mftrids;
+     * <dodf>fblsf</dodf> otifrwisf.
+     * @sff jbvb.bwt.Font#ibsUniformLinfMftrids()
      */
-    public boolean hasUniformLineMetrics() {
-        return font.hasUniformLineMetrics();
+    publid boolfbn ibsUniformLinfMftrids() {
+        rfturn font.ibsUniformLinfMftrids();
     }
 
     /**
-     * Returns the {@link LineMetrics} object for the specified
-     * <code>String</code> in the specified {@link Graphics} context.
-     * @param str the specified <code>String</code>
-     * @param context the specified <code>Graphics</code> context
-     * @return a <code>LineMetrics</code> object created with the
-     * specified <code>String</code> and <code>Graphics</code> context.
-     * @see java.awt.Font#getLineMetrics(String, FontRenderContext)
+     * Rfturns tif {@link LinfMftrids} objfdt for tif spfdififd
+     * <dodf>String</dodf> in tif spfdififd {@link Grbpiids} dontfxt.
+     * @pbrbm str tif spfdififd <dodf>String</dodf>
+     * @pbrbm dontfxt tif spfdififd <dodf>Grbpiids</dodf> dontfxt
+     * @rfturn b <dodf>LinfMftrids</dodf> objfdt drfbtfd witi tif
+     * spfdififd <dodf>String</dodf> bnd <dodf>Grbpiids</dodf> dontfxt.
+     * @sff jbvb.bwt.Font#gftLinfMftrids(String, FontRfndfrContfxt)
      */
-    public LineMetrics getLineMetrics( String str, Graphics context) {
-        return font.getLineMetrics(str, myFRC(context));
+    publid LinfMftrids gftLinfMftrids( String str, Grbpiids dontfxt) {
+        rfturn font.gftLinfMftrids(str, myFRC(dontfxt));
     }
 
     /**
-     * Returns the {@link LineMetrics} object for the specified
-     * <code>String</code> in the specified {@link Graphics} context.
-     * @param str the specified <code>String</code>
-     * @param beginIndex the initial offset of <code>str</code>
-     * @param limit the end offset of <code>str</code>
-     * @param context the specified <code>Graphics</code> context
-     * @return a <code>LineMetrics</code> object created with the
-     * specified <code>String</code> and <code>Graphics</code> context.
-     * @see java.awt.Font#getLineMetrics(String, int, int, FontRenderContext)
+     * Rfturns tif {@link LinfMftrids} objfdt for tif spfdififd
+     * <dodf>String</dodf> in tif spfdififd {@link Grbpiids} dontfxt.
+     * @pbrbm str tif spfdififd <dodf>String</dodf>
+     * @pbrbm bfginIndfx tif initibl offsft of <dodf>str</dodf>
+     * @pbrbm limit tif fnd offsft of <dodf>str</dodf>
+     * @pbrbm dontfxt tif spfdififd <dodf>Grbpiids</dodf> dontfxt
+     * @rfturn b <dodf>LinfMftrids</dodf> objfdt drfbtfd witi tif
+     * spfdififd <dodf>String</dodf> bnd <dodf>Grbpiids</dodf> dontfxt.
+     * @sff jbvb.bwt.Font#gftLinfMftrids(String, int, int, FontRfndfrContfxt)
      */
-    public LineMetrics getLineMetrics( String str,
-                                            int beginIndex, int limit,
-                                            Graphics context) {
-        return font.getLineMetrics(str, beginIndex, limit, myFRC(context));
+    publid LinfMftrids gftLinfMftrids( String str,
+                                            int bfginIndfx, int limit,
+                                            Grbpiids dontfxt) {
+        rfturn font.gftLinfMftrids(str, bfginIndfx, limit, myFRC(dontfxt));
     }
 
     /**
-     * Returns the {@link LineMetrics} object for the specified
-     * character array in the specified {@link Graphics} context.
-     * @param chars the specified character array
-     * @param beginIndex the initial offset of <code>chars</code>
-     * @param limit the end offset of <code>chars</code>
-     * @param context the specified <code>Graphics</code> context
-     * @return a <code>LineMetrics</code> object created with the
-     * specified character array and <code>Graphics</code> context.
-     * @see java.awt.Font#getLineMetrics(char[], int, int, FontRenderContext)
+     * Rfturns tif {@link LinfMftrids} objfdt for tif spfdififd
+     * dibrbdtfr brrby in tif spfdififd {@link Grbpiids} dontfxt.
+     * @pbrbm dibrs tif spfdififd dibrbdtfr brrby
+     * @pbrbm bfginIndfx tif initibl offsft of <dodf>dibrs</dodf>
+     * @pbrbm limit tif fnd offsft of <dodf>dibrs</dodf>
+     * @pbrbm dontfxt tif spfdififd <dodf>Grbpiids</dodf> dontfxt
+     * @rfturn b <dodf>LinfMftrids</dodf> objfdt drfbtfd witi tif
+     * spfdififd dibrbdtfr brrby bnd <dodf>Grbpiids</dodf> dontfxt.
+     * @sff jbvb.bwt.Font#gftLinfMftrids(dibr[], int, int, FontRfndfrContfxt)
      */
-    public LineMetrics getLineMetrics(char [] chars,
-                                            int beginIndex, int limit,
-                                            Graphics context) {
-        return font.getLineMetrics(
-                                chars, beginIndex, limit, myFRC(context));
+    publid LinfMftrids gftLinfMftrids(dibr [] dibrs,
+                                            int bfginIndfx, int limit,
+                                            Grbpiids dontfxt) {
+        rfturn font.gftLinfMftrids(
+                                dibrs, bfginIndfx, limit, myFRC(dontfxt));
     }
 
     /**
-     * Returns the {@link LineMetrics} object for the specified
-     * {@link CharacterIterator} in the specified {@link Graphics}
-     * context.
-     * @param ci the specified <code>CharacterIterator</code>
-     * @param beginIndex the initial offset in <code>ci</code>
-     * @param limit the end index of <code>ci</code>
-     * @param context the specified <code>Graphics</code> context
-     * @return a <code>LineMetrics</code> object created with the
-     * specified arguments.
-     * @see java.awt.Font#getLineMetrics(CharacterIterator, int, int, FontRenderContext)
+     * Rfturns tif {@link LinfMftrids} objfdt for tif spfdififd
+     * {@link CibrbdtfrItfrbtor} in tif spfdififd {@link Grbpiids}
+     * dontfxt.
+     * @pbrbm di tif spfdififd <dodf>CibrbdtfrItfrbtor</dodf>
+     * @pbrbm bfginIndfx tif initibl offsft in <dodf>di</dodf>
+     * @pbrbm limit tif fnd indfx of <dodf>di</dodf>
+     * @pbrbm dontfxt tif spfdififd <dodf>Grbpiids</dodf> dontfxt
+     * @rfturn b <dodf>LinfMftrids</dodf> objfdt drfbtfd witi tif
+     * spfdififd brgumfnts.
+     * @sff jbvb.bwt.Font#gftLinfMftrids(CibrbdtfrItfrbtor, int, int, FontRfndfrContfxt)
      */
-    public LineMetrics getLineMetrics(CharacterIterator ci,
-                                            int beginIndex, int limit,
-                                            Graphics context) {
-        return font.getLineMetrics(ci, beginIndex, limit, myFRC(context));
+    publid LinfMftrids gftLinfMftrids(CibrbdtfrItfrbtor di,
+                                            int bfginIndfx, int limit,
+                                            Grbpiids dontfxt) {
+        rfturn font.gftLinfMftrids(di, bfginIndfx, limit, myFRC(dontfxt));
     }
 
     /**
-     * Returns the bounds of the specified <code>String</code> in the
-     * specified <code>Graphics</code> context.  The bounds is used
-     * to layout the <code>String</code>.
-     * <p>Note: The returned bounds is in baseline-relative coordinates
-     * (see {@link java.awt.FontMetrics class notes}).
-     * @param str the specified <code>String</code>
-     * @param context the specified <code>Graphics</code> context
-     * @return a {@link Rectangle2D} that is the bounding box of the
-     * specified <code>String</code> in the specified
-     * <code>Graphics</code> context.
-     * @see java.awt.Font#getStringBounds(String, FontRenderContext)
+     * Rfturns tif bounds of tif spfdififd <dodf>String</dodf> in tif
+     * spfdififd <dodf>Grbpiids</dodf> dontfxt.  Tif bounds is usfd
+     * to lbyout tif <dodf>String</dodf>.
+     * <p>Notf: Tif rfturnfd bounds is in bbsflinf-rflbtivf doordinbtfs
+     * (sff {@link jbvb.bwt.FontMftrids dlbss notfs}).
+     * @pbrbm str tif spfdififd <dodf>String</dodf>
+     * @pbrbm dontfxt tif spfdififd <dodf>Grbpiids</dodf> dontfxt
+     * @rfturn b {@link Rfdtbnglf2D} tibt is tif bounding box of tif
+     * spfdififd <dodf>String</dodf> in tif spfdififd
+     * <dodf>Grbpiids</dodf> dontfxt.
+     * @sff jbvb.bwt.Font#gftStringBounds(String, FontRfndfrContfxt)
      */
-    public Rectangle2D getStringBounds( String str, Graphics context) {
-        return font.getStringBounds(str, myFRC(context));
+    publid Rfdtbnglf2D gftStringBounds( String str, Grbpiids dontfxt) {
+        rfturn font.gftStringBounds(str, myFRC(dontfxt));
     }
 
     /**
-     * Returns the bounds of the specified <code>String</code> in the
-     * specified <code>Graphics</code> context.  The bounds is used
-     * to layout the <code>String</code>.
-     * <p>Note: The returned bounds is in baseline-relative coordinates
-     * (see {@link java.awt.FontMetrics class notes}).
-     * @param str the specified <code>String</code>
-     * @param beginIndex the offset of the beginning of <code>str</code>
-     * @param limit the end offset of <code>str</code>
-     * @param context the specified <code>Graphics</code> context
-     * @return a <code>Rectangle2D</code> that is the bounding box of the
-     * specified <code>String</code> in the specified
-     * <code>Graphics</code> context.
-     * @see java.awt.Font#getStringBounds(String, int, int, FontRenderContext)
+     * Rfturns tif bounds of tif spfdififd <dodf>String</dodf> in tif
+     * spfdififd <dodf>Grbpiids</dodf> dontfxt.  Tif bounds is usfd
+     * to lbyout tif <dodf>String</dodf>.
+     * <p>Notf: Tif rfturnfd bounds is in bbsflinf-rflbtivf doordinbtfs
+     * (sff {@link jbvb.bwt.FontMftrids dlbss notfs}).
+     * @pbrbm str tif spfdififd <dodf>String</dodf>
+     * @pbrbm bfginIndfx tif offsft of tif bfginning of <dodf>str</dodf>
+     * @pbrbm limit tif fnd offsft of <dodf>str</dodf>
+     * @pbrbm dontfxt tif spfdififd <dodf>Grbpiids</dodf> dontfxt
+     * @rfturn b <dodf>Rfdtbnglf2D</dodf> tibt is tif bounding box of tif
+     * spfdififd <dodf>String</dodf> in tif spfdififd
+     * <dodf>Grbpiids</dodf> dontfxt.
+     * @sff jbvb.bwt.Font#gftStringBounds(String, int, int, FontRfndfrContfxt)
      */
-    public Rectangle2D getStringBounds( String str,
-                                        int beginIndex, int limit,
-                                        Graphics context) {
-        return font.getStringBounds(str, beginIndex, limit,
-                                        myFRC(context));
+    publid Rfdtbnglf2D gftStringBounds( String str,
+                                        int bfginIndfx, int limit,
+                                        Grbpiids dontfxt) {
+        rfturn font.gftStringBounds(str, bfginIndfx, limit,
+                                        myFRC(dontfxt));
     }
 
    /**
-     * Returns the bounds of the specified array of characters
-     * in the specified <code>Graphics</code> context.
-     * The bounds is used to layout the <code>String</code>
-     * created with the specified array of characters,
-     * <code>beginIndex</code> and <code>limit</code>.
-     * <p>Note: The returned bounds is in baseline-relative coordinates
-     * (see {@link java.awt.FontMetrics class notes}).
-     * @param chars an array of characters
-     * @param beginIndex the initial offset of the array of
-     * characters
-     * @param limit the end offset of the array of characters
-     * @param context the specified <code>Graphics</code> context
-     * @return a <code>Rectangle2D</code> that is the bounding box of the
-     * specified character array in the specified
-     * <code>Graphics</code> context.
-     * @see java.awt.Font#getStringBounds(char[], int, int, FontRenderContext)
+     * Rfturns tif bounds of tif spfdififd brrby of dibrbdtfrs
+     * in tif spfdififd <dodf>Grbpiids</dodf> dontfxt.
+     * Tif bounds is usfd to lbyout tif <dodf>String</dodf>
+     * drfbtfd witi tif spfdififd brrby of dibrbdtfrs,
+     * <dodf>bfginIndfx</dodf> bnd <dodf>limit</dodf>.
+     * <p>Notf: Tif rfturnfd bounds is in bbsflinf-rflbtivf doordinbtfs
+     * (sff {@link jbvb.bwt.FontMftrids dlbss notfs}).
+     * @pbrbm dibrs bn brrby of dibrbdtfrs
+     * @pbrbm bfginIndfx tif initibl offsft of tif brrby of
+     * dibrbdtfrs
+     * @pbrbm limit tif fnd offsft of tif brrby of dibrbdtfrs
+     * @pbrbm dontfxt tif spfdififd <dodf>Grbpiids</dodf> dontfxt
+     * @rfturn b <dodf>Rfdtbnglf2D</dodf> tibt is tif bounding box of tif
+     * spfdififd dibrbdtfr brrby in tif spfdififd
+     * <dodf>Grbpiids</dodf> dontfxt.
+     * @sff jbvb.bwt.Font#gftStringBounds(dibr[], int, int, FontRfndfrContfxt)
      */
-    public Rectangle2D getStringBounds( char [] chars,
-                                        int beginIndex, int limit,
-                                        Graphics context) {
-        return font.getStringBounds(chars, beginIndex, limit,
-                                        myFRC(context));
+    publid Rfdtbnglf2D gftStringBounds( dibr [] dibrs,
+                                        int bfginIndfx, int limit,
+                                        Grbpiids dontfxt) {
+        rfturn font.gftStringBounds(dibrs, bfginIndfx, limit,
+                                        myFRC(dontfxt));
     }
 
    /**
-     * Returns the bounds of the characters indexed in the specified
-     * <code>CharacterIterator</code> in the
-     * specified <code>Graphics</code> context.
-     * <p>Note: The returned bounds is in baseline-relative coordinates
-     * (see {@link java.awt.FontMetrics class notes}).
-     * @param ci the specified <code>CharacterIterator</code>
-     * @param beginIndex the initial offset in <code>ci</code>
-     * @param limit the end index of <code>ci</code>
-     * @param context the specified <code>Graphics</code> context
-     * @return a <code>Rectangle2D</code> that is the bounding box of the
-     * characters indexed in the specified <code>CharacterIterator</code>
-     * in the specified <code>Graphics</code> context.
-     * @see java.awt.Font#getStringBounds(CharacterIterator, int, int, FontRenderContext)
+     * Rfturns tif bounds of tif dibrbdtfrs indfxfd in tif spfdififd
+     * <dodf>CibrbdtfrItfrbtor</dodf> in tif
+     * spfdififd <dodf>Grbpiids</dodf> dontfxt.
+     * <p>Notf: Tif rfturnfd bounds is in bbsflinf-rflbtivf doordinbtfs
+     * (sff {@link jbvb.bwt.FontMftrids dlbss notfs}).
+     * @pbrbm di tif spfdififd <dodf>CibrbdtfrItfrbtor</dodf>
+     * @pbrbm bfginIndfx tif initibl offsft in <dodf>di</dodf>
+     * @pbrbm limit tif fnd indfx of <dodf>di</dodf>
+     * @pbrbm dontfxt tif spfdififd <dodf>Grbpiids</dodf> dontfxt
+     * @rfturn b <dodf>Rfdtbnglf2D</dodf> tibt is tif bounding box of tif
+     * dibrbdtfrs indfxfd in tif spfdififd <dodf>CibrbdtfrItfrbtor</dodf>
+     * in tif spfdififd <dodf>Grbpiids</dodf> dontfxt.
+     * @sff jbvb.bwt.Font#gftStringBounds(CibrbdtfrItfrbtor, int, int, FontRfndfrContfxt)
      */
-    public Rectangle2D getStringBounds(CharacterIterator ci,
-                                        int beginIndex, int limit,
-                                        Graphics context) {
-        return font.getStringBounds(ci, beginIndex, limit,
-                                        myFRC(context));
+    publid Rfdtbnglf2D gftStringBounds(CibrbdtfrItfrbtor di,
+                                        int bfginIndfx, int limit,
+                                        Grbpiids dontfxt) {
+        rfturn font.gftStringBounds(di, bfginIndfx, limit,
+                                        myFRC(dontfxt));
     }
 
     /**
-     * Returns the bounds for the character with the maximum bounds
-     * in the specified <code>Graphics</code> context.
-     * @param context the specified <code>Graphics</code> context
-     * @return a <code>Rectangle2D</code> that is the
-     * bounding box for the character with the maximum bounds.
-     * @see java.awt.Font#getMaxCharBounds(FontRenderContext)
+     * Rfturns tif bounds for tif dibrbdtfr witi tif mbximum bounds
+     * in tif spfdififd <dodf>Grbpiids</dodf> dontfxt.
+     * @pbrbm dontfxt tif spfdififd <dodf>Grbpiids</dodf> dontfxt
+     * @rfturn b <dodf>Rfdtbnglf2D</dodf> tibt is tif
+     * bounding box for tif dibrbdtfr witi tif mbximum bounds.
+     * @sff jbvb.bwt.Font#gftMbxCibrBounds(FontRfndfrContfxt)
      */
-    public Rectangle2D getMaxCharBounds(Graphics context) {
-        return font.getMaxCharBounds(myFRC(context));
+    publid Rfdtbnglf2D gftMbxCibrBounds(Grbpiids dontfxt) {
+        rfturn font.gftMbxCibrBounds(myFRC(dontfxt));
     }
 
-    private FontRenderContext myFRC(Graphics context) {
-        if (context instanceof Graphics2D) {
-            return ((Graphics2D)context).getFontRenderContext();
+    privbtf FontRfndfrContfxt myFRC(Grbpiids dontfxt) {
+        if (dontfxt instbndfof Grbpiids2D) {
+            rfturn ((Grbpiids2D)dontfxt).gftFontRfndfrContfxt();
         }
-        return DEFAULT_FRC;
+        rfturn DEFAULT_FRC;
     }
 
 
     /**
-     * Returns a representation of this <code>FontMetrics</code>
-     * object's values as a <code>String</code>.
-     * @return    a <code>String</code> representation of this
-     * <code>FontMetrics</code> object.
+     * Rfturns b rfprfsfntbtion of tiis <dodf>FontMftrids</dodf>
+     * objfdt's vblufs bs b <dodf>String</dodf>.
+     * @rfturn    b <dodf>String</dodf> rfprfsfntbtion of tiis
+     * <dodf>FontMftrids</dodf> objfdt.
      */
-    public String toString() {
-        return getClass().getName() +
-            "[font=" + getFont() +
-            "ascent=" + getAscent() +
-            ", descent=" + getDescent() +
-            ", height=" + getHeight() + "]";
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() +
+            "[font=" + gftFont() +
+            "bsdfnt=" + gftAsdfnt() +
+            ", dfsdfnt=" + gftDfsdfnt() +
+            ", ifigit=" + gftHfigit() + "]";
     }
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblizf JNI fifld bnd mftiod IDs
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 }

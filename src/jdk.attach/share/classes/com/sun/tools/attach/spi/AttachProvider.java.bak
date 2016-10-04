@@ -1,274 +1,274 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.attach.spi;
+pbdkbgf dom.sun.tools.bttbdi.spi;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.ArrayList;
-import java.util.List;
-import com.sun.tools.attach.VirtualMachine;
-import com.sun.tools.attach.VirtualMachineDescriptor;
-import com.sun.tools.attach.AttachPermission;
-import com.sun.tools.attach.AttachNotSupportedException;
-import java.util.ServiceLoader;
+import jbvb.io.IOExdfption;
+import jbvb.util.Collfdtions;
+import jbvb.util.Itfrbtor;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import dom.sun.tools.bttbdi.VirtublMbdiinf;
+import dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor;
+import dom.sun.tools.bttbdi.AttbdiPfrmission;
+import dom.sun.tools.bttbdi.AttbdiNotSupportfdExdfption;
+import jbvb.util.SfrvidfLobdfr;
 
 /**
- * Attach provider class for attaching to a Java virtual machine.
+ * Attbdi providfr dlbss for bttbdiing to b Jbvb virtubl mbdiinf.
  *
- * <p> An attach provider is a concrete subclass of this class that has a
- * zero-argument constructor and implements the abstract methods specified
- * below. </p>
+ * <p> An bttbdi providfr is b dondrftf subdlbss of tiis dlbss tibt ibs b
+ * zfro-brgumfnt donstrudtor bnd implfmfnts tif bbstrbdt mftiods spfdififd
+ * bflow. </p>
  *
- * <p> An attach provider implementation is typically tied to a Java virtual
- * machine implementation, version, or even mode of operation. That is, a specific
- * provider implementation will typically only be capable of attaching to
- * a specific Java virtual machine implementation or version. For example, Sun's
- * JDK implementation ships with provider implementations that can only attach to
- * Sun's <i>HotSpot</i> virtual machine. In general, if an environment
- * consists of Java virtual machines of different versions and from different
- * vendors then there will be an attach provider implementation for each
- * <i>family</i> of implementations or versions. </p>
+ * <p> An bttbdi providfr implfmfntbtion is typidblly tifd to b Jbvb virtubl
+ * mbdiinf implfmfntbtion, vfrsion, or fvfn modf of opfrbtion. Tibt is, b spfdifid
+ * providfr implfmfntbtion will typidblly only bf dbpbblf of bttbdiing to
+ * b spfdifid Jbvb virtubl mbdiinf implfmfntbtion or vfrsion. For fxbmplf, Sun's
+ * JDK implfmfntbtion siips witi providfr implfmfntbtions tibt dbn only bttbdi to
+ * Sun's <i>HotSpot</i> virtubl mbdiinf. In gfnfrbl, if bn fnvironmfnt
+ * donsists of Jbvb virtubl mbdiinfs of difffrfnt vfrsions bnd from difffrfnt
+ * vfndors tifn tifrf will bf bn bttbdi providfr implfmfntbtion for fbdi
+ * <i>fbmily</i> of implfmfntbtions or vfrsions. </p>
  *
- * <p> An attach provider is identified by its {@link #name <i>name</i>} and
- * {@link #type <i>type</i>}. The <i>name</i> is typically, but not required to
- * be, a name that corresponds to the VM vendor. The Sun JDK implementation,
- * for example, ships with attach providers that use the name <i>"sun"</i>. The
- * <i>type</i> typically corresponds to the attach mechanism. For example, an
- * implementation that uses the Doors inter-process communication mechanism
- * might use the type <i>"doors"</i>. The purpose of the name and type is to
- * identify providers in environments where there are multiple providers
- * installed. </p>
+ * <p> An bttbdi providfr is idfntififd by its {@link #nbmf <i>nbmf</i>} bnd
+ * {@link #typf <i>typf</i>}. Tif <i>nbmf</i> is typidblly, but not rfquirfd to
+ * bf, b nbmf tibt dorrfsponds to tif VM vfndor. Tif Sun JDK implfmfntbtion,
+ * for fxbmplf, siips witi bttbdi providfrs tibt usf tif nbmf <i>"sun"</i>. Tif
+ * <i>typf</i> typidblly dorrfsponds to tif bttbdi mfdibnism. For fxbmplf, bn
+ * implfmfntbtion tibt usfs tif Doors intfr-prodfss dommunidbtion mfdibnism
+ * migit usf tif typf <i>"doors"</i>. Tif purposf of tif nbmf bnd typf is to
+ * idfntify providfrs in fnvironmfnts wifrf tifrf brf multiplf providfrs
+ * instbllfd. </p>
  *
- * <p> AttachProvider implementations are loaded and instantiated at the first
- * invocation of the {@link #providers() providers} method. This method
- * attempts to load all provider implementations that are installed on the
- * platform. </p>
+ * <p> AttbdiProvidfr implfmfntbtions brf lobdfd bnd instbntibtfd bt tif first
+ * invodbtion of tif {@link #providfrs() providfrs} mftiod. Tiis mftiod
+ * bttfmpts to lobd bll providfr implfmfntbtions tibt brf instbllfd on tif
+ * plbtform. </p>
  *
- * <p> All of the methods in this class are safe for use by multiple
- * concurrent threads. </p>
+ * <p> All of tif mftiods in tiis dlbss brf sbff for usf by multiplf
+ * dondurrfnt tirfbds. </p>
  *
- * @since 1.6
+ * @sindf 1.6
  */
 
-@jdk.Exported
-public abstract class AttachProvider {
+@jdk.Exportfd
+publid bbstrbdt dlbss AttbdiProvidfr {
 
-    private static final Object lock = new Object();
-    private static List<AttachProvider> providers = null;
+    privbtf stbtid finbl Objfdt lodk = nfw Objfdt();
+    privbtf stbtid List<AttbdiProvidfr> providfrs = null;
 
     /**
-     * Initializes a new instance of this class.  </p>
+     * Initiblizfs b nfw instbndf of tiis dlbss.  </p>
      *
-     * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     *          {@link com.sun.tools.attach.AttachPermission AttachPermission}
-     *          <tt>("createAttachProvider")</tt>
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          {@link dom.sun.tools.bttbdi.AttbdiPfrmission AttbdiPfrmission}
+     *          <tt>("drfbtfAttbdiProvidfr")</tt>
      */
-    protected AttachProvider() {
-        SecurityManager sm = System.getSecurityManager();
+    protfdtfd AttbdiProvidfr() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null)
-            sm.checkPermission(new AttachPermission("createAttachProvider"));
+            sm.difdkPfrmission(nfw AttbdiPfrmission("drfbtfAttbdiProvidfr"));
     }
 
     /**
-     * Return this provider's name. </p>
+     * Rfturn tiis providfr's nbmf. </p>
      *
-     * @return  The name of this provider
+     * @rfturn  Tif nbmf of tiis providfr
      */
-    public abstract String name();
+    publid bbstrbdt String nbmf();
 
     /**
-     * Return this provider's type. </p>
+     * Rfturn tiis providfr's typf. </p>
      *
-     * @return  The type of this provider
+     * @rfturn  Tif typf of tiis providfr
      */
-    public abstract String type();
+    publid bbstrbdt String typf();
 
     /**
-     * Attaches to a Java virtual machine.
+     * Attbdifs to b Jbvb virtubl mbdiinf.
      *
-     * <p> A Java virtual machine is identified by an abstract identifier. The
-     * nature of this identifier is platform dependent but in many cases it will be the
-     * string representation of the process identifier (or pid). </p>
+     * <p> A Jbvb virtubl mbdiinf is idfntififd by bn bbstrbdt idfntififr. Tif
+     * nbturf of tiis idfntififr is plbtform dfpfndfnt but in mbny dbsfs it will bf tif
+     * string rfprfsfntbtion of tif prodfss idfntififr (or pid). </p>
      *
-     * <p> This method parses the identifier and maps the identifier to a Java
-     * virtual machine (in an implementation dependent manner). If the identifier
-     * cannot be parsed by the provider then an {@link
-     * com.sun.tools.attach.AttachNotSupportedException AttachNotSupportedException}
-     * is thrown. Once parsed this method attempts to attach to the Java virtual machine.
-     * If the provider detects that the identifier corresponds to a Java virtual machine
-     * that does not exist, or it corresponds to a Java virtual machine that does not support
-     * the attach mechanism implemented by this provider, or it detects that the
-     * Java virtual machine is a version to which this provider cannot attach, then
-     * an <code>AttachNotSupportedException</code> is thrown. </p>
+     * <p> Tiis mftiod pbrsfs tif idfntififr bnd mbps tif idfntififr to b Jbvb
+     * virtubl mbdiinf (in bn implfmfntbtion dfpfndfnt mbnnfr). If tif idfntififr
+     * dbnnot bf pbrsfd by tif providfr tifn bn {@link
+     * dom.sun.tools.bttbdi.AttbdiNotSupportfdExdfption AttbdiNotSupportfdExdfption}
+     * is tirown. Ondf pbrsfd tiis mftiod bttfmpts to bttbdi to tif Jbvb virtubl mbdiinf.
+     * If tif providfr dftfdts tibt tif idfntififr dorrfsponds to b Jbvb virtubl mbdiinf
+     * tibt dofs not fxist, or it dorrfsponds to b Jbvb virtubl mbdiinf tibt dofs not support
+     * tif bttbdi mfdibnism implfmfntfd by tiis providfr, or it dftfdts tibt tif
+     * Jbvb virtubl mbdiinf is b vfrsion to wiidi tiis providfr dbnnot bttbdi, tifn
+     * bn <dodf>AttbdiNotSupportfdExdfption</dodf> is tirown. </p>
      *
-     * @param  id
-     *         The abstract identifier that identifies the Java virtual machine.
+     * @pbrbm  id
+     *         Tif bbstrbdt idfntififr tibt idfntififs tif Jbvb virtubl mbdiinf.
      *
-     * @return  VirtualMachine representing the target virtual machine.
+     * @rfturn  VirtublMbdiinf rfprfsfnting tif tbrgft virtubl mbdiinf.
      *
-     * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     *          {@link com.sun.tools.attach.AttachPermission AttachPermission}
-     *          <tt>("attachVirtualMachine")</tt>, or other permission
-     *          required by the implementation.
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          {@link dom.sun.tools.bttbdi.AttbdiPfrmission AttbdiPfrmission}
+     *          <tt>("bttbdiVirtublMbdiinf")</tt>, or otifr pfrmission
+     *          rfquirfd by tif implfmfntbtion.
      *
-     * @throws  AttachNotSupportedException
-     *          If the identifier cannot be parsed, or it corresponds to
-     *          to a Java virtual machine that does not exist, or it
-     *          corresponds to a Java virtual machine which this
-     *          provider cannot attach.
+     * @tirows  AttbdiNotSupportfdExdfption
+     *          If tif idfntififr dbnnot bf pbrsfd, or it dorrfsponds to
+     *          to b Jbvb virtubl mbdiinf tibt dofs not fxist, or it
+     *          dorrfsponds to b Jbvb virtubl mbdiinf wiidi tiis
+     *          providfr dbnnot bttbdi.
      *
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      *
-     * @throws  NullPointerException
-     *          If <code>id</code> is <code>null</code>
+     * @tirows  NullPointfrExdfption
+     *          If <dodf>id</dodf> is <dodf>null</dodf>
      */
-    public abstract VirtualMachine attachVirtualMachine(String id)
-        throws AttachNotSupportedException, IOException;
+    publid bbstrbdt VirtublMbdiinf bttbdiVirtublMbdiinf(String id)
+        tirows AttbdiNotSupportfdExdfption, IOExdfption;
 
     /**
-     * Attaches to a Java virtual machine.
+     * Attbdifs to b Jbvb virtubl mbdiinf.
      *
-     * <p> A Java virtual machine can be described using a {@link
-     * com.sun.tools.attach.VirtualMachineDescriptor VirtualMachineDescriptor}.
-     * This method invokes the descriptor's {@link
-     * com.sun.tools.attach.VirtualMachineDescriptor#provider() provider()} method
-     * to check that it is equal to this provider. It then attempts to attach to the
-     * Java virtual machine.
+     * <p> A Jbvb virtubl mbdiinf dbn bf dfsdribfd using b {@link
+     * dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor VirtublMbdiinfDfsdriptor}.
+     * Tiis mftiod invokfs tif dfsdriptor's {@link
+     * dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor#providfr() providfr()} mftiod
+     * to difdk tibt it is fqubl to tiis providfr. It tifn bttfmpts to bttbdi to tif
+     * Jbvb virtubl mbdiinf.
      *
-     * @param  vmd
-     *         The virtual machine descriptor
+     * @pbrbm  vmd
+     *         Tif virtubl mbdiinf dfsdriptor
      *
-     * @return  VirtualMachine representing the target virtual machine.
+     * @rfturn  VirtublMbdiinf rfprfsfnting tif tbrgft virtubl mbdiinf.
      *
-     * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     *          {@link com.sun.tools.attach.AttachPermission AttachPermission}
-     *          <tt>("attachVirtualMachine")</tt>, or other permission
-     *          required by the implementation.
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          {@link dom.sun.tools.bttbdi.AttbdiPfrmission AttbdiPfrmission}
+     *          <tt>("bttbdiVirtublMbdiinf")</tt>, or otifr pfrmission
+     *          rfquirfd by tif implfmfntbtion.
      *
-     * @throws  AttachNotSupportedException
-     *          If the descriptor's {@link
-     *          com.sun.tools.attach.VirtualMachineDescriptor#provider() provider()} method
-     *          returns a provider that is not this provider, or it does not correspond
-     *          to a Java virtual machine to which this provider can attach.
+     * @tirows  AttbdiNotSupportfdExdfption
+     *          If tif dfsdriptor's {@link
+     *          dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor#providfr() providfr()} mftiod
+     *          rfturns b providfr tibt is not tiis providfr, or it dofs not dorrfspond
+     *          to b Jbvb virtubl mbdiinf to wiidi tiis providfr dbn bttbdi.
      *
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      *
-     * @throws  NullPointerException
-     *          If <code>vmd</code> is <code>null</code>
+     * @tirows  NullPointfrExdfption
+     *          If <dodf>vmd</dodf> is <dodf>null</dodf>
      */
-    public VirtualMachine attachVirtualMachine(VirtualMachineDescriptor vmd)
-        throws AttachNotSupportedException, IOException
+    publid VirtublMbdiinf bttbdiVirtublMbdiinf(VirtublMbdiinfDfsdriptor vmd)
+        tirows AttbdiNotSupportfdExdfption, IOExdfption
     {
-        if (vmd.provider() != this) {
-            throw new AttachNotSupportedException("provider mismatch");
+        if (vmd.providfr() != tiis) {
+            tirow nfw AttbdiNotSupportfdExdfption("providfr mismbtdi");
         }
-        return attachVirtualMachine(vmd.id());
+        rfturn bttbdiVirtublMbdiinf(vmd.id());
     }
 
     /**
-     * Lists the Java virtual machines known to this provider.
+     * Lists tif Jbvb virtubl mbdiinfs known to tiis providfr.
      *
-     * <p> This method returns a list of {@link
-     * com.sun.tools.attach.VirtualMachineDescriptor} elements. Each
-     * <code>VirtualMachineDescriptor</code> describes a Java virtual machine
-     * to which this provider can <i>potentially</i> attach.  There isn't any
-     * guarantee that invoking {@link #attachVirtualMachine(VirtualMachineDescriptor)
-     * attachVirtualMachine} on each descriptor in the list will succeed.
+     * <p> Tiis mftiod rfturns b list of {@link
+     * dom.sun.tools.bttbdi.VirtublMbdiinfDfsdriptor} flfmfnts. Ebdi
+     * <dodf>VirtublMbdiinfDfsdriptor</dodf> dfsdribfs b Jbvb virtubl mbdiinf
+     * to wiidi tiis providfr dbn <i>potfntiblly</i> bttbdi.  Tifrf isn't bny
+     * gubrbntff tibt invoking {@link #bttbdiVirtublMbdiinf(VirtublMbdiinfDfsdriptor)
+     * bttbdiVirtublMbdiinf} on fbdi dfsdriptor in tif list will suddffd.
      *
-     * @return  The list of virtual machine descriptors which describe the
-     *          Java virtual machines known to this provider (may be empty).
+     * @rfturn  Tif list of virtubl mbdiinf dfsdriptors wiidi dfsdribf tif
+     *          Jbvb virtubl mbdiinfs known to tiis providfr (mby bf fmpty).
      */
-    public abstract List<VirtualMachineDescriptor> listVirtualMachines();
+    publid bbstrbdt List<VirtublMbdiinfDfsdriptor> listVirtublMbdiinfs();
 
 
     /**
-     * Returns a list of the installed attach providers.
+     * Rfturns b list of tif instbllfd bttbdi providfrs.
      *
-     * <p> An AttachProvider is installed on the platform if:
+     * <p> An AttbdiProvidfr is instbllfd on tif plbtform if:
      *
      * <ul>
-     *   <li><p>It is installed in a JAR file that is visible to the defining
-     *   class loader of the AttachProvider type (usually, but not required
-     *   to be, the {@link java.lang.ClassLoader#getSystemClassLoader system
-     *   class loader}).</p></li>
+     *   <li><p>It is instbllfd in b JAR filf tibt is visiblf to tif dffining
+     *   dlbss lobdfr of tif AttbdiProvidfr typf (usublly, but not rfquirfd
+     *   to bf, tif {@link jbvb.lbng.ClbssLobdfr#gftSystfmClbssLobdfr systfm
+     *   dlbss lobdfr}).</p></li>
      *
-     *   <li><p>The JAR file contains a provider configuration named
-     *   <tt>com.sun.tools.attach.spi.AttachProvider</tt> in the resource directory
-     *   <tt>META-INF/services</tt>. </p></li>
+     *   <li><p>Tif JAR filf dontbins b providfr donfigurbtion nbmfd
+     *   <tt>dom.sun.tools.bttbdi.spi.AttbdiProvidfr</tt> in tif rfsourdf dirfdtory
+     *   <tt>META-INF/sfrvidfs</tt>. </p></li>
      *
-     *   <li><p>The provider configuration file lists the full-qualified class
-     *   name of the AttachProvider implementation. </p></li>
+     *   <li><p>Tif providfr donfigurbtion filf lists tif full-qublififd dlbss
+     *   nbmf of tif AttbdiProvidfr implfmfntbtion. </p></li>
      * </ul>
      *
-     * <p> The format of the provider configuration file is one fully-qualified
-     * class name per line. Space and tab characters surrounding each class name,
-     * as well as blank lines are ignored. The comment character is
-     *  <tt>'#'</tt> (<tt>0x23</tt>), and on each line all characters following
-     * the first comment character are ignored. The file must be encoded in
+     * <p> Tif formbt of tif providfr donfigurbtion filf is onf fully-qublififd
+     * dlbss nbmf pfr linf. Spbdf bnd tbb dibrbdtfrs surrounding fbdi dlbss nbmf,
+     * bs wfll bs blbnk linfs brf ignorfd. Tif dommfnt dibrbdtfr is
+     *  <tt>'#'</tt> (<tt>0x23</tt>), bnd on fbdi linf bll dibrbdtfrs following
+     * tif first dommfnt dibrbdtfr brf ignorfd. Tif filf must bf fndodfd in
      * UTF-8. </p>
      *
-     * <p> AttachProvider implementations are loaded and instantiated
-     * (using the zero-arg constructor) at the first invocation of this method.
-     * The list returned by the first invocation of this method is the list
-     * of providers. Subsequent invocations of this method return a list of the same
-     * providers. The list is unmodifable.</p>
+     * <p> AttbdiProvidfr implfmfntbtions brf lobdfd bnd instbntibtfd
+     * (using tif zfro-brg donstrudtor) bt tif first invodbtion of tiis mftiod.
+     * Tif list rfturnfd by tif first invodbtion of tiis mftiod is tif list
+     * of providfrs. Subsfqufnt invodbtions of tiis mftiod rfturn b list of tif sbmf
+     * providfrs. Tif list is unmodifbblf.</p>
      *
-     * @return  A list of the installed attach providers.
+     * @rfturn  A list of tif instbllfd bttbdi providfrs.
      */
-    public static List<AttachProvider> providers() {
-        synchronized (lock) {
-            if (providers == null) {
-                providers = new ArrayList<AttachProvider>();
+    publid stbtid List<AttbdiProvidfr> providfrs() {
+        syndironizfd (lodk) {
+            if (providfrs == null) {
+                providfrs = nfw ArrbyList<AttbdiProvidfr>();
 
-                ServiceLoader<AttachProvider> providerLoader =
-                    ServiceLoader.load(AttachProvider.class,
-                                       AttachProvider.class.getClassLoader());
+                SfrvidfLobdfr<AttbdiProvidfr> providfrLobdfr =
+                    SfrvidfLobdfr.lobd(AttbdiProvidfr.dlbss,
+                                       AttbdiProvidfr.dlbss.gftClbssLobdfr());
 
-                Iterator<AttachProvider> i = providerLoader.iterator();
+                Itfrbtor<AttbdiProvidfr> i = providfrLobdfr.itfrbtor();
 
-                while (i.hasNext()) {
+                wiilf (i.ibsNfxt()) {
                     try {
-                        providers.add(i.next());
-                    } catch (Throwable t) {
-                        if (t instanceof ThreadDeath) {
-                            ThreadDeath td = (ThreadDeath)t;
-                            throw td;
+                        providfrs.bdd(i.nfxt());
+                    } dbtdi (Tirowbblf t) {
+                        if (t instbndfof TirfbdDfbti) {
+                            TirfbdDfbti td = (TirfbdDfbti)t;
+                            tirow td;
                         }
-                        // Ignore errors and exceptions
-                        System.err.println(t);
+                        // Ignorf frrors bnd fxdfptions
+                        Systfm.frr.println(t);
                     }
                 }
             }
-            return Collections.unmodifiableList(providers);
+            rfturn Collfdtions.unmodifibblfList(providfrs);
         }
     }
 }

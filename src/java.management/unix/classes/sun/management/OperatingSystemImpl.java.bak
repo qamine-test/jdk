@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management;
+pbdkbgf sun.mbnbgfmfnt;
 
 /**
- * Implementation class for the operating system.
- * Standard and committed hotspot-specific metrics if any.
+ * Implfmfntbtion dlbss for tif opfrbting systfm.
+ * Stbndbrd bnd dommittfd iotspot-spfdifid mftrids if bny.
  *
- * ManagementFactory.getOperatingSystemMXBean() returns an instance
- * of this class.
+ * MbnbgfmfntFbdtory.gftOpfrbtingSystfmMXBfbn() rfturns bn instbndf
+ * of tiis dlbss.
  */
-class OperatingSystemImpl extends BaseOperatingSystemImpl
-    implements com.sun.management.UnixOperatingSystemMXBean {
+dlbss OpfrbtingSystfmImpl fxtfnds BbsfOpfrbtingSystfmImpl
+    implfmfnts dom.sun.mbnbgfmfnt.UnixOpfrbtingSystfmMXBfbn {
 
-    OperatingSystemImpl(VMManagement vm) {
-        super(vm);
+    OpfrbtingSystfmImpl(VMMbnbgfmfnt vm) {
+        supfr(vm);
     }
 
-    public long getCommittedVirtualMemorySize() {
-        return getCommittedVirtualMemorySize0();
+    publid long gftCommittfdVirtublMfmorySizf() {
+        rfturn gftCommittfdVirtublMfmorySizf0();
     }
 
-    public long getTotalSwapSpaceSize() {
-        return getTotalSwapSpaceSize0();
+    publid long gftTotblSwbpSpbdfSizf() {
+        rfturn gftTotblSwbpSpbdfSizf0();
     }
 
-    public long getFreeSwapSpaceSize() {
-        return getFreeSwapSpaceSize0();
+    publid long gftFrffSwbpSpbdfSizf() {
+        rfturn gftFrffSwbpSpbdfSizf0();
     }
 
-    public long getProcessCpuTime() {
-        return getProcessCpuTime0();
+    publid long gftProdfssCpuTimf() {
+        rfturn gftProdfssCpuTimf0();
     }
 
-    public long getFreePhysicalMemorySize() {
-        return getFreePhysicalMemorySize0();
+    publid long gftFrffPiysidblMfmorySizf() {
+        rfturn gftFrffPiysidblMfmorySizf0();
     }
 
-    public long getTotalPhysicalMemorySize() {
-        return getTotalPhysicalMemorySize0();
+    publid long gftTotblPiysidblMfmorySizf() {
+        rfturn gftTotblPiysidblMfmorySizf0();
     }
 
-    public long getOpenFileDescriptorCount() {
-        return getOpenFileDescriptorCount0();
+    publid long gftOpfnFilfDfsdriptorCount() {
+        rfturn gftOpfnFilfDfsdriptorCount0();
     }
 
-    public long getMaxFileDescriptorCount() {
-        return getMaxFileDescriptorCount0();
+    publid long gftMbxFilfDfsdriptorCount() {
+        rfturn gftMbxFilfDfsdriptorCount0();
     }
 
-    public double getSystemCpuLoad() {
-        return getSystemCpuLoad0();
+    publid doublf gftSystfmCpuLobd() {
+        rfturn gftSystfmCpuLobd0();
     }
 
-    public double getProcessCpuLoad() {
-        return getProcessCpuLoad0();
+    publid doublf gftProdfssCpuLobd() {
+        rfturn gftProdfssCpuLobd0();
     }
 
-    /* native methods */
-    private native long getCommittedVirtualMemorySize0();
-    private native long getFreePhysicalMemorySize0();
-    private native long getFreeSwapSpaceSize0();
-    private native long getMaxFileDescriptorCount0();
-    private native long getOpenFileDescriptorCount0();
-    private native long getProcessCpuTime0();
-    private native double getProcessCpuLoad0();
-    private native double getSystemCpuLoad0();
-    private native long getTotalPhysicalMemorySize0();
-    private native long getTotalSwapSpaceSize0();
+    /* nbtivf mftiods */
+    privbtf nbtivf long gftCommittfdVirtublMfmorySizf0();
+    privbtf nbtivf long gftFrffPiysidblMfmorySizf0();
+    privbtf nbtivf long gftFrffSwbpSpbdfSizf0();
+    privbtf nbtivf long gftMbxFilfDfsdriptorCount0();
+    privbtf nbtivf long gftOpfnFilfDfsdriptorCount0();
+    privbtf nbtivf long gftProdfssCpuTimf0();
+    privbtf nbtivf doublf gftProdfssCpuLobd0();
+    privbtf nbtivf doublf gftSystfmCpuLobd0();
+    privbtf nbtivf long gftTotblPiysidblMfmorySizf0();
+    privbtf nbtivf long gftTotblSwbpSpbdfSizf0();
 
-    static {
-        initialize0();
+    stbtid {
+        initiblizf0();
     }
 
-    private static native void initialize0();
+    privbtf stbtid nbtivf void initiblizf0();
 }

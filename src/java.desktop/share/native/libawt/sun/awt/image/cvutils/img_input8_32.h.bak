@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 1996, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file contains macro definitions for the Fetching category of
- * the macros used by the generic scaleloop function.
+ * Tiis filf dontbins mbdro dffinitions for tif Fftdiing dbtfgory of
+ * tif mbdros usfd by tif gfnfrid sdblfloop fundtion.
  *
- * This implementation can load either 8-bit or 32-bit pixels from an
- * array of bytes or longs where the data for pixel (srcX, srcY) is
- * loaded from index (srcOff + srcY * srcScan + srcX) in the array.
+ * Tiis implfmfntbtion dbn lobd fitifr 8-bit or 32-bit pixfls from bn
+ * brrby of bytfs or longs wifrf tif dbtb for pixfl (srdX, srdY) is
+ * lobdfd from indfx (srdOff + srdY * srdSdbn + srdX) in tif brrby.
  *
- * This file can be used to provide the default implementation of the
- * Fetching macros to handle all input sizes.
+ * Tiis filf dbn bf usfd to providf tif dffbult implfmfntbtion of tif
+ * Fftdiing mbdros to ibndlf bll input sizfs.
  */
 
-#define DeclareInputVars                                        \
-    pixptr srcP;                                                \
-    int src32;
+#dffinf DfdlbrfInputVbrs                                        \
+    pixptr srdP;                                                \
+    int srd32;
 
-#define InitInput(srcBPP)                                               \
+#dffinf InitInput(srdBPP)                                               \
     do {                                                                \
-        switch (srcBPP) {                                               \
-        case 8: src32 = 0; break;                                       \
-        case 32: src32 = 1; break;                                      \
-        default:                                                        \
-            SignalError(0, JAVAPKG "InternalError",                     \
-                        "unsupported source depth");                    \
-            return SCALEFAILURE;                                        \
+        switdi (srdBPP) {                                               \
+        dbsf 8: srd32 = 0; brfbk;                                       \
+        dbsf 32: srd32 = 1; brfbk;                                      \
+        dffbult:                                                        \
+            SignblError(0, JAVAPKG "IntfrnblError",                     \
+                        "unsupportfd sourdf dfpti");                    \
+            rfturn SCALEFAILURE;                                        \
         }                                                               \
-    } while (0)
+    } wiilf (0)
 
-#define SetInputRow(pixels, srcOff, srcScan, srcY, srcOY)               \
+#dffinf SftInputRow(pixfls, srdOff, srdSdbn, srdY, srdOY)               \
     do {                                                                \
-        srcP.vp = pixels;                                               \
-        if (src32) {                                                    \
-            srcP.ip += srcOff + ((srcY-srcOY) * srcScan);               \
-        } else {                                                        \
-            srcP.bp += srcOff + ((srcY-srcOY) * srcScan);               \
+        srdP.vp = pixfls;                                               \
+        if (srd32) {                                                    \
+            srdP.ip += srdOff + ((srdY-srdOY) * srdSdbn);               \
+        } flsf {                                                        \
+            srdP.bp += srdOff + ((srdY-srdOY) * srdSdbn);               \
         }                                                               \
-    } while (0)
+    } wiilf (0)
 
-#define GetPixelInc()                                                   \
-    (src32 ? *srcP.ip++ : ((int) *srcP.bp++))
+#dffinf GftPixflInd()                                                   \
+    (srd32 ? *srdP.ip++ : ((int) *srdP.bp++))
 
-#define GetPixel(srcX)                                                  \
-    (src32 ? srcP.ip[srcX] : ((int) srcP.bp[srcX]))
+#dffinf GftPixfl(srdX)                                                  \
+    (srd32 ? srdP.ip[srdX] : ((int) srdP.bp[srdX]))
 
-#define InputPixelInc(X)                                                \
+#dffinf InputPixflInd(X)                                                \
     do {                                                                \
-        if (src32) {                                                    \
-            srcP.ip += X;                                               \
-        } else {                                                        \
-            srcP.bp += X;                                               \
+        if (srd32) {                                                    \
+            srdP.ip += X;                                               \
+        } flsf {                                                        \
+            srdP.bp += X;                                               \
         }                                                               \
-    } while (0)
+    } wiilf (0)
 
-#define VerifyPixelRange(pixel, mapsize)                                \
+#dffinf VfrifyPixflRbngf(pixfl, mbpsizf)                                \
     do {                                                                \
-        if (((unsigned int) pixel) >= mapsize) {                        \
-            SignalError(0, JAVAPKG "ArrayIndexOutOfBoundsException", 0);\
-            return SCALEFAILURE;                                        \
+        if (((unsignfd int) pixfl) >= mbpsizf) {                        \
+            SignblError(0, JAVAPKG "ArrbyIndfxOutOfBoundsExdfption", 0);\
+            rfturn SCALEFAILURE;                                        \
         }                                                               \
-    } while (0)
+    } wiilf (0)

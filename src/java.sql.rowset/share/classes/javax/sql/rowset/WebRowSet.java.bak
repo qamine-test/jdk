@@ -1,506 +1,506 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sql.rowset;
+pbdkbgf jbvbx.sql.rowsft;
 
-import java.sql.*;
-import javax.sql.*;
-import javax.naming.*;
-import java.io.*;
-import java.math.*;
-import org.xml.sax.*;
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvbx.nbming.*;
+import jbvb.io.*;
+import jbvb.mbti.*;
+import org.xml.sbx.*;
 
 /**
- * The standard interface that all implementations of a {@code WebRowSet}
- * must implement.
+ * Tif stbndbrd intfrfbdf tibt bll implfmfntbtions of b {@dodf WfbRowSft}
+ * must implfmfnt.
  *
- * <h3>1.0 Overview</h3>
- * The {@code WebRowSetImpl} provides the standard
- * reference implementation, which may be extended if required.
+ * <i3>1.0 Ovfrvifw</i3>
+ * Tif {@dodf WfbRowSftImpl} providfs tif stbndbrd
+ * rfffrfndf implfmfntbtion, wiidi mby bf fxtfndfd if rfquirfd.
  * <P>
- * The standard WebRowSet XML Schema definition is available at the following
+ * Tif stbndbrd WfbRowSft XML Sdifmb dffinition is bvbilbblf bt tif following
  * URI:
  * <ul>
  * <li>
- * <a href="http://java.sun.com/xml/ns/jdbc/webrowset.xsd">http://java.sun.com/xml/ns/jdbc/webrowset.xsd</a>
+ * <b irff="ittp://jbvb.sun.dom/xml/ns/jdbd/wfbrowsft.xsd">ittp://jbvb.sun.dom/xml/ns/jdbd/wfbrowsft.xsd</b>
  * </li>
  * </ul>
- * It describes the standard XML document format required when describing a
- * {@code RowSet} object in XML and must be used be all standard implementations
- * of the {@code WebRowSet} interface to ensure interoperability. In addition,
- * the {@code WebRowSet} schema uses specific SQL/XML Schema annotations,
- * thus ensuring greater cross
- * platform inter-operability. This is an effort currently under way at the ISO
- * organization. The SQL/XML definition is available at the following URI:
+ * It dfsdribfs tif stbndbrd XML dodumfnt formbt rfquirfd wifn dfsdribing b
+ * {@dodf RowSft} objfdt in XML bnd must bf usfd bf bll stbndbrd implfmfntbtions
+ * of tif {@dodf WfbRowSft} intfrfbdf to fnsurf intfropfrbbility. In bddition,
+ * tif {@dodf WfbRowSft} sdifmb usfs spfdifid SQL/XML Sdifmb bnnotbtions,
+ * tius fnsuring grfbtfr dross
+ * plbtform intfr-opfrbbility. Tiis is bn fffort durrfntly undfr wby bt tif ISO
+ * orgbnizbtion. Tif SQL/XML dffinition is bvbilbblf bt tif following URI:
  * <ul>
  * <li>
- * <a href="http://standards.iso.org/iso/9075/2002/12/sqlxml">http://standards.iso.org/iso/9075/2002/12/sqlxml</a>
+ * <b irff="ittp://stbndbrds.iso.org/iso/9075/2002/12/sqlxml">ittp://stbndbrds.iso.org/iso/9075/2002/12/sqlxml</b>
  * </li>
  * </ul>
- * The schema definition describes the internal data of a {@code RowSet} object
- * in three distinct areas:
+ * Tif sdifmb dffinition dfsdribfs tif intfrnbl dbtb of b {@dodf RowSft} objfdt
+ * in tirff distindt brfbs:
  * <UL>
- * <li>properties - These properties describe the standard synchronization
- * provider properties in addition to the more general {@code RowSet} properties.
+ * <li>propfrtifs - Tifsf propfrtifs dfsdribf tif stbndbrd syndironizbtion
+ * providfr propfrtifs in bddition to tif morf gfnfrbl {@dodf RowSft} propfrtifs.
  * </li>
- * <li>metadata - This describes the metadata associated with the tabular structure governed by a
- * {@code WebRowSet} object. The metadata described is closely aligned with the
- * metadata accessible in the underlying {@code java.sql.ResultSet} interface.
+ * <li>mftbdbtb - Tiis dfsdribfs tif mftbdbtb bssodibtfd witi tif tbbulbr strudturf govfrnfd by b
+ * {@dodf WfbRowSft} objfdt. Tif mftbdbtb dfsdribfd is dlosfly blignfd witi tif
+ * mftbdbtb bddfssiblf in tif undfrlying {@dodf jbvb.sql.RfsultSft} intfrfbdf.
  * </li>
- * <li>data - This describes the original data (the state of data since the
- * last population
- * or last synchronization of the {@code WebRowSet} object) and the current
- * data. By keeping track of the delta between the original data and the current data,
- * a {@code WebRowSet} maintains the ability to synchronize changes
- * in its data back to the originating data source.
+ * <li>dbtb - Tiis dfsdribfs tif originbl dbtb (tif stbtf of dbtb sindf tif
+ * lbst populbtion
+ * or lbst syndironizbtion of tif {@dodf WfbRowSft} objfdt) bnd tif durrfnt
+ * dbtb. By kffping trbdk of tif dfltb bftwffn tif originbl dbtb bnd tif durrfnt dbtb,
+ * b {@dodf WfbRowSft} mbintbins tif bbility to syndironizf dibngfs
+ * in its dbtb bbdk to tif originbting dbtb sourdf.
  * </li>
  * </ul>
  *
- * <h3>2.0 WebRowSet States</h3>
- * The following sections demonstrates how a {@code WebRowSet} implementation
- * should use the XML Schema to describe update, insert, and delete operations
- * and to describe the state of a {@code WebRowSet} object in XML.
+ * <i3>2.0 WfbRowSft Stbtfs</i3>
+ * Tif following sfdtions dfmonstrbtfs iow b {@dodf WfbRowSft} implfmfntbtion
+ * siould usf tif XML Sdifmb to dfsdribf updbtf, insfrt, bnd dflftf opfrbtions
+ * bnd to dfsdribf tif stbtf of b {@dodf WfbRowSft} objfdt in XML.
  *
- * <h4>2.1 State 1 - Outputting a {@code WebRowSet} Object to XML</h4>
- * In this example, a {@code WebRowSet} object is created and populated with a simple 2 column,
- * 5 row table from a data source. Having the 5 rows in a {@code WebRowSet} object
- * makes it possible to describe them in XML. The
- * metadata describing the various standard JavaBeans properties as defined
- * in the RowSet interface plus the standard properties defined in
- * the {@code CachedRowSet}&trade; interface
- * provide key details that describe WebRowSet
- * properties. Outputting the WebRowSet object to XML using the standard
- * {@code writeXml} methods describes the internal properties as follows:
+ * <i4>2.1 Stbtf 1 - Outputting b {@dodf WfbRowSft} Objfdt to XML</i4>
+ * In tiis fxbmplf, b {@dodf WfbRowSft} objfdt is drfbtfd bnd populbtfd witi b simplf 2 dolumn,
+ * 5 row tbblf from b dbtb sourdf. Hbving tif 5 rows in b {@dodf WfbRowSft} objfdt
+ * mbkfs it possiblf to dfsdribf tifm in XML. Tif
+ * mftbdbtb dfsdribing tif vbrious stbndbrd JbvbBfbns propfrtifs bs dffinfd
+ * in tif RowSft intfrfbdf plus tif stbndbrd propfrtifs dffinfd in
+ * tif {@dodf CbdifdRowSft}&trbdf; intfrfbdf
+ * providf kfy dftbils tibt dfsdribf WfbRowSft
+ * propfrtifs. Outputting tif WfbRowSft objfdt to XML using tif stbndbrd
+ * {@dodf writfXml} mftiods dfsdribfs tif intfrnbl propfrtifs bs follows:
  * <PRE>
- * {@code
- * <properties>
- *       <command>select co1, col2 from test_table</command>
- *      <concurrency>1</concurrency>
- *      <datasource/>
- *      <escape-processing>true</escape-processing>
- *      <fetch-direction>0</fetch-direction>
- *      <fetch-size>0</fetch-size>
- *      <isolation-level>1</isolation-level>
- *      <key-columns/>
- *      <map/>
- *      <max-field-size>0</max-field-size>
- *      <max-rows>0</max-rows>
- *      <query-timeout>0</query-timeout>
- *      <read-only>false</read-only>
- *      <rowset-type>TRANSACTION_READ_UNCOMMITED</rowset-type>
- *      <show-deleted>false</show-deleted>
- *      <table-name/>
- *      <url>jdbc:thin:oracle</url>
- *      <sync-provider>
- *              <sync-provider-name>.com.rowset.provider.RIOptimisticProvider</sync-provider-name>
- *              <sync-provider-vendor>Oracle Corporation</sync-provider-vendor>
- *              <sync-provider-version>1.0</sync-provider-name>
- *              <sync-provider-grade>LOW</sync-provider-grade>
- *              <data-source-lock>NONE</data-source-lock>
- *      </sync-provider>
- * </properties>
+ * {@dodf
+ * <propfrtifs>
+ *       <dommbnd>sflfdt do1, dol2 from tfst_tbblf</dommbnd>
+ *      <dondurrfndy>1</dondurrfndy>
+ *      <dbtbsourdf/>
+ *      <fsdbpf-prodfssing>truf</fsdbpf-prodfssing>
+ *      <fftdi-dirfdtion>0</fftdi-dirfdtion>
+ *      <fftdi-sizf>0</fftdi-sizf>
+ *      <isolbtion-lfvfl>1</isolbtion-lfvfl>
+ *      <kfy-dolumns/>
+ *      <mbp/>
+ *      <mbx-fifld-sizf>0</mbx-fifld-sizf>
+ *      <mbx-rows>0</mbx-rows>
+ *      <qufry-timfout>0</qufry-timfout>
+ *      <rfbd-only>fblsf</rfbd-only>
+ *      <rowsft-typf>TRANSACTION_READ_UNCOMMITED</rowsft-typf>
+ *      <siow-dflftfd>fblsf</siow-dflftfd>
+ *      <tbblf-nbmf/>
+ *      <url>jdbd:tiin:orbdlf</url>
+ *      <synd-providfr>
+ *              <synd-providfr-nbmf>.dom.rowsft.providfr.RIOptimistidProvidfr</synd-providfr-nbmf>
+ *              <synd-providfr-vfndor>Orbdlf Corporbtion</synd-providfr-vfndor>
+ *              <synd-providfr-vfrsion>1.0</synd-providfr-nbmf>
+ *              <synd-providfr-grbdf>LOW</synd-providfr-grbdf>
+ *              <dbtb-sourdf-lodk>NONE</dbtb-sourdf-lodk>
+ *      </synd-providfr>
+ * </propfrtifs>
  * } </PRE>
- * The meta-data describing the make up of the WebRowSet is described
- * in XML as detailed below. Note both columns are described between the
- * {@code column-definition} tags.
+ * Tif mftb-dbtb dfsdribing tif mbkf up of tif WfbRowSft is dfsdribfd
+ * in XML bs dftbilfd bflow. Notf boti dolumns brf dfsdribfd bftwffn tif
+ * {@dodf dolumn-dffinition} tbgs.
  * <PRE>
- * {@code
- * <metadata>
- *      <column-count>2</column-count>
- *      <column-definition>
- *              <column-index>1</column-index>
- *              <auto-increment>false</auto-increment>
- *              <case-sensitive>true</case-sensitive>
- *              <currency>false</currency>
- *              <nullable>1</nullable>
- *              <signed>false</signed>
- *              <searchable>true</searchable>
- *              <column-display-size>10</column-display-size>
- *              <column-label>COL1</column-label>
- *              <column-name>COL1</column-name>
- *              <schema-name/>
- *              <column-precision>10</column-precision>
- *              <column-scale>0</column-scale>
- *              <table-name/>
- *              <catalog-name/>
- *              <column-type>1</column-type>
- *              <column-type-name>CHAR</column-type-name>
- *      </column-definition>
- *      <column-definition>
- *              <column-index>2</column-index>
- *              <auto-increment>false</auto-increment>
- *              <case-sensitive>false</case-sensitive>
- *              <currency>false</currency>
- *              <nullable>1</nullable>
- *              <signed>true</signed>
- *              <searchable>true</searchable>
- *              <column-display-size>39</column-display-size>
- *              <column-label>COL2</column-label>
- *              <column-name>COL2</column-name>
- *              <schema-name/>
- *              <column-precision>38</column-precision>
- *              <column-scale>0</column-scale>
- *              <table-name/>
- *              <catalog-name/>
- *              <column-type>3</column-type>
- *              <column-type-name>NUMBER</column-type-name>
- *      </column-definition>
- * </metadata>
+ * {@dodf
+ * <mftbdbtb>
+ *      <dolumn-dount>2</dolumn-dount>
+ *      <dolumn-dffinition>
+ *              <dolumn-indfx>1</dolumn-indfx>
+ *              <buto-indrfmfnt>fblsf</buto-indrfmfnt>
+ *              <dbsf-sfnsitivf>truf</dbsf-sfnsitivf>
+ *              <durrfndy>fblsf</durrfndy>
+ *              <nullbblf>1</nullbblf>
+ *              <signfd>fblsf</signfd>
+ *              <sfbrdibblf>truf</sfbrdibblf>
+ *              <dolumn-displby-sizf>10</dolumn-displby-sizf>
+ *              <dolumn-lbbfl>COL1</dolumn-lbbfl>
+ *              <dolumn-nbmf>COL1</dolumn-nbmf>
+ *              <sdifmb-nbmf/>
+ *              <dolumn-prfdision>10</dolumn-prfdision>
+ *              <dolumn-sdblf>0</dolumn-sdblf>
+ *              <tbblf-nbmf/>
+ *              <dbtblog-nbmf/>
+ *              <dolumn-typf>1</dolumn-typf>
+ *              <dolumn-typf-nbmf>CHAR</dolumn-typf-nbmf>
+ *      </dolumn-dffinition>
+ *      <dolumn-dffinition>
+ *              <dolumn-indfx>2</dolumn-indfx>
+ *              <buto-indrfmfnt>fblsf</buto-indrfmfnt>
+ *              <dbsf-sfnsitivf>fblsf</dbsf-sfnsitivf>
+ *              <durrfndy>fblsf</durrfndy>
+ *              <nullbblf>1</nullbblf>
+ *              <signfd>truf</signfd>
+ *              <sfbrdibblf>truf</sfbrdibblf>
+ *              <dolumn-displby-sizf>39</dolumn-displby-sizf>
+ *              <dolumn-lbbfl>COL2</dolumn-lbbfl>
+ *              <dolumn-nbmf>COL2</dolumn-nbmf>
+ *              <sdifmb-nbmf/>
+ *              <dolumn-prfdision>38</dolumn-prfdision>
+ *              <dolumn-sdblf>0</dolumn-sdblf>
+ *              <tbblf-nbmf/>
+ *              <dbtblog-nbmf/>
+ *              <dolumn-typf>3</dolumn-typf>
+ *              <dolumn-typf-nbmf>NUMBER</dolumn-typf-nbmf>
+ *      </dolumn-dffinition>
+ * </mftbdbtb>
  * }</PRE>
- * Having detailed how the properties and metadata are described, the following details
- * how the contents of a {@code WebRowSet} object is described in XML. Note, that
- * this describes a {@code WebRowSet} object that has not undergone any
- * modifications since its instantiation.
- * A {@code currentRow} tag is mapped to each row of the table structure that the
- * {@code WebRowSet} object provides. A {@code columnValue} tag may contain
- * either the {@code stringData} or {@code binaryData} tag, according to
- * the SQL type that
- * the XML value is mapping back to. The {@code binaryData} tag contains data in the
- * Base64 encoding and is typically used for {@code BLOB} and {@code CLOB} type data.
+ * Hbving dftbilfd iow tif propfrtifs bnd mftbdbtb brf dfsdribfd, tif following dftbils
+ * iow tif dontfnts of b {@dodf WfbRowSft} objfdt is dfsdribfd in XML. Notf, tibt
+ * tiis dfsdribfs b {@dodf WfbRowSft} objfdt tibt ibs not undfrgonf bny
+ * modifidbtions sindf its instbntibtion.
+ * A {@dodf durrfntRow} tbg is mbppfd to fbdi row of tif tbblf strudturf tibt tif
+ * {@dodf WfbRowSft} objfdt providfs. A {@dodf dolumnVbluf} tbg mby dontbin
+ * fitifr tif {@dodf stringDbtb} or {@dodf binbryDbtb} tbg, bddording to
+ * tif SQL typf tibt
+ * tif XML vbluf is mbpping bbdk to. Tif {@dodf binbryDbtb} tbg dontbins dbtb in tif
+ * Bbsf64 fndoding bnd is typidblly usfd for {@dodf BLOB} bnd {@dodf CLOB} typf dbtb.
  * <PRE>
- * {@code
- * <data>
- *      <currentRow>
- *              <columnValue>
+ * {@dodf
+ * <dbtb>
+ *      <durrfntRow>
+ *              <dolumnVbluf>
  *                      firstrow
- *              </columnValue>
- *              <columnValue>
+ *              </dolumnVbluf>
+ *              <dolumnVbluf>
  *                      1
- *              </columnValue>
- *      </currentRow>
- *      <currentRow>
- *              <columnValue>
- *                      secondrow
- *              </columnValue>
- *              <columnValue>
+ *              </dolumnVbluf>
+ *      </durrfntRow>
+ *      <durrfntRow>
+ *              <dolumnVbluf>
+ *                      sfdondrow
+ *              </dolumnVbluf>
+ *              <dolumnVbluf>
  *                      2
- *              </columnValue>
- *      </currentRow>
- *      <currentRow>
- *              <columnValue>
- *                      thirdrow
- *              </columnValue>
- *              <columnValue>
+ *              </dolumnVbluf>
+ *      </durrfntRow>
+ *      <durrfntRow>
+ *              <dolumnVbluf>
+ *                      tiirdrow
+ *              </dolumnVbluf>
+ *              <dolumnVbluf>
  *                      3
- *              </columnValue>
- *      </currentRow>
- *      <currentRow>
- *              <columnValue>
- *                      fourthrow
- *              </columnValue>
- *              <columnValue>
+ *              </dolumnVbluf>
+ *      </durrfntRow>
+ *      <durrfntRow>
+ *              <dolumnVbluf>
+ *                      fourtirow
+ *              </dolumnVbluf>
+ *              <dolumnVbluf>
  *                      4
- *              </columnValue>
- *      </currentRow>
- * </data>
+ *              </dolumnVbluf>
+ *      </durrfntRow>
+ * </dbtb>
  * }</PRE>
- * <h4>2.2 State 2 - Deleting a Row</h4>
- * Deleting a row in a {@code WebRowSet} object involves simply moving to the row
- * to be deleted and then calling the method {@code deleteRow}, as in any other
- * {@code RowSet} object.  The following
- * two lines of code, in which <i>wrs</i> is a {@code WebRowSet} object, delete
- * the third row.
+ * <i4>2.2 Stbtf 2 - Dflfting b Row</i4>
+ * Dflfting b row in b {@dodf WfbRowSft} objfdt involvfs simply moving to tif row
+ * to bf dflftfd bnd tifn dblling tif mftiod {@dodf dflftfRow}, bs in bny otifr
+ * {@dodf RowSft} objfdt.  Tif following
+ * two linfs of dodf, in wiidi <i>wrs</i> is b {@dodf WfbRowSft} objfdt, dflftf
+ * tif tiird row.
  * <PRE>
- *     wrs.absolute(3);
- *     wrs.deleteRow();
+ *     wrs.bbsolutf(3);
+ *     wrs.dflftfRow();
  * </PRE>
- * The XML description shows the third row is marked as a {@code deleteRow},
- *  which eliminates the third row in the {@code WebRowSet} object.
+ * Tif XML dfsdription siows tif tiird row is mbrkfd bs b {@dodf dflftfRow},
+ *  wiidi fliminbtfs tif tiird row in tif {@dodf WfbRowSft} objfdt.
  * <PRE>
- * {@code
- * <data>
- *      <currentRow>
- *              <columnValue>
+ * {@dodf
+ * <dbtb>
+ *      <durrfntRow>
+ *              <dolumnVbluf>
  *                      firstrow
- *              </columnValue>
- *              <columnValue>
+ *              </dolumnVbluf>
+ *              <dolumnVbluf>
  *                      1
- *              </columnValue>
- *      </currentRow>
- *      <currentRow>
- *              <columnValue>
- *                      secondrow
- *              </columnValue>
- *              <columnValue>
+ *              </dolumnVbluf>
+ *      </durrfntRow>
+ *      <durrfntRow>
+ *              <dolumnVbluf>
+ *                      sfdondrow
+ *              </dolumnVbluf>
+ *              <dolumnVbluf>
  *                      2
- *              </columnValue>
- *      </currentRow>
- *      <deleteRow>
- *              <columnValue>
- *                      thirdrow
- *              </columnValue>
- *              <columnValue>
+ *              </dolumnVbluf>
+ *      </durrfntRow>
+ *      <dflftfRow>
+ *              <dolumnVbluf>
+ *                      tiirdrow
+ *              </dolumnVbluf>
+ *              <dolumnVbluf>
  *                      3
- *              </columnValue>
- *      </deleteRow>
- *      <currentRow>
- *              <columnValue>
- *                      fourthrow
- *              </columnValue>
- *              <columnValue>
+ *              </dolumnVbluf>
+ *      </dflftfRow>
+ *      <durrfntRow>
+ *              <dolumnVbluf>
+ *                      fourtirow
+ *              </dolumnVbluf>
+ *              <dolumnVbluf>
  *                      4
- *              </columnValue>
- *      </currentRow>
- * </data>
+ *              </dolumnVbluf>
+ *      </durrfntRow>
+ * </dbtb>
  *} </PRE>
- * <h4>2.3 State 3 - Inserting a Row</h4>
- * A {@code WebRowSet} object can insert a new row by moving to the insert row,
- * calling the appropriate updater methods for each column in the row, and then
- * calling the method {@code insertRow}.
+ * <i4>2.3 Stbtf 3 - Insfrting b Row</i4>
+ * A {@dodf WfbRowSft} objfdt dbn insfrt b nfw row by moving to tif insfrt row,
+ * dblling tif bppropribtf updbtfr mftiods for fbdi dolumn in tif row, bnd tifn
+ * dblling tif mftiod {@dodf insfrtRow}.
  * <PRE>
- * {@code
- * wrs.moveToInsertRow();
- * wrs.updateString(1, "fifththrow");
- * wrs.updateString(2, "5");
- * wrs.insertRow();
+ * {@dodf
+ * wrs.movfToInsfrtRow();
+ * wrs.updbtfString(1, "fiftitirow");
+ * wrs.updbtfString(2, "5");
+ * wrs.insfrtRow();
  * }</PRE>
- * The following code fragment changes the second column value in the row just inserted.
- * Note that this code applies when new rows are inserted right after the current row,
- * which is why the method {@code next} moves the cursor to the correct row.
- * Calling the method {@code acceptChanges} writes the change to the data source.
+ * Tif following dodf frbgmfnt dibngfs tif sfdond dolumn vbluf in tif row just insfrtfd.
+ * Notf tibt tiis dodf bpplifs wifn nfw rows brf insfrtfd rigit bftfr tif durrfnt row,
+ * wiidi is wiy tif mftiod {@dodf nfxt} movfs tif dursor to tif dorrfdt row.
+ * Cblling tif mftiod {@dodf bddfptCibngfs} writfs tif dibngf to tif dbtb sourdf.
  *
  * <PRE>
- * {@code wrs.moveToCurrentRow();
- * wrs.next();
- * wrs.updateString(2, "V");
- * wrs.acceptChanges();
+ * {@dodf wrs.movfToCurrfntRow();
+ * wrs.nfxt();
+ * wrs.updbtfString(2, "V");
+ * wrs.bddfptCibngfs();
  * }</PRE>
- * Describing this in XML demonstrates where the Java code inserts a new row and then
- * performs an update on the newly inserted row on an individual field.
+ * Dfsdribing tiis in XML dfmonstrbtfs wifrf tif Jbvb dodf insfrts b nfw row bnd tifn
+ * pfrforms bn updbtf on tif nfwly insfrtfd row on bn individubl fifld.
  * <PRE>
- * {@code
- * <data>
- *      <currentRow>
- *              <columnValue>
+ * {@dodf
+ * <dbtb>
+ *      <durrfntRow>
+ *              <dolumnVbluf>
  *                      firstrow
- *              </columnValue>
- *              <columnValue>
+ *              </dolumnVbluf>
+ *              <dolumnVbluf>
  *                      1
- *              </columnValue>
- *      </currentRow>
- *      <currentRow>
- *              <columnValue>
- *                      secondrow
- *              </columnValue>
- *              <columnValue>
+ *              </dolumnVbluf>
+ *      </durrfntRow>
+ *      <durrfntRow>
+ *              <dolumnVbluf>
+ *                      sfdondrow
+ *              </dolumnVbluf>
+ *              <dolumnVbluf>
  *                      2
- *              </columnValue>
- *      </currentRow>
- *      <currentRow>
- *              <columnValue>
- *                      newthirdrow
- *              </columnValue>
- *              <columnValue>
+ *              </dolumnVbluf>
+ *      </durrfntRow>
+ *      <durrfntRow>
+ *              <dolumnVbluf>
+ *                      nfwtiirdrow
+ *              </dolumnVbluf>
+ *              <dolumnVbluf>
  *                      III
- *              </columnValue>
- *      </currentRow>
- *      <insertRow>
- *              <columnValue>
- *                      fifthrow
- *              </columnValue>
- *              <columnValue>
+ *              </dolumnVbluf>
+ *      </durrfntRow>
+ *      <insfrtRow>
+ *              <dolumnVbluf>
+ *                      fiftirow
+ *              </dolumnVbluf>
+ *              <dolumnVbluf>
  *                      5
- *              </columnValue>
- *              <updateValue>
+ *              </dolumnVbluf>
+ *              <updbtfVbluf>
  *                      V
- *              </updateValue>
- *      </insertRow>
- *      <currentRow>
- *              <columnValue>
- *                      fourthrow
- *              </columnValue>
- *              <columnValue>
+ *              </updbtfVbluf>
+ *      </insfrtRow>
+ *      <durrfntRow>
+ *              <dolumnVbluf>
+ *                      fourtirow
+ *              </dolumnVbluf>
+ *              <dolumnVbluf>
  *                      4
- *              </columnValue>
- *      </currentRow>
- * </date>
+ *              </dolumnVbluf>
+ *      </durrfntRow>
+ * </dbtf>
  *} </PRE>
- * <h4>2.4 State 4 - Modifying a Row</h4>
- * Modifying a row produces specific XML that records both the new value and the
- * value that was replaced.  The value that was replaced becomes the original value,
- * and the new value becomes the current value. The following
- * code moves the cursor to a specific row, performs some modifications, and updates
- * the row when complete.
+ * <i4>2.4 Stbtf 4 - Modifying b Row</i4>
+ * Modifying b row produdfs spfdifid XML tibt rfdords boti tif nfw vbluf bnd tif
+ * vbluf tibt wbs rfplbdfd.  Tif vbluf tibt wbs rfplbdfd bfdomfs tif originbl vbluf,
+ * bnd tif nfw vbluf bfdomfs tif durrfnt vbluf. Tif following
+ * dodf movfs tif dursor to b spfdifid row, pfrforms somf modifidbtions, bnd updbtfs
+ * tif row wifn domplftf.
  * <PRE>
- *{@code
- * wrs.absolute(5);
- * wrs.updateString(1, "new4thRow");
- * wrs.updateString(2, "IV");
- * wrs.updateRow();
+ *{@dodf
+ * wrs.bbsolutf(5);
+ * wrs.updbtfString(1, "nfw4tiRow");
+ * wrs.updbtfString(2, "IV");
+ * wrs.updbtfRow();
  * }</PRE>
- * In XML, this is described by the {@code modifyRow} tag. Both the original and new
- * values are contained within the tag for original row tracking purposes.
+ * In XML, tiis is dfsdribfd by tif {@dodf modifyRow} tbg. Boti tif originbl bnd nfw
+ * vblufs brf dontbinfd witiin tif tbg for originbl row trbdking purposfs.
  * <PRE>
- * {@code
- * <data>
- *      <currentRow>
- *              <columnValue>
+ * {@dodf
+ * <dbtb>
+ *      <durrfntRow>
+ *              <dolumnVbluf>
  *                      firstrow
- *              </columnValue>
- *              <columnValue>
+ *              </dolumnVbluf>
+ *              <dolumnVbluf>
  *                      1
- *              </columnValue>
- *      </currentRow>
- *      <currentRow>
- *              <columnValue>
- *                      secondrow
- *              </columnValue>
- *              <columnValue>
+ *              </dolumnVbluf>
+ *      </durrfntRow>
+ *      <durrfntRow>
+ *              <dolumnVbluf>
+ *                      sfdondrow
+ *              </dolumnVbluf>
+ *              <dolumnVbluf>
  *                      2
- *              </columnValue>
- *      </currentRow>
- *      <currentRow>
- *              <columnValue>
- *                      newthirdrow
- *              </columnValue>
- *              <columnValue>
+ *              </dolumnVbluf>
+ *      </durrfntRow>
+ *      <durrfntRow>
+ *              <dolumnVbluf>
+ *                      nfwtiirdrow
+ *              </dolumnVbluf>
+ *              <dolumnVbluf>
  *                      III
- *              </columnValue>
- *      </currentRow>
- *      <currentRow>
- *              <columnValue>
- *                      fifthrow
- *              </columnValue>
- *              <columnValue>
+ *              </dolumnVbluf>
+ *      </durrfntRow>
+ *      <durrfntRow>
+ *              <dolumnVbluf>
+ *                      fiftirow
+ *              </dolumnVbluf>
+ *              <dolumnVbluf>
  *                      5
- *              </columnValue>
- *      </currentRow>
+ *              </dolumnVbluf>
+ *      </durrfntRow>
  *      <modifyRow>
- *              <columnValue>
- *                      fourthrow
- *              </columnValue>
- *              <updateValue>
- *                      new4thRow
- *              </updateValue>
- *              <columnValue>
+ *              <dolumnVbluf>
+ *                      fourtirow
+ *              </dolumnVbluf>
+ *              <updbtfVbluf>
+ *                      nfw4tiRow
+ *              </updbtfVbluf>
+ *              <dolumnVbluf>
  *                      4
- *              </columnValue>
- *              <updateValue>
+ *              </dolumnVbluf>
+ *              <updbtfVbluf>
  *                      IV
- *              </updateValue>
+ *              </updbtfVbluf>
  *      </modifyRow>
- * </data>
+ * </dbtb>
  * }</PRE>
  *
- * @see javax.sql.rowset.JdbcRowSet
- * @see javax.sql.rowset.CachedRowSet
- * @see javax.sql.rowset.FilteredRowSet
- * @see javax.sql.rowset.JoinRowSet
- * @since 1.5
+ * @sff jbvbx.sql.rowsft.JdbdRowSft
+ * @sff jbvbx.sql.rowsft.CbdifdRowSft
+ * @sff jbvbx.sql.rowsft.FiltfrfdRowSft
+ * @sff jbvbx.sql.rowsft.JoinRowSft
+ * @sindf 1.5
  */
 
-public interface WebRowSet extends CachedRowSet {
+publid intfrfbdf WfbRowSft fxtfnds CbdifdRowSft {
 
    /**
-    * Reads a {@code WebRowSet} object in its XML format from the given
-    * {@code Reader} object.
+    * Rfbds b {@dodf WfbRowSft} objfdt in its XML formbt from tif givfn
+    * {@dodf Rfbdfr} objfdt.
     *
-    * @param reader the {@code java.io.Reader} stream from which this
-    *        {@code WebRowSet} object will be populated
+    * @pbrbm rfbdfr tif {@dodf jbvb.io.Rfbdfr} strfbm from wiidi tiis
+    *        {@dodf WfbRowSft} objfdt will bf populbtfd
 
-    * @throws SQLException if a database access error occurs
+    * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs
     */
-    public void readXml(java.io.Reader reader) throws SQLException;
+    publid void rfbdXml(jbvb.io.Rfbdfr rfbdfr) tirows SQLExdfption;
 
     /**
-     * Reads a stream based XML input to populate this {@code WebRowSet}
-     * object.
+     * Rfbds b strfbm bbsfd XML input to populbtf tiis {@dodf WfbRowSft}
+     * objfdt.
      *
-     * @param iStream the {@code java.io.InputStream} from which this
-     *        {@code WebRowSet} object will be populated
-     * @throws SQLException if a data source access error occurs
-     * @throws IOException if an IO exception occurs
+     * @pbrbm iStrfbm tif {@dodf jbvb.io.InputStrfbm} from wiidi tiis
+     *        {@dodf WfbRowSft} objfdt will bf populbtfd
+     * @tirows SQLExdfption if b dbtb sourdf bddfss frror oddurs
+     * @tirows IOExdfption if bn IO fxdfption oddurs
      */
-    public void readXml(java.io.InputStream iStream) throws SQLException, IOException;
+    publid void rfbdXml(jbvb.io.InputStrfbm iStrfbm) tirows SQLExdfption, IOExdfption;
 
    /**
-    * Populates this {@code WebRowSet} object with
-    * the contents of the given {@code ResultSet} object and writes its
-    * data, properties, and metadata
-    * to the given {@code Writer} object in XML format.
+    * Populbtfs tiis {@dodf WfbRowSft} objfdt witi
+    * tif dontfnts of tif givfn {@dodf RfsultSft} objfdt bnd writfs its
+    * dbtb, propfrtifs, bnd mftbdbtb
+    * to tif givfn {@dodf Writfr} objfdt in XML formbt.
     * <p>
-    * NOTE: The {@code WebRowSet} cursor may be moved to write out the
-    * contents to the XML data source. If implemented in this way, the cursor <b>must</b>
-    * be returned to its position just prior to the {@code writeXml()} call.
+    * NOTE: Tif {@dodf WfbRowSft} dursor mby bf movfd to writf out tif
+    * dontfnts to tif XML dbtb sourdf. If implfmfntfd in tiis wby, tif dursor <b>must</b>
+    * bf rfturnfd to its position just prior to tif {@dodf writfXml()} dbll.
     *
-    * @param rs the {@code ResultSet} object with which to populate this
-    *        {@code WebRowSet} object
-    * @param writer the {@code java.io.Writer} object to write to.
-    * @throws SQLException if an error occurs writing out the rowset
-    *          contents in XML format
+    * @pbrbm rs tif {@dodf RfsultSft} objfdt witi wiidi to populbtf tiis
+    *        {@dodf WfbRowSft} objfdt
+    * @pbrbm writfr tif {@dodf jbvb.io.Writfr} objfdt to writf to.
+    * @tirows SQLExdfption if bn frror oddurs writing out tif rowsft
+    *          dontfnts in XML formbt
     */
-    public void writeXml(ResultSet rs, java.io.Writer writer) throws SQLException;
+    publid void writfXml(RfsultSft rs, jbvb.io.Writfr writfr) tirows SQLExdfption;
 
    /**
-    * Populates this {@code WebRowSet} object with
-    * the contents of the given {@code ResultSet} object and writes its
-    * data, properties, and metadata
-    * to the given {@code OutputStream} object in XML format.
+    * Populbtfs tiis {@dodf WfbRowSft} objfdt witi
+    * tif dontfnts of tif givfn {@dodf RfsultSft} objfdt bnd writfs its
+    * dbtb, propfrtifs, bnd mftbdbtb
+    * to tif givfn {@dodf OutputStrfbm} objfdt in XML formbt.
     * <p>
-    * NOTE: The {@code WebRowSet} cursor may be moved to write out the
-    * contents to the XML data source. If implemented in this way, the cursor <b>must</b>
-    * be returned to its position just prior to the {@code writeXml()} call.
+    * NOTE: Tif {@dodf WfbRowSft} dursor mby bf movfd to writf out tif
+    * dontfnts to tif XML dbtb sourdf. If implfmfntfd in tiis wby, tif dursor <b>must</b>
+    * bf rfturnfd to its position just prior to tif {@dodf writfXml()} dbll.
     *
-    * @param rs the {@code ResultSet} object with which to populate this
-    *        {@code WebRowSet} object
-    * @param oStream the {@code java.io.OutputStream} to write to
-    * @throws SQLException if a data source access error occurs
-    * @throws IOException if a IO exception occurs
+    * @pbrbm rs tif {@dodf RfsultSft} objfdt witi wiidi to populbtf tiis
+    *        {@dodf WfbRowSft} objfdt
+    * @pbrbm oStrfbm tif {@dodf jbvb.io.OutputStrfbm} to writf to
+    * @tirows SQLExdfption if b dbtb sourdf bddfss frror oddurs
+    * @tirows IOExdfption if b IO fxdfption oddurs
     */
-    public void writeXml(ResultSet rs, java.io.OutputStream oStream) throws SQLException, IOException;
+    publid void writfXml(RfsultSft rs, jbvb.io.OutputStrfbm oStrfbm) tirows SQLExdfption, IOExdfption;
 
    /**
-    * Writes the data, properties, and metadata for this {@code WebRowSet} object
-    * to the given {@code Writer} object in XML format.
+    * Writfs tif dbtb, propfrtifs, bnd mftbdbtb for tiis {@dodf WfbRowSft} objfdt
+    * to tif givfn {@dodf Writfr} objfdt in XML formbt.
     *
-    * @param writer the {@code java.io.Writer} stream to write to
-    * @throws SQLException if an error occurs writing out the rowset
-    *          contents to XML
+    * @pbrbm writfr tif {@dodf jbvb.io.Writfr} strfbm to writf to
+    * @tirows SQLExdfption if bn frror oddurs writing out tif rowsft
+    *          dontfnts to XML
     */
-    public void writeXml(java.io.Writer writer) throws SQLException;
+    publid void writfXml(jbvb.io.Writfr writfr) tirows SQLExdfption;
 
     /**
-     * Writes the data, properties, and metadata for this {@code WebRowSet} object
-     * to the given {@code OutputStream} object in XML format.
+     * Writfs tif dbtb, propfrtifs, bnd mftbdbtb for tiis {@dodf WfbRowSft} objfdt
+     * to tif givfn {@dodf OutputStrfbm} objfdt in XML formbt.
      *
-     * @param oStream the {@code java.io.OutputStream} stream to write to
-     * @throws SQLException if a data source access error occurs
-     * @throws IOException if a IO exception occurs
+     * @pbrbm oStrfbm tif {@dodf jbvb.io.OutputStrfbm} strfbm to writf to
+     * @tirows SQLExdfption if b dbtb sourdf bddfss frror oddurs
+     * @tirows IOExdfption if b IO fxdfption oddurs
      */
-    public void writeXml(java.io.OutputStream oStream) throws SQLException, IOException;
+    publid void writfXml(jbvb.io.OutputStrfbm oStrfbm) tirows SQLExdfption, IOExdfption;
 
     /**
-     * The public identifier for the XML Schema definition that defines the XML
-     * tags and their valid values for a {@code WebRowSet} implementation.
+     * Tif publid idfntififr for tif XML Sdifmb dffinition tibt dffinfs tif XML
+     * tbgs bnd tifir vblid vblufs for b {@dodf WfbRowSft} implfmfntbtion.
      */
-    public static String PUBLIC_XML_SCHEMA =
-        "--//Oracle Corporation//XSD Schema//EN";
+    publid stbtid String PUBLIC_XML_SCHEMA =
+        "--//Orbdlf Corporbtion//XSD Sdifmb//EN";
 
     /**
-     * The URL for the XML Schema definition file that defines the XML tags and
-     * their valid values for a {@code WebRowSet} implementation.
+     * Tif URL for tif XML Sdifmb dffinition filf tibt dffinfs tif XML tbgs bnd
+     * tifir vblid vblufs for b {@dodf WfbRowSft} implfmfntbtion.
      */
-    public static String SCHEMA_SYSTEM_ID = "http://java.sun.com/xml/ns/jdbc/webrowset.xsd";
+    publid stbtid String SCHEMA_SYSTEM_ID = "ittp://jbvb.sun.dom/xml/ns/jdbd/wfbrowsft.xsd";
 }

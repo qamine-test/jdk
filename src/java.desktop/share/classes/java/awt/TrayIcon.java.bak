@@ -1,782 +1,782 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.event.*;
-import java.awt.peer.TrayIconPeer;
-import sun.awt.AppContext;
-import sun.awt.SunToolkit;
-import sun.awt.AWTAccessor;
-import sun.awt.HeadlessToolkit;
-import java.util.EventObject;
-import java.security.AccessControlContext;
-import java.security.AccessController;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.pffr.TrbyIdonPffr;
+import sun.bwt.AppContfxt;
+import sun.bwt.SunToolkit;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.HfbdlfssToolkit;
+import jbvb.util.EvfntObjfdt;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
 
 /**
- * A <code>TrayIcon</code> object represents a tray icon that can be
- * added to the {@link SystemTray system tray}. A
- * <code>TrayIcon</code> can have a tooltip (text), an image, a popup
- * menu, and a set of listeners associated with it.
+ * A <dodf>TrbyIdon</dodf> objfdt rfprfsfnts b trby idon tibt dbn bf
+ * bddfd to tif {@link SystfmTrby systfm trby}. A
+ * <dodf>TrbyIdon</dodf> dbn ibvf b tooltip (tfxt), bn imbgf, b popup
+ * mfnu, bnd b sft of listfnfrs bssodibtfd witi it.
  *
- * <p>A <code>TrayIcon</code> can generate various {@link MouseEvent
- * MouseEvents} and supports adding corresponding listeners to receive
- * notification of these events.  <code>TrayIcon</code> processes some
- * of the events by itself.  For example, by default, when the
- * right-mouse click is performed on the <code>TrayIcon</code> it
- * displays the specified popup menu.  When the mouse hovers
- * over the <code>TrayIcon</code> the tooltip is displayed.
+ * <p>A <dodf>TrbyIdon</dodf> dbn gfnfrbtf vbrious {@link MousfEvfnt
+ * MousfEvfnts} bnd supports bdding dorrfsponding listfnfrs to rfdfivf
+ * notifidbtion of tifsf fvfnts.  <dodf>TrbyIdon</dodf> prodfssfs somf
+ * of tif fvfnts by itsflf.  For fxbmplf, by dffbult, wifn tif
+ * rigit-mousf dlidk is pfrformfd on tif <dodf>TrbyIdon</dodf> it
+ * displbys tif spfdififd popup mfnu.  Wifn tif mousf iovfrs
+ * ovfr tif <dodf>TrbyIdon</dodf> tif tooltip is displbyfd.
  *
- * <p><strong>Note:</strong> When the <code>MouseEvent</code> is
- * dispatched to its registered listeners its <code>component</code>
- * property will be set to <code>null</code>.  (See {@link
- * java.awt.event.ComponentEvent#getComponent}) The
- * <code>source</code> property will be set to this
- * <code>TrayIcon</code>. (See {@link
- * java.util.EventObject#getSource})
+ * <p><strong>Notf:</strong> Wifn tif <dodf>MousfEvfnt</dodf> is
+ * dispbtdifd to its rfgistfrfd listfnfrs its <dodf>domponfnt</dodf>
+ * propfrty will bf sft to <dodf>null</dodf>.  (Sff {@link
+ * jbvb.bwt.fvfnt.ComponfntEvfnt#gftComponfnt}) Tif
+ * <dodf>sourdf</dodf> propfrty will bf sft to tiis
+ * <dodf>TrbyIdon</dodf>. (Sff {@link
+ * jbvb.util.EvfntObjfdt#gftSourdf})
  *
- * <p><b>Note:</b> A well-behaved {@link TrayIcon} implementation
- * will assign different gestures to showing a popup menu and
- * selecting a tray icon.
+ * <p><b>Notf:</b> A wfll-bfibvfd {@link TrbyIdon} implfmfntbtion
+ * will bssign difffrfnt gfsturfs to siowing b popup mfnu bnd
+ * sflfdting b trby idon.
  *
- * <p>A <code>TrayIcon</code> can generate an {@link ActionEvent
- * ActionEvent}.  On some platforms, this occurs when the user selects
- * the tray icon using either the mouse or keyboard.
+ * <p>A <dodf>TrbyIdon</dodf> dbn gfnfrbtf bn {@link AdtionEvfnt
+ * AdtionEvfnt}.  On somf plbtforms, tiis oddurs wifn tif usfr sflfdts
+ * tif trby idon using fitifr tif mousf or kfybobrd.
  *
- * <p>If a SecurityManager is installed, the AWTPermission
- * {@code accessSystemTray} must be granted in order to create
- * a {@code TrayIcon}. Otherwise the constructor will throw a
- * SecurityException.
+ * <p>If b SfdurityMbnbgfr is instbllfd, tif AWTPfrmission
+ * {@dodf bddfssSystfmTrby} must bf grbntfd in ordfr to drfbtf
+ * b {@dodf TrbyIdon}. Otifrwisf tif donstrudtor will tirow b
+ * SfdurityExdfption.
  *
- * <p> See the {@link SystemTray} class overview for an example on how
- * to use the <code>TrayIcon</code> API.
+ * <p> Sff tif {@link SystfmTrby} dlbss ovfrvifw for bn fxbmplf on iow
+ * to usf tif <dodf>TrbyIdon</dodf> API.
  *
- * @since 1.6
- * @see SystemTray#add
- * @see java.awt.event.ComponentEvent#getComponent
- * @see java.util.EventObject#getSource
+ * @sindf 1.6
+ * @sff SystfmTrby#bdd
+ * @sff jbvb.bwt.fvfnt.ComponfntEvfnt#gftComponfnt
+ * @sff jbvb.util.EvfntObjfdt#gftSourdf
  *
- * @author Bino George
- * @author Denis Mikhalkin
- * @author Sharon Zakhour
- * @author Anton Tarasov
+ * @butior Bino Gforgf
+ * @butior Dfnis Mikiblkin
+ * @butior Sibron Zbkiour
+ * @butior Anton Tbrbsov
  */
-public class TrayIcon {
+publid dlbss TrbyIdon {
 
-    private Image image;
-    private String tooltip;
-    private PopupMenu popup;
-    private boolean autosize;
-    private int id;
-    private String actionCommand;
+    privbtf Imbgf imbgf;
+    privbtf String tooltip;
+    privbtf PopupMfnu popup;
+    privbtf boolfbn butosizf;
+    privbtf int id;
+    privbtf String bdtionCommbnd;
 
-    transient private TrayIconPeer peer;
+    trbnsifnt privbtf TrbyIdonPffr pffr;
 
-    transient MouseListener mouseListener;
-    transient MouseMotionListener mouseMotionListener;
-    transient ActionListener actionListener;
+    trbnsifnt MousfListfnfr mousfListfnfr;
+    trbnsifnt MousfMotionListfnfr mousfMotionListfnfr;
+    trbnsifnt AdtionListfnfr bdtionListfnfr;
 
     /*
-     * The tray icon's AccessControlContext.
+     * Tif trby idon's AddfssControlContfxt.
      *
-     * Unlike the acc in Component, this field is made final
-     * because TrayIcon is not serializable.
+     * Unlikf tif bdd in Componfnt, tiis fifld is mbdf finbl
+     * bfdbusf TrbyIdon is not sfriblizbblf.
      */
-    private final AccessControlContext acc = AccessController.getContext();
+    privbtf finbl AddfssControlContfxt bdd = AddfssControllfr.gftContfxt();
 
     /*
-     * Returns the acc this tray icon was constructed with.
+     * Rfturns tif bdd tiis trby idon wbs donstrudtfd witi.
      */
-    final AccessControlContext getAccessControlContext() {
-        if (acc == null) {
-            throw new SecurityException("TrayIcon is missing AccessControlContext");
+    finbl AddfssControlContfxt gftAddfssControlContfxt() {
+        if (bdd == null) {
+            tirow nfw SfdurityExdfption("TrbyIdon is missing AddfssControlContfxt");
         }
-        return acc;
+        rfturn bdd;
     }
 
-    static {
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtid {
+        Toolkit.lobdLibrbrifs();
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
             initIDs();
         }
 
-        AWTAccessor.setTrayIconAccessor(
-            new AWTAccessor.TrayIconAccessor() {
-                public void addNotify(TrayIcon trayIcon) throws AWTException {
-                    trayIcon.addNotify();
+        AWTAddfssor.sftTrbyIdonAddfssor(
+            nfw AWTAddfssor.TrbyIdonAddfssor() {
+                publid void bddNotify(TrbyIdon trbyIdon) tirows AWTExdfption {
+                    trbyIdon.bddNotify();
                 }
-                public void removeNotify(TrayIcon trayIcon) {
-                    trayIcon.removeNotify();
+                publid void rfmovfNotify(TrbyIdon trbyIdon) {
+                    trbyIdon.rfmovfNotify();
                 }
             });
     }
 
-    private TrayIcon()
-      throws UnsupportedOperationException, HeadlessException, SecurityException
+    privbtf TrbyIdon()
+      tirows UnsupportfdOpfrbtionExdfption, HfbdlfssExdfption, SfdurityExdfption
     {
-        SystemTray.checkSystemTrayAllowed();
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+        SystfmTrby.difdkSystfmTrbyAllowfd();
+        if (GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            tirow nfw HfbdlfssExdfption();
         }
-        if (!SystemTray.isSupported()) {
-            throw new UnsupportedOperationException();
+        if (!SystfmTrby.isSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
-        SunToolkit.insertTargetMapping(this, AppContext.getAppContext());
+        SunToolkit.insfrtTbrgftMbpping(tiis, AppContfxt.gftAppContfxt());
     }
 
     /**
-     * Creates a <code>TrayIcon</code> with the specified image.
+     * Crfbtfs b <dodf>TrbyIdon</dodf> witi tif spfdififd imbgf.
      *
-     * @param image the <code>Image</code> to be used
-     * @throws IllegalArgumentException if <code>image</code> is
-     * <code>null</code>
-     * @throws UnsupportedOperationException if the system tray isn't
-     * supported by the current platform
-     * @throws HeadlessException if
-     * {@code GraphicsEnvironment.isHeadless()} returns {@code true}
-     * @throws SecurityException if {@code accessSystemTray} permission
-     * is not granted
-     * @see SystemTray#add(TrayIcon)
-     * @see TrayIcon#TrayIcon(Image, String, PopupMenu)
-     * @see TrayIcon#TrayIcon(Image, String)
-     * @see SecurityManager#checkPermission
-     * @see AWTPermission
+     * @pbrbm imbgf tif <dodf>Imbgf</dodf> to bf usfd
+     * @tirows IllfgblArgumfntExdfption if <dodf>imbgf</dodf> is
+     * <dodf>null</dodf>
+     * @tirows UnsupportfdOpfrbtionExdfption if tif systfm trby isn't
+     * supportfd by tif durrfnt plbtform
+     * @tirows HfbdlfssExdfption if
+     * {@dodf GrbpiidsEnvironmfnt.isHfbdlfss()} rfturns {@dodf truf}
+     * @tirows SfdurityExdfption if {@dodf bddfssSystfmTrby} pfrmission
+     * is not grbntfd
+     * @sff SystfmTrby#bdd(TrbyIdon)
+     * @sff TrbyIdon#TrbyIdon(Imbgf, String, PopupMfnu)
+     * @sff TrbyIdon#TrbyIdon(Imbgf, String)
+     * @sff SfdurityMbnbgfr#difdkPfrmission
+     * @sff AWTPfrmission
      */
-    public TrayIcon(Image image) {
-        this();
-        if (image == null) {
-            throw new IllegalArgumentException("creating TrayIcon with null Image");
+    publid TrbyIdon(Imbgf imbgf) {
+        tiis();
+        if (imbgf == null) {
+            tirow nfw IllfgblArgumfntExdfption("drfbting TrbyIdon witi null Imbgf");
         }
-        setImage(image);
+        sftImbgf(imbgf);
     }
 
     /**
-     * Creates a <code>TrayIcon</code> with the specified image and
-     * tooltip text.
+     * Crfbtfs b <dodf>TrbyIdon</dodf> witi tif spfdififd imbgf bnd
+     * tooltip tfxt.
      *
-     * @param image the <code>Image</code> to be used
-     * @param tooltip the string to be used as tooltip text; if the
-     * value is <code>null</code> no tooltip is shown
-     * @throws IllegalArgumentException if <code>image</code> is
-     * <code>null</code>
-     * @throws UnsupportedOperationException if the system tray isn't
-     * supported by the current platform
-     * @throws HeadlessException if
-     * {@code GraphicsEnvironment.isHeadless()} returns {@code true}
-     * @throws SecurityException if {@code accessSystemTray} permission
-     * is not granted
-     * @see SystemTray#add(TrayIcon)
-     * @see TrayIcon#TrayIcon(Image)
-     * @see TrayIcon#TrayIcon(Image, String, PopupMenu)
-     * @see SecurityManager#checkPermission
-     * @see AWTPermission
+     * @pbrbm imbgf tif <dodf>Imbgf</dodf> to bf usfd
+     * @pbrbm tooltip tif string to bf usfd bs tooltip tfxt; if tif
+     * vbluf is <dodf>null</dodf> no tooltip is siown
+     * @tirows IllfgblArgumfntExdfption if <dodf>imbgf</dodf> is
+     * <dodf>null</dodf>
+     * @tirows UnsupportfdOpfrbtionExdfption if tif systfm trby isn't
+     * supportfd by tif durrfnt plbtform
+     * @tirows HfbdlfssExdfption if
+     * {@dodf GrbpiidsEnvironmfnt.isHfbdlfss()} rfturns {@dodf truf}
+     * @tirows SfdurityExdfption if {@dodf bddfssSystfmTrby} pfrmission
+     * is not grbntfd
+     * @sff SystfmTrby#bdd(TrbyIdon)
+     * @sff TrbyIdon#TrbyIdon(Imbgf)
+     * @sff TrbyIdon#TrbyIdon(Imbgf, String, PopupMfnu)
+     * @sff SfdurityMbnbgfr#difdkPfrmission
+     * @sff AWTPfrmission
      */
-    public TrayIcon(Image image, String tooltip) {
-        this(image);
-        setToolTip(tooltip);
+    publid TrbyIdon(Imbgf imbgf, String tooltip) {
+        tiis(imbgf);
+        sftToolTip(tooltip);
     }
 
     /**
-     * Creates a <code>TrayIcon</code> with the specified image,
-     * tooltip and popup menu.
+     * Crfbtfs b <dodf>TrbyIdon</dodf> witi tif spfdififd imbgf,
+     * tooltip bnd popup mfnu.
      *
-     * @param image the <code>Image</code> to be used
-     * @param tooltip the string to be used as tooltip text; if the
-     * value is <code>null</code> no tooltip is shown
-     * @param popup the menu to be used for the tray icon's popup
-     * menu; if the value is <code>null</code> no popup menu is shown
-     * @throws IllegalArgumentException if <code>image</code> is <code>null</code>
-     * @throws UnsupportedOperationException if the system tray isn't
-     * supported by the current platform
-     * @throws HeadlessException if
-     * {@code GraphicsEnvironment.isHeadless()} returns {@code true}
-     * @throws SecurityException if {@code accessSystemTray} permission
-     * is not granted
-     * @see SystemTray#add(TrayIcon)
-     * @see TrayIcon#TrayIcon(Image, String)
-     * @see TrayIcon#TrayIcon(Image)
-     * @see PopupMenu
-     * @see MouseListener
-     * @see #addMouseListener(MouseListener)
-     * @see SecurityManager#checkPermission
-     * @see AWTPermission
+     * @pbrbm imbgf tif <dodf>Imbgf</dodf> to bf usfd
+     * @pbrbm tooltip tif string to bf usfd bs tooltip tfxt; if tif
+     * vbluf is <dodf>null</dodf> no tooltip is siown
+     * @pbrbm popup tif mfnu to bf usfd for tif trby idon's popup
+     * mfnu; if tif vbluf is <dodf>null</dodf> no popup mfnu is siown
+     * @tirows IllfgblArgumfntExdfption if <dodf>imbgf</dodf> is <dodf>null</dodf>
+     * @tirows UnsupportfdOpfrbtionExdfption if tif systfm trby isn't
+     * supportfd by tif durrfnt plbtform
+     * @tirows HfbdlfssExdfption if
+     * {@dodf GrbpiidsEnvironmfnt.isHfbdlfss()} rfturns {@dodf truf}
+     * @tirows SfdurityExdfption if {@dodf bddfssSystfmTrby} pfrmission
+     * is not grbntfd
+     * @sff SystfmTrby#bdd(TrbyIdon)
+     * @sff TrbyIdon#TrbyIdon(Imbgf, String)
+     * @sff TrbyIdon#TrbyIdon(Imbgf)
+     * @sff PopupMfnu
+     * @sff MousfListfnfr
+     * @sff #bddMousfListfnfr(MousfListfnfr)
+     * @sff SfdurityMbnbgfr#difdkPfrmission
+     * @sff AWTPfrmission
      */
-    public TrayIcon(Image image, String tooltip, PopupMenu popup) {
-        this(image, tooltip);
-        setPopupMenu(popup);
+    publid TrbyIdon(Imbgf imbgf, String tooltip, PopupMfnu popup) {
+        tiis(imbgf, tooltip);
+        sftPopupMfnu(popup);
     }
 
     /**
-     * Sets the image for this <code>TrayIcon</code>.  The previous
-     * tray icon image is discarded without calling the {@link
-     * java.awt.Image#flush} method &#8212; you will need to call it
-     * manually.
+     * Sfts tif imbgf for tiis <dodf>TrbyIdon</dodf>.  Tif prfvious
+     * trby idon imbgf is disdbrdfd witiout dblling tif {@link
+     * jbvb.bwt.Imbgf#flusi} mftiod &#8212; you will nffd to dbll it
+     * mbnublly.
      *
-     * <p> If the image represents an animated image, it will be
-     * animated automatically.
+     * <p> If tif imbgf rfprfsfnts bn bnimbtfd imbgf, it will bf
+     * bnimbtfd butombtidblly.
      *
-     * <p> See the {@link #setImageAutoSize(boolean)} property for
-     * details on the size of the displayed image.
+     * <p> Sff tif {@link #sftImbgfAutoSizf(boolfbn)} propfrty for
+     * dftbils on tif sizf of tif displbyfd imbgf.
      *
-     * <p> Calling this method with the same image that is currently
-     * being used has no effect.
+     * <p> Cblling tiis mftiod witi tif sbmf imbgf tibt is durrfntly
+     * bfing usfd ibs no ffffdt.
      *
-     * @throws NullPointerException if <code>image</code> is <code>null</code>
-     * @param image the non-null <code>Image</code> to be used
-     * @see #getImage
-     * @see Image
-     * @see SystemTray#add(TrayIcon)
-     * @see TrayIcon#TrayIcon(Image, String)
+     * @tirows NullPointfrExdfption if <dodf>imbgf</dodf> is <dodf>null</dodf>
+     * @pbrbm imbgf tif non-null <dodf>Imbgf</dodf> to bf usfd
+     * @sff #gftImbgf
+     * @sff Imbgf
+     * @sff SystfmTrby#bdd(TrbyIdon)
+     * @sff TrbyIdon#TrbyIdon(Imbgf, String)
      */
-    public void setImage(Image image) {
-        if (image == null) {
-            throw new NullPointerException("setting null Image");
+    publid void sftImbgf(Imbgf imbgf) {
+        if (imbgf == null) {
+            tirow nfw NullPointfrExdfption("sftting null Imbgf");
         }
-        this.image = image;
+        tiis.imbgf = imbgf;
 
-        TrayIconPeer peer = this.peer;
-        if (peer != null) {
-            peer.updateImage();
+        TrbyIdonPffr pffr = tiis.pffr;
+        if (pffr != null) {
+            pffr.updbtfImbgf();
         }
     }
 
     /**
-     * Returns the current image used for this <code>TrayIcon</code>.
+     * Rfturns tif durrfnt imbgf usfd for tiis <dodf>TrbyIdon</dodf>.
      *
-     * @return the image
-     * @see #setImage(Image)
-     * @see Image
+     * @rfturn tif imbgf
+     * @sff #sftImbgf(Imbgf)
+     * @sff Imbgf
      */
-    public Image getImage() {
-        return image;
+    publid Imbgf gftImbgf() {
+        rfturn imbgf;
     }
 
     /**
-     * Sets the popup menu for this <code>TrayIcon</code>.  If
-     * <code>popup</code> is <code>null</code>, no popup menu will be
-     * associated with this <code>TrayIcon</code>.
+     * Sfts tif popup mfnu for tiis <dodf>TrbyIdon</dodf>.  If
+     * <dodf>popup</dodf> is <dodf>null</dodf>, no popup mfnu will bf
+     * bssodibtfd witi tiis <dodf>TrbyIdon</dodf>.
      *
-     * <p>Note that this <code>popup</code> must not be added to any
-     * parent before or after it is set on the tray icon.  If you add
-     * it to some parent, the <code>popup</code> may be removed from
-     * that parent.
+     * <p>Notf tibt tiis <dodf>popup</dodf> must not bf bddfd to bny
+     * pbrfnt bfforf or bftfr it is sft on tif trby idon.  If you bdd
+     * it to somf pbrfnt, tif <dodf>popup</dodf> mby bf rfmovfd from
+     * tibt pbrfnt.
      *
-     * <p>The {@code popup} can be set on one {@code TrayIcon} only.
-     * Setting the same popup on multiple {@code TrayIcon}s will cause
-     * an {@code IllegalArgumentException}.
+     * <p>Tif {@dodf popup} dbn bf sft on onf {@dodf TrbyIdon} only.
+     * Sftting tif sbmf popup on multiplf {@dodf TrbyIdon}s will dbusf
+     * bn {@dodf IllfgblArgumfntExdfption}.
      *
-     * <p><strong>Note:</strong> Some platforms may not support
-     * showing the user-specified popup menu component when the user
-     * right-clicks the tray icon.  In this situation, either no menu
-     * will be displayed or, on some systems, a native version of the
-     * menu may be displayed.
+     * <p><strong>Notf:</strong> Somf plbtforms mby not support
+     * siowing tif usfr-spfdififd popup mfnu domponfnt wifn tif usfr
+     * rigit-dlidks tif trby idon.  In tiis situbtion, fitifr no mfnu
+     * will bf displbyfd or, on somf systfms, b nbtivf vfrsion of tif
+     * mfnu mby bf displbyfd.
      *
-     * @throws IllegalArgumentException if the {@code popup} is already
-     * set for another {@code TrayIcon}
-     * @param popup a <code>PopupMenu</code> or <code>null</code> to
-     * remove any popup menu
-     * @see #getPopupMenu
+     * @tirows IllfgblArgumfntExdfption if tif {@dodf popup} is blrfbdy
+     * sft for bnotifr {@dodf TrbyIdon}
+     * @pbrbm popup b <dodf>PopupMfnu</dodf> or <dodf>null</dodf> to
+     * rfmovf bny popup mfnu
+     * @sff #gftPopupMfnu
      */
-    public void setPopupMenu(PopupMenu popup) {
-        if (popup == this.popup) {
-            return;
+    publid void sftPopupMfnu(PopupMfnu popup) {
+        if (popup == tiis.popup) {
+            rfturn;
         }
-        synchronized (TrayIcon.class) {
+        syndironizfd (TrbyIdon.dlbss) {
             if (popup != null) {
-                if (popup.isTrayIconPopup) {
-                    throw new IllegalArgumentException("the PopupMenu is already set for another TrayIcon");
+                if (popup.isTrbyIdonPopup) {
+                    tirow nfw IllfgblArgumfntExdfption("tif PopupMfnu is blrfbdy sft for bnotifr TrbyIdon");
                 }
-                popup.isTrayIconPopup = true;
+                popup.isTrbyIdonPopup = truf;
             }
-            if (this.popup != null) {
-                this.popup.isTrayIconPopup = false;
+            if (tiis.popup != null) {
+                tiis.popup.isTrbyIdonPopup = fblsf;
             }
-            this.popup = popup;
+            tiis.popup = popup;
         }
     }
 
     /**
-     * Returns the popup menu associated with this <code>TrayIcon</code>.
+     * Rfturns tif popup mfnu bssodibtfd witi tiis <dodf>TrbyIdon</dodf>.
      *
-     * @return the popup menu or <code>null</code> if none exists
-     * @see #setPopupMenu(PopupMenu)
+     * @rfturn tif popup mfnu or <dodf>null</dodf> if nonf fxists
+     * @sff #sftPopupMfnu(PopupMfnu)
      */
-    public PopupMenu getPopupMenu() {
-        return popup;
+    publid PopupMfnu gftPopupMfnu() {
+        rfturn popup;
     }
 
     /**
-     * Sets the tooltip string for this <code>TrayIcon</code>. The
-     * tooltip is displayed automatically when the mouse hovers over
-     * the icon.  Setting the tooltip to <code>null</code> removes any
-     * tooltip text.
+     * Sfts tif tooltip string for tiis <dodf>TrbyIdon</dodf>. Tif
+     * tooltip is displbyfd butombtidblly wifn tif mousf iovfrs ovfr
+     * tif idon.  Sftting tif tooltip to <dodf>null</dodf> rfmovfs bny
+     * tooltip tfxt.
      *
-     * When displayed, the tooltip string may be truncated on some platforms;
-     * the number of characters that may be displayed is platform-dependent.
+     * Wifn displbyfd, tif tooltip string mby bf trundbtfd on somf plbtforms;
+     * tif numbfr of dibrbdtfrs tibt mby bf displbyfd is plbtform-dfpfndfnt.
      *
-     * @param tooltip the string for the tooltip; if the value is
-     * <code>null</code> no tooltip is shown
-     * @see #getToolTip
+     * @pbrbm tooltip tif string for tif tooltip; if tif vbluf is
+     * <dodf>null</dodf> no tooltip is siown
+     * @sff #gftToolTip
      */
-    public void setToolTip(String tooltip) {
-        this.tooltip = tooltip;
+    publid void sftToolTip(String tooltip) {
+        tiis.tooltip = tooltip;
 
-        TrayIconPeer peer = this.peer;
-        if (peer != null) {
-            peer.setToolTip(tooltip);
+        TrbyIdonPffr pffr = tiis.pffr;
+        if (pffr != null) {
+            pffr.sftToolTip(tooltip);
         }
     }
 
     /**
-     * Returns the tooltip string associated with this
-     * <code>TrayIcon</code>.
+     * Rfturns tif tooltip string bssodibtfd witi tiis
+     * <dodf>TrbyIdon</dodf>.
      *
-     * @return the tooltip string or <code>null</code> if none exists
-     * @see #setToolTip(String)
+     * @rfturn tif tooltip string or <dodf>null</dodf> if nonf fxists
+     * @sff #sftToolTip(String)
      */
-    public String getToolTip() {
-        return tooltip;
+    publid String gftToolTip() {
+        rfturn tooltip;
     }
 
     /**
-     * Sets the auto-size property.  Auto-size determines whether the
-     * tray image is automatically sized to fit the space allocated
-     * for the image on the tray.  By default, the auto-size property
-     * is set to <code>false</code>.
+     * Sfts tif buto-sizf propfrty.  Auto-sizf dftfrminfs wiftifr tif
+     * trby imbgf is butombtidblly sizfd to fit tif spbdf bllodbtfd
+     * for tif imbgf on tif trby.  By dffbult, tif buto-sizf propfrty
+     * is sft to <dodf>fblsf</dodf>.
      *
-     * <p> If auto-size is <code>false</code>, and the image size
-     * doesn't match the tray icon space, the image is painted as-is
-     * inside that space &#8212; if larger than the allocated space, it will
-     * be cropped.
+     * <p> If buto-sizf is <dodf>fblsf</dodf>, bnd tif imbgf sizf
+     * dofsn't mbtdi tif trby idon spbdf, tif imbgf is pbintfd bs-is
+     * insidf tibt spbdf &#8212; if lbrgfr tibn tif bllodbtfd spbdf, it will
+     * bf droppfd.
      *
-     * <p> If auto-size is <code>true</code>, the image is stretched or shrunk to
-     * fit the tray icon space.
+     * <p> If buto-sizf is <dodf>truf</dodf>, tif imbgf is strftdifd or sirunk to
+     * fit tif trby idon spbdf.
      *
-     * @param autosize <code>true</code> to auto-size the image,
-     * <code>false</code> otherwise
-     * @see #isImageAutoSize
+     * @pbrbm butosizf <dodf>truf</dodf> to buto-sizf tif imbgf,
+     * <dodf>fblsf</dodf> otifrwisf
+     * @sff #isImbgfAutoSizf
      */
-    public void setImageAutoSize(boolean autosize) {
-        this.autosize = autosize;
+    publid void sftImbgfAutoSizf(boolfbn butosizf) {
+        tiis.butosizf = butosizf;
 
-        TrayIconPeer peer = this.peer;
-        if (peer != null) {
-            peer.updateImage();
+        TrbyIdonPffr pffr = tiis.pffr;
+        if (pffr != null) {
+            pffr.updbtfImbgf();
         }
     }
 
     /**
-     * Returns the value of the auto-size property.
+     * Rfturns tif vbluf of tif buto-sizf propfrty.
      *
-     * @return <code>true</code> if the image will be auto-sized,
-     * <code>false</code> otherwise
-     * @see #setImageAutoSize(boolean)
+     * @rfturn <dodf>truf</dodf> if tif imbgf will bf buto-sizfd,
+     * <dodf>fblsf</dodf> otifrwisf
+     * @sff #sftImbgfAutoSizf(boolfbn)
      */
-    public boolean isImageAutoSize() {
-        return autosize;
+    publid boolfbn isImbgfAutoSizf() {
+        rfturn butosizf;
     }
 
     /**
-     * Adds the specified mouse listener to receive mouse events from
-     * this <code>TrayIcon</code>.  Calling this method with a
-     * <code>null</code> value has no effect.
+     * Adds tif spfdififd mousf listfnfr to rfdfivf mousf fvfnts from
+     * tiis <dodf>TrbyIdon</dodf>.  Cblling tiis mftiod witi b
+     * <dodf>null</dodf> vbluf ibs no ffffdt.
      *
-     * <p><b>Note</b>: The {@code MouseEvent}'s coordinates (received
-     * from the {@code TrayIcon}) are relative to the screen, not the
-     * {@code TrayIcon}.
+     * <p><b>Notf</b>: Tif {@dodf MousfEvfnt}'s doordinbtfs (rfdfivfd
+     * from tif {@dodf TrbyIdon}) brf rflbtivf to tif sdrffn, not tif
+     * {@dodf TrbyIdon}.
      *
-     * <p> <b>Note: </b>The <code>MOUSE_ENTERED</code> and
-     * <code>MOUSE_EXITED</code> mouse events are not supported.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * <p> <b>Notf: </b>Tif <dodf>MOUSE_ENTERED</dodf> bnd
+     * <dodf>MOUSE_EXITED</dodf> mousf fvfnts brf not supportfd.
+     * <p>Rfffr to <b irff="dod-filfs/AWTTirfbdIssufs.itml#ListfnfrsTirfbds"
+     * >AWT Tirfbding Issufs</b> for dftbils on AWT's tirfbding modfl.
      *
-     * @param    listener the mouse listener
-     * @see      java.awt.event.MouseEvent
-     * @see      java.awt.event.MouseListener
-     * @see      #removeMouseListener(MouseListener)
-     * @see      #getMouseListeners
+     * @pbrbm    listfnfr tif mousf listfnfr
+     * @sff      jbvb.bwt.fvfnt.MousfEvfnt
+     * @sff      jbvb.bwt.fvfnt.MousfListfnfr
+     * @sff      #rfmovfMousfListfnfr(MousfListfnfr)
+     * @sff      #gftMousfListfnfrs
      */
-    public synchronized void addMouseListener(MouseListener listener) {
-        if (listener == null) {
-            return;
+    publid syndironizfd void bddMousfListfnfr(MousfListfnfr listfnfr) {
+        if (listfnfr == null) {
+            rfturn;
         }
-        mouseListener = AWTEventMulticaster.add(mouseListener, listener);
+        mousfListfnfr = AWTEvfntMultidbstfr.bdd(mousfListfnfr, listfnfr);
     }
 
     /**
-     * Removes the specified mouse listener.  Calling this method with
-     * <code>null</code> or an invalid value has no effect.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * Rfmovfs tif spfdififd mousf listfnfr.  Cblling tiis mftiod witi
+     * <dodf>null</dodf> or bn invblid vbluf ibs no ffffdt.
+     * <p>Rfffr to <b irff="dod-filfs/AWTTirfbdIssufs.itml#ListfnfrsTirfbds"
+     * >AWT Tirfbding Issufs</b> for dftbils on AWT's tirfbding modfl.
      *
-     * @param    listener   the mouse listener
-     * @see      java.awt.event.MouseEvent
-     * @see      java.awt.event.MouseListener
-     * @see      #addMouseListener(MouseListener)
-     * @see      #getMouseListeners
+     * @pbrbm    listfnfr   tif mousf listfnfr
+     * @sff      jbvb.bwt.fvfnt.MousfEvfnt
+     * @sff      jbvb.bwt.fvfnt.MousfListfnfr
+     * @sff      #bddMousfListfnfr(MousfListfnfr)
+     * @sff      #gftMousfListfnfrs
      */
-    public synchronized void removeMouseListener(MouseListener listener) {
-        if (listener == null) {
-            return;
+    publid syndironizfd void rfmovfMousfListfnfr(MousfListfnfr listfnfr) {
+        if (listfnfr == null) {
+            rfturn;
         }
-        mouseListener = AWTEventMulticaster.remove(mouseListener, listener);
+        mousfListfnfr = AWTEvfntMultidbstfr.rfmovf(mousfListfnfr, listfnfr);
     }
 
     /**
-     * Returns an array of all the mouse listeners
-     * registered on this <code>TrayIcon</code>.
+     * Rfturns bn brrby of bll tif mousf listfnfrs
+     * rfgistfrfd on tiis <dodf>TrbyIdon</dodf>.
      *
-     * @return all of the <code>MouseListeners</code> registered on
-     * this <code>TrayIcon</code> or an empty array if no mouse
-     * listeners are currently registered
+     * @rfturn bll of tif <dodf>MousfListfnfrs</dodf> rfgistfrfd on
+     * tiis <dodf>TrbyIdon</dodf> or bn fmpty brrby if no mousf
+     * listfnfrs brf durrfntly rfgistfrfd
      *
-     * @see      #addMouseListener(MouseListener)
-     * @see      #removeMouseListener(MouseListener)
-     * @see      java.awt.event.MouseListener
+     * @sff      #bddMousfListfnfr(MousfListfnfr)
+     * @sff      #rfmovfMousfListfnfr(MousfListfnfr)
+     * @sff      jbvb.bwt.fvfnt.MousfListfnfr
      */
-    public synchronized MouseListener[] getMouseListeners() {
-        return AWTEventMulticaster.getListeners(mouseListener, MouseListener.class);
+    publid syndironizfd MousfListfnfr[] gftMousfListfnfrs() {
+        rfturn AWTEvfntMultidbstfr.gftListfnfrs(mousfListfnfr, MousfListfnfr.dlbss);
     }
 
     /**
-     * Adds the specified mouse listener to receive mouse-motion
-     * events from this <code>TrayIcon</code>.  Calling this method
-     * with a <code>null</code> value has no effect.
+     * Adds tif spfdififd mousf listfnfr to rfdfivf mousf-motion
+     * fvfnts from tiis <dodf>TrbyIdon</dodf>.  Cblling tiis mftiod
+     * witi b <dodf>null</dodf> vbluf ibs no ffffdt.
      *
-     * <p><b>Note</b>: The {@code MouseEvent}'s coordinates (received
-     * from the {@code TrayIcon}) are relative to the screen, not the
-     * {@code TrayIcon}.
+     * <p><b>Notf</b>: Tif {@dodf MousfEvfnt}'s doordinbtfs (rfdfivfd
+     * from tif {@dodf TrbyIdon}) brf rflbtivf to tif sdrffn, not tif
+     * {@dodf TrbyIdon}.
      *
-     * <p> <b>Note: </b>The <code>MOUSE_DRAGGED</code> mouse event is not supported.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * <p> <b>Notf: </b>Tif <dodf>MOUSE_DRAGGED</dodf> mousf fvfnt is not supportfd.
+     * <p>Rfffr to <b irff="dod-filfs/AWTTirfbdIssufs.itml#ListfnfrsTirfbds"
+     * >AWT Tirfbding Issufs</b> for dftbils on AWT's tirfbding modfl.
      *
-     * @param    listener   the mouse listener
-     * @see      java.awt.event.MouseEvent
-     * @see      java.awt.event.MouseMotionListener
-     * @see      #removeMouseMotionListener(MouseMotionListener)
-     * @see      #getMouseMotionListeners
+     * @pbrbm    listfnfr   tif mousf listfnfr
+     * @sff      jbvb.bwt.fvfnt.MousfEvfnt
+     * @sff      jbvb.bwt.fvfnt.MousfMotionListfnfr
+     * @sff      #rfmovfMousfMotionListfnfr(MousfMotionListfnfr)
+     * @sff      #gftMousfMotionListfnfrs
      */
-    public synchronized void addMouseMotionListener(MouseMotionListener listener) {
-        if (listener == null) {
-            return;
+    publid syndironizfd void bddMousfMotionListfnfr(MousfMotionListfnfr listfnfr) {
+        if (listfnfr == null) {
+            rfturn;
         }
-        mouseMotionListener = AWTEventMulticaster.add(mouseMotionListener, listener);
+        mousfMotionListfnfr = AWTEvfntMultidbstfr.bdd(mousfMotionListfnfr, listfnfr);
     }
 
     /**
-     * Removes the specified mouse-motion listener.  Calling this method with
-     * <code>null</code> or an invalid value has no effect.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * Rfmovfs tif spfdififd mousf-motion listfnfr.  Cblling tiis mftiod witi
+     * <dodf>null</dodf> or bn invblid vbluf ibs no ffffdt.
+     * <p>Rfffr to <b irff="dod-filfs/AWTTirfbdIssufs.itml#ListfnfrsTirfbds"
+     * >AWT Tirfbding Issufs</b> for dftbils on AWT's tirfbding modfl.
      *
-     * @param    listener   the mouse listener
-     * @see      java.awt.event.MouseEvent
-     * @see      java.awt.event.MouseMotionListener
-     * @see      #addMouseMotionListener(MouseMotionListener)
-     * @see      #getMouseMotionListeners
+     * @pbrbm    listfnfr   tif mousf listfnfr
+     * @sff      jbvb.bwt.fvfnt.MousfEvfnt
+     * @sff      jbvb.bwt.fvfnt.MousfMotionListfnfr
+     * @sff      #bddMousfMotionListfnfr(MousfMotionListfnfr)
+     * @sff      #gftMousfMotionListfnfrs
      */
-    public synchronized void removeMouseMotionListener(MouseMotionListener listener) {
-        if (listener == null) {
-            return;
+    publid syndironizfd void rfmovfMousfMotionListfnfr(MousfMotionListfnfr listfnfr) {
+        if (listfnfr == null) {
+            rfturn;
         }
-        mouseMotionListener = AWTEventMulticaster.remove(mouseMotionListener, listener);
+        mousfMotionListfnfr = AWTEvfntMultidbstfr.rfmovf(mousfMotionListfnfr, listfnfr);
     }
 
     /**
-     * Returns an array of all the mouse-motion listeners
-     * registered on this <code>TrayIcon</code>.
+     * Rfturns bn brrby of bll tif mousf-motion listfnfrs
+     * rfgistfrfd on tiis <dodf>TrbyIdon</dodf>.
      *
-     * @return all of the <code>MouseInputListeners</code> registered on
-     * this <code>TrayIcon</code> or an empty array if no mouse
-     * listeners are currently registered
+     * @rfturn bll of tif <dodf>MousfInputListfnfrs</dodf> rfgistfrfd on
+     * tiis <dodf>TrbyIdon</dodf> or bn fmpty brrby if no mousf
+     * listfnfrs brf durrfntly rfgistfrfd
      *
-     * @see      #addMouseMotionListener(MouseMotionListener)
-     * @see      #removeMouseMotionListener(MouseMotionListener)
-     * @see      java.awt.event.MouseMotionListener
+     * @sff      #bddMousfMotionListfnfr(MousfMotionListfnfr)
+     * @sff      #rfmovfMousfMotionListfnfr(MousfMotionListfnfr)
+     * @sff      jbvb.bwt.fvfnt.MousfMotionListfnfr
      */
-    public synchronized MouseMotionListener[] getMouseMotionListeners() {
-        return AWTEventMulticaster.getListeners(mouseMotionListener, MouseMotionListener.class);
+    publid syndironizfd MousfMotionListfnfr[] gftMousfMotionListfnfrs() {
+        rfturn AWTEvfntMultidbstfr.gftListfnfrs(mousfMotionListfnfr, MousfMotionListfnfr.dlbss);
     }
 
     /**
-     * Returns the command name of the action event fired by this tray icon.
+     * Rfturns tif dommbnd nbmf of tif bdtion fvfnt firfd by tiis trby idon.
      *
-     * @return the action command name, or <code>null</code> if none exists
-     * @see #addActionListener(ActionListener)
-     * @see #setActionCommand(String)
+     * @rfturn tif bdtion dommbnd nbmf, or <dodf>null</dodf> if nonf fxists
+     * @sff #bddAdtionListfnfr(AdtionListfnfr)
+     * @sff #sftAdtionCommbnd(String)
      */
-    public String getActionCommand() {
-        return actionCommand;
+    publid String gftAdtionCommbnd() {
+        rfturn bdtionCommbnd;
     }
 
     /**
-     * Sets the command name for the action event fired by this tray
-     * icon.  By default, this action command is set to
-     * <code>null</code>.
+     * Sfts tif dommbnd nbmf for tif bdtion fvfnt firfd by tiis trby
+     * idon.  By dffbult, tiis bdtion dommbnd is sft to
+     * <dodf>null</dodf>.
      *
-     * @param command  a string used to set the tray icon's
-     *                 action command.
-     * @see java.awt.event.ActionEvent
-     * @see #addActionListener(ActionListener)
-     * @see #getActionCommand
+     * @pbrbm dommbnd  b string usfd to sft tif trby idon's
+     *                 bdtion dommbnd.
+     * @sff jbvb.bwt.fvfnt.AdtionEvfnt
+     * @sff #bddAdtionListfnfr(AdtionListfnfr)
+     * @sff #gftAdtionCommbnd
      */
-    public void setActionCommand(String command) {
-        actionCommand = command;
+    publid void sftAdtionCommbnd(String dommbnd) {
+        bdtionCommbnd = dommbnd;
     }
 
     /**
-     * Adds the specified action listener to receive
-     * <code>ActionEvent</code>s from this <code>TrayIcon</code>.
-     * Action events usually occur when a user selects the tray icon,
-     * using either the mouse or keyboard.  The conditions in which
-     * action events are generated are platform-dependent.
+     * Adds tif spfdififd bdtion listfnfr to rfdfivf
+     * <dodf>AdtionEvfnt</dodf>s from tiis <dodf>TrbyIdon</dodf>.
+     * Adtion fvfnts usublly oddur wifn b usfr sflfdts tif trby idon,
+     * using fitifr tif mousf or kfybobrd.  Tif donditions in wiidi
+     * bdtion fvfnts brf gfnfrbtfd brf plbtform-dfpfndfnt.
      *
-     * <p>Calling this method with a <code>null</code> value has no
-     * effect.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * <p>Cblling tiis mftiod witi b <dodf>null</dodf> vbluf ibs no
+     * ffffdt.
+     * <p>Rfffr to <b irff="dod-filfs/AWTTirfbdIssufs.itml#ListfnfrsTirfbds"
+     * >AWT Tirfbding Issufs</b> for dftbils on AWT's tirfbding modfl.
      *
-     * @param         listener the action listener
-     * @see           #removeActionListener
-     * @see           #getActionListeners
-     * @see           java.awt.event.ActionListener
-     * @see #setActionCommand(String)
+     * @pbrbm         listfnfr tif bdtion listfnfr
+     * @sff           #rfmovfAdtionListfnfr
+     * @sff           #gftAdtionListfnfrs
+     * @sff           jbvb.bwt.fvfnt.AdtionListfnfr
+     * @sff #sftAdtionCommbnd(String)
      */
-    public synchronized void addActionListener(ActionListener listener) {
-        if (listener == null) {
-            return;
+    publid syndironizfd void bddAdtionListfnfr(AdtionListfnfr listfnfr) {
+        if (listfnfr == null) {
+            rfturn;
         }
-        actionListener = AWTEventMulticaster.add(actionListener, listener);
+        bdtionListfnfr = AWTEvfntMultidbstfr.bdd(bdtionListfnfr, listfnfr);
     }
 
     /**
-     * Removes the specified action listener.  Calling this method with
-     * <code>null</code> or an invalid value has no effect.
-     * <p>Refer to <a href="doc-files/AWTThreadIssues.html#ListenersThreads"
-     * >AWT Threading Issues</a> for details on AWT's threading model.
+     * Rfmovfs tif spfdififd bdtion listfnfr.  Cblling tiis mftiod witi
+     * <dodf>null</dodf> or bn invblid vbluf ibs no ffffdt.
+     * <p>Rfffr to <b irff="dod-filfs/AWTTirfbdIssufs.itml#ListfnfrsTirfbds"
+     * >AWT Tirfbding Issufs</b> for dftbils on AWT's tirfbding modfl.
      *
-     * @param    listener   the action listener
-     * @see      java.awt.event.ActionEvent
-     * @see      java.awt.event.ActionListener
-     * @see      #addActionListener(ActionListener)
-     * @see      #getActionListeners
-     * @see #setActionCommand(String)
+     * @pbrbm    listfnfr   tif bdtion listfnfr
+     * @sff      jbvb.bwt.fvfnt.AdtionEvfnt
+     * @sff      jbvb.bwt.fvfnt.AdtionListfnfr
+     * @sff      #bddAdtionListfnfr(AdtionListfnfr)
+     * @sff      #gftAdtionListfnfrs
+     * @sff #sftAdtionCommbnd(String)
      */
-    public synchronized void removeActionListener(ActionListener listener) {
-        if (listener == null) {
-            return;
+    publid syndironizfd void rfmovfAdtionListfnfr(AdtionListfnfr listfnfr) {
+        if (listfnfr == null) {
+            rfturn;
         }
-        actionListener = AWTEventMulticaster.remove(actionListener, listener);
+        bdtionListfnfr = AWTEvfntMultidbstfr.rfmovf(bdtionListfnfr, listfnfr);
     }
 
     /**
-     * Returns an array of all the action listeners
-     * registered on this <code>TrayIcon</code>.
+     * Rfturns bn brrby of bll tif bdtion listfnfrs
+     * rfgistfrfd on tiis <dodf>TrbyIdon</dodf>.
      *
-     * @return all of the <code>ActionListeners</code> registered on
-     * this <code>TrayIcon</code> or an empty array if no action
-     * listeners are currently registered
+     * @rfturn bll of tif <dodf>AdtionListfnfrs</dodf> rfgistfrfd on
+     * tiis <dodf>TrbyIdon</dodf> or bn fmpty brrby if no bdtion
+     * listfnfrs brf durrfntly rfgistfrfd
      *
-     * @see      #addActionListener(ActionListener)
-     * @see      #removeActionListener(ActionListener)
-     * @see      java.awt.event.ActionListener
+     * @sff      #bddAdtionListfnfr(AdtionListfnfr)
+     * @sff      #rfmovfAdtionListfnfr(AdtionListfnfr)
+     * @sff      jbvb.bwt.fvfnt.AdtionListfnfr
      */
-    public synchronized ActionListener[] getActionListeners() {
-        return AWTEventMulticaster.getListeners(actionListener, ActionListener.class);
+    publid syndironizfd AdtionListfnfr[] gftAdtionListfnfrs() {
+        rfturn AWTEvfntMultidbstfr.gftListfnfrs(bdtionListfnfr, AdtionListfnfr.dlbss);
     }
 
     /**
-     * The message type determines which icon will be displayed in the
-     * caption of the message, and a possible system sound a message
-     * may generate upon showing.
+     * Tif mfssbgf typf dftfrminfs wiidi idon will bf displbyfd in tif
+     * dbption of tif mfssbgf, bnd b possiblf systfm sound b mfssbgf
+     * mby gfnfrbtf upon siowing.
      *
-     * @see TrayIcon
-     * @see TrayIcon#displayMessage(String, String, MessageType)
-     * @since 1.6
+     * @sff TrbyIdon
+     * @sff TrbyIdon#displbyMfssbgf(String, String, MfssbgfTypf)
+     * @sindf 1.6
      */
-    public enum MessageType {
-        /** An error message */
+    publid fnum MfssbgfTypf {
+        /** An frror mfssbgf */
         ERROR,
-        /** A warning message */
+        /** A wbrning mfssbgf */
         WARNING,
-        /** An information message */
+        /** An informbtion mfssbgf */
         INFO,
-        /** Simple message */
+        /** Simplf mfssbgf */
         NONE
     };
 
     /**
-     * Displays a popup message near the tray icon.  The message will
-     * disappear after a time or if the user clicks on it.  Clicking
-     * on the message may trigger an {@code ActionEvent}.
+     * Displbys b popup mfssbgf nfbr tif trby idon.  Tif mfssbgf will
+     * disbppfbr bftfr b timf or if tif usfr dlidks on it.  Clidking
+     * on tif mfssbgf mby triggfr bn {@dodf AdtionEvfnt}.
      *
-     * <p>Either the caption or the text may be <code>null</code>, but an
-     * <code>NullPointerException</code> is thrown if both are
-     * <code>null</code>.
+     * <p>Eitifr tif dbption or tif tfxt mby bf <dodf>null</dodf>, but bn
+     * <dodf>NullPointfrExdfption</dodf> is tirown if boti brf
+     * <dodf>null</dodf>.
      *
-     * When displayed, the caption or text strings may be truncated on
-     * some platforms; the number of characters that may be displayed is
-     * platform-dependent.
+     * Wifn displbyfd, tif dbption or tfxt strings mby bf trundbtfd on
+     * somf plbtforms; tif numbfr of dibrbdtfrs tibt mby bf displbyfd is
+     * plbtform-dfpfndfnt.
      *
-     * <p><strong>Note:</strong> Some platforms may not support
-     * showing a message.
+     * <p><strong>Notf:</strong> Somf plbtforms mby not support
+     * siowing b mfssbgf.
      *
-     * @param caption the caption displayed above the text, usually in
-     * bold; may be <code>null</code>
-     * @param text the text displayed for the particular message; may be
-     * <code>null</code>
-     * @param messageType an enum indicating the message type
-     * @throws NullPointerException if both <code>caption</code>
-     * and <code>text</code> are <code>null</code>
+     * @pbrbm dbption tif dbption displbyfd bbovf tif tfxt, usublly in
+     * bold; mby bf <dodf>null</dodf>
+     * @pbrbm tfxt tif tfxt displbyfd for tif pbrtidulbr mfssbgf; mby bf
+     * <dodf>null</dodf>
+     * @pbrbm mfssbgfTypf bn fnum indidbting tif mfssbgf typf
+     * @tirows NullPointfrExdfption if boti <dodf>dbption</dodf>
+     * bnd <dodf>tfxt</dodf> brf <dodf>null</dodf>
      */
-    public void displayMessage(String caption, String text, MessageType messageType) {
-        if (caption == null && text == null) {
-            throw new NullPointerException("displaying the message with both caption and text being null");
+    publid void displbyMfssbgf(String dbption, String tfxt, MfssbgfTypf mfssbgfTypf) {
+        if (dbption == null && tfxt == null) {
+            tirow nfw NullPointfrExdfption("displbying tif mfssbgf witi boti dbption bnd tfxt bfing null");
         }
 
-        TrayIconPeer peer = this.peer;
-        if (peer != null) {
-            peer.displayMessage(caption, text, messageType.name());
+        TrbyIdonPffr pffr = tiis.pffr;
+        if (pffr != null) {
+            pffr.displbyMfssbgf(dbption, tfxt, mfssbgfTypf.nbmf());
         }
     }
 
     /**
-     * Returns the size, in pixels, of the space that the tray icon
-     * occupies in the system tray.  For the tray icon that is not yet
-     * added to the system tray, the returned size is equal to the
-     * result of the {@link SystemTray#getTrayIconSize}.
+     * Rfturns tif sizf, in pixfls, of tif spbdf tibt tif trby idon
+     * oddupifs in tif systfm trby.  For tif trby idon tibt is not yft
+     * bddfd to tif systfm trby, tif rfturnfd sizf is fqubl to tif
+     * rfsult of tif {@link SystfmTrby#gftTrbyIdonSizf}.
      *
-     * @return the size of the tray icon, in pixels
-     * @see TrayIcon#setImageAutoSize(boolean)
-     * @see java.awt.Image
-     * @see TrayIcon#getSize()
+     * @rfturn tif sizf of tif trby idon, in pixfls
+     * @sff TrbyIdon#sftImbgfAutoSizf(boolfbn)
+     * @sff jbvb.bwt.Imbgf
+     * @sff TrbyIdon#gftSizf()
      */
-    public Dimension getSize() {
-        return SystemTray.getSystemTray().getTrayIconSize();
+    publid Dimfnsion gftSizf() {
+        rfturn SystfmTrby.gftSystfmTrby().gftTrbyIdonSizf();
     }
 
     // ****************************************************************
     // ****************************************************************
 
-    void addNotify()
-      throws AWTException
+    void bddNotify()
+      tirows AWTExdfption
     {
-        synchronized (this) {
-            if (peer == null) {
-                Toolkit toolkit = Toolkit.getDefaultToolkit();
-                if (toolkit instanceof SunToolkit) {
-                    peer = ((SunToolkit)Toolkit.getDefaultToolkit()).createTrayIcon(this);
-                } else if (toolkit instanceof HeadlessToolkit) {
-                    peer = ((HeadlessToolkit)Toolkit.getDefaultToolkit()).createTrayIcon(this);
+        syndironizfd (tiis) {
+            if (pffr == null) {
+                Toolkit toolkit = Toolkit.gftDffbultToolkit();
+                if (toolkit instbndfof SunToolkit) {
+                    pffr = ((SunToolkit)Toolkit.gftDffbultToolkit()).drfbtfTrbyIdon(tiis);
+                } flsf if (toolkit instbndfof HfbdlfssToolkit) {
+                    pffr = ((HfbdlfssToolkit)Toolkit.gftDffbultToolkit()).drfbtfTrbyIdon(tiis);
                 }
             }
         }
-        peer.setToolTip(tooltip);
+        pffr.sftToolTip(tooltip);
     }
 
-    void removeNotify() {
-        TrayIconPeer p = null;
-        synchronized (this) {
-            p = peer;
-            peer = null;
+    void rfmovfNotify() {
+        TrbyIdonPffr p = null;
+        syndironizfd (tiis) {
+            p = pffr;
+            pffr = null;
         }
         if (p != null) {
-            p.dispose();
+            p.disposf();
         }
     }
 
-    void setID(int id) {
-        this.id = id;
+    void sftID(int id) {
+        tiis.id = id;
     }
 
-    int getID(){
-        return id;
+    int gftID(){
+        rfturn id;
     }
 
-    void dispatchEvent(AWTEvent e) {
-        EventQueue.setCurrentEventAndMostRecentTime(e);
-        Toolkit.getDefaultToolkit().notifyAWTEventListeners(e);
-        processEvent(e);
+    void dispbtdiEvfnt(AWTEvfnt f) {
+        EvfntQufuf.sftCurrfntEvfntAndMostRfdfntTimf(f);
+        Toolkit.gftDffbultToolkit().notifyAWTEvfntListfnfrs(f);
+        prodfssEvfnt(f);
     }
 
-    void processEvent(AWTEvent e) {
-        if (e instanceof MouseEvent) {
-            switch(e.getID()) {
-            case MouseEvent.MOUSE_PRESSED:
-            case MouseEvent.MOUSE_RELEASED:
-            case MouseEvent.MOUSE_CLICKED:
-                processMouseEvent((MouseEvent)e);
-                break;
-            case MouseEvent.MOUSE_MOVED:
-                processMouseMotionEvent((MouseEvent)e);
-                break;
-            default:
-                return;
+    void prodfssEvfnt(AWTEvfnt f) {
+        if (f instbndfof MousfEvfnt) {
+            switdi(f.gftID()) {
+            dbsf MousfEvfnt.MOUSE_PRESSED:
+            dbsf MousfEvfnt.MOUSE_RELEASED:
+            dbsf MousfEvfnt.MOUSE_CLICKED:
+                prodfssMousfEvfnt((MousfEvfnt)f);
+                brfbk;
+            dbsf MousfEvfnt.MOUSE_MOVED:
+                prodfssMousfMotionEvfnt((MousfEvfnt)f);
+                brfbk;
+            dffbult:
+                rfturn;
             }
-        } else if (e instanceof ActionEvent) {
-            processActionEvent((ActionEvent)e);
+        } flsf if (f instbndfof AdtionEvfnt) {
+            prodfssAdtionEvfnt((AdtionEvfnt)f);
         }
     }
 
-    void processMouseEvent(MouseEvent e) {
-        MouseListener listener = mouseListener;
+    void prodfssMousfEvfnt(MousfEvfnt f) {
+        MousfListfnfr listfnfr = mousfListfnfr;
 
-        if (listener != null) {
-            int id = e.getID();
-            switch(id) {
-            case MouseEvent.MOUSE_PRESSED:
-                listener.mousePressed(e);
-                break;
-            case MouseEvent.MOUSE_RELEASED:
-                listener.mouseReleased(e);
-                break;
-            case MouseEvent.MOUSE_CLICKED:
-                listener.mouseClicked(e);
-                break;
-            default:
-                return;
+        if (listfnfr != null) {
+            int id = f.gftID();
+            switdi(id) {
+            dbsf MousfEvfnt.MOUSE_PRESSED:
+                listfnfr.mousfPrfssfd(f);
+                brfbk;
+            dbsf MousfEvfnt.MOUSE_RELEASED:
+                listfnfr.mousfRflfbsfd(f);
+                brfbk;
+            dbsf MousfEvfnt.MOUSE_CLICKED:
+                listfnfr.mousfClidkfd(f);
+                brfbk;
+            dffbult:
+                rfturn;
             }
         }
     }
 
-    void processMouseMotionEvent(MouseEvent e) {
-        MouseMotionListener listener = mouseMotionListener;
-        if (listener != null &&
-            e.getID() == MouseEvent.MOUSE_MOVED)
+    void prodfssMousfMotionEvfnt(MousfEvfnt f) {
+        MousfMotionListfnfr listfnfr = mousfMotionListfnfr;
+        if (listfnfr != null &&
+            f.gftID() == MousfEvfnt.MOUSE_MOVED)
         {
-            listener.mouseMoved(e);
+            listfnfr.mousfMovfd(f);
         }
     }
 
-    void processActionEvent(ActionEvent e) {
-        ActionListener listener = actionListener;
-        if (listener != null) {
-            listener.actionPerformed(e);
+    void prodfssAdtionEvfnt(AdtionEvfnt f) {
+        AdtionListfnfr listfnfr = bdtionListfnfr;
+        if (listfnfr != null) {
+            listfnfr.bdtionPfrformfd(f);
         }
     }
 
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 }

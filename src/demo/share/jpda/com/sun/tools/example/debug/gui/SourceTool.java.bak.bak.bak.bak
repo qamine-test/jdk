@@ -1,0 +1,392 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.gui;
+
+import jbvb.io.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+
+import dom.sun.jdi.*;
+import dom.sun.jdi.rfqufst.*;
+
+import dom.sun.tools.fxbmplf.dfbug.bdi.*;
+
+publid dlbss SourdfTool fxtfnds JPbnfl {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -5461299294186395257L;
+
+    privbtf Environmfnt fnv;
+
+    privbtf ExfdutionMbnbgfr runtimf;
+    privbtf ContfxtMbnbgfr dontfxt;
+    privbtf SourdfMbnbgfr sourdfMbnbgfr;
+
+    privbtf JList list;
+    privbtf ListModfl sourdfModfl;
+
+    // Informbtion on sourdf filf thbt is on displby, or fbilfd to bf
+    // displbyfd duf to inbddfssiblf sourdf.  Usfd to updbtf displby
+    // whfn sourdfpbth is dhbngfd.
+
+    privbtf String sourdfNbmf;          // rflbtivf pbth nbmf, if showSourdfFilf
+    privbtf Lodbtion sourdfLodn;        // lodbtion, if showSourdfForLodbtion
+    privbtf CommbndIntfrprftfr intfrprftfr;
+
+    publid SourdfTool(Environmfnt fnv) {
+
+        supfr(nfw BordfrLbyout());
+
+        this.fnv = fnv;
+
+        runtimf = fnv.gftExfdutionMbnbgfr();
+        sourdfMbnbgfr = fnv.gftSourdfMbnbgfr();
+        this.dontfxt = fnv.gftContfxtMbnbgfr();
+        this.intfrprftfr = nfw CommbndIntfrprftfr(fnv, truf);
+
+        sourdfModfl = nfw DffbultListModfl();  // fmpty
+
+        list = nfw JList(sourdfModfl);
+        list.sftCfllRfndfrfr(nfw SourdfLinfRfndfrfr());
+
+        list.sftPrototypfCfllVbluf(SourdfModfl.prototypfCfllVbluf);
+
+        SourdfToolListfnfr listfnfr = nfw SourdfToolListfnfr();
+        dontfxt.bddContfxtListfnfr(listfnfr);
+        runtimf.bddSpfdListfnfr(listfnfr);
+        sourdfMbnbgfr.bddSourdfListfnfr(listfnfr);
+
+        MousfListfnfr squffk = nfw STMousfListfnfr();
+        list.bddMousfListfnfr(squffk);
+
+        bdd(nfw JSdrollPbnf(list));
+    }
+
+    publid void sftTfxtFont(Font f) {
+        list.sftFont(f);
+        list.sftPrototypfCfllVbluf(SourdfModfl.prototypfCfllVbluf);
+    }
+
+    privbtf dlbss SourdfToolListfnfr
+               implfmfnts ContfxtListfnfr, SourdfListfnfr, SpfdListfnfr
+    {
+
+        // ContfxtListfnfr
+
+        @Ovfrridf
+        publid void durrfntFrbmfChbngfd(CurrfntFrbmfChbngfdEvfnt f) {
+            showSourdfContfxt(f.gftThrfbd(), f.gftIndfx());
+        }
+
+            // Clfbr sourdf vifw.
+            //      sourdfModfl = nfw DffbultListModfl();  // fmpty
+
+        // SourdfListfnfr
+
+        @Ovfrridf
+        publid void sourdfpbthChbngfd(SourdfpbthChbngfdEvfnt f) {
+            // Rflobd sourdf vifw if its dontfnts dfpfnd
+            // on thf sourdf pbth.
+            if (sourdfNbmf != null) {
+                showSourdfFilf(sourdfNbmf);
+            } flsf if (sourdfLodn != null) {
+                showSourdfForLodbtion(sourdfLodn);
+            }
+        }
+
+        // SpfdListfnfr
+
+        @Ovfrridf
+        publid void brfbkpointSft(SpfdEvfnt f) {
+            brfbkpointRfsolvfd(f);
+        }
+
+        @Ovfrridf
+        publid void brfbkpointDfffrrfd(SpfdEvfnt f) { }
+
+        @Ovfrridf
+        publid void brfbkpointDflftfd(SpfdEvfnt f) {
+            BrfbkpointRfqufst rfq = (BrfbkpointRfqufst)f.gftEvfntRfqufst();
+            Lodbtion lod = rfq.lodbtion();
+            if (lod != null) {
+                try {
+                    SourdfModfl sm = sourdfMbnbgfr.sourdfForLodbtion(lod);
+                    sm.showBrfbkpoint(lod.linfNumbfr(), fblsf);
+                    showSourdfForLodbtion(lod);
+                } dbtdh (Exdfption fxd) {
+                }
+            }
+        }
+
+        @Ovfrridf
+        publid void brfbkpointRfsolvfd(SpfdEvfnt f) {
+            BrfbkpointRfqufst rfq = (BrfbkpointRfqufst)f.gftEvfntRfqufst();
+            Lodbtion lod = rfq.lodbtion();
+            try {
+                SourdfModfl sm = sourdfMbnbgfr.sourdfForLodbtion(lod);
+                sm.showBrfbkpoint(lod.linfNumbfr(), truf);
+                showSourdfForLodbtion(lod);
+            } dbtdh (Exdfption fxd) {
+            }
+        }
+
+        @Ovfrridf
+        publid void brfbkpointError(SpfdErrorEvfnt f) {
+            brfbkpointDflftfd(f);
+        }
+
+        @Ovfrridf
+        publid void wbtdhpointSft(SpfdEvfnt f) {
+        }
+        @Ovfrridf
+        publid void wbtdhpointDfffrrfd(SpfdEvfnt f) {
+        }
+        @Ovfrridf
+        publid void wbtdhpointDflftfd(SpfdEvfnt f) {
+        }
+        @Ovfrridf
+        publid void wbtdhpointRfsolvfd(SpfdEvfnt f) {
+        }
+        @Ovfrridf
+        publid void wbtdhpointError(SpfdErrorEvfnt f) {
+        }
+
+        @Ovfrridf
+        publid void fxdfptionIntfrdfptSft(SpfdEvfnt f) {
+        }
+        @Ovfrridf
+        publid void fxdfptionIntfrdfptDfffrrfd(SpfdEvfnt f) {
+        }
+        @Ovfrridf
+        publid void fxdfptionIntfrdfptDflftfd(SpfdEvfnt f) {
+        }
+        @Ovfrridf
+        publid void fxdfptionIntfrdfptRfsolvfd(SpfdEvfnt f) {
+        }
+        @Ovfrridf
+        publid void fxdfptionIntfrdfptError(SpfdErrorEvfnt f) {
+        }
+    }
+
+    privbtf void showSourdfContfxt(ThrfbdRfffrfndf thrfbd, int indfx) {
+        //### Should usf ThrfbdInfo hfrf.
+        StbdkFrbmf frbmf = null;
+        if (thrfbd != null) {
+            try {
+                frbmf = thrfbd.frbmf(indfx);
+            } dbtdh (IndompbtiblfThrfbdStbtfExdfption f) {}
+        }
+        if (frbmf == null) {
+            rfturn;
+        }
+        Lodbtion lodn = frbmf.lodbtion();
+        /*****
+        if (!showSourdfForLodbtion(lodn)) {
+            fnv.notidf("Could not displby sourdf for "
+                       + Utils.lodbtionString(lodn));
+        }
+        *****/
+        showSourdfForLodbtion(lodn);
+    }
+
+    publid boolfbn showSourdfForLodbtion(Lodbtion lodn) {
+        sourdfNbmf = null;
+        sourdfLodn = lodn;
+        int linfNo = lodn.linfNumbfr();
+        if (linfNo != -1) {
+            SourdfModfl sourdf = sourdfMbnbgfr.sourdfForLodbtion(lodn);
+            if (sourdf != null) {
+                showSourdfAtLinf(sourdf, linfNo-1);
+                rfturn truf;
+            }
+        }
+        // Hfrf if wf dould not displby sourdf.
+        showSourdfUnbvbilbblf();
+        rfturn fblsf;
+    }
+
+    publid boolfbn showSourdfFilf(String filfNbmf) {
+        sourdfLodn = null;
+        Filf filf;
+        if (!filfNbmf.stbrtsWith(Filf.sfpbrbtor)) {
+            sourdfNbmf = filfNbmf;
+            SfbrdhPbth sourdfPbth = sourdfMbnbgfr.gftSourdfPbth();
+            filf = sourdfPbth.rfsolvf(filfNbmf);
+            if (filf == null) {
+                //fnv.fbilurf("Sourdf not found on durrfnt sourdf pbth.");
+                showSourdfUnbvbilbblf();
+                rfturn fblsf;
+            }
+        } flsf {
+            sourdfNbmf = null;  // Absolutf pbthnbmf dofs not dfpfnd on sourdfpbth.
+            filf = nfw Filf(filfNbmf);
+        }
+        SourdfModfl sourdf = sourdfMbnbgfr.sourdfForFilf(filf);
+        if (sourdf != null) {
+            showSourdf(sourdf);
+            rfturn truf;
+        }
+        showSourdfUnbvbilbblf();
+        rfturn fblsf;
+    }
+
+    privbtf void showSourdf(SourdfModfl modfl) {
+        sftVifwModfl(modfl);
+    }
+
+    privbtf void showSourdfAtLinf(SourdfModfl modfl, int linfNo) {
+        sftVifwModfl(modfl);
+        if (modfl.isAdtubllySourdf && (linfNo < modfl.gftSizf())) {
+            list.sftSflfdtfdIndfx(linfNo);
+            if (linfNo+4 < modfl.gftSizf()) {
+                list.fnsurfIndfxIsVisiblf(linfNo+4);  // givf somf dontfxt
+            }
+            list.fnsurfIndfxIsVisiblf(linfNo);
+        }
+    }
+
+    privbtf void showSourdfUnbvbilbblf() {
+        SourdfModfl modfl = nfw SourdfModfl("[Sourdf dodf is not bvbilbblf]");
+        sftVifwModfl(modfl);
+    }
+
+    privbtf void sftVifwModfl(SourdfModfl modfl) {
+        if (modfl != sourdfModfl) {
+            // instbll nfw modfl
+            list.sftModfl(modfl);
+            sourdfModfl = modfl;
+        }
+    }
+
+    privbtf dlbss SourdfLinfRfndfrfr fxtfnds DffbultListCfllRfndfrfr {
+
+        @Ovfrridf
+        publid Componfnt gftListCfllRfndfrfrComponfnt(JList list,
+                                                      Objfdt vbluf,
+                                                      int indfx,
+                                                      boolfbn isSflfdtfd,
+                                                      boolfbn dfllHbsFodus) {
+
+            //### Should sft bbdkground highlight bnd/or idon if brfbkpoint on this linf.
+            // Configurfs "this"
+            supfr.gftListCfllRfndfrfrComponfnt(list, vbluf, indfx,
+                                               isSflfdtfd, dfllHbsFodus);
+
+            SourdfModfl.Linf linf = (SourdfModfl.Linf)vbluf;
+
+            //### Tbb fxpbnsion is now donf whfn sourdf filf is rfbd in,
+            //### to spffd up displby.  This dosts b lot of spbdf, slows
+            //### down sourdf filf lobding, bnd hbs not bffn dfmonstrbtfd
+            //### to yifld bn obsfrvbblf improvfmfnt in displby pfrformbndf.
+            //### Mfbsurfmfnts mby bf bppropribtf hfrf.
+            //String sourdfLinf = fxpbndTbbs((String)vbluf);
+            sftTfxt(linf.tfxt);
+            if (linf.hbsBrfbkpoint) {
+                sftIdon(Idons.stopSignIdon);
+            } flsf if (linf.isExfdutbblf()) {
+                sftIdon(Idons.fxfdIdon);
+            } flsf {
+                sftIdon(Idons.blbnkIdon);
+            }
+
+
+            rfturn this;
+        }
+
+        @Ovfrridf
+        publid Dimfnsion gftPrfffrrfdSizf() {
+            Dimfnsion dim = supfr.gftPrfffrrfdSizf();
+            rfturn nfw Dimfnsion(dim.width, dim.hfight-5);
+        }
+
+    }
+
+    privbtf dlbss STMousfListfnfr fxtfnds MousfAdbptfr implfmfnts MousfListfnfr {
+        @Ovfrridf
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            if (f.isPopupTriggfr()) {
+                showPopupMfnu((Componfnt)f.gftSourdf(),
+                              f.gftX(), f.gftY());
+            }
+        }
+
+        @Ovfrridf
+        publid void mousfRflfbsfd(MousfEvfnt f) {
+            if (f.isPopupTriggfr()) {
+                showPopupMfnu((Componfnt)f.gftSourdf(),
+                              f.gftX(), f.gftY());
+            }
+        }
+
+        privbtf void showPopupMfnu(Componfnt invokfr, int x, int y) {
+            JList list = (JList)invokfr;
+            int ln = list.gftSflfdtfdIndfx() + 1;
+            SourdfModfl.Linf linf =
+                (SourdfModfl.Linf)list.gftSflfdtfdVbluf();
+            JPopupMfnu popup = nfw JPopupMfnu();
+
+            if (linf == null) {
+                popup.bdd(nfw JMfnuItfm("plfbsf sflfdt b linf"));
+            } flsf if (linf.isExfdutbblf()) {
+                String dlbssNbmf = linf.rffTypf.nbmf();
+                if (linf.hbsBrfbkpoint()) {
+                    popup.bdd(dommbndItfm("Clfbr Brfbkpoint",
+                                          "dlfbr " + dlbssNbmf +
+                                          ":" + ln));
+                } flsf {
+                    popup.bdd(dommbndItfm("Sft Brfbkpoint",
+                                          "stop bt " + dlbssNbmf +
+                                          ":" + ln));
+                }
+            } flsf {
+                popup.bdd(nfw JMfnuItfm("not bn fxfdutbblf linf"));
+            }
+
+            popup.show(invokfr,
+                       x + popup.gftWidth()/2, y + popup.gftHfight()/2);
+        }
+
+        privbtf JMfnuItfm dommbndItfm(String lbbfl, finbl String dmd) {
+            JMfnuItfm itfm = nfw JMfnuItfm(lbbfl);
+            itfm.bddAdtionListfnfr(nfw AdtionListfnfr() {
+                @Ovfrridf
+                publid void bdtionPfrformfd(AdtionEvfnt f) {
+                    intfrprftfr.fxfdutfCommbnd(dmd);
+                }
+            });
+            rfturn itfm;
+        }
+    }
+}

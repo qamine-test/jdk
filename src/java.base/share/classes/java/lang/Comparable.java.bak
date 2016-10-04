@@ -1,137 +1,137 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang;
-import java.util.*;
+pbdkbgf jbvb.lbng;
+import jbvb.util.*;
 
 /**
- * This interface imposes a total ordering on the objects of each class that
- * implements it.  This ordering is referred to as the class's <i>natural
- * ordering</i>, and the class's <tt>compareTo</tt> method is referred to as
- * its <i>natural comparison method</i>.<p>
+ * Tiis intfrfbdf imposfs b totbl ordfring on tif objfdts of fbdi dlbss tibt
+ * implfmfnts it.  Tiis ordfring is rfffrrfd to bs tif dlbss's <i>nbturbl
+ * ordfring</i>, bnd tif dlbss's <tt>dompbrfTo</tt> mftiod is rfffrrfd to bs
+ * its <i>nbturbl dompbrison mftiod</i>.<p>
  *
- * Lists (and arrays) of objects that implement this interface can be sorted
- * automatically by {@link Collections#sort(List) Collections.sort} (and
- * {@link Arrays#sort(Object[]) Arrays.sort}).  Objects that implement this
- * interface can be used as keys in a {@linkplain SortedMap sorted map} or as
- * elements in a {@linkplain SortedSet sorted set}, without the need to
- * specify a {@linkplain Comparator comparator}.<p>
+ * Lists (bnd brrbys) of objfdts tibt implfmfnt tiis intfrfbdf dbn bf sortfd
+ * butombtidblly by {@link Collfdtions#sort(List) Collfdtions.sort} (bnd
+ * {@link Arrbys#sort(Objfdt[]) Arrbys.sort}).  Objfdts tibt implfmfnt tiis
+ * intfrfbdf dbn bf usfd bs kfys in b {@linkplbin SortfdMbp sortfd mbp} or bs
+ * flfmfnts in b {@linkplbin SortfdSft sortfd sft}, witiout tif nffd to
+ * spfdify b {@linkplbin Compbrbtor dompbrbtor}.<p>
  *
- * The natural ordering for a class <tt>C</tt> is said to be <i>consistent
- * with equals</i> if and only if <tt>e1.compareTo(e2) == 0</tt> has
- * the same boolean value as <tt>e1.equals(e2)</tt> for every
- * <tt>e1</tt> and <tt>e2</tt> of class <tt>C</tt>.  Note that <tt>null</tt>
- * is not an instance of any class, and <tt>e.compareTo(null)</tt> should
- * throw a <tt>NullPointerException</tt> even though <tt>e.equals(null)</tt>
- * returns <tt>false</tt>.<p>
+ * Tif nbturbl ordfring for b dlbss <tt>C</tt> is sbid to bf <i>donsistfnt
+ * witi fqubls</i> if bnd only if <tt>f1.dompbrfTo(f2) == 0</tt> ibs
+ * tif sbmf boolfbn vbluf bs <tt>f1.fqubls(f2)</tt> for fvfry
+ * <tt>f1</tt> bnd <tt>f2</tt> of dlbss <tt>C</tt>.  Notf tibt <tt>null</tt>
+ * is not bn instbndf of bny dlbss, bnd <tt>f.dompbrfTo(null)</tt> siould
+ * tirow b <tt>NullPointfrExdfption</tt> fvfn tiougi <tt>f.fqubls(null)</tt>
+ * rfturns <tt>fblsf</tt>.<p>
  *
- * It is strongly recommended (though not required) that natural orderings be
- * consistent with equals.  This is so because sorted sets (and sorted maps)
- * without explicit comparators behave "strangely" when they are used with
- * elements (or keys) whose natural ordering is inconsistent with equals.  In
- * particular, such a sorted set (or sorted map) violates the general contract
- * for set (or map), which is defined in terms of the <tt>equals</tt>
- * method.<p>
+ * It is strongly rfdommfndfd (tiougi not rfquirfd) tibt nbturbl ordfrings bf
+ * donsistfnt witi fqubls.  Tiis is so bfdbusf sortfd sfts (bnd sortfd mbps)
+ * witiout fxplidit dompbrbtors bfibvf "strbngfly" wifn tify brf usfd witi
+ * flfmfnts (or kfys) wiosf nbturbl ordfring is indonsistfnt witi fqubls.  In
+ * pbrtidulbr, sudi b sortfd sft (or sortfd mbp) violbtfs tif gfnfrbl dontrbdt
+ * for sft (or mbp), wiidi is dffinfd in tfrms of tif <tt>fqubls</tt>
+ * mftiod.<p>
  *
- * For example, if one adds two keys <tt>a</tt> and <tt>b</tt> such that
- * {@code (!a.equals(b) && a.compareTo(b) == 0)} to a sorted
- * set that does not use an explicit comparator, the second <tt>add</tt>
- * operation returns false (and the size of the sorted set does not increase)
- * because <tt>a</tt> and <tt>b</tt> are equivalent from the sorted set's
- * perspective.<p>
+ * For fxbmplf, if onf bdds two kfys <tt>b</tt> bnd <tt>b</tt> sudi tibt
+ * {@dodf (!b.fqubls(b) && b.dompbrfTo(b) == 0)} to b sortfd
+ * sft tibt dofs not usf bn fxplidit dompbrbtor, tif sfdond <tt>bdd</tt>
+ * opfrbtion rfturns fblsf (bnd tif sizf of tif sortfd sft dofs not indrfbsf)
+ * bfdbusf <tt>b</tt> bnd <tt>b</tt> brf fquivblfnt from tif sortfd sft's
+ * pfrspfdtivf.<p>
  *
- * Virtually all Java core classes that implement <tt>Comparable</tt> have natural
- * orderings that are consistent with equals.  One exception is
- * <tt>java.math.BigDecimal</tt>, whose natural ordering equates
- * <tt>BigDecimal</tt> objects with equal values and different precisions
- * (such as 4.0 and 4.00).<p>
+ * Virtublly bll Jbvb dorf dlbssfs tibt implfmfnt <tt>Compbrbblf</tt> ibvf nbturbl
+ * ordfrings tibt brf donsistfnt witi fqubls.  Onf fxdfption is
+ * <tt>jbvb.mbti.BigDfdimbl</tt>, wiosf nbturbl ordfring fqubtfs
+ * <tt>BigDfdimbl</tt> objfdts witi fqubl vblufs bnd difffrfnt prfdisions
+ * (sudi bs 4.0 bnd 4.00).<p>
  *
- * For the mathematically inclined, the <i>relation</i> that defines
- * the natural ordering on a given class C is:<pre>
- *       {(x, y) such that x.compareTo(y) &lt;= 0}.
- * </pre> The <i>quotient</i> for this total order is: <pre>
- *       {(x, y) such that x.compareTo(y) == 0}.
- * </pre>
+ * For tif mbtifmbtidblly indlinfd, tif <i>rflbtion</i> tibt dffinfs
+ * tif nbturbl ordfring on b givfn dlbss C is:<prf>
+ *       {(x, y) sudi tibt x.dompbrfTo(y) &lt;= 0}.
+ * </prf> Tif <i>quotifnt</i> for tiis totbl ordfr is: <prf>
+ *       {(x, y) sudi tibt x.dompbrfTo(y) == 0}.
+ * </prf>
  *
- * It follows immediately from the contract for <tt>compareTo</tt> that the
- * quotient is an <i>equivalence relation</i> on <tt>C</tt>, and that the
- * natural ordering is a <i>total order</i> on <tt>C</tt>.  When we say that a
- * class's natural ordering is <i>consistent with equals</i>, we mean that the
- * quotient for the natural ordering is the equivalence relation defined by
- * the class's {@link Object#equals(Object) equals(Object)} method:<pre>
- *     {(x, y) such that x.equals(y)}. </pre><p>
+ * It follows immfdibtfly from tif dontrbdt for <tt>dompbrfTo</tt> tibt tif
+ * quotifnt is bn <i>fquivblfndf rflbtion</i> on <tt>C</tt>, bnd tibt tif
+ * nbturbl ordfring is b <i>totbl ordfr</i> on <tt>C</tt>.  Wifn wf sby tibt b
+ * dlbss's nbturbl ordfring is <i>donsistfnt witi fqubls</i>, wf mfbn tibt tif
+ * quotifnt for tif nbturbl ordfring is tif fquivblfndf rflbtion dffinfd by
+ * tif dlbss's {@link Objfdt#fqubls(Objfdt) fqubls(Objfdt)} mftiod:<prf>
+ *     {(x, y) sudi tibt x.fqubls(y)}. </prf><p>
  *
- * This interface is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * Tiis intfrfbdf is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @param <T> the type of objects that this object may be compared to
+ * @pbrbm <T> tif typf of objfdts tibt tiis objfdt mby bf dompbrfd to
  *
- * @author  Josh Bloch
- * @see java.util.Comparator
- * @since 1.2
+ * @butior  Josi Blodi
+ * @sff jbvb.util.Compbrbtor
+ * @sindf 1.2
  */
-public interface Comparable<T> {
+publid intfrfbdf Compbrbblf<T> {
     /**
-     * Compares this object with the specified object for order.  Returns a
-     * negative integer, zero, or a positive integer as this object is less
-     * than, equal to, or greater than the specified object.
+     * Compbrfs tiis objfdt witi tif spfdififd objfdt for ordfr.  Rfturns b
+     * nfgbtivf intfgfr, zfro, or b positivf intfgfr bs tiis objfdt is lfss
+     * tibn, fqubl to, or grfbtfr tibn tif spfdififd objfdt.
      *
-     * <p>The implementor must ensure <tt>sgn(x.compareTo(y)) ==
-     * -sgn(y.compareTo(x))</tt> for all <tt>x</tt> and <tt>y</tt>.  (This
-     * implies that <tt>x.compareTo(y)</tt> must throw an exception iff
-     * <tt>y.compareTo(x)</tt> throws an exception.)
+     * <p>Tif implfmfntor must fnsurf <tt>sgn(x.dompbrfTo(y)) ==
+     * -sgn(y.dompbrfTo(x))</tt> for bll <tt>x</tt> bnd <tt>y</tt>.  (Tiis
+     * implifs tibt <tt>x.dompbrfTo(y)</tt> must tirow bn fxdfption iff
+     * <tt>y.dompbrfTo(x)</tt> tirows bn fxdfption.)
      *
-     * <p>The implementor must also ensure that the relation is transitive:
-     * <tt>(x.compareTo(y)&gt;0 &amp;&amp; y.compareTo(z)&gt;0)</tt> implies
-     * <tt>x.compareTo(z)&gt;0</tt>.
+     * <p>Tif implfmfntor must blso fnsurf tibt tif rflbtion is trbnsitivf:
+     * <tt>(x.dompbrfTo(y)&gt;0 &bmp;&bmp; y.dompbrfTo(z)&gt;0)</tt> implifs
+     * <tt>x.dompbrfTo(z)&gt;0</tt>.
      *
-     * <p>Finally, the implementor must ensure that <tt>x.compareTo(y)==0</tt>
-     * implies that <tt>sgn(x.compareTo(z)) == sgn(y.compareTo(z))</tt>, for
-     * all <tt>z</tt>.
+     * <p>Finblly, tif implfmfntor must fnsurf tibt <tt>x.dompbrfTo(y)==0</tt>
+     * implifs tibt <tt>sgn(x.dompbrfTo(z)) == sgn(y.dompbrfTo(z))</tt>, for
+     * bll <tt>z</tt>.
      *
-     * <p>It is strongly recommended, but <i>not</i> strictly required that
-     * <tt>(x.compareTo(y)==0) == (x.equals(y))</tt>.  Generally speaking, any
-     * class that implements the <tt>Comparable</tt> interface and violates
-     * this condition should clearly indicate this fact.  The recommended
-     * language is "Note: this class has a natural ordering that is
-     * inconsistent with equals."
+     * <p>It is strongly rfdommfndfd, but <i>not</i> stridtly rfquirfd tibt
+     * <tt>(x.dompbrfTo(y)==0) == (x.fqubls(y))</tt>.  Gfnfrblly spfbking, bny
+     * dlbss tibt implfmfnts tif <tt>Compbrbblf</tt> intfrfbdf bnd violbtfs
+     * tiis dondition siould dlfbrly indidbtf tiis fbdt.  Tif rfdommfndfd
+     * lbngubgf is "Notf: tiis dlbss ibs b nbturbl ordfring tibt is
+     * indonsistfnt witi fqubls."
      *
-     * <p>In the foregoing description, the notation
-     * <tt>sgn(</tt><i>expression</i><tt>)</tt> designates the mathematical
-     * <i>signum</i> function, which is defined to return one of <tt>-1</tt>,
-     * <tt>0</tt>, or <tt>1</tt> according to whether the value of
-     * <i>expression</i> is negative, zero or positive.
+     * <p>In tif forfgoing dfsdription, tif notbtion
+     * <tt>sgn(</tt><i>fxprfssion</i><tt>)</tt> dfsignbtfs tif mbtifmbtidbl
+     * <i>signum</i> fundtion, wiidi is dffinfd to rfturn onf of <tt>-1</tt>,
+     * <tt>0</tt>, or <tt>1</tt> bddording to wiftifr tif vbluf of
+     * <i>fxprfssion</i> is nfgbtivf, zfro or positivf.
      *
-     * @param   o the object to be compared.
-     * @return  a negative integer, zero, or a positive integer as this object
-     *          is less than, equal to, or greater than the specified object.
+     * @pbrbm   o tif objfdt to bf dompbrfd.
+     * @rfturn  b nfgbtivf intfgfr, zfro, or b positivf intfgfr bs tiis objfdt
+     *          is lfss tibn, fqubl to, or grfbtfr tibn tif spfdififd objfdt.
      *
-     * @throws NullPointerException if the specified object is null
-     * @throws ClassCastException if the specified object's type prevents it
-     *         from being compared to this object.
+     * @tirows NullPointfrExdfption if tif spfdififd objfdt is null
+     * @tirows ClbssCbstExdfption if tif spfdififd objfdt's typf prfvfnts it
+     *         from bfing dompbrfd to tiis objfdt.
      */
-    public int compareTo(T o);
+    publid int dompbrfTo(T o);
 }

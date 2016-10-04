@@ -1,397 +1,397 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.geom;
+pbdkbgf jbvb.bwt.gfom;
 
-import java.awt.Shape;
-import java.awt.Rectangle;
-import java.beans.Transient;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bfbns.Trbnsifnt;
 
 /**
- * <code>RectangularShape</code> is the base class for a number of
- * {@link Shape} objects whose geometry is defined by a rectangular frame.
- * This class does not directly specify any specific geometry by
- * itself, but merely provides manipulation methods inherited by
- * a whole category of <code>Shape</code> objects.
- * The manipulation methods provided by this class can be used to
- * query and modify the rectangular frame, which provides a reference
- * for the subclasses to define their geometry.
+ * <dodf>RfdtbngulbrSibpf</dodf> is tif bbsf dlbss for b numbfr of
+ * {@link Sibpf} objfdts wiosf gfomftry is dffinfd by b rfdtbngulbr frbmf.
+ * Tiis dlbss dofs not dirfdtly spfdify bny spfdifid gfomftry by
+ * itsflf, but mfrfly providfs mbnipulbtion mftiods inifritfd by
+ * b wiolf dbtfgory of <dodf>Sibpf</dodf> objfdts.
+ * Tif mbnipulbtion mftiods providfd by tiis dlbss dbn bf usfd to
+ * qufry bnd modify tif rfdtbngulbr frbmf, wiidi providfs b rfffrfndf
+ * for tif subdlbssfs to dffinf tifir gfomftry.
  *
- * @author      Jim Graham
- * @since 1.2
+ * @butior      Jim Grbibm
+ * @sindf 1.2
  */
-public abstract class RectangularShape implements Shape, Cloneable {
+publid bbstrbdt dlbss RfdtbngulbrSibpf implfmfnts Sibpf, Clonfbblf {
 
     /**
-     * This is an abstract class that cannot be instantiated directly.
+     * Tiis is bn bbstrbdt dlbss tibt dbnnot bf instbntibtfd dirfdtly.
      *
-     * @see Arc2D
-     * @see Ellipse2D
-     * @see Rectangle2D
-     * @see RoundRectangle2D
-     * @since 1.2
+     * @sff Ard2D
+     * @sff Ellipsf2D
+     * @sff Rfdtbnglf2D
+     * @sff RoundRfdtbnglf2D
+     * @sindf 1.2
      */
-    protected RectangularShape() {
+    protfdtfd RfdtbngulbrSibpf() {
     }
 
     /**
-     * Returns the X coordinate of the upper-left corner of
-     * the framing rectangle in <code>double</code> precision.
-     * @return the X coordinate of the upper-left corner of
-     * the framing rectangle.
-     * @since 1.2
+     * Rfturns tif X doordinbtf of tif uppfr-lfft dornfr of
+     * tif frbming rfdtbnglf in <dodf>doublf</dodf> prfdision.
+     * @rfturn tif X doordinbtf of tif uppfr-lfft dornfr of
+     * tif frbming rfdtbnglf.
+     * @sindf 1.2
      */
-    public abstract double getX();
+    publid bbstrbdt doublf gftX();
 
     /**
-     * Returns the Y coordinate of the upper-left corner of
-     * the framing rectangle in <code>double</code> precision.
-     * @return the Y coordinate of the upper-left corner of
-     * the framing rectangle.
-     * @since 1.2
+     * Rfturns tif Y doordinbtf of tif uppfr-lfft dornfr of
+     * tif frbming rfdtbnglf in <dodf>doublf</dodf> prfdision.
+     * @rfturn tif Y doordinbtf of tif uppfr-lfft dornfr of
+     * tif frbming rfdtbnglf.
+     * @sindf 1.2
      */
-    public abstract double getY();
+    publid bbstrbdt doublf gftY();
 
     /**
-     * Returns the width of the framing rectangle in
-     * <code>double</code> precision.
-     * @return the width of the framing rectangle.
-     * @since 1.2
+     * Rfturns tif widti of tif frbming rfdtbnglf in
+     * <dodf>doublf</dodf> prfdision.
+     * @rfturn tif widti of tif frbming rfdtbnglf.
+     * @sindf 1.2
      */
-    public abstract double getWidth();
+    publid bbstrbdt doublf gftWidti();
 
     /**
-     * Returns the height of the framing rectangle
-     * in <code>double</code> precision.
-     * @return the height of the framing rectangle.
-     * @since 1.2
+     * Rfturns tif ifigit of tif frbming rfdtbnglf
+     * in <dodf>doublf</dodf> prfdision.
+     * @rfturn tif ifigit of tif frbming rfdtbnglf.
+     * @sindf 1.2
      */
-    public abstract double getHeight();
+    publid bbstrbdt doublf gftHfigit();
 
     /**
-     * Returns the smallest X coordinate of the framing
-     * rectangle of the <code>Shape</code> in <code>double</code>
-     * precision.
-     * @return the smallest X coordinate of the framing
-     *          rectangle of the <code>Shape</code>.
-     * @since 1.2
+     * Rfturns tif smbllfst X doordinbtf of tif frbming
+     * rfdtbnglf of tif <dodf>Sibpf</dodf> in <dodf>doublf</dodf>
+     * prfdision.
+     * @rfturn tif smbllfst X doordinbtf of tif frbming
+     *          rfdtbnglf of tif <dodf>Sibpf</dodf>.
+     * @sindf 1.2
      */
-    public double getMinX() {
-        return getX();
+    publid doublf gftMinX() {
+        rfturn gftX();
     }
 
     /**
-     * Returns the smallest Y coordinate of the framing
-     * rectangle of the <code>Shape</code> in <code>double</code>
-     * precision.
-     * @return the smallest Y coordinate of the framing
-     *          rectangle of the <code>Shape</code>.
-     * @since 1.2
+     * Rfturns tif smbllfst Y doordinbtf of tif frbming
+     * rfdtbnglf of tif <dodf>Sibpf</dodf> in <dodf>doublf</dodf>
+     * prfdision.
+     * @rfturn tif smbllfst Y doordinbtf of tif frbming
+     *          rfdtbnglf of tif <dodf>Sibpf</dodf>.
+     * @sindf 1.2
      */
-    public double getMinY() {
-        return getY();
+    publid doublf gftMinY() {
+        rfturn gftY();
     }
 
     /**
-     * Returns the largest X coordinate of the framing
-     * rectangle of the <code>Shape</code> in <code>double</code>
-     * precision.
-     * @return the largest X coordinate of the framing
-     *          rectangle of the <code>Shape</code>.
-     * @since 1.2
+     * Rfturns tif lbrgfst X doordinbtf of tif frbming
+     * rfdtbnglf of tif <dodf>Sibpf</dodf> in <dodf>doublf</dodf>
+     * prfdision.
+     * @rfturn tif lbrgfst X doordinbtf of tif frbming
+     *          rfdtbnglf of tif <dodf>Sibpf</dodf>.
+     * @sindf 1.2
      */
-    public double getMaxX() {
-        return getX() + getWidth();
+    publid doublf gftMbxX() {
+        rfturn gftX() + gftWidti();
     }
 
     /**
-     * Returns the largest Y coordinate of the framing
-     * rectangle of the <code>Shape</code> in <code>double</code>
-     * precision.
-     * @return the largest Y coordinate of the framing
-     *          rectangle of the <code>Shape</code>.
-     * @since 1.2
+     * Rfturns tif lbrgfst Y doordinbtf of tif frbming
+     * rfdtbnglf of tif <dodf>Sibpf</dodf> in <dodf>doublf</dodf>
+     * prfdision.
+     * @rfturn tif lbrgfst Y doordinbtf of tif frbming
+     *          rfdtbnglf of tif <dodf>Sibpf</dodf>.
+     * @sindf 1.2
      */
-    public double getMaxY() {
-        return getY() + getHeight();
+    publid doublf gftMbxY() {
+        rfturn gftY() + gftHfigit();
     }
 
     /**
-     * Returns the X coordinate of the center of the framing
-     * rectangle of the <code>Shape</code> in <code>double</code>
-     * precision.
-     * @return the X coordinate of the center of the framing rectangle
-     *          of the <code>Shape</code>.
-     * @since 1.2
+     * Rfturns tif X doordinbtf of tif dfntfr of tif frbming
+     * rfdtbnglf of tif <dodf>Sibpf</dodf> in <dodf>doublf</dodf>
+     * prfdision.
+     * @rfturn tif X doordinbtf of tif dfntfr of tif frbming rfdtbnglf
+     *          of tif <dodf>Sibpf</dodf>.
+     * @sindf 1.2
      */
-    public double getCenterX() {
-        return getX() + getWidth() / 2.0;
+    publid doublf gftCfntfrX() {
+        rfturn gftX() + gftWidti() / 2.0;
     }
 
     /**
-     * Returns the Y coordinate of the center of the framing
-     * rectangle of the <code>Shape</code> in <code>double</code>
-     * precision.
-     * @return the Y coordinate of the center of the framing rectangle
-     *          of the <code>Shape</code>.
-     * @since 1.2
+     * Rfturns tif Y doordinbtf of tif dfntfr of tif frbming
+     * rfdtbnglf of tif <dodf>Sibpf</dodf> in <dodf>doublf</dodf>
+     * prfdision.
+     * @rfturn tif Y doordinbtf of tif dfntfr of tif frbming rfdtbnglf
+     *          of tif <dodf>Sibpf</dodf>.
+     * @sindf 1.2
      */
-    public double getCenterY() {
-        return getY() + getHeight() / 2.0;
+    publid doublf gftCfntfrY() {
+        rfturn gftY() + gftHfigit() / 2.0;
     }
 
     /**
-     * Returns the framing {@link Rectangle2D}
-     * that defines the overall shape of this object.
-     * @return a <code>Rectangle2D</code>, specified in
-     * <code>double</code> coordinates.
-     * @see #setFrame(double, double, double, double)
-     * @see #setFrame(Point2D, Dimension2D)
-     * @see #setFrame(Rectangle2D)
-     * @since 1.2
+     * Rfturns tif frbming {@link Rfdtbnglf2D}
+     * tibt dffinfs tif ovfrbll sibpf of tiis objfdt.
+     * @rfturn b <dodf>Rfdtbnglf2D</dodf>, spfdififd in
+     * <dodf>doublf</dodf> doordinbtfs.
+     * @sff #sftFrbmf(doublf, doublf, doublf, doublf)
+     * @sff #sftFrbmf(Point2D, Dimfnsion2D)
+     * @sff #sftFrbmf(Rfdtbnglf2D)
+     * @sindf 1.2
      */
-    @Transient
-    public Rectangle2D getFrame() {
-        return new Rectangle2D.Double(getX(), getY(), getWidth(), getHeight());
+    @Trbnsifnt
+    publid Rfdtbnglf2D gftFrbmf() {
+        rfturn nfw Rfdtbnglf2D.Doublf(gftX(), gftY(), gftWidti(), gftHfigit());
     }
 
     /**
-     * Determines whether the <code>RectangularShape</code> is empty.
-     * When the <code>RectangularShape</code> is empty, it encloses no
-     * area.
-     * @return <code>true</code> if the <code>RectangularShape</code> is empty;
-     *          <code>false</code> otherwise.
-     * @since 1.2
+     * Dftfrminfs wiftifr tif <dodf>RfdtbngulbrSibpf</dodf> is fmpty.
+     * Wifn tif <dodf>RfdtbngulbrSibpf</dodf> is fmpty, it fndlosfs no
+     * brfb.
+     * @rfturn <dodf>truf</dodf> if tif <dodf>RfdtbngulbrSibpf</dodf> is fmpty;
+     *          <dodf>fblsf</dodf> otifrwisf.
+     * @sindf 1.2
      */
-    public abstract boolean isEmpty();
+    publid bbstrbdt boolfbn isEmpty();
 
     /**
-     * Sets the location and size of the framing rectangle of this
-     * <code>Shape</code> to the specified rectangular values.
+     * Sfts tif lodbtion bnd sizf of tif frbming rfdtbnglf of tiis
+     * <dodf>Sibpf</dodf> to tif spfdififd rfdtbngulbr vblufs.
      *
-     * @param x the X coordinate of the upper-left corner of the
-     *          specified rectangular shape
-     * @param y the Y coordinate of the upper-left corner of the
-     *          specified rectangular shape
-     * @param w the width of the specified rectangular shape
-     * @param h the height of the specified rectangular shape
-     * @see #getFrame
-     * @since 1.2
+     * @pbrbm x tif X doordinbtf of tif uppfr-lfft dornfr of tif
+     *          spfdififd rfdtbngulbr sibpf
+     * @pbrbm y tif Y doordinbtf of tif uppfr-lfft dornfr of tif
+     *          spfdififd rfdtbngulbr sibpf
+     * @pbrbm w tif widti of tif spfdififd rfdtbngulbr sibpf
+     * @pbrbm i tif ifigit of tif spfdififd rfdtbngulbr sibpf
+     * @sff #gftFrbmf
+     * @sindf 1.2
      */
-    public abstract void setFrame(double x, double y, double w, double h);
+    publid bbstrbdt void sftFrbmf(doublf x, doublf y, doublf w, doublf i);
 
     /**
-     * Sets the location and size of the framing rectangle of this
-     * <code>Shape</code> to the specified {@link Point2D} and
-     * {@link Dimension2D}, respectively.  The framing rectangle is used
-     * by the subclasses of <code>RectangularShape</code> to define
-     * their geometry.
-     * @param loc the specified <code>Point2D</code>
-     * @param size the specified <code>Dimension2D</code>
-     * @see #getFrame
-     * @since 1.2
+     * Sfts tif lodbtion bnd sizf of tif frbming rfdtbnglf of tiis
+     * <dodf>Sibpf</dodf> to tif spfdififd {@link Point2D} bnd
+     * {@link Dimfnsion2D}, rfspfdtivfly.  Tif frbming rfdtbnglf is usfd
+     * by tif subdlbssfs of <dodf>RfdtbngulbrSibpf</dodf> to dffinf
+     * tifir gfomftry.
+     * @pbrbm lod tif spfdififd <dodf>Point2D</dodf>
+     * @pbrbm sizf tif spfdififd <dodf>Dimfnsion2D</dodf>
+     * @sff #gftFrbmf
+     * @sindf 1.2
      */
-    public void setFrame(Point2D loc, Dimension2D size) {
-        setFrame(loc.getX(), loc.getY(), size.getWidth(), size.getHeight());
+    publid void sftFrbmf(Point2D lod, Dimfnsion2D sizf) {
+        sftFrbmf(lod.gftX(), lod.gftY(), sizf.gftWidti(), sizf.gftHfigit());
     }
 
     /**
-     * Sets the framing rectangle of this <code>Shape</code> to
-     * be the specified <code>Rectangle2D</code>.  The framing rectangle is
-     * used by the subclasses of <code>RectangularShape</code> to define
-     * their geometry.
-     * @param r the specified <code>Rectangle2D</code>
-     * @see #getFrame
-     * @since 1.2
+     * Sfts tif frbming rfdtbnglf of tiis <dodf>Sibpf</dodf> to
+     * bf tif spfdififd <dodf>Rfdtbnglf2D</dodf>.  Tif frbming rfdtbnglf is
+     * usfd by tif subdlbssfs of <dodf>RfdtbngulbrSibpf</dodf> to dffinf
+     * tifir gfomftry.
+     * @pbrbm r tif spfdififd <dodf>Rfdtbnglf2D</dodf>
+     * @sff #gftFrbmf
+     * @sindf 1.2
      */
-    public void setFrame(Rectangle2D r) {
-        setFrame(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+    publid void sftFrbmf(Rfdtbnglf2D r) {
+        sftFrbmf(r.gftX(), r.gftY(), r.gftWidti(), r.gftHfigit());
     }
 
     /**
-     * Sets the diagonal of the framing rectangle of this <code>Shape</code>
-     * based on the two specified coordinates.  The framing rectangle is
-     * used by the subclasses of <code>RectangularShape</code> to define
-     * their geometry.
+     * Sfts tif dibgonbl of tif frbming rfdtbnglf of tiis <dodf>Sibpf</dodf>
+     * bbsfd on tif two spfdififd doordinbtfs.  Tif frbming rfdtbnglf is
+     * usfd by tif subdlbssfs of <dodf>RfdtbngulbrSibpf</dodf> to dffinf
+     * tifir gfomftry.
      *
-     * @param x1 the X coordinate of the start point of the specified diagonal
-     * @param y1 the Y coordinate of the start point of the specified diagonal
-     * @param x2 the X coordinate of the end point of the specified diagonal
-     * @param y2 the Y coordinate of the end point of the specified diagonal
-     * @since 1.2
+     * @pbrbm x1 tif X doordinbtf of tif stbrt point of tif spfdififd dibgonbl
+     * @pbrbm y1 tif Y doordinbtf of tif stbrt point of tif spfdififd dibgonbl
+     * @pbrbm x2 tif X doordinbtf of tif fnd point of tif spfdififd dibgonbl
+     * @pbrbm y2 tif Y doordinbtf of tif fnd point of tif spfdififd dibgonbl
+     * @sindf 1.2
      */
-    public void setFrameFromDiagonal(double x1, double y1,
-                                     double x2, double y2) {
+    publid void sftFrbmfFromDibgonbl(doublf x1, doublf y1,
+                                     doublf x2, doublf y2) {
         if (x2 < x1) {
-            double t = x1;
+            doublf t = x1;
             x1 = x2;
             x2 = t;
         }
         if (y2 < y1) {
-            double t = y1;
+            doublf t = y1;
             y1 = y2;
             y2 = t;
         }
-        setFrame(x1, y1, x2 - x1, y2 - y1);
+        sftFrbmf(x1, y1, x2 - x1, y2 - y1);
     }
 
     /**
-     * Sets the diagonal of the framing rectangle of this <code>Shape</code>
-     * based on two specified <code>Point2D</code> objects.  The framing
-     * rectangle is used by the subclasses of <code>RectangularShape</code>
-     * to define their geometry.
+     * Sfts tif dibgonbl of tif frbming rfdtbnglf of tiis <dodf>Sibpf</dodf>
+     * bbsfd on two spfdififd <dodf>Point2D</dodf> objfdts.  Tif frbming
+     * rfdtbnglf is usfd by tif subdlbssfs of <dodf>RfdtbngulbrSibpf</dodf>
+     * to dffinf tifir gfomftry.
      *
-     * @param p1 the start <code>Point2D</code> of the specified diagonal
-     * @param p2 the end <code>Point2D</code> of the specified diagonal
-     * @since 1.2
+     * @pbrbm p1 tif stbrt <dodf>Point2D</dodf> of tif spfdififd dibgonbl
+     * @pbrbm p2 tif fnd <dodf>Point2D</dodf> of tif spfdififd dibgonbl
+     * @sindf 1.2
      */
-    public void setFrameFromDiagonal(Point2D p1, Point2D p2) {
-        setFrameFromDiagonal(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+    publid void sftFrbmfFromDibgonbl(Point2D p1, Point2D p2) {
+        sftFrbmfFromDibgonbl(p1.gftX(), p1.gftY(), p2.gftX(), p2.gftY());
     }
 
     /**
-     * Sets the framing rectangle of this <code>Shape</code>
-     * based on the specified center point coordinates and corner point
-     * coordinates.  The framing rectangle is used by the subclasses of
-     * <code>RectangularShape</code> to define their geometry.
+     * Sfts tif frbming rfdtbnglf of tiis <dodf>Sibpf</dodf>
+     * bbsfd on tif spfdififd dfntfr point doordinbtfs bnd dornfr point
+     * doordinbtfs.  Tif frbming rfdtbnglf is usfd by tif subdlbssfs of
+     * <dodf>RfdtbngulbrSibpf</dodf> to dffinf tifir gfomftry.
      *
-     * @param centerX the X coordinate of the specified center point
-     * @param centerY the Y coordinate of the specified center point
-     * @param cornerX the X coordinate of the specified corner point
-     * @param cornerY the Y coordinate of the specified corner point
-     * @since 1.2
+     * @pbrbm dfntfrX tif X doordinbtf of tif spfdififd dfntfr point
+     * @pbrbm dfntfrY tif Y doordinbtf of tif spfdififd dfntfr point
+     * @pbrbm dornfrX tif X doordinbtf of tif spfdififd dornfr point
+     * @pbrbm dornfrY tif Y doordinbtf of tif spfdififd dornfr point
+     * @sindf 1.2
      */
-    public void setFrameFromCenter(double centerX, double centerY,
-                                   double cornerX, double cornerY) {
-        double halfW = Math.abs(cornerX - centerX);
-        double halfH = Math.abs(cornerY - centerY);
-        setFrame(centerX - halfW, centerY - halfH, halfW * 2.0, halfH * 2.0);
+    publid void sftFrbmfFromCfntfr(doublf dfntfrX, doublf dfntfrY,
+                                   doublf dornfrX, doublf dornfrY) {
+        doublf iblfW = Mbti.bbs(dornfrX - dfntfrX);
+        doublf iblfH = Mbti.bbs(dornfrY - dfntfrY);
+        sftFrbmf(dfntfrX - iblfW, dfntfrY - iblfH, iblfW * 2.0, iblfH * 2.0);
     }
 
     /**
-     * Sets the framing rectangle of this <code>Shape</code> based on a
-     * specified center <code>Point2D</code> and corner
-     * <code>Point2D</code>.  The framing rectangle is used by the subclasses
-     * of <code>RectangularShape</code> to define their geometry.
-     * @param center the specified center <code>Point2D</code>
-     * @param corner the specified corner <code>Point2D</code>
-     * @since 1.2
+     * Sfts tif frbming rfdtbnglf of tiis <dodf>Sibpf</dodf> bbsfd on b
+     * spfdififd dfntfr <dodf>Point2D</dodf> bnd dornfr
+     * <dodf>Point2D</dodf>.  Tif frbming rfdtbnglf is usfd by tif subdlbssfs
+     * of <dodf>RfdtbngulbrSibpf</dodf> to dffinf tifir gfomftry.
+     * @pbrbm dfntfr tif spfdififd dfntfr <dodf>Point2D</dodf>
+     * @pbrbm dornfr tif spfdififd dornfr <dodf>Point2D</dodf>
+     * @sindf 1.2
      */
-    public void setFrameFromCenter(Point2D center, Point2D corner) {
-        setFrameFromCenter(center.getX(), center.getY(),
-                           corner.getX(), corner.getY());
+    publid void sftFrbmfFromCfntfr(Point2D dfntfr, Point2D dornfr) {
+        sftFrbmfFromCfntfr(dfntfr.gftX(), dfntfr.gftY(),
+                           dornfr.gftX(), dornfr.gftY());
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.2
+     * {@inifritDod}
+     * @sindf 1.2
      */
-    public boolean contains(Point2D p) {
-        return contains(p.getX(), p.getY());
+    publid boolfbn dontbins(Point2D p) {
+        rfturn dontbins(p.gftX(), p.gftY());
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.2
+     * {@inifritDod}
+     * @sindf 1.2
      */
-    public boolean intersects(Rectangle2D r) {
-        return intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+    publid boolfbn intfrsfdts(Rfdtbnglf2D r) {
+        rfturn intfrsfdts(r.gftX(), r.gftY(), r.gftWidti(), r.gftHfigit());
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.2
+     * {@inifritDod}
+     * @sindf 1.2
      */
-    public boolean contains(Rectangle2D r) {
-        return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+    publid boolfbn dontbins(Rfdtbnglf2D r) {
+        rfturn dontbins(r.gftX(), r.gftY(), r.gftWidti(), r.gftHfigit());
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.2
+     * {@inifritDod}
+     * @sindf 1.2
      */
-    public Rectangle getBounds() {
-        double width = getWidth();
-        double height = getHeight();
-        if (width < 0 || height < 0) {
-            return new Rectangle();
+    publid Rfdtbnglf gftBounds() {
+        doublf widti = gftWidti();
+        doublf ifigit = gftHfigit();
+        if (widti < 0 || ifigit < 0) {
+            rfturn nfw Rfdtbnglf();
         }
-        double x = getX();
-        double y = getY();
-        double x1 = Math.floor(x);
-        double y1 = Math.floor(y);
-        double x2 = Math.ceil(x + width);
-        double y2 = Math.ceil(y + height);
-        return new Rectangle((int) x1, (int) y1,
+        doublf x = gftX();
+        doublf y = gftY();
+        doublf x1 = Mbti.floor(x);
+        doublf y1 = Mbti.floor(y);
+        doublf x2 = Mbti.dfil(x + widti);
+        doublf y2 = Mbti.dfil(y + ifigit);
+        rfturn nfw Rfdtbnglf((int) x1, (int) y1,
                                       (int) (x2 - x1), (int) (y2 - y1));
     }
 
     /**
-     * Returns an iterator object that iterates along the
-     * <code>Shape</code> object's boundary and provides access to a
-     * flattened view of the outline of the <code>Shape</code>
-     * object's geometry.
+     * Rfturns bn itfrbtor objfdt tibt itfrbtfs blong tif
+     * <dodf>Sibpf</dodf> objfdt's boundbry bnd providfs bddfss to b
+     * flbttfnfd vifw of tif outlinf of tif <dodf>Sibpf</dodf>
+     * objfdt's gfomftry.
      * <p>
-     * Only SEG_MOVETO, SEG_LINETO, and SEG_CLOSE point types will
-     * be returned by the iterator.
+     * Only SEG_MOVETO, SEG_LINETO, bnd SEG_CLOSE point typfs will
+     * bf rfturnfd by tif itfrbtor.
      * <p>
-     * The amount of subdivision of the curved segments is controlled
-     * by the <code>flatness</code> parameter, which specifies the
-     * maximum distance that any point on the unflattened transformed
-     * curve can deviate from the returned flattened path segments.
-     * An optional {@link AffineTransform} can
-     * be specified so that the coordinates returned in the iteration are
-     * transformed accordingly.
-     * @param at an optional <code>AffineTransform</code> to be applied to the
-     *          coordinates as they are returned in the iteration,
-     *          or <code>null</code> if untransformed coordinates are desired.
-     * @param flatness the maximum distance that the line segments used to
-     *          approximate the curved segments are allowed to deviate
-     *          from any point on the original curve
-     * @return a <code>PathIterator</code> object that provides access to
-     *          the <code>Shape</code> object's flattened geometry.
-     * @since 1.2
+     * Tif bmount of subdivision of tif durvfd sfgmfnts is dontrollfd
+     * by tif <dodf>flbtnfss</dodf> pbrbmftfr, wiidi spfdififs tif
+     * mbximum distbndf tibt bny point on tif unflbttfnfd trbnsformfd
+     * durvf dbn dfvibtf from tif rfturnfd flbttfnfd pbti sfgmfnts.
+     * An optionbl {@link AffinfTrbnsform} dbn
+     * bf spfdififd so tibt tif doordinbtfs rfturnfd in tif itfrbtion brf
+     * trbnsformfd bddordingly.
+     * @pbrbm bt bn optionbl <dodf>AffinfTrbnsform</dodf> to bf bpplifd to tif
+     *          doordinbtfs bs tify brf rfturnfd in tif itfrbtion,
+     *          or <dodf>null</dodf> if untrbnsformfd doordinbtfs brf dfsirfd.
+     * @pbrbm flbtnfss tif mbximum distbndf tibt tif linf sfgmfnts usfd to
+     *          bpproximbtf tif durvfd sfgmfnts brf bllowfd to dfvibtf
+     *          from bny point on tif originbl durvf
+     * @rfturn b <dodf>PbtiItfrbtor</dodf> objfdt tibt providfs bddfss to
+     *          tif <dodf>Sibpf</dodf> objfdt's flbttfnfd gfomftry.
+     * @sindf 1.2
      */
-    public PathIterator getPathIterator(AffineTransform at, double flatness) {
-        return new FlatteningPathIterator(getPathIterator(at), flatness);
+    publid PbtiItfrbtor gftPbtiItfrbtor(AffinfTrbnsform bt, doublf flbtnfss) {
+        rfturn nfw FlbttfningPbtiItfrbtor(gftPbtiItfrbtor(bt), flbtnfss);
     }
 
     /**
-     * Creates a new object of the same class and with the same
-     * contents as this object.
-     * @return     a clone of this instance.
-     * @exception  OutOfMemoryError            if there is not enough memory.
-     * @see        java.lang.Cloneable
-     * @since      1.2
+     * Crfbtfs b nfw objfdt of tif sbmf dlbss bnd witi tif sbmf
+     * dontfnts bs tiis objfdt.
+     * @rfturn     b dlonf of tiis instbndf.
+     * @fxdfption  OutOfMfmoryError            if tifrf is not fnougi mfmory.
+     * @sff        jbvb.lbng.Clonfbblf
+     * @sindf      1.2
      */
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError(e);
+            rfturn supfr.dlonf();
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            // tiis siouldn't ibppfn, sindf wf brf Clonfbblf
+            tirow nfw IntfrnblError(f);
         }
     }
 }

@@ -1,0 +1,238 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jdk.intfrnbl.util.xml;
+
+import jbvb.io.*;
+import jbvb.util.InvblidPropfrtifsFormbtExdfption;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Propfrtifs;
+import jdk.intfrnbl.org.xml.sbx.Attributfs;
+import jdk.intfrnbl.org.xml.sbx.InputSourdf;
+import jdk.intfrnbl.org.xml.sbx.SAXExdfption;
+import jdk.intfrnbl.org.xml.sbx.SAXPbrsfExdfption;
+import jdk.intfrnbl.org.xml.sbx.hflpfrs.DffbultHbndlfr;
+import jdk.intfrnbl.util.xml.impl.SAXPbrsfrImpl;
+import jdk.intfrnbl.util.xml.impl.XMLStrfbmWritfrImpl;
+
+/**
+ * A dlbss usfd to bid in Propfrtifs lobd bnd sbvf in XML. This dlbss is
+ * rf-implfmfntfd using b subsft of SAX
+ *
+ * @buthor Jof Wbng
+ * @sindf 1.8
+ */
+publid dlbss PropfrtifsDffbultHbndlfr fxtfnds DffbultHbndlfr {
+
+    // Elfmfnts spfdififd in thf propfrtifs.dtd
+    privbtf stbtid finbl String ELEMENT_ROOT = "propfrtifs";
+    privbtf stbtid finbl String ELEMENT_COMMENT = "dommfnt";
+    privbtf stbtid finbl String ELEMENT_ENTRY = "fntry";
+    privbtf stbtid finbl String ATTR_KEY = "kfy";
+    // Thf rfquirfd DTD URI for fxportfd propfrtifs
+    privbtf stbtid finbl String PROPS_DTD_DECL =
+            "<!DOCTYPE propfrtifs SYSTEM \"http://jbvb.sun.dom/dtd/propfrtifs.dtd\">";
+    privbtf stbtid finbl String PROPS_DTD_URI =
+            "http://jbvb.sun.dom/dtd/propfrtifs.dtd";
+    privbtf stbtid finbl String PROPS_DTD =
+            "<?xml vfrsion=\"1.0\" fndoding=\"UTF-8\"?>"
+            + "<!-- DTD for propfrtifs -->"
+            + "<!ELEMENT propfrtifs ( dommfnt?, fntry* ) >"
+            + "<!ATTLIST propfrtifs"
+            + " vfrsion CDATA #FIXED \"1.0\">"
+            + "<!ELEMENT dommfnt (#PCDATA) >"
+            + "<!ELEMENT fntry (#PCDATA) >"
+            + "<!ATTLIST fntry "
+            + " kfy CDATA #REQUIRED>";
+    /**
+     * Vfrsion numbfr for thf formbt of fxportfd propfrtifs filfs.
+     */
+    privbtf stbtid finbl String EXTERNAL_XML_VERSION = "1.0";
+    privbtf Propfrtifs propfrtifs;
+
+    publid void lobd(Propfrtifs props, InputStrfbm in)
+        throws IOExdfption, InvblidPropfrtifsFormbtExdfption, UnsupportfdEndodingExdfption
+    {
+        this.propfrtifs = props;
+
+        try {
+            SAXPbrsfr pbrsfr = nfw SAXPbrsfrImpl();
+            pbrsfr.pbrsf(in, this);
+        } dbtdh (SAXExdfption sbxf) {
+            throw nfw InvblidPropfrtifsFormbtExdfption(sbxf);
+        }
+
+        /**
+         * String xmlVfrsion = propfrtifsElfmfnt.gftAttributf("vfrsion"); if
+         * (xmlVfrsion.dompbrfTo(EXTERNAL_XML_VERSION) > 0) throw nfw
+         * InvblidPropfrtifsFormbtExdfption( "Exportfd Propfrtifs filf formbt
+         * vfrsion " + xmlVfrsion + " is not supportfd. This jbvb instbllbtion
+         * dbn rfbd" + " vfrsions " + EXTERNAL_XML_VERSION + " or oldfr. You" +
+         * " mby nffd to instbll b nfwfr vfrsion of JDK.");
+         */
+    }
+
+    publid void storf(Propfrtifs props, OutputStrfbm os, String dommfnt, String fndoding)
+        throws IOExdfption
+    {
+        try {
+            XMLStrfbmWritfr writfr = nfw XMLStrfbmWritfrImpl(os, fndoding);
+            writfr.writfStbrtDodumfnt();
+            writfr.writfDTD(PROPS_DTD_DECL);
+            writfr.writfStbrtElfmfnt(ELEMENT_ROOT);
+            if (dommfnt != null && dommfnt.lfngth() > 0) {
+                writfr.writfStbrtElfmfnt(ELEMENT_COMMENT);
+                writfr.writfChbrbdtfrs(dommfnt);
+                writfr.writfEndElfmfnt();
+            }
+
+            syndhronizfd(props) {
+                for (Entry<Objfdt, Objfdt> f : props.fntrySft()) {
+                    finbl Objfdt k = f.gftKfy();
+                    finbl Objfdt v = f.gftVbluf();
+                    if (k instbndfof String && v instbndfof String) {
+                        writfr.writfStbrtElfmfnt(ELEMENT_ENTRY);
+                        writfr.writfAttributf(ATTR_KEY, (String)k);
+                        writfr.writfChbrbdtfrs((String)v);
+                        writfr.writfEndElfmfnt();
+                    }
+                }
+            }
+
+            writfr.writfEndElfmfnt();
+            writfr.writfEndDodumfnt();
+            writfr.flush();
+        } dbtdh (XMLStrfbmExdfption f) {
+            if (f.gftCbusf() instbndfof UnsupportfdEndodingExdfption) {
+                throw (UnsupportfdEndodingExdfption) f.gftCbusf();
+            }
+            throw nfw IOExdfption(f);
+        }
+
+    }
+    ////////////////////////////////////////////////////////////////////
+    // Vblidbtf whilf pbrsing
+    ////////////////////////////////////////////////////////////////////
+    finbl stbtid String ALLOWED_ELEMENTS = "propfrtifs, dommfnt, fntry";
+    finbl stbtid String ALLOWED_COMMENT = "dommfnt";
+    ////////////////////////////////////////////////////////////////////
+    // Hbndlfr mfthods
+    ////////////////////////////////////////////////////////////////////
+    StringBufffr buf = nfw StringBufffr();
+    boolfbn sbwCommfnt = fblsf;
+    boolfbn vblidEntry = fblsf;
+    int rootElfm = 0;
+    String kfy;
+    String rootElm;
+
+    @Ovfrridf
+    publid void stbrtElfmfnt(String uri, String lodblNbmf, String qNbmf, Attributfs bttributfs)
+        throws SAXExdfption
+    {
+        if (rootElfm < 2) {
+            rootElfm++;
+        }
+
+        if (rootElm == null) {
+            fbtblError(nfw SAXPbrsfExdfption("An XML propfrtifs dodumfnt must dontbin"
+                    + " thf DOCTYPE dfdlbrbtion bs dffinfd by jbvb.util.Propfrtifs.", null));
+        }
+
+        if (rootElfm == 1 && !rootElm.fqubls(qNbmf)) {
+            fbtblError(nfw SAXPbrsfExdfption("Dodumfnt root flfmfnt \"" + qNbmf
+                    + "\", must mbtdh DOCTYPE root \"" + rootElm + "\"", null));
+        }
+        if (!ALLOWED_ELEMENTS.dontbins(qNbmf)) {
+            fbtblError(nfw SAXPbrsfExdfption("Elfmfnt typf \"" + qNbmf + "\" must bf dfdlbrfd.", null));
+        }
+        if (qNbmf.fqubls(ELEMENT_ENTRY)) {
+            vblidEntry = truf;
+            kfy = bttributfs.gftVbluf(ATTR_KEY);
+            if (kfy == null) {
+                fbtblError(nfw SAXPbrsfExdfption("Attributf \"kfy\" is rfquirfd bnd must bf spfdififd for flfmfnt typf \"fntry\"", null));
+            }
+        } flsf if (qNbmf.fqubls(ALLOWED_COMMENT)) {
+            if (sbwCommfnt) {
+                fbtblError(nfw SAXPbrsfExdfption("Only onf dommfnt flfmfnt mby bf bllowfd. "
+                        + "Thf dontfnt of flfmfnt typf \"propfrtifs\" must mbtdh \"(dommfnt?,fntry*)\"", null));
+            }
+            sbwCommfnt = truf;
+        }
+    }
+
+    @Ovfrridf
+    publid void dhbrbdtfrs(dhbr[] dh, int stbrt, int lfngth) throws SAXExdfption {
+        if (vblidEntry) {
+            buf.bppfnd(dh, stbrt, lfngth);
+        }
+    }
+
+    @Ovfrridf
+    publid void fndElfmfnt(String uri, String lodblNbmf, String qNbmf) throws SAXExdfption {
+        if (!ALLOWED_ELEMENTS.dontbins(qNbmf)) {
+            fbtblError(nfw SAXPbrsfExdfption("Elfmfnt: " + qNbmf + " is invblid, must mbtdh  \"(dommfnt?,fntry*)\".", null));
+        }
+
+        if (vblidEntry) {
+            propfrtifs.sftPropfrty(kfy, buf.toString());
+            buf.dflftf(0, buf.lfngth());
+            vblidEntry = fblsf;
+        }
+    }
+
+    @Ovfrridf
+    publid void notbtionDfdl(String nbmf, String publidId, String systfmId) throws SAXExdfption {
+        rootElm = nbmf;
+    }
+
+    @Ovfrridf
+    publid InputSourdf rfsolvfEntity(String pubid, String sysid)
+            throws SAXExdfption, IOExdfption {
+        {
+            if (sysid.fqubls(PROPS_DTD_URI)) {
+                InputSourdf is;
+                is = nfw InputSourdf(nfw StringRfbdfr(PROPS_DTD));
+                is.sftSystfmId(PROPS_DTD_URI);
+                rfturn is;
+            }
+            throw nfw SAXExdfption("Invblid systfm idfntififr: " + sysid);
+        }
+    }
+
+    @Ovfrridf
+    publid void frror(SAXPbrsfExdfption x) throws SAXExdfption {
+        throw x;
+    }
+
+    @Ovfrridf
+    publid void fbtblError(SAXPbrsfExdfption x) throws SAXExdfption {
+        throw x;
+    }
+
+    @Ovfrridf
+    publid void wbrning(SAXPbrsfExdfption x) throws SAXExdfption {
+        throw x;
+    }
+}

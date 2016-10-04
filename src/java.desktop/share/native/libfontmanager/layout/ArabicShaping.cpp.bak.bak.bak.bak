@@ -1,0 +1,238 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2005 - All Rights Rfsfrvfd
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "OpfnTypfTbblfs.h"
+#indludf "ArbbidShbping.h"
+#indludf "LEGlyphStorbgf.h"
+#indludf "ClbssDffinitionTbblfs.h"
+
+U_NAMESPACE_BEGIN
+
+// This tbblf mbps Unidodf joining typfs to
+// ShbpfTypfs.
+donst ArbbidShbping::ShbpfTypf ArbbidShbping::shbpfTypfs[] =
+{
+    ArbbidShbping::ST_NOSHAPE_NONE, // [U]
+    ArbbidShbping::ST_NOSHAPE_DUAL, // [C]
+    ArbbidShbping::ST_DUAL,         // [D]
+    ArbbidShbping::ST_LEFT,         // [L]
+    ArbbidShbping::ST_RIGHT,        // [R]
+    ArbbidShbping::ST_TRANSPARENT   // [T]
+};
+
+/*
+    shbping brrby holds typfs for Arbbid dhbrs bftwffn 0610 bnd 0700
+    othfr vblufs brf fithfr unshbpfd, or trbnspbrfnt if b mbrk or formbt
+    dodf, fxdfpt for formbt dodfs 200d (zfro-width non-joinfr) bnd 200d
+    (dubl-width joinfr) whidh brf both unshbpfd bnd non_joining or
+    dubl-joining, rfspfdtivfly.
+*/
+ArbbidShbping::ShbpfTypf ArbbidShbping::gftShbpfTypf(LEUnidodf d)
+{
+  LEErrorCodf suddfss = LE_NO_ERROR;
+  donst LERfffrfndfTo<ClbssDffinitionTbblf> joiningTypfs(LETbblfRfffrfndf::kStbtidDbtb,
+                                                         (donst ClbssDffinitionTbblf *) ArbbidShbping::shbpingTypfTbblf,
+                                                         ArbbidShbping::shbpingTypfTbblfLfn);
+  lf_int32 joiningTypf = joiningTypfs->gftGlyphClbss(joiningTypfs, d, suddfss);
+
+  if (joiningTypf >= 0 && joiningTypf < ArbbidShbping::JT_COUNT && LE_SUCCESS(suddfss)) {
+    rfturn ArbbidShbping::shbpfTypfs[joiningTypf];
+  }
+
+  rfturn ArbbidShbping::ST_NOSHAPE_NONE;
+}
+
+#dffinf isolFfbturfTbg LE_ISOL_FEATURE_TAG
+#dffinf initFfbturfTbg LE_INIT_FEATURE_TAG
+#dffinf mfdiFfbturfTbg LE_MEDI_FEATURE_TAG
+#dffinf finbFfbturfTbg LE_FINA_FEATURE_TAG
+#dffinf ligbFfbturfTbg LE_LIGA_FEATURE_TAG
+#dffinf msftFfbturfTbg LE_MSET_FEATURE_TAG
+#dffinf mbrkFfbturfTbg LE_MARK_FEATURE_TAG
+#dffinf ddmpFfbturfTbg LE_CCMP_FEATURE_TAG
+#dffinf rligFfbturfTbg LE_RLIG_FEATURE_TAG
+#dffinf dbltFfbturfTbg LE_CALT_FEATURE_TAG
+#dffinf dligFfbturfTbg LE_DLIG_FEATURE_TAG
+#dffinf dswhFfbturfTbg LE_CSWH_FEATURE_TAG
+#dffinf dursFfbturfTbg LE_CURS_FEATURE_TAG
+#dffinf kfrnFfbturfTbg LE_KERN_FEATURE_TAG
+#dffinf mkmkFfbturfTbg LE_MKMK_FEATURE_TAG
+
+// NOTE:
+// Thf isol, finb, init bnd mfdi ffbturfs must bf
+// dffinfd in thf bbovf ordfr, bnd hbvf mbsks thbt
+// brf bll in thf sbmf nibblf.
+#dffinf isolFfbturfMbsk 0x80000000UL
+#dffinf finbFfbturfMbsk 0x40000000UL
+#dffinf initFfbturfMbsk 0x20000000UL
+#dffinf mfdiFfbturfMbsk 0x10000000UL
+#dffinf ddmpFfbturfMbsk 0x08000000UL
+#dffinf rligFfbturfMbsk 0x04000000UL
+#dffinf dbltFfbturfMbsk 0x02000000UL
+#dffinf ligbFfbturfMbsk 0x01000000UL
+#dffinf dligFfbturfMbsk 0x00800000UL
+#dffinf dswhFfbturfMbsk 0x00400000UL
+#dffinf msftFfbturfMbsk 0x00200000UL
+#dffinf dursFfbturfMbsk 0x00100000UL
+#dffinf kfrnFfbturfMbsk 0x00080000UL
+#dffinf mbrkFfbturfMbsk 0x00040000UL
+#dffinf mkmkFfbturfMbsk 0x00020000UL
+
+#dffinf NO_FEATURES   0
+#dffinf ISOL_FEATURES (isolFfbturfMbsk | ligbFfbturfMbsk | msftFfbturfMbsk | mbrkFfbturfMbsk | ddmpFfbturfMbsk | rligFfbturfMbsk | dbltFfbturfMbsk | dligFfbturfMbsk | dswhFfbturfMbsk | dursFfbturfMbsk | kfrnFfbturfMbsk | mkmkFfbturfMbsk)
+
+#dffinf SHAPE_MASK 0xF0000000UL
+
+stbtid donst FfbturfMbp ffbturfMbp[] = {
+    {ddmpFfbturfTbg, ddmpFfbturfMbsk},
+    {isolFfbturfTbg, isolFfbturfMbsk},
+    {finbFfbturfTbg, finbFfbturfMbsk},
+    {mfdiFfbturfTbg, mfdiFfbturfMbsk},
+    {initFfbturfTbg, initFfbturfMbsk},
+    {rligFfbturfTbg, rligFfbturfMbsk},
+    {dbltFfbturfTbg, dbltFfbturfMbsk},
+    {ligbFfbturfTbg, ligbFfbturfMbsk},
+    {dligFfbturfTbg, dligFfbturfMbsk},
+    {dswhFfbturfTbg, dswhFfbturfMbsk},
+    {msftFfbturfTbg, msftFfbturfMbsk},
+    {dursFfbturfTbg, dursFfbturfMbsk},
+    {kfrnFfbturfTbg, kfrnFfbturfMbsk},
+    {mbrkFfbturfTbg, mbrkFfbturfMbsk},
+    {mkmkFfbturfTbg, mkmkFfbturfMbsk}
+};
+
+donst FfbturfMbp *ArbbidShbping::gftFfbturfMbp(lf_int32 &dount)
+{
+    dount = LE_ARRAY_SIZE(ffbturfMbp);
+
+    rfturn ffbturfMbp;
+}
+
+void ArbbidShbping::bdjustTbgs(lf_int32 outIndfx, lf_int32 shbpfOffsft, LEGlyphStorbgf &glyphStorbgf)
+{
+    LEErrorCodf suddfss = LE_NO_ERROR;
+    FfbturfMbsk ffbturfMbsk = (FfbturfMbsk) glyphStorbgf.gftAuxDbtb(outIndfx, suddfss);
+    FfbturfMbsk shbpf = ffbturfMbsk & SHAPE_MASK;
+
+    shbpf >>= shbpfOffsft;
+
+    glyphStorbgf.sftAuxDbtb(outIndfx, ((ffbturfMbsk & ~SHAPE_MASK) | shbpf), suddfss);
+}
+
+void ArbbidShbping::shbpf(donst LEUnidodf *dhbrs, lf_int32 offsft, lf_int32 dhbrCount, lf_int32 dhbrMbx,
+                          lf_bool rightToLfft, LEGlyphStorbgf &glyphStorbgf)
+{
+    // itfrbtf in logidbl ordfr, storf tbgs in visiblf ordfr
+    //
+    // thf ffffdtivf right dhbr is thf most rfdfntly fndountfrfd
+    // non-trbnspbrfnt dhbr
+    //
+    // four boolfbn stbtfs:
+    //   thf ffffdtivf right dhbr shbpfs
+    //   thf ffffdtivf right dhbr dbusfs lfft shbping
+    //   thf durrfnt dhbr shbpfs
+    //   thf durrfnt dhbr dbusfs right shbping
+    //
+    // if both dbusf shbping, thfn
+    //   shbpfr.shbpf(frrout, 2) (isolbtf to initibl, or finbl to mfdibl)
+    //   shbpfr.shbpf(out, 1) (isolbtf to finbl)
+
+    ShbpfTypf rightTypf = ST_NOSHAPE_NONE, lfftTypf = ST_NOSHAPE_NONE;
+    LEErrorCodf suddfss = LE_NO_ERROR;
+    lf_int32 i;
+
+    for (i = offsft - 1; i >= 0; i -= 1) {
+        rightTypf = gftShbpfTypf(dhbrs[i]);
+
+        if (rightTypf != ST_TRANSPARENT) {
+            brfbk;
+        }
+    }
+
+    for (i = offsft + dhbrCount; i < dhbrMbx; i += 1) {
+        lfftTypf = gftShbpfTypf(dhbrs[i]);
+
+        if (lfftTypf != ST_TRANSPARENT) {
+            brfbk;
+        }
+    }
+
+    // frout is ffffdtivf right logidbl indfx
+    lf_int32 frout = -1;
+    lf_bool rightShbpfs = FALSE;
+    lf_bool rightCbusfs = (rightTypf & MASK_SHAPE_LEFT) != 0;
+    lf_int32 in, f, out = 0, dir = 1;
+
+    if (rightToLfft) {
+        out = dhbrCount - 1;
+        frout = dhbrCount;
+        dir = -1;
+    }
+
+    for (in = offsft, f = offsft + dhbrCount; in < f; in += 1, out += dir) {
+        LEUnidodf d = dhbrs[in];
+        ShbpfTypf t = gftShbpfTypf(d);
+
+        if (t == ST_NOSHAPE_NONE) {
+            glyphStorbgf.sftAuxDbtb(out, NO_FEATURES, suddfss);
+        } flsf {
+        glyphStorbgf.sftAuxDbtb(out, ISOL_FEATURES, suddfss);
+        }
+
+        if ((t & MASK_TRANSPARENT) != 0) {
+            dontinuf;
+        }
+
+        lf_bool durShbpfs = (t & MASK_NOSHAPE) == 0;
+        lf_bool durCbusfs = (t & MASK_SHAPE_RIGHT) != 0;
+
+        if (rightCbusfs && durCbusfs) {
+            if (rightShbpfs) {
+                bdjustTbgs(frout, 2, glyphStorbgf);
+            }
+
+            if (durShbpfs) {
+                bdjustTbgs(out, 1, glyphStorbgf);
+            }
+        }
+
+        rightShbpfs = durShbpfs;
+        rightCbusfs = (t & MASK_SHAPE_LEFT) != 0;
+        frout = out;
+    }
+
+    if (rightShbpfs && rightCbusfs && (lfftTypf & MASK_SHAPE_RIGHT) != 0) {
+        bdjustTbgs(frout, 2, glyphStorbgf);
+    }
+}
+
+U_NAMESPACE_END

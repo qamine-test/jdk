@@ -1,445 +1,445 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jdi;
+pbdkbgf dom.sun.jdi;
 
-import java.util.List;
-import java.util.Map;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
 /**
- * An object that currently exists in the target VM. An ObjectReference
- * mirrors only the object itself and is not specific to any
- * {@link Field} or {@link LocalVariable} to which it is currently
- * assigned. An ObjectReference can
- * have 0 or more references from field(s) and/or variable(s).
+ * An objfdt tibt durrfntly fxists in tif tbrgft VM. An ObjfdtRfffrfndf
+ * mirrors only tif objfdt itsflf bnd is not spfdifid to bny
+ * {@link Fifld} or {@link LodblVbribblf} to wiidi it is durrfntly
+ * bssignfd. An ObjfdtRfffrfndf dbn
+ * ibvf 0 or morf rfffrfndfs from fifld(s) bnd/or vbribblf(s).
  * <p>
- * Any method on <code>ObjectReference</code> which directly or
- * indirectly takes <code>ObjectReference</code> as an parameter may throw
- * {@link com.sun.jdi.VMDisconnectedException} if the target VM is
- * disconnected and the {@link com.sun.jdi.event.VMDisconnectEvent} has been or is
- * available to be read from the {@link com.sun.jdi.event.EventQueue}.
+ * Any mftiod on <dodf>ObjfdtRfffrfndf</dodf> wiidi dirfdtly or
+ * indirfdtly tbkfs <dodf>ObjfdtRfffrfndf</dodf> bs bn pbrbmftfr mby tirow
+ * {@link dom.sun.jdi.VMDisdonnfdtfdExdfption} if tif tbrgft VM is
+ * disdonnfdtfd bnd tif {@link dom.sun.jdi.fvfnt.VMDisdonnfdtEvfnt} ibs bffn or is
+ * bvbilbblf to bf rfbd from tif {@link dom.sun.jdi.fvfnt.EvfntQufuf}.
  * <p>
- * Any method on <code>ObjectReference</code> which directly or
- * indirectly takes <code>ObjectReference</code> as an parameter may throw
- * {@link com.sun.jdi.VMOutOfMemoryException} if the target VM has run out of memory.
+ * Any mftiod on <dodf>ObjfdtRfffrfndf</dodf> wiidi dirfdtly or
+ * indirfdtly tbkfs <dodf>ObjfdtRfffrfndf</dodf> bs bn pbrbmftfr mby tirow
+ * {@link dom.sun.jdi.VMOutOfMfmoryExdfption} if tif tbrgft VM ibs run out of mfmory.
  * <p>
- * Any method on <code>ObjectReference</code> or which directly or indirectly takes
- * <code>ObjectReference</code> as parameter may throw
- * {@link com.sun.jdi.ObjectCollectedException} if the mirrored object has been
- * garbage collected.
+ * Any mftiod on <dodf>ObjfdtRfffrfndf</dodf> or wiidi dirfdtly or indirfdtly tbkfs
+ * <dodf>ObjfdtRfffrfndf</dodf> bs pbrbmftfr mby tirow
+ * {@link dom.sun.jdi.ObjfdtCollfdtfdExdfption} if tif mirrorfd objfdt ibs bffn
+ * gbrbbgf dollfdtfd.
  *
- * @author Robert Field
- * @author Gordon Hirsch
- * @author James McIlree
- * @since  1.3
+ * @butior Robfrt Fifld
+ * @butior Gordon Hirsdi
+ * @butior Jbmfs MdIlrff
+ * @sindf  1.3
  */
-@jdk.Exported
-public interface ObjectReference extends Value {
+@jdk.Exportfd
+publid intfrfbdf ObjfdtRfffrfndf fxtfnds Vbluf {
 
     /**
-     * Gets the {@link ReferenceType} that mirrors the type
-     * of this object. The type may be a subclass or implementor of the
-     * declared type of any field or variable which currently holds it.
-     * For example, right after the following statement.
+     * Gfts tif {@link RfffrfndfTypf} tibt mirrors tif typf
+     * of tiis objfdt. Tif typf mby bf b subdlbss or implfmfntor of tif
+     * dfdlbrfd typf of bny fifld or vbribblf wiidi durrfntly iolds it.
+     * For fxbmplf, rigit bftfr tif following stbtfmfnt.
      * <p>
-     * <code>Object obj = new String("Hello, world!");</code>
+     * <dodf>Objfdt obj = nfw String("Hfllo, world!");</dodf>
      * <p>
-     * The ReferenceType of obj will mirror java.lang.String and not
-     * java.lang.Object.
+     * Tif RfffrfndfTypf of obj will mirror jbvb.lbng.String bnd not
+     * jbvb.lbng.Objfdt.
      * <p>
-     * The type of an object never changes, so this method will
-     * always return the same ReferenceType over the lifetime of the
-     * mirrored object.
+     * Tif typf of bn objfdt nfvfr dibngfs, so tiis mftiod will
+     * blwbys rfturn tif sbmf RfffrfndfTypf ovfr tif lifftimf of tif
+     * mirrorfd objfdt.
      * <p>
-     * The returned ReferenceType will be a {@link ClassType} or
-     * {@link ArrayType} and never an {@link InterfaceType}.
+     * Tif rfturnfd RfffrfndfTypf will bf b {@link ClbssTypf} or
+     * {@link ArrbyTypf} bnd nfvfr bn {@link IntfrfbdfTypf}.
      *
-     * @return the {@link ReferenceType} for this object.
+     * @rfturn tif {@link RfffrfndfTypf} for tiis objfdt.
      */
-    ReferenceType referenceType();
+    RfffrfndfTypf rfffrfndfTypf();
 
     /**
-     * Gets the value of a given instance or static field in this object.
-     * The Field must be valid for this ObjectReference;
-     * that is, it must be from
-     * the mirrored object's class or a superclass of that class.
+     * Gfts tif vbluf of b givfn instbndf or stbtid fifld in tiis objfdt.
+     * Tif Fifld must bf vblid for tiis ObjfdtRfffrfndf;
+     * tibt is, it must bf from
+     * tif mirrorfd objfdt's dlbss or b supfrdlbss of tibt dlbss.
      *
-     * @param sig the field containing the requested value
-     * @return the {@link Value} of the instance field.
-     * @throws java.lang.IllegalArgumentException if the field is not valid for
-     * this object's class.
+     * @pbrbm sig tif fifld dontbining tif rfqufstfd vbluf
+     * @rfturn tif {@link Vbluf} of tif instbndf fifld.
+     * @tirows jbvb.lbng.IllfgblArgumfntExdfption if tif fifld is not vblid for
+     * tiis objfdt's dlbss.
      */
-    Value getValue(Field sig);
+    Vbluf gftVbluf(Fifld sig);
 
     /**
-     * Gets the value of multiple instance and/or static fields in this object.
-     * The Fields must be valid for this ObjectReference;
-     * that is, they must be from
-     * the mirrored object's class or a superclass of that class.
+     * Gfts tif vbluf of multiplf instbndf bnd/or stbtid fiflds in tiis objfdt.
+     * Tif Fiflds must bf vblid for tiis ObjfdtRfffrfndf;
+     * tibt is, tify must bf from
+     * tif mirrorfd objfdt's dlbss or b supfrdlbss of tibt dlbss.
      *
-     * @param fields a list of {@link Field} objects containing the
-     * requested values.
-     * @return a Map of the requested {@link Field} objects with
-     * their {@link Value}.
-     * @throws java.lang.IllegalArgumentException if any field is not valid for
-     * this object's class.
+     * @pbrbm fiflds b list of {@link Fifld} objfdts dontbining tif
+     * rfqufstfd vblufs.
+     * @rfturn b Mbp of tif rfqufstfd {@link Fifld} objfdts witi
+     * tifir {@link Vbluf}.
+     * @tirows jbvb.lbng.IllfgblArgumfntExdfption if bny fifld is not vblid for
+     * tiis objfdt's dlbss.
      */
-    Map<Field,Value> getValues(List<? extends Field> fields);
+    Mbp<Fifld,Vbluf> gftVblufs(List<? fxtfnds Fifld> fiflds);
 
     /**
-     * Sets the value of a given instance or static field in this object.
-     * The {@link Field} must be valid for this ObjectReference; that is,
-     * it must be from the mirrored object's class or a superclass of that class.
-     * If static, the field must not be final.
+     * Sfts tif vbluf of b givfn instbndf or stbtid fifld in tiis objfdt.
+     * Tif {@link Fifld} must bf vblid for tiis ObjfdtRfffrfndf; tibt is,
+     * it must bf from tif mirrorfd objfdt's dlbss or b supfrdlbss of tibt dlbss.
+     * If stbtid, tif fifld must not bf finbl.
      * <p>
-     * Object values must be assignment compatible with the field type
-     * (This implies that the field type must be loaded through the
-     * enclosing class's class loader). Primitive values must be
-     * either assignment compatible with the field type or must be
-     * convertible to the field type without loss of information.
-     * See section 5.2 of
-     * <cite>The Java&trade; Language Specification</cite>
-     * for more information on assignment
-     * compatibility.
+     * Objfdt vblufs must bf bssignmfnt dompbtiblf witi tif fifld typf
+     * (Tiis implifs tibt tif fifld typf must bf lobdfd tirougi tif
+     * fndlosing dlbss's dlbss lobdfr). Primitivf vblufs must bf
+     * fitifr bssignmfnt dompbtiblf witi tif fifld typf or must bf
+     * donvfrtiblf to tif fifld typf witiout loss of informbtion.
+     * Sff sfdtion 5.2 of
+     * <ditf>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>
+     * for morf informbtion on bssignmfnt
+     * dompbtibility.
      *
-     * @param field the field containing the requested value
-     * @param value the new value to assign
-     * @throws java.lang.IllegalArgumentException if the field is not valid for
-     * this object's class.
-     * @throws InvalidTypeException if the value's type does not match
-     * the field's type.
-     * @throws ClassNotLoadedException if 'value' is not null, and the field
-     * type has not yet been loaded through the appropriate class loader.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @pbrbm fifld tif fifld dontbining tif rfqufstfd vbluf
+     * @pbrbm vbluf tif nfw vbluf to bssign
+     * @tirows jbvb.lbng.IllfgblArgumfntExdfption if tif fifld is not vblid for
+     * tiis objfdt's dlbss.
+     * @tirows InvblidTypfExdfption if tif vbluf's typf dofs not mbtdi
+     * tif fifld's typf.
+     * @tirows ClbssNotLobdfdExdfption if 'vbluf' is not null, bnd tif fifld
+     * typf ibs not yft bffn lobdfd tirougi tif bppropribtf dlbss lobdfr.
+     * @tirows VMCbnnotBfModififdExdfption if tif VirtublMbdiinf is rfbd-only - sff {@link VirtublMbdiinf#dbnBfModififd()}.
      */
-    void setValue(Field field, Value value)
-        throws InvalidTypeException, ClassNotLoadedException;
+    void sftVbluf(Fifld fifld, Vbluf vbluf)
+        tirows InvblidTypfExdfption, ClbssNotLobdfdExdfption;
 
-    /** Perform method invocation with only the invoking thread resumed */
-    static final int INVOKE_SINGLE_THREADED = 0x1;
-    /** Perform non-virtual method invocation */
-    static final int INVOKE_NONVIRTUAL      = 0x2;
+    /** Pfrform mftiod invodbtion witi only tif invoking tirfbd rfsumfd */
+    stbtid finbl int INVOKE_SINGLE_THREADED = 0x1;
+    /** Pfrform non-virtubl mftiod invodbtion */
+    stbtid finbl int INVOKE_NONVIRTUAL      = 0x2;
 
     /**
-     * Invokes the specified {@link Method} on this object in the
-     * target VM. The
-     * specified method can be defined in this object's class,
-     * in a superclass of this object's class, or in an interface
-     * implemented by this object. The method may be a static method
-     * or an instance method, but not a static initializer or constructor.
-     * Use {@link ClassType#newInstance} to create a new object and
-     * run its constructor.
+     * Invokfs tif spfdififd {@link Mftiod} on tiis objfdt in tif
+     * tbrgft VM. Tif
+     * spfdififd mftiod dbn bf dffinfd in tiis objfdt's dlbss,
+     * in b supfrdlbss of tiis objfdt's dlbss, or in bn intfrfbdf
+     * implfmfntfd by tiis objfdt. Tif mftiod mby bf b stbtid mftiod
+     * or bn instbndf mftiod, but not b stbtid initiblizfr or donstrudtor.
+     * Usf {@link ClbssTypf#nfwInstbndf} to drfbtf b nfw objfdt bnd
+     * run its donstrudtor.
      * <p>
-     * The method invocation will occur in the specified thread.
-     * Method invocation can occur only if the specified thread
-     * has been suspended by an event which occurred in that thread.
-     * Method invocation is not supported
-     * when the target VM has been suspended through
-     * {@link VirtualMachine#suspend} or when the specified thread
-     * is suspended through {@link ThreadReference#suspend}.
+     * Tif mftiod invodbtion will oddur in tif spfdififd tirfbd.
+     * Mftiod invodbtion dbn oddur only if tif spfdififd tirfbd
+     * ibs bffn suspfndfd by bn fvfnt wiidi oddurrfd in tibt tirfbd.
+     * Mftiod invodbtion is not supportfd
+     * wifn tif tbrgft VM ibs bffn suspfndfd tirougi
+     * {@link VirtublMbdiinf#suspfnd} or wifn tif spfdififd tirfbd
+     * is suspfndfd tirougi {@link TirfbdRfffrfndf#suspfnd}.
      * <p>
-     * The specified method is invoked with the arguments in the specified
-     * argument list.  The method invocation is synchronous; this method
-     * does not return until the invoked method returns in the target VM.
-     * If the invoked method throws an exception, this method
-     * will throw an {@link InvocationException} which contains
-     * a mirror to the exception object thrown.
+     * Tif spfdififd mftiod is invokfd witi tif brgumfnts in tif spfdififd
+     * brgumfnt list.  Tif mftiod invodbtion is syndironous; tiis mftiod
+     * dofs not rfturn until tif invokfd mftiod rfturns in tif tbrgft VM.
+     * If tif invokfd mftiod tirows bn fxdfption, tiis mftiod
+     * will tirow bn {@link InvodbtionExdfption} wiidi dontbins
+     * b mirror to tif fxdfption objfdt tirown.
      * <p>
-     * Object arguments must be assignment compatible with the argument type
-     * (This implies that the argument type must be loaded through the
-     * enclosing class's class loader). Primitive arguments must be
-     * either assignment compatible with the argument type or must be
-     * convertible to the argument type without loss of information.
-     * If the method being called accepts a variable number of arguments,
-     * then the last argument type is an array of some component type.
-     * The argument in the matching position can be omitted, or can be null,
-     * an array of the same component type, or an argument of the
-     * component type followed by any number of other arguments of the same
-     * type. If the argument is omitted, then a 0 length array of the
-     * component type is passed.  The component type can be a primitive type.
-     * Autoboxing is not supported.
+     * Objfdt brgumfnts must bf bssignmfnt dompbtiblf witi tif brgumfnt typf
+     * (Tiis implifs tibt tif brgumfnt typf must bf lobdfd tirougi tif
+     * fndlosing dlbss's dlbss lobdfr). Primitivf brgumfnts must bf
+     * fitifr bssignmfnt dompbtiblf witi tif brgumfnt typf or must bf
+     * donvfrtiblf to tif brgumfnt typf witiout loss of informbtion.
+     * If tif mftiod bfing dbllfd bddfpts b vbribblf numbfr of brgumfnts,
+     * tifn tif lbst brgumfnt typf is bn brrby of somf domponfnt typf.
+     * Tif brgumfnt in tif mbtdiing position dbn bf omittfd, or dbn bf null,
+     * bn brrby of tif sbmf domponfnt typf, or bn brgumfnt of tif
+     * domponfnt typf followfd by bny numbfr of otifr brgumfnts of tif sbmf
+     * typf. If tif brgumfnt is omittfd, tifn b 0 lfngti brrby of tif
+     * domponfnt typf is pbssfd.  Tif domponfnt typf dbn bf b primitivf typf.
+     * Autoboxing is not supportfd.
      *
-     * See section 5.2 of
-     * <cite>The Java&trade; Language Specification</cite>
-     * for more information on assignment compatibility.
+     * Sff sfdtion 5.2 of
+     * <ditf>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>
+     * for morf informbtion on bssignmfnt dompbtibility.
      * <p>
-     * By default, the method is invoked using dynamic lookup as
-     * documented in section 15.12.4.4 of
-     * <cite>The Java&trade; Language Specification</cite>
-     * in particular, overriding based on the runtime type of the object
-     * mirrored by this {@link ObjectReference} will occur. This
-     * behavior can be changed by specifying the
-     * {@link #INVOKE_NONVIRTUAL} bit flag in the <code>options</code>
-     * argument. If this flag is set, the specified method is invoked
-     * whether or not it is overridden for this object's runtime type.
-     * The method, in this case, must have an implementation, either in a class
-     * or an interface. This option is useful for performing method invocations
-     * like those done with the <code>super</code> keyword in the Java programming
-     * language.
+     * By dffbult, tif mftiod is invokfd using dynbmid lookup bs
+     * dodumfntfd in sfdtion 15.12.4.4 of
+     * <ditf>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>
+     * in pbrtidulbr, ovfrriding bbsfd on tif runtimf typf of tif objfdt
+     * mirrorfd by tiis {@link ObjfdtRfffrfndf} will oddur. Tiis
+     * bfibvior dbn bf dibngfd by spfdifying tif
+     * {@link #INVOKE_NONVIRTUAL} bit flbg in tif <dodf>options</dodf>
+     * brgumfnt. If tiis flbg is sft, tif spfdififd mftiod is invokfd
+     * wiftifr or not it is ovfrriddfn for tiis objfdt's runtimf typf.
+     * Tif mftiod, in tiis dbsf, must ibvf bn implfmfntbtion, fitifr in b dlbss
+     * or bn intfrfbdf. Tiis option is usfful for pfrforming mftiod invodbtions
+     * likf tiosf donf witi tif <dodf>supfr</dodf> kfyword in tif Jbvb progrbmming
+     * lbngubgf.
      * <p>
-     * By default, all threads in the target VM are resumed while
-     * the method is being invoked if they were previously
-     * suspended by an event or by {@link VirtualMachine#suspend} or
-     * {@link ThreadReference#suspend}. This is done to prevent the deadlocks
-     * that will occur if any of the threads own monitors
-     * that will be needed by the invoked method.
-     * Note, however, that this implicit resume acts exactly like
-     * {@link ThreadReference#resume}, so if the thread's suspend
-     * count is greater than 1, it will remain in a suspended state
-     * during the invocation and thus a deadlock could still occur.
-     * By default, when the invocation completes,
-     * all threads in the target VM are suspended, regardless their state
-     * before the invocation.
-     * It is possible that
-     * breakpoints or other events might occur during the invocation.
-     * This can cause deadlocks as described above. It can also cause a deadlock
-     * if invokeMethod is called from the client's event handler thread.  In this
-     * case, this thread will be waiting for the invokeMethod to complete and
-     * won't read the EventSet that comes in for the new event.  If this
-     * new EventSet is SUSPEND_ALL, then a deadlock will occur because no
-     * one will resume the EventSet.  To avoid this, all EventRequests should
-     * be disabled before doing the invokeMethod, or the invokeMethod should
-     * not be done from the client's event handler thread.
+     * By dffbult, bll tirfbds in tif tbrgft VM brf rfsumfd wiilf
+     * tif mftiod is bfing invokfd if tify wfrf prfviously
+     * suspfndfd by bn fvfnt or by {@link VirtublMbdiinf#suspfnd} or
+     * {@link TirfbdRfffrfndf#suspfnd}. Tiis is donf to prfvfnt tif dfbdlodks
+     * tibt will oddur if bny of tif tirfbds own monitors
+     * tibt will bf nffdfd by tif invokfd mftiod.
+     * Notf, iowfvfr, tibt tiis implidit rfsumf bdts fxbdtly likf
+     * {@link TirfbdRfffrfndf#rfsumf}, so if tif tirfbd's suspfnd
+     * dount is grfbtfr tibn 1, it will rfmbin in b suspfndfd stbtf
+     * during tif invodbtion bnd tius b dfbdlodk dould still oddur.
+     * By dffbult, wifn tif invodbtion domplftfs,
+     * bll tirfbds in tif tbrgft VM brf suspfndfd, rfgbrdlfss tifir stbtf
+     * bfforf tif invodbtion.
+     * It is possiblf tibt
+     * brfbkpoints or otifr fvfnts migit oddur during tif invodbtion.
+     * Tiis dbn dbusf dfbdlodks bs dfsdribfd bbovf. It dbn blso dbusf b dfbdlodk
+     * if invokfMftiod is dbllfd from tif dlifnt's fvfnt ibndlfr tirfbd.  In tiis
+     * dbsf, tiis tirfbd will bf wbiting for tif invokfMftiod to domplftf bnd
+     * won't rfbd tif EvfntSft tibt domfs in for tif nfw fvfnt.  If tiis
+     * nfw EvfntSft is SUSPEND_ALL, tifn b dfbdlodk will oddur bfdbusf no
+     * onf will rfsumf tif EvfntSft.  To bvoid tiis, bll EvfntRfqufsts siould
+     * bf disbblfd bfforf doing tif invokfMftiod, or tif invokfMftiod siould
+     * not bf donf from tif dlifnt's fvfnt ibndlfr tirfbd.
      * <p>
-     * The resumption of other threads during the invocation can be prevented
-     * by specifying the {@link #INVOKE_SINGLE_THREADED}
-     * bit flag in the <code>options</code> argument; however,
-     * there is no protection against or recovery from the deadlocks
-     * described above, so this option should be used with great caution.
-     * Only the specified thread will be resumed (as described for all
-     * threads above). Upon completion of a single threaded invoke, the invoking thread
-     * will be suspended once again. Note that any threads started during
-     * the single threaded invocation will not be suspended when the
-     * invocation completes.
+     * Tif rfsumption of otifr tirfbds during tif invodbtion dbn bf prfvfntfd
+     * by spfdifying tif {@link #INVOKE_SINGLE_THREADED}
+     * bit flbg in tif <dodf>options</dodf> brgumfnt; iowfvfr,
+     * tifrf is no protfdtion bgbinst or rfdovfry from tif dfbdlodks
+     * dfsdribfd bbovf, so tiis option siould bf usfd witi grfbt dbution.
+     * Only tif spfdififd tirfbd will bf rfsumfd (bs dfsdribfd for bll
+     * tirfbds bbovf). Upon domplftion of b singlf tirfbdfd invokf, tif invoking tirfbd
+     * will bf suspfndfd ondf bgbin. Notf tibt bny tirfbds stbrtfd during
+     * tif singlf tirfbdfd invodbtion will not bf suspfndfd wifn tif
+     * invodbtion domplftfs.
      * <p>
-     * If the target VM is disconnected during the invoke (for example, through
-     * {@link VirtualMachine#dispose}) the method invocation continues.
+     * If tif tbrgft VM is disdonnfdtfd during tif invokf (for fxbmplf, tirougi
+     * {@link VirtublMbdiinf#disposf}) tif mftiod invodbtion dontinufs.
      *
-     * @param thread the thread in which to invoke.
-     * @param method the {@link Method} to invoke.
-     * @param arguments the list of {@link Value} arguments bound to the
-     * invoked method. Values from the list are assigned to arguments
-     * in the order they appear in the method signature.
-     * @param options the integer bit flag options.
-     * @return a {@link Value} mirror of the invoked method's return value.
-     * @throws java.lang.IllegalArgumentException if the method is not
-     * a member of this object's class, if the size of the argument list
-     * does not match the number of declared arguments for the method,
-     * if the method is a constructor or static intializer, or
-     * if {@link #INVOKE_NONVIRTUAL} is specified and the method is
-     * either abstract or a non-default interface member.
-     * @throws {@link InvalidTypeException} if any argument in the
-     * argument list is not assignable to the corresponding method argument
-     * type.
-     * @throws ClassNotLoadedException if any argument type has not yet been loaded
-     * through the appropriate class loader.
-     * @throws IncompatibleThreadStateException if the specified thread has not
-     * been suspended by an event.
-     * @throws InvocationException if the method invocation resulted in
-     * an exception in the target VM.
-     * @throws InvalidTypeException If the arguments do not meet this requirement --
-     *         Object arguments must be assignment compatible with the argument
-     *         type.  This implies that the argument type must be
-     *         loaded through the enclosing class's class loader.
-     *         Primitive arguments must be either assignment compatible with the
-     *         argument type or must be convertible to the argument type without loss
-     *         of information. See JLS section 5.2 for more information on assignment
-     *         compatibility.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @pbrbm tirfbd tif tirfbd in wiidi to invokf.
+     * @pbrbm mftiod tif {@link Mftiod} to invokf.
+     * @pbrbm brgumfnts tif list of {@link Vbluf} brgumfnts bound to tif
+     * invokfd mftiod. Vblufs from tif list brf bssignfd to brgumfnts
+     * in tif ordfr tify bppfbr in tif mftiod signbturf.
+     * @pbrbm options tif intfgfr bit flbg options.
+     * @rfturn b {@link Vbluf} mirror of tif invokfd mftiod's rfturn vbluf.
+     * @tirows jbvb.lbng.IllfgblArgumfntExdfption if tif mftiod is not
+     * b mfmbfr of tiis objfdt's dlbss, if tif sizf of tif brgumfnt list
+     * dofs not mbtdi tif numbfr of dfdlbrfd brgumfnts for tif mftiod,
+     * if tif mftiod is b donstrudtor or stbtid intiblizfr, or
+     * if {@link #INVOKE_NONVIRTUAL} is spfdififd bnd tif mftiod is
+     * fitifr bbstrbdt or b non-dffbult intfrfbdf mfmbfr.
+     * @tirows {@link InvblidTypfExdfption} if bny brgumfnt in tif
+     * brgumfnt list is not bssignbblf to tif dorrfsponding mftiod brgumfnt
+     * typf.
+     * @tirows ClbssNotLobdfdExdfption if bny brgumfnt typf ibs not yft bffn lobdfd
+     * tirougi tif bppropribtf dlbss lobdfr.
+     * @tirows IndompbtiblfTirfbdStbtfExdfption if tif spfdififd tirfbd ibs not
+     * bffn suspfndfd by bn fvfnt.
+     * @tirows InvodbtionExdfption if tif mftiod invodbtion rfsultfd in
+     * bn fxdfption in tif tbrgft VM.
+     * @tirows InvblidTypfExdfption If tif brgumfnts do not mfft tiis rfquirfmfnt --
+     *         Objfdt brgumfnts must bf bssignmfnt dompbtiblf witi tif brgumfnt
+     *         typf.  Tiis implifs tibt tif brgumfnt typf must bf
+     *         lobdfd tirougi tif fndlosing dlbss's dlbss lobdfr.
+     *         Primitivf brgumfnts must bf fitifr bssignmfnt dompbtiblf witi tif
+     *         brgumfnt typf or must bf donvfrtiblf to tif brgumfnt typf witiout loss
+     *         of informbtion. Sff JLS sfdtion 5.2 for morf informbtion on bssignmfnt
+     *         dompbtibility.
+     * @tirows VMCbnnotBfModififdExdfption if tif VirtublMbdiinf is rfbd-only - sff {@link VirtublMbdiinf#dbnBfModififd()}.
      */
-    Value invokeMethod(ThreadReference thread, Method method,
-                       List<? extends Value> arguments, int options)
-                                   throws InvalidTypeException,
-                                          ClassNotLoadedException,
-                                          IncompatibleThreadStateException,
-                                          InvocationException;
+    Vbluf invokfMftiod(TirfbdRfffrfndf tirfbd, Mftiod mftiod,
+                       List<? fxtfnds Vbluf> brgumfnts, int options)
+                                   tirows InvblidTypfExdfption,
+                                          ClbssNotLobdfdExdfption,
+                                          IndompbtiblfTirfbdStbtfExdfption,
+                                          InvodbtionExdfption;
 
     /**
-     * Prevents garbage collection for this object. By default all
-     * {@link ObjectReference} values returned by JDI may be collected
-     * at any time the target VM is running. A call to this method
-     * guarantees that the object will not be collected.
-     * {@link #enableCollection} can be used to allow collection once
-     * again.
+     * Prfvfnts gbrbbgf dollfdtion for tiis objfdt. By dffbult bll
+     * {@link ObjfdtRfffrfndf} vblufs rfturnfd by JDI mby bf dollfdtfd
+     * bt bny timf tif tbrgft VM is running. A dbll to tiis mftiod
+     * gubrbntffs tibt tif objfdt will not bf dollfdtfd.
+     * {@link #fnbblfCollfdtion} dbn bf usfd to bllow dollfdtion ondf
+     * bgbin.
      * <p>
-     * Calls to this method are counted. Every call to this method
-     * requires a corresponding call to {@link #enableCollection} before
-     * garbage collection is re-enabled.
+     * Cblls to tiis mftiod brf dountfd. Evfry dbll to tiis mftiod
+     * rfquirfs b dorrfsponding dbll to {@link #fnbblfCollfdtion} bfforf
+     * gbrbbgf dollfdtion is rf-fnbblfd.
      * <p>
-     * Note that while the target VM is suspended, no garbage collection
-     * will occur because all threads are suspended. The typical
-     * examination of variables, fields, and arrays during the suspension
-     * is safe without explicitly disabling garbage collection.
+     * Notf tibt wiilf tif tbrgft VM is suspfndfd, no gbrbbgf dollfdtion
+     * will oddur bfdbusf bll tirfbds brf suspfndfd. Tif typidbl
+     * fxbminbtion of vbribblfs, fiflds, bnd brrbys during tif suspfnsion
+     * is sbff witiout fxpliditly disbbling gbrbbgf dollfdtion.
      * <p>
-     * This method should be used sparingly, as it alters the
-     * pattern of garbage collection in the target VM and,
-     * consequently, may result in application behavior under the
-     * debugger that differs from its non-debugged behavior.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only
-     * -see {@link VirtualMachine#canBeModified()}.
+     * Tiis mftiod siould bf usfd spbringly, bs it bltfrs tif
+     * pbttfrn of gbrbbgf dollfdtion in tif tbrgft VM bnd,
+     * donsfqufntly, mby rfsult in bpplidbtion bfibvior undfr tif
+     * dfbuggfr tibt difffrs from its non-dfbuggfd bfibvior.
+     * @tirows VMCbnnotBfModififdExdfption if tif VirtublMbdiinf is rfbd-only
+     * -sff {@link VirtublMbdiinf#dbnBfModififd()}.
      */
-    void disableCollection();
+    void disbblfCollfdtion();
 
     /**
-     * Permits garbage collection for this object. By default all
-     * {@link ObjectReference} values returned by JDI may be collected
-     * at any time the target VM is running. A call to this method
-     * is necessary only if garbage collection was previously disabled
-     * with {@link #disableCollection}.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only
-     * -see {@link VirtualMachine#canBeModified()}.
+     * Pfrmits gbrbbgf dollfdtion for tiis objfdt. By dffbult bll
+     * {@link ObjfdtRfffrfndf} vblufs rfturnfd by JDI mby bf dollfdtfd
+     * bt bny timf tif tbrgft VM is running. A dbll to tiis mftiod
+     * is nfdfssbry only if gbrbbgf dollfdtion wbs prfviously disbblfd
+     * witi {@link #disbblfCollfdtion}.
+     * @tirows VMCbnnotBfModififdExdfption if tif VirtublMbdiinf is rfbd-only
+     * -sff {@link VirtublMbdiinf#dbnBfModififd()}.
      */
-    void enableCollection();
+    void fnbblfCollfdtion();
 
     /**
-     * Determines if this object has been garbage collected in the target
+     * Dftfrminfs if tiis objfdt ibs bffn gbrbbgf dollfdtfd in tif tbrgft
      * VM.
      *
-     * @return <code>true</code> if this {@link ObjectReference} has been collected;
-     * <code>false</code> otherwise.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only
-     * -see {@link VirtualMachine#canBeModified()}.
+     * @rfturn <dodf>truf</dodf> if tiis {@link ObjfdtRfffrfndf} ibs bffn dollfdtfd;
+     * <dodf>fblsf</dodf> otifrwisf.
+     * @tirows VMCbnnotBfModififdExdfption if tif VirtublMbdiinf is rfbd-only
+     * -sff {@link VirtublMbdiinf#dbnBfModififd()}.
      */
-    boolean isCollected();
+    boolfbn isCollfdtfd();
 
     /**
-     * Returns a unique identifier for this ObjectReference.
-     * It is guaranteed to be unique among all
-     * ObjectReferences from the same VM that have not yet been disposed.
-     * The guarantee applies as long
-     * as this ObjectReference has not yet been disposed.
+     * Rfturns b uniquf idfntififr for tiis ObjfdtRfffrfndf.
+     * It is gubrbntffd to bf uniquf bmong bll
+     * ObjfdtRfffrfndfs from tif sbmf VM tibt ibvf not yft bffn disposfd.
+     * Tif gubrbntff bpplifs bs long
+     * bs tiis ObjfdtRfffrfndf ibs not yft bffn disposfd.
      *
-     * @return a long unique ID
+     * @rfturn b long uniquf ID
      */
-    long uniqueID();
+    long uniqufID();
 
     /**
-     * Returns a List containing a {@link ThreadReference} for
-     * each thread currently waiting for this object's monitor.
-     * See {@link ThreadReference#currentContendedMonitor} for
-     * information about when a thread is considered to be waiting
-     * for a monitor.
+     * Rfturns b List dontbining b {@link TirfbdRfffrfndf} for
+     * fbdi tirfbd durrfntly wbiting for tiis objfdt's monitor.
+     * Sff {@link TirfbdRfffrfndf#durrfntContfndfdMonitor} for
+     * informbtion bbout wifn b tirfbd is donsidfrfd to bf wbiting
+     * for b monitor.
      * <p>
-     * Not all target VMs support this operation. See
-     * VirtualMachine#canGetMonitorInfo to determine if the
-     * operation is supported.
+     * Not bll tbrgft VMs support tiis opfrbtion. Sff
+     * VirtublMbdiinf#dbnGftMonitorInfo to dftfrminf if tif
+     * opfrbtion is supportfd.
      *
-     * @return a List of {@link ThreadReference} objects. The list
-     * has zero length if no threads are waiting for the monitor.
-     * @throws java.lang.UnsupportedOperationException if the
-     * target VM does not support this operation.
-     * @throws IncompatibleThreadStateException if any
-     * waiting thread is not suspended
-     * in the target VM
+     * @rfturn b List of {@link TirfbdRfffrfndf} objfdts. Tif list
+     * ibs zfro lfngti if no tirfbds brf wbiting for tif monitor.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif
+     * tbrgft VM dofs not support tiis opfrbtion.
+     * @tirows IndompbtiblfTirfbdStbtfExdfption if bny
+     * wbiting tirfbd is not suspfndfd
+     * in tif tbrgft VM
      */
-    List<ThreadReference> waitingThreads()
-        throws IncompatibleThreadStateException;
+    List<TirfbdRfffrfndf> wbitingTirfbds()
+        tirows IndompbtiblfTirfbdStbtfExdfption;
 
     /**
-     * Returns an {@link ThreadReference} for the thread, if any,
-     * which currently owns this object's monitor.
-     * See {@link ThreadReference#ownedMonitors} for a definition
-     * of ownership.
+     * Rfturns bn {@link TirfbdRfffrfndf} for tif tirfbd, if bny,
+     * wiidi durrfntly owns tiis objfdt's monitor.
+     * Sff {@link TirfbdRfffrfndf#ownfdMonitors} for b dffinition
+     * of ownfrsiip.
      * <p>
-     * Not all target VMs support this operation. See
-     * VirtualMachine#canGetMonitorInfo to determine if the
-     * operation is supported.
+     * Not bll tbrgft VMs support tiis opfrbtion. Sff
+     * VirtublMbdiinf#dbnGftMonitorInfo to dftfrminf if tif
+     * opfrbtion is supportfd.
      *
-     * @return the {@link ThreadReference} which currently owns the
-     * monitor, or null if it is unowned.
+     * @rfturn tif {@link TirfbdRfffrfndf} wiidi durrfntly owns tif
+     * monitor, or null if it is unownfd.
      *
-     * @throws java.lang.UnsupportedOperationException if the
-     * target VM does not support this operation.
-     * @throws IncompatibleThreadStateException if the owning thread is
-     * not suspended in the target VM
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif
+     * tbrgft VM dofs not support tiis opfrbtion.
+     * @tirows IndompbtiblfTirfbdStbtfExdfption if tif owning tirfbd is
+     * not suspfndfd in tif tbrgft VM
      */
-    ThreadReference owningThread() throws IncompatibleThreadStateException;
+    TirfbdRfffrfndf owningTirfbd() tirows IndompbtiblfTirfbdStbtfExdfption;
 
     /**
-     * Returns the number times this object's monitor has been
-     * entered by the current owning thread.
-     * See {@link ThreadReference#ownedMonitors} for a definition
-     * of ownership.
+     * Rfturns tif numbfr timfs tiis objfdt's monitor ibs bffn
+     * fntfrfd by tif durrfnt owning tirfbd.
+     * Sff {@link TirfbdRfffrfndf#ownfdMonitors} for b dffinition
+     * of ownfrsiip.
      * <p>
-     * Not all target VMs support this operation. See
-     * VirtualMachine#canGetMonitorInfo to determine if the
-     * operation is supported.
+     * Not bll tbrgft VMs support tiis opfrbtion. Sff
+     * VirtublMbdiinf#dbnGftMonitorInfo to dftfrminf if tif
+     * opfrbtion is supportfd.
      *
-     * @see #owningThread
-     * @return the integer count of the number of entries.
+     * @sff #owningTirfbd
+     * @rfturn tif intfgfr dount of tif numbfr of fntrifs.
      *
-     * @throws java.lang.UnsupportedOperationException if the
-     * target VM does not support this operation.
-     * @throws IncompatibleThreadStateException if the owning thread is
-     * not suspended in the target VM
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif
+     * tbrgft VM dofs not support tiis opfrbtion.
+     * @tirows IndompbtiblfTirfbdStbtfExdfption if tif owning tirfbd is
+     * not suspfndfd in tif tbrgft VM
      */
-    int entryCount() throws IncompatibleThreadStateException;
+    int fntryCount() tirows IndompbtiblfTirfbdStbtfExdfption;
 
     /**
-     * Returns objects that directly reference this object.
-     * Only objects that are reachable for the purposes of garbage collection
-     * are returned.  Note that an object can also be referenced in other ways,
-     * such as from a local variable in a stack frame, or from a JNI global
-     * reference.  Such non-object referrers are not returned by this method.
+     * Rfturns objfdts tibt dirfdtly rfffrfndf tiis objfdt.
+     * Only objfdts tibt brf rfbdibblf for tif purposfs of gbrbbgf dollfdtion
+     * brf rfturnfd.  Notf tibt bn objfdt dbn blso bf rfffrfndfd in otifr wbys,
+     * sudi bs from b lodbl vbribblf in b stbdk frbmf, or from b JNI globbl
+     * rfffrfndf.  Sudi non-objfdt rfffrrfrs brf not rfturnfd by tiis mftiod.
      * <p>
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canGetInstanceInfo()}
-     * to determine if the operation is supported.
+     * Not bll tbrgft virtubl mbdiinfs support tiis opfrbtion.
+     * Usf {@link VirtublMbdiinf#dbnGftInstbndfInfo()}
+     * to dftfrminf if tif opfrbtion is supportfd.
      *
-     * @see VirtualMachine#instanceCounts(List)
-     * @see ReferenceType#instances(long)
+     * @sff VirtublMbdiinf#instbndfCounts(List)
+     * @sff RfffrfndfTypf#instbndfs(long)
 
-     * @param maxReferrers  The maximum number of referring objects to return.
-     *                      Must be non-negative.  If zero, all referring
-     *                      objects are returned.
-     * @return a of List of {@link ObjectReference} objects. If there are
-     *  no objects that reference this object, a zero-length list is returned..
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation - see
-     * {@link VirtualMachine#canGetInstanceInfo() canGetInstanceInfo()}
-     * @throws java.lang.IllegalArgumentException if maxReferrers is less
-     *         than zero.
-     * @since 1.6
+     * @pbrbm mbxRfffrrfrs  Tif mbximum numbfr of rfffrring objfdts to rfturn.
+     *                      Must bf non-nfgbtivf.  If zfro, bll rfffrring
+     *                      objfdts brf rfturnfd.
+     * @rfturn b of List of {@link ObjfdtRfffrfndf} objfdts. If tifrf brf
+     *  no objfdts tibt rfffrfndf tiis objfdt, b zfro-lfngti list is rfturnfd..
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * tif tbrgft virtubl mbdiinf dofs not support tiis
+     * opfrbtion - sff
+     * {@link VirtublMbdiinf#dbnGftInstbndfInfo() dbnGftInstbndfInfo()}
+     * @tirows jbvb.lbng.IllfgblArgumfntExdfption if mbxRfffrrfrs is lfss
+     *         tibn zfro.
+     * @sindf 1.6
      */
-    List<ObjectReference> referringObjects(long maxReferrers);
+    List<ObjfdtRfffrfndf> rfffrringObjfdts(long mbxRfffrrfrs);
 
 
     /**
-     * Compares the specified Object with this ObjectReference for equality.
+     * Compbrfs tif spfdififd Objfdt witi tiis ObjfdtRfffrfndf for fqublity.
      *
-     * @return  true if the Object is an ObjectReference, if the
-     * ObjectReferences belong to the same VM, and if applying the
-     * "==" operator on the mirrored objects in that VM evaluates to true.
+     * @rfturn  truf if tif Objfdt is bn ObjfdtRfffrfndf, if tif
+     * ObjfdtRfffrfndfs bflong to tif sbmf VM, bnd if bpplying tif
+     * "==" opfrbtor on tif mirrorfd objfdts in tibt VM fvblubtfs to truf.
      */
-    boolean equals(Object obj);
+    boolfbn fqubls(Objfdt obj);
 
     /**
-     * Returns the hash code value for this ObjectReference.
+     * Rfturns tif ibsi dodf vbluf for tiis ObjfdtRfffrfndf.
      *
-     * @return the integer hash code
+     * @rfturn tif intfgfr ibsi dodf
      */
-    int hashCode();
+    int ibsiCodf();
 }

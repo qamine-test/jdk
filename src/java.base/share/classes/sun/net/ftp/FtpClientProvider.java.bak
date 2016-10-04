@@ -1,155 +1,155 @@
 /*
- * Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.net.ftp;
+pbdkbgf sun.nft.ftp;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ServiceConfigurationError;
-//import java.util.ServiceLoader;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.SfrvidfConfigurbtionError;
+//import jbvb.util.SfrvidfLobdfr;
 
 /**
- * Service provider class for FtpClient.
- * Sub-classes of FtpClientProvider provide an implementation of {@link FtpClient}
- * and associated classes. Applications do not normally use this class directly.
- * See {@link #provider() } for how providers are found and loaded.
+ * Sfrvidf providfr dlbss for FtpClifnt.
+ * Sub-dlbssfs of FtpClifntProvidfr providf bn implfmfntbtion of {@link FtpClifnt}
+ * bnd bssodibtfd dlbssfs. Applidbtions do not normblly usf tiis dlbss dirfdtly.
+ * Sff {@link #providfr() } for iow providfrs brf found bnd lobdfd.
  *
- * @since 1.7
+ * @sindf 1.7
  */
-public abstract class FtpClientProvider {
+publid bbstrbdt dlbss FtpClifntProvidfr {
 
     /**
-     * Creates a FtpClient from this provider.
+     * Crfbtfs b FtpClifnt from tiis providfr.
      *
-     * @return The created {@link FtpClient}.
+     * @rfturn Tif drfbtfd {@link FtpClifnt}.
      */
-    public abstract FtpClient createFtpClient();
-    private static final Object lock = new Object();
-    private static FtpClientProvider provider = null;
+    publid bbstrbdt FtpClifnt drfbtfFtpClifnt();
+    privbtf stbtid finbl Objfdt lodk = nfw Objfdt();
+    privbtf stbtid FtpClifntProvidfr providfr = null;
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
      *
-     * @throws SecurityException if a security manager is installed and it denies
-     *         {@link RuntimePermission}<tt>("ftpClientProvider")</tt>
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr is instbllfd bnd it dfnifs
+     *         {@link RuntimfPfrmission}<tt>("ftpClifntProvidfr")</tt>
      */
-    protected FtpClientProvider() {
-        SecurityManager sm = System.getSecurityManager();
+    protfdtfd FtpClifntProvidfr() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(new RuntimePermission("ftpClientProvider"));
+            sm.difdkPfrmission(nfw RuntimfPfrmission("ftpClifntProvidfr"));
         }
     }
 
-    private static boolean loadProviderFromProperty() {
-        String cm = System.getProperty("sun.net.ftpClientProvider");
-        if (cm == null) {
-            return false;
+    privbtf stbtid boolfbn lobdProvidfrFromPropfrty() {
+        String dm = Systfm.gftPropfrty("sun.nft.ftpClifntProvidfr");
+        if (dm == null) {
+            rfturn fblsf;
         }
         try {
-            Class<?> c = Class.forName(cm, true, null);
-            provider = (FtpClientProvider) c.newInstance();
-            return true;
-        } catch (ClassNotFoundException |
-                 IllegalAccessException |
-                 InstantiationException |
-                 SecurityException x) {
-            throw new ServiceConfigurationError(x.toString());
+            Clbss<?> d = Clbss.forNbmf(dm, truf, null);
+            providfr = (FtpClifntProvidfr) d.nfwInstbndf();
+            rfturn truf;
+        } dbtdi (ClbssNotFoundExdfption |
+                 IllfgblAddfssExdfption |
+                 InstbntibtionExdfption |
+                 SfdurityExdfption x) {
+            tirow nfw SfrvidfConfigurbtionError(x.toString());
         }
     }
 
-    private static boolean loadProviderAsService() {
-//        Iterator<FtpClientProvider> i =
-//                ServiceLoader.load(FtpClientProvider.class,
-//                                   ClassLoader.getSystemClassLoader()).iterator();
+    privbtf stbtid boolfbn lobdProvidfrAsSfrvidf() {
+//        Itfrbtor<FtpClifntProvidfr> i =
+//                SfrvidfLobdfr.lobd(FtpClifntProvidfr.dlbss,
+//                                   ClbssLobdfr.gftSystfmClbssLobdfr()).itfrbtor();
 //
-//        while (i.hasNext()) {
+//        wiilf (i.ibsNfxt()) {
 //            try {
-//                provider = i.next();
-//                return true;
-//            } catch (ServiceConfigurationError sce) {
-//                if (sce.getCause() instanceof SecurityException) {
-//                    // Ignore, try next provider, if any
-//                    continue;
+//                providfr = i.nfxt();
+//                rfturn truf;
+//            } dbtdi (SfrvidfConfigurbtionError sdf) {
+//                if (sdf.gftCbusf() instbndfof SfdurityExdfption) {
+//                    // Ignorf, try nfxt providfr, if bny
+//                    dontinuf;
 //                }
-//                throw sce;
+//                tirow sdf;
 //            }
 //        }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns the system wide default FtpClientProvider for this invocation of
-     * the Java virtual machine.
+     * Rfturns tif systfm widf dffbult FtpClifntProvidfr for tiis invodbtion of
+     * tif Jbvb virtubl mbdiinf.
      *
-     * <p> The first invocation of this method locates the default provider
-     * object as follows: </p>
+     * <p> Tif first invodbtion of tiis mftiod lodbtfs tif dffbult providfr
+     * objfdt bs follows: </p>
      *
      * <ol>
      *
-     *   <li><p> If the system property
-     *   <tt>java.net.FtpClientProvider</tt> is defined then it is
-     *   taken to be the fully-qualified name of a concrete provider class.
-     *   The class is loaded and instantiated; if this process fails then an
-     *   unspecified unchecked error or exception is thrown.  </p></li>
+     *   <li><p> If tif systfm propfrty
+     *   <tt>jbvb.nft.FtpClifntProvidfr</tt> is dffinfd tifn it is
+     *   tbkfn to bf tif fully-qublififd nbmf of b dondrftf providfr dlbss.
+     *   Tif dlbss is lobdfd bnd instbntibtfd; if tiis prodfss fbils tifn bn
+     *   unspfdififd undifdkfd frror or fxdfption is tirown.  </p></li>
      *
-     *   <li><p> If a provider class has been installed in a jar file that is
-     *   visible to the system class loader, and that jar file contains a
-     *   provider-configuration file named
-     *   <tt>java.net.FtpClientProvider</tt> in the resource
-     *   directory <tt>META-INF/services</tt>, then the first class name
-     *   specified in that file is taken.  The class is loaded and
-     *   instantiated; if this process fails then an unspecified unchecked error or exception is
-     *   thrown.  </p></li>
+     *   <li><p> If b providfr dlbss ibs bffn instbllfd in b jbr filf tibt is
+     *   visiblf to tif systfm dlbss lobdfr, bnd tibt jbr filf dontbins b
+     *   providfr-donfigurbtion filf nbmfd
+     *   <tt>jbvb.nft.FtpClifntProvidfr</tt> in tif rfsourdf
+     *   dirfdtory <tt>META-INF/sfrvidfs</tt>, tifn tif first dlbss nbmf
+     *   spfdififd in tibt filf is tbkfn.  Tif dlbss is lobdfd bnd
+     *   instbntibtfd; if tiis prodfss fbils tifn bn unspfdififd undifdkfd frror or fxdfption is
+     *   tirown.  </p></li>
      *
-     *   <li><p> Finally, if no provider has been specified by any of the above
-     *   means then the system-default provider class is instantiated and the
-     *   result is returned.  </p></li>
+     *   <li><p> Finblly, if no providfr ibs bffn spfdififd by bny of tif bbovf
+     *   mfbns tifn tif systfm-dffbult providfr dlbss is instbntibtfd bnd tif
+     *   rfsult is rfturnfd.  </p></li>
      *
      * </ol>
      *
-     * <p> Subsequent invocations of this method return the provider that was
-     * returned by the first invocation.  </p>
+     * <p> Subsfqufnt invodbtions of tiis mftiod rfturn tif providfr tibt wbs
+     * rfturnfd by tif first invodbtion.  </p>
      *
-     * @return  The system-wide default FtpClientProvider
+     * @rfturn  Tif systfm-widf dffbult FtpClifntProvidfr
      */
-    public static FtpClientProvider provider() {
-        synchronized (lock) {
-            if (provider != null) {
-                return provider;
+    publid stbtid FtpClifntProvidfr providfr() {
+        syndironizfd (lodk) {
+            if (providfr != null) {
+                rfturn providfr;
             }
-            return (FtpClientProvider) AccessController.doPrivileged(
-                    new PrivilegedAction<Object>() {
+            rfturn (FtpClifntProvidfr) AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdAdtion<Objfdt>() {
 
-                        public Object run() {
-                            if (loadProviderFromProperty()) {
-                                return provider;
+                        publid Objfdt run() {
+                            if (lobdProvidfrFromPropfrty()) {
+                                rfturn providfr;
                             }
-                            if (loadProviderAsService()) {
-                                return provider;
+                            if (lobdProvidfrAsSfrvidf()) {
+                                rfturn providfr;
                             }
-                            provider = new sun.net.ftp.impl.DefaultFtpClientProvider();
-                            return provider;
+                            providfr = nfw sun.nft.ftp.impl.DffbultFtpClifntProvidfr();
+                            rfturn providfr;
                         }
                     });
         }

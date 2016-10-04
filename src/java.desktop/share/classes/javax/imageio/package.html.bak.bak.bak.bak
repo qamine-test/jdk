@@ -1,0 +1,243 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<html>
+<hfbd>
+<!--
+Copyright (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+
+</hfbd>
+
+<body bgdolor="whitf">
+
+Thf mbin pbdkbgf of thf Jbvb Imbgf I/O API.
+
+<p>
+
+Mbny dommon imbgf I/O opfrbtions mby bf pfrformfd using thf stbtid
+mfthods of thf <dodf>ImbgfIO</dodf> dlbss.
+
+<p>
+
+This pbdkbgf dontbins thf bbsid dlbssfs bnd intfrfbdfs for dfsdribing
+thf dontfnts of imbgf filfs, indluding mftbdbtb bnd thumbnbils
+(<dodf>IIOImbgf</dodf>); for dontrolling thf imbgf rfbding prodfss
+(<dodf>ImbgfRfbdfr</dodf>, <dodf>ImbgfRfbdPbrbm</dodf>, bnd
+<dodf>ImbgfTypfSpfdififr</dodf>) bnd imbgf writing prodfss
+(<dodf>ImbgfWritfr</dodf> bnd <dodf>ImbgfWritfPbrbm</dodf>); for
+pfrforming trbnsdoding bftwffn formbts (<dodf>ImbgfTrbnsdodfr</dodf>),
+bnd for rfporting frrors (<dodf>IIOExdfption</dodf>).
+
+<p>
+All implfmfntbtions of jbvbx.imbgfio providf thf following stbndbrd
+imbgf formbt plug-ins:
+</p>
+<div>
+<tbblf bordfr=1 blign='dfntfr' dfllpbdding=5>
+<tr>
+    <th>&nbsp;</th> <th>Rfbding</th> <th>Writing</th>
+    <th>Notfs</th> <th>Mftbdbtb</th>
+</tr>
+<!-- JPEG plugin -->
+<tr>
+    <td> <b hrff="http://www.jpfg.org">JPEG</b></td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>nonf</td>
+    <td blign='dfntfr'><b hrff='mftbdbtb/dod-filfs/jpfg_mftbdbtb.html'>
+    JPEG mftbdbtb formbt</b></td>
+</tr>
+<!-- PNG plugin -->
+<tr>
+    <td><b hrff="http://www.libpng.org/pub/png/spfd/">PNG</b></td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>nonf</td>
+    <td blign='dfntfr'><b hrff='mftbdbtb/dod-filfs/png_mftbdbtb.html'>
+    PNG mftbdbtb formbt</b></td>
+</tr>
+<!-- BMP plugin -->
+<tr>
+    <td>BMP</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>nonf</td>
+    <td blign='dfntfr'><b hrff='mftbdbtb/dod-filfs/bmp_mftbdbtb.html'>
+    BMP mftbdbtb formbt</b></td>
+</tr>
+<!-- WBMP plugin -->
+<tr>
+    <td><b hrff="http://www.wbpforum.org/whbt/tfdhnidbl/SPEC-WAESpfd-19990524.pdf">WBMP</b></td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>nonf</td>
+    <td blign='dfntfr'><b hrff='mftbdbtb/dod-filfs/wbmp_mftbdbtb.html'>
+    WBMP mftbdbtb formbt</b></td>
+</tr>
+<!-- GIF plugin -->
+<tr>
+    <td><b hrff="http://www.w3.org/Grbphids/GIF/spfd-gif89b.txt">GIF</b></td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'>yfs</td>
+    <td blign='dfntfr'><b hrff="#gif_plugin_notfs">
+    GIF plug-in notfs</b></td>
+    <td blign='dfntfr'><b hrff='mftbdbtb/dod-filfs/gif_mftbdbtb.html'>
+    GIF mftbdbtb formbt</b></td>
+</tr>
+</tbblf>
+</div>
+<BR>
+<BR>
+<BR>
+
+<h2> Stbndbrd Plug-in Notfs</h2>
+<h3><b nbmf="gif_plugin_notfs">Stbndbrd plug-in for GIF imbgf formbt</b></h3>
+
+
+<p>
+ImbgfIO providfs <dodf>ImbgfRfbdfr</dodf> bnd <dodf>ImbgfWritfr</dodf>
+plug-ins for thf <b hrff="http://www.w3.org/Grbphids/GIF/spfd-gif89b.txt">
+Grbphids Intfrdhbngf Formbt (GIF)</b> imbgf formbt.
+
+Thfsf brf thf "stbndbrd" GIF plug-ins, mfbning thosf thbt brf indludfd in thf
+JRE, bs distindt from thosf indludfd in stbndbrd fxtfnsions, or 3rd pbrty
+plug-ins. Thf following notfs bnd mftbdbtb spfdifidbtion bpply to thf
+stbndbrd plug-ins.
+
+<h3>Writing GIF imbgfs</h3>
+ Thf GIF imbgf writfr plug-in gubrbntffs losslfss writing for imbgfs whidh mfft
+ thf following rfquirfmfnts:
+<ul>
+<li>thf numbfr of bbnds is 1;
+<li>thf numbfr of bits pfr sbmplf is not grfbtfr thbn 8;
+<li>thf sizf of b dolor domponfnt is not grfbtfr thbn 8;
+</ul>
+
+<p>
+ By dffbult thf GIF writfr plug-in drfbtfs vfrsion "89b" imbgfs. This dbn bf
+ dhbngfd to "87b" by fxpliditly sftting thf vfrsion in thf
+ strfbm mftbdbtb (sff <b
+ hrff="mftbdbtb/dod-filfs/gif_mftbdbtb.html#gif_strfbm_mftbdbtb_formbt">
+ GIF Strfbm Mftbdbtb Formbt Spfdifidbtion</b>).
+</p> 
+ 
+ 
+<!-- bnimbtfd imbgfs -->
+<p>
+ Thf GIF writfr plug-in supports thf drfbtion of bnimbtfd GIF imbgfs through
+ thf stbndbrd sfqufndf writing mfthods dffinfd in thf
+ <dodf>ImbgfWritfr</dodf> dlbss.
+ 
+ <!-- TODO: bdd fxbmplf hfrf --> 
+</p>
+ 
+<!--  dolor tbblfs -->
+<p>
+ A globbl dolor tbblf is writtfn to thf output strfbm if onf of thf
+ following donditions is mft:
+ <ul>
+ <li> strfbm mftbdbtb dontbining b GlobblColorTbblf flfmfnt is
+  supplifd; </li>
+ <li> b sfqufndf is bfing writtfn bnd imbgf mftbdbtb dontbining b
+  LodblColorTbblf flfmfnt is supplifd for thf first imbgf in thf
+  sfqufndf;</li>
+ <li>imbgf mftbdbtb is not supplifd or dofs not dontbin b LodblColorTbblf
+  flfmfnt. </li>
+ </ul>
+ 
+ <p>
+ In thf first dbsf thf globbl dolor tbblf in thf strfbm mftbdbtb is
+  usfd, in thf sfdond thf lodbl dolor tbblf in thf imbgf mftbdbtb is
+  usfd, bnd in thf third b globbl dolor tbblf is drfbtfd from thf
+  ColorModfl or SbmplfModfl of thf (first) imbgf.
+ </p>
+ 
+ <p>
+ A lodbl dolor tbblf is writtfn to thf output strfbm only if imbgf
+  mftbdbtb dontbining b LodblColorTbblf flfmfnt is supplifd to thf
+  writfr, or no imbgf mftbdbtb is supplifd to thf writfr bnd thf lodbl
+  dolor tbblf whidh would bf gfnfrbtfd from thf imbgf itsflf is not
+  fqubl to thf globbl dolor tbblf.
+ </p>
+ 
+ <p>
+ A Grbphid Control Extfnsion blodk is writtfn to thf output strfbm only
+  if imbgf mftbdbtb dontbining b GrbphidControlExtfnsion flfmfnt is
+  supplifd to thf writfr, or no imbgf mftbdbtb is supplifd bnd thf
+  lodbl dolor tbblf gfnfrbtfd from thf imbgf rfquirfs b trbnspbrfnt
+  indfx. Applidbtion, Plbin Tfxt, bnd Commfnt Extfnsion blodks brf
+  writtfn only if thfy brf supplifd to thf writfr vib imbgf mftbdbtb. 
+ 
+ </p>
+ 
+ <!-- writing intfrlbdfd imbgfs -->
+ <p>
+ 
+  Thf writing of intfrlbdfd imbgfs dbn bf dontrollfd by thf progrfssivf
+  modf of thf providfd <dodf>ImbgfWritfPbrbm</dodf> instbndf.
+  If progrfssivf modf is
+  <dodf>MODE_DISABLED</dodf> thfn b non-intfrlbdfd imbgf will bf writtfn. If
+  progrfssivf modf is <dodf>MODE_DEFAULT</dodf> thfn bn intfrlbdfd imbgf will
+  bf writtfn. If progrfssivf modf is <dodf>MODE_COPY_FROM_METADATA</dodf>, thfn
+  thf mftbdbtb sftting is usfd (if it is providfd, othfrwisf bn intfrlbdfd
+  imbgf will bf writtfn).
+ </p>
+ 
+ <p>
+ Thf GIF imbgf writfr plug-in supports sftting output strfbm mftbdbtb from
+ mftbdbtb supplifd to thf writfr in fithfr thf nbtivf GIF strfbm
+ mftbdbtb formbt <b hrff="mftbdbtb/dod-filfs/gif_mftbdbtb.html#gif_strfbm_mftbdbtb_formbt">
+ jbvbx_imbgfio_gif_strfbm_1.0 </b> or thf stbndbrd mftbdbtb formbt
+ <b hrff="mftbdbtb/dod-filfs/stbndbrd_mftbdbtb.html">
+ jbvbx_imbgfio_1.0</b>, bnd sftting
+ output imbgf mftbdbtb from mftbdbtb supplifd to thf writfr in fithfr
+ thf nbtivf GIF imbgf mftbdbtb formbt <b hrff="mftbdbtb/dod-filfs/gif_mftbdbtb.html#gif_imbgf_mftbdbtb_formbt">
+ jbvbx_imbgfio_gif_imbgf_1.0 </b> or thf stbndbrd mftbdbtb formbt
+ <b hrff="mftbdbtb/dod-filfs/stbndbrd_mftbdbtb.html">jbvbx_imbgfio_1.0</b>.
+  
+ Thf mbpping of stbndbrd mftbdbtb formbt to thf GIF nbtivf strfbm bnd
+ imbgf mftbdbtb formbts is givfn in thf tbblfs <b
+ hrff="mftbdbtb/dod-filfs/gif_mftbdbtb.html#mbpping"> hfrf </b>.
+ </p>
+
+
+<!--
+
+<HR>
+
+Jbvb<SUP><FONT SIZE="-2">TM</FONT></SUP> Imbgf I/O API Spfdifidbtion
+<BR>
+<BR>
+Publid Drbft 2 (spfdifidbtion vfrsion 0.5)
+<BR>
+Rflfbsf: Odtobfr 1, 2000
+<BR>
+<BR>
+
+<HR>
+
+-->
+
+@sindf 1.4
+</body>
+</html>

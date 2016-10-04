@@ -1,449 +1,449 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
-import javax.sound.midi.Patch;
+import jbvbx.sound.midi.Pbtdi;
 
 /**
- * This class is used to store information to describe instrument.
- * It contains list of regions and modulators.
- * It is stored inside a "ins " List Chunk inside DLS files.
- * In the DLS documentation a modulator is called articulator.
+ * Tiis dlbss is usfd to storf informbtion to dfsdribf instrumfnt.
+ * It dontbins list of rfgions bnd modulbtors.
+ * It is storfd insidf b "ins " List Ciunk insidf DLS filfs.
+ * In tif DLS dodumfntbtion b modulbtor is dbllfd brtidulbtor.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class DLSInstrument extends ModelInstrument {
+publid finbl dlbss DLSInstrumfnt fxtfnds ModflInstrumfnt {
 
-    int preset = 0;
-    int bank = 0;
-    boolean druminstrument = false;
-    byte[] guid = null;
-    DLSInfo info = new DLSInfo();
-    List<DLSRegion> regions = new ArrayList<DLSRegion>();
-    List<DLSModulator> modulators = new ArrayList<DLSModulator>();
+    int prfsft = 0;
+    int bbnk = 0;
+    boolfbn druminstrumfnt = fblsf;
+    bytf[] guid = null;
+    DLSInfo info = nfw DLSInfo();
+    List<DLSRfgion> rfgions = nfw ArrbyList<DLSRfgion>();
+    List<DLSModulbtor> modulbtors = nfw ArrbyList<DLSModulbtor>();
 
-    public DLSInstrument() {
-        super(null, null, null, null);
+    publid DLSInstrumfnt() {
+        supfr(null, null, null, null);
     }
 
-    public DLSInstrument(DLSSoundbank soundbank) {
-        super(soundbank, null, null, null);
+    publid DLSInstrumfnt(DLSSoundbbnk soundbbnk) {
+        supfr(soundbbnk, null, null, null);
     }
 
-    public DLSInfo getInfo() {
-        return info;
+    publid DLSInfo gftInfo() {
+        rfturn info;
     }
 
-    public String getName() {
-        return info.name;
+    publid String gftNbmf() {
+        rfturn info.nbmf;
     }
 
-    public void setName(String name) {
-        info.name = name;
+    publid void sftNbmf(String nbmf) {
+        info.nbmf = nbmf;
     }
 
-    public ModelPatch getPatch() {
-        return new ModelPatch(bank, preset, druminstrument);
+    publid ModflPbtdi gftPbtdi() {
+        rfturn nfw ModflPbtdi(bbnk, prfsft, druminstrumfnt);
     }
 
-    public void setPatch(Patch patch) {
-        if (patch instanceof ModelPatch && ((ModelPatch)patch).isPercussion()) {
-            druminstrument = true;
-            bank = patch.getBank();
-            preset = patch.getProgram();
-        } else {
-            druminstrument = false;
-            bank = patch.getBank();
-            preset = patch.getProgram();
+    publid void sftPbtdi(Pbtdi pbtdi) {
+        if (pbtdi instbndfof ModflPbtdi && ((ModflPbtdi)pbtdi).isPfrdussion()) {
+            druminstrumfnt = truf;
+            bbnk = pbtdi.gftBbnk();
+            prfsft = pbtdi.gftProgrbm();
+        } flsf {
+            druminstrumfnt = fblsf;
+            bbnk = pbtdi.gftBbnk();
+            prfsft = pbtdi.gftProgrbm();
         }
     }
 
-    public Object getData() {
-        return null;
+    publid Objfdt gftDbtb() {
+        rfturn null;
     }
 
-    public List<DLSRegion> getRegions() {
-        return regions;
+    publid List<DLSRfgion> gftRfgions() {
+        rfturn rfgions;
     }
 
-    public List<DLSModulator> getModulators() {
-        return modulators;
+    publid List<DLSModulbtor> gftModulbtors() {
+        rfturn modulbtors;
     }
 
-    public String toString() {
-        if (druminstrument)
-            return "Drumkit: " + info.name
-                    + " bank #" + bank + " preset #" + preset;
-        else
-            return "Instrument: " + info.name
-                    + " bank #" + bank + " preset #" + preset;
+    publid String toString() {
+        if (druminstrumfnt)
+            rfturn "Drumkit: " + info.nbmf
+                    + " bbnk #" + bbnk + " prfsft #" + prfsft;
+        flsf
+            rfturn "Instrumfnt: " + info.nbmf
+                    + " bbnk #" + bbnk + " prfsft #" + prfsft;
     }
 
-    private ModelIdentifier convertToModelDest(int dest) {
-        if (dest == DLSModulator.CONN_DST_NONE)
-            return null;
-        if (dest == DLSModulator.CONN_DST_GAIN)
-            return ModelDestination.DESTINATION_GAIN;
-        if (dest == DLSModulator.CONN_DST_PITCH)
-            return ModelDestination.DESTINATION_PITCH;
-        if (dest == DLSModulator.CONN_DST_PAN)
-            return ModelDestination.DESTINATION_PAN;
+    privbtf ModflIdfntififr donvfrtToModflDfst(int dfst) {
+        if (dfst == DLSModulbtor.CONN_DST_NONE)
+            rfturn null;
+        if (dfst == DLSModulbtor.CONN_DST_GAIN)
+            rfturn ModflDfstinbtion.DESTINATION_GAIN;
+        if (dfst == DLSModulbtor.CONN_DST_PITCH)
+            rfturn ModflDfstinbtion.DESTINATION_PITCH;
+        if (dfst == DLSModulbtor.CONN_DST_PAN)
+            rfturn ModflDfstinbtion.DESTINATION_PAN;
 
-        if (dest == DLSModulator.CONN_DST_LFO_FREQUENCY)
-            return ModelDestination.DESTINATION_LFO1_FREQ;
-        if (dest == DLSModulator.CONN_DST_LFO_STARTDELAY)
-            return ModelDestination.DESTINATION_LFO1_DELAY;
+        if (dfst == DLSModulbtor.CONN_DST_LFO_FREQUENCY)
+            rfturn ModflDfstinbtion.DESTINATION_LFO1_FREQ;
+        if (dfst == DLSModulbtor.CONN_DST_LFO_STARTDELAY)
+            rfturn ModflDfstinbtion.DESTINATION_LFO1_DELAY;
 
-        if (dest == DLSModulator.CONN_DST_EG1_ATTACKTIME)
-            return ModelDestination.DESTINATION_EG1_ATTACK;
-        if (dest == DLSModulator.CONN_DST_EG1_DECAYTIME)
-            return ModelDestination.DESTINATION_EG1_DECAY;
-        if (dest == DLSModulator.CONN_DST_EG1_RELEASETIME)
-            return ModelDestination.DESTINATION_EG1_RELEASE;
-        if (dest == DLSModulator.CONN_DST_EG1_SUSTAINLEVEL)
-            return ModelDestination.DESTINATION_EG1_SUSTAIN;
+        if (dfst == DLSModulbtor.CONN_DST_EG1_ATTACKTIME)
+            rfturn ModflDfstinbtion.DESTINATION_EG1_ATTACK;
+        if (dfst == DLSModulbtor.CONN_DST_EG1_DECAYTIME)
+            rfturn ModflDfstinbtion.DESTINATION_EG1_DECAY;
+        if (dfst == DLSModulbtor.CONN_DST_EG1_RELEASETIME)
+            rfturn ModflDfstinbtion.DESTINATION_EG1_RELEASE;
+        if (dfst == DLSModulbtor.CONN_DST_EG1_SUSTAINLEVEL)
+            rfturn ModflDfstinbtion.DESTINATION_EG1_SUSTAIN;
 
-        if (dest == DLSModulator.CONN_DST_EG2_ATTACKTIME)
-            return ModelDestination.DESTINATION_EG2_ATTACK;
-        if (dest == DLSModulator.CONN_DST_EG2_DECAYTIME)
-            return ModelDestination.DESTINATION_EG2_DECAY;
-        if (dest == DLSModulator.CONN_DST_EG2_RELEASETIME)
-            return ModelDestination.DESTINATION_EG2_RELEASE;
-        if (dest == DLSModulator.CONN_DST_EG2_SUSTAINLEVEL)
-            return ModelDestination.DESTINATION_EG2_SUSTAIN;
+        if (dfst == DLSModulbtor.CONN_DST_EG2_ATTACKTIME)
+            rfturn ModflDfstinbtion.DESTINATION_EG2_ATTACK;
+        if (dfst == DLSModulbtor.CONN_DST_EG2_DECAYTIME)
+            rfturn ModflDfstinbtion.DESTINATION_EG2_DECAY;
+        if (dfst == DLSModulbtor.CONN_DST_EG2_RELEASETIME)
+            rfturn ModflDfstinbtion.DESTINATION_EG2_RELEASE;
+        if (dfst == DLSModulbtor.CONN_DST_EG2_SUSTAINLEVEL)
+            rfturn ModflDfstinbtion.DESTINATION_EG2_SUSTAIN;
 
-        // DLS2 Destinations
-        if (dest == DLSModulator.CONN_DST_KEYNUMBER)
-            return ModelDestination.DESTINATION_KEYNUMBER;
+        // DLS2 Dfstinbtions
+        if (dfst == DLSModulbtor.CONN_DST_KEYNUMBER)
+            rfturn ModflDfstinbtion.DESTINATION_KEYNUMBER;
 
-        if (dest == DLSModulator.CONN_DST_CHORUS)
-            return ModelDestination.DESTINATION_CHORUS;
-        if (dest == DLSModulator.CONN_DST_REVERB)
-            return ModelDestination.DESTINATION_REVERB;
+        if (dfst == DLSModulbtor.CONN_DST_CHORUS)
+            rfturn ModflDfstinbtion.DESTINATION_CHORUS;
+        if (dfst == DLSModulbtor.CONN_DST_REVERB)
+            rfturn ModflDfstinbtion.DESTINATION_REVERB;
 
-        if (dest == DLSModulator.CONN_DST_VIB_FREQUENCY)
-            return ModelDestination.DESTINATION_LFO2_FREQ;
-        if (dest == DLSModulator.CONN_DST_VIB_STARTDELAY)
-            return ModelDestination.DESTINATION_LFO2_DELAY;
+        if (dfst == DLSModulbtor.CONN_DST_VIB_FREQUENCY)
+            rfturn ModflDfstinbtion.DESTINATION_LFO2_FREQ;
+        if (dfst == DLSModulbtor.CONN_DST_VIB_STARTDELAY)
+            rfturn ModflDfstinbtion.DESTINATION_LFO2_DELAY;
 
-        if (dest == DLSModulator.CONN_DST_EG1_DELAYTIME)
-            return ModelDestination.DESTINATION_EG1_DELAY;
-        if (dest == DLSModulator.CONN_DST_EG1_HOLDTIME)
-            return ModelDestination.DESTINATION_EG1_HOLD;
-        if (dest == DLSModulator.CONN_DST_EG1_SHUTDOWNTIME)
-            return ModelDestination.DESTINATION_EG1_SHUTDOWN;
+        if (dfst == DLSModulbtor.CONN_DST_EG1_DELAYTIME)
+            rfturn ModflDfstinbtion.DESTINATION_EG1_DELAY;
+        if (dfst == DLSModulbtor.CONN_DST_EG1_HOLDTIME)
+            rfturn ModflDfstinbtion.DESTINATION_EG1_HOLD;
+        if (dfst == DLSModulbtor.CONN_DST_EG1_SHUTDOWNTIME)
+            rfturn ModflDfstinbtion.DESTINATION_EG1_SHUTDOWN;
 
-        if (dest == DLSModulator.CONN_DST_EG2_DELAYTIME)
-            return ModelDestination.DESTINATION_EG2_DELAY;
-        if (dest == DLSModulator.CONN_DST_EG2_HOLDTIME)
-            return ModelDestination.DESTINATION_EG2_HOLD;
+        if (dfst == DLSModulbtor.CONN_DST_EG2_DELAYTIME)
+            rfturn ModflDfstinbtion.DESTINATION_EG2_DELAY;
+        if (dfst == DLSModulbtor.CONN_DST_EG2_HOLDTIME)
+            rfturn ModflDfstinbtion.DESTINATION_EG2_HOLD;
 
-        if (dest == DLSModulator.CONN_DST_FILTER_CUTOFF)
-            return ModelDestination.DESTINATION_FILTER_FREQ;
-        if (dest == DLSModulator.CONN_DST_FILTER_Q)
-            return ModelDestination.DESTINATION_FILTER_Q;
+        if (dfst == DLSModulbtor.CONN_DST_FILTER_CUTOFF)
+            rfturn ModflDfstinbtion.DESTINATION_FILTER_FREQ;
+        if (dfst == DLSModulbtor.CONN_DST_FILTER_Q)
+            rfturn ModflDfstinbtion.DESTINATION_FILTER_Q;
 
-        return null;
+        rfturn null;
     }
 
-    private ModelIdentifier convertToModelSrc(int src) {
-        if (src == DLSModulator.CONN_SRC_NONE)
-            return null;
+    privbtf ModflIdfntififr donvfrtToModflSrd(int srd) {
+        if (srd == DLSModulbtor.CONN_SRC_NONE)
+            rfturn null;
 
-        if (src == DLSModulator.CONN_SRC_LFO)
-            return ModelSource.SOURCE_LFO1;
-        if (src == DLSModulator.CONN_SRC_KEYONVELOCITY)
-            return ModelSource.SOURCE_NOTEON_VELOCITY;
-        if (src == DLSModulator.CONN_SRC_KEYNUMBER)
-            return ModelSource.SOURCE_NOTEON_KEYNUMBER;
-        if (src == DLSModulator.CONN_SRC_EG1)
-            return ModelSource.SOURCE_EG1;
-        if (src == DLSModulator.CONN_SRC_EG2)
-            return ModelSource.SOURCE_EG2;
-        if (src == DLSModulator.CONN_SRC_PITCHWHEEL)
-            return ModelSource.SOURCE_MIDI_PITCH;
-        if (src == DLSModulator.CONN_SRC_CC1)
-            return new ModelIdentifier("midi_cc", "1", 0);
-        if (src == DLSModulator.CONN_SRC_CC7)
-            return new ModelIdentifier("midi_cc", "7", 0);
-        if (src == DLSModulator.CONN_SRC_CC10)
-            return new ModelIdentifier("midi_cc", "10", 0);
-        if (src == DLSModulator.CONN_SRC_CC11)
-            return new ModelIdentifier("midi_cc", "11", 0);
-        if (src == DLSModulator.CONN_SRC_RPN0)
-            return new ModelIdentifier("midi_rpn", "0", 0);
-        if (src == DLSModulator.CONN_SRC_RPN1)
-            return new ModelIdentifier("midi_rpn", "1", 0);
+        if (srd == DLSModulbtor.CONN_SRC_LFO)
+            rfturn ModflSourdf.SOURCE_LFO1;
+        if (srd == DLSModulbtor.CONN_SRC_KEYONVELOCITY)
+            rfturn ModflSourdf.SOURCE_NOTEON_VELOCITY;
+        if (srd == DLSModulbtor.CONN_SRC_KEYNUMBER)
+            rfturn ModflSourdf.SOURCE_NOTEON_KEYNUMBER;
+        if (srd == DLSModulbtor.CONN_SRC_EG1)
+            rfturn ModflSourdf.SOURCE_EG1;
+        if (srd == DLSModulbtor.CONN_SRC_EG2)
+            rfturn ModflSourdf.SOURCE_EG2;
+        if (srd == DLSModulbtor.CONN_SRC_PITCHWHEEL)
+            rfturn ModflSourdf.SOURCE_MIDI_PITCH;
+        if (srd == DLSModulbtor.CONN_SRC_CC1)
+            rfturn nfw ModflIdfntififr("midi_dd", "1", 0);
+        if (srd == DLSModulbtor.CONN_SRC_CC7)
+            rfturn nfw ModflIdfntififr("midi_dd", "7", 0);
+        if (srd == DLSModulbtor.CONN_SRC_CC10)
+            rfturn nfw ModflIdfntififr("midi_dd", "10", 0);
+        if (srd == DLSModulbtor.CONN_SRC_CC11)
+            rfturn nfw ModflIdfntififr("midi_dd", "11", 0);
+        if (srd == DLSModulbtor.CONN_SRC_RPN0)
+            rfturn nfw ModflIdfntififr("midi_rpn", "0", 0);
+        if (srd == DLSModulbtor.CONN_SRC_RPN1)
+            rfturn nfw ModflIdfntififr("midi_rpn", "1", 0);
 
-        if (src == DLSModulator.CONN_SRC_POLYPRESSURE)
-            return ModelSource.SOURCE_MIDI_POLY_PRESSURE;
-        if (src == DLSModulator.CONN_SRC_CHANNELPRESSURE)
-            return ModelSource.SOURCE_MIDI_CHANNEL_PRESSURE;
-        if (src == DLSModulator.CONN_SRC_VIBRATO)
-            return ModelSource.SOURCE_LFO2;
-        if (src == DLSModulator.CONN_SRC_MONOPRESSURE)
-            return ModelSource.SOURCE_MIDI_CHANNEL_PRESSURE;
+        if (srd == DLSModulbtor.CONN_SRC_POLYPRESSURE)
+            rfturn ModflSourdf.SOURCE_MIDI_POLY_PRESSURE;
+        if (srd == DLSModulbtor.CONN_SRC_CHANNELPRESSURE)
+            rfturn ModflSourdf.SOURCE_MIDI_CHANNEL_PRESSURE;
+        if (srd == DLSModulbtor.CONN_SRC_VIBRATO)
+            rfturn ModflSourdf.SOURCE_LFO2;
+        if (srd == DLSModulbtor.CONN_SRC_MONOPRESSURE)
+            rfturn ModflSourdf.SOURCE_MIDI_CHANNEL_PRESSURE;
 
-        if (src == DLSModulator.CONN_SRC_CC91)
-            return new ModelIdentifier("midi_cc", "91", 0);
-        if (src == DLSModulator.CONN_SRC_CC93)
-            return new ModelIdentifier("midi_cc", "93", 0);
+        if (srd == DLSModulbtor.CONN_SRC_CC91)
+            rfturn nfw ModflIdfntififr("midi_dd", "91", 0);
+        if (srd == DLSModulbtor.CONN_SRC_CC93)
+            rfturn nfw ModflIdfntififr("midi_dd", "93", 0);
 
-        return null;
+        rfturn null;
     }
 
-    private ModelConnectionBlock convertToModel(DLSModulator mod) {
-        ModelIdentifier source = convertToModelSrc(mod.getSource());
-        ModelIdentifier control = convertToModelSrc(mod.getControl());
-        ModelIdentifier destination_id =
-                convertToModelDest(mod.getDestination());
+    privbtf ModflConnfdtionBlodk donvfrtToModfl(DLSModulbtor mod) {
+        ModflIdfntififr sourdf = donvfrtToModflSrd(mod.gftSourdf());
+        ModflIdfntififr dontrol = donvfrtToModflSrd(mod.gftControl());
+        ModflIdfntififr dfstinbtion_id =
+                donvfrtToModflDfst(mod.gftDfstinbtion());
 
-        int scale = mod.getScale();
-        double f_scale;
-        if (scale == Integer.MIN_VALUE)
-            f_scale = Double.NEGATIVE_INFINITY;
-        else
-            f_scale = scale / 65536.0;
+        int sdblf = mod.gftSdblf();
+        doublf f_sdblf;
+        if (sdblf == Intfgfr.MIN_VALUE)
+            f_sdblf = Doublf.NEGATIVE_INFINITY;
+        flsf
+            f_sdblf = sdblf / 65536.0;
 
-        if (destination_id != null) {
-            ModelSource src = null;
-            ModelSource ctrl = null;
-            ModelConnectionBlock block = new ModelConnectionBlock();
-            if (control != null) {
-                ModelSource s = new ModelSource();
-                if (control == ModelSource.SOURCE_MIDI_PITCH) {
-                    ((ModelStandardTransform)s.getTransform()).setPolarity(
-                            ModelStandardTransform.POLARITY_BIPOLAR);
-                } else if (control == ModelSource.SOURCE_LFO1
-                        || control == ModelSource.SOURCE_LFO2) {
-                    ((ModelStandardTransform)s.getTransform()).setPolarity(
-                            ModelStandardTransform.POLARITY_BIPOLAR);
+        if (dfstinbtion_id != null) {
+            ModflSourdf srd = null;
+            ModflSourdf dtrl = null;
+            ModflConnfdtionBlodk blodk = nfw ModflConnfdtionBlodk();
+            if (dontrol != null) {
+                ModflSourdf s = nfw ModflSourdf();
+                if (dontrol == ModflSourdf.SOURCE_MIDI_PITCH) {
+                    ((ModflStbndbrdTrbnsform)s.gftTrbnsform()).sftPolbrity(
+                            ModflStbndbrdTrbnsform.POLARITY_BIPOLAR);
+                } flsf if (dontrol == ModflSourdf.SOURCE_LFO1
+                        || dontrol == ModflSourdf.SOURCE_LFO2) {
+                    ((ModflStbndbrdTrbnsform)s.gftTrbnsform()).sftPolbrity(
+                            ModflStbndbrdTrbnsform.POLARITY_BIPOLAR);
                 }
-                s.setIdentifier(control);
-                block.addSource(s);
-                ctrl = s;
+                s.sftIdfntififr(dontrol);
+                blodk.bddSourdf(s);
+                dtrl = s;
             }
-            if (source != null) {
-                ModelSource s = new ModelSource();
-                if (source == ModelSource.SOURCE_MIDI_PITCH) {
-                    ((ModelStandardTransform)s.getTransform()).setPolarity(
-                            ModelStandardTransform.POLARITY_BIPOLAR);
-                } else if (source == ModelSource.SOURCE_LFO1
-                        || source == ModelSource.SOURCE_LFO2) {
-                    ((ModelStandardTransform)s.getTransform()).setPolarity(
-                            ModelStandardTransform.POLARITY_BIPOLAR);
+            if (sourdf != null) {
+                ModflSourdf s = nfw ModflSourdf();
+                if (sourdf == ModflSourdf.SOURCE_MIDI_PITCH) {
+                    ((ModflStbndbrdTrbnsform)s.gftTrbnsform()).sftPolbrity(
+                            ModflStbndbrdTrbnsform.POLARITY_BIPOLAR);
+                } flsf if (sourdf == ModflSourdf.SOURCE_LFO1
+                        || sourdf == ModflSourdf.SOURCE_LFO2) {
+                    ((ModflStbndbrdTrbnsform)s.gftTrbnsform()).sftPolbrity(
+                            ModflStbndbrdTrbnsform.POLARITY_BIPOLAR);
                 }
-                s.setIdentifier(source);
-                block.addSource(s);
-                src = s;
+                s.sftIdfntififr(sourdf);
+                blodk.bddSourdf(s);
+                srd = s;
             }
-            ModelDestination destination = new ModelDestination();
-            destination.setIdentifier(destination_id);
-            block.setDestination(destination);
+            ModflDfstinbtion dfstinbtion = nfw ModflDfstinbtion();
+            dfstinbtion.sftIdfntififr(dfstinbtion_id);
+            blodk.sftDfstinbtion(dfstinbtion);
 
-            if (mod.getVersion() == 1) {
-                //if (mod.getTransform() ==  DLSModulator.CONN_TRN_CONCAVE) {
-                //    ((ModelStandardTransform)destination.getTransform())
-                //            .setTransform(
-                //            ModelStandardTransform.TRANSFORM_CONCAVE);
+            if (mod.gftVfrsion() == 1) {
+                //if (mod.gftTrbnsform() ==  DLSModulbtor.CONN_TRN_CONCAVE) {
+                //    ((ModflStbndbrdTrbnsform)dfstinbtion.gftTrbnsform())
+                //            .sftTrbnsform(
+                //            ModflStbndbrdTrbnsform.TRANSFORM_CONCAVE);
                 //}
-                if (mod.getTransform() == DLSModulator.CONN_TRN_CONCAVE) {
-                    if (src != null) {
-                        ((ModelStandardTransform)src.getTransform())
-                                .setTransform(
-                                    ModelStandardTransform.TRANSFORM_CONCAVE);
-                        ((ModelStandardTransform)src.getTransform())
-                                .setDirection(
-                                    ModelStandardTransform.DIRECTION_MAX2MIN);
+                if (mod.gftTrbnsform() == DLSModulbtor.CONN_TRN_CONCAVE) {
+                    if (srd != null) {
+                        ((ModflStbndbrdTrbnsform)srd.gftTrbnsform())
+                                .sftTrbnsform(
+                                    ModflStbndbrdTrbnsform.TRANSFORM_CONCAVE);
+                        ((ModflStbndbrdTrbnsform)srd.gftTrbnsform())
+                                .sftDirfdtion(
+                                    ModflStbndbrdTrbnsform.DIRECTION_MAX2MIN);
                     }
-                    if (ctrl != null) {
-                        ((ModelStandardTransform)ctrl.getTransform())
-                                .setTransform(
-                                    ModelStandardTransform.TRANSFORM_CONCAVE);
-                        ((ModelStandardTransform)ctrl.getTransform())
-                                .setDirection(
-                                    ModelStandardTransform.DIRECTION_MAX2MIN);
+                    if (dtrl != null) {
+                        ((ModflStbndbrdTrbnsform)dtrl.gftTrbnsform())
+                                .sftTrbnsform(
+                                    ModflStbndbrdTrbnsform.TRANSFORM_CONCAVE);
+                        ((ModflStbndbrdTrbnsform)dtrl.gftTrbnsform())
+                                .sftDirfdtion(
+                                    ModflStbndbrdTrbnsform.DIRECTION_MAX2MIN);
                     }
                 }
 
-            } else if (mod.getVersion() == 2) {
-                int transform = mod.getTransform();
-                int src_transform_invert = (transform >> 15) & 1;
-                int src_transform_bipolar = (transform >> 14) & 1;
-                int src_transform = (transform >> 10) & 8;
-                int ctr_transform_invert = (transform >> 9) & 1;
-                int ctr_transform_bipolar = (transform >> 8) & 1;
-                int ctr_transform = (transform >> 4) & 8;
+            } flsf if (mod.gftVfrsion() == 2) {
+                int trbnsform = mod.gftTrbnsform();
+                int srd_trbnsform_invfrt = (trbnsform >> 15) & 1;
+                int srd_trbnsform_bipolbr = (trbnsform >> 14) & 1;
+                int srd_trbnsform = (trbnsform >> 10) & 8;
+                int dtr_trbnsform_invfrt = (trbnsform >> 9) & 1;
+                int dtr_trbnsform_bipolbr = (trbnsform >> 8) & 1;
+                int dtr_trbnsform = (trbnsform >> 4) & 8;
 
 
-                if (src != null) {
-                    int trans = ModelStandardTransform.TRANSFORM_LINEAR;
-                    if (src_transform == DLSModulator.CONN_TRN_SWITCH)
-                        trans = ModelStandardTransform.TRANSFORM_SWITCH;
-                    if (src_transform == DLSModulator.CONN_TRN_CONCAVE)
-                        trans = ModelStandardTransform.TRANSFORM_CONCAVE;
-                    if (src_transform == DLSModulator.CONN_TRN_CONVEX)
-                        trans = ModelStandardTransform.TRANSFORM_CONVEX;
-                    ((ModelStandardTransform)src.getTransform())
-                            .setTransform(trans);
-                    ((ModelStandardTransform)src.getTransform())
-                            .setPolarity(src_transform_bipolar == 1);
-                    ((ModelStandardTransform)src.getTransform())
-                            .setDirection(src_transform_invert == 1);
+                if (srd != null) {
+                    int trbns = ModflStbndbrdTrbnsform.TRANSFORM_LINEAR;
+                    if (srd_trbnsform == DLSModulbtor.CONN_TRN_SWITCH)
+                        trbns = ModflStbndbrdTrbnsform.TRANSFORM_SWITCH;
+                    if (srd_trbnsform == DLSModulbtor.CONN_TRN_CONCAVE)
+                        trbns = ModflStbndbrdTrbnsform.TRANSFORM_CONCAVE;
+                    if (srd_trbnsform == DLSModulbtor.CONN_TRN_CONVEX)
+                        trbns = ModflStbndbrdTrbnsform.TRANSFORM_CONVEX;
+                    ((ModflStbndbrdTrbnsform)srd.gftTrbnsform())
+                            .sftTrbnsform(trbns);
+                    ((ModflStbndbrdTrbnsform)srd.gftTrbnsform())
+                            .sftPolbrity(srd_trbnsform_bipolbr == 1);
+                    ((ModflStbndbrdTrbnsform)srd.gftTrbnsform())
+                            .sftDirfdtion(srd_trbnsform_invfrt == 1);
 
                 }
 
-                if (ctrl != null) {
-                    int trans = ModelStandardTransform.TRANSFORM_LINEAR;
-                    if (ctr_transform == DLSModulator.CONN_TRN_SWITCH)
-                        trans = ModelStandardTransform.TRANSFORM_SWITCH;
-                    if (ctr_transform == DLSModulator.CONN_TRN_CONCAVE)
-                        trans = ModelStandardTransform.TRANSFORM_CONCAVE;
-                    if (ctr_transform == DLSModulator.CONN_TRN_CONVEX)
-                        trans = ModelStandardTransform.TRANSFORM_CONVEX;
-                    ((ModelStandardTransform)ctrl.getTransform())
-                            .setTransform(trans);
-                    ((ModelStandardTransform)ctrl.getTransform())
-                            .setPolarity(ctr_transform_bipolar == 1);
-                    ((ModelStandardTransform)ctrl.getTransform())
-                            .setDirection(ctr_transform_invert == 1);
+                if (dtrl != null) {
+                    int trbns = ModflStbndbrdTrbnsform.TRANSFORM_LINEAR;
+                    if (dtr_trbnsform == DLSModulbtor.CONN_TRN_SWITCH)
+                        trbns = ModflStbndbrdTrbnsform.TRANSFORM_SWITCH;
+                    if (dtr_trbnsform == DLSModulbtor.CONN_TRN_CONCAVE)
+                        trbns = ModflStbndbrdTrbnsform.TRANSFORM_CONCAVE;
+                    if (dtr_trbnsform == DLSModulbtor.CONN_TRN_CONVEX)
+                        trbns = ModflStbndbrdTrbnsform.TRANSFORM_CONVEX;
+                    ((ModflStbndbrdTrbnsform)dtrl.gftTrbnsform())
+                            .sftTrbnsform(trbns);
+                    ((ModflStbndbrdTrbnsform)dtrl.gftTrbnsform())
+                            .sftPolbrity(dtr_trbnsform_bipolbr == 1);
+                    ((ModflStbndbrdTrbnsform)dtrl.gftTrbnsform())
+                            .sftDirfdtion(dtr_trbnsform_invfrt == 1);
                 }
 
-                /* No output transforms are defined the DLS Level 2
-                int out_transform = transform % 8;
-                int trans = ModelStandardTransform.TRANSFORM_LINEAR;
-                if (out_transform == DLSModulator.CONN_TRN_SWITCH)
-                    trans = ModelStandardTransform.TRANSFORM_SWITCH;
-                if (out_transform == DLSModulator.CONN_TRN_CONCAVE)
-                    trans = ModelStandardTransform.TRANSFORM_CONCAVE;
-                if (out_transform == DLSModulator.CONN_TRN_CONVEX)
-                    trans = ModelStandardTransform.TRANSFORM_CONVEX;
-                if (ctrl != null) {
-                    ((ModelStandardTransform)destination.getTransform())
-                            .setTransform(trans);
+                /* No output trbnsforms brf dffinfd tif DLS Lfvfl 2
+                int out_trbnsform = trbnsform % 8;
+                int trbns = ModflStbndbrdTrbnsform.TRANSFORM_LINEAR;
+                if (out_trbnsform == DLSModulbtor.CONN_TRN_SWITCH)
+                    trbns = ModflStbndbrdTrbnsform.TRANSFORM_SWITCH;
+                if (out_trbnsform == DLSModulbtor.CONN_TRN_CONCAVE)
+                    trbns = ModflStbndbrdTrbnsform.TRANSFORM_CONCAVE;
+                if (out_trbnsform == DLSModulbtor.CONN_TRN_CONVEX)
+                    trbns = ModflStbndbrdTrbnsform.TRANSFORM_CONVEX;
+                if (dtrl != null) {
+                    ((ModflStbndbrdTrbnsform)dfstinbtion.gftTrbnsform())
+                            .sftTrbnsform(trbns);
                 }
                 */
 
             }
 
-            block.setScale(f_scale);
+            blodk.sftSdblf(f_sdblf);
 
-            return block;
+            rfturn blodk;
         }
 
-        return null;
+        rfturn null;
     }
 
-    public ModelPerformer[] getPerformers() {
-        List<ModelPerformer> performers = new ArrayList<ModelPerformer>();
+    publid ModflPfrformfr[] gftPfrformfrs() {
+        List<ModflPfrformfr> pfrformfrs = nfw ArrbyList<ModflPfrformfr>();
 
-        Map<String, DLSModulator> modmap = new HashMap<String, DLSModulator>();
-        for (DLSModulator mod: getModulators()) {
-            modmap.put(mod.getSource() + "x" + mod.getControl() + "=" +
-                    mod.getDestination(), mod);
+        Mbp<String, DLSModulbtor> modmbp = nfw HbsiMbp<String, DLSModulbtor>();
+        for (DLSModulbtor mod: gftModulbtors()) {
+            modmbp.put(mod.gftSourdf() + "x" + mod.gftControl() + "=" +
+                    mod.gftDfstinbtion(), mod);
         }
 
-        Map<String, DLSModulator> insmodmap =
-                new HashMap<String, DLSModulator>();
+        Mbp<String, DLSModulbtor> insmodmbp =
+                nfw HbsiMbp<String, DLSModulbtor>();
 
-        for (DLSRegion zone: regions) {
-            ModelPerformer performer = new ModelPerformer();
-            performer.setName(zone.getSample().getName());
-            performer.setSelfNonExclusive((zone.getFusoptions() &
-                    DLSRegion.OPTION_SELFNONEXCLUSIVE) != 0);
-            performer.setExclusiveClass(zone.getExclusiveClass());
-            performer.setKeyFrom(zone.getKeyfrom());
-            performer.setKeyTo(zone.getKeyto());
-            performer.setVelFrom(zone.getVelfrom());
-            performer.setVelTo(zone.getVelto());
+        for (DLSRfgion zonf: rfgions) {
+            ModflPfrformfr pfrformfr = nfw ModflPfrformfr();
+            pfrformfr.sftNbmf(zonf.gftSbmplf().gftNbmf());
+            pfrformfr.sftSflfNonExdlusivf((zonf.gftFusoptions() &
+                    DLSRfgion.OPTION_SELFNONEXCLUSIVE) != 0);
+            pfrformfr.sftExdlusivfClbss(zonf.gftExdlusivfClbss());
+            pfrformfr.sftKfyFrom(zonf.gftKfyfrom());
+            pfrformfr.sftKfyTo(zonf.gftKfyto());
+            pfrformfr.sftVflFrom(zonf.gftVflfrom());
+            pfrformfr.sftVflTo(zonf.gftVflto());
 
-            insmodmap.clear();
-            insmodmap.putAll(modmap);
-            for (DLSModulator mod: zone.getModulators()) {
-                insmodmap.put(mod.getSource() + "x" + mod.getControl() + "=" +
-                        mod.getDestination(), mod);
+            insmodmbp.dlfbr();
+            insmodmbp.putAll(modmbp);
+            for (DLSModulbtor mod: zonf.gftModulbtors()) {
+                insmodmbp.put(mod.gftSourdf() + "x" + mod.gftControl() + "=" +
+                        mod.gftDfstinbtion(), mod);
             }
 
-            List<ModelConnectionBlock> blocks = performer.getConnectionBlocks();
-            for (DLSModulator mod: insmodmap.values()) {
-                ModelConnectionBlock p = convertToModel(mod);
+            List<ModflConnfdtionBlodk> blodks = pfrformfr.gftConnfdtionBlodks();
+            for (DLSModulbtor mod: insmodmbp.vblufs()) {
+                ModflConnfdtionBlodk p = donvfrtToModfl(mod);
                 if (p != null)
-                    blocks.add(p);
+                    blodks.bdd(p);
             }
 
 
-            DLSSample sample = zone.getSample();
-            DLSSampleOptions sampleopt = zone.getSampleoptions();
-            if (sampleopt == null)
-                sampleopt = sample.getSampleoptions();
+            DLSSbmplf sbmplf = zonf.gftSbmplf();
+            DLSSbmplfOptions sbmplfopt = zonf.gftSbmplfoptions();
+            if (sbmplfopt == null)
+                sbmplfopt = sbmplf.gftSbmplfoptions();
 
-            ModelByteBuffer buff = sample.getDataBuffer();
+            ModflBytfBufffr buff = sbmplf.gftDbtbBufffr();
 
-            float pitchcorrection = (-sampleopt.unitynote * 100) +
-                    sampleopt.finetune;
+            flobt pitdidorrfdtion = (-sbmplfopt.unitynotf * 100) +
+                    sbmplfopt.finftunf;
 
-            ModelByteBufferWavetable osc = new ModelByteBufferWavetable(buff,
-                    sample.getFormat(), pitchcorrection);
-            osc.setAttenuation(osc.getAttenuation() / 65536f);
-            if (sampleopt.getLoops().size() != 0) {
-                DLSSampleLoop loop = sampleopt.getLoops().get(0);
-                osc.setLoopStart((int)loop.getStart());
-                osc.setLoopLength((int)loop.getLength());
-                if (loop.getType() == DLSSampleLoop.LOOP_TYPE_FORWARD)
-                    osc.setLoopType(ModelWavetable.LOOP_TYPE_FORWARD);
-                if (loop.getType() == DLSSampleLoop.LOOP_TYPE_RELEASE)
-                    osc.setLoopType(ModelWavetable.LOOP_TYPE_RELEASE);
-                else
-                    osc.setLoopType(ModelWavetable.LOOP_TYPE_FORWARD);
+            ModflBytfBufffrWbvftbblf osd = nfw ModflBytfBufffrWbvftbblf(buff,
+                    sbmplf.gftFormbt(), pitdidorrfdtion);
+            osd.sftAttfnubtion(osd.gftAttfnubtion() / 65536f);
+            if (sbmplfopt.gftLoops().sizf() != 0) {
+                DLSSbmplfLoop loop = sbmplfopt.gftLoops().gft(0);
+                osd.sftLoopStbrt((int)loop.gftStbrt());
+                osd.sftLoopLfngti((int)loop.gftLfngti());
+                if (loop.gftTypf() == DLSSbmplfLoop.LOOP_TYPE_FORWARD)
+                    osd.sftLoopTypf(ModflWbvftbblf.LOOP_TYPE_FORWARD);
+                if (loop.gftTypf() == DLSSbmplfLoop.LOOP_TYPE_RELEASE)
+                    osd.sftLoopTypf(ModflWbvftbblf.LOOP_TYPE_RELEASE);
+                flsf
+                    osd.sftLoopTypf(ModflWbvftbblf.LOOP_TYPE_FORWARD);
             }
 
-            performer.getConnectionBlocks().add(
-                    new ModelConnectionBlock(SoftFilter.FILTERTYPE_LP12,
-                        new ModelDestination(
-                            new ModelIdentifier("filter", "type", 1))));
+            pfrformfr.gftConnfdtionBlodks().bdd(
+                    nfw ModflConnfdtionBlodk(SoftFiltfr.FILTERTYPE_LP12,
+                        nfw ModflDfstinbtion(
+                            nfw ModflIdfntififr("filtfr", "typf", 1))));
 
-            performer.getOscillators().add(osc);
+            pfrformfr.gftOsdillbtors().bdd(osd);
 
-            performers.add(performer);
+            pfrformfrs.bdd(pfrformfr);
 
         }
 
-        return performers.toArray(new ModelPerformer[performers.size()]);
+        rfturn pfrformfrs.toArrby(nfw ModflPfrformfr[pfrformfrs.sizf()]);
     }
 
-    public byte[] getGuid() {
-        return guid == null ? null : Arrays.copyOf(guid, guid.length);
+    publid bytf[] gftGuid() {
+        rfturn guid == null ? null : Arrbys.dopyOf(guid, guid.lfngti);
     }
 
-    public void setGuid(byte[] guid) {
-        this.guid = guid == null ? null : Arrays.copyOf(guid, guid.length);
+    publid void sftGuid(bytf[] guid) {
+        tiis.guid = guid == null ? null : Arrbys.dopyOf(guid, guid.lfngti);
     }
 }

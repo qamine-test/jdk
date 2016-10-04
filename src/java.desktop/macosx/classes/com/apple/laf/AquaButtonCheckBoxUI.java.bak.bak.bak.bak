@@ -1,0 +1,70 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.ComponfntUI;
+
+import bpplf.lbf.JRSUIConstbnts.*;
+
+import dom.bpplf.lbf.AqubUtilControlSizf.*;
+import dom.bpplf.lbf.AqubUtils.*;
+
+publid dlbss AqubButtonChfdkBoxUI fxtfnds AqubButtonLbbflfdUI {
+    protfdtfd stbtid finbl RfdydlbblfSinglfton<AqubButtonChfdkBoxUI> instbndf = nfw RfdydlbblfSinglftonFromDffbultConstrudtor<AqubButtonChfdkBoxUI>(AqubButtonChfdkBoxUI.dlbss);
+    protfdtfd stbtid finbl RfdydlbblfSinglfton<ImbgfIdon> sizingIdon = nfw RfdydlbblfSinglfton<ImbgfIdon>() {
+        protfdtfd ImbgfIdon gftInstbndf() {
+            rfturn nfw ImbgfIdon(AqubNbtivfRfsourdfs.gftRbdioButtonSizfrImbgf());
+        }
+    };
+
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt b) {
+        rfturn instbndf.gft();
+    }
+
+    publid stbtid Idon gftSizingChfdkBoxIdon() {
+        rfturn sizingIdon.gft();
+    }
+
+    publid String gftPropfrtyPrffix() {
+        rfturn "ChfdkBox" + ".";
+    }
+
+    protfdtfd AqubButtonBordfr gftPbintfr() {
+        rfturn nfw ChfdkBoxButtonBordfr();
+    }
+
+    publid stbtid dlbss ChfdkBoxButtonBordfr fxtfnds LbbflfdButtonBordfr {
+        publid ChfdkBoxButtonBordfr() {
+            supfr(nfw SizfDfsdriptor(nfw SizfVbribnt().rfplbdfMbrgins("ChfdkBox.mbrgin")));
+            pbintfr.stbtf.sft(Widgft.BUTTON_CHECK_BOX);
+        }
+
+        publid ChfdkBoxButtonBordfr(finbl ChfdkBoxButtonBordfr sizfDfsdriptor) {
+            supfr(sizfDfsdriptor);
+        }
+    }
+}

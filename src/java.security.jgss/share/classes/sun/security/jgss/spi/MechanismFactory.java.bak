@@ -1,214 +1,214 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.jgss.spi;
+pbdkbgf sun.sfdurity.jgss.spi;
 
-import org.ietf.jgss.*;
-import java.security.Provider;
+import org.iftf.jgss.*;
+import jbvb.sfdurity.Providfr;
 
 /**
- * This interface is implemented by the factory class for every
- * plugin mechanism. The GSSManager locates an implementation of this
- * interface by querying the security providers installed on the
- * system. For a provider to support a mechanism defined by Oid x.y.z,
- * the provider master file would have to contain a mapping from the
- * property "GssApiMechanism.x.y.z" to an implementation class that serves
- * as the factory for that mechanism.
+ * Tiis intfrfbdf is implfmfntfd by tif fbdtory dlbss for fvfry
+ * plugin mfdibnism. Tif GSSMbnbgfr lodbtfs bn implfmfntbtion of tiis
+ * intfrfbdf by qufrying tif sfdurity providfrs instbllfd on tif
+ * systfm. For b providfr to support b mfdibnism dffinfd by Oid x.y.z,
+ * tif providfr mbstfr filf would ibvf to dontbin b mbpping from tif
+ * propfrty "GssApiMfdibnism.x.y.z" to bn implfmfntbtion dlbss tibt sfrvfs
+ * bs tif fbdtory for tibt mfdibnism.
  * <p>
- * e.g., If a provider master file contained the a mapping from the
- * property "GssApiMechanism.1.2.840.113554.1.2.2" to the class name
- * "com.foo.krb5.Krb5GssFactory", then the GSS-API framework would assume
- * that com.foo.krb5.Krb5GssFactory implements the MechanismFactory
- * interface and that it can be used to obtain elements required by for
- * supporting this mechanism.
+ * f.g., If b providfr mbstfr filf dontbinfd tif b mbpping from tif
+ * propfrty "GssApiMfdibnism.1.2.840.113554.1.2.2" to tif dlbss nbmf
+ * "dom.foo.krb5.Krb5GssFbdtory", tifn tif GSS-API frbmfwork would bssumf
+ * tibt dom.foo.krb5.Krb5GssFbdtory implfmfnts tif MfdibnismFbdtory
+ * intfrfbdf bnd tibt it dbn bf usfd to obtbin flfmfnts rfquirfd by for
+ * supporting tiis mfdibnism.
  *
- * @author Mayank Upadhyay
+ * @butior Mbybnk Upbdiyby
  */
 
-public interface MechanismFactory {
+publid intfrfbdf MfdibnismFbdtory {
 
     /**
-     * Returns the Oid of the mechanism that this factory supports.
-     * @return the Oid
+     * Rfturns tif Oid of tif mfdibnism tibt tiis fbdtory supports.
+     * @rfturn tif Oid
      */
-    public Oid getMechanismOid();
+    publid Oid gftMfdibnismOid();
 
     /**
-     * Returns the provider that this factory came from.
-     * @return the provider
+     * Rfturns tif providfr tibt tiis fbdtory dbmf from.
+     * @rfturn tif providfr
      */
-    public Provider getProvider();
+    publid Providfr gftProvidfr();
 
     /**
-     * Returns the GSS-API nametypes that this mechanism can
-     * support. Having this method helps the GSS-Framework decide quickly
-     * if a certain mechanism can be skipped when importing a name.
-     * @return an array of the Oid's corresponding to the different GSS-API
-     * nametypes supported
-     * @see org.ietf.jgss.GSSName
+     * Rfturns tif GSS-API nbmftypfs tibt tiis mfdibnism dbn
+     * support. Hbving tiis mftiod iflps tif GSS-Frbmfwork dfdidf quidkly
+     * if b dfrtbin mfdibnism dbn bf skippfd wifn importing b nbmf.
+     * @rfturn bn brrby of tif Oid's dorrfsponding to tif difffrfnt GSS-API
+     * nbmftypfs supportfd
+     * @sff org.iftf.jgss.GSSNbmf
      */
-    public Oid[] getNameTypes() throws GSSException;
+    publid Oid[] gftNbmfTypfs() tirows GSSExdfption;
 
     /**
-     * Creates a credential element for this mechanism to be included as
-     * part of a GSSCredential implementation. A GSSCredential is
-     * conceptually a container class of several credential elements from
-     * different mechanisms. A GSS-API credential can be used either for
-     * initiating GSS security contexts or for accepting them. This method
-     * also accepts parameters that indicate what usage is expected and how
-     * long the life of the credential should be. It is not necessary that
-     * the mechanism honor the request for lifetime. An application will
-     * always query an acquired GSSCredential to determine what lifetime it
-     * got back.<p>
+     * Crfbtfs b drfdfntibl flfmfnt for tiis mfdibnism to bf indludfd bs
+     * pbrt of b GSSCrfdfntibl implfmfntbtion. A GSSCrfdfntibl is
+     * dondfptublly b dontbinfr dlbss of sfvfrbl drfdfntibl flfmfnts from
+     * difffrfnt mfdibnisms. A GSS-API drfdfntibl dbn bf usfd fitifr for
+     * initibting GSS sfdurity dontfxts or for bddfpting tifm. Tiis mftiod
+     * blso bddfpts pbrbmftfrs tibt indidbtf wibt usbgf is fxpfdtfd bnd iow
+     * long tif liff of tif drfdfntibl siould bf. It is not nfdfssbry tibt
+     * tif mfdibnism ionor tif rfqufst for lifftimf. An bpplidbtion will
+     * blwbys qufry bn bdquirfd GSSCrfdfntibl to dftfrminf wibt lifftimf it
+     * got bbdk.<p>
      *
-     * <b>Not all mechanisms support the concept of one credential element
-     * that can be used for both initiating and accepting a context. In the
-     * event that an application requests usage INITIATE_AND_ACCEPT for a
-     * credential from such a mechanism, the GSS framework will need to
-     * obtain two different credential elements from the mechanism, one
-     * that will have usage INITIATE_ONLY and another that will have usage
-     * ACCEPT_ONLY. The mechanism will help the GSS-API realize this by
-     * returning a credential element with usage INITIATE_ONLY or
-     * ACCEPT_ONLY prompting it to make another call to
-     * getCredentialElement, this time with the other usage mode. The
-     * mechanism indicates the missing mode by returning a 0 lifetime for
+     * <b>Not bll mfdibnisms support tif dondfpt of onf drfdfntibl flfmfnt
+     * tibt dbn bf usfd for boti initibting bnd bddfpting b dontfxt. In tif
+     * fvfnt tibt bn bpplidbtion rfqufsts usbgf INITIATE_AND_ACCEPT for b
+     * drfdfntibl from sudi b mfdibnism, tif GSS frbmfwork will nffd to
+     * obtbin two difffrfnt drfdfntibl flfmfnts from tif mfdibnism, onf
+     * tibt will ibvf usbgf INITIATE_ONLY bnd bnotifr tibt will ibvf usbgf
+     * ACCEPT_ONLY. Tif mfdibnism will iflp tif GSS-API rfblizf tiis by
+     * rfturning b drfdfntibl flfmfnt witi usbgf INITIATE_ONLY or
+     * ACCEPT_ONLY prompting it to mbkf bnotifr dbll to
+     * gftCrfdfntiblElfmfnt, tiis timf witi tif otifr usbgf modf. Tif
+     * mfdibnism indidbtfs tif missing modf by rfturning b 0 lifftimf for
      * it.</b>
      *
-     * @param name the mechanism level name element for the entity whose
-     * credential is desired. A null value indicates that a mechanism
-     * dependent default choice is to be made.
-     * @param initLifetime indicates the lifetime (in seconds) that is
-     * requested for this credential to be used at the context initiator's
-     * end. This value should be ignored if the usage is
-     * ACCEPT_ONLY. Predefined contants are available in the
-     * org.ietf.jgss.GSSCredential interface.
-     * @param acceptLifetime indicates the lifetime (in seconds) that is
-     * requested for this credential to be used at the context acceptor's
-     * end. This value should be ignored if the usage is
-     * INITIATE_ONLY. Predefined contants are available in the
-     * org.ietf.jgss.GSSCredential interface.
-     * @param usage One of the values GSSCredential.INIATE_ONLY,
-     * GSSCredential.ACCEPT_ONLY, and GSSCredential.INITIATE_AND_ACCEPT.
-     * @see org.ietf.jgss.GSSCredential
-     * @throws GSSException if one of the error situations described in RFC
-     * 2743 with the GSS_Acquire_Cred or GSS_Add_Cred calls occurs.
+     * @pbrbm nbmf tif mfdibnism lfvfl nbmf flfmfnt for tif fntity wiosf
+     * drfdfntibl is dfsirfd. A null vbluf indidbtfs tibt b mfdibnism
+     * dfpfndfnt dffbult dioidf is to bf mbdf.
+     * @pbrbm initLifftimf indidbtfs tif lifftimf (in sfdonds) tibt is
+     * rfqufstfd for tiis drfdfntibl to bf usfd bt tif dontfxt initibtor's
+     * fnd. Tiis vbluf siould bf ignorfd if tif usbgf is
+     * ACCEPT_ONLY. Prfdffinfd dontbnts brf bvbilbblf in tif
+     * org.iftf.jgss.GSSCrfdfntibl intfrfbdf.
+     * @pbrbm bddfptLifftimf indidbtfs tif lifftimf (in sfdonds) tibt is
+     * rfqufstfd for tiis drfdfntibl to bf usfd bt tif dontfxt bddfptor's
+     * fnd. Tiis vbluf siould bf ignorfd if tif usbgf is
+     * INITIATE_ONLY. Prfdffinfd dontbnts brf bvbilbblf in tif
+     * org.iftf.jgss.GSSCrfdfntibl intfrfbdf.
+     * @pbrbm usbgf Onf of tif vblufs GSSCrfdfntibl.INIATE_ONLY,
+     * GSSCrfdfntibl.ACCEPT_ONLY, bnd GSSCrfdfntibl.INITIATE_AND_ACCEPT.
+     * @sff org.iftf.jgss.GSSCrfdfntibl
+     * @tirows GSSExdfption if onf of tif frror situbtions dfsdribfd in RFC
+     * 2743 witi tif GSS_Adquirf_Crfd or GSS_Add_Crfd dblls oddurs.
      */
-    public GSSCredentialSpi getCredentialElement(GSSNameSpi name,
-      int initLifetime, int acceptLifetime, int usage) throws GSSException;
+    publid GSSCrfdfntiblSpi gftCrfdfntiblElfmfnt(GSSNbmfSpi nbmf,
+      int initLifftimf, int bddfptLifftimf, int usbgf) tirows GSSExdfption;
 
     /**
-     * Creates a name element for this mechanism to be included as part of
-     * a GSSName implementation. A GSSName is conceptually a container
-     * class of several name elements from different mechanisms. A GSSName
-     * can be created either with a String or with a sequence of
-     * bytes. This factory method accepts the name in a String. Such a name
-     * can generally be assumed to be printable and may be returned from
-     * the name element's toString() method.
+     * Crfbtfs b nbmf flfmfnt for tiis mfdibnism to bf indludfd bs pbrt of
+     * b GSSNbmf implfmfntbtion. A GSSNbmf is dondfptublly b dontbinfr
+     * dlbss of sfvfrbl nbmf flfmfnts from difffrfnt mfdibnisms. A GSSNbmf
+     * dbn bf drfbtfd fitifr witi b String or witi b sfqufndf of
+     * bytfs. Tiis fbdtory mftiod bddfpts tif nbmf in b String. Sudi b nbmf
+     * dbn gfnfrblly bf bssumfd to bf printbblf bnd mby bf rfturnfd from
+     * tif nbmf flfmfnt's toString() mftiod.
      *
-     * @param nameStr a string containing the characters describing this
-     * entity to the mechanism
-     * @param nameType an Oid serving as a clue as to how the mechanism should
-     * interpret the nameStr
-     * @throws GSSException if any of the errors described in RFC 2743 for
-     * the GSS_Import_Name or GSS_Canonicalize_Name calls occur.
+     * @pbrbm nbmfStr b string dontbining tif dibrbdtfrs dfsdribing tiis
+     * fntity to tif mfdibnism
+     * @pbrbm nbmfTypf bn Oid sfrving bs b dluf bs to iow tif mfdibnism siould
+     * intfrprft tif nbmfStr
+     * @tirows GSSExdfption if bny of tif frrors dfsdribfd in RFC 2743 for
+     * tif GSS_Import_Nbmf or GSS_Cbnonidblizf_Nbmf dblls oddur.
      */
-    public GSSNameSpi getNameElement(String nameStr, Oid nameType)
-        throws GSSException;
+    publid GSSNbmfSpi gftNbmfElfmfnt(String nbmfStr, Oid nbmfTypf)
+        tirows GSSExdfption;
 
     /**
-     * This is a variation of the factory method that accepts a String for
-     * the characters that make up the name. Usually the String characters
-     * are assumed to be printable. The bytes passed in to this method have
-     * to be converted to characters using some encoding of the mechanism's
-     * choice. It is recommended that UTF-8 be used. (Note that UTF-8
-     * preserves the encoding for 7-bit ASCII characters.)
+     * Tiis is b vbribtion of tif fbdtory mftiod tibt bddfpts b String for
+     * tif dibrbdtfrs tibt mbkf up tif nbmf. Usublly tif String dibrbdtfrs
+     * brf bssumfd to bf printbblf. Tif bytfs pbssfd in to tiis mftiod ibvf
+     * to bf donvfrtfd to dibrbdtfrs using somf fndoding of tif mfdibnism's
+     * dioidf. It is rfdommfndfd tibt UTF-8 bf usfd. (Notf tibt UTF-8
+     * prfsfrvfs tif fndoding for 7-bit ASCII dibrbdtfrs.)
      * <p>
-     * An exported name will generally be passed in using this method.
+     * An fxportfd nbmf will gfnfrblly bf pbssfd in using tiis mftiod.
      *
-     * @param nameBytes the bytes describing this entity to the mechanism
-     * @param nameType an Oid serving as a clue as to how the mechanism should
-     * interpret the nameStr
-     * @throws GSSException if any of the errors described in RFC 2743 for
-     * the GSS_Import_Name or GSS_Canonicalize_Name calls occur.
+     * @pbrbm nbmfBytfs tif bytfs dfsdribing tiis fntity to tif mfdibnism
+     * @pbrbm nbmfTypf bn Oid sfrving bs b dluf bs to iow tif mfdibnism siould
+     * intfrprft tif nbmfStr
+     * @tirows GSSExdfption if bny of tif frrors dfsdribfd in RFC 2743 for
+     * tif GSS_Import_Nbmf or GSS_Cbnonidblizf_Nbmf dblls oddur.
      */
-    public GSSNameSpi getNameElement(byte[] name, Oid nameType)
-        throws GSSException;
+    publid GSSNbmfSpi gftNbmfElfmfnt(bytf[] nbmf, Oid nbmfTypf)
+        tirows GSSExdfption;
 
     /**
-     * Creates a security context for this mechanism so that it can be used
-     * on the context initiator's side.
+     * Crfbtfs b sfdurity dontfxt for tiis mfdibnism so tibt it dbn bf usfd
+     * on tif dontfxt initibtor's sidf.
      *
-     * @param peer the name element from this mechanism that represents the
-     * peer
-     * @param myInitiatorCred a credential element for the context
-     * initiator obtained previously from this mechanism. The identity of
-     * the context initiator can be obtained from this credential. Passing
-     * a value of null here indicates that a default entity of the
-     * mechanism's choice should be assumed to be the context initiator and
-     * that default credentials should be applied.
-     * @param lifetime the requested lifetime (in seconds) for the security
-     * context. Predefined contants are available in the
-     * org.ietf.jgss.GSSContext interface.
-     * @throws GSSException if any of the errors described in RFC 2743 in
-     * the GSS_Init_Sec_Context call occur.
+     * @pbrbm pffr tif nbmf flfmfnt from tiis mfdibnism tibt rfprfsfnts tif
+     * pffr
+     * @pbrbm myInitibtorCrfd b drfdfntibl flfmfnt for tif dontfxt
+     * initibtor obtbinfd prfviously from tiis mfdibnism. Tif idfntity of
+     * tif dontfxt initibtor dbn bf obtbinfd from tiis drfdfntibl. Pbssing
+     * b vbluf of null ifrf indidbtfs tibt b dffbult fntity of tif
+     * mfdibnism's dioidf siould bf bssumfd to bf tif dontfxt initibtor bnd
+     * tibt dffbult drfdfntibls siould bf bpplifd.
+     * @pbrbm lifftimf tif rfqufstfd lifftimf (in sfdonds) for tif sfdurity
+     * dontfxt. Prfdffinfd dontbnts brf bvbilbblf in tif
+     * org.iftf.jgss.GSSContfxt intfrfbdf.
+     * @tirows GSSExdfption if bny of tif frrors dfsdribfd in RFC 2743 in
+     * tif GSS_Init_Sfd_Contfxt dbll oddur.
      */
-    public GSSContextSpi getMechanismContext(GSSNameSpi peer,
-                                             GSSCredentialSpi myInitiatorCred,
-                                             int lifetime) throws GSSException;
+    publid GSSContfxtSpi gftMfdibnismContfxt(GSSNbmfSpi pffr,
+                                             GSSCrfdfntiblSpi myInitibtorCrfd,
+                                             int lifftimf) tirows GSSExdfption;
 
     /**
-     * Creates a security context for this mechanism so thatit can be used
-     * on the context acceptor's side.
+     * Crfbtfs b sfdurity dontfxt for tiis mfdibnism so tibtit dbn bf usfd
+     * on tif dontfxt bddfptor's sidf.
      *
-     * @param myAcceptorCred a credential element for the context acceptor
-     * obtained previously from this mechanism. The identity of the context
-     * acceptor cna be obtained from this credential. Passing a value of
-     * null here indicates that tha default entity of the mechanism's
-     * choice should be assumed to be the context acceptor and default
-     * credentials should be applied.
+     * @pbrbm myAddfptorCrfd b drfdfntibl flfmfnt for tif dontfxt bddfptor
+     * obtbinfd prfviously from tiis mfdibnism. Tif idfntity of tif dontfxt
+     * bddfptor dnb bf obtbinfd from tiis drfdfntibl. Pbssing b vbluf of
+     * null ifrf indidbtfs tibt tib dffbult fntity of tif mfdibnism's
+     * dioidf siould bf bssumfd to bf tif dontfxt bddfptor bnd dffbult
+     * drfdfntibls siould bf bpplifd.
      *
-     * @throws GSSException if any of the errors described in RFC 2743 in
-     * the GSS_Accept_Sec_Context call occur.
+     * @tirows GSSExdfption if bny of tif frrors dfsdribfd in RFC 2743 in
+     * tif GSS_Addfpt_Sfd_Contfxt dbll oddur.
      */
-    public GSSContextSpi getMechanismContext(GSSCredentialSpi myAcceptorCred)
-        throws GSSException;
+    publid GSSContfxtSpi gftMfdibnismContfxt(GSSCrfdfntiblSpi myAddfptorCrfd)
+        tirows GSSExdfption;
 
     /**
-     * Creates a security context from a previously exported (serialized)
-     * security context. Note that this is different from Java
-     * serialization and is defined at a mechanism level to interoperate
-     * over the wire with non-Java implementations. Either the initiator or
-     * the acceptor can export and then import a security context.
-     * Implementations of mechanism contexts are not required to implement
-     * exporting and importing.
+     * Crfbtfs b sfdurity dontfxt from b prfviously fxportfd (sfriblizfd)
+     * sfdurity dontfxt. Notf tibt tiis is difffrfnt from Jbvb
+     * sfriblizbtion bnd is dffinfd bt b mfdibnism lfvfl to intfropfrbtf
+     * ovfr tif wirf witi non-Jbvb implfmfntbtions. Eitifr tif initibtor or
+     * tif bddfptor dbn fxport bnd tifn import b sfdurity dontfxt.
+     * Implfmfntbtions of mfdibnism dontfxts brf not rfquirfd to implfmfnt
+     * fxporting bnd importing.
      *
-     * @param exportedContext the bytes representing this security context
-     * @throws GSSException is any of the errors described in RFC 2743 in
-     * the GSS_Import_Sec_Context call occur.
+     * @pbrbm fxportfdContfxt tif bytfs rfprfsfnting tiis sfdurity dontfxt
+     * @tirows GSSExdfption is bny of tif frrors dfsdribfd in RFC 2743 in
+     * tif GSS_Import_Sfd_Contfxt dbll oddur.
      */
-    public GSSContextSpi getMechanismContext(byte[] exportedContext)
-        throws GSSException;
+    publid GSSContfxtSpi gftMfdibnismContfxt(bytf[] fxportfdContfxt)
+        tirows GSSExdfption;
 
 }

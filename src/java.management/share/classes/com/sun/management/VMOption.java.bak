@@ -1,242 +1,242 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.management;
+pbdkbgf dom.sun.mbnbgfmfnt;
 
-import sun.management.VMOptionCompositeData;
-import javax.management.openmbean.CompositeData;
+import sun.mbnbgfmfnt.VMOptionCompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
 
 /**
- * Information about a VM option including its value and
- * where the value came from which is referred as its
+ * Informbtion bbout b VM option indluding its vbluf bnd
+ * wifrf tif vbluf dbmf from wiidi is rfffrrfd bs its
  * {@link VMOption.Origin <i>origin</i>}.
  * <p>
- * Each VM option has a default value.  A VM option can
- * be set at VM creation time typically as a command line
- * argument to the launcher or an argument passed to the
- * VM created using the JNI invocation interface.
- * In addition, a VM option may be set via an environment
- * variable or a configuration file. A VM option can also
- * be set dynamically via a management interface after
- * the VM was started.
+ * Ebdi VM option ibs b dffbult vbluf.  A VM option dbn
+ * bf sft bt VM drfbtion timf typidblly bs b dommbnd linf
+ * brgumfnt to tif lbundifr or bn brgumfnt pbssfd to tif
+ * VM drfbtfd using tif JNI invodbtion intfrfbdf.
+ * In bddition, b VM option mby bf sft vib bn fnvironmfnt
+ * vbribblf or b donfigurbtion filf. A VM option dbn blso
+ * bf sft dynbmidblly vib b mbnbgfmfnt intfrfbdf bftfr
+ * tif VM wbs stbrtfd.
  *
- * A <tt>VMOption</tt> contains the value of a VM option
- * and the origin of that value at the time this <tt>VMOption</tt>
- * object was constructed.  The value of the VM option
- * may be changed after the <tt>VMOption</tt> object was constructed,
+ * A <tt>VMOption</tt> dontbins tif vbluf of b VM option
+ * bnd tif origin of tibt vbluf bt tif timf tiis <tt>VMOption</tt>
+ * objfdt wbs donstrudtfd.  Tif vbluf of tif VM option
+ * mby bf dibngfd bftfr tif <tt>VMOption</tt> objfdt wbs donstrudtfd,
  *
- * @see <a href="{@docRoot}/../../../../technotes/guides/vm/index.html">
- *         Java Virtual Machine</a>
- * @author Mandy Chung
- * @since 1.6
+ * @sff <b irff="{@dodRoot}/../../../../tfdinotfs/guidfs/vm/indfx.itml">
+ *         Jbvb Virtubl Mbdiinf</b>
+ * @butior Mbndy Ciung
+ * @sindf 1.6
  */
-@jdk.Exported
-public class VMOption {
-    private String name;
-    private String value;
-    private boolean writeable;
-    private Origin origin;
+@jdk.Exportfd
+publid dlbss VMOption {
+    privbtf String nbmf;
+    privbtf String vbluf;
+    privbtf boolfbn writfbblf;
+    privbtf Origin origin;
 
     /**
-     * Origin of the value of a VM option.  It tells where the
-     * value of a VM option came from.
+     * Origin of tif vbluf of b VM option.  It tflls wifrf tif
+     * vbluf of b VM option dbmf from.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    @jdk.Exported
-    public enum Origin {
+    @jdk.Exportfd
+    publid fnum Origin {
         /**
-         * The VM option has not been set and its value
-         * is the default value.
+         * Tif VM option ibs not bffn sft bnd its vbluf
+         * is tif dffbult vbluf.
          */
         DEFAULT,
         /**
-         * The VM option was set at VM creation time typically
-         * as a command line argument to the launcher or
-         * an argument passed to the VM created using the
-         * JNI invocation interface.
+         * Tif VM option wbs sft bt VM drfbtion timf typidblly
+         * bs b dommbnd linf brgumfnt to tif lbundifr or
+         * bn brgumfnt pbssfd to tif VM drfbtfd using tif
+         * JNI invodbtion intfrfbdf.
          */
         VM_CREATION,
         /**
-         * The VM option was set via an environment variable.
+         * Tif VM option wbs sft vib bn fnvironmfnt vbribblf.
          */
         ENVIRON_VAR,
         /**
-         * The VM option was set via a configuration file.
+         * Tif VM option wbs sft vib b donfigurbtion filf.
          */
         CONFIG_FILE,
         /**
-         * The VM option was set via the management interface after the VM
-         * was started.
+         * Tif VM option wbs sft vib tif mbnbgfmfnt intfrfbdf bftfr tif VM
+         * wbs stbrtfd.
          */
         MANAGEMENT,
         /**
-         * The VM option was set via the VM ergonomic support.
+         * Tif VM option wbs sft vib tif VM frgonomid support.
          */
         ERGONOMIC,
         /**
-         * The VM option was set using the attach framework.
-         * @since 1.9
+         * Tif VM option wbs sft using tif bttbdi frbmfwork.
+         * @sindf 1.9
          */
         ATTACH_ON_DEMAND,
         /**
-         * The VM option was set via some other mechanism.
+         * Tif VM option wbs sft vib somf otifr mfdibnism.
          */
         OTHER
     }
 
     /**
-     * Constructs a <tt>VMOption</tt>.
+     * Construdts b <tt>VMOption</tt>.
      *
-     * @param name Name of a VM option.
-     * @param value Value of a VM option.
-     * @param writeable <tt>true</tt> if a VM option can be set dynamically,
-     *                  or <tt>false</tt> otherwise.
-     * @param origin where the value of a VM option came from.
+     * @pbrbm nbmf Nbmf of b VM option.
+     * @pbrbm vbluf Vbluf of b VM option.
+     * @pbrbm writfbblf <tt>truf</tt> if b VM option dbn bf sft dynbmidblly,
+     *                  or <tt>fblsf</tt> otifrwisf.
+     * @pbrbm origin wifrf tif vbluf of b VM option dbmf from.
      *
-     * @throws NullPointerException if the name or value is <tt>null</tt>
+     * @tirows NullPointfrExdfption if tif nbmf or vbluf is <tt>null</tt>
      */
-    public VMOption(String name, String value, boolean writeable, Origin origin) {
-        this.name = name;
-        this.value = value;
-        this.writeable = writeable;
-        this.origin = origin;
+    publid VMOption(String nbmf, String vbluf, boolfbn writfbblf, Origin origin) {
+        tiis.nbmf = nbmf;
+        tiis.vbluf = vbluf;
+        tiis.writfbblf = writfbblf;
+        tiis.origin = origin;
     }
 
     /**
-     * Constructs a <tt>VMOption</tt> object from a
-     * {@link CompositeData CompositeData}.
+     * Construdts b <tt>VMOption</tt> objfdt from b
+     * {@link CompositfDbtb CompositfDbtb}.
      */
-    private VMOption(CompositeData cd) {
-        // validate the input composite data
-        VMOptionCompositeData.validateCompositeData(cd);
+    privbtf VMOption(CompositfDbtb dd) {
+        // vblidbtf tif input dompositf dbtb
+        VMOptionCompositfDbtb.vblidbtfCompositfDbtb(dd);
 
-        this.name = VMOptionCompositeData.getName(cd);
-        this.value = VMOptionCompositeData.getValue(cd);
-        this.writeable = VMOptionCompositeData.isWriteable(cd);
-        this.origin = VMOptionCompositeData.getOrigin(cd);
+        tiis.nbmf = VMOptionCompositfDbtb.gftNbmf(dd);
+        tiis.vbluf = VMOptionCompositfDbtb.gftVbluf(dd);
+        tiis.writfbblf = VMOptionCompositfDbtb.isWritfbblf(dd);
+        tiis.origin = VMOptionCompositfDbtb.gftOrigin(dd);
     }
 
     /**
-     * Returns the name of this VM option.
+     * Rfturns tif nbmf of tiis VM option.
      *
-     * @return the name of this VM option.
+     * @rfturn tif nbmf of tiis VM option.
      */
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Returns the value of this VM option at the time when
-     * this <tt>VMOption</tt> was created. The value could have been changed.
+     * Rfturns tif vbluf of tiis VM option bt tif timf wifn
+     * tiis <tt>VMOption</tt> wbs drfbtfd. Tif vbluf dould ibvf bffn dibngfd.
      *
-     * @return the value of the VM option at the time when
-     *         this <tt>VMOption</tt> was created.
+     * @rfturn tif vbluf of tif VM option bt tif timf wifn
+     *         tiis <tt>VMOption</tt> wbs drfbtfd.
      */
-    public String getValue() {
-        return value;
+    publid String gftVbluf() {
+        rfturn vbluf;
     }
 
     /**
-     * Returns the origin of the value of this VM option. That is,
-     * where the value of this VM option came from.
+     * Rfturns tif origin of tif vbluf of tiis VM option. Tibt is,
+     * wifrf tif vbluf of tiis VM option dbmf from.
      *
-     * @return where the value of this VM option came from.
+     * @rfturn wifrf tif vbluf of tiis VM option dbmf from.
      */
-    public Origin getOrigin() {
-        return origin;
+    publid Origin gftOrigin() {
+        rfturn origin;
     }
 
     /**
-     * Tests if this VM option is writeable.  If this VM option is writeable,
-     * it can be set by the {@link HotSpotDiagnosticMXBean#setVMOption
-     * HotSpotDiagnosticMXBean.setVMOption} method.
+     * Tfsts if tiis VM option is writfbblf.  If tiis VM option is writfbblf,
+     * it dbn bf sft by tif {@link HotSpotDibgnostidMXBfbn#sftVMOption
+     * HotSpotDibgnostidMXBfbn.sftVMOption} mftiod.
      *
-     * @return <tt>true</tt> if this VM option is writeable; <tt>false</tt>
-     * otherwise.
+     * @rfturn <tt>truf</tt> if tiis VM option is writfbblf; <tt>fblsf</tt>
+     * otifrwisf.
      */
-    public boolean isWriteable() {
-        return writeable;
+    publid boolfbn isWritfbblf() {
+        rfturn writfbblf;
     }
 
-    public String toString() {
-        return "VM option: " + getName() +
-               " value: " + value + " " +
+    publid String toString() {
+        rfturn "VM option: " + gftNbmf() +
+               " vbluf: " + vbluf + " " +
                " origin: " + origin + " " +
-               (writeable ? "(read-write)" : "(read-only)");
+               (writfbblf ? "(rfbd-writf)" : "(rfbd-only)");
     }
 
     /**
-     * Returns a <tt>VMOption</tt> object represented by the
-     * given <tt>CompositeData</tt>. The given <tt>CompositeData</tt>
-     * must contain the following attributes:
+     * Rfturns b <tt>VMOption</tt> objfdt rfprfsfntfd by tif
+     * givfn <tt>CompositfDbtb</tt>. Tif givfn <tt>CompositfDbtb</tt>
+     * must dontbin tif following bttributfs:
      * <p>
-     * <blockquote>
-     * <table border>
+     * <blodkquotf>
+     * <tbblf bordfr>
      * <tr>
-     *   <th align=left>Attribute Name</th>
-     *   <th align=left>Type</th>
+     *   <ti blign=lfft>Attributf Nbmf</ti>
+     *   <ti blign=lfft>Typf</ti>
      * </tr>
      * <tr>
-     *   <td>name</td>
-     *   <td><tt>java.lang.String</tt></td>
+     *   <td>nbmf</td>
+     *   <td><tt>jbvb.lbng.String</tt></td>
      * </tr>
      * <tr>
-     *   <td>value</td>
-     *   <td><tt>java.lang.String</tt></td>
+     *   <td>vbluf</td>
+     *   <td><tt>jbvb.lbng.String</tt></td>
      * </tr>
      * <tr>
      *   <td>origin</td>
-     *   <td><tt>java.lang.String</tt></td>
+     *   <td><tt>jbvb.lbng.String</tt></td>
      * </tr>
      * <tr>
-     *   <td>writeable</td>
-     *   <td><tt>java.lang.Boolean</tt></td>
+     *   <td>writfbblf</td>
+     *   <td><tt>jbvb.lbng.Boolfbn</tt></td>
      * </tr>
-     * </table>
-     * </blockquote>
+     * </tbblf>
+     * </blodkquotf>
      *
-     * @param cd <tt>CompositeData</tt> representing a <tt>VMOption</tt>
+     * @pbrbm dd <tt>CompositfDbtb</tt> rfprfsfnting b <tt>VMOption</tt>
      *
-     * @throws IllegalArgumentException if <tt>cd</tt> does not
-     *   represent a <tt>VMOption</tt> with the attributes described
-     *   above.
+     * @tirows IllfgblArgumfntExdfption if <tt>dd</tt> dofs not
+     *   rfprfsfnt b <tt>VMOption</tt> witi tif bttributfs dfsdribfd
+     *   bbovf.
      *
-     * @return a <tt>VMOption</tt> object represented by <tt>cd</tt>
-     *         if <tt>cd</tt> is not <tt>null</tt>;
-     *         <tt>null</tt> otherwise.
+     * @rfturn b <tt>VMOption</tt> objfdt rfprfsfntfd by <tt>dd</tt>
+     *         if <tt>dd</tt> is not <tt>null</tt>;
+     *         <tt>null</tt> otifrwisf.
      */
-    public static VMOption from(CompositeData cd) {
-        if (cd == null) {
-            return null;
+    publid stbtid VMOption from(CompositfDbtb dd) {
+        if (dd == null) {
+            rfturn null;
         }
 
-        if (cd instanceof VMOptionCompositeData) {
-            return ((VMOptionCompositeData) cd).getVMOption();
-        } else {
-            return new VMOption(cd);
+        if (dd instbndfof VMOptionCompositfDbtb) {
+            rfturn ((VMOptionCompositfDbtb) dd).gftVMOption();
+        } flsf {
+            rfturn nfw VMOption(dd);
         }
 
     }

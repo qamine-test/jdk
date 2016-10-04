@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import java.io.PrintStream;
-import sun.tools.asm.Assembler;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import jbvb.io.PrintStrfbm;
+import sun.tools.bsm.Assfmblfr;
+import jbvb.util.Hbsitbblf;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class DeclarationStatement extends Statement {
+publid
+dlbss DfdlbrbtionStbtfmfnt fxtfnds Stbtfmfnt {
     int mod;
-    Expression type;
-    Statement args[];
+    Exprfssion typf;
+    Stbtfmfnt brgs[];
 
     /**
-     * Constructor
+     * Construdtor
      */
-    public DeclarationStatement(long where, int mod, Expression type, Statement args[]) {
-        super(DECLARATION, where);
-        this.mod = mod;
-        this.type = type;
-        this.args = args;
+    publid DfdlbrbtionStbtfmfnt(long wifrf, int mod, Exprfssion typf, Stbtfmfnt brgs[]) {
+        supfr(DECLARATION, wifrf);
+        tiis.mod = mod;
+        tiis.typf = typf;
+        tiis.brgs = brgs;
     }
 
     /**
-     * Check statement
-     * Report an error unless the call is checkBlockStatement.
+     * Cifdk stbtfmfnt
+     * Rfport bn frror unlfss tif dbll is difdkBlodkStbtfmfnt.
      */
-    Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        env.error(where, "invalid.decl");
-        return checkBlockStatement(env, ctx, vset, exp);
+    Vsft difdk(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        fnv.frror(wifrf, "invblid.dfdl");
+        rfturn difdkBlodkStbtfmfnt(fnv, dtx, vsft, fxp);
     }
-    Vset checkBlockStatement(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        if (labels != null) {
-            env.error(where, "declaration.with.label", labels[0]);
+    Vsft difdkBlodkStbtfmfnt(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        if (lbbfls != null) {
+            fnv.frror(wifrf, "dfdlbrbtion.witi.lbbfl", lbbfls[0]);
         }
-        vset = reach(env, vset);
-        Type t = type.toType(env, ctx);
+        vsft = rfbdi(fnv, vsft);
+        Typf t = typf.toTypf(fnv, dtx);
 
-        for (int i = 0 ; i < args.length ; i++) {
-            vset = args[i].checkDeclaration(env, ctx, vset, mod, t, exp);
+        for (int i = 0 ; i < brgs.lfngti ; i++) {
+            vsft = brgs[i].difdkDfdlbrbtion(fnv, dtx, vsft, mod, t, fxp);
         }
 
-        return vset;
+        rfturn vsft;
     }
 
     /**
-     * Inline
+     * Inlinf
      */
-    public Statement inline(Environment env, Context ctx) {
+    publid Stbtfmfnt inlinf(Environmfnt fnv, Contfxt dtx) {
         int n = 0;
-        for (int i = 0 ; i < args.length ; i++) {
-            if ((args[i] = args[i].inline(env, ctx)) != null) {
+        for (int i = 0 ; i < brgs.lfngti ; i++) {
+            if ((brgs[i] = brgs[i].inlinf(fnv, dtx)) != null) {
                 n++;
             }
         }
-        return (n == 0) ? null : this;
+        rfturn (n == 0) ? null : tiis;
     }
 
     /**
-     * Create a copy of the statement for method inlining
+     * Crfbtf b dopy of tif stbtfmfnt for mftiod inlining
      */
-    public Statement copyInline(Context ctx, boolean valNeeded) {
-        DeclarationStatement s = (DeclarationStatement)clone();
-        if (type != null) {
-            s.type = type.copyInline(ctx);
+    publid Stbtfmfnt dopyInlinf(Contfxt dtx, boolfbn vblNffdfd) {
+        DfdlbrbtionStbtfmfnt s = (DfdlbrbtionStbtfmfnt)dlonf();
+        if (typf != null) {
+            s.typf = typf.dopyInlinf(dtx);
         }
-        s.args = new Statement[args.length];
-        for (int i = 0; i < args.length; i++){
-            if (args[i] != null){
-                s.args[i] = args[i].copyInline(ctx, valNeeded);
+        s.brgs = nfw Stbtfmfnt[brgs.lfngti];
+        for (int i = 0; i < brgs.lfngti; i++){
+            if (brgs[i] != null){
+                s.brgs[i] = brgs[i].dopyInlinf(dtx, vblNffdfd);
             }
         }
-        return s;
+        rfturn s;
     }
 
     /**
-     * The cost of inlining this statement
+     * Tif dost of inlining tiis stbtfmfnt
      */
-    public int costInline(int thresh, Environment env, Context ctx) {
-        int cost = 1;
-        for (int i = 0; i < args.length; i++){
-            if (args[i] != null){
-                cost += args[i].costInline(thresh, env, ctx);
+    publid int dostInlinf(int tirfsi, Environmfnt fnv, Contfxt dtx) {
+        int dost = 1;
+        for (int i = 0; i < brgs.lfngti; i++){
+            if (brgs[i] != null){
+                dost += brgs[i].dostInlinf(tirfsi, fnv, dtx);
             }
         }
-        return cost;
+        rfturn dost;
     }
 
 
     /**
-     * Code
+     * Codf
      */
-    public void code(Environment env, Context ctx, Assembler asm) {
-        for (int i = 0 ; i < args.length ; i++) {
-            if (args[i] != null) {
-                args[i].code(env, ctx, asm);
+    publid void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        for (int i = 0 ; i < brgs.lfngti ; i++) {
+            if (brgs[i] != null) {
+                brgs[i].dodf(fnv, dtx, bsm);
             }
         }
     }
@@ -131,19 +131,19 @@ class DeclarationStatement extends Statement {
     /**
      * Print
      */
-    public void print(PrintStream out, int indent) {
-        out.print("declare ");
-        super.print(out, indent);
-        type.print(out);
+    publid void print(PrintStrfbm out, int indfnt) {
+        out.print("dfdlbrf ");
+        supfr.print(out, indfnt);
+        typf.print(out);
         out.print(" ");
-        for (int i = 0 ; i < args.length ; i++) {
+        for (int i = 0 ; i < brgs.lfngti ; i++) {
             if (i > 0) {
                 out.print(", ");
             }
-            if (args[i] != null)  {
-                args[i].print(out);
-            } else {
-                out.print("<empty>");
+            if (brgs[i] != null)  {
+                brgs[i].print(out);
+            } flsf {
+                out.print("<fmpty>");
             }
         }
         out.print(";");

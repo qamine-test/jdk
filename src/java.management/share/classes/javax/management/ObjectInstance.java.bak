@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
-// java import
-import java.io.Serializable;
+// jbvb import
+import jbvb.io.Sfriblizbblf;
 
 // RI import
-import javax.management.ObjectName;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
 
 
 /**
- * Used to represent the object name of an MBean and its class name.
- * If the MBean is a Dynamic MBean the class name should be retrieved from
- * the <CODE>MBeanInfo</CODE> it provides.
+ * Usfd to rfprfsfnt tif objfdt nbmf of bn MBfbn bnd its dlbss nbmf.
+ * If tif MBfbn is b Dynbmid MBfbn tif dlbss nbmf siould bf rftrifvfd from
+ * tif <CODE>MBfbnInfo</CODE> it providfs.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class ObjectInstance implements Serializable   {
+publid dlbss ObjfdtInstbndf implfmfnts Sfriblizbblf   {
 
 
-    /* Serial version */
-    private static final long serialVersionUID = -4099952623687795850L;
-
-    /**
-     * @serial Object name.
-     */
-    private ObjectName name;
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = -4099952623687795850L;
 
     /**
-     * @serial Class name.
+     * @sfribl Objfdt nbmf.
      */
-    private String className;
+    privbtf ObjfdtNbmf nbmf;
 
     /**
-     * Allows an object instance to be created given a string representation of
-     * an object name and the full class name, including the package name.
+     * @sfribl Clbss nbmf.
+     */
+    privbtf String dlbssNbmf;
+
+    /**
+     * Allows bn objfdt instbndf to bf drfbtfd givfn b string rfprfsfntbtion of
+     * bn objfdt nbmf bnd tif full dlbss nbmf, indluding tif pbdkbgf nbmf.
      *
-     * @param objectName  A string representation of the object name.
-     * @param className The full class name, including the package
-     * name, of the object instance.  If the MBean is a Dynamic MBean
-     * the class name corresponds to its {@link
-     * DynamicMBean#getMBeanInfo()
-     * getMBeanInfo()}<code>.getClassName()</code>.
+     * @pbrbm objfdtNbmf  A string rfprfsfntbtion of tif objfdt nbmf.
+     * @pbrbm dlbssNbmf Tif full dlbss nbmf, indluding tif pbdkbgf
+     * nbmf, of tif objfdt instbndf.  If tif MBfbn is b Dynbmid MBfbn
+     * tif dlbss nbmf dorrfsponds to its {@link
+     * DynbmidMBfbn#gftMBfbnInfo()
+     * gftMBfbnInfo()}<dodf>.gftClbssNbmf()</dodf>.
      *
-     * @exception MalformedObjectNameException The string passed as a
-     * parameter does not have the right format.
+     * @fxdfption MblformfdObjfdtNbmfExdfption Tif string pbssfd bs b
+     * pbrbmftfr dofs not ibvf tif rigit formbt.
      *
      */
-    public ObjectInstance(String objectName, String className)
-            throws MalformedObjectNameException {
-        this(new ObjectName(objectName), className);
+    publid ObjfdtInstbndf(String objfdtNbmf, String dlbssNbmf)
+            tirows MblformfdObjfdtNbmfExdfption {
+        tiis(nfw ObjfdtNbmf(objfdtNbmf), dlbssNbmf);
     }
 
     /**
-     * Allows an object instance to be created given an object name and
-     * the full class name, including the package name.
+     * Allows bn objfdt instbndf to bf drfbtfd givfn bn objfdt nbmf bnd
+     * tif full dlbss nbmf, indluding tif pbdkbgf nbmf.
      *
-     * @param objectName  The object name.
-     * @param className  The full class name, including the package
-     * name, of the object instance.  If the MBean is a Dynamic MBean
-     * the class name corresponds to its {@link
-     * DynamicMBean#getMBeanInfo()
-     * getMBeanInfo()}<code>.getClassName()</code>.
-     * If the MBean is a Dynamic MBean the class name should be retrieved
-     * from the <CODE>MBeanInfo</CODE> it provides.
+     * @pbrbm objfdtNbmf  Tif objfdt nbmf.
+     * @pbrbm dlbssNbmf  Tif full dlbss nbmf, indluding tif pbdkbgf
+     * nbmf, of tif objfdt instbndf.  If tif MBfbn is b Dynbmid MBfbn
+     * tif dlbss nbmf dorrfsponds to its {@link
+     * DynbmidMBfbn#gftMBfbnInfo()
+     * gftMBfbnInfo()}<dodf>.gftClbssNbmf()</dodf>.
+     * If tif MBfbn is b Dynbmid MBfbn tif dlbss nbmf siould bf rftrifvfd
+     * from tif <CODE>MBfbnInfo</CODE> it providfs.
      *
      */
-    public ObjectInstance(ObjectName objectName, String className) {
-        if (objectName.isPattern()) {
-            final IllegalArgumentException iae =
-                new IllegalArgumentException("Invalid name->"+
-                                             objectName.toString());
-            throw new RuntimeOperationsException(iae);
+    publid ObjfdtInstbndf(ObjfdtNbmf objfdtNbmf, String dlbssNbmf) {
+        if (objfdtNbmf.isPbttfrn()) {
+            finbl IllfgblArgumfntExdfption ibf =
+                nfw IllfgblArgumfntExdfption("Invblid nbmf->"+
+                                             objfdtNbmf.toString());
+            tirow nfw RuntimfOpfrbtionsExdfption(ibf);
         }
-        this.name= objectName;
-        this.className= className;
+        tiis.nbmf= objfdtNbmf;
+        tiis.dlbssNbmf= dlbssNbmf;
     }
 
 
     /**
-     * Compares the current object instance with another object instance.
+     * Compbrfs tif durrfnt objfdt instbndf witi bnotifr objfdt instbndf.
      *
-     * @param object  The object instance that the current object instance is
-     *     to be compared with.
+     * @pbrbm objfdt  Tif objfdt instbndf tibt tif durrfnt objfdt instbndf is
+     *     to bf dompbrfd witi.
      *
-     * @return  True if the two object instances are equal, otherwise false.
+     * @rfturn  Truf if tif two objfdt instbndfs brf fqubl, otifrwisf fblsf.
      */
-    public boolean equals(Object object)  {
-        if (!(object instanceof ObjectInstance)) {
-            return false;
+    publid boolfbn fqubls(Objfdt objfdt)  {
+        if (!(objfdt instbndfof ObjfdtInstbndf)) {
+            rfturn fblsf;
         }
-        ObjectInstance val = (ObjectInstance) object;
-        if (! name.equals(val.getObjectName())) return false;
-        if (className == null)
-            return (val.getClassName() == null);
-        return className.equals(val.getClassName());
+        ObjfdtInstbndf vbl = (ObjfdtInstbndf) objfdt;
+        if (! nbmf.fqubls(vbl.gftObjfdtNbmf())) rfturn fblsf;
+        if (dlbssNbmf == null)
+            rfturn (vbl.gftClbssNbmf() == null);
+        rfturn dlbssNbmf.fqubls(vbl.gftClbssNbmf());
     }
 
-    public int hashCode() {
-        final int classHash = ((className==null)?0:className.hashCode());
-        return name.hashCode() ^ classHash;
+    publid int ibsiCodf() {
+        finbl int dlbssHbsi = ((dlbssNbmf==null)?0:dlbssNbmf.ibsiCodf());
+        rfturn nbmf.ibsiCodf() ^ dlbssHbsi;
     }
 
     /**
-     * Returns the object name part.
+     * Rfturns tif objfdt nbmf pbrt.
      *
-     * @return the object name.
+     * @rfturn tif objfdt nbmf.
      */
-    public ObjectName getObjectName()  {
-        return name;
+    publid ObjfdtNbmf gftObjfdtNbmf()  {
+        rfturn nbmf;
     }
 
     /**
-     * Returns the class part.
+     * Rfturns tif dlbss pbrt.
      *
-     * @return the class name.
+     * @rfturn tif dlbss nbmf.
      */
-    public String getClassName()  {
-        return className;
+    publid String gftClbssNbmf()  {
+        rfturn dlbssNbmf;
     }
 
     /**
-     * Returns a string representing this ObjectInstance object. The format of this string
-     * is not specified, but users can expect that two ObjectInstances return the same
-     * string if and only if they are equal.
+     * Rfturns b string rfprfsfnting tiis ObjfdtInstbndf objfdt. Tif formbt of tiis string
+     * is not spfdififd, but usfrs dbn fxpfdt tibt two ObjfdtInstbndfs rfturn tif sbmf
+     * string if bnd only if tify brf fqubl.
      */
-    public String toString() {
-        return getClassName() + "[" + getObjectName() + "]";
+    publid String toString() {
+        rfturn gftClbssNbmf() + "[" + gftObjfdtNbmf() + "]";
     }
  }

@@ -1,0 +1,818 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.bddfssibility.*;
+
+import jbvb.util.Collfdtions;
+import jbvb.util.Sft;
+import jbvb.util.StringTokfnizfr;
+
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+
+/**
+ * A <dodf>JTfxtArfb</dodf> is b multi-linf brfb thbt displbys plbin tfxt.
+ * It is intfndfd to bf b lightwfight domponfnt thbt providfs sourdf
+ * dompbtibility with thf <dodf>jbvb.bwt.TfxtArfb</dodf> dlbss whfrf it dbn
+ * rfbsonbbly do so.
+ * You dbn find informbtion bnd fxbmplfs of using bll thf tfxt domponfnts in
+ * <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/tfxt.html">Using Tfxt Componfnts</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl.</fm>
+ *
+ * <p>
+ * This domponfnt hbs dbpbbilitifs not found in thf
+ * <dodf>jbvb.bwt.TfxtArfb</dodf> dlbss.  Thf supfrdlbss should bf
+ * donsultfd for bdditionbl dbpbbilitifs.
+ * Altfrnbtivf multi-linf tfxt dlbssfs with
+ * morf dbpbbilitifs brf <dodf>JTfxtPbnf</dodf> bnd <dodf>JEditorPbnf</dodf>.
+ * <p>
+ * Thf <dodf>jbvb.bwt.TfxtArfb</dodf> intfrnblly hbndlfs sdrolling.
+ * <dodf>JTfxtArfb</dodf> is difffrfnt in thbt it dofsn't mbnbgf sdrolling,
+ * but implfmfnts thf swing <dodf>Sdrollbblf</dodf> intfrfbdf.  This bllows it
+ * to bf plbdfd insidf b <dodf>JSdrollPbnf</dodf> if sdrolling
+ * bfhbvior is dfsirfd, bnd usfd dirfdtly if sdrolling is not dfsirfd.
+ * <p>
+ * Thf <dodf>jbvb.bwt.TfxtArfb</dodf> hbs thf bbility to do linf wrbpping.
+ * This wbs dontrollfd by thf horizontbl sdrolling polidy.  Sindf
+ * sdrolling is not donf by <dodf>JTfxtArfb</dodf> dirfdtly, bbdkwbrd
+ * dompbtibility must bf providfd bnothfr wby.  <dodf>JTfxtArfb</dodf> hbs
+ * b bound propfrty for linf wrbpping thbt dontrols whfthfr or
+ * not it will wrbp linfs.  By dffbult, thf linf wrbpping propfrty
+ * is sft to fblsf (not wrbppfd).
+ * <p>
+ * <dodf>jbvb.bwt.TfxtArfb</dodf> hbs two propfrtifs <dodf>rows</dodf>
+ * bnd <dodf>dolumns</dodf> thbt brf usfd to dftfrminf thf prfffrrfd sizf.
+ * <dodf>JTfxtArfb</dodf> usfs thfsf propfrtifs to indidbtf thf
+ * prfffrrfd sizf of thf vifwport whfn plbdfd insidf b <dodf>JSdrollPbnf</dodf>
+ * to mbtdh thf fundtionblity providfd by <dodf>jbvb.bwt.TfxtArfb</dodf>.
+ * <dodf>JTfxtArfb</dodf> hbs b prfffrrfd sizf of whbt is nffdfd to
+ * displby bll of thf tfxt, so thbt it fundtions propfrly insidf of
+ * b <dodf>JSdrollPbnf</dodf>.  If thf vbluf for <dodf>rows</dodf>
+ * or <dodf>dolumns</dodf> is fqubl to zfro,
+ * thf prfffrrfd sizf blong thbt bxis is usfd for
+ * thf vifwport prfffrrfd sizf blong thf sbmf bxis.
+ * <p>
+ * Thf <dodf>jbvb.bwt.TfxtArfb</dodf> dould bf monitorfd for dhbngfs by bdding
+ * b <dodf>TfxtListfnfr</dodf> for <dodf>TfxtEvfnt</dodf>s.
+ * In thf <dodf>JTfxtComponfnt</dodf> bbsfd
+ * domponfnts, dhbngfs brf brobddbstfd from thf modfl vib b
+ * <dodf>DodumfntEvfnt</dodf> to <dodf>DodumfntListfnfrs</dodf>.
+ * Thf <dodf>DodumfntEvfnt</dodf> givfs
+ * thf lodbtion of thf dhbngf bnd thf kind of dhbngf if dfsirfd.
+ * Thf dodf frbgmfnt might look somfthing likf:
+ * <prf>
+ *    DodumfntListfnfr myListfnfr = ??;
+ *    JTfxtArfb myArfb = ??;
+ *    myArfb.gftDodumfnt().bddDodumfntListfnfr(myListfnfr);
+ * </prf>
+ *
+ * <dl>
+ * <dt><b>Nfwlinfs</b>
+ * <dd>
+ * For b disdussion on how nfwlinfs brf hbndlfd, sff
+ * <b hrff="tfxt/DffbultEditorKit.html">DffbultEditorKit</b>.
+ * </dl>
+ *
+ * <p>
+ * <strong>Wbrning:</strong> Swing is not thrfbd sbff. For morf
+ * informbtion sff <b
+ * hrff="pbdkbgf-summbry.html#thrfbding">Swing's Thrfbding
+ * Polidy</b>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @bfbninfo
+ *   bttributf: isContbinfr fblsf
+ * dfsdription: A multi-linf brfb thbt displbys plbin tfxt.
+ *
+ * @buthor  Timothy Prinzing
+ * @sff JTfxtPbnf
+ * @sff JEditorPbnf
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JTfxtArfb fxtfnds JTfxtComponfnt {
+
+    /**
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
+     */
+    privbtf stbtid finbl String uiClbssID = "TfxtArfbUI";
+
+    /**
+     * Construdts b nfw TfxtArfb.  A dffbult modfl is sft, thf initibl string
+     * is null, bnd rows/dolumns brf sft to 0.
+     */
+    publid JTfxtArfb() {
+        this(null, null, 0, 0);
+    }
+
+    /**
+     * Construdts b nfw TfxtArfb with thf spfdififd tfxt displbyfd.
+     * A dffbult modfl is drfbtfd bnd rows/dolumns brf sft to 0.
+     *
+     * @pbrbm tfxt thf tfxt to bf displbyfd, or null
+     */
+    publid JTfxtArfb(String tfxt) {
+        this(null, tfxt, 0, 0);
+    }
+
+    /**
+     * Construdts b nfw fmpty TfxtArfb with thf spfdififd numbfr of
+     * rows bnd dolumns.  A dffbult modfl is drfbtfd, bnd thf initibl
+     * string is null.
+     *
+     * @pbrbm rows thf numbfr of rows &gt;= 0
+     * @pbrbm dolumns thf numbfr of dolumns &gt;= 0
+     * @fxdfption IllfgblArgumfntExdfption if thf rows or dolumns
+     *  brgumfnts brf nfgbtivf.
+     */
+    publid JTfxtArfb(int rows, int dolumns) {
+        this(null, null, rows, dolumns);
+    }
+
+    /**
+     * Construdts b nfw TfxtArfb with thf spfdififd tfxt bnd numbfr
+     * of rows bnd dolumns.  A dffbult modfl is drfbtfd.
+     *
+     * @pbrbm tfxt thf tfxt to bf displbyfd, or null
+     * @pbrbm rows thf numbfr of rows &gt;= 0
+     * @pbrbm dolumns thf numbfr of dolumns &gt;= 0
+     * @fxdfption IllfgblArgumfntExdfption if thf rows or dolumns
+     *  brgumfnts brf nfgbtivf.
+     */
+    publid JTfxtArfb(String tfxt, int rows, int dolumns) {
+        this(null, tfxt, rows, dolumns);
+    }
+
+    /**
+     * Construdts b nfw JTfxtArfb with thf givfn dodumfnt modfl, bnd dffbults
+     * for bll of thf othfr brgumfnts (null, 0, 0).
+     *
+     * @pbrbm dod  thf modfl to usf
+     */
+    publid JTfxtArfb(Dodumfnt dod) {
+        this(dod, null, 0, 0);
+    }
+
+    /**
+     * Construdts b nfw JTfxtArfb with thf spfdififd numbfr of rows
+     * bnd dolumns, bnd thf givfn modfl.  All of thf donstrudtors
+     * fffd through this donstrudtor.
+     *
+     * @pbrbm dod thf modfl to usf, or drfbtf b dffbult onf if null
+     * @pbrbm tfxt thf tfxt to bf displbyfd, null if nonf
+     * @pbrbm rows thf numbfr of rows &gt;= 0
+     * @pbrbm dolumns thf numbfr of dolumns &gt;= 0
+     * @fxdfption IllfgblArgumfntExdfption if thf rows or dolumns
+     *  brgumfnts brf nfgbtivf.
+     */
+    publid JTfxtArfb(Dodumfnt dod, String tfxt, int rows, int dolumns) {
+        supfr();
+        this.rows = rows;
+        this.dolumns = dolumns;
+        if (dod == null) {
+            dod = drfbtfDffbultModfl();
+        }
+        sftDodumfnt(dod);
+        if (tfxt != null) {
+            sftTfxt(tfxt);
+            sflfdt(0, 0);
+        }
+        if (rows < 0) {
+            throw nfw IllfgblArgumfntExdfption("rows: " + rows);
+        }
+        if (dolumns < 0) {
+            throw nfw IllfgblArgumfntExdfption("dolumns: " + dolumns);
+        }
+        LookAndFffl.instbllPropfrty(this,
+                                    "fodusTrbvfrsblKfysForwbrd",
+                                    JComponfnt.
+                                    gftMbnbgingFodusForwbrdTrbvfrsblKfys());
+        LookAndFffl.instbllPropfrty(this,
+                                    "fodusTrbvfrsblKfysBbdkwbrd",
+                                    JComponfnt.
+                                    gftMbnbgingFodusBbdkwbrdTrbvfrsblKfys());
+    }
+
+    /**
+     * Rfturns thf dlbss ID for thf UI.
+     *
+     * @rfturn thf ID ("TfxtArfbUI")
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
+     */
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
+    }
+
+    /**
+     * Crfbtfs thf dffbult implfmfntbtion of thf modfl
+     * to bf usfd bt donstrudtion if onf isn't fxpliditly
+     * givfn.  A nfw instbndf of PlbinDodumfnt is rfturnfd.
+     *
+     * @rfturn thf dffbult dodumfnt modfl
+     */
+    protfdtfd Dodumfnt drfbtfDffbultModfl() {
+        rfturn nfw PlbinDodumfnt();
+    }
+
+    /**
+     * Sfts thf numbfr of dhbrbdtfrs to fxpbnd tbbs to.
+     * This will bf multiplifd by thf mbximum bdvbndf for
+     * vbribblf width fonts.  A PropfrtyChbngf fvfnt ("tbbSizf") is firfd
+     * whfn thf tbb sizf dhbngfs.
+     *
+     * @pbrbm sizf numbfr of dhbrbdtfrs to fxpbnd to
+     * @sff #gftTbbSizf
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: thf numbfr of dhbrbdtfrs to fxpbnd tbbs to
+     */
+    publid void sftTbbSizf(int sizf) {
+        Dodumfnt dod = gftDodumfnt();
+        if (dod != null) {
+            int old = gftTbbSizf();
+            dod.putPropfrty(PlbinDodumfnt.tbbSizfAttributf, Intfgfr.vblufOf(sizf));
+            firfPropfrtyChbngf("tbbSizf", old, sizf);
+        }
+    }
+
+    /**
+     * Gfts thf numbfr of dhbrbdtfrs usfd to fxpbnd tbbs.  If thf dodumfnt is
+     * null or dofsn't hbvf b tbb sftting, rfturn b dffbult of 8.
+     *
+     * @rfturn thf numbfr of dhbrbdtfrs
+     */
+    publid int gftTbbSizf() {
+        int sizf = 8;
+        Dodumfnt dod = gftDodumfnt();
+        if (dod != null) {
+            Intfgfr i = (Intfgfr) dod.gftPropfrty(PlbinDodumfnt.tbbSizfAttributf);
+            if (i != null) {
+                sizf = i.intVbluf();
+            }
+        }
+        rfturn sizf;
+    }
+
+    /**
+     * Sfts thf linf-wrbpping polidy of thf tfxt brfb.  If sft
+     * to truf thf linfs will bf wrbppfd if thfy brf too long
+     * to fit within thf bllodbtfd width.  If sft to fblsf,
+     * thf linfs will blwbys bf unwrbppfd.  A <dodf>PropfrtyChbngf</dodf>
+     * fvfnt ("linfWrbp") is firfd whfn thf polidy is dhbngfd.
+     * By dffbult this propfrty is fblsf.
+     *
+     * @pbrbm wrbp indidbtfs if linfs should bf wrbppfd
+     * @sff #gftLinfWrbp
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: should linfs bf wrbppfd
+     */
+    publid void sftLinfWrbp(boolfbn wrbp) {
+        boolfbn old = this.wrbp;
+        this.wrbp = wrbp;
+        firfPropfrtyChbngf("linfWrbp", old, wrbp);
+    }
+
+    /**
+     * Gfts thf linf-wrbpping polidy of thf tfxt brfb.  If sft
+     * to truf thf linfs will bf wrbppfd if thfy brf too long
+     * to fit within thf bllodbtfd width.  If sft to fblsf,
+     * thf linfs will blwbys bf unwrbppfd.
+     *
+     * @rfturn if linfs will bf wrbppfd
+     */
+    publid boolfbn gftLinfWrbp() {
+        rfturn wrbp;
+    }
+
+    /**
+     * Sfts thf stylf of wrbpping usfd if thf tfxt brfb is wrbpping
+     * linfs.  If sft to truf thf linfs will bf wrbppfd bt word
+     * boundbrifs (whitfspbdf) if thfy brf too long
+     * to fit within thf bllodbtfd width.  If sft to fblsf,
+     * thf linfs will bf wrbppfd bt dhbrbdtfr boundbrifs.
+     * By dffbult this propfrty is fblsf.
+     *
+     * @pbrbm word indidbtfs if word boundbrifs should bf usfd
+     *   for linf wrbpping
+     * @sff #gftWrbpStylfWord
+     * @bfbninfo
+     *   prfffrrfd: fblsf
+     *       bound: truf
+     * dfsdription: should wrbpping oddur bt word boundbrifs
+     */
+    publid void sftWrbpStylfWord(boolfbn word) {
+        boolfbn old = this.word;
+        this.word = word;
+        firfPropfrtyChbngf("wrbpStylfWord", old, word);
+    }
+
+    /**
+     * Gfts thf stylf of wrbpping usfd if thf tfxt brfb is wrbpping
+     * linfs.  If sft to truf thf linfs will bf wrbppfd bt word
+     * boundbrifs (if whitfspbdf) if thfy brf too long
+     * to fit within thf bllodbtfd width.  If sft to fblsf,
+     * thf linfs will bf wrbppfd bt dhbrbdtfr boundbrifs.
+     *
+     * @rfturn if thf wrbp stylf should bf word boundbrifs
+     *  instfbd of dhbrbdtfr boundbrifs
+     * @sff #sftWrbpStylfWord
+     */
+    publid boolfbn gftWrbpStylfWord() {
+        rfturn word;
+    }
+
+    /**
+     * Trbnslbtfs bn offsft into thf domponfnts tfxt to b
+     * linf numbfr.
+     *
+     * @pbrbm offsft thf offsft &gt;= 0
+     * @rfturn thf linf numbfr &gt;= 0
+     * @fxdfption BbdLodbtionExdfption thrown if thf offsft is
+     *   lfss thbn zfro or grfbtfr thbn thf dodumfnt lfngth.
+     */
+    publid int gftLinfOfOffsft(int offsft) throws BbdLodbtionExdfption {
+        Dodumfnt dod = gftDodumfnt();
+        if (offsft < 0) {
+            throw nfw BbdLodbtionExdfption("Cbn't trbnslbtf offsft to linf", -1);
+        } flsf if (offsft > dod.gftLfngth()) {
+            throw nfw BbdLodbtionExdfption("Cbn't trbnslbtf offsft to linf", dod.gftLfngth()+1);
+        } flsf {
+            Elfmfnt mbp = gftDodumfnt().gftDffbultRootElfmfnt();
+            rfturn mbp.gftElfmfntIndfx(offsft);
+        }
+    }
+
+    /**
+     * Dftfrminfs thf numbfr of linfs dontbinfd in thf brfb.
+     *
+     * @rfturn thf numbfr of linfs &gt; 0
+     */
+    publid int gftLinfCount() {
+        Elfmfnt mbp = gftDodumfnt().gftDffbultRootElfmfnt();
+        rfturn mbp.gftElfmfntCount();
+    }
+
+    /**
+     * Dftfrminfs thf offsft of thf stbrt of thf givfn linf.
+     *
+     * @pbrbm linf  thf linf numbfr to trbnslbtf &gt;= 0
+     * @rfturn thf offsft &gt;= 0
+     * @fxdfption BbdLodbtionExdfption thrown if thf linf is
+     * lfss thbn zfro or grfbtfr or fqubl to thf numbfr of
+     * linfs dontbinfd in thf dodumfnt (bs rfportfd by
+     * gftLinfCount).
+     */
+    publid int gftLinfStbrtOffsft(int linf) throws BbdLodbtionExdfption {
+        int linfCount = gftLinfCount();
+        if (linf < 0) {
+            throw nfw BbdLodbtionExdfption("Nfgbtivf linf", -1);
+        } flsf if (linf >= linfCount) {
+            throw nfw BbdLodbtionExdfption("No sudh linf", gftDodumfnt().gftLfngth()+1);
+        } flsf {
+            Elfmfnt mbp = gftDodumfnt().gftDffbultRootElfmfnt();
+            Elfmfnt linfElfm = mbp.gftElfmfnt(linf);
+            rfturn linfElfm.gftStbrtOffsft();
+        }
+    }
+
+    /**
+     * Dftfrminfs thf offsft of thf fnd of thf givfn linf.
+     *
+     * @pbrbm linf  thf linf &gt;= 0
+     * @rfturn thf offsft &gt;= 0
+     * @fxdfption BbdLodbtionExdfption Thrown if thf linf is
+     * lfss thbn zfro or grfbtfr or fqubl to thf numbfr of
+     * linfs dontbinfd in thf dodumfnt (bs rfportfd by
+     * gftLinfCount).
+     */
+    publid int gftLinfEndOffsft(int linf) throws BbdLodbtionExdfption {
+        int linfCount = gftLinfCount();
+        if (linf < 0) {
+            throw nfw BbdLodbtionExdfption("Nfgbtivf linf", -1);
+        } flsf if (linf >= linfCount) {
+            throw nfw BbdLodbtionExdfption("No sudh linf", gftDodumfnt().gftLfngth()+1);
+        } flsf {
+            Elfmfnt mbp = gftDodumfnt().gftDffbultRootElfmfnt();
+            Elfmfnt linfElfm = mbp.gftElfmfnt(linf);
+            int fndOffsft = linfElfm.gftEndOffsft();
+            // hidf thf implidit brfbk bt thf fnd of thf dodumfnt
+            rfturn ((linf == linfCount - 1) ? (fndOffsft - 1) : fndOffsft);
+        }
+    }
+
+    // --- jbvb.bwt.TfxtArfb mfthods ---------------------------------
+
+    /**
+     * Insfrts thf spfdififd tfxt bt thf spfdififd position.  Dofs nothing
+     * if thf modfl is null or if thf tfxt is null or fmpty.
+     *
+     * @pbrbm str thf tfxt to insfrt
+     * @pbrbm pos thf position bt whidh to insfrt &gt;= 0
+     * @fxdfption IllfgblArgumfntExdfption  if pos is bn
+     *  invblid position in thf modfl
+     * @sff TfxtComponfnt#sftTfxt
+     * @sff #rfplbdfRbngf
+     */
+    publid void insfrt(String str, int pos) {
+        Dodumfnt dod = gftDodumfnt();
+        if (dod != null) {
+            try {
+                dod.insfrtString(pos, str, null);
+            } dbtdh (BbdLodbtionExdfption f) {
+                throw nfw IllfgblArgumfntExdfption(f.gftMfssbgf());
+            }
+        }
+    }
+
+    /**
+     * Appfnds thf givfn tfxt to thf fnd of thf dodumfnt.  Dofs nothing if
+     * thf modfl is null or thf string is null or fmpty.
+     *
+     * @pbrbm str thf tfxt to insfrt
+     * @sff #insfrt
+     */
+    publid void bppfnd(String str) {
+        Dodumfnt dod = gftDodumfnt();
+        if (dod != null) {
+            try {
+                dod.insfrtString(dod.gftLfngth(), str, null);
+            } dbtdh (BbdLodbtionExdfption f) {
+            }
+        }
+    }
+
+    /**
+     * Rfplbdfs tfxt from thf indidbtfd stbrt to fnd position with thf
+     * nfw tfxt spfdififd.  Dofs nothing if thf modfl is null.  Simply
+     * dofs b dflftf if thf nfw string is null or fmpty.
+     *
+     * @pbrbm str thf tfxt to usf bs thf rfplbdfmfnt
+     * @pbrbm stbrt thf stbrt position &gt;= 0
+     * @pbrbm fnd thf fnd position &gt;= stbrt
+     * @fxdfption IllfgblArgumfntExdfption  if pbrt of thf rbngf is bn
+     *  invblid position in thf modfl
+     * @sff #insfrt
+     * @sff #rfplbdfRbngf
+     */
+    publid void rfplbdfRbngf(String str, int stbrt, int fnd) {
+        if (fnd < stbrt) {
+            throw nfw IllfgblArgumfntExdfption("fnd bfforf stbrt");
+        }
+        Dodumfnt dod = gftDodumfnt();
+        if (dod != null) {
+            try {
+                if (dod instbndfof AbstrbdtDodumfnt) {
+                    ((AbstrbdtDodumfnt)dod).rfplbdf(stbrt, fnd - stbrt, str,
+                                                    null);
+                }
+                flsf {
+                    dod.rfmovf(stbrt, fnd - stbrt);
+                    dod.insfrtString(stbrt, str, null);
+                }
+            } dbtdh (BbdLodbtionExdfption f) {
+                throw nfw IllfgblArgumfntExdfption(f.gftMfssbgf());
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf numbfr of rows in thf TfxtArfb.
+     *
+     * @rfturn thf numbfr of rows &gt;= 0
+     */
+    publid int gftRows() {
+        rfturn rows;
+    }
+
+    /**
+     * Sfts thf numbfr of rows for this TfxtArfb.  Cblls invblidbtf() bftfr
+     * sftting thf nfw vbluf.
+     *
+     * @pbrbm rows thf numbfr of rows &gt;= 0
+     * @fxdfption IllfgblArgumfntExdfption if rows is lfss thbn 0
+     * @sff #gftRows
+     * @bfbninfo
+     * dfsdription: thf numbfr of rows prfffrrfd for displby
+     */
+    publid void sftRows(int rows) {
+        int oldVbl = this.rows;
+        if (rows < 0) {
+            throw nfw IllfgblArgumfntExdfption("rows lfss thbn zfro.");
+        }
+        if (rows != oldVbl) {
+            this.rows = rows;
+            invblidbtf();
+        }
+    }
+
+    /**
+     * Dffinfs thf mfbning of thf hfight of b row.  This dffbults to
+     * thf hfight of thf font.
+     *
+     * @rfturn thf hfight &gt;= 1
+     */
+    protfdtfd int gftRowHfight() {
+        if (rowHfight == 0) {
+            FontMftrids mftrids = gftFontMftrids(gftFont());
+            rowHfight = mftrids.gftHfight();
+        }
+        rfturn rowHfight;
+    }
+
+    /**
+     * Rfturns thf numbfr of dolumns in thf TfxtArfb.
+     *
+     * @rfturn numbfr of dolumns &gt;= 0
+     */
+    publid int gftColumns() {
+        rfturn dolumns;
+    }
+
+    /**
+     * Sfts thf numbfr of dolumns for this TfxtArfb.  Dofs bn invblidbtf()
+     * bftfr sftting thf nfw vbluf.
+     *
+     * @pbrbm dolumns thf numbfr of dolumns &gt;= 0
+     * @fxdfption IllfgblArgumfntExdfption if dolumns is lfss thbn 0
+     * @sff #gftColumns
+     * @bfbninfo
+     * dfsdription: thf numbfr of dolumns prfffrrfd for displby
+     */
+    publid void sftColumns(int dolumns) {
+        int oldVbl = this.dolumns;
+        if (dolumns < 0) {
+            throw nfw IllfgblArgumfntExdfption("dolumns lfss thbn zfro.");
+        }
+        if (dolumns != oldVbl) {
+            this.dolumns = dolumns;
+            invblidbtf();
+        }
+    }
+
+    /**
+     * Gfts dolumn width.
+     * Thf mfbning of whbt b dolumn is dbn bf donsidfrfd b fbirly wfbk
+     * notion for somf fonts.  This mfthod is usfd to dffinf thf width
+     * of b dolumn.  By dffbult this is dffinfd to bf thf width of thf
+     * dhbrbdtfr <fm>m</fm> for thf font usfd.  This mfthod dbn bf
+     * rfdffinfd to bf somf bltfrnbtivf bmount.
+     *
+     * @rfturn thf dolumn width &gt;= 1
+     */
+    protfdtfd int gftColumnWidth() {
+        if (dolumnWidth == 0) {
+            FontMftrids mftrids = gftFontMftrids(gftFont());
+            dolumnWidth = mftrids.dhbrWidth('m');
+        }
+        rfturn dolumnWidth;
+    }
+
+    // --- Componfnt mfthods -----------------------------------------
+
+    /**
+     * Rfturns thf prfffrrfd sizf of thf TfxtArfb.  This is thf
+     * mbximum of thf sizf nffdfd to displby thf tfxt bnd thf
+     * sizf rfqufstfd for thf vifwport.
+     *
+     * @rfturn thf sizf
+     */
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        Dimfnsion d = supfr.gftPrfffrrfdSizf();
+        d = (d == null) ? nfw Dimfnsion(400,400) : d;
+        Insfts insfts = gftInsfts();
+
+        if (dolumns != 0) {
+            d.width = Mbth.mbx(d.width, dolumns * gftColumnWidth() +
+                    insfts.lfft + insfts.right);
+        }
+        if (rows != 0) {
+            d.hfight = Mbth.mbx(d.hfight, rows * gftRowHfight() +
+                                insfts.top + insfts.bottom);
+        }
+        rfturn d;
+    }
+
+    /**
+     * Sfts thf durrfnt font.  This rfmovfs dbdhfd row hfight bnd dolumn
+     * width so thf nfw font will bf rfflfdtfd, bnd dblls rfvblidbtf().
+     *
+     * @pbrbm f thf font to usf bs thf durrfnt font
+     */
+    publid void sftFont(Font f) {
+        supfr.sftFont(f);
+        rowHfight = 0;
+        dolumnWidth = 0;
+    }
+
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this JTfxtArfb. This mfthod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd thf
+     * dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
+     *
+     * @rfturn  b string rfprfsfntbtion of this JTfxtArfb.
+     */
+    protfdtfd String pbrbmString() {
+        String wrbpString = (wrbp ?
+                             "truf" : "fblsf");
+        String wordString = (word ?
+                             "truf" : "fblsf");
+
+        rfturn supfr.pbrbmString() +
+        ",dolums=" + dolumns +
+        ",dolumWidth=" + dolumnWidth +
+        ",rows=" + rows +
+        ",rowHfight=" + rowHfight +
+        ",word=" + wordString +
+        ",wrbp=" + wrbpString;
+    }
+
+    // --- Sdrollbblf mfthods ----------------------------------------
+
+    /**
+     * Rfturns truf if b vifwport should blwbys fordf thf width of this
+     * Sdrollbblf to mbtdh thf width of thf vifwport.  This is implfmfntfd
+     * to rfturn truf if thf linf wrbpping polidy is truf, bnd fblsf
+     * if linfs brf not bfing wrbppfd.
+     *
+     * @rfturn truf if b vifwport should fordf thf Sdrollbblfs width
+     * to mbtdh its own.
+     */
+    publid boolfbn gftSdrollbblfTrbdksVifwportWidth() {
+        rfturn (wrbp) ? truf : supfr.gftSdrollbblfTrbdksVifwportWidth();
+    }
+
+    /**
+     * Rfturns thf prfffrrfd sizf of thf vifwport if this domponfnt
+     * is fmbfddfd in b JSdrollPbnf.  This usfs thf dfsirfd dolumn
+     * bnd row sfttings if thfy hbvf bffn sft, othfrwisf thf supfrdlbss
+     * bfhbvior is usfd.
+     *
+     * @rfturn Thf prfffrrfdSizf of b JVifwport whosf vifw is this Sdrollbblf.
+     * @sff JVifwport#gftPrfffrrfdSizf
+     */
+    publid Dimfnsion gftPrfffrrfdSdrollbblfVifwportSizf() {
+        Dimfnsion sizf = supfr.gftPrfffrrfdSdrollbblfVifwportSizf();
+        sizf = (sizf == null) ? nfw Dimfnsion(400,400) : sizf;
+        Insfts insfts = gftInsfts();
+
+        sizf.width = (dolumns == 0) ? sizf.width :
+                dolumns * gftColumnWidth() + insfts.lfft + insfts.right;
+        sizf.hfight = (rows == 0) ? sizf.hfight :
+                rows * gftRowHfight() + insfts.top + insfts.bottom;
+        rfturn sizf;
+    }
+
+    /**
+     * Componfnts thbt displby logidbl rows or dolumns should domputf
+     * thf sdroll indrfmfnt thbt will domplftfly fxposf onf nfw row
+     * or dolumn, dfpfnding on thf vbluf of orifntbtion.  This is implfmfntfd
+     * to usf thf vblufs rfturnfd by thf <dodf>gftRowHfight</dodf> bnd
+     * <dodf>gftColumnWidth</dodf> mfthods.
+     * <p>
+     * Sdrolling dontbinfrs, likf JSdrollPbnf, will usf this mfthod
+     * fbdh timf thf usfr rfqufsts b unit sdroll.
+     *
+     * @pbrbm visiblfRfdt thf vifw brfb visiblf within thf vifwport
+     * @pbrbm orifntbtion Eithfr SwingConstbnts.VERTICAL or
+     *   SwingConstbnts.HORIZONTAL.
+     * @pbrbm dirfdtion Lfss thbn zfro to sdroll up/lfft,
+     *   grfbtfr thbn zfro for down/right.
+     * @rfturn Thf "unit" indrfmfnt for sdrolling in thf spfdififd dirfdtion
+     * @fxdfption IllfgblArgumfntExdfption for bn invblid orifntbtion
+     * @sff JSdrollBbr#sftUnitIndrfmfnt
+     * @sff #gftRowHfight
+     * @sff #gftColumnWidth
+     */
+    publid int gftSdrollbblfUnitIndrfmfnt(Rfdtbnglf visiblfRfdt, int orifntbtion, int dirfdtion) {
+        switdh (orifntbtion) {
+        dbsf SwingConstbnts.VERTICAL:
+            rfturn gftRowHfight();
+        dbsf SwingConstbnts.HORIZONTAL:
+            rfturn gftColumnWidth();
+        dffbult:
+            throw nfw IllfgblArgumfntExdfption("Invblid orifntbtion: " + orifntbtion);
+        }
+    }
+
+    /**
+     * Sff rfbdObjfdt() bnd writfObjfdt() in JComponfnt for morf
+     * informbtion bbout sfriblizbtion in Swing.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(this);
+            JComponfnt.sftWritfObjCountfr(this, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(this);
+            }
+        }
+    }
+
+/////////////////
+// Addfssibility support
+////////////////
+
+
+    /**
+     * Gfts thf AddfssiblfContfxt bssodibtfd with this JTfxtArfb.
+     * For JTfxtArfbs, thf AddfssiblfContfxt tbkfs thf form of bn
+     * AddfssiblfJTfxtArfb.
+     * A nfw AddfssiblfJTfxtArfb instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfJTfxtArfb thbt sfrvfs bs thf
+     *         AddfssiblfContfxt of this JTfxtArfb
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJTfxtArfb();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>JTfxtArfb</dodf> dlbss.  It providfs bn implfmfntbtion of thf
+     * Jbvb Addfssibility API bppropribtf to tfxt brfb usfr-intfrfbdf
+     * flfmfnts.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJTfxtArfb fxtfnds AddfssiblfJTfxtComponfnt {
+
+        /**
+         * Gfts thf stbtf sft of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfStbtfSft dfsdribing thf stbtfs
+         * of thf objfdt
+         * @sff AddfssiblfStbtfSft
+         */
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            stbtfs.bdd(AddfssiblfStbtf.MULTI_LINE);
+            rfturn stbtfs;
+        }
+    }
+
+    // --- vbribblfs -------------------------------------------------
+
+    privbtf int rows;
+    privbtf int dolumns;
+    privbtf int dolumnWidth;
+    privbtf int rowHfight;
+    privbtf boolfbn wrbp;
+    privbtf boolfbn word;
+
+}

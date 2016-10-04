@@ -1,0 +1,261 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl.tools;
+
+import jbvb.io.Filf;
+import sun.sfdurity.krb5.*;
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.krb5.intfrnbl.ddbdhf.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.Arrbys;
+import jbvbx.sfdurity.buth.kfrbfros.KfrbfrosPrindipbl;
+import sun.sfdurity.util.Pbssword;
+import jbvbx.sfdurity.buth.kfrbfros.KfyTbb;
+
+/**
+ * Kinit tool for obtbining Kfrbfros v5 tidkfts.
+ *
+ * @buthor Ybnni Zhbng
+ * @buthor Rbm Mbrti
+ */
+publid dlbss Kinit {
+
+    privbtf KinitOptions options;
+    privbtf stbtid finbl boolfbn DEBUG = Krb5.DEBUG;
+
+    /**
+     * Thf mbin mfthod is usfd to bddfpt usfr dommbnd linf input for tidkft
+     * rfqufst.
+     * <p>
+     * Usbgf: kinit [-A] [-f] [-p] [-d dbdhfnbmf] [[-k [-t kfytbb_filf_nbmf]]
+     * [prindipbl] [pbssword]
+     * <ul>
+     * <li>    -A        do not indludf bddrfssfs
+     * <li>    -f        forwbrdbblf
+     * <li>    -p        proxibblf
+     * <li>    -d        dbdhf nbmf (i.f., FILE://d:\tfmp\mykrb5dd)
+     * <li>    -k        usf kfytbb
+     * <li>    -t        kfytbb filf nbmf
+     * <li>    prindipbl thf prindipbl nbmf (i.f., dukf@jbvb.sun.dom)
+     * <li>    pbssword  thf prindipbl's Kfrbfros pbssword
+     * </ul>
+     * <p>
+     * Usf jbvb sun.sfdurity.krb5.tools.Kinit -hflp to bring up hflp mfnu.
+     * <p>
+     * Wf durrfntly support only filf-bbsfd drfdfntibls dbdhf to
+     * storf thf tidkfts obtbinfd from thf KDC.
+     * By dffbult, for bll Unix plbtforms b dbdhf filf nbmfd
+     * /tmp/krb5dd_&lt;uid&gt will bf gfnfrbtfd. Thf &lt;uid&gt is thf
+     * numfrid usfr idfntififr.
+     * For bll othfr plbtforms, b dbdhf filf nbmfd
+     * &lt;USER_HOME&gt/krb5dd_&lt;USER_NAME&gt would bf gfnfrbtfd.
+     * <p>
+     * &lt;USER_HOME&gt is obtbinfd from <dodf>jbvb.lbng.Systfm</dodf>
+     * propfrty <i>usfr.homf</i>.
+     * &lt;USER_NAME&gt is obtbinfd from <dodf>jbvb.lbng.Systfm</dodf>
+     * propfrty <i>usfr.nbmf</i>.
+     * If &lt;USER_HOME&gt is null thf dbdhf filf would bf storfd in
+     * thf durrfnt dirfdtory thbt thf progrbm is running from.
+     * &lt;USER_NAME&gt is opfrbting systfm's login usfrnbmf.
+     * It dould bf difffrfnt from usfr's prindipbl nbmf.
+     *</p>
+     *<p>
+     * For instbndf, on Windows NT, it dould bf
+     * d:\winnt\profilfs\dukf\krb5dd_dukf, in
+     * whidh dukf is thf &lt;USER_NAME&gt, bnd d:\winnt\profilf\dukf is thf
+     * &lt;USER_HOME&gt.
+     *<p>
+     * A singlf usfr dould hbvf multiplf prindipbl nbmfs,
+     * but thf primbry prindipbl of thf drfdfntibls dbdhf dould only bf onf,
+     * whidh mfbns onf dbdhf filf dould only storf tidkfts for onf
+     * spfdifid usfr prindipbl. If thf usfr switdhfs
+     * thf prindipbl nbmf bt thf nfxt Kinit, thf dbdhf filf gfnfrbtfd for thf
+     * nfw tidkft would ovfrwritf thf old dbdhf filf by dffbult.
+     * To bvoid ovfrwriting, you nffd to spfdify
+     * b difffrfnt dbdhf filf nbmf whfn you rfqufst b
+     * nfw tidkft.
+     *</p>
+     *<p>
+     * You dbn spfdify thf lodbtion of thf dbdhf filf by using thf -d option
+     *
+     */
+
+    publid stbtid void mbin(String[] brgs) {
+        try {
+            Kinit sflf = nfw Kinit(brgs);
+        }
+        dbtdh (Exdfption f) {
+            String msg = null;
+            if (f instbndfof KrbExdfption) {
+                msg = ((KrbExdfption)f).krbErrorMfssbgf() + " " +
+                    ((KrbExdfption)f).rfturnCodfMfssbgf();
+            } flsf  {
+                msg = f.gftMfssbgf();
+            }
+            if (msg != null) {
+                Systfm.frr.println("Exdfption: " + msg);
+            } flsf {
+                Systfm.out.println("Exdfption: " + f);
+            }
+            f.printStbdkTrbdf();
+            Systfm.fxit(-1);
+        }
+        rfturn;
+    }
+
+    /**
+     * Construdts b nfw Kinit objfdt.
+     * @pbrbm brgs brrby of tidkft rfqufst options.
+     * Avbibblf options brf: -f, -p, -d, prindipbl, pbssword.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     * @fxdfption RfblmExdfption if thf Rfblm dould not bf instbntibtfd.
+     * @fxdfption KrbExdfption if frror oddurs during Kfrbfros opfrbtion.
+     */
+    privbtf Kinit(String[] brgs)
+        throws IOExdfption, RfblmExdfption, KrbExdfption {
+        if (brgs == null || brgs.lfngth == 0) {
+            options = nfw KinitOptions();
+        } flsf {
+            options = nfw KinitOptions(brgs);
+        }
+        String prindNbmf = null;
+        PrindipblNbmf prindipbl = options.gftPrindipbl();
+        if (prindipbl != null) {
+            prindNbmf = prindipbl.toString();
+        }
+        KrbAsRfqBuildfr buildfr;
+        if (DEBUG) {
+            Systfm.out.println("Prindipbl is " + prindipbl);
+        }
+        dhbr[] psswd = options.pbssword;
+        boolfbn usfKfytbb = options.usfKfytbbFilf();
+        if (!usfKfytbb) {
+            if (prindNbmf == null) {
+                throw nfw IllfgblArgumfntExdfption
+                    (" Cbn not obtbin prindipbl nbmf");
+            }
+            if (psswd == null) {
+                Systfm.out.print("Pbssword for " + prindNbmf + ":");
+                Systfm.out.flush();
+                psswd = Pbssword.rfbdPbssword(Systfm.in);
+                if (DEBUG) {
+                    Systfm.out.println(">>> Kinit donsolf input " +
+                        nfw String(psswd));
+                }
+            }
+            buildfr = nfw KrbAsRfqBuildfr(prindipbl, psswd);
+        } flsf {
+            if (DEBUG) {
+                Systfm.out.println(">>> Kinit using kfytbb");
+            }
+            if (prindNbmf == null) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("Prindipbl nbmf must bf spfdififd.");
+            }
+            String ktbbNbmf = options.kfytbbFilfNbmf();
+            if (ktbbNbmf != null) {
+                if (DEBUG) {
+                    Systfm.out.println(
+                                       ">>> Kinit kfytbb filf nbmf: " + ktbbNbmf);
+                }
+            }
+
+            buildfr = nfw KrbAsRfqBuildfr(prindipbl, ktbbNbmf == null
+                    ? KfyTbb.gftInstbndf()
+                    : KfyTbb.gftInstbndf(nfw Filf(ktbbNbmf)));
+        }
+
+        KDCOptions opt = nfw KDCOptions();
+        sftOptions(KDCOptions.FORWARDABLE, options.forwbrdbblf, opt);
+        sftOptions(KDCOptions.PROXIABLE, options.proxibblf, opt);
+        buildfr.sftOptions(opt);
+        String rfblm = options.gftKDCRfblm();
+        if (rfblm == null) {
+            rfblm = Config.gftInstbndf().gftDffbultRfblm();
+        }
+
+        if (DEBUG) {
+            Systfm.out.println(">>> Kinit rfblm nbmf is " + rfblm);
+        }
+
+        PrindipblNbmf snbmf = PrindipblNbmf.tgsSfrvidf(rfblm, rfblm);
+        buildfr.sftTbrgft(snbmf);
+
+        if (DEBUG) {
+            Systfm.out.println(">>> Crfbting KrbAsRfq");
+        }
+
+        if (options.gftAddrfssOption())
+            buildfr.sftAddrfssfs(HostAddrfssfs.gftLodblAddrfssfs());
+
+        buildfr.bdtion();
+
+        sun.sfdurity.krb5.intfrnbl.ddbdhf.Crfdfntibls drfdfntibls =
+            buildfr.gftCCrfds();
+        buildfr.dfstroy();
+
+        // wf blwbys drfbtf b nfw dbdhf bnd storf thf tidkft wf gft
+        CrfdfntiblsCbdhf dbdhf =
+            CrfdfntiblsCbdhf.drfbtf(prindipbl, options.dbdhfnbmf);
+        if (dbdhf == null) {
+           throw nfw IOExdfption("Unbblf to drfbtf thf dbdhf filf " +
+                                 options.dbdhfnbmf);
+        }
+        dbdhf.updbtf(drfdfntibls);
+        dbdhf.sbvf();
+
+        if (options.pbssword == null) {
+            // Assumf wf'rf running intfrbdtivfly
+            Systfm.out.println("Nfw tidkft is storfd in dbdhf filf " +
+                               options.dbdhfnbmf);
+         } flsf {
+             Arrbys.fill(options.pbssword, '0');
+         }
+
+        // dlfbr thf pbssword
+        if (psswd != null) {
+            Arrbys.fill(psswd, '0');
+        }
+        options = null; // rflfbsf rfffrfndf to options
+    }
+
+    privbtf stbtid void sftOptions(int flbg, int option, KDCOptions opt) {
+        switdh (option) {
+        dbsf 0:
+            brfbk;
+        dbsf -1:
+            opt.sft(flbg, fblsf);
+            brfbk;
+        dbsf 1:
+            opt.sft(flbg, truf);
+        }
+    }
+}

@@ -1,0 +1,831 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi;
+
+import jbvb.util.List;
+import jbvb.util.Mbp;
+
+/**
+ * Thf typf of bn objfdt in b tbrgft VM. RfffrfndfTypf fndompbssfs
+ * dlbssfs, intfrfbdfs, bnd brrby typfs bs dffinfd in
+ * <ditf>Thf Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>.
+ * All RfffrfndfTypf objfdts bflong to onf of thf following
+ * subintfrfbdfs:
+ * {@link ClbssTypf} for dlbssfs,
+ * {@link IntfrfbdfTypf} for intfrfbdfs, bnd
+ * {@link ArrbyTypf} for brrbys.
+ * Notf thbt primitivf dlbssfs (for fxbmplf, thf
+ * {@link ClbssObjfdtRfffrfndf#rfflfdtfdTypf() rfflfdtfd typf} of
+ * {@link jbvb.lbng.Intfgfr#TYPE Intfgfr.TYPE})
+ * brf rfprfsfntfd bs ClbssTypf.
+ * Thf VM drfbtfs Clbss objfdts for bll thrff, so from thf VM pfrspfdtivf,
+ * fbdh RfffrfndfTypf mbps to b distindt Clbss objfdt.
+ * <p>
+ * RfffrfndfTypfs dbn
+ * bf obtbinfd by qufrying b pbrtidulbr {@link ObjfdtRfffrfndf} for its
+ * typf or by gftting b list of bll rfffrfndf typfs from thf
+ * {@link VirtublMbdhinf}.
+ * <p>
+ * RfffrfndfTypf providfs bddfss to stbtid typf informbtion sudh bs
+ * mfthods bnd fiflds bnd providfs bddfss to dynbmid typf
+ * informbtion sudh bs thf dorrfsponding Clbss objfdt bnd thf dlbsslobdfr.
+ * <p>
+ * Any mfthod on <dodf>RfffrfndfTypf</dodf> whidh dirfdtly or
+ * indirfdtly tbkfs <dodf>RfffrfndfTypf</dodf> bs bn pbrbmftfr mby throw
+ * {@link dom.sun.jdi.VMDisdonnfdtfdExdfption} if thf tbrgft VM is
+ * disdonnfdtfd bnd thf {@link dom.sun.jdi.fvfnt.VMDisdonnfdtEvfnt} hbs bffn or is
+ * bvbilbblf to bf rfbd from thf {@link dom.sun.jdi.fvfnt.EvfntQufuf}.
+ * <p>
+ * Any mfthod on <dodf>RfffrfndfTypf</dodf> whidh dirfdtly or
+ * indirfdtly tbkfs <dodf>RfffrfndfTypf</dodf> bs bn pbrbmftfr mby throw
+ * {@link dom.sun.jdi.VMOutOfMfmoryExdfption} if thf tbrgft VM hbs run out of mfmory.
+ * <p>
+ * Any mfthod on <dodf>RfffrfndfTypf</dodf> or whidh dirfdtly or indirfdtly tbkfs
+ * <dodf>RfffrfndfTypf</dodf> bs pbrbmftfr mby throw
+ * {@link dom.sun.jdi.ObjfdtCollfdtfdExdfption} if thf mirrorfd typf hbs bffn unlobdfd.
+ *
+ * @sff ObjfdtRfffrfndf
+ * @sff ObjfdtRfffrfndf#rfffrfndfTypf
+ * @sff VirtublMbdhinf
+ * @sff VirtublMbdhinf#bllClbssfs
+ *
+ * @buthor Robfrt Fifld
+ * @buthor Gordon Hirsdh
+ * @buthor Jbmfs MdIlrff
+ * @sindf  1.3
+ */
+@jdk.Exportfd
+publid intfrfbdf RfffrfndfTypf
+    fxtfnds Typf, Compbrbblf<RfffrfndfTypf>, Addfssiblf
+{
+
+    /**
+     * Gfts thf fully qublififd nbmf of this typf. Thf rfturnfd nbmf
+     * is formbttfd bs it might bppfbr in b Jbvb progrbmming lbngbugf
+     * dfdlbrbtion for objfdts of this typf.
+     * <p>
+     * For primitivf dlbssfs
+     * thf rfturnfd nbmf is thf nbmf of thf dorrfsponding primitivf
+     * typf; for fxbmplf, "int" is rfturnfd bs thf nbmf of thf dlbss
+     * rfprfsfntfd by {@link jbvb.lbng.Intfgfr#TYPE Intfgfr.TYPE}.
+     * @rfturn b string dontbining thf typf nbmf.
+     */
+    String nbmf();
+
+    /**
+     * Gfts thf gfnfrid signbturf for this typf if thfrf is onf.
+     * Gfnfrid signbturfs brf dfsdribfd in thf
+     * <ditf>Thf Jbvb&trbdf; Virtubl Mbdhinf Spfdifidbtion</ditf>.
+     *
+     * @rfturn b string dontbining thf gfnfrid signbturf, or <dodf>null</dodf>
+     * if thfrf is no gfnfrid signbturf.
+     *
+     * @sindf 1.5
+     */
+    String gfnfridSignbturf();
+
+    /**
+     * Gfts thf dlbsslobdfr objfdt whidh lobdfd thf dlbss dorrfsponding
+     * to this typf.
+     *
+     * @rfturn b {@link ClbssLobdfrRfffrfndf} whidh mirrors thf dlbsslobdfr,
+     * or <dodf>null</dodf> if thf dlbss wbs lobdfd through thf bootstrbp dlbss
+     * lobdfr.
+     */
+    ClbssLobdfrRfffrfndf dlbssLobdfr();
+
+    /**
+     * Gfts bn idfntifying nbmf for thf sourdf dorrfsponding to thf
+     * dfdlbrbtion of this typf. Intfrprftbtion of this string is
+     * thf rfsponsibility of thf sourdf rfpository mfdhbnism.
+     * <P>
+     * Thf rfturnfd nbmf is dfpfndfnt on VM's dffbult strbtum
+     * ({@link VirtublMbdhinf#gftDffbultStrbtum()}).
+     * In thf rfffrfndf implfmfntbtion, whfn using thf bbsf strbtum,
+     * thf rfturnfd string is thf
+     * unqublififd nbmf of thf sourdf filf dontbining thf dfdlbrbtion
+     * of this typf.  In othfr strbtb thf rfturnfd sourdf nbmf is
+     * thf first sourdf nbmf for thbt strbtum.  Sindf othfr lbngubgfs
+     * mby hbvf morf thbn onf sourdf nbmf for b rfffrfndf typf,
+     * thf usf of {@link Lodbtion#sourdfNbmf()} or
+     * {@link #sourdfNbmfs(String)} is prfffrrfd.
+     * <p>
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * AbsfntInformbtionExdfption is blwbys thrown.
+     *
+     * @rfturn thf string sourdf filf nbmf
+     * @throws AbsfntInformbtionExdfption if thf sourdf nbmf is not
+     * known
+     */
+    String sourdfNbmf() throws AbsfntInformbtionExdfption;
+
+    /**
+     * Gfts thf idfntifying nbmfs for bll thf sourdf dorrfsponding to thf
+     * dfdlbrbtion of this typf. Intfrprftbtion of thfsf nbmfs is
+     * thf rfsponsibility of thf sourdf rfpository mfdhbnism.
+     * <P>
+     * Thf rfturnfd nbmfs brf for thf spfdififd strbtum
+     * (sff {@link Lodbtion} for b dfsdription of strbtb).
+     * In thf rfffrfndf implfmfntbtion, whfn using thf Jbvb
+     * progrbmming lbngubgf strbtum,
+     * thf rfturnfd List dontbins onf flfmfnt: b String whidh is thf
+     * unqublififd nbmf of thf sourdf filf dontbining thf dfdlbrbtion
+     * of this typf.  In othfr strbtb thf rfturnfd sourdf nbmfs brf
+     * bll thf sourdf nbmfs dffinfd for thbt strbtum.
+     *
+     * @pbrbm strbtum Thf strbtum to rftrifvf informbtion from
+     * or <dodf>null</dodf> for thf dfdlbring typf's
+     * dffbult strbtum.
+     *
+     * @rfturn b List of String objfdts fbdh rfprfsfnting b sourdf nbmf
+     *
+     * @throws AbsfntInformbtionExdfption if thf sourdf nbmfs brf not
+     * known.
+     * <p>
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * AbsfntInformbtionExdfption is blwbys thrown.
+     *
+     * @sindf 1.4
+     */
+    List<String> sourdfNbmfs(String strbtum) throws AbsfntInformbtionExdfption;
+
+    /**
+     * Gfts thf pbths to thf sourdf dorrfsponding to thf
+     * dfdlbrbtion of this typf. Intfrprftbtion of thfsf pbths is
+     * thf rfsponsibility of thf sourdf rfpository mfdhbnism.
+     * <P>
+     * Thf rfturnfd pbths brf for thf spfdififd strbtum
+     * (sff {@link Lodbtion} for b dfsdription of strbtb).
+     * In thf rfffrfndf implfmfntbtion, for strbtb whidh
+     * do not fxpliditly spfdify sourdf pbth (thf Jbvb
+     * progrbmming lbngubgf strbtum nfvfr dofs), thf rfturnfd
+     * strings brf thf {@link #sourdfNbmfs(String)} prffixfd by
+     * thf pbdkbgf nbmf of this RfffrfndfTypf
+     * donvfrtfd to b plbtform dfpfndfnt pbth.
+     * For fxbmplf, on b Windows plbtform,
+     * <CODE>jbvb.lbng.Thrfbd</CODE>
+     * would rfturn b List dontbining onf flfmfnt:
+     * <CODE>"jbvb\lbng\Thrfbd.jbvb"</CODE>.
+     *
+     * @pbrbm strbtum Thf strbtum to rftrifvf informbtion from
+     * or <dodf>null</dodf> for thf dfdlbring typf's
+     * dffbult strbtum.
+     *
+     * @rfturn b List of String objfdts fbdh rfprfsfnting b sourdf pbth
+     *
+     * @throws AbsfntInformbtionExdfption if thf sourdf nbmfs brf not
+     * known.
+     * <p>
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * AbsfntInformbtionExdfption is blwbys thrown.
+     *
+     * @sindf 1.4
+     */
+    List<String> sourdfPbths(String strbtum) throws AbsfntInformbtionExdfption;
+
+    /**
+     * Gft thf sourdf dfbug fxtfnsion of this typf.
+     * <p>
+     * Not bll tbrgft virtubl mbdhinfs support this opfrbtion.
+     * Usf
+     * {@link VirtublMbdhinf#dbnGftSourdfDfbugExtfnsion() dbnGftSourdfDfbugExtfnsion()}
+     * to dftfrminf if thf opfrbtion is supportfd.
+     * @rfturn bs b string thf sourdf dfbug fxtfnsion bttributf
+     * @throws AbsfntInformbtionExdfption if thf fxtfnsion is not
+     * spfdififd
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * thf tbrgft virtubl mbdhinf dofs not support this
+     * opfrbtion - sff
+     * {@link VirtublMbdhinf#dbnGftSourdfDfbugExtfnsion() dbnGftSourdfDfbugExtfnsion()},
+     */
+    String sourdfDfbugExtfnsion() throws AbsfntInformbtionExdfption;
+
+    /**
+     * Dftfrminfs if this typf wbs dfdlbrfd stbtid. Only nfstfd typfs,
+     * dbn bf dfdlbrfd stbtid, so <dodf>fblsf</dodf> is rfturnfd
+     * for bny pbdkbgf-lfvfl typf, brrby typf, or primitivf dlbss.
+     *
+     * @rfturn <dodf>truf</dodf> if this typf is stbtid; fblsf othfrwisf.
+     */
+    boolfbn isStbtid();
+
+    /**
+     * Dftfrminfs if this typf wbs dfdlbrfd bbstrbdt.
+     * <p>
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * thf rfturn vbluf is undffinfd.
+     *
+     * @rfturn <dodf>truf</dodf> if this typf is bbstrbdt; fblsf othfrwisf.
+     */
+    boolfbn isAbstrbdt();
+
+    /**
+     * Dftfrminfs if this typf wbs dfdlbrfd finbl.
+     * <p>
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * thf rfturn vbluf is blwbys truf.
+     *
+     * @rfturn <dodf>truf</dodf> if this typf is finbl; fblsf othfrwisf.
+     */
+    boolfbn isFinbl();
+
+    /**
+     * Dftfrminfs if this typf hbs bffn prfpbrfd. Sff thf JVM
+     * spfdifidbtion for b dffinition of dlbss prfpbrbtion.
+     * <p>
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * thf rfturn vbluf is undffinfd.
+     *
+     * @rfturn <dodf>truf</dodf> if this typf is prfpbrfd; fblsf othfrwisf.
+     */
+    boolfbn isPrfpbrfd();
+
+    /**
+     * Dftfrminfs if this typf hbs bffn vfrififd. Sff thf JVM
+     * spfdifidbtion for b dffinition of dlbss vfrifidbtion.
+     * <p>
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * thf rfturn vbluf is undffinfd.
+     *
+     * @rfturn <dodf>truf</dodf> if this typf is vfrififd; fblsf othfrwisf.
+     */
+    boolfbn isVfrififd();
+
+    /**
+     * Dftfrminfs if this typf hbs bffn initiblizfd. Sff thf JVM
+     * spfdifidbtion for b dffinition of dlbss vfrifidbtion.
+     * For {@link IntfrfbdfTypf}, this mfthod blwbys rfturns thf
+     * sbmf vbluf bs {@link #isPrfpbrfd()}.
+     * <p>
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * thf rfturn vbluf is undffinfd.
+     *
+     * @rfturn <dodf>truf</dodf> if this typf is initiblizfd; fblsf othfrwisf.
+     */
+    boolfbn isInitiblizfd();
+
+    /**
+     * Dftfrminfs if initiblizbtion fbilfd for this dlbss. Sff thf JVM
+     * spfdifidbtion for dftbils on dlbss initiblizbtion.
+     * <p>
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * thf rfturn vbluf is undffinfd.
+     *
+     * @rfturn <dodf>truf</dodf> if initiblizbtion wbs bttfmptfd bnd
+     * fbilfd; fblsf othfrwisf.
+     */
+    boolfbn fbilfdToInitiblizf();
+
+    /**
+     * Rfturns b list dontbining fbdh {@link Fifld} dfdlbrfd in this typf.
+     * Inhfritfd fiflds brf not indludfd. Any synthftid fiflds drfbtfd
+     * by thf dompilfr brf indludfd in thf list.
+     * <p>
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs, thf rfturnfd
+     * list is blwbys fmpty.
+     *
+     * @rfturn b list {@link Fifld} objfdts; thf list hbs lfngth 0
+     * if no fiflds fxist.
+     * @throws ClbssNotPrfpbrfdExdfption if this dlbss not yft bffn
+     * prfpbrfd.
+     */
+    List<Fifld> fiflds();
+
+    /**
+     * Rfturns b list dontbining fbdh unhiddfn bnd unbmbiguous {@link Fifld}
+     * in this typf.
+     * Ebdh fifld thbt dbn bf bddfssfd from thf dlbss
+     * or its instbndfs with its simplf nbmf is indludfd. Fiflds thbt
+     * brf bmbiguously multiply inhfritfd or fiflds thbt brf hiddfn by
+     * fiflds with thf sbmf nbmf in b morf rfdfntly inhfritfd dlbss
+     * dbnnot bf bddfssfd
+     * by thfir simplf nbmfs bnd brf not indludfd in thf rfturnfd
+     * list. All othfr inhfritfd fiflds brf indludfd.
+     * Sff JLS sfdtion 8.3 for dftbils.
+     * <p>
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs, thf rfturnfd
+     * list is blwbys fmpty.
+     *
+     * @rfturn b List of {@link Fifld} objfdts; thf list hbs lfngth
+     * 0 if no visiblf fiflds fxist.
+     * @throws ClbssNotPrfpbrfdExdfption if this dlbss not yft bffn
+     * prfpbrfd.
+     */
+    List<Fifld> visiblfFiflds();
+
+    /**
+     * Rfturns b list dontbining fbdh {@link Fifld} dfdlbrfd in this typf,
+     * bnd its supfrdlbssfs, implfmfntfd intfrfbdfs, bnd/or supfrintfrfbdfs.
+     * All dfdlbrfd bnd inhfritfd
+     * fiflds brf indludfd, rfgbrdlfss of whfthfr thfy brf hiddfn or
+     * multiply inhfritfd.
+     * <p>
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs, thf rfturnfd
+     * list is blwbys fmpty.
+     *
+     * @rfturn b List of {@link Fifld} objfdts; thf list hbs lfngth
+     * 0 if no fiflds fxist.
+     * @throws ClbssNotPrfpbrfdExdfption if this dlbss not yft bffn
+     * prfpbrfd.
+     */
+    List<Fifld> bllFiflds();
+
+    /**
+     * Finds thf visiblf {@link Fifld} with thf givfn
+     * non-bmbiguous nbmf. This mfthod follows thf
+     * inhfritbndf rulfs spfdififd in thf JLS (8.3.3) to dftfrminf
+     * visibility.
+     * <p>
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs, thf rfturnfd
+     * vbluf is blwbys null.
+     *
+     * @pbrbm fifldNbmf b String dontbining thf nbmf of dfsirfd fifld.
+     * @rfturn b {@link Fifld} objfdt whidh mirrors thf found fifld, or
+     * null if thfrf is no fifld with thf givfn nbmf or if thf givfn
+     * nbmf is bmbiguous.
+     * @throws ClbssNotPrfpbrfdExdfption if this dlbss not yft bffn
+     * prfpbrfd.
+     */
+    Fifld fifldByNbmf(String fifldNbmf);
+
+    /**
+     * Rfturns b list dontbining fbdh {@link Mfthod} dfdlbrfd
+     * dirfdtly in this typf.
+     * Inhfritfd mfthods brf not indludfd. Construdtors,
+     * thf initiblizbtion mfthod if bny, bnd bny synthftid mfthods drfbtfd
+     * by thf dompilfr brf indludfd in thf list.
+     * <p>
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs, thf rfturnfd
+     * list is blwbys fmpty.
+     *
+     * @rfturn b list {@link Mfthod} objfdts; thf list hbs lfngth 0
+     * if no mfthods fxist.
+     * @throws ClbssNotPrfpbrfdExdfption if this dlbss not yft bffn
+     * prfpbrfd.
+     */
+    List<Mfthod> mfthods();
+
+    /**
+     * Rfturns b list dontbining fbdh {@link Mfthod}
+     * dfdlbrfd or inhfritfd by this typf. Mfthods from supfrdlbssfs
+     * or supfrintfrfbdfs thbt thbt hbvf bffn hiddfn or ovfrriddfn
+     * brf not indludfd.
+     * <p>
+     * Notf thbt dfspitf this fxdlusion, multiplf inhfritfd mfthods
+     * with thf sbmf signbturf dbn bf prfsfnt in thf rfturnfd list, but
+     * bt most onf dbn bf b mfmbfr of b {@link ClbssTypf}.
+     * Sff JLS sfdtion 8.4.6 for dftbils.
+     * <p>
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs, thf rfturnfd
+     * list is blwbys fmpty.
+     *
+     * @rfturn b List of {@link Mfthod} objfdts; thf list hbs lfngth
+     * 0 if no visiblf mfthods fxist.
+     * @throws ClbssNotPrfpbrfdExdfption if this dlbss not yft bffn
+     * prfpbrfd.
+     */
+    List<Mfthod> visiblfMfthods();
+
+    /**
+     * Rfturns b list dontbining fbdh {@link Mfthod} dfdlbrfd in this typf,
+     * bnd its supfrdlbssfs, implfmfntfd intfrfbdfs, bnd/or supfrintfrfbdfs.
+     * All dfdlbrfd bnd inhfritfd
+     * mfthods brf indludfd, rfgbrdlfss of whfthfr thfy brf hiddfn or
+     * ovfrriddfn.
+     * <p>
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs, thf rfturnfd
+     * list is blwbys fmpty.
+     *
+     * @rfturn b List of {@link Mfthod} objfdts; thf list hbs lfngth
+     * 0 if no mfthods fxist.
+     * @throws ClbssNotPrfpbrfdExdfption if this dlbss not yft bffn
+     * prfpbrfd.
+     */
+    List<Mfthod> bllMfthods();
+
+    /**
+     * Rfturns b List dontbining fbdh visiblf {@link Mfthod} thbt
+     * hbs thf givfn nbmf.  This is most dommonly usfd to
+     * find ovfrlobdfd mfthods.
+     * <p>
+     * Ovfrriddfn bnd hiddfn mfthods brf not indludfd.
+     * Sff JLS (8.4.6) for dftbils.
+     * <p>
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs, thf rfturnfd
+     * list is blwbys fmpty.
+     *
+     * @pbrbm nbmf thf nbmf of thf mfthod to find.
+     * @rfturn b List of {@link Mfthod} objfdts thbt mbtdh thf givfn
+     * nbmf; thf list hbs lfngth 0 if no mbtdhing mfthods brf found.
+     * @throws ClbssNotPrfpbrfdExdfption if this dlbss not yft bffn
+     * prfpbrfd.
+     */
+    List<Mfthod> mfthodsByNbmf(String nbmf);
+
+    /**
+     * Rfturns b List dontbining fbdh visiblf {@link Mfthod} thbt
+     * hbs thf givfn nbmf bnd signbturf.
+     * Thf signbturf string is thf
+     * JNI signbturf for thf tbrgft mfthod:
+     * <ul>
+     * <li><dodf>()V</dodf>
+     * <li><dodf>([Ljbvb/lbng/String;)V</dodf>
+     * <li><dodf>(IIII)Z</dodf>
+     * </ul>
+     * This mfthod follows thf inhfritbndf rulfs spfdififd
+     * in thf JLS (8.4.6) to dftfrminf visibility.
+     * <p>
+     * At most onf mfthod in thf list is b dondrftf mfthod bnd b
+     * domponfnt of {@link ClbssTypf}; bny othfr mfthods in thf list
+     * brf bbstrbdt. Usf {@link ClbssTypf#dondrftfMfthodByNbmf} to
+     * rftrifvf only thf mbtdhing dondrftf mfthod.
+     * <p>
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs, thf rfturnfd
+     * list is blwbys fmpty.
+     *
+     * @pbrbm nbmf thf nbmf of thf mfthod to find.
+     * @pbrbm signbturf thf signbturf of thf mfthod to find
+     * @rfturn b List of {@link Mfthod} objfdts thbt mbtdh thf givfn
+     * nbmf bnd signbturf; thf list hbs lfngth 0 if no mbtdhing mfthods
+     * brf found.
+     * @throws ClbssNotPrfpbrfdExdfption if this dlbss not yft bffn
+     * prfpbrfd.
+     */
+    List<Mfthod> mfthodsByNbmf(String nbmf, String signbturf);
+
+    /**
+     * Rfturns b List dontbining {@link RfffrfndfTypf} objfdts thbt brf
+     * dfdlbrfd within this typf bnd brf durrfntly lobdfd into thf Virtubl
+     * Mbdhinf.  Both stbtid nfstfd typfs bnd non-stbtid nfstfd
+     * typfs (thbt is, innfr typfs) brf indludfd. Lodbl innfr typfs
+     * (dfdlbrfd within b dodf blodk somfwhfrf in this rfffrfndf typf) brf
+     * blso indludfd in thf rfturnfd list.
+     * <p>
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs, thf rfturnfd
+     * list is blwbys fmpty.
+     *
+     * @rfturn b List of nfstfd {@link RfffrfndfTypf} objfdts; thf list
+     * hbs 0 lfngth if thfrf brf no nfstfd typfs.
+     */
+    List<RfffrfndfTypf> nfstfdTypfs();
+
+    /**
+     * Gfts thf {@link Vbluf} of b givfn stbtid {@link Fifld} in this typf.
+     * Thf Fifld must bf vblid for this typf;
+     * thbt is, it must bf dfdlbrfd in this typf, b supfrdlbss, b
+     * supfrintfrfbdf, or bn implfmfntfd intfrfbdf.
+     *
+     * @pbrbm fifld thf fifld dontbining thf rfqufstfd vbluf
+     * @rfturn thf {@link Vbluf} of thf instbndf fifld.
+     * @throws jbvb.lbng.IllfgblArgumfntExdfption if thf fifld is not vblid for
+     * this objfdt's dlbss.
+     */
+    Vbluf gftVbluf(Fifld fifld);
+
+    /**
+     * Rfturns b mbp dontbining thf {@link Vbluf} of fbdh
+     * stbtid {@link Fifld} in thf givfn list.
+     * Thf Fiflds must bf vblid for this typf;
+     * thbt is, thfy must bf dfdlbrfd in this typf, b supfrdlbss, b
+     * supfrintfrfbdf, or bn implfmfntfd intfrfbdf.
+     *
+     * @pbrbm fiflds b list of {@link Fifld} objfdts dontbining thf
+     * rfqufstfd vblufs.
+     * @rfturn b Mbp of thf rfqufstfd {@link Fifld} objfdts with
+     * thfir {@link Vbluf}.
+     * @throws jbvb.lbng.IllfgblArgumfntExdfption if bny fifld is not vblid for
+     * this objfdt's dlbss.
+     * @throws VMMismbtdhExdfption if b {@link Mirror} brgumfnt bnd this mirror
+     * do not bflong to thf sbmf {@link VirtublMbdhinf}.
+     */
+    Mbp<Fifld,Vbluf> gftVblufs(List<? fxtfnds Fifld> fiflds);
+
+    /**
+     * Rfturns thf dlbss objfdt thbt dorrfsponds to this typf in thf
+     * tbrgft VM. Thf VM drfbtfs dlbss objfdts for fvfry kind of
+     * RfffrfndfTypf: dlbssfs, intfrfbdfs, bnd brrby typfs.
+     * @rfturn thf {@link ClbssObjfdtRfffrfndf} for this rfffrfndf typf
+     * in thf tbrgft VM.
+     */
+    ClbssObjfdtRfffrfndf dlbssObjfdt();
+
+    /**
+     * Rfturns b list dontbining b {@link Lodbtion} objfdt
+     * for fbdh fxfdutbblf sourdf linf in this rfffrfndf typf.
+     * <P>
+     * This mfthod is fquivblfnt to
+     * <dodf>bllLinfLodbtions(vm.gftDffbultStrbtum(),null)</dodf> -
+     * sff {@link #bllLinfLodbtions(String,String)}
+     * for morf informbtion.
+     *
+     * @throws AbsfntInformbtionExdfption if thfrf is no linf
+     * numbfr informbtion for this dlbss bnd thfrf brf non-nbtivf,
+     * non-bbstrbdt fxfdutbblf mfmbfrs of this dlbss.
+     *
+     * @throws ClbssNotPrfpbrfdExdfption if this dlbss not yft
+     * bffn prfpbrfd.
+     */
+    List<Lodbtion> bllLinfLodbtions() throws AbsfntInformbtionExdfption;
+
+    /**
+     * Rfturns b list dontbining b {@link Lodbtion} objfdt
+     * for fbdh fxfdutbblf sourdf linf in this rfffrfndf typf.
+     * Ebdh lodbtion mbps b sourdf linf to b rbngf of dodf
+     * indidfs.
+     * Thf bfginning of thf rbngf dbn bf dftfrminfd through
+     * {@link Lodbtion#dodfIndfx}.  Thf rfturnfd list mby dontbin
+     * multiplf lodbtions for b pbrtidulbr linf numbfr, if thf
+     * dompilfr bnd/or VM hbs mbppfd thbt linf to two or morf
+     * disjoint dodf indfx rbngfs.  Notf thbt it is possiblf for
+     * thf sbmf sourdf linf to rfprfsfnt difffrfnt dodf indfx
+     * rbngfs in <i>difffrfnt</i> mfthods.
+     * <P>
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs, thf
+     * rfturnfd list is blwbys fmpty.  For intfrfbdfs ({@link
+     * IntfrfbdfTypf}), thf rfturnfd list will bf non-fmpty only
+     * if thf intfrfbdf hbs fxfdutbblf dodf in its dlbss
+     * initiblizbtion.
+     * <P>
+     * Rfturnfd list is for thf spfdififd <i>strbtum</i>
+     * (sff {@link Lodbtion} for b dfsdription of strbtb).
+     *
+     * @pbrbm strbtum Thf strbtum to rftrifvf informbtion from
+     * or <dodf>null</dodf> for thf {@link #dffbultStrbtum()}.
+     *
+     * @pbrbm sourdfNbmf Rfturn lodbtions only within this
+     * sourdf filf or <dodf>null</dodf> to rfturn lodbtions.
+     *
+     * @rfturn b List of bll sourdf linf {@link Lodbtion} objfdts.
+     *
+     * @throws AbsfntInformbtionExdfption if thfrf is no linf
+     * numbfr informbtion for this dlbss bnd thfrf brf non-nbtivf,
+     * non-bbstrbdt fxfdutbblf mfmbfrs of this dlbss.
+     * Or if <i>sourdfNbmf</i> is non-<dodf>null</dodf>
+     * bnd sourdf nbmf informbtion is not prfsfnt.
+     *
+     * @throws ClbssNotPrfpbrfdExdfption if this dlbss not yft
+     * bffn prfpbrfd.
+     *
+     * @sindf 1.4
+     */
+    List<Lodbtion> bllLinfLodbtions(String strbtum, String sourdfNbmf)
+                             throws AbsfntInformbtionExdfption;
+
+    /**
+     * Rfturns b List dontbining bll {@link Lodbtion} objfdts
+     * thbt mbp to thf givfn linf numbfr.
+     * <P>
+     * This mfthod is fquivblfnt to
+     * <dodf>lodbtionsOfLinf(vm.gftDffbultStrbtum(), null,
+     * linfNumbfr)</dodf> -
+     * sff {@link
+     * #lodbtionsOfLinf(jbvb.lbng.String,jbvb.lbng.String,int)}
+     * for morf informbtion.
+     *
+     * @pbrbm linfNumbfr thf linf numbfr
+     *
+     * @rfturn b List of bll {@link Lodbtion} objfdts thbt mbp to
+     * thf givfn linf.
+     *
+     * @throws AbsfntInformbtionExdfption if thfrf is no linf
+     * numbfr informbtion for this dlbss.
+     *
+     * @throws ClbssNotPrfpbrfdExdfption if this dlbss not yft
+     * bffn prfpbrfd.
+     *
+     * @sff VirtublMbdhinf#gftDffbultStrbtum()
+     */
+    List<Lodbtion> lodbtionsOfLinf(int linfNumbfr)
+        throws AbsfntInformbtionExdfption;
+
+    /**
+     * Rfturns b List dontbining bll {@link Lodbtion} objfdts
+     * thbt mbp to thf givfn linf numbfr.
+     * <P>
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs, thf
+     * rfturnfd list is blwbys fmpty.
+     * For intfrfbdfs ({@link IntfrfbdfTypf}), thf rfturnfd list
+     * will bf non-fmpty only if thf intfrfbdf hbs fxfdutbblf dodf
+     * in its dlbss initiblizbtion bt thf spfdififd linf numbfr.
+     * An fmpty list will bf rfturnfd if thfrf is no fxfdutbblf
+     * dodf bt thf spfdififd linf numbfr.
+     * <p>
+     * Rfturnfd list is for thf spfdififd <i>strbtum</i>
+     * (sff {@link Lodbtion} for b dfsdription of strbtb).
+     *
+     * @pbrbm strbtum thf strbtum to usf for dompbring linf numbfr
+     *                bnd sourdf nbmf, or <dodf>null</dodf> to
+     *                usf thf {@link #dffbultStrbtum()}.
+     *
+     * @pbrbm sourdfNbmf thf sourdf nbmf dontbining thf linf
+     *                   numbfr, or <dodf>null</dodf> to mbtdh
+     *                   bll sourdf nbmfs
+     *
+     * @pbrbm linfNumbfr thf linf numbfr
+     *
+     * @rfturn b List of bll {@link Lodbtion} objfdts thbt mbp
+     *         to thf givfn linf.
+     *
+     * @throws AbsfntInformbtionExdfption if thfrf is no linf
+     *         numbfr informbtion for this dlbss.
+     *         Or if <i>sourdfNbmf</i> is non-<dodf>null</dodf>
+     *         bnd sourdf nbmf informbtion is not prfsfnt.
+     *
+     * @throws ClbssNotPrfpbrfdExdfption if this dlbss not yft
+     *         bffn prfpbrfd.
+     *
+     * @sindf 1.4
+     */
+    List<Lodbtion> lodbtionsOfLinf(String strbtum,
+                                   String sourdfNbmf,
+                                   int linfNumbfr)
+                     throws AbsfntInformbtionExdfption;
+
+    /**
+     * Rfturn thf bvbilbblf strbtb for this rfffrfndf typf.
+     * <P>
+     * Sff thf {@link Lodbtion} for b dfsdription of strbtb.
+     *
+     * @rfturn List of <CODE>jbvb.lbng.String</CODE>, fbdh
+     * rfprfsfnting b strbtum
+     *
+     * @sindf 1.4
+     */
+    List<String> bvbilbblfStrbtb();
+
+    /**
+     * Rfturns thf dffbult strbtum for this rfffrfndf typf.
+     * This vbluf is spfdififd in thf dlbss filf bnd dbnnot
+     * bf sft by thf usfr.  If thf dlbss filf dofs not
+     * spfdify b dffbult strbtum thf bbsf strbtum
+     * (<dodf>"Jbvb"</dodf>) will bf rfturnfd.
+     * <P>
+     * Sff thf {@link Lodbtion} for b dfsdription of strbtb.
+     *
+     * @sindf 1.4
+     */
+    String dffbultStrbtum();
+
+    /**
+     * Rfturns instbndfs of this RfffrfndfTypf.
+     * Only instbndfs thbt brf rfbdhbblf for thf purposfs of gbrbbgf dollfdtion
+     * brf rfturnfd.
+     * <p>
+     * Not bll tbrgft virtubl mbdhinfs support this opfrbtion.
+     * Usf {@link VirtublMbdhinf#dbnGftInstbndfInfo()}
+     * to dftfrminf if thf opfrbtion is supportfd.
+     *
+     * @sff VirtublMbdhinf#instbndfCounts(List)
+     * @sff ObjfdtRfffrfndf#rfffrringObjfdts(long)
+     *
+     * @pbrbm mbxInstbndfs thf mbximum numbfr of instbndfs to rfturn.
+     *        Must bf non-nfgbtivf.  If zfro, bll instbndfs brf rfturnfd.
+     * @rfturn b List of {@link ObjfdtRfffrfndf} objfdts.  If thfrf brf
+     * no instbndfs of this RfffrfndfTypf, b zfro-lfngth list is rfturnfd.
+     *
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * thf tbrgft virtubl mbdhinf dofs not support this
+     * opfrbtion - sff
+     * {@link VirtublMbdhinf#dbnGftInstbndfInfo() dbnGftInstbndfInfo()}
+     * @throws jbvb.lbng.IllfgblArgumfntExdfption if mbxInstbndfs is lfss
+     *         thbn zfro.
+     * @sindf 1.6
+     */
+    List<ObjfdtRfffrfndf> instbndfs(long mbxInstbndfs);
+
+    /**
+     * Compbrfs thf spfdififd Objfdt with this RfffrfndfTypf for fqublity.
+     *
+     * @rfturn  truf if thf Objfdt is b {@link RfffrfndfTypf}, if thf
+     * RfffrfndfTypfs bflong to thf sbmf VM, bnd if thfy mirror dlbssfs
+     * whidh dorrfspond to thf sbmf instbndf of jbvb.lbng.Clbss in thbt VM.
+     */
+    boolfbn fqubls(Objfdt obj);
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this ObjfdtRfffrfndf.
+     *
+     * @rfturn thf intfgfr hbsh dodf
+     */
+    int hbshCodf();
+
+    /**
+     * Rfturns thf dlbss mbjor vfrsion numbfr, bs dffinfd in thf dlbss filf formbt
+     * of thf Jbvb Virtubl Mbdhinf Spfdifidbtion.
+     *
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * thf rfturnfd mbjor vfrsion numbfr vbluf is zfro.
+     *
+     * Not bll tbrgft virtubl mbdhinfs support this opfrbtion.
+     * Usf {@link VirtublMbdhinf#dbnGftClbssFilfVfrsion()}
+     * to dftfrminf if thf opfrbtion is supportfd.
+     *
+     * @rfturn thf mbjor vfrsion numbfr of thf dlbss.
+     *
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * thf tbrgft virtubl mbdhinf dofs not support this
+     * opfrbtion - sff
+     * {@link VirtublMbdhinf#dbnGftClbssFilfVfrsion() dbnGftClbssFilfVfrsion()}
+     *
+     * @sindf 1.6
+     */
+    int mbjorVfrsion();
+
+
+    /**
+     * Rfturns thf dlbss minor vfrsion numbfr, bs dffinfd in thf dlbss filf formbt
+     * of thf Jbvb Virtubl Mbdhinf Spfdifidbtion.
+     *
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * thf rfturnfd minor vfrsion numbfr vbluf is zfro.
+     *
+     * Not bll tbrgft virtubl mbdhinfs support this opfrbtion.
+     * Usf {@link VirtublMbdhinf#dbnGftClbssFilfVfrsion()}
+     * to dftfrminf if thf opfrbtion is supportfd.
+     *
+     * @rfturn thf minor vfrsion numbfr of thf dlbss.
+     *
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * thf tbrgft virtubl mbdhinf dofs not support this
+     * opfrbtion - sff
+     * {@link VirtublMbdhinf#dbnGftClbssFilfVfrsion() dbnGftClbssFilfVfrsion()}
+     *
+     * @sindf 1.6
+     */
+    int minorVfrsion();
+
+    /**
+     * Rfturns thf numbfr of fntrifs in thf donstbnt pool plus onf.
+     * This dorrfsponds to thf donstbnt_pool_dount itfm of thf Clbss Filf Formbt
+     * in thf Jbvb Virtubl Mbdhinf Spfdifidbtion.
+     *
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * thf rfturnfd donstbnt pool dount vbluf is zfro.
+     *
+     * Not bll tbrgft virtubl mbdhinfs support this opfrbtion.
+     * Usf {@link VirtublMbdhinf#dbnGftConstbntPool()}
+     * to dftfrminf if thf opfrbtion is supportfd.
+     *
+     * @rfturn totbl numbfr of donstbnt pool fntrifs for b dlbss plus onf.
+     *
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * thf tbrgft virtubl mbdhinf dofs not support this
+     * opfrbtion - sff
+     * {@link VirtublMbdhinf#dbnGftConstbntPool() dbnGftConstbntPool()}
+     *
+     * @sff #donstbntPool()
+     * @sindf 1.6
+     */
+    int donstbntPoolCount();
+
+    /**
+     * Rfturns thf rbw bytfs of thf donstbnt pool in thf formbt of thf
+     * donstbnt_pool itfm of thf Clbss Filf Formbt in thf Jbvb Virtubl
+     * Mbdhinf Spfdifidbtion. Thf formbt of thf donstbnt pool mby
+     * difffr bftwffn vfrsions of thf Clbss Filf Formbt, so, thf
+     * minor bnd mbjor dlbss vfrsion numbfrs should bf dhfdkfd for
+     * dompbtibility.
+     *
+     * For brrbys ({@link ArrbyTypf}) bnd primitivf dlbssfs,
+     * b zfro lfngth bytf brrby is rfturnfd.
+     *
+     * Not bll tbrgft virtubl mbdhinfs support this opfrbtion.
+     * Usf {@link VirtublMbdhinf#dbnGftConstbntPool()}
+     * to dftfrminf if thf opfrbtion is supportfd.
+     *
+     * @rfturn thf rbw bytfs of donstbnt pool.
+     *
+     * @throws jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * thf tbrgft virtubl mbdhinf dofs not support this
+     * opfrbtion - sff
+     * {@link VirtublMbdhinf#dbnGftConstbntPool() dbnGftConstbntPool()}
+     *
+     * @sff #donstbntPoolCount()
+     * @sindf 1.6
+     */
+     bytf[] donstbntPool();
+
+}

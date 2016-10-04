@@ -1,62 +1,62 @@
-A Simple Chat Server Example
+A Simplf Cibt Sfrvfr Exbmplf
 
 INTRODUCTION
 ============
-This directory contains a very simple chat server, the server takes input from a
-socket ("user") and sends it to all other connected sockets ("users") along with
-the provided name the user was asked for when first connecting.
+Tiis dirfdtory dontbins b vfry simplf dibt sfrvfr, tif sfrvfr tbkfs input from b
+sodkft ("usfr") bnd sfnds it to bll otifr donnfdtfd sodkfts ("usfrs") blong witi
+tif providfd nbmf tif usfr wbs bskfd for wifn first donnfdting.
 
-The server was written to demonstrate the asynchronous I/O API in JDK 7. 
-The sample assumes the reader has some familiarity with the subject matter.
+Tif sfrvfr wbs writtfn to dfmonstrbtf tif bsyndironous I/O API in JDK 7. 
+Tif sbmplf bssumfs tif rfbdfr ibs somf fbmilibrity witi tif subjfdt mbttfr.
 
 SETUP
 =====
 
-The server must be built with version 7 (or later) of the JDK.
-The server is built with:
+Tif sfrvfr must bf built witi vfrsion 7 (or lbtfr) of tif JDK.
+Tif sfrvfr is built witi:
 
     % mkdir build
-    % javac -source 7 -target 7 -d build *.java
+    % jbvbd -sourdf 7 -tbrgft 7 -d build *.jbvb
 
 EXECUTION
 =========
 
-    % java -classpath build ChatServer [-port <port number>]
+    % jbvb -dlbsspbti build CibtSfrvfr [-port <port numbfr>]
 
-    Usage:  ChatServer [options]
+    Usbgf:  CibtSfrvfr [options]
         options:
-            -port port      port number
-                default: 5000
+            -port port      port numbfr
+                dffbult: 5000
 
 CLIENT EXECUTION
 ================
 
-No client binary is included in the sample.
-Connections can be made using for example the telnet command or any program
-that supports a raw TCP connection to a port.
+No dlifnt binbry is indludfd in tif sbmplf.
+Connfdtions dbn bf mbdf using for fxbmplf tif tflnft dommbnd or bny progrbm
+tibt supports b rbw TCP donnfdtion to b port.
 
 SOURCE CODE OVERVIEW
 ====================
-ChatServer is the main class, it handles the startup and handles incoming
-connections on the listening sockets. It keeps a list of connected client
-and provides methods for sending a message to them.
+CibtSfrvfr is tif mbin dlbss, it ibndlfs tif stbrtup bnd ibndlfs indoming
+donnfdtions on tif listfning sodkfts. It kffps b list of donnfdtfd dlifnt
+bnd providfs mftiods for sfnding b mfssbgf to tifm.
 
-Client represents a connected user, it provides methods for reading/writing
-from/to the underlying socket. It also contains a buffer of input read from
-the user.
+Clifnt rfprfsfnts b donnfdtfd usfr, it providfs mftiods for rfbding/writing
+from/to tif undfrlying sodkft. It blso dontbins b bufffr of input rfbd from
+tif usfr.
 
-DataReader provides the interface of the two states a user can
-be in. Waiting for a name (and not receiving any messages while doing so, implemented
-by NameReader) and waiting for messages from the user (implemented by MessageReader).
+DbtbRfbdfr providfs tif intfrfbdf of tif two stbtfs b usfr dbn
+bf in. Wbiting for b nbmf (bnd not rfdfiving bny mfssbgfs wiilf doing so, implfmfntfd
+by NbmfRfbdfr) bnd wbiting for mfssbgfs from tif usfr (implfmfntfd by MfssbgfRfbdfr).
 
-ClientReader contains the "main loop" for a connected client. 
+ClifntRfbdfr dontbins tif "mbin loop" for b donnfdtfd dlifnt. 
 
-NameReader is the initial state for a new client, it sends the user a string and
-waits for a response before changing the state to MessageReader.
+NbmfRfbdfr is tif initibl stbtf for b nfw dlifnt, it sfnds tif usfr b string bnd
+wbits for b rfsponsf bfforf dibnging tif stbtf to MfssbgfRfbdfr.
 
-MessageReader is the main state for a client, it checks for new messages to send to
-other clients and reads messages from the client.
+MfssbgfRfbdfr is tif mbin stbtf for b dlifnt, it difdks for nfw mfssbgfs to sfnd to
+otifr dlifnts bnd rfbds mfssbgfs from tif dlifnt.
 
 FINALLY
 =======
-This is a sample: it is not production quality and isn't optimized for performance.
+Tiis is b sbmplf: it is not produdtion qublity bnd isn't optimizfd for pfrformbndf.

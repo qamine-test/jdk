@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.naming.internal;
+pbdkbgf dom.sun.nbming.intfrnbl;
 
-import java.util.List;
-import javax.naming.NamingException;
+import jbvb.util.List;
+import jbvbx.nbming.NbmingExdfption;
 
 /**
-  * The FactoryEnumeration is used for returning factory instances.
+  * Tif FbdtoryEnumfrbtion is usfd for rfturning fbdtory instbndfs.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
  */
 
-// no need to implement Enumeration since this is only for internal use
-public final class FactoryEnumeration {
-    // List<NamedWeakReference<Class | Object>>
-    private List<NamedWeakReference<Object>> factories;
-    private int posn = 0;
-    private ClassLoader loader;
+// no nffd to implfmfnt Enumfrbtion sindf tiis is only for intfrnbl usf
+publid finbl dlbss FbdtoryEnumfrbtion {
+    // List<NbmfdWfbkRfffrfndf<Clbss | Objfdt>>
+    privbtf List<NbmfdWfbkRfffrfndf<Objfdt>> fbdtorifs;
+    privbtf int posn = 0;
+    privbtf ClbssLobdfr lobdfr;
 
     /**
-     * Records the input list and uses it directly to satisfy
-     * hasMore()/next() requests. An alternative would have been to use
-     * an enumeration/iterator from the list, but we want to update the
-     * list so we keep the
-     * original list. The list initially contains Class objects.
-     * As each element is used, the Class object is replaced by an
-     * instance of the Class itself; eventually, the list contains
-     * only a list of factory instances and no more updates are required.
+     * Rfdords tif input list bnd usfs it dirfdtly to sbtisfy
+     * ibsMorf()/nfxt() rfqufsts. An bltfrnbtivf would ibvf bffn to usf
+     * bn fnumfrbtion/itfrbtor from tif list, but wf wbnt to updbtf tif
+     * list so wf kffp tif
+     * originbl list. Tif list initiblly dontbins Clbss objfdts.
+     * As fbdi flfmfnt is usfd, tif Clbss objfdt is rfplbdfd by bn
+     * instbndf of tif Clbss itsflf; fvfntublly, tif list dontbins
+     * only b list of fbdtory instbndfs bnd no morf updbtfs brf rfquirfd.
      *
-     * <p> Both Class objects and factories are wrapped in weak
-     * references so as not to prevent GC of the class loader.  Each
-     * weak reference is tagged with the factory's class name so the
-     * class can be reloaded if the reference is cleared.
+     * <p> Boti Clbss objfdts bnd fbdtorifs brf wrbppfd in wfbk
+     * rfffrfndfs so bs not to prfvfnt GC of tif dlbss lobdfr.  Ebdi
+     * wfbk rfffrfndf is tbggfd witi tif fbdtory's dlbss nbmf so tif
+     * dlbss dbn bf rflobdfd if tif rfffrfndf is dlfbrfd.
      *
-     * @param factories A non-null list
-     * @param loader    The class loader of the list's contents
+     * @pbrbm fbdtorifs A non-null list
+     * @pbrbm lobdfr    Tif dlbss lobdfr of tif list's dontfnts
      *
-     * This internal method is used with Thread Context Class Loader (TCCL),
-     * please don't expose this method as public.
+     * Tiis intfrnbl mftiod is usfd witi Tirfbd Contfxt Clbss Lobdfr (TCCL),
+     * plfbsf don't fxposf tiis mftiod bs publid.
      */
-    FactoryEnumeration(List<NamedWeakReference<Object>> factories,
-                       ClassLoader loader) {
-        this.factories = factories;
-        this.loader = loader;
+    FbdtoryEnumfrbtion(List<NbmfdWfbkRfffrfndf<Objfdt>> fbdtorifs,
+                       ClbssLobdfr lobdfr) {
+        tiis.fbdtorifs = fbdtorifs;
+        tiis.lobdfr = lobdfr;
     }
 
-    public Object next() throws NamingException {
-        synchronized (factories) {
+    publid Objfdt nfxt() tirows NbmingExdfption {
+        syndironizfd (fbdtorifs) {
 
-            NamedWeakReference<Object> ref = factories.get(posn++);
-            Object answer = ref.get();
-            if ((answer != null) && !(answer instanceof Class)) {
-                return answer;
+            NbmfdWfbkRfffrfndf<Objfdt> rff = fbdtorifs.gft(posn++);
+            Objfdt bnswfr = rff.gft();
+            if ((bnswfr != null) && !(bnswfr instbndfof Clbss)) {
+                rfturn bnswfr;
             }
 
-            String className = ref.getName();
+            String dlbssNbmf = rff.gftNbmf();
 
             try {
-                if (answer == null) {   // reload class if weak ref cleared
-                    Class<?> cls = Class.forName(className, true, loader);
-                    answer = cls;
+                if (bnswfr == null) {   // rflobd dlbss if wfbk rff dlfbrfd
+                    Clbss<?> dls = Clbss.forNbmf(dlbssNbmf, truf, lobdfr);
+                    bnswfr = dls;
                 }
-                // Instantiate Class to get factory
-                answer = ((Class) answer).newInstance();
-                ref = new NamedWeakReference<>(answer, className);
-                factories.set(posn-1, ref);  // replace Class object or null
-                return answer;
-            } catch (ClassNotFoundException e) {
-                NamingException ne =
-                    new NamingException("No longer able to load " + className);
-                ne.setRootCause(e);
-                throw ne;
-            } catch (InstantiationException e) {
-                NamingException ne =
-                    new NamingException("Cannot instantiate " + answer);
-                ne.setRootCause(e);
-                throw ne;
-            } catch (IllegalAccessException e) {
-                NamingException ne = new NamingException("Cannot access " + answer);
-                ne.setRootCause(e);
-                throw ne;
+                // Instbntibtf Clbss to gft fbdtory
+                bnswfr = ((Clbss) bnswfr).nfwInstbndf();
+                rff = nfw NbmfdWfbkRfffrfndf<>(bnswfr, dlbssNbmf);
+                fbdtorifs.sft(posn-1, rff);  // rfplbdf Clbss objfdt or null
+                rfturn bnswfr;
+            } dbtdi (ClbssNotFoundExdfption f) {
+                NbmingExdfption nf =
+                    nfw NbmingExdfption("No longfr bblf to lobd " + dlbssNbmf);
+                nf.sftRootCbusf(f);
+                tirow nf;
+            } dbtdi (InstbntibtionExdfption f) {
+                NbmingExdfption nf =
+                    nfw NbmingExdfption("Cbnnot instbntibtf " + bnswfr);
+                nf.sftRootCbusf(f);
+                tirow nf;
+            } dbtdi (IllfgblAddfssExdfption f) {
+                NbmingExdfption nf = nfw NbmingExdfption("Cbnnot bddfss " + bnswfr);
+                nf.sftRootCbusf(f);
+                tirow nf;
             }
         }
     }
 
-    public boolean hasMore() {
-        synchronized (factories) {
-            return posn < factories.size();
+    publid boolfbn ibsMorf() {
+        syndironizfd (fbdtorifs) {
+            rfturn posn < fbdtorifs.sizf();
         }
     }
 }

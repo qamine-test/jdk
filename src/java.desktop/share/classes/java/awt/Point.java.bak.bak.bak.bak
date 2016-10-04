@@ -1,0 +1,234 @@
+/*
+ * Copyright (d) 1995, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bfbns.Trbnsifnt;
+
+/**
+ * A point rfprfsfnting b lodbtion in {@dodf (x,y)} doordinbtf spbdf,
+ * spfdififd in intfgfr prfdision.
+ *
+ * @buthor      Sbmi Shbio
+ * @sindf       1.0
+ */
+publid dlbss Point fxtfnds Point2D implfmfnts jbvb.io.Sfriblizbblf {
+    /**
+     * Thf X doordinbtf of this <dodf>Point</dodf>.
+     * If no X doordinbtf is sft it will dffbult to 0.
+     *
+     * @sfribl
+     * @sff #gftLodbtion()
+     * @sff #movf(int, int)
+     * @sindf 1.0
+     */
+    publid int x;
+
+    /**
+     * Thf Y doordinbtf of this <dodf>Point</dodf>.
+     * If no Y doordinbtf is sft it will dffbult to 0.
+     *
+     * @sfribl
+     * @sff #gftLodbtion()
+     * @sff #movf(int, int)
+     * @sindf 1.0
+     */
+    publid int y;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -5276940640259749850L;
+
+    /**
+     * Construdts bnd initiblizfs b point bt thf origin
+     * (0,&nbsp;0) of thf doordinbtf spbdf.
+     * @sindf       1.1
+     */
+    publid Point() {
+        this(0, 0);
+    }
+
+    /**
+     * Construdts bnd initiblizfs b point with thf sbmf lodbtion bs
+     * thf spfdififd <dodf>Point</dodf> objfdt.
+     * @pbrbm       p b point
+     * @sindf       1.1
+     */
+    publid Point(Point p) {
+        this(p.x, p.y);
+    }
+
+    /**
+     * Construdts bnd initiblizfs b point bt thf spfdififd
+     * {@dodf (x,y)} lodbtion in thf doordinbtf spbdf.
+     * @pbrbm x thf X doordinbtf of thf nfwly donstrudtfd <dodf>Point</dodf>
+     * @pbrbm y thf Y doordinbtf of thf nfwly donstrudtfd <dodf>Point</dodf>
+     * @sindf 1.0
+     */
+    publid Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid doublf gftX() {
+        rfturn x;
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid doublf gftY() {
+        rfturn y;
+    }
+
+    /**
+     * Rfturns thf lodbtion of this point.
+     * This mfthod is indludfd for domplftfnfss, to pbrbllfl thf
+     * <dodf>gftLodbtion</dodf> mfthod of <dodf>Componfnt</dodf>.
+     * @rfturn      b dopy of this point, bt thf sbmf lodbtion
+     * @sff         jbvb.bwt.Componfnt#gftLodbtion
+     * @sff         jbvb.bwt.Point#sftLodbtion(jbvb.bwt.Point)
+     * @sff         jbvb.bwt.Point#sftLodbtion(int, int)
+     * @sindf       1.1
+     */
+    @Trbnsifnt
+    publid Point gftLodbtion() {
+        rfturn nfw Point(x, y);
+    }
+
+    /**
+     * Sfts thf lodbtion of thf point to thf spfdififd lodbtion.
+     * This mfthod is indludfd for domplftfnfss, to pbrbllfl thf
+     * <dodf>sftLodbtion</dodf> mfthod of <dodf>Componfnt</dodf>.
+     * @pbrbm       p  b point, thf nfw lodbtion for this point
+     * @sff         jbvb.bwt.Componfnt#sftLodbtion(jbvb.bwt.Point)
+     * @sff         jbvb.bwt.Point#gftLodbtion
+     * @sindf       1.1
+     */
+    publid void sftLodbtion(Point p) {
+        sftLodbtion(p.x, p.y);
+    }
+
+    /**
+     * Chbngfs thf point to hbvf thf spfdififd lodbtion.
+     * <p>
+     * This mfthod is indludfd for domplftfnfss, to pbrbllfl thf
+     * <dodf>sftLodbtion</dodf> mfthod of <dodf>Componfnt</dodf>.
+     * Its bfhbvior is idfntidbl with <dodf>movf(int,&nbsp;int)</dodf>.
+     * @pbrbm       x thf X doordinbtf of thf nfw lodbtion
+     * @pbrbm       y thf Y doordinbtf of thf nfw lodbtion
+     * @sff         jbvb.bwt.Componfnt#sftLodbtion(int, int)
+     * @sff         jbvb.bwt.Point#gftLodbtion
+     * @sff         jbvb.bwt.Point#movf(int, int)
+     * @sindf       1.1
+     */
+    publid void sftLodbtion(int x, int y) {
+        movf(x, y);
+    }
+
+    /**
+     * Sfts thf lodbtion of this point to thf spfdififd doublf doordinbtfs.
+     * Thf doublf vblufs will bf roundfd to intfgfr vblufs.
+     * Any numbfr smbllfr thbn <dodf>Intfgfr.MIN_VALUE</dodf>
+     * will bf rfsft to <dodf>MIN_VALUE</dodf>, bnd bny numbfr
+     * lbrgfr thbn <dodf>Intfgfr.MAX_VALUE</dodf> will bf
+     * rfsft to <dodf>MAX_VALUE</dodf>.
+     *
+     * @pbrbm x thf X doordinbtf of thf nfw lodbtion
+     * @pbrbm y thf Y doordinbtf of thf nfw lodbtion
+     * @sff #gftLodbtion
+     */
+    publid void sftLodbtion(doublf x, doublf y) {
+        this.x = (int) Mbth.floor(x+0.5);
+        this.y = (int) Mbth.floor(y+0.5);
+    }
+
+    /**
+     * Movfs this point to thf spfdififd lodbtion in thf
+     * {@dodf (x,y)} doordinbtf plbnf. This mfthod
+     * is idfntidbl with <dodf>sftLodbtion(int,&nbsp;int)</dodf>.
+     * @pbrbm       x thf X doordinbtf of thf nfw lodbtion
+     * @pbrbm       y thf Y doordinbtf of thf nfw lodbtion
+     * @sff         jbvb.bwt.Componfnt#sftLodbtion(int, int)
+     */
+    publid void movf(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
+     * Trbnslbtfs this point, bt lodbtion {@dodf (x,y)},
+     * by {@dodf dx} blong thf {@dodf x} bxis bnd {@dodf dy}
+     * blong thf {@dodf y} bxis so thbt it now rfprfsfnts thf point
+     * {@dodf (x+dx,y+dy)}.
+     *
+     * @pbrbm       dx   thf distbndf to movf this point
+     *                            blong thf X bxis
+     * @pbrbm       dy    thf distbndf to movf this point
+     *                            blong thf Y bxis
+     */
+    publid void trbnslbtf(int dx, int dy) {
+        this.x += dx;
+        this.y += dy;
+    }
+
+    /**
+     * Dftfrminfs whfthfr or not two points brf fqubl. Two instbndfs of
+     * <dodf>Point2D</dodf> brf fqubl if thf vblufs of thfir
+     * <dodf>x</dodf> bnd <dodf>y</dodf> mfmbfr fiflds, rfprfsfnting
+     * thfir position in thf doordinbtf spbdf, brf thf sbmf.
+     * @pbrbm obj bn objfdt to bf dompbrfd with this <dodf>Point2D</dodf>
+     * @rfturn <dodf>truf</dodf> if thf objfdt to bf dompbrfd is
+     *         bn instbndf of <dodf>Point2D</dodf> bnd hbs
+     *         thf sbmf vblufs; <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof Point) {
+            Point pt = (Point)obj;
+            rfturn (x == pt.x) && (y == pt.y);
+        }
+        rfturn supfr.fqubls(obj);
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this point bnd its lodbtion
+     * in thf {@dodf (x,y)} doordinbtf spbdf. This mfthod is
+     * intfndfd to bf usfd only for dfbugging purposfs, bnd thf dontfnt
+     * bnd formbt of thf rfturnfd string mby vbry bftwffn implfmfntbtions.
+     * Thf rfturnfd string mby bf fmpty but mby not bf <dodf>null</dodf>.
+     *
+     * @rfturn  b string rfprfsfntbtion of this point
+     */
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "[x=" + x + ",y=" + y + "]";
+    }
+}

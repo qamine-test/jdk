@@ -1,0 +1,398 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2007-2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.tfmporbl;
+
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.EPOCH_DAY;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.NANO_OF_DAY;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.OFFSET_SECONDS;
+
+import jbvb.timf.LodblDbtf;
+import jbvb.timf.LodblTimf;
+import jbvb.timf.ZonfId;
+import jbvb.timf.ZonfOffsft;
+import jbvb.timf.dhrono.Chronology;
+
+/**
+ * Common implfmfntbtions of {@dodf TfmporblQufry}.
+ * <p>
+ * This dlbss providfs dommon implfmfntbtions of {@link TfmporblQufry}.
+ * Thfsf brf dffinfd hfrf bs thfy must bf donstbnts, bnd thf dffinition
+ * of lbmbdbs dofs not gubrbntff thbt. By bssigning thfm ondf hfrf,
+ * thfy bfdomf 'normbl' Jbvb donstbnts.
+ * <p>
+ * Qufrifs brf b kfy tool for fxtrbdting informbtion from tfmporbl objfdts.
+ * Thfy fxist to fxtfrnblizf thf prodfss of qufrying, pfrmitting difffrfnt
+ * bpprobdhfs, bs pfr thf strbtfgy dfsign pbttfrn.
+ * Exbmplfs might bf b qufry thbt dhfdks if thf dbtf is thf dby bfforf Ffbrubry 29th
+ * in b lfbp yfbr, or dbldulbtfs thf numbfr of dbys to your nfxt birthdby.
+ * <p>
+ * Thf {@link TfmporblFifld} intfrfbdf providfs bnothfr mfdhbnism for qufrying
+ * tfmporbl objfdts. Thbt intfrfbdf is limitfd to rfturning b {@dodf long}.
+ * By dontrbst, qufrifs dbn rfturn bny typf.
+ * <p>
+ * Thfrf brf two fquivblfnt wbys of using b {@dodf TfmporblQufry}.
+ * Thf first is to invokf thf mfthod on this intfrfbdf dirfdtly.
+ * Thf sfdond is to usf {@link TfmporblAddfssor#qufry(TfmporblQufry)}:
+ * <prf>
+ *   // thfsf two linfs brf fquivblfnt, but thf sfdond bpprobdh is rfdommfndfd
+ *   tfmporbl = thisQufry.qufryFrom(tfmporbl);
+ *   tfmporbl = tfmporbl.qufry(thisQufry);
+ * </prf>
+ * It is rfdommfndfd to usf thf sfdond bpprobdh, {@dodf qufry(TfmporblQufry)},
+ * bs it is b lot dlfbrfr to rfbd in dodf.
+ * <p>
+ * Thf most dommon implfmfntbtions brf mfthod rfffrfndfs, sudh bs
+ * {@dodf LodblDbtf::from} bnd {@dodf ZonfId::from}.
+ * Additionbl dommon qufrifs brf providfd to rfturn:
+ * <ul>
+ * <li> b Chronology,
+ * <li> b LodblDbtf,
+ * <li> b LodblTimf,
+ * <li> b ZonfOffsft,
+ * <li> b prfdision,
+ * <li> b zonf, or
+ * <li> b zonfId.
+ * </ul>
+ *
+ * @sindf 1.8
+ */
+publid finbl dlbss TfmporblQufrifs {
+    // notf thbt it is vitbl thbt fbdh mfthod supplifs b donstbnt, not b
+    // dbldulbtfd vbluf, bs thfy will bf dhfdkfd for using ==
+    // it is blso vitbl thbt fbdh donstbnt is difffrfnt (duf to thf == dhfdking)
+    // bs sudh, bltfrbtions to this dodf must bf donf with dbrf
+
+    /**
+     * Privbtf donstrudtor sindf this is b utility dlbss.
+     */
+    privbtf TfmporblQufrifs() {
+    }
+
+    //-----------------------------------------------------------------------
+    // spfdibl donstbnts should bf usfd to fxtrbdt informbtion from b TfmporblAddfssor
+    // thbt dbnnot bf dfrivfd in othfr wbys
+    // Jbvbdod bddfd hfrf, so bs to prftfnd thfy brf morf normbl thbn thfy rfblly brf
+
+    /**
+     * A stridt qufry for thf {@dodf ZonfId}.
+     * <p>
+     * This qufrifs b {@dodf TfmporblAddfssor} for thf zonf.
+     * Thf zonf is only rfturnfd if thf dbtf-timf dondfptublly dontbins b {@dodf ZonfId}.
+     * It will not bf rfturnfd if thf dbtf-timf only dondfptublly hbs bn {@dodf ZonfOffsft}.
+     * Thus b {@link jbvb.timf.ZonfdDbtfTimf} will rfturn thf rfsult of {@dodf gftZonf()},
+     * but bn {@link jbvb.timf.OffsftDbtfTimf} will rfturn null.
+     * <p>
+     * In most dbsfs, bpplidbtions should usf {@link #zonf()} bs this qufry is too stridt.
+     * <p>
+     * Thf rfsult from JDK dlbssfs implfmfnting {@dodf TfmporblAddfssor} is bs follows:<br>
+     * {@dodf LodblDbtf} rfturns null<br>
+     * {@dodf LodblTimf} rfturns null<br>
+     * {@dodf LodblDbtfTimf} rfturns null<br>
+     * {@dodf ZonfdDbtfTimf} rfturns thf bssodibtfd zonf<br>
+     * {@dodf OffsftTimf} rfturns null<br>
+     * {@dodf OffsftDbtfTimf} rfturns null<br>
+     * {@dodf ChronoLodblDbtf} rfturns null<br>
+     * {@dodf ChronoLodblDbtfTimf} rfturns null<br>
+     * {@dodf ChronoZonfdDbtfTimf} rfturns thf bssodibtfd zonf<br>
+     * {@dodf Erb} rfturns null<br>
+     * {@dodf DbyOfWffk} rfturns null<br>
+     * {@dodf Month} rfturns null<br>
+     * {@dodf Yfbr} rfturns null<br>
+     * {@dodf YfbrMonth} rfturns null<br>
+     * {@dodf MonthDby} rfturns null<br>
+     * {@dodf ZonfOffsft} rfturns null<br>
+     * {@dodf Instbnt} rfturns null<br>
+     *
+     * @rfturn b qufry thbt dbn obtbin thf zonf ID of b tfmporbl, not null
+     */
+    publid stbtid TfmporblQufry<ZonfId> zonfId() {
+        rfturn TfmporblQufrifs.ZONE_ID;
+    }
+
+    /**
+     * A qufry for thf {@dodf Chronology}.
+     * <p>
+     * This qufrifs b {@dodf TfmporblAddfssor} for thf dhronology.
+     * If thf tbrgft {@dodf TfmporblAddfssor} rfprfsfnts b dbtf, or pbrt of b dbtf,
+     * thfn it should rfturn thf dhronology thbt thf dbtf is fxprfssfd in.
+     * As b rfsult of this dffinition, objfdts only rfprfsfnting timf, sudh bs
+     * {@dodf LodblTimf}, will rfturn null.
+     * <p>
+     * Thf rfsult from JDK dlbssfs implfmfnting {@dodf TfmporblAddfssor} is bs follows:<br>
+     * {@dodf LodblDbtf} rfturns {@dodf IsoChronology.INSTANCE}<br>
+     * {@dodf LodblTimf} rfturns null (dofs not rfprfsfnt b dbtf)<br>
+     * {@dodf LodblDbtfTimf} rfturns {@dodf IsoChronology.INSTANCE}<br>
+     * {@dodf ZonfdDbtfTimf} rfturns {@dodf IsoChronology.INSTANCE}<br>
+     * {@dodf OffsftTimf} rfturns null (dofs not rfprfsfnt b dbtf)<br>
+     * {@dodf OffsftDbtfTimf} rfturns {@dodf IsoChronology.INSTANCE}<br>
+     * {@dodf ChronoLodblDbtf} rfturns thf bssodibtfd dhronology<br>
+     * {@dodf ChronoLodblDbtfTimf} rfturns thf bssodibtfd dhronology<br>
+     * {@dodf ChronoZonfdDbtfTimf} rfturns thf bssodibtfd dhronology<br>
+     * {@dodf Erb} rfturns thf bssodibtfd dhronology<br>
+     * {@dodf DbyOfWffk} rfturns null (shbrfd bdross dhronologifs)<br>
+     * {@dodf Month} rfturns {@dodf IsoChronology.INSTANCE}<br>
+     * {@dodf Yfbr} rfturns {@dodf IsoChronology.INSTANCE}<br>
+     * {@dodf YfbrMonth} rfturns {@dodf IsoChronology.INSTANCE}<br>
+     * {@dodf MonthDby} rfturns null {@dodf IsoChronology.INSTANCE}<br>
+     * {@dodf ZonfOffsft} rfturns null (dofs not rfprfsfnt b dbtf)<br>
+     * {@dodf Instbnt} rfturns null (dofs not rfprfsfnt b dbtf)<br>
+     * <p>
+     * Thf mfthod {@link jbvb.timf.dhrono.Chronology#from(TfmporblAddfssor)} dbn bf usfd bs b
+     * {@dodf TfmporblQufry} vib b mfthod rfffrfndf, {@dodf Chronology::from}.
+     * Thbt mfthod is fquivblfnt to this qufry, fxdfpt thbt it throws bn
+     * fxdfption if b dhronology dbnnot bf obtbinfd.
+     *
+     * @rfturn b qufry thbt dbn obtbin thf dhronology of b tfmporbl, not null
+     */
+    publid stbtid TfmporblQufry<Chronology> dhronology() {
+        rfturn TfmporblQufrifs.CHRONO;
+    }
+
+    /**
+     * A qufry for thf smbllfst supportfd unit.
+     * <p>
+     * This qufrifs b {@dodf TfmporblAddfssor} for thf timf prfdision.
+     * If thf tbrgft {@dodf TfmporblAddfssor} rfprfsfnts b donsistfnt or domplftf dbtf-timf,
+     * dbtf or timf thfn this must rfturn thf smbllfst prfdision bdtublly supportfd.
+     * Notf thbt fiflds sudh bs {@dodf NANO_OF_DAY} bnd {@dodf NANO_OF_SECOND}
+     * brf dffinfd to blwbys rfturn ignoring thf prfdision, thus this is thf only
+     * wby to find thf bdtubl smbllfst supportfd unit.
+     * For fxbmplf, wfrf {@dodf GrfgoribnCblfndbr} to implfmfnt {@dodf TfmporblAddfssor}
+     * it would rfturn b prfdision of {@dodf MILLIS}.
+     * <p>
+     * Thf rfsult from JDK dlbssfs implfmfnting {@dodf TfmporblAddfssor} is bs follows:<br>
+     * {@dodf LodblDbtf} rfturns {@dodf DAYS}<br>
+     * {@dodf LodblTimf} rfturns {@dodf NANOS}<br>
+     * {@dodf LodblDbtfTimf} rfturns {@dodf NANOS}<br>
+     * {@dodf ZonfdDbtfTimf} rfturns {@dodf NANOS}<br>
+     * {@dodf OffsftTimf} rfturns {@dodf NANOS}<br>
+     * {@dodf OffsftDbtfTimf} rfturns {@dodf NANOS}<br>
+     * {@dodf ChronoLodblDbtf} rfturns {@dodf DAYS}<br>
+     * {@dodf ChronoLodblDbtfTimf} rfturns {@dodf NANOS}<br>
+     * {@dodf ChronoZonfdDbtfTimf} rfturns {@dodf NANOS}<br>
+     * {@dodf Erb} rfturns {@dodf ERAS}<br>
+     * {@dodf DbyOfWffk} rfturns {@dodf DAYS}<br>
+     * {@dodf Month} rfturns {@dodf MONTHS}<br>
+     * {@dodf Yfbr} rfturns {@dodf YEARS}<br>
+     * {@dodf YfbrMonth} rfturns {@dodf MONTHS}<br>
+     * {@dodf MonthDby} rfturns null (dofs not rfprfsfnt b domplftf dbtf or timf)<br>
+     * {@dodf ZonfOffsft} rfturns null (dofs not rfprfsfnt b dbtf or timf)<br>
+     * {@dodf Instbnt} rfturns {@dodf NANOS}<br>
+     *
+     * @rfturn b qufry thbt dbn obtbin thf prfdision of b tfmporbl, not null
+     */
+    publid stbtid TfmporblQufry<TfmporblUnit> prfdision() {
+        rfturn TfmporblQufrifs.PRECISION;
+    }
+
+    //-----------------------------------------------------------------------
+    // non-spfdibl donstbnts brf stbndbrd qufrifs thbt dfrivf informbtion from othfr informbtion
+    /**
+     * A lfnifnt qufry for thf {@dodf ZonfId}, fblling bbdk to thf {@dodf ZonfOffsft}.
+     * <p>
+     * This qufrifs b {@dodf TfmporblAddfssor} for thf zonf.
+     * It first trifs to obtbin thf zonf, using {@link #zonfId()}.
+     * If thbt is not found it trifs to obtbin thf {@link #offsft()}.
+     * Thus b {@link jbvb.timf.ZonfdDbtfTimf} will rfturn thf rfsult of {@dodf gftZonf()},
+     * whilf bn {@link jbvb.timf.OffsftDbtfTimf} will rfturn thf rfsult of {@dodf gftOffsft()}.
+     * <p>
+     * In most dbsfs, bpplidbtions should usf this qufry rbthfr thbn {@dodf #zonfId()}.
+     * <p>
+     * Thf mfthod {@link ZonfId#from(TfmporblAddfssor)} dbn bf usfd bs b
+     * {@dodf TfmporblQufry} vib b mfthod rfffrfndf, {@dodf ZonfId::from}.
+     * Thbt mfthod is fquivblfnt to this qufry, fxdfpt thbt it throws bn
+     * fxdfption if b zonf dbnnot bf obtbinfd.
+     *
+     * @rfturn b qufry thbt dbn obtbin thf zonf ID or offsft of b tfmporbl, not null
+     */
+    publid stbtid TfmporblQufry<ZonfId> zonf() {
+        rfturn TfmporblQufrifs.ZONE;
+    }
+
+    /**
+     * A qufry for {@dodf ZonfOffsft} rfturning null if not found.
+     * <p>
+     * This rfturns b {@dodf TfmporblQufry} thbt dbn bf usfd to qufry b tfmporbl
+     * objfdt for thf offsft. Thf qufry will rfturn null if thf tfmporbl
+     * objfdt dbnnot supply bn offsft.
+     * <p>
+     * Thf qufry implfmfntbtion fxbminfs thf {@link ChronoFifld#OFFSET_SECONDS OFFSET_SECONDS}
+     * fifld bnd usfs it to drfbtf b {@dodf ZonfOffsft}.
+     * <p>
+     * Thf mfthod {@link jbvb.timf.ZonfOffsft#from(TfmporblAddfssor)} dbn bf usfd bs b
+     * {@dodf TfmporblQufry} vib b mfthod rfffrfndf, {@dodf ZonfOffsft::from}.
+     * This qufry bnd {@dodf ZonfOffsft::from} will rfturn thf sbmf rfsult if thf
+     * tfmporbl objfdt dontbins bn offsft. If thf tfmporbl objfdt dofs not dontbin
+     * bn offsft, thfn thf mfthod rfffrfndf will throw bn fxdfption, whfrfbs this
+     * qufry will rfturn null.
+     *
+     * @rfturn b qufry thbt dbn obtbin thf offsft of b tfmporbl, not null
+     */
+    publid stbtid TfmporblQufry<ZonfOffsft> offsft() {
+        rfturn TfmporblQufrifs.OFFSET;
+    }
+
+    /**
+     * A qufry for {@dodf LodblDbtf} rfturning null if not found.
+     * <p>
+     * This rfturns b {@dodf TfmporblQufry} thbt dbn bf usfd to qufry b tfmporbl
+     * objfdt for thf lodbl dbtf. Thf qufry will rfturn null if thf tfmporbl
+     * objfdt dbnnot supply b lodbl dbtf.
+     * <p>
+     * Thf qufry implfmfntbtion fxbminfs thf {@link ChronoFifld#EPOCH_DAY EPOCH_DAY}
+     * fifld bnd usfs it to drfbtf b {@dodf LodblDbtf}.
+     * <p>
+     * Thf mfthod {@link ZonfOffsft#from(TfmporblAddfssor)} dbn bf usfd bs b
+     * {@dodf TfmporblQufry} vib b mfthod rfffrfndf, {@dodf LodblDbtf::from}.
+     * This qufry bnd {@dodf LodblDbtf::from} will rfturn thf sbmf rfsult if thf
+     * tfmporbl objfdt dontbins b dbtf. If thf tfmporbl objfdt dofs not dontbin
+     * b dbtf, thfn thf mfthod rfffrfndf will throw bn fxdfption, whfrfbs this
+     * qufry will rfturn null.
+     *
+     * @rfturn b qufry thbt dbn obtbin thf dbtf of b tfmporbl, not null
+     */
+    publid stbtid TfmporblQufry<LodblDbtf> lodblDbtf() {
+        rfturn TfmporblQufrifs.LOCAL_DATE;
+    }
+
+    /**
+     * A qufry for {@dodf LodblTimf} rfturning null if not found.
+     * <p>
+     * This rfturns b {@dodf TfmporblQufry} thbt dbn bf usfd to qufry b tfmporbl
+     * objfdt for thf lodbl timf. Thf qufry will rfturn null if thf tfmporbl
+     * objfdt dbnnot supply b lodbl timf.
+     * <p>
+     * Thf qufry implfmfntbtion fxbminfs thf {@link ChronoFifld#NANO_OF_DAY NANO_OF_DAY}
+     * fifld bnd usfs it to drfbtf b {@dodf LodblTimf}.
+     * <p>
+     * Thf mfthod {@link ZonfOffsft#from(TfmporblAddfssor)} dbn bf usfd bs b
+     * {@dodf TfmporblQufry} vib b mfthod rfffrfndf, {@dodf LodblTimf::from}.
+     * This qufry bnd {@dodf LodblTimf::from} will rfturn thf sbmf rfsult if thf
+     * tfmporbl objfdt dontbins b timf. If thf tfmporbl objfdt dofs not dontbin
+     * b timf, thfn thf mfthod rfffrfndf will throw bn fxdfption, whfrfbs this
+     * qufry will rfturn null.
+     *
+     * @rfturn b qufry thbt dbn obtbin thf timf of b tfmporbl, not null
+     */
+    publid stbtid TfmporblQufry<LodblTimf> lodblTimf() {
+        rfturn TfmporblQufrifs.LOCAL_TIME;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * A stridt qufry for thf {@dodf ZonfId}.
+     */
+    stbtid finbl TfmporblQufry<ZonfId> ZONE_ID = (tfmporbl) ->
+        tfmporbl.qufry(TfmporblQufrifs.ZONE_ID);
+
+    /**
+     * A qufry for thf {@dodf Chronology}.
+     */
+    stbtid finbl TfmporblQufry<Chronology> CHRONO = (tfmporbl) ->
+        tfmporbl.qufry(TfmporblQufrifs.CHRONO);
+
+    /**
+     * A qufry for thf smbllfst supportfd unit.
+     */
+    stbtid finbl TfmporblQufry<TfmporblUnit> PRECISION = (tfmporbl) ->
+        tfmporbl.qufry(TfmporblQufrifs.PRECISION);
+
+    //-----------------------------------------------------------------------
+    /**
+     * A qufry for {@dodf ZonfOffsft} rfturning null if not found.
+     */
+    stbtid finbl TfmporblQufry<ZonfOffsft> OFFSET = (tfmporbl) -> {
+        if (tfmporbl.isSupportfd(OFFSET_SECONDS)) {
+            rfturn ZonfOffsft.ofTotblSfdonds(tfmporbl.gft(OFFSET_SECONDS));
+        }
+        rfturn null;
+    };
+
+    /**
+     * A lfnifnt qufry for thf {@dodf ZonfId}, fblling bbdk to thf {@dodf ZonfOffsft}.
+     */
+    stbtid finbl TfmporblQufry<ZonfId> ZONE = (tfmporbl) -> {
+        ZonfId zonf = tfmporbl.qufry(ZONE_ID);
+        rfturn (zonf != null ? zonf : tfmporbl.qufry(OFFSET));
+    };
+
+    /**
+     * A qufry for {@dodf LodblDbtf} rfturning null if not found.
+     */
+    stbtid finbl TfmporblQufry<LodblDbtf> LOCAL_DATE = (tfmporbl) -> {
+        if (tfmporbl.isSupportfd(EPOCH_DAY)) {
+            rfturn LodblDbtf.ofEpodhDby(tfmporbl.gftLong(EPOCH_DAY));
+        }
+        rfturn null;
+    };
+
+    /**
+     * A qufry for {@dodf LodblTimf} rfturning null if not found.
+     */
+    stbtid finbl TfmporblQufry<LodblTimf> LOCAL_TIME = (tfmporbl) -> {
+        if (tfmporbl.isSupportfd(NANO_OF_DAY)) {
+            rfturn LodblTimf.ofNbnoOfDby(tfmporbl.gftLong(NANO_OF_DAY));
+        }
+        rfturn null;
+    };
+
+}

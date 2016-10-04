@@ -1,148 +1,148 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * Tif Originbl Codf is HAT. Tif Initibl Dfvflopfr of tif
+ * Originbl Codf is Bill Footf, witi dontributions from otifrs
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.model;
+pbdkbgf dom.sun.tools.ibt.intfrnbl.modfl;
 
-import java.util.Vector;
-import java.util.Hashtable;
-import java.util.Enumeration;
+import jbvb.util.Vfdtor;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Enumfrbtion;
 
-import com.sun.tools.hat.internal.util.ArraySorter;
-import com.sun.tools.hat.internal.util.Comparer;
+import dom.sun.tools.ibt.intfrnbl.util.ArrbySortfr;
+import dom.sun.tools.ibt.intfrnbl.util.Compbrfr;
 
 /**
- * @author      A. Sundararajan
+ * @butior      A. Sundbrbrbjbn
  */
 
-public class ReachableObjects {
-    public ReachableObjects(JavaHeapObject root,
-                            final ReachableExcludes excludes) {
-        this.root = root;
+publid dlbss RfbdibblfObjfdts {
+    publid RfbdibblfObjfdts(JbvbHfbpObjfdt root,
+                            finbl RfbdibblfExdludfs fxdludfs) {
+        tiis.root = root;
 
-        final Hashtable<JavaHeapObject, JavaHeapObject> bag = new Hashtable<JavaHeapObject, JavaHeapObject>();
-        final Hashtable<String, String> fieldsExcluded = new Hashtable<String, String>();  //Bag<String>
-        final Hashtable<String, String> fieldsUsed = new Hashtable<String, String>();   // Bag<String>
-        JavaHeapObjectVisitor visitor = new AbstractJavaHeapObjectVisitor() {
-            public void visit(JavaHeapObject t) {
-                // Size is zero for things like integer fields
-                if (t != null && t.getSize() > 0 && bag.get(t) == null) {
-                    bag.put(t, t);
-                    t.visitReferencedObjects(this);
+        finbl Hbsitbblf<JbvbHfbpObjfdt, JbvbHfbpObjfdt> bbg = nfw Hbsitbblf<JbvbHfbpObjfdt, JbvbHfbpObjfdt>();
+        finbl Hbsitbblf<String, String> fifldsExdludfd = nfw Hbsitbblf<String, String>();  //Bbg<String>
+        finbl Hbsitbblf<String, String> fifldsUsfd = nfw Hbsitbblf<String, String>();   // Bbg<String>
+        JbvbHfbpObjfdtVisitor visitor = nfw AbstrbdtJbvbHfbpObjfdtVisitor() {
+            publid void visit(JbvbHfbpObjfdt t) {
+                // Sizf is zfro for tiings likf intfgfr fiflds
+                if (t != null && t.gftSizf() > 0 && bbg.gft(t) == null) {
+                    bbg.put(t, t);
+                    t.visitRfffrfndfdObjfdts(tiis);
                 }
             }
 
-            public boolean mightExclude() {
-                return excludes != null;
+            publid boolfbn migitExdludf() {
+                rfturn fxdludfs != null;
             }
 
-            public boolean exclude(JavaClass clazz, JavaField f) {
-                if (excludes == null) {
-                    return false;
+            publid boolfbn fxdludf(JbvbClbss dlbzz, JbvbFifld f) {
+                if (fxdludfs == null) {
+                    rfturn fblsf;
                 }
-                String nm = clazz.getName() + "." + f.getName();
-                if (excludes.isExcluded(nm)) {
-                    fieldsExcluded.put(nm, nm);
-                    return true;
-                } else {
-                    fieldsUsed.put(nm, nm);
-                    return false;
+                String nm = dlbzz.gftNbmf() + "." + f.gftNbmf();
+                if (fxdludfs.isExdludfd(nm)) {
+                    fifldsExdludfd.put(nm, nm);
+                    rfturn truf;
+                } flsf {
+                    fifldsUsfd.put(nm, nm);
+                    rfturn fblsf;
                 }
             }
         };
-        // Put the closure of root and all objects reachable from root into
-        // bag (depth first), but don't include root:
+        // Put tif dlosurf of root bnd bll objfdts rfbdibblf from root into
+        // bbg (dfpti first), but don't indludf root:
         visitor.visit(root);
-        bag.remove(root);
+        bbg.rfmovf(root);
 
-        // Now grab the elements into a vector, and sort it in decreasing size
-        JavaThing[] things = new JavaThing[bag.size()];
+        // Now grbb tif flfmfnts into b vfdtor, bnd sort it in dfdrfbsing sizf
+        JbvbTiing[] tiings = nfw JbvbTiing[bbg.sizf()];
         int i = 0;
-        for (Enumeration<JavaHeapObject> e = bag.elements(); e.hasMoreElements(); ) {
-            things[i++] = (JavaThing) e.nextElement();
+        for (Enumfrbtion<JbvbHfbpObjfdt> f = bbg.flfmfnts(); f.ibsMorfElfmfnts(); ) {
+            tiings[i++] = (JbvbTiing) f.nfxtElfmfnt();
         }
-        ArraySorter.sort(things, new Comparer() {
-            public int compare(Object lhs, Object rhs) {
-                JavaThing left = (JavaThing) lhs;
-                JavaThing right = (JavaThing) rhs;
-                int diff = right.getSize() - left.getSize();
+        ArrbySortfr.sort(tiings, nfw Compbrfr() {
+            publid int dompbrf(Objfdt lis, Objfdt ris) {
+                JbvbTiing lfft = (JbvbTiing) lis;
+                JbvbTiing rigit = (JbvbTiing) ris;
+                int diff = rigit.gftSizf() - lfft.gftSizf();
                 if (diff != 0) {
-                    return diff;
+                    rfturn diff;
                 }
-                return left.compareTo(right);
+                rfturn lfft.dompbrfTo(rigit);
             }
         });
-        this.reachables = things;
+        tiis.rfbdibblfs = tiings;
 
-        this.totalSize = root.getSize();
-        for (i = 0; i < things.length; i++) {
-            this.totalSize += things[i].getSize();
+        tiis.totblSizf = root.gftSizf();
+        for (i = 0; i < tiings.lfngti; i++) {
+            tiis.totblSizf += tiings[i].gftSizf();
         }
 
-        excludedFields = getElements(fieldsExcluded);
-        usedFields = getElements(fieldsUsed);
+        fxdludfdFiflds = gftElfmfnts(fifldsExdludfd);
+        usfdFiflds = gftElfmfnts(fifldsUsfd);
     }
 
-    public JavaHeapObject getRoot() {
-        return root;
+    publid JbvbHfbpObjfdt gftRoot() {
+        rfturn root;
     }
 
-    public JavaThing[] getReachables() {
-        return reachables;
+    publid JbvbTiing[] gftRfbdibblfs() {
+        rfturn rfbdibblfs;
     }
 
-    public long getTotalSize() {
-        return totalSize;
+    publid long gftTotblSizf() {
+        rfturn totblSizf;
     }
 
-    public String[] getExcludedFields() {
-        return excludedFields;
+    publid String[] gftExdludfdFiflds() {
+        rfturn fxdludfdFiflds;
     }
 
-    public String[] getUsedFields() {
-        return usedFields;
+    publid String[] gftUsfdFiflds() {
+        rfturn usfdFiflds;
     }
 
-    private String[] getElements(Hashtable<?, ?> ht) {
-        Object[] keys = ht.keySet().toArray();
-        int len = keys.length;
-        String[] res = new String[len];
-        System.arraycopy(keys, 0, res, 0, len);
-        ArraySorter.sortArrayOfStrings(res);
-        return res;
+    privbtf String[] gftElfmfnts(Hbsitbblf<?, ?> it) {
+        Objfdt[] kfys = it.kfySft().toArrby();
+        int lfn = kfys.lfngti;
+        String[] rfs = nfw String[lfn];
+        Systfm.brrbydopy(kfys, 0, rfs, 0, lfn);
+        ArrbySortfr.sortArrbyOfStrings(rfs);
+        rfturn rfs;
     }
 
-    private JavaHeapObject root;
-    private JavaThing[] reachables;
-    private String[]  excludedFields;
-    private String[]  usedFields;
-    private long totalSize;
+    privbtf JbvbHfbpObjfdt root;
+    privbtf JbvbTiing[] rfbdibblfs;
+    privbtf String[]  fxdludfdFiflds;
+    privbtf String[]  usfdFiflds;
+    privbtf long totblSizf;
 }

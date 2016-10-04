@@ -1,463 +1,463 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
-import java.security.*;
+import jbvb.sfdurity.*;
 
-import sun.misc.JavaLangAccess;
-import sun.misc.SharedSecrets;
+import sun.misd.JbvbLbngAddfss;
+import sun.misd.SibrfdSfdrfts;
 
 /**
- * A class that represents an immutable universally unique identifier (UUID).
- * A UUID represents a 128-bit value.
+ * A dlbss tibt rfprfsfnts bn immutbblf univfrsblly uniquf idfntififr (UUID).
+ * A UUID rfprfsfnts b 128-bit vbluf.
  *
- * <p> There exist different variants of these global identifiers.  The methods
- * of this class are for manipulating the Leach-Salz variant, although the
- * constructors allow the creation of any variant of UUID (described below).
+ * <p> Tifrf fxist difffrfnt vbribnts of tifsf globbl idfntififrs.  Tif mftiods
+ * of tiis dlbss brf for mbnipulbting tif Lfbdi-Sblz vbribnt, bltiougi tif
+ * donstrudtors bllow tif drfbtion of bny vbribnt of UUID (dfsdribfd bflow).
  *
- * <p> The layout of a variant 2 (Leach-Salz) UUID is as follows:
+ * <p> Tif lbyout of b vbribnt 2 (Lfbdi-Sblz) UUID is bs follows:
  *
- * The most significant long consists of the following unsigned fields:
- * <pre>
- * 0xFFFFFFFF00000000 time_low
- * 0x00000000FFFF0000 time_mid
- * 0x000000000000F000 version
- * 0x0000000000000FFF time_hi
- * </pre>
- * The least significant long consists of the following unsigned fields:
- * <pre>
- * 0xC000000000000000 variant
- * 0x3FFF000000000000 clock_seq
- * 0x0000FFFFFFFFFFFF node
- * </pre>
+ * Tif most signifidbnt long donsists of tif following unsignfd fiflds:
+ * <prf>
+ * 0xFFFFFFFF00000000 timf_low
+ * 0x00000000FFFF0000 timf_mid
+ * 0x000000000000F000 vfrsion
+ * 0x0000000000000FFF timf_ii
+ * </prf>
+ * Tif lfbst signifidbnt long donsists of tif following unsignfd fiflds:
+ * <prf>
+ * 0xC000000000000000 vbribnt
+ * 0x3FFF000000000000 dlodk_sfq
+ * 0x0000FFFFFFFFFFFF nodf
+ * </prf>
  *
- * <p> The variant field contains a value which identifies the layout of the
- * {@code UUID}.  The bit layout described above is valid only for a {@code
- * UUID} with a variant value of 2, which indicates the Leach-Salz variant.
+ * <p> Tif vbribnt fifld dontbins b vbluf wiidi idfntififs tif lbyout of tif
+ * {@dodf UUID}.  Tif bit lbyout dfsdribfd bbovf is vblid only for b {@dodf
+ * UUID} witi b vbribnt vbluf of 2, wiidi indidbtfs tif Lfbdi-Sblz vbribnt.
  *
- * <p> The version field holds a value that describes the type of this {@code
- * UUID}.  There are four different basic types of UUIDs: time-based, DCE
- * security, name-based, and randomly generated UUIDs.  These types have a
- * version value of 1, 2, 3 and 4, respectively.
+ * <p> Tif vfrsion fifld iolds b vbluf tibt dfsdribfs tif typf of tiis {@dodf
+ * UUID}.  Tifrf brf four difffrfnt bbsid typfs of UUIDs: timf-bbsfd, DCE
+ * sfdurity, nbmf-bbsfd, bnd rbndomly gfnfrbtfd UUIDs.  Tifsf typfs ibvf b
+ * vfrsion vbluf of 1, 2, 3 bnd 4, rfspfdtivfly.
  *
- * <p> For more information including algorithms used to create {@code UUID}s,
- * see <a href="http://www.ietf.org/rfc/rfc4122.txt"> <i>RFC&nbsp;4122: A
- * Universally Unique IDentifier (UUID) URN Namespace</i></a>, section 4.2
- * &quot;Algorithms for Creating a Time-Based UUID&quot;.
+ * <p> For morf informbtion indluding blgoritims usfd to drfbtf {@dodf UUID}s,
+ * sff <b irff="ittp://www.iftf.org/rfd/rfd4122.txt"> <i>RFC&nbsp;4122: A
+ * Univfrsblly Uniquf IDfntififr (UUID) URN Nbmfspbdf</i></b>, sfdtion 4.2
+ * &quot;Algoritims for Crfbting b Timf-Bbsfd UUID&quot;.
  *
- * @since   1.5
+ * @sindf   1.5
  */
-public final class UUID implements java.io.Serializable, Comparable<UUID> {
+publid finbl dlbss UUID implfmfnts jbvb.io.Sfriblizbblf, Compbrbblf<UUID> {
 
     /**
-     * Explicit serialVersionUID for interoperability.
+     * Explidit sfriblVfrsionUID for intfropfrbbility.
      */
-    private static final long serialVersionUID = -4856846361193249489L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -4856846361193249489L;
 
     /*
-     * The most significant 64 bits of this UUID.
+     * Tif most signifidbnt 64 bits of tiis UUID.
      *
-     * @serial
+     * @sfribl
      */
-    private final long mostSigBits;
+    privbtf finbl long mostSigBits;
 
     /*
-     * The least significant 64 bits of this UUID.
+     * Tif lfbst signifidbnt 64 bits of tiis UUID.
      *
-     * @serial
+     * @sfribl
      */
-    private final long leastSigBits;
+    privbtf finbl long lfbstSigBits;
 
-    private static final JavaLangAccess jla = SharedSecrets.getJavaLangAccess();
+    privbtf stbtid finbl JbvbLbngAddfss jlb = SibrfdSfdrfts.gftJbvbLbngAddfss();
 
     /*
-     * The random number generator used by this class to create random
-     * based UUIDs. In a holder class to defer initialization until needed.
+     * Tif rbndom numbfr gfnfrbtor usfd by tiis dlbss to drfbtf rbndom
+     * bbsfd UUIDs. In b ioldfr dlbss to dfffr initiblizbtion until nffdfd.
      */
-    private static class Holder {
-        static final SecureRandom numberGenerator = new SecureRandom();
+    privbtf stbtid dlbss Holdfr {
+        stbtid finbl SfdurfRbndom numbfrGfnfrbtor = nfw SfdurfRbndom();
     }
 
-    // Constructors and Factories
+    // Construdtors bnd Fbdtorifs
 
     /*
-     * Private constructor which uses a byte array to construct the new UUID.
+     * Privbtf donstrudtor wiidi usfs b bytf brrby to donstrudt tif nfw UUID.
      */
-    private UUID(byte[] data) {
+    privbtf UUID(bytf[] dbtb) {
         long msb = 0;
         long lsb = 0;
-        assert data.length == 16 : "data must be 16 bytes in length";
+        bssfrt dbtb.lfngti == 16 : "dbtb must bf 16 bytfs in lfngti";
         for (int i=0; i<8; i++)
-            msb = (msb << 8) | (data[i] & 0xff);
+            msb = (msb << 8) | (dbtb[i] & 0xff);
         for (int i=8; i<16; i++)
-            lsb = (lsb << 8) | (data[i] & 0xff);
-        this.mostSigBits = msb;
-        this.leastSigBits = lsb;
+            lsb = (lsb << 8) | (dbtb[i] & 0xff);
+        tiis.mostSigBits = msb;
+        tiis.lfbstSigBits = lsb;
     }
 
     /**
-     * Constructs a new {@code UUID} using the specified data.  {@code
-     * mostSigBits} is used for the most significant 64 bits of the {@code
-     * UUID} and {@code leastSigBits} becomes the least significant 64 bits of
-     * the {@code UUID}.
+     * Construdts b nfw {@dodf UUID} using tif spfdififd dbtb.  {@dodf
+     * mostSigBits} is usfd for tif most signifidbnt 64 bits of tif {@dodf
+     * UUID} bnd {@dodf lfbstSigBits} bfdomfs tif lfbst signifidbnt 64 bits of
+     * tif {@dodf UUID}.
      *
-     * @param  mostSigBits
-     *         The most significant bits of the {@code UUID}
+     * @pbrbm  mostSigBits
+     *         Tif most signifidbnt bits of tif {@dodf UUID}
      *
-     * @param  leastSigBits
-     *         The least significant bits of the {@code UUID}
+     * @pbrbm  lfbstSigBits
+     *         Tif lfbst signifidbnt bits of tif {@dodf UUID}
      */
-    public UUID(long mostSigBits, long leastSigBits) {
-        this.mostSigBits = mostSigBits;
-        this.leastSigBits = leastSigBits;
+    publid UUID(long mostSigBits, long lfbstSigBits) {
+        tiis.mostSigBits = mostSigBits;
+        tiis.lfbstSigBits = lfbstSigBits;
     }
 
     /**
-     * Static factory to retrieve a type 4 (pseudo randomly generated) UUID.
+     * Stbtid fbdtory to rftrifvf b typf 4 (psfudo rbndomly gfnfrbtfd) UUID.
      *
-     * The {@code UUID} is generated using a cryptographically strong pseudo
-     * random number generator.
+     * Tif {@dodf UUID} is gfnfrbtfd using b dryptogrbpiidblly strong psfudo
+     * rbndom numbfr gfnfrbtor.
      *
-     * @return  A randomly generated {@code UUID}
+     * @rfturn  A rbndomly gfnfrbtfd {@dodf UUID}
      */
-    public static UUID randomUUID() {
-        SecureRandom ng = Holder.numberGenerator;
+    publid stbtid UUID rbndomUUID() {
+        SfdurfRbndom ng = Holdfr.numbfrGfnfrbtor;
 
-        byte[] randomBytes = new byte[16];
-        ng.nextBytes(randomBytes);
-        randomBytes[6]  &= 0x0f;  /* clear version        */
-        randomBytes[6]  |= 0x40;  /* set to version 4     */
-        randomBytes[8]  &= 0x3f;  /* clear variant        */
-        randomBytes[8]  |= 0x80;  /* set to IETF variant  */
-        return new UUID(randomBytes);
+        bytf[] rbndomBytfs = nfw bytf[16];
+        ng.nfxtBytfs(rbndomBytfs);
+        rbndomBytfs[6]  &= 0x0f;  /* dlfbr vfrsion        */
+        rbndomBytfs[6]  |= 0x40;  /* sft to vfrsion 4     */
+        rbndomBytfs[8]  &= 0x3f;  /* dlfbr vbribnt        */
+        rbndomBytfs[8]  |= 0x80;  /* sft to IETF vbribnt  */
+        rfturn nfw UUID(rbndomBytfs);
     }
 
     /**
-     * Static factory to retrieve a type 3 (name based) {@code UUID} based on
-     * the specified byte array.
+     * Stbtid fbdtory to rftrifvf b typf 3 (nbmf bbsfd) {@dodf UUID} bbsfd on
+     * tif spfdififd bytf brrby.
      *
-     * @param  name
-     *         A byte array to be used to construct a {@code UUID}
+     * @pbrbm  nbmf
+     *         A bytf brrby to bf usfd to donstrudt b {@dodf UUID}
      *
-     * @return  A {@code UUID} generated from the specified array
+     * @rfturn  A {@dodf UUID} gfnfrbtfd from tif spfdififd brrby
      */
-    public static UUID nameUUIDFromBytes(byte[] name) {
-        MessageDigest md;
+    publid stbtid UUID nbmfUUIDFromBytfs(bytf[] nbmf) {
+        MfssbgfDigfst md;
         try {
-            md = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException nsae) {
-            throw new InternalError("MD5 not supported", nsae);
+            md = MfssbgfDigfst.gftInstbndf("MD5");
+        } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            tirow nfw IntfrnblError("MD5 not supportfd", nsbf);
         }
-        byte[] md5Bytes = md.digest(name);
-        md5Bytes[6]  &= 0x0f;  /* clear version        */
-        md5Bytes[6]  |= 0x30;  /* set to version 3     */
-        md5Bytes[8]  &= 0x3f;  /* clear variant        */
-        md5Bytes[8]  |= 0x80;  /* set to IETF variant  */
-        return new UUID(md5Bytes);
+        bytf[] md5Bytfs = md.digfst(nbmf);
+        md5Bytfs[6]  &= 0x0f;  /* dlfbr vfrsion        */
+        md5Bytfs[6]  |= 0x30;  /* sft to vfrsion 3     */
+        md5Bytfs[8]  &= 0x3f;  /* dlfbr vbribnt        */
+        md5Bytfs[8]  |= 0x80;  /* sft to IETF vbribnt  */
+        rfturn nfw UUID(md5Bytfs);
     }
 
     /**
-     * Creates a {@code UUID} from the string standard representation as
-     * described in the {@link #toString} method.
+     * Crfbtfs b {@dodf UUID} from tif string stbndbrd rfprfsfntbtion bs
+     * dfsdribfd in tif {@link #toString} mftiod.
      *
-     * @param  name
-     *         A string that specifies a {@code UUID}
+     * @pbrbm  nbmf
+     *         A string tibt spfdififs b {@dodf UUID}
      *
-     * @return  A {@code UUID} with the specified value
+     * @rfturn  A {@dodf UUID} witi tif spfdififd vbluf
      *
-     * @throws  IllegalArgumentException
-     *          If name does not conform to the string representation as
-     *          described in {@link #toString}
+     * @tirows  IllfgblArgumfntExdfption
+     *          If nbmf dofs not donform to tif string rfprfsfntbtion bs
+     *          dfsdribfd in {@link #toString}
      *
      */
-    public static UUID fromString(String name) {
-        if (name.length() > 36) {
-            throw new IllegalArgumentException("UUID string too large");
+    publid stbtid UUID fromString(String nbmf) {
+        if (nbmf.lfngti() > 36) {
+            tirow nfw IllfgblArgumfntExdfption("UUID string too lbrgf");
         }
 
-        int dash1 = name.indexOf('-', 0);
-        int dash2 = name.indexOf('-', dash1 + 1);
-        int dash3 = name.indexOf('-', dash2 + 1);
-        int dash4 = name.indexOf('-', dash3 + 1);
-        int dash5 = name.indexOf('-', dash4 + 1);
+        int dbsi1 = nbmf.indfxOf('-', 0);
+        int dbsi2 = nbmf.indfxOf('-', dbsi1 + 1);
+        int dbsi3 = nbmf.indfxOf('-', dbsi2 + 1);
+        int dbsi4 = nbmf.indfxOf('-', dbsi3 + 1);
+        int dbsi5 = nbmf.indfxOf('-', dbsi4 + 1);
 
-        // For any valid input, dash1 through dash4 will be positive and dash5
-        // negative, but it's enough to check dash4 and dash5:
-        // - if dash1 is -1, dash4 will be -1
-        // - if dash1 is positive but dash2 is -1, dash4 will be -1
-        // - if dash1 and dash2 is positive, dash3 will be -1, dash4 will be
-        //   positive, but so will dash5
-        if (dash4 < 0 || dash5 >= 0) {
-            throw new IllegalArgumentException("Invalid UUID string: " + name);
+        // For bny vblid input, dbsi1 tirougi dbsi4 will bf positivf bnd dbsi5
+        // nfgbtivf, but it's fnougi to difdk dbsi4 bnd dbsi5:
+        // - if dbsi1 is -1, dbsi4 will bf -1
+        // - if dbsi1 is positivf but dbsi2 is -1, dbsi4 will bf -1
+        // - if dbsi1 bnd dbsi2 is positivf, dbsi3 will bf -1, dbsi4 will bf
+        //   positivf, but so will dbsi5
+        if (dbsi4 < 0 || dbsi5 >= 0) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid UUID string: " + nbmf);
         }
 
-        long mostSigBits = Long.parseLong(name, 16, 0, dash1) & 0xffffffffL;
+        long mostSigBits = Long.pbrsfLong(nbmf, 16, 0, dbsi1) & 0xffffffffL;
         mostSigBits <<= 16;
-        mostSigBits |= Long.parseLong(name, 16, dash1 + 1, dash2) & 0xffffL;
+        mostSigBits |= Long.pbrsfLong(nbmf, 16, dbsi1 + 1, dbsi2) & 0xffffL;
         mostSigBits <<= 16;
-        mostSigBits |= Long.parseLong(name, 16, dash2 + 1, dash3) & 0xffffL;
+        mostSigBits |= Long.pbrsfLong(nbmf, 16, dbsi2 + 1, dbsi3) & 0xffffL;
 
-        long leastSigBits = Long.parseLong(name, 16, dash3 + 1, dash4) & 0xffffL;
-        leastSigBits <<= 48;
-        leastSigBits |= Long.parseLong(name, 16, dash4 + 1) & 0xffffffffffffL;
+        long lfbstSigBits = Long.pbrsfLong(nbmf, 16, dbsi3 + 1, dbsi4) & 0xffffL;
+        lfbstSigBits <<= 48;
+        lfbstSigBits |= Long.pbrsfLong(nbmf, 16, dbsi4 + 1) & 0xffffffffffffL;
 
-        return new UUID(mostSigBits, leastSigBits);
+        rfturn nfw UUID(mostSigBits, lfbstSigBits);
     }
 
-    // Field Accessor Methods
+    // Fifld Addfssor Mftiods
 
     /**
-     * Returns the least significant 64 bits of this UUID's 128 bit value.
+     * Rfturns tif lfbst signifidbnt 64 bits of tiis UUID's 128 bit vbluf.
      *
-     * @return  The least significant 64 bits of this UUID's 128 bit value
+     * @rfturn  Tif lfbst signifidbnt 64 bits of tiis UUID's 128 bit vbluf
      */
-    public long getLeastSignificantBits() {
-        return leastSigBits;
+    publid long gftLfbstSignifidbntBits() {
+        rfturn lfbstSigBits;
     }
 
     /**
-     * Returns the most significant 64 bits of this UUID's 128 bit value.
+     * Rfturns tif most signifidbnt 64 bits of tiis UUID's 128 bit vbluf.
      *
-     * @return  The most significant 64 bits of this UUID's 128 bit value
+     * @rfturn  Tif most signifidbnt 64 bits of tiis UUID's 128 bit vbluf
      */
-    public long getMostSignificantBits() {
-        return mostSigBits;
+    publid long gftMostSignifidbntBits() {
+        rfturn mostSigBits;
     }
 
     /**
-     * The version number associated with this {@code UUID}.  The version
-     * number describes how this {@code UUID} was generated.
+     * Tif vfrsion numbfr bssodibtfd witi tiis {@dodf UUID}.  Tif vfrsion
+     * numbfr dfsdribfs iow tiis {@dodf UUID} wbs gfnfrbtfd.
      *
-     * The version number has the following meaning:
+     * Tif vfrsion numbfr ibs tif following mfbning:
      * <ul>
-     * <li>1    Time-based UUID
-     * <li>2    DCE security UUID
-     * <li>3    Name-based UUID
-     * <li>4    Randomly generated UUID
+     * <li>1    Timf-bbsfd UUID
+     * <li>2    DCE sfdurity UUID
+     * <li>3    Nbmf-bbsfd UUID
+     * <li>4    Rbndomly gfnfrbtfd UUID
      * </ul>
      *
-     * @return  The version number of this {@code UUID}
+     * @rfturn  Tif vfrsion numbfr of tiis {@dodf UUID}
      */
-    public int version() {
-        // Version is bits masked by 0x000000000000F000 in MS long
-        return (int)((mostSigBits >> 12) & 0x0f);
+    publid int vfrsion() {
+        // Vfrsion is bits mbskfd by 0x000000000000F000 in MS long
+        rfturn (int)((mostSigBits >> 12) & 0x0f);
     }
 
     /**
-     * The variant number associated with this {@code UUID}.  The variant
-     * number describes the layout of the {@code UUID}.
+     * Tif vbribnt numbfr bssodibtfd witi tiis {@dodf UUID}.  Tif vbribnt
+     * numbfr dfsdribfs tif lbyout of tif {@dodf UUID}.
      *
-     * The variant number has the following meaning:
+     * Tif vbribnt numbfr ibs tif following mfbning:
      * <ul>
-     * <li>0    Reserved for NCS backward compatibility
-     * <li>2    <a href="http://www.ietf.org/rfc/rfc4122.txt">IETF&nbsp;RFC&nbsp;4122</a>
-     * (Leach-Salz), used by this class
-     * <li>6    Reserved, Microsoft Corporation backward compatibility
-     * <li>7    Reserved for future definition
+     * <li>0    Rfsfrvfd for NCS bbdkwbrd dompbtibility
+     * <li>2    <b irff="ittp://www.iftf.org/rfd/rfd4122.txt">IETF&nbsp;RFC&nbsp;4122</b>
+     * (Lfbdi-Sblz), usfd by tiis dlbss
+     * <li>6    Rfsfrvfd, Midrosoft Corporbtion bbdkwbrd dompbtibility
+     * <li>7    Rfsfrvfd for futurf dffinition
      * </ul>
      *
-     * @return  The variant number of this {@code UUID}
+     * @rfturn  Tif vbribnt numbfr of tiis {@dodf UUID}
      */
-    public int variant() {
-        // This field is composed of a varying number of bits.
-        // 0    -    -    Reserved for NCS backward compatibility
-        // 1    0    -    The IETF aka Leach-Salz variant (used by this class)
-        // 1    1    0    Reserved, Microsoft backward compatibility
-        // 1    1    1    Reserved for future definition.
-        return (int) ((leastSigBits >>> (64 - (leastSigBits >>> 62)))
-                      & (leastSigBits >> 63));
+    publid int vbribnt() {
+        // Tiis fifld is domposfd of b vbrying numbfr of bits.
+        // 0    -    -    Rfsfrvfd for NCS bbdkwbrd dompbtibility
+        // 1    0    -    Tif IETF bkb Lfbdi-Sblz vbribnt (usfd by tiis dlbss)
+        // 1    1    0    Rfsfrvfd, Midrosoft bbdkwbrd dompbtibility
+        // 1    1    1    Rfsfrvfd for futurf dffinition.
+        rfturn (int) ((lfbstSigBits >>> (64 - (lfbstSigBits >>> 62)))
+                      & (lfbstSigBits >> 63));
     }
 
     /**
-     * The timestamp value associated with this UUID.
+     * Tif timfstbmp vbluf bssodibtfd witi tiis UUID.
      *
-     * <p> The 60 bit timestamp value is constructed from the time_low,
-     * time_mid, and time_hi fields of this {@code UUID}.  The resulting
-     * timestamp is measured in 100-nanosecond units since midnight,
-     * October 15, 1582 UTC.
+     * <p> Tif 60 bit timfstbmp vbluf is donstrudtfd from tif timf_low,
+     * timf_mid, bnd timf_ii fiflds of tiis {@dodf UUID}.  Tif rfsulting
+     * timfstbmp is mfbsurfd in 100-nbnosfdond units sindf midnigit,
+     * Odtobfr 15, 1582 UTC.
      *
-     * <p> The timestamp value is only meaningful in a time-based UUID, which
-     * has version type 1.  If this {@code UUID} is not a time-based UUID then
-     * this method throws UnsupportedOperationException.
+     * <p> Tif timfstbmp vbluf is only mfbningful in b timf-bbsfd UUID, wiidi
+     * ibs vfrsion typf 1.  If tiis {@dodf UUID} is not b timf-bbsfd UUID tifn
+     * tiis mftiod tirows UnsupportfdOpfrbtionExdfption.
      *
-     * @throws UnsupportedOperationException
-     *         If this UUID is not a version 1 UUID
-     * @return The timestamp of this {@code UUID}.
+     * @tirows UnsupportfdOpfrbtionExdfption
+     *         If tiis UUID is not b vfrsion 1 UUID
+     * @rfturn Tif timfstbmp of tiis {@dodf UUID}.
      */
-    public long timestamp() {
-        if (version() != 1) {
-            throw new UnsupportedOperationException("Not a time-based UUID");
+    publid long timfstbmp() {
+        if (vfrsion() != 1) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("Not b timf-bbsfd UUID");
         }
 
-        return (mostSigBits & 0x0FFFL) << 48
+        rfturn (mostSigBits & 0x0FFFL) << 48
              | ((mostSigBits >> 16) & 0x0FFFFL) << 32
              | mostSigBits >>> 32;
     }
 
     /**
-     * The clock sequence value associated with this UUID.
+     * Tif dlodk sfqufndf vbluf bssodibtfd witi tiis UUID.
      *
-     * <p> The 14 bit clock sequence value is constructed from the clock
-     * sequence field of this UUID.  The clock sequence field is used to
-     * guarantee temporal uniqueness in a time-based UUID.
+     * <p> Tif 14 bit dlodk sfqufndf vbluf is donstrudtfd from tif dlodk
+     * sfqufndf fifld of tiis UUID.  Tif dlodk sfqufndf fifld is usfd to
+     * gubrbntff tfmporbl uniqufnfss in b timf-bbsfd UUID.
      *
-     * <p> The {@code clockSequence} value is only meaningful in a time-based
-     * UUID, which has version type 1.  If this UUID is not a time-based UUID
-     * then this method throws UnsupportedOperationException.
+     * <p> Tif {@dodf dlodkSfqufndf} vbluf is only mfbningful in b timf-bbsfd
+     * UUID, wiidi ibs vfrsion typf 1.  If tiis UUID is not b timf-bbsfd UUID
+     * tifn tiis mftiod tirows UnsupportfdOpfrbtionExdfption.
      *
-     * @return  The clock sequence of this {@code UUID}
+     * @rfturn  Tif dlodk sfqufndf of tiis {@dodf UUID}
      *
-     * @throws  UnsupportedOperationException
-     *          If this UUID is not a version 1 UUID
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          If tiis UUID is not b vfrsion 1 UUID
      */
-    public int clockSequence() {
-        if (version() != 1) {
-            throw new UnsupportedOperationException("Not a time-based UUID");
+    publid int dlodkSfqufndf() {
+        if (vfrsion() != 1) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("Not b timf-bbsfd UUID");
         }
 
-        return (int)((leastSigBits & 0x3FFF000000000000L) >>> 48);
+        rfturn (int)((lfbstSigBits & 0x3FFF000000000000L) >>> 48);
     }
 
     /**
-     * The node value associated with this UUID.
+     * Tif nodf vbluf bssodibtfd witi tiis UUID.
      *
-     * <p> The 48 bit node value is constructed from the node field of this
-     * UUID.  This field is intended to hold the IEEE 802 address of the machine
-     * that generated this UUID to guarantee spatial uniqueness.
+     * <p> Tif 48 bit nodf vbluf is donstrudtfd from tif nodf fifld of tiis
+     * UUID.  Tiis fifld is intfndfd to iold tif IEEE 802 bddrfss of tif mbdiinf
+     * tibt gfnfrbtfd tiis UUID to gubrbntff spbtibl uniqufnfss.
      *
-     * <p> The node value is only meaningful in a time-based UUID, which has
-     * version type 1.  If this UUID is not a time-based UUID then this method
-     * throws UnsupportedOperationException.
+     * <p> Tif nodf vbluf is only mfbningful in b timf-bbsfd UUID, wiidi ibs
+     * vfrsion typf 1.  If tiis UUID is not b timf-bbsfd UUID tifn tiis mftiod
+     * tirows UnsupportfdOpfrbtionExdfption.
      *
-     * @return  The node value of this {@code UUID}
+     * @rfturn  Tif nodf vbluf of tiis {@dodf UUID}
      *
-     * @throws  UnsupportedOperationException
-     *          If this UUID is not a version 1 UUID
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          If tiis UUID is not b vfrsion 1 UUID
      */
-    public long node() {
-        if (version() != 1) {
-            throw new UnsupportedOperationException("Not a time-based UUID");
+    publid long nodf() {
+        if (vfrsion() != 1) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("Not b timf-bbsfd UUID");
         }
 
-        return leastSigBits & 0x0000FFFFFFFFFFFFL;
+        rfturn lfbstSigBits & 0x0000FFFFFFFFFFFFL;
     }
 
-    // Object Inherited Methods
+    // Objfdt Inifritfd Mftiods
 
     /**
-     * Returns a {@code String} object representing this {@code UUID}.
+     * Rfturns b {@dodf String} objfdt rfprfsfnting tiis {@dodf UUID}.
      *
-     * <p> The UUID string representation is as described by this BNF:
-     * <blockquote><pre>
-     * {@code
-     * UUID                   = <time_low> "-" <time_mid> "-"
-     *                          <time_high_and_version> "-"
-     *                          <variant_and_sequence> "-"
-     *                          <node>
-     * time_low               = 4*<hexOctet>
-     * time_mid               = 2*<hexOctet>
-     * time_high_and_version  = 2*<hexOctet>
-     * variant_and_sequence   = 2*<hexOctet>
-     * node                   = 6*<hexOctet>
-     * hexOctet               = <hexDigit><hexDigit>
-     * hexDigit               =
+     * <p> Tif UUID string rfprfsfntbtion is bs dfsdribfd by tiis BNF:
+     * <blodkquotf><prf>
+     * {@dodf
+     * UUID                   = <timf_low> "-" <timf_mid> "-"
+     *                          <timf_iigi_bnd_vfrsion> "-"
+     *                          <vbribnt_bnd_sfqufndf> "-"
+     *                          <nodf>
+     * timf_low               = 4*<ifxOdtft>
+     * timf_mid               = 2*<ifxOdtft>
+     * timf_iigi_bnd_vfrsion  = 2*<ifxOdtft>
+     * vbribnt_bnd_sfqufndf   = 2*<ifxOdtft>
+     * nodf                   = 6*<ifxOdtft>
+     * ifxOdtft               = <ifxDigit><ifxDigit>
+     * ifxDigit               =
      *       "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
-     *       | "a" | "b" | "c" | "d" | "e" | "f"
+     *       | "b" | "b" | "d" | "d" | "f" | "f"
      *       | "A" | "B" | "C" | "D" | "E" | "F"
-     * }</pre></blockquote>
+     * }</prf></blodkquotf>
      *
-     * @return  A string representation of this {@code UUID}
+     * @rfturn  A string rfprfsfntbtion of tiis {@dodf UUID}
      */
-    public String toString() {
-        char[] chars = new char[36];
-        jla.formatUnsignedLong(mostSigBits >> 32, 4, chars, 0, 8);
-        chars[8] = '-';
-        jla.formatUnsignedLong(mostSigBits >> 16, 4, chars, 9, 4);
-        chars[13] = '-';
-        jla.formatUnsignedLong(mostSigBits, 4, chars, 14, 4);
-        chars[18] = '-';
-        jla.formatUnsignedLong(leastSigBits >> 48, 4, chars, 19, 4);
-        chars[23] = '-';
-        jla.formatUnsignedLong(leastSigBits, 4, chars, 24, 12);
-        return jla.newStringUnsafe(chars);
+    publid String toString() {
+        dibr[] dibrs = nfw dibr[36];
+        jlb.formbtUnsignfdLong(mostSigBits >> 32, 4, dibrs, 0, 8);
+        dibrs[8] = '-';
+        jlb.formbtUnsignfdLong(mostSigBits >> 16, 4, dibrs, 9, 4);
+        dibrs[13] = '-';
+        jlb.formbtUnsignfdLong(mostSigBits, 4, dibrs, 14, 4);
+        dibrs[18] = '-';
+        jlb.formbtUnsignfdLong(lfbstSigBits >> 48, 4, dibrs, 19, 4);
+        dibrs[23] = '-';
+        jlb.formbtUnsignfdLong(lfbstSigBits, 4, dibrs, 24, 12);
+        rfturn jlb.nfwStringUnsbff(dibrs);
     }
 
     /**
-     * Returns a hash code for this {@code UUID}.
+     * Rfturns b ibsi dodf for tiis {@dodf UUID}.
      *
-     * @return  A hash code value for this {@code UUID}
+     * @rfturn  A ibsi dodf vbluf for tiis {@dodf UUID}
      */
-    public int hashCode() {
-        long hilo = mostSigBits ^ leastSigBits;
-        return ((int)(hilo >> 32)) ^ (int) hilo;
+    publid int ibsiCodf() {
+        long iilo = mostSigBits ^ lfbstSigBits;
+        rfturn ((int)(iilo >> 32)) ^ (int) iilo;
     }
 
     /**
-     * Compares this object to the specified object.  The result is {@code
-     * true} if and only if the argument is not {@code null}, is a {@code UUID}
-     * object, has the same variant, and contains the same value, bit for bit,
-     * as this {@code UUID}.
+     * Compbrfs tiis objfdt to tif spfdififd objfdt.  Tif rfsult is {@dodf
+     * truf} if bnd only if tif brgumfnt is not {@dodf null}, is b {@dodf UUID}
+     * objfdt, ibs tif sbmf vbribnt, bnd dontbins tif sbmf vbluf, bit for bit,
+     * bs tiis {@dodf UUID}.
      *
-     * @param  obj
-     *         The object to be compared
+     * @pbrbm  obj
+     *         Tif objfdt to bf dompbrfd
      *
-     * @return  {@code true} if the objects are the same; {@code false}
-     *          otherwise
+     * @rfturn  {@dodf truf} if tif objfdts brf tif sbmf; {@dodf fblsf}
+     *          otifrwisf
      */
-    public boolean equals(Object obj) {
-        if ((null == obj) || (obj.getClass() != UUID.class))
-            return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((null == obj) || (obj.gftClbss() != UUID.dlbss))
+            rfturn fblsf;
         UUID id = (UUID)obj;
-        return (mostSigBits == id.mostSigBits &&
-                leastSigBits == id.leastSigBits);
+        rfturn (mostSigBits == id.mostSigBits &&
+                lfbstSigBits == id.lfbstSigBits);
     }
 
-    // Comparison Operations
+    // Compbrison Opfrbtions
 
     /**
-     * Compares this UUID with the specified UUID.
+     * Compbrfs tiis UUID witi tif spfdififd UUID.
      *
-     * <p> The first of two UUIDs is greater than the second if the most
-     * significant field in which the UUIDs differ is greater for the first
+     * <p> Tif first of two UUIDs is grfbtfr tibn tif sfdond if tif most
+     * signifidbnt fifld in wiidi tif UUIDs difffr is grfbtfr for tif first
      * UUID.
      *
-     * @param  val
-     *         {@code UUID} to which this {@code UUID} is to be compared
+     * @pbrbm  vbl
+     *         {@dodf UUID} to wiidi tiis {@dodf UUID} is to bf dompbrfd
      *
-     * @return  -1, 0 or 1 as this {@code UUID} is less than, equal to, or
-     *          greater than {@code val}
+     * @rfturn  -1, 0 or 1 bs tiis {@dodf UUID} is lfss tibn, fqubl to, or
+     *          grfbtfr tibn {@dodf vbl}
      *
      */
-    public int compareTo(UUID val) {
-        // The ordering is intentionally set up so that the UUIDs
-        // can simply be numerically compared as two numbers
-        return (this.mostSigBits < val.mostSigBits ? -1 :
-                (this.mostSigBits > val.mostSigBits ? 1 :
-                 (this.leastSigBits < val.leastSigBits ? -1 :
-                  (this.leastSigBits > val.leastSigBits ? 1 :
+    publid int dompbrfTo(UUID vbl) {
+        // Tif ordfring is intfntionblly sft up so tibt tif UUIDs
+        // dbn simply bf numfridblly dompbrfd bs two numbfrs
+        rfturn (tiis.mostSigBits < vbl.mostSigBits ? -1 :
+                (tiis.mostSigBits > vbl.mostSigBits ? 1 :
+                 (tiis.lfbstSigBits < vbl.lfbstSigBits ? -1 :
+                  (tiis.lfbstSigBits > vbl.lfbstSigBits ? 1 :
                    0))));
     }
 }

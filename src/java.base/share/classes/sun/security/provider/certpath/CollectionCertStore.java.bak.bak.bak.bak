@@ -1,0 +1,185 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr.dfrtpbth;
+
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.CRL;
+import jbvb.util.Collfdtion;
+import jbvb.util.CondurrfntModifidbtionExdfption;
+import jbvb.util.HbshSft;
+import jbvb.sfdurity.dfrt.CfrtSflfdtor;
+import jbvb.sfdurity.dfrt.CfrtStorf;
+import jbvb.sfdurity.dfrt.CfrtStorfExdfption;
+import jbvb.sfdurity.dfrt.CfrtStorfPbrbmftfrs;
+import jbvb.sfdurity.dfrt.CollfdtionCfrtStorfPbrbmftfrs;
+import jbvb.sfdurity.dfrt.CRLSflfdtor;
+import jbvb.sfdurity.dfrt.CfrtStorfSpi;
+
+/**
+ * A <dodf>CfrtStorf</dodf> thbt rftrifvfs <dodf>Cfrtifidbtfs</dodf> bnd
+ * <dodf>CRL</dodf>s from b <dodf>Collfdtion</dodf>.
+ * <p>
+ * Bfforf dblling thf {@link #fnginfGftCfrtifidbtfs fnginfGftCfrtifidbtfs} or
+ * {@link #fnginfGftCRLs fnginfGftCRLs} mfthods, thf
+ * {@link #CollfdtionCfrtStorf(CfrtStorfPbrbmftfrs)
+ * CollfdtionCfrtStorf(CfrtStorfPbrbmftfrs)} donstrudtor is dbllfd to
+ * drfbtf thf <dodf>CfrtStorf</dodf> bnd fstbblish thf
+ * <dodf>Collfdtion</dodf> from whidh <dodf>Cfrtifidbtf</dodf>s bnd
+ * <dodf>CRL</dodf>s will bf rftrifvfd. If thf spfdififd
+ * <dodf>Collfdtion</dodf> dontbins bn objfdt thbt is not b
+ * <dodf>Cfrtifidbtf</dodf> or <dodf>CRL</dodf>, thbt objfdt will bf
+ * ignorfd.
+ * <p>
+ * <b>Condurrfnt Addfss</b>
+ * <p>
+ * As dfsdribfd in thf jbvbdod for <dodf>CfrtStorfSpi</dodf>, thf
+ * <dodf>fnginfGftCfrtifidbtfs</dodf> bnd <dodf>fnginfGftCRLs</dodf> mfthods
+ * must bf thrfbd-sbff. Thbt is, multiplf thrfbds mby dondurrfntly
+ * invokf thfsf mfthods on b singlf <dodf>CollfdtionCfrtStorf</dodf>
+ * objfdt (or morf thbn onf) with no ill ffffdts.
+ * <p>
+ * This is bdhifvfd by rfquiring thbt thf <dodf>Collfdtion</dodf> pbssfd to
+ * thf {@link #CollfdtionCfrtStorf(CfrtStorfPbrbmftfrs)
+ * CollfdtionCfrtStorf(CfrtStorfPbrbmftfrs)} donstrudtor (vib thf
+ * <dodf>CollfdtionCfrtStorfPbrbmftfrs</dodf> objfdt) must hbvf fbil-fbst
+ * itfrbtors. Simultbnfous modifidbtions to thf <dodf>Collfdtion</dodf> dbn thus bf
+ * dftfdtfd bnd dfrtifidbtf or CRL rftrifvbl dbn bf rftrifd. Thf fbdt thbt
+ * <dodf>Cfrtifidbtf</dodf>s bnd <dodf>CRL</dodf>s must bf thrfbd-sbff is blso
+ * fssfntibl.
+ *
+ * @sff jbvb.sfdurity.dfrt.CfrtStorf
+ *
+ * @sindf       1.4
+ * @buthor      Stfvf Hbnnb
+ */
+publid dlbss CollfdtionCfrtStorf fxtfnds CfrtStorfSpi {
+
+    privbtf Collfdtion<?> doll;
+
+    /**
+     * Crfbtfs b <dodf>CfrtStorf</dodf> with thf spfdififd pbrbmftfrs.
+     * For this dlbss, thf pbrbmftfrs objfdt must bf bn instbndf of
+     * <dodf>CollfdtionCfrtStorfPbrbmftfrs</dodf>. Thf <dodf>Collfdtion</dodf>
+     * indludfd in thf <dodf>CollfdtionCfrtStorfPbrbmftfrs</dodf> objfdt
+     * must bf thrfbd-sbff.
+     *
+     * @pbrbm pbrbms thf blgorithm pbrbmftfrs
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if pbrbms is not bn
+     *   instbndf of <dodf>CollfdtionCfrtStorfPbrbmftfrs</dodf>
+     */
+    publid CollfdtionCfrtStorf(CfrtStorfPbrbmftfrs pbrbms)
+        throws InvblidAlgorithmPbrbmftfrExdfption
+    {
+        supfr(pbrbms);
+        if (!(pbrbms instbndfof CollfdtionCfrtStorfPbrbmftfrs))
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption(
+                "pbrbmftfrs must bf CollfdtionCfrtStorfPbrbmftfrs");
+        doll = ((CollfdtionCfrtStorfPbrbmftfrs) pbrbms).gftCollfdtion();
+    }
+
+    /**
+     * Rfturns b <dodf>Collfdtion</dodf> of <dodf>Cfrtifidbtf</dodf>s thbt
+     * mbtdh thf spfdififd sflfdtor. If no <dodf>Cfrtifidbtf</dodf>s
+     * mbtdh thf sflfdtor, bn fmpty <dodf>Collfdtion</dodf> will bf rfturnfd.
+     *
+     * @pbrbm sflfdtor b <dodf>CfrtSflfdtor</dodf> usfd to sflfdt whidh
+     *  <dodf>Cfrtifidbtf</dodf>s should bf rfturnfd. Spfdify <dodf>null</dodf>
+     *  to rfturn bll <dodf>Cfrtifidbtf</dodf>s.
+     * @rfturn b <dodf>Collfdtion</dodf> of <dodf>Cfrtifidbtf</dodf>s thbt
+     *         mbtdh thf spfdififd sflfdtor
+     * @throws CfrtStorfExdfption if bn fxdfption oddurs
+     */
+    @Ovfrridf
+    publid Collfdtion<Cfrtifidbtf> fnginfGftCfrtifidbtfs
+            (CfrtSflfdtor sflfdtor) throws CfrtStorfExdfption {
+        if (doll == null) {
+            throw nfw CfrtStorfExdfption("Collfdtion is null");
+        }
+        // Tolfrbtf b ffw CondurrfntModifidbtionExdfptions
+        for (int d = 0; d < 10; d++) {
+            try {
+                HbshSft<Cfrtifidbtf> rfsult = nfw HbshSft<>();
+                if (sflfdtor != null) {
+                    for (Objfdt o : doll) {
+                        if ((o instbndfof Cfrtifidbtf) &&
+                            sflfdtor.mbtdh((Cfrtifidbtf) o))
+                            rfsult.bdd((Cfrtifidbtf)o);
+                    }
+                } flsf {
+                    for (Objfdt o : doll) {
+                        if (o instbndfof Cfrtifidbtf)
+                            rfsult.bdd((Cfrtifidbtf)o);
+                    }
+                }
+                rfturn(rfsult);
+            } dbtdh (CondurrfntModifidbtionExdfption f) { }
+        }
+        throw nfw CondurrfntModifidbtionExdfption("Too mbny "
+            + "CondurrfntModifidbtionExdfptions");
+    }
+
+    /**
+     * Rfturns b <dodf>Collfdtion</dodf> of <dodf>CRL</dodf>s thbt
+     * mbtdh thf spfdififd sflfdtor. If no <dodf>CRL</dodf>s
+     * mbtdh thf sflfdtor, bn fmpty <dodf>Collfdtion</dodf> will bf rfturnfd.
+     *
+     * @pbrbm sflfdtor b <dodf>CRLSflfdtor</dodf> usfd to sflfdt whidh
+     *  <dodf>CRL</dodf>s should bf rfturnfd. Spfdify <dodf>null</dodf>
+     *  to rfturn bll <dodf>CRL</dodf>s.
+     * @rfturn b <dodf>Collfdtion</dodf> of <dodf>CRL</dodf>s thbt
+     *         mbtdh thf spfdififd sflfdtor
+     * @throws CfrtStorfExdfption if bn fxdfption oddurs
+     */
+    @Ovfrridf
+    publid Collfdtion<CRL> fnginfGftCRLs(CRLSflfdtor sflfdtor)
+        throws CfrtStorfExdfption
+    {
+        if (doll == null)
+            throw nfw CfrtStorfExdfption("Collfdtion is null");
+
+        // Tolfrbtf b ffw CondurrfntModifidbtionExdfptions
+        for (int d = 0; d < 10; d++) {
+            try {
+                HbshSft<CRL> rfsult = nfw HbshSft<>();
+                if (sflfdtor != null) {
+                    for (Objfdt o : doll) {
+                        if ((o instbndfof CRL) && sflfdtor.mbtdh((CRL) o))
+                            rfsult.bdd((CRL)o);
+                    }
+                } flsf {
+                    for (Objfdt o : doll) {
+                        if (o instbndfof CRL)
+                            rfsult.bdd((CRL)o);
+                    }
+                }
+                rfturn rfsult;
+            } dbtdh (CondurrfntModifidbtionExdfption f) { }
+        }
+        throw nfw CondurrfntModifidbtionExdfption("Too mbny "
+            + "CondurrfntModifidbtionExdfptions");
+    }
+}

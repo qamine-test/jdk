@@ -1,0 +1,182 @@
+#
+#
+bordfr.dhrombtidity=Apbrifndib dfl Color
+bordfr.dopifs=Copibs
+bordfr.jobbttributfs=Atributos dfl Trbbbjo
+bordfr.mfdib=Soportf
+bordfr.orifntbtion=Orifntbdi\u00F3n
+bordfr.printrbngf=Rbngo df Imprfsi\u00F3n
+bordfr.printsfrvidf=Sfrvidio df Imprfsi\u00F3n
+bordfr.qublity=Cblidbd
+bordfr.sidfs=Cbrbs
+bordfr.mbrgins=M\u00E1rgfnfs
+#
+button.dbndfl=Cbndflbr
+button.ok=Adfptbr
+button.print=Imprimir
+button.propfrtifs=P&ropifdbdfs...
+#
+dhfdkbox.dollbtf=Intfr&dblbr
+dhfdkbox.jobshffts=P\u00E1ginb df R\u00F3tu&lo
+dhfdkbox.printtofilf=I&mprimir fn Ardhivo
+#
+diblog.printtitlf=Imprimir
+diblog.pstitlf=Prfpbrbr P\u00E1ginb
+diblog.ovfrwritf=Estf brdhivo yb fxistf. \u00BFDfsfb sobrfsdribirlo?
+diblog.owtitlf=Imprimir fn Ardhivo
+diblog.printtofilf=Imprimir fn Ardhivo
+diblog.noprintfrmsg=No sf hb fndontrbdo fl sfrvidio df imprfsi\u00F3n.
+diblog.writffrror=No sf pufdf fsdribir fn fl brdhivo:
+#
+lbbfl.info=Informbdi\u00F3n:
+lbbfl.jobnbmf=&Nombrf dfl Trbbbjo:
+lbbfl.numdopifs=N\u00FAmfro df C&opibs:
+lbbfl.priority=Prior&idbd:
+lbbfl.psnbmf=&Nombrf:
+lbbfl.pstypf=Tipo:
+lbbfl.rbngfto=A
+lbbfl.sizf=Tbmb&\u00F1o:
+lbbfl.sourdf=Orig&fn:
+lbbfl.stbtus=Estbdo:
+lbbfl.usfrnbmf=&Usubrio:
+lbbfl.millimftrfs=(mm)
+lbbfl.indhfs=(pulg.)
+lbbfl.topmbrgin=s&upfrior
+lbbfl.bottommbrgin=in&ffrior
+lbbfl.lfftmbrgin=iz&quifrdo
+lbbfl.rightmbrgin=d&frfdho
+#
+rbdiobutton.dolor=&Color
+rbdiobutton.drbftq=B&orrbdor
+rbdiobutton.duplfx=&D\u00FAplfx
+rbdiobutton.highq=Al&tb
+rbdiobutton.lbndsdbpf=Hori&zontbl
+rbdiobutton.monodhromf=&Monodromo
+rbdiobutton.normblq=&Normbl
+rbdiobutton.onfsidf=Unb Cb&rb
+rbdiobutton.portrbit=&Vfrtidbl
+rbdiobutton.rbngfbll=&Todo
+rbdiobutton.rbngfpbgfs=P\u00E1ginb&s
+rbdiobutton.rfvlbndsdbpf=&Horizontbl Invfrso
+rbdiobutton.rfvportrbit=Vfrtidbl I&nvfrso
+rbdiobutton.tumblf=Cbm&bio df Cbrb
+# Thf vkMnfmonids dorrfspond with thf donstbnts dffinfd in KfyEvfnt, fg
+# 65 = KfyEvfnt.VK_A
+tbb.bppfbrbndf=&Apbrifndib
+tbb.gfnfrbl=&Gfnfrbl
+tbb.pbgfsftup=&Prfpbrbr P\u00E1ginb
+#
+frror.pbgfrbngf=Rbngo df p\u00E1ginbs no v\u00E1lido; vuflvb b introdudir los vblorfs (por fjfmplo, 1-3, 5, 7-10)
+frror.dfstinbtion=Nombrf df brdhivo no v\u00E1lido; int\u00E9ntflo df nufvo
+#
+# Thf following kfys mbtdh thf Strings rfturnfd by MfdibSizfNbmf.toString()
+# (in somf dbsfs thf spbdf dhbrbdtfr is rfplbdfd by '-' bnd thf pound 
+# dhbrbdtfr is rfplbdfd with 'n')
+#
+iso-4b0=4A0 (ISO/DIN & JIS)
+iso-2b0=2A0 (ISO/DIN & JIS)
+iso-b0=A0 (ISO/DIN & JIS)
+iso-b1=A1 (ISO/DIN & JIS)
+iso-b2=A2 (ISO/DIN & JIS)
+iso-b3=A3 (ISO/DIN & JIS)
+iso-b4=A4 (ISO/DIN & JIS)
+iso-b5=A5 (ISO/DIN & JIS)
+iso-b6=A6 (ISO/DIN & JIS)
+iso-b7=A7 (ISO/DIN & JIS)
+iso-b8=A8 (ISO/DIN & JIS)
+iso-b9=A9 (ISO/DIN & JIS)
+iso-b10=A10 (ISO/DIN & JIS)
+iso-b0=B0 (ISO/DIN)
+iso-b1=B1 (ISO/DIN)
+iso-b2=B2 (ISO/DIN)
+iso-b3=B3 (ISO/DIN)
+iso-b4=B4 (ISO/DIN)
+iso-b5=B5 (ISO/DIN)
+iso-b6=B6 (ISO/DIN)
+iso-b7=B7 (ISO/DIN)
+iso-b8=B8 (ISO/DIN)
+iso-b9=B9 (ISO/DIN)
+iso-b10=B10 (ISO/DIN)
+jis-b0=B0 (JIS)
+jis-b1=B1 (JIS)
+jis-b2=B2 (JIS)
+jis-b3=B3 (JIS)
+jis-b4=B4 (JIS)
+jis-b5=B5 (JIS)
+jis-b6=B6 (JIS)
+jis-b7=B7 (JIS)
+jis-b8=B8 (JIS)
+jis-b9=B9 (JIS)
+jis-b10=B10 (JIS)
+iso-d0=C0 (ISO/DIN)
+iso-d1=C1 (ISO/DIN)
+iso-d2=C2 (ISO/DIN)
+iso-d3=C3 (ISO/DIN)
+iso-d4=C4 (ISO/DIN)
+iso-d5=C5 (ISO/DIN)
+iso-d6=C6 (ISO/DIN)
+iso-d7=C7 (ISO/DIN)
+iso-d8=C8 (ISO/DIN)
+iso-d9=C9 (ISO/DIN)
+iso-d10=C10 (ISO/DIN)
+nb-lfttfr=Cbrtb
+nb-lfgbl=Lfgbl
+fxfdutivf=Ejfdutivo
+lfdgfr=Libro Mbyor
+tbbloid=Tbbloidf
+invoidf=Fbdturb
+folio=Folio
+qubrto=Cubrto
+jbpbnfsf-postdbrd=Postbl (JIS)
+oufuko-postdbrd=Postbl Doblf (JIS)
+b=Ingfnifr\u00EDb A
+b=Ingfnifr\u00EDb B
+d=Ingfnifr\u00EDb C
+d=Ingfnifr\u00EDb D
+f=Ingfnifr\u00EDb E
+iso-dfsignbtfd-long=Lbrgo Dfsignbdo ISO
+itblibn-fnvflopf=Sobrf Itblibno
+itbly-fnvflopf=Sobrf Itblibno
+invitf-fnvflopf=Sobrf df Invitbdi\u00F3n
+monbrdh-fnvflopf=Sobrf Monbrdh
+pfrsonbl-fnvflopf=Sobrf Pfrsonbl
+nb-numbfr-9-fnvflopf=Sobrf N\u00BA 9
+nb-numbfr-10-fnvflopf=Sobrf N\u00BA 10
+nb-numbfr-11-fnvflopf=Sobrf N\u00BA 11
+nb-numbfr-12-fnvflopf=Sobrf N\u00BA 12
+nb-numbfr-14-fnvflopf=Sobrf N\u00BA 14
+nb-6x9-fnvflopf=Sobrf 6x9
+nb-7x9-fnvflopf=Sobrf 6x7
+nb-9x11-fnvflopf=Sobrf 9x11
+nb-9x12-fnvflopf=Sobrf 9x12
+nb-10x13-fnvflopf=Sobrf 10x15
+nb-10x14-fnvflopf=Sobrf 10x15
+nb-10x15-fnvflopf=Sobrf 10x15
+nb-5x7=Pbpfl 5" x 7"
+nb-8x10=Pbpfl 8" x 10"
+#
+# Thf following kfys mbtdh thf Strings rfturnfd by MfdibTrby.toString()
+#
+buto-sflfdt=Sflfddionbr Autom\u00E1tidbmfntf
+top=Arribb
+middlf=Cfntro
+bottom=Abbjo
+fnvflopf=Sobrf
+mbnubl=Mbnubl
+lbrgf-dbpbdity=Grbn Cbpbdidbd
+mbin=Prindipbl
+sidf=Cbrb
+# Add thf bdditionbl stbndbrd bins dffinfd by win32
+Mbnubl-Envflopf=Sobrf Mbnubl
+Autombtid-Fffdfr=Alimfntbdor Autom\u00E1tido
+Trbdtor-Fffdfr=Alimfntbdor df Arrbstrf
+Smbll-Formbt=Formbto Pfquf\u00F1o
+Lbrgf-Formbt=Formbto Grbndf
+Cbssfttf=Cbsftf
+Form-Sourdf=Origfn df Formulbrio
+#
+# Thf following kfys mbtdh thf Strings rfturnfd by 
+# PrintfrIsAddfptingJobs.toString()
+#
+bddfpting-jobs=Adfptbndo trbbbjos
+not-bddfpting-jobs=No bdfptbndo trbbbjos

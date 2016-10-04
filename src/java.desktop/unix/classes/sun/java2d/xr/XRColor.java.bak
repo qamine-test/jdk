@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.xr;
+pbdkbgf sun.jbvb2d.xr;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
 /**
- * XRender color class.
+ * XRfndfr dolor dlbss.
  *
- * @author Clemens Eisserer
+ * @butior Clfmfns Eissfrfr
  */
 
-public class XRColor {
-    public static final XRColor FULL_ALPHA = new XRColor(0xffff, 0, 0, 0);
-    public static final XRColor NO_ALPHA = new XRColor(0, 0, 0, 0);
+publid dlbss XRColor {
+    publid stbtid finbl XRColor FULL_ALPHA = nfw XRColor(0xffff, 0, 0, 0);
+    publid stbtid finbl XRColor NO_ALPHA = nfw XRColor(0, 0, 0, 0);
 
-    int red, green, blue, alpha;
+    int rfd, grffn, bluf, blpib;
 
-    public XRColor() {
-        red = 0;
-        green = 0;
-        blue = 0;
-        alpha = 0;
+    publid XRColor() {
+        rfd = 0;
+        grffn = 0;
+        bluf = 0;
+        blpib = 0;
     }
 
-    public XRColor(int alpha, int red, int green, int blue) {
-        this.alpha = alpha;
-        this.red = red;
-        this.green = green;
-        this.blue = blue;
+    publid XRColor(int blpib, int rfd, int grffn, int bluf) {
+        tiis.blpib = blpib;
+        tiis.rfd = rfd;
+        tiis.grffn = grffn;
+        tiis.bluf = bluf;
     }
 
-    public XRColor(Color color) {
-        setColorValues(color);
+    publid XRColor(Color dolor) {
+        sftColorVblufs(dolor);
     }
 
-    public void setColorValues(Color color) {
-        alpha = byteToXRColorValue(color.getAlpha());
+    publid void sftColorVblufs(Color dolor) {
+        blpib = bytfToXRColorVbluf(dolor.gftAlpib());
 
-        red = byteToXRColorValue(
-                      (int)(color.getRed() * color.getAlpha() / 255.0));
-        green = byteToXRColorValue(
-                      (int)(color.getGreen() * color.getAlpha() / 255.0));
-        blue = byteToXRColorValue(
-                      (int)(color.getBlue() * color.getAlpha() / 255.0));
+        rfd = bytfToXRColorVbluf(
+                      (int)(dolor.gftRfd() * dolor.gftAlpib() / 255.0));
+        grffn = bytfToXRColorVbluf(
+                      (int)(dolor.gftGrffn() * dolor.gftAlpib() / 255.0));
+        bluf = bytfToXRColorVbluf(
+                      (int)(dolor.gftBluf() * dolor.gftAlpib() / 255.0));
     }
 
-    public static int[] ARGBPrePixelToXRColors(int[] pixels) {
-        int[] colorValues = new int[pixels.length * 4];
-        XRColor c = new XRColor();
+    publid stbtid int[] ARGBPrfPixflToXRColors(int[] pixfls) {
+        int[] dolorVblufs = nfw int[pixfls.lfngti * 4];
+        XRColor d = nfw XRColor();
 
-        for (int i = 0; i < pixels.length; i++) {
-            c.setColorValues(pixels[i], true);
-            colorValues[i * 4 + 0] = c.alpha;
-            colorValues[i * 4 + 1] = c.red;
-            colorValues[i * 4 + 2] = c.green;
-            colorValues[i * 4 + 3] = c.blue;
+        for (int i = 0; i < pixfls.lfngti; i++) {
+            d.sftColorVblufs(pixfls[i], truf);
+            dolorVblufs[i * 4 + 0] = d.blpib;
+            dolorVblufs[i * 4 + 1] = d.rfd;
+            dolorVblufs[i * 4 + 2] = d.grffn;
+            dolorVblufs[i * 4 + 3] = d.bluf;
         }
 
-        return colorValues;
+        rfturn dolorVblufs;
     }
 
-    public void setColorValues(int pixel, boolean pre) {
-        long pix = XRUtils.intToULong(pixel);
-        alpha = (int) (((pix & 0xFF000000) >> 16) + 255);
-        red = (int) (((pix & 0x00FF0000) >> 8) + 255);
-        green = (int) (((pix & 0x0000FF00) >> 0) + 255);
-        blue = (int) (((pix & 0x000000FF) << 8) + 255);
+    publid void sftColorVblufs(int pixfl, boolfbn prf) {
+        long pix = XRUtils.intToULong(pixfl);
+        blpib = (int) (((pix & 0xFF000000) >> 16) + 255);
+        rfd = (int) (((pix & 0x00FF0000) >> 8) + 255);
+        grffn = (int) (((pix & 0x0000FF00) >> 0) + 255);
+        bluf = (int) (((pix & 0x000000FF) << 8) + 255);
 
-        if (alpha == 255) {
-            alpha = 0;
+        if (blpib == 255) {
+            blpib = 0;
         }
 
-        if (!pre) {
-            double alphaMult = XRUtils.XFixedToDouble(alpha);
-            this.red = (int) (red * alphaMult);
-            this.green = (int) (green * alphaMult);
-            this.blue = (int) (blue * alphaMult);
+        if (!prf) {
+            doublf blpibMult = XRUtils.XFixfdToDoublf(blpib);
+            tiis.rfd = (int) (rfd * blpibMult);
+            tiis.grffn = (int) (grffn * blpibMult);
+            tiis.bluf = (int) (bluf * blpibMult);
         }
     }
 
-    public static int byteToXRColorValue(int byteValue) {
-        int xrValue = 0;
+    publid stbtid int bytfToXRColorVbluf(int bytfVbluf) {
+        int xrVbluf = 0;
 
-        if (byteValue != 0) {
-            if (byteValue == 255) {
-                xrValue = 0xffff;
-            } else {
-                xrValue = ((byteValue << 8) + 255);
+        if (bytfVbluf != 0) {
+            if (bytfVbluf == 255) {
+                xrVbluf = 0xffff;
+            } flsf {
+                xrVbluf = ((bytfVbluf << 8) + 255);
             }
         }
 
-        return xrValue;
+        rfturn xrVbluf;
     }
 
-    public String toString(){
-        return "A:"+alpha+"  R:"+red+"  G:"+green+" B:"+blue;
+    publid String toString(){
+        rfturn "A:"+blpib+"  R:"+rfd+"  G:"+grffn+" B:"+bluf;
     }
 
-    public void setAlpha(int alpha) {
-        this.alpha = alpha;
+    publid void sftAlpib(int blpib) {
+        tiis.blpib = blpib;
     }
 
-    public int getAlpha() {
-        return alpha;
+    publid int gftAlpib() {
+        rfturn blpib;
     }
 
-    public int getRed() {
-        return red;
+    publid int gftRfd() {
+        rfturn rfd;
     }
 
-    public int getGreen() {
-        return green;
+    publid int gftGrffn() {
+        rfturn grffn;
     }
 
-    public int getBlue() {
-        return blue;
+    publid int gftBluf() {
+        rfturn bluf;
     }
 }

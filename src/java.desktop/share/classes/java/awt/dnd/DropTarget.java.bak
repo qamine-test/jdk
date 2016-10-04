@@ -1,876 +1,876 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.dnd;
+pbdkbgf jbvb.bwt.dnd;
 
-import java.util.TooManyListenersException;
+import jbvb.util.TooMbnyListfnfrsExdfption;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.Sfriblizbblf;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GraphicsEnvironment;
-import java.awt.HeadlessException;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.datatransfer.FlavorMap;
-import java.awt.datatransfer.SystemFlavorMap;
-import javax.swing.Timer;
-import java.awt.peer.ComponentPeer;
-import java.awt.peer.LightweightPeer;
-import java.awt.dnd.peer.DropTargetPeer;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.HfbdlfssExdfption;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.AdtionListfnfr;
+import jbvb.bwt.dbtbtrbnsffr.FlbvorMbp;
+import jbvb.bwt.dbtbtrbnsffr.SystfmFlbvorMbp;
+import jbvbx.swing.Timfr;
+import jbvb.bwt.pffr.ComponfntPffr;
+import jbvb.bwt.pffr.LigitwfigitPffr;
+import jbvb.bwt.dnd.pffr.DropTbrgftPffr;
 
 
 /**
- * The <code>DropTarget</code> is associated
- * with a <code>Component</code> when that <code>Component</code>
- * wishes
- * to accept drops during Drag and Drop operations.
+ * Tif <dodf>DropTbrgft</dodf> is bssodibtfd
+ * witi b <dodf>Componfnt</dodf> wifn tibt <dodf>Componfnt</dodf>
+ * wisifs
+ * to bddfpt drops during Drbg bnd Drop opfrbtions.
  * <P>
- *  Each
- * <code>DropTarget</code> is associated with a <code>FlavorMap</code>.
- * The default <code>FlavorMap</code> hereafter designates the
- * <code>FlavorMap</code> returned by <code>SystemFlavorMap.getDefaultFlavorMap()</code>.
+ *  Ebdi
+ * <dodf>DropTbrgft</dodf> is bssodibtfd witi b <dodf>FlbvorMbp</dodf>.
+ * Tif dffbult <dodf>FlbvorMbp</dodf> ifrfbftfr dfsignbtfs tif
+ * <dodf>FlbvorMbp</dodf> rfturnfd by <dodf>SystfmFlbvorMbp.gftDffbultFlbvorMbp()</dodf>.
  *
- * @since 1.2
+ * @sindf 1.2
  */
 
-public class DropTarget implements DropTargetListener, Serializable {
+publid dlbss DropTbrgft implfmfnts DropTbrgftListfnfr, Sfriblizbblf {
 
-    private static final long serialVersionUID = -6283860791671019047L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -6283860791671019047L;
 
     /**
-     * Creates a new DropTarget given the <code>Component</code>
-     * to associate itself with, an <code>int</code> representing
-     * the default acceptable action(s) to
-     * support, a <code>DropTargetListener</code>
-     * to handle event processing, a <code>boolean</code> indicating
-     * if the <code>DropTarget</code> is currently accepting drops, and
-     * a <code>FlavorMap</code> to use (or null for the default <CODE>FlavorMap</CODE>).
+     * Crfbtfs b nfw DropTbrgft givfn tif <dodf>Componfnt</dodf>
+     * to bssodibtf itsflf witi, bn <dodf>int</dodf> rfprfsfnting
+     * tif dffbult bddfptbblf bdtion(s) to
+     * support, b <dodf>DropTbrgftListfnfr</dodf>
+     * to ibndlf fvfnt prodfssing, b <dodf>boolfbn</dodf> indidbting
+     * if tif <dodf>DropTbrgft</dodf> is durrfntly bddfpting drops, bnd
+     * b <dodf>FlbvorMbp</dodf> to usf (or null for tif dffbult <CODE>FlbvorMbp</CODE>).
      * <P>
-     * The Component will receive drops only if it is enabled.
-     * @param c         The <code>Component</code> with which this <code>DropTarget</code> is associated
-     * @param ops       The default acceptable actions for this <code>DropTarget</code>
-     * @param dtl       The <code>DropTargetListener</code> for this <code>DropTarget</code>
-     * @param act       Is the <code>DropTarget</code> accepting drops.
-     * @param fm        The <code>FlavorMap</code> to use, or null for the default <CODE>FlavorMap</CODE>
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     *            returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * Tif Componfnt will rfdfivf drops only if it is fnbblfd.
+     * @pbrbm d         Tif <dodf>Componfnt</dodf> witi wiidi tiis <dodf>DropTbrgft</dodf> is bssodibtfd
+     * @pbrbm ops       Tif dffbult bddfptbblf bdtions for tiis <dodf>DropTbrgft</dodf>
+     * @pbrbm dtl       Tif <dodf>DropTbrgftListfnfr</dodf> for tiis <dodf>DropTbrgft</dodf>
+     * @pbrbm bdt       Is tif <dodf>DropTbrgft</dodf> bddfpting drops.
+     * @pbrbm fm        Tif <dodf>FlbvorMbp</dodf> to usf, or null for tif dffbult <CODE>FlbvorMbp</CODE>
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     *            rfturns truf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      */
-    public DropTarget(Component c, int ops, DropTargetListener dtl,
-                      boolean act, FlavorMap fm)
-        throws HeadlessException
+    publid DropTbrgft(Componfnt d, int ops, DropTbrgftListfnfr dtl,
+                      boolfbn bdt, FlbvorMbp fm)
+        tirows HfbdlfssExdfption
     {
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+        if (GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            tirow nfw HfbdlfssExdfption();
         }
 
-        component = c;
+        domponfnt = d;
 
-        setDefaultActions(ops);
+        sftDffbultAdtions(ops);
 
         if (dtl != null) try {
-            addDropTargetListener(dtl);
-        } catch (TooManyListenersException tmle) {
-            // do nothing!
+            bddDropTbrgftListfnfr(dtl);
+        } dbtdi (TooMbnyListfnfrsExdfption tmlf) {
+            // do notiing!
         }
 
-        if (c != null) {
-            c.setDropTarget(this);
-            setActive(act);
+        if (d != null) {
+            d.sftDropTbrgft(tiis);
+            sftAdtivf(bdt);
         }
 
         if (fm != null) {
-            flavorMap = fm;
-        } else {
-            flavorMap = SystemFlavorMap.getDefaultFlavorMap();
+            flbvorMbp = fm;
+        } flsf {
+            flbvorMbp = SystfmFlbvorMbp.gftDffbultFlbvorMbp();
         }
     }
 
     /**
-     * Creates a <code>DropTarget</code> given the <code>Component</code>
-     * to associate itself with, an <code>int</code> representing
-     * the default acceptable action(s)
-     * to support, a <code>DropTargetListener</code>
-     * to handle event processing, and a <code>boolean</code> indicating
-     * if the <code>DropTarget</code> is currently accepting drops.
+     * Crfbtfs b <dodf>DropTbrgft</dodf> givfn tif <dodf>Componfnt</dodf>
+     * to bssodibtf itsflf witi, bn <dodf>int</dodf> rfprfsfnting
+     * tif dffbult bddfptbblf bdtion(s)
+     * to support, b <dodf>DropTbrgftListfnfr</dodf>
+     * to ibndlf fvfnt prodfssing, bnd b <dodf>boolfbn</dodf> indidbting
+     * if tif <dodf>DropTbrgft</dodf> is durrfntly bddfpting drops.
      * <P>
-     * The Component will receive drops only if it is enabled.
-     * @param c         The <code>Component</code> with which this <code>DropTarget</code> is associated
-     * @param ops       The default acceptable actions for this <code>DropTarget</code>
-     * @param dtl       The <code>DropTargetListener</code> for this <code>DropTarget</code>
-     * @param act       Is the <code>DropTarget</code> accepting drops.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     *            returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * Tif Componfnt will rfdfivf drops only if it is fnbblfd.
+     * @pbrbm d         Tif <dodf>Componfnt</dodf> witi wiidi tiis <dodf>DropTbrgft</dodf> is bssodibtfd
+     * @pbrbm ops       Tif dffbult bddfptbblf bdtions for tiis <dodf>DropTbrgft</dodf>
+     * @pbrbm dtl       Tif <dodf>DropTbrgftListfnfr</dodf> for tiis <dodf>DropTbrgft</dodf>
+     * @pbrbm bdt       Is tif <dodf>DropTbrgft</dodf> bddfpting drops.
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     *            rfturns truf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      */
-    public DropTarget(Component c, int ops, DropTargetListener dtl,
-                      boolean act)
-        throws HeadlessException
+    publid DropTbrgft(Componfnt d, int ops, DropTbrgftListfnfr dtl,
+                      boolfbn bdt)
+        tirows HfbdlfssExdfption
     {
-        this(c, ops, dtl, act, null);
+        tiis(d, ops, dtl, bdt, null);
     }
 
     /**
-     * Creates a <code>DropTarget</code>.
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     *            returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * Crfbtfs b <dodf>DropTbrgft</dodf>.
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     *            rfturns truf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      */
-    public DropTarget() throws HeadlessException {
-        this(null, DnDConstants.ACTION_COPY_OR_MOVE, null, true, null);
+    publid DropTbrgft() tirows HfbdlfssExdfption {
+        tiis(null, DnDConstbnts.ACTION_COPY_OR_MOVE, null, truf, null);
     }
 
     /**
-     * Creates a <code>DropTarget</code> given the <code>Component</code>
-     * to associate itself with, and the <code>DropTargetListener</code>
-     * to handle event processing.
+     * Crfbtfs b <dodf>DropTbrgft</dodf> givfn tif <dodf>Componfnt</dodf>
+     * to bssodibtf itsflf witi, bnd tif <dodf>DropTbrgftListfnfr</dodf>
+     * to ibndlf fvfnt prodfssing.
      * <P>
-     * The Component will receive drops only if it is enabled.
-     * @param c         The <code>Component</code> with which this <code>DropTarget</code> is associated
-     * @param dtl       The <code>DropTargetListener</code> for this <code>DropTarget</code>
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     *            returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * Tif Componfnt will rfdfivf drops only if it is fnbblfd.
+     * @pbrbm d         Tif <dodf>Componfnt</dodf> witi wiidi tiis <dodf>DropTbrgft</dodf> is bssodibtfd
+     * @pbrbm dtl       Tif <dodf>DropTbrgftListfnfr</dodf> for tiis <dodf>DropTbrgft</dodf>
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     *            rfturns truf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      */
-    public DropTarget(Component c, DropTargetListener dtl)
-        throws HeadlessException
+    publid DropTbrgft(Componfnt d, DropTbrgftListfnfr dtl)
+        tirows HfbdlfssExdfption
     {
-        this(c, DnDConstants.ACTION_COPY_OR_MOVE, dtl, true, null);
+        tiis(d, DnDConstbnts.ACTION_COPY_OR_MOVE, dtl, truf, null);
     }
 
     /**
-     * Creates a <code>DropTarget</code> given the <code>Component</code>
-     * to associate itself with, an <code>int</code> representing
-     * the default acceptable action(s) to support, and a
-     * <code>DropTargetListener</code> to handle event processing.
+     * Crfbtfs b <dodf>DropTbrgft</dodf> givfn tif <dodf>Componfnt</dodf>
+     * to bssodibtf itsflf witi, bn <dodf>int</dodf> rfprfsfnting
+     * tif dffbult bddfptbblf bdtion(s) to support, bnd b
+     * <dodf>DropTbrgftListfnfr</dodf> to ibndlf fvfnt prodfssing.
      * <P>
-     * The Component will receive drops only if it is enabled.
-     * @param c         The <code>Component</code> with which this <code>DropTarget</code> is associated
-     * @param ops       The default acceptable actions for this <code>DropTarget</code>
-     * @param dtl       The <code>DropTargetListener</code> for this <code>DropTarget</code>
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     *            returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * Tif Componfnt will rfdfivf drops only if it is fnbblfd.
+     * @pbrbm d         Tif <dodf>Componfnt</dodf> witi wiidi tiis <dodf>DropTbrgft</dodf> is bssodibtfd
+     * @pbrbm ops       Tif dffbult bddfptbblf bdtions for tiis <dodf>DropTbrgft</dodf>
+     * @pbrbm dtl       Tif <dodf>DropTbrgftListfnfr</dodf> for tiis <dodf>DropTbrgft</dodf>
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     *            rfturns truf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      */
-    public DropTarget(Component c, int ops, DropTargetListener dtl)
-        throws HeadlessException
+    publid DropTbrgft(Componfnt d, int ops, DropTbrgftListfnfr dtl)
+        tirows HfbdlfssExdfption
     {
-        this(c, ops, dtl, true);
+        tiis(d, ops, dtl, truf);
     }
 
     /**
-     * Note: this interface is required to permit the safe association
-     * of a DropTarget with a Component in one of two ways, either:
-     * <code> component.setDropTarget(droptarget); </code>
-     * or <code> droptarget.setComponent(component); </code>
+     * Notf: tiis intfrfbdf is rfquirfd to pfrmit tif sbff bssodibtion
+     * of b DropTbrgft witi b Componfnt in onf of two wbys, fitifr:
+     * <dodf> domponfnt.sftDropTbrgft(droptbrgft); </dodf>
+     * or <dodf> droptbrgft.sftComponfnt(domponfnt); </dodf>
      * <P>
-     * The Component will receive drops only if it is enabled.
-     * @param c The new <code>Component</code> this <code>DropTarget</code>
-     * is to be associated with.
+     * Tif Componfnt will rfdfivf drops only if it is fnbblfd.
+     * @pbrbm d Tif nfw <dodf>Componfnt</dodf> tiis <dodf>DropTbrgft</dodf>
+     * is to bf bssodibtfd witi.
      */
 
-    public synchronized void setComponent(Component c) {
-        if (component == c || component != null && component.equals(c))
-            return;
+    publid syndironizfd void sftComponfnt(Componfnt d) {
+        if (domponfnt == d || domponfnt != null && domponfnt.fqubls(d))
+            rfturn;
 
-        Component     old;
-        ComponentPeer oldPeer = null;
+        Componfnt     old;
+        ComponfntPffr oldPffr = null;
 
-        if ((old = component) != null) {
-            clearAutoscroll();
+        if ((old = domponfnt) != null) {
+            dlfbrAutosdroll();
 
-            component = null;
+            domponfnt = null;
 
-            if (componentPeer != null) {
-                oldPeer = componentPeer;
-                removeNotify(componentPeer);
+            if (domponfntPffr != null) {
+                oldPffr = domponfntPffr;
+                rfmovfNotify(domponfntPffr);
             }
 
-            old.setDropTarget(null);
+            old.sftDropTbrgft(null);
 
         }
 
-        if ((component = c) != null) try {
-            c.setDropTarget(this);
-        } catch (Exception e) { // undo the change
+        if ((domponfnt = d) != null) try {
+            d.sftDropTbrgft(tiis);
+        } dbtdi (Exdfption f) { // undo tif dibngf
             if (old != null) {
-                old.setDropTarget(this);
-                addNotify(oldPeer);
+                old.sftDropTbrgft(tiis);
+                bddNotify(oldPffr);
             }
         }
     }
 
     /**
-     * Gets the <code>Component</code> associated
-     * with this <code>DropTarget</code>.
+     * Gfts tif <dodf>Componfnt</dodf> bssodibtfd
+     * witi tiis <dodf>DropTbrgft</dodf>.
      *
-     * @return the current <code>Component</code>
+     * @rfturn tif durrfnt <dodf>Componfnt</dodf>
      */
 
-    public synchronized Component getComponent() {
-        return component;
+    publid syndironizfd Componfnt gftComponfnt() {
+        rfturn domponfnt;
     }
 
     /**
-     * Sets the default acceptable actions for this <code>DropTarget</code>
+     * Sfts tif dffbult bddfptbblf bdtions for tiis <dodf>DropTbrgft</dodf>
      *
-     * @param ops the default actions
-     * @see java.awt.dnd.DnDConstants
+     * @pbrbm ops tif dffbult bdtions
+     * @sff jbvb.bwt.dnd.DnDConstbnts
      */
 
-    public void setDefaultActions(int ops) {
-        getDropTargetContext().setTargetActions(ops & (DnDConstants.ACTION_COPY_OR_MOVE | DnDConstants.ACTION_REFERENCE));
+    publid void sftDffbultAdtions(int ops) {
+        gftDropTbrgftContfxt().sftTbrgftAdtions(ops & (DnDConstbnts.ACTION_COPY_OR_MOVE | DnDConstbnts.ACTION_REFERENCE));
     }
 
     /*
-     * Called by DropTargetContext.setTargetActions()
-     * with appropriate synchronization.
+     * Cbllfd by DropTbrgftContfxt.sftTbrgftAdtions()
+     * witi bppropribtf syndironizbtion.
      */
-    void doSetDefaultActions(int ops) {
-        actions = ops;
+    void doSftDffbultAdtions(int ops) {
+        bdtions = ops;
     }
 
     /**
-     * Gets an <code>int</code> representing the
-     * current action(s) supported by this <code>DropTarget</code>.
+     * Gfts bn <dodf>int</dodf> rfprfsfnting tif
+     * durrfnt bdtion(s) supportfd by tiis <dodf>DropTbrgft</dodf>.
      *
-     * @return the current default actions
+     * @rfturn tif durrfnt dffbult bdtions
      */
 
-    public int getDefaultActions() {
-        return actions;
+    publid int gftDffbultAdtions() {
+        rfturn bdtions;
     }
 
     /**
-     * Sets the DropTarget active if <code>true</code>,
-     * inactive if <code>false</code>.
+     * Sfts tif DropTbrgft bdtivf if <dodf>truf</dodf>,
+     * inbdtivf if <dodf>fblsf</dodf>.
      *
-     * @param isActive sets the <code>DropTarget</code> (in)active.
+     * @pbrbm isAdtivf sfts tif <dodf>DropTbrgft</dodf> (in)bdtivf.
      */
 
-    public synchronized void setActive(boolean isActive) {
-        if (isActive != active) {
-            active = isActive;
+    publid syndironizfd void sftAdtivf(boolfbn isAdtivf) {
+        if (isAdtivf != bdtivf) {
+            bdtivf = isAdtivf;
         }
 
-        if (!active) clearAutoscroll();
+        if (!bdtivf) dlfbrAutosdroll();
     }
 
     /**
-     * Reports whether or not
-     * this <code>DropTarget</code>
-     * is currently active (ready to accept drops).
+     * Rfports wiftifr or not
+     * tiis <dodf>DropTbrgft</dodf>
+     * is durrfntly bdtivf (rfbdy to bddfpt drops).
      *
-     * @return <CODE>true</CODE> if active, <CODE>false</CODE> if not
+     * @rfturn <CODE>truf</CODE> if bdtivf, <CODE>fblsf</CODE> if not
      */
 
-    public boolean isActive() {
-        return active;
+    publid boolfbn isAdtivf() {
+        rfturn bdtivf;
     }
 
     /**
-     * Adds a new <code>DropTargetListener</code> (UNICAST SOURCE).
+     * Adds b nfw <dodf>DropTbrgftListfnfr</dodf> (UNICAST SOURCE).
      *
-     * @param dtl The new <code>DropTargetListener</code>
+     * @pbrbm dtl Tif nfw <dodf>DropTbrgftListfnfr</dodf>
      *
-     * @throws TooManyListenersException if a
-     * <code>DropTargetListener</code> is already added to this
-     * <code>DropTarget</code>.
+     * @tirows TooMbnyListfnfrsExdfption if b
+     * <dodf>DropTbrgftListfnfr</dodf> is blrfbdy bddfd to tiis
+     * <dodf>DropTbrgft</dodf>.
      */
 
-    public synchronized void addDropTargetListener(DropTargetListener dtl) throws TooManyListenersException {
-        if (dtl == null) return;
+    publid syndironizfd void bddDropTbrgftListfnfr(DropTbrgftListfnfr dtl) tirows TooMbnyListfnfrsExdfption {
+        if (dtl == null) rfturn;
 
-        if (equals(dtl)) throw new IllegalArgumentException("DropTarget may not be its own Listener");
+        if (fqubls(dtl)) tirow nfw IllfgblArgumfntExdfption("DropTbrgft mby not bf its own Listfnfr");
 
-        if (dtListener == null)
-            dtListener = dtl;
-        else
-            throw new TooManyListenersException();
+        if (dtListfnfr == null)
+            dtListfnfr = dtl;
+        flsf
+            tirow nfw TooMbnyListfnfrsExdfption();
     }
 
     /**
-     * Removes the current <code>DropTargetListener</code> (UNICAST SOURCE).
+     * Rfmovfs tif durrfnt <dodf>DropTbrgftListfnfr</dodf> (UNICAST SOURCE).
      *
-     * @param dtl the DropTargetListener to deregister.
+     * @pbrbm dtl tif DropTbrgftListfnfr to dfrfgistfr.
      */
 
-    public synchronized void removeDropTargetListener(DropTargetListener dtl) {
-        if (dtl != null && dtListener != null) {
-            if(dtListener.equals(dtl))
-                dtListener = null;
-            else
-                throw new IllegalArgumentException("listener mismatch");
+    publid syndironizfd void rfmovfDropTbrgftListfnfr(DropTbrgftListfnfr dtl) {
+        if (dtl != null && dtListfnfr != null) {
+            if(dtListfnfr.fqubls(dtl))
+                dtListfnfr = null;
+            flsf
+                tirow nfw IllfgblArgumfntExdfption("listfnfr mismbtdi");
         }
     }
 
     /**
-     * Calls <code>dragEnter</code> on the registered
-     * <code>DropTargetListener</code> and passes it
-     * the specified <code>DropTargetDragEvent</code>.
-     * Has no effect if this <code>DropTarget</code>
-     * is not active.
+     * Cblls <dodf>drbgEntfr</dodf> on tif rfgistfrfd
+     * <dodf>DropTbrgftListfnfr</dodf> bnd pbssfs it
+     * tif spfdififd <dodf>DropTbrgftDrbgEvfnt</dodf>.
+     * Hbs no ffffdt if tiis <dodf>DropTbrgft</dodf>
+     * is not bdtivf.
      *
-     * @param dtde the <code>DropTargetDragEvent</code>
+     * @pbrbm dtdf tif <dodf>DropTbrgftDrbgEvfnt</dodf>
      *
-     * @throws NullPointerException if this <code>DropTarget</code>
-     *         is active and <code>dtde</code> is <code>null</code>
+     * @tirows NullPointfrExdfption if tiis <dodf>DropTbrgft</dodf>
+     *         is bdtivf bnd <dodf>dtdf</dodf> is <dodf>null</dodf>
      *
-     * @see #isActive
+     * @sff #isAdtivf
      */
-    public synchronized void dragEnter(DropTargetDragEvent dtde) {
-        isDraggingInside = true;
+    publid syndironizfd void drbgEntfr(DropTbrgftDrbgEvfnt dtdf) {
+        isDrbggingInsidf = truf;
 
-        if (!active) return;
+        if (!bdtivf) rfturn;
 
-        if (dtListener != null) {
-            dtListener.dragEnter(dtde);
-        } else
-            dtde.getDropTargetContext().setTargetActions(DnDConstants.ACTION_NONE);
+        if (dtListfnfr != null) {
+            dtListfnfr.drbgEntfr(dtdf);
+        } flsf
+            dtdf.gftDropTbrgftContfxt().sftTbrgftAdtions(DnDConstbnts.ACTION_NONE);
 
-        initializeAutoscrolling(dtde.getLocation());
+        initiblizfAutosdrolling(dtdf.gftLodbtion());
     }
 
     /**
-     * Calls <code>dragOver</code> on the registered
-     * <code>DropTargetListener</code> and passes it
-     * the specified <code>DropTargetDragEvent</code>.
-     * Has no effect if this <code>DropTarget</code>
-     * is not active.
+     * Cblls <dodf>drbgOvfr</dodf> on tif rfgistfrfd
+     * <dodf>DropTbrgftListfnfr</dodf> bnd pbssfs it
+     * tif spfdififd <dodf>DropTbrgftDrbgEvfnt</dodf>.
+     * Hbs no ffffdt if tiis <dodf>DropTbrgft</dodf>
+     * is not bdtivf.
      *
-     * @param dtde the <code>DropTargetDragEvent</code>
+     * @pbrbm dtdf tif <dodf>DropTbrgftDrbgEvfnt</dodf>
      *
-     * @throws NullPointerException if this <code>DropTarget</code>
-     *         is active and <code>dtde</code> is <code>null</code>
+     * @tirows NullPointfrExdfption if tiis <dodf>DropTbrgft</dodf>
+     *         is bdtivf bnd <dodf>dtdf</dodf> is <dodf>null</dodf>
      *
-     * @see #isActive
+     * @sff #isAdtivf
      */
-    public synchronized void dragOver(DropTargetDragEvent dtde) {
-        if (!active) return;
+    publid syndironizfd void drbgOvfr(DropTbrgftDrbgEvfnt dtdf) {
+        if (!bdtivf) rfturn;
 
-        if (dtListener != null && active) dtListener.dragOver(dtde);
+        if (dtListfnfr != null && bdtivf) dtListfnfr.drbgOvfr(dtdf);
 
-        updateAutoscroll(dtde.getLocation());
+        updbtfAutosdroll(dtdf.gftLodbtion());
     }
 
     /**
-     * Calls <code>dropActionChanged</code> on the registered
-     * <code>DropTargetListener</code> and passes it
-     * the specified <code>DropTargetDragEvent</code>.
-     * Has no effect if this <code>DropTarget</code>
-     * is not active.
+     * Cblls <dodf>dropAdtionCibngfd</dodf> on tif rfgistfrfd
+     * <dodf>DropTbrgftListfnfr</dodf> bnd pbssfs it
+     * tif spfdififd <dodf>DropTbrgftDrbgEvfnt</dodf>.
+     * Hbs no ffffdt if tiis <dodf>DropTbrgft</dodf>
+     * is not bdtivf.
      *
-     * @param dtde the <code>DropTargetDragEvent</code>
+     * @pbrbm dtdf tif <dodf>DropTbrgftDrbgEvfnt</dodf>
      *
-     * @throws NullPointerException if this <code>DropTarget</code>
-     *         is active and <code>dtde</code> is <code>null</code>
+     * @tirows NullPointfrExdfption if tiis <dodf>DropTbrgft</dodf>
+     *         is bdtivf bnd <dodf>dtdf</dodf> is <dodf>null</dodf>
      *
-     * @see #isActive
+     * @sff #isAdtivf
      */
-    public synchronized void dropActionChanged(DropTargetDragEvent dtde) {
-        if (!active) return;
+    publid syndironizfd void dropAdtionCibngfd(DropTbrgftDrbgEvfnt dtdf) {
+        if (!bdtivf) rfturn;
 
-        if (dtListener != null) dtListener.dropActionChanged(dtde);
+        if (dtListfnfr != null) dtListfnfr.dropAdtionCibngfd(dtdf);
 
-        updateAutoscroll(dtde.getLocation());
+        updbtfAutosdroll(dtdf.gftLodbtion());
     }
 
     /**
-     * Calls <code>dragExit</code> on the registered
-     * <code>DropTargetListener</code> and passes it
-     * the specified <code>DropTargetEvent</code>.
-     * Has no effect if this <code>DropTarget</code>
-     * is not active.
+     * Cblls <dodf>drbgExit</dodf> on tif rfgistfrfd
+     * <dodf>DropTbrgftListfnfr</dodf> bnd pbssfs it
+     * tif spfdififd <dodf>DropTbrgftEvfnt</dodf>.
+     * Hbs no ffffdt if tiis <dodf>DropTbrgft</dodf>
+     * is not bdtivf.
      * <p>
-     * This method itself does not throw any exception
-     * for null parameter but for exceptions thrown by
-     * the respective method of the listener.
+     * Tiis mftiod itsflf dofs not tirow bny fxdfption
+     * for null pbrbmftfr but for fxdfptions tirown by
+     * tif rfspfdtivf mftiod of tif listfnfr.
      *
-     * @param dte the <code>DropTargetEvent</code>
+     * @pbrbm dtf tif <dodf>DropTbrgftEvfnt</dodf>
      *
-     * @see #isActive
+     * @sff #isAdtivf
      */
-    public synchronized void dragExit(DropTargetEvent dte) {
-        isDraggingInside = false;
+    publid syndironizfd void drbgExit(DropTbrgftEvfnt dtf) {
+        isDrbggingInsidf = fblsf;
 
-        if (!active) return;
+        if (!bdtivf) rfturn;
 
-        if (dtListener != null && active) dtListener.dragExit(dte);
+        if (dtListfnfr != null && bdtivf) dtListfnfr.drbgExit(dtf);
 
-        clearAutoscroll();
+        dlfbrAutosdroll();
     }
 
     /**
-     * Calls <code>drop</code> on the registered
-     * <code>DropTargetListener</code> and passes it
-     * the specified <code>DropTargetDropEvent</code>
-     * if this <code>DropTarget</code> is active.
+     * Cblls <dodf>drop</dodf> on tif rfgistfrfd
+     * <dodf>DropTbrgftListfnfr</dodf> bnd pbssfs it
+     * tif spfdififd <dodf>DropTbrgftDropEvfnt</dodf>
+     * if tiis <dodf>DropTbrgft</dodf> is bdtivf.
      *
-     * @param dtde the <code>DropTargetDropEvent</code>
+     * @pbrbm dtdf tif <dodf>DropTbrgftDropEvfnt</dodf>
      *
-     * @throws NullPointerException if <code>dtde</code> is null
-     *         and at least one of the following is true: this
-     *         <code>DropTarget</code> is not active, or there is
-     *         no a <code>DropTargetListener</code> registered.
+     * @tirows NullPointfrExdfption if <dodf>dtdf</dodf> is null
+     *         bnd bt lfbst onf of tif following is truf: tiis
+     *         <dodf>DropTbrgft</dodf> is not bdtivf, or tifrf is
+     *         no b <dodf>DropTbrgftListfnfr</dodf> rfgistfrfd.
      *
-     * @see #isActive
+     * @sff #isAdtivf
      */
-    public synchronized void drop(DropTargetDropEvent dtde) {
-        isDraggingInside = false;
+    publid syndironizfd void drop(DropTbrgftDropEvfnt dtdf) {
+        isDrbggingInsidf = fblsf;
 
-        clearAutoscroll();
+        dlfbrAutosdroll();
 
-        if (dtListener != null && active)
-            dtListener.drop(dtde);
-        else { // we should'nt get here ...
-            dtde.rejectDrop();
+        if (dtListfnfr != null && bdtivf)
+            dtListfnfr.drop(dtdf);
+        flsf { // wf siould'nt gft ifrf ...
+            dtdf.rfjfdtDrop();
         }
     }
 
     /**
-     * Gets the <code>FlavorMap</code>
-     * associated with this <code>DropTarget</code>.
-     * If no <code>FlavorMap</code> has been set for this
-     * <code>DropTarget</code>, it is associated with the default
-     * <code>FlavorMap</code>.
+     * Gfts tif <dodf>FlbvorMbp</dodf>
+     * bssodibtfd witi tiis <dodf>DropTbrgft</dodf>.
+     * If no <dodf>FlbvorMbp</dodf> ibs bffn sft for tiis
+     * <dodf>DropTbrgft</dodf>, it is bssodibtfd witi tif dffbult
+     * <dodf>FlbvorMbp</dodf>.
      *
-     * @return the FlavorMap for this DropTarget
+     * @rfturn tif FlbvorMbp for tiis DropTbrgft
      */
 
-    public FlavorMap getFlavorMap() { return flavorMap; }
+    publid FlbvorMbp gftFlbvorMbp() { rfturn flbvorMbp; }
 
     /**
-     * Sets the <code>FlavorMap</code> associated
-     * with this <code>DropTarget</code>.
+     * Sfts tif <dodf>FlbvorMbp</dodf> bssodibtfd
+     * witi tiis <dodf>DropTbrgft</dodf>.
      *
-     * @param fm the new <code>FlavorMap</code>, or null to
-     * associate the default FlavorMap with this DropTarget.
+     * @pbrbm fm tif nfw <dodf>FlbvorMbp</dodf>, or null to
+     * bssodibtf tif dffbult FlbvorMbp witi tiis DropTbrgft.
      */
 
-    public void setFlavorMap(FlavorMap fm) {
-        flavorMap = fm == null ? SystemFlavorMap.getDefaultFlavorMap() : fm;
+    publid void sftFlbvorMbp(FlbvorMbp fm) {
+        flbvorMbp = fm == null ? SystfmFlbvorMbp.gftDffbultFlbvorMbp() : fm;
     }
 
     /**
-     * Notify the DropTarget that it has been associated with a Component
+     * Notify tif DropTbrgft tibt it ibs bffn bssodibtfd witi b Componfnt
      *
      **********************************************************************
-     * This method is usually called from java.awt.Component.addNotify() of
-     * the Component associated with this DropTarget to notify the DropTarget
-     * that a ComponentPeer has been associated with that Component.
+     * Tiis mftiod is usublly dbllfd from jbvb.bwt.Componfnt.bddNotify() of
+     * tif Componfnt bssodibtfd witi tiis DropTbrgft to notify tif DropTbrgft
+     * tibt b ComponfntPffr ibs bffn bssodibtfd witi tibt Componfnt.
      *
-     * Calling this method, other than to notify this DropTarget of the
-     * association of the ComponentPeer with the Component may result in
-     * a malfunction of the DnD system.
+     * Cblling tiis mftiod, otifr tibn to notify tiis DropTbrgft of tif
+     * bssodibtion of tif ComponfntPffr witi tif Componfnt mby rfsult in
+     * b mblfundtion of tif DnD systfm.
      **********************************************************************
      *
-     * @param peer The Peer of the Component we are associated with!
+     * @pbrbm pffr Tif Pffr of tif Componfnt wf brf bssodibtfd witi!
      *
      */
 
-    public void addNotify(ComponentPeer peer) {
-        if (peer == componentPeer) return;
+    publid void bddNotify(ComponfntPffr pffr) {
+        if (pffr == domponfntPffr) rfturn;
 
-        componentPeer = peer;
+        domponfntPffr = pffr;
 
-        for (Component c = component;
-             c != null && peer instanceof LightweightPeer; c = c.getParent()) {
-            peer = c.getPeer();
+        for (Componfnt d = domponfnt;
+             d != null && pffr instbndfof LigitwfigitPffr; d = d.gftPbrfnt()) {
+            pffr = d.gftPffr();
         }
 
-        if (peer instanceof DropTargetPeer) {
-            nativePeer = peer;
-            ((DropTargetPeer)peer).addDropTarget(this);
-        } else {
-            nativePeer = null;
+        if (pffr instbndfof DropTbrgftPffr) {
+            nbtivfPffr = pffr;
+            ((DropTbrgftPffr)pffr).bddDropTbrgft(tiis);
+        } flsf {
+            nbtivfPffr = null;
         }
     }
 
     /**
-     * Notify the DropTarget that it has been disassociated from a Component
+     * Notify tif DropTbrgft tibt it ibs bffn disbssodibtfd from b Componfnt
      *
      **********************************************************************
-     * This method is usually called from java.awt.Component.removeNotify() of
-     * the Component associated with this DropTarget to notify the DropTarget
-     * that a ComponentPeer has been disassociated with that Component.
+     * Tiis mftiod is usublly dbllfd from jbvb.bwt.Componfnt.rfmovfNotify() of
+     * tif Componfnt bssodibtfd witi tiis DropTbrgft to notify tif DropTbrgft
+     * tibt b ComponfntPffr ibs bffn disbssodibtfd witi tibt Componfnt.
      *
-     * Calling this method, other than to notify this DropTarget of the
-     * disassociation of the ComponentPeer from the Component may result in
-     * a malfunction of the DnD system.
+     * Cblling tiis mftiod, otifr tibn to notify tiis DropTbrgft of tif
+     * disbssodibtion of tif ComponfntPffr from tif Componfnt mby rfsult in
+     * b mblfundtion of tif DnD systfm.
      **********************************************************************
      *
-     * @param peer The Peer of the Component we are being disassociated from!
+     * @pbrbm pffr Tif Pffr of tif Componfnt wf brf bfing disbssodibtfd from!
      */
 
-    public void removeNotify(ComponentPeer peer) {
-        if (nativePeer != null)
-            ((DropTargetPeer)nativePeer).removeDropTarget(this);
+    publid void rfmovfNotify(ComponfntPffr pffr) {
+        if (nbtivfPffr != null)
+            ((DropTbrgftPffr)nbtivfPffr).rfmovfDropTbrgft(tiis);
 
-        componentPeer = nativePeer = null;
+        domponfntPffr = nbtivfPffr = null;
 
-        synchronized (this) {
-            if (isDraggingInside) {
-                dragExit(new DropTargetEvent(getDropTargetContext()));
+        syndironizfd (tiis) {
+            if (isDrbggingInsidf) {
+                drbgExit(nfw DropTbrgftEvfnt(gftDropTbrgftContfxt()));
             }
         }
     }
 
     /**
-     * Gets the <code>DropTargetContext</code> associated
-     * with this <code>DropTarget</code>.
+     * Gfts tif <dodf>DropTbrgftContfxt</dodf> bssodibtfd
+     * witi tiis <dodf>DropTbrgft</dodf>.
      *
-     * @return the <code>DropTargetContext</code> associated with this <code>DropTarget</code>.
+     * @rfturn tif <dodf>DropTbrgftContfxt</dodf> bssodibtfd witi tiis <dodf>DropTbrgft</dodf>.
      */
 
-    public DropTargetContext getDropTargetContext() {
-        return dropTargetContext;
+    publid DropTbrgftContfxt gftDropTbrgftContfxt() {
+        rfturn dropTbrgftContfxt;
     }
 
     /**
-     * Creates the DropTargetContext associated with this DropTarget.
-     * Subclasses may override this method to instantiate their own
-     * DropTargetContext subclass.
+     * Crfbtfs tif DropTbrgftContfxt bssodibtfd witi tiis DropTbrgft.
+     * Subdlbssfs mby ovfrridf tiis mftiod to instbntibtf tifir own
+     * DropTbrgftContfxt subdlbss.
      *
-     * This call is typically *only* called by the platform's
-     * DropTargetContextPeer as a drag operation encounters this
-     * DropTarget. Accessing the Context while no Drag is current
-     * has undefined results.
-     * @return the DropTargetContext associated with this DropTarget
+     * Tiis dbll is typidblly *only* dbllfd by tif plbtform's
+     * DropTbrgftContfxtPffr bs b drbg opfrbtion fndountfrs tiis
+     * DropTbrgft. Addfssing tif Contfxt wiilf no Drbg is durrfnt
+     * ibs undffinfd rfsults.
+     * @rfturn tif DropTbrgftContfxt bssodibtfd witi tiis DropTbrgft
      */
 
-    protected DropTargetContext createDropTargetContext() {
-        return new DropTargetContext(this);
+    protfdtfd DropTbrgftContfxt drfbtfDropTbrgftContfxt() {
+        rfturn nfw DropTbrgftContfxt(tiis);
     }
 
     /**
-     * Serializes this <code>DropTarget</code>. Performs default serialization,
-     * and then writes out this object's <code>DropTargetListener</code> if and
-     * only if it can be serialized. If not, <code>null</code> is written
-     * instead.
+     * Sfriblizfs tiis <dodf>DropTbrgft</dodf>. Pfrforms dffbult sfriblizbtion,
+     * bnd tifn writfs out tiis objfdt's <dodf>DropTbrgftListfnfr</dodf> if bnd
+     * only if it dbn bf sfriblizfd. If not, <dodf>null</dodf> is writtfn
+     * instfbd.
      *
-     * @serialData The default serializable fields, in alphabetical order,
-     *             followed by either a <code>DropTargetListener</code>
-     *             instance, or <code>null</code>.
-     * @since 1.4
+     * @sfriblDbtb Tif dffbult sfriblizbblf fiflds, in blpibbftidbl ordfr,
+     *             followfd by fitifr b <dodf>DropTbrgftListfnfr</dodf>
+     *             instbndf, or <dodf>null</dodf>.
+     * @sindf 1.4
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
 
-        s.writeObject(SerializationTester.test(dtListener)
-                      ? dtListener : null);
+        s.writfObjfdt(SfriblizbtionTfstfr.tfst(dtListfnfr)
+                      ? dtListfnfr : null);
     }
 
     /**
-     * Deserializes this <code>DropTarget</code>. This method first performs
-     * default deserialization for all non-<code>transient</code> fields. An
-     * attempt is then made to deserialize this object's
-     * <code>DropTargetListener</code> as well. This is first attempted by
-     * deserializing the field <code>dtListener</code>, because, in releases
-     * prior to 1.4, a non-<code>transient</code> field of this name stored the
-     * <code>DropTargetListener</code>. If this fails, the next object in the
-     * stream is used instead.
+     * Dfsfriblizfs tiis <dodf>DropTbrgft</dodf>. Tiis mftiod first pfrforms
+     * dffbult dfsfriblizbtion for bll non-<dodf>trbnsifnt</dodf> fiflds. An
+     * bttfmpt is tifn mbdf to dfsfriblizf tiis objfdt's
+     * <dodf>DropTbrgftListfnfr</dodf> bs wfll. Tiis is first bttfmptfd by
+     * dfsfriblizing tif fifld <dodf>dtListfnfr</dodf>, bfdbusf, in rflfbsfs
+     * prior to 1.4, b non-<dodf>trbnsifnt</dodf> fifld of tiis nbmf storfd tif
+     * <dodf>DropTbrgftListfnfr</dodf>. If tiis fbils, tif nfxt objfdt in tif
+     * strfbm is usfd instfbd.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        tirows ClbssNotFoundExdfption, IOExdfption
     {
-        ObjectInputStream.GetField f = s.readFields();
+        ObjfdtInputStrfbm.GftFifld f = s.rfbdFiflds();
 
         try {
-            dropTargetContext =
-                (DropTargetContext)f.get("dropTargetContext", null);
-        } catch (IllegalArgumentException e) {
-            // Pre-1.4 support. 'dropTargetContext' was previously transient
+            dropTbrgftContfxt =
+                (DropTbrgftContfxt)f.gft("dropTbrgftContfxt", null);
+        } dbtdi (IllfgblArgumfntExdfption f) {
+            // Prf-1.4 support. 'dropTbrgftContfxt' wbs prfviously trbnsifnt
         }
-        if (dropTargetContext == null) {
-            dropTargetContext = createDropTargetContext();
+        if (dropTbrgftContfxt == null) {
+            dropTbrgftContfxt = drfbtfDropTbrgftContfxt();
         }
 
-        component = (Component)f.get("component", null);
-        actions = f.get("actions", DnDConstants.ACTION_COPY_OR_MOVE);
-        active = f.get("active", true);
+        domponfnt = (Componfnt)f.gft("domponfnt", null);
+        bdtions = f.gft("bdtions", DnDConstbnts.ACTION_COPY_OR_MOVE);
+        bdtivf = f.gft("bdtivf", truf);
 
-        // Pre-1.4 support. 'dtListener' was previously non-transient
+        // Prf-1.4 support. 'dtListfnfr' wbs prfviously non-trbnsifnt
         try {
-            dtListener = (DropTargetListener)f.get("dtListener", null);
-        } catch (IllegalArgumentException e) {
-            // 1.4-compatible byte stream. 'dtListener' was written explicitly
-            dtListener = (DropTargetListener)s.readObject();
+            dtListfnfr = (DropTbrgftListfnfr)f.gft("dtListfnfr", null);
+        } dbtdi (IllfgblArgumfntExdfption f) {
+            // 1.4-dompbtiblf bytf strfbm. 'dtListfnfr' wbs writtfn fxpliditly
+            dtListfnfr = (DropTbrgftListfnfr)s.rfbdObjfdt();
         }
     }
 
     /*********************************************************************/
 
     /**
-     * this protected nested class implements autoscrolling
+     * tiis protfdtfd nfstfd dlbss implfmfnts butosdrolling
      */
 
-    protected static class DropTargetAutoScroller implements ActionListener {
+    protfdtfd stbtid dlbss DropTbrgftAutoSdrollfr implfmfnts AdtionListfnfr {
 
         /**
-         * construct a DropTargetAutoScroller
+         * donstrudt b DropTbrgftAutoSdrollfr
          *
-         * @param c the <code>Component</code>
-         * @param p the <code>Point</code>
+         * @pbrbm d tif <dodf>Componfnt</dodf>
+         * @pbrbm p tif <dodf>Point</dodf>
          */
 
-        protected DropTargetAutoScroller(Component c, Point p) {
-            super();
+        protfdtfd DropTbrgftAutoSdrollfr(Componfnt d, Point p) {
+            supfr();
 
-            component  = c;
-            autoScroll = (Autoscroll)component;
+            domponfnt  = d;
+            butoSdroll = (Autosdroll)domponfnt;
 
-            Toolkit t  = Toolkit.getDefaultToolkit();
+            Toolkit t  = Toolkit.gftDffbultToolkit();
 
-            Integer    initial  = Integer.valueOf(100);
-            Integer    interval = Integer.valueOf(100);
+            Intfgfr    initibl  = Intfgfr.vblufOf(100);
+            Intfgfr    intfrvbl = Intfgfr.vblufOf(100);
 
             try {
-                initial = (Integer)t.getDesktopProperty("DnD.Autoscroll.initialDelay");
-            } catch (Exception e) {
-                // ignore
+                initibl = (Intfgfr)t.gftDfsktopPropfrty("DnD.Autosdroll.initiblDflby");
+            } dbtdi (Exdfption f) {
+                // ignorf
             }
 
             try {
-                interval = (Integer)t.getDesktopProperty("DnD.Autoscroll.interval");
-            } catch (Exception e) {
-                // ignore
+                intfrvbl = (Intfgfr)t.gftDfsktopPropfrty("DnD.Autosdroll.intfrvbl");
+            } dbtdi (Exdfption f) {
+                // ignorf
             }
 
-            timer  = new Timer(interval.intValue(), this);
+            timfr  = nfw Timfr(intfrvbl.intVbluf(), tiis);
 
-            timer.setCoalesce(true);
-            timer.setInitialDelay(initial.intValue());
+            timfr.sftCoblfsdf(truf);
+            timfr.sftInitiblDflby(initibl.intVbluf());
 
-            locn = p;
-            prev = p;
+            lodn = p;
+            prfv = p;
 
             try {
-                hysteresis = ((Integer)t.getDesktopProperty("DnD.Autoscroll.cursorHysteresis")).intValue();
-            } catch (Exception e) {
-                // ignore
+                iystfrfsis = ((Intfgfr)t.gftDfsktopPropfrty("DnD.Autosdroll.dursorHystfrfsis")).intVbluf();
+            } dbtdi (Exdfption f) {
+                // ignorf
             }
 
-            timer.start();
+            timfr.stbrt();
         }
 
         /**
-         * update the geometry of the autoscroll region
+         * updbtf tif gfomftry of tif butosdroll rfgion
          */
 
-        private void updateRegion() {
-           Insets    i    = autoScroll.getAutoscrollInsets();
-           Dimension size = component.getSize();
+        privbtf void updbtfRfgion() {
+           Insfts    i    = butoSdroll.gftAutosdrollInsfts();
+           Dimfnsion sizf = domponfnt.gftSizf();
 
-           if (size.width != outer.width || size.height != outer.height)
-                outer.reshape(0, 0, size.width, size.height);
+           if (sizf.widti != outfr.widti || sizf.ifigit != outfr.ifigit)
+                outfr.rfsibpf(0, 0, sizf.widti, sizf.ifigit);
 
-           if (inner.x != i.left || inner.y != i.top)
-                inner.setLocation(i.left, i.top);
+           if (innfr.x != i.lfft || innfr.y != i.top)
+                innfr.sftLodbtion(i.lfft, i.top);
 
-           int newWidth  = size.width -  (i.left + i.right);
-           int newHeight = size.height - (i.top  + i.bottom);
+           int nfwWidti  = sizf.widti -  (i.lfft + i.rigit);
+           int nfwHfigit = sizf.ifigit - (i.top  + i.bottom);
 
-           if (newWidth != inner.width || newHeight != inner.height)
-                inner.setSize(newWidth, newHeight);
+           if (nfwWidti != innfr.widti || nfwHfigit != innfr.ifigit)
+                innfr.sftSizf(nfwWidti, nfwHfigit);
 
         }
 
         /**
-         * cause autoscroll to occur
+         * dbusf butosdroll to oddur
          *
-         * @param newLocn the <code>Point</code>
+         * @pbrbm nfwLodn tif <dodf>Point</dodf>
          */
 
-        protected synchronized void updateLocation(Point newLocn) {
-            prev = locn;
-            locn = newLocn;
+        protfdtfd syndironizfd void updbtfLodbtion(Point nfwLodn) {
+            prfv = lodn;
+            lodn = nfwLodn;
 
-            if (Math.abs(locn.x - prev.x) > hysteresis ||
-                Math.abs(locn.y - prev.y) > hysteresis) {
-                if (timer.isRunning()) timer.stop();
-            } else {
-                if (!timer.isRunning()) timer.start();
+            if (Mbti.bbs(lodn.x - prfv.x) > iystfrfsis ||
+                Mbti.bbs(lodn.y - prfv.y) > iystfrfsis) {
+                if (timfr.isRunning()) timfr.stop();
+            } flsf {
+                if (!timfr.isRunning()) timfr.stbrt();
             }
         }
 
         /**
-         * cause autoscrolling to stop
+         * dbusf butosdrolling to stop
          */
 
-        protected void stop() { timer.stop(); }
+        protfdtfd void stop() { timfr.stop(); }
 
         /**
-         * cause autoscroll to occur
+         * dbusf butosdroll to oddur
          *
-         * @param e the <code>ActionEvent</code>
+         * @pbrbm f tif <dodf>AdtionEvfnt</dodf>
          */
 
-        public synchronized void actionPerformed(ActionEvent e) {
-            updateRegion();
+        publid syndironizfd void bdtionPfrformfd(AdtionEvfnt f) {
+            updbtfRfgion();
 
-            if (outer.contains(locn) && !inner.contains(locn))
-                autoScroll.autoscroll(locn);
+            if (outfr.dontbins(lodn) && !innfr.dontbins(lodn))
+                butoSdroll.butosdroll(lodn);
         }
 
         /*
-         * fields
+         * fiflds
          */
 
-        private Component  component;
-        private Autoscroll autoScroll;
+        privbtf Componfnt  domponfnt;
+        privbtf Autosdroll butoSdroll;
 
-        private Timer      timer;
+        privbtf Timfr      timfr;
 
-        private Point      locn;
-        private Point      prev;
+        privbtf Point      lodn;
+        privbtf Point      prfv;
 
-        private Rectangle  outer = new Rectangle();
-        private Rectangle  inner = new Rectangle();
+        privbtf Rfdtbnglf  outfr = nfw Rfdtbnglf();
+        privbtf Rfdtbnglf  innfr = nfw Rfdtbnglf();
 
-        private int        hysteresis = 10;
+        privbtf int        iystfrfsis = 10;
     }
 
     /*********************************************************************/
 
     /**
-     * create an embedded autoscroller
+     * drfbtf bn fmbfddfd butosdrollfr
      *
-     * @param c the <code>Component</code>
-     * @param p the <code>Point</code>
-     * @return an embedded autoscroller
+     * @pbrbm d tif <dodf>Componfnt</dodf>
+     * @pbrbm p tif <dodf>Point</dodf>
+     * @rfturn bn fmbfddfd butosdrollfr
      */
 
-    protected DropTargetAutoScroller createDropTargetAutoScroller(Component c, Point p) {
-        return new DropTargetAutoScroller(c, p);
+    protfdtfd DropTbrgftAutoSdrollfr drfbtfDropTbrgftAutoSdrollfr(Componfnt d, Point p) {
+        rfturn nfw DropTbrgftAutoSdrollfr(d, p);
     }
 
     /**
-     * initialize autoscrolling
+     * initiblizf butosdrolling
      *
-     * @param p the <code>Point</code>
+     * @pbrbm p tif <dodf>Point</dodf>
      */
 
-    protected void initializeAutoscrolling(Point p) {
-        if (component == null || !(component instanceof Autoscroll)) return;
+    protfdtfd void initiblizfAutosdrolling(Point p) {
+        if (domponfnt == null || !(domponfnt instbndfof Autosdroll)) rfturn;
 
-        autoScroller = createDropTargetAutoScroller(component, p);
+        butoSdrollfr = drfbtfDropTbrgftAutoSdrollfr(domponfnt, p);
     }
 
     /**
-     * update autoscrolling with current cursor location
+     * updbtf butosdrolling witi durrfnt dursor lodbtion
      *
-     * @param dragCursorLocn the <code>Point</code>
+     * @pbrbm drbgCursorLodn tif <dodf>Point</dodf>
      */
 
-    protected void updateAutoscroll(Point dragCursorLocn) {
-        if (autoScroller != null) autoScroller.updateLocation(dragCursorLocn);
+    protfdtfd void updbtfAutosdroll(Point drbgCursorLodn) {
+        if (butoSdrollfr != null) butoSdrollfr.updbtfLodbtion(drbgCursorLodn);
     }
 
     /**
-     * clear autoscrolling
+     * dlfbr butosdrolling
      */
 
-    protected void clearAutoscroll() {
-        if (autoScroller != null) {
-            autoScroller.stop();
-            autoScroller = null;
+    protfdtfd void dlfbrAutosdroll() {
+        if (butoSdrollfr != null) {
+            butoSdrollfr.stop();
+            butoSdrollfr = null;
         }
     }
 
     /**
-     * The DropTargetContext associated with this DropTarget.
+     * Tif DropTbrgftContfxt bssodibtfd witi tiis DropTbrgft.
      *
-     * @serial
+     * @sfribl
      */
-    private DropTargetContext dropTargetContext = createDropTargetContext();
+    privbtf DropTbrgftContfxt dropTbrgftContfxt = drfbtfDropTbrgftContfxt();
 
     /**
-     * The Component associated with this DropTarget.
+     * Tif Componfnt bssodibtfd witi tiis DropTbrgft.
      *
-     * @serial
+     * @sfribl
      */
-    private Component component;
+    privbtf Componfnt domponfnt;
 
     /*
-     * That Component's  Peer
+     * Tibt Componfnt's  Pffr
      */
-    private transient ComponentPeer componentPeer;
+    privbtf trbnsifnt ComponfntPffr domponfntPffr;
 
     /*
-     * That Component's "native" Peer
+     * Tibt Componfnt's "nbtivf" Pffr
      */
-    private transient ComponentPeer nativePeer;
+    privbtf trbnsifnt ComponfntPffr nbtivfPffr;
 
 
     /**
-     * Default permissible actions supported by this DropTarget.
+     * Dffbult pfrmissiblf bdtions supportfd by tiis DropTbrgft.
      *
-     * @see #setDefaultActions
-     * @see #getDefaultActions
-     * @serial
+     * @sff #sftDffbultAdtions
+     * @sff #gftDffbultAdtions
+     * @sfribl
      */
-    int     actions = DnDConstants.ACTION_COPY_OR_MOVE;
+    int     bdtions = DnDConstbnts.ACTION_COPY_OR_MOVE;
 
     /**
-     * <code>true</code> if the DropTarget is accepting Drag &amp; Drop operations.
+     * <dodf>truf</dodf> if tif DropTbrgft is bddfpting Drbg &bmp; Drop opfrbtions.
      *
-     * @serial
+     * @sfribl
      */
-    boolean active = true;
+    boolfbn bdtivf = truf;
 
     /*
-     * the auto scrolling object
+     * tif buto sdrolling objfdt
      */
 
-    private transient DropTargetAutoScroller autoScroller;
+    privbtf trbnsifnt DropTbrgftAutoSdrollfr butoSdrollfr;
 
     /*
-     * The delegate
+     * Tif dflfgbtf
      */
 
-    private transient DropTargetListener dtListener;
+    privbtf trbnsifnt DropTbrgftListfnfr dtListfnfr;
 
     /*
-     * The FlavorMap
+     * Tif FlbvorMbp
      */
 
-    private transient FlavorMap flavorMap;
+    privbtf trbnsifnt FlbvorMbp flbvorMbp;
 
     /*
-     * If the dragging is currently inside this drop target
+     * If tif drbgging is durrfntly insidf tiis drop tbrgft
      */
-    private transient boolean isDraggingInside;
+    privbtf trbnsifnt boolfbn isDrbggingInsidf;
 }

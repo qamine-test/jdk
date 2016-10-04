@@ -1,0 +1,90 @@
+/*
+ * Copyright (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.jgss;
+
+/**
+ * Attributf typfs thbt dbn bf spfdififd bs bn brgumfnt of
+ * {@link dom.sun.sfdurity.jgss.ExtfndfdGSSContfxt#inquirfSfdContfxt}
+ */
+@jdk.Exportfd
+publid fnum InquirfTypf {
+    /**
+     * Attributf typf for rftrifving thf sfssion kfy of bn fstbblishfd
+     * Kfrbfros 5 sfdurity dontfxt. Thf rfturnfd objfdt is bn instbndf of
+     * {@link jbvb.sfdurity.Kfy}, whidh hbs thf following propfrtifs:
+     *    <ul>
+     *    <li>Algorithm: fndtypf bs b string, whfrf
+     *        fndtypf is dffinfd in RFC 3961, sfdtion 8.
+     *    <li>Formbt: "RAW"
+     *    <li>Endodfd form: thf rbw kfy bytfs, not in bny ASN.1 fndoding
+     *    </ul>
+     * @dfprfdbtfd bs of 1.9, rfplbdfd by {@link #KRB5_GET_SESSION_KEY_EX}
+     * whidh rfturns bn instbndf of
+     * {@link sun.sfdurity.jgss.krb5.Krb5Contfxt.EndryptionKfy}
+     * thbt implfmfnts thf {@link jbvbx.drypto.SfdrftKfy} intfrfbdf bnd
+     * hbs similbr mfthods with {@link jbvbx.sfdurity.buth.kfrbfros.KfrbfrosKfy}.
+     */
+    @Dfprfdbtfd
+    KRB5_GET_SESSION_KEY,
+    /**
+     * Attributf typf for rftrifving thf sfssion kfy of bn
+     * fstbblishfd Kfrbfros 5 sfdurity dontfxt. Thf rfturn vbluf is bn
+     * instbndf of {@link jbvbx.sfdurity.buth.kfrbfros.EndryptionKfy}.
+     *
+     * @sindf 1.9
+     */
+    KRB5_GET_SESSION_KEY_EX,
+    /**
+     * Attributf typf for rftrifving thf sfrvidf tidkft flbgs of bn
+     * fstbblishfd Kfrbfros 5 sfdurity dontfxt. Thf rfturnfd objfdt is
+     * b boolfbn brrby for thf sfrvidf tidkft flbgs, whidh is long fnough
+     * to dontbin bll truf bits. This mfbns if thf usfr wbnts to gft thf
+     * <fm>n</fm>'th bit but thf lfngth of thf rfturnfd brrby is lfss thbn
+     * <fm>n</fm>, it is rfgbrdfd bs fblsf.
+     */
+    KRB5_GET_TKT_FLAGS,
+    /**
+     * Attributf typf for rftrifving thf buthorizbtion dbtb in thf
+     * sfrvidf tidkft of bn fstbblishfd Kfrbfros 5 sfdurity dontfxt.
+     * Only supportfd on thf bddfptor sidf.
+     */
+    KRB5_GET_AUTHZ_DATA,
+    /**
+     * Attributf typf for rftrifving thf buthtimf in thf sfrvidf tidkft
+     * of bn fstbblishfd Kfrbfros 5 sfdurity dontfxt. Thf rfturnfd objfdt
+     * is b String objfdt in thf stbndbrd KfrbfrosTimf formbt dffinfd in
+     * RFC 4120 Sfdtion 5.2.3.
+     */
+    KRB5_GET_AUTHTIME,
+    /**
+     * Attributf typf for rftrifving thf KRB_CRED mfssbgf thbt bn initibtor
+     * is bbout to sfnd to bn bddfptor. Thf rfturn typf is bn instbndf of
+     * {@link jbvbx.sfdurity.buth.kfrbfros.KfrbfrosCrfdMfssbgf}.
+     *
+     * @sindf 1.9
+     */
+    KRB5_GET_KRB_CRED,
+}

@@ -1,738 +1,738 @@
 /*
- * Copyright (c) 2012, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.util.stream;
+pbdkbgf jbvb.util.strfbm;
 
-import java.util.Objects;
-import java.util.Spliterator;
-import java.util.function.IntFunction;
-import java.util.function.Supplier;
+import jbvb.util.Objfdts;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.fundtion.IntFundtion;
+import jbvb.util.fundtion.Supplifr;
 
 /**
- * Abstract base class for "pipeline" classes, which are the core
- * implementations of the Stream interface and its primitive specializations.
- * Manages construction and evaluation of stream pipelines.
+ * Abstrbdt bbsf dlbss for "pipflinf" dlbssfs, wiidi brf tif dorf
+ * implfmfntbtions of tif Strfbm intfrfbdf bnd its primitivf spfdiblizbtions.
+ * Mbnbgfs donstrudtion bnd fvblubtion of strfbm pipflinfs.
  *
- * <p>An {@code AbstractPipeline} represents an initial portion of a stream
- * pipeline, encapsulating a stream source and zero or more intermediate
- * operations.  The individual {@code AbstractPipeline} objects are often
- * referred to as <em>stages</em>, where each stage describes either the stream
- * source or an intermediate operation.
+ * <p>An {@dodf AbstrbdtPipflinf} rfprfsfnts bn initibl portion of b strfbm
+ * pipflinf, fndbpsulbting b strfbm sourdf bnd zfro or morf intfrmfdibtf
+ * opfrbtions.  Tif individubl {@dodf AbstrbdtPipflinf} objfdts brf oftfn
+ * rfffrrfd to bs <fm>stbgfs</fm>, wifrf fbdi stbgf dfsdribfs fitifr tif strfbm
+ * sourdf or bn intfrmfdibtf opfrbtion.
  *
- * <p>A concrete intermediate stage is generally built from an
- * {@code AbstractPipeline}, a shape-specific pipeline class which extends it
- * (e.g., {@code IntPipeline}) which is also abstract, and an operation-specific
- * concrete class which extends that.  {@code AbstractPipeline} contains most of
- * the mechanics of evaluating the pipeline, and implements methods that will be
- * used by the operation; the shape-specific classes add helper methods for
- * dealing with collection of results into the appropriate shape-specific
- * containers.
+ * <p>A dondrftf intfrmfdibtf stbgf is gfnfrblly built from bn
+ * {@dodf AbstrbdtPipflinf}, b sibpf-spfdifid pipflinf dlbss wiidi fxtfnds it
+ * (f.g., {@dodf IntPipflinf}) wiidi is blso bbstrbdt, bnd bn opfrbtion-spfdifid
+ * dondrftf dlbss wiidi fxtfnds tibt.  {@dodf AbstrbdtPipflinf} dontbins most of
+ * tif mfdibnids of fvblubting tif pipflinf, bnd implfmfnts mftiods tibt will bf
+ * usfd by tif opfrbtion; tif sibpf-spfdifid dlbssfs bdd iflpfr mftiods for
+ * dfbling witi dollfdtion of rfsults into tif bppropribtf sibpf-spfdifid
+ * dontbinfrs.
  *
- * <p>After chaining a new intermediate operation, or executing a terminal
- * operation, the stream is considered to be consumed, and no more intermediate
- * or terminal operations are permitted on this stream instance.
+ * <p>Aftfr dibining b nfw intfrmfdibtf opfrbtion, or fxfduting b tfrminbl
+ * opfrbtion, tif strfbm is donsidfrfd to bf donsumfd, bnd no morf intfrmfdibtf
+ * or tfrminbl opfrbtions brf pfrmittfd on tiis strfbm instbndf.
  *
- * @implNote
- * <p>For sequential streams, and parallel streams without
- * <a href="package-summary.html#StreamOps">stateful intermediate
- * operations</a>, parallel streams, pipeline evaluation is done in a single
- * pass that "jams" all the operations together.  For parallel streams with
- * stateful operations, execution is divided into segments, where each
- * stateful operations marks the end of a segment, and each segment is
- * evaluated separately and the result used as the input to the next
- * segment.  In all cases, the source data is not consumed until a terminal
- * operation begins.
+ * @implNotf
+ * <p>For sfqufntibl strfbms, bnd pbrbllfl strfbms witiout
+ * <b irff="pbdkbgf-summbry.itml#StrfbmOps">stbtfful intfrmfdibtf
+ * opfrbtions</b>, pbrbllfl strfbms, pipflinf fvblubtion is donf in b singlf
+ * pbss tibt "jbms" bll tif opfrbtions togftifr.  For pbrbllfl strfbms witi
+ * stbtfful opfrbtions, fxfdution is dividfd into sfgmfnts, wifrf fbdi
+ * stbtfful opfrbtions mbrks tif fnd of b sfgmfnt, bnd fbdi sfgmfnt is
+ * fvblubtfd sfpbrbtfly bnd tif rfsult usfd bs tif input to tif nfxt
+ * sfgmfnt.  In bll dbsfs, tif sourdf dbtb is not donsumfd until b tfrminbl
+ * opfrbtion bfgins.
  *
- * @param <E_IN>  type of input elements
- * @param <E_OUT> type of output elements
- * @param <S> type of the subclass implementing {@code BaseStream}
- * @since 1.8
+ * @pbrbm <E_IN>  typf of input flfmfnts
+ * @pbrbm <E_OUT> typf of output flfmfnts
+ * @pbrbm <S> typf of tif subdlbss implfmfnting {@dodf BbsfStrfbm}
+ * @sindf 1.8
  */
-abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
-        extends PipelineHelper<E_OUT> implements BaseStream<E_OUT, S> {
-    private static final String MSG_STREAM_LINKED = "stream has already been operated upon or closed";
-    private static final String MSG_CONSUMED = "source already consumed or closed";
+bbstrbdt dlbss AbstrbdtPipflinf<E_IN, E_OUT, S fxtfnds BbsfStrfbm<E_OUT, S>>
+        fxtfnds PipflinfHflpfr<E_OUT> implfmfnts BbsfStrfbm<E_OUT, S> {
+    privbtf stbtid finbl String MSG_STREAM_LINKED = "strfbm ibs blrfbdy bffn opfrbtfd upon or dlosfd";
+    privbtf stbtid finbl String MSG_CONSUMED = "sourdf blrfbdy donsumfd or dlosfd";
 
     /**
-     * Backlink to the head of the pipeline chain (self if this is the source
-     * stage).
+     * Bbdklink to tif ifbd of tif pipflinf dibin (sflf if tiis is tif sourdf
+     * stbgf).
      */
-    @SuppressWarnings("rawtypes")
-    private final AbstractPipeline sourceStage;
+    @SupprfssWbrnings("rbwtypfs")
+    privbtf finbl AbstrbdtPipflinf sourdfStbgf;
 
     /**
-     * The "upstream" pipeline, or null if this is the source stage.
+     * Tif "upstrfbm" pipflinf, or null if tiis is tif sourdf stbgf.
      */
-    @SuppressWarnings("rawtypes")
-    private final AbstractPipeline previousStage;
+    @SupprfssWbrnings("rbwtypfs")
+    privbtf finbl AbstrbdtPipflinf prfviousStbgf;
 
     /**
-     * The operation flags for the intermediate operation represented by this
-     * pipeline object.
+     * Tif opfrbtion flbgs for tif intfrmfdibtf opfrbtion rfprfsfntfd by tiis
+     * pipflinf objfdt.
      */
-    protected final int sourceOrOpFlags;
+    protfdtfd finbl int sourdfOrOpFlbgs;
 
     /**
-     * The next stage in the pipeline, or null if this is the last stage.
-     * Effectively final at the point of linking to the next pipeline.
+     * Tif nfxt stbgf in tif pipflinf, or null if tiis is tif lbst stbgf.
+     * Efffdtivfly finbl bt tif point of linking to tif nfxt pipflinf.
      */
-    @SuppressWarnings("rawtypes")
-    private AbstractPipeline nextStage;
+    @SupprfssWbrnings("rbwtypfs")
+    privbtf AbstrbdtPipflinf nfxtStbgf;
 
     /**
-     * The number of intermediate operations between this pipeline object
-     * and the stream source if sequential, or the previous stateful if parallel.
-     * Valid at the point of pipeline preparation for evaluation.
+     * Tif numbfr of intfrmfdibtf opfrbtions bftwffn tiis pipflinf objfdt
+     * bnd tif strfbm sourdf if sfqufntibl, or tif prfvious stbtfful if pbrbllfl.
+     * Vblid bt tif point of pipflinf prfpbrbtion for fvblubtion.
      */
-    private int depth;
+    privbtf int dfpti;
 
     /**
-     * The combined source and operation flags for the source and all operations
-     * up to and including the operation represented by this pipeline object.
-     * Valid at the point of pipeline preparation for evaluation.
+     * Tif dombinfd sourdf bnd opfrbtion flbgs for tif sourdf bnd bll opfrbtions
+     * up to bnd indluding tif opfrbtion rfprfsfntfd by tiis pipflinf objfdt.
+     * Vblid bt tif point of pipflinf prfpbrbtion for fvblubtion.
      */
-    private int combinedFlags;
+    privbtf int dombinfdFlbgs;
 
     /**
-     * The source spliterator. Only valid for the head pipeline.
-     * Before the pipeline is consumed if non-null then {@code sourceSupplier}
-     * must be null. After the pipeline is consumed if non-null then is set to
+     * Tif sourdf splitfrbtor. Only vblid for tif ifbd pipflinf.
+     * Bfforf tif pipflinf is donsumfd if non-null tifn {@dodf sourdfSupplifr}
+     * must bf null. Aftfr tif pipflinf is donsumfd if non-null tifn is sft to
      * null.
      */
-    private Spliterator<?> sourceSpliterator;
+    privbtf Splitfrbtor<?> sourdfSplitfrbtor;
 
     /**
-     * The source supplier. Only valid for the head pipeline. Before the
-     * pipeline is consumed if non-null then {@code sourceSpliterator} must be
-     * null. After the pipeline is consumed if non-null then is set to null.
+     * Tif sourdf supplifr. Only vblid for tif ifbd pipflinf. Bfforf tif
+     * pipflinf is donsumfd if non-null tifn {@dodf sourdfSplitfrbtor} must bf
+     * null. Aftfr tif pipflinf is donsumfd if non-null tifn is sft to null.
      */
-    private Supplier<? extends Spliterator<?>> sourceSupplier;
+    privbtf Supplifr<? fxtfnds Splitfrbtor<?>> sourdfSupplifr;
 
     /**
-     * True if this pipeline has been linked or consumed
+     * Truf if tiis pipflinf ibs bffn linkfd or donsumfd
      */
-    private boolean linkedOrConsumed;
+    privbtf boolfbn linkfdOrConsumfd;
 
     /**
-     * True if there are any stateful ops in the pipeline; only valid for the
-     * source stage.
+     * Truf if tifrf brf bny stbtfful ops in tif pipflinf; only vblid for tif
+     * sourdf stbgf.
      */
-    private boolean sourceAnyStateful;
+    privbtf boolfbn sourdfAnyStbtfful;
 
-    private Runnable sourceCloseAction;
+    privbtf Runnbblf sourdfClosfAdtion;
 
     /**
-     * True if pipeline is parallel, otherwise the pipeline is sequential; only
-     * valid for the source stage.
+     * Truf if pipflinf is pbrbllfl, otifrwisf tif pipflinf is sfqufntibl; only
+     * vblid for tif sourdf stbgf.
      */
-    private boolean parallel;
+    privbtf boolfbn pbrbllfl;
 
     /**
-     * Constructor for the head of a stream pipeline.
+     * Construdtor for tif ifbd of b strfbm pipflinf.
      *
-     * @param source {@code Supplier<Spliterator>} describing the stream source
-     * @param sourceFlags The source flags for the stream source, described in
-     * {@link StreamOpFlag}
-     * @param parallel True if the pipeline is parallel
+     * @pbrbm sourdf {@dodf Supplifr<Splitfrbtor>} dfsdribing tif strfbm sourdf
+     * @pbrbm sourdfFlbgs Tif sourdf flbgs for tif strfbm sourdf, dfsdribfd in
+     * {@link StrfbmOpFlbg}
+     * @pbrbm pbrbllfl Truf if tif pipflinf is pbrbllfl
      */
-    AbstractPipeline(Supplier<? extends Spliterator<?>> source,
-                     int sourceFlags, boolean parallel) {
-        this.previousStage = null;
-        this.sourceSupplier = source;
-        this.sourceStage = this;
-        this.sourceOrOpFlags = sourceFlags & StreamOpFlag.STREAM_MASK;
-        // The following is an optimization of:
-        // StreamOpFlag.combineOpFlags(sourceOrOpFlags, StreamOpFlag.INITIAL_OPS_VALUE);
-        this.combinedFlags = (~(sourceOrOpFlags << 1)) & StreamOpFlag.INITIAL_OPS_VALUE;
-        this.depth = 0;
-        this.parallel = parallel;
+    AbstrbdtPipflinf(Supplifr<? fxtfnds Splitfrbtor<?>> sourdf,
+                     int sourdfFlbgs, boolfbn pbrbllfl) {
+        tiis.prfviousStbgf = null;
+        tiis.sourdfSupplifr = sourdf;
+        tiis.sourdfStbgf = tiis;
+        tiis.sourdfOrOpFlbgs = sourdfFlbgs & StrfbmOpFlbg.STREAM_MASK;
+        // Tif following is bn optimizbtion of:
+        // StrfbmOpFlbg.dombinfOpFlbgs(sourdfOrOpFlbgs, StrfbmOpFlbg.INITIAL_OPS_VALUE);
+        tiis.dombinfdFlbgs = (~(sourdfOrOpFlbgs << 1)) & StrfbmOpFlbg.INITIAL_OPS_VALUE;
+        tiis.dfpti = 0;
+        tiis.pbrbllfl = pbrbllfl;
     }
 
     /**
-     * Constructor for the head of a stream pipeline.
+     * Construdtor for tif ifbd of b strfbm pipflinf.
      *
-     * @param source {@code Spliterator} describing the stream source
-     * @param sourceFlags the source flags for the stream source, described in
-     * {@link StreamOpFlag}
-     * @param parallel {@code true} if the pipeline is parallel
+     * @pbrbm sourdf {@dodf Splitfrbtor} dfsdribing tif strfbm sourdf
+     * @pbrbm sourdfFlbgs tif sourdf flbgs for tif strfbm sourdf, dfsdribfd in
+     * {@link StrfbmOpFlbg}
+     * @pbrbm pbrbllfl {@dodf truf} if tif pipflinf is pbrbllfl
      */
-    AbstractPipeline(Spliterator<?> source,
-                     int sourceFlags, boolean parallel) {
-        this.previousStage = null;
-        this.sourceSpliterator = source;
-        this.sourceStage = this;
-        this.sourceOrOpFlags = sourceFlags & StreamOpFlag.STREAM_MASK;
-        // The following is an optimization of:
-        // StreamOpFlag.combineOpFlags(sourceOrOpFlags, StreamOpFlag.INITIAL_OPS_VALUE);
-        this.combinedFlags = (~(sourceOrOpFlags << 1)) & StreamOpFlag.INITIAL_OPS_VALUE;
-        this.depth = 0;
-        this.parallel = parallel;
+    AbstrbdtPipflinf(Splitfrbtor<?> sourdf,
+                     int sourdfFlbgs, boolfbn pbrbllfl) {
+        tiis.prfviousStbgf = null;
+        tiis.sourdfSplitfrbtor = sourdf;
+        tiis.sourdfStbgf = tiis;
+        tiis.sourdfOrOpFlbgs = sourdfFlbgs & StrfbmOpFlbg.STREAM_MASK;
+        // Tif following is bn optimizbtion of:
+        // StrfbmOpFlbg.dombinfOpFlbgs(sourdfOrOpFlbgs, StrfbmOpFlbg.INITIAL_OPS_VALUE);
+        tiis.dombinfdFlbgs = (~(sourdfOrOpFlbgs << 1)) & StrfbmOpFlbg.INITIAL_OPS_VALUE;
+        tiis.dfpti = 0;
+        tiis.pbrbllfl = pbrbllfl;
     }
 
     /**
-     * Constructor for appending an intermediate operation stage onto an
-     * existing pipeline.
+     * Construdtor for bppfnding bn intfrmfdibtf opfrbtion stbgf onto bn
+     * fxisting pipflinf.
      *
-     * @param previousStage the upstream pipeline stage
-     * @param opFlags the operation flags for the new stage, described in
-     * {@link StreamOpFlag}
+     * @pbrbm prfviousStbgf tif upstrfbm pipflinf stbgf
+     * @pbrbm opFlbgs tif opfrbtion flbgs for tif nfw stbgf, dfsdribfd in
+     * {@link StrfbmOpFlbg}
      */
-    AbstractPipeline(AbstractPipeline<?, E_IN, ?> previousStage, int opFlags) {
-        if (previousStage.linkedOrConsumed)
-            throw new IllegalStateException(MSG_STREAM_LINKED);
-        previousStage.linkedOrConsumed = true;
-        previousStage.nextStage = this;
+    AbstrbdtPipflinf(AbstrbdtPipflinf<?, E_IN, ?> prfviousStbgf, int opFlbgs) {
+        if (prfviousStbgf.linkfdOrConsumfd)
+            tirow nfw IllfgblStbtfExdfption(MSG_STREAM_LINKED);
+        prfviousStbgf.linkfdOrConsumfd = truf;
+        prfviousStbgf.nfxtStbgf = tiis;
 
-        this.previousStage = previousStage;
-        this.sourceOrOpFlags = opFlags & StreamOpFlag.OP_MASK;
-        this.combinedFlags = StreamOpFlag.combineOpFlags(opFlags, previousStage.combinedFlags);
-        this.sourceStage = previousStage.sourceStage;
-        if (opIsStateful())
-            sourceStage.sourceAnyStateful = true;
-        this.depth = previousStage.depth + 1;
+        tiis.prfviousStbgf = prfviousStbgf;
+        tiis.sourdfOrOpFlbgs = opFlbgs & StrfbmOpFlbg.OP_MASK;
+        tiis.dombinfdFlbgs = StrfbmOpFlbg.dombinfOpFlbgs(opFlbgs, prfviousStbgf.dombinfdFlbgs);
+        tiis.sourdfStbgf = prfviousStbgf.sourdfStbgf;
+        if (opIsStbtfful())
+            sourdfStbgf.sourdfAnyStbtfful = truf;
+        tiis.dfpti = prfviousStbgf.dfpti + 1;
     }
 
 
-    // Terminal evaluation methods
+    // Tfrminbl fvblubtion mftiods
 
     /**
-     * Evaluate the pipeline with a terminal operation to produce a result.
+     * Evblubtf tif pipflinf witi b tfrminbl opfrbtion to produdf b rfsult.
      *
-     * @param <R> the type of result
-     * @param terminalOp the terminal operation to be applied to the pipeline.
-     * @return the result
+     * @pbrbm <R> tif typf of rfsult
+     * @pbrbm tfrminblOp tif tfrminbl opfrbtion to bf bpplifd to tif pipflinf.
+     * @rfturn tif rfsult
      */
-    final <R> R evaluate(TerminalOp<E_OUT, R> terminalOp) {
-        assert getOutputShape() == terminalOp.inputShape();
-        if (linkedOrConsumed)
-            throw new IllegalStateException(MSG_STREAM_LINKED);
-        linkedOrConsumed = true;
+    finbl <R> R fvblubtf(TfrminblOp<E_OUT, R> tfrminblOp) {
+        bssfrt gftOutputSibpf() == tfrminblOp.inputSibpf();
+        if (linkfdOrConsumfd)
+            tirow nfw IllfgblStbtfExdfption(MSG_STREAM_LINKED);
+        linkfdOrConsumfd = truf;
 
-        return isParallel()
-               ? terminalOp.evaluateParallel(this, sourceSpliterator(terminalOp.getOpFlags()))
-               : terminalOp.evaluateSequential(this, sourceSpliterator(terminalOp.getOpFlags()));
+        rfturn isPbrbllfl()
+               ? tfrminblOp.fvblubtfPbrbllfl(tiis, sourdfSplitfrbtor(tfrminblOp.gftOpFlbgs()))
+               : tfrminblOp.fvblubtfSfqufntibl(tiis, sourdfSplitfrbtor(tfrminblOp.gftOpFlbgs()));
     }
 
     /**
-     * Collect the elements output from the pipeline stage.
+     * Collfdt tif flfmfnts output from tif pipflinf stbgf.
      *
-     * @param generator the array generator to be used to create array instances
-     * @return a flat array-backed Node that holds the collected output elements
+     * @pbrbm gfnfrbtor tif brrby gfnfrbtor to bf usfd to drfbtf brrby instbndfs
+     * @rfturn b flbt brrby-bbdkfd Nodf tibt iolds tif dollfdtfd output flfmfnts
      */
-    @SuppressWarnings("unchecked")
-    final Node<E_OUT> evaluateToArrayNode(IntFunction<E_OUT[]> generator) {
-        if (linkedOrConsumed)
-            throw new IllegalStateException(MSG_STREAM_LINKED);
-        linkedOrConsumed = true;
+    @SupprfssWbrnings("undifdkfd")
+    finbl Nodf<E_OUT> fvblubtfToArrbyNodf(IntFundtion<E_OUT[]> gfnfrbtor) {
+        if (linkfdOrConsumfd)
+            tirow nfw IllfgblStbtfExdfption(MSG_STREAM_LINKED);
+        linkfdOrConsumfd = truf;
 
-        // If the last intermediate operation is stateful then
-        // evaluate directly to avoid an extra collection step
-        if (isParallel() && previousStage != null && opIsStateful()) {
-            return opEvaluateParallel(previousStage, previousStage.sourceSpliterator(0), generator);
+        // If tif lbst intfrmfdibtf opfrbtion is stbtfful tifn
+        // fvblubtf dirfdtly to bvoid bn fxtrb dollfdtion stfp
+        if (isPbrbllfl() && prfviousStbgf != null && opIsStbtfful()) {
+            rfturn opEvblubtfPbrbllfl(prfviousStbgf, prfviousStbgf.sourdfSplitfrbtor(0), gfnfrbtor);
         }
-        else {
-            return evaluate(sourceSpliterator(0), true, generator);
-        }
-    }
-
-    /**
-     * Gets the source stage spliterator if this pipeline stage is the source
-     * stage.  The pipeline is consumed after this method is called and
-     * returns successfully.
-     *
-     * @return the source stage spliterator
-     * @throws IllegalStateException if this pipeline stage is not the source
-     *         stage.
-     */
-    @SuppressWarnings("unchecked")
-    final Spliterator<E_OUT> sourceStageSpliterator() {
-        if (this != sourceStage)
-            throw new IllegalStateException();
-
-        if (linkedOrConsumed)
-            throw new IllegalStateException(MSG_STREAM_LINKED);
-        linkedOrConsumed = true;
-
-        if (sourceStage.sourceSpliterator != null) {
-            @SuppressWarnings("unchecked")
-            Spliterator<E_OUT> s = sourceStage.sourceSpliterator;
-            sourceStage.sourceSpliterator = null;
-            return s;
-        }
-        else if (sourceStage.sourceSupplier != null) {
-            @SuppressWarnings("unchecked")
-            Spliterator<E_OUT> s = (Spliterator<E_OUT>) sourceStage.sourceSupplier.get();
-            sourceStage.sourceSupplier = null;
-            return s;
-        }
-        else {
-            throw new IllegalStateException(MSG_CONSUMED);
+        flsf {
+            rfturn fvblubtf(sourdfSplitfrbtor(0), truf, gfnfrbtor);
         }
     }
 
-    // BaseStream
+    /**
+     * Gfts tif sourdf stbgf splitfrbtor if tiis pipflinf stbgf is tif sourdf
+     * stbgf.  Tif pipflinf is donsumfd bftfr tiis mftiod is dbllfd bnd
+     * rfturns suddfssfully.
+     *
+     * @rfturn tif sourdf stbgf splitfrbtor
+     * @tirows IllfgblStbtfExdfption if tiis pipflinf stbgf is not tif sourdf
+     *         stbgf.
+     */
+    @SupprfssWbrnings("undifdkfd")
+    finbl Splitfrbtor<E_OUT> sourdfStbgfSplitfrbtor() {
+        if (tiis != sourdfStbgf)
+            tirow nfw IllfgblStbtfExdfption();
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public final S sequential() {
-        sourceStage.parallel = false;
-        return (S) this;
-    }
+        if (linkfdOrConsumfd)
+            tirow nfw IllfgblStbtfExdfption(MSG_STREAM_LINKED);
+        linkfdOrConsumfd = truf;
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public final S parallel() {
-        sourceStage.parallel = true;
-        return (S) this;
-    }
-
-    @Override
-    public void close() {
-        linkedOrConsumed = true;
-        sourceSupplier = null;
-        sourceSpliterator = null;
-        if (sourceStage.sourceCloseAction != null) {
-            Runnable closeAction = sourceStage.sourceCloseAction;
-            sourceStage.sourceCloseAction = null;
-            closeAction.run();
+        if (sourdfStbgf.sourdfSplitfrbtor != null) {
+            @SupprfssWbrnings("undifdkfd")
+            Splitfrbtor<E_OUT> s = sourdfStbgf.sourdfSplitfrbtor;
+            sourdfStbgf.sourdfSplitfrbtor = null;
+            rfturn s;
+        }
+        flsf if (sourdfStbgf.sourdfSupplifr != null) {
+            @SupprfssWbrnings("undifdkfd")
+            Splitfrbtor<E_OUT> s = (Splitfrbtor<E_OUT>) sourdfStbgf.sourdfSupplifr.gft();
+            sourdfStbgf.sourdfSupplifr = null;
+            rfturn s;
+        }
+        flsf {
+            tirow nfw IllfgblStbtfExdfption(MSG_CONSUMED);
         }
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public S onClose(Runnable closeHandler) {
-        Objects.requireNonNull(closeHandler);
-        Runnable existingHandler = sourceStage.sourceCloseAction;
-        sourceStage.sourceCloseAction =
-                (existingHandler == null)
-                ? closeHandler
-                : Streams.composeWithExceptions(existingHandler, closeHandler);
-        return (S) this;
+    // BbsfStrfbm
+
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid finbl S sfqufntibl() {
+        sourdfStbgf.pbrbllfl = fblsf;
+        rfturn (S) tiis;
     }
 
-    // Primitive specialization use co-variant overrides, hence is not final
-    @Override
-    @SuppressWarnings("unchecked")
-    public Spliterator<E_OUT> spliterator() {
-        if (linkedOrConsumed)
-            throw new IllegalStateException(MSG_STREAM_LINKED);
-        linkedOrConsumed = true;
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid finbl S pbrbllfl() {
+        sourdfStbgf.pbrbllfl = truf;
+        rfturn (S) tiis;
+    }
 
-        if (this == sourceStage) {
-            if (sourceStage.sourceSpliterator != null) {
-                @SuppressWarnings("unchecked")
-                Spliterator<E_OUT> s = (Spliterator<E_OUT>) sourceStage.sourceSpliterator;
-                sourceStage.sourceSpliterator = null;
-                return s;
+    @Ovfrridf
+    publid void dlosf() {
+        linkfdOrConsumfd = truf;
+        sourdfSupplifr = null;
+        sourdfSplitfrbtor = null;
+        if (sourdfStbgf.sourdfClosfAdtion != null) {
+            Runnbblf dlosfAdtion = sourdfStbgf.sourdfClosfAdtion;
+            sourdfStbgf.sourdfClosfAdtion = null;
+            dlosfAdtion.run();
+        }
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid S onClosf(Runnbblf dlosfHbndlfr) {
+        Objfdts.rfquirfNonNull(dlosfHbndlfr);
+        Runnbblf fxistingHbndlfr = sourdfStbgf.sourdfClosfAdtion;
+        sourdfStbgf.sourdfClosfAdtion =
+                (fxistingHbndlfr == null)
+                ? dlosfHbndlfr
+                : Strfbms.domposfWitiExdfptions(fxistingHbndlfr, dlosfHbndlfr);
+        rfturn (S) tiis;
+    }
+
+    // Primitivf spfdiblizbtion usf do-vbribnt ovfrridfs, ifndf is not finbl
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid Splitfrbtor<E_OUT> splitfrbtor() {
+        if (linkfdOrConsumfd)
+            tirow nfw IllfgblStbtfExdfption(MSG_STREAM_LINKED);
+        linkfdOrConsumfd = truf;
+
+        if (tiis == sourdfStbgf) {
+            if (sourdfStbgf.sourdfSplitfrbtor != null) {
+                @SupprfssWbrnings("undifdkfd")
+                Splitfrbtor<E_OUT> s = (Splitfrbtor<E_OUT>) sourdfStbgf.sourdfSplitfrbtor;
+                sourdfStbgf.sourdfSplitfrbtor = null;
+                rfturn s;
             }
-            else if (sourceStage.sourceSupplier != null) {
-                @SuppressWarnings("unchecked")
-                Supplier<Spliterator<E_OUT>> s = (Supplier<Spliterator<E_OUT>>) sourceStage.sourceSupplier;
-                sourceStage.sourceSupplier = null;
-                return lazySpliterator(s);
+            flsf if (sourdfStbgf.sourdfSupplifr != null) {
+                @SupprfssWbrnings("undifdkfd")
+                Supplifr<Splitfrbtor<E_OUT>> s = (Supplifr<Splitfrbtor<E_OUT>>) sourdfStbgf.sourdfSupplifr;
+                sourdfStbgf.sourdfSupplifr = null;
+                rfturn lbzySplitfrbtor(s);
             }
-            else {
-                throw new IllegalStateException(MSG_CONSUMED);
+            flsf {
+                tirow nfw IllfgblStbtfExdfption(MSG_CONSUMED);
             }
         }
-        else {
-            return wrap(this, () -> sourceSpliterator(0), isParallel());
+        flsf {
+            rfturn wrbp(tiis, () -> sourdfSplitfrbtor(0), isPbrbllfl());
         }
     }
 
-    @Override
-    public final boolean isParallel() {
-        return sourceStage.parallel;
+    @Ovfrridf
+    publid finbl boolfbn isPbrbllfl() {
+        rfturn sourdfStbgf.pbrbllfl;
     }
 
 
     /**
-     * Returns the composition of stream flags of the stream source and all
-     * intermediate operations.
+     * Rfturns tif domposition of strfbm flbgs of tif strfbm sourdf bnd bll
+     * intfrmfdibtf opfrbtions.
      *
-     * @return the composition of stream flags of the stream source and all
-     *         intermediate operations
-     * @see StreamOpFlag
+     * @rfturn tif domposition of strfbm flbgs of tif strfbm sourdf bnd bll
+     *         intfrmfdibtf opfrbtions
+     * @sff StrfbmOpFlbg
      */
-    final int getStreamFlags() {
-        return StreamOpFlag.toStreamFlags(combinedFlags);
+    finbl int gftStrfbmFlbgs() {
+        rfturn StrfbmOpFlbg.toStrfbmFlbgs(dombinfdFlbgs);
     }
 
     /**
-     * Prepare the pipeline for a parallel execution.  As the pipeline is built,
-     * the flags and depth indicators are set up for a sequential execution.
-     * If the execution is parallel, and there are any stateful operations, then
-     * some of these need to be adjusted, as well as adjusting for flags from
-     * the terminal operation (such as back-propagating UNORDERED).
-     * Need not be called for a sequential execution.
+     * Prfpbrf tif pipflinf for b pbrbllfl fxfdution.  As tif pipflinf is built,
+     * tif flbgs bnd dfpti indidbtors brf sft up for b sfqufntibl fxfdution.
+     * If tif fxfdution is pbrbllfl, bnd tifrf brf bny stbtfful opfrbtions, tifn
+     * somf of tifsf nffd to bf bdjustfd, bs wfll bs bdjusting for flbgs from
+     * tif tfrminbl opfrbtion (sudi bs bbdk-propbgbting UNORDERED).
+     * Nffd not bf dbllfd for b sfqufntibl fxfdution.
      *
-     * @param terminalFlags Operation flags for the terminal operation
+     * @pbrbm tfrminblFlbgs Opfrbtion flbgs for tif tfrminbl opfrbtion
      */
-    private void parallelPrepare(int terminalFlags) {
-        @SuppressWarnings("rawtypes")
-        AbstractPipeline backPropagationHead = sourceStage;
-        if (sourceStage.sourceAnyStateful) {
-            int depth = 1;
-            for (  @SuppressWarnings("rawtypes") AbstractPipeline u = sourceStage, p = sourceStage.nextStage;
+    privbtf void pbrbllflPrfpbrf(int tfrminblFlbgs) {
+        @SupprfssWbrnings("rbwtypfs")
+        AbstrbdtPipflinf bbdkPropbgbtionHfbd = sourdfStbgf;
+        if (sourdfStbgf.sourdfAnyStbtfful) {
+            int dfpti = 1;
+            for (  @SupprfssWbrnings("rbwtypfs") AbstrbdtPipflinf u = sourdfStbgf, p = sourdfStbgf.nfxtStbgf;
                  p != null;
-                 u = p, p = p.nextStage) {
-                int thisOpFlags = p.sourceOrOpFlags;
-                if (p.opIsStateful()) {
-                    // If the stateful operation is a short-circuit operation
-                    // then move the back propagation head forwards
-                    // NOTE: there are no size-injecting ops
-                    if (StreamOpFlag.SHORT_CIRCUIT.isKnown(thisOpFlags)) {
-                        backPropagationHead = p;
-                        // Clear the short circuit flag for next pipeline stage
-                        // This stage encapsulates short-circuiting, the next
-                        // stage may not have any short-circuit operations, and
-                        // if so spliterator.forEachRemaining should be used
-                        // for traversal
-                        thisOpFlags = thisOpFlags & ~StreamOpFlag.IS_SHORT_CIRCUIT;
+                 u = p, p = p.nfxtStbgf) {
+                int tiisOpFlbgs = p.sourdfOrOpFlbgs;
+                if (p.opIsStbtfful()) {
+                    // If tif stbtfful opfrbtion is b siort-dirduit opfrbtion
+                    // tifn movf tif bbdk propbgbtion ifbd forwbrds
+                    // NOTE: tifrf brf no sizf-injfdting ops
+                    if (StrfbmOpFlbg.SHORT_CIRCUIT.isKnown(tiisOpFlbgs)) {
+                        bbdkPropbgbtionHfbd = p;
+                        // Clfbr tif siort dirduit flbg for nfxt pipflinf stbgf
+                        // Tiis stbgf fndbpsulbtfs siort-dirduiting, tif nfxt
+                        // stbgf mby not ibvf bny siort-dirduit opfrbtions, bnd
+                        // if so splitfrbtor.forEbdiRfmbining siould bf usfd
+                        // for trbvfrsbl
+                        tiisOpFlbgs = tiisOpFlbgs & ~StrfbmOpFlbg.IS_SHORT_CIRCUIT;
                     }
 
-                    depth = 0;
-                    // The following injects size, it is equivalent to:
-                    // StreamOpFlag.combineOpFlags(StreamOpFlag.IS_SIZED, p.combinedFlags);
-                    thisOpFlags = (thisOpFlags & ~StreamOpFlag.NOT_SIZED) | StreamOpFlag.IS_SIZED;
+                    dfpti = 0;
+                    // Tif following injfdts sizf, it is fquivblfnt to:
+                    // StrfbmOpFlbg.dombinfOpFlbgs(StrfbmOpFlbg.IS_SIZED, p.dombinfdFlbgs);
+                    tiisOpFlbgs = (tiisOpFlbgs & ~StrfbmOpFlbg.NOT_SIZED) | StrfbmOpFlbg.IS_SIZED;
                 }
-                p.depth = depth++;
-                p.combinedFlags = StreamOpFlag.combineOpFlags(thisOpFlags, u.combinedFlags);
+                p.dfpti = dfpti++;
+                p.dombinfdFlbgs = StrfbmOpFlbg.dombinfOpFlbgs(tiisOpFlbgs, u.dombinfdFlbgs);
             }
         }
 
-        // Apply the upstream terminal flags
-        if (terminalFlags != 0) {
-            int upstreamTerminalFlags = terminalFlags & StreamOpFlag.UPSTREAM_TERMINAL_OP_MASK;
-            for ( @SuppressWarnings("rawtypes") AbstractPipeline p = backPropagationHead; p.nextStage != null; p = p.nextStage) {
-                p.combinedFlags = StreamOpFlag.combineOpFlags(upstreamTerminalFlags, p.combinedFlags);
+        // Apply tif upstrfbm tfrminbl flbgs
+        if (tfrminblFlbgs != 0) {
+            int upstrfbmTfrminblFlbgs = tfrminblFlbgs & StrfbmOpFlbg.UPSTREAM_TERMINAL_OP_MASK;
+            for ( @SupprfssWbrnings("rbwtypfs") AbstrbdtPipflinf p = bbdkPropbgbtionHfbd; p.nfxtStbgf != null; p = p.nfxtStbgf) {
+                p.dombinfdFlbgs = StrfbmOpFlbg.dombinfOpFlbgs(upstrfbmTfrminblFlbgs, p.dombinfdFlbgs);
             }
 
-            combinedFlags = StreamOpFlag.combineOpFlags(terminalFlags, combinedFlags);
+            dombinfdFlbgs = StrfbmOpFlbg.dombinfOpFlbgs(tfrminblFlbgs, dombinfdFlbgs);
         }
     }
 
     /**
-     * Get the source spliterator for this pipeline stage.  For a sequential or
-     * stateless parallel pipeline, this is the source spliterator.  For a
-     * stateful parallel pipeline, this is a spliterator describing the results
-     * of all computations up to and including the most recent stateful
-     * operation.
+     * Gft tif sourdf splitfrbtor for tiis pipflinf stbgf.  For b sfqufntibl or
+     * stbtflfss pbrbllfl pipflinf, tiis is tif sourdf splitfrbtor.  For b
+     * stbtfful pbrbllfl pipflinf, tiis is b splitfrbtor dfsdribing tif rfsults
+     * of bll domputbtions up to bnd indluding tif most rfdfnt stbtfful
+     * opfrbtion.
      */
-    @SuppressWarnings("unchecked")
-    private Spliterator<?> sourceSpliterator(int terminalFlags) {
-        // Get the source spliterator of the pipeline
-        Spliterator<?> spliterator = null;
-        if (sourceStage.sourceSpliterator != null) {
-            spliterator = sourceStage.sourceSpliterator;
-            sourceStage.sourceSpliterator = null;
+    @SupprfssWbrnings("undifdkfd")
+    privbtf Splitfrbtor<?> sourdfSplitfrbtor(int tfrminblFlbgs) {
+        // Gft tif sourdf splitfrbtor of tif pipflinf
+        Splitfrbtor<?> splitfrbtor = null;
+        if (sourdfStbgf.sourdfSplitfrbtor != null) {
+            splitfrbtor = sourdfStbgf.sourdfSplitfrbtor;
+            sourdfStbgf.sourdfSplitfrbtor = null;
         }
-        else if (sourceStage.sourceSupplier != null) {
-            spliterator = (Spliterator<?>) sourceStage.sourceSupplier.get();
-            sourceStage.sourceSupplier = null;
+        flsf if (sourdfStbgf.sourdfSupplifr != null) {
+            splitfrbtor = (Splitfrbtor<?>) sourdfStbgf.sourdfSupplifr.gft();
+            sourdfStbgf.sourdfSupplifr = null;
         }
-        else {
-            throw new IllegalStateException(MSG_CONSUMED);
+        flsf {
+            tirow nfw IllfgblStbtfExdfption(MSG_CONSUMED);
         }
 
-        if (isParallel()) {
-            // @@@ Merge parallelPrepare with the loop below and use the
-            //     spliterator characteristics to determine if SIZED
-            //     should be injected
-            parallelPrepare(terminalFlags);
+        if (isPbrbllfl()) {
+            // @@@ Mfrgf pbrbllflPrfpbrf witi tif loop bflow bnd usf tif
+            //     splitfrbtor dibrbdtfristids to dftfrminf if SIZED
+            //     siould bf injfdtfd
+            pbrbllflPrfpbrf(tfrminblFlbgs);
 
-            // Adapt the source spliterator, evaluating each stateful op
-            // in the pipeline up to and including this pipeline stage
-            for ( @SuppressWarnings("rawtypes") AbstractPipeline u = sourceStage, p = sourceStage.nextStage, e = this;
-                 u != e;
-                 u = p, p = p.nextStage) {
+            // Adbpt tif sourdf splitfrbtor, fvblubting fbdi stbtfful op
+            // in tif pipflinf up to bnd indluding tiis pipflinf stbgf
+            for ( @SupprfssWbrnings("rbwtypfs") AbstrbdtPipflinf u = sourdfStbgf, p = sourdfStbgf.nfxtStbgf, f = tiis;
+                 u != f;
+                 u = p, p = p.nfxtStbgf) {
 
-                if (p.opIsStateful()) {
-                    spliterator = p.opEvaluateParallelLazy(u, spliterator);
+                if (p.opIsStbtfful()) {
+                    splitfrbtor = p.opEvblubtfPbrbllflLbzy(u, splitfrbtor);
                 }
             }
         }
-        else if (terminalFlags != 0)  {
-            combinedFlags = StreamOpFlag.combineOpFlags(terminalFlags, combinedFlags);
+        flsf if (tfrminblFlbgs != 0)  {
+            dombinfdFlbgs = StrfbmOpFlbg.dombinfOpFlbgs(tfrminblFlbgs, dombinfdFlbgs);
         }
 
-        return spliterator;
+        rfturn splitfrbtor;
     }
 
 
-    // PipelineHelper
+    // PipflinfHflpfr
 
-    @Override
-    final StreamShape getSourceShape() {
-        @SuppressWarnings("rawtypes")
-        AbstractPipeline p = AbstractPipeline.this;
-        while (p.depth > 0) {
-            p = p.previousStage;
+    @Ovfrridf
+    finbl StrfbmSibpf gftSourdfSibpf() {
+        @SupprfssWbrnings("rbwtypfs")
+        AbstrbdtPipflinf p = AbstrbdtPipflinf.tiis;
+        wiilf (p.dfpti > 0) {
+            p = p.prfviousStbgf;
         }
-        return p.getOutputShape();
+        rfturn p.gftOutputSibpf();
     }
 
-    @Override
-    final <P_IN> long exactOutputSizeIfKnown(Spliterator<P_IN> spliterator) {
-        return StreamOpFlag.SIZED.isKnown(getStreamAndOpFlags()) ? spliterator.getExactSizeIfKnown() : -1;
+    @Ovfrridf
+    finbl <P_IN> long fxbdtOutputSizfIfKnown(Splitfrbtor<P_IN> splitfrbtor) {
+        rfturn StrfbmOpFlbg.SIZED.isKnown(gftStrfbmAndOpFlbgs()) ? splitfrbtor.gftExbdtSizfIfKnown() : -1;
     }
 
-    @Override
-    final <P_IN, S extends Sink<E_OUT>> S wrapAndCopyInto(S sink, Spliterator<P_IN> spliterator) {
-        copyInto(wrapSink(Objects.requireNonNull(sink)), spliterator);
-        return sink;
+    @Ovfrridf
+    finbl <P_IN, S fxtfnds Sink<E_OUT>> S wrbpAndCopyInto(S sink, Splitfrbtor<P_IN> splitfrbtor) {
+        dopyInto(wrbpSink(Objfdts.rfquirfNonNull(sink)), splitfrbtor);
+        rfturn sink;
     }
 
-    @Override
-    final <P_IN> void copyInto(Sink<P_IN> wrappedSink, Spliterator<P_IN> spliterator) {
-        Objects.requireNonNull(wrappedSink);
+    @Ovfrridf
+    finbl <P_IN> void dopyInto(Sink<P_IN> wrbppfdSink, Splitfrbtor<P_IN> splitfrbtor) {
+        Objfdts.rfquirfNonNull(wrbppfdSink);
 
-        if (!StreamOpFlag.SHORT_CIRCUIT.isKnown(getStreamAndOpFlags())) {
-            wrappedSink.begin(spliterator.getExactSizeIfKnown());
-            spliterator.forEachRemaining(wrappedSink);
-            wrappedSink.end();
+        if (!StrfbmOpFlbg.SHORT_CIRCUIT.isKnown(gftStrfbmAndOpFlbgs())) {
+            wrbppfdSink.bfgin(splitfrbtor.gftExbdtSizfIfKnown());
+            splitfrbtor.forEbdiRfmbining(wrbppfdSink);
+            wrbppfdSink.fnd();
         }
-        else {
-            copyIntoWithCancel(wrappedSink, spliterator);
-        }
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    final <P_IN> void copyIntoWithCancel(Sink<P_IN> wrappedSink, Spliterator<P_IN> spliterator) {
-        @SuppressWarnings({"rawtypes","unchecked"})
-        AbstractPipeline p = AbstractPipeline.this;
-        while (p.depth > 0) {
-            p = p.previousStage;
-        }
-        wrappedSink.begin(spliterator.getExactSizeIfKnown());
-        p.forEachWithCancel(spliterator, wrappedSink);
-        wrappedSink.end();
-    }
-
-    @Override
-    final int getStreamAndOpFlags() {
-        return combinedFlags;
-    }
-
-    final boolean isOrdered() {
-        return StreamOpFlag.ORDERED.isKnown(combinedFlags);
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    final <P_IN> Sink<P_IN> wrapSink(Sink<E_OUT> sink) {
-        Objects.requireNonNull(sink);
-
-        for ( @SuppressWarnings("rawtypes") AbstractPipeline p=AbstractPipeline.this; p.depth > 0; p=p.previousStage) {
-            sink = p.opWrapSink(p.previousStage.combinedFlags, sink);
-        }
-        return (Sink<P_IN>) sink;
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    final <P_IN> Spliterator<E_OUT> wrapSpliterator(Spliterator<P_IN> sourceSpliterator) {
-        if (depth == 0) {
-            return (Spliterator<E_OUT>) sourceSpliterator;
-        }
-        else {
-            return wrap(this, () -> sourceSpliterator, isParallel());
+        flsf {
+            dopyIntoWitiCbndfl(wrbppfdSink, splitfrbtor);
         }
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    final <P_IN> Node<E_OUT> evaluate(Spliterator<P_IN> spliterator,
-                                      boolean flatten,
-                                      IntFunction<E_OUT[]> generator) {
-        if (isParallel()) {
-            // @@@ Optimize if op of this pipeline stage is a stateful op
-            return evaluateToNode(this, spliterator, flatten, generator);
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    finbl <P_IN> void dopyIntoWitiCbndfl(Sink<P_IN> wrbppfdSink, Splitfrbtor<P_IN> splitfrbtor) {
+        @SupprfssWbrnings({"rbwtypfs","undifdkfd"})
+        AbstrbdtPipflinf p = AbstrbdtPipflinf.tiis;
+        wiilf (p.dfpti > 0) {
+            p = p.prfviousStbgf;
         }
-        else {
-            Node.Builder<E_OUT> nb = makeNodeBuilder(
-                    exactOutputSizeIfKnown(spliterator), generator);
-            return wrapAndCopyInto(nb, spliterator).build();
+        wrbppfdSink.bfgin(splitfrbtor.gftExbdtSizfIfKnown());
+        p.forEbdiWitiCbndfl(splitfrbtor, wrbppfdSink);
+        wrbppfdSink.fnd();
+    }
+
+    @Ovfrridf
+    finbl int gftStrfbmAndOpFlbgs() {
+        rfturn dombinfdFlbgs;
+    }
+
+    finbl boolfbn isOrdfrfd() {
+        rfturn StrfbmOpFlbg.ORDERED.isKnown(dombinfdFlbgs);
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    finbl <P_IN> Sink<P_IN> wrbpSink(Sink<E_OUT> sink) {
+        Objfdts.rfquirfNonNull(sink);
+
+        for ( @SupprfssWbrnings("rbwtypfs") AbstrbdtPipflinf p=AbstrbdtPipflinf.tiis; p.dfpti > 0; p=p.prfviousStbgf) {
+            sink = p.opWrbpSink(p.prfviousStbgf.dombinfdFlbgs, sink);
+        }
+        rfturn (Sink<P_IN>) sink;
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    finbl <P_IN> Splitfrbtor<E_OUT> wrbpSplitfrbtor(Splitfrbtor<P_IN> sourdfSplitfrbtor) {
+        if (dfpti == 0) {
+            rfturn (Splitfrbtor<E_OUT>) sourdfSplitfrbtor;
+        }
+        flsf {
+            rfturn wrbp(tiis, () -> sourdfSplitfrbtor, isPbrbllfl());
+        }
+    }
+
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    finbl <P_IN> Nodf<E_OUT> fvblubtf(Splitfrbtor<P_IN> splitfrbtor,
+                                      boolfbn flbttfn,
+                                      IntFundtion<E_OUT[]> gfnfrbtor) {
+        if (isPbrbllfl()) {
+            // @@@ Optimizf if op of tiis pipflinf stbgf is b stbtfful op
+            rfturn fvblubtfToNodf(tiis, splitfrbtor, flbttfn, gfnfrbtor);
+        }
+        flsf {
+            Nodf.Buildfr<E_OUT> nb = mbkfNodfBuildfr(
+                    fxbdtOutputSizfIfKnown(splitfrbtor), gfnfrbtor);
+            rfturn wrbpAndCopyInto(nb, splitfrbtor).build();
         }
     }
 
 
-    // Shape-specific abstract methods, implemented by XxxPipeline classes
+    // Sibpf-spfdifid bbstrbdt mftiods, implfmfntfd by XxxPipflinf dlbssfs
 
     /**
-     * Get the output shape of the pipeline.  If the pipeline is the head,
-     * then it's output shape corresponds to the shape of the source.
-     * Otherwise, it's output shape corresponds to the output shape of the
-     * associated operation.
+     * Gft tif output sibpf of tif pipflinf.  If tif pipflinf is tif ifbd,
+     * tifn it's output sibpf dorrfsponds to tif sibpf of tif sourdf.
+     * Otifrwisf, it's output sibpf dorrfsponds to tif output sibpf of tif
+     * bssodibtfd opfrbtion.
      *
-     * @return the output shape
+     * @rfturn tif output sibpf
      */
-    abstract StreamShape getOutputShape();
+    bbstrbdt StrfbmSibpf gftOutputSibpf();
 
     /**
-     * Collect elements output from a pipeline into a Node that holds elements
-     * of this shape.
+     * Collfdt flfmfnts output from b pipflinf into b Nodf tibt iolds flfmfnts
+     * of tiis sibpf.
      *
-     * @param helper the pipeline helper describing the pipeline stages
-     * @param spliterator the source spliterator
-     * @param flattenTree true if the returned node should be flattened
-     * @param generator the array generator
-     * @return a Node holding the output of the pipeline
+     * @pbrbm iflpfr tif pipflinf iflpfr dfsdribing tif pipflinf stbgfs
+     * @pbrbm splitfrbtor tif sourdf splitfrbtor
+     * @pbrbm flbttfnTrff truf if tif rfturnfd nodf siould bf flbttfnfd
+     * @pbrbm gfnfrbtor tif brrby gfnfrbtor
+     * @rfturn b Nodf iolding tif output of tif pipflinf
      */
-    abstract <P_IN> Node<E_OUT> evaluateToNode(PipelineHelper<E_OUT> helper,
-                                               Spliterator<P_IN> spliterator,
-                                               boolean flattenTree,
-                                               IntFunction<E_OUT[]> generator);
+    bbstrbdt <P_IN> Nodf<E_OUT> fvblubtfToNodf(PipflinfHflpfr<E_OUT> iflpfr,
+                                               Splitfrbtor<P_IN> splitfrbtor,
+                                               boolfbn flbttfnTrff,
+                                               IntFundtion<E_OUT[]> gfnfrbtor);
 
     /**
-     * Create a spliterator that wraps a source spliterator, compatible with
-     * this stream shape, and operations associated with a {@link
-     * PipelineHelper}.
+     * Crfbtf b splitfrbtor tibt wrbps b sourdf splitfrbtor, dompbtiblf witi
+     * tiis strfbm sibpf, bnd opfrbtions bssodibtfd witi b {@link
+     * PipflinfHflpfr}.
      *
-     * @param ph the pipeline helper describing the pipeline stages
-     * @param supplier the supplier of a spliterator
-     * @return a wrapping spliterator compatible with this shape
+     * @pbrbm pi tif pipflinf iflpfr dfsdribing tif pipflinf stbgfs
+     * @pbrbm supplifr tif supplifr of b splitfrbtor
+     * @rfturn b wrbpping splitfrbtor dompbtiblf witi tiis sibpf
      */
-    abstract <P_IN> Spliterator<E_OUT> wrap(PipelineHelper<E_OUT> ph,
-                                            Supplier<Spliterator<P_IN>> supplier,
-                                            boolean isParallel);
+    bbstrbdt <P_IN> Splitfrbtor<E_OUT> wrbp(PipflinfHflpfr<E_OUT> pi,
+                                            Supplifr<Splitfrbtor<P_IN>> supplifr,
+                                            boolfbn isPbrbllfl);
 
     /**
-     * Create a lazy spliterator that wraps and obtains the supplied the
-     * spliterator when a method is invoked on the lazy spliterator.
-     * @param supplier the supplier of a spliterator
+     * Crfbtf b lbzy splitfrbtor tibt wrbps bnd obtbins tif supplifd tif
+     * splitfrbtor wifn b mftiod is invokfd on tif lbzy splitfrbtor.
+     * @pbrbm supplifr tif supplifr of b splitfrbtor
      */
-    abstract Spliterator<E_OUT> lazySpliterator(Supplier<? extends Spliterator<E_OUT>> supplier);
+    bbstrbdt Splitfrbtor<E_OUT> lbzySplitfrbtor(Supplifr<? fxtfnds Splitfrbtor<E_OUT>> supplifr);
 
     /**
-     * Traverse the elements of a spliterator compatible with this stream shape,
-     * pushing those elements into a sink.   If the sink requests cancellation,
-     * no further elements will be pulled or pushed.
+     * Trbvfrsf tif flfmfnts of b splitfrbtor dompbtiblf witi tiis strfbm sibpf,
+     * pusiing tiosf flfmfnts into b sink.   If tif sink rfqufsts dbndfllbtion,
+     * no furtifr flfmfnts will bf pullfd or pusifd.
      *
-     * @param spliterator the spliterator to pull elements from
-     * @param sink the sink to push elements to
+     * @pbrbm splitfrbtor tif splitfrbtor to pull flfmfnts from
+     * @pbrbm sink tif sink to pusi flfmfnts to
      */
-    abstract void forEachWithCancel(Spliterator<E_OUT> spliterator, Sink<E_OUT> sink);
+    bbstrbdt void forEbdiWitiCbndfl(Splitfrbtor<E_OUT> splitfrbtor, Sink<E_OUT> sink);
 
     /**
-     * Make a node builder compatible with this stream shape.
+     * Mbkf b nodf buildfr dompbtiblf witi tiis strfbm sibpf.
      *
-     * @param exactSizeIfKnown if {@literal >=0}, then a node builder will be
-     * created that has a fixed capacity of at most sizeIfKnown elements. If
-     * {@literal < 0}, then the node builder has an unfixed capacity. A fixed
-     * capacity node builder will throw exceptions if an element is added after
-     * builder has reached capacity, or is built before the builder has reached
-     * capacity.
+     * @pbrbm fxbdtSizfIfKnown if {@litfrbl >=0}, tifn b nodf buildfr will bf
+     * drfbtfd tibt ibs b fixfd dbpbdity of bt most sizfIfKnown flfmfnts. If
+     * {@litfrbl < 0}, tifn tif nodf buildfr ibs bn unfixfd dbpbdity. A fixfd
+     * dbpbdity nodf buildfr will tirow fxdfptions if bn flfmfnt is bddfd bftfr
+     * buildfr ibs rfbdifd dbpbdity, or is built bfforf tif buildfr ibs rfbdifd
+     * dbpbdity.
      *
-     * @param generator the array generator to be used to create instances of a
-     * T[] array. For implementations supporting primitive nodes, this parameter
-     * may be ignored.
-     * @return a node builder
+     * @pbrbm gfnfrbtor tif brrby gfnfrbtor to bf usfd to drfbtf instbndfs of b
+     * T[] brrby. For implfmfntbtions supporting primitivf nodfs, tiis pbrbmftfr
+     * mby bf ignorfd.
+     * @rfturn b nodf buildfr
      */
-    @Override
-    abstract Node.Builder<E_OUT> makeNodeBuilder(long exactSizeIfKnown,
-                                                 IntFunction<E_OUT[]> generator);
+    @Ovfrridf
+    bbstrbdt Nodf.Buildfr<E_OUT> mbkfNodfBuildfr(long fxbdtSizfIfKnown,
+                                                 IntFundtion<E_OUT[]> gfnfrbtor);
 
 
-    // Op-specific abstract methods, implemented by the operation class
+    // Op-spfdifid bbstrbdt mftiods, implfmfntfd by tif opfrbtion dlbss
 
     /**
-     * Returns whether this operation is stateful or not.  If it is stateful,
-     * then the method
-     * {@link #opEvaluateParallel(PipelineHelper, java.util.Spliterator, java.util.function.IntFunction)}
-     * must be overridden.
+     * Rfturns wiftifr tiis opfrbtion is stbtfful or not.  If it is stbtfful,
+     * tifn tif mftiod
+     * {@link #opEvblubtfPbrbllfl(PipflinfHflpfr, jbvb.util.Splitfrbtor, jbvb.util.fundtion.IntFundtion)}
+     * must bf ovfrriddfn.
      *
-     * @return {@code true} if this operation is stateful
+     * @rfturn {@dodf truf} if tiis opfrbtion is stbtfful
      */
-    abstract boolean opIsStateful();
+    bbstrbdt boolfbn opIsStbtfful();
 
     /**
-     * Accepts a {@code Sink} which will receive the results of this operation,
-     * and return a {@code Sink} which accepts elements of the input type of
-     * this operation and which performs the operation, passing the results to
-     * the provided {@code Sink}.
+     * Addfpts b {@dodf Sink} wiidi will rfdfivf tif rfsults of tiis opfrbtion,
+     * bnd rfturn b {@dodf Sink} wiidi bddfpts flfmfnts of tif input typf of
+     * tiis opfrbtion bnd wiidi pfrforms tif opfrbtion, pbssing tif rfsults to
+     * tif providfd {@dodf Sink}.
      *
-     * @apiNote
-     * The implementation may use the {@code flags} parameter to optimize the
-     * sink wrapping.  For example, if the input is already {@code DISTINCT},
-     * the implementation for the {@code Stream#distinct()} method could just
-     * return the sink it was passed.
+     * @bpiNotf
+     * Tif implfmfntbtion mby usf tif {@dodf flbgs} pbrbmftfr to optimizf tif
+     * sink wrbpping.  For fxbmplf, if tif input is blrfbdy {@dodf DISTINCT},
+     * tif implfmfntbtion for tif {@dodf Strfbm#distindt()} mftiod dould just
+     * rfturn tif sink it wbs pbssfd.
      *
-     * @param flags The combined stream and operation flags up to, but not
-     *        including, this operation
-     * @param sink sink to which elements should be sent after processing
-     * @return a sink which accepts elements, perform the operation upon
-     *         each element, and passes the results (if any) to the provided
-     *         {@code Sink}.
+     * @pbrbm flbgs Tif dombinfd strfbm bnd opfrbtion flbgs up to, but not
+     *        indluding, tiis opfrbtion
+     * @pbrbm sink sink to wiidi flfmfnts siould bf sfnt bftfr prodfssing
+     * @rfturn b sink wiidi bddfpts flfmfnts, pfrform tif opfrbtion upon
+     *         fbdi flfmfnt, bnd pbssfs tif rfsults (if bny) to tif providfd
+     *         {@dodf Sink}.
      */
-    abstract Sink<E_IN> opWrapSink(int flags, Sink<E_OUT> sink);
+    bbstrbdt Sink<E_IN> opWrbpSink(int flbgs, Sink<E_OUT> sink);
 
     /**
-     * Performs a parallel evaluation of the operation using the specified
-     * {@code PipelineHelper} which describes the upstream intermediate
-     * operations.  Only called on stateful operations.  If {@link
-     * #opIsStateful()} returns true then implementations must override the
-     * default implementation.
+     * Pfrforms b pbrbllfl fvblubtion of tif opfrbtion using tif spfdififd
+     * {@dodf PipflinfHflpfr} wiidi dfsdribfs tif upstrfbm intfrmfdibtf
+     * opfrbtions.  Only dbllfd on stbtfful opfrbtions.  If {@link
+     * #opIsStbtfful()} rfturns truf tifn implfmfntbtions must ovfrridf tif
+     * dffbult implfmfntbtion.
      *
-     * @implSpec The default implementation always throw
-     * {@code UnsupportedOperationException}.
+     * @implSpfd Tif dffbult implfmfntbtion blwbys tirow
+     * {@dodf UnsupportfdOpfrbtionExdfption}.
      *
-     * @param helper the pipeline helper describing the pipeline stages
-     * @param spliterator the source {@code Spliterator}
-     * @param generator the array generator
-     * @return a {@code Node} describing the result of the evaluation
+     * @pbrbm iflpfr tif pipflinf iflpfr dfsdribing tif pipflinf stbgfs
+     * @pbrbm splitfrbtor tif sourdf {@dodf Splitfrbtor}
+     * @pbrbm gfnfrbtor tif brrby gfnfrbtor
+     * @rfturn b {@dodf Nodf} dfsdribing tif rfsult of tif fvblubtion
      */
-    <P_IN> Node<E_OUT> opEvaluateParallel(PipelineHelper<E_OUT> helper,
-                                          Spliterator<P_IN> spliterator,
-                                          IntFunction<E_OUT[]> generator) {
-        throw new UnsupportedOperationException("Parallel evaluation is not supported");
+    <P_IN> Nodf<E_OUT> opEvblubtfPbrbllfl(PipflinfHflpfr<E_OUT> iflpfr,
+                                          Splitfrbtor<P_IN> splitfrbtor,
+                                          IntFundtion<E_OUT[]> gfnfrbtor) {
+        tirow nfw UnsupportfdOpfrbtionExdfption("Pbrbllfl fvblubtion is not supportfd");
     }
 
     /**
-     * Returns a {@code Spliterator} describing a parallel evaluation of the
-     * operation, using the specified {@code PipelineHelper} which describes the
-     * upstream intermediate operations.  Only called on stateful operations.
-     * It is not necessary (though acceptable) to do a full computation of the
-     * result here; it is preferable, if possible, to describe the result via a
-     * lazily evaluated spliterator.
+     * Rfturns b {@dodf Splitfrbtor} dfsdribing b pbrbllfl fvblubtion of tif
+     * opfrbtion, using tif spfdififd {@dodf PipflinfHflpfr} wiidi dfsdribfs tif
+     * upstrfbm intfrmfdibtf opfrbtions.  Only dbllfd on stbtfful opfrbtions.
+     * It is not nfdfssbry (tiougi bddfptbblf) to do b full domputbtion of tif
+     * rfsult ifrf; it is prfffrbblf, if possiblf, to dfsdribf tif rfsult vib b
+     * lbzily fvblubtfd splitfrbtor.
      *
-     * @implSpec The default implementation behaves as if:
-     * <pre>{@code
-     *     return evaluateParallel(helper, i -> (E_OUT[]) new
-     * Object[i]).spliterator();
-     * }</pre>
-     * and is suitable for implementations that cannot do better than a full
-     * synchronous evaluation.
+     * @implSpfd Tif dffbult implfmfntbtion bfibvfs bs if:
+     * <prf>{@dodf
+     *     rfturn fvblubtfPbrbllfl(iflpfr, i -> (E_OUT[]) nfw
+     * Objfdt[i]).splitfrbtor();
+     * }</prf>
+     * bnd is suitbblf for implfmfntbtions tibt dbnnot do bfttfr tibn b full
+     * syndironous fvblubtion.
      *
-     * @param helper the pipeline helper
-     * @param spliterator the source {@code Spliterator}
-     * @return a {@code Spliterator} describing the result of the evaluation
+     * @pbrbm iflpfr tif pipflinf iflpfr
+     * @pbrbm splitfrbtor tif sourdf {@dodf Splitfrbtor}
+     * @rfturn b {@dodf Splitfrbtor} dfsdribing tif rfsult of tif fvblubtion
      */
-    @SuppressWarnings("unchecked")
-    <P_IN> Spliterator<E_OUT> opEvaluateParallelLazy(PipelineHelper<E_OUT> helper,
-                                                     Spliterator<P_IN> spliterator) {
-        return opEvaluateParallel(helper, spliterator, i -> (E_OUT[]) new Object[i]).spliterator();
+    @SupprfssWbrnings("undifdkfd")
+    <P_IN> Splitfrbtor<E_OUT> opEvblubtfPbrbllflLbzy(PipflinfHflpfr<E_OUT> iflpfr,
+                                                     Splitfrbtor<P_IN> splitfrbtor) {
+        rfturn opEvblubtfPbrbllfl(iflpfr, splitfrbtor, i -> (E_OUT[]) nfw Objfdt[i]).splitfrbtor();
     }
 }

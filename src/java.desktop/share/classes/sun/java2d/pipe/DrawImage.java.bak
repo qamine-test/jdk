@@ -1,1121 +1,1121 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.pipe;
+pbdkbgf sun.jbvb2d.pipf;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Image;
-import java.awt.Transparency;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.ImageObserver;
-import java.awt.image.IndexColorModel;
-import java.awt.image.Raster;
-import java.awt.image.VolatileImage;
-import sun.awt.SunHints;
-import sun.awt.image.ImageRepresentation;
-import sun.awt.image.SurfaceManager;
-import sun.awt.image.ToolkitImage;
-import sun.java2d.InvalidPipeException;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.Blit;
-import sun.java2d.loops.BlitBg;
-import sun.java2d.loops.TransformHelper;
-import sun.java2d.loops.MaskBlit;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.loops.ScaledBlit;
-import sun.java2d.loops.SurfaceType;
+import jbvb.bwt.AlpibCompositf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.NoninvfrtiblfTrbnsformExdfption;
+import jbvb.bwt.imbgf.AffinfTrbnsformOp;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.BufffrfdImbgfOp;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.VolbtilfImbgf;
+import sun.bwt.SunHints;
+import sun.bwt.imbgf.ImbgfRfprfsfntbtion;
+import sun.bwt.imbgf.SurfbdfMbnbgfr;
+import sun.bwt.imbgf.ToolkitImbgf;
+import sun.jbvb2d.InvblidPipfExdfption;
+import sun.jbvb2d.SunGrbpiids2D;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.loops.Blit;
+import sun.jbvb2d.loops.BlitBg;
+import sun.jbvb2d.loops.TrbnsformHflpfr;
+import sun.jbvb2d.loops.MbskBlit;
+import sun.jbvb2d.loops.CompositfTypf;
+import sun.jbvb2d.loops.SdblfdBlit;
+import sun.jbvb2d.loops.SurfbdfTypf;
 
-public class DrawImage implements DrawImagePipe
+publid dlbss DrbwImbgf implfmfnts DrbwImbgfPipf
 {
-    public boolean copyImage(SunGraphics2D sg, Image img,
+    publid boolfbn dopyImbgf(SunGrbpiids2D sg, Imbgf img,
                              int x, int y,
                              Color bgColor)
     {
-        int imgw = img.getWidth(null);
-        int imgh = img.getHeight(null);
-        if (isSimpleTranslate(sg)) {
-            return renderImageCopy(sg, img, bgColor,
-                                   x + sg.transX, y + sg.transY,
-                                   0, 0, imgw, imgh);
+        int imgw = img.gftWidti(null);
+        int imgi = img.gftHfigit(null);
+        if (isSimplfTrbnslbtf(sg)) {
+            rfturn rfndfrImbgfCopy(sg, img, bgColor,
+                                   x + sg.trbnsX, y + sg.trbnsY,
+                                   0, 0, imgw, imgi);
         }
-        AffineTransform atfm = sg.transform;
+        AffinfTrbnsform btfm = sg.trbnsform;
         if ((x | y) != 0) {
-            atfm = new AffineTransform(atfm);
-            atfm.translate(x, y);
+            btfm = nfw AffinfTrbnsform(btfm);
+            btfm.trbnslbtf(x, y);
         }
-        transformImage(sg, img, atfm, sg.interpolationType,
-                       0, 0, imgw, imgh, bgColor);
-        return true;
+        trbnsformImbgf(sg, img, btfm, sg.intfrpolbtionTypf,
+                       0, 0, imgw, imgi, bgColor);
+        rfturn truf;
     }
 
-    public boolean copyImage(SunGraphics2D sg, Image img,
-                             int dx, int dy, int sx, int sy, int w, int h,
+    publid boolfbn dopyImbgf(SunGrbpiids2D sg, Imbgf img,
+                             int dx, int dy, int sx, int sy, int w, int i,
                              Color bgColor)
     {
-        if (isSimpleTranslate(sg)) {
-            return renderImageCopy(sg, img, bgColor,
-                                   dx + sg.transX, dy + sg.transY,
-                                   sx, sy, w, h);
+        if (isSimplfTrbnslbtf(sg)) {
+            rfturn rfndfrImbgfCopy(sg, img, bgColor,
+                                   dx + sg.trbnsX, dy + sg.trbnsY,
+                                   sx, sy, w, i);
         }
-        scaleImage(sg, img, dx, dy, (dx + w), (dy + h),
-                   sx, sy, (sx + w), (sy + h), bgColor);
-        return true;
+        sdblfImbgf(sg, img, dx, dy, (dx + w), (dy + i),
+                   sx, sy, (sx + w), (sy + i), bgColor);
+        rfturn truf;
     }
 
-    public boolean scaleImage(SunGraphics2D sg, Image img, int x, int y,
-                              int width, int height,
+    publid boolfbn sdblfImbgf(SunGrbpiids2D sg, Imbgf img, int x, int y,
+                              int widti, int ifigit,
                               Color bgColor)
     {
-        int imgw = img.getWidth(null);
-        int imgh = img.getHeight(null);
-        // Only accelerate scale if:
-        //          - w/h positive values
-        //          - sg transform integer translate/identity only
-        //          - no bgColor in operation
-        if ((width > 0) && (height > 0) && isSimpleTranslate(sg)) {
-            double dx1 = x + sg.transX;
-            double dy1 = y + sg.transY;
-            double dx2 = dx1 + width;
-            double dy2 = dy1 + height;
-            if (renderImageScale(sg, img, bgColor, sg.interpolationType,
-                                 0, 0, imgw, imgh,
+        int imgw = img.gftWidti(null);
+        int imgi = img.gftHfigit(null);
+        // Only bddflfrbtf sdblf if:
+        //          - w/i positivf vblufs
+        //          - sg trbnsform intfgfr trbnslbtf/idfntity only
+        //          - no bgColor in opfrbtion
+        if ((widti > 0) && (ifigit > 0) && isSimplfTrbnslbtf(sg)) {
+            doublf dx1 = x + sg.trbnsX;
+            doublf dy1 = y + sg.trbnsY;
+            doublf dx2 = dx1 + widti;
+            doublf dy2 = dy1 + ifigit;
+            if (rfndfrImbgfSdblf(sg, img, bgColor, sg.intfrpolbtionTypf,
+                                 0, 0, imgw, imgi,
                                  dx1, dy1, dx2, dy2))
             {
-                return true;
+                rfturn truf;
             }
         }
 
-        AffineTransform atfm = sg.transform;
-        if ((x | y) != 0 || width != imgw || height != imgh) {
-            atfm = new AffineTransform(atfm);
-            atfm.translate(x, y);
-            atfm.scale(((double)width)/imgw, ((double)height)/imgh);
+        AffinfTrbnsform btfm = sg.trbnsform;
+        if ((x | y) != 0 || widti != imgw || ifigit != imgi) {
+            btfm = nfw AffinfTrbnsform(btfm);
+            btfm.trbnslbtf(x, y);
+            btfm.sdblf(((doublf)widti)/imgw, ((doublf)ifigit)/imgi);
         }
-        transformImage(sg, img, atfm, sg.interpolationType,
-                       0, 0, imgw, imgh, bgColor);
-        return true;
+        trbnsformImbgf(sg, img, btfm, sg.intfrpolbtionTypf,
+                       0, 0, imgw, imgi, bgColor);
+        rfturn truf;
     }
 
     /*
-     * This method is only called in those circumstances where the
-     * operation has a non-null secondary transform specified.  Its
-     * role is to check for various optimizations based on the types
-     * of both the secondary and SG2D transforms and to do some
-     * quick calculations to avoid having to combine the transforms
-     * and/or to call a more generalized method.
+     * Tiis mftiod is only dbllfd in tiosf dirdumstbndfs wifrf tif
+     * opfrbtion ibs b non-null sfdondbry trbnsform spfdififd.  Its
+     * rolf is to difdk for vbrious optimizbtions bbsfd on tif typfs
+     * of boti tif sfdondbry bnd SG2D trbnsforms bnd to do somf
+     * quidk dbldulbtions to bvoid ibving to dombinf tif trbnsforms
+     * bnd/or to dbll b morf gfnfrblizfd mftiod.
      */
-    protected void transformImage(SunGraphics2D sg, Image img, int x, int y,
-                                  AffineTransform extraAT, int interpType)
+    protfdtfd void trbnsformImbgf(SunGrbpiids2D sg, Imbgf img, int x, int y,
+                                  AffinfTrbnsform fxtrbAT, int intfrpTypf)
     {
-        int txtype = extraAT.getType();
-        int imgw = img.getWidth(null);
-        int imgh = img.getHeight(null);
-        boolean checkfinalxform;
+        int txtypf = fxtrbAT.gftTypf();
+        int imgw = img.gftWidti(null);
+        int imgi = img.gftHfigit(null);
+        boolfbn difdkfinblxform;
 
-        if (sg.transformState <= SunGraphics2D.TRANSFORM_ANY_TRANSLATE &&
-            (txtype == AffineTransform.TYPE_IDENTITY ||
-             txtype == AffineTransform.TYPE_TRANSLATION))
+        if (sg.trbnsformStbtf <= SunGrbpiids2D.TRANSFORM_ANY_TRANSLATE &&
+            (txtypf == AffinfTrbnsform.TYPE_IDENTITY ||
+             txtypf == AffinfTrbnsform.TYPE_TRANSLATION))
         {
-            // First optimization - both are some kind of translate
+            // First optimizbtion - boti brf somf kind of trbnslbtf
 
-            // Combine the translations and check if interpolation is necessary.
-            double tx = extraAT.getTranslateX();
-            double ty = extraAT.getTranslateY();
-            tx += sg.transform.getTranslateX();
-            ty += sg.transform.getTranslateY();
-            int itx = (int) Math.floor(tx + 0.5);
-            int ity = (int) Math.floor(ty + 0.5);
-            if (interpType == AffineTransformOp.TYPE_NEAREST_NEIGHBOR ||
-                (closeToInteger(itx, tx) && closeToInteger(ity, ty)))
+            // Combinf tif trbnslbtions bnd difdk if intfrpolbtion is nfdfssbry.
+            doublf tx = fxtrbAT.gftTrbnslbtfX();
+            doublf ty = fxtrbAT.gftTrbnslbtfY();
+            tx += sg.trbnsform.gftTrbnslbtfX();
+            ty += sg.trbnsform.gftTrbnslbtfY();
+            int itx = (int) Mbti.floor(tx + 0.5);
+            int ity = (int) Mbti.floor(ty + 0.5);
+            if (intfrpTypf == AffinfTrbnsformOp.TYPE_NEAREST_NEIGHBOR ||
+                (dlosfToIntfgfr(itx, tx) && dlosfToIntfgfr(ity, ty)))
             {
-                renderImageCopy(sg, img, null, x+itx, y+ity, 0, 0, imgw, imgh);
-                return;
+                rfndfrImbgfCopy(sg, img, null, x+itx, y+ity, 0, 0, imgw, imgi);
+                rfturn;
             }
-            checkfinalxform = false;
-        } else if (sg.transformState <= SunGraphics2D.TRANSFORM_TRANSLATESCALE &&
-                   ((txtype & (AffineTransform.TYPE_FLIP |
-                               AffineTransform.TYPE_MASK_ROTATION |
-                               AffineTransform.TYPE_GENERAL_TRANSFORM)) == 0))
+            difdkfinblxform = fblsf;
+        } flsf if (sg.trbnsformStbtf <= SunGrbpiids2D.TRANSFORM_TRANSLATESCALE &&
+                   ((txtypf & (AffinfTrbnsform.TYPE_FLIP |
+                               AffinfTrbnsform.TYPE_MASK_ROTATION |
+                               AffinfTrbnsform.TYPE_GENERAL_TRANSFORM)) == 0))
         {
-            // Second optimization - both are some kind of translate or scale
+            // Sfdond optimizbtion - boti brf somf kind of trbnslbtf or sdblf
 
-            // Combine the scales and check if interpolation is necessary.
+            // Combinf tif sdblfs bnd difdk if intfrpolbtion is nfdfssbry.
 
-            // Transform source bounds by extraAT,
-            // then translate the bounds again by x, y
-            // then transform the bounds again by sg.transform
-            double coords[] = new double[] {
-                0, 0, imgw, imgh,
+            // Trbnsform sourdf bounds by fxtrbAT,
+            // tifn trbnslbtf tif bounds bgbin by x, y
+            // tifn trbnsform tif bounds bgbin by sg.trbnsform
+            doublf doords[] = nfw doublf[] {
+                0, 0, imgw, imgi,
             };
-            extraAT.transform(coords, 0, coords, 0, 2);
-            coords[0] += x;
-            coords[1] += y;
-            coords[2] += x;
-            coords[3] += y;
-            sg.transform.transform(coords, 0, coords, 0, 2);
+            fxtrbAT.trbnsform(doords, 0, doords, 0, 2);
+            doords[0] += x;
+            doords[1] += y;
+            doords[2] += x;
+            doords[3] += y;
+            sg.trbnsform.trbnsform(doords, 0, doords, 0, 2);
 
-            if (tryCopyOrScale(sg, img, 0, 0, imgw, imgh,
-                               null, interpType, coords))
+            if (tryCopyOrSdblf(sg, img, 0, 0, imgw, imgi,
+                               null, intfrpTypf, doords))
             {
-                return;
+                rfturn;
             }
-            checkfinalxform = false;
-        } else {
-            checkfinalxform = true;
+            difdkfinblxform = fblsf;
+        } flsf {
+            difdkfinblxform = truf;
         }
 
-        // Begin Transform
-        AffineTransform tx = new AffineTransform(sg.transform);
-        tx.translate(x, y);
-        tx.concatenate(extraAT);
+        // Bfgin Trbnsform
+        AffinfTrbnsform tx = nfw AffinfTrbnsform(sg.trbnsform);
+        tx.trbnslbtf(x, y);
+        tx.dondbtfnbtf(fxtrbAT);
 
-        // Do not try any more optimizations if either of the cases
-        // above was tried as we have already verified that the
-        // resulting transform will not simplify.
-        if (checkfinalxform) {
-            // In this case neither of the above simple transform
-            // pairs was found so we will do some final tests on
-            // the final rendering transform which may be the
-            // simple product of two complex transforms.
-            transformImage(sg, img, tx, interpType, 0, 0, imgw, imgh, null);
-        } else {
-            renderImageXform(sg, img, tx, interpType, 0, 0, imgw, imgh, null);
+        // Do not try bny morf optimizbtions if fitifr of tif dbsfs
+        // bbovf wbs trifd bs wf ibvf blrfbdy vfrififd tibt tif
+        // rfsulting trbnsform will not simplify.
+        if (difdkfinblxform) {
+            // In tiis dbsf nfitifr of tif bbovf simplf trbnsform
+            // pbirs wbs found so wf will do somf finbl tfsts on
+            // tif finbl rfndfring trbnsform wiidi mby bf tif
+            // simplf produdt of two domplfx trbnsforms.
+            trbnsformImbgf(sg, img, tx, intfrpTypf, 0, 0, imgw, imgi, null);
+        } flsf {
+            rfndfrImbgfXform(sg, img, tx, intfrpTypf, 0, 0, imgw, imgi, null);
         }
     }
 
     /*
-     * This method is called with a final rendering transform that
-     * has combined all of the information about the Graphics2D
-     * transform attribute with the transformations specified by
-     * the arguments to the drawImage call.
-     * Its role is to see if the combined transform ends up being
-     * acceleratable by either a renderImageCopy or renderImageScale
-     * once all of the math is done.
+     * Tiis mftiod is dbllfd witi b finbl rfndfring trbnsform tibt
+     * ibs dombinfd bll of tif informbtion bbout tif Grbpiids2D
+     * trbnsform bttributf witi tif trbnsformbtions spfdififd by
+     * tif brgumfnts to tif drbwImbgf dbll.
+     * Its rolf is to sff if tif dombinfd trbnsform fnds up bfing
+     * bddflfrbtbblf by fitifr b rfndfrImbgfCopy or rfndfrImbgfSdblf
+     * ondf bll of tif mbti is donf.
      *
-     * Note: The transform supplied here has an origin that is
-     * already adjusted to point to the device location where
-     * the (sx1, sy1) location of the source image should be placed.
+     * Notf: Tif trbnsform supplifd ifrf ibs bn origin tibt is
+     * blrfbdy bdjustfd to point to tif dfvidf lodbtion wifrf
+     * tif (sx1, sy1) lodbtion of tif sourdf imbgf siould bf plbdfd.
      */
-    protected void transformImage(SunGraphics2D sg, Image img,
-                                  AffineTransform tx, int interpType,
+    protfdtfd void trbnsformImbgf(SunGrbpiids2D sg, Imbgf img,
+                                  AffinfTrbnsform tx, int intfrpTypf,
                                   int sx1, int sy1, int sx2, int sy2,
                                   Color bgColor)
     {
-        // Transform 3 source corners by tx and analyze them
-        // for simplified operations (Copy or Scale).  Using
-        // 3 points lets us analyze any kind of transform,
-        // even transforms that involve very tiny amounts of
-        // rotation or skew to see if they degenerate to a
-        // simple scale or copy operation within the allowable
-        // error bounds.
-        // Note that we use (0,0,w,h) instead of (sx1,sy1,sx2,sy2)
-        // because the transform is already translated such that
-        // the origin is where sx1, sy1 should go.
-        double coords[] = new double[6];
-        /* index:  0  1    2  3    4  5  */
-        /* coord: (0, 0), (w, h), (0, h) */
-        coords[2] = sx2 - sx1;
-        coords[3] = coords[5] = sy2 - sy1;
-        tx.transform(coords, 0, coords, 0, 3);
-        // First test if the X coords of the transformed UL
-        // and LL points match and that the Y coords of the
-        // transformed LR and LL points also match.
-        // If they do then it is a "rectilinear" transform and
-        // tryCopyOrScale will make sure it is upright and
-        // integer-based.
-        if (Math.abs(coords[0] - coords[4]) < MAX_TX_ERROR &&
-            Math.abs(coords[3] - coords[5]) < MAX_TX_ERROR &&
-            tryCopyOrScale(sg, img, sx1, sy1, sx2, sy2,
-                           bgColor, interpType, coords))
+        // Trbnsform 3 sourdf dornfrs by tx bnd bnblyzf tifm
+        // for simplififd opfrbtions (Copy or Sdblf).  Using
+        // 3 points lfts us bnblyzf bny kind of trbnsform,
+        // fvfn trbnsforms tibt involvf vfry tiny bmounts of
+        // rotbtion or skfw to sff if tify dfgfnfrbtf to b
+        // simplf sdblf or dopy opfrbtion witiin tif bllowbblf
+        // frror bounds.
+        // Notf tibt wf usf (0,0,w,i) instfbd of (sx1,sy1,sx2,sy2)
+        // bfdbusf tif trbnsform is blrfbdy trbnslbtfd sudi tibt
+        // tif origin is wifrf sx1, sy1 siould go.
+        doublf doords[] = nfw doublf[6];
+        /* indfx:  0  1    2  3    4  5  */
+        /* doord: (0, 0), (w, i), (0, i) */
+        doords[2] = sx2 - sx1;
+        doords[3] = doords[5] = sy2 - sy1;
+        tx.trbnsform(doords, 0, doords, 0, 3);
+        // First tfst if tif X doords of tif trbnsformfd UL
+        // bnd LL points mbtdi bnd tibt tif Y doords of tif
+        // trbnsformfd LR bnd LL points blso mbtdi.
+        // If tify do tifn it is b "rfdtilinfbr" trbnsform bnd
+        // tryCopyOrSdblf will mbkf surf it is uprigit bnd
+        // intfgfr-bbsfd.
+        if (Mbti.bbs(doords[0] - doords[4]) < MAX_TX_ERROR &&
+            Mbti.bbs(doords[3] - doords[5]) < MAX_TX_ERROR &&
+            tryCopyOrSdblf(sg, img, sx1, sy1, sx2, sy2,
+                           bgColor, intfrpTypf, doords))
         {
-            return;
+            rfturn;
         }
 
-        renderImageXform(sg, img, tx, interpType, sx1, sy1, sx2, sy2, bgColor);
+        rfndfrImbgfXform(sg, img, tx, intfrpTypf, sx1, sy1, sx2, sy2, bgColor);
     }
 
     /*
-     * Check the bounding coordinates of the transformed source
-     * image to see if they fall on integer coordinates such
-     * that they will cause no interpolation anomalies if we
-     * use our simplified Blit or ScaledBlit operations instead
-     * of a full transform operation.
+     * Cifdk tif bounding doordinbtfs of tif trbnsformfd sourdf
+     * imbgf to sff if tify fbll on intfgfr doordinbtfs sudi
+     * tibt tify will dbusf no intfrpolbtion bnomblifs if wf
+     * usf our simplififd Blit or SdblfdBlit opfrbtions instfbd
+     * of b full trbnsform opfrbtion.
      */
-    protected boolean tryCopyOrScale(SunGraphics2D sg,
-                                     Image img,
+    protfdtfd boolfbn tryCopyOrSdblf(SunGrbpiids2D sg,
+                                     Imbgf img,
                                      int sx1, int sy1,
                                      int sx2, int sy2,
-                                     Color bgColor, int interpType,
-                                     double coords[])
+                                     Color bgColor, int intfrpTypf,
+                                     doublf doords[])
     {
-        double dx = coords[0];
-        double dy = coords[1];
-        double dw = coords[2] - dx;
-        double dh = coords[3] - dy;
-        // First check if width and height are very close to img w&h.
-        if (closeToInteger(sx2-sx1, dw) && closeToInteger(sy2-sy1, dh)) {
-            // Round location to nearest pixel and then test
-            // if it will cause interpolation anomalies.
-            int idx = (int) Math.floor(dx + 0.5);
-            int idy = (int) Math.floor(dy + 0.5);
-            if (interpType == AffineTransformOp.TYPE_NEAREST_NEIGHBOR ||
-                (closeToInteger(idx, dx) && closeToInteger(idy, dy)))
+        doublf dx = doords[0];
+        doublf dy = doords[1];
+        doublf dw = doords[2] - dx;
+        doublf di = doords[3] - dy;
+        // First difdk if widti bnd ifigit brf vfry dlosf to img w&i.
+        if (dlosfToIntfgfr(sx2-sx1, dw) && dlosfToIntfgfr(sy2-sy1, di)) {
+            // Round lodbtion to nfbrfst pixfl bnd tifn tfst
+            // if it will dbusf intfrpolbtion bnomblifs.
+            int idx = (int) Mbti.floor(dx + 0.5);
+            int idy = (int) Mbti.floor(dy + 0.5);
+            if (intfrpTypf == AffinfTrbnsformOp.TYPE_NEAREST_NEIGHBOR ||
+                (dlosfToIntfgfr(idx, dx) && dlosfToIntfgfr(idy, dy)))
             {
-                renderImageCopy(sg, img, bgColor,
+                rfndfrImbgfCopy(sg, img, bgColor,
                                 idx, idy,
                                 sx1, sy1, sx2-sx1, sy2-sy1);
-                return true;
+                rfturn truf;
             }
         }
-        // (For now) We can only use our ScaledBlits if the image
-        // is upright (i.e. dw & dh both > 0)
-        if (dw > 0 && dh > 0) {
-            if (renderImageScale(sg, img, bgColor, interpType,
+        // (For now) Wf dbn only usf our SdblfdBlits if tif imbgf
+        // is uprigit (i.f. dw & di boti > 0)
+        if (dw > 0 && di > 0) {
+            if (rfndfrImbgfSdblf(sg, img, bgColor, intfrpTypf,
                                  sx1, sy1, sx2, sy2,
-                                 coords[0], coords[1], coords[2], coords[3]))
+                                 doords[0], doords[1], doords[2], doords[3]))
             {
-                return true;
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Return a non-accelerated BufferedImage of the requested type with the
-     * indicated subimage of the original image located at 0,0 in the new image.
-     * If a bgColor is supplied, composite the original image over that color
-     * with a SrcOver operation, otherwise make a SrcNoEa copy.
+     * Rfturn b non-bddflfrbtfd BufffrfdImbgf of tif rfqufstfd typf witi tif
+     * indidbtfd subimbgf of tif originbl imbgf lodbtfd bt 0,0 in tif nfw imbgf.
+     * If b bgColor is supplifd, dompositf tif originbl imbgf ovfr tibt dolor
+     * witi b SrdOvfr opfrbtion, otifrwisf mbkf b SrdNoEb dopy.
      * <p>
-     * Returned BufferedImage is not accelerated for two reasons:
+     * Rfturnfd BufffrfdImbgf is not bddflfrbtfd for two rfbsons:
      * <ul>
-     * <li> Types of the image and surface are predefined, because these types
-     *      correspond to the TransformHelpers, which we know we have. And
-     *      acceleration can change the type of the surface
-     * <li> Image will be used only once and acceleration caching wouldn't help
+     * <li> Typfs of tif imbgf bnd surfbdf brf prfdffinfd, bfdbusf tifsf typfs
+     *      dorrfspond to tif TrbnsformHflpfrs, wiidi wf know wf ibvf. And
+     *      bddflfrbtion dbn dibngf tif typf of tif surfbdf
+     * <li> Imbgf will bf usfd only ondf bnd bddflfrbtion dbdiing wouldn't iflp
      * </ul>
      */
-    BufferedImage makeBufferedImage(Image img, Color bgColor, int type,
+    BufffrfdImbgf mbkfBufffrfdImbgf(Imbgf img, Color bgColor, int typf,
                                     int sx1, int sy1, int sx2, int sy2)
     {
-        final int width = sx2 - sx1;
-        final int height = sy2 - sy1;
-        final BufferedImage bimg = new BufferedImage(width, height, type);
-        final SunGraphics2D g2d = (SunGraphics2D) bimg.createGraphics();
-        g2d.setComposite(AlphaComposite.Src);
-        bimg.setAccelerationPriority(0);
+        finbl int widti = sx2 - sx1;
+        finbl int ifigit = sy2 - sy1;
+        finbl BufffrfdImbgf bimg = nfw BufffrfdImbgf(widti, ifigit, typf);
+        finbl SunGrbpiids2D g2d = (SunGrbpiids2D) bimg.drfbtfGrbpiids();
+        g2d.sftCompositf(AlpibCompositf.Srd);
+        bimg.sftAddflfrbtionPriority(0);
         if (bgColor != null) {
-            g2d.setColor(bgColor);
-            g2d.fillRect(0, 0, width, height);
-            g2d.setComposite(AlphaComposite.SrcOver);
+            g2d.sftColor(bgColor);
+            g2d.fillRfdt(0, 0, widti, ifigit);
+            g2d.sftCompositf(AlpibCompositf.SrdOvfr);
         }
-        g2d.copyImage(img, 0, 0, sx1, sy1, width, height, null, null);
-        g2d.dispose();
-        return bimg;
+        g2d.dopyImbgf(img, 0, 0, sx1, sy1, widti, ifigit, null, null);
+        g2d.disposf();
+        rfturn bimg;
     }
 
-    protected void renderImageXform(SunGraphics2D sg, Image img,
-                                    AffineTransform tx, int interpType,
+    protfdtfd void rfndfrImbgfXform(SunGrbpiids2D sg, Imbgf img,
+                                    AffinfTrbnsform tx, int intfrpTypf,
                                     int sx1, int sy1, int sx2, int sy2,
                                     Color bgColor)
     {
-        Region clip = sg.getCompClip();
-        SurfaceData dstData = sg.surfaceData;
-        SurfaceData srcData = dstData.getSourceSurfaceData(img,
-                                                           SunGraphics2D.TRANSFORM_GENERIC,
-                                                           sg.imageComp,
+        Rfgion dlip = sg.gftCompClip();
+        SurfbdfDbtb dstDbtb = sg.surfbdfDbtb;
+        SurfbdfDbtb srdDbtb = dstDbtb.gftSourdfSurfbdfDbtb(img,
+                                                           SunGrbpiids2D.TRANSFORM_GENERIC,
+                                                           sg.imbgfComp,
                                                            bgColor);
 
-        if (srcData == null) {
-            img = getBufferedImage(img);
-            srcData = dstData.getSourceSurfaceData(img,
-                                                   SunGraphics2D.TRANSFORM_GENERIC,
-                                                   sg.imageComp,
+        if (srdDbtb == null) {
+            img = gftBufffrfdImbgf(img);
+            srdDbtb = dstDbtb.gftSourdfSurfbdfDbtb(img,
+                                                   SunGrbpiids2D.TRANSFORM_GENERIC,
+                                                   sg.imbgfComp,
                                                    bgColor);
-            if (srcData == null) {
-                // REMIND: Is this correct?  Can this happen?
-                return;
+            if (srdDbtb == null) {
+                // REMIND: Is tiis dorrfdt?  Cbn tiis ibppfn?
+                rfturn;
             }
         }
 
-        if (isBgOperation(srcData, bgColor)) {
-            // We cannot perform bg operations during transform so make
-            // an opaque temp image with the appropriate background
-            // and work from there.
-            img = makeBufferedImage(img, bgColor, BufferedImage.TYPE_INT_RGB,
+        if (isBgOpfrbtion(srdDbtb, bgColor)) {
+            // Wf dbnnot pfrform bg opfrbtions during trbnsform so mbkf
+            // bn opbquf tfmp imbgf witi tif bppropribtf bbdkground
+            // bnd work from tifrf.
+            img = mbkfBufffrfdImbgf(img, bgColor, BufffrfdImbgf.TYPE_INT_RGB,
                                     sx1, sy1, sx2, sy2);
-            // Temp image has appropriate subimage at 0,0 now.
+            // Tfmp imbgf ibs bppropribtf subimbgf bt 0,0 now.
             sx2 -= sx1;
             sy2 -= sy1;
             sx1 = sy1 = 0;
 
-            srcData = dstData.getSourceSurfaceData(img,
-                                                   SunGraphics2D.TRANSFORM_GENERIC,
-                                                   sg.imageComp,
+            srdDbtb = dstDbtb.gftSourdfSurfbdfDbtb(img,
+                                                   SunGrbpiids2D.TRANSFORM_GENERIC,
+                                                   sg.imbgfComp,
                                                    bgColor);
         }
 
-        SurfaceType srcType = srcData.getSurfaceType();
-        TransformHelper helper = TransformHelper.getFromCache(srcType);
+        SurfbdfTypf srdTypf = srdDbtb.gftSurfbdfTypf();
+        TrbnsformHflpfr iflpfr = TrbnsformHflpfr.gftFromCbdif(srdTypf);
 
-        if (helper == null) {
-            /* We have no helper for this source image type.
-             * But we know that we do have helpers for both RGB and ARGB,
-             * so convert to one of those types depending on transparency.
-             * ARGB_PRE might be a better choice if the source image has
-             * alpha, but it may cause some recursion here since we only
-             * tend to have converters that convert to ARGB.
+        if (iflpfr == null) {
+            /* Wf ibvf no iflpfr for tiis sourdf imbgf typf.
+             * But wf know tibt wf do ibvf iflpfrs for boti RGB bnd ARGB,
+             * so donvfrt to onf of tiosf typfs dfpfnding on trbnspbrfndy.
+             * ARGB_PRE migit bf b bfttfr dioidf if tif sourdf imbgf ibs
+             * blpib, but it mby dbusf somf rfdursion ifrf sindf wf only
+             * tfnd to ibvf donvfrtfrs tibt donvfrt to ARGB.
              */
-            int type = ((srcData.getTransparency() == Transparency.OPAQUE)
-                        ? BufferedImage.TYPE_INT_RGB
-                        : BufferedImage.TYPE_INT_ARGB);
-            img = makeBufferedImage(img, null, type, sx1, sy1, sx2, sy2);
-            // Temp image has appropriate subimage at 0,0 now.
+            int typf = ((srdDbtb.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE)
+                        ? BufffrfdImbgf.TYPE_INT_RGB
+                        : BufffrfdImbgf.TYPE_INT_ARGB);
+            img = mbkfBufffrfdImbgf(img, null, typf, sx1, sy1, sx2, sy2);
+            // Tfmp imbgf ibs bppropribtf subimbgf bt 0,0 now.
             sx2 -= sx1;
             sy2 -= sy1;
             sx1 = sy1 = 0;
 
-            srcData = dstData.getSourceSurfaceData(img,
-                                                   SunGraphics2D.TRANSFORM_GENERIC,
-                                                   sg.imageComp,
+            srdDbtb = dstDbtb.gftSourdfSurfbdfDbtb(img,
+                                                   SunGrbpiids2D.TRANSFORM_GENERIC,
+                                                   sg.imbgfComp,
                                                    null);
-            srcType = srcData.getSurfaceType();
-            helper = TransformHelper.getFromCache(srcType);
-            // assert(helper != null);
+            srdTypf = srdDbtb.gftSurfbdfTypf();
+            iflpfr = TrbnsformHflpfr.gftFromCbdif(srdTypf);
+            // bssfrt(iflpfr != null);
         }
 
-        AffineTransform itx;
+        AffinfTrbnsform itx;
         try {
-            itx = tx.createInverse();
-        } catch (NoninvertibleTransformException e) {
-            // Non-invertible transform means no output
-            return;
+            itx = tx.drfbtfInvfrsf();
+        } dbtdi (NoninvfrtiblfTrbnsformExdfption f) {
+            // Non-invfrtiblf trbnsform mfbns no output
+            rfturn;
         }
 
         /*
-         * Find the maximum bounds on the destination that will be
-         * affected by the transformed source.  First, transform all
-         * four corners of the source and then min and max the resulting
-         * destination coordinates of the transformed corners.
-         * Note that tx already has the offset to sx1,sy1 accounted
-         * for so we use the box (0, 0, sx2-sx1, sy2-sy1) as the
-         * source coordinates.
+         * Find tif mbximum bounds on tif dfstinbtion tibt will bf
+         * bfffdtfd by tif trbnsformfd sourdf.  First, trbnsform bll
+         * four dornfrs of tif sourdf bnd tifn min bnd mbx tif rfsulting
+         * dfstinbtion doordinbtfs of tif trbnsformfd dornfrs.
+         * Notf tibt tx blrfbdy ibs tif offsft to sx1,sy1 bddountfd
+         * for so wf usf tif box (0, 0, sx2-sx1, sy2-sy1) bs tif
+         * sourdf doordinbtfs.
          */
-        double coords[] = new double[8];
-        /* corner:  UL      UR      LL      LR   */
-        /* index:  0  1    2  3    4  5    6  7  */
-        /* coord: (0, 0), (w, 0), (0, h), (w, h) */
-        coords[2] = coords[6] = sx2 - sx1;
-        coords[5] = coords[7] = sy2 - sy1;
-        tx.transform(coords, 0, coords, 0, 4);
-        double ddx1, ddy1, ddx2, ddy2;
-        ddx1 = ddx2 = coords[0];
-        ddy1 = ddy2 = coords[1];
-        for (int i = 2; i < coords.length; i += 2) {
-            double d = coords[i];
+        doublf doords[] = nfw doublf[8];
+        /* dornfr:  UL      UR      LL      LR   */
+        /* indfx:  0  1    2  3    4  5    6  7  */
+        /* doord: (0, 0), (w, 0), (0, i), (w, i) */
+        doords[2] = doords[6] = sx2 - sx1;
+        doords[5] = doords[7] = sy2 - sy1;
+        tx.trbnsform(doords, 0, doords, 0, 4);
+        doublf ddx1, ddy1, ddx2, ddy2;
+        ddx1 = ddx2 = doords[0];
+        ddy1 = ddy2 = doords[1];
+        for (int i = 2; i < doords.lfngti; i += 2) {
+            doublf d = doords[i];
             if (ddx1 > d) ddx1 = d;
-            else if (ddx2 < d) ddx2 = d;
-            d = coords[i+1];
+            flsf if (ddx2 < d) ddx2 = d;
+            d = doords[i+1];
             if (ddy1 > d) ddy1 = d;
-            else if (ddy2 < d) ddy2 = d;
+            flsf if (ddy2 < d) ddy2 = d;
         }
-        int dx1 = (int) Math.floor(ddx1);
-        int dy1 = (int) Math.floor(ddy1);
-        int dx2 = (int) Math.ceil(ddx2);
-        int dy2 = (int) Math.ceil(ddy2);
+        int dx1 = (int) Mbti.floor(ddx1);
+        int dy1 = (int) Mbti.floor(ddy1);
+        int dx2 = (int) Mbti.dfil(ddx2);
+        int dy2 = (int) Mbti.dfil(ddy2);
 
-        SurfaceType dstType = dstData.getSurfaceType();
-        MaskBlit maskblit;
+        SurfbdfTypf dstTypf = dstDbtb.gftSurfbdfTypf();
+        MbskBlit mbskblit;
         Blit blit;
-        if (sg.compositeState <= SunGraphics2D.COMP_ALPHA) {
-            /* NOTE: We either have, or we can make,
-             * a MaskBlit for any alpha composite type
+        if (sg.dompositfStbtf <= SunGrbpiids2D.COMP_ALPHA) {
+            /* NOTE: Wf fitifr ibvf, or wf dbn mbkf,
+             * b MbskBlit for bny blpib dompositf typf
              */
-            maskblit = MaskBlit.getFromCache(SurfaceType.IntArgbPre,
-                                             sg.imageComp,
-                                             dstType);
+            mbskblit = MbskBlit.gftFromCbdif(SurfbdfTypf.IntArgbPrf,
+                                             sg.imbgfComp,
+                                             dstTypf);
 
-            /* NOTE: We can only use the native TransformHelper
-             * func to go directly to the dest if both the helper
-             * and the MaskBlit are native.
-             * All helpers are native at this point, but some MaskBlit
-             * objects are implemented in Java, so we need to check.
+            /* NOTE: Wf dbn only usf tif nbtivf TrbnsformHflpfr
+             * fund to go dirfdtly to tif dfst if boti tif iflpfr
+             * bnd tif MbskBlit brf nbtivf.
+             * All iflpfrs brf nbtivf bt tiis point, but somf MbskBlit
+             * objfdts brf implfmfntfd in Jbvb, so wf nffd to difdk.
              */
-            if (maskblit.getNativePrim() != 0) {
-                // We can render directly.
-                helper.Transform(maskblit, srcData, dstData,
-                                 sg.composite, clip,
-                                 itx, interpType,
+            if (mbskblit.gftNbtivfPrim() != 0) {
+                // Wf dbn rfndfr dirfdtly.
+                iflpfr.Trbnsform(mbskblit, srdDbtb, dstDbtb,
+                                 sg.dompositf, dlip,
+                                 itx, intfrpTypf,
                                  sx1, sy1, sx2, sy2,
                                  dx1, dy1, dx2, dy2,
                                  null, 0, 0);
-                return;
+                rfturn;
             }
             blit = null;
-        } else {
-            /* NOTE: We either have, or we can make,
-             * a Blit for any composite type, even Custom
+        } flsf {
+            /* NOTE: Wf fitifr ibvf, or wf dbn mbkf,
+             * b Blit for bny dompositf typf, fvfn Custom
              */
-            maskblit = null;
-            blit = Blit.getFromCache(SurfaceType.IntArgbPre,
-                                     sg.imageComp,
-                                     dstType);
+            mbskblit = null;
+            blit = Blit.gftFromCbdif(SurfbdfTypf.IntArgbPrf,
+                                     sg.imbgfComp,
+                                     dstTypf);
         }
 
-        // We need to transform to a temp image and then copy
-        // just the pieces that are valid data to the dest.
-        BufferedImage tmpimg = new BufferedImage(dx2-dx1, dy2-dy1,
-                                                 BufferedImage.TYPE_INT_ARGB);
-        SurfaceData tmpData = SurfaceData.getPrimarySurfaceData(tmpimg);
-        SurfaceType tmpType = tmpData.getSurfaceType();
-        MaskBlit tmpmaskblit =
-            MaskBlit.getFromCache(SurfaceType.IntArgbPre,
-                                  CompositeType.SrcNoEa,
-                                  tmpType);
+        // Wf nffd to trbnsform to b tfmp imbgf bnd tifn dopy
+        // just tif pifdfs tibt brf vblid dbtb to tif dfst.
+        BufffrfdImbgf tmpimg = nfw BufffrfdImbgf(dx2-dx1, dy2-dy1,
+                                                 BufffrfdImbgf.TYPE_INT_ARGB);
+        SurfbdfDbtb tmpDbtb = SurfbdfDbtb.gftPrimbrySurfbdfDbtb(tmpimg);
+        SurfbdfTypf tmpTypf = tmpDbtb.gftSurfbdfTypf();
+        MbskBlit tmpmbskblit =
+            MbskBlit.gftFromCbdif(SurfbdfTypf.IntArgbPrf,
+                                  CompositfTypf.SrdNoEb,
+                                  tmpTypf);
         /*
-         * The helper function fills a temporary edges buffer
-         * for us with the bounding coordinates of each scanline
-         * in the following format:
+         * Tif iflpfr fundtion fills b tfmporbry fdgfs bufffr
+         * for us witi tif bounding doordinbtfs of fbdi sdbnlinf
+         * in tif following formbt:
          *
-         * edges[0, 1] = [top y, bottom y)
-         * edges[2, 3] = [left x, right x) of top row
+         * fdgfs[0, 1] = [top y, bottom y)
+         * fdgfs[2, 3] = [lfft x, rigit x) of top row
          * ...
-         * edges[h*2, h*2+1] = [left x, right x) of bottom row
+         * fdgfs[i*2, i*2+1] = [lfft x, rigit x) of bottom row
          *
-         * all coordinates in the edges array will be relative to dx1, dy1
+         * bll doordinbtfs in tif fdgfs brrby will bf rflbtivf to dx1, dy1
          *
-         * edges thus has to be h*2+2 in length
+         * fdgfs tius ibs to bf i*2+2 in lfngti
          */
-        int edges[] = new int[(dy2-dy1)*2+2];
-        // It is important that edges[0]=edges[1]=0 when we call
-        // Transform in case it must return early and we would
-        // not want to render anything on an error condition.
-        helper.Transform(tmpmaskblit, srcData, tmpData,
-                         AlphaComposite.Src, null,
-                         itx, interpType,
+        int fdgfs[] = nfw int[(dy2-dy1)*2+2];
+        // It is importbnt tibt fdgfs[0]=fdgfs[1]=0 wifn wf dbll
+        // Trbnsform in dbsf it must rfturn fbrly bnd wf would
+        // not wbnt to rfndfr bnytiing on bn frror dondition.
+        iflpfr.Trbnsform(tmpmbskblit, srdDbtb, tmpDbtb,
+                         AlpibCompositf.Srd, null,
+                         itx, intfrpTypf,
                          sx1, sy1, sx2, sy2,
                          0, 0, dx2-dx1, dy2-dy1,
-                         edges, dx1, dy1);
+                         fdgfs, dx1, dy1);
 
         /*
-         * Now copy the results, scanline by scanline, into the dest.
-         * The edges array helps us minimize the work.
+         * Now dopy tif rfsults, sdbnlinf by sdbnlinf, into tif dfst.
+         * Tif fdgfs brrby iflps us minimizf tif work.
          */
-        int index = 2;
-        for (int y = edges[0]; y < edges[1]; y++) {
-            int relx1 = edges[index++];
-            int relx2 = edges[index++];
-            if (relx1 >= relx2) {
-                continue;
+        int indfx = 2;
+        for (int y = fdgfs[0]; y < fdgfs[1]; y++) {
+            int rflx1 = fdgfs[indfx++];
+            int rflx2 = fdgfs[indfx++];
+            if (rflx1 >= rflx2) {
+                dontinuf;
             }
-            if (maskblit != null) {
-                maskblit.MaskBlit(tmpData, dstData,
-                                  sg.composite, clip,
-                                  relx1, y,
-                                  dx1+relx1, dy1+y,
-                                  relx2 - relx1, 1,
+            if (mbskblit != null) {
+                mbskblit.MbskBlit(tmpDbtb, dstDbtb,
+                                  sg.dompositf, dlip,
+                                  rflx1, y,
+                                  dx1+rflx1, dy1+y,
+                                  rflx2 - rflx1, 1,
                                   null, 0, 0);
-            } else {
-                blit.Blit(tmpData, dstData,
-                          sg.composite, clip,
-                          relx1, y,
-                          dx1+relx1, dy1+y,
-                          relx2 - relx1, 1);
+            } flsf {
+                blit.Blit(tmpDbtb, dstDbtb,
+                          sg.dompositf, dlip,
+                          rflx1, y,
+                          dx1+rflx1, dy1+y,
+                          rflx2 - rflx1, 1);
             }
         }
     }
 
-    // Render an image using only integer translation
-    // (no scale or transform or sub-pixel interpolated translations).
-    protected boolean renderImageCopy(SunGraphics2D sg, Image img,
+    // Rfndfr bn imbgf using only intfgfr trbnslbtion
+    // (no sdblf or trbnsform or sub-pixfl intfrpolbtfd trbnslbtions).
+    protfdtfd boolfbn rfndfrImbgfCopy(SunGrbpiids2D sg, Imbgf img,
                                       Color bgColor,
                                       int dx, int dy,
                                       int sx, int sy,
-                                      int w, int h)
+                                      int w, int i)
     {
-        Region clip = sg.getCompClip();
-        SurfaceData dstData = sg.surfaceData;
+        Rfgion dlip = sg.gftCompClip();
+        SurfbdfDbtb dstDbtb = sg.surfbdfDbtb;
 
-        int attempts = 0;
-        // Loop up to twice through; this gives us a chance to
-        // revalidate the surfaceData objects in case of an exception
-        // and try it once more
-        while (true) {
-            SurfaceData srcData =
-                dstData.getSourceSurfaceData(img,
-                                             SunGraphics2D.TRANSFORM_ISIDENT,
-                                             sg.imageComp,
+        int bttfmpts = 0;
+        // Loop up to twidf tirougi; tiis givfs us b dibndf to
+        // rfvblidbtf tif surfbdfDbtb objfdts in dbsf of bn fxdfption
+        // bnd try it ondf morf
+        wiilf (truf) {
+            SurfbdfDbtb srdDbtb =
+                dstDbtb.gftSourdfSurfbdfDbtb(img,
+                                             SunGrbpiids2D.TRANSFORM_ISIDENT,
+                                             sg.imbgfComp,
                                              bgColor);
-            if (srcData == null) {
-                return false;
+            if (srdDbtb == null) {
+                rfturn fblsf;
             }
 
             try {
-                SurfaceType srcType = srcData.getSurfaceType();
-                SurfaceType dstType = dstData.getSurfaceType();
-                blitSurfaceData(sg, clip,
-                                srcData, dstData, srcType, dstType,
-                                sx, sy, dx, dy, w, h, bgColor);
-                return true;
-            } catch (NullPointerException e) {
-                if (!(SurfaceData.isNull(dstData) ||
-                      SurfaceData.isNull(srcData)))
+                SurfbdfTypf srdTypf = srdDbtb.gftSurfbdfTypf();
+                SurfbdfTypf dstTypf = dstDbtb.gftSurfbdfTypf();
+                blitSurfbdfDbtb(sg, dlip,
+                                srdDbtb, dstDbtb, srdTypf, dstTypf,
+                                sx, sy, dx, dy, w, i, bgColor);
+                rfturn truf;
+            } dbtdi (NullPointfrExdfption f) {
+                if (!(SurfbdfDbtb.isNull(dstDbtb) ||
+                      SurfbdfDbtb.isNull(srdDbtb)))
                 {
-                    // Something else caused the exception, throw it...
-                    throw e;
+                    // Somftiing flsf dbusfd tif fxdfption, tirow it...
+                    tirow f;
                 }
-                return false;
-                // NOP if we have been disposed
-            } catch (InvalidPipeException e) {
-                // Always catch the exception; try this a couple of times
-                // and fail silently if the system is not yet ready to
-                // revalidate the source or dest surfaceData objects.
-                ++attempts;
-                clip = sg.getCompClip();   // ensures sg.surfaceData is valid
-                dstData = sg.surfaceData;
-                if (SurfaceData.isNull(dstData) ||
-                    SurfaceData.isNull(srcData) || (attempts > 1))
+                rfturn fblsf;
+                // NOP if wf ibvf bffn disposfd
+            } dbtdi (InvblidPipfExdfption f) {
+                // Alwbys dbtdi tif fxdfption; try tiis b douplf of timfs
+                // bnd fbil silfntly if tif systfm is not yft rfbdy to
+                // rfvblidbtf tif sourdf or dfst surfbdfDbtb objfdts.
+                ++bttfmpts;
+                dlip = sg.gftCompClip();   // fnsurfs sg.surfbdfDbtb is vblid
+                dstDbtb = sg.surfbdfDbtb;
+                if (SurfbdfDbtb.isNull(dstDbtb) ||
+                    SurfbdfDbtb.isNull(srdDbtb) || (bttfmpts > 1))
                 {
-                    return false;
+                    rfturn fblsf;
                 }
             }
         }
     }
 
-    // Render an image using only integer scaling (no transform).
-    protected boolean renderImageScale(SunGraphics2D sg, Image img,
-                                       Color bgColor, int interpType,
+    // Rfndfr bn imbgf using only intfgfr sdbling (no trbnsform).
+    protfdtfd boolfbn rfndfrImbgfSdblf(SunGrbpiids2D sg, Imbgf img,
+                                       Color bgColor, int intfrpTypf,
                                        int sx1, int sy1,
                                        int sx2, int sy2,
-                                       double dx1, double dy1,
-                                       double dx2, double dy2)
+                                       doublf dx1, doublf dy1,
+                                       doublf dx2, doublf dy2)
     {
-        // Currently only NEAREST_NEIGHBOR interpolation is implemented
-        // for ScaledBlit operations.
-        if (interpType != AffineTransformOp.TYPE_NEAREST_NEIGHBOR) {
-            return false;
+        // Currfntly only NEAREST_NEIGHBOR intfrpolbtion is implfmfntfd
+        // for SdblfdBlit opfrbtions.
+        if (intfrpTypf != AffinfTrbnsformOp.TYPE_NEAREST_NEIGHBOR) {
+            rfturn fblsf;
         }
 
-        Region clip = sg.getCompClip();
-        SurfaceData dstData = sg.surfaceData;
+        Rfgion dlip = sg.gftCompClip();
+        SurfbdfDbtb dstDbtb = sg.surfbdfDbtb;
 
-        int attempts = 0;
-        // Loop up to twice through; this gives us a chance to
-        // revalidate the surfaceData objects in case of an exception
-        // and try it once more
-        while (true) {
-            SurfaceData srcData =
-                dstData.getSourceSurfaceData(img,
-                                             SunGraphics2D.TRANSFORM_TRANSLATESCALE,
-                                             sg.imageComp,
+        int bttfmpts = 0;
+        // Loop up to twidf tirougi; tiis givfs us b dibndf to
+        // rfvblidbtf tif surfbdfDbtb objfdts in dbsf of bn fxdfption
+        // bnd try it ondf morf
+        wiilf (truf) {
+            SurfbdfDbtb srdDbtb =
+                dstDbtb.gftSourdfSurfbdfDbtb(img,
+                                             SunGrbpiids2D.TRANSFORM_TRANSLATESCALE,
+                                             sg.imbgfComp,
                                              bgColor);
 
-            if (srcData == null || isBgOperation(srcData, bgColor)) {
-                return false;
+            if (srdDbtb == null || isBgOpfrbtion(srdDbtb, bgColor)) {
+                rfturn fblsf;
             }
 
             try {
-                SurfaceType srcType = srcData.getSurfaceType();
-                SurfaceType dstType = dstData.getSurfaceType();
-                return scaleSurfaceData(sg, clip,
-                                        srcData, dstData, srcType, dstType,
+                SurfbdfTypf srdTypf = srdDbtb.gftSurfbdfTypf();
+                SurfbdfTypf dstTypf = dstDbtb.gftSurfbdfTypf();
+                rfturn sdblfSurfbdfDbtb(sg, dlip,
+                                        srdDbtb, dstDbtb, srdTypf, dstTypf,
                                         sx1, sy1, sx2, sy2,
                                         dx1, dy1, dx2, dy2);
-            } catch (NullPointerException e) {
-                if (!SurfaceData.isNull(dstData)) {
-                    // Something else caused the exception, throw it...
-                    throw e;
+            } dbtdi (NullPointfrExdfption f) {
+                if (!SurfbdfDbtb.isNull(dstDbtb)) {
+                    // Somftiing flsf dbusfd tif fxdfption, tirow it...
+                    tirow f;
                 }
-                return false;
-                // NOP if we have been disposed
-            } catch (InvalidPipeException e) {
-                // Always catch the exception; try this a couple of times
-                // and fail silently if the system is not yet ready to
-                // revalidate the source or dest surfaceData objects.
-                ++attempts;
-                clip = sg.getCompClip();  // ensures sg.surfaceData is valid
-                dstData = sg.surfaceData;
-                if (SurfaceData.isNull(dstData) ||
-                    SurfaceData.isNull(srcData) || (attempts > 1))
+                rfturn fblsf;
+                // NOP if wf ibvf bffn disposfd
+            } dbtdi (InvblidPipfExdfption f) {
+                // Alwbys dbtdi tif fxdfption; try tiis b douplf of timfs
+                // bnd fbil silfntly if tif systfm is not yft rfbdy to
+                // rfvblidbtf tif sourdf or dfst surfbdfDbtb objfdts.
+                ++bttfmpts;
+                dlip = sg.gftCompClip();  // fnsurfs sg.surfbdfDbtb is vblid
+                dstDbtb = sg.surfbdfDbtb;
+                if (SurfbdfDbtb.isNull(dstDbtb) ||
+                    SurfbdfDbtb.isNull(srdDbtb) || (bttfmpts > 1))
                 {
-                    return false;
+                    rfturn fblsf;
                 }
             }
         }
     }
 
-    public boolean scaleImage(SunGraphics2D sg, Image img,
+    publid boolfbn sdblfImbgf(SunGrbpiids2D sg, Imbgf img,
                               int dx1, int dy1, int dx2, int dy2,
                               int sx1, int sy1, int sx2, int sy2,
                               Color bgColor)
     {
-        int srcW, srcH, dstW, dstH;
-        int srcX, srcY, dstX, dstY;
-        boolean srcWidthFlip = false;
-        boolean srcHeightFlip = false;
-        boolean dstWidthFlip = false;
-        boolean dstHeightFlip = false;
+        int srdW, srdH, dstW, dstH;
+        int srdX, srdY, dstX, dstY;
+        boolfbn srdWidtiFlip = fblsf;
+        boolfbn srdHfigitFlip = fblsf;
+        boolfbn dstWidtiFlip = fblsf;
+        boolfbn dstHfigitFlip = fblsf;
 
         if (sx2 > sx1) {
-            srcW = sx2 - sx1;
-            srcX = sx1;
-        } else {
-            srcWidthFlip = true;
-            srcW = sx1 - sx2;
-            srcX = sx2;
+            srdW = sx2 - sx1;
+            srdX = sx1;
+        } flsf {
+            srdWidtiFlip = truf;
+            srdW = sx1 - sx2;
+            srdX = sx2;
         }
         if (sy2 > sy1) {
-            srcH = sy2-sy1;
-            srcY = sy1;
-        } else {
-            srcHeightFlip = true;
-            srcH = sy1-sy2;
-            srcY = sy2;
+            srdH = sy2-sy1;
+            srdY = sy1;
+        } flsf {
+            srdHfigitFlip = truf;
+            srdH = sy1-sy2;
+            srdY = sy2;
         }
         if (dx2 > dx1) {
             dstW = dx2 - dx1;
             dstX = dx1;
-        } else {
+        } flsf {
             dstW = dx1 - dx2;
-            dstWidthFlip = true;
+            dstWidtiFlip = truf;
             dstX = dx2;
         }
         if (dy2 > dy1) {
             dstH = dy2 - dy1;
             dstY = dy1;
-        } else {
+        } flsf {
             dstH = dy1 - dy2;
-            dstHeightFlip = true;
+            dstHfigitFlip = truf;
             dstY = dy2;
         }
-        if (srcW <= 0 || srcH <= 0) {
-            return true;
+        if (srdW <= 0 || srdH <= 0) {
+            rfturn truf;
         }
-        // Only accelerate scale if it does not involve a flip or transform
-        if ((srcWidthFlip == dstWidthFlip) &&
-            (srcHeightFlip == dstHeightFlip) &&
-            isSimpleTranslate(sg))
+        // Only bddflfrbtf sdblf if it dofs not involvf b flip or trbnsform
+        if ((srdWidtiFlip == dstWidtiFlip) &&
+            (srdHfigitFlip == dstHfigitFlip) &&
+            isSimplfTrbnslbtf(sg))
         {
-            double ddx1 = dstX + sg.transX;
-            double ddy1 = dstY + sg.transY;
-            double ddx2 = ddx1 + dstW;
-            double ddy2 = ddy1 + dstH;
-            if (renderImageScale(sg, img, bgColor, sg.interpolationType,
-                                 srcX, srcY, srcX+srcW, srcY+srcH,
+            doublf ddx1 = dstX + sg.trbnsX;
+            doublf ddy1 = dstY + sg.trbnsY;
+            doublf ddx2 = ddx1 + dstW;
+            doublf ddy2 = ddy1 + dstH;
+            if (rfndfrImbgfSdblf(sg, img, bgColor, sg.intfrpolbtionTypf,
+                                 srdX, srdY, srdX+srdW, srdY+srdH,
                                  ddx1, ddy1, ddx2, ddy2))
             {
-                return true;
+                rfturn truf;
             }
         }
 
-        AffineTransform atfm = new AffineTransform(sg.transform);
-        atfm.translate(dx1, dy1);
-        double m00 = (double)(dx2-dx1)/(sx2-sx1);
-        double m11 = (double)(dy2-dy1)/(sy2-sy1);
-        atfm.scale(m00, m11);
-        atfm.translate(srcX-sx1, srcY-sy1);
+        AffinfTrbnsform btfm = nfw AffinfTrbnsform(sg.trbnsform);
+        btfm.trbnslbtf(dx1, dy1);
+        doublf m00 = (doublf)(dx2-dx1)/(sx2-sx1);
+        doublf m11 = (doublf)(dy2-dy1)/(sy2-sy1);
+        btfm.sdblf(m00, m11);
+        btfm.trbnslbtf(srdX-sx1, srdY-sy1);
 
-        final int scale = SurfaceManager.getImageScale(img);
-        final int imgW = img.getWidth(null) * scale;
-        final int imgH = img.getHeight(null) * scale;
-        srcW += srcX;
-        srcH += srcY;
-        // Make sure we are not out of bounds
-        if (srcW > imgW) {
-            srcW = imgW;
+        finbl int sdblf = SurfbdfMbnbgfr.gftImbgfSdblf(img);
+        finbl int imgW = img.gftWidti(null) * sdblf;
+        finbl int imgH = img.gftHfigit(null) * sdblf;
+        srdW += srdX;
+        srdH += srdY;
+        // Mbkf surf wf brf not out of bounds
+        if (srdW > imgW) {
+            srdW = imgW;
         }
-        if (srcH > imgH) {
-            srcH = imgH;
+        if (srdH > imgH) {
+            srdH = imgH;
         }
-        if (srcX < 0) {
-            atfm.translate(-srcX, 0);
-            srcX = 0;
+        if (srdX < 0) {
+            btfm.trbnslbtf(-srdX, 0);
+            srdX = 0;
         }
-        if (srcY < 0) {
-            atfm.translate(0, -srcY);
-            srcY = 0;
+        if (srdY < 0) {
+            btfm.trbnslbtf(0, -srdY);
+            srdY = 0;
         }
-        if (srcX >= srcW || srcY >= srcH) {
-            return true;
+        if (srdX >= srdW || srdY >= srdH) {
+            rfturn truf;
         }
-        // Note: src[WH] are currently the right and bottom coordinates.
-        // The following two lines would adjust src[WH] back to being
-        // dimensions.
-        //     srcW -= srcX;
-        //     srcH -= srcY;
-        // Since transformImage needs right and bottom coords we will
-        // omit this adjustment.
+        // Notf: srd[WH] brf durrfntly tif rigit bnd bottom doordinbtfs.
+        // Tif following two linfs would bdjust srd[WH] bbdk to bfing
+        // dimfnsions.
+        //     srdW -= srdX;
+        //     srdH -= srdY;
+        // Sindf trbnsformImbgf nffds rigit bnd bottom doords wf will
+        // omit tiis bdjustmfnt.
 
-        transformImage(sg, img, atfm, sg.interpolationType,
-                       srcX, srcY, srcW, srcH, bgColor);
-        return true;
+        trbnsformImbgf(sg, img, btfm, sg.intfrpolbtionTypf,
+                       srdX, srdY, srdW, srdH, bgColor);
+        rfturn truf;
     }
 
     /**
-     ** Utilities
-     ** The following methods are used by the public methods above
-     ** for performing various operations
+     ** Utilitifs
+     ** Tif following mftiods brf usfd by tif publid mftiods bbovf
+     ** for pfrforming vbrious opfrbtions
      **/
 
     /*
-     * This constant represents a tradeoff between the
-     * need to make sure that image transformations are
-     * "very close" to integer device coordinates before
-     * we decide to use an integer scale or copy operation
-     * as a substitute and the fact that roundoff errors
-     * in AffineTransforms are frequently introduced by
-     * performing multiple sequential operations on them.
+     * Tiis donstbnt rfprfsfnts b trbdfoff bftwffn tif
+     * nffd to mbkf surf tibt imbgf trbnsformbtions brf
+     * "vfry dlosf" to intfgfr dfvidf doordinbtfs bfforf
+     * wf dfdidf to usf bn intfgfr sdblf or dopy opfrbtion
+     * bs b substitutf bnd tif fbdt tibt roundoff frrors
+     * in AffinfTrbnsforms brf frfqufntly introdudfd by
+     * pfrforming multiplf sfqufntibl opfrbtions on tifm.
      *
-     * The evaluation of bug 4990624 details the potential
-     * for this error cutoff to result in display anomalies
-     * in different types of image operations and how this
-     * value represents a good compromise here.
+     * Tif fvblubtion of bug 4990624 dftbils tif potfntibl
+     * for tiis frror dutoff to rfsult in displby bnomblifs
+     * in difffrfnt typfs of imbgf opfrbtions bnd iow tiis
+     * vbluf rfprfsfnts b good dompromisf ifrf.
      */
-    private static final double MAX_TX_ERROR = .0001;
+    privbtf stbtid finbl doublf MAX_TX_ERROR = .0001;
 
-    public static boolean closeToInteger(int i, double d) {
-        return (Math.abs(d-i) < MAX_TX_ERROR);
+    publid stbtid boolfbn dlosfToIntfgfr(int i, doublf d) {
+        rfturn (Mbti.bbs(d-i) < MAX_TX_ERROR);
     }
 
-    public static boolean isSimpleTranslate(SunGraphics2D sg) {
-        int ts = sg.transformState;
-        if (ts <= SunGraphics2D.TRANSFORM_INT_TRANSLATE) {
-            // Integer translates are always "simple"
-            return true;
+    publid stbtid boolfbn isSimplfTrbnslbtf(SunGrbpiids2D sg) {
+        int ts = sg.trbnsformStbtf;
+        if (ts <= SunGrbpiids2D.TRANSFORM_INT_TRANSLATE) {
+            // Intfgfr trbnslbtfs brf blwbys "simplf"
+            rfturn truf;
         }
-        if (ts >= SunGraphics2D.TRANSFORM_TRANSLATESCALE) {
-            // Scales and beyond are always "not simple"
-            return false;
+        if (ts >= SunGrbpiids2D.TRANSFORM_TRANSLATESCALE) {
+            // Sdblfs bnd bfyond brf blwbys "not simplf"
+            rfturn fblsf;
         }
-        // non-integer translates are only simple when not interpolating
-        if (sg.interpolationType == AffineTransformOp.TYPE_NEAREST_NEIGHBOR) {
-            return true;
+        // non-intfgfr trbnslbtfs brf only simplf wifn not intfrpolbting
+        if (sg.intfrpolbtionTypf == AffinfTrbnsformOp.TYPE_NEAREST_NEIGHBOR) {
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    protected static boolean isBgOperation(SurfaceData srcData, Color bgColor) {
-        // If we cannot get the srcData, then cannot assume anything about
-        // the image
-        return ((srcData == null) ||
+    protfdtfd stbtid boolfbn isBgOpfrbtion(SurfbdfDbtb srdDbtb, Color bgColor) {
+        // If wf dbnnot gft tif srdDbtb, tifn dbnnot bssumf bnytiing bbout
+        // tif imbgf
+        rfturn ((srdDbtb == null) ||
                 ((bgColor != null) &&
-                 (srcData.getTransparency() != Transparency.OPAQUE)));
+                 (srdDbtb.gftTrbnspbrfndy() != Trbnspbrfndy.OPAQUE)));
     }
 
-    protected BufferedImage getBufferedImage(Image img) {
-        if (img instanceof BufferedImage) {
-            return (BufferedImage)img;
+    protfdtfd BufffrfdImbgf gftBufffrfdImbgf(Imbgf img) {
+        if (img instbndfof BufffrfdImbgf) {
+            rfturn (BufffrfdImbgf)img;
         }
-        // Must be VolatileImage; get BufferedImage representation
-        return ((VolatileImage)img).getSnapshot();
+        // Must bf VolbtilfImbgf; gft BufffrfdImbgf rfprfsfntbtion
+        rfturn ((VolbtilfImbgf)img).gftSnbpsiot();
     }
 
     /*
-     * Return the color model to be used with this BufferedImage and
-     * transform.
+     * Rfturn tif dolor modfl to bf usfd witi tiis BufffrfdImbgf bnd
+     * trbnsform.
      */
-    private ColorModel getTransformColorModel(SunGraphics2D sg,
-                                              BufferedImage bImg,
-                                              AffineTransform tx) {
-        ColorModel cm = bImg.getColorModel();
-        ColorModel dstCM = cm;
+    privbtf ColorModfl gftTrbnsformColorModfl(SunGrbpiids2D sg,
+                                              BufffrfdImbgf bImg,
+                                              AffinfTrbnsform tx) {
+        ColorModfl dm = bImg.gftColorModfl();
+        ColorModfl dstCM = dm;
 
-        if (tx.isIdentity()) {
-            return dstCM;
+        if (tx.isIdfntity()) {
+            rfturn dstCM;
         }
-        int type = tx.getType();
-        boolean needTrans =
-                ((type & (AffineTransform.TYPE_MASK_ROTATION |
-                          AffineTransform.TYPE_GENERAL_TRANSFORM)) != 0);
-        if (! needTrans &&
-              type != AffineTransform.TYPE_TRANSLATION &&
-              type != AffineTransform.TYPE_IDENTITY)
+        int typf = tx.gftTypf();
+        boolfbn nffdTrbns =
+                ((typf & (AffinfTrbnsform.TYPE_MASK_ROTATION |
+                          AffinfTrbnsform.TYPE_GENERAL_TRANSFORM)) != 0);
+        if (! nffdTrbns &&
+              typf != AffinfTrbnsform.TYPE_TRANSLATION &&
+              typf != AffinfTrbnsform.TYPE_IDENTITY)
         {
-            double[] mtx = new double[4];
-            tx.getMatrix(mtx);
-            // Check out the matrix.  A non-integral scale will force ARGB
-            // since the edge conditions cannot be guaranteed.
-            needTrans = (mtx[0] != (int)mtx[0] || mtx[3] != (int)mtx[3]);
+            doublf[] mtx = nfw doublf[4];
+            tx.gftMbtrix(mtx);
+            // Cifdk out tif mbtrix.  A non-intfgrbl sdblf will fordf ARGB
+            // sindf tif fdgf donditions dbnnot bf gubrbntffd.
+            nffdTrbns = (mtx[0] != (int)mtx[0] || mtx[3] != (int)mtx[3]);
         }
 
-        if (sg.renderHint != SunHints.INTVAL_RENDER_QUALITY) {
-            if (cm instanceof IndexColorModel) {
-                Raster raster = bImg.getRaster();
-                IndexColorModel icm = (IndexColorModel) cm;
-                // Just need to make sure that we have a transparent pixel
-                if (needTrans && cm.getTransparency() == Transparency.OPAQUE) {
+        if (sg.rfndfrHint != SunHints.INTVAL_RENDER_QUALITY) {
+            if (dm instbndfof IndfxColorModfl) {
+                Rbstfr rbstfr = bImg.gftRbstfr();
+                IndfxColorModfl idm = (IndfxColorModfl) dm;
+                // Just nffd to mbkf surf tibt wf ibvf b trbnspbrfnt pixfl
+                if (nffdTrbns && dm.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE) {
                     // Fix 4221407
-                    if (raster instanceof sun.awt.image.BytePackedRaster) {
-                        dstCM = ColorModel.getRGBdefault();
+                    if (rbstfr instbndfof sun.bwt.imbgf.BytfPbdkfdRbstfr) {
+                        dstCM = ColorModfl.gftRGBdffbult();
                     }
-                    else {
-                        double[] matrix = new double[6];
-                        tx.getMatrix(matrix);
-                        if (matrix[1] == 0. && matrix[2] ==0.
-                            && matrix[4] == 0. && matrix[5] == 0.) {
-                            // Only scaling so do not need to create
+                    flsf {
+                        doublf[] mbtrix = nfw doublf[6];
+                        tx.gftMbtrix(mbtrix);
+                        if (mbtrix[1] == 0. && mbtrix[2] ==0.
+                            && mbtrix[4] == 0. && mbtrix[5] == 0.) {
+                            // Only sdbling so do not nffd to drfbtf
                         }
-                        else {
-                            int mapSize = icm.getMapSize();
-                            if (mapSize < 256) {
-                                int[] cmap = new int[mapSize+1];
-                                icm.getRGBs(cmap);
-                                cmap[mapSize] = 0x0000;
-                                dstCM = new
-                                    IndexColorModel(icm.getPixelSize(),
-                                                    mapSize+1,
-                                                    cmap, 0, true, mapSize,
-                                                    DataBuffer.TYPE_BYTE);
+                        flsf {
+                            int mbpSizf = idm.gftMbpSizf();
+                            if (mbpSizf < 256) {
+                                int[] dmbp = nfw int[mbpSizf+1];
+                                idm.gftRGBs(dmbp);
+                                dmbp[mbpSizf] = 0x0000;
+                                dstCM = nfw
+                                    IndfxColorModfl(idm.gftPixflSizf(),
+                                                    mbpSizf+1,
+                                                    dmbp, 0, truf, mbpSizf,
+                                                    DbtbBufffr.TYPE_BYTE);
                             }
-                            else {
-                                dstCM = ColorModel.getRGBdefault();
+                            flsf {
+                                dstCM = ColorModfl.gftRGBdffbult();
                             }
-                        }  /* if (matrix[0] < 1.f ...) */
-                    }   /* raster instanceof sun.awt.image.BytePackedRaster */
-                } /* if (cm.getTransparency() == cm.OPAQUE) */
-            } /* if (cm instanceof IndexColorModel) */
-            else if (needTrans && cm.getTransparency() == Transparency.OPAQUE) {
-                // Need a bitmask transparency
-                // REMIND: for now, use full transparency since no loops
-                // for bitmask
-                dstCM = ColorModel.getRGBdefault();
+                        }  /* if (mbtrix[0] < 1.f ...) */
+                    }   /* rbstfr instbndfof sun.bwt.imbgf.BytfPbdkfdRbstfr */
+                } /* if (dm.gftTrbnspbrfndy() == dm.OPAQUE) */
+            } /* if (dm instbndfof IndfxColorModfl) */
+            flsf if (nffdTrbns && dm.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE) {
+                // Nffd b bitmbsk trbnspbrfndy
+                // REMIND: for now, usf full trbnspbrfndy sindf no loops
+                // for bitmbsk
+                dstCM = ColorModfl.gftRGBdffbult();
             }
-        } /* if (sg.renderHint == RENDER_QUALITY) */
-        else {
+        } /* if (sg.rfndfrHint == RENDER_QUALITY) */
+        flsf {
 
-            if (cm instanceof IndexColorModel ||
-                (needTrans && cm.getTransparency() == Transparency.OPAQUE))
+            if (dm instbndfof IndfxColorModfl ||
+                (nffdTrbns && dm.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE))
             {
-                // Need a bitmask transparency
-                // REMIND: for now, use full transparency since no loops
-                // for bitmask
-                dstCM = ColorModel.getRGBdefault();
+                // Nffd b bitmbsk trbnspbrfndy
+                // REMIND: for now, usf full trbnspbrfndy sindf no loops
+                // for bitmbsk
+                dstCM = ColorModfl.gftRGBdffbult();
             }
         }
 
-        return dstCM;
+        rfturn dstCM;
     }
 
-    protected void blitSurfaceData(SunGraphics2D sg,
-                                   Region clipRegion,
-                                   SurfaceData srcData,
-                                   SurfaceData dstData,
-                                   SurfaceType srcType,
-                                   SurfaceType dstType,
+    protfdtfd void blitSurfbdfDbtb(SunGrbpiids2D sg,
+                                   Rfgion dlipRfgion,
+                                   SurfbdfDbtb srdDbtb,
+                                   SurfbdfDbtb dstDbtb,
+                                   SurfbdfTypf srdTypf,
+                                   SurfbdfTypf dstTypf,
                                    int sx, int sy, int dx, int dy,
-                                   int w, int h,
+                                   int w, int i,
                                    Color bgColor)
     {
-        if (w <= 0 || h <= 0) {
+        if (w <= 0 || i <= 0) {
             /*
-             * Fix for bugid 4783274 - BlitBg throws an exception for
-             * a particular set of anomalous parameters.
-             * REMIND: The native loops do proper clipping and would
-             * detect this situation themselves, but the Java loops
-             * all seem to trust their parameters a little too well
-             * to the point where they will try to process a negative
-             * area of pixels and throw exceptions.  The real fix is
-             * to modify the Java loops to do proper clipping so that
-             * they can deal with negative dimensions as well as
-             * improperly large dimensions, but that fix is too risky
-             * to integrate for Mantis at this point.  In the meantime
-             * eliminating the negative or zero dimensions here is
-             * "correct" and saves them from some nasty exceptional
-             * conditions, one of which is the test case of 4783274.
+             * Fix for bugid 4783274 - BlitBg tirows bn fxdfption for
+             * b pbrtidulbr sft of bnomblous pbrbmftfrs.
+             * REMIND: Tif nbtivf loops do propfr dlipping bnd would
+             * dftfdt tiis situbtion tifmsflvfs, but tif Jbvb loops
+             * bll sffm to trust tifir pbrbmftfrs b littlf too wfll
+             * to tif point wifrf tify will try to prodfss b nfgbtivf
+             * brfb of pixfls bnd tirow fxdfptions.  Tif rfbl fix is
+             * to modify tif Jbvb loops to do propfr dlipping so tibt
+             * tify dbn dfbl witi nfgbtivf dimfnsions bs wfll bs
+             * impropfrly lbrgf dimfnsions, but tibt fix is too risky
+             * to intfgrbtf for Mbntis bt tiis point.  In tif mfbntimf
+             * fliminbting tif nfgbtivf or zfro dimfnsions ifrf is
+             * "dorrfdt" bnd sbvfs tifm from somf nbsty fxdfptionbl
+             * donditions, onf of wiidi is tif tfst dbsf of 4783274.
              */
-            return;
+            rfturn;
         }
-        CompositeType comp = sg.imageComp;
-        if (CompositeType.SrcOverNoEa.equals(comp) &&
-            (srcData.getTransparency() == Transparency.OPAQUE ||
+        CompositfTypf domp = sg.imbgfComp;
+        if (CompositfTypf.SrdOvfrNoEb.fqubls(domp) &&
+            (srdDbtb.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE ||
              (bgColor != null &&
-              bgColor.getTransparency() == Transparency.OPAQUE)))
+              bgColor.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE)))
         {
-            comp = CompositeType.SrcNoEa;
+            domp = CompositfTypf.SrdNoEb;
         }
-        if (!isBgOperation(srcData, bgColor)) {
-            Blit blit = Blit.getFromCache(srcType, comp, dstType);
-            blit.Blit(srcData, dstData, sg.composite, clipRegion,
-                      sx, sy, dx, dy, w, h);
-        } else {
-            BlitBg blit = BlitBg.getFromCache(srcType, comp, dstType);
-            blit.BlitBg(srcData, dstData, sg.composite, clipRegion,
-                        bgColor.getRGB(), sx, sy, dx, dy, w, h);
+        if (!isBgOpfrbtion(srdDbtb, bgColor)) {
+            Blit blit = Blit.gftFromCbdif(srdTypf, domp, dstTypf);
+            blit.Blit(srdDbtb, dstDbtb, sg.dompositf, dlipRfgion,
+                      sx, sy, dx, dy, w, i);
+        } flsf {
+            BlitBg blit = BlitBg.gftFromCbdif(srdTypf, domp, dstTypf);
+            blit.BlitBg(srdDbtb, dstDbtb, sg.dompositf, dlipRfgion,
+                        bgColor.gftRGB(), sx, sy, dx, dy, w, i);
         }
     }
 
-    protected boolean scaleSurfaceData(SunGraphics2D sg,
-                                       Region clipRegion,
-                                       SurfaceData srcData,
-                                       SurfaceData dstData,
-                                       SurfaceType srcType,
-                                       SurfaceType dstType,
+    protfdtfd boolfbn sdblfSurfbdfDbtb(SunGrbpiids2D sg,
+                                       Rfgion dlipRfgion,
+                                       SurfbdfDbtb srdDbtb,
+                                       SurfbdfDbtb dstDbtb,
+                                       SurfbdfTypf srdTypf,
+                                       SurfbdfTypf dstTypf,
                                        int sx1, int sy1,
                                        int sx2, int sy2,
-                                       double dx1, double dy1,
-                                       double dx2, double dy2)
+                                       doublf dx1, doublf dy1,
+                                       doublf dx2, doublf dy2)
     {
-        CompositeType comp = sg.imageComp;
-        if (CompositeType.SrcOverNoEa.equals(comp) &&
-            (srcData.getTransparency() == Transparency.OPAQUE))
+        CompositfTypf domp = sg.imbgfComp;
+        if (CompositfTypf.SrdOvfrNoEb.fqubls(domp) &&
+            (srdDbtb.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE))
         {
-            comp = CompositeType.SrcNoEa;
+            domp = CompositfTypf.SrdNoEb;
         }
 
-        ScaledBlit blit = ScaledBlit.getFromCache(srcType, comp, dstType);
+        SdblfdBlit blit = SdblfdBlit.gftFromCbdif(srdTypf, domp, dstTypf);
         if (blit != null) {
-            blit.Scale(srcData, dstData, sg.composite, clipRegion,
+            blit.Sdblf(srdDbtb, dstDbtb, sg.dompositf, dlipRfgion,
                        sx1, sy1, sx2, sy2, dx1, dy1, dx2, dy2);
-            return true;
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    protected static boolean imageReady(ToolkitImage sunimg,
-                                        ImageObserver observer)
+    protfdtfd stbtid boolfbn imbgfRfbdy(ToolkitImbgf sunimg,
+                                        ImbgfObsfrvfr obsfrvfr)
     {
-        if (sunimg.hasError()) {
-            if (observer != null) {
-                observer.imageUpdate(sunimg,
-                                     ImageObserver.ERROR|ImageObserver.ABORT,
+        if (sunimg.ibsError()) {
+            if (obsfrvfr != null) {
+                obsfrvfr.imbgfUpdbtf(sunimg,
+                                     ImbgfObsfrvfr.ERROR|ImbgfObsfrvfr.ABORT,
                                      -1, -1, -1, -1);
             }
-            return false;
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
-    public boolean copyImage(SunGraphics2D sg, Image img,
+    publid boolfbn dopyImbgf(SunGrbpiids2D sg, Imbgf img,
                              int x, int y,
                              Color bgColor,
-                             ImageObserver observer) {
-        if (!(img instanceof ToolkitImage)) {
-            return copyImage(sg, img, x, y, bgColor);
-        } else {
-            ToolkitImage sunimg = (ToolkitImage)img;
-            if (!imageReady(sunimg, observer)) {
-                return false;
+                             ImbgfObsfrvfr obsfrvfr) {
+        if (!(img instbndfof ToolkitImbgf)) {
+            rfturn dopyImbgf(sg, img, x, y, bgColor);
+        } flsf {
+            ToolkitImbgf sunimg = (ToolkitImbgf)img;
+            if (!imbgfRfbdy(sunimg, obsfrvfr)) {
+                rfturn fblsf;
             }
-            ImageRepresentation ir = sunimg.getImageRep();
-            return ir.drawToBufImage(sg, sunimg, x, y, bgColor, observer);
+            ImbgfRfprfsfntbtion ir = sunimg.gftImbgfRfp();
+            rfturn ir.drbwToBufImbgf(sg, sunimg, x, y, bgColor, obsfrvfr);
         }
     }
 
-    public boolean copyImage(SunGraphics2D sg, Image img,
-                             int dx, int dy, int sx, int sy, int w, int h,
+    publid boolfbn dopyImbgf(SunGrbpiids2D sg, Imbgf img,
+                             int dx, int dy, int sx, int sy, int w, int i,
                              Color bgColor,
-                             ImageObserver observer) {
-        if (!(img instanceof ToolkitImage)) {
-            return copyImage(sg, img, dx, dy, sx, sy, w, h, bgColor);
-        } else {
-            ToolkitImage sunimg = (ToolkitImage)img;
-            if (!imageReady(sunimg, observer)) {
-                return false;
+                             ImbgfObsfrvfr obsfrvfr) {
+        if (!(img instbndfof ToolkitImbgf)) {
+            rfturn dopyImbgf(sg, img, dx, dy, sx, sy, w, i, bgColor);
+        } flsf {
+            ToolkitImbgf sunimg = (ToolkitImbgf)img;
+            if (!imbgfRfbdy(sunimg, obsfrvfr)) {
+                rfturn fblsf;
             }
-            ImageRepresentation ir = sunimg.getImageRep();
-            return ir.drawToBufImage(sg, sunimg,
-                                     dx, dy, (dx + w), (dy + h),
-                                     sx, sy, (sx + w), (sy + h),
-                                     bgColor, observer);
+            ImbgfRfprfsfntbtion ir = sunimg.gftImbgfRfp();
+            rfturn ir.drbwToBufImbgf(sg, sunimg,
+                                     dx, dy, (dx + w), (dy + i),
+                                     sx, sy, (sx + w), (sy + i),
+                                     bgColor, obsfrvfr);
         }
     }
 
-    public boolean scaleImage(SunGraphics2D sg, Image img,
+    publid boolfbn sdblfImbgf(SunGrbpiids2D sg, Imbgf img,
                                 int x, int y,
-                                int width, int height,
+                                int widti, int ifigit,
                                 Color bgColor,
-                                ImageObserver observer) {
-        if (!(img instanceof ToolkitImage)) {
-            return scaleImage(sg, img, x, y, width, height, bgColor);
-        } else {
-            ToolkitImage sunimg = (ToolkitImage)img;
-            if (!imageReady(sunimg, observer)) {
-                return false;
+                                ImbgfObsfrvfr obsfrvfr) {
+        if (!(img instbndfof ToolkitImbgf)) {
+            rfturn sdblfImbgf(sg, img, x, y, widti, ifigit, bgColor);
+        } flsf {
+            ToolkitImbgf sunimg = (ToolkitImbgf)img;
+            if (!imbgfRfbdy(sunimg, obsfrvfr)) {
+                rfturn fblsf;
             }
-            ImageRepresentation ir = sunimg.getImageRep();
-            return ir.drawToBufImage(sg, sunimg, x, y, width, height, bgColor,
-                                     observer);
+            ImbgfRfprfsfntbtion ir = sunimg.gftImbgfRfp();
+            rfturn ir.drbwToBufImbgf(sg, sunimg, x, y, widti, ifigit, bgColor,
+                                     obsfrvfr);
         }
     }
 
-    public boolean scaleImage(SunGraphics2D sg, Image img,
+    publid boolfbn sdblfImbgf(SunGrbpiids2D sg, Imbgf img,
                               int dx1, int dy1, int dx2, int dy2,
                               int sx1, int sy1, int sx2, int sy2,
                               Color bgColor,
-                              ImageObserver observer) {
-        if (!(img instanceof ToolkitImage)) {
-            return scaleImage(sg, img, dx1, dy1, dx2, dy2,
+                              ImbgfObsfrvfr obsfrvfr) {
+        if (!(img instbndfof ToolkitImbgf)) {
+            rfturn sdblfImbgf(sg, img, dx1, dy1, dx2, dy2,
                               sx1, sy1, sx2, sy2, bgColor);
-        } else {
-            ToolkitImage sunimg = (ToolkitImage)img;
-            if (!imageReady(sunimg, observer)) {
-                return false;
+        } flsf {
+            ToolkitImbgf sunimg = (ToolkitImbgf)img;
+            if (!imbgfRfbdy(sunimg, obsfrvfr)) {
+                rfturn fblsf;
             }
-            ImageRepresentation ir = sunimg.getImageRep();
-            return ir.drawToBufImage(sg, sunimg, dx1, dy1, dx2, dy2,
-                                     sx1, sy1, sx2, sy2, bgColor, observer);
+            ImbgfRfprfsfntbtion ir = sunimg.gftImbgfRfp();
+            rfturn ir.drbwToBufImbgf(sg, sunimg, dx1, dy1, dx2, dy2,
+                                     sx1, sy1, sx2, sy2, bgColor, obsfrvfr);
         }
     }
 
-    public boolean transformImage(SunGraphics2D sg, Image img,
-                                  AffineTransform atfm,
-                                  ImageObserver observer) {
-        if (!(img instanceof ToolkitImage)) {
-            transformImage(sg, img, 0, 0, atfm, sg.interpolationType);
-            return true;
-        } else {
-            ToolkitImage sunimg = (ToolkitImage)img;
-            if (!imageReady(sunimg, observer)) {
-                return false;
+    publid boolfbn trbnsformImbgf(SunGrbpiids2D sg, Imbgf img,
+                                  AffinfTrbnsform btfm,
+                                  ImbgfObsfrvfr obsfrvfr) {
+        if (!(img instbndfof ToolkitImbgf)) {
+            trbnsformImbgf(sg, img, 0, 0, btfm, sg.intfrpolbtionTypf);
+            rfturn truf;
+        } flsf {
+            ToolkitImbgf sunimg = (ToolkitImbgf)img;
+            if (!imbgfRfbdy(sunimg, obsfrvfr)) {
+                rfturn fblsf;
             }
-            ImageRepresentation ir = sunimg.getImageRep();
-            return ir.drawToBufImage(sg, sunimg, atfm, observer);
+            ImbgfRfprfsfntbtion ir = sunimg.gftImbgfRfp();
+            rfturn ir.drbwToBufImbgf(sg, sunimg, btfm, obsfrvfr);
         }
     }
 
-    public void transformImage(SunGraphics2D sg, BufferedImage img,
-                               BufferedImageOp op, int x, int y)
+    publid void trbnsformImbgf(SunGrbpiids2D sg, BufffrfdImbgf img,
+                               BufffrfdImbgfOp op, int x, int y)
     {
         if (op != null) {
-            if (op instanceof AffineTransformOp) {
-                AffineTransformOp atop = (AffineTransformOp) op;
-                transformImage(sg, img, x, y,
-                               atop.getTransform(),
-                               atop.getInterpolationType());
-                return;
-            } else {
-                img = op.filter(img, null);
+            if (op instbndfof AffinfTrbnsformOp) {
+                AffinfTrbnsformOp btop = (AffinfTrbnsformOp) op;
+                trbnsformImbgf(sg, img, x, y,
+                               btop.gftTrbnsform(),
+                               btop.gftIntfrpolbtionTypf());
+                rfturn;
+            } flsf {
+                img = op.filtfr(img, null);
             }
         }
-        copyImage(sg, img, x, y, null);
+        dopyImbgf(sg, img, x, y, null);
     }
 }

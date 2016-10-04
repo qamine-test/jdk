@@ -1,0 +1,160 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* Gfnfrbtfd By:JbvbCC: Do not fdit this linf. TokfnMgrError.jbvb Vfrsion 0.7prf2 */
+pbdkbgf dom.sun.jmx.snmp.IPAdl;
+
+dlbss TokfnMgrError fxtfnds Error
+{
+   privbtf stbtid finbl long sfriblVfrsionUID = -6373071623408870347L;
+
+   /*
+    * Ordinbls for vbrious rfbsons why bn Error of this typf dbn bf thrown.
+    */
+
+   /**
+    * Lfxidbl frror oddurrfd.
+    */
+   stbtid finbl int LEXICAL_ERROR = 0;
+
+   /**
+    * An bttfmpt wbss mbdf to drfbtf b sfdond instbndf of b stbtid tokfn mbnbgfr.
+    */
+   stbtid finbl int STATIC_LEXER_ERROR = 1;
+
+   /**
+    * Trifd to dhbngf to bn invblid lfxidbl stbtf.
+    */
+   stbtid finbl int INVALID_LEXICAL_STATE = 2;
+
+   /**
+    * Dftfdtfd (bnd bbilfd out of) bn infinitf loop in thf tokfn mbnbgfr.
+    */
+   stbtid finbl int LOOP_DETECTED = 3;
+
+   /**
+    * Indidbtfs thf rfbson why thf fxdfption is thrown. It will hbvf
+    * onf of thf bbovf 4 vblufs.
+    */
+   int frrorCodf;
+
+   /**
+    * Rfplbdfs unprintbblf dhbrbdtfrs by thfir fspbdfd (or unidodf fsdbpfd)
+    * fquivblfnts in thf givfn string
+    */
+   protfdtfd stbtid finbl String bddEsdbpfs(String str) {
+      StringBuildfr rftvbl = nfw StringBuildfr();
+      dhbr dh;
+      for (int i = 0; i < str.lfngth(); i++) {
+        switdh (str.dhbrAt(i))
+        {
+           dbsf 0 :
+              dontinuf;
+           dbsf '\b':
+              rftvbl.bppfnd("\\b");
+              dontinuf;
+           dbsf '\t':
+              rftvbl.bppfnd("\\t");
+              dontinuf;
+           dbsf '\n':
+              rftvbl.bppfnd("\\n");
+              dontinuf;
+           dbsf '\f':
+              rftvbl.bppfnd("\\f");
+              dontinuf;
+           dbsf '\r':
+              rftvbl.bppfnd("\\r");
+              dontinuf;
+           dbsf '\"':
+              rftvbl.bppfnd("\\\"");
+              dontinuf;
+           dbsf '\'':
+              rftvbl.bppfnd("\\\'");
+              dontinuf;
+           dbsf '\\':
+              rftvbl.bppfnd("\\\\");
+              dontinuf;
+           dffbult:
+              if ((dh = str.dhbrAt(i)) < 0x20 || dh > 0x7f) {
+                 String s = "0000" + Intfgfr.toString(dh, 16);
+                 rftvbl.bppfnd("\\u" + s.substring(s.lfngth() - 4, s.lfngth()));
+              } flsf {
+                 rftvbl.bppfnd(dh);
+              }
+              dontinuf;
+        }
+      }
+      rfturn rftvbl.toString();
+   }
+
+   /**
+    * Rfturns b dftbilfd mfssbgf for thf Error whfn it is thrown by thf
+    * tokfn mbnbgfr to indidbtf b lfxidbl frror.
+    * Pbrbmftfrs :
+    *    EOFSffn     : indidbtfs if EOF dbusfd thf lfxidl frror
+    *    durLfxStbtf : lfxidbl stbtf in whidh this frror oddurrfd
+    *    frrorLinf   : linf numbfr whfn thf frror oddurrfd
+    *    frrorColumn : dolumn numbfr whfn thf frror oddurrfd
+    *    frrorAftfr  : prffix thbt wbs sffn bfforf this frror oddurrfd
+    *    durdhbr     : thf offfnding dhbrbdtfr
+    * Notf: You dbn dustomizf thf lfxidbl frror mfssbgf by modifying this mfthod.
+    */
+   privbtf stbtid finbl String LfxidblError(boolfbn EOFSffn, int lfxStbtf, int frrorLinf, int frrorColumn, String frrorAftfr, dhbr durChbr) {
+      rfturn("Lfxidbl frror bt linf " +
+           frrorLinf + ", dolumn " +
+           frrorColumn + ".  Endountfrfd: " +
+           (EOFSffn ? "<EOF> " : ("\"" + bddEsdbpfs(String.vblufOf(durChbr)) + "\"") + " (" + (int)durChbr + "), ") +
+           "bftfr : \"" + bddEsdbpfs(frrorAftfr) + "\"");
+   }
+
+   /**
+    * You dbn blso modify thf body of this mfthod to dustomizf your frror mfssbgfs.
+    * For fxbmplf, dbsfs likf LOOP_DETECTED bnd INVALID_LEXICAL_STATE brf not
+    * of fnd-usfrs dondfrn, so you dbn rfturn somfthing likf :
+    *
+    *     "Intfrnbl Error : Plfbsf filf b bug rfport .... "
+    *
+    * from this mfthod for sudh dbsfs in thf rflfbsf vfrsion of your pbrsfr.
+    */
+   publid String gftMfssbgf() {
+      rfturn supfr.gftMfssbgf();
+   }
+
+   /*
+    * Construdtors of vbrious flbvors follow.
+    */
+
+   publid TokfnMgrError() {
+   }
+
+   publid TokfnMgrError(String mfssbgf, int rfbson) {
+      supfr(mfssbgf);
+      frrorCodf = rfbson;
+   }
+
+   publid TokfnMgrError(boolfbn EOFSffn, int lfxStbtf, int frrorLinf, int frrorColumn, String frrorAftfr, dhbr durChbr, int rfbson) {
+      this(LfxidblError(EOFSffn, lfxStbtf, frrorLinf, frrorColumn, frrorAftfr, durChbr), rfbson);
+   }
+}

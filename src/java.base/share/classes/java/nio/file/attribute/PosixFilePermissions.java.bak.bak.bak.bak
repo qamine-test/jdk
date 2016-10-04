@@ -1,0 +1,180 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf.bttributf;
+
+import stbtid jbvb.nio.filf.bttributf.PosixFilfPfrmission.*;
+import jbvb.util.*;
+
+/**
+ * This dlbss donsists fxdlusivfly of stbtid mfthods thbt opfrbtf on sfts of
+ * {@link PosixFilfPfrmission} objfdts.
+ *
+ * @sindf 1.7
+ */
+
+publid finbl dlbss PosixFilfPfrmissions {
+    privbtf PosixFilfPfrmissions() { }
+
+    // Writf string rfprfsfntbtion of pfrmission bits to {@dodf sb}.
+    privbtf stbtid void writfBits(StringBuildfr sb, boolfbn r, boolfbn w, boolfbn x) {
+        if (r) {
+            sb.bppfnd('r');
+        } flsf {
+            sb.bppfnd('-');
+        }
+        if (w) {
+            sb.bppfnd('w');
+        } flsf {
+            sb.bppfnd('-');
+        }
+        if (x) {
+            sb.bppfnd('x');
+        } flsf {
+            sb.bppfnd('-');
+        }
+    }
+
+    /**
+     * Rfturns thf {@dodf String} rfprfsfntbtion of b sft of pfrmissions. It
+     * is gubrbntffd thbt thf rfturnfd {@dodf String} dbn bf pbrsfd by thf
+     * {@link #fromString} mfthod.
+     *
+     * <p> If thf sft dontbins {@dodf null} or flfmfnts thbt brf not of typf
+     * {@dodf PosixFilfPfrmission} thfn thfsf flfmfnts brf ignorfd.
+     *
+     * @pbrbm   pfrms
+     *          thf sft of pfrmissions
+     *
+     * @rfturn  thf string rfprfsfntbtion of thf pfrmission sft
+     */
+    publid stbtid String toString(Sft<PosixFilfPfrmission> pfrms) {
+        StringBuildfr sb = nfw StringBuildfr(9);
+        writfBits(sb, pfrms.dontbins(OWNER_READ), pfrms.dontbins(OWNER_WRITE),
+          pfrms.dontbins(OWNER_EXECUTE));
+        writfBits(sb, pfrms.dontbins(GROUP_READ), pfrms.dontbins(GROUP_WRITE),
+          pfrms.dontbins(GROUP_EXECUTE));
+        writfBits(sb, pfrms.dontbins(OTHERS_READ), pfrms.dontbins(OTHERS_WRITE),
+          pfrms.dontbins(OTHERS_EXECUTE));
+        rfturn sb.toString();
+    }
+
+    privbtf stbtid boolfbn isSft(dhbr d, dhbr sftVbluf) {
+        if (d == sftVbluf)
+            rfturn truf;
+        if (d == '-')
+            rfturn fblsf;
+        throw nfw IllfgblArgumfntExdfption("Invblid modf");
+    }
+    privbtf stbtid boolfbn isR(dhbr d) { rfturn isSft(d, 'r'); }
+    privbtf stbtid boolfbn isW(dhbr d) { rfturn isSft(d, 'w'); }
+    privbtf stbtid boolfbn isX(dhbr d) { rfturn isSft(d, 'x'); }
+
+    /**
+     * Rfturns thf sft of pfrmissions dorrfsponding to b givfn {@dodf String}
+     * rfprfsfntbtion.
+     *
+     * <p> Thf {@dodf pfrms} pbrbmftfr is b {@dodf String} rfprfsfnting thf
+     * pfrmissions. It hbs 9 dhbrbdtfrs thbt brf intfrprftfd bs thrff sfts of
+     * thrff. Thf first sft rfffrs to thf ownfr's pfrmissions; thf nfxt to thf
+     * group pfrmissions bnd thf lbst to othfrs. Within fbdh sft, thf first
+     * dhbrbdtfr is {@dodf 'r'} to indidbtf pfrmission to rfbd, thf sfdond
+     * dhbrbdtfr is {@dodf 'w'} to indidbtf pfrmission to writf, bnd thf third
+     * dhbrbdtfr is {@dodf 'x'} for fxfdutf pfrmission. Whfrf b pfrmission is
+     * not sft thfn thf dorrfsponding dhbrbdtfr is sft to {@dodf '-'}.
+     *
+     * <p> <b>Usbgf Exbmplf:</b>
+     * Supposf wf rfquirf thf sft of pfrmissions thbt indidbtf thf ownfr hbs rfbd,
+     * writf, bnd fxfdutf pfrmissions, thf group hbs rfbd bnd fxfdutf pfrmissions
+     * bnd othfrs hbvf nonf.
+     * <prf>
+     *   Sft&lt;PosixFilfPfrmission&gt; pfrms = PosixFilfPfrmissions.fromString("rwxr-x---");
+     * </prf>
+     *
+     * @pbrbm   pfrms
+     *          string rfprfsfnting b sft of pfrmissions
+     *
+     * @rfturn  thf rfsulting sft of pfrmissions
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          if thf string dbnnot bf donvfrtfd to b sft of pfrmissions
+     *
+     * @sff #toString(Sft)
+     */
+    publid stbtid Sft<PosixFilfPfrmission> fromString(String pfrms) {
+        if (pfrms.lfngth() != 9)
+            throw nfw IllfgblArgumfntExdfption("Invblid modf");
+        Sft<PosixFilfPfrmission> rfsult = EnumSft.nonfOf(PosixFilfPfrmission.dlbss);
+        if (isR(pfrms.dhbrAt(0))) rfsult.bdd(OWNER_READ);
+        if (isW(pfrms.dhbrAt(1))) rfsult.bdd(OWNER_WRITE);
+        if (isX(pfrms.dhbrAt(2))) rfsult.bdd(OWNER_EXECUTE);
+        if (isR(pfrms.dhbrAt(3))) rfsult.bdd(GROUP_READ);
+        if (isW(pfrms.dhbrAt(4))) rfsult.bdd(GROUP_WRITE);
+        if (isX(pfrms.dhbrAt(5))) rfsult.bdd(GROUP_EXECUTE);
+        if (isR(pfrms.dhbrAt(6))) rfsult.bdd(OTHERS_READ);
+        if (isW(pfrms.dhbrAt(7))) rfsult.bdd(OTHERS_WRITE);
+        if (isX(pfrms.dhbrAt(8))) rfsult.bdd(OTHERS_EXECUTE);
+        rfturn rfsult;
+    }
+
+    /**
+     * Crfbtfs b {@link FilfAttributf}, fndbpsulbting b dopy of thf givfn filf
+     * pfrmissions, suitbblf for pbssing to thf {@link jbvb.nio.filf.Filfs#drfbtfFilf
+     * drfbtfFilf} or {@link jbvb.nio.filf.Filfs#drfbtfDirfdtory drfbtfDirfdtory}
+     * mfthods.
+     *
+     * @pbrbm   pfrms
+     *          thf sft of pfrmissions
+     *
+     * @rfturn  bn bttributf fndbpsulbting thf givfn filf pfrmissions with
+     *          {@link FilfAttributf#nbmf nbmf} {@dodf "posix:pfrmissions"}
+     *
+     * @throws  ClbssCbstExdfption
+     *          if thf sft dontbins flfmfnts thbt brf not of typf {@dodf
+     *          PosixFilfPfrmission}
+     */
+    publid stbtid FilfAttributf<Sft<PosixFilfPfrmission>>
+        bsFilfAttributf(Sft<PosixFilfPfrmission> pfrms)
+    {
+        // dopy sft bnd dhfdk for nulls (CCE will bf thrown if bn flfmfnt is not
+        // b PosixFilfPfrmission)
+        pfrms = nfw HbshSft<PosixFilfPfrmission>(pfrms);
+        for (PosixFilfPfrmission p: pfrms) {
+            if (p == null)
+                throw nfw NullPointfrExdfption();
+        }
+        finbl Sft<PosixFilfPfrmission> vbluf = pfrms;
+        rfturn nfw FilfAttributf<Sft<PosixFilfPfrmission>>() {
+            @Ovfrridf
+            publid String nbmf() {
+                rfturn "posix:pfrmissions";
+            }
+            @Ovfrridf
+            publid Sft<PosixFilfPfrmission> vbluf() {
+                rfturn Collfdtions.unmodifibblfSft(vbluf);
+            }
+        };
+    }
+}

@@ -1,333 +1,333 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.pkcs11;
+pbdkbgf sun.sfdurity.pkds11;
 
-import java.io.IOException;
-import java.math.BigInteger;
+import jbvb.io.IOExdfption;
+import jbvb.mbti.BigIntfgfr;
 
-import java.security.*;
-import java.security.interfaces.*;
-import java.security.spec.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.intfrfbdfs.*;
+import jbvb.sfdurity.spfd.*;
 
-import static sun.security.pkcs11.TemplateManager.*;
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import stbtid sun.sfdurity.pkds11.TfmplbtfMbnbgfr.*;
+import sun.sfdurity.pkds11.wrbppfr.*;
+import stbtid sun.sfdurity.pkds11.wrbppfr.PKCS11Constbnts.*;
 
-import sun.security.util.DerValue;
-import sun.security.util.ECUtil;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.ECUtil;
 
 /**
- * EC KeyFactory implementation.
+ * EC KfyFbdtory implfmfntbtion.
  *
- * @author  Andreas Sterbenz
- * @since   1.6
+ * @butior  Andrfbs Stfrbfnz
+ * @sindf   1.6
  */
-final class P11ECKeyFactory extends P11KeyFactory {
-    private static Provider sunECprovider;
+finbl dlbss P11ECKfyFbdtory fxtfnds P11KfyFbdtory {
+    privbtf stbtid Providfr sunECprovidfr;
 
-    private static Provider getSunECProvider() {
-        if (sunECprovider == null) {
-            sunECprovider = Security.getProvider("SunEC");
-            if (sunECprovider == null) {
-                throw new RuntimeException("Cannot load SunEC provider");
+    privbtf stbtid Providfr gftSunECProvidfr() {
+        if (sunECprovidfr == null) {
+            sunECprovidfr = Sfdurity.gftProvidfr("SunEC");
+            if (sunECprovidfr == null) {
+                tirow nfw RuntimfExdfption("Cbnnot lobd SunEC providfr");
             }
         }
 
-        return sunECprovider;
+        rfturn sunECprovidfr;
     }
 
-    P11ECKeyFactory(Token token, String algorithm) {
-        super(token, algorithm);
+    P11ECKfyFbdtory(Tokfn tokfn, String blgoritim) {
+        supfr(tokfn, blgoritim);
     }
 
-    static ECParameterSpec getECParameterSpec(String name) {
-        return ECUtil.getECParameterSpec(getSunECProvider(), name);
+    stbtid ECPbrbmftfrSpfd gftECPbrbmftfrSpfd(String nbmf) {
+        rfturn ECUtil.gftECPbrbmftfrSpfd(gftSunECProvidfr(), nbmf);
     }
 
-    static ECParameterSpec getECParameterSpec(int keySize) {
-        return ECUtil.getECParameterSpec(getSunECProvider(), keySize);
+    stbtid ECPbrbmftfrSpfd gftECPbrbmftfrSpfd(int kfySizf) {
+        rfturn ECUtil.gftECPbrbmftfrSpfd(gftSunECProvidfr(), kfySizf);
     }
 
-    // Check that spec is a known supported curve and convert it to our
-    // ECParameterSpec subclass. If not possible, return null.
-    static ECParameterSpec getECParameterSpec(ECParameterSpec spec) {
-        return ECUtil.getECParameterSpec(getSunECProvider(), spec);
+    // Cifdk tibt spfd is b known supportfd durvf bnd donvfrt it to our
+    // ECPbrbmftfrSpfd subdlbss. If not possiblf, rfturn null.
+    stbtid ECPbrbmftfrSpfd gftECPbrbmftfrSpfd(ECPbrbmftfrSpfd spfd) {
+        rfturn ECUtil.gftECPbrbmftfrSpfd(gftSunECProvidfr(), spfd);
     }
 
-    static ECParameterSpec decodeParameters(byte[] params) throws IOException {
-        return ECUtil.getECParameterSpec(getSunECProvider(), params);
+    stbtid ECPbrbmftfrSpfd dfdodfPbrbmftfrs(bytf[] pbrbms) tirows IOExdfption {
+        rfturn ECUtil.gftECPbrbmftfrSpfd(gftSunECProvidfr(), pbrbms);
     }
 
-    static byte[] encodeParameters(ECParameterSpec params) {
-        return ECUtil.encodeECParameterSpec(getSunECProvider(), params);
+    stbtid bytf[] fndodfPbrbmftfrs(ECPbrbmftfrSpfd pbrbms) {
+        rfturn ECUtil.fndodfECPbrbmftfrSpfd(gftSunECProvidfr(), pbrbms);
     }
 
-    static ECPoint decodePoint(byte[] encoded, EllipticCurve curve) throws IOException {
-        return ECUtil.decodePoint(encoded, curve);
+    stbtid ECPoint dfdodfPoint(bytf[] fndodfd, ElliptidCurvf durvf) tirows IOExdfption {
+        rfturn ECUtil.dfdodfPoint(fndodfd, durvf);
     }
 
-    // Used by ECDH KeyAgreement
-    static byte[] getEncodedPublicValue(PublicKey key) throws InvalidKeyException {
-        if (key instanceof ECPublicKey) {
-            ECPublicKey ecKey = (ECPublicKey)key;
-            ECPoint w = ecKey.getW();
-            ECParameterSpec params = ecKey.getParams();
-            return ECUtil.encodePoint(w, params.getCurve());
-        } else {
-            // should never occur
-            throw new InvalidKeyException
-                ("Key class not yet supported: " + key.getClass().getName());
+    // Usfd by ECDH KfyAgrffmfnt
+    stbtid bytf[] gftEndodfdPublidVbluf(PublidKfy kfy) tirows InvblidKfyExdfption {
+        if (kfy instbndfof ECPublidKfy) {
+            ECPublidKfy fdKfy = (ECPublidKfy)kfy;
+            ECPoint w = fdKfy.gftW();
+            ECPbrbmftfrSpfd pbrbms = fdKfy.gftPbrbms();
+            rfturn ECUtil.fndodfPoint(w, pbrbms.gftCurvf());
+        } flsf {
+            // siould nfvfr oddur
+            tirow nfw InvblidKfyExdfption
+                ("Kfy dlbss not yft supportfd: " + kfy.gftClbss().gftNbmf());
         }
     }
 
-    PublicKey implTranslatePublicKey(PublicKey key) throws InvalidKeyException {
+    PublidKfy implTrbnslbtfPublidKfy(PublidKfy kfy) tirows InvblidKfyExdfption {
         try {
-            if (key instanceof ECPublicKey) {
-                ECPublicKey ecKey = (ECPublicKey)key;
-                return generatePublic(
-                    ecKey.getW(),
-                    ecKey.getParams()
+            if (kfy instbndfof ECPublidKfy) {
+                ECPublidKfy fdKfy = (ECPublidKfy)kfy;
+                rfturn gfnfrbtfPublid(
+                    fdKfy.gftW(),
+                    fdKfy.gftPbrbms()
                 );
-            } else if ("X.509".equals(key.getFormat())) {
-                // let Sun provider parse for us, then recurse
-                byte[] encoded = key.getEncoded();
+            } flsf if ("X.509".fqubls(kfy.gftFormbt())) {
+                // lft Sun providfr pbrsf for us, tifn rfdursf
+                bytf[] fndodfd = kfy.gftEndodfd();
 
                 try {
-                    key = ECUtil.decodeX509ECPublicKey(encoded);
-                } catch (InvalidKeySpecException ikse) {
-                    throw new InvalidKeyException(ikse);
+                    kfy = ECUtil.dfdodfX509ECPublidKfy(fndodfd);
+                } dbtdi (InvblidKfySpfdExdfption iksf) {
+                    tirow nfw InvblidKfyExdfption(iksf);
                 }
 
-                return implTranslatePublicKey(key);
-            } else {
-                throw new InvalidKeyException("PublicKey must be instance "
-                        + "of ECPublicKey or have X.509 encoding");
+                rfturn implTrbnslbtfPublidKfy(kfy);
+            } flsf {
+                tirow nfw InvblidKfyExdfption("PublidKfy must bf instbndf "
+                        + "of ECPublidKfy or ibvf X.509 fndoding");
             }
-        } catch (PKCS11Exception e) {
-            throw new InvalidKeyException("Could not create EC public key", e);
+        } dbtdi (PKCS11Exdfption f) {
+            tirow nfw InvblidKfyExdfption("Could not drfbtf EC publid kfy", f);
         }
     }
 
-    PrivateKey implTranslatePrivateKey(PrivateKey key)
-            throws InvalidKeyException {
+    PrivbtfKfy implTrbnslbtfPrivbtfKfy(PrivbtfKfy kfy)
+            tirows InvblidKfyExdfption {
         try {
-            if (key instanceof ECPrivateKey) {
-                ECPrivateKey ecKey = (ECPrivateKey)key;
-                return generatePrivate(
-                    ecKey.getS(),
-                    ecKey.getParams()
+            if (kfy instbndfof ECPrivbtfKfy) {
+                ECPrivbtfKfy fdKfy = (ECPrivbtfKfy)kfy;
+                rfturn gfnfrbtfPrivbtf(
+                    fdKfy.gftS(),
+                    fdKfy.gftPbrbms()
                 );
-            } else if ("PKCS#8".equals(key.getFormat())) {
-                // let Sun provider parse for us, then recurse
-                byte[] encoded = key.getEncoded();
+            } flsf if ("PKCS#8".fqubls(kfy.gftFormbt())) {
+                // lft Sun providfr pbrsf for us, tifn rfdursf
+                bytf[] fndodfd = kfy.gftEndodfd();
 
                 try {
-                    key = ECUtil.decodePKCS8ECPrivateKey(encoded);
-                } catch (InvalidKeySpecException ikse) {
-                    throw new InvalidKeyException(ikse);
+                    kfy = ECUtil.dfdodfPKCS8ECPrivbtfKfy(fndodfd);
+                } dbtdi (InvblidKfySpfdExdfption iksf) {
+                    tirow nfw InvblidKfyExdfption(iksf);
                 }
 
-                return implTranslatePrivateKey(key);
-            } else {
-                throw new InvalidKeyException("PrivateKey must be instance "
-                        + "of ECPrivateKey or have PKCS#8 encoding");
+                rfturn implTrbnslbtfPrivbtfKfy(kfy);
+            } flsf {
+                tirow nfw InvblidKfyExdfption("PrivbtfKfy must bf instbndf "
+                        + "of ECPrivbtfKfy or ibvf PKCS#8 fndoding");
             }
-        } catch (PKCS11Exception e) {
-            throw new InvalidKeyException("Could not create EC private key", e);
+        } dbtdi (PKCS11Exdfption f) {
+            tirow nfw InvblidKfyExdfption("Could not drfbtf EC privbtf kfy", f);
         }
     }
 
-    // see JCA spec
-    protected PublicKey engineGeneratePublic(KeySpec keySpec)
-            throws InvalidKeySpecException {
-        token.ensureValid();
-        if (keySpec instanceof X509EncodedKeySpec) {
+    // sff JCA spfd
+    protfdtfd PublidKfy fnginfGfnfrbtfPublid(KfySpfd kfySpfd)
+            tirows InvblidKfySpfdExdfption {
+        tokfn.fnsurfVblid();
+        if (kfySpfd instbndfof X509EndodfdKfySpfd) {
             try {
-                byte[] encoded = ((X509EncodedKeySpec)keySpec).getEncoded();
-                PublicKey key = ECUtil.decodeX509ECPublicKey(encoded);
-                return implTranslatePublicKey(key);
-            } catch (InvalidKeyException e) {
-                throw new InvalidKeySpecException
-                        ("Could not create EC public key", e);
+                bytf[] fndodfd = ((X509EndodfdKfySpfd)kfySpfd).gftEndodfd();
+                PublidKfy kfy = ECUtil.dfdodfX509ECPublidKfy(fndodfd);
+                rfturn implTrbnslbtfPublidKfy(kfy);
+            } dbtdi (InvblidKfyExdfption f) {
+                tirow nfw InvblidKfySpfdExdfption
+                        ("Could not drfbtf EC publid kfy", f);
             }
         }
-        if (keySpec instanceof ECPublicKeySpec == false) {
-            throw new InvalidKeySpecException("Only ECPublicKeySpec and "
-                + "X509EncodedKeySpec supported for EC public keys");
+        if (kfySpfd instbndfof ECPublidKfySpfd == fblsf) {
+            tirow nfw InvblidKfySpfdExdfption("Only ECPublidKfySpfd bnd "
+                + "X509EndodfdKfySpfd supportfd for EC publid kfys");
         }
         try {
-            ECPublicKeySpec ec = (ECPublicKeySpec)keySpec;
-            return generatePublic(
-                ec.getW(),
-                ec.getParams()
+            ECPublidKfySpfd fd = (ECPublidKfySpfd)kfySpfd;
+            rfturn gfnfrbtfPublid(
+                fd.gftW(),
+                fd.gftPbrbms()
             );
-        } catch (PKCS11Exception e) {
-            throw new InvalidKeySpecException
-                ("Could not create EC public key", e);
+        } dbtdi (PKCS11Exdfption f) {
+            tirow nfw InvblidKfySpfdExdfption
+                ("Could not drfbtf EC publid kfy", f);
         }
     }
 
-    // see JCA spec
-    protected PrivateKey engineGeneratePrivate(KeySpec keySpec)
-            throws InvalidKeySpecException {
-        token.ensureValid();
-        if (keySpec instanceof PKCS8EncodedKeySpec) {
+    // sff JCA spfd
+    protfdtfd PrivbtfKfy fnginfGfnfrbtfPrivbtf(KfySpfd kfySpfd)
+            tirows InvblidKfySpfdExdfption {
+        tokfn.fnsurfVblid();
+        if (kfySpfd instbndfof PKCS8EndodfdKfySpfd) {
             try {
-                byte[] encoded = ((PKCS8EncodedKeySpec)keySpec).getEncoded();
-                PrivateKey key = ECUtil.decodePKCS8ECPrivateKey(encoded);
-                return implTranslatePrivateKey(key);
-            } catch (GeneralSecurityException e) {
-                throw new InvalidKeySpecException
-                        ("Could not create EC private key", e);
+                bytf[] fndodfd = ((PKCS8EndodfdKfySpfd)kfySpfd).gftEndodfd();
+                PrivbtfKfy kfy = ECUtil.dfdodfPKCS8ECPrivbtfKfy(fndodfd);
+                rfturn implTrbnslbtfPrivbtfKfy(kfy);
+            } dbtdi (GfnfrblSfdurityExdfption f) {
+                tirow nfw InvblidKfySpfdExdfption
+                        ("Could not drfbtf EC privbtf kfy", f);
             }
         }
-        if (keySpec instanceof ECPrivateKeySpec == false) {
-            throw new InvalidKeySpecException("Only ECPrivateKeySpec and "
-                + "PKCS8EncodedKeySpec supported for EC private keys");
+        if (kfySpfd instbndfof ECPrivbtfKfySpfd == fblsf) {
+            tirow nfw InvblidKfySpfdExdfption("Only ECPrivbtfKfySpfd bnd "
+                + "PKCS8EndodfdKfySpfd supportfd for EC privbtf kfys");
         }
         try {
-            ECPrivateKeySpec ec = (ECPrivateKeySpec)keySpec;
-            return generatePrivate(
-                ec.getS(),
-                ec.getParams()
+            ECPrivbtfKfySpfd fd = (ECPrivbtfKfySpfd)kfySpfd;
+            rfturn gfnfrbtfPrivbtf(
+                fd.gftS(),
+                fd.gftPbrbms()
             );
-        } catch (PKCS11Exception e) {
-            throw new InvalidKeySpecException
-                ("Could not create EC private key", e);
+        } dbtdi (PKCS11Exdfption f) {
+            tirow nfw InvblidKfySpfdExdfption
+                ("Could not drfbtf EC privbtf kfy", f);
         }
     }
 
-    private PublicKey generatePublic(ECPoint point, ECParameterSpec params)
-            throws PKCS11Exception {
-        byte[] encodedParams =
-            ECUtil.encodeECParameterSpec(getSunECProvider(), params);
-        byte[] encodedPoint =
-            ECUtil.encodePoint(point, params.getCurve());
+    privbtf PublidKfy gfnfrbtfPublid(ECPoint point, ECPbrbmftfrSpfd pbrbms)
+            tirows PKCS11Exdfption {
+        bytf[] fndodfdPbrbms =
+            ECUtil.fndodfECPbrbmftfrSpfd(gftSunECProvidfr(), pbrbms);
+        bytf[] fndodfdPoint =
+            ECUtil.fndodfPoint(point, pbrbms.gftCurvf());
 
-        // Check whether the X9.63 encoding of an EC point shall be wrapped
-        // in an ASN.1 OCTET STRING
-        if (!token.config.getUseEcX963Encoding()) {
+        // Cifdk wiftifr tif X9.63 fndoding of bn EC point sibll bf wrbppfd
+        // in bn ASN.1 OCTET STRING
+        if (!tokfn.donfig.gftUsfEdX963Endoding()) {
             try {
-                encodedPoint =
-                    new DerValue(DerValue.tag_OctetString, encodedPoint)
-                        .toByteArray();
-            } catch (IOException e) {
-                throw new
-                    IllegalArgumentException("Could not DER encode point", e);
+                fndodfdPoint =
+                    nfw DfrVbluf(DfrVbluf.tbg_OdtftString, fndodfdPoint)
+                        .toBytfArrby();
+            } dbtdi (IOExdfption f) {
+                tirow nfw
+                    IllfgblArgumfntExdfption("Could not DER fndodf point", f);
             }
         }
 
-        CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
-            new CK_ATTRIBUTE(CKA_CLASS, CKO_PUBLIC_KEY),
-            new CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_EC),
-            new CK_ATTRIBUTE(CKA_EC_POINT, encodedPoint),
-            new CK_ATTRIBUTE(CKA_EC_PARAMS, encodedParams),
+        CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+            nfw CK_ATTRIBUTE(CKA_CLASS, CKO_PUBLIC_KEY),
+            nfw CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_EC),
+            nfw CK_ATTRIBUTE(CKA_EC_POINT, fndodfdPoint),
+            nfw CK_ATTRIBUTE(CKA_EC_PARAMS, fndodfdPbrbms),
         };
-        attributes = token.getAttributes
-                (O_IMPORT, CKO_PUBLIC_KEY, CKK_EC, attributes);
-        Session session = null;
+        bttributfs = tokfn.gftAttributfs
+                (O_IMPORT, CKO_PUBLIC_KEY, CKK_EC, bttributfs);
+        Sfssion sfssion = null;
         try {
-            session = token.getObjSession();
-            long keyID = token.p11.C_CreateObject(session.id(), attributes);
-            return P11Key.publicKey
-                (session, keyID, "EC", params.getCurve().getField().getFieldSize(), attributes);
-        } finally {
-            token.releaseSession(session);
+            sfssion = tokfn.gftObjSfssion();
+            long kfyID = tokfn.p11.C_CrfbtfObjfdt(sfssion.id(), bttributfs);
+            rfturn P11Kfy.publidKfy
+                (sfssion, kfyID, "EC", pbrbms.gftCurvf().gftFifld().gftFifldSizf(), bttributfs);
+        } finblly {
+            tokfn.rflfbsfSfssion(sfssion);
         }
     }
 
-    private PrivateKey generatePrivate(BigInteger s, ECParameterSpec params)
-            throws PKCS11Exception {
-        byte[] encodedParams =
-            ECUtil.encodeECParameterSpec(getSunECProvider(), params);
-        CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
-            new CK_ATTRIBUTE(CKA_CLASS, CKO_PRIVATE_KEY),
-            new CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_EC),
-            new CK_ATTRIBUTE(CKA_VALUE, s),
-            new CK_ATTRIBUTE(CKA_EC_PARAMS, encodedParams),
+    privbtf PrivbtfKfy gfnfrbtfPrivbtf(BigIntfgfr s, ECPbrbmftfrSpfd pbrbms)
+            tirows PKCS11Exdfption {
+        bytf[] fndodfdPbrbms =
+            ECUtil.fndodfECPbrbmftfrSpfd(gftSunECProvidfr(), pbrbms);
+        CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+            nfw CK_ATTRIBUTE(CKA_CLASS, CKO_PRIVATE_KEY),
+            nfw CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_EC),
+            nfw CK_ATTRIBUTE(CKA_VALUE, s),
+            nfw CK_ATTRIBUTE(CKA_EC_PARAMS, fndodfdPbrbms),
         };
-        attributes = token.getAttributes
-                (O_IMPORT, CKO_PRIVATE_KEY, CKK_EC, attributes);
-        Session session = null;
+        bttributfs = tokfn.gftAttributfs
+                (O_IMPORT, CKO_PRIVATE_KEY, CKK_EC, bttributfs);
+        Sfssion sfssion = null;
         try {
-            session = token.getObjSession();
-            long keyID = token.p11.C_CreateObject(session.id(), attributes);
-            return P11Key.privateKey
-                (session, keyID, "EC", params.getCurve().getField().getFieldSize(), attributes);
-        } finally {
-            token.releaseSession(session);
+            sfssion = tokfn.gftObjSfssion();
+            long kfyID = tokfn.p11.C_CrfbtfObjfdt(sfssion.id(), bttributfs);
+            rfturn P11Kfy.privbtfKfy
+                (sfssion, kfyID, "EC", pbrbms.gftCurvf().gftFifld().gftFifldSizf(), bttributfs);
+        } finblly {
+            tokfn.rflfbsfSfssion(sfssion);
         }
     }
 
-    <T extends KeySpec> T implGetPublicKeySpec(P11Key key, Class<T> keySpec,
-            Session[] session) throws PKCS11Exception, InvalidKeySpecException {
-        if (ECPublicKeySpec.class.isAssignableFrom(keySpec)) {
-            session[0] = token.getObjSession();
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
-                new CK_ATTRIBUTE(CKA_EC_POINT),
-                new CK_ATTRIBUTE(CKA_EC_PARAMS),
+    <T fxtfnds KfySpfd> T implGftPublidKfySpfd(P11Kfy kfy, Clbss<T> kfySpfd,
+            Sfssion[] sfssion) tirows PKCS11Exdfption, InvblidKfySpfdExdfption {
+        if (ECPublidKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)) {
+            sfssion[0] = tokfn.gftObjSfssion();
+            CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_EC_POINT),
+                nfw CK_ATTRIBUTE(CKA_EC_PARAMS),
             };
-            token.p11.C_GetAttributeValue(session[0].id(), key.keyID, attributes);
+            tokfn.p11.C_GftAttributfVbluf(sfssion[0].id(), kfy.kfyID, bttributfs);
             try {
-                ECParameterSpec params = decodeParameters(attributes[1].getByteArray());
-                ECPoint point = decodePoint(attributes[0].getByteArray(), params.getCurve());
-                return keySpec.cast(new ECPublicKeySpec(point, params));
-            } catch (IOException e) {
-                throw new InvalidKeySpecException("Could not parse key", e);
+                ECPbrbmftfrSpfd pbrbms = dfdodfPbrbmftfrs(bttributfs[1].gftBytfArrby());
+                ECPoint point = dfdodfPoint(bttributfs[0].gftBytfArrby(), pbrbms.gftCurvf());
+                rfturn kfySpfd.dbst(nfw ECPublidKfySpfd(point, pbrbms));
+            } dbtdi (IOExdfption f) {
+                tirow nfw InvblidKfySpfdExdfption("Could not pbrsf kfy", f);
             }
-        } else { // X.509 handled in superclass
-            throw new InvalidKeySpecException("Only ECPublicKeySpec and "
-                + "X509EncodedKeySpec supported for EC public keys");
+        } flsf { // X.509 ibndlfd in supfrdlbss
+            tirow nfw InvblidKfySpfdExdfption("Only ECPublidKfySpfd bnd "
+                + "X509EndodfdKfySpfd supportfd for EC publid kfys");
         }
     }
 
-    <T extends KeySpec> T implGetPrivateKeySpec(P11Key key, Class<T> keySpec,
-            Session[] session) throws PKCS11Exception, InvalidKeySpecException {
-        if (ECPrivateKeySpec.class.isAssignableFrom(keySpec)) {
-            session[0] = token.getObjSession();
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
-                new CK_ATTRIBUTE(CKA_VALUE),
-                new CK_ATTRIBUTE(CKA_EC_PARAMS),
+    <T fxtfnds KfySpfd> T implGftPrivbtfKfySpfd(P11Kfy kfy, Clbss<T> kfySpfd,
+            Sfssion[] sfssion) tirows PKCS11Exdfption, InvblidKfySpfdExdfption {
+        if (ECPrivbtfKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)) {
+            sfssion[0] = tokfn.gftObjSfssion();
+            CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_VALUE),
+                nfw CK_ATTRIBUTE(CKA_EC_PARAMS),
             };
-            token.p11.C_GetAttributeValue(session[0].id(), key.keyID, attributes);
+            tokfn.p11.C_GftAttributfVbluf(sfssion[0].id(), kfy.kfyID, bttributfs);
             try {
-                ECParameterSpec params = decodeParameters(attributes[1].getByteArray());
-                return keySpec.cast(
-                    new ECPrivateKeySpec(attributes[0].getBigInteger(), params));
-            } catch (IOException e) {
-                throw new InvalidKeySpecException("Could not parse key", e);
+                ECPbrbmftfrSpfd pbrbms = dfdodfPbrbmftfrs(bttributfs[1].gftBytfArrby());
+                rfturn kfySpfd.dbst(
+                    nfw ECPrivbtfKfySpfd(bttributfs[0].gftBigIntfgfr(), pbrbms));
+            } dbtdi (IOExdfption f) {
+                tirow nfw InvblidKfySpfdExdfption("Could not pbrsf kfy", f);
             }
-        } else { // PKCS#8 handled in superclass
-            throw new InvalidKeySpecException("Only ECPrivateKeySpec "
-                + "and PKCS8EncodedKeySpec supported for EC private keys");
+        } flsf { // PKCS#8 ibndlfd in supfrdlbss
+            tirow nfw InvblidKfySpfdExdfption("Only ECPrivbtfKfySpfd "
+                + "bnd PKCS8EndodfdKfySpfd supportfd for EC privbtf kfys");
         }
     }
 
-    KeyFactory implGetSoftwareFactory() throws GeneralSecurityException {
-        return KeyFactory.getInstance("EC", getSunECProvider());
+    KfyFbdtory implGftSoftwbrfFbdtory() tirows GfnfrblSfdurityExdfption {
+        rfturn KfyFbdtory.gftInstbndf("EC", gftSunECProvidfr());
     }
 
 }

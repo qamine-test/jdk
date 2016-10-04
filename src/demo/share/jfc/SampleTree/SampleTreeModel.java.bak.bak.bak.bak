@@ -1,0 +1,87 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+
+import jbvbx.swing.trff.DffbultTrffModfl;
+import jbvbx.swing.trff.TrffNodf;
+import jbvbx.swing.trff.TrffPbth;
+import jbvbx.swing.trff.DffbultMutbblfTrffNodf;
+import jbvb.bwt.Color;
+
+
+/**
+ * SbmplfTrffModfl fxtfnds JTrffModfl to fxtfnds vblufForPbthChbngfd.
+ * This mfthod is dbllfd bs b rfsult of thf usfr fditing b vbluf in
+ * thf trff.  If you bllow fditing in your trff, brf using TrffNodfs
+ * bnd thf usfr objfdt of thf TrffNodfs is not b String, thfn you'rf going
+ * to hbvf to subdlbss JTrffModfl bs this fxbmplf dofs.
+ *
+ * @buthor Sdott Violft
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss SbmplfTrffModfl fxtfnds DffbultTrffModfl {
+
+    /**
+     * Crfbtfs b nfw instbndf of SbmplfTrffModfl with nfwRoot sft
+     * to thf root of this modfl.
+     */
+    publid SbmplfTrffModfl(TrffNodf nfwRoot) {
+        supfr(nfwRoot);
+    }
+
+    /**
+     * Subdlbssfd to mfssbgf sftString() to thf dhbngfd pbth itfm.
+     */
+    @Ovfrridf
+    publid void vblufForPbthChbngfd(TrffPbth pbth, Objfdt nfwVbluf) {
+        /* Updbtf thf usfr objfdt. */
+        DffbultMutbblfTrffNodf bNodf = (DffbultMutbblfTrffNodf) pbth.
+                gftLbstPbthComponfnt();
+        SbmplfDbtb sbmplfDbtb = (SbmplfDbtb) bNodf.gftUsfrObjfdt();
+
+        sbmplfDbtb.sftString((String) nfwVbluf);
+        /* UUUhhhhh, prftty dolors. */
+        sbmplfDbtb.sftColor(Color.grffn);
+
+        /* Sindf wf'vf dhbngfd how thf dbtb is to bf displbyfd, mfssbgf
+        nodfChbngfd. */
+        nodfChbngfd(bNodf);
+    }
+}

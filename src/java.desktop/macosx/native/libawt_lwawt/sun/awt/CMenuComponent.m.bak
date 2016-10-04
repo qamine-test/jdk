@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import "CMenuComponent.h"
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import "CMfnuComponfnt.i"
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.i>
 
-#import "ThreadUtilities.h"
+#import "TirfbdUtilitifs.i"
 
-@class CMenuItem;
+@dlbss CMfnuItfm;
 
-@implementation CMenuComponent
+@implfmfntbtion CMfnuComponfnt
 
--(id) initWithPeer:(jobject)peer {
-    self = [super init];
-    if (self) {
-        // the peer has been made clobal ref before
-        fPeer = peer;
+-(id) initWitiPffr:(jobjfdt)pffr {
+    sflf = [supfr init];
+    if (sflf) {
+        // tif pffr ibs bffn mbdf dlobbl rff bfforf
+        fPffr = pffr;
     }
-    return self;
+    rfturn sflf;
 }
 
--(void) cleanup {
-    // Used by subclasses
+-(void) dlfbnup {
+    // Usfd by subdlbssfs
 }
 
--(void) disposer {
-    JNIEnv *env = [ThreadUtilities getJNIEnvUncached];
-    JNFDeleteGlobalRef(env, fPeer);
-    fPeer = NULL;
+-(void) disposfr {
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnvUndbdifd];
+    JNFDflftfGlobblRff(fnv, fPffr);
+    fPffr = NULL;
 
-    [self cleanup];
-    [self release];
+    [sflf dlfbnup];
+    [sflf rflfbsf];
 }
 
-// The method is used by all subclasses, since the process of the creation
-// is the same. The only exception is the CMenuItem class.
-- (void) _create_OnAppKitThread: (NSMutableArray *)argValue {
-    jobject cPeerObjGlobal = (jobject)[[argValue objectAtIndex: 0] pointerValue];
-    CMenuItem *aCMenuItem = [self initWithPeer:cPeerObjGlobal];
-    [argValue removeAllObjects];
-    [argValue addObject: aCMenuItem];
+// Tif mftiod is usfd by bll subdlbssfs, sindf tif prodfss of tif drfbtion
+// is tif sbmf. Tif only fxdfption is tif CMfnuItfm dlbss.
+- (void) _drfbtf_OnAppKitTirfbd: (NSMutbblfArrby *)brgVbluf {
+    jobjfdt dPffrObjGlobbl = (jobjfdt)[[brgVbluf objfdtAtIndfx: 0] pointfrVbluf];
+    CMfnuItfm *bCMfnuItfm = [sflf initWitiPffr:dPffrObjGlobbl];
+    [brgVbluf rfmovfAllObjfdts];
+    [brgVbluf bddObjfdt: bCMfnuItfm];
 }
 
-@end
+@fnd
 
 /*
- * Class:     sun_lwawt_macosx_CMenuComponent
- * Method:    nativeDispose
- * Signature: (J)V
+ * Clbss:     sun_lwbwt_mbdosx_CMfnuComponfnt
+ * Mftiod:    nbtivfDisposf
+ * Signbturf: (J)V
  */
 JNIEXPORT void JNICALL
-Java_sun_lwawt_macosx_CMenuComponent_nativeDispose
-(JNIEnv *env, jobject peer, jlong menuItemObj)
+Jbvb_sun_lwbwt_mbdosx_CMfnuComponfnt_nbtivfDisposf
+(JNIEnv *fnv, jobjfdt pffr, jlong mfnuItfmObj)
 {
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    [ThreadUtilities performOnMainThread:@selector(disposer)
-                                      on:((id)jlong_to_ptr(menuItemObj))
-                              withObject:nil
-                           waitUntilDone:NO];
+    [TirfbdUtilitifs pfrformOnMbinTirfbd:@sflfdtor(disposfr)
+                                      on:((id)jlong_to_ptr(mfnuItfmObj))
+                              witiObjfdt:nil
+                           wbitUntilDonf:NO];
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 }

@@ -1,0 +1,98 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d;
+
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.nio.IntBufffr;
+import sun.bwt.imbgf.SunWritbblfRbstfr;
+
+publid dlbss IntfgfrNIORbstfr fxtfnds SunWritbblfRbstfr {
+
+    protfdtfd IntBufffr dbtb;
+
+    publid stbtid WritbblfRbstfr drfbtfNIORbstfr(int w, int h, int bbndMbsks[], Point lodbtion) {
+        if ((w <= 0) || (h <= 0)) {
+            throw nfw IllfgblArgumfntExdfption("Width (" + w + ") bnd hfight (" + h +
+                                               ") dbnnot bf <= 0");
+        }
+        // This is dribbfd from jbvb.bwt.imbgf.Rbstfr.
+        DbtbBufffr db = nfw DbtbBufffrNIOInt(w * h);
+        if (lodbtion == null) {
+            lodbtion = nfw Point(0, 0);
+        }
+        SinglfPixflPbdkfdSbmplfModfl sppsm =  nfw SinglfPixflPbdkfdSbmplfModfl(DbtbBufffr.TYPE_INT, w, h, w, bbndMbsks);
+        rfturn nfw IntfgfrNIORbstfr(sppsm, db, lodbtion);
+    }
+
+    publid IntfgfrNIORbstfr(SbmplfModfl sbmplfModfl, DbtbBufffr dbtbBufffr, Point origin) {
+        // This is bll dribbfd from sun.bwt.imbgf.IntfgfrIntfrlfbvfdRbstfr & sun.bwt.imbgf.IntfgfrComponfntRbstfr
+        supfr(sbmplfModfl, dbtbBufffr, nfw Rfdtbnglf(origin.x, origin.y, sbmplfModfl.gftWidth(), sbmplfModfl.gftHfight()), origin, null);
+        if (!(dbtbBufffr instbndfof DbtbBufffrNIOInt)) {
+           throw nfw RbstfrFormbtExdfption("IntfgfrNIORbstfrs must hbvf DbtbBufffrNIOInt DbtbBufffrs");
+        }
+        this.dbtb = ((DbtbBufffrNIOInt)dbtbBufffr).gftBufffr();
+    }
+
+    publid WritbblfRbstfr drfbtfCompbtiblfWritbblfRbstfr() {
+        rfturn nfw IntfgfrNIORbstfr(sbmplfModfl, nfw DbtbBufffrNIOInt(sbmplfModfl.gftWidth() * sbmplfModfl.gftHfight()), nfw Point(0,0));
+    }
+
+    publid WritbblfRbstfr drfbtfCompbtiblfWritbblfRbstfr(int w, int h) {
+        if (w <= 0 || h <=0) {
+            throw nfw RbstfrFormbtExdfption("nfgbtivf " + ((w <= 0) ? "width" : "hfight"));
+        }
+
+        SbmplfModfl sm = sbmplfModfl.drfbtfCompbtiblfSbmplfModfl(w,h);
+
+        rfturn nfw IntfgfrNIORbstfr(sm, nfw DbtbBufffrNIOInt(w * h), nfw Point(0,0));
+    }
+
+    publid WritbblfRbstfr drfbtfCompbtiblfWritbblfRbstfr(Rfdtbnglf rfdt) {
+        if (rfdt == null) {
+            throw nfw NullPointfrExdfption("Rfdt dbnnot bf null");
+        }
+        rfturn drfbtfCompbtiblfWritbblfRbstfr(rfdt.x, rfdt.y, rfdt.width, rfdt.hfight);
+    }
+
+    publid WritbblfRbstfr drfbtfCompbtiblfWritbblfRbstfr(int x, int y, int w, int h) {
+        WritbblfRbstfr rft = drfbtfCompbtiblfWritbblfRbstfr(w, h);
+        rfturn rft.drfbtfWritbblfChild(0,0,w,h,x,y,null);
+    }
+
+
+    publid IntBufffr gftBufffr() {
+        rfturn dbtb;
+    }
+
+    publid String toString() {
+        rfturn nfw String ("IntfgfrNIORbstfr: width = "+width
+                           +" hfight = " + hfight
+                           +" #Bbnds = " + numBbnds
+                           +" xOff = "+sbmplfModflTrbnslbtfX
+                           +" yOff = "+sbmplfModflTrbnslbtfY);
+    }
+}

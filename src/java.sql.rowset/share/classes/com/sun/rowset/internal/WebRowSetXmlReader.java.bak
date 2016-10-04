@@ -1,237 +1,237 @@
 /*
- * Copyright (c) 2003, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.rowset.internal;
+pbdkbgf dom.sun.rowsft.intfrnbl;
 
-import java.sql.*;
-import javax.sql.*;
-import java.io.*;
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvb.io.*;
 
-import org.xml.sax.*;
-import org.xml.sax.helpers.*;
-import javax.xml.parsers.*;
+import org.xml.sbx.*;
+import org.xml.sbx.iflpfrs.*;
+import jbvbx.xml.pbrsfrs.*;
 
-import com.sun.rowset.*;
-import java.text.MessageFormat;
-import javax.sql.rowset.*;
-import javax.sql.rowset.spi.*;
+import dom.sun.rowsft.*;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvbx.sql.rowsft.*;
+import jbvbx.sql.rowsft.spi.*;
 
 /**
- * An implementation of the <code>XmlReader</code> interface, which
- * reads and parses an XML formatted <code>WebRowSet</code> object.
- * This implementation uses an <code>org.xml.sax.Parser</code> object
- * as its parser.
+ * An implfmfntbtion of tif <dodf>XmlRfbdfr</dodf> intfrfbdf, wiidi
+ * rfbds bnd pbrsfs bn XML formbttfd <dodf>WfbRowSft</dodf> objfdt.
+ * Tiis implfmfntbtion usfs bn <dodf>org.xml.sbx.Pbrsfr</dodf> objfdt
+ * bs its pbrsfr.
  */
-public class WebRowSetXmlReader implements XmlReader, Serializable {
+publid dlbss WfbRowSftXmlRfbdfr implfmfnts XmlRfbdfr, Sfriblizbblf {
 
 
-    private JdbcRowSetResourceBundle resBundle;
+    privbtf JdbdRowSftRfsourdfBundlf rfsBundlf;
 
-    public WebRowSetXmlReader(){
+    publid WfbRowSftXmlRfbdfr(){
         try {
-           resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
-            throw new RuntimeException(ioe);
+           rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+        } dbtdi(IOExdfption iof) {
+            tirow nfw RuntimfExdfption(iof);
         }
     }
 
     /**
-     * Parses the given <code>WebRowSet</code> object, getting its input from
-     * the given <code>java.io.Reader</code> object.  The parser will send
-     * notifications of parse events to the rowset's
-     * <code>XmlReaderDocHandler</code>, which will build the rowset as
-     * an XML document.
+     * Pbrsfs tif givfn <dodf>WfbRowSft</dodf> objfdt, gftting its input from
+     * tif givfn <dodf>jbvb.io.Rfbdfr</dodf> objfdt.  Tif pbrsfr will sfnd
+     * notifidbtions of pbrsf fvfnts to tif rowsft's
+     * <dodf>XmlRfbdfrDodHbndlfr</dodf>, wiidi will build tif rowsft bs
+     * bn XML dodumfnt.
      * <P>
-     * This method is called internally by the method
-     * <code>WebRowSet.readXml</code>.
+     * Tiis mftiod is dbllfd intfrnblly by tif mftiod
+     * <dodf>WfbRowSft.rfbdXml</dodf>.
      * <P>
-     * If a parsing error occurs, the exception thrown will include
-     * information for locating the error in the original XML document.
+     * If b pbrsing frror oddurs, tif fxdfption tirown will indludf
+     * informbtion for lodbting tif frror in tif originbl XML dodumfnt.
      *
-     * @param caller the <code>WebRowSet</code> object to be parsed, whose
-     *        <code>xmlReader</code> field must contain a reference to
-     *        this <code>XmlReader</code> object
-     * @param reader the <code>java.io.Reader</code> object from which
-     *        the parser will get its input
-     * @exception SQLException if a database access error occurs or
-     *            this <code>WebRowSetXmlReader</code> object is not the
-     *            reader for the given rowset
-     * @see XmlReaderContentHandler
+     * @pbrbm dbllfr tif <dodf>WfbRowSft</dodf> objfdt to bf pbrsfd, wiosf
+     *        <dodf>xmlRfbdfr</dodf> fifld must dontbin b rfffrfndf to
+     *        tiis <dodf>XmlRfbdfr</dodf> objfdt
+     * @pbrbm rfbdfr tif <dodf>jbvb.io.Rfbdfr</dodf> objfdt from wiidi
+     *        tif pbrsfr will gft its input
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     *            tiis <dodf>WfbRowSftXmlRfbdfr</dodf> objfdt is not tif
+     *            rfbdfr for tif givfn rowsft
+     * @sff XmlRfbdfrContfntHbndlfr
      */
-    public void readXML(WebRowSet caller, java.io.Reader reader) throws SQLException {
+    publid void rfbdXML(WfbRowSft dbllfr, jbvb.io.Rfbdfr rfbdfr) tirows SQLExdfption {
         try {
-            // Crimson Parser(as in J2SE 1.4.1 is NOT able to handle
-            // Reader(s)(FileReader).
+            // Crimson Pbrsfr(bs in J2SE 1.4.1 is NOT bblf to ibndlf
+            // Rfbdfr(s)(FilfRfbdfr).
             //
-            // But getting the file as a Stream works fine. So we are going to take
-            // the reader but send it as a InputStream to the parser. Note that this
-            // functionality needs to work against any parser
-            // Crimson(J2SE 1.4.x) / Xerces(J2SE 1.5.x).
-            InputSource is = new InputSource(reader);
-            DefaultHandler dh = new XmlErrorHandler();
-            XmlReaderContentHandler hndr = new XmlReaderContentHandler((RowSet)caller);
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            factory.setNamespaceAware(true);
-            factory.setValidating(true);
-            SAXParser parser = factory.newSAXParser() ;
+            // But gftting tif filf bs b Strfbm works finf. So wf brf going to tbkf
+            // tif rfbdfr but sfnd it bs b InputStrfbm to tif pbrsfr. Notf tibt tiis
+            // fundtionblity nffds to work bgbinst bny pbrsfr
+            // Crimson(J2SE 1.4.x) / Xfrdfs(J2SE 1.5.x).
+            InputSourdf is = nfw InputSourdf(rfbdfr);
+            DffbultHbndlfr di = nfw XmlErrorHbndlfr();
+            XmlRfbdfrContfntHbndlfr indr = nfw XmlRfbdfrContfntHbndlfr((RowSft)dbllfr);
+            SAXPbrsfrFbdtory fbdtory = SAXPbrsfrFbdtory.nfwInstbndf();
+            fbdtory.sftNbmfspbdfAwbrf(truf);
+            fbdtory.sftVblidbting(truf);
+            SAXPbrsfr pbrsfr = fbdtory.nfwSAXPbrsfr() ;
 
-            parser.setProperty(
-                               "http://java.sun.com/xml/jaxp/properties/schemaLanguage", "http://www.w3.org/2001/XMLSchema");
+            pbrsfr.sftPropfrty(
+                               "ittp://jbvb.sun.dom/xml/jbxp/propfrtifs/sdifmbLbngubgf", "ittp://www.w3.org/2001/XMLSdifmb");
 
-            XMLReader reader1 = parser.getXMLReader() ;
-            reader1.setEntityResolver(new XmlResolver());
-            reader1.setContentHandler(hndr);
+            XMLRfbdfr rfbdfr1 = pbrsfr.gftXMLRfbdfr() ;
+            rfbdfr1.sftEntityRfsolvfr(nfw XmlRfsolvfr());
+            rfbdfr1.sftContfntHbndlfr(indr);
 
-            reader1.setErrorHandler(dh);
+            rfbdfr1.sftErrorHbndlfr(di);
 
-            reader1.parse(is);
+            rfbdfr1.pbrsf(is);
 
-        } catch (SAXParseException err) {
-            System.out.println (MessageFormat.format(resBundle.handleGetObject("wrsxmlreader.parseerr").toString(), new Object[]{ err.getMessage (), err.getLineNumber(), err.getSystemId()}));
-            err.printStackTrace();
-            throw new SQLException(err.getMessage());
+        } dbtdi (SAXPbrsfExdfption frr) {
+            Systfm.out.println (MfssbgfFormbt.formbt(rfsBundlf.ibndlfGftObjfdt("wrsxmlrfbdfr.pbrsffrr").toString(), nfw Objfdt[]{ frr.gftMfssbgf (), frr.gftLinfNumbfr(), frr.gftSystfmId()}));
+            frr.printStbdkTrbdf();
+            tirow nfw SQLExdfption(frr.gftMfssbgf());
 
-        } catch (SAXException e) {
-            Exception   x = e;
-            if (e.getException () != null)
-                x = e.getException();
-            x.printStackTrace ();
-            throw new SQLException(x.getMessage());
+        } dbtdi (SAXExdfption f) {
+            Exdfption   x = f;
+            if (f.gftExdfption () != null)
+                x = f.gftExdfption();
+            x.printStbdkTrbdf ();
+            tirow nfw SQLExdfption(x.gftMfssbgf());
 
         }
 
-        // Will be here if trying to write beyond the RowSet limits
+        // Will bf ifrf if trying to writf bfyond tif RowSft limits
 
-         catch (ArrayIndexOutOfBoundsException aie) {
-              throw new SQLException(resBundle.handleGetObject("wrsxmlreader.invalidcp").toString());
+         dbtdi (ArrbyIndfxOutOfBoundsExdfption bif) {
+              tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("wrsxmlrfbdfr.invbliddp").toString());
         }
-        catch (Throwable e) {
-            throw new SQLException(MessageFormat.format(resBundle.handleGetObject("wrsxmlreader.readxml").toString() , e.getMessage()));
+        dbtdi (Tirowbblf f) {
+            tirow nfw SQLExdfption(MfssbgfFormbt.formbt(rfsBundlf.ibndlfGftObjfdt("wrsxmlrfbdfr.rfbdxml").toString() , f.gftMfssbgf()));
         }
 
     }
 
 
     /**
-     * Parses the given <code>WebRowSet</code> object, getting its input from
-     * the given <code>java.io.InputStream</code> object.  The parser will send
-     * notifications of parse events to the rowset's
-     * <code>XmlReaderDocHandler</code>, which will build the rowset as
-     * an XML document.
+     * Pbrsfs tif givfn <dodf>WfbRowSft</dodf> objfdt, gftting its input from
+     * tif givfn <dodf>jbvb.io.InputStrfbm</dodf> objfdt.  Tif pbrsfr will sfnd
+     * notifidbtions of pbrsf fvfnts to tif rowsft's
+     * <dodf>XmlRfbdfrDodHbndlfr</dodf>, wiidi will build tif rowsft bs
+     * bn XML dodumfnt.
      * <P>
-     * Using streams is a much faster way than using <code>java.io.Reader</code>
+     * Using strfbms is b mudi fbstfr wby tibn using <dodf>jbvb.io.Rfbdfr</dodf>
      * <P>
-     * This method is called internally by the method
-     * <code>WebRowSet.readXml</code>.
+     * Tiis mftiod is dbllfd intfrnblly by tif mftiod
+     * <dodf>WfbRowSft.rfbdXml</dodf>.
      * <P>
-     * If a parsing error occurs, the exception thrown will include
-     * information for locating the error in the original XML document.
+     * If b pbrsing frror oddurs, tif fxdfption tirown will indludf
+     * informbtion for lodbting tif frror in tif originbl XML dodumfnt.
      *
-     * @param caller the <code>WebRowSet</code> object to be parsed, whose
-     *        <code>xmlReader</code> field must contain a reference to
-     *        this <code>XmlReader</code> object
-     * @param iStream the <code>java.io.InputStream</code> object from which
-     *        the parser will get its input
-     * @throws SQLException if a database access error occurs or
-     *            this <code>WebRowSetXmlReader</code> object is not the
-     *            reader for the given rowset
-     * @see XmlReaderContentHandler
+     * @pbrbm dbllfr tif <dodf>WfbRowSft</dodf> objfdt to bf pbrsfd, wiosf
+     *        <dodf>xmlRfbdfr</dodf> fifld must dontbin b rfffrfndf to
+     *        tiis <dodf>XmlRfbdfr</dodf> objfdt
+     * @pbrbm iStrfbm tif <dodf>jbvb.io.InputStrfbm</dodf> objfdt from wiidi
+     *        tif pbrsfr will gft its input
+     * @tirows SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     *            tiis <dodf>WfbRowSftXmlRfbdfr</dodf> objfdt is not tif
+     *            rfbdfr for tif givfn rowsft
+     * @sff XmlRfbdfrContfntHbndlfr
      */
-    public void readXML(WebRowSet caller, java.io.InputStream iStream) throws SQLException {
+    publid void rfbdXML(WfbRowSft dbllfr, jbvb.io.InputStrfbm iStrfbm) tirows SQLExdfption {
         try {
-            InputSource is = new InputSource(iStream);
-            DefaultHandler dh = new XmlErrorHandler();
+            InputSourdf is = nfw InputSourdf(iStrfbm);
+            DffbultHbndlfr di = nfw XmlErrorHbndlfr();
 
-            XmlReaderContentHandler hndr = new XmlReaderContentHandler((RowSet)caller);
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            factory.setNamespaceAware(true);
-            factory.setValidating(true);
+            XmlRfbdfrContfntHbndlfr indr = nfw XmlRfbdfrContfntHbndlfr((RowSft)dbllfr);
+            SAXPbrsfrFbdtory fbdtory = SAXPbrsfrFbdtory.nfwInstbndf();
+            fbdtory.sftNbmfspbdfAwbrf(truf);
+            fbdtory.sftVblidbting(truf);
 
-            SAXParser parser = factory.newSAXParser() ;
+            SAXPbrsfr pbrsfr = fbdtory.nfwSAXPbrsfr() ;
 
-            parser.setProperty("http://java.sun.com/xml/jaxp/properties/schemaLanguage",
-                     "http://www.w3.org/2001/XMLSchema");
+            pbrsfr.sftPropfrty("ittp://jbvb.sun.dom/xml/jbxp/propfrtifs/sdifmbLbngubgf",
+                     "ittp://www.w3.org/2001/XMLSdifmb");
 
-            XMLReader reader1 = parser.getXMLReader() ;
-            reader1.setEntityResolver(new XmlResolver());
-            reader1.setContentHandler(hndr);
+            XMLRfbdfr rfbdfr1 = pbrsfr.gftXMLRfbdfr() ;
+            rfbdfr1.sftEntityRfsolvfr(nfw XmlRfsolvfr());
+            rfbdfr1.sftContfntHbndlfr(indr);
 
-            reader1.setErrorHandler(dh);
+            rfbdfr1.sftErrorHbndlfr(di);
 
-            reader1.parse(is);
+            rfbdfr1.pbrsf(is);
 
-        } catch (SAXParseException err) {
-            System.out.println (MessageFormat.format(resBundle.handleGetObject("wrsxmlreader.parseerr").toString(), new Object[]{err.getLineNumber(), err.getSystemId() }));
-            System.out.println("   " + err.getMessage ());
-            err.printStackTrace();
-            throw new SQLException(err.getMessage());
+        } dbtdi (SAXPbrsfExdfption frr) {
+            Systfm.out.println (MfssbgfFormbt.formbt(rfsBundlf.ibndlfGftObjfdt("wrsxmlrfbdfr.pbrsffrr").toString(), nfw Objfdt[]{frr.gftLinfNumbfr(), frr.gftSystfmId() }));
+            Systfm.out.println("   " + frr.gftMfssbgf ());
+            frr.printStbdkTrbdf();
+            tirow nfw SQLExdfption(frr.gftMfssbgf());
 
-        } catch (SAXException e) {
-            Exception   x = e;
-            if (e.getException () != null)
-                x = e.getException();
-            x.printStackTrace ();
-            throw new SQLException(x.getMessage());
+        } dbtdi (SAXExdfption f) {
+            Exdfption   x = f;
+            if (f.gftExdfption () != null)
+                x = f.gftExdfption();
+            x.printStbdkTrbdf ();
+            tirow nfw SQLExdfption(x.gftMfssbgf());
 
         }
 
-        // Will be here if trying to write beyond the RowSet limits
+        // Will bf ifrf if trying to writf bfyond tif RowSft limits
 
-         catch (ArrayIndexOutOfBoundsException aie) {
-              throw new SQLException(resBundle.handleGetObject("wrsxmlreader.invalidcp").toString());
+         dbtdi (ArrbyIndfxOutOfBoundsExdfption bif) {
+              tirow nfw SQLExdfption(rfsBundlf.ibndlfGftObjfdt("wrsxmlrfbdfr.invbliddp").toString());
         }
 
-        catch (Throwable e) {
-            throw new SQLException(MessageFormat.format(resBundle.handleGetObject("wrsxmlreader.readxml").toString() , e.getMessage()));
+        dbtdi (Tirowbblf f) {
+            tirow nfw SQLExdfption(MfssbgfFormbt.formbt(rfsBundlf.ibndlfGftObjfdt("wrsxmlrfbdfr.rfbdxml").toString() , f.gftMfssbgf()));
         }
     }
 
     /**
-     * For code coverage purposes only right now
+     * For dodf dovfrbgf purposfs only rigit now
      *
      */
 
-    public void readData(RowSetInternal caller) {
+    publid void rfbdDbtb(RowSftIntfrnbl dbllfr) {
     }
 
     /**
-     * This method re populates the resBundle
-     * during the deserialization process
+     * Tiis mftiod rf populbtfs tif rfsBundlf
+     * during tif dfsfriblizbtion prodfss
      *
      */
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        // Default state initialization happens here
-        ois.defaultReadObject();
-        // Initialization of transient Res Bundle happens here .
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois) tirows IOExdfption, ClbssNotFoundExdfption {
+        // Dffbult stbtf initiblizbtion ibppfns ifrf
+        ois.dffbultRfbdObjfdt();
+        // Initiblizbtion of trbnsifnt Rfs Bundlf ibppfns ifrf .
         try {
-           resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
-            throw new RuntimeException(ioe);
+           rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+        } dbtdi(IOExdfption iof) {
+            tirow nfw RuntimfExdfption(iof);
         }
 
     }
 
-    static final long serialVersionUID = -9127058392819008014L;
+    stbtid finbl long sfriblVfrsionUID = -9127058392819008014L;
 }

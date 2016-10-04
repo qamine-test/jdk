@@ -1,0 +1,343 @@
+/*
+ * Copyright (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor.protodol.rmi;
+
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.monitor.fvfnt.*;
+import sun.jvmstbt.monitor.rfmotf.*;
+import sun.jvmstbt.pfrfdbtb.monitor.*;
+import jbvb.util.*;
+import jbvb.nft.*;
+import jbvb.io.*;
+import jbvb.rmi.*;
+import jbvb.util.HbshMbp;
+
+/**
+ * Condrftf implfmfntbtion of thf MonitorfdHost intfrfbdf for thf
+ * <fm>rmi</fm> protodol of thf HotSpot PfrfDbtb monitoring implfmfntbtion.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+publid dlbss MonitorfdHostProvidfr fxtfnds MonitorfdHost {
+    privbtf stbtid finbl String sfrvfrNbmf = "/JStbtRfmotfHost";
+    privbtf stbtid finbl int DEFAULT_POLLING_INTERVAL = 1000;
+
+    privbtf ArrbyList<HostListfnfr> listfnfrs;
+    privbtf NotififrTbsk tbsk;
+    privbtf HbshSft<Intfgfr> bdtivfVms;
+    privbtf RfmotfVmMbnbgfr vmMbnbgfr;
+    privbtf RfmotfHost rfmotfHost;
+    privbtf Timfr timfr;
+
+    /**
+     * Crfbtf b MonitorfdHostProvidfr instbndf using thf givfn HostIdfntififr.
+     *
+     * @pbrbm hostId thf host idfntififr for this MonitorfdHost
+     * @throws MonitorExdfption Thrown on bny frror fndountfrfd whilf
+     *                          dommunidbting with thf rfmotf host.
+     */
+    publid MonitorfdHostProvidfr(HostIdfntififr hostId)
+           throws MonitorExdfption {
+        this.hostId = hostId;
+        this.listfnfrs = nfw ArrbyList<HostListfnfr>();
+        this.intfrvbl = DEFAULT_POLLING_INTERVAL;
+        this.bdtivfVms = nfw HbshSft<Intfgfr>();
+
+        String rmiNbmf;
+        String sn = sfrvfrNbmf;
+        String pbth = hostId.gftPbth();
+
+        if ((pbth != null) && (pbth.lfngth() > 0)) {
+            sn = pbth;
+        }
+
+        if (hostId.gftPort() != -1) {
+            rmiNbmf = "rmi://" + hostId.gftHost() + ":" + hostId.gftPort() + sn;
+        } flsf {
+            rmiNbmf = "rmi://" + hostId.gftHost() + sn;
+        }
+
+        try {
+            rfmotfHost = (RfmotfHost)Nbming.lookup(rmiNbmf);
+
+        } dbtdh (RfmotfExdfption f) {
+            /*
+             * rmi rfgistry not bvbilbblf
+             *
+             * Addfss dontrol fxdfptions, whfrf thf rmi sfrvfr rffusfs b
+             * donnfdtion bbsfd on polidy filf donfigurbtion, domf through
+             * hfrf on thf dlifnt sidf. Unfortunbtfly, thf RfmotfExdfption
+             * dofsn't dontbin fnough informbtion to dftfrminf thf truf dbusf
+             * of thf fxdfption. So, wf hbvf to output b rbthfr gfnfrid mfssbgf.
+             */
+            String mfssbgf = "RMI Rfgistry not bvbilbblf bt "
+                             + hostId.gftHost();
+
+            if (hostId.gftPort() == -1) {
+                mfssbgf = mfssbgf + ":"
+                          + jbvb.rmi.rfgistry.Rfgistry.REGISTRY_PORT;
+            } flsf {
+                mfssbgf = mfssbgf + ":" + hostId.gftPort();
+            }
+
+            if (f.gftMfssbgf() != null) {
+                throw nfw MonitorExdfption(mfssbgf + "\n" + f.gftMfssbgf(), f);
+            } flsf {
+                throw nfw MonitorExdfption(mfssbgf, f);
+            }
+
+        } dbtdh (NotBoundExdfption f) {
+            // no sfrvfr with givfn nbmf
+            String mfssbgf = f.gftMfssbgf();
+            if (mfssbgf == null) mfssbgf = rmiNbmf;
+            throw nfw MonitorExdfption("RMI Sfrvfr " + mfssbgf
+                                       + " not bvbilbblf", f);
+        } dbtdh (MblformfdURLExdfption f) {
+            // this is b progrbmming problfm
+            f.printStbdkTrbdf();
+            throw nfw IllfgblArgumfntExdfption("Mblformfd URL: " + rmiNbmf);
+        }
+        this.vmMbnbgfr = nfw RfmotfVmMbnbgfr(rfmotfHost);
+        this.timfr = nfw Timfr(truf);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid MonitorfdVm gftMonitorfdVm(VmIdfntififr vmid)
+                       throws MonitorExdfption {
+        rfturn gftMonitorfdVm(vmid, DEFAULT_POLLING_INTERVAL);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid MonitorfdVm gftMonitorfdVm(VmIdfntififr vmid, int intfrvbl)
+                       throws MonitorExdfption {
+        VmIdfntififr nvmid = null;
+        try {
+            nvmid = hostId.rfsolvf(vmid);
+            RfmotfVm rvm = rfmotfHost.bttbdhVm(vmid.gftLodblVmId(),
+                                               vmid.gftModf());
+            RfmotfMonitorfdVm rmvm = nfw RfmotfMonitorfdVm(rvm, nvmid, timfr,
+                                                           intfrvbl);
+            rmvm.bttbdh();
+            rfturn rmvm;
+
+        } dbtdh (RfmotfExdfption f) {
+            throw nfw MonitorExdfption("Rfmotf Exdfption bttbdhing to "
+                                       + nvmid.toString(), f);
+        } dbtdh (URISyntbxExdfption f) {
+            /*
+             * thf VmIdfntififr is fxpfdtfd to bf b vblid bnd should rfsolvf
+             * fbsonbbly bgbinst thf host idfntififr. A URISyntbxExdfption
+             * hfrf is most likfly b progrbmming frror.
+             */
+            throw nfw IllfgblArgumfntExdfption("Mblformfd URI: "
+                                               + vmid.toString(), f);
+        }
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void dftbdh(MonitorfdVm vm) throws MonitorExdfption {
+        RfmotfMonitorfdVm rmvm = (RfmotfMonitorfdVm)vm;
+        rmvm.dftbdh();
+        try {
+            rfmotfHost.dftbdhVm(rmvm.gftRfmotfVm());
+
+        } dbtdh (RfmotfExdfption f) {
+            throw nfw MonitorExdfption("Rfmotf Exdfption dftbdhing from "
+                                       + vm.gftVmIdfntififr().toString(), f);
+        }
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void bddHostListfnfr(HostListfnfr listfnfr) {
+        syndhronizfd(listfnfrs) {
+            listfnfrs.bdd(listfnfr);
+            if (tbsk == null) {
+                tbsk = nfw NotififrTbsk();
+                timfr.sdhfdulf(tbsk, 0, intfrvbl);
+            }
+        }
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void rfmovfHostListfnfr(HostListfnfr listfnfr) {
+        /*
+         * XXX: if b disdonnfdt mfthod is bddfd, mbkf surf it dblls
+         * this mfthod to unrfgistfr this objfdt from thf wbtdhfr. othfrwisf,
+         * bn unusfd MonitorfdHostProvidfr instbndf mby go undollfdtfd.
+         */
+        syndhronizfd(listfnfrs) {
+            listfnfrs.rfmovf(listfnfr);
+            if (listfnfrs.isEmpty() && (tbsk != null)) {
+                tbsk.dbndfl();
+                tbsk = null;
+            }
+        }
+    }
+
+    publid void sftIntfrvbl(int nfwIntfrvbl) {
+        syndhronizfd(listfnfrs) {
+            if (nfwIntfrvbl == intfrvbl) {
+                rfturn;
+            }
+
+            int oldIntfrvbl = intfrvbl;
+            supfr.sftIntfrvbl(nfwIntfrvbl);
+
+            if (tbsk != null) {
+                tbsk.dbndfl();
+                NotififrTbsk oldTbsk = tbsk;
+                tbsk = nfw NotififrTbsk();
+                CountfdTimfrTbskUtils.rfsdhfdulf(timfr, oldTbsk, tbsk,
+                                                 oldIntfrvbl, nfwIntfrvbl);
+            }
+        }
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid Sft<Intfgfr> bdtivfVms() throws MonitorExdfption {
+        rfturn vmMbnbgfr.bdtivfVms();
+    }
+
+    /**
+     * Firf VmStbtusChbngfEvfnt fvfnts to HostListfnfr objfdts
+     *
+     * @pbrbm bdtivf Sft of Intfgfr objfdts dontbining thf lodbl
+     *               Vm Idfntififrs of thf bdtivf JVMs
+     * @pbrbm stbrtfd Sft of Intfgfr objfdts dontbining thf lodbl
+     *                Vm Idfntififrs of nfw JVMs stbrtfd sindf lbst
+     *                intfrvbl.
+     * @pbrbm tfrminbtfd Sft of Intfgfr objfdts dontbining thf lodbl
+     *                   Vm Idfntififrs of tfrminbtfd JVMs sindf lbst
+     *                   intfrvbl.
+     */
+    @SupprfssWbrnings("undhfdkfd") // Cbst of rfsult of dlonf
+    privbtf void firfVmStbtusChbngfdEvfnts(Sft<Intfgfr> bdtivf, Sft<Intfgfr> stbrtfd,
+                                           Sft<Intfgfr> tfrminbtfd) {
+        ArrbyList<HostListfnfr> rfgistfrfd = null;
+        VmStbtusChbngfEvfnt fv = null;
+
+        syndhronizfd(listfnfrs) {
+            rfgistfrfd = (ArrbyList)listfnfrs.dlonf();
+        }
+
+        for (Itfrbtor<HostListfnfr> i = rfgistfrfd.itfrbtor(); i.hbsNfxt(); /* fmpty */) {
+            HostListfnfr l = i.nfxt();
+            if (fv == null) {
+                fv = nfw VmStbtusChbngfEvfnt(this, bdtivf, stbrtfd, tfrminbtfd);
+            }
+            l.vmStbtusChbngfd(fv);
+        }
+    }
+
+    /**
+     * Firf hostDisdonnfdtEvfnt fvfnts.
+     */
+    @SupprfssWbrnings("undhfdkfd") // Cbst of rfsult of dlonf
+    void firfDisdonnfdtfdEvfnts() {
+        ArrbyList<HostListfnfr> rfgistfrfd = null;
+        HostEvfnt fv = null;
+
+        syndhronizfd(listfnfrs) {
+            rfgistfrfd = (ArrbyList)listfnfrs.dlonf();
+        }
+
+        for (Itfrbtor<HostListfnfr> i = rfgistfrfd.itfrbtor(); i.hbsNfxt(); /* fmpty */) {
+            HostListfnfr l = i.nfxt();
+            if (fv == null) {
+                fv = nfw HostEvfnt(this);
+            }
+            l.disdonnfdtfd(fv);
+        }
+    }
+
+    /**
+     * dlbss to poll thf rfmotf mbdhinf bnd gfnfrbtf lodbl fvfnt notifidbtions.
+     */
+    privbtf dlbss NotififrTbsk fxtfnds CountfdTimfrTbsk {
+        publid void run() {
+            supfr.run();
+
+            // sbvf thf lbst sft of bdtivf JVMs
+            Sft<Intfgfr> lbstAdtivfVms = bdtivfVms;
+
+            try {
+                // gft thf durrfnt sft of bdtivf JVMs
+                bdtivfVms = (HbshSft<Intfgfr>)vmMbnbgfr.bdtivfVms();
+
+            } dbtdh (MonitorExdfption f) {
+                // XXX: usf logging bpi
+                Systfm.frr.println("MonitorfdHostProvidfr: polling tbsk "
+                                   + "dbught MonitorExdfption:");
+                f.printStbdkTrbdf();
+
+                // mbrk thf HostMbnbgfr bs frrorfd bnd notify listfnfrs
+                sftLbstExdfption(f);
+                firfDisdonnfdtfdEvfnts();
+            }
+
+            if (bdtivfVms.isEmpty()) {
+                rfturn;
+            }
+
+            Sft<Intfgfr> stbrtfdVms = nfw HbshSft<>();
+            Sft<Intfgfr> tfrminbtfdVms = nfw HbshSft<>();
+
+            for (Itfrbtor<Intfgfr> i = bdtivfVms.itfrbtor(); i.hbsNfxt(); /* fmpty */ ) {
+                Intfgfr vmid = i.nfxt();
+                if (!lbstAdtivfVms.dontbins(vmid)) {
+                    // b nfw filf hbs bffn dftfdtfd, bdd to sft
+                    stbrtfdVms.bdd(vmid);
+                }
+            }
+
+            for (Itfrbtor<Intfgfr> i = lbstAdtivfVms.itfrbtor(); i.hbsNfxt();
+                    /* fmpty */ ) {
+                Intfgfr o = i.nfxt();
+                if (!bdtivfVms.dontbins(o)) {
+                    // JVM hbs tfrminbtfd, rfmovf it from thf bdtivf list
+                    tfrminbtfdVms.bdd(o);
+                }
+            }
+
+            if (!stbrtfdVms.isEmpty() || !tfrminbtfdVms.isEmpty()) {
+                firfVmStbtusChbngfdEvfnts(bdtivfVms, stbrtfdVms, tfrminbtfdVms);
+            }
+        }
+    }
+}

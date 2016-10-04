@@ -1,0 +1,458 @@
+/*
+ * Copyright (d) 2010, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.util;
+
+import jbvb.sfdurity.AlgorithmConstrbints;
+import jbvb.sfdurity.CryptoPrimitivf;
+import jbvb.sfdurity.AlgorithmPbrbmftfrs;
+
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.Sfdurity;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.AddfssControllfr;
+
+import jbvb.util.Lodblf;
+import jbvb.util.Sft;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshSft;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.rfgfx.Pbttfrn;
+import jbvb.util.rfgfx.Mbtdhfr;
+
+/**
+ * Algorithm donstrbints for disbblfd blgorithms propfrty
+ *
+ * Sff thf "jdk.dfrtpbth.disbblfdAlgorithms" spfdifidbtion in jbvb.sfdurity
+ * for thf syntbx of thf disbblfd blgorithm string.
+ */
+publid dlbss DisbblfdAlgorithmConstrbints implfmfnts AlgorithmConstrbints {
+
+    // thf known sfdurity propfrty, jdk.dfrtpbth.disbblfdAlgorithms
+    publid finbl stbtid String PROPERTY_CERTPATH_DISABLED_ALGS =
+            "jdk.dfrtpbth.disbblfdAlgorithms";
+
+    // thf known sfdurity propfrty, jdk.tls.disbblfdAlgorithms
+    publid finbl stbtid String PROPERTY_TLS_DISABLED_ALGS =
+            "jdk.tls.disbblfdAlgorithms";
+
+    privbtf finbl stbtid Mbp<String, String[]> disbblfdAlgorithmsMbp =
+                                                            nfw HbshMbp<>();
+    privbtf finbl stbtid Mbp<String, KfySizfConstrbints> kfySizfConstrbintsMbp =
+                                                            nfw HbshMbp<>();
+
+    privbtf String[] disbblfdAlgorithms;
+    privbtf KfySizfConstrbints kfySizfConstrbints;
+
+    /**
+     * Initiblizf blgorithm donstrbints with thf spfdififd sfdurity propfrty.
+     *
+     * @pbrbm propfrtyNbmf thf sfdurity propfrty nbmf thbt dffinf thf disbblfd
+     *        blgorithm donstrbints
+     */
+    publid DisbblfdAlgorithmConstrbints(String propfrtyNbmf) {
+        // Both disbblfdAlgorithmsMbp bnd kfySizfConstrbintsMbp brf
+        // syndhronizfd with thf lodk of disbblfdAlgorithmsMbp.
+        syndhronizfd (disbblfdAlgorithmsMbp) {
+            if(!disbblfdAlgorithmsMbp.dontbinsKfy(propfrtyNbmf)) {
+                lobdDisbblfdAlgorithmsMbp(propfrtyNbmf);
+            }
+
+            disbblfdAlgorithms = disbblfdAlgorithmsMbp.gft(propfrtyNbmf);
+            kfySizfConstrbints = kfySizfConstrbintsMbp.gft(propfrtyNbmf);
+        }
+    }
+
+    @Ovfrridf
+    finbl publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
+            String blgorithm, AlgorithmPbrbmftfrs pbrbmftfrs) {
+
+        if (blgorithm == null || blgorithm.lfngth() == 0) {
+            throw nfw IllfgblArgumfntExdfption("No blgorithm nbmf spfdififd");
+        }
+
+        if (primitivfs == null || primitivfs.isEmpty()) {
+            throw nfw IllfgblArgumfntExdfption(
+                        "No dryptogrbphid primitivf spfdififd");
+        }
+
+        Sft<String> flfmfnts = null;
+        for (String disbblfd : disbblfdAlgorithms) {
+            if (disbblfd == null || disbblfd.isEmpty()) {
+                dontinuf;
+            }
+
+            // dhfdk thf full nbmf
+            if (disbblfd.fqublsIgnorfCbsf(blgorithm)) {
+                rfturn fblsf;
+            }
+
+            // dfdomposf thf blgorithm into sub-flfmfnts
+            if (flfmfnts == null) {
+                flfmfnts = dfdomposfs(blgorithm);
+            }
+
+            // dhfdk thf itfms of thf blgorithm
+            for (String flfmfnt : flfmfnts) {
+                if (disbblfd.fqublsIgnorfCbsf(flfmfnt)) {
+                    rfturn fblsf;
+                }
+            }
+        }
+
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    finbl publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs, Kfy kfy) {
+        rfturn dhfdkConstrbints(primitivfs, "", kfy, null);
+    }
+
+    @Ovfrridf
+    finbl publid boolfbn pfrmits(Sft<CryptoPrimitivf> primitivfs,
+            String blgorithm, Kfy kfy, AlgorithmPbrbmftfrs pbrbmftfrs) {
+
+        if (blgorithm == null || blgorithm.lfngth() == 0) {
+            throw nfw IllfgblArgumfntExdfption("No blgorithm nbmf spfdififd");
+        }
+
+        rfturn dhfdkConstrbints(primitivfs, blgorithm, kfy, pbrbmftfrs);
+    }
+
+    /**
+     * Dfdomposf thf stbndbrd blgorithm nbmf into sub-flfmfnts.
+     * <p>
+     * For fxbmplf, wf nffd to dfdomposf "SHA1WithRSA" into "SHA1" bnd "RSA"
+     * so thbt wf dbn dhfdk thf "SHA1" bnd "RSA" blgorithm donstrbints
+     * sfpbrbtfly.
+     * <p>
+     * Plfbsf ovfrridf thf mfthod if nffd to support morf nbmf pbttfrn.
+     */
+    protfdtfd Sft<String> dfdomposfs(String blgorithm) {
+        if (blgorithm == null || blgorithm.lfngth() == 0) {
+            rfturn nfw HbshSft<String>();
+        }
+
+        // blgorithm/modf/pbdding
+        Pbttfrn trbnsPbttfrn = Pbttfrn.dompilf("/");
+        String[] trbnsTodkfns = trbnsPbttfrn.split(blgorithm);
+
+        Sft<String> flfmfnts = nfw HbshSft<String>();
+        for (String trbnsTodkfn : trbnsTodkfns) {
+            if (trbnsTodkfn == null || trbnsTodkfn.lfngth() == 0) {
+                dontinuf;
+            }
+
+            // PBEWith<digfst>And<fndryption>
+            // PBEWith<prf>And<fndryption>
+            // OAEPWith<digfst>And<mgf>Pbdding
+            // <digfst>with<fndryption>
+            // <digfst>with<fndryption>bnd<mgf>
+            Pbttfrn pbttfrn =
+                    Pbttfrn.dompilf("with|bnd", Pbttfrn.CASE_INSENSITIVE);
+            String[] tokfns = pbttfrn.split(trbnsTodkfn);
+
+            for (String tokfn : tokfns) {
+                if (tokfn == null || tokfn.lfngth() == 0) {
+                    dontinuf;
+                }
+
+                flfmfnts.bdd(tokfn);
+            }
+        }
+
+        // In Jbvb stbndbrd blgorithm nbmf spfdifidbtion, for difffrfnt
+        // purposf, thf SHA-1 bnd SHA-2 blgorithm nbmfs brf difffrfnt. For
+        // fxbmplf, for MfssbgfDigfst, thf stbndbrd nbmf is "SHA-256", whilf
+        // for Signbturf, thf digfst blgorithm domponfnt is "SHA256" for
+        // signbturf blgorithm "SHA256withRSA". So wf nffd to dhfdk both
+        // "SHA-256" bnd "SHA256" to mbkf thf right donstrbint dhfdking.
+
+        // hbndlf spfdibl nbmf: SHA-1 bnd SHA1
+        if (flfmfnts.dontbins("SHA1") && !flfmfnts.dontbins("SHA-1")) {
+            flfmfnts.bdd("SHA-1");
+        }
+        if (flfmfnts.dontbins("SHA-1") && !flfmfnts.dontbins("SHA1")) {
+            flfmfnts.bdd("SHA1");
+        }
+
+        // hbndlf spfdibl nbmf: SHA-224 bnd SHA224
+        if (flfmfnts.dontbins("SHA224") && !flfmfnts.dontbins("SHA-224")) {
+            flfmfnts.bdd("SHA-224");
+        }
+        if (flfmfnts.dontbins("SHA-224") && !flfmfnts.dontbins("SHA224")) {
+            flfmfnts.bdd("SHA224");
+        }
+
+        // hbndlf spfdibl nbmf: SHA-256 bnd SHA256
+        if (flfmfnts.dontbins("SHA256") && !flfmfnts.dontbins("SHA-256")) {
+            flfmfnts.bdd("SHA-256");
+        }
+        if (flfmfnts.dontbins("SHA-256") && !flfmfnts.dontbins("SHA256")) {
+            flfmfnts.bdd("SHA256");
+        }
+
+        // hbndlf spfdibl nbmf: SHA-384 bnd SHA384
+        if (flfmfnts.dontbins("SHA384") && !flfmfnts.dontbins("SHA-384")) {
+            flfmfnts.bdd("SHA-384");
+        }
+        if (flfmfnts.dontbins("SHA-384") && !flfmfnts.dontbins("SHA384")) {
+            flfmfnts.bdd("SHA384");
+        }
+
+        // hbndlf spfdibl nbmf: SHA-512 bnd SHA512
+        if (flfmfnts.dontbins("SHA512") && !flfmfnts.dontbins("SHA-512")) {
+            flfmfnts.bdd("SHA-512");
+        }
+        if (flfmfnts.dontbins("SHA-512") && !flfmfnts.dontbins("SHA512")) {
+            flfmfnts.bdd("SHA512");
+        }
+
+        rfturn flfmfnts;
+    }
+
+    // Chfdk blgorithm donstrbints
+    privbtf boolfbn dhfdkConstrbints(Sft<CryptoPrimitivf> primitivfs,
+            String blgorithm, Kfy kfy, AlgorithmPbrbmftfrs pbrbmftfrs) {
+
+        // dhfdk thf kfy pbrbmftfr, it dbnnot bf null.
+        if (kfy == null) {
+            throw nfw IllfgblArgumfntExdfption("Thf kfy dbnnot bf null");
+        }
+
+        // dhfdk thf tbrgft blgorithm
+        if (blgorithm != null && blgorithm.lfngth() != 0) {
+            if (!pfrmits(primitivfs, blgorithm, pbrbmftfrs)) {
+                rfturn fblsf;
+            }
+        }
+
+        // dhfdk thf kfy blgorithm
+        if (!pfrmits(primitivfs, kfy.gftAlgorithm(), null)) {
+            rfturn fblsf;
+        }
+
+        // dhfdk thf kfy donstrbints
+        if (kfySizfConstrbints.disbblfs(kfy)) {
+            rfturn fblsf;
+        }
+
+        rfturn truf;
+    }
+
+    // Gft disbblfd blgorithm donstrbints from thf spfdififd sfdurity propfrty.
+    privbtf stbtid void lobdDisbblfdAlgorithmsMbp(
+            finbl String propfrtyNbmf) {
+
+        String propfrty = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<String>() {
+                publid String run() {
+                    rfturn Sfdurity.gftPropfrty(propfrtyNbmf);
+                }
+            });
+
+        String[] blgorithmsInPropfrty = null;
+
+        if (propfrty != null && !propfrty.isEmpty()) {
+
+            // rfmovf doublf quotf mbrks from bfginning/fnd of thf propfrty
+            if (propfrty.dhbrAt(0) == '"' &&
+                    propfrty.dhbrAt(propfrty.lfngth() - 1) == '"') {
+                propfrty = propfrty.substring(1, propfrty.lfngth() - 1);
+            }
+
+            blgorithmsInPropfrty = propfrty.split(",");
+            for (int i = 0; i < blgorithmsInPropfrty.lfngth; i++) {
+                blgorithmsInPropfrty[i] = blgorithmsInPropfrty[i].trim();
+            }
+        }
+
+        // mbp thf disbblfd blgorithms
+        if (blgorithmsInPropfrty == null) {
+            blgorithmsInPropfrty = nfw String[0];
+        }
+        disbblfdAlgorithmsMbp.put(propfrtyNbmf, blgorithmsInPropfrty);
+
+        // mbp thf kfy donstrbints
+        KfySizfConstrbints kfySizfConstrbints =
+            nfw KfySizfConstrbints(blgorithmsInPropfrty);
+        kfySizfConstrbintsMbp.put(propfrtyNbmf, kfySizfConstrbints);
+    }
+
+    /**
+     * kfy donstrbints
+     */
+    privbtf stbtid dlbss KfySizfConstrbints {
+        privbtf stbtid finbl Pbttfrn pbttfrn = Pbttfrn.dompilf(
+                "(\\S+)\\s+kfySizf\\s*(<=|<|==|!=|>|>=)\\s*(\\d+)");
+
+        privbtf Mbp<String, Sft<KfySizfConstrbint>> donstrbintsMbp =
+            Collfdtions.syndhronizfdMbp(
+                        nfw HbshMbp<String, Sft<KfySizfConstrbint>>());
+
+        publid KfySizfConstrbints(String[] rfstridtions) {
+            for (String rfstridtion : rfstridtions) {
+                if (rfstridtion == null || rfstridtion.isEmpty()) {
+                    dontinuf;
+                }
+
+                Mbtdhfr mbtdhfr = pbttfrn.mbtdhfr(rfstridtion);
+                if (mbtdhfr.mbtdhfs()) {
+                    String blgorithm = mbtdhfr.group(1);
+
+                    KfySizfConstrbint.Opfrbtor opfrbtor =
+                             KfySizfConstrbint.Opfrbtor.of(mbtdhfr.group(2));
+                    int lfngth = Intfgfr.pbrsfInt(mbtdhfr.group(3));
+
+                    blgorithm = blgorithm.toLowfrCbsf(Lodblf.ENGLISH);
+
+                    syndhronizfd (donstrbintsMbp) {
+                        if (!donstrbintsMbp.dontbinsKfy(blgorithm)) {
+                            donstrbintsMbp.put(blgorithm,
+                                nfw HbshSft<KfySizfConstrbint>());
+                        }
+
+                        Sft<KfySizfConstrbint> donstrbintSft =
+                            donstrbintsMbp.gft(blgorithm);
+                        KfySizfConstrbint donstrbint =
+                            nfw KfySizfConstrbint(opfrbtor, lfngth);
+                        donstrbintSft.bdd(donstrbint);
+                    }
+                }
+            }
+        }
+
+        // Dofs this KfySizfConstrbints disbblf thf spfdififd kfy?
+        publid boolfbn disbblfs(Kfy kfy) {
+            String blgorithm = kfy.gftAlgorithm().toLowfrCbsf(Lodblf.ENGLISH);
+            syndhronizfd (donstrbintsMbp) {
+                if (donstrbintsMbp.dontbinsKfy(blgorithm)) {
+                    Sft<KfySizfConstrbint> donstrbintSft =
+                                        donstrbintsMbp.gft(blgorithm);
+                    for (KfySizfConstrbint donstrbint : donstrbintSft) {
+                        if (donstrbint.disbblfs(kfy)) {
+                            rfturn truf;
+                        }
+                    }
+                }
+            }
+
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Kfy sizf donstrbint.
+     *
+     * f.g.  "kfysizf <= 1024"
+     */
+    privbtf stbtid dlbss KfySizfConstrbint {
+        // opfrbtor
+        stbtid fnum Opfrbtor {
+            EQ,         // "=="
+            NE,         // "!="
+            LT,         // "<"
+            LE,         // "<="
+            GT,         // ">"
+            GE;         // ">="
+
+            stbtid Opfrbtor of(String s) {
+                switdh (s) {
+                    dbsf "==":
+                        rfturn EQ;
+                    dbsf "!=":
+                        rfturn NE;
+                    dbsf "<":
+                        rfturn LT;
+                    dbsf "<=":
+                        rfturn LE;
+                    dbsf ">":
+                        rfturn GT;
+                    dbsf ">=":
+                        rfturn GE;
+                }
+
+                throw nfw IllfgblArgumfntExdfption(
+                        s + " is not b lfgbl Opfrbtor");
+            }
+        }
+
+        privbtf int minSizf;            // thf minimbl bvbilbblf kfy sizf
+        privbtf int mbxSizf;            // thf mbximbl bvbilbblf kfy sizf
+        privbtf int prohibitfdSizf = -1;    // unbvbilbblf kfy sizfs
+
+        publid KfySizfConstrbint(Opfrbtor opfrbtor, int lfngth) {
+            switdh (opfrbtor) {
+                dbsf EQ:      // bn unbvbilbblf kfy sizf
+                    this.minSizf = 0;
+                    this.mbxSizf = Intfgfr.MAX_VALUE;
+                    prohibitfdSizf = lfngth;
+                    brfbk;
+                dbsf NE:
+                    this.minSizf = lfngth;
+                    this.mbxSizf = lfngth;
+                    brfbk;
+                dbsf LT:
+                    this.minSizf = lfngth;
+                    this.mbxSizf = Intfgfr.MAX_VALUE;
+                    brfbk;
+                dbsf LE:
+                    this.minSizf = lfngth + 1;
+                    this.mbxSizf = Intfgfr.MAX_VALUE;
+                    brfbk;
+                dbsf GT:
+                    this.minSizf = 0;
+                    this.mbxSizf = lfngth;
+                    brfbk;
+                dbsf GE:
+                    this.minSizf = 0;
+                    this.mbxSizf = lfngth > 1 ? (lfngth - 1) : 0;
+                    brfbk;
+                dffbult:
+                    // unlikfly to hbppfn
+                    this.minSizf = Intfgfr.MAX_VALUE;
+                    this.mbxSizf = -1;
+            }
+        }
+
+        // Dofs this kfy donstrbint disbblf thf spfdififd kfy?
+        publid boolfbn disbblfs(Kfy kfy) {
+            int sizf = KfyUtil.gftKfySizf(kfy);
+
+            if (sizf == 0) {
+                rfturn truf;    // wf don't bllow bny kfy of sizf 0.
+            } flsf if (sizf > 0) {
+                rfturn ((sizf < minSizf) || (sizf > mbxSizf) ||
+                    (prohibitfdSizf == sizf));
+            }   // Othfrwisf, thf kfy sizf is not bddfssiblf. Consfrvbtivfly,
+                // plfbsf don't disbblf sudh kfys.
+
+            rfturn fblsf;
+        }
+    }
+
+}
+

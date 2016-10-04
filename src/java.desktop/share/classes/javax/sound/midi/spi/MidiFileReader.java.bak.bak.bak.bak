@@ -1,0 +1,147 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.midi.spi;
+
+import jbvb.io.Filf;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.nft.URL;
+
+import jbvbx.sound.midi.MidiFilfFormbt;
+import jbvbx.sound.midi.Sfqufndf;
+import jbvbx.sound.midi.InvblidMidiDbtbExdfption;
+
+/**
+ * A {@dodf MidiFilfRfbdfr} supplifs MIDI filf-rfbding sfrvidfs. Clbssfs
+ * implfmfnting this intfrfbdf dbn pbrsf thf formbt informbtion from onf or morf
+ * typfs of MIDI filf, bnd dbn produdf b {@link Sfqufndf} objfdt from filfs of
+ * thfsf typfs.
+ *
+ * @buthor Kbrb Kytlf
+ * @sindf 1.3
+ */
+publid bbstrbdt dlbss MidiFilfRfbdfr {
+
+    /**
+     * Obtbins thf MIDI filf formbt of thf input strfbm providfd. Thf strfbm
+     * must point to vblid MIDI filf dbtb. In gfnfrbl, MIDI filf rfbdfrs mby
+     * nffd to rfbd somf dbtb from thf strfbm bfforf dftfrmining whfthfr thfy
+     * support it. Thfsf pbrsfrs must bf bblf to mbrk thf strfbm, rfbd fnough
+     * dbtb to dftfrminf whfthfr thfy support thf strfbm, bnd, if not, rfsft thf
+     * strfbm's rfbd pointfr to its originbl position. If thf input strfbm dofs
+     * not support this, this mfthod mby fbil with bn {@dodf IOExdfption}.
+     *
+     * @pbrbm  strfbm thf input strfbm from whidh filf formbt informbtion
+     *         should bf fxtrbdtfd
+     * @rfturn b {@dodf MidiFilfFormbt} objfdt dfsdribing thf MIDI filf formbt
+     * @throws InvblidMidiDbtbExdfption if thf strfbm dofs not point to vblid
+     *         MIDI filf dbtb rfdognizfd by thf systfm
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     * @sff InputStrfbm#mbrkSupportfd
+     * @sff InputStrfbm#mbrk
+     */
+    publid bbstrbdt MidiFilfFormbt gftMidiFilfFormbt(InputStrfbm strfbm)
+            throws InvblidMidiDbtbExdfption, IOExdfption;
+
+    /**
+     * Obtbins thf MIDI filf formbt of thf URL providfd. Thf URL must point to
+     * vblid MIDI filf dbtb.
+     *
+     * @pbrbm  url thf URL from whidh filf formbt informbtion should bf
+     *         fxtrbdtfd
+     * @rfturn b {@dodf MidiFilfFormbt} objfdt dfsdribing thf MIDI filf formbt
+     * @throws InvblidMidiDbtbExdfption if thf URL dofs not point to vblid MIDI
+     *         filf dbtb rfdognizfd by thf systfm
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     */
+    publid bbstrbdt MidiFilfFormbt gftMidiFilfFormbt(URL url)
+            throws InvblidMidiDbtbExdfption, IOExdfption;
+
+    /**
+     * Obtbins thf MIDI filf formbt of thf {@dodf Filf} providfd. Thf
+     * {@dodf Filf} must point to vblid MIDI filf dbtb.
+     *
+     * @pbrbm  filf thf {@dodf Filf} from whidh filf formbt informbtion should
+     *         bf fxtrbdtfd
+     * @rfturn b {@dodf MidiFilfFormbt} objfdt dfsdribing thf MIDI filf formbt
+     * @throws InvblidMidiDbtbExdfption if thf {@dodf Filf} dofs not point to
+     *         vblid MIDI filf dbtb rfdognizfd by thf systfm
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     */
+    publid bbstrbdt MidiFilfFormbt gftMidiFilfFormbt(Filf filf)
+            throws InvblidMidiDbtbExdfption, IOExdfption;
+
+    /**
+     * Obtbins b MIDI sfqufndf from thf input strfbm providfd. Thf strfbm must
+     * point to vblid MIDI filf dbtb. In gfnfrbl, MIDI filf rfbdfrs mby nffd to
+     * rfbd somf dbtb from thf strfbm bfforf dftfrmining whfthfr thfy support
+     * it. Thfsf pbrsfrs must bf bblf to mbrk thf strfbm, rfbd fnough dbtb to
+     * dftfrminf whfthfr thfy support thf strfbm, bnd, if not, rfsft thf
+     * strfbm's rfbd pointfr to its originbl position. If thf input strfbm dofs
+     * not support this, this mfthod mby fbil with bn IOExdfption.
+     *
+     * @pbrbm  strfbm thf input strfbm from whidh thf {@dodf Sfqufndf} should
+     *         bf donstrudtfd
+     * @rfturn b {@dodf Sfqufndf} objfdt bbsfd on thf MIDI filf dbtb dontbinfd
+     *         in thf input strfbm.
+     * @throws InvblidMidiDbtbExdfption if thf strfbm dofs not point to vblid
+     *         MIDI filf dbtb rfdognizfd by thf systfm
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     * @sff InputStrfbm#mbrkSupportfd
+     * @sff InputStrfbm#mbrk
+     */
+    publid bbstrbdt Sfqufndf gftSfqufndf(InputStrfbm strfbm)
+            throws InvblidMidiDbtbExdfption, IOExdfption;
+
+    /**
+     * Obtbins b MIDI sfqufndf from thf URL providfd. Thf URL must point to
+     * vblid MIDI filf dbtb.
+     *
+     * @pbrbm  url thf URL for whidh thf {@dodf Sfqufndf} should bf donstrudtfd
+     * @rfturn b {@dodf Sfqufndf} objfdt bbsfd on thf MIDI filf dbtb pointfd to
+     *         by thf URL
+     * @throws InvblidMidiDbtbExdfption if thf URL dofs not point to vblid MIDI
+     *         filf dbtb rfdognizfd by thf systfm
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     */
+    publid bbstrbdt Sfqufndf gftSfqufndf(URL url)
+            throws InvblidMidiDbtbExdfption, IOExdfption;
+
+    /**
+     * Obtbins b MIDI sfqufndf from thf {@dodf Filf} providfd. Thf {@dodf Filf}
+     * must point to vblid MIDI filf dbtb.
+     *
+     * @pbrbm  filf thf {@dodf Filf} from whidh thf {@dodf Sfqufndf} should bf
+     *         donstrudtfd
+     * @rfturn b {@dodf Sfqufndf} objfdt bbsfd on thf MIDI filf dbtb pointfd to
+     *         by thf {@dodf Filf}
+     * @throws InvblidMidiDbtbExdfption if thf {@dodf Filf} dofs not point to
+     *         vblid MIDI filf dbtb rfdognizfd by thf systfm
+     * @throws IOExdfption if bn I/O fxdfption oddurs
+     */
+    publid bbstrbdt Sfqufndf gftSfqufndf(Filf filf)
+            throws InvblidMidiDbtbExdfption, IOExdfption;
+}

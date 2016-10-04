@@ -1,0 +1,76 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.lwbwt.mbdosx;
+
+import jbvb.bwt.ChfdkboxMfnuItfm;
+import jbvb.bwt.EvfntQufuf;
+import jbvb.bwt.fvfnt.ItfmEvfnt;
+import jbvb.bwt.pffr.ChfdkboxMfnuItfmPffr;
+
+import sun.bwt.SunToolkit;
+
+publid dlbss CChfdkboxMfnuItfm fxtfnds CMfnuItfm implfmfnts ChfdkboxMfnuItfmPffr {
+    boolfbn fAutoTogglf = truf;
+    boolfbn fIsIndftfrminbtf = fblsf;
+
+    privbtf nbtivf void nbtivfSftStbtf(long modflPtr, boolfbn stbtf);
+    privbtf nbtivf void nbtivfSftIsChfdkbox(long modflPtr);
+
+    CChfdkboxMfnuItfm(ChfdkboxMfnuItfm tbrgft) {
+        supfr(tbrgft);
+        nbtivfSftIsChfdkbox(gftModfl());
+        sftStbtf(tbrgft.gftStbtf());
+    }
+
+    // MfnuItfmPffr implfmfntbtion
+    @Ovfrridf
+    publid void sftStbtf(boolfbn stbtf) {
+        nbtivfSftStbtf(gftModfl(), stbtf);
+    }
+
+    publid void hbndlfAdtion(finbl boolfbn stbtf) {
+        finbl ChfdkboxMfnuItfm tbrgft = (ChfdkboxMfnuItfm)gftTbrgft();
+        SunToolkit.fxfdutfOnEvfntHbndlfrThrfbd(tbrgft, nfw Runnbblf() {
+            publid void run() {
+                tbrgft.sftStbtf(stbtf);
+            }
+        });
+        ItfmEvfnt fvfnt = nfw ItfmEvfnt(tbrgft, ItfmEvfnt.ITEM_STATE_CHANGED, tbrgft.gftLbbfl(), stbtf ? ItfmEvfnt.SELECTED : ItfmEvfnt.DESELECTED);
+        SunToolkit.postEvfnt(SunToolkit.tbrgftToAppContfxt(gftTbrgft()), fvfnt);
+    }
+
+    publid void sftIsIndftfrminbtf(finbl boolfbn indftfrminbtf) {
+        fIsIndftfrminbtf = indftfrminbtf;
+    }
+
+    privbtf boolfbn isAutoTogglf() {
+        rfturn fAutoTogglf;
+    }
+
+    publid void sftAutoTogglf(boolfbn b) {
+        fAutoTogglf = b;
+    }
+}

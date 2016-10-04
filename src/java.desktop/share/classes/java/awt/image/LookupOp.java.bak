@@ -1,567 +1,567 @@
 
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package java.awt.image;
+pbdkbgf jbvb.bwt.imbgf;
 
-import java.awt.color.ColorSpace;
-import java.awt.geom.Rectangle2D;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.geom.Point2D;
-import sun.awt.image.ImagingLib;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.RfndfringHints;
+import jbvb.bwt.gfom.Point2D;
+import sun.bwt.imbgf.ImbgingLib;
 
 /**
- * This class implements a lookup operation from the source
- * to the destination.  The LookupTable object may contain a single array
- * or multiple arrays, subject to the restrictions below.
+ * Tiis dlbss implfmfnts b lookup opfrbtion from tif sourdf
+ * to tif dfstinbtion.  Tif LookupTbblf objfdt mby dontbin b singlf brrby
+ * or multiplf brrbys, subjfdt to tif rfstridtions bflow.
  * <p>
- * For Rasters, the lookup operates on bands.  The number of
- * lookup arrays may be one, in which case the same array is
- * applied to all bands, or it must equal the number of Source
- * Raster bands.
+ * For Rbstfrs, tif lookup opfrbtfs on bbnds.  Tif numbfr of
+ * lookup brrbys mby bf onf, in wiidi dbsf tif sbmf brrby is
+ * bpplifd to bll bbnds, or it must fqubl tif numbfr of Sourdf
+ * Rbstfr bbnds.
  * <p>
- * For BufferedImages, the lookup operates on color and alpha components.
- * The number of lookup arrays may be one, in which case the
- * same array is applied to all color (but not alpha) components.
- * Otherwise, the number of lookup arrays may
- * equal the number of Source color components, in which case no
- * lookup of the alpha component (if present) is performed.
- * If neither of these cases apply, the number of lookup arrays
- * must equal the number of Source color components plus alpha components,
- * in which case lookup is performed for all color and alpha components.
- * This allows non-uniform rescaling of multi-band BufferedImages.
+ * For BufffrfdImbgfs, tif lookup opfrbtfs on dolor bnd blpib domponfnts.
+ * Tif numbfr of lookup brrbys mby bf onf, in wiidi dbsf tif
+ * sbmf brrby is bpplifd to bll dolor (but not blpib) domponfnts.
+ * Otifrwisf, tif numbfr of lookup brrbys mby
+ * fqubl tif numbfr of Sourdf dolor domponfnts, in wiidi dbsf no
+ * lookup of tif blpib domponfnt (if prfsfnt) is pfrformfd.
+ * If nfitifr of tifsf dbsfs bpply, tif numbfr of lookup brrbys
+ * must fqubl tif numbfr of Sourdf dolor domponfnts plus blpib domponfnts,
+ * in wiidi dbsf lookup is pfrformfd for bll dolor bnd blpib domponfnts.
+ * Tiis bllows non-uniform rfsdbling of multi-bbnd BufffrfdImbgfs.
  * <p>
- * BufferedImage sources with premultiplied alpha data are treated in the same
- * manner as non-premultiplied images for purposes of the lookup.  That is,
- * the lookup is done per band on the raw data of the BufferedImage source
- * without regard to whether the data is premultiplied.  If a color conversion
- * is required to the destination ColorModel, the premultiplied state of
- * both source and destination will be taken into account for this step.
+ * BufffrfdImbgf sourdfs witi prfmultiplifd blpib dbtb brf trfbtfd in tif sbmf
+ * mbnnfr bs non-prfmultiplifd imbgfs for purposfs of tif lookup.  Tibt is,
+ * tif lookup is donf pfr bbnd on tif rbw dbtb of tif BufffrfdImbgf sourdf
+ * witiout rfgbrd to wiftifr tif dbtb is prfmultiplifd.  If b dolor donvfrsion
+ * is rfquirfd to tif dfstinbtion ColorModfl, tif prfmultiplifd stbtf of
+ * boti sourdf bnd dfstinbtion will bf tbkfn into bddount for tiis stfp.
  * <p>
- * Images with an IndexColorModel cannot be used.
+ * Imbgfs witi bn IndfxColorModfl dbnnot bf usfd.
  * <p>
- * If a RenderingHints object is specified in the constructor, the
- * color rendering hint and the dithering hint may be used when color
- * conversion is required.
+ * If b RfndfringHints objfdt is spfdififd in tif donstrudtor, tif
+ * dolor rfndfring iint bnd tif ditifring iint mby bf usfd wifn dolor
+ * donvfrsion is rfquirfd.
  * <p>
- * This class allows the Source to be the same as the Destination.
+ * Tiis dlbss bllows tif Sourdf to bf tif sbmf bs tif Dfstinbtion.
  *
- * @see LookupTable
- * @see java.awt.RenderingHints#KEY_COLOR_RENDERING
- * @see java.awt.RenderingHints#KEY_DITHERING
+ * @sff LookupTbblf
+ * @sff jbvb.bwt.RfndfringHints#KEY_COLOR_RENDERING
+ * @sff jbvb.bwt.RfndfringHints#KEY_DITHERING
  */
 
-public class LookupOp implements BufferedImageOp, RasterOp {
-    private LookupTable ltable;
-    private int numComponents;
-    RenderingHints hints;
+publid dlbss LookupOp implfmfnts BufffrfdImbgfOp, RbstfrOp {
+    privbtf LookupTbblf ltbblf;
+    privbtf int numComponfnts;
+    RfndfringHints iints;
 
     /**
-     * Constructs a <code>LookupOp</code> object given the lookup
-     * table and a <code>RenderingHints</code> object, which might
-     * be <code>null</code>.
-     * @param lookup the specified <code>LookupTable</code>
-     * @param hints the specified <code>RenderingHints</code>,
-     *        or <code>null</code>
+     * Construdts b <dodf>LookupOp</dodf> objfdt givfn tif lookup
+     * tbblf bnd b <dodf>RfndfringHints</dodf> objfdt, wiidi migit
+     * bf <dodf>null</dodf>.
+     * @pbrbm lookup tif spfdififd <dodf>LookupTbblf</dodf>
+     * @pbrbm iints tif spfdififd <dodf>RfndfringHints</dodf>,
+     *        or <dodf>null</dodf>
      */
-    public LookupOp(LookupTable lookup, RenderingHints hints) {
-        this.ltable = lookup;
-        this.hints  = hints;
-        numComponents = ltable.getNumComponents();
+    publid LookupOp(LookupTbblf lookup, RfndfringHints iints) {
+        tiis.ltbblf = lookup;
+        tiis.iints  = iints;
+        numComponfnts = ltbblf.gftNumComponfnts();
     }
 
     /**
-     * Returns the <code>LookupTable</code>.
-     * @return the <code>LookupTable</code> of this
-     *         <code>LookupOp</code>.
+     * Rfturns tif <dodf>LookupTbblf</dodf>.
+     * @rfturn tif <dodf>LookupTbblf</dodf> of tiis
+     *         <dodf>LookupOp</dodf>.
      */
-    public final LookupTable getTable() {
-        return ltable;
+    publid finbl LookupTbblf gftTbblf() {
+        rfturn ltbblf;
     }
 
     /**
-     * Performs a lookup operation on a <code>BufferedImage</code>.
-     * If the color model in the source image is not the same as that
-     * in the destination image, the pixels will be converted
-     * in the destination.  If the destination image is <code>null</code>,
-     * a <code>BufferedImage</code> will be created with an appropriate
-     * <code>ColorModel</code>.  An <code>IllegalArgumentException</code>
-     * might be thrown if the number of arrays in the
-     * <code>LookupTable</code> does not meet the restrictions
-     * stated in the class comment above, or if the source image
-     * has an <code>IndexColorModel</code>.
-     * @param src the <code>BufferedImage</code> to be filtered
-     * @param dst the <code>BufferedImage</code> in which to
-     *            store the results of the filter operation
-     * @return the filtered <code>BufferedImage</code>.
-     * @throws IllegalArgumentException if the number of arrays in the
-     *         <code>LookupTable</code> does not meet the restrictions
-     *         described in the class comments, or if the source image
-     *         has an <code>IndexColorModel</code>.
+     * Pfrforms b lookup opfrbtion on b <dodf>BufffrfdImbgf</dodf>.
+     * If tif dolor modfl in tif sourdf imbgf is not tif sbmf bs tibt
+     * in tif dfstinbtion imbgf, tif pixfls will bf donvfrtfd
+     * in tif dfstinbtion.  If tif dfstinbtion imbgf is <dodf>null</dodf>,
+     * b <dodf>BufffrfdImbgf</dodf> will bf drfbtfd witi bn bppropribtf
+     * <dodf>ColorModfl</dodf>.  An <dodf>IllfgblArgumfntExdfption</dodf>
+     * migit bf tirown if tif numbfr of brrbys in tif
+     * <dodf>LookupTbblf</dodf> dofs not mfft tif rfstridtions
+     * stbtfd in tif dlbss dommfnt bbovf, or if tif sourdf imbgf
+     * ibs bn <dodf>IndfxColorModfl</dodf>.
+     * @pbrbm srd tif <dodf>BufffrfdImbgf</dodf> to bf filtfrfd
+     * @pbrbm dst tif <dodf>BufffrfdImbgf</dodf> in wiidi to
+     *            storf tif rfsults of tif filtfr opfrbtion
+     * @rfturn tif filtfrfd <dodf>BufffrfdImbgf</dodf>.
+     * @tirows IllfgblArgumfntExdfption if tif numbfr of brrbys in tif
+     *         <dodf>LookupTbblf</dodf> dofs not mfft tif rfstridtions
+     *         dfsdribfd in tif dlbss dommfnts, or if tif sourdf imbgf
+     *         ibs bn <dodf>IndfxColorModfl</dodf>.
      */
-    public final BufferedImage filter(BufferedImage src, BufferedImage dst) {
-        ColorModel srcCM = src.getColorModel();
-        int numBands = srcCM.getNumColorComponents();
-        ColorModel dstCM;
-        if (srcCM instanceof IndexColorModel) {
-            throw new
-                IllegalArgumentException("LookupOp cannot be "+
-                                         "performed on an indexed image");
+    publid finbl BufffrfdImbgf filtfr(BufffrfdImbgf srd, BufffrfdImbgf dst) {
+        ColorModfl srdCM = srd.gftColorModfl();
+        int numBbnds = srdCM.gftNumColorComponfnts();
+        ColorModfl dstCM;
+        if (srdCM instbndfof IndfxColorModfl) {
+            tirow nfw
+                IllfgblArgumfntExdfption("LookupOp dbnnot bf "+
+                                         "pfrformfd on bn indfxfd imbgf");
         }
-        int numComponents = ltable.getNumComponents();
-        if (numComponents != 1 &&
-            numComponents != srcCM.getNumComponents() &&
-            numComponents != srcCM.getNumColorComponents())
+        int numComponfnts = ltbblf.gftNumComponfnts();
+        if (numComponfnts != 1 &&
+            numComponfnts != srdCM.gftNumComponfnts() &&
+            numComponfnts != srdCM.gftNumColorComponfnts())
         {
-            throw new IllegalArgumentException("Number of arrays in the "+
-                                               " lookup table ("+
-                                               numComponents+
-                                               " is not compatible with the "+
-                                               " src image: "+src);
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of brrbys in tif "+
+                                               " lookup tbblf ("+
+                                               numComponfnts+
+                                               " is not dompbtiblf witi tif "+
+                                               " srd imbgf: "+srd);
         }
 
 
-        boolean needToConvert = false;
+        boolfbn nffdToConvfrt = fblsf;
 
-        int width = src.getWidth();
-        int height = src.getHeight();
+        int widti = srd.gftWidti();
+        int ifigit = srd.gftHfigit();
 
         if (dst == null) {
-            dst = createCompatibleDestImage(src, null);
-            dstCM = srcCM;
+            dst = drfbtfCompbtiblfDfstImbgf(srd, null);
+            dstCM = srdCM;
         }
-        else {
-            if (width != dst.getWidth()) {
-                throw new
-                    IllegalArgumentException("Src width ("+width+
-                                             ") not equal to dst width ("+
-                                             dst.getWidth()+")");
+        flsf {
+            if (widti != dst.gftWidti()) {
+                tirow nfw
+                    IllfgblArgumfntExdfption("Srd widti ("+widti+
+                                             ") not fqubl to dst widti ("+
+                                             dst.gftWidti()+")");
             }
-            if (height != dst.getHeight()) {
-                throw new
-                    IllegalArgumentException("Src height ("+height+
-                                             ") not equal to dst height ("+
-                                             dst.getHeight()+")");
+            if (ifigit != dst.gftHfigit()) {
+                tirow nfw
+                    IllfgblArgumfntExdfption("Srd ifigit ("+ifigit+
+                                             ") not fqubl to dst ifigit ("+
+                                             dst.gftHfigit()+")");
             }
 
-            dstCM = dst.getColorModel();
-            if (srcCM.getColorSpace().getType() !=
-                dstCM.getColorSpace().getType())
+            dstCM = dst.gftColorModfl();
+            if (srdCM.gftColorSpbdf().gftTypf() !=
+                dstCM.gftColorSpbdf().gftTypf())
             {
-                needToConvert = true;
-                dst = createCompatibleDestImage(src, null);
+                nffdToConvfrt = truf;
+                dst = drfbtfCompbtiblfDfstImbgf(srd, null);
             }
 
         }
 
-        BufferedImage origDst = dst;
+        BufffrfdImbgf origDst = dst;
 
-        if (ImagingLib.filter(this, src, dst) == null) {
-            // Do it the slow way
-            WritableRaster srcRaster = src.getRaster();
-            WritableRaster dstRaster = dst.getRaster();
+        if (ImbgingLib.filtfr(tiis, srd, dst) == null) {
+            // Do it tif slow wby
+            WritbblfRbstfr srdRbstfr = srd.gftRbstfr();
+            WritbblfRbstfr dstRbstfr = dst.gftRbstfr();
 
-            if (srcCM.hasAlpha()) {
-                if (numBands-1 == numComponents || numComponents == 1) {
-                    int minx = srcRaster.getMinX();
-                    int miny = srcRaster.getMinY();
-                    int[] bands = new int[numBands-1];
-                    for (int i=0; i < numBands-1; i++) {
-                        bands[i] = i;
+            if (srdCM.ibsAlpib()) {
+                if (numBbnds-1 == numComponfnts || numComponfnts == 1) {
+                    int minx = srdRbstfr.gftMinX();
+                    int miny = srdRbstfr.gftMinY();
+                    int[] bbnds = nfw int[numBbnds-1];
+                    for (int i=0; i < numBbnds-1; i++) {
+                        bbnds[i] = i;
                     }
-                    srcRaster =
-                        srcRaster.createWritableChild(minx, miny,
-                                                      srcRaster.getWidth(),
-                                                      srcRaster.getHeight(),
+                    srdRbstfr =
+                        srdRbstfr.drfbtfWritbblfCiild(minx, miny,
+                                                      srdRbstfr.gftWidti(),
+                                                      srdRbstfr.gftHfigit(),
                                                       minx, miny,
-                                                      bands);
+                                                      bbnds);
                 }
             }
-            if (dstCM.hasAlpha()) {
-                int dstNumBands = dstRaster.getNumBands();
-                if (dstNumBands-1 == numComponents || numComponents == 1) {
-                    int minx = dstRaster.getMinX();
-                    int miny = dstRaster.getMinY();
-                    int[] bands = new int[numBands-1];
-                    for (int i=0; i < numBands-1; i++) {
-                        bands[i] = i;
+            if (dstCM.ibsAlpib()) {
+                int dstNumBbnds = dstRbstfr.gftNumBbnds();
+                if (dstNumBbnds-1 == numComponfnts || numComponfnts == 1) {
+                    int minx = dstRbstfr.gftMinX();
+                    int miny = dstRbstfr.gftMinY();
+                    int[] bbnds = nfw int[numBbnds-1];
+                    for (int i=0; i < numBbnds-1; i++) {
+                        bbnds[i] = i;
                     }
-                    dstRaster =
-                        dstRaster.createWritableChild(minx, miny,
-                                                      dstRaster.getWidth(),
-                                                      dstRaster.getHeight(),
+                    dstRbstfr =
+                        dstRbstfr.drfbtfWritbblfCiild(minx, miny,
+                                                      dstRbstfr.gftWidti(),
+                                                      dstRbstfr.gftHfigit(),
                                                       minx, miny,
-                                                      bands);
+                                                      bbnds);
                 }
             }
 
-            filter(srcRaster, dstRaster);
+            filtfr(srdRbstfr, dstRbstfr);
         }
 
-        if (needToConvert) {
-            // ColorModels are not the same
-            ColorConvertOp ccop = new ColorConvertOp(hints);
-            ccop.filter(dst, origDst);
+        if (nffdToConvfrt) {
+            // ColorModfls brf not tif sbmf
+            ColorConvfrtOp ddop = nfw ColorConvfrtOp(iints);
+            ddop.filtfr(dst, origDst);
         }
 
-        return origDst;
+        rfturn origDst;
     }
 
     /**
-     * Performs a lookup operation on a <code>Raster</code>.
-     * If the destination <code>Raster</code> is <code>null</code>,
-     * a new <code>Raster</code> will be created.
-     * The <code>IllegalArgumentException</code> might be thrown
-     * if the source <code>Raster</code> and the destination
-     * <code>Raster</code> do not have the same
-     * number of bands or if the number of arrays in the
-     * <code>LookupTable</code> does not meet the
-     * restrictions stated in the class comment above.
-     * @param src the source <code>Raster</code> to filter
-     * @param dst the destination <code>WritableRaster</code> for the
-     *            filtered <code>src</code>
-     * @return the filtered <code>WritableRaster</code>.
-     * @throws IllegalArgumentException if the source and destinations
-     *         rasters do not have the same number of bands, or the
-     *         number of arrays in the <code>LookupTable</code> does
-     *         not meet the restrictions described in the class comments.
+     * Pfrforms b lookup opfrbtion on b <dodf>Rbstfr</dodf>.
+     * If tif dfstinbtion <dodf>Rbstfr</dodf> is <dodf>null</dodf>,
+     * b nfw <dodf>Rbstfr</dodf> will bf drfbtfd.
+     * Tif <dodf>IllfgblArgumfntExdfption</dodf> migit bf tirown
+     * if tif sourdf <dodf>Rbstfr</dodf> bnd tif dfstinbtion
+     * <dodf>Rbstfr</dodf> do not ibvf tif sbmf
+     * numbfr of bbnds or if tif numbfr of brrbys in tif
+     * <dodf>LookupTbblf</dodf> dofs not mfft tif
+     * rfstridtions stbtfd in tif dlbss dommfnt bbovf.
+     * @pbrbm srd tif sourdf <dodf>Rbstfr</dodf> to filtfr
+     * @pbrbm dst tif dfstinbtion <dodf>WritbblfRbstfr</dodf> for tif
+     *            filtfrfd <dodf>srd</dodf>
+     * @rfturn tif filtfrfd <dodf>WritbblfRbstfr</dodf>.
+     * @tirows IllfgblArgumfntExdfption if tif sourdf bnd dfstinbtions
+     *         rbstfrs do not ibvf tif sbmf numbfr of bbnds, or tif
+     *         numbfr of brrbys in tif <dodf>LookupTbblf</dodf> dofs
+     *         not mfft tif rfstridtions dfsdribfd in tif dlbss dommfnts.
      *
      */
-    public final WritableRaster filter (Raster src, WritableRaster dst) {
-        int numBands  = src.getNumBands();
-        int dstLength = dst.getNumBands();
-        int height    = src.getHeight();
-        int width     = src.getWidth();
-        int srcPix[]  = new int[numBands];
+    publid finbl WritbblfRbstfr filtfr (Rbstfr srd, WritbblfRbstfr dst) {
+        int numBbnds  = srd.gftNumBbnds();
+        int dstLfngti = dst.gftNumBbnds();
+        int ifigit    = srd.gftHfigit();
+        int widti     = srd.gftWidti();
+        int srdPix[]  = nfw int[numBbnds];
 
-        // Create a new destination Raster, if needed
+        // Crfbtf b nfw dfstinbtion Rbstfr, if nffdfd
 
         if (dst == null) {
-            dst = createCompatibleDestRaster(src);
+            dst = drfbtfCompbtiblfDfstRbstfr(srd);
         }
-        else if (height != dst.getHeight() || width != dst.getWidth()) {
-            throw new
-                IllegalArgumentException ("Width or height of Rasters do not "+
-                                          "match");
+        flsf if (ifigit != dst.gftHfigit() || widti != dst.gftWidti()) {
+            tirow nfw
+                IllfgblArgumfntExdfption ("Widti or ifigit of Rbstfrs do not "+
+                                          "mbtdi");
         }
-        dstLength = dst.getNumBands();
+        dstLfngti = dst.gftNumBbnds();
 
-        if (numBands != dstLength) {
-            throw new
-                IllegalArgumentException ("Number of channels in the src ("
-                                          + numBands +
-                                          ") does not match number of channels"
-                                          + " in the destination ("
-                                          + dstLength + ")");
+        if (numBbnds != dstLfngti) {
+            tirow nfw
+                IllfgblArgumfntExdfption ("Numbfr of dibnnfls in tif srd ("
+                                          + numBbnds +
+                                          ") dofs not mbtdi numbfr of dibnnfls"
+                                          + " in tif dfstinbtion ("
+                                          + dstLfngti + ")");
         }
-        int numComponents = ltable.getNumComponents();
-        if (numComponents != 1 && numComponents != src.getNumBands()) {
-            throw new IllegalArgumentException("Number of arrays in the "+
-                                               " lookup table ("+
-                                               numComponents+
-                                               " is not compatible with the "+
-                                               " src Raster: "+src);
-        }
-
-
-        if (ImagingLib.filter(this, src, dst) != null) {
-            return dst;
+        int numComponfnts = ltbblf.gftNumComponfnts();
+        if (numComponfnts != 1 && numComponfnts != srd.gftNumBbnds()) {
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of brrbys in tif "+
+                                               " lookup tbblf ("+
+                                               numComponfnts+
+                                               " is not dompbtiblf witi tif "+
+                                               " srd Rbstfr: "+srd);
         }
 
-        // Optimize for cases we know about
-        if (ltable instanceof ByteLookupTable) {
-            byteFilter ((ByteLookupTable) ltable, src, dst,
-                        width, height, numBands);
+
+        if (ImbgingLib.filtfr(tiis, srd, dst) != null) {
+            rfturn dst;
         }
-        else if (ltable instanceof ShortLookupTable) {
-            shortFilter ((ShortLookupTable) ltable, src, dst, width,
-                         height, numBands);
+
+        // Optimizf for dbsfs wf know bbout
+        if (ltbblf instbndfof BytfLookupTbblf) {
+            bytfFiltfr ((BytfLookupTbblf) ltbblf, srd, dst,
+                        widti, ifigit, numBbnds);
         }
-        else {
-            // Not one we recognize so do it slowly
-            int sminX = src.getMinX();
-            int sY = src.getMinY();
-            int dminX = dst.getMinX();
-            int dY = dst.getMinY();
-            for (int y=0; y < height; y++, sY++, dY++) {
+        flsf if (ltbblf instbndfof SiortLookupTbblf) {
+            siortFiltfr ((SiortLookupTbblf) ltbblf, srd, dst, widti,
+                         ifigit, numBbnds);
+        }
+        flsf {
+            // Not onf wf rfdognizf so do it slowly
+            int sminX = srd.gftMinX();
+            int sY = srd.gftMinY();
+            int dminX = dst.gftMinX();
+            int dY = dst.gftMinY();
+            for (int y=0; y < ifigit; y++, sY++, dY++) {
                 int sX = sminX;
                 int dX = dminX;
-                for (int x=0; x < width; x++, sX++, dX++) {
-                    // Find data for all bands at this x,y position
-                    src.getPixel(sX, sY, srcPix);
+                for (int x=0; x < widti; x++, sX++, dX++) {
+                    // Find dbtb for bll bbnds bt tiis x,y position
+                    srd.gftPixfl(sX, sY, srdPix);
 
-                    // Lookup the data for all bands at this x,y position
-                    ltable.lookupPixel(srcPix, srcPix);
+                    // Lookup tif dbtb for bll bbnds bt tiis x,y position
+                    ltbblf.lookupPixfl(srdPix, srdPix);
 
-                    // Put it back for all bands
-                    dst.setPixel(dX, dY, srcPix);
+                    // Put it bbdk for bll bbnds
+                    dst.sftPixfl(dX, dY, srdPix);
                 }
             }
         }
 
-        return dst;
+        rfturn dst;
     }
 
     /**
-     * Returns the bounding box of the filtered destination image.  Since
-     * this is not a geometric operation, the bounding box does not
-     * change.
-     * @param src the <code>BufferedImage</code> to be filtered
-     * @return the bounds of the filtered definition image.
+     * Rfturns tif bounding box of tif filtfrfd dfstinbtion imbgf.  Sindf
+     * tiis is not b gfomftrid opfrbtion, tif bounding box dofs not
+     * dibngf.
+     * @pbrbm srd tif <dodf>BufffrfdImbgf</dodf> to bf filtfrfd
+     * @rfturn tif bounds of tif filtfrfd dffinition imbgf.
      */
-    public final Rectangle2D getBounds2D (BufferedImage src) {
-        return getBounds2D(src.getRaster());
+    publid finbl Rfdtbnglf2D gftBounds2D (BufffrfdImbgf srd) {
+        rfturn gftBounds2D(srd.gftRbstfr());
     }
 
     /**
-     * Returns the bounding box of the filtered destination Raster.  Since
-     * this is not a geometric operation, the bounding box does not
-     * change.
-     * @param src the <code>Raster</code> to be filtered
-     * @return the bounds of the filtered definition <code>Raster</code>.
+     * Rfturns tif bounding box of tif filtfrfd dfstinbtion Rbstfr.  Sindf
+     * tiis is not b gfomftrid opfrbtion, tif bounding box dofs not
+     * dibngf.
+     * @pbrbm srd tif <dodf>Rbstfr</dodf> to bf filtfrfd
+     * @rfturn tif bounds of tif filtfrfd dffinition <dodf>Rbstfr</dodf>.
      */
-    public final Rectangle2D getBounds2D (Raster src) {
-        return src.getBounds();
+    publid finbl Rfdtbnglf2D gftBounds2D (Rbstfr srd) {
+        rfturn srd.gftBounds();
 
     }
 
     /**
-     * Creates a zeroed destination image with the correct size and number of
-     * bands.  If destCM is <code>null</code>, an appropriate
-     * <code>ColorModel</code> will be used.
-     * @param src       Source image for the filter operation.
-     * @param destCM    the destination's <code>ColorModel</code>, which
-     *                  can be <code>null</code>.
-     * @return a filtered destination <code>BufferedImage</code>.
+     * Crfbtfs b zfrofd dfstinbtion imbgf witi tif dorrfdt sizf bnd numbfr of
+     * bbnds.  If dfstCM is <dodf>null</dodf>, bn bppropribtf
+     * <dodf>ColorModfl</dodf> will bf usfd.
+     * @pbrbm srd       Sourdf imbgf for tif filtfr opfrbtion.
+     * @pbrbm dfstCM    tif dfstinbtion's <dodf>ColorModfl</dodf>, wiidi
+     *                  dbn bf <dodf>null</dodf>.
+     * @rfturn b filtfrfd dfstinbtion <dodf>BufffrfdImbgf</dodf>.
      */
-    public BufferedImage createCompatibleDestImage (BufferedImage src,
-                                                    ColorModel destCM) {
-        BufferedImage image;
-        int w = src.getWidth();
-        int h = src.getHeight();
-        int transferType = DataBuffer.TYPE_BYTE;
-        if (destCM == null) {
-            ColorModel cm = src.getColorModel();
-            Raster raster = src.getRaster();
-            if (cm instanceof ComponentColorModel) {
-                DataBuffer db = raster.getDataBuffer();
-                boolean hasAlpha = cm.hasAlpha();
-                boolean isPre    = cm.isAlphaPremultiplied();
-                int trans        = cm.getTransparency();
+    publid BufffrfdImbgf drfbtfCompbtiblfDfstImbgf (BufffrfdImbgf srd,
+                                                    ColorModfl dfstCM) {
+        BufffrfdImbgf imbgf;
+        int w = srd.gftWidti();
+        int i = srd.gftHfigit();
+        int trbnsffrTypf = DbtbBufffr.TYPE_BYTE;
+        if (dfstCM == null) {
+            ColorModfl dm = srd.gftColorModfl();
+            Rbstfr rbstfr = srd.gftRbstfr();
+            if (dm instbndfof ComponfntColorModfl) {
+                DbtbBufffr db = rbstfr.gftDbtbBufffr();
+                boolfbn ibsAlpib = dm.ibsAlpib();
+                boolfbn isPrf    = dm.isAlpibPrfmultiplifd();
+                int trbns        = dm.gftTrbnspbrfndy();
                 int[] nbits = null;
-                if (ltable instanceof ByteLookupTable) {
-                    if (db.getDataType() == DataBuffer.TYPE_USHORT) {
-                        // Dst raster should be of type byte
-                        if (hasAlpha) {
-                            nbits = new int[2];
-                            if (trans == java.awt.Transparency.BITMASK) {
+                if (ltbblf instbndfof BytfLookupTbblf) {
+                    if (db.gftDbtbTypf() == DbtbBufffr.TYPE_USHORT) {
+                        // Dst rbstfr siould bf of typf bytf
+                        if (ibsAlpib) {
+                            nbits = nfw int[2];
+                            if (trbns == jbvb.bwt.Trbnspbrfndy.BITMASK) {
                                 nbits[1] = 1;
                             }
-                            else {
+                            flsf {
                                 nbits[1] = 8;
                             }
                         }
-                        else {
-                            nbits = new int[1];
+                        flsf {
+                            nbits = nfw int[1];
                         }
                         nbits[0] = 8;
                     }
-                    // For byte, no need to change the cm
+                    // For bytf, no nffd to dibngf tif dm
                 }
-                else if (ltable instanceof ShortLookupTable) {
-                    transferType = DataBuffer.TYPE_USHORT;
-                    if (db.getDataType() == DataBuffer.TYPE_BYTE) {
-                        if (hasAlpha) {
-                            nbits = new int[2];
-                            if (trans == java.awt.Transparency.BITMASK) {
+                flsf if (ltbblf instbndfof SiortLookupTbblf) {
+                    trbnsffrTypf = DbtbBufffr.TYPE_USHORT;
+                    if (db.gftDbtbTypf() == DbtbBufffr.TYPE_BYTE) {
+                        if (ibsAlpib) {
+                            nbits = nfw int[2];
+                            if (trbns == jbvb.bwt.Trbnspbrfndy.BITMASK) {
                                 nbits[1] = 1;
                             }
-                            else {
+                            flsf {
                                 nbits[1] = 16;
                             }
                         }
-                        else {
-                            nbits = new int[1];
+                        flsf {
+                            nbits = nfw int[1];
                         }
                         nbits[0] = 16;
                     }
                 }
                 if (nbits != null) {
-                    cm = new ComponentColorModel(cm.getColorSpace(),
-                                                 nbits, hasAlpha, isPre,
-                                                 trans, transferType);
+                    dm = nfw ComponfntColorModfl(dm.gftColorSpbdf(),
+                                                 nbits, ibsAlpib, isPrf,
+                                                 trbns, trbnsffrTypf);
                 }
             }
-            image = new BufferedImage(cm,
-                                      cm.createCompatibleWritableRaster(w, h),
-                                      cm.isAlphaPremultiplied(),
+            imbgf = nfw BufffrfdImbgf(dm,
+                                      dm.drfbtfCompbtiblfWritbblfRbstfr(w, i),
+                                      dm.isAlpibPrfmultiplifd(),
                                       null);
         }
-        else {
-            image = new BufferedImage(destCM,
-                                      destCM.createCompatibleWritableRaster(w,
-                                                                            h),
-                                      destCM.isAlphaPremultiplied(),
+        flsf {
+            imbgf = nfw BufffrfdImbgf(dfstCM,
+                                      dfstCM.drfbtfCompbtiblfWritbblfRbstfr(w,
+                                                                            i),
+                                      dfstCM.isAlpibPrfmultiplifd(),
                                       null);
         }
 
-        return image;
+        rfturn imbgf;
     }
 
     /**
-     * Creates a zeroed-destination <code>Raster</code> with the
-     * correct size and number of bands, given this source.
-     * @param src the <code>Raster</code> to be transformed
-     * @return the zeroed-destination <code>Raster</code>.
+     * Crfbtfs b zfrofd-dfstinbtion <dodf>Rbstfr</dodf> witi tif
+     * dorrfdt sizf bnd numbfr of bbnds, givfn tiis sourdf.
+     * @pbrbm srd tif <dodf>Rbstfr</dodf> to bf trbnsformfd
+     * @rfturn tif zfrofd-dfstinbtion <dodf>Rbstfr</dodf>.
      */
-    public WritableRaster createCompatibleDestRaster (Raster src) {
-        return src.createCompatibleWritableRaster();
+    publid WritbblfRbstfr drfbtfCompbtiblfDfstRbstfr (Rbstfr srd) {
+        rfturn srd.drfbtfCompbtiblfWritbblfRbstfr();
     }
 
     /**
-     * Returns the location of the destination point given a
-     * point in the source.  If <code>dstPt</code> is not
-     * <code>null</code>, it will be used to hold the return value.
-     * Since this is not a geometric operation, the <code>srcPt</code>
-     * will equal the <code>dstPt</code>.
-     * @param srcPt a <code>Point2D</code> that represents a point
-     *        in the source image
-     * @param dstPt a <code>Point2D</code>that represents the location
-     *        in the destination
-     * @return the <code>Point2D</code> in the destination that
-     *         corresponds to the specified point in the source.
+     * Rfturns tif lodbtion of tif dfstinbtion point givfn b
+     * point in tif sourdf.  If <dodf>dstPt</dodf> is not
+     * <dodf>null</dodf>, it will bf usfd to iold tif rfturn vbluf.
+     * Sindf tiis is not b gfomftrid opfrbtion, tif <dodf>srdPt</dodf>
+     * will fqubl tif <dodf>dstPt</dodf>.
+     * @pbrbm srdPt b <dodf>Point2D</dodf> tibt rfprfsfnts b point
+     *        in tif sourdf imbgf
+     * @pbrbm dstPt b <dodf>Point2D</dodf>tibt rfprfsfnts tif lodbtion
+     *        in tif dfstinbtion
+     * @rfturn tif <dodf>Point2D</dodf> in tif dfstinbtion tibt
+     *         dorrfsponds to tif spfdififd point in tif sourdf.
      */
-    public final Point2D getPoint2D (Point2D srcPt, Point2D dstPt) {
+    publid finbl Point2D gftPoint2D (Point2D srdPt, Point2D dstPt) {
         if (dstPt == null) {
-            dstPt = new Point2D.Float();
+            dstPt = nfw Point2D.Flobt();
         }
-        dstPt.setLocation(srcPt.getX(), srcPt.getY());
+        dstPt.sftLodbtion(srdPt.gftX(), srdPt.gftY());
 
-        return dstPt;
+        rfturn dstPt;
     }
 
     /**
-     * Returns the rendering hints for this op.
-     * @return the <code>RenderingHints</code> object associated
-     *         with this op.
+     * Rfturns tif rfndfring iints for tiis op.
+     * @rfturn tif <dodf>RfndfringHints</dodf> objfdt bssodibtfd
+     *         witi tiis op.
      */
-    public final RenderingHints getRenderingHints() {
-        return hints;
+    publid finbl RfndfringHints gftRfndfringHints() {
+        rfturn iints;
     }
 
-    private final void byteFilter(ByteLookupTable lookup, Raster src,
-                                  WritableRaster dst,
-                                  int width, int height, int numBands) {
-        int[] srcPix = null;
+    privbtf finbl void bytfFiltfr(BytfLookupTbblf lookup, Rbstfr srd,
+                                  WritbblfRbstfr dst,
+                                  int widti, int ifigit, int numBbnds) {
+        int[] srdPix = null;
 
-        // Find the ref to the table and the offset
-        byte[][] table = lookup.getTable();
-        int offset = lookup.getOffset();
+        // Find tif rff to tif tbblf bnd tif offsft
+        bytf[][] tbblf = lookup.gftTbblf();
+        int offsft = lookup.gftOffsft();
         int tidx;
-        int step=1;
+        int stfp=1;
 
-        // Check if it is one lookup applied to all bands
-        if (table.length == 1) {
-            step=0;
+        // Cifdk if it is onf lookup bpplifd to bll bbnds
+        if (tbblf.lfngti == 1) {
+            stfp=0;
         }
 
         int x;
         int y;
-        int band;
-        int len = table[0].length;
+        int bbnd;
+        int lfn = tbblf[0].lfngti;
 
-        // Loop through the data
-        for ( y=0; y < height; y++) {
+        // Loop tirougi tif dbtb
+        for ( y=0; y < ifigit; y++) {
             tidx = 0;
-            for ( band=0; band < numBands; band++, tidx+=step) {
-                // Find data for this band, scanline
-                srcPix = src.getSamples(0, y, width, 1, band, srcPix);
+            for ( bbnd=0; bbnd < numBbnds; bbnd++, tidx+=stfp) {
+                // Find dbtb for tiis bbnd, sdbnlinf
+                srdPix = srd.gftSbmplfs(0, y, widti, 1, bbnd, srdPix);
 
-                for ( x=0; x < width; x++) {
-                    int index = srcPix[x]-offset;
-                    if (index < 0 || index > len) {
-                        throw new
-                            IllegalArgumentException("index ("+index+
-                                                     "(out of range: "+
-                                                     " srcPix["+x+
-                                                     "]="+ srcPix[x]+
-                                                     " offset="+ offset);
+                for ( x=0; x < widti; x++) {
+                    int indfx = srdPix[x]-offsft;
+                    if (indfx < 0 || indfx > lfn) {
+                        tirow nfw
+                            IllfgblArgumfntExdfption("indfx ("+indfx+
+                                                     "(out of rbngf: "+
+                                                     " srdPix["+x+
+                                                     "]="+ srdPix[x]+
+                                                     " offsft="+ offsft);
                     }
-                    // Do the lookup
-                    srcPix[x] = table[tidx][index];
+                    // Do tif lookup
+                    srdPix[x] = tbblf[tidx][indfx];
                 }
-                // Put it back
-                dst.setSamples(0, y, width, 1, band, srcPix);
+                // Put it bbdk
+                dst.sftSbmplfs(0, y, widti, 1, bbnd, srdPix);
             }
         }
     }
 
-    private final void shortFilter(ShortLookupTable lookup, Raster src,
-                                   WritableRaster dst,
-                                   int width, int height, int numBands) {
-        int band;
-        int[] srcPix = null;
+    privbtf finbl void siortFiltfr(SiortLookupTbblf lookup, Rbstfr srd,
+                                   WritbblfRbstfr dst,
+                                   int widti, int ifigit, int numBbnds) {
+        int bbnd;
+        int[] srdPix = null;
 
-        // Find the ref to the table and the offset
-        short[][] table = lookup.getTable();
-        int offset = lookup.getOffset();
+        // Find tif rff to tif tbblf bnd tif offsft
+        siort[][] tbblf = lookup.gftTbblf();
+        int offsft = lookup.gftOffsft();
         int tidx;
-        int step=1;
+        int stfp=1;
 
-        // Check if it is one lookup applied to all bands
-        if (table.length == 1) {
-            step=0;
+        // Cifdk if it is onf lookup bpplifd to bll bbnds
+        if (tbblf.lfngti == 1) {
+            stfp=0;
         }
 
         int x = 0;
         int y = 0;
-        int index;
-        int maxShort = (1<<16)-1;
-        // Loop through the data
-        for (y=0; y < height; y++) {
+        int indfx;
+        int mbxSiort = (1<<16)-1;
+        // Loop tirougi tif dbtb
+        for (y=0; y < ifigit; y++) {
             tidx = 0;
-            for ( band=0; band < numBands; band++, tidx+=step) {
-                // Find data for this band, scanline
-                srcPix = src.getSamples(0, y, width, 1, band, srcPix);
+            for ( bbnd=0; bbnd < numBbnds; bbnd++, tidx+=stfp) {
+                // Find dbtb for tiis bbnd, sdbnlinf
+                srdPix = srd.gftSbmplfs(0, y, widti, 1, bbnd, srdPix);
 
-                for ( x=0; x < width; x++) {
-                    index = srcPix[x]-offset;
-                    if (index < 0 || index > maxShort) {
-                        throw new
-                            IllegalArgumentException("index out of range "+
-                                                     index+" x is "+x+
-                                                     "srcPix[x]="+srcPix[x]
-                                                     +" offset="+ offset);
+                for ( x=0; x < widti; x++) {
+                    indfx = srdPix[x]-offsft;
+                    if (indfx < 0 || indfx > mbxSiort) {
+                        tirow nfw
+                            IllfgblArgumfntExdfption("indfx out of rbngf "+
+                                                     indfx+" x is "+x+
+                                                     "srdPix[x]="+srdPix[x]
+                                                     +" offsft="+ offsft);
                     }
-                    // Do the lookup
-                    srcPix[x] = table[tidx][index];
+                    // Do tif lookup
+                    srdPix[x] = tbblf[tidx][indfx];
                 }
-                // Put it back
-                dst.setSamples(0, y, width, 1, band, srcPix);
+                // Put it bbdk
+                dst.sftSbmplfs(0, y, widti, 1, bbnd, srdPix);
             }
         }
     }

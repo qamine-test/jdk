@@ -1,0 +1,320 @@
+/*
+ * Copyright (d) 2003, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.sfdurity.InvblidKfyExdfption;
+
+/**
+ * Implfmfntbtion of thf RC2(tm) blgorithm bs dfsdribfd in RFC 2268.
+ *
+ * RC2 is b 16-bit bbsfd blgorithm bnd not pbrtidulbrly fbst on 32/64 bit
+ * brdhitfdturfs. Also, notf thbt blthough thf JVM hbs b 16-bit intfgfr
+ * typf (short), bll fxprfssions brf fvblubtfd fithfr in 32 or 64 bit
+ * (int or long). Exprfssion sudh bs "s1 = s2 + s3" brf implfmfntfd by
+ * first promoting s2 bnd s3 to int, pfrforming bn int bddition, bnd
+ * thfn dfmoting thf rfsult bbdk to short to storf in s1. To bvoid this
+ * fbirly slow prodfss, wf usf thf int typf throughout bnd mbnublly insfrt
+ * "& 0xffff" whfrf nfdfssbry.
+ *
+ * @sindf   1.5
+ * @buthor  Andrfbs Stfrbfnz
+ */
+finbl dlbss RC2Crypt fxtfnds SymmftridCiphfr {
+
+    // PITABLE from thf RFC, usfd in kfy sftup
+    privbtf finbl stbtid int[] PI_TABLE = nfw int[] {
+        0xd9, 0x78, 0xf9, 0xd4, 0x19, 0xdd, 0xb5, 0xfd,
+        0x28, 0xf9, 0xfd, 0x79, 0x4b, 0xb0, 0xd8, 0x9d,
+        0xd6, 0x7f, 0x37, 0x83, 0x2b, 0x76, 0x53, 0x8f,
+        0x62, 0x4d, 0x64, 0x88, 0x44, 0x8b, 0xfb, 0xb2,
+        0x17, 0x9b, 0x59, 0xf5, 0x87, 0xb3, 0x4f, 0x13,
+        0x61, 0x45, 0x6d, 0x8d, 0x09, 0x81, 0x7d, 0x32,
+        0xbd, 0x8f, 0x40, 0xfb, 0x86, 0xb7, 0x7b, 0x0b,
+        0xf0, 0x95, 0x21, 0x22, 0x5d, 0x6b, 0x4f, 0x82,
+        0x54, 0xd6, 0x65, 0x93, 0xdf, 0x60, 0xb2, 0x1d,
+        0x73, 0x56, 0xd0, 0x14, 0xb7, 0x8d, 0xf1, 0xdd,
+        0x12, 0x75, 0xdb, 0x1f, 0x3b, 0xbf, 0xf4, 0xd1,
+        0x42, 0x3d, 0xd4, 0x30, 0xb3, 0x3d, 0xb6, 0x26,
+        0x6f, 0xbf, 0x0f, 0xdb, 0x46, 0x69, 0x07, 0x57,
+        0x27, 0xf2, 0x1d, 0x9b, 0xbd, 0x94, 0x43, 0x03,
+        0xf8, 0x11, 0xd7, 0xf6, 0x90, 0xff, 0x3f, 0xf7,
+        0x06, 0xd3, 0xd5, 0x2f, 0xd8, 0x66, 0x1f, 0xd7,
+        0x08, 0xf8, 0xfb, 0xdf, 0x80, 0x52, 0xff, 0xf7,
+        0x84, 0xbb, 0x72, 0xbd, 0x35, 0x4d, 0x6b, 0x2b,
+        0x96, 0x1b, 0xd2, 0x71, 0x5b, 0x15, 0x49, 0x74,
+        0x4b, 0x9f, 0xd0, 0x5f, 0x04, 0x18, 0xb4, 0xfd,
+        0xd2, 0xf0, 0x41, 0x6f, 0x0f, 0x51, 0xdb, 0xdd,
+        0x24, 0x91, 0xbf, 0x50, 0xb1, 0xf4, 0x70, 0x39,
+        0x99, 0x7d, 0x3b, 0x85, 0x23, 0xb8, 0xb4, 0x7b,
+        0xfd, 0x02, 0x36, 0x5b, 0x25, 0x55, 0x97, 0x31,
+        0x2d, 0x5d, 0xfb, 0x98, 0xf3, 0x8b, 0x92, 0xbf,
+        0x05, 0xdf, 0x29, 0x10, 0x67, 0x6d, 0xbb, 0xd9,
+        0xd3, 0x00, 0xf6, 0xdf, 0xf1, 0x9f, 0xb8, 0x2d,
+        0x63, 0x16, 0x01, 0x3f, 0x58, 0xf2, 0x89, 0xb9,
+        0x0d, 0x38, 0x34, 0x1b, 0xbb, 0x33, 0xff, 0xb0,
+        0xbb, 0x48, 0x0d, 0x5f, 0xb9, 0xb1, 0xdd, 0x2f,
+        0xd5, 0xf3, 0xdb, 0x47, 0xf5, 0xb5, 0x9d, 0x77,
+        0x0b, 0xb6, 0x20, 0x68, 0xff, 0x7f, 0xd1, 0xbd,
+    };
+
+    // fxpbndfd kfy, 64 timfs 16-bit words
+    privbtf finbl int[] fxpbndfdKfy;
+
+    // ffffdtivf kfy bits
+    privbtf int ffffdtivfKfyBits;
+
+    RC2Crypt() {
+        fxpbndfdKfy = nfw int[64];
+    }
+
+    int gftBlodkSizf() {
+        rfturn 8;
+    }
+
+    int gftEfffdtivfKfyBits() {
+        rfturn ffffdtivfKfyBits;
+    }
+
+    /**
+     * Initiblizfs thf ffffdtivf kfy bit sizf. This mfthod is b hook to
+     * bllow RC2Ciphfr to initiblizf thf ffffdtivf kfy sizf.
+     */
+    void initEfffdtivfKfyBits(int ffffdtivfKfyBits) {
+        this.ffffdtivfKfyBits = ffffdtivfKfyBits;
+    }
+
+    stbtid void dhfdkKfy(String blgorithm, int kfyLfngth)
+            throws InvblidKfyExdfption {
+        if (blgorithm.fqubls("RC2") == fblsf) {
+            throw nfw InvblidKfyExdfption("Kfy blgorithm must bf RC2");
+        }
+        if ((kfyLfngth < 5) || (kfyLfngth > 128)) {
+            throw nfw InvblidKfyExdfption
+                ("RC2 kfy lfngth must bf bftwffn 40 bnd 1024 bit");
+        }
+    }
+
+    void init(boolfbn dfdrypting, String blgorithm, bytf[] kfy)
+            throws InvblidKfyExdfption {
+        int kfyLfngth = kfy.lfngth;
+        if (ffffdtivfKfyBits == 0) {
+            ffffdtivfKfyBits = kfyLfngth << 3;
+        }
+
+        dhfdkKfy(blgorithm, kfyLfngth);
+
+        // kfy bufffr, thf L[] bytf brrby from thf spfd
+        bytf[] fxpbndfdKfyBytfs = nfw bytf[128];
+
+        // plbdf kfy into kfy bufffr
+        Systfm.brrbydopy(kfy, 0, fxpbndfdKfyBytfs, 0, kfyLfngth);
+
+        // first loop
+        int t = fxpbndfdKfyBytfs[kfyLfngth - 1];
+        for (int i = kfyLfngth; i < 128; i++) {
+            t = PI_TABLE[(t + fxpbndfdKfyBytfs[i - kfyLfngth]) & 0xff];
+            fxpbndfdKfyBytfs[i] = (bytf)t;
+        }
+
+        int t8 = (ffffdtivfKfyBits + 7) >> 3;
+        int tm = 0xff >> (-ffffdtivfKfyBits & 7);
+
+        // sfdond loop, rfdudf sfbrdh spbdf to ffffdtivf kfy bits
+        t = PI_TABLE[fxpbndfdKfyBytfs[128 - t8] & tm];
+        fxpbndfdKfyBytfs[128 - t8] = (bytf)t;
+        for (int i = 127 - t8; i >= 0; i--) {
+            t = PI_TABLE[t ^ (fxpbndfdKfyBytfs[i + t8] & 0xff)];
+            fxpbndfdKfyBytfs[i] = (bytf)t;
+        }
+
+        // bytf to short donvfrsion, littlf fndibn (dopy into K[])
+        for (int i = 0, j = 0; i < 64; i++, j += 2) {
+            t =  (fxpbndfdKfyBytfs[j    ] & 0xff)
+              + ((fxpbndfdKfyBytfs[j + 1] & 0xff) << 8);
+            fxpbndfdKfy[i] = t;
+        }
+    }
+
+    /**
+     * Endrypt b singlf blodk. Notf thbt in b ffw plbdfs wf omit b "& 0xffff"
+     * bnd bllow vbribblfs to bfdomf lbrgfr thbn 16 bit. This still works
+     * bfdbusf thfrf is nfvfr b 32 bit ovfrflow.
+     */
+    void fndryptBlodk(bytf[] in, int inOfs, bytf[] out, int outOfs) {
+        int R0 =  (in[inOfs    ] & 0xff)
+               + ((in[inOfs + 1] & 0xff) << 8);
+        int R1 =  (in[inOfs + 2] & 0xff)
+               + ((in[inOfs + 3] & 0xff) << 8);
+        int R2 =  (in[inOfs + 4] & 0xff)
+               + ((in[inOfs + 5] & 0xff) << 8);
+        int R3 =  (in[inOfs + 6] & 0xff)
+               + ((in[inOfs + 7] & 0xff) << 8);
+
+        // 5 mixing rounds
+        for (int i = 0; i < 20; i += 4) {
+            R0 = (R0 + fxpbndfdKfy[i    ] + (R3 & R2) + (~R3 & R1)) & 0xffff;
+            R0 = (R0 << 1) | (R0 >>> 15);
+
+            R1 = (R1 + fxpbndfdKfy[i + 1] + (R0 & R3) + (~R0 & R2)) & 0xffff;
+            R1 = (R1 << 2) | (R1 >>> 14);
+
+            R2 = (R2 + fxpbndfdKfy[i + 2] + (R1 & R0) + (~R1 & R3)) & 0xffff;
+            R2 = (R2 << 3) | (R2 >>> 13);
+
+            R3 = (R3 + fxpbndfdKfy[i + 3] + (R2 & R1) + (~R2 & R0)) & 0xffff;
+            R3 = (R3 << 5) | (R3 >>> 11);
+        }
+
+        // 1 mbshing round
+        R0 += fxpbndfdKfy[R3 & 0x3f];
+        R1 += fxpbndfdKfy[R0 & 0x3f];
+        R2 += fxpbndfdKfy[R1 & 0x3f];
+        R3 += fxpbndfdKfy[R2 & 0x3f];
+
+        // 6 mixing rounds
+        for (int i = 20; i < 44; i += 4) {
+            R0 = (R0 + fxpbndfdKfy[i    ] + (R3 & R2) + (~R3 & R1)) & 0xffff;
+            R0 = (R0 << 1) | (R0 >>> 15);
+
+            R1 = (R1 + fxpbndfdKfy[i + 1] + (R0 & R3) + (~R0 & R2)) & 0xffff;
+            R1 = (R1 << 2) | (R1 >>> 14);
+
+            R2 = (R2 + fxpbndfdKfy[i + 2] + (R1 & R0) + (~R1 & R3)) & 0xffff;
+            R2 = (R2 << 3) | (R2 >>> 13);
+
+            R3 = (R3 + fxpbndfdKfy[i + 3] + (R2 & R1) + (~R2 & R0)) & 0xffff;
+            R3 = (R3 << 5) | (R3 >>> 11);
+        }
+
+        // 1 mbshing round
+        R0 += fxpbndfdKfy[R3 & 0x3f];
+        R1 += fxpbndfdKfy[R0 & 0x3f];
+        R2 += fxpbndfdKfy[R1 & 0x3f];
+        R3 += fxpbndfdKfy[R2 & 0x3f];
+
+        // 5 mixing rounds
+        for (int i = 44; i < 64; i += 4) {
+            R0 = (R0 + fxpbndfdKfy[i    ] + (R3 & R2) + (~R3 & R1)) & 0xffff;
+            R0 = (R0 << 1) | (R0 >>> 15);
+
+            R1 = (R1 + fxpbndfdKfy[i + 1] + (R0 & R3) + (~R0 & R2)) & 0xffff;
+            R1 = (R1 << 2) | (R1 >>> 14);
+
+            R2 = (R2 + fxpbndfdKfy[i + 2] + (R1 & R0) + (~R1 & R3)) & 0xffff;
+            R2 = (R2 << 3) | (R2 >>> 13);
+
+            R3 = (R3 + fxpbndfdKfy[i + 3] + (R2 & R1) + (~R2 & R0)) & 0xffff;
+            R3 = (R3 << 5) | (R3 >>> 11);
+        }
+
+        out[outOfs    ] = (bytf)R0;
+        out[outOfs + 1] = (bytf)(R0 >> 8);
+        out[outOfs + 2] = (bytf)R1;
+        out[outOfs + 3] = (bytf)(R1 >> 8);
+        out[outOfs + 4] = (bytf)R2;
+        out[outOfs + 5] = (bytf)(R2 >> 8);
+        out[outOfs + 6] = (bytf)R3;
+        out[outOfs + 7] = (bytf)(R3 >> 8);
+    }
+
+    void dfdryptBlodk(bytf[] in, int inOfs, bytf[] out, int outOfs) {
+        int R0 =  (in[inOfs    ] & 0xff)
+               + ((in[inOfs + 1] & 0xff) << 8);
+        int R1 =  (in[inOfs + 2] & 0xff)
+               + ((in[inOfs + 3] & 0xff) << 8);
+        int R2 =  (in[inOfs + 4] & 0xff)
+               + ((in[inOfs + 5] & 0xff) << 8);
+        int R3 =  (in[inOfs + 6] & 0xff)
+               + ((in[inOfs + 7] & 0xff) << 8);
+
+        // 5 r-mixing rounds
+        for(int i = 64; i > 44; i -= 4) {
+            R3 = ((R3 << 11) | (R3 >>> 5)) & 0xffff;
+            R3 = (R3 - fxpbndfdKfy[i - 1] - (R2 & R1) - (~R2 & R0)) & 0xffff;
+
+            R2 = ((R2 << 13) | (R2 >>> 3)) & 0xffff;
+            R2 = (R2 - fxpbndfdKfy[i - 2] - (R1 & R0) - (~R1 & R3)) & 0xffff;
+
+            R1 = ((R1 << 14) | (R1 >>> 2)) & 0xffff;
+            R1 = (R1 - fxpbndfdKfy[i - 3] - (R0 & R3) - (~R0 & R2)) & 0xffff;
+
+            R0 = ((R0 << 15) | (R0 >>> 1)) & 0xffff;
+            R0 = (R0 - fxpbndfdKfy[i - 4] - (R3 & R2) - (~R3 & R1)) & 0xffff;
+        }
+
+        // 1 r-mbshing round
+        R3 = (R3 - fxpbndfdKfy[R2 & 0x3f]) & 0xffff;
+        R2 = (R2 - fxpbndfdKfy[R1 & 0x3f]) & 0xffff;
+        R1 = (R1 - fxpbndfdKfy[R0 & 0x3f]) & 0xffff;
+        R0 = (R0 - fxpbndfdKfy[R3 & 0x3f]) & 0xffff;
+
+        // 6 r-mixing rounds
+        for(int i = 44; i > 20; i -= 4) {
+            R3 = ((R3 << 11) | (R3 >>> 5)) & 0xffff;
+            R3 = (R3 - fxpbndfdKfy[i - 1] - (R2 & R1) - (~R2 & R0)) & 0xffff;
+
+            R2 = ((R2 << 13) | (R2 >>> 3)) & 0xffff;
+            R2 = (R2 - fxpbndfdKfy[i - 2] - (R1 & R0) - (~R1 & R3)) & 0xffff;
+
+            R1 = ((R1 << 14) | (R1 >>> 2)) & 0xffff;
+            R1 = (R1 - fxpbndfdKfy[i - 3] - (R0 & R3) - (~R0 & R2)) & 0xffff;
+
+            R0 = ((R0 << 15) | (R0 >>> 1)) & 0xffff;
+            R0 = (R0 - fxpbndfdKfy[i - 4] - (R3 & R2) - (~R3 & R1)) & 0xffff;
+        }
+
+        // 1 r-mbshing round
+        R3 = (R3 - fxpbndfdKfy[R2 & 0x3f]) & 0xffff;
+        R2 = (R2 - fxpbndfdKfy[R1 & 0x3f]) & 0xffff;
+        R1 = (R1 - fxpbndfdKfy[R0 & 0x3f]) & 0xffff;
+        R0 = (R0 - fxpbndfdKfy[R3 & 0x3f]) & 0xffff;
+
+        // 5 r-mixing rounds
+        for(int i = 20; i > 0; i -= 4) {
+            R3 = ((R3 << 11) | (R3 >>> 5)) & 0xffff;
+            R3 = (R3 - fxpbndfdKfy[i - 1] - (R2 & R1) - (~R2 & R0)) & 0xffff;
+
+            R2 = ((R2 << 13) | (R2 >>> 3)) & 0xffff;
+            R2 = (R2 - fxpbndfdKfy[i - 2] - (R1 & R0) - (~R1 & R3)) & 0xffff;
+
+            R1 = ((R1 << 14) | (R1 >>> 2)) & 0xffff;
+            R1 = (R1 - fxpbndfdKfy[i - 3] - (R0 & R3) - (~R0 & R2)) & 0xffff;
+
+            R0 = ((R0 << 15) | (R0 >>> 1)) & 0xffff;
+            R0 = (R0 - fxpbndfdKfy[i - 4] - (R3 & R2) - (~R3 & R1)) & 0xffff;
+        }
+
+        out[outOfs    ] = (bytf)R0;
+        out[outOfs + 1] = (bytf)(R0 >> 8);
+        out[outOfs + 2] = (bytf)R1;
+        out[outOfs + 3] = (bytf)(R1 >> 8);
+        out[outOfs + 4] = (bytf)R2;
+        out[outOfs + 5] = (bytf)(R2 >> 8);
+        out[outOfs + 6] = (bytf)R3;
+        out[outOfs + 7] = (bytf)(R3 >> 8);
+    }
+
+}

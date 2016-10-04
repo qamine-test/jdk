@@ -1,334 +1,334 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text.rtf;
+pbdkbgf jbvbx.swing.tfxt.rtf;
 
-import java.io.*;
-import java.lang.*;
+import jbvb.io.*;
+import jbvb.lbng.*;
 
 /**
- * <b>RTFParser</b> is a subclass of <b>AbstractFilter</b> which understands basic RTF syntax
- * and passes a stream of control words, text, and begin/end group
- * indications to its subclass.
+ * <b>RTFPbrsfr</b> is b subdlbss of <b>AbstrbdtFiltfr</b> wiidi undfrstbnds bbsid RTF syntbx
+ * bnd pbssfs b strfbm of dontrol words, tfxt, bnd bfgin/fnd group
+ * indidbtions to its subdlbss.
  *
- * Normally programmers will only use <b>RTFFilter</b>, a subclass of this class that knows what to
- * do with the tokens this class parses.
+ * Normblly progrbmmfrs will only usf <b>RTFFiltfr</b>, b subdlbss of tiis dlbss tibt knows wibt to
+ * do witi tif tokfns tiis dlbss pbrsfs.
  *
- * @see AbstractFilter
- * @see RTFFilter
+ * @sff AbstrbdtFiltfr
+ * @sff RTFFiltfr
  */
-abstract class RTFParser extends AbstractFilter
+bbstrbdt dlbss RTFPbrsfr fxtfnds AbstrbdtFiltfr
 {
-  /** The current RTF group nesting level. */
-  public int level;
+  /** Tif durrfnt RTF group nfsting lfvfl. */
+  publid int lfvfl;
 
-  private int state;
-  private StringBuffer currentCharacters;
-  private String pendingKeyword;                // where keywords go while we
-                                                // read their parameters
-  private int pendingCharacter;                 // for the \'xx construct
+  privbtf int stbtf;
+  privbtf StringBufffr durrfntCibrbdtfrs;
+  privbtf String pfndingKfyword;                // wifrf kfywords go wiilf wf
+                                                // rfbd tifir pbrbmftfrs
+  privbtf int pfndingCibrbdtfr;                 // for tif \'xx donstrudt
 
-  private long binaryBytesLeft;                  // in a \bin blob?
-  ByteArrayOutputStream binaryBuf;
-  private boolean[] savedSpecials;
+  privbtf long binbryBytfsLfft;                  // in b \bin blob?
+  BytfArrbyOutputStrfbm binbryBuf;
+  privbtf boolfbn[] sbvfdSpfdibls;
 
-  /** A stream to which to write warnings and debugging information
-   *  while parsing. This is set to <code>System.out</code> to log
-   *  any anomalous information to stdout. */
-  protected PrintStream warnings;
+  /** A strfbm to wiidi to writf wbrnings bnd dfbugging informbtion
+   *  wiilf pbrsing. Tiis is sft to <dodf>Systfm.out</dodf> to log
+   *  bny bnomblous informbtion to stdout. */
+  protfdtfd PrintStrfbm wbrnings;
 
-  // value for the 'state' variable
-  private final int S_text = 0;          // reading random text
-  private final int S_backslashed = 1;   // read a backslash, waiting for next
-  private final int S_token = 2;         // reading a multicharacter token
-  private final int S_parameter = 3;     // reading a token's parameter
+  // vbluf for tif 'stbtf' vbribblf
+  privbtf finbl int S_tfxt = 0;          // rfbding rbndom tfxt
+  privbtf finbl int S_bbdkslbsifd = 1;   // rfbd b bbdkslbsi, wbiting for nfxt
+  privbtf finbl int S_tokfn = 2;         // rfbding b multidibrbdtfr tokfn
+  privbtf finbl int S_pbrbmftfr = 3;     // rfbding b tokfn's pbrbmftfr
 
-  private final int S_aftertick = 4;     // after reading \'
-  private final int S_aftertickc = 5;    // after reading \'x
+  privbtf finbl int S_bftfrtidk = 4;     // bftfr rfbding \'
+  privbtf finbl int S_bftfrtidkd = 5;    // bftfr rfbding \'x
 
-  private final int S_inblob = 6;        // in a \bin blob
+  privbtf finbl int S_inblob = 6;        // in b \bin blob
 
-  /** Implemented by subclasses to interpret a parameter-less RTF keyword.
-   *  The keyword is passed without the leading '/' or any delimiting
-   *  whitespace. */
-  public abstract boolean handleKeyword(String keyword);
-  /** Implemented by subclasses to interpret a keyword with a parameter.
-   *  @param keyword   The keyword, as with <code>handleKeyword(String)</code>.
-   *  @param parameter The parameter following the keyword. */
-  public abstract boolean handleKeyword(String keyword, int parameter);
-  /** Implemented by subclasses to interpret text from the RTF stream. */
-  public abstract void handleText(String text);
-  public void handleText(char ch)
-  { handleText(String.valueOf(ch)); }
-  /** Implemented by subclasses to handle the contents of the \bin keyword. */
-  public abstract void handleBinaryBlob(byte[] data);
-  /** Implemented by subclasses to react to an increase
-   *  in the nesting level. */
-  public abstract void begingroup();
-  /** Implemented by subclasses to react to the end of a group. */
-  public abstract void endgroup();
+  /** Implfmfntfd by subdlbssfs to intfrprft b pbrbmftfr-lfss RTF kfyword.
+   *  Tif kfyword is pbssfd witiout tif lfbding '/' or bny dflimiting
+   *  wiitfspbdf. */
+  publid bbstrbdt boolfbn ibndlfKfyword(String kfyword);
+  /** Implfmfntfd by subdlbssfs to intfrprft b kfyword witi b pbrbmftfr.
+   *  @pbrbm kfyword   Tif kfyword, bs witi <dodf>ibndlfKfyword(String)</dodf>.
+   *  @pbrbm pbrbmftfr Tif pbrbmftfr following tif kfyword. */
+  publid bbstrbdt boolfbn ibndlfKfyword(String kfyword, int pbrbmftfr);
+  /** Implfmfntfd by subdlbssfs to intfrprft tfxt from tif RTF strfbm. */
+  publid bbstrbdt void ibndlfTfxt(String tfxt);
+  publid void ibndlfTfxt(dibr di)
+  { ibndlfTfxt(String.vblufOf(di)); }
+  /** Implfmfntfd by subdlbssfs to ibndlf tif dontfnts of tif \bin kfyword. */
+  publid bbstrbdt void ibndlfBinbryBlob(bytf[] dbtb);
+  /** Implfmfntfd by subdlbssfs to rfbdt to bn indrfbsf
+   *  in tif nfsting lfvfl. */
+  publid bbstrbdt void bfgingroup();
+  /** Implfmfntfd by subdlbssfs to rfbdt to tif fnd of b group. */
+  publid bbstrbdt void fndgroup();
 
-  // table of non-text characters in rtf
-  static final boolean rtfSpecialsTable[];
-  static {
-    rtfSpecialsTable = noSpecialsTable.clone();
-    rtfSpecialsTable['\n'] = true;
-    rtfSpecialsTable['\r'] = true;
-    rtfSpecialsTable['{'] = true;
-    rtfSpecialsTable['}'] = true;
-    rtfSpecialsTable['\\'] = true;
+  // tbblf of non-tfxt dibrbdtfrs in rtf
+  stbtid finbl boolfbn rtfSpfdiblsTbblf[];
+  stbtid {
+    rtfSpfdiblsTbblf = noSpfdiblsTbblf.dlonf();
+    rtfSpfdiblsTbblf['\n'] = truf;
+    rtfSpfdiblsTbblf['\r'] = truf;
+    rtfSpfdiblsTbblf['{'] = truf;
+    rtfSpfdiblsTbblf['}'] = truf;
+    rtfSpfdiblsTbblf['\\'] = truf;
   }
 
-  public RTFParser()
+  publid RTFPbrsfr()
   {
-    currentCharacters = new StringBuffer();
-    state = S_text;
-    pendingKeyword = null;
-    level = 0;
-    //warnings = System.out;
+    durrfntCibrbdtfrs = nfw StringBufffr();
+    stbtf = S_tfxt;
+    pfndingKfyword = null;
+    lfvfl = 0;
+    //wbrnings = Systfm.out;
 
-    specialsTable = rtfSpecialsTable;
+    spfdiblsTbblf = rtfSpfdiblsTbblf;
   }
 
-  // TODO: Handle wrapup at end of file correctly.
+  // TODO: Hbndlf wrbpup bt fnd of filf dorrfdtly.
 
-  public void writeSpecial(int b)
-    throws IOException
+  publid void writfSpfdibl(int b)
+    tirows IOExdfption
   {
-    write((char)b);
+    writf((dibr)b);
   }
 
-    protected void warning(String s) {
-        if (warnings != null) {
-            warnings.println(s);
+    protfdtfd void wbrning(String s) {
+        if (wbrnings != null) {
+            wbrnings.println(s);
         }
     }
 
-  public void write(String s)
-    throws IOException
+  publid void writf(String s)
+    tirows IOExdfption
   {
-    if (state != S_text) {
-      int index = 0;
-      int length = s.length();
-      while(index < length && state != S_text) {
-        write(s.charAt(index));
-        index ++;
+    if (stbtf != S_tfxt) {
+      int indfx = 0;
+      int lfngti = s.lfngti();
+      wiilf(indfx < lfngti && stbtf != S_tfxt) {
+        writf(s.dibrAt(indfx));
+        indfx ++;
       }
 
-      if(index >= length)
-        return;
+      if(indfx >= lfngti)
+        rfturn;
 
-      s = s.substring(index);
+      s = s.substring(indfx);
     }
 
-    if (currentCharacters.length() > 0)
-      currentCharacters.append(s);
-    else
-      handleText(s);
+    if (durrfntCibrbdtfrs.lfngti() > 0)
+      durrfntCibrbdtfrs.bppfnd(s);
+    flsf
+      ibndlfTfxt(s);
   }
 
-  @SuppressWarnings("fallthrough")
-  public void write(char ch)
-    throws IOException
+  @SupprfssWbrnings("fblltirougi")
+  publid void writf(dibr di)
+    tirows IOExdfption
   {
-    boolean ok;
+    boolfbn ok;
 
-    switch (state)
+    switdi (stbtf)
     {
-      case S_text:
-        if (ch == '\n' || ch == '\r') {
-          break;  // unadorned newlines are ignored
-        } else if (ch == '{') {
-          if (currentCharacters.length() > 0) {
-            handleText(currentCharacters.toString());
-            currentCharacters = new StringBuffer();
+      dbsf S_tfxt:
+        if (di == '\n' || di == '\r') {
+          brfbk;  // unbdornfd nfwlinfs brf ignorfd
+        } flsf if (di == '{') {
+          if (durrfntCibrbdtfrs.lfngti() > 0) {
+            ibndlfTfxt(durrfntCibrbdtfrs.toString());
+            durrfntCibrbdtfrs = nfw StringBufffr();
           }
-          level ++;
-          begingroup();
-        } else if(ch == '}') {
-          if (currentCharacters.length() > 0) {
-            handleText(currentCharacters.toString());
-            currentCharacters = new StringBuffer();
+          lfvfl ++;
+          bfgingroup();
+        } flsf if(di == '}') {
+          if (durrfntCibrbdtfrs.lfngti() > 0) {
+            ibndlfTfxt(durrfntCibrbdtfrs.toString());
+            durrfntCibrbdtfrs = nfw StringBufffr();
           }
-          if (level == 0)
-            throw new IOException("Too many close-groups in RTF text");
-          endgroup();
-          level --;
-        } else if(ch == '\\') {
-          if (currentCharacters.length() > 0) {
-            handleText(currentCharacters.toString());
-            currentCharacters = new StringBuffer();
+          if (lfvfl == 0)
+            tirow nfw IOExdfption("Too mbny dlosf-groups in RTF tfxt");
+          fndgroup();
+          lfvfl --;
+        } flsf if(di == '\\') {
+          if (durrfntCibrbdtfrs.lfngti() > 0) {
+            ibndlfTfxt(durrfntCibrbdtfrs.toString());
+            durrfntCibrbdtfrs = nfw StringBufffr();
           }
-          state = S_backslashed;
-        } else {
-          currentCharacters.append(ch);
+          stbtf = S_bbdkslbsifd;
+        } flsf {
+          durrfntCibrbdtfrs.bppfnd(di);
         }
-        break;
-      case S_backslashed:
-        if (ch == '\'') {
-          state = S_aftertick;
-          break;
+        brfbk;
+      dbsf S_bbdkslbsifd:
+        if (di == '\'') {
+          stbtf = S_bftfrtidk;
+          brfbk;
         }
-        if (!Character.isLetter(ch)) {
-          char newstring[] = new char[1];
-          newstring[0] = ch;
-          if (!handleKeyword(new String(newstring))) {
-            warning("Unknown keyword: " + newstring + " (" + (byte)ch + ")");
+        if (!Cibrbdtfr.isLfttfr(di)) {
+          dibr nfwstring[] = nfw dibr[1];
+          nfwstring[0] = di;
+          if (!ibndlfKfyword(nfw String(nfwstring))) {
+            wbrning("Unknown kfyword: " + nfwstring + " (" + (bytf)di + ")");
           }
-          state = S_text;
-          pendingKeyword = null;
-          /* currentCharacters is already an empty stringBuffer */
-          break;
+          stbtf = S_tfxt;
+          pfndingKfyword = null;
+          /* durrfntCibrbdtfrs is blrfbdy bn fmpty stringBufffr */
+          brfbk;
         }
 
-        state = S_token;
+        stbtf = S_tokfn;
         /* FALL THROUGH */
-      case S_token:
-        if (Character.isLetter(ch)) {
-          currentCharacters.append(ch);
-        } else {
-          pendingKeyword = currentCharacters.toString();
-          currentCharacters = new StringBuffer();
+      dbsf S_tokfn:
+        if (Cibrbdtfr.isLfttfr(di)) {
+          durrfntCibrbdtfrs.bppfnd(di);
+        } flsf {
+          pfndingKfyword = durrfntCibrbdtfrs.toString();
+          durrfntCibrbdtfrs = nfw StringBufffr();
 
-          // Parameter following?
-          if (Character.isDigit(ch) || (ch == '-')) {
-            state = S_parameter;
-            currentCharacters.append(ch);
-          } else {
-            ok = handleKeyword(pendingKeyword);
+          // Pbrbmftfr following?
+          if (Cibrbdtfr.isDigit(di) || (di == '-')) {
+            stbtf = S_pbrbmftfr;
+            durrfntCibrbdtfrs.bppfnd(di);
+          } flsf {
+            ok = ibndlfKfyword(pfndingKfyword);
             if (!ok)
-              warning("Unknown keyword: " + pendingKeyword);
-            pendingKeyword = null;
-            state = S_text;
+              wbrning("Unknown kfyword: " + pfndingKfyword);
+            pfndingKfyword = null;
+            stbtf = S_tfxt;
 
-            // Non-space delimiters get included in the text
-            if (!Character.isWhitespace(ch))
-              write(ch);
+            // Non-spbdf dflimitfrs gft indludfd in tif tfxt
+            if (!Cibrbdtfr.isWiitfspbdf(di))
+              writf(di);
           }
         }
-        break;
-      case S_parameter:
-        if (Character.isDigit(ch)) {
-          currentCharacters.append(ch);
-        } else {
-          /* TODO: Test correct behavior of \bin keyword */
-          if (pendingKeyword.equals("bin")) {  /* magic layer-breaking kwd */
-            long parameter = Long.parseLong(currentCharacters.toString());
-            pendingKeyword = null;
-            state = S_inblob;
-            binaryBytesLeft = parameter;
-            if (binaryBytesLeft > Integer.MAX_VALUE)
-                binaryBuf = new ByteArrayOutputStream(Integer.MAX_VALUE);
-            else
-                binaryBuf = new ByteArrayOutputStream((int)binaryBytesLeft);
-            savedSpecials = specialsTable;
-            specialsTable = allSpecialsTable;
-            break;
+        brfbk;
+      dbsf S_pbrbmftfr:
+        if (Cibrbdtfr.isDigit(di)) {
+          durrfntCibrbdtfrs.bppfnd(di);
+        } flsf {
+          /* TODO: Tfst dorrfdt bfibvior of \bin kfyword */
+          if (pfndingKfyword.fqubls("bin")) {  /* mbgid lbyfr-brfbking kwd */
+            long pbrbmftfr = Long.pbrsfLong(durrfntCibrbdtfrs.toString());
+            pfndingKfyword = null;
+            stbtf = S_inblob;
+            binbryBytfsLfft = pbrbmftfr;
+            if (binbryBytfsLfft > Intfgfr.MAX_VALUE)
+                binbryBuf = nfw BytfArrbyOutputStrfbm(Intfgfr.MAX_VALUE);
+            flsf
+                binbryBuf = nfw BytfArrbyOutputStrfbm((int)binbryBytfsLfft);
+            sbvfdSpfdibls = spfdiblsTbblf;
+            spfdiblsTbblf = bllSpfdiblsTbblf;
+            brfbk;
           }
 
-          int parameter = Integer.parseInt(currentCharacters.toString());
-          ok = handleKeyword(pendingKeyword, parameter);
+          int pbrbmftfr = Intfgfr.pbrsfInt(durrfntCibrbdtfrs.toString());
+          ok = ibndlfKfyword(pfndingKfyword, pbrbmftfr);
           if (!ok)
-            warning("Unknown keyword: " + pendingKeyword +
-                    " (param " + currentCharacters + ")");
-          pendingKeyword = null;
-          currentCharacters = new StringBuffer();
-          state = S_text;
+            wbrning("Unknown kfyword: " + pfndingKfyword +
+                    " (pbrbm " + durrfntCibrbdtfrs + ")");
+          pfndingKfyword = null;
+          durrfntCibrbdtfrs = nfw StringBufffr();
+          stbtf = S_tfxt;
 
-          // Delimiters here are interpreted as text too
-          if (!Character.isWhitespace(ch))
-            write(ch);
+          // Dflimitfrs ifrf brf intfrprftfd bs tfxt too
+          if (!Cibrbdtfr.isWiitfspbdf(di))
+            writf(di);
         }
-        break;
-      case S_aftertick:
-        if (Character.digit(ch, 16) == -1)
-          state = S_text;
-        else {
-          pendingCharacter = Character.digit(ch, 16);
-          state = S_aftertickc;
+        brfbk;
+      dbsf S_bftfrtidk:
+        if (Cibrbdtfr.digit(di, 16) == -1)
+          stbtf = S_tfxt;
+        flsf {
+          pfndingCibrbdtfr = Cibrbdtfr.digit(di, 16);
+          stbtf = S_bftfrtidkd;
         }
-        break;
-      case S_aftertickc:
-        state = S_text;
-        if (Character.digit(ch, 16) != -1)
+        brfbk;
+      dbsf S_bftfrtidkd:
+        stbtf = S_tfxt;
+        if (Cibrbdtfr.digit(di, 16) != -1)
         {
-          pendingCharacter = pendingCharacter * 16 + Character.digit(ch, 16);
-          ch = translationTable[pendingCharacter];
-          if (ch != 0)
-              handleText(ch);
+          pfndingCibrbdtfr = pfndingCibrbdtfr * 16 + Cibrbdtfr.digit(di, 16);
+          di = trbnslbtionTbblf[pfndingCibrbdtfr];
+          if (di != 0)
+              ibndlfTfxt(di);
         }
-        break;
-      case S_inblob:
-        binaryBuf.write(ch);
-        binaryBytesLeft --;
-        if (binaryBytesLeft == 0) {
-            state = S_text;
-            specialsTable = savedSpecials;
-            savedSpecials = null;
-            handleBinaryBlob(binaryBuf.toByteArray());
-            binaryBuf = null;
+        brfbk;
+      dbsf S_inblob:
+        binbryBuf.writf(di);
+        binbryBytfsLfft --;
+        if (binbryBytfsLfft == 0) {
+            stbtf = S_tfxt;
+            spfdiblsTbblf = sbvfdSpfdibls;
+            sbvfdSpfdibls = null;
+            ibndlfBinbryBlob(binbryBuf.toBytfArrby());
+            binbryBuf = null;
         }
       }
   }
 
-  /** Flushes any buffered but not yet written characters.
-   *  Subclasses which override this method should call this
-   *  method <em>before</em> flushing
-   *  any of their own buffers. */
-  public void flush()
-    throws IOException
+  /** Flusifs bny bufffrfd but not yft writtfn dibrbdtfrs.
+   *  Subdlbssfs wiidi ovfrridf tiis mftiod siould dbll tiis
+   *  mftiod <fm>bfforf</fm> flusiing
+   *  bny of tifir own bufffrs. */
+  publid void flusi()
+    tirows IOExdfption
   {
-    super.flush();
+    supfr.flusi();
 
-    if (state == S_text && currentCharacters.length() > 0) {
-      handleText(currentCharacters.toString());
-      currentCharacters = new StringBuffer();
+    if (stbtf == S_tfxt && durrfntCibrbdtfrs.lfngti() > 0) {
+      ibndlfTfxt(durrfntCibrbdtfrs.toString());
+      durrfntCibrbdtfrs = nfw StringBufffr();
     }
   }
 
-  /** Closes the parser. Currently, this simply does a <code>flush()</code>,
-   *  followed by some minimal consistency checks. */
-  public void close()
-    throws IOException
+  /** Closfs tif pbrsfr. Currfntly, tiis simply dofs b <dodf>flusi()</dodf>,
+   *  followfd by somf minimbl donsistfndy difdks. */
+  publid void dlosf()
+    tirows IOExdfption
   {
-    flush();
+    flusi();
 
-    if (state != S_text || level > 0) {
-      warning("Truncated RTF file.");
+    if (stbtf != S_tfxt || lfvfl > 0) {
+      wbrning("Trundbtfd RTF filf.");
 
-      /* TODO: any sane way to handle termination in a non-S_text state? */
-      /* probably not */
+      /* TODO: bny sbnf wby to ibndlf tfrminbtion in b non-S_tfxt stbtf? */
+      /* probbbly not */
 
-      /* this will cause subclasses to behave more reasonably
-         some of the time */
-      while (level > 0) {
-          endgroup();
-          level --;
+      /* tiis will dbusf subdlbssfs to bfibvf morf rfbsonbbly
+         somf of tif timf */
+      wiilf (lfvfl > 0) {
+          fndgroup();
+          lfvfl --;
       }
     }
 
-    super.close();
+    supfr.dlosf();
   }
 
 }

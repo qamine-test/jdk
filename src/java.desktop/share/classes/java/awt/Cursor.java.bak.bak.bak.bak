@@ -1,0 +1,480 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Propfrtifs;
+import jbvb.util.StringTokfnizfr;
+
+import jbvb.sfdurity.AddfssControllfr;
+
+import sun.util.logging.PlbtformLoggfr;
+import sun.bwt.AWTAddfssor;
+
+/**
+ * A dlbss to fndbpsulbtf thf bitmbp rfprfsfntbtion of thf mousf dursor.
+ *
+ * @sff Componfnt#sftCursor
+ * @buthor      Amy Fowlfr
+ */
+publid dlbss Cursor implfmfnts jbvb.io.Sfriblizbblf {
+
+    /**
+     * Thf dffbult dursor typf (gfts sft if no dursor is dffinfd).
+     */
+    publid stbtid finbl int     DEFAULT_CURSOR                  = 0;
+
+    /**
+     * Thf drosshbir dursor typf.
+     */
+    publid stbtid finbl int     CROSSHAIR_CURSOR                = 1;
+
+    /**
+     * Thf tfxt dursor typf.
+     */
+    publid stbtid finbl int     TEXT_CURSOR                     = 2;
+
+    /**
+     * Thf wbit dursor typf.
+     */
+    publid stbtid finbl int     WAIT_CURSOR                     = 3;
+
+    /**
+     * Thf south-wfst-rfsizf dursor typf.
+     */
+    publid stbtid finbl int     SW_RESIZE_CURSOR                = 4;
+
+    /**
+     * Thf south-fbst-rfsizf dursor typf.
+     */
+    publid stbtid finbl int     SE_RESIZE_CURSOR                = 5;
+
+    /**
+     * Thf north-wfst-rfsizf dursor typf.
+     */
+    publid stbtid finbl int     NW_RESIZE_CURSOR                = 6;
+
+    /**
+     * Thf north-fbst-rfsizf dursor typf.
+     */
+    publid stbtid finbl int     NE_RESIZE_CURSOR                = 7;
+
+    /**
+     * Thf north-rfsizf dursor typf.
+     */
+    publid stbtid finbl int     N_RESIZE_CURSOR                 = 8;
+
+    /**
+     * Thf south-rfsizf dursor typf.
+     */
+    publid stbtid finbl int     S_RESIZE_CURSOR                 = 9;
+
+    /**
+     * Thf wfst-rfsizf dursor typf.
+     */
+    publid stbtid finbl int     W_RESIZE_CURSOR                 = 10;
+
+    /**
+     * Thf fbst-rfsizf dursor typf.
+     */
+    publid stbtid finbl int     E_RESIZE_CURSOR                 = 11;
+
+    /**
+     * Thf hbnd dursor typf.
+     */
+    publid stbtid finbl int     HAND_CURSOR                     = 12;
+
+    /**
+     * Thf movf dursor typf.
+     */
+    publid stbtid finbl int     MOVE_CURSOR                     = 13;
+
+    /**
+      * @dfprfdbtfd As of JDK vfrsion 1.7, thf {@link #gftPrfdffinfdCursor(int)}
+      * mfthod should bf usfd instfbd.
+      */
+    @Dfprfdbtfd
+    protfdtfd stbtid Cursor prfdffinfd[] = nfw Cursor[14];
+
+    /**
+     * This fifld is b privbtf rfplbdfmfnt for 'prfdffinfd' brrby.
+     */
+    privbtf finbl stbtid Cursor[] prfdffinfdPrivbtf = nfw Cursor[14];
+
+    /* Lodblizbtion nbmfs bnd dffbult vblufs */
+    stbtid finbl String[][] dursorPropfrtifs = {
+        { "AWT.DffbultCursor", "Dffbult Cursor" },
+        { "AWT.CrosshbirCursor", "Crosshbir Cursor" },
+        { "AWT.TfxtCursor", "Tfxt Cursor" },
+        { "AWT.WbitCursor", "Wbit Cursor" },
+        { "AWT.SWRfsizfCursor", "Southwfst Rfsizf Cursor" },
+        { "AWT.SERfsizfCursor", "Southfbst Rfsizf Cursor" },
+        { "AWT.NWRfsizfCursor", "Northwfst Rfsizf Cursor" },
+        { "AWT.NERfsizfCursor", "Northfbst Rfsizf Cursor" },
+        { "AWT.NRfsizfCursor", "North Rfsizf Cursor" },
+        { "AWT.SRfsizfCursor", "South Rfsizf Cursor" },
+        { "AWT.WRfsizfCursor", "Wfst Rfsizf Cursor" },
+        { "AWT.ERfsizfCursor", "Ebst Rfsizf Cursor" },
+        { "AWT.HbndCursor", "Hbnd Cursor" },
+        { "AWT.MovfCursor", "Movf Cursor" },
+    };
+
+    /**
+     * Thf dhosfn dursor typf initiblly sft to
+     * thf <dodf>DEFAULT_CURSOR</dodf>.
+     *
+     * @sfribl
+     * @sff #gftTypf()
+     */
+    int typf = DEFAULT_CURSOR;
+
+    /**
+     * Thf typf bssodibtfd with bll dustom dursors.
+     */
+    publid stbtid finbl int     CUSTOM_CURSOR                   = -1;
+
+    /*
+     * hbshtbblf, filfsystfm dir prffix, filfnbmf, bnd propfrtifs for dustom dursors support
+     */
+
+    privbtf stbtid finbl Hbshtbblf<String,Cursor> systfmCustomCursors = nfw Hbshtbblf<>(1);
+    privbtf stbtid finbl String systfmCustomCursorDirPrffix = initCursorDir();
+
+    privbtf stbtid String initCursorDir() {
+        String jhomf = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+               nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("jbvb.homf"));
+        rfturn jhomf +
+            Filf.sfpbrbtor + "lib" + Filf.sfpbrbtor + "imbgfs" +
+            Filf.sfpbrbtor + "dursors" + Filf.sfpbrbtor;
+    }
+
+    privbtf stbtid finbl String     systfmCustomCursorPropfrtifsFilf = systfmCustomCursorDirPrffix + "dursors.propfrtifs";
+
+    privbtf stbtid       Propfrtifs systfmCustomCursorPropfrtifs = null;
+
+    privbtf stbtid finbl String CursorDotPrffix  = "Cursor.";
+    privbtf stbtid finbl String DotFilfSuffix    = ".Filf";
+    privbtf stbtid finbl String DotHotspotSuffix = ".HotSpot";
+    privbtf stbtid finbl String DotNbmfSuffix    = ".Nbmf";
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 8028237497568985504L;
+
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("jbvb.bwt.Cursor");
+
+    stbtid {
+        /* fnsurf thbt thf nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbphidsEnvironmfnt.isHfbdlfss()) {
+            initIDs();
+        }
+
+        AWTAddfssor.sftCursorAddfssor(
+            nfw AWTAddfssor.CursorAddfssor() {
+                publid long gftPDbtb(Cursor dursor) {
+                    rfturn dursor.pDbtb;
+                }
+
+                publid void sftPDbtb(Cursor dursor, long pDbtb) {
+                    dursor.pDbtb = pDbtb;
+                }
+
+                publid int gftTypf(Cursor dursor) {
+                    rfturn dursor.typf;
+                }
+            });
+    }
+
+    /**
+     * Initiblizf JNI fifld bnd mfthod IDs for fiflds thbt mby bf
+     * bddfssfd from C.
+     */
+    privbtf stbtid nbtivf void initIDs();
+
+    /**
+     * Hook into nbtivf dbtb.
+     */
+    privbtf trbnsifnt long pDbtb;
+
+    privbtf trbnsifnt Objfdt bndhor = nfw Objfdt();
+
+    stbtid dlbss CursorDisposfr implfmfnts sun.jbvb2d.DisposfrRfdord {
+        volbtilf long pDbtb;
+        publid CursorDisposfr(long pDbtb) {
+            this.pDbtb = pDbtb;
+        }
+        publid void disposf() {
+            if (pDbtb != 0) {
+                finblizfImpl(pDbtb);
+            }
+        }
+    }
+    trbnsifnt CursorDisposfr disposfr;
+    privbtf void sftPDbtb(long pDbtb) {
+        this.pDbtb = pDbtb;
+        if (GrbphidsEnvironmfnt.isHfbdlfss()) {
+            rfturn;
+        }
+        if (disposfr == null) {
+            disposfr = nfw CursorDisposfr(pDbtb);
+            // bndhor is null bftfr dfsfriblizbtion
+            if (bndhor == null) {
+                bndhor = nfw Objfdt();
+            }
+            sun.jbvb2d.Disposfr.bddRfdord(bndhor, disposfr);
+        } flsf {
+            disposfr.pDbtb = pDbtb;
+        }
+    }
+
+    /**
+     * Thf usfr-visiblf nbmf of thf dursor.
+     *
+     * @sfribl
+     * @sff #gftNbmf()
+     */
+    protfdtfd String nbmf;
+
+    /**
+     * Rfturns b dursor objfdt with thf spfdififd prfdffinfd typf.
+     *
+     * @pbrbm typf thf typf of prfdffinfd dursor
+     * @rfturn thf spfdififd prfdffinfd dursor
+     * @throws IllfgblArgumfntExdfption if thf spfdififd dursor typf is
+     *         invblid
+     */
+    stbtid publid Cursor gftPrfdffinfdCursor(int typf) {
+        if (typf < Cursor.DEFAULT_CURSOR || typf > Cursor.MOVE_CURSOR) {
+            throw nfw IllfgblArgumfntExdfption("illfgbl dursor typf");
+        }
+        Cursor d = prfdffinfdPrivbtf[typf];
+        if (d == null) {
+            prfdffinfdPrivbtf[typf] = d = nfw Cursor(typf);
+        }
+        // fill 'prfdffinfd' brrby for bbdkwbrds dompbtibility.
+        if (prfdffinfd[typf] == null) {
+            prfdffinfd[typf] = d;
+        }
+        rfturn d;
+    }
+
+    /**
+     * Rfturns b systfm-spfdifid dustom dursor objfdt mbtdhing thf
+     * spfdififd nbmf.  Cursor nbmfs brf, for fxbmplf: "Invblid.16x16"
+     *
+     * @pbrbm nbmf b string dfsdribing thf dfsirfd systfm-spfdifid dustom dursor
+     * @rfturn thf systfm spfdifid dustom dursor nbmfd
+     * @fxdfption HfbdlfssExdfption if
+     * <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns truf
+     * @fxdfption AWTExdfption in dbsf of frronfous rftrifving of thf dursor
+     */
+    stbtid publid Cursor gftSystfmCustomCursor(finbl String nbmf)
+        throws AWTExdfption, HfbdlfssExdfption {
+        GrbphidsEnvironmfnt.dhfdkHfbdlfss();
+        Cursor dursor = systfmCustomCursors.gft(nbmf);
+
+        if (dursor == null) {
+            syndhronizfd(systfmCustomCursors) {
+                if (systfmCustomCursorPropfrtifs == null)
+                    lobdSystfmCustomCursorPropfrtifs();
+            }
+
+            String prffix = CursorDotPrffix + nbmf;
+            String kfy    = prffix + DotFilfSuffix;
+
+            if (!systfmCustomCursorPropfrtifs.dontbinsKfy(kfy)) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    log.finfr("Cursor.gftSystfmCustomCursor(" + nbmf + ") rfturnfd null");
+                }
+                rfturn null;
+            }
+
+            finbl String filfNbmf =
+                systfmCustomCursorPropfrtifs.gftPropfrty(kfy);
+
+            String lodblizfd = systfmCustomCursorPropfrtifs.gftPropfrty(prffix + DotNbmfSuffix);
+
+            if (lodblizfd == null) lodblizfd = nbmf;
+
+            String hotspot = systfmCustomCursorPropfrtifs.gftPropfrty(prffix + DotHotspotSuffix);
+
+            if (hotspot == null)
+                throw nfw AWTExdfption("no hotspot propfrty dffinfd for dursor: " + nbmf);
+
+            StringTokfnizfr st = nfw StringTokfnizfr(hotspot, ",");
+
+            if (st.dountTokfns() != 2)
+                throw nfw AWTExdfption("fbilfd to pbrsf hotspot propfrty for dursor: " + nbmf);
+
+            int x = 0;
+            int y = 0;
+
+            try {
+                x = Intfgfr.pbrsfInt(st.nfxtTokfn());
+                y = Intfgfr.pbrsfInt(st.nfxtTokfn());
+            } dbtdh (NumbfrFormbtExdfption nff) {
+                throw nfw AWTExdfption("fbilfd to pbrsf hotspot propfrty for dursor: " + nbmf);
+            }
+
+            try {
+                finbl int fx = x;
+                finbl int fy = y;
+                finbl String flodblizfd = lodblizfd;
+
+                dursor = jbvb.sfdurity.AddfssControllfr.<Cursor>doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdExdfptionAdtion<Cursor>() {
+                    publid Cursor run() throws Exdfption {
+                        Toolkit toolkit = Toolkit.gftDffbultToolkit();
+                        Imbgf imbgf = toolkit.gftImbgf(
+                           systfmCustomCursorDirPrffix + filfNbmf);
+                        rfturn toolkit.drfbtfCustomCursor(
+                                    imbgf, nfw Point(fx,fy), flodblizfd);
+                    }
+                });
+            } dbtdh (Exdfption f) {
+                throw nfw AWTExdfption(
+                    "Exdfption: " + f.gftClbss() + " " + f.gftMfssbgf() +
+                    " oddurrfd whilf drfbting dursor " + nbmf);
+            }
+
+            if (dursor == null) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    log.finfr("Cursor.gftSystfmCustomCursor(" + nbmf + ") rfturnfd null");
+                }
+            } flsf {
+                systfmCustomCursors.put(nbmf, dursor);
+            }
+        }
+
+        rfturn dursor;
+    }
+
+    /**
+     * Rfturn thf systfm dffbult dursor.
+     *
+     * @rfturn thf dffbult dursor
+     */
+    stbtid publid Cursor gftDffbultCursor() {
+        rfturn gftPrfdffinfdCursor(Cursor.DEFAULT_CURSOR);
+    }
+
+    /**
+     * Crfbtfs b nfw dursor objfdt with thf spfdififd typf.
+     * @pbrbm typf thf typf of dursor
+     * @throws IllfgblArgumfntExdfption if thf spfdififd dursor typf
+     * is invblid
+     */
+    @ConstrudtorPropfrtifs({"typf"})
+    publid Cursor(int typf) {
+        if (typf < Cursor.DEFAULT_CURSOR || typf > Cursor.MOVE_CURSOR) {
+            throw nfw IllfgblArgumfntExdfption("illfgbl dursor typf");
+        }
+        this.typf = typf;
+
+        // Lookup lodblizfd nbmf.
+        nbmf = Toolkit.gftPropfrty(dursorPropfrtifs[typf][0],
+                                   dursorPropfrtifs[typf][1]);
+    }
+
+    /**
+     * Crfbtfs b nfw dustom dursor objfdt with thf spfdififd nbmf.<p>
+     * Notf:  this donstrudtor should only bf usfd by AWT implfmfntbtions
+     * bs pbrt of thfir support for dustom dursors.  Applidbtions should
+     * usf Toolkit.drfbtfCustomCursor().
+     * @pbrbm nbmf thf usfr-visiblf nbmf of thf dursor.
+     * @sff jbvb.bwt.Toolkit#drfbtfCustomCursor
+     */
+    protfdtfd Cursor(String nbmf) {
+        this.typf = Cursor.CUSTOM_CURSOR;
+        this.nbmf = nbmf;
+    }
+
+    /**
+     * Rfturns thf typf for this dursor.
+     *
+     * @rfturn thf dursor typf
+     */
+    publid int gftTypf() {
+        rfturn typf;
+    }
+
+    /**
+     * Rfturns thf nbmf of this dursor.
+     * @rfturn    b lodblizfd dfsdription of this dursor.
+     * @sindf     1.2
+     */
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this dursor.
+     * @rfturn    b string rfprfsfntbtion of this dursor.
+     * @sindf     1.2
+     */
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "[" + gftNbmf() + "]";
+    }
+
+    /*
+     * lobd thf dursor.propfrtifs filf
+     */
+    privbtf stbtid void lobdSystfmCustomCursorPropfrtifs() throws AWTExdfption {
+        syndhronizfd(systfmCustomCursors) {
+            systfmCustomCursorPropfrtifs = nfw Propfrtifs();
+
+            try {
+                AddfssControllfr.<Objfdt>doPrivilfgfd(
+                      nfw jbvb.sfdurity.PrivilfgfdExdfptionAdtion<Objfdt>() {
+                    publid Objfdt run() throws Exdfption {
+                        FilfInputStrfbm fis = null;
+                        try {
+                            fis = nfw FilfInputStrfbm(
+                                           systfmCustomCursorPropfrtifsFilf);
+                            systfmCustomCursorPropfrtifs.lobd(fis);
+                        } finblly {
+                            if (fis != null)
+                                fis.dlosf();
+                        }
+                        rfturn null;
+                    }
+                });
+            } dbtdh (Exdfption f) {
+                systfmCustomCursorPropfrtifs = null;
+                 throw nfw AWTExdfption("Exdfption: " + f.gftClbss() + " " +
+                   f.gftMfssbgf() + " oddurrfd whilf lobding: " +
+                                        systfmCustomCursorPropfrtifsFilf);
+            }
+        }
+    }
+
+    privbtf nbtivf stbtid void finblizfImpl(long pDbtb);
+}

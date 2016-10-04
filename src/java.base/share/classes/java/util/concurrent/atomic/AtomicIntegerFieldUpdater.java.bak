@@ -1,506 +1,506 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent.atomic;
-import java.util.function.IntUnaryOperator;
-import java.util.function.IntBinaryOperator;
-import sun.misc.Unsafe;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.security.AccessController;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
-import sun.reflect.CallerSensitive;
-import sun.reflect.Reflection;
+pbdkbgf jbvb.util.dondurrfnt.btomid;
+import jbvb.util.fundtion.IntUnbryOpfrbtor;
+import jbvb.util.fundtion.IntBinbryOpfrbtor;
+import sun.misd.Unsbff;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import sun.rfflfdt.CbllfrSfnsitivf;
+import sun.rfflfdt.Rfflfdtion;
 
 /**
- * A reflection-based utility that enables atomic updates to
- * designated {@code volatile int} fields of designated classes.
- * This class is designed for use in atomic data structures in which
- * several fields of the same node are independently subject to atomic
- * updates.
+ * A rfflfdtion-bbsfd utility tibt fnbblfs btomid updbtfs to
+ * dfsignbtfd {@dodf volbtilf int} fiflds of dfsignbtfd dlbssfs.
+ * Tiis dlbss is dfsignfd for usf in btomid dbtb strudturfs in wiidi
+ * sfvfrbl fiflds of tif sbmf nodf brf indfpfndfntly subjfdt to btomid
+ * updbtfs.
  *
- * <p>Note that the guarantees of the {@code compareAndSet}
- * method in this class are weaker than in other atomic classes.
- * Because this class cannot ensure that all uses of the field
- * are appropriate for purposes of atomic access, it can
- * guarantee atomicity only with respect to other invocations of
- * {@code compareAndSet} and {@code set} on the same updater.
+ * <p>Notf tibt tif gubrbntffs of tif {@dodf dompbrfAndSft}
+ * mftiod in tiis dlbss brf wfbkfr tibn in otifr btomid dlbssfs.
+ * Bfdbusf tiis dlbss dbnnot fnsurf tibt bll usfs of tif fifld
+ * brf bppropribtf for purposfs of btomid bddfss, it dbn
+ * gubrbntff btomidity only witi rfspfdt to otifr invodbtions of
+ * {@dodf dompbrfAndSft} bnd {@dodf sft} on tif sbmf updbtfr.
  *
- * @since 1.5
- * @author Doug Lea
- * @param <T> The type of the object holding the updatable field
+ * @sindf 1.5
+ * @butior Doug Lfb
+ * @pbrbm <T> Tif typf of tif objfdt iolding tif updbtbblf fifld
  */
-public abstract class AtomicIntegerFieldUpdater<T> {
+publid bbstrbdt dlbss AtomidIntfgfrFifldUpdbtfr<T> {
     /**
-     * Creates and returns an updater for objects with the given field.
-     * The Class argument is needed to check that reflective types and
-     * generic types match.
+     * Crfbtfs bnd rfturns bn updbtfr for objfdts witi tif givfn fifld.
+     * Tif Clbss brgumfnt is nffdfd to difdk tibt rfflfdtivf typfs bnd
+     * gfnfrid typfs mbtdi.
      *
-     * @param tclass the class of the objects holding the field
-     * @param fieldName the name of the field to be updated
-     * @param <U> the type of instances of tclass
-     * @return the updater
-     * @throws IllegalArgumentException if the field is not a
-     * volatile integer type
-     * @throws RuntimeException with a nested reflection-based
-     * exception if the class does not hold field or is the wrong type,
-     * or the field is inaccessible to the caller according to Java language
-     * access control
+     * @pbrbm tdlbss tif dlbss of tif objfdts iolding tif fifld
+     * @pbrbm fifldNbmf tif nbmf of tif fifld to bf updbtfd
+     * @pbrbm <U> tif typf of instbndfs of tdlbss
+     * @rfturn tif updbtfr
+     * @tirows IllfgblArgumfntExdfption if tif fifld is not b
+     * volbtilf intfgfr typf
+     * @tirows RuntimfExdfption witi b nfstfd rfflfdtion-bbsfd
+     * fxdfption if tif dlbss dofs not iold fifld or is tif wrong typf,
+     * or tif fifld is inbddfssiblf to tif dbllfr bddording to Jbvb lbngubgf
+     * bddfss dontrol
      */
-    @CallerSensitive
-    public static <U> AtomicIntegerFieldUpdater<U> newUpdater(Class<U> tclass,
-                                                              String fieldName) {
-        return new AtomicIntegerFieldUpdaterImpl<U>
-            (tclass, fieldName, Reflection.getCallerClass());
+    @CbllfrSfnsitivf
+    publid stbtid <U> AtomidIntfgfrFifldUpdbtfr<U> nfwUpdbtfr(Clbss<U> tdlbss,
+                                                              String fifldNbmf) {
+        rfturn nfw AtomidIntfgfrFifldUpdbtfrImpl<U>
+            (tdlbss, fifldNbmf, Rfflfdtion.gftCbllfrClbss());
     }
 
     /**
-     * Protected do-nothing constructor for use by subclasses.
+     * Protfdtfd do-notiing donstrudtor for usf by subdlbssfs.
      */
-    protected AtomicIntegerFieldUpdater() {
+    protfdtfd AtomidIntfgfrFifldUpdbtfr() {
     }
 
     /**
-     * Atomically sets the field of the given object managed by this updater
-     * to the given updated value if the current value {@code ==} the
-     * expected value. This method is guaranteed to be atomic with respect to
-     * other calls to {@code compareAndSet} and {@code set}, but not
-     * necessarily with respect to other changes in the field.
+     * Atomidblly sfts tif fifld of tif givfn objfdt mbnbgfd by tiis updbtfr
+     * to tif givfn updbtfd vbluf if tif durrfnt vbluf {@dodf ==} tif
+     * fxpfdtfd vbluf. Tiis mftiod is gubrbntffd to bf btomid witi rfspfdt to
+     * otifr dblls to {@dodf dompbrfAndSft} bnd {@dodf sft}, but not
+     * nfdfssbrily witi rfspfdt to otifr dibngfs in tif fifld.
      *
-     * @param obj An object whose field to conditionally set
-     * @param expect the expected value
-     * @param update the new value
-     * @return {@code true} if successful
-     * @throws ClassCastException if {@code obj} is not an instance
-     * of the class possessing the field established in the constructor
+     * @pbrbm obj An objfdt wiosf fifld to donditionblly sft
+     * @pbrbm fxpfdt tif fxpfdtfd vbluf
+     * @pbrbm updbtf tif nfw vbluf
+     * @rfturn {@dodf truf} if suddfssful
+     * @tirows ClbssCbstExdfption if {@dodf obj} is not bn instbndf
+     * of tif dlbss possfssing tif fifld fstbblisifd in tif donstrudtor
      */
-    public abstract boolean compareAndSet(T obj, int expect, int update);
+    publid bbstrbdt boolfbn dompbrfAndSft(T obj, int fxpfdt, int updbtf);
 
     /**
-     * Atomically sets the field of the given object managed by this updater
-     * to the given updated value if the current value {@code ==} the
-     * expected value. This method is guaranteed to be atomic with respect to
-     * other calls to {@code compareAndSet} and {@code set}, but not
-     * necessarily with respect to other changes in the field.
+     * Atomidblly sfts tif fifld of tif givfn objfdt mbnbgfd by tiis updbtfr
+     * to tif givfn updbtfd vbluf if tif durrfnt vbluf {@dodf ==} tif
+     * fxpfdtfd vbluf. Tiis mftiod is gubrbntffd to bf btomid witi rfspfdt to
+     * otifr dblls to {@dodf dompbrfAndSft} bnd {@dodf sft}, but not
+     * nfdfssbrily witi rfspfdt to otifr dibngfs in tif fifld.
      *
-     * <p><a href="package-summary.html#weakCompareAndSet">May fail
-     * spuriously and does not provide ordering guarantees</a>, so is
-     * only rarely an appropriate alternative to {@code compareAndSet}.
+     * <p><b irff="pbdkbgf-summbry.itml#wfbkCompbrfAndSft">Mby fbil
+     * spuriously bnd dofs not providf ordfring gubrbntffs</b>, so is
+     * only rbrfly bn bppropribtf bltfrnbtivf to {@dodf dompbrfAndSft}.
      *
-     * @param obj An object whose field to conditionally set
-     * @param expect the expected value
-     * @param update the new value
-     * @return {@code true} if successful
-     * @throws ClassCastException if {@code obj} is not an instance
-     * of the class possessing the field established in the constructor
+     * @pbrbm obj An objfdt wiosf fifld to donditionblly sft
+     * @pbrbm fxpfdt tif fxpfdtfd vbluf
+     * @pbrbm updbtf tif nfw vbluf
+     * @rfturn {@dodf truf} if suddfssful
+     * @tirows ClbssCbstExdfption if {@dodf obj} is not bn instbndf
+     * of tif dlbss possfssing tif fifld fstbblisifd in tif donstrudtor
      */
-    public abstract boolean weakCompareAndSet(T obj, int expect, int update);
+    publid bbstrbdt boolfbn wfbkCompbrfAndSft(T obj, int fxpfdt, int updbtf);
 
     /**
-     * Sets the field of the given object managed by this updater to the
-     * given updated value. This operation is guaranteed to act as a volatile
-     * store with respect to subsequent invocations of {@code compareAndSet}.
+     * Sfts tif fifld of tif givfn objfdt mbnbgfd by tiis updbtfr to tif
+     * givfn updbtfd vbluf. Tiis opfrbtion is gubrbntffd to bdt bs b volbtilf
+     * storf witi rfspfdt to subsfqufnt invodbtions of {@dodf dompbrfAndSft}.
      *
-     * @param obj An object whose field to set
-     * @param newValue the new value
+     * @pbrbm obj An objfdt wiosf fifld to sft
+     * @pbrbm nfwVbluf tif nfw vbluf
      */
-    public abstract void set(T obj, int newValue);
+    publid bbstrbdt void sft(T obj, int nfwVbluf);
 
     /**
-     * Eventually sets the field of the given object managed by this
-     * updater to the given updated value.
+     * Evfntublly sfts tif fifld of tif givfn objfdt mbnbgfd by tiis
+     * updbtfr to tif givfn updbtfd vbluf.
      *
-     * @param obj An object whose field to set
-     * @param newValue the new value
-     * @since 1.6
+     * @pbrbm obj An objfdt wiosf fifld to sft
+     * @pbrbm nfwVbluf tif nfw vbluf
+     * @sindf 1.6
      */
-    public abstract void lazySet(T obj, int newValue);
+    publid bbstrbdt void lbzySft(T obj, int nfwVbluf);
 
     /**
-     * Gets the current value held in the field of the given object managed
-     * by this updater.
+     * Gfts tif durrfnt vbluf ifld in tif fifld of tif givfn objfdt mbnbgfd
+     * by tiis updbtfr.
      *
-     * @param obj An object whose field to get
-     * @return the current value
+     * @pbrbm obj An objfdt wiosf fifld to gft
+     * @rfturn tif durrfnt vbluf
      */
-    public abstract int get(T obj);
+    publid bbstrbdt int gft(T obj);
 
     /**
-     * Atomically sets the field of the given object managed by this updater
-     * to the given value and returns the old value.
+     * Atomidblly sfts tif fifld of tif givfn objfdt mbnbgfd by tiis updbtfr
+     * to tif givfn vbluf bnd rfturns tif old vbluf.
      *
-     * @param obj An object whose field to get and set
-     * @param newValue the new value
-     * @return the previous value
+     * @pbrbm obj An objfdt wiosf fifld to gft bnd sft
+     * @pbrbm nfwVbluf tif nfw vbluf
+     * @rfturn tif prfvious vbluf
      */
-    public int getAndSet(T obj, int newValue) {
-        int prev;
+    publid int gftAndSft(T obj, int nfwVbluf) {
+        int prfv;
         do {
-            prev = get(obj);
-        } while (!compareAndSet(obj, prev, newValue));
-        return prev;
+            prfv = gft(obj);
+        } wiilf (!dompbrfAndSft(obj, prfv, nfwVbluf));
+        rfturn prfv;
     }
 
     /**
-     * Atomically increments by one the current value of the field of the
-     * given object managed by this updater.
+     * Atomidblly indrfmfnts by onf tif durrfnt vbluf of tif fifld of tif
+     * givfn objfdt mbnbgfd by tiis updbtfr.
      *
-     * @param obj An object whose field to get and set
-     * @return the previous value
+     * @pbrbm obj An objfdt wiosf fifld to gft bnd sft
+     * @rfturn tif prfvious vbluf
      */
-    public int getAndIncrement(T obj) {
-        int prev, next;
+    publid int gftAndIndrfmfnt(T obj) {
+        int prfv, nfxt;
         do {
-            prev = get(obj);
-            next = prev + 1;
-        } while (!compareAndSet(obj, prev, next));
-        return prev;
+            prfv = gft(obj);
+            nfxt = prfv + 1;
+        } wiilf (!dompbrfAndSft(obj, prfv, nfxt));
+        rfturn prfv;
     }
 
     /**
-     * Atomically decrements by one the current value of the field of the
-     * given object managed by this updater.
+     * Atomidblly dfdrfmfnts by onf tif durrfnt vbluf of tif fifld of tif
+     * givfn objfdt mbnbgfd by tiis updbtfr.
      *
-     * @param obj An object whose field to get and set
-     * @return the previous value
+     * @pbrbm obj An objfdt wiosf fifld to gft bnd sft
+     * @rfturn tif prfvious vbluf
      */
-    public int getAndDecrement(T obj) {
-        int prev, next;
+    publid int gftAndDfdrfmfnt(T obj) {
+        int prfv, nfxt;
         do {
-            prev = get(obj);
-            next = prev - 1;
-        } while (!compareAndSet(obj, prev, next));
-        return prev;
+            prfv = gft(obj);
+            nfxt = prfv - 1;
+        } wiilf (!dompbrfAndSft(obj, prfv, nfxt));
+        rfturn prfv;
     }
 
     /**
-     * Atomically adds the given value to the current value of the field of
-     * the given object managed by this updater.
+     * Atomidblly bdds tif givfn vbluf to tif durrfnt vbluf of tif fifld of
+     * tif givfn objfdt mbnbgfd by tiis updbtfr.
      *
-     * @param obj An object whose field to get and set
-     * @param delta the value to add
-     * @return the previous value
+     * @pbrbm obj An objfdt wiosf fifld to gft bnd sft
+     * @pbrbm dfltb tif vbluf to bdd
+     * @rfturn tif prfvious vbluf
      */
-    public int getAndAdd(T obj, int delta) {
-        int prev, next;
+    publid int gftAndAdd(T obj, int dfltb) {
+        int prfv, nfxt;
         do {
-            prev = get(obj);
-            next = prev + delta;
-        } while (!compareAndSet(obj, prev, next));
-        return prev;
+            prfv = gft(obj);
+            nfxt = prfv + dfltb;
+        } wiilf (!dompbrfAndSft(obj, prfv, nfxt));
+        rfturn prfv;
     }
 
     /**
-     * Atomically increments by one the current value of the field of the
-     * given object managed by this updater.
+     * Atomidblly indrfmfnts by onf tif durrfnt vbluf of tif fifld of tif
+     * givfn objfdt mbnbgfd by tiis updbtfr.
      *
-     * @param obj An object whose field to get and set
-     * @return the updated value
+     * @pbrbm obj An objfdt wiosf fifld to gft bnd sft
+     * @rfturn tif updbtfd vbluf
      */
-    public int incrementAndGet(T obj) {
-        int prev, next;
+    publid int indrfmfntAndGft(T obj) {
+        int prfv, nfxt;
         do {
-            prev = get(obj);
-            next = prev + 1;
-        } while (!compareAndSet(obj, prev, next));
-        return next;
+            prfv = gft(obj);
+            nfxt = prfv + 1;
+        } wiilf (!dompbrfAndSft(obj, prfv, nfxt));
+        rfturn nfxt;
     }
 
     /**
-     * Atomically decrements by one the current value of the field of the
-     * given object managed by this updater.
+     * Atomidblly dfdrfmfnts by onf tif durrfnt vbluf of tif fifld of tif
+     * givfn objfdt mbnbgfd by tiis updbtfr.
      *
-     * @param obj An object whose field to get and set
-     * @return the updated value
+     * @pbrbm obj An objfdt wiosf fifld to gft bnd sft
+     * @rfturn tif updbtfd vbluf
      */
-    public int decrementAndGet(T obj) {
-        int prev, next;
+    publid int dfdrfmfntAndGft(T obj) {
+        int prfv, nfxt;
         do {
-            prev = get(obj);
-            next = prev - 1;
-        } while (!compareAndSet(obj, prev, next));
-        return next;
+            prfv = gft(obj);
+            nfxt = prfv - 1;
+        } wiilf (!dompbrfAndSft(obj, prfv, nfxt));
+        rfturn nfxt;
     }
 
     /**
-     * Atomically adds the given value to the current value of the field of
-     * the given object managed by this updater.
+     * Atomidblly bdds tif givfn vbluf to tif durrfnt vbluf of tif fifld of
+     * tif givfn objfdt mbnbgfd by tiis updbtfr.
      *
-     * @param obj An object whose field to get and set
-     * @param delta the value to add
-     * @return the updated value
+     * @pbrbm obj An objfdt wiosf fifld to gft bnd sft
+     * @pbrbm dfltb tif vbluf to bdd
+     * @rfturn tif updbtfd vbluf
      */
-    public int addAndGet(T obj, int delta) {
-        int prev, next;
+    publid int bddAndGft(T obj, int dfltb) {
+        int prfv, nfxt;
         do {
-            prev = get(obj);
-            next = prev + delta;
-        } while (!compareAndSet(obj, prev, next));
-        return next;
+            prfv = gft(obj);
+            nfxt = prfv + dfltb;
+        } wiilf (!dompbrfAndSft(obj, prfv, nfxt));
+        rfturn nfxt;
     }
 
     /**
-     * Atomically updates the field of the given object managed by this updater
-     * with the results of applying the given function, returning the previous
-     * value. The function should be side-effect-free, since it may be
-     * re-applied when attempted updates fail due to contention among threads.
+     * Atomidblly updbtfs tif fifld of tif givfn objfdt mbnbgfd by tiis updbtfr
+     * witi tif rfsults of bpplying tif givfn fundtion, rfturning tif prfvious
+     * vbluf. Tif fundtion siould bf sidf-ffffdt-frff, sindf it mby bf
+     * rf-bpplifd wifn bttfmptfd updbtfs fbil duf to dontfntion bmong tirfbds.
      *
-     * @param obj An object whose field to get and set
-     * @param updateFunction a side-effect-free function
-     * @return the previous value
-     * @since 1.8
+     * @pbrbm obj An objfdt wiosf fifld to gft bnd sft
+     * @pbrbm updbtfFundtion b sidf-ffffdt-frff fundtion
+     * @rfturn tif prfvious vbluf
+     * @sindf 1.8
      */
-    public final int getAndUpdate(T obj, IntUnaryOperator updateFunction) {
-        int prev, next;
+    publid finbl int gftAndUpdbtf(T obj, IntUnbryOpfrbtor updbtfFundtion) {
+        int prfv, nfxt;
         do {
-            prev = get(obj);
-            next = updateFunction.applyAsInt(prev);
-        } while (!compareAndSet(obj, prev, next));
-        return prev;
+            prfv = gft(obj);
+            nfxt = updbtfFundtion.bpplyAsInt(prfv);
+        } wiilf (!dompbrfAndSft(obj, prfv, nfxt));
+        rfturn prfv;
     }
 
     /**
-     * Atomically updates the field of the given object managed by this updater
-     * with the results of applying the given function, returning the updated
-     * value. The function should be side-effect-free, since it may be
-     * re-applied when attempted updates fail due to contention among threads.
+     * Atomidblly updbtfs tif fifld of tif givfn objfdt mbnbgfd by tiis updbtfr
+     * witi tif rfsults of bpplying tif givfn fundtion, rfturning tif updbtfd
+     * vbluf. Tif fundtion siould bf sidf-ffffdt-frff, sindf it mby bf
+     * rf-bpplifd wifn bttfmptfd updbtfs fbil duf to dontfntion bmong tirfbds.
      *
-     * @param obj An object whose field to get and set
-     * @param updateFunction a side-effect-free function
-     * @return the updated value
-     * @since 1.8
+     * @pbrbm obj An objfdt wiosf fifld to gft bnd sft
+     * @pbrbm updbtfFundtion b sidf-ffffdt-frff fundtion
+     * @rfturn tif updbtfd vbluf
+     * @sindf 1.8
      */
-    public final int updateAndGet(T obj, IntUnaryOperator updateFunction) {
-        int prev, next;
+    publid finbl int updbtfAndGft(T obj, IntUnbryOpfrbtor updbtfFundtion) {
+        int prfv, nfxt;
         do {
-            prev = get(obj);
-            next = updateFunction.applyAsInt(prev);
-        } while (!compareAndSet(obj, prev, next));
-        return next;
+            prfv = gft(obj);
+            nfxt = updbtfFundtion.bpplyAsInt(prfv);
+        } wiilf (!dompbrfAndSft(obj, prfv, nfxt));
+        rfturn nfxt;
     }
 
     /**
-     * Atomically updates the field of the given object managed by this
-     * updater with the results of applying the given function to the
-     * current and given values, returning the previous value. The
-     * function should be side-effect-free, since it may be re-applied
-     * when attempted updates fail due to contention among threads.  The
-     * function is applied with the current value as its first argument,
-     * and the given update as the second argument.
+     * Atomidblly updbtfs tif fifld of tif givfn objfdt mbnbgfd by tiis
+     * updbtfr witi tif rfsults of bpplying tif givfn fundtion to tif
+     * durrfnt bnd givfn vblufs, rfturning tif prfvious vbluf. Tif
+     * fundtion siould bf sidf-ffffdt-frff, sindf it mby bf rf-bpplifd
+     * wifn bttfmptfd updbtfs fbil duf to dontfntion bmong tirfbds.  Tif
+     * fundtion is bpplifd witi tif durrfnt vbluf bs its first brgumfnt,
+     * bnd tif givfn updbtf bs tif sfdond brgumfnt.
      *
-     * @param obj An object whose field to get and set
-     * @param x the update value
-     * @param accumulatorFunction a side-effect-free function of two arguments
-     * @return the previous value
-     * @since 1.8
+     * @pbrbm obj An objfdt wiosf fifld to gft bnd sft
+     * @pbrbm x tif updbtf vbluf
+     * @pbrbm bddumulbtorFundtion b sidf-ffffdt-frff fundtion of two brgumfnts
+     * @rfturn tif prfvious vbluf
+     * @sindf 1.8
      */
-    public final int getAndAccumulate(T obj, int x,
-                                      IntBinaryOperator accumulatorFunction) {
-        int prev, next;
+    publid finbl int gftAndAddumulbtf(T obj, int x,
+                                      IntBinbryOpfrbtor bddumulbtorFundtion) {
+        int prfv, nfxt;
         do {
-            prev = get(obj);
-            next = accumulatorFunction.applyAsInt(prev, x);
-        } while (!compareAndSet(obj, prev, next));
-        return prev;
+            prfv = gft(obj);
+            nfxt = bddumulbtorFundtion.bpplyAsInt(prfv, x);
+        } wiilf (!dompbrfAndSft(obj, prfv, nfxt));
+        rfturn prfv;
     }
 
     /**
-     * Atomically updates the field of the given object managed by this
-     * updater with the results of applying the given function to the
-     * current and given values, returning the updated value. The
-     * function should be side-effect-free, since it may be re-applied
-     * when attempted updates fail due to contention among threads.  The
-     * function is applied with the current value as its first argument,
-     * and the given update as the second argument.
+     * Atomidblly updbtfs tif fifld of tif givfn objfdt mbnbgfd by tiis
+     * updbtfr witi tif rfsults of bpplying tif givfn fundtion to tif
+     * durrfnt bnd givfn vblufs, rfturning tif updbtfd vbluf. Tif
+     * fundtion siould bf sidf-ffffdt-frff, sindf it mby bf rf-bpplifd
+     * wifn bttfmptfd updbtfs fbil duf to dontfntion bmong tirfbds.  Tif
+     * fundtion is bpplifd witi tif durrfnt vbluf bs its first brgumfnt,
+     * bnd tif givfn updbtf bs tif sfdond brgumfnt.
      *
-     * @param obj An object whose field to get and set
-     * @param x the update value
-     * @param accumulatorFunction a side-effect-free function of two arguments
-     * @return the updated value
-     * @since 1.8
+     * @pbrbm obj An objfdt wiosf fifld to gft bnd sft
+     * @pbrbm x tif updbtf vbluf
+     * @pbrbm bddumulbtorFundtion b sidf-ffffdt-frff fundtion of two brgumfnts
+     * @rfturn tif updbtfd vbluf
+     * @sindf 1.8
      */
-    public final int accumulateAndGet(T obj, int x,
-                                      IntBinaryOperator accumulatorFunction) {
-        int prev, next;
+    publid finbl int bddumulbtfAndGft(T obj, int x,
+                                      IntBinbryOpfrbtor bddumulbtorFundtion) {
+        int prfv, nfxt;
         do {
-            prev = get(obj);
-            next = accumulatorFunction.applyAsInt(prev, x);
-        } while (!compareAndSet(obj, prev, next));
-        return next;
+            prfv = gft(obj);
+            nfxt = bddumulbtorFundtion.bpplyAsInt(prfv, x);
+        } wiilf (!dompbrfAndSft(obj, prfv, nfxt));
+        rfturn nfxt;
     }
 
     /**
-     * Standard hotspot implementation using intrinsics
+     * Stbndbrd iotspot implfmfntbtion using intrinsids
      */
-    private static class AtomicIntegerFieldUpdaterImpl<T>
-            extends AtomicIntegerFieldUpdater<T> {
-        private static final Unsafe unsafe = Unsafe.getUnsafe();
-        private final long offset;
-        private final Class<T> tclass;
-        private final Class<?> cclass;
+    privbtf stbtid dlbss AtomidIntfgfrFifldUpdbtfrImpl<T>
+            fxtfnds AtomidIntfgfrFifldUpdbtfr<T> {
+        privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+        privbtf finbl long offsft;
+        privbtf finbl Clbss<T> tdlbss;
+        privbtf finbl Clbss<?> ddlbss;
 
-        AtomicIntegerFieldUpdaterImpl(final Class<T> tclass,
-                                      final String fieldName,
-                                      final Class<?> caller) {
-            final Field field;
-            final int modifiers;
+        AtomidIntfgfrFifldUpdbtfrImpl(finbl Clbss<T> tdlbss,
+                                      finbl String fifldNbmf,
+                                      finbl Clbss<?> dbllfr) {
+            finbl Fifld fifld;
+            finbl int modififrs;
             try {
-                field = AccessController.doPrivileged(
-                    new PrivilegedExceptionAction<Field>() {
-                        public Field run() throws NoSuchFieldException {
-                            return tclass.getDeclaredField(fieldName);
+                fifld = AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdExdfptionAdtion<Fifld>() {
+                        publid Fifld run() tirows NoSudiFifldExdfption {
+                            rfturn tdlbss.gftDfdlbrfdFifld(fifldNbmf);
                         }
                     });
-                modifiers = field.getModifiers();
-                sun.reflect.misc.ReflectUtil.ensureMemberAccess(
-                    caller, tclass, null, modifiers);
-                ClassLoader cl = tclass.getClassLoader();
-                ClassLoader ccl = caller.getClassLoader();
-                if ((ccl != null) && (ccl != cl) &&
-                    ((cl == null) || !isAncestor(cl, ccl))) {
-                  sun.reflect.misc.ReflectUtil.checkPackageAccess(tclass);
+                modififrs = fifld.gftModififrs();
+                sun.rfflfdt.misd.RfflfdtUtil.fnsurfMfmbfrAddfss(
+                    dbllfr, tdlbss, null, modififrs);
+                ClbssLobdfr dl = tdlbss.gftClbssLobdfr();
+                ClbssLobdfr ddl = dbllfr.gftClbssLobdfr();
+                if ((ddl != null) && (ddl != dl) &&
+                    ((dl == null) || !isAndfstor(dl, ddl))) {
+                  sun.rfflfdt.misd.RfflfdtUtil.difdkPbdkbgfAddfss(tdlbss);
                 }
-            } catch (PrivilegedActionException pae) {
-                throw new RuntimeException(pae.getException());
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
+            } dbtdi (PrivilfgfdAdtionExdfption pbf) {
+                tirow nfw RuntimfExdfption(pbf.gftExdfption());
+            } dbtdi (Exdfption fx) {
+                tirow nfw RuntimfExdfption(fx);
             }
 
-            Class<?> fieldt = field.getType();
-            if (fieldt != int.class)
-                throw new IllegalArgumentException("Must be integer type");
+            Clbss<?> fifldt = fifld.gftTypf();
+            if (fifldt != int.dlbss)
+                tirow nfw IllfgblArgumfntExdfption("Must bf intfgfr typf");
 
-            if (!Modifier.isVolatile(modifiers))
-                throw new IllegalArgumentException("Must be volatile type");
+            if (!Modififr.isVolbtilf(modififrs))
+                tirow nfw IllfgblArgumfntExdfption("Must bf volbtilf typf");
 
-            this.cclass = (Modifier.isProtected(modifiers) &&
-                           caller != tclass) ? caller : null;
-            this.tclass = tclass;
-            offset = unsafe.objectFieldOffset(field);
+            tiis.ddlbss = (Modififr.isProtfdtfd(modififrs) &&
+                           dbllfr != tdlbss) ? dbllfr : null;
+            tiis.tdlbss = tdlbss;
+            offsft = unsbff.objfdtFifldOffsft(fifld);
         }
 
         /**
-         * Returns true if the second classloader can be found in the first
-         * classloader's delegation chain.
-         * Equivalent to the inaccessible: first.isAncestor(second).
+         * Rfturns truf if tif sfdond dlbsslobdfr dbn bf found in tif first
+         * dlbsslobdfr's dflfgbtion dibin.
+         * Equivblfnt to tif inbddfssiblf: first.isAndfstor(sfdond).
          */
-        private static boolean isAncestor(ClassLoader first, ClassLoader second) {
-            ClassLoader acl = first;
+        privbtf stbtid boolfbn isAndfstor(ClbssLobdfr first, ClbssLobdfr sfdond) {
+            ClbssLobdfr bdl = first;
             do {
-                acl = acl.getParent();
-                if (second == acl) {
-                    return true;
+                bdl = bdl.gftPbrfnt();
+                if (sfdond == bdl) {
+                    rfturn truf;
                 }
-            } while (acl != null);
-            return false;
+            } wiilf (bdl != null);
+            rfturn fblsf;
         }
 
-        private void fullCheck(T obj) {
-            if (!tclass.isInstance(obj))
-                throw new ClassCastException();
-            if (cclass != null)
-                ensureProtectedAccess(obj);
+        privbtf void fullCifdk(T obj) {
+            if (!tdlbss.isInstbndf(obj))
+                tirow nfw ClbssCbstExdfption();
+            if (ddlbss != null)
+                fnsurfProtfdtfdAddfss(obj);
         }
 
-        public boolean compareAndSet(T obj, int expect, int update) {
-            if (obj == null || obj.getClass() != tclass || cclass != null) fullCheck(obj);
-            return unsafe.compareAndSwapInt(obj, offset, expect, update);
+        publid boolfbn dompbrfAndSft(T obj, int fxpfdt, int updbtf) {
+            if (obj == null || obj.gftClbss() != tdlbss || ddlbss != null) fullCifdk(obj);
+            rfturn unsbff.dompbrfAndSwbpInt(obj, offsft, fxpfdt, updbtf);
         }
 
-        public boolean weakCompareAndSet(T obj, int expect, int update) {
-            if (obj == null || obj.getClass() != tclass || cclass != null) fullCheck(obj);
-            return unsafe.compareAndSwapInt(obj, offset, expect, update);
+        publid boolfbn wfbkCompbrfAndSft(T obj, int fxpfdt, int updbtf) {
+            if (obj == null || obj.gftClbss() != tdlbss || ddlbss != null) fullCifdk(obj);
+            rfturn unsbff.dompbrfAndSwbpInt(obj, offsft, fxpfdt, updbtf);
         }
 
-        public void set(T obj, int newValue) {
-            if (obj == null || obj.getClass() != tclass || cclass != null) fullCheck(obj);
-            unsafe.putIntVolatile(obj, offset, newValue);
+        publid void sft(T obj, int nfwVbluf) {
+            if (obj == null || obj.gftClbss() != tdlbss || ddlbss != null) fullCifdk(obj);
+            unsbff.putIntVolbtilf(obj, offsft, nfwVbluf);
         }
 
-        public void lazySet(T obj, int newValue) {
-            if (obj == null || obj.getClass() != tclass || cclass != null) fullCheck(obj);
-            unsafe.putOrderedInt(obj, offset, newValue);
+        publid void lbzySft(T obj, int nfwVbluf) {
+            if (obj == null || obj.gftClbss() != tdlbss || ddlbss != null) fullCifdk(obj);
+            unsbff.putOrdfrfdInt(obj, offsft, nfwVbluf);
         }
 
-        public final int get(T obj) {
-            if (obj == null || obj.getClass() != tclass || cclass != null) fullCheck(obj);
-            return unsafe.getIntVolatile(obj, offset);
+        publid finbl int gft(T obj) {
+            if (obj == null || obj.gftClbss() != tdlbss || ddlbss != null) fullCifdk(obj);
+            rfturn unsbff.gftIntVolbtilf(obj, offsft);
         }
 
-        public int getAndSet(T obj, int newValue) {
-            if (obj == null || obj.getClass() != tclass || cclass != null) fullCheck(obj);
-            return unsafe.getAndSetInt(obj, offset, newValue);
+        publid int gftAndSft(T obj, int nfwVbluf) {
+            if (obj == null || obj.gftClbss() != tdlbss || ddlbss != null) fullCifdk(obj);
+            rfturn unsbff.gftAndSftInt(obj, offsft, nfwVbluf);
         }
 
-        public int getAndIncrement(T obj) {
-            return getAndAdd(obj, 1);
+        publid int gftAndIndrfmfnt(T obj) {
+            rfturn gftAndAdd(obj, 1);
         }
 
-        public int getAndDecrement(T obj) {
-            return getAndAdd(obj, -1);
+        publid int gftAndDfdrfmfnt(T obj) {
+            rfturn gftAndAdd(obj, -1);
         }
 
-        public int getAndAdd(T obj, int delta) {
-            if (obj == null || obj.getClass() != tclass || cclass != null) fullCheck(obj);
-            return unsafe.getAndAddInt(obj, offset, delta);
+        publid int gftAndAdd(T obj, int dfltb) {
+            if (obj == null || obj.gftClbss() != tdlbss || ddlbss != null) fullCifdk(obj);
+            rfturn unsbff.gftAndAddInt(obj, offsft, dfltb);
         }
 
-        public int incrementAndGet(T obj) {
-            return getAndAdd(obj, 1) + 1;
+        publid int indrfmfntAndGft(T obj) {
+            rfturn gftAndAdd(obj, 1) + 1;
         }
 
-        public int decrementAndGet(T obj) {
-             return getAndAdd(obj, -1) - 1;
+        publid int dfdrfmfntAndGft(T obj) {
+             rfturn gftAndAdd(obj, -1) - 1;
         }
 
-        public int addAndGet(T obj, int delta) {
-            return getAndAdd(obj, delta) + delta;
+        publid int bddAndGft(T obj, int dfltb) {
+            rfturn gftAndAdd(obj, dfltb) + dfltb;
         }
 
-        private void ensureProtectedAccess(T obj) {
-            if (cclass.isInstance(obj)) {
-                return;
+        privbtf void fnsurfProtfdtfdAddfss(T obj) {
+            if (ddlbss.isInstbndf(obj)) {
+                rfturn;
             }
-            throw new RuntimeException(
-                new IllegalAccessException("Class " +
-                    cclass.getName() +
-                    " can not access a protected member of class " +
-                    tclass.getName() +
-                    " using an instance of " +
-                    obj.getClass().getName()
+            tirow nfw RuntimfExdfption(
+                nfw IllfgblAddfssExdfption("Clbss " +
+                    ddlbss.gftNbmf() +
+                    " dbn not bddfss b protfdtfd mfmbfr of dlbss " +
+                    tdlbss.gftNbmf() +
+                    " using bn instbndf of " +
+                    obj.gftClbss().gftNbmf()
                 )
             );
         }

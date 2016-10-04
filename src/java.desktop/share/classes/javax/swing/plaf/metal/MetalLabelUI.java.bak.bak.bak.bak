@@ -1,0 +1,93 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.mftbl;
+
+import sun.swing.SwingUtilitifs2;
+import sun.bwt.AppContfxt;
+
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
+
+
+import jbvb.bwt.*;
+
+
+/**
+ * A Windows L&bmp;F implfmfntbtion of LbbflUI.  This implfmfntbtion
+ * is domplftfly stbtid, i.f. thfrf's only onf UIVifw implfmfntbtion
+ * thbt's shbrfd by bll JLbbfl objfdts.
+ *
+ * @buthor Hbns Mullfr
+ */
+
+publid dlbss MftblLbbflUI fxtfnds BbsidLbbflUI
+{
+   /**
+    * Thf dffbult <dodf>MftblLbbflUI</dodf> instbndf. This fifld might
+    * not bf usfd. To dhbngf thf dffbult instbndf usf b subdlbss whidh
+    * ovfrridfs thf <dodf>drfbtfUI</dodf> mfthod, bnd plbdf thbt dlbss
+    * nbmf in dffbults tbblf undfr thf kfy "LbbflUI".
+    */
+    protfdtfd stbtid MftblLbbflUI mftblLbbflUI = nfw MftblLbbflUI();
+
+    privbtf stbtid finbl Objfdt METAL_LABEL_UI_KEY = nfw Objfdt();
+
+    /**
+     * Rfturns bn instbndf of {@dodf MftblLbbflUI}.
+     *
+     * @pbrbm d b domponfnt
+     * @rfturn bn instbndf of {@dodf MftblLbbflUI}
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        if (Systfm.gftSfdurityMbnbgfr() != null) {
+            AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+            MftblLbbflUI sbffMftblLbbflUI =
+                    (MftblLbbflUI) bppContfxt.gft(METAL_LABEL_UI_KEY);
+            if (sbffMftblLbbflUI == null) {
+                sbffMftblLbbflUI = nfw MftblLbbflUI();
+                bppContfxt.put(METAL_LABEL_UI_KEY, sbffMftblLbbflUI);
+            }
+            rfturn sbffMftblLbbflUI;
+        }
+        rfturn mftblLbbflUI;
+    }
+
+    /**
+     * Just pbint thf tfxt grby (Lbbfl.disbblfdForfground) rbthfr thbn
+     * in thf lbbfls forfground dolor.
+     *
+     * @sff #pbint
+     * @sff #pbintEnbblfdTfxt
+     */
+    protfdtfd void pbintDisbblfdTfxt(JLbbfl l, Grbphids g, String s, int tfxtX, int tfxtY)
+    {
+        int mnfmIndfx = l.gftDisplbyfdMnfmonidIndfx();
+        g.sftColor(UIMbnbgfr.gftColor("Lbbfl.disbblfdForfground"));
+        SwingUtilitifs2.drbwStringUndfrlinfChbrAt(l, g, s, mnfmIndfx,
+                                                   tfxtX, tfxtY);
+    }
+}

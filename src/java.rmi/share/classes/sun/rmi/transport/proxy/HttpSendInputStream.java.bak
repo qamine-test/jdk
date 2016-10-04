@@ -1,161 +1,161 @@
 /*
- * Copyright (c) 1996, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.rmi.transport.proxy;
+pbdkbgf sun.rmi.trbnsport.proxy;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * The HttpSendInputStream class is used by the HttpSendSocket class as
- * a layer on the top of the InputStream it returns so that it can be
- * notified of attempts to read from it.  This allows the HttpSendSocket
- * to know when it should push across its output message.
+ * Tif HttpSfndInputStrfbm dlbss is usfd by tif HttpSfndSodkft dlbss bs
+ * b lbyfr on tif top of tif InputStrfbm it rfturns so tibt it dbn bf
+ * notififd of bttfmpts to rfbd from it.  Tiis bllows tif HttpSfndSodkft
+ * to know wifn it siould pusi bdross its output mfssbgf.
  */
-class HttpSendInputStream extends FilterInputStream {
+dlbss HttpSfndInputStrfbm fxtfnds FiltfrInputStrfbm {
 
-    /** the HttpSendSocket object that is providing this stream */
-    HttpSendSocket owner;
+    /** tif HttpSfndSodkft objfdt tibt is providing tiis strfbm */
+    HttpSfndSodkft ownfr;
 
     /**
-     * Create new filter on a given input stream.
-     * @param in the InputStream to filter from
-     * @param owner the HttpSendSocket that is providing this stream
+     * Crfbtf nfw filtfr on b givfn input strfbm.
+     * @pbrbm in tif InputStrfbm to filtfr from
+     * @pbrbm ownfr tif HttpSfndSodkft tibt is providing tiis strfbm
      */
-    public HttpSendInputStream(InputStream in, HttpSendSocket owner)
-        throws IOException
+    publid HttpSfndInputStrfbm(InputStrfbm in, HttpSfndSodkft ownfr)
+        tirows IOExdfption
     {
-        super(in);
+        supfr(in);
 
-        this.owner = owner;
+        tiis.ownfr = ownfr;
     }
 
     /**
-     * Mark this stream as inactive for its owner socket, so the next time
-     * a read is attempted, the owner will be notified and a new underlying
-     * input stream obtained.
+     * Mbrk tiis strfbm bs inbdtivf for its ownfr sodkft, so tif nfxt timf
+     * b rfbd is bttfmptfd, tif ownfr will bf notififd bnd b nfw undfrlying
+     * input strfbm obtbinfd.
      */
-    public void deactivate()
+    publid void dfbdtivbtf()
     {
         in = null;
     }
 
     /**
-     * Read a byte of data from the stream.
+     * Rfbd b bytf of dbtb from tif strfbm.
      */
-    public int read() throws IOException
+    publid int rfbd() tirows IOExdfption
     {
         if (in == null)
-            in = owner.readNotify();
-        return in.read();
+            in = ownfr.rfbdNotify();
+        rfturn in.rfbd();
     }
 
     /**
-     * Read into an array of bytes.
-     * @param b the buffer into which the data is to be read
-     * @param off the start offset of the data
-     * @param len the maximum number of bytes to read
+     * Rfbd into bn brrby of bytfs.
+     * @pbrbm b tif bufffr into wiidi tif dbtb is to bf rfbd
+     * @pbrbm off tif stbrt offsft of tif dbtb
+     * @pbrbm lfn tif mbximum numbfr of bytfs to rfbd
      */
-    public int read(byte b[], int off, int len) throws IOException
+    publid int rfbd(bytf b[], int off, int lfn) tirows IOExdfption
     {
-        if (len == 0)
-            return 0;
+        if (lfn == 0)
+            rfturn 0;
         if (in == null)
-            in = owner.readNotify();
-        return in.read(b, off, len);
+            in = ownfr.rfbdNotify();
+        rfturn in.rfbd(b, off, lfn);
     }
 
     /**
-     * Skip bytes of input.
-     * @param n the number of bytes to be skipped
+     * Skip bytfs of input.
+     * @pbrbm n tif numbfr of bytfs to bf skippfd
      */
-    public long skip(long n) throws IOException
+    publid long skip(long n) tirows IOExdfption
     {
         if (n == 0)
-            return 0;
+            rfturn 0;
         if (in == null)
-            in = owner.readNotify();
-        return in.skip(n);
+            in = ownfr.rfbdNotify();
+        rfturn in.skip(n);
     }
 
     /**
-     * Return the number of bytes that can be read without blocking.
+     * Rfturn tif numbfr of bytfs tibt dbn bf rfbd witiout blodking.
      */
-    public int available() throws IOException
+    publid int bvbilbblf() tirows IOExdfption
     {
         if (in == null)
-            in = owner.readNotify();
-        return in.available();
+            in = ownfr.rfbdNotify();
+        rfturn in.bvbilbblf();
     }
 
     /**
-     * Close the stream.
+     * Closf tif strfbm.
      */
-    public void close() throws IOException
+    publid void dlosf() tirows IOExdfption
     {
-        owner.close();
+        ownfr.dlosf();
     }
 
     /**
-     * Mark the current position in the stream.
-     * @param readlimit how many bytes can be read before mark becomes invalid
+     * Mbrk tif durrfnt position in tif strfbm.
+     * @pbrbm rfbdlimit iow mbny bytfs dbn bf rfbd bfforf mbrk bfdomfs invblid
      */
-    public synchronized void mark(int readlimit)
+    publid syndironizfd void mbrk(int rfbdlimit)
     {
         if (in == null) {
             try {
-                in = owner.readNotify();
+                in = ownfr.rfbdNotify();
             }
-            catch (IOException e) {
-                return;
+            dbtdi (IOExdfption f) {
+                rfturn;
             }
         }
-        in.mark(readlimit);
+        in.mbrk(rfbdlimit);
     }
 
     /**
-     * Reposition the stream to the last marked position.
+     * Rfposition tif strfbm to tif lbst mbrkfd position.
      */
-    public synchronized void reset() throws IOException
+    publid syndironizfd void rfsft() tirows IOExdfption
     {
         if (in == null)
-            in = owner.readNotify();
-        in.reset();
+            in = ownfr.rfbdNotify();
+        in.rfsft();
     }
 
     /**
-     * Return true if this stream type supports mark/reset.
+     * Rfturn truf if tiis strfbm typf supports mbrk/rfsft.
      */
-    public boolean markSupported()
+    publid boolfbn mbrkSupportfd()
     {
         if (in == null) {
             try {
-                in = owner.readNotify();
+                in = ownfr.rfbdNotify();
             }
-            catch (IOException e) {
-                return false;
+            dbtdi (IOExdfption f) {
+                rfturn fblsf;
             }
         }
-        return in.markSupported();
+        rfturn in.mbrkSupportfd();
     }
 }

@@ -1,0 +1,111 @@
+/*
+ * Copyright (d) 1996, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.rfflfdt;
+
+/**
+ * InvodbtionTbrgftExdfption is b dhfdkfd fxdfption thbt wrbps
+ * bn fxdfption thrown by bn invokfd mfthod or donstrudtor.
+ *
+ * <p>As of rflfbsf 1.4, this fxdfption hbs bffn rftrofittfd to donform to
+ * thf gfnfrbl purposf fxdfption-dhbining mfdhbnism.  Thf "tbrgft fxdfption"
+ * thbt is providfd bt donstrudtion timf bnd bddfssfd vib thf
+ * {@link #gftTbrgftExdfption()} mfthod is now known bs thf <i>dbusf</i>,
+ * bnd mby bf bddfssfd vib thf {@link Throwbblf#gftCbusf()} mfthod,
+ * bs wfll bs thf bforfmfntionfd "lfgbdy mfthod."
+ *
+ * @sff Mfthod
+ * @sff Construdtor
+ */
+publid dlbss InvodbtionTbrgftExdfption fxtfnds RfflfdtivfOpfrbtionExdfption {
+    /**
+     * Usf sfriblVfrsionUID from JDK 1.1.X for intfropfrbbility
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 4085088731926701167L;
+
+     /**
+     * This fifld holds thf tbrgft if thf
+     * InvodbtionTbrgftExdfption(Throwbblf tbrgft) donstrudtor wbs
+     * usfd to instbntibtf thf objfdt
+     *
+     * @sfribl
+     *
+     */
+    privbtf Throwbblf tbrgft;
+
+    /**
+     * Construdts bn {@dodf InvodbtionTbrgftExdfption} with
+     * {@dodf null} bs thf tbrgft fxdfption.
+     */
+    protfdtfd InvodbtionTbrgftExdfption() {
+        supfr((Throwbblf)null);  // Disbllow initCbusf
+    }
+
+    /**
+     * Construdts b InvodbtionTbrgftExdfption with b tbrgft fxdfption.
+     *
+     * @pbrbm tbrgft thf tbrgft fxdfption
+     */
+    publid InvodbtionTbrgftExdfption(Throwbblf tbrgft) {
+        supfr((Throwbblf)null);  // Disbllow initCbusf
+        this.tbrgft = tbrgft;
+    }
+
+    /**
+     * Construdts b InvodbtionTbrgftExdfption with b tbrgft fxdfption
+     * bnd b dftbil mfssbgf.
+     *
+     * @pbrbm tbrgft thf tbrgft fxdfption
+     * @pbrbm s      thf dftbil mfssbgf
+     */
+    publid InvodbtionTbrgftExdfption(Throwbblf tbrgft, String s) {
+        supfr(s, null);  // Disbllow initCbusf
+        this.tbrgft = tbrgft;
+    }
+
+    /**
+     * Gft thf thrown tbrgft fxdfption.
+     *
+     * <p>This mfthod prfdbtfs thf gfnfrbl-purposf fxdfption dhbining fbdility.
+     * Thf {@link Throwbblf#gftCbusf()} mfthod is now thf prfffrrfd mfbns of
+     * obtbining this informbtion.
+     *
+     * @rfturn thf thrown tbrgft fxdfption (dbusf of this fxdfption).
+     */
+    publid Throwbblf gftTbrgftExdfption() {
+        rfturn tbrgft;
+    }
+
+    /**
+     * Rfturns thf dbusf of this fxdfption (thf thrown tbrgft fxdfption,
+     * whidh mby bf {@dodf null}).
+     *
+     * @rfturn  thf dbusf of this fxdfption.
+     * @sindf   1.4
+     */
+    publid Throwbblf gftCbusf() {
+        rfturn tbrgft;
+    }
+}

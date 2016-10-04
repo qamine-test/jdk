@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.invoke;
+pbdkbgf jbvb.lbng.invokf;
 
 /**
- * A {@code VolatileCallSite} is a {@link CallSite} whose target acts like a volatile variable.
- * An {@code invokedynamic} instruction linked to a {@code VolatileCallSite} sees updates
- * to its call site target immediately, even if the update occurs in another thread.
- * There may be a performance penalty for such tight coupling between threads.
+ * A {@dodf VolbtilfCbllSitf} is b {@link CbllSitf} wiosf tbrgft bdts likf b volbtilf vbribblf.
+ * An {@dodf invokfdynbmid} instrudtion linkfd to b {@dodf VolbtilfCbllSitf} sffs updbtfs
+ * to its dbll sitf tbrgft immfdibtfly, fvfn if tif updbtf oddurs in bnotifr tirfbd.
+ * Tifrf mby bf b pfrformbndf pfnblty for sudi tigit doupling bftwffn tirfbds.
  * <p>
- * Unlike {@code MutableCallSite}, there is no
- * {@linkplain MutableCallSite#syncAll syncAll operation} on volatile
- * call sites, since every write to a volatile variable is implicitly
- * synchronized with reader threads.
+ * Unlikf {@dodf MutbblfCbllSitf}, tifrf is no
+ * {@linkplbin MutbblfCbllSitf#syndAll syndAll opfrbtion} on volbtilf
+ * dbll sitfs, sindf fvfry writf to b volbtilf vbribblf is impliditly
+ * syndironizfd witi rfbdfr tirfbds.
  * <p>
- * In other respects, a {@code VolatileCallSite} is interchangeable
- * with {@code MutableCallSite}.
- * @see MutableCallSite
- * @author John Rose, JSR 292 EG
+ * In otifr rfspfdts, b {@dodf VolbtilfCbllSitf} is intfrdibngfbblf
+ * witi {@dodf MutbblfCbllSitf}.
+ * @sff MutbblfCbllSitf
+ * @butior Join Rosf, JSR 292 EG
  */
-public class VolatileCallSite extends CallSite {
+publid dlbss VolbtilfCbllSitf fxtfnds CbllSitf {
     /**
-     * Creates a call site with a volatile binding to its target.
-     * The initial target is set to a method handle
-     * of the given type which will throw an {@code IllegalStateException} if called.
-     * @param type the method type that this call site will have
-     * @throws NullPointerException if the proposed type is null
+     * Crfbtfs b dbll sitf witi b volbtilf binding to its tbrgft.
+     * Tif initibl tbrgft is sft to b mftiod ibndlf
+     * of tif givfn typf wiidi will tirow bn {@dodf IllfgblStbtfExdfption} if dbllfd.
+     * @pbrbm typf tif mftiod typf tibt tiis dbll sitf will ibvf
+     * @tirows NullPointfrExdfption if tif proposfd typf is null
      */
-    public VolatileCallSite(MethodType type) {
-        super(type);
+    publid VolbtilfCbllSitf(MftiodTypf typf) {
+        supfr(typf);
     }
 
     /**
-     * Creates a call site with a volatile binding to its target.
-     * The target is set to the given value.
-     * @param target the method handle that will be the initial target of the call site
-     * @throws NullPointerException if the proposed target is null
+     * Crfbtfs b dbll sitf witi b volbtilf binding to its tbrgft.
+     * Tif tbrgft is sft to tif givfn vbluf.
+     * @pbrbm tbrgft tif mftiod ibndlf tibt will bf tif initibl tbrgft of tif dbll sitf
+     * @tirows NullPointfrExdfption if tif proposfd tbrgft is null
      */
-    public VolatileCallSite(MethodHandle target) {
-        super(target);
+    publid VolbtilfCbllSitf(MftiodHbndlf tbrgft) {
+        supfr(tbrgft);
     }
 
     /**
-     * Returns the target method of the call site, which behaves
-     * like a {@code volatile} field of the {@code VolatileCallSite}.
+     * Rfturns tif tbrgft mftiod of tif dbll sitf, wiidi bfibvfs
+     * likf b {@dodf volbtilf} fifld of tif {@dodf VolbtilfCbllSitf}.
      * <p>
-     * The interactions of {@code getTarget} with memory are the same
-     * as of a read from a {@code volatile} field.
+     * Tif intfrbdtions of {@dodf gftTbrgft} witi mfmory brf tif sbmf
+     * bs of b rfbd from b {@dodf volbtilf} fifld.
      * <p>
-     * In particular, the current thread is required to issue a fresh
-     * read of the target from memory, and must not fail to see
-     * a recent update to the target by another thread.
+     * In pbrtidulbr, tif durrfnt tirfbd is rfquirfd to issuf b frfsi
+     * rfbd of tif tbrgft from mfmory, bnd must not fbil to sff
+     * b rfdfnt updbtf to tif tbrgft by bnotifr tirfbd.
      *
-     * @return the linkage state of this call site, a method handle which can change over time
-     * @see #setTarget
+     * @rfturn tif linkbgf stbtf of tiis dbll sitf, b mftiod ibndlf wiidi dbn dibngf ovfr timf
+     * @sff #sftTbrgft
      */
-    @Override public final MethodHandle getTarget() {
-        return getTargetVolatile();
+    @Ovfrridf publid finbl MftiodHbndlf gftTbrgft() {
+        rfturn gftTbrgftVolbtilf();
     }
 
     /**
-     * Updates the target method of this call site, as a volatile variable.
-     * The type of the new target must agree with the type of the old target.
+     * Updbtfs tif tbrgft mftiod of tiis dbll sitf, bs b volbtilf vbribblf.
+     * Tif typf of tif nfw tbrgft must bgrff witi tif typf of tif old tbrgft.
      * <p>
-     * The interactions with memory are the same as of a write to a volatile field.
-     * In particular, any threads is guaranteed to see the updated target
-     * the next time it calls {@code getTarget}.
-     * @param newTarget the new target
-     * @throws NullPointerException if the proposed new target is null
-     * @throws WrongMethodTypeException if the proposed new target
-     *         has a method type that differs from the previous target
-     * @see #getTarget
+     * Tif intfrbdtions witi mfmory brf tif sbmf bs of b writf to b volbtilf fifld.
+     * In pbrtidulbr, bny tirfbds is gubrbntffd to sff tif updbtfd tbrgft
+     * tif nfxt timf it dblls {@dodf gftTbrgft}.
+     * @pbrbm nfwTbrgft tif nfw tbrgft
+     * @tirows NullPointfrExdfption if tif proposfd nfw tbrgft is null
+     * @tirows WrongMftiodTypfExdfption if tif proposfd nfw tbrgft
+     *         ibs b mftiod typf tibt difffrs from tif prfvious tbrgft
+     * @sff #gftTbrgft
      */
-    @Override public void setTarget(MethodHandle newTarget) {
-        checkTargetChange(getTargetVolatile(), newTarget);
-        setTargetVolatile(newTarget);
+    @Ovfrridf publid void sftTbrgft(MftiodHbndlf nfwTbrgft) {
+        difdkTbrgftCibngf(gftTbrgftVolbtilf(), nfwTbrgft);
+        sftTbrgftVolbtilf(nfwTbrgft);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public final MethodHandle dynamicInvoker() {
-        return makeDynamicInvoker();
+    @Ovfrridf
+    publid finbl MftiodHbndlf dynbmidInvokfr() {
+        rfturn mbkfDynbmidInvokfr();
     }
 }

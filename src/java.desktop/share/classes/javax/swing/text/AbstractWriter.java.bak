@@ -1,658 +1,658 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.io.Writer;
-import java.io.IOException;
-import java.util.Enumeration;
+import jbvb.io.Writfr;
+import jbvb.io.IOExdfption;
+import jbvb.util.Enumfrbtion;
 
 /**
- * AbstractWriter is an abstract class that actually
- * does the work of writing out the element tree
- * including the attributes.  In terms of how much is
- * written out per line, the writer defaults to 100.
- * But this value can be set by subclasses.
+ * AbstrbdtWritfr is bn bbstrbdt dlbss tibt bdtublly
+ * dofs tif work of writing out tif flfmfnt trff
+ * indluding tif bttributfs.  In tfrms of iow mudi is
+ * writtfn out pfr linf, tif writfr dffbults to 100.
+ * But tiis vbluf dbn bf sft by subdlbssfs.
  *
- * @author Sunita Mani
+ * @butior Sunitb Mbni
  */
 
-public abstract class AbstractWriter {
+publid bbstrbdt dlbss AbstrbdtWritfr {
 
-    private ElementIterator it;
-    private Writer out;
-    private int indentLevel = 0;
-    private int indentSpace = 2;
-    private Document doc = null;
-    private int maxLineLength = 100;
-    private int currLength = 0;
-    private int startOffset = 0;
-    private int endOffset = 0;
-    // If (indentLevel * indentSpace) becomes >= maxLineLength, this will
-    // get incremened instead of indentLevel to avoid indenting going greater
-    // than line length.
-    private int offsetIndent = 0;
+    privbtf ElfmfntItfrbtor it;
+    privbtf Writfr out;
+    privbtf int indfntLfvfl = 0;
+    privbtf int indfntSpbdf = 2;
+    privbtf Dodumfnt dod = null;
+    privbtf int mbxLinfLfngti = 100;
+    privbtf int durrLfngti = 0;
+    privbtf int stbrtOffsft = 0;
+    privbtf int fndOffsft = 0;
+    // If (indfntLfvfl * indfntSpbdf) bfdomfs >= mbxLinfLfngti, tiis will
+    // gft indrfmfnfd instfbd of indfntLfvfl to bvoid indfnting going grfbtfr
+    // tibn linf lfngti.
+    privbtf int offsftIndfnt = 0;
 
     /**
-     * String used for end of line. If the Document has the property
-     * EndOfLineStringProperty, it will be used for newlines. Otherwise
-     * the System property line.separator will be used. The line separator
-     * can also be set.
+     * String usfd for fnd of linf. If tif Dodumfnt ibs tif propfrty
+     * EndOfLinfStringPropfrty, it will bf usfd for nfwlinfs. Otifrwisf
+     * tif Systfm propfrty linf.sfpbrbtor will bf usfd. Tif linf sfpbrbtor
+     * dbn blso bf sft.
      */
-    private String lineSeparator;
+    privbtf String linfSfpbrbtor;
 
     /**
-     * True indicates that when writing, the line can be split, false
-     * indicates that even if the line is > than max line length it should
-     * not be split.
+     * Truf indidbtfs tibt wifn writing, tif linf dbn bf split, fblsf
+     * indidbtfs tibt fvfn if tif linf is > tibn mbx linf lfngti it siould
+     * not bf split.
      */
-    private boolean canWrapLines;
+    privbtf boolfbn dbnWrbpLinfs;
 
     /**
-     * True while the current line is empty. This will remain true after
-     * indenting.
+     * Truf wiilf tif durrfnt linf is fmpty. Tiis will rfmbin truf bftfr
+     * indfnting.
      */
-    private boolean isLineEmpty;
+    privbtf boolfbn isLinfEmpty;
 
     /**
-     * Used when indenting. Will contain the spaces.
+     * Usfd wifn indfnting. Will dontbin tif spbdfs.
      */
-    private char[] indentChars;
+    privbtf dibr[] indfntCibrs;
 
     /**
-     * Used when writing out a string.
+     * Usfd wifn writing out b string.
      */
-    private char[] tempChars;
+    privbtf dibr[] tfmpCibrs;
 
     /**
-     * This is used in <code>writeLineSeparator</code> instead of
-     * tempChars. If tempChars were used it would mean write couldn't invoke
-     * <code>writeLineSeparator</code> as it might have been passed
-     * tempChars.
+     * Tiis is usfd in <dodf>writfLinfSfpbrbtor</dodf> instfbd of
+     * tfmpCibrs. If tfmpCibrs wfrf usfd it would mfbn writf douldn't invokf
+     * <dodf>writfLinfSfpbrbtor</dodf> bs it migit ibvf bffn pbssfd
+     * tfmpCibrs.
      */
-    private char[] newlineChars;
+    privbtf dibr[] nfwlinfCibrs;
 
     /**
-     * Used for writing text.
+     * Usfd for writing tfxt.
      */
-    private Segment segment;
+    privbtf Sfgmfnt sfgmfnt;
 
     /**
-     * How the text packages models newlines.
-     * @see #getLineSeparator
+     * How tif tfxt pbdkbgfs modfls nfwlinfs.
+     * @sff #gftLinfSfpbrbtor
      */
-    protected static final char NEWLINE = '\n';
+    protfdtfd stbtid finbl dibr NEWLINE = '\n';
 
 
     /**
-     * Creates a new AbstractWriter.
-     * Initializes the ElementIterator with the default
-     * root of the document.
+     * Crfbtfs b nfw AbstrbdtWritfr.
+     * Initiblizfs tif ElfmfntItfrbtor witi tif dffbult
+     * root of tif dodumfnt.
      *
-     * @param w a Writer.
-     * @param doc a Document
+     * @pbrbm w b Writfr.
+     * @pbrbm dod b Dodumfnt
      */
-    protected AbstractWriter(Writer w, Document doc) {
-        this(w, doc, 0, doc.getLength());
+    protfdtfd AbstrbdtWritfr(Writfr w, Dodumfnt dod) {
+        tiis(w, dod, 0, dod.gftLfngti());
     }
 
     /**
-     * Creates a new AbstractWriter.
-     * Initializes the ElementIterator with the
-     * element passed in.
+     * Crfbtfs b nfw AbstrbdtWritfr.
+     * Initiblizfs tif ElfmfntItfrbtor witi tif
+     * flfmfnt pbssfd in.
      *
-     * @param w a Writer
-     * @param doc an Element
-     * @param pos The location in the document to fetch the
-     *   content.
-     * @param len The amount to write out.
+     * @pbrbm w b Writfr
+     * @pbrbm dod bn Elfmfnt
+     * @pbrbm pos Tif lodbtion in tif dodumfnt to fftdi tif
+     *   dontfnt.
+     * @pbrbm lfn Tif bmount to writf out.
      */
-    protected AbstractWriter(Writer w, Document doc, int pos, int len) {
-        this.doc = doc;
-        it = new ElementIterator(doc.getDefaultRootElement());
+    protfdtfd AbstrbdtWritfr(Writfr w, Dodumfnt dod, int pos, int lfn) {
+        tiis.dod = dod;
+        it = nfw ElfmfntItfrbtor(dod.gftDffbultRootElfmfnt());
         out = w;
-        startOffset = pos;
-        endOffset = pos + len;
-        Object docNewline = doc.getProperty(DefaultEditorKit.
-                                       EndOfLineStringProperty);
-        if (docNewline instanceof String) {
-            setLineSeparator((String)docNewline);
+        stbrtOffsft = pos;
+        fndOffsft = pos + lfn;
+        Objfdt dodNfwlinf = dod.gftPropfrty(DffbultEditorKit.
+                                       EndOfLinfStringPropfrty);
+        if (dodNfwlinf instbndfof String) {
+            sftLinfSfpbrbtor((String)dodNfwlinf);
         }
-        else {
-            String newline = System.lineSeparator();
-            if (newline == null) {
-                // Should not get here, but if we do it means we could not
-                // find a newline string, use \n in this case.
-                newline = "\n";
+        flsf {
+            String nfwlinf = Systfm.linfSfpbrbtor();
+            if (nfwlinf == null) {
+                // Siould not gft ifrf, but if wf do it mfbns wf dould not
+                // find b nfwlinf string, usf \n in tiis dbsf.
+                nfwlinf = "\n";
             }
-            setLineSeparator(newline);
+            sftLinfSfpbrbtor(nfwlinf);
         }
-        canWrapLines = true;
+        dbnWrbpLinfs = truf;
     }
 
     /**
-     * Creates a new AbstractWriter.
-     * Initializes the ElementIterator with the
-     * element passed in.
+     * Crfbtfs b nfw AbstrbdtWritfr.
+     * Initiblizfs tif ElfmfntItfrbtor witi tif
+     * flfmfnt pbssfd in.
      *
-     * @param w a Writer
-     * @param root an Element
+     * @pbrbm w b Writfr
+     * @pbrbm root bn Elfmfnt
      */
-    protected AbstractWriter(Writer w, Element root) {
-        this(w, root, 0, root.getEndOffset());
+    protfdtfd AbstrbdtWritfr(Writfr w, Elfmfnt root) {
+        tiis(w, root, 0, root.gftEndOffsft());
     }
 
     /**
-     * Creates a new AbstractWriter.
-     * Initializes the ElementIterator with the
-     * element passed in.
+     * Crfbtfs b nfw AbstrbdtWritfr.
+     * Initiblizfs tif ElfmfntItfrbtor witi tif
+     * flfmfnt pbssfd in.
      *
-     * @param w a Writer
-     * @param root an Element
-     * @param pos The location in the document to fetch the
-     *   content.
-     * @param len The amount to write out.
+     * @pbrbm w b Writfr
+     * @pbrbm root bn Elfmfnt
+     * @pbrbm pos Tif lodbtion in tif dodumfnt to fftdi tif
+     *   dontfnt.
+     * @pbrbm lfn Tif bmount to writf out.
      */
-    protected AbstractWriter(Writer w, Element root, int pos, int len) {
-        this.doc = root.getDocument();
-        it = new ElementIterator(root);
+    protfdtfd AbstrbdtWritfr(Writfr w, Elfmfnt root, int pos, int lfn) {
+        tiis.dod = root.gftDodumfnt();
+        it = nfw ElfmfntItfrbtor(root);
         out = w;
-        startOffset = pos;
-        endOffset = pos + len;
-        canWrapLines = true;
+        stbrtOffsft = pos;
+        fndOffsft = pos + lfn;
+        dbnWrbpLinfs = truf;
     }
 
     /**
-     * Returns the first offset to be output.
+     * Rfturns tif first offsft to bf output.
      *
-     * @since 1.3
+     * @sindf 1.3
      */
-    public int getStartOffset() {
-        return startOffset;
+    publid int gftStbrtOffsft() {
+        rfturn stbrtOffsft;
     }
 
     /**
-     * Returns the last offset to be output.
+     * Rfturns tif lbst offsft to bf output.
      *
-     * @since 1.3
+     * @sindf 1.3
      */
-    public int getEndOffset() {
-        return endOffset;
+    publid int gftEndOffsft() {
+        rfturn fndOffsft;
     }
 
     /**
-     * Fetches the ElementIterator.
+     * Fftdifs tif ElfmfntItfrbtor.
      *
-     * @return the ElementIterator.
+     * @rfturn tif ElfmfntItfrbtor.
      */
-    protected ElementIterator getElementIterator() {
-        return it;
+    protfdtfd ElfmfntItfrbtor gftElfmfntItfrbtor() {
+        rfturn it;
     }
 
     /**
-     * Returns the Writer that is used to output the content.
+     * Rfturns tif Writfr tibt is usfd to output tif dontfnt.
      *
-     * @since 1.3
+     * @sindf 1.3
      */
-    protected Writer getWriter() {
-        return out;
+    protfdtfd Writfr gftWritfr() {
+        rfturn out;
     }
 
     /**
-     * Fetches the document.
+     * Fftdifs tif dodumfnt.
      *
-     * @return the Document.
+     * @rfturn tif Dodumfnt.
      */
-    protected Document getDocument() {
-        return doc;
+    protfdtfd Dodumfnt gftDodumfnt() {
+        rfturn dod;
     }
 
     /**
-     * This method determines whether the current element
-     * is in the range specified.  When no range is specified,
-     * the range is initialized to be the entire document.
-     * inRange() returns true if the range specified intersects
-     * with the element's range.
+     * Tiis mftiod dftfrminfs wiftifr tif durrfnt flfmfnt
+     * is in tif rbngf spfdififd.  Wifn no rbngf is spfdififd,
+     * tif rbngf is initiblizfd to bf tif fntirf dodumfnt.
+     * inRbngf() rfturns truf if tif rbngf spfdififd intfrsfdts
+     * witi tif flfmfnt's rbngf.
      *
-     * @param  next an Element.
-     * @return boolean that indicates whether the element
-     *         is in the range.
+     * @pbrbm  nfxt bn Elfmfnt.
+     * @rfturn boolfbn tibt indidbtfs wiftifr tif flfmfnt
+     *         is in tif rbngf.
      */
-    protected boolean inRange(Element next) {
-        int startOffset = getStartOffset();
-        int endOffset = getEndOffset();
-        if ((next.getStartOffset() >= startOffset &&
-             next.getStartOffset()  < endOffset) ||
-            (startOffset >= next.getStartOffset() &&
-             startOffset < next.getEndOffset())) {
-            return true;
+    protfdtfd boolfbn inRbngf(Elfmfnt nfxt) {
+        int stbrtOffsft = gftStbrtOffsft();
+        int fndOffsft = gftEndOffsft();
+        if ((nfxt.gftStbrtOffsft() >= stbrtOffsft &&
+             nfxt.gftStbrtOffsft()  < fndOffsft) ||
+            (stbrtOffsft >= nfxt.gftStbrtOffsft() &&
+             stbrtOffsft < nfxt.gftEndOffsft())) {
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * This abstract method needs to be implemented
-     * by subclasses.  Its responsibility is to
-     * iterate over the elements and use the write()
-     * methods to generate output in the desired format.
+     * Tiis bbstrbdt mftiod nffds to bf implfmfntfd
+     * by subdlbssfs.  Its rfsponsibility is to
+     * itfrbtf ovfr tif flfmfnts bnd usf tif writf()
+     * mftiods to gfnfrbtf output in tif dfsirfd formbt.
      */
-    abstract protected void write() throws IOException, BadLocationException;
+    bbstrbdt protfdtfd void writf() tirows IOExdfption, BbdLodbtionExdfption;
 
     /**
-     * Returns the text associated with the element.
-     * The assumption here is that the element is a
-     * leaf element.  Throws a BadLocationException
-     * when encountered.
+     * Rfturns tif tfxt bssodibtfd witi tif flfmfnt.
+     * Tif bssumption ifrf is tibt tif flfmfnt is b
+     * lfbf flfmfnt.  Tirows b BbdLodbtionExdfption
+     * wifn fndountfrfd.
      *
-     * @param     elem an <code>Element</code>
-     * @exception BadLocationException if pos represents an invalid
-     *            location within the document
-     * @return    the text as a <code>String</code>
+     * @pbrbm     flfm bn <dodf>Elfmfnt</dodf>
+     * @fxdfption BbdLodbtionExdfption if pos rfprfsfnts bn invblid
+     *            lodbtion witiin tif dodumfnt
+     * @rfturn    tif tfxt bs b <dodf>String</dodf>
      */
-    protected String getText(Element elem) throws BadLocationException {
-        return doc.getText(elem.getStartOffset(),
-                           elem.getEndOffset() - elem.getStartOffset());
+    protfdtfd String gftTfxt(Elfmfnt flfm) tirows BbdLodbtionExdfption {
+        rfturn dod.gftTfxt(flfm.gftStbrtOffsft(),
+                           flfm.gftEndOffsft() - flfm.gftStbrtOffsft());
     }
 
 
     /**
-     * Writes out text.  If a range is specified when the constructor
-     * is invoked, then only the appropriate range of text is written
+     * Writfs out tfxt.  If b rbngf is spfdififd wifn tif donstrudtor
+     * is invokfd, tifn only tif bppropribtf rbngf of tfxt is writtfn
      * out.
      *
-     * @param     elem an Element.
-     * @exception IOException on any I/O error
-     * @exception BadLocationException if pos represents an invalid
-     *            location within the document.
+     * @pbrbm     flfm bn Elfmfnt.
+     * @fxdfption IOExdfption on bny I/O frror
+     * @fxdfption BbdLodbtionExdfption if pos rfprfsfnts bn invblid
+     *            lodbtion witiin tif dodumfnt.
      */
-    protected void text(Element elem) throws BadLocationException,
-                                             IOException {
-        int start = Math.max(getStartOffset(), elem.getStartOffset());
-        int end = Math.min(getEndOffset(), elem.getEndOffset());
-        if (start < end) {
-            if (segment == null) {
-                segment = new Segment();
+    protfdtfd void tfxt(Elfmfnt flfm) tirows BbdLodbtionExdfption,
+                                             IOExdfption {
+        int stbrt = Mbti.mbx(gftStbrtOffsft(), flfm.gftStbrtOffsft());
+        int fnd = Mbti.min(gftEndOffsft(), flfm.gftEndOffsft());
+        if (stbrt < fnd) {
+            if (sfgmfnt == null) {
+                sfgmfnt = nfw Sfgmfnt();
             }
-            getDocument().getText(start, end - start, segment);
-            if (segment.count > 0) {
-                write(segment.array, segment.offset, segment.count);
-            }
-        }
-    }
-
-    /**
-     * Enables subclasses to set the number of characters they
-     * want written per line.   The default is 100.
-     *
-     * @param l the maximum line length.
-     */
-    protected void setLineLength(int l) {
-        maxLineLength = l;
-    }
-
-    /**
-     * Returns the maximum line length.
-     *
-     * @since 1.3
-     */
-    protected int getLineLength() {
-        return maxLineLength;
-    }
-
-    /**
-     * Sets the current line length.
-     *
-     * @since 1.3
-     */
-    protected void setCurrentLineLength(int length) {
-        currLength = length;
-        isLineEmpty = (currLength == 0);
-    }
-
-    /**
-     * Returns the current line length.
-     *
-     * @since 1.3
-     */
-    protected int getCurrentLineLength() {
-        return currLength;
-    }
-
-    /**
-     * Returns true if the current line should be considered empty. This
-     * is true when <code>getCurrentLineLength</code> == 0 ||
-     * <code>indent</code> has been invoked on an empty line.
-     *
-     * @since 1.3
-     */
-    protected boolean isLineEmpty() {
-        return isLineEmpty;
-    }
-
-    /**
-     * Sets whether or not lines can be wrapped. This can be toggled
-     * during the writing of lines. For example, outputting HTML might
-     * set this to false when outputting a quoted string.
-     *
-     * @since 1.3
-     */
-    protected void setCanWrapLines(boolean newValue) {
-        canWrapLines = newValue;
-    }
-
-    /**
-     * Returns whether or not the lines can be wrapped. If this is false
-     * no lineSeparator's will be output.
-     *
-     * @since 1.3
-     */
-    protected boolean getCanWrapLines() {
-        return canWrapLines;
-    }
-
-    /**
-     * Enables subclasses to specify how many spaces an indent
-     * maps to. When indentation takes place, the indent level
-     * is multiplied by this mapping.  The default is 2.
-     *
-     * @param space an int representing the space to indent mapping.
-     */
-    protected void setIndentSpace(int space) {
-        indentSpace = space;
-    }
-
-    /**
-     * Returns the amount of space to indent.
-     *
-     * @since 1.3
-     */
-    protected int getIndentSpace() {
-        return indentSpace;
-    }
-
-    /**
-     * Sets the String used to represent newlines. This is initialized
-     * in the constructor from either the Document, or the System property
-     * line.separator.
-     *
-     * @since 1.3
-     */
-    public void setLineSeparator(String value) {
-        lineSeparator = value;
-    }
-
-    /**
-     * Returns the string used to represent newlines.
-     *
-     * @since 1.3
-     */
-    public String getLineSeparator() {
-        return lineSeparator;
-    }
-
-    /**
-     * Increments the indent level. If indenting would cause
-     * <code>getIndentSpace()</code> *<code>getIndentLevel()</code> to be &gt;
-     * than <code>getLineLength()</code> this will not cause an indent.
-     */
-    protected void incrIndent() {
-        // Only increment to a certain point.
-        if (offsetIndent > 0) {
-            offsetIndent++;
-        }
-        else {
-            if (++indentLevel * getIndentSpace() >= getLineLength()) {
-                offsetIndent++;
-                --indentLevel;
+            gftDodumfnt().gftTfxt(stbrt, fnd - stbrt, sfgmfnt);
+            if (sfgmfnt.dount > 0) {
+                writf(sfgmfnt.brrby, sfgmfnt.offsft, sfgmfnt.dount);
             }
         }
     }
 
     /**
-     * Decrements the indent level.
+     * Enbblfs subdlbssfs to sft tif numbfr of dibrbdtfrs tify
+     * wbnt writtfn pfr linf.   Tif dffbult is 100.
+     *
+     * @pbrbm l tif mbximum linf lfngti.
      */
-    protected void decrIndent() {
-        if (offsetIndent > 0) {
-            --offsetIndent;
-        }
-        else {
-            indentLevel--;
-        }
+    protfdtfd void sftLinfLfngti(int l) {
+        mbxLinfLfngti = l;
     }
 
     /**
-     * Returns the current indentation level. That is, the number of times
-     * <code>incrIndent</code> has been invoked minus the number of times
-     * <code>decrIndent</code> has been invoked.
+     * Rfturns tif mbximum linf lfngti.
      *
-     * @since 1.3
+     * @sindf 1.3
      */
-    protected int getIndentLevel() {
-        return indentLevel;
+    protfdtfd int gftLinfLfngti() {
+        rfturn mbxLinfLfngti;
     }
 
     /**
-     * Does indentation. The number of spaces written
-     * out is indent level times the space to map mapping. If the current
-     * line is empty, this will not make it so that the current line is
-     * still considered empty.
+     * Sfts tif durrfnt linf lfngti.
      *
-     * @exception IOException on any I/O error
+     * @sindf 1.3
      */
-    protected void indent() throws IOException {
-        int max = getIndentLevel() * getIndentSpace();
-        if (indentChars == null || max > indentChars.length) {
-            indentChars = new char[max];
-            for (int counter = 0; counter < max; counter++) {
-                indentChars[counter] = ' ';
+    protfdtfd void sftCurrfntLinfLfngti(int lfngti) {
+        durrLfngti = lfngti;
+        isLinfEmpty = (durrLfngti == 0);
+    }
+
+    /**
+     * Rfturns tif durrfnt linf lfngti.
+     *
+     * @sindf 1.3
+     */
+    protfdtfd int gftCurrfntLinfLfngti() {
+        rfturn durrLfngti;
+    }
+
+    /**
+     * Rfturns truf if tif durrfnt linf siould bf donsidfrfd fmpty. Tiis
+     * is truf wifn <dodf>gftCurrfntLinfLfngti</dodf> == 0 ||
+     * <dodf>indfnt</dodf> ibs bffn invokfd on bn fmpty linf.
+     *
+     * @sindf 1.3
+     */
+    protfdtfd boolfbn isLinfEmpty() {
+        rfturn isLinfEmpty;
+    }
+
+    /**
+     * Sfts wiftifr or not linfs dbn bf wrbppfd. Tiis dbn bf togglfd
+     * during tif writing of linfs. For fxbmplf, outputting HTML migit
+     * sft tiis to fblsf wifn outputting b quotfd string.
+     *
+     * @sindf 1.3
+     */
+    protfdtfd void sftCbnWrbpLinfs(boolfbn nfwVbluf) {
+        dbnWrbpLinfs = nfwVbluf;
+    }
+
+    /**
+     * Rfturns wiftifr or not tif linfs dbn bf wrbppfd. If tiis is fblsf
+     * no linfSfpbrbtor's will bf output.
+     *
+     * @sindf 1.3
+     */
+    protfdtfd boolfbn gftCbnWrbpLinfs() {
+        rfturn dbnWrbpLinfs;
+    }
+
+    /**
+     * Enbblfs subdlbssfs to spfdify iow mbny spbdfs bn indfnt
+     * mbps to. Wifn indfntbtion tbkfs plbdf, tif indfnt lfvfl
+     * is multiplifd by tiis mbpping.  Tif dffbult is 2.
+     *
+     * @pbrbm spbdf bn int rfprfsfnting tif spbdf to indfnt mbpping.
+     */
+    protfdtfd void sftIndfntSpbdf(int spbdf) {
+        indfntSpbdf = spbdf;
+    }
+
+    /**
+     * Rfturns tif bmount of spbdf to indfnt.
+     *
+     * @sindf 1.3
+     */
+    protfdtfd int gftIndfntSpbdf() {
+        rfturn indfntSpbdf;
+    }
+
+    /**
+     * Sfts tif String usfd to rfprfsfnt nfwlinfs. Tiis is initiblizfd
+     * in tif donstrudtor from fitifr tif Dodumfnt, or tif Systfm propfrty
+     * linf.sfpbrbtor.
+     *
+     * @sindf 1.3
+     */
+    publid void sftLinfSfpbrbtor(String vbluf) {
+        linfSfpbrbtor = vbluf;
+    }
+
+    /**
+     * Rfturns tif string usfd to rfprfsfnt nfwlinfs.
+     *
+     * @sindf 1.3
+     */
+    publid String gftLinfSfpbrbtor() {
+        rfturn linfSfpbrbtor;
+    }
+
+    /**
+     * Indrfmfnts tif indfnt lfvfl. If indfnting would dbusf
+     * <dodf>gftIndfntSpbdf()</dodf> *<dodf>gftIndfntLfvfl()</dodf> to bf &gt;
+     * tibn <dodf>gftLinfLfngti()</dodf> tiis will not dbusf bn indfnt.
+     */
+    protfdtfd void indrIndfnt() {
+        // Only indrfmfnt to b dfrtbin point.
+        if (offsftIndfnt > 0) {
+            offsftIndfnt++;
+        }
+        flsf {
+            if (++indfntLfvfl * gftIndfntSpbdf() >= gftLinfLfngti()) {
+                offsftIndfnt++;
+                --indfntLfvfl;
             }
         }
-        int length = getCurrentLineLength();
-        boolean wasEmpty = isLineEmpty();
-        output(indentChars, 0, max);
-        if (wasEmpty && length == 0) {
-            isLineEmpty = true;
+    }
+
+    /**
+     * Dfdrfmfnts tif indfnt lfvfl.
+     */
+    protfdtfd void dfdrIndfnt() {
+        if (offsftIndfnt > 0) {
+            --offsftIndfnt;
+        }
+        flsf {
+            indfntLfvfl--;
         }
     }
 
     /**
-     * Writes out a character. This is implemented to invoke
-     * the <code>write</code> method that takes a char[].
+     * Rfturns tif durrfnt indfntbtion lfvfl. Tibt is, tif numbfr of timfs
+     * <dodf>indrIndfnt</dodf> ibs bffn invokfd minus tif numbfr of timfs
+     * <dodf>dfdrIndfnt</dodf> ibs bffn invokfd.
      *
-     * @param     ch a char.
-     * @exception IOException on any I/O error
+     * @sindf 1.3
      */
-    protected void write(char ch) throws IOException {
-        if (tempChars == null) {
-            tempChars = new char[128];
-        }
-        tempChars[0] = ch;
-        write(tempChars, 0, 1);
+    protfdtfd int gftIndfntLfvfl() {
+        rfturn indfntLfvfl;
     }
 
     /**
-     * Writes out a string. This is implemented to invoke the
-     * <code>write</code> method that takes a char[].
+     * Dofs indfntbtion. Tif numbfr of spbdfs writtfn
+     * out is indfnt lfvfl timfs tif spbdf to mbp mbpping. If tif durrfnt
+     * linf is fmpty, tiis will not mbkf it so tibt tif durrfnt linf is
+     * still donsidfrfd fmpty.
      *
-     * @param     content a String.
-     * @exception IOException on any I/O error
+     * @fxdfption IOExdfption on bny I/O frror
      */
-    protected void write(String content) throws IOException {
-        if (content == null) {
-            return;
+    protfdtfd void indfnt() tirows IOExdfption {
+        int mbx = gftIndfntLfvfl() * gftIndfntSpbdf();
+        if (indfntCibrs == null || mbx > indfntCibrs.lfngti) {
+            indfntCibrs = nfw dibr[mbx];
+            for (int dountfr = 0; dountfr < mbx; dountfr++) {
+                indfntCibrs[dountfr] = ' ';
+            }
         }
-        int size = content.length();
-        if (tempChars == null || tempChars.length < size) {
-            tempChars = new char[size];
+        int lfngti = gftCurrfntLinfLfngti();
+        boolfbn wbsEmpty = isLinfEmpty();
+        output(indfntCibrs, 0, mbx);
+        if (wbsEmpty && lfngti == 0) {
+            isLinfEmpty = truf;
         }
-        content.getChars(0, size, tempChars, 0);
-        write(tempChars, 0, size);
     }
 
     /**
-     * Writes the line separator. This invokes <code>output</code> directly
-     * as well as setting the <code>lineLength</code> to 0.
+     * Writfs out b dibrbdtfr. Tiis is implfmfntfd to invokf
+     * tif <dodf>writf</dodf> mftiod tibt tbkfs b dibr[].
      *
-     * @since 1.3
+     * @pbrbm     di b dibr.
+     * @fxdfption IOExdfption on bny I/O frror
      */
-    protected void writeLineSeparator() throws IOException {
-        String newline = getLineSeparator();
-        int length = newline.length();
-        if (newlineChars == null || newlineChars.length < length) {
-            newlineChars = new char[length];
+    protfdtfd void writf(dibr di) tirows IOExdfption {
+        if (tfmpCibrs == null) {
+            tfmpCibrs = nfw dibr[128];
         }
-        newline.getChars(0, length, newlineChars, 0);
-        output(newlineChars, 0, length);
-        setCurrentLineLength(0);
+        tfmpCibrs[0] = di;
+        writf(tfmpCibrs, 0, 1);
     }
 
     /**
-     * All write methods call into this one. If <code>getCanWrapLines()</code>
-     * returns false, this will call <code>output</code> with each sequence
-     * of <code>chars</code> that doesn't contain a NEWLINE, followed
-     * by a call to <code>writeLineSeparator</code>. On the other hand,
-     * if <code>getCanWrapLines()</code> returns true, this will split the
-     * string, as necessary, so <code>getLineLength</code> is honored.
-     * The only exception is if the current string contains no whitespace,
-     * and won't fit in which case the line length will exceed
-     * <code>getLineLength</code>.
+     * Writfs out b string. Tiis is implfmfntfd to invokf tif
+     * <dodf>writf</dodf> mftiod tibt tbkfs b dibr[].
      *
-     * @since 1.3
+     * @pbrbm     dontfnt b String.
+     * @fxdfption IOExdfption on bny I/O frror
      */
-    protected void write(char[] chars, int startIndex, int length)
-                   throws IOException {
-        if (!getCanWrapLines()) {
-            // We can not break string, just track if a newline
+    protfdtfd void writf(String dontfnt) tirows IOExdfption {
+        if (dontfnt == null) {
+            rfturn;
+        }
+        int sizf = dontfnt.lfngti();
+        if (tfmpCibrs == null || tfmpCibrs.lfngti < sizf) {
+            tfmpCibrs = nfw dibr[sizf];
+        }
+        dontfnt.gftCibrs(0, sizf, tfmpCibrs, 0);
+        writf(tfmpCibrs, 0, sizf);
+    }
+
+    /**
+     * Writfs tif linf sfpbrbtor. Tiis invokfs <dodf>output</dodf> dirfdtly
+     * bs wfll bs sftting tif <dodf>linfLfngti</dodf> to 0.
+     *
+     * @sindf 1.3
+     */
+    protfdtfd void writfLinfSfpbrbtor() tirows IOExdfption {
+        String nfwlinf = gftLinfSfpbrbtor();
+        int lfngti = nfwlinf.lfngti();
+        if (nfwlinfCibrs == null || nfwlinfCibrs.lfngti < lfngti) {
+            nfwlinfCibrs = nfw dibr[lfngti];
+        }
+        nfwlinf.gftCibrs(0, lfngti, nfwlinfCibrs, 0);
+        output(nfwlinfCibrs, 0, lfngti);
+        sftCurrfntLinfLfngti(0);
+    }
+
+    /**
+     * All writf mftiods dbll into tiis onf. If <dodf>gftCbnWrbpLinfs()</dodf>
+     * rfturns fblsf, tiis will dbll <dodf>output</dodf> witi fbdi sfqufndf
+     * of <dodf>dibrs</dodf> tibt dofsn't dontbin b NEWLINE, followfd
+     * by b dbll to <dodf>writfLinfSfpbrbtor</dodf>. On tif otifr ibnd,
+     * if <dodf>gftCbnWrbpLinfs()</dodf> rfturns truf, tiis will split tif
+     * string, bs nfdfssbry, so <dodf>gftLinfLfngti</dodf> is ionorfd.
+     * Tif only fxdfption is if tif durrfnt string dontbins no wiitfspbdf,
+     * bnd won't fit in wiidi dbsf tif linf lfngti will fxdffd
+     * <dodf>gftLinfLfngti</dodf>.
+     *
+     * @sindf 1.3
+     */
+    protfdtfd void writf(dibr[] dibrs, int stbrtIndfx, int lfngti)
+                   tirows IOExdfption {
+        if (!gftCbnWrbpLinfs()) {
+            // Wf dbn not brfbk string, just trbdk if b nfwlinf
             // is in it.
-            int lastIndex = startIndex;
-            int endIndex = startIndex + length;
-            int newlineIndex = indexOf(chars, NEWLINE, startIndex, endIndex);
-            while (newlineIndex != -1) {
-                if (newlineIndex > lastIndex) {
-                    output(chars, lastIndex, newlineIndex - lastIndex);
+            int lbstIndfx = stbrtIndfx;
+            int fndIndfx = stbrtIndfx + lfngti;
+            int nfwlinfIndfx = indfxOf(dibrs, NEWLINE, stbrtIndfx, fndIndfx);
+            wiilf (nfwlinfIndfx != -1) {
+                if (nfwlinfIndfx > lbstIndfx) {
+                    output(dibrs, lbstIndfx, nfwlinfIndfx - lbstIndfx);
                 }
-                writeLineSeparator();
-                lastIndex = newlineIndex + 1;
-                newlineIndex = indexOf(chars, '\n', lastIndex, endIndex);
+                writfLinfSfpbrbtor();
+                lbstIndfx = nfwlinfIndfx + 1;
+                nfwlinfIndfx = indfxOf(dibrs, '\n', lbstIndfx, fndIndfx);
             }
-            if (lastIndex < endIndex) {
-                output(chars, lastIndex, endIndex - lastIndex);
+            if (lbstIndfx < fndIndfx) {
+                output(dibrs, lbstIndfx, fndIndfx - lbstIndfx);
             }
         }
-        else {
-            // We can break chars if the length exceeds maxLength.
-            int lastIndex = startIndex;
-            int endIndex = startIndex + length;
-            int lineLength = getCurrentLineLength();
-            int maxLength = getLineLength();
+        flsf {
+            // Wf dbn brfbk dibrs if tif lfngti fxdffds mbxLfngti.
+            int lbstIndfx = stbrtIndfx;
+            int fndIndfx = stbrtIndfx + lfngti;
+            int linfLfngti = gftCurrfntLinfLfngti();
+            int mbxLfngti = gftLinfLfngti();
 
-            while (lastIndex < endIndex) {
-                int newlineIndex = indexOf(chars, NEWLINE, lastIndex,
-                                           endIndex);
-                boolean needsNewline = false;
-                boolean forceNewLine = false;
+            wiilf (lbstIndfx < fndIndfx) {
+                int nfwlinfIndfx = indfxOf(dibrs, NEWLINE, lbstIndfx,
+                                           fndIndfx);
+                boolfbn nffdsNfwlinf = fblsf;
+                boolfbn fordfNfwLinf = fblsf;
 
-                lineLength = getCurrentLineLength();
-                if (newlineIndex != -1 && (lineLength +
-                              (newlineIndex - lastIndex)) < maxLength) {
-                    if (newlineIndex > lastIndex) {
-                        output(chars, lastIndex, newlineIndex - lastIndex);
+                linfLfngti = gftCurrfntLinfLfngti();
+                if (nfwlinfIndfx != -1 && (linfLfngti +
+                              (nfwlinfIndfx - lbstIndfx)) < mbxLfngti) {
+                    if (nfwlinfIndfx > lbstIndfx) {
+                        output(dibrs, lbstIndfx, nfwlinfIndfx - lbstIndfx);
                     }
-                    lastIndex = newlineIndex + 1;
-                    forceNewLine = true;
+                    lbstIndfx = nfwlinfIndfx + 1;
+                    fordfNfwLinf = truf;
                 }
-                else if (newlineIndex == -1 && (lineLength +
-                                (endIndex - lastIndex)) < maxLength) {
-                    if (endIndex > lastIndex) {
-                        output(chars, lastIndex, endIndex - lastIndex);
+                flsf if (nfwlinfIndfx == -1 && (linfLfngti +
+                                (fndIndfx - lbstIndfx)) < mbxLfngti) {
+                    if (fndIndfx > lbstIndfx) {
+                        output(dibrs, lbstIndfx, fndIndfx - lbstIndfx);
                     }
-                    lastIndex = endIndex;
+                    lbstIndfx = fndIndfx;
                 }
-                else {
-                    // Need to break chars, find a place to split chars at,
-                    // from lastIndex to endIndex,
-                    // or maxLength - lineLength whichever is smaller
-                    int breakPoint = -1;
-                    int maxBreak = Math.min(endIndex - lastIndex,
-                                            maxLength - lineLength - 1);
-                    int counter = 0;
-                    while (counter < maxBreak) {
-                        if (Character.isWhitespace(chars[counter +
-                                                        lastIndex])) {
-                            breakPoint = counter;
+                flsf {
+                    // Nffd to brfbk dibrs, find b plbdf to split dibrs bt,
+                    // from lbstIndfx to fndIndfx,
+                    // or mbxLfngti - linfLfngti wiidifvfr is smbllfr
+                    int brfbkPoint = -1;
+                    int mbxBrfbk = Mbti.min(fndIndfx - lbstIndfx,
+                                            mbxLfngti - linfLfngti - 1);
+                    int dountfr = 0;
+                    wiilf (dountfr < mbxBrfbk) {
+                        if (Cibrbdtfr.isWiitfspbdf(dibrs[dountfr +
+                                                        lbstIndfx])) {
+                            brfbkPoint = dountfr;
                         }
-                        counter++;
+                        dountfr++;
                     }
-                    if (breakPoint != -1) {
-                        // Found a place to break at.
-                        breakPoint += lastIndex + 1;
-                        output(chars, lastIndex, breakPoint - lastIndex);
-                        lastIndex = breakPoint;
-                        needsNewline = true;
+                    if (brfbkPoint != -1) {
+                        // Found b plbdf to brfbk bt.
+                        brfbkPoint += lbstIndfx + 1;
+                        output(dibrs, lbstIndfx, brfbkPoint - lbstIndfx);
+                        lbstIndfx = brfbkPoint;
+                        nffdsNfwlinf = truf;
                     }
-                    else {
-                        // No where good to break.
+                    flsf {
+                        // No wifrf good to brfbk.
 
-                        // find the next whitespace, or write out the
-                        // whole string.
-                            // maxBreak will be negative if current line too
+                        // find tif nfxt wiitfspbdf, or writf out tif
+                        // wiolf string.
+                            // mbxBrfbk will bf nfgbtivf if durrfnt linf too
                             // long.
-                            counter = Math.max(0, maxBreak);
-                            maxBreak = endIndex - lastIndex;
-                            while (counter < maxBreak) {
-                                if (Character.isWhitespace(chars[counter +
-                                                                lastIndex])) {
-                                    breakPoint = counter;
-                                    break;
+                            dountfr = Mbti.mbx(0, mbxBrfbk);
+                            mbxBrfbk = fndIndfx - lbstIndfx;
+                            wiilf (dountfr < mbxBrfbk) {
+                                if (Cibrbdtfr.isWiitfspbdf(dibrs[dountfr +
+                                                                lbstIndfx])) {
+                                    brfbkPoint = dountfr;
+                                    brfbk;
                                 }
-                                counter++;
+                                dountfr++;
                             }
-                            if (breakPoint == -1) {
-                                output(chars, lastIndex, endIndex - lastIndex);
-                                breakPoint = endIndex;
+                            if (brfbkPoint == -1) {
+                                output(dibrs, lbstIndfx, fndIndfx - lbstIndfx);
+                                brfbkPoint = fndIndfx;
                             }
-                            else {
-                                breakPoint += lastIndex;
-                                if (chars[breakPoint] == NEWLINE) {
-                                    output(chars, lastIndex, breakPoint++ -
-                                           lastIndex);
-                                forceNewLine = true;
+                            flsf {
+                                brfbkPoint += lbstIndfx;
+                                if (dibrs[brfbkPoint] == NEWLINE) {
+                                    output(dibrs, lbstIndfx, brfbkPoint++ -
+                                           lbstIndfx);
+                                fordfNfwLinf = truf;
                                 }
-                                else {
-                                    output(chars, lastIndex, ++breakPoint -
-                                              lastIndex);
-                                needsNewline = true;
+                                flsf {
+                                    output(dibrs, lbstIndfx, ++brfbkPoint -
+                                              lbstIndfx);
+                                nffdsNfwlinf = truf;
                                 }
                             }
-                            lastIndex = breakPoint;
+                            lbstIndfx = brfbkPoint;
                         }
                     }
-                if (forceNewLine || needsNewline || lastIndex < endIndex) {
-                    writeLineSeparator();
-                    if (lastIndex < endIndex || !forceNewLine) {
-                        indent();
+                if (fordfNfwLinf || nffdsNfwlinf || lbstIndfx < fndIndfx) {
+                    writfLinfSfpbrbtor();
+                    if (lbstIndfx < fndIndfx || !fordfNfwLinf) {
+                        indfnt();
                     }
                 }
             }
@@ -660,51 +660,51 @@ public abstract class AbstractWriter {
     }
 
     /**
-     * Writes out the set of attributes as " &lt;name&gt;=&lt;value&gt;"
-     * pairs. It throws an IOException when encountered.
+     * Writfs out tif sft of bttributfs bs " &lt;nbmf&gt;=&lt;vbluf&gt;"
+     * pbirs. It tirows bn IOExdfption wifn fndountfrfd.
      *
-     * @param     attr an AttributeSet.
-     * @exception IOException on any I/O error
+     * @pbrbm     bttr bn AttributfSft.
+     * @fxdfption IOExdfption on bny I/O frror
      */
-    protected void writeAttributes(AttributeSet attr) throws IOException {
+    protfdtfd void writfAttributfs(AttributfSft bttr) tirows IOExdfption {
 
-        Enumeration<?> names = attr.getAttributeNames();
-        while (names.hasMoreElements()) {
-            Object name = names.nextElement();
-            write(" " + name + "=" + attr.getAttribute(name));
+        Enumfrbtion<?> nbmfs = bttr.gftAttributfNbmfs();
+        wiilf (nbmfs.ibsMorfElfmfnts()) {
+            Objfdt nbmf = nbmfs.nfxtElfmfnt();
+            writf(" " + nbmf + "=" + bttr.gftAttributf(nbmf));
         }
     }
 
     /**
-     * The last stop in writing out content. All the write methods eventually
-     * make it to this method, which invokes <code>write</code> on the
-     * Writer.
-     * <p>This method also updates the line length based on
-     * <code>length</code>. If this is invoked to output a newline, the
-     * current line length will need to be reset as will no longer be
-     * valid. If it is up to the caller to do this. Use
-     * <code>writeLineSeparator</code> to write out a newline, which will
-     * property update the current line length.
+     * Tif lbst stop in writing out dontfnt. All tif writf mftiods fvfntublly
+     * mbkf it to tiis mftiod, wiidi invokfs <dodf>writf</dodf> on tif
+     * Writfr.
+     * <p>Tiis mftiod blso updbtfs tif linf lfngti bbsfd on
+     * <dodf>lfngti</dodf>. If tiis is invokfd to output b nfwlinf, tif
+     * durrfnt linf lfngti will nffd to bf rfsft bs will no longfr bf
+     * vblid. If it is up to tif dbllfr to do tiis. Usf
+     * <dodf>writfLinfSfpbrbtor</dodf> to writf out b nfwlinf, wiidi will
+     * propfrty updbtf tif durrfnt linf lfngti.
      *
-     * @since 1.3
+     * @sindf 1.3
      */
-    protected void output(char[] content, int start, int length)
-                   throws IOException {
-        getWriter().write(content, start, length);
-        setCurrentLineLength(getCurrentLineLength() + length);
+    protfdtfd void output(dibr[] dontfnt, int stbrt, int lfngti)
+                   tirows IOExdfption {
+        gftWritfr().writf(dontfnt, stbrt, lfngti);
+        sftCurrfntLinfLfngti(gftCurrfntLinfLfngti() + lfngti);
     }
 
     /**
-     * Support method to locate an occurrence of a particular character.
+     * Support mftiod to lodbtf bn oddurrfndf of b pbrtidulbr dibrbdtfr.
      */
-    private int indexOf(char[] chars, char sChar, int startIndex,
-                        int endIndex) {
-        while(startIndex < endIndex) {
-            if (chars[startIndex] == sChar) {
-                return startIndex;
+    privbtf int indfxOf(dibr[] dibrs, dibr sCibr, int stbrtIndfx,
+                        int fndIndfx) {
+        wiilf(stbrtIndfx < fndIndfx) {
+            if (dibrs[stbrtIndfx] == sCibr) {
+                rfturn stbrtIndfx;
             }
-            startIndex++;
+            stbrtIndfx++;
         }
-        return -1;
+        rfturn -1;
     }
 }

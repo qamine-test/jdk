@@ -1,801 +1,801 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /* ****************************************************************
  ******************************************************************
  ******************************************************************
- *** COPYRIGHT (c) Eastman Kodak Company, 1997
- *** As  an unpublished  work pursuant to Title 17 of the United
- *** States Code.  All rights reserved.
+ *** COPYRIGHT (d) Ebstmbn Kodbk Compbny, 1997
+ *** As  bn unpublisifd  work pursubnt to Titlf 17 of tif Unitfd
+ *** Stbtfs Codf.  All rigits rfsfrvfd.
  ******************************************************************
  ******************************************************************
  ******************************************************************/
 
-package java.awt.image;
+pbdkbgf jbvb.bwt.imbgf;
 
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
 /**
- *  This class represents pixel data packed such that the N samples which make
- *  up a single pixel are stored in a single data array element, and each data
- *  data array element holds samples for only one pixel.
- *  This class supports
- *  {@link DataBuffer#TYPE_BYTE TYPE_BYTE},
- *  {@link DataBuffer#TYPE_USHORT TYPE_USHORT},
- *  {@link DataBuffer#TYPE_INT TYPE_INT} data types.
- *  All data array elements reside
- *  in the first bank of a DataBuffer.  Accessor methods are provided so
- *  that the image data can be manipulated directly. Scanline stride is the
- *  number of data array elements between a given sample and the corresponding
- *  sample in the same column of the next scanline. Bit masks are the masks
- *  required to extract the samples representing the bands of the pixel.
- *  Bit offsets are the offsets in bits into the data array
- *  element of the samples representing the bands of the pixel.
+ *  Tiis dlbss rfprfsfnts pixfl dbtb pbdkfd sudi tibt tif N sbmplfs wiidi mbkf
+ *  up b singlf pixfl brf storfd in b singlf dbtb brrby flfmfnt, bnd fbdi dbtb
+ *  dbtb brrby flfmfnt iolds sbmplfs for only onf pixfl.
+ *  Tiis dlbss supports
+ *  {@link DbtbBufffr#TYPE_BYTE TYPE_BYTE},
+ *  {@link DbtbBufffr#TYPE_USHORT TYPE_USHORT},
+ *  {@link DbtbBufffr#TYPE_INT TYPE_INT} dbtb typfs.
+ *  All dbtb brrby flfmfnts rfsidf
+ *  in tif first bbnk of b DbtbBufffr.  Addfssor mftiods brf providfd so
+ *  tibt tif imbgf dbtb dbn bf mbnipulbtfd dirfdtly. Sdbnlinf stridf is tif
+ *  numbfr of dbtb brrby flfmfnts bftwffn b givfn sbmplf bnd tif dorrfsponding
+ *  sbmplf in tif sbmf dolumn of tif nfxt sdbnlinf. Bit mbsks brf tif mbsks
+ *  rfquirfd to fxtrbdt tif sbmplfs rfprfsfnting tif bbnds of tif pixfl.
+ *  Bit offsfts brf tif offsfts in bits into tif dbtb brrby
+ *  flfmfnt of tif sbmplfs rfprfsfnting tif bbnds of tif pixfl.
  * <p>
- * The following code illustrates extracting the bits of the sample
- * representing band <code>b</code> for pixel <code>x,y</code>
- * from DataBuffer <code>data</code>:
- * <pre>{@code
- *      int sample = data.getElem(y * scanlineStride + x);
- *      sample = (sample & bitMasks[b]) >>> bitOffsets[b];
- * }</pre>
+ * Tif following dodf illustrbtfs fxtrbdting tif bits of tif sbmplf
+ * rfprfsfnting bbnd <dodf>b</dodf> for pixfl <dodf>x,y</dodf>
+ * from DbtbBufffr <dodf>dbtb</dodf>:
+ * <prf>{@dodf
+ *      int sbmplf = dbtb.gftElfm(y * sdbnlinfStridf + x);
+ *      sbmplf = (sbmplf & bitMbsks[b]) >>> bitOffsfts[b];
+ * }</prf>
  */
 
-public class SinglePixelPackedSampleModel extends SampleModel
+publid dlbss SinglfPixflPbdkfdSbmplfModfl fxtfnds SbmplfModfl
 {
-    /** Bit masks for all bands of the image data. */
-    private int bitMasks[];
+    /** Bit mbsks for bll bbnds of tif imbgf dbtb. */
+    privbtf int bitMbsks[];
 
-    /** Bit Offsets for all bands of the image data. */
-    private int bitOffsets[];
+    /** Bit Offsfts for bll bbnds of tif imbgf dbtb. */
+    privbtf int bitOffsfts[];
 
-    /** Bit sizes for all the bands of the image data. */
-    private int bitSizes[];
+    /** Bit sizfs for bll tif bbnds of tif imbgf dbtb. */
+    privbtf int bitSizfs[];
 
-    /** Maximum bit size. */
-    private int maxBitSize;
+    /** Mbximum bit sizf. */
+    privbtf int mbxBitSizf;
 
-    /** Line stride of the region of image data described by this
-     *  SinglePixelPackedSampleModel.
+    /** Linf stridf of tif rfgion of imbgf dbtb dfsdribfd by tiis
+     *  SinglfPixflPbdkfdSbmplfModfl.
      */
-    private int scanlineStride;
+    privbtf int sdbnlinfStridf;
 
-    private static native void initIDs();
-    static {
-        ColorModel.loadLibraries();
+    privbtf stbtid nbtivf void initIDs();
+    stbtid {
+        ColorModfl.lobdLibrbrifs();
         initIDs();
     }
 
     /**
-     * Constructs a SinglePixelPackedSampleModel with bitMasks.length bands.
-     * Each sample is stored in a data array element in the position of
-     * its corresponding bit mask.  Each bit mask must be contiguous and
-     * masks must not overlap. Bit masks exceeding data type capacity are
-     * truncated.
-     * @param dataType  The data type for storing samples.
-     * @param w         The width (in pixels) of the region of the
-     *                  image data described.
-     * @param h         The height (in pixels) of the region of the
-     *                  image data described.
-     * @param bitMasks  The bit masks for all bands.
-     * @throws IllegalArgumentException if <code>dataType</code> is not
-     *         either <code>DataBuffer.TYPE_BYTE</code>,
-     *         <code>DataBuffer.TYPE_USHORT</code>, or
-     *         <code>DataBuffer.TYPE_INT</code>
+     * Construdts b SinglfPixflPbdkfdSbmplfModfl witi bitMbsks.lfngti bbnds.
+     * Ebdi sbmplf is storfd in b dbtb brrby flfmfnt in tif position of
+     * its dorrfsponding bit mbsk.  Ebdi bit mbsk must bf dontiguous bnd
+     * mbsks must not ovfrlbp. Bit mbsks fxdffding dbtb typf dbpbdity brf
+     * trundbtfd.
+     * @pbrbm dbtbTypf  Tif dbtb typf for storing sbmplfs.
+     * @pbrbm w         Tif widti (in pixfls) of tif rfgion of tif
+     *                  imbgf dbtb dfsdribfd.
+     * @pbrbm i         Tif ifigit (in pixfls) of tif rfgion of tif
+     *                  imbgf dbtb dfsdribfd.
+     * @pbrbm bitMbsks  Tif bit mbsks for bll bbnds.
+     * @tirows IllfgblArgumfntExdfption if <dodf>dbtbTypf</dodf> is not
+     *         fitifr <dodf>DbtbBufffr.TYPE_BYTE</dodf>,
+     *         <dodf>DbtbBufffr.TYPE_USHORT</dodf>, or
+     *         <dodf>DbtbBufffr.TYPE_INT</dodf>
      */
-    public SinglePixelPackedSampleModel(int dataType, int w, int h,
-                                   int bitMasks[]) {
-        this(dataType, w, h, w, bitMasks);
-        if (dataType != DataBuffer.TYPE_BYTE &&
-            dataType != DataBuffer.TYPE_USHORT &&
-            dataType != DataBuffer.TYPE_INT) {
-            throw new IllegalArgumentException("Unsupported data type "+
-                                               dataType);
+    publid SinglfPixflPbdkfdSbmplfModfl(int dbtbTypf, int w, int i,
+                                   int bitMbsks[]) {
+        tiis(dbtbTypf, w, i, w, bitMbsks);
+        if (dbtbTypf != DbtbBufffr.TYPE_BYTE &&
+            dbtbTypf != DbtbBufffr.TYPE_USHORT &&
+            dbtbTypf != DbtbBufffr.TYPE_INT) {
+            tirow nfw IllfgblArgumfntExdfption("Unsupportfd dbtb typf "+
+                                               dbtbTypf);
         }
     }
 
     /**
-     * Constructs a SinglePixelPackedSampleModel with bitMasks.length bands
-     * and a scanline stride equal to scanlineStride data array elements.
-     * Each sample is stored in a data array element in the position of
-     * its corresponding bit mask.  Each bit mask must be contiguous and
-     * masks must not overlap. Bit masks exceeding data type capacity are
-     * truncated.
-     * @param dataType  The data type for storing samples.
-     * @param w         The width (in pixels) of the region of
-     *                  image data described.
-     * @param h         The height (in pixels) of the region of
-     *                  image data described.
-     * @param scanlineStride The line stride of the image data.
-     * @param bitMasks The bit masks for all bands.
-     * @throws IllegalArgumentException if <code>w</code> or
-     *         <code>h</code> is not greater than 0
-     * @throws IllegalArgumentException if any mask in
-     *         <code>bitMask</code> is not contiguous
-     * @throws IllegalArgumentException if <code>dataType</code> is not
-     *         either <code>DataBuffer.TYPE_BYTE</code>,
-     *         <code>DataBuffer.TYPE_USHORT</code>, or
-     *         <code>DataBuffer.TYPE_INT</code>
+     * Construdts b SinglfPixflPbdkfdSbmplfModfl witi bitMbsks.lfngti bbnds
+     * bnd b sdbnlinf stridf fqubl to sdbnlinfStridf dbtb brrby flfmfnts.
+     * Ebdi sbmplf is storfd in b dbtb brrby flfmfnt in tif position of
+     * its dorrfsponding bit mbsk.  Ebdi bit mbsk must bf dontiguous bnd
+     * mbsks must not ovfrlbp. Bit mbsks fxdffding dbtb typf dbpbdity brf
+     * trundbtfd.
+     * @pbrbm dbtbTypf  Tif dbtb typf for storing sbmplfs.
+     * @pbrbm w         Tif widti (in pixfls) of tif rfgion of
+     *                  imbgf dbtb dfsdribfd.
+     * @pbrbm i         Tif ifigit (in pixfls) of tif rfgion of
+     *                  imbgf dbtb dfsdribfd.
+     * @pbrbm sdbnlinfStridf Tif linf stridf of tif imbgf dbtb.
+     * @pbrbm bitMbsks Tif bit mbsks for bll bbnds.
+     * @tirows IllfgblArgumfntExdfption if <dodf>w</dodf> or
+     *         <dodf>i</dodf> is not grfbtfr tibn 0
+     * @tirows IllfgblArgumfntExdfption if bny mbsk in
+     *         <dodf>bitMbsk</dodf> is not dontiguous
+     * @tirows IllfgblArgumfntExdfption if <dodf>dbtbTypf</dodf> is not
+     *         fitifr <dodf>DbtbBufffr.TYPE_BYTE</dodf>,
+     *         <dodf>DbtbBufffr.TYPE_USHORT</dodf>, or
+     *         <dodf>DbtbBufffr.TYPE_INT</dodf>
      */
-    public SinglePixelPackedSampleModel(int dataType, int w, int h,
-                                   int scanlineStride, int bitMasks[]) {
-        super(dataType, w, h, bitMasks.length);
-        if (dataType != DataBuffer.TYPE_BYTE &&
-            dataType != DataBuffer.TYPE_USHORT &&
-            dataType != DataBuffer.TYPE_INT) {
-            throw new IllegalArgumentException("Unsupported data type "+
-                                               dataType);
+    publid SinglfPixflPbdkfdSbmplfModfl(int dbtbTypf, int w, int i,
+                                   int sdbnlinfStridf, int bitMbsks[]) {
+        supfr(dbtbTypf, w, i, bitMbsks.lfngti);
+        if (dbtbTypf != DbtbBufffr.TYPE_BYTE &&
+            dbtbTypf != DbtbBufffr.TYPE_USHORT &&
+            dbtbTypf != DbtbBufffr.TYPE_INT) {
+            tirow nfw IllfgblArgumfntExdfption("Unsupportfd dbtb typf "+
+                                               dbtbTypf);
         }
-        this.dataType = dataType;
-        this.bitMasks = bitMasks.clone();
-        this.scanlineStride = scanlineStride;
+        tiis.dbtbTypf = dbtbTypf;
+        tiis.bitMbsks = bitMbsks.dlonf();
+        tiis.sdbnlinfStridf = sdbnlinfStridf;
 
-        this.bitOffsets = new int[numBands];
-        this.bitSizes = new int[numBands];
+        tiis.bitOffsfts = nfw int[numBbnds];
+        tiis.bitSizfs = nfw int[numBbnds];
 
-        int maxMask = (int)((1L << DataBuffer.getDataTypeSize(dataType)) - 1);
+        int mbxMbsk = (int)((1L << DbtbBufffr.gftDbtbTypfSizf(dbtbTypf)) - 1);
 
-        this.maxBitSize = 0;
-        for (int i=0; i<numBands; i++) {
-            int bitOffset = 0, bitSize = 0, mask;
-            this.bitMasks[i] &= maxMask;
-            mask = this.bitMasks[i];
-            if (mask != 0) {
-                while ((mask & 1) == 0) {
-                    mask = mask >>> 1;
-                    bitOffset++;
+        tiis.mbxBitSizf = 0;
+        for (int i=0; i<numBbnds; i++) {
+            int bitOffsft = 0, bitSizf = 0, mbsk;
+            tiis.bitMbsks[i] &= mbxMbsk;
+            mbsk = tiis.bitMbsks[i];
+            if (mbsk != 0) {
+                wiilf ((mbsk & 1) == 0) {
+                    mbsk = mbsk >>> 1;
+                    bitOffsft++;
                 }
-                while ((mask & 1) == 1) {
-                    mask = mask >>> 1;
-                    bitSize++;
+                wiilf ((mbsk & 1) == 1) {
+                    mbsk = mbsk >>> 1;
+                    bitSizf++;
                 }
-                if (mask != 0) {
-                    throw new IllegalArgumentException("Mask "+bitMasks[i]+
-                                                       " must be contiguous");
+                if (mbsk != 0) {
+                    tirow nfw IllfgblArgumfntExdfption("Mbsk "+bitMbsks[i]+
+                                                       " must bf dontiguous");
                 }
             }
-            bitOffsets[i] = bitOffset;
-            bitSizes[i] = bitSize;
-            if (bitSize > maxBitSize) {
-                maxBitSize = bitSize;
+            bitOffsfts[i] = bitOffsft;
+            bitSizfs[i] = bitSizf;
+            if (bitSizf > mbxBitSizf) {
+                mbxBitSizf = bitSizf;
             }
         }
     }
 
     /**
-     * Returns the number of data elements needed to transfer one pixel
-     * via the getDataElements and setDataElements methods.
-     * For a SinglePixelPackedSampleModel, this is one.
+     * Rfturns tif numbfr of dbtb flfmfnts nffdfd to trbnsffr onf pixfl
+     * vib tif gftDbtbElfmfnts bnd sftDbtbElfmfnts mftiods.
+     * For b SinglfPixflPbdkfdSbmplfModfl, tiis is onf.
      */
-    public int getNumDataElements() {
-        return 1;
+    publid int gftNumDbtbElfmfnts() {
+        rfturn 1;
     }
 
     /**
-     * Returns the size of the buffer (in data array elements)
-     * needed for a data buffer that matches this
-     * SinglePixelPackedSampleModel.
+     * Rfturns tif sizf of tif bufffr (in dbtb brrby flfmfnts)
+     * nffdfd for b dbtb bufffr tibt mbtdifs tiis
+     * SinglfPixflPbdkfdSbmplfModfl.
      */
-    private long getBufferSize() {
-      long size = scanlineStride * (height-1) + width;
-      return size;
+    privbtf long gftBufffrSizf() {
+      long sizf = sdbnlinfStridf * (ifigit-1) + widti;
+      rfturn sizf;
     }
 
     /**
-     * Creates a new SinglePixelPackedSampleModel with the specified
-     * width and height.  The new SinglePixelPackedSampleModel will have the
-     * same storage data type and bit masks as this
-     * SinglePixelPackedSampleModel.
-     * @param w the width of the resulting <code>SampleModel</code>
-     * @param h the height of the resulting <code>SampleModel</code>
-     * @return a <code>SinglePixelPackedSampleModel</code> with the
-     *         specified width and height.
-     * @throws IllegalArgumentException if <code>w</code> or
-     *         <code>h</code> is not greater than 0
+     * Crfbtfs b nfw SinglfPixflPbdkfdSbmplfModfl witi tif spfdififd
+     * widti bnd ifigit.  Tif nfw SinglfPixflPbdkfdSbmplfModfl will ibvf tif
+     * sbmf storbgf dbtb typf bnd bit mbsks bs tiis
+     * SinglfPixflPbdkfdSbmplfModfl.
+     * @pbrbm w tif widti of tif rfsulting <dodf>SbmplfModfl</dodf>
+     * @pbrbm i tif ifigit of tif rfsulting <dodf>SbmplfModfl</dodf>
+     * @rfturn b <dodf>SinglfPixflPbdkfdSbmplfModfl</dodf> witi tif
+     *         spfdififd widti bnd ifigit.
+     * @tirows IllfgblArgumfntExdfption if <dodf>w</dodf> or
+     *         <dodf>i</dodf> is not grfbtfr tibn 0
      */
-    public SampleModel createCompatibleSampleModel(int w, int h) {
-      SampleModel sampleModel = new SinglePixelPackedSampleModel(dataType, w, h,
-                                                              bitMasks);
-      return sampleModel;
+    publid SbmplfModfl drfbtfCompbtiblfSbmplfModfl(int w, int i) {
+      SbmplfModfl sbmplfModfl = nfw SinglfPixflPbdkfdSbmplfModfl(dbtbTypf, w, i,
+                                                              bitMbsks);
+      rfturn sbmplfModfl;
     }
 
     /**
-     * Creates a DataBuffer that corresponds to this
-     * SinglePixelPackedSampleModel.  The DataBuffer's data type and size
-     * will be consistent with this SinglePixelPackedSampleModel.  The
-     * DataBuffer will have a single bank.
+     * Crfbtfs b DbtbBufffr tibt dorrfsponds to tiis
+     * SinglfPixflPbdkfdSbmplfModfl.  Tif DbtbBufffr's dbtb typf bnd sizf
+     * will bf donsistfnt witi tiis SinglfPixflPbdkfdSbmplfModfl.  Tif
+     * DbtbBufffr will ibvf b singlf bbnk.
      */
-    public DataBuffer createDataBuffer() {
-        DataBuffer dataBuffer = null;
+    publid DbtbBufffr drfbtfDbtbBufffr() {
+        DbtbBufffr dbtbBufffr = null;
 
-        int size = (int)getBufferSize();
-        switch (dataType) {
-        case DataBuffer.TYPE_BYTE:
-            dataBuffer = new DataBufferByte(size);
-            break;
-        case DataBuffer.TYPE_USHORT:
-            dataBuffer = new DataBufferUShort(size);
-            break;
-        case DataBuffer.TYPE_INT:
-            dataBuffer = new DataBufferInt(size);
-            break;
+        int sizf = (int)gftBufffrSizf();
+        switdi (dbtbTypf) {
+        dbsf DbtbBufffr.TYPE_BYTE:
+            dbtbBufffr = nfw DbtbBufffrBytf(sizf);
+            brfbk;
+        dbsf DbtbBufffr.TYPE_USHORT:
+            dbtbBufffr = nfw DbtbBufffrUSiort(sizf);
+            brfbk;
+        dbsf DbtbBufffr.TYPE_INT:
+            dbtbBufffr = nfw DbtbBufffrInt(sizf);
+            brfbk;
         }
-        return dataBuffer;
+        rfturn dbtbBufffr;
     }
 
-    /** Returns the number of bits per sample for all bands. */
-    public int[] getSampleSize() {
-        return bitSizes.clone();
+    /** Rfturns tif numbfr of bits pfr sbmplf for bll bbnds. */
+    publid int[] gftSbmplfSizf() {
+        rfturn bitSizfs.dlonf();
     }
 
-    /** Returns the number of bits per sample for the specified band. */
-    public int getSampleSize(int band) {
-        return bitSizes[band];
+    /** Rfturns tif numbfr of bits pfr sbmplf for tif spfdififd bbnd. */
+    publid int gftSbmplfSizf(int bbnd) {
+        rfturn bitSizfs[bbnd];
     }
 
-    /** Returns the offset (in data array elements) of pixel (x,y).
-     *  The data element containing pixel <code>x,y</code>
-     *  can be retrieved from a DataBuffer <code>data</code> with a
-     *  SinglePixelPackedSampleModel <code>sppsm</code> as:
-     * <pre>
-     *        data.getElem(sppsm.getOffset(x, y));
-     * </pre>
-     * @param x the X coordinate of the specified pixel
-     * @param y the Y coordinate of the specified pixel
-     * @return the offset of the specified pixel.
+    /** Rfturns tif offsft (in dbtb brrby flfmfnts) of pixfl (x,y).
+     *  Tif dbtb flfmfnt dontbining pixfl <dodf>x,y</dodf>
+     *  dbn bf rftrifvfd from b DbtbBufffr <dodf>dbtb</dodf> witi b
+     *  SinglfPixflPbdkfdSbmplfModfl <dodf>sppsm</dodf> bs:
+     * <prf>
+     *        dbtb.gftElfm(sppsm.gftOffsft(x, y));
+     * </prf>
+     * @pbrbm x tif X doordinbtf of tif spfdififd pixfl
+     * @pbrbm y tif Y doordinbtf of tif spfdififd pixfl
+     * @rfturn tif offsft of tif spfdififd pixfl.
      */
-    public int getOffset(int x, int y) {
-        int offset = y * scanlineStride + x;
-        return offset;
+    publid int gftOffsft(int x, int y) {
+        int offsft = y * sdbnlinfStridf + x;
+        rfturn offsft;
     }
 
-    /** Returns the bit offsets into the data array element representing
-     *  a pixel for all bands.
-     *  @return the bit offsets representing a pixel for all bands.
+    /** Rfturns tif bit offsfts into tif dbtb brrby flfmfnt rfprfsfnting
+     *  b pixfl for bll bbnds.
+     *  @rfturn tif bit offsfts rfprfsfnting b pixfl for bll bbnds.
      */
-    public int [] getBitOffsets() {
-      return bitOffsets.clone();
+    publid int [] gftBitOffsfts() {
+      rfturn bitOffsfts.dlonf();
     }
 
-    /** Returns the bit masks for all bands.
-     *  @return the bit masks for all bands.
+    /** Rfturns tif bit mbsks for bll bbnds.
+     *  @rfturn tif bit mbsks for bll bbnds.
      */
-    public int [] getBitMasks() {
-      return bitMasks.clone();
+    publid int [] gftBitMbsks() {
+      rfturn bitMbsks.dlonf();
     }
 
-    /** Returns the scanline stride of this SinglePixelPackedSampleModel.
-     *  @return the scanline stride of this
-     *          <code>SinglePixelPackedSampleModel</code>.
+    /** Rfturns tif sdbnlinf stridf of tiis SinglfPixflPbdkfdSbmplfModfl.
+     *  @rfturn tif sdbnlinf stridf of tiis
+     *          <dodf>SinglfPixflPbdkfdSbmplfModfl</dodf>.
      */
-    public int getScanlineStride() {
-      return scanlineStride;
+    publid int gftSdbnlinfStridf() {
+      rfturn sdbnlinfStridf;
     }
 
     /**
-     * This creates a new SinglePixelPackedSampleModel with a subset of the
-     * bands of this SinglePixelPackedSampleModel.  The new
-     * SinglePixelPackedSampleModel can be used with any DataBuffer that the
-     * existing SinglePixelPackedSampleModel can be used with.  The new
-     * SinglePixelPackedSampleModel/DataBuffer combination will represent
-     * an image with a subset of the bands of the original
-     * SinglePixelPackedSampleModel/DataBuffer combination.
-     * @exception RasterFormatException if the length of the bands argument is
-     *                                  greater than the number of bands in
-     *                                  the sample model.
+     * Tiis drfbtfs b nfw SinglfPixflPbdkfdSbmplfModfl witi b subsft of tif
+     * bbnds of tiis SinglfPixflPbdkfdSbmplfModfl.  Tif nfw
+     * SinglfPixflPbdkfdSbmplfModfl dbn bf usfd witi bny DbtbBufffr tibt tif
+     * fxisting SinglfPixflPbdkfdSbmplfModfl dbn bf usfd witi.  Tif nfw
+     * SinglfPixflPbdkfdSbmplfModfl/DbtbBufffr dombinbtion will rfprfsfnt
+     * bn imbgf witi b subsft of tif bbnds of tif originbl
+     * SinglfPixflPbdkfdSbmplfModfl/DbtbBufffr dombinbtion.
+     * @fxdfption RbstfrFormbtExdfption if tif lfngti of tif bbnds brgumfnt is
+     *                                  grfbtfr tibn tif numbfr of bbnds in
+     *                                  tif sbmplf modfl.
      */
-    public SampleModel createSubsetSampleModel(int bands[]) {
-        if (bands.length > numBands)
-            throw new RasterFormatException("There are only " +
-                                            numBands +
-                                            " bands");
-        int newBitMasks[] = new int[bands.length];
-        for (int i=0; i<bands.length; i++)
-            newBitMasks[i] = bitMasks[bands[i]];
+    publid SbmplfModfl drfbtfSubsftSbmplfModfl(int bbnds[]) {
+        if (bbnds.lfngti > numBbnds)
+            tirow nfw RbstfrFormbtExdfption("Tifrf brf only " +
+                                            numBbnds +
+                                            " bbnds");
+        int nfwBitMbsks[] = nfw int[bbnds.lfngti];
+        for (int i=0; i<bbnds.lfngti; i++)
+            nfwBitMbsks[i] = bitMbsks[bbnds[i]];
 
-        return new SinglePixelPackedSampleModel(this.dataType, width, height,
-                                           this.scanlineStride, newBitMasks);
+        rfturn nfw SinglfPixflPbdkfdSbmplfModfl(tiis.dbtbTypf, widti, ifigit,
+                                           tiis.sdbnlinfStridf, nfwBitMbsks);
     }
 
     /**
-     * Returns data for a single pixel in a primitive array of type
-     * TransferType.  For a SinglePixelPackedSampleModel, the array will
-     * have one element, and the type will be the same as the storage
-     * data type.  Generally, obj
-     * should be passed in as null, so that the Object will be created
-     * automatically and will be of the right primitive data type.
+     * Rfturns dbtb for b singlf pixfl in b primitivf brrby of typf
+     * TrbnsffrTypf.  For b SinglfPixflPbdkfdSbmplfModfl, tif brrby will
+     * ibvf onf flfmfnt, bnd tif typf will bf tif sbmf bs tif storbgf
+     * dbtb typf.  Gfnfrblly, obj
+     * siould bf pbssfd in bs null, so tibt tif Objfdt will bf drfbtfd
+     * butombtidblly bnd will bf of tif rigit primitivf dbtb typf.
      * <p>
-     * The following code illustrates transferring data for one pixel from
-     * DataBuffer <code>db1</code>, whose storage layout is described by
-     * SinglePixelPackedSampleModel <code>sppsm1</code>, to
-     * DataBuffer <code>db2</code>, whose storage layout is described by
-     * SinglePixelPackedSampleModel <code>sppsm2</code>.
-     * The transfer will generally be more efficient than using
-     * getPixel/setPixel.
-     * <pre>
-     *       SinglePixelPackedSampleModel sppsm1, sppsm2;
-     *       DataBufferInt db1, db2;
-     *       sppsm2.setDataElements(x, y, sppsm1.getDataElements(x, y, null,
+     * Tif following dodf illustrbtfs trbnsffrring dbtb for onf pixfl from
+     * DbtbBufffr <dodf>db1</dodf>, wiosf storbgf lbyout is dfsdribfd by
+     * SinglfPixflPbdkfdSbmplfModfl <dodf>sppsm1</dodf>, to
+     * DbtbBufffr <dodf>db2</dodf>, wiosf storbgf lbyout is dfsdribfd by
+     * SinglfPixflPbdkfdSbmplfModfl <dodf>sppsm2</dodf>.
+     * Tif trbnsffr will gfnfrblly bf morf fffidifnt tibn using
+     * gftPixfl/sftPixfl.
+     * <prf>
+     *       SinglfPixflPbdkfdSbmplfModfl sppsm1, sppsm2;
+     *       DbtbBufffrInt db1, db2;
+     *       sppsm2.sftDbtbElfmfnts(x, y, sppsm1.gftDbtbElfmfnts(x, y, null,
      *                              db1), db2);
-     * </pre>
-     * Using getDataElements/setDataElements to transfer between two
-     * DataBuffer/SampleModel pairs is legitimate if the SampleModels have
-     * the same number of bands, corresponding bands have the same number of
-     * bits per sample, and the TransferTypes are the same.
+     * </prf>
+     * Using gftDbtbElfmfnts/sftDbtbElfmfnts to trbnsffr bftwffn two
+     * DbtbBufffr/SbmplfModfl pbirs is lfgitimbtf if tif SbmplfModfls ibvf
+     * tif sbmf numbfr of bbnds, dorrfsponding bbnds ibvf tif sbmf numbfr of
+     * bits pfr sbmplf, bnd tif TrbnsffrTypfs brf tif sbmf.
      * <p>
-     * If obj is non-null, it should be a primitive array of type TransferType.
-     * Otherwise, a ClassCastException is thrown.  An
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
-     * not in bounds, or if obj is non-null and is not large enough to hold
-     * the pixel data.
-     * @param x         The X coordinate of the pixel location.
-     * @param y         The Y coordinate of the pixel location.
-     * @param obj       If non-null, a primitive array in which to return
-     *                  the pixel data.
-     * @param data      The DataBuffer containing the image data.
-     * @return the data for the specified pixel.
-     * @see #setDataElements(int, int, Object, DataBuffer)
+     * If obj is non-null, it siould bf b primitivf brrby of typf TrbnsffrTypf.
+     * Otifrwisf, b ClbssCbstExdfption is tirown.  An
+     * ArrbyIndfxOutOfBoundsExdfption mby bf tirown if tif doordinbtfs brf
+     * not in bounds, or if obj is non-null bnd is not lbrgf fnougi to iold
+     * tif pixfl dbtb.
+     * @pbrbm x         Tif X doordinbtf of tif pixfl lodbtion.
+     * @pbrbm y         Tif Y doordinbtf of tif pixfl lodbtion.
+     * @pbrbm obj       If non-null, b primitivf brrby in wiidi to rfturn
+     *                  tif pixfl dbtb.
+     * @pbrbm dbtb      Tif DbtbBufffr dontbining tif imbgf dbtb.
+     * @rfturn tif dbtb for tif spfdififd pixfl.
+     * @sff #sftDbtbElfmfnts(int, int, Objfdt, DbtbBufffr)
      */
-    public Object getDataElements(int x, int y, Object obj, DataBuffer data) {
-        // Bounds check for 'b' will be performed automatically
-        if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+    publid Objfdt gftDbtbElfmfnts(int x, int y, Objfdt obj, DbtbBufffr dbtb) {
+        // Bounds difdk for 'b' will bf pfrformfd butombtidblly
+        if ((x < 0) || (y < 0) || (x >= widti) || (y >= ifigit)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
         }
 
-        int type = getTransferType();
+        int typf = gftTrbnsffrTypf();
 
-        switch(type) {
+        switdi(typf) {
 
-        case DataBuffer.TYPE_BYTE:
+        dbsf DbtbBufffr.TYPE_BYTE:
 
-            byte[] bdata;
-
-            if (obj == null)
-                bdata = new byte[1];
-            else
-                bdata = (byte[])obj;
-
-            bdata[0] = (byte)data.getElem(y * scanlineStride + x);
-
-            obj = (Object)bdata;
-            break;
-
-        case DataBuffer.TYPE_USHORT:
-
-            short[] sdata;
+            bytf[] bdbtb;
 
             if (obj == null)
-                sdata = new short[1];
-            else
-                sdata = (short[])obj;
+                bdbtb = nfw bytf[1];
+            flsf
+                bdbtb = (bytf[])obj;
 
-            sdata[0] = (short)data.getElem(y * scanlineStride + x);
+            bdbtb[0] = (bytf)dbtb.gftElfm(y * sdbnlinfStridf + x);
 
-            obj = (Object)sdata;
-            break;
+            obj = (Objfdt)bdbtb;
+            brfbk;
 
-        case DataBuffer.TYPE_INT:
+        dbsf DbtbBufffr.TYPE_USHORT:
 
-            int[] idata;
+            siort[] sdbtb;
 
             if (obj == null)
-                idata = new int[1];
-            else
-                idata = (int[])obj;
+                sdbtb = nfw siort[1];
+            flsf
+                sdbtb = (siort[])obj;
 
-            idata[0] = data.getElem(y * scanlineStride + x);
+            sdbtb[0] = (siort)dbtb.gftElfm(y * sdbnlinfStridf + x);
 
-            obj = (Object)idata;
-            break;
+            obj = (Objfdt)sdbtb;
+            brfbk;
+
+        dbsf DbtbBufffr.TYPE_INT:
+
+            int[] idbtb;
+
+            if (obj == null)
+                idbtb = nfw int[1];
+            flsf
+                idbtb = (int[])obj;
+
+            idbtb[0] = dbtb.gftElfm(y * sdbnlinfStridf + x);
+
+            obj = (Objfdt)idbtb;
+            brfbk;
         }
 
-        return obj;
+        rfturn obj;
     }
 
     /**
-     * Returns all samples in for the specified pixel in an int array.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Rfturns bll sbmplfs in for tif spfdififd pixfl in bn int brrby.
+     * ArrbyIndfxOutOfBoundsExdfption mby bf tirown if tif doordinbtfs brf
      * not in bounds.
-     * @param x         The X coordinate of the pixel location.
-     * @param y         The Y coordinate of the pixel location.
-     * @param iArray    If non-null, returns the samples in this array
-     * @param data      The DataBuffer containing the image data.
-     * @return all samples for the specified pixel.
-     * @see #setPixel(int, int, int[], DataBuffer)
+     * @pbrbm x         Tif X doordinbtf of tif pixfl lodbtion.
+     * @pbrbm y         Tif Y doordinbtf of tif pixfl lodbtion.
+     * @pbrbm iArrby    If non-null, rfturns tif sbmplfs in tiis brrby
+     * @pbrbm dbtb      Tif DbtbBufffr dontbining tif imbgf dbtb.
+     * @rfturn bll sbmplfs for tif spfdififd pixfl.
+     * @sff #sftPixfl(int, int, int[], DbtbBufffr)
      */
-    public int [] getPixel(int x, int y, int iArray[], DataBuffer data) {
-        if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+    publid int [] gftPixfl(int x, int y, int iArrby[], DbtbBufffr dbtb) {
+        if ((x < 0) || (y < 0) || (x >= widti) || (y >= ifigit)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
         }
-        int pixels[];
-        if (iArray == null) {
-            pixels = new int [numBands];
-        } else {
-            pixels = iArray;
+        int pixfls[];
+        if (iArrby == null) {
+            pixfls = nfw int [numBbnds];
+        } flsf {
+            pixfls = iArrby;
         }
 
-        int value = data.getElem(y * scanlineStride + x);
-        for (int i=0; i<numBands; i++) {
-            pixels[i] = (value & bitMasks[i]) >>> bitOffsets[i];
+        int vbluf = dbtb.gftElfm(y * sdbnlinfStridf + x);
+        for (int i=0; i<numBbnds; i++) {
+            pixfls[i] = (vbluf & bitMbsks[i]) >>> bitOffsfts[i];
         }
-        return pixels;
+        rfturn pixfls;
     }
 
     /**
-     * Returns all samples for the specified rectangle of pixels in
-     * an int array, one sample per array element.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Rfturns bll sbmplfs for tif spfdififd rfdtbnglf of pixfls in
+     * bn int brrby, onf sbmplf pfr brrby flfmfnt.
+     * ArrbyIndfxOutOfBoundsExdfption mby bf tirown if tif doordinbtfs brf
      * not in bounds.
-     * @param x         The X coordinate of the upper left pixel location.
-     * @param y         The Y coordinate of the upper left pixel location.
-     * @param w         The width of the pixel rectangle.
-     * @param h         The height of the pixel rectangle.
-     * @param iArray    If non-null, returns the samples in this array.
-     * @param data      The DataBuffer containing the image data.
-     * @return all samples for the specified region of pixels.
-     * @see #setPixels(int, int, int, int, int[], DataBuffer)
+     * @pbrbm x         Tif X doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm y         Tif Y doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm w         Tif widti of tif pixfl rfdtbnglf.
+     * @pbrbm i         Tif ifigit of tif pixfl rfdtbnglf.
+     * @pbrbm iArrby    If non-null, rfturns tif sbmplfs in tiis brrby.
+     * @pbrbm dbtb      Tif DbtbBufffr dontbining tif imbgf dbtb.
+     * @rfturn bll sbmplfs for tif spfdififd rfgion of pixfls.
+     * @sff #sftPixfls(int, int, int, int, int[], DbtbBufffr)
      */
-    public int[] getPixels(int x, int y, int w, int h,
-                           int iArray[], DataBuffer data) {
+    publid int[] gftPixfls(int x, int y, int w, int i,
+                           int iArrby[], DbtbBufffr dbtb) {
         int x1 = x + w;
-        int y1 = y + h;
+        int y1 = y + i;
 
-        if (x < 0 || x >= width || w > width || x1 < 0 || x1 > width ||
-            y < 0 || y >= height || h > height || y1 < 0 || y1 >  height)
+        if (x < 0 || x >= widti || w > widti || x1 < 0 || x1 > widti ||
+            y < 0 || y >= ifigit || i > ifigit || y1 < 0 || y1 >  ifigit)
         {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
         }
-        int pixels[];
-        if (iArray != null) {
-           pixels = iArray;
-        } else {
-           pixels = new int [w*h*numBands];
+        int pixfls[];
+        if (iArrby != null) {
+           pixfls = iArrby;
+        } flsf {
+           pixfls = nfw int [w*i*numBbnds];
         }
-        int lineOffset = y*scanlineStride + x;
-        int dstOffset = 0;
+        int linfOffsft = y*sdbnlinfStridf + x;
+        int dstOffsft = 0;
 
-        for (int i = 0; i < h; i++) {
+        for (int i = 0; i < i; i++) {
            for (int j = 0; j < w; j++) {
-              int value = data.getElem(lineOffset+j);
-              for (int k=0; k < numBands; k++) {
-                  pixels[dstOffset++] =
-                     ((value & bitMasks[k]) >>> bitOffsets[k]);
+              int vbluf = dbtb.gftElfm(linfOffsft+j);
+              for (int k=0; k < numBbnds; k++) {
+                  pixfls[dstOffsft++] =
+                     ((vbluf & bitMbsks[k]) >>> bitOffsfts[k]);
               }
            }
-           lineOffset += scanlineStride;
+           linfOffsft += sdbnlinfStridf;
         }
-        return pixels;
+        rfturn pixfls;
     }
 
     /**
-     * Returns as int the sample in a specified band for the pixel
-     * located at (x,y).
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Rfturns bs int tif sbmplf in b spfdififd bbnd for tif pixfl
+     * lodbtfd bt (x,y).
+     * ArrbyIndfxOutOfBoundsExdfption mby bf tirown if tif doordinbtfs brf
      * not in bounds.
-     * @param x         The X coordinate of the pixel location.
-     * @param y         The Y coordinate of the pixel location.
-     * @param b         The band to return.
-     * @param data      The DataBuffer containing the image data.
-     * @return the sample in a specified band for the specified
-     *         pixel.
-     * @see #setSample(int, int, int, int, DataBuffer)
+     * @pbrbm x         Tif X doordinbtf of tif pixfl lodbtion.
+     * @pbrbm y         Tif Y doordinbtf of tif pixfl lodbtion.
+     * @pbrbm b         Tif bbnd to rfturn.
+     * @pbrbm dbtb      Tif DbtbBufffr dontbining tif imbgf dbtb.
+     * @rfturn tif sbmplf in b spfdififd bbnd for tif spfdififd
+     *         pixfl.
+     * @sff #sftSbmplf(int, int, int, int, DbtbBufffr)
      */
-    public int getSample(int x, int y, int b, DataBuffer data) {
-        // Bounds check for 'b' will be performed automatically
-        if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+    publid int gftSbmplf(int x, int y, int b, DbtbBufffr dbtb) {
+        // Bounds difdk for 'b' will bf pfrformfd butombtidblly
+        if ((x < 0) || (y < 0) || (x >= widti) || (y >= ifigit)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
         }
-        int sample = data.getElem(y * scanlineStride + x);
-        return ((sample & bitMasks[b]) >>> bitOffsets[b]);
+        int sbmplf = dbtb.gftElfm(y * sdbnlinfStridf + x);
+        rfturn ((sbmplf & bitMbsks[b]) >>> bitOffsfts[b]);
     }
 
     /**
-     * Returns the samples for a specified band for the specified rectangle
-     * of pixels in an int array, one sample per array element.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Rfturns tif sbmplfs for b spfdififd bbnd for tif spfdififd rfdtbnglf
+     * of pixfls in bn int brrby, onf sbmplf pfr brrby flfmfnt.
+     * ArrbyIndfxOutOfBoundsExdfption mby bf tirown if tif doordinbtfs brf
      * not in bounds.
-     * @param x         The X coordinate of the upper left pixel location.
-     * @param y         The Y coordinate of the upper left pixel location.
-     * @param w         The width of the pixel rectangle.
-     * @param h         The height of the pixel rectangle.
-     * @param b         The band to return.
-     * @param iArray    If non-null, returns the samples in this array.
-     * @param data      The DataBuffer containing the image data.
-     * @return the samples for the specified band for the specified
-     *         region of pixels.
-     * @see #setSamples(int, int, int, int, int, int[], DataBuffer)
+     * @pbrbm x         Tif X doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm y         Tif Y doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm w         Tif widti of tif pixfl rfdtbnglf.
+     * @pbrbm i         Tif ifigit of tif pixfl rfdtbnglf.
+     * @pbrbm b         Tif bbnd to rfturn.
+     * @pbrbm iArrby    If non-null, rfturns tif sbmplfs in tiis brrby.
+     * @pbrbm dbtb      Tif DbtbBufffr dontbining tif imbgf dbtb.
+     * @rfturn tif sbmplfs for tif spfdififd bbnd for tif spfdififd
+     *         rfgion of pixfls.
+     * @sff #sftSbmplfs(int, int, int, int, int, int[], DbtbBufffr)
      */
-    public int[] getSamples(int x, int y, int w, int h, int b,
-                           int iArray[], DataBuffer data) {
-        // Bounds check for 'b' will be performed automatically
-        if ((x < 0) || (y < 0) || (x + w > width) || (y + h > height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+    publid int[] gftSbmplfs(int x, int y, int w, int i, int b,
+                           int iArrby[], DbtbBufffr dbtb) {
+        // Bounds difdk for 'b' will bf pfrformfd butombtidblly
+        if ((x < 0) || (y < 0) || (x + w > widti) || (y + i > ifigit)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
         }
-        int samples[];
-        if (iArray != null) {
-           samples = iArray;
-        } else {
-           samples = new int [w*h];
+        int sbmplfs[];
+        if (iArrby != null) {
+           sbmplfs = iArrby;
+        } flsf {
+           sbmplfs = nfw int [w*i];
         }
-        int lineOffset = y*scanlineStride + x;
-        int dstOffset = 0;
+        int linfOffsft = y*sdbnlinfStridf + x;
+        int dstOffsft = 0;
 
-        for (int i = 0; i < h; i++) {
+        for (int i = 0; i < i; i++) {
            for (int j = 0; j < w; j++) {
-              int value = data.getElem(lineOffset+j);
-              samples[dstOffset++] =
-                 ((value & bitMasks[b]) >>> bitOffsets[b]);
+              int vbluf = dbtb.gftElfm(linfOffsft+j);
+              sbmplfs[dstOffsft++] =
+                 ((vbluf & bitMbsks[b]) >>> bitOffsfts[b]);
            }
-           lineOffset += scanlineStride;
+           linfOffsft += sdbnlinfStridf;
         }
-        return samples;
+        rfturn sbmplfs;
     }
 
     /**
-     * Sets the data for a single pixel in the specified DataBuffer from a
-     * primitive array of type TransferType.  For a
-     * SinglePixelPackedSampleModel, only the first element of the array
-     * will hold valid data, and the type of the array must be the same as
-     * the storage data type of the SinglePixelPackedSampleModel.
+     * Sfts tif dbtb for b singlf pixfl in tif spfdififd DbtbBufffr from b
+     * primitivf brrby of typf TrbnsffrTypf.  For b
+     * SinglfPixflPbdkfdSbmplfModfl, only tif first flfmfnt of tif brrby
+     * will iold vblid dbtb, bnd tif typf of tif brrby must bf tif sbmf bs
+     * tif storbgf dbtb typf of tif SinglfPixflPbdkfdSbmplfModfl.
      * <p>
-     * The following code illustrates transferring data for one pixel from
-     * DataBuffer <code>db1</code>, whose storage layout is described by
-     * SinglePixelPackedSampleModel <code>sppsm1</code>,
-     * to DataBuffer <code>db2</code>, whose storage layout is described by
-     * SinglePixelPackedSampleModel <code>sppsm2</code>.
-     * The transfer will generally be more efficient than using
-     * getPixel/setPixel.
-     * <pre>
-     *       SinglePixelPackedSampleModel sppsm1, sppsm2;
-     *       DataBufferInt db1, db2;
-     *       sppsm2.setDataElements(x, y, sppsm1.getDataElements(x, y, null,
+     * Tif following dodf illustrbtfs trbnsffrring dbtb for onf pixfl from
+     * DbtbBufffr <dodf>db1</dodf>, wiosf storbgf lbyout is dfsdribfd by
+     * SinglfPixflPbdkfdSbmplfModfl <dodf>sppsm1</dodf>,
+     * to DbtbBufffr <dodf>db2</dodf>, wiosf storbgf lbyout is dfsdribfd by
+     * SinglfPixflPbdkfdSbmplfModfl <dodf>sppsm2</dodf>.
+     * Tif trbnsffr will gfnfrblly bf morf fffidifnt tibn using
+     * gftPixfl/sftPixfl.
+     * <prf>
+     *       SinglfPixflPbdkfdSbmplfModfl sppsm1, sppsm2;
+     *       DbtbBufffrInt db1, db2;
+     *       sppsm2.sftDbtbElfmfnts(x, y, sppsm1.gftDbtbElfmfnts(x, y, null,
      *                              db1), db2);
-     * </pre>
-     * Using getDataElements/setDataElements to transfer between two
-     * DataBuffer/SampleModel pairs is legitimate if the SampleModels have
-     * the same number of bands, corresponding bands have the same number of
-     * bits per sample, and the TransferTypes are the same.
+     * </prf>
+     * Using gftDbtbElfmfnts/sftDbtbElfmfnts to trbnsffr bftwffn two
+     * DbtbBufffr/SbmplfModfl pbirs is lfgitimbtf if tif SbmplfModfls ibvf
+     * tif sbmf numbfr of bbnds, dorrfsponding bbnds ibvf tif sbmf numbfr of
+     * bits pfr sbmplf, bnd tif TrbnsffrTypfs brf tif sbmf.
      * <p>
-     * obj must be a primitive array of type TransferType.  Otherwise,
-     * a ClassCastException is thrown.  An
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
-     * not in bounds, or if obj is not large enough to hold the pixel data.
-     * @param x         The X coordinate of the pixel location.
-     * @param y         The Y coordinate of the pixel location.
-     * @param obj       A primitive array containing pixel data.
-     * @param data      The DataBuffer containing the image data.
-     * @see #getDataElements(int, int, Object, DataBuffer)
+     * obj must bf b primitivf brrby of typf TrbnsffrTypf.  Otifrwisf,
+     * b ClbssCbstExdfption is tirown.  An
+     * ArrbyIndfxOutOfBoundsExdfption mby bf tirown if tif doordinbtfs brf
+     * not in bounds, or if obj is not lbrgf fnougi to iold tif pixfl dbtb.
+     * @pbrbm x         Tif X doordinbtf of tif pixfl lodbtion.
+     * @pbrbm y         Tif Y doordinbtf of tif pixfl lodbtion.
+     * @pbrbm obj       A primitivf brrby dontbining pixfl dbtb.
+     * @pbrbm dbtb      Tif DbtbBufffr dontbining tif imbgf dbtb.
+     * @sff #gftDbtbElfmfnts(int, int, Objfdt, DbtbBufffr)
      */
-    public void setDataElements(int x, int y, Object obj, DataBuffer data) {
-        if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+    publid void sftDbtbElfmfnts(int x, int y, Objfdt obj, DbtbBufffr dbtb) {
+        if ((x < 0) || (y < 0) || (x >= widti) || (y >= ifigit)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
         }
 
-        int type = getTransferType();
+        int typf = gftTrbnsffrTypf();
 
-        switch(type) {
+        switdi(typf) {
 
-        case DataBuffer.TYPE_BYTE:
+        dbsf DbtbBufffr.TYPE_BYTE:
 
-            byte[] barray = (byte[])obj;
-            data.setElem(y*scanlineStride+x, ((int)barray[0])&0xff);
-            break;
+            bytf[] bbrrby = (bytf[])obj;
+            dbtb.sftElfm(y*sdbnlinfStridf+x, ((int)bbrrby[0])&0xff);
+            brfbk;
 
-        case DataBuffer.TYPE_USHORT:
+        dbsf DbtbBufffr.TYPE_USHORT:
 
-            short[] sarray = (short[])obj;
-            data.setElem(y*scanlineStride+x, ((int)sarray[0])&0xffff);
-            break;
+            siort[] sbrrby = (siort[])obj;
+            dbtb.sftElfm(y*sdbnlinfStridf+x, ((int)sbrrby[0])&0xffff);
+            brfbk;
 
-        case DataBuffer.TYPE_INT:
+        dbsf DbtbBufffr.TYPE_INT:
 
-            int[] iarray = (int[])obj;
-            data.setElem(y*scanlineStride+x, iarray[0]);
-            break;
+            int[] ibrrby = (int[])obj;
+            dbtb.sftElfm(y*sdbnlinfStridf+x, ibrrby[0]);
+            brfbk;
         }
     }
 
     /**
-     * Sets a pixel in the DataBuffer using an int array of samples for input.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sfts b pixfl in tif DbtbBufffr using bn int brrby of sbmplfs for input.
+     * ArrbyIndfxOutOfBoundsExdfption mby bf tirown if tif doordinbtfs brf
      * not in bounds.
-     * @param x         The X coordinate of the pixel location.
-     * @param y         The Y coordinate of the pixel location.
-     * @param iArray    The input samples in an int array.
-     * @param data      The DataBuffer containing the image data.
-     * @see #getPixel(int, int, int[], DataBuffer)
+     * @pbrbm x         Tif X doordinbtf of tif pixfl lodbtion.
+     * @pbrbm y         Tif Y doordinbtf of tif pixfl lodbtion.
+     * @pbrbm iArrby    Tif input sbmplfs in bn int brrby.
+     * @pbrbm dbtb      Tif DbtbBufffr dontbining tif imbgf dbtb.
+     * @sff #gftPixfl(int, int, int[], DbtbBufffr)
      */
-    public void setPixel(int x, int y,
-                         int iArray[],
-                         DataBuffer data) {
-        if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+    publid void sftPixfl(int x, int y,
+                         int iArrby[],
+                         DbtbBufffr dbtb) {
+        if ((x < 0) || (y < 0) || (x >= widti) || (y >= ifigit)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
         }
-        int lineOffset = y * scanlineStride + x;
-        int value = data.getElem(lineOffset);
-        for (int i=0; i < numBands; i++) {
-            value &= ~bitMasks[i];
-            value |= ((iArray[i] << bitOffsets[i]) & bitMasks[i]);
+        int linfOffsft = y * sdbnlinfStridf + x;
+        int vbluf = dbtb.gftElfm(linfOffsft);
+        for (int i=0; i < numBbnds; i++) {
+            vbluf &= ~bitMbsks[i];
+            vbluf |= ((iArrby[i] << bitOffsfts[i]) & bitMbsks[i]);
         }
-        data.setElem(lineOffset, value);
+        dbtb.sftElfm(linfOffsft, vbluf);
     }
 
     /**
-     * Sets all samples for a rectangle of pixels from an int array containing
-     * one sample per array element.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sfts bll sbmplfs for b rfdtbnglf of pixfls from bn int brrby dontbining
+     * onf sbmplf pfr brrby flfmfnt.
+     * ArrbyIndfxOutOfBoundsExdfption mby bf tirown if tif doordinbtfs brf
      * not in bounds.
-     * @param x         The X coordinate of the upper left pixel location.
-     * @param y         The Y coordinate of the upper left pixel location.
-     * @param w         The width of the pixel rectangle.
-     * @param h         The height of the pixel rectangle.
-     * @param iArray    The input samples in an int array.
-     * @param data      The DataBuffer containing the image data.
-     * @see #getPixels(int, int, int, int, int[], DataBuffer)
+     * @pbrbm x         Tif X doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm y         Tif Y doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm w         Tif widti of tif pixfl rfdtbnglf.
+     * @pbrbm i         Tif ifigit of tif pixfl rfdtbnglf.
+     * @pbrbm iArrby    Tif input sbmplfs in bn int brrby.
+     * @pbrbm dbtb      Tif DbtbBufffr dontbining tif imbgf dbtb.
+     * @sff #gftPixfls(int, int, int, int, int[], DbtbBufffr)
      */
-    public void setPixels(int x, int y, int w, int h,
-                          int iArray[], DataBuffer data) {
+    publid void sftPixfls(int x, int y, int w, int i,
+                          int iArrby[], DbtbBufffr dbtb) {
         int x1 = x + w;
-        int y1 = y + h;
+        int y1 = y + i;
 
-        if (x < 0 || x >= width || w > width || x1 < 0 || x1 > width ||
-            y < 0 || y >= height || h > height || y1 < 0 || y1 >  height)
+        if (x < 0 || x >= widti || w > widti || x1 < 0 || x1 > widti ||
+            y < 0 || y >= ifigit || i > ifigit || y1 < 0 || y1 >  ifigit)
         {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
         }
 
-        int lineOffset = y*scanlineStride + x;
-        int srcOffset = 0;
+        int linfOffsft = y*sdbnlinfStridf + x;
+        int srdOffsft = 0;
 
-        for (int i = 0; i < h; i++) {
+        for (int i = 0; i < i; i++) {
            for (int j = 0; j < w; j++) {
-               int value = data.getElem(lineOffset+j);
-               for (int k=0; k < numBands; k++) {
-                   value &= ~bitMasks[k];
-                   int srcValue = iArray[srcOffset++];
-                   value |= ((srcValue << bitOffsets[k])
-                             & bitMasks[k]);
+               int vbluf = dbtb.gftElfm(linfOffsft+j);
+               for (int k=0; k < numBbnds; k++) {
+                   vbluf &= ~bitMbsks[k];
+                   int srdVbluf = iArrby[srdOffsft++];
+                   vbluf |= ((srdVbluf << bitOffsfts[k])
+                             & bitMbsks[k]);
                }
-               data.setElem(lineOffset+j, value);
+               dbtb.sftElfm(linfOffsft+j, vbluf);
            }
-           lineOffset += scanlineStride;
+           linfOffsft += sdbnlinfStridf;
         }
     }
 
     /**
-     * Sets a sample in the specified band for the pixel located at (x,y)
-     * in the DataBuffer using an int for input.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sfts b sbmplf in tif spfdififd bbnd for tif pixfl lodbtfd bt (x,y)
+     * in tif DbtbBufffr using bn int for input.
+     * ArrbyIndfxOutOfBoundsExdfption mby bf tirown if tif doordinbtfs brf
      * not in bounds.
-     * @param x         The X coordinate of the pixel location.
-     * @param y         The Y coordinate of the pixel location.
-     * @param b         The band to set.
-     * @param s         The input sample as an int.
-     * @param data      The DataBuffer containing the image data.
-     * @see #getSample(int, int, int, DataBuffer)
+     * @pbrbm x         Tif X doordinbtf of tif pixfl lodbtion.
+     * @pbrbm y         Tif Y doordinbtf of tif pixfl lodbtion.
+     * @pbrbm b         Tif bbnd to sft.
+     * @pbrbm s         Tif input sbmplf bs bn int.
+     * @pbrbm dbtb      Tif DbtbBufffr dontbining tif imbgf dbtb.
+     * @sff #gftSbmplf(int, int, int, DbtbBufffr)
      */
-    public void setSample(int x, int y, int b, int s,
-                          DataBuffer data) {
-        // Bounds check for 'b' will be performed automatically
-        if ((x < 0) || (y < 0) || (x >= width) || (y >= height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+    publid void sftSbmplf(int x, int y, int b, int s,
+                          DbtbBufffr dbtb) {
+        // Bounds difdk for 'b' will bf pfrformfd butombtidblly
+        if ((x < 0) || (y < 0) || (x >= widti) || (y >= ifigit)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
         }
-        int value = data.getElem(y*scanlineStride + x);
-        value &= ~bitMasks[b];
-        value |= (s << bitOffsets[b]) & bitMasks[b];
-        data.setElem(y*scanlineStride + x,value);
+        int vbluf = dbtb.gftElfm(y*sdbnlinfStridf + x);
+        vbluf &= ~bitMbsks[b];
+        vbluf |= (s << bitOffsfts[b]) & bitMbsks[b];
+        dbtb.sftElfm(y*sdbnlinfStridf + x,vbluf);
     }
 
     /**
-     * Sets the samples in the specified band for the specified rectangle
-     * of pixels from an int array containing one sample per array element.
-     * ArrayIndexOutOfBoundsException may be thrown if the coordinates are
+     * Sfts tif sbmplfs in tif spfdififd bbnd for tif spfdififd rfdtbnglf
+     * of pixfls from bn int brrby dontbining onf sbmplf pfr brrby flfmfnt.
+     * ArrbyIndfxOutOfBoundsExdfption mby bf tirown if tif doordinbtfs brf
      * not in bounds.
-     * @param x         The X coordinate of the upper left pixel location.
-     * @param y         The Y coordinate of the upper left pixel location.
-     * @param w         The width of the pixel rectangle.
-     * @param h         The height of the pixel rectangle.
-     * @param b         The band to set.
-     * @param iArray    The input samples in an int array.
-     * @param data      The DataBuffer containing the image data.
-     * @see #getSamples(int, int, int, int, int, int[], DataBuffer)
+     * @pbrbm x         Tif X doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm y         Tif Y doordinbtf of tif uppfr lfft pixfl lodbtion.
+     * @pbrbm w         Tif widti of tif pixfl rfdtbnglf.
+     * @pbrbm i         Tif ifigit of tif pixfl rfdtbnglf.
+     * @pbrbm b         Tif bbnd to sft.
+     * @pbrbm iArrby    Tif input sbmplfs in bn int brrby.
+     * @pbrbm dbtb      Tif DbtbBufffr dontbining tif imbgf dbtb.
+     * @sff #gftSbmplfs(int, int, int, int, int, int[], DbtbBufffr)
      */
-    public void setSamples(int x, int y, int w, int h, int b,
-                          int iArray[], DataBuffer data) {
-        // Bounds check for 'b' will be performed automatically
-        if ((x < 0) || (y < 0) || (x + w > width) || (y + h > height)) {
-            throw new ArrayIndexOutOfBoundsException
-                ("Coordinate out of bounds!");
+    publid void sftSbmplfs(int x, int y, int w, int i, int b,
+                          int iArrby[], DbtbBufffr dbtb) {
+        // Bounds difdk for 'b' will bf pfrformfd butombtidblly
+        if ((x < 0) || (y < 0) || (x + w > widti) || (y + i > ifigit)) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption
+                ("Coordinbtf out of bounds!");
         }
-        int lineOffset = y*scanlineStride + x;
-        int srcOffset = 0;
+        int linfOffsft = y*sdbnlinfStridf + x;
+        int srdOffsft = 0;
 
-        for (int i = 0; i < h; i++) {
+        for (int i = 0; i < i; i++) {
            for (int j = 0; j < w; j++) {
-              int value = data.getElem(lineOffset+j);
-              value &= ~bitMasks[b];
-              int sample = iArray[srcOffset++];
-              value |= (sample << bitOffsets[b]) & bitMasks[b];
-              data.setElem(lineOffset+j,value);
+              int vbluf = dbtb.gftElfm(linfOffsft+j);
+              vbluf &= ~bitMbsks[b];
+              int sbmplf = iArrby[srdOffsft++];
+              vbluf |= (sbmplf << bitOffsfts[b]) & bitMbsks[b];
+              dbtb.sftElfm(linfOffsft+j,vbluf);
            }
-           lineOffset += scanlineStride;
+           linfOffsft += sdbnlinfStridf;
         }
     }
 
-    public boolean equals(Object o) {
-        if ((o == null) || !(o instanceof SinglePixelPackedSampleModel)) {
-            return false;
+    publid boolfbn fqubls(Objfdt o) {
+        if ((o == null) || !(o instbndfof SinglfPixflPbdkfdSbmplfModfl)) {
+            rfturn fblsf;
         }
 
-        SinglePixelPackedSampleModel that = (SinglePixelPackedSampleModel)o;
-        return this.width == that.width &&
-            this.height == that.height &&
-            this.numBands == that.numBands &&
-            this.dataType == that.dataType &&
-            Arrays.equals(this.bitMasks, that.bitMasks) &&
-            Arrays.equals(this.bitOffsets, that.bitOffsets) &&
-            Arrays.equals(this.bitSizes, that.bitSizes) &&
-            this.maxBitSize == that.maxBitSize &&
-            this.scanlineStride == that.scanlineStride;
+        SinglfPixflPbdkfdSbmplfModfl tibt = (SinglfPixflPbdkfdSbmplfModfl)o;
+        rfturn tiis.widti == tibt.widti &&
+            tiis.ifigit == tibt.ifigit &&
+            tiis.numBbnds == tibt.numBbnds &&
+            tiis.dbtbTypf == tibt.dbtbTypf &&
+            Arrbys.fqubls(tiis.bitMbsks, tibt.bitMbsks) &&
+            Arrbys.fqubls(tiis.bitOffsfts, tibt.bitOffsfts) &&
+            Arrbys.fqubls(tiis.bitSizfs, tibt.bitSizfs) &&
+            tiis.mbxBitSizf == tibt.mbxBitSizf &&
+            tiis.sdbnlinfStridf == tibt.sdbnlinfStridf;
     }
 
-    // If we implement equals() we must also implement hashCode
-    public int hashCode() {
-        int hash = 0;
-        hash = width;
-        hash <<= 8;
-        hash ^= height;
-        hash <<= 8;
-        hash ^= numBands;
-        hash <<= 8;
-        hash ^= dataType;
-        hash <<= 8;
-        for (int i = 0; i < bitMasks.length; i++) {
-            hash ^= bitMasks[i];
-            hash <<= 8;
+    // If wf implfmfnt fqubls() wf must blso implfmfnt ibsiCodf
+    publid int ibsiCodf() {
+        int ibsi = 0;
+        ibsi = widti;
+        ibsi <<= 8;
+        ibsi ^= ifigit;
+        ibsi <<= 8;
+        ibsi ^= numBbnds;
+        ibsi <<= 8;
+        ibsi ^= dbtbTypf;
+        ibsi <<= 8;
+        for (int i = 0; i < bitMbsks.lfngti; i++) {
+            ibsi ^= bitMbsks[i];
+            ibsi <<= 8;
         }
-        for (int i = 0; i < bitOffsets.length; i++) {
-            hash ^= bitOffsets[i];
-            hash <<= 8;
+        for (int i = 0; i < bitOffsfts.lfngti; i++) {
+            ibsi ^= bitOffsfts[i];
+            ibsi <<= 8;
         }
-        for (int i = 0; i < bitSizes.length; i++) {
-            hash ^= bitSizes[i];
-            hash <<= 8;
+        for (int i = 0; i < bitSizfs.lfngti; i++) {
+            ibsi ^= bitSizfs[i];
+            ibsi <<= 8;
         }
-        hash ^= maxBitSize;
-        hash <<= 8;
-        hash ^= scanlineStride;
-        return hash;
+        ibsi ^= mbxBitSizf;
+        ibsi <<= 8;
+        ibsi ^= sdbnlinfStridf;
+        rfturn ibsi;
     }
 }

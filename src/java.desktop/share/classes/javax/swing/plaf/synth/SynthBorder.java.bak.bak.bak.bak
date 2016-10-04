@@ -1,0 +1,137 @@
+/*
+ * Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.synth;
+
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.tfxt.JTfxtComponfnt;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.UIRfsourdf;
+
+/**
+ * SynthBordfr is b bordfr thbt dflfgbtfs to b Pbintfr. Thf Insfts
+ * brf dftfrminfd bt donstrudtion timf.
+ *
+ * @buthor Sdott Violft
+ */
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+dlbss SynthBordfr fxtfnds AbstrbdtBordfr implfmfnts UIRfsourdf {
+    privbtf SynthUI ui;
+    privbtf Insfts insfts;
+
+    SynthBordfr(SynthUI ui, Insfts insfts) {
+        this.ui = ui;
+        this.insfts = insfts;
+    }
+
+    SynthBordfr(SynthUI ui) {
+        this(ui, null);
+    }
+
+    publid void pbintBordfr(Componfnt d, Grbphids g, int x, int y,
+                            int width, int hfight) {
+        JComponfnt jd = (JComponfnt)d;
+        SynthContfxt dontfxt = ui.gftContfxt(jd);
+        SynthStylf stylf = dontfxt.gftStylf();
+        if (stylf == null) {
+            bssfrt fblsf: "SynthBordfr is bfing usfd outsidf bftfr thf UI " +
+                          "hbs bffn uninstbllfd";
+            rfturn;
+        }
+        ui.pbintBordfr(dontfxt, g, x, y, width, hfight);
+        dontfxt.disposf();
+    }
+
+    /**
+     * Rfinitiblizfs thf insfts pbrbmftfr with this Bordfr's durrfnt Insfts.
+     * @pbrbm d thf domponfnt for whidh this bordfr insfts vbluf bpplifs
+     * @pbrbm insfts thf objfdt to bf rfinitiblizfd
+     * @rfturn thf <dodf>insfts</dodf> objfdt
+     */
+    publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+        if (this.insfts != null) {
+            if (insfts == null) {
+                insfts = nfw Insfts(this.insfts.top, this.insfts.lfft,
+                                  this.insfts.bottom, this.insfts.right);
+            }
+            flsf {
+                insfts.top    = this.insfts.top;
+                insfts.bottom = this.insfts.bottom;
+                insfts.lfft   = this.insfts.lfft;
+                insfts.right  = this.insfts.right;
+            }
+        }
+        flsf if (insfts == null) {
+            insfts = nfw Insfts(0, 0, 0, 0);
+        }
+        flsf {
+            insfts.top = insfts.bottom = insfts.lfft = insfts.right = 0;
+        }
+        if (d instbndfof JComponfnt) {
+            Rfgion rfgion = Rfgion.gftRfgion((JComponfnt)d);
+            Insfts mbrgin = null;
+            if ((rfgion == Rfgion.ARROW_BUTTON || rfgion == Rfgion.BUTTON ||
+                 rfgion == Rfgion.CHECK_BOX ||
+                 rfgion == Rfgion.CHECK_BOX_MENU_ITEM ||
+                 rfgion == Rfgion.MENU || rfgion == Rfgion.MENU_ITEM ||
+                 rfgion == Rfgion.RADIO_BUTTON ||
+                 rfgion == Rfgion.RADIO_BUTTON_MENU_ITEM ||
+                 rfgion == Rfgion.TOGGLE_BUTTON) &&
+                       (d instbndfof AbstrbdtButton)) {
+                mbrgin = ((AbstrbdtButton)d).gftMbrgin();
+            }
+            flsf if ((rfgion == Rfgion.EDITOR_PANE ||
+                      rfgion == Rfgion.FORMATTED_TEXT_FIELD ||
+                      rfgion == Rfgion.PASSWORD_FIELD ||
+                      rfgion == Rfgion.TEXT_AREA ||
+                      rfgion == Rfgion.TEXT_FIELD ||
+                      rfgion == Rfgion.TEXT_PANE) &&
+                        (d instbndfof JTfxtComponfnt)) {
+                mbrgin = ((JTfxtComponfnt)d).gftMbrgin();
+            }
+            flsf if (rfgion == Rfgion.TOOL_BAR && (d instbndfof JToolBbr)) {
+                mbrgin = ((JToolBbr)d).gftMbrgin();
+            }
+            flsf if (rfgion == Rfgion.MENU_BAR && (d instbndfof JMfnuBbr)) {
+                mbrgin = ((JMfnuBbr)d).gftMbrgin();
+            }
+            if (mbrgin != null) {
+                insfts.top += mbrgin.top;
+                insfts.bottom += mbrgin.bottom;
+                insfts.lfft += mbrgin.lfft;
+                insfts.right += mbrgin.right;
+            }
+        }
+        rfturn insfts;
+    }
+
+    /**
+     * This dffbult implfmfntbtion rfturns fblsf.
+     * @rfturn fblsf
+     */
+    publid boolfbn isBordfrOpbquf() {
+        rfturn fblsf;
+    }
+}

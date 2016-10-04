@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef AWT_INPUTTEXTINFOR_H
-#define AWT_INPUTTEXTINFOR_H
+#ifndff AWT_INPUTTEXTINFOR_H
+#dffinf AWT_INPUTTEXTINFOR_H
 
 /***************************************************************
- * AwtInputTextInfor
+ * AwtInputTfxtInfor
  *
- * A class encapsulating the composition string and result string
- * used in windows input method implementation.
+ * A dlbss fndbpsulbting tif domposition string bnd rfsult string
+ * usfd in windows input mftiod implfmfntbtion.
  *
  */
-#include <windows.h>
-#include <imm.h>
-#include <jni.h>
+#indludf <windows.i>
+#indludf <imm.i>
+#indludf <jni.i>
 
-class AwtInputTextInfor {
- public:
-    /* Default constructor provided just for the clients who
-       want to use the SendInputMethodEvent service.
+dlbss AwtInputTfxtInfor {
+ publid:
+    /* Dffbult donstrudtor providfd just for tif dlifnts wio
+       wbnt to usf tif SfndInputMftiodEvfnt sfrvidf.
     */
-    AwtInputTextInfor();
+    AwtInputTfxtInfor();
 
-    int GetContextData(HIMC hIMC, const LPARAM flags);
+    int GftContfxtDbtb(HIMC iIMC, donst LPARAM flbgs);
 
-    int GetCursorPosition() const;
+    int GftCursorPosition() donst;
 
-    int GetCommittedTextLength() const;
+    int GftCommittfdTfxtLfngti() donst;
 
-    jstring GetText() const { return m_jtext; }
+    jstring GftTfxt() donst { rfturn m_jtfxt; }
 
-    int GetClauseInfor(int*& lpBndClauseW, jstring*& lpReadingClauseW);
-    int GetAttributeInfor(int*& lpBndAttrW, BYTE*& lpValAttrW);
+    int GftClbusfInfor(int*& lpBndClbusfW, jstring*& lpRfbdingClbusfW);
+    int GftAttributfInfor(int*& lpBndAttrW, BYTE*& lpVblAttrW);
 
-    ~AwtInputTextInfor();
- private:
-    /* helper function to return a java string.*/
-    static jstring MakeJavaString(JNIEnv* env, LPWSTR lpStrW, int cStrW);
+    ~AwtInputTfxtInfor();
+ privbtf:
+    /* iflpfr fundtion to rfturn b jbvb string.*/
+    stbtid jstring MbkfJbvbString(JNIEnv* fnv, LPWSTR lpStrW, int dStrW);
 
 
-    LPARAM m_flags;            /* The message LPARAM. */
-    int m_cursorPosW;          /* the current cursor position of composition string */
-    jstring m_jtext;           /* Composing string/result string or merged one */
-    AwtInputTextInfor* m_pResultTextInfor; /* pointer to result string */
+    LPARAM m_flbgs;            /* Tif mfssbgf LPARAM. */
+    int m_dursorPosW;          /* tif durrfnt dursor position of domposition string */
+    jstring m_jtfxt;           /* Composing string/rfsult string or mfrgfd onf */
+    AwtInputTfxtInfor* m_pRfsultTfxtInfor; /* pointfr to rfsult string */
 
-    int m_cStrW;            /* size of the current composition/result string */
-    int m_cReadStrW;        /* size of the reading string */
-    int m_cClauseW;         /* size of the clause */
-    int m_cReadClauseW;     /* size of the read clause */
-    int m_cAttrW;           /* size of the attribute (composition only) */
+    int m_dStrW;            /* sizf of tif durrfnt domposition/rfsult string */
+    int m_dRfbdStrW;        /* sizf of tif rfbding string */
+    int m_dClbusfW;         /* sizf of tif dlbusf */
+    int m_dRfbdClbusfW;     /* sizf of tif rfbd dlbusf */
+    int m_dAttrW;           /* sizf of tif bttributf (domposition only) */
 
-    LPWSTR  m_lpStrW;       /* pointer to the current composition/result string */
-    LPWSTR  m_lpReadStrW;   /* pointer to the reading string */
-    LPDWORD m_lpClauseW;    /* pointer to the clause information */
-    LPDWORD m_lpReadClauseW;/* pointer to the reading clause information */
-    LPBYTE  m_lpAttrW;      /* pointer to the attribute information (composition only) */
+    LPWSTR  m_lpStrW;       /* pointfr to tif durrfnt domposition/rfsult string */
+    LPWSTR  m_lpRfbdStrW;   /* pointfr to tif rfbding string */
+    LPDWORD m_lpClbusfW;    /* pointfr to tif dlbusf informbtion */
+    LPDWORD m_lpRfbdClbusfW;/* pointfr to tif rfbding dlbusf informbtion */
+    LPBYTE  m_lpAttrW;      /* pointfr to tif bttributf informbtion (domposition only) */
 
-    /* GCS_XXX index for result string */
-    static const DWORD GCS_INDEX[9];
+    /* GCS_XXX indfx for rfsult string */
+    stbtid donst DWORD GCS_INDEX[9];
 };
 
-#endif // AWT_INPUTTEXTINFOR_H
+#fndif // AWT_INPUTTEXTINFOR_H

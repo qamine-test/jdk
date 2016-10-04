@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 1999, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.net.ssl;
+pbdkbgf jbvbx.nft.ssl;
 
-import java.security.*;
+import jbvb.sfdurity.*;
 
 /**
- * This class defines the <i>Service Provider Interface</i> (<b>SPI</b>)
- * for the <code>KeyManagerFactory</code> class.
+ * Tiis dlbss dffinfs tif <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for tif <dodf>KfyMbnbgfrFbdtory</dodf> dlbss.
  *
- * <p> All the abstract methods in this class must be implemented by each
- * cryptographic service provider who wishes to supply the implementation
- * of a particular key manager factory.
+ * <p> All tif bbstrbdt mftiods in tiis dlbss must bf implfmfntfd by fbdi
+ * dryptogrbpiid sfrvidf providfr wio wisifs to supply tif implfmfntbtion
+ * of b pbrtidulbr kfy mbnbgfr fbdtory.
  *
- * @since 1.4
- * @see KeyManagerFactory
- * @see KeyManager
+ * @sindf 1.4
+ * @sff KfyMbnbgfrFbdtory
+ * @sff KfyMbnbgfr
  */
-public abstract class KeyManagerFactorySpi {
+publid bbstrbdt dlbss KfyMbnbgfrFbdtorySpi {
     /**
-     * Initializes this factory with a source of key material.
+     * Initiblizfs tiis fbdtory witi b sourdf of kfy mbtfribl.
      *
-     * @param ks the key store or null
-     * @param password the password for recovering keys
-     * @throws KeyStoreException if this operation fails
-     * @throws NoSuchAlgorithmException if the specified algorithm is not
-     *          available from the specified provider.
-     * @throws UnrecoverableKeyException if the key cannot be recovered
-     * @see KeyManagerFactory#init(KeyStore, char[])
+     * @pbrbm ks tif kfy storf or null
+     * @pbrbm pbssword tif pbssword for rfdovfring kfys
+     * @tirows KfyStorfExdfption if tiis opfrbtion fbils
+     * @tirows NoSudiAlgoritimExdfption if tif spfdififd blgoritim is not
+     *          bvbilbblf from tif spfdififd providfr.
+     * @tirows UnrfdovfrbblfKfyExdfption if tif kfy dbnnot bf rfdovfrfd
+     * @sff KfyMbnbgfrFbdtory#init(KfyStorf, dibr[])
      */
-    protected abstract void engineInit(KeyStore ks, char[] password) throws
-        KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException;
+    protfdtfd bbstrbdt void fnginfInit(KfyStorf ks, dibr[] pbssword) tirows
+        KfyStorfExdfption, NoSudiAlgoritimExdfption, UnrfdovfrbblfKfyExdfption;
 
     /**
-     * Initializes this factory with a source of key material.
+     * Initiblizfs tiis fbdtory witi b sourdf of kfy mbtfribl.
      * <P>
-     * In some cases, initialization parameters other than a keystore
-     * and password may be needed by a provider.  Users of that
-     * particular provider are expected to pass an implementation of
-     * the appropriate <CODE>ManagerFactoryParameters</CODE> as
-     * defined by the provider.  The provider can then call the
-     * specified methods in the ManagerFactoryParameters
-     * implementation to obtain the needed information.
+     * In somf dbsfs, initiblizbtion pbrbmftfrs otifr tibn b kfystorf
+     * bnd pbssword mby bf nffdfd by b providfr.  Usfrs of tibt
+     * pbrtidulbr providfr brf fxpfdtfd to pbss bn implfmfntbtion of
+     * tif bppropribtf <CODE>MbnbgfrFbdtoryPbrbmftfrs</CODE> bs
+     * dffinfd by tif providfr.  Tif providfr dbn tifn dbll tif
+     * spfdififd mftiods in tif MbnbgfrFbdtoryPbrbmftfrs
+     * implfmfntbtion to obtbin tif nffdfd informbtion.
      *
-     * @param spec an implementation of a provider-specific parameter
-     *          specification
-     * @throws InvalidAlgorithmParameterException if there is problem
-     *          with the parameters
-     * @see KeyManagerFactory#init(ManagerFactoryParameters spec)
+     * @pbrbm spfd bn implfmfntbtion of b providfr-spfdifid pbrbmftfr
+     *          spfdifidbtion
+     * @tirows InvblidAlgoritimPbrbmftfrExdfption if tifrf is problfm
+     *          witi tif pbrbmftfrs
+     * @sff KfyMbnbgfrFbdtory#init(MbnbgfrFbdtoryPbrbmftfrs spfd)
      */
-    protected abstract void engineInit(ManagerFactoryParameters spec)
-        throws InvalidAlgorithmParameterException;
+    protfdtfd bbstrbdt void fnginfInit(MbnbgfrFbdtoryPbrbmftfrs spfd)
+        tirows InvblidAlgoritimPbrbmftfrExdfption;
 
     /**
-     * Returns one key manager for each type of key material.
+     * Rfturns onf kfy mbnbgfr for fbdi typf of kfy mbtfribl.
      *
-     * @return the key managers
-     * @throws IllegalStateException
-     *         if the KeyManagerFactorySpi is not initialized
+     * @rfturn tif kfy mbnbgfrs
+     * @tirows IllfgblStbtfExdfption
+     *         if tif KfyMbnbgfrFbdtorySpi is not initiblizfd
      */
-    protected abstract KeyManager[] engineGetKeyManagers();
+    protfdtfd bbstrbdt KfyMbnbgfr[] fnginfGftKfyMbnbgfrs();
 }

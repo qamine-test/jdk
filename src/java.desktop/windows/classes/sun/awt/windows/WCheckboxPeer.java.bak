@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.windows;
+pbdkbgf sun.bwt.windows;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.ItemEvent;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.ItfmEvfnt;
 
-final class WCheckboxPeer extends WComponentPeer implements CheckboxPeer {
+finbl dlbss WCifdkboxPffr fxtfnds WComponfntPffr implfmfnts CifdkboxPffr {
 
-    // CheckboxPeer implementation
+    // CifdkboxPffr implfmfntbtion
 
-    @Override
-    public native void setState(boolean state);
-    @Override
-    public native void setCheckboxGroup(CheckboxGroup g);
-    @Override
-    public native void setLabel(String label);
+    @Ovfrridf
+    publid nbtivf void sftStbtf(boolfbn stbtf);
+    @Ovfrridf
+    publid nbtivf void sftCifdkboxGroup(CifdkboxGroup g);
+    @Ovfrridf
+    publid nbtivf void sftLbbfl(String lbbfl);
 
-    private static native int getCheckMarkSize();
+    privbtf stbtid nbtivf int gftCifdkMbrkSizf();
 
-    @Override
-    public Dimension getMinimumSize() {
-        String lbl = ((Checkbox)target).getLabel();
-        int marksize = getCheckMarkSize();
+    @Ovfrridf
+    publid Dimfnsion gftMinimumSizf() {
+        String lbl = ((Cifdkbox)tbrgft).gftLbbfl();
+        int mbrksizf = gftCifdkMbrkSizf();
         if (lbl == null) {
             lbl = "";
         }
-        FontMetrics fm = getFontMetrics(((Checkbox)target).getFont());
+        FontMftrids fm = gftFontMftrids(((Cifdkbox)tbrgft).gftFont());
         /*
-         * Borders between check mark and text and between text and edge of
-         * checkbox should both be equal to marksize/4, here's where marksize/2
-         * goes from. Marksize is currently constant ( = 16 pixels) on win32.
+         * Bordfrs bftwffn difdk mbrk bnd tfxt bnd bftwffn tfxt bnd fdgf of
+         * difdkbox siould boti bf fqubl to mbrksizf/4, ifrf's wifrf mbrksizf/2
+         * gofs from. Mbrksizf is durrfntly donstbnt ( = 16 pixfls) on win32.
          */
-        return new Dimension(fm.stringWidth(lbl) + marksize/2 + marksize,
-                             Math.max(fm.getHeight() + 8,  marksize));
+        rfturn nfw Dimfnsion(fm.stringWidti(lbl) + mbrksizf/2 + mbrksizf,
+                             Mbti.mbx(fm.gftHfigit() + 8,  mbrksizf));
     }
 
-    @Override
-    public boolean isFocusable() {
-        return true;
+    @Ovfrridf
+    publid boolfbn isFodusbblf() {
+        rfturn truf;
     }
 
-    // Toolkit & peer internals
+    // Toolkit & pffr intfrnbls
 
-    WCheckboxPeer(Checkbox target) {
-        super(target);
+    WCifdkboxPffr(Cifdkbox tbrgft) {
+        supfr(tbrgft);
     }
 
-    @Override
-    native void create(WComponentPeer parent);
+    @Ovfrridf
+    nbtivf void drfbtf(WComponfntPffr pbrfnt);
 
-    @Override
-    void initialize() {
-        Checkbox t = (Checkbox)target;
-        setState(t.getState());
-        setCheckboxGroup(t.getCheckboxGroup());
+    @Ovfrridf
+    void initiblizf() {
+        Cifdkbox t = (Cifdkbox)tbrgft;
+        sftStbtf(t.gftStbtf());
+        sftCifdkboxGroup(t.gftCifdkboxGroup());
 
-        Color bg = ((Component)target).getBackground();
+        Color bg = ((Componfnt)tbrgft).gftBbdkground();
         if (bg != null) {
-            setBackground(bg);
+            sftBbdkground(bg);
         }
 
-        super.initialize();
+        supfr.initiblizf();
     }
 
-    @Override
-    public boolean shouldClearRectBeforePaint() {
-        return false;
+    @Ovfrridf
+    publid boolfbn siouldClfbrRfdtBfforfPbint() {
+        rfturn fblsf;
     }
 
-    // native callbacks
+    // nbtivf dbllbbdks
 
-    void handleAction(final boolean state) {
-        final Checkbox cb = (Checkbox)this.target;
-        WToolkit.executeOnEventHandlerThread(cb, new Runnable() {
-            @Override
-            public void run() {
-                CheckboxGroup chg = cb.getCheckboxGroup();
-                if ((chg != null) && (cb == chg.getSelectedCheckbox()) && cb.getState()) {
-                    return;
+    void ibndlfAdtion(finbl boolfbn stbtf) {
+        finbl Cifdkbox db = (Cifdkbox)tiis.tbrgft;
+        WToolkit.fxfdutfOnEvfntHbndlfrTirfbd(db, nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
+                CifdkboxGroup dig = db.gftCifdkboxGroup();
+                if ((dig != null) && (db == dig.gftSflfdtfdCifdkbox()) && db.gftStbtf()) {
+                    rfturn;
                 }
-                cb.setState(state);
-                postEvent(new ItemEvent(cb, ItemEvent.ITEM_STATE_CHANGED,
-                                cb.getLabel(),
-                                state? ItemEvent.SELECTED : ItemEvent.DESELECTED));
+                db.sftStbtf(stbtf);
+                postEvfnt(nfw ItfmEvfnt(db, ItfmEvfnt.ITEM_STATE_CHANGED,
+                                db.gftLbbfl(),
+                                stbtf? ItfmEvfnt.SELECTED : ItfmEvfnt.DESELECTED));
             }
         });
     }

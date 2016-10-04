@@ -1,0 +1,1623 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="my"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lodblfDisplbyPbttfrn>
+			<lodblfSfpbrbtor>၊</lodblfSfpbrbtor>
+		</lodblfDisplbyPbttfrn>
+		<lbngubgfs>
+			<lbngubgf typf="bng">အင်္ဂလိပ်စာဟောင်း</lbngubgf>
+			<lbngubgf typf="br">အာရေဗီ</lbngubgf>
+			<lbngubgf typf="brt">အယောင်ဆောင် ဘာသာစကား</lbngubgf>
+			<lbngubgf typf="bbn">ဘာလီ</lbngubgf>
+			<lbngubgf typf="bbs">ဘာဆာ</lbngubgf>
+			<lbngubgf typf="bbt">ဘော်လတစ် ဘာသာစကား</lbngubgf>
+			<lbngubgf typf="bf">ဘီလာရု</lbngubgf>
+			<lbngubgf typf="bg">ဘူဂေးရီးယား</lbngubgf>
+			<lbngubgf typf="bn">ဘင်္ဂါလီ</lbngubgf>
+			<lbngubgf typf="bo">တိဘက်</lbngubgf>
+			<lbngubgf typf="bs">ဘော့စ်နီးယား</lbngubgf>
+			<lbngubgf typf="dbi" drbft="undonfirmfd">အလယ်ပိုင်း အမေရိကန် အိန္ဒြိယ ဘာသာစကား</lbngubgf>
+			<lbngubgf typf="dbu">ကောက်ကေးရှပ် ဘာသာစကား</lbngubgf>
+			<lbngubgf typf="df">ချေချင်း</lbngubgf>
+			<lbngubgf typf="dhr">ချာရိုကီ</lbngubgf>
+			<lbngubgf typf="dpp">ပေါ်တူဂီ အခြေခံ အနောက်အိန္ဒြိယ ကျွန်းစုသား သို့မဟုတ် ဗန်းစကား</lbngubgf>
+			<lbngubgf typf="dr">ခရီး</lbngubgf>
+			<lbngubgf typf="drp" drbft="undonfirmfd">အနောက်အိန္ဒြိယ ကျွန်းစုသား သို့မဟုတ် ဗန်းစကား</lbngubgf>
+			<lbngubgf typf="ds">ချက်</lbngubgf>
+			<lbngubgf typf="dy">ဝေလ</lbngubgf>
+			<lbngubgf typf="db">ဒိန်းမတ်</lbngubgf>
+			<lbngubgf typf="dbk">ဒါကိုတာ</lbngubgf>
+			<lbngubgf typf="df">ဂျာမန်</lbngubgf>
+			<lbngubgf typf="df_AT">ဩစတြီးယ ဂျာမန်</lbngubgf>
+			<lbngubgf typf="df_CH">ဆွစ် အမြင့် ဂျာမန်</lbngubgf>
+			<lbngubgf typf="dfl">ဒီလာဝဲ</lbngubgf>
+			<lbngubgf typf="dum">အလယ်ပိုင်း ဒတ်ချ်</lbngubgf>
+			<lbngubgf typf="dz">ဒွန်ကာ</lbngubgf>
+			<lbngubgf typf="fgy">ရှေးဟောင်း အီဂျစ်</lbngubgf>
+			<lbngubgf typf="fl">ဂရိ</lbngubgf>
+			<lbngubgf typf="fn">အင်္ဂလိပ်</lbngubgf>
+			<lbngubgf typf="fn_AU">ဩစတြေးလျှ အင်္ဂလိပ်</lbngubgf>
+			<lbngubgf typf="fn_CA">ကနေဒါ အင်္ဂလိပ်</lbngubgf>
+			<lbngubgf typf="fn_GB">ဗြိတိသျှ အင်္ဂလိပ်</lbngubgf>
+			<lbngubgf typf="fn_US">အမေရိကန် အင်္ဂလိပ်</lbngubgf>
+			<lbngubgf typf="fnm">အလယ်ပိုင်း အင်္ဂလိပ်</lbngubgf>
+			<lbngubgf typf="fs">စပိန်</lbngubgf>
+			<lbngubgf typf="fs_419">လက်တင်အမေရိက စပိန်</lbngubgf>
+			<lbngubgf typf="ft">အက်စ်တိုးနီးရန်း</lbngubgf>
+			<lbngubgf typf="fb">ပါရှန်</lbngubgf>
+			<lbngubgf typf="fi">ဖင်နစ်ရှ်</lbngubgf>
+			<lbngubgf typf="fil">ဖိလစ်ပီနို</lbngubgf>
+			<lbngubgf typf="fj">ဖီဂျီ</lbngubgf>
+			<lbngubgf typf="fr">ပြင်သစ်</lbngubgf>
+			<lbngubgf typf="fr_CA">ကနေဒါ ပြင်သစ်</lbngubgf>
+			<lbngubgf typf="fr_CH">ဆွစ် ပြင်သစ်</lbngubgf>
+			<lbngubgf typf="frm">အလယ်ပိုင်းပြင်သစ်</lbngubgf>
+			<lbngubgf typf="fro">ပြင်သစ်ဟောင်း</lbngubgf>
+			<lbngubgf typf="frr">မြောက်ပိုင်း ဖရီစီရန်</lbngubgf>
+			<lbngubgf typf="frs">အရှေ့ပိုင်း ဖရီစီရန်</lbngubgf>
+			<lbngubgf typf="fy">အနောက်ပိုင်း ဖရီစီရန်</lbngubgf>
+			<lbngubgf typf="gb">အိုင်းရစ်</lbngubgf>
+			<lbngubgf typf="gfm">ဂျာမန် အခြေခံဘာသာစကား</lbngubgf>
+			<lbngubgf typf="gmh">အလယ်ပိုင်းအမြင့်ဂျာမန်</lbngubgf>
+			<lbngubgf typf="grd">ရှေးဟောင်း ဂရိ</lbngubgf>
+			<lbngubgf typf="gsw">ဆွစ် ဂျာမန်</lbngubgf>
+			<lbngubgf typf="gu">ဂူဂျာရသီ</lbngubgf>
+			<lbngubgf typf="hbw">ဟာဝေယံ</lbngubgf>
+			<lbngubgf typf="hf">ဟီးဘရူး</lbngubgf>
+			<lbngubgf typf="hi">ဟိန္ဒီ</lbngubgf>
+			<lbngubgf typf="hr">ခရိုအေရှန်</lbngubgf>
+			<lbngubgf typf="hu">ဟန်ဂေရီ</lbngubgf>
+			<lbngubgf typf="id">အင်ဒိုနီးရှား</lbngubgf>
+			<lbngubgf typf="ii">စီချွမ် ရီ</lbngubgf>
+			<lbngubgf typf="inf">အင်ဒို ဥရောပ ဘာသာစကား</lbngubgf>
+			<lbngubgf typf="irb">အီရန် အခြေခံ ဘာသာစကား</lbngubgf>
+			<lbngubgf typf="it">အီတလီ</lbngubgf>
+			<lbngubgf typf="jb">ဂျပန်</lbngubgf>
+			<lbngubgf typf="jpr">ဂျူဒီယို-ပါရှန်</lbngubgf>
+			<lbngubgf typf="jrb">ဂျူဒီယို-အာရေဗျ</lbngubgf>
+			<lbngubgf typf="jv">ဂျာဗားနီးစ်</lbngubgf>
+			<lbngubgf typf="kb">ဂျော်ဂျီယန်</lbngubgf>
+			<lbngubgf typf="kbd">ကချင်</lbngubgf>
+			<lbngubgf typf="kbr">ကရင်</lbngubgf>
+			<lbngubgf typf="kg">ကွန်ဂို</lbngubgf>
+			<lbngubgf typf="khb">ခါစီ</lbngubgf>
+			<lbngubgf typf="km">ခမာ</lbngubgf>
+			<lbngubgf typf="kn">ကန်နာဒါ</lbngubgf>
+			<lbngubgf typf="ko">ကိုးရီးယား</lbngubgf>
+			<lbngubgf typf="ku">ကဒ်</lbngubgf>
+			<lbngubgf typf="lb">လက်တင်</lbngubgf>
+			<lbngubgf typf="lo">လာအို</lbngubgf>
+			<lbngubgf typf="mgb">အလယ်ပိုင်း အိုင်းရစ်</lbngubgf>
+			<lbngubgf typf="mis">အမျိုးမျိုးသော ဘာသာစကား</lbngubgf>
+			<lbngubgf typf="mkh">မွန်-ခမာ ဘာသာစကား</lbngubgf>
+			<lbngubgf typf="ml">မလေးရာလမ်</lbngubgf>
+			<lbngubgf typf="mn">မွန်ဂိုလီးယန်း</lbngubgf>
+			<lbngubgf typf="mnd">မန်ချူး</lbngubgf>
+			<lbngubgf typf="mni" drbft="undonfirmfd">မနိပူရီ</lbngubgf>
+			<lbngubgf typf="mno">မနိုဘို ဘာသာစကား</lbngubgf>
+			<lbngubgf typf="mr">မာရသီ</lbngubgf>
+			<lbngubgf typf="ms">မလေး</lbngubgf>
+			<lbngubgf typf="mul">အကြိမ်များစွာ ဘာသာစကားများ</lbngubgf>
+			<lbngubgf typf="my">ဗမာ</lbngubgf>
+			<lbngubgf typf="nds">အနိမ့် ဂျာမန်</lbngubgf>
+			<lbngubgf typf="nf">နီပေါလ်</lbngubgf>
+			<lbngubgf typf="nl">ဒတ်ချ်</lbngubgf>
+			<lbngubgf typf="no">နော်ဝေး</lbngubgf>
+			<lbngubgf typf="pb">ပန်ဂျာပီ</lbngubgf>
+			<lbngubgf typf="pbb">ပါပူရန် ဘာသာစကား</lbngubgf>
+			<lbngubgf typf="pfo">ပါရှန် အဟောင်း</lbngubgf>
+			<lbngubgf typf="phi">ဖိလစ်ပိုင် ဘာသာစကား</lbngubgf>
+			<lbngubgf typf="pi">ပါဠိ</lbngubgf>
+			<lbngubgf typf="pl">ပိုလန်</lbngubgf>
+			<lbngubgf typf="pt">ပေါ်တူဂီ</lbngubgf>
+			<lbngubgf typf="pt_BR">ဘရာဇီး ပေါ်တူဂီ</lbngubgf>
+			<lbngubgf typf="ro">ရိုမေနီယား</lbngubgf>
+			<lbngubgf typf="root">မူလရင်းမြစ်</lbngubgf>
+			<lbngubgf typf="ru">ရုရှ</lbngubgf>
+			<lbngubgf typf="sb">သင်္သကရိုက်</lbngubgf>
+			<lbngubgf typf="sbi">တောင် အမေရိကန် အိန္ဒြိယ ဘာသာစကား</lbngubgf>
+			<lbngubgf typf="sdo">စကော့</lbngubgf>
+			<lbngubgf typf="sd">စင်ဒီ</lbngubgf>
+			<lbngubgf typf="sgb">အိုင်းရစ် ဟောင်း</lbngubgf>
+			<lbngubgf typf="sgn">အချက်ပြ ဘာသာစကား</lbngubgf>
+			<lbngubgf typf="shn">ရှမ်း</lbngubgf>
+			<lbngubgf typf="si">ဆင်ဟာလ</lbngubgf>
+			<lbngubgf typf="sit">တရုတ်-တိဘက် ဘာသာစကား</lbngubgf>
+			<lbngubgf typf="sk">စလိုဗက်</lbngubgf>
+			<lbngubgf typf="sl">စလိုဗေးနီးယမ်း</lbngubgf>
+			<lbngubgf typf="slb">စလိုဗစ် ဘာသာစကား</lbngubgf>
+			<lbngubgf typf="smb">တောင်ပိုင်း ဆာမိ</lbngubgf>
+			<lbngubgf typf="smi">ဆာမိ ဘာသာစကား</lbngubgf>
+			<lbngubgf typf="so">ဆိုမာလီ</lbngubgf>
+			<lbngubgf typf="sq">အယ်လ်ဘေးနီးယန်း</lbngubgf>
+			<lbngubgf typf="sr">ဆားဗီးယန်း</lbngubgf>
+			<lbngubgf typf="su">ဆူဒန်</lbngubgf>
+			<lbngubgf typf="sv">ဆွီဒင်</lbngubgf>
+			<lbngubgf typf="tb">တမီးလ်</lbngubgf>
+			<lbngubgf typf="tbi">တိုင် ဘာသာစကား</lbngubgf>
+			<lbngubgf typf="th">ထိုင်း</lbngubgf>
+			<lbngubgf typf="tup">တူပီ ဘာသာစကား</lbngubgf>
+			<lbngubgf typf="uk">ယူကရိန်း</lbngubgf>
+			<lbngubgf typf="und">မသိ သို့မဟုတ် မရှိ သော ဘာသာစကား</lbngubgf>
+			<lbngubgf typf="vi">ဗီယက်နမ်</lbngubgf>
+			<lbngubgf typf="zh">တရုတ်</lbngubgf>
+			<lbngubgf typf="zh_Hbns">ရိုးရှင်းသော တရုတ်</lbngubgf>
+			<lbngubgf typf="zh_Hbnt">ရှေးရိုးစဉ်လာ တရုတ်</lbngubgf>
+			<lbngubgf typf="zu">ဇူလူ</lbngubgf>
+			<lbngubgf typf="zxx">ဘာသာစကား နှင့် ပတ်သက် သောအရာမရှိ</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Arbb">အာရေဗျ</sdript>
+			<sdript typf="Armn">အာမေးနီးယား</sdript>
+			<sdript typf="Bfng">ဘင်္ဂါလီ</sdript>
+			<sdript typf="Brbh">ဗြဟ္မမီ</sdript>
+			<sdript typf="Cyrl">စစ်ရိလစ်</sdript>
+			<sdript typf="Dfvb">ဒီဗနာဂရီ</sdript>
+			<sdript typf="Ethi">အီသီယိုးပီးယား</sdript>
+			<sdript typf="Gfor">ဂျော်ဂျီယန်</sdript>
+			<sdript typf="Grfk">ဂရိ</sdript>
+			<sdript typf="Gujr">ဂုဂျာရသီ</sdript>
+			<sdript typf="Hbng">ဟန်ဂူးလ်</sdript>
+			<sdript typf="Hbni">ဟန်</sdript>
+			<sdript typf="Hbns">ရိုးရှင်းသော တရုတ်</sdript>
+			<sdript typf="Hbnt">ရှေးရိုးစဉ်လာ တရုတ်</sdript>
+			<sdript typf="Hfbr">ဟီဗရူး</sdript>
+			<sdript typf="Hirb">ဟိရဂဏ</sdript>
+			<sdript typf="Hrkt">ခတခဏ သို့မဟုတ် ဟိရဂဏ</sdript>
+			<sdript typf="Jbvb">ဂျာဗားနီးစ်</sdript>
+			<sdript typf="Jpbn">ဂျပန်</sdript>
+			<sdript typf="Kbli">ကယားလီ</sdript>
+			<sdript typf="Kbnb">ခတခဏ</sdript>
+			<sdript typf="Khmr">ခမာ</sdript>
+			<sdript typf="Korf">ကိုးရီးယား</sdript>
+			<sdript typf="Lboo">လာအို</sdript>
+			<sdript typf="Lbtn">လက်တင်</sdript>
+			<sdript typf="Mong">မွန်ဂိုလီးယား</sdript>
+			<sdript typf="Mymr">မြန်မာ</sdript>
+			<sdript typf="Sinh">ဆင်ဟာလ</sdript>
+			<sdript typf="Sund">ဆူဒန်</sdript>
+			<sdript typf="Tblf">တိုင်လီ</sdript>
+			<sdript typf="Tbml">တမီးလ်</sdript>
+			<sdript typf="Tglg">တဂလော့ဂ်</sdript>
+			<sdript typf="Thbi">ထိုင်း</sdript>
+			<sdript typf="Tibt">တိဘက်</sdript>
+			<sdript typf="Visp">မြင်နိုင်သော စကား</sdript>
+			<sdript typf="Xpfo">ပါရှန် အဟောင်း</sdript>
+			<sdript typf="Yiii">ရီ</sdript>
+			<sdript typf="Zxxx">မရေးထားသော</sdript>
+			<sdript typf="Zzzz">မသိ သို့မဟုတ် မရှိသော စကားလုံး</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="001">ကမ္ဘာ</tfrritory>
+			<tfrritory typf="002">အာဖရိက</tfrritory>
+			<tfrritory typf="003">မြောက် အမေရိက</tfrritory>
+			<tfrritory typf="005">တောင် အမေရိက</tfrritory>
+			<tfrritory typf="009">သမုဒ္ဒရာဒေသ</tfrritory>
+			<tfrritory typf="011">အနောက် အာဖရိက</tfrritory>
+			<tfrritory typf="013">အလယ်ပိုင်း အမေရိက</tfrritory>
+			<tfrritory typf="014">အရှေ့ပိုင်း အာဖရိက</tfrritory>
+			<tfrritory typf="015">မြောက်ပိုင်း အာဖရိက</tfrritory>
+			<tfrritory typf="017">အလယ်ပိုင်း အာဖရိက</tfrritory>
+			<tfrritory typf="018">တောင်ပိုင်း အာဖရိက</tfrritory>
+			<tfrritory typf="019">အမေရိကများ</tfrritory>
+			<tfrritory typf="021">မြောက်ပိုင်း အမေရိက</tfrritory>
+			<tfrritory typf="029">ကာရီဘီယံ</tfrritory>
+			<tfrritory typf="030">အရှေ့ပိုင်း အာရှ</tfrritory>
+			<tfrritory typf="034">တောင်ပိုင်း အာရှ</tfrritory>
+			<tfrritory typf="035">အ‌ရှေ့တောင်ပိုင်း အာရှ</tfrritory>
+			<tfrritory typf="039">တောင်ပိုင်း ဥရောပ</tfrritory>
+			<tfrritory typf="053">ဩစတြေးလျှ နှင့် နယူးဇီလန်</tfrritory>
+			<tfrritory typf="142">အာရှ</tfrritory>
+			<tfrritory typf="143">အလယ် အာရှ</tfrritory>
+			<tfrritory typf="145">အနောက် အာရှ</tfrritory>
+			<tfrritory typf="150">ဥရောပ</tfrritory>
+			<tfrritory typf="151">အရှေ့ပိုင်း ဥရောပ</tfrritory>
+			<tfrritory typf="154">မြောက်ပိုင်း ဥရောပ</tfrritory>
+			<tfrritory typf="155">အနောက်ပိုင်း ဥရောပ</tfrritory>
+			<tfrritory typf="419">လက်တင် အမေရိက နှင့် ကာရီဘီယန်</tfrritory>
+			<tfrritory typf="AE">ယူအေအီး</tfrritory>
+			<tfrritory typf="AF">အာဖဂန်နစ္စတန်</tfrritory>
+			<tfrritory typf="AI">အန်ကွီလာ</tfrritory>
+			<tfrritory typf="AM">အာမေနီးယား</tfrritory>
+			<tfrritory typf="AO">အင်ဂိုလာ</tfrritory>
+			<tfrritory typf="AQ">အန္တာတိက</tfrritory>
+			<tfrritory typf="AR">အာဂျင်တီးနား</tfrritory>
+			<tfrritory typf="AS">အမေရိကန် စမိုအ</tfrritory>
+			<tfrritory typf="AT">ဩစတြီးယား</tfrritory>
+			<tfrritory typf="AU">ဩစတြေးလျှား</tfrritory>
+			<tfrritory typf="AZ">အဇာဘိုင်ဂျန်</tfrritory>
+			<tfrritory typf="BA">ဘော့စနီးယား နှင့် ဟာဇီဂိုဘီးနား</tfrritory>
+			<tfrritory typf="BD">ဘင်္ဂလားဒေ့ရှ်</tfrritory>
+			<tfrritory typf="BE">ဘယ်လ်ဂျီယမ်</tfrritory>
+			<tfrritory typf="BG">ဘူဂေးရီးယား</tfrritory>
+			<tfrritory typf="BH">ဘာရိန်း</tfrritory>
+			<tfrritory typf="BM">ဘာမူဒါ</tfrritory>
+			<tfrritory typf="BN">ဘရူနိုင်း</tfrritory>
+			<tfrritory typf="BO">ဘိုလီးဘီးယား</tfrritory>
+			<tfrritory typf="BR">ဘရာဇီး</tfrritory>
+			<tfrritory typf="BS">ဘဟားမား</tfrritory>
+			<tfrritory typf="BT">ဘူတန်</tfrritory>
+			<tfrritory typf="BW">ဘော့စ်ဝါနာ</tfrritory>
+			<tfrritory typf="BY">ဘီလာရုစ်</tfrritory>
+			<tfrritory typf="BZ">ဘေလီဇ်</tfrritory>
+			<tfrritory typf="CA">ကနေဒါ</tfrritory>
+			<tfrritory typf="CC">ကိုကိုး ကျွန်းစု</tfrritory>
+			<tfrritory typf="CF">အလယ်ပိုင်း အာဖရိက ပြည်ထောင်စု</tfrritory>
+			<tfrritory typf="CH">ဆွစ်ဇလန်</tfrritory>
+			<tfrritory typf="CI">အိုင်ဗရီကိုစ့်</tfrritory>
+			<tfrritory typf="CK">ကွတ် ကျွန်းစု</tfrritory>
+			<tfrritory typf="CL">ချီလီ</tfrritory>
+			<tfrritory typf="CM">ကင်မရွန်း</tfrritory>
+			<tfrritory typf="CN">တရုတ်</tfrritory>
+			<tfrritory typf="CO">ကိုလံဘီယာ</tfrritory>
+			<tfrritory typf="CR">ကော့စ်တာရီကာ</tfrritory>
+			<tfrritory typf="CU">ကျူးဘား</tfrritory>
+			<tfrritory typf="CX">ခရစ်စမတ် ကျွန်း</tfrritory>
+			<tfrritory typf="CY">ဆိုက်ပရက်စ်</tfrritory>
+			<tfrritory typf="CZ">ချက် ပြည်ထောင်စု</tfrritory>
+			<tfrritory typf="DE">ဂျာမဏီ</tfrritory>
+			<tfrritory typf="DK">ဒိန်းမတ်</tfrritory>
+			<tfrritory typf="DM">ဒိုမီနီကာ</tfrritory>
+			<tfrritory typf="DO">ဒိုမီနီကန်</tfrritory>
+			<tfrritory typf="DZ">အယ်လ်ဂျီးရီးယား</tfrritory>
+			<tfrritory typf="EC">အီကွေဒေါ</tfrritory>
+			<tfrritory typf="EE">အက်စတိုးနီးယား</tfrritory>
+			<tfrritory typf="EG">အီဂျစ်</tfrritory>
+			<tfrritory typf="EH">အနောက်ပိုင်း ဆာဟာရ</tfrritory>
+			<tfrritory typf="ES">စပိန်</tfrritory>
+			<tfrritory typf="ET">အီသီယိုးပီးယား</tfrritory>
+			<tfrritory typf="EU">ဥရောပသမဂ္ဂ</tfrritory>
+			<tfrritory typf="FI">ဖင်လန်</tfrritory>
+			<tfrritory typf="FJ">ဖီဂျီ</tfrritory>
+			<tfrritory typf="FK">ဖောက်ကလန် ကျွန်းစု</tfrritory>
+			<tfrritory typf="FO">ဖာရိုး ကျွန်းစုများ</tfrritory>
+			<tfrritory typf="FR">ပြင်သစ်</tfrritory>
+			<tfrritory typf="GB">ယူနိုက်တက်ကင်းဒမ်း</tfrritory>
+			<tfrritory typf="GE">ဂျော်ဂျီယာ</tfrritory>
+			<tfrritory typf="GF">ပြင်သစ် ဂီယာနာ</tfrritory>
+			<tfrritory typf="GH">ဂါနာ</tfrritory>
+			<tfrritory typf="GI">ဂျီဘရော်လ်တာ</tfrritory>
+			<tfrritory typf="GL">ဂရင်းလန်း</tfrritory>
+			<tfrritory typf="GM">ဂန်ဘီရာ</tfrritory>
+			<tfrritory typf="GN">ဂီရာနာ</tfrritory>
+			<tfrritory typf="GQ">အီကွေတာ ဂီရာနာ</tfrritory>
+			<tfrritory typf="GR">ဂရိ</tfrritory>
+			<tfrritory typf="GS" drbft="undonfirmfd">တောင် ဂျော်ဂျီယာ နှင့် တောင် ဆင်းဒဝစ်ဂျ် ကျွန်းစုများ</tfrritory>
+			<tfrritory typf="GT">ဂွာတီမာလာ</tfrritory>
+			<tfrritory typf="GU">ဂူအမ်</tfrritory>
+			<tfrritory typf="HK">တရုတ်၏ အထူးအုပ်ချုပ်ခွင့်ရ ဟောင်ကောင်</tfrritory>
+			<tfrritory typf="HK" blt="short">ဟောင်ကောင်</tfrritory>
+			<tfrritory typf="HN">ဟွန်ဒူးရပ်စ်</tfrritory>
+			<tfrritory typf="HR">ခရိုအေးရှား</tfrritory>
+			<tfrritory typf="HT">ဟေတီ</tfrritory>
+			<tfrritory typf="HU">ဟန်ဂေရီ</tfrritory>
+			<tfrritory typf="ID">အင်ဒိုနီးရှား</tfrritory>
+			<tfrritory typf="IE">အိုင်ယာလန်</tfrritory>
+			<tfrritory typf="IL">အစ္စရေး</tfrritory>
+			<tfrritory typf="IN">အိန္ဒိယ</tfrritory>
+			<tfrritory typf="IO">ဗြိတိသျှ အိန္ဒြိယ သမုဒ္ဒရာ ပိုင်နက်</tfrritory>
+			<tfrritory typf="IQ">အီရတ်</tfrritory>
+			<tfrritory typf="IR">အီရန်</tfrritory>
+			<tfrritory typf="IS">အိုက်စလန်</tfrritory>
+			<tfrritory typf="IT">အီတလီ</tfrritory>
+			<tfrritory typf="JE">ဂျာစီ</tfrritory>
+			<tfrritory typf="JM">ဂျမေနီကာ</tfrritory>
+			<tfrritory typf="JO">ဂျော်ဒန်</tfrritory>
+			<tfrritory typf="JP">ဂျပန်</tfrritory>
+			<tfrritory typf="KE">ကင်ညာ</tfrritory>
+			<tfrritory typf="KG" drbft="undonfirmfd">ခယ်ကစ်စတန်</tfrritory>
+			<tfrritory typf="KH">ကမ္ဘောဒီးယား</tfrritory>
+			<tfrritory typf="KP">မြောက်ကိုရီးယား</tfrritory>
+			<tfrritory typf="KR">တောင်ကိုရီးယား</tfrritory>
+			<tfrritory typf="KW">ကူဝိတ်</tfrritory>
+			<tfrritory typf="KY">ကေမန် ကျွန်းစု</tfrritory>
+			<tfrritory typf="KZ">ကာဇက်စတန်</tfrritory>
+			<tfrritory typf="LA">လာအို</tfrritory>
+			<tfrritory typf="LB">လက်ဘနွန်</tfrritory>
+			<tfrritory typf="LK">သီရိလင်္ကာ</tfrritory>
+			<tfrritory typf="LR">လိုင်ဘေးရီးယား</tfrritory>
+			<tfrritory typf="LT">လစ်သူယေးနီးယား</tfrritory>
+			<tfrritory typf="LU">လူဇင်ဘတ်</tfrritory>
+			<tfrritory typf="LV">လတ်ဗီးယား</tfrritory>
+			<tfrritory typf="MA">မော်ရိုကို</tfrritory>
+			<tfrritory typf="MC">မိုနကို</tfrritory>
+			<tfrritory typf="ME">မွန်တီနိဂရိုး</tfrritory>
+			<tfrritory typf="MF">စိန့်မာတင်</tfrritory>
+			<tfrritory typf="MG">မဒဂတ်စကာ</tfrritory>
+			<tfrritory typf="MH">မာရှယ် ကျွန်းစု</tfrritory>
+			<tfrritory typf="MK">မာစီဒိုးနီးယား</tfrritory>
+			<tfrritory typf="ML">မာလီ</tfrritory>
+			<tfrritory typf="MM">မြန်မာ</tfrritory>
+			<tfrritory typf="MN">မွန်ဂိုးလီးယား</tfrritory>
+			<tfrritory typf="MO">တရုတ်၏ အထူးအုပ်ချုပ်ခွင့်ရ မကာအို</tfrritory>
+			<tfrritory typf="MO" blt="short">မကာအို</tfrritory>
+			<tfrritory typf="MV">မော်လဒိုက်</tfrritory>
+			<tfrritory typf="MW">မာလာဝီ</tfrritory>
+			<tfrritory typf="MX">မက္ကဆီကို</tfrritory>
+			<tfrritory typf="MY">မလေးရှား</tfrritory>
+			<tfrritory typf="MZ">မိုဇန်ဘစ်</tfrritory>
+			<tfrritory typf="NA">နမ်မီးဘီးယား</tfrritory>
+			<tfrritory typf="NC">နယူး ကယ်လီဒိုနီးယား</tfrritory>
+			<tfrritory typf="NE">နိုင်ဂျာ</tfrritory>
+			<tfrritory typf="NG">နိုင်ဂျီးရီးယား</tfrritory>
+			<tfrritory typf="NI">နီကာရာဂွာ</tfrritory>
+			<tfrritory typf="NL">နယ်သာလန်</tfrritory>
+			<tfrritory typf="NO">နော်ဝေ</tfrritory>
+			<tfrritory typf="NP">နီပေါ</tfrritory>
+			<tfrritory typf="NZ">နယူးဇီလန်</tfrritory>
+			<tfrritory typf="OM">အိုမန်</tfrritory>
+			<tfrritory typf="PA">ပနားမား</tfrritory>
+			<tfrritory typf="PE">ပီရူး</tfrritory>
+			<tfrritory typf="PF">ပြင်သစ် ပေါ်လီနေးရှား</tfrritory>
+			<tfrritory typf="PG">ပါပူရာနယူးဂီနီ</tfrritory>
+			<tfrritory typf="PH">ဖိလစ်ပိုင်</tfrritory>
+			<tfrritory typf="PK">ပါကစ္စတန်</tfrritory>
+			<tfrritory typf="PL">ပိုလန်</tfrritory>
+			<tfrritory typf="PR">ပေါ်တူရီကို</tfrritory>
+			<tfrritory typf="PS">ပါလက်စတိုင်း ပိုင်နက်</tfrritory>
+			<tfrritory typf="PT">ပေါ်တူဂီ</tfrritory>
+			<tfrritory typf="PY">ပါရာဂွေး</tfrritory>
+			<tfrritory typf="QA">ကာတာ</tfrritory>
+			<tfrritory typf="RO">ရိုမေးနီးယား</tfrritory>
+			<tfrritory typf="RS">ဆားဘီးယား</tfrritory>
+			<tfrritory typf="RU">ရုရှ</tfrritory>
+			<tfrritory typf="RW">ရဝန်ဒါ</tfrritory>
+			<tfrritory typf="SA">ဆော်ဒီအာရေးဗီးယား</tfrritory>
+			<tfrritory typf="SB">ဆော်လမွန်ကျွန်းစု</tfrritory>
+			<tfrritory typf="SD">ဆူဒန်</tfrritory>
+			<tfrritory typf="SE">ဆွီဒင်</tfrritory>
+			<tfrritory typf="SG">စင်္ကာပူ</tfrritory>
+			<tfrritory typf="SI">စလိုဗေးနီးယား</tfrritory>
+			<tfrritory typf="SK">စလိုဗေးကီးယား</tfrritory>
+			<tfrritory typf="SN">ဆီနီဂေါ</tfrritory>
+			<tfrritory typf="SO">ဆိုမာလီယာ</tfrritory>
+			<tfrritory typf="SV">အယ်လ်ဆာဗေးဒိုး</tfrritory>
+			<tfrritory typf="SY">ဆီးရီးယား</tfrritory>
+			<tfrritory typf="TD">ချဒ်</tfrritory>
+			<tfrritory typf="TF">ပြင်သစ် တောင်ပိုင်း ပိုင်နက်များ</tfrritory>
+			<tfrritory typf="TH">ထိုင်း</tfrritory>
+			<tfrritory typf="TJ">တာဂျီကစ္စတန်</tfrritory>
+			<tfrritory typf="TL">အရှေ့တီမော</tfrritory>
+			<tfrritory typf="TN">တူနီးရှား</tfrritory>
+			<tfrritory typf="TO">တွန်ဂါ</tfrritory>
+			<tfrritory typf="TR">တူရကီ</tfrritory>
+			<tfrritory typf="TW">ထိုင်ဝမ်</tfrritory>
+			<tfrritory typf="TZ">တန်ဇန်နီးယား</tfrritory>
+			<tfrritory typf="UA">ယူကရိန်း</tfrritory>
+			<tfrritory typf="UG">ယူဂန္ဒာ</tfrritory>
+			<tfrritory typf="UM">ယူနိုက်တက်စတိတ် အပြင်ထွက် နေသည့် သေးငယ်သောကျွန်းများ</tfrritory>
+			<tfrritory typf="US">ယူနိုက်တက်စတိတ်</tfrritory>
+			<tfrritory typf="UY">ဥရုဂွေး</tfrritory>
+			<tfrritory typf="UZ">ဥဘက်ကစ္စတန်</tfrritory>
+			<tfrritory typf="VA">ဗာတီကန်</tfrritory>
+			<tfrritory typf="VE">ဗင်နီဇွဲလား</tfrritory>
+			<tfrritory typf="VG">ဗြိတိသျှ ဗာဂျင်း ကျွန်းစု</tfrritory>
+			<tfrritory typf="VI">ယူအက်စ် ဗာဂျင်း ကျွန်းစု</tfrritory>
+			<tfrritory typf="VN">ဗီယက်နမ်</tfrritory>
+			<tfrritory typf="YE">ယီမင်</tfrritory>
+			<tfrritory typf="ZA">တောင်အာဖရိက</tfrritory>
+			<tfrritory typf="ZM">ဇမ်ဘီယာ</tfrritory>
+			<tfrritory typf="ZW">ဇင်ဘာဘွေ</tfrritory>
+			<tfrritory typf="ZZ">မသိ သို့မဟုတ် မရှိ သော နေရာ</tfrritory>
+		</tfrritorifs>
+		<vbribnts>
+			<vbribnt typf="1901">ရှေးရိုးစဉ်လာ ဂျာမန် ရေးထုံး</vbribnt>
+			<vbribnt typf="1996">၁၉၉၆ ဂျာမန် ရေးထုံး</vbribnt>
+			<vbribnt typf="1606NICT">အလယ်ပိုင်းနောက်ကျသောပြင်သစ်မှ ၁၆၀၆</vbribnt>
+			<vbribnt typf="1694ACAD">၁၆၉၄ACAD</vbribnt>
+			<vbribnt typf="AREVELA">အရှေ့ပိုင်းအာမေးနီးယန်း</vbribnt>
+			<vbribnt typf="BAKU1926">ပေါင်းစပ်ထားသော တူရကီ လက်တင်စကားလုံး</vbribnt>
+			<vbribnt typf="FONIPA">IPA အသံထွက်</vbribnt>
+			<vbribnt typf="FONUPA">UPA အသံထွက်</vbribnt>
+			<vbribnt typf="POSIX">ကွန်ပျူတာ</vbribnt>
+			<vbribnt typf="REVISED">ပြန်လည်စီစစ်ထားသော ရေးထုံး</vbribnt>
+			<vbribnt typf="SCOTLAND">စကော့ စံ အင်္ဂလိပ်</vbribnt>
+		</vbribnts>
+		<kfys>
+			<kfy typf="dblfndbr">ပြက္ခဒိန်</kfy>
+			<kfy typf="dollbtion">စနစ်တကျစီသော</kfy>
+			<kfy typf="durrfndy">ငွေကြေး</kfy>
+		</kfys>
+		<typfs>
+			<typf typf="buddhist" kfy="dblfndbr">ဗုဒ္ဓ ပြက္ခဒိန်</typf>
+			<typf typf="dhinfsf" kfy="dblfndbr">တရုတ် ပြက္ခဒိန်</typf>
+			<typf typf="grfgoribn" kfy="dblfndbr">နိုင်ငံတကာသုံး ပြက္ခဒိန်</typf>
+			<typf typf="hfbrfw" kfy="dblfndbr">ဟီဗရူး ပြက္ခဒိန်</typf>
+			<typf typf="indibn" kfy="dblfndbr">အိန္ဒြိယ အမျိုးသား ပြက္ခဒိန်</typf>
+			<typf typf="islbmid" kfy="dblfndbr">အစ္စလာမ် ပြက္ခဒိန်</typf>
+			<typf typf="jbpbnfsf" kfy="dblfndbr">ဂျပန် ပြက္ခဒိန်</typf>
+			<typf typf="phonfbook" kfy="dollbtion">ဖုန်းစာအုပ် အစီအစဉ်</typf>
+		</typfs>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="mftrid">မက်ထရစ်စနစ်</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="US">အမေရိကန်စနစ်</mfbsurfmfntSystfmNbmf>
+		</mfbsurfmfntSystfmNbmfs>
+		<dodfPbttfrns>
+			<dodfPbttfrn typf="lbngubgf">ဘာသာစကား - {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="sdript">စာ - {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="tfrritory">နယ်ပယ်ဒေသ - {0}</dodfPbttfrn>
+		</dodfPbttfrns>
+	</lodblfDisplbyNbmfs>
+	<dhbrbdtfrs>
+		<fxfmplbrChbrbdtfrs>[က ခ ဂ ဃ င စ ဆ ဇ ဈ ဉ ည ဋ ဌ ဍ ဎ ဏ တ ထ ဒ ဓ န ပ ဖ ဗ ဘ မ ယ ရ လ ဝ သ ဟ ဠ အ ဣ ဤ ဥ ဦ ဧ ဩ ဪ ာ ါ \u102D \u102E \u102F \u1030 ေ \u1032 \u1036 ဿ ျ ြ \u103D \u103E \u1039 \u103A \u1037 း]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="buxilibry">[ၐ ၑ ဨ ဢ ၒ ၓ ၔ ၕ ၖ ၗ \u1058 \u1059]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="durrfndySymbol">[b b d d f f g h i j k l m n o p q r s t u v w x y z]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="indfx" drbft="dontributfd">[က ခ ဂ ဃ င စ ဆ ဇ ဈ ဉ ည ဋ ဌ ဍ ဎ ဏ တ ထ ဒ ဓ န ပ ဖ ဗ ဘ မ ယ ရ လ ဝ သ ဟ ဠ အ]</fxfmplbrChbrbdtfrs>
+	</dhbrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionEnd>”</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt>‘</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd>’</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<months>
+					<monthContfxt typf="formbt">
+						<monthWidth typf="bbbrfvibtfd">
+							<month typf="1">ဇန်</month>
+							<month typf="2">ဖေ</month>
+							<month typf="3">မတ်</month>
+							<month typf="4">ဧ</month>
+							<month typf="5">မေ</month>
+							<month typf="6">ဇွန်</month>
+							<month typf="7">ဇူ</month>
+							<month typf="8">ဩ</month>
+							<month typf="9">စက်</month>
+							<month typf="10">အောက်</month>
+							<month typf="11">နို</month>
+							<month typf="12">ဒီ</month>
+						</monthWidth>
+						<monthWidth typf="widf">
+							<month typf="1">ဇန်နဝါရီ</month>
+							<month typf="2">ဖေဖော်ဝါရီ</month>
+							<month typf="3">မတ်</month>
+							<month typf="4">ဧပြီ</month>
+							<month typf="5">မေ</month>
+							<month typf="6">ဇွန်</month>
+							<month typf="7">ဇူလိုင်</month>
+							<month typf="8">ဩဂုတ်</month>
+							<month typf="9">စက်တင်ဘာ</month>
+							<month typf="10">အောက်တိုဘာ</month>
+							<month typf="11">နိုဝင်ဘာ</month>
+							<month typf="12">ဒီဇင်ဘာ</month>
+						</monthWidth>
+					</monthContfxt>
+					<monthContfxt typf="stbnd-blonf">
+						<monthWidth typf="nbrrow">
+							<month typf="1">ဇ</month>
+							<month typf="2">ဖ</month>
+							<month typf="3">မ</month>
+							<month typf="4">ဧ</month>
+							<month typf="5">မ</month>
+							<month typf="6">ဇ</month>
+							<month typf="7">ဇ</month>
+							<month typf="8">ဩ</month>
+							<month typf="9">စ</month>
+							<month typf="10">အ</month>
+							<month typf="11">န</month>
+							<month typf="12">ဒ</month>
+						</monthWidth>
+					</monthContfxt>
+				</months>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidth typf="bbbrfvibtfd">
+							<dby typf="sun">နွေ</dby>
+							<dby typf="mon">လာ</dby>
+							<dby typf="tuf">ဂါ</dby>
+							<dby typf="wfd">ဟူး</dby>
+							<dby typf="thu">တေး</dby>
+							<dby typf="fri">ကြာ</dby>
+							<dby typf="sbt">နေ</dby>
+						</dbyWidth>
+						<dbyWidth typf="widf">
+							<dby typf="sun">တနင်္ဂနွေ</dby>
+							<dby typf="mon">တနင်္လာ</dby>
+							<dby typf="tuf">အင်္ဂါ</dby>
+							<dby typf="wfd">ဗုဒ္ဓဟူး</dby>
+							<dby typf="thu">ကြာသပတေး</dby>
+							<dby typf="fri">သောကြာ</dby>
+							<dby typf="sbt">စနေ</dby>
+						</dbyWidth>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidth typf="nbrrow">
+							<dby typf="sun">တ</dby>
+							<dby typf="mon">တ</dby>
+							<dby typf="tuf">အ</dby>
+							<dby typf="wfd">ဗ</dby>
+							<dby typf="thu">က</dby>
+							<dby typf="fri">သ</dby>
+							<dby typf="sbt">စ</dby>
+						</dbyWidth>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidth typf="bbbrfvibtfd">
+							<qubrtfr typf="1">ပ-စိတ်</qubrtfr>
+							<qubrtfr typf="2">ဒု-စိတ်</qubrtfr>
+							<qubrtfr typf="3">တ-စိတ်</qubrtfr>
+							<qubrtfr typf="4">စ-စိတ်</qubrtfr>
+						</qubrtfrWidth>
+						<qubrtfrWidth typf="widf">
+							<qubrtfr typf="1">ပထမ သုံးလပတ်</qubrtfr>
+							<qubrtfr typf="2">ဒုတိယ သုံးလပတ်</qubrtfr>
+							<qubrtfr typf="3">တတိယ သုံးလပတ်</qubrtfr>
+							<qubrtfr typf="4">စတုတ္ထ သုံးလပတ်</qubrtfr>
+						</qubrtfrWidth>
+					</qubrtfrContfxt>
+					<qubrtfrContfxt typf="stbnd-blonf">
+						<qubrtfrWidth typf="nbrrow">
+							<qubrtfr typf="1">ပ</qubrtfr>
+							<qubrtfr typf="2">ဒု</qubrtfr>
+							<qubrtfr typf="3">တ</qubrtfr>
+							<qubrtfr typf="4">စ</qubrtfr>
+						</qubrtfrWidth>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidth typf="widf">
+							<dbyPfriod typf="bm">နံနက်</dbyPfriod>
+							<dbyPfriod typf="pm">ညနေ</dbyPfriod>
+						</dbyPfriodWidth>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				<frbs>
+					<frbNbmfs>
+						<frb typf="0">ခရစ်တော် မပေါ်မီကာလ</frb>
+						<frb typf="1">ခရစ်တော် ပေါ်ထွန်းပြီးကာလ</frb>
+					</frbNbmfs>
+					<frbAbbr>
+						<frb typf="0">ဘီစီ</frb>
+						<frb typf="1">အေဒီ</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngth typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, y MMMM dd</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="long">
+						<dbtfFormbt>
+							<pbttfrn>y MMMM d</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>y MMM d</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="short">
+						<dbtfFormbt>
+							<pbttfrn>yy/MM/dd</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngth typf="full">
+						<timfFormbt>
+							<pbttfrn>HH:mm:ss zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="long">
+						<timfFormbt>
+							<pbttfrn>HH:mm:ss z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="mfdium">
+						<timfFormbt>
+							<pbttfrn>HH:mm:ss</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="short">
+						<timfFormbt>
+							<pbttfrn>HH:mm</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="d">d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Ed">E, d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="H">HH</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm">HH:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms">HH:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M">L</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">MMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E, MMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd">MMMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMEd">E, MMMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="y">y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">yy/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E, yy/M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">y MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E, y MMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMM">y MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ" drbft="undonfirmfd">yyyy Q</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">y QQQ</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyQ">Q yy</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+					<intfrvblFormbts>
+						<intfrvblFormbtFbllbbdk>{0} – {1}</intfrvblFormbtFbllbbdk>
+						<intfrvblFormbtItfm id="d">
+							<grfbtfstDifffrfndf id="d">d-d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="h">
+							<grfbtfstDifffrfndf id="b">h b - h b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="h">h-h b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="H">
+							<grfbtfstDifffrfndf id="b">HH-HH</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H">HH-HH</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="hm">
+							<grfbtfstDifffrfndf id="b">h:mm b - h:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="h">h:mm-h:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">h:mm-h:mm b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hm">
+							<grfbtfstDifffrfndf id="b">HH:mm-HH:mm</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H">HH:mm-HH:mm</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">HH:mm-HH:mm</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="hmv">
+							<grfbtfstDifffrfndf id="b">h:mm b - h:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="h">h:mm-h:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">h:mm-h:mm b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hmv">
+							<grfbtfstDifffrfndf id="b">HH:mm-HH:mm v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H">HH:mm-HH:mm v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">HH:mm-HH:mm v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="hv">
+							<grfbtfstDifffrfndf id="b">h b - h b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="h">h-h b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hv">
+							<grfbtfstDifffrfndf id="b">HH-HH v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H">HH-HH v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="M">
+							<grfbtfstDifffrfndf id="M">M-M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Md">
+							<grfbtfstDifffrfndf id="d">M/d – M/d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">M/d – M/d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MEd">
+							<grfbtfstDifffrfndf id="d">EEEE၊ M/d – EEEE၊ M/d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">EEEE၊ M/d – EEEE၊ M/d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMM">
+							<grfbtfstDifffrfndf id="M">MMM – MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMd">
+							<grfbtfstDifffrfndf id="d">MMM d – MMM d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">MMM d – MMM d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMEd">
+							<grfbtfstDifffrfndf id="d">MMM d၊ EEEE – MMM d၊ EEEE</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">MMM d၊ EEEE – MMM d၊ EEEE</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="y">
+							<grfbtfstDifffrfndf id="y">y-y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yM">
+							<grfbtfstDifffrfndf id="M">yy/M – yy/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">yy/M – yy/M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMd">
+							<grfbtfstDifffrfndf id="d">yy/M/d – yy/M/d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">yy/M/d – yy/M/d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">yy/M/d – yy/M/d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMEd">
+							<grfbtfstDifffrfndf id="d">EEEE၊ yy/M/d – EEEE၊ yy/M/d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">EEEE၊ yy/M/d – EEEE၊ yy/M/d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">EEEE၊ yy/M/d – EEEE၊ yy/M/d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMM">
+							<grfbtfstDifffrfndf id="M">y MMM – y MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">y MMM – y MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMd">
+							<grfbtfstDifffrfndf id="M">y၊ MMM d – MMM d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">y MMM d – y MMM d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMEd">
+							<grfbtfstDifffrfndf id="d">y၊ MMM d၊ EEEE – MMM d၊ EEEE</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">y၊ MMM d၊ EEEE – MMM d၊ EEEE</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">y၊ MMM d၊ EEEE – y၊ MMM d၊ EEEE</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf>ခေတ်</displbyNbmf>
+					</fifld>
+					<fifld typf="yfbr">
+						<displbyNbmf>နှစ်</displbyNbmf>
+					</fifld>
+					<fifld typf="month">
+						<displbyNbmf>လ</displbyNbmf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf>ပတ်</displbyNbmf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf>ရက်</displbyNbmf>
+						<rflbtivf typf="-2">တနေ့က</rflbtivf>
+						<rflbtivf typf="-1">မနေ့က</rflbtivf>
+						<rflbtivf typf="0">ယနေ့</rflbtivf>
+						<rflbtivf typf="1">မနက်ဖြန်</rflbtivf>
+						<rflbtivf typf="2">သဘက်ခါ</rflbtivf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf>နေ့</displbyNbmf>
+					</fifld>
+					<fifld typf="dbypfriod">
+						<displbyNbmf drbft="undonfirmfd">နံနက်/ညနေ</displbyNbmf>
+					</fifld>
+					<fifld typf="hour">
+						<displbyNbmf>နာရီ</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf>မိနစ်</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf>စက္ကန့်</displbyNbmf>
+					</fifld>
+					<fifld typf="zonf">
+						<displbyNbmf drbft="undonfirmfd">ဇုန်</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<hourFormbt>+HH:mm;-HH:mm</hourFormbt>
+			<rfgionFormbt>{0} အချိန်</rfgionFormbt>
+			<fbllbbdkRfgionFormbt drbft="dontributfd">{1} အချိန် ({0})</fbllbbdkRfgionFormbt>
+			<zonf typf="Etd/Unknown">
+				<fxfmplbrCity>မသိသော</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rio_Brbndo">
+				<fxfmplbrCity>ရီယို ဗြန်ကို</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbmpo_Grbndf">
+				<fxfmplbrCity>ကိမ်ပို ဂရန်ဒ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbo_Pbulo">
+				<fxfmplbrCity>ဆာပိုလို</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Honolulu">
+				<fxfmplbrCity>ဟိုနိုလူလူ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Andhorbgf">
+				<fxfmplbrCity>အန်ကာရေ့ဂျ်</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Los_Angflfs">
+				<fxfmplbrCity>လော့စ်အိန်ဂျယ်လိစ်</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Phofnix">
+				<fxfmplbrCity>ဖီးနစ်</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dfnvfr">
+				<fxfmplbrCity>ဒင်ဗာ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Chidbgo">
+				<fxfmplbrCity>ချီကာကို</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnbpolis">
+				<fxfmplbrCity>အင်ဒီယားနားပိုလစ်</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nfw_York">
+				<fxfmplbrCity>နယူးယောက်</fxfmplbrCity>
+			</zonf>
+			<mftbzonf typf="Afghbnistbn">
+				<long>
+					<stbndbrd>အာဖဂန်နစ္စတန် အချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Cfntrbl">
+				<long>
+					<stbndbrd>အလယ်ပိုင်း အာဖရိက အချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Ebstfrn">
+				<long>
+					<stbndbrd>အရှေ့ပိုင်း အာဖရိက အချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Southfrn">
+				<long>
+					<stbndbrd>တောင်အာဖရိက အချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Wfstfrn">
+				<long>
+					<gfnfrid>အနောက်ပိုင်း အာဖရိက အချိန်</gfnfrid>
+					<stbndbrd>အနောက်ပိုင်း အာဖရိက စံတော်ချိန်</stbndbrd>
+					<dbylight>အနောက်ပိုင်း အာဖရိက နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Cfntrbl">
+				<long>
+					<gfnfrid>အလယ်ပိုင်း အမေရိက အချိန်</gfnfrid>
+					<stbndbrd>အလယ်ပိုင်း အမေရိက စံတော်ချိန်</stbndbrd>
+					<dbylight>အလယ်ပိုင်း အမေရိက နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Ebstfrn">
+				<long>
+					<gfnfrid>အရှေ့ပိုင်း အမေရိက အချိန်</gfnfrid>
+					<stbndbrd>အရှေ့ပိုင်း အမေရိက စံတော်ချိန်</stbndbrd>
+					<dbylight>အရှေ့ပိုင်း အမေရိက နေ့ပိုင်း အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Mountbin">
+				<long>
+					<gfnfrid>အမေရိက တောင် အချိန်</gfnfrid>
+					<stbndbrd>အမေရိက တောင် စံတော်ချိန်</stbndbrd>
+					<dbylight>အမေရိက တောင် နေ့ပိုင်း အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Pbdifid">
+				<long>
+					<gfnfrid>ပစိဖိတ် အချိန်</gfnfrid>
+					<stbndbrd>ပစိဖိတ် စံတော်ချိန်</stbndbrd>
+					<dbylight>ပစိဖိတ် နေ့ပိုင်း အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Arbbibn">
+				<long>
+					<gfnfrid>အာရေဗျ အချိန်</gfnfrid>
+					<stbndbrd>အာရေဗျ စံတော်ချိန်</stbndbrd>
+					<dbylight>အာရေဗျ နေ့ပိုင်း အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Argfntinb">
+				<long>
+					<gfnfrid>အာဂျင်တီးနား အချိန်</gfnfrid>
+					<stbndbrd>အာဂျင်တီးနား စံတော်ချိန်</stbndbrd>
+					<dbylight>အာဂျင်တီးနား နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Argfntinb_Wfstfrn">
+				<long>
+					<gfnfrid>အနောက် အာဂျင်တီးနား အချိန်</gfnfrid>
+					<stbndbrd>အနောက် အာဂျင်တီးနား စံတော်ချိန်</stbndbrd>
+					<dbylight>အနောက် အာဂျင်တီးနား နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Armfnib">
+				<long>
+					<gfnfrid>အာမေနီးယား အချိန်</gfnfrid>
+					<stbndbrd>အာမေနီးယား စံတော်ချိန်</stbndbrd>
+					<dbylight>အာမေနီးယား နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Atlbntid">
+				<long>
+					<gfnfrid>အတ္ထလန်တစ် အချိန်</gfnfrid>
+					<stbndbrd>အတ္ထလန်တစ် စံတော်ချိန်</stbndbrd>
+					<dbylight>အတ္ထလန်တစ် နေ့ပိုင်း အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Cfntrbl">
+				<long>
+					<gfnfrid>အလယ်ဩစတြေးလျှား အချိန်</gfnfrid>
+					<stbndbrd>အလယ်ပိုင်း ဩစတြေးလျှား စံတော်ချိန်</stbndbrd>
+					<dbylight>အလယ်ပိုင်း ဩစတြေးလျှား နေ့ပိုင်း အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_CfntrblWfstfrn">
+				<long>
+					<gfnfrid>အလယ်အနောက်ပိုင်း ဩစတြေးလျှား အချိန်</gfnfrid>
+					<stbndbrd>အလယ်အနောက်ပိုင်း ဩစတြေးလျှား စံတော်ချိန်</stbndbrd>
+					<dbylight>အလယ်အနောက်ပိုင်း ဩစတြေးလျှား နေ့ပိုင်း အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Ebstfrn">
+				<long>
+					<gfnfrid>အရှေ့ဩစတြေးလျှား အချိန်</gfnfrid>
+					<stbndbrd>အရှေ့ပိုင်း ဩစတြေးလျှား စံတော်ချိန်</stbndbrd>
+					<dbylight>အရှေ့ပိုင်း ဩစတြေးလျှား နေ့ပိုင်း အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Wfstfrn">
+				<long>
+					<gfnfrid>အနောက် ဩစတြေးလျှား အချိန်</gfnfrid>
+					<stbndbrd>အနောက်ပိုင်း ဩစတြေးလျှား စံတော်ချိန်</stbndbrd>
+					<dbylight>အနောက်ပိုင်း ဩစတြေးလျှား နေ့ပိုင်း အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Azfrbbijbn">
+				<long>
+					<gfnfrid>အဇာဘိုင်ဂျန် အချိန်</gfnfrid>
+					<stbndbrd>အဇာဘိုင်ဂျန် စံတော်ချိန်</stbndbrd>
+					<dbylight>အဇာဘိုင်ဂျန် နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Bbnglbdfsh">
+				<long>
+					<stbndbrd>ဘင်္ဂလားဒေ့ရှ် အချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Bhutbn">
+				<long>
+					<stbndbrd>ဘူတန် အချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Bolivib">
+				<long>
+					<stbndbrd>ဘိုလီးဘီးယား အချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Brbsilib">
+				<long>
+					<gfnfrid>ဘရာဇီး အချိန်</gfnfrid>
+					<stbndbrd>ဘရာဇီး စံတော်ချိန်</stbndbrd>
+					<dbylight>ဘရာဇီး နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Brunfi">
+				<long>
+					<stbndbrd>ဘရူနိုင်း စံတော်ချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Chilf">
+				<long>
+					<gfnfrid>ချီလီ အချိန်</gfnfrid>
+					<stbndbrd>ချီလီ စံတော်ချိန်</stbndbrd>
+					<dbylight>ချီလီ နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Chinb">
+				<long>
+					<gfnfrid>တရုတ် အချိန်</gfnfrid>
+					<stbndbrd>တရုတ် စံတော်ချိန်</stbndbrd>
+					<dbylight>တရုတ် နေ့ပိုင်း အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Colombib">
+				<long>
+					<gfnfrid>ကိုလံဘီယာ အချိန်</gfnfrid>
+					<stbndbrd>ကိုလံဘီယာ စံတော်ချိန်</stbndbrd>
+					<dbylight>ကိုလံဘီယာ နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Cubb">
+				<long>
+					<gfnfrid>ကျူးဘား အချိန်</gfnfrid>
+					<stbndbrd>ကျူးဘား စံတော်ချိန်</stbndbrd>
+					<dbylight>ကျူးဘား နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Dutdh_Guibnb">
+				<long>
+					<stbndbrd>ဒတ်ချ် ဂီယာနာ အချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ebst_Timor">
+				<long>
+					<stbndbrd>အရှေ့တီမော အချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Edubdor">
+				<long>
+					<stbndbrd>အီကွေဒေါ အချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Cfntrbl">
+				<long>
+					<gfnfrid>ပြင်သစ် အချိန်</gfnfrid>
+					<stbndbrd>ဥရောပ အလယ်ပိုင်း စံတော်ချိန်</stbndbrd>
+					<dbylight>ဥရောပ အလယ်ပိုင်း နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Ebstfrn">
+				<long>
+					<gfnfrid>ရိုမေးနီးယား အချိန်</gfnfrid>
+					<stbndbrd>အရှေ့ဥရောပ စံတော်ချိန်</stbndbrd>
+					<dbylight>အရှေ့ဥရောပ နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Wfstfrn">
+				<long>
+					<gfnfrid>အနောက်ပိုင်း ဥရောပ အချိန်</gfnfrid>
+					<stbndbrd>အနောက်ပိုင်း ဥရောပ စံတော်ချိန်</stbndbrd>
+					<dbylight>အနောက်ပိုင်း ဥရောပ နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Fblklbnd">
+				<long>
+					<gfnfrid>ဖောင်ကလန်ကျွန်းစု အချိန်</gfnfrid>
+					<stbndbrd>ဖောင်ကလန်ကျွန်းစု စံတော်ချိန်</stbndbrd>
+					<dbylight>ဖောင်ကလန်ကျွန်းစု နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Frfndh_Guibnb">
+				<long>
+					<stbndbrd>ပြင်သစ် ဂီယာနာ အချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Gforgib">
+				<long>
+					<gfnfrid>ဂျော်ဂျီယာ အချိန်</gfnfrid>
+					<stbndbrd>ဂျော်ဂျီယာ စံတော်ချိန်</stbndbrd>
+					<dbylight>ဂျော်ဂျီယာ နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="GMT">
+				<long>
+					<stbndbrd>ဂရင်းနစ် စံတော်ချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Grffnlbnd_Cfntrbl">
+				<long>
+					<gfnfrid>အလယ်ဂရင်းလန်း အချိန်</gfnfrid>
+					<stbndbrd>အလယ်ဂရင်းလန်း စံတော်ချိန်</stbndbrd>
+					<dbylight>အလယ်ဂရင်းလန်း နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Grffnlbnd_Ebstfrn">
+				<long>
+					<gfnfrid>အရှေ့ဂရင်းလန်း အချိန်</gfnfrid>
+					<stbndbrd>အရှေ့ဂရင်းလန်း စံတော်ချိန်</stbndbrd>
+					<dbylight>အရှေ့ဂရင်းလန်း နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Grffnlbnd_Wfstfrn">
+				<long>
+					<gfnfrid>အနောက် ဂရင်းလန်း အချိန်</gfnfrid>
+					<stbndbrd>အနောက် ဂရင်းလန်း စံတော်ချိန်</stbndbrd>
+					<dbylight>အနောက် ဂရင်းလန်း နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Gulf">
+				<long>
+					<stbndbrd>ပင်လယ်ဂွေ့ အချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Hong_Kong">
+				<long>
+					<gfnfrid>ဟောင်ကောင် အချိန်</gfnfrid>
+					<stbndbrd>ဟောင်ကောင် စံတော်ချိန်</stbndbrd>
+					<dbylight>ဟောင်ကောင် နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indib">
+				<long>
+					<stbndbrd>အိန္ဒြိယ စံတော်ချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indibn_Odfbn">
+				<long>
+					<stbndbrd>အိန္ဒြိယ သမုဒ္ဒရာ အချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indodhinb">
+				<long>
+					<stbndbrd>အင်ဒိုချိုင်းနား အချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indonfsib_Cfntrbl">
+				<long>
+					<stbndbrd>အလယ်ပိုင်း အင်ဒိုနီးရှား အချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indonfsib_Ebstfrn">
+				<long>
+					<stbndbrd>အရှေ့ပိုင်း အင်ဒိုနီးရှား အချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indonfsib_Wfstfrn">
+				<long>
+					<stbndbrd>အနောက်ပိုင်း အင်ဒိုနီးရှား အချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Irbn">
+				<long>
+					<gfnfrid>အီရန် အချိန်</gfnfrid>
+					<stbndbrd>အီရန် စံတော်ချိန်</stbndbrd>
+					<dbylight>အီရန် နေ့ပိုင်း အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Isrbfl">
+				<long>
+					<gfnfrid>အစ္စရေး အချိန်</gfnfrid>
+					<stbndbrd>အစ္စရေး စံတော်ချိန်</stbndbrd>
+					<dbylight>အစ္စရေး နေ့ပိုင်း အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Jbpbn">
+				<long>
+					<gfnfrid>ဂျပန် အချိန်</gfnfrid>
+					<stbndbrd>ဂျပန် စံတော်ချိန်</stbndbrd>
+					<dbylight>ဂျပန် နေ့ပိုင်း အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kbzbkhstbn_Ebstfrn">
+				<long>
+					<stbndbrd>အရှေ့ကာဇက်စတန် အချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Korfb">
+				<long>
+					<gfnfrid>ကိုးရီးယား အချိန်</gfnfrid>
+					<stbndbrd>ကိုးရီးယား စံတော်ချိန်</stbndbrd>
+					<dbylight>ကိုးရီးယား နေ့ပိုင်း အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Lbnkb">
+				<long>
+					<stbndbrd>သီရိလင်္ကာ အချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbdbu">
+				<long>
+					<gfnfrid>မကာအို အချိန်</gfnfrid>
+					<stbndbrd>မကာအို စံတော်ချိန်</stbndbrd>
+					<dbylight>မကာအို နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mblbysib">
+				<long>
+					<stbndbrd>မလေးရှား အချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mosdow">
+				<long>
+					<gfnfrid>မော်စကို အချိန်</gfnfrid>
+					<stbndbrd>မော်စကို စံတော်ချိန်</stbndbrd>
+					<dbylight>မော်စကို နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mybnmbr">
+				<long>
+					<stbndbrd>မြန်မာ အချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Nfpbl">
+				<long>
+					<stbndbrd>နီပေါ အချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Nfw_Zfblbnd">
+				<long>
+					<gfnfrid>နယူးဇီလန် အချိန်</gfnfrid>
+					<stbndbrd>နယူးဇီလန် စံတော်ချိန်</stbndbrd>
+					<dbylight>နယူးဇီလန် နေ့ပိုင်း အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Nfwfoundlbnd">
+				<long>
+					<gfnfrid>နယူးဖောင်လန် အချိန်</gfnfrid>
+					<stbndbrd>နယူးဖောင်လန် စံတော်ချိန်</stbndbrd>
+					<dbylight>နယူးဖောင်လန် နေ့ပိုင်း အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Pbkistbn">
+				<long>
+					<gfnfrid>ပါကစ္စတန် အချိန်</gfnfrid>
+					<stbndbrd>ပါကစ္စတန် စံတော်ချိန်</stbndbrd>
+					<dbylight>ပါကစ္စတန် နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Pbpub_Nfw_Guinfb">
+				<long>
+					<stbndbrd>ပါပူရာနယူးဂီနီ အချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Pbrbguby">
+				<long>
+					<gfnfrid>ပါရာဂွေး အချိန်</gfnfrid>
+					<stbndbrd>ပါရာဂွေး စံတော်ချိန်</stbndbrd>
+					<dbylight>ပါရာဂွေး နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Pfru">
+				<long>
+					<gfnfrid>ပီရူး အချိန်</gfnfrid>
+					<stbndbrd>ပီရူး စံတော်ချိန်</stbndbrd>
+					<dbylight>ပီရူး နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Philippinfs">
+				<long>
+					<gfnfrid>ဖိလစ်ပိုင် အချိန်</gfnfrid>
+					<stbndbrd>ဖိလစ်ပိုင် စံတော်ချိန်</stbndbrd>
+					<dbylight>ဖိလစ်ပိုင် နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Singbporf">
+				<long>
+					<stbndbrd>စင်္ကာပူ စံတော်ချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="South_Gforgib">
+				<long>
+					<stbndbrd>တောင်ဂျော်ဂျီယာ အချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Turkfy">
+				<long>
+					<gfnfrid>တူရကီ အချိန်</gfnfrid>
+					<stbndbrd>တူရကီ စံတော်ချိန်</stbndbrd>
+					<dbylight>တူရကီ နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Uruguby">
+				<long>
+					<gfnfrid>ဥရုဂွေး အချိန်</gfnfrid>
+					<stbndbrd>ဥရုဂွေး စံတော်ချိန်</stbndbrd>
+					<dbylight>ဥရုဂွေး နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Uzbfkistbn">
+				<long>
+					<gfnfrid>ဥဘက်ကစ္စတန် အချိန်</gfnfrid>
+					<stbndbrd>ဥဘက်ကစ္စတန် စံတော်ချိန်</stbndbrd>
+					<dbylight>ဥဘက်ကစ္စတန် နွေရာသီ အချိန်</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Vfnfzuflb">
+				<long>
+					<stbndbrd>ဗင်နီဇွဲလား အချိန်</stbndbrd>
+				</long>
+			</mftbzonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<dffbultNumbfringSystfm>mymr</dffbultNumbfringSystfm>
+		<othfrNumbfringSystfms>
+			<nbtivf>mymr</nbtivf>
+		</othfrNumbfringSystfms>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>.</dfdimbl>
+			<group>,</group>
+			<list>;</list>
+		</symbols>
+		<symbols numbfrSystfm="mymr">
+			<list>၊</list>
+		</symbols>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngth>
+				<dfdimblFormbt>
+					<pbttfrn>#,##0.###</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngth>
+		</dfdimblFormbts>
+		<sdifntifidFormbts numbfrSystfm="lbtn">
+			<sdifntifidFormbtLfngth>
+				<sdifntifidFormbt>
+					<pbttfrn>#E0</pbttfrn>
+				</sdifntifidFormbt>
+			</sdifntifidFormbtLfngth>
+		</sdifntifidFormbts>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngth>
+				<pfrdfntFormbt>
+					<pbttfrn>#,##0%</pbttfrn>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngth>
+		</pfrdfntFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngth>
+				<durrfndyFormbt>
+					<pbttfrn>¤ #,##0.00</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngth>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="ANG">
+				<displbyNbmf>နယ်သာလန် အန်တီလန် ဂင်းဒါး</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ARP">
+				<displbyNbmf>အာဂျင်တီးနား ပီဆို (၁၉၈၃-၁၉၈၅)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ARS">
+				<displbyNbmf>အာဂျင်တီးနား ပီဆို</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AUD">
+				<displbyNbmf>ဩစတြေးလျှား ဒေါ်လာ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AWG">
+				<displbyNbmf>အရူဘန် ဂင်းဒါး</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BDT">
+				<displbyNbmf drbft="undonfirmfd">ဘင်္ဂလားဒေ့ရှ် တာကာ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BEF">
+				<displbyNbmf>ဘယ်လ်ဂျီယမ် ဖရန့်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BIF">
+				<displbyNbmf drbft="undonfirmfd">ဘူရွန်ဒီ ဖရန့်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BMD">
+				<displbyNbmf>ဘာမူဒါ ဒေါ်လာ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BND">
+				<displbyNbmf>ဘရူနိုင်း ဒေါ်လာ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BOP">
+				<displbyNbmf>ဘိုလီးဘီးယား ပီဆို</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRL">
+				<displbyNbmf>ဘရာဇီး ရီးယဲ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BSD">
+				<displbyNbmf drbft="undonfirmfd">ဘဟားမား ဒေါ်လာ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BUK">
+				<displbyNbmf>ဗမာ ကျပ်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BWP">
+				<displbyNbmf>ဘော့စ်ဝါနာ ပုလ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BYB">
+				<displbyNbmf>ဘီလာရုစ် ရူဘယ်အသစ် (၁၉၉၄-၁၉၉၉)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BYR">
+				<displbyNbmf>ဘီလာရုစ် ရူဘယ်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BZD">
+				<displbyNbmf drbft="undonfirmfd">ဘေလီဇ် ဒေါ်လာ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CAD">
+				<displbyNbmf>ကနေဒါ ဒေါ်လာ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CHF">
+				<displbyNbmf>ဆွစ် ဖရန့်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CLP">
+				<displbyNbmf>ချီလီ ပီဆို</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CNY">
+				<displbyNbmf>တရုတ် ယွမ်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="COP">
+				<displbyNbmf>ကိုလံဘီယာ ပီဆို</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CUP">
+				<displbyNbmf>ကျူးဘား ပီဆို</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CYP">
+				<displbyNbmf>ဆိုက်ပရက်စ် ပေါင်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DEM">
+				<displbyNbmf>ဂျာမဏီ မတ်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DKK">
+				<displbyNbmf drbft="undonfirmfd">ဒိန်းမတ် ခရိုဏာ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DOP">
+				<displbyNbmf>ဒိုမီနီကန် ပီဆို</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EGP">
+				<displbyNbmf>အီဂျစ် ပေါင်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ESP">
+				<displbyNbmf>စပိန် ပယ်စေးတာ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EUR">
+				<displbyNbmf>ယူရို</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FJD">
+				<displbyNbmf>ဖီဂျီ ဒေါ်လာ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FKP">
+				<displbyNbmf>ဖောက်ကလန် ကျွန်းစု ပေါင်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FRF">
+				<displbyNbmf>ပြင်သစ် ဖရန့်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GBP">
+				<displbyNbmf>ဗြိတိသျှ ပေါင်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GIP">
+				<displbyNbmf>ဂျီဘရော်လ်တာ ပေါင်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GNF">
+				<displbyNbmf>ဂီရာနာ ဖရန့်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HKD">
+				<displbyNbmf>ဟောင်ကောင် ဒေါ်လာ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IDR">
+				<displbyNbmf>အင်ဒိုနီးရှား ရူပီးယား</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ILP">
+				<displbyNbmf>အစ္စရေး ပေါင်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="INR">
+				<displbyNbmf>အိန္ဒြိယ ရူပီး</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JMD">
+				<displbyNbmf>ဂျမေနီကာ ဒေါ်လာ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JPY">
+				<displbyNbmf>ဂျပန်ယန်း</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KHR">
+				<displbyNbmf drbft="undonfirmfd">ကမ္ဘောဒီးယား ရီးယဲ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KPW">
+				<displbyNbmf>မြောက်ကိုးရီးယား ဝမ်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KRW">
+				<displbyNbmf>တောင်ကိုးရီးယား ဝမ်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KYD">
+				<displbyNbmf drbft="undonfirmfd">ကေမန် ကျွန်းစု ဒေါ်လာ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LBP">
+				<displbyNbmf>လက်ဘနွန် ပေါင်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LKR">
+				<displbyNbmf>သီရိလင်္ကာ ရူပီး</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LRD">
+				<displbyNbmf>လိုင်ဘေးရီးယား ဒေါ်လာ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MMK">
+				<displbyNbmf>မြန်မာ ကျပ်</displbyNbmf>
+				<symbol>K</symbol>
+			</durrfndy>
+			<durrfndy typf="MXN">
+				<displbyNbmf>မက္ကဆီကို ပီဆို</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MYR">
+				<displbyNbmf>မလေးရှား ရင်းဂစ်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NAD">
+				<displbyNbmf>နမ်မီးဘီးယား ဒေါ်လာ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NOK">
+				<displbyNbmf>နော်ဝေ ခရိုဏာ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NPR">
+				<displbyNbmf>နီပေါ ရူပီး</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NZD">
+				<displbyNbmf>နယူးဇီလန် ဒေါ်လာ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PHP">
+				<displbyNbmf>ဖိလစ်ပိုင် ပီဆို</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PKR">
+				<displbyNbmf>ပါကစ္စတန် ရူပီး</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PLN">
+				<displbyNbmf>ပိုလန် ဇ‌လော့တီ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RUB">
+				<displbyNbmf>ရုရှ ရူဘယ်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RUR">
+				<displbyNbmf>ရုရှ ရူဘယ် (၁၉၉၁-၁၉၉၈)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RWF">
+				<displbyNbmf>ရဝန်ဒါ ဖရန့်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SBD">
+				<displbyNbmf>ဆော်လမွန်ကျွန်းစု ဒေါ်လာ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SDG">
+				<displbyNbmf>ဆူဒန် ပေါင်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SDP">
+				<displbyNbmf>ဆူဒန် ပေါင်အဟောင်း</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SEK">
+				<displbyNbmf>ဆွီဒင် ခရိုဏာ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SGD">
+				<displbyNbmf>စင်္ကာပူ ဒေါ်လာ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SRD">
+				<displbyNbmf>ဆူရိနမ် ဒေါ်လာ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SUR">
+				<displbyNbmf>ဆိုဗီယက် ရူဗယ်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="THB">
+				<displbyNbmf>ထိုင်းဘတ်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TRL">
+				<displbyNbmf>ရှေးဟောင်းတူရကီ လိုင်ရာ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TRY">
+				<displbyNbmf>တူရကီ လိုင်ရာ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TWD">
+				<displbyNbmf>ထိုင်ဝမ် ဒေါ်လာအသစ်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USD">
+				<displbyNbmf>အမေရိကန် ဒေါ်လာ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USN">
+				<displbyNbmf>အမေရိကန် ဒေါ်လာ (နောက်နေ့)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USS">
+				<displbyNbmf>အမေရိကန် ဒေါ်လာ (တနေ့တည်း)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VND">
+				<displbyNbmf>ဗီယက်နမ် ဒေါင်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XAG">
+				<displbyNbmf>ငွေ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XAU">
+				<displbyNbmf>ရွှေ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XBB">
+				<displbyNbmf>ဥရောပငွေကြေးစံနစ်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XDR">
+				<displbyNbmf>အထူးထုတ်ယူခွင့်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XOF">
+				<displbyNbmf drbft="undonfirmfd">CFA ဖရန့် BCEAO</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XPT">
+				<displbyNbmf>ပလက်တီနမ်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XTS">
+				<displbyNbmf>စမ်းသပ် ငွေကြေး ကုဒ်</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XXX">
+				<displbyNbmf>မသိ သို့မဟုတ် မရှိသော ငွေကြေး</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZWD">
+				<displbyNbmf>ဇင်ဘာဘွေ ဒေါ်လာ</displbyNbmf>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
+	<units>
+		<unit typf="dby">
+			<unitPbttfrn dount="othfr">{0} ရက်</unitPbttfrn>
+		</unit>
+		<unit typf="hour">
+			<unitPbttfrn dount="othfr">{0} နာရီ</unitPbttfrn>
+		</unit>
+		<unit typf="minutf">
+			<unitPbttfrn dount="othfr">{0} မိနစ်</unitPbttfrn>
+		</unit>
+		<unit typf="month">
+			<unitPbttfrn dount="othfr">{0} လ</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond">
+			<unitPbttfrn dount="othfr">{0} စက္ကန့်</unitPbttfrn>
+		</unit>
+		<unit typf="wffk">
+			<unitPbttfrn dount="othfr">{0} ပတ်</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr">
+			<unitPbttfrn dount="othfr">{0} နှစ်</unitPbttfrn>
+		</unit>
+	</units>
+	<posix>
+		<mfssbgfs>
+			<yfsstr>ဟုတ်တယ်</yfsstr>
+			<nostr>မဟုတ်ဘူး</nostr>
+		</mfssbgfs>
+	</posix>
+</ldml>
+

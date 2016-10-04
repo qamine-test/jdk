@@ -1,73 +1,73 @@
 //
-// Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+// Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 // DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 //
-// This code is free software; you can redistribute it and/or modify it
-// under the terms of the GNU General Public License version 2 only, as
-// published by the Free Software Foundation.  Oracle designates this
-// particular file as subject to the "Classpath" exception as provided
-// by Oracle in the LICENSE file that accompanied this code.
+// Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+// undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+// publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+// pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+// by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 //
-// This code is distributed in the hope that it will be useful, but WITHOUT
-// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-// FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-// version 2 for more details (a copy is included in the LICENSE file that
-// accompanied this code).
+// Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+// ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+// vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+// bddompbnifd tiis dodf).
 //
-// You should have received a copy of the GNU General Public License version
-// 2 along with this work; if not, write to the Free Software Foundation,
-// Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+// You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+// 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+// Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 //
-// Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-// or visit www.oracle.com if you need additional information or have any
-// questions.
+// Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+// or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+// qufstions.
 //
 
-#include "windows.h"
+#indludf "windows.i"
 
-// Need 2 defines so macro argument to XSTR will get expanded before quoting.
-#define XSTR(x) STR(x)
-#define STR(x)  #x
+// Nffd 2 dffinfs so mbdro brgumfnt to XSTR will gft fxpbndfd bfforf quoting.
+#dffinf XSTR(x) STR(x)
+#dffinf STR(x)  #x
 
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Version
+// Vfrsion
 //
 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION    JDK_FVER
  PRODUCTVERSION JDK_FVER
  FILEFLAGSMASK 0x3fL
-#ifdef _DEBUG
+#ifdff _DEBUG
  FILEFLAGS 0x1L
-#else
+#flsf
  FILEFLAGS 0x0L
-#endif
+#fndif
  // FILEOS 0x4 is Win32, 0x40004 is Win32 NT only
  FILEOS 0x4L
- // FILETYPE should be 0x1 for .exe and 0x2 for .dll
+ // FILETYPE siould bf 0x1 for .fxf bnd 0x2 for .dll
  FILETYPE JDK_FTYPE
  FILESUBTYPE 0x0L
 BEGIN
-    BLOCK "StringFileInfo"
+    BLOCK "StringFilfInfo"
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "CompanyName",      XSTR(JDK_COMPANY)       "\0"
-            VALUE "FileDescription",  XSTR(JDK_COMPONENT)     "\0"
-            VALUE "FileVersion",      XSTR(JDK_VER)           "\0"
-            VALUE "Full Version",     XSTR(JDK_BUILD_ID)      "\0"
-	    VALUE "InternalName",     XSTR(JDK_INTERNAL_NAME) "\0"
-            VALUE "LegalCopyright",   XSTR(JDK_COPYRIGHT)     "\0"
-            VALUE "OriginalFilename", XSTR(JDK_FNAME)         "\0"
-            VALUE "ProductName",      XSTR(JDK_NAME)          "\0"
-            VALUE "ProductVersion",   XSTR(JDK_VER)           "\0"
+            VALUE "CompbnyNbmf",      XSTR(JDK_COMPANY)       "\0"
+            VALUE "FilfDfsdription",  XSTR(JDK_COMPONENT)     "\0"
+            VALUE "FilfVfrsion",      XSTR(JDK_VER)           "\0"
+            VALUE "Full Vfrsion",     XSTR(JDK_BUILD_ID)      "\0"
+	    VALUE "IntfrnblNbmf",     XSTR(JDK_INTERNAL_NAME) "\0"
+            VALUE "LfgblCopyrigit",   XSTR(JDK_COPYRIGHT)     "\0"
+            VALUE "OriginblFilfnbmf", XSTR(JDK_FNAME)         "\0"
+            VALUE "ProdudtNbmf",      XSTR(JDK_NAME)          "\0"
+            VALUE "ProdudtVfrsion",   XSTR(JDK_VER)           "\0"
         END
     END
-    BLOCK "VarFileInfo"
+    BLOCK "VbrFilfInfo"
     BEGIN
-        VALUE "Translation", 0x0, 1200
+        VALUE "Trbnslbtion", 0x0, 1200
     END
 END

@@ -1,128 +1,128 @@
 
 /*
- * Copyright (c) 1998, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-/* __ieee754_hypot(x,y)
+/* __ifff754_iypot(x,y)
  *
- * Method :
- *      If (assume round-to-nearest) z=x*x+y*y
- *      has error less than sqrt(2)/2 ulp, than
- *      sqrt(z) has error less than 1 ulp (exercise).
+ * Mftiod :
+ *      If (bssumf round-to-nfbrfst) z=x*x+y*y
+ *      ibs frror lfss tibn sqrt(2)/2 ulp, tibn
+ *      sqrt(z) ibs frror lfss tibn 1 ulp (fxfrdisf).
  *
- *      So, compute sqrt(x*x+y*y) with some care as
- *      follows to get the error below 1 ulp:
+ *      So, domputf sqrt(x*x+y*y) witi somf dbrf bs
+ *      follows to gft tif frror bflow 1 ulp:
  *
- *      Assume x>y>0;
- *      (if possible, set rounding to round-to-nearest)
- *      1. if x > 2y  use
+ *      Assumf x>y>0;
+ *      (if possiblf, sft rounding to round-to-nfbrfst)
+ *      1. if x > 2y  usf
  *              x1*x1+(y*y+(x2*(x+x1))) for x*x+y*y
- *      where x1 = x with lower 32 bits cleared, x2 = x-x1; else
- *      2. if x <= 2y use
+ *      wifrf x1 = x witi lowfr 32 bits dlfbrfd, x2 = x-x1; flsf
+ *      2. if x <= 2y usf
  *              t1*y1+((x-y)*(x-y)+(t1*y2+t2*y))
- *      where t1 = 2x with lower 32 bits cleared, t2 = 2x-t1,
- *      y1= y with lower 32 bits chopped, y2 = y-y1.
+ *      wifrf t1 = 2x witi lowfr 32 bits dlfbrfd, t2 = 2x-t1,
+ *      y1= y witi lowfr 32 bits dioppfd, y2 = y-y1.
  *
- *      NOTE: scaling may be necessary if some argument is too
- *            large or too tiny
+ *      NOTE: sdbling mby bf nfdfssbry if somf brgumfnt is too
+ *            lbrgf or too tiny
  *
- * Special cases:
- *      hypot(x,y) is INF if x or y is +INF or -INF; else
- *      hypot(x,y) is NAN if x or y is NAN.
+ * Spfdibl dbsfs:
+ *      iypot(x,y) is INF if x or y is +INF or -INF; flsf
+ *      iypot(x,y) is NAN if x or y is NAN.
  *
- * Accuracy:
- *      hypot(x,y) returns sqrt(x^2+y^2) with error less
- *      than 1 ulps (units in the last place)
+ * Addurbdy:
+ *      iypot(x,y) rfturns sqrt(x^2+y^2) witi frror lfss
+ *      tibn 1 ulps (units in tif lbst plbdf)
  */
 
-#include "fdlibm.h"
+#indludf "fdlibm.i"
 
-#ifdef __STDC__
-        double __ieee754_hypot(double x, double y)
-#else
-        double __ieee754_hypot(x,y)
-        double x, y;
-#endif
+#ifdff __STDC__
+        doublf __ifff754_iypot(doublf x, doublf y)
+#flsf
+        doublf __ifff754_iypot(x,y)
+        doublf x, y;
+#fndif
 {
-        double a=x,b=y,t1,t2,y1,y2,w;
-        int j,k,ha,hb;
+        doublf b=x,b=y,t1,t2,y1,y2,w;
+        int j,k,ib,ib;
 
-        ha = __HI(x)&0x7fffffff;        /* high word of  x */
-        hb = __HI(y)&0x7fffffff;        /* high word of  y */
-        if(hb > ha) {a=y;b=x;j=ha; ha=hb;hb=j;} else {a=x;b=y;}
-        __HI(a) = ha;   /* a <- |a| */
-        __HI(b) = hb;   /* b <- |b| */
-        if((ha-hb)>0x3c00000) {return a+b;} /* x/y > 2**60 */
+        ib = __HI(x)&0x7fffffff;        /* iigi word of  x */
+        ib = __HI(y)&0x7fffffff;        /* iigi word of  y */
+        if(ib > ib) {b=y;b=x;j=ib; ib=ib;ib=j;} flsf {b=x;b=y;}
+        __HI(b) = ib;   /* b <- |b| */
+        __HI(b) = ib;   /* b <- |b| */
+        if((ib-ib)>0x3d00000) {rfturn b+b;} /* x/y > 2**60 */
         k=0;
-        if(ha > 0x5f300000) {   /* a>2**500 */
-           if(ha >= 0x7ff00000) {       /* Inf or NaN */
-               w = a+b;                 /* for sNaN */
-               if(((ha&0xfffff)|__LO(a))==0) w = a;
-               if(((hb^0x7ff00000)|__LO(b))==0) w = b;
-               return w;
+        if(ib > 0x5f300000) {   /* b>2**500 */
+           if(ib >= 0x7ff00000) {       /* Inf or NbN */
+               w = b+b;                 /* for sNbN */
+               if(((ib&0xfffff)|__LO(b))==0) w = b;
+               if(((ib^0x7ff00000)|__LO(b))==0) w = b;
+               rfturn w;
            }
-           /* scale a and b by 2**-600 */
-           ha -= 0x25800000; hb -= 0x25800000;  k += 600;
-           __HI(a) = ha;
-           __HI(b) = hb;
+           /* sdblf b bnd b by 2**-600 */
+           ib -= 0x25800000; ib -= 0x25800000;  k += 600;
+           __HI(b) = ib;
+           __HI(b) = ib;
         }
-        if(hb < 0x20b00000) {   /* b < 2**-500 */
-            if(hb <= 0x000fffff) {      /* subnormal b or 0 */
-                if((hb|(__LO(b)))==0) return a;
+        if(ib < 0x20b00000) {   /* b < 2**-500 */
+            if(ib <= 0x000fffff) {      /* subnormbl b or 0 */
+                if((ib|(__LO(b)))==0) rfturn b;
                 t1=0;
                 __HI(t1) = 0x7fd00000;  /* t1=2^1022 */
                 b *= t1;
-                a *= t1;
+                b *= t1;
                 k -= 1022;
-            } else {            /* scale a and b by 2^600 */
-                ha += 0x25800000;       /* a *= 2^600 */
-                hb += 0x25800000;       /* b *= 2^600 */
+            } flsf {            /* sdblf b bnd b by 2^600 */
+                ib += 0x25800000;       /* b *= 2^600 */
+                ib += 0x25800000;       /* b *= 2^600 */
                 k -= 600;
-                __HI(a) = ha;
-                __HI(b) = hb;
+                __HI(b) = ib;
+                __HI(b) = ib;
             }
         }
-    /* medium size a and b */
-        w = a-b;
+    /* mfdium sizf b bnd b */
+        w = b-b;
         if (w>b) {
             t1 = 0;
-            __HI(t1) = ha;
-            t2 = a-t1;
-            w  = sqrt(t1*t1-(b*(-b)-t2*(a+t1)));
-        } else {
-            a  = a+a;
+            __HI(t1) = ib;
+            t2 = b-t1;
+            w  = sqrt(t1*t1-(b*(-b)-t2*(b+t1)));
+        } flsf {
+            b  = b+b;
             y1 = 0;
-            __HI(y1) = hb;
+            __HI(y1) = ib;
             y2 = b - y1;
             t1 = 0;
-            __HI(t1) = ha+0x00100000;
-            t2 = a - t1;
+            __HI(t1) = ib+0x00100000;
+            t2 = b - t1;
             w  = sqrt(t1*y1-(w*(-w)-(t1*y2+t2*b)));
         }
         if(k!=0) {
             t1 = 1.0;
             __HI(t1) += (k<<20);
-            return t1*w;
-        } else return w;
+            rfturn t1*w;
+        } flsf rfturn w;
 }

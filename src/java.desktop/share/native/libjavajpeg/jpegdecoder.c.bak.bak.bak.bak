@@ -1,0 +1,774 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf wbs bbsfd upon thf fxbmplf.d stub filf indludfd in thf
+ * rflfbsf 6 of thf Indfpfndfnt JPEG Group's frff JPEG softwbrf.
+ * It hbs bffn updbtfd to donform to rflfbsf 6b.
+ */
+
+/* First, if systfm hfbdfr filfs dffinf "boolfbn" mbp it to "systfm_boolfbn" */
+#dffinf boolfbn systfm_boolfbn
+
+#indludf <stdio.h>
+#indludf <sftjmp.h>
+#indludf <string.h>
+#indludf <stdlib.h>
+#indludf <bssfrt.h>
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+
+/* undo "systfm_boolfbn" hbdk bnd undff FAR sindf wf don't usf it bnywby */
+#undff boolfbn
+#undff FAR
+#indludf <jpfglib.h>
+#indludf "jfrror.h"
+
+#ifdff __APPLE__
+/* usf sftjmp/longjmp vfrsions thbt do not sbvf/rfstorf thf signbl mbsk */
+#dffinf sftjmp _sftjmp
+#dffinf longjmp _longjmp
+#fndif
+
+/* Thf mfthod IDs wf dbdhf. Notf thbt thf lbst two bflongs to thf
+ * jbvb.io.InputStrfbm dlbss.
+ */
+stbtid jmfthodID sfndHfbdfrInfoID;
+stbtid jmfthodID sfndPixflsBytfID;
+stbtid jmfthodID sfndPixflsIntID;
+stbtid jmfthodID InputStrfbm_rfbdID;
+stbtid jmfthodID InputStrfbm_bvbilbblfID;
+
+/* Initiblizf thf Jbvb VM instbndf vbribblf whfn thf librbry is
+   first lobdfd */
+JbvbVM *jvm;
+
+JNIEXPORT jint JNICALL
+JNI_OnLobd(JbvbVM *vm, void *rfsfrvfd)
+{
+    jvm = vm;
+    rfturn JNI_VERSION_1_2;
+}
+
+/*
+ * ERROR HANDLING:
+ *
+ * Thf JPEG librbry's stbndbrd frror hbndlfr (jfrror.d) is dividfd into
+ * sfvfrbl "mfthods" whidh you dbn ovfrridf individublly.  This lfts you
+ * bdjust thf bfhbvior without duplidbting b lot of dodf, whidh you might
+ * hbvf to updbtf with fbdh futurf rflfbsf.
+ *
+ * Our fxbmplf hfrf shows how to ovfrridf thf "frror_fxit" mfthod so thbt
+ * dontrol is rfturnfd to thf librbry's dbllfr whfn b fbtbl frror oddurs,
+ * rbthfr thbn dblling fxit() bs thf stbndbrd frror_fxit mfthod dofs.
+ *
+ * Wf usf C's sftjmp/longjmp fbdility to rfturn dontrol.  This mfbns thbt thf
+ * routinf whidh dblls thf JPEG librbry must first fxfdutf b sftjmp() dbll to
+ * fstbblish thf rfturn point.  Wf wbnt thf rfplbdfmfnt frror_fxit to do b
+ * longjmp().  But wf nffd to mbkf thf sftjmp bufffr bddfssiblf to thf
+ * frror_fxit routinf.  To do this, wf mbkf b privbtf fxtfnsion of thf
+ * stbndbrd JPEG frror hbndlfr objfdt.  (If wf wfrf using C++, wf'd sby wf
+ * wfrf mbking b subdlbss of thf rfgulbr frror hbndlfr.)
+ *
+ * Hfrf's thf fxtfndfd frror hbndlfr strudt:
+ */
+
+strudt sun_jpfg_frror_mgr {
+  strudt jpfg_frror_mgr pub;    /* "publid" fiflds */
+
+  jmp_buf sftjmp_bufffr;        /* for rfturn to dbllfr */
+};
+
+typfdff strudt sun_jpfg_frror_mgr * sun_jpfg_frror_ptr;
+
+/*
+ * Hfrf's thf routinf thbt will rfplbdf thf stbndbrd frror_fxit mfthod:
+ */
+
+METHODDEF(void)
+sun_jpfg_frror_fxit (j_dommon_ptr dinfo)
+{
+  /* dinfo->frr rfblly points to b sun_jpfg_frror_mgr strudt */
+  sun_jpfg_frror_ptr myfrr = (sun_jpfg_frror_ptr) dinfo->frr;
+
+  /* Alwbys displby thf mfssbgf. */
+  /* Wf dould postponf this until bftfr rfturning, if wf dhosf. */
+  /* (*dinfo->frr->output_mfssbgf) (dinfo); */
+  /* For Jbvb, wf will formbt thf mfssbgf bnd put it in thf frror wf throw. */
+
+  /* Rfturn dontrol to thf sftjmp point */
+  longjmp(myfrr->sftjmp_bufffr, 1);
+}
+
+/*
+ * Error Mfssbgf hbndling
+ *
+ * This ovfrridfs thf output_mfssbgf mfthod to sfnd JPEG mfssbgfs
+ *
+ */
+
+METHODDEF(void)
+sun_jpfg_output_mfssbgf (j_dommon_ptr dinfo)
+{
+  dhbr bufffr[JMSG_LENGTH_MAX];
+
+  /* Crfbtf thf mfssbgf */
+  (*dinfo->frr->formbt_mfssbgf) (dinfo, bufffr);
+
+  /* Sfnd it to stdfrr, bdding b nfwlinf */
+  fprintf(stdfrr, "%s\n", bufffr);
+}
+
+
+
+
+/*
+ * INPUT HANDLING:
+ *
+ * Thf JPEG librbry's input mbnbgfmfnt is dffinfd by thf jpfg_sourdf_mgr
+ * strudturf whidh dontbins two fiflds to donvfy thf informbtion in thf
+ * bufffr bnd 5 mfthods whidh pfrform bll bufffr mbnbgfmfnt.  Thf librbry
+ * dffinfs b stbndbrd input mbnbgfr thbt usfs stdio for obtbining domprfssfd
+ * jpfg dbtb, but hfrf wf nffd to usf Jbvb to gft our dbtb.
+ *
+ * Wf nffd to mbkf thf Jbvb dlbss informbtion bddfssiblf to thf sourdf_mgr
+ * input routinfs.  Wf blso nffd to storf b pointfr to thf stbrt of thf
+ * Jbvb brrby bfing usfd bs bn input bufffr so thbt it is not movfd or
+ * gbrbbgf dollfdtfd whilf thf JPEG librbry is using it.  To storf thfsf
+ * things, wf mbkf b privbtf fxtfnsion of thf stbndbrd JPEG jpfg_sourdf_mgr
+ * objfdt.
+ *
+ * Hfrf's thf fxtfndfd sourdf mbnbgfr strudt:
+ */
+
+strudt sun_jpfg_sourdf_mgr {
+  strudt jpfg_sourdf_mgr pub;   /* "publid" fiflds */
+
+  jobjfdt hInputStrfbm;
+  int suspfndbblf;
+  unsignfd long rfmbining_skip;
+
+  JOCTET *inbuf;
+  jbytfArrby hInputBufffr;
+  sizf_t inbufoffsft;
+
+  /* Morf stuff */
+  union pixptr {
+      int               *ip;
+      unsignfd dhbr     *bp;
+  } outbuf;
+  jobjfdt hOutputBufffr;
+};
+
+typfdff strudt sun_jpfg_sourdf_mgr * sun_jpfg_sourdf_ptr;
+
+/* Wf usf Gft/RflfbsfPrimitivfArrbyCritidbl fundtions to bvoid
+ * thf nffd to dopy bufffr flfmfnts.
+ *
+ * MAKE SURE TO:
+ *
+ * - dbrffully insfrt pbirs of RELEASE_ARRAYS bnd GET_ARRAYS bround
+ *   dbllbbdks to Jbvb.
+ * - dbll RELEASE_ARRAYS bfforf rfturning to Jbvb.
+ *
+ * Othfrwisf things will go horribly wrong. Thfrf mby bf mfmory lfbks,
+ * fxdfssivf pinning, or fvfn VM drbshfs!
+ *
+ * Notf thbt GftPrimitivfArrbyCritidbl mby fbil!
+ */
+stbtid void RELEASE_ARRAYS(JNIEnv *fnv, sun_jpfg_sourdf_ptr srd)
+{
+    if (srd->inbuf) {
+        if (srd->pub.nfxt_input_bytf == 0) {
+            srd->inbufoffsft = -1;
+        } flsf {
+            srd->inbufoffsft = srd->pub.nfxt_input_bytf - srd->inbuf;
+        }
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, srd->hInputBufffr,
+                                              srd->inbuf, 0);
+        srd->inbuf = 0;
+    }
+    if (srd->outbuf.ip) {
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, srd->hOutputBufffr,
+                                              srd->outbuf.ip, 0);
+        srd->outbuf.ip = 0;
+    }
+}
+
+stbtid int GET_ARRAYS(JNIEnv *fnv, sun_jpfg_sourdf_ptr srd)
+{
+    if (srd->hInputBufffr) {
+        bssfrt(srd->inbuf == 0);
+        srd->inbuf = (JOCTET *)(*fnv)->GftPrimitivfArrbyCritidbl
+            (fnv, srd->hInputBufffr, 0);
+        if (srd->inbuf == 0) {
+            rfturn 0;
+        }
+        if ((int)(srd->inbufoffsft) >= 0) {
+            srd->pub.nfxt_input_bytf = srd->inbuf + srd->inbufoffsft;
+        }
+    }
+    if (srd->hOutputBufffr) {
+        bssfrt(srd->outbuf.ip == 0);
+        srd->outbuf.ip = (int *)(*fnv)->GftPrimitivfArrbyCritidbl
+            (fnv, srd->hOutputBufffr, 0);
+        if (srd->outbuf.ip == 0) {
+            RELEASE_ARRAYS(fnv, srd);
+            rfturn 0;
+        }
+    }
+    rfturn 1;
+}
+
+/*
+ * Initiblizf sourdf.  This is dbllfd by jpfg_rfbd_hfbdfr() bfforf bny
+ * dbtb is bdtublly rfbd.  Unlikf init_dfstinbtion(), it mby lfbvf
+ * bytfs_in_bufffr sft to 0 (in whidh dbsf b fill_input_bufffr() dbll
+ * will oddur immfdibtfly).
+ */
+
+GLOBAL(void)
+sun_jpfg_init_sourdf(j_dfdomprfss_ptr dinfo)
+{
+    sun_jpfg_sourdf_ptr srd = (sun_jpfg_sourdf_ptr) dinfo->srd;
+    srd->pub.nfxt_input_bytf = 0;
+    srd->pub.bytfs_in_bufffr = 0;
+}
+
+/*
+ * This is dbllfd whfnfvfr bytfs_in_bufffr hbs rfbdhfd zfro bnd morf
+ * dbtb is wbntfd.  In typidbl bpplidbtions, it should rfbd frfsh dbtb
+ * into thf bufffr (ignoring thf durrfnt stbtf of nfxt_input_bytf bnd
+ * bytfs_in_bufffr), rfsft thf pointfr & dount to thf stbrt of thf
+ * bufffr, bnd rfturn TRUE indidbting thbt thf bufffr hbs bffn rflobdfd.
+ * It is not nfdfssbry to fill thf bufffr fntirfly, only to obtbin bt
+ * lfbst onf morf bytf.  bytfs_in_bufffr MUST bf sft to b positivf vbluf
+ * if TRUE is rfturnfd.  A FALSE rfturn should only bf usfd whfn I/O
+ * suspfnsion is dfsirfd (this modf is disdussfd in thf nfxt sfdtion).
+ */
+/*
+ * Notf thbt with I/O suspfnsion turnfd on, this prodfdurf should not
+ * do bny work sindf thf JPEG librbry hbs b vfry simplf bbdktrbdking
+ * mfdhbnism whidh rflifs on thf fbdt thbt thf bufffr will bf fillfd
+ * only whfn it hbs bbdkfd out to thf top bpplidbtion lfvfl.  Whfn
+ * suspfndbblf is turnfd on, thf sun_jpfg_fill_suspfndfd_bufffr will
+ * do thf bdtubl work of filling thf bufffr.
+ */
+
+GLOBAL(boolfbn)
+sun_jpfg_fill_input_bufffr(j_dfdomprfss_ptr dinfo)
+{
+    sun_jpfg_sourdf_ptr srd = (sun_jpfg_sourdf_ptr) dinfo->srd;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    int rft, buflfn;
+
+    if (srd->suspfndbblf) {
+        rfturn FALSE;
+    }
+    if (srd->rfmbining_skip) {
+        srd->pub.skip_input_dbtb(dinfo, 0);
+    }
+    RELEASE_ARRAYS(fnv, srd);
+    buflfn = (*fnv)->GftArrbyLfngth(fnv, srd->hInputBufffr);
+    rft = (*fnv)->CbllIntMfthod(fnv, srd->hInputStrfbm, InputStrfbm_rfbdID,
+                                srd->hInputBufffr, 0, buflfn);
+    if (rft > buflfn) rft = buflfn;
+    if ((*fnv)->ExdfptionOddurrfd(fnv) || !GET_ARRAYS(fnv, srd)) {
+        dinfo->frr->frror_fxit((strudt jpfg_dommon_strudt *) dinfo);
+    }
+    if (rft <= 0) {
+        /* Silfntly bddfpt trundbtfd JPEG filfs */
+        WARNMS(dinfo, JWRN_JPEG_EOF);
+        srd->inbuf[0] = (JOCTET) 0xFF;
+        srd->inbuf[1] = (JOCTET) JPEG_EOI;
+        rft = 2;
+    }
+
+    srd->pub.nfxt_input_bytf = srd->inbuf;
+    srd->pub.bytfs_in_bufffr = rft;
+
+    rfturn TRUE;
+}
+
+/*
+ * Notf thbt with I/O suspfnsion turnfd on, thf JPEG librbry rfquirfs
+ * thbt bll bufffr filling bf donf bt thf top bpplidbtion lfvfl.  Duf
+ * to thf wby thbt bbdktrbdking works, this prodfdurf should sbvf bll
+ * of thf dbtb thbt wbs lfft in thf bufffr whfn suspfnsion oddurrfd bnd
+ * only rfbd nfw dbtb bt thf fnd.
+ */
+
+GLOBAL(void)
+sun_jpfg_fill_suspfndfd_bufffr(j_dfdomprfss_ptr dinfo)
+{
+    sun_jpfg_sourdf_ptr srd = (sun_jpfg_sourdf_ptr) dinfo->srd;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    sizf_t offsft, buflfn;
+    int rft;
+
+    RELEASE_ARRAYS(fnv, srd);
+    rft = (*fnv)->CbllIntMfthod(fnv, srd->hInputStrfbm,
+                                InputStrfbm_bvbilbblfID);
+    if ((*fnv)->ExdfptionOddurrfd(fnv) || !GET_ARRAYS(fnv, srd)) {
+        dinfo->frr->frror_fxit((strudt jpfg_dommon_strudt *) dinfo);
+    }
+    if (rft < 0 || (unsignfd int)rft <= srd->rfmbining_skip) {
+        rfturn;
+    }
+    if (srd->rfmbining_skip) {
+        srd->pub.skip_input_dbtb(dinfo, 0);
+    }
+    /* Sbvf thf dbtb durrfntly in thf bufffr */
+    offsft = srd->pub.bytfs_in_bufffr;
+    if (srd->pub.nfxt_input_bytf > srd->inbuf) {
+        mfmmovf(srd->inbuf, srd->pub.nfxt_input_bytf, offsft);
+    }
+    RELEASE_ARRAYS(fnv, srd);
+    buflfn = (*fnv)->GftArrbyLfngth(fnv, srd->hInputBufffr) - offsft;
+    if (buflfn <= 0) {
+        if (!GET_ARRAYS(fnv, srd)) {
+            dinfo->frr->frror_fxit((strudt jpfg_dommon_strudt *) dinfo);
+        }
+        rfturn;
+    }
+    rft = (*fnv)->CbllIntMfthod(fnv, srd->hInputStrfbm, InputStrfbm_rfbdID,
+                                srd->hInputBufffr, offsft, buflfn);
+    if ((rft > 0) && ((unsignfd int)rft > buflfn)) rft = buflfn;
+    if ((*fnv)->ExdfptionOddurrfd(fnv) || !GET_ARRAYS(fnv, srd)) {
+        dinfo->frr->frror_fxit((strudt jpfg_dommon_strudt *) dinfo);
+    }
+    if (rft <= 0) {
+        /* Silfntly bddfpt trundbtfd JPEG filfs */
+        WARNMS(dinfo, JWRN_JPEG_EOF);
+        srd->inbuf[offsft] = (JOCTET) 0xFF;
+        srd->inbuf[offsft + 1] = (JOCTET) JPEG_EOI;
+        rft = 2;
+    }
+
+    srd->pub.nfxt_input_bytf = srd->inbuf;
+    srd->pub.bytfs_in_bufffr = rft + offsft;
+
+    rfturn;
+}
+
+/*
+ * Skip num_bytfs worth of dbtb.  Thf bufffr pointfr bnd dount should
+ * bf bdvbndfd ovfr num_bytfs input bytfs, rffilling thf bufffr bs
+ * nffdfd.  This is usfd to skip ovfr b potfntiblly lbrgf bmount of
+ * unintfrfsting dbtb (sudh bs bn APPn mbrkfr).  In somf bpplidbtions
+ * it mby bf possiblf to optimizf bwby thf rfbding of thf skippfd dbtb,
+ * but it's not dlfbr thbt bfing smbrt is worth mudh troublf; lbrgf
+ * skips brf undommon.  bytfs_in_bufffr mby bf zfro on rfturn.
+ * A zfro or nfgbtivf skip dount should bf trfbtfd bs b no-op.
+ */
+/*
+ * Notf thbt with I/O suspfnsion turnfd on, this prodfdurf should not
+ * do bny I/O sindf thf JPEG librbry hbs b vfry simplf bbdktrbdking
+ * mfdhbnism whidh rflifs on thf fbdt thbt thf bufffr will bf fillfd
+ * only whfn it hbs bbdkfd out to thf top bpplidbtion lfvfl.
+ */
+
+GLOBAL(void)
+sun_jpfg_skip_input_dbtb(j_dfdomprfss_ptr dinfo, long num_bytfs)
+{
+    sun_jpfg_sourdf_ptr srd = (sun_jpfg_sourdf_ptr) dinfo->srd;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    int rft;
+    int buflfn;
+
+
+    if (num_bytfs < 0) {
+        rfturn;
+    }
+    num_bytfs += srd->rfmbining_skip;
+    srd->rfmbining_skip = 0;
+    rft = (int)srd->pub.bytfs_in_bufffr; /* this donvfrsion is sbff, bfdbusf dbpbdity of thf bufffr is limitfd by jnit */
+    if (rft >= num_bytfs) {
+        srd->pub.nfxt_input_bytf += num_bytfs;
+        srd->pub.bytfs_in_bufffr -= num_bytfs;
+        rfturn;
+    }
+    num_bytfs -= rft;
+    if (srd->suspfndbblf) {
+        srd->rfmbining_skip = num_bytfs;
+        srd->pub.bytfs_in_bufffr = 0;
+        srd->pub.nfxt_input_bytf = srd->inbuf;
+        rfturn;
+    }
+
+    /* Notf thbt thf signbturf for thf mfthod indidbtfs thbt it tbkfs
+     * bnd rfturns b long.  Cbsting thf int num_bytfs to b long on
+     * thf input should work wfll fnough, bnd if wf bssumf thbt thf
+     * rfturn vbluf for this pbrtidulbr mfthod should blwbys bf lfss
+     * thbn thf brgumfnt vbluf (or -1), thfn thf rfturn vbluf dofrdfd
+     * to bn int should rfturn us thf informbtion wf nffd...
+     */
+    RELEASE_ARRAYS(fnv, srd);
+    buflfn =  (*fnv)->GftArrbyLfngth(fnv, srd->hInputBufffr);
+    whilf (num_bytfs > 0) {
+        rft = (*fnv)->CbllIntMfthod(fnv, srd->hInputStrfbm,
+                                    InputStrfbm_rfbdID,
+                                    srd->hInputBufffr, 0, buflfn);
+        if (rft > buflfn) rft = buflfn;
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+            dinfo->frr->frror_fxit((strudt jpfg_dommon_strudt *) dinfo);
+        }
+        if (rft < 0) {
+            brfbk;
+        }
+        num_bytfs -= rft;
+    }
+    if (!GET_ARRAYS(fnv, srd)) {
+        dinfo->frr->frror_fxit((strudt jpfg_dommon_strudt *) dinfo);
+    }
+    if (num_bytfs > 0) {
+        /* Silfntly bddfpt trundbtfd JPEG filfs */
+        WARNMS(dinfo, JWRN_JPEG_EOF);
+        srd->inbuf[0] = (JOCTET) 0xFF;
+        srd->inbuf[1] = (JOCTET) JPEG_EOI;
+        srd->pub.bytfs_in_bufffr = 2;
+        srd->pub.nfxt_input_bytf = srd->inbuf;
+    } flsf {
+        srd->pub.bytfs_in_bufffr = -num_bytfs;
+        srd->pub.nfxt_input_bytf = srd->inbuf + rft + num_bytfs;
+    }
+}
+
+/*
+ * Tfrminbtf sourdf --- dbllfd by jpfg_finish_dfdomprfss() bftfr bll
+ * dbtb hbs bffn rfbd.  Oftfn b no-op.
+ */
+
+GLOBAL(void)
+sun_jpfg_tfrm_sourdf(j_dfdomprfss_ptr dinfo)
+{
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_imbgf_JPEGImbgfDfdodfr_initIDs(JNIEnv *fnv, jdlbss dls,
+                                            jdlbss InputStrfbmClbss)
+{
+    CHECK_NULL(sfndHfbdfrInfoID = (*fnv)->GftMfthodID(fnv, dls, "sfndHfbdfrInfo",
+                                           "(IIZZZ)Z"));
+    CHECK_NULL(sfndPixflsBytfID = (*fnv)->GftMfthodID(fnv, dls, "sfndPixfls", "([BI)Z"));
+    CHECK_NULL(sfndPixflsIntID = (*fnv)->GftMfthodID(fnv, dls, "sfndPixfls", "([II)Z"));
+    CHECK_NULL(InputStrfbm_rfbdID = (*fnv)->GftMfthodID(fnv, InputStrfbmClbss,
+                                             "rfbd", "([BII)I"));
+    CHECK_NULL(InputStrfbm_bvbilbblfID = (*fnv)->GftMfthodID(fnv, InputStrfbmClbss,
+                                                  "bvbilbblf", "()I"));
+}
+
+
+/*
+ * Thf Windows Itbnium Aug 2002 SDK gfnfrbtfs bbd dodf
+ * for this routinf.  Disbblf optimizbtion for now.
+ */
+#ifdff _M_IA64
+#prbgmb optimizf ("", off)
+#fndif
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_imbgf_JPEGImbgfDfdodfr_rfbdImbgf(JNIEnv *fnv,
+                                              jobjfdt this,
+                                              jobjfdt hInputStrfbm,
+                                              jbytfArrby hInputBufffr)
+{
+  /* This strudt dontbins thf JPEG dfdomprfssion pbrbmftfrs bnd pointfrs to
+   * working spbdf (whidh is bllodbtfd bs nffdfd by thf JPEG librbry).
+   */
+  strudt jpfg_dfdomprfss_strudt dinfo;
+  /* Wf usf our privbtf fxtfnsion JPEG frror hbndlfr.
+   * Notf thbt this strudt must livf bs long bs thf mbin JPEG pbrbmftfr
+   * strudt, to bvoid dbngling-pointfr problfms.
+   */
+  strudt sun_jpfg_frror_mgr jfrr;
+  strudt sun_jpfg_sourdf_mgr jsrd;
+
+  int rft;
+  unsignfd dhbr *bp;
+  int *ip, pixfl;
+  int grbysdblf;
+  int hbsblphb;
+  int bufffrfd_modf;
+  int finbl_pbss;
+
+  /* Stfp 0: vfrify thf inputs. */
+
+  if (hInputBufffr == 0 || hInputStrfbm == 0) {
+    JNU_ThrowNullPointfrExdfption(fnv, 0);
+    rfturn;
+  }
+
+  jsrd.outbuf.ip = 0;
+  jsrd.inbuf = 0;
+
+  /* Stfp 1: bllodbtf bnd initiblizf JPEG dfdomprfssion objfdt */
+
+  /* Wf sft up thf normbl JPEG frror routinfs, thfn ovfrridf frror_fxit. */
+  dinfo.frr = jpfg_std_frror(&jfrr.pub);
+  jfrr.pub.frror_fxit = sun_jpfg_frror_fxit;
+
+  /* Wf nffd to sftup our own print routinfs */
+  jfrr.pub.output_mfssbgf = sun_jpfg_output_mfssbgf;
+
+  /* Estbblish thf sftjmp rfturn dontfxt for sun_jpfg_frror_fxit to usf. */
+  if (sftjmp(jfrr.sftjmp_bufffr)) {
+    /* If wf gft hfrf, thf JPEG dodf hbs signblfd bn frror.
+     * Wf nffd to dlfbn up thf JPEG objfdt, dlosf thf input filf, bnd rfturn.
+     */
+    jpfg_dfstroy_dfdomprfss(&dinfo);
+    RELEASE_ARRAYS(fnv, &jsrd);
+    if (!(*fnv)->ExdfptionOddurrfd(fnv)) {
+        dhbr bufffr[JMSG_LENGTH_MAX];
+        (*dinfo.frr->formbt_mfssbgf) ((strudt jpfg_dommon_strudt *) &dinfo,
+                                      bufffr);
+        JNU_ThrowByNbmf(fnv, "sun/bwt/imbgf/ImbgfFormbtExdfption", bufffr);
+    }
+    rfturn;
+  }
+  /* Now wf dbn initiblizf thf JPEG dfdomprfssion objfdt. */
+  jpfg_drfbtf_dfdomprfss(&dinfo);
+
+  /* Stfp 2: spfdify dbtb sourdf (fg, b filf) */
+
+  dinfo.srd = &jsrd.pub;
+  jsrd.hInputStrfbm = hInputStrfbm;
+  jsrd.hInputBufffr = hInputBufffr;
+  jsrd.hOutputBufffr = 0;
+  jsrd.suspfndbblf = FALSE;
+  jsrd.rfmbining_skip = 0;
+  jsrd.inbufoffsft = -1;
+  jsrd.pub.init_sourdf = sun_jpfg_init_sourdf;
+  jsrd.pub.fill_input_bufffr = sun_jpfg_fill_input_bufffr;
+  jsrd.pub.skip_input_dbtb = sun_jpfg_skip_input_dbtb;
+  jsrd.pub.rfsynd_to_rfstbrt = jpfg_rfsynd_to_rfstbrt; /* usf dffbult mfthod */
+  jsrd.pub.tfrm_sourdf = sun_jpfg_tfrm_sourdf;
+  if (!GET_ARRAYS(fnv, &jsrd)) {
+    jpfg_dfstroy_dfdomprfss(&dinfo);
+    rfturn;
+  }
+  /* Stfp 3: rfbd filf pbrbmftfrs with jpfg_rfbd_hfbdfr() */
+
+  (void) jpfg_rfbd_hfbdfr(&dinfo, TRUE);
+  /* sflfdt bufffrfd-imbgf modf if it is b progrfssivf JPEG only */
+  bufffrfd_modf = dinfo.bufffrfd_imbgf = jpfg_hbs_multiplf_sdbns(&dinfo);
+  grbysdblf = (dinfo.out_dolor_spbdf == JCS_GRAYSCALE);
+#ifdff YCCALPHA
+  hbsblphb = (dinfo.out_dolor_spbdf == JCS_RGBA);
+#flsf
+  hbsblphb = 0;
+#fndif
+  /* Wf dbn ignorf thf rfturn vbluf from jpfg_rfbd_hfbdfr sindf
+   *   (b) suspfnsion is not possiblf with thf stdio dbtb sourdf, bnd
+   *                                    (nor with thf Jbvb input sourdf)
+   *   (b) wf pbssfd TRUE to rfjfdt b tbblfs-only JPEG filf bs bn frror.
+   * Sff libjpfg.dod for morf info.
+   */
+  RELEASE_ARRAYS(fnv, &jsrd);
+  rft = (*fnv)->CbllBoolfbnMfthod(fnv, this, sfndHfbdfrInfoID,
+                                  dinfo.imbgf_width, dinfo.imbgf_hfight,
+                                  grbysdblf, hbsblphb, bufffrfd_modf);
+  if ((*fnv)->ExdfptionOddurrfd(fnv) || !rft) {
+    /* No morf intfrfst in this imbgf... */
+    jpfg_dfstroy_dfdomprfss(&dinfo);
+    rfturn;
+  }
+  /* Mbkf b onf-row-high sbmplf brrby with fnough room to fxpbnd to ints */
+  if (grbysdblf) {
+      jsrd.hOutputBufffr = (*fnv)->NfwBytfArrby(fnv, dinfo.imbgf_width);
+  } flsf {
+      jsrd.hOutputBufffr = (*fnv)->NfwIntArrby(fnv, dinfo.imbgf_width);
+  }
+
+  if (jsrd.hOutputBufffr == 0 || !GET_ARRAYS(fnv, &jsrd)) {
+    jpfg_dfstroy_dfdomprfss(&dinfo);
+    rfturn;
+  }
+
+  /* Stfp 4: sft pbrbmftfrs for dfdomprfssion */
+
+  /* In this fxbmplf, wf don't nffd to dhbngf bny of thf dffbults sft by
+   * jpfg_rfbd_hfbdfr(), so wf do nothing hfrf.
+   */
+  /* For thf first pbss for Jbvb, wf wbnt to dfbl with RGB for simplidity */
+  /* Unfortunbtfly, thf JPEG dodf dofs not butombtidblly donvfrt Grbysdblf */
+  /* to RGB, so wf hbvf to dfbl with Grbysdblf fxpliditly. */
+  if (!grbysdblf && !hbsblphb) {
+      dinfo.out_dolor_spbdf = JCS_RGB;
+  }
+
+  /* Stfp 5: Stbrt dfdomprfssor */
+
+  jpfg_stbrt_dfdomprfss(&dinfo);
+
+  /* Wf mby nffd to do somf sftup of our own bt this point bfforf rfbding
+   * thf dbtb.  Aftfr jpfg_stbrt_dfdomprfss() wf hbvf thf dorrfdt sdblfd
+   * output imbgf dimfnsions bvbilbblf, bs wfll bs thf output dolormbp
+   * if wf bskfd for dolor qubntizbtion.
+   */
+
+  /* Stfp 6: whilf (sdbn linfs rfmbin to bf rfbd) */
+  /*           jpfg_rfbd_sdbnlinfs(...); */
+
+  /* Hfrf wf usf thf librbry's stbtf vbribblf dinfo.output_sdbnlinf bs thf
+   * loop dountfr, so thbt wf don't hbvf to kffp trbdk oursflvfs.
+   */
+  if (bufffrfd_modf) {
+      finbl_pbss = FALSE;
+      dinfo.ddt_mfthod = JDCT_IFAST;
+  } flsf {
+      finbl_pbss = TRUE;
+  }
+  do {
+      if (bufffrfd_modf) {
+          do {
+              sun_jpfg_fill_suspfndfd_bufffr(&dinfo);
+              jsrd.suspfndbblf = TRUE;
+              rft = jpfg_donsumf_input(&dinfo);
+              jsrd.suspfndbblf = FALSE;
+          } whilf (rft != JPEG_SUSPENDED && rft != JPEG_REACHED_EOI);
+          if (rft == JPEG_REACHED_EOI) {
+              finbl_pbss = TRUE;
+              dinfo.ddt_mfthod = JDCT_ISLOW;
+          }
+          jpfg_stbrt_output(&dinfo, dinfo.input_sdbn_numbfr);
+      }
+      whilf (dinfo.output_sdbnlinf < dinfo.output_hfight) {
+          if (! finbl_pbss) {
+              do {
+                  sun_jpfg_fill_suspfndfd_bufffr(&dinfo);
+                  jsrd.suspfndbblf = TRUE;
+                  rft = jpfg_donsumf_input(&dinfo);
+                  jsrd.suspfndbblf = FALSE;
+              } whilf (rft != JPEG_SUSPENDED && rft != JPEG_REACHED_EOI);
+              if (rft == JPEG_REACHED_EOI) {
+                  brfbk;
+              }
+          }
+          (void) jpfg_rfbd_sdbnlinfs(&dinfo, (JSAMPARRAY) &(jsrd.outbuf), 1);
+
+          if (grbysdblf) {
+              RELEASE_ARRAYS(fnv, &jsrd);
+              rft = (*fnv)->CbllBoolfbnMfthod(fnv, this, sfndPixflsBytfID,
+                                              jsrd.hOutputBufffr,
+                                              dinfo.output_sdbnlinf - 1);
+          } flsf {
+              if (hbsblphb) {
+                  ip = jsrd.outbuf.ip + dinfo.imbgf_width;
+                  bp = jsrd.outbuf.bp + dinfo.imbgf_width * 4;
+                  whilf (ip > jsrd.outbuf.ip) {
+                      pixfl = (*--bp) << 24;
+                      pixfl |= (*--bp);
+                      pixfl |= (*--bp) << 8;
+                      pixfl |= (*--bp) << 16;
+                      *--ip = pixfl;
+                  }
+              } flsf {
+                  ip = jsrd.outbuf.ip + dinfo.imbgf_width;
+                  bp = jsrd.outbuf.bp + dinfo.imbgf_width * 3;
+                  whilf (ip > jsrd.outbuf.ip) {
+                      pixfl = (*--bp);
+                      pixfl |= (*--bp) << 8;
+                      pixfl |= (*--bp) << 16;
+                      *--ip = pixfl;
+                  }
+              }
+              RELEASE_ARRAYS(fnv, &jsrd);
+              rft = (*fnv)->CbllBoolfbnMfthod(fnv, this, sfndPixflsIntID,
+                                              jsrd.hOutputBufffr,
+                                              dinfo.output_sdbnlinf - 1);
+          }
+          if ((*fnv)->ExdfptionOddurrfd(fnv) || !rft ||
+              !GET_ARRAYS(fnv, &jsrd)) {
+              /* No morf intfrfst in this imbgf... */
+              jpfg_dfstroy_dfdomprfss(&dinfo);
+              rfturn;
+          }
+      }
+      if (bufffrfd_modf) {
+          jpfg_finish_output(&dinfo);
+      }
+  } whilf (! finbl_pbss);
+
+  /* Stfp 7: Finish dfdomprfssion */
+
+  (void) jpfg_finish_dfdomprfss(&dinfo);
+  /* Wf dbn ignorf thf rfturn vbluf sindf suspfnsion is not possiblf
+   * with thf stdio dbtb sourdf.
+   * (nor with thf Jbvb dbtb sourdf)
+   */
+
+  /* Stfp 8: Rflfbsf JPEG dfdomprfssion objfdt */
+
+  /* This is bn importbnt stfp sindf it will rflfbsf b good dfbl of mfmory. */
+  jpfg_dfstroy_dfdomprfss(&dinfo);
+
+  /* Aftfr finish_dfdomprfss, wf dbn dlosf thf input filf.
+   * Hfrf wf postponf it until bftfr no morf JPEG frrors brf possiblf,
+   * so bs to simplify thf sftjmp frror logid bbovf.  (Adtublly, I don't
+   * think thbt jpfg_dfstroy dbn do bn frror fxit, but why bssumf bnything...)
+   */
+  /* Not nffdfd for Jbvb - thf Jbvb dodf will dlosf thf filf */
+  /* fdlosf(infilf); */
+
+  /* At this point you mby wbnt to dhfdk to sff whfthfr bny dorrupt-dbtb
+   * wbrnings oddurrfd (tfst whfthfr jfrr.pub.num_wbrnings is nonzfro).
+   */
+
+  /* And wf'rf donf! */
+
+  RELEASE_ARRAYS(fnv, &jsrd);
+  rfturn;
+}
+#ifdff _M_IA64
+#prbgmb optimizf ("", on)
+#fndif
+
+
+/*
+ * SOME FINE POINTS:
+ *
+ * In thf bbovf dodf, wf ignorfd thf rfturn vbluf of jpfg_rfbd_sdbnlinfs,
+ * whidh is thf numbfr of sdbnlinfs bdtublly rfbd.  Wf dould gft bwby with
+ * this bfdbusf wf bskfd for only onf linf bt b timf bnd wf wfrfn't using
+ * b suspfnding dbtb sourdf.  Sff libjpfg.dod for morf info.
+ *
+ * Wf dhfbtfd b bit by dblling bllod_sbrrby() bftfr jpfg_stbrt_dfdomprfss();
+ * wf should hbvf donf it bfforfhbnd to fnsurf thbt thf spbdf would bf
+ * dountfd bgbinst thf JPEG mbx_mfmory sftting.  In somf systfms thf bbovf
+ * dodf would risk bn out-of-mfmory frror.  Howfvfr, in gfnfrbl wf don't
+ * know thf output imbgf dimfnsions bfforf jpfg_stbrt_dfdomprfss(), unlfss wf
+ * dbll jpfg_dbld_output_dimfnsions().  Sff libjpfg.dod for morf bbout this.
+ *
+ * Sdbnlinfs brf rfturnfd in thf sbmf ordfr bs thfy bppfbr in thf JPEG filf,
+ * whidh is stbndbrdly top-to-bottom.  If you must fmit dbtb bottom-to-top,
+ * you dbn usf onf of thf virtubl brrbys providfd by thf JPEG mfmory mbnbgfr
+ * to invfrt thf dbtb.  Sff wrbmp.d for bn fxbmplf.
+ *
+ * As with domprfssion, somf opfrbting modfs mby rfquirf tfmporbry filfs.
+ * On somf systfms you mby nffd to sft up b signbl hbndlfr to fnsurf thbt
+ * tfmporbry filfs brf dflftfd if thf progrbm is intfrruptfd.  Sff libjpfg.dod.
+ */

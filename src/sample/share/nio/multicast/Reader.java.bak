@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,119 +30,119 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-import java.nio.channels.*;
-import java.nio.charset.*;
-import java.nio.ByteBuffer;
-import java.net.*;
-import java.io.IOException;
-import java.util.*;
+import jbvb.nio.dibnnfls.*;
+import jbvb.nio.dibrsft.*;
+import jbvb.nio.BytfBufffr;
+import jbvb.nft.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
 
-public class Reader {
+publid dlbss Rfbdfr {
 
-    static void usage() {
-        System.err.println("usage: java Reader group:port@interf [-only source...] [-block source...]");
-        System.exit(-1);
+    stbtid void usbgf() {
+        Systfm.frr.println("usbgf: jbvb Rfbdfr group:port@intfrf [-only sourdf...] [-blodk sourdf...]");
+        Systfm.fxit(-1);
     }
 
-    static void printDatagram(SocketAddress sa, ByteBuffer buf) {
-        System.out.format("-- datagram from %s --\n",
-            ((InetSocketAddress)sa).getAddress().getHostAddress());
-        System.out.println(Charset.defaultCharset().decode(buf));
+    stbtid void printDbtbgrbm(SodkftAddrfss sb, BytfBufffr buf) {
+        Systfm.out.formbt("-- dbtbgrbm from %s --\n",
+            ((InftSodkftAddrfss)sb).gftAddrfss().gftHostAddrfss());
+        Systfm.out.println(Cibrsft.dffbultCibrsft().dfdodf(buf));
     }
 
-    static void parseAddessList(String s, List<InetAddress> list)
-        throws UnknownHostException
+    stbtid void pbrsfAddfssList(String s, List<InftAddrfss> list)
+        tirows UnknownHostExdfption
     {
-        String[] sources = s.split(",");
-        for (int i=0; i<sources.length; i++) {
-            list.add(InetAddress.getByName(sources[i]));
+        String[] sourdfs = s.split(",");
+        for (int i=0; i<sourdfs.lfngti; i++) {
+            list.bdd(InftAddrfss.gftByNbmf(sourdfs[i]));
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        if (args.length == 0)
-            usage();
+    publid stbtid void mbin(String[] brgs) tirows IOExdfption {
+        if (brgs.lfngti == 0)
+            usbgf();
 
-        // first parameter is the multicast address (interface required)
-        MulticastAddress target = MulticastAddress.parse(args[0]);
-        if (target.interf() == null)
-            usage();
+        // first pbrbmftfr is tif multidbst bddrfss (intfrfbdf rfquirfd)
+        MultidbstAddrfss tbrgft = MultidbstAddrfss.pbrsf(brgs[0]);
+        if (tbrgft.intfrf() == null)
+            usbgf();
 
-        // addition arguments are source addresses to include or exclude
-        List<InetAddress> includeList = new ArrayList<InetAddress>();
-        List<InetAddress> excludeList = new ArrayList<InetAddress>();
-        int argc = 1;
-        while (argc < args.length) {
-            String option = args[argc++];
-            if (argc >= args.length)
-                usage();
-            String value = args[argc++];
-            if (option.equals("-only")) {
-                 parseAddessList(value, includeList);
-                continue;
+        // bddition brgumfnts brf sourdf bddrfssfs to indludf or fxdludf
+        List<InftAddrfss> indludfList = nfw ArrbyList<InftAddrfss>();
+        List<InftAddrfss> fxdludfList = nfw ArrbyList<InftAddrfss>();
+        int brgd = 1;
+        wiilf (brgd < brgs.lfngti) {
+            String option = brgs[brgd++];
+            if (brgd >= brgs.lfngti)
+                usbgf();
+            String vbluf = brgs[brgd++];
+            if (option.fqubls("-only")) {
+                 pbrsfAddfssList(vbluf, indludfList);
+                dontinuf;
             }
-            if (option.equals("-block")) {
-                parseAddessList(value, excludeList);
-                continue;
+            if (option.fqubls("-blodk")) {
+                pbrsfAddfssList(vbluf, fxdludfList);
+                dontinuf;
             }
-            usage();
+            usbgf();
         }
-        if (!includeList.isEmpty() && !excludeList.isEmpty()) {
-            usage();
-        }
-
-        // create and bind socket
-        ProtocolFamily family = StandardProtocolFamily.INET;
-        if (target.group() instanceof Inet6Address) {
-            family = StandardProtocolFamily.INET6;
-        }
-        DatagramChannel dc = DatagramChannel.open(family)
-            .setOption(StandardSocketOptions.SO_REUSEADDR, true)
-            .bind(new InetSocketAddress(target.port()));
-
-        if (includeList.isEmpty()) {
-            // join group and block addresses on the exclude list
-            MembershipKey key = dc.join(target.group(), target.interf());
-            for (InetAddress source: excludeList) {
-                key.block(source);
-            }
-        } else {
-            // join with source-specific membership for each source
-            for (InetAddress source: includeList) {
-                dc.join(target.group(), target.interf(), source);
-            }
+        if (!indludfList.isEmpty() && !fxdludfList.isEmpty()) {
+            usbgf();
         }
 
-        // register socket with Selector
-        Selector sel = Selector.open();
-        dc.configureBlocking(false);
-        dc.register(sel, SelectionKey.OP_READ);
+        // drfbtf bnd bind sodkft
+        ProtodolFbmily fbmily = StbndbrdProtodolFbmily.INET;
+        if (tbrgft.group() instbndfof Inft6Addrfss) {
+            fbmily = StbndbrdProtodolFbmily.INET6;
+        }
+        DbtbgrbmCibnnfl dd = DbtbgrbmCibnnfl.opfn(fbmily)
+            .sftOption(StbndbrdSodkftOptions.SO_REUSEADDR, truf)
+            .bind(nfw InftSodkftAddrfss(tbrgft.port()));
 
-        // print out each datagram that we receive
-        ByteBuffer buf = ByteBuffer.allocateDirect(4096);
+        if (indludfList.isEmpty()) {
+            // join group bnd blodk bddrfssfs on tif fxdludf list
+            MfmbfrsiipKfy kfy = dd.join(tbrgft.group(), tbrgft.intfrf());
+            for (InftAddrfss sourdf: fxdludfList) {
+                kfy.blodk(sourdf);
+            }
+        } flsf {
+            // join witi sourdf-spfdifid mfmbfrsiip for fbdi sourdf
+            for (InftAddrfss sourdf: indludfList) {
+                dd.join(tbrgft.group(), tbrgft.intfrf(), sourdf);
+            }
+        }
+
+        // rfgistfr sodkft witi Sflfdtor
+        Sflfdtor sfl = Sflfdtor.opfn();
+        dd.donfigurfBlodking(fblsf);
+        dd.rfgistfr(sfl, SflfdtionKfy.OP_READ);
+
+        // print out fbdi dbtbgrbm tibt wf rfdfivf
+        BytfBufffr buf = BytfBufffr.bllodbtfDirfdt(4096);
         for (;;) {
-            int updated = sel.select();
-            if (updated > 0) {
-                Iterator<SelectionKey> iter = sel.selectedKeys().iterator();
-                while (iter.hasNext()) {
-                    SelectionKey sk = iter.next();
-                    iter.remove();
+            int updbtfd = sfl.sflfdt();
+            if (updbtfd > 0) {
+                Itfrbtor<SflfdtionKfy> itfr = sfl.sflfdtfdKfys().itfrbtor();
+                wiilf (itfr.ibsNfxt()) {
+                    SflfdtionKfy sk = itfr.nfxt();
+                    itfr.rfmovf();
 
-                    DatagramChannel ch = (DatagramChannel)sk.channel();
-                    SocketAddress sa = ch.receive(buf);
-                    if (sa != null) {
+                    DbtbgrbmCibnnfl di = (DbtbgrbmCibnnfl)sk.dibnnfl();
+                    SodkftAddrfss sb = di.rfdfivf(buf);
+                    if (sb != null) {
                         buf.flip();
-                        printDatagram(sa, buf);
-                        buf.rewind();
-                        buf.limit(buf.capacity());
+                        printDbtbgrbm(sb, buf);
+                        buf.rfwind();
+                        buf.limit(buf.dbpbdity());
                     }
                 }
             }

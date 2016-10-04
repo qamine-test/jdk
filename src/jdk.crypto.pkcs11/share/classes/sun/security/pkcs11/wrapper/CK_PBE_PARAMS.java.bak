@@ -1,35 +1,35 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyrigit  (d) 2002 Grbz Univfrsity of Tfdinology. All rigits rfsfrvfd.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd  providfd tibt tif following donditions brf mft:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Rfdistributions of  sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Rfdistributions in  binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. Tif fnd-usfr dodumfntbtion indludfd witi tif rfdistribution, if bny, must
+ *    indludf tif following bdknowlfdgmfnt:
  *
- *    "This product includes software developed by IAIK of Graz University of
- *     Technology."
+ *    "Tiis produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdinology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Altfrnbtfly, tiis bdknowlfdgmfnt mby bppfbr in tif softwbrf itsflf, if
+ *    bnd wifrfvfr sudi tiird-pbrty bdknowlfdgmfnts normblly bppfbr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
- *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ * 4. Tif nbmfs "Grbz Univfrsity of Tfdinology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdinology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout prior writtfn pfrmission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Produdts dfrivfd from tiis softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in tifir nbmf, witiout prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdinology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,103 +45,103 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-package sun.security.pkcs11.wrapper;
+pbdkbgf sun.sfdurity.pkds11.wrbppfr;
 
 
 
 /**
- * class CK_PBE_PARAMS provides all of the necessary information required byte
- * the CKM_PBE mechanisms and the CKM_PBA_SHA1_WITH_SHA1_HMAC mechanism.<p>
- * <B>PKCS#11 structure:</B>
+ * dlbss CK_PBE_PARAMS providfs bll of tif nfdfssbry informbtion rfquirfd bytf
+ * tif CKM_PBE mfdibnisms bnd tif CKM_PBA_SHA1_WITH_SHA1_HMAC mfdibnism.<p>
+ * <B>PKCS#11 strudturf:</B>
  * <PRE>
- * typedef struct CK_PBE_PARAMS {
- *   CK_CHAR_PTR pInitVector;
- *   CK_CHAR_PTR pPassword;
- *   CK_ULONG ulPasswordLen;
- *   CK_CHAR_PTR pSalt;
- *   CK_ULONG ulSaltLen;
- *   CK_ULONG ulIteration;
+ * typfdff strudt CK_PBE_PARAMS {
+ *   CK_CHAR_PTR pInitVfdtor;
+ *   CK_CHAR_PTR pPbssword;
+ *   CK_ULONG ulPbsswordLfn;
+ *   CK_CHAR_PTR pSblt;
+ *   CK_ULONG ulSbltLfn;
+ *   CK_ULONG ulItfrbtion;
  * } CK_PBE_PARAMS;
  * </PRE>
  *
- * @author Karl Scheibelhofer <Karl.Scheibelhofer@iaik.at>
- * @author Martin Schlaeffer <schlaeff@sbox.tugraz.at>
+ * @butior Kbrl Sdifibflioffr <Kbrl.Sdifibflioffr@ibik.bt>
+ * @butior Mbrtin Sdilbffffr <sdilbfff@sbox.tugrbz.bt>
  */
-public class CK_PBE_PARAMS {
+publid dlbss CK_PBE_PARAMS {
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_CHAR_PTR pInitVector;
+     *   CK_CHAR_PTR pInitVfdtor;
      * </PRE>
      */
-    public char[] pInitVector;
+    publid dibr[] pInitVfdtor;
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_CHAR_PTR pPassword;
-     *   CK_ULONG ulPasswordLen;
+     *   CK_CHAR_PTR pPbssword;
+     *   CK_ULONG ulPbsswordLfn;
      * </PRE>
      */
-    public char[] pPassword;
+    publid dibr[] pPbssword;
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_CHAR_PTR pSalt
-     *   CK_ULONG ulSaltLen;
+     *   CK_CHAR_PTR pSblt
+     *   CK_ULONG ulSbltLfn;
      * </PRE>
      */
-    public char[] pSalt;
+    publid dibr[] pSblt;
 
     /**
      * <B>PKCS#11:</B>
      * <PRE>
-     *   CK_ULONG ulIteration;
+     *   CK_ULONG ulItfrbtion;
      * </PRE>
      */
-    public long ulIteration;
+    publid long ulItfrbtion;
 
     /**
-     * Returns the string representation of CK_PBE_PARAMS.
+     * Rfturns tif string rfprfsfntbtion of CK_PBE_PARAMS.
      *
-     * @return the string representation of CK_PBE_PARAMS
+     * @rfturn tif string rfprfsfntbtion of CK_PBE_PARAMS
      */
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
 
-        sb.append(Constants.INDENT);
-        sb.append("pInitVector: ");
-        sb.append(pInitVector);
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("pInitVfdtor: ");
+        sb.bppfnd(pInitVfdtor);
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("ulPasswordLen: ");
-        sb.append(pPassword.length);
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("ulPbsswordLfn: ");
+        sb.bppfnd(pPbssword.lfngti);
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("pPassword: ");
-        sb.append(pPassword);
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("pPbssword: ");
+        sb.bppfnd(pPbssword);
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("ulSaltLen: ");
-        sb.append(pSalt.length);
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("ulSbltLfn: ");
+        sb.bppfnd(pSblt.lfngti);
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("pSalt: ");
-        sb.append(pSalt);
-        sb.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("pSblt: ");
+        sb.bppfnd(pSblt);
+        sb.bppfnd(Constbnts.NEWLINE);
 
-        sb.append(Constants.INDENT);
-        sb.append("ulIteration: ");
-        sb.append(ulIteration);
-        //buffer.append(Constants.NEWLINE);
+        sb.bppfnd(Constbnts.INDENT);
+        sb.bppfnd("ulItfrbtion: ");
+        sb.bppfnd(ulItfrbtion);
+        //bufffr.bppfnd(Constbnts.NEWLINE);
 
-        return sb.toString();
+        rfturn sb.toString();
     }
 
 }

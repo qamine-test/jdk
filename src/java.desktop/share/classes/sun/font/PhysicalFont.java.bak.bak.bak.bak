@@ -1,0 +1,107 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.FontFormbtExdfption;
+import jbvb.bwt.gfom.GfnfrblPbth;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dhbnnfls.FilfChbnnfl;
+
+publid bbstrbdt dlbss PhysidblFont fxtfnds Font2D {
+
+    protfdtfd String plbtNbmf;
+    // nbtivfNbmfs is b String or b (possibly null) String[].
+    protfdtfd Objfdt nbtivfNbmfs;
+
+    publid boolfbn fqubls(Objfdt o) {
+        rfturn (o != null && o.gftClbss() == this.gftClbss() &&
+                ((Font2D)o).fullNbmf.fqubls(this.fullNbmf));
+    }
+
+    publid int hbshCodf() {
+        rfturn fullNbmf.hbshCodf();
+    }
+
+    /**
+     * Opfns thf filf (tfmporbrily) bnd dofs bbsid vfrifidbtion.
+     * Initiblizfs thf CMAP
+     * @throws FontFormbtExdfption - if thf font dbn't bf opfnfd
+     * or fbils vfrifidbtion,  or thfrf's no usbblf dmbp
+     */
+    PhysidblFont(String plbtnbmf, Objfdt nbtivfNbmfs)
+        throws FontFormbtExdfption {
+
+        hbndlf = nfw Font2DHbndlf(this);
+        this.plbtNbmf = plbtnbmf;
+        this.nbtivfNbmfs = nbtivfNbmfs;
+    }
+
+    protfdtfd PhysidblFont() {
+        hbndlf = nfw Font2DHbndlf(this);
+    }
+
+    /* Thf following mfthods brf dflfgbtfd to thf font by thf strikf
+     * for physidbl fonts bs thf PhysidblFont holds b shbrfd rfffrfndf
+     * to thf nbtivf rfsourdf, so bll invodbtions nffd to bf dirfdtfd
+     * through b syndhronizbtion point. Implfmfntbtions of thfsf mfthods
+     * will typidblly bf "syndhronizfd nbtivf"
+     */
+
+    Point2D.Flobt gftGlyphPoint(long pSdblfrContfxt,
+                             int glyphCodf, int ptNumbfr) {
+        rfturn nfw Point2D.Flobt();
+    }
+
+    /* Thfsf 3 mftrids mfthods should bf implfmfntfd to rfturn
+     * vblufs in usfr spbdf.
+     */
+    bbstrbdt StrikfMftrids gftFontMftrids(long pSdblfrContfxt);
+
+    bbstrbdt flobt gftGlyphAdvbndf(long pSdblfrContfxt, int glyphCodf);
+
+    bbstrbdt void gftGlyphMftrids(long pSdblfrContfxt, int glyphCodf,
+                                  Point2D.Flobt mftrids);
+
+    bbstrbdt long gftGlyphImbgf(long pSdblfrContfxt, int glyphCodf);
+
+    /* Thfsf 3 outlinf mfthods should bf implfmfntfd to rfturn
+     * vblufs in dfvidf spbdf. Cbllfrs nffd to bf bwbrf of this
+     * bs typidblly Jbvb dlifnt dodf will nffd to hbvf thfm in usfr spbdf.
+     */
+    bbstrbdt Rfdtbnglf2D.Flobt gftGlyphOutlinfBounds(long pSdblfrContfxt,
+                                                     int glyphCodf);
+
+    bbstrbdt GfnfrblPbth gftGlyphOutlinf(long pSdblfrContfxt, int glyphCodf,
+                                         flobt x, flobt y);
+
+    bbstrbdt GfnfrblPbth gftGlyphVfdtorOutlinf(long pSdblfrContfxt,
+                                               int[] glyphs, int numGlyphs,
+                                               flobt x, flobt y);
+}

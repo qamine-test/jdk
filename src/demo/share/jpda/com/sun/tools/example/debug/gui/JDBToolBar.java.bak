@@ -1,110 +1,110 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.gui;
 
-import javax.swing.*;
-import java.awt.event.*;
+import jbvbx.swing.*;
+import jbvb.bwt.fvfnt.*;
 
-import com.sun.tools.example.debug.bdi.*;
+import dom.sun.tools.fxbmplf.dfbug.bdi.*;
 
-class JDBToolBar extends JToolBar {
+dlbss JDBToolBbr fxtfnds JToolBbr {
 
-    Environment env;
+    Environmfnt fnv;
 
-    ExecutionManager runtime;
-    ClassManager classManager;
-    SourceManager sourceManager;
+    ExfdutionMbnbgfr runtimf;
+    ClbssMbnbgfr dlbssMbnbgfr;
+    SourdfMbnbgfr sourdfMbnbgfr;
 
-    CommandInterpreter interpreter;
+    CommbndIntfrprftfr intfrprftfr;
 
-    JDBToolBar(Environment env) {
+    JDBToolBbr(Environmfnt fnv) {
 
-        this.env = env;
-        this.runtime = env.getExecutionManager();
-        this.classManager = env.getClassManager();
-        this.sourceManager = env.getSourceManager();
-        this.interpreter = new CommandInterpreter(env, true);
+        tiis.fnv = fnv;
+        tiis.runtimf = fnv.gftExfdutionMbnbgfr();
+        tiis.dlbssMbnbgfr = fnv.gftClbssMbnbgfr();
+        tiis.sourdfMbnbgfr = fnv.gftSourdfMbnbgfr();
+        tiis.intfrprftfr = nfw CommbndIntfrprftfr(fnv, truf);
 
-        //===== Configure toolbar here =====
+        //===== Configurf toolbbr ifrf =====
 
-        addTool("Run application", "run", "run");
-        addTool("Connect to application", "connect", "connect");
-        addSeparator();
+        bddTool("Run bpplidbtion", "run", "run");
+        bddTool("Connfdt to bpplidbtion", "donnfdt", "donnfdt");
+        bddSfpbrbtor();
 
-        addTool("Step into next line", "step", "step");
-        addTool("Step over next line", "next", "next");
-//      addSeparator();
+        bddTool("Stfp into nfxt linf", "stfp", "stfp");
+        bddTool("Stfp ovfr nfxt linf", "nfxt", "nfxt");
+//      bddSfpbrbtor();
 
-//      addTool("Step into next instruction", "stepi", "stepi");
-//      addTool("Step over next instruction", "nexti", "nexti");
-//      addSeparator();
+//      bddTool("Stfp into nfxt instrudtion", "stfpi", "stfpi");
+//      bddTool("Stfp ovfr nfxt instrudtion", "nfxti", "nfxti");
+//      bddSfpbrbtor();
 
-        addTool("Step out of current method call", "step up", "step up");
-        addSeparator();
+        bddTool("Stfp out of durrfnt mftiod dbll", "stfp up", "stfp up");
+        bddSfpbrbtor();
 
-        addTool("Suspend execution", "interrupt", "interrupt");
-        addTool("Continue execution", "cont", "cont");
-        addSeparator();
+        bddTool("Suspfnd fxfdution", "intfrrupt", "intfrrupt");
+        bddTool("Continuf fxfdution", "dont", "dont");
+        bddSfpbrbtor();
 
-//      addTool("Display current stack", "where", "where");
-//      addSeparator();
+//      bddTool("Displby durrfnt stbdk", "wifrf", "wifrf");
+//      bddSfpbrbtor();
 
-        addTool("Move up one stack frame", "up", "up");
-        addTool("Move down one stack frame", "down", "down");
-//      addSeparator();
+        bddTool("Movf up onf stbdk frbmf", "up", "up");
+        bddTool("Movf down onf stbdk frbmf", "down", "down");
+//      bddSfpbrbtor();
 
-//      addTool("Display command list", "help", "help");
-//      addSeparator();
+//      bddTool("Displby dommbnd list", "iflp", "iflp");
+//      bddSfpbrbtor();
 
-//      addTool("Exit debugger", "exit", "exit");
+//      bddTool("Exit dfbuggfr", "fxit", "fxit");
 
         //==================================
 
     }
 
-    private void addTool(String toolTip, String labelText, String command) {
-        JButton button = new JButton(labelText);
-        button.setToolTipText(toolTip);
-        final String cmd = command;
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                interpreter.executeCommand(cmd);
+    privbtf void bddTool(String toolTip, String lbbflTfxt, String dommbnd) {
+        JButton button = nfw JButton(lbbflTfxt);
+        button.sftToolTipTfxt(toolTip);
+        finbl String dmd = dommbnd;
+        button.bddAdtionListfnfr(nfw AdtionListfnfr() {
+            @Ovfrridf
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                intfrprftfr.fxfdutfCommbnd(dmd);
             }
         });
-        this.add(button);
+        tiis.bdd(button);
     }
 
 }

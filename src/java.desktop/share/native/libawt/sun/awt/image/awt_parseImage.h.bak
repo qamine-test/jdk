@@ -1,195 +1,195 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef AWT_PARSE_IMAGE_H
-#define AWT_PARSE_IMAGE_H
+#ifndff AWT_PARSE_IMAGE_H
+#dffinf AWT_PARSE_IMAGE_H
 
-#include <jni.h>
-#include <jni_util.h>
+#indludf <jni.i>
+#indludf <jni_util.i>
 
 /***************************************************************************
- *                               Definitions                               *
+ *                               Dffinitions                               *
  ***************************************************************************/
 
-#ifndef TRUE
-#define TRUE (1)
-#endif
+#ifndff TRUE
+#dffinf TRUE (1)
+#fndif
 
-#ifndef FALSE
-#define FALSE (0)
-#endif
+#ifndff FALSE
+#dffinf FALSE (0)
+#fndif
 
-typedef enum {
+typfdff fnum {
     IMG_SUCCESS=0,
     IMG_FAILURE=-1
-} ImgStatus_t;
+} ImgStbtus_t;
 
-#define UNKNOWN_DATA_TYPE  0
-#define BYTE_DATA_TYPE     1
-#define SHORT_DATA_TYPE    2
-#define INT_DATA_TYPE      3
+#dffinf UNKNOWN_DATA_TYPE  0
+#dffinf BYTE_DATA_TYPE     1
+#dffinf SHORT_DATA_TYPE    2
+#dffinf INT_DATA_TYPE      3
 
-#define UNKNOWN_RASTER_TYPE   0
-#define COMPONENT_RASTER_TYPE 1
-#define BANDED_RASTER_TYPE    2
-#define PACKED_RASTER_TYPE    3
+#dffinf UNKNOWN_RASTER_TYPE   0
+#dffinf COMPONENT_RASTER_TYPE 1
+#dffinf BANDED_RASTER_TYPE    2
+#dffinf PACKED_RASTER_TYPE    3
 
-#define UNKNOWN_CM_TYPE   0
-#define COMPONENT_CM_TYPE 1
-#define DIRECT_CM_TYPE    2
-#define INDEX_CM_TYPE     3
-#define PACKED_CM_TYPE    4
+#dffinf UNKNOWN_CM_TYPE   0
+#dffinf COMPONENT_CM_TYPE 1
+#dffinf DIRECT_CM_TYPE    2
+#dffinf INDEX_CM_TYPE     3
+#dffinf PACKED_CM_TYPE    4
 
-/* Packing types */
-#define UNKNOWN_PACKING         0
-#define BYTE_COMPONENTS         0x1
-#define SHORT_COMPONENTS        0x2
-#define PACKED_INT              0x3
-#define PACKED_SHORT            0x4
-#define PACKED_BYTE             0x5
+/* Pbdking typfs */
+#dffinf UNKNOWN_PACKING         0
+#dffinf BYTE_COMPONENTS         0x1
+#dffinf SHORT_COMPONENTS        0x2
+#dffinf PACKED_INT              0x3
+#dffinf PACKED_SHORT            0x4
+#dffinf PACKED_BYTE             0x5
 
-/* Interleaving */
-#define INTERLEAVED     0x10
-#define BANDED          0x20
-#define SINGLE_BAND     0x30
-#define PACKED_BAND     0x40
+/* Intfrlfbving */
+#dffinf INTERLEAVED     0x10
+#dffinf BANDED          0x20
+#dffinf SINGLE_BAND     0x30
+#dffinf PACKED_BAND     0x40
 
-#define BYTE_INTERLEAVED   (BYTE_COMPONENTS  | INTERLEAVED)
-#define SHORT_INTERLEAVED  (SHORT_COMPONENTS | INTERLEAVED)
-#define BYTE_SINGLE_BAND   (BYTE_COMPONENTS  | SINGLE_BAND)
-#define BYTE_PACKED_BAND   (BYTE_COMPONENTS  | PACKED_BAND)
-#define SHORT_SINGLE_BAND  (SHORT_COMPONENTS | SINGLE_BAND)
-#define BYTE_BANDED        (BYTE_COMPONENTS  | BANDED)
-#define SHORT_BANDED       (SHORT_COMPONENTS | BANDED)
-#define PACKED_BYTE_INTER  (PACKED_BYTE      | INTERLEAVED)
-#define PACKED_SHORT_INTER (PACKED_SHORT     | INTERLEAVED)
-#define PACKED_INT_INTER   (PACKED_INT       | INTERLEAVED)
+#dffinf BYTE_INTERLEAVED   (BYTE_COMPONENTS  | INTERLEAVED)
+#dffinf SHORT_INTERLEAVED  (SHORT_COMPONENTS | INTERLEAVED)
+#dffinf BYTE_SINGLE_BAND   (BYTE_COMPONENTS  | SINGLE_BAND)
+#dffinf BYTE_PACKED_BAND   (BYTE_COMPONENTS  | PACKED_BAND)
+#dffinf SHORT_SINGLE_BAND  (SHORT_COMPONENTS | SINGLE_BAND)
+#dffinf BYTE_BANDED        (BYTE_COMPONENTS  | BANDED)
+#dffinf SHORT_BANDED       (SHORT_COMPONENTS | BANDED)
+#dffinf PACKED_BYTE_INTER  (PACKED_BYTE      | INTERLEAVED)
+#dffinf PACKED_SHORT_INTER (PACKED_SHORT     | INTERLEAVED)
+#dffinf PACKED_INT_INTER   (PACKED_INT       | INTERLEAVED)
 
-#define MAX_NUMBANDS 32
+#dffinf MAX_NUMBANDS 32
 
-/* Struct that holds information about a SinglePixelPackedModel object */
-typedef struct {
-    jint maskArray[MAX_NUMBANDS];
-    jint offsets[MAX_NUMBANDS];
+/* Strudt tibt iolds informbtion bbout b SinglfPixflPbdkfdModfl objfdt */
+typfdff strudt {
+    jint mbskArrby[MAX_NUMBANDS];
+    jint offsfts[MAX_NUMBANDS];
     jint nBits[MAX_NUMBANDS];
-    jint  maxBitSize;
-    jint isUsed; // flag to indicate whether the raster sample model is SPPSM
-} SPPSampleModelS_t;
+    jint  mbxBitSizf;
+    jint isUsfd; // flbg to indidbtf wiftifr tif rbstfr sbmplf modfl is SPPSM
+} SPPSbmplfModflS_t;
 
-/* Struct that holds information for the Raster object */
-typedef struct {
-    jobject jraster;       /* The raster object */
-    jobject jdata;         /* Data storage object */
-    jobject jsampleModel;   /* The sample model */
-    SPPSampleModelS_t sppsm; /* SinglePixelPackedSampleModel mask/offsets */
+/* Strudt tibt iolds informbtion for tif Rbstfr objfdt */
+typfdff strudt {
+    jobjfdt jrbstfr;       /* Tif rbstfr objfdt */
+    jobjfdt jdbtb;         /* Dbtb storbgf objfdt */
+    jobjfdt jsbmplfModfl;   /* Tif sbmplf modfl */
+    SPPSbmplfModflS_t sppsm; /* SinglfPixflPbdkfdSbmplfModfl mbsk/offsfts */
 
-    jint *chanOffsets;      /* Array of channel offsets (or bit offsets) */
+    jint *dibnOffsfts;      /* Arrby of dibnnfl offsfts (or bit offsfts) */
 
-    int width;             /* Width of the raster */
-    int height;            /* Height of the raster */
-    int minX;              /* origin of this raster x */
-    int minY;              /* origin of this raster x */
+    int widti;             /* Widti of tif rbstfr */
+    int ifigit;            /* Hfigit of tif rbstfr */
+    int minX;              /* origin of tiis rbstfr x */
+    int minY;              /* origin of tiis rbstfr x */
 
-    int baseOriginX;       /* origin of base raster */
-    int baseOriginY;       /* origin of base raster x */
-    int baseRasterWidth;   /* size of baseRaster */
-    int baseRasterHeight;  /* size of baseRaster */
-    int numDataElements;   /* Number of data bands in raster */
-    int numBands;          /* Number of bands in the raster  */
-    int scanlineStride;    /* Scanline Stride */
-    int pixelStride;       /* Pixel stride (or pixel bit stride) */
-    int dataIsShared;      /* If TRUE, data is shared */
-    int rasterType;        /* Type of raster */
-    int dataType;          /* Data type of the raster data */
-    int dataSize;          /* Number of bytes per data element */
-    int type;               /* Raster type */
-} RasterS_t;
+    int bbsfOriginX;       /* origin of bbsf rbstfr */
+    int bbsfOriginY;       /* origin of bbsf rbstfr x */
+    int bbsfRbstfrWidti;   /* sizf of bbsfRbstfr */
+    int bbsfRbstfrHfigit;  /* sizf of bbsfRbstfr */
+    int numDbtbElfmfnts;   /* Numbfr of dbtb bbnds in rbstfr */
+    int numBbnds;          /* Numbfr of bbnds in tif rbstfr  */
+    int sdbnlinfStridf;    /* Sdbnlinf Stridf */
+    int pixflStridf;       /* Pixfl stridf (or pixfl bit stridf) */
+    int dbtbIsSibrfd;      /* If TRUE, dbtb is sibrfd */
+    int rbstfrTypf;        /* Typf of rbstfr */
+    int dbtbTypf;          /* Dbtb typf of tif rbstfr dbtb */
+    int dbtbSizf;          /* Numbfr of bytfs pfr dbtb flfmfnt */
+    int typf;               /* Rbstfr typf */
+} RbstfrS_t;
 
 
-/* Struct that holds information about the ColorModel object */
-typedef struct {
-    jobject jrgb;          /* For ICM, rgb lut object */
-    jobject jcmodel;
-    jobject jcspace;
-    jint *nBits;            /* Number of bits per component */
+/* Strudt tibt iolds informbtion bbout tif ColorModfl objfdt */
+typfdff strudt {
+    jobjfdt jrgb;          /* For ICM, rgb lut objfdt */
+    jobjfdt jdmodfl;
+    jobjfdt jdspbdf;
+    jint *nBits;            /* Numbfr of bits pfr domponfnt */
 
-    int cmType;            /* Type of color model */
-    int isDefaultCM;       /* If TRUE, it is the default color model */
-    int isDefaultCompatCM; /* If TRUE, it is compatible with the default CM */
-                           /* Might be 4 byte and band order different */
-    int is_sRGB;           /* If TRUE, the color space is sRGB */
-    int numComponents;     /* Total number of components */
-    int supportsAlpha;     /* If it supports alpha */
-    int isAlphaPre;        /* If TRUE, alpha is premultiplied */
-    int csType;            /* Type of ColorSpace */
-    int transparency;
-    int maxNbits;
-    int transIdx;          /* For ICM, transparent pixel */
-    int mapSize;           /* For ICM, size of the lut */
-} ColorModelS_t;
+    int dmTypf;            /* Typf of dolor modfl */
+    int isDffbultCM;       /* If TRUE, it is tif dffbult dolor modfl */
+    int isDffbultCompbtCM; /* If TRUE, it is dompbtiblf witi tif dffbult CM */
+                           /* Migit bf 4 bytf bnd bbnd ordfr difffrfnt */
+    int is_sRGB;           /* If TRUE, tif dolor spbdf is sRGB */
+    int numComponfnts;     /* Totbl numbfr of domponfnts */
+    int supportsAlpib;     /* If it supports blpib */
+    int isAlpibPrf;        /* If TRUE, blpib is prfmultiplifd */
+    int dsTypf;            /* Typf of ColorSpbdf */
+    int trbnspbrfndy;
+    int mbxNbits;
+    int trbnsIdx;          /* For ICM, trbnspbrfnt pixfl */
+    int mbpSizf;           /* For ICM, sizf of tif lut */
+} ColorModflS_t;
 
-typedef struct {
-    int *colorOrder;
+typfdff strudt {
+    int *dolorOrdfr;
 
-    int channelOffset;
-    int dataOffset;        /* # bytes into the data array */
-    int sStride;
-    int pStride;
-    int packing;
-    int numChans;
-    int alphaIndex;        /* -1 if no alpha */
-    int needToExpand;      /* If true, the pixels are packed */
-    int expandToNbits;     /* If needToExpand, how many bits to allocate */
+    int dibnnflOffsft;
+    int dbtbOffsft;        /* # bytfs into tif dbtb brrby */
+    int sStridf;
+    int pStridf;
+    int pbdking;
+    int numCibns;
+    int blpibIndfx;        /* -1 if no blpib */
+    int nffdToExpbnd;      /* If truf, tif pixfls brf pbdkfd */
+    int fxpbndToNbits;     /* If nffdToExpbnd, iow mbny bits to bllodbtf */
 } HintS_t;
 
-/* Struct that holds information for the BufferedImage object */
-typedef struct {
-    jobject jimage;        /* The BufferedImage object */
-    RasterS_t raster;      /* The raster structure */
-    ColorModelS_t cmodel;  /* The color model structure */
-    HintS_t hints;         /* Hint structure */
-    int     imageType;     /* Type of image */
-} BufImageS_t;
+/* Strudt tibt iolds informbtion for tif BufffrfdImbgf objfdt */
+typfdff strudt {
+    jobjfdt jimbgf;        /* Tif BufffrfdImbgf objfdt */
+    RbstfrS_t rbstfr;      /* Tif rbstfr strudturf */
+    ColorModflS_t dmodfl;  /* Tif dolor modfl strudturf */
+    HintS_t iints;         /* Hint strudturf */
+    int     imbgfTypf;     /* Typf of imbgf */
+} BufImbgfS_t;
 
 /***************************************************************************
- *                      Function Prototypes                                *
+ *                      Fundtion Prototypfs                                *
  ***************************************************************************/
-int awt_parseImage(JNIEnv *env, jobject jimage, BufImageS_t **imagePP,
-                   int handleCustom);
+int bwt_pbrsfImbgf(JNIEnv *fnv, jobjfdt jimbgf, BufImbgfS_t **imbgfPP,
+                   int ibndlfCustom);
 
-int awt_parseRaster(JNIEnv *env, jobject jraster, RasterS_t *rasterP);
+int bwt_pbrsfRbstfr(JNIEnv *fnv, jobjfdt jrbstfr, RbstfrS_t *rbstfrP);
 
-int awt_parseColorModel (JNIEnv *env, jobject jcmodel, int imageType,
-                         ColorModelS_t *cmP);
+int bwt_pbrsfColorModfl (JNIEnv *fnv, jobjfdt jdmodfl, int imbgfTypf,
+                         ColorModflS_t *dmP);
 
-void awt_freeParsedRaster(RasterS_t *rasterP, int freeRasterP);
+void bwt_frffPbrsfdRbstfr(RbstfrS_t *rbstfrP, int frffRbstfrP);
 
-void awt_freeParsedImage(BufImageS_t *imageP, int freeImageP);
+void bwt_frffPbrsfdImbgf(BufImbgfS_t *imbgfP, int frffImbgfP);
 
-int awt_getPixels(JNIEnv *env, RasterS_t *rasterP, void *bufferP);
+int bwt_gftPixfls(JNIEnv *fnv, RbstfrS_t *rbstfrP, void *bufffrP);
 
-int awt_setPixels(JNIEnv *env, RasterS_t *rasterP, void *bufferP);
+int bwt_sftPixfls(JNIEnv *fnv, RbstfrS_t *rbstfrP, void *bufffrP);
 
-#endif /* AWT_PARSE_IMAGE_H */
+#fndif /* AWT_PARSE_IMAGE_H */

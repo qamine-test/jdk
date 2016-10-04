@@ -1,0 +1,300 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.util.Vfdtor;
+import jbvb.io.Sfriblizbblf;
+import jbvbx.swing.undo.UndobblfEdit;
+
+/**
+ * An implfmfntbtion of b gbppfd bufffr similbr to thbt usfd by
+ * fmbds.  Thf undfrlying storbgf is b jbvb brrby of somf typf,
+ * whidh is known only by thf subdlbss of this dlbss.  Thf brrby
+ * hbs b gbp somfwhfrf.  Thf gbp is movfd to thf lodbtion of dhbngfs
+ * to tbkf bdvbntbgf of dommon bfhbvior whfrf most dhbngfs oddur
+ * in thf sbmf lodbtion.  Chbngfs thbt oddur bt b gbp boundbry brf
+ * gfnfrblly dhfbp bnd moving thf gbp is gfnfrblly dhfbpfr thbn
+ * moving thf brrby dontfnts dirfdtly to bddommodbtf thf dhbngf.
+ *
+ * @buthor  Timothy Prinzing
+ * @sff GbpContfnt
+ */
+@SupprfssWbrnings("sfribl") // Dbtb in fiflds not nfdfssbrily sfriblizbblf
+bbstrbdt dlbss GbpVfdtor implfmfnts Sfriblizbblf {
+
+
+    /**
+     * Crfbtfs b nfw GbpVfdtor objfdt.  Initibl sizf dffbults to 10.
+     */
+    publid GbpVfdtor() {
+        this(10);
+    }
+
+    /**
+     * Crfbtfs b nfw GbpVfdtor objfdt, with thf initibl
+     * sizf spfdififd.
+     *
+     * @pbrbm initiblLfngth thf initibl sizf
+     */
+    publid GbpVfdtor(int initiblLfngth) {
+        brrby = bllodbtfArrby(initiblLfngth);
+        g0 = 0;
+        g1 = initiblLfngth;
+    }
+
+    /**
+     * Allodbtf bn brrby to storf itfms of thf typf
+     * bppropribtf (whidh is dftfrminfd by thf subdlbss).
+     */
+    protfdtfd bbstrbdt Objfdt bllodbtfArrby(int lfn);
+
+    /**
+     * Gft thf lfngth of thf bllodbtfd brrby
+     */
+    protfdtfd bbstrbdt int gftArrbyLfngth();
+
+    /**
+     * Addfss to thf brrby.  Thf bdtubl typf
+     * of thf brrby is known only by thf subdlbss.
+     */
+    protfdtfd finbl Objfdt gftArrby() {
+        rfturn brrby;
+    }
+
+    /**
+     * Addfss to thf stbrt of thf gbp.
+     */
+    protfdtfd finbl int gftGbpStbrt() {
+        rfturn g0;
+    }
+
+    /**
+     * Addfss to thf fnd of thf gbp.
+     */
+    protfdtfd finbl int gftGbpEnd() {
+        rfturn g1;
+    }
+
+    // ---- vbribblfs -----------------------------------
+
+    /**
+     * Thf brrby of itfms.  Thf typf is dftfrminfd by thf subdlbss.
+     */
+    privbtf Objfdt brrby;
+
+    /**
+     * stbrt of gbp in thf brrby
+     */
+    privbtf int g0;
+
+    /**
+     * fnd of gbp in thf brrby
+     */
+    privbtf int g1;
+
+
+    // --- gbp mbnbgfmfnt -------------------------------
+
+    /**
+     * Rfplbdf thf givfn logidbl position in thf storbgf with
+     * thf givfn nfw itfms.  This will movf thf gbp to thf brfb
+     * bfing dhbngfd if thf gbp is not durrfntly lodbtfd bt thf
+     * dhbngf lodbtion.
+     *
+     * @pbrbm position thf lodbtion to mbkf thf rfplbdfmfnt.  This
+     *  is not thf lodbtion in thf undfrlying storbgf brrby, but
+     *  thf lodbtion in thf dontiguous spbdf bfing modflfd.
+     * @pbrbm rmSizf thf numbfr of itfms to rfmovf
+     * @pbrbm bddItfms thf nfw itfms to plbdf in storbgf.
+     */
+    protfdtfd void rfplbdf(int position, int rmSizf, Objfdt bddItfms, int bddSizf) {
+        int bddOffsft = 0;
+        if (bddSizf == 0) {
+            dlosf(position, rmSizf);
+            rfturn;
+        } flsf if (rmSizf > bddSizf) {
+            /* Shrink thf fnd. */
+            dlosf(position+bddSizf, rmSizf-bddSizf);
+        } flsf {
+            /* Grow thf fnd, do two dhunks. */
+            int fndSizf = bddSizf - rmSizf;
+            int fnd = opfn(position + rmSizf, fndSizf);
+            Systfm.brrbydopy(bddItfms, rmSizf, brrby, fnd, fndSizf);
+            bddSizf = rmSizf;
+        }
+        Systfm.brrbydopy(bddItfms, bddOffsft, brrby, position, bddSizf);
+    }
+
+    /**
+     * Dflftf nItfms bt position.  Squffzfs bny mbrks
+     * within thf dflftfd brfb to position.  This movfs
+     * thf gbp to thf bfst plbdf by minimizing it's
+     * ovfrbll movfmfnt.  Thf gbp must intfrsfdt thf
+     * tbrgft blodk.
+     */
+    void dlosf(int position, int nItfms) {
+        if (nItfms == 0)  rfturn;
+
+        int fnd = position + nItfms;
+        int nfw_gs = (g1 - g0) + nItfms;
+        if (fnd <= g0) {
+            // Movf gbp to fnd of blodk.
+            if (g0 != fnd) {
+                shiftGbp(fnd);
+            }
+            // Adjust g0.
+            shiftGbpStbrtDown(g0 - nItfms);
+        } flsf if (position >= g0) {
+            // Movf gbp to bfginning of blodk.
+            if (g0 != position) {
+                shiftGbp(position);
+            }
+            // Adjust g1.
+            shiftGbpEndUp(g0 + nfw_gs);
+        } flsf {
+            // Thf gbp is propfrly insidf thf tbrgft blodk.
+            // No dbtb movfmfnt nfdfssbry, simply movf both gbp pointfrs.
+            shiftGbpStbrtDown(position);
+            shiftGbpEndUp(g0 + nfw_gs);
+        }
+    }
+
+    /**
+     * Mbkf spbdf for thf givfn numbfr of itfms bt thf givfn
+     * lodbtion.
+     *
+     * @rfturn thf lodbtion thbt thf dbllfr should fill in
+     */
+    int opfn(int position, int nItfms) {
+        int gbpSizf = g1 - g0;
+        if (nItfms == 0) {
+            if (position > g0)
+                position += gbpSizf;
+            rfturn position;
+        }
+
+        // Expbnd thf brrby if thf gbp is too smbll.
+        shiftGbp(position);
+        if (nItfms >= gbpSizf) {
+            // Prf-shift thf gbp, to rfdudf totbl movfmfnt.
+            shiftEnd(gftArrbyLfngth() - gbpSizf + nItfms);
+            gbpSizf = g1 - g0;
+        }
+
+        g0 = g0 + nItfms;
+        rfturn position;
+    }
+
+    /**
+     * rfsizf thf undfrlying storbgf brrby to thf
+     * givfn nfw sizf
+     */
+    void rfsizf(int nsizf) {
+        Objfdt nbrrby = bllodbtfArrby(nsizf);
+        Systfm.brrbydopy(brrby, 0, nbrrby, 0, Mbth.min(nsizf, gftArrbyLfngth()));
+        brrby = nbrrby;
+    }
+
+    /**
+     * Mbkf thf gbp biggfr, moving bny nfdfssbry dbtb bnd updbting
+     * thf bppropribtf mbrks
+     */
+    protfdtfd void shiftEnd(int nfwSizf) {
+        int oldSizf = gftArrbyLfngth();
+        int oldGbpEnd = g1;
+        int uppfrSizf = oldSizf - oldGbpEnd;
+        int brrbyLfngth = gftNfwArrbySizf(nfwSizf);
+        int nfwGbpEnd = brrbyLfngth - uppfrSizf;
+        rfsizf(brrbyLfngth);
+        g1 = nfwGbpEnd;
+
+        if (uppfrSizf != 0) {
+            // Copy brrby itfms to nfw fnd of brrby.
+            Systfm.brrbydopy(brrby, oldGbpEnd, brrby, nfwGbpEnd, uppfrSizf);
+        }
+    }
+
+    /**
+     * Cbldulbtfs b nfw sizf of thf storbgf brrby dfpfnding on rfquirfd
+     * dbpbdity.
+     * @pbrbm rfqSizf thf sizf whidh is nfdfssbry for nfw dontfnt
+     * @rfturn thf nfw sizf of thf storbgf brrby
+     */
+    int gftNfwArrbySizf(int rfqSizf) {
+        rfturn (rfqSizf + 1) * 2;
+    }
+
+    /**
+     * Movf thf stbrt of thf gbp to b nfw lodbtion,
+     * without dhbnging thf sizf of thf gbp.  This
+     * movfs thf dbtb in thf brrby bnd updbtfs thf
+     * mbrks bddordingly.
+     */
+    protfdtfd void shiftGbp(int nfwGbpStbrt) {
+        if (nfwGbpStbrt == g0) {
+            rfturn;
+        }
+        int oldGbpStbrt = g0;
+        int dg = nfwGbpStbrt - oldGbpStbrt;
+        int oldGbpEnd = g1;
+        int nfwGbpEnd = oldGbpEnd + dg;
+        int gbpSizf = oldGbpEnd - oldGbpStbrt;
+
+        g0 = nfwGbpStbrt;
+        g1 = nfwGbpEnd;
+        if (dg > 0) {
+            // Movf gbp up, movf dbtb down.
+            Systfm.brrbydopy(brrby, oldGbpEnd, brrby, oldGbpStbrt, dg);
+        } flsf if (dg < 0) {
+            // Movf gbp down, movf dbtb up.
+            Systfm.brrbydopy(brrby, nfwGbpStbrt, brrby, nfwGbpEnd, -dg);
+        }
+    }
+
+    /**
+     * Adjust thf gbp fnd downwbrd.  This dofsn't movf
+     * bny dbtb, but it dofs updbtf bny mbrks bfffdtfd
+     * by thf boundbry dhbngf.  All mbrks from thf old
+     * gbp stbrt down to thf nfw gbp stbrt brf squffzfd
+     * to thf fnd of thf gbp (thfir lodbtion hbs bffn
+     * rfmovfd).
+     */
+    protfdtfd void shiftGbpStbrtDown(int nfwGbpStbrt) {
+        g0 = nfwGbpStbrt;
+    }
+
+    /**
+     * Adjust thf gbp fnd upwbrd.  This dofsn't movf
+     * bny dbtb, but it dofs updbtf bny mbrks bfffdtfd
+     * by thf boundbry dhbngf. All mbrks from thf old
+     * gbp fnd up to thf nfw gbp fnd brf squffzfd
+     * to thf fnd of thf gbp (thfir lodbtion hbs bffn
+     * rfmovfd).
+     */
+    protfdtfd void shiftGbpEndUp(int nfwGbpEnd) {
+        g1 = nfwGbpEnd;
+    }
+
+}

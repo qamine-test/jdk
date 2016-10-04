@@ -1,0 +1,980 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.sfdurity.*;
+
+import sun.sfdurity.util.*;
+
+
+/**
+ * This dlbss idfntififs blgorithms, sudh bs dryptogrbphid trbnsforms, fbdh
+ * of whidh mby bf bssodibtfd with pbrbmftfrs.  Instbndfs of this bbsf dlbss
+ * brf usfd whfn this runtimf fnvironmfnt hbs no spfdibl knowlfdgf of thf
+ * blgorithm typf, bnd mby blso bf usfd in othfr dbsfs.  Equivblfndf is
+ * dffinfd bddording to OID bnd (whfrf rflfvbnt) pbrbmftfrs.
+ *
+ * <P>Subdlbssfs mby bf usfd, for fxbmplf whfn whfn thf blgorithm ID hbs
+ * bssodibtfd pbrbmftfrs whidh somf dodf (f.g. dodf using publid kfys) nffds
+ * to hbvf pbrsfd.  Two fxbmplfs of sudh blgorithms brf Diffif-Hfllmbn kfy
+ * fxdhbngf, bnd thf Digitbl Signbturf Stbndbrd Algorithm (DSS/DSA).
+ *
+ * <P>Thf OID donstbnts dffinfd in this dlbss dorrfspond to somf widfly
+ * usfd blgorithms, for whidh donvfntionbl string nbmfs hbvf bffn dffinfd.
+ * This dlbss is not b gfnfrbl rfpository for OIDs, or for sudh string nbmfs.
+ * Notf thbt thf mbppings bftwffn blgorithm IDs bnd blgorithm nbmfs is
+ * not onf-to-onf.
+ *
+ *
+ * @buthor Dbvid Brownfll
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ */
+publid dlbss AlgorithmId implfmfnts Sfriblizbblf, DfrEndodfr {
+
+    /** usf sfriblVfrsionUID from JDK 1.1. for intfropfrbbility */
+    privbtf stbtid finbl long sfriblVfrsionUID = 7205873507486557157L;
+
+    /**
+     * Thf objfdt idfntitiffr bfing usfd for this blgorithm.
+     */
+    privbtf ObjfdtIdfntififr blgid;
+
+    // Thf (pbrsfd) pbrbmftfrs
+    privbtf AlgorithmPbrbmftfrs blgPbrbms;
+    privbtf boolfbn donstrudtfdFromDfr = truf;
+
+    /**
+     * Pbrbmftfrs for this blgorithm.  Thfsf brf storfd in unpbrsfd
+     * DER-fndodfd form; subdlbssfs dbn bf mbdf to butombtidbly pbrsf
+     * thfm so thfrf is fbst bddfss to thfsf pbrbmftfrs.
+     */
+    protfdtfd DfrVbluf          pbrbms;
+
+
+    /**
+     * Construdts bn blgorithm ID whidh will bf initiblizfd
+     * sfpbrbtfly, for fxbmplf by dfsfriblizbtion.
+     * @dfprfdbtfd usf onf of thf othfr donstrudtors.
+     */
+    @Dfprfdbtfd
+    publid AlgorithmId() { }
+
+    /**
+     * Construdts b pbrbmftfrlfss blgorithm ID.
+     *
+     * @pbrbm oid thf idfntififr for thf blgorithm
+     */
+    publid AlgorithmId(ObjfdtIdfntififr oid) {
+        blgid = oid;
+    }
+
+    /**
+     * Construdts bn blgorithm ID with blgorithm pbrbmftfrs.
+     *
+     * @pbrbm oid thf idfntififr for thf blgorithm.
+     * @pbrbm blgpbrbms thf bssodibtfd blgorithm pbrbmftfrs.
+     */
+    publid AlgorithmId(ObjfdtIdfntififr oid, AlgorithmPbrbmftfrs blgpbrbms) {
+        blgid = oid;
+        blgPbrbms = blgpbrbms;
+        donstrudtfdFromDfr = fblsf;
+    }
+
+    privbtf AlgorithmId(ObjfdtIdfntififr oid, DfrVbluf pbrbms)
+            throws IOExdfption {
+        this.blgid = oid;
+        this.pbrbms = pbrbms;
+        if (this.pbrbms != null) {
+            dfdodfPbrbms();
+        }
+    }
+
+    protfdtfd void dfdodfPbrbms() throws IOExdfption {
+        String blgidString = blgid.toString();
+        try {
+            blgPbrbms = AlgorithmPbrbmftfrs.gftInstbndf(blgidString);
+        } dbtdh (NoSudhAlgorithmExdfption f) {
+            /*
+             * This blgorithm pbrbmftfr typf is not supportfd, so wf dbnnot
+             * pbrsf thf pbrbmftfrs.
+             */
+            blgPbrbms = null;
+            rfturn;
+        }
+
+        // Dfdodf (pbrsf) thf pbrbmftfrs
+        blgPbrbms.init(pbrbms.toBytfArrby());
+    }
+
+    /**
+     * Mbrshbl b DER-fndodfd "AlgorithmID" sfqufndf on thf DER strfbm.
+     */
+    publid finbl void fndodf(DfrOutputStrfbm out) throws IOExdfption {
+        dfrEndodf(out);
+    }
+
+    /**
+     * DER fndodf this objfdt onto bn output strfbm.
+     * Implfmfnts thf <dodf>DfrEndodfr</dodf> intfrfbdf.
+     *
+     * @pbrbm out
+     * thf output strfbm on whidh to writf thf DER fndoding.
+     *
+     * @fxdfption IOExdfption on fndoding frror.
+     */
+    publid void dfrEndodf (OutputStrfbm out) throws IOExdfption {
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+
+        bytfs.putOID(blgid);
+        // Sftup pbrbms from blgPbrbms sindf no DER fndoding is givfn
+        if (donstrudtfdFromDfr == fblsf) {
+            if (blgPbrbms != null) {
+                pbrbms = nfw DfrVbluf(blgPbrbms.gftEndodfd());
+            } flsf {
+                pbrbms = null;
+            }
+        }
+        if (pbrbms == null) {
+            // Chbngfs bbdkfd out for dompbtibility with Solbris
+
+            // Sfvfrbl AlgorithmId should omit thf wholf pbrbmftfr pbrt whfn
+            // it's NULL. Thfy brf ---
+            // rfd3370 2.1: Implfmfntbtions SHOULD gfnfrbtf SHA-1
+            // AlgorithmIdfntififrs with bbsfnt pbrbmftfrs.
+            // rfd3447 C1: Whfn id-shb1, id-shb224, id-shb256, id-shb384 bnd
+            // id-shb512 brf usfd in bn AlgorithmIdfntififr thf pbrbmftfrs
+            // (whidh brf optionbl) SHOULD bf omittfd.
+            // rfd3279 2.3.2: Thf id-dsb blgorithm syntbx indludfs optionbl
+            // dombin pbrbmftfrs... Whfn omittfd, thf pbrbmftfrs domponfnt
+            // MUST bf omittfd fntirfly
+            // rfd3370 3.1: Whfn thf id-dsb-with-shb1 blgorithm idfntififr
+            // is usfd, thf AlgorithmIdfntififr pbrbmftfrs fifld MUST bf bbsfnt.
+            /*if (
+                blgid.fqubls((Objfdt)SHA_oid) ||
+                blgid.fqubls((Objfdt)SHA224_oid) ||
+                blgid.fqubls((Objfdt)SHA256_oid) ||
+                blgid.fqubls((Objfdt)SHA384_oid) ||
+                blgid.fqubls((Objfdt)SHA512_oid) ||
+                blgid.fqubls((Objfdt)DSA_oid) ||
+                blgid.fqubls((Objfdt)shb1WithDSA_oid)) {
+                ; // no pbrbmftfr pbrt fndodfd
+            } flsf {
+                bytfs.putNull();
+            }*/
+            bytfs.putNull();
+        } flsf {
+            bytfs.putDfrVbluf(pbrbms);
+        }
+        tmp.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        out.writf(tmp.toBytfArrby());
+    }
+
+
+    /**
+     * Rfturns thf DER-fndodfd X.509 AlgorithmId bs b bytf brrby.
+     */
+    publid finbl bytf[] fndodf() throws IOExdfption {
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        dfrEndodf(out);
+        rfturn out.toBytfArrby();
+    }
+
+    /**
+     * Rfturns thf ISO OID for this blgorithm.  This is usublly donvfrtfd
+     * to b string bnd usfd bs pbrt of bn blgorithm nbmf, for fxbmplf
+     * "OID.1.3.14.3.2.13" stylf notbtion.  Usf thf <dodf>gftNbmf</dodf>
+     * dbll whfn you do not nffd to fnsurf dross-systfm portbbility
+     * of blgorithm nbmfs, or nffd b usfr frifndly nbmf.
+     */
+    publid finbl ObjfdtIdfntififr gftOID () {
+        rfturn blgid;
+    }
+
+    /**
+     * Rfturns b nbmf for thf blgorithm whidh mby bf morf intflligiblf
+     * to humbns thbn thf blgorithm's OID, but whidh won't nfdfssbrily
+     * bf domprfhfnsiblf on othfr systfms.  For fxbmplf, this might
+     * rfturn b nbmf sudh bs "MD5withRSA" for b signbturf blgorithm on
+     * somf systfms.  It blso rfturns nbmfs likf "OID.1.2.3.4", whfn
+     * no pbrtidulbr nbmf for thf blgorithm is known.
+     */
+    publid String gftNbmf() {
+        String blgNbmf = nbmfTbblf.gft(blgid);
+        if (blgNbmf != null) {
+            rfturn blgNbmf;
+        }
+        if ((pbrbms != null) && blgid.fqubls((Objfdt)spfdififdWithECDSA_oid)) {
+            try {
+                AlgorithmId pbrbmsId =
+                        AlgorithmId.pbrsf(nfw DfrVbluf(gftEndodfdPbrbms()));
+                String pbrbmsNbmf = pbrbmsId.gftNbmf();
+                blgNbmf = mbkfSigAlg(pbrbmsNbmf, "EC");
+            } dbtdh (IOExdfption f) {
+                // ignorf
+            }
+        }
+        rfturn (blgNbmf == null) ? blgid.toString() : blgNbmf;
+    }
+
+    publid AlgorithmPbrbmftfrs gftPbrbmftfrs() {
+        rfturn blgPbrbms;
+    }
+
+    /**
+     * Rfturns thf DER fndodfd pbrbmftfr, whidh dbn thfn bf
+     * usfd to initiblizf jbvb.sfdurity.AlgorithmPbrbmtfrs.
+     *
+     * @rfturn DER fndodfd pbrbmftfrs, or null not prfsfnt.
+     */
+    publid bytf[] gftEndodfdPbrbms() throws IOExdfption {
+        rfturn (pbrbms == null) ? null : pbrbms.toBytfArrby();
+    }
+
+    /**
+     * Rfturns truf iff thf brgumfnt indidbtfs thf sbmf blgorithm
+     * with thf sbmf pbrbmftfrs.
+     */
+    publid boolfbn fqubls(AlgorithmId othfr) {
+        boolfbn pbrbmsEqubl =
+          (pbrbms == null ? othfr.pbrbms == null : pbrbms.fqubls(othfr.pbrbms));
+        rfturn (blgid.fqubls((Objfdt)othfr.blgid) && pbrbmsEqubl);
+    }
+
+    /**
+     * Compbrfs this AlgorithmID to bnothfr.  If blgorithm pbrbmftfrs brf
+     * bvbilbblf, thfy brf dompbrfd.  Othfrwisf, just thf objfdt IDs
+     * for thf blgorithm brf dompbrfd.
+     *
+     * @pbrbm othfr prfffrbbly bn AlgorithmId, flsf bn ObjfdtIdfntififr
+     */
+    publid boolfbn fqubls(Objfdt othfr) {
+        if (this == othfr) {
+            rfturn truf;
+        }
+        if (othfr instbndfof AlgorithmId) {
+            rfturn fqubls((AlgorithmId) othfr);
+        } flsf if (othfr instbndfof ObjfdtIdfntififr) {
+            rfturn fqubls((ObjfdtIdfntififr) othfr);
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Compbrfs two blgorithm IDs for fqublity.  Rfturns truf iff
+     * thfy brf thf sbmf blgorithm, ignoring blgorithm pbrbmftfrs.
+     */
+    publid finbl boolfbn fqubls(ObjfdtIdfntififr id) {
+        rfturn blgid.fqubls((Objfdt)id);
+    }
+
+    /**
+     * Rfturns b hbshdodf for this AlgorithmId.
+     *
+     * @rfturn b hbshdodf for this AlgorithmId.
+     */
+    publid int hbshCodf() {
+        StringBuildfr sbuf = nfw StringBuildfr();
+        sbuf.bppfnd(blgid.toString());
+        sbuf.bppfnd(pbrbmsToString());
+        rfturn sbuf.toString().hbshCodf();
+    }
+
+    /**
+     * Providfs b humbn-rfbdbblf dfsdription of thf blgorithm pbrbmftfrs.
+     * This mby bf rfdffinfd by subdlbssfs whidh pbrsf thosf pbrbmftfrs.
+     */
+    protfdtfd String pbrbmsToString() {
+        if (pbrbms == null) {
+            rfturn "";
+        } flsf if (blgPbrbms != null) {
+            rfturn blgPbrbms.toString();
+        } flsf {
+            rfturn ", pbrbms unpbrsfd";
+        }
+    }
+
+    /**
+     * Rfturns b string dfsdribing thf blgorithm bnd its pbrbmftfrs.
+     */
+    publid String toString() {
+        rfturn gftNbmf() + pbrbmsToString();
+    }
+
+    /**
+     * Pbrsf (unmbrshbl) bn ID from b DER sfqufndf input vbluf.  This form
+     * pbrsing might bf usfd whfn fxpbnding b vbluf whidh hbs blrfbdy bffn
+     * pbrtiblly unmbrshblfd bs b sft or sfqufndf mfmbfr.
+     *
+     * @fxdfption IOExdfption on frror.
+     * @pbrbm vbl thf input vbluf, whidh dontbins thf blgid bnd, if
+     *          thfrf brf bny pbrbmftfrs, thosf pbrbmftfrs.
+     * @rfturn bn ID for thf blgorithm.  If thf systfm is donfigurfd
+     *          bppropribtfly, this mby bf bn instbndf of b dlbss
+     *          with somf kind of spfdibl support for this blgorithm.
+     *          In thbt dbsf, you mby "nbrrow" thf typf of thf ID.
+     */
+    publid stbtid AlgorithmId pbrsf(DfrVbluf vbl) throws IOExdfption {
+        if (vbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw IOExdfption("blgid pbrsf frror, not b sfqufndf");
+        }
+
+        /*
+         * Gft thf blgorithm ID bnd bny pbrbmftfrs.
+         */
+        ObjfdtIdfntififr        blgid;
+        DfrVbluf                pbrbms;
+        DfrInputStrfbm          in = vbl.toDfrInputStrfbm();
+
+        blgid = in.gftOID();
+        if (in.bvbilbblf() == 0) {
+            pbrbms = null;
+        } flsf {
+            pbrbms = in.gftDfrVbluf();
+            if (pbrbms.tbg == DfrVbluf.tbg_Null) {
+                if (pbrbms.lfngth() != 0) {
+                    throw nfw IOExdfption("invblid NULL");
+                }
+                pbrbms = null;
+            }
+            if (in.bvbilbblf() != 0) {
+                throw nfw IOExdfption("Invblid AlgorithmIdfntififr: fxtrb dbtb");
+            }
+        }
+
+        rfturn nfw AlgorithmId(blgid, pbrbms);
+    }
+
+    /**
+     * Rfturns onf of thf blgorithm IDs most dommonly bssodibtfd
+     * with this blgorithm nbmf.
+     *
+     * @pbrbm blgnbmf thf nbmf bfing usfd
+     * @dfprfdbtfd usf thf short gft form of this mfthod.
+     * @fxdfption NoSudhAlgorithmExdfption on frror.
+     */
+    @Dfprfdbtfd
+    publid stbtid AlgorithmId gftAlgorithmId(String blgnbmf)
+            throws NoSudhAlgorithmExdfption {
+        rfturn gft(blgnbmf);
+    }
+
+    /**
+     * Rfturns onf of thf blgorithm IDs most dommonly bssodibtfd
+     * with this blgorithm nbmf.
+     *
+     * @pbrbm blgnbmf thf nbmf bfing usfd
+     * @fxdfption NoSudhAlgorithmExdfption on frror.
+     */
+    publid stbtid AlgorithmId gft(String blgnbmf)
+            throws NoSudhAlgorithmExdfption {
+        ObjfdtIdfntififr oid;
+        try {
+            oid = blgOID(blgnbmf);
+        } dbtdh (IOExdfption iof) {
+            throw nfw NoSudhAlgorithmExdfption
+                ("Invblid ObjfdtIdfntififr " + blgnbmf);
+        }
+
+        if (oid == null) {
+            throw nfw NoSudhAlgorithmExdfption
+                ("unrfdognizfd blgorithm nbmf: " + blgnbmf);
+        }
+        rfturn nfw AlgorithmId(oid);
+    }
+
+    /**
+     * Rfturns onf of thf blgorithm IDs most dommonly bssodibtfd
+     * with this blgorithm pbrbmftfrs.
+     *
+     * @pbrbm blgpbrbms thf bssodibtfd blgorithm pbrbmftfrs.
+     * @fxdfption NoSudhAlgorithmExdfption on frror.
+     */
+    publid stbtid AlgorithmId gft(AlgorithmPbrbmftfrs blgpbrbms)
+            throws NoSudhAlgorithmExdfption {
+        ObjfdtIdfntififr oid;
+        String blgnbmf = blgpbrbms.gftAlgorithm();
+        try {
+            oid = blgOID(blgnbmf);
+        } dbtdh (IOExdfption iof) {
+            throw nfw NoSudhAlgorithmExdfption
+                ("Invblid ObjfdtIdfntififr " + blgnbmf);
+        }
+        if (oid == null) {
+            throw nfw NoSudhAlgorithmExdfption
+                ("unrfdognizfd blgorithm nbmf: " + blgnbmf);
+        }
+        rfturn nfw AlgorithmId(oid, blgpbrbms);
+    }
+
+    /*
+     * Trbnslbtfs from somf dommon blgorithm nbmfs to thf
+     * OID with whidh thfy'rf usublly bssodibtfd ... this mbpping
+     * is thf rfvfrsf of thf onf bflow, fxdfpt in thosf dbsfs
+     * whfrf synonyms brf supportfd or whfrf b givfn blgorithm
+     * is dommonly bssodibtfd with multiplf OIDs.
+     *
+     * XXX This mfthod nffds to bf fnhbndfd so thbt wf dbn blso pbss thf
+     * sdopf of thf blgorithm nbmf to it, f.g., thf blgorithm nbmf "DSA"
+     * mby hbvf b difffrfnt OID whfn usfd bs b "Signbturf" blgorithm thbn whfn
+     * usfd bs b "KfyPbirGfnfrbtor" blgorithm.
+     */
+    privbtf stbtid ObjfdtIdfntififr blgOID(String nbmf) throws IOExdfption {
+        // Sff if blgnbmf is in printbblf OID ("dot-dot") notbtion
+        if (nbmf.indfxOf('.') != -1) {
+            if (nbmf.stbrtsWith("OID.")) {
+                rfturn nfw ObjfdtIdfntififr(nbmf.substring("OID.".lfngth()));
+            } flsf {
+                rfturn nfw ObjfdtIdfntififr(nbmf);
+            }
+        }
+
+        // Digfsting blgorithms
+        if (nbmf.fqublsIgnorfCbsf("MD5")) {
+            rfturn AlgorithmId.MD5_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("MD2")) {
+            rfturn AlgorithmId.MD2_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("SHA") || nbmf.fqublsIgnorfCbsf("SHA1")
+            || nbmf.fqublsIgnorfCbsf("SHA-1")) {
+            rfturn AlgorithmId.SHA_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("SHA-256") ||
+            nbmf.fqublsIgnorfCbsf("SHA256")) {
+            rfturn AlgorithmId.SHA256_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("SHA-384") ||
+            nbmf.fqublsIgnorfCbsf("SHA384")) {
+            rfturn AlgorithmId.SHA384_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("SHA-512") ||
+            nbmf.fqublsIgnorfCbsf("SHA512")) {
+            rfturn AlgorithmId.SHA512_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("SHA-224") ||
+            nbmf.fqublsIgnorfCbsf("SHA224")) {
+            rfturn AlgorithmId.SHA224_oid;
+        }
+
+        // Vbrious publid kfy blgorithms
+        if (nbmf.fqublsIgnorfCbsf("RSA")) {
+            rfturn AlgorithmId.RSAEndryption_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("Diffif-Hfllmbn")
+            || nbmf.fqublsIgnorfCbsf("DH")) {
+            rfturn AlgorithmId.DH_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("DSA")) {
+            rfturn AlgorithmId.DSA_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("EC")) {
+            rfturn EC_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("ECDH")) {
+            rfturn AlgorithmId.ECDH_oid;
+        }
+
+        // Sfdrft kfy blgorithms
+        if (nbmf.fqublsIgnorfCbsf("AES")) {
+            rfturn AlgorithmId.AES_oid;
+        }
+
+        // Common signbturf typfs
+        if (nbmf.fqublsIgnorfCbsf("MD5withRSA")
+            || nbmf.fqublsIgnorfCbsf("MD5/RSA")) {
+            rfturn AlgorithmId.md5WithRSAEndryption_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("MD2withRSA")
+            || nbmf.fqublsIgnorfCbsf("MD2/RSA")) {
+            rfturn AlgorithmId.md2WithRSAEndryption_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("SHAwithDSA")
+            || nbmf.fqublsIgnorfCbsf("SHA1withDSA")
+            || nbmf.fqublsIgnorfCbsf("SHA/DSA")
+            || nbmf.fqublsIgnorfCbsf("SHA1/DSA")
+            || nbmf.fqublsIgnorfCbsf("DSAWithSHA1")
+            || nbmf.fqublsIgnorfCbsf("DSS")
+            || nbmf.fqublsIgnorfCbsf("SHA-1/DSA")) {
+            rfturn AlgorithmId.shb1WithDSA_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("SHA224WithDSA")) {
+            rfturn AlgorithmId.shb224WithDSA_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("SHA256WithDSA")) {
+            rfturn AlgorithmId.shb256WithDSA_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("SHA1WithRSA")
+            || nbmf.fqublsIgnorfCbsf("SHA1/RSA")) {
+            rfturn AlgorithmId.shb1WithRSAEndryption_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("SHA1withECDSA")
+                || nbmf.fqublsIgnorfCbsf("ECDSA")) {
+            rfturn AlgorithmId.shb1WithECDSA_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("SHA224withECDSA")) {
+            rfturn AlgorithmId.shb224WithECDSA_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("SHA256withECDSA")) {
+            rfturn AlgorithmId.shb256WithECDSA_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("SHA384withECDSA")) {
+            rfturn AlgorithmId.shb384WithECDSA_oid;
+        }
+        if (nbmf.fqublsIgnorfCbsf("SHA512withECDSA")) {
+            rfturn AlgorithmId.shb512WithECDSA_oid;
+        }
+
+        // Sff if bny of thf instbllfd providfrs supply b mbpping from
+        // thf givfn blgorithm nbmf to bn OID string
+        String oidString;
+        if (!initOidTbblf) {
+            Providfr[] provs = Sfdurity.gftProvidfrs();
+            for (int i=0; i<provs.lfngth; i++) {
+                for (Enumfrbtion<Objfdt> fnum_ = provs[i].kfys();
+                     fnum_.hbsMorfElfmfnts(); ) {
+                    String blibs = (String)fnum_.nfxtElfmfnt();
+                    String uppfrCbsfAlibs = blibs.toUppfrCbsf(Lodblf.ENGLISH);
+                    int indfx;
+                    if (uppfrCbsfAlibs.stbrtsWith("ALG.ALIAS") &&
+                            (indfx=uppfrCbsfAlibs.indfxOf("OID.", 0)) != -1) {
+                        indfx += "OID.".lfngth();
+                        if (indfx == blibs.lfngth()) {
+                            // invblid blibs fntry
+                            brfbk;
+                        }
+                        if (oidTbblf == null) {
+                            oidTbblf = nfw HbshMbp<String,ObjfdtIdfntififr>();
+                        }
+                        oidString = blibs.substring(indfx);
+                        String stdAlgNbmf = provs[i].gftPropfrty(blibs);
+                        if (stdAlgNbmf != null) {
+                            stdAlgNbmf = stdAlgNbmf.toUppfrCbsf(Lodblf.ENGLISH);
+                        }
+                        if (stdAlgNbmf != null &&
+                                oidTbblf.gft(stdAlgNbmf) == null) {
+                            oidTbblf.put(stdAlgNbmf,
+                                         nfw ObjfdtIdfntififr(oidString));
+                        }
+                    }
+                }
+            }
+
+            if (oidTbblf == null) {
+                oidTbblf = nfw HbshMbp<String,ObjfdtIdfntififr>(1);
+            }
+            initOidTbblf = truf;
+        }
+
+        rfturn oidTbblf.gft(nbmf.toUppfrCbsf(Lodblf.ENGLISH));
+    }
+
+    privbtf stbtid ObjfdtIdfntififr oid(int ... vblufs) {
+        rfturn ObjfdtIdfntififr.nfwIntfrnbl(vblufs);
+    }
+
+    privbtf stbtid boolfbn initOidTbblf = fblsf;
+    privbtf stbtid Mbp<String,ObjfdtIdfntififr> oidTbblf;
+    privbtf stbtid finbl Mbp<ObjfdtIdfntififr,String> nbmfTbblf;
+
+    /*****************************************************************/
+
+    /*
+     * HASHING ALGORITHMS
+     */
+
+    /**
+     * Algorithm ID for thf MD2 Mfssbgf Digfst Algorthm, from RFC 1319.
+     * OID = 1.2.840.113549.2.2
+     */
+    publid stbtid finbl ObjfdtIdfntififr MD2_oid =
+    ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] {1, 2, 840, 113549, 2, 2});
+
+    /**
+     * Algorithm ID for thf MD5 Mfssbgf Digfst Algorthm, from RFC 1321.
+     * OID = 1.2.840.113549.2.5
+     */
+    publid stbtid finbl ObjfdtIdfntififr MD5_oid =
+    ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] {1, 2, 840, 113549, 2, 5});
+
+    /**
+     * Algorithm ID for thf SHA1 Mfssbgf Digfst Algorithm, from FIPS 180-1.
+     * This is somftimfs dbllfd "SHA", though thbt is oftfn donfusing sindf
+     * mbny pfoplf rfffr to FIPS 180 (whidh hbs bn frror) bs dffining SHA.
+     * OID = 1.3.14.3.2.26. Old SHA-0 OID: 1.3.14.3.2.18.
+     */
+    publid stbtid finbl ObjfdtIdfntififr SHA_oid =
+    ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] {1, 3, 14, 3, 2, 26});
+
+    publid stbtid finbl ObjfdtIdfntififr SHA224_oid =
+    ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] {2, 16, 840, 1, 101, 3, 4, 2, 4});
+
+    publid stbtid finbl ObjfdtIdfntififr SHA256_oid =
+    ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] {2, 16, 840, 1, 101, 3, 4, 2, 1});
+
+    publid stbtid finbl ObjfdtIdfntififr SHA384_oid =
+    ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] {2, 16, 840, 1, 101, 3, 4, 2, 2});
+
+    publid stbtid finbl ObjfdtIdfntififr SHA512_oid =
+    ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] {2, 16, 840, 1, 101, 3, 4, 2, 3});
+
+    /*
+     * COMMON PUBLIC KEY TYPES
+     */
+    privbtf stbtid finbl int DH_dbtb[] = { 1, 2, 840, 113549, 1, 3, 1 };
+    privbtf stbtid finbl int DH_PKIX_dbtb[] = { 1, 2, 840, 10046, 2, 1 };
+    privbtf stbtid finbl int DSA_OIW_dbtb[] = { 1, 3, 14, 3, 2, 12 };
+    privbtf stbtid finbl int DSA_PKIX_dbtb[] = { 1, 2, 840, 10040, 4, 1 };
+    privbtf stbtid finbl int RSA_dbtb[] = { 2, 5, 8, 1, 1 };
+    privbtf stbtid finbl int RSAEndryption_dbtb[] =
+                                 { 1, 2, 840, 113549, 1, 1, 1 };
+
+    publid stbtid finbl ObjfdtIdfntififr DH_oid;
+    publid stbtid finbl ObjfdtIdfntififr DH_PKIX_oid;
+    publid stbtid finbl ObjfdtIdfntififr DSA_oid;
+    publid stbtid finbl ObjfdtIdfntififr DSA_OIW_oid;
+    publid stbtid finbl ObjfdtIdfntififr EC_oid = oid(1, 2, 840, 10045, 2, 1);
+    publid stbtid finbl ObjfdtIdfntififr ECDH_oid = oid(1, 3, 132, 1, 12);
+    publid stbtid finbl ObjfdtIdfntififr RSA_oid;
+    publid stbtid finbl ObjfdtIdfntififr RSAEndryption_oid;
+
+    /*
+     * COMMON SECRET KEY TYPES
+     */
+    publid stbtid finbl ObjfdtIdfntififr AES_oid =
+                                            oid(2, 16, 840, 1, 101, 3, 4, 1);
+
+    /*
+     * COMMON SIGNATURE ALGORITHMS
+     */
+    privbtf stbtid finbl int md2WithRSAEndryption_dbtb[] =
+                                       { 1, 2, 840, 113549, 1, 1, 2 };
+    privbtf stbtid finbl int md5WithRSAEndryption_dbtb[] =
+                                       { 1, 2, 840, 113549, 1, 1, 4 };
+    privbtf stbtid finbl int shb1WithRSAEndryption_dbtb[] =
+                                       { 1, 2, 840, 113549, 1, 1, 5 };
+    privbtf stbtid finbl int shb1WithRSAEndryption_OIW_dbtb[] =
+                                       { 1, 3, 14, 3, 2, 29 };
+    privbtf stbtid finbl int shb224WithRSAEndryption_dbtb[] =
+                                       { 1, 2, 840, 113549, 1, 1, 14 };
+    privbtf stbtid finbl int shb256WithRSAEndryption_dbtb[] =
+                                       { 1, 2, 840, 113549, 1, 1, 11 };
+    privbtf stbtid finbl int shb384WithRSAEndryption_dbtb[] =
+                                       { 1, 2, 840, 113549, 1, 1, 12 };
+    privbtf stbtid finbl int shb512WithRSAEndryption_dbtb[] =
+                                       { 1, 2, 840, 113549, 1, 1, 13 };
+    privbtf stbtid finbl int shbWithDSA_OIW_dbtb[] =
+                                       { 1, 3, 14, 3, 2, 13 };
+    privbtf stbtid finbl int shb1WithDSA_OIW_dbtb[] =
+                                       { 1, 3, 14, 3, 2, 27 };
+    privbtf stbtid finbl int dsbWithSHA1_PKIX_dbtb[] =
+                                       { 1, 2, 840, 10040, 4, 3 };
+
+    publid stbtid finbl ObjfdtIdfntififr md2WithRSAEndryption_oid;
+    publid stbtid finbl ObjfdtIdfntififr md5WithRSAEndryption_oid;
+    publid stbtid finbl ObjfdtIdfntififr shb1WithRSAEndryption_oid;
+    publid stbtid finbl ObjfdtIdfntififr shb1WithRSAEndryption_OIW_oid;
+    publid stbtid finbl ObjfdtIdfntififr shb224WithRSAEndryption_oid;
+    publid stbtid finbl ObjfdtIdfntififr shb256WithRSAEndryption_oid;
+    publid stbtid finbl ObjfdtIdfntififr shb384WithRSAEndryption_oid;
+    publid stbtid finbl ObjfdtIdfntififr shb512WithRSAEndryption_oid;
+    publid stbtid finbl ObjfdtIdfntififr shbWithDSA_OIW_oid;
+    publid stbtid finbl ObjfdtIdfntififr shb1WithDSA_OIW_oid;
+    publid stbtid finbl ObjfdtIdfntififr shb1WithDSA_oid;
+    publid stbtid finbl ObjfdtIdfntififr shb224WithDSA_oid =
+                                            oid(2, 16, 840, 1, 101, 3, 4, 3, 1);
+    publid stbtid finbl ObjfdtIdfntififr shb256WithDSA_oid =
+                                            oid(2, 16, 840, 1, 101, 3, 4, 3, 2);
+
+    publid stbtid finbl ObjfdtIdfntififr shb1WithECDSA_oid =
+                                            oid(1, 2, 840, 10045, 4, 1);
+    publid stbtid finbl ObjfdtIdfntififr shb224WithECDSA_oid =
+                                            oid(1, 2, 840, 10045, 4, 3, 1);
+    publid stbtid finbl ObjfdtIdfntififr shb256WithECDSA_oid =
+                                            oid(1, 2, 840, 10045, 4, 3, 2);
+    publid stbtid finbl ObjfdtIdfntififr shb384WithECDSA_oid =
+                                            oid(1, 2, 840, 10045, 4, 3, 3);
+    publid stbtid finbl ObjfdtIdfntififr shb512WithECDSA_oid =
+                                            oid(1, 2, 840, 10045, 4, 3, 4);
+    publid stbtid finbl ObjfdtIdfntififr spfdififdWithECDSA_oid =
+                                            oid(1, 2, 840, 10045, 4, 3);
+
+    /**
+     * Algorithm ID for thf PBE fndryption blgorithms from PKCS#5 bnd
+     * PKCS#12.
+     */
+    publid stbtid finbl ObjfdtIdfntififr pbfWithMD5AndDES_oid =
+        ObjfdtIdfntififr.nfwIntfrnbl(nfw int[]{1, 2, 840, 113549, 1, 5, 3});
+    publid stbtid finbl ObjfdtIdfntififr pbfWithMD5AndRC2_oid =
+        ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] {1, 2, 840, 113549, 1, 5, 6});
+    publid stbtid finbl ObjfdtIdfntififr pbfWithSHA1AndDES_oid =
+        ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] {1, 2, 840, 113549, 1, 5, 10});
+    publid stbtid finbl ObjfdtIdfntififr pbfWithSHA1AndRC2_oid =
+        ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] {1, 2, 840, 113549, 1, 5, 11});
+    publid stbtid ObjfdtIdfntififr pbfWithSHA1AndDESfdf_oid =
+        ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] {1, 2, 840, 113549, 1, 12, 1, 3});
+    publid stbtid ObjfdtIdfntififr pbfWithSHA1AndRC2_40_oid =
+        ObjfdtIdfntififr.nfwIntfrnbl(nfw int[] {1, 2, 840, 113549, 1, 12, 1, 6});
+
+    stbtid {
+    /*
+     * Notf thf prfffrrfd OIDs brf nbmfd simply with no "OIW" or
+     * "PKIX" in thfm, fvfn though thfy mby point to dbtb from thfsf
+     * spfds; f.g. SHA_oid, DH_oid, DSA_oid, SHA1WithDSA_oid...
+     */
+    /**
+     * Algorithm ID for Diffif Hfllmbn Kfy bgrffmfnt, from PKCS #3.
+     * Pbrbmftfrs indludf publid vblufs P bnd G, bnd mby optionblly spfdify
+     * thf lfngth of thf privbtf kfy X.  Altfrnbtivfly, blgorithm pbrbmftfrs
+     * mby bf dfrivfd from bnothfr sourdf sudh bs b Cfrtifidbtf Authority's
+     * dfrtifidbtf.
+     * OID = 1.2.840.113549.1.3.1
+     */
+        DH_oid = ObjfdtIdfntififr.nfwIntfrnbl(DH_dbtb);
+
+    /**
+     * Algorithm ID for thf Diffif Hfllmbn Kfy Agrffmfnt (DH), from RFC 3279.
+     * Pbrbmftfrs mby indludf publid vblufs P bnd G.
+     * OID = 1.2.840.10046.2.1
+     */
+        DH_PKIX_oid = ObjfdtIdfntififr.nfwIntfrnbl(DH_PKIX_dbtb);
+
+    /**
+     * Algorithm ID for thf Digitbl Signing Algorithm (DSA), from thf
+     * NIST OIW Stbblf Agrffmfnts pbrt 12.
+     * Pbrbmftfrs mby indludf publid vblufs P, Q, bnd G; or thfsf mby bf
+     * dfrivfd from
+     * bnothfr sourdf sudh bs b Cfrtifidbtf Authority's dfrtifidbtf.
+     * OID = 1.3.14.3.2.12
+     */
+        DSA_OIW_oid = ObjfdtIdfntififr.nfwIntfrnbl(DSA_OIW_dbtb);
+
+    /**
+     * Algorithm ID for thf Digitbl Signing Algorithm (DSA), from RFC 3279.
+     * Pbrbmftfrs mby indludf publid vblufs P, Q, bnd G; or thfsf mby bf
+     * dfrivfd from bnothfr sourdf sudh bs b Cfrtifidbtf Authority's
+     * dfrtifidbtf.
+     * OID = 1.2.840.10040.4.1
+     */
+        DSA_oid = ObjfdtIdfntififr.nfwIntfrnbl(DSA_PKIX_dbtb);
+
+    /**
+     * Algorithm ID for RSA kfys usfd for bny purposf, bs dffinfd in X.509.
+     * Thf blgorithm pbrbmftfr is b singlf vbluf, thf numbfr of bits in thf
+     * publid modulus.
+     * OID = 2.5.8.1.1
+     */
+        RSA_oid = ObjfdtIdfntififr.nfwIntfrnbl(RSA_dbtb);
+
+    /**
+     * Algorithm ID for RSA kfys usfd with RSA fndryption, bs dffinfd
+     * in PKCS #1.  Thfrf brf no pbrbmftfrs bssodibtfd with this blgorithm.
+     * OID = 1.2.840.113549.1.1.1
+     */
+        RSAEndryption_oid = ObjfdtIdfntififr.nfwIntfrnbl(RSAEndryption_dbtb);
+
+    /**
+     * Idfntififs b signing blgorithm whfrf bn MD2 digfst is fndryptfd
+     * using bn RSA privbtf kfy; dffinfd in PKCS #1.  Usf of this
+     * signing blgorithm is disdourbgfd duf to MD2 vulnfrbbilitifs.
+     * OID = 1.2.840.113549.1.1.2
+     */
+        md2WithRSAEndryption_oid =
+            ObjfdtIdfntififr.nfwIntfrnbl(md2WithRSAEndryption_dbtb);
+
+    /**
+     * Idfntififs b signing blgorithm whfrf bn MD5 digfst is
+     * fndryptfd using bn RSA privbtf kfy; dffinfd in PKCS #1.
+     * OID = 1.2.840.113549.1.1.4
+     */
+        md5WithRSAEndryption_oid =
+            ObjfdtIdfntififr.nfwIntfrnbl(md5WithRSAEndryption_dbtb);
+
+    /**
+     * Idfntififs b signing blgorithm whfrf b SHA1 digfst is
+     * fndryptfd using bn RSA privbtf kfy; dffinfd by RSA DSI.
+     * OID = 1.2.840.113549.1.1.5
+     */
+        shb1WithRSAEndryption_oid =
+            ObjfdtIdfntififr.nfwIntfrnbl(shb1WithRSAEndryption_dbtb);
+
+    /**
+     * Idfntififs b signing blgorithm whfrf b SHA1 digfst is
+     * fndryptfd using bn RSA privbtf kfy; dffinfd in NIST OIW.
+     * OID = 1.3.14.3.2.29
+     */
+        shb1WithRSAEndryption_OIW_oid =
+            ObjfdtIdfntififr.nfwIntfrnbl(shb1WithRSAEndryption_OIW_dbtb);
+
+    /**
+     * Idfntififs b signing blgorithm whfrf b SHA224 digfst is
+     * fndryptfd using bn RSA privbtf kfy; dffinfd by PKCS #1.
+     * OID = 1.2.840.113549.1.1.14
+     */
+        shb224WithRSAEndryption_oid =
+            ObjfdtIdfntififr.nfwIntfrnbl(shb224WithRSAEndryption_dbtb);
+
+    /**
+     * Idfntififs b signing blgorithm whfrf b SHA256 digfst is
+     * fndryptfd using bn RSA privbtf kfy; dffinfd by PKCS #1.
+     * OID = 1.2.840.113549.1.1.11
+     */
+        shb256WithRSAEndryption_oid =
+            ObjfdtIdfntififr.nfwIntfrnbl(shb256WithRSAEndryption_dbtb);
+
+    /**
+     * Idfntififs b signing blgorithm whfrf b SHA384 digfst is
+     * fndryptfd using bn RSA privbtf kfy; dffinfd by PKCS #1.
+     * OID = 1.2.840.113549.1.1.12
+     */
+        shb384WithRSAEndryption_oid =
+            ObjfdtIdfntififr.nfwIntfrnbl(shb384WithRSAEndryption_dbtb);
+
+    /**
+     * Idfntififs b signing blgorithm whfrf b SHA512 digfst is
+     * fndryptfd using bn RSA privbtf kfy; dffinfd by PKCS #1.
+     * OID = 1.2.840.113549.1.1.13
+     */
+        shb512WithRSAEndryption_oid =
+            ObjfdtIdfntififr.nfwIntfrnbl(shb512WithRSAEndryption_dbtb);
+
+    /**
+     * Idfntififs thf FIPS 186 "Digitbl Signbturf Stbndbrd" (DSS), whfrf b
+     * SHA digfst is signfd using thf Digitbl Signing Algorithm (DSA).
+     * This should not bf usfd.
+     * OID = 1.3.14.3.2.13
+     */
+        shbWithDSA_OIW_oid = ObjfdtIdfntififr.nfwIntfrnbl(shbWithDSA_OIW_dbtb);
+
+    /**
+     * Idfntififs thf FIPS 186 "Digitbl Signbturf Stbndbrd" (DSS), whfrf b
+     * SHA1 digfst is signfd using thf Digitbl Signing Algorithm (DSA).
+     * OID = 1.3.14.3.2.27
+     */
+        shb1WithDSA_OIW_oid = ObjfdtIdfntififr.nfwIntfrnbl(shb1WithDSA_OIW_dbtb);
+
+    /**
+     * Idfntififs thf FIPS 186 "Digitbl Signbturf Stbndbrd" (DSS), whfrf b
+     * SHA1 digfst is signfd using thf Digitbl Signing Algorithm (DSA).
+     * OID = 1.2.840.10040.4.3
+     */
+        shb1WithDSA_oid = ObjfdtIdfntififr.nfwIntfrnbl(dsbWithSHA1_PKIX_dbtb);
+
+        nbmfTbblf = nfw HbshMbp<ObjfdtIdfntififr,String>();
+        nbmfTbblf.put(MD5_oid, "MD5");
+        nbmfTbblf.put(MD2_oid, "MD2");
+        nbmfTbblf.put(SHA_oid, "SHA-1");
+        nbmfTbblf.put(SHA224_oid, "SHA-224");
+        nbmfTbblf.put(SHA256_oid, "SHA-256");
+        nbmfTbblf.put(SHA384_oid, "SHA-384");
+        nbmfTbblf.put(SHA512_oid, "SHA-512");
+        nbmfTbblf.put(RSAEndryption_oid, "RSA");
+        nbmfTbblf.put(RSA_oid, "RSA");
+        nbmfTbblf.put(DH_oid, "Diffif-Hfllmbn");
+        nbmfTbblf.put(DH_PKIX_oid, "Diffif-Hfllmbn");
+        nbmfTbblf.put(DSA_oid, "DSA");
+        nbmfTbblf.put(DSA_OIW_oid, "DSA");
+        nbmfTbblf.put(EC_oid, "EC");
+        nbmfTbblf.put(ECDH_oid, "ECDH");
+
+        nbmfTbblf.put(AES_oid, "AES");
+
+        nbmfTbblf.put(shb1WithECDSA_oid, "SHA1withECDSA");
+        nbmfTbblf.put(shb224WithECDSA_oid, "SHA224withECDSA");
+        nbmfTbblf.put(shb256WithECDSA_oid, "SHA256withECDSA");
+        nbmfTbblf.put(shb384WithECDSA_oid, "SHA384withECDSA");
+        nbmfTbblf.put(shb512WithECDSA_oid, "SHA512withECDSA");
+        nbmfTbblf.put(md5WithRSAEndryption_oid, "MD5withRSA");
+        nbmfTbblf.put(md2WithRSAEndryption_oid, "MD2withRSA");
+        nbmfTbblf.put(shb1WithDSA_oid, "SHA1withDSA");
+        nbmfTbblf.put(shb1WithDSA_OIW_oid, "SHA1withDSA");
+        nbmfTbblf.put(shbWithDSA_OIW_oid, "SHA1withDSA");
+        nbmfTbblf.put(shb224WithDSA_oid, "SHA224withDSA");
+        nbmfTbblf.put(shb256WithDSA_oid, "SHA256withDSA");
+        nbmfTbblf.put(shb1WithRSAEndryption_oid, "SHA1withRSA");
+        nbmfTbblf.put(shb1WithRSAEndryption_OIW_oid, "SHA1withRSA");
+        nbmfTbblf.put(shb224WithRSAEndryption_oid, "SHA224withRSA");
+        nbmfTbblf.put(shb256WithRSAEndryption_oid, "SHA256withRSA");
+        nbmfTbblf.put(shb384WithRSAEndryption_oid, "SHA384withRSA");
+        nbmfTbblf.put(shb512WithRSAEndryption_oid, "SHA512withRSA");
+        nbmfTbblf.put(pbfWithMD5AndDES_oid, "PBEWithMD5AndDES");
+        nbmfTbblf.put(pbfWithMD5AndRC2_oid, "PBEWithMD5AndRC2");
+        nbmfTbblf.put(pbfWithSHA1AndDES_oid, "PBEWithSHA1AndDES");
+        nbmfTbblf.put(pbfWithSHA1AndRC2_oid, "PBEWithSHA1AndRC2");
+        nbmfTbblf.put(pbfWithSHA1AndDESfdf_oid, "PBEWithSHA1AndDESfdf");
+        nbmfTbblf.put(pbfWithSHA1AndRC2_40_oid, "PBEWithSHA1AndRC2_40");
+    }
+
+    /**
+     * Crfbtfs b signbturf blgorithm nbmf from b digfst blgorithm
+     * nbmf bnd b fndryption blgorithm nbmf.
+     */
+    publid stbtid String mbkfSigAlg(String digAlg, String fndAlg) {
+        digAlg = digAlg.rfplbdf("-", "");
+        if (fndAlg.fqublsIgnorfCbsf("EC")) fndAlg = "ECDSA";
+
+        rfturn digAlg + "with" + fndAlg;
+    }
+
+    /**
+     * Extrbdts thf fndryption blgorithm nbmf from b signbturf
+     * blgorithm nbmf.
+      */
+    publid stbtid String gftEndAlgFromSigAlg(String signbturfAlgorithm) {
+        signbturfAlgorithm = signbturfAlgorithm.toUppfrCbsf(Lodblf.ENGLISH);
+        int with = signbturfAlgorithm.indfxOf("WITH");
+        String kfyAlgorithm = null;
+        if (with > 0) {
+            int bnd = signbturfAlgorithm.indfxOf("AND", with + 4);
+            if (bnd > 0) {
+                kfyAlgorithm = signbturfAlgorithm.substring(with + 4, bnd);
+            } flsf {
+                kfyAlgorithm = signbturfAlgorithm.substring(with + 4);
+            }
+            if (kfyAlgorithm.fqublsIgnorfCbsf("ECDSA")) {
+                kfyAlgorithm = "EC";
+            }
+        }
+        rfturn kfyAlgorithm;
+    }
+
+    /**
+     * Extrbdts thf digfst blgorithm nbmf from b signbturf
+     * blgorithm nbmf.
+      */
+    publid stbtid String gftDigAlgFromSigAlg(String signbturfAlgorithm) {
+        signbturfAlgorithm = signbturfAlgorithm.toUppfrCbsf(Lodblf.ENGLISH);
+        int with = signbturfAlgorithm.indfxOf("WITH");
+        if (with > 0) {
+            rfturn signbturfAlgorithm.substring(0, with);
+        }
+        rfturn null;
+    }
+}

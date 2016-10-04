@@ -1,17 +1,17 @@
-handlers= java.util.logging.ConsoleHandler
+ibndlfrs= jbvb.util.logging.ConsolfHbndlfr
 
-.level=INFO
+.lfvfl=INFO
 
 
-java.util.logging.FileHandler.pattern = %h/java%u.log
-java.util.logging.FileHandler.limit = 50000
-java.util.logging.FileHandler.count = 1
-java.util.logging.FileHandler.formatter = java.util.logging.XMLFormatter
+jbvb.util.logging.FilfHbndlfr.pbttfrn = %i/jbvb%u.log
+jbvb.util.logging.FilfHbndlfr.limit = 50000
+jbvb.util.logging.FilfHbndlfr.dount = 1
+jbvb.util.logging.FilfHbndlfr.formbttfr = jbvb.util.logging.XMLFormbttfr
 
-java.util.logging.ConsoleHandler.level = FINEST
-java.util.logging.ConsoleHandler.formatter = java.util.logging.SimpleFormatter
+jbvb.util.logging.ConsolfHbndlfr.lfvfl = FINEST
+jbvb.util.logging.ConsolfHbndlfr.formbttfr = jbvb.util.logging.SimplfFormbttfr
 
-javax.management.level=INFO
-com.sun.jmx.level=INFO
-com.sun.jmx.examples.level=FINE
+jbvbx.mbnbgfmfnt.lfvfl=INFO
+dom.sun.jmx.lfvfl=INFO
+dom.sun.jmx.fxbmplfs.lfvfl=FINE
 

@@ -1,172 +1,172 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
-import java.lang.annotation.*;
+import jbvb.lbng.bnnotbtion.*;
 
 /**
- * <p>Meta-annotation that describes how an annotation element relates
- * to a field in a {@link Descriptor}.  This can be the Descriptor for
- * an MBean, or for an attribute, operation, or constructor in an
- * MBean, or for a parameter of an operation or constructor.</p>
+ * <p>Mftb-bnnotbtion tibt dfsdribfs iow bn bnnotbtion flfmfnt rflbtfs
+ * to b fifld in b {@link Dfsdriptor}.  Tiis dbn bf tif Dfsdriptor for
+ * bn MBfbn, or for bn bttributf, opfrbtion, or donstrudtor in bn
+ * MBfbn, or for b pbrbmftfr of bn opfrbtion or donstrudtor.</p>
  *
- * <p>Consider this annotation for example:</p>
+ * <p>Considfr tiis bnnotbtion for fxbmplf:</p>
  *
- * <pre>
- * &#64;Documented
- * &#64;Target(ElementType.METHOD)
- * &#64;Retention(RetentionPolicy.RUNTIME)
- * public &#64;interface Units {
- *     <b>&#64;DescriptorKey("units")</b>
- *     String value();
+ * <prf>
+ * &#64;Dodumfntfd
+ * &#64;Tbrgft(ElfmfntTypf.METHOD)
+ * &#64;Rftfntion(RftfntionPolidy.RUNTIME)
+ * publid &#64;intfrfbdf Units {
+ *     <b>&#64;DfsdriptorKfy("units")</b>
+ *     String vbluf();
  * }
- * </pre>
+ * </prf>
  *
- * <p>and this use of the annotation:</p>
+ * <p>bnd tiis usf of tif bnnotbtion:</p>
  *
- * <pre>
- * public interface CacheControlMBean {
- *     <b>&#64;Units("bytes")</b>
- *     public long getCacheSize();
+ * <prf>
+ * publid intfrfbdf CbdifControlMBfbn {
+ *     <b>&#64;Units("bytfs")</b>
+ *     publid long gftCbdifSizf();
  * }
- * </pre>
+ * </prf>
  *
- * <p>When a Standard MBean is made from the {@code CacheControlMBean},
- * the usual rules mean that it will have an attribute called
- * {@code CacheSize} of type {@code long}.  The {@code @Units}
- * annotation, given the above definition, will ensure that the
- * {@link MBeanAttributeInfo} for this attribute will have a
- * {@code Descriptor} that has a field called {@code units} with
- * corresponding value {@code bytes}.</p>
+ * <p>Wifn b Stbndbrd MBfbn is mbdf from tif {@dodf CbdifControlMBfbn},
+ * tif usubl rulfs mfbn tibt it will ibvf bn bttributf dbllfd
+ * {@dodf CbdifSizf} of typf {@dodf long}.  Tif {@dodf @Units}
+ * bnnotbtion, givfn tif bbovf dffinition, will fnsurf tibt tif
+ * {@link MBfbnAttributfInfo} for tiis bttributf will ibvf b
+ * {@dodf Dfsdriptor} tibt ibs b fifld dbllfd {@dodf units} witi
+ * dorrfsponding vbluf {@dodf bytfs}.</p>
  *
- * <p>Similarly, if the annotation looks like this:</p>
+ * <p>Similbrly, if tif bnnotbtion looks likf tiis:</p>
  *
- * <pre>
- * &#64;Documented
- * &#64;Target(ElementType.METHOD)
- * &#64;Retention(RetentionPolicy.RUNTIME)
- * public &#64;interface Units {
- *     <b>&#64;DescriptorKey("units")</b>
- *     String value();
+ * <prf>
+ * &#64;Dodumfntfd
+ * &#64;Tbrgft(ElfmfntTypf.METHOD)
+ * &#64;Rftfntion(RftfntionPolidy.RUNTIME)
+ * publid &#64;intfrfbdf Units {
+ *     <b>&#64;DfsdriptorKfy("units")</b>
+ *     String vbluf();
  *
- *     <b>&#64;DescriptorKey("descriptionResourceKey")</b>
- *     String resourceKey() default "";
+ *     <b>&#64;DfsdriptorKfy("dfsdriptionRfsourdfKfy")</b>
+ *     String rfsourdfKfy() dffbult "";
  *
- *     <b>&#64;DescriptorKey("descriptionResourceBundleBaseName")</b>
- *     String resourceBundleBaseName() default "";
+ *     <b>&#64;DfsdriptorKfy("dfsdriptionRfsourdfBundlfBbsfNbmf")</b>
+ *     String rfsourdfBundlfBbsfNbmf() dffbult "";
  * }
- * </pre>
+ * </prf>
  *
- * <p>and it is used like this:</p>
+ * <p>bnd it is usfd likf tiis:</p>
  *
- * <pre>
- * public interface CacheControlMBean {
- *     <b>&#64;Units("bytes",
- *            resourceKey="bytes.key",
- *            resourceBundleBaseName="com.example.foo.MBeanResources")</b>
- *     public long getCacheSize();
+ * <prf>
+ * publid intfrfbdf CbdifControlMBfbn {
+ *     <b>&#64;Units("bytfs",
+ *            rfsourdfKfy="bytfs.kfy",
+ *            rfsourdfBundlfBbsfNbmf="dom.fxbmplf.foo.MBfbnRfsourdfs")</b>
+ *     publid long gftCbdifSizf();
  * }
- * </pre>
+ * </prf>
  *
- * <p>then the resulting {@code Descriptor} will contain the following
- * fields:</p>
+ * <p>tifn tif rfsulting {@dodf Dfsdriptor} will dontbin tif following
+ * fiflds:</p>
  *
- * <table border="2" summary="Descriptor Fields">
- * <tr><th>Name</th><th>Value</th></tr>
- * <tr><td>units</td><td>"bytes"</td></tr>
- * <tr><td>descriptionResourceKey</td><td>"bytes.key"</td></tr>
- * <tr><td>descriptionResourceBundleBaseName</td>
- *     <td>"com.example.foo.MBeanResources"</td></tr>
- * </table>
+ * <tbblf bordfr="2" summbry="Dfsdriptor Fiflds">
+ * <tr><ti>Nbmf</ti><ti>Vbluf</ti></tr>
+ * <tr><td>units</td><td>"bytfs"</td></tr>
+ * <tr><td>dfsdriptionRfsourdfKfy</td><td>"bytfs.kfy"</td></tr>
+ * <tr><td>dfsdriptionRfsourdfBundlfBbsfNbmf</td>
+ *     <td>"dom.fxbmplf.foo.MBfbnRfsourdfs"</td></tr>
+ * </tbblf>
  *
- * <p>An annotation such as {@code @Units} can be applied to:</p>
+ * <p>An bnnotbtion sudi bs {@dodf @Units} dbn bf bpplifd to:</p>
  *
  * <ul>
- * <li>a Standard MBean or MXBean interface;
- * <li>a method in such an interface;
- * <li>a parameter of a method in a Standard MBean or MXBean interface
- * when that method is an operation (not a getter or setter for an attribute);
- * <li>a public constructor in the class that implements a Standard MBean
- * or MXBean;
- * <li>a parameter in such a constructor.
+ * <li>b Stbndbrd MBfbn or MXBfbn intfrfbdf;
+ * <li>b mftiod in sudi bn intfrfbdf;
+ * <li>b pbrbmftfr of b mftiod in b Stbndbrd MBfbn or MXBfbn intfrfbdf
+ * wifn tibt mftiod is bn opfrbtion (not b gfttfr or sfttfr for bn bttributf);
+ * <li>b publid donstrudtor in tif dlbss tibt implfmfnts b Stbndbrd MBfbn
+ * or MXBfbn;
+ * <li>b pbrbmftfr in sudi b donstrudtor.
  * </ul>
  *
- * <p>Other uses of the annotation are ignored.</p>
+ * <p>Otifr usfs of tif bnnotbtion brf ignorfd.</p>
  *
- * <p>Interface annotations are checked only on the exact interface
- * that defines the management interface of a Standard MBean or an
- * MXBean, not on its parent interfaces.  Method annotations are
- * checked only in the most specific interface in which the method
- * appears; in other words, if a child interface overrides a method
- * from a parent interface, only {@code @DescriptorKey} annotations in
- * the method in the child interface are considered.
+ * <p>Intfrfbdf bnnotbtions brf difdkfd only on tif fxbdt intfrfbdf
+ * tibt dffinfs tif mbnbgfmfnt intfrfbdf of b Stbndbrd MBfbn or bn
+ * MXBfbn, not on its pbrfnt intfrfbdfs.  Mftiod bnnotbtions brf
+ * difdkfd only in tif most spfdifid intfrfbdf in wiidi tif mftiod
+ * bppfbrs; in otifr words, if b diild intfrfbdf ovfrridfs b mftiod
+ * from b pbrfnt intfrfbdf, only {@dodf @DfsdriptorKfy} bnnotbtions in
+ * tif mftiod in tif diild intfrfbdf brf donsidfrfd.
  *
- * <p>The Descriptor fields contributed in this way by different
- * annotations on the same program element must be consistent.  That
- * is, two different annotations, or two members of the same
- * annotation, must not define a different value for the same
- * Descriptor field.  Fields from annotations on a getter method must
- * also be consistent with fields from annotations on the
- * corresponding setter method.</p>
+ * <p>Tif Dfsdriptor fiflds dontributfd in tiis wby by difffrfnt
+ * bnnotbtions on tif sbmf progrbm flfmfnt must bf donsistfnt.  Tibt
+ * is, two difffrfnt bnnotbtions, or two mfmbfrs of tif sbmf
+ * bnnotbtion, must not dffinf b difffrfnt vbluf for tif sbmf
+ * Dfsdriptor fifld.  Fiflds from bnnotbtions on b gfttfr mftiod must
+ * blso bf donsistfnt witi fiflds from bnnotbtions on tif
+ * dorrfsponding sfttfr mftiod.</p>
  *
- * <p>The Descriptor resulting from these annotations will be merged
- * with any Descriptor fields provided by the implementation, such as
- * the <a href="Descriptor.html#immutableInfo">{@code
- * immutableInfo}</a> field for an MBean.  The fields from the annotations
- * must be consistent with these fields provided by the implementation.</p>
+ * <p>Tif Dfsdriptor rfsulting from tifsf bnnotbtions will bf mfrgfd
+ * witi bny Dfsdriptor fiflds providfd by tif implfmfntbtion, sudi bs
+ * tif <b irff="Dfsdriptor.itml#immutbblfInfo">{@dodf
+ * immutbblfInfo}</b> fifld for bn MBfbn.  Tif fiflds from tif bnnotbtions
+ * must bf donsistfnt witi tifsf fiflds providfd by tif implfmfntbtion.</p>
  *
- * <p>An annotation element to be converted into a descriptor field
- * can be of any type allowed by the Java language, except an annotation
- * or an array of annotations.  The value of the field is derived from
- * the value of the annotation element as follows:</p>
+ * <p>An bnnotbtion flfmfnt to bf donvfrtfd into b dfsdriptor fifld
+ * dbn bf of bny typf bllowfd by tif Jbvb lbngubgf, fxdfpt bn bnnotbtion
+ * or bn brrby of bnnotbtions.  Tif vbluf of tif fifld is dfrivfd from
+ * tif vbluf of tif bnnotbtion flfmfnt bs follows:</p>
  *
- * <table border="2" summary="Descriptor Field Types">
- * <tr><th>Annotation element</th><th>Descriptor field</th></tr>
- * <tr><td>Primitive value ({@code 5}, {@code false}, etc)</td>
- *     <td>Wrapped value ({@code Integer.valueOf(5)},
- *         {@code Boolean.FALSE}, etc)</td></tr>
- * <tr><td>Class constant (e.g. {@code Thread.class})</td>
- *     <td>Class name from {@link Class#getName()}
- *         (e.g. {@code "java.lang.Thread"})</td></tr>
- * <tr><td>Enum constant (e.g. {@link ElementType#FIELD})</td>
- *     <td>Constant name from {@link Enum#name()}
- *         (e.g. {@code "FIELD"})</td></tr>
- * <tr><td>Array of class constants or enum constants</td>
- *     <td>String array derived by applying these rules to each
- *         element</td></tr>
- * <tr><td>Value of any other type<br>
- *         ({@code String}, {@code String[]}, {@code int[]}, etc)</td>
- *     <td>The same value</td></tr>
- * </table>
+ * <tbblf bordfr="2" summbry="Dfsdriptor Fifld Typfs">
+ * <tr><ti>Annotbtion flfmfnt</ti><ti>Dfsdriptor fifld</ti></tr>
+ * <tr><td>Primitivf vbluf ({@dodf 5}, {@dodf fblsf}, ftd)</td>
+ *     <td>Wrbppfd vbluf ({@dodf Intfgfr.vblufOf(5)},
+ *         {@dodf Boolfbn.FALSE}, ftd)</td></tr>
+ * <tr><td>Clbss donstbnt (f.g. {@dodf Tirfbd.dlbss})</td>
+ *     <td>Clbss nbmf from {@link Clbss#gftNbmf()}
+ *         (f.g. {@dodf "jbvb.lbng.Tirfbd"})</td></tr>
+ * <tr><td>Enum donstbnt (f.g. {@link ElfmfntTypf#FIELD})</td>
+ *     <td>Constbnt nbmf from {@link Enum#nbmf()}
+ *         (f.g. {@dodf "FIELD"})</td></tr>
+ * <tr><td>Arrby of dlbss donstbnts or fnum donstbnts</td>
+ *     <td>String brrby dfrivfd by bpplying tifsf rulfs to fbdi
+ *         flfmfnt</td></tr>
+ * <tr><td>Vbluf of bny otifr typf<br>
+ *         ({@dodf String}, {@dodf String[]}, {@dodf int[]}, ftd)</td>
+ *     <td>Tif sbmf vbluf</td></tr>
+ * </tbblf>
  *
- * @since 1.6
+ * @sindf 1.6
  */
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface DescriptorKey {
-    String value();
+@Dodumfntfd
+@Rftfntion(RftfntionPolidy.RUNTIME)
+@Tbrgft(ElfmfntTypf.METHOD)
+publid @intfrfbdf DfsdriptorKfy {
+    String vbluf();
 }

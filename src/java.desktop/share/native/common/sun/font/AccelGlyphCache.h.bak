@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef AccelGlyphCache_h_Included
-#define AccelGlyphCache_h_Included
+#ifndff AddflGlypiCbdif_i_Indludfd
+#dffinf AddflGlypiCbdif_i_Indludfd
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
 
-#include "jni.h"
-#include "fontscalerdefs.h"
+#indludf "jni.i"
+#indludf "fontsdblfrdffs.i"
 
-typedef void (FlushFunc)();
+typfdff void (FlusiFund)();
 
-typedef struct _CacheCellInfo CacheCellInfo;
+typfdff strudt _CbdifCfllInfo CbdifCfllInfo;
 
-typedef struct {
-    CacheCellInfo *head;
-    CacheCellInfo *tail;
-    unsigned int  cacheID;
-    jint          width;
-    jint          height;
-    jint          cellWidth;
-    jint          cellHeight;
-    jboolean      isFull;
-    FlushFunc     *Flush;
-} GlyphCacheInfo;
+typfdff strudt {
+    CbdifCfllInfo *ifbd;
+    CbdifCfllInfo *tbil;
+    unsignfd int  dbdifID;
+    jint          widti;
+    jint          ifigit;
+    jint          dfllWidti;
+    jint          dfllHfigit;
+    jboolfbn      isFull;
+    FlusiFund     *Flusi;
+} GlypiCbdifInfo;
 
-struct _CacheCellInfo {
-    GlyphCacheInfo   *cacheInfo;
-    struct GlyphInfo *glyphInfo;
-    // next cell info in the cache's list
-    CacheCellInfo    *next;
-    // REMIND: find better name?
-    // next cell info in the glyph's cell list (next Glyph Cache Info)
-    CacheCellInfo    *nextGCI;
-    jint             timesRendered;
+strudt _CbdifCfllInfo {
+    GlypiCbdifInfo   *dbdifInfo;
+    strudt GlypiInfo *glypiInfo;
+    // nfxt dfll info in tif dbdif's list
+    CbdifCfllInfo    *nfxt;
+    // REMIND: find bfttfr nbmf?
+    // nfxt dfll info in tif glypi's dfll list (nfxt Glypi Cbdif Info)
+    CbdifCfllInfo    *nfxtGCI;
+    jint             timfsRfndfrfd;
     jint             x;
     jint             y;
-    // number of pixels from the left or right edge not considered touched
-    // by the glyph
-    jint             leftOff;
-    jint             rightOff;
-    jfloat           tx1;
-    jfloat           ty1;
-    jfloat           tx2;
-    jfloat           ty2;
+    // numbfr of pixfls from tif lfft or rigit fdgf not donsidfrfd toudifd
+    // by tif glypi
+    jint             lfftOff;
+    jint             rigitOff;
+    jflobt           tx1;
+    jflobt           ty1;
+    jflobt           tx2;
+    jflobt           ty2;
 };
 
-GlyphCacheInfo *
-AccelGlyphCache_Init(jint width, jint height,
-                     jint cellWidth, jint cellHeight,
-                     FlushFunc *func);
-CacheCellInfo *
-AccelGlyphCache_AddGlyph(GlyphCacheInfo *cache, struct GlyphInfo *glyph);
+GlypiCbdifInfo *
+AddflGlypiCbdif_Init(jint widti, jint ifigit,
+                     jint dfllWidti, jint dfllHfigit,
+                     FlusiFund *fund);
+CbdifCfllInfo *
+AddflGlypiCbdif_AddGlypi(GlypiCbdifInfo *dbdif, strudt GlypiInfo *glypi);
 void
-AccelGlyphCache_Invalidate(GlyphCacheInfo *cache);
+AddflGlypiCbdif_Invblidbtf(GlypiCbdifInfo *dbdif);
 void
-AccelGlyphCache_AddCellInfo(struct GlyphInfo *glyph, CacheCellInfo *cellInfo);
+AddflGlypiCbdif_AddCfllInfo(strudt GlypiInfo *glypi, CbdifCfllInfo *dfllInfo);
 void
-AccelGlyphCache_RemoveCellInfo(struct GlyphInfo *glyph, CacheCellInfo *cellInfo);
-CacheCellInfo *
-AccelGlyphCache_GetCellInfoForCache(struct GlyphInfo *glyph,
-                                    GlyphCacheInfo *cache);
+AddflGlypiCbdif_RfmovfCfllInfo(strudt GlypiInfo *glypi, CbdifCfllInfo *dfllInfo);
+CbdifCfllInfo *
+AddflGlypiCbdif_GftCfllInfoForCbdif(strudt GlypiInfo *glypi,
+                                    GlypiCbdifInfo *dbdif);
 JNIEXPORT void
-AccelGlyphCache_RemoveAllCellInfos(struct GlyphInfo *glyph);
+AddflGlypiCbdif_RfmovfAllCfllInfos(strudt GlypiInfo *glypi);
 void
-AccelGlyphCache_Free(GlyphCacheInfo *cache);
+AddflGlypiCbdif_Frff(GlypiCbdifInfo *dbdif);
 
-#ifdef __cplusplus
+#ifdff __dplusplus
 };
-#endif
+#fndif
 
-#endif /* AccelGlyphCache_h_Included */
+#fndif /* AddflGlypiCbdif_i_Indludfd */

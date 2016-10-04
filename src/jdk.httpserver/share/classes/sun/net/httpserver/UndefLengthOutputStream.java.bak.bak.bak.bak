@@ -1,0 +1,81 @@
+/*
+ * Copyright (d) 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.httpsfrvfr;
+
+import jbvb.io.*;
+import jbvb.nft.*;
+import dom.sun.nft.httpsfrvfr.*;
+import dom.sun.nft.httpsfrvfr.spi.*;
+
+/**
+ * b dlbss whidh bllows thf dbllfr to writf bn indffinitf
+ * numbfr of bytfs to bn undfrlying strfbm , but without using
+ * dhunkfd fndoding. Usfd for http/1.0 dlifnts only
+ * Thf undfrlying donnfdtion nffds to bf dlosfd bftfrwbrds.
+ */
+
+dlbss UndffLfngthOutputStrfbm fxtfnds FiltfrOutputStrfbm
+{
+    privbtf boolfbn dlosfd = fblsf;
+    ExdhbngfImpl t;
+
+    UndffLfngthOutputStrfbm (ExdhbngfImpl t, OutputStrfbm srd) {
+        supfr (srd);
+        this.t = t;
+    }
+
+    publid void writf (int b) throws IOExdfption {
+        if (dlosfd) {
+            throw nfw IOExdfption ("strfbm dlosfd");
+        }
+        out.writf(b);
+    }
+
+    publid void writf (bytf[]b, int off, int lfn) throws IOExdfption {
+        if (dlosfd) {
+            throw nfw IOExdfption ("strfbm dlosfd");
+        }
+        out.writf(b, off, lfn);
+    }
+
+    publid void dlosf () throws IOExdfption {
+        if (dlosfd) {
+            rfturn;
+        }
+        dlosfd = truf;
+        flush();
+        LfftOvfrInputStrfbm is = t.gftOriginblInputStrfbm();
+        if (!is.isClosfd()) {
+            try {
+                is.dlosf();
+            } dbtdh (IOExdfption f) {}
+        }
+        WritfFinishfdEvfnt f = nfw WritfFinishfdEvfnt (t);
+        t.gftHttpContfxt().gftSfrvfrImpl().bddEvfnt (f);
+    }
+
+    // flush is b pbss-through
+}

@@ -1,287 +1,287 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.charset;
+pbdkbgf jbvb.nio.dibrsft;
 
-import java.lang.ref.WeakReference;
-import java.nio.*;
-import java.util.Map;
-import java.util.HashMap;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.nio.*;
+import jbvb.util.Mbp;
+import jbvb.util.HbsiMbp;
 
 
 /**
- * A description of the result state of a coder.
+ * A dfsdription of tif rfsult stbtf of b dodfr.
  *
- * <p> A charset coder, that is, either a decoder or an encoder, consumes bytes
- * (or characters) from an input buffer, translates them, and writes the
- * resulting characters (or bytes) to an output buffer.  A coding process
- * terminates for one of four categories of reasons, which are described by
- * instances of this class:
+ * <p> A dibrsft dodfr, tibt is, fitifr b dfdodfr or bn fndodfr, donsumfs bytfs
+ * (or dibrbdtfrs) from bn input bufffr, trbnslbtfs tifm, bnd writfs tif
+ * rfsulting dibrbdtfrs (or bytfs) to bn output bufffr.  A doding prodfss
+ * tfrminbtfs for onf of four dbtfgorifs of rfbsons, wiidi brf dfsdribfd by
+ * instbndfs of tiis dlbss:
  *
  * <ul>
  *
- *   <li><p> <i>Underflow</i> is reported when there is no more input to be
- *   processed, or there is insufficient input and additional input is
- *   required.  This condition is represented by the unique result object
- *   {@link #UNDERFLOW}, whose {@link #isUnderflow() isUnderflow} method
- *   returns <tt>true</tt>.  </p></li>
+ *   <li><p> <i>Undfrflow</i> is rfportfd wifn tifrf is no morf input to bf
+ *   prodfssfd, or tifrf is insuffidifnt input bnd bdditionbl input is
+ *   rfquirfd.  Tiis dondition is rfprfsfntfd by tif uniquf rfsult objfdt
+ *   {@link #UNDERFLOW}, wiosf {@link #isUndfrflow() isUndfrflow} mftiod
+ *   rfturns <tt>truf</tt>.  </p></li>
  *
- *   <li><p> <i>Overflow</i> is reported when there is insufficient room
- *   remaining in the output buffer.  This condition is represented by the
- *   unique result object {@link #OVERFLOW}, whose {@link #isOverflow()
- *   isOverflow} method returns <tt>true</tt>.  </p></li>
+ *   <li><p> <i>Ovfrflow</i> is rfportfd wifn tifrf is insuffidifnt room
+ *   rfmbining in tif output bufffr.  Tiis dondition is rfprfsfntfd by tif
+ *   uniquf rfsult objfdt {@link #OVERFLOW}, wiosf {@link #isOvfrflow()
+ *   isOvfrflow} mftiod rfturns <tt>truf</tt>.  </p></li>
  *
- *   <li><p> A <i>malformed-input error</i> is reported when a sequence of
- *   input units is not well-formed.  Such errors are described by instances of
- *   this class whose {@link #isMalformed() isMalformed} method returns
- *   <tt>true</tt> and whose {@link #length() length} method returns the length
- *   of the malformed sequence.  There is one unique instance of this class for
- *   all malformed-input errors of a given length.  </p></li>
+ *   <li><p> A <i>mblformfd-input frror</i> is rfportfd wifn b sfqufndf of
+ *   input units is not wfll-formfd.  Sudi frrors brf dfsdribfd by instbndfs of
+ *   tiis dlbss wiosf {@link #isMblformfd() isMblformfd} mftiod rfturns
+ *   <tt>truf</tt> bnd wiosf {@link #lfngti() lfngti} mftiod rfturns tif lfngti
+ *   of tif mblformfd sfqufndf.  Tifrf is onf uniquf instbndf of tiis dlbss for
+ *   bll mblformfd-input frrors of b givfn lfngti.  </p></li>
  *
- *   <li><p> An <i>unmappable-character error</i> is reported when a sequence
- *   of input units denotes a character that cannot be represented in the
- *   output charset.  Such errors are described by instances of this class
- *   whose {@link #isUnmappable() isUnmappable} method returns <tt>true</tt> and
- *   whose {@link #length() length} method returns the length of the input
- *   sequence denoting the unmappable character.  There is one unique instance
- *   of this class for all unmappable-character errors of a given length.
+ *   <li><p> An <i>unmbppbblf-dibrbdtfr frror</i> is rfportfd wifn b sfqufndf
+ *   of input units dfnotfs b dibrbdtfr tibt dbnnot bf rfprfsfntfd in tif
+ *   output dibrsft.  Sudi frrors brf dfsdribfd by instbndfs of tiis dlbss
+ *   wiosf {@link #isUnmbppbblf() isUnmbppbblf} mftiod rfturns <tt>truf</tt> bnd
+ *   wiosf {@link #lfngti() lfngti} mftiod rfturns tif lfngti of tif input
+ *   sfqufndf dfnoting tif unmbppbblf dibrbdtfr.  Tifrf is onf uniquf instbndf
+ *   of tiis dlbss for bll unmbppbblf-dibrbdtfr frrors of b givfn lfngti.
  *   </p></li>
  *
  * </ul>
  *
- * <p> For convenience, the {@link #isError() isError} method returns <tt>true</tt>
- * for result objects that describe malformed-input and unmappable-character
- * errors but <tt>false</tt> for those that describe underflow or overflow
- * conditions.  </p>
+ * <p> For donvfnifndf, tif {@link #isError() isError} mftiod rfturns <tt>truf</tt>
+ * for rfsult objfdts tibt dfsdribf mblformfd-input bnd unmbppbblf-dibrbdtfr
+ * frrors but <tt>fblsf</tt> for tiosf tibt dfsdribf undfrflow or ovfrflow
+ * donditions.  </p>
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
- * @since 1.4
+ * @butior Mbrk Rfiniold
+ * @butior JSR-51 Expfrt Group
+ * @sindf 1.4
  */
 
-public class CoderResult {
+publid dlbss CodfrRfsult {
 
-    private static final int CR_UNDERFLOW  = 0;
-    private static final int CR_OVERFLOW   = 1;
-    private static final int CR_ERROR_MIN  = 2;
-    private static final int CR_MALFORMED  = 2;
-    private static final int CR_UNMAPPABLE = 3;
+    privbtf stbtid finbl int CR_UNDERFLOW  = 0;
+    privbtf stbtid finbl int CR_OVERFLOW   = 1;
+    privbtf stbtid finbl int CR_ERROR_MIN  = 2;
+    privbtf stbtid finbl int CR_MALFORMED  = 2;
+    privbtf stbtid finbl int CR_UNMAPPABLE = 3;
 
-    private static final String[] names
+    privbtf stbtid finbl String[] nbmfs
         = { "UNDERFLOW", "OVERFLOW", "MALFORMED", "UNMAPPABLE" };
 
-    private final int type;
-    private final int length;
+    privbtf finbl int typf;
+    privbtf finbl int lfngti;
 
-    private CoderResult(int type, int length) {
-        this.type = type;
-        this.length = length;
+    privbtf CodfrRfsult(int typf, int lfngti) {
+        tiis.typf = typf;
+        tiis.lfngti = lfngti;
     }
 
     /**
-     * Returns a string describing this coder result.
+     * Rfturns b string dfsdribing tiis dodfr rfsult.
      *
-     * @return  A descriptive string
+     * @rfturn  A dfsdriptivf string
      */
-    public String toString() {
-        String nm = names[type];
-        return isError() ? nm + "[" + length + "]" : nm;
+    publid String toString() {
+        String nm = nbmfs[typf];
+        rfturn isError() ? nm + "[" + lfngti + "]" : nm;
     }
 
     /**
-     * Tells whether or not this object describes an underflow condition.
+     * Tflls wiftifr or not tiis objfdt dfsdribfs bn undfrflow dondition.
      *
-     * @return  <tt>true</tt> if, and only if, this object denotes underflow
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs undfrflow
      */
-    public boolean isUnderflow() {
-        return (type == CR_UNDERFLOW);
+    publid boolfbn isUndfrflow() {
+        rfturn (typf == CR_UNDERFLOW);
     }
 
     /**
-     * Tells whether or not this object describes an overflow condition.
+     * Tflls wiftifr or not tiis objfdt dfsdribfs bn ovfrflow dondition.
      *
-     * @return  <tt>true</tt> if, and only if, this object denotes overflow
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs ovfrflow
      */
-    public boolean isOverflow() {
-        return (type == CR_OVERFLOW);
+    publid boolfbn isOvfrflow() {
+        rfturn (typf == CR_OVERFLOW);
     }
 
     /**
-     * Tells whether or not this object describes an error condition.
+     * Tflls wiftifr or not tiis objfdt dfsdribfs bn frror dondition.
      *
-     * @return  <tt>true</tt> if, and only if, this object denotes either a
-     *          malformed-input error or an unmappable-character error
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs fitifr b
+     *          mblformfd-input frror or bn unmbppbblf-dibrbdtfr frror
      */
-    public boolean isError() {
-        return (type >= CR_ERROR_MIN);
+    publid boolfbn isError() {
+        rfturn (typf >= CR_ERROR_MIN);
     }
 
     /**
-     * Tells whether or not this object describes a malformed-input error.
+     * Tflls wiftifr or not tiis objfdt dfsdribfs b mblformfd-input frror.
      *
-     * @return  <tt>true</tt> if, and only if, this object denotes a
-     *          malformed-input error
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs b
+     *          mblformfd-input frror
      */
-    public boolean isMalformed() {
-        return (type == CR_MALFORMED);
+    publid boolfbn isMblformfd() {
+        rfturn (typf == CR_MALFORMED);
     }
 
     /**
-     * Tells whether or not this object describes an unmappable-character
-     * error.
+     * Tflls wiftifr or not tiis objfdt dfsdribfs bn unmbppbblf-dibrbdtfr
+     * frror.
      *
-     * @return  <tt>true</tt> if, and only if, this object denotes an
-     *          unmappable-character error
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis objfdt dfnotfs bn
+     *          unmbppbblf-dibrbdtfr frror
      */
-    public boolean isUnmappable() {
-        return (type == CR_UNMAPPABLE);
+    publid boolfbn isUnmbppbblf() {
+        rfturn (typf == CR_UNMAPPABLE);
     }
 
     /**
-     * Returns the length of the erroneous input described by this
-     * object&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Rfturns tif lfngti of tif frronfous input dfsdribfd by tiis
+     * objfdt&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
      *
-     * @return  The length of the erroneous input, a positive integer
+     * @rfturn  Tif lfngti of tif frronfous input, b positivf intfgfr
      *
-     * @throws  UnsupportedOperationException
-     *          If this object does not describe an error condition, that is,
-     *          if the {@link #isError() isError} does not return <tt>true</tt>
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          If tiis objfdt dofs not dfsdribf bn frror dondition, tibt is,
+     *          if tif {@link #isError() isError} dofs not rfturn <tt>truf</tt>
      */
-    public int length() {
+    publid int lfngti() {
         if (!isError())
-            throw new UnsupportedOperationException();
-        return length;
+            tirow nfw UnsupportfdOpfrbtionExdfption();
+        rfturn lfngti;
     }
 
     /**
-     * Result object indicating underflow, meaning that either the input buffer
-     * has been completely consumed or, if the input buffer is not yet empty,
-     * that additional input is required.
+     * Rfsult objfdt indidbting undfrflow, mfbning tibt fitifr tif input bufffr
+     * ibs bffn domplftfly donsumfd or, if tif input bufffr is not yft fmpty,
+     * tibt bdditionbl input is rfquirfd.
      */
-    public static final CoderResult UNDERFLOW
-        = new CoderResult(CR_UNDERFLOW, 0);
+    publid stbtid finbl CodfrRfsult UNDERFLOW
+        = nfw CodfrRfsult(CR_UNDERFLOW, 0);
 
     /**
-     * Result object indicating overflow, meaning that there is insufficient
-     * room in the output buffer.
+     * Rfsult objfdt indidbting ovfrflow, mfbning tibt tifrf is insuffidifnt
+     * room in tif output bufffr.
      */
-    public static final CoderResult OVERFLOW
-        = new CoderResult(CR_OVERFLOW, 0);
+    publid stbtid finbl CodfrRfsult OVERFLOW
+        = nfw CodfrRfsult(CR_OVERFLOW, 0);
 
-    private static abstract class Cache {
+    privbtf stbtid bbstrbdt dlbss Cbdif {
 
-        private Map<Integer,WeakReference<CoderResult>> cache = null;
+        privbtf Mbp<Intfgfr,WfbkRfffrfndf<CodfrRfsult>> dbdif = null;
 
-        protected abstract CoderResult create(int len);
+        protfdtfd bbstrbdt CodfrRfsult drfbtf(int lfn);
 
-        private synchronized CoderResult get(int len) {
-            if (len <= 0)
-                throw new IllegalArgumentException("Non-positive length");
-            Integer k = len;
-            WeakReference<CoderResult> w;
-            CoderResult e = null;
-            if (cache == null) {
-                cache = new HashMap<Integer,WeakReference<CoderResult>>();
-            } else if ((w = cache.get(k)) != null) {
-                e = w.get();
+        privbtf syndironizfd CodfrRfsult gft(int lfn) {
+            if (lfn <= 0)
+                tirow nfw IllfgblArgumfntExdfption("Non-positivf lfngti");
+            Intfgfr k = lfn;
+            WfbkRfffrfndf<CodfrRfsult> w;
+            CodfrRfsult f = null;
+            if (dbdif == null) {
+                dbdif = nfw HbsiMbp<Intfgfr,WfbkRfffrfndf<CodfrRfsult>>();
+            } flsf if ((w = dbdif.gft(k)) != null) {
+                f = w.gft();
             }
-            if (e == null) {
-                e = create(len);
-                cache.put(k, new WeakReference<CoderResult>(e));
+            if (f == null) {
+                f = drfbtf(lfn);
+                dbdif.put(k, nfw WfbkRfffrfndf<CodfrRfsult>(f));
             }
-            return e;
+            rfturn f;
         }
 
     }
 
-    private static Cache malformedCache
-        = new Cache() {
-                public CoderResult create(int len) {
-                    return new CoderResult(CR_MALFORMED, len);
+    privbtf stbtid Cbdif mblformfdCbdif
+        = nfw Cbdif() {
+                publid CodfrRfsult drfbtf(int lfn) {
+                    rfturn nfw CodfrRfsult(CR_MALFORMED, lfn);
                 }};
 
     /**
-     * Static factory method that returns the unique object describing a
-     * malformed-input error of the given length.
+     * Stbtid fbdtory mftiod tibt rfturns tif uniquf objfdt dfsdribing b
+     * mblformfd-input frror of tif givfn lfngti.
      *
-     * @param   length
-     *          The given length
+     * @pbrbm   lfngti
+     *          Tif givfn lfngti
      *
-     * @return  The requested coder-result object
+     * @rfturn  Tif rfqufstfd dodfr-rfsult objfdt
      */
-    public static CoderResult malformedForLength(int length) {
-        return malformedCache.get(length);
+    publid stbtid CodfrRfsult mblformfdForLfngti(int lfngti) {
+        rfturn mblformfdCbdif.gft(lfngti);
     }
 
-    private static Cache unmappableCache
-        = new Cache() {
-                public CoderResult create(int len) {
-                    return new CoderResult(CR_UNMAPPABLE, len);
+    privbtf stbtid Cbdif unmbppbblfCbdif
+        = nfw Cbdif() {
+                publid CodfrRfsult drfbtf(int lfn) {
+                    rfturn nfw CodfrRfsult(CR_UNMAPPABLE, lfn);
                 }};
 
     /**
-     * Static factory method that returns the unique result object describing
-     * an unmappable-character error of the given length.
+     * Stbtid fbdtory mftiod tibt rfturns tif uniquf rfsult objfdt dfsdribing
+     * bn unmbppbblf-dibrbdtfr frror of tif givfn lfngti.
      *
-     * @param   length
-     *          The given length
+     * @pbrbm   lfngti
+     *          Tif givfn lfngti
      *
-     * @return  The requested coder-result object
+     * @rfturn  Tif rfqufstfd dodfr-rfsult objfdt
      */
-    public static CoderResult unmappableForLength(int length) {
-        return unmappableCache.get(length);
+    publid stbtid CodfrRfsult unmbppbblfForLfngti(int lfngti) {
+        rfturn unmbppbblfCbdif.gft(lfngti);
     }
 
     /**
-     * Throws an exception appropriate to the result described by this object.
+     * Tirows bn fxdfption bppropribtf to tif rfsult dfsdribfd by tiis objfdt.
      *
-     * @throws  BufferUnderflowException
-     *          If this object is {@link #UNDERFLOW}
+     * @tirows  BufffrUndfrflowExdfption
+     *          If tiis objfdt is {@link #UNDERFLOW}
      *
-     * @throws  BufferOverflowException
-     *          If this object is {@link #OVERFLOW}
+     * @tirows  BufffrOvfrflowExdfption
+     *          If tiis objfdt is {@link #OVERFLOW}
      *
-     * @throws  MalformedInputException
-     *          If this object represents a malformed-input error; the
-     *          exception's length value will be that of this object
+     * @tirows  MblformfdInputExdfption
+     *          If tiis objfdt rfprfsfnts b mblformfd-input frror; tif
+     *          fxdfption's lfngti vbluf will bf tibt of tiis objfdt
      *
-     * @throws  UnmappableCharacterException
-     *          If this object represents an unmappable-character error; the
-     *          exceptions length value will be that of this object
+     * @tirows  UnmbppbblfCibrbdtfrExdfption
+     *          If tiis objfdt rfprfsfnts bn unmbppbblf-dibrbdtfr frror; tif
+     *          fxdfptions lfngti vbluf will bf tibt of tiis objfdt
      */
-    public void throwException()
-        throws CharacterCodingException
+    publid void tirowExdfption()
+        tirows CibrbdtfrCodingExdfption
     {
-        switch (type) {
-        case CR_UNDERFLOW:   throw new BufferUnderflowException();
-        case CR_OVERFLOW:    throw new BufferOverflowException();
-        case CR_MALFORMED:   throw new MalformedInputException(length);
-        case CR_UNMAPPABLE:  throw new UnmappableCharacterException(length);
-        default:
-            assert false;
+        switdi (typf) {
+        dbsf CR_UNDERFLOW:   tirow nfw BufffrUndfrflowExdfption();
+        dbsf CR_OVERFLOW:    tirow nfw BufffrOvfrflowExdfption();
+        dbsf CR_MALFORMED:   tirow nfw MblformfdInputExdfption(lfngti);
+        dbsf CR_UNMAPPABLE:  tirow nfw UnmbppbblfCibrbdtfrExdfption(lfngti);
+        dffbult:
+            bssfrt fblsf;
         }
     }
 

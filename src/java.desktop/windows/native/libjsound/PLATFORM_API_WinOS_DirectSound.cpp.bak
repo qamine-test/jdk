@@ -1,1414 +1,1414 @@
 /*
- * Copyright (c) 2003, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#define USE_ERROR
-#define USE_TRACE
+#dffinf USE_ERROR
+#dffinf USE_TRACE
 
-/* define this for the silencing/servicing code. Requires USE_TRACE */
-//#define USE_DEBUG_SILENCING
+/* dffinf tiis for tif silfnding/sfrviding dodf. Rfquirfs USE_TRACE */
+//#dffinf USE_DEBUG_SILENCING
 
-#ifndef WIN32_EXTRA_LEAN
-#define WIN32_EXTRA_LEAN
-#endif
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#endif
+#ifndff WIN32_EXTRA_LEAN
+#dffinf WIN32_EXTRA_LEAN
+#fndif
+#ifndff WIN32_LEAN_AND_MEAN
+#dffinf WIN32_LEAN_AND_MEAN
+#fndif
 
-#include <windows.h>
-#include <mmsystem.h>
-#include <string.h>
+#indludf <windows.i>
+#indludf <mmsystfm.i>
+#indludf <string.i>
 
-/* include DirectSound headers */
-#include <dsound.h>
+/* indludf DirfdtSound ifbdfrs */
+#indludf <dsound.i>
 
-/* include Java Sound specific headers as C code */
-#ifdef __cplusplus
-extern "C" {
-#endif
- #include "DirectAudio.h"
-#ifdef __cplusplus
+/* indludf Jbvb Sound spfdifid ifbdfrs bs C dodf */
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+ #indludf "DirfdtAudio.i"
+#ifdff __dplusplus
 }
-#endif
+#fndif
 
-#ifdef USE_DEBUG_SILENCING
-#define DEBUG_SILENCING0(p) TRACE0(p)
-#define DEBUG_SILENCING1(p1,p2) TRACE1(p1,p2)
-#define DEBUG_SILENCING2(p1,p2,p3) TRACE2(p1,p2,p3)
-#else
-#define DEBUG_SILENCING0(p)
-#define DEBUG_SILENCING1(p1,p2)
-#define DEBUG_SILENCING2(p1,p2,p3)
-#endif
+#ifdff USE_DEBUG_SILENCING
+#dffinf DEBUG_SILENCING0(p) TRACE0(p)
+#dffinf DEBUG_SILENCING1(p1,p2) TRACE1(p1,p2)
+#dffinf DEBUG_SILENCING2(p1,p2,p3) TRACE2(p1,p2,p3)
+#flsf
+#dffinf DEBUG_SILENCING0(p)
+#dffinf DEBUG_SILENCING1(p1,p2)
+#dffinf DEBUG_SILENCING2(p1,p2,p3)
+#fndif
 
 
 #if USE_DAUDIO == TRUE
 
-/* half a minute to wait before device list is re-read */
-#define WAIT_BETWEEN_CACHE_REFRESH_MILLIS 30000
+/* iblf b minutf to wbit bfforf dfvidf list is rf-rfbd */
+#dffinf WAIT_BETWEEN_CACHE_REFRESH_MILLIS 30000
 
-/* maximum number of supported devices, playback+capture */
-#define MAX_DS_DEVICES 60
+/* mbximum numbfr of supportfd dfvidfs, plbybbdk+dbpturf */
+#dffinf MAX_DS_DEVICES 60
 
-typedef struct {
-    INT32 mixerIndex;
-    BOOL isSource;
-    /* either LPDIRECTSOUND or LPDIRECTSOUNDCAPTURE */
-    void* dev;
-    /* how many instances use the dev */
-    INT32 refCount;
+typfdff strudt {
+    INT32 mixfrIndfx;
+    BOOL isSourdf;
+    /* fitifr LPDIRECTSOUND or LPDIRECTSOUNDCAPTURE */
+    void* dfv;
+    /* iow mbny instbndfs usf tif dfv */
+    INT32 rffCount;
     GUID guid;
-} DS_AudioDeviceCache;
+} DS_AudioDfvidfCbdif;
 
-static DS_AudioDeviceCache g_audioDeviceCache[MAX_DS_DEVICES];
-static INT32 g_cacheCount = 0;
-static UINT64 g_lastCacheRefreshTime = 0;
-static INT32 g_mixerCount = 0;
+stbtid DS_AudioDfvidfCbdif g_budioDfvidfCbdif[MAX_DS_DEVICES];
+stbtid INT32 g_dbdifCount = 0;
+stbtid UINT64 g_lbstCbdifRffrfsiTimf = 0;
+stbtid INT32 g_mixfrCount = 0;
 
-BOOL DS_lockCache() {
-    /* dummy implementation for now, Java does locking */
-    return TRUE;
+BOOL DS_lodkCbdif() {
+    /* dummy implfmfntbtion for now, Jbvb dofs lodking */
+    rfturn TRUE;
 }
 
-void DS_unlockCache() {
-    /* dummy implementation for now */
+void DS_unlodkCbdif() {
+    /* dummy implfmfntbtion for now */
 }
 
-static GUID CLSID_DAUDIO_Zero = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+stbtid GUID CLSID_DAUDIO_Zfro = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-BOOL isEqualGUID(LPGUID lpGuid1, LPGUID lpGuid2) {
+BOOL isEqublGUID(LPGUID lpGuid1, LPGUID lpGuid2) {
     if (lpGuid1 == NULL || lpGuid2 == NULL) {
         if (lpGuid1 == lpGuid2) {
-            return TRUE;
+            rfturn TRUE;
         }
         if (lpGuid1 == NULL) {
-            lpGuid1 = (LPGUID) (&CLSID_DAUDIO_Zero);
-        } else {
-            lpGuid2 = (LPGUID) (&CLSID_DAUDIO_Zero);
+            lpGuid1 = (LPGUID) (&CLSID_DAUDIO_Zfro);
+        } flsf {
+            lpGuid2 = (LPGUID) (&CLSID_DAUDIO_Zfro);
         }
     }
-    return memcmp(lpGuid1, lpGuid2, sizeof(GUID)) == 0;
+    rfturn mfmdmp(lpGuid1, lpGuid2, sizfof(GUID)) == 0;
 }
 
-INT32 findCacheItemByGUID(LPGUID lpGuid, BOOL isSource) {
+INT32 findCbdifItfmByGUID(LPGUID lpGuid, BOOL isSourdf) {
     int i;
-    for (i = 0; i < g_cacheCount; i++) {
-        if (isSource == g_audioDeviceCache[i].isSource
-            && isEqualGUID(lpGuid, &(g_audioDeviceCache[i].guid))) {
-            return i;
+    for (i = 0; i < g_dbdifCount; i++) {
+        if (isSourdf == g_budioDfvidfCbdif[i].isSourdf
+            && isEqublGUID(lpGuid, &(g_budioDfvidfCbdif[i].guid))) {
+            rfturn i;
         }
     }
-    return -1;
+    rfturn -1;
 }
 
-INT32 findCacheItemByMixerIndex(INT32 mixerIndex) {
+INT32 findCbdifItfmByMixfrIndfx(INT32 mixfrIndfx) {
     int i;
-    for (i = 0; i < g_cacheCount; i++) {
-        if (g_audioDeviceCache[i].mixerIndex == mixerIndex) {
-            return i;
+    for (i = 0; i < g_dbdifCount; i++) {
+        if (g_budioDfvidfCbdif[i].mixfrIndfx == mixfrIndfx) {
+            rfturn i;
         }
     }
-    return -1;
+    rfturn -1;
 }
 
-typedef struct {
-    INT32 currMixerIndex;
-    BOOL isSource;
-} DS_RefreshCacheStruct;
+typfdff strudt {
+    INT32 durrMixfrIndfx;
+    BOOL isSourdf;
+} DS_RffrfsiCbdifStrudt;
 
 
-BOOL CALLBACK DS_RefreshCacheEnum(LPGUID lpGuid,
-                                  LPCSTR lpstrDescription,
-                                  LPCSTR lpstrModule,
-                                  DS_RefreshCacheStruct* rs) {
-    INT32 cacheIndex = findCacheItemByGUID(lpGuid, rs->isSource);
-    /*TRACE3("Enumerating %d: %s (%s)\n", cacheIndex, lpstrDescription, lpstrModule);*/
-    if (cacheIndex == -1) {
-        /* add this device */
-        if (g_cacheCount < MAX_DS_DEVICES-1) {
-            g_audioDeviceCache[g_cacheCount].mixerIndex = rs->currMixerIndex;
-            g_audioDeviceCache[g_cacheCount].isSource = rs->isSource;
-            g_audioDeviceCache[g_cacheCount].dev = NULL;
-            g_audioDeviceCache[g_cacheCount].refCount = 0;
+BOOL CALLBACK DS_RffrfsiCbdifEnum(LPGUID lpGuid,
+                                  LPCSTR lpstrDfsdription,
+                                  LPCSTR lpstrModulf,
+                                  DS_RffrfsiCbdifStrudt* rs) {
+    INT32 dbdifIndfx = findCbdifItfmByGUID(lpGuid, rs->isSourdf);
+    /*TRACE3("Enumfrbting %d: %s (%s)\n", dbdifIndfx, lpstrDfsdription, lpstrModulf);*/
+    if (dbdifIndfx == -1) {
+        /* bdd tiis dfvidf */
+        if (g_dbdifCount < MAX_DS_DEVICES-1) {
+            g_budioDfvidfCbdif[g_dbdifCount].mixfrIndfx = rs->durrMixfrIndfx;
+            g_budioDfvidfCbdif[g_dbdifCount].isSourdf = rs->isSourdf;
+            g_budioDfvidfCbdif[g_dbdifCount].dfv = NULL;
+            g_budioDfvidfCbdif[g_dbdifCount].rffCount = 0;
             if (lpGuid == NULL) {
-                memset(&(g_audioDeviceCache[g_cacheCount].guid), 0, sizeof(GUID));
-            } else {
-                memcpy(&(g_audioDeviceCache[g_cacheCount].guid), lpGuid, sizeof(GUID));
+                mfmsft(&(g_budioDfvidfCbdif[g_dbdifCount].guid), 0, sizfof(GUID));
+            } flsf {
+                mfmdpy(&(g_budioDfvidfCbdif[g_dbdifCount].guid), lpGuid, sizfof(GUID));
             }
-            g_cacheCount++;
-            rs->currMixerIndex++;
-        } else {
-            /* failure case: more than MAX_DS_DEVICES available... */
+            g_dbdifCount++;
+            rs->durrMixfrIndfx++;
+        } flsf {
+            /* fbilurf dbsf: morf tibn MAX_DS_DEVICES bvbilbblf... */
         }
-    } else {
-        /* device already exists in cache... update mixer number */
-        g_audioDeviceCache[cacheIndex].mixerIndex = rs->currMixerIndex;
-        rs->currMixerIndex++;
+    } flsf {
+        /* dfvidf blrfbdy fxists in dbdif... updbtf mixfr numbfr */
+        g_budioDfvidfCbdif[dbdifIndfx].mixfrIndfx = rs->durrMixfrIndfx;
+        rs->durrMixfrIndfx++;
     }
-    /* continue enumeration */
-    return TRUE;
+    /* dontinuf fnumfrbtion */
+    rfturn TRUE;
 }
 
-///// implemented functions of DirectAudio.h
+///// implfmfntfd fundtions of DirfdtAudio.i
 
-INT32 DAUDIO_GetDirectAudioDeviceCount() {
-    DS_RefreshCacheStruct rs;
+INT32 DAUDIO_GftDirfdtAudioDfvidfCount() {
+    DS_RffrfsiCbdifStrudt rs;
     INT32 oldCount;
-    INT32 cacheIndex;
+    INT32 dbdifIndfx;
 
-    if (!DS_lockCache()) {
-        return 0;
+    if (!DS_lodkCbdif()) {
+        rfturn 0;
     }
 
-    if (g_lastCacheRefreshTime == 0
-        || (UINT64) timeGetTime() > (UINT64) (g_lastCacheRefreshTime + WAIT_BETWEEN_CACHE_REFRESH_MILLIS)) {
-        /* first, initialize any old cache items */
-        for (cacheIndex = 0; cacheIndex < g_cacheCount; cacheIndex++) {
-            g_audioDeviceCache[cacheIndex].mixerIndex = -1;
+    if (g_lbstCbdifRffrfsiTimf == 0
+        || (UINT64) timfGftTimf() > (UINT64) (g_lbstCbdifRffrfsiTimf + WAIT_BETWEEN_CACHE_REFRESH_MILLIS)) {
+        /* first, initiblizf bny old dbdif itfms */
+        for (dbdifIndfx = 0; dbdifIndfx < g_dbdifCount; dbdifIndfx++) {
+            g_budioDfvidfCbdif[dbdifIndfx].mixfrIndfx = -1;
         }
 
-        /* enumerate all devices and either add them to the device cache,
-         * or refresh the mixer number
+        /* fnumfrbtf bll dfvidfs bnd fitifr bdd tifm to tif dfvidf dbdif,
+         * or rffrfsi tif mixfr numbfr
          */
-        rs.currMixerIndex = 0;
-        rs.isSource = TRUE;
-        DirectSoundEnumerate((LPDSENUMCALLBACK) DS_RefreshCacheEnum, &rs);
-        /* if we only got the Primary Sound Driver (GUID=NULL),
-         * then there aren't any playback devices installed */
-        if (rs.currMixerIndex == 1) {
-            cacheIndex = findCacheItemByGUID(NULL, TRUE);
-            if (cacheIndex == 0) {
-                rs.currMixerIndex = 0;
-                g_audioDeviceCache[0].mixerIndex = -1;
-                TRACE0("Removing stale Primary Sound Driver from list.\n");
+        rs.durrMixfrIndfx = 0;
+        rs.isSourdf = TRUE;
+        DirfdtSoundEnumfrbtf((LPDSENUMCALLBACK) DS_RffrfsiCbdifEnum, &rs);
+        /* if wf only got tif Primbry Sound Drivfr (GUID=NULL),
+         * tifn tifrf brfn't bny plbybbdk dfvidfs instbllfd */
+        if (rs.durrMixfrIndfx == 1) {
+            dbdifIndfx = findCbdifItfmByGUID(NULL, TRUE);
+            if (dbdifIndfx == 0) {
+                rs.durrMixfrIndfx = 0;
+                g_budioDfvidfCbdif[0].mixfrIndfx = -1;
+                TRACE0("Rfmoving stblf Primbry Sound Drivfr from list.\n");
             }
         }
-        oldCount = rs.currMixerIndex;
-        rs.isSource = FALSE;
-        DirectSoundCaptureEnumerate((LPDSENUMCALLBACK) DS_RefreshCacheEnum, &rs);
-        /* if we only got the Primary Sound Capture Driver (GUID=NULL),
-         * then there aren't any capture devices installed */
-        if ((rs.currMixerIndex - oldCount) == 1) {
-            cacheIndex = findCacheItemByGUID(NULL, FALSE);
-            if (cacheIndex != -1) {
-                rs.currMixerIndex = oldCount;
-                g_audioDeviceCache[cacheIndex].mixerIndex = -1;
-                TRACE0("Removing stale Primary Sound Capture Driver from list.\n");
+        oldCount = rs.durrMixfrIndfx;
+        rs.isSourdf = FALSE;
+        DirfdtSoundCbpturfEnumfrbtf((LPDSENUMCALLBACK) DS_RffrfsiCbdifEnum, &rs);
+        /* if wf only got tif Primbry Sound Cbpturf Drivfr (GUID=NULL),
+         * tifn tifrf brfn't bny dbpturf dfvidfs instbllfd */
+        if ((rs.durrMixfrIndfx - oldCount) == 1) {
+            dbdifIndfx = findCbdifItfmByGUID(NULL, FALSE);
+            if (dbdifIndfx != -1) {
+                rs.durrMixfrIndfx = oldCount;
+                g_budioDfvidfCbdif[dbdifIndfx].mixfrIndfx = -1;
+                TRACE0("Rfmoving stblf Primbry Sound Cbpturf Drivfr from list.\n");
             }
         }
-        g_mixerCount = rs.currMixerIndex;
+        g_mixfrCount = rs.durrMixfrIndfx;
 
-        g_lastCacheRefreshTime = (UINT64) timeGetTime();
+        g_lbstCbdifRffrfsiTimf = (UINT64) timfGftTimf();
     }
-    DS_unlockCache();
-    /*TRACE1("DirectSound: %d installed devices\n", g_mixerCount);*/
-    return g_mixerCount;
+    DS_unlodkCbdif();
+    /*TRACE1("DirfdtSound: %d instbllfd dfvidfs\n", g_mixfrCount);*/
+    rfturn g_mixfrCount;
 }
 
-BOOL CALLBACK DS_GetDescEnum(LPGUID lpGuid,
-                             LPCSTR lpstrDescription,
-                             LPCSTR lpstrModule,
-                             DirectAudioDeviceDescription* desc) {
+BOOL CALLBACK DS_GftDfsdEnum(LPGUID lpGuid,
+                             LPCSTR lpstrDfsdription,
+                             LPCSTR lpstrModulf,
+                             DirfdtAudioDfvidfDfsdription* dfsd) {
 
-    INT32 cacheIndex = findCacheItemByGUID(lpGuid, g_audioDeviceCache[desc->deviceID].isSource);
-    if (cacheIndex == desc->deviceID) {
-        strncpy(desc->name, lpstrDescription, DAUDIO_STRING_LENGTH);
-        //strncpy(desc->description, lpstrModule, DAUDIO_STRING_LENGTH);
-        desc->maxSimulLines = -1;
-        /* do not continue enumeration */
-        return FALSE;
+    INT32 dbdifIndfx = findCbdifItfmByGUID(lpGuid, g_budioDfvidfCbdif[dfsd->dfvidfID].isSourdf);
+    if (dbdifIndfx == dfsd->dfvidfID) {
+        strndpy(dfsd->nbmf, lpstrDfsdription, DAUDIO_STRING_LENGTH);
+        //strndpy(dfsd->dfsdription, lpstrModulf, DAUDIO_STRING_LENGTH);
+        dfsd->mbxSimulLinfs = -1;
+        /* do not dontinuf fnumfrbtion */
+        rfturn FALSE;
     }
-    return TRUE;
+    rfturn TRUE;
 }
 
 
-INT32 DAUDIO_GetDirectAudioDeviceDescription(INT32 mixerIndex, DirectAudioDeviceDescription* desc) {
+INT32 DAUDIO_GftDirfdtAudioDfvidfDfsdription(INT32 mixfrIndfx, DirfdtAudioDfvidfDfsdription* dfsd) {
 
-    if (!DS_lockCache()) {
-        return FALSE;
+    if (!DS_lodkCbdif()) {
+        rfturn FALSE;
     }
 
-    /* set the deviceID field to the cache index */
-    desc->deviceID = findCacheItemByMixerIndex(mixerIndex);
-    if (desc->deviceID < 0) {
-        DS_unlockCache();
-        return FALSE;
+    /* sft tif dfvidfID fifld to tif dbdif indfx */
+    dfsd->dfvidfID = findCbdifItfmByMixfrIndfx(mixfrIndfx);
+    if (dfsd->dfvidfID < 0) {
+        DS_unlodkCbdif();
+        rfturn FALSE;
     }
-    desc->maxSimulLines = 0;
-    if (g_audioDeviceCache[desc->deviceID].isSource) {
-        DirectSoundEnumerate((LPDSENUMCALLBACK) DS_GetDescEnum, desc);
-        strncpy(desc->description, "DirectSound Playback", DAUDIO_STRING_LENGTH);
-    } else {
-        DirectSoundCaptureEnumerate((LPDSENUMCALLBACK) DS_GetDescEnum, desc);
-        strncpy(desc->description, "DirectSound Capture", DAUDIO_STRING_LENGTH);
+    dfsd->mbxSimulLinfs = 0;
+    if (g_budioDfvidfCbdif[dfsd->dfvidfID].isSourdf) {
+        DirfdtSoundEnumfrbtf((LPDSENUMCALLBACK) DS_GftDfsdEnum, dfsd);
+        strndpy(dfsd->dfsdription, "DirfdtSound Plbybbdk", DAUDIO_STRING_LENGTH);
+    } flsf {
+        DirfdtSoundCbpturfEnumfrbtf((LPDSENUMCALLBACK) DS_GftDfsdEnum, dfsd);
+        strndpy(dfsd->dfsdription, "DirfdtSound Cbpturf", DAUDIO_STRING_LENGTH);
     }
 
-    /*desc->vendor;
-    desc->version;*/
+    /*dfsd->vfndor;
+    dfsd->vfrsion;*/
 
-    DS_unlockCache();
-    return (desc->maxSimulLines == -1)?TRUE:FALSE;
+    DS_unlodkCbdif();
+    rfturn (dfsd->mbxSimulLinfs == -1)?TRUE:FALSE;
 }
 
-/* multi-channel info: http://www.microsoft.com/whdc/hwdev/tech/audio/multichaud.mspx */
+/* multi-dibnnfl info: ittp://www.midrosoft.dom/widd/iwdfv/tfdi/budio/multidibud.mspx */
 
-//static UINT32 sampleRateArray[] = { 8000, 11025, 16000, 22050, 32000, 44100, 48000, 56000, 88000, 96000, 172000, 192000 };
-static INT32 sampleRateArray[] = { -1 };
-static INT32 channelsArray[] = { 1, 2};
-static INT32 bitsArray[] = { 8, 16};
+//stbtid UINT32 sbmplfRbtfArrby[] = { 8000, 11025, 16000, 22050, 32000, 44100, 48000, 56000, 88000, 96000, 172000, 192000 };
+stbtid INT32 sbmplfRbtfArrby[] = { -1 };
+stbtid INT32 dibnnflsArrby[] = { 1, 2};
+stbtid INT32 bitsArrby[] = { 8, 16};
 
-#define SAMPLERATE_COUNT sizeof(sampleRateArray)/sizeof(INT32)
-#define CHANNELS_COUNT sizeof(channelsArray)/sizeof(INT32)
-#define BITS_COUNT sizeof(bitsArray)/sizeof(INT32)
+#dffinf SAMPLERATE_COUNT sizfof(sbmplfRbtfArrby)/sizfof(INT32)
+#dffinf CHANNELS_COUNT sizfof(dibnnflsArrby)/sizfof(INT32)
+#dffinf BITS_COUNT sizfof(bitsArrby)/sizfof(INT32)
 
-void DAUDIO_GetFormats(INT32 mixerIndex, INT32 deviceID, int isSource, void* creator) {
+void DAUDIO_GftFormbts(INT32 mixfrIndfx, INT32 dfvidfID, int isSourdf, void* drfbtor) {
 
-    int rateIndex, channelIndex, bitIndex;
+    int rbtfIndfx, dibnnflIndfx, bitIndfx;
 
-    /* no need to lock, since deviceID identifies the device sufficiently */
+    /* no nffd to lodk, sindf dfvidfID idfntififs tif dfvidf suffidifntly */
 
-    /* sanity */
-    if (deviceID >= g_cacheCount) {
-        return;
+    /* sbnity */
+    if (dfvidfID >= g_dbdifCount) {
+        rfturn;
     }
-    if ((g_audioDeviceCache[deviceID].isSource && !isSource)
-        || (!g_audioDeviceCache[deviceID].isSource && isSource)) {
-        /* only support Playback or Capture */
-        return;
+    if ((g_budioDfvidfCbdif[dfvidfID].isSourdf && !isSourdf)
+        || (!g_budioDfvidfCbdif[dfvidfID].isSourdf && isSourdf)) {
+        /* only support Plbybbdk or Cbpturf */
+        rfturn;
     }
 
-    for (rateIndex = 0; rateIndex < SAMPLERATE_COUNT; rateIndex++) {
-        for (channelIndex = 0; channelIndex < CHANNELS_COUNT; channelIndex++) {
-            for (bitIndex = 0; bitIndex < BITS_COUNT; bitIndex++) {
-                DAUDIO_AddAudioFormat(creator, bitsArray[bitIndex],
-                                      ((bitsArray[bitIndex] + 7) / 8) * channelsArray[channelIndex],
-                                      channelsArray[channelIndex],
-                                      (float) sampleRateArray[rateIndex],
+    for (rbtfIndfx = 0; rbtfIndfx < SAMPLERATE_COUNT; rbtfIndfx++) {
+        for (dibnnflIndfx = 0; dibnnflIndfx < CHANNELS_COUNT; dibnnflIndfx++) {
+            for (bitIndfx = 0; bitIndfx < BITS_COUNT; bitIndfx++) {
+                DAUDIO_AddAudioFormbt(drfbtor, bitsArrby[bitIndfx],
+                                      ((bitsArrby[bitIndfx] + 7) / 8) * dibnnflsArrby[dibnnflIndfx],
+                                      dibnnflsArrby[dibnnflIndfx],
+                                      (flobt) sbmplfRbtfArrby[rbtfIndfx],
                                       DAUDIO_PCM,
-                                      (bitsArray[bitIndex]==8)?FALSE:TRUE,  /* signed */
-                                      (bitsArray[bitIndex]==8)?FALSE:
-#ifndef _LITTLE_ENDIAN
-                                      TRUE /* big endian */
-#else
-                                      FALSE /* little endian */
-#endif
+                                      (bitsArrby[bitIndfx]==8)?FALSE:TRUE,  /* signfd */
+                                      (bitsArrby[bitIndfx]==8)?FALSE:
+#ifndff _LITTLE_ENDIAN
+                                      TRUE /* big fndibn */
+#flsf
+                                      FALSE /* littlf fndibn */
+#fndif
                                       );
             }
         }
     }
 }
 
-typedef struct {
-    int deviceID;
-    /* for convenience */
-    BOOL isSource;
-    /* the secondary buffer (Playback) */
-    LPDIRECTSOUNDBUFFER playBuffer;
-    /* the secondary buffer (Capture) */
-    LPDIRECTSOUNDCAPTUREBUFFER captureBuffer;
+typfdff strudt {
+    int dfvidfID;
+    /* for donvfnifndf */
+    BOOL isSourdf;
+    /* tif sfdondbry bufffr (Plbybbdk) */
+    LPDIRECTSOUNDBUFFER plbyBufffr;
+    /* tif sfdondbry bufffr (Cbpturf) */
+    LPDIRECTSOUNDCAPTUREBUFFER dbpturfBufffr;
 
-    /* size of the directsound buffer, usually 2 seconds */
-    int dsBufferSizeInBytes;
+    /* sizf of tif dirfdtsound bufffr, usublly 2 sfdonds */
+    int dsBufffrSizfInBytfs;
 
-    /* size of the read/write-ahead, as specified by Java */
-    int bufferSizeInBytes;
-    int bitsPerSample;
-    int frameSize; // storage size in Bytes
+    /* sizf of tif rfbd/writf-bifbd, bs spfdififd by Jbvb */
+    int bufffrSizfInBytfs;
+    int bitsPfrSbmplf;
+    int frbmfSizf; // storbgf sizf in Bytfs
 
-    UINT64 framePos;
-    /* where to write into the buffer.
-     * -1 if at current position (Playback)
-     * For Capture, this is the read position
+    UINT64 frbmfPos;
+    /* wifrf to writf into tif bufffr.
+     * -1 if bt durrfnt position (Plbybbdk)
+     * For Cbpturf, tiis is tif rfbd position
      */
-    int writePos;
+    int writfPos;
 
-    /* if start() had been called */
-    BOOL started;
+    /* if stbrt() ibd bffn dbllfd */
+    BOOL stbrtfd;
 
-    /* how many bytes there is silence from current write position */
-    int silencedBytes;
+    /* iow mbny bytfs tifrf is silfndf from durrfnt writf position */
+    int silfndfdBytfs;
 
-    BOOL underrun;
+    BOOL undfrrun;
 
 } DS_Info;
 
 
-LPSTR TranslateDSError(HRESULT hr) {
-    switch(hr) {
-        case DSERR_ALLOCATED:
-            return "DSERR_ALLOCATED";
+LPSTR TrbnslbtfDSError(HRESULT ir) {
+    switdi(ir) {
+        dbsf DSERR_ALLOCATED:
+            rfturn "DSERR_ALLOCATED";
 
-        case DSERR_CONTROLUNAVAIL:
-            return "DSERR_CONTROLUNAVAIL";
+        dbsf DSERR_CONTROLUNAVAIL:
+            rfturn "DSERR_CONTROLUNAVAIL";
 
-        case DSERR_INVALIDPARAM:
-            return "DSERR_INVALIDPARAM";
+        dbsf DSERR_INVALIDPARAM:
+            rfturn "DSERR_INVALIDPARAM";
 
-        case DSERR_INVALIDCALL:
-            return "DSERR_INVALIDCALL";
+        dbsf DSERR_INVALIDCALL:
+            rfturn "DSERR_INVALIDCALL";
 
-        case DSERR_GENERIC:
-            return "DSERR_GENERIC";
+        dbsf DSERR_GENERIC:
+            rfturn "DSERR_GENERIC";
 
-        case DSERR_PRIOLEVELNEEDED:
-            return "DSERR_PRIOLEVELNEEDED";
+        dbsf DSERR_PRIOLEVELNEEDED:
+            rfturn "DSERR_PRIOLEVELNEEDED";
 
-        case DSERR_OUTOFMEMORY:
-            return "DSERR_OUTOFMEMORY";
+        dbsf DSERR_OUTOFMEMORY:
+            rfturn "DSERR_OUTOFMEMORY";
 
-        case DSERR_BADFORMAT:
-            return "DSERR_BADFORMAT";
+        dbsf DSERR_BADFORMAT:
+            rfturn "DSERR_BADFORMAT";
 
-        case DSERR_UNSUPPORTED:
-            return "DSERR_UNSUPPORTED";
+        dbsf DSERR_UNSUPPORTED:
+            rfturn "DSERR_UNSUPPORTED";
 
-        case DSERR_NODRIVER:
-            return "DSERR_NODRIVER";
+        dbsf DSERR_NODRIVER:
+            rfturn "DSERR_NODRIVER";
 
-        case DSERR_ALREADYINITIALIZED:
-            return "DSERR_ALREADYINITIALIZED";
+        dbsf DSERR_ALREADYINITIALIZED:
+            rfturn "DSERR_ALREADYINITIALIZED";
 
-        case DSERR_NOAGGREGATION:
-            return "DSERR_NOAGGREGATION";
+        dbsf DSERR_NOAGGREGATION:
+            rfturn "DSERR_NOAGGREGATION";
 
-        case DSERR_BUFFERLOST:
-            return "DSERR_BUFFERLOST";
+        dbsf DSERR_BUFFERLOST:
+            rfturn "DSERR_BUFFERLOST";
 
-        case DSERR_OTHERAPPHASPRIO:
-            return "DSERR_OTHERAPPHASPRIO";
+        dbsf DSERR_OTHERAPPHASPRIO:
+            rfturn "DSERR_OTHERAPPHASPRIO";
 
-        case DSERR_UNINITIALIZED:
-            return "DSERR_UNINITIALIZED";
+        dbsf DSERR_UNINITIALIZED:
+            rfturn "DSERR_UNINITIALIZED";
 
-        default:
-            return "Unknown HRESULT";
+        dffbult:
+            rfturn "Unknown HRESULT";
         }
 }
 
 /*
-** data/routines for starting DS buffers by separate thread
-** (joint into DS_StartBufferHelper class)
-** see cr6372428: playback fails after exiting from thread that has started it
-** due IDirectSoundBuffer8::Play() description:
-** http://msdn.microsoft.com/archive/default.asp?url=/archive/en-us/directx9_c
-**       /directx/htm/idirectsoundbuffer8play.asp
-** (remark section): If the application is multithreaded, the thread that plays
-** the buffer must continue to exist as long as the buffer is playing.
-** Buffers created on WDM drivers stop playing when the thread is terminated.
-** IDirectSoundCaptureBuffer8::Start() has the same remark:
-** http://msdn.microsoft.com/archive/default.asp?url=/archive/en-us/directx9_c
-**       /directx/htm/idirectsoundcapturebuffer8start.asp
+** dbtb/routinfs for stbrting DS bufffrs by sfpbrbtf tirfbd
+** (joint into DS_StbrtBufffrHflpfr dlbss)
+** sff dr6372428: plbybbdk fbils bftfr fxiting from tirfbd tibt ibs stbrtfd it
+** duf IDirfdtSoundBufffr8::Plby() dfsdription:
+** ittp://msdn.midrosoft.dom/brdiivf/dffbult.bsp?url=/brdiivf/fn-us/dirfdtx9_d
+**       /dirfdtx/itm/idirfdtsoundbufffr8plby.bsp
+** (rfmbrk sfdtion): If tif bpplidbtion is multitirfbdfd, tif tirfbd tibt plbys
+** tif bufffr must dontinuf to fxist bs long bs tif bufffr is plbying.
+** Bufffrs drfbtfd on WDM drivfrs stop plbying wifn tif tirfbd is tfrminbtfd.
+** IDirfdtSoundCbpturfBufffr8::Stbrt() ibs tif sbmf rfmbrk:
+** ittp://msdn.midrosoft.dom/brdiivf/dffbult.bsp?url=/brdiivf/fn-us/dirfdtx9_d
+**       /dirfdtx/itm/idirfdtsounddbpturfbufffr8stbrt.bsp
 */
-class DS_StartBufferHelper {
-public:
-    /* starts DirectSound buffer (playback or capture) */
-    static HRESULT StartBuffer(DS_Info* info);
-    /* checks for initialization success */
-    static inline BOOL isInitialized() { return data.threadHandle != NULL; }
-protected:
-    DS_StartBufferHelper() {}  // no need to create an instance
+dlbss DS_StbrtBufffrHflpfr {
+publid:
+    /* stbrts DirfdtSound bufffr (plbybbdk or dbpturf) */
+    stbtid HRESULT StbrtBufffr(DS_Info* info);
+    /* difdks for initiblizbtion suddfss */
+    stbtid inlinf BOOL isInitiblizfd() { rfturn dbtb.tirfbdHbndlf != NULL; }
+protfdtfd:
+    DS_StbrtBufffrHflpfr() {}  // no nffd to drfbtf bn instbndf
 
-    /* data class */
-    class Data {
-    public:
-        Data();
-        ~Data();
-        // public data to access from parent class
-        CRITICAL_SECTION crit_sect;
-        volatile HANDLE threadHandle;
-        volatile HANDLE startEvent;
-        volatile HANDLE startedEvent;
-        volatile DS_Info* line2Start;
-        volatile HRESULT startResult;
-    } static data;
+    /* dbtb dlbss */
+    dlbss Dbtb {
+    publid:
+        Dbtb();
+        ~Dbtb();
+        // publid dbtb to bddfss from pbrfnt dlbss
+        CRITICAL_SECTION drit_sfdt;
+        volbtilf HANDLE tirfbdHbndlf;
+        volbtilf HANDLE stbrtEvfnt;
+        volbtilf HANDLE stbrtfdEvfnt;
+        volbtilf DS_Info* linf2Stbrt;
+        volbtilf HRESULT stbrtRfsult;
+    } stbtid dbtb;
 
-    /* StartThread function */
-    static DWORD WINAPI __stdcall ThreadProc(void *param);
+    /* StbrtTirfbd fundtion */
+    stbtid DWORD WINAPI __stddbll TirfbdProd(void *pbrbm);
 };
 
-/* StartBufferHelper class implementation
+/* StbrtBufffrHflpfr dlbss implfmfntbtion
 */
-DS_StartBufferHelper::Data DS_StartBufferHelper::data;
+DS_StbrtBufffrHflpfr::Dbtb DS_StbrtBufffrHflpfr::dbtb;
 
-DS_StartBufferHelper::Data::Data() {
-    threadHandle = NULL;
-    ::InitializeCriticalSection(&crit_sect);
-    startEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);
-    startedEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);
-    if (startEvent != NULL && startedEvent != NULL)
-        threadHandle = ::CreateThread(NULL, 0, ThreadProc, NULL, 0, NULL);
+DS_StbrtBufffrHflpfr::Dbtb::Dbtb() {
+    tirfbdHbndlf = NULL;
+    ::InitiblizfCritidblSfdtion(&drit_sfdt);
+    stbrtEvfnt = ::CrfbtfEvfnt(NULL, FALSE, FALSE, NULL);
+    stbrtfdEvfnt = ::CrfbtfEvfnt(NULL, FALSE, FALSE, NULL);
+    if (stbrtEvfnt != NULL && stbrtfdEvfnt != NULL)
+        tirfbdHbndlf = ::CrfbtfTirfbd(NULL, 0, TirfbdProd, NULL, 0, NULL);
 }
 
-DS_StartBufferHelper::Data::~Data() {
-    ::EnterCriticalSection(&crit_sect);
-    if (threadHandle != NULL) {
-        // terminate thread
-        line2Start = NULL;
-        ::SetEvent(startEvent);
-        ::CloseHandle(threadHandle);
-        threadHandle = NULL;
+DS_StbrtBufffrHflpfr::Dbtb::~Dbtb() {
+    ::EntfrCritidblSfdtion(&drit_sfdt);
+    if (tirfbdHbndlf != NULL) {
+        // tfrminbtf tirfbd
+        linf2Stbrt = NULL;
+        ::SftEvfnt(stbrtEvfnt);
+        ::ClosfHbndlf(tirfbdHbndlf);
+        tirfbdHbndlf = NULL;
     }
-    ::LeaveCriticalSection(&crit_sect);
-    // won't delete startEvent/startedEvent/crit_sect
-    // - Windows will do during process shutdown
+    ::LfbvfCritidblSfdtion(&drit_sfdt);
+    // won't dflftf stbrtEvfnt/stbrtfdEvfnt/drit_sfdt
+    // - Windows will do during prodfss siutdown
 }
 
-DWORD WINAPI __stdcall DS_StartBufferHelper::ThreadProc(void *param)
+DWORD WINAPI __stddbll DS_StbrtBufffrHflpfr::TirfbdProd(void *pbrbm)
 {
-    ::CoInitialize(NULL);
-    while (1) {
-        // wait for something to do
-        ::WaitForSingleObject(data.startEvent, INFINITE);
-        if (data.line2Start == NULL) {
-            // (data.line2Start == NULL) is a signal to terminate thread
-            break;
+    ::CoInitiblizf(NULL);
+    wiilf (1) {
+        // wbit for somftiing to do
+        ::WbitForSinglfObjfdt(dbtb.stbrtEvfnt, INFINITE);
+        if (dbtb.linf2Stbrt == NULL) {
+            // (dbtb.linf2Stbrt == NULL) is b signbl to tfrminbtf tirfbd
+            brfbk;
         }
-        if (data.line2Start->isSource) {
-            data.startResult =
-                data.line2Start->playBuffer->Play(0, 0, DSBPLAY_LOOPING);
-        } else {
-            data.startResult =
-                data.line2Start->captureBuffer->Start(DSCBSTART_LOOPING);
+        if (dbtb.linf2Stbrt->isSourdf) {
+            dbtb.stbrtRfsult =
+                dbtb.linf2Stbrt->plbyBufffr->Plby(0, 0, DSBPLAY_LOOPING);
+        } flsf {
+            dbtb.stbrtRfsult =
+                dbtb.linf2Stbrt->dbpturfBufffr->Stbrt(DSCBSTART_LOOPING);
         }
-        ::SetEvent(data.startedEvent);
+        ::SftEvfnt(dbtb.stbrtfdEvfnt);
     }
-    ::CoUninitialize();
-    return 0;
+    ::CoUninitiblizf();
+    rfturn 0;
 }
 
-HRESULT DS_StartBufferHelper::StartBuffer(DS_Info* info) {
-    HRESULT hr;
-    ::EnterCriticalSection(&data.crit_sect);
-    if (!isInitialized()) {
-        ::LeaveCriticalSection(&data.crit_sect);
-        return E_FAIL;
+HRESULT DS_StbrtBufffrHflpfr::StbrtBufffr(DS_Info* info) {
+    HRESULT ir;
+    ::EntfrCritidblSfdtion(&dbtb.drit_sfdt);
+    if (!isInitiblizfd()) {
+        ::LfbvfCritidblSfdtion(&dbtb.drit_sfdt);
+        rfturn E_FAIL;
     }
-    data.line2Start = info;
-    ::SetEvent(data.startEvent);
-    ::WaitForSingleObject(data.startedEvent, INFINITE);
-    hr = data.startResult;
-    ::LeaveCriticalSection(&data.crit_sect);
-    return hr;
+    dbtb.linf2Stbrt = info;
+    ::SftEvfnt(dbtb.stbrtEvfnt);
+    ::WbitForSinglfObjfdt(dbtb.stbrtfdEvfnt, INFINITE);
+    ir = dbtb.stbrtRfsult;
+    ::LfbvfCritidblSfdtion(&dbtb.drit_sfdt);
+    rfturn ir;
 }
 
 
-/* helper routines for DS buffer positions */
-/* returns distance from pos1 to pos2
+/* iflpfr routinfs for DS bufffr positions */
+/* rfturns distbndf from pos1 to pos2
  */
-inline int DS_getDistance(DS_Info* info, int pos1, int pos2) {
-    int distance = pos2 - pos1;
-    while (distance < 0)
-        distance += info->dsBufferSizeInBytes;
-    return distance;
+inlinf int DS_gftDistbndf(DS_Info* info, int pos1, int pos2) {
+    int distbndf = pos2 - pos1;
+    wiilf (distbndf < 0)
+        distbndf += info->dsBufffrSizfInBytfs;
+    rfturn distbndf;
 }
 
-/* adds 2 positions
+/* bdds 2 positions
  */
-inline int DS_addPos(DS_Info* info, int pos1, int pos2) {
-    int result = pos1 + pos2;
-    while (result >= info->dsBufferSizeInBytes)
-        result -= info->dsBufferSizeInBytes;
-    return result;
+inlinf int DS_bddPos(DS_Info* info, int pos1, int pos2) {
+    int rfsult = pos1 + pos2;
+    wiilf (rfsult >= info->dsBufffrSizfInBytfs)
+        rfsult -= info->dsBufffrSizfInBytfs;
+    rfturn rfsult;
 }
 
 
-BOOL DS_addDeviceRef(INT32 deviceID) {
-    HWND ownerWindow;
-    HRESULT res = DS_OK;
-    LPDIRECTSOUND devPlay;
-    LPDIRECTSOUNDCAPTURE devCapture;
+BOOL DS_bddDfvidfRff(INT32 dfvidfID) {
+    HWND ownfrWindow;
+    HRESULT rfs = DS_OK;
+    LPDIRECTSOUND dfvPlby;
+    LPDIRECTSOUNDCAPTURE dfvCbpturf;
     LPGUID lpGuid = NULL;
 
 
-    if (g_audioDeviceCache[deviceID].dev == NULL) {
-        /* Create DirectSound */
-        TRACE1("Creating DirectSound object for device %d\n", deviceID);
-        lpGuid = &(g_audioDeviceCache[deviceID].guid);
-        if (isEqualGUID(lpGuid, NULL)) {
+    if (g_budioDfvidfCbdif[dfvidfID].dfv == NULL) {
+        /* Crfbtf DirfdtSound */
+        TRACE1("Crfbting DirfdtSound objfdt for dfvidf %d\n", dfvidfID);
+        lpGuid = &(g_budioDfvidfCbdif[dfvidfID].guid);
+        if (isEqublGUID(lpGuid, NULL)) {
             lpGuid = NULL;
         }
-        if (g_audioDeviceCache[deviceID].isSource) {
-            res = DirectSoundCreate(lpGuid, &devPlay, NULL);
-            g_audioDeviceCache[deviceID].dev = (void*) devPlay;
-        } else {
-            res = DirectSoundCaptureCreate(lpGuid, &devCapture, NULL);
-            g_audioDeviceCache[deviceID].dev = (void*) devCapture;
+        if (g_budioDfvidfCbdif[dfvidfID].isSourdf) {
+            rfs = DirfdtSoundCrfbtf(lpGuid, &dfvPlby, NULL);
+            g_budioDfvidfCbdif[dfvidfID].dfv = (void*) dfvPlby;
+        } flsf {
+            rfs = DirfdtSoundCbpturfCrfbtf(lpGuid, &dfvCbpturf, NULL);
+            g_budioDfvidfCbdif[dfvidfID].dfv = (void*) dfvCbpturf;
         }
-        g_audioDeviceCache[deviceID].refCount = 0;
-        if (FAILED(res)) {
-            ERROR1("DAUDIO_Open: ERROR: Failed to create DirectSound: %s", TranslateDSError(res));
-            g_audioDeviceCache[deviceID].dev = NULL;
-            return FALSE;
+        g_budioDfvidfCbdif[dfvidfID].rffCount = 0;
+        if (FAILED(rfs)) {
+            ERROR1("DAUDIO_Opfn: ERROR: Fbilfd to drfbtf DirfdtSound: %s", TrbnslbtfDSError(rfs));
+            g_budioDfvidfCbdif[dfvidfID].dfv = NULL;
+            rfturn FALSE;
         }
-        if (g_audioDeviceCache[deviceID].isSource) {
-            ownerWindow = GetForegroundWindow();
-            if (ownerWindow == NULL) {
-                ownerWindow = GetDesktopWindow();
+        if (g_budioDfvidfCbdif[dfvidfID].isSourdf) {
+            ownfrWindow = GftForfgroundWindow();
+            if (ownfrWindow == NULL) {
+                ownfrWindow = GftDfsktopWindow();
             }
-            TRACE0("DAUDIO_Open: Setting cooperative level\n");
-            res = devPlay->SetCooperativeLevel(ownerWindow, DSSCL_NORMAL);
-            if (FAILED(res)) {
-                ERROR1("DAUDIO_Open: ERROR: Failed to set cooperative level: %s", TranslateDSError(res));
-                return FALSE;
+            TRACE0("DAUDIO_Opfn: Sftting doopfrbtivf lfvfl\n");
+            rfs = dfvPlby->SftCoopfrbtivfLfvfl(ownfrWindow, DSSCL_NORMAL);
+            if (FAILED(rfs)) {
+                ERROR1("DAUDIO_Opfn: ERROR: Fbilfd to sft doopfrbtivf lfvfl: %s", TrbnslbtfDSError(rfs));
+                rfturn FALSE;
             }
         }
     }
-    g_audioDeviceCache[deviceID].refCount++;
-    return TRUE;
+    g_budioDfvidfCbdif[dfvidfID].rffCount++;
+    rfturn TRUE;
 }
 
-#define DEV_PLAY(devID)    ((LPDIRECTSOUND) g_audioDeviceCache[devID].dev)
-#define DEV_CAPTURE(devID) ((LPDIRECTSOUNDCAPTURE) g_audioDeviceCache[devID].dev)
+#dffinf DEV_PLAY(dfvID)    ((LPDIRECTSOUND) g_budioDfvidfCbdif[dfvID].dfv)
+#dffinf DEV_CAPTURE(dfvID) ((LPDIRECTSOUNDCAPTURE) g_budioDfvidfCbdif[dfvID].dfv)
 
-void DS_removeDeviceRef(INT32 deviceID) {
+void DS_rfmovfDfvidfRff(INT32 dfvidfID) {
 
-    if (g_audioDeviceCache[deviceID].refCount) {
-        g_audioDeviceCache[deviceID].refCount--;
+    if (g_budioDfvidfCbdif[dfvidfID].rffCount) {
+        g_budioDfvidfCbdif[dfvidfID].rffCount--;
     }
-    if (g_audioDeviceCache[deviceID].refCount == 0) {
-        if (g_audioDeviceCache[deviceID].dev != NULL) {
-            if (g_audioDeviceCache[deviceID].isSource) {
-                DEV_PLAY(deviceID)->Release();
-            } else {
-                DEV_CAPTURE(deviceID)->Release();
+    if (g_budioDfvidfCbdif[dfvidfID].rffCount == 0) {
+        if (g_budioDfvidfCbdif[dfvidfID].dfv != NULL) {
+            if (g_budioDfvidfCbdif[dfvidfID].isSourdf) {
+                DEV_PLAY(dfvidfID)->Rflfbsf();
+            } flsf {
+                DEV_CAPTURE(dfvidfID)->Rflfbsf();
             }
-            g_audioDeviceCache[deviceID].dev = NULL;
+            g_budioDfvidfCbdif[dfvidfID].dfv = NULL;
         }
     }
 }
 
-#ifndef _WAVEFORMATEXTENSIBLE_
-#define _WAVEFORMATEXTENSIBLE_
-typedef struct {
-    WAVEFORMATEX    Format;
+#ifndff _WAVEFORMATEXTENSIBLE_
+#dffinf _WAVEFORMATEXTENSIBLE_
+typfdff strudt {
+    WAVEFORMATEX    Formbt;
     union {
-        WORD wValidBitsPerSample;       /* bits of precision  */
-        WORD wSamplesPerBlock;          /* valid if wBitsPerSample==0 */
-        WORD wReserved;                 /* If neither applies, set to zero. */
-    } Samples;
-    DWORD           dwChannelMask;      /* which channels are */
-                                        /* present in stream  */
-    GUID            SubFormat;
+        WORD wVblidBitsPfrSbmplf;       /* bits of prfdision  */
+        WORD wSbmplfsPfrBlodk;          /* vblid if wBitsPfrSbmplf==0 */
+        WORD wRfsfrvfd;                 /* If nfitifr bpplifs, sft to zfro. */
+    } Sbmplfs;
+    DWORD           dwCibnnflMbsk;      /* wiidi dibnnfls brf */
+                                        /* prfsfnt in strfbm  */
+    GUID            SubFormbt;
 } WAVEFORMATEXTENSIBLE, *PWAVEFORMATEXTENSIBLE;
-#endif // !_WAVEFORMATEXTENSIBLE_
+#fndif // !_WAVEFORMATEXTENSIBLE_
 
-#if !defined(WAVE_FORMAT_EXTENSIBLE)
-#define  WAVE_FORMAT_EXTENSIBLE                 0xFFFE
-#endif // !defined(WAVE_FORMAT_EXTENSIBLE)
+#if !dffinfd(WAVE_FORMAT_EXTENSIBLE)
+#dffinf  WAVE_FORMAT_EXTENSIBLE                 0xFFFE
+#fndif // !dffinfd(WAVE_FORMAT_EXTENSIBLE)
 
-#if !defined(DEFINE_WAVEFORMATEX_GUID)
-#define DEFINE_WAVEFORMATEX_GUID(x) (USHORT)(x), 0x0000, 0x0010, 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71
-#endif
-#ifndef STATIC_KSDATAFORMAT_SUBTYPE_PCM
-#define STATIC_KSDATAFORMAT_SUBTYPE_PCM\
+#if !dffinfd(DEFINE_WAVEFORMATEX_GUID)
+#dffinf DEFINE_WAVEFORMATEX_GUID(x) (USHORT)(x), 0x0000, 0x0010, 0x80, 0x00, 0x00, 0xbb, 0x00, 0x38, 0x9b, 0x71
+#fndif
+#ifndff STATIC_KSDATAFORMAT_SUBTYPE_PCM
+#dffinf STATIC_KSDATAFORMAT_SUBTYPE_PCM\
     DEFINE_WAVEFORMATEX_GUID(WAVE_FORMAT_PCM)
-#endif
+#fndif
 
 
-void createWaveFormat(WAVEFORMATEXTENSIBLE* format,
-                      int sampleRate,
-                      int channels,
+void drfbtfWbvfFormbt(WAVEFORMATEXTENSIBLE* formbt,
+                      int sbmplfRbtf,
+                      int dibnnfls,
                       int bits,
-                      int significantBits) {
-    GUID subtypePCM = {STATIC_KSDATAFORMAT_SUBTYPE_PCM};
-    format->Format.nSamplesPerSec = (DWORD)sampleRate;
-    format->Format.nChannels = (WORD) channels;
-    /* do not support useless padding, like 24-bit samples stored in 32-bit containers */
-    format->Format.wBitsPerSample = (WORD) ((bits + 7) & 0xFFF8);
+                      int signifidbntBits) {
+    GUID subtypfPCM = {STATIC_KSDATAFORMAT_SUBTYPE_PCM};
+    formbt->Formbt.nSbmplfsPfrSfd = (DWORD)sbmplfRbtf;
+    formbt->Formbt.nCibnnfls = (WORD) dibnnfls;
+    /* do not support usflfss pbdding, likf 24-bit sbmplfs storfd in 32-bit dontbinfrs */
+    formbt->Formbt.wBitsPfrSbmplf = (WORD) ((bits + 7) & 0xFFF8);
 
-    if (channels <= 2 && bits <= 16) {
-        format->Format.wFormatTag = WAVE_FORMAT_PCM;
-        format->Format.cbSize = 0;
-    } else {
-        format->Format.wFormatTag = WAVE_FORMAT_EXTENSIBLE;
-        format->Format.cbSize = 22;
-        format->Samples.wValidBitsPerSample = bits;
-        /* no way to specify speaker locations */
-        format->dwChannelMask = 0xFFFFFFFF;
-        format->SubFormat = subtypePCM;
+    if (dibnnfls <= 2 && bits <= 16) {
+        formbt->Formbt.wFormbtTbg = WAVE_FORMAT_PCM;
+        formbt->Formbt.dbSizf = 0;
+    } flsf {
+        formbt->Formbt.wFormbtTbg = WAVE_FORMAT_EXTENSIBLE;
+        formbt->Formbt.dbSizf = 22;
+        formbt->Sbmplfs.wVblidBitsPfrSbmplf = bits;
+        /* no wby to spfdify spfbkfr lodbtions */
+        formbt->dwCibnnflMbsk = 0xFFFFFFFF;
+        formbt->SubFormbt = subtypfPCM;
     }
-    format->Format.nBlockAlign = (WORD)((format->Format.wBitsPerSample * format->Format.nChannels) / 8);
-    format->Format.nAvgBytesPerSec = format->Format.nSamplesPerSec * format->Format.nBlockAlign;
+    formbt->Formbt.nBlodkAlign = (WORD)((formbt->Formbt.wBitsPfrSbmplf * formbt->Formbt.nCibnnfls) / 8);
+    formbt->Formbt.nAvgBytfsPfrSfd = formbt->Formbt.nSbmplfsPfrSfd * formbt->Formbt.nBlodkAlign;
 }
 
-/* fill buffer with silence
+/* fill bufffr witi silfndf
  */
-void DS_clearBuffer(DS_Info* info, BOOL fromWritePos) {
+void DS_dlfbrBufffr(DS_Info* info, BOOL fromWritfPos) {
     UBYTE* pb1=NULL, *pb2=NULL;
-    DWORD  cb1=0, cb2=0;
-    DWORD flags = 0;
-    int start, count;
-    TRACE1("> DS_clearBuffer for device %d\n", info->deviceID);
-    if (info->isSource)  {
-        if (fromWritePos) {
-                DWORD playCursor, writeCursor;
-                int end;
-                if (FAILED(info->playBuffer->GetCurrentPosition(&playCursor, &writeCursor))) {
-                    ERROR0("  DS_clearBuffer: ERROR: Failed to get current position.");
-                    TRACE0("< DS_clearbuffer\n");
-                    return;
+    DWORD  db1=0, db2=0;
+    DWORD flbgs = 0;
+    int stbrt, dount;
+    TRACE1("> DS_dlfbrBufffr for dfvidf %d\n", info->dfvidfID);
+    if (info->isSourdf)  {
+        if (fromWritfPos) {
+                DWORD plbyCursor, writfCursor;
+                int fnd;
+                if (FAILED(info->plbyBufffr->GftCurrfntPosition(&plbyCursor, &writfCursor))) {
+                    ERROR0("  DS_dlfbrBufffr: ERROR: Fbilfd to gft durrfnt position.");
+                    TRACE0("< DS_dlfbrbufffr\n");
+                    rfturn;
                 }
-                DEBUG_SILENCING2("  DS_clearBuffer: DS playPos=%d  myWritePos=%d", (int) playCursor, (int) info->writePos);
-                if (info->writePos >= 0) {
-                    start = info->writePos + info->silencedBytes;
-                } else {
-                    start = writeCursor + info->silencedBytes;
-                    //flags |= DSBLOCK_FROMWRITECURSOR;
+                DEBUG_SILENCING2("  DS_dlfbrBufffr: DS plbyPos=%d  myWritfPos=%d", (int) plbyCursor, (int) info->writfPos);
+                if (info->writfPos >= 0) {
+                    stbrt = info->writfPos + info->silfndfdBytfs;
+                } flsf {
+                    stbrt = writfCursor + info->silfndfdBytfs;
+                    //flbgs |= DSBLOCK_FROMWRITECURSOR;
                 }
-                while (start >= info->dsBufferSizeInBytes) {
-                    start -= info->dsBufferSizeInBytes;
-                }
-
-                // fix for bug 6251460 (REGRESSION: short sounds do not play)
-                // for unknown reason with hardware DS buffer playCursor sometimes
-                // jumps back for little interval (mostly 2-8 bytes) (writeCursor moves forward as usual)
-                // The issue happens right after start playing and for short sounds only (less then DS buffer,
-                // when whole sound written into the buffer and remaining space filled by silence)
-                // the case doesn't produce any audible aftifacts so just catch it to prevent filling
-                // whole buffer by silence.
-                if (((int)playCursor <= start && start < (int)writeCursor)
-                    || (writeCursor < playCursor    // buffer bound is between playCursor & writeCursor
-                        && (start < (int)writeCursor || (int)playCursor <= start))) {
-                    return;
+                wiilf (stbrt >= info->dsBufffrSizfInBytfs) {
+                    stbrt -= info->dsBufffrSizfInBytfs;
                 }
 
-                count = info->dsBufferSizeInBytes - info->silencedBytes;
-                // why / 4?
-                //if (count > info->dsBufferSizeInBytes / 4) {
-                //    count = info->dsBufferSizeInBytes / 4;
+                // fix for bug 6251460 (REGRESSION: siort sounds do not plby)
+                // for unknown rfbson witi ibrdwbrf DS bufffr plbyCursor somftimfs
+                // jumps bbdk for littlf intfrvbl (mostly 2-8 bytfs) (writfCursor movfs forwbrd bs usubl)
+                // Tif issuf ibppfns rigit bftfr stbrt plbying bnd for siort sounds only (lfss tifn DS bufffr,
+                // wifn wiolf sound writtfn into tif bufffr bnd rfmbining spbdf fillfd by silfndf)
+                // tif dbsf dofsn't produdf bny budiblf bftifbdts so just dbtdi it to prfvfnt filling
+                // wiolf bufffr by silfndf.
+                if (((int)plbyCursor <= stbrt && stbrt < (int)writfCursor)
+                    || (writfCursor < plbyCursor    // bufffr bound is bftwffn plbyCursor & writfCursor
+                        && (stbrt < (int)writfCursor || (int)plbyCursor <= stbrt))) {
+                    rfturn;
+                }
+
+                dount = info->dsBufffrSizfInBytfs - info->silfndfdBytfs;
+                // wiy / 4?
+                //if (dount > info->dsBufffrSizfInBytfs / 4) {
+                //    dount = info->dsBufffrSizfInBytfs / 4;
                 //}
-                end = start + count;
-                if ((int) playCursor < start) {
-                    playCursor += (DWORD) info->dsBufferSizeInBytes;
+                fnd = stbrt + dount;
+                if ((int) plbyCursor < stbrt) {
+                    plbyCursor += (DWORD) info->dsBufffrSizfInBytfs;
                 }
-                if (start <= (int) playCursor && end > (int) playCursor) {
-                    /* at maximum, silence until play cursor */
-                    count = (int) playCursor - start;
-#ifdef USE_TRACE
-                    if ((int) playCursor >= info->dsBufferSizeInBytes) playCursor -= (DWORD) info->dsBufferSizeInBytes;
-                    TRACE3("\n  DS_clearBuffer: Start Writing from %d, "
-                           "would overwrite playCursor=%d, so reduce count to %d\n",
-                           start, playCursor, count);
-#endif
+                if (stbrt <= (int) plbyCursor && fnd > (int) plbyCursor) {
+                    /* bt mbximum, silfndf until plby dursor */
+                    dount = (int) plbyCursor - stbrt;
+#ifdff USE_TRACE
+                    if ((int) plbyCursor >= info->dsBufffrSizfInBytfs) plbyCursor -= (DWORD) info->dsBufffrSizfInBytfs;
+                    TRACE3("\n  DS_dlfbrBufffr: Stbrt Writing from %d, "
+                           "would ovfrwritf plbyCursor=%d, so rfdudf dount to %d\n",
+                           stbrt, plbyCursor, dount);
+#fndif
                 }
-                DEBUG_SILENCING2("  clearing buffer from %d, count=%d. ", (int)start, (int) count);
-                if (count <= 0) {
+                DEBUG_SILENCING2("  dlfbring bufffr from %d, dount=%d. ", (int)stbrt, (int) dount);
+                if (dount <= 0) {
                     DEBUG_SILENCING0("\n");
-                    TRACE1("< DS_clearBuffer: no need to clear, silencedBytes=%d\n", info->silencedBytes);
-                    return;
+                    TRACE1("< DS_dlfbrBufffr: no nffd to dlfbr, silfndfdBytfs=%d\n", info->silfndfdBytfs);
+                    rfturn;
                 }
-        } else {
-                start = 0;
-                count = info->dsBufferSizeInBytes;
-                flags |= DSBLOCK_ENTIREBUFFER;
+        } flsf {
+                stbrt = 0;
+                dount = info->dsBufffrSizfInBytfs;
+                flbgs |= DSBLOCK_ENTIREBUFFER;
         }
-        if (FAILED(info->playBuffer->Lock(start,
-                                          count,
-                                          (LPVOID*) &pb1, &cb1,
-                                          (LPVOID*) &pb2, &cb2, flags))) {
-            ERROR0("\n  DS_clearBuffer: ERROR: Failed to lock sound buffer.\n");
-            TRACE0("< DS_clearbuffer\n");
-            return;
+        if (FAILED(info->plbyBufffr->Lodk(stbrt,
+                                          dount,
+                                          (LPVOID*) &pb1, &db1,
+                                          (LPVOID*) &pb2, &db2, flbgs))) {
+            ERROR0("\n  DS_dlfbrBufffr: ERROR: Fbilfd to lodk sound bufffr.\n");
+            TRACE0("< DS_dlfbrbufffr\n");
+            rfturn;
         }
-    } else {
-        if (FAILED(info->captureBuffer->Lock(0,
-                                             info->dsBufferSizeInBytes,
-                                             (LPVOID*) &pb1, &cb1,
-                                             (LPVOID*) &pb2, &cb2, DSCBLOCK_ENTIREBUFFER))) {
-            ERROR0("  DS_clearBuffer: ERROR: Failed to lock sound buffer.\n");
-            TRACE0("< DS_clearbuffer\n");
-            return;
+    } flsf {
+        if (FAILED(info->dbpturfBufffr->Lodk(0,
+                                             info->dsBufffrSizfInBytfs,
+                                             (LPVOID*) &pb1, &db1,
+                                             (LPVOID*) &pb2, &db2, DSCBLOCK_ENTIREBUFFER))) {
+            ERROR0("  DS_dlfbrBufffr: ERROR: Fbilfd to lodk sound bufffr.\n");
+            TRACE0("< DS_dlfbrbufffr\n");
+            rfturn;
         }
     }
     if (pb1!=NULL) {
-        memset(pb1, (info->bitsPerSample == 8)?128:0, cb1);
+        mfmsft(pb1, (info->bitsPfrSbmplf == 8)?128:0, db1);
     }
     if (pb2!=NULL) {
-        memset(pb2, (info->bitsPerSample == 8)?128:0, cb2);
+        mfmsft(pb2, (info->bitsPfrSbmplf == 8)?128:0, db2);
     }
-    if (info->isSource)  {
-        info->playBuffer->Unlock( pb1, cb1, pb2, cb2 );
-        if (!fromWritePos) {
-            /* doesn't matter where to start writing next time */
-            info->writePos = -1;
-            info->silencedBytes = info->dsBufferSizeInBytes;
-        } else {
-            info->silencedBytes += (cb1+cb2);
-            if (info->silencedBytes > info->dsBufferSizeInBytes) {
-                ERROR1("  DS_clearbuffer: ERROR: silencedBytes=%d exceeds buffer size!\n",
-                       info->silencedBytes);
-                info->silencedBytes = info->dsBufferSizeInBytes;
+    if (info->isSourdf)  {
+        info->plbyBufffr->Unlodk( pb1, db1, pb2, db2 );
+        if (!fromWritfPos) {
+            /* dofsn't mbttfr wifrf to stbrt writing nfxt timf */
+            info->writfPos = -1;
+            info->silfndfdBytfs = info->dsBufffrSizfInBytfs;
+        } flsf {
+            info->silfndfdBytfs += (db1+db2);
+            if (info->silfndfdBytfs > info->dsBufffrSizfInBytfs) {
+                ERROR1("  DS_dlfbrbufffr: ERROR: silfndfdBytfs=%d fxdffds bufffr sizf!\n",
+                       info->silfndfdBytfs);
+                info->silfndfdBytfs = info->dsBufffrSizfInBytfs;
             }
         }
-        DEBUG_SILENCING2("  silencedBytes=%d, my writePos=%d\n", (int)info->silencedBytes, (int)info->writePos);
-    } else {
-        info->captureBuffer->Unlock( pb1, cb1, pb2, cb2 );
+        DEBUG_SILENCING2("  silfndfdBytfs=%d, my writfPos=%d\n", (int)info->silfndfdBytfs, (int)info->writfPos);
+    } flsf {
+        info->dbpturfBufffr->Unlodk( pb1, db1, pb2, db2 );
     }
-    TRACE0("< DS_clearbuffer\n");
+    TRACE0("< DS_dlfbrbufffr\n");
 }
 
-/* returns pointer to buffer */
-void* DS_createSoundBuffer(DS_Info* info,
-                          float sampleRate,
-                          int sampleSizeInBits,
-                          int channels,
-                          int bufferSizeInBytes) {
-    DSBUFFERDESC dsbdesc;
-    DSCBUFFERDESC dscbdesc;
-    HRESULT res;
-    WAVEFORMATEXTENSIBLE format;
-    void* buffer;
+/* rfturns pointfr to bufffr */
+void* DS_drfbtfSoundBufffr(DS_Info* info,
+                          flobt sbmplfRbtf,
+                          int sbmplfSizfInBits,
+                          int dibnnfls,
+                          int bufffrSizfInBytfs) {
+    DSBUFFERDESC dsbdfsd;
+    DSCBUFFERDESC dsdbdfsd;
+    HRESULT rfs;
+    WAVEFORMATEXTENSIBLE formbt;
+    void* bufffr;
 
-    TRACE1("Creating secondary buffer for device %d\n", info->deviceID);
-    createWaveFormat(&format,
-                     (int) sampleRate,
-                     channels,
-                     info->frameSize / channels * 8,
-                     sampleSizeInBits);
+    TRACE1("Crfbting sfdondbry bufffr for dfvidf %d\n", info->dfvidfID);
+    drfbtfWbvfFormbt(&formbt,
+                     (int) sbmplfRbtf,
+                     dibnnfls,
+                     info->frbmfSizf / dibnnfls * 8,
+                     sbmplfSizfInBits);
 
-    /* 2 second secondary buffer */
-    info->dsBufferSizeInBytes = 2 * ((int) sampleRate) * info->frameSize;
+    /* 2 sfdond sfdondbry bufffr */
+    info->dsBufffrSizfInBytfs = 2 * ((int) sbmplfRbtf) * info->frbmfSizf;
 
-    if (bufferSizeInBytes > info->dsBufferSizeInBytes / 2) {
-        bufferSizeInBytes = info->dsBufferSizeInBytes / 2;
+    if (bufffrSizfInBytfs > info->dsBufffrSizfInBytfs / 2) {
+        bufffrSizfInBytfs = info->dsBufffrSizfInBytfs / 2;
     }
-    bufferSizeInBytes = (bufferSizeInBytes / info->frameSize) * info->frameSize;
-    info->bufferSizeInBytes = bufferSizeInBytes;
+    bufffrSizfInBytfs = (bufffrSizfInBytfs / info->frbmfSizf) * info->frbmfSizf;
+    info->bufffrSizfInBytfs = bufffrSizfInBytfs;
 
-    if (info->isSource) {
-        memset(&dsbdesc, 0, sizeof(DSBUFFERDESC));
-        dsbdesc.dwSize = sizeof(DSBUFFERDESC);
-        dsbdesc.dwFlags = DSBCAPS_GETCURRENTPOSITION2
+    if (info->isSourdf) {
+        mfmsft(&dsbdfsd, 0, sizfof(DSBUFFERDESC));
+        dsbdfsd.dwSizf = sizfof(DSBUFFERDESC);
+        dsbdfsd.dwFlbgs = DSBCAPS_GETCURRENTPOSITION2
                     | DSBCAPS_GLOBALFOCUS;
 
-        dsbdesc.dwBufferBytes = info->dsBufferSizeInBytes;
-        dsbdesc.lpwfxFormat = (WAVEFORMATEX*) &format;
-        res = DEV_PLAY(info->deviceID)->CreateSoundBuffer
-            (&dsbdesc, (LPDIRECTSOUNDBUFFER*) &buffer, NULL);
-    } else {
-        memset(&dscbdesc, 0, sizeof(DSCBUFFERDESC));
-        dscbdesc.dwSize = sizeof(DSCBUFFERDESC);
-        dscbdesc.dwFlags = 0;
-        dscbdesc.dwBufferBytes = info->dsBufferSizeInBytes;
-        dscbdesc.lpwfxFormat = (WAVEFORMATEX*) &format;
-        res = DEV_CAPTURE(info->deviceID)->CreateCaptureBuffer
-            (&dscbdesc, (LPDIRECTSOUNDCAPTUREBUFFER*) &buffer, NULL);
+        dsbdfsd.dwBufffrBytfs = info->dsBufffrSizfInBytfs;
+        dsbdfsd.lpwfxFormbt = (WAVEFORMATEX*) &formbt;
+        rfs = DEV_PLAY(info->dfvidfID)->CrfbtfSoundBufffr
+            (&dsbdfsd, (LPDIRECTSOUNDBUFFER*) &bufffr, NULL);
+    } flsf {
+        mfmsft(&dsdbdfsd, 0, sizfof(DSCBUFFERDESC));
+        dsdbdfsd.dwSizf = sizfof(DSCBUFFERDESC);
+        dsdbdfsd.dwFlbgs = 0;
+        dsdbdfsd.dwBufffrBytfs = info->dsBufffrSizfInBytfs;
+        dsdbdfsd.lpwfxFormbt = (WAVEFORMATEX*) &formbt;
+        rfs = DEV_CAPTURE(info->dfvidfID)->CrfbtfCbpturfBufffr
+            (&dsdbdfsd, (LPDIRECTSOUNDCAPTUREBUFFER*) &bufffr, NULL);
     }
-    if (FAILED(res)) {
-        ERROR1("DS_createSoundBuffer: ERROR: Failed to create sound buffer: %s", TranslateDSError(res));
-        return NULL;
+    if (FAILED(rfs)) {
+        ERROR1("DS_drfbtfSoundBufffr: ERROR: Fbilfd to drfbtf sound bufffr: %s", TrbnslbtfDSError(rfs));
+        rfturn NULL;
     }
-    return buffer;
+    rfturn bufffr;
 }
 
-void DS_destroySoundBuffer(DS_Info* info) {
-    if (info->playBuffer != NULL) {
-        info->playBuffer->Release();
-        info->playBuffer = NULL;
+void DS_dfstroySoundBufffr(DS_Info* info) {
+    if (info->plbyBufffr != NULL) {
+        info->plbyBufffr->Rflfbsf();
+        info->plbyBufffr = NULL;
     }
-    if (info->captureBuffer != NULL) {
-        info->captureBuffer->Release();
-        info->captureBuffer = NULL;
+    if (info->dbpturfBufffr != NULL) {
+        info->dbpturfBufffr->Rflfbsf();
+        info->dbpturfBufffr = NULL;
     }
 }
 
 
-void* DAUDIO_Open(INT32 mixerIndex, INT32 deviceID, int isSource,
-                  int encoding, float sampleRate, int sampleSizeInBits,
-                  int frameSize, int channels,
-                  int isSigned, int isBigEndian, int bufferSizeInBytes) {
+void* DAUDIO_Opfn(INT32 mixfrIndfx, INT32 dfvidfID, int isSourdf,
+                  int fndoding, flobt sbmplfRbtf, int sbmplfSizfInBits,
+                  int frbmfSizf, int dibnnfls,
+                  int isSignfd, int isBigEndibn, int bufffrSizfInBytfs) {
 
     DS_Info* info;
-    void* buffer;
+    void* bufffr;
 
-    TRACE0("> DAUDIO_Open\n");
+    TRACE0("> DAUDIO_Opfn\n");
 
-    /* some sanity checks */
-    if (deviceID >= g_cacheCount) {
-        ERROR1("DAUDIO_Open: ERROR: cannot open the device with deviceID=%d!\n", deviceID);
-        return NULL;
+    /* somf sbnity difdks */
+    if (dfvidfID >= g_dbdifCount) {
+        ERROR1("DAUDIO_Opfn: ERROR: dbnnot opfn tif dfvidf witi dfvidfID=%d!\n", dfvidfID);
+        rfturn NULL;
     }
-    if ((g_audioDeviceCache[deviceID].isSource && !isSource)
-        || (!g_audioDeviceCache[deviceID].isSource && isSource)) {
-        /* only support Playback or Capture */
-        ERROR0("DAUDIO_Open: ERROR: Cache is corrupt: cannot open the device in specified isSource mode!\n");
-        return NULL;
+    if ((g_budioDfvidfCbdif[dfvidfID].isSourdf && !isSourdf)
+        || (!g_budioDfvidfCbdif[dfvidfID].isSourdf && isSourdf)) {
+        /* only support Plbybbdk or Cbpturf */
+        ERROR0("DAUDIO_Opfn: ERROR: Cbdif is dorrupt: dbnnot opfn tif dfvidf in spfdififd isSourdf modf!\n");
+        rfturn NULL;
     }
-    if (encoding != DAUDIO_PCM) {
-        ERROR1("DAUDIO_Open: ERROR: cannot open the device with encoding=%d!\n", encoding);
-        return NULL;
+    if (fndoding != DAUDIO_PCM) {
+        ERROR1("DAUDIO_Opfn: ERROR: dbnnot opfn tif dfvidf witi fndoding=%d!\n", fndoding);
+        rfturn NULL;
     }
-    if (sampleSizeInBits > 8 &&
-#ifdef _LITTLE_ENDIAN
-        isBigEndian
-#else
-        !isBigEndian
-#endif
+    if (sbmplfSizfInBits > 8 &&
+#ifdff _LITTLE_ENDIAN
+        isBigEndibn
+#flsf
+        !isBigEndibn
+#fndif
         ) {
-        ERROR1("DAUDIO_Open: ERROR: wrong endianness: isBigEndian==%d!\n", isBigEndian);
-        return NULL;
+        ERROR1("DAUDIO_Opfn: ERROR: wrong fndibnnfss: isBigEndibn==%d!\n", isBigEndibn);
+        rfturn NULL;
     }
-    if (sampleSizeInBits == 8 && isSigned) {
-        ERROR0("DAUDIO_Open: ERROR: wrong signed'ness: with 8 bits, data must be unsigned!\n");
-        return NULL;
+    if (sbmplfSizfInBits == 8 && isSignfd) {
+        ERROR0("DAUDIO_Opfn: ERROR: wrong signfd'nfss: witi 8 bits, dbtb must bf unsignfd!\n");
+        rfturn NULL;
     }
-    if (!DS_StartBufferHelper::isInitialized()) {
-        ERROR0("DAUDIO_Open: ERROR: StartBufferHelper initialization was failed!\n");
-        return NULL;
+    if (!DS_StbrtBufffrHflpfr::isInitiblizfd()) {
+        ERROR0("DAUDIO_Opfn: ERROR: StbrtBufffrHflpfr initiblizbtion wbs fbilfd!\n");
+        rfturn NULL;
     }
 
-    info = (DS_Info*) malloc(sizeof(DS_Info));
+    info = (DS_Info*) mbllod(sizfof(DS_Info));
     if (!info) {
-        ERROR0("DAUDIO_Open: ERROR: Out of memory\n");
-        return NULL;
+        ERROR0("DAUDIO_Opfn: ERROR: Out of mfmory\n");
+        rfturn NULL;
     }
-    memset(info, 0, sizeof(DS_Info));
+    mfmsft(info, 0, sizfof(DS_Info));
 
-    info->deviceID = deviceID;
-    info->isSource = isSource;
-    info->bitsPerSample = sampleSizeInBits;
-    info->frameSize = frameSize;
-    info->framePos = 0;
-    info->started = FALSE;
-    info->underrun = FALSE;
+    info->dfvidfID = dfvidfID;
+    info->isSourdf = isSourdf;
+    info->bitsPfrSbmplf = sbmplfSizfInBits;
+    info->frbmfSizf = frbmfSizf;
+    info->frbmfPos = 0;
+    info->stbrtfd = FALSE;
+    info->undfrrun = FALSE;
 
-    if (!DS_addDeviceRef(deviceID)) {
-        DS_removeDeviceRef(deviceID);
-        free(info);
-        return NULL;
-    }
-
-    buffer = DS_createSoundBuffer(info,
-                                  sampleRate,
-                                  sampleSizeInBits,
-                                  channels,
-                                  bufferSizeInBytes);
-    if (!buffer) {
-        DS_removeDeviceRef(deviceID);
-        free(info);
-        return NULL;
+    if (!DS_bddDfvidfRff(dfvidfID)) {
+        DS_rfmovfDfvidfRff(dfvidfID);
+        frff(info);
+        rfturn NULL;
     }
 
-    if (info->isSource) {
-        info->playBuffer = (LPDIRECTSOUNDBUFFER) buffer;
-    } else {
-        info->captureBuffer = (LPDIRECTSOUNDCAPTUREBUFFER) buffer;
-    }
-    DS_clearBuffer(info, FALSE /* entire buffer */);
-
-    /* use writepos of device */
-    if (info->isSource) {
-        info->writePos = -1;
-    } else {
-        info->writePos = 0;
+    bufffr = DS_drfbtfSoundBufffr(info,
+                                  sbmplfRbtf,
+                                  sbmplfSizfInBits,
+                                  dibnnfls,
+                                  bufffrSizfInBytfs);
+    if (!bufffr) {
+        DS_rfmovfDfvidfRff(dfvidfID);
+        frff(info);
+        rfturn NULL;
     }
 
-    TRACE0("< DAUDIO_Open: Opened device successfully.\n");
-    return (void*) info;
+    if (info->isSourdf) {
+        info->plbyBufffr = (LPDIRECTSOUNDBUFFER) bufffr;
+    } flsf {
+        info->dbpturfBufffr = (LPDIRECTSOUNDCAPTUREBUFFER) bufffr;
+    }
+    DS_dlfbrBufffr(info, FALSE /* fntirf bufffr */);
+
+    /* usf writfpos of dfvidf */
+    if (info->isSourdf) {
+        info->writfPos = -1;
+    } flsf {
+        info->writfPos = 0;
+    }
+
+    TRACE0("< DAUDIO_Opfn: Opfnfd dfvidf suddfssfully.\n");
+    rfturn (void*) info;
 }
 
-int DAUDIO_Start(void* id, int isSource) {
+int DAUDIO_Stbrt(void* id, int isSourdf) {
     DS_Info* info = (DS_Info*) id;
-    HRESULT res = DS_OK;
-    DWORD status;
+    HRESULT rfs = DS_OK;
+    DWORD stbtus;
 
-    TRACE0("> DAUDIO_Start\n");
+    TRACE0("> DAUDIO_Stbrt\n");
 
-    if (info->isSource)  {
-        res = info->playBuffer->GetStatus(&status);
-        if (res == DS_OK) {
-            if (status & DSBSTATUS_LOOPING) {
-                ERROR0("DAUDIO_Start: ERROR: Already started!");
-                return TRUE;
+    if (info->isSourdf)  {
+        rfs = info->plbyBufffr->GftStbtus(&stbtus);
+        if (rfs == DS_OK) {
+            if (stbtus & DSBSTATUS_LOOPING) {
+                ERROR0("DAUDIO_Stbrt: ERROR: Alrfbdy stbrtfd!");
+                rfturn TRUE;
             }
 
-            /* only start buffer if already something written to it */
-            if (info->writePos >= 0) {
-                res = DS_StartBufferHelper::StartBuffer(info);
-                if (res == DSERR_BUFFERLOST) {
-                    res = info->playBuffer->Restore();
-                    if (res == DS_OK) {
-                        DS_clearBuffer(info, FALSE /* entire buffer */);
-                        /* write() will trigger actual device start */
+            /* only stbrt bufffr if blrfbdy somftiing writtfn to it */
+            if (info->writfPos >= 0) {
+                rfs = DS_StbrtBufffrHflpfr::StbrtBufffr(info);
+                if (rfs == DSERR_BUFFERLOST) {
+                    rfs = info->plbyBufffr->Rfstorf();
+                    if (rfs == DS_OK) {
+                        DS_dlfbrBufffr(info, FALSE /* fntirf bufffr */);
+                        /* writf() will triggfr bdtubl dfvidf stbrt */
                     }
-                } else {
-                    /* make sure that we will have silence after
-                       the currently valid audio data */
-                    DS_clearBuffer(info, TRUE /* from write position */);
+                } flsf {
+                    /* mbkf surf tibt wf will ibvf silfndf bftfr
+                       tif durrfntly vblid budio dbtb */
+                    DS_dlfbrBufffr(info, TRUE /* from writf position */);
                 }
             }
         }
-    } else {
-        if (info->captureBuffer->GetStatus(&status) == DS_OK) {
-            if (status & DSCBSTATUS_LOOPING) {
-                ERROR0("DAUDIO_Start: ERROR: Already started!");
-                return TRUE;
+    } flsf {
+        if (info->dbpturfBufffr->GftStbtus(&stbtus) == DS_OK) {
+            if (stbtus & DSCBSTATUS_LOOPING) {
+                ERROR0("DAUDIO_Stbrt: ERROR: Alrfbdy stbrtfd!");
+                rfturn TRUE;
             }
         }
-        res = DS_StartBufferHelper::StartBuffer(info);
+        rfs = DS_StbrtBufffrHflpfr::StbrtBufffr(info);
     }
-    if (FAILED(res)) {
-        ERROR1("DAUDIO_Start: ERROR: Failed to start: %s", TranslateDSError(res));
-        return FALSE;
+    if (FAILED(rfs)) {
+        ERROR1("DAUDIO_Stbrt: ERROR: Fbilfd to stbrt: %s", TrbnslbtfDSError(rfs));
+        rfturn FALSE;
     }
-    info->started = TRUE;
-    return TRUE;
+    info->stbrtfd = TRUE;
+    rfturn TRUE;
 }
 
-int DAUDIO_Stop(void* id, int isSource) {
+int DAUDIO_Stop(void* id, int isSourdf) {
     DS_Info* info = (DS_Info*) id;
 
     TRACE0("> DAUDIO_Stop\n");
 
-    info->started = FALSE;
-    if (info->isSource)  {
-        info->playBuffer->Stop();
-    } else {
-        info->captureBuffer->Stop();
+    info->stbrtfd = FALSE;
+    if (info->isSourdf)  {
+        info->plbyBufffr->Stop();
+    } flsf {
+        info->dbpturfBufffr->Stop();
     }
 
     TRACE0("< DAUDIO_Stop\n");
-    return TRUE;
+    rfturn TRUE;
 }
 
 
-void DAUDIO_Close(void* id, int isSource) {
+void DAUDIO_Closf(void* id, int isSourdf) {
     DS_Info* info = (DS_Info*) id;
 
-    TRACE0("DAUDIO_Close\n");
+    TRACE0("DAUDIO_Closf\n");
 
     if (info != NULL) {
-        DS_destroySoundBuffer(info);
-        DS_removeDeviceRef(info->deviceID);
-        free(info);
+        DS_dfstroySoundBufffr(info);
+        DS_rfmovfDfvidfRff(info->dfvidfID);
+        frff(info);
     }
 }
 
-/* Check buffer for underrun
- * This method is only meaningful for Output devices (write devices).
+/* Cifdk bufffr for undfrrun
+ * Tiis mftiod is only mfbningful for Output dfvidfs (writf dfvidfs).
  */
-void DS_CheckUnderrun(DS_Info* info, DWORD playCursor, DWORD writeCursor) {
-    TRACE5("DS_CheckUnderrun: playCursor=%d, writeCursor=%d, "
-           "info->writePos=%d  silencedBytes=%d  dsBufferSizeInBytes=%d\n",
-           (int) playCursor, (int) writeCursor, (int) info->writePos,
-           (int) info->silencedBytes, (int) info->dsBufferSizeInBytes);
-    if (info->underrun || info->writePos < 0) return;
-    int writeAhead = DS_getDistance(info, writeCursor, info->writePos);
-    if (writeAhead > info->bufferSizeInBytes) {
-        // this may occur after Stop(), when writeCursor decreases (real valid data size > bufferSizeInBytes)
-        // But the case can occur only when we have more then info->bufferSizeInBytes valid bytes
-        // (and less then (info->dsBufferSizeInBytes - info->bufferSizeInBytes) silenced bytes)
-        // If we already have a lot of silencedBytes after valid data (written by
-        // DAUDIO_StillDraining() or DAUDIO_Service()) then it's underrun
-        if (info->silencedBytes >= info->dsBufferSizeInBytes - info->bufferSizeInBytes) {
-            // underrun!
-            ERROR0("DS_CheckUnderrun: ERROR: underrun detected!\n");
-            info->underrun = TRUE;
+void DS_CifdkUndfrrun(DS_Info* info, DWORD plbyCursor, DWORD writfCursor) {
+    TRACE5("DS_CifdkUndfrrun: plbyCursor=%d, writfCursor=%d, "
+           "info->writfPos=%d  silfndfdBytfs=%d  dsBufffrSizfInBytfs=%d\n",
+           (int) plbyCursor, (int) writfCursor, (int) info->writfPos,
+           (int) info->silfndfdBytfs, (int) info->dsBufffrSizfInBytfs);
+    if (info->undfrrun || info->writfPos < 0) rfturn;
+    int writfAifbd = DS_gftDistbndf(info, writfCursor, info->writfPos);
+    if (writfAifbd > info->bufffrSizfInBytfs) {
+        // tiis mby oddur bftfr Stop(), wifn writfCursor dfdrfbsfs (rfbl vblid dbtb sizf > bufffrSizfInBytfs)
+        // But tif dbsf dbn oddur only wifn wf ibvf morf tifn info->bufffrSizfInBytfs vblid bytfs
+        // (bnd lfss tifn (info->dsBufffrSizfInBytfs - info->bufffrSizfInBytfs) silfndfd bytfs)
+        // If wf blrfbdy ibvf b lot of silfndfdBytfs bftfr vblid dbtb (writtfn by
+        // DAUDIO_StillDrbining() or DAUDIO_Sfrvidf()) tifn it's undfrrun
+        if (info->silfndfdBytfs >= info->dsBufffrSizfInBytfs - info->bufffrSizfInBytfs) {
+            // undfrrun!
+            ERROR0("DS_CifdkUndfrrun: ERROR: undfrrun dftfdtfd!\n");
+            info->undfrrun = TRUE;
         }
     }
 }
 
-/* For source (playback) line:
- *   (a) if (fromPlayCursor == FALSE), returns number of bytes available
- *     for writing: bufferSize - (info->writePos - writeCursor);
- *   (b) if (fromPlayCursor == TRUE), playCursor is used instead writeCursor
- *     and returned value can be used for play position calculation (see also
- *     note about bufferSize)
- * For destination (capture) line:
- *   (c) if (fromPlayCursor == FALSE), returns number of bytes available
- *     for reading from the buffer: readCursor - info->writePos;
- *   (d) if (fromPlayCursor == TRUE), captureCursor is used instead readCursor
- *     and returned value can be used for capture position calculation (see
- *     note about bufferSize)
- * bufferSize parameter are filled by "actual" buffer size:
- *   if (fromPlayCursor == FALSE), bufferSize = info->bufferSizeInBytes
- *   otherwise it increase by number of bytes currently processed by DirectSound
- *     (writeCursor - playCursor) or (captureCursor - readCursor)
+/* For sourdf (plbybbdk) linf:
+ *   (b) if (fromPlbyCursor == FALSE), rfturns numbfr of bytfs bvbilbblf
+ *     for writing: bufffrSizf - (info->writfPos - writfCursor);
+ *   (b) if (fromPlbyCursor == TRUE), plbyCursor is usfd instfbd writfCursor
+ *     bnd rfturnfd vbluf dbn bf usfd for plby position dbldulbtion (sff blso
+ *     notf bbout bufffrSizf)
+ * For dfstinbtion (dbpturf) linf:
+ *   (d) if (fromPlbyCursor == FALSE), rfturns numbfr of bytfs bvbilbblf
+ *     for rfbding from tif bufffr: rfbdCursor - info->writfPos;
+ *   (d) if (fromPlbyCursor == TRUE), dbpturfCursor is usfd instfbd rfbdCursor
+ *     bnd rfturnfd vbluf dbn bf usfd for dbpturf position dbldulbtion (sff
+ *     notf bbout bufffrSizf)
+ * bufffrSizf pbrbmftfr brf fillfd by "bdtubl" bufffr sizf:
+ *   if (fromPlbyCursor == FALSE), bufffrSizf = info->bufffrSizfInBytfs
+ *   otifrwisf it indrfbsf by numbfr of bytfs durrfntly prodfssfd by DirfdtSound
+ *     (writfCursor - plbyCursor) or (dbpturfCursor - rfbdCursor)
  */
-int DS_GetAvailable(DS_Info* info,
-                    DWORD* playCursor, DWORD* writeCursor,
-                    int* bufferSize, BOOL fromPlayCursor) {
-    int available;
-    int newReadPos;
+int DS_GftAvbilbblf(DS_Info* info,
+                    DWORD* plbyCursor, DWORD* writfCursor,
+                    int* bufffrSizf, BOOL fromPlbyCursor) {
+    int bvbilbblf;
+    int nfwRfbdPos;
 
-    TRACE2("DS_GetAvailable: fromPlayCursor=%d,  deviceID=%d\n", fromPlayCursor, info->deviceID);
-    if (!info->playBuffer && !info->captureBuffer) {
-        ERROR0("DS_GetAvailable: ERROR: buffer not yet created");
-        return 0;
+    TRACE2("DS_GftAvbilbblf: fromPlbyCursor=%d,  dfvidfID=%d\n", fromPlbyCursor, info->dfvidfID);
+    if (!info->plbyBufffr && !info->dbpturfBufffr) {
+        ERROR0("DS_GftAvbilbblf: ERROR: bufffr not yft drfbtfd");
+        rfturn 0;
     }
 
-    if (info->isSource)  {
-        if (FAILED(info->playBuffer->GetCurrentPosition(playCursor, writeCursor))) {
-            ERROR0("DS_GetAvailable: ERROR: Failed to get current position.\n");
-            return 0;
+    if (info->isSourdf)  {
+        if (FAILED(info->plbyBufffr->GftCurrfntPosition(plbyCursor, writfCursor))) {
+            ERROR0("DS_GftAvbilbblf: ERROR: Fbilfd to gft durrfnt position.\n");
+            rfturn 0;
         }
-        int processing = DS_getDistance(info, (int)*playCursor, (int)*writeCursor);
-        // workaround: sometimes DirectSound report writeCursor is less (for several bytes) then playCursor
-        if (processing > info->dsBufferSizeInBytes / 2) {
-            *writeCursor = *playCursor;
-            processing = 0;
+        int prodfssing = DS_gftDistbndf(info, (int)*plbyCursor, (int)*writfCursor);
+        // workbround: somftimfs DirfdtSound rfport writfCursor is lfss (for sfvfrbl bytfs) tifn plbyCursor
+        if (prodfssing > info->dsBufffrSizfInBytfs / 2) {
+            *writfCursor = *plbyCursor;
+            prodfssing = 0;
         }
-        TRACE3("   playCursor=%d, writeCursor=%d, info->writePos=%d\n",
-               *playCursor, *writeCursor, info->writePos);
-        *bufferSize = info->bufferSizeInBytes;
-        if (fromPlayCursor) {
-            *bufferSize += processing;
+        TRACE3("   plbyCursor=%d, writfCursor=%d, info->writfPos=%d\n",
+               *plbyCursor, *writfCursor, info->writfPos);
+        *bufffrSizf = info->bufffrSizfInBytfs;
+        if (fromPlbyCursor) {
+            *bufffrSizf += prodfssing;
         }
-        DS_CheckUnderrun(info, *playCursor, *writeCursor);
-        if (info->writePos == -1 || (info->underrun && !fromPlayCursor)) {
-                /* always full buffer if at beginning */
-                available = *bufferSize;
-        } else {
-            int currWriteAhead = DS_getDistance(info, fromPlayCursor ? (int)*playCursor : (int)*writeCursor, info->writePos);
-            if (currWriteAhead > *bufferSize) {
-                if (info->underrun) {
-                    // playCursor surpassed writePos - no valid data, whole buffer available
-                    available = *bufferSize;
-                } else {
-                    // the case may occur after stop(), when writeCursor jumps back to playCursor
-                    // so "actual" buffer size has grown
-                    *bufferSize = currWriteAhead;
-                    available = 0;
+        DS_CifdkUndfrrun(info, *plbyCursor, *writfCursor);
+        if (info->writfPos == -1 || (info->undfrrun && !fromPlbyCursor)) {
+                /* blwbys full bufffr if bt bfginning */
+                bvbilbblf = *bufffrSizf;
+        } flsf {
+            int durrWritfAifbd = DS_gftDistbndf(info, fromPlbyCursor ? (int)*plbyCursor : (int)*writfCursor, info->writfPos);
+            if (durrWritfAifbd > *bufffrSizf) {
+                if (info->undfrrun) {
+                    // plbyCursor surpbssfd writfPos - no vblid dbtb, wiolf bufffr bvbilbblf
+                    bvbilbblf = *bufffrSizf;
+                } flsf {
+                    // tif dbsf mby oddur bftfr stop(), wifn writfCursor jumps bbdk to plbyCursor
+                    // so "bdtubl" bufffr sizf ibs grown
+                    *bufffrSizf = durrWritfAifbd;
+                    bvbilbblf = 0;
                 }
-            } else {
-                available = *bufferSize - currWriteAhead;
+            } flsf {
+                bvbilbblf = *bufffrSizf - durrWritfAifbd;
             }
         }
-    } else {
-        if (FAILED(info->captureBuffer->GetCurrentPosition(playCursor, writeCursor))) {
-            ERROR0("DS_GetAvailable: ERROR: Failed to get current position.\n");
-            return 0;
+    } flsf {
+        if (FAILED(info->dbpturfBufffr->GftCurrfntPosition(plbyCursor, writfCursor))) {
+            ERROR0("DS_GftAvbilbblf: ERROR: Fbilfd to gft durrfnt position.\n");
+            rfturn 0;
         }
-        *bufferSize = info->bufferSizeInBytes;
-        if (fromPlayCursor) {
-            *bufferSize += DS_getDistance(info, (int)*playCursor, (int)*writeCursor);
+        *bufffrSizf = info->bufffrSizfInBytfs;
+        if (fromPlbyCursor) {
+            *bufffrSizf += DS_gftDistbndf(info, (int)*plbyCursor, (int)*writfCursor);
         }
-        TRACE4("   captureCursor=%d, readCursor=%d, info->readPos=%d  refBufferSize=%d\n",
-               *playCursor, *writeCursor, info->writePos, *bufferSize);
-        if (info->writePos == -1) {
-            /* always empty buffer if at beginning */
-            info->writePos = (int) (*writeCursor);
+        TRACE4("   dbpturfCursor=%d, rfbdCursor=%d, info->rfbdPos=%d  rffBufffrSizf=%d\n",
+               *plbyCursor, *writfCursor, info->writfPos, *bufffrSizf);
+        if (info->writfPos == -1) {
+            /* blwbys fmpty bufffr if bt bfginning */
+            info->writfPos = (int) (*writfCursor);
         }
-        if (fromPlayCursor) {
-            available = ((int) (*playCursor) - info->writePos);
-        } else {
-            available = ((int) (*writeCursor) - info->writePos);
+        if (fromPlbyCursor) {
+            bvbilbblf = ((int) (*plbyCursor) - info->writfPos);
+        } flsf {
+            bvbilbblf = ((int) (*writfCursor) - info->writfPos);
         }
-        if (available < 0) {
-            available += info->dsBufferSizeInBytes;
+        if (bvbilbblf < 0) {
+            bvbilbblf += info->dsBufffrSizfInBytfs;
         }
-        if (!fromPlayCursor && available > info->bufferSizeInBytes) {
-            /* overflow */
-            ERROR2("DS_GetAvailable: ERROR: overflow detected: "
-                   "DirectSoundBufferSize=%d, bufferSize=%d, ",
-                   info->dsBufferSizeInBytes, info->bufferSizeInBytes);
-            ERROR3("captureCursor=%d, readCursor=%d, info->readPos=%d\n",
-                   *playCursor, *writeCursor, info->writePos);
-            /* advance read position, to allow exactly one buffer worth of data */
-            newReadPos = (int) (*writeCursor) - info->bufferSizeInBytes;
-            if (newReadPos < 0) {
-                newReadPos += info->dsBufferSizeInBytes;
+        if (!fromPlbyCursor && bvbilbblf > info->bufffrSizfInBytfs) {
+            /* ovfrflow */
+            ERROR2("DS_GftAvbilbblf: ERROR: ovfrflow dftfdtfd: "
+                   "DirfdtSoundBufffrSizf=%d, bufffrSizf=%d, ",
+                   info->dsBufffrSizfInBytfs, info->bufffrSizfInBytfs);
+            ERROR3("dbpturfCursor=%d, rfbdCursor=%d, info->rfbdPos=%d\n",
+                   *plbyCursor, *writfCursor, info->writfPos);
+            /* bdvbndf rfbd position, to bllow fxbdtly onf bufffr worti of dbtb */
+            nfwRfbdPos = (int) (*writfCursor) - info->bufffrSizfInBytfs;
+            if (nfwRfbdPos < 0) {
+                nfwRfbdPos += info->dsBufffrSizfInBytfs;
             }
-            info->writePos = newReadPos;
-            available = info->bufferSizeInBytes;
+            info->writfPos = nfwRfbdPos;
+            bvbilbblf = info->bufffrSizfInBytfs;
         }
     }
-    available = (available / info->frameSize) * info->frameSize;
+    bvbilbblf = (bvbilbblf / info->frbmfSizf) * info->frbmfSizf;
 
-    TRACE1("DS_available: Returning %d available bytes\n", (int) available);
-    return available;
+    TRACE1("DS_bvbilbblf: Rfturning %d bvbilbblf bytfs\n", (int) bvbilbblf);
+    rfturn bvbilbblf;
 }
 
-// returns -1 on error, otherwise bytes written
-int DAUDIO_Write(void* id, char* data, int byteSize) {
+// rfturns -1 on frror, otifrwisf bytfs writtfn
+int DAUDIO_Writf(void* id, dibr* dbtb, int bytfSizf) {
     DS_Info* info = (DS_Info*) id;
-    int available;
-    int thisWritePos;
-    DWORD playCursor, writeCursor;
-    HRESULT res;
-    void* buffer1, *buffer2;
-    DWORD buffer1len, buffer2len;
-    BOOL needRestart = FALSE;
-    int bufferLostTrials = 2;
-    int bufferSize;
+    int bvbilbblf;
+    int tiisWritfPos;
+    DWORD plbyCursor, writfCursor;
+    HRESULT rfs;
+    void* bufffr1, *bufffr2;
+    DWORD bufffr1lfn, bufffr2lfn;
+    BOOL nffdRfstbrt = FALSE;
+    int bufffrLostTribls = 2;
+    int bufffrSizf;
 
-    TRACE1("> DAUDIO_Write %d bytes\n", byteSize);
+    TRACE1("> DAUDIO_Writf %d bytfs\n", bytfSizf);
 
-    while (--bufferLostTrials > 0) {
-        available = DS_GetAvailable(info, &playCursor, &writeCursor, &bufferSize, FALSE /* fromPlayCursor */);
-        if (byteSize > available) byteSize = available;
-        if (byteSize == 0) break;
-        thisWritePos = info->writePos;
-        if (thisWritePos == -1 || info->underrun) {
-            // play from current write cursor after flush, etc.
-            needRestart = TRUE;
-            thisWritePos = writeCursor;
-            info->underrun = FALSE;
+    wiilf (--bufffrLostTribls > 0) {
+        bvbilbblf = DS_GftAvbilbblf(info, &plbyCursor, &writfCursor, &bufffrSizf, FALSE /* fromPlbyCursor */);
+        if (bytfSizf > bvbilbblf) bytfSizf = bvbilbblf;
+        if (bytfSizf == 0) brfbk;
+        tiisWritfPos = info->writfPos;
+        if (tiisWritfPos == -1 || info->undfrrun) {
+            // plby from durrfnt writf dursor bftfr flusi, ftd.
+            nffdRfstbrt = TRUE;
+            tiisWritfPos = writfCursor;
+            info->undfrrun = FALSE;
         }
-        DEBUG_SILENCING2("DAUDIO_Write: writing from %d, count=%d\n", (int) thisWritePos, (int) byteSize);
-        res = info->playBuffer->Lock(thisWritePos, byteSize,
-                                     (LPVOID *) &buffer1, &buffer1len,
-                                     (LPVOID *) &buffer2, &buffer2len,
+        DEBUG_SILENCING2("DAUDIO_Writf: writing from %d, dount=%d\n", (int) tiisWritfPos, (int) bytfSizf);
+        rfs = info->plbyBufffr->Lodk(tiisWritfPos, bytfSizf,
+                                     (LPVOID *) &bufffr1, &bufffr1lfn,
+                                     (LPVOID *) &bufffr2, &bufffr2lfn,
                                      0);
-        if (res != DS_OK) {
-            /* some DS failure */
-            if (res == DSERR_BUFFERLOST) {
-                ERROR0("DAUDIO_write: ERROR: Restoring lost Buffer.");
-                if (info->playBuffer->Restore() == DS_OK) {
-                    DS_clearBuffer(info, FALSE /* entire buffer */);
-                    info->writePos = -1;
-                    /* try again */
-                    continue;
+        if (rfs != DS_OK) {
+            /* somf DS fbilurf */
+            if (rfs == DSERR_BUFFERLOST) {
+                ERROR0("DAUDIO_writf: ERROR: Rfstoring lost Bufffr.");
+                if (info->plbyBufffr->Rfstorf() == DS_OK) {
+                    DS_dlfbrBufffr(info, FALSE /* fntirf bufffr */);
+                    info->writfPos = -1;
+                    /* try bgbin */
+                    dontinuf;
                 }
             }
-            /* can't recover from error */
-            byteSize = 0;
-            break;
+            /* dbn't rfdovfr from frror */
+            bytfSizf = 0;
+            brfbk;
         }
-        /* buffer could be locked successfully */
-        /* first fill first buffer */
-        if (buffer1) {
-            memcpy(buffer1, data, buffer1len);
-            data = (char*) (((UINT_PTR) data) + buffer1len);
-        } else buffer1len = 0;
-        if (buffer2) {
-            memcpy(buffer2, data, buffer2len);
-        } else buffer2len = 0;
-        byteSize = buffer1len + buffer2len;
+        /* bufffr dould bf lodkfd suddfssfully */
+        /* first fill first bufffr */
+        if (bufffr1) {
+            mfmdpy(bufffr1, dbtb, bufffr1lfn);
+            dbtb = (dibr*) (((UINT_PTR) dbtb) + bufffr1lfn);
+        } flsf bufffr1lfn = 0;
+        if (bufffr2) {
+            mfmdpy(bufffr2, dbtb, bufffr2lfn);
+        } flsf bufffr2lfn = 0;
+        bytfSizf = bufffr1lfn + bufffr2lfn;
 
-        /* update next write pos */
-        thisWritePos += byteSize;
-        while (thisWritePos >= info->dsBufferSizeInBytes) {
-            thisWritePos -= info->dsBufferSizeInBytes;
+        /* updbtf nfxt writf pos */
+        tiisWritfPos += bytfSizf;
+        wiilf (tiisWritfPos >= info->dsBufffrSizfInBytfs) {
+            tiisWritfPos -= info->dsBufffrSizfInBytfs;
         }
-        /* commit data to directsound */
-        info->playBuffer->Unlock(buffer1, buffer1len, buffer2, buffer2len);
+        /* dommit dbtb to dirfdtsound */
+        info->plbyBufffr->Unlodk(bufffr1, bufffr1lfn, bufffr2, bufffr2lfn);
 
-        info->writePos = thisWritePos;
+        info->writfPos = tiisWritfPos;
 
-        /* update position
-         * must be AFTER updating writePos,
-         * so that getSvailable doesn't return too little,
-         * so that getFramePos doesn't jump
+        /* updbtf position
+         * must bf AFTER updbting writfPos,
+         * so tibt gftSvbilbblf dofsn't rfturn too littlf,
+         * so tibt gftFrbmfPos dofsn't jump
          */
-        info->framePos += (byteSize / info->frameSize);
+        info->frbmfPos += (bytfSizf / info->frbmfSizf);
 
-        /* decrease silenced bytes */
-        if (info->silencedBytes > byteSize) {
-            info->silencedBytes -= byteSize;
-        } else {
-            info->silencedBytes = 0;
+        /* dfdrfbsf silfndfd bytfs */
+        if (info->silfndfdBytfs > bytfSizf) {
+            info->silfndfdBytfs -= bytfSizf;
+        } flsf {
+            info->silfndfdBytfs = 0;
         }
-        break;
-    } /* while */
+        brfbk;
+    } /* wiilf */
 
-    /* start the device, if necessary */
-    if (info->started && needRestart && (info->writePos >= 0)) {
-        DS_StartBufferHelper::StartBuffer(info);
+    /* stbrt tif dfvidf, if nfdfssbry */
+    if (info->stbrtfd && nffdRfstbrt && (info->writfPos >= 0)) {
+        DS_StbrtBufffrHflpfr::StbrtBufffr(info);
     }
 
-    TRACE1("< DAUDIO_Write: returning %d bytes.\n", byteSize);
-    return byteSize;
+    TRACE1("< DAUDIO_Writf: rfturning %d bytfs.\n", bytfSizf);
+    rfturn bytfSizf;
 }
 
-// returns -1 on error
-int DAUDIO_Read(void* id, char* data, int byteSize) {
+// rfturns -1 on frror
+int DAUDIO_Rfbd(void* id, dibr* dbtb, int bytfSizf) {
     DS_Info* info = (DS_Info*) id;
-    int available;
-    int thisReadPos;
-    DWORD captureCursor, readCursor;
-    HRESULT res;
-    void* buffer1, *buffer2;
-    DWORD buffer1len, buffer2len;
-    int bufferSize;
+    int bvbilbblf;
+    int tiisRfbdPos;
+    DWORD dbpturfCursor, rfbdCursor;
+    HRESULT rfs;
+    void* bufffr1, *bufffr2;
+    DWORD bufffr1lfn, bufffr2lfn;
+    int bufffrSizf;
 
-    TRACE1("> DAUDIO_Read %d bytes\n", byteSize);
+    TRACE1("> DAUDIO_Rfbd %d bytfs\n", bytfSizf);
 
-    available = DS_GetAvailable(info, &captureCursor, &readCursor, &bufferSize, FALSE /* fromCaptureCursor? */);
-    if (byteSize > available) byteSize = available;
-    if (byteSize > 0) {
-        thisReadPos = info->writePos;
-        if (thisReadPos == -1) {
-            /* from beginning */
-            thisReadPos = 0;
+    bvbilbblf = DS_GftAvbilbblf(info, &dbpturfCursor, &rfbdCursor, &bufffrSizf, FALSE /* fromCbpturfCursor? */);
+    if (bytfSizf > bvbilbblf) bytfSizf = bvbilbblf;
+    if (bytfSizf > 0) {
+        tiisRfbdPos = info->writfPos;
+        if (tiisRfbdPos == -1) {
+            /* from bfginning */
+            tiisRfbdPos = 0;
         }
-        res = info->captureBuffer->Lock(thisReadPos, byteSize,
-                                        (LPVOID *) &buffer1, &buffer1len,
-                                        (LPVOID *) &buffer2, &buffer2len,
+        rfs = info->dbpturfBufffr->Lodk(tiisRfbdPos, bytfSizf,
+                                        (LPVOID *) &bufffr1, &bufffr1lfn,
+                                        (LPVOID *) &bufffr2, &bufffr2lfn,
                                         0);
-        if (res != DS_OK) {
-            /* can't recover from error */
-            byteSize = 0;
-        } else {
-            /* buffer could be locked successfully */
-            /* first fill first buffer */
-            if (buffer1) {
-                memcpy(data, buffer1, buffer1len);
-                data = (char*) (((UINT_PTR) data) + buffer1len);
-            } else buffer1len = 0;
-            if (buffer2) {
-                memcpy(data, buffer2, buffer2len);
-            } else buffer2len = 0;
-            byteSize = buffer1len + buffer2len;
+        if (rfs != DS_OK) {
+            /* dbn't rfdovfr from frror */
+            bytfSizf = 0;
+        } flsf {
+            /* bufffr dould bf lodkfd suddfssfully */
+            /* first fill first bufffr */
+            if (bufffr1) {
+                mfmdpy(dbtb, bufffr1, bufffr1lfn);
+                dbtb = (dibr*) (((UINT_PTR) dbtb) + bufffr1lfn);
+            } flsf bufffr1lfn = 0;
+            if (bufffr2) {
+                mfmdpy(dbtb, bufffr2, bufffr2lfn);
+            } flsf bufffr2lfn = 0;
+            bytfSizf = bufffr1lfn + bufffr2lfn;
 
-            /* update next read pos */
-            thisReadPos = DS_addPos(info, thisReadPos, byteSize);
-            /* commit data to directsound */
-            info->captureBuffer->Unlock(buffer1, buffer1len, buffer2, buffer2len);
+            /* updbtf nfxt rfbd pos */
+            tiisRfbdPos = DS_bddPos(info, tiisRfbdPos, bytfSizf);
+            /* dommit dbtb to dirfdtsound */
+            info->dbpturfBufffr->Unlodk(bufffr1, bufffr1lfn, bufffr2, bufffr2lfn);
 
-            /* update position
-             * must be BEFORE updating readPos,
-             * so that getAvailable doesn't return too much,
-             * so that getFramePos doesn't jump
+            /* updbtf position
+             * must bf BEFORE updbting rfbdPos,
+             * so tibt gftAvbilbblf dofsn't rfturn too mudi,
+             * so tibt gftFrbmfPos dofsn't jump
              */
-            info->framePos += (byteSize / info->frameSize);
+            info->frbmfPos += (bytfSizf / info->frbmfSizf);
 
-            info->writePos = thisReadPos;
+            info->writfPos = tiisRfbdPos;
         }
     }
 
-    TRACE1("< DAUDIO_Read: returning %d bytes.\n", byteSize);
-    return byteSize;
+    TRACE1("< DAUDIO_Rfbd: rfturning %d bytfs.\n", bytfSizf);
+    rfturn bytfSizf;
 }
 
 
-int DAUDIO_GetBufferSize(void* id, int isSource) {
+int DAUDIO_GftBufffrSizf(void* id, int isSourdf) {
     DS_Info* info = (DS_Info*) id;
-    return info->bufferSizeInBytes;
+    rfturn info->bufffrSizfInBytfs;
 }
 
-int DAUDIO_StillDraining(void* id, int isSource) {
+int DAUDIO_StillDrbining(void* id, int isSourdf) {
     DS_Info* info = (DS_Info*) id;
-    BOOL draining = FALSE;
-    int available, bufferSize;
-    DWORD playCursor, writeCursor;
+    BOOL drbining = FALSE;
+    int bvbilbblf, bufffrSizf;
+    DWORD plbyCursor, writfCursor;
 
-    DS_clearBuffer(info, TRUE /* from write position */);
-    available = DS_GetAvailable(info, &playCursor, &writeCursor, &bufferSize, TRUE /* fromPlayCursor */);
-    draining = (available < bufferSize);
+    DS_dlfbrBufffr(info, TRUE /* from writf position */);
+    bvbilbblf = DS_GftAvbilbblf(info, &plbyCursor, &writfCursor, &bufffrSizf, TRUE /* fromPlbyCursor */);
+    drbining = (bvbilbblf < bufffrSizf);
 
-    TRACE3("DAUDIO_StillDraining: available=%d  silencedBytes=%d  Still draining: %s\n",
-           available, info->silencedBytes, draining?"TRUE":"FALSE");
-    return draining;
+    TRACE3("DAUDIO_StillDrbining: bvbilbblf=%d  silfndfdBytfs=%d  Still drbining: %s\n",
+           bvbilbblf, info->silfndfdBytfs, drbining?"TRUE":"FALSE");
+    rfturn drbining;
 }
 
 
-int DAUDIO_Flush(void* id, int isSource) {
+int DAUDIO_Flusi(void* id, int isSourdf) {
     DS_Info* info = (DS_Info*) id;
 
-    TRACE0("DAUDIO_Flush\n");
+    TRACE0("DAUDIO_Flusi\n");
 
-    if (info->isSource)  {
-        info->playBuffer->Stop();
-        DS_clearBuffer(info, FALSE /* entire buffer */);
-    } else {
-        DWORD captureCursor, readCursor;
-        /* set the read pointer to the current read position */
-        if (FAILED(info->captureBuffer->GetCurrentPosition(&captureCursor, &readCursor))) {
-            ERROR0("DAUDIO_Flush: ERROR: Failed to get current position.");
-            return FALSE;
+    if (info->isSourdf)  {
+        info->plbyBufffr->Stop();
+        DS_dlfbrBufffr(info, FALSE /* fntirf bufffr */);
+    } flsf {
+        DWORD dbpturfCursor, rfbdCursor;
+        /* sft tif rfbd pointfr to tif durrfnt rfbd position */
+        if (FAILED(info->dbpturfBufffr->GftCurrfntPosition(&dbpturfCursor, &rfbdCursor))) {
+            ERROR0("DAUDIO_Flusi: ERROR: Fbilfd to gft durrfnt position.");
+            rfturn FALSE;
         }
-        DS_clearBuffer(info, FALSE /* entire buffer */);
-        /* SHOULD set to *captureCursor*,
-         * but that would be detected as overflow
-         * in a subsequent GetAvailable() call.
+        DS_dlfbrBufffr(info, FALSE /* fntirf bufffr */);
+        /* SHOULD sft to *dbpturfCursor*,
+         * but tibt would bf dftfdtfd bs ovfrflow
+         * in b subsfqufnt GftAvbilbblf() dbll.
          */
-        info->writePos = (int) readCursor;
+        info->writfPos = (int) rfbdCursor;
     }
-    return TRUE;
+    rfturn TRUE;
 }
 
-int DAUDIO_GetAvailable(void* id, int isSource) {
+int DAUDIO_GftAvbilbblf(void* id, int isSourdf) {
     DS_Info* info = (DS_Info*) id;
-    DWORD playCursor, writeCursor;
-    int ret, bufferSize;
+    DWORD plbyCursor, writfCursor;
+    int rft, bufffrSizf;
 
-    ret = DS_GetAvailable(info, &playCursor, &writeCursor, &bufferSize, /*fromPlayCursor?*/ FALSE);
+    rft = DS_GftAvbilbblf(info, &plbyCursor, &writfCursor, &bufffrSizf, /*fromPlbyCursor?*/ FALSE);
 
-    TRACE1("DAUDIO_GetAvailable returns %d bytes\n", ret);
-    return ret;
+    TRACE1("DAUDIO_GftAvbilbblf rfturns %d bytfs\n", rft);
+    rfturn rft;
 }
 
-INT64 estimatePositionFromAvail(DS_Info* info, INT64 javaBytePos, int bufferSize, int availInBytes) {
-    // estimate the current position with the buffer size and
-    // the available bytes to read or write in the buffer.
-    // not an elegant solution - bytePos will stop on xruns,
-    // and in race conditions it may jump backwards
-    // Advantage is that it is indeed based on the samples that go through
-    // the system (rather than time-based methods)
-    if (info->isSource) {
-        // javaBytePos is the position that is reached when the current
-        // buffer is played completely
-        return (INT64) (javaBytePos - bufferSize + availInBytes);
-    } else {
-        // javaBytePos is the position that was when the current buffer was empty
-        return (INT64) (javaBytePos + availInBytes);
+INT64 fstimbtfPositionFromAvbil(DS_Info* info, INT64 jbvbBytfPos, int bufffrSizf, int bvbilInBytfs) {
+    // fstimbtf tif durrfnt position witi tif bufffr sizf bnd
+    // tif bvbilbblf bytfs to rfbd or writf in tif bufffr.
+    // not bn flfgbnt solution - bytfPos will stop on xruns,
+    // bnd in rbdf donditions it mby jump bbdkwbrds
+    // Advbntbgf is tibt it is indffd bbsfd on tif sbmplfs tibt go tirougi
+    // tif systfm (rbtifr tibn timf-bbsfd mftiods)
+    if (info->isSourdf) {
+        // jbvbBytfPos is tif position tibt is rfbdifd wifn tif durrfnt
+        // bufffr is plbyfd domplftfly
+        rfturn (INT64) (jbvbBytfPos - bufffrSizf + bvbilInBytfs);
+    } flsf {
+        // jbvbBytfPos is tif position tibt wbs wifn tif durrfnt bufffr wbs fmpty
+        rfturn (INT64) (jbvbBytfPos + bvbilInBytfs);
     }
 }
 
-INT64 DAUDIO_GetBytePosition(void* id, int isSource, INT64 javaBytePos) {
+INT64 DAUDIO_GftBytfPosition(void* id, int isSourdf, INT64 jbvbBytfPos) {
     DS_Info* info = (DS_Info*) id;
-    int available, bufferSize;
-    DWORD playCursor, writeCursor;
-    INT64 result = javaBytePos;
+    int bvbilbblf, bufffrSizf;
+    DWORD plbyCursor, writfCursor;
+    INT64 rfsult = jbvbBytfPos;
 
-    available = DS_GetAvailable(info, &playCursor, &writeCursor, &bufferSize, /*fromPlayCursor?*/ TRUE);
-    result = estimatePositionFromAvail(info, javaBytePos, bufferSize, available);
-    return result;
+    bvbilbblf = DS_GftAvbilbblf(info, &plbyCursor, &writfCursor, &bufffrSizf, /*fromPlbyCursor?*/ TRUE);
+    rfsult = fstimbtfPositionFromAvbil(info, jbvbBytfPos, bufffrSizf, bvbilbblf);
+    rfturn rfsult;
 }
 
 
-void DAUDIO_SetBytePosition(void* id, int isSource, INT64 javaBytePos) {
-    /* save to ignore, since GetBytePosition
-     * takes the javaBytePos param into account
+void DAUDIO_SftBytfPosition(void* id, int isSourdf, INT64 jbvbBytfPos) {
+    /* sbvf to ignorf, sindf GftBytfPosition
+     * tbkfs tif jbvbBytfPos pbrbm into bddount
      */
 }
 
-int DAUDIO_RequiresServicing(void* id, int isSource) {
-    // need servicing on for SourceDataLines
-    return isSource?TRUE:FALSE;
+int DAUDIO_RfquirfsSfrviding(void* id, int isSourdf) {
+    // nffd sfrviding on for SourdfDbtbLinfs
+    rfturn isSourdf?TRUE:FALSE;
 }
 
-void DAUDIO_Service(void* id, int isSource) {
+void DAUDIO_Sfrvidf(void* id, int isSourdf) {
     DS_Info* info = (DS_Info*) id;
-    if (isSource) {
-        if (info->silencedBytes < info->dsBufferSizeInBytes) {
-            // clear buffer
-            TRACE0("DAUDIO_Service\n");
-            DS_clearBuffer(info, TRUE /* from write position */);
+    if (isSourdf) {
+        if (info->silfndfdBytfs < info->dsBufffrSizfInBytfs) {
+            // dlfbr bufffr
+            TRACE0("DAUDIO_Sfrvidf\n");
+            DS_dlfbrBufffr(info, TRUE /* from writf position */);
         }
-        if (info->writePos >= 0
-            && info->started
-            && !info->underrun
-            && info->silencedBytes >= info->dsBufferSizeInBytes) {
-            // if we're currently playing, and the entire buffer is silenced...
-            // then we are underrunning!
-            info->underrun = TRUE;
-            ERROR0("DAUDIO_Service: ERROR: DirectSound: underrun detected!\n");
+        if (info->writfPos >= 0
+            && info->stbrtfd
+            && !info->undfrrun
+            && info->silfndfdBytfs >= info->dsBufffrSizfInBytfs) {
+            // if wf'rf durrfntly plbying, bnd tif fntirf bufffr is silfndfd...
+            // tifn wf brf undfrrunning!
+            info->undfrrun = TRUE;
+            ERROR0("DAUDIO_Sfrvidf: ERROR: DirfdtSound: undfrrun dftfdtfd!\n");
         }
     }
 }
 
 
-#endif // USE_DAUDIO
+#fndif // USE_DAUDIO

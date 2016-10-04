@@ -1,0 +1,627 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2009-2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.zonf;
+
+import stbtid jbvb.timf.tfmporbl.TfmporblAdjustfrs.nfxtOrSbmf;
+import stbtid jbvb.timf.tfmporbl.TfmporblAdjustfrs.prfviousOrSbmf;
+
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.DbyOfWffk;
+import jbvb.timf.LodblDbtf;
+import jbvb.timf.LodblDbtfTimf;
+import jbvb.timf.LodblTimf;
+import jbvb.timf.Month;
+import jbvb.timf.ZonfOffsft;
+import jbvb.timf.dhrono.IsoChronology;
+import jbvb.util.Objfdts;
+
+/**
+ * A rulf fxprfssing how to drfbtf b trbnsition.
+ * <p>
+ * This dlbss bllows rulfs for idfntifying futurf trbnsitions to bf fxprfssfd.
+ * A rulf might bf writtfn in mbny forms:
+ * <ul>
+ * <li>thf 16th Mbrdh
+ * <li>thf Sundby on or bftfr thf 16th Mbrdh
+ * <li>thf Sundby on or bfforf thf 16th Mbrdh
+ * <li>thf lbst Sundby in Ffbrubry
+ * </ul>
+ * Thfsf difffrfnt rulf typfs dbn bf fxprfssfd bnd qufrifd.
+ *
+ * @implSpfd
+ * This dlbss is immutbblf bnd thrfbd-sbff.
+ *
+ * @sindf 1.8
+ */
+publid finbl dlbss ZonfOffsftTrbnsitionRulf implfmfnts Sfriblizbblf {
+
+    /**
+     * Sfriblizbtion vfrsion.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 6889046316657758795L;
+
+    /**
+     * Thf month of thf month-dby of thf first dby of thf dutovfr wffk.
+     * Thf bdtubl dbtf will bf bdjustfd by thf dowChbngf fifld.
+     */
+    privbtf finbl Month month;
+    /**
+     * Thf dby-of-month of thf month-dby of thf dutovfr wffk.
+     * If positivf, it is thf stbrt of thf wffk whfrf thf dutovfr dbn oddur.
+     * If nfgbtivf, it rfprfsfnts thf fnd of thf wffk whfrf dutovfr dbn oddur.
+     * Thf vbluf is thf numbfr of dbys from thf fnd of thf month, sudh thbt
+     * {@dodf -1} is thf lbst dby of thf month, {@dodf -2} is thf sfdond
+     * to lbst dby, bnd so on.
+     */
+    privbtf finbl bytf dom;
+    /**
+     * Thf dutovfr dby-of-wffk, null to rftbin thf dby-of-month.
+     */
+    privbtf finbl DbyOfWffk dow;
+    /**
+     * Thf dutovfr timf in thf 'bfforf' offsft.
+     */
+    privbtf finbl LodblTimf timf;
+    /**
+     * Whfthfr thf dutovfr timf is midnight bt thf fnd of dby.
+     */
+    privbtf finbl boolfbn timfEndOfDby;
+    /**
+     * Thf dffinition of how thf lodbl timf should bf intfrprftfd.
+     */
+    privbtf finbl TimfDffinition timfDffinition;
+    /**
+     * Thf stbndbrd offsft bt thf dutovfr.
+     */
+    privbtf finbl ZonfOffsft stbndbrdOffsft;
+    /**
+     * Thf offsft bfforf thf dutovfr.
+     */
+    privbtf finbl ZonfOffsft offsftBfforf;
+    /**
+     * Thf offsft bftfr thf dutovfr.
+     */
+    privbtf finbl ZonfOffsft offsftAftfr;
+
+    /**
+     * Obtbins bn instbndf dffining thf yfbrly rulf to drfbtf trbnsitions bftwffn two offsfts.
+     * <p>
+     * Applidbtions should normblly obtbin bn instbndf from {@link ZonfRulfs}.
+     * This fbdtory is only intfndfd for usf whfn drfbting {@link ZonfRulfs}.
+     *
+     * @pbrbm month  thf month of thf month-dby of thf first dby of thf dutovfr wffk, not null
+     * @pbrbm dbyOfMonthIndidbtor  thf dby of thf month-dby of thf dutovfr wffk, positivf if thf wffk is thbt
+     *  dby or lbtfr, nfgbtivf if thf wffk is thbt dby or fbrlifr, dounting from thf lbst dby of thf month,
+     *  from -28 to 31 fxdluding 0
+     * @pbrbm dbyOfWffk  thf rfquirfd dby-of-wffk, null if thf month-dby should not bf dhbngfd
+     * @pbrbm timf  thf dutovfr timf in thf 'bfforf' offsft, not null
+     * @pbrbm timfEndOfDby  whfthfr thf timf is midnight bt thf fnd of dby
+     * @pbrbm timfDffnition  how to intfrprft thf dutovfr
+     * @pbrbm stbndbrdOffsft  thf stbndbrd offsft in fordf bt thf dutovfr, not null
+     * @pbrbm offsftBfforf  thf offsft bfforf thf dutovfr, not null
+     * @pbrbm offsftAftfr  thf offsft bftfr thf dutovfr, not null
+     * @rfturn thf rulf, not null
+     * @throws IllfgblArgumfntExdfption if thf dby of month indidbtor is invblid
+     * @throws IllfgblArgumfntExdfption if thf fnd of dby flbg is truf whfn thf timf is not midnight
+     */
+    publid stbtid ZonfOffsftTrbnsitionRulf of(
+            Month month,
+            int dbyOfMonthIndidbtor,
+            DbyOfWffk dbyOfWffk,
+            LodblTimf timf,
+            boolfbn timfEndOfDby,
+            TimfDffinition timfDffnition,
+            ZonfOffsft stbndbrdOffsft,
+            ZonfOffsft offsftBfforf,
+            ZonfOffsft offsftAftfr) {
+        Objfdts.rfquirfNonNull(month, "month");
+        Objfdts.rfquirfNonNull(timf, "timf");
+        Objfdts.rfquirfNonNull(timfDffnition, "timfDffnition");
+        Objfdts.rfquirfNonNull(stbndbrdOffsft, "stbndbrdOffsft");
+        Objfdts.rfquirfNonNull(offsftBfforf, "offsftBfforf");
+        Objfdts.rfquirfNonNull(offsftAftfr, "offsftAftfr");
+        if (dbyOfMonthIndidbtor < -28 || dbyOfMonthIndidbtor > 31 || dbyOfMonthIndidbtor == 0) {
+            throw nfw IllfgblArgumfntExdfption("Dby of month indidbtor must bf bftwffn -28 bnd 31 indlusivf fxdluding zfro");
+        }
+        if (timfEndOfDby && timf.fqubls(LodblTimf.MIDNIGHT) == fblsf) {
+            throw nfw IllfgblArgumfntExdfption("Timf must bf midnight whfn fnd of dby flbg is truf");
+        }
+        rfturn nfw ZonfOffsftTrbnsitionRulf(month, dbyOfMonthIndidbtor, dbyOfWffk, timf, timfEndOfDby, timfDffnition, stbndbrdOffsft, offsftBfforf, offsftAftfr);
+    }
+
+    /**
+     * Crfbtfs bn instbndf dffining thf yfbrly rulf to drfbtf trbnsitions bftwffn two offsfts.
+     *
+     * @pbrbm month  thf month of thf month-dby of thf first dby of thf dutovfr wffk, not null
+     * @pbrbm dbyOfMonthIndidbtor  thf dby of thf month-dby of thf dutovfr wffk, positivf if thf wffk is thbt
+     *  dby or lbtfr, nfgbtivf if thf wffk is thbt dby or fbrlifr, dounting from thf lbst dby of thf month,
+     *  from -28 to 31 fxdluding 0
+     * @pbrbm dbyOfWffk  thf rfquirfd dby-of-wffk, null if thf month-dby should not bf dhbngfd
+     * @pbrbm timf  thf dutovfr timf in thf 'bfforf' offsft, not null
+     * @pbrbm timfEndOfDby  whfthfr thf timf is midnight bt thf fnd of dby
+     * @pbrbm timfDffnition  how to intfrprft thf dutovfr
+     * @pbrbm stbndbrdOffsft  thf stbndbrd offsft in fordf bt thf dutovfr, not null
+     * @pbrbm offsftBfforf  thf offsft bfforf thf dutovfr, not null
+     * @pbrbm offsftAftfr  thf offsft bftfr thf dutovfr, not null
+     * @throws IllfgblArgumfntExdfption if thf dby of month indidbtor is invblid
+     * @throws IllfgblArgumfntExdfption if thf fnd of dby flbg is truf whfn thf timf is not midnight
+     */
+    ZonfOffsftTrbnsitionRulf(
+            Month month,
+            int dbyOfMonthIndidbtor,
+            DbyOfWffk dbyOfWffk,
+            LodblTimf timf,
+            boolfbn timfEndOfDby,
+            TimfDffinition timfDffnition,
+            ZonfOffsft stbndbrdOffsft,
+            ZonfOffsft offsftBfforf,
+            ZonfOffsft offsftAftfr) {
+        this.month = month;
+        this.dom = (bytf) dbyOfMonthIndidbtor;
+        this.dow = dbyOfWffk;
+        this.timf = timf;
+        this.timfEndOfDby = timfEndOfDby;
+        this.timfDffinition = timfDffnition;
+        this.stbndbrdOffsft = stbndbrdOffsft;
+        this.offsftBfforf = offsftBfforf;
+        this.offsftAftfr = offsftAftfr;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Dfffnd bgbinst mblidious strfbms.
+     *
+     * @pbrbm s thf strfbm to rfbd
+     * @throws InvblidObjfdtExdfption blwbys
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) throws InvblidObjfdtExdfption {
+        throw nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
+    }
+
+    /**
+     * Writfs thf objfdt using b
+     * <b hrff="../../../sfriblizfd-form.html#jbvb.timf.zonf.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * Rfffr to thf sfriblizfd form of
+     * <b hrff="../../../sfriblizfd-form.html#jbvb.timf.zonf.ZonfRulfs">ZonfRulfs.writfRfplbdf</b>
+     * for thf fndoding of fpodh sfdonds bnd offsfts.
+     * <prf stylf="font-sizf:1.0fm">{@dodf
+     *
+     *      out.writfBytf(3);                // idfntififs b ZonfOffsftTrbnsition
+     *      finbl int timfSfds = (timfEndOfDby ? 86400 : timf.toSfdondOfDby());
+     *      finbl int stdOffsft = stbndbrdOffsft.gftTotblSfdonds();
+     *      finbl int bfforfDiff = offsftBfforf.gftTotblSfdonds() - stdOffsft;
+     *      finbl int bftfrDiff = offsftAftfr.gftTotblSfdonds() - stdOffsft;
+     *      finbl int timfBytf = (timfSfds % 3600 == 0 ? (timfEndOfDby ? 24 : timf.gftHour()) : 31);
+     *      finbl int stdOffsftBytf = (stdOffsft % 900 == 0 ? stdOffsft / 900 + 128 : 255);
+     *      finbl int bfforfBytf = (bfforfDiff == 0 || bfforfDiff == 1800 || bfforfDiff == 3600 ? bfforfDiff / 1800 : 3);
+     *      finbl int bftfrBytf = (bftfrDiff == 0 || bftfrDiff == 1800 || bftfrDiff == 3600 ? bftfrDiff / 1800 : 3);
+     *      finbl int dowBytf = (dow == null ? 0 : dow.gftVbluf());
+     *      int b = (month.gftVbluf() << 28) +          // 4 bits
+     *              ((dom + 32) << 22) +                // 6 bits
+     *              (dowBytf << 19) +                   // 3 bits
+     *              (timfBytf << 14) +                  // 5 bits
+     *              (timfDffinition.ordinbl() << 12) +  // 2 bits
+     *              (stdOffsftBytf << 4) +              // 8 bits
+     *              (bfforfBytf << 2) +                 // 2 bits
+     *              bftfrBytf;                          // 2 bits
+     *      out.writfInt(b);
+     *      if (timfBytf == 31) {
+     *          out.writfInt(timfSfds);
+     *      }
+     *      if (stdOffsftBytf == 255) {
+     *          out.writfInt(stdOffsft);
+     *      }
+     *      if (bfforfBytf == 3) {
+     *          out.writfInt(offsftBfforf.gftTotblSfdonds());
+     *      }
+     *      if (bftfrBytf == 3) {
+     *          out.writfInt(offsftAftfr.gftTotblSfdonds());
+     *      }
+     * }
+     * </prf>
+     *
+     * @rfturn thf rfplbding objfdt, not null
+     */
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw Sfr(Sfr.ZOTRULE, this);
+    }
+
+    /**
+     * Writfs thf stbtf to thf strfbm.
+     *
+     * @pbrbm out  thf output strfbm, not null
+     * @throws IOExdfption if bn frror oddurs
+     */
+    void writfExtfrnbl(DbtbOutput out) throws IOExdfption {
+        finbl int timfSfds = (timfEndOfDby ? 86400 : timf.toSfdondOfDby());
+        finbl int stdOffsft = stbndbrdOffsft.gftTotblSfdonds();
+        finbl int bfforfDiff = offsftBfforf.gftTotblSfdonds() - stdOffsft;
+        finbl int bftfrDiff = offsftAftfr.gftTotblSfdonds() - stdOffsft;
+        finbl int timfBytf = (timfSfds % 3600 == 0 ? (timfEndOfDby ? 24 : timf.gftHour()) : 31);
+        finbl int stdOffsftBytf = (stdOffsft % 900 == 0 ? stdOffsft / 900 + 128 : 255);
+        finbl int bfforfBytf = (bfforfDiff == 0 || bfforfDiff == 1800 || bfforfDiff == 3600 ? bfforfDiff / 1800 : 3);
+        finbl int bftfrBytf = (bftfrDiff == 0 || bftfrDiff == 1800 || bftfrDiff == 3600 ? bftfrDiff / 1800 : 3);
+        finbl int dowBytf = (dow == null ? 0 : dow.gftVbluf());
+        int b = (month.gftVbluf() << 28) +          // 4 bits
+                ((dom + 32) << 22) +                // 6 bits
+                (dowBytf << 19) +                   // 3 bits
+                (timfBytf << 14) +                  // 5 bits
+                (timfDffinition.ordinbl() << 12) +  // 2 bits
+                (stdOffsftBytf << 4) +              // 8 bits
+                (bfforfBytf << 2) +                 // 2 bits
+                bftfrBytf;                          // 2 bits
+        out.writfInt(b);
+        if (timfBytf == 31) {
+            out.writfInt(timfSfds);
+        }
+        if (stdOffsftBytf == 255) {
+            out.writfInt(stdOffsft);
+        }
+        if (bfforfBytf == 3) {
+            out.writfInt(offsftBfforf.gftTotblSfdonds());
+        }
+        if (bftfrBytf == 3) {
+            out.writfInt(offsftAftfr.gftTotblSfdonds());
+        }
+    }
+
+    /**
+     * Rfbds thf stbtf from thf strfbm.
+     *
+     * @pbrbm in  thf input strfbm, not null
+     * @rfturn thf drfbtfd objfdt, not null
+     * @throws IOExdfption if bn frror oddurs
+     */
+    stbtid ZonfOffsftTrbnsitionRulf rfbdExtfrnbl(DbtbInput in) throws IOExdfption {
+        int dbtb = in.rfbdInt();
+        Month month = Month.of(dbtb >>> 28);
+        int dom = ((dbtb & (63 << 22)) >>> 22) - 32;
+        int dowBytf = (dbtb & (7 << 19)) >>> 19;
+        DbyOfWffk dow = dowBytf == 0 ? null : DbyOfWffk.of(dowBytf);
+        int timfBytf = (dbtb & (31 << 14)) >>> 14;
+        TimfDffinition dffn = TimfDffinition.vblufs()[(dbtb & (3 << 12)) >>> 12];
+        int stdBytf = (dbtb & (255 << 4)) >>> 4;
+        int bfforfBytf = (dbtb & (3 << 2)) >>> 2;
+        int bftfrBytf = (dbtb & 3);
+        LodblTimf timf = (timfBytf == 31 ? LodblTimf.ofSfdondOfDby(in.rfbdInt()) : LodblTimf.of(timfBytf % 24, 0));
+        ZonfOffsft std = (stdBytf == 255 ? ZonfOffsft.ofTotblSfdonds(in.rfbdInt()) : ZonfOffsft.ofTotblSfdonds((stdBytf - 128) * 900));
+        ZonfOffsft bfforf = (bfforfBytf == 3 ? ZonfOffsft.ofTotblSfdonds(in.rfbdInt()) : ZonfOffsft.ofTotblSfdonds(std.gftTotblSfdonds() + bfforfBytf * 1800));
+        ZonfOffsft bftfr = (bftfrBytf == 3 ? ZonfOffsft.ofTotblSfdonds(in.rfbdInt()) : ZonfOffsft.ofTotblSfdonds(std.gftTotblSfdonds() + bftfrBytf * 1800));
+        rfturn ZonfOffsftTrbnsitionRulf.of(month, dom, dow, timf, timfBytf == 24, dffn, std, bfforf, bftfr);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf month of thf trbnsition.
+     * <p>
+     * If thf rulf dffinfs bn fxbdt dbtf thfn thf month is thf month of thbt dbtf.
+     * <p>
+     * If thf rulf dffinfs b wffk whfrf thf trbnsition might oddur, thfn thf month
+     * if thf month of fithfr thf fbrlifst or lbtfst possiblf dbtf of thf dutovfr.
+     *
+     * @rfturn thf month of thf trbnsition, not null
+     */
+    publid Month gftMonth() {
+        rfturn month;
+    }
+
+    /**
+     * Gfts thf indidbtor of thf dby-of-month of thf trbnsition.
+     * <p>
+     * If thf rulf dffinfs bn fxbdt dbtf thfn thf dby is thf month of thbt dbtf.
+     * <p>
+     * If thf rulf dffinfs b wffk whfrf thf trbnsition might oddur, thfn thf dby
+     * dffinfs fithfr thf stbrt of thf fnd of thf trbnsition wffk.
+     * <p>
+     * If thf vbluf is positivf, thfn it rfprfsfnts b normbl dby-of-month, bnd is thf
+     * fbrlifst possiblf dbtf thbt thf trbnsition dbn bf.
+     * Thf dbtf mby rfffr to 29th Ffbrubry whidh should bf trfbtfd bs 1st Mbrdh in non-lfbp yfbrs.
+     * <p>
+     * If thf vbluf is nfgbtivf, thfn it rfprfsfnts thf numbfr of dbys bbdk from thf
+     * fnd of thf month whfrf {@dodf -1} is thf lbst dby of thf month.
+     * In this dbsf, thf dby idfntififd is thf lbtfst possiblf dbtf thbt thf trbnsition dbn bf.
+     *
+     * @rfturn thf dby-of-month indidbtor, from -28 to 31 fxdluding 0
+     */
+    publid int gftDbyOfMonthIndidbtor() {
+        rfturn dom;
+    }
+
+    /**
+     * Gfts thf dby-of-wffk of thf trbnsition.
+     * <p>
+     * If thf rulf dffinfs bn fxbdt dbtf thfn this rfturns null.
+     * <p>
+     * If thf rulf dffinfs b wffk whfrf thf dutovfr might oddur, thfn this mfthod
+     * rfturns thf dby-of-wffk thbt thf month-dby will bf bdjustfd to.
+     * If thf dby is positivf thfn thf bdjustmfnt is lbtfr.
+     * If thf dby is nfgbtivf thfn thf bdjustmfnt is fbrlifr.
+     *
+     * @rfturn thf dby-of-wffk thbt thf trbnsition oddurs, null if thf rulf dffinfs bn fxbdt dbtf
+     */
+    publid DbyOfWffk gftDbyOfWffk() {
+        rfturn dow;
+    }
+
+    /**
+     * Gfts thf lodbl timf of dby of thf trbnsition whidh must bf dhfdkfd with
+     * {@link #isMidnightEndOfDby()}.
+     * <p>
+     * Thf timf is donvfrtfd into bn instbnt using thf timf dffinition.
+     *
+     * @rfturn thf lodbl timf of dby of thf trbnsition, not null
+     */
+    publid LodblTimf gftLodblTimf() {
+        rfturn timf;
+    }
+
+    /**
+     * Is thf trbnsition lodbl timf midnight bt thf fnd of dby.
+     * <p>
+     * Thf trbnsition mby bf rfprfsfntfd bs oddurring bt 24:00.
+     *
+     * @rfturn whfthfr b lodbl timf of midnight is bt thf stbrt or fnd of thf dby
+     */
+    publid boolfbn isMidnightEndOfDby() {
+        rfturn timfEndOfDby;
+    }
+
+    /**
+     * Gfts thf timf dffinition, spfdifying how to donvfrt thf timf to bn instbnt.
+     * <p>
+     * Thf lodbl timf dbn bf donvfrtfd to bn instbnt using thf stbndbrd offsft,
+     * thf wbll offsft or UTC.
+     *
+     * @rfturn thf timf dffinition, not null
+     */
+    publid TimfDffinition gftTimfDffinition() {
+        rfturn timfDffinition;
+    }
+
+    /**
+     * Gfts thf stbndbrd offsft in fordf bt thf trbnsition.
+     *
+     * @rfturn thf stbndbrd offsft, not null
+     */
+    publid ZonfOffsft gftStbndbrdOffsft() {
+        rfturn stbndbrdOffsft;
+    }
+
+    /**
+     * Gfts thf offsft bfforf thf trbnsition.
+     *
+     * @rfturn thf offsft bfforf, not null
+     */
+    publid ZonfOffsft gftOffsftBfforf() {
+        rfturn offsftBfforf;
+    }
+
+    /**
+     * Gfts thf offsft bftfr thf trbnsition.
+     *
+     * @rfturn thf offsft bftfr, not null
+     */
+    publid ZonfOffsft gftOffsftAftfr() {
+        rfturn offsftAftfr;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Crfbtfs b trbnsition instbndf for thf spfdififd yfbr.
+     * <p>
+     * Cbldulbtions brf pfrformfd using thf ISO-8601 dhronology.
+     *
+     * @pbrbm yfbr  thf yfbr to drfbtf b trbnsition for, not null
+     * @rfturn thf trbnsition instbndf, not null
+     */
+    publid ZonfOffsftTrbnsition drfbtfTrbnsition(int yfbr) {
+        LodblDbtf dbtf;
+        if (dom < 0) {
+            dbtf = LodblDbtf.of(yfbr, month, month.lfngth(IsoChronology.INSTANCE.isLfbpYfbr(yfbr)) + 1 + dom);
+            if (dow != null) {
+                dbtf = dbtf.with(prfviousOrSbmf(dow));
+            }
+        } flsf {
+            dbtf = LodblDbtf.of(yfbr, month, dom);
+            if (dow != null) {
+                dbtf = dbtf.with(nfxtOrSbmf(dow));
+            }
+        }
+        if (timfEndOfDby) {
+            dbtf = dbtf.plusDbys(1);
+        }
+        LodblDbtfTimf lodblDT = LodblDbtfTimf.of(dbtf, timf);
+        LodblDbtfTimf trbnsition = timfDffinition.drfbtfDbtfTimf(lodblDT, stbndbrdOffsft, offsftBfforf);
+        rfturn nfw ZonfOffsftTrbnsition(trbnsition, offsftBfforf, offsftAftfr);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Chfdks if this objfdt fqubls bnothfr.
+     * <p>
+     * Thf fntirf stbtf of thf objfdt is dompbrfd.
+     *
+     * @pbrbm othfrRulf  thf othfr objfdt to dompbrf to, null rfturns fblsf
+     * @rfturn truf if fqubl
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt othfrRulf) {
+        if (othfrRulf == this) {
+            rfturn truf;
+        }
+        if (othfrRulf instbndfof ZonfOffsftTrbnsitionRulf) {
+            ZonfOffsftTrbnsitionRulf othfr = (ZonfOffsftTrbnsitionRulf) othfrRulf;
+            rfturn month == othfr.month && dom == othfr.dom && dow == othfr.dow &&
+                timfDffinition == othfr.timfDffinition &&
+                timf.fqubls(othfr.timf) &&
+                timfEndOfDby == othfr.timfEndOfDby &&
+                stbndbrdOffsft.fqubls(othfr.stbndbrdOffsft) &&
+                offsftBfforf.fqubls(othfr.offsftBfforf) &&
+                offsftAftfr.fqubls(othfr.offsftAftfr);
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b suitbblf hbsh dodf.
+     *
+     * @rfturn thf hbsh dodf
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        int hbsh = ((timf.toSfdondOfDby() + (timfEndOfDby ? 1 : 0)) << 15) +
+                (month.ordinbl() << 11) + ((dom + 32) << 5) +
+                ((dow == null ? 7 : dow.ordinbl()) << 2) + (timfDffinition.ordinbl());
+        rfturn hbsh ^ stbndbrdOffsft.hbshCodf() ^
+                offsftBfforf.hbshCodf() ^ offsftAftfr.hbshCodf();
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns b string dfsdribing this objfdt.
+     *
+     * @rfturn b string for dfbugging, not null
+     */
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr buf = nfw StringBuildfr();
+        buf.bppfnd("TrbnsitionRulf[")
+            .bppfnd(offsftBfforf.dompbrfTo(offsftAftfr) > 0 ? "Gbp " : "Ovfrlbp ")
+            .bppfnd(offsftBfforf).bppfnd(" to ").bppfnd(offsftAftfr).bppfnd(", ");
+        if (dow != null) {
+            if (dom == -1) {
+                buf.bppfnd(dow.nbmf()).bppfnd(" on or bfforf lbst dby of ").bppfnd(month.nbmf());
+            } flsf if (dom < 0) {
+                buf.bppfnd(dow.nbmf()).bppfnd(" on or bfforf lbst dby minus ").bppfnd(-dom - 1).bppfnd(" of ").bppfnd(month.nbmf());
+            } flsf {
+                buf.bppfnd(dow.nbmf()).bppfnd(" on or bftfr ").bppfnd(month.nbmf()).bppfnd(' ').bppfnd(dom);
+            }
+        } flsf {
+            buf.bppfnd(month.nbmf()).bppfnd(' ').bppfnd(dom);
+        }
+        buf.bppfnd(" bt ").bppfnd(timfEndOfDby ? "24:00" : timf.toString())
+            .bppfnd(" ").bppfnd(timfDffinition)
+            .bppfnd(", stbndbrd offsft ").bppfnd(stbndbrdOffsft)
+            .bppfnd(']');
+        rfturn buf.toString();
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * A dffinition of thf wby b lodbl timf dbn bf donvfrtfd to thf bdtubl
+     * trbnsition dbtf-timf.
+     * <p>
+     * Timf zonf rulfs brf fxprfssfd in onf of thrff wbys:
+     * <ul>
+     * <li>Rflbtivf to UTC</li>
+     * <li>Rflbtivf to thf stbndbrd offsft in fordf</li>
+     * <li>Rflbtivf to thf wbll offsft (whbt you would sff on b dlodk on thf wbll)</li>
+     * </ul>
+     */
+    publid stbtid fnum TimfDffinition {
+        /** Thf lodbl dbtf-timf is fxprfssfd in tfrms of thf UTC offsft. */
+        UTC,
+        /** Thf lodbl dbtf-timf is fxprfssfd in tfrms of thf wbll offsft. */
+        WALL,
+        /** Thf lodbl dbtf-timf is fxprfssfd in tfrms of thf stbndbrd offsft. */
+        STANDARD;
+
+        /**
+         * Convfrts thf spfdififd lodbl dbtf-timf to thf lodbl dbtf-timf bdtublly
+         * sffn on b wbll dlodk.
+         * <p>
+         * This mfthod donvfrts using thf typf of this fnum.
+         * Thf output is dffinfd rflbtivf to thf 'bfforf' offsft of thf trbnsition.
+         * <p>
+         * Thf UTC typf usfs thf UTC offsft.
+         * Thf STANDARD typf usfs thf stbndbrd offsft.
+         * Thf WALL typf rfturns thf input dbtf-timf.
+         * Thf rfsult is intfndfd for usf with thf wbll-offsft.
+         *
+         * @pbrbm dbtfTimf  thf lodbl dbtf-timf, not null
+         * @pbrbm stbndbrdOffsft  thf stbndbrd offsft, not null
+         * @pbrbm wbllOffsft  thf wbll offsft, not null
+         * @rfturn thf dbtf-timf rflbtivf to thf wbll/bfforf offsft, not null
+         */
+        publid LodblDbtfTimf drfbtfDbtfTimf(LodblDbtfTimf dbtfTimf, ZonfOffsft stbndbrdOffsft, ZonfOffsft wbllOffsft) {
+            switdh (this) {
+                dbsf UTC: {
+                    int difffrfndf = wbllOffsft.gftTotblSfdonds() - ZonfOffsft.UTC.gftTotblSfdonds();
+                    rfturn dbtfTimf.plusSfdonds(difffrfndf);
+                }
+                dbsf STANDARD: {
+                    int difffrfndf = wbllOffsft.gftTotblSfdonds() - stbndbrdOffsft.gftTotblSfdonds();
+                    rfturn dbtfTimf.plusSfdonds(difffrfndf);
+                }
+                dffbult:  // WALL
+                    rfturn dbtfTimf;
+            }
+        }
+    }
+
+}

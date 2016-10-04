@@ -1,362 +1,362 @@
 /*
- * Copyright (c) 2008, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.windows;
+pbdkbgf sun.bwt.windows;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.Image;
-import java.awt.Window;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
-import java.awt.image.VolatileImage;
-import java.security.AccessController;
-import sun.awt.image.BufImgSurfaceData;
-import sun.java2d.DestSurfaceProvider;
-import sun.java2d.InvalidPipeException;
-import sun.java2d.Surface;
-import sun.java2d.pipe.RenderQueue;
-import sun.java2d.pipe.BufferedContext;
-import sun.java2d.pipe.hw.AccelGraphicsConfig;
-import sun.java2d.pipe.hw.AccelSurface;
-import sun.security.action.GetPropertyAction;
+import jbvb.bwt.AlpibCompositf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.GrbpiidsConfigurbtion;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Window;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.DbtbBufffrInt;
+import jbvb.bwt.imbgf.VolbtilfImbgf;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.bwt.imbgf.BufImgSurfbdfDbtb;
+import sun.jbvb2d.DfstSurfbdfProvidfr;
+import sun.jbvb2d.InvblidPipfExdfption;
+import sun.jbvb2d.Surfbdf;
+import sun.jbvb2d.pipf.RfndfrQufuf;
+import sun.jbvb2d.pipf.BufffrfdContfxt;
+import sun.jbvb2d.pipf.iw.AddflGrbpiidsConfig;
+import sun.jbvb2d.pipf.iw.AddflSurfbdf;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
-import static java.awt.image.VolatileImage.*;
-import static sun.java2d.pipe.hw.AccelSurface.*;
-import static sun.java2d.pipe.hw.ContextCapabilities.*;
+import stbtid jbvb.bwt.imbgf.VolbtilfImbgf.*;
+import stbtid sun.jbvb2d.pipf.iw.AddflSurfbdf.*;
+import stbtid sun.jbvb2d.pipf.iw.ContfxtCbpbbilitifs.*;
 
 /**
- * This class handles the updates of the non-opaque windows.
- * The window associated with the peer is updated either given an image or
- * the window is repainted to an internal buffer which is then used to update
- * the window.
+ * Tiis dlbss ibndlfs tif updbtfs of tif non-opbquf windows.
+ * Tif window bssodibtfd witi tif pffr is updbtfd fitifr givfn bn imbgf or
+ * tif window is rfpbintfd to bn intfrnbl bufffr wiidi is tifn usfd to updbtf
+ * tif window.
  *
- * Note: this class does not attempt to be thread safe, it is expected to be
- * called from a single thread (EDT).
+ * Notf: tiis dlbss dofs not bttfmpt to bf tirfbd sbff, it is fxpfdtfd to bf
+ * dbllfd from b singlf tirfbd (EDT).
  */
-abstract class TranslucentWindowPainter {
+bbstrbdt dlbss TrbnsludfntWindowPbintfr {
 
-    protected Window window;
-    protected WWindowPeer peer;
+    protfdtfd Window window;
+    protfdtfd WWindowPffr pffr;
 
-    // REMIND: we probably would want to remove this later
-    private static final boolean forceOpt  =
-        Boolean.valueOf(AccessController.doPrivileged(
-            new GetPropertyAction("sun.java2d.twp.forceopt", "false")));
-    private static final boolean forceSW  =
-        Boolean.valueOf(AccessController.doPrivileged(
-            new GetPropertyAction("sun.java2d.twp.forcesw", "false")));
+    // REMIND: wf probbbly would wbnt to rfmovf tiis lbtfr
+    privbtf stbtid finbl boolfbn fordfOpt  =
+        Boolfbn.vblufOf(AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("sun.jbvb2d.twp.fordfopt", "fblsf")));
+    privbtf stbtid finbl boolfbn fordfSW  =
+        Boolfbn.vblufOf(AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("sun.jbvb2d.twp.fordfsw", "fblsf")));
 
     /**
-     * Creates an instance of the painter for particular peer.
+     * Crfbtfs bn instbndf of tif pbintfr for pbrtidulbr pffr.
      */
-    public static TranslucentWindowPainter createInstance(WWindowPeer peer) {
-        GraphicsConfiguration gc = peer.getGraphicsConfiguration();
-        if (!forceSW && gc instanceof AccelGraphicsConfig) {
-            String gcName = gc.getClass().getSimpleName();
-            AccelGraphicsConfig agc = (AccelGraphicsConfig)gc;
-            // this is a heuristic to check that we have a pcix board
-            // (those have higher transfer rate from gpu to cpu)
-            if ((agc.getContextCapabilities().getCaps() & CAPS_PS30) != 0 ||
-                forceOpt)
+    publid stbtid TrbnsludfntWindowPbintfr drfbtfInstbndf(WWindowPffr pffr) {
+        GrbpiidsConfigurbtion gd = pffr.gftGrbpiidsConfigurbtion();
+        if (!fordfSW && gd instbndfof AddflGrbpiidsConfig) {
+            String gdNbmf = gd.gftClbss().gftSimplfNbmf();
+            AddflGrbpiidsConfig bgd = (AddflGrbpiidsConfig)gd;
+            // tiis is b ifuristid to difdk tibt wf ibvf b pdix bobrd
+            // (tiosf ibvf iigifr trbnsffr rbtf from gpu to dpu)
+            if ((bgd.gftContfxtCbpbbilitifs().gftCbps() & CAPS_PS30) != 0 ||
+                fordfOpt)
             {
-                // we check for name to avoid loading classes unnecessarily if
-                // a pipeline isn't enabled
-                if (gcName.startsWith("D3D")) {
-                    return new VIOptD3DWindowPainter(peer);
-                } else if (forceOpt && gcName.startsWith("WGL")) {
-                    // on some boards (namely, ATI, even on pcix bus) ogl is
-                    // very slow reading pixels back so for now it is disabled
-                    // unless forced
-                    return new VIOptWGLWindowPainter(peer);
+                // wf difdk for nbmf to bvoid lobding dlbssfs unnfdfssbrily if
+                // b pipflinf isn't fnbblfd
+                if (gdNbmf.stbrtsWiti("D3D")) {
+                    rfturn nfw VIOptD3DWindowPbintfr(pffr);
+                } flsf if (fordfOpt && gdNbmf.stbrtsWiti("WGL")) {
+                    // on somf bobrds (nbmfly, ATI, fvfn on pdix bus) ogl is
+                    // vfry slow rfbding pixfls bbdk so for now it is disbblfd
+                    // unlfss fordfd
+                    rfturn nfw VIOptWGLWindowPbintfr(pffr);
                 }
             }
         }
-        return new BIWindowPainter(peer);
+        rfturn nfw BIWindowPbintfr(pffr);
     }
 
-    protected TranslucentWindowPainter(WWindowPeer peer) {
-        this.peer = peer;
-        this.window = (Window)peer.getTarget();
+    protfdtfd TrbnsludfntWindowPbintfr(WWindowPffr pffr) {
+        tiis.pffr = pffr;
+        tiis.window = (Window)pffr.gftTbrgft();
     }
 
     /**
-     * Creates (if needed), clears (if requested) and returns the buffer
-     * for this painter.
+     * Crfbtfs (if nffdfd), dlfbrs (if rfqufstfd) bnd rfturns tif bufffr
+     * for tiis pbintfr.
      */
-    protected abstract Image getBackBuffer(boolean clear);
+    protfdtfd bbstrbdt Imbgf gftBbdkBufffr(boolfbn dlfbr);
 
     /**
-     * Updates the the window associated with this painter with the contents
-     * of the passed image.
-     * The image can not be null, and NPE will be thrown if it is.
+     * Updbtfs tif tif window bssodibtfd witi tiis pbintfr witi tif dontfnts
+     * of tif pbssfd imbgf.
+     * Tif imbgf dbn not bf null, bnd NPE will bf tirown if it is.
      */
-    protected abstract boolean update(Image bb);
+    protfdtfd bbstrbdt boolfbn updbtf(Imbgf bb);
 
     /**
-     * Flushes the resources associated with the painter. They will be
-     * recreated as needed.
+     * Flusifs tif rfsourdfs bssodibtfd witi tif pbintfr. Tify will bf
+     * rfdrfbtfd bs nffdfd.
      */
-    public abstract void flush();
+    publid bbstrbdt void flusi();
 
     /**
-     * Updates the window associated with the painter.
+     * Updbtfs tif window bssodibtfd witi tif pbintfr.
      *
-     * @param repaint indicates if the window should be completely repainted
-     * to the back buffer using {@link java.awt.Window#paintAll} before update.
+     * @pbrbm rfpbint indidbtfs if tif window siould bf domplftfly rfpbintfd
+     * to tif bbdk bufffr using {@link jbvb.bwt.Window#pbintAll} bfforf updbtf.
      */
-    public void updateWindow(boolean repaint) {
-        boolean done = false;
-        Image bb = getBackBuffer(repaint);
-        while (!done) {
-            if (repaint) {
-                Graphics2D g = (Graphics2D)bb.getGraphics();
+    publid void updbtfWindow(boolfbn rfpbint) {
+        boolfbn donf = fblsf;
+        Imbgf bb = gftBbdkBufffr(rfpbint);
+        wiilf (!donf) {
+            if (rfpbint) {
+                Grbpiids2D g = (Grbpiids2D)bb.gftGrbpiids();
                 try {
-                    window.paintAll(g);
-                } finally {
-                    g.dispose();
+                    window.pbintAll(g);
+                } finblly {
+                    g.disposf();
                 }
             }
 
-            done = update(bb);
-            if (!done) {
-                repaint = true;
-                bb = getBackBuffer(true);
+            donf = updbtf(bb);
+            if (!donf) {
+                rfpbint = truf;
+                bb = gftBbdkBufffr(truf);
             }
         }
     }
 
-    private static final Image clearImage(Image bb) {
-        Graphics2D g = (Graphics2D)bb.getGraphics();
-        int w = bb.getWidth(null);
-        int h = bb.getHeight(null);
+    privbtf stbtid finbl Imbgf dlfbrImbgf(Imbgf bb) {
+        Grbpiids2D g = (Grbpiids2D)bb.gftGrbpiids();
+        int w = bb.gftWidti(null);
+        int i = bb.gftHfigit(null);
 
-        g.setComposite(AlphaComposite.Src);
-        g.setColor(new Color(0, 0, 0, 0));
-        g.fillRect(0, 0, w, h);
+        g.sftCompositf(AlpibCompositf.Srd);
+        g.sftColor(nfw Color(0, 0, 0, 0));
+        g.fillRfdt(0, 0, w, i);
 
-        return bb;
+        rfturn bb;
     }
 
     /**
-     * A painter which uses BufferedImage as the internal buffer. The window
-     * is painted into this buffer, and the contents then are uploaded
-     * into the layered window.
+     * A pbintfr wiidi usfs BufffrfdImbgf bs tif intfrnbl bufffr. Tif window
+     * is pbintfd into tiis bufffr, bnd tif dontfnts tifn brf uplobdfd
+     * into tif lbyfrfd window.
      *
-     * This painter handles all types of images passed to its paint(Image)
-     * method (VI, BI, regular Images).
+     * Tiis pbintfr ibndlfs bll typfs of imbgfs pbssfd to its pbint(Imbgf)
+     * mftiod (VI, BI, rfgulbr Imbgfs).
      */
-    private static class BIWindowPainter extends TranslucentWindowPainter {
-        private BufferedImage backBuffer;
+    privbtf stbtid dlbss BIWindowPbintfr fxtfnds TrbnsludfntWindowPbintfr {
+        privbtf BufffrfdImbgf bbdkBufffr;
 
-        protected BIWindowPainter(WWindowPeer peer) {
-            super(peer);
+        protfdtfd BIWindowPbintfr(WWindowPffr pffr) {
+            supfr(pffr);
         }
 
-        @Override
-        protected Image getBackBuffer(boolean clear) {
-            int w = window.getWidth();
-            int h = window.getHeight();
-            if (backBuffer == null ||
-                backBuffer.getWidth() != w ||
-                backBuffer.getHeight() != h)
+        @Ovfrridf
+        protfdtfd Imbgf gftBbdkBufffr(boolfbn dlfbr) {
+            int w = window.gftWidti();
+            int i = window.gftHfigit();
+            if (bbdkBufffr == null ||
+                bbdkBufffr.gftWidti() != w ||
+                bbdkBufffr.gftHfigit() != i)
             {
-                flush();
-                backBuffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB_PRE);
+                flusi();
+                bbdkBufffr = nfw BufffrfdImbgf(w, i, BufffrfdImbgf.TYPE_INT_ARGB_PRE);
             }
-            return clear ? (BufferedImage)clearImage(backBuffer) : backBuffer;
+            rfturn dlfbr ? (BufffrfdImbgf)dlfbrImbgf(bbdkBufffr) : bbdkBufffr;
         }
 
-        @Override
-        protected boolean update(Image bb) {
-            VolatileImage viBB = null;
+        @Ovfrridf
+        protfdtfd boolfbn updbtf(Imbgf bb) {
+            VolbtilfImbgf viBB = null;
 
-            if (bb instanceof BufferedImage) {
-                BufferedImage bi = (BufferedImage)bb;
-                int data[] =
-                    ((DataBufferInt)bi.getRaster().getDataBuffer()).getData();
-                peer.updateWindowImpl(data, bi.getWidth(), bi.getHeight());
-                return true;
-            } else if (bb instanceof VolatileImage) {
-                viBB = (VolatileImage)bb;
-                if (bb instanceof DestSurfaceProvider) {
-                    Surface s = ((DestSurfaceProvider)bb).getDestSurface();
-                    if (s instanceof BufImgSurfaceData) {
-                        // the image is probably lost, upload the data from the
-                        // backup surface to avoid creating another heap-based
-                        // image (the parent's buffer)
-                        int w = viBB.getWidth();
-                        int h = viBB.getHeight();
-                        BufImgSurfaceData bisd = (BufImgSurfaceData)s;
-                        int data[] = ((DataBufferInt)bisd.getRaster(0,0,w,h).
-                            getDataBuffer()).getData();
-                        peer.updateWindowImpl(data, w, h);
-                        return true;
+            if (bb instbndfof BufffrfdImbgf) {
+                BufffrfdImbgf bi = (BufffrfdImbgf)bb;
+                int dbtb[] =
+                    ((DbtbBufffrInt)bi.gftRbstfr().gftDbtbBufffr()).gftDbtb();
+                pffr.updbtfWindowImpl(dbtb, bi.gftWidti(), bi.gftHfigit());
+                rfturn truf;
+            } flsf if (bb instbndfof VolbtilfImbgf) {
+                viBB = (VolbtilfImbgf)bb;
+                if (bb instbndfof DfstSurfbdfProvidfr) {
+                    Surfbdf s = ((DfstSurfbdfProvidfr)bb).gftDfstSurfbdf();
+                    if (s instbndfof BufImgSurfbdfDbtb) {
+                        // tif imbgf is probbbly lost, uplobd tif dbtb from tif
+                        // bbdkup surfbdf to bvoid drfbting bnotifr ifbp-bbsfd
+                        // imbgf (tif pbrfnt's bufffr)
+                        int w = viBB.gftWidti();
+                        int i = viBB.gftHfigit();
+                        BufImgSurfbdfDbtb bisd = (BufImgSurfbdfDbtb)s;
+                        int dbtb[] = ((DbtbBufffrInt)bisd.gftRbstfr(0,0,w,i).
+                            gftDbtbBufffr()).gftDbtb();
+                        pffr.updbtfWindowImpl(dbtb, w, i);
+                        rfturn truf;
                     }
                 }
             }
 
-            // copy the passed image into our own buffer, then upload
-            BufferedImage bi = (BufferedImage)clearImage(backBuffer);
+            // dopy tif pbssfd imbgf into our own bufffr, tifn uplobd
+            BufffrfdImbgf bi = (BufffrfdImbgf)dlfbrImbgf(bbdkBufffr);
 
-            int data[] =
-                ((DataBufferInt)bi.getRaster().getDataBuffer()).getData();
-            peer.updateWindowImpl(data, bi.getWidth(), bi.getHeight());
+            int dbtb[] =
+                ((DbtbBufffrInt)bi.gftRbstfr().gftDbtbBufffr()).gftDbtb();
+            pffr.updbtfWindowImpl(dbtb, bi.gftWidti(), bi.gftHfigit());
 
-            return (viBB != null ? !viBB.contentsLost() : true);
+            rfturn (viBB != null ? !viBB.dontfntsLost() : truf);
         }
 
-        @Override
-        public void flush() {
-            if (backBuffer != null) {
-                backBuffer.flush();
-                backBuffer = null;
+        @Ovfrridf
+        publid void flusi() {
+            if (bbdkBufffr != null) {
+                bbdkBufffr.flusi();
+                bbdkBufffr = null;
             }
         }
     }
 
     /**
-     * A version of the painter which uses VolatileImage as the internal buffer.
-     * The window is painted into this VI and then copied into the parent's
-     * Java heap-based buffer (which is then uploaded to the layered window)
+     * A vfrsion of tif pbintfr wiidi usfs VolbtilfImbgf bs tif intfrnbl bufffr.
+     * Tif window is pbintfd into tiis VI bnd tifn dopifd into tif pbrfnt's
+     * Jbvb ifbp-bbsfd bufffr (wiidi is tifn uplobdfd to tif lbyfrfd window)
      */
-    private static class VIWindowPainter extends BIWindowPainter {
-        private VolatileImage viBB;
+    privbtf stbtid dlbss VIWindowPbintfr fxtfnds BIWindowPbintfr {
+        privbtf VolbtilfImbgf viBB;
 
-        protected VIWindowPainter(WWindowPeer peer) {
-            super(peer);
+        protfdtfd VIWindowPbintfr(WWindowPffr pffr) {
+            supfr(pffr);
         }
 
-        @Override
-        protected Image getBackBuffer(boolean clear) {
-            int w = window.getWidth();
-            int h = window.getHeight();
-            GraphicsConfiguration gc = peer.getGraphicsConfiguration();
+        @Ovfrridf
+        protfdtfd Imbgf gftBbdkBufffr(boolfbn dlfbr) {
+            int w = window.gftWidti();
+            int i = window.gftHfigit();
+            GrbpiidsConfigurbtion gd = pffr.gftGrbpiidsConfigurbtion();
 
-            if (viBB == null || viBB.getWidth() != w || viBB.getHeight() != h ||
-                viBB.validate(gc) == IMAGE_INCOMPATIBLE)
+            if (viBB == null || viBB.gftWidti() != w || viBB.gftHfigit() != i ||
+                viBB.vblidbtf(gd) == IMAGE_INCOMPATIBLE)
             {
-                flush();
+                flusi();
 
-                if (gc instanceof AccelGraphicsConfig) {
-                    AccelGraphicsConfig agc = ((AccelGraphicsConfig)gc);
-                    viBB = agc.createCompatibleVolatileImage(w, h,
+                if (gd instbndfof AddflGrbpiidsConfig) {
+                    AddflGrbpiidsConfig bgd = ((AddflGrbpiidsConfig)gd);
+                    viBB = bgd.drfbtfCompbtiblfVolbtilfImbgf(w, i,
                                                              TRANSLUCENT,
                                                              RT_PLAIN);
                 }
                 if (viBB == null) {
-                    viBB = gc.createCompatibleVolatileImage(w, h, TRANSLUCENT);
+                    viBB = gd.drfbtfCompbtiblfVolbtilfImbgf(w, i, TRANSLUCENT);
                 }
-                viBB.validate(gc);
+                viBB.vblidbtf(gd);
             }
 
-            return clear ? clearImage(viBB) : viBB;
+            rfturn dlfbr ? dlfbrImbgf(viBB) : viBB;
         }
 
-        @Override
-        public void flush() {
+        @Ovfrridf
+        publid void flusi() {
             if (viBB != null) {
-                viBB.flush();
+                viBB.flusi();
                 viBB = null;
             }
         }
     }
 
     /**
-     * Optimized version of hw painter. Uses VolatileImages for the
-     * buffer, and uses an optimized path to pull the data from those into
-     * the layered window, bypassing Java heap-based image.
+     * Optimizfd vfrsion of iw pbintfr. Usfs VolbtilfImbgfs for tif
+     * bufffr, bnd usfs bn optimizfd pbti to pull tif dbtb from tiosf into
+     * tif lbyfrfd window, bypbssing Jbvb ifbp-bbsfd imbgf.
      */
-    private abstract static class VIOptWindowPainter extends VIWindowPainter {
+    privbtf bbstrbdt stbtid dlbss VIOptWindowPbintfr fxtfnds VIWindowPbintfr {
 
-        protected VIOptWindowPainter(WWindowPeer peer) {
-            super(peer);
+        protfdtfd VIOptWindowPbintfr(WWindowPffr pffr) {
+            supfr(pffr);
         }
 
-        protected abstract boolean updateWindowAccel(long psdops, int w, int h);
+        protfdtfd bbstrbdt boolfbn updbtfWindowAddfl(long psdops, int w, int i);
 
-        @Override
-        protected boolean update(Image bb) {
-            if (bb instanceof DestSurfaceProvider) {
-                Surface s = ((DestSurfaceProvider)bb).getDestSurface();
-                if (s instanceof AccelSurface) {
-                    final int w = bb.getWidth(null);
-                    final int h = bb.getHeight(null);
-                    final boolean arr[] = { false };
-                    final AccelSurface as = (AccelSurface)s;
-                    RenderQueue rq = as.getContext().getRenderQueue();
-                    rq.lock();
+        @Ovfrridf
+        protfdtfd boolfbn updbtf(Imbgf bb) {
+            if (bb instbndfof DfstSurfbdfProvidfr) {
+                Surfbdf s = ((DfstSurfbdfProvidfr)bb).gftDfstSurfbdf();
+                if (s instbndfof AddflSurfbdf) {
+                    finbl int w = bb.gftWidti(null);
+                    finbl int i = bb.gftHfigit(null);
+                    finbl boolfbn brr[] = { fblsf };
+                    finbl AddflSurfbdf bs = (AddflSurfbdf)s;
+                    RfndfrQufuf rq = bs.gftContfxt().gftRfndfrQufuf();
+                    rq.lodk();
                     try {
-                        BufferedContext.validateContext(as);
-                        rq.flushAndInvokeNow(new Runnable() {
-                            @Override
-                            public void run() {
-                                long psdops = as.getNativeOps();
-                                arr[0] = updateWindowAccel(psdops, w, h);
+                        BufffrfdContfxt.vblidbtfContfxt(bs);
+                        rq.flusiAndInvokfNow(nfw Runnbblf() {
+                            @Ovfrridf
+                            publid void run() {
+                                long psdops = bs.gftNbtivfOps();
+                                brr[0] = updbtfWindowAddfl(psdops, w, i);
                             }
                         });
-                    } catch (InvalidPipeException e) {
-                        // ignore, false will be returned
-                    } finally {
-                        rq.unlock();
+                    } dbtdi (InvblidPipfExdfption f) {
+                        // ignorf, fblsf will bf rfturnfd
+                    } finblly {
+                        rq.unlodk();
                     }
-                    return arr[0];
+                    rfturn brr[0];
                 }
             }
-            return super.update(bb);
+            rfturn supfr.updbtf(bb);
         }
     }
 
-    private static class VIOptD3DWindowPainter extends VIOptWindowPainter {
+    privbtf stbtid dlbss VIOptD3DWindowPbintfr fxtfnds VIOptWindowPbintfr {
 
-        protected VIOptD3DWindowPainter(WWindowPeer peer) {
-            super(peer);
+        protfdtfd VIOptD3DWindowPbintfr(WWindowPffr pffr) {
+            supfr(pffr);
         }
 
-        @Override
-        protected boolean updateWindowAccel(long psdops, int w, int h) {
-            // note: this method is executed on the toolkit thread, no sync is
-            // necessary at the native level, and a pointer to peer can be used
-            return sun.java2d.d3d.D3DSurfaceData.
-                updateWindowAccelImpl(psdops, peer.getData(), w, h);
+        @Ovfrridf
+        protfdtfd boolfbn updbtfWindowAddfl(long psdops, int w, int i) {
+            // notf: tiis mftiod is fxfdutfd on tif toolkit tirfbd, no synd is
+            // nfdfssbry bt tif nbtivf lfvfl, bnd b pointfr to pffr dbn bf usfd
+            rfturn sun.jbvb2d.d3d.D3DSurfbdfDbtb.
+                updbtfWindowAddflImpl(psdops, pffr.gftDbtb(), w, i);
         }
     }
 
-    private static class VIOptWGLWindowPainter extends VIOptWindowPainter {
+    privbtf stbtid dlbss VIOptWGLWindowPbintfr fxtfnds VIOptWindowPbintfr {
 
-        protected VIOptWGLWindowPainter(WWindowPeer peer) {
-            super(peer);
+        protfdtfd VIOptWGLWindowPbintfr(WWindowPffr pffr) {
+            supfr(pffr);
         }
 
-        @Override
-        protected boolean updateWindowAccel(long psdops, int w, int h) {
-            // note: part of this method which deals with GDI will be on the
-            // toolkit thread
-            return sun.java2d.opengl.WGLSurfaceData.
-                updateWindowAccelImpl(psdops, peer, w, h);
+        @Ovfrridf
+        protfdtfd boolfbn updbtfWindowAddfl(long psdops, int w, int i) {
+            // notf: pbrt of tiis mftiod wiidi dfbls witi GDI will bf on tif
+            // toolkit tirfbd
+            rfturn sun.jbvb2d.opfngl.WGLSurfbdfDbtb.
+                updbtfWindowAddflImpl(psdops, pffr, w, i);
         }
     }
 }

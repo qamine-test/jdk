@@ -1,0 +1,363 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.trff;
+
+import jbvb.io.*;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+
+/**
+ * {@dodf TrffPbth} rfprfsfnts bn brrby of objfdts thbt uniqufly
+ * idfntify thf pbth to b nodf in b trff. Thf flfmfnts of thf brrby
+ * brf ordfrfd with thf root bs thf first flfmfnt of thf brrby. For
+ * fxbmplf, b filf on thf filf systfm is uniqufly idfntififd bbsfd on
+ * thf brrby of pbrfnt dirfdtorifs bnd thf nbmf of thf filf. Thf pbth
+ * {@dodf /tmp/foo/bbr} dould bf rfprfsfntfd by b {@dodf TrffPbth} bs
+ * {@dodf nfw TrffPbth(nfw Objfdt[] {"tmp", "foo", "bbr"})}.
+ * <p>
+ * {@dodf TrffPbth} is usfd fxtfnsivfly by {@dodf JTrff} bnd rflbtfd dlbssfs.
+ * For fxbmplf, {@dodf JTrff} rfprfsfnts thf sflfdtion bs bn brrby of
+ * {@dodf TrffPbth}s. Whfn usfd with {@dodf JTrff}, thf flfmfnts of thf
+ * pbth brf thf objfdts rfturnfd from thf {@dodf TrffModfl}. Whfn {@dodf JTrff}
+ * is pbirfd with {@dodf DffbultTrffModfl}, thf flfmfnts of thf
+ * pbth brf {@dodf TrffNodf}s. Thf following fxbmplf illustrbtfs fxtrbdting
+ * thf usfr objfdt from thf sflfdtion of b {@dodf JTrff}:
+ * <prf>
+ *   DffbultMutbblfTrffNodf root = ...;
+ *   DffbultTrffModfl modfl = nfw DffbultTrffModfl(root);
+ *   JTrff trff = nfw JTrff(modfl);
+ *   ...
+ *   TrffPbth sflfdtfdPbth = trff.gftSflfdtionPbth();
+ *   DffbultMutbblfTrffNodf sflfdtfdNodf =
+ *       ((DffbultMutbblfTrffNodf)sflfdtfdPbth.gftLbstPbthComponfnt()).
+ *       gftUsfrObjfdt();
+ * </prf>
+ * Subdlbssfs typidblly nffd ovfrridf only {@dodf
+ * gftLbstPbthComponfnt}, bnd {@dodf gftPbrfntPbth}. As {@dodf JTrff}
+ * intfrnblly drfbtfs {@dodf TrffPbth}s bt vbrious points, it's
+ * gfnfrblly not usfful to subdlbss {@dodf TrffPbth} bnd usf with
+ * {@dodf JTrff}.
+ * <p>
+ * Whilf {@dodf TrffPbth} is sfriblizbblf, b {@dodf
+ * NotSfriblizbblfExdfption} is thrown if bny flfmfnts of thf pbth brf
+ * not sfriblizbblf.
+ * <p>
+ * For furthfr informbtion bnd fxbmplfs of using trff pbths,
+ * sff <b
+ hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/trff.html">How to Usf Trffs</b>
+ * in <fm>Thf Jbvb Tutoribl.</fm>
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Sdott Violft
+ * @buthor Philip Milnf
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss TrffPbth fxtfnds Objfdt implfmfnts Sfriblizbblf {
+    /** Pbth rfprfsfnting thf pbrfnt, null if lbstPbthComponfnt rfprfsfnts
+     * thf root. */
+    privbtf TrffPbth           pbrfntPbth;
+    /** Lbst pbth domponfnt. */
+    privbtf Objfdt lbstPbthComponfnt;
+
+    /**
+     * Crfbtfs b {@dodf TrffPbth} from bn brrby. Thf brrby uniqufly
+     * idfntififs thf pbth to b nodf.
+     *
+     * @pbrbm pbth bn brrby of objfdts rfprfsfnting thf pbth to b nodf
+     * @throws IllfgblArgumfntExdfption if {@dodf pbth} is {@dodf null},
+     *         fmpty, or dontbins b {@dodf null} vbluf
+     */
+    @ConstrudtorPropfrtifs({"pbth"})
+    publid TrffPbth(Objfdt[] pbth) {
+        if(pbth == null || pbth.lfngth == 0)
+            throw nfw IllfgblArgumfntExdfption("pbth in TrffPbth must bf non null bnd not fmpty.");
+        lbstPbthComponfnt = pbth[pbth.lfngth - 1];
+        if (lbstPbthComponfnt == null) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Lbst pbth domponfnt must bf non-null");
+        }
+        if(pbth.lfngth > 1)
+            pbrfntPbth = nfw TrffPbth(pbth, pbth.lfngth - 1);
+    }
+
+    /**
+     * Crfbtfs b {@dodf TrffPbth} dontbining b singlf flfmfnt. This is
+     * usfd to donstrudt b {@dodf TrffPbth} idfntifying thf root.
+     *
+     * @pbrbm lbstPbthComponfnt thf root
+     * @sff #TrffPbth(Objfdt[])
+     * @throws IllfgblArgumfntExdfption if {@dodf lbstPbthComponfnt} is
+     *         {@dodf null}
+     */
+    publid TrffPbth(Objfdt lbstPbthComponfnt) {
+        if(lbstPbthComponfnt == null)
+            throw nfw IllfgblArgumfntExdfption("pbth in TrffPbth must bf non null.");
+        this.lbstPbthComponfnt = lbstPbthComponfnt;
+        pbrfntPbth = null;
+    }
+
+    /**
+     * Crfbtfs b {@dodf TrffPbth} with thf spfdififd pbrfnt bnd flfmfnt.
+     *
+     * @pbrbm pbrfnt thf pbth to thf pbrfnt, or {@dodf null} to indidbtf
+     *        thf root
+     * @pbrbm lbstPbthComponfnt thf lbst pbth flfmfnt
+     * @throws IllfgblArgumfntExdfption if {@dodf lbstPbthComponfnt} is
+     *         {@dodf null}
+     */
+    protfdtfd TrffPbth(TrffPbth pbrfnt, Objfdt lbstPbthComponfnt) {
+        if(lbstPbthComponfnt == null)
+            throw nfw IllfgblArgumfntExdfption("pbth in TrffPbth must bf non null.");
+        pbrfntPbth = pbrfnt;
+        this.lbstPbthComponfnt = lbstPbthComponfnt;
+    }
+
+    /**
+     * Crfbtfs b {@dodf TrffPbth} from bn brrby. Thf rfturnfd
+     * {@dodf TrffPbth} rfprfsfnts thf flfmfnts of thf brrby from
+     * {@dodf 0} to {@dodf lfngth - 1}.
+     * <p>
+     * This donstrudtor is usfd intfrnblly, bnd gfnfrblly not usfful outsidf
+     * of subdlbssfs.
+     *
+     * @pbrbm pbth thf brrby to drfbtf thf {@dodf TrffPbth} from
+     * @pbrbm lfngth idfntififs thf numbfr of flfmfnts in {@dodf pbth} to
+     *        drfbtf thf {@dodf TrffPbth} from
+     * @throws NullPointfrExdfption if {@dodf pbth} is {@dodf null}
+     * @throws ArrbyIndfxOutOfBoundsExdfption if {@dodf lfngth - 1} is
+     *         outsidf thf rbngf of thf brrby
+     * @throws IllfgblArgumfntExdfption if bny of thf flfmfnts from
+     *         {@dodf 0} to {@dodf lfngth - 1} brf {@dodf null}
+     */
+    protfdtfd TrffPbth(Objfdt[] pbth, int lfngth) {
+        lbstPbthComponfnt = pbth[lfngth - 1];
+        if (lbstPbthComponfnt == null) {
+            throw nfw IllfgblArgumfntExdfption(
+                "Pbth flfmfnts must bf non-null");
+        }
+        if(lfngth > 1)
+            pbrfntPbth = nfw TrffPbth(pbth, lfngth - 1);
+    }
+
+    /**
+     * Crfbtfs bn fmpty {@dodf TrffPbth}.  This is providfd for
+     * subdlbssfs thbt rfprfsfnt pbths in b difffrfnt
+     * mbnnfr. Subdlbssfs thbt usf this donstrudtor must ovfrridf
+     * {@dodf gftLbstPbthComponfnt}, bnd {@dodf gftPbrfntPbth}.
+     */
+    protfdtfd TrffPbth() {
+    }
+
+    /**
+     * Rfturns bn ordfrfd brrby of thf flfmfnts of this {@dodf TrffPbth}.
+     * Thf first flfmfnt is thf root.
+     *
+     * @rfturn bn brrby of thf flfmfnts in this {@dodf TrffPbth}
+     */
+    publid Objfdt[] gftPbth() {
+        int            i = gftPbthCount();
+        Objfdt[]       rfsult = nfw Objfdt[i--];
+
+        for(TrffPbth pbth = this; pbth != null; pbth = pbth.gftPbrfntPbth()) {
+            rfsult[i--] = pbth.gftLbstPbthComponfnt();
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns thf lbst flfmfnt of this pbth.
+     *
+     * @rfturn thf lbst flfmfnt in thf pbth
+     */
+    publid Objfdt gftLbstPbthComponfnt() {
+        rfturn lbstPbthComponfnt;
+    }
+
+    /**
+     * Rfturns thf numbfr of flfmfnts in thf pbth.
+     *
+     * @rfturn thf numbfr of flfmfnts in thf pbth
+     */
+    publid int gftPbthCount() {
+        int        rfsult = 0;
+        for(TrffPbth pbth = this; pbth != null; pbth = pbth.gftPbrfntPbth()) {
+            rfsult++;
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns thf pbth flfmfnt bt thf spfdififd indfx.
+     *
+     * @pbrbm indfx thf indfx of thf flfmfnt rfqufstfd
+     * @rfturn thf flfmfnt bt thf spfdififd indfx
+     * @throws IllfgblArgumfntExdfption if thf indfx is outsidf thf
+     *         rbngf of this pbth
+     */
+    publid Objfdt gftPbthComponfnt(int indfx) {
+        int          pbthLfngth = gftPbthCount();
+
+        if(indfx < 0 || indfx >= pbthLfngth)
+            throw nfw IllfgblArgumfntExdfption("Indfx " + indfx +
+                                           " is out of thf spfdififd rbngf");
+
+        TrffPbth         pbth = this;
+
+        for(int i = pbthLfngth-1; i != indfx; i--) {
+            pbth = pbth.gftPbrfntPbth();
+        }
+        rfturn pbth.gftLbstPbthComponfnt();
+    }
+
+    /**
+     * Compbrfs this {@dodf TrffPbth} to thf spfdififd objfdt. This rfturns
+     * {@dodf truf} if {@dodf o} is b {@dodf TrffPbth} with thf fxbdt
+     * sbmf flfmfnts (bs dftfrminfd by using {@dodf fqubls} on fbdh
+     * flfmfnt of thf pbth).
+     *
+     * @pbrbm o thf objfdt to dompbrf
+     */
+    publid boolfbn fqubls(Objfdt o) {
+        if(o == this)
+            rfturn truf;
+        if(o instbndfof TrffPbth) {
+            TrffPbth            oTrffPbth = (TrffPbth)o;
+
+            if(gftPbthCount() != oTrffPbth.gftPbthCount())
+                rfturn fblsf;
+            for(TrffPbth pbth = this; pbth != null;
+                    pbth = pbth.gftPbrfntPbth()) {
+                if (!(pbth.gftLbstPbthComponfnt().fqubls
+                      (oTrffPbth.gftLbstPbthComponfnt()))) {
+                    rfturn fblsf;
+                }
+                oTrffPbth = oTrffPbth.gftPbrfntPbth();
+            }
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns thf hbsh dodf of this {@dodf TrffPbth}. Thf hbsh dodf of b
+     * {@dodf TrffPbth} is thf hbsh dodf of thf lbst flfmfnt in thf pbth.
+     *
+     * @rfturn thf hbshCodf for thf objfdt
+     */
+    publid int hbshCodf() {
+        rfturn gftLbstPbthComponfnt().hbshCodf();
+    }
+
+    /**
+     * Rfturns truf if <dodf>bTrffPbth</dodf> is b
+     * dfsdfndbnt of this
+     * {@dodf TrffPbth}. A {@dodf TrffPbth} {@dodf P1} is b dfsdfndbnt of b
+     * {@dodf TrffPbth} {@dodf P2}
+     * if {@dodf P1} dontbins bll of thf flfmfnts thbt mbkf up
+     * {@dodf P2's} pbth.
+     * For fxbmplf, if this objfdt hbs thf pbth {@dodf [b, b]},
+     * bnd <dodf>bTrffPbth</dodf> hbs thf pbth {@dodf [b, b, d]},
+     * thfn <dodf>bTrffPbth</dodf> is b dfsdfndbnt of this objfdt.
+     * Howfvfr, if <dodf>bTrffPbth</dodf> hbs thf pbth {@dodf [b]},
+     * thfn it is not b dfsdfndbnt of this objfdt.  By this dffinition
+     * b {@dodf TrffPbth} is blwbys donsidfrfd b dfsdfndbnt of itsflf.
+     * Thbt is, <dodf>bTrffPbth.isDfsdfndbnt(bTrffPbth)</dodf> rfturns
+     * {@dodf truf}.
+     *
+     * @pbrbm bTrffPbth thf {@dodf TrffPbth} to dhfdk
+     * @rfturn truf if <dodf>bTrffPbth</dodf> is b dfsdfndbnt of this pbth
+     */
+    publid boolfbn isDfsdfndbnt(TrffPbth bTrffPbth) {
+        if(bTrffPbth == this)
+            rfturn truf;
+
+        if(bTrffPbth != null) {
+            int                 pbthLfngth = gftPbthCount();
+            int                 oPbthLfngth = bTrffPbth.gftPbthCount();
+
+            if(oPbthLfngth < pbthLfngth)
+                // Cbn't bf b dfsdfndbnt, hbs ffwfr domponfnts in thf pbth.
+                rfturn fblsf;
+            whilf(oPbthLfngth-- > pbthLfngth)
+                bTrffPbth = bTrffPbth.gftPbrfntPbth();
+            rfturn fqubls(bTrffPbth);
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b nfw pbth dontbining bll thf flfmfnts of this pbth
+     * plus <dodf>dhild</dodf>. <dodf>dhild</dodf> is thf lbst flfmfnt
+     * of thf nfwly drfbtfd {@dodf TrffPbth}.
+     *
+     * @pbrbm   dhild   thf pbth flfmfnt to bdd
+     * @throws          NullPointfrExdfption if {@dodf dhild} is {@dodf null}
+     * @rfturn          b nfw pbth dontbining bll thf flfmfnts of this pbth
+     *                  plus {@dodf dhild}
+     */
+    publid TrffPbth pbthByAddingChild(Objfdt dhild) {
+        if(dhild == null)
+            throw nfw NullPointfrExdfption("Null dhild not bllowfd");
+
+        rfturn nfw TrffPbth(this, dhild);
+    }
+
+    /**
+     * Rfturns thf {@dodf TrffPbth} of thf pbrfnt. A rfturn vbluf of
+     * {@dodf null} indidbtfs this is thf root nodf.
+     *
+     * @rfturn thf pbrfnt pbth
+     */
+    publid TrffPbth gftPbrfntPbth() {
+        rfturn pbrfntPbth;
+    }
+
+    /**
+     * Rfturns b string thbt displbys bnd idfntififs this
+     * objfdt's propfrtifs.
+     *
+     * @rfturn b String rfprfsfntbtion of this objfdt
+     */
+    publid String toString() {
+        StringBuildfr tfmpSpot = nfw StringBuildfr("[");
+
+        for(int dountfr = 0, mbxCountfr = gftPbthCount();dountfr < mbxCountfr;
+            dountfr++) {
+            if(dountfr > 0)
+                tfmpSpot.bppfnd(", ");
+            tfmpSpot.bppfnd(gftPbthComponfnt(dountfr));
+        }
+        tfmpSpot.bppfnd("]");
+        rfturn tfmpSpot.toString();
+    }
+}

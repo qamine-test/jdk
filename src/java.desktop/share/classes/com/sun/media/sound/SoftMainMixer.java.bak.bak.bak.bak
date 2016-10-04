@@ -1,0 +1,1145 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.util.HbshSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Sft;
+import jbvb.util.TrffMbp;
+import jbvb.util.Mbp.Entry;
+
+import jbvbx.sound.midi.MidiMfssbgf;
+import jbvbx.sound.midi.Pbtdh;
+import jbvbx.sound.midi.ShortMfssbgf;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+import jbvbx.sound.sbmplfd.AudioSystfm;
+
+/**
+ * Softwbrf synthfsizfr mbin budio mixfr.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid finbl dlbss SoftMbinMixfr {
+
+    // A privbtf dlbss thbts dontbins b ModflChbnnflMixfr bnd it's privbtf bufffrs.
+    // This bfdomfs nfdfssbry whfn wf wbnt to hbvf sfpbrbtf dflby bufffrs for fbdh dhbnnfl mixfr.
+    privbtf dlbss SoftChbnnflMixfrContbinfr
+    {
+        ModflChbnnflMixfr mixfr;
+        SoftAudioBufffr[] bufffrs;
+    }
+
+    publid finbl stbtid int CHANNEL_LEFT = 0;
+    publid finbl stbtid int CHANNEL_RIGHT = 1;
+    publid finbl stbtid int CHANNEL_MONO = 2;
+    publid finbl stbtid int CHANNEL_DELAY_LEFT = 3;
+    publid finbl stbtid int CHANNEL_DELAY_RIGHT = 4;
+    publid finbl stbtid int CHANNEL_DELAY_MONO = 5;
+    publid finbl stbtid int CHANNEL_EFFECT1 = 6;
+    publid finbl stbtid int CHANNEL_EFFECT2 = 7;
+    publid finbl stbtid int CHANNEL_DELAY_EFFECT1 = 8;
+    publid finbl stbtid int CHANNEL_DELAY_EFFECT2 = 9;
+    publid finbl stbtid int CHANNEL_LEFT_DRY = 10;
+    publid finbl stbtid int CHANNEL_RIGHT_DRY = 11;
+    publid finbl stbtid int CHANNEL_SCRATCH1 = 12;
+    publid finbl stbtid int CHANNEL_SCRATCH2 = 13;
+    boolfbn bdtivf_sfnsing_on = fblsf;
+    privbtf long msfd_lbst_bdtivity = -1;
+    privbtf boolfbn pushfr_silfnt = fblsf;
+    privbtf int pushfr_silfnt_dount = 0;
+    privbtf long sbmplf_pos = 0;
+    boolfbn rfbdfully = truf;
+    privbtf finbl Objfdt dontrol_mutfx;
+    privbtf SoftSynthfsizfr synth;
+    privbtf flobt sbmplfrbtf = 44100;
+    privbtf int nrofdhbnnfls = 2;
+    privbtf SoftVoidf[] voidfstbtus = null;
+    privbtf SoftAudioBufffr[] bufffrs;
+    privbtf SoftRfvfrb rfvfrb;
+    privbtf SoftAudioProdfssor dhorus;
+    privbtf SoftAudioProdfssor bgd;
+    privbtf long msfd_bufffr_lfn = 0;
+    privbtf int bufffr_lfn = 0;
+    TrffMbp<Long, Objfdt> midimfssbgfs = nfw TrffMbp<Long, Objfdt>();
+    privbtf int dflby_midifvfnt = 0;
+    privbtf int mbx_dflby_midifvfnt = 0;
+    doublf lbst_volumf_lfft = 1.0;
+    doublf lbst_volumf_right = 1.0;
+    privbtf doublf[] do_mbstfr_bblbndf = nfw doublf[1];
+    privbtf doublf[] do_mbstfr_volumf = nfw doublf[1];
+    privbtf doublf[] do_mbstfr_dobrsf_tuning = nfw doublf[1];
+    privbtf doublf[] do_mbstfr_finf_tuning = nfw doublf[1];
+    privbtf AudioInputStrfbm bis;
+    privbtf Sft<SoftChbnnflMixfrContbinfr> rfgistfrfdMixfrs = null;
+    privbtf Sft<ModflChbnnflMixfr> stoppfdMixfrs = null;
+    privbtf SoftChbnnflMixfrContbinfr[] dur_rfgistfrfdMixfrs = null;
+    SoftControl do_mbstfr = nfw SoftControl() {
+
+        doublf[] bblbndf = do_mbstfr_bblbndf;
+        doublf[] volumf = do_mbstfr_volumf;
+        doublf[] dobrsf_tuning = do_mbstfr_dobrsf_tuning;
+        doublf[] finf_tuning = do_mbstfr_finf_tuning;
+
+        publid doublf[] gft(int instbndf, String nbmf) {
+            if (nbmf == null)
+                rfturn null;
+            if (nbmf.fqubls("bblbndf"))
+                rfturn bblbndf;
+            if (nbmf.fqubls("volumf"))
+                rfturn volumf;
+            if (nbmf.fqubls("dobrsf_tuning"))
+                rfturn dobrsf_tuning;
+            if (nbmf.fqubls("finf_tuning"))
+                rfturn finf_tuning;
+            rfturn null;
+        }
+    };
+
+    privbtf void prodfssSystfmExdlusivfMfssbgf(bytf[] dbtb) {
+        syndhronizfd (synth.dontrol_mutfx) {
+            bdtivity();
+
+            // Univfrsbl Non-Rfbl-Timf SysEx
+            if ((dbtb[1] & 0xFF) == 0x7E) {
+                int dfvidfID = dbtb[2] & 0xFF;
+                if (dfvidfID == 0x7F || dfvidfID == synth.gftDfvidfID()) {
+                    int subid1 = dbtb[3] & 0xFF;
+                    int subid2;
+                    switdh (subid1) {
+                    dbsf 0x08:  // MIDI Tuning Stbndbrd
+                        subid2 = dbtb[4] & 0xFF;
+                        switdh (subid2) {
+                        dbsf 0x01:  // BULK TUNING DUMP
+                        {
+                            // http://www.midi.org/bbout-midi/tuning.shtml
+                            SoftTuning tuning = synth.gftTuning(nfw Pbtdh(0,
+                                    dbtb[5] & 0xFF));
+                            tuning.lobd(dbtb);
+                            brfbk;
+                        }
+                        dbsf 0x04:  // KEY-BASED TUNING DUMP
+                        dbsf 0x05:  // SCALE/OCTAVE TUNING DUMP, 1 bytf formbt
+                        dbsf 0x06:  // SCALE/OCTAVE TUNING DUMP, 2 bytf formbt
+                        dbsf 0x07:  // SINGLE NOTE TUNING CHANGE (NON REAL-TIME)
+                                    // (BANK)
+                        {
+                            // http://www.midi.org/bbout-midi/tuning_fxtfns.shtml
+                            SoftTuning tuning = synth.gftTuning(nfw Pbtdh(
+                                    dbtb[5] & 0xFF, dbtb[6] & 0xFF));
+                            tuning.lobd(dbtb);
+                            brfbk;
+                        }
+                        dbsf 0x08:  // sdblf/odtbvf tuning 1-bytf form (Non
+                                    // Rfbl-Timf)
+                        dbsf 0x09:  // sdblf/odtbvf tuning 2-bytf form (Non
+                                    // Rfbl-Timf)
+                        {
+                            // http://www.midi.org/bbout-midi/tuning-sdblf.shtml
+                            SoftTuning tuning = nfw SoftTuning(dbtb);
+                            int dhbnnflmbsk = (dbtb[5] & 0xFF) * 16384
+                                    + (dbtb[6] & 0xFF) * 128 + (dbtb[7] & 0xFF);
+                            SoftChbnnfl[] dhbnnfls = synth.dhbnnfls;
+                            for (int i = 0; i < dhbnnfls.lfngth; i++)
+                                if ((dhbnnflmbsk & (1 << i)) != 0)
+                                    dhbnnfls[i].tuning = tuning;
+                            brfbk;
+                        }
+                        dffbult:
+                            brfbk;
+                        }
+                        brfbk;
+                    dbsf 0x09:  // Gfnfrbl Midi Mfssbgf
+                        subid2 = dbtb[4] & 0xFF;
+                        switdh (subid2) {
+                        dbsf 0x01:  // Gfnfrbl Midi 1 On
+                            synth.sftGfnfrblMidiModf(1);
+                            rfsft();
+                            brfbk;
+                        dbsf 0x02:  // Gfnfrbl Midi Off
+                            synth.sftGfnfrblMidiModf(0);
+                            rfsft();
+                            brfbk;
+                        dbsf 0x03:  // Gfnfrbl MidI Lfvfl 2 On
+                            synth.sftGfnfrblMidiModf(2);
+                            rfsft();
+                            brfbk;
+                        dffbult:
+                            brfbk;
+                        }
+                        brfbk;
+                    dbsf 0x0A: // DLS Mfssbgf
+                        subid2 = dbtb[4] & 0xFF;
+                        switdh (subid2) {
+                        dbsf 0x01:  // DLS On
+                            if (synth.gftGfnfrblMidiModf() == 0)
+                                synth.sftGfnfrblMidiModf(1);
+                            synth.voidf_bllodbtion_modf = 1;
+                            rfsft();
+                            brfbk;
+                        dbsf 0x02:  // DLS Off
+                            synth.sftGfnfrblMidiModf(0);
+                            synth.voidf_bllodbtion_modf = 0;
+                            rfsft();
+                            brfbk;
+                        dbsf 0x03:  // DLS Stbtid Voidf Allodbtion Off
+                            synth.voidf_bllodbtion_modf = 0;
+                            brfbk;
+                        dbsf 0x04:  // DLS Stbtid Voidf Allodbtion On
+                            synth.voidf_bllodbtion_modf = 1;
+                            brfbk;
+                        dffbult:
+                            brfbk;
+                        }
+                        brfbk;
+
+                    dffbult:
+                        brfbk;
+                    }
+                }
+            }
+
+            // Univfrsbl Rfbl-Timf SysEx
+            if ((dbtb[1] & 0xFF) == 0x7F) {
+                int dfvidfID = dbtb[2] & 0xFF;
+                if (dfvidfID == 0x7F || dfvidfID == synth.gftDfvidfID()) {
+                    int subid1 = dbtb[3] & 0xFF;
+                    int subid2;
+                    switdh (subid1) {
+                    dbsf 0x04: // Dfvidf Control
+
+                        subid2 = dbtb[4] & 0xFF;
+                        switdh (subid2) {
+                        dbsf 0x01: // Mbstfr Volumf
+                        dbsf 0x02: // Mbstfr Bblbnf
+                        dbsf 0x03: // Mbstfr finf tuning
+                        dbsf 0x04: // Mbstfr dobrsf tuning
+                            int vbl = (dbtb[5] & 0x7F)
+                                    + ((dbtb[6] & 0x7F) * 128);
+                            if (subid2 == 0x01)
+                                sftVolumf(vbl);
+                            flsf if (subid2 == 0x02)
+                                sftBblbndf(vbl);
+                            flsf if (subid2 == 0x03)
+                                sftFinfTuning(vbl);
+                            flsf if (subid2 == 0x04)
+                                sftCobrsfTuning(vbl);
+                            brfbk;
+                        dbsf 0x05: // Globbl Pbrbmftfr Control
+                            int ix = 5;
+                            int slotPbthLfn = (dbtb[ix++] & 0xFF);
+                            int pbrbmWidth = (dbtb[ix++] & 0xFF);
+                            int vblufWidth = (dbtb[ix++] & 0xFF);
+                            int[] slotPbth = nfw int[slotPbthLfn];
+                            for (int i = 0; i < slotPbthLfn; i++) {
+                                int msb = (dbtb[ix++] & 0xFF);
+                                int lsb = (dbtb[ix++] & 0xFF);
+                                slotPbth[i] = msb * 128 + lsb;
+                            }
+                            int pbrbmCount = (dbtb.lfngth - 1 - ix)
+                                    / (pbrbmWidth + vblufWidth);
+                            long[] pbrbms = nfw long[pbrbmCount];
+                            long[] vblufs = nfw long[pbrbmCount];
+                            for (int i = 0; i < pbrbmCount; i++) {
+                                vblufs[i] = 0;
+                                for (int j = 0; j < pbrbmWidth; j++)
+                                    pbrbms[i] = pbrbms[i] * 128
+                                            + (dbtb[ix++] & 0xFF);
+                                for (int j = 0; j < vblufWidth; j++)
+                                    vblufs[i] = vblufs[i] * 128
+                                            + (dbtb[ix++] & 0xFF);
+
+                            }
+                            globblPbrbmftfrControlChbngf(slotPbth, pbrbms, vblufs);
+                            brfbk;
+                        dffbult:
+                            brfbk;
+                        }
+                        brfbk;
+
+                    dbsf 0x08:  // MIDI Tuning Stbndbrd
+                        subid2 = dbtb[4] & 0xFF;
+                        switdh (subid2) {
+                        dbsf 0x02:  // SINGLE NOTE TUNING CHANGE (REAL-TIME)
+                        {
+                            // http://www.midi.org/bbout-midi/tuning.shtml
+                            SoftTuning tuning = synth.gftTuning(nfw Pbtdh(0,
+                                    dbtb[5] & 0xFF));
+                            tuning.lobd(dbtb);
+                            SoftVoidf[] voidfs = synth.gftVoidfs();
+                            for (int i = 0; i < voidfs.lfngth; i++)
+                                if (voidfs[i].bdtivf)
+                                    if (voidfs[i].tuning == tuning)
+                                        voidfs[i].updbtfTuning(tuning);
+                            brfbk;
+                        }
+                        dbsf 0x07:  // SINGLE NOTE TUNING CHANGE (REAL-TIME)
+                                    // (BANK)
+                        {
+                            // http://www.midi.org/bbout-midi/tuning_fxtfns.shtml
+                            SoftTuning tuning = synth.gftTuning(nfw Pbtdh(
+                                    dbtb[5] & 0xFF, dbtb[6] & 0xFF));
+                            tuning.lobd(dbtb);
+                            SoftVoidf[] voidfs = synth.gftVoidfs();
+                            for (int i = 0; i < voidfs.lfngth; i++)
+                                if (voidfs[i].bdtivf)
+                                    if (voidfs[i].tuning == tuning)
+                                        voidfs[i].updbtfTuning(tuning);
+                            brfbk;
+                        }
+                        dbsf 0x08:  // sdblf/odtbvf tuning 1-bytf form
+                                    //(Rfbl-Timf)
+                        dbsf 0x09:  // sdblf/odtbvf tuning 2-bytf form
+                                    // (Rfbl-Timf)
+                        {
+                            // http://www.midi.org/bbout-midi/tuning-sdblf.shtml
+                            SoftTuning tuning = nfw SoftTuning(dbtb);
+                            int dhbnnflmbsk = (dbtb[5] & 0xFF) * 16384
+                                    + (dbtb[6] & 0xFF) * 128 + (dbtb[7] & 0xFF);
+                            SoftChbnnfl[] dhbnnfls = synth.dhbnnfls;
+                            for (int i = 0; i < dhbnnfls.lfngth; i++)
+                                if ((dhbnnflmbsk & (1 << i)) != 0)
+                                    dhbnnfls[i].tuning = tuning;
+                            SoftVoidf[] voidfs = synth.gftVoidfs();
+                            for (int i = 0; i < voidfs.lfngth; i++)
+                                if (voidfs[i].bdtivf)
+                                    if ((dhbnnflmbsk & (1 << (voidfs[i].dhbnnfl))) != 0)
+                                        voidfs[i].updbtfTuning(tuning);
+                            brfbk;
+                        }
+                        dffbult:
+                            brfbk;
+                        }
+                        brfbk;
+                    dbsf 0x09:  // Control Dfstinbtion Sfttings
+                        subid2 = dbtb[4] & 0xFF;
+                        switdh (subid2) {
+                        dbsf 0x01: // Chbnnfl Prfssurf
+                        {
+                            int[] dfstinbtions = nfw int[(dbtb.lfngth - 7) / 2];
+                            int[] rbngfs = nfw int[(dbtb.lfngth - 7) / 2];
+                            int ix = 0;
+                            for (int j = 6; j < dbtb.lfngth - 1; j += 2) {
+                                dfstinbtions[ix] = dbtb[j] & 0xFF;
+                                rbngfs[ix] = dbtb[j + 1] & 0xFF;
+                                ix++;
+                            }
+                            int dhbnnfl = dbtb[5] & 0xFF;
+                            SoftChbnnfl softdhbnnfl = synth.dhbnnfls[dhbnnfl];
+                            softdhbnnfl.mbpChbnnflPrfssurfToDfstinbtion(
+                                    dfstinbtions, rbngfs);
+                            brfbk;
+                        }
+                        dbsf 0x02: // Poly Prfssurf
+                        {
+                            int[] dfstinbtions = nfw int[(dbtb.lfngth - 7) / 2];
+                            int[] rbngfs = nfw int[(dbtb.lfngth - 7) / 2];
+                            int ix = 0;
+                            for (int j = 6; j < dbtb.lfngth - 1; j += 2) {
+                                dfstinbtions[ix] = dbtb[j] & 0xFF;
+                                rbngfs[ix] = dbtb[j + 1] & 0xFF;
+                                ix++;
+                            }
+                            int dhbnnfl = dbtb[5] & 0xFF;
+                            SoftChbnnfl softdhbnnfl = synth.dhbnnfls[dhbnnfl];
+                            softdhbnnfl.mbpPolyPrfssurfToDfstinbtion(
+                                    dfstinbtions, rbngfs);
+                            brfbk;
+                        }
+                        dbsf 0x03: // Control Chbngf
+                        {
+                            int[] dfstinbtions = nfw int[(dbtb.lfngth - 7) / 2];
+                            int[] rbngfs = nfw int[(dbtb.lfngth - 7) / 2];
+                            int ix = 0;
+                            for (int j = 7; j < dbtb.lfngth - 1; j += 2) {
+                                dfstinbtions[ix] = dbtb[j] & 0xFF;
+                                rbngfs[ix] = dbtb[j + 1] & 0xFF;
+                                ix++;
+                            }
+                            int dhbnnfl = dbtb[5] & 0xFF;
+                            SoftChbnnfl softdhbnnfl = synth.dhbnnfls[dhbnnfl];
+                            int dontrol = dbtb[6] & 0xFF;
+                            softdhbnnfl.mbpControlToDfstinbtion(dontrol,
+                                    dfstinbtions, rbngfs);
+                            brfbk;
+                        }
+                        dffbult:
+                            brfbk;
+                        }
+                        brfbk;
+
+                    dbsf 0x0A:  // Kfy Bbsfd Instrumfnt Control
+                    {
+                        subid2 = dbtb[4] & 0xFF;
+                        switdh (subid2) {
+                        dbsf 0x01: // Bbsid Mfssbgf
+                            int dhbnnfl = dbtb[5] & 0xFF;
+                            int kfynumbfr = dbtb[6] & 0xFF;
+                            SoftChbnnfl softdhbnnfl = synth.dhbnnfls[dhbnnfl];
+                            for (int j = 7; j < dbtb.lfngth - 1; j += 2) {
+                                int dontrolnumbfr = dbtb[j] & 0xFF;
+                                int dontrolvbluf = dbtb[j + 1] & 0xFF;
+                                softdhbnnfl.dontrolChbngfPfrNotf(kfynumbfr,
+                                        dontrolnumbfr, dontrolvbluf);
+                            }
+                            brfbk;
+                        dffbult:
+                            brfbk;
+                        }
+                        brfbk;
+                    }
+                    dffbult:
+                        brfbk;
+                    }
+                }
+            }
+
+        }
+    }
+
+    privbtf void prodfssMfssbgfs(long timfStbmp) {
+        Itfrbtor<Entry<Long, Objfdt>> itfr = midimfssbgfs.fntrySft().itfrbtor();
+        whilf (itfr.hbsNfxt()) {
+            Entry<Long, Objfdt> fntry = itfr.nfxt();
+            if (fntry.gftKfy() >= (timfStbmp + msfd_bufffr_lfn))
+                rfturn;
+            long msfd_dflby = fntry.gftKfy() - timfStbmp;
+            dflby_midifvfnt = (int)(msfd_dflby * (sbmplfrbtf / 1000000.0) + 0.5);
+            if(dflby_midifvfnt > mbx_dflby_midifvfnt)
+                dflby_midifvfnt = mbx_dflby_midifvfnt;
+            if(dflby_midifvfnt < 0)
+                dflby_midifvfnt = 0;
+            prodfssMfssbgf(fntry.gftVbluf());
+            itfr.rfmovf();
+        }
+        dflby_midifvfnt = 0;
+    }
+
+    void prodfssAudioBufffrs() {
+
+        if(synth.wfbkstrfbm != null && synth.wfbkstrfbm.silfnt_sbmplfs != 0)
+        {
+            sbmplf_pos += synth.wfbkstrfbm.silfnt_sbmplfs;
+            synth.wfbkstrfbm.silfnt_sbmplfs = 0;
+        }
+
+        for (int i = 0; i < bufffrs.lfngth; i++) {
+            if(i != CHANNEL_DELAY_LEFT &&
+                    i != CHANNEL_DELAY_RIGHT &&
+                    i != CHANNEL_DELAY_MONO &&
+                    i != CHANNEL_DELAY_EFFECT1 &&
+                    i != CHANNEL_DELAY_EFFECT2)
+                bufffrs[i].dlfbr();
+        }
+
+        if(!bufffrs[CHANNEL_DELAY_LEFT].isSilfnt())
+        {
+            bufffrs[CHANNEL_LEFT].swbp(bufffrs[CHANNEL_DELAY_LEFT]);
+        }
+        if(!bufffrs[CHANNEL_DELAY_RIGHT].isSilfnt())
+        {
+            bufffrs[CHANNEL_RIGHT].swbp(bufffrs[CHANNEL_DELAY_RIGHT]);
+        }
+        if(!bufffrs[CHANNEL_DELAY_MONO].isSilfnt())
+        {
+            bufffrs[CHANNEL_MONO].swbp(bufffrs[CHANNEL_DELAY_MONO]);
+        }
+        if(!bufffrs[CHANNEL_DELAY_EFFECT1].isSilfnt())
+        {
+            bufffrs[CHANNEL_EFFECT1].swbp(bufffrs[CHANNEL_DELAY_EFFECT1]);
+        }
+        if(!bufffrs[CHANNEL_DELAY_EFFECT2].isSilfnt())
+        {
+            bufffrs[CHANNEL_EFFECT2].swbp(bufffrs[CHANNEL_DELAY_EFFECT2]);
+        }
+
+        doublf volumf_lfft;
+        doublf volumf_right;
+
+        SoftChbnnflMixfrContbinfr[] bdt_rfgistfrfdMixfrs;
+
+        // pfrform dontrol logid
+        syndhronizfd (dontrol_mutfx) {
+
+            long msfd_pos = (long)(sbmplf_pos * (1000000.0 / sbmplfrbtf));
+
+            prodfssMfssbgfs(msfd_pos);
+
+            if (bdtivf_sfnsing_on) {
+                // Adtivf Sfnsing
+                // if no mfssbgf oddurs for mbx 1000 ms
+                // thfn do AllSoundOff on bll dhbnnfls
+                if ((msfd_pos - msfd_lbst_bdtivity) > 1000000) {
+                    bdtivf_sfnsing_on = fblsf;
+                    for (SoftChbnnfl d : synth.dhbnnfls)
+                        d.bllSoundOff();
+                }
+
+            }
+
+            for (int i = 0; i < voidfstbtus.lfngth; i++)
+                if (voidfstbtus[i].bdtivf)
+                    voidfstbtus[i].prodfssControlLogid();
+            sbmplf_pos += bufffr_lfn;
+
+            doublf volumf = do_mbstfr_volumf[0];
+            volumf_lfft = volumf;
+            volumf_right = volumf;
+
+            doublf bblbndf = do_mbstfr_bblbndf[0];
+            if (bblbndf > 0.5)
+                volumf_lfft *= (1 - bblbndf) * 2;
+            flsf
+                volumf_right *= bblbndf * 2;
+
+            dhorus.prodfssControlLogid();
+            rfvfrb.prodfssControlLogid();
+            bgd.prodfssControlLogid();
+
+            if (dur_rfgistfrfdMixfrs == null) {
+                if (rfgistfrfdMixfrs != null) {
+                    dur_rfgistfrfdMixfrs =
+                            nfw SoftChbnnflMixfrContbinfr[rfgistfrfdMixfrs.sizf()];
+                    rfgistfrfdMixfrs.toArrby(dur_rfgistfrfdMixfrs);
+                }
+            }
+
+            bdt_rfgistfrfdMixfrs = dur_rfgistfrfdMixfrs;
+            if (bdt_rfgistfrfdMixfrs != null)
+                if (bdt_rfgistfrfdMixfrs.lfngth == 0)
+                    bdt_rfgistfrfdMixfrs = null;
+
+        }
+
+        if (bdt_rfgistfrfdMixfrs != null) {
+
+            // Mbkf bbdkup of lfft,right,mono dhbnnfls
+            SoftAudioBufffr lfftbbk = bufffrs[CHANNEL_LEFT];
+            SoftAudioBufffr rightbbk = bufffrs[CHANNEL_RIGHT];
+            SoftAudioBufffr monobbk = bufffrs[CHANNEL_MONO];
+            SoftAudioBufffr dflbylfftbbk = bufffrs[CHANNEL_DELAY_LEFT];
+            SoftAudioBufffr dflbyrightbbk = bufffrs[CHANNEL_DELAY_RIGHT];
+            SoftAudioBufffr dflbymonobbk = bufffrs[CHANNEL_DELAY_MONO];
+
+            int bufffrlfn = bufffrs[CHANNEL_LEFT].gftSizf();
+
+            flobt[][] dbufffr = nfw flobt[nrofdhbnnfls][];
+            flobt[][] obufffr = nfw flobt[nrofdhbnnfls][];
+            obufffr[0] = lfftbbk.brrby();
+            if (nrofdhbnnfls != 1)
+                obufffr[1] = rightbbk.brrby();
+
+            for (SoftChbnnflMixfrContbinfr dmixfr : bdt_rfgistfrfdMixfrs) {
+
+                // Rfroutf dffbult lfft,right output
+                // to dhbnnflmixfr lfft,right input/output
+                bufffrs[CHANNEL_LEFT] =  dmixfr.bufffrs[CHANNEL_LEFT];
+                bufffrs[CHANNEL_RIGHT] = dmixfr.bufffrs[CHANNEL_RIGHT];
+                bufffrs[CHANNEL_MONO] = dmixfr.bufffrs[CHANNEL_MONO];
+                bufffrs[CHANNEL_DELAY_LEFT] = dmixfr.bufffrs[CHANNEL_DELAY_LEFT];
+                bufffrs[CHANNEL_DELAY_RIGHT] = dmixfr.bufffrs[CHANNEL_DELAY_RIGHT];
+                bufffrs[CHANNEL_DELAY_MONO] = dmixfr.bufffrs[CHANNEL_DELAY_MONO];
+
+                bufffrs[CHANNEL_LEFT].dlfbr();
+                bufffrs[CHANNEL_RIGHT].dlfbr();
+                bufffrs[CHANNEL_MONO].dlfbr();
+
+                if(!bufffrs[CHANNEL_DELAY_LEFT].isSilfnt())
+                {
+                    bufffrs[CHANNEL_LEFT].swbp(bufffrs[CHANNEL_DELAY_LEFT]);
+                }
+                if(!bufffrs[CHANNEL_DELAY_RIGHT].isSilfnt())
+                {
+                    bufffrs[CHANNEL_RIGHT].swbp(bufffrs[CHANNEL_DELAY_RIGHT]);
+                }
+                if(!bufffrs[CHANNEL_DELAY_MONO].isSilfnt())
+                {
+                    bufffrs[CHANNEL_MONO].swbp(bufffrs[CHANNEL_DELAY_MONO]);
+                }
+
+                dbufffr[0] = bufffrs[CHANNEL_LEFT].brrby();
+                if (nrofdhbnnfls != 1)
+                    dbufffr[1] = bufffrs[CHANNEL_RIGHT].brrby();
+
+                boolfbn hbsbdtivfvoidfs = fblsf;
+                for (int i = 0; i < voidfstbtus.lfngth; i++)
+                    if (voidfstbtus[i].bdtivf)
+                        if (voidfstbtus[i].dhbnnflmixfr == dmixfr.mixfr) {
+                            voidfstbtus[i].prodfssAudioLogid(bufffrs);
+                            hbsbdtivfvoidfs = truf;
+                        }
+
+                if(!bufffrs[CHANNEL_MONO].isSilfnt())
+                {
+                    flobt[] mono = bufffrs[CHANNEL_MONO].brrby();
+                    flobt[] lfft = bufffrs[CHANNEL_LEFT].brrby();
+                    if (nrofdhbnnfls != 1) {
+                        flobt[] right = bufffrs[CHANNEL_RIGHT].brrby();
+                        for (int i = 0; i < bufffrlfn; i++) {
+                            flobt v = mono[i];
+                            lfft[i] += v;
+                            right[i] += v;
+                        }
+                    }
+                    flsf
+                    {
+                        for (int i = 0; i < bufffrlfn; i++) {
+                            lfft[i] += mono[i];
+                        }
+                    }
+                }
+
+                if (!dmixfr.mixfr.prodfss(dbufffr, 0, bufffrlfn)) {
+                    syndhronizfd (dontrol_mutfx) {
+                        rfgistfrfdMixfrs.rfmovf(dmixfr);
+                        dur_rfgistfrfdMixfrs = null;
+                    }
+                }
+
+                for (int i = 0; i < dbufffr.lfngth; i++) {
+                    flobt[] dbuff = dbufffr[i];
+                    flobt[] obuff = obufffr[i];
+                    for (int j = 0; j < bufffrlfn; j++)
+                        obuff[j] += dbuff[j];
+                }
+
+                if (!hbsbdtivfvoidfs) {
+                    syndhronizfd (dontrol_mutfx) {
+                        if (stoppfdMixfrs != null) {
+                            if (stoppfdMixfrs.dontbins(dmixfr)) {
+                                stoppfdMixfrs.rfmovf(dmixfr);
+                                dmixfr.mixfr.stop();
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            bufffrs[CHANNEL_LEFT] = lfftbbk;
+            bufffrs[CHANNEL_RIGHT] = rightbbk;
+            bufffrs[CHANNEL_MONO] = monobbk;
+            bufffrs[CHANNEL_DELAY_LEFT] = dflbylfftbbk;
+            bufffrs[CHANNEL_DELAY_RIGHT] = dflbyrightbbk;
+            bufffrs[CHANNEL_DELAY_MONO] = dflbymonobbk;
+
+        }
+
+        for (int i = 0; i < voidfstbtus.lfngth; i++)
+            if (voidfstbtus[i].bdtivf)
+                if (voidfstbtus[i].dhbnnflmixfr == null)
+                    voidfstbtus[i].prodfssAudioLogid(bufffrs);
+
+        if(!bufffrs[CHANNEL_MONO].isSilfnt())
+        {
+            flobt[] mono = bufffrs[CHANNEL_MONO].brrby();
+            flobt[] lfft = bufffrs[CHANNEL_LEFT].brrby();
+            int bufffrlfn = bufffrs[CHANNEL_LEFT].gftSizf();
+            if (nrofdhbnnfls != 1) {
+                flobt[] right = bufffrs[CHANNEL_RIGHT].brrby();
+                for (int i = 0; i < bufffrlfn; i++) {
+                    flobt v = mono[i];
+                    lfft[i] += v;
+                    right[i] += v;
+                }
+            }
+            flsf
+            {
+                for (int i = 0; i < bufffrlfn; i++) {
+                    lfft[i] += mono[i];
+                }
+            }
+        }
+
+        // Run ffffdts
+        if (synth.dhorus_on)
+            dhorus.prodfssAudio();
+
+        if (synth.rfvfrb_on)
+            rfvfrb.prodfssAudio();
+
+        if (nrofdhbnnfls == 1)
+            volumf_lfft = (volumf_lfft + volumf_right) / 2;
+
+        // Sft Volumf / Bblbndf
+        if (lbst_volumf_lfft != volumf_lfft || lbst_volumf_right != volumf_right) {
+            flobt[] lfft = bufffrs[CHANNEL_LEFT].brrby();
+            flobt[] right = bufffrs[CHANNEL_RIGHT].brrby();
+            int bufffrlfn = bufffrs[CHANNEL_LEFT].gftSizf();
+
+            flobt bmp;
+            flobt bmp_dfltb;
+            bmp = (flobt)(lbst_volumf_lfft * lbst_volumf_lfft);
+            bmp_dfltb = (flobt)((volumf_lfft * volumf_lfft - bmp) / bufffrlfn);
+            for (int i = 0; i < bufffrlfn; i++) {
+                bmp += bmp_dfltb;
+                lfft[i] *= bmp;
+            }
+            if (nrofdhbnnfls != 1) {
+                bmp = (flobt)(lbst_volumf_right * lbst_volumf_right);
+                bmp_dfltb = (flobt)((volumf_right*volumf_right - bmp) / bufffrlfn);
+                for (int i = 0; i < bufffrlfn; i++) {
+                    bmp += bmp_dfltb;
+                    right[i] *= volumf_right;
+                }
+            }
+            lbst_volumf_lfft = volumf_lfft;
+            lbst_volumf_right = volumf_right;
+
+        } flsf {
+            if (volumf_lfft != 1.0 || volumf_right != 1.0) {
+                flobt[] lfft = bufffrs[CHANNEL_LEFT].brrby();
+                flobt[] right = bufffrs[CHANNEL_RIGHT].brrby();
+                int bufffrlfn = bufffrs[CHANNEL_LEFT].gftSizf();
+                flobt bmp;
+                bmp = (flobt) (volumf_lfft * volumf_lfft);
+                for (int i = 0; i < bufffrlfn; i++)
+                    lfft[i] *= bmp;
+                if (nrofdhbnnfls != 1) {
+                    bmp = (flobt)(volumf_right * volumf_right);
+                    for (int i = 0; i < bufffrlfn; i++)
+                        right[i] *= bmp;
+                }
+
+            }
+        }
+
+        if(bufffrs[CHANNEL_LEFT].isSilfnt()
+            && bufffrs[CHANNEL_RIGHT].isSilfnt())
+        {
+
+            int midimfssbgfs_sizf;
+            syndhronizfd (dontrol_mutfx) {
+                midimfssbgfs_sizf = midimfssbgfs.sizf();
+            }
+
+            if(midimfssbgfs_sizf == 0)
+            {
+                pushfr_silfnt_dount++;
+                if(pushfr_silfnt_dount > 5)
+                {
+                    pushfr_silfnt_dount = 0;
+                    syndhronizfd (dontrol_mutfx) {
+                        pushfr_silfnt = truf;
+                        if(synth.wfbkstrfbm != null)
+                            synth.wfbkstrfbm.sftInputStrfbm(null);
+                    }
+                }
+            }
+        }
+        flsf
+            pushfr_silfnt_dount = 0;
+
+        if (synth.bgd_on)
+            bgd.prodfssAudio();
+
+    }
+
+    // Must only wf dbllfd within dontrol_mutfx syndhronizbtion
+    publid void bdtivity()
+    {
+        long silfnt_sbmplfs = 0;
+        if(pushfr_silfnt)
+        {
+            pushfr_silfnt = fblsf;
+            if(synth.wfbkstrfbm != null)
+            {
+                synth.wfbkstrfbm.sftInputStrfbm(bis);
+                silfnt_sbmplfs = synth.wfbkstrfbm.silfnt_sbmplfs;
+            }
+        }
+        msfd_lbst_bdtivity = (long)((sbmplf_pos + silfnt_sbmplfs)
+                * (1000000.0 / sbmplfrbtf));
+    }
+
+    publid void stopMixfr(ModflChbnnflMixfr mixfr) {
+        if (stoppfdMixfrs == null)
+            stoppfdMixfrs = nfw HbshSft<ModflChbnnflMixfr>();
+        stoppfdMixfrs.bdd(mixfr);
+    }
+
+    publid void rfgistfrMixfr(ModflChbnnflMixfr mixfr) {
+        if (rfgistfrfdMixfrs == null)
+            rfgistfrfdMixfrs = nfw HbshSft<SoftChbnnflMixfrContbinfr>();
+        SoftChbnnflMixfrContbinfr mixfrdontbinfr = nfw SoftChbnnflMixfrContbinfr();
+        mixfrdontbinfr.bufffrs = nfw SoftAudioBufffr[6];
+        for (int i = 0; i < mixfrdontbinfr.bufffrs.lfngth; i++) {
+            mixfrdontbinfr.bufffrs[i] =
+                nfw SoftAudioBufffr(bufffr_lfn, synth.gftFormbt());
+        }
+        mixfrdontbinfr.mixfr = mixfr;
+        rfgistfrfdMixfrs.bdd(mixfrdontbinfr);
+        dur_rfgistfrfdMixfrs = null;
+    }
+
+    publid SoftMbinMixfr(SoftSynthfsizfr synth) {
+        this.synth = synth;
+
+        sbmplf_pos = 0;
+
+        do_mbstfr_bblbndf[0] = 0.5;
+        do_mbstfr_volumf[0] = 1;
+        do_mbstfr_dobrsf_tuning[0] = 0.5;
+        do_mbstfr_finf_tuning[0] = 0.5;
+
+        msfd_bufffr_lfn = (long) (1000000.0 / synth.gftControlRbtf());
+        sbmplfrbtf = synth.gftFormbt().gftSbmplfRbtf();
+        nrofdhbnnfls = synth.gftFormbt().gftChbnnfls();
+
+        int bufffrsizf = (int) (synth.gftFormbt().gftSbmplfRbtf()
+                                / synth.gftControlRbtf());
+
+        bufffr_lfn = bufffrsizf;
+
+        mbx_dflby_midifvfnt = bufffrsizf;
+
+        dontrol_mutfx = synth.dontrol_mutfx;
+        bufffrs = nfw SoftAudioBufffr[14];
+        for (int i = 0; i < bufffrs.lfngth; i++) {
+            bufffrs[i] = nfw SoftAudioBufffr(bufffrsizf, synth.gftFormbt());
+        }
+        voidfstbtus = synth.gftVoidfs();
+
+        rfvfrb = nfw SoftRfvfrb();
+        dhorus = nfw SoftChorus();
+        bgd = nfw SoftLimitfr();
+
+        flobt sbmplfrbtf = synth.gftFormbt().gftSbmplfRbtf();
+        flobt dontrolrbtf = synth.gftControlRbtf();
+        rfvfrb.init(sbmplfrbtf, dontrolrbtf);
+        dhorus.init(sbmplfrbtf, dontrolrbtf);
+        bgd.init(sbmplfrbtf, dontrolrbtf);
+
+        rfvfrb.sftLightModf(synth.rfvfrb_light);
+
+        rfvfrb.sftMixModf(truf);
+        dhorus.sftMixModf(truf);
+        bgd.sftMixModf(fblsf);
+
+        dhorus.sftInput(0, bufffrs[CHANNEL_EFFECT2]);
+        dhorus.sftOutput(0, bufffrs[CHANNEL_LEFT]);
+        if (nrofdhbnnfls != 1)
+            dhorus.sftOutput(1, bufffrs[CHANNEL_RIGHT]);
+        dhorus.sftOutput(2, bufffrs[CHANNEL_EFFECT1]);
+
+        rfvfrb.sftInput(0, bufffrs[CHANNEL_EFFECT1]);
+        rfvfrb.sftOutput(0, bufffrs[CHANNEL_LEFT]);
+        if (nrofdhbnnfls != 1)
+            rfvfrb.sftOutput(1, bufffrs[CHANNEL_RIGHT]);
+
+        bgd.sftInput(0, bufffrs[CHANNEL_LEFT]);
+        if (nrofdhbnnfls != 1)
+            bgd.sftInput(1, bufffrs[CHANNEL_RIGHT]);
+        bgd.sftOutput(0, bufffrs[CHANNEL_LEFT]);
+        if (nrofdhbnnfls != 1)
+            bgd.sftOutput(1, bufffrs[CHANNEL_RIGHT]);
+
+        InputStrfbm in = nfw InputStrfbm() {
+
+            privbtf finbl SoftAudioBufffr[] bufffrs = SoftMbinMixfr.this.bufffrs;
+            privbtf finbl int nrofdhbnnfls
+                    = SoftMbinMixfr.this.synth.gftFormbt().gftChbnnfls();
+            privbtf finbl int bufffrsizf = bufffrs[0].gftSizf();
+            privbtf finbl bytf[] bbufffr = nfw bytf[bufffrsizf
+                    * (SoftMbinMixfr.this.synth.gftFormbt()
+                        .gftSbmplfSizfInBits() / 8)
+                    * nrofdhbnnfls];
+            privbtf int bbufffr_pos = 0;
+            privbtf finbl bytf[] singlf = nfw bytf[1];
+
+            publid void fillBufffr() {
+                /*
+                boolfbn pushfr_silfnt2;
+                syndhronizfd (dontrol_mutfx) {
+                    pushfr_silfnt2 = pushfr_silfnt;
+                }
+                if(!pushfr_silfnt2)*/
+                prodfssAudioBufffrs();
+                for (int i = 0; i < nrofdhbnnfls; i++)
+                    bufffrs[i].gft(bbufffr, i);
+                bbufffr_pos = 0;
+            }
+
+            publid int rfbd(bytf[] b, int off, int lfn) {
+                int bbufffr_lfn = bbufffr.lfngth;
+                int offlfn = off + lfn;
+                int orgoff = off;
+                bytf[] bbufffr = this.bbufffr;
+                whilf (off < offlfn) {
+                    if (bvbilbblf() == 0)
+                        fillBufffr();
+                    flsf {
+                        int bbufffr_pos = this.bbufffr_pos;
+                        whilf (off < offlfn && bbufffr_pos < bbufffr_lfn)
+                            b[off++] = bbufffr[bbufffr_pos++];
+                        this.bbufffr_pos = bbufffr_pos;
+                        if (!rfbdfully)
+                            rfturn off - orgoff;
+                    }
+                }
+                rfturn lfn;
+            }
+
+            publid int rfbd() throws IOExdfption {
+                int rft = rfbd(singlf);
+                if (rft == -1)
+                    rfturn -1;
+                rfturn singlf[0] & 0xFF;
+            }
+
+            publid int bvbilbblf() {
+                rfturn bbufffr.lfngth - bbufffr_pos;
+            }
+
+            publid void dlosf() {
+                SoftMbinMixfr.this.synth.dlosf();
+            }
+        };
+
+        bis = nfw AudioInputStrfbm(in, synth.gftFormbt(), AudioSystfm.NOT_SPECIFIED);
+
+    }
+
+    publid AudioInputStrfbm gftInputStrfbm() {
+        rfturn bis;
+    }
+
+    publid void rfsft() {
+
+        SoftChbnnfl[] dhbnnfls = synth.dhbnnfls;
+        for (int i = 0; i < dhbnnfls.lfngth; i++) {
+            dhbnnfls[i].bllSoundOff();
+            dhbnnfls[i].rfsftAllControllfrs(truf);
+
+            if (synth.gftGfnfrblMidiModf() == 2) {
+                if (i == 9)
+                    dhbnnfls[i].progrbmChbngf(0, 0x78 * 128);
+                flsf
+                    dhbnnfls[i].progrbmChbngf(0, 0x79 * 128);
+            } flsf
+                dhbnnfls[i].progrbmChbngf(0, 0);
+        }
+        sftVolumf(0x7F * 128 + 0x7F);
+        sftBblbndf(0x40 * 128 + 0x00);
+        sftCobrsfTuning(0x40 * 128 + 0x00);
+        sftFinfTuning(0x40 * 128 + 0x00);
+        // Rfsft Rfvfrb
+        globblPbrbmftfrControlChbngf(
+                nfw int[]{0x01 * 128 + 0x01}, nfw long[]{0}, nfw long[]{4});
+        // Rfsft Chorus
+        globblPbrbmftfrControlChbngf(
+                nfw int[]{0x01 * 128 + 0x02}, nfw long[]{0}, nfw long[]{2});
+    }
+
+    publid void sftVolumf(int vbluf) {
+        syndhronizfd (dontrol_mutfx) {
+            do_mbstfr_volumf[0] = vbluf / 16384.0;
+        }
+    }
+
+    publid void sftBblbndf(int vbluf) {
+        syndhronizfd (dontrol_mutfx) {
+            do_mbstfr_bblbndf[0] = vbluf / 16384.0;
+        }
+    }
+
+    publid void sftFinfTuning(int vbluf) {
+        syndhronizfd (dontrol_mutfx) {
+            do_mbstfr_finf_tuning[0] = vbluf / 16384.0;
+        }
+    }
+
+    publid void sftCobrsfTuning(int vbluf) {
+        syndhronizfd (dontrol_mutfx) {
+            do_mbstfr_dobrsf_tuning[0] = vbluf / 16384.0;
+        }
+    }
+
+    publid int gftVolumf() {
+        syndhronizfd (dontrol_mutfx) {
+            rfturn (int) (do_mbstfr_volumf[0] * 16384.0);
+        }
+    }
+
+    publid int gftBblbndf() {
+        syndhronizfd (dontrol_mutfx) {
+            rfturn (int) (do_mbstfr_bblbndf[0] * 16384.0);
+        }
+    }
+
+    publid int gftFinfTuning() {
+        syndhronizfd (dontrol_mutfx) {
+            rfturn (int) (do_mbstfr_finf_tuning[0] * 16384.0);
+        }
+    }
+
+    publid int gftCobrsfTuning() {
+        syndhronizfd (dontrol_mutfx) {
+            rfturn (int) (do_mbstfr_dobrsf_tuning[0] * 16384.0);
+        }
+    }
+
+    publid void globblPbrbmftfrControlChbngf(int[] slothpbth, long[] pbrbms,
+            long[] pbrbmsvbluf) {
+        if (slothpbth.lfngth == 0)
+            rfturn;
+
+        syndhronizfd (dontrol_mutfx) {
+
+            // slothpbth: 01xx brf rfsfrvfd only for GM2
+
+            if (slothpbth[0] == 0x01 * 128 + 0x01) {
+                for (int i = 0; i < pbrbmsvbluf.lfngth; i++) {
+                    rfvfrb.globblPbrbmftfrControlChbngf(slothpbth, pbrbms[i],
+                            pbrbmsvbluf[i]);
+                }
+            }
+            if (slothpbth[0] == 0x01 * 128 + 0x02) {
+                for (int i = 0; i < pbrbmsvbluf.lfngth; i++) {
+                    dhorus.globblPbrbmftfrControlChbngf(slothpbth, pbrbms[i],
+                            pbrbmsvbluf[i]);
+                }
+
+            }
+
+        }
+    }
+
+    publid void prodfssMfssbgf(Objfdt objfdt) {
+        if (objfdt instbndfof bytf[])
+            prodfssMfssbgf((bytf[]) objfdt);
+        if (objfdt instbndfof MidiMfssbgf)
+            prodfssMfssbgf((MidiMfssbgf)objfdt);
+    }
+
+    publid void prodfssMfssbgf(MidiMfssbgf mfssbgf) {
+        if (mfssbgf instbndfof ShortMfssbgf) {
+            ShortMfssbgf sms = (ShortMfssbgf)mfssbgf;
+            prodfssMfssbgf(sms.gftChbnnfl(), sms.gftCommbnd(),
+                    sms.gftDbtb1(), sms.gftDbtb2());
+            rfturn;
+        }
+        prodfssMfssbgf(mfssbgf.gftMfssbgf());
+    }
+
+    publid void prodfssMfssbgf(bytf[] dbtb) {
+        int stbtus = 0;
+        if (dbtb.lfngth > 0)
+            stbtus = dbtb[0] & 0xFF;
+
+        if (stbtus == 0xF0) {
+            prodfssSystfmExdlusivfMfssbgf(dbtb);
+            rfturn;
+        }
+
+        int dmd = (stbtus & 0xF0);
+        int dh = (stbtus & 0x0F);
+
+        int dbtb1;
+        int dbtb2;
+        if (dbtb.lfngth > 1)
+            dbtb1 = dbtb[1] & 0xFF;
+        flsf
+            dbtb1 = 0;
+        if (dbtb.lfngth > 2)
+            dbtb2 = dbtb[2] & 0xFF;
+        flsf
+            dbtb2 = 0;
+
+        prodfssMfssbgf(dh, dmd, dbtb1, dbtb2);
+
+    }
+
+    publid void prodfssMfssbgf(int dh, int dmd, int dbtb1, int dbtb2) {
+        syndhronizfd (synth.dontrol_mutfx) {
+            bdtivity();
+        }
+
+        if (dmd == 0xF0) {
+            int stbtus = dmd | dh;
+            switdh (stbtus) {
+            dbsf ShortMfssbgf.ACTIVE_SENSING:
+                syndhronizfd (synth.dontrol_mutfx) {
+                    bdtivf_sfnsing_on = truf;
+                }
+                brfbk;
+            dffbult:
+                brfbk;
+            }
+            rfturn;
+        }
+
+        SoftChbnnfl[] dhbnnfls = synth.dhbnnfls;
+        if (dh >= dhbnnfls.lfngth)
+            rfturn;
+        SoftChbnnfl softdhbnnfl = dhbnnfls[dh];
+
+        switdh (dmd) {
+        dbsf ShortMfssbgf.NOTE_ON:
+            if(dflby_midifvfnt != 0)
+                softdhbnnfl.notfOn(dbtb1, dbtb2, dflby_midifvfnt);
+            flsf
+                softdhbnnfl.notfOn(dbtb1, dbtb2);
+            brfbk;
+        dbsf ShortMfssbgf.NOTE_OFF:
+            softdhbnnfl.notfOff(dbtb1, dbtb2);
+            brfbk;
+        dbsf ShortMfssbgf.POLY_PRESSURE:
+            softdhbnnfl.sftPolyPrfssurf(dbtb1, dbtb2);
+            brfbk;
+        dbsf ShortMfssbgf.CONTROL_CHANGE:
+            softdhbnnfl.dontrolChbngf(dbtb1, dbtb2);
+            brfbk;
+        dbsf ShortMfssbgf.PROGRAM_CHANGE:
+            softdhbnnfl.progrbmChbngf(dbtb1);
+            brfbk;
+        dbsf ShortMfssbgf.CHANNEL_PRESSURE:
+            softdhbnnfl.sftChbnnflPrfssurf(dbtb1);
+            brfbk;
+        dbsf ShortMfssbgf.PITCH_BEND:
+            softdhbnnfl.sftPitdhBfnd(dbtb1 + dbtb2 * 128);
+            brfbk;
+        dffbult:
+            brfbk;
+        }
+
+    }
+
+    publid long gftMidrosfdondPosition() {
+        if(pushfr_silfnt)
+        {
+            if(synth.wfbkstrfbm != null)
+            {
+                rfturn (long)((sbmplf_pos  + synth.wfbkstrfbm.silfnt_sbmplfs)
+                        * (1000000.0 / sbmplfrbtf));
+            }
+        }
+        rfturn (long)(sbmplf_pos * (1000000.0 / sbmplfrbtf));
+    }
+
+    publid void dlosf() {
+    }
+}

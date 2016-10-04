@@ -1,2124 +1,2124 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.util;
+pbdkbgf jbvb.util;
 
-import java.util.function.Consumer;
-import java.util.function.DoubleConsumer;
-import java.util.function.IntConsumer;
-import java.util.function.LongConsumer;
+import jbvb.util.fundtion.Consumfr;
+import jbvb.util.fundtion.DoublfConsumfr;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.LongConsumfr;
 
 /**
- * Static classes and methods for operating on or creating instances of
- * {@link Spliterator} and its primitive specializations
- * {@link Spliterator.OfInt}, {@link Spliterator.OfLong}, and
- * {@link Spliterator.OfDouble}.
+ * Stbtid dlbssfs bnd mftiods for opfrbting on or drfbting instbndfs of
+ * {@link Splitfrbtor} bnd its primitivf spfdiblizbtions
+ * {@link Splitfrbtor.OfInt}, {@link Splitfrbtor.OfLong}, bnd
+ * {@link Splitfrbtor.OfDoublf}.
  *
- * @see Spliterator
- * @since 1.8
+ * @sff Splitfrbtor
+ * @sindf 1.8
  */
-public final class Spliterators {
+publid finbl dlbss Splitfrbtors {
 
-    // Suppresses default constructor, ensuring non-instantiability.
-    private Spliterators() {}
+    // Supprfssfs dffbult donstrudtor, fnsuring non-instbntibbility.
+    privbtf Splitfrbtors() {}
 
-    // Empty spliterators
+    // Empty splitfrbtors
 
     /**
-     * Creates an empty {@code Spliterator}
+     * Crfbtfs bn fmpty {@dodf Splitfrbtor}
      *
-     * <p>The empty spliterator reports {@link Spliterator#SIZED} and
-     * {@link Spliterator#SUBSIZED}.  Calls to
-     * {@link java.util.Spliterator#trySplit()} always return {@code null}.
+     * <p>Tif fmpty splitfrbtor rfports {@link Splitfrbtor#SIZED} bnd
+     * {@link Splitfrbtor#SUBSIZED}.  Cblls to
+     * {@link jbvb.util.Splitfrbtor#trySplit()} blwbys rfturn {@dodf null}.
      *
-     * @param <T> Type of elements
-     * @return An empty spliterator
+     * @pbrbm <T> Typf of flfmfnts
+     * @rfturn An fmpty splitfrbtor
      */
-    @SuppressWarnings("unchecked")
-    public static <T> Spliterator<T> emptySpliterator() {
-        return (Spliterator<T>) EMPTY_SPLITERATOR;
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid <T> Splitfrbtor<T> fmptySplitfrbtor() {
+        rfturn (Splitfrbtor<T>) EMPTY_SPLITERATOR;
     }
 
-    private static final Spliterator<Object> EMPTY_SPLITERATOR =
-            new EmptySpliterator.OfRef<>();
+    privbtf stbtid finbl Splitfrbtor<Objfdt> EMPTY_SPLITERATOR =
+            nfw EmptySplitfrbtor.OfRff<>();
 
     /**
-     * Creates an empty {@code Spliterator.OfInt}
+     * Crfbtfs bn fmpty {@dodf Splitfrbtor.OfInt}
      *
-     * <p>The empty spliterator reports {@link Spliterator#SIZED} and
-     * {@link Spliterator#SUBSIZED}.  Calls to
-     * {@link java.util.Spliterator#trySplit()} always return {@code null}.
+     * <p>Tif fmpty splitfrbtor rfports {@link Splitfrbtor#SIZED} bnd
+     * {@link Splitfrbtor#SUBSIZED}.  Cblls to
+     * {@link jbvb.util.Splitfrbtor#trySplit()} blwbys rfturn {@dodf null}.
      *
-     * @return An empty spliterator
+     * @rfturn An fmpty splitfrbtor
      */
-    public static Spliterator.OfInt emptyIntSpliterator() {
-        return EMPTY_INT_SPLITERATOR;
+    publid stbtid Splitfrbtor.OfInt fmptyIntSplitfrbtor() {
+        rfturn EMPTY_INT_SPLITERATOR;
     }
 
-    private static final Spliterator.OfInt EMPTY_INT_SPLITERATOR =
-            new EmptySpliterator.OfInt();
+    privbtf stbtid finbl Splitfrbtor.OfInt EMPTY_INT_SPLITERATOR =
+            nfw EmptySplitfrbtor.OfInt();
 
     /**
-     * Creates an empty {@code Spliterator.OfLong}
+     * Crfbtfs bn fmpty {@dodf Splitfrbtor.OfLong}
      *
-     * <p>The empty spliterator reports {@link Spliterator#SIZED} and
-     * {@link Spliterator#SUBSIZED}.  Calls to
-     * {@link java.util.Spliterator#trySplit()} always return {@code null}.
+     * <p>Tif fmpty splitfrbtor rfports {@link Splitfrbtor#SIZED} bnd
+     * {@link Splitfrbtor#SUBSIZED}.  Cblls to
+     * {@link jbvb.util.Splitfrbtor#trySplit()} blwbys rfturn {@dodf null}.
      *
-     * @return An empty spliterator
+     * @rfturn An fmpty splitfrbtor
      */
-    public static Spliterator.OfLong emptyLongSpliterator() {
-        return EMPTY_LONG_SPLITERATOR;
+    publid stbtid Splitfrbtor.OfLong fmptyLongSplitfrbtor() {
+        rfturn EMPTY_LONG_SPLITERATOR;
     }
 
-    private static final Spliterator.OfLong EMPTY_LONG_SPLITERATOR =
-            new EmptySpliterator.OfLong();
+    privbtf stbtid finbl Splitfrbtor.OfLong EMPTY_LONG_SPLITERATOR =
+            nfw EmptySplitfrbtor.OfLong();
 
     /**
-     * Creates an empty {@code Spliterator.OfDouble}
+     * Crfbtfs bn fmpty {@dodf Splitfrbtor.OfDoublf}
      *
-     * <p>The empty spliterator reports {@link Spliterator#SIZED} and
-     * {@link Spliterator#SUBSIZED}.  Calls to
-     * {@link java.util.Spliterator#trySplit()} always return {@code null}.
+     * <p>Tif fmpty splitfrbtor rfports {@link Splitfrbtor#SIZED} bnd
+     * {@link Splitfrbtor#SUBSIZED}.  Cblls to
+     * {@link jbvb.util.Splitfrbtor#trySplit()} blwbys rfturn {@dodf null}.
      *
-     * @return An empty spliterator
+     * @rfturn An fmpty splitfrbtor
      */
-    public static Spliterator.OfDouble emptyDoubleSpliterator() {
-        return EMPTY_DOUBLE_SPLITERATOR;
+    publid stbtid Splitfrbtor.OfDoublf fmptyDoublfSplitfrbtor() {
+        rfturn EMPTY_DOUBLE_SPLITERATOR;
     }
 
-    private static final Spliterator.OfDouble EMPTY_DOUBLE_SPLITERATOR =
-            new EmptySpliterator.OfDouble();
+    privbtf stbtid finbl Splitfrbtor.OfDoublf EMPTY_DOUBLE_SPLITERATOR =
+            nfw EmptySplitfrbtor.OfDoublf();
 
-    // Array-based spliterators
-
-    /**
-     * Creates a {@code Spliterator} covering the elements of a given array,
-     * using a customized set of spliterator characteristics.
-     *
-     * <p>This method is provided as an implementation convenience for
-     * Spliterators which store portions of their elements in arrays, and need
-     * fine control over Spliterator characteristics.  Most other situations in
-     * which a Spliterator for an array is needed should use
-     * {@link Arrays#spliterator(Object[])}.
-     *
-     * <p>The returned spliterator always reports the characteristics
-     * {@code SIZED} and {@code SUBSIZED}.  The caller may provide additional
-     * characteristics for the spliterator to report; it is common to
-     * additionally specify {@code IMMUTABLE} and {@code ORDERED}.
-     *
-     * @param <T> Type of elements
-     * @param array The array, assumed to be unmodified during use
-     * @param additionalCharacteristics Additional spliterator characteristics
-     *        of this spliterator's source or elements beyond {@code SIZED} and
-     *        {@code SUBSIZED} which are are always reported
-     * @return A spliterator for an array
-     * @throws NullPointerException if the given array is {@code null}
-     * @see Arrays#spliterator(Object[])
-     */
-    public static <T> Spliterator<T> spliterator(Object[] array,
-                                                 int additionalCharacteristics) {
-        return new ArraySpliterator<>(Objects.requireNonNull(array),
-                                      additionalCharacteristics);
-    }
+    // Arrby-bbsfd splitfrbtors
 
     /**
-     * Creates a {@code Spliterator} covering a range of elements of a given
-     * array, using a customized set of spliterator characteristics.
+     * Crfbtfs b {@dodf Splitfrbtor} dovfring tif flfmfnts of b givfn brrby,
+     * using b dustomizfd sft of splitfrbtor dibrbdtfristids.
      *
-     * <p>This method is provided as an implementation convenience for
-     * Spliterators which store portions of their elements in arrays, and need
-     * fine control over Spliterator characteristics.  Most other situations in
-     * which a Spliterator for an array is needed should use
-     * {@link Arrays#spliterator(Object[])}.
+     * <p>Tiis mftiod is providfd bs bn implfmfntbtion donvfnifndf for
+     * Splitfrbtors wiidi storf portions of tifir flfmfnts in brrbys, bnd nffd
+     * finf dontrol ovfr Splitfrbtor dibrbdtfristids.  Most otifr situbtions in
+     * wiidi b Splitfrbtor for bn brrby is nffdfd siould usf
+     * {@link Arrbys#splitfrbtor(Objfdt[])}.
      *
-     * <p>The returned spliterator always reports the characteristics
-     * {@code SIZED} and {@code SUBSIZED}.  The caller may provide additional
-     * characteristics for the spliterator to report; it is common to
-     * additionally specify {@code IMMUTABLE} and {@code ORDERED}.
+     * <p>Tif rfturnfd splitfrbtor blwbys rfports tif dibrbdtfristids
+     * {@dodf SIZED} bnd {@dodf SUBSIZED}.  Tif dbllfr mby providf bdditionbl
+     * dibrbdtfristids for tif splitfrbtor to rfport; it is dommon to
+     * bdditionblly spfdify {@dodf IMMUTABLE} bnd {@dodf ORDERED}.
      *
-     * @param <T> Type of elements
-     * @param array The array, assumed to be unmodified during use
-     * @param fromIndex The least index (inclusive) to cover
-     * @param toIndex One past the greatest index to cover
-     * @param additionalCharacteristics Additional spliterator characteristics
-     *        of this spliterator's source or elements beyond {@code SIZED} and
-     *        {@code SUBSIZED} which are are always reported
-     * @return A spliterator for an array
-     * @throws NullPointerException if the given array is {@code null}
-     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex} is negative,
-     *         {@code toIndex} is less than {@code fromIndex}, or
-     *         {@code toIndex} is greater than the array size
-     * @see Arrays#spliterator(Object[], int, int)
+     * @pbrbm <T> Typf of flfmfnts
+     * @pbrbm brrby Tif brrby, bssumfd to bf unmodififd during usf
+     * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+     *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+     *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+     * @rfturn A splitfrbtor for bn brrby
+     * @tirows NullPointfrExdfption if tif givfn brrby is {@dodf null}
+     * @sff Arrbys#splitfrbtor(Objfdt[])
      */
-    public static <T> Spliterator<T> spliterator(Object[] array, int fromIndex, int toIndex,
-                                                 int additionalCharacteristics) {
-        checkFromToBounds(Objects.requireNonNull(array).length, fromIndex, toIndex);
-        return new ArraySpliterator<>(array, fromIndex, toIndex, additionalCharacteristics);
+    publid stbtid <T> Splitfrbtor<T> splitfrbtor(Objfdt[] brrby,
+                                                 int bdditionblCibrbdtfristids) {
+        rfturn nfw ArrbySplitfrbtor<>(Objfdts.rfquirfNonNull(brrby),
+                                      bdditionblCibrbdtfristids);
     }
 
     /**
-     * Creates a {@code Spliterator.OfInt} covering the elements of a given array,
-     * using a customized set of spliterator characteristics.
+     * Crfbtfs b {@dodf Splitfrbtor} dovfring b rbngf of flfmfnts of b givfn
+     * brrby, using b dustomizfd sft of splitfrbtor dibrbdtfristids.
      *
-     * <p>This method is provided as an implementation convenience for
-     * Spliterators which store portions of their elements in arrays, and need
-     * fine control over Spliterator characteristics.  Most other situations in
-     * which a Spliterator for an array is needed should use
-     * {@link Arrays#spliterator(int[])}.
+     * <p>Tiis mftiod is providfd bs bn implfmfntbtion donvfnifndf for
+     * Splitfrbtors wiidi storf portions of tifir flfmfnts in brrbys, bnd nffd
+     * finf dontrol ovfr Splitfrbtor dibrbdtfristids.  Most otifr situbtions in
+     * wiidi b Splitfrbtor for bn brrby is nffdfd siould usf
+     * {@link Arrbys#splitfrbtor(Objfdt[])}.
      *
-     * <p>The returned spliterator always reports the characteristics
-     * {@code SIZED} and {@code SUBSIZED}.  The caller may provide additional
-     * characteristics for the spliterator to report; it is common to
-     * additionally specify {@code IMMUTABLE} and {@code ORDERED}.
+     * <p>Tif rfturnfd splitfrbtor blwbys rfports tif dibrbdtfristids
+     * {@dodf SIZED} bnd {@dodf SUBSIZED}.  Tif dbllfr mby providf bdditionbl
+     * dibrbdtfristids for tif splitfrbtor to rfport; it is dommon to
+     * bdditionblly spfdify {@dodf IMMUTABLE} bnd {@dodf ORDERED}.
      *
-     * @param array The array, assumed to be unmodified during use
-     * @param additionalCharacteristics Additional spliterator characteristics
-     *        of this spliterator's source or elements beyond {@code SIZED} and
-     *        {@code SUBSIZED} which are are always reported
-     * @return A spliterator for an array
-     * @throws NullPointerException if the given array is {@code null}
-     * @see Arrays#spliterator(int[])
+     * @pbrbm <T> Typf of flfmfnts
+     * @pbrbm brrby Tif brrby, bssumfd to bf unmodififd during usf
+     * @pbrbm fromIndfx Tif lfbst indfx (indlusivf) to dovfr
+     * @pbrbm toIndfx Onf pbst tif grfbtfst indfx to dovfr
+     * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+     *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+     *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+     * @rfturn A splitfrbtor for bn brrby
+     * @tirows NullPointfrExdfption if tif givfn brrby is {@dodf null}
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if {@dodf fromIndfx} is nfgbtivf,
+     *         {@dodf toIndfx} is lfss tibn {@dodf fromIndfx}, or
+     *         {@dodf toIndfx} is grfbtfr tibn tif brrby sizf
+     * @sff Arrbys#splitfrbtor(Objfdt[], int, int)
      */
-    public static Spliterator.OfInt spliterator(int[] array,
-                                                int additionalCharacteristics) {
-        return new IntArraySpliterator(Objects.requireNonNull(array), additionalCharacteristics);
+    publid stbtid <T> Splitfrbtor<T> splitfrbtor(Objfdt[] brrby, int fromIndfx, int toIndfx,
+                                                 int bdditionblCibrbdtfristids) {
+        difdkFromToBounds(Objfdts.rfquirfNonNull(brrby).lfngti, fromIndfx, toIndfx);
+        rfturn nfw ArrbySplitfrbtor<>(brrby, fromIndfx, toIndfx, bdditionblCibrbdtfristids);
     }
 
     /**
-     * Creates a {@code Spliterator.OfInt} covering a range of elements of a
-     * given array, using a customized set of spliterator characteristics.
+     * Crfbtfs b {@dodf Splitfrbtor.OfInt} dovfring tif flfmfnts of b givfn brrby,
+     * using b dustomizfd sft of splitfrbtor dibrbdtfristids.
      *
-     * <p>This method is provided as an implementation convenience for
-     * Spliterators which store portions of their elements in arrays, and need
-     * fine control over Spliterator characteristics.  Most other situations in
-     * which a Spliterator for an array is needed should use
-     * {@link Arrays#spliterator(int[], int, int)}.
+     * <p>Tiis mftiod is providfd bs bn implfmfntbtion donvfnifndf for
+     * Splitfrbtors wiidi storf portions of tifir flfmfnts in brrbys, bnd nffd
+     * finf dontrol ovfr Splitfrbtor dibrbdtfristids.  Most otifr situbtions in
+     * wiidi b Splitfrbtor for bn brrby is nffdfd siould usf
+     * {@link Arrbys#splitfrbtor(int[])}.
      *
-     * <p>The returned spliterator always reports the characteristics
-     * {@code SIZED} and {@code SUBSIZED}.  The caller may provide additional
-     * characteristics for the spliterator to report; it is common to
-     * additionally specify {@code IMMUTABLE} and {@code ORDERED}.
+     * <p>Tif rfturnfd splitfrbtor blwbys rfports tif dibrbdtfristids
+     * {@dodf SIZED} bnd {@dodf SUBSIZED}.  Tif dbllfr mby providf bdditionbl
+     * dibrbdtfristids for tif splitfrbtor to rfport; it is dommon to
+     * bdditionblly spfdify {@dodf IMMUTABLE} bnd {@dodf ORDERED}.
      *
-     * @param array The array, assumed to be unmodified during use
-     * @param fromIndex The least index (inclusive) to cover
-     * @param toIndex One past the greatest index to cover
-     * @param additionalCharacteristics Additional spliterator characteristics
-     *        of this spliterator's source or elements beyond {@code SIZED} and
-     *        {@code SUBSIZED} which are are always reported
-     * @return A spliterator for an array
-     * @throws NullPointerException if the given array is {@code null}
-     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex} is negative,
-     *         {@code toIndex} is less than {@code fromIndex}, or
-     *         {@code toIndex} is greater than the array size
-     * @see Arrays#spliterator(int[], int, int)
+     * @pbrbm brrby Tif brrby, bssumfd to bf unmodififd during usf
+     * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+     *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+     *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+     * @rfturn A splitfrbtor for bn brrby
+     * @tirows NullPointfrExdfption if tif givfn brrby is {@dodf null}
+     * @sff Arrbys#splitfrbtor(int[])
      */
-    public static Spliterator.OfInt spliterator(int[] array, int fromIndex, int toIndex,
-                                                int additionalCharacteristics) {
-        checkFromToBounds(Objects.requireNonNull(array).length, fromIndex, toIndex);
-        return new IntArraySpliterator(array, fromIndex, toIndex, additionalCharacteristics);
+    publid stbtid Splitfrbtor.OfInt splitfrbtor(int[] brrby,
+                                                int bdditionblCibrbdtfristids) {
+        rfturn nfw IntArrbySplitfrbtor(Objfdts.rfquirfNonNull(brrby), bdditionblCibrbdtfristids);
     }
 
     /**
-     * Creates a {@code Spliterator.OfLong} covering the elements of a given array,
-     * using a customized set of spliterator characteristics.
+     * Crfbtfs b {@dodf Splitfrbtor.OfInt} dovfring b rbngf of flfmfnts of b
+     * givfn brrby, using b dustomizfd sft of splitfrbtor dibrbdtfristids.
      *
-     * <p>This method is provided as an implementation convenience for
-     * Spliterators which store portions of their elements in arrays, and need
-     * fine control over Spliterator characteristics.  Most other situations in
-     * which a Spliterator for an array is needed should use
-     * {@link Arrays#spliterator(long[])}.
+     * <p>Tiis mftiod is providfd bs bn implfmfntbtion donvfnifndf for
+     * Splitfrbtors wiidi storf portions of tifir flfmfnts in brrbys, bnd nffd
+     * finf dontrol ovfr Splitfrbtor dibrbdtfristids.  Most otifr situbtions in
+     * wiidi b Splitfrbtor for bn brrby is nffdfd siould usf
+     * {@link Arrbys#splitfrbtor(int[], int, int)}.
      *
-     * <p>The returned spliterator always reports the characteristics
-     * {@code SIZED} and {@code SUBSIZED}.  The caller may provide additional
-     * characteristics for the spliterator to report; it is common to
-     * additionally specify {@code IMMUTABLE} and {@code ORDERED}.
+     * <p>Tif rfturnfd splitfrbtor blwbys rfports tif dibrbdtfristids
+     * {@dodf SIZED} bnd {@dodf SUBSIZED}.  Tif dbllfr mby providf bdditionbl
+     * dibrbdtfristids for tif splitfrbtor to rfport; it is dommon to
+     * bdditionblly spfdify {@dodf IMMUTABLE} bnd {@dodf ORDERED}.
      *
-     * @param array The array, assumed to be unmodified during use
-     * @param additionalCharacteristics Additional spliterator characteristics
-     *        of this spliterator's source or elements beyond {@code SIZED} and
-     *        {@code SUBSIZED} which are are always reported
-     * @return A spliterator for an array
-     * @throws NullPointerException if the given array is {@code null}
-     * @see Arrays#spliterator(long[])
+     * @pbrbm brrby Tif brrby, bssumfd to bf unmodififd during usf
+     * @pbrbm fromIndfx Tif lfbst indfx (indlusivf) to dovfr
+     * @pbrbm toIndfx Onf pbst tif grfbtfst indfx to dovfr
+     * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+     *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+     *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+     * @rfturn A splitfrbtor for bn brrby
+     * @tirows NullPointfrExdfption if tif givfn brrby is {@dodf null}
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if {@dodf fromIndfx} is nfgbtivf,
+     *         {@dodf toIndfx} is lfss tibn {@dodf fromIndfx}, or
+     *         {@dodf toIndfx} is grfbtfr tibn tif brrby sizf
+     * @sff Arrbys#splitfrbtor(int[], int, int)
      */
-    public static Spliterator.OfLong spliterator(long[] array,
-                                                 int additionalCharacteristics) {
-        return new LongArraySpliterator(Objects.requireNonNull(array), additionalCharacteristics);
+    publid stbtid Splitfrbtor.OfInt splitfrbtor(int[] brrby, int fromIndfx, int toIndfx,
+                                                int bdditionblCibrbdtfristids) {
+        difdkFromToBounds(Objfdts.rfquirfNonNull(brrby).lfngti, fromIndfx, toIndfx);
+        rfturn nfw IntArrbySplitfrbtor(brrby, fromIndfx, toIndfx, bdditionblCibrbdtfristids);
     }
 
     /**
-     * Creates a {@code Spliterator.OfLong} covering a range of elements of a
-     * given array, using a customized set of spliterator characteristics.
+     * Crfbtfs b {@dodf Splitfrbtor.OfLong} dovfring tif flfmfnts of b givfn brrby,
+     * using b dustomizfd sft of splitfrbtor dibrbdtfristids.
      *
-     * <p>This method is provided as an implementation convenience for
-     * Spliterators which store portions of their elements in arrays, and need
-     * fine control over Spliterator characteristics.  Most other situations in
-     * which a Spliterator for an array is needed should use
-     * {@link Arrays#spliterator(long[], int, int)}.
+     * <p>Tiis mftiod is providfd bs bn implfmfntbtion donvfnifndf for
+     * Splitfrbtors wiidi storf portions of tifir flfmfnts in brrbys, bnd nffd
+     * finf dontrol ovfr Splitfrbtor dibrbdtfristids.  Most otifr situbtions in
+     * wiidi b Splitfrbtor for bn brrby is nffdfd siould usf
+     * {@link Arrbys#splitfrbtor(long[])}.
      *
-     * <p>The returned spliterator always reports the characteristics
-     * {@code SIZED} and {@code SUBSIZED}.  The caller may provide additional
-     * characteristics for the spliterator to report.  (For example, if it is
-     * known the array will not be further modified, specify {@code IMMUTABLE};
-     * if the array data is considered to have an an encounter order, specify
-     * {@code ORDERED}).  The method {@link Arrays#spliterator(long[], int, int)} can
-     * often be used instead, which returns a spliterator that reports
-     * {@code SIZED}, {@code SUBSIZED}, {@code IMMUTABLE}, and {@code ORDERED}.
+     * <p>Tif rfturnfd splitfrbtor blwbys rfports tif dibrbdtfristids
+     * {@dodf SIZED} bnd {@dodf SUBSIZED}.  Tif dbllfr mby providf bdditionbl
+     * dibrbdtfristids for tif splitfrbtor to rfport; it is dommon to
+     * bdditionblly spfdify {@dodf IMMUTABLE} bnd {@dodf ORDERED}.
      *
-     * @param array The array, assumed to be unmodified during use
-     * @param fromIndex The least index (inclusive) to cover
-     * @param toIndex One past the greatest index to cover
-     * @param additionalCharacteristics Additional spliterator characteristics
-     *        of this spliterator's source or elements beyond {@code SIZED} and
-     *        {@code SUBSIZED} which are are always reported
-     * @return A spliterator for an array
-     * @throws NullPointerException if the given array is {@code null}
-     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex} is negative,
-     *         {@code toIndex} is less than {@code fromIndex}, or
-     *         {@code toIndex} is greater than the array size
-     * @see Arrays#spliterator(long[], int, int)
+     * @pbrbm brrby Tif brrby, bssumfd to bf unmodififd during usf
+     * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+     *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+     *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+     * @rfturn A splitfrbtor for bn brrby
+     * @tirows NullPointfrExdfption if tif givfn brrby is {@dodf null}
+     * @sff Arrbys#splitfrbtor(long[])
      */
-    public static Spliterator.OfLong spliterator(long[] array, int fromIndex, int toIndex,
-                                                 int additionalCharacteristics) {
-        checkFromToBounds(Objects.requireNonNull(array).length, fromIndex, toIndex);
-        return new LongArraySpliterator(array, fromIndex, toIndex, additionalCharacteristics);
+    publid stbtid Splitfrbtor.OfLong splitfrbtor(long[] brrby,
+                                                 int bdditionblCibrbdtfristids) {
+        rfturn nfw LongArrbySplitfrbtor(Objfdts.rfquirfNonNull(brrby), bdditionblCibrbdtfristids);
     }
 
     /**
-     * Creates a {@code Spliterator.OfDouble} covering the elements of a given array,
-     * using a customized set of spliterator characteristics.
+     * Crfbtfs b {@dodf Splitfrbtor.OfLong} dovfring b rbngf of flfmfnts of b
+     * givfn brrby, using b dustomizfd sft of splitfrbtor dibrbdtfristids.
      *
-     * <p>This method is provided as an implementation convenience for
-     * Spliterators which store portions of their elements in arrays, and need
-     * fine control over Spliterator characteristics.  Most other situations in
-     * which a Spliterator for an array is needed should use
-     * {@link Arrays#spliterator(double[])}.
+     * <p>Tiis mftiod is providfd bs bn implfmfntbtion donvfnifndf for
+     * Splitfrbtors wiidi storf portions of tifir flfmfnts in brrbys, bnd nffd
+     * finf dontrol ovfr Splitfrbtor dibrbdtfristids.  Most otifr situbtions in
+     * wiidi b Splitfrbtor for bn brrby is nffdfd siould usf
+     * {@link Arrbys#splitfrbtor(long[], int, int)}.
      *
-     * <p>The returned spliterator always reports the characteristics
-     * {@code SIZED} and {@code SUBSIZED}.  The caller may provide additional
-     * characteristics for the spliterator to report; it is common to
-     * additionally specify {@code IMMUTABLE} and {@code ORDERED}.
+     * <p>Tif rfturnfd splitfrbtor blwbys rfports tif dibrbdtfristids
+     * {@dodf SIZED} bnd {@dodf SUBSIZED}.  Tif dbllfr mby providf bdditionbl
+     * dibrbdtfristids for tif splitfrbtor to rfport.  (For fxbmplf, if it is
+     * known tif brrby will not bf furtifr modififd, spfdify {@dodf IMMUTABLE};
+     * if tif brrby dbtb is donsidfrfd to ibvf bn bn fndountfr ordfr, spfdify
+     * {@dodf ORDERED}).  Tif mftiod {@link Arrbys#splitfrbtor(long[], int, int)} dbn
+     * oftfn bf usfd instfbd, wiidi rfturns b splitfrbtor tibt rfports
+     * {@dodf SIZED}, {@dodf SUBSIZED}, {@dodf IMMUTABLE}, bnd {@dodf ORDERED}.
      *
-     * @param array The array, assumed to be unmodified during use
-     * @param additionalCharacteristics Additional spliterator characteristics
-     *        of this spliterator's source or elements beyond {@code SIZED} and
-     *        {@code SUBSIZED} which are are always reported
-     * @return A spliterator for an array
-     * @throws NullPointerException if the given array is {@code null}
-     * @see Arrays#spliterator(double[])
+     * @pbrbm brrby Tif brrby, bssumfd to bf unmodififd during usf
+     * @pbrbm fromIndfx Tif lfbst indfx (indlusivf) to dovfr
+     * @pbrbm toIndfx Onf pbst tif grfbtfst indfx to dovfr
+     * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+     *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+     *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+     * @rfturn A splitfrbtor for bn brrby
+     * @tirows NullPointfrExdfption if tif givfn brrby is {@dodf null}
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if {@dodf fromIndfx} is nfgbtivf,
+     *         {@dodf toIndfx} is lfss tibn {@dodf fromIndfx}, or
+     *         {@dodf toIndfx} is grfbtfr tibn tif brrby sizf
+     * @sff Arrbys#splitfrbtor(long[], int, int)
      */
-    public static Spliterator.OfDouble spliterator(double[] array,
-                                                   int additionalCharacteristics) {
-        return new DoubleArraySpliterator(Objects.requireNonNull(array), additionalCharacteristics);
+    publid stbtid Splitfrbtor.OfLong splitfrbtor(long[] brrby, int fromIndfx, int toIndfx,
+                                                 int bdditionblCibrbdtfristids) {
+        difdkFromToBounds(Objfdts.rfquirfNonNull(brrby).lfngti, fromIndfx, toIndfx);
+        rfturn nfw LongArrbySplitfrbtor(brrby, fromIndfx, toIndfx, bdditionblCibrbdtfristids);
     }
 
     /**
-     * Creates a {@code Spliterator.OfDouble} covering a range of elements of a
-     * given array, using a customized set of spliterator characteristics.
+     * Crfbtfs b {@dodf Splitfrbtor.OfDoublf} dovfring tif flfmfnts of b givfn brrby,
+     * using b dustomizfd sft of splitfrbtor dibrbdtfristids.
      *
-     * <p>This method is provided as an implementation convenience for
-     * Spliterators which store portions of their elements in arrays, and need
-     * fine control over Spliterator characteristics.  Most other situations in
-     * which a Spliterator for an array is needed should use
-     * {@link Arrays#spliterator(double[], int, int)}.
+     * <p>Tiis mftiod is providfd bs bn implfmfntbtion donvfnifndf for
+     * Splitfrbtors wiidi storf portions of tifir flfmfnts in brrbys, bnd nffd
+     * finf dontrol ovfr Splitfrbtor dibrbdtfristids.  Most otifr situbtions in
+     * wiidi b Splitfrbtor for bn brrby is nffdfd siould usf
+     * {@link Arrbys#splitfrbtor(doublf[])}.
      *
-     * <p>The returned spliterator always reports the characteristics
-     * {@code SIZED} and {@code SUBSIZED}.  The caller may provide additional
-     * characteristics for the spliterator to report.  (For example, if it is
-     * known the array will not be further modified, specify {@code IMMUTABLE};
-     * if the array data is considered to have an an encounter order, specify
-     * {@code ORDERED}).  The method {@link Arrays#spliterator(long[], int, int)} can
-     * often be used instead, which returns a spliterator that reports
-     * {@code SIZED}, {@code SUBSIZED}, {@code IMMUTABLE}, and {@code ORDERED}.
+     * <p>Tif rfturnfd splitfrbtor blwbys rfports tif dibrbdtfristids
+     * {@dodf SIZED} bnd {@dodf SUBSIZED}.  Tif dbllfr mby providf bdditionbl
+     * dibrbdtfristids for tif splitfrbtor to rfport; it is dommon to
+     * bdditionblly spfdify {@dodf IMMUTABLE} bnd {@dodf ORDERED}.
      *
-     * @param array The array, assumed to be unmodified during use
-     * @param fromIndex The least index (inclusive) to cover
-     * @param toIndex One past the greatest index to cover
-     * @param additionalCharacteristics Additional spliterator characteristics
-     *        of this spliterator's source or elements beyond {@code SIZED} and
-     *        {@code SUBSIZED} which are are always reported
-     * @return A spliterator for an array
-     * @throws NullPointerException if the given array is {@code null}
-     * @throws ArrayIndexOutOfBoundsException if {@code fromIndex} is negative,
-     *         {@code toIndex} is less than {@code fromIndex}, or
-     *         {@code toIndex} is greater than the array size
-     * @see Arrays#spliterator(double[], int, int)
+     * @pbrbm brrby Tif brrby, bssumfd to bf unmodififd during usf
+     * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+     *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+     *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+     * @rfturn A splitfrbtor for bn brrby
+     * @tirows NullPointfrExdfption if tif givfn brrby is {@dodf null}
+     * @sff Arrbys#splitfrbtor(doublf[])
      */
-    public static Spliterator.OfDouble spliterator(double[] array, int fromIndex, int toIndex,
-                                                   int additionalCharacteristics) {
-        checkFromToBounds(Objects.requireNonNull(array).length, fromIndex, toIndex);
-        return new DoubleArraySpliterator(array, fromIndex, toIndex, additionalCharacteristics);
+    publid stbtid Splitfrbtor.OfDoublf splitfrbtor(doublf[] brrby,
+                                                   int bdditionblCibrbdtfristids) {
+        rfturn nfw DoublfArrbySplitfrbtor(Objfdts.rfquirfNonNull(brrby), bdditionblCibrbdtfristids);
     }
 
     /**
-     * Validate inclusive start index and exclusive end index against the length
-     * of an array.
-     * @param arrayLength The length of the array
-     * @param origin The inclusive start index
-     * @param fence The exclusive end index
-     * @throws ArrayIndexOutOfBoundsException if the start index is greater than
-     * the end index, if the start index is negative, or the end index is
-     * greater than the array length
+     * Crfbtfs b {@dodf Splitfrbtor.OfDoublf} dovfring b rbngf of flfmfnts of b
+     * givfn brrby, using b dustomizfd sft of splitfrbtor dibrbdtfristids.
+     *
+     * <p>Tiis mftiod is providfd bs bn implfmfntbtion donvfnifndf for
+     * Splitfrbtors wiidi storf portions of tifir flfmfnts in brrbys, bnd nffd
+     * finf dontrol ovfr Splitfrbtor dibrbdtfristids.  Most otifr situbtions in
+     * wiidi b Splitfrbtor for bn brrby is nffdfd siould usf
+     * {@link Arrbys#splitfrbtor(doublf[], int, int)}.
+     *
+     * <p>Tif rfturnfd splitfrbtor blwbys rfports tif dibrbdtfristids
+     * {@dodf SIZED} bnd {@dodf SUBSIZED}.  Tif dbllfr mby providf bdditionbl
+     * dibrbdtfristids for tif splitfrbtor to rfport.  (For fxbmplf, if it is
+     * known tif brrby will not bf furtifr modififd, spfdify {@dodf IMMUTABLE};
+     * if tif brrby dbtb is donsidfrfd to ibvf bn bn fndountfr ordfr, spfdify
+     * {@dodf ORDERED}).  Tif mftiod {@link Arrbys#splitfrbtor(long[], int, int)} dbn
+     * oftfn bf usfd instfbd, wiidi rfturns b splitfrbtor tibt rfports
+     * {@dodf SIZED}, {@dodf SUBSIZED}, {@dodf IMMUTABLE}, bnd {@dodf ORDERED}.
+     *
+     * @pbrbm brrby Tif brrby, bssumfd to bf unmodififd during usf
+     * @pbrbm fromIndfx Tif lfbst indfx (indlusivf) to dovfr
+     * @pbrbm toIndfx Onf pbst tif grfbtfst indfx to dovfr
+     * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+     *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+     *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+     * @rfturn A splitfrbtor for bn brrby
+     * @tirows NullPointfrExdfption if tif givfn brrby is {@dodf null}
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if {@dodf fromIndfx} is nfgbtivf,
+     *         {@dodf toIndfx} is lfss tibn {@dodf fromIndfx}, or
+     *         {@dodf toIndfx} is grfbtfr tibn tif brrby sizf
+     * @sff Arrbys#splitfrbtor(doublf[], int, int)
      */
-    private static void checkFromToBounds(int arrayLength, int origin, int fence) {
-        if (origin > fence) {
-            throw new ArrayIndexOutOfBoundsException(
-                    "origin(" + origin + ") > fence(" + fence + ")");
+    publid stbtid Splitfrbtor.OfDoublf splitfrbtor(doublf[] brrby, int fromIndfx, int toIndfx,
+                                                   int bdditionblCibrbdtfristids) {
+        difdkFromToBounds(Objfdts.rfquirfNonNull(brrby).lfngti, fromIndfx, toIndfx);
+        rfturn nfw DoublfArrbySplitfrbtor(brrby, fromIndfx, toIndfx, bdditionblCibrbdtfristids);
+    }
+
+    /**
+     * Vblidbtf indlusivf stbrt indfx bnd fxdlusivf fnd indfx bgbinst tif lfngti
+     * of bn brrby.
+     * @pbrbm brrbyLfngti Tif lfngti of tif brrby
+     * @pbrbm origin Tif indlusivf stbrt indfx
+     * @pbrbm ffndf Tif fxdlusivf fnd indfx
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if tif stbrt indfx is grfbtfr tibn
+     * tif fnd indfx, if tif stbrt indfx is nfgbtivf, or tif fnd indfx is
+     * grfbtfr tibn tif brrby lfngti
+     */
+    privbtf stbtid void difdkFromToBounds(int brrbyLfngti, int origin, int ffndf) {
+        if (origin > ffndf) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(
+                    "origin(" + origin + ") > ffndf(" + ffndf + ")");
         }
         if (origin < 0) {
-            throw new ArrayIndexOutOfBoundsException(origin);
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(origin);
         }
-        if (fence > arrayLength) {
-            throw new ArrayIndexOutOfBoundsException(fence);
+        if (ffndf > brrbyLfngti) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(ffndf);
         }
     }
 
-    // Iterator-based spliterators
+    // Itfrbtor-bbsfd splitfrbtors
 
     /**
-     * Creates a {@code Spliterator} using the given collection's
-     * {@link java.util.Collection#iterator()} as the source of elements, and
-     * reporting its {@link java.util.Collection#size()} as its initial size.
+     * Crfbtfs b {@dodf Splitfrbtor} using tif givfn dollfdtion's
+     * {@link jbvb.util.Collfdtion#itfrbtor()} bs tif sourdf of flfmfnts, bnd
+     * rfporting its {@link jbvb.util.Collfdtion#sizf()} bs its initibl sizf.
      *
-     * <p>The spliterator is
-     * <em><a href="Spliterator.html#binding">late-binding</a></em>, inherits
-     * the <em>fail-fast</em> properties of the collection's iterator, and
-     * implements {@code trySplit} to permit limited parallelism.
+     * <p>Tif splitfrbtor is
+     * <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm>, inifrits
+     * tif <fm>fbil-fbst</fm> propfrtifs of tif dollfdtion's itfrbtor, bnd
+     * implfmfnts {@dodf trySplit} to pfrmit limitfd pbrbllflism.
      *
-     * @param <T> Type of elements
-     * @param c The collection
-     * @param characteristics Characteristics of this spliterator's source or
-     *        elements.  The characteristics {@code SIZED} and {@code SUBSIZED}
-     *        are additionally reported unless {@code CONCURRENT} is supplied.
-     * @return A spliterator from an iterator
-     * @throws NullPointerException if the given collection is {@code null}
+     * @pbrbm <T> Typf of flfmfnts
+     * @pbrbm d Tif dollfdtion
+     * @pbrbm dibrbdtfristids Cibrbdtfristids of tiis splitfrbtor's sourdf or
+     *        flfmfnts.  Tif dibrbdtfristids {@dodf SIZED} bnd {@dodf SUBSIZED}
+     *        brf bdditionblly rfportfd unlfss {@dodf CONCURRENT} is supplifd.
+     * @rfturn A splitfrbtor from bn itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn dollfdtion is {@dodf null}
      */
-    public static <T> Spliterator<T> spliterator(Collection<? extends T> c,
-                                                 int characteristics) {
-        return new IteratorSpliterator<>(Objects.requireNonNull(c),
-                                         characteristics);
+    publid stbtid <T> Splitfrbtor<T> splitfrbtor(Collfdtion<? fxtfnds T> d,
+                                                 int dibrbdtfristids) {
+        rfturn nfw ItfrbtorSplitfrbtor<>(Objfdts.rfquirfNonNull(d),
+                                         dibrbdtfristids);
     }
 
     /**
-     * Creates a {@code Spliterator} using a given {@code Iterator}
-     * as the source of elements, and with a given initially reported size.
+     * Crfbtfs b {@dodf Splitfrbtor} using b givfn {@dodf Itfrbtor}
+     * bs tif sourdf of flfmfnts, bnd witi b givfn initiblly rfportfd sizf.
      *
-     * <p>The spliterator is not
-     * <em><a href="Spliterator.html#binding">late-binding</a></em>, inherits
-     * the <em>fail-fast</em> properties of the iterator, and implements
-     * {@code trySplit} to permit limited parallelism.
+     * <p>Tif splitfrbtor is not
+     * <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm>, inifrits
+     * tif <fm>fbil-fbst</fm> propfrtifs of tif itfrbtor, bnd implfmfnts
+     * {@dodf trySplit} to pfrmit limitfd pbrbllflism.
      *
-     * <p>Traversal of elements should be accomplished through the spliterator.
-     * The behaviour of splitting and traversal is undefined if the iterator is
-     * operated on after the spliterator is returned, or the initially reported
-     * size is not equal to the actual number of elements in the source.
+     * <p>Trbvfrsbl of flfmfnts siould bf bddomplisifd tirougi tif splitfrbtor.
+     * Tif bfibviour of splitting bnd trbvfrsbl is undffinfd if tif itfrbtor is
+     * opfrbtfd on bftfr tif splitfrbtor is rfturnfd, or tif initiblly rfportfd
+     * sizf is not fqubl to tif bdtubl numbfr of flfmfnts in tif sourdf.
      *
-     * @param <T> Type of elements
-     * @param iterator The iterator for the source
-     * @param size The number of elements in the source, to be reported as
-     *        initial {@code estimateSize}
-     * @param characteristics Characteristics of this spliterator's source or
-     *        elements.  The characteristics {@code SIZED} and {@code SUBSIZED}
-     *        are additionally reported unless {@code CONCURRENT} is supplied.
-     * @return A spliterator from an iterator
-     * @throws NullPointerException if the given iterator is {@code null}
+     * @pbrbm <T> Typf of flfmfnts
+     * @pbrbm itfrbtor Tif itfrbtor for tif sourdf
+     * @pbrbm sizf Tif numbfr of flfmfnts in tif sourdf, to bf rfportfd bs
+     *        initibl {@dodf fstimbtfSizf}
+     * @pbrbm dibrbdtfristids Cibrbdtfristids of tiis splitfrbtor's sourdf or
+     *        flfmfnts.  Tif dibrbdtfristids {@dodf SIZED} bnd {@dodf SUBSIZED}
+     *        brf bdditionblly rfportfd unlfss {@dodf CONCURRENT} is supplifd.
+     * @rfturn A splitfrbtor from bn itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn itfrbtor is {@dodf null}
      */
-    public static <T> Spliterator<T> spliterator(Iterator<? extends T> iterator,
-                                                 long size,
-                                                 int characteristics) {
-        return new IteratorSpliterator<>(Objects.requireNonNull(iterator), size,
-                                         characteristics);
+    publid stbtid <T> Splitfrbtor<T> splitfrbtor(Itfrbtor<? fxtfnds T> itfrbtor,
+                                                 long sizf,
+                                                 int dibrbdtfristids) {
+        rfturn nfw ItfrbtorSplitfrbtor<>(Objfdts.rfquirfNonNull(itfrbtor), sizf,
+                                         dibrbdtfristids);
     }
 
     /**
-     * Creates a {@code Spliterator} using a given {@code Iterator}
-     * as the source of elements, with no initial size estimate.
+     * Crfbtfs b {@dodf Splitfrbtor} using b givfn {@dodf Itfrbtor}
+     * bs tif sourdf of flfmfnts, witi no initibl sizf fstimbtf.
      *
-     * <p>The spliterator is not
-     * <em><a href="Spliterator.html#binding">late-binding</a></em>, inherits
-     * the <em>fail-fast</em> properties of the iterator, and implements
-     * {@code trySplit} to permit limited parallelism.
+     * <p>Tif splitfrbtor is not
+     * <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm>, inifrits
+     * tif <fm>fbil-fbst</fm> propfrtifs of tif itfrbtor, bnd implfmfnts
+     * {@dodf trySplit} to pfrmit limitfd pbrbllflism.
      *
-     * <p>Traversal of elements should be accomplished through the spliterator.
-     * The behaviour of splitting and traversal is undefined if the iterator is
-     * operated on after the spliterator is returned.
+     * <p>Trbvfrsbl of flfmfnts siould bf bddomplisifd tirougi tif splitfrbtor.
+     * Tif bfibviour of splitting bnd trbvfrsbl is undffinfd if tif itfrbtor is
+     * opfrbtfd on bftfr tif splitfrbtor is rfturnfd.
      *
-     * @param <T> Type of elements
-     * @param iterator The iterator for the source
-     * @param characteristics Characteristics of this spliterator's source
-     *        or elements ({@code SIZED} and {@code SUBSIZED}, if supplied, are
-     *        ignored and are not reported.)
-     * @return A spliterator from an iterator
-     * @throws NullPointerException if the given iterator is {@code null}
+     * @pbrbm <T> Typf of flfmfnts
+     * @pbrbm itfrbtor Tif itfrbtor for tif sourdf
+     * @pbrbm dibrbdtfristids Cibrbdtfristids of tiis splitfrbtor's sourdf
+     *        or flfmfnts ({@dodf SIZED} bnd {@dodf SUBSIZED}, if supplifd, brf
+     *        ignorfd bnd brf not rfportfd.)
+     * @rfturn A splitfrbtor from bn itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn itfrbtor is {@dodf null}
      */
-    public static <T> Spliterator<T> spliteratorUnknownSize(Iterator<? extends T> iterator,
-                                                            int characteristics) {
-        return new IteratorSpliterator<>(Objects.requireNonNull(iterator), characteristics);
+    publid stbtid <T> Splitfrbtor<T> splitfrbtorUnknownSizf(Itfrbtor<? fxtfnds T> itfrbtor,
+                                                            int dibrbdtfristids) {
+        rfturn nfw ItfrbtorSplitfrbtor<>(Objfdts.rfquirfNonNull(itfrbtor), dibrbdtfristids);
     }
 
     /**
-     * Creates a {@code Spliterator.OfInt} using a given
-     * {@code IntStream.IntIterator} as the source of elements, and with a given
-     * initially reported size.
+     * Crfbtfs b {@dodf Splitfrbtor.OfInt} using b givfn
+     * {@dodf IntStrfbm.IntItfrbtor} bs tif sourdf of flfmfnts, bnd witi b givfn
+     * initiblly rfportfd sizf.
      *
-     * <p>The spliterator is not
-     * <em><a href="Spliterator.html#binding">late-binding</a></em>, inherits
-     * the <em>fail-fast</em> properties of the iterator, and implements
-     * {@code trySplit} to permit limited parallelism.
+     * <p>Tif splitfrbtor is not
+     * <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm>, inifrits
+     * tif <fm>fbil-fbst</fm> propfrtifs of tif itfrbtor, bnd implfmfnts
+     * {@dodf trySplit} to pfrmit limitfd pbrbllflism.
      *
-     * <p>Traversal of elements should be accomplished through the spliterator.
-     * The behaviour of splitting and traversal is undefined if the iterator is
-     * operated on after the spliterator is returned, or the initially reported
-     * size is not equal to the actual number of elements in the source.
+     * <p>Trbvfrsbl of flfmfnts siould bf bddomplisifd tirougi tif splitfrbtor.
+     * Tif bfibviour of splitting bnd trbvfrsbl is undffinfd if tif itfrbtor is
+     * opfrbtfd on bftfr tif splitfrbtor is rfturnfd, or tif initiblly rfportfd
+     * sizf is not fqubl to tif bdtubl numbfr of flfmfnts in tif sourdf.
      *
-     * @param iterator The iterator for the source
-     * @param size The number of elements in the source, to be reported as
-     *        initial {@code estimateSize}.
-     * @param characteristics Characteristics of this spliterator's source or
-     *        elements.  The characteristics {@code SIZED} and {@code SUBSIZED}
-     *        are additionally reported unless {@code CONCURRENT} is supplied.
-     * @return A spliterator from an iterator
-     * @throws NullPointerException if the given iterator is {@code null}
+     * @pbrbm itfrbtor Tif itfrbtor for tif sourdf
+     * @pbrbm sizf Tif numbfr of flfmfnts in tif sourdf, to bf rfportfd bs
+     *        initibl {@dodf fstimbtfSizf}.
+     * @pbrbm dibrbdtfristids Cibrbdtfristids of tiis splitfrbtor's sourdf or
+     *        flfmfnts.  Tif dibrbdtfristids {@dodf SIZED} bnd {@dodf SUBSIZED}
+     *        brf bdditionblly rfportfd unlfss {@dodf CONCURRENT} is supplifd.
+     * @rfturn A splitfrbtor from bn itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn itfrbtor is {@dodf null}
      */
-    public static Spliterator.OfInt spliterator(PrimitiveIterator.OfInt iterator,
-                                                long size,
-                                                int characteristics) {
-        return new IntIteratorSpliterator(Objects.requireNonNull(iterator),
-                                          size, characteristics);
+    publid stbtid Splitfrbtor.OfInt splitfrbtor(PrimitivfItfrbtor.OfInt itfrbtor,
+                                                long sizf,
+                                                int dibrbdtfristids) {
+        rfturn nfw IntItfrbtorSplitfrbtor(Objfdts.rfquirfNonNull(itfrbtor),
+                                          sizf, dibrbdtfristids);
     }
 
     /**
-     * Creates a {@code Spliterator.OfInt} using a given
-     * {@code IntStream.IntIterator} as the source of elements, with no initial
-     * size estimate.
+     * Crfbtfs b {@dodf Splitfrbtor.OfInt} using b givfn
+     * {@dodf IntStrfbm.IntItfrbtor} bs tif sourdf of flfmfnts, witi no initibl
+     * sizf fstimbtf.
      *
-     * <p>The spliterator is not
-     * <em><a href="Spliterator.html#binding">late-binding</a></em>, inherits
-     * the <em>fail-fast</em> properties of the iterator, and implements
-     * {@code trySplit} to permit limited parallelism.
+     * <p>Tif splitfrbtor is not
+     * <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm>, inifrits
+     * tif <fm>fbil-fbst</fm> propfrtifs of tif itfrbtor, bnd implfmfnts
+     * {@dodf trySplit} to pfrmit limitfd pbrbllflism.
      *
-     * <p>Traversal of elements should be accomplished through the spliterator.
-     * The behaviour of splitting and traversal is undefined if the iterator is
-     * operated on after the spliterator is returned.
+     * <p>Trbvfrsbl of flfmfnts siould bf bddomplisifd tirougi tif splitfrbtor.
+     * Tif bfibviour of splitting bnd trbvfrsbl is undffinfd if tif itfrbtor is
+     * opfrbtfd on bftfr tif splitfrbtor is rfturnfd.
      *
-     * @param iterator The iterator for the source
-     * @param characteristics Characteristics of this spliterator's source
-     *        or elements ({@code SIZED} and {@code SUBSIZED}, if supplied, are
-     *        ignored and are not reported.)
-     * @return A spliterator from an iterator
-     * @throws NullPointerException if the given iterator is {@code null}
+     * @pbrbm itfrbtor Tif itfrbtor for tif sourdf
+     * @pbrbm dibrbdtfristids Cibrbdtfristids of tiis splitfrbtor's sourdf
+     *        or flfmfnts ({@dodf SIZED} bnd {@dodf SUBSIZED}, if supplifd, brf
+     *        ignorfd bnd brf not rfportfd.)
+     * @rfturn A splitfrbtor from bn itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn itfrbtor is {@dodf null}
      */
-    public static Spliterator.OfInt spliteratorUnknownSize(PrimitiveIterator.OfInt iterator,
-                                                           int characteristics) {
-        return new IntIteratorSpliterator(Objects.requireNonNull(iterator), characteristics);
+    publid stbtid Splitfrbtor.OfInt splitfrbtorUnknownSizf(PrimitivfItfrbtor.OfInt itfrbtor,
+                                                           int dibrbdtfristids) {
+        rfturn nfw IntItfrbtorSplitfrbtor(Objfdts.rfquirfNonNull(itfrbtor), dibrbdtfristids);
     }
 
     /**
-     * Creates a {@code Spliterator.OfLong} using a given
-     * {@code LongStream.LongIterator} as the source of elements, and with a
-     * given initially reported size.
+     * Crfbtfs b {@dodf Splitfrbtor.OfLong} using b givfn
+     * {@dodf LongStrfbm.LongItfrbtor} bs tif sourdf of flfmfnts, bnd witi b
+     * givfn initiblly rfportfd sizf.
      *
-     * <p>The spliterator is not
-     * <em><a href="Spliterator.html#binding">late-binding</a></em>, inherits
-     * the <em>fail-fast</em> properties of the iterator, and implements
-     * {@code trySplit} to permit limited parallelism.
+     * <p>Tif splitfrbtor is not
+     * <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm>, inifrits
+     * tif <fm>fbil-fbst</fm> propfrtifs of tif itfrbtor, bnd implfmfnts
+     * {@dodf trySplit} to pfrmit limitfd pbrbllflism.
      *
-     * <p>Traversal of elements should be accomplished through the spliterator.
-     * The behaviour of splitting and traversal is undefined if the iterator is
-     * operated on after the spliterator is returned, or the initially reported
-     * size is not equal to the actual number of elements in the source.
+     * <p>Trbvfrsbl of flfmfnts siould bf bddomplisifd tirougi tif splitfrbtor.
+     * Tif bfibviour of splitting bnd trbvfrsbl is undffinfd if tif itfrbtor is
+     * opfrbtfd on bftfr tif splitfrbtor is rfturnfd, or tif initiblly rfportfd
+     * sizf is not fqubl to tif bdtubl numbfr of flfmfnts in tif sourdf.
      *
-     * @param iterator The iterator for the source
-     * @param size The number of elements in the source, to be reported as
-     *        initial {@code estimateSize}.
-     * @param characteristics Characteristics of this spliterator's source or
-     *        elements.  The characteristics {@code SIZED} and {@code SUBSIZED}
-     *        are additionally reported unless {@code CONCURRENT} is supplied.
-     * @return A spliterator from an iterator
-     * @throws NullPointerException if the given iterator is {@code null}
+     * @pbrbm itfrbtor Tif itfrbtor for tif sourdf
+     * @pbrbm sizf Tif numbfr of flfmfnts in tif sourdf, to bf rfportfd bs
+     *        initibl {@dodf fstimbtfSizf}.
+     * @pbrbm dibrbdtfristids Cibrbdtfristids of tiis splitfrbtor's sourdf or
+     *        flfmfnts.  Tif dibrbdtfristids {@dodf SIZED} bnd {@dodf SUBSIZED}
+     *        brf bdditionblly rfportfd unlfss {@dodf CONCURRENT} is supplifd.
+     * @rfturn A splitfrbtor from bn itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn itfrbtor is {@dodf null}
      */
-    public static Spliterator.OfLong spliterator(PrimitiveIterator.OfLong iterator,
-                                                 long size,
-                                                 int characteristics) {
-        return new LongIteratorSpliterator(Objects.requireNonNull(iterator),
-                                           size, characteristics);
+    publid stbtid Splitfrbtor.OfLong splitfrbtor(PrimitivfItfrbtor.OfLong itfrbtor,
+                                                 long sizf,
+                                                 int dibrbdtfristids) {
+        rfturn nfw LongItfrbtorSplitfrbtor(Objfdts.rfquirfNonNull(itfrbtor),
+                                           sizf, dibrbdtfristids);
     }
 
     /**
-     * Creates a {@code Spliterator.OfLong} using a given
-     * {@code LongStream.LongIterator} as the source of elements, with no
-     * initial size estimate.
+     * Crfbtfs b {@dodf Splitfrbtor.OfLong} using b givfn
+     * {@dodf LongStrfbm.LongItfrbtor} bs tif sourdf of flfmfnts, witi no
+     * initibl sizf fstimbtf.
      *
-     * <p>The spliterator is not
-     * <em><a href="Spliterator.html#binding">late-binding</a></em>, inherits
-     * the <em>fail-fast</em> properties of the iterator, and implements
-     * {@code trySplit} to permit limited parallelism.
+     * <p>Tif splitfrbtor is not
+     * <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm>, inifrits
+     * tif <fm>fbil-fbst</fm> propfrtifs of tif itfrbtor, bnd implfmfnts
+     * {@dodf trySplit} to pfrmit limitfd pbrbllflism.
      *
-     * <p>Traversal of elements should be accomplished through the spliterator.
-     * The behaviour of splitting and traversal is undefined if the iterator is
-     * operated on after the spliterator is returned.
+     * <p>Trbvfrsbl of flfmfnts siould bf bddomplisifd tirougi tif splitfrbtor.
+     * Tif bfibviour of splitting bnd trbvfrsbl is undffinfd if tif itfrbtor is
+     * opfrbtfd on bftfr tif splitfrbtor is rfturnfd.
      *
-     * @param iterator The iterator for the source
-     * @param characteristics Characteristics of this spliterator's source
-     *        or elements ({@code SIZED} and {@code SUBSIZED}, if supplied, are
-     *        ignored and are not reported.)
-     * @return A spliterator from an iterator
-     * @throws NullPointerException if the given iterator is {@code null}
+     * @pbrbm itfrbtor Tif itfrbtor for tif sourdf
+     * @pbrbm dibrbdtfristids Cibrbdtfristids of tiis splitfrbtor's sourdf
+     *        or flfmfnts ({@dodf SIZED} bnd {@dodf SUBSIZED}, if supplifd, brf
+     *        ignorfd bnd brf not rfportfd.)
+     * @rfturn A splitfrbtor from bn itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn itfrbtor is {@dodf null}
      */
-    public static Spliterator.OfLong spliteratorUnknownSize(PrimitiveIterator.OfLong iterator,
-                                                            int characteristics) {
-        return new LongIteratorSpliterator(Objects.requireNonNull(iterator), characteristics);
+    publid stbtid Splitfrbtor.OfLong splitfrbtorUnknownSizf(PrimitivfItfrbtor.OfLong itfrbtor,
+                                                            int dibrbdtfristids) {
+        rfturn nfw LongItfrbtorSplitfrbtor(Objfdts.rfquirfNonNull(itfrbtor), dibrbdtfristids);
     }
 
     /**
-     * Creates a {@code Spliterator.OfDouble} using a given
-     * {@code DoubleStream.DoubleIterator} as the source of elements, and with a
-     * given initially reported size.
+     * Crfbtfs b {@dodf Splitfrbtor.OfDoublf} using b givfn
+     * {@dodf DoublfStrfbm.DoublfItfrbtor} bs tif sourdf of flfmfnts, bnd witi b
+     * givfn initiblly rfportfd sizf.
      *
-     * <p>The spliterator is not
-     * <em><a href="Spliterator.html#binding">late-binding</a></em>, inherits
-     * the <em>fail-fast</em> properties of the iterator, and implements
-     * {@code trySplit} to permit limited parallelism.
+     * <p>Tif splitfrbtor is not
+     * <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm>, inifrits
+     * tif <fm>fbil-fbst</fm> propfrtifs of tif itfrbtor, bnd implfmfnts
+     * {@dodf trySplit} to pfrmit limitfd pbrbllflism.
      *
-     * <p>Traversal of elements should be accomplished through the spliterator.
-     * The behaviour of splitting and traversal is undefined if the iterator is
-     * operated on after the spliterator is returned, or the initially reported
-     * size is not equal to the actual number of elements in the source.
+     * <p>Trbvfrsbl of flfmfnts siould bf bddomplisifd tirougi tif splitfrbtor.
+     * Tif bfibviour of splitting bnd trbvfrsbl is undffinfd if tif itfrbtor is
+     * opfrbtfd on bftfr tif splitfrbtor is rfturnfd, or tif initiblly rfportfd
+     * sizf is not fqubl to tif bdtubl numbfr of flfmfnts in tif sourdf.
      *
-     * @param iterator The iterator for the source
-     * @param size The number of elements in the source, to be reported as
-     *        initial {@code estimateSize}
-     * @param characteristics Characteristics of this spliterator's source or
-     *        elements.  The characteristics {@code SIZED} and {@code SUBSIZED}
-     *        are additionally reported unless {@code CONCURRENT} is supplied.
-     * @return A spliterator from an iterator
-     * @throws NullPointerException if the given iterator is {@code null}
+     * @pbrbm itfrbtor Tif itfrbtor for tif sourdf
+     * @pbrbm sizf Tif numbfr of flfmfnts in tif sourdf, to bf rfportfd bs
+     *        initibl {@dodf fstimbtfSizf}
+     * @pbrbm dibrbdtfristids Cibrbdtfristids of tiis splitfrbtor's sourdf or
+     *        flfmfnts.  Tif dibrbdtfristids {@dodf SIZED} bnd {@dodf SUBSIZED}
+     *        brf bdditionblly rfportfd unlfss {@dodf CONCURRENT} is supplifd.
+     * @rfturn A splitfrbtor from bn itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn itfrbtor is {@dodf null}
      */
-    public static Spliterator.OfDouble spliterator(PrimitiveIterator.OfDouble iterator,
-                                                   long size,
-                                                   int characteristics) {
-        return new DoubleIteratorSpliterator(Objects.requireNonNull(iterator),
-                                             size, characteristics);
+    publid stbtid Splitfrbtor.OfDoublf splitfrbtor(PrimitivfItfrbtor.OfDoublf itfrbtor,
+                                                   long sizf,
+                                                   int dibrbdtfristids) {
+        rfturn nfw DoublfItfrbtorSplitfrbtor(Objfdts.rfquirfNonNull(itfrbtor),
+                                             sizf, dibrbdtfristids);
     }
 
     /**
-     * Creates a {@code Spliterator.OfDouble} using a given
-     * {@code DoubleStream.DoubleIterator} as the source of elements, with no
-     * initial size estimate.
+     * Crfbtfs b {@dodf Splitfrbtor.OfDoublf} using b givfn
+     * {@dodf DoublfStrfbm.DoublfItfrbtor} bs tif sourdf of flfmfnts, witi no
+     * initibl sizf fstimbtf.
      *
-     * <p>The spliterator is not
-     * <em><a href="Spliterator.html#binding">late-binding</a></em>, inherits
-     * the <em>fail-fast</em> properties of the iterator, and implements
-     * {@code trySplit} to permit limited parallelism.
+     * <p>Tif splitfrbtor is not
+     * <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm>, inifrits
+     * tif <fm>fbil-fbst</fm> propfrtifs of tif itfrbtor, bnd implfmfnts
+     * {@dodf trySplit} to pfrmit limitfd pbrbllflism.
      *
-     * <p>Traversal of elements should be accomplished through the spliterator.
-     * The behaviour of splitting and traversal is undefined if the iterator is
-     * operated on after the spliterator is returned.
+     * <p>Trbvfrsbl of flfmfnts siould bf bddomplisifd tirougi tif splitfrbtor.
+     * Tif bfibviour of splitting bnd trbvfrsbl is undffinfd if tif itfrbtor is
+     * opfrbtfd on bftfr tif splitfrbtor is rfturnfd.
      *
-     * @param iterator The iterator for the source
-     * @param characteristics Characteristics of this spliterator's source
-     *        or elements ({@code SIZED} and {@code SUBSIZED}, if supplied, are
-     *        ignored and are not reported.)
-     * @return A spliterator from an iterator
-     * @throws NullPointerException if the given iterator is {@code null}
+     * @pbrbm itfrbtor Tif itfrbtor for tif sourdf
+     * @pbrbm dibrbdtfristids Cibrbdtfristids of tiis splitfrbtor's sourdf
+     *        or flfmfnts ({@dodf SIZED} bnd {@dodf SUBSIZED}, if supplifd, brf
+     *        ignorfd bnd brf not rfportfd.)
+     * @rfturn A splitfrbtor from bn itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn itfrbtor is {@dodf null}
      */
-    public static Spliterator.OfDouble spliteratorUnknownSize(PrimitiveIterator.OfDouble iterator,
-                                                              int characteristics) {
-        return new DoubleIteratorSpliterator(Objects.requireNonNull(iterator), characteristics);
+    publid stbtid Splitfrbtor.OfDoublf splitfrbtorUnknownSizf(PrimitivfItfrbtor.OfDoublf itfrbtor,
+                                                              int dibrbdtfristids) {
+        rfturn nfw DoublfItfrbtorSplitfrbtor(Objfdts.rfquirfNonNull(itfrbtor), dibrbdtfristids);
     }
 
-    // Iterators from Spliterators
+    // Itfrbtors from Splitfrbtors
 
     /**
-     * Creates an {@code Iterator} from a {@code Spliterator}.
+     * Crfbtfs bn {@dodf Itfrbtor} from b {@dodf Splitfrbtor}.
      *
-     * <p>Traversal of elements should be accomplished through the iterator.
-     * The behaviour of traversal is undefined if the spliterator is operated
-     * after the iterator is returned.
+     * <p>Trbvfrsbl of flfmfnts siould bf bddomplisifd tirougi tif itfrbtor.
+     * Tif bfibviour of trbvfrsbl is undffinfd if tif splitfrbtor is opfrbtfd
+     * bftfr tif itfrbtor is rfturnfd.
      *
-     * @param <T> Type of elements
-     * @param spliterator The spliterator
-     * @return An iterator
-     * @throws NullPointerException if the given spliterator is {@code null}
+     * @pbrbm <T> Typf of flfmfnts
+     * @pbrbm splitfrbtor Tif splitfrbtor
+     * @rfturn An itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn splitfrbtor is {@dodf null}
      */
-    public static<T> Iterator<T> iterator(Spliterator<? extends T> spliterator) {
-        Objects.requireNonNull(spliterator);
-        class Adapter implements Iterator<T>, Consumer<T> {
-            boolean valueReady = false;
-            T nextElement;
+    publid stbtid<T> Itfrbtor<T> itfrbtor(Splitfrbtor<? fxtfnds T> splitfrbtor) {
+        Objfdts.rfquirfNonNull(splitfrbtor);
+        dlbss Adbptfr implfmfnts Itfrbtor<T>, Consumfr<T> {
+            boolfbn vblufRfbdy = fblsf;
+            T nfxtElfmfnt;
 
-            @Override
-            public void accept(T t) {
-                valueReady = true;
-                nextElement = t;
+            @Ovfrridf
+            publid void bddfpt(T t) {
+                vblufRfbdy = truf;
+                nfxtElfmfnt = t;
             }
 
-            @Override
-            public boolean hasNext() {
-                if (!valueReady)
-                    spliterator.tryAdvance(this);
-                return valueReady;
+            @Ovfrridf
+            publid boolfbn ibsNfxt() {
+                if (!vblufRfbdy)
+                    splitfrbtor.tryAdvbndf(tiis);
+                rfturn vblufRfbdy;
             }
 
-            @Override
-            public T next() {
-                if (!valueReady && !hasNext())
-                    throw new NoSuchElementException();
-                else {
-                    valueReady = false;
-                    return nextElement;
+            @Ovfrridf
+            publid T nfxt() {
+                if (!vblufRfbdy && !ibsNfxt())
+                    tirow nfw NoSudiElfmfntExdfption();
+                flsf {
+                    vblufRfbdy = fblsf;
+                    rfturn nfxtElfmfnt;
                 }
             }
         }
 
-        return new Adapter();
+        rfturn nfw Adbptfr();
     }
 
     /**
-     * Creates an {@code PrimitiveIterator.OfInt} from a
-     * {@code Spliterator.OfInt}.
+     * Crfbtfs bn {@dodf PrimitivfItfrbtor.OfInt} from b
+     * {@dodf Splitfrbtor.OfInt}.
      *
-     * <p>Traversal of elements should be accomplished through the iterator.
-     * The behaviour of traversal is undefined if the spliterator is operated
-     * after the iterator is returned.
+     * <p>Trbvfrsbl of flfmfnts siould bf bddomplisifd tirougi tif itfrbtor.
+     * Tif bfibviour of trbvfrsbl is undffinfd if tif splitfrbtor is opfrbtfd
+     * bftfr tif itfrbtor is rfturnfd.
      *
-     * @param spliterator The spliterator
-     * @return An iterator
-     * @throws NullPointerException if the given spliterator is {@code null}
+     * @pbrbm splitfrbtor Tif splitfrbtor
+     * @rfturn An itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn splitfrbtor is {@dodf null}
      */
-    public static PrimitiveIterator.OfInt iterator(Spliterator.OfInt spliterator) {
-        Objects.requireNonNull(spliterator);
-        class Adapter implements PrimitiveIterator.OfInt, IntConsumer {
-            boolean valueReady = false;
-            int nextElement;
+    publid stbtid PrimitivfItfrbtor.OfInt itfrbtor(Splitfrbtor.OfInt splitfrbtor) {
+        Objfdts.rfquirfNonNull(splitfrbtor);
+        dlbss Adbptfr implfmfnts PrimitivfItfrbtor.OfInt, IntConsumfr {
+            boolfbn vblufRfbdy = fblsf;
+            int nfxtElfmfnt;
 
-            @Override
-            public void accept(int t) {
-                valueReady = true;
-                nextElement = t;
+            @Ovfrridf
+            publid void bddfpt(int t) {
+                vblufRfbdy = truf;
+                nfxtElfmfnt = t;
             }
 
-            @Override
-            public boolean hasNext() {
-                if (!valueReady)
-                    spliterator.tryAdvance(this);
-                return valueReady;
+            @Ovfrridf
+            publid boolfbn ibsNfxt() {
+                if (!vblufRfbdy)
+                    splitfrbtor.tryAdvbndf(tiis);
+                rfturn vblufRfbdy;
             }
 
-            @Override
-            public int nextInt() {
-                if (!valueReady && !hasNext())
-                    throw new NoSuchElementException();
-                else {
-                    valueReady = false;
-                    return nextElement;
+            @Ovfrridf
+            publid int nfxtInt() {
+                if (!vblufRfbdy && !ibsNfxt())
+                    tirow nfw NoSudiElfmfntExdfption();
+                flsf {
+                    vblufRfbdy = fblsf;
+                    rfturn nfxtElfmfnt;
                 }
             }
         }
 
-        return new Adapter();
+        rfturn nfw Adbptfr();
     }
 
     /**
-     * Creates an {@code PrimitiveIterator.OfLong} from a
-     * {@code Spliterator.OfLong}.
+     * Crfbtfs bn {@dodf PrimitivfItfrbtor.OfLong} from b
+     * {@dodf Splitfrbtor.OfLong}.
      *
-     * <p>Traversal of elements should be accomplished through the iterator.
-     * The behaviour of traversal is undefined if the spliterator is operated
-     * after the iterator is returned.
+     * <p>Trbvfrsbl of flfmfnts siould bf bddomplisifd tirougi tif itfrbtor.
+     * Tif bfibviour of trbvfrsbl is undffinfd if tif splitfrbtor is opfrbtfd
+     * bftfr tif itfrbtor is rfturnfd.
      *
-     * @param spliterator The spliterator
-     * @return An iterator
-     * @throws NullPointerException if the given spliterator is {@code null}
+     * @pbrbm splitfrbtor Tif splitfrbtor
+     * @rfturn An itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn splitfrbtor is {@dodf null}
      */
-    public static PrimitiveIterator.OfLong iterator(Spliterator.OfLong spliterator) {
-        Objects.requireNonNull(spliterator);
-        class Adapter implements PrimitiveIterator.OfLong, LongConsumer {
-            boolean valueReady = false;
-            long nextElement;
+    publid stbtid PrimitivfItfrbtor.OfLong itfrbtor(Splitfrbtor.OfLong splitfrbtor) {
+        Objfdts.rfquirfNonNull(splitfrbtor);
+        dlbss Adbptfr implfmfnts PrimitivfItfrbtor.OfLong, LongConsumfr {
+            boolfbn vblufRfbdy = fblsf;
+            long nfxtElfmfnt;
 
-            @Override
-            public void accept(long t) {
-                valueReady = true;
-                nextElement = t;
+            @Ovfrridf
+            publid void bddfpt(long t) {
+                vblufRfbdy = truf;
+                nfxtElfmfnt = t;
             }
 
-            @Override
-            public boolean hasNext() {
-                if (!valueReady)
-                    spliterator.tryAdvance(this);
-                return valueReady;
+            @Ovfrridf
+            publid boolfbn ibsNfxt() {
+                if (!vblufRfbdy)
+                    splitfrbtor.tryAdvbndf(tiis);
+                rfturn vblufRfbdy;
             }
 
-            @Override
-            public long nextLong() {
-                if (!valueReady && !hasNext())
-                    throw new NoSuchElementException();
-                else {
-                    valueReady = false;
-                    return nextElement;
+            @Ovfrridf
+            publid long nfxtLong() {
+                if (!vblufRfbdy && !ibsNfxt())
+                    tirow nfw NoSudiElfmfntExdfption();
+                flsf {
+                    vblufRfbdy = fblsf;
+                    rfturn nfxtElfmfnt;
                 }
             }
         }
 
-        return new Adapter();
+        rfturn nfw Adbptfr();
     }
 
     /**
-     * Creates an {@code PrimitiveIterator.OfDouble} from a
-     * {@code Spliterator.OfDouble}.
+     * Crfbtfs bn {@dodf PrimitivfItfrbtor.OfDoublf} from b
+     * {@dodf Splitfrbtor.OfDoublf}.
      *
-     * <p>Traversal of elements should be accomplished through the iterator.
-     * The behaviour of traversal is undefined if the spliterator is operated
-     * after the iterator is returned.
+     * <p>Trbvfrsbl of flfmfnts siould bf bddomplisifd tirougi tif itfrbtor.
+     * Tif bfibviour of trbvfrsbl is undffinfd if tif splitfrbtor is opfrbtfd
+     * bftfr tif itfrbtor is rfturnfd.
      *
-     * @param spliterator The spliterator
-     * @return An iterator
-     * @throws NullPointerException if the given spliterator is {@code null}
+     * @pbrbm splitfrbtor Tif splitfrbtor
+     * @rfturn An itfrbtor
+     * @tirows NullPointfrExdfption if tif givfn splitfrbtor is {@dodf null}
      */
-    public static PrimitiveIterator.OfDouble iterator(Spliterator.OfDouble spliterator) {
-        Objects.requireNonNull(spliterator);
-        class Adapter implements PrimitiveIterator.OfDouble, DoubleConsumer {
-            boolean valueReady = false;
-            double nextElement;
+    publid stbtid PrimitivfItfrbtor.OfDoublf itfrbtor(Splitfrbtor.OfDoublf splitfrbtor) {
+        Objfdts.rfquirfNonNull(splitfrbtor);
+        dlbss Adbptfr implfmfnts PrimitivfItfrbtor.OfDoublf, DoublfConsumfr {
+            boolfbn vblufRfbdy = fblsf;
+            doublf nfxtElfmfnt;
 
-            @Override
-            public void accept(double t) {
-                valueReady = true;
-                nextElement = t;
+            @Ovfrridf
+            publid void bddfpt(doublf t) {
+                vblufRfbdy = truf;
+                nfxtElfmfnt = t;
             }
 
-            @Override
-            public boolean hasNext() {
-                if (!valueReady)
-                    spliterator.tryAdvance(this);
-                return valueReady;
+            @Ovfrridf
+            publid boolfbn ibsNfxt() {
+                if (!vblufRfbdy)
+                    splitfrbtor.tryAdvbndf(tiis);
+                rfturn vblufRfbdy;
             }
 
-            @Override
-            public double nextDouble() {
-                if (!valueReady && !hasNext())
-                    throw new NoSuchElementException();
-                else {
-                    valueReady = false;
-                    return nextElement;
+            @Ovfrridf
+            publid doublf nfxtDoublf() {
+                if (!vblufRfbdy && !ibsNfxt())
+                    tirow nfw NoSudiElfmfntExdfption();
+                flsf {
+                    vblufRfbdy = fblsf;
+                    rfturn nfxtElfmfnt;
                 }
             }
         }
 
-        return new Adapter();
+        rfturn nfw Adbptfr();
     }
 
-    // Implementations
+    // Implfmfntbtions
 
-    private static abstract class EmptySpliterator<T, S extends Spliterator<T>, C> {
+    privbtf stbtid bbstrbdt dlbss EmptySplitfrbtor<T, S fxtfnds Splitfrbtor<T>, C> {
 
-        EmptySpliterator() { }
+        EmptySplitfrbtor() { }
 
-        public S trySplit() {
-            return null;
+        publid S trySplit() {
+            rfturn null;
         }
 
-        public boolean tryAdvance(C consumer) {
-            Objects.requireNonNull(consumer);
-            return false;
+        publid boolfbn tryAdvbndf(C donsumfr) {
+            Objfdts.rfquirfNonNull(donsumfr);
+            rfturn fblsf;
         }
 
-        public void forEachRemaining(C consumer) {
-            Objects.requireNonNull(consumer);
+        publid void forEbdiRfmbining(C donsumfr) {
+            Objfdts.rfquirfNonNull(donsumfr);
         }
 
-        public long estimateSize() {
-            return 0;
+        publid long fstimbtfSizf() {
+            rfturn 0;
         }
 
-        public int characteristics() {
-            return Spliterator.SIZED | Spliterator.SUBSIZED;
+        publid int dibrbdtfristids() {
+            rfturn Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED;
         }
 
-        private static final class OfRef<T>
-                extends EmptySpliterator<T, Spliterator<T>, Consumer<? super T>>
-                implements Spliterator<T> {
-            OfRef() { }
+        privbtf stbtid finbl dlbss OfRff<T>
+                fxtfnds EmptySplitfrbtor<T, Splitfrbtor<T>, Consumfr<? supfr T>>
+                implfmfnts Splitfrbtor<T> {
+            OfRff() { }
         }
 
-        private static final class OfInt
-                extends EmptySpliterator<Integer, Spliterator.OfInt, IntConsumer>
-                implements Spliterator.OfInt {
+        privbtf stbtid finbl dlbss OfInt
+                fxtfnds EmptySplitfrbtor<Intfgfr, Splitfrbtor.OfInt, IntConsumfr>
+                implfmfnts Splitfrbtor.OfInt {
             OfInt() { }
         }
 
-        private static final class OfLong
-                extends EmptySpliterator<Long, Spliterator.OfLong, LongConsumer>
-                implements Spliterator.OfLong {
+        privbtf stbtid finbl dlbss OfLong
+                fxtfnds EmptySplitfrbtor<Long, Splitfrbtor.OfLong, LongConsumfr>
+                implfmfnts Splitfrbtor.OfLong {
             OfLong() { }
         }
 
-        private static final class OfDouble
-                extends EmptySpliterator<Double, Spliterator.OfDouble, DoubleConsumer>
-                implements Spliterator.OfDouble {
-            OfDouble() { }
+        privbtf stbtid finbl dlbss OfDoublf
+                fxtfnds EmptySplitfrbtor<Doublf, Splitfrbtor.OfDoublf, DoublfConsumfr>
+                implfmfnts Splitfrbtor.OfDoublf {
+            OfDoublf() { }
         }
     }
 
-    // Array-based spliterators
+    // Arrby-bbsfd splitfrbtors
 
     /**
-     * A Spliterator designed for use by sources that traverse and split
-     * elements maintained in an unmodifiable {@code Object[]} array.
+     * A Splitfrbtor dfsignfd for usf by sourdfs tibt trbvfrsf bnd split
+     * flfmfnts mbintbinfd in bn unmodifibblf {@dodf Objfdt[]} brrby.
      */
-    static final class ArraySpliterator<T> implements Spliterator<T> {
+    stbtid finbl dlbss ArrbySplitfrbtor<T> implfmfnts Splitfrbtor<T> {
         /**
-         * The array, explicitly typed as Object[]. Unlike in some other
-         * classes (see for example CR 6260652), we do not need to
-         * screen arguments to ensure they are exactly of type Object[]
-         * so long as no methods write into the array or serialize it,
-         * which we ensure here by defining this class as final.
+         * Tif brrby, fxpliditly typfd bs Objfdt[]. Unlikf in somf otifr
+         * dlbssfs (sff for fxbmplf CR 6260652), wf do not nffd to
+         * sdrffn brgumfnts to fnsurf tify brf fxbdtly of typf Objfdt[]
+         * so long bs no mftiods writf into tif brrby or sfriblizf it,
+         * wiidi wf fnsurf ifrf by dffining tiis dlbss bs finbl.
          */
-        private final Object[] array;
-        private int index;        // current index, modified on advance/split
-        private final int fence;  // one past last index
-        private final int characteristics;
+        privbtf finbl Objfdt[] brrby;
+        privbtf int indfx;        // durrfnt indfx, modififd on bdvbndf/split
+        privbtf finbl int ffndf;  // onf pbst lbst indfx
+        privbtf finbl int dibrbdtfristids;
 
         /**
-         * Creates a spliterator covering all of the given array.
-         * @param array the array, assumed to be unmodified during use
-         * @param additionalCharacteristics Additional spliterator characteristics
-         * of this spliterator's source or elements beyond {@code SIZED} and
-         * {@code SUBSIZED} which are are always reported
+         * Crfbtfs b splitfrbtor dovfring bll of tif givfn brrby.
+         * @pbrbm brrby tif brrby, bssumfd to bf unmodififd during usf
+         * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+         * of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+         * {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
          */
-        public ArraySpliterator(Object[] array, int additionalCharacteristics) {
-            this(array, 0, array.length, additionalCharacteristics);
+        publid ArrbySplitfrbtor(Objfdt[] brrby, int bdditionblCibrbdtfristids) {
+            tiis(brrby, 0, brrby.lfngti, bdditionblCibrbdtfristids);
         }
 
         /**
-         * Creates a spliterator covering the given array and range
-         * @param array the array, assumed to be unmodified during use
-         * @param origin the least index (inclusive) to cover
-         * @param fence one past the greatest index to cover
-         * @param additionalCharacteristics Additional spliterator characteristics
-         * of this spliterator's source or elements beyond {@code SIZED} and
-         * {@code SUBSIZED} which are are always reported
+         * Crfbtfs b splitfrbtor dovfring tif givfn brrby bnd rbngf
+         * @pbrbm brrby tif brrby, bssumfd to bf unmodififd during usf
+         * @pbrbm origin tif lfbst indfx (indlusivf) to dovfr
+         * @pbrbm ffndf onf pbst tif grfbtfst indfx to dovfr
+         * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+         * of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+         * {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
          */
-        public ArraySpliterator(Object[] array, int origin, int fence, int additionalCharacteristics) {
-            this.array = array;
-            this.index = origin;
-            this.fence = fence;
-            this.characteristics = additionalCharacteristics | Spliterator.SIZED | Spliterator.SUBSIZED;
+        publid ArrbySplitfrbtor(Objfdt[] brrby, int origin, int ffndf, int bdditionblCibrbdtfristids) {
+            tiis.brrby = brrby;
+            tiis.indfx = origin;
+            tiis.ffndf = ffndf;
+            tiis.dibrbdtfristids = bdditionblCibrbdtfristids | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED;
         }
 
-        @Override
-        public Spliterator<T> trySplit() {
-            int lo = index, mid = (lo + fence) >>> 1;
-            return (lo >= mid)
+        @Ovfrridf
+        publid Splitfrbtor<T> trySplit() {
+            int lo = indfx, mid = (lo + ffndf) >>> 1;
+            rfturn (lo >= mid)
                    ? null
-                   : new ArraySpliterator<>(array, lo, index = mid, characteristics);
+                   : nfw ArrbySplitfrbtor<>(brrby, lo, indfx = mid, dibrbdtfristids);
         }
 
-        @SuppressWarnings("unchecked")
-        @Override
-        public void forEachRemaining(Consumer<? super T> action) {
-            Object[] a; int i, hi; // hoist accesses and checks from loop
-            if (action == null)
-                throw new NullPointerException();
-            if ((a = array).length >= (hi = fence) &&
-                (i = index) >= 0 && i < (index = hi)) {
-                do { action.accept((T)a[i]); } while (++i < hi);
+        @SupprfssWbrnings("undifdkfd")
+        @Ovfrridf
+        publid void forEbdiRfmbining(Consumfr<? supfr T> bdtion) {
+            Objfdt[] b; int i, ii; // ioist bddfssfs bnd difdks from loop
+            if (bdtion == null)
+                tirow nfw NullPointfrExdfption();
+            if ((b = brrby).lfngti >= (ii = ffndf) &&
+                (i = indfx) >= 0 && i < (indfx = ii)) {
+                do { bdtion.bddfpt((T)b[i]); } wiilf (++i < ii);
             }
         }
 
-        @Override
-        public boolean tryAdvance(Consumer<? super T> action) {
-            if (action == null)
-                throw new NullPointerException();
-            if (index >= 0 && index < fence) {
-                @SuppressWarnings("unchecked") T e = (T) array[index++];
-                action.accept(e);
-                return true;
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(Consumfr<? supfr T> bdtion) {
+            if (bdtion == null)
+                tirow nfw NullPointfrExdfption();
+            if (indfx >= 0 && indfx < ffndf) {
+                @SupprfssWbrnings("undifdkfd") T f = (T) brrby[indfx++];
+                bdtion.bddfpt(f);
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
-        @Override
-        public long estimateSize() { return (long)(fence - index); }
+        @Ovfrridf
+        publid long fstimbtfSizf() { rfturn (long)(ffndf - indfx); }
 
-        @Override
-        public int characteristics() {
-            return characteristics;
+        @Ovfrridf
+        publid int dibrbdtfristids() {
+            rfturn dibrbdtfristids;
         }
 
-        @Override
-        public Comparator<? super T> getComparator() {
-            if (hasCharacteristics(Spliterator.SORTED))
-                return null;
-            throw new IllegalStateException();
-        }
-    }
-
-    /**
-     * A Spliterator.OfInt designed for use by sources that traverse and split
-     * elements maintained in an unmodifiable {@code int[]} array.
-     */
-    static final class IntArraySpliterator implements Spliterator.OfInt {
-        private final int[] array;
-        private int index;        // current index, modified on advance/split
-        private final int fence;  // one past last index
-        private final int characteristics;
-
-        /**
-         * Creates a spliterator covering all of the given array.
-         * @param array the array, assumed to be unmodified during use
-         * @param additionalCharacteristics Additional spliterator characteristics
-         *        of this spliterator's source or elements beyond {@code SIZED} and
-         *        {@code SUBSIZED} which are are always reported
-         */
-        public IntArraySpliterator(int[] array, int additionalCharacteristics) {
-            this(array, 0, array.length, additionalCharacteristics);
-        }
-
-        /**
-         * Creates a spliterator covering the given array and range
-         * @param array the array, assumed to be unmodified during use
-         * @param origin the least index (inclusive) to cover
-         * @param fence one past the greatest index to cover
-         * @param additionalCharacteristics Additional spliterator characteristics
-         *        of this spliterator's source or elements beyond {@code SIZED} and
-         *        {@code SUBSIZED} which are are always reported
-         */
-        public IntArraySpliterator(int[] array, int origin, int fence, int additionalCharacteristics) {
-            this.array = array;
-            this.index = origin;
-            this.fence = fence;
-            this.characteristics = additionalCharacteristics | Spliterator.SIZED | Spliterator.SUBSIZED;
-        }
-
-        @Override
-        public OfInt trySplit() {
-            int lo = index, mid = (lo + fence) >>> 1;
-            return (lo >= mid)
-                   ? null
-                   : new IntArraySpliterator(array, lo, index = mid, characteristics);
-        }
-
-        @Override
-        public void forEachRemaining(IntConsumer action) {
-            int[] a; int i, hi; // hoist accesses and checks from loop
-            if (action == null)
-                throw new NullPointerException();
-            if ((a = array).length >= (hi = fence) &&
-                (i = index) >= 0 && i < (index = hi)) {
-                do { action.accept(a[i]); } while (++i < hi);
-            }
-        }
-
-        @Override
-        public boolean tryAdvance(IntConsumer action) {
-            if (action == null)
-                throw new NullPointerException();
-            if (index >= 0 && index < fence) {
-                action.accept(array[index++]);
-                return true;
-            }
-            return false;
-        }
-
-        @Override
-        public long estimateSize() { return (long)(fence - index); }
-
-        @Override
-        public int characteristics() {
-            return characteristics;
-        }
-
-        @Override
-        public Comparator<? super Integer> getComparator() {
-            if (hasCharacteristics(Spliterator.SORTED))
-                return null;
-            throw new IllegalStateException();
+        @Ovfrridf
+        publid Compbrbtor<? supfr T> gftCompbrbtor() {
+            if (ibsCibrbdtfristids(Splitfrbtor.SORTED))
+                rfturn null;
+            tirow nfw IllfgblStbtfExdfption();
         }
     }
 
     /**
-     * A Spliterator.OfLong designed for use by sources that traverse and split
-     * elements maintained in an unmodifiable {@code int[]} array.
+     * A Splitfrbtor.OfInt dfsignfd for usf by sourdfs tibt trbvfrsf bnd split
+     * flfmfnts mbintbinfd in bn unmodifibblf {@dodf int[]} brrby.
      */
-    static final class LongArraySpliterator implements Spliterator.OfLong {
-        private final long[] array;
-        private int index;        // current index, modified on advance/split
-        private final int fence;  // one past last index
-        private final int characteristics;
+    stbtid finbl dlbss IntArrbySplitfrbtor implfmfnts Splitfrbtor.OfInt {
+        privbtf finbl int[] brrby;
+        privbtf int indfx;        // durrfnt indfx, modififd on bdvbndf/split
+        privbtf finbl int ffndf;  // onf pbst lbst indfx
+        privbtf finbl int dibrbdtfristids;
 
         /**
-         * Creates a spliterator covering all of the given array.
-         * @param array the array, assumed to be unmodified during use
-         * @param additionalCharacteristics Additional spliterator characteristics
-         *        of this spliterator's source or elements beyond {@code SIZED} and
-         *        {@code SUBSIZED} which are are always reported
+         * Crfbtfs b splitfrbtor dovfring bll of tif givfn brrby.
+         * @pbrbm brrby tif brrby, bssumfd to bf unmodififd during usf
+         * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+         *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+         *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
          */
-        public LongArraySpliterator(long[] array, int additionalCharacteristics) {
-            this(array, 0, array.length, additionalCharacteristics);
+        publid IntArrbySplitfrbtor(int[] brrby, int bdditionblCibrbdtfristids) {
+            tiis(brrby, 0, brrby.lfngti, bdditionblCibrbdtfristids);
         }
 
         /**
-         * Creates a spliterator covering the given array and range
-         * @param array the array, assumed to be unmodified during use
-         * @param origin the least index (inclusive) to cover
-         * @param fence one past the greatest index to cover
-         * @param additionalCharacteristics Additional spliterator characteristics
-         *        of this spliterator's source or elements beyond {@code SIZED} and
-         *        {@code SUBSIZED} which are are always reported
+         * Crfbtfs b splitfrbtor dovfring tif givfn brrby bnd rbngf
+         * @pbrbm brrby tif brrby, bssumfd to bf unmodififd during usf
+         * @pbrbm origin tif lfbst indfx (indlusivf) to dovfr
+         * @pbrbm ffndf onf pbst tif grfbtfst indfx to dovfr
+         * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+         *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+         *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
          */
-        public LongArraySpliterator(long[] array, int origin, int fence, int additionalCharacteristics) {
-            this.array = array;
-            this.index = origin;
-            this.fence = fence;
-            this.characteristics = additionalCharacteristics | Spliterator.SIZED | Spliterator.SUBSIZED;
+        publid IntArrbySplitfrbtor(int[] brrby, int origin, int ffndf, int bdditionblCibrbdtfristids) {
+            tiis.brrby = brrby;
+            tiis.indfx = origin;
+            tiis.ffndf = ffndf;
+            tiis.dibrbdtfristids = bdditionblCibrbdtfristids | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED;
         }
 
-        @Override
-        public OfLong trySplit() {
-            int lo = index, mid = (lo + fence) >>> 1;
-            return (lo >= mid)
+        @Ovfrridf
+        publid OfInt trySplit() {
+            int lo = indfx, mid = (lo + ffndf) >>> 1;
+            rfturn (lo >= mid)
                    ? null
-                   : new LongArraySpliterator(array, lo, index = mid, characteristics);
+                   : nfw IntArrbySplitfrbtor(brrby, lo, indfx = mid, dibrbdtfristids);
         }
 
-        @Override
-        public void forEachRemaining(LongConsumer action) {
-            long[] a; int i, hi; // hoist accesses and checks from loop
-            if (action == null)
-                throw new NullPointerException();
-            if ((a = array).length >= (hi = fence) &&
-                (i = index) >= 0 && i < (index = hi)) {
-                do { action.accept(a[i]); } while (++i < hi);
+        @Ovfrridf
+        publid void forEbdiRfmbining(IntConsumfr bdtion) {
+            int[] b; int i, ii; // ioist bddfssfs bnd difdks from loop
+            if (bdtion == null)
+                tirow nfw NullPointfrExdfption();
+            if ((b = brrby).lfngti >= (ii = ffndf) &&
+                (i = indfx) >= 0 && i < (indfx = ii)) {
+                do { bdtion.bddfpt(b[i]); } wiilf (++i < ii);
             }
         }
 
-        @Override
-        public boolean tryAdvance(LongConsumer action) {
-            if (action == null)
-                throw new NullPointerException();
-            if (index >= 0 && index < fence) {
-                action.accept(array[index++]);
-                return true;
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(IntConsumfr bdtion) {
+            if (bdtion == null)
+                tirow nfw NullPointfrExdfption();
+            if (indfx >= 0 && indfx < ffndf) {
+                bdtion.bddfpt(brrby[indfx++]);
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
-        @Override
-        public long estimateSize() { return (long)(fence - index); }
+        @Ovfrridf
+        publid long fstimbtfSizf() { rfturn (long)(ffndf - indfx); }
 
-        @Override
-        public int characteristics() {
-            return characteristics;
+        @Ovfrridf
+        publid int dibrbdtfristids() {
+            rfturn dibrbdtfristids;
         }
 
-        @Override
-        public Comparator<? super Long> getComparator() {
-            if (hasCharacteristics(Spliterator.SORTED))
-                return null;
-            throw new IllegalStateException();
+        @Ovfrridf
+        publid Compbrbtor<? supfr Intfgfr> gftCompbrbtor() {
+            if (ibsCibrbdtfristids(Splitfrbtor.SORTED))
+                rfturn null;
+            tirow nfw IllfgblStbtfExdfption();
         }
     }
 
     /**
-     * A Spliterator.OfDouble designed for use by sources that traverse and split
-     * elements maintained in an unmodifiable {@code int[]} array.
+     * A Splitfrbtor.OfLong dfsignfd for usf by sourdfs tibt trbvfrsf bnd split
+     * flfmfnts mbintbinfd in bn unmodifibblf {@dodf int[]} brrby.
      */
-    static final class DoubleArraySpliterator implements Spliterator.OfDouble {
-        private final double[] array;
-        private int index;        // current index, modified on advance/split
-        private final int fence;  // one past last index
-        private final int characteristics;
+    stbtid finbl dlbss LongArrbySplitfrbtor implfmfnts Splitfrbtor.OfLong {
+        privbtf finbl long[] brrby;
+        privbtf int indfx;        // durrfnt indfx, modififd on bdvbndf/split
+        privbtf finbl int ffndf;  // onf pbst lbst indfx
+        privbtf finbl int dibrbdtfristids;
 
         /**
-         * Creates a spliterator covering all of the given array.
-         * @param array the array, assumed to be unmodified during use
-         * @param additionalCharacteristics Additional spliterator characteristics
-         *        of this spliterator's source or elements beyond {@code SIZED} and
-         *        {@code SUBSIZED} which are are always reported
+         * Crfbtfs b splitfrbtor dovfring bll of tif givfn brrby.
+         * @pbrbm brrby tif brrby, bssumfd to bf unmodififd during usf
+         * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+         *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+         *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
          */
-        public DoubleArraySpliterator(double[] array, int additionalCharacteristics) {
-            this(array, 0, array.length, additionalCharacteristics);
+        publid LongArrbySplitfrbtor(long[] brrby, int bdditionblCibrbdtfristids) {
+            tiis(brrby, 0, brrby.lfngti, bdditionblCibrbdtfristids);
         }
 
         /**
-         * Creates a spliterator covering the given array and range
-         * @param array the array, assumed to be unmodified during use
-         * @param origin the least index (inclusive) to cover
-         * @param fence one past the greatest index to cover
-         * @param additionalCharacteristics Additional spliterator characteristics
-         *        of this spliterator's source or elements beyond {@code SIZED} and
-         *        {@code SUBSIZED} which are are always reported
+         * Crfbtfs b splitfrbtor dovfring tif givfn brrby bnd rbngf
+         * @pbrbm brrby tif brrby, bssumfd to bf unmodififd during usf
+         * @pbrbm origin tif lfbst indfx (indlusivf) to dovfr
+         * @pbrbm ffndf onf pbst tif grfbtfst indfx to dovfr
+         * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+         *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+         *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
          */
-        public DoubleArraySpliterator(double[] array, int origin, int fence, int additionalCharacteristics) {
-            this.array = array;
-            this.index = origin;
-            this.fence = fence;
-            this.characteristics = additionalCharacteristics | Spliterator.SIZED | Spliterator.SUBSIZED;
+        publid LongArrbySplitfrbtor(long[] brrby, int origin, int ffndf, int bdditionblCibrbdtfristids) {
+            tiis.brrby = brrby;
+            tiis.indfx = origin;
+            tiis.ffndf = ffndf;
+            tiis.dibrbdtfristids = bdditionblCibrbdtfristids | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED;
         }
 
-        @Override
-        public OfDouble trySplit() {
-            int lo = index, mid = (lo + fence) >>> 1;
-            return (lo >= mid)
+        @Ovfrridf
+        publid OfLong trySplit() {
+            int lo = indfx, mid = (lo + ffndf) >>> 1;
+            rfturn (lo >= mid)
                    ? null
-                   : new DoubleArraySpliterator(array, lo, index = mid, characteristics);
+                   : nfw LongArrbySplitfrbtor(brrby, lo, indfx = mid, dibrbdtfristids);
         }
 
-        @Override
-        public void forEachRemaining(DoubleConsumer action) {
-            double[] a; int i, hi; // hoist accesses and checks from loop
-            if (action == null)
-                throw new NullPointerException();
-            if ((a = array).length >= (hi = fence) &&
-                (i = index) >= 0 && i < (index = hi)) {
-                do { action.accept(a[i]); } while (++i < hi);
+        @Ovfrridf
+        publid void forEbdiRfmbining(LongConsumfr bdtion) {
+            long[] b; int i, ii; // ioist bddfssfs bnd difdks from loop
+            if (bdtion == null)
+                tirow nfw NullPointfrExdfption();
+            if ((b = brrby).lfngti >= (ii = ffndf) &&
+                (i = indfx) >= 0 && i < (indfx = ii)) {
+                do { bdtion.bddfpt(b[i]); } wiilf (++i < ii);
             }
         }
 
-        @Override
-        public boolean tryAdvance(DoubleConsumer action) {
-            if (action == null)
-                throw new NullPointerException();
-            if (index >= 0 && index < fence) {
-                action.accept(array[index++]);
-                return true;
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(LongConsumfr bdtion) {
+            if (bdtion == null)
+                tirow nfw NullPointfrExdfption();
+            if (indfx >= 0 && indfx < ffndf) {
+                bdtion.bddfpt(brrby[indfx++]);
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
-        @Override
-        public long estimateSize() { return (long)(fence - index); }
+        @Ovfrridf
+        publid long fstimbtfSizf() { rfturn (long)(ffndf - indfx); }
 
-        @Override
-        public int characteristics() {
-            return characteristics;
+        @Ovfrridf
+        publid int dibrbdtfristids() {
+            rfturn dibrbdtfristids;
         }
 
-        @Override
-        public Comparator<? super Double> getComparator() {
-            if (hasCharacteristics(Spliterator.SORTED))
-                return null;
-            throw new IllegalStateException();
+        @Ovfrridf
+        publid Compbrbtor<? supfr Long> gftCompbrbtor() {
+            if (ibsCibrbdtfristids(Splitfrbtor.SORTED))
+                rfturn null;
+            tirow nfw IllfgblStbtfExdfption();
+        }
+    }
+
+    /**
+     * A Splitfrbtor.OfDoublf dfsignfd for usf by sourdfs tibt trbvfrsf bnd split
+     * flfmfnts mbintbinfd in bn unmodifibblf {@dodf int[]} brrby.
+     */
+    stbtid finbl dlbss DoublfArrbySplitfrbtor implfmfnts Splitfrbtor.OfDoublf {
+        privbtf finbl doublf[] brrby;
+        privbtf int indfx;        // durrfnt indfx, modififd on bdvbndf/split
+        privbtf finbl int ffndf;  // onf pbst lbst indfx
+        privbtf finbl int dibrbdtfristids;
+
+        /**
+         * Crfbtfs b splitfrbtor dovfring bll of tif givfn brrby.
+         * @pbrbm brrby tif brrby, bssumfd to bf unmodififd during usf
+         * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+         *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+         *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+         */
+        publid DoublfArrbySplitfrbtor(doublf[] brrby, int bdditionblCibrbdtfristids) {
+            tiis(brrby, 0, brrby.lfngti, bdditionblCibrbdtfristids);
+        }
+
+        /**
+         * Crfbtfs b splitfrbtor dovfring tif givfn brrby bnd rbngf
+         * @pbrbm brrby tif brrby, bssumfd to bf unmodififd during usf
+         * @pbrbm origin tif lfbst indfx (indlusivf) to dovfr
+         * @pbrbm ffndf onf pbst tif grfbtfst indfx to dovfr
+         * @pbrbm bdditionblCibrbdtfristids Additionbl splitfrbtor dibrbdtfristids
+         *        of tiis splitfrbtor's sourdf or flfmfnts bfyond {@dodf SIZED} bnd
+         *        {@dodf SUBSIZED} wiidi brf brf blwbys rfportfd
+         */
+        publid DoublfArrbySplitfrbtor(doublf[] brrby, int origin, int ffndf, int bdditionblCibrbdtfristids) {
+            tiis.brrby = brrby;
+            tiis.indfx = origin;
+            tiis.ffndf = ffndf;
+            tiis.dibrbdtfristids = bdditionblCibrbdtfristids | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED;
+        }
+
+        @Ovfrridf
+        publid OfDoublf trySplit() {
+            int lo = indfx, mid = (lo + ffndf) >>> 1;
+            rfturn (lo >= mid)
+                   ? null
+                   : nfw DoublfArrbySplitfrbtor(brrby, lo, indfx = mid, dibrbdtfristids);
+        }
+
+        @Ovfrridf
+        publid void forEbdiRfmbining(DoublfConsumfr bdtion) {
+            doublf[] b; int i, ii; // ioist bddfssfs bnd difdks from loop
+            if (bdtion == null)
+                tirow nfw NullPointfrExdfption();
+            if ((b = brrby).lfngti >= (ii = ffndf) &&
+                (i = indfx) >= 0 && i < (indfx = ii)) {
+                do { bdtion.bddfpt(b[i]); } wiilf (++i < ii);
+            }
+        }
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(DoublfConsumfr bdtion) {
+            if (bdtion == null)
+                tirow nfw NullPointfrExdfption();
+            if (indfx >= 0 && indfx < ffndf) {
+                bdtion.bddfpt(brrby[indfx++]);
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+
+        @Ovfrridf
+        publid long fstimbtfSizf() { rfturn (long)(ffndf - indfx); }
+
+        @Ovfrridf
+        publid int dibrbdtfristids() {
+            rfturn dibrbdtfristids;
+        }
+
+        @Ovfrridf
+        publid Compbrbtor<? supfr Doublf> gftCompbrbtor() {
+            if (ibsCibrbdtfristids(Splitfrbtor.SORTED))
+                rfturn null;
+            tirow nfw IllfgblStbtfExdfption();
         }
     }
 
     //
 
     /**
-     * An abstract {@code Spliterator} that implements {@code trySplit} to
-     * permit limited parallelism.
+     * An bbstrbdt {@dodf Splitfrbtor} tibt implfmfnts {@dodf trySplit} to
+     * pfrmit limitfd pbrbllflism.
      *
-     * <p>An extending class need only
-     * implement {@link #tryAdvance(java.util.function.Consumer) tryAdvance}.
-     * The extending class should override
-     * {@link #forEachRemaining(java.util.function.Consumer) forEach} if it can
-     * provide a more performant implementation.
+     * <p>An fxtfnding dlbss nffd only
+     * implfmfnt {@link #tryAdvbndf(jbvb.util.fundtion.Consumfr) tryAdvbndf}.
+     * Tif fxtfnding dlbss siould ovfrridf
+     * {@link #forEbdiRfmbining(jbvb.util.fundtion.Consumfr) forEbdi} if it dbn
+     * providf b morf pfrformbnt implfmfntbtion.
      *
-     * @apiNote
-     * This class is a useful aid for creating a spliterator when it is not
-     * possible or difficult to efficiently partition elements in a manner
-     * allowing balanced parallel computation.
+     * @bpiNotf
+     * Tiis dlbss is b usfful bid for drfbting b splitfrbtor wifn it is not
+     * possiblf or diffidult to fffidifntly pbrtition flfmfnts in b mbnnfr
+     * bllowing bblbndfd pbrbllfl domputbtion.
      *
-     * <p>An alternative to using this class, that also permits limited
-     * parallelism, is to create a spliterator from an iterator
-     * (see {@link #spliterator(Iterator, long, int)}.  Depending on the
-     * circumstances using an iterator may be easier or more convenient than
-     * extending this class, such as when there is already an iterator
-     * available to use.
+     * <p>An bltfrnbtivf to using tiis dlbss, tibt blso pfrmits limitfd
+     * pbrbllflism, is to drfbtf b splitfrbtor from bn itfrbtor
+     * (sff {@link #splitfrbtor(Itfrbtor, long, int)}.  Dfpfnding on tif
+     * dirdumstbndfs using bn itfrbtor mby bf fbsifr or morf donvfnifnt tibn
+     * fxtfnding tiis dlbss, sudi bs wifn tifrf is blrfbdy bn itfrbtor
+     * bvbilbblf to usf.
      *
-     * @see #spliterator(Iterator, long, int)
-     * @since 1.8
+     * @sff #splitfrbtor(Itfrbtor, long, int)
+     * @sindf 1.8
      */
-    public static abstract class AbstractSpliterator<T> implements Spliterator<T> {
-        static final int BATCH_UNIT = 1 << 10;  // batch array size increment
-        static final int MAX_BATCH = 1 << 25;  // max batch array size;
-        private final int characteristics;
-        private long est;             // size estimate
-        private int batch;            // batch size for splits
+    publid stbtid bbstrbdt dlbss AbstrbdtSplitfrbtor<T> implfmfnts Splitfrbtor<T> {
+        stbtid finbl int BATCH_UNIT = 1 << 10;  // bbtdi brrby sizf indrfmfnt
+        stbtid finbl int MAX_BATCH = 1 << 25;  // mbx bbtdi brrby sizf;
+        privbtf finbl int dibrbdtfristids;
+        privbtf long fst;             // sizf fstimbtf
+        privbtf int bbtdi;            // bbtdi sizf for splits
 
         /**
-         * Creates a spliterator reporting the given estimated size and
-         * additionalCharacteristics.
+         * Crfbtfs b splitfrbtor rfporting tif givfn fstimbtfd sizf bnd
+         * bdditionblCibrbdtfristids.
          *
-         * @param est the estimated size of this spliterator if known, otherwise
-         *        {@code Long.MAX_VALUE}.
-         * @param additionalCharacteristics properties of this spliterator's
-         *        source or elements.  If {@code SIZED} is reported then this
-         *        spliterator will additionally report {@code SUBSIZED}.
+         * @pbrbm fst tif fstimbtfd sizf of tiis splitfrbtor if known, otifrwisf
+         *        {@dodf Long.MAX_VALUE}.
+         * @pbrbm bdditionblCibrbdtfristids propfrtifs of tiis splitfrbtor's
+         *        sourdf or flfmfnts.  If {@dodf SIZED} is rfportfd tifn tiis
+         *        splitfrbtor will bdditionblly rfport {@dodf SUBSIZED}.
          */
-        protected AbstractSpliterator(long est, int additionalCharacteristics) {
-            this.est = est;
-            this.characteristics = ((additionalCharacteristics & Spliterator.SIZED) != 0)
-                                   ? additionalCharacteristics | Spliterator.SUBSIZED
-                                   : additionalCharacteristics;
+        protfdtfd AbstrbdtSplitfrbtor(long fst, int bdditionblCibrbdtfristids) {
+            tiis.fst = fst;
+            tiis.dibrbdtfristids = ((bdditionblCibrbdtfristids & Splitfrbtor.SIZED) != 0)
+                                   ? bdditionblCibrbdtfristids | Splitfrbtor.SUBSIZED
+                                   : bdditionblCibrbdtfristids;
         }
 
-        static final class HoldingConsumer<T> implements Consumer<T> {
-            Object value;
+        stbtid finbl dlbss HoldingConsumfr<T> implfmfnts Consumfr<T> {
+            Objfdt vbluf;
 
-            @Override
-            public void accept(T value) {
-                this.value = value;
+            @Ovfrridf
+            publid void bddfpt(T vbluf) {
+                tiis.vbluf = vbluf;
             }
         }
 
         /**
-         * {@inheritDoc}
+         * {@inifritDod}
          *
-         * This implementation permits limited parallelism.
+         * Tiis implfmfntbtion pfrmits limitfd pbrbllflism.
          */
-        @Override
-        public Spliterator<T> trySplit() {
+        @Ovfrridf
+        publid Splitfrbtor<T> trySplit() {
             /*
-             * Split into arrays of arithmetically increasing batch
-             * sizes.  This will only improve parallel performance if
-             * per-element Consumer actions are more costly than
-             * transferring them into an array.  The use of an
-             * arithmetic progression in split sizes provides overhead
-             * vs parallelism bounds that do not particularly favor or
-             * penalize cases of lightweight vs heavyweight element
-             * operations, across combinations of #elements vs #cores,
-             * whether or not either are known.  We generate
-             * O(sqrt(#elements)) splits, allowing O(sqrt(#cores))
-             * potential speedup.
+             * Split into brrbys of britimftidblly indrfbsing bbtdi
+             * sizfs.  Tiis will only improvf pbrbllfl pfrformbndf if
+             * pfr-flfmfnt Consumfr bdtions brf morf dostly tibn
+             * trbnsffrring tifm into bn brrby.  Tif usf of bn
+             * britimftid progrfssion in split sizfs providfs ovfrifbd
+             * vs pbrbllflism bounds tibt do not pbrtidulbrly fbvor or
+             * pfnblizf dbsfs of ligitwfigit vs ifbvywfigit flfmfnt
+             * opfrbtions, bdross dombinbtions of #flfmfnts vs #dorfs,
+             * wiftifr or not fitifr brf known.  Wf gfnfrbtf
+             * O(sqrt(#flfmfnts)) splits, bllowing O(sqrt(#dorfs))
+             * potfntibl spffdup.
              */
-            HoldingConsumer<T> holder = new HoldingConsumer<>();
-            long s = est;
-            if (s > 1 && tryAdvance(holder)) {
-                int n = batch + BATCH_UNIT;
+            HoldingConsumfr<T> ioldfr = nfw HoldingConsumfr<>();
+            long s = fst;
+            if (s > 1 && tryAdvbndf(ioldfr)) {
+                int n = bbtdi + BATCH_UNIT;
                 if (n > s)
                     n = (int) s;
                 if (n > MAX_BATCH)
                     n = MAX_BATCH;
-                Object[] a = new Object[n];
+                Objfdt[] b = nfw Objfdt[n];
                 int j = 0;
-                do { a[j] = holder.value; } while (++j < n && tryAdvance(holder));
-                batch = j;
-                if (est != Long.MAX_VALUE)
-                    est -= j;
-                return new ArraySpliterator<>(a, 0, j, characteristics());
+                do { b[j] = ioldfr.vbluf; } wiilf (++j < n && tryAdvbndf(ioldfr));
+                bbtdi = j;
+                if (fst != Long.MAX_VALUE)
+                    fst -= j;
+                rfturn nfw ArrbySplitfrbtor<>(b, 0, j, dibrbdtfristids());
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * {@inheritDoc}
+         * {@inifritDod}
          *
-         * @implSpec
-         * This implementation returns the estimated size as reported when
-         * created and, if the estimate size is known, decreases in size when
+         * @implSpfd
+         * Tiis implfmfntbtion rfturns tif fstimbtfd sizf bs rfportfd wifn
+         * drfbtfd bnd, if tif fstimbtf sizf is known, dfdrfbsfs in sizf wifn
          * split.
          */
-        @Override
-        public long estimateSize() {
-            return est;
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            rfturn fst;
         }
 
         /**
-         * {@inheritDoc}
+         * {@inifritDod}
          *
-         * @implSpec
-         * This implementation returns the characteristics as reported when
-         * created.
+         * @implSpfd
+         * Tiis implfmfntbtion rfturns tif dibrbdtfristids bs rfportfd wifn
+         * drfbtfd.
          */
-        @Override
-        public int characteristics() {
-            return characteristics;
+        @Ovfrridf
+        publid int dibrbdtfristids() {
+            rfturn dibrbdtfristids;
         }
     }
 
     /**
-     * An abstract {@code Spliterator.OfInt} that implements {@code trySplit} to
-     * permit limited parallelism.
+     * An bbstrbdt {@dodf Splitfrbtor.OfInt} tibt implfmfnts {@dodf trySplit} to
+     * pfrmit limitfd pbrbllflism.
      *
-     * <p>To implement a spliterator an extending class need only
-     * implement {@link #tryAdvance(java.util.function.IntConsumer)}
-     * tryAdvance}.  The extending class should override
-     * {@link #forEachRemaining(java.util.function.IntConsumer)} forEach} if it
-     * can provide a more performant implementation.
+     * <p>To implfmfnt b splitfrbtor bn fxtfnding dlbss nffd only
+     * implfmfnt {@link #tryAdvbndf(jbvb.util.fundtion.IntConsumfr)}
+     * tryAdvbndf}.  Tif fxtfnding dlbss siould ovfrridf
+     * {@link #forEbdiRfmbining(jbvb.util.fundtion.IntConsumfr)} forEbdi} if it
+     * dbn providf b morf pfrformbnt implfmfntbtion.
      *
-     * @apiNote
-     * This class is a useful aid for creating a spliterator when it is not
-     * possible or difficult to efficiently partition elements in a manner
-     * allowing balanced parallel computation.
+     * @bpiNotf
+     * Tiis dlbss is b usfful bid for drfbting b splitfrbtor wifn it is not
+     * possiblf or diffidult to fffidifntly pbrtition flfmfnts in b mbnnfr
+     * bllowing bblbndfd pbrbllfl domputbtion.
      *
-     * <p>An alternative to using this class, that also permits limited
-     * parallelism, is to create a spliterator from an iterator
-     * (see {@link #spliterator(java.util.PrimitiveIterator.OfInt, long, int)}.
-     * Depending on the circumstances using an iterator may be easier or more
-     * convenient than extending this class. For example, if there is already an
-     * iterator available to use then there is no need to extend this class.
+     * <p>An bltfrnbtivf to using tiis dlbss, tibt blso pfrmits limitfd
+     * pbrbllflism, is to drfbtf b splitfrbtor from bn itfrbtor
+     * (sff {@link #splitfrbtor(jbvb.util.PrimitivfItfrbtor.OfInt, long, int)}.
+     * Dfpfnding on tif dirdumstbndfs using bn itfrbtor mby bf fbsifr or morf
+     * donvfnifnt tibn fxtfnding tiis dlbss. For fxbmplf, if tifrf is blrfbdy bn
+     * itfrbtor bvbilbblf to usf tifn tifrf is no nffd to fxtfnd tiis dlbss.
      *
-     * @see #spliterator(java.util.PrimitiveIterator.OfInt, long, int)
-     * @since 1.8
+     * @sff #splitfrbtor(jbvb.util.PrimitivfItfrbtor.OfInt, long, int)
+     * @sindf 1.8
      */
-    public static abstract class AbstractIntSpliterator implements Spliterator.OfInt {
-        static final int MAX_BATCH = AbstractSpliterator.MAX_BATCH;
-        static final int BATCH_UNIT = AbstractSpliterator.BATCH_UNIT;
-        private final int characteristics;
-        private long est;             // size estimate
-        private int batch;            // batch size for splits
+    publid stbtid bbstrbdt dlbss AbstrbdtIntSplitfrbtor implfmfnts Splitfrbtor.OfInt {
+        stbtid finbl int MAX_BATCH = AbstrbdtSplitfrbtor.MAX_BATCH;
+        stbtid finbl int BATCH_UNIT = AbstrbdtSplitfrbtor.BATCH_UNIT;
+        privbtf finbl int dibrbdtfristids;
+        privbtf long fst;             // sizf fstimbtf
+        privbtf int bbtdi;            // bbtdi sizf for splits
 
         /**
-         * Creates a spliterator reporting the given estimated size and
-         * characteristics.
+         * Crfbtfs b splitfrbtor rfporting tif givfn fstimbtfd sizf bnd
+         * dibrbdtfristids.
          *
-         * @param est the estimated size of this spliterator if known, otherwise
-         *        {@code Long.MAX_VALUE}.
-         * @param additionalCharacteristics properties of this spliterator's
-         *        source or elements.  If {@code SIZED} is reported then this
-         *        spliterator will additionally report {@code SUBSIZED}.
+         * @pbrbm fst tif fstimbtfd sizf of tiis splitfrbtor if known, otifrwisf
+         *        {@dodf Long.MAX_VALUE}.
+         * @pbrbm bdditionblCibrbdtfristids propfrtifs of tiis splitfrbtor's
+         *        sourdf or flfmfnts.  If {@dodf SIZED} is rfportfd tifn tiis
+         *        splitfrbtor will bdditionblly rfport {@dodf SUBSIZED}.
          */
-        protected AbstractIntSpliterator(long est, int additionalCharacteristics) {
-            this.est = est;
-            this.characteristics = ((additionalCharacteristics & Spliterator.SIZED) != 0)
-                                   ? additionalCharacteristics | Spliterator.SUBSIZED
-                                   : additionalCharacteristics;
+        protfdtfd AbstrbdtIntSplitfrbtor(long fst, int bdditionblCibrbdtfristids) {
+            tiis.fst = fst;
+            tiis.dibrbdtfristids = ((bdditionblCibrbdtfristids & Splitfrbtor.SIZED) != 0)
+                                   ? bdditionblCibrbdtfristids | Splitfrbtor.SUBSIZED
+                                   : bdditionblCibrbdtfristids;
         }
 
-        static final class HoldingIntConsumer implements IntConsumer {
-            int value;
+        stbtid finbl dlbss HoldingIntConsumfr implfmfnts IntConsumfr {
+            int vbluf;
 
-            @Override
-            public void accept(int value) {
-                this.value = value;
+            @Ovfrridf
+            publid void bddfpt(int vbluf) {
+                tiis.vbluf = vbluf;
             }
         }
 
         /**
-         * {@inheritDoc}
+         * {@inifritDod}
          *
-         * This implementation permits limited parallelism.
+         * Tiis implfmfntbtion pfrmits limitfd pbrbllflism.
          */
-        @Override
-        public Spliterator.OfInt trySplit() {
-            HoldingIntConsumer holder = new HoldingIntConsumer();
-            long s = est;
-            if (s > 1 && tryAdvance(holder)) {
-                int n = batch + BATCH_UNIT;
+        @Ovfrridf
+        publid Splitfrbtor.OfInt trySplit() {
+            HoldingIntConsumfr ioldfr = nfw HoldingIntConsumfr();
+            long s = fst;
+            if (s > 1 && tryAdvbndf(ioldfr)) {
+                int n = bbtdi + BATCH_UNIT;
                 if (n > s)
                     n = (int) s;
                 if (n > MAX_BATCH)
                     n = MAX_BATCH;
-                int[] a = new int[n];
+                int[] b = nfw int[n];
                 int j = 0;
-                do { a[j] = holder.value; } while (++j < n && tryAdvance(holder));
-                batch = j;
-                if (est != Long.MAX_VALUE)
-                    est -= j;
-                return new IntArraySpliterator(a, 0, j, characteristics());
+                do { b[j] = ioldfr.vbluf; } wiilf (++j < n && tryAdvbndf(ioldfr));
+                bbtdi = j;
+                if (fst != Long.MAX_VALUE)
+                    fst -= j;
+                rfturn nfw IntArrbySplitfrbtor(b, 0, j, dibrbdtfristids());
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * {@inheritDoc}
+         * {@inifritDod}
          *
-         * @implSpec
-         * This implementation returns the estimated size as reported when
-         * created and, if the estimate size is known, decreases in size when
+         * @implSpfd
+         * Tiis implfmfntbtion rfturns tif fstimbtfd sizf bs rfportfd wifn
+         * drfbtfd bnd, if tif fstimbtf sizf is known, dfdrfbsfs in sizf wifn
          * split.
          */
-        @Override
-        public long estimateSize() {
-            return est;
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            rfturn fst;
         }
 
         /**
-         * {@inheritDoc}
+         * {@inifritDod}
          *
-         * @implSpec
-         * This implementation returns the characteristics as reported when
-         * created.
+         * @implSpfd
+         * Tiis implfmfntbtion rfturns tif dibrbdtfristids bs rfportfd wifn
+         * drfbtfd.
          */
-        @Override
-        public int characteristics() {
-            return characteristics;
+        @Ovfrridf
+        publid int dibrbdtfristids() {
+            rfturn dibrbdtfristids;
         }
     }
 
     /**
-     * An abstract {@code Spliterator.OfLong} that implements {@code trySplit}
-     * to permit limited parallelism.
+     * An bbstrbdt {@dodf Splitfrbtor.OfLong} tibt implfmfnts {@dodf trySplit}
+     * to pfrmit limitfd pbrbllflism.
      *
-     * <p>To implement a spliterator an extending class need only
-     * implement {@link #tryAdvance(java.util.function.LongConsumer)}
-     * tryAdvance}.  The extending class should override
-     * {@link #forEachRemaining(java.util.function.LongConsumer)} forEach} if it
-     * can provide a more performant implementation.
+     * <p>To implfmfnt b splitfrbtor bn fxtfnding dlbss nffd only
+     * implfmfnt {@link #tryAdvbndf(jbvb.util.fundtion.LongConsumfr)}
+     * tryAdvbndf}.  Tif fxtfnding dlbss siould ovfrridf
+     * {@link #forEbdiRfmbining(jbvb.util.fundtion.LongConsumfr)} forEbdi} if it
+     * dbn providf b morf pfrformbnt implfmfntbtion.
      *
-     * @apiNote
-     * This class is a useful aid for creating a spliterator when it is not
-     * possible or difficult to efficiently partition elements in a manner
-     * allowing balanced parallel computation.
+     * @bpiNotf
+     * Tiis dlbss is b usfful bid for drfbting b splitfrbtor wifn it is not
+     * possiblf or diffidult to fffidifntly pbrtition flfmfnts in b mbnnfr
+     * bllowing bblbndfd pbrbllfl domputbtion.
      *
-     * <p>An alternative to using this class, that also permits limited
-     * parallelism, is to create a spliterator from an iterator
-     * (see {@link #spliterator(java.util.PrimitiveIterator.OfLong, long, int)}.
-     * Depending on the circumstances using an iterator may be easier or more
-     * convenient than extending this class. For example, if there is already an
-     * iterator available to use then there is no need to extend this class.
+     * <p>An bltfrnbtivf to using tiis dlbss, tibt blso pfrmits limitfd
+     * pbrbllflism, is to drfbtf b splitfrbtor from bn itfrbtor
+     * (sff {@link #splitfrbtor(jbvb.util.PrimitivfItfrbtor.OfLong, long, int)}.
+     * Dfpfnding on tif dirdumstbndfs using bn itfrbtor mby bf fbsifr or morf
+     * donvfnifnt tibn fxtfnding tiis dlbss. For fxbmplf, if tifrf is blrfbdy bn
+     * itfrbtor bvbilbblf to usf tifn tifrf is no nffd to fxtfnd tiis dlbss.
      *
-     * @see #spliterator(java.util.PrimitiveIterator.OfLong, long, int)
-     * @since 1.8
+     * @sff #splitfrbtor(jbvb.util.PrimitivfItfrbtor.OfLong, long, int)
+     * @sindf 1.8
      */
-    public static abstract class AbstractLongSpliterator implements Spliterator.OfLong {
-        static final int MAX_BATCH = AbstractSpliterator.MAX_BATCH;
-        static final int BATCH_UNIT = AbstractSpliterator.BATCH_UNIT;
-        private final int characteristics;
-        private long est;             // size estimate
-        private int batch;            // batch size for splits
+    publid stbtid bbstrbdt dlbss AbstrbdtLongSplitfrbtor implfmfnts Splitfrbtor.OfLong {
+        stbtid finbl int MAX_BATCH = AbstrbdtSplitfrbtor.MAX_BATCH;
+        stbtid finbl int BATCH_UNIT = AbstrbdtSplitfrbtor.BATCH_UNIT;
+        privbtf finbl int dibrbdtfristids;
+        privbtf long fst;             // sizf fstimbtf
+        privbtf int bbtdi;            // bbtdi sizf for splits
 
         /**
-         * Creates a spliterator reporting the given estimated size and
-         * characteristics.
+         * Crfbtfs b splitfrbtor rfporting tif givfn fstimbtfd sizf bnd
+         * dibrbdtfristids.
          *
-         * @param est the estimated size of this spliterator if known, otherwise
-         *        {@code Long.MAX_VALUE}.
-         * @param additionalCharacteristics properties of this spliterator's
-         *        source or elements.  If {@code SIZED} is reported then this
-         *        spliterator will additionally report {@code SUBSIZED}.
+         * @pbrbm fst tif fstimbtfd sizf of tiis splitfrbtor if known, otifrwisf
+         *        {@dodf Long.MAX_VALUE}.
+         * @pbrbm bdditionblCibrbdtfristids propfrtifs of tiis splitfrbtor's
+         *        sourdf or flfmfnts.  If {@dodf SIZED} is rfportfd tifn tiis
+         *        splitfrbtor will bdditionblly rfport {@dodf SUBSIZED}.
          */
-        protected AbstractLongSpliterator(long est, int additionalCharacteristics) {
-            this.est = est;
-            this.characteristics = ((additionalCharacteristics & Spliterator.SIZED) != 0)
-                                   ? additionalCharacteristics | Spliterator.SUBSIZED
-                                   : additionalCharacteristics;
+        protfdtfd AbstrbdtLongSplitfrbtor(long fst, int bdditionblCibrbdtfristids) {
+            tiis.fst = fst;
+            tiis.dibrbdtfristids = ((bdditionblCibrbdtfristids & Splitfrbtor.SIZED) != 0)
+                                   ? bdditionblCibrbdtfristids | Splitfrbtor.SUBSIZED
+                                   : bdditionblCibrbdtfristids;
         }
 
-        static final class HoldingLongConsumer implements LongConsumer {
-            long value;
+        stbtid finbl dlbss HoldingLongConsumfr implfmfnts LongConsumfr {
+            long vbluf;
 
-            @Override
-            public void accept(long value) {
-                this.value = value;
+            @Ovfrridf
+            publid void bddfpt(long vbluf) {
+                tiis.vbluf = vbluf;
             }
         }
 
         /**
-         * {@inheritDoc}
+         * {@inifritDod}
          *
-         * This implementation permits limited parallelism.
+         * Tiis implfmfntbtion pfrmits limitfd pbrbllflism.
          */
-        @Override
-        public Spliterator.OfLong trySplit() {
-            HoldingLongConsumer holder = new HoldingLongConsumer();
-            long s = est;
-            if (s > 1 && tryAdvance(holder)) {
-                int n = batch + BATCH_UNIT;
+        @Ovfrridf
+        publid Splitfrbtor.OfLong trySplit() {
+            HoldingLongConsumfr ioldfr = nfw HoldingLongConsumfr();
+            long s = fst;
+            if (s > 1 && tryAdvbndf(ioldfr)) {
+                int n = bbtdi + BATCH_UNIT;
                 if (n > s)
                     n = (int) s;
                 if (n > MAX_BATCH)
                     n = MAX_BATCH;
-                long[] a = new long[n];
+                long[] b = nfw long[n];
                 int j = 0;
-                do { a[j] = holder.value; } while (++j < n && tryAdvance(holder));
-                batch = j;
-                if (est != Long.MAX_VALUE)
-                    est -= j;
-                return new LongArraySpliterator(a, 0, j, characteristics());
+                do { b[j] = ioldfr.vbluf; } wiilf (++j < n && tryAdvbndf(ioldfr));
+                bbtdi = j;
+                if (fst != Long.MAX_VALUE)
+                    fst -= j;
+                rfturn nfw LongArrbySplitfrbtor(b, 0, j, dibrbdtfristids());
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * {@inheritDoc}
+         * {@inifritDod}
          *
-         * @implSpec
-         * This implementation returns the estimated size as reported when
-         * created and, if the estimate size is known, decreases in size when
+         * @implSpfd
+         * Tiis implfmfntbtion rfturns tif fstimbtfd sizf bs rfportfd wifn
+         * drfbtfd bnd, if tif fstimbtf sizf is known, dfdrfbsfs in sizf wifn
          * split.
          */
-        @Override
-        public long estimateSize() {
-            return est;
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            rfturn fst;
         }
 
         /**
-         * {@inheritDoc}
+         * {@inifritDod}
          *
-         * @implSpec
-         * This implementation returns the characteristics as reported when
-         * created.
+         * @implSpfd
+         * Tiis implfmfntbtion rfturns tif dibrbdtfristids bs rfportfd wifn
+         * drfbtfd.
          */
-        @Override
-        public int characteristics() {
-            return characteristics;
+        @Ovfrridf
+        publid int dibrbdtfristids() {
+            rfturn dibrbdtfristids;
         }
     }
 
     /**
-     * An abstract {@code Spliterator.OfDouble} that implements
-     * {@code trySplit} to permit limited parallelism.
+     * An bbstrbdt {@dodf Splitfrbtor.OfDoublf} tibt implfmfnts
+     * {@dodf trySplit} to pfrmit limitfd pbrbllflism.
      *
-     * <p>To implement a spliterator an extending class need only
-     * implement {@link #tryAdvance(java.util.function.DoubleConsumer)}
-     * tryAdvance}.  The extending class should override
-     * {@link #forEachRemaining(java.util.function.DoubleConsumer)} forEach} if
-     * it can provide a more performant implementation.
+     * <p>To implfmfnt b splitfrbtor bn fxtfnding dlbss nffd only
+     * implfmfnt {@link #tryAdvbndf(jbvb.util.fundtion.DoublfConsumfr)}
+     * tryAdvbndf}.  Tif fxtfnding dlbss siould ovfrridf
+     * {@link #forEbdiRfmbining(jbvb.util.fundtion.DoublfConsumfr)} forEbdi} if
+     * it dbn providf b morf pfrformbnt implfmfntbtion.
      *
-     * @apiNote
-     * This class is a useful aid for creating a spliterator when it is not
-     * possible or difficult to efficiently partition elements in a manner
-     * allowing balanced parallel computation.
+     * @bpiNotf
+     * Tiis dlbss is b usfful bid for drfbting b splitfrbtor wifn it is not
+     * possiblf or diffidult to fffidifntly pbrtition flfmfnts in b mbnnfr
+     * bllowing bblbndfd pbrbllfl domputbtion.
      *
-     * <p>An alternative to using this class, that also permits limited
-     * parallelism, is to create a spliterator from an iterator
-     * (see {@link #spliterator(java.util.PrimitiveIterator.OfDouble, long, int)}.
-     * Depending on the circumstances using an iterator may be easier or more
-     * convenient than extending this class. For example, if there is already an
-     * iterator available to use then there is no need to extend this class.
+     * <p>An bltfrnbtivf to using tiis dlbss, tibt blso pfrmits limitfd
+     * pbrbllflism, is to drfbtf b splitfrbtor from bn itfrbtor
+     * (sff {@link #splitfrbtor(jbvb.util.PrimitivfItfrbtor.OfDoublf, long, int)}.
+     * Dfpfnding on tif dirdumstbndfs using bn itfrbtor mby bf fbsifr or morf
+     * donvfnifnt tibn fxtfnding tiis dlbss. For fxbmplf, if tifrf is blrfbdy bn
+     * itfrbtor bvbilbblf to usf tifn tifrf is no nffd to fxtfnd tiis dlbss.
      *
-     * @see #spliterator(java.util.PrimitiveIterator.OfDouble, long, int)
-     * @since 1.8
+     * @sff #splitfrbtor(jbvb.util.PrimitivfItfrbtor.OfDoublf, long, int)
+     * @sindf 1.8
      */
-    public static abstract class AbstractDoubleSpliterator implements Spliterator.OfDouble {
-        static final int MAX_BATCH = AbstractSpliterator.MAX_BATCH;
-        static final int BATCH_UNIT = AbstractSpliterator.BATCH_UNIT;
-        private final int characteristics;
-        private long est;             // size estimate
-        private int batch;            // batch size for splits
+    publid stbtid bbstrbdt dlbss AbstrbdtDoublfSplitfrbtor implfmfnts Splitfrbtor.OfDoublf {
+        stbtid finbl int MAX_BATCH = AbstrbdtSplitfrbtor.MAX_BATCH;
+        stbtid finbl int BATCH_UNIT = AbstrbdtSplitfrbtor.BATCH_UNIT;
+        privbtf finbl int dibrbdtfristids;
+        privbtf long fst;             // sizf fstimbtf
+        privbtf int bbtdi;            // bbtdi sizf for splits
 
         /**
-         * Creates a spliterator reporting the given estimated size and
-         * characteristics.
+         * Crfbtfs b splitfrbtor rfporting tif givfn fstimbtfd sizf bnd
+         * dibrbdtfristids.
          *
-         * @param est the estimated size of this spliterator if known, otherwise
-         *        {@code Long.MAX_VALUE}.
-         * @param additionalCharacteristics properties of this spliterator's
-         *        source or elements.  If {@code SIZED} is reported then this
-         *        spliterator will additionally report {@code SUBSIZED}.
+         * @pbrbm fst tif fstimbtfd sizf of tiis splitfrbtor if known, otifrwisf
+         *        {@dodf Long.MAX_VALUE}.
+         * @pbrbm bdditionblCibrbdtfristids propfrtifs of tiis splitfrbtor's
+         *        sourdf or flfmfnts.  If {@dodf SIZED} is rfportfd tifn tiis
+         *        splitfrbtor will bdditionblly rfport {@dodf SUBSIZED}.
          */
-        protected AbstractDoubleSpliterator(long est, int additionalCharacteristics) {
-            this.est = est;
-            this.characteristics = ((additionalCharacteristics & Spliterator.SIZED) != 0)
-                                   ? additionalCharacteristics | Spliterator.SUBSIZED
-                                   : additionalCharacteristics;
+        protfdtfd AbstrbdtDoublfSplitfrbtor(long fst, int bdditionblCibrbdtfristids) {
+            tiis.fst = fst;
+            tiis.dibrbdtfristids = ((bdditionblCibrbdtfristids & Splitfrbtor.SIZED) != 0)
+                                   ? bdditionblCibrbdtfristids | Splitfrbtor.SUBSIZED
+                                   : bdditionblCibrbdtfristids;
         }
 
-        static final class HoldingDoubleConsumer implements DoubleConsumer {
-            double value;
+        stbtid finbl dlbss HoldingDoublfConsumfr implfmfnts DoublfConsumfr {
+            doublf vbluf;
 
-            @Override
-            public void accept(double value) {
-                this.value = value;
+            @Ovfrridf
+            publid void bddfpt(doublf vbluf) {
+                tiis.vbluf = vbluf;
             }
         }
 
         /**
-         * {@inheritDoc}
+         * {@inifritDod}
          *
-         * This implementation permits limited parallelism.
+         * Tiis implfmfntbtion pfrmits limitfd pbrbllflism.
          */
-        @Override
-        public Spliterator.OfDouble trySplit() {
-            HoldingDoubleConsumer holder = new HoldingDoubleConsumer();
-            long s = est;
-            if (s > 1 && tryAdvance(holder)) {
-                int n = batch + BATCH_UNIT;
+        @Ovfrridf
+        publid Splitfrbtor.OfDoublf trySplit() {
+            HoldingDoublfConsumfr ioldfr = nfw HoldingDoublfConsumfr();
+            long s = fst;
+            if (s > 1 && tryAdvbndf(ioldfr)) {
+                int n = bbtdi + BATCH_UNIT;
                 if (n > s)
                     n = (int) s;
                 if (n > MAX_BATCH)
                     n = MAX_BATCH;
-                double[] a = new double[n];
+                doublf[] b = nfw doublf[n];
                 int j = 0;
-                do { a[j] = holder.value; } while (++j < n && tryAdvance(holder));
-                batch = j;
-                if (est != Long.MAX_VALUE)
-                    est -= j;
-                return new DoubleArraySpliterator(a, 0, j, characteristics());
+                do { b[j] = ioldfr.vbluf; } wiilf (++j < n && tryAdvbndf(ioldfr));
+                bbtdi = j;
+                if (fst != Long.MAX_VALUE)
+                    fst -= j;
+                rfturn nfw DoublfArrbySplitfrbtor(b, 0, j, dibrbdtfristids());
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * {@inheritDoc}
+         * {@inifritDod}
          *
-         * @implSpec
-         * This implementation returns the estimated size as reported when
-         * created and, if the estimate size is known, decreases in size when
+         * @implSpfd
+         * Tiis implfmfntbtion rfturns tif fstimbtfd sizf bs rfportfd wifn
+         * drfbtfd bnd, if tif fstimbtf sizf is known, dfdrfbsfs in sizf wifn
          * split.
          */
-        @Override
-        public long estimateSize() {
-            return est;
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            rfturn fst;
         }
 
         /**
-         * {@inheritDoc}
+         * {@inifritDod}
          *
-         * @implSpec
-         * This implementation returns the characteristics as reported when
-         * created.
+         * @implSpfd
+         * Tiis implfmfntbtion rfturns tif dibrbdtfristids bs rfportfd wifn
+         * drfbtfd.
          */
-        @Override
-        public int characteristics() {
-            return characteristics;
+        @Ovfrridf
+        publid int dibrbdtfristids() {
+            rfturn dibrbdtfristids;
         }
     }
 
-    // Iterator-based Spliterators
+    // Itfrbtor-bbsfd Splitfrbtors
 
     /**
-     * A Spliterator using a given Iterator for element
-     * operations. The spliterator implements {@code trySplit} to
-     * permit limited parallelism.
+     * A Splitfrbtor using b givfn Itfrbtor for flfmfnt
+     * opfrbtions. Tif splitfrbtor implfmfnts {@dodf trySplit} to
+     * pfrmit limitfd pbrbllflism.
      */
-    static class IteratorSpliterator<T> implements Spliterator<T> {
-        static final int BATCH_UNIT = 1 << 10;  // batch array size increment
-        static final int MAX_BATCH = 1 << 25;  // max batch array size;
-        private final Collection<? extends T> collection; // null OK
-        private Iterator<? extends T> it;
-        private final int characteristics;
-        private long est;             // size estimate
-        private int batch;            // batch size for splits
+    stbtid dlbss ItfrbtorSplitfrbtor<T> implfmfnts Splitfrbtor<T> {
+        stbtid finbl int BATCH_UNIT = 1 << 10;  // bbtdi brrby sizf indrfmfnt
+        stbtid finbl int MAX_BATCH = 1 << 25;  // mbx bbtdi brrby sizf;
+        privbtf finbl Collfdtion<? fxtfnds T> dollfdtion; // null OK
+        privbtf Itfrbtor<? fxtfnds T> it;
+        privbtf finbl int dibrbdtfristids;
+        privbtf long fst;             // sizf fstimbtf
+        privbtf int bbtdi;            // bbtdi sizf for splits
 
         /**
-         * Creates a spliterator using the given given
-         * collection's {@link java.util.Collection#iterator()) for traversal,
-         * and reporting its {@link java.util.Collection#size()) as its initial
-         * size.
+         * Crfbtfs b splitfrbtor using tif givfn givfn
+         * dollfdtion's {@link jbvb.util.Collfdtion#itfrbtor()) for trbvfrsbl,
+         * bnd rfporting its {@link jbvb.util.Collfdtion#sizf()) bs its initibl
+         * sizf.
          *
-         * @param c the collection
-         * @param characteristics properties of this spliterator's
-         *        source or elements.
+         * @pbrbm d tif dollfdtion
+         * @pbrbm dibrbdtfristids propfrtifs of tiis splitfrbtor's
+         *        sourdf or flfmfnts.
          */
-        public IteratorSpliterator(Collection<? extends T> collection, int characteristics) {
-            this.collection = collection;
-            this.it = null;
-            this.characteristics = (characteristics & Spliterator.CONCURRENT) == 0
-                                   ? characteristics | Spliterator.SIZED | Spliterator.SUBSIZED
-                                   : characteristics;
+        publid ItfrbtorSplitfrbtor(Collfdtion<? fxtfnds T> dollfdtion, int dibrbdtfristids) {
+            tiis.dollfdtion = dollfdtion;
+            tiis.it = null;
+            tiis.dibrbdtfristids = (dibrbdtfristids & Splitfrbtor.CONCURRENT) == 0
+                                   ? dibrbdtfristids | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED
+                                   : dibrbdtfristids;
         }
 
         /**
-         * Creates a spliterator using the given iterator
-         * for traversal, and reporting the given initial size
-         * and characteristics.
+         * Crfbtfs b splitfrbtor using tif givfn itfrbtor
+         * for trbvfrsbl, bnd rfporting tif givfn initibl sizf
+         * bnd dibrbdtfristids.
          *
-         * @param iterator the iterator for the source
-         * @param size the number of elements in the source
-         * @param characteristics properties of this spliterator's
-         * source or elements.
+         * @pbrbm itfrbtor tif itfrbtor for tif sourdf
+         * @pbrbm sizf tif numbfr of flfmfnts in tif sourdf
+         * @pbrbm dibrbdtfristids propfrtifs of tiis splitfrbtor's
+         * sourdf or flfmfnts.
          */
-        public IteratorSpliterator(Iterator<? extends T> iterator, long size, int characteristics) {
-            this.collection = null;
-            this.it = iterator;
-            this.est = size;
-            this.characteristics = (characteristics & Spliterator.CONCURRENT) == 0
-                                   ? characteristics | Spliterator.SIZED | Spliterator.SUBSIZED
-                                   : characteristics;
+        publid ItfrbtorSplitfrbtor(Itfrbtor<? fxtfnds T> itfrbtor, long sizf, int dibrbdtfristids) {
+            tiis.dollfdtion = null;
+            tiis.it = itfrbtor;
+            tiis.fst = sizf;
+            tiis.dibrbdtfristids = (dibrbdtfristids & Splitfrbtor.CONCURRENT) == 0
+                                   ? dibrbdtfristids | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED
+                                   : dibrbdtfristids;
         }
 
         /**
-         * Creates a spliterator using the given iterator
-         * for traversal, and reporting the given initial size
-         * and characteristics.
+         * Crfbtfs b splitfrbtor using tif givfn itfrbtor
+         * for trbvfrsbl, bnd rfporting tif givfn initibl sizf
+         * bnd dibrbdtfristids.
          *
-         * @param iterator the iterator for the source
-         * @param characteristics properties of this spliterator's
-         * source or elements.
+         * @pbrbm itfrbtor tif itfrbtor for tif sourdf
+         * @pbrbm dibrbdtfristids propfrtifs of tiis splitfrbtor's
+         * sourdf or flfmfnts.
          */
-        public IteratorSpliterator(Iterator<? extends T> iterator, int characteristics) {
-            this.collection = null;
-            this.it = iterator;
-            this.est = Long.MAX_VALUE;
-            this.characteristics = characteristics & ~(Spliterator.SIZED | Spliterator.SUBSIZED);
+        publid ItfrbtorSplitfrbtor(Itfrbtor<? fxtfnds T> itfrbtor, int dibrbdtfristids) {
+            tiis.dollfdtion = null;
+            tiis.it = itfrbtor;
+            tiis.fst = Long.MAX_VALUE;
+            tiis.dibrbdtfristids = dibrbdtfristids & ~(Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED);
         }
 
-        @Override
-        public Spliterator<T> trySplit() {
+        @Ovfrridf
+        publid Splitfrbtor<T> trySplit() {
             /*
-             * Split into arrays of arithmetically increasing batch
-             * sizes.  This will only improve parallel performance if
-             * per-element Consumer actions are more costly than
-             * transferring them into an array.  The use of an
-             * arithmetic progression in split sizes provides overhead
-             * vs parallelism bounds that do not particularly favor or
-             * penalize cases of lightweight vs heavyweight element
-             * operations, across combinations of #elements vs #cores,
-             * whether or not either are known.  We generate
-             * O(sqrt(#elements)) splits, allowing O(sqrt(#cores))
-             * potential speedup.
+             * Split into brrbys of britimftidblly indrfbsing bbtdi
+             * sizfs.  Tiis will only improvf pbrbllfl pfrformbndf if
+             * pfr-flfmfnt Consumfr bdtions brf morf dostly tibn
+             * trbnsffrring tifm into bn brrby.  Tif usf of bn
+             * britimftid progrfssion in split sizfs providfs ovfrifbd
+             * vs pbrbllflism bounds tibt do not pbrtidulbrly fbvor or
+             * pfnblizf dbsfs of ligitwfigit vs ifbvywfigit flfmfnt
+             * opfrbtions, bdross dombinbtions of #flfmfnts vs #dorfs,
+             * wiftifr or not fitifr brf known.  Wf gfnfrbtf
+             * O(sqrt(#flfmfnts)) splits, bllowing O(sqrt(#dorfs))
+             * potfntibl spffdup.
              */
-            Iterator<? extends T> i;
+            Itfrbtor<? fxtfnds T> i;
             long s;
             if ((i = it) == null) {
-                i = it = collection.iterator();
-                s = est = (long) collection.size();
+                i = it = dollfdtion.itfrbtor();
+                s = fst = (long) dollfdtion.sizf();
             }
-            else
-                s = est;
-            if (s > 1 && i.hasNext()) {
-                int n = batch + BATCH_UNIT;
+            flsf
+                s = fst;
+            if (s > 1 && i.ibsNfxt()) {
+                int n = bbtdi + BATCH_UNIT;
                 if (n > s)
                     n = (int) s;
                 if (n > MAX_BATCH)
                     n = MAX_BATCH;
-                Object[] a = new Object[n];
+                Objfdt[] b = nfw Objfdt[n];
                 int j = 0;
-                do { a[j] = i.next(); } while (++j < n && i.hasNext());
-                batch = j;
-                if (est != Long.MAX_VALUE)
-                    est -= j;
-                return new ArraySpliterator<>(a, 0, j, characteristics);
+                do { b[j] = i.nfxt(); } wiilf (++j < n && i.ibsNfxt());
+                bbtdi = j;
+                if (fst != Long.MAX_VALUE)
+                    fst -= j;
+                rfturn nfw ArrbySplitfrbtor<>(b, 0, j, dibrbdtfristids);
             }
-            return null;
+            rfturn null;
         }
 
-        @Override
-        public void forEachRemaining(Consumer<? super T> action) {
-            if (action == null) throw new NullPointerException();
-            Iterator<? extends T> i;
+        @Ovfrridf
+        publid void forEbdiRfmbining(Consumfr<? supfr T> bdtion) {
+            if (bdtion == null) tirow nfw NullPointfrExdfption();
+            Itfrbtor<? fxtfnds T> i;
             if ((i = it) == null) {
-                i = it = collection.iterator();
-                est = (long)collection.size();
+                i = it = dollfdtion.itfrbtor();
+                fst = (long)dollfdtion.sizf();
             }
-            i.forEachRemaining(action);
+            i.forEbdiRfmbining(bdtion);
         }
 
-        @Override
-        public boolean tryAdvance(Consumer<? super T> action) {
-            if (action == null) throw new NullPointerException();
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(Consumfr<? supfr T> bdtion) {
+            if (bdtion == null) tirow nfw NullPointfrExdfption();
             if (it == null) {
-                it = collection.iterator();
-                est = (long) collection.size();
+                it = dollfdtion.itfrbtor();
+                fst = (long) dollfdtion.sizf();
             }
-            if (it.hasNext()) {
-                action.accept(it.next());
-                return true;
+            if (it.ibsNfxt()) {
+                bdtion.bddfpt(it.nfxt());
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
-        @Override
-        public long estimateSize() {
+        @Ovfrridf
+        publid long fstimbtfSizf() {
             if (it == null) {
-                it = collection.iterator();
-                return est = (long)collection.size();
+                it = dollfdtion.itfrbtor();
+                rfturn fst = (long)dollfdtion.sizf();
             }
-            return est;
+            rfturn fst;
         }
 
-        @Override
-        public int characteristics() { return characteristics; }
+        @Ovfrridf
+        publid int dibrbdtfristids() { rfturn dibrbdtfristids; }
 
-        @Override
-        public Comparator<? super T> getComparator() {
-            if (hasCharacteristics(Spliterator.SORTED))
-                return null;
-            throw new IllegalStateException();
+        @Ovfrridf
+        publid Compbrbtor<? supfr T> gftCompbrbtor() {
+            if (ibsCibrbdtfristids(Splitfrbtor.SORTED))
+                rfturn null;
+            tirow nfw IllfgblStbtfExdfption();
         }
     }
 
     /**
-     * A Spliterator.OfInt using a given IntStream.IntIterator for element
-     * operations. The spliterator implements {@code trySplit} to
-     * permit limited parallelism.
+     * A Splitfrbtor.OfInt using b givfn IntStrfbm.IntItfrbtor for flfmfnt
+     * opfrbtions. Tif splitfrbtor implfmfnts {@dodf trySplit} to
+     * pfrmit limitfd pbrbllflism.
      */
-    static final class IntIteratorSpliterator implements Spliterator.OfInt {
-        static final int BATCH_UNIT = IteratorSpliterator.BATCH_UNIT;
-        static final int MAX_BATCH = IteratorSpliterator.MAX_BATCH;
-        private PrimitiveIterator.OfInt it;
-        private final int characteristics;
-        private long est;             // size estimate
-        private int batch;            // batch size for splits
+    stbtid finbl dlbss IntItfrbtorSplitfrbtor implfmfnts Splitfrbtor.OfInt {
+        stbtid finbl int BATCH_UNIT = ItfrbtorSplitfrbtor.BATCH_UNIT;
+        stbtid finbl int MAX_BATCH = ItfrbtorSplitfrbtor.MAX_BATCH;
+        privbtf PrimitivfItfrbtor.OfInt it;
+        privbtf finbl int dibrbdtfristids;
+        privbtf long fst;             // sizf fstimbtf
+        privbtf int bbtdi;            // bbtdi sizf for splits
 
         /**
-         * Creates a spliterator using the given iterator
-         * for traversal, and reporting the given initial size
-         * and characteristics.
+         * Crfbtfs b splitfrbtor using tif givfn itfrbtor
+         * for trbvfrsbl, bnd rfporting tif givfn initibl sizf
+         * bnd dibrbdtfristids.
          *
-         * @param iterator the iterator for the source
-         * @param size the number of elements in the source
-         * @param characteristics properties of this spliterator's
-         * source or elements.
+         * @pbrbm itfrbtor tif itfrbtor for tif sourdf
+         * @pbrbm sizf tif numbfr of flfmfnts in tif sourdf
+         * @pbrbm dibrbdtfristids propfrtifs of tiis splitfrbtor's
+         * sourdf or flfmfnts.
          */
-        public IntIteratorSpliterator(PrimitiveIterator.OfInt iterator, long size, int characteristics) {
-            this.it = iterator;
-            this.est = size;
-            this.characteristics = (characteristics & Spliterator.CONCURRENT) == 0
-                                   ? characteristics | Spliterator.SIZED | Spliterator.SUBSIZED
-                                   : characteristics;
+        publid IntItfrbtorSplitfrbtor(PrimitivfItfrbtor.OfInt itfrbtor, long sizf, int dibrbdtfristids) {
+            tiis.it = itfrbtor;
+            tiis.fst = sizf;
+            tiis.dibrbdtfristids = (dibrbdtfristids & Splitfrbtor.CONCURRENT) == 0
+                                   ? dibrbdtfristids | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED
+                                   : dibrbdtfristids;
         }
 
         /**
-         * Creates a spliterator using the given iterator for a
-         * source of unknown size, reporting the given
-         * characteristics.
+         * Crfbtfs b splitfrbtor using tif givfn itfrbtor for b
+         * sourdf of unknown sizf, rfporting tif givfn
+         * dibrbdtfristids.
          *
-         * @param iterator the iterator for the source
-         * @param characteristics properties of this spliterator's
-         * source or elements.
+         * @pbrbm itfrbtor tif itfrbtor for tif sourdf
+         * @pbrbm dibrbdtfristids propfrtifs of tiis splitfrbtor's
+         * sourdf or flfmfnts.
          */
-        public IntIteratorSpliterator(PrimitiveIterator.OfInt iterator, int characteristics) {
-            this.it = iterator;
-            this.est = Long.MAX_VALUE;
-            this.characteristics = characteristics & ~(Spliterator.SIZED | Spliterator.SUBSIZED);
+        publid IntItfrbtorSplitfrbtor(PrimitivfItfrbtor.OfInt itfrbtor, int dibrbdtfristids) {
+            tiis.it = itfrbtor;
+            tiis.fst = Long.MAX_VALUE;
+            tiis.dibrbdtfristids = dibrbdtfristids & ~(Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED);
         }
 
-        @Override
-        public OfInt trySplit() {
-            PrimitiveIterator.OfInt i = it;
-            long s = est;
-            if (s > 1 && i.hasNext()) {
-                int n = batch + BATCH_UNIT;
+        @Ovfrridf
+        publid OfInt trySplit() {
+            PrimitivfItfrbtor.OfInt i = it;
+            long s = fst;
+            if (s > 1 && i.ibsNfxt()) {
+                int n = bbtdi + BATCH_UNIT;
                 if (n > s)
                     n = (int) s;
                 if (n > MAX_BATCH)
                     n = MAX_BATCH;
-                int[] a = new int[n];
+                int[] b = nfw int[n];
                 int j = 0;
-                do { a[j] = i.nextInt(); } while (++j < n && i.hasNext());
-                batch = j;
-                if (est != Long.MAX_VALUE)
-                    est -= j;
-                return new IntArraySpliterator(a, 0, j, characteristics);
+                do { b[j] = i.nfxtInt(); } wiilf (++j < n && i.ibsNfxt());
+                bbtdi = j;
+                if (fst != Long.MAX_VALUE)
+                    fst -= j;
+                rfturn nfw IntArrbySplitfrbtor(b, 0, j, dibrbdtfristids);
             }
-            return null;
+            rfturn null;
         }
 
-        @Override
-        public void forEachRemaining(IntConsumer action) {
-            if (action == null) throw new NullPointerException();
-            it.forEachRemaining(action);
+        @Ovfrridf
+        publid void forEbdiRfmbining(IntConsumfr bdtion) {
+            if (bdtion == null) tirow nfw NullPointfrExdfption();
+            it.forEbdiRfmbining(bdtion);
         }
 
-        @Override
-        public boolean tryAdvance(IntConsumer action) {
-            if (action == null) throw new NullPointerException();
-            if (it.hasNext()) {
-                action.accept(it.nextInt());
-                return true;
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(IntConsumfr bdtion) {
+            if (bdtion == null) tirow nfw NullPointfrExdfption();
+            if (it.ibsNfxt()) {
+                bdtion.bddfpt(it.nfxtInt());
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
-        @Override
-        public long estimateSize() {
-            return est;
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            rfturn fst;
         }
 
-        @Override
-        public int characteristics() { return characteristics; }
+        @Ovfrridf
+        publid int dibrbdtfristids() { rfturn dibrbdtfristids; }
 
-        @Override
-        public Comparator<? super Integer> getComparator() {
-            if (hasCharacteristics(Spliterator.SORTED))
-                return null;
-            throw new IllegalStateException();
+        @Ovfrridf
+        publid Compbrbtor<? supfr Intfgfr> gftCompbrbtor() {
+            if (ibsCibrbdtfristids(Splitfrbtor.SORTED))
+                rfturn null;
+            tirow nfw IllfgblStbtfExdfption();
         }
     }
 
-    static final class LongIteratorSpliterator implements Spliterator.OfLong {
-        static final int BATCH_UNIT = IteratorSpliterator.BATCH_UNIT;
-        static final int MAX_BATCH = IteratorSpliterator.MAX_BATCH;
-        private PrimitiveIterator.OfLong it;
-        private final int characteristics;
-        private long est;             // size estimate
-        private int batch;            // batch size for splits
+    stbtid finbl dlbss LongItfrbtorSplitfrbtor implfmfnts Splitfrbtor.OfLong {
+        stbtid finbl int BATCH_UNIT = ItfrbtorSplitfrbtor.BATCH_UNIT;
+        stbtid finbl int MAX_BATCH = ItfrbtorSplitfrbtor.MAX_BATCH;
+        privbtf PrimitivfItfrbtor.OfLong it;
+        privbtf finbl int dibrbdtfristids;
+        privbtf long fst;             // sizf fstimbtf
+        privbtf int bbtdi;            // bbtdi sizf for splits
 
         /**
-         * Creates a spliterator using the given iterator
-         * for traversal, and reporting the given initial size
-         * and characteristics.
+         * Crfbtfs b splitfrbtor using tif givfn itfrbtor
+         * for trbvfrsbl, bnd rfporting tif givfn initibl sizf
+         * bnd dibrbdtfristids.
          *
-         * @param iterator the iterator for the source
-         * @param size the number of elements in the source
-         * @param characteristics properties of this spliterator's
-         * source or elements.
+         * @pbrbm itfrbtor tif itfrbtor for tif sourdf
+         * @pbrbm sizf tif numbfr of flfmfnts in tif sourdf
+         * @pbrbm dibrbdtfristids propfrtifs of tiis splitfrbtor's
+         * sourdf or flfmfnts.
          */
-        public LongIteratorSpliterator(PrimitiveIterator.OfLong iterator, long size, int characteristics) {
-            this.it = iterator;
-            this.est = size;
-            this.characteristics = (characteristics & Spliterator.CONCURRENT) == 0
-                                   ? characteristics | Spliterator.SIZED | Spliterator.SUBSIZED
-                                   : characteristics;
+        publid LongItfrbtorSplitfrbtor(PrimitivfItfrbtor.OfLong itfrbtor, long sizf, int dibrbdtfristids) {
+            tiis.it = itfrbtor;
+            tiis.fst = sizf;
+            tiis.dibrbdtfristids = (dibrbdtfristids & Splitfrbtor.CONCURRENT) == 0
+                                   ? dibrbdtfristids | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED
+                                   : dibrbdtfristids;
         }
 
         /**
-         * Creates a spliterator using the given iterator for a
-         * source of unknown size, reporting the given
-         * characteristics.
+         * Crfbtfs b splitfrbtor using tif givfn itfrbtor for b
+         * sourdf of unknown sizf, rfporting tif givfn
+         * dibrbdtfristids.
          *
-         * @param iterator the iterator for the source
-         * @param characteristics properties of this spliterator's
-         * source or elements.
+         * @pbrbm itfrbtor tif itfrbtor for tif sourdf
+         * @pbrbm dibrbdtfristids propfrtifs of tiis splitfrbtor's
+         * sourdf or flfmfnts.
          */
-        public LongIteratorSpliterator(PrimitiveIterator.OfLong iterator, int characteristics) {
-            this.it = iterator;
-            this.est = Long.MAX_VALUE;
-            this.characteristics = characteristics & ~(Spliterator.SIZED | Spliterator.SUBSIZED);
+        publid LongItfrbtorSplitfrbtor(PrimitivfItfrbtor.OfLong itfrbtor, int dibrbdtfristids) {
+            tiis.it = itfrbtor;
+            tiis.fst = Long.MAX_VALUE;
+            tiis.dibrbdtfristids = dibrbdtfristids & ~(Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED);
         }
 
-        @Override
-        public OfLong trySplit() {
-            PrimitiveIterator.OfLong i = it;
-            long s = est;
-            if (s > 1 && i.hasNext()) {
-                int n = batch + BATCH_UNIT;
+        @Ovfrridf
+        publid OfLong trySplit() {
+            PrimitivfItfrbtor.OfLong i = it;
+            long s = fst;
+            if (s > 1 && i.ibsNfxt()) {
+                int n = bbtdi + BATCH_UNIT;
                 if (n > s)
                     n = (int) s;
                 if (n > MAX_BATCH)
                     n = MAX_BATCH;
-                long[] a = new long[n];
+                long[] b = nfw long[n];
                 int j = 0;
-                do { a[j] = i.nextLong(); } while (++j < n && i.hasNext());
-                batch = j;
-                if (est != Long.MAX_VALUE)
-                    est -= j;
-                return new LongArraySpliterator(a, 0, j, characteristics);
+                do { b[j] = i.nfxtLong(); } wiilf (++j < n && i.ibsNfxt());
+                bbtdi = j;
+                if (fst != Long.MAX_VALUE)
+                    fst -= j;
+                rfturn nfw LongArrbySplitfrbtor(b, 0, j, dibrbdtfristids);
             }
-            return null;
+            rfturn null;
         }
 
-        @Override
-        public void forEachRemaining(LongConsumer action) {
-            if (action == null) throw new NullPointerException();
-            it.forEachRemaining(action);
+        @Ovfrridf
+        publid void forEbdiRfmbining(LongConsumfr bdtion) {
+            if (bdtion == null) tirow nfw NullPointfrExdfption();
+            it.forEbdiRfmbining(bdtion);
         }
 
-        @Override
-        public boolean tryAdvance(LongConsumer action) {
-            if (action == null) throw new NullPointerException();
-            if (it.hasNext()) {
-                action.accept(it.nextLong());
-                return true;
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(LongConsumfr bdtion) {
+            if (bdtion == null) tirow nfw NullPointfrExdfption();
+            if (it.ibsNfxt()) {
+                bdtion.bddfpt(it.nfxtLong());
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
-        @Override
-        public long estimateSize() {
-            return est;
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            rfturn fst;
         }
 
-        @Override
-        public int characteristics() { return characteristics; }
+        @Ovfrridf
+        publid int dibrbdtfristids() { rfturn dibrbdtfristids; }
 
-        @Override
-        public Comparator<? super Long> getComparator() {
-            if (hasCharacteristics(Spliterator.SORTED))
-                return null;
-            throw new IllegalStateException();
+        @Ovfrridf
+        publid Compbrbtor<? supfr Long> gftCompbrbtor() {
+            if (ibsCibrbdtfristids(Splitfrbtor.SORTED))
+                rfturn null;
+            tirow nfw IllfgblStbtfExdfption();
         }
     }
 
-    static final class DoubleIteratorSpliterator implements Spliterator.OfDouble {
-        static final int BATCH_UNIT = IteratorSpliterator.BATCH_UNIT;
-        static final int MAX_BATCH = IteratorSpliterator.MAX_BATCH;
-        private PrimitiveIterator.OfDouble it;
-        private final int characteristics;
-        private long est;             // size estimate
-        private int batch;            // batch size for splits
+    stbtid finbl dlbss DoublfItfrbtorSplitfrbtor implfmfnts Splitfrbtor.OfDoublf {
+        stbtid finbl int BATCH_UNIT = ItfrbtorSplitfrbtor.BATCH_UNIT;
+        stbtid finbl int MAX_BATCH = ItfrbtorSplitfrbtor.MAX_BATCH;
+        privbtf PrimitivfItfrbtor.OfDoublf it;
+        privbtf finbl int dibrbdtfristids;
+        privbtf long fst;             // sizf fstimbtf
+        privbtf int bbtdi;            // bbtdi sizf for splits
 
         /**
-         * Creates a spliterator using the given iterator
-         * for traversal, and reporting the given initial size
-         * and characteristics.
+         * Crfbtfs b splitfrbtor using tif givfn itfrbtor
+         * for trbvfrsbl, bnd rfporting tif givfn initibl sizf
+         * bnd dibrbdtfristids.
          *
-         * @param iterator the iterator for the source
-         * @param size the number of elements in the source
-         * @param characteristics properties of this spliterator's
-         * source or elements.
+         * @pbrbm itfrbtor tif itfrbtor for tif sourdf
+         * @pbrbm sizf tif numbfr of flfmfnts in tif sourdf
+         * @pbrbm dibrbdtfristids propfrtifs of tiis splitfrbtor's
+         * sourdf or flfmfnts.
          */
-        public DoubleIteratorSpliterator(PrimitiveIterator.OfDouble iterator, long size, int characteristics) {
-            this.it = iterator;
-            this.est = size;
-            this.characteristics = (characteristics & Spliterator.CONCURRENT) == 0
-                                   ? characteristics | Spliterator.SIZED | Spliterator.SUBSIZED
-                                   : characteristics;
+        publid DoublfItfrbtorSplitfrbtor(PrimitivfItfrbtor.OfDoublf itfrbtor, long sizf, int dibrbdtfristids) {
+            tiis.it = itfrbtor;
+            tiis.fst = sizf;
+            tiis.dibrbdtfristids = (dibrbdtfristids & Splitfrbtor.CONCURRENT) == 0
+                                   ? dibrbdtfristids | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED
+                                   : dibrbdtfristids;
         }
 
         /**
-         * Creates a spliterator using the given iterator for a
-         * source of unknown size, reporting the given
-         * characteristics.
+         * Crfbtfs b splitfrbtor using tif givfn itfrbtor for b
+         * sourdf of unknown sizf, rfporting tif givfn
+         * dibrbdtfristids.
          *
-         * @param iterator the iterator for the source
-         * @param characteristics properties of this spliterator's
-         * source or elements.
+         * @pbrbm itfrbtor tif itfrbtor for tif sourdf
+         * @pbrbm dibrbdtfristids propfrtifs of tiis splitfrbtor's
+         * sourdf or flfmfnts.
          */
-        public DoubleIteratorSpliterator(PrimitiveIterator.OfDouble iterator, int characteristics) {
-            this.it = iterator;
-            this.est = Long.MAX_VALUE;
-            this.characteristics = characteristics & ~(Spliterator.SIZED | Spliterator.SUBSIZED);
+        publid DoublfItfrbtorSplitfrbtor(PrimitivfItfrbtor.OfDoublf itfrbtor, int dibrbdtfristids) {
+            tiis.it = itfrbtor;
+            tiis.fst = Long.MAX_VALUE;
+            tiis.dibrbdtfristids = dibrbdtfristids & ~(Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED);
         }
 
-        @Override
-        public OfDouble trySplit() {
-            PrimitiveIterator.OfDouble i = it;
-            long s = est;
-            if (s > 1 && i.hasNext()) {
-                int n = batch + BATCH_UNIT;
+        @Ovfrridf
+        publid OfDoublf trySplit() {
+            PrimitivfItfrbtor.OfDoublf i = it;
+            long s = fst;
+            if (s > 1 && i.ibsNfxt()) {
+                int n = bbtdi + BATCH_UNIT;
                 if (n > s)
                     n = (int) s;
                 if (n > MAX_BATCH)
                     n = MAX_BATCH;
-                double[] a = new double[n];
+                doublf[] b = nfw doublf[n];
                 int j = 0;
-                do { a[j] = i.nextDouble(); } while (++j < n && i.hasNext());
-                batch = j;
-                if (est != Long.MAX_VALUE)
-                    est -= j;
-                return new DoubleArraySpliterator(a, 0, j, characteristics);
+                do { b[j] = i.nfxtDoublf(); } wiilf (++j < n && i.ibsNfxt());
+                bbtdi = j;
+                if (fst != Long.MAX_VALUE)
+                    fst -= j;
+                rfturn nfw DoublfArrbySplitfrbtor(b, 0, j, dibrbdtfristids);
             }
-            return null;
+            rfturn null;
         }
 
-        @Override
-        public void forEachRemaining(DoubleConsumer action) {
-            if (action == null) throw new NullPointerException();
-            it.forEachRemaining(action);
+        @Ovfrridf
+        publid void forEbdiRfmbining(DoublfConsumfr bdtion) {
+            if (bdtion == null) tirow nfw NullPointfrExdfption();
+            it.forEbdiRfmbining(bdtion);
         }
 
-        @Override
-        public boolean tryAdvance(DoubleConsumer action) {
-            if (action == null) throw new NullPointerException();
-            if (it.hasNext()) {
-                action.accept(it.nextDouble());
-                return true;
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(DoublfConsumfr bdtion) {
+            if (bdtion == null) tirow nfw NullPointfrExdfption();
+            if (it.ibsNfxt()) {
+                bdtion.bddfpt(it.nfxtDoublf());
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
-        @Override
-        public long estimateSize() {
-            return est;
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            rfturn fst;
         }
 
-        @Override
-        public int characteristics() { return characteristics; }
+        @Ovfrridf
+        publid int dibrbdtfristids() { rfturn dibrbdtfristids; }
 
-        @Override
-        public Comparator<? super Double> getComparator() {
-            if (hasCharacteristics(Spliterator.SORTED))
-                return null;
-            throw new IllegalStateException();
+        @Ovfrridf
+        publid Compbrbtor<? supfr Doublf> gftCompbrbtor() {
+            if (ibsCibrbdtfristids(Splitfrbtor.SORTED))
+                rfturn null;
+            tirow nfw IllfgblStbtfExdfption();
         }
     }
 }

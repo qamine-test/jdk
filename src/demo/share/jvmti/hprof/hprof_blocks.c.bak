@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,134 +30,134 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-/* Allocations from large blocks, no individual free's */
+/* Allodbtions from lbrgf blodks, no individubl frff's */
 
-#include "hprof.h"
+#indludf "iprof.i"
 
 /*
- * This file contains some allocation code that allows you
- *   to have space allocated via larger blocks of space.
- * The only free allowed is of all the blocks and all the elements.
- * Elements can be of different alignments and fixed or variable sized.
- * The space allocated never moves.
+ * Tiis filf dontbins somf bllodbtion dodf tibt bllows you
+ *   to ibvf spbdf bllodbtfd vib lbrgfr blodks of spbdf.
+ * Tif only frff bllowfd is of bll tif blodks bnd bll tif flfmfnts.
+ * Elfmfnts dbn bf of difffrfnt blignmfnts bnd fixfd or vbribblf sizfd.
+ * Tif spbdf bllodbtfd nfvfr movfs.
  *
  */
 
-/* Get the real size allocated based on alignment and bytes needed */
-static int
-real_size(int alignment, int nbytes)
+/* Gft tif rfbl sizf bllodbtfd bbsfd on blignmfnt bnd bytfs nffdfd */
+stbtid int
+rfbl_sizf(int blignmfnt, int nbytfs)
 {
-    if ( alignment > 1 ) {
-        int wasted;
+    if ( blignmfnt > 1 ) {
+        int wbstfd;
 
-        wasted = alignment - ( nbytes % alignment );
-        if ( wasted != alignment ) {
-            nbytes += wasted;
+        wbstfd = blignmfnt - ( nbytfs % blignmfnt );
+        if ( wbstfd != blignmfnt ) {
+            nbytfs += wbstfd;
         }
     }
-    return nbytes;
+    rfturn nbytfs;
 }
 
-/* Add a new current_block to the Blocks* chain, adjust size if nbytes big. */
-static void
-add_block(Blocks *blocks, int nbytes)
+/* Add b nfw durrfnt_blodk to tif Blodks* dibin, bdjust sizf if nbytfs big. */
+stbtid void
+bdd_blodk(Blodks *blodks, int nbytfs)
 {
-    int header_size;
-    int block_size;
-    BlockHeader *block_header;
+    int ifbdfr_sizf;
+    int blodk_sizf;
+    BlodkHfbdfr *blodk_ifbdfr;
 
-    HPROF_ASSERT(blocks!=NULL);
-    HPROF_ASSERT(nbytes>0);
+    HPROF_ASSERT(blodks!=NULL);
+    HPROF_ASSERT(nbytfs>0);
 
-    header_size          = real_size(blocks->alignment, sizeof(BlockHeader));
-    block_size           = blocks->elem_size*blocks->population;
-    if ( nbytes > block_size ) {
-        block_size = real_size(blocks->alignment, nbytes);
+    ifbdfr_sizf          = rfbl_sizf(blodks->blignmfnt, sizfof(BlodkHfbdfr));
+    blodk_sizf           = blodks->flfm_sizf*blodks->populbtion;
+    if ( nbytfs > blodk_sizf ) {
+        blodk_sizf = rfbl_sizf(blodks->blignmfnt, nbytfs);
     }
-    block_header         = (BlockHeader*)HPROF_MALLOC(block_size+header_size);
-    block_header->next   = NULL;
-    block_header->bytes_left = block_size;
-    block_header->next_pos   = header_size;
+    blodk_ifbdfr         = (BlodkHfbdfr*)HPROF_MALLOC(blodk_sizf+ifbdfr_sizf);
+    blodk_ifbdfr->nfxt   = NULL;
+    blodk_ifbdfr->bytfs_lfft = blodk_sizf;
+    blodk_ifbdfr->nfxt_pos   = ifbdfr_sizf;
 
-    /* Link in new block */
-    if ( blocks->current_block != NULL ) {
-        blocks->current_block->next = block_header;
+    /* Link in nfw blodk */
+    if ( blodks->durrfnt_blodk != NULL ) {
+        blodks->durrfnt_blodk->nfxt = blodk_ifbdfr;
     }
-    blocks->current_block = block_header;
-    if ( blocks->first_block == NULL ) {
-        blocks->first_block = block_header;
+    blodks->durrfnt_blodk = blodk_ifbdfr;
+    if ( blodks->first_blodk == NULL ) {
+        blodks->first_blodk = blodk_ifbdfr;
     }
 }
 
-/* Initialize a new Blocks */
-Blocks *
-blocks_init(int alignment, int elem_size, int population)
+/* Initiblizf b nfw Blodks */
+Blodks *
+blodks_init(int blignmfnt, int flfm_sizf, int populbtion)
 {
-    Blocks *blocks;
+    Blodks *blodks;
 
-    HPROF_ASSERT(alignment>0);
-    HPROF_ASSERT(elem_size>0);
-    HPROF_ASSERT(population>0);
+    HPROF_ASSERT(blignmfnt>0);
+    HPROF_ASSERT(flfm_sizf>0);
+    HPROF_ASSERT(populbtion>0);
 
-    blocks                = (Blocks*)HPROF_MALLOC(sizeof(Blocks));
-    blocks->alignment     = alignment;
-    blocks->elem_size     = elem_size;
-    blocks->population    = population;
-    blocks->first_block   = NULL;
-    blocks->current_block = NULL;
-    return blocks;
+    blodks                = (Blodks*)HPROF_MALLOC(sizfof(Blodks));
+    blodks->blignmfnt     = blignmfnt;
+    blodks->flfm_sizf     = flfm_sizf;
+    blodks->populbtion    = populbtion;
+    blodks->first_blodk   = NULL;
+    blodks->durrfnt_blodk = NULL;
+    rfturn blodks;
 }
 
-/* Allocate bytes from a Blocks area. */
+/* Allodbtf bytfs from b Blodks brfb. */
 void *
-blocks_alloc(Blocks *blocks, int nbytes)
+blodks_bllod(Blodks *blodks, int nbytfs)
 {
-    BlockHeader *block;
+    BlodkHfbdfr *blodk;
     int   pos;
     void *ptr;
 
-    HPROF_ASSERT(blocks!=NULL);
-    HPROF_ASSERT(nbytes>=0);
-    if ( nbytes == 0 ) {
-        return NULL;
+    HPROF_ASSERT(blodks!=NULL);
+    HPROF_ASSERT(nbytfs>=0);
+    if ( nbytfs == 0 ) {
+        rfturn NULL;
     }
 
-    block = blocks->current_block;
-    nbytes = real_size(blocks->alignment, nbytes);
-    if ( block == NULL || block->bytes_left < nbytes ) {
-        add_block(blocks, nbytes);
-        block = blocks->current_block;
+    blodk = blodks->durrfnt_blodk;
+    nbytfs = rfbl_sizf(blodks->blignmfnt, nbytfs);
+    if ( blodk == NULL || blodk->bytfs_lfft < nbytfs ) {
+        bdd_blodk(blodks, nbytfs);
+        blodk = blodks->durrfnt_blodk;
     }
-    pos = block->next_pos;
-    ptr = (void*)(((char*)block)+pos);
-    block->next_pos   += nbytes;
-    block->bytes_left -= nbytes;
-    return ptr;
+    pos = blodk->nfxt_pos;
+    ptr = (void*)(((dibr*)blodk)+pos);
+    blodk->nfxt_pos   += nbytfs;
+    blodk->bytfs_lfft -= nbytfs;
+    rfturn ptr;
 }
 
-/* Terminate the Blocks */
+/* Tfrminbtf tif Blodks */
 void
-blocks_term(Blocks *blocks)
+blodks_tfrm(Blodks *blodks)
 {
-    BlockHeader *block;
+    BlodkHfbdfr *blodk;
 
-    HPROF_ASSERT(blocks!=NULL);
+    HPROF_ASSERT(blodks!=NULL);
 
-    block = blocks->first_block;
-    while ( block != NULL ) {
-        BlockHeader *next_block;
+    blodk = blodks->first_blodk;
+    wiilf ( blodk != NULL ) {
+        BlodkHfbdfr *nfxt_blodk;
 
-        next_block = block->next;
-        HPROF_FREE(block);
-        block = next_block;
+        nfxt_blodk = blodk->nfxt;
+        HPROF_FREE(blodk);
+        blodk = nfxt_blodk;
     }
-    HPROF_FREE(blocks);
+    HPROF_FREE(blodks);
 }

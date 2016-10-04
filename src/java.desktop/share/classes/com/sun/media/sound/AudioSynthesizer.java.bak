@@ -1,128 +1,128 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.util.Map;
-import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Synthesizer;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.SourceDataLine;
+import jbvb.util.Mbp;
+import jbvbx.sound.midi.MidiUnbvbilbblfExdfption;
+import jbvbx.sound.midi.Syntifsizfr;
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+import jbvbx.sound.sbmplfd.SourdfDbtbLinf;
 
 /**
- * <code>AudioSynthesizer</code> is a <code>Synthesizer</code>
- * which renders it's output audio into <code>SourceDataLine</code>
- * or <code>AudioInputStream</code>.
+ * <dodf>AudioSyntifsizfr</dodf> is b <dodf>Syntifsizfr</dodf>
+ * wiidi rfndfrs it's output budio into <dodf>SourdfDbtbLinf</dodf>
+ * or <dodf>AudioInputStrfbm</dodf>.
  *
- * @see MidiSystem#getSynthesizer
- * @see Synthesizer
+ * @sff MidiSystfm#gftSyntifsizfr
+ * @sff Syntifsizfr
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public interface AudioSynthesizer extends Synthesizer {
+publid intfrfbdf AudioSyntifsizfr fxtfnds Syntifsizfr {
 
     /**
-     * Obtains the current format (encoding, sample rate, number of channels,
-     * etc.) of the synthesizer audio data.
+     * Obtbins tif durrfnt formbt (fndoding, sbmplf rbtf, numbfr of dibnnfls,
+     * ftd.) of tif syntifsizfr budio dbtb.
      *
-     * <p>If the synthesizer is not open and has never been opened, it returns
-     * the default format.
+     * <p>If tif syntifsizfr is not opfn bnd ibs nfvfr bffn opfnfd, it rfturns
+     * tif dffbult formbt.
      *
-     * @return current audio data format
-     * @see AudioFormat
+     * @rfturn durrfnt budio dbtb formbt
+     * @sff AudioFormbt
      */
-    public AudioFormat getFormat();
+    publid AudioFormbt gftFormbt();
 
     /**
-     * Gets information about the possible properties for the synthesizer.
+     * Gfts informbtion bbout tif possiblf propfrtifs for tif syntifsizfr.
      *
-     * @param info a proposed list of tag/value pairs that will be sent on open.
-     * @return an array of <code>AudioSynthesizerPropertyInfo</code> objects
-     * describing possible properties. This array may be an empty array if
-     * no properties are required.
+     * @pbrbm info b proposfd list of tbg/vbluf pbirs tibt will bf sfnt on opfn.
+     * @rfturn bn brrby of <dodf>AudioSyntifsizfrPropfrtyInfo</dodf> objfdts
+     * dfsdribing possiblf propfrtifs. Tiis brrby mby bf bn fmpty brrby if
+     * no propfrtifs brf rfquirfd.
      */
-    public AudioSynthesizerPropertyInfo[] getPropertyInfo(
-            Map<String, Object> info);
+    publid AudioSyntifsizfrPropfrtyInfo[] gftPropfrtyInfo(
+            Mbp<String, Objfdt> info);
 
     /**
-     * Opens the synthesizer and starts rendering audio into
-     * <code>SourceDataLine</code>.
+     * Opfns tif syntifsizfr bnd stbrts rfndfring budio into
+     * <dodf>SourdfDbtbLinf</dodf>.
      *
-     * <p>An application opening a synthesizer explicitly with this call
-     * has to close the synthesizer by calling {@link #close}. This is
-     * necessary to release system resources and allow applications to
-     * exit cleanly.
+     * <p>An bpplidbtion opfning b syntifsizfr fxpliditly witi tiis dbll
+     * ibs to dlosf tif syntifsizfr by dblling {@link #dlosf}. Tiis is
+     * nfdfssbry to rflfbsf systfm rfsourdfs bnd bllow bpplidbtions to
+     * fxit dlfbnly.
      *
-     * <p>Note that some synthesizers, once closed, cannot be reopened.
-     * Attempts to reopen such a synthesizer will always result in
-     * a <code>MidiUnavailableException</code>.
+     * <p>Notf tibt somf syntifsizfrs, ondf dlosfd, dbnnot bf rfopfnfd.
+     * Attfmpts to rfopfn sudi b syntifsizfr will blwbys rfsult in
+     * b <dodf>MidiUnbvbilbblfExdfption</dodf>.
      *
-     * @param line which <code>AudioSynthesizer</code> writes output audio into.
-     * If <code>line</code> is null, then line from system default mixer is used.
-     * @param info a <code>Map<String,Object></code> object containing
-     * properties for additional configuration supported by synthesizer.
-     * If <code>info</code> is null then default settings are used.
+     * @pbrbm linf wiidi <dodf>AudioSyntifsizfr</dodf> writfs output budio into.
+     * If <dodf>linf</dodf> is null, tifn linf from systfm dffbult mixfr is usfd.
+     * @pbrbm info b <dodf>Mbp<String,Objfdt></dodf> objfdt dontbining
+     * propfrtifs for bdditionbl donfigurbtion supportfd by syntifsizfr.
+     * If <dodf>info</dodf> is null tifn dffbult sfttings brf usfd.
      *
-     * @throws MidiUnavailableException thrown if the synthesizer cannot be
-     * opened due to resource restrictions.
-     * @throws SecurityException thrown if the synthesizer cannot be
-     * opened due to security restrictions.
+     * @tirows MidiUnbvbilbblfExdfption tirown if tif syntifsizfr dbnnot bf
+     * opfnfd duf to rfsourdf rfstridtions.
+     * @tirows SfdurityExdfption tirown if tif syntifsizfr dbnnot bf
+     * opfnfd duf to sfdurity rfstridtions.
      *
-     * @see #close
-     * @see #isOpen
+     * @sff #dlosf
+     * @sff #isOpfn
      */
-    public void open(SourceDataLine line, Map<String, Object> info)
-            throws MidiUnavailableException;
+    publid void opfn(SourdfDbtbLinf linf, Mbp<String, Objfdt> info)
+            tirows MidiUnbvbilbblfExdfption;
 
     /**
-     * Opens the synthesizer and renders audio into returned
-     * <code>AudioInputStream</code>.
+     * Opfns tif syntifsizfr bnd rfndfrs budio into rfturnfd
+     * <dodf>AudioInputStrfbm</dodf>.
      *
-     * <p>An application opening a synthesizer explicitly with this call
-     * has to close the synthesizer by calling {@link #close}. This is
-     * necessary to release system resources and allow applications to
-     * exit cleanly.
+     * <p>An bpplidbtion opfning b syntifsizfr fxpliditly witi tiis dbll
+     * ibs to dlosf tif syntifsizfr by dblling {@link #dlosf}. Tiis is
+     * nfdfssbry to rflfbsf systfm rfsourdfs bnd bllow bpplidbtions to
+     * fxit dlfbnly.
      *
-     * <p>Note that some synthesizers, once closed, cannot be reopened.
-     * Attempts to reopen such a synthesizer will always result in
-     * a <code>MidiUnavailableException<code>.
+     * <p>Notf tibt somf syntifsizfrs, ondf dlosfd, dbnnot bf rfopfnfd.
+     * Attfmpts to rfopfn sudi b syntifsizfr will blwbys rfsult in
+     * b <dodf>MidiUnbvbilbblfExdfption<dodf>.
      *
-     * @param targetFormat specifies the <code>AudioFormat</code>
-     * used in returned <code>AudioInputStream</code>.
-     * @param info a <code>Map<String,Object></code> object containing
-     * properties for additional configuration supported by synthesizer.
-     * If <code>info</code> is null then default settings are used.
+     * @pbrbm tbrgftFormbt spfdififs tif <dodf>AudioFormbt</dodf>
+     * usfd in rfturnfd <dodf>AudioInputStrfbm</dodf>.
+     * @pbrbm info b <dodf>Mbp<String,Objfdt></dodf> objfdt dontbining
+     * propfrtifs for bdditionbl donfigurbtion supportfd by syntifsizfr.
+     * If <dodf>info</dodf> is null tifn dffbult sfttings brf usfd.
      *
-     * @throws MidiUnavailableException thrown if the synthesizer cannot be
-     * opened due to resource restrictions.
-     * @throws SecurityException thrown if the synthesizer cannot be
-     * opened due to security restrictions.
+     * @tirows MidiUnbvbilbblfExdfption tirown if tif syntifsizfr dbnnot bf
+     * opfnfd duf to rfsourdf rfstridtions.
+     * @tirows SfdurityExdfption tirown if tif syntifsizfr dbnnot bf
+     * opfnfd duf to sfdurity rfstridtions.
      *
-     * @see #close
-     * @see #isOpen
+     * @sff #dlosf
+     * @sff #isOpfn
      */
-    public AudioInputStream openStream(AudioFormat targetFormat,
-            Map<String, Object> info) throws MidiUnavailableException;
+    publid AudioInputStrfbm opfnStrfbm(AudioFormbt tbrgftFormbt,
+            Mbp<String, Objfdt> info) tirows MidiUnbvbilbblfExdfption;
 }

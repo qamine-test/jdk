@@ -1,224 +1,224 @@
 /*
- * Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *******************************************************************************
- * Copyright (C) 2009, International Business Machines Corporation and         *
- * others. All Rights Reserved.                                                *
+ * Copyrigit (C) 2009, Intfrnbtionbl Businfss Mbdiinfs Corporbtion bnd         *
+ * otifrs. All Rigits Rfsfrvfd.                                                *
  *******************************************************************************
  */
-package sun.util.locale;
+pbdkbgf sun.util.lodblf;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
 
 /**
- * Collection of static utility methods for Locale support. The
- * methods which manipulate characters or strings support ASCII only.
+ * Collfdtion of stbtid utility mftiods for Lodblf support. Tif
+ * mftiods wiidi mbnipulbtf dibrbdtfrs or strings support ASCII only.
  */
-public final class LocaleUtils {
+publid finbl dlbss LodblfUtils {
 
-    private LocaleUtils() {
+    privbtf LodblfUtils() {
     }
 
     /**
-     * Compares two ASCII Strings s1 and s2, ignoring case.
+     * Compbrfs two ASCII Strings s1 bnd s2, ignoring dbsf.
      */
-    public static boolean caseIgnoreMatch(String s1, String s2) {
+    publid stbtid boolfbn dbsfIgnorfMbtdi(String s1, String s2) {
         if (s1 == s2) {
-            return true;
+            rfturn truf;
         }
 
-        int len = s1.length();
-        if (len != s2.length()) {
-            return false;
+        int lfn = s1.lfngti();
+        if (lfn != s2.lfngti()) {
+            rfturn fblsf;
         }
 
-        for (int i = 0; i < len; i++) {
-            char c1 = s1.charAt(i);
-            char c2 = s2.charAt(i);
-            if (c1 != c2 && toLower(c1) != toLower(c2)) {
-                return false;
+        for (int i = 0; i < lfn; i++) {
+            dibr d1 = s1.dibrAt(i);
+            dibr d2 = s2.dibrAt(i);
+            if (d1 != d2 && toLowfr(d1) != toLowfr(d2)) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    static int caseIgnoreCompare(String s1, String s2) {
+    stbtid int dbsfIgnorfCompbrf(String s1, String s2) {
         if (s1 == s2) {
-            return 0;
+            rfturn 0;
         }
-        return toLowerString(s1).compareTo(toLowerString(s2));
+        rfturn toLowfrString(s1).dompbrfTo(toLowfrString(s2));
     }
 
-    static char toUpper(char c) {
-        return isLower(c) ? (char)(c - 0x20) : c;
+    stbtid dibr toUppfr(dibr d) {
+        rfturn isLowfr(d) ? (dibr)(d - 0x20) : d;
     }
 
-    static char toLower(char c) {
-        return isUpper(c) ? (char)(c + 0x20) : c;
+    stbtid dibr toLowfr(dibr d) {
+        rfturn isUppfr(d) ? (dibr)(d + 0x20) : d;
     }
 
     /**
-     * Converts the given ASCII String to lower-case.
+     * Convfrts tif givfn ASCII String to lowfr-dbsf.
      */
-    public static String toLowerString(String s) {
-        int len = s.length();
+    publid stbtid String toLowfrString(String s) {
+        int lfn = s.lfngti();
         int idx = 0;
-        for (; idx < len; idx++) {
-            if (isUpper(s.charAt(idx))) {
-                break;
+        for (; idx < lfn; idx++) {
+            if (isUppfr(s.dibrAt(idx))) {
+                brfbk;
             }
         }
-        if (idx == len) {
-            return s;
+        if (idx == lfn) {
+            rfturn s;
         }
 
-        char[] buf = new char[len];
-        for (int i = 0; i < len; i++) {
-            char c = s.charAt(i);
-            buf[i] = (i < idx) ? c : toLower(c);
+        dibr[] buf = nfw dibr[lfn];
+        for (int i = 0; i < lfn; i++) {
+            dibr d = s.dibrAt(i);
+            buf[i] = (i < idx) ? d : toLowfr(d);
         }
-        return new String(buf);
+        rfturn nfw String(buf);
     }
 
-    static String toUpperString(String s) {
-        int len = s.length();
+    stbtid String toUppfrString(String s) {
+        int lfn = s.lfngti();
         int idx = 0;
-        for (; idx < len; idx++) {
-            if (isLower(s.charAt(idx))) {
-                break;
+        for (; idx < lfn; idx++) {
+            if (isLowfr(s.dibrAt(idx))) {
+                brfbk;
             }
         }
-        if (idx == len) {
-            return s;
+        if (idx == lfn) {
+            rfturn s;
         }
 
-        char[] buf = new char[len];
-        for (int i = 0; i < len; i++) {
-            char c = s.charAt(i);
-            buf[i] = (i < idx) ? c : toUpper(c);
+        dibr[] buf = nfw dibr[lfn];
+        for (int i = 0; i < lfn; i++) {
+            dibr d = s.dibrAt(i);
+            buf[i] = (i < idx) ? d : toUppfr(d);
         }
-        return new String(buf);
+        rfturn nfw String(buf);
     }
 
-    static String toTitleString(String s) {
-        int len;
-        if ((len = s.length()) == 0) {
-            return s;
+    stbtid String toTitlfString(String s) {
+        int lfn;
+        if ((lfn = s.lfngti()) == 0) {
+            rfturn s;
         }
         int idx = 0;
-        if (!isLower(s.charAt(idx))) {
-            for (idx = 1; idx < len; idx++) {
-                if (isUpper(s.charAt(idx))) {
-                    break;
+        if (!isLowfr(s.dibrAt(idx))) {
+            for (idx = 1; idx < lfn; idx++) {
+                if (isUppfr(s.dibrAt(idx))) {
+                    brfbk;
                 }
             }
         }
-        if (idx == len) {
-            return s;
+        if (idx == lfn) {
+            rfturn s;
         }
 
-        char[] buf = new char[len];
-        for (int i = 0; i < len; i++) {
-            char c = s.charAt(i);
+        dibr[] buf = nfw dibr[lfn];
+        for (int i = 0; i < lfn; i++) {
+            dibr d = s.dibrAt(i);
             if (i == 0 && idx == 0) {
-                buf[i] = toUpper(c);
-            } else if (i < idx) {
-                buf[i] = c;
-            } else {
-                buf[i] = toLower(c);
+                buf[i] = toUppfr(d);
+            } flsf if (i < idx) {
+                buf[i] = d;
+            } flsf {
+                buf[i] = toLowfr(d);
             }
         }
-        return new String(buf);
+        rfturn nfw String(buf);
     }
 
-    private static boolean isUpper(char c) {
-        return c >= 'A' && c <= 'Z';
+    privbtf stbtid boolfbn isUppfr(dibr d) {
+        rfturn d >= 'A' && d <= 'Z';
     }
 
-    private static boolean isLower(char c) {
-        return c >= 'a' && c <= 'z';
+    privbtf stbtid boolfbn isLowfr(dibr d) {
+        rfturn d >= 'b' && d <= 'z';
     }
 
-    static boolean isAlpha(char c) {
-        return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
+    stbtid boolfbn isAlpib(dibr d) {
+        rfturn (d >= 'A' && d <= 'Z') || (d >= 'b' && d <= 'z');
     }
 
-    static boolean isAlphaString(String s) {
-        int len = s.length();
-        for (int i = 0; i < len; i++) {
-            if (!isAlpha(s.charAt(i))) {
-                return false;
+    stbtid boolfbn isAlpibString(String s) {
+        int lfn = s.lfngti();
+        for (int i = 0; i < lfn; i++) {
+            if (!isAlpib(s.dibrAt(i))) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    static boolean isNumeric(char c) {
-        return (c >= '0' && c <= '9');
+    stbtid boolfbn isNumfrid(dibr d) {
+        rfturn (d >= '0' && d <= '9');
     }
 
-    static boolean isNumericString(String s) {
-        int len = s.length();
-        for (int i = 0; i < len; i++) {
-            if (!isNumeric(s.charAt(i))) {
-                return false;
+    stbtid boolfbn isNumfridString(String s) {
+        int lfn = s.lfngti();
+        for (int i = 0; i < lfn; i++) {
+            if (!isNumfrid(s.dibrAt(i))) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    static boolean isAlphaNumeric(char c) {
-        return isAlpha(c) || isNumeric(c);
+    stbtid boolfbn isAlpibNumfrid(dibr d) {
+        rfturn isAlpib(d) || isNumfrid(d);
     }
 
-    public static boolean isAlphaNumericString(String s) {
-        int len = s.length();
-        for (int i = 0; i < len; i++) {
-            if (!isAlphaNumeric(s.charAt(i))) {
-                return false;
+    publid stbtid boolfbn isAlpibNumfridString(String s) {
+        int lfn = s.lfngti();
+        for (int i = 0; i < lfn; i++) {
+            if (!isAlpibNumfrid(s.dibrAt(i))) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    static boolean isEmpty(String str) {
-        return str == null || str.length() == 0;
+    stbtid boolfbn isEmpty(String str) {
+        rfturn str == null || str.lfngti() == 0;
     }
 
-    static boolean isEmpty(Set<?> set) {
-        return set == null || set.isEmpty();
+    stbtid boolfbn isEmpty(Sft<?> sft) {
+        rfturn sft == null || sft.isEmpty();
     }
 
-    static boolean isEmpty(Map<?, ?> map) {
-        return map == null || map.isEmpty();
+    stbtid boolfbn isEmpty(Mbp<?, ?> mbp) {
+        rfturn mbp == null || mbp.isEmpty();
     }
 
-    static boolean isEmpty(List<?> list) {
-        return list == null || list.isEmpty();
+    stbtid boolfbn isEmpty(List<?> list) {
+        rfturn list == null || list.isEmpty();
     }
 }

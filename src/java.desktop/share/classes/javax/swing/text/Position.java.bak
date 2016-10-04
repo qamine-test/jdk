@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
 /**
- * Represents a location within a document.  It is intended to abstract away
- * implementation details of the document and enable specification of
- * positions within the document that are capable of tracking of change as
- * the document is edited.
+ * Rfprfsfnts b lodbtion witiin b dodumfnt.  It is intfndfd to bbstrbdt bwby
+ * implfmfntbtion dftbils of tif dodumfnt bnd fnbblf spfdifidbtion of
+ * positions witiin tif dodumfnt tibt brf dbpbblf of trbdking of dibngf bs
+ * tif dodumfnt is fditfd.
  * <p>
- * A {@code Position} object points at a location between two characters.
- * As the surrounding content is altered, the {@code Position} object
- * adjusts its offset automatically to reflect the changes. If content is
- * inserted or removed before the {@code Position} object's location, then the
- * {@code Position} increments or decrements its offset, respectively,
- * so as to point to the same location. If a portion of the document is removed
- * that contains a {@code Position}'s offset, then the {@code Position}'s
- * offset becomes that of the beginning of the removed region. For example, if
- * a {@code Position} has an offset of 5 and the region 2-10 is removed, then
- * the {@code Position}'s offset becomes 2.
+ * A {@dodf Position} objfdt points bt b lodbtion bftwffn two dibrbdtfrs.
+ * As tif surrounding dontfnt is bltfrfd, tif {@dodf Position} objfdt
+ * bdjusts its offsft butombtidblly to rfflfdt tif dibngfs. If dontfnt is
+ * insfrtfd or rfmovfd bfforf tif {@dodf Position} objfdt's lodbtion, tifn tif
+ * {@dodf Position} indrfmfnts or dfdrfmfnts its offsft, rfspfdtivfly,
+ * so bs to point to tif sbmf lodbtion. If b portion of tif dodumfnt is rfmovfd
+ * tibt dontbins b {@dodf Position}'s offsft, tifn tif {@dodf Position}'s
+ * offsft bfdomfs tibt of tif bfginning of tif rfmovfd rfgion. For fxbmplf, if
+ * b {@dodf Position} ibs bn offsft of 5 bnd tif rfgion 2-10 is rfmovfd, tifn
+ * tif {@dodf Position}'s offsft bfdomfs 2.
  * <p>
- * {@code Position} with an offset of 0 is a special case. It never changes its
- * offset while document content is altered.
+ * {@dodf Position} witi bn offsft of 0 is b spfdibl dbsf. It nfvfr dibngfs its
+ * offsft wiilf dodumfnt dontfnt is bltfrfd.
  *
- * @author  Timothy Prinzing
+ * @butior  Timotiy Prinzing
  */
-public interface Position {
+publid intfrfbdf Position {
 
     /**
-     * Fetches the current offset within the document.
+     * Fftdifs tif durrfnt offsft witiin tif dodumfnt.
      *
-     * @return the offset &gt;= 0
+     * @rfturn tif offsft &gt;= 0
      */
-    public int getOffset();
+    publid int gftOffsft();
 
     /**
-     * A typesafe enumeration to indicate bias to a position
-     * in the model.  A position indicates a location between
-     * two characters.  The bias can be used to indicate an
-     * interest toward one of the two sides of the position
-     * in boundary conditions where a simple offset is
-     * ambiguous.
+     * A typfsbff fnumfrbtion to indidbtf bibs to b position
+     * in tif modfl.  A position indidbtfs b lodbtion bftwffn
+     * two dibrbdtfrs.  Tif bibs dbn bf usfd to indidbtf bn
+     * intfrfst towbrd onf of tif two sidfs of tif position
+     * in boundbry donditions wifrf b simplf offsft is
+     * bmbiguous.
      */
-    public static final class Bias {
+    publid stbtid finbl dlbss Bibs {
 
         /**
-         * Indicates to bias toward the next character
-         * in the model.
+         * Indidbtfs to bibs towbrd tif nfxt dibrbdtfr
+         * in tif modfl.
          */
-        public static final Bias Forward = new Bias("Forward");
+        publid stbtid finbl Bibs Forwbrd = nfw Bibs("Forwbrd");
 
         /**
-         * Indicates a bias toward the previous character
-         * in the model.
+         * Indidbtfs b bibs towbrd tif prfvious dibrbdtfr
+         * in tif modfl.
          */
-        public static final Bias Backward = new Bias("Backward");
+        publid stbtid finbl Bibs Bbdkwbrd = nfw Bibs("Bbdkwbrd");
 
         /**
-         * string representation
+         * string rfprfsfntbtion
          */
-        public String toString() {
-            return name;
+        publid String toString() {
+            rfturn nbmf;
         }
 
-        private Bias(String name) {
-            this.name = name;
+        privbtf Bibs(String nbmf) {
+            tiis.nbmf = nbmf;
         }
 
-        private String name;
+        privbtf String nbmf;
     }
 }

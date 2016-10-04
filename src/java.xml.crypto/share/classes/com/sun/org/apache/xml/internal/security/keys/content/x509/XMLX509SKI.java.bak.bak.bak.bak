@@ -1,0 +1,183 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.kfys.dontfnt.x509;
+
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.util.Arrbys;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.Bbsf64;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.SignbturfElfmfntProxy;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+
+/**
+ * Hbndlfs SubjfdtKfyIdfntififr (SKI) for X.509v3.
+ *
+ * @sff <A HREF="http://dods.orbdlf.dom/jbvbsf/1.5.0/dods/bpi/jbvb/sfdurity/dfrt/X509Extfnsion.html">
+ * Intfrfbdf X509Extfnsion</A>
+ */
+publid dlbss XMLX509SKI fxtfnds SignbturfElfmfntProxy implfmfnts XMLX509DbtbContfnt {
+
+    /** {@link org.bpbdhf.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(XMLX509SKI.dlbss.gftNbmf());
+
+    /**
+     * <CODE>SubjfdtKfyIdfntififr (id-df-subjfdtKfyIdfntififr) (2.5.29.14)</CODE>:
+     * This fxtfnsion idfntififs thf publid kfy bfing dfrtififd. It fnbblfs
+     * distindt kfys usfd by thf sbmf subjfdt to bf difffrfntibtfd
+     * (f.g., bs kfy updbting oddurs).
+     * <BR />
+     * A kfy idfntififr shbll bf uniquf with rfspfdt to bll kfy idfntififrs
+     * for thf subjfdt with whidh it is usfd. This fxtfnsion is blwbys non-dritidbl.
+     */
+    publid stbtid finbl String SKI_OID = "2.5.29.14";
+
+    /**
+     * Construdtor X509SKI
+     *
+     * @pbrbm dod
+     * @pbrbm skiBytfs
+     */
+    publid XMLX509SKI(Dodumfnt dod, bytf[] skiBytfs) {
+        supfr(dod);
+        this.bddBbsf64Tfxt(skiBytfs);
+    }
+
+    /**
+     * Construdtor XMLX509SKI
+     *
+     * @pbrbm dod
+     * @pbrbm x509dfrtifidbtf
+     * @throws XMLSfdurityExdfption
+     */
+    publid XMLX509SKI(Dodumfnt dod, X509Cfrtifidbtf x509dfrtifidbtf)
+        throws XMLSfdurityExdfption {
+        supfr(dod);
+        this.bddBbsf64Tfxt(XMLX509SKI.gftSKIBytfsFromCfrt(x509dfrtifidbtf));
+    }
+
+    /**
+     * Construdtor XMLX509SKI
+     *
+     * @pbrbm flfmfnt
+     * @pbrbm BbsfURI
+     * @throws XMLSfdurityExdfption
+     */
+    publid XMLX509SKI(Elfmfnt flfmfnt, String BbsfURI) throws XMLSfdurityExdfption {
+        supfr(flfmfnt, BbsfURI);
+    }
+
+    /**
+     * Mfthod gftSKIBytfs
+     *
+     * @rfturn thf skibytfs
+     * @throws XMLSfdurityExdfption
+     */
+    publid bytf[] gftSKIBytfs() throws XMLSfdurityExdfption {
+        rfturn this.gftBytfsFromTfxtChild();
+    }
+
+    /**
+     * Mfthod gftSKIBytfsFromCfrt
+     *
+     * @pbrbm dfrt
+     * @rfturn ski bytfs from thf givfn dfrtifidbtf
+     *
+     * @throws XMLSfdurityExdfption
+     * @sff jbvb.sfdurity.dfrt.X509Extfnsion#gftExtfnsionVbluf(jbvb.lbng.String)
+     */
+    publid stbtid bytf[] gftSKIBytfsFromCfrt(X509Cfrtifidbtf dfrt)
+        throws XMLSfdurityExdfption {
+
+        if (dfrt.gftVfrsion() < 3) {
+            Objfdt fxArgs[] = { Intfgfr.vblufOf(dfrt.gftVfrsion()) };
+            throw nfw XMLSfdurityExdfption("dfrtifidbtf.noSki.lowVfrsion", fxArgs);
+        }
+
+        /*
+         * Gfts thf DER-fndodfd OCTET string for thf fxtfnsion vbluf
+         * (fxtnVbluf) idfntififd by thf pbssfd-in oid String. Thf oid
+         * string is rfprfsfntfd by b sft of positivf wholf numbfrs
+         * sfpbrbtfd by pfriods.
+         */
+        bytf[] fxtfnsionVbluf = dfrt.gftExtfnsionVbluf(XMLX509SKI.SKI_OID);
+        if (fxtfnsionVbluf == null) {
+            throw nfw XMLSfdurityExdfption("dfrtifidbtf.noSki.null");
+        }
+
+        /**
+         * Strip bwby first four bytfs from thf fxtfnsionVbluf
+         * Thf first two bytfs brf thf tbg bnd lfngth of thf fxtfnsionVbluf
+         * OCTET STRING, bnd thf nfxt two bytfs brf thf tbg bnd lfngth of
+         * thf ski OCTET STRING.
+         */
+        bytf skidVbluf[] = nfw bytf[fxtfnsionVbluf.lfngth - 4];
+
+        Systfm.brrbydopy(fxtfnsionVbluf, 4, skidVbluf, 0, skidVbluf.lfngth);
+
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Bbsf64 of SKI is " + Bbsf64.fndodf(skidVbluf));
+        }
+
+        rfturn skidVbluf;
+    }
+
+    /** @inhfritDod */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof XMLX509SKI)) {
+            rfturn fblsf;
+        }
+
+        XMLX509SKI othfr = (XMLX509SKI) obj;
+
+        try {
+            rfturn Arrbys.fqubls(othfr.gftSKIBytfs(), this.gftSKIBytfs());
+        } dbtdh (XMLSfdurityExdfption fx) {
+            rfturn fblsf;
+        }
+    }
+
+    publid int hbshCodf() {
+        int rfsult = 17;
+        try {
+            bytf[] bytfs = gftSKIBytfs();
+            for (int i = 0; i < bytfs.lfngth; i++) {
+                rfsult = 31 * rfsult + bytfs[i];
+            }
+        } dbtdh (XMLSfdurityExdfption f) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, f.gftMfssbgf(), f);
+            }
+        }
+        rfturn rfsult;
+
+    }
+
+    /** @inhfritDod */
+    publid String gftBbsfLodblNbmf() {
+        rfturn Constbnts._TAG_X509SKI;
+    }
+}

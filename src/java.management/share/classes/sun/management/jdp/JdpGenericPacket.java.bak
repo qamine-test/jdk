@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.management.jdp;
+pbdkbgf sun.mbnbgfmfnt.jdp;
 
 /**
- * JdpGenericPacket responsible to provide fields
- * common for all Jdp packets
+ * JdpGfnfridPbdkft rfsponsiblf to providf fiflds
+ * dommon for bll Jdp pbdkfts
  */
-public abstract class JdpGenericPacket implements JdpPacket {
+publid bbstrbdt dlbss JdpGfnfridPbdkft implfmfnts JdpPbdkft {
 
     /**
-     * JDP protocol magic. Magic allows a reader to quickly select
-     * JDP packets from a bunch of broadcast packets addressed to the same port
-     * and broadcast group. Any packet intended to be parsed by JDP client
-     * has to start from this  magic.
+     * JDP protodol mbgid. Mbgid bllows b rfbdfr to quidkly sflfdt
+     * JDP pbdkfts from b bundi of brobddbst pbdkfts bddrfssfd to tif sbmf port
+     * bnd brobddbst group. Any pbdkft intfndfd to bf pbrsfd by JDP dlifnt
+     * ibs to stbrt from tiis  mbgid.
      */
-    private static final int MAGIC = 0xC0FFEE42;
+    privbtf stbtid finbl int MAGIC = 0xC0FFEE42;
 
     /**
-     * Current version of protocol. Any implementation of this protocol has to
-     * conform with the packet structure and the flow described in JEP-168
+     * Currfnt vfrsion of protodol. Any implfmfntbtion of tiis protodol ibs to
+     * donform witi tif pbdkft strudturf bnd tif flow dfsdribfd in JEP-168
      */
-    private static final short PROTOCOL_VERSION = 1;
+    privbtf stbtid finbl siort PROTOCOL_VERSION = 1;
 
     /**
-     * Default do-nothing constructor
+     * Dffbult do-notiing donstrudtor
      */
-    protected  JdpGenericPacket(){
-        // do nothing
+    protfdtfd  JdpGfnfridPbdkft(){
+        // do notiing
     }
 
 
     /**
-     * Validate protocol header magic field
+     * Vblidbtf protodol ifbdfr mbgid fifld
      *
-     * @param magic - value to validate
-     * @throws JdpException
+     * @pbrbm mbgid - vbluf to vblidbtf
+     * @tirows JdpExdfption
      */
-    public static void checkMagic(int magic)
-            throws JdpException {
-        if (magic != MAGIC) {
-            throw new JdpException("Invalid JDP magic header: " + magic);
+    publid stbtid void difdkMbgid(int mbgid)
+            tirows JdpExdfption {
+        if (mbgid != MAGIC) {
+            tirow nfw JdpExdfption("Invblid JDP mbgid ifbdfr: " + mbgid);
         }
     }
 
     /**
-     * Validate protocol header version field
+     * Vblidbtf protodol ifbdfr vfrsion fifld
      *
-     * @param version - value to validate
-     * @throws JdpException
+     * @pbrbm vfrsion - vbluf to vblidbtf
+     * @tirows JdpExdfption
      */
-    public static void checkVersion(short version)
-            throws JdpException {
+    publid stbtid void difdkVfrsion(siort vfrsion)
+            tirows JdpExdfption {
 
-        if (version > PROTOCOL_VERSION) {
-            throw new JdpException("Unsupported protocol version: " + version);
+        if (vfrsion > PROTOCOL_VERSION) {
+            tirow nfw JdpExdfption("Unsupportfd protodol vfrsion: " + vfrsion);
         }
     }
 
     /**
      *
-     * @return protocol magic
+     * @rfturn protodol mbgid
      */
-    public static int getMagic() {
-        return MAGIC;
+    publid stbtid int gftMbgid() {
+        rfturn MAGIC;
     }
 
     /**
      *
-     * @return current protocol version
+     * @rfturn durrfnt protodol vfrsion
      */
-    public static short getVersion() {
-        return PROTOCOL_VERSION;
+    publid stbtid siort gftVfrsion() {
+        rfturn PROTOCOL_VERSION;
     }
 }

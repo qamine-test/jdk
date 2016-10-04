@@ -1,630 +1,630 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp.daemon;
+pbdkbgf dom.sun.jmx.snmp.dbfmon;
 
 
 
-// java import
+// jbvb import
 //
-import java.util.logging.Level;
-import java.util.Vector;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.Vfdtor;
 
 // jmx imports
 //
-import static com.sun.jmx.defaults.JmxProperties.SNMP_ADAPTOR_LOGGER;
-import com.sun.jmx.snmp.SnmpPdu;
-import com.sun.jmx.snmp.SnmpVarBind;
-import com.sun.jmx.snmp.SnmpDefinitions;
-import com.sun.jmx.snmp.SnmpStatusException;
-import com.sun.jmx.snmp.SnmpEngine;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.SNMP_ADAPTOR_LOGGER;
+import dom.sun.jmx.snmp.SnmpPdu;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpEnginf;
 
-// SNMP Runtime import
+// SNMP Runtimf import
 //
-import com.sun.jmx.snmp.agent.SnmpMibAgent;
-import com.sun.jmx.snmp.agent.SnmpMibRequest;
-import com.sun.jmx.snmp.ThreadContext;
-import com.sun.jmx.snmp.internal.SnmpIncomingRequest;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibRfqufst;
+import dom.sun.jmx.snmp.TirfbdContfxt;
+import dom.sun.jmx.snmp.intfrnbl.SnmpIndomingRfqufst;
 
-class SnmpSubRequestHandler implements SnmpDefinitions, Runnable {
+dlbss SnmpSubRfqufstHbndlfr implfmfnts SnmpDffinitions, Runnbblf {
 
-    protected SnmpIncomingRequest incRequest = null;
-    protected SnmpEngine engine = null;
+    protfdtfd SnmpIndomingRfqufst indRfqufst = null;
+    protfdtfd SnmpEnginf fnginf = null;
     /**
-     * V3 enabled Adaptor. Each Oid is added using updateRequest method.
+     * V3 fnbblfd Adbptor. Ebdi Oid is bddfd using updbtfRfqufst mftiod.
      */
-    protected SnmpSubRequestHandler(SnmpEngine engine,
-                                    SnmpIncomingRequest incRequest,
-                                    SnmpMibAgent agent,
-                                    SnmpPdu req) {
-        this(agent, req);
-        init(engine, incRequest);
+    protfdtfd SnmpSubRfqufstHbndlfr(SnmpEnginf fnginf,
+                                    SnmpIndomingRfqufst indRfqufst,
+                                    SnmpMibAgfnt bgfnt,
+                                    SnmpPdu rfq) {
+        tiis(bgfnt, rfq);
+        init(fnginf, indRfqufst);
     }
 
     /**
-     * V3 enabled Adaptor.
+     * V3 fnbblfd Adbptor.
      */
-    protected SnmpSubRequestHandler(SnmpEngine engine,
-                                    SnmpIncomingRequest incRequest,
-                                    SnmpMibAgent agent,
-                                    SnmpPdu req,
-                                    boolean nouse) {
-        this(agent, req, nouse);
-        init(engine, incRequest);
+    protfdtfd SnmpSubRfqufstHbndlfr(SnmpEnginf fnginf,
+                                    SnmpIndomingRfqufst indRfqufst,
+                                    SnmpMibAgfnt bgfnt,
+                                    SnmpPdu rfq,
+                                    boolfbn nousf) {
+        tiis(bgfnt, rfq, nousf);
+        init(fnginf, indRfqufst);
     }
     /**
-     * SNMP V1/V2 . To be called with updateRequest.
+     * SNMP V1/V2 . To bf dbllfd witi updbtfRfqufst.
      */
-    protected SnmpSubRequestHandler(SnmpMibAgent agent, SnmpPdu req) {
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                "constructor", "creating instance for request " + String.valueOf(req.requestId));
+    protfdtfd SnmpSubRfqufstHbndlfr(SnmpMibAgfnt bgfnt, SnmpPdu rfq) {
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                "donstrudtor", "drfbting instbndf for rfqufst " + String.vblufOf(rfq.rfqufstId));
         }
 
-        version= req.version;
-        type= req.type;
-        this.agent= agent;
+        vfrsion= rfq.vfrsion;
+        typf= rfq.typf;
+        tiis.bgfnt= bgfnt;
 
-        // We get a ref on the pdu in order to pass it to SnmpMibRequest.
-        reqPdu = req;
+        // Wf gft b rff on tif pdu in ordfr to pbss it to SnmpMibRfqufst.
+        rfqPdu = rfq;
 
-        //Pre-allocate room for storing varbindlist and translation table.
+        //Prf-bllodbtf room for storing vbrbindlist bnd trbnslbtion tbblf.
         //
-        int length= req.varBindList.length;
-        translation= new int[length];
-        varBind= new NonSyncVector<SnmpVarBind>(length);
+        int lfngti= rfq.vbrBindList.lfngti;
+        trbnslbtion= nfw int[lfngti];
+        vbrBind= nfw NonSyndVfdtor<SnmpVbrBind>(lfngti);
     }
 
     /**
-     * SNMP V1/V2 The constructor initialize the subrequest with the whole varbind list contained
-     * in the original request.
+     * SNMP V1/V2 Tif donstrudtor initiblizf tif subrfqufst witi tif wiolf vbrbind list dontbinfd
+     * in tif originbl rfqufst.
      */
-    @SuppressWarnings("unchecked")  // cast to NonSyncVector<SnmpVarBind>
-    protected SnmpSubRequestHandler(SnmpMibAgent agent,
-                                    SnmpPdu req,
-                                    boolean nouse) {
-        this(agent,req);
+    @SupprfssWbrnings("undifdkfd")  // dbst to NonSyndVfdtor<SnmpVbrBind>
+    protfdtfd SnmpSubRfqufstHbndlfr(SnmpMibAgfnt bgfnt,
+                                    SnmpPdu rfq,
+                                    boolfbn nousf) {
+        tiis(bgfnt,rfq);
 
-        // The translation table is easy in this case ...
+        // Tif trbnslbtion tbblf is fbsy in tiis dbsf ...
         //
-        int max= translation.length;
-        SnmpVarBind[] list= req.varBindList;
-        for(int i=0; i < max; i++) {
-            translation[i]= i;
-            ((NonSyncVector<SnmpVarBind>)varBind).addNonSyncElement(list[i]);
+        int mbx= trbnslbtion.lfngti;
+        SnmpVbrBind[] list= rfq.vbrBindList;
+        for(int i=0; i < mbx; i++) {
+            trbnslbtion[i]= i;
+            ((NonSyndVfdtor<SnmpVbrBind>)vbrBind).bddNonSyndElfmfnt(list[i]);
         }
     }
 
-    SnmpMibRequest createMibRequest(Vector<SnmpVarBind> vblist,
-                                    int protocolVersion,
-                                    Object userData) {
+    SnmpMibRfqufst drfbtfMibRfqufst(Vfdtor<SnmpVbrBind> vblist,
+                                    int protodolVfrsion,
+                                    Objfdt usfrDbtb) {
 
-        // This is an optimization:
-        //    The SnmpMibRequest created in the check() phase is
-        //    reused in the set() phase.
+        // Tiis is bn optimizbtion:
+        //    Tif SnmpMibRfqufst drfbtfd in tif difdk() pibsf is
+        //    rfusfd in tif sft() pibsf.
         //
-        if (type == pduSetRequestPdu && mibRequest != null)
-            return mibRequest;
+        if (typf == pduSftRfqufstPdu && mibRfqufst != null)
+            rfturn mibRfqufst;
 
-        //This is a request comming from an SnmpV3AdaptorServer.
-        //Full power.
-        SnmpMibRequest result = null;
-        if(incRequest != null) {
-            result = SnmpMibAgent.newMibRequest(engine,
-                                                reqPdu,
+        //Tiis is b rfqufst domming from bn SnmpV3AdbptorSfrvfr.
+        //Full powfr.
+        SnmpMibRfqufst rfsult = null;
+        if(indRfqufst != null) {
+            rfsult = SnmpMibAgfnt.nfwMibRfqufst(fnginf,
+                                                rfqPdu,
                                                 vblist,
-                                                protocolVersion,
-                                                userData,
-                                                incRequest.getPrincipal(),
-                                                incRequest.getSecurityLevel(),
-                                                incRequest.getSecurityModel(),
-                                                incRequest.getContextName(),
-                                                incRequest.getAccessContext());
-        } else {
-            result = SnmpMibAgent.newMibRequest(reqPdu,
+                                                protodolVfrsion,
+                                                usfrDbtb,
+                                                indRfqufst.gftPrindipbl(),
+                                                indRfqufst.gftSfdurityLfvfl(),
+                                                indRfqufst.gftSfdurityModfl(),
+                                                indRfqufst.gftContfxtNbmf(),
+                                                indRfqufst.gftAddfssContfxt());
+        } flsf {
+            rfsult = SnmpMibAgfnt.nfwMibRfqufst(rfqPdu,
                                                 vblist,
-                                                protocolVersion,
-                                                userData);
+                                                protodolVfrsion,
+                                                usfrDbtb);
         }
-        // If we're doing the check() phase, we store the SnmpMibRequest
-        // so that we can reuse it in the set() phase.
+        // If wf'rf doing tif difdk() pibsf, wf storf tif SnmpMibRfqufst
+        // so tibt wf dbn rfusf it in tif sft() pibsf.
         //
-        if (type == pduWalkRequest)
-            mibRequest = result;
+        if (typf == pduWblkRfqufst)
+            mibRfqufst = rfsult;
 
-        return result;
+        rfturn rfsult;
     }
 
-    void setUserData(Object userData) {
-        data = userData;
+    void sftUsfrDbtb(Objfdt usfrDbtb) {
+        dbtb = usfrDbtb;
     }
 
-    public void run() {
+    publid void run() {
 
         try {
-            final ThreadContext oldContext =
-                ThreadContext.push("SnmpUserData",data);
+            finbl TirfbdContfxt oldContfxt =
+                TirfbdContfxt.pusi("SnmpUsfrDbtb",dbtb);
             try {
-                switch(type) {
-                case pduGetRequestPdu:
-                    // Invoke a get operation
+                switdi(typf) {
+                dbsf pduGftRfqufstPdu:
+                    // Invokf b gft opfrbtion
                     //
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                            "run", "[" + Thread.currentThread() +
-                              "]:get operation on " + agent.getMibName());
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                            "run", "[" + Tirfbd.durrfntTirfbd() +
+                              "]:gft opfrbtion on " + bgfnt.gftMibNbmf());
                     }
 
-                    agent.get(createMibRequest(varBind,version,data));
-                    break;
+                    bgfnt.gft(drfbtfMibRfqufst(vbrBind,vfrsion,dbtb));
+                    brfbk;
 
-                case pduGetNextRequestPdu:
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                            "run", "[" + Thread.currentThread() +
-                              "]:getNext operation on " + agent.getMibName());
+                dbsf pduGftNfxtRfqufstPdu:
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                            "run", "[" + Tirfbd.durrfntTirfbd() +
+                              "]:gftNfxt opfrbtion on " + bgfnt.gftMibNbmf());
                     }
-                    //#ifdef DEBUG
-                    agent.getNext(createMibRequest(varBind,version,data));
-                    break;
+                    //#ifdff DEBUG
+                    bgfnt.gftNfxt(drfbtfMibRfqufst(vbrBind,vfrsion,dbtb));
+                    brfbk;
 
-                case pduSetRequestPdu:
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                            "run", "[" + Thread.currentThread() +
-                            "]:set operation on " + agent.getMibName());
+                dbsf pduSftRfqufstPdu:
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                            "run", "[" + Tirfbd.durrfntTirfbd() +
+                            "]:sft opfrbtion on " + bgfnt.gftMibNbmf());
                     }
-                    agent.set(createMibRequest(varBind,version,data));
-                    break;
+                    bgfnt.sft(drfbtfMibRfqufst(vbrBind,vfrsion,dbtb));
+                    brfbk;
 
-                case pduWalkRequest:
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                            "run", "[" + Thread.currentThread() +
-                            "]:check operation on " + agent.getMibName());
+                dbsf pduWblkRfqufst:
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                            "run", "[" + Tirfbd.durrfntTirfbd() +
+                            "]:difdk opfrbtion on " + bgfnt.gftMibNbmf());
                     }
-                    agent.check(createMibRequest(varBind,version,data));
-                    break;
+                    bgfnt.difdk(drfbtfMibRfqufst(vbrBind,vfrsion,dbtb));
+                    brfbk;
 
-                default:
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpSubRequestHandler.class.getName(),
-                            "run", "[" + Thread.currentThread() +
-                              "]:unknown operation (" +  type + ") on " +
-                              agent.getMibName());
+                dffbult:
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                            "run", "[" + Tirfbd.durrfntTirfbd() +
+                              "]:unknown opfrbtion (" +  typf + ") on " +
+                              bgfnt.gftMibNbmf());
                     }
-                    errorStatus= snmpRspGenErr;
-                    errorIndex= 1;
-                    break;
+                    frrorStbtus= snmpRspGfnErr;
+                    frrorIndfx= 1;
+                    brfbk;
 
-                }// end of switch
+                }// fnd of switdi
 
-            } finally {
-                ThreadContext.restore(oldContext);
+            } finblly {
+                TirfbdContfxt.rfstorf(oldContfxt);
             }
-        } catch(SnmpStatusException x) {
-            errorStatus = x.getStatus() ;
-            errorIndex=  x.getErrorIndex();
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpSubRequestHandler.class.getName(),
-                    "run", "[" + Thread.currentThread() +
-                      "]:an Snmp error occurred during the operation", x);
-            }
-        }
-        catch(Exception x) {
-            errorStatus = SnmpDefinitions.snmpRspGenErr ;
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpSubRequestHandler.class.getName(),
-                    "run", "[" + Thread.currentThread() +
-                      "]:a generic error occurred during the operation", x);
+        } dbtdi(SnmpStbtusExdfption x) {
+            frrorStbtus = x.gftStbtus() ;
+            frrorIndfx=  x.gftErrorIndfx();
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                    "run", "[" + Tirfbd.durrfntTirfbd() +
+                      "]:bn Snmp frror oddurrfd during tif opfrbtion", x);
             }
         }
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                "run", "[" + Thread.currentThread() + "]:operation completed");
+        dbtdi(Exdfption x) {
+            frrorStbtus = SnmpDffinitions.snmpRspGfnErr ;
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                    "run", "[" + Tirfbd.durrfntTirfbd() +
+                      "]:b gfnfrid frror oddurrfd during tif opfrbtion", x);
+            }
+        }
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                "run", "[" + Tirfbd.durrfntTirfbd() + "]:opfrbtion domplftfd");
         }
     }
 
     // -------------------------------------------------------------
     //
-    // This function does a best-effort to map global error status
-    // to SNMP v1 valid global error status.
+    // Tiis fundtion dofs b bfst-fffort to mbp globbl frror stbtus
+    // to SNMP v1 vblid globbl frror stbtus.
     //
-    // An SnmpStatusException can contain either:
-    // <li> v2 local error codes (that should be stored in the varbind)</li>
-    // <li> v2 global error codes </li>
-    // <li> v1 global error codes </li>
+    // An SnmpStbtusExdfption dbn dontbin fitifr:
+    // <li> v2 lodbl frror dodfs (tibt siould bf storfd in tif vbrbind)</li>
+    // <li> v2 globbl frror dodfs </li>
+    // <li> v1 globbl frror dodfs </li>
     //
-    // v2 local error codes (noSuchInstance, noSuchObject) are
-    // transformed in a global v1 snmpRspNoSuchName error.
+    // v2 lodbl frror dodfs (noSudiInstbndf, noSudiObjfdt) brf
+    // trbnsformfd in b globbl v1 snmpRspNoSudiNbmf frror.
     //
-    // v2 global error codes are transformed in the following way:
+    // v2 globbl frror dodfs brf trbnsformfd in tif following wby:
     //
-    //    If the request was a GET/GETNEXT then either
-    //         snmpRspNoSuchName or snmpRspGenErr is returned.
+    //    If tif rfqufst wbs b GET/GETNEXT tifn fitifr
+    //         snmpRspNoSudiNbmf or snmpRspGfnErr is rfturnfd.
     //
-    //    Otherwise:
-    //      snmpRspNoAccess, snmpRspInconsistentName
-    //               => snmpRspNoSuchName
-    //      snmpRspAuthorizationError, snmpRspNotWritable, snmpRspNoCreation
-    //               => snmpRspReadOnly  (snmpRspNoSuchName for GET/GETNEXT)
+    //    Otifrwisf:
+    //      snmpRspNoAddfss, snmpRspIndonsistfntNbmf
+    //               => snmpRspNoSudiNbmf
+    //      snmpRspAutiorizbtionError, snmpRspNotWritbblf, snmpRspNoCrfbtion
+    //               => snmpRspRfbdOnly  (snmpRspNoSudiNbmf for GET/GETNEXT)
     //      snmpRspWrong*
-    //               => snmpRspBadValue  (snmpRspNoSuchName for GET/GETNEXT)
-    //      snmpRspResourceUnavailable, snmpRspRspCommitFailed,
-    //      snmpRspUndoFailed
-    //                  => snmpRspGenErr
+    //               => snmpRspBbdVbluf  (snmpRspNoSudiNbmf for GET/GETNEXT)
+    //      snmpRspRfsourdfUnbvbilbblf, snmpRspRspCommitFbilfd,
+    //      snmpRspUndoFbilfd
+    //                  => snmpRspGfnErr
     //
     // -------------------------------------------------------------
     //
-    static final int mapErrorStatusToV1(int errorStatus, int reqPduType) {
-        // Map v2 codes onto v1 codes
+    stbtid finbl int mbpErrorStbtusToV1(int frrorStbtus, int rfqPduTypf) {
+        // Mbp v2 dodfs onto v1 dodfs
         //
-        if (errorStatus == SnmpDefinitions.snmpRspNoError)
-            return SnmpDefinitions.snmpRspNoError;
+        if (frrorStbtus == SnmpDffinitions.snmpRspNoError)
+            rfturn SnmpDffinitions.snmpRspNoError;
 
-        if (errorStatus == SnmpDefinitions.snmpRspGenErr)
-            return SnmpDefinitions.snmpRspGenErr;
+        if (frrorStbtus == SnmpDffinitions.snmpRspGfnErr)
+            rfturn SnmpDffinitions.snmpRspGfnErr;
 
-        if (errorStatus == SnmpDefinitions.snmpRspNoSuchName)
-            return SnmpDefinitions.snmpRspNoSuchName;
+        if (frrorStbtus == SnmpDffinitions.snmpRspNoSudiNbmf)
+            rfturn SnmpDffinitions.snmpRspNoSudiNbmf;
 
-        if ((errorStatus == SnmpStatusException.noSuchInstance) ||
-            (errorStatus == SnmpStatusException.noSuchObject)   ||
-            (errorStatus == SnmpDefinitions.snmpRspNoAccess)    ||
-            (errorStatus == SnmpDefinitions.snmpRspInconsistentName) ||
-            (errorStatus == SnmpDefinitions.snmpRspAuthorizationError)){
+        if ((frrorStbtus == SnmpStbtusExdfption.noSudiInstbndf) ||
+            (frrorStbtus == SnmpStbtusExdfption.noSudiObjfdt)   ||
+            (frrorStbtus == SnmpDffinitions.snmpRspNoAddfss)    ||
+            (frrorStbtus == SnmpDffinitions.snmpRspIndonsistfntNbmf) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspAutiorizbtionError)){
 
-            return SnmpDefinitions.snmpRspNoSuchName;
+            rfturn SnmpDffinitions.snmpRspNoSudiNbmf;
 
-        } else if ((errorStatus ==
-                    SnmpDefinitions.snmpRspAuthorizationError)         ||
-                   (errorStatus == SnmpDefinitions.snmpRspNotWritable)) {
+        } flsf if ((frrorStbtus ==
+                    SnmpDffinitions.snmpRspAutiorizbtionError)         ||
+                   (frrorStbtus == SnmpDffinitions.snmpRspNotWritbblf)) {
 
-            if (reqPduType == SnmpDefinitions.pduWalkRequest)
-                return SnmpDefinitions.snmpRspReadOnly;
-            else
-                return SnmpDefinitions.snmpRspNoSuchName;
+            if (rfqPduTypf == SnmpDffinitions.pduWblkRfqufst)
+                rfturn SnmpDffinitions.snmpRspRfbdOnly;
+            flsf
+                rfturn SnmpDffinitions.snmpRspNoSudiNbmf;
 
-        } else if ((errorStatus == SnmpDefinitions.snmpRspNoCreation)) {
+        } flsf if ((frrorStbtus == SnmpDffinitions.snmpRspNoCrfbtion)) {
 
-                return SnmpDefinitions.snmpRspNoSuchName;
+                rfturn SnmpDffinitions.snmpRspNoSudiNbmf;
 
-        } else if ((errorStatus == SnmpDefinitions.snmpRspWrongType)      ||
-                   (errorStatus == SnmpDefinitions.snmpRspWrongLength)    ||
-                   (errorStatus == SnmpDefinitions.snmpRspWrongEncoding)  ||
-                   (errorStatus == SnmpDefinitions.snmpRspWrongValue)     ||
-                   (errorStatus == SnmpDefinitions.snmpRspWrongLength)    ||
-                   (errorStatus ==
-                    SnmpDefinitions.snmpRspInconsistentValue)) {
+        } flsf if ((frrorStbtus == SnmpDffinitions.snmpRspWrongTypf)      ||
+                   (frrorStbtus == SnmpDffinitions.snmpRspWrongLfngti)    ||
+                   (frrorStbtus == SnmpDffinitions.snmpRspWrongEndoding)  ||
+                   (frrorStbtus == SnmpDffinitions.snmpRspWrongVbluf)     ||
+                   (frrorStbtus == SnmpDffinitions.snmpRspWrongLfngti)    ||
+                   (frrorStbtus ==
+                    SnmpDffinitions.snmpRspIndonsistfntVbluf)) {
 
-            if ((reqPduType == SnmpDefinitions.pduSetRequestPdu) ||
-                (reqPduType == SnmpDefinitions.pduWalkRequest))
-                return SnmpDefinitions.snmpRspBadValue;
-            else
-                return SnmpDefinitions.snmpRspNoSuchName;
+            if ((rfqPduTypf == SnmpDffinitions.pduSftRfqufstPdu) ||
+                (rfqPduTypf == SnmpDffinitions.pduWblkRfqufst))
+                rfturn SnmpDffinitions.snmpRspBbdVbluf;
+            flsf
+                rfturn SnmpDffinitions.snmpRspNoSudiNbmf;
 
-        } else if ((errorStatus ==
-                    SnmpDefinitions.snmpRspResourceUnavailable) ||
-                   (errorStatus ==
-                    SnmpDefinitions.snmpRspCommitFailed)        ||
-                   (errorStatus == SnmpDefinitions.snmpRspUndoFailed)) {
+        } flsf if ((frrorStbtus ==
+                    SnmpDffinitions.snmpRspRfsourdfUnbvbilbblf) ||
+                   (frrorStbtus ==
+                    SnmpDffinitions.snmpRspCommitFbilfd)        ||
+                   (frrorStbtus == SnmpDffinitions.snmpRspUndoFbilfd)) {
 
-            return SnmpDefinitions.snmpRspGenErr;
+            rfturn SnmpDffinitions.snmpRspGfnErr;
 
         }
 
-        // At this point we should have a V1 error code
+        // At tiis point wf siould ibvf b V1 frror dodf
         //
-        if (errorStatus == SnmpDefinitions.snmpRspTooBig)
-            return SnmpDefinitions.snmpRspTooBig;
+        if (frrorStbtus == SnmpDffinitions.snmpRspTooBig)
+            rfturn SnmpDffinitions.snmpRspTooBig;
 
-        if( (errorStatus == SnmpDefinitions.snmpRspBadValue) ||
-            (errorStatus == SnmpDefinitions.snmpRspReadOnly)) {
-            if ((reqPduType == SnmpDefinitions.pduSetRequestPdu) ||
-                (reqPduType == SnmpDefinitions.pduWalkRequest))
-                return errorStatus;
-            else
-                return SnmpDefinitions.snmpRspNoSuchName;
+        if( (frrorStbtus == SnmpDffinitions.snmpRspBbdVbluf) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspRfbdOnly)) {
+            if ((rfqPduTypf == SnmpDffinitions.pduSftRfqufstPdu) ||
+                (rfqPduTypf == SnmpDffinitions.pduWblkRfqufst))
+                rfturn frrorStbtus;
+            flsf
+                rfturn SnmpDffinitions.snmpRspNoSudiNbmf;
         }
 
-        // We have a snmpRspGenErr, or something which is not defined
-        // in RFC1905 => return a snmpRspGenErr
+        // Wf ibvf b snmpRspGfnErr, or somftiing wiidi is not dffinfd
+        // in RFC1905 => rfturn b snmpRspGfnErr
         //
-        return SnmpDefinitions.snmpRspGenErr;
+        rfturn SnmpDffinitions.snmpRspGfnErr;
 
     }
 
     // -------------------------------------------------------------
     //
-    // This function does a best-effort to map global error status
-    // to SNMP v2 valid global error status.
+    // Tiis fundtion dofs b bfst-fffort to mbp globbl frror stbtus
+    // to SNMP v2 vblid globbl frror stbtus.
     //
-    // An SnmpStatusException can contain either:
-    // <li> v2 local error codes (that should be stored in the varbind)</li>
-    // <li> v2 global error codes </li>
-    // <li> v1 global error codes </li>
+    // An SnmpStbtusExdfption dbn dontbin fitifr:
+    // <li> v2 lodbl frror dodfs (tibt siould bf storfd in tif vbrbind)</li>
+    // <li> v2 globbl frror dodfs </li>
+    // <li> v1 globbl frror dodfs </li>
     //
-    // v2 local error codes (noSuchInstance, noSuchObject)
-    // should not raise this level: they should have been stored in the
-    // varbind earlier. If they, do there is nothing much we can do except
-    // to transform them into:
-    // <li> a global snmpRspGenErr (if the request is a GET/GETNEXT) </li>
-    // <li> a global snmpRspNoSuchName otherwise. </li>
+    // v2 lodbl frror dodfs (noSudiInstbndf, noSudiObjfdt)
+    // siould not rbisf tiis lfvfl: tify siould ibvf bffn storfd in tif
+    // vbrbind fbrlifr. If tify, do tifrf is notiing mudi wf dbn do fxdfpt
+    // to trbnsform tifm into:
+    // <li> b globbl snmpRspGfnErr (if tif rfqufst is b GET/GETNEXT) </li>
+    // <li> b globbl snmpRspNoSudiNbmf otifrwisf. </li>
     //
-    // v2 global error codes are transformed in the following way:
+    // v2 globbl frror dodfs brf trbnsformfd in tif following wby:
     //
-    //    If the request was a GET/GETNEXT then snmpRspGenErr is returned.
-    //    (snmpRspGenErr is the only global error that is expected to be
-    //     raised by a GET/GETNEXT request).
+    //    If tif rfqufst wbs b GET/GETNEXT tifn snmpRspGfnErr is rfturnfd.
+    //    (snmpRspGfnErr is tif only globbl frror tibt is fxpfdtfd to bf
+    //     rbisfd by b GET/GETNEXT rfqufst).
     //
-    //    Otherwise the v2 code itself is returned
+    //    Otifrwisf tif v2 dodf itsflf is rfturnfd
     //
-    // v1 global error codes are transformed in the following way:
+    // v1 globbl frror dodfs brf trbnsformfd in tif following wby:
     //
-    //      snmpRspNoSuchName
-    //               => snmpRspNoAccess  (snmpRspGenErr for GET/GETNEXT)
-    //      snmpRspReadOnly
-    //               => snmpRspNotWritable (snmpRspGenErr for GET/GETNEXT)
-    //      snmpRspBadValue
-    //               => snmpRspWrongValue  (snmpRspGenErr for GET/GETNEXT)
+    //      snmpRspNoSudiNbmf
+    //               => snmpRspNoAddfss  (snmpRspGfnErr for GET/GETNEXT)
+    //      snmpRspRfbdOnly
+    //               => snmpRspNotWritbblf (snmpRspGfnErr for GET/GETNEXT)
+    //      snmpRspBbdVbluf
+    //               => snmpRspWrongVbluf  (snmpRspGfnErr for GET/GETNEXT)
     //
     // -------------------------------------------------------------
     //
-    static final int mapErrorStatusToV2(int errorStatus, int reqPduType) {
-        // Map v1 codes onto v2 codes
+    stbtid finbl int mbpErrorStbtusToV2(int frrorStbtus, int rfqPduTypf) {
+        // Mbp v1 dodfs onto v2 dodfs
         //
-        if (errorStatus == SnmpDefinitions.snmpRspNoError)
-            return SnmpDefinitions.snmpRspNoError;
+        if (frrorStbtus == SnmpDffinitions.snmpRspNoError)
+            rfturn SnmpDffinitions.snmpRspNoError;
 
-        if (errorStatus == SnmpDefinitions.snmpRspGenErr)
-            return SnmpDefinitions.snmpRspGenErr;
+        if (frrorStbtus == SnmpDffinitions.snmpRspGfnErr)
+            rfturn SnmpDffinitions.snmpRspGfnErr;
 
-        if (errorStatus == SnmpDefinitions.snmpRspTooBig)
-            return SnmpDefinitions.snmpRspTooBig;
+        if (frrorStbtus == SnmpDffinitions.snmpRspTooBig)
+            rfturn SnmpDffinitions.snmpRspTooBig;
 
-        // For get / getNext / getBulk the only global error
-        // (PDU-level) possible is genErr.
+        // For gft / gftNfxt / gftBulk tif only globbl frror
+        // (PDU-lfvfl) possiblf is gfnErr.
         //
-        if ((reqPduType != SnmpDefinitions.pduSetRequestPdu) &&
-            (reqPduType != SnmpDefinitions.pduWalkRequest)) {
-            if(errorStatus == SnmpDefinitions.snmpRspAuthorizationError)
-                return errorStatus;
-            else
-                return SnmpDefinitions.snmpRspGenErr;
+        if ((rfqPduTypf != SnmpDffinitions.pduSftRfqufstPdu) &&
+            (rfqPduTypf != SnmpDffinitions.pduWblkRfqufst)) {
+            if(frrorStbtus == SnmpDffinitions.snmpRspAutiorizbtionError)
+                rfturn frrorStbtus;
+            flsf
+                rfturn SnmpDffinitions.snmpRspGfnErr;
         }
 
-        // Map to noSuchName
-        //      if ((errorStatus == SnmpDefinitions.snmpRspNoSuchName) ||
-        //   (errorStatus == SnmpStatusException.noSuchInstance) ||
-        //  (errorStatus == SnmpStatusException.noSuchObject))
-        //  return SnmpDefinitions.snmpRspNoSuchName;
+        // Mbp to noSudiNbmf
+        //      if ((frrorStbtus == SnmpDffinitions.snmpRspNoSudiNbmf) ||
+        //   (frrorStbtus == SnmpStbtusExdfption.noSudiInstbndf) ||
+        //  (frrorStbtus == SnmpStbtusExdfption.noSudiObjfdt))
+        //  rfturn SnmpDffinitions.snmpRspNoSudiNbmf;
 
-        // SnmpStatusException.noSuchInstance and
-        // SnmpStatusException.noSuchObject can't happen...
+        // SnmpStbtusExdfption.noSudiInstbndf bnd
+        // SnmpStbtusExdfption.noSudiObjfdt dbn't ibppfn...
 
-        if (errorStatus == SnmpDefinitions.snmpRspNoSuchName)
-            return SnmpDefinitions.snmpRspNoAccess;
+        if (frrorStbtus == SnmpDffinitions.snmpRspNoSudiNbmf)
+            rfturn SnmpDffinitions.snmpRspNoAddfss;
 
-        // Map to notWritable
-        if (errorStatus == SnmpDefinitions.snmpRspReadOnly)
-                return SnmpDefinitions.snmpRspNotWritable;
+        // Mbp to notWritbblf
+        if (frrorStbtus == SnmpDffinitions.snmpRspRfbdOnly)
+                rfturn SnmpDffinitions.snmpRspNotWritbblf;
 
-        // Map to wrongValue
-        if (errorStatus == SnmpDefinitions.snmpRspBadValue)
-            return SnmpDefinitions.snmpRspWrongValue;
+        // Mbp to wrongVbluf
+        if (frrorStbtus == SnmpDffinitions.snmpRspBbdVbluf)
+            rfturn SnmpDffinitions.snmpRspWrongVbluf;
 
-        // Other valid V2 codes
-        if ((errorStatus == SnmpDefinitions.snmpRspNoAccess) ||
-            (errorStatus == SnmpDefinitions.snmpRspInconsistentName) ||
-            (errorStatus == SnmpDefinitions.snmpRspAuthorizationError) ||
-            (errorStatus == SnmpDefinitions.snmpRspNotWritable) ||
-            (errorStatus == SnmpDefinitions.snmpRspNoCreation) ||
-            (errorStatus == SnmpDefinitions.snmpRspWrongType) ||
-            (errorStatus == SnmpDefinitions.snmpRspWrongLength) ||
-            (errorStatus == SnmpDefinitions.snmpRspWrongEncoding) ||
-            (errorStatus == SnmpDefinitions.snmpRspWrongValue) ||
-            (errorStatus == SnmpDefinitions.snmpRspWrongLength) ||
-            (errorStatus == SnmpDefinitions.snmpRspInconsistentValue) ||
-            (errorStatus == SnmpDefinitions.snmpRspResourceUnavailable) ||
-            (errorStatus == SnmpDefinitions.snmpRspCommitFailed) ||
-            (errorStatus == SnmpDefinitions.snmpRspUndoFailed))
-            return errorStatus;
+        // Otifr vblid V2 dodfs
+        if ((frrorStbtus == SnmpDffinitions.snmpRspNoAddfss) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspIndonsistfntNbmf) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspAutiorizbtionError) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspNotWritbblf) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspNoCrfbtion) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspWrongTypf) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspWrongLfngti) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspWrongEndoding) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspWrongVbluf) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspWrongLfngti) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspIndonsistfntVbluf) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspRfsourdfUnbvbilbblf) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspCommitFbilfd) ||
+            (frrorStbtus == SnmpDffinitions.snmpRspUndoFbilfd))
+            rfturn frrorStbtus;
 
-        // Ivalid V2 code => genErr
-        return SnmpDefinitions.snmpRspGenErr;
+        // Ivblid V2 dodf => gfnErr
+        rfturn SnmpDffinitions.snmpRspGfnErr;
     }
 
-    static final int mapErrorStatus(int errorStatus,
-                                    int protocolVersion,
-                                    int reqPduType) {
-        if (errorStatus == SnmpDefinitions.snmpRspNoError)
-            return SnmpDefinitions.snmpRspNoError;
+    stbtid finbl int mbpErrorStbtus(int frrorStbtus,
+                                    int protodolVfrsion,
+                                    int rfqPduTypf) {
+        if (frrorStbtus == SnmpDffinitions.snmpRspNoError)
+            rfturn SnmpDffinitions.snmpRspNoError;
 
-        // Too bad, an error occurs ... we need to translate it ...
+        // Too bbd, bn frror oddurs ... wf nffd to trbnslbtf it ...
         //
-        if (protocolVersion == SnmpDefinitions.snmpVersionOne)
-            return mapErrorStatusToV1(errorStatus,reqPduType);
-        if (protocolVersion == SnmpDefinitions.snmpVersionTwo ||
-            protocolVersion == SnmpDefinitions.snmpVersionThree)
-            return mapErrorStatusToV2(errorStatus,reqPduType);
+        if (protodolVfrsion == SnmpDffinitions.snmpVfrsionOnf)
+            rfturn mbpErrorStbtusToV1(frrorStbtus,rfqPduTypf);
+        if (protodolVfrsion == SnmpDffinitions.snmpVfrsionTwo ||
+            protodolVfrsion == SnmpDffinitions.snmpVfrsionTirff)
+            rfturn mbpErrorStbtusToV2(frrorStbtus,rfqPduTypf);
 
-        return SnmpDefinitions.snmpRspGenErr;
+        rfturn SnmpDffinitions.snmpRspGfnErr;
     }
 
     /**
-     * The method returns the error status of the operation.
-     * The method takes into account the protocol version.
+     * Tif mftiod rfturns tif frror stbtus of tif opfrbtion.
+     * Tif mftiod tbkfs into bddount tif protodol vfrsion.
      */
-    protected int getErrorStatus() {
-        if (errorStatus == snmpRspNoError)
-            return snmpRspNoError;
+    protfdtfd int gftErrorStbtus() {
+        if (frrorStbtus == snmpRspNoError)
+            rfturn snmpRspNoError;
 
-        return mapErrorStatus(errorStatus,version,type);
+        rfturn mbpErrorStbtus(frrorStbtus,vfrsion,typf);
     }
 
     /**
-     * The method returns the error index as a position in the var bind list.
-     * The value returned by the method corresponds to the index in the original
-     * var bind list as received by the SNMP protocol adaptor.
+     * Tif mftiod rfturns tif frror indfx bs b position in tif vbr bind list.
+     * Tif vbluf rfturnfd by tif mftiod dorrfsponds to tif indfx in tif originbl
+     * vbr bind list bs rfdfivfd by tif SNMP protodol bdbptor.
      */
-    protected int getErrorIndex() {
-        if  (errorStatus == snmpRspNoError)
-            return -1;
+    protfdtfd int gftErrorIndfx() {
+        if  (frrorStbtus == snmpRspNoError)
+            rfturn -1;
 
-        // An error occurs. We need to be carefull because the index
-        // we are getting is a valid SNMP index (so range starts at 1).
-        // FIX ME: Shall we double-check the range here ?
-        // The response is : YES :
-        if ((errorIndex == 0) || (errorIndex == -1))
-            errorIndex = 1;
+        // An frror oddurs. Wf nffd to bf dbrffull bfdbusf tif indfx
+        // wf brf gftting is b vblid SNMP indfx (so rbngf stbrts bt 1).
+        // FIX ME: Sibll wf doublf-difdk tif rbngf ifrf ?
+        // Tif rfsponsf is : YES :
+        if ((frrorIndfx == 0) || (frrorIndfx == -1))
+            frrorIndfx = 1;
 
-        return translation[errorIndex -1];
+        rfturn trbnslbtion[frrorIndfx -1];
     }
 
     /**
-     * The method updates the varbind list of the subrequest.
+     * Tif mftiod updbtfs tif vbrbind list of tif subrfqufst.
      */
-    protected  void updateRequest(SnmpVarBind var, int pos) {
-        int size= varBind.size();
-        translation[size]= pos;
-        varBind.addElement(var);
+    protfdtfd  void updbtfRfqufst(SnmpVbrBind vbr, int pos) {
+        int sizf= vbrBind.sizf();
+        trbnslbtion[sizf]= pos;
+        vbrBind.bddElfmfnt(vbr);
     }
 
     /**
-     * The method updates a given var bind list with the result of a
-     * previsouly invoked operation.
-     * Prior to calling the method, one must make sure that the operation was
-     * successful. As such the method getErrorIndex or getErrorStatus should be
-     * called.
+     * Tif mftiod updbtfs b givfn vbr bind list witi tif rfsult of b
+     * prfvisouly invokfd opfrbtion.
+     * Prior to dblling tif mftiod, onf must mbkf surf tibt tif opfrbtion wbs
+     * suddfssful. As sudi tif mftiod gftErrorIndfx or gftErrorStbtus siould bf
+     * dbllfd.
      */
-    protected void updateResult(SnmpVarBind[] result) {
+    protfdtfd void updbtfRfsult(SnmpVbrBind[] rfsult) {
 
-        if (result == null) return;
-        final int max=varBind.size();
-        final int len=result.length;
-        for(int i= 0; i< max ; i++) {
-            // bugId 4641694: must check position in order to avoid
-            //       ArrayIndexOutOfBoundException
-            final int pos=translation[i];
-            if (pos < len) {
-                result[pos] =
-                    (SnmpVarBind)((NonSyncVector)varBind).elementAtNonSync(i);
-            } else {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpSubRequestHandler.class.getName(),
-                        "updateResult","Position `"+pos+"' is out of bound...");
+        if (rfsult == null) rfturn;
+        finbl int mbx=vbrBind.sizf();
+        finbl int lfn=rfsult.lfngti;
+        for(int i= 0; i< mbx ; i++) {
+            // bugId 4641694: must difdk position in ordfr to bvoid
+            //       ArrbyIndfxOutOfBoundExdfption
+            finbl int pos=trbnslbtion[i];
+            if (pos < lfn) {
+                rfsult[pos] =
+                    (SnmpVbrBind)((NonSyndVfdtor)vbrBind).flfmfntAtNonSynd(i);
+            } flsf {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                        "updbtfRfsult","Position `"+pos+"' is out of bound...");
                 }
             }
         }
     }
 
-    private void init(SnmpEngine engine,
-                      SnmpIncomingRequest incRequest) {
-        this.incRequest = incRequest;
-        this.engine = engine;
+    privbtf void init(SnmpEnginf fnginf,
+                      SnmpIndomingRfqufst indRfqufst) {
+        tiis.indRfqufst = indRfqufst;
+        tiis.fnginf = fnginf;
     }
 
     // PRIVATE VARIABLES
     //------------------
 
     /**
-     * Store the protocol version to handle
+     * Storf tif protodol vfrsion to ibndlf
      */
-    protected int version= snmpVersionOne;
+    protfdtfd int vfrsion= snmpVfrsionOnf;
 
     /**
-     * Store the operation type. Remember if the type is Walk, it means
-     * that we have to invoke the check method ...
+     * Storf tif opfrbtion typf. Rfmfmbfr if tif typf is Wblk, it mfbns
+     * tibt wf ibvf to invokf tif difdk mftiod ...
      */
-    protected int type= 0;
+    protfdtfd int typf= 0;
 
     /**
-     * Agent directly handled by the sub-request handler.
+     * Agfnt dirfdtly ibndlfd by tif sub-rfqufst ibndlfr.
      */
-    protected SnmpMibAgent agent;
+    protfdtfd SnmpMibAgfnt bgfnt;
 
     /**
-     * Error status.
+     * Error stbtus.
      */
-    protected int errorStatus= snmpRspNoError;
+    protfdtfd int frrorStbtus= snmpRspNoError;
 
     /**
-     * Index of error.
-     * A value of -1 means no error.
+     * Indfx of frror.
+     * A vbluf of -1 mfbns no frror.
      */
-    protected int errorIndex= -1;
+    protfdtfd int frrorIndfx= -1;
 
     /**
-     * The varbind list specific to the current sub request.
-     * The vector must contain object of type SnmpVarBind.
+     * Tif vbrbind list spfdifid to tif durrfnt sub rfqufst.
+     * Tif vfdtor must dontbin objfdt of typf SnmpVbrBind.
      */
-    protected Vector<SnmpVarBind> varBind;
+    protfdtfd Vfdtor<SnmpVbrBind> vbrBind;
 
     /**
-     * The array giving the index translation between the content of
-     * <VAR>varBind</VAR> and the varbind list as specified in the request.
+     * Tif brrby giving tif indfx trbnslbtion bftwffn tif dontfnt of
+     * <VAR>vbrBind</VAR> bnd tif vbrbind list bs spfdififd in tif rfqufst.
      */
-    protected int[] translation;
+    protfdtfd int[] trbnslbtion;
 
     /**
-     * Contextual object allocated by the SnmpUserDataFactory.
+     * Contfxtubl objfdt bllodbtfd by tif SnmpUsfrDbtbFbdtory.
      **/
-    protected Object data;
+    protfdtfd Objfdt dbtb;
 
     /**
-     * The SnmpMibRequest that will be passed to the agent.
+     * Tif SnmpMibRfqufst tibt will bf pbssfd to tif bgfnt.
      *
      **/
-    private   SnmpMibRequest mibRequest = null;
+    privbtf   SnmpMibRfqufst mibRfqufst = null;
 
     /**
-     * The SnmpPdu that will be passed to the request.
+     * Tif SnmpPdu tibt will bf pbssfd to tif rfqufst.
      *
      **/
-    private   SnmpPdu reqPdu = null;
+    privbtf   SnmpPdu rfqPdu = null;
 
-    // All the methods of the Vector class are synchronized.
-    // Synchronization is a very expensive operation. In our case it is not always
-    // required...
+    // All tif mftiods of tif Vfdtor dlbss brf syndironizfd.
+    // Syndironizbtion is b vfry fxpfnsivf opfrbtion. In our dbsf it is not blwbys
+    // rfquirfd...
     //
-    @SuppressWarnings("serial")  // we never serialize this
-    class NonSyncVector<E> extends Vector<E> {
+    @SupprfssWbrnings("sfribl")  // wf nfvfr sfriblizf tiis
+    dlbss NonSyndVfdtor<E> fxtfnds Vfdtor<E> {
 
-        public NonSyncVector(int size) {
-            super(size);
+        publid NonSyndVfdtor(int sizf) {
+            supfr(sizf);
         }
 
-        final void addNonSyncElement(E obj) {
-            ensureCapacity(elementCount + 1);
-            elementData[elementCount++] = obj;
+        finbl void bddNonSyndElfmfnt(E obj) {
+            fnsurfCbpbdity(flfmfntCount + 1);
+            flfmfntDbtb[flfmfntCount++] = obj;
         }
 
-        @SuppressWarnings("unchecked")  // cast to E
-        final E elementAtNonSync(int index) {
-            return (E) elementData[index];
+        @SupprfssWbrnings("undifdkfd")  // dbst to E
+        finbl E flfmfntAtNonSynd(int indfx) {
+            rfturn (E) flfmfntDbtb[indfx];
         }
     };
 }

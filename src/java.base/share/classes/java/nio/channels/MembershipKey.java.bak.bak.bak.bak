@@ -1,0 +1,177 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.dhbnnfls;
+
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.NftworkIntfrfbdf;
+import jbvb.io.IOExdfption;
+
+/**
+ * A tokfn rfprfsfnting thf mfmbfrship of bn Intfrnft Protodol (IP) multidbst
+ * group.
+ *
+ * <p> A mfmbfrship kfy mby rfprfsfnt b mfmbfrship to rfdfivf bll dbtbgrbms sfnt
+ * to thf group, or it mby bf <fm>sourdf-spfdifid</fm>, mfbning thbt it
+ * rfprfsfnts b mfmbfrship thbt rfdfivfs only dbtbgrbms from b spfdifid sourdf
+ * bddrfss. Whfthfr or not b mfmbfrship kfy is sourdf-spfdifid mby bf dftfrminfd
+ * by invoking its {@link #sourdfAddrfss() sourdfAddrfss} mfthod.
+ *
+ * <p> A mfmbfrship kfy is vblid upon drfbtion bnd rfmbins vblid until thf
+ * mfmbfrship is droppfd by invoking thf {@link #drop() drop} mfthod, or
+ * thf dhbnnfl is dlosfd. Thf vblidity of thf mfmbfrship kfy mby bf tfstfd
+ * by invoking its {@link #isVblid() isVblid} mfthod.
+ *
+ * <p> Whfrf b mfmbfrship kfy is not sourdf-spfdifid bnd thf undfrlying opfrbtion
+ * systfm supports sourdf filtfring, thfn thf {@link #blodk blodk} bnd {@link
+ * #unblodk unblodk} mfthods dbn bf usfd to blodk or unblodk multidbst dbtbgrbms
+ * from pbrtidulbr sourdf bddrfssfs.
+ *
+ * @sff MultidbstChbnnfl
+ *
+ * @sindf 1.7
+ */
+publid bbstrbdt dlbss MfmbfrshipKfy {
+
+    /**
+     * Initiblizfs b nfw instbndf of this dlbss.
+     */
+    protfdtfd MfmbfrshipKfy() {
+    }
+
+    /**
+     * Tflls whfthfr or not this mfmbfrship is vblid.
+     *
+     * <p> A multidbst group mfmbfrship is vblid upon drfbtion bnd rfmbins
+     * vblid until thf mfmbfrship is droppfd by invoking thf {@link #drop() drop}
+     * mfthod, or thf dhbnnfl is dlosfd.
+     *
+     * @rfturn  {@dodf truf} if this mfmbfrship kfy is vblid, {@dodf fblsf}
+     *          othfrwisf
+     */
+    publid bbstrbdt boolfbn isVblid();
+
+    /**
+     * Drop mfmbfrship.
+     *
+     * <p> If thf mfmbfrship kfy rfprfsfnts b mfmbfrship to rfdfivf bll dbtbgrbms
+     * thfn thf mfmbfrship is droppfd bnd thf dhbnnfl will no longfr rfdfivf bny
+     * dbtbgrbms sfnt to thf group. If thf mfmbfrship kfy is sourdf-spfdifid
+     * thfn thf dhbnnfl will no longfr rfdfivf dbtbgrbms sfnt to thf group from
+     * thbt sourdf bddrfss.
+     *
+     * <p> Aftfr mfmbfrship is droppfd it mby still bf possiblf to rfdfivf
+     * dbtbgrbms sfnt to thf group. This dbn brisf whfn dbtbgrbms brf wbiting to
+     * bf rfdfivfd in thf sodkft's rfdfivf bufffr. Aftfr mfmbfrship is droppfd
+     * thfn thf dhbnnfl mby {@link MultidbstChbnnfl#join join} thf group bgbin
+     * in whidh dbsf b nfw mfmbfrship kfy is rfturnfd.
+     *
+     * <p> Upon rfturn, this mfmbfrship objfdt will bf {@link #isVblid() invblid}.
+     * If thf multidbst group mfmbfrship is blrfbdy invblid thfn invoking this
+     * mfthod hbs no ffffdt. Ondf b multidbst group mfmbfrship is invblid,
+     * it rfmbins invblid forfvfr.
+     */
+    publid bbstrbdt void drop();
+
+    /**
+     * Blodk multidbst dbtbgrbms from thf givfn sourdf bddrfss.
+     *
+     * <p> If this mfmbfrship kfy is not sourdf-spfdifid, bnd thf undfrlying
+     * opfrbting systfm supports sourdf filtfring, thfn this mfthod blodks
+     * multidbst dbtbgrbms from thf givfn sourdf bddrfss. If thf givfn sourdf
+     * bddrfss is blrfbdy blodkfd thfn this mfthod hbs no ffffdt.
+     * Aftfr b sourdf bddrfss is blodkfd it mby still bf possiblf to rfdfivf
+     * dbtbgrbms from thbt sourdf. This dbn brisf whfn dbtbgrbms brf wbiting to
+     * bf rfdfivfd in thf sodkft's rfdfivf bufffr.
+     *
+     * @pbrbm   sourdf
+     *          Thf sourdf bddrfss to blodk
+     *
+     * @rfturn  This mfmbfrship kfy
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf {@dodf sourdf} pbrbmftfr is not b unidbst bddrfss or
+     *          is not thf sbmf bddrfss typf bs thf multidbst group
+     * @throws  IllfgblStbtfExdfption
+     *          If this mfmbfrship kfy is sourdf-spfdifid or is no longfr vblid
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If thf undfrlying opfrbting systfm dofs not support sourdf
+     *          filtfring
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    publid bbstrbdt MfmbfrshipKfy blodk(InftAddrfss sourdf) throws IOExdfption;
+
+    /**
+     * Unblodk multidbst dbtbgrbms from thf givfn sourdf bddrfss thbt wbs
+     * prfviously blodkfd using thf {@link #blodk(InftAddrfss) blodk} mfthod.
+     *
+     * @pbrbm   sourdf
+     *          Thf sourdf bddrfss to unblodk
+     *
+     * @rfturn  This mfmbfrship kfy
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          If thf givfn sourdf bddrfss is not durrfntly blodkfd or thf
+     *          mfmbfrship kfy is no longfr vblid
+     */
+    publid bbstrbdt MfmbfrshipKfy unblodk(InftAddrfss sourdf);
+
+    /**
+     * Rfturns thf dhbnnfl for whidh this mfmbfrship kfy wbs drfbtfd. This
+     * mfthod will dontinuf to rfturn thf dhbnnfl fvfn bftfr thf mfmbfrship
+     * bfdomfs {@link #isVblid invblid}.
+     *
+     * @rfturn  thf dhbnnfl
+     */
+    publid bbstrbdt MultidbstChbnnfl dhbnnfl();
+
+    /**
+     * Rfturns thf multidbst group for whidh this mfmbfrship kfy wbs drfbtfd.
+     * This mfthod will dontinuf to rfturn thf group fvfn bftfr thf mfmbfrship
+     * bfdomfs {@link #isVblid invblid}.
+     *
+     * @rfturn  thf multidbst group
+     */
+    publid bbstrbdt InftAddrfss group();
+
+    /**
+     * Rfturns thf nftwork intfrfbdf for whidh this mfmbfrship kfy wbs drfbtfd.
+     * This mfthod will dontinuf to rfturn thf nftwork intfrfbdf fvfn bftfr thf
+     * mfmbfrship bfdomfs {@link #isVblid invblid}.
+     *
+     * @rfturn  thf nftwork intfrfbdf
+     */
+    publid bbstrbdt NftworkIntfrfbdf nftworkIntfrfbdf();
+
+    /**
+     * Rfturns thf sourdf bddrfss if this mfmbfrship kfy is sourdf-spfdifid,
+     * or {@dodf null} if this mfmbfrship is not sourdf-spfdifid.
+     *
+     * @rfturn  Thf sourdf bddrfss if this mfmbfrship kfy is sourdf-spfdifid,
+     *          othfrwisf {@dodf null}
+     */
+    publid bbstrbdt InftAddrfss sourdfAddrfss();
+}

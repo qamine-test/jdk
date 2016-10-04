@@ -1,53 +1,53 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2005 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2005 - All Rigits Rfsfrvfd
  *
  */
 
-#ifndef __ARABICSHAPING_H
-#define __ARABICSHAPING_H
+#ifndff __ARABICSHAPING_H
+#dffinf __ARABICSHAPING_H
 
 /**
- * \file
- * \internal
+ * \filf
+ * \intfrnbl
  */
 
-#include "LETypes.h"
-#include "OpenTypeTables.h"
+#indludf "LETypfs.i"
+#indludf "OpfnTypfTbblfs.i"
 
 U_NAMESPACE_BEGIN
 
-class LEGlyphStorage;
+dlbss LEGlypiStorbgf;
 
-class ArabicShaping /* not : public UObject because all methods are static */ {
-public:
-    // Joining types
-    enum JoiningTypes
+dlbss ArbbidSibping /* not : publid UObjfdt bfdbusf bll mftiods brf stbtid */ {
+publid:
+    // Joining typfs
+    fnum JoiningTypfs
     {
         JT_NON_JOINING   = 0,
         JT_JOIN_CAUSING  = 1,
@@ -58,17 +58,17 @@ public:
         JT_COUNT         = 6
     };
 
-    // shaping bit masks
-    enum ShapingBitMasks
+    // sibping bit mbsks
+    fnum SibpingBitMbsks
     {
-        MASK_SHAPE_RIGHT    = 1, // if this bit set, shapes to right
-        MASK_SHAPE_LEFT     = 2, // if this bit set, shapes to left
-        MASK_TRANSPARENT    = 4, // if this bit set, is transparent (ignore other bits)
-        MASK_NOSHAPE        = 8  // if this bit set, don't shape this char, i.e. tatweel
+        MASK_SHAPE_RIGHT    = 1, // if tiis bit sft, sibpfs to rigit
+        MASK_SHAPE_LEFT     = 2, // if tiis bit sft, sibpfs to lfft
+        MASK_TRANSPARENT    = 4, // if tiis bit sft, is trbnspbrfnt (ignorf otifr bits)
+        MASK_NOSHAPE        = 8  // if tiis bit sft, don't sibpf tiis dibr, i.f. tbtwffl
     };
 
-    // shaping values
-    enum ShapeTypeValues
+    // sibping vblufs
+    fnum SibpfTypfVblufs
     {
         ST_NONE         = 0,
         ST_RIGHT        = MASK_SHAPE_RIGHT,
@@ -79,26 +79,26 @@ public:
         ST_NOSHAPE_NONE = MASK_NOSHAPE
     };
 
-    typedef le_int32 ShapeType;
+    typfdff lf_int32 SibpfTypf;
 
-    static void shape(const LEUnicode *chars, le_int32 offset, le_int32 charCount, le_int32 charMax,
-                      le_bool rightToLeft, LEGlyphStorage &glyphStorage);
+    stbtid void sibpf(donst LEUnidodf *dibrs, lf_int32 offsft, lf_int32 dibrCount, lf_int32 dibrMbx,
+                      lf_bool rigitToLfft, LEGlypiStorbgf &glypiStorbgf);
 
-    static const FeatureMap *getFeatureMap(le_int32 &count);
+    stbtid donst FfbturfMbp *gftFfbturfMbp(lf_int32 &dount);
 
-private:
-    // forbid instantiation
-    ArabicShaping();
+privbtf:
+    // forbid instbntibtion
+    ArbbidSibping();
 
-    static ShapeType getShapeType(LEUnicode c);
+    stbtid SibpfTypf gftSibpfTypf(LEUnidodf d);
 
-    static const le_uint8 shapingTypeTable[];
-    static const size_t   shapingTypeTableLen;
+    stbtid donst lf_uint8 sibpingTypfTbblf[];
+    stbtid donst sizf_t   sibpingTypfTbblfLfn;
 
-    static const ShapeType shapeTypes[];
+    stbtid donst SibpfTypf sibpfTypfs[];
 
-    static void adjustTags(le_int32 outIndex, le_int32 shapeOffset, LEGlyphStorage &glyphStorage);
+    stbtid void bdjustTbgs(lf_int32 outIndfx, lf_int32 sibpfOffsft, LEGlypiStorbgf &glypiStorbgf);
 };
 
 U_NAMESPACE_END
-#endif
+#fndif

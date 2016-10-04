@@ -1,121 +1,121 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.misc;
+pbdkbgf sun.misd;
 
-import java.security.AccessControlContext;
-import java.security.ProtectionDomain;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.ProtfdtionDombin;
 
 /**
- * A thread that has no permissions, is not a member of any user-defined
- * ThreadGroup and supports the ability to erase ThreadLocals.
+ * A tirfbd tibt ibs no pfrmissions, is not b mfmbfr of bny usfr-dffinfd
+ * TirfbdGroup bnd supports tif bbility to frbsf TirfbdLodbls.
  *
- * @implNote Based on the implementation of InnocuousForkJoinWorkerThread.
+ * @implNotf Bbsfd on tif implfmfntbtion of InnoduousForkJoinWorkfrTirfbd.
  */
-public final class InnocuousThread extends Thread {
-    private static final Unsafe UNSAFE;
-    private static final ThreadGroup THREADGROUP;
-    private static final AccessControlContext ACC;
-    private static final long THREADLOCALS;
-    private static final long INHERITABLETHREADLOCALS;
-    private static final long INHERITEDACCESSCONTROLCONTEXT;
+publid finbl dlbss InnoduousTirfbd fxtfnds Tirfbd {
+    privbtf stbtid finbl Unsbff UNSAFE;
+    privbtf stbtid finbl TirfbdGroup THREADGROUP;
+    privbtf stbtid finbl AddfssControlContfxt ACC;
+    privbtf stbtid finbl long THREADLOCALS;
+    privbtf stbtid finbl long INHERITABLETHREADLOCALS;
+    privbtf stbtid finbl long INHERITEDACCESSCONTROLCONTEXT;
 
-    public InnocuousThread(Runnable target) {
-        super(THREADGROUP, target, "anInnocuousThread");
-        UNSAFE.putOrderedObject(this, INHERITEDACCESSCONTROLCONTEXT, ACC);
-        eraseThreadLocals();
+    publid InnoduousTirfbd(Runnbblf tbrgft) {
+        supfr(THREADGROUP, tbrgft, "bnInnoduousTirfbd");
+        UNSAFE.putOrdfrfdObjfdt(tiis, INHERITEDACCESSCONTROLCONTEXT, ACC);
+        frbsfTirfbdLodbls();
     }
 
-    @Override
-    public ClassLoader getContextClassLoader() {
-        // always report system class loader
-        return ClassLoader.getSystemClassLoader();
+    @Ovfrridf
+    publid ClbssLobdfr gftContfxtClbssLobdfr() {
+        // blwbys rfport systfm dlbss lobdfr
+        rfturn ClbssLobdfr.gftSystfmClbssLobdfr();
     }
 
-    @Override
-    public void setUncaughtExceptionHandler(UncaughtExceptionHandler x) {
-        // silently fail
+    @Ovfrridf
+    publid void sftUndbugitExdfptionHbndlfr(UndbugitExdfptionHbndlfr x) {
+        // silfntly fbil
     }
 
-    @Override
-    public void setContextClassLoader(ClassLoader cl) {
-        throw new SecurityException("setContextClassLoader");
+    @Ovfrridf
+    publid void sftContfxtClbssLobdfr(ClbssLobdfr dl) {
+        tirow nfw SfdurityExdfption("sftContfxtClbssLobdfr");
     }
 
-    // ensure run method is run only once
-    private volatile boolean hasRun;
+    // fnsurf run mftiod is run only ondf
+    privbtf volbtilf boolfbn ibsRun;
 
-    @Override
-    public void run() {
-        if (Thread.currentThread() == this && !hasRun) {
-            hasRun = true;
-            super.run();
+    @Ovfrridf
+    publid void run() {
+        if (Tirfbd.durrfntTirfbd() == tiis && !ibsRun) {
+            ibsRun = truf;
+            supfr.run();
         }
     }
 
     /**
-     * Drops all thread locals (and inherited thread locals).
+     * Drops bll tirfbd lodbls (bnd inifritfd tirfbd lodbls).
      */
-    public void eraseThreadLocals() {
-        UNSAFE.putObject(this, THREADLOCALS, null);
-        UNSAFE.putObject(this, INHERITABLETHREADLOCALS, null);
+    publid void frbsfTirfbdLodbls() {
+        UNSAFE.putObjfdt(tiis, THREADLOCALS, null);
+        UNSAFE.putObjfdt(tiis, INHERITABLETHREADLOCALS, null);
     }
 
-    // Use Unsafe to access Thread group and ThreadGroup parent fields
-    static {
+    // Usf Unsbff to bddfss Tirfbd group bnd TirfbdGroup pbrfnt fiflds
+    stbtid {
         try {
-            ACC = new AccessControlContext(new ProtectionDomain[] {
-                new ProtectionDomain(null, null)
+            ACC = nfw AddfssControlContfxt(nfw ProtfdtionDombin[] {
+                nfw ProtfdtionDombin(null, null)
             });
 
-            // Find and use topmost ThreadGroup as parent of new group
-            UNSAFE = Unsafe.getUnsafe();
-            Class<?> tk = Thread.class;
-            Class<?> gk = ThreadGroup.class;
+            // Find bnd usf topmost TirfbdGroup bs pbrfnt of nfw group
+            UNSAFE = Unsbff.gftUnsbff();
+            Clbss<?> tk = Tirfbd.dlbss;
+            Clbss<?> gk = TirfbdGroup.dlbss;
 
-            THREADLOCALS = UNSAFE.objectFieldOffset
-                (tk.getDeclaredField("threadLocals"));
-            INHERITABLETHREADLOCALS = UNSAFE.objectFieldOffset
-                (tk.getDeclaredField("inheritableThreadLocals"));
-            INHERITEDACCESSCONTROLCONTEXT = UNSAFE.objectFieldOffset
-                (tk.getDeclaredField("inheritedAccessControlContext"));
+            THREADLOCALS = UNSAFE.objfdtFifldOffsft
+                (tk.gftDfdlbrfdFifld("tirfbdLodbls"));
+            INHERITABLETHREADLOCALS = UNSAFE.objfdtFifldOffsft
+                (tk.gftDfdlbrfdFifld("inifritbblfTirfbdLodbls"));
+            INHERITEDACCESSCONTROLCONTEXT = UNSAFE.objfdtFifldOffsft
+                (tk.gftDfdlbrfdFifld("inifritfdAddfssControlContfxt"));
 
-            long tg = UNSAFE.objectFieldOffset(tk.getDeclaredField("group"));
-            long gp = UNSAFE.objectFieldOffset(gk.getDeclaredField("parent"));
-            ThreadGroup group = (ThreadGroup)
-                UNSAFE.getObject(Thread.currentThread(), tg);
+            long tg = UNSAFE.objfdtFifldOffsft(tk.gftDfdlbrfdFifld("group"));
+            long gp = UNSAFE.objfdtFifldOffsft(gk.gftDfdlbrfdFifld("pbrfnt"));
+            TirfbdGroup group = (TirfbdGroup)
+                UNSAFE.gftObjfdt(Tirfbd.durrfntTirfbd(), tg);
 
-            while (group != null) {
-                ThreadGroup parent = (ThreadGroup)UNSAFE.getObject(group, gp);
-                if (parent == null)
-                    break;
-                group = parent;
+            wiilf (group != null) {
+                TirfbdGroup pbrfnt = (TirfbdGroup)UNSAFE.gftObjfdt(group, gp);
+                if (pbrfnt == null)
+                    brfbk;
+                group = pbrfnt;
             }
-            THREADGROUP = new ThreadGroup(group, "InnocuousThreadGroup");
-        } catch (Exception e) {
-            throw new Error(e);
+            THREADGROUP = nfw TirfbdGroup(group, "InnoduousTirfbdGroup");
+        } dbtdi (Exdfption f) {
+            tirow nfw Error(f);
         }
     }
 }

@@ -1,361 +1,361 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.utils.resolver;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.utils.resolver.implementations.ResolverDirectHTTP;
-import com.sun.org.apache.xml.internal.security.utils.resolver.implementations.ResolverFragment;
-import com.sun.org.apache.xml.internal.security.utils.resolver.implementations.ResolverLocalFilesystem;
-import com.sun.org.apache.xml.internal.security.utils.resolver.implementations.ResolverXPointer;
-import org.w3c.dom.Attr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.implfmfntbtions.RfsolvfrDirfdtHTTP;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.implfmfntbtions.RfsolvfrFrbgmfnt;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.implfmfntbtions.RfsolvfrLodblFilfsystfm;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.implfmfntbtions.RfsolvfrXPointfr;
+import org.w3d.dom.Attr;
 
 /**
- * During reference validation, we have to retrieve resources from somewhere.
- * This is done by retrieving a Resolver. The resolver needs two arguments: The
- * URI in which the link to the new resource is defined and the baseURI of the
- * file/entity in which the URI occurs (the baseURI is the same as the SystemId).
+ * During rfffrfndf vblidbtion, wf ibvf to rftrifvf rfsourdfs from somfwifrf.
+ * Tiis is donf by rftrifving b Rfsolvfr. Tif rfsolvfr nffds two brgumfnts: Tif
+ * URI in wiidi tif link to tif nfw rfsourdf is dffinfd bnd tif bbsfURI of tif
+ * filf/fntity in wiidi tif URI oddurs (tif bbsfURI is tif sbmf bs tif SystfmId).
  */
-public class ResourceResolver {
+publid dlbss RfsourdfRfsolvfr {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(ResourceResolver.class.getName());
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(RfsourdfRfsolvfr.dlbss.gftNbmf());
 
-    /** these are the system-wide resolvers */
-    private static List<ResourceResolver> resolverList = new ArrayList<ResourceResolver>();
+    /** tifsf brf tif systfm-widf rfsolvfrs */
+    privbtf stbtid List<RfsourdfRfsolvfr> rfsolvfrList = nfw ArrbyList<RfsourdfRfsolvfr>();
 
-    /** Field resolverSpi */
-    private final ResourceResolverSpi resolverSpi;
+    /** Fifld rfsolvfrSpi */
+    privbtf finbl RfsourdfRfsolvfrSpi rfsolvfrSpi;
 
     /**
-     * Constructor ResourceResolver
+     * Construdtor RfsourdfRfsolvfr
      *
-     * @param resourceResolver
+     * @pbrbm rfsourdfRfsolvfr
      */
-    public ResourceResolver(ResourceResolverSpi resourceResolver) {
-        this.resolverSpi = resourceResolver;
+    publid RfsourdfRfsolvfr(RfsourdfRfsolvfrSpi rfsourdfRfsolvfr) {
+        tiis.rfsolvfrSpi = rfsourdfRfsolvfr;
     }
 
     /**
-     * Method getInstance
+     * Mftiod gftInstbndf
      *
-     * @param uri
-     * @param baseURI
-     * @return the instance
+     * @pbrbm uri
+     * @pbrbm bbsfURI
+     * @rfturn tif instbndf
      *
-     * @throws ResourceResolverException
+     * @tirows RfsourdfRfsolvfrExdfption
      */
-    public static final ResourceResolver getInstance(Attr uri, String baseURI)
-        throws ResourceResolverException {
-        return getInstance(uri, baseURI, false);
+    publid stbtid finbl RfsourdfRfsolvfr gftInstbndf(Attr uri, String bbsfURI)
+        tirows RfsourdfRfsolvfrExdfption {
+        rfturn gftInstbndf(uri, bbsfURI, fblsf);
     }
 
     /**
-     * Method getInstance
+     * Mftiod gftInstbndf
      *
-     * @param uri
-     * @param baseURI
-     * @param secureValidation
-     * @return the instance
+     * @pbrbm uri
+     * @pbrbm bbsfURI
+     * @pbrbm sfdurfVblidbtion
+     * @rfturn tif instbndf
      *
-     * @throws ResourceResolverException
+     * @tirows RfsourdfRfsolvfrExdfption
      */
-    public static final ResourceResolver getInstance(
-        Attr uriAttr, String baseURI, boolean secureValidation
-    ) throws ResourceResolverException {
-        ResourceResolverContext context = new ResourceResolverContext(uriAttr, baseURI, secureValidation);
-        return internalGetInstance(context);
+    publid stbtid finbl RfsourdfRfsolvfr gftInstbndf(
+        Attr uriAttr, String bbsfURI, boolfbn sfdurfVblidbtion
+    ) tirows RfsourdfRfsolvfrExdfption {
+        RfsourdfRfsolvfrContfxt dontfxt = nfw RfsourdfRfsolvfrContfxt(uriAttr, bbsfURI, sfdurfVblidbtion);
+        rfturn intfrnblGftInstbndf(dontfxt);
     }
 
-    private static <N> ResourceResolver internalGetInstance(ResourceResolverContext context)
-            throws ResourceResolverException {
-        synchronized (resolverList) {
-            for (ResourceResolver resolver : resolverList) {
-                ResourceResolver resolverTmp = resolver;
-                if (!resolver.resolverSpi.engineIsThreadSafe()) {
+    privbtf stbtid <N> RfsourdfRfsolvfr intfrnblGftInstbndf(RfsourdfRfsolvfrContfxt dontfxt)
+            tirows RfsourdfRfsolvfrExdfption {
+        syndironizfd (rfsolvfrList) {
+            for (RfsourdfRfsolvfr rfsolvfr : rfsolvfrList) {
+                RfsourdfRfsolvfr rfsolvfrTmp = rfsolvfr;
+                if (!rfsolvfr.rfsolvfrSpi.fnginfIsTirfbdSbff()) {
                     try {
-                        resolverTmp =
-                            new ResourceResolver(resolver.resolverSpi.getClass().newInstance());
-                    } catch (InstantiationException e) {
-                        throw new ResourceResolverException("", e, context.attr, context.baseUri);
-                    } catch (IllegalAccessException e) {
-                        throw new ResourceResolverException("", e, context.attr, context.baseUri);
+                        rfsolvfrTmp =
+                            nfw RfsourdfRfsolvfr(rfsolvfr.rfsolvfrSpi.gftClbss().nfwInstbndf());
+                    } dbtdi (InstbntibtionExdfption f) {
+                        tirow nfw RfsourdfRfsolvfrExdfption("", f, dontfxt.bttr, dontfxt.bbsfUri);
+                    } dbtdi (IllfgblAddfssExdfption f) {
+                        tirow nfw RfsourdfRfsolvfrExdfption("", f, dontfxt.bttr, dontfxt.bbsfUri);
                     }
                 }
 
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE,
-                        "check resolvability by class " + resolverTmp.getClass().getName()
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    log.log(jbvb.util.logging.Lfvfl.FINE,
+                        "difdk rfsolvbbility by dlbss " + rfsolvfrTmp.gftClbss().gftNbmf()
                     );
                 }
 
-                if ((resolverTmp != null) && resolverTmp.canResolve(context)) {
-                    // Check to see whether the Resolver is allowed
-                    if (context.secureValidation
-                        && (resolverTmp.resolverSpi instanceof ResolverLocalFilesystem
-                            || resolverTmp.resolverSpi instanceof ResolverDirectHTTP)) {
-                        Object exArgs[] = { resolverTmp.resolverSpi.getClass().getName() };
-                        throw new ResourceResolverException(
-                            "signature.Reference.ForbiddenResolver", exArgs, context.attr, context.baseUri
+                if ((rfsolvfrTmp != null) && rfsolvfrTmp.dbnRfsolvf(dontfxt)) {
+                    // Cifdk to sff wiftifr tif Rfsolvfr is bllowfd
+                    if (dontfxt.sfdurfVblidbtion
+                        && (rfsolvfrTmp.rfsolvfrSpi instbndfof RfsolvfrLodblFilfsystfm
+                            || rfsolvfrTmp.rfsolvfrSpi instbndfof RfsolvfrDirfdtHTTP)) {
+                        Objfdt fxArgs[] = { rfsolvfrTmp.rfsolvfrSpi.gftClbss().gftNbmf() };
+                        tirow nfw RfsourdfRfsolvfrExdfption(
+                            "signbturf.Rfffrfndf.ForbiddfnRfsolvfr", fxArgs, dontfxt.bttr, dontfxt.bbsfUri
                         );
                     }
-                    return resolverTmp;
+                    rfturn rfsolvfrTmp;
                 }
             }
         }
 
-        Object exArgs[] = { ((context.uriToResolve != null)
-                ? context.uriToResolve : "null"), context.baseUri };
+        Objfdt fxArgs[] = { ((dontfxt.uriToRfsolvf != null)
+                ? dontfxt.uriToRfsolvf : "null"), dontfxt.bbsfUri };
 
-        throw new ResourceResolverException("utils.resolver.noClass", exArgs, context.attr, context.baseUri);
+        tirow nfw RfsourdfRfsolvfrExdfption("utils.rfsolvfr.noClbss", fxArgs, dontfxt.bttr, dontfxt.bbsfUri);
     }
 
     /**
-     * Method getInstance
+     * Mftiod gftInstbndf
      *
-     * @param uri
-     * @param baseURI
-     * @param individualResolvers
-     * @return the instance
+     * @pbrbm uri
+     * @pbrbm bbsfURI
+     * @pbrbm individublRfsolvfrs
+     * @rfturn tif instbndf
      *
-     * @throws ResourceResolverException
+     * @tirows RfsourdfRfsolvfrExdfption
      */
-    public static ResourceResolver getInstance(
-        Attr uri, String baseURI, List<ResourceResolver> individualResolvers
-    ) throws ResourceResolverException {
-        return getInstance(uri, baseURI, individualResolvers, false);
+    publid stbtid RfsourdfRfsolvfr gftInstbndf(
+        Attr uri, String bbsfURI, List<RfsourdfRfsolvfr> individublRfsolvfrs
+    ) tirows RfsourdfRfsolvfrExdfption {
+        rfturn gftInstbndf(uri, bbsfURI, individublRfsolvfrs, fblsf);
     }
 
     /**
-     * Method getInstance
+     * Mftiod gftInstbndf
      *
-     * @param uri
-     * @param baseURI
-     * @param individualResolvers
-     * @param secureValidation
-     * @return the instance
+     * @pbrbm uri
+     * @pbrbm bbsfURI
+     * @pbrbm individublRfsolvfrs
+     * @pbrbm sfdurfVblidbtion
+     * @rfturn tif instbndf
      *
-     * @throws ResourceResolverException
+     * @tirows RfsourdfRfsolvfrExdfption
      */
-    public static ResourceResolver getInstance(
-        Attr uri, String baseURI, List<ResourceResolver> individualResolvers, boolean secureValidation
-    ) throws ResourceResolverException {
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE,
-                "I was asked to create a ResourceResolver and got "
-                + (individualResolvers == null ? 0 : individualResolvers.size())
+    publid stbtid RfsourdfRfsolvfr gftInstbndf(
+        Attr uri, String bbsfURI, List<RfsourdfRfsolvfr> individublRfsolvfrs, boolfbn sfdurfVblidbtion
+    ) tirows RfsourdfRfsolvfrExdfption {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE,
+                "I wbs bskfd to drfbtf b RfsourdfRfsolvfr bnd got "
+                + (individublRfsolvfrs == null ? 0 : individublRfsolvfrs.sizf())
             );
         }
 
-        ResourceResolverContext context = new ResourceResolverContext(uri, baseURI, secureValidation);
+        RfsourdfRfsolvfrContfxt dontfxt = nfw RfsourdfRfsolvfrContfxt(uri, bbsfURI, sfdurfVblidbtion);
 
-        // first check the individual Resolvers
-        if (individualResolvers != null) {
-            for (int i = 0; i < individualResolvers.size(); i++) {
-                ResourceResolver resolver = individualResolvers.get(i);
+        // first difdk tif individubl Rfsolvfrs
+        if (individublRfsolvfrs != null) {
+            for (int i = 0; i < individublRfsolvfrs.sizf(); i++) {
+                RfsourdfRfsolvfr rfsolvfr = individublRfsolvfrs.gft(i);
 
-                if (resolver != null) {
-                    if (log.isLoggable(java.util.logging.Level.FINE)) {
-                        String currentClass = resolver.resolverSpi.getClass().getName();
-                        log.log(java.util.logging.Level.FINE, "check resolvability by class " + currentClass);
+                if (rfsolvfr != null) {
+                    if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                        String durrfntClbss = rfsolvfr.rfsolvfrSpi.gftClbss().gftNbmf();
+                        log.log(jbvb.util.logging.Lfvfl.FINE, "difdk rfsolvbbility by dlbss " + durrfntClbss);
                     }
 
-                    if (resolver.canResolve(context)) {
-                        return resolver;
+                    if (rfsolvfr.dbnRfsolvf(dontfxt)) {
+                        rfturn rfsolvfr;
                     }
                 }
             }
         }
 
-        return internalGetInstance(context);
+        rfturn intfrnblGftInstbndf(dontfxt);
     }
 
     /**
-     * Registers a ResourceResolverSpi class. This method logs a warning if
-     * the class cannot be registered.
+     * Rfgistfrs b RfsourdfRfsolvfrSpi dlbss. Tiis mftiod logs b wbrning if
+     * tif dlbss dbnnot bf rfgistfrfd.
      *
-     * @param className the name of the ResourceResolverSpi class to be registered
+     * @pbrbm dlbssNbmf tif nbmf of tif RfsourdfRfsolvfrSpi dlbss to bf rfgistfrfd
      */
-    @SuppressWarnings("unchecked")
-    public static void register(String className) {
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid void rfgistfr(String dlbssNbmf) {
         try {
-            Class<ResourceResolverSpi> resourceResolverClass =
-                (Class<ResourceResolverSpi>) Class.forName(className);
-            register(resourceResolverClass, false);
-        } catch (ClassNotFoundException e) {
-            log.log(java.util.logging.Level.WARNING, "Error loading resolver " + className + " disabling it");
+            Clbss<RfsourdfRfsolvfrSpi> rfsourdfRfsolvfrClbss =
+                (Clbss<RfsourdfRfsolvfrSpi>) Clbss.forNbmf(dlbssNbmf);
+            rfgistfr(rfsourdfRfsolvfrClbss, fblsf);
+        } dbtdi (ClbssNotFoundExdfption f) {
+            log.log(jbvb.util.logging.Lfvfl.WARNING, "Error lobding rfsolvfr " + dlbssNbmf + " disbbling it");
         }
     }
 
     /**
-     * Registers a ResourceResolverSpi class at the beginning of the provider
-     * list. This method logs a warning if the class cannot be registered.
+     * Rfgistfrs b RfsourdfRfsolvfrSpi dlbss bt tif bfginning of tif providfr
+     * list. Tiis mftiod logs b wbrning if tif dlbss dbnnot bf rfgistfrfd.
      *
-     * @param className the name of the ResourceResolverSpi class to be registered
+     * @pbrbm dlbssNbmf tif nbmf of tif RfsourdfRfsolvfrSpi dlbss to bf rfgistfrfd
      */
-    @SuppressWarnings("unchecked")
-    public static void registerAtStart(String className) {
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid void rfgistfrAtStbrt(String dlbssNbmf) {
         try {
-            Class<ResourceResolverSpi> resourceResolverClass =
-                (Class<ResourceResolverSpi>) Class.forName(className);
-            register(resourceResolverClass, true);
-        } catch (ClassNotFoundException e) {
-            log.log(java.util.logging.Level.WARNING, "Error loading resolver " + className + " disabling it");
+            Clbss<RfsourdfRfsolvfrSpi> rfsourdfRfsolvfrClbss =
+                (Clbss<RfsourdfRfsolvfrSpi>) Clbss.forNbmf(dlbssNbmf);
+            rfgistfr(rfsourdfRfsolvfrClbss, truf);
+        } dbtdi (ClbssNotFoundExdfption f) {
+            log.log(jbvb.util.logging.Lfvfl.WARNING, "Error lobding rfsolvfr " + dlbssNbmf + " disbbling it");
         }
     }
 
     /**
-     * Registers a ResourceResolverSpi class. This method logs a warning if the class
-     * cannot be registered.
-     * @param className
-     * @param start
+     * Rfgistfrs b RfsourdfRfsolvfrSpi dlbss. Tiis mftiod logs b wbrning if tif dlbss
+     * dbnnot bf rfgistfrfd.
+     * @pbrbm dlbssNbmf
+     * @pbrbm stbrt
      */
-    public static void register(Class<? extends ResourceResolverSpi> className, boolean start) {
+    publid stbtid void rfgistfr(Clbss<? fxtfnds RfsourdfRfsolvfrSpi> dlbssNbmf, boolfbn stbrt) {
         try {
-            ResourceResolverSpi resourceResolverSpi = className.newInstance();
-            register(resourceResolverSpi, start);
-        } catch (IllegalAccessException e) {
-            log.log(java.util.logging.Level.WARNING, "Error loading resolver " + className + " disabling it");
-        } catch (InstantiationException e) {
-            log.log(java.util.logging.Level.WARNING, "Error loading resolver " + className + " disabling it");
+            RfsourdfRfsolvfrSpi rfsourdfRfsolvfrSpi = dlbssNbmf.nfwInstbndf();
+            rfgistfr(rfsourdfRfsolvfrSpi, stbrt);
+        } dbtdi (IllfgblAddfssExdfption f) {
+            log.log(jbvb.util.logging.Lfvfl.WARNING, "Error lobding rfsolvfr " + dlbssNbmf + " disbbling it");
+        } dbtdi (InstbntibtionExdfption f) {
+            log.log(jbvb.util.logging.Lfvfl.WARNING, "Error lobding rfsolvfr " + dlbssNbmf + " disbbling it");
         }
     }
 
     /**
-     * Registers a ResourceResolverSpi instance. This method logs a warning if the class
-     * cannot be registered.
-     * @param resourceResolverSpi
-     * @param start
+     * Rfgistfrs b RfsourdfRfsolvfrSpi instbndf. Tiis mftiod logs b wbrning if tif dlbss
+     * dbnnot bf rfgistfrfd.
+     * @pbrbm rfsourdfRfsolvfrSpi
+     * @pbrbm stbrt
      */
-    public static void register(ResourceResolverSpi resourceResolverSpi, boolean start) {
-        synchronized(resolverList) {
-            if (start) {
-                resolverList.add(0, new ResourceResolver(resourceResolverSpi));
-            } else {
-                resolverList.add(new ResourceResolver(resourceResolverSpi));
+    publid stbtid void rfgistfr(RfsourdfRfsolvfrSpi rfsourdfRfsolvfrSpi, boolfbn stbrt) {
+        syndironizfd(rfsolvfrList) {
+            if (stbrt) {
+                rfsolvfrList.bdd(0, nfw RfsourdfRfsolvfr(rfsourdfRfsolvfrSpi));
+            } flsf {
+                rfsolvfrList.bdd(nfw RfsourdfRfsolvfr(rfsourdfRfsolvfrSpi));
             }
         }
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "Registered resolver: " + resourceResolverSpi.toString());
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Rfgistfrfd rfsolvfr: " + rfsourdfRfsolvfrSpi.toString());
         }
     }
 
     /**
-     * This method registers the default resolvers.
+     * Tiis mftiod rfgistfrs tif dffbult rfsolvfrs.
      */
-    public static void registerDefaultResolvers() {
-        synchronized(resolverList) {
-            resolverList.add(new ResourceResolver(new ResolverFragment()));
-            resolverList.add(new ResourceResolver(new ResolverLocalFilesystem()));
-            resolverList.add(new ResourceResolver(new ResolverXPointer()));
-            resolverList.add(new ResourceResolver(new ResolverDirectHTTP()));
+    publid stbtid void rfgistfrDffbultRfsolvfrs() {
+        syndironizfd(rfsolvfrList) {
+            rfsolvfrList.bdd(nfw RfsourdfRfsolvfr(nfw RfsolvfrFrbgmfnt()));
+            rfsolvfrList.bdd(nfw RfsourdfRfsolvfr(nfw RfsolvfrLodblFilfsystfm()));
+            rfsolvfrList.bdd(nfw RfsourdfRfsolvfr(nfw RfsolvfrXPointfr()));
+            rfsolvfrList.bdd(nfw RfsourdfRfsolvfr(nfw RfsolvfrDirfdtHTTP()));
         }
     }
 
     /**
-     * @deprecated New clients should use {@link #resolve(Attr, String, boolean)}
+     * @dfprfdbtfd Nfw dlifnts siould usf {@link #rfsolvf(Attr, String, boolfbn)}
      */
-    @Deprecated
-    public XMLSignatureInput resolve(Attr uri, String baseURI)
-        throws ResourceResolverException {
-        return resolve(uri, baseURI, true);
+    @Dfprfdbtfd
+    publid XMLSignbturfInput rfsolvf(Attr uri, String bbsfURI)
+        tirows RfsourdfRfsolvfrExdfption {
+        rfturn rfsolvf(uri, bbsfURI, truf);
     }
 
     /**
-     * Method resolve
+     * Mftiod rfsolvf
      *
-     * @param uri
-     * @param baseURI
-     * @return the resource
+     * @pbrbm uri
+     * @pbrbm bbsfURI
+     * @rfturn tif rfsourdf
      *
-     * @throws ResourceResolverException
+     * @tirows RfsourdfRfsolvfrExdfption
      */
-    public XMLSignatureInput resolve(Attr uri, String baseURI, boolean secureValidation)
-        throws ResourceResolverException {
-        ResourceResolverContext context = new ResourceResolverContext(uri, baseURI, secureValidation);
-        return resolverSpi.engineResolveURI(context);
+    publid XMLSignbturfInput rfsolvf(Attr uri, String bbsfURI, boolfbn sfdurfVblidbtion)
+        tirows RfsourdfRfsolvfrExdfption {
+        RfsourdfRfsolvfrContfxt dontfxt = nfw RfsourdfRfsolvfrContfxt(uri, bbsfURI, sfdurfVblidbtion);
+        rfturn rfsolvfrSpi.fnginfRfsolvfURI(dontfxt);
     }
 
     /**
-     * Method setProperty
+     * Mftiod sftPropfrty
      *
-     * @param key
-     * @param value
+     * @pbrbm kfy
+     * @pbrbm vbluf
      */
-    public void setProperty(String key, String value) {
-        resolverSpi.engineSetProperty(key, value);
+    publid void sftPropfrty(String kfy, String vbluf) {
+        rfsolvfrSpi.fnginfSftPropfrty(kfy, vbluf);
     }
 
     /**
-     * Method getProperty
+     * Mftiod gftPropfrty
      *
-     * @param key
-     * @return the value of the property
+     * @pbrbm kfy
+     * @rfturn tif vbluf of tif propfrty
      */
-    public String getProperty(String key) {
-        return resolverSpi.engineGetProperty(key);
+    publid String gftPropfrty(String kfy) {
+        rfturn rfsolvfrSpi.fnginfGftPropfrty(kfy);
     }
 
     /**
-     * Method addProperties
+     * Mftiod bddPropfrtifs
      *
-     * @param properties
+     * @pbrbm propfrtifs
      */
-    public void addProperties(Map<String, String> properties) {
-        resolverSpi.engineAddProperies(properties);
+    publid void bddPropfrtifs(Mbp<String, String> propfrtifs) {
+        rfsolvfrSpi.fnginfAddPropfrifs(propfrtifs);
     }
 
     /**
-     * Method getPropertyKeys
+     * Mftiod gftPropfrtyKfys
      *
-     * @return all property keys.
+     * @rfturn bll propfrty kfys.
      */
-    public String[] getPropertyKeys() {
-        return resolverSpi.engineGetPropertyKeys();
+    publid String[] gftPropfrtyKfys() {
+        rfturn rfsolvfrSpi.fnginfGftPropfrtyKfys();
     }
 
     /**
-     * Method understandsProperty
+     * Mftiod undfrstbndsPropfrty
      *
-     * @param propertyToTest
-     * @return true if the resolver understands the property
+     * @pbrbm propfrtyToTfst
+     * @rfturn truf if tif rfsolvfr undfrstbnds tif propfrty
      */
-    public boolean understandsProperty(String propertyToTest) {
-        return resolverSpi.understandsProperty(propertyToTest);
+    publid boolfbn undfrstbndsPropfrty(String propfrtyToTfst) {
+        rfturn rfsolvfrSpi.undfrstbndsPropfrty(propfrtyToTfst);
     }
 
     /**
-     * Method canResolve
+     * Mftiod dbnRfsolvf
      *
-     * @param uri
-     * @param baseURI
-     * @return true if it can resolve the uri
+     * @pbrbm uri
+     * @pbrbm bbsfURI
+     * @rfturn truf if it dbn rfsolvf tif uri
      */
-    private boolean canResolve(ResourceResolverContext context) {
-        return this.resolverSpi.engineCanResolveURI(context);
+    privbtf boolfbn dbnRfsolvf(RfsourdfRfsolvfrContfxt dontfxt) {
+        rfturn tiis.rfsolvfrSpi.fnginfCbnRfsolvfURI(dontfxt);
     }
 }

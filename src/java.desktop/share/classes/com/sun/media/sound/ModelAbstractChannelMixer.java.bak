@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
 /**
- * ModelAbstractChannelMixer is ready for use class to implement
- * ModelChannelMixer interface.
+ * ModflAbstrbdtCibnnflMixfr is rfbdy for usf dlbss to implfmfnt
+ * ModflCibnnflMixfr intfrfbdf.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public abstract class ModelAbstractChannelMixer implements ModelChannelMixer {
+publid bbstrbdt dlbss ModflAbstrbdtCibnnflMixfr implfmfnts ModflCibnnflMixfr {
 
-    public abstract boolean process(float[][] buffer, int offset, int len);
+    publid bbstrbdt boolfbn prodfss(flobt[][] bufffr, int offsft, int lfn);
 
-    public abstract void stop();
+    publid bbstrbdt void stop();
 
-    public void allNotesOff() {
+    publid void bllNotfsOff() {
     }
 
-    public void allSoundOff() {
+    publid void bllSoundOff() {
     }
 
-    public void controlChange(int controller, int value) {
+    publid void dontrolCibngf(int dontrollfr, int vbluf) {
     }
 
-    public int getChannelPressure() {
-        return 0;
+    publid int gftCibnnflPrfssurf() {
+        rfturn 0;
     }
 
-    public int getController(int controller) {
-        return 0;
+    publid int gftControllfr(int dontrollfr) {
+        rfturn 0;
     }
 
-    public boolean getMono() {
-        return false;
+    publid boolfbn gftMono() {
+        rfturn fblsf;
     }
 
-    public boolean getMute() {
-        return false;
+    publid boolfbn gftMutf() {
+        rfturn fblsf;
     }
 
-    public boolean getOmni() {
-        return false;
+    publid boolfbn gftOmni() {
+        rfturn fblsf;
     }
 
-    public int getPitchBend() {
-        return 0;
+    publid int gftPitdiBfnd() {
+        rfturn 0;
     }
 
-    public int getPolyPressure(int noteNumber) {
-        return 0;
+    publid int gftPolyPrfssurf(int notfNumbfr) {
+        rfturn 0;
     }
 
-    public int getProgram() {
-        return 0;
+    publid int gftProgrbm() {
+        rfturn 0;
     }
 
-    public boolean getSolo() {
-        return false;
+    publid boolfbn gftSolo() {
+        rfturn fblsf;
     }
 
-    public boolean localControl(boolean on) {
-        return false;
+    publid boolfbn lodblControl(boolfbn on) {
+        rfturn fblsf;
     }
 
-    public void noteOff(int noteNumber) {
+    publid void notfOff(int notfNumbfr) {
     }
 
-    public void noteOff(int noteNumber, int velocity) {
+    publid void notfOff(int notfNumbfr, int vflodity) {
     }
 
-    public void noteOn(int noteNumber, int velocity) {
+    publid void notfOn(int notfNumbfr, int vflodity) {
     }
 
-    public void programChange(int program) {
+    publid void progrbmCibngf(int progrbm) {
     }
 
-    public void programChange(int bank, int program) {
+    publid void progrbmCibngf(int bbnk, int progrbm) {
     }
 
-    public void resetAllControllers() {
+    publid void rfsftAllControllfrs() {
     }
 
-    public void setChannelPressure(int pressure) {
+    publid void sftCibnnflPrfssurf(int prfssurf) {
     }
 
-    public void setMono(boolean on) {
+    publid void sftMono(boolfbn on) {
     }
 
-    public void setMute(boolean mute) {
+    publid void sftMutf(boolfbn mutf) {
     }
 
-    public void setOmni(boolean on) {
+    publid void sftOmni(boolfbn on) {
     }
 
-    public void setPitchBend(int bend) {
+    publid void sftPitdiBfnd(int bfnd) {
     }
 
-    public void setPolyPressure(int noteNumber, int pressure) {
+    publid void sftPolyPrfssurf(int notfNumbfr, int prfssurf) {
     }
 
-    public void setSolo(boolean soloState) {
+    publid void sftSolo(boolfbn soloStbtf) {
     }
 }

@@ -1,22 +1,22 @@
-#!/usr/sbin/dtrace -Zs
+#!/usr/sbin/dtrbdf -Zs
 
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -35,101 +35,101 @@
 */
 
 /*
- * Usage:
- *    1. CriticalSection.d -c "java ..."
- *    2. CriticalSection.d -p JAVA_PID
+ * Usbgf:
+ *    1. CritidblSfdtion.d -d "jbvb ..."
+ *    2. CritidblSfdtion.d -p JAVA_PID
  *
- * The script inspect a JNI application for Critical Section violations.
+ * Tif sdript inspfdt b JNI bpplidbtion for Critidbl Sfdtion violbtions.
  *
- * Critical section is the space between calls to JNI methods:
- *   - GetPrimitiveArrayCritical and ReleasePrimitiveArrayCritical; or
- *   - GetStringCritical and ReleaseStringCritical.
+ * Critidbl sfdtion is tif spbdf bftwffn dblls to JNI mftiods:
+ *   - GftPrimitivfArrbyCritidbl bnd RflfbsfPrimitivfArrbyCritidbl; or
+ *   - GftStringCritidbl bnd RflfbsfStringCritidbl.
  *
- * Inside a critical section, native code must not call other JNI functions,
- * or any system call that may cause the current thread to block and wait
- * for another Java thread. (For example, the current thread must not call
- * read on a stream being written by another Java thread.)
+ * Insidf b dritidbl sfdtion, nbtivf dodf must not dbll otifr JNI fundtions,
+ * or bny systfm dbll tibt mby dbusf tif durrfnt tirfbd to blodk bnd wbit
+ * for bnotifr Jbvb tirfbd. (For fxbmplf, tif durrfnt tirfbd must not dbll
+ * rfbd on b strfbm bfing writtfn by bnotifr Jbvb tirfbd.)
  *
  */
 
-#pragma D option quiet
-#pragma D option destructive
-#pragma D option defaultargs
-#pragma D option bufsize=16m
-#pragma D option aggrate=100ms
+#prbgmb D option quift
+#prbgmb D option dfstrudtivf
+#prbgmb D option dffbultbrgs
+#prbgmb D option bufsizf=16m
+#prbgmb D option bggrbtf=100ms
 
 
-self int in_critical_section;
-self string critical_section_name;
+sflf int in_dritidbl_sfdtion;
+sflf string dritidbl_sfdtion_nbmf;
 
 int CRITICAL_SECTION_VIOLATION_CNT;
 
 :::BEGIN
 {
-    SAMPLE_NAME = "critical section violation checks";
+    SAMPLE_NAME = "dritidbl sfdtion violbtion difdks";
 
     printf("BEGIN %s\n", SAMPLE_NAME);
 }
 
 /*
- *   Multiple pairs of GetPrimitiveArrayCritical/ReleasePrimitiveArrayCritical,
- *   GetStringCritical/ReleaseStringCritical may be nested
+ *   Multiplf pbirs of GftPrimitivfArrbyCritidbl/RflfbsfPrimitivfArrbyCritidbl,
+ *   GftStringCritidbl/RflfbsfStringCritidbl mby bf nfstfd
  */
-hotspot_jni$target:::*_entry
-/self->in_critical_section > 0 &&
-  probename != "GetPrimitiveArrayCritical_entry" &&
-  probename != "GetStringCritical_entry" &&
-  probename != "ReleasePrimitiveArrayCritical_entry" &&
-  probename != "ReleaseStringCritical_entry" &&
-  probename != "GetPrimitiveArrayCritical_return" &&
-  probename != "GetStringCritical_return" &&
-  probename != "ReleasePrimitiveArrayCritical_return" &&
-  probename != "ReleaseStringCritical_return"/
+iotspot_jni$tbrgft:::*_fntry
+/sflf->in_dritidbl_sfdtion > 0 &&
+  probfnbmf != "GftPrimitivfArrbyCritidbl_fntry" &&
+  probfnbmf != "GftStringCritidbl_fntry" &&
+  probfnbmf != "RflfbsfPrimitivfArrbyCritidbl_fntry" &&
+  probfnbmf != "RflfbsfStringCritidbl_fntry" &&
+  probfnbmf != "GftPrimitivfArrbyCritidbl_rfturn" &&
+  probfnbmf != "GftStringCritidbl_rfturn" &&
+  probfnbmf != "RflfbsfPrimitivfArrbyCritidbl_rfturn" &&
+  probfnbmf != "RflfbsfStringCritidbl_rfturn"/
 {
-    printf("\nJNI call %s made from JNI critical region '%s'\n",
-        probename, self->critical_section_name);
+    printf("\nJNI dbll %s mbdf from JNI dritidbl rfgion '%s'\n",
+        probfnbmf, sflf->dritidbl_sfdtion_nbmf);
 
-    printf("Jstack:\n");
-    jstack(50, 500);
+    printf("Jstbdk:\n");
+    jstbdk(50, 500);
 
     CRITICAL_SECTION_VIOLATION_CNT ++;
 }
 
-syscall:::entry
-/pid == $target && self->in_critical_section > 0/
+sysdbll:::fntry
+/pid == $tbrgft && sflf->in_dritidbl_sfdtion > 0/
 {
-    printf("\nSystem call %s made in JNI critical region '%s'\n",
-        probefunc, self->critical_section_name);
+    printf("\nSystfm dbll %s mbdf in JNI dritidbl rfgion '%s'\n",
+        probffund, sflf->dritidbl_sfdtion_nbmf);
 
-    printf("Jstack:\n");
-    jstack(50, 500);
+    printf("Jstbdk:\n");
+    jstbdk(50, 500);
 
     CRITICAL_SECTION_VIOLATION_CNT ++;
 }
 
-hotspot_jni$target:::ReleasePrimitiveArrayCritical_entry,
-hotspot_jni$target:::ReleaseStringCritical_entry
-/self->in_critical_section > 0/
+iotspot_jni$tbrgft:::RflfbsfPrimitivfArrbyCritidbl_fntry,
+iotspot_jni$tbrgft:::RflfbsfStringCritidbl_fntry
+/sflf->in_dritidbl_sfdtion > 0/
 {
-    self->in_critical_section --;
+    sflf->in_dritidbl_sfdtion --;
 }
 
-hotspot_jni$target:::GetPrimitiveArrayCritical_return
+iotspot_jni$tbrgft:::GftPrimitivfArrbyCritidbl_rfturn
 {
-    self->in_critical_section ++;
-    self->critical_section_name = "GetPrimitiveArrayCritical";
+    sflf->in_dritidbl_sfdtion ++;
+    sflf->dritidbl_sfdtion_nbmf = "GftPrimitivfArrbyCritidbl";
 }
 
-hotspot_jni$target:::GetStringCritical_return
+iotspot_jni$tbrgft:::GftStringCritidbl_rfturn
 {
-    self->in_critical_section ++;
-    self->critical_section_name = "GetStringCritical";
+    sflf->in_dritidbl_sfdtion ++;
+    sflf->dritidbl_sfdtion_nbmf = "GftStringCritidbl";
 }
 
 
 :::END
 {
-    printf("%d critical section violations have been discovered\n",
+    printf("%d dritidbl sfdtion violbtions ibvf bffn disdovfrfd\n",
         CRITICAL_SECTION_VIOLATION_CNT);
 
     printf("\nEND of %s\n", SAMPLE_NAME);

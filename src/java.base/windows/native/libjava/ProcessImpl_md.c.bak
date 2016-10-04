@@ -1,515 +1,515 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <assert.h>
-#include "java_lang_ProcessImpl.h"
+#indludf <bssfrt.i>
+#indludf "jbvb_lbng_ProdfssImpl.i"
 
-#include "jni.h"
-#include "jvm.h"
-#include "jni_util.h"
-#include "io_util.h"
-#include <windows.h>
-#include <io.h>
+#indludf "jni.i"
+#indludf "jvm.i"
+#indludf "jni_util.i"
+#indludf "io_util.i"
+#indludf <windows.i>
+#indludf <io.i>
 
-/* We try to make sure that we can read and write 4095 bytes (the
- * fixed limit on Linux) to the pipe on all operating systems without
- * deadlock.  Windows 2000 inexplicably appears to need an extra 24
- * bytes of slop to avoid deadlock.
+/* Wf try to mbkf surf tibt wf dbn rfbd bnd writf 4095 bytfs (tif
+ * fixfd limit on Linux) to tif pipf on bll opfrbting systfms witiout
+ * dfbdlodk.  Windows 2000 infxplidbbly bppfbrs to nffd bn fxtrb 24
+ * bytfs of slop to bvoid dfbdlodk.
  */
-#define PIPE_SIZE (4096+24)
+#dffinf PIPE_SIZE (4096+24)
 
-/* We have THREE locales in action:
- * 1. Thread default locale - dictates UNICODE-to-8bit conversion
- * 2. System locale that defines the message localization
- * 3. The file name locale
- * Each locale could be an extended locale, that means that text cannot be
- * mapped to 8bit sequence without multibyte encoding.
- * VM is ready for that, if text is UTF-8.
- * Here we make the work right from the beginning.
+/* Wf ibvf THREE lodblfs in bdtion:
+ * 1. Tirfbd dffbult lodblf - didtbtfs UNICODE-to-8bit donvfrsion
+ * 2. Systfm lodblf tibt dffinfs tif mfssbgf lodblizbtion
+ * 3. Tif filf nbmf lodblf
+ * Ebdi lodblf dould bf bn fxtfndfd lodblf, tibt mfbns tibt tfxt dbnnot bf
+ * mbppfd to 8bit sfqufndf witiout multibytf fndoding.
+ * VM is rfbdy for tibt, if tfxt is UTF-8.
+ * Hfrf wf mbkf tif work rigit from tif bfginning.
  */
-size_t os_error_message(int errnum, WCHAR* utf16_OSErrorMsg, size_t maxMsgLength) {
-    size_t n = (size_t)FormatMessageW(
+sizf_t os_frror_mfssbgf(int frrnum, WCHAR* utf16_OSErrorMsg, sizf_t mbxMsgLfngti) {
+    sizf_t n = (sizf_t)FormbtMfssbgfW(
             FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
             NULL,
-            (DWORD)errnum,
+            (DWORD)frrnum,
             0,
             utf16_OSErrorMsg,
-            (DWORD)maxMsgLength,
+            (DWORD)mbxMsgLfngti,
             NULL);
     if (n > 3) {
-        // Drop final '.', CR, LF
+        // Drop finbl '.', CR, LF
         if (utf16_OSErrorMsg[n - 1] == L'\n') --n;
         if (utf16_OSErrorMsg[n - 1] == L'\r') --n;
         if (utf16_OSErrorMsg[n - 1] == L'.') --n;
         utf16_OSErrorMsg[n] = L'\0';
     }
-    return n;
+    rfturn n;
 }
 
-#define MESSAGE_LENGTH (256 + 100)
-#define ARRAY_SIZE(x) (sizeof(x)/sizeof(*x))
+#dffinf MESSAGE_LENGTH (256 + 100)
+#dffinf ARRAY_SIZE(x) (sizfof(x)/sizfof(*x))
 
-static void
-win32Error(JNIEnv *env, const WCHAR *functionName)
+stbtid void
+win32Error(JNIEnv *fnv, donst WCHAR *fundtionNbmf)
 {
     WCHAR utf16_OSErrorMsg[MESSAGE_LENGTH - 100];
-    WCHAR utf16_javaMessage[MESSAGE_LENGTH];
-    /*Good suggestion about 2-bytes-per-symbol in localized error reports*/
-    char  utf8_javaMessage[MESSAGE_LENGTH*2];
-    const int errnum = (int)GetLastError();
-    size_t n = os_error_message(errnum, utf16_OSErrorMsg, ARRAY_SIZE(utf16_OSErrorMsg));
+    WCHAR utf16_jbvbMfssbgf[MESSAGE_LENGTH];
+    /*Good suggfstion bbout 2-bytfs-pfr-symbol in lodblizfd frror rfports*/
+    dibr  utf8_jbvbMfssbgf[MESSAGE_LENGTH*2];
+    donst int frrnum = (int)GftLbstError();
+    sizf_t n = os_frror_mfssbgf(frrnum, utf16_OSErrorMsg, ARRAY_SIZE(utf16_OSErrorMsg));
     n = (n > 0)
-        ? swprintf(utf16_javaMessage, MESSAGE_LENGTH, L"%s error=%d, %s", functionName, errnum, utf16_OSErrorMsg)
-        : swprintf(utf16_javaMessage, MESSAGE_LENGTH, L"%s failed, error=%d", functionName, errnum);
+        ? swprintf(utf16_jbvbMfssbgf, MESSAGE_LENGTH, L"%s frror=%d, %s", fundtionNbmf, frrnum, utf16_OSErrorMsg)
+        : swprintf(utf16_jbvbMfssbgf, MESSAGE_LENGTH, L"%s fbilfd, frror=%d", fundtionNbmf, frrnum);
 
-    if (n > 0) /*terminate '\0' is not a part of conversion procedure*/
-        n = WideCharToMultiByte(
+    if (n > 0) /*tfrminbtf '\0' is not b pbrt of donvfrsion prodfdurf*/
+        n = WidfCibrToMultiBytf(
             CP_UTF8,
             0,
-            utf16_javaMessage,
-            n, /*by creation n <= MESSAGE_LENGTH*/
-            utf8_javaMessage,
+            utf16_jbvbMfssbgf,
+            n, /*by drfbtion n <= MESSAGE_LENGTH*/
+            utf8_jbvbMfssbgf,
             MESSAGE_LENGTH*2,
             NULL,
             NULL);
 
-    /*no way to die*/
+    /*no wby to dif*/
     {
-        const char *errorMessage = "Secondary error while OS message extraction";
+        donst dibr *frrorMfssbgf = "Sfdondbry frror wiilf OS mfssbgf fxtrbdtion";
         if (n > 0) {
-            utf8_javaMessage[min(MESSAGE_LENGTH*2 - 1, n)] = '\0';
-            errorMessage = utf8_javaMessage;
+            utf8_jbvbMfssbgf[min(MESSAGE_LENGTH*2 - 1, n)] = '\0';
+            frrorMfssbgf = utf8_jbvbMfssbgf;
         }
-        JNU_ThrowIOException(env, errorMessage);
+        JNU_TirowIOExdfption(fnv, frrorMfssbgf);
     }
 }
 
-static void
-closeSafely(HANDLE handle)
+stbtid void
+dlosfSbffly(HANDLE ibndlf)
 {
-    if (handle != INVALID_HANDLE_VALUE)
-        CloseHandle(handle);
+    if (ibndlf != INVALID_HANDLE_VALUE)
+        ClosfHbndlf(ibndlf);
 }
 
-static BOOL hasInheritFlag(HANDLE handle)
+stbtid BOOL ibsInifritFlbg(HANDLE ibndlf)
 {
-    DWORD mask;
-    if (GetHandleInformation(handle, &mask)) {
-        return mask & HANDLE_FLAG_INHERIT;
+    DWORD mbsk;
+    if (GftHbndlfInformbtion(ibndlf, &mbsk)) {
+        rfturn mbsk & HANDLE_FLAG_INHERIT;
     }
-    return FALSE;
+    rfturn FALSE;
 }
 
-#define HANDLE_STORAGE_SIZE 6
-#define OFFSET_READ  0
-#define OFFSET_WRITE 1
-//long signed version of INVALID_HANDLE_VALUE
-#define JAVA_INVALID_HANDLE_VALUE ((jlong) -1)
-#define OPPOSITE_END(offset) (offset==OFFSET_READ ? OFFSET_WRITE : OFFSET_READ)
+#dffinf HANDLE_STORAGE_SIZE 6
+#dffinf OFFSET_READ  0
+#dffinf OFFSET_WRITE 1
+//long signfd vfrsion of INVALID_HANDLE_VALUE
+#dffinf JAVA_INVALID_HANDLE_VALUE ((jlong) -1)
+#dffinf OPPOSITE_END(offsft) (offsft==OFFSET_READ ? OFFSET_WRITE : OFFSET_READ)
 
-/* Pipe holder structure */
-typedef struct _STDHOLDER {
-    HANDLE  pipe[2];
-    int     offset;
+/* Pipf ioldfr strudturf */
+typfdff strudt _STDHOLDER {
+    HANDLE  pipf[2];
+    int     offsft;
 } STDHOLDER;
 
-/* Responsible for correct initialization of the [pHolder] structure
-   (that is used for handles recycling) if needs,
-   and appropriate setup of IOE handle [phStd] for child process based
-   on created pipe or Java handle. */
-static BOOL initHolder(
-    JNIEnv *env,
-    jlong *pjhandles,   /* IN OUT - the handle form Java,
-                                    that can be a file, console or undefined */
-    STDHOLDER *pHolder, /* OUT    - initialized structure that holds pipe
-                                    handles */
-    HANDLE *phStd       /* OUT    - initialized handle for child process */
+/* Rfsponsiblf for dorrfdt initiblizbtion of tif [pHoldfr] strudturf
+   (tibt is usfd for ibndlfs rfdydling) if nffds,
+   bnd bppropribtf sftup of IOE ibndlf [piStd] for diild prodfss bbsfd
+   on drfbtfd pipf or Jbvb ibndlf. */
+stbtid BOOL initHoldfr(
+    JNIEnv *fnv,
+    jlong *pjibndlfs,   /* IN OUT - tif ibndlf form Jbvb,
+                                    tibt dbn bf b filf, donsolf or undffinfd */
+    STDHOLDER *pHoldfr, /* OUT    - initiblizfd strudturf tibt iolds pipf
+                                    ibndlfs */
+    HANDLE *piStd       /* OUT    - initiblizfd ibndlf for diild prodfss */
 ) {
-    /* Here we test the value from Java against invalid
-       handle value. We are not using INVALID_HANDLE_VALUE macro
-       due to double signed/unsigned and 32/64bit ambiguity.
-       Otherwise it will be easy to get the wrong
-       value   0x00000000FFFFFFFF
-       instead 0xFFFFFFFFFFFFFFFF. */
-    if (*pjhandles != JAVA_INVALID_HANDLE_VALUE) {
-        /* Java file or console redirection */
-        *phStd = (HANDLE) *pjhandles;
-        /* Here we set the related Java stream (Process.getXXXXStream())
-           to [ProcessBuilder.NullXXXXStream.INSTANCE] value.
-           The initial Java handle [*pjhandles] will be closed in
-           ANY case. It is not a handle leak. */
-        *pjhandles = JAVA_INVALID_HANDLE_VALUE;
-    } else {
-        /* Creation of parent-child pipe */
-        if (!CreatePipe(
-            &pHolder->pipe[OFFSET_READ],
-            &pHolder->pipe[OFFSET_WRITE],
-            NULL, /* we would like to inherit
-                     default process access,
-                     instead of 'Everybody' access */
+    /* Hfrf wf tfst tif vbluf from Jbvb bgbinst invblid
+       ibndlf vbluf. Wf brf not using INVALID_HANDLE_VALUE mbdro
+       duf to doublf signfd/unsignfd bnd 32/64bit bmbiguity.
+       Otifrwisf it will bf fbsy to gft tif wrong
+       vbluf   0x00000000FFFFFFFF
+       instfbd 0xFFFFFFFFFFFFFFFF. */
+    if (*pjibndlfs != JAVA_INVALID_HANDLE_VALUE) {
+        /* Jbvb filf or donsolf rfdirfdtion */
+        *piStd = (HANDLE) *pjibndlfs;
+        /* Hfrf wf sft tif rflbtfd Jbvb strfbm (Prodfss.gftXXXXStrfbm())
+           to [ProdfssBuildfr.NullXXXXStrfbm.INSTANCE] vbluf.
+           Tif initibl Jbvb ibndlf [*pjibndlfs] will bf dlosfd in
+           ANY dbsf. It is not b ibndlf lfbk. */
+        *pjibndlfs = JAVA_INVALID_HANDLE_VALUE;
+    } flsf {
+        /* Crfbtion of pbrfnt-diild pipf */
+        if (!CrfbtfPipf(
+            &pHoldfr->pipf[OFFSET_READ],
+            &pHoldfr->pipf[OFFSET_WRITE],
+            NULL, /* wf would likf to inifrit
+                     dffbult prodfss bddfss,
+                     instfbd of 'Evfrybody' bddfss */
             PIPE_SIZE))
         {
-            win32Error(env, L"CreatePipe");
-            return FALSE;
-        } else {
-            /* [thisProcessEnd] has no the inherit flag because
-               the [lpPipeAttributes] param of [CreatePipe]
-               had the NULL value. */
-            HANDLE thisProcessEnd = pHolder->pipe[OPPOSITE_END(pHolder->offset)];
-            *phStd = pHolder->pipe[pHolder->offset];
-            *pjhandles = (jlong) thisProcessEnd;
+            win32Error(fnv, L"CrfbtfPipf");
+            rfturn FALSE;
+        } flsf {
+            /* [tiisProdfssEnd] ibs no tif inifrit flbg bfdbusf
+               tif [lpPipfAttributfs] pbrbm of [CrfbtfPipf]
+               ibd tif NULL vbluf. */
+            HANDLE tiisProdfssEnd = pHoldfr->pipf[OPPOSITE_END(pHoldfr->offsft)];
+            *piStd = pHoldfr->pipf[pHoldfr->offsft];
+            *pjibndlfs = (jlong) tiisProdfssEnd;
         }
     }
-    /* Pipe handle will be closed in the [releaseHolder] call,
-       file handle will be closed in Java.
-       The long-live handle need to restore the inherit flag,
-       we do it later in the [prepareIOEHandleState] call. */
-    SetHandleInformation(
-        *phStd,
+    /* Pipf ibndlf will bf dlosfd in tif [rflfbsfHoldfr] dbll,
+       filf ibndlf will bf dlosfd in Jbvb.
+       Tif long-livf ibndlf nffd to rfstorf tif inifrit flbg,
+       wf do it lbtfr in tif [prfpbrfIOEHbndlfStbtf] dbll. */
+    SftHbndlfInformbtion(
+        *piStd,
         HANDLE_FLAG_INHERIT, HANDLE_FLAG_INHERIT);
-    return TRUE;
+    rfturn TRUE;
 }
 
-/* Smart recycling of pipe handles in [pHolder]. For the failed
-   create process attempts, both ends of pipe need to be released.
-   The [complete] has the [TRUE] value in the failed attempt. */
-static void releaseHolder(BOOL complete, STDHOLDER *pHolder) {
-    closeSafely(pHolder->pipe[pHolder->offset]);
-    if (complete) {
-        /* Error occur, close this process pipe end */
-        closeSafely(pHolder->pipe[OPPOSITE_END(pHolder->offset)]);
+/* Smbrt rfdydling of pipf ibndlfs in [pHoldfr]. For tif fbilfd
+   drfbtf prodfss bttfmpts, boti fnds of pipf nffd to bf rflfbsfd.
+   Tif [domplftf] ibs tif [TRUE] vbluf in tif fbilfd bttfmpt. */
+stbtid void rflfbsfHoldfr(BOOL domplftf, STDHOLDER *pHoldfr) {
+    dlosfSbffly(pHoldfr->pipf[pHoldfr->offsft]);
+    if (domplftf) {
+        /* Error oddur, dlosf tiis prodfss pipf fnd */
+        dlosfSbffly(pHoldfr->pipf[OPPOSITE_END(pHoldfr->offsft)]);
     }
 }
 
-/* Stores and drops the inherit flag of handles that should not
-   be shared with the child process by default, but can hold the
-   inherit flag due to MS process birth specific. */
-static void prepareIOEHandleState(
+/* Storfs bnd drops tif inifrit flbg of ibndlfs tibt siould not
+   bf sibrfd witi tif diild prodfss by dffbult, but dbn iold tif
+   inifrit flbg duf to MS prodfss birti spfdifid. */
+stbtid void prfpbrfIOEHbndlfStbtf(
     HANDLE *stdIOE,
-    BOOL *inherit)
+    BOOL *inifrit)
 {
     int i;
     for (i = 0; i < HANDLE_STORAGE_SIZE; ++i) {
-        HANDLE hstd = stdIOE[i];
-        if (INVALID_HANDLE_VALUE != hstd && hasInheritFlag(hstd)) {
-            /* FALSE by default */
-            inherit[i] = TRUE;
-            /* Java does not need implicit inheritance for IOE handles,
-               so we drop inherit flag that probably was installed by
-               previous CreateProcess call that launched current process.
-               We will return the handle state back after CreateProcess call.
-               By clearing inherit flag we prevent "greedy grandchild" birth.
-               The explicit inheritance for child process IOE handles is
-               implemented in the [initHolder] call. */
-            SetHandleInformation(hstd, HANDLE_FLAG_INHERIT, 0);
+        HANDLE istd = stdIOE[i];
+        if (INVALID_HANDLE_VALUE != istd && ibsInifritFlbg(istd)) {
+            /* FALSE by dffbult */
+            inifrit[i] = TRUE;
+            /* Jbvb dofs not nffd implidit inifritbndf for IOE ibndlfs,
+               so wf drop inifrit flbg tibt probbbly wbs instbllfd by
+               prfvious CrfbtfProdfss dbll tibt lbundifd durrfnt prodfss.
+               Wf will rfturn tif ibndlf stbtf bbdk bftfr CrfbtfProdfss dbll.
+               By dlfbring inifrit flbg wf prfvfnt "grffdy grbnddiild" birti.
+               Tif fxplidit inifritbndf for diild prodfss IOE ibndlfs is
+               implfmfntfd in tif [initHoldfr] dbll. */
+            SftHbndlfInformbtion(istd, HANDLE_FLAG_INHERIT, 0);
         }
     }
 }
 
-/* Restores the inheritance flag of handles from stored values. */
-static void restoreIOEHandleState(
-    const HANDLE *stdIOE,
-    const BOOL *inherit)
+/* Rfstorfs tif inifritbndf flbg of ibndlfs from storfd vblufs. */
+stbtid void rfstorfIOEHbndlfStbtf(
+    donst HANDLE *stdIOE,
+    donst BOOL *inifrit)
 {
-    /* The set of current process standard IOE handles and
-       the set of child process IOE handles can intersect.
-       To restore the inherit flag right, we use backward
-       array iteration. */
+    /* Tif sft of durrfnt prodfss stbndbrd IOE ibndlfs bnd
+       tif sft of diild prodfss IOE ibndlfs dbn intfrsfdt.
+       To rfstorf tif inifrit flbg rigit, wf usf bbdkwbrd
+       brrby itfrbtion. */
     int i;
     for (i = HANDLE_STORAGE_SIZE - 1; i >= 0; --i)
         if (INVALID_HANDLE_VALUE != stdIOE[i]) {
-           /* Restore inherit flag for any case.
-              The handle can be changed by explicit inheritance.*/
-            SetHandleInformation(stdIOE[i],
+           /* Rfstorf inifrit flbg for bny dbsf.
+              Tif ibndlf dbn bf dibngfd by fxplidit inifritbndf.*/
+            SftHbndlfInformbtion(stdIOE[i],
                 HANDLE_FLAG_INHERIT,
-                inherit[i] ? HANDLE_FLAG_INHERIT : 0);
+                inifrit[i] ? HANDLE_FLAG_INHERIT : 0);
         }
 }
 
 /*
- * Class:     java_lang_ProcessImpl
- * Method:    getProcessId0
- * Signature: (J)I
+ * Clbss:     jbvb_lbng_ProdfssImpl
+ * Mftiod:    gftProdfssId0
+ * Signbturf: (J)I
  */
-JNIEXPORT jint JNICALL Java_java_lang_ProcessImpl_getProcessId0
-  (JNIEnv *env, jclass clazz, jlong handle) {
-    DWORD pid = GetProcessId((HANDLE) jlong_to_ptr(handle));
-    return (jint)pid;
+JNIEXPORT jint JNICALL Jbvb_jbvb_lbng_ProdfssImpl_gftProdfssId0
+  (JNIEnv *fnv, jdlbss dlbzz, jlong ibndlf) {
+    DWORD pid = GftProdfssId((HANDLE) jlong_to_ptr(ibndlf));
+    rfturn (jint)pid;
 }
 
-/* Please, read about the MS inheritance problem
-   http://support.microsoft.com/kb/315939
-   and critical section/synchronized block solution. */
-static jlong processCreate(
-    JNIEnv *env,
-    const jchar *pcmd,
-    const jchar *penvBlock,
-    const jchar *pdir,
-    jlong *handles,
-    jboolean redirectErrorStream)
+/* Plfbsf, rfbd bbout tif MS inifritbndf problfm
+   ittp://support.midrosoft.dom/kb/315939
+   bnd dritidbl sfdtion/syndironizfd blodk solution. */
+stbtid jlong prodfssCrfbtf(
+    JNIEnv *fnv,
+    donst jdibr *pdmd,
+    donst jdibr *pfnvBlodk,
+    donst jdibr *pdir,
+    jlong *ibndlfs,
+    jboolfbn rfdirfdtErrorStrfbm)
 {
-    jlong ret = 0L;
-    STARTUPINFOW si = {sizeof(si)};
+    jlong rft = 0L;
+    STARTUPINFOW si = {sizfof(si)};
 
-    /* Handles for which the inheritance flag must be restored. */
+    /* Hbndlfs for wiidi tif inifritbndf flbg must bf rfstorfd. */
     HANDLE stdIOE[HANDLE_STORAGE_SIZE] = {
-        /* Current process standard IOE handles: JDK-7147084 */
+        /* Currfnt prodfss stbndbrd IOE ibndlfs: JDK-7147084 */
         INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE,
-        /* Child process IOE handles: JDK-6921885 */
-        (HANDLE)handles[0], (HANDLE)handles[1], (HANDLE)handles[2]};
-    BOOL inherit[HANDLE_STORAGE_SIZE] = {
+        /* Ciild prodfss IOE ibndlfs: JDK-6921885 */
+        (HANDLE)ibndlfs[0], (HANDLE)ibndlfs[1], (HANDLE)ibndlfs[2]};
+    BOOL inifrit[HANDLE_STORAGE_SIZE] = {
         FALSE, FALSE, FALSE,
         FALSE, FALSE, FALSE};
 
     {
-        /* Extraction of current process standard IOE handles */
+        /* Extrbdtion of durrfnt prodfss stbndbrd IOE ibndlfs */
         DWORD idsIOE[3] = {STD_INPUT_HANDLE, STD_OUTPUT_HANDLE, STD_ERROR_HANDLE};
         int i;
         for (i = 0; i < 3; ++i)
-            /* Should not be closed by CloseHandle! */
-            stdIOE[i] = GetStdHandle(idsIOE[i]);
+            /* Siould not bf dlosfd by ClosfHbndlf! */
+            stdIOE[i] = GftStdHbndlf(idsIOE[i]);
     }
 
-    prepareIOEHandleState(stdIOE, inherit);
+    prfpbrfIOEHbndlfStbtf(stdIOE, inifrit);
     {
         /* Input */
-        STDHOLDER holderIn = {{INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE}, OFFSET_READ};
-        if (initHolder(env, &handles[0], &holderIn, &si.hStdInput)) {
+        STDHOLDER ioldfrIn = {{INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE}, OFFSET_READ};
+        if (initHoldfr(fnv, &ibndlfs[0], &ioldfrIn, &si.iStdInput)) {
 
             /* Output */
-            STDHOLDER holderOut = {{INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE}, OFFSET_WRITE};
-            if (initHolder(env, &handles[1], &holderOut, &si.hStdOutput)) {
+            STDHOLDER ioldfrOut = {{INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE}, OFFSET_WRITE};
+            if (initHoldfr(fnv, &ibndlfs[1], &ioldfrOut, &si.iStdOutput)) {
 
                 /* Error */
-                STDHOLDER holderErr = {{INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE}, OFFSET_WRITE};
-                BOOL success;
-                if (redirectErrorStream) {
-                    si.hStdError = si.hStdOutput;
-                    /* Here we set the error stream to [ProcessBuilder.NullInputStream.INSTANCE]
-                       value. That is in accordance with Java Doc for the redirection case.
-                       The Java file for the [ handles[2] ] will be closed in ANY case. It is not
-                       a handle leak. */
-                    handles[2] = JAVA_INVALID_HANDLE_VALUE;
-                    success = TRUE;
-                } else {
-                    success = initHolder(env, &handles[2], &holderErr, &si.hStdError);
+                STDHOLDER ioldfrErr = {{INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE}, OFFSET_WRITE};
+                BOOL suddfss;
+                if (rfdirfdtErrorStrfbm) {
+                    si.iStdError = si.iStdOutput;
+                    /* Hfrf wf sft tif frror strfbm to [ProdfssBuildfr.NullInputStrfbm.INSTANCE]
+                       vbluf. Tibt is in bddordbndf witi Jbvb Dod for tif rfdirfdtion dbsf.
+                       Tif Jbvb filf for tif [ ibndlfs[2] ] will bf dlosfd in ANY dbsf. It is not
+                       b ibndlf lfbk. */
+                    ibndlfs[2] = JAVA_INVALID_HANDLE_VALUE;
+                    suddfss = TRUE;
+                } flsf {
+                    suddfss = initHoldfr(fnv, &ibndlfs[2], &ioldfrErr, &si.iStdError);
                 }
 
-                if (success) {
+                if (suddfss) {
                     PROCESS_INFORMATION pi;
-                    DWORD processFlag = CREATE_UNICODE_ENVIRONMENT;
+                    DWORD prodfssFlbg = CREATE_UNICODE_ENVIRONMENT;
 
-                    /* Suppress popping-up of a console window for non-console applications */
-                    if (GetConsoleWindow() == NULL)
-                        processFlag |= CREATE_NO_WINDOW;
+                    /* Supprfss popping-up of b donsolf window for non-donsolf bpplidbtions */
+                    if (GftConsolfWindow() == NULL)
+                        prodfssFlbg |= CREATE_NO_WINDOW;
 
-                    si.dwFlags = STARTF_USESTDHANDLES;
-                    if (!CreateProcessW(
-                        NULL,             /* executable name */
-                        (LPWSTR)pcmd,     /* command line */
-                        NULL,             /* process security attribute */
-                        NULL,             /* thread security attribute */
-                        TRUE,             /* inherits system handles */
-                        processFlag,      /* selected based on exe type */
-                        (LPVOID)penvBlock,/* environment block */
-                        (LPCWSTR)pdir,    /* change to the new current directory */
-                        &si,              /* (in)  startup information */
-                        &pi))             /* (out) process information */
+                    si.dwFlbgs = STARTF_USESTDHANDLES;
+                    if (!CrfbtfProdfssW(
+                        NULL,             /* fxfdutbblf nbmf */
+                        (LPWSTR)pdmd,     /* dommbnd linf */
+                        NULL,             /* prodfss sfdurity bttributf */
+                        NULL,             /* tirfbd sfdurity bttributf */
+                        TRUE,             /* inifrits systfm ibndlfs */
+                        prodfssFlbg,      /* sflfdtfd bbsfd on fxf typf */
+                        (LPVOID)pfnvBlodk,/* fnvironmfnt blodk */
+                        (LPCWSTR)pdir,    /* dibngf to tif nfw durrfnt dirfdtory */
+                        &si,              /* (in)  stbrtup informbtion */
+                        &pi))             /* (out) prodfss informbtion */
                     {
-                        win32Error(env, L"CreateProcess");
-                    } else {
-                        closeSafely(pi.hThread);
-                        ret = (jlong)pi.hProcess;
+                        win32Error(fnv, L"CrfbtfProdfss");
+                    } flsf {
+                        dlosfSbffly(pi.iTirfbd);
+                        rft = (jlong)pi.iProdfss;
                     }
                 }
-                releaseHolder(ret == 0, &holderErr);
-                releaseHolder(ret == 0, &holderOut);
+                rflfbsfHoldfr(rft == 0, &ioldfrErr);
+                rflfbsfHoldfr(rft == 0, &ioldfrOut);
             }
-            releaseHolder(ret == 0, &holderIn);
+            rflfbsfHoldfr(rft == 0, &ioldfrIn);
         }
     }
-    restoreIOEHandleState(stdIOE, inherit);
+    rfstorfIOEHbndlfStbtf(stdIOE, inifrit);
 
-    return ret;
+    rfturn rft;
 }
 
 JNIEXPORT jlong JNICALL
-Java_java_lang_ProcessImpl_create(JNIEnv *env, jclass ignored,
-                                  jstring cmd,
-                                  jstring envBlock,
+Jbvb_jbvb_lbng_ProdfssImpl_drfbtf(JNIEnv *fnv, jdlbss ignorfd,
+                                  jstring dmd,
+                                  jstring fnvBlodk,
                                   jstring dir,
-                                  jlongArray stdHandles,
-                                  jboolean redirectErrorStream)
+                                  jlongArrby stdHbndlfs,
+                                  jboolfbn rfdirfdtErrorStrfbm)
 {
-    jlong ret = 0;
-    if (cmd != NULL && stdHandles != NULL) {
-        const jchar *pcmd = (*env)->GetStringChars(env, cmd, NULL);
-        if (pcmd != NULL) {
-            const jchar *penvBlock = (envBlock != NULL)
-                ? (*env)->GetStringChars(env, envBlock, NULL)
+    jlong rft = 0;
+    if (dmd != NULL && stdHbndlfs != NULL) {
+        donst jdibr *pdmd = (*fnv)->GftStringCibrs(fnv, dmd, NULL);
+        if (pdmd != NULL) {
+            donst jdibr *pfnvBlodk = (fnvBlodk != NULL)
+                ? (*fnv)->GftStringCibrs(fnv, fnvBlodk, NULL)
                 : NULL;
-            if (!(*env)->ExceptionCheck(env)) {
-                const jchar *pdir = (dir != NULL)
-                    ? (*env)->GetStringChars(env, dir, NULL)
+            if (!(*fnv)->ExdfptionCifdk(fnv)) {
+                donst jdibr *pdir = (dir != NULL)
+                    ? (*fnv)->GftStringCibrs(fnv, dir, NULL)
                     : NULL;
-                if (!(*env)->ExceptionCheck(env)) {
-                    jlong *handles = (*env)->GetLongArrayElements(env, stdHandles, NULL);
-                    if (handles != NULL) {
-                        ret = processCreate(
-                            env,
-                            pcmd,
-                            penvBlock,
+                if (!(*fnv)->ExdfptionCifdk(fnv)) {
+                    jlong *ibndlfs = (*fnv)->GftLongArrbyElfmfnts(fnv, stdHbndlfs, NULL);
+                    if (ibndlfs != NULL) {
+                        rft = prodfssCrfbtf(
+                            fnv,
+                            pdmd,
+                            pfnvBlodk,
                             pdir,
-                            handles,
-                            redirectErrorStream);
-                        (*env)->ReleaseLongArrayElements(env, stdHandles, handles, 0);
+                            ibndlfs,
+                            rfdirfdtErrorStrfbm);
+                        (*fnv)->RflfbsfLongArrbyElfmfnts(fnv, stdHbndlfs, ibndlfs, 0);
                     }
                     if (pdir != NULL)
-                        (*env)->ReleaseStringChars(env, dir, pdir);
+                        (*fnv)->RflfbsfStringCibrs(fnv, dir, pdir);
                 }
-                if (penvBlock != NULL)
-                    (*env)->ReleaseStringChars(env, envBlock, penvBlock);
+                if (pfnvBlodk != NULL)
+                    (*fnv)->RflfbsfStringCibrs(fnv, fnvBlodk, pfnvBlodk);
             }
-            (*env)->ReleaseStringChars(env, cmd, pcmd);
+            (*fnv)->RflfbsfStringCibrs(fnv, dmd, pdmd);
         }
     }
-    return ret;
+    rfturn rft;
 }
 
 JNIEXPORT jint JNICALL
-Java_java_lang_ProcessImpl_getExitCodeProcess(JNIEnv *env, jclass ignored, jlong handle)
+Jbvb_jbvb_lbng_ProdfssImpl_gftExitCodfProdfss(JNIEnv *fnv, jdlbss ignorfd, jlong ibndlf)
 {
-    DWORD exit_code;
-    if (GetExitCodeProcess((HANDLE) handle, &exit_code) == 0)
-        win32Error(env, L"GetExitCodeProcess");
-    return exit_code;
+    DWORD fxit_dodf;
+    if (GftExitCodfProdfss((HANDLE) ibndlf, &fxit_dodf) == 0)
+        win32Error(fnv, L"GftExitCodfProdfss");
+    rfturn fxit_dodf;
 }
 
 JNIEXPORT jint JNICALL
-Java_java_lang_ProcessImpl_getStillActive(JNIEnv *env, jclass ignored)
+Jbvb_jbvb_lbng_ProdfssImpl_gftStillAdtivf(JNIEnv *fnv, jdlbss ignorfd)
 {
-    return STILL_ACTIVE;
+    rfturn STILL_ACTIVE;
 }
 
 JNIEXPORT void JNICALL
-Java_java_lang_ProcessImpl_waitForInterruptibly(JNIEnv *env, jclass ignored, jlong handle)
+Jbvb_jbvb_lbng_ProdfssImpl_wbitForIntfrruptibly(JNIEnv *fnv, jdlbss ignorfd, jlong ibndlf)
 {
-    HANDLE events[2];
-    events[0] = (HANDLE) handle;
-    events[1] = JVM_GetThreadInterruptEvent();
+    HANDLE fvfnts[2];
+    fvfnts[0] = (HANDLE) ibndlf;
+    fvfnts[1] = JVM_GftTirfbdIntfrruptEvfnt();
 
-    if (WaitForMultipleObjects(sizeof(events)/sizeof(events[0]), events,
-                               FALSE,    /* Wait for ANY event */
-                               INFINITE)  /* Wait forever */
+    if (WbitForMultiplfObjfdts(sizfof(fvfnts)/sizfof(fvfnts[0]), fvfnts,
+                               FALSE,    /* Wbit for ANY fvfnt */
+                               INFINITE)  /* Wbit forfvfr */
         == WAIT_FAILED)
-        win32Error(env, L"WaitForMultipleObjects");
+        win32Error(fnv, L"WbitForMultiplfObjfdts");
 }
 
 JNIEXPORT void JNICALL
-Java_java_lang_ProcessImpl_waitForTimeoutInterruptibly(JNIEnv *env,
-                                                       jclass ignored,
-                                                       jlong handle,
-                                                       jlong timeout)
+Jbvb_jbvb_lbng_ProdfssImpl_wbitForTimfoutIntfrruptibly(JNIEnv *fnv,
+                                                       jdlbss ignorfd,
+                                                       jlong ibndlf,
+                                                       jlong timfout)
 {
-    HANDLE events[2];
-    DWORD dwTimeout = (DWORD)timeout;
-    DWORD result;
-    events[0] = (HANDLE) handle;
-    events[1] = JVM_GetThreadInterruptEvent();
-    result = WaitForMultipleObjects(sizeof(events)/sizeof(events[0]), events,
-                                    FALSE,    /* Wait for ANY event */
-                                    dwTimeout);  /* Wait for dwTimeout */
+    HANDLE fvfnts[2];
+    DWORD dwTimfout = (DWORD)timfout;
+    DWORD rfsult;
+    fvfnts[0] = (HANDLE) ibndlf;
+    fvfnts[1] = JVM_GftTirfbdIntfrruptEvfnt();
+    rfsult = WbitForMultiplfObjfdts(sizfof(fvfnts)/sizfof(fvfnts[0]), fvfnts,
+                                    FALSE,    /* Wbit for ANY fvfnt */
+                                    dwTimfout);  /* Wbit for dwTimfout */
 
-    if (result == WAIT_FAILED)
-        win32Error(env, L"WaitForMultipleObjects");
+    if (rfsult == WAIT_FAILED)
+        win32Error(fnv, L"WbitForMultiplfObjfdts");
 }
 
 JNIEXPORT void JNICALL
-Java_java_lang_ProcessImpl_terminateProcess(JNIEnv *env, jclass ignored, jlong handle)
+Jbvb_jbvb_lbng_ProdfssImpl_tfrminbtfProdfss(JNIEnv *fnv, jdlbss ignorfd, jlong ibndlf)
 {
-    TerminateProcess((HANDLE) handle, 1);
+    TfrminbtfProdfss((HANDLE) ibndlf, 1);
 }
 
-JNIEXPORT jboolean JNICALL
-Java_java_lang_ProcessImpl_isProcessAlive(JNIEnv *env, jclass ignored, jlong handle)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_lbng_ProdfssImpl_isProdfssAlivf(JNIEnv *fnv, jdlbss ignorfd, jlong ibndlf)
 {
-    DWORD dwExitStatus;
-    GetExitCodeProcess((HANDLE) handle, &dwExitStatus);
-    return dwExitStatus == STILL_ACTIVE;
+    DWORD dwExitStbtus;
+    GftExitCodfProdfss((HANDLE) ibndlf, &dwExitStbtus);
+    rfturn dwExitStbtus == STILL_ACTIVE;
 }
 
-JNIEXPORT jboolean JNICALL
-Java_java_lang_ProcessImpl_closeHandle(JNIEnv *env, jclass ignored, jlong handle)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_lbng_ProdfssImpl_dlosfHbndlf(JNIEnv *fnv, jdlbss ignorfd, jlong ibndlf)
 {
-    return (jboolean) CloseHandle((HANDLE) handle);
+    rfturn (jboolfbn) ClosfHbndlf((HANDLE) ibndlf);
 }
 
 /**
- * Returns a copy of the Unicode characters of a string. Fow now this
- * function doesn't handle long path names and other issues.
+ * Rfturns b dopy of tif Unidodf dibrbdtfrs of b string. Fow now tiis
+ * fundtion dofsn't ibndlf long pbti nbmfs bnd otifr issufs.
  */
-static WCHAR* getPath(JNIEnv *env, jstring ps) {
-    WCHAR *pathbuf = NULL;
-    const jchar *chars = (*(env))->GetStringChars(env, ps, NULL);
-    if (chars != NULL) {
-        size_t pathlen = wcslen(chars);
-        pathbuf = (WCHAR*)malloc((pathlen + 6) * sizeof(WCHAR));
-        if (pathbuf == NULL) {
-            JNU_ThrowOutOfMemoryError(env, NULL);
-        } else {
-            wcscpy(pathbuf, chars);
+stbtid WCHAR* gftPbti(JNIEnv *fnv, jstring ps) {
+    WCHAR *pbtibuf = NULL;
+    donst jdibr *dibrs = (*(fnv))->GftStringCibrs(fnv, ps, NULL);
+    if (dibrs != NULL) {
+        sizf_t pbtilfn = wdslfn(dibrs);
+        pbtibuf = (WCHAR*)mbllod((pbtilfn + 6) * sizfof(WCHAR));
+        if (pbtibuf == NULL) {
+            JNU_TirowOutOfMfmoryError(fnv, NULL);
+        } flsf {
+            wdsdpy(pbtibuf, dibrs);
         }
-        (*env)->ReleaseStringChars(env, ps, chars);
+        (*fnv)->RflfbsfStringCibrs(fnv, ps, dibrs);
     }
-    return pathbuf;
+    rfturn pbtibuf;
 }
 
 JNIEXPORT jlong JNICALL
-Java_java_lang_ProcessImpl_openForAtomicAppend(JNIEnv *env, jclass ignored, jstring path)
+Jbvb_jbvb_lbng_ProdfssImpl_opfnForAtomidAppfnd(JNIEnv *fnv, jdlbss ignorfd, jstring pbti)
 {
-    const DWORD access = (FILE_GENERIC_WRITE & ~FILE_WRITE_DATA);
-    const DWORD sharing = FILE_SHARE_READ | FILE_SHARE_WRITE;
-    const DWORD disposition = OPEN_ALWAYS;
-    const DWORD flagsAndAttributes = FILE_ATTRIBUTE_NORMAL;
-    HANDLE h;
-    WCHAR *pathbuf = getPath(env, path);
-    if (pathbuf == NULL) {
-        /* Exception already pending */
-        return -1;
+    donst DWORD bddfss = (FILE_GENERIC_WRITE & ~FILE_WRITE_DATA);
+    donst DWORD sibring = FILE_SHARE_READ | FILE_SHARE_WRITE;
+    donst DWORD disposition = OPEN_ALWAYS;
+    donst DWORD flbgsAndAttributfs = FILE_ATTRIBUTE_NORMAL;
+    HANDLE i;
+    WCHAR *pbtibuf = gftPbti(fnv, pbti);
+    if (pbtibuf == NULL) {
+        /* Exdfption blrfbdy pfnding */
+        rfturn -1;
     }
-    h = CreateFileW(
-        pathbuf,            /* Wide char path name */
-        access,             /* Read and/or write permission */
-        sharing,            /* File sharing flags */
-        NULL,               /* Security attributes */
-        disposition,        /* creation disposition */
-        flagsAndAttributes, /* flags and attributes */
+    i = CrfbtfFilfW(
+        pbtibuf,            /* Widf dibr pbti nbmf */
+        bddfss,             /* Rfbd bnd/or writf pfrmission */
+        sibring,            /* Filf sibring flbgs */
+        NULL,               /* Sfdurity bttributfs */
+        disposition,        /* drfbtion disposition */
+        flbgsAndAttributfs, /* flbgs bnd bttributfs */
         NULL);
-    free(pathbuf);
-    if (h == INVALID_HANDLE_VALUE) {
-        JNU_ThrowIOExceptionWithLastError(env, "CreateFileW");
+    frff(pbtibuf);
+    if (i == INVALID_HANDLE_VALUE) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "CrfbtfFilfW");
     }
-    return ptr_to_jlong(h);
+    rfturn ptr_to_jlong(i);
 }

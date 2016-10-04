@@ -1,0 +1,878 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996, 1997 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Rfsfrvfd
+ *
+ *   Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd
+ * bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry of IBM. Thfsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. This tfdhnology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.tfxt;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.tfxt.spi.DfdimblFormbtSymbolsProvidfr;
+import jbvb.util.ArrbyList;
+import jbvb.util.Currfndy;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+import sun.util.lodblf.providfr.LodblfProvidfrAdbptfr;
+import sun.util.lodblf.providfr.LodblfSfrvidfProvidfrPool;
+import sun.util.lodblf.providfr.RfsourdfBundlfBbsfdAdbptfr;
+
+/**
+ * This dlbss rfprfsfnts thf sft of symbols (sudh bs thf dfdimbl sfpbrbtor,
+ * thf grouping sfpbrbtor, bnd so on) nffdfd by <dodf>DfdimblFormbt</dodf>
+ * to formbt numbfrs. <dodf>DfdimblFormbt</dodf> drfbtfs for itsflf bn instbndf of
+ * <dodf>DfdimblFormbtSymbols</dodf> from its lodblf dbtb.  If you nffd to dhbngf bny
+ * of thfsf symbols, you dbn gft thf <dodf>DfdimblFormbtSymbols</dodf> objfdt from
+ * your <dodf>DfdimblFormbt</dodf> bnd modify it.
+ *
+ * @sff          jbvb.util.Lodblf
+ * @sff          DfdimblFormbt
+ * @buthor       Mbrk Dbvis
+ * @buthor       Albn Liu
+ */
+
+publid dlbss DfdimblFormbtSymbols implfmfnts Clonfbblf, Sfriblizbblf {
+
+    /**
+     * Crfbtf b DfdimblFormbtSymbols objfdt for thf dffbult
+     * {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     * This donstrudtor dbn only donstrudt instbndfs for thf lodblfs
+     * supportfd by thf Jbvb runtimf fnvironmfnt, not for thosf
+     * supportfd by instbllfd
+     * {@link jbvb.tfxt.spi.DfdimblFormbtSymbolsProvidfr DfdimblFormbtSymbolsProvidfr}
+     * implfmfntbtions. For full lodblf dovfrbgf, usf thf
+     * {@link #gftInstbndf(Lodblf) gftInstbndf} mfthod.
+     * <p>This is fquivblfnt to dblling
+     * {@link #DfdimblFormbtSymbols(Lodblf)
+     *     DfdimblFormbtSymbols(Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT))}.
+     * @sff jbvb.util.Lodblf#gftDffbult(jbvb.util.Lodblf.Cbtfgory)
+     * @sff jbvb.util.Lodblf.Cbtfgory#FORMAT
+     */
+    publid DfdimblFormbtSymbols() {
+        initiblizf( Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT) );
+    }
+
+    /**
+     * Crfbtf b DfdimblFormbtSymbols objfdt for thf givfn lodblf.
+     * This donstrudtor dbn only donstrudt instbndfs for thf lodblfs
+     * supportfd by thf Jbvb runtimf fnvironmfnt, not for thosf
+     * supportfd by instbllfd
+     * {@link jbvb.tfxt.spi.DfdimblFormbtSymbolsProvidfr DfdimblFormbtSymbolsProvidfr}
+     * implfmfntbtions. For full lodblf dovfrbgf, usf thf
+     * {@link #gftInstbndf(Lodblf) gftInstbndf} mfthod.
+     * If thf spfdififd lodblf dontbins thf {@link jbvb.util.Lodblf#UNICODE_LOCALE_EXTENSION}
+     * for thf numbfring systfm, thf instbndf is initiblizfd with thf spfdififd numbfring
+     * systfm if thf JRE implfmfntbtion supports it. For fxbmplf,
+     * <prf>
+     * NumbfrFormbt.gftNumbfrInstbndf(Lodblf.forLbngubgfTbg("th-TH-u-nu-thbi"))
+     * </prf>
+     * This mby rfturn b {@dodf NumbfrFormbt} instbndf with thf Thbi numbfring systfm,
+     * instfbd of thf Lbtin numbfring systfm.
+     *
+     * @pbrbm lodblf thf dfsirfd lodblf
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     */
+    publid DfdimblFormbtSymbols( Lodblf lodblf ) {
+        initiblizf( lodblf );
+    }
+
+    /**
+     * Rfturns bn brrby of bll lodblfs for whidh thf
+     * <dodf>gftInstbndf</dodf> mfthods of this dlbss dbn rfturn
+     * lodblizfd instbndfs.
+     * Thf rfturnfd brrby rfprfsfnts thf union of lodblfs supportfd by thf Jbvb
+     * runtimf bnd by instbllfd
+     * {@link jbvb.tfxt.spi.DfdimblFormbtSymbolsProvidfr DfdimblFormbtSymbolsProvidfr}
+     * implfmfntbtions.  It must dontbin bt lfbst b <dodf>Lodblf</dodf>
+     * instbndf fqubl to {@link jbvb.util.Lodblf#US Lodblf.US}.
+     *
+     * @rfturn bn brrby of lodblfs for whidh lodblizfd
+     *         <dodf>DfdimblFormbtSymbols</dodf> instbndfs brf bvbilbblf.
+     * @sindf 1.6
+     */
+    publid stbtid Lodblf[] gftAvbilbblfLodblfs() {
+        LodblfSfrvidfProvidfrPool pool =
+            LodblfSfrvidfProvidfrPool.gftPool(DfdimblFormbtSymbolsProvidfr.dlbss);
+        rfturn pool.gftAvbilbblfLodblfs();
+    }
+
+    /**
+     * Gfts thf <dodf>DfdimblFormbtSymbols</dodf> instbndf for thf dffbult
+     * lodblf.  This mfthod providfs bddfss to <dodf>DfdimblFormbtSymbols</dodf>
+     * instbndfs for lodblfs supportfd by thf Jbvb runtimf itsflf bs wfll
+     * bs for thosf supportfd by instbllfd
+     * {@link jbvb.tfxt.spi.DfdimblFormbtSymbolsProvidfr
+     * DfdimblFormbtSymbolsProvidfr} implfmfntbtions.
+     * <p>This is fquivblfnt to dblling
+     * {@link #gftInstbndf(Lodblf)
+     *     gftInstbndf(Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT))}.
+     * @sff jbvb.util.Lodblf#gftDffbult(jbvb.util.Lodblf.Cbtfgory)
+     * @sff jbvb.util.Lodblf.Cbtfgory#FORMAT
+     * @rfturn b <dodf>DfdimblFormbtSymbols</dodf> instbndf.
+     * @sindf 1.6
+     */
+    publid stbtid finbl DfdimblFormbtSymbols gftInstbndf() {
+        rfturn gftInstbndf(Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
+    }
+
+    /**
+     * Gfts thf <dodf>DfdimblFormbtSymbols</dodf> instbndf for thf spfdififd
+     * lodblf.  This mfthod providfs bddfss to <dodf>DfdimblFormbtSymbols</dodf>
+     * instbndfs for lodblfs supportfd by thf Jbvb runtimf itsflf bs wfll
+     * bs for thosf supportfd by instbllfd
+     * {@link jbvb.tfxt.spi.DfdimblFormbtSymbolsProvidfr
+     * DfdimblFormbtSymbolsProvidfr} implfmfntbtions.
+     * If thf spfdififd lodblf dontbins thf {@link jbvb.util.Lodblf#UNICODE_LOCALE_EXTENSION}
+     * for thf numbfring systfm, thf instbndf is initiblizfd with thf spfdififd numbfring
+     * systfm if thf JRE implfmfntbtion supports it. For fxbmplf,
+     * <prf>
+     * NumbfrFormbt.gftNumbfrInstbndf(Lodblf.forLbngubgfTbg("th-TH-u-nu-thbi"))
+     * </prf>
+     * This mby rfturn b {@dodf NumbfrFormbt} instbndf with thf Thbi numbfring systfm,
+     * instfbd of thf Lbtin numbfring systfm.
+     *
+     * @pbrbm lodblf thf dfsirfd lodblf.
+     * @rfturn b <dodf>DfdimblFormbtSymbols</dodf> instbndf.
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     * @sindf 1.6
+     */
+    publid stbtid finbl DfdimblFormbtSymbols gftInstbndf(Lodblf lodblf) {
+        LodblfProvidfrAdbptfr bdbptfr;
+        bdbptfr = LodblfProvidfrAdbptfr.gftAdbptfr(DfdimblFormbtSymbolsProvidfr.dlbss, lodblf);
+        DfdimblFormbtSymbolsProvidfr providfr = bdbptfr.gftDfdimblFormbtSymbolsProvidfr();
+        DfdimblFormbtSymbols dfsyms = providfr.gftInstbndf(lodblf);
+        if (dfsyms == null) {
+            providfr = LodblfProvidfrAdbptfr.forJRE().gftDfdimblFormbtSymbolsProvidfr();
+            dfsyms = providfr.gftInstbndf(lodblf);
+        }
+        rfturn dfsyms;
+    }
+
+    /**
+     * Gfts thf dhbrbdtfr usfd for zfro. Difffrfnt for Arbbid, ftd.
+     *
+     * @rfturn thf dhbrbdtfr usfd for zfro
+     */
+    publid dhbr gftZfroDigit() {
+        rfturn zfroDigit;
+    }
+
+    /**
+     * Sfts thf dhbrbdtfr usfd for zfro. Difffrfnt for Arbbid, ftd.
+     *
+     * @pbrbm zfroDigit thf dhbrbdtfr usfd for zfro
+     */
+    publid void sftZfroDigit(dhbr zfroDigit) {
+        this.zfroDigit = zfroDigit;
+    }
+
+    /**
+     * Gfts thf dhbrbdtfr usfd for thousbnds sfpbrbtor. Difffrfnt for Frfndh, ftd.
+     *
+     * @rfturn thf grouping sfpbrbtor
+     */
+    publid dhbr gftGroupingSfpbrbtor() {
+        rfturn groupingSfpbrbtor;
+    }
+
+    /**
+     * Sfts thf dhbrbdtfr usfd for thousbnds sfpbrbtor. Difffrfnt for Frfndh, ftd.
+     *
+     * @pbrbm groupingSfpbrbtor thf grouping sfpbrbtor
+     */
+    publid void sftGroupingSfpbrbtor(dhbr groupingSfpbrbtor) {
+        this.groupingSfpbrbtor = groupingSfpbrbtor;
+    }
+
+    /**
+     * Gfts thf dhbrbdtfr usfd for dfdimbl sign. Difffrfnt for Frfndh, ftd.
+     *
+     * @rfturn thf dhbrbdtfr usfd for dfdimbl sign
+     */
+    publid dhbr gftDfdimblSfpbrbtor() {
+        rfturn dfdimblSfpbrbtor;
+    }
+
+    /**
+     * Sfts thf dhbrbdtfr usfd for dfdimbl sign. Difffrfnt for Frfndh, ftd.
+     *
+     * @pbrbm dfdimblSfpbrbtor thf dhbrbdtfr usfd for dfdimbl sign
+     */
+    publid void sftDfdimblSfpbrbtor(dhbr dfdimblSfpbrbtor) {
+        this.dfdimblSfpbrbtor = dfdimblSfpbrbtor;
+    }
+
+    /**
+     * Gfts thf dhbrbdtfr usfd for pfr millf sign. Difffrfnt for Arbbid, ftd.
+     *
+     * @rfturn thf dhbrbdtfr usfd for pfr millf sign
+     */
+    publid dhbr gftPfrMill() {
+        rfturn pfrMill;
+    }
+
+    /**
+     * Sfts thf dhbrbdtfr usfd for pfr millf sign. Difffrfnt for Arbbid, ftd.
+     *
+     * @pbrbm pfrMill thf dhbrbdtfr usfd for pfr millf sign
+     */
+    publid void sftPfrMill(dhbr pfrMill) {
+        this.pfrMill = pfrMill;
+    }
+
+    /**
+     * Gfts thf dhbrbdtfr usfd for pfrdfnt sign. Difffrfnt for Arbbid, ftd.
+     *
+     * @rfturn thf dhbrbdtfr usfd for pfrdfnt sign
+     */
+    publid dhbr gftPfrdfnt() {
+        rfturn pfrdfnt;
+    }
+
+    /**
+     * Sfts thf dhbrbdtfr usfd for pfrdfnt sign. Difffrfnt for Arbbid, ftd.
+     *
+     * @pbrbm pfrdfnt thf dhbrbdtfr usfd for pfrdfnt sign
+     */
+    publid void sftPfrdfnt(dhbr pfrdfnt) {
+        this.pfrdfnt = pfrdfnt;
+    }
+
+    /**
+     * Gfts thf dhbrbdtfr usfd for b digit in b pbttfrn.
+     *
+     * @rfturn thf dhbrbdtfr usfd for b digit in b pbttfrn
+     */
+    publid dhbr gftDigit() {
+        rfturn digit;
+    }
+
+    /**
+     * Sfts thf dhbrbdtfr usfd for b digit in b pbttfrn.
+     *
+     * @pbrbm digit thf dhbrbdtfr usfd for b digit in b pbttfrn
+     */
+    publid void sftDigit(dhbr digit) {
+        this.digit = digit;
+    }
+
+    /**
+     * Gfts thf dhbrbdtfr usfd to sfpbrbtf positivf bnd nfgbtivf subpbttfrns
+     * in b pbttfrn.
+     *
+     * @rfturn thf pbttfrn sfpbrbtor
+     */
+    publid dhbr gftPbttfrnSfpbrbtor() {
+        rfturn pbttfrnSfpbrbtor;
+    }
+
+    /**
+     * Sfts thf dhbrbdtfr usfd to sfpbrbtf positivf bnd nfgbtivf subpbttfrns
+     * in b pbttfrn.
+     *
+     * @pbrbm pbttfrnSfpbrbtor thf pbttfrn sfpbrbtor
+     */
+    publid void sftPbttfrnSfpbrbtor(dhbr pbttfrnSfpbrbtor) {
+        this.pbttfrnSfpbrbtor = pbttfrnSfpbrbtor;
+    }
+
+    /**
+     * Gfts thf string usfd to rfprfsfnt infinity. Almost blwbys lfft
+     * undhbngfd.
+     *
+     * @rfturn thf string rfprfsfnting infinity
+     */
+    publid String gftInfinity() {
+        rfturn infinity;
+    }
+
+    /**
+     * Sfts thf string usfd to rfprfsfnt infinity. Almost blwbys lfft
+     * undhbngfd.
+     *
+     * @pbrbm infinity thf string rfprfsfnting infinity
+     */
+    publid void sftInfinity(String infinity) {
+        this.infinity = infinity;
+    }
+
+    /**
+     * Gfts thf string usfd to rfprfsfnt "not b numbfr". Almost blwbys lfft
+     * undhbngfd.
+     *
+     * @rfturn thf string rfprfsfnting "not b numbfr"
+     */
+    publid String gftNbN() {
+        rfturn NbN;
+    }
+
+    /**
+     * Sfts thf string usfd to rfprfsfnt "not b numbfr". Almost blwbys lfft
+     * undhbngfd.
+     *
+     * @pbrbm NbN thf string rfprfsfnting "not b numbfr"
+     */
+    publid void sftNbN(String NbN) {
+        this.NbN = NbN;
+    }
+
+    /**
+     * Gfts thf dhbrbdtfr usfd to rfprfsfnt minus sign. If no fxplidit
+     * nfgbtivf formbt is spfdififd, onf is formfd by prffixing
+     * minusSign to thf positivf formbt.
+     *
+     * @rfturn thf dhbrbdtfr rfprfsfnting minus sign
+     */
+    publid dhbr gftMinusSign() {
+        rfturn minusSign;
+    }
+
+    /**
+     * Sfts thf dhbrbdtfr usfd to rfprfsfnt minus sign. If no fxplidit
+     * nfgbtivf formbt is spfdififd, onf is formfd by prffixing
+     * minusSign to thf positivf formbt.
+     *
+     * @pbrbm minusSign thf dhbrbdtfr rfprfsfnting minus sign
+     */
+    publid void sftMinusSign(dhbr minusSign) {
+        this.minusSign = minusSign;
+    }
+
+    /**
+     * Rfturns thf durrfndy symbol for thf durrfndy of thfsf
+     * DfdimblFormbtSymbols in thfir lodblf.
+     *
+     * @rfturn thf durrfndy symbol
+     * @sindf 1.2
+     */
+    publid String gftCurrfndySymbol()
+    {
+        rfturn durrfndySymbol;
+    }
+
+    /**
+     * Sfts thf durrfndy symbol for thf durrfndy of thfsf
+     * DfdimblFormbtSymbols in thfir lodblf.
+     *
+     * @pbrbm durrfndy thf durrfndy symbol
+     * @sindf 1.2
+     */
+    publid void sftCurrfndySymbol(String durrfndy)
+    {
+        durrfndySymbol = durrfndy;
+    }
+
+    /**
+     * Rfturns thf ISO 4217 durrfndy dodf of thf durrfndy of thfsf
+     * DfdimblFormbtSymbols.
+     *
+     * @rfturn thf durrfndy dodf
+     * @sindf 1.2
+     */
+    publid String gftIntfrnbtionblCurrfndySymbol()
+    {
+        rfturn intlCurrfndySymbol;
+    }
+
+    /**
+     * Sfts thf ISO 4217 durrfndy dodf of thf durrfndy of thfsf
+     * DfdimblFormbtSymbols.
+     * If thf durrfndy dodf is vblid (bs dffinfd by
+     * {@link jbvb.util.Currfndy#gftInstbndf(jbvb.lbng.String) Currfndy.gftInstbndf}),
+     * this blso sfts thf durrfndy bttributf to thf dorrfsponding Currfndy
+     * instbndf bnd thf durrfndy symbol bttributf to thf durrfndy's symbol
+     * in thf DfdimblFormbtSymbols' lodblf. If thf durrfndy dodf is not vblid,
+     * thfn thf durrfndy bttributf is sft to null bnd thf durrfndy symbol
+     * bttributf is not modififd.
+     *
+     * @pbrbm durrfndyCodf thf durrfndy dodf
+     * @sff #sftCurrfndy
+     * @sff #sftCurrfndySymbol
+     * @sindf 1.2
+     */
+    publid void sftIntfrnbtionblCurrfndySymbol(String durrfndyCodf)
+    {
+        intlCurrfndySymbol = durrfndyCodf;
+        durrfndy = null;
+        if (durrfndyCodf != null) {
+            try {
+                durrfndy = Currfndy.gftInstbndf(durrfndyCodf);
+                durrfndySymbol = durrfndy.gftSymbol();
+            } dbtdh (IllfgblArgumfntExdfption f) {
+            }
+        }
+    }
+
+    /**
+     * Gfts thf durrfndy of thfsf DfdimblFormbtSymbols. Mby bf null if thf
+     * durrfndy symbol bttributf wbs prfviously sft to b vbluf thbt's not
+     * b vblid ISO 4217 durrfndy dodf.
+     *
+     * @rfturn thf durrfndy usfd, or null
+     * @sindf 1.4
+     */
+    publid Currfndy gftCurrfndy() {
+        rfturn durrfndy;
+    }
+
+    /**
+     * Sfts thf durrfndy of thfsf DfdimblFormbtSymbols.
+     * This blso sfts thf durrfndy symbol bttributf to thf durrfndy's symbol
+     * in thf DfdimblFormbtSymbols' lodblf, bnd thf intfrnbtionbl durrfndy
+     * symbol bttributf to thf durrfndy's ISO 4217 durrfndy dodf.
+     *
+     * @pbrbm durrfndy thf nfw durrfndy to bf usfd
+     * @fxdfption NullPointfrExdfption if <dodf>durrfndy</dodf> is null
+     * @sindf 1.4
+     * @sff #sftCurrfndySymbol
+     * @sff #sftIntfrnbtionblCurrfndySymbol
+     */
+    publid void sftCurrfndy(Currfndy durrfndy) {
+        if (durrfndy == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        this.durrfndy = durrfndy;
+        intlCurrfndySymbol = durrfndy.gftCurrfndyCodf();
+        durrfndySymbol = durrfndy.gftSymbol(lodblf);
+    }
+
+
+    /**
+     * Rfturns thf monftbry dfdimbl sfpbrbtor.
+     *
+     * @rfturn thf monftbry dfdimbl sfpbrbtor
+     * @sindf 1.2
+     */
+    publid dhbr gftMonftbryDfdimblSfpbrbtor()
+    {
+        rfturn monftbrySfpbrbtor;
+    }
+
+    /**
+     * Sfts thf monftbry dfdimbl sfpbrbtor.
+     *
+     * @pbrbm sfp thf monftbry dfdimbl sfpbrbtor
+     * @sindf 1.2
+     */
+    publid void sftMonftbryDfdimblSfpbrbtor(dhbr sfp)
+    {
+        monftbrySfpbrbtor = sfp;
+    }
+
+    //------------------------------------------------------------
+    // BEGIN   Pbdkbgf Privbtf mfthods ... to bf mbdf publid lbtfr
+    //------------------------------------------------------------
+
+    /**
+     * Rfturns thf dhbrbdtfr usfd to sfpbrbtf thf mbntissb from thf fxponfnt.
+     */
+    dhbr gftExponfntiblSymbol()
+    {
+        rfturn fxponfntibl;
+    }
+  /**
+   * Rfturns thf string usfd to sfpbrbtf thf mbntissb from thf fxponfnt.
+   * Exbmplfs: "x10^" for 1.23x10^4, "E" for 1.23E4.
+   *
+   * @rfturn thf fxponfnt sfpbrbtor string
+   * @sff #sftExponfntSfpbrbtor(jbvb.lbng.String)
+   * @sindf 1.6
+   */
+    publid String gftExponfntSfpbrbtor()
+    {
+        rfturn fxponfntiblSfpbrbtor;
+    }
+
+    /**
+     * Sfts thf dhbrbdtfr usfd to sfpbrbtf thf mbntissb from thf fxponfnt.
+     */
+    void sftExponfntiblSymbol(dhbr fxp)
+    {
+        fxponfntibl = fxp;
+    }
+
+  /**
+   * Sfts thf string usfd to sfpbrbtf thf mbntissb from thf fxponfnt.
+   * Exbmplfs: "x10^" for 1.23x10^4, "E" for 1.23E4.
+   *
+   * @pbrbm fxp thf fxponfnt sfpbrbtor string
+   * @fxdfption NullPointfrExdfption if <dodf>fxp</dodf> is null
+   * @sff #gftExponfntSfpbrbtor()
+   * @sindf 1.6
+   */
+    publid void sftExponfntSfpbrbtor(String fxp)
+    {
+        if (fxp == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        fxponfntiblSfpbrbtor = fxp;
+     }
+
+
+    //------------------------------------------------------------
+    // END     Pbdkbgf Privbtf mfthods ... to bf mbdf publid lbtfr
+    //------------------------------------------------------------
+
+    /**
+     * Stbndbrd ovfrridf.
+     */
+    @Ovfrridf
+    publid Objfdt dlonf() {
+        try {
+            rfturn (DfdimblFormbtSymbols)supfr.dlonf();
+            // othfr fiflds brf bit-dopifd
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            throw nfw IntfrnblError(f);
+        }
+    }
+
+    /**
+     * Ovfrridf fqubls.
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == null) rfturn fblsf;
+        if (this == obj) rfturn truf;
+        if (gftClbss() != obj.gftClbss()) rfturn fblsf;
+        DfdimblFormbtSymbols othfr = (DfdimblFormbtSymbols) obj;
+        rfturn (zfroDigit == othfr.zfroDigit &&
+        groupingSfpbrbtor == othfr.groupingSfpbrbtor &&
+        dfdimblSfpbrbtor == othfr.dfdimblSfpbrbtor &&
+        pfrdfnt == othfr.pfrdfnt &&
+        pfrMill == othfr.pfrMill &&
+        digit == othfr.digit &&
+        minusSign == othfr.minusSign &&
+        pbttfrnSfpbrbtor == othfr.pbttfrnSfpbrbtor &&
+        infinity.fqubls(othfr.infinity) &&
+        NbN.fqubls(othfr.NbN) &&
+        durrfndySymbol.fqubls(othfr.durrfndySymbol) &&
+        intlCurrfndySymbol.fqubls(othfr.intlCurrfndySymbol) &&
+        durrfndy == othfr.durrfndy &&
+        monftbrySfpbrbtor == othfr.monftbrySfpbrbtor &&
+        fxponfntiblSfpbrbtor.fqubls(othfr.fxponfntiblSfpbrbtor) &&
+        lodblf.fqubls(othfr.lodblf));
+    }
+
+    /**
+     * Ovfrridf hbshCodf.
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+            int rfsult = zfroDigit;
+            rfsult = rfsult * 37 + groupingSfpbrbtor;
+            rfsult = rfsult * 37 + dfdimblSfpbrbtor;
+            rfturn rfsult;
+    }
+
+    /**
+     * Initiblizfs thf symbols from thf FormbtDbtb rfsourdf bundlf.
+     */
+    privbtf void initiblizf( Lodblf lodblf ) {
+        this.lodblf = lodblf;
+
+        // gft rfsourdf bundlf dbtb
+        LodblfProvidfrAdbptfr bdbptfr = LodblfProvidfrAdbptfr.gftAdbptfr(DfdimblFormbtSymbolsProvidfr.dlbss, lodblf);
+        // Avoid potfntibl rfdursions
+        if (!(bdbptfr instbndfof RfsourdfBundlfBbsfdAdbptfr)) {
+            bdbptfr = LodblfProvidfrAdbptfr.gftRfsourdfBundlfBbsfd();
+        }
+        Objfdt[] dbtb = bdbptfr.gftLodblfRfsourdfs(lodblf).gftDfdimblFormbtSymbolsDbtb();
+        String[] numbfrElfmfnts = (String[]) dbtb[0];
+
+        dfdimblSfpbrbtor = numbfrElfmfnts[0].dhbrAt(0);
+        groupingSfpbrbtor = numbfrElfmfnts[1].dhbrAt(0);
+        pbttfrnSfpbrbtor = numbfrElfmfnts[2].dhbrAt(0);
+        pfrdfnt = numbfrElfmfnts[3].dhbrAt(0);
+        zfroDigit = numbfrElfmfnts[4].dhbrAt(0); //difffrfnt for Arbbid,ftd.
+        digit = numbfrElfmfnts[5].dhbrAt(0);
+        minusSign = numbfrElfmfnts[6].dhbrAt(0);
+        fxponfntibl = numbfrElfmfnts[7].dhbrAt(0);
+        fxponfntiblSfpbrbtor = numbfrElfmfnts[7]; //string rfprfsfntbtion nfw sindf 1.6
+        pfrMill = numbfrElfmfnts[8].dhbrAt(0);
+        infinity  = numbfrElfmfnts[9];
+        NbN = numbfrElfmfnts[10];
+
+        // Try to obtbin thf durrfndy usfd in thf lodblf's dountry.
+        // Chfdk for fmpty dountry string sfpbrbtfly bfdbusf it's b vblid
+        // dountry ID for Lodblf (bnd usfd for thf C lodblf), but not b vblid
+        // ISO 3166 dountry dodf, bnd fxdfptions brf fxpfnsivf.
+        if (lodblf.gftCountry().lfngth() > 0) {
+            try {
+                durrfndy = Currfndy.gftInstbndf(lodblf);
+            } dbtdh (IllfgblArgumfntExdfption f) {
+                // usf dffbult vblufs bflow for dompbtibility
+            }
+        }
+        if (durrfndy != null) {
+            intlCurrfndySymbol = durrfndy.gftCurrfndyCodf();
+            if (dbtb[1] != null && dbtb[1] == intlCurrfndySymbol) {
+                durrfndySymbol = (String) dbtb[2];
+            } flsf {
+                durrfndySymbol = durrfndy.gftSymbol(lodblf);
+                dbtb[1] = intlCurrfndySymbol;
+                dbtb[2] = durrfndySymbol;
+            }
+        } flsf {
+            // dffbult vblufs
+            intlCurrfndySymbol = "XXX";
+            try {
+                durrfndy = Currfndy.gftInstbndf(intlCurrfndySymbol);
+            } dbtdh (IllfgblArgumfntExdfption f) {
+            }
+            durrfndySymbol = "\u00A4";
+        }
+        // Currfntly thf monftbry dfdimbl sfpbrbtor is thf sbmf bs thf
+        // stbndbrd dfdimbl sfpbrbtor for bll lodblfs thbt wf support.
+        // If thbt dhbngfs, bdd b nfw fntry to NumbfrElfmfnts.
+        monftbrySfpbrbtor = dfdimblSfpbrbtor;
+    }
+
+    /**
+     * Rfbds thf dffbult sfriblizbblf fiflds, providfs dffbult vblufs for objfdts
+     * in oldfr sfribl vfrsions, bnd initiblizfs non-sfriblizbblf fiflds.
+     * If <dodf>sfriblVfrsionOnStrfbm</dodf>
+     * is lfss thbn 1, initiblizfs <dodf>monftbrySfpbrbtor</dodf> to bf
+     * thf sbmf bs <dodf>dfdimblSfpbrbtor</dodf> bnd <dodf>fxponfntibl</dodf>
+     * to bf 'E'.
+     * If <dodf>sfriblVfrsionOnStrfbm</dodf> is lfss thbn 2,
+     * initiblizfs <dodf>lodblf</dodf>to thf root lodblf, bnd initiblizfs
+     * If <dodf>sfriblVfrsionOnStrfbm</dodf> is lfss thbn 3, it initiblizfs
+     * <dodf>fxponfntiblSfpbrbtor</dodf> using <dodf>fxponfntibl</dodf>.
+     * Sfts <dodf>sfriblVfrsionOnStrfbm</dodf> bbdk to thf mbximum bllowfd vbluf so thbt
+     * dffbult sfriblizbtion will work propfrly if this objfdt is strfbmfd out bgbin.
+     * Initiblizfs thf durrfndy from thf intlCurrfndySymbol fifld.
+     *
+     * @sindf  1.1.6
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm strfbm)
+            throws IOExdfption, ClbssNotFoundExdfption {
+        strfbm.dffbultRfbdObjfdt();
+        if (sfriblVfrsionOnStrfbm < 1) {
+            // Didn't hbvf monftbrySfpbrbtor or fxponfntibl fifld;
+            // usf dffbults.
+            monftbrySfpbrbtor = dfdimblSfpbrbtor;
+            fxponfntibl       = 'E';
+        }
+        if (sfriblVfrsionOnStrfbm < 2) {
+            // didn't hbvf lodblf; usf root lodblf
+            lodblf = Lodblf.ROOT;
+        }
+        if (sfriblVfrsionOnStrfbm < 3) {
+            // didn't hbvf fxponfntiblSfpbrbtor. Crfbtf onf using fxponfntibl
+            fxponfntiblSfpbrbtor = Chbrbdtfr.toString(fxponfntibl);
+        }
+        sfriblVfrsionOnStrfbm = durrfntSfriblVfrsion;
+
+        if (intlCurrfndySymbol != null) {
+            try {
+                 durrfndy = Currfndy.gftInstbndf(intlCurrfndySymbol);
+            } dbtdh (IllfgblArgumfntExdfption f) {
+            }
+        }
+    }
+
+    /**
+     * Chbrbdtfr usfd for zfro.
+     *
+     * @sfribl
+     * @sff #gftZfroDigit
+     */
+    privbtf  dhbr    zfroDigit;
+
+    /**
+     * Chbrbdtfr usfd for thousbnds sfpbrbtor.
+     *
+     * @sfribl
+     * @sff #gftGroupingSfpbrbtor
+     */
+    privbtf  dhbr    groupingSfpbrbtor;
+
+    /**
+     * Chbrbdtfr usfd for dfdimbl sign.
+     *
+     * @sfribl
+     * @sff #gftDfdimblSfpbrbtor
+     */
+    privbtf  dhbr    dfdimblSfpbrbtor;
+
+    /**
+     * Chbrbdtfr usfd for pfr millf sign.
+     *
+     * @sfribl
+     * @sff #gftPfrMill
+     */
+    privbtf  dhbr    pfrMill;
+
+    /**
+     * Chbrbdtfr usfd for pfrdfnt sign.
+     * @sfribl
+     * @sff #gftPfrdfnt
+     */
+    privbtf  dhbr    pfrdfnt;
+
+    /**
+     * Chbrbdtfr usfd for b digit in b pbttfrn.
+     *
+     * @sfribl
+     * @sff #gftDigit
+     */
+    privbtf  dhbr    digit;
+
+    /**
+     * Chbrbdtfr usfd to sfpbrbtf positivf bnd nfgbtivf subpbttfrns
+     * in b pbttfrn.
+     *
+     * @sfribl
+     * @sff #gftPbttfrnSfpbrbtor
+     */
+    privbtf  dhbr    pbttfrnSfpbrbtor;
+
+    /**
+     * String usfd to rfprfsfnt infinity.
+     * @sfribl
+     * @sff #gftInfinity
+     */
+    privbtf  String  infinity;
+
+    /**
+     * String usfd to rfprfsfnt "not b numbfr".
+     * @sfribl
+     * @sff #gftNbN
+     */
+    privbtf  String  NbN;
+
+    /**
+     * Chbrbdtfr usfd to rfprfsfnt minus sign.
+     * @sfribl
+     * @sff #gftMinusSign
+     */
+    privbtf  dhbr    minusSign;
+
+    /**
+     * String dfnoting thf lodbl durrfndy, f.g. "$".
+     * @sfribl
+     * @sff #gftCurrfndySymbol
+     */
+    privbtf  String  durrfndySymbol;
+
+    /**
+     * ISO 4217 durrfndy dodf dfnoting thf lodbl durrfndy, f.g. "USD".
+     * @sfribl
+     * @sff #gftIntfrnbtionblCurrfndySymbol
+     */
+    privbtf  String  intlCurrfndySymbol;
+
+    /**
+     * Thf dfdimbl sfpbrbtor usfd whfn formbtting durrfndy vblufs.
+     * @sfribl
+     * @sindf  1.1.6
+     * @sff #gftMonftbryDfdimblSfpbrbtor
+     */
+    privbtf  dhbr    monftbrySfpbrbtor; // Fifld nfw in JDK 1.1.6
+
+    /**
+     * Thf dhbrbdtfr usfd to distinguish thf fxponfnt in b numbfr formbttfd
+     * in fxponfntibl notbtion, f.g. 'E' for b numbfr sudh bs "1.23E45".
+     * <p>
+     * Notf thbt thf publid API providfs no wby to sft this fifld,
+     * fvfn though it is supportfd by thf implfmfntbtion bnd thf strfbm formbt.
+     * Thf intfnt is thbt this will bf bddfd to thf API in thf futurf.
+     *
+     * @sfribl
+     * @sindf  1.1.6
+     */
+    privbtf  dhbr    fxponfntibl;       // Fifld nfw in JDK 1.1.6
+
+  /**
+   * Thf string usfd to sfpbrbtf thf mbntissb from thf fxponfnt.
+   * Exbmplfs: "x10^" for 1.23x10^4, "E" for 1.23E4.
+   * <p>
+   * If both <dodf>fxponfntibl</dodf> bnd <dodf>fxponfntiblSfpbrbtor</dodf>
+   * fxist, this <dodf>fxponfntiblSfpbrbtor</dodf> hbs thf prfdfdfndf.
+   *
+   * @sfribl
+   * @sindf 1.6
+   */
+    privbtf  String    fxponfntiblSfpbrbtor;       // Fifld nfw in JDK 1.6
+
+    /**
+     * Thf lodblf of thfsf durrfndy formbt symbols.
+     *
+     * @sfribl
+     * @sindf 1.4
+     */
+    privbtf Lodblf lodblf;
+
+    // durrfndy; only thf ISO dodf is sfriblizfd.
+    privbtf trbnsifnt Currfndy durrfndy;
+
+    // Prodlbim JDK 1.1 FCS dompbtibility
+    stbtid finbl long sfriblVfrsionUID = 5772796243397350300L;
+
+    // Thf intfrnbl sfribl vfrsion whidh sbys whidh vfrsion wbs writtfn
+    // - 0 (dffbult) for vfrsion up to JDK 1.1.5
+    // - 1 for vfrsion from JDK 1.1.6, whidh indludfs two nfw fiflds:
+    //     monftbrySfpbrbtor bnd fxponfntibl.
+    // - 2 for vfrsion from J2SE 1.4, whidh indludfs lodblf fifld.
+    // - 3 for vfrsion from J2SE 1.6, whidh indludfs fxponfntiblSfpbrbtor fifld.
+    privbtf stbtid finbl int durrfntSfriblVfrsion = 3;
+
+    /**
+     * Dfsdribfs thf vfrsion of <dodf>DfdimblFormbtSymbols</dodf> prfsfnt on thf strfbm.
+     * Possiblf vblufs brf:
+     * <ul>
+     * <li><b>0</b> (or uninitiblizfd): vfrsions prior to JDK 1.1.6.
+     *
+     * <li><b>1</b>: Vfrsions writtfn by JDK 1.1.6 or lbtfr, whidh indludf
+     *      two nfw fiflds: <dodf>monftbrySfpbrbtor</dodf> bnd <dodf>fxponfntibl</dodf>.
+     * <li><b>2</b>: Vfrsions writtfn by J2SE 1.4 or lbtfr, whidh indludf b
+     *      nfw <dodf>lodblf</dodf> fifld.
+     * <li><b>3</b>: Vfrsions writtfn by J2SE 1.6 or lbtfr, whidh indludf b
+     *      nfw <dodf>fxponfntiblSfpbrbtor</dodf> fifld.
+     * </ul>
+     * Whfn strfbming out b <dodf>DfdimblFormbtSymbols</dodf>, thf most rfdfnt formbt
+     * (dorrfsponding to thf highfst bllowbblf <dodf>sfriblVfrsionOnStrfbm</dodf>)
+     * is blwbys writtfn.
+     *
+     * @sfribl
+     * @sindf  1.1.6
+     */
+    privbtf int sfriblVfrsionOnStrfbm = durrfntSfriblVfrsion;
+}

@@ -1,0 +1,94 @@
+/*
+ * Copyright (d) 1998, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp;
+
+
+
+
+/**
+ * Dffinfs thf intfrfbdf of thf objfdt in dhbrgf of fndoding bnd dfdoding SNMP pbdkfts.
+ * <P>
+ * You will not usublly nffd to usf this intfrfbdf, fxdfpt if you
+ * dfdidf to rfplbdf thf dffbult implfmfntbtion <CODE>SnmpPduFbdtoryBER</CODE>.
+ * <P>
+ * An <CODE>SnmpPduFbdtory</CODE> objfdt is bttbdhfd to bn
+ * {@link dom.sun.jmx.snmp.dbfmon.SnmpAdbptorSfrvfr SNMP protodol bdbptor}
+ * or bn {@link dom.sun.jmx.snmp.SnmpPffr SnmpPffr}.
+ * It is usfd fbdh timf bn SNMP pbdkft nffds to bf fndodfd or dfdodfd.
+ * <BR>{@link dom.sun.jmx.snmp.SnmpPduFbdtoryBER SnmpPduFbdtoryBER} is thf dffbult
+ * implfmfntbtion.
+ * It simply bpplifs thf stbndbrd ASN.1 fndoding bnd dfdoding
+ * on thf bytfs of thf SNMP pbdkft.
+ * <P>
+ * It's possiblf to implfmfnt your own <CODE>SnmpPduFbdtory</CODE>
+ * objfdt bnd to bdd buthfntidbtion bnd/or fndryption to thf
+ * dffbult fndoding/dfdoding prodfss.
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ * @sff SnmpPduFbdtory
+ * @sff SnmpPduPbdkft
+ * @sff SnmpMfssbgf
+ *
+ */
+
+publid intfrfbdf SnmpPduFbdtory {
+
+    /**
+     * Dfdodfs thf spfdififd <CODE>SnmpMsg</CODE> bnd rfturns thf
+     * rfsulting <CODE>SnmpPdu</CODE>. If this mfthod rfturns
+     * <CODE>null</CODE>, thf mfssbgf will bf donsidfrfd unsbff
+     * bnd will bf droppfd.
+     *
+     * @pbrbm msg Thf <CODE>SnmpMsg</CODE> to bf dfdodfd.
+     * @rfturn Null or b fully initiblizfd <CODE>SnmpPdu</CODE>.
+     * @fxdfption SnmpStbtusExdfption If thf fndoding is invblid.
+     *
+     * @sindf 1.5
+     */
+    publid SnmpPdu dfdodfSnmpPdu(SnmpMsg msg) throws SnmpStbtusExdfption ;
+
+    /**
+     * Endodfs thf spfdififd <CODE>SnmpPdu</CODE> bnd
+     * rfturns thf rfsulting <CODE>SnmpMsg</CODE>. If this
+     * mfthod rfturns null, thf spfdififd <CODE>SnmpPdu</CODE>
+     * will bf droppfd bnd thf durrfnt SNMP rfqufst will bf
+     * bbortfd.
+     *
+     * @pbrbm p Thf <CODE>SnmpPdu</CODE> to bf fndodfd.
+     * @pbrbm mbxDbtbLfngth Thf sizf limit of thf rfsulting fndoding.
+     * @rfturn Null or b fully fndodfd <CODE>SnmpMsg</CODE>.
+     * @fxdfption SnmpStbtusExdfption If <CODE>pdu</CODE> dontbins
+     *            illfgbl vblufs bnd dbnnot bf fndodfd.
+     * @fxdfption SnmpTooBigExdfption If thf rfsulting fndoding dofs not
+     *            fit into <CODE>mbxPktSizf</CODE> bytfs.
+     *
+     * @sindf 1.5
+     */
+    publid SnmpMsg fndodfSnmpPdu(SnmpPdu p, int mbxDbtbLfngth)
+        throws SnmpStbtusExdfption, SnmpTooBigExdfption ;
+}

@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d;
+pbdkbgf sun.jbvb2d;
 
 /**
- * This interface is used to track changes to the complex data of an
- * object that implements the StateTrackable interface.
+ * Tiis intfrfbdf is usfd to trbdk dibngfs to tif domplfx dbtb of bn
+ * objfdt tibt implfmfnts tif StbtfTrbdkbblf intfrfbdf.
  * <p>
- * The usage pattern for code accessing the trackable data is as follows:
- * <pre>
- *     StateTrackable trackedobject;
- *     MyInfo cacheddata;
- *     StateTracker cachetracker;
- *     public synchronized MyInfo getInfoAbout(StateTrackable obj) {
- *         if (trackedobject != obj || !cachetracker.isCurrent()) {
- *             // Note: Always call getStateTracker() before
- *             // caching any data about the objct...
- *             cachetracker = obj.getStateTracker();
- *             cacheddata = calculateInfoFrom(obj);
- *             trackedobject = obj;
+ * Tif usbgf pbttfrn for dodf bddfssing tif trbdkbblf dbtb is bs follows:
+ * <prf>
+ *     StbtfTrbdkbblf trbdkfdobjfdt;
+ *     MyInfo dbdifddbtb;
+ *     StbtfTrbdkfr dbdiftrbdkfr;
+ *     publid syndironizfd MyInfo gftInfoAbout(StbtfTrbdkbblf obj) {
+ *         if (trbdkfdobjfdt != obj || !dbdiftrbdkfr.isCurrfnt()) {
+ *             // Notf: Alwbys dbll gftStbtfTrbdkfr() bfforf
+ *             // dbdiing bny dbtb bbout tif objdt...
+ *             dbdiftrbdkfr = obj.gftStbtfTrbdkfr();
+ *             dbdifddbtb = dbldulbtfInfoFrom(obj);
+ *             trbdkfdobjfdt = obj;
  *         }
- *         return cacheddata;
+ *         rfturn dbdifddbtb;
  *     }
- * </pre>
- * Note that the sample code above works correctly regardless of the
- * {@link StateTrackable.State State} of the complex data of the object,
- * but it may be inefficient to store precalculated information about
- * an object whose current {@link StateTrackable.State State} is
- * {@link StateTrackable.State#UNTRACKABLE UNTRACKABLE}
- * and it is unnecessary to perform the {@link #isCurrent} test for
- * data whose current {@link StateTrackable.State State} is
- * {@link StateTrackable.State#IMMUTABLE IMMUTABLE}.
- * Optimizations to the sample code for either or both of those terminal
- * States may be of benefit for some use cases, but is left out of the
- * example to reduce its complexity.
+ * </prf>
+ * Notf tibt tif sbmplf dodf bbovf works dorrfdtly rfgbrdlfss of tif
+ * {@link StbtfTrbdkbblf.Stbtf Stbtf} of tif domplfx dbtb of tif objfdt,
+ * but it mby bf infffidifnt to storf prfdbldulbtfd informbtion bbout
+ * bn objfdt wiosf durrfnt {@link StbtfTrbdkbblf.Stbtf Stbtf} is
+ * {@link StbtfTrbdkbblf.Stbtf#UNTRACKABLE UNTRACKABLE}
+ * bnd it is unnfdfssbry to pfrform tif {@link #isCurrfnt} tfst for
+ * dbtb wiosf durrfnt {@link StbtfTrbdkbblf.Stbtf Stbtf} is
+ * {@link StbtfTrbdkbblf.Stbtf#IMMUTABLE IMMUTABLE}.
+ * Optimizbtions to tif sbmplf dodf for fitifr or boti of tiosf tfrminbl
+ * Stbtfs mby bf of bfnffit for somf usf dbsfs, but is lfft out of tif
+ * fxbmplf to rfdudf its domplfxity.
  *
- * @see StateTrackable.State
- * @since 1.7
+ * @sff StbtfTrbdkbblf.Stbtf
+ * @sindf 1.7
  */
-public interface StateTracker {
+publid intfrfbdf StbtfTrbdkfr {
     /**
-     * An implementation of the StateTracker interface which
-     * always returns true.
-     * This implementation is useful for objects whose current
-     * {@link StateTrackable.State State} is
-     * {@link StateTrackable.State#IMMUTABLE IMMUTABLE}.
-     * @since 1.7
+     * An implfmfntbtion of tif StbtfTrbdkfr intfrfbdf wiidi
+     * blwbys rfturns truf.
+     * Tiis implfmfntbtion is usfful for objfdts wiosf durrfnt
+     * {@link StbtfTrbdkbblf.Stbtf Stbtf} is
+     * {@link StbtfTrbdkbblf.Stbtf#IMMUTABLE IMMUTABLE}.
+     * @sindf 1.7
      */
-    public StateTracker ALWAYS_CURRENT = new StateTracker() {
-        public boolean isCurrent() {
-            return true;
+    publid StbtfTrbdkfr ALWAYS_CURRENT = nfw StbtfTrbdkfr() {
+        publid boolfbn isCurrfnt() {
+            rfturn truf;
         }
     };
 
     /**
-     * An implementation of the StateTracker interface which
-     * always returns false.
-     * This implementation is useful for objects whose current
-     * {@link StateTrackable.State State} is
-     * {@link StateTrackable.State#UNTRACKABLE UNTRACKABLE}.
-     * This implementation may also be useful for some objects
-     * whose current {@link StateTrackable.State State} is
-     * {@link StateTrackable.State#DYNAMIC DYNAMIC}.
-     * @since 1.7
+     * An implfmfntbtion of tif StbtfTrbdkfr intfrfbdf wiidi
+     * blwbys rfturns fblsf.
+     * Tiis implfmfntbtion is usfful for objfdts wiosf durrfnt
+     * {@link StbtfTrbdkbblf.Stbtf Stbtf} is
+     * {@link StbtfTrbdkbblf.Stbtf#UNTRACKABLE UNTRACKABLE}.
+     * Tiis implfmfntbtion mby blso bf usfful for somf objfdts
+     * wiosf durrfnt {@link StbtfTrbdkbblf.Stbtf Stbtf} is
+     * {@link StbtfTrbdkbblf.Stbtf#DYNAMIC DYNAMIC}.
+     * @sindf 1.7
      */
-    public StateTracker NEVER_CURRENT = new StateTracker() {
-        public boolean isCurrent() {
-            return false;
+    publid StbtfTrbdkfr NEVER_CURRENT = nfw StbtfTrbdkfr() {
+        publid boolfbn isCurrfnt() {
+            rfturn fblsf;
         }
     };
 
     /**
-     * Returns true iff the contents of the complex data of the
-     * associated StateTrackable object have not changed since
-     * the time that this StateTracker was returned from its
-     * getStateTracker() method.
-     * @see StateTrackable
-     * @since 1.7
+     * Rfturns truf iff tif dontfnts of tif domplfx dbtb of tif
+     * bssodibtfd StbtfTrbdkbblf objfdt ibvf not dibngfd sindf
+     * tif timf tibt tiis StbtfTrbdkfr wbs rfturnfd from its
+     * gftStbtfTrbdkfr() mftiod.
+     * @sff StbtfTrbdkbblf
+     * @sindf 1.7
      */
-    public boolean isCurrent();
+    publid boolfbn isCurrfnt();
 }

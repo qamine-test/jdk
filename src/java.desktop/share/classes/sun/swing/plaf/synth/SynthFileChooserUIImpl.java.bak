@@ -1,632 +1,632 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.swing.plaf.synth;
+pbdkbgf sun.swing.plbf.synti;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.io.*;
-import java.util.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.filechooser.*;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.plaf.basic.*;
-import javax.swing.plaf.synth.*;
-import javax.swing.plaf.ActionMapUIResource;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.filfdioosfr.*;
+import jbvbx.swing.filfdioosfr.FilfFiltfr;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.plbf.synti.*;
+import jbvbx.swing.plbf.AdtionMbpUIRfsourdf;
 
-import sun.awt.shell.ShellFolder;
+import sun.bwt.sifll.SifllFoldfr;
 import sun.swing.*;
 
 /**
- * Synth FileChooserUI implementation.
+ * Synti FilfCioosfrUI implfmfntbtion.
  * <p>
- * Note that the classes in the com.sun.java.swing.plaf.synth
- * package are not
- * part of the core Java APIs. They are a part of Sun's JDK and JRE
- * distributions. Although other licensees may choose to distribute
- * these classes, developers cannot depend on their availability in
- * non-Sun implementations. Additionally this API may change in
- * incompatible ways between releases. While this class is public, it
- * shoud be considered an implementation detail, and subject to change.
+ * Notf tibt tif dlbssfs in tif dom.sun.jbvb.swing.plbf.synti
+ * pbdkbgf brf not
+ * pbrt of tif dorf Jbvb APIs. Tify brf b pbrt of Sun's JDK bnd JRE
+ * distributions. Altiougi otifr lidfnsffs mby dioosf to distributf
+ * tifsf dlbssfs, dfvflopfrs dbnnot dfpfnd on tifir bvbilbbility in
+ * non-Sun implfmfntbtions. Additionblly tiis API mby dibngf in
+ * indompbtiblf wbys bftwffn rflfbsfs. Wiilf tiis dlbss is publid, it
+ * sioud bf donsidfrfd bn implfmfntbtion dftbil, bnd subjfdt to dibngf.
  *
- * @author Leif Samuelsson
- * @author Jeff Dinkins
+ * @butior Lfif Sbmuflsson
+ * @butior Jfff Dinkins
  */
-public class SynthFileChooserUIImpl extends SynthFileChooserUI {
-    private JLabel lookInLabel;
-    private JComboBox<File> directoryComboBox;
-    private DirectoryComboBoxModel directoryComboBoxModel;
-    private Action directoryComboBoxAction = new DirectoryComboBoxAction();
+publid dlbss SyntiFilfCioosfrUIImpl fxtfnds SyntiFilfCioosfrUI {
+    privbtf JLbbfl lookInLbbfl;
+    privbtf JComboBox<Filf> dirfdtoryComboBox;
+    privbtf DirfdtoryComboBoxModfl dirfdtoryComboBoxModfl;
+    privbtf Adtion dirfdtoryComboBoxAdtion = nfw DirfdtoryComboBoxAdtion();
 
-    private FilterComboBoxModel filterComboBoxModel;
+    privbtf FiltfrComboBoxModfl filtfrComboBoxModfl;
 
-    private JTextField fileNameTextField;
+    privbtf JTfxtFifld filfNbmfTfxtFifld;
 
-    private FilePane filePane;
-    private JToggleButton listViewButton;
-    private JToggleButton detailsViewButton;
+    privbtf FilfPbnf filfPbnf;
+    privbtf JTogglfButton listVifwButton;
+    privbtf JTogglfButton dftbilsVifwButton;
 
-    private boolean readOnly;
+    privbtf boolfbn rfbdOnly;
 
-    private JPanel buttonPanel;
-    private JPanel bottomPanel;
+    privbtf JPbnfl buttonPbnfl;
+    privbtf JPbnfl bottomPbnfl;
 
-    private JComboBox<FileFilter> filterComboBox;
+    privbtf JComboBox<FilfFiltfr> filtfrComboBox;
 
-    private static final Dimension hstrut5 = new Dimension(5, 1);
+    privbtf stbtid finbl Dimfnsion istrut5 = nfw Dimfnsion(5, 1);
 
-    private static final Insets shrinkwrap = new Insets(0,0,0,0);
+    privbtf stbtid finbl Insfts sirinkwrbp = nfw Insfts(0,0,0,0);
 
-    // Preferred and Minimum sizes for the dialog box
-    private static Dimension LIST_PREF_SIZE = new Dimension(405, 135);
+    // Prfffrrfd bnd Minimum sizfs for tif diblog box
+    privbtf stbtid Dimfnsion LIST_PREF_SIZE = nfw Dimfnsion(405, 135);
 
-    // Labels, mnemonics, and tooltips (oh my!)
-    private int    lookInLabelMnemonic = 0;
-    private String lookInLabelText = null;
-    private String saveInLabelText = null;
+    // Lbbfls, mnfmonids, bnd tooltips (oi my!)
+    privbtf int    lookInLbbflMnfmonid = 0;
+    privbtf String lookInLbbflTfxt = null;
+    privbtf String sbvfInLbbflTfxt = null;
 
-    private int    fileNameLabelMnemonic = 0;
-    private String fileNameLabelText = null;
-    private int    folderNameLabelMnemonic = 0;
-    private String folderNameLabelText = null;
+    privbtf int    filfNbmfLbbflMnfmonid = 0;
+    privbtf String filfNbmfLbbflTfxt = null;
+    privbtf int    foldfrNbmfLbbflMnfmonid = 0;
+    privbtf String foldfrNbmfLbbflTfxt = null;
 
-    private int    filesOfTypeLabelMnemonic = 0;
-    private String filesOfTypeLabelText = null;
+    privbtf int    filfsOfTypfLbbflMnfmonid = 0;
+    privbtf String filfsOfTypfLbbflTfxt = null;
 
-    private String upFolderToolTipText = null;
-    private String upFolderAccessibleName = null;
+    privbtf String upFoldfrToolTipTfxt = null;
+    privbtf String upFoldfrAddfssiblfNbmf = null;
 
-    private String homeFolderToolTipText = null;
-    private String homeFolderAccessibleName = null;
+    privbtf String iomfFoldfrToolTipTfxt = null;
+    privbtf String iomfFoldfrAddfssiblfNbmf = null;
 
-    private String newFolderToolTipText = null;
-    private String newFolderAccessibleName = null;
+    privbtf String nfwFoldfrToolTipTfxt = null;
+    privbtf String nfwFoldfrAddfssiblfNbmf = null;
 
-    private String listViewButtonToolTipText = null;
-    private String listViewButtonAccessibleName = null;
+    privbtf String listVifwButtonToolTipTfxt = null;
+    privbtf String listVifwButtonAddfssiblfNbmf = null;
 
-    private String detailsViewButtonToolTipText = null;
-    private String detailsViewButtonAccessibleName = null;
+    privbtf String dftbilsVifwButtonToolTipTfxt = null;
+    privbtf String dftbilsVifwButtonAddfssiblfNbmf = null;
 
-    private AlignedLabel fileNameLabel;
-    private final PropertyChangeListener modeListener = new PropertyChangeListener() {
-        public void propertyChange(PropertyChangeEvent event) {
-            if (fileNameLabel != null) {
-                populateFileNameLabel();
+    privbtf AlignfdLbbfl filfNbmfLbbfl;
+    privbtf finbl PropfrtyCibngfListfnfr modfListfnfr = nfw PropfrtyCibngfListfnfr() {
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvfnt) {
+            if (filfNbmfLbbfl != null) {
+                populbtfFilfNbmfLbbfl();
             }
         }
     };
 
-    private void populateFileNameLabel() {
-        if (getFileChooser().getFileSelectionMode() == JFileChooser.DIRECTORIES_ONLY) {
-            fileNameLabel.setText(folderNameLabelText);
-            fileNameLabel.setDisplayedMnemonic(folderNameLabelMnemonic);
-        } else {
-            fileNameLabel.setText(fileNameLabelText);
-            fileNameLabel.setDisplayedMnemonic(fileNameLabelMnemonic);
+    privbtf void populbtfFilfNbmfLbbfl() {
+        if (gftFilfCioosfr().gftFilfSflfdtionModf() == JFilfCioosfr.DIRECTORIES_ONLY) {
+            filfNbmfLbbfl.sftTfxt(foldfrNbmfLbbflTfxt);
+            filfNbmfLbbfl.sftDisplbyfdMnfmonid(foldfrNbmfLbbflMnfmonid);
+        } flsf {
+            filfNbmfLbbfl.sftTfxt(filfNbmfLbbflTfxt);
+            filfNbmfLbbfl.sftDisplbyfdMnfmonid(filfNbmfLbbflMnfmonid);
         }
     }
 
-    public SynthFileChooserUIImpl(JFileChooser b) {
-        super(b);
+    publid SyntiFilfCioosfrUIImpl(JFilfCioosfr b) {
+        supfr(b);
     }
 
 
-    private class SynthFileChooserUIAccessor implements FilePane.FileChooserUIAccessor {
-        public JFileChooser getFileChooser() {
-            return SynthFileChooserUIImpl.this.getFileChooser();
+    privbtf dlbss SyntiFilfCioosfrUIAddfssor implfmfnts FilfPbnf.FilfCioosfrUIAddfssor {
+        publid JFilfCioosfr gftFilfCioosfr() {
+            rfturn SyntiFilfCioosfrUIImpl.tiis.gftFilfCioosfr();
         }
 
-        public BasicDirectoryModel getModel() {
-            return SynthFileChooserUIImpl.this.getModel();
+        publid BbsidDirfdtoryModfl gftModfl() {
+            rfturn SyntiFilfCioosfrUIImpl.tiis.gftModfl();
         }
 
-        public JPanel createList() {
-            return null;
+        publid JPbnfl drfbtfList() {
+            rfturn null;
         }
 
-        public JPanel createDetailsView() {
-            return null;
+        publid JPbnfl drfbtfDftbilsVifw() {
+            rfturn null;
         }
 
-        public boolean isDirectorySelected() {
-            return SynthFileChooserUIImpl.this.isDirectorySelected();
+        publid boolfbn isDirfdtorySflfdtfd() {
+            rfturn SyntiFilfCioosfrUIImpl.tiis.isDirfdtorySflfdtfd();
         }
 
-        public File getDirectory() {
-            return SynthFileChooserUIImpl.this.getDirectory();
+        publid Filf gftDirfdtory() {
+            rfturn SyntiFilfCioosfrUIImpl.tiis.gftDirfdtory();
         }
 
-        public Action getChangeToParentDirectoryAction() {
-            return SynthFileChooserUIImpl.this.getChangeToParentDirectoryAction();
+        publid Adtion gftCibngfToPbrfntDirfdtoryAdtion() {
+            rfturn SyntiFilfCioosfrUIImpl.tiis.gftCibngfToPbrfntDirfdtoryAdtion();
         }
 
-        public Action getApproveSelectionAction() {
-            return SynthFileChooserUIImpl.this.getApproveSelectionAction();
+        publid Adtion gftApprovfSflfdtionAdtion() {
+            rfturn SyntiFilfCioosfrUIImpl.tiis.gftApprovfSflfdtionAdtion();
         }
 
-        public Action getNewFolderAction() {
-            return SynthFileChooserUIImpl.this.getNewFolderAction();
+        publid Adtion gftNfwFoldfrAdtion() {
+            rfturn SyntiFilfCioosfrUIImpl.tiis.gftNfwFoldfrAdtion();
         }
 
-        public MouseListener createDoubleClickListener(JList<?> list) {
-            return SynthFileChooserUIImpl.this.createDoubleClickListener(getFileChooser(),
+        publid MousfListfnfr drfbtfDoublfClidkListfnfr(JList<?> list) {
+            rfturn SyntiFilfCioosfrUIImpl.tiis.drfbtfDoublfClidkListfnfr(gftFilfCioosfr(),
                                                                      list);
         }
 
-        public ListSelectionListener createListSelectionListener() {
-            return SynthFileChooserUIImpl.this.createListSelectionListener(getFileChooser());
+        publid ListSflfdtionListfnfr drfbtfListSflfdtionListfnfr() {
+            rfturn SyntiFilfCioosfrUIImpl.tiis.drfbtfListSflfdtionListfnfr(gftFilfCioosfr());
         }
     }
 
-    protected void installDefaults(JFileChooser fc) {
-        super.installDefaults(fc);
-        readOnly = UIManager.getBoolean("FileChooser.readOnly");
+    protfdtfd void instbllDffbults(JFilfCioosfr fd) {
+        supfr.instbllDffbults(fd);
+        rfbdOnly = UIMbnbgfr.gftBoolfbn("FilfCioosfr.rfbdOnly");
     }
 
-    @SuppressWarnings("serial") // anonymous classes inside
-    public void installComponents(JFileChooser fc) {
-        super.installComponents(fc);
+    @SupprfssWbrnings("sfribl") // bnonymous dlbssfs insidf
+    publid void instbllComponfnts(JFilfCioosfr fd) {
+        supfr.instbllComponfnts(fd);
 
-        SynthContext context = getContext(fc, ENABLED);
+        SyntiContfxt dontfxt = gftContfxt(fd, ENABLED);
 
-        fc.setLayout(new BorderLayout(0, 11));
+        fd.sftLbyout(nfw BordfrLbyout(0, 11));
 
         // ********************************* //
-        // **** Construct the top panel **** //
+        // **** Construdt tif top pbnfl **** //
         // ********************************* //
 
-        // Directory manipulation buttons
-        JPanel topPanel = new JPanel(new BorderLayout(11, 0));
-    JPanel topButtonPanel = new JPanel();
-    topButtonPanel.setLayout(new BoxLayout(topButtonPanel, BoxLayout.LINE_AXIS));
-    topPanel.add(topButtonPanel, BorderLayout.AFTER_LINE_ENDS);
+        // Dirfdtory mbnipulbtion buttons
+        JPbnfl topPbnfl = nfw JPbnfl(nfw BordfrLbyout(11, 0));
+    JPbnfl topButtonPbnfl = nfw JPbnfl();
+    topButtonPbnfl.sftLbyout(nfw BoxLbyout(topButtonPbnfl, BoxLbyout.LINE_AXIS));
+    topPbnfl.bdd(topButtonPbnfl, BordfrLbyout.AFTER_LINE_ENDS);
 
-        // Add the top panel to the fileChooser
-        fc.add(topPanel, BorderLayout.NORTH);
+        // Add tif top pbnfl to tif filfCioosfr
+        fd.bdd(topPbnfl, BordfrLbyout.NORTH);
 
-        // ComboBox Label
-        lookInLabel = new JLabel(lookInLabelText);
-        lookInLabel.setDisplayedMnemonic(lookInLabelMnemonic);
-        topPanel.add(lookInLabel, BorderLayout.BEFORE_LINE_BEGINS);
+        // ComboBox Lbbfl
+        lookInLbbfl = nfw JLbbfl(lookInLbbflTfxt);
+        lookInLbbfl.sftDisplbyfdMnfmonid(lookInLbbflMnfmonid);
+        topPbnfl.bdd(lookInLbbfl, BordfrLbyout.BEFORE_LINE_BEGINS);
 
-        // CurrentDir ComboBox
-        directoryComboBox = new JComboBox<File>();
-        directoryComboBox.getAccessibleContext().setAccessibleDescription(lookInLabelText);
-        directoryComboBox.putClientProperty( "JComboBox.isTableCellEditor", Boolean.TRUE );
-        lookInLabel.setLabelFor(directoryComboBox);
-        directoryComboBoxModel = createDirectoryComboBoxModel(fc);
-        directoryComboBox.setModel(directoryComboBoxModel);
-        directoryComboBox.addActionListener(directoryComboBoxAction);
-        directoryComboBox.setRenderer(createDirectoryComboBoxRenderer(fc));
-        directoryComboBox.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-        directoryComboBox.setAlignmentY(JComponent.TOP_ALIGNMENT);
-        directoryComboBox.setMaximumRowCount(8);
-        topPanel.add(directoryComboBox, BorderLayout.CENTER);
+        // CurrfntDir ComboBox
+        dirfdtoryComboBox = nfw JComboBox<Filf>();
+        dirfdtoryComboBox.gftAddfssiblfContfxt().sftAddfssiblfDfsdription(lookInLbbflTfxt);
+        dirfdtoryComboBox.putClifntPropfrty( "JComboBox.isTbblfCfllEditor", Boolfbn.TRUE );
+        lookInLbbfl.sftLbbflFor(dirfdtoryComboBox);
+        dirfdtoryComboBoxModfl = drfbtfDirfdtoryComboBoxModfl(fd);
+        dirfdtoryComboBox.sftModfl(dirfdtoryComboBoxModfl);
+        dirfdtoryComboBox.bddAdtionListfnfr(dirfdtoryComboBoxAdtion);
+        dirfdtoryComboBox.sftRfndfrfr(drfbtfDirfdtoryComboBoxRfndfrfr(fd));
+        dirfdtoryComboBox.sftAlignmfntX(JComponfnt.LEFT_ALIGNMENT);
+        dirfdtoryComboBox.sftAlignmfntY(JComponfnt.TOP_ALIGNMENT);
+        dirfdtoryComboBox.sftMbximumRowCount(8);
+        topPbnfl.bdd(dirfdtoryComboBox, BordfrLbyout.CENTER);
 
-        filePane = new FilePane(new SynthFileChooserUIAccessor());
-        fc.addPropertyChangeListener(filePane);
+        filfPbnf = nfw FilfPbnf(nfw SyntiFilfCioosfrUIAddfssor());
+        fd.bddPropfrtyCibngfListfnfr(filfPbnf);
 
-        // Add 'Go Up' to context menu, plus 'Go Home' if on Unix
-        JPopupMenu contextMenu = filePane.getComponentPopupMenu();
-        if (contextMenu != null) {
-            contextMenu.insert(getChangeToParentDirectoryAction(), 0);
-            if (File.separatorChar == '/') {
-                contextMenu.insert(getGoHomeAction(), 1);
+        // Add 'Go Up' to dontfxt mfnu, plus 'Go Homf' if on Unix
+        JPopupMfnu dontfxtMfnu = filfPbnf.gftComponfntPopupMfnu();
+        if (dontfxtMfnu != null) {
+            dontfxtMfnu.insfrt(gftCibngfToPbrfntDirfdtoryAdtion(), 0);
+            if (Filf.sfpbrbtorCibr == '/') {
+                dontfxtMfnu.insfrt(gftGoHomfAdtion(), 1);
             }
         }
 
-    FileSystemView fsv = fc.getFileSystemView();
+    FilfSystfmVifw fsv = fd.gftFilfSystfmVifw();
 
     // Up Button
-    JButton upFolderButton = new JButton(getChangeToParentDirectoryAction());
-    upFolderButton.setText(null);
-    upFolderButton.setIcon(upFolderIcon);
-    upFolderButton.setToolTipText(upFolderToolTipText);
-    upFolderButton.getAccessibleContext().setAccessibleName(upFolderAccessibleName);
-    upFolderButton.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-    upFolderButton.setAlignmentY(JComponent.CENTER_ALIGNMENT);
-    upFolderButton.setMargin(shrinkwrap);
+    JButton upFoldfrButton = nfw JButton(gftCibngfToPbrfntDirfdtoryAdtion());
+    upFoldfrButton.sftTfxt(null);
+    upFoldfrButton.sftIdon(upFoldfrIdon);
+    upFoldfrButton.sftToolTipTfxt(upFoldfrToolTipTfxt);
+    upFoldfrButton.gftAddfssiblfContfxt().sftAddfssiblfNbmf(upFoldfrAddfssiblfNbmf);
+    upFoldfrButton.sftAlignmfntX(JComponfnt.LEFT_ALIGNMENT);
+    upFoldfrButton.sftAlignmfntY(JComponfnt.CENTER_ALIGNMENT);
+    upFoldfrButton.sftMbrgin(sirinkwrbp);
 
-    topButtonPanel.add(upFolderButton);
-    topButtonPanel.add(Box.createRigidArea(hstrut5));
+    topButtonPbnfl.bdd(upFoldfrButton);
+    topButtonPbnfl.bdd(Box.drfbtfRigidArfb(istrut5));
 
-    // Home Button
-    File homeDir = fsv.getHomeDirectory();
-    String toolTipText = homeFolderToolTipText;
-    if (fsv.isRoot(homeDir)) {
-        toolTipText = getFileView(fc).getName(homeDir); // Probably "Desktop".
+    // Homf Button
+    Filf iomfDir = fsv.gftHomfDirfdtory();
+    String toolTipTfxt = iomfFoldfrToolTipTfxt;
+    if (fsv.isRoot(iomfDir)) {
+        toolTipTfxt = gftFilfVifw(fd).gftNbmf(iomfDir); // Probbbly "Dfsktop".
     }
 
-    JButton b = new JButton(homeFolderIcon);
-    b.setToolTipText(toolTipText);
-    b.getAccessibleContext().setAccessibleName(homeFolderAccessibleName);
-    b.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-    b.setAlignmentY(JComponent.CENTER_ALIGNMENT);
-    b.setMargin(shrinkwrap);
+    JButton b = nfw JButton(iomfFoldfrIdon);
+    b.sftToolTipTfxt(toolTipTfxt);
+    b.gftAddfssiblfContfxt().sftAddfssiblfNbmf(iomfFoldfrAddfssiblfNbmf);
+    b.sftAlignmfntX(JComponfnt.LEFT_ALIGNMENT);
+    b.sftAlignmfntY(JComponfnt.CENTER_ALIGNMENT);
+    b.sftMbrgin(sirinkwrbp);
 
-    b.addActionListener(getGoHomeAction());
-    topButtonPanel.add(b);
-    topButtonPanel.add(Box.createRigidArea(hstrut5));
+    b.bddAdtionListfnfr(gftGoHomfAdtion());
+    topButtonPbnfl.bdd(b);
+    topButtonPbnfl.bdd(Box.drfbtfRigidArfb(istrut5));
 
-    // New Directory Button
-    if (!readOnly) {
-        b = new JButton(filePane.getNewFolderAction());
-        b.setText(null);
-        b.setIcon(newFolderIcon);
-        b.setToolTipText(newFolderToolTipText);
-        b.getAccessibleContext().setAccessibleName(newFolderAccessibleName);
-        b.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-        b.setAlignmentY(JComponent.CENTER_ALIGNMENT);
-        b.setMargin(shrinkwrap);
-        topButtonPanel.add(b);
-        topButtonPanel.add(Box.createRigidArea(hstrut5));
+    // Nfw Dirfdtory Button
+    if (!rfbdOnly) {
+        b = nfw JButton(filfPbnf.gftNfwFoldfrAdtion());
+        b.sftTfxt(null);
+        b.sftIdon(nfwFoldfrIdon);
+        b.sftToolTipTfxt(nfwFoldfrToolTipTfxt);
+        b.gftAddfssiblfContfxt().sftAddfssiblfNbmf(nfwFoldfrAddfssiblfNbmf);
+        b.sftAlignmfntX(JComponfnt.LEFT_ALIGNMENT);
+        b.sftAlignmfntY(JComponfnt.CENTER_ALIGNMENT);
+        b.sftMbrgin(sirinkwrbp);
+        topButtonPbnfl.bdd(b);
+        topButtonPbnfl.bdd(Box.drfbtfRigidArfb(istrut5));
     }
 
-    // View button group
-    ButtonGroup viewButtonGroup = new ButtonGroup();
+    // Vifw button group
+    ButtonGroup vifwButtonGroup = nfw ButtonGroup();
 
     // List Button
-    listViewButton = new JToggleButton(listViewIcon);
-    listViewButton.setToolTipText(listViewButtonToolTipText);
-    listViewButton.getAccessibleContext().setAccessibleName(listViewButtonAccessibleName);
-    listViewButton.setSelected(true);
-    listViewButton.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-    listViewButton.setAlignmentY(JComponent.CENTER_ALIGNMENT);
-    listViewButton.setMargin(shrinkwrap);
-    listViewButton.addActionListener(filePane.getViewTypeAction(FilePane.VIEWTYPE_LIST));
-    topButtonPanel.add(listViewButton);
-    viewButtonGroup.add(listViewButton);
+    listVifwButton = nfw JTogglfButton(listVifwIdon);
+    listVifwButton.sftToolTipTfxt(listVifwButtonToolTipTfxt);
+    listVifwButton.gftAddfssiblfContfxt().sftAddfssiblfNbmf(listVifwButtonAddfssiblfNbmf);
+    listVifwButton.sftSflfdtfd(truf);
+    listVifwButton.sftAlignmfntX(JComponfnt.LEFT_ALIGNMENT);
+    listVifwButton.sftAlignmfntY(JComponfnt.CENTER_ALIGNMENT);
+    listVifwButton.sftMbrgin(sirinkwrbp);
+    listVifwButton.bddAdtionListfnfr(filfPbnf.gftVifwTypfAdtion(FilfPbnf.VIEWTYPE_LIST));
+    topButtonPbnfl.bdd(listVifwButton);
+    vifwButtonGroup.bdd(listVifwButton);
 
-    // Details Button
-    detailsViewButton = new JToggleButton(detailsViewIcon);
-    detailsViewButton.setToolTipText(detailsViewButtonToolTipText);
-    detailsViewButton.getAccessibleContext().setAccessibleName(detailsViewButtonAccessibleName);
-    detailsViewButton.setAlignmentX(JComponent.LEFT_ALIGNMENT);
-    detailsViewButton.setAlignmentY(JComponent.CENTER_ALIGNMENT);
-    detailsViewButton.setMargin(shrinkwrap);
-    detailsViewButton.addActionListener(filePane.getViewTypeAction(FilePane.VIEWTYPE_DETAILS));
-    topButtonPanel.add(detailsViewButton);
-    viewButtonGroup.add(detailsViewButton);
+    // Dftbils Button
+    dftbilsVifwButton = nfw JTogglfButton(dftbilsVifwIdon);
+    dftbilsVifwButton.sftToolTipTfxt(dftbilsVifwButtonToolTipTfxt);
+    dftbilsVifwButton.gftAddfssiblfContfxt().sftAddfssiblfNbmf(dftbilsVifwButtonAddfssiblfNbmf);
+    dftbilsVifwButton.sftAlignmfntX(JComponfnt.LEFT_ALIGNMENT);
+    dftbilsVifwButton.sftAlignmfntY(JComponfnt.CENTER_ALIGNMENT);
+    dftbilsVifwButton.sftMbrgin(sirinkwrbp);
+    dftbilsVifwButton.bddAdtionListfnfr(filfPbnf.gftVifwTypfAdtion(FilfPbnf.VIEWTYPE_DETAILS));
+    topButtonPbnfl.bdd(dftbilsVifwButton);
+    vifwButtonGroup.bdd(dftbilsVifwButton);
 
-    filePane.addPropertyChangeListener(new PropertyChangeListener() {
-        public void propertyChange(PropertyChangeEvent e) {
-            if ("viewType".equals(e.getPropertyName())) {
-                int viewType = filePane.getViewType();
-                switch (viewType) {
-                    case FilePane.VIEWTYPE_LIST:
-                        listViewButton.setSelected(true);
-                        break;
-                    case FilePane.VIEWTYPE_DETAILS:
-                        detailsViewButton.setSelected(true);
-                        break;
+    filfPbnf.bddPropfrtyCibngfListfnfr(nfw PropfrtyCibngfListfnfr() {
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+            if ("vifwTypf".fqubls(f.gftPropfrtyNbmf())) {
+                int vifwTypf = filfPbnf.gftVifwTypf();
+                switdi (vifwTypf) {
+                    dbsf FilfPbnf.VIEWTYPE_LIST:
+                        listVifwButton.sftSflfdtfd(truf);
+                        brfbk;
+                    dbsf FilfPbnf.VIEWTYPE_DETAILS:
+                        dftbilsVifwButton.sftSflfdtfd(truf);
+                        brfbk;
                 }
             }
         }
     });
 
         // ************************************** //
-        // ******* Add the directory pane ******* //
+        // ******* Add tif dirfdtory pbnf ******* //
         // ************************************** //
-        fc.add(getAccessoryPanel(), BorderLayout.AFTER_LINE_ENDS);
-        JComponent accessory = fc.getAccessory();
-        if (accessory != null) {
-            getAccessoryPanel().add(accessory);
+        fd.bdd(gftAddfssoryPbnfl(), BordfrLbyout.AFTER_LINE_ENDS);
+        JComponfnt bddfssory = fd.gftAddfssory();
+        if (bddfssory != null) {
+            gftAddfssoryPbnfl().bdd(bddfssory);
         }
-        filePane.setPreferredSize(LIST_PREF_SIZE);
-        fc.add(filePane, BorderLayout.CENTER);
+        filfPbnf.sftPrfffrrfdSizf(LIST_PREF_SIZE);
+        fd.bdd(filfPbnf, BordfrLbyout.CENTER);
 
 
         // ********************************** //
-        // **** Construct the bottom panel ** //
+        // **** Construdt tif bottom pbnfl ** //
         // ********************************** //
-        bottomPanel = new JPanel();
-        bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
-        fc.add(bottomPanel, BorderLayout.SOUTH);
+        bottomPbnfl = nfw JPbnfl();
+        bottomPbnfl.sftLbyout(nfw BoxLbyout(bottomPbnfl, BoxLbyout.Y_AXIS));
+        fd.bdd(bottomPbnfl, BordfrLbyout.SOUTH);
 
-        // FileName label and textfield
-        JPanel fileNamePanel = new JPanel();
-        fileNamePanel.setLayout(new BoxLayout(fileNamePanel, BoxLayout.LINE_AXIS));
-        bottomPanel.add(fileNamePanel);
-        bottomPanel.add(Box.createRigidArea(new Dimension(1, 5)));
+        // FilfNbmf lbbfl bnd tfxtfifld
+        JPbnfl filfNbmfPbnfl = nfw JPbnfl();
+        filfNbmfPbnfl.sftLbyout(nfw BoxLbyout(filfNbmfPbnfl, BoxLbyout.LINE_AXIS));
+        bottomPbnfl.bdd(filfNbmfPbnfl);
+        bottomPbnfl.bdd(Box.drfbtfRigidArfb(nfw Dimfnsion(1, 5)));
 
-        fileNameLabel = new AlignedLabel();
-        populateFileNameLabel();
-        fileNamePanel.add(fileNameLabel);
+        filfNbmfLbbfl = nfw AlignfdLbbfl();
+        populbtfFilfNbmfLbbfl();
+        filfNbmfPbnfl.bdd(filfNbmfLbbfl);
 
-        fileNameTextField = new JTextField(35) {
-            public Dimension getMaximumSize() {
-                return new Dimension(Short.MAX_VALUE, super.getPreferredSize().height);
+        filfNbmfTfxtFifld = nfw JTfxtFifld(35) {
+            publid Dimfnsion gftMbximumSizf() {
+                rfturn nfw Dimfnsion(Siort.MAX_VALUE, supfr.gftPrfffrrfdSizf().ifigit);
             }
         };
-        fileNamePanel.add(fileNameTextField);
-        fileNameLabel.setLabelFor(fileNameTextField);
-        fileNameTextField.addFocusListener(
-            new FocusAdapter() {
-                public void focusGained(FocusEvent e) {
-                    if (!getFileChooser().isMultiSelectionEnabled()) {
-                        filePane.clearSelection();
+        filfNbmfPbnfl.bdd(filfNbmfTfxtFifld);
+        filfNbmfLbbfl.sftLbbflFor(filfNbmfTfxtFifld);
+        filfNbmfTfxtFifld.bddFodusListfnfr(
+            nfw FodusAdbptfr() {
+                publid void fodusGbinfd(FodusEvfnt f) {
+                    if (!gftFilfCioosfr().isMultiSflfdtionEnbblfd()) {
+                        filfPbnf.dlfbrSflfdtion();
                     }
                 }
             }
         );
-        if (fc.isMultiSelectionEnabled()) {
-            setFileName(fileNameString(fc.getSelectedFiles()));
-        } else {
-            setFileName(fileNameString(fc.getSelectedFile()));
+        if (fd.isMultiSflfdtionEnbblfd()) {
+            sftFilfNbmf(filfNbmfString(fd.gftSflfdtfdFilfs()));
+        } flsf {
+            sftFilfNbmf(filfNbmfString(fd.gftSflfdtfdFilf()));
         }
 
 
-        // Filetype label and combobox
-        JPanel filesOfTypePanel = new JPanel();
-        filesOfTypePanel.setLayout(new BoxLayout(filesOfTypePanel, BoxLayout.LINE_AXIS));
-        bottomPanel.add(filesOfTypePanel);
+        // Filftypf lbbfl bnd dombobox
+        JPbnfl filfsOfTypfPbnfl = nfw JPbnfl();
+        filfsOfTypfPbnfl.sftLbyout(nfw BoxLbyout(filfsOfTypfPbnfl, BoxLbyout.LINE_AXIS));
+        bottomPbnfl.bdd(filfsOfTypfPbnfl);
 
-        AlignedLabel filesOfTypeLabel = new AlignedLabel(filesOfTypeLabelText);
-        filesOfTypeLabel.setDisplayedMnemonic(filesOfTypeLabelMnemonic);
-        filesOfTypePanel.add(filesOfTypeLabel);
+        AlignfdLbbfl filfsOfTypfLbbfl = nfw AlignfdLbbfl(filfsOfTypfLbbflTfxt);
+        filfsOfTypfLbbfl.sftDisplbyfdMnfmonid(filfsOfTypfLbbflMnfmonid);
+        filfsOfTypfPbnfl.bdd(filfsOfTypfLbbfl);
 
-        filterComboBoxModel = createFilterComboBoxModel();
-        fc.addPropertyChangeListener(filterComboBoxModel);
-        filterComboBox = new JComboBox<FileFilter>(filterComboBoxModel);
-        filterComboBox.getAccessibleContext().setAccessibleDescription(filesOfTypeLabelText);
-        filesOfTypeLabel.setLabelFor(filterComboBox);
-        filterComboBox.setRenderer(createFilterComboBoxRenderer());
-        filesOfTypePanel.add(filterComboBox);
+        filtfrComboBoxModfl = drfbtfFiltfrComboBoxModfl();
+        fd.bddPropfrtyCibngfListfnfr(filtfrComboBoxModfl);
+        filtfrComboBox = nfw JComboBox<FilfFiltfr>(filtfrComboBoxModfl);
+        filtfrComboBox.gftAddfssiblfContfxt().sftAddfssiblfDfsdription(filfsOfTypfLbbflTfxt);
+        filfsOfTypfLbbfl.sftLbbflFor(filtfrComboBox);
+        filtfrComboBox.sftRfndfrfr(drfbtfFiltfrComboBoxRfndfrfr());
+        filfsOfTypfPbnfl.bdd(filtfrComboBox);
 
 
         // buttons
-        buttonPanel = new JPanel();
-        buttonPanel.setLayout(new ButtonAreaLayout());
+        buttonPbnfl = nfw JPbnfl();
+        buttonPbnfl.sftLbyout(nfw ButtonArfbLbyout());
 
-        buttonPanel.add(getApproveButton(fc));
-        buttonPanel.add(getCancelButton(fc));
+        buttonPbnfl.bdd(gftApprovfButton(fd));
+        buttonPbnfl.bdd(gftCbndflButton(fd));
 
-        if (fc.getControlButtonsAreShown()) {
-            addControlButtons();
+        if (fd.gftControlButtonsArfSiown()) {
+            bddControlButtons();
         }
 
-        groupLabels(new AlignedLabel[] { fileNameLabel, filesOfTypeLabel });
+        groupLbbfls(nfw AlignfdLbbfl[] { filfNbmfLbbfl, filfsOfTypfLbbfl });
     }
 
-    protected void installListeners(JFileChooser fc) {
-        super.installListeners(fc);
-        fc.addPropertyChangeListener(JFileChooser.FILE_SELECTION_MODE_CHANGED_PROPERTY, modeListener);
+    protfdtfd void instbllListfnfrs(JFilfCioosfr fd) {
+        supfr.instbllListfnfrs(fd);
+        fd.bddPropfrtyCibngfListfnfr(JFilfCioosfr.FILE_SELECTION_MODE_CHANGED_PROPERTY, modfListfnfr);
     }
 
-    protected void uninstallListeners(JFileChooser fc) {
-        fc.removePropertyChangeListener(JFileChooser.FILE_SELECTION_MODE_CHANGED_PROPERTY, modeListener);
-        super.uninstallListeners(fc);
+    protfdtfd void uninstbllListfnfrs(JFilfCioosfr fd) {
+        fd.rfmovfPropfrtyCibngfListfnfr(JFilfCioosfr.FILE_SELECTION_MODE_CHANGED_PROPERTY, modfListfnfr);
+        supfr.uninstbllListfnfrs(fd);
     }
 
-    private String fileNameString(File file) {
-        if (file == null) {
-            return null;
-        } else {
-            JFileChooser fc = getFileChooser();
-            if (fc.isDirectorySelectionEnabled() && !fc.isFileSelectionEnabled()) {
-                return file.getPath();
-            } else {
-                return file.getName();
+    privbtf String filfNbmfString(Filf filf) {
+        if (filf == null) {
+            rfturn null;
+        } flsf {
+            JFilfCioosfr fd = gftFilfCioosfr();
+            if (fd.isDirfdtorySflfdtionEnbblfd() && !fd.isFilfSflfdtionEnbblfd()) {
+                rfturn filf.gftPbti();
+            } flsf {
+                rfturn filf.gftNbmf();
             }
         }
     }
 
-    private String fileNameString(File[] files) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; files != null && i < files.length; i++) {
+    privbtf String filfNbmfString(Filf[] filfs) {
+        StringBuildfr sb = nfw StringBuildfr();
+        for (int i = 0; filfs != null && i < filfs.lfngti; i++) {
             if (i > 0) {
-                sb.append(" ");
+                sb.bppfnd(" ");
             }
-            if (files.length > 1) {
-                sb.append("\"");
+            if (filfs.lfngti > 1) {
+                sb.bppfnd("\"");
             }
-            sb.append(fileNameString(files[i]));
-            if (files.length > 1) {
-                sb.append("\"");
+            sb.bppfnd(filfNbmfString(filfs[i]));
+            if (filfs.lfngti > 1) {
+                sb.bppfnd("\"");
             }
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 
-    public void uninstallUI(JComponent c) {
-        // Remove listeners
-        c.removePropertyChangeListener(filterComboBoxModel);
-        c.removePropertyChangeListener(filePane);
+    publid void uninstbllUI(JComponfnt d) {
+        // Rfmovf listfnfrs
+        d.rfmovfPropfrtyCibngfListfnfr(filtfrComboBoxModfl);
+        d.rfmovfPropfrtyCibngfListfnfr(filfPbnf);
 
-        if (filePane != null) {
-            filePane.uninstallUI();
-            filePane = null;
+        if (filfPbnf != null) {
+            filfPbnf.uninstbllUI();
+            filfPbnf = null;
         }
 
-        super.uninstallUI(c);
+        supfr.uninstbllUI(d);
     }
 
-    protected void installStrings(JFileChooser fc) {
-        super.installStrings(fc);
+    protfdtfd void instbllStrings(JFilfCioosfr fd) {
+        supfr.instbllStrings(fd);
 
-        Locale l = fc.getLocale();
+        Lodblf l = fd.gftLodblf();
 
-        lookInLabelMnemonic = getMnemonic("FileChooser.lookInLabelMnemonic", l);
-        lookInLabelText = UIManager.getString("FileChooser.lookInLabelText", l);
-        saveInLabelText = UIManager.getString("FileChooser.saveInLabelText", l);
+        lookInLbbflMnfmonid = gftMnfmonid("FilfCioosfr.lookInLbbflMnfmonid", l);
+        lookInLbbflTfxt = UIMbnbgfr.gftString("FilfCioosfr.lookInLbbflTfxt", l);
+        sbvfInLbbflTfxt = UIMbnbgfr.gftString("FilfCioosfr.sbvfInLbbflTfxt", l);
 
-        fileNameLabelMnemonic = getMnemonic("FileChooser.fileNameLabelMnemonic", l);
-        fileNameLabelText = UIManager.getString("FileChooser.fileNameLabelText", l);
-        folderNameLabelMnemonic = getMnemonic("FileChooser.folderNameLabelMnemonic", l);
-        folderNameLabelText = UIManager.getString("FileChooser.folderNameLabelText", l);
+        filfNbmfLbbflMnfmonid = gftMnfmonid("FilfCioosfr.filfNbmfLbbflMnfmonid", l);
+        filfNbmfLbbflTfxt = UIMbnbgfr.gftString("FilfCioosfr.filfNbmfLbbflTfxt", l);
+        foldfrNbmfLbbflMnfmonid = gftMnfmonid("FilfCioosfr.foldfrNbmfLbbflMnfmonid", l);
+        foldfrNbmfLbbflTfxt = UIMbnbgfr.gftString("FilfCioosfr.foldfrNbmfLbbflTfxt", l);
 
-        filesOfTypeLabelMnemonic = getMnemonic("FileChooser.filesOfTypeLabelMnemonic", l);
-        filesOfTypeLabelText = UIManager.getString("FileChooser.filesOfTypeLabelText", l);
+        filfsOfTypfLbbflMnfmonid = gftMnfmonid("FilfCioosfr.filfsOfTypfLbbflMnfmonid", l);
+        filfsOfTypfLbbflTfxt = UIMbnbgfr.gftString("FilfCioosfr.filfsOfTypfLbbflTfxt", l);
 
-    upFolderToolTipText =  UIManager.getString("FileChooser.upFolderToolTipText",l);
-    upFolderAccessibleName = UIManager.getString("FileChooser.upFolderAccessibleName",l);
+    upFoldfrToolTipTfxt =  UIMbnbgfr.gftString("FilfCioosfr.upFoldfrToolTipTfxt",l);
+    upFoldfrAddfssiblfNbmf = UIMbnbgfr.gftString("FilfCioosfr.upFoldfrAddfssiblfNbmf",l);
 
-    homeFolderToolTipText =  UIManager.getString("FileChooser.homeFolderToolTipText",l);
-    homeFolderAccessibleName = UIManager.getString("FileChooser.homeFolderAccessibleName",l);
+    iomfFoldfrToolTipTfxt =  UIMbnbgfr.gftString("FilfCioosfr.iomfFoldfrToolTipTfxt",l);
+    iomfFoldfrAddfssiblfNbmf = UIMbnbgfr.gftString("FilfCioosfr.iomfFoldfrAddfssiblfNbmf",l);
 
-    newFolderToolTipText = UIManager.getString("FileChooser.newFolderToolTipText",l);
-    newFolderAccessibleName = UIManager.getString("FileChooser.newFolderAccessibleName",l);
+    nfwFoldfrToolTipTfxt = UIMbnbgfr.gftString("FilfCioosfr.nfwFoldfrToolTipTfxt",l);
+    nfwFoldfrAddfssiblfNbmf = UIMbnbgfr.gftString("FilfCioosfr.nfwFoldfrAddfssiblfNbmf",l);
 
-    listViewButtonToolTipText = UIManager.getString("FileChooser.listViewButtonToolTipText",l);
-    listViewButtonAccessibleName = UIManager.getString("FileChooser.listViewButtonAccessibleName",l);
+    listVifwButtonToolTipTfxt = UIMbnbgfr.gftString("FilfCioosfr.listVifwButtonToolTipTfxt",l);
+    listVifwButtonAddfssiblfNbmf = UIMbnbgfr.gftString("FilfCioosfr.listVifwButtonAddfssiblfNbmf",l);
 
-    detailsViewButtonToolTipText = UIManager.getString("FileChooser.detailsViewButtonToolTipText",l);
-    detailsViewButtonAccessibleName = UIManager.getString("FileChooser.detailsViewButtonAccessibleName",l);
+    dftbilsVifwButtonToolTipTfxt = UIMbnbgfr.gftString("FilfCioosfr.dftbilsVifwButtonToolTipTfxt",l);
+    dftbilsVifwButtonAddfssiblfNbmf = UIMbnbgfr.gftString("FilfCioosfr.dftbilsVifwButtonAddfssiblfNbmf",l);
     }
 
-    private int getMnemonic(String key, Locale l) {
-        return SwingUtilities2.getUIDefaultsInt(key, l);
+    privbtf int gftMnfmonid(String kfy, Lodblf l) {
+        rfturn SwingUtilitifs2.gftUIDffbultsInt(kfy, l);
     }
 
 
-    public String getFileName() {
-        if (fileNameTextField != null) {
-            return fileNameTextField.getText();
-        } else {
-            return null;
-        }
-    }
-
-    public void setFileName(String fileName) {
-        if (fileNameTextField != null) {
-            fileNameTextField.setText(fileName);
+    publid String gftFilfNbmf() {
+        if (filfNbmfTfxtFifld != null) {
+            rfturn filfNbmfTfxtFifld.gftTfxt();
+        } flsf {
+            rfturn null;
         }
     }
 
-    @Override public void rescanCurrentDirectory(JFileChooser fc) {
-        filePane.rescanCurrentDirectory();
+    publid void sftFilfNbmf(String filfNbmf) {
+        if (filfNbmfTfxtFifld != null) {
+            filfNbmfTfxtFifld.sftTfxt(filfNbmf);
+        }
     }
 
-    protected void doSelectedFileChanged(PropertyChangeEvent e) {
-        super.doSelectedFileChanged(e);
+    @Ovfrridf publid void rfsdbnCurrfntDirfdtory(JFilfCioosfr fd) {
+        filfPbnf.rfsdbnCurrfntDirfdtory();
+    }
 
-        File f = (File) e.getNewValue();
-        JFileChooser fc = getFileChooser();
+    protfdtfd void doSflfdtfdFilfCibngfd(PropfrtyCibngfEvfnt f) {
+        supfr.doSflfdtfdFilfCibngfd(f);
+
+        Filf f = (Filf) f.gftNfwVbluf();
+        JFilfCioosfr fd = gftFilfCioosfr();
         if (f != null
-            && ((fc.isFileSelectionEnabled() && !f.isDirectory())
-                || (f.isDirectory() && fc.isDirectorySelectionEnabled()))) {
+            && ((fd.isFilfSflfdtionEnbblfd() && !f.isDirfdtory())
+                || (f.isDirfdtory() && fd.isDirfdtorySflfdtionEnbblfd()))) {
 
-            setFileName(fileNameString(f));
+            sftFilfNbmf(filfNbmfString(f));
         }
     }
 
-    protected void doSelectedFilesChanged(PropertyChangeEvent e) {
-        super.doSelectedFilesChanged(e);
+    protfdtfd void doSflfdtfdFilfsCibngfd(PropfrtyCibngfEvfnt f) {
+        supfr.doSflfdtfdFilfsCibngfd(f);
 
-        File[] files = (File[]) e.getNewValue();
-        JFileChooser fc = getFileChooser();
-        if (files != null
-            && files.length > 0
-            && (files.length > 1 || fc.isDirectorySelectionEnabled() || !files[0].isDirectory())) {
-            setFileName(fileNameString(files));
+        Filf[] filfs = (Filf[]) f.gftNfwVbluf();
+        JFilfCioosfr fd = gftFilfCioosfr();
+        if (filfs != null
+            && filfs.lfngti > 0
+            && (filfs.lfngti > 1 || fd.isDirfdtorySflfdtionEnbblfd() || !filfs[0].isDirfdtory())) {
+            sftFilfNbmf(filfNbmfString(filfs));
         }
     }
 
-    protected void doDirectoryChanged(PropertyChangeEvent e) {
-        super.doDirectoryChanged(e);
+    protfdtfd void doDirfdtoryCibngfd(PropfrtyCibngfEvfnt f) {
+        supfr.doDirfdtoryCibngfd(f);
 
-        JFileChooser fc = getFileChooser();
-        FileSystemView fsv = fc.getFileSystemView();
-        File currentDirectory = fc.getCurrentDirectory();
+        JFilfCioosfr fd = gftFilfCioosfr();
+        FilfSystfmVifw fsv = fd.gftFilfSystfmVifw();
+        Filf durrfntDirfdtory = fd.gftCurrfntDirfdtory();
 
-        if (!readOnly && currentDirectory != null) {
-            getNewFolderAction().setEnabled(filePane.canWrite(currentDirectory));
+        if (!rfbdOnly && durrfntDirfdtory != null) {
+            gftNfwFoldfrAdtion().sftEnbblfd(filfPbnf.dbnWritf(durrfntDirfdtory));
         }
 
-        if (currentDirectory != null) {
-            JComponent cb = getDirectoryComboBox();
-            if (cb instanceof JComboBox) {
-                ComboBoxModel<?> model = ((JComboBox)cb).getModel();
-                if (model instanceof DirectoryComboBoxModel) {
-                    ((DirectoryComboBoxModel)model).addItem(currentDirectory);
+        if (durrfntDirfdtory != null) {
+            JComponfnt db = gftDirfdtoryComboBox();
+            if (db instbndfof JComboBox) {
+                ComboBoxModfl<?> modfl = ((JComboBox)db).gftModfl();
+                if (modfl instbndfof DirfdtoryComboBoxModfl) {
+                    ((DirfdtoryComboBoxModfl)modfl).bddItfm(durrfntDirfdtory);
                 }
             }
 
-            if (fc.isDirectorySelectionEnabled() && !fc.isFileSelectionEnabled()) {
-                if (fsv.isFileSystem(currentDirectory)) {
-                    setFileName(currentDirectory.getPath());
-                } else {
-                    setFileName(null);
+            if (fd.isDirfdtorySflfdtionEnbblfd() && !fd.isFilfSflfdtionEnbblfd()) {
+                if (fsv.isFilfSystfm(durrfntDirfdtory)) {
+                    sftFilfNbmf(durrfntDirfdtory.gftPbti());
+                } flsf {
+                    sftFilfNbmf(null);
                 }
             }
         }
     }
 
 
-    protected void doFileSelectionModeChanged(PropertyChangeEvent e) {
-        super.doFileSelectionModeChanged(e);
+    protfdtfd void doFilfSflfdtionModfCibngfd(PropfrtyCibngfEvfnt f) {
+        supfr.doFilfSflfdtionModfCibngfd(f);
 
-        JFileChooser fc = getFileChooser();
-        File currentDirectory = fc.getCurrentDirectory();
-        if (currentDirectory != null
-            && fc.isDirectorySelectionEnabled()
-            && !fc.isFileSelectionEnabled()
-            && fc.getFileSystemView().isFileSystem(currentDirectory)) {
+        JFilfCioosfr fd = gftFilfCioosfr();
+        Filf durrfntDirfdtory = fd.gftCurrfntDirfdtory();
+        if (durrfntDirfdtory != null
+            && fd.isDirfdtorySflfdtionEnbblfd()
+            && !fd.isFilfSflfdtionEnbblfd()
+            && fd.gftFilfSystfmVifw().isFilfSystfm(durrfntDirfdtory)) {
 
-            setFileName(currentDirectory.getPath());
-        } else {
-            setFileName(null);
+            sftFilfNbmf(durrfntDirfdtory.gftPbti());
+        } flsf {
+            sftFilfNbmf(null);
         }
     }
 
-    protected void doAccessoryChanged(PropertyChangeEvent e) {
-        if (getAccessoryPanel() != null) {
-            if (e.getOldValue() != null) {
-                getAccessoryPanel().remove((JComponent)e.getOldValue());
+    protfdtfd void doAddfssoryCibngfd(PropfrtyCibngfEvfnt f) {
+        if (gftAddfssoryPbnfl() != null) {
+            if (f.gftOldVbluf() != null) {
+                gftAddfssoryPbnfl().rfmovf((JComponfnt)f.gftOldVbluf());
             }
-            JComponent accessory = (JComponent)e.getNewValue();
-            if (accessory != null) {
-                getAccessoryPanel().add(accessory, BorderLayout.CENTER);
+            JComponfnt bddfssory = (JComponfnt)f.gftNfwVbluf();
+            if (bddfssory != null) {
+                gftAddfssoryPbnfl().bdd(bddfssory, BordfrLbyout.CENTER);
             }
         }
     }
 
-    protected void doControlButtonsChanged(PropertyChangeEvent e) {
-        super.doControlButtonsChanged(e);
+    protfdtfd void doControlButtonsCibngfd(PropfrtyCibngfEvfnt f) {
+        supfr.doControlButtonsCibngfd(f);
 
-        if (getFileChooser().getControlButtonsAreShown()) {
-            addControlButtons();
-        } else {
-            removeControlButtons();
+        if (gftFilfCioosfr().gftControlButtonsArfSiown()) {
+            bddControlButtons();
+        } flsf {
+            rfmovfControlButtons();
         }
     }
 
-    protected void addControlButtons() {
-        if (bottomPanel != null) {
-            bottomPanel.add(buttonPanel);
+    protfdtfd void bddControlButtons() {
+        if (bottomPbnfl != null) {
+            bottomPbnfl.bdd(buttonPbnfl);
         }
     }
 
-    protected void removeControlButtons() {
-        if (bottomPanel != null) {
-            bottomPanel.remove(buttonPanel);
+    protfdtfd void rfmovfControlButtons() {
+        if (bottomPbnfl != null) {
+            bottomPbnfl.rfmovf(buttonPbnfl);
         }
     }
 
@@ -634,362 +634,362 @@ public class SynthFileChooserUIImpl extends SynthFileChooserUI {
 
 
     // *******************************************************
-    // ************ FileChooser UI PLAF methods **************
+    // ************ FilfCioosfr UI PLAF mftiods **************
     // *******************************************************
 
-    protected ActionMap createActionMap() {
-        ActionMap map = new ActionMapUIResource();
-        // add standard actions
-        FilePane.addActionsToMap(map, filePane.getActions());
-        // add synth only actions
-        map.put("fileNameCompletion", getFileNameCompletionAction());
-        return map;
+    protfdtfd AdtionMbp drfbtfAdtionMbp() {
+        AdtionMbp mbp = nfw AdtionMbpUIRfsourdf();
+        // bdd stbndbrd bdtions
+        FilfPbnf.bddAdtionsToMbp(mbp, filfPbnf.gftAdtions());
+        // bdd synti only bdtions
+        mbp.put("filfNbmfComplftion", gftFilfNbmfComplftionAdtion());
+        rfturn mbp;
     }
 
     // *****************************
-    // ***** Directory Actions *****
+    // ***** Dirfdtory Adtions *****
     // *****************************
 
-    protected JComponent getDirectoryComboBox() {
-        return directoryComboBox;
+    protfdtfd JComponfnt gftDirfdtoryComboBox() {
+        rfturn dirfdtoryComboBox;
     }
 
-    protected Action getDirectoryComboBoxAction() {
-        return directoryComboBoxAction;
+    protfdtfd Adtion gftDirfdtoryComboBoxAdtion() {
+        rfturn dirfdtoryComboBoxAdtion;
     }
 
-    protected DirectoryComboBoxRenderer createDirectoryComboBoxRenderer(JFileChooser fc) {
-        return new DirectoryComboBoxRenderer(directoryComboBox.getRenderer());
+    protfdtfd DirfdtoryComboBoxRfndfrfr drfbtfDirfdtoryComboBoxRfndfrfr(JFilfCioosfr fd) {
+        rfturn nfw DirfdtoryComboBoxRfndfrfr(dirfdtoryComboBox.gftRfndfrfr());
     }
 
     //
-    // Renderer for DirectoryComboBox
+    // Rfndfrfr for DirfdtoryComboBox
     //
-    // Synth has some odd behavior with regards to renderers. Renderers are styled
-    // in a specific manner by the SynthComboBoxUI. If we extend DefaultListCellRenderer
-    // here, then we get none of those benefits or behaviors, leading to poor
-    // looking combo boxes.
-    // So what we do here is delegate most jobs to the "real" or original renderer,
-    // and simply monkey with the icon and text of the renderer.
-    private class DirectoryComboBoxRenderer implements ListCellRenderer<File> {
-        private ListCellRenderer<? super File> delegate;
-        IndentIcon ii = new IndentIcon();
+    // Synti ibs somf odd bfibvior witi rfgbrds to rfndfrfrs. Rfndfrfrs brf stylfd
+    // in b spfdifid mbnnfr by tif SyntiComboBoxUI. If wf fxtfnd DffbultListCfllRfndfrfr
+    // ifrf, tifn wf gft nonf of tiosf bfnffits or bfibviors, lfbding to poor
+    // looking dombo boxfs.
+    // So wibt wf do ifrf is dflfgbtf most jobs to tif "rfbl" or originbl rfndfrfr,
+    // bnd simply monkfy witi tif idon bnd tfxt of tif rfndfrfr.
+    privbtf dlbss DirfdtoryComboBoxRfndfrfr implfmfnts ListCfllRfndfrfr<Filf> {
+        privbtf ListCfllRfndfrfr<? supfr Filf> dflfgbtf;
+        IndfntIdon ii = nfw IndfntIdon();
 
-        private DirectoryComboBoxRenderer(ListCellRenderer<? super File> delegate) {
-            this.delegate = delegate;
+        privbtf DirfdtoryComboBoxRfndfrfr(ListCfllRfndfrfr<? supfr Filf> dflfgbtf) {
+            tiis.dflfgbtf = dflfgbtf;
         }
 
-        @Override
-        public Component getListCellRendererComponent(JList<? extends File> list, File value, int index, boolean isSelected, boolean cellHasFocus) {
-            Component c = delegate.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+        @Ovfrridf
+        publid Componfnt gftListCfllRfndfrfrComponfnt(JList<? fxtfnds Filf> list, Filf vbluf, int indfx, boolfbn isSflfdtfd, boolfbn dfllHbsFodus) {
+            Componfnt d = dflfgbtf.gftListCfllRfndfrfrComponfnt(list, vbluf, indfx, isSflfdtfd, dfllHbsFodus);
 
-            assert c instanceof JLabel;
-            JLabel label = (JLabel)c;
-            if (value == null) {
-                label.setText("");
-                return label;
+            bssfrt d instbndfof JLbbfl;
+            JLbbfl lbbfl = (JLbbfl)d;
+            if (vbluf == null) {
+                lbbfl.sftTfxt("");
+                rfturn lbbfl;
             }
-            label.setText(getFileChooser().getName(value));
-            Icon icon = getFileChooser().getIcon(value);
-            ii.icon = icon;
-            ii.depth = directoryComboBoxModel.getDepth(index);
-            label.setIcon(ii);
+            lbbfl.sftTfxt(gftFilfCioosfr().gftNbmf(vbluf));
+            Idon idon = gftFilfCioosfr().gftIdon(vbluf);
+            ii.idon = idon;
+            ii.dfpti = dirfdtoryComboBoxModfl.gftDfpti(indfx);
+            lbbfl.sftIdon(ii);
 
-            return label;
+            rfturn lbbfl;
         }
     }
 
-    final static int space = 10;
-    class IndentIcon implements Icon {
+    finbl stbtid int spbdf = 10;
+    dlbss IndfntIdon implfmfnts Idon {
 
-        Icon icon = null;
-        int depth = 0;
+        Idon idon = null;
+        int dfpti = 0;
 
-        public void paintIcon(Component c, Graphics g, int x, int y) {
-            if (icon != null) {
-                if (c.getComponentOrientation().isLeftToRight()) {
-                    icon.paintIcon(c, g, x+depth*space, y);
-                } else {
-                    icon.paintIcon(c, g, x, y);
+        publid void pbintIdon(Componfnt d, Grbpiids g, int x, int y) {
+            if (idon != null) {
+                if (d.gftComponfntOrifntbtion().isLfftToRigit()) {
+                    idon.pbintIdon(d, g, x+dfpti*spbdf, y);
+                } flsf {
+                    idon.pbintIdon(d, g, x, y);
                 }
             }
         }
 
-        public int getIconWidth() {
-            return ((icon != null) ? icon.getIconWidth() : 0) + depth*space;
+        publid int gftIdonWidti() {
+            rfturn ((idon != null) ? idon.gftIdonWidti() : 0) + dfpti*spbdf;
         }
 
-        public int getIconHeight() {
-            return (icon != null) ? icon.getIconHeight() : 0;
+        publid int gftIdonHfigit() {
+            rfturn (idon != null) ? idon.gftIdonHfigit() : 0;
         }
 
     }
 
     //
-    // DataModel for DirectoryComboxbox
+    // DbtbModfl for DirfdtoryComboxbox
     //
-    protected DirectoryComboBoxModel createDirectoryComboBoxModel(JFileChooser fc) {
-        return new DirectoryComboBoxModel();
+    protfdtfd DirfdtoryComboBoxModfl drfbtfDirfdtoryComboBoxModfl(JFilfCioosfr fd) {
+        rfturn nfw DirfdtoryComboBoxModfl();
     }
 
     /**
-     * Data model for a type-face selection combo-box.
+     * Dbtb modfl for b typf-fbdf sflfdtion dombo-box.
      */
-    @SuppressWarnings("serial") // JDK-implementation class
-    protected class DirectoryComboBoxModel extends AbstractListModel<File> implements ComboBoxModel<File> {
-        Vector<File> directories = new Vector<File>();
-        int[] depths = null;
-        File selectedDirectory = null;
-        JFileChooser chooser = getFileChooser();
-        FileSystemView fsv = chooser.getFileSystemView();
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    protfdtfd dlbss DirfdtoryComboBoxModfl fxtfnds AbstrbdtListModfl<Filf> implfmfnts ComboBoxModfl<Filf> {
+        Vfdtor<Filf> dirfdtorifs = nfw Vfdtor<Filf>();
+        int[] dfptis = null;
+        Filf sflfdtfdDirfdtory = null;
+        JFilfCioosfr dioosfr = gftFilfCioosfr();
+        FilfSystfmVifw fsv = dioosfr.gftFilfSystfmVifw();
 
-        public DirectoryComboBoxModel() {
-            // Add the current directory to the model, and make it the
-            // selectedDirectory
-            File dir = getFileChooser().getCurrentDirectory();
+        publid DirfdtoryComboBoxModfl() {
+            // Add tif durrfnt dirfdtory to tif modfl, bnd mbkf it tif
+            // sflfdtfdDirfdtory
+            Filf dir = gftFilfCioosfr().gftCurrfntDirfdtory();
             if (dir != null) {
-                addItem(dir);
+                bddItfm(dir);
             }
         }
 
         /**
-         * Adds the directory to the model and sets it to be selected,
-         * additionally clears out the previous selected directory and
-         * the paths leading up to it, if any.
+         * Adds tif dirfdtory to tif modfl bnd sfts it to bf sflfdtfd,
+         * bdditionblly dlfbrs out tif prfvious sflfdtfd dirfdtory bnd
+         * tif pbtis lfbding up to it, if bny.
          */
-        public void addItem(File directory) {
+        publid void bddItfm(Filf dirfdtory) {
 
-            if (directory == null) {
-                return;
+            if (dirfdtory == null) {
+                rfturn;
             }
 
-            boolean useShellFolder = FilePane.usesShellFolder(chooser);
+            boolfbn usfSifllFoldfr = FilfPbnf.usfsSifllFoldfr(dioosfr);
 
-            int oldSize = directories.size();
-            directories.clear();
-            if (oldSize > 0) {
-                fireIntervalRemoved(this, 0, oldSize);
+            int oldSizf = dirfdtorifs.sizf();
+            dirfdtorifs.dlfbr();
+            if (oldSizf > 0) {
+                firfIntfrvblRfmovfd(tiis, 0, oldSizf);
             }
 
-            File[] baseFolders;
-            if (useShellFolder) {
-                baseFolders = AccessController.doPrivileged(new PrivilegedAction<File[]>() {
-                    public File[] run() {
-                        return (File[]) ShellFolder.get("fileChooserComboBoxFolders");
+            Filf[] bbsfFoldfrs;
+            if (usfSifllFoldfr) {
+                bbsfFoldfrs = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Filf[]>() {
+                    publid Filf[] run() {
+                        rfturn (Filf[]) SifllFoldfr.gft("filfCioosfrComboBoxFoldfrs");
                     }
                 });
-            } else {
-                baseFolders = fsv.getRoots();
+            } flsf {
+                bbsfFoldfrs = fsv.gftRoots();
             }
-            directories.addAll(Arrays.asList(baseFolders));
+            dirfdtorifs.bddAll(Arrbys.bsList(bbsfFoldfrs));
 
-            // Get the canonical (full) path. This has the side
-            // benefit of removing extraneous chars from the path,
-            // for example /foo/bar/ becomes /foo/bar
-            File canonical;
+            // Gft tif dbnonidbl (full) pbti. Tiis ibs tif sidf
+            // bfnffit of rfmoving fxtrbnfous dibrs from tif pbti,
+            // for fxbmplf /foo/bbr/ bfdomfs /foo/bbr
+            Filf dbnonidbl;
             try {
-                canonical = ShellFolder.getNormalizedFile(directory);
-            } catch (IOException e) {
-                // Maybe drive is not ready. Can't abort here.
-                canonical = directory;
+                dbnonidbl = SifllFoldfr.gftNormblizfdFilf(dirfdtory);
+            } dbtdi (IOExdfption f) {
+                // Mbybf drivf is not rfbdy. Cbn't bbort ifrf.
+                dbnonidbl = dirfdtory;
             }
 
-            // create File instances of each directory leading up to the top
+            // drfbtf Filf instbndfs of fbdi dirfdtory lfbding up to tif top
             try {
-                File sf = useShellFolder ? ShellFolder.getShellFolder(canonical)
-                                         : canonical;
-                File f = sf;
-                Vector<File> path = new Vector<File>(10);
+                Filf sf = usfSifllFoldfr ? SifllFoldfr.gftSifllFoldfr(dbnonidbl)
+                                         : dbnonidbl;
+                Filf f = sf;
+                Vfdtor<Filf> pbti = nfw Vfdtor<Filf>(10);
                 do {
-                    path.addElement(f);
-                } while ((f = f.getParentFile()) != null);
+                    pbti.bddElfmfnt(f);
+                } wiilf ((f = f.gftPbrfntFilf()) != null);
 
-                int pathCount = path.size();
-                // Insert chain at appropriate place in vector
-                for (int i = 0; i < pathCount; i++) {
-                    f = path.get(i);
-                    if (directories.contains(f)) {
-                        int topIndex = directories.indexOf(f);
+                int pbtiCount = pbti.sizf();
+                // Insfrt dibin bt bppropribtf plbdf in vfdtor
+                for (int i = 0; i < pbtiCount; i++) {
+                    f = pbti.gft(i);
+                    if (dirfdtorifs.dontbins(f)) {
+                        int topIndfx = dirfdtorifs.indfxOf(f);
                         for (int j = i-1; j >= 0; j--) {
-                            directories.insertElementAt(path.get(j), topIndex+i-j);
+                            dirfdtorifs.insfrtElfmfntAt(pbti.gft(j), topIndfx+i-j);
                         }
-                        break;
+                        brfbk;
                     }
                 }
-                calculateDepths();
-                setSelectedItem(sf);
-            } catch (FileNotFoundException ex) {
-                calculateDepths();
+                dbldulbtfDfptis();
+                sftSflfdtfdItfm(sf);
+            } dbtdi (FilfNotFoundExdfption fx) {
+                dbldulbtfDfptis();
             }
         }
 
-        private void calculateDepths() {
-            depths = new int[directories.size()];
-            for (int i = 0; i < depths.length; i++) {
-                File dir = directories.get(i);
-                File parent = dir.getParentFile();
-                depths[i] = 0;
-                if (parent != null) {
+        privbtf void dbldulbtfDfptis() {
+            dfptis = nfw int[dirfdtorifs.sizf()];
+            for (int i = 0; i < dfptis.lfngti; i++) {
+                Filf dir = dirfdtorifs.gft(i);
+                Filf pbrfnt = dir.gftPbrfntFilf();
+                dfptis[i] = 0;
+                if (pbrfnt != null) {
                     for (int j = i-1; j >= 0; j--) {
-                        if (parent.equals(directories.get(j))) {
-                            depths[i] = depths[j] + 1;
-                            break;
+                        if (pbrfnt.fqubls(dirfdtorifs.gft(j))) {
+                            dfptis[i] = dfptis[j] + 1;
+                            brfbk;
                         }
                     }
                 }
             }
         }
 
-        public int getDepth(int i) {
-            return (depths != null && i >= 0 && i < depths.length) ? depths[i] : 0;
+        publid int gftDfpti(int i) {
+            rfturn (dfptis != null && i >= 0 && i < dfptis.lfngti) ? dfptis[i] : 0;
         }
 
-        public void setSelectedItem(Object selectedDirectory) {
-            this.selectedDirectory = (File)selectedDirectory;
-            fireContentsChanged(this, -1, -1);
+        publid void sftSflfdtfdItfm(Objfdt sflfdtfdDirfdtory) {
+            tiis.sflfdtfdDirfdtory = (Filf)sflfdtfdDirfdtory;
+            firfContfntsCibngfd(tiis, -1, -1);
         }
 
-        public Object getSelectedItem() {
-            return selectedDirectory;
+        publid Objfdt gftSflfdtfdItfm() {
+            rfturn sflfdtfdDirfdtory;
         }
 
-        public int getSize() {
-            return directories.size();
+        publid int gftSizf() {
+            rfturn dirfdtorifs.sizf();
         }
 
-        public File getElementAt(int index) {
-            return directories.elementAt(index);
+        publid Filf gftElfmfntAt(int indfx) {
+            rfturn dirfdtorifs.flfmfntAt(indfx);
         }
     }
 
     /**
-     * Acts when DirectoryComboBox has changed the selected item.
+     * Adts wifn DirfdtoryComboBox ibs dibngfd tif sflfdtfd itfm.
      */
-    @SuppressWarnings("serial") // JDK-implementation class
-    protected class DirectoryComboBoxAction extends AbstractAction {
-        protected DirectoryComboBoxAction() {
-            super("DirectoryComboBoxAction");
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    protfdtfd dlbss DirfdtoryComboBoxAdtion fxtfnds AbstrbdtAdtion {
+        protfdtfd DirfdtoryComboBoxAdtion() {
+            supfr("DirfdtoryComboBoxAdtion");
         }
 
-        public void actionPerformed(ActionEvent e) {
-            directoryComboBox.hidePopup();
-            JComponent cb = getDirectoryComboBox();
-            if (cb instanceof JComboBox) {
-                File f = (File)((JComboBox)cb).getSelectedItem();
-                getFileChooser().setCurrentDirectory(f);
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            dirfdtoryComboBox.iidfPopup();
+            JComponfnt db = gftDirfdtoryComboBox();
+            if (db instbndfof JComboBox) {
+                Filf f = (Filf)((JComboBox)db).gftSflfdtfdItfm();
+                gftFilfCioosfr().sftCurrfntDirfdtory(f);
             }
         }
     }
 
     //
-    // Renderer for Types ComboBox
+    // Rfndfrfr for Typfs ComboBox
     //
-    protected FilterComboBoxRenderer createFilterComboBoxRenderer() {
-        return new FilterComboBoxRenderer(filterComboBox.getRenderer());
+    protfdtfd FiltfrComboBoxRfndfrfr drfbtfFiltfrComboBoxRfndfrfr() {
+        rfturn nfw FiltfrComboBoxRfndfrfr(filtfrComboBox.gftRfndfrfr());
     }
 
     /**
-     * Render different type sizes and styles.
+     * Rfndfr difffrfnt typf sizfs bnd stylfs.
      */
-    public class FilterComboBoxRenderer implements ListCellRenderer<FileFilter> {
-        private ListCellRenderer<? super FileFilter> delegate;
-        private FilterComboBoxRenderer(ListCellRenderer<? super FileFilter> delegate) {
-            this.delegate = delegate;
+    publid dlbss FiltfrComboBoxRfndfrfr implfmfnts ListCfllRfndfrfr<FilfFiltfr> {
+        privbtf ListCfllRfndfrfr<? supfr FilfFiltfr> dflfgbtf;
+        privbtf FiltfrComboBoxRfndfrfr(ListCfllRfndfrfr<? supfr FilfFiltfr> dflfgbtf) {
+            tiis.dflfgbtf = dflfgbtf;
         }
 
-        public Component getListCellRendererComponent(JList<? extends FileFilter> list, FileFilter value, int index,
-                                                      boolean isSelected, boolean cellHasFocus) {
-            Component c = delegate.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+        publid Componfnt gftListCfllRfndfrfrComponfnt(JList<? fxtfnds FilfFiltfr> list, FilfFiltfr vbluf, int indfx,
+                                                      boolfbn isSflfdtfd, boolfbn dfllHbsFodus) {
+            Componfnt d = dflfgbtf.gftListCfllRfndfrfrComponfnt(list, vbluf, indfx, isSflfdtfd, dfllHbsFodus);
 
-            String text = null;
-            if (value != null) {
-                text = value.getDescription();
+            String tfxt = null;
+            if (vbluf != null) {
+                tfxt = vbluf.gftDfsdription();
             }
 
-            //this should always be true, since SynthComboBoxUI's SynthComboBoxRenderer
-            //extends JLabel
-            assert c instanceof JLabel;
-            if (text != null) {
-                ((JLabel)c).setText(text);
+            //tiis siould blwbys bf truf, sindf SyntiComboBoxUI's SyntiComboBoxRfndfrfr
+            //fxtfnds JLbbfl
+            bssfrt d instbndfof JLbbfl;
+            if (tfxt != null) {
+                ((JLbbfl)d).sftTfxt(tfxt);
             }
-            return c;
+            rfturn d;
         }
     }
 
     //
-    // DataModel for Types Comboxbox
+    // DbtbModfl for Typfs Comboxbox
     //
-    protected FilterComboBoxModel createFilterComboBoxModel() {
-        return new FilterComboBoxModel();
+    protfdtfd FiltfrComboBoxModfl drfbtfFiltfrComboBoxModfl() {
+        rfturn nfw FiltfrComboBoxModfl();
     }
 
     /**
-     * Data model for a type-face selection combo-box.
+     * Dbtb modfl for b typf-fbdf sflfdtion dombo-box.
      */
-    @SuppressWarnings("serial") // JDK-implementation class
-    protected class FilterComboBoxModel extends AbstractListModel<FileFilter> implements ComboBoxModel<FileFilter>,
-            PropertyChangeListener {
-        protected FileFilter[] filters;
-        protected FilterComboBoxModel() {
-            super();
-            filters = getFileChooser().getChoosableFileFilters();
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    protfdtfd dlbss FiltfrComboBoxModfl fxtfnds AbstrbdtListModfl<FilfFiltfr> implfmfnts ComboBoxModfl<FilfFiltfr>,
+            PropfrtyCibngfListfnfr {
+        protfdtfd FilfFiltfr[] filtfrs;
+        protfdtfd FiltfrComboBoxModfl() {
+            supfr();
+            filtfrs = gftFilfCioosfr().gftCioosbblfFilfFiltfrs();
         }
 
-        public void propertyChange(PropertyChangeEvent e) {
-            String prop = e.getPropertyName();
-            if(prop == JFileChooser.CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY) {
-                filters = (FileFilter[]) e.getNewValue();
-                fireContentsChanged(this, -1, -1);
-            } else if (prop == JFileChooser.FILE_FILTER_CHANGED_PROPERTY) {
-                fireContentsChanged(this, -1, -1);
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+            String prop = f.gftPropfrtyNbmf();
+            if(prop == JFilfCioosfr.CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY) {
+                filtfrs = (FilfFiltfr[]) f.gftNfwVbluf();
+                firfContfntsCibngfd(tiis, -1, -1);
+            } flsf if (prop == JFilfCioosfr.FILE_FILTER_CHANGED_PROPERTY) {
+                firfContfntsCibngfd(tiis, -1, -1);
             }
         }
 
-        public void setSelectedItem(Object filter) {
-            if(filter != null) {
-                getFileChooser().setFileFilter((FileFilter) filter);
-                fireContentsChanged(this, -1, -1);
+        publid void sftSflfdtfdItfm(Objfdt filtfr) {
+            if(filtfr != null) {
+                gftFilfCioosfr().sftFilfFiltfr((FilfFiltfr) filtfr);
+                firfContfntsCibngfd(tiis, -1, -1);
             }
         }
 
-        public Object getSelectedItem() {
-            // Ensure that the current filter is in the list.
-            // NOTE: we shouldnt' have to do this, since JFileChooser adds
-            // the filter to the choosable filters list when the filter
-            // is set. Lets be paranoid just in case someone overrides
-            // setFileFilter in JFileChooser.
-            FileFilter currentFilter = getFileChooser().getFileFilter();
-            boolean found = false;
-            if(currentFilter != null) {
-                for (FileFilter filter : filters) {
-                    if (filter == currentFilter) {
-                        found = true;
+        publid Objfdt gftSflfdtfdItfm() {
+            // Ensurf tibt tif durrfnt filtfr is in tif list.
+            // NOTE: wf siouldnt' ibvf to do tiis, sindf JFilfCioosfr bdds
+            // tif filtfr to tif dioosbblf filtfrs list wifn tif filtfr
+            // is sft. Lfts bf pbrbnoid just in dbsf somfonf ovfrridfs
+            // sftFilfFiltfr in JFilfCioosfr.
+            FilfFiltfr durrfntFiltfr = gftFilfCioosfr().gftFilfFiltfr();
+            boolfbn found = fblsf;
+            if(durrfntFiltfr != null) {
+                for (FilfFiltfr filtfr : filtfrs) {
+                    if (filtfr == durrfntFiltfr) {
+                        found = truf;
                     }
                 }
-                if(found == false) {
-                    getFileChooser().addChoosableFileFilter(currentFilter);
+                if(found == fblsf) {
+                    gftFilfCioosfr().bddCioosbblfFilfFiltfr(durrfntFiltfr);
                 }
             }
-            return getFileChooser().getFileFilter();
+            rfturn gftFilfCioosfr().gftFilfFiltfr();
         }
 
-        public int getSize() {
-            if(filters != null) {
-                return filters.length;
-            } else {
-                return 0;
+        publid int gftSizf() {
+            if(filtfrs != null) {
+                rfturn filtfrs.lfngti;
+            } flsf {
+                rfturn 0;
             }
         }
 
-        public FileFilter getElementAt(int index) {
-            if(index > getSize() - 1) {
-                // This shouldn't happen. Try to recover gracefully.
-                return getFileChooser().getFileFilter();
+        publid FilfFiltfr gftElfmfntAt(int indfx) {
+            if(indfx > gftSizf() - 1) {
+                // Tiis siouldn't ibppfn. Try to rfdovfr grbdffully.
+                rfturn gftFilfCioosfr().gftFilfFiltfr();
             }
-            if(filters != null) {
-                return filters[index];
-            } else {
-                return null;
+            if(filtfrs != null) {
+                rfturn filtfrs[indfx];
+            } flsf {
+                rfturn null;
             }
         }
     }
@@ -997,122 +997,122 @@ public class SynthFileChooserUIImpl extends SynthFileChooserUI {
 
 
     /**
-     * <code>ButtonAreaLayout</code> behaves in a similar manner to
-     * <code>FlowLayout</code>. It lays out all components from left to
-     * right, flushed right. The widths of all components will be set
-     * to the largest preferred size width.
+     * <dodf>ButtonArfbLbyout</dodf> bfibvfs in b similbr mbnnfr to
+     * <dodf>FlowLbyout</dodf>. It lbys out bll domponfnts from lfft to
+     * rigit, flusifd rigit. Tif widtis of bll domponfnts will bf sft
+     * to tif lbrgfst prfffrrfd sizf widti.
      */
-    private static class ButtonAreaLayout implements LayoutManager {
-        private int hGap = 5;
-        private int topMargin = 17;
+    privbtf stbtid dlbss ButtonArfbLbyout implfmfnts LbyoutMbnbgfr {
+        privbtf int iGbp = 5;
+        privbtf int topMbrgin = 17;
 
-        public void addLayoutComponent(String string, Component comp) {
+        publid void bddLbyoutComponfnt(String string, Componfnt domp) {
         }
 
-        public void layoutContainer(Container container) {
-            Component[] children = container.getComponents();
+        publid void lbyoutContbinfr(Contbinfr dontbinfr) {
+            Componfnt[] diildrfn = dontbinfr.gftComponfnts();
 
-            if (children != null && children.length > 0) {
-                int         numChildren = children.length;
-                Dimension[] sizes = new Dimension[numChildren];
-                Insets      insets = container.getInsets();
-                int         yLocation = insets.top + topMargin;
-                int         maxWidth = 0;
+            if (diildrfn != null && diildrfn.lfngti > 0) {
+                int         numCiildrfn = diildrfn.lfngti;
+                Dimfnsion[] sizfs = nfw Dimfnsion[numCiildrfn];
+                Insfts      insfts = dontbinfr.gftInsfts();
+                int         yLodbtion = insfts.top + topMbrgin;
+                int         mbxWidti = 0;
 
-                for (int counter = 0; counter < numChildren; counter++) {
-                    sizes[counter] = children[counter].getPreferredSize();
-                    maxWidth = Math.max(maxWidth, sizes[counter].width);
+                for (int dountfr = 0; dountfr < numCiildrfn; dountfr++) {
+                    sizfs[dountfr] = diildrfn[dountfr].gftPrfffrrfdSizf();
+                    mbxWidti = Mbti.mbx(mbxWidti, sizfs[dountfr].widti);
                 }
-                int xLocation, xOffset;
-                if (container.getComponentOrientation().isLeftToRight()) {
-                    xLocation = container.getSize().width - insets.left - maxWidth;
-                    xOffset = hGap + maxWidth;
-                } else {
-                    xLocation = insets.left;
-                    xOffset = -(hGap + maxWidth);
+                int xLodbtion, xOffsft;
+                if (dontbinfr.gftComponfntOrifntbtion().isLfftToRigit()) {
+                    xLodbtion = dontbinfr.gftSizf().widti - insfts.lfft - mbxWidti;
+                    xOffsft = iGbp + mbxWidti;
+                } flsf {
+                    xLodbtion = insfts.lfft;
+                    xOffsft = -(iGbp + mbxWidti);
                 }
-                for (int counter = numChildren - 1; counter >= 0; counter--) {
-                    children[counter].setBounds(xLocation, yLocation,
-                                                maxWidth, sizes[counter].height);
-                    xLocation -= xOffset;
+                for (int dountfr = numCiildrfn - 1; dountfr >= 0; dountfr--) {
+                    diildrfn[dountfr].sftBounds(xLodbtion, yLodbtion,
+                                                mbxWidti, sizfs[dountfr].ifigit);
+                    xLodbtion -= xOffsft;
                 }
             }
         }
 
-        public Dimension minimumLayoutSize(Container c) {
-            if (c != null) {
-                Component[] children = c.getComponents();
+        publid Dimfnsion minimumLbyoutSizf(Contbinfr d) {
+            if (d != null) {
+                Componfnt[] diildrfn = d.gftComponfnts();
 
-                if (children != null && children.length > 0) {
-                    int       numChildren = children.length;
-                    int       height = 0;
-                    Insets    cInsets = c.getInsets();
-                    int       extraHeight = topMargin + cInsets.top + cInsets.bottom;
-                    int       extraWidth = cInsets.left + cInsets.right;
-                    int       maxWidth = 0;
+                if (diildrfn != null && diildrfn.lfngti > 0) {
+                    int       numCiildrfn = diildrfn.lfngti;
+                    int       ifigit = 0;
+                    Insfts    dInsfts = d.gftInsfts();
+                    int       fxtrbHfigit = topMbrgin + dInsfts.top + dInsfts.bottom;
+                    int       fxtrbWidti = dInsfts.lfft + dInsfts.rigit;
+                    int       mbxWidti = 0;
 
-                    for (int counter = 0; counter < numChildren; counter++) {
-                        Dimension aSize = children[counter].getPreferredSize();
-                        height = Math.max(height, aSize.height);
-                        maxWidth = Math.max(maxWidth, aSize.width);
+                    for (int dountfr = 0; dountfr < numCiildrfn; dountfr++) {
+                        Dimfnsion bSizf = diildrfn[dountfr].gftPrfffrrfdSizf();
+                        ifigit = Mbti.mbx(ifigit, bSizf.ifigit);
+                        mbxWidti = Mbti.mbx(mbxWidti, bSizf.widti);
                     }
-                    return new Dimension(extraWidth + numChildren * maxWidth +
-                                         (numChildren - 1) * hGap,
-                                         extraHeight + height);
+                    rfturn nfw Dimfnsion(fxtrbWidti + numCiildrfn * mbxWidti +
+                                         (numCiildrfn - 1) * iGbp,
+                                         fxtrbHfigit + ifigit);
                 }
             }
-            return new Dimension(0, 0);
+            rfturn nfw Dimfnsion(0, 0);
         }
 
-        public Dimension preferredLayoutSize(Container c) {
-            return minimumLayoutSize(c);
+        publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr d) {
+            rfturn minimumLbyoutSizf(d);
         }
 
-        public void removeLayoutComponent(Component c) { }
+        publid void rfmovfLbyoutComponfnt(Componfnt d) { }
     }
 
-    private static void groupLabels(AlignedLabel[] group) {
-        for (int i = 0; i < group.length; i++) {
+    privbtf stbtid void groupLbbfls(AlignfdLbbfl[] group) {
+        for (int i = 0; i < group.lfngti; i++) {
             group[i].group = group;
         }
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    private class AlignedLabel extends JLabel {
-        private AlignedLabel[] group;
-        private int maxWidth = 0;
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    privbtf dlbss AlignfdLbbfl fxtfnds JLbbfl {
+        privbtf AlignfdLbbfl[] group;
+        privbtf int mbxWidti = 0;
 
-        AlignedLabel() {
-            super();
-            setAlignmentX(JComponent.LEFT_ALIGNMENT);
+        AlignfdLbbfl() {
+            supfr();
+            sftAlignmfntX(JComponfnt.LEFT_ALIGNMENT);
         }
 
-        AlignedLabel(String text) {
-            super(text);
-            setAlignmentX(JComponent.LEFT_ALIGNMENT);
+        AlignfdLbbfl(String tfxt) {
+            supfr(tfxt);
+            sftAlignmfntX(JComponfnt.LEFT_ALIGNMENT);
         }
 
-        public Dimension getPreferredSize() {
-            Dimension d = super.getPreferredSize();
-            // Align the width with all other labels in group.
-            return new Dimension(getMaxWidth() + 11, d.height);
+        publid Dimfnsion gftPrfffrrfdSizf() {
+            Dimfnsion d = supfr.gftPrfffrrfdSizf();
+            // Align tif widti witi bll otifr lbbfls in group.
+            rfturn nfw Dimfnsion(gftMbxWidti() + 11, d.ifigit);
         }
 
-        private int getMaxWidth() {
-            if (maxWidth == 0 && group != null) {
-                int max = 0;
-                for (int i = 0; i < group.length; i++) {
-                    max = Math.max(group[i].getSuperPreferredWidth(), max);
+        privbtf int gftMbxWidti() {
+            if (mbxWidti == 0 && group != null) {
+                int mbx = 0;
+                for (int i = 0; i < group.lfngti; i++) {
+                    mbx = Mbti.mbx(group[i].gftSupfrPrfffrrfdWidti(), mbx);
                 }
-                for (int i = 0; i < group.length; i++) {
-                    group[i].maxWidth = max;
+                for (int i = 0; i < group.lfngti; i++) {
+                    group[i].mbxWidti = mbx;
                 }
             }
-            return maxWidth;
+            rfturn mbxWidti;
         }
 
-        private int getSuperPreferredWidth() {
-            return super.getPreferredSize().width;
+        privbtf int gftSupfrPrfffrrfdWidti() {
+            rfturn supfr.gftPrfffrrfdSizf().widti;
         }
     }
 }

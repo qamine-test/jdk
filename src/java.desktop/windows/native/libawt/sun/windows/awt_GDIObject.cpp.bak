@@ -1,162 +1,162 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "awt_GDIObject.h"
+#indludf "bwt_GDIObjfdt.i"
 
 /**
- * These methods work around a bug in Windows where allocating
- * the max number of GDI Objects (HDC, Pen, Brush, etc.) will cause the
- * application and desktop to become unusable.  The workaround
- * ensures we never reach this maximum, by refcounting
- * HDC, Pen, and Brush objects that are active.  We increment the refcount
- * when we create these objects and decrement the
- * refcount when we release them, so that our numCurrentObjects
- * counter should always equal the number of unreleased objects.
- * We only do this for HDC, Pen, and Brush because these are the only GDI
- * objects that may grow without bound in our implementation (we cache
- * these objects per thread, so a growing number of threads may have
- * unique HDC/Pen/Brush objects per thread and might approach the maximum).
- * Also, we do not count objects allocated on a temporary basis (such as
- * the many calls to GetDC() in our code, followed quickly by ReleaseDC());
- * we only care about long-lived GDI objects that might bloat our total
- * object usage.
+ * Tifsf mftiods work bround b bug in Windows wifrf bllodbting
+ * tif mbx numbfr of GDI Objfdts (HDC, Pfn, Brusi, ftd.) will dbusf tif
+ * bpplidbtion bnd dfsktop to bfdomf unusbblf.  Tif workbround
+ * fnsurfs wf nfvfr rfbdi tiis mbximum, by rffdounting
+ * HDC, Pfn, bnd Brusi objfdts tibt brf bdtivf.  Wf indrfmfnt tif rffdount
+ * wifn wf drfbtf tifsf objfdts bnd dfdrfmfnt tif
+ * rffdount wifn wf rflfbsf tifm, so tibt our numCurrfntObjfdts
+ * dountfr siould blwbys fqubl tif numbfr of unrflfbsfd objfdts.
+ * Wf only do tiis for HDC, Pfn, bnd Brusi bfdbusf tifsf brf tif only GDI
+ * objfdts tibt mby grow witiout bound in our implfmfntbtion (wf dbdif
+ * tifsf objfdts pfr tirfbd, so b growing numbfr of tirfbds mby ibvf
+ * uniquf HDC/Pfn/Brusi objfdts pfr tirfbd bnd migit bpprobdi tif mbximum).
+ * Also, wf do not dount objfdts bllodbtfd on b tfmporbry bbsis (sudi bs
+ * tif mbny dblls to GftDC() in our dodf, followfd quidkly by RflfbsfDC());
+ * wf only dbrf bbout long-livfd GDI objfdts tibt migit blobt our totbl
+ * objfdt usbgf.
  */
 
 /**
- * Default GDI Object limit for win2k and XP is 10,000
- * Set our limit much lower than that to allow a buffer for objects
- * created beyond the per-thread HDC/Brush/Pen objects we are
- * counting here, including objects created by the overall process
- * (which could include the browser, in the case of applets)
+ * Dffbult GDI Objfdt limit for win2k bnd XP is 10,000
+ * Sft our limit mudi lowfr tibn tibt to bllow b bufffr for objfdts
+ * drfbtfd bfyond tif pfr-tirfbd HDC/Brusi/Pfn objfdts wf brf
+ * dounting ifrf, indluding objfdts drfbtfd by tif ovfrbll prodfss
+ * (wiidi dould indludf tif browsfr, in tif dbsf of bpplfts)
  */
-#define MAX_GDI_OBJECTS 9000
+#dffinf MAX_GDI_OBJECTS 9000
 
-// Static initialization of these globals used in AwtGDIObject
-int AwtGDIObject::numCurrentObjects = 0;
-// this variable will never be deleted. initialized below with SafeCreate.
-CriticalSection* AwtGDIObject::objectCounterLock = NULL;
-int AwtGDIObject::maxGDIObjects = GetMaxGDILimit();
+// Stbtid initiblizbtion of tifsf globbls usfd in AwtGDIObjfdt
+int AwtGDIObjfdt::numCurrfntObjfdts = 0;
+// tiis vbribblf will nfvfr bf dflftfd. initiblizfd bflow witi SbffCrfbtf.
+CritidblSfdtion* AwtGDIObjfdt::objfdtCountfrLodk = NULL;
+int AwtGDIObjfdt::mbxGDIObjfdts = GftMbxGDILimit();
 
 /**
- * Sets up max GDI limit; we query the registry key that
- * defines this value on WindowsXP and Windows2000.
- * If we fail here, we will use the default value
- * MAX_GDI_OBJECTS as a fallback value.  This is not unreasonable -
- * it seems unlikely that many people would change this
- * registry key setting.
- * NOTE: This function is called automatically at startup to
- * set the value of maxGDIObjects; it should not be necessary to
- * call this function from anywhere else.  Think of it like a static
- * block in Java.
+ * Sfts up mbx GDI limit; wf qufry tif rfgistry kfy tibt
+ * dffinfs tiis vbluf on WindowsXP bnd Windows2000.
+ * If wf fbil ifrf, wf will usf tif dffbult vbluf
+ * MAX_GDI_OBJECTS bs b fbllbbdk vbluf.  Tiis is not unrfbsonbblf -
+ * it sffms unlikfly tibt mbny pfoplf would dibngf tiis
+ * rfgistry kfy sftting.
+ * NOTE: Tiis fundtion is dbllfd butombtidblly bt stbrtup to
+ * sft tif vbluf of mbxGDIObjfdts; it siould not bf nfdfssbry to
+ * dbll tiis fundtion from bnywifrf flsf.  Tiink of it likf b stbtid
+ * blodk in Jbvb.
  */
-int AwtGDIObject::GetMaxGDILimit() {
+int AwtGDIObjfdt::GftMbxGDILimit() {
     int limit = MAX_GDI_OBJECTS;
-    HKEY hKey = NULL;
-    DWORD ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-        L"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Windows", 0,
-        KEY_QUERY_VALUE, &hKey);
-    if (ret == ERROR_SUCCESS) {
-        DWORD valueLength = 4;
-        DWORD regValue;
-        ret = RegQueryValueEx(hKey, L"GDIProcessHandleQuota", NULL, NULL,
-            (LPBYTE)&regValue, &valueLength);
-        if (ret == ERROR_SUCCESS) {
-            // Set limit to 90% of the actual limit to account for other
-            // GDI objects that the process might need
-            limit = (int)(regValue * .9);
-        } else {
-            J2dTraceLn(J2D_TRACE_WARNING,
-                "Problem with RegQueryValueEx in GetMaxGDILimit");
+    HKEY iKfy = NULL;
+    DWORD rft = RfgOpfnKfyEx(HKEY_LOCAL_MACHINE,
+        L"SOFTWARE\\Midrosoft\\Windows NT\\CurrfntVfrsion\\Windows", 0,
+        KEY_QUERY_VALUE, &iKfy);
+    if (rft == ERROR_SUCCESS) {
+        DWORD vblufLfngti = 4;
+        DWORD rfgVbluf;
+        rft = RfgQufryVblufEx(iKfy, L"GDIProdfssHbndlfQuotb", NULL, NULL,
+            (LPBYTE)&rfgVbluf, &vblufLfngti);
+        if (rft == ERROR_SUCCESS) {
+            // Sft limit to 90% of tif bdtubl limit to bddount for otifr
+            // GDI objfdts tibt tif prodfss migit nffd
+            limit = (int)(rfgVbluf * .9);
+        } flsf {
+            J2dTrbdfLn(J2D_TRACE_WARNING,
+                "Problfm witi RfgQufryVblufEx in GftMbxGDILimit");
         }
-        RegCloseKey(hKey);
-    } else {
-        J2dTraceLn(J2D_TRACE_WARNING,
-            "Problem with RegOpenKeyEx in GetMaxGDILimit");
+        RfgClosfKfy(iKfy);
+    } flsf {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+            "Problfm witi RfgOpfnKfyEx in GftMbxGDILimit");
     }
-    return limit;
+    rfturn limit;
 }
 
 /**
- * Increment the object counter to indicate that we are about to
- * create a new GDI object.  If the limit has been reached, skip the
- * increment and return FALSE to indicate that an object should
- * not be allocated.
+ * Indrfmfnt tif objfdt dountfr to indidbtf tibt wf brf bbout to
+ * drfbtf b nfw GDI objfdt.  If tif limit ibs bffn rfbdifd, skip tif
+ * indrfmfnt bnd rfturn FALSE to indidbtf tibt bn objfdt siould
+ * not bf bllodbtfd.
  */
-BOOL AwtGDIObject::IncrementIfAvailable() {
-    BOOL available;
-    CriticalSection* pLock = SafeCreate(objectCounterLock);
-    pLock->Enter();
-    if (numCurrentObjects < maxGDIObjects) {
-        available = TRUE;
-        ++numCurrentObjects;
-    } else {
-        // First, flush the cache; we may have run out simply because
-        // we have unused colors still reserved in the cache
-        GDIHashtable::flushAll();
-        // Now check again to see if flushing helped.  If not, we really
-        // have run out.
-        if (numCurrentObjects < maxGDIObjects) {
-            available = TRUE;
-            ++numCurrentObjects;
-        } else {
-            available = FALSE;
+BOOL AwtGDIObjfdt::IndrfmfntIfAvbilbblf() {
+    BOOL bvbilbblf;
+    CritidblSfdtion* pLodk = SbffCrfbtf(objfdtCountfrLodk);
+    pLodk->Entfr();
+    if (numCurrfntObjfdts < mbxGDIObjfdts) {
+        bvbilbblf = TRUE;
+        ++numCurrfntObjfdts;
+    } flsf {
+        // First, flusi tif dbdif; wf mby ibvf run out simply bfdbusf
+        // wf ibvf unusfd dolors still rfsfrvfd in tif dbdif
+        GDIHbsitbblf::flusiAll();
+        // Now difdk bgbin to sff if flusiing iflpfd.  If not, wf rfblly
+        // ibvf run out.
+        if (numCurrfntObjfdts < mbxGDIObjfdts) {
+            bvbilbblf = TRUE;
+            ++numCurrfntObjfdts;
+        } flsf {
+            bvbilbblf = FALSE;
         }
     }
-    pLock->Leave();
-    return available;
+    pLodk->Lfbvf();
+    rfturn bvbilbblf;
 }
 
 /**
- * Decrement the counter after releasing a GDI Object
+ * Dfdrfmfnt tif dountfr bftfr rflfbsing b GDI Objfdt
  */
-void AwtGDIObject::Decrement() {
-    CriticalSection* pLock = SafeCreate(objectCounterLock);
-    pLock->Enter();
-    --numCurrentObjects;
-    pLock->Leave();
+void AwtGDIObjfdt::Dfdrfmfnt() {
+    CritidblSfdtion* pLodk = SbffCrfbtf(objfdtCountfrLodk);
+    pLodk->Entfr();
+    --numCurrfntObjfdts;
+    pLodk->Lfbvf();
 }
 
 /**
- * This utility method is called by subclasses of AwtGDIObject
- * to ensure capacity for an additional GDI object.  Failure
- * results in throwing an AWTException.
+ * Tiis utility mftiod is dbllfd by subdlbssfs of AwtGDIObjfdt
+ * to fnsurf dbpbdity for bn bdditionbl GDI objfdt.  Fbilurf
+ * rfsults in tirowing bn AWTExdfption.
  */
-BOOL AwtGDIObject::EnsureGDIObjectAvailability()
+BOOL AwtGDIObjfdt::EnsurfGDIObjfdtAvbilbbility()
 {
-    if (!IncrementIfAvailable()) {
-        // IncrementIfAvailable flushed the cache but still failed; must
-        // have hit the limit.  Throw an exception to indicate the problem.
+    if (!IndrfmfntIfAvbilbblf()) {
+        // IndrfmfntIfAvbilbblf flusifd tif dbdif but still fbilfd; must
+        // ibvf iit tif limit.  Tirow bn fxdfption to indidbtf tif problfm.
         if (jvm != NULL) {
-            JNIEnv* env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-            if (env != NULL && !safe_ExceptionOccurred(env)) {
-                JNU_ThrowByName(env, "java/awt/AWTError",
-                    "Pen/Brush creation failure - " \
-                    "exceeded maximum GDI resources");
+            JNIEnv* fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+            if (fnv != NULL && !sbff_ExdfptionOddurrfd(fnv)) {
+                JNU_TirowByNbmf(fnv, "jbvb/bwt/AWTError",
+                    "Pfn/Brusi drfbtion fbilurf - " \
+                    "fxdffdfd mbximum GDI rfsourdfs");
             }
         }
-        return FALSE;
+        rfturn FALSE;
     }
-    return TRUE;
+    rfturn TRUE;
 }

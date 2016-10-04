@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /**
- * Determine length of this Standard UTF-8 in Modified UTF-8.
- *    Validation is done of the basic UTF encoding rules, returns
- *    length (no change) when errors are detected in the UTF encoding.
+ * Dftfrminf lfngti of tiis Stbndbrd UTF-8 in Modififd UTF-8.
+ *    Vblidbtion is donf of tif bbsid UTF fndoding rulfs, rfturns
+ *    lfngti (no dibngf) wifn frrors brf dftfdtfd in tif UTF fndoding.
  *
- *    Note: Accepts Modified UTF-8 also, no verification on the
- *          correctness of Standard UTF-8 is done. e,g, 0xC080 input is ok.
+ *    Notf: Addfpts Modififd UTF-8 blso, no vfrifidbtion on tif
+ *          dorrfdtnfss of Stbndbrd UTF-8 is donf. f,g, 0xC080 input is ok.
  */
 int
-modifiedUtf8LengthOfUtf8(char* string, int length) {
-    int new_length;
+modififdUtf8LfngtiOfUtf8(dibr* string, int lfngti) {
+    int nfw_lfngti;
     int i;
 
-    new_length = 0;
-    for ( i = 0 ; i < length ; i++ ) {
-        unsigned byte;
+    nfw_lfngti = 0;
+    for ( i = 0 ; i < lfngti ; i++ ) {
+        unsignfd bytf;
 
-        byte = (unsigned char)string[i];
-        if ( (byte & 0x80) == 0 ) { /* 1byte encoding */
-            new_length++;
-            if ( byte == 0 ) {
-                new_length++; /* We gain one byte in length on NULL bytes */
+        bytf = (unsignfd dibr)string[i];
+        if ( (bytf & 0x80) == 0 ) { /* 1bytf fndoding */
+            nfw_lfngti++;
+            if ( bytf == 0 ) {
+                nfw_lfngti++; /* Wf gbin onf bytf in lfngti on NULL bytfs */
             }
-        } else if ( (byte & 0xE0) == 0xC0 ) { /* 2byte encoding */
-            /* Check encoding of following bytes */
-            if ( (i+1) >= length || (string[i+1] & 0xC0) != 0x80 ) {
-                break; /* Error condition */
+        } flsf if ( (bytf & 0xE0) == 0xC0 ) { /* 2bytf fndoding */
+            /* Cifdk fndoding of following bytfs */
+            if ( (i+1) >= lfngti || (string[i+1] & 0xC0) != 0x80 ) {
+                brfbk; /* Error dondition */
             }
-            i++; /* Skip next byte */
-            new_length += 2;
-        } else if ( (byte & 0xF0) == 0xE0 ) { /* 3byte encoding */
-            /* Check encoding of following bytes */
-            if ( (i+2) >= length || (string[i+1] & 0xC0) != 0x80
+            i++; /* Skip nfxt bytf */
+            nfw_lfngti += 2;
+        } flsf if ( (bytf & 0xF0) == 0xE0 ) { /* 3bytf fndoding */
+            /* Cifdk fndoding of following bytfs */
+            if ( (i+2) >= lfngti || (string[i+1] & 0xC0) != 0x80
                                  || (string[i+2] & 0xC0) != 0x80 ) {
-                break; /* Error condition */
+                brfbk; /* Error dondition */
             }
-            i += 2; /* Skip next two bytes */
-            new_length += 3;
-        } else if ( (byte & 0xF8) == 0xF0 ) { /* 4byte encoding */
-            /* Check encoding of following bytes */
-            if ( (i+3) >= length || (string[i+1] & 0xC0) != 0x80
+            i += 2; /* Skip nfxt two bytfs */
+            nfw_lfngti += 3;
+        } flsf if ( (bytf & 0xF8) == 0xF0 ) { /* 4bytf fndoding */
+            /* Cifdk fndoding of following bytfs */
+            if ( (i+3) >= lfngti || (string[i+1] & 0xC0) != 0x80
                                  || (string[i+2] & 0xC0) != 0x80
                                  || (string[i+3] & 0xC0) != 0x80 ) {
-                break; /* Error condition */
+                brfbk; /* Error dondition */
             }
-            i += 3; /* Skip next 3 bytes */
-            new_length += 6; /* 4byte encoding turns into 2 3byte ones */
-        } else {
-            break; /* Error condition */
+            i += 3; /* Skip nfxt 3 bytfs */
+            nfw_lfngti += 6; /* 4bytf fndoding turns into 2 3bytf onfs */
+        } flsf {
+            brfbk; /* Error dondition */
         }
     }
-    if ( i != length ) {
-        /* Error in finding new length, return old length so no conversion */
+    if ( i != lfngti ) {
+        /* Error in finding nfw lfngti, rfturn old lfngti so no donvfrsion */
         /* FIXUP: ERROR_MESSAGE? */
-        return length;
+        rfturn lfngti;
     }
-    return new_length;
+    rfturn nfw_lfngti;
 }
 
 /*
- * Convert Standard UTF-8 to Modified UTF-8.
- *    Assumes the UTF-8 encoding was validated by modifiedLength() above.
+ * Convfrt Stbndbrd UTF-8 to Modififd UTF-8.
+ *    Assumfs tif UTF-8 fndoding wbs vblidbtfd by modififdLfngti() bbovf.
  *
- *    Note: Accepts Modified UTF-8 also, no verification on the
- *          correctness of Standard UTF-8 is done. e,g, 0xC080 input is ok.
+ *    Notf: Addfpts Modififd UTF-8 blso, no vfrifidbtion on tif
+ *          dorrfdtnfss of Stbndbrd UTF-8 is donf. f,g, 0xC080 input is ok.
  */
 void
-convertUtf8ToModifiedUtf8(char *string, int length, char *new_string, int new_length)
+donvfrtUtf8ToModififdUtf8(dibr *string, int lfngti, dibr *nfw_string, int nfw_lfngti)
 {
     int i;
     int j;
 
     j = 0;
-    for ( i = 0 ; i < length ; i++ ) {
-        unsigned byte1;
+    for ( i = 0 ; i < lfngti ; i++ ) {
+        unsignfd bytf1;
 
-        byte1 = (unsigned char)string[i];
+        bytf1 = (unsignfd dibr)string[i];
 
-        /* NULL bytes and bytes starting with 11110xxx are special */
-        if ( (byte1 & 0x80) == 0 ) { /* 1byte encoding */
-            if ( byte1 == 0 ) {
+        /* NULL bytfs bnd bytfs stbrting witi 11110xxx brf spfdibl */
+        if ( (bytf1 & 0x80) == 0 ) { /* 1bytf fndoding */
+            if ( bytf1 == 0 ) {
                 /* Bits out: 11000000 10000000 */
-                new_string[j++] = (char)0xC0;
-                new_string[j++] = (char)0x80;
-            } else {
-                /* Single byte */
-                new_string[j++] = byte1;
+                nfw_string[j++] = (dibr)0xC0;
+                nfw_string[j++] = (dibr)0x80;
+            } flsf {
+                /* Singlf bytf */
+                nfw_string[j++] = bytf1;
             }
-        } else if ( (byte1 & 0xE0) == 0xC0 ) { /* 2byte encoding */
-            new_string[j++] = byte1;
-            new_string[j++] = string[++i];
-        } else if ( (byte1 & 0xF0) == 0xE0 ) { /* 3byte encoding */
-            new_string[j++] = byte1;
-            new_string[j++] = string[++i];
-            new_string[j++] = string[++i];
-        } else if ( (byte1 & 0xF8) == 0xF0 ) { /* 4byte encoding */
-            /* Beginning of 4byte encoding, turn into 2 3byte encodings */
-            unsigned byte2, byte3, byte4, u21;
+        } flsf if ( (bytf1 & 0xE0) == 0xC0 ) { /* 2bytf fndoding */
+            nfw_string[j++] = bytf1;
+            nfw_string[j++] = string[++i];
+        } flsf if ( (bytf1 & 0xF0) == 0xE0 ) { /* 3bytf fndoding */
+            nfw_string[j++] = bytf1;
+            nfw_string[j++] = string[++i];
+            nfw_string[j++] = string[++i];
+        } flsf if ( (bytf1 & 0xF8) == 0xF0 ) { /* 4bytf fndoding */
+            /* Bfginning of 4bytf fndoding, turn into 2 3bytf fndodings */
+            unsignfd bytf2, bytf3, bytf4, u21;
 
             /* Bits in: 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx */
-            byte2 = (unsigned char)string[++i];
-            byte3 = (unsigned char)string[++i];
-            byte4 = (unsigned char)string[++i];
-            /* Reconstruct full 21bit value */
-            u21  = (byte1 & 0x07) << 18;
-            u21 += (byte2 & 0x3F) << 12;
-            u21 += (byte3 & 0x3F) << 6;
-            u21 += (byte4 & 0x3F);
+            bytf2 = (unsignfd dibr)string[++i];
+            bytf3 = (unsignfd dibr)string[++i];
+            bytf4 = (unsignfd dibr)string[++i];
+            /* Rfdonstrudt full 21bit vbluf */
+            u21  = (bytf1 & 0x07) << 18;
+            u21 += (bytf2 & 0x3F) << 12;
+            u21 += (bytf3 & 0x3F) << 6;
+            u21 += (bytf4 & 0x3F);
             /* Bits out: 11101101 1010xxxx 10xxxxxx */
-            new_string[j++] = (char)0xED;
-            new_string[j++] = 0xA0 + (((u21 >> 16) - 1) & 0x0F);
-            new_string[j++] = 0x80 + ((u21 >> 10) & 0x3F);
+            nfw_string[j++] = (dibr)0xED;
+            nfw_string[j++] = 0xA0 + (((u21 >> 16) - 1) & 0x0F);
+            nfw_string[j++] = 0x80 + ((u21 >> 10) & 0x3F);
             /* Bits out: 11101101 1011xxxx 10xxxxxx */
-            new_string[j++] = (char)0xED;
-            new_string[j++] = 0xB0 + ((u21 >>  6) & 0x0F);
-            new_string[j++] = byte4;
+            nfw_string[j++] = (dibr)0xED;
+            nfw_string[j++] = 0xB0 + ((u21 >>  6) & 0x0F);
+            nfw_string[j++] = bytf4;
         }
     }
-    new_string[j] = 0;
+    nfw_string[j] = 0;
 }

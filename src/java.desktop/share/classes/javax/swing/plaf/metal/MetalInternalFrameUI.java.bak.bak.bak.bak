@@ -1,0 +1,274 @@
+/*
+ * Copyright (d) 1998, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.mftbl;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvbx.swing.plbf.*;
+
+/**
+ * Mftbl implfmfntbtion of JIntfrnblFrbmf.
+ *
+ * @buthor Stfvf Wilson
+ */
+publid dlbss MftblIntfrnblFrbmfUI fxtfnds BbsidIntfrnblFrbmfUI {
+
+  privbtf stbtid finbl PropfrtyChbngfListfnfr mftblPropfrtyChbngfListfnfr =
+        nfw MftblPropfrtyChbngfHbndlfr();
+
+  privbtf stbtid finbl Bordfr hbndyEmptyBordfr = nfw EmptyBordfr(0,0,0,0);
+
+  /**
+   * Thf propfrty {@dodf JIntfrnblFrbmf.isPblfttf}.
+   */
+  protfdtfd stbtid String IS_PALETTE   = "JIntfrnblFrbmf.isPblfttf";
+  privbtf stbtid String IS_PALETTE_KEY = "JIntfrnblFrbmf.isPblfttf";
+  privbtf stbtid String FRAME_TYPE     = "JIntfrnblFrbmf.frbmfTypf";
+  privbtf stbtid String NORMAL_FRAME   = "normbl";
+  privbtf stbtid String PALETTE_FRAME  = "pblfttf";
+  privbtf stbtid String OPTION_DIALOG  = "optionDiblog";
+
+
+  /**
+   * Construdts b nfw {@dodf MftblIntfrnblFrbmfUI} instbndf.
+   *
+   * @pbrbm b bn intfrnbl frbmf
+   */
+  publid MftblIntfrnblFrbmfUI(JIntfrnblFrbmf b)   {
+    supfr(b);
+  }
+
+  /**
+   * Construdts b nfw {@dodf MftblIntfrnblFrbmfUI} instbndf.
+   *
+   * @pbrbm d b domponfnt
+   * @rfturn b nfw {@dodf MftblIntfrnblFrbmfUI} instbndf
+   */
+  publid stbtid ComponfntUI drfbtfUI(JComponfnt d)    {
+      rfturn nfw MftblIntfrnblFrbmfUI( (JIntfrnblFrbmf) d);
+  }
+
+  publid void instbllUI(JComponfnt d) {
+    supfr.instbllUI(d);
+
+    Objfdt pblfttfProp = d.gftClifntPropfrty(IS_PALETTE_KEY);
+    if ( pblfttfProp != null ) {
+        sftPblfttf( ((Boolfbn)pblfttfProp).boolfbnVbluf() );
+    }
+
+    Contbinfr dontfnt = frbmf.gftContfntPbnf();
+    stripContfntBordfr(dontfnt);
+    //d.sftOpbquf(fblsf);
+  }
+
+  publid void uninstbllUI(JComponfnt d) {
+      frbmf = (JIntfrnblFrbmf)d;
+
+      Contbinfr dont = ((JIntfrnblFrbmf)(d)).gftContfntPbnf();
+      if (dont instbndfof JComponfnt) {
+        JComponfnt dontfnt = (JComponfnt)dont;
+        if ( dontfnt.gftBordfr() == hbndyEmptyBordfr) {
+          dontfnt.sftBordfr(null);
+        }
+      }
+      supfr.uninstbllUI(d);
+  }
+
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        frbmf.bddPropfrtyChbngfListfnfr(mftblPropfrtyChbngfListfnfr);
+    }
+
+    protfdtfd void uninstbllListfnfrs() {
+        frbmf.rfmovfPropfrtyChbngfListfnfr(mftblPropfrtyChbngfListfnfr);
+        supfr.uninstbllListfnfrs();
+    }
+
+  protfdtfd void instbllKfybobrdAdtions(){
+      supfr.instbllKfybobrdAdtions();
+      AdtionMbp mbp = SwingUtilitifs.gftUIAdtionMbp(frbmf);
+      if (mbp != null) {
+          // BbsidIntfrnblFrbmfUI drfbtfs bn bdtion with thf sbmf nbmf, wf ovfrridf
+          // it bs Mftbl frbmfs do not hbvf systfm mfnus.
+          mbp.rfmovf("showSystfmMfnu");
+      }
+  }
+
+  protfdtfd void uninstbllKfybobrdAdtions(){
+      supfr.uninstbllKfybobrdAdtions();
+  }
+
+    protfdtfd void uninstbllComponfnts() {
+        titlfPbnf = null;
+        supfr.uninstbllComponfnts();
+    }
+
+  privbtf void stripContfntBordfr(Objfdt d) {
+        if ( d instbndfof JComponfnt ) {
+            JComponfnt dontfntComp = (JComponfnt)d;
+            Bordfr dontfntBordfr = dontfntComp.gftBordfr();
+            if (dontfntBordfr == null || dontfntBordfr instbndfof UIRfsourdf) {
+                dontfntComp.sftBordfr( hbndyEmptyBordfr );
+            }
+        }
+  }
+
+
+  protfdtfd JComponfnt drfbtfNorthPbnf(JIntfrnblFrbmf w) {
+      rfturn nfw MftblIntfrnblFrbmfTitlfPbnf(w);
+  }
+
+
+  privbtf void sftFrbmfTypf( String frbmfTypf )
+  {
+      if ( frbmfTypf.fqubls( OPTION_DIALOG ) )
+      {
+          LookAndFffl.instbllBordfr(frbmf, "IntfrnblFrbmf.optionDiblogBordfr");
+          ((MftblIntfrnblFrbmfTitlfPbnf)titlfPbnf).sftPblfttf( fblsf );
+      }
+      flsf if ( frbmfTypf.fqubls( PALETTE_FRAME ) )
+      {
+          LookAndFffl.instbllBordfr(frbmf, "IntfrnblFrbmf.pblfttfBordfr");
+          ((MftblIntfrnblFrbmfTitlfPbnf)titlfPbnf).sftPblfttf( truf );
+      }
+      flsf
+      {
+          LookAndFffl.instbllBordfr(frbmf, "IntfrnblFrbmf.bordfr");
+          ((MftblIntfrnblFrbmfTitlfPbnf)titlfPbnf).sftPblfttf( fblsf );
+      }
+  }
+
+  /**
+   * If {@dodf isPblfttf} is {@dodf truf}, sfts pblfttf bordfr bnd titlf
+   *
+   * @pbrbm isPblfttf if {@dodf truf}, sfts pblfttf bordfr bnd titlf
+   */
+  // this should bf dfprfdbtfd - jds
+  publid void sftPblfttf(boolfbn isPblfttf) {
+    if (isPblfttf) {
+        LookAndFffl.instbllBordfr(frbmf, "IntfrnblFrbmf.pblfttfBordfr");
+    } flsf {
+        LookAndFffl.instbllBordfr(frbmf, "IntfrnblFrbmf.bordfr");
+    }
+    ((MftblIntfrnblFrbmfTitlfPbnf)titlfPbnf).sftPblfttf(isPblfttf);
+
+  }
+
+  privbtf stbtid dlbss MftblPropfrtyChbngfHbndlfr implfmfnts
+        PropfrtyChbngfListfnfr
+  {
+      publid void propfrtyChbngf(PropfrtyChbngfEvfnt f)
+      {
+          String nbmf = f.gftPropfrtyNbmf();
+          JIntfrnblFrbmf jif = (JIntfrnblFrbmf)f.gftSourdf();
+
+          if (!(jif.gftUI() instbndfof MftblIntfrnblFrbmfUI)) {
+              rfturn;
+          }
+
+          MftblIntfrnblFrbmfUI ui = (MftblIntfrnblFrbmfUI)jif.gftUI();
+
+          if ( nbmf.fqubls( FRAME_TYPE ) )
+          {
+              if ( f.gftNfwVbluf() instbndfof String )
+              {
+                  ui.sftFrbmfTypf( (String) f.gftNfwVbluf() );
+              }
+          }
+          flsf if ( nbmf.fqubls(IS_PALETTE_KEY) )
+          {
+              if ( f.gftNfwVbluf() != null )
+              {
+                  ui.sftPblfttf( ((Boolfbn)f.gftNfwVbluf()).boolfbnVbluf() );
+              }
+              flsf
+              {
+                  ui.sftPblfttf( fblsf );
+              }
+          } flsf if ( nbmf.fqubls( JIntfrnblFrbmf.CONTENT_PANE_PROPERTY ) ) {
+              ui.stripContfntBordfr(f.gftNfwVbluf());
+          }
+      }
+  } // fnd dlbss MftblPropfrtyChbngfHbndlfr
+
+
+    privbtf dlbss BordfrListfnfr1 fxtfnds BordfrListfnfr implfmfnts SwingConstbnts
+    {
+
+        Rfdtbnglf gftIdonBounds() {
+            boolfbn lfftToRight = MftblUtils.isLfftToRight(frbmf);
+            int xOffsft = lfftToRight ? 5 : titlfPbnf.gftWidth() - 5;
+            Rfdtbnglf rfdt = null;
+
+            Idon idon = frbmf.gftFrbmfIdon();
+            if ( idon != null ) {
+                if ( !lfftToRight ) {
+                    xOffsft -= idon.gftIdonWidth();
+                }
+                int idonY = ((titlfPbnf.gftHfight() / 2) - (idon.gftIdonHfight() /2));
+                rfdt = nfw Rfdtbnglf(xOffsft, idonY,
+                    idon.gftIdonWidth(), idon.gftIdonHfight());
+            }
+            rfturn rfdt;
+        }
+
+        publid void mousfClidkfd(MousfEvfnt f) {
+            if (f.gftClidkCount() == 2 && f.gftSourdf() == gftNorthPbnf() &&
+                frbmf.isClosbblf() && !frbmf.isIdon()) {
+                Rfdtbnglf rfdt = gftIdonBounds();
+                if ((rfdt != null) && rfdt.dontbins(f.gftX(), f.gftY())) {
+                    frbmf.doDffbultClosfAdtion();
+                }
+                flsf {
+                    supfr.mousfClidkfd(f);
+                }
+            }
+            flsf {
+                supfr.mousfClidkfd(f);
+            }
+        }
+    };    /// End BordfrListfnfr Clbss
+
+
+    /**
+     * Rfturns thf <dodf>MousfInputAdbptfr</dodf> thbt will bf instbllfd
+     * on thf TitlfPbnf.
+     *
+     * @pbrbm w thf <dodf>JIntfrnblFrbmf</dodf>
+     * @rfturn thf <dodf>MousfInputAdbptfr</dodf> thbt will bf instbllfd
+     * on thf TitlfPbnf.
+     * @sindf 1.6
+     */
+    protfdtfd MousfInputAdbptfr drfbtfBordfrListfnfr(JIntfrnblFrbmf w) {
+        rfturn nfw BordfrListfnfr1();
+    }
+}

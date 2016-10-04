@@ -1,105 +1,105 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.net.httpserver;
-import java.net.*;
-import java.io.*;
-import java.util.*;
-import java.security.Principal;
+pbdkbgf dom.sun.nft.ittpsfrvfr;
+import jbvb.nft.*;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.sfdurity.Prindipbl;
 
 /**
- * Represents a user authenticated by HTTP Basic or Digest
- * authentication.
+ * Rfprfsfnts b usfr butifntidbtfd by HTTP Bbsid or Digfst
+ * butifntidbtion.
  */
-@jdk.Exported
-public class HttpPrincipal implements Principal {
-    private String username, realm;
+@jdk.Exportfd
+publid dlbss HttpPrindipbl implfmfnts Prindipbl {
+    privbtf String usfrnbmf, rfblm;
 
     /**
-     * creates a HttpPrincipal from the given username and realm
-     * @param username The name of the user within the realm
-     * @param realm The realm.
-     * @throws NullPointerException if either username or realm are null
+     * drfbtfs b HttpPrindipbl from tif givfn usfrnbmf bnd rfblm
+     * @pbrbm usfrnbmf Tif nbmf of tif usfr witiin tif rfblm
+     * @pbrbm rfblm Tif rfblm.
+     * @tirows NullPointfrExdfption if fitifr usfrnbmf or rfblm brf null
      */
-    public HttpPrincipal (String username, String realm) {
-        if (username == null || realm == null) {
-            throw new NullPointerException();
+    publid HttpPrindipbl (String usfrnbmf, String rfblm) {
+        if (usfrnbmf == null || rfblm == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        this.username = username;
-        this.realm = realm;
+        tiis.usfrnbmf = usfrnbmf;
+        tiis.rfblm = rfblm;
     }
 
     /**
-     * Compares two HttpPrincipal. Returns <code>true</code>
-     * if <i>another</i> is an instance of HttpPrincipal, and its
-     * username and realm are equal to this object's username
-     * and realm. Returns <code>false</code> otherwise.
+     * Compbrfs two HttpPrindipbl. Rfturns <dodf>truf</dodf>
+     * if <i>bnotifr</i> is bn instbndf of HttpPrindipbl, bnd its
+     * usfrnbmf bnd rfblm brf fqubl to tiis objfdt's usfrnbmf
+     * bnd rfblm. Rfturns <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean equals (Object another) {
-        if (!(another instanceof HttpPrincipal)) {
-            return false;
+    publid boolfbn fqubls (Objfdt bnotifr) {
+        if (!(bnotifr instbndfof HttpPrindipbl)) {
+            rfturn fblsf;
         }
-        HttpPrincipal theother = (HttpPrincipal)another;
-        return (username.equals(theother.username) &&
-                realm.equals(theother.realm));
+        HttpPrindipbl tifotifr = (HttpPrindipbl)bnotifr;
+        rfturn (usfrnbmf.fqubls(tifotifr.usfrnbmf) &&
+                rfblm.fqubls(tifotifr.rfblm));
     }
 
     /**
-     * returns the contents of this principal in the form
-     * <i>realm:username</i>
+     * rfturns tif dontfnts of tiis prindipbl in tif form
+     * <i>rfblm:usfrnbmf</i>
      */
-    public String getName() {
-        return username;
+    publid String gftNbmf() {
+        rfturn usfrnbmf;
     }
 
     /**
-     * returns the username this object was created with.
+     * rfturns tif usfrnbmf tiis objfdt wbs drfbtfd witi.
      */
-    public String getUsername() {
-        return username;
+    publid String gftUsfrnbmf() {
+        rfturn usfrnbmf;
     }
 
     /**
-     * returns the realm this object was created with.
+     * rfturns tif rfblm tiis objfdt wbs drfbtfd witi.
      */
-    public String getRealm() {
-        return realm;
+    publid String gftRfblm() {
+        rfturn rfblm;
     }
 
     /**
-     * returns a hashcode for this HttpPrincipal. This is calculated
-     * as <code>(getUsername()+getRealm().hashCode()</code>
+     * rfturns b ibsidodf for tiis HttpPrindipbl. Tiis is dbldulbtfd
+     * bs <dodf>(gftUsfrnbmf()+gftRfblm().ibsiCodf()</dodf>
      */
-    public int hashCode() {
-        return (username+realm).hashCode();
+    publid int ibsiCodf() {
+        rfturn (usfrnbmf+rfblm).ibsiCodf();
     }
 
     /**
-     * returns the same string as getName()
+     * rfturns tif sbmf string bs gftNbmf()
      */
-    public String toString() {
-        return getName();
+    publid String toString() {
+        rfturn gftNbmf();
     }
 }

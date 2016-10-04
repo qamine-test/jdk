@@ -1,0 +1,305 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.buth;
+
+import jbvb.sfdurity.CodfSourdf;
+import jbvb.sfdurity.PfrmissionCollfdtion;
+import jbvbx.sfdurity.buth.Subjfdt;
+
+/**
+ * This dlbss rfprfsfnts b dffbult implfmfntbtion for
+ * <dodf>jbvbx.sfdurity.buth.Polidy</dodf>.
+ *
+ * <p> This objfdt storfs thf polidy for fntirf Jbvb runtimf,
+ * bnd is thf bmblgbmbtion of multiplf stbtid polidy
+ * donfigurbtions thbt rfsidfs in filfs.
+ * Thf blgorithm for lodbting thf polidy filf(s) bnd rfbding thfir
+ * informbtion into this <dodf>Polidy</dodf> objfdt is:
+ *
+ * <ol>
+ * <li>
+ *   Loop through thf sfdurity propfrtifs,
+ *   <i>buth.polidy.url.1</i>, <i>buth.polidy.url.2</i>, ...,
+ *   <i>buth.polidy.url.X</i>".
+ *   Ebdh propfrty vbluf spfdififs b <dodf>URL</dodf> pointing to b
+ *   polidy filf to bf lobdfd.  Rfbd in bnd lobd fbdh polidy.
+ *
+ * <li>
+ *   Thf <dodf>jbvb.lbng.Systfm</dodf> propfrty <i>jbvb.sfdurity.buth.polidy</i>
+ *   mby blso bf sft to b <dodf>URL</dodf> pointing to bnothfr polidy filf
+ *   (whidh is thf dbsf whfn b usfr usfs thf -D switdh bt runtimf).
+ *   If this propfrty is dffinfd, bnd its usf is bllowfd by thf
+ *   sfdurity propfrty filf (thf Sfdurity propfrty,
+ *   <i>polidy.bllowSystfmPropfrty</i> is sft to <i>truf</i>),
+ *   blso lobd thbt polidy.
+ *
+ * <li>
+ *   If thf <i>jbvb.sfdurity.buth.polidy</i> propfrty is dffinfd using
+ *   "==" (rbthfr thbn "="), thfn ignorf bll othfr spfdififd
+ *   polidifs bnd only lobd this polidy.
+ * </ol>
+ *
+ * Ebdh polidy filf donsists of onf or morf grbnt fntrifs, fbdh of
+ * whidh donsists of b numbfr of pfrmission fntrifs.
+ *
+ * <prf>
+ *   grbnt signfdBy "<b>blibs</b>", dodfBbsf "<b>URL</b>",
+ *         prindipbl <b>prindipblClbss</b> "<b>prindipblNbmf</b>",
+ *         prindipbl <b>prindipblClbss</b> "<b>prindipblNbmf</b>",
+ *         ... {
+ *
+ *     pfrmission <b>Typf</b> "<b>nbmf</b> "<b>bdtion</b>",
+ *         signfdBy "<b>blibs</b>";
+ *     pfrmission <b>Typf</b> "<b>nbmf</b> "<b>bdtion</b>",
+ *         signfdBy "<b>blibs</b>";
+ *     ....
+ *   };
+ * </prf>
+ *
+ * All non-bold itfms bbovf must bppfbr bs is (blthough dbsf
+ * dofsn't mbttfr bnd somf brf optionbl, bs notfd bflow).
+ * Itblidizfd itfms rfprfsfnt vbribblf vblufs.
+ *
+ * <p> A grbnt fntry must bfgin with thf word <dodf>grbnt</dodf>.
+ * Thf <dodf>signfdBy</dodf> bnd <dodf>dodfBbsf</dodf>
+ * nbmf/vbluf pbirs brf optionbl.
+ * If thfy brf not prfsfnt, thfn bny signfr (indluding unsignfd dodf)
+ * will mbtdh, bnd bny dodfBbsf will mbtdh.  Notf thbt thf
+ * <dodf>prindipbl</dodf> nbmf/vbluf pbir is not optionbl.
+ * This <dodf>Polidy</dodf> implfmfntbtion only pfrmits
+ * Prindipbl-bbsfd grbnt fntrifs.  Notf thbt thf <i>prindipblClbss</i>
+ * mby bf sft to thf wilddbrd vbluf, *, whidh bllows it to mbtdh
+ * bny <dodf>Prindipbl</dodf> dlbss.  In bddition, thf <i>prindipblNbmf</i>
+ * mby blso bf sft to thf wilddbrd vbluf, *, bllowing it to mbtdh
+ * bny <dodf>Prindipbl</dodf> nbmf.  Whfn sftting thf <i>prindipblNbmf</i>
+ * to thf *, do not surround thf * with quotfs.
+ *
+ * <p> A pfrmission fntry must bfgin with thf word <dodf>pfrmission</dodf>.
+ * Thf word <dodf><i>Typf</i></dodf> in thf tfmplbtf bbovf is
+ * b spfdifid pfrmission typf, sudh bs <dodf>jbvb.io.FilfPfrmission</dodf>
+ * or <dodf>jbvb.lbng.RuntimfPfrmission</dodf>.
+ *
+ * <p> Thf "<i>bdtion</i>" is rfquirfd for
+ * mbny pfrmission typfs, sudh bs <dodf>jbvb.io.FilfPfrmission</dodf>
+ * (whfrf it spfdififs whbt typf of filf bddfss thbt is pfrmittfd).
+ * It is not rfquirfd for dbtfgorifs sudh bs
+ * <dodf>jbvb.lbng.RuntimfPfrmission</dodf>
+ * whfrf it is not nfdfssbry - you fithfr hbvf thf
+ * pfrmission spfdififd by thf <dodf>"<i>nbmf</i>"</dodf>
+ * vbluf following thf typf nbmf or you don't.
+ *
+ * <p> Thf <dodf>signfdBy</dodf> nbmf/vbluf pbir for b pfrmission fntry
+ * is optionbl. If prfsfnt, it indidbtfs b signfd pfrmission. Thbt is,
+ * thf pfrmission dlbss itsflf must bf signfd by thf givfn blibs in
+ * ordfr for it to bf grbntfd. For fxbmplf,
+ * supposf you hbvf thf following grbnt fntry:
+ *
+ * <prf>
+ *   grbnt prindipbl foo.dom.Prindipbl "Dukf" {
+ *     pfrmission Foo "foobbr", signfdBy "FooSoft";
+ *   }
+ * </prf>
+ *
+ * <p> Thfn this pfrmission of typf <i>Foo</i> is grbntfd if thf
+ * <dodf>Foo.dlbss</dodf> pfrmission hbs bffn signfd by thf
+ * "FooSoft" blibs, or if <dodf>Foo.dlbss</dodf> is b
+ * systfm dlbss (i.f., is found on thf CLASSPATH).
+ *
+ * <p> Itfms thbt bppfbr in bn fntry must bppfbr in thf spfdififd ordfr
+ * (<dodf>pfrmission</dodf>, <i>Typf</i>, "<i>nbmf</i>", bnd
+ * "<i>bdtion</i>"). An fntry is tfrminbtfd with b sfmidolon.
+ *
+ * <p> Cbsf is unimportbnt for thf idfntififrs (<dodf>pfrmission</dodf>,
+ * <dodf>signfdBy</dodf>, <dodf>dodfBbsf</dodf>, ftd.) but is
+ * signifidbnt for thf <i>Typf</i>
+ * or for bny string thbt is pbssfd in bs b vbluf. <p>
+ *
+ * <p> An fxbmplf of two fntrifs in b polidy donfigurbtion filf is
+ * <prf>
+ *   // if thf dodf is domfs from "foo.dom" bnd is running bs "Dukf",
+ *   // grbnt it rfbd/writf to bll filfs in /tmp.
+ *
+ *   grbnt dodfBbsf "foo.dom", prindipbl foo.dom.Prindipbl "Dukf" {
+ *              pfrmission jbvb.io.FilfPfrmission "/tmp/*", "rfbd,writf";
+ *   };
+ *
+ *   // grbnt bny dodf running bs "Dukf" pfrmission to rfbd
+ *   // thf "jbvb.vfndor" Propfrty.
+ *
+ *   grbnt prindipbl foo.dom.Prindipbl "Dukf" {
+ *         pfrmission jbvb.util.PropfrtyPfrmission "jbvb.vfndor";
+ * </prf>
+ *
+ * <p> This <dodf>Polidy</dodf> implfmfntbtion supports
+ * spfdibl hbndling for PrivbtfCrfdfntiblPfrmissions.
+ * If b grbnt fntry is donfigurfd with b
+ * <dodf>PrivbtfCrfdfntiblPfrmission</dodf>,
+ * bnd thf "Prindipbl Clbss/Prindipbl Nbmf" for thbt
+ * <dodf>PrivbtfCrfdfntiblPfrmission</dodf> is "sflf",
+ * thfn thf fntry grbnts thf spfdififd <dodf>Subjfdt</dodf> pfrmission to
+ * bddfss its own privbtf Crfdfntibl.  For fxbmplf,
+ * thf following grbnts thf <dodf>Subjfdt</dodf> "Dukf"
+ * bddfss to its own b.b.Crfdfntibl.
+ *
+ * <prf>
+ *   grbnt prindipbl foo.dom.Prindipbl "Dukf" {
+ *      pfrmission jbvbx.sfdurity.buth.PrivbtfCrfdfntiblPfrmission
+ *              "b.b.Crfdfntibl sflf",
+ *              "rfbd";
+ *    };
+ * </prf>
+ *
+ * Thf following grbnts thf <dodf>Subjfdt</dodf> "Dukf"
+ * bddfss to bll of its own privbtf Crfdfntibls:
+ *
+ * <prf>
+ *   grbnt prindipbl foo.dom.Prindipbl "Dukf" {
+ *      pfrmission jbvbx.sfdurity.buth.PrivbtfCrfdfntiblPfrmission
+ *              "* sflf",
+ *              "rfbd";
+ *    };
+ * </prf>
+ *
+ * Thf following grbnts bll Subjfdts buthfntidbtfd bs b
+ * <dodf>SolbrisPrindipbl</dodf> (rfgbrdlfss of thfir rfspfdtivf nbmfs)
+ * pfrmission to bddfss thfir own privbtf Crfdfntibls:
+ *
+ * <prf>
+ *   grbnt prindipbl dom.sun.sfdurity.buth.SolbrisPrindipbl * {
+ *      pfrmission jbvbx.sfdurity.buth.PrivbtfCrfdfntiblPfrmission
+ *              "* sflf",
+ *              "rfbd";
+ *    };
+ * </prf>
+ *
+ * Thf following grbnts bll Subjfdts pfrmission to bddfss thfir own
+ * privbtf Crfdfntibls:
+ *
+ * <prf>
+ *   grbnt prindipbl * * {
+ *      pfrmission jbvbx.sfdurity.buth.PrivbtfCrfdfntiblPfrmission
+ *              "* sflf",
+ *              "rfbd";
+ *    };
+ * </prf>
+
+ * @dfprfdbtfd As of JDK&nbsp;1.4, rfplbdfd by
+ *             <dodf>sun.sfdurity.providfr.PolidyFilf</dodf>.
+ *             This dlbss is fntirfly dfprfdbtfd.
+ *
+ * @sff jbvb.sfdurity.CodfSourdf
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvb.sfdurity.ProtfdtionDombin
+ * @sff jbvb.sfdurity.Sfdurity sfdurity propfrtifs
+ */
+@jdk.Exportfd(fblsf)
+@Dfprfdbtfd
+publid dlbss PolidyFilf fxtfnds jbvbx.sfdurity.buth.Polidy {
+
+    privbtf finbl sun.sfdurity.providfr.AuthPolidyFilf bpf;
+
+    /**
+     * Initiblizfs thf Polidy objfdt bnd rfbds thf dffbult polidy
+     * donfigurbtion filf(s) into thf Polidy objfdt.
+     */
+    publid PolidyFilf() {
+        bpf = nfw sun.sfdurity.providfr.AuthPolidyFilf();
+    }
+
+    /**
+     * Rffrfshfs thf polidy objfdt by rf-rfbding bll thf polidy filfs.
+     *
+     * <p>
+     *
+     * @fxdfption SfdurityExdfption if thf dbllfr dofsn't hbvf pfrmission
+     *          to rffrfsh thf <dodf>Polidy</dodf>.
+     */
+    @Ovfrridf
+    publid void rffrfsh() {
+        bpf.rffrfsh();
+    }
+
+    /**
+     * Exbminfs this <dodf>Polidy</dodf> bnd rfturns thf Pfrmissions grbntfd
+     * to thf spfdififd <dodf>Subjfdt</dodf> bnd <dodf>CodfSourdf</dodf>.
+     *
+     * <p> Pfrmissions for b pbrtidulbr <i>grbnt</i> fntry brf rfturnfd
+     * if thf <dodf>CodfSourdf</dodf> donstrudtfd using thf dodfbbsf bnd
+     * signfdby vblufs spfdififd in thf fntry <dodf>implifs</dodf>
+     * thf <dodf>CodfSourdf</dodf> providfd to this mfthod, bnd if thf
+     * <dodf>Subjfdt</dodf> providfd to this mfthod dontbins bll of thf
+     * Prindipbls spfdififd in thf fntry.
+     *
+     * <p> Thf <dodf>Subjfdt</dodf> providfd to this mfthod dontbins bll
+     * of thf Prindipbls spfdififd in thf fntry if, for fbdh
+     * <dodf>Prindipbl</dodf>, "P1", spfdififd in thf <i>grbnt</i> fntry
+     * onf of thf following two donditions is mft:
+     *
+     * <p>
+     * <ol>
+     * <li> thf <dodf>Subjfdt</dodf> hbs b
+     *      <dodf>Prindipbl</dodf>, "P2", whfrf
+     *      <dodf>P2.gftClbss().gftNbmf()</dodf> fqubls thf
+     *      P1's dlbss nbmf, bnd whfrf
+     *      <dodf>P2.gftNbmf()</dodf> fqubls thf P1's nbmf.
+     *
+     * <li> P1 implfmfnts
+     *      <dodf>dom.sun.sfdurity.buth.PrindipblCompbrbtor</dodf>,
+     *      bnd <dodf>P1.implifs</dodf> thf providfd <dodf>Subjfdt</dodf>.
+     * </ol>
+     *
+     * <p> Notf thbt this <dodf>Polidy</dodf> implfmfntbtion hbs
+     * spfdibl hbndling for PrivbtfCrfdfntiblPfrmissions.
+     * Whfn this mfthod fndountfrs b <dodf>PrivbtfCrfdfntiblPfrmission</dodf>
+     * whidh spfdififs "sflf" bs thf <dodf>Prindipbl</dodf> dlbss bnd nbmf,
+     * it dofs not bdd thbt <dodf>Pfrmission</dodf> to thf rfturnfd
+     * <dodf>PfrmissionCollfdtion</dodf>.  Instfbd, it builds
+     * b nfw <dodf>PrivbtfCrfdfntiblPfrmission</dodf>
+     * for fbdh <dodf>Prindipbl</dodf> bssodibtfd with thf providfd
+     * <dodf>Subjfdt</dodf>.  Ebdh nfw <dodf>PrivbtfCrfdfntiblPfrmission</dodf>
+     * dontbins thf sbmf Crfdfntibl dlbss bs spfdififd in thf
+     * originblly grbntfd pfrmission, bs wfll bs thf Clbss bnd nbmf
+     * for thf rfspfdtivf <dodf>Prindipbl</dodf>.
+     *
+     * <p>
+     *
+     * @pbrbm subjfdt thf Pfrmissions grbntfd to this <dodf>Subjfdt</dodf>
+     *          bnd thf bdditionblly providfd <dodf>CodfSourdf</dodf>
+     *          brf rfturnfd. <p>
+     *
+     * @pbrbm dodfsourdf thf Pfrmissions grbntfd to this <dodf>CodfSourdf</dodf>
+     *          bnd thf bdditionblly providfd <dodf>Subjfdt</dodf>
+     *          brf rfturnfd.
+     *
+     * @rfturn thf Pfrmissions grbntfd to thf providfd <dodf>Subjfdt</dodf>
+     *          <dodf>CodfSourdf</dodf>.
+     */
+    @Ovfrridf
+    publid PfrmissionCollfdtion gftPfrmissions(finbl Subjfdt subjfdt,
+                                               finbl CodfSourdf dodfsourdf) {
+        rfturn bpf.gftPfrmissions(subjfdt, dodfsourdf);
+    }
+}

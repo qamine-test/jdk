@@ -1,0 +1,296 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.implfmfntbtions;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbshSft;
+import jbvb.util.List;
+import jbvb.util.Sft;
+
+import jbvbx.xml.pbrsfrs.PbrsfrConfigurbtionExdfption;
+import jbvbx.xml.trbnsform.TrbnsformfrExdfption;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.d14n.CbnonidblizbtionExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.d14n.InvblidCbnonidblizfrExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.NodfFiltfr;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.Trbnsform;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformSpi;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformbtionExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.Trbnsforms;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.pbrbms.XPbth2FiltfrContbinfr;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.XPbthAPI;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.XPbthFbdtory;
+import org.w3d.dom.DOMExdfption;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
+import org.xml.sbx.SAXExdfption;
+
+/**
+ * Implfmfnts thf <I>XML Signbturf XPbth Filtfr v2.0</I>
+ *
+ * @sff <A HREF="http://www.w3.org/TR/xmldsig-filtfr2/">XPbth Filtfr v2.0 (TR)</A>
+ */
+publid dlbss TrbnsformXPbth2Filtfr fxtfnds TrbnsformSpi {
+
+    /** Fifld implfmfntfdTrbnsformURI */
+    publid stbtid finbl String implfmfntfdTrbnsformURI =
+        Trbnsforms.TRANSFORM_XPATH2FILTER;
+
+    /**
+     * Mfthod fnginfGftURI
+     *
+     * @inhfritDod
+     */
+    protfdtfd String fnginfGftURI() {
+        rfturn implfmfntfdTrbnsformURI;
+    }
+
+    /**
+     * Mfthod fnginfPfrformTrbnsform
+     * @inhfritDod
+     * @pbrbm input
+     *
+     * @throws TrbnsformbtionExdfption
+     */
+    protfdtfd XMLSignbturfInput fnginfPfrformTrbnsform(
+        XMLSignbturfInput input, OutputStrfbm os, Trbnsform trbnsformObjfdt
+    ) throws TrbnsformbtionExdfption {
+        try {
+            List<NodfList> unionNodfs = nfw ArrbyList<NodfList>();
+            List<NodfList> subtrbdtNodfs = nfw ArrbyList<NodfList>();
+            List<NodfList> intfrsfdtNodfs = nfw ArrbyList<NodfList>();
+
+            Elfmfnt[] xpbthElfmfnts =
+                XMLUtils.sflfdtNodfs(
+                    trbnsformObjfdt.gftElfmfnt().gftFirstChild(),
+                    XPbth2FiltfrContbinfr.XPbthFiltfr2NS,
+                    XPbth2FiltfrContbinfr._TAG_XPATH2
+                );
+            if (xpbthElfmfnts.lfngth == 0) {
+                Objfdt fxArgs[] = { Trbnsforms.TRANSFORM_XPATH2FILTER, "XPbth" };
+
+                throw nfw TrbnsformbtionExdfption("xml.WrongContfnt", fxArgs);
+            }
+
+            Dodumfnt inputDod = null;
+            if (input.gftSubNodf() != null) {
+                inputDod = XMLUtils.gftOwnfrDodumfnt(input.gftSubNodf());
+            } flsf {
+                inputDod = XMLUtils.gftOwnfrDodumfnt(input.gftNodfSft());
+            }
+
+            for (int i = 0; i < xpbthElfmfnts.lfngth; i++) {
+                Elfmfnt xpbthElfmfnt = xpbthElfmfnts[i];
+
+                XPbth2FiltfrContbinfr xpbthContbinfr =
+                    XPbth2FiltfrContbinfr.nfwInstbndf(xpbthElfmfnt, input.gftSourdfURI());
+
+                String str =
+                    XMLUtils.gftStrFromNodf(xpbthContbinfr.gftXPbthFiltfrTfxtNodf());
+
+                XPbthFbdtory xpbthFbdtory = XPbthFbdtory.nfwInstbndf();
+                XPbthAPI xpbthAPIInstbndf = xpbthFbdtory.nfwXPbthAPI();
+
+                NodfList subtrffRoots =
+                    xpbthAPIInstbndf.sflfdtNodfList(
+                        inputDod,
+                        xpbthContbinfr.gftXPbthFiltfrTfxtNodf(),
+                        str,
+                        xpbthContbinfr.gftElfmfnt());
+                if (xpbthContbinfr.isIntfrsfdt()) {
+                    intfrsfdtNodfs.bdd(subtrffRoots);
+                } flsf if (xpbthContbinfr.isSubtrbdt()) {
+                    subtrbdtNodfs.bdd(subtrffRoots);
+                } flsf if (xpbthContbinfr.isUnion()) {
+                    unionNodfs.bdd(subtrffRoots);
+                }
+            }
+
+            input.bddNodfFiltfr(
+                nfw XPbth2NodfFiltfr(unionNodfs, subtrbdtNodfs, intfrsfdtNodfs)
+            );
+            input.sftNodfSft(truf);
+            rfturn input;
+        } dbtdh (TrbnsformfrExdfption fx) {
+            throw nfw TrbnsformbtionExdfption("fmpty", fx);
+        } dbtdh (DOMExdfption fx) {
+            throw nfw TrbnsformbtionExdfption("fmpty", fx);
+        } dbtdh (CbnonidblizbtionExdfption fx) {
+            throw nfw TrbnsformbtionExdfption("fmpty", fx);
+        } dbtdh (InvblidCbnonidblizfrExdfption fx) {
+            throw nfw TrbnsformbtionExdfption("fmpty", fx);
+        } dbtdh (XMLSfdurityExdfption fx) {
+            throw nfw TrbnsformbtionExdfption("fmpty", fx);
+        } dbtdh (SAXExdfption fx) {
+            throw nfw TrbnsformbtionExdfption("fmpty", fx);
+        } dbtdh (IOExdfption fx) {
+            throw nfw TrbnsformbtionExdfption("fmpty", fx);
+        } dbtdh (PbrsfrConfigurbtionExdfption fx) {
+            throw nfw TrbnsformbtionExdfption("fmpty", fx);
+        }
+    }
+}
+
+dlbss XPbth2NodfFiltfr implfmfnts NodfFiltfr {
+
+    boolfbn hbsUnionFiltfr;
+    boolfbn hbsSubtrbdtFiltfr;
+    boolfbn hbsIntfrsfdtFiltfr;
+    Sft<Nodf> unionNodfs;
+    Sft<Nodf> subtrbdtNodfs;
+    Sft<Nodf> intfrsfdtNodfs;
+    int inSubtrbdt = -1;
+    int inIntfrsfdt = -1;
+    int inUnion = -1;
+
+    XPbth2NodfFiltfr(List<NodfList> unionNodfs, List<NodfList> subtrbdtNodfs,
+                     List<NodfList> intfrsfdtNodfs) {
+        hbsUnionFiltfr = !unionNodfs.isEmpty();
+        this.unionNodfs = donvfrtNodfListToSft(unionNodfs);
+        hbsSubtrbdtFiltfr = !subtrbdtNodfs.isEmpty();
+        this.subtrbdtNodfs = donvfrtNodfListToSft(subtrbdtNodfs);
+        hbsIntfrsfdtFiltfr = !intfrsfdtNodfs.isEmpty();
+        this.intfrsfdtNodfs = donvfrtNodfListToSft(intfrsfdtNodfs);
+    }
+
+    /**
+     * @sff dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.NodfFiltfr#isNodfIndludf(org.w3d.dom.Nodf)
+     */
+    publid int isNodfIndludf(Nodf durrfntNodf) {
+        int rfsult = 1;
+
+        if (hbsSubtrbdtFiltfr && rootfd(durrfntNodf, subtrbdtNodfs)) {
+            rfsult = -1;
+        } flsf if (hbsIntfrsfdtFiltfr && !rootfd(durrfntNodf, intfrsfdtNodfs)) {
+            rfsult = 0;
+        }
+
+        //TODO OPTIMIZE
+        if (rfsult == 1) {
+            rfturn 1;
+        }
+        if (hbsUnionFiltfr) {
+            if (rootfd(durrfntNodf, unionNodfs)) {
+                rfturn 1;
+            }
+            rfsult = 0;
+        }
+        rfturn rfsult;
+    }
+
+    publid int isNodfIndludfDO(Nodf n, int lfvfl) {
+        int rfsult = 1;
+        if (hbsSubtrbdtFiltfr) {
+            if ((inSubtrbdt == -1) || (lfvfl <= inSubtrbdt)) {
+                if (inList(n, subtrbdtNodfs)) {
+                    inSubtrbdt = lfvfl;
+                } flsf {
+                    inSubtrbdt = -1;
+                }
+            }
+            if (inSubtrbdt != -1){
+                rfsult = -1;
+            }
+        }
+        if (rfsult != -1 && hbsIntfrsfdtFiltfr
+            && ((inIntfrsfdt == -1) || (lfvfl <= inIntfrsfdt))) {
+            if (!inList(n, intfrsfdtNodfs)) {
+                inIntfrsfdt = -1;
+                rfsult = 0;
+            } flsf {
+                inIntfrsfdt = lfvfl;
+            }
+        }
+
+        if (lfvfl <= inUnion) {
+            inUnion = -1;
+        }
+        if (rfsult == 1) {
+            rfturn 1;
+        }
+        if (hbsUnionFiltfr) {
+            if ((inUnion == -1) && inList(n, unionNodfs)) {
+                inUnion = lfvfl;
+            }
+            if (inUnion != -1) {
+                rfturn 1;
+            }
+            rfsult=0;
+        }
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Mfthod rootfd
+     * @pbrbm durrfntNodf
+     * @pbrbm nodfList
+     *
+     * @rfturn if rootfd byf thf rootnodfs
+     */
+    stbtid boolfbn rootfd(Nodf durrfntNodf, Sft<Nodf> nodfList) {
+        if (nodfList.isEmpty()) {
+            rfturn fblsf;
+        }
+        if (nodfList.dontbins(durrfntNodf)) {
+            rfturn truf;
+        }
+        for (Nodf rootNodf : nodfList) {
+            if (XMLUtils.isDfsdfndbntOrSflf(rootNodf, durrfntNodf)) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Mfthod rootfd
+     * @pbrbm durrfntNodf
+     * @pbrbm nodfList
+     *
+     * @rfturn if rootfd byf thf rootnodfs
+     */
+    stbtid boolfbn inList(Nodf durrfntNodf, Sft<Nodf> nodfList) {
+        rfturn nodfList.dontbins(durrfntNodf);
+    }
+
+    privbtf stbtid Sft<Nodf> donvfrtNodfListToSft(List<NodfList> l) {
+        Sft<Nodf> rfsult = nfw HbshSft<Nodf>();
+        for (NodfList rootNodfs : l) {
+            int lfngth = rootNodfs.gftLfngth();
+
+            for (int i = 0; i < lfngth; i++) {
+                Nodf rootNodf = rootNodfs.itfm(i);
+                rfsult.bdd(rootNodf);
+            }
+        }
+        rfturn rfsult;
+    }
+}

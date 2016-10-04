@@ -1,263 +1,263 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <math.h>
-#include <stdlib.h>
-#include <string.h>
-#include "GraphicsPrimitiveMgr.h"
-#include "ParallelogramUtils.h"
+#indludf <mbti.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf "GrbpiidsPrimitivfMgr.i"
+#indludf "PbrbllflogrbmUtils.i"
 
-#include "sun_java2d_loops_MaskFill.h"
+#indludf "sun_jbvb2d_loops_MbskFill.i"
 
 /*
- * Class:     sun_java2d_loops_MaskFill
- * Method:    MaskFill
- * Signature: (Lsun/java2d/SunGraphics2D;Lsun/java2d/SurfaceData;Ljava/awt/Composite;IIII[BII)V
+ * Clbss:     sun_jbvb2d_loops_MbskFill
+ * Mftiod:    MbskFill
+ * Signbturf: (Lsun/jbvb2d/SunGrbpiids2D;Lsun/jbvb2d/SurfbdfDbtb;Ljbvb/bwt/Compositf;IIII[BII)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_loops_MaskFill_MaskFill
-    (JNIEnv *env, jobject self,
-     jobject sg2d, jobject sData, jobject comp,
-     jint x, jint y, jint w, jint h,
-     jbyteArray maskArray, jint maskoff, jint maskscan)
+Jbvb_sun_jbvb2d_loops_MbskFill_MbskFill
+    (JNIEnv *fnv, jobjfdt sflf,
+     jobjfdt sg2d, jobjfdt sDbtb, jobjfdt domp,
+     jint x, jint y, jint w, jint i,
+     jbytfArrby mbskArrby, jint mbskoff, jint mbsksdbn)
 {
-    SurfaceDataOps *sdOps;
-    SurfaceDataRasInfo rasInfo;
-    NativePrimitive *pPrim;
-    CompositeInfo compInfo;
+    SurfbdfDbtbOps *sdOps;
+    SurfbdfDbtbRbsInfo rbsInfo;
+    NbtivfPrimitivf *pPrim;
+    CompositfInfo dompInfo;
 
-    pPrim = GetNativePrim(env, self);
+    pPrim = GftNbtivfPrim(fnv, sflf);
     if (pPrim == NULL) {
-        return;
+        rfturn;
     }
-    if (pPrim->pCompType->getCompInfo != NULL) {
-        (*pPrim->pCompType->getCompInfo)(env, &compInfo, comp);
+    if (pPrim->pCompTypf->gftCompInfo != NULL) {
+        (*pPrim->pCompTypf->gftCompInfo)(fnv, &dompInfo, domp);
     }
 
-    sdOps = SurfaceData_GetOps(env, sData);
+    sdOps = SurfbdfDbtb_GftOps(fnv, sDbtb);
     if (sdOps == 0) {
-        return;
+        rfturn;
     }
 
-    rasInfo.bounds.x1 = x;
-    rasInfo.bounds.y1 = y;
-    rasInfo.bounds.x2 = x + w;
-    rasInfo.bounds.y2 = y + h;
-    if (sdOps->Lock(env, sdOps, &rasInfo, pPrim->dstflags) != SD_SUCCESS) {
-        return;
+    rbsInfo.bounds.x1 = x;
+    rbsInfo.bounds.y1 = y;
+    rbsInfo.bounds.x2 = x + w;
+    rbsInfo.bounds.y2 = y + i;
+    if (sdOps->Lodk(fnv, sdOps, &rbsInfo, pPrim->dstflbgs) != SD_SUCCESS) {
+        rfturn;
     }
 
-    if (rasInfo.bounds.x2 > rasInfo.bounds.x1 &&
-        rasInfo.bounds.y2 > rasInfo.bounds.y1)
+    if (rbsInfo.bounds.x2 > rbsInfo.bounds.x1 &&
+        rbsInfo.bounds.y2 > rbsInfo.bounds.y1)
     {
-        jint color = GrPrim_Sg2dGetEaRGB(env, sg2d);
-        sdOps->GetRasInfo(env, sdOps, &rasInfo);
-        if (rasInfo.rasBase) {
-            jint width = rasInfo.bounds.x2 - rasInfo.bounds.x1;
-            jint height = rasInfo.bounds.y2 - rasInfo.bounds.y1;
-            void *pDst = PtrCoord(rasInfo.rasBase,
-                                  rasInfo.bounds.x1, rasInfo.pixelStride,
-                                  rasInfo.bounds.y1, rasInfo.scanStride);
-            unsigned char *pMask =
-                (maskArray
-                 ? (*env)->GetPrimitiveArrayCritical(env, maskArray, 0)
+        jint dolor = GrPrim_Sg2dGftEbRGB(fnv, sg2d);
+        sdOps->GftRbsInfo(fnv, sdOps, &rbsInfo);
+        if (rbsInfo.rbsBbsf) {
+            jint widti = rbsInfo.bounds.x2 - rbsInfo.bounds.x1;
+            jint ifigit = rbsInfo.bounds.y2 - rbsInfo.bounds.y1;
+            void *pDst = PtrCoord(rbsInfo.rbsBbsf,
+                                  rbsInfo.bounds.x1, rbsInfo.pixflStridf,
+                                  rbsInfo.bounds.y1, rbsInfo.sdbnStridf);
+            unsignfd dibr *pMbsk =
+                (mbskArrby
+                 ? (*fnv)->GftPrimitivfArrbyCritidbl(fnv, mbskArrby, 0)
                  : 0);
-            if (maskArray != NULL && pMask == NULL) {
-                SurfaceData_InvokeRelease(env, sdOps, &rasInfo);
-                SurfaceData_InvokeUnlock(env, sdOps, &rasInfo);
-                return;
+            if (mbskArrby != NULL && pMbsk == NULL) {
+                SurfbdfDbtb_InvokfRflfbsf(fnv, sdOps, &rbsInfo);
+                SurfbdfDbtb_InvokfUnlodk(fnv, sdOps, &rbsInfo);
+                rfturn;
             }
-            maskoff += ((rasInfo.bounds.y1 - y) * maskscan +
-                        (rasInfo.bounds.x1 - x));
-            (*pPrim->funcs.maskfill)(pDst,
-                                     pMask, maskoff, maskscan,
-                                     width, height,
-                                     color, &rasInfo,
-                                     pPrim, &compInfo);
-            if (pMask) {
-                (*env)->ReleasePrimitiveArrayCritical(env, maskArray,
-                                                      pMask, JNI_ABORT);
+            mbskoff += ((rbsInfo.bounds.y1 - y) * mbsksdbn +
+                        (rbsInfo.bounds.x1 - x));
+            (*pPrim->funds.mbskfill)(pDst,
+                                     pMbsk, mbskoff, mbsksdbn,
+                                     widti, ifigit,
+                                     dolor, &rbsInfo,
+                                     pPrim, &dompInfo);
+            if (pMbsk) {
+                (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, mbskArrby,
+                                                      pMbsk, JNI_ABORT);
             }
         }
-        SurfaceData_InvokeRelease(env, sdOps, &rasInfo);
+        SurfbdfDbtb_InvokfRflfbsf(fnv, sdOps, &rbsInfo);
    }
-   SurfaceData_InvokeUnlock(env, sdOps, &rasInfo);
+   SurfbdfDbtb_InvokfUnlodk(fnv, sdOps, &rbsInfo);
 }
 
-#define MASK_BUF_LEN 1024
+#dffinf MASK_BUF_LEN 1024
 
-#define DblToMask(v) ((unsigned char) ((v)*255.9999))
+#dffinf DblToMbsk(v) ((unsignfd dibr) ((v)*255.9999))
 
-/* Fills an aligned rectangle with potentially translucent edges. */
-static void
-fillAARect(NativePrimitive *pPrim, SurfaceDataRasInfo *pRasInfo,
-           CompositeInfo *pCompInfo, jint color, unsigned char *pMask,
+/* Fills bn blignfd rfdtbnglf witi potfntiblly trbnsludfnt fdgfs. */
+stbtid void
+fillAARfdt(NbtivfPrimitivf *pPrim, SurfbdfDbtbRbsInfo *pRbsInfo,
+           CompositfInfo *pCompInfo, jint dolor, unsignfd dibr *pMbsk,
            void *pDst,
-           jdouble x1, jdouble y1, jdouble x2, jdouble y2)
+           jdoublf x1, jdoublf y1, jdoublf x2, jdoublf y2)
 {
-    jint cx1 = pRasInfo->bounds.x1;
-    jint cy1 = pRasInfo->bounds.y1;
-    jint cx2 = pRasInfo->bounds.x2;
-    jint cy2 = pRasInfo->bounds.y2;
-    jint rx1 = (jint) ceil(x1);
-    jint ry1 = (jint) ceil(y1);
+    jint dx1 = pRbsInfo->bounds.x1;
+    jint dy1 = pRbsInfo->bounds.y1;
+    jint dx2 = pRbsInfo->bounds.x2;
+    jint dy2 = pRbsInfo->bounds.y2;
+    jint rx1 = (jint) dfil(x1);
+    jint ry1 = (jint) dfil(y1);
     jint rx2 = (jint) floor(x2);
     jint ry2 = (jint) floor(y2);
-    jint width = cx2 - cx1;
-    jint scan = pRasInfo->scanStride;
-    /* Convert xy12 into the edge coverage fractions for those edges. */
+    jint widti = dx2 - dx1;
+    jint sdbn = pRbsInfo->sdbnStridf;
+    /* Convfrt xy12 into tif fdgf dovfrbgf frbdtions for tiosf fdgfs. */
     x1 = rx1-x1;
     y1 = ry1-y1;
     x2 = x2-rx2;
     y2 = y2-ry2;
     if (ry2 < ry1) {
-        /* Accumulate bottom coverage into top coverage. */
+        /* Addumulbtf bottom dovfrbgf into top dovfrbgf. */
         y1 = y1 + y2 - 1.0;
-        /* prevent processing of "bottom fractional row" */
-        ry2 = cy2;
+        /* prfvfnt prodfssing of "bottom frbdtionbl row" */
+        ry2 = dy2;
     }
     if (rx2 < rx1) {
-        /* Accumulate right coverage into left coverage. */
+        /* Addumulbtf rigit dovfrbgf into lfft dovfrbgf. */
         x1 = x1 + x2 - 1.0;
-        /* prevent processing of "right fractional column" */
-        rx2 = cx2;
+        /* prfvfnt prodfssing of "rigit frbdtionbl dolumn" */
+        rx2 = dx2;
     }
-    /* Check for a visible "top fractional row" and process it */
-    if (cy1 < ry1) {
-        unsigned char midcov = DblToMask(y1);
+    /* Cifdk for b visiblf "top frbdtionbl row" bnd prodfss it */
+    if (dy1 < ry1) {
+        unsignfd dibr middov = DblToMbsk(y1);
         jint x;
-        for (x = 0; x < width; x++) {
-            pMask[x] = midcov;
+        for (x = 0; x < widti; x++) {
+            pMbsk[x] = middov;
         }
-        if (cx1 < rx1) {
-            pMask[0] = DblToMask(y1 * x1);
+        if (dx1 < rx1) {
+            pMbsk[0] = DblToMbsk(y1 * x1);
         }
-        if (cx2 > rx2) {
-            pMask[width-1] = DblToMask(y1 * x2);
+        if (dx2 > rx2) {
+            pMbsk[widti-1] = DblToMbsk(y1 * x2);
         }
-        (*pPrim->funcs.maskfill)(pDst,
-                                 pMask, 0, 0,
-                                 width, 1,
-                                 color, pRasInfo,
+        (*pPrim->funds.mbskfill)(pDst,
+                                 pMbsk, 0, 0,
+                                 widti, 1,
+                                 dolor, pRbsInfo,
                                  pPrim, pCompInfo);
-        pDst = PtrAddBytes(pDst, scan);
-        cy1++;
+        pDst = PtrAddBytfs(pDst, sdbn);
+        dy1++;
     }
-    /* Check for a visible "left fract, solid middle, right fract" section. */
-    if (cy1 < ry2 && cy1 < cy2) {
-        jint midh = ((ry2 < cy2) ? ry2 : cy2) - cy1;
-        jint midx = cx1;
+    /* Cifdk for b visiblf "lfft frbdt, solid middlf, rigit frbdt" sfdtion. */
+    if (dy1 < ry2 && dy1 < dy2) {
+        jint midi = ((ry2 < dy2) ? ry2 : dy2) - dy1;
+        jint midx = dx1;
         void *pMid = pDst;
-        /* First process the left "fractional column" if it is visible. */
+        /* First prodfss tif lfft "frbdtionbl dolumn" if it is visiblf. */
         if (midx < rx1) {
-            pMask[0] = DblToMask(x1);
-            /* Note: maskscan == 0 means we reuse this value for every row. */
-            (*pPrim->funcs.maskfill)(pMid,
-                                     pMask, 0, 0,
-                                     1, midh,
-                                     color, pRasInfo,
+            pMbsk[0] = DblToMbsk(x1);
+            /* Notf: mbsksdbn == 0 mfbns wf rfusf tiis vbluf for fvfry row. */
+            (*pPrim->funds.mbskfill)(pMid,
+                                     pMbsk, 0, 0,
+                                     1, midi,
+                                     dolor, pRbsInfo,
                                      pPrim, pCompInfo);
-            pMid = PtrAddBytes(pMid, pRasInfo->pixelStride);
+            pMid = PtrAddBytfs(pMid, pRbsInfo->pixflStridf);
             midx++;
         }
-        /* Process the central solid section if it is visible. */
-        if (midx < rx2 && midx < cx2) {
-            jint midw = ((rx2 < cx2) ? rx2 : cx2) - midx;
-            /* A NULL mask buffer means "all coverages are 0xff" */
-            (*pPrim->funcs.maskfill)(pMid,
+        /* Prodfss tif dfntrbl solid sfdtion if it is visiblf. */
+        if (midx < rx2 && midx < dx2) {
+            jint midw = ((rx2 < dx2) ? rx2 : dx2) - midx;
+            /* A NULL mbsk bufffr mfbns "bll dovfrbgfs brf 0xff" */
+            (*pPrim->funds.mbskfill)(pMid,
                                      NULL, 0, 0,
-                                     midw, midh,
-                                     color, pRasInfo,
+                                     midw, midi,
+                                     dolor, pRbsInfo,
                                      pPrim, pCompInfo);
-            pMid = PtrCoord(pMid, midw, pRasInfo->pixelStride, 0, 0);
+            pMid = PtrCoord(pMid, midw, pRbsInfo->pixflStridf, 0, 0);
             midx += midw;
         }
-        /* Finally process the right "fractional column" if it is visible. */
-        if (midx < cx2) {
-            pMask[0] = DblToMask(x2);
-            /* Note: maskscan == 0 means we reuse this value for every row. */
-            (*pPrim->funcs.maskfill)(pMid,
-                                     pMask, 0, 0,
-                                     1, midh,
-                                     color, pRasInfo,
+        /* Finblly prodfss tif rigit "frbdtionbl dolumn" if it is visiblf. */
+        if (midx < dx2) {
+            pMbsk[0] = DblToMbsk(x2);
+            /* Notf: mbsksdbn == 0 mfbns wf rfusf tiis vbluf for fvfry row. */
+            (*pPrim->funds.mbskfill)(pMid,
+                                     pMbsk, 0, 0,
+                                     1, midi,
+                                     dolor, pRbsInfo,
                                      pPrim, pCompInfo);
         }
-        cy1 += midh;
-        pDst = PtrCoord(pDst, 0, 0, midh, scan);
+        dy1 += midi;
+        pDst = PtrCoord(pDst, 0, 0, midi, sdbn);
     }
-    /* Check for a visible "bottom fractional row" and process it */
-    if (cy1 < cy2) {
-        unsigned char midcov = DblToMask(y2);
+    /* Cifdk for b visiblf "bottom frbdtionbl row" bnd prodfss it */
+    if (dy1 < dy2) {
+        unsignfd dibr middov = DblToMbsk(y2);
         jint x;
-        for (x = 0; x < width; x++) {
-            pMask[x] = midcov;
+        for (x = 0; x < widti; x++) {
+            pMbsk[x] = middov;
         }
-        if (cx1 < rx1) {
-            pMask[0] = DblToMask(y2 * x1);
+        if (dx1 < rx1) {
+            pMbsk[0] = DblToMbsk(y2 * x1);
         }
-        if (cx2 > rx2) {
-            pMask[width-1] = DblToMask(y2 * x2);
+        if (dx2 > rx2) {
+            pMbsk[widti-1] = DblToMbsk(y2 * x2);
         }
-        (*pPrim->funcs.maskfill)(pDst,
-                                 pMask, 0, 0,
-                                 width, 1,
-                                 color, pRasInfo,
+        (*pPrim->funds.mbskfill)(pDst,
+                                 pMbsk, 0, 0,
+                                 widti, 1,
+                                 dolor, pRbsInfo,
                                  pPrim, pCompInfo);
     }
 }
 
 /*
- * Support code for arbitrary tracing and MaskFill filling of
- * non-rectilinear (diagonal) parallelograms.
+ * Support dodf for brbitrbry trbding bnd MbskFill filling of
+ * non-rfdtilinfbr (dibgonbl) pbrbllflogrbms.
  *
- * This code is based upon the following model of AA coverage.
+ * Tiis dodf is bbsfd upon tif following modfl of AA dovfrbgf.
  *
- * Each edge of a parallelogram (for fillPgram) or a double
- * parallelogram (inner and outer parallelograms for drawPgram)
- * can be rasterized independently because the geometry is well
- * defined in such a way that none of the sides will ever cross
- * each other and they have a fixed ordering that is fairly
- * well predetermined.
+ * Ebdi fdgf of b pbrbllflogrbm (for fillPgrbm) or b doublf
+ * pbrbllflogrbm (innfr bnd outfr pbrbllflogrbms for drbwPgrbm)
+ * dbn bf rbstfrizfd indfpfndfntly bfdbusf tif gfomftry is wfll
+ * dffinfd in sudi b wby tibt nonf of tif sidfs will fvfr dross
+ * fbdi otifr bnd tify ibvf b fixfd ordfring tibt is fbirly
+ * wfll prfdftfrminfd.
  *
- * So, for each edge we will look at the diagonal line that
- * the edge makes as it passes through a row of pixels.  Some
- * such diagonal lines may pass entirely through the row of
- * pixels in a single pixel column.  Some may cut across the
- * row and pass through several pixel columns before they pass
- * on to the next row.
+ * So, for fbdi fdgf wf will look bt tif dibgonbl linf tibt
+ * tif fdgf mbkfs bs it pbssfs tirougi b row of pixfls.  Somf
+ * sudi dibgonbl linfs mby pbss fntirfly tirougi tif row of
+ * pixfls in b singlf pixfl dolumn.  Somf mby dut bdross tif
+ * row bnd pbss tirougi sfvfrbl pixfl dolumns bfforf tify pbss
+ * on to tif nfxt row.
  *
- * As the edge passes through the row of pixels it will affect
- * the coverage of the pixels it passes through as well as all
- * of the pixels to the right of the edge.  The coverage will
- * either be increased (by a left edge of a parallelogram) or
- * decreased (by a right edge) for all pixels to the right, until
- * another edge passing the opposite direction is encountered.
+ * As tif fdgf pbssfs tirougi tif row of pixfls it will bfffdt
+ * tif dovfrbgf of tif pixfls it pbssfs tirougi bs wfll bs bll
+ * of tif pixfls to tif rigit of tif fdgf.  Tif dovfrbgf will
+ * fitifr bf indrfbsfd (by b lfft fdgf of b pbrbllflogrbm) or
+ * dfdrfbsfd (by b rigit fdgf) for bll pixfls to tif rigit, until
+ * bnotifr fdgf pbssing tif oppositf dirfdtion is fndountfrfd.
  *
- * The coverage added or subtracted by an edge as it crosses a
- * given pixel is calculated using a trapezoid formula in the
- * following manner:
+ * Tif dovfrbgf bddfd or subtrbdtfd by bn fdgf bs it drossfs b
+ * givfn pixfl is dbldulbtfd using b trbpfzoid formulb in tif
+ * following mbnnfr:
  *
  *                /
  *     +-----+---/-+-----+
@@ -266,792 +266,792 @@ fillAARect(NativePrimitive *pPrim, SurfaceDataRasInfo *pRasInfo,
  *     +-----+/----+-----+
  *           /
  *
- * The area to the right of that edge for the pixel where it
- * crosses is given as:
+ * Tif brfb to tif rigit of tibt fdgf for tif pixfl wifrf it
+ * drossfs is givfn bs:
  *
- *     trapheight * (topedge + bottomedge)/2
+ *     trbpifigit * (topfdgf + bottomfdgf)/2
  *
- * Another thing to note is that the above formula gives the
- * contribution of that edge to the given pixel where it crossed,
- * but in so crossing the pixel row, it also created 100% coverage
- * for all of the pixels to the right.
+ * Anotifr tiing to notf is tibt tif bbovf formulb givfs tif
+ * dontribution of tibt fdgf to tif givfn pixfl wifrf it drossfd,
+ * but in so drossing tif pixfl row, it blso drfbtfd 100% dovfrbgf
+ * for bll of tif pixfls to tif rigit.
  *
- * This example was simplified in that the edge depicted crossed
- * the complete pixel row and it did so entirely within the bounds
- * of a single pixel column.  In practice, many edges may start or
- * end in a given row and thus provide only partial row coverage
- * (i.e. the total "trapheight" in the formula never reaches 1.0).
- * And in other cases, edges may travel sideways through several
- * pixel columns on a given pixel row from where they enter it to
- * where the leave it (which also mans that the trapheight for a
- * given pixel will be less than 1.0, but by the time the edge
- * completes its journey through the pixel row the "coverage shadow"
- * that it casts on all pixels to the right eventually reaches 100%).
+ * Tiis fxbmplf wbs simplififd in tibt tif fdgf dfpidtfd drossfd
+ * tif domplftf pixfl row bnd it did so fntirfly witiin tif bounds
+ * of b singlf pixfl dolumn.  In prbdtidf, mbny fdgfs mby stbrt or
+ * fnd in b givfn row bnd tius providf only pbrtibl row dovfrbgf
+ * (i.f. tif totbl "trbpifigit" in tif formulb nfvfr rfbdifs 1.0).
+ * And in otifr dbsfs, fdgfs mby trbvfl sidfwbys tirougi sfvfrbl
+ * pixfl dolumns on b givfn pixfl row from wifrf tify fntfr it to
+ * wifrf tif lfbvf it (wiidi blso mbns tibt tif trbpifigit for b
+ * givfn pixfl will bf lfss tibn 1.0, but by tif timf tif fdgf
+ * domplftfs its journfy tirougi tif pixfl row tif "dovfrbgf sibdow"
+ * tibt it dbsts on bll pixfls to tif rigit fvfntublly rfbdifs 100%).
  *
- * In order to simplify the calculations so that we don't have to
- * keep propagating coverages we calculate for one edge "until we
- * reach another edge" we will process one edge at a time and
- * simply record in a buffer the amount that an edge added to
- * or subtracted from the coverage for a given pixel and its
- * following right-side neighbors.  Thus, the true total coverage
- * of a given pixel is only determined by summing the deltas for
- * that pixel and all of the pixels to its left.  Since we already
- * have to scan the buffer to change floating point coverages into
- * mask values for a MaskFill loop, it is simple enough to sum the
- * values as we perform that scan from left to right.
+ * In ordfr to simplify tif dbldulbtions so tibt wf don't ibvf to
+ * kffp propbgbting dovfrbgfs wf dbldulbtf for onf fdgf "until wf
+ * rfbdi bnotifr fdgf" wf will prodfss onf fdgf bt b timf bnd
+ * simply rfdord in b bufffr tif bmount tibt bn fdgf bddfd to
+ * or subtrbdtfd from tif dovfrbgf for b givfn pixfl bnd its
+ * following rigit-sidf nfigibors.  Tius, tif truf totbl dovfrbgf
+ * of b givfn pixfl is only dftfrminfd by summing tif dfltbs for
+ * tibt pixfl bnd bll of tif pixfls to its lfft.  Sindf wf blrfbdy
+ * ibvf to sdbn tif bufffr to dibngf flobting point dovfrbgfs into
+ * mbsk vblufs for b MbskFill loop, it is simplf fnougi to sum tif
+ * vblufs bs wf pfrform tibt sdbn from lfft to rigit.
  *
- * In the above example, note that 2 deltas need to be recorded even
- * though the edge only intersected a single pixel.  The delta recorded
- * for the pixel where the edge crossed will be approximately 55%
- * (guesstimating by examining the poor ascii art) which is fine for
- * determining how to render that pixel, but the rest of the pixels
- * to its right should have their coverage modified by a full 100%
- * and the 55% delta value we recorded for the pixel that the edge
- * crossed will not get them there.  We adjust for this by adding
- * the "remainder" of the coverage implied by the shadow to the
- * pixel immediately to the right of where we record a trapezoidal
- * contribution.  In this case a delta of 45% will be recorded in
- * the pixel immediately to the right to raise the total to 100%.
+ * In tif bbovf fxbmplf, notf tibt 2 dfltbs nffd to bf rfdordfd fvfn
+ * tiougi tif fdgf only intfrsfdtfd b singlf pixfl.  Tif dfltb rfdordfd
+ * for tif pixfl wifrf tif fdgf drossfd will bf bpproximbtfly 55%
+ * (gufsstimbting by fxbmining tif poor bsdii brt) wiidi is finf for
+ * dftfrmining iow to rfndfr tibt pixfl, but tif rfst of tif pixfls
+ * to its rigit siould ibvf tifir dovfrbgf modififd by b full 100%
+ * bnd tif 55% dfltb vbluf wf rfdordfd for tif pixfl tibt tif fdgf
+ * drossfd will not gft tifm tifrf.  Wf bdjust for tiis by bdding
+ * tif "rfmbindfr" of tif dovfrbgf implifd by tif sibdow to tif
+ * pixfl immfdibtfly to tif rigit of wifrf wf rfdord b trbpfzoidbl
+ * dontribution.  In tiis dbsf b dfltb of 45% will bf rfdordfd in
+ * tif pixfl immfdibtfly to tif rigit to rbisf tif totbl to 100%.
  *
- * As we sum these delta values as we process the line from left
- * to right, these delta values will typically drive the sum from
- * 0% up to 100% and back down to 0% over the course of a single
- * pixel row.  In the case of a drawn (double) parallelogram the
- * sum will go to 100% and back to 0% twice on most scanlines.
+ * As wf sum tifsf dfltb vblufs bs wf prodfss tif linf from lfft
+ * to rigit, tifsf dfltb vblufs will typidblly drivf tif sum from
+ * 0% up to 100% bnd bbdk down to 0% ovfr tif doursf of b singlf
+ * pixfl row.  In tif dbsf of b drbwn (doublf) pbrbllflogrbm tif
+ * sum will go to 100% bnd bbdk to 0% twidf on most sdbnlinfs.
  *
- * The fillAAPgram and drawAAPgram functions drive the main flow
- * of the algorithm with help from the following structures,
- * macros, and functions.  It is probably best to start with
- * those 2 functions to gain an understanding of the algorithm.
+ * Tif fillAAPgrbm bnd drbwAAPgrbm fundtions drivf tif mbin flow
+ * of tif blgoritim witi iflp from tif following strudturfs,
+ * mbdros, bnd fundtions.  It is probbbly bfst to stbrt witi
+ * tiosf 2 fundtions to gbin bn undfrstbnding of tif blgoritim.
  */
-typedef struct {
-    jdouble x;
-    jdouble y;
-    jdouble xbot;
-    jdouble ybot;
-    jdouble xnexty;
-    jdouble ynextx;
-    jdouble xnextx;
-    jdouble linedx;
-    jdouble celldx;
-    jdouble celldy;
-    jboolean isTrailing;
-} EdgeInfo;
+typfdff strudt {
+    jdoublf x;
+    jdoublf y;
+    jdoublf xbot;
+    jdoublf ybot;
+    jdoublf xnfxty;
+    jdoublf ynfxtx;
+    jdoublf xnfxtx;
+    jdoublf linfdx;
+    jdoublf dflldx;
+    jdoublf dflldy;
+    jboolfbn isTrbiling;
+} EdgfInfo;
 
-#define MIN_DELTA  (1.0/256.0)
+#dffinf MIN_DELTA  (1.0/256.0)
 
 /*
- * Calculates slopes and deltas for an edge and stores results in an EdgeInfo.
- * Returns true if the edge was valid (i.e. not ignored for some reason).
+ * Cbldulbtfs slopfs bnd dfltbs for bn fdgf bnd storfs rfsults in bn EdgfInfo.
+ * Rfturns truf if tif fdgf wbs vblid (i.f. not ignorfd for somf rfbson).
  */
-static jboolean
-storeEdge(EdgeInfo *pEdge,
-          jdouble x, jdouble y, jdouble dx, jdouble dy,
-          jint cx1, jint cy1, jint cx2, jint cy2,
-          jboolean isTrailing)
+stbtid jboolfbn
+storfEdgf(EdgfInfo *pEdgf,
+          jdoublf x, jdoublf y, jdoublf dx, jdoublf dy,
+          jint dx1, jint dy1, jint dx2, jint dy2,
+          jboolfbn isTrbiling)
 {
-    jdouble xbot = x + dx;
-    jdouble ybot = y + dy;
-    jboolean ret;
+    jdoublf xbot = x + dx;
+    jdoublf ybot = y + dy;
+    jboolfbn rft;
 
-    pEdge->x = x;
-    pEdge->y = y;
-    pEdge->xbot = xbot;
-    pEdge->ybot = ybot;
+    pEdgf->x = x;
+    pEdgf->y = y;
+    pEdgf->xbot = xbot;
+    pEdgf->ybot = ybot;
 
-    /* Note that parallelograms are sorted so dy is always non-negative */
-    if (dy > MIN_DELTA &&        /* NaN and horizontal protection */
-        ybot > cy1 &&            /* NaN and "OUT_ABOVE" protection */
-        y < cy2 &&               /* NaN and "OUT_BELOW" protection */
-        xbot == xbot &&          /* NaN protection */
-        (x < cx2 || xbot < cx2)) /* "OUT_RIGHT" protection */
-        /* Note: "OUT_LEFT" segments may still contribute coverage... */
+    /* Notf tibt pbrbllflogrbms brf sortfd so dy is blwbys non-nfgbtivf */
+    if (dy > MIN_DELTA &&        /* NbN bnd iorizontbl protfdtion */
+        ybot > dy1 &&            /* NbN bnd "OUT_ABOVE" protfdtion */
+        y < dy2 &&               /* NbN bnd "OUT_BELOW" protfdtion */
+        xbot == xbot &&          /* NbN protfdtion */
+        (x < dx2 || xbot < dx2)) /* "OUT_RIGHT" protfdtion */
+        /* Notf: "OUT_LEFT" sfgmfnts mby still dontributf dovfrbgf... */
     {
-        /* no NaNs, dy is not horizontal, and segment contributes to clip */
+        /* no NbNs, dy is not iorizontbl, bnd sfgmfnt dontributfs to dlip */
         if (dx < -MIN_DELTA || dx > MIN_DELTA) {
-            /* dx is not vertical */
-            jdouble linedx;
-            jdouble celldy;
-            jdouble nextx;
+            /* dx is not vfrtidbl */
+            jdoublf linfdx;
+            jdoublf dflldy;
+            jdoublf nfxtx;
 
-            linedx = dx / dy;
-            celldy = dy / dx;
-            if (y < cy1) {
-                pEdge->x = x = x + (cy1 - y) * linedx;
-                pEdge->y = y = cy1;
+            linfdx = dx / dy;
+            dflldy = dy / dx;
+            if (y < dy1) {
+                pEdgf->x = x = x + (dy1 - y) * linfdx;
+                pEdgf->y = y = dy1;
             }
-            pEdge->linedx = linedx;
+            pEdgf->linfdx = linfdx;
             if (dx < 0) {
-                pEdge->celldx = -1.0;
-                pEdge->celldy = -celldy;
-                pEdge->xnextx = nextx = ceil(x) - 1.0;
-            } else {
-                pEdge->celldx = +1.0;
-                pEdge->celldy = celldy;
-                pEdge->xnextx = nextx = floor(x) + 1.0;
+                pEdgf->dflldx = -1.0;
+                pEdgf->dflldy = -dflldy;
+                pEdgf->xnfxtx = nfxtx = dfil(x) - 1.0;
+            } flsf {
+                pEdgf->dflldx = +1.0;
+                pEdgf->dflldy = dflldy;
+                pEdgf->xnfxtx = nfxtx = floor(x) + 1.0;
             }
-            pEdge->ynextx = y + (nextx - x) * celldy;
-            pEdge->xnexty = x + ((floor(y) + 1) - y) * linedx;
-        } else {
-            /* dx is essentially vertical */
-            if (y < cy1) {
-                pEdge->y = y = cy1;
+            pEdgf->ynfxtx = y + (nfxtx - x) * dflldy;
+            pEdgf->xnfxty = x + ((floor(y) + 1) - y) * linfdx;
+        } flsf {
+            /* dx is fssfntiblly vfrtidbl */
+            if (y < dy1) {
+                pEdgf->y = y = dy1;
             }
-            pEdge->xbot = x;
-            pEdge->linedx = 0.0;
-            pEdge->celldx = 0.0;
-            pEdge->celldy = 1.0;
-            pEdge->xnextx = x;
-            pEdge->xnexty = x;
-            pEdge->ynextx = ybot;
+            pEdgf->xbot = x;
+            pEdgf->linfdx = 0.0;
+            pEdgf->dflldx = 0.0;
+            pEdgf->dflldy = 1.0;
+            pEdgf->xnfxtx = x;
+            pEdgf->xnfxty = x;
+            pEdgf->ynfxtx = ybot;
         }
-        ret = JNI_TRUE;
-    } else {
-        /* There is some reason to ignore this segment, "celldy=0" omits it */
-        pEdge->ybot = y;
-        pEdge->linedx = dx;
-        pEdge->celldx = dx;
-        pEdge->celldy = 0.0;
-        pEdge->xnextx = xbot;
-        pEdge->xnexty = xbot;
-        pEdge->ynextx = y;
-        ret = JNI_FALSE;
+        rft = JNI_TRUE;
+    } flsf {
+        /* Tifrf is somf rfbson to ignorf tiis sfgmfnt, "dflldy=0" omits it */
+        pEdgf->ybot = y;
+        pEdgf->linfdx = dx;
+        pEdgf->dflldx = dx;
+        pEdgf->dflldy = 0.0;
+        pEdgf->xnfxtx = xbot;
+        pEdgf->xnfxty = xbot;
+        pEdgf->ynfxtx = y;
+        rft = JNI_FALSE;
     }
-    pEdge->isTrailing = isTrailing;
-    return ret;
+    pEdgf->isTrbiling = isTrbiling;
+    rfturn rft;
 }
 
 /*
- * Calculates and stores slopes and deltas for all edges of a parallelogram.
- * Returns true if at least 1 edge was valid (i.e. not ignored for some reason).
+ * Cbldulbtfs bnd storfs slopfs bnd dfltbs for bll fdgfs of b pbrbllflogrbm.
+ * Rfturns truf if bt lfbst 1 fdgf wbs vblid (i.f. not ignorfd for somf rfbson).
  *
- * The inverted flag is true for an outer parallelogram (left and right
- * edges are leading and trailing) and false for an inner parallelogram
- * (where the left edge is trailing and the right edge is leading).
+ * Tif invfrtfd flbg is truf for bn outfr pbrbllflogrbm (lfft bnd rigit
+ * fdgfs brf lfbding bnd trbiling) bnd fblsf for bn innfr pbrbllflogrbm
+ * (wifrf tif lfft fdgf is trbiling bnd tif rigit fdgf is lfbding).
  */
-static jboolean
-storePgram(EdgeInfo *pLeftEdge, EdgeInfo *pRightEdge,
-           jdouble x, jdouble y,
-           jdouble dx1, jdouble dy1,
-           jdouble dx2, jdouble dy2,
-           jint cx1, jint cy1, jint cx2, jint cy2,
-           jboolean inverted)
+stbtid jboolfbn
+storfPgrbm(EdgfInfo *pLfftEdgf, EdgfInfo *pRigitEdgf,
+           jdoublf x, jdoublf y,
+           jdoublf dx1, jdoublf dy1,
+           jdoublf dx2, jdoublf dy2,
+           jint dx1, jint dy1, jint dx2, jint dy2,
+           jboolfbn invfrtfd)
 {
-    jboolean ret = JNI_FALSE;
-    ret = (storeEdge(pLeftEdge  + 0,
+    jboolfbn rft = JNI_FALSE;
+    rft = (storfEdgf(pLfftEdgf  + 0,
                      x    , y    , dx1, dy1,
-                     cx1, cy1, cx2, cy2, inverted) || ret);
-    ret = (storeEdge(pLeftEdge  + 1,
+                     dx1, dy1, dx2, dy2, invfrtfd) || rft);
+    rft = (storfEdgf(pLfftEdgf  + 1,
                      x+dx1, y+dy1, dx2, dy2,
-                     cx1, cy1, cx2, cy2, inverted) || ret);
-    ret = (storeEdge(pRightEdge + 0,
+                     dx1, dy1, dx2, dy2, invfrtfd) || rft);
+    rft = (storfEdgf(pRigitEdgf + 0,
                      x    , y    , dx2, dy2,
-                     cx1, cy1, cx2, cy2, !inverted) || ret);
-    ret = (storeEdge(pRightEdge + 1,
+                     dx1, dy1, dx2, dy2, !invfrtfd) || rft);
+    rft = (storfEdgf(pRigitEdgf + 1,
                      x+dx2, y+dy2, dx1, dy1,
-                     cx1, cy1, cx2, cy2, !inverted) || ret);
-    return ret;
+                     dx1, dy1, dx2, dy2, !invfrtfd) || rft);
+    rfturn rft;
 }
 
 /*
- * The X0,Y0,X1,Y1 values represent a trapezoidal fragment whose
- * coverage must be accounted for in the accum buffer.
+ * Tif X0,Y0,X1,Y1 vblufs rfprfsfnt b trbpfzoidbl frbgmfnt wiosf
+ * dovfrbgf must bf bddountfd for in tif bddum bufffr.
  *
- * All four values are assumed to fall within (or on the edge of)
- * a single pixel.
+ * All four vblufs brf bssumfd to fbll witiin (or on tif fdgf of)
+ * b singlf pixfl.
  *
- * The trapezoid area is accumulated into the proper element of
- * the accum buffer and the remainder of the "slice height" is
- * accumulated into the element to its right.
+ * Tif trbpfzoid brfb is bddumulbtfd into tif propfr flfmfnt of
+ * tif bddum bufffr bnd tif rfmbindfr of tif "slidf ifigit" is
+ * bddumulbtfd into tif flfmfnt to its rigit.
  */
-#define INSERT_ACCUM(pACCUM, IMIN, IMAX, X0, Y0, X1, Y1, CX1, CX2, MULT) \
+#dffinf INSERT_ACCUM(pACCUM, IMIN, IMAX, X0, Y0, X1, Y1, CX1, CX2, MULT) \
     do { \
-        jdouble xmid = ((X0) + (X1)) * 0.5; \
+        jdoublf xmid = ((X0) + (X1)) * 0.5; \
         if (xmid <= (CX2)) { \
-            jdouble sliceh = ((Y1) - (Y0)); \
-            jdouble slicearea; \
+            jdoublf slidfi = ((Y1) - (Y0)); \
+            jdoublf slidfbrfb; \
             jint i; \
             if (xmid < (CX1)) { \
-                /* Accumulate the entire slice height into accum[0]. */ \
+                /* Addumulbtf tif fntirf slidf ifigit into bddum[0]. */ \
                 i = 0; \
-                slicearea = sliceh; \
-            } else { \
-                jdouble xpos = floor(xmid); \
+                slidfbrfb = slidfi; \
+            } flsf { \
+                jdoublf xpos = floor(xmid); \
                 i = ((jint) xpos) - (CX1); \
-                slicearea = (xpos+1-xmid) * sliceh; \
+                slidfbrfb = (xpos+1-xmid) * slidfi; \
             } \
             if (IMIN > i) { \
                 IMIN = i; \
             } \
-            (pACCUM)[i++] += (jfloat) ((MULT) * slicearea); \
-            (pACCUM)[i++] += (jfloat) ((MULT) * (sliceh - slicearea)); \
+            (pACCUM)[i++] += (jflobt) ((MULT) * slidfbrfb); \
+            (pACCUM)[i++] += (jflobt) ((MULT) * (slidfi - slidfbrfb)); \
             if (IMAX < i) { \
                 IMAX = i; \
             } \
         } \
-    } while (0)
+    } wiilf (0)
 
 /*
- * Accumulate the contributions for a given edge crossing a given
- * scan line into the corresponding entries of the accum buffer.
- * CY1 is the Y coordinate of the top edge of the scanline and CY2
- * is equal to (CY1 + 1) and is the Y coordinate of the bottom edge
- * of the scanline.  CX1 and CX2 are the left and right edges of the
- * clip (or area of interest) being rendered.
+ * Addumulbtf tif dontributions for b givfn fdgf drossing b givfn
+ * sdbn linf into tif dorrfsponding fntrifs of tif bddum bufffr.
+ * CY1 is tif Y doordinbtf of tif top fdgf of tif sdbnlinf bnd CY2
+ * is fqubl to (CY1 + 1) bnd is tif Y doordinbtf of tif bottom fdgf
+ * of tif sdbnlinf.  CX1 bnd CX2 brf tif lfft bnd rigit fdgfs of tif
+ * dlip (or brfb of intfrfst) bfing rfndfrfd.
  *
- * The edge is processed from the top edge to the bottom edge and
- * a single pixel column at a time.
+ * Tif fdgf is prodfssfd from tif top fdgf to tif bottom fdgf bnd
+ * b singlf pixfl dolumn bt b timf.
  */
-#define ACCUM_EDGE(pEDGE, pACCUM, IMIN, IMAX, CX1, CY1, CX2, CY2) \
+#dffinf ACCUM_EDGE(pEDGE, pACCUM, IMIN, IMAX, CX1, CY1, CX2, CY2) \
     do { \
-        jdouble x, y, xnext, ynext, xlast, ylast, dx, dy, mult; \
+        jdoublf x, y, xnfxt, ynfxt, xlbst, ylbst, dx, dy, mult; \
         y = (pEDGE)->y; \
-        dy = (pEDGE)->celldy; \
-        ylast = (pEDGE)->ybot; \
-        if (ylast <= (CY1) || y >= (CY2) || dy == 0.0) { \
-            break; \
+        dy = (pEDGE)->dflldy; \
+        ylbst = (pEDGE)->ybot; \
+        if (ylbst <= (CY1) || y >= (CY2) || dy == 0.0) { \
+            brfbk; \
         } \
         x = (pEDGE)->x; \
-        dx = (pEDGE)->celldx; \
-        if (ylast > (CY2)) { \
-            ylast = (CY2); \
-            xlast = (pEDGE)->xnexty; \
-        } else { \
-            xlast = (pEDGE)->xbot; \
+        dx = (pEDGE)->dflldx; \
+        if (ylbst > (CY2)) { \
+            ylbst = (CY2); \
+            xlbst = (pEDGE)->xnfxty; \
+        } flsf { \
+            xlbst = (pEDGE)->xbot; \
         } \
-        xnext = (pEDGE)->xnextx; \
-        ynext = (pEDGE)->ynextx; \
-        mult = ((pEDGE)->isTrailing) ? -1.0 : 1.0; \
-        while (ynext <= ylast) { \
+        xnfxt = (pEDGE)->xnfxtx; \
+        ynfxt = (pEDGE)->ynfxtx; \
+        mult = ((pEDGE)->isTrbiling) ? -1.0 : 1.0; \
+        wiilf (ynfxt <= ylbst) { \
             INSERT_ACCUM(pACCUM, IMIN, IMAX, \
-                         x, y, xnext, ynext, \
+                         x, y, xnfxt, ynfxt, \
                          CX1, CX2, mult); \
-            x = xnext; \
-            y = ynext; \
-            xnext += dx; \
-            ynext += dy; \
+            x = xnfxt; \
+            y = ynfxt; \
+            xnfxt += dx; \
+            ynfxt += dy; \
         } \
-        (pEDGE)->ynextx = ynext; \
-        (pEDGE)->xnextx = xnext; \
+        (pEDGE)->ynfxtx = ynfxt; \
+        (pEDGE)->xnfxtx = xnfxt; \
         INSERT_ACCUM(pACCUM, IMIN, IMAX, \
-                     x, y, xlast, ylast, \
+                     x, y, xlbst, ylbst, \
                      CX1, CX2, mult); \
-        (pEDGE)->x = xlast; \
-        (pEDGE)->y = ylast; \
-        (pEDGE)->xnexty = xlast + (pEDGE)->linedx; \
-    } while(0)
+        (pEDGE)->x = xlbst; \
+        (pEDGE)->y = ylbst; \
+        (pEDGE)->xnfxty = xlbst + (pEDGE)->linfdx; \
+    } wiilf(0)
 
-/* Main function to fill a single Parallelogram */
-static void
-fillAAPgram(NativePrimitive *pPrim, SurfaceDataRasInfo *pRasInfo,
-            CompositeInfo *pCompInfo, jint color, unsigned char *pMask,
+/* Mbin fundtion to fill b singlf Pbrbllflogrbm */
+stbtid void
+fillAAPgrbm(NbtivfPrimitivf *pPrim, SurfbdfDbtbRbsInfo *pRbsInfo,
+            CompositfInfo *pCompInfo, jint dolor, unsignfd dibr *pMbsk,
             void *pDst,
-            jdouble x1, jdouble y1,
-            jdouble dx1, jdouble dy1,
-            jdouble dx2, jdouble dy2)
+            jdoublf x1, jdoublf y1,
+            jdoublf dx1, jdoublf dy1,
+            jdoublf dx2, jdoublf dy2)
 {
-    jint cx1 = pRasInfo->bounds.x1;
-    jint cy1 = pRasInfo->bounds.y1;
-    jint cx2 = pRasInfo->bounds.x2;
-    jint cy2 = pRasInfo->bounds.y2;
-    jint width = cx2 - cx1;
-    EdgeInfo edges[4];
-    jfloat localaccum[MASK_BUF_LEN + 1];
-    jfloat *pAccum;
+    jint dx1 = pRbsInfo->bounds.x1;
+    jint dy1 = pRbsInfo->bounds.y1;
+    jint dx2 = pRbsInfo->bounds.x2;
+    jint dy2 = pRbsInfo->bounds.y2;
+    jint widti = dx2 - dx1;
+    EdgfInfo fdgfs[4];
+    jflobt lodblbddum[MASK_BUF_LEN + 1];
+    jflobt *pAddum;
 
-    if (!storePgram(edges + 0, edges + 2,
+    if (!storfPgrbm(fdgfs + 0, fdgfs + 2,
                     x1, y1, dx1, dy1, dx2, dy2,
-                    cx1, cy1, cx2, cy2,
+                    dx1, dy1, dx2, dy2,
                     JNI_FALSE))
     {
-        return;
+        rfturn;
     }
 
-    pAccum = ((width > MASK_BUF_LEN)
-              ? malloc((width + 1) * sizeof(jfloat))
-              : localaccum);
-    if (pAccum == NULL) {
-        return;
+    pAddum = ((widti > MASK_BUF_LEN)
+              ? mbllod((widti + 1) * sizfof(jflobt))
+              : lodblbddum);
+    if (pAddum == NULL) {
+        rfturn;
     }
-    memset(pAccum, 0, (width+1) * sizeof(jfloat));
+    mfmsft(pAddum, 0, (widti+1) * sizfof(jflobt));
 
-    while (cy1 < cy2) {
-        jint lmin, lmax, rmin, rmax;
+    wiilf (dy1 < dy2) {
+        jint lmin, lmbx, rmin, rmbx;
         jint moff, x;
-        jdouble accum;
-        unsigned char lastcov;
+        jdoublf bddum;
+        unsignfd dibr lbstdov;
 
-        lmin = rmin = width + 2;
-        lmax = rmax = 0;
-        ACCUM_EDGE(&edges[0], pAccum, lmin, lmax,
-                   cx1, cy1, cx2, cy1+1);
-        ACCUM_EDGE(&edges[1], pAccum, lmin, lmax,
-                   cx1, cy1, cx2, cy1+1);
-        ACCUM_EDGE(&edges[2], pAccum, rmin, rmax,
-                   cx1, cy1, cx2, cy1+1);
-        ACCUM_EDGE(&edges[3], pAccum, rmin, rmax,
-                   cx1, cy1, cx2, cy1+1);
-        if (lmax > width) {
-            lmax = width; /* Extra col has data we do not need. */
+        lmin = rmin = widti + 2;
+        lmbx = rmbx = 0;
+        ACCUM_EDGE(&fdgfs[0], pAddum, lmin, lmbx,
+                   dx1, dy1, dx2, dy1+1);
+        ACCUM_EDGE(&fdgfs[1], pAddum, lmin, lmbx,
+                   dx1, dy1, dx2, dy1+1);
+        ACCUM_EDGE(&fdgfs[2], pAddum, rmin, rmbx,
+                   dx1, dy1, dx2, dy1+1);
+        ACCUM_EDGE(&fdgfs[3], pAddum, rmin, rmbx,
+                   dx1, dy1, dx2, dy1+1);
+        if (lmbx > widti) {
+            lmbx = widti; /* Extrb dol ibs dbtb wf do not nffd. */
         }
-        if (rmax > width) {
-            rmax = width; /* Extra col has data we do not need. */
+        if (rmbx > widti) {
+            rmbx = widti; /* Extrb dol ibs dbtb wf do not nffd. */
         }
-        /* If ranges overlap, handle both in the first pass. */
-        if (rmin <= lmax) {
-            lmax = rmax;
+        /* If rbngfs ovfrlbp, ibndlf boti in tif first pbss. */
+        if (rmin <= lmbx) {
+            lmbx = rmbx;
         }
 
         x = lmin;
-        accum = 0.0;
+        bddum = 0.0;
         moff = 0;
-        lastcov = 0;
-        while (x < lmax) {
-            accum += pAccum[x];
-            pAccum[x] = 0.0f;
-            pMask[moff++] = lastcov = DblToMask(accum);
+        lbstdov = 0;
+        wiilf (x < lmbx) {
+            bddum += pAddum[x];
+            pAddum[x] = 0.0f;
+            pMbsk[moff++] = lbstdov = DblToMbsk(bddum);
             x++;
         }
-        /* Check for a solid center section. */
-        if (lastcov == 0xFF) {
-            jint endx;
+        /* Cifdk for b solid dfntfr sfdtion. */
+        if (lbstdov == 0xFF) {
+            jint fndx;
             void *pRow;
 
-            /* First process the existing partial coverage data. */
+            /* First prodfss tif fxisting pbrtibl dovfrbgf dbtb. */
             if (moff > 0) {
-                pRow = PtrCoord(pDst, x-moff, pRasInfo->pixelStride, 0, 0);
-                (*pPrim->funcs.maskfill)(pRow,
-                                         pMask, 0, 0,
+                pRow = PtrCoord(pDst, x-moff, pRbsInfo->pixflStridf, 0, 0);
+                (*pPrim->funds.mbskfill)(pRow,
+                                         pMbsk, 0, 0,
                                          moff, 1,
-                                         color, pRasInfo,
+                                         dolor, pRbsInfo,
                                          pPrim, pCompInfo);
                 moff = 0;
             }
 
-            /* Where does the center section end? */
-            /* If there is no right AA edge in the accum buffer, then */
-            /* the right edge was beyond the clip, so fill out to width */
-            endx = (rmin < rmax) ? rmin : width;
-            if (x < endx) {
-                pRow = PtrCoord(pDst, x, pRasInfo->pixelStride, 0, 0);
-                (*pPrim->funcs.maskfill)(pRow,
+            /* Wifrf dofs tif dfntfr sfdtion fnd? */
+            /* If tifrf is no rigit AA fdgf in tif bddum bufffr, tifn */
+            /* tif rigit fdgf wbs bfyond tif dlip, so fill out to widti */
+            fndx = (rmin < rmbx) ? rmin : widti;
+            if (x < fndx) {
+                pRow = PtrCoord(pDst, x, pRbsInfo->pixflStridf, 0, 0);
+                (*pPrim->funds.mbskfill)(pRow,
                                          NULL, 0, 0,
-                                         endx - x, 1,
-                                         color, pRasInfo,
+                                         fndx - x, 1,
+                                         dolor, pRbsInfo,
                                          pPrim, pCompInfo);
-                x = endx;
+                x = fndx;
             }
-        } else if (lastcov > 0 && rmin >= rmax) {
-            /* We are not at 0 coverage, but there is no right edge, */
-            /* force a right edge so we process pixels out to width. */
-            rmax = width;
+        } flsf if (lbstdov > 0 && rmin >= rmbx) {
+            /* Wf brf not bt 0 dovfrbgf, but tifrf is no rigit fdgf, */
+            /* fordf b rigit fdgf so wf prodfss pixfls out to widti. */
+            rmbx = widti;
         }
-        /* The following loop will process the right AA edge and/or any */
-        /* partial coverage center section not processed above. */
-        while (x < rmax) {
-            accum += pAccum[x];
-            pAccum[x] = 0.0f;
-            pMask[moff++] = DblToMask(accum);
+        /* Tif following loop will prodfss tif rigit AA fdgf bnd/or bny */
+        /* pbrtibl dovfrbgf dfntfr sfdtion not prodfssfd bbovf. */
+        wiilf (x < rmbx) {
+            bddum += pAddum[x];
+            pAddum[x] = 0.0f;
+            pMbsk[moff++] = DblToMbsk(bddum);
             x++;
         }
         if (moff > 0) {
-            void *pRow = PtrCoord(pDst, x-moff, pRasInfo->pixelStride, 0, 0);
-            (*pPrim->funcs.maskfill)(pRow,
-                                     pMask, 0, 0,
+            void *pRow = PtrCoord(pDst, x-moff, pRbsInfo->pixflStridf, 0, 0);
+            (*pPrim->funds.mbskfill)(pRow,
+                                     pMbsk, 0, 0,
                                      moff, 1,
-                                     color, pRasInfo,
+                                     dolor, pRbsInfo,
                                      pPrim, pCompInfo);
         }
-        pDst = PtrAddBytes(pDst, pRasInfo->scanStride);
-        cy1++;
+        pDst = PtrAddBytfs(pDst, pRbsInfo->sdbnStridf);
+        dy1++;
     }
-    if (pAccum != localaccum) {
-        free(pAccum);
+    if (pAddum != lodblbddum) {
+        frff(pAddum);
     }
 }
 
 /*
- * Class:     sun_java2d_loops_MaskFill
- * Method:    FillAAPgram
- * Signature: (Lsun/java2d/SunGraphics2D;Lsun/java2d/SurfaceData;Ljava/awt/Composite;DDDDDD)V
+ * Clbss:     sun_jbvb2d_loops_MbskFill
+ * Mftiod:    FillAAPgrbm
+ * Signbturf: (Lsun/jbvb2d/SunGrbpiids2D;Lsun/jbvb2d/SurfbdfDbtb;Ljbvb/bwt/Compositf;DDDDDD)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_loops_MaskFill_FillAAPgram
-    (JNIEnv *env, jobject self,
-     jobject sg2d, jobject sData, jobject comp,
-     jdouble x0, jdouble y0,
-     jdouble dx1, jdouble dy1,
-     jdouble dx2, jdouble dy2)
+Jbvb_sun_jbvb2d_loops_MbskFill_FillAAPgrbm
+    (JNIEnv *fnv, jobjfdt sflf,
+     jobjfdt sg2d, jobjfdt sDbtb, jobjfdt domp,
+     jdoublf x0, jdoublf y0,
+     jdoublf dx1, jdoublf dy1,
+     jdoublf dx2, jdoublf dy2)
 {
-    SurfaceDataOps *sdOps;
-    SurfaceDataRasInfo rasInfo;
-    NativePrimitive *pPrim;
-    CompositeInfo compInfo;
+    SurfbdfDbtbOps *sdOps;
+    SurfbdfDbtbRbsInfo rbsInfo;
+    NbtivfPrimitivf *pPrim;
+    CompositfInfo dompInfo;
     jint ix1, iy1, ix2, iy2;
 
     if ((dy1 == 0 && dx1 == 0) || (dy2 == 0 && dx2 == 0)) {
-        return;
+        rfturn;
     }
 
     /*
-     * Sort parallelogram by y values, ensure that each delta vector
-     * has a non-negative y delta.
+     * Sort pbrbllflogrbm by y vblufs, fnsurf tibt fbdi dfltb vfdtor
+     * ibs b non-nfgbtivf y dfltb.
      */
     SORT_PGRAM(x0, y0, dx1, dy1, dx2, dy2, );
 
     PGRAM_MIN_MAX(ix1, ix2, x0, dx1, dx2, JNI_TRUE);
     iy1 = (jint) floor(y0);
-    iy2 = (jint) ceil(y0 + dy1 + dy2);
+    iy2 = (jint) dfil(y0 + dy1 + dy2);
 
-    pPrim = GetNativePrim(env, self);
+    pPrim = GftNbtivfPrim(fnv, sflf);
     if (pPrim == NULL) {
-        return;
+        rfturn;
     }
-    if (pPrim->pCompType->getCompInfo != NULL) {
-        (*pPrim->pCompType->getCompInfo)(env, &compInfo, comp);
+    if (pPrim->pCompTypf->gftCompInfo != NULL) {
+        (*pPrim->pCompTypf->gftCompInfo)(fnv, &dompInfo, domp);
     }
 
-    sdOps = SurfaceData_GetOps(env, sData);
+    sdOps = SurfbdfDbtb_GftOps(fnv, sDbtb);
     if (sdOps == 0) {
-        return;
+        rfturn;
     }
 
-    GrPrim_Sg2dGetClip(env, sg2d, &rasInfo.bounds);
-    SurfaceData_IntersectBoundsXYXY(&rasInfo.bounds, ix1, iy1, ix2, iy2);
-    if (rasInfo.bounds.y2 <= rasInfo.bounds.y1 ||
-        rasInfo.bounds.x2 <= rasInfo.bounds.x1)
+    GrPrim_Sg2dGftClip(fnv, sg2d, &rbsInfo.bounds);
+    SurfbdfDbtb_IntfrsfdtBoundsXYXY(&rbsInfo.bounds, ix1, iy1, ix2, iy2);
+    if (rbsInfo.bounds.y2 <= rbsInfo.bounds.y1 ||
+        rbsInfo.bounds.x2 <= rbsInfo.bounds.x1)
     {
-        return;
+        rfturn;
     }
 
-    if (sdOps->Lock(env, sdOps, &rasInfo, pPrim->dstflags) != SD_SUCCESS) {
-        return;
+    if (sdOps->Lodk(fnv, sdOps, &rbsInfo, pPrim->dstflbgs) != SD_SUCCESS) {
+        rfturn;
     }
 
-    ix1 = rasInfo.bounds.x1;
-    iy1 = rasInfo.bounds.y1;
-    ix2 = rasInfo.bounds.x2;
-    iy2 = rasInfo.bounds.y2;
+    ix1 = rbsInfo.bounds.x1;
+    iy1 = rbsInfo.bounds.y1;
+    ix2 = rbsInfo.bounds.x2;
+    iy2 = rbsInfo.bounds.y2;
     if (ix2 > ix1 && iy2 > iy1) {
-        jint width = ix2 - ix1;
-        jint color = GrPrim_Sg2dGetEaRGB(env, sg2d);
-        unsigned char localmask[MASK_BUF_LEN];
-        unsigned char *pMask = ((width > MASK_BUF_LEN)
-                                ? malloc(width)
-                                : localmask);
+        jint widti = ix2 - ix1;
+        jint dolor = GrPrim_Sg2dGftEbRGB(fnv, sg2d);
+        unsignfd dibr lodblmbsk[MASK_BUF_LEN];
+        unsignfd dibr *pMbsk = ((widti > MASK_BUF_LEN)
+                                ? mbllod(widti)
+                                : lodblmbsk);
 
-        sdOps->GetRasInfo(env, sdOps, &rasInfo);
-        if (rasInfo.rasBase != NULL && pMask != NULL) {
-            void *pDst = PtrCoord(rasInfo.rasBase,
-                                  ix1, rasInfo.pixelStride,
-                                  iy1, rasInfo.scanStride);
+        sdOps->GftRbsInfo(fnv, sdOps, &rbsInfo);
+        if (rbsInfo.rbsBbsf != NULL && pMbsk != NULL) {
+            void *pDst = PtrCoord(rbsInfo.rbsBbsf,
+                                  ix1, rbsInfo.pixflStridf,
+                                  iy1, rbsInfo.sdbnStridf);
             if (dy1 == 0 && dx2 == 0) {
                 if (dx1 < 0) {
-                    // We sorted by Y above, but not by X
+                    // Wf sortfd by Y bbovf, but not by X
                     x0 += dx1;
                     dx1 = -dx1;
                 }
-                fillAARect(pPrim, &rasInfo, &compInfo,
-                           color, pMask, pDst,
+                fillAARfdt(pPrim, &rbsInfo, &dompInfo,
+                           dolor, pMbsk, pDst,
                            x0, y0, x0+dx1, y0+dy2);
-            } else if (dx1 == 0 && dy2 == 0) {
+            } flsf if (dx1 == 0 && dy2 == 0) {
                 if (dx2 < 0) {
-                    // We sorted by Y above, but not by X
+                    // Wf sortfd by Y bbovf, but not by X
                     x0 += dx2;
                     dx2 = -dx2;
                 }
-                fillAARect(pPrim, &rasInfo, &compInfo,
-                           color, pMask, pDst,
+                fillAARfdt(pPrim, &rbsInfo, &dompInfo,
+                           dolor, pMbsk, pDst,
                            x0, y0, x0+dx2, y0+dy1);
-            } else {
-                fillAAPgram(pPrim, &rasInfo, &compInfo,
-                            color, pMask, pDst,
+            } flsf {
+                fillAAPgrbm(pPrim, &rbsInfo, &dompInfo,
+                            dolor, pMbsk, pDst,
                             x0, y0, dx1, dy1, dx2, dy2);
             }
         }
-        SurfaceData_InvokeRelease(env, sdOps, &rasInfo);
-        if (pMask != NULL && pMask != localmask) {
-            free(pMask);
+        SurfbdfDbtb_InvokfRflfbsf(fnv, sdOps, &rbsInfo);
+        if (pMbsk != NULL && pMbsk != lodblmbsk) {
+            frff(pMbsk);
         }
     }
-    SurfaceData_InvokeUnlock(env, sdOps, &rasInfo);
+    SurfbdfDbtb_InvokfUnlodk(fnv, sdOps, &rbsInfo);
 }
 
-/* Main function to fill a double pair of (inner and outer) parallelograms */
-static void
-drawAAPgram(NativePrimitive *pPrim, SurfaceDataRasInfo *pRasInfo,
-            CompositeInfo *pCompInfo, jint color, unsigned char *pMask,
+/* Mbin fundtion to fill b doublf pbir of (innfr bnd outfr) pbrbllflogrbms */
+stbtid void
+drbwAAPgrbm(NbtivfPrimitivf *pPrim, SurfbdfDbtbRbsInfo *pRbsInfo,
+            CompositfInfo *pCompInfo, jint dolor, unsignfd dibr *pMbsk,
             void *pDst,
-            jdouble ox0, jdouble oy0,
-            jdouble dx1, jdouble dy1,
-            jdouble dx2, jdouble dy2,
-            jdouble ldx1, jdouble ldy1,
-            jdouble ldx2, jdouble ldy2)
+            jdoublf ox0, jdoublf oy0,
+            jdoublf dx1, jdoublf dy1,
+            jdoublf dx2, jdoublf dy2,
+            jdoublf ldx1, jdoublf ldy1,
+            jdoublf ldx2, jdoublf ldy2)
 {
-    jint cx1 = pRasInfo->bounds.x1;
-    jint cy1 = pRasInfo->bounds.y1;
-    jint cx2 = pRasInfo->bounds.x2;
-    jint cy2 = pRasInfo->bounds.y2;
-    jint width = cx2 - cx1;
-    EdgeInfo edges[8];
-    jfloat localaccum[MASK_BUF_LEN + 1];
-    jfloat *pAccum;
+    jint dx1 = pRbsInfo->bounds.x1;
+    jint dy1 = pRbsInfo->bounds.y1;
+    jint dx2 = pRbsInfo->bounds.x2;
+    jint dy2 = pRbsInfo->bounds.y2;
+    jint widti = dx2 - dx1;
+    EdgfInfo fdgfs[8];
+    jflobt lodblbddum[MASK_BUF_LEN + 1];
+    jflobt *pAddum;
 
-    if (!storePgram(edges + 0, edges + 6,
+    if (!storfPgrbm(fdgfs + 0, fdgfs + 6,
                     ox0, oy0,
                     dx1 + ldx1, dy1 + ldy1,
                     dx2 + ldx2, dy2 + ldy2,
-                    cx1, cy1, cx2, cy2,
+                    dx1, dy1, dx2, dy2,
                     JNI_FALSE))
     {
-        /* If outer pgram does not contribute, then inner cannot either. */
-        return;
+        /* If outfr pgrbm dofs not dontributf, tifn innfr dbnnot fitifr. */
+        rfturn;
     }
-    storePgram(edges + 2, edges + 4,
+    storfPgrbm(fdgfs + 2, fdgfs + 4,
                ox0 + ldx1 + ldx2, oy0 + ldy1 + ldy2,
                dx1 - ldx1, dy1 - ldy1,
                dx2 - ldx2, dy2 - ldy2,
-               cx1, cy1, cx2, cy2,
+               dx1, dy1, dx2, dy2,
                JNI_TRUE);
 
-    pAccum = ((width > MASK_BUF_LEN)
-              ? malloc((width + 1) * sizeof(jfloat))
-              : localaccum);
-    if (pAccum == NULL) {
-        return;
+    pAddum = ((widti > MASK_BUF_LEN)
+              ? mbllod((widti + 1) * sizfof(jflobt))
+              : lodblbddum);
+    if (pAddum == NULL) {
+        rfturn;
     }
-    memset(pAccum, 0, (width+1) * sizeof(jfloat));
+    mfmsft(pAddum, 0, (widti+1) * sizfof(jflobt));
 
-    while (cy1 < cy2) {
-        jint lmin, lmax, rmin, rmax;
+    wiilf (dy1 < dy2) {
+        jint lmin, lmbx, rmin, rmbx;
         jint moff, x;
-        jdouble accum;
-        unsigned char lastcov;
+        jdoublf bddum;
+        unsignfd dibr lbstdov;
 
-        lmin = rmin = width + 2;
-        lmax = rmax = 0;
-        ACCUM_EDGE(&edges[0], pAccum, lmin, lmax,
-                   cx1, cy1, cx2, cy1+1);
-        ACCUM_EDGE(&edges[1], pAccum, lmin, lmax,
-                   cx1, cy1, cx2, cy1+1);
-        ACCUM_EDGE(&edges[2], pAccum, lmin, lmax,
-                   cx1, cy1, cx2, cy1+1);
-        ACCUM_EDGE(&edges[3], pAccum, lmin, lmax,
-                   cx1, cy1, cx2, cy1+1);
-        ACCUM_EDGE(&edges[4], pAccum, rmin, rmax,
-                   cx1, cy1, cx2, cy1+1);
-        ACCUM_EDGE(&edges[5], pAccum, rmin, rmax,
-                   cx1, cy1, cx2, cy1+1);
-        ACCUM_EDGE(&edges[6], pAccum, rmin, rmax,
-                   cx1, cy1, cx2, cy1+1);
-        ACCUM_EDGE(&edges[7], pAccum, rmin, rmax,
-                   cx1, cy1, cx2, cy1+1);
-        if (lmax > width) {
-            lmax = width; /* Extra col has data we do not need. */
+        lmin = rmin = widti + 2;
+        lmbx = rmbx = 0;
+        ACCUM_EDGE(&fdgfs[0], pAddum, lmin, lmbx,
+                   dx1, dy1, dx2, dy1+1);
+        ACCUM_EDGE(&fdgfs[1], pAddum, lmin, lmbx,
+                   dx1, dy1, dx2, dy1+1);
+        ACCUM_EDGE(&fdgfs[2], pAddum, lmin, lmbx,
+                   dx1, dy1, dx2, dy1+1);
+        ACCUM_EDGE(&fdgfs[3], pAddum, lmin, lmbx,
+                   dx1, dy1, dx2, dy1+1);
+        ACCUM_EDGE(&fdgfs[4], pAddum, rmin, rmbx,
+                   dx1, dy1, dx2, dy1+1);
+        ACCUM_EDGE(&fdgfs[5], pAddum, rmin, rmbx,
+                   dx1, dy1, dx2, dy1+1);
+        ACCUM_EDGE(&fdgfs[6], pAddum, rmin, rmbx,
+                   dx1, dy1, dx2, dy1+1);
+        ACCUM_EDGE(&fdgfs[7], pAddum, rmin, rmbx,
+                   dx1, dy1, dx2, dy1+1);
+        if (lmbx > widti) {
+            lmbx = widti; /* Extrb dol ibs dbtb wf do not nffd. */
         }
-        if (rmax > width) {
-            rmax = width; /* Extra col has data we do not need. */
+        if (rmbx > widti) {
+            rmbx = widti; /* Extrb dol ibs dbtb wf do not nffd. */
         }
-        /* If ranges overlap, handle both in the first pass. */
-        if (rmin <= lmax) {
-            lmax = rmax;
+        /* If rbngfs ovfrlbp, ibndlf boti in tif first pbss. */
+        if (rmin <= lmbx) {
+            lmbx = rmbx;
         }
 
         x = lmin;
-        accum = 0.0;
+        bddum = 0.0;
         moff = 0;
-        lastcov = 0;
-        while (x < lmax) {
-            accum += pAccum[x];
-            pAccum[x] = 0.0f;
-            pMask[moff++] = lastcov = DblToMask(accum);
+        lbstdov = 0;
+        wiilf (x < lmbx) {
+            bddum += pAddum[x];
+            pAddum[x] = 0.0f;
+            pMbsk[moff++] = lbstdov = DblToMbsk(bddum);
             x++;
         }
-        /* Check for an empty or solidcenter section. */
-        if (lastcov == 0 || lastcov == 0xFF) {
-            jint endx;
+        /* Cifdk for bn fmpty or soliddfntfr sfdtion. */
+        if (lbstdov == 0 || lbstdov == 0xFF) {
+            jint fndx;
             void *pRow;
 
-            /* First process the existing partial coverage data. */
+            /* First prodfss tif fxisting pbrtibl dovfrbgf dbtb. */
             if (moff > 0) {
-                pRow = PtrCoord(pDst, x-moff, pRasInfo->pixelStride, 0, 0);
-                (*pPrim->funcs.maskfill)(pRow,
-                                         pMask, 0, 0,
+                pRow = PtrCoord(pDst, x-moff, pRbsInfo->pixflStridf, 0, 0);
+                (*pPrim->funds.mbskfill)(pRow,
+                                         pMbsk, 0, 0,
                                          moff, 1,
-                                         color, pRasInfo,
+                                         dolor, pRbsInfo,
                                          pPrim, pCompInfo);
                 moff = 0;
             }
 
-            /* Where does the center section end? */
-            /* If there is no right AA edge in the accum buffer, then */
-            /* the right edge was beyond the clip, so fill out to width */
-            endx = (rmin < rmax) ? rmin : width;
-            if (x < endx) {
-                if (lastcov == 0xFF) {
-                    pRow = PtrCoord(pDst, x, pRasInfo->pixelStride, 0, 0);
-                    (*pPrim->funcs.maskfill)(pRow,
+            /* Wifrf dofs tif dfntfr sfdtion fnd? */
+            /* If tifrf is no rigit AA fdgf in tif bddum bufffr, tifn */
+            /* tif rigit fdgf wbs bfyond tif dlip, so fill out to widti */
+            fndx = (rmin < rmbx) ? rmin : widti;
+            if (x < fndx) {
+                if (lbstdov == 0xFF) {
+                    pRow = PtrCoord(pDst, x, pRbsInfo->pixflStridf, 0, 0);
+                    (*pPrim->funds.mbskfill)(pRow,
                                              NULL, 0, 0,
-                                             endx - x, 1,
-                                             color, pRasInfo,
+                                             fndx - x, 1,
+                                             dolor, pRbsInfo,
                                              pPrim, pCompInfo);
                 }
-                x = endx;
+                x = fndx;
             }
-        } else if (rmin >= rmax) {
-            /* We are not at 0 coverage, but there is no right edge, */
-            /* force a right edge so we process pixels out to width. */
-            rmax = width;
+        } flsf if (rmin >= rmbx) {
+            /* Wf brf not bt 0 dovfrbgf, but tifrf is no rigit fdgf, */
+            /* fordf b rigit fdgf so wf prodfss pixfls out to widti. */
+            rmbx = widti;
         }
-        /* The following loop will process the right AA edge and/or any */
-        /* partial coverage center section not processed above. */
-        while (x < rmax) {
-            accum += pAccum[x];
-            pAccum[x] = 0.0f;
-            pMask[moff++] = lastcov = DblToMask(accum);
+        /* Tif following loop will prodfss tif rigit AA fdgf bnd/or bny */
+        /* pbrtibl dovfrbgf dfntfr sfdtion not prodfssfd bbovf. */
+        wiilf (x < rmbx) {
+            bddum += pAddum[x];
+            pAddum[x] = 0.0f;
+            pMbsk[moff++] = lbstdov = DblToMbsk(bddum);
             x++;
         }
         if (moff > 0) {
-            void *pRow = PtrCoord(pDst, x-moff, pRasInfo->pixelStride, 0, 0);
-            (*pPrim->funcs.maskfill)(pRow,
-                                     pMask, 0, 0,
+            void *pRow = PtrCoord(pDst, x-moff, pRbsInfo->pixflStridf, 0, 0);
+            (*pPrim->funds.mbskfill)(pRow,
+                                     pMbsk, 0, 0,
                                      moff, 1,
-                                     color, pRasInfo,
+                                     dolor, pRbsInfo,
                                      pPrim, pCompInfo);
         }
-        if (lastcov == 0xFF && x < width) {
-            void *pRow = PtrCoord(pDst, x, pRasInfo->pixelStride, 0, 0);
-            (*pPrim->funcs.maskfill)(pRow,
+        if (lbstdov == 0xFF && x < widti) {
+            void *pRow = PtrCoord(pDst, x, pRbsInfo->pixflStridf, 0, 0);
+            (*pPrim->funds.mbskfill)(pRow,
                                      NULL, 0, 0,
-                                     width - x, 1,
-                                     color, pRasInfo,
+                                     widti - x, 1,
+                                     dolor, pRbsInfo,
                                      pPrim, pCompInfo);
         }
-        pDst = PtrAddBytes(pDst, pRasInfo->scanStride);
-        cy1++;
+        pDst = PtrAddBytfs(pDst, pRbsInfo->sdbnStridf);
+        dy1++;
     }
-    if (pAccum != localaccum) {
-        free(pAccum);
+    if (pAddum != lodblbddum) {
+        frff(pAddum);
     }
 }
 
 /*
- * Class:     sun_java2d_loops_MaskFill
- * Method:    DrawAAPgram
- * Signature: (Lsun/java2d/SunGraphics2D;Lsun/java2d/SurfaceData;Ljava/awt/Composite;DDDDDDDD)V
+ * Clbss:     sun_jbvb2d_loops_MbskFill
+ * Mftiod:    DrbwAAPgrbm
+ * Signbturf: (Lsun/jbvb2d/SunGrbpiids2D;Lsun/jbvb2d/SurfbdfDbtb;Ljbvb/bwt/Compositf;DDDDDDDD)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_loops_MaskFill_DrawAAPgram
-    (JNIEnv *env, jobject self,
-     jobject sg2d, jobject sData, jobject comp,
-     jdouble x0, jdouble y0,
-     jdouble dx1, jdouble dy1,
-     jdouble dx2, jdouble dy2,
-     jdouble lw1, jdouble lw2)
+Jbvb_sun_jbvb2d_loops_MbskFill_DrbwAAPgrbm
+    (JNIEnv *fnv, jobjfdt sflf,
+     jobjfdt sg2d, jobjfdt sDbtb, jobjfdt domp,
+     jdoublf x0, jdoublf y0,
+     jdoublf dx1, jdoublf dy1,
+     jdoublf dx2, jdoublf dy2,
+     jdoublf lw1, jdoublf lw2)
 {
-    SurfaceDataOps *sdOps;
-    SurfaceDataRasInfo rasInfo;
-    NativePrimitive *pPrim;
-    CompositeInfo compInfo;
+    SurfbdfDbtbOps *sdOps;
+    SurfbdfDbtbRbsInfo rbsInfo;
+    NbtivfPrimitivf *pPrim;
+    CompositfInfo dompInfo;
     jint ix1, iy1, ix2, iy2;
-    jdouble ldx1, ldy1, ldx2, ldy2;
-    jdouble ox0, oy0;
+    jdoublf ldx1, ldy1, ldx2, ldy2;
+    jdoublf ox0, oy0;
 
     if ((dy1 == 0 && dx1 == 0) || (dy2 == 0 && dx2 == 0)) {
-        return;
+        rfturn;
     }
 
     /*
-     * Sort parallelogram by y values, ensure that each delta vector
-     * has a non-negative y delta.
+     * Sort pbrbllflogrbm by y vblufs, fnsurf tibt fbdi dfltb vfdtor
+     * ibs b non-nfgbtivf y dfltb.
      */
     SORT_PGRAM(x0, y0, dx1, dy1, dx2, dy2,
                v = lw1; lw1 = lw2; lw2 = v;);
 
-    // dx,dy for line width in the "1" and "2" directions.
+    // dx,dy for linf widti in tif "1" bnd "2" dirfdtions.
     ldx1 = dx1 * lw1;
     ldy1 = dy1 * lw1;
     ldx2 = dx2 * lw2;
     ldy2 = dy2 * lw2;
 
-    // calculate origin of the outer parallelogram
+    // dbldulbtf origin of tif outfr pbrbllflogrbm
     ox0 = x0 - (ldx1 + ldx2) / 2.0;
     oy0 = y0 - (ldy1 + ldy2) / 2.0;
 
     if (lw1 >= 1.0 || lw2 >= 1.0) {
-        /* Only need to fill an outer pgram if the interior no longer
-         * has a hole in it (i.e. if either of the line width ratios
-         * were greater than or equal to 1.0).
+        /* Only nffd to fill bn outfr pgrbm if tif intfrior no longfr
+         * ibs b iolf in it (i.f. if fitifr of tif linf widti rbtios
+         * wfrf grfbtfr tibn or fqubl to 1.0).
          */
-        Java_sun_java2d_loops_MaskFill_FillAAPgram(env, self,
-                                                   sg2d, sData, comp,
+        Jbvb_sun_jbvb2d_loops_MbskFill_FillAAPgrbm(fnv, sflf,
+                                                   sg2d, sDbtb, domp,
                                                    ox0, oy0,
                                                    dx1 + ldx1, dy1 + ldy1,
                                                    dx2 + ldx2, dy2 + ldy2);
-        return;
+        rfturn;
     }
 
     PGRAM_MIN_MAX(ix1, ix2, ox0, dx1+ldx1, dx2+ldx2, JNI_TRUE);
     iy1 = (jint) floor(oy0);
-    iy2 = (jint) ceil(oy0 + dy1 + ldy1 + dy2 + ldy2);
+    iy2 = (jint) dfil(oy0 + dy1 + ldy1 + dy2 + ldy2);
 
-    pPrim = GetNativePrim(env, self);
+    pPrim = GftNbtivfPrim(fnv, sflf);
     if (pPrim == NULL) {
-        return;
+        rfturn;
     }
-    if (pPrim->pCompType->getCompInfo != NULL) {
-        (*pPrim->pCompType->getCompInfo)(env, &compInfo, comp);
+    if (pPrim->pCompTypf->gftCompInfo != NULL) {
+        (*pPrim->pCompTypf->gftCompInfo)(fnv, &dompInfo, domp);
     }
 
-    sdOps = SurfaceData_GetOps(env, sData);
+    sdOps = SurfbdfDbtb_GftOps(fnv, sDbtb);
     if (sdOps == 0) {
-        return;
+        rfturn;
     }
 
-    GrPrim_Sg2dGetClip(env, sg2d, &rasInfo.bounds);
-    SurfaceData_IntersectBoundsXYXY(&rasInfo.bounds, ix1, iy1, ix2, iy2);
-    if (rasInfo.bounds.y2 <= rasInfo.bounds.y1 ||
-        rasInfo.bounds.x2 <= rasInfo.bounds.x1)
+    GrPrim_Sg2dGftClip(fnv, sg2d, &rbsInfo.bounds);
+    SurfbdfDbtb_IntfrsfdtBoundsXYXY(&rbsInfo.bounds, ix1, iy1, ix2, iy2);
+    if (rbsInfo.bounds.y2 <= rbsInfo.bounds.y1 ||
+        rbsInfo.bounds.x2 <= rbsInfo.bounds.x1)
     {
-        return;
+        rfturn;
     }
 
-    if (sdOps->Lock(env, sdOps, &rasInfo, pPrim->dstflags) != SD_SUCCESS) {
-        return;
+    if (sdOps->Lodk(fnv, sdOps, &rbsInfo, pPrim->dstflbgs) != SD_SUCCESS) {
+        rfturn;
     }
 
-    ix1 = rasInfo.bounds.x1;
-    iy1 = rasInfo.bounds.y1;
-    ix2 = rasInfo.bounds.x2;
-    iy2 = rasInfo.bounds.y2;
+    ix1 = rbsInfo.bounds.x1;
+    iy1 = rbsInfo.bounds.y1;
+    ix2 = rbsInfo.bounds.x2;
+    iy2 = rbsInfo.bounds.y2;
     if (ix2 > ix1 && iy2 > iy1) {
-        jint width = ix2 - ix1;
-        jint color = GrPrim_Sg2dGetEaRGB(env, sg2d);
-        unsigned char localmask[MASK_BUF_LEN];
-        unsigned char *pMask = ((width > MASK_BUF_LEN)
-                                ? malloc(width)
-                                : localmask);
+        jint widti = ix2 - ix1;
+        jint dolor = GrPrim_Sg2dGftEbRGB(fnv, sg2d);
+        unsignfd dibr lodblmbsk[MASK_BUF_LEN];
+        unsignfd dibr *pMbsk = ((widti > MASK_BUF_LEN)
+                                ? mbllod(widti)
+                                : lodblmbsk);
 
-        sdOps->GetRasInfo(env, sdOps, &rasInfo);
-        if (rasInfo.rasBase != NULL && pMask != NULL) {
-            void *pDst = PtrCoord(rasInfo.rasBase,
-                                  ix1, rasInfo.pixelStride,
-                                  iy1, rasInfo.scanStride);
+        sdOps->GftRbsInfo(fnv, sdOps, &rbsInfo);
+        if (rbsInfo.rbsBbsf != NULL && pMbsk != NULL) {
+            void *pDst = PtrCoord(rbsInfo.rbsBbsf,
+                                  ix1, rbsInfo.pixflStridf,
+                                  iy1, rbsInfo.sdbnStridf);
             /*
-             * NOTE: aligned rects could probably be drawn
-             * even faster with a little work here.
+             * NOTE: blignfd rfdts dould probbbly bf drbwn
+             * fvfn fbstfr witi b littlf work ifrf.
              * if (dy1 == 0 && dx2 == 0) {
-             *     drawAARect(pPrim, &rasInfo, &compInfo,
-             *                color, pMask, pDst,
+             *     drbwAARfdt(pPrim, &rbsInfo, &dompInfo,
+             *                dolor, pMbsk, pDst,
              *                ox0, oy0, ox0+dx1+ldx1, oy0+dy2+ldy2, ldx1, ldy2);
-             * } else if (dx1 == 0 && dy2 == 0) {
-             *     drawAARect(pPrim, &rasInfo, &compInfo,
-             *                color, pMask, pDst,
+             * } flsf if (dx1 == 0 && dy2 == 0) {
+             *     drbwAARfdt(pPrim, &rbsInfo, &dompInfo,
+             *                dolor, pMbsk, pDst,
              *                ox0, oy0, ox0+dx2+ldx2, oy0+dy1+ldy1, ldx2, ldy1);
-             * } else {
+             * } flsf {
              */
-            drawAAPgram(pPrim, &rasInfo, &compInfo,
-                        color, pMask, pDst,
+            drbwAAPgrbm(pPrim, &rbsInfo, &dompInfo,
+                        dolor, pMbsk, pDst,
                         ox0, oy0,
                         dx1, dy1, dx2, dy2,
                         ldx1, ldy1, ldx2, ldy2);
@@ -1059,10 +1059,10 @@ Java_sun_java2d_loops_MaskFill_DrawAAPgram
              * }
              */
         }
-        SurfaceData_InvokeRelease(env, sdOps, &rasInfo);
-        if (pMask != NULL && pMask != localmask) {
-            free(pMask);
+        SurfbdfDbtb_InvokfRflfbsf(fnv, sdOps, &rbsInfo);
+        if (pMbsk != NULL && pMbsk != lodblmbsk) {
+            frff(pMbsk);
         }
     }
-    SurfaceData_InvokeUnlock(env, sdOps, &rasInfo);
+    SurfbdfDbtb_InvokfUnlodk(fnv, sdOps, &rbsInfo);
 }

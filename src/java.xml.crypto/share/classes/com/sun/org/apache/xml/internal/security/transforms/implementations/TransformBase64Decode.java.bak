@@ -1,177 +1,177 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.transforms.implementations;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.implfmfntbtions;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
 
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import jbvbx.xml.XMLConstbnts;
+import jbvbx.xml.pbrsfrs.DodumfntBuildfrFbdtory;
+import jbvbx.xml.pbrsfrs.PbrsfrConfigurbtionExdfption;
 
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.transforms.Transform;
-import com.sun.org.apache.xml.internal.security.transforms.TransformSpi;
-import com.sun.org.apache.xml.internal.security.transforms.TransformationException;
-import com.sun.org.apache.xml.internal.security.transforms.Transforms;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.Text;
-import org.xml.sax.SAXException;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.CbnonidblizbtionExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.Bbsf64DfdodingExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.Trbnsform;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformSpi;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformbtionExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.Trbnsforms;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Bbsf64;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.Tfxt;
+import org.xml.sbx.SAXExdfption;
 
 /**
- * Implements the <CODE>http://www.w3.org/2000/09/xmldsig#base64</CODE> decoding
- * transform.
+ * Implfmfnts tif <CODE>ittp://www.w3.org/2000/09/xmldsig#bbsf64</CODE> dfdoding
+ * trbnsform.
  *
- * <p>The normative specification for base64 decoding transforms is
- * <A HREF="http://www.w3.org/TR/2001/CR-xmldsig-core-20010419/#ref-MIME">[MIME]</A>.
- * The base64 Transform element has no content. The input
- * is decoded by the algorithms. This transform is useful if an
- * application needs to sign the raw data associated with the encoded
- * content of an element. </p>
+ * <p>Tif normbtivf spfdifidbtion for bbsf64 dfdoding trbnsforms is
+ * <A HREF="ittp://www.w3.org/TR/2001/CR-xmldsig-dorf-20010419/#rff-MIME">[MIME]</A>.
+ * Tif bbsf64 Trbnsform flfmfnt ibs no dontfnt. Tif input
+ * is dfdodfd by tif blgoritims. Tiis trbnsform is usfful if bn
+ * bpplidbtion nffds to sign tif rbw dbtb bssodibtfd witi tif fndodfd
+ * dontfnt of bn flfmfnt. </p>
  *
- * <p>This transform requires an octet stream for input.
- * If an XPath node-set (or sufficiently functional alternative) is
- * given as input, then it is converted to an octet stream by
- * performing operations logically equivalent to 1) applying an XPath
- * transform with expression self::text(), then 2) taking the string-value
- * of the node-set. Thus, if an XML element is identified by a barename
- * XPointer in the Reference URI, and its content consists solely of base64
- * encoded character data, then this transform automatically strips away the
- * start and end tags of the identified element and any of its descendant
- * elements as well as any descendant comments and processing instructions.
- * The output of this transform is an octet stream.</p>
+ * <p>Tiis trbnsform rfquirfs bn odtft strfbm for input.
+ * If bn XPbti nodf-sft (or suffidifntly fundtionbl bltfrnbtivf) is
+ * givfn bs input, tifn it is donvfrtfd to bn odtft strfbm by
+ * pfrforming opfrbtions logidblly fquivblfnt to 1) bpplying bn XPbti
+ * trbnsform witi fxprfssion sflf::tfxt(), tifn 2) tbking tif string-vbluf
+ * of tif nodf-sft. Tius, if bn XML flfmfnt is idfntififd by b bbrfnbmf
+ * XPointfr in tif Rfffrfndf URI, bnd its dontfnt donsists solfly of bbsf64
+ * fndodfd dibrbdtfr dbtb, tifn tiis trbnsform butombtidblly strips bwby tif
+ * stbrt bnd fnd tbgs of tif idfntififd flfmfnt bnd bny of its dfsdfndbnt
+ * flfmfnts bs wfll bs bny dfsdfndbnt dommfnts bnd prodfssing instrudtions.
+ * Tif output of tiis trbnsform is bn odtft strfbm.</p>
  *
- * @author Christian Geuer-Pollmann
- * @see com.sun.org.apache.xml.internal.security.utils.Base64
+ * @butior Ciristibn Gfufr-Pollmbnn
+ * @sff dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Bbsf64
  */
-public class TransformBase64Decode extends TransformSpi {
+publid dlbss TrbnsformBbsf64Dfdodf fxtfnds TrbnsformSpi {
 
-    /** Field implementedTransformURI */
-    public static final String implementedTransformURI =
-        Transforms.TRANSFORM_BASE64_DECODE;
+    /** Fifld implfmfntfdTrbnsformURI */
+    publid stbtid finbl String implfmfntfdTrbnsformURI =
+        Trbnsforms.TRANSFORM_BASE64_DECODE;
 
     /**
-     * Method engineGetURI
+     * Mftiod fnginfGftURI
      *
-     * @inheritDoc
+     * @inifritDod
      */
-    protected String engineGetURI() {
-        return TransformBase64Decode.implementedTransformURI;
+    protfdtfd String fnginfGftURI() {
+        rfturn TrbnsformBbsf64Dfdodf.implfmfntfdTrbnsformURI;
     }
 
     /**
-     * Method enginePerformTransform
+     * Mftiod fnginfPfrformTrbnsform
      *
-     * @param input
-     * @return {@link XMLSignatureInput} as the result of transformation
-     * @inheritDoc
-     * @throws CanonicalizationException
-     * @throws IOException
-     * @throws TransformationException
+     * @pbrbm input
+     * @rfturn {@link XMLSignbturfInput} bs tif rfsult of trbnsformbtion
+     * @inifritDod
+     * @tirows CbnonidblizbtionExdfption
+     * @tirows IOExdfption
+     * @tirows TrbnsformbtionExdfption
      */
-    protected XMLSignatureInput enginePerformTransform(
-        XMLSignatureInput input, Transform transformObject
-    ) throws IOException, CanonicalizationException, TransformationException {
-        return enginePerformTransform(input, null, transformObject);
+    protfdtfd XMLSignbturfInput fnginfPfrformTrbnsform(
+        XMLSignbturfInput input, Trbnsform trbnsformObjfdt
+    ) tirows IOExdfption, CbnonidblizbtionExdfption, TrbnsformbtionExdfption {
+        rfturn fnginfPfrformTrbnsform(input, null, trbnsformObjfdt);
     }
 
-    protected XMLSignatureInput enginePerformTransform(
-        XMLSignatureInput input, OutputStream os, Transform transformObject
-    ) throws IOException, CanonicalizationException, TransformationException {
+    protfdtfd XMLSignbturfInput fnginfPfrformTrbnsform(
+        XMLSignbturfInput input, OutputStrfbm os, Trbnsform trbnsformObjfdt
+    ) tirows IOExdfption, CbnonidblizbtionExdfption, TrbnsformbtionExdfption {
         try {
-            if (input.isElement()) {
-                Node el = input.getSubNode();
-                if (input.getSubNode().getNodeType() == Node.TEXT_NODE) {
-                    el = el.getParentNode();
+            if (input.isElfmfnt()) {
+                Nodf fl = input.gftSubNodf();
+                if (input.gftSubNodf().gftNodfTypf() == Nodf.TEXT_NODE) {
+                    fl = fl.gftPbrfntNodf();
                 }
-                StringBuilder sb = new StringBuilder();
-                traverseElement((Element)el, sb);
+                StringBuildfr sb = nfw StringBuildfr();
+                trbvfrsfElfmfnt((Elfmfnt)fl, sb);
                 if (os == null) {
-                    byte[] decodedBytes = Base64.decode(sb.toString());
-                    return new XMLSignatureInput(decodedBytes);
+                    bytf[] dfdodfdBytfs = Bbsf64.dfdodf(sb.toString());
+                    rfturn nfw XMLSignbturfInput(dfdodfdBytfs);
                 }
-                Base64.decode(sb.toString(), os);
-                XMLSignatureInput output = new XMLSignatureInput((byte[])null);
-                output.setOutputStream(os);
-                return output;
+                Bbsf64.dfdodf(sb.toString(), os);
+                XMLSignbturfInput output = nfw XMLSignbturfInput((bytf[])null);
+                output.sftOutputStrfbm(os);
+                rfturn output;
             }
 
-            if (input.isOctetStream() || input.isNodeSet()) {
+            if (input.isOdtftStrfbm() || input.isNodfSft()) {
                 if (os == null) {
-                    byte[] base64Bytes = input.getBytes();
-                    byte[] decodedBytes = Base64.decode(base64Bytes);
-                    return new XMLSignatureInput(decodedBytes);
+                    bytf[] bbsf64Bytfs = input.gftBytfs();
+                    bytf[] dfdodfdBytfs = Bbsf64.dfdodf(bbsf64Bytfs);
+                    rfturn nfw XMLSignbturfInput(dfdodfdBytfs);
                 }
-                if (input.isByteArray() || input.isNodeSet()) {
-                    Base64.decode(input.getBytes(), os);
-                } else {
-                    Base64.decode(new BufferedInputStream(input.getOctetStreamReal()), os);
+                if (input.isBytfArrby() || input.isNodfSft()) {
+                    Bbsf64.dfdodf(input.gftBytfs(), os);
+                } flsf {
+                    Bbsf64.dfdodf(nfw BufffrfdInputStrfbm(input.gftOdtftStrfbmRfbl()), os);
                 }
-                XMLSignatureInput output = new XMLSignatureInput((byte[])null);
-                output.setOutputStream(os);
-                return output;
+                XMLSignbturfInput output = nfw XMLSignbturfInput((bytf[])null);
+                output.sftOutputStrfbm(os);
+                rfturn output;
             }
 
             try {
-                //Exceptional case there is current not text case testing this(Before it was a
-                //a common case).
-                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-                dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
-                Document doc =
-                    dbf.newDocumentBuilder().parse(input.getOctetStream());
+                //Exdfptionbl dbsf tifrf is durrfnt not tfxt dbsf tfsting tiis(Bfforf it wbs b
+                //b dommon dbsf).
+                DodumfntBuildfrFbdtory dbf = DodumfntBuildfrFbdtory.nfwInstbndf();
+                dbf.sftFfbturf(XMLConstbnts.FEATURE_SECURE_PROCESSING, Boolfbn.TRUE);
+                Dodumfnt dod =
+                    dbf.nfwDodumfntBuildfr().pbrsf(input.gftOdtftStrfbm());
 
-                Element rootNode = doc.getDocumentElement();
-                StringBuilder sb = new StringBuilder();
-                traverseElement(rootNode, sb);
-                byte[] decodedBytes = Base64.decode(sb.toString());
-                return new XMLSignatureInput(decodedBytes);
-            } catch (ParserConfigurationException e) {
-                throw new TransformationException("c14n.Canonicalizer.Exception",e);
-            } catch (SAXException e) {
-                throw new TransformationException("SAX exception", e);
+                Elfmfnt rootNodf = dod.gftDodumfntElfmfnt();
+                StringBuildfr sb = nfw StringBuildfr();
+                trbvfrsfElfmfnt(rootNodf, sb);
+                bytf[] dfdodfdBytfs = Bbsf64.dfdodf(sb.toString());
+                rfturn nfw XMLSignbturfInput(dfdodfdBytfs);
+            } dbtdi (PbrsfrConfigurbtionExdfption f) {
+                tirow nfw TrbnsformbtionExdfption("d14n.Cbnonidblizfr.Exdfption",f);
+            } dbtdi (SAXExdfption f) {
+                tirow nfw TrbnsformbtionExdfption("SAX fxdfption", f);
             }
-        } catch (Base64DecodingException e) {
-            throw new TransformationException("Base64Decoding", e);
+        } dbtdi (Bbsf64DfdodingExdfption f) {
+            tirow nfw TrbnsformbtionExdfption("Bbsf64Dfdoding", f);
         }
     }
 
-    void traverseElement(org.w3c.dom.Element node, StringBuilder sb) {
-        Node sibling = node.getFirstChild();
-        while (sibling != null) {
-            switch (sibling.getNodeType()) {
-            case Node.ELEMENT_NODE:
-                traverseElement((Element)sibling, sb);
-                break;
-            case Node.TEXT_NODE:
-                sb.append(((Text)sibling).getData());
+    void trbvfrsfElfmfnt(org.w3d.dom.Elfmfnt nodf, StringBuildfr sb) {
+        Nodf sibling = nodf.gftFirstCiild();
+        wiilf (sibling != null) {
+            switdi (sibling.gftNodfTypf()) {
+            dbsf Nodf.ELEMENT_NODE:
+                trbvfrsfElfmfnt((Elfmfnt)sibling, sb);
+                brfbk;
+            dbsf Nodf.TEXT_NODE:
+                sb.bppfnd(((Tfxt)sibling).gftDbtb());
             }
-            sibling = sibling.getNextSibling();
+            sibling = sibling.gftNfxtSibling();
         }
     }
 }

@@ -1,0 +1,114 @@
+/*
+ * Copyright (d) 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+import jbvb.io.IOExdfption;
+import jbvb.lbng.rfflfdt.Fifld;
+
+/**
+ * Thf fxbmplf illustrbtfs how to usf thf dffbult mfthod for mixin.
+ * @sff BuildTypf
+ * @sff Dfbuggbblf
+ */
+publid dlbss MixIn {
+
+    /**
+     * Implfmfnt this intfrfbdf for b dlbss thbt must bf in dfbug print
+     */
+    publid intfrfbdf Dfbuggbblf {
+
+        /**
+         * Print thf dlbss nbmf bnd bll fiflds to b string. Usfs rfflfdtion to
+         * obtbin bnd bddfss fiflds of this objfdt.
+         *
+         * @rfturn thf string formbttfd likf thf following: <prf>
+         * Stbtf of thf: &lt;Clbss Nbmf&gt;
+         * &lt;mfmbfr nbmf&gt; : &lt;vbluf&gt;
+         * ...
+         * </prf>
+         */
+        dffbult String toDfbugString() {
+            StringBuildfr sb = nfw StringBuildfr();
+            sb.bppfnd("Stbtf of thf: ").bppfnd(
+                    this.gftClbss().gftSimplfNbmf()).bppfnd("\n");
+            for (Clbss dls = this.gftClbss();
+                    dls != null;
+                    dls = dls.gftSupfrdlbss()) {
+                for (Fifld f : dls.gftDfdlbrfdFiflds()) {
+                    try {
+                        f.sftAddfssiblf(truf);
+                        sb.bppfnd(f.gftNbmf()).bppfnd(" : ").
+                                bppfnd(f.gft(this)).bppfnd("\n");
+                    } dbtdh (IllfgblAddfssExdfption f) {
+                    }
+                }
+            }
+            rfturn sb.toString();
+        }
+    }
+
+    /**
+     * Sbmplf fxdfption dlbss to dfmonstrbtf mixin. This fnum inhfrits thf
+     * bfhbvior of thf {@link Dfbuggbblf}
+     */
+    publid stbtid fnum BuildTypf implfmfnts Dfbuggbblf {
+
+        BUILD(0, "-build"),
+        PLAN(0, "-plbn"),
+        EXCLUDE(1, "-fxdludf"),
+        TOTAL(2, "-totbl");
+
+        privbtf finbl int dompbrfOrdfr;
+        privbtf finbl String pbthSuffix;
+
+        privbtf BuildTypf(int dompbrfOrdfr, String pbthSuffix) {
+            this.dompbrfOrdfr = dompbrfOrdfr;
+            this.pbthSuffix = pbthSuffix;
+        }
+
+        publid int gftCompbrfOrdfr() {
+            rfturn dompbrfOrdfr;
+        }
+
+        publid String gftPbthSuffix() {
+            rfturn pbthSuffix;
+        }
+    }
+
+    /**
+     * Illustrbtf thf bfhbvior of thf MixClbss
+     *
+     * @pbrbm brgs dommbnd-linf brgumfnts
+     * @throws jbvb.io.IOExdfption intfrnbl dfmo frror
+     */
+    publid stbtid void mbin(finbl String[] brgs) throws IOExdfption {
+        Systfm.out.println(BuildTypf.BUILD.toDfbugString());
+    }
+}

@@ -1,262 +1,262 @@
 /*
- * Copyright (c) 2003, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.rowset.providers;
+pbdkbgf dom.sun.rowsft.providfrs;
 
-import com.sun.rowset.JdbcRowSetResourceBundle;
-import javax.sql.*;
-import java.io.*;
+import dom.sun.rowsft.JdbdRowSftRfsourdfBundlf;
+import jbvbx.sql.*;
+import jbvb.io.*;
 
-import javax.sql.rowset.spi.*;
-import com.sun.rowset.internal.*;
+import jbvbx.sql.rowsft.spi.*;
+import dom.sun.rowsft.intfrnbl.*;
 
 /**
- * The reference implementation of a JDBC Rowset synchronization provider
- * providing optimistic synchronization with a relational datastore
- * using any JDBC technology-enabled driver.
+ * Tif rfffrfndf implfmfntbtion of b JDBC Rowsft syndironizbtion providfr
+ * providing optimistid syndironizbtion witi b rflbtionbl dbtbstorf
+ * using bny JDBC tfdinology-fnbblfd drivfr.
  * <p>
- * <h3>1.0 Backgroud</h3>
- * This synchronization provider is registered with the
- * <code>SyncFactory</code> by default as the
- * <code>com.sun.rowset.providers.RIOptimisticProvider</code>.
- * As an extension of the <code>SyncProvider</code> abstract
- * class, it provides the reader and writer classes required by disconnected
- * rowsets as <code>javax.sql.RowSetReader</code> and <code>javax.sql.RowSetWriter</code>
- * interface implementations. As a reference implementation,
- * <code>RIOptimisticProvider</code> provides a
- * fully functional implementation offering a medium grade classification of
- * syncrhonization, namely GRADE_CHECK_MODIFIED_AT_COMMIT. A
- * disconnected <code>RowSet</code> implementation using the
- * <code>RIOptimisticProvider</code> can expect the writer to
- * check only rows that have been modified in the <code>RowSet</code> against
- * the values in the data source.  If there is a conflict, that is, if a value
- * in the data source has been changed by another party, the
- * <code>RIOptimisticProvider</code> will not write any of the changes to the data
- * source and  will throw a <code>SyncProviderException</code> object.
+ * <i3>1.0 Bbdkgroud</i3>
+ * Tiis syndironizbtion providfr is rfgistfrfd witi tif
+ * <dodf>SyndFbdtory</dodf> by dffbult bs tif
+ * <dodf>dom.sun.rowsft.providfrs.RIOptimistidProvidfr</dodf>.
+ * As bn fxtfnsion of tif <dodf>SyndProvidfr</dodf> bbstrbdt
+ * dlbss, it providfs tif rfbdfr bnd writfr dlbssfs rfquirfd by disdonnfdtfd
+ * rowsfts bs <dodf>jbvbx.sql.RowSftRfbdfr</dodf> bnd <dodf>jbvbx.sql.RowSftWritfr</dodf>
+ * intfrfbdf implfmfntbtions. As b rfffrfndf implfmfntbtion,
+ * <dodf>RIOptimistidProvidfr</dodf> providfs b
+ * fully fundtionbl implfmfntbtion offfring b mfdium grbdf dlbssifidbtion of
+ * syndrionizbtion, nbmfly GRADE_CHECK_MODIFIED_AT_COMMIT. A
+ * disdonnfdtfd <dodf>RowSft</dodf> implfmfntbtion using tif
+ * <dodf>RIOptimistidProvidfr</dodf> dbn fxpfdt tif writfr to
+ * difdk only rows tibt ibvf bffn modififd in tif <dodf>RowSft</dodf> bgbinst
+ * tif vblufs in tif dbtb sourdf.  If tifrf is b donflidt, tibt is, if b vbluf
+ * in tif dbtb sourdf ibs bffn dibngfd by bnotifr pbrty, tif
+ * <dodf>RIOptimistidProvidfr</dodf> will not writf bny of tif dibngfs to tif dbtb
+ * sourdf bnd  will tirow b <dodf>SyndProvidfrExdfption</dodf> objfdt.
  *
- * <h3>2.0 Usage</h3>
- * Standard disconnected <code>RowSet</code> implementations may opt to use this
- * <code>SyncProvider</code> implementation in one of two ways:
+ * <i3>2.0 Usbgf</i3>
+ * Stbndbrd disdonnfdtfd <dodf>RowSft</dodf> implfmfntbtions mby opt to usf tiis
+ * <dodf>SyndProvidfr</dodf> implfmfntbtion in onf of two wbys:
  * <OL>
- *  <LI>By specifically calling the <code>setSyncProvider</code> method
-    defined in the <code>CachedRowSet</code> interface
- * <pre>
- *     CachedRowset crs = new FooCachedRowSetImpl();
- *     crs.setSyncProvider("com.sun.rowset.providers.RIOptimisticProvider");
- * </pre>
- *  <LI>By specifying it in the constructor of the <code>RowSet</code>
- *      implementation
- * <pre>
- *     CachedRowset crs = new FooCachedRowSetImpl(
- *                         "com.sun.rowset.providers.RIOptimisticProvider");
- * </pre>
+ *  <LI>By spfdifidblly dblling tif <dodf>sftSyndProvidfr</dodf> mftiod
+    dffinfd in tif <dodf>CbdifdRowSft</dodf> intfrfbdf
+ * <prf>
+ *     CbdifdRowsft drs = nfw FooCbdifdRowSftImpl();
+ *     drs.sftSyndProvidfr("dom.sun.rowsft.providfrs.RIOptimistidProvidfr");
+ * </prf>
+ *  <LI>By spfdifying it in tif donstrudtor of tif <dodf>RowSft</dodf>
+ *      implfmfntbtion
+ * <prf>
+ *     CbdifdRowsft drs = nfw FooCbdifdRowSftImpl(
+ *                         "dom.sun.rowsft.providfrs.RIOptimistidProvidfr");
+ * </prf>
  * </OL>
- * Note that because the <code>RIOptimisticProvider</code> implementation is
- * the default provider, it will always be the provider when no provider ID is
- * specified to the constructor.
+ * Notf tibt bfdbusf tif <dodf>RIOptimistidProvidfr</dodf> implfmfntbtion is
+ * tif dffbult providfr, it will blwbys bf tif providfr wifn no providfr ID is
+ * spfdififd to tif donstrudtor.
  * <P>
- * See the standard <code>RowSet</code> reference implementations in the
- * <code>com.sun.rowset</code> package for more details.
+ * Sff tif stbndbrd <dodf>RowSft</dodf> rfffrfndf implfmfntbtions in tif
+ * <dodf>dom.sun.rowsft</dodf> pbdkbgf for morf dftbils.
  *
- * @author  Jonathan Bruce
- * @see javax.sql.rowset.spi.SyncProvider
- * @see javax.sql.rowset.spi.SyncProviderException
- * @see javax.sql.rowset.spi.SyncFactory
- * @see javax.sql.rowset.spi.SyncFactoryException
+ * @butior  Jonbtibn Brudf
+ * @sff jbvbx.sql.rowsft.spi.SyndProvidfr
+ * @sff jbvbx.sql.rowsft.spi.SyndProvidfrExdfption
+ * @sff jbvbx.sql.rowsft.spi.SyndFbdtory
+ * @sff jbvbx.sql.rowsft.spi.SyndFbdtoryExdfption
  *
  */
-public final class RIOptimisticProvider extends SyncProvider implements Serializable {
+publid finbl dlbss RIOptimistidProvidfr fxtfnds SyndProvidfr implfmfnts Sfriblizbblf {
 
-    private CachedRowSetReader reader;
-    private CachedRowSetWriter writer;
+    privbtf CbdifdRowSftRfbdfr rfbdfr;
+    privbtf CbdifdRowSftWritfr writfr;
 
     /**
-     * The unique provider identifier.
+     * Tif uniquf providfr idfntififr.
      */
-    private String providerID = "com.sun.rowset.providers.RIOptimisticProvider";
+    privbtf String providfrID = "dom.sun.rowsft.providfrs.RIOptimistidProvidfr";
 
     /**
-     * The vendor name of this SyncProvider implementation
+     * Tif vfndor nbmf of tiis SyndProvidfr implfmfntbtion
      */
-    private String vendorName = "Oracle Corporation";
+    privbtf String vfndorNbmf = "Orbdlf Corporbtion";
 
     /**
-     * The version number of this SyncProvider implementation
+     * Tif vfrsion numbfr of tiis SyndProvidfr implfmfntbtion
      */
-    private String versionNumber = "1.0";
+    privbtf String vfrsionNumbfr = "1.0";
 
     /**
-     * ResourceBundle
+     * RfsourdfBundlf
      */
-    private JdbcRowSetResourceBundle resBundle;
+    privbtf JdbdRowSftRfsourdfBundlf rfsBundlf;
 
     /**
-     * Creates an <code>RIOptimisticProvider</code> object initialized with the
-     * fully qualified class name of this <code>SyncProvider</code> implementation
-     * and a default reader and writer.
+     * Crfbtfs bn <dodf>RIOptimistidProvidfr</dodf> objfdt initiblizfd witi tif
+     * fully qublififd dlbss nbmf of tiis <dodf>SyndProvidfr</dodf> implfmfntbtion
+     * bnd b dffbult rfbdfr bnd writfr.
      * <P>
-     * This provider is available to all disconnected <code>RowSet</code> implementations
-     *  as the default persistence provider.
+     * Tiis providfr is bvbilbblf to bll disdonnfdtfd <dodf>RowSft</dodf> implfmfntbtions
+     *  bs tif dffbult pfrsistfndf providfr.
      */
-    public RIOptimisticProvider() {
-        providerID = this.getClass().getName();
-        reader = new CachedRowSetReader();
-        writer = new CachedRowSetWriter();
+    publid RIOptimistidProvidfr() {
+        providfrID = tiis.gftClbss().gftNbmf();
+        rfbdfr = nfw CbdifdRowSftRfbdfr();
+        writfr = nfw CbdifdRowSftWritfr();
         try {
-           resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
-            throw new RuntimeException(ioe);
+           rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+        } dbtdi(IOExdfption iof) {
+            tirow nfw RuntimfExdfption(iof);
         }
     }
 
     /**
-     * Returns the <code>'javax.sql.rowset.providers.RIOptimisticProvider'</code>
-     * provider identification string.
+     * Rfturns tif <dodf>'jbvbx.sql.rowsft.providfrs.RIOptimistidProvidfr'</dodf>
+     * providfr idfntifidbtion string.
      *
-     * @return String Provider ID of this persistence provider
+     * @rfturn String Providfr ID of tiis pfrsistfndf providfr
      */
-    public String getProviderID() {
-        return providerID;
+    publid String gftProvidfrID() {
+        rfturn providfrID;
     }
 
     /**
-     * Returns the <code>javax.sql.RowSetWriter</code> object for this
-     * <code>RIOptimisticProvider</code> object.  This is the writer that will
-     * write changes made to the <code>Rowset</code> object back to the data source.
+     * Rfturns tif <dodf>jbvbx.sql.RowSftWritfr</dodf> objfdt for tiis
+     * <dodf>RIOptimistidProvidfr</dodf> objfdt.  Tiis is tif writfr tibt will
+     * writf dibngfs mbdf to tif <dodf>Rowsft</dodf> objfdt bbdk to tif dbtb sourdf.
      *
-     * @return the <code>javax.sql.RowSetWriter</code> object for this
-     *     <code>RIOptimisticProvider</code> object
+     * @rfturn tif <dodf>jbvbx.sql.RowSftWritfr</dodf> objfdt for tiis
+     *     <dodf>RIOptimistidProvidfr</dodf> objfdt
      */
-    public RowSetWriter getRowSetWriter() {
+    publid RowSftWritfr gftRowSftWritfr() {
         try {
-            writer.setReader(reader);
-        } catch (java.sql.SQLException e) {}
-        return writer;
+            writfr.sftRfbdfr(rfbdfr);
+        } dbtdi (jbvb.sql.SQLExdfption f) {}
+        rfturn writfr;
     }
 
     /**
-     * Returns the <code>javax.sql.RowSetReader</code> object for this
-     * <code>RIOptimisticProvider</code> object.  This is the reader that will
-     * populate a <code>RowSet</code> object using this <code>RIOptimisticProvider</code>.
+     * Rfturns tif <dodf>jbvbx.sql.RowSftRfbdfr</dodf> objfdt for tiis
+     * <dodf>RIOptimistidProvidfr</dodf> objfdt.  Tiis is tif rfbdfr tibt will
+     * populbtf b <dodf>RowSft</dodf> objfdt using tiis <dodf>RIOptimistidProvidfr</dodf>.
      *
-     * @return the <code>javax.sql.RowSetReader</code> object for this
-     *     <code>RIOptimisticProvider</code> object
+     * @rfturn tif <dodf>jbvbx.sql.RowSftRfbdfr</dodf> objfdt for tiis
+     *     <dodf>RIOptimistidProvidfr</dodf> objfdt
      */
-    public RowSetReader getRowSetReader() {
-        return reader;
+    publid RowSftRfbdfr gftRowSftRfbdfr() {
+        rfturn rfbdfr;
     }
 
     /**
-     * Returns the <code>SyncProvider</code> grade of synchronization that
-     * <code>RowSet</code> objects can expect when using this
-     * implementation. As an optimisic synchonization provider, the writer
-     * will only check rows that have been modified in the <code>RowSet</code>
-     * object.
+     * Rfturns tif <dodf>SyndProvidfr</dodf> grbdf of syndironizbtion tibt
+     * <dodf>RowSft</dodf> objfdts dbn fxpfdt wifn using tiis
+     * implfmfntbtion. As bn optimisid syndionizbtion providfr, tif writfr
+     * will only difdk rows tibt ibvf bffn modififd in tif <dodf>RowSft</dodf>
+     * objfdt.
      */
-    public int getProviderGrade() {
-        return SyncProvider.GRADE_CHECK_MODIFIED_AT_COMMIT;
+    publid int gftProvidfrGrbdf() {
+        rfturn SyndProvidfr.GRADE_CHECK_MODIFIED_AT_COMMIT;
     }
 
     /**
-     * Modifies the data source lock severity according to the standard
-     * <code>SyncProvider</code> classifications.
+     * Modififs tif dbtb sourdf lodk sfvfrity bddording to tif stbndbrd
+     * <dodf>SyndProvidfr</dodf> dlbssifidbtions.
      *
-     * @param datasource_lock An <code>int</code> indicating the level of locking to be
-     *        set; must be one of the following constants:
+     * @pbrbm dbtbsourdf_lodk An <dodf>int</dodf> indidbting tif lfvfl of lodking to bf
+     *        sft; must bf onf of tif following donstbnts:
      * <PRE>
-     *       SyncProvider.DATASOURCE_NO_LOCK,
-     *       SyncProvider.DATASOURCE_ROW_LOCK,
-     *       SyncProvider.DATASOURCE_TABLE_LOCK,
-     *       SyncProvider.DATASOURCE_DB_LOCk
+     *       SyndProvidfr.DATASOURCE_NO_LOCK,
+     *       SyndProvidfr.DATASOURCE_ROW_LOCK,
+     *       SyndProvidfr.DATASOURCE_TABLE_LOCK,
+     *       SyndProvidfr.DATASOURCE_DB_LOCk
      * </PRE>
-     * @throws SyncProviderException if the parameter specified is not
-     *           <code>SyncProvider.DATASOURCE_NO_LOCK</code>
+     * @tirows SyndProvidfrExdfption if tif pbrbmftfr spfdififd is not
+     *           <dodf>SyndProvidfr.DATASOURCE_NO_LOCK</dodf>
      */
-    public void setDataSourceLock(int datasource_lock) throws SyncProviderException {
-        if(datasource_lock != SyncProvider.DATASOURCE_NO_LOCK ) {
-          throw new SyncProviderException(resBundle.handleGetObject("riop.locking").toString());
+    publid void sftDbtbSourdfLodk(int dbtbsourdf_lodk) tirows SyndProvidfrExdfption {
+        if(dbtbsourdf_lodk != SyndProvidfr.DATASOURCE_NO_LOCK ) {
+          tirow nfw SyndProvidfrExdfption(rfsBundlf.ibndlfGftObjfdt("riop.lodking").toString());
         }
     }
 
     /**
-     * Returns the active data source lock severity in this
-     * reference implementation of the <code>SyncProvider</code>
-     * abstract class.
+     * Rfturns tif bdtivf dbtb sourdf lodk sfvfrity in tiis
+     * rfffrfndf implfmfntbtion of tif <dodf>SyndProvidfr</dodf>
+     * bbstrbdt dlbss.
      *
-     * @return <code>SyncProvider.DATASOURCE_NO_LOCK</code>.
-     *     The reference implementation does not support data source locks.
+     * @rfturn <dodf>SyndProvidfr.DATASOURCE_NO_LOCK</dodf>.
+     *     Tif rfffrfndf implfmfntbtion dofs not support dbtb sourdf lodks.
      */
-    public int getDataSourceLock() throws SyncProviderException {
-        return SyncProvider.DATASOURCE_NO_LOCK;
+    publid int gftDbtbSourdfLodk() tirows SyndProvidfrExdfption {
+        rfturn SyndProvidfr.DATASOURCE_NO_LOCK;
     }
 
     /**
-     * Returns the supported updatable view abilities of the
-     * reference implementation of the <code>SyncProvider</code>
-     * abstract class.
+     * Rfturns tif supportfd updbtbblf vifw bbilitifs of tif
+     * rfffrfndf implfmfntbtion of tif <dodf>SyndProvidfr</dodf>
+     * bbstrbdt dlbss.
      *
-     * @return <code>SyncProvider.NONUPDATABLE_VIEW_SYNC</code>. The
-     *     the reference implementation does not support updating tables
-     *     that are the source of a view.
+     * @rfturn <dodf>SyndProvidfr.NONUPDATABLE_VIEW_SYNC</dodf>. Tif
+     *     tif rfffrfndf implfmfntbtion dofs not support updbting tbblfs
+     *     tibt brf tif sourdf of b vifw.
      */
-    public int supportsUpdatableView() {
-        return SyncProvider.NONUPDATABLE_VIEW_SYNC;
+    publid int supportsUpdbtbblfVifw() {
+        rfturn SyndProvidfr.NONUPDATABLE_VIEW_SYNC;
     }
 
     /**
-     * Returns the release version ID of the Reference Implementation Optimistic
-     * Synchronization Provider.
+     * Rfturns tif rflfbsf vfrsion ID of tif Rfffrfndf Implfmfntbtion Optimistid
+     * Syndironizbtion Providfr.
      *
-     * @return the <code>String</code> detailing the version number of this SyncProvider
+     * @rfturn tif <dodf>String</dodf> dftbiling tif vfrsion numbfr of tiis SyndProvidfr
      */
-    public String getVersion() {
-        return this.versionNumber;
+    publid String gftVfrsion() {
+        rfturn tiis.vfrsionNumbfr;
     }
 
     /**
-     * Returns the vendor name of the Reference Implementation Optimistic
-     * Synchronization Provider
+     * Rfturns tif vfndor nbmf of tif Rfffrfndf Implfmfntbtion Optimistid
+     * Syndironizbtion Providfr
      *
-     * @return the <code>String</code> detailing the vendor name of this
-     *      SyncProvider
+     * @rfturn tif <dodf>String</dodf> dftbiling tif vfndor nbmf of tiis
+     *      SyndProvidfr
      */
-    public String getVendor() {
-        return this.vendorName;
+    publid String gftVfndor() {
+        rfturn tiis.vfndorNbmf;
     }
 
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        // Default state initialization happens here
-        ois.defaultReadObject();
-        // Initialization of transient Res Bundle happens here .
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois) tirows IOExdfption, ClbssNotFoundExdfption {
+        // Dffbult stbtf initiblizbtion ibppfns ifrf
+        ois.dffbultRfbdObjfdt();
+        // Initiblizbtion of trbnsifnt Rfs Bundlf ibppfns ifrf .
         try {
-           resBundle = JdbcRowSetResourceBundle.getJdbcRowSetResourceBundle();
-        } catch(IOException ioe) {
-            throw new RuntimeException(ioe);
+           rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+        } dbtdi(IOExdfption iof) {
+            tirow nfw RuntimfExdfption(iof);
         }
 
     }
-    static final long serialVersionUID =-3143367176751761936L;
+    stbtid finbl long sfriblVfrsionUID =-3143367176751761936L;
 
 }

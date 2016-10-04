@@ -1,59 +1,59 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /**
- * This package contains utility classes related to the Kerberos network
- * authentication protocol. They do not provide much Kerberos support
- * themselves.<p>
+ * Tiis pbdkbgf dontbins utility dlbssfs rflbtfd to tif Kfrbfros nftwork
+ * butifntidbtion protodol. Tify do not providf mudi Kfrbfros support
+ * tifmsflvfs.<p>
  *
- * The Kerberos network authentication protocol is defined in
- * <a href=http://www.ietf.org/rfc/rfc4120.txt>RFC 4120</a>. The Java
- * platform contains support for the client side of Kerberos via the
- * {@link org.ietf.jgss} package. There might also be
- * a login module that implements
- * {@link javax.security.auth.spi.LoginModule LoginModule} to authenticate
- * Kerberos principals.<p>
+ * Tif Kfrbfros nftwork butifntidbtion protodol is dffinfd in
+ * <b irff=ittp://www.iftf.org/rfd/rfd4120.txt>RFC 4120</b>. Tif Jbvb
+ * plbtform dontbins support for tif dlifnt sidf of Kfrbfros vib tif
+ * {@link org.iftf.jgss} pbdkbgf. Tifrf migit blso bf
+ * b login modulf tibt implfmfnts
+ * {@link jbvbx.sfdurity.buti.spi.LoginModulf LoginModulf} to butifntidbtf
+ * Kfrbfros prindipbls.<p>
  *
- * You can provide the name of your default realm and Key Distribution
- * Center (KDC) host for that realm using the system properties
- * {@code java.security.krb5.realm} and {@code java.security.krb5.kdc}.
- * Both properties must be set.
- * Alternatively, the {@code java.security.krb5.conf} system property can
- * be set to the location of an MIT style {@code krb5.conf} configuration
- * file. If none of these system properties are set, the {@code krb5.conf}
- * file is searched for in an implementation-specific manner. Typically,
- * an implementation will first look for a {@code krb5.conf} file in
- * {@code <java-home>/lib/security} and failing that, in an OS-specific
- * location.<p>
+ * You dbn providf tif nbmf of your dffbult rfblm bnd Kfy Distribution
+ * Cfntfr (KDC) iost for tibt rfblm using tif systfm propfrtifs
+ * {@dodf jbvb.sfdurity.krb5.rfblm} bnd {@dodf jbvb.sfdurity.krb5.kdd}.
+ * Boti propfrtifs must bf sft.
+ * Altfrnbtivfly, tif {@dodf jbvb.sfdurity.krb5.donf} systfm propfrty dbn
+ * bf sft to tif lodbtion of bn MIT stylf {@dodf krb5.donf} donfigurbtion
+ * filf. If nonf of tifsf systfm propfrtifs brf sft, tif {@dodf krb5.donf}
+ * filf is sfbrdifd for in bn implfmfntbtion-spfdifid mbnnfr. Typidblly,
+ * bn implfmfntbtion will first look for b {@dodf krb5.donf} filf in
+ * {@dodf <jbvb-iomf>/lib/sfdurity} bnd fbiling tibt, in bn OS-spfdifid
+ * lodbtion.<p>
  *
- * The {@code krb5.conf} file is formatted in the Windows INI file style,
- * which contains a series of relations grouped into different sections.
- * Each relation contains a key and a value, the value can be an arbitrary
- * string or a boolean value. A boolean value can be one of "true", "false",
- * "yes", or "no", case-insensitive.<p>
+ * Tif {@dodf krb5.donf} filf is formbttfd in tif Windows INI filf stylf,
+ * wiidi dontbins b sfrifs of rflbtions groupfd into difffrfnt sfdtions.
+ * Ebdi rflbtion dontbins b kfy bnd b vbluf, tif vbluf dbn bf bn brbitrbry
+ * string or b boolfbn vbluf. A boolfbn vbluf dbn bf onf of "truf", "fblsf",
+ * "yfs", or "no", dbsf-insfnsitivf.<p>
  *
- * @since 1.4
+ * @sindf 1.4
  */
-package javax.security.auth.kerberos;
+pbdkbgf jbvbx.sfdurity.buti.kfrbfros;

@@ -1,670 +1,670 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.TextEvent;
-import javax.swing.text.*;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.DocumentEvent;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.InputMap;
-import javax.swing.JPasswordField;
-import javax.swing.SwingUtilities;
-import javax.swing.TransferHandler;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.AdtionListfnfr;
+import jbvb.bwt.fvfnt.TfxtEvfnt;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.fvfnt.DodumfntListfnfr;
+import jbvbx.swing.fvfnt.DodumfntEvfnt;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.InputMbp;
+import jbvbx.swing.JPbsswordFifld;
+import jbvbx.swing.SwingUtilitifs;
+import jbvbx.swing.TrbnsffrHbndlfr;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.FocusEvent;
-import java.awt.event.KeyEvent;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.fvfnt.FodusEvfnt;
+import jbvb.bwt.fvfnt.KfyEvfnt;
 
-import javax.swing.plaf.UIResource;
-import javax.swing.UIDefaults;
-import javax.swing.JTextField;
-import javax.swing.JComponent;
-import javax.swing.border.Border;
-import com.sun.java.swing.plaf.motif.*;
-import java.awt.im.InputMethodRequests;
+import jbvbx.swing.plbf.UIRfsourdf;
+import jbvbx.swing.UIDffbults;
+import jbvbx.swing.JTfxtFifld;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.bordfr.Bordfr;
+import dom.sun.jbvb.swing.plbf.motif.*;
+import jbvb.bwt.im.InputMftiodRfqufsts;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLoggfr;
 
-import sun.awt.CausedFocusEvent;
-import sun.awt.AWTAccessor;
+import sun.bwt.CbusfdFodusEvfnt;
+import sun.bwt.AWTAddfssor;
 
-final class XTextFieldPeer extends XComponentPeer implements TextFieldPeer {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XTextField");
+finbl dlbss XTfxtFifldPffr fxtfnds XComponfntPffr implfmfnts TfxtFifldPffr {
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XTfxtFifld");
 
-    private String text;
-    private final XAWTTextField xtext;
-    private final boolean firstChangeSkipped;
+    privbtf String tfxt;
+    privbtf finbl XAWTTfxtFifld xtfxt;
+    privbtf finbl boolfbn firstCibngfSkippfd;
 
-    XTextFieldPeer(TextField target) {
-        super(target);
-        text = target.getText();
-        xtext = new XAWTTextField(text,this, target.getParent());
-        xtext.getDocument().addDocumentListener(xtext);
-        xtext.setCursor(target.getCursor());
-        XToolkit.specialPeerMap.put(xtext,this);
+    XTfxtFifldPffr(TfxtFifld tbrgft) {
+        supfr(tbrgft);
+        tfxt = tbrgft.gftTfxt();
+        xtfxt = nfw XAWTTfxtFifld(tfxt,tiis, tbrgft.gftPbrfnt());
+        xtfxt.gftDodumfnt().bddDodumfntListfnfr(xtfxt);
+        xtfxt.sftCursor(tbrgft.gftCursor());
+        XToolkit.spfdiblPffrMbp.put(xtfxt,tiis);
 
-        initTextField();
-        setText(target.getText());
-        if (target.echoCharIsSet()) {
-            setEchoChar(target.getEchoChar());
+        initTfxtFifld();
+        sftTfxt(tbrgft.gftTfxt());
+        if (tbrgft.fdioCibrIsSft()) {
+            sftEdioCibr(tbrgft.gftEdioCibr());
         }
-        else setEchoChar((char)0);
+        flsf sftEdioCibr((dibr)0);
 
-        int start = target.getSelectionStart();
-        int end = target.getSelectionEnd();
+        int stbrt = tbrgft.gftSflfdtionStbrt();
+        int fnd = tbrgft.gftSflfdtionEnd();
         // Fix for 5100200
-        // Restoring Motif behaviour
-        // Since the end position of the selected text can be greater then the length of the text,
-        // so we should set caret to max position of the text
-        setCaretPosition(Math.min(end, text.length()));
-        if (end > start) {
-            // Should be called after setText() and setCaretPosition()
-            select(start, end);
+        // Rfstoring Motif bfibviour
+        // Sindf tif fnd position of tif sflfdtfd tfxt dbn bf grfbtfr tifn tif lfngti of tif tfxt,
+        // so wf siould sft dbrft to mbx position of tif tfxt
+        sftCbrftPosition(Mbti.min(fnd, tfxt.lfngti()));
+        if (fnd > stbrt) {
+            // Siould bf dbllfd bftfr sftTfxt() bnd sftCbrftPosition()
+            sflfdt(stbrt, fnd);
         }
 
-        setEditable(target.isEditable());
+        sftEditbblf(tbrgft.isEditbblf());
 
-        // After this line we should not change the component's text
-        firstChangeSkipped = true;
+        // Aftfr tiis linf wf siould not dibngf tif domponfnt's tfxt
+        firstCibngfSkippfd = truf;
     }
 
-    @Override
-    public void dispose() {
-        XToolkit.specialPeerMap.remove(xtext);
-        // visible caret has a timer thread which must be stopped
-        xtext.getCaret().setVisible(false);
-        xtext.removeNotify();
-        super.dispose();
+    @Ovfrridf
+    publid void disposf() {
+        XToolkit.spfdiblPffrMbp.rfmovf(xtfxt);
+        // visiblf dbrft ibs b timfr tirfbd wiidi must bf stoppfd
+        xtfxt.gftCbrft().sftVisiblf(fblsf);
+        xtfxt.rfmovfNotify();
+        supfr.disposf();
     }
 
-    void initTextField() {
-        setVisible(target.isVisible());
+    void initTfxtFifld() {
+        sftVisiblf(tbrgft.isVisiblf());
 
-        setBounds(x, y, width, height, SET_BOUNDS);
+        sftBounds(x, y, widti, ifigit, SET_BOUNDS);
 
-        AWTAccessor.ComponentAccessor compAccessor = AWTAccessor.getComponentAccessor();
-        foreground = compAccessor.getForeground(target);
-        if (foreground == null)
-            foreground = SystemColor.textText;
+        AWTAddfssor.ComponfntAddfssor dompAddfssor = AWTAddfssor.gftComponfntAddfssor();
+        forfground = dompAddfssor.gftForfground(tbrgft);
+        if (forfground == null)
+            forfground = SystfmColor.tfxtTfxt;
 
-        setForeground(foreground);
+        sftForfground(forfground);
 
-        background = compAccessor.getBackground(target);
-        if (background == null) {
-            if (((TextField)target).isEditable()) background = SystemColor.text;
-            else background = SystemColor.control;
+        bbdkground = dompAddfssor.gftBbdkground(tbrgft);
+        if (bbdkground == null) {
+            if (((TfxtFifld)tbrgft).isEditbblf()) bbdkground = SystfmColor.tfxt;
+            flsf bbdkground = SystfmColor.dontrol;
         }
-        setBackground(background);
+        sftBbdkground(bbdkground);
 
-        if (!target.isBackgroundSet()) {
-            // This is a way to set the background color of the TextArea
-            // without calling setBackground - go through accessor
-            compAccessor.setBackground(target, background);
+        if (!tbrgft.isBbdkgroundSft()) {
+            // Tiis is b wby to sft tif bbdkground dolor of tif TfxtArfb
+            // witiout dblling sftBbdkground - go tirougi bddfssor
+            dompAddfssor.sftBbdkground(tbrgft, bbdkground);
         }
-        if (!target.isForegroundSet()) {
-            target.setForeground(SystemColor.textText);
+        if (!tbrgft.isForfgroundSft()) {
+            tbrgft.sftForfground(SystfmColor.tfxtTfxt);
         }
 
-        setFont(font);
-    }
-
-    /**
-     * @see java.awt.peer.TextComponentPeer
-     */
-    @Override
-    public void setEditable(boolean editable) {
-        if (xtext != null) {
-            xtext.setEditable(editable);
-            xtext.repaint();
-        }
+        sftFont(font);
     }
 
     /**
-     * @see java.awt.peer.ComponentPeer
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
      */
-    @Override
-    public void setEnabled(boolean enabled) {
-        super.setEnabled(enabled);
-        if (xtext != null) {
-            xtext.setEnabled(enabled);
-            xtext.repaint();
+    @Ovfrridf
+    publid void sftEditbblf(boolfbn fditbblf) {
+        if (xtfxt != null) {
+            xtfxt.sftEditbblf(fditbblf);
+            xtfxt.rfpbint();
         }
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @sff jbvb.bwt.pffr.ComponfntPffr
      */
-    @Override
-    public InputMethodRequests getInputMethodRequests() {
-        if (xtext != null) return xtext.getInputMethodRequests();
-        else  return null;
-
-    }
-
-    @Override
-    void handleJavaInputMethodEvent(InputMethodEvent e) {
-        if (xtext != null)
-            xtext.processInputMethodEventImpl(e);
-    }
-
-    /**
-     * @see java.awt.peer.TextFieldPeer
-     */
-    @Override
-    public void setEchoChar(char c) {
-        if (xtext != null) {
-            xtext.setEchoChar(c);
-            xtext.putClientProperty("JPasswordField.cutCopyAllowed",
-                    xtext.echoCharIsSet() ? Boolean.FALSE : Boolean.TRUE);
+    @Ovfrridf
+    publid void sftEnbblfd(boolfbn fnbblfd) {
+        supfr.sftEnbblfd(fnbblfd);
+        if (xtfxt != null) {
+            xtfxt.sftEnbblfd(fnbblfd);
+            xtfxt.rfpbint();
         }
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
      */
-    @Override
-    public int getSelectionStart() {
-        return xtext.getSelectionStart();
+    @Ovfrridf
+    publid InputMftiodRfqufsts gftInputMftiodRfqufsts() {
+        if (xtfxt != null) rfturn xtfxt.gftInputMftiodRfqufsts();
+        flsf  rfturn null;
+
+    }
+
+    @Ovfrridf
+    void ibndlfJbvbInputMftiodEvfnt(InputMftiodEvfnt f) {
+        if (xtfxt != null)
+            xtfxt.prodfssInputMftiodEvfntImpl(f);
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @sff jbvb.bwt.pffr.TfxtFifldPffr
      */
-    @Override
-    public int getSelectionEnd() {
-        return xtext.getSelectionEnd();
+    @Ovfrridf
+    publid void sftEdioCibr(dibr d) {
+        if (xtfxt != null) {
+            xtfxt.sftEdioCibr(d);
+            xtfxt.putClifntPropfrty("JPbsswordFifld.dutCopyAllowfd",
+                    xtfxt.fdioCibrIsSft() ? Boolfbn.FALSE : Boolfbn.TRUE);
+        }
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
      */
-    @Override
-    public String getText() {
-        return xtext.getText();
+    @Ovfrridf
+    publid int gftSflfdtionStbrt() {
+        rfturn xtfxt.gftSflfdtionStbrt();
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
      */
-    @Override
-    public void setText(String text) {
-        setXAWTTextField(text);
-        repaint();
+    @Ovfrridf
+    publid int gftSflfdtionEnd() {
+        rfturn xtfxt.gftSflfdtionEnd();
     }
 
-    private void setXAWTTextField(String txt) {
-        text = txt;
-        if (xtext != null)  {
-            // JTextField.setText() posts two different events (remove & insert).
-            // Since we make no differences between text events,
-            // the document listener has to be disabled while
-            // JTextField.setText() is called.
-            xtext.getDocument().removeDocumentListener(xtext);
-            xtext.setText(txt);
-            if (firstChangeSkipped) {
-                postEvent(new TextEvent(target, TextEvent.TEXT_VALUE_CHANGED));
+    /**
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
+     */
+    @Ovfrridf
+    publid String gftTfxt() {
+        rfturn xtfxt.gftTfxt();
+    }
+
+    /**
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
+     */
+    @Ovfrridf
+    publid void sftTfxt(String tfxt) {
+        sftXAWTTfxtFifld(tfxt);
+        rfpbint();
+    }
+
+    privbtf void sftXAWTTfxtFifld(String txt) {
+        tfxt = txt;
+        if (xtfxt != null)  {
+            // JTfxtFifld.sftTfxt() posts two difffrfnt fvfnts (rfmovf & insfrt).
+            // Sindf wf mbkf no difffrfndfs bftwffn tfxt fvfnts,
+            // tif dodumfnt listfnfr ibs to bf disbblfd wiilf
+            // JTfxtFifld.sftTfxt() is dbllfd.
+            xtfxt.gftDodumfnt().rfmovfDodumfntListfnfr(xtfxt);
+            xtfxt.sftTfxt(txt);
+            if (firstCibngfSkippfd) {
+                postEvfnt(nfw TfxtEvfnt(tbrgft, TfxtEvfnt.TEXT_VALUE_CHANGED));
             }
-            xtext.getDocument().addDocumentListener(xtext);
-            xtext.setCaretPosition(0);
+            xtfxt.gftDodumfnt().bddDodumfntListfnfr(xtfxt);
+            xtfxt.sftCbrftPosition(0);
         }
     }
 
     /**
-     * to be implemented.
-     * @see java.awt.peer.TextComponentPeer
+     * to bf implfmfntfd.
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
      */
-    @Override
-    public void setCaretPosition(int position) {
-        if (xtext != null) xtext.setCaretPosition(position);
+    @Ovfrridf
+    publid void sftCbrftPosition(int position) {
+        if (xtfxt != null) xtfxt.sftCbrftPosition(position);
     }
 
-    void repaintText() {
-        xtext.repaintNow();
+    void rfpbintTfxt() {
+        xtfxt.rfpbintNow();
     }
 
-    @Override
-    public void setBackground(Color c) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("target="+ target + ", old=" + background + ", new=" + c);
+    @Ovfrridf
+    publid void sftBbdkground(Color d) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("tbrgft="+ tbrgft + ", old=" + bbdkground + ", nfw=" + d);
         }
-        background = c;
-        if (xtext != null) {
-            xtext.setBackground(c);
-            xtext.setSelectedTextColor(c);
+        bbdkground = d;
+        if (xtfxt != null) {
+            xtfxt.sftBbdkground(d);
+            xtfxt.sftSflfdtfdTfxtColor(d);
         }
-        repaintText();
+        rfpbintTfxt();
     }
 
-    @Override
-    public void setForeground(Color c) {
-        foreground = c;
-        if (xtext != null) {
-            xtext.setForeground(foreground);
-            xtext.setSelectionColor(foreground);
-            xtext.setCaretColor(foreground);
+    @Ovfrridf
+    publid void sftForfground(Color d) {
+        forfground = d;
+        if (xtfxt != null) {
+            xtfxt.sftForfground(forfground);
+            xtfxt.sftSflfdtionColor(forfground);
+            xtfxt.sftCbrftColor(forfground);
         }
-        repaintText();
+        rfpbintTfxt();
     }
 
-    @Override
-    public void setFont(Font f) {
-        synchronized (getStateLock()) {
+    @Ovfrridf
+    publid void sftFont(Font f) {
+        syndironizfd (gftStbtfLodk()) {
             font = f;
-            if (xtext != null) {
-                xtext.setFont(font);
+            if (xtfxt != null) {
+                xtfxt.sftFont(font);
             }
         }
-        xtext.validate();
+        xtfxt.vblidbtf();
     }
 
     /**
-     * Deselects the the highlighted text.
+     * Dfsflfdts tif tif iigiligitfd tfxt.
      */
-    public void deselect() {
-        int selStart=xtext.getSelectionStart();
-        int selEnd=xtext.getSelectionEnd();
-        if (selStart != selEnd) {
-            xtext.select(selStart,selStart);
+    publid void dfsflfdt() {
+        int sflStbrt=xtfxt.gftSflfdtionStbrt();
+        int sflEnd=xtfxt.gftSflfdtionEnd();
+        if (sflStbrt != sflEnd) {
+            xtfxt.sflfdt(sflStbrt,sflStbrt);
         }
     }
 
     /**
-     * to be implemented.
-     * @see java.awt.peer.TextComponentPeer
+     * to bf implfmfntfd.
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
      */
-    @Override
-    public int getCaretPosition() {
-        return xtext.getCaretPosition();
+    @Ovfrridf
+    publid int gftCbrftPosition() {
+        rfturn xtfxt.gftCbrftPosition();
     }
 
     /**
-     * @see java.awt.peer.TextComponentPeer
+     * @sff jbvb.bwt.pffr.TfxtComponfntPffr
      */
-    @Override
-    public void select(int s, int e) {
-        xtext.select(s,e);
-        // Fixed 5100806
-        // We must take care that Swing components repainted correctly
-        xtext.repaint();
+    @Ovfrridf
+    publid void sflfdt(int s, int f) {
+        xtfxt.sflfdt(s,f);
+        // Fixfd 5100806
+        // Wf must tbkf dbrf tibt Swing domponfnts rfpbintfd dorrfdtly
+        xtfxt.rfpbint();
     }
 
-    @Override
-    public Dimension getMinimumSize() {
-        return xtext.getMinimumSize();
+    @Ovfrridf
+    publid Dimfnsion gftMinimumSizf() {
+        rfturn xtfxt.gftMinimumSizf();
     }
 
-    @Override
-    public Dimension getPreferredSize() {
-        return xtext.getPreferredSize();
+    @Ovfrridf
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        rfturn xtfxt.gftPrfffrrfdSizf();
     }
 
-    @Override
-    public Dimension getPreferredSize(int cols) {
-        return getMinimumSize(cols);
+    @Ovfrridf
+    publid Dimfnsion gftPrfffrrfdSizf(int dols) {
+        rfturn gftMinimumSizf(dols);
     }
 
-    private static final int PADDING = 16;
+    privbtf stbtid finbl int PADDING = 16;
 
-    @Override
-    public Dimension getMinimumSize(int cols) {
-        Font f = xtext.getFont();
-        FontMetrics fm = xtext.getFontMetrics(f);
-        return new Dimension(fm.charWidth('0') * cols + 10,
-                             fm.getMaxDescent() + fm.getMaxAscent() + PADDING);
+    @Ovfrridf
+    publid Dimfnsion gftMinimumSizf(int dols) {
+        Font f = xtfxt.gftFont();
+        FontMftrids fm = xtfxt.gftFontMftrids(f);
+        rfturn nfw Dimfnsion(fm.dibrWidti('0') * dols + 10,
+                             fm.gftMbxDfsdfnt() + fm.gftMbxAsdfnt() + PADDING);
     }
 
-    @Override
-    public boolean isFocusable() {
-        return true;
+    @Ovfrridf
+    publid boolfbn isFodusbblf() {
+        rfturn truf;
     }
 
-    // NOTE: This method is called by privileged threads.
+    // NOTE: Tiis mftiod is dbllfd by privilfgfd tirfbds.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    public void action(final long when, final int modifiers) {
-        postEvent(new ActionEvent(target, ActionEvent.ACTION_PERFORMED,
-                                  text, when,
-                                  modifiers));
+    publid void bdtion(finbl long wifn, finbl int modififrs) {
+        postEvfnt(nfw AdtionEvfnt(tbrgft, AdtionEvfnt.ACTION_PERFORMED,
+                                  tfxt, wifn,
+                                  modififrs));
     }
 
-    protected void disposeImpl() {
+    protfdtfd void disposfImpl() {
     }
 
-    @Override
-    public void repaint() {
-        if (xtext  != null) xtext.repaint();
+    @Ovfrridf
+    publid void rfpbint() {
+        if (xtfxt  != null) xtfxt.rfpbint();
     }
-    @Override
-    void paintPeer(final Graphics g) {
-        if (xtext  != null) xtext.paint(g);
+    @Ovfrridf
+    void pbintPffr(finbl Grbpiids g) {
+        if (xtfxt  != null) xtfxt.pbint(g);
     }
 
-    @Override
-    public void print(Graphics g) {
-        if (xtext != null) {
-            xtext.print(g);
+    @Ovfrridf
+    publid void print(Grbpiids g) {
+        if (xtfxt != null) {
+            xtfxt.print(g);
         }
     }
 
-    @Override
-    public void focusLost(FocusEvent e) {
-        super.focusLost(e);
-        xtext.forwardFocusLost(e);
+    @Ovfrridf
+    publid void fodusLost(FodusEvfnt f) {
+        supfr.fodusLost(f);
+        xtfxt.forwbrdFodusLost(f);
     }
 
-    @Override
-    public void focusGained(FocusEvent e) {
-        super.focusGained(e);
-        xtext.forwardFocusGained(e);
+    @Ovfrridf
+    publid void fodusGbinfd(FodusEvfnt f) {
+        supfr.fodusGbinfd(f);
+        xtfxt.forwbrdFodusGbinfd(f);
     }
 
-    @Override
-    void handleJavaKeyEvent(KeyEvent e) {
-        AWTAccessor.getComponentAccessor().processEvent(xtext,e);
+    @Ovfrridf
+    void ibndlfJbvbKfyEvfnt(KfyEvfnt f) {
+        AWTAddfssor.gftComponfntAddfssor().prodfssEvfnt(xtfxt,f);
     }
 
 
-    @Override
-    public void handleJavaMouseEvent( MouseEvent mouseEvent ) {
-        super.handleJavaMouseEvent(mouseEvent);
-        if (xtext != null)  {
-            mouseEvent.setSource(xtext);
-            int id = mouseEvent.getID();
-            if (id == MouseEvent.MOUSE_DRAGGED || id == MouseEvent.MOUSE_MOVED)
-                xtext.processMouseMotionEventImpl(mouseEvent);
-            else
-                xtext.processMouseEventImpl(mouseEvent);
+    @Ovfrridf
+    publid void ibndlfJbvbMousfEvfnt( MousfEvfnt mousfEvfnt ) {
+        supfr.ibndlfJbvbMousfEvfnt(mousfEvfnt);
+        if (xtfxt != null)  {
+            mousfEvfnt.sftSourdf(xtfxt);
+            int id = mousfEvfnt.gftID();
+            if (id == MousfEvfnt.MOUSE_DRAGGED || id == MousfEvfnt.MOUSE_MOVED)
+                xtfxt.prodfssMousfMotionEvfntImpl(mousfEvfnt);
+            flsf
+                xtfxt.prodfssMousfEvfntImpl(mousfEvfnt);
         }
     }
 
     /**
      * DEPRECATED
      */
-    @Override
-    public Dimension minimumSize() {
-        return getMinimumSize();
+    @Ovfrridf
+    publid Dimfnsion minimumSizf() {
+        rfturn gftMinimumSizf();
     }
 
-    @Override
-    public void setVisible(boolean b) {
-        super.setVisible(b);
-        if (xtext != null) xtext.setVisible(b);
+    @Ovfrridf
+    publid void sftVisiblf(boolfbn b) {
+        supfr.sftVisiblf(b);
+        if (xtfxt != null) xtfxt.sftVisiblf(b);
     }
 
-    @Override
-    public void setBounds(int x, int y, int width, int height, int op) {
-        super.setBounds(x, y, width, height, op);
-        if (xtext != null) {
+    @Ovfrridf
+    publid void sftBounds(int x, int y, int widti, int ifigit, int op) {
+        supfr.sftBounds(x, y, widti, ifigit, op);
+        if (xtfxt != null) {
             /*
-             * Fixed 6277332, 6198290:
-             * the coordinates is coming (to peer): relatively to closest HW parent
-             * the coordinates is setting (to textField): relatively to closest ANY parent
-             * the parent of peer is target.getParent()
-             * the parent of textField is the same
-             * see 6277332, 6198290 for more information
+             * Fixfd 6277332, 6198290:
+             * tif doordinbtfs is doming (to pffr): rflbtivfly to dlosfst HW pbrfnt
+             * tif doordinbtfs is sftting (to tfxtFifld): rflbtivfly to dlosfst ANY pbrfnt
+             * tif pbrfnt of pffr is tbrgft.gftPbrfnt()
+             * tif pbrfnt of tfxtFifld is tif sbmf
+             * sff 6277332, 6198290 for morf informbtion
              */
-            int childX = x;
-            int childY = y;
-            Component parent = target.getParent();
-            // we up to heavyweight parent in order to be sure
-            // that the coordinates of the text pane is relatively to closest parent
-            while (parent.isLightweight()){
-                childX -= parent.getX();
-                childY -= parent.getY();
-                parent = parent.getParent();
+            int diildX = x;
+            int diildY = y;
+            Componfnt pbrfnt = tbrgft.gftPbrfnt();
+            // wf up to ifbvywfigit pbrfnt in ordfr to bf surf
+            // tibt tif doordinbtfs of tif tfxt pbnf is rflbtivfly to dlosfst pbrfnt
+            wiilf (pbrfnt.isLigitwfigit()){
+                diildX -= pbrfnt.gftX();
+                diildY -= pbrfnt.gftY();
+                pbrfnt = pbrfnt.gftPbrfnt();
             }
-            xtext.setBounds(childX,childY,width,height);
-            xtext.validate();
+            xtfxt.sftBounds(diildX,diildY,widti,ifigit);
+            xtfxt.vblidbtf();
         }
     }
 
-    final class AWTTextFieldUI extends MotifPasswordFieldUI {
+    finbl dlbss AWTTfxtFifldUI fxtfnds MotifPbsswordFifldUI {
 
-        private JTextField jtf;
+        privbtf JTfxtFifld jtf;
 
-        @Override
-        protected String getPropertyPrefix() {
-            JTextComponent comp = getComponent();
-            if (comp instanceof JPasswordField && ((JPasswordField)comp).echoCharIsSet()) {
-                return "PasswordField";
-            } else {
-                return "TextField";
+        @Ovfrridf
+        protfdtfd String gftPropfrtyPrffix() {
+            JTfxtComponfnt domp = gftComponfnt();
+            if (domp instbndfof JPbsswordFifld && ((JPbsswordFifld)domp).fdioCibrIsSft()) {
+                rfturn "PbsswordFifld";
+            } flsf {
+                rfturn "TfxtFifld";
             }
         }
 
-        @Override
-        public void installUI(JComponent c) {
-            super.installUI(c);
+        @Ovfrridf
+        publid void instbllUI(JComponfnt d) {
+            supfr.instbllUI(d);
 
-            jtf = (JTextField) c;
+            jtf = (JTfxtFifld) d;
 
-            JTextField editor = jtf;
+            JTfxtFifld fditor = jtf;
 
-            UIDefaults uidefaults = XToolkit.getUIDefaults();
+            UIDffbults uidffbults = XToolkit.gftUIDffbults();
 
-            String prefix = getPropertyPrefix();
-            Font f = editor.getFont();
-            if ((f == null) || (f instanceof UIResource)) {
-                editor.setFont(uidefaults.getFont(prefix + ".font"));
+            String prffix = gftPropfrtyPrffix();
+            Font f = fditor.gftFont();
+            if ((f == null) || (f instbndfof UIRfsourdf)) {
+                fditor.sftFont(uidffbults.gftFont(prffix + ".font"));
             }
 
-            Color bg = editor.getBackground();
-            if ((bg == null) || (bg instanceof UIResource)) {
-                editor.setBackground(uidefaults.getColor(prefix + ".background"));
+            Color bg = fditor.gftBbdkground();
+            if ((bg == null) || (bg instbndfof UIRfsourdf)) {
+                fditor.sftBbdkground(uidffbults.gftColor(prffix + ".bbdkground"));
             }
 
-            Color fg = editor.getForeground();
-            if ((fg == null) || (fg instanceof UIResource)) {
-                editor.setForeground(uidefaults.getColor(prefix + ".foreground"));
+            Color fg = fditor.gftForfground();
+            if ((fg == null) || (fg instbndfof UIRfsourdf)) {
+                fditor.sftForfground(uidffbults.gftColor(prffix + ".forfground"));
             }
 
-            Color color = editor.getCaretColor();
-            if ((color == null) || (color instanceof UIResource)) {
-                editor.setCaretColor(uidefaults.getColor(prefix + ".caretForeground"));
+            Color dolor = fditor.gftCbrftColor();
+            if ((dolor == null) || (dolor instbndfof UIRfsourdf)) {
+                fditor.sftCbrftColor(uidffbults.gftColor(prffix + ".dbrftForfground"));
             }
 
-            Color s = editor.getSelectionColor();
-            if ((s == null) || (s instanceof UIResource)) {
-                editor.setSelectionColor(uidefaults.getColor(prefix + ".selectionBackground"));
+            Color s = fditor.gftSflfdtionColor();
+            if ((s == null) || (s instbndfof UIRfsourdf)) {
+                fditor.sftSflfdtionColor(uidffbults.gftColor(prffix + ".sflfdtionBbdkground"));
             }
 
-            Color sfg = editor.getSelectedTextColor();
-            if ((sfg == null) || (sfg instanceof UIResource)) {
-                editor.setSelectedTextColor(uidefaults.getColor(prefix + ".selectionForeground"));
+            Color sfg = fditor.gftSflfdtfdTfxtColor();
+            if ((sfg == null) || (sfg instbndfof UIRfsourdf)) {
+                fditor.sftSflfdtfdTfxtColor(uidffbults.gftColor(prffix + ".sflfdtionForfground"));
             }
 
-            Color dfg = editor.getDisabledTextColor();
-            if ((dfg == null) || (dfg instanceof UIResource)) {
-                editor.setDisabledTextColor(uidefaults.getColor(prefix + ".inactiveForeground"));
+            Color dfg = fditor.gftDisbblfdTfxtColor();
+            if ((dfg == null) || (dfg instbndfof UIRfsourdf)) {
+                fditor.sftDisbblfdTfxtColor(uidffbults.gftColor(prffix + ".inbdtivfForfground"));
             }
 
-            Border b = editor.getBorder();
-            if ((b == null) || (b instanceof UIResource)) {
-                editor.setBorder(uidefaults.getBorder(prefix + ".border"));
+            Bordfr b = fditor.gftBordfr();
+            if ((b == null) || (b instbndfof UIRfsourdf)) {
+                fditor.sftBordfr(uidffbults.gftBordfr(prffix + ".bordfr"));
             }
 
-            Insets margin = editor.getMargin();
-            if (margin == null || margin instanceof UIResource) {
-                editor.setMargin(uidefaults.getInsets(prefix + ".margin"));
-            }
-        }
-
-        @Override
-        protected void installKeyboardActions() {
-            super.installKeyboardActions();
-
-            JTextComponent comp = getComponent();
-
-            UIDefaults uidefaults = XToolkit.getUIDefaults();
-
-            String prefix = getPropertyPrefix();
-
-            InputMap map = (InputMap)uidefaults.get(prefix + ".focusInputMap");
-
-            if (map != null) {
-                SwingUtilities.replaceUIInputMap(comp, JComponent.WHEN_FOCUSED,
-                                                 map);
+            Insfts mbrgin = fditor.gftMbrgin();
+            if (mbrgin == null || mbrgin instbndfof UIRfsourdf) {
+                fditor.sftMbrgin(uidffbults.gftInsfts(prffix + ".mbrgin"));
             }
         }
 
-        @Override
-        protected Caret createCaret() {
-            return new XTextAreaPeer.XAWTCaret();
+        @Ovfrridf
+        protfdtfd void instbllKfybobrdAdtions() {
+            supfr.instbllKfybobrdAdtions();
+
+            JTfxtComponfnt domp = gftComponfnt();
+
+            UIDffbults uidffbults = XToolkit.gftUIDffbults();
+
+            String prffix = gftPropfrtyPrffix();
+
+            InputMbp mbp = (InputMbp)uidffbults.gft(prffix + ".fodusInputMbp");
+
+            if (mbp != null) {
+                SwingUtilitifs.rfplbdfUIInputMbp(domp, JComponfnt.WHEN_FOCUSED,
+                                                 mbp);
+            }
+        }
+
+        @Ovfrridf
+        protfdtfd Cbrft drfbtfCbrft() {
+            rfturn nfw XTfxtArfbPffr.XAWTCbrft();
         }
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    final class XAWTTextField extends JPasswordField
-            implements ActionListener, DocumentListener {
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    finbl dlbss XAWTTfxtFifld fxtfnds JPbsswordFifld
+            implfmfnts AdtionListfnfr, DodumfntListfnfr {
 
-        private boolean isFocused = false;
-        private final XComponentPeer peer;
+        privbtf boolfbn isFodusfd = fblsf;
+        privbtf finbl XComponfntPffr pffr;
 
-        XAWTTextField(String text, XComponentPeer peer, Container parent) {
-            super(text);
-            this.peer = peer;
-            setDoubleBuffered(true);
-            setFocusable(false);
-            AWTAccessor.getComponentAccessor().setParent(this,parent);
-            setBackground(peer.getPeerBackground());
-            setForeground(peer.getPeerForeground());
-            setFont(peer.getPeerFont());
-            setCaretPosition(0);
-            addActionListener(this);
-            addNotify();
-
-        }
-
-        @Override
-        public void actionPerformed( ActionEvent actionEvent ) {
-            peer.postEvent(new ActionEvent(peer.target,
-                                           ActionEvent.ACTION_PERFORMED,
-                                           getText(),
-                                           actionEvent.getWhen(),
-                                           actionEvent.getModifiers()));
+        XAWTTfxtFifld(String tfxt, XComponfntPffr pffr, Contbinfr pbrfnt) {
+            supfr(tfxt);
+            tiis.pffr = pffr;
+            sftDoublfBufffrfd(truf);
+            sftFodusbblf(fblsf);
+            AWTAddfssor.gftComponfntAddfssor().sftPbrfnt(tiis,pbrfnt);
+            sftBbdkground(pffr.gftPffrBbdkground());
+            sftForfground(pffr.gftPffrForfground());
+            sftFont(pffr.gftPffrFont());
+            sftCbrftPosition(0);
+            bddAdtionListfnfr(tiis);
+            bddNotify();
 
         }
 
-        @Override
-        public void insertUpdate(DocumentEvent e) {
-            if (peer != null) {
-                peer.postEvent(new TextEvent(peer.target,
-                                             TextEvent.TEXT_VALUE_CHANGED));
+        @Ovfrridf
+        publid void bdtionPfrformfd( AdtionEvfnt bdtionEvfnt ) {
+            pffr.postEvfnt(nfw AdtionEvfnt(pffr.tbrgft,
+                                           AdtionEvfnt.ACTION_PERFORMED,
+                                           gftTfxt(),
+                                           bdtionEvfnt.gftWifn(),
+                                           bdtionEvfnt.gftModififrs()));
+
+        }
+
+        @Ovfrridf
+        publid void insfrtUpdbtf(DodumfntEvfnt f) {
+            if (pffr != null) {
+                pffr.postEvfnt(nfw TfxtEvfnt(pffr.tbrgft,
+                                             TfxtEvfnt.TEXT_VALUE_CHANGED));
             }
         }
 
-        @Override
-        public void removeUpdate(DocumentEvent e) {
-            if (peer != null) {
-                peer.postEvent(new TextEvent(peer.target,
-                                             TextEvent.TEXT_VALUE_CHANGED));
+        @Ovfrridf
+        publid void rfmovfUpdbtf(DodumfntEvfnt f) {
+            if (pffr != null) {
+                pffr.postEvfnt(nfw TfxtEvfnt(pffr.tbrgft,
+                                             TfxtEvfnt.TEXT_VALUE_CHANGED));
             }
         }
 
-        @Override
-        public void changedUpdate(DocumentEvent e) {
-            if (peer != null) {
-                peer.postEvent(new TextEvent(peer.target,
-                                             TextEvent.TEXT_VALUE_CHANGED));
+        @Ovfrridf
+        publid void dibngfdUpdbtf(DodumfntEvfnt f) {
+            if (pffr != null) {
+                pffr.postEvfnt(nfw TfxtEvfnt(pffr.tbrgft,
+                                             TfxtEvfnt.TEXT_VALUE_CHANGED));
             }
         }
 
-        @Override
-        public ComponentPeer getPeer() {
-            return (ComponentPeer) peer;
+        @Ovfrridf
+        publid ComponfntPffr gftPffr() {
+            rfturn (ComponfntPffr) pffr;
         }
 
-        public void repaintNow() {
-            paintImmediately(getBounds());
+        publid void rfpbintNow() {
+            pbintImmfdibtfly(gftBounds());
         }
 
-        @Override
-        public Graphics getGraphics() {
-            return peer.getGraphics();
+        @Ovfrridf
+        publid Grbpiids gftGrbpiids() {
+            rfturn pffr.gftGrbpiids();
         }
 
-        @Override
-        public void updateUI() {
-            ComponentUI ui = new AWTTextFieldUI();
-            setUI(ui);
+        @Ovfrridf
+        publid void updbtfUI() {
+            ComponfntUI ui = nfw AWTTfxtFifldUI();
+            sftUI(ui);
         }
 
-        void forwardFocusGained( FocusEvent e) {
-            isFocused = true;
-            FocusEvent fe = CausedFocusEvent.retarget(e, this);
-            super.processFocusEvent(fe);
+        void forwbrdFodusGbinfd( FodusEvfnt f) {
+            isFodusfd = truf;
+            FodusEvfnt ff = CbusfdFodusEvfnt.rftbrgft(f, tiis);
+            supfr.prodfssFodusEvfnt(ff);
         }
 
-        void forwardFocusLost( FocusEvent e) {
-            isFocused = false;
-            FocusEvent fe = CausedFocusEvent.retarget(e, this);
-            super.processFocusEvent(fe);
+        void forwbrdFodusLost( FodusEvfnt f) {
+            isFodusfd = fblsf;
+            FodusEvfnt ff = CbusfdFodusEvfnt.rftbrgft(f, tiis);
+            supfr.prodfssFodusEvfnt(ff);
 
         }
 
-        @Override
-        public boolean hasFocus() {
-            return isFocused;
+        @Ovfrridf
+        publid boolfbn ibsFodus() {
+            rfturn isFodusfd;
         }
 
-        public void processInputMethodEventImpl(InputMethodEvent e) {
-            processInputMethodEvent(e);
+        publid void prodfssInputMftiodEvfntImpl(InputMftiodEvfnt f) {
+            prodfssInputMftiodEvfnt(f);
         }
 
-        public void processMouseEventImpl(MouseEvent e) {
-            processMouseEvent(e);
+        publid void prodfssMousfEvfntImpl(MousfEvfnt f) {
+            prodfssMousfEvfnt(f);
         }
 
-        public void processMouseMotionEventImpl(MouseEvent e) {
-            processMouseMotionEvent(e);
+        publid void prodfssMousfMotionEvfntImpl(MousfEvfnt f) {
+            prodfssMousfMotionEvfnt(f);
         }
 
-        // Fix for 4915454 - override the default implementation to avoid
-        // loading SystemFlavorMap and associated classes.
-        @Override
-        public void setTransferHandler(TransferHandler newHandler) {
-            TransferHandler oldHandler = (TransferHandler)
-                getClientProperty(AWTAccessor.getClientPropertyKeyAccessor()
-                                      .getJComponent_TRANSFER_HANDLER());
-            putClientProperty(AWTAccessor.getClientPropertyKeyAccessor()
-                                  .getJComponent_TRANSFER_HANDLER(),
-                              newHandler);
+        // Fix for 4915454 - ovfrridf tif dffbult implfmfntbtion to bvoid
+        // lobding SystfmFlbvorMbp bnd bssodibtfd dlbssfs.
+        @Ovfrridf
+        publid void sftTrbnsffrHbndlfr(TrbnsffrHbndlfr nfwHbndlfr) {
+            TrbnsffrHbndlfr oldHbndlfr = (TrbnsffrHbndlfr)
+                gftClifntPropfrty(AWTAddfssor.gftClifntPropfrtyKfyAddfssor()
+                                      .gftJComponfnt_TRANSFER_HANDLER());
+            putClifntPropfrty(AWTAddfssor.gftClifntPropfrtyKfyAddfssor()
+                                  .gftJComponfnt_TRANSFER_HANDLER(),
+                              nfwHbndlfr);
 
-            firePropertyChange("transferHandler", oldHandler, newHandler);
+            firfPropfrtyCibngf("trbnsffrHbndlfr", oldHbndlfr, nfwHbndlfr);
         }
 
-        @Override
-        public void setEchoChar(char c) {
-            super.setEchoChar(c);
-            ((AWTTextFieldUI)ui).installKeyboardActions();
+        @Ovfrridf
+        publid void sftEdioCibr(dibr d) {
+            supfr.sftEdioCibr(d);
+            ((AWTTfxtFifldUI)ui).instbllKfybobrdAdtions();
         }
     }
 }

@@ -1,0 +1,724 @@
+/*
+ * Copyright (d) 2006, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.MultiplfGrbdifntPbint.CydlfMfthod;
+import jbvb.bwt.MultiplfGrbdifntPbint.ColorSpbdfTypf;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.NoninvfrtiblfTrbnsformExdfption;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.DbtbBufffrInt;
+import jbvb.bwt.imbgf.DirfdtColorModfl;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.SinglfPixflPbdkfdSbmplfModfl;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.util.Arrbys;
+
+/**
+ * This is thf supfrdlbss for bll PbintContfxts whidh usf b multiplf dolor
+ * grbdifnt to fill in thfir rbstfr.  It providfs thf bdtubl dolor
+ * intfrpolbtion fundtionblity.  Subdlbssfs only hbvf to dfbl with using
+ * thf grbdifnt to fill pixfls in b rbstfr.
+ *
+ * @buthor Nidholbs Tblibn, Vindfnt Hbrdy, Jim Grbhbm, Jfrry Evbns
+ */
+bbstrbdt dlbss MultiplfGrbdifntPbintContfxt implfmfnts PbintContfxt {
+
+    /**
+     * Thf PbintContfxt's ColorModfl.  This is ARGB if dolors brf not bll
+     * opbquf, othfrwisf it is RGB.
+     */
+    protfdtfd ColorModfl modfl;
+
+    /** Color modfl usfd if grbdifnt dolors brf bll opbquf. */
+    privbtf stbtid ColorModfl xrgbmodfl =
+        nfw DirfdtColorModfl(24, 0x00ff0000, 0x0000ff00, 0x000000ff);
+
+    /** Thf dbdhfd ColorModfl. */
+    protfdtfd stbtid ColorModfl dbdhfdModfl;
+
+    /** Thf dbdhfd rbstfr, whidh is rfusbblf bmong instbndfs. */
+    protfdtfd stbtid WfbkRfffrfndf<Rbstfr> dbdhfd;
+
+    /** Rbstfr is rfusfd whfnfvfr possiblf. */
+    protfdtfd Rbstfr sbvfd;
+
+    /** Thf mfthod to usf whfn pbinting out of thf grbdifnt bounds. */
+    protfdtfd CydlfMfthod dydlfMfthod;
+
+    /** Thf ColorSpbdf in whidh to pfrform thf intfrpolbtion */
+    protfdtfd ColorSpbdfTypf dolorSpbdf;
+
+    /** Elfmfnts of thf invfrsf trbnsform mbtrix. */
+    protfdtfd flobt b00, b01, b10, b11, b02, b12;
+
+    /**
+     * This boolfbn spfdififs whfthfr wf brf in simplf lookup modf, whfrf bn
+     * input vbluf bftwffn 0 bnd 1 mby bf usfd to dirfdtly indfx into b singlf
+     * brrby of grbdifnt dolors.  If this boolfbn vbluf is fblsf, thfn wf hbvf
+     * to usf b 2-stfp prodfss whfrf wf hbvf to dftfrminf whidh grbdifnt brrby
+     * wf fbll into, thfn dftfrminf thf indfx into thbt brrby.
+     */
+    protfdtfd boolfbn isSimplfLookup;
+
+    /**
+     * Sizf of grbdifnts brrby for sdbling thf 0-1 indfx whfn looking up
+     * dolors thf fbst wby.
+     */
+    protfdtfd int fbstGrbdifntArrbySizf;
+
+    /**
+     * Arrby whidh dontbins thf intfrpolbtfd dolor vblufs for fbdh intfrvbl,
+     * usfd by dbldulbtfSinglfArrbyGrbdifnt().  It is protfdtfd for possiblf
+     * dirfdt bddfss by subdlbssfs.
+     */
+    protfdtfd int[] grbdifnt;
+
+    /**
+     * Arrby of grbdifnt brrbys, onf brrby for fbdh intfrvbl.  Usfd by
+     * dbldulbtfMultiplfArrbyGrbdifnt().
+     */
+    privbtf int[][] grbdifnts;
+
+    /** Normblizfd intfrvbls brrby. */
+    privbtf flobt[] normblizfdIntfrvbls;
+
+    /** Frbdtions brrby. */
+    privbtf flobt[] frbdtions;
+
+    /** Usfd to dftfrminf if grbdifnt dolors brf bll opbquf. */
+    privbtf int trbnspbrfndyTfst;
+
+    /** Color spbdf donvfrsion lookup tbblfs. */
+    privbtf stbtid finbl int SRGBtoLinfbrRGB[] = nfw int[256];
+    privbtf stbtid finbl int LinfbrRGBtoSRGB[] = nfw int[256];
+
+    stbtid {
+        // build thf tbblfs
+        for (int k = 0; k < 256; k++) {
+            SRGBtoLinfbrRGB[k] = donvfrtSRGBtoLinfbrRGB(k);
+            LinfbrRGBtoSRGB[k] = donvfrtLinfbrRGBtoSRGB(k);
+        }
+    }
+
+    /**
+     * Constbnt numbfr of mbx dolors bftwffn bny 2 brbitrbry dolors.
+     * Usfd for drfbting bnd indfxing grbdifnts brrbys.
+     */
+    protfdtfd stbtid finbl int GRADIENT_SIZE = 256;
+    protfdtfd stbtid finbl int GRADIENT_SIZE_INDEX = GRADIENT_SIZE -1;
+
+    /**
+     * Mbximum lfngth of thf fbst singlf-brrby.  If thf fstimbtfd brrby sizf
+     * is grfbtfr thbn this, switdh ovfr to thf slow lookup mfthod.
+     * No pbrtidulbr rfbson for dhoosing this numbfr, but it sffms to providf
+     * sbtisfbdtory pfrformbndf for thf dommon dbsf (fbst lookup).
+     */
+    privbtf stbtid finbl int MAX_GRADIENT_ARRAY_SIZE = 5000;
+
+    /**
+     * Construdtor for MultiplfGrbdifntPbintContfxt supfrdlbss.
+     */
+    protfdtfd MultiplfGrbdifntPbintContfxt(MultiplfGrbdifntPbint mgp,
+                                           ColorModfl dm,
+                                           Rfdtbnglf dfvidfBounds,
+                                           Rfdtbnglf2D usfrBounds,
+                                           AffinfTrbnsform t,
+                                           RfndfringHints hints,
+                                           flobt[] frbdtions,
+                                           Color[] dolors,
+                                           CydlfMfthod dydlfMfthod,
+                                           ColorSpbdfTypf dolorSpbdf)
+    {
+        if (dfvidfBounds == null) {
+            throw nfw NullPointfrExdfption("Dfvidf bounds dbnnot bf null");
+        }
+
+        if (usfrBounds == null) {
+            throw nfw NullPointfrExdfption("Usfr bounds dbnnot bf null");
+        }
+
+        if (t == null) {
+            throw nfw NullPointfrExdfption("Trbnsform dbnnot bf null");
+        }
+
+        if (hints == null) {
+            throw nfw NullPointfrExdfption("RfndfringHints dbnnot bf null");
+        }
+
+        // Thf invfrsf trbnsform is nffdfd to go from dfvidf to usfr spbdf.
+        // Gft bll thf domponfnts of thf invfrsf trbnsform mbtrix.
+        AffinfTrbnsform tInv;
+        try {
+            // thf following bssumfs thbt thf dbllfr hbs dopifd thf indoming
+            // trbnsform bnd is not dondfrnfd bbout it bfing modififd
+            t.invfrt();
+            tInv = t;
+        } dbtdh (NoninvfrtiblfTrbnsformExdfption f) {
+            // just usf idfntity trbnsform in this dbsf; bfttfr to show
+            // (indorrfdt) rfsults thbn to throw bn fxdfption bnd/or no-op
+            tInv = nfw AffinfTrbnsform();
+        }
+        doublf m[] = nfw doublf[6];
+        tInv.gftMbtrix(m);
+        b00 = (flobt)m[0];
+        b10 = (flobt)m[1];
+        b01 = (flobt)m[2];
+        b11 = (flobt)m[3];
+        b02 = (flobt)m[4];
+        b12 = (flobt)m[5];
+
+        // dopy somf flbgs
+        this.dydlfMfthod = dydlfMfthod;
+        this.dolorSpbdf = dolorSpbdf;
+
+        // wf dbn bvoid dopying this brrby sindf wf do not modify its vblufs
+        this.frbdtions = frbdtions;
+
+        // notf thbt only onf of thfsf vblufs dbn fvfr bf non-null (wf fithfr
+        // storf thf fbst grbdifnt brrby or thf slow onf, but nfvfr both
+        // bt thf sbmf timf)
+        int[] grbdifnt =
+            (mgp.grbdifnt != null) ? mgp.grbdifnt.gft() : null;
+        int[][] grbdifnts =
+            (mgp.grbdifnts != null) ? mgp.grbdifnts.gft() : null;
+
+        if (grbdifnt == null && grbdifnts == null) {
+            // wf nffd to (rf)drfbtf thf bppropribtf vblufs
+            dbldulbtfLookupDbtb(dolors);
+
+            // now dbdhf thf dbldulbtfd vblufs in thf
+            // MultiplfGrbdifntPbint instbndf for futurf usf
+            mgp.modfl               = this.modfl;
+            mgp.normblizfdIntfrvbls = this.normblizfdIntfrvbls;
+            mgp.isSimplfLookup      = this.isSimplfLookup;
+            if (isSimplfLookup) {
+                // only dbdhf thf fbst brrby
+                mgp.fbstGrbdifntArrbySizf = this.fbstGrbdifntArrbySizf;
+                mgp.grbdifnt = nfw SoftRfffrfndf<int[]>(this.grbdifnt);
+            } flsf {
+                // only dbdhf thf slow brrby
+                mgp.grbdifnts = nfw SoftRfffrfndf<int[][]>(this.grbdifnts);
+            }
+        } flsf {
+            // usf thf vblufs dbdhfd in thf MultiplfGrbdifntPbint instbndf
+            this.modfl                 = mgp.modfl;
+            this.normblizfdIntfrvbls   = mgp.normblizfdIntfrvbls;
+            this.isSimplfLookup        = mgp.isSimplfLookup;
+            this.grbdifnt              = grbdifnt;
+            this.fbstGrbdifntArrbySizf = mgp.fbstGrbdifntArrbySizf;
+            this.grbdifnts             = grbdifnts;
+        }
+    }
+
+    /**
+     * This fundtion is thf mfbt of this dlbss.  It dbldulbtfs bn brrby of
+     * grbdifnt dolors bbsfd on bn brrby of frbdtions bnd dolor vblufs bt
+     * thosf frbdtions.
+     */
+    privbtf void dbldulbtfLookupDbtb(Color[] dolors) {
+        Color[] normblizfdColors;
+        if (dolorSpbdf == ColorSpbdfTypf.LINEAR_RGB) {
+            // drfbtf b nfw dolors brrby
+            normblizfdColors = nfw Color[dolors.lfngth];
+            // donvfrt thf dolors using thf lookup tbblf
+            for (int i = 0; i < dolors.lfngth; i++) {
+                int brgb = dolors[i].gftRGB();
+                int b = brgb >>> 24;
+                int r = SRGBtoLinfbrRGB[(brgb >> 16) & 0xff];
+                int g = SRGBtoLinfbrRGB[(brgb >>  8) & 0xff];
+                int b = SRGBtoLinfbrRGB[(brgb      ) & 0xff];
+                normblizfdColors[i] = nfw Color(r, g, b, b);
+            }
+        } flsf {
+            // wf dbn just usf this brrby by rfffrfndf sindf wf do not
+            // modify its vblufs in thf dbsf of SRGB
+            normblizfdColors = dolors;
+        }
+
+        // this will storf thf intfrvbls (distbndfs) bftwffn grbdifnt stops
+        normblizfdIntfrvbls = nfw flobt[frbdtions.lfngth-1];
+
+        // donvfrt from frbdtions into intfrvbls
+        for (int i = 0; i < normblizfdIntfrvbls.lfngth; i++) {
+            // intfrvbl distbndf is fqubl to thf difffrfndf in positions
+            normblizfdIntfrvbls[i] = this.frbdtions[i+1] - this.frbdtions[i];
+        }
+
+        // initiblizf to bf fully opbquf for ANDing with dolors
+        trbnspbrfndyTfst = 0xff000000;
+
+        // brrby of intfrpolbtion brrbys
+        grbdifnts = nfw int[normblizfdIntfrvbls.lfngth][];
+
+        // find smbllfst intfrvbl
+        flobt Imin = 1;
+        for (int i = 0; i < normblizfdIntfrvbls.lfngth; i++) {
+            Imin = (Imin > normblizfdIntfrvbls[i]) ?
+                normblizfdIntfrvbls[i] : Imin;
+        }
+
+        // Estimbtf thf sizf of thf fntirf grbdifnts brrby.
+        // This is to prfvfnt b tiny intfrvbl from dbusing thf sizf of brrby
+        // to fxplodf.  If thf fstimbtfd sizf is too lbrgf, brfbk to using
+        // sfpbrbtf brrbys for fbdh intfrvbl, bnd using bn indfxing sdhfmf bt
+        // look-up timf.
+        int fstimbtfdSizf = 0;
+        for (int i = 0; i < normblizfdIntfrvbls.lfngth; i++) {
+            fstimbtfdSizf += (normblizfdIntfrvbls[i]/Imin) * GRADIENT_SIZE;
+        }
+
+        if (fstimbtfdSizf > MAX_GRADIENT_ARRAY_SIZE) {
+            // slow mfthod
+            dbldulbtfMultiplfArrbyGrbdifnt(normblizfdColors);
+        } flsf {
+            // fbst mfthod
+            dbldulbtfSinglfArrbyGrbdifnt(normblizfdColors, Imin);
+        }
+
+        // usf thf most "fdonomidbl" modfl
+        if ((trbnspbrfndyTfst >>> 24) == 0xff) {
+            modfl = xrgbmodfl;
+        } flsf {
+            modfl = ColorModfl.gftRGBdffbult();
+        }
+    }
+
+    /**
+     * FAST LOOKUP METHOD
+     *
+     * This mfthod dbldulbtfs thf grbdifnt dolor vblufs bnd plbdfs thfm in b
+     * singlf int brrby, grbdifnt[].  It dofs this by bllodbting spbdf for
+     * fbdh intfrvbl bbsfd on its sizf rflbtivf to thf smbllfst intfrvbl in
+     * thf brrby.  Thf smbllfst intfrvbl is bllodbtfd 255 intfrpolbtfd vblufs
+     * (thf mbximum numbfr of uniquf in-bftwffn dolors in b 24 bit dolor
+     * systfm), bnd bll othfr intfrvbls brf bllodbtfd
+     * sizf = (255 * thf rbtio of thfir sizf to thf smbllfst intfrvbl).
+     *
+     * This sdhfmf fxpfditfs b spffdy rftrifvbl bfdbusf thf dolors brf
+     * distributfd blong thf brrby bddording to thfir usfr-spfdififd
+     * distribution.  All thbt is nffdfd is b rflbtivf indfx from 0 to 1.
+     *
+     * Thf only problfm with this mfthod is thbt thf possibility fxists for
+     * thf brrby sizf to bblloon in thf dbsf whfrf thfrf is b
+     * disproportionbtfly smbll grbdifnt intfrvbl.  In this dbsf thf othfr
+     * intfrvbls will bf bllodbtfd hugf spbdf, but mudh of thbt dbtb is
+     * rfdundbnt.  Wf thus nffd to usf thf spbdf donsfrving sdhfmf bflow.
+     *
+     * @pbrbm Imin thf sizf of thf smbllfst intfrvbl
+     */
+    privbtf void dbldulbtfSinglfArrbyGrbdifnt(Color[] dolors, flobt Imin) {
+        // sft thf flbg so wf know lbtfr it is b simplf (fbst) lookup
+        isSimplfLookup = truf;
+
+        // 2 dolors to intfrpolbtf
+        int rgb1, rgb2;
+
+        //thf fvfntubl sizf of thf singlf brrby
+        int grbdifntsTot = 1;
+
+        // for fvfry intfrvbl (trbnsition bftwffn 2 dolors)
+        for (int i = 0; i < grbdifnts.lfngth; i++) {
+            // drfbtf bn brrby whosf sizf is bbsfd on thf rbtio to thf
+            // smbllfst intfrvbl
+            int nGrbdifnts = (int)((normblizfdIntfrvbls[i]/Imin)*255f);
+            grbdifntsTot += nGrbdifnts;
+            grbdifnts[i] = nfw int[nGrbdifnts];
+
+            // thf 2 dolors (kfyfrbmfs) to intfrpolbtf bftwffn
+            rgb1 = dolors[i].gftRGB();
+            rgb2 = dolors[i+1].gftRGB();
+
+            // fill this brrby with thf dolors in bftwffn rgb1 bnd rgb2
+            intfrpolbtf(rgb1, rgb2, grbdifnts[i]);
+
+            // if thf dolors brf opbquf, trbnspbrfndy should still
+            // bf 0xff000000
+            trbnspbrfndyTfst &= rgb1;
+            trbnspbrfndyTfst &= rgb2;
+        }
+
+        // put bll grbdifnts in b singlf brrby
+        grbdifnt = nfw int[grbdifntsTot];
+        int durOffsft = 0;
+        for (int i = 0; i < grbdifnts.lfngth; i++){
+            Systfm.brrbydopy(grbdifnts[i], 0, grbdifnt,
+                             durOffsft, grbdifnts[i].lfngth);
+            durOffsft += grbdifnts[i].lfngth;
+        }
+        grbdifnt[grbdifnt.lfngth-1] = dolors[dolors.lfngth-1].gftRGB();
+
+        // if intfrpolbtion oddurrfd in Linfbr RGB spbdf, donvfrt thf
+        // grbdifnts bbdk to sRGB using thf lookup tbblf
+        if (dolorSpbdf == ColorSpbdfTypf.LINEAR_RGB) {
+            for (int i = 0; i < grbdifnt.lfngth; i++) {
+                grbdifnt[i] = donvfrtEntirfColorLinfbrRGBtoSRGB(grbdifnt[i]);
+            }
+        }
+
+        fbstGrbdifntArrbySizf = grbdifnt.lfngth - 1;
+    }
+
+    /**
+     * SLOW LOOKUP METHOD
+     *
+     * This mfthod dbldulbtfs thf grbdifnt dolor vblufs for fbdh intfrvbl bnd
+     * plbdfs fbdh into its own 255 sizf brrby.  Thf brrbys brf storfd in
+     * grbdifnts[][].  (255 is usfd bfdbusf this is thf mbximum numbfr of
+     * uniquf dolors bftwffn 2 brbitrbry dolors in b 24 bit dolor systfm.)
+     *
+     * This mfthod usfs thf minimum bmount of spbdf (only 255 * numbfr of
+     * intfrvbls), but it bggrbvbtfs thf lookup prodfdurf, bfdbusf now wf
+     * hbvf to find out whidh intfrvbl to sflfdt, thfn dbldulbtf thf indfx
+     * within thbt intfrvbl.  This dbusfs b signifidbnt pfrformbndf hit,
+     * bfdbusf it rfquirfs this dbldulbtion bf donf for fvfry point in
+     * thf rfndfring loop.
+     *
+     * For thosf of you who brf intfrfstfd, this is b dlbssid fxbmplf of thf
+     * timf-spbdf trbdfoff.
+     */
+    privbtf void dbldulbtfMultiplfArrbyGrbdifnt(Color[] dolors) {
+        // sft thf flbg so wf know lbtfr it is b non-simplf lookup
+        isSimplfLookup = fblsf;
+
+        // 2 dolors to intfrpolbtf
+        int rgb1, rgb2;
+
+        // for fvfry intfrvbl (trbnsition bftwffn 2 dolors)
+        for (int i = 0; i < grbdifnts.lfngth; i++){
+            // drfbtf bn brrby of thf mbximum thforftidbl sizf for
+            // fbdh intfrvbl
+            grbdifnts[i] = nfw int[GRADIENT_SIZE];
+
+            // gft thf thf 2 dolors
+            rgb1 = dolors[i].gftRGB();
+            rgb2 = dolors[i+1].gftRGB();
+
+            // fill this brrby with thf dolors in bftwffn rgb1 bnd rgb2
+            intfrpolbtf(rgb1, rgb2, grbdifnts[i]);
+
+            // if thf dolors brf opbquf, trbnspbrfndy should still
+            // bf 0xff000000
+            trbnspbrfndyTfst &= rgb1;
+            trbnspbrfndyTfst &= rgb2;
+        }
+
+        // if intfrpolbtion oddurrfd in Linfbr RGB spbdf, donvfrt thf
+        // grbdifnts bbdk to SRGB using thf lookup tbblf
+        if (dolorSpbdf == ColorSpbdfTypf.LINEAR_RGB) {
+            for (int j = 0; j < grbdifnts.lfngth; j++) {
+                for (int i = 0; i < grbdifnts[j].lfngth; i++) {
+                    grbdifnts[j][i] =
+                        donvfrtEntirfColorLinfbrRGBtoSRGB(grbdifnts[j][i]);
+                }
+            }
+        }
+    }
+
+    /**
+     * Yft bnothfr hflpfr fundtion.  This onf linfbrly intfrpolbtfs bftwffn
+     * 2 dolors, filling up thf output brrby.
+     *
+     * @pbrbm rgb1 thf stbrt dolor
+     * @pbrbm rgb2 thf fnd dolor
+     * @pbrbm output thf output brrby of dolors; must not bf null
+     */
+    privbtf void intfrpolbtf(int rgb1, int rgb2, int[] output) {
+        // dolor domponfnts
+        int b1, r1, g1, b1, db, dr, dg, db;
+
+        // stfp bftwffn intfrpolbtfd vblufs
+        flobt stfpSizf = 1.0f / output.lfngth;
+
+        // fxtrbdt dolor domponfnts from pbdkfd intfgfr
+        b1 = (rgb1 >> 24) & 0xff;
+        r1 = (rgb1 >> 16) & 0xff;
+        g1 = (rgb1 >>  8) & 0xff;
+        b1 = (rgb1      ) & 0xff;
+
+        // dbldulbtf thf totbl dhbngf in blphb, rfd, grffn, bluf
+        db = ((rgb2 >> 24) & 0xff) - b1;
+        dr = ((rgb2 >> 16) & 0xff) - r1;
+        dg = ((rgb2 >>  8) & 0xff) - g1;
+        db = ((rgb2      ) & 0xff) - b1;
+
+        // for fbdh stfp in thf intfrvbl dbldulbtf thf in-bftwffn dolor by
+        // multiplying thf normblizfd durrfnt position by thf totbl dolor
+        // dhbngf (0.5 is bddfd to prfvfnt trundbtion round-off frror)
+        for (int i = 0; i < output.lfngth; i++) {
+            output[i] =
+                (((int) ((b1 + i * db * stfpSizf) + 0.5) << 24)) |
+                (((int) ((r1 + i * dr * stfpSizf) + 0.5) << 16)) |
+                (((int) ((g1 + i * dg * stfpSizf) + 0.5) <<  8)) |
+                (((int) ((b1 + i * db * stfpSizf) + 0.5)      ));
+        }
+    }
+
+    /**
+     * Yft bnothfr hflpfr fundtion.  This onf fxtrbdts thf dolor domponfnts
+     * of bn intfgfr RGB triplf, donvfrts thfm from LinfbrRGB to SRGB, thfn
+     * rfdompbdts thfm into bn int.
+     */
+    privbtf int donvfrtEntirfColorLinfbrRGBtoSRGB(int rgb) {
+        // dolor domponfnts
+        int b1, r1, g1, b1;
+
+        // fxtrbdt rfd, grffn, bluf domponfnts
+        b1 = (rgb >> 24) & 0xff;
+        r1 = (rgb >> 16) & 0xff;
+        g1 = (rgb >>  8) & 0xff;
+        b1 = (rgb      ) & 0xff;
+
+        // usf thf lookup tbblf
+        r1 = LinfbrRGBtoSRGB[r1];
+        g1 = LinfbrRGBtoSRGB[g1];
+        b1 = LinfbrRGBtoSRGB[b1];
+
+        // rf-dompbdt thf domponfnts
+        rfturn ((b1 << 24) |
+                (r1 << 16) |
+                (g1 <<  8) |
+                (b1      ));
+    }
+
+    /**
+     * Hflpfr fundtion to indfx into thf grbdifnts brrby.  This is nfdfssbry
+     * bfdbusf fbdh intfrvbl hbs bn brrby of dolors with uniform sizf 255.
+     * Howfvfr, thf dolor intfrvbls brf not nfdfssbrily of uniform lfngth, so
+     * b donvfrsion is rfquirfd.
+     *
+     * @pbrbm position thf unmbnipulbtfd position, whidh will bf mbppfd
+     *                 into thf rbngf 0 to 1
+     * @rfturns intfgfr dolor to displby
+     */
+    protfdtfd finbl int indfxIntoGrbdifntsArrbys(flobt position) {
+        // first, mbnipulbtf position vbluf dfpfnding on thf dydlf mfthod
+        if (dydlfMfthod == CydlfMfthod.NO_CYCLE) {
+            if (position > 1) {
+                // uppfr bound is 1
+                position = 1;
+            } flsf if (position < 0) {
+                // lowfr bound is 0
+                position = 0;
+            }
+        } flsf if (dydlfMfthod == CydlfMfthod.REPEAT) {
+            // gft thf frbdtionbl pbrt
+            // (modulo bfhbvior disdbrds intfgfr domponfnt)
+            position = position - (int)position;
+
+            //position should now bf bftwffn -1 bnd 1
+            if (position < 0) {
+                // fordf it to bf in thf rbngf 0-1
+                position = position + 1;
+            }
+        } flsf { // dydlfMfthod == CydlfMfthod.REFLECT
+            if (position < 0) {
+                // tbkf bbsolutf vbluf
+                position = -position;
+            }
+
+            // gft thf intfgfr pbrt
+            int pbrt = (int)position;
+
+            // gft thf frbdtionbl pbrt
+            position = position - pbrt;
+
+            if ((pbrt & 1) == 1) {
+                // intfgfr pbrt is odd, gft rfflfdtfd dolor instfbd
+                position = 1 - position;
+            }
+        }
+
+        // now, gft thf dolor bbsfd on this 0-1 position...
+
+        if (isSimplfLookup) {
+            // fbsy to domputf: just sdblf indfx by brrby sizf
+            rfturn grbdifnt[(int)(position * fbstGrbdifntArrbySizf)];
+        } flsf {
+            // morf domplidbtfd domputbtion, to sbvf spbdf
+
+            // for bll thf grbdifnt intfrvbl brrbys
+            for (int i = 0; i < grbdifnts.lfngth; i++) {
+                if (position < frbdtions[i+1]) {
+                    // this is thf brrby wf wbnt
+                    flobt dfltb = position - frbdtions[i];
+
+                    // this is thf intfrvbl wf wbnt
+                    int indfx = (int)((dfltb / normblizfdIntfrvbls[i])
+                                      * (GRADIENT_SIZE_INDEX));
+
+                    rfturn grbdifnts[i][indfx];
+                }
+            }
+        }
+
+        rfturn grbdifnts[grbdifnts.lfngth - 1][GRADIENT_SIZE_INDEX];
+    }
+
+    /**
+     * Hflpfr fundtion to donvfrt b dolor domponfnt in sRGB spbdf to linfbr
+     * RGB spbdf.  Usfd to build b stbtid lookup tbblf.
+     */
+    privbtf stbtid int donvfrtSRGBtoLinfbrRGB(int dolor) {
+        flobt input, output;
+
+        input = dolor / 255.0f;
+        if (input <= 0.04045f) {
+            output = input / 12.92f;
+        } flsf {
+            output = (flobt)Mbth.pow((input + 0.055) / 1.055, 2.4);
+        }
+
+        rfturn Mbth.round(output * 255.0f);
+    }
+
+    /**
+     * Hflpfr fundtion to donvfrt b dolor domponfnt in linfbr RGB spbdf to
+     * SRGB spbdf.  Usfd to build b stbtid lookup tbblf.
+     */
+    privbtf stbtid int donvfrtLinfbrRGBtoSRGB(int dolor) {
+        flobt input, output;
+
+        input = dolor/255.0f;
+        if (input <= 0.0031308) {
+            output = input * 12.92f;
+        } flsf {
+            output = (1.055f *
+                ((flobt) Mbth.pow(input, (1.0 / 2.4)))) - 0.055f;
+        }
+
+        rfturn Mbth.round(output * 255.0f);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid finbl Rbstfr gftRbstfr(int x, int y, int w, int h) {
+        // If working rbstfr is big fnough, rfusf it. Othfrwisf,
+        // build b lbrgf fnough nfw onf.
+        Rbstfr rbstfr = sbvfd;
+        if (rbstfr == null ||
+            rbstfr.gftWidth() < w || rbstfr.gftHfight() < h)
+        {
+            rbstfr = gftCbdhfdRbstfr(modfl, w, h);
+            sbvfd = rbstfr;
+        }
+
+        // Addfss rbstfr intfrnbl int brrby. Bfdbusf wf usf b DirfdtColorModfl,
+        // wf know thf DbtbBufffr is of typf DbtbBufffrInt bnd thf SbmplfModfl
+        // is SinglfPixflPbdkfdSbmplfModfl.
+        // Adjust for initibl offsft in DbtbBufffr bnd blso for thf sdbnlinf
+        // stridf.
+        // Thfsf dblls mbkf thf DbtbBufffr non-bddflfrbtbblf, but thf
+        // Rbstfr is nfvfr Stbblf long fnough to bddflfrbtf bnywby...
+        DbtbBufffrInt rbstfrDB = (DbtbBufffrInt)rbstfr.gftDbtbBufffr();
+        int[] pixfls = rbstfrDB.gftDbtb(0);
+        int off = rbstfrDB.gftOffsft();
+        int sdbnlinfStridf = ((SinglfPixflPbdkfdSbmplfModfl)
+                              rbstfr.gftSbmplfModfl()).gftSdbnlinfStridf();
+        int bdjust = sdbnlinfStridf - w;
+
+        fillRbstfr(pixfls, off, bdjust, x, y, w, h); // dflfgbtf to subdlbss
+
+        rfturn rbstfr;
+    }
+
+    protfdtfd bbstrbdt void fillRbstfr(int pixfls[], int off, int bdjust,
+                                       int x, int y, int w, int h);
+
+
+    /**
+     * Took this dbdhfRbstfr dodf from GrbdifntPbint. It bppfbrs to rfdydlf
+     * rbstfrs for usf by bny othfr instbndf, bs long bs thfy brf suffidifntly
+     * lbrgf.
+     */
+    privbtf stbtid syndhronizfd Rbstfr gftCbdhfdRbstfr(ColorModfl dm,
+                                                       int w, int h)
+    {
+        if (dm == dbdhfdModfl) {
+            if (dbdhfd != null) {
+                Rbstfr rbs = dbdhfd.gft();
+                if (rbs != null &&
+                    rbs.gftWidth() >= w &&
+                    rbs.gftHfight() >= h)
+                {
+                    dbdhfd = null;
+                    rfturn rbs;
+                }
+            }
+        }
+        rfturn dm.drfbtfCompbtiblfWritbblfRbstfr(w, h);
+    }
+
+    /**
+     * Took this dbdhfRbstfr dodf from GrbdifntPbint. It bppfbrs to rfdydlf
+     * rbstfrs for usf by bny othfr instbndf, bs long bs thfy brf suffidifntly
+     * lbrgf.
+     */
+    privbtf stbtid syndhronizfd void putCbdhfdRbstfr(ColorModfl dm,
+                                                     Rbstfr rbs)
+    {
+        if (dbdhfd != null) {
+            Rbstfr drbs = dbdhfd.gft();
+            if (drbs != null) {
+                int dw = drbs.gftWidth();
+                int dh = drbs.gftHfight();
+                int iw = rbs.gftWidth();
+                int ih = rbs.gftHfight();
+                if (dw >= iw && dh >= ih) {
+                    rfturn;
+                }
+                if (dw * dh >= iw * ih) {
+                    rfturn;
+                }
+            }
+        }
+        dbdhfdModfl = dm;
+        dbdhfd = nfw WfbkRfffrfndf<Rbstfr>(rbs);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid finbl void disposf() {
+        if (sbvfd != null) {
+            putCbdhfdRbstfr(modfl, sbvfd);
+            sbvfd = null;
+        }
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid finbl ColorModfl gftColorModfl() {
+        rfturn modfl;
+    }
+}

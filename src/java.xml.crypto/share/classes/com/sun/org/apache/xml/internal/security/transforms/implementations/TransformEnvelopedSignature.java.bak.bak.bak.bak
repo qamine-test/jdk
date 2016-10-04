@@ -1,0 +1,142 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.implfmfntbtions;
+
+import jbvb.io.OutputStrfbm;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.NodfFiltfr;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.Trbnsform;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformSpi;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformbtionExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.Trbnsforms;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+
+/**
+ * Implfmfnts thf <CODE>http://www.w3.org/2000/09/xmldsig#fnvflopfd-signbturf</CODE>
+ * trbnsform.
+ *
+ * @buthor Christibn Gfufr-Pollmbnn
+ */
+publid dlbss TrbnsformEnvflopfdSignbturf fxtfnds TrbnsformSpi {
+
+    /** Fifld implfmfntfdTrbnsformURI */
+    publid stbtid finbl String implfmfntfdTrbnsformURI =
+        Trbnsforms.TRANSFORM_ENVELOPED_SIGNATURE;
+
+    /**
+     * Mfthod fnginfGftURI
+     *
+     * @inhfritDod
+     */
+    protfdtfd String fnginfGftURI() {
+        rfturn implfmfntfdTrbnsformURI;
+    }
+
+    /**
+     * @inhfritDod
+     */
+    protfdtfd XMLSignbturfInput fnginfPfrformTrbnsform(
+        XMLSignbturfInput input, OutputStrfbm os, Trbnsform trbnsformObjfdt
+    ) throws TrbnsformbtionExdfption {
+        /**
+         * If thf bdtubl input is bn odtft strfbm, thfn thf bpplidbtion MUST
+         * donvfrt thf odtft strfbm to bn XPbth nodf-sft suitbblf for usf by
+         * Cbnonidbl XML with Commfnts. (A subsfqufnt bpplidbtion of thf
+         * REQUIRED Cbnonidbl XML blgorithm would strip bwby thfsf dommfnts.)
+         *
+         * ...
+         *
+         * Thf fvblubtion of this fxprfssion indludfs bll of thf dodumfnt's nodfs
+         * (indluding dommfnts) in thf nodf-sft rfprfsfnting thf odtft strfbm.
+         */
+
+        Nodf signbturfElfmfnt = trbnsformObjfdt.gftElfmfnt();
+
+        signbturfElfmfnt = sfbrdhSignbturfElfmfnt(signbturfElfmfnt);
+        input.sftExdludfNodf(signbturfElfmfnt);
+        input.bddNodfFiltfr(nfw EnvflopfdNodfFiltfr(signbturfElfmfnt));
+        rfturn input;
+    }
+
+    /**
+     * @pbrbm signbturfElfmfnt
+     * @rfturn thf nodf thbt is thf signbturf
+     * @throws TrbnsformbtionExdfption
+     */
+    privbtf stbtid Nodf sfbrdhSignbturfElfmfnt(Nodf signbturfElfmfnt)
+        throws TrbnsformbtionExdfption {
+        boolfbn found = fblsf;
+
+        whilf (truf) {
+            if (signbturfElfmfnt == null
+                || signbturfElfmfnt.gftNodfTypf() == Nodf.DOCUMENT_NODE) {
+                brfbk;
+            }
+            Elfmfnt fl = (Elfmfnt) signbturfElfmfnt;
+            if (fl.gftNbmfspbdfURI().fqubls(Constbnts.SignbturfSpfdNS)
+                && fl.gftLodblNbmf().fqubls(Constbnts._TAG_SIGNATURE)) {
+                found = truf;
+                brfbk;
+            }
+
+            signbturfElfmfnt = signbturfElfmfnt.gftPbrfntNodf();
+        }
+
+        if (!found) {
+            throw nfw TrbnsformbtionExdfption(
+                "trbnsform.fnvflopfdSignbturfTrbnsformNotInSignbturfElfmfnt");
+        }
+        rfturn signbturfElfmfnt;
+    }
+
+    stbtid dlbss EnvflopfdNodfFiltfr implfmfnts NodfFiltfr {
+
+        Nodf fxdludf;
+
+        EnvflopfdNodfFiltfr(Nodf n) {
+            fxdludf = n;
+        }
+
+        publid int isNodfIndludfDO(Nodf n, int lfvfl) {
+            if (n == fxdludf) {
+                rfturn -1;
+            }
+            rfturn 1;
+        }
+
+        /**
+         * @sff dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.NodfFiltfr#isNodfIndludf(org.w3d.dom.Nodf)
+         */
+        publid int isNodfIndludf(Nodf n) {
+            if (n == fxdludf || XMLUtils.isDfsdfndbntOrSflf(fxdludf, n)) {
+                rfturn -1;
+            }
+            rfturn 1;
+            //rfturn !XMLUtils.isDfsdfndbntOrSflf(fxdludf,n);
+        }
+    }
+}

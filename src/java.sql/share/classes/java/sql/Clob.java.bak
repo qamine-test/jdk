@@ -1,348 +1,348 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.sql;
+pbdkbgf jbvb.sql;
 
-import java.io.Reader;
+import jbvb.io.Rfbdfr;
 
 /**
- * The mapping in the Java&trade; programming language
- * for the SQL <code>CLOB</code> type.
- * An SQL <code>CLOB</code> is a built-in type
- * that stores a Character Large Object as a column value in a row of
- * a database table.
- * By default drivers implement a <code>Clob</code> object using an SQL
- * <code>locator(CLOB)</code>, which means that a <code>Clob</code> object
- * contains a logical pointer to the SQL <code>CLOB</code> data rather than
- * the data itself. A <code>Clob</code> object is valid for the duration
- * of the transaction in which it was created.
- * <P>The <code>Clob</code> interface provides methods for getting the
- * length of an SQL <code>CLOB</code> (Character Large Object) value,
- * for materializing a <code>CLOB</code> value on the client, and for
- * searching for a substring or <code>CLOB</code> object within a
- * <code>CLOB</code> value.
- * Methods in the interfaces {@link ResultSet},
- * {@link CallableStatement}, and {@link PreparedStatement}, such as
- * <code>getClob</code> and <code>setClob</code> allow a programmer to
- * access an SQL <code>CLOB</code> value.  In addition, this interface
- * has methods for updating a <code>CLOB</code> value.
+ * Tif mbpping in tif Jbvb&trbdf; progrbmming lbngubgf
+ * for tif SQL <dodf>CLOB</dodf> typf.
+ * An SQL <dodf>CLOB</dodf> is b built-in typf
+ * tibt storfs b Cibrbdtfr Lbrgf Objfdt bs b dolumn vbluf in b row of
+ * b dbtbbbsf tbblf.
+ * By dffbult drivfrs implfmfnt b <dodf>Clob</dodf> objfdt using bn SQL
+ * <dodf>lodbtor(CLOB)</dodf>, wiidi mfbns tibt b <dodf>Clob</dodf> objfdt
+ * dontbins b logidbl pointfr to tif SQL <dodf>CLOB</dodf> dbtb rbtifr tibn
+ * tif dbtb itsflf. A <dodf>Clob</dodf> objfdt is vblid for tif durbtion
+ * of tif trbnsbdtion in wiidi it wbs drfbtfd.
+ * <P>Tif <dodf>Clob</dodf> intfrfbdf providfs mftiods for gftting tif
+ * lfngti of bn SQL <dodf>CLOB</dodf> (Cibrbdtfr Lbrgf Objfdt) vbluf,
+ * for mbtfriblizing b <dodf>CLOB</dodf> vbluf on tif dlifnt, bnd for
+ * sfbrdiing for b substring or <dodf>CLOB</dodf> objfdt witiin b
+ * <dodf>CLOB</dodf> vbluf.
+ * Mftiods in tif intfrfbdfs {@link RfsultSft},
+ * {@link CbllbblfStbtfmfnt}, bnd {@link PrfpbrfdStbtfmfnt}, sudi bs
+ * <dodf>gftClob</dodf> bnd <dodf>sftClob</dodf> bllow b progrbmmfr to
+ * bddfss bn SQL <dodf>CLOB</dodf> vbluf.  In bddition, tiis intfrfbdf
+ * ibs mftiods for updbting b <dodf>CLOB</dodf> vbluf.
  * <p>
- * All methods on the <code>Clob</code> interface must be fully implemented if the
- * JDBC driver supports the data type.
+ * All mftiods on tif <dodf>Clob</dodf> intfrfbdf must bf fully implfmfntfd if tif
+ * JDBC drivfr supports tif dbtb typf.
  *
- * @since 1.2
+ * @sindf 1.2
  */
 
-public interface Clob {
+publid intfrfbdf Clob {
 
   /**
-   * Retrieves the number of characters
-   * in the <code>CLOB</code> value
-   * designated by this <code>Clob</code> object.
+   * Rftrifvfs tif numbfr of dibrbdtfrs
+   * in tif <dodf>CLOB</dodf> vbluf
+   * dfsignbtfd by tiis <dodf>Clob</dodf> objfdt.
    *
-   * @return length of the <code>CLOB</code> in characters
-   * @exception SQLException if there is an error accessing the
-   *            length of the <code>CLOB</code> value
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-   * this method
-   * @since 1.2
+   * @rfturn lfngti of tif <dodf>CLOB</dodf> in dibrbdtfrs
+   * @fxdfption SQLExdfption if tifrf is bn frror bddfssing tif
+   *            lfngti of tif <dodf>CLOB</dodf> vbluf
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * @sindf 1.2
    */
-  long length() throws SQLException;
+  long lfngti() tirows SQLExdfption;
 
   /**
-   * Retrieves a copy of the specified substring
-   * in the <code>CLOB</code> value
-   * designated by this <code>Clob</code> object.
-   * The substring begins at position
-   * <code>pos</code> and has up to <code>length</code> consecutive
-   * characters.
+   * Rftrifvfs b dopy of tif spfdififd substring
+   * in tif <dodf>CLOB</dodf> vbluf
+   * dfsignbtfd by tiis <dodf>Clob</dodf> objfdt.
+   * Tif substring bfgins bt position
+   * <dodf>pos</dodf> bnd ibs up to <dodf>lfngti</dodf> donsfdutivf
+   * dibrbdtfrs.
    *
-   * @param pos the first character of the substring to be extracted.
-   *            The first character is at position 1.
-   * @param length the number of consecutive characters to be copied;
-   * the value for length must be 0 or greater
-   * @return a <code>String</code> that is the specified substring in
-   *         the <code>CLOB</code> value designated by this <code>Clob</code> object
-   * @exception SQLException if there is an error accessing the
-   *            <code>CLOB</code> value; if pos is less than 1 or length is
-   * less than 0
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-   * this method
-   * @since 1.2
+   * @pbrbm pos tif first dibrbdtfr of tif substring to bf fxtrbdtfd.
+   *            Tif first dibrbdtfr is bt position 1.
+   * @pbrbm lfngti tif numbfr of donsfdutivf dibrbdtfrs to bf dopifd;
+   * tif vbluf for lfngti must bf 0 or grfbtfr
+   * @rfturn b <dodf>String</dodf> tibt is tif spfdififd substring in
+   *         tif <dodf>CLOB</dodf> vbluf dfsignbtfd by tiis <dodf>Clob</dodf> objfdt
+   * @fxdfption SQLExdfption if tifrf is bn frror bddfssing tif
+   *            <dodf>CLOB</dodf> vbluf; if pos is lfss tibn 1 or lfngti is
+   * lfss tibn 0
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * @sindf 1.2
    */
-  String getSubString(long pos, int length) throws SQLException;
+  String gftSubString(long pos, int lfngti) tirows SQLExdfption;
 
   /**
-   * Retrieves the <code>CLOB</code> value designated by this <code>Clob</code>
-   * object as a <code>java.io.Reader</code> object (or as a stream of
-   * characters).
+   * Rftrifvfs tif <dodf>CLOB</dodf> vbluf dfsignbtfd by tiis <dodf>Clob</dodf>
+   * objfdt bs b <dodf>jbvb.io.Rfbdfr</dodf> objfdt (or bs b strfbm of
+   * dibrbdtfrs).
    *
-   * @return a <code>java.io.Reader</code> object containing the
-   *         <code>CLOB</code> data
-   * @exception SQLException if there is an error accessing the
-   *            <code>CLOB</code> value
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-   * this method
-   * @see #setCharacterStream
-   * @since 1.2
+   * @rfturn b <dodf>jbvb.io.Rfbdfr</dodf> objfdt dontbining tif
+   *         <dodf>CLOB</dodf> dbtb
+   * @fxdfption SQLExdfption if tifrf is bn frror bddfssing tif
+   *            <dodf>CLOB</dodf> vbluf
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * @sff #sftCibrbdtfrStrfbm
+   * @sindf 1.2
    */
-  java.io.Reader getCharacterStream() throws SQLException;
+  jbvb.io.Rfbdfr gftCibrbdtfrStrfbm() tirows SQLExdfption;
 
   /**
-   * Retrieves the <code>CLOB</code> value designated by this <code>Clob</code>
-   * object as an ascii stream.
+   * Rftrifvfs tif <dodf>CLOB</dodf> vbluf dfsignbtfd by tiis <dodf>Clob</dodf>
+   * objfdt bs bn bsdii strfbm.
    *
-   * @return a <code>java.io.InputStream</code> object containing the
-   *         <code>CLOB</code> data
-   * @exception SQLException if there is an error accessing the
-   *            <code>CLOB</code> value
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-   * this method
-   * @see #setAsciiStream
-   * @since 1.2
+   * @rfturn b <dodf>jbvb.io.InputStrfbm</dodf> objfdt dontbining tif
+   *         <dodf>CLOB</dodf> dbtb
+   * @fxdfption SQLExdfption if tifrf is bn frror bddfssing tif
+   *            <dodf>CLOB</dodf> vbluf
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * @sff #sftAsdiiStrfbm
+   * @sindf 1.2
    */
-  java.io.InputStream getAsciiStream() throws SQLException;
+  jbvb.io.InputStrfbm gftAsdiiStrfbm() tirows SQLExdfption;
 
   /**
-   * Retrieves the character position at which the specified substring
-   * <code>searchstr</code> appears in the SQL <code>CLOB</code> value
-   * represented by this <code>Clob</code> object.  The search
-   * begins at position <code>start</code>.
+   * Rftrifvfs tif dibrbdtfr position bt wiidi tif spfdififd substring
+   * <dodf>sfbrdistr</dodf> bppfbrs in tif SQL <dodf>CLOB</dodf> vbluf
+   * rfprfsfntfd by tiis <dodf>Clob</dodf> objfdt.  Tif sfbrdi
+   * bfgins bt position <dodf>stbrt</dodf>.
    *
-   * @param searchstr the substring for which to search
-   * @param start the position at which to begin searching; the first position
+   * @pbrbm sfbrdistr tif substring for wiidi to sfbrdi
+   * @pbrbm stbrt tif position bt wiidi to bfgin sfbrdiing; tif first position
    *              is 1
-   * @return the position at which the substring appears or -1 if it is not
-   *         present; the first position is 1
-   * @exception SQLException if there is an error accessing the
-   *            <code>CLOB</code> value or if pos is less than 1
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-   * this method
-   * @since 1.2
+   * @rfturn tif position bt wiidi tif substring bppfbrs or -1 if it is not
+   *         prfsfnt; tif first position is 1
+   * @fxdfption SQLExdfption if tifrf is bn frror bddfssing tif
+   *            <dodf>CLOB</dodf> vbluf or if pos is lfss tibn 1
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * @sindf 1.2
    */
-  long position(String searchstr, long start) throws SQLException;
+  long position(String sfbrdistr, long stbrt) tirows SQLExdfption;
 
   /**
-   * Retrieves the character position at which the specified
-   * <code>Clob</code> object <code>searchstr</code> appears in this
-   * <code>Clob</code> object.  The search begins at position
-   * <code>start</code>.
+   * Rftrifvfs tif dibrbdtfr position bt wiidi tif spfdififd
+   * <dodf>Clob</dodf> objfdt <dodf>sfbrdistr</dodf> bppfbrs in tiis
+   * <dodf>Clob</dodf> objfdt.  Tif sfbrdi bfgins bt position
+   * <dodf>stbrt</dodf>.
    *
-   * @param searchstr the <code>Clob</code> object for which to search
-   * @param start the position at which to begin searching; the first
+   * @pbrbm sfbrdistr tif <dodf>Clob</dodf> objfdt for wiidi to sfbrdi
+   * @pbrbm stbrt tif position bt wiidi to bfgin sfbrdiing; tif first
    *              position is 1
-   * @return the position at which the <code>Clob</code> object appears
-   *              or -1 if it is not present; the first position is 1
-   * @exception SQLException if there is an error accessing the
-   *            <code>CLOB</code> value or if start is less than 1
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-   * this method
-   * @since 1.2
+   * @rfturn tif position bt wiidi tif <dodf>Clob</dodf> objfdt bppfbrs
+   *              or -1 if it is not prfsfnt; tif first position is 1
+   * @fxdfption SQLExdfption if tifrf is bn frror bddfssing tif
+   *            <dodf>CLOB</dodf> vbluf or if stbrt is lfss tibn 1
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * @sindf 1.2
    */
-  long position(Clob searchstr, long start) throws SQLException;
+  long position(Clob sfbrdistr, long stbrt) tirows SQLExdfption;
 
-    //---------------------------- jdbc 3.0 -----------------------------------
+    //---------------------------- jdbd 3.0 -----------------------------------
 
     /**
-     * Writes the given Java <code>String</code> to the <code>CLOB</code>
-     * value that this <code>Clob</code> object designates at the position
-     * <code>pos</code>. The string will overwrite the existing characters
-     * in the <code>Clob</code> object starting at the position
-     * <code>pos</code>.  If the end of the <code>Clob</code> value is reached
-     * while writing the given string, then the length of the <code>Clob</code>
-     * value will be increased to accommodate the extra characters.
+     * Writfs tif givfn Jbvb <dodf>String</dodf> to tif <dodf>CLOB</dodf>
+     * vbluf tibt tiis <dodf>Clob</dodf> objfdt dfsignbtfs bt tif position
+     * <dodf>pos</dodf>. Tif string will ovfrwritf tif fxisting dibrbdtfrs
+     * in tif <dodf>Clob</dodf> objfdt stbrting bt tif position
+     * <dodf>pos</dodf>.  If tif fnd of tif <dodf>Clob</dodf> vbluf is rfbdifd
+     * wiilf writing tif givfn string, tifn tif lfngti of tif <dodf>Clob</dodf>
+     * vbluf will bf indrfbsfd to bddommodbtf tif fxtrb dibrbdtfrs.
      * <p>
-     * <b>Note:</b> If the value specified for <code>pos</code>
-     * is greater then the length+1 of the <code>CLOB</code> value then the
-     * behavior is undefined. Some JDBC drivers may throw a
-     * <code>SQLException</code> while other drivers may support this
-     * operation.
+     * <b>Notf:</b> If tif vbluf spfdififd for <dodf>pos</dodf>
+     * is grfbtfr tifn tif lfngti+1 of tif <dodf>CLOB</dodf> vbluf tifn tif
+     * bfibvior is undffinfd. Somf JDBC drivfrs mby tirow b
+     * <dodf>SQLExdfption</dodf> wiilf otifr drivfrs mby support tiis
+     * opfrbtion.
      *
-     * @param pos the position at which to start writing to the <code>CLOB</code>
-     *         value that this <code>Clob</code> object represents;
-     * The first position is 1
-     * @param str the string to be written to the <code>CLOB</code>
-     *        value that this <code>Clob</code> designates
-     * @return the number of characters written
-     * @exception SQLException if there is an error accessing the
-     *            <code>CLOB</code> value or if pos is less than 1
+     * @pbrbm pos tif position bt wiidi to stbrt writing to tif <dodf>CLOB</dodf>
+     *         vbluf tibt tiis <dodf>Clob</dodf> objfdt rfprfsfnts;
+     * Tif first position is 1
+     * @pbrbm str tif string to bf writtfn to tif <dodf>CLOB</dodf>
+     *        vbluf tibt tiis <dodf>Clob</dodf> dfsignbtfs
+     * @rfturn tif numbfr of dibrbdtfrs writtfn
+     * @fxdfption SQLExdfption if tifrf is bn frror bddfssing tif
+     *            <dodf>CLOB</dodf> vbluf or if pos is lfss tibn 1
      *
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.4
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.4
      */
-    int setString(long pos, String str) throws SQLException;
+    int sftString(long pos, String str) tirows SQLExdfption;
 
     /**
-     * Writes <code>len</code> characters of <code>str</code>, starting
-     * at character <code>offset</code>, to the <code>CLOB</code> value
-     * that this <code>Clob</code> represents.  The string will overwrite the existing characters
-     * in the <code>Clob</code> object starting at the position
-     * <code>pos</code>.  If the end of the <code>Clob</code> value is reached
-     * while writing the given string, then the length of the <code>Clob</code>
-     * value will be increased to accommodate the extra characters.
+     * Writfs <dodf>lfn</dodf> dibrbdtfrs of <dodf>str</dodf>, stbrting
+     * bt dibrbdtfr <dodf>offsft</dodf>, to tif <dodf>CLOB</dodf> vbluf
+     * tibt tiis <dodf>Clob</dodf> rfprfsfnts.  Tif string will ovfrwritf tif fxisting dibrbdtfrs
+     * in tif <dodf>Clob</dodf> objfdt stbrting bt tif position
+     * <dodf>pos</dodf>.  If tif fnd of tif <dodf>Clob</dodf> vbluf is rfbdifd
+     * wiilf writing tif givfn string, tifn tif lfngti of tif <dodf>Clob</dodf>
+     * vbluf will bf indrfbsfd to bddommodbtf tif fxtrb dibrbdtfrs.
      * <p>
-     * <b>Note:</b> If the value specified for <code>pos</code>
-     * is greater then the length+1 of the <code>CLOB</code> value then the
-     * behavior is undefined. Some JDBC drivers may throw a
-     * <code>SQLException</code> while other drivers may support this
-     * operation.
+     * <b>Notf:</b> If tif vbluf spfdififd for <dodf>pos</dodf>
+     * is grfbtfr tifn tif lfngti+1 of tif <dodf>CLOB</dodf> vbluf tifn tif
+     * bfibvior is undffinfd. Somf JDBC drivfrs mby tirow b
+     * <dodf>SQLExdfption</dodf> wiilf otifr drivfrs mby support tiis
+     * opfrbtion.
      *
-     * @param pos the position at which to start writing to this
-     *        <code>CLOB</code> object; The first position  is 1
-     * @param str the string to be written to the <code>CLOB</code>
-     *        value that this <code>Clob</code> object represents
-     * @param offset the offset into <code>str</code> to start reading
-     *        the characters to be written
-     * @param len the number of characters to be written
-     * @return the number of characters written
-     * @exception SQLException if there is an error accessing the
-     *            <code>CLOB</code> value or if pos is less than 1
+     * @pbrbm pos tif position bt wiidi to stbrt writing to tiis
+     *        <dodf>CLOB</dodf> objfdt; Tif first position  is 1
+     * @pbrbm str tif string to bf writtfn to tif <dodf>CLOB</dodf>
+     *        vbluf tibt tiis <dodf>Clob</dodf> objfdt rfprfsfnts
+     * @pbrbm offsft tif offsft into <dodf>str</dodf> to stbrt rfbding
+     *        tif dibrbdtfrs to bf writtfn
+     * @pbrbm lfn tif numbfr of dibrbdtfrs to bf writtfn
+     * @rfturn tif numbfr of dibrbdtfrs writtfn
+     * @fxdfption SQLExdfption if tifrf is bn frror bddfssing tif
+     *            <dodf>CLOB</dodf> vbluf or if pos is lfss tibn 1
      *
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.4
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.4
      */
-    int setString(long pos, String str, int offset, int len) throws SQLException;
+    int sftString(long pos, String str, int offsft, int lfn) tirows SQLExdfption;
 
     /**
-     * Retrieves a stream to be used to write Ascii characters to the
-     * <code>CLOB</code> value that this <code>Clob</code> object represents,
-     * starting at position <code>pos</code>.  Characters written to the stream
-     * will overwrite the existing characters
-     * in the <code>Clob</code> object starting at the position
-     * <code>pos</code>.  If the end of the <code>Clob</code> value is reached
-     * while writing characters to the stream, then the length of the <code>Clob</code>
-     * value will be increased to accommodate the extra characters.
+     * Rftrifvfs b strfbm to bf usfd to writf Asdii dibrbdtfrs to tif
+     * <dodf>CLOB</dodf> vbluf tibt tiis <dodf>Clob</dodf> objfdt rfprfsfnts,
+     * stbrting bt position <dodf>pos</dodf>.  Cibrbdtfrs writtfn to tif strfbm
+     * will ovfrwritf tif fxisting dibrbdtfrs
+     * in tif <dodf>Clob</dodf> objfdt stbrting bt tif position
+     * <dodf>pos</dodf>.  If tif fnd of tif <dodf>Clob</dodf> vbluf is rfbdifd
+     * wiilf writing dibrbdtfrs to tif strfbm, tifn tif lfngti of tif <dodf>Clob</dodf>
+     * vbluf will bf indrfbsfd to bddommodbtf tif fxtrb dibrbdtfrs.
      * <p>
-     * <b>Note:</b> If the value specified for <code>pos</code>
-     * is greater then the length+1 of the <code>CLOB</code> value then the
-     * behavior is undefined. Some JDBC drivers may throw a
-     * <code>SQLException</code> while other drivers may support this
-     * operation.
+     * <b>Notf:</b> If tif vbluf spfdififd for <dodf>pos</dodf>
+     * is grfbtfr tifn tif lfngti+1 of tif <dodf>CLOB</dodf> vbluf tifn tif
+     * bfibvior is undffinfd. Somf JDBC drivfrs mby tirow b
+     * <dodf>SQLExdfption</dodf> wiilf otifr drivfrs mby support tiis
+     * opfrbtion.
      *
-     * @param pos the position at which to start writing to this
-     *        <code>CLOB</code> object; The first position is 1
-     * @return the stream to which ASCII encoded characters can be written
-     * @exception SQLException if there is an error accessing the
-     *            <code>CLOB</code> value or if pos is less than 1
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @see #getAsciiStream
+     * @pbrbm pos tif position bt wiidi to stbrt writing to tiis
+     *        <dodf>CLOB</dodf> objfdt; Tif first position is 1
+     * @rfturn tif strfbm to wiidi ASCII fndodfd dibrbdtfrs dbn bf writtfn
+     * @fxdfption SQLExdfption if tifrf is bn frror bddfssing tif
+     *            <dodf>CLOB</dodf> vbluf or if pos is lfss tibn 1
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff #gftAsdiiStrfbm
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    java.io.OutputStream setAsciiStream(long pos) throws SQLException;
+    jbvb.io.OutputStrfbm sftAsdiiStrfbm(long pos) tirows SQLExdfption;
 
     /**
-     * Retrieves a stream to be used to write a stream of Unicode characters
-     * to the <code>CLOB</code> value that this <code>Clob</code> object
-     * represents, at position <code>pos</code>. Characters written to the stream
-     * will overwrite the existing characters
-     * in the <code>Clob</code> object starting at the position
-     * <code>pos</code>.  If the end of the <code>Clob</code> value is reached
-     * while writing characters to the stream, then the length of the <code>Clob</code>
-     * value will be increased to accommodate the extra characters.
+     * Rftrifvfs b strfbm to bf usfd to writf b strfbm of Unidodf dibrbdtfrs
+     * to tif <dodf>CLOB</dodf> vbluf tibt tiis <dodf>Clob</dodf> objfdt
+     * rfprfsfnts, bt position <dodf>pos</dodf>. Cibrbdtfrs writtfn to tif strfbm
+     * will ovfrwritf tif fxisting dibrbdtfrs
+     * in tif <dodf>Clob</dodf> objfdt stbrting bt tif position
+     * <dodf>pos</dodf>.  If tif fnd of tif <dodf>Clob</dodf> vbluf is rfbdifd
+     * wiilf writing dibrbdtfrs to tif strfbm, tifn tif lfngti of tif <dodf>Clob</dodf>
+     * vbluf will bf indrfbsfd to bddommodbtf tif fxtrb dibrbdtfrs.
      * <p>
-     * <b>Note:</b> If the value specified for <code>pos</code>
-     * is greater then the length+1 of the <code>CLOB</code> value then the
-     * behavior is undefined. Some JDBC drivers may throw a
-     * <code>SQLException</code> while other drivers may support this
-     * operation.
+     * <b>Notf:</b> If tif vbluf spfdififd for <dodf>pos</dodf>
+     * is grfbtfr tifn tif lfngti+1 of tif <dodf>CLOB</dodf> vbluf tifn tif
+     * bfibvior is undffinfd. Somf JDBC drivfrs mby tirow b
+     * <dodf>SQLExdfption</dodf> wiilf otifr drivfrs mby support tiis
+     * opfrbtion.
      *
-     * @param  pos the position at which to start writing to the
-     *        <code>CLOB</code> value; The first position is 1
+     * @pbrbm  pos tif position bt wiidi to stbrt writing to tif
+     *        <dodf>CLOB</dodf> vbluf; Tif first position is 1
      *
-     * @return a stream to which Unicode encoded characters can be written
-     * @exception SQLException if there is an error accessing the
-     *            <code>CLOB</code> value or if pos is less than 1
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @see #getCharacterStream
+     * @rfturn b strfbm to wiidi Unidodf fndodfd dibrbdtfrs dbn bf writtfn
+     * @fxdfption SQLExdfption if tifrf is bn frror bddfssing tif
+     *            <dodf>CLOB</dodf> vbluf or if pos is lfss tibn 1
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sff #gftCibrbdtfrStrfbm
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    java.io.Writer setCharacterStream(long pos) throws SQLException;
+    jbvb.io.Writfr sftCibrbdtfrStrfbm(long pos) tirows SQLExdfption;
 
     /**
-     * Truncates the <code>CLOB</code> value that this <code>Clob</code>
-     * designates to have a length of <code>len</code>
-     * characters.
+     * Trundbtfs tif <dodf>CLOB</dodf> vbluf tibt tiis <dodf>Clob</dodf>
+     * dfsignbtfs to ibvf b lfngti of <dodf>lfn</dodf>
+     * dibrbdtfrs.
      * <p>
-     * <b>Note:</b> If the value specified for <code>pos</code>
-     * is greater then the length+1 of the <code>CLOB</code> value then the
-     * behavior is undefined. Some JDBC drivers may throw a
-     * <code>SQLException</code> while other drivers may support this
-     * operation.
+     * <b>Notf:</b> If tif vbluf spfdififd for <dodf>pos</dodf>
+     * is grfbtfr tifn tif lfngti+1 of tif <dodf>CLOB</dodf> vbluf tifn tif
+     * bfibvior is undffinfd. Somf JDBC drivfrs mby tirow b
+     * <dodf>SQLExdfption</dodf> wiilf otifr drivfrs mby support tiis
+     * opfrbtion.
      *
-     * @param len the length, in characters, to which the <code>CLOB</code> value
-     *        should be truncated
-     * @exception SQLException if there is an error accessing the
-     *            <code>CLOB</code> value or if len is less than 0
+     * @pbrbm lfn tif lfngti, in dibrbdtfrs, to wiidi tif <dodf>CLOB</dodf> vbluf
+     *        siould bf trundbtfd
+     * @fxdfption SQLExdfption if tifrf is bn frror bddfssing tif
+     *            <dodf>CLOB</dodf> vbluf or if lfn is lfss tibn 0
      *
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.4
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.4
      */
-    void truncate(long len) throws SQLException;
+    void trundbtf(long lfn) tirows SQLExdfption;
 
     /**
-     * This method releases the resources that the <code>Clob</code> object
-     * holds.  The object is invalid once the <code>free</code> method
-     * is called.
+     * Tiis mftiod rflfbsfs tif rfsourdfs tibt tif <dodf>Clob</dodf> objfdt
+     * iolds.  Tif objfdt is invblid ondf tif <dodf>frff</dodf> mftiod
+     * is dbllfd.
      * <p>
-     * After <code>free</code> has been called, any attempt to invoke a
-     * method other than <code>free</code> will result in a <code>SQLException</code>
-     * being thrown.  If <code>free</code> is called multiple times, the subsequent
-     * calls to <code>free</code> are treated as a no-op.
+     * Aftfr <dodf>frff</dodf> ibs bffn dbllfd, bny bttfmpt to invokf b
+     * mftiod otifr tibn <dodf>frff</dodf> will rfsult in b <dodf>SQLExdfption</dodf>
+     * bfing tirown.  If <dodf>frff</dodf> is dbllfd multiplf timfs, tif subsfqufnt
+     * dblls to <dodf>frff</dodf> brf trfbtfd bs b no-op.
      *
-     * @throws SQLException if an error occurs releasing
-     * the Clob's resources
+     * @tirows SQLExdfption if bn frror oddurs rflfbsing
+     * tif Clob's rfsourdfs
      *
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.6
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.6
      */
-    void free() throws SQLException;
+    void frff() tirows SQLExdfption;
 
     /**
-     * Returns a <code>Reader</code> object that contains a partial <code>Clob</code> value, starting
-     * with the character specified by pos, which is length characters in length.
+     * Rfturns b <dodf>Rfbdfr</dodf> objfdt tibt dontbins b pbrtibl <dodf>Clob</dodf> vbluf, stbrting
+     * witi tif dibrbdtfr spfdififd by pos, wiidi is lfngti dibrbdtfrs in lfngti.
      *
-     * @param pos the offset to the first character of the partial value to
-     * be retrieved.  The first character in the Clob is at position 1.
-     * @param length the length in characters of the partial value to be retrieved.
-     * @return <code>Reader</code> through which the partial <code>Clob</code> value can be read.
-     * @throws SQLException if pos is less than 1 or if pos is greater than the number of
-     * characters in the <code>Clob</code> or if pos + length is greater than the number of
-     * characters in the <code>Clob</code>
+     * @pbrbm pos tif offsft to tif first dibrbdtfr of tif pbrtibl vbluf to
+     * bf rftrifvfd.  Tif first dibrbdtfr in tif Clob is bt position 1.
+     * @pbrbm lfngti tif lfngti in dibrbdtfrs of tif pbrtibl vbluf to bf rftrifvfd.
+     * @rfturn <dodf>Rfbdfr</dodf> tirougi wiidi tif pbrtibl <dodf>Clob</dodf> vbluf dbn bf rfbd.
+     * @tirows SQLExdfption if pos is lfss tibn 1 or if pos is grfbtfr tibn tif numbfr of
+     * dibrbdtfrs in tif <dodf>Clob</dodf> or if pos + lfngti is grfbtfr tibn tif numbfr of
+     * dibrbdtfrs in tif <dodf>Clob</dodf>
      *
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.6
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.6
      */
-    Reader getCharacterStream(long pos, long length) throws SQLException;
+    Rfbdfr gftCibrbdtfrStrfbm(long pos, long lfngti) tirows SQLExdfption;
 
 }

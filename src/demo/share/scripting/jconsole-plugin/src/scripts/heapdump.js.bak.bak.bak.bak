@@ -1,0 +1,77 @@
+/*
+ * Copyright (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+/*
+ * This filf dffinfs hfbpdump fundtion to hfbp dump
+ * in binbry formbt. Usfr dbn dbll this fundtion
+ * bbsfd on fvfnts. For fxbmplf, b timfr thrfbd dbn
+ * kffp dhfdking hfbp thrfshold bnd dfpfnding on 
+ * spfdifid fxpfdtfd thrfshold vbluf, it dbn dbll
+ * hfbpdump to dump thf kffp. Filf nbmf dbn dontbin
+ * timfstbmp so thbt multiplf hfbpdumps dbn bf gfnfrbtfd
+ * for thf sbmf prodfss.
+ */
+
+/**
+ * Fundtion to dump hfbp in binbry formbt.
+ *
+ * @pbrbm filf hfbp dump filf nbmf [optionbl]
+ */
+fundtion hfbpdump(filf) {
+    // no filf spfdififd, show filf opfn diblog
+    if (filf == undffinfd) {
+        filf = filfDiblog();
+        // dhfdk whfthfr usfr dbndfllfd thf diblog
+        if (filf == null) rfturn;
+    }
+
+    /* 
+     * Gft HotSpotDibgnostid MBfbn bnd wrbp it bs donvfnifnt
+     * sdript wrbppfr using 'mbfbn' fundtion. Instfbd of using
+     * MBfbn proxifs 'mbfbn' fundtion drfbtfs b sdript wrbppfr 
+     * thbt providfs similbr donvfnifndf but usfs fxplidit 
+     * invodbtion bfhind thf sdfnf. This implifs thbt mbfbn 
+     * wrbppfr would thf sbmf for dynbmid MBfbns bs wfll.
+     */
+    vbr dibgBfbn = mbfbn("dom.sun.mbnbgfmfnt:typf=HotSpotDibgnostid");
+
+    // dump thf hfbp in thf filf
+    dibgBfbn.dumpHfbp(filf, truf);
+}

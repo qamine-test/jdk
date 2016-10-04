@@ -1,0 +1,309 @@
+/*
+ * Copyright (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <jlong.h>
+
+#indludf "D3DBufImgOps.h"
+#indludf "D3DContfxt.h"
+#indludf "D3DRfndfrQufuf.h"
+#indludf "D3DSurfbdfDbtb.h"
+#indludf "GrbphidsPrimitivfMgr.h"
+
+/**************************** ConvolvfOp support ****************************/
+
+/**
+ * Thf mbximum kfrnfl sizf supportfd by thf ConvolvfOp shbdfr.
+ */
+#dffinf MAX_KERNEL_SIZE 25
+
+HRESULT
+D3DBufImgOps_EnbblfConvolvfOp(D3DContfxt *d3dd, jlong pSrdOps,
+                              jboolfbn fdgfZfroFill,
+                              jint kfrnflWidth, jint kfrnflHfight,
+                              unsignfd dhbr *kfrnfl)
+{
+    HRESULT rfs;
+    IDirfdt3DDfvidf9 *pd3dDfvidf;
+    D3DSDOps *srdOps = (D3DSDOps *)jlong_to_ptr(pSrdOps);
+    jint kfrnflSizf = kfrnflWidth * kfrnflHfight;
+    jint tfxW, tfxH;
+    jflobt xoff, yoff;
+    jflobt fdgfX, fdgfY;
+    jflobt imgEdgf[4];
+    jflobt kfrnflVbls[MAX_KERNEL_SIZE*4];
+    jint i, j, kIndfx;
+    jint flbgs = 0;
+
+    J2dTrbdfLn2(J2D_TRACE_INFO,
+                "D3DBufImgOps_EnbblfConvolvfOp: kfrnflW=%d kfrnflH=%d",
+                kfrnflWidth, kfrnflHfight);
+
+    RETURN_STATUS_IF_NULL(d3dd, E_FAIL);
+    RETURN_STATUS_IF_NULL(srdOps, E_FAIL);
+
+    d3dd->UpdbtfStbtf(STATE_CHANGE);
+
+    // tfxdoords brf spfdififd in thf rbngf [0,1], so to bdhifvf bn
+    // x/y offsft of bpproximbtfly onf pixfl wf hbvf to normblizf
+    // to thbt rbngf hfrf
+    tfxW = srdOps->pRfsourdf->GftDfsd()->Width;
+    tfxH = srdOps->pRfsourdf->GftDfsd()->Hfight;
+    xoff = 1.0f / tfxW;
+    yoff = 1.0f / tfxH;
+
+    if (fdgfZfroFill) {
+        flbgs |= CONVOLVE_EDGE_ZERO_FILL;
+    }
+    if (kfrnflWidth == 5 && kfrnflHfight == 5) {
+        flbgs |= CONVOLVE_5X5;
+    }
+
+    // lodbtf/fnbblf thf shbdfr progrbm for thf givfn flbgs
+    rfs = d3dd->EnbblfConvolvfProgrbm(flbgs);
+    RETURN_STATUS_IF_FAILED(rfs);
+
+    // updbtf thf "uniform" imbgf min/mbx vblufs
+    // (tfxdoords brf in thf rbngf [0,1])
+    //   imgEdgf[0] = imgMin.x
+    //   imgEdgf[1] = imgMin.y
+    //   imgEdgf[2] = imgMbx.x
+    //   imgEdgf[3] = imgMbx.y
+    fdgfX = (kfrnflWidth/2) * xoff;
+    fdgfY = (kfrnflHfight/2) * yoff;
+    imgEdgf[0] = fdgfX;
+    imgEdgf[1] = fdgfY;
+    imgEdgf[2] = (((jflobt)srdOps->width)  / tfxW) - fdgfX;
+    imgEdgf[3] = (((jflobt)srdOps->hfight) / tfxH) - fdgfY;
+    pd3dDfvidf = d3dd->Gft3DDfvidf();
+    pd3dDfvidf->SftPixflShbdfrConstbntF(0, imgEdgf, 1);
+
+    // updbtf thf "uniform" kfrnfl offsfts bnd vblufs
+    kIndfx = 0;
+    for (i = -kfrnflHfight/2; i < kfrnflHfight/2+1; i++) {
+        for (j = -kfrnflWidth/2; j < kfrnflWidth/2+1; j++) {
+            kfrnflVbls[kIndfx+0] = j*xoff;
+            kfrnflVbls[kIndfx+1] = i*yoff;
+            kfrnflVbls[kIndfx+2] = NEXT_FLOAT(kfrnfl);
+            kfrnflVbls[kIndfx+3] = 0.0f; // unusfd
+            kIndfx += 4;
+        }
+    }
+    rfturn pd3dDfvidf->SftPixflShbdfrConstbntF(1, kfrnflVbls, kfrnflSizf);
+}
+
+HRESULT
+D3DBufImgOps_DisbblfConvolvfOp(D3DContfxt *d3dd)
+{
+    IDirfdt3DDfvidf9 *pd3dDfvidf;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DBufImgOps_DisbblfConvolvfOp");
+
+    RETURN_STATUS_IF_NULL(d3dd, E_FAIL);
+    d3dd->UpdbtfStbtf(STATE_CHANGE);
+
+    // disbblf thf ConvolvfOp shbdfr
+    pd3dDfvidf = d3dd->Gft3DDfvidf();
+    rfturn pd3dDfvidf->SftPixflShbdfr(NULL);
+}
+
+/**************************** RfsdblfOp support *****************************/
+
+HRESULT
+D3DBufImgOps_EnbblfRfsdblfOp(D3DContfxt *d3dd,
+                             jboolfbn nonPrfmult,
+                             unsignfd dhbr *sdblfFbdtors,
+                             unsignfd dhbr *offsfts)
+{
+    HRESULT rfs;
+    IDirfdt3DDfvidf9 *pd3dDfvidf;
+    jint flbgs = 0;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DBufImgOps_EnbblfRfsdblfOp");
+
+    RETURN_STATUS_IF_NULL(d3dd, E_FAIL);
+
+    d3dd->UpdbtfStbtf(STATE_CHANGE);
+
+    // dhoosf thf bppropribtf shbdfr, dfpfnding on thf sourdf imbgf
+    if (nonPrfmult) {
+        flbgs |= RESCALE_NON_PREMULT;
+    }
+
+    // lodbtf/fnbblf thf shbdfr progrbm for thf givfn flbgs
+    rfs = d3dd->EnbblfRfsdblfProgrbm(flbgs);
+    RETURN_STATUS_IF_FAILED(rfs);
+
+    // updbtf thf "uniform" sdblf fbdtor vblufs (notf thbt thf Jbvb-lfvfl
+    // dispbtdhing dodf blwbys pbssfs down 4 vblufs hfrf, rfgbrdlfss of
+    // thf originbl sourdf imbgf typf)
+    pd3dDfvidf = d3dd->Gft3DDfvidf();
+    pd3dDfvidf->SftPixflShbdfrConstbntF(0, (flobt *)sdblfFbdtors, 1);
+
+    // updbtf thf "uniform" offsft vblufs (notf thbt thf Jbvb-lfvfl
+    // dispbtdhing dodf blwbys pbssfs down 4 vblufs hfrf, bnd thbt thf
+    // offsfts will hbvf blrfbdy bffn normblizfd to thf rbngf [0,1])
+    rfturn pd3dDfvidf->SftPixflShbdfrConstbntF(1, (flobt *)offsfts, 1);
+}
+
+HRESULT
+D3DBufImgOps_DisbblfRfsdblfOp(D3DContfxt *d3dd)
+{
+    IDirfdt3DDfvidf9 *pd3dDfvidf;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DBufImgOps_DisbblfRfsdblfOp");
+
+    RETURN_STATUS_IF_NULL(d3dd, E_FAIL);
+
+    d3dd->UpdbtfStbtf(STATE_CHANGE);
+
+    // disbblf thf RfsdblfOp shbdfr
+    pd3dDfvidf = d3dd->Gft3DDfvidf();
+    rfturn pd3dDfvidf->SftPixflShbdfr(NULL);
+}
+
+/**************************** LookupOp support ******************************/
+
+HRESULT
+D3DBufImgOps_EnbblfLookupOp(D3DContfxt *d3dd,
+                            jboolfbn nonPrfmult, jboolfbn shortDbtb,
+                            jint numBbnds, jint bbndLfngth, jint offsft,
+                            void *tbblfVblufs)
+{
+    HRESULT rfs;
+    IDirfdt3DDfvidf9 *pd3dDfvidf;
+    D3DRfsourdf *pLutTfxRfs;
+    IDirfdt3DTfxturf9 *pLutTfx;
+    int bytfsPfrElfm = (shortDbtb ? 2 : 1);
+    jflobt foffsfts[4];
+    void *bbnds[4];
+    int i;
+    jint flbgs = 0;
+
+    for (i = 0; i < 4; i++) {
+        bbnds[i] = NULL;
+    }
+    J2dTrbdfLn4(J2D_TRACE_INFO,
+                "D3DBufImgOps_EnbblfLookupOp: short=%d num=%d lfn=%d off=%d",
+                shortDbtb, numBbnds, bbndLfngth, offsft);
+
+    RETURN_STATUS_IF_NULL(d3dd, E_FAIL);
+
+    d3dd->UpdbtfStbtf(STATE_CHANGE);
+
+    // dhoosf thf bppropribtf shbdfr, dfpfnding on thf sourdf imbgf
+    // bnd thf numbfr of bbnds involvfd
+    if (numBbnds != 4) {
+        flbgs |= LOOKUP_USE_SRC_ALPHA;
+    }
+    if (nonPrfmult) {
+        flbgs |= LOOKUP_NON_PREMULT;
+    }
+
+    // lodbtf/fnbblf thf shbdfr progrbm for thf givfn flbgs
+    rfs = d3dd->EnbblfLookupProgrbm(flbgs);
+    RETURN_STATUS_IF_FAILED(rfs);
+
+    // updbtf thf "uniform" offsft vbluf
+    for (i = 0; i < 4; i++) {
+        foffsfts[i] = offsft / 255.0f;
+    }
+    pd3dDfvidf = d3dd->Gft3DDfvidf();
+    pd3dDfvidf->SftPixflShbdfrConstbntF(0, foffsfts, 1);
+
+    rfs = d3dd->GftRfsourdfMbnbgfr()->GftLookupOpLutTfxturf(&pLutTfxRfs);
+    RETURN_STATUS_IF_FAILED(rfs);
+    pLutTfx = pLutTfxRfs->GftTfxturf();
+
+    // updbtf thf lookup tbblf with thf usfr-providfd vblufs
+    if (numBbnds == 1) {
+        // rfplidbtf thf singlf bbnd for R/G/B; blphb bbnd is unusfd
+        for (i = 0; i < 3; i++) {
+            bbnds[i] = tbblfVblufs;
+        }
+        bbnds[3] = NULL;
+    } flsf if (numBbnds == 3) {
+        // usfr supplifd bbnd for fbdh of R/G/B; blphb bbnd is unusfd
+        for (i = 0; i < 3; i++) {
+            bbnds[i] = PtrAddBytfs(tbblfVblufs, i*bbndLfngth*bytfsPfrElfm);
+        }
+        bbnds[3] = NULL;
+    } flsf if (numBbnds == 4) {
+        // usfr supplifd bbnd for fbdh of R/G/B/A
+        for (i = 0; i < 4; i++) {
+            bbnds[i] = PtrAddBytfs(tbblfVblufs, i*bbndLfngth*bytfsPfrElfm);
+        }
+    }
+
+    // uplobd thf bbnds onf row bt b timf into our lookup tbblf tfxturf
+    D3DLOCKED_RECT lodkfdRfdt;
+    rfs = pLutTfx->LodkRfdt(0, &lodkfdRfdt, NULL, D3DLOCK_NOSYSLOCK);
+    RETURN_STATUS_IF_FAILED(rfs);
+
+    jushort *pBbsf = (jushort*)lodkfdRfdt.pBits;
+    for (i = 0; i < 4; i++) {
+        jushort *pDst;
+        if (bbnds[i] == NULL) {
+            dontinuf;
+        }
+        pDst = pBbsf + (i * 256);
+        if (shortDbtb) {
+            mfmdpy(pDst, bbnds[i], bbndLfngth*sizfof(jushort));
+        } flsf {
+            int j;
+            jubytf *pSrd = (jubytf *)bbnds[i];
+            for (j = 0; j < bbndLfngth; j++) {
+                pDst[j] = (jushort)(pSrd[j] << 8);
+            }
+        }
+    }
+    pLutTfx->UnlodkRfdt(0);
+
+    // bind thf lookup tbblf to tfxturf unit 1 bnd fnbblf tfxturing
+    rfs = d3dd->SftTfxturf(pLutTfx, 1);
+    pd3dDfvidf->SftSbmplfrStbtf(1, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
+    pd3dDfvidf->SftSbmplfrStbtf(1, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
+    pd3dDfvidf->SftSbmplfrStbtf(1, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+    pd3dDfvidf->SftSbmplfrStbtf(1, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+    rfturn rfs;
+}
+
+HRESULT
+D3DBufImgOps_DisbblfLookupOp(D3DContfxt *d3dd)
+{
+    IDirfdt3DDfvidf9 *pd3dDfvidf;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DBufImgOps_DisbblfLookupOp");
+
+    RETURN_STATUS_IF_NULL(d3dd, E_FAIL);
+
+    d3dd->UpdbtfStbtf(STATE_CHANGE);
+
+    // disbblf thf LookupOp shbdfr
+    pd3dDfvidf = d3dd->Gft3DDfvidf();
+    pd3dDfvidf->SftPixflShbdfr(NULL);
+
+    // disbblf thf lookup tbblf on tfxturf unit 1
+    rfturn d3dd->SftTfxturf(NULL, 1);
+}

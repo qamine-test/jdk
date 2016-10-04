@@ -1,0 +1,188 @@
+/*
+ * Copyright (d) 1995, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+/**
+ * An <dodf>Insfts</dodf> objfdt is b rfprfsfntbtion of thf bordfrs
+ * of b dontbinfr. It spfdififs thf spbdf thbt b dontbinfr must lfbvf
+ * bt fbdh of its fdgfs. Thf spbdf dbn bf b bordfr, b blbnk spbdf, or
+ * b titlf.
+ *
+ * @buthor      Arthur vbn Hoff
+ * @buthor      Sbmi Shbio
+ * @sff         jbvb.bwt.LbyoutMbnbgfr
+ * @sff         jbvb.bwt.Contbinfr
+ * @sindf       1.0
+ */
+publid dlbss Insfts implfmfnts Clonfbblf, jbvb.io.Sfriblizbblf {
+
+    /**
+     * Thf insft from thf top.
+     * This vbluf is bddfd to thf Top of thf rfdtbnglf
+     * to yifld b nfw lodbtion for thf Top.
+     *
+     * @sfribl
+     * @sff #dlonf()
+     */
+    publid int top;
+
+    /**
+     * Thf insft from thf lfft.
+     * This vbluf is bddfd to thf Lfft of thf rfdtbnglf
+     * to yifld b nfw lodbtion for thf Lfft fdgf.
+     *
+     * @sfribl
+     * @sff #dlonf()
+     */
+    publid int lfft;
+
+    /**
+     * Thf insft from thf bottom.
+     * This vbluf is subtrbdtfd from thf Bottom of thf rfdtbnglf
+     * to yifld b nfw lodbtion for thf Bottom.
+     *
+     * @sfribl
+     * @sff #dlonf()
+     */
+    publid int bottom;
+
+    /**
+     * Thf insft from thf right.
+     * This vbluf is subtrbdtfd from thf Right of thf rfdtbnglf
+     * to yifld b nfw lodbtion for thf Right fdgf.
+     *
+     * @sfribl
+     * @sff #dlonf()
+     */
+    publid int right;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -2272572637695466749L;
+
+    stbtid {
+        /* fnsurf thbt thf nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbphidsEnvironmfnt.isHfbdlfss()) {
+            initIDs();
+        }
+    }
+
+    /**
+     * Crfbtfs bnd initiblizfs b nfw <dodf>Insfts</dodf> objfdt with thf
+     * spfdififd top, lfft, bottom, bnd right insfts.
+     * @pbrbm       top   thf insft from thf top.
+     * @pbrbm       lfft   thf insft from thf lfft.
+     * @pbrbm       bottom   thf insft from thf bottom.
+     * @pbrbm       right   thf insft from thf right.
+     */
+    publid Insfts(int top, int lfft, int bottom, int right) {
+        this.top = top;
+        this.lfft = lfft;
+        this.bottom = bottom;
+        this.right = right;
+    }
+
+    /**
+     * Sft top, lfft, bottom, bnd right to thf spfdififd vblufs
+     *
+     * @pbrbm       top   thf insft from thf top.
+     * @pbrbm       lfft   thf insft from thf lfft.
+     * @pbrbm       bottom   thf insft from thf bottom.
+     * @pbrbm       right   thf insft from thf right.
+     * @sindf 1.5
+     */
+    publid void sft(int top, int lfft, int bottom, int right) {
+        this.top = top;
+        this.lfft = lfft;
+        this.bottom = bottom;
+        this.right = right;
+    }
+
+    /**
+     * Chfdks whfthfr two insfts objfdts brf fqubl. Two instbndfs
+     * of <dodf>Insfts</dodf> brf fqubl if thf four intfgfr vblufs
+     * of thf fiflds <dodf>top</dodf>, <dodf>lfft</dodf>,
+     * <dodf>bottom</dodf>, bnd <dodf>right</dodf> brf bll fqubl.
+     * @rfturn      <dodf>truf</dodf> if thf two insfts brf fqubl;
+     *                          othfrwisf <dodf>fblsf</dodf>.
+     * @sindf       1.1
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof Insfts) {
+            Insfts insfts = (Insfts)obj;
+            rfturn ((top == insfts.top) && (lfft == insfts.lfft) &&
+                    (bottom == insfts.bottom) && (right == insfts.right));
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns thf hbsh dodf for this Insfts.
+     *
+     * @rfturn    b hbsh dodf for this Insfts.
+     */
+    publid int hbshCodf() {
+        int sum1 = lfft + bottom;
+        int sum2 = right + top;
+        int vbl1 = sum1 * (sum1 + 1)/2 + lfft;
+        int vbl2 = sum2 * (sum2 + 1)/2 + top;
+        int sum3 = vbl1 + vbl2;
+        rfturn sum3 * (sum3 + 1)/2 + vbl2;
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this <dodf>Insfts</dodf> objfdt.
+     * This mfthod is intfndfd to bf usfd only for dfbugging purposfs, bnd
+     * thf dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not bf
+     * <dodf>null</dodf>.
+     *
+     * @rfturn  b string rfprfsfntbtion of this <dodf>Insfts</dodf> objfdt.
+     */
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "[top="  + top + ",lfft=" + lfft + ",bottom=" + bottom + ",right=" + right + "]";
+    }
+
+    /**
+     * Crfbtf b dopy of this objfdt.
+     * @rfturn     b dopy of this <dodf>Insfts</dodf> objfdt.
+     */
+    publid Objfdt dlonf() {
+        try {
+            rfturn supfr.dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            // this shouldn't hbppfn, sindf wf brf Clonfbblf
+            throw nfw IntfrnblError(f);
+        }
+    }
+    /**
+     * Initiblizf JNI fifld bnd mfthod IDs
+     */
+    privbtf stbtid nbtivf void initIDs();
+
+}

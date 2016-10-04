@@ -1,0 +1,193 @@
+/*
+ * Copyright (d) 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor;
+
+import jbvb.util.List;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.io.*;
+
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.monitor.rfmotf.*;
+import sun.jvmstbt.monitor.fvfnt.VmListfnfr;
+
+/**
+ * Bbsf dlbss for bll MonitorfdVm implfmfntbtions thbt utilizf thf
+ * HotSpot PfrfDbtb instrumfntbtion bufffr bs thf dommunidbtions
+ * mfdhbnism to thf tbrgft Jbvb Virtubl Mbdhinf.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+publid bbstrbdt dlbss AbstrbdtMonitorfdVm implfmfnts BufffrfdMonitorfdVm {
+
+    /**
+     * Thf VmIdfntififr for thf tbrgft.
+     */
+    protfdtfd VmIdfntififr vmid;
+
+    /**
+     * Thf shbrfd mfmory instrumfntbtion bufffr for thf tbrgft.
+     */
+    protfdtfd AbstrbdtPfrfDbtbBufffr pdb;
+
+    /**
+     * Thf sbmpling intfrvbl, if thf instrumfntbtion bufffr is bdquirfd
+     * by sbmpling instfbd of shbrfd mfmory mfdhbnisms.
+     */
+    protfdtfd int intfrvbl;
+
+    /**
+     * Crfbtf bn AbstrbdtMonitorfdVm instbndf.
+     *
+     * @pbrbm vmid thf VmIdfntififr for thf tbrgft
+     * @pbrbm intfrvbl thf initibl sbmpling intfrvbl
+     */
+    publid AbstrbdtMonitorfdVm(VmIdfntififr vmid, int intfrvbl)
+           throws MonitorExdfption {
+        this.vmid = vmid;
+        this.intfrvbl = intfrvbl;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid VmIdfntififr gftVmIdfntififr() {
+        rfturn vmid;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid Monitor findByNbmf(String nbmf) throws MonitorExdfption {
+        rfturn pdb.findByNbmf(nbmf);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid List<Monitor> findByPbttfrn(String pbttfrnString) throws MonitorExdfption {
+        rfturn pdb.findByPbttfrn(pbttfrnString);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void dftbdh() {
+        /*
+         * no dffbult bdtion rfquirfd bfdbusf thf dftbdh opfrbtion for thf
+         * nbtivf bytf bufffr is mbnbgfd by thf sun.misd.Pfrf dlbss.
+         */
+    }
+
+
+    /* ---- Mfthods to support pollfd MonitorfdVm Implfmfntbtions ----- */
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void sftIntfrvbl(int intfrvbl) {
+        this.intfrvbl = intfrvbl;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid int gftIntfrvbl() {
+        rfturn intfrvbl;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void sftLbstExdfption(Exdfption f) {
+        // XXX: implfmfnt
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid Exdfption gftLbstExdfption() {
+        // XXX: implfmfnt
+        rfturn null;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void dlfbrLbstExdfption() {
+        // XXX: implfmfnt
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid boolfbn isErrorfd() {
+        // XXX: implfmfnt
+        rfturn fblsf;
+    }
+
+    /**
+     * Gft b list of thf insfrtfd bnd rfmovfd monitors sindf lbst dbllfd.
+     *
+     * @rfturn MonitorStbtus - thf stbtus of bvbilbblf Monitors for thf
+     *                         tbrgft Jbvb Virtubl Mbdhinf.
+     * @throws MonitorExdfption Thrown if dommunidbtions frrors oddur
+     *                          whilf dommunidbting with thf tbrgft.
+     */
+    publid MonitorStbtus gftMonitorStbtus() throws MonitorExdfption {
+        rfturn pdb.gftMonitorStbtus();
+    }
+
+
+    /* --------------- Mfthods to support VmListfnfrs ----------------- */
+
+    /**
+     * {@inhfritDod}
+     */
+    publid bbstrbdt void bddVmListfnfr(VmListfnfr l);
+
+    /**
+     * {@inhfritDod}
+     */
+    publid bbstrbdt void rfmovfVmListfnfr(VmListfnfr l);
+
+
+    /* ---- Mfthods to support BufffrfdMonitorfdVm Implfmfntbtions ---- */
+
+    /**
+     * {@inhfritDod}
+     */
+    publid bytf[] gftBytfs() {
+        rfturn pdb.gftBytfs();
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid int gftCbpbdity() {
+        rfturn pdb.gftCbpbdity();
+    }
+}

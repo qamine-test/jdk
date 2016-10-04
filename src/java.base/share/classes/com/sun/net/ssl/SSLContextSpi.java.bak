@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 2000, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * NOTE:  this file was copied from javax.net.ssl.SSLContextSpi
+ * NOTE:  tiis filf wbs dopifd from jbvbx.nft.ssl.SSLContfxtSpi
  */
 
-package com.sun.net.ssl;
+pbdkbgf dom.sun.nft.ssl;
 
-import java.util.*;
-import java.security.*;
-import javax.net.ssl.*;
+import jbvb.util.*;
+import jbvb.sfdurity.*;
+import jbvbx.nft.ssl.*;
 
 /**
- * This class defines the <i>Service Provider Interface</i> (<b>SPI</b>)
- * for the <code>SSLContext</code> class.
+ * Tiis dlbss dffinfs tif <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for tif <dodf>SSLContfxt</dodf> dlbss.
  *
- * <p> All the abstract methods in this class must be implemented by each
- * cryptographic service provider who wishes to supply the implementation
- * of a particular SSL context.
+ * <p> All tif bbstrbdt mftiods in tiis dlbss must bf implfmfntfd by fbdi
+ * dryptogrbpiid sfrvidf providfr wio wisifs to supply tif implfmfntbtion
+ * of b pbrtidulbr SSL dontfxt.
  *
- * @deprecated As of JDK 1.4, this implementation-specific class was
- *      replaced by {@link javax.net.ssl.SSLContextSpi}.
+ * @dfprfdbtfd As of JDK 1.4, tiis implfmfntbtion-spfdifid dlbss wbs
+ *      rfplbdfd by {@link jbvbx.nft.ssl.SSLContfxtSpi}.
  */
-@Deprecated
-public abstract class SSLContextSpi {
+@Dfprfdbtfd
+publid bbstrbdt dlbss SSLContfxtSpi {
     /**
-     * Initializes this context.
+     * Initiblizfs tiis dontfxt.
      *
-     * @param km the sources of authentication keys
-     * @param tm the sources of peer authentication trust decisions
-     * @param random the source of randomness for this generator
+     * @pbrbm km tif sourdfs of butifntidbtion kfys
+     * @pbrbm tm tif sourdfs of pffr butifntidbtion trust dfdisions
+     * @pbrbm rbndom tif sourdf of rbndomnfss for tiis gfnfrbtor
      */
-    protected abstract void engineInit(KeyManager[] ah, TrustManager[] th,
-        SecureRandom sr) throws KeyManagementException;
+    protfdtfd bbstrbdt void fnginfInit(KfyMbnbgfr[] bi, TrustMbnbgfr[] ti,
+        SfdurfRbndom sr) tirows KfyMbnbgfmfntExdfption;
 
     /**
-     * Returns a <code>SocketFactory</code> object for this
-     * context.
+     * Rfturns b <dodf>SodkftFbdtory</dodf> objfdt for tiis
+     * dontfxt.
      *
-     * @return the factory
+     * @rfturn tif fbdtory
      */
-    protected abstract SSLSocketFactory engineGetSocketFactory();
+    protfdtfd bbstrbdt SSLSodkftFbdtory fnginfGftSodkftFbdtory();
 
     /**
-     * Returns a <code>ServerSocketFactory</code> object for
-     * this context.
+     * Rfturns b <dodf>SfrvfrSodkftFbdtory</dodf> objfdt for
+     * tiis dontfxt.
      *
-     * @return the factory
+     * @rfturn tif fbdtory
      */
-    protected abstract SSLServerSocketFactory engineGetServerSocketFactory();
+    protfdtfd bbstrbdt SSLSfrvfrSodkftFbdtory fnginfGftSfrvfrSodkftFbdtory();
 }

@@ -1,504 +1,504 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.crypto;
+pbdkbgf jbvbx.drypto;
 
-import java.security.*;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.NoSuchElementException;
-import java.util.concurrent.ConcurrentHashMap;
-import java.io.Serializable;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
-import java.io.ObjectStreamField;
-import java.io.ObjectInputStream;
-import java.io.ObjectInputStream.GetField;
-import java.io.ObjectOutputStream;
-import java.io.ObjectOutputStream.PutField;
-import java.io.IOException;
+import jbvb.sfdurity.*;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm.GftFifld;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm.PutFifld;
+import jbvb.io.IOExdfption;
 
 /**
- * This class contains CryptoPermission objects, organized into
- * PermissionCollections according to algorithm names.
+ * Tiis dlbss dontbins CryptoPfrmission objfdts, orgbnizfd into
+ * PfrmissionCollfdtions bddording to blgoritim nbmfs.
  *
- * <p>When the <code>add</code> method is called to add a
- * CryptoPermission, the CryptoPermission is stored in the
- * appropriate PermissionCollection. If no such
- * collection exists yet, the algorithm name associated with
- * the CryptoPermission object is
- * determined and the <code>newPermissionCollection</code> method
- * is called on the CryptoPermission or CryptoAllPermission class to
- * create the PermissionCollection and add it to the Permissions object.
+ * <p>Wifn tif <dodf>bdd</dodf> mftiod is dbllfd to bdd b
+ * CryptoPfrmission, tif CryptoPfrmission is storfd in tif
+ * bppropribtf PfrmissionCollfdtion. If no sudi
+ * dollfdtion fxists yft, tif blgoritim nbmf bssodibtfd witi
+ * tif CryptoPfrmission objfdt is
+ * dftfrminfd bnd tif <dodf>nfwPfrmissionCollfdtion</dodf> mftiod
+ * is dbllfd on tif CryptoPfrmission or CryptoAllPfrmission dlbss to
+ * drfbtf tif PfrmissionCollfdtion bnd bdd it to tif Pfrmissions objfdt.
  *
- * @see javax.crypto.CryptoPermission
- * @see java.security.PermissionCollection
- * @see java.security.Permissions
+ * @sff jbvbx.drypto.CryptoPfrmission
+ * @sff jbvb.sfdurity.PfrmissionCollfdtion
+ * @sff jbvb.sfdurity.Pfrmissions
  *
- * @author Sharon Liu
- * @since 1.4
+ * @butior Sibron Liu
+ * @sindf 1.4
  */
-final class CryptoPermissions extends PermissionCollection
-implements Serializable {
+finbl dlbss CryptoPfrmissions fxtfnds PfrmissionCollfdtion
+implfmfnts Sfriblizbblf {
 
-    private static final long serialVersionUID = 4946547168093391015L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 4946547168093391015L;
 
     /**
-     * @serialField perms java.util.Hashtable
+     * @sfriblFifld pfrms jbvb.util.Hbsitbblf
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-        new ObjectStreamField("perms", Hashtable.class),
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds = {
+        nfw ObjfdtStrfbmFifld("pfrms", Hbsitbblf.dlbss),
     };
 
-    // Switched from Hashtable to ConcurrentHashMap to improve scalability.
-    // To maintain serialization compatibility, this field is made transient
-    // and custom readObject/writeObject methods are used.
-    private transient ConcurrentHashMap<String,PermissionCollection> perms;
+    // Switdifd from Hbsitbblf to CondurrfntHbsiMbp to improvf sdblbbility.
+    // To mbintbin sfriblizbtion dompbtibility, tiis fifld is mbdf trbnsifnt
+    // bnd dustom rfbdObjfdt/writfObjfdt mftiods brf usfd.
+    privbtf trbnsifnt CondurrfntHbsiMbp<String,PfrmissionCollfdtion> pfrms;
 
     /**
-     * Creates a new CryptoPermissions object containing
-     * no CryptoPermissionCollections.
+     * Crfbtfs b nfw CryptoPfrmissions objfdt dontbining
+     * no CryptoPfrmissionCollfdtions.
      */
-    CryptoPermissions() {
-        perms = new ConcurrentHashMap<>(7);
+    CryptoPfrmissions() {
+        pfrms = nfw CondurrfntHbsiMbp<>(7);
     }
 
     /**
-     * Populates the crypto policy from the specified
-     * InputStream into this CryptoPermissions object.
+     * Populbtfs tif drypto polidy from tif spfdififd
+     * InputStrfbm into tiis CryptoPfrmissions objfdt.
      *
-     * @param in the InputStream to load from.
+     * @pbrbm in tif InputStrfbm to lobd from.
      *
-     * @exception SecurityException if cannot load
-     * successfully.
+     * @fxdfption SfdurityExdfption if dbnnot lobd
+     * suddfssfully.
      */
-    void load(InputStream in)
-        throws IOException, CryptoPolicyParser.ParsingException {
-        CryptoPolicyParser parser = new CryptoPolicyParser();
-        parser.read(new BufferedReader(new InputStreamReader(in, "UTF-8")));
+    void lobd(InputStrfbm in)
+        tirows IOExdfption, CryptoPolidyPbrsfr.PbrsingExdfption {
+        CryptoPolidyPbrsfr pbrsfr = nfw CryptoPolidyPbrsfr();
+        pbrsfr.rfbd(nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(in, "UTF-8")));
 
-        CryptoPermission[] parsingResult = parser.getPermissions();
-        for (int i = 0; i < parsingResult.length; i++) {
-            this.add(parsingResult[i]);
+        CryptoPfrmission[] pbrsingRfsult = pbrsfr.gftPfrmissions();
+        for (int i = 0; i < pbrsingRfsult.lfngti; i++) {
+            tiis.bdd(pbrsingRfsult[i]);
         }
     }
 
     /**
-     * Returns true if this CryptoPermissions object doesn't
-     * contain any CryptoPermission objects; otherwise, returns
-     * false.
+     * Rfturns truf if tiis CryptoPfrmissions objfdt dofsn't
+     * dontbin bny CryptoPfrmission objfdts; otifrwisf, rfturns
+     * fblsf.
      */
-    boolean isEmpty() {
-        return perms.isEmpty();
+    boolfbn isEmpty() {
+        rfturn pfrms.isEmpty();
     }
 
     /**
-     * Adds a permission object to the PermissionCollection for the
-     * algorithm returned by
-     * <code>(CryptoPermission)permission.getAlgorithm()</code>.
+     * Adds b pfrmission objfdt to tif PfrmissionCollfdtion for tif
+     * blgoritim rfturnfd by
+     * <dodf>(CryptoPfrmission)pfrmission.gftAlgoritim()</dodf>.
      *
-     * This method creates
-     * a new PermissionCollection object (and adds the permission to it)
-     * if an appropriate collection does not yet exist. <p>
+     * Tiis mftiod drfbtfs
+     * b nfw PfrmissionCollfdtion objfdt (bnd bdds tif pfrmission to it)
+     * if bn bppropribtf dollfdtion dofs not yft fxist. <p>
      *
-     * @param permission the Permission object to add.
+     * @pbrbm pfrmission tif Pfrmission objfdt to bdd.
      *
-     * @exception SecurityException if this CryptoPermissions object is
-     * marked as readonly.
+     * @fxdfption SfdurityExdfption if tiis CryptoPfrmissions objfdt is
+     * mbrkfd bs rfbdonly.
      *
-     * @see isReadOnly
+     * @sff isRfbdOnly
      */
-    public void add(Permission permission) {
+    publid void bdd(Pfrmission pfrmission) {
 
-        if (isReadOnly())
-            throw new SecurityException("Attempt to add a Permission " +
-                                        "to a readonly CryptoPermissions " +
-                                        "object");
+        if (isRfbdOnly())
+            tirow nfw SfdurityExdfption("Attfmpt to bdd b Pfrmission " +
+                                        "to b rfbdonly CryptoPfrmissions " +
+                                        "objfdt");
 
-        if (!(permission instanceof CryptoPermission))
-            return;
+        if (!(pfrmission instbndfof CryptoPfrmission))
+            rfturn;
 
-        CryptoPermission cryptoPerm = (CryptoPermission)permission;
-        PermissionCollection pc =
-                        getPermissionCollection(cryptoPerm);
-        pc.add(cryptoPerm);
-        String alg = cryptoPerm.getAlgorithm();
-        perms.putIfAbsent(alg, pc);
+        CryptoPfrmission dryptoPfrm = (CryptoPfrmission)pfrmission;
+        PfrmissionCollfdtion pd =
+                        gftPfrmissionCollfdtion(dryptoPfrm);
+        pd.bdd(dryptoPfrm);
+        String blg = dryptoPfrm.gftAlgoritim();
+        pfrms.putIfAbsfnt(blg, pd);
     }
 
     /**
-     * Checks if this object's PermissionCollection for permissons
-     * of the specified permission's algorithm implies the specified
-     * permission. Returns true if the checking succeeded.
+     * Cifdks if tiis objfdt's PfrmissionCollfdtion for pfrmissons
+     * of tif spfdififd pfrmission's blgoritim implifs tif spfdififd
+     * pfrmission. Rfturns truf if tif difdking suddffdfd.
      *
-     * @param permission the Permission object to check.
+     * @pbrbm pfrmission tif Pfrmission objfdt to difdk.
      *
-     * @return true if "permission" is implied by the permissions
-     * in the PermissionCollection it belongs to, false if not.
+     * @rfturn truf if "pfrmission" is implifd by tif pfrmissions
+     * in tif PfrmissionCollfdtion it bflongs to, fblsf if not.
      *
      */
-    public boolean implies(Permission permission) {
-        if (!(permission instanceof CryptoPermission)) {
-            return false;
+    publid boolfbn implifs(Pfrmission pfrmission) {
+        if (!(pfrmission instbndfof CryptoPfrmission)) {
+            rfturn fblsf;
         }
 
-        CryptoPermission cryptoPerm = (CryptoPermission)permission;
+        CryptoPfrmission dryptoPfrm = (CryptoPfrmission)pfrmission;
 
-        PermissionCollection pc =
-            getPermissionCollection(cryptoPerm.getAlgorithm());
-        return pc.implies(cryptoPerm);
+        PfrmissionCollfdtion pd =
+            gftPfrmissionCollfdtion(dryptoPfrm.gftAlgoritim());
+        rfturn pd.implifs(dryptoPfrm);
     }
 
     /**
-     * Returns an enumeration of all the Permission objects in all the
-     * PermissionCollections in this CryptoPermissions object.
+     * Rfturns bn fnumfrbtion of bll tif Pfrmission objfdts in bll tif
+     * PfrmissionCollfdtions in tiis CryptoPfrmissions objfdt.
      *
-     * @return an enumeration of all the Permissions.
+     * @rfturn bn fnumfrbtion of bll tif Pfrmissions.
      */
-    public Enumeration<Permission> elements() {
-        // go through each Permissions in the hash table
-        // and call their elements() function.
-        return new PermissionsEnumerator(perms.elements());
+    publid Enumfrbtion<Pfrmission> flfmfnts() {
+        // go tirougi fbdi Pfrmissions in tif ibsi tbblf
+        // bnd dbll tifir flfmfnts() fundtion.
+        rfturn nfw PfrmissionsEnumfrbtor(pfrms.flfmfnts());
     }
 
     /**
-     * Returns a CryptoPermissions object which
-     * represents the minimum of the specified
-     * CryptoPermissions object and this
-     * CryptoPermissions object.
+     * Rfturns b CryptoPfrmissions objfdt wiidi
+     * rfprfsfnts tif minimum of tif spfdififd
+     * CryptoPfrmissions objfdt bnd tiis
+     * CryptoPfrmissions objfdt.
      *
-     * @param other the CryptoPermission
-     * object to compare with this object.
+     * @pbrbm otifr tif CryptoPfrmission
+     * objfdt to dompbrf witi tiis objfdt.
      */
-    CryptoPermissions getMinimum(CryptoPermissions other) {
-        if (other == null) {
-            return null;
+    CryptoPfrmissions gftMinimum(CryptoPfrmissions otifr) {
+        if (otifr == null) {
+            rfturn null;
         }
 
-        if (this.perms.containsKey(CryptoAllPermission.ALG_NAME)) {
-            return other;
+        if (tiis.pfrms.dontbinsKfy(CryptoAllPfrmission.ALG_NAME)) {
+            rfturn otifr;
         }
 
-        if (other.perms.containsKey(CryptoAllPermission.ALG_NAME)) {
-            return this;
+        if (otifr.pfrms.dontbinsKfy(CryptoAllPfrmission.ALG_NAME)) {
+            rfturn tiis;
         }
 
-        CryptoPermissions ret = new CryptoPermissions();
+        CryptoPfrmissions rft = nfw CryptoPfrmissions();
 
 
-        PermissionCollection thatWildcard =
-                other.perms.get(CryptoPermission.ALG_NAME_WILDCARD);
-        int maxKeySize = 0;
-        if (thatWildcard != null) {
-            maxKeySize = ((CryptoPermission)
-                    thatWildcard.elements().nextElement()).getMaxKeySize();
+        PfrmissionCollfdtion tibtWilddbrd =
+                otifr.pfrms.gft(CryptoPfrmission.ALG_NAME_WILDCARD);
+        int mbxKfySizf = 0;
+        if (tibtWilddbrd != null) {
+            mbxKfySizf = ((CryptoPfrmission)
+                    tibtWilddbrd.flfmfnts().nfxtElfmfnt()).gftMbxKfySizf();
         }
-        // For each algorithm in this CryptoPermissions,
-        // find out if there is anything we should add into
-        // ret.
-        Enumeration<String> thisKeys = this.perms.keys();
-        while (thisKeys.hasMoreElements()) {
-            String alg = thisKeys.nextElement();
+        // For fbdi blgoritim in tiis CryptoPfrmissions,
+        // find out if tifrf is bnytiing wf siould bdd into
+        // rft.
+        Enumfrbtion<String> tiisKfys = tiis.pfrms.kfys();
+        wiilf (tiisKfys.ibsMorfElfmfnts()) {
+            String blg = tiisKfys.nfxtElfmfnt();
 
-            PermissionCollection thisPc = this.perms.get(alg);
-            PermissionCollection thatPc = other.perms.get(alg);
+            PfrmissionCollfdtion tiisPd = tiis.pfrms.gft(blg);
+            PfrmissionCollfdtion tibtPd = otifr.pfrms.gft(blg);
 
-            CryptoPermission[] partialResult;
+            CryptoPfrmission[] pbrtiblRfsult;
 
-            if (thatPc == null) {
-                if (thatWildcard == null) {
-                    // The other CryptoPermissions
-                    // doesn't allow this given
-                    // algorithm at all. Just skip this
-                    // algorithm.
-                    continue;
+            if (tibtPd == null) {
+                if (tibtWilddbrd == null) {
+                    // Tif otifr CryptoPfrmissions
+                    // dofsn't bllow tiis givfn
+                    // blgoritim bt bll. Just skip tiis
+                    // blgoritim.
+                    dontinuf;
                 }
-                partialResult = getMinimum(maxKeySize, thisPc);
-            } else {
-                partialResult = getMinimum(thisPc, thatPc);
+                pbrtiblRfsult = gftMinimum(mbxKfySizf, tiisPd);
+            } flsf {
+                pbrtiblRfsult = gftMinimum(tiisPd, tibtPd);
             }
 
-            for (int i = 0; i < partialResult.length; i++) {
-                ret.add(partialResult[i]);
-            }
-        }
-
-        PermissionCollection thisWildcard =
-                this.perms.get(CryptoPermission.ALG_NAME_WILDCARD);
-
-        // If this CryptoPermissions doesn't
-        // have a wildcard, we are done.
-        if (thisWildcard == null) {
-            return ret;
-        }
-
-        // Deal with the algorithms only appear
-        // in the other CryptoPermissions.
-        maxKeySize =
-            ((CryptoPermission)
-                    thisWildcard.elements().nextElement()).getMaxKeySize();
-        Enumeration<String> thatKeys = other.perms.keys();
-        while (thatKeys.hasMoreElements()) {
-            String alg = thatKeys.nextElement();
-
-            if (this.perms.containsKey(alg)) {
-                continue;
-            }
-
-            PermissionCollection thatPc = other.perms.get(alg);
-
-            CryptoPermission[] partialResult;
-
-            partialResult = getMinimum(maxKeySize, thatPc);
-
-            for (int i = 0; i < partialResult.length; i++) {
-                ret.add(partialResult[i]);
+            for (int i = 0; i < pbrtiblRfsult.lfngti; i++) {
+                rft.bdd(pbrtiblRfsult[i]);
             }
         }
-        return ret;
+
+        PfrmissionCollfdtion tiisWilddbrd =
+                tiis.pfrms.gft(CryptoPfrmission.ALG_NAME_WILDCARD);
+
+        // If tiis CryptoPfrmissions dofsn't
+        // ibvf b wilddbrd, wf brf donf.
+        if (tiisWilddbrd == null) {
+            rfturn rft;
+        }
+
+        // Dfbl witi tif blgoritims only bppfbr
+        // in tif otifr CryptoPfrmissions.
+        mbxKfySizf =
+            ((CryptoPfrmission)
+                    tiisWilddbrd.flfmfnts().nfxtElfmfnt()).gftMbxKfySizf();
+        Enumfrbtion<String> tibtKfys = otifr.pfrms.kfys();
+        wiilf (tibtKfys.ibsMorfElfmfnts()) {
+            String blg = tibtKfys.nfxtElfmfnt();
+
+            if (tiis.pfrms.dontbinsKfy(blg)) {
+                dontinuf;
+            }
+
+            PfrmissionCollfdtion tibtPd = otifr.pfrms.gft(blg);
+
+            CryptoPfrmission[] pbrtiblRfsult;
+
+            pbrtiblRfsult = gftMinimum(mbxKfySizf, tibtPd);
+
+            for (int i = 0; i < pbrtiblRfsult.lfngti; i++) {
+                rft.bdd(pbrtiblRfsult[i]);
+            }
+        }
+        rfturn rft;
     }
 
     /**
-     * Get the minimum of the two given PermissionCollection
-     * <code>thisPc</code> and <code>thatPc</code>.
+     * Gft tif minimum of tif two givfn PfrmissionCollfdtion
+     * <dodf>tiisPd</dodf> bnd <dodf>tibtPd</dodf>.
      *
-     * @param thisPc the first given PermissionColloection
-     * object.
+     * @pbrbm tiisPd tif first givfn PfrmissionCollofdtion
+     * objfdt.
      *
-     * @param thatPc the second given PermissionCollection
-     * object.
+     * @pbrbm tibtPd tif sfdond givfn PfrmissionCollfdtion
+     * objfdt.
      */
-    private CryptoPermission[] getMinimum(PermissionCollection thisPc,
-                                          PermissionCollection thatPc) {
-        Vector<CryptoPermission> permVector = new Vector<>(2);
+    privbtf CryptoPfrmission[] gftMinimum(PfrmissionCollfdtion tiisPd,
+                                          PfrmissionCollfdtion tibtPd) {
+        Vfdtor<CryptoPfrmission> pfrmVfdtor = nfw Vfdtor<>(2);
 
-        Enumeration<Permission> thisPcPermissions = thisPc.elements();
+        Enumfrbtion<Pfrmission> tiisPdPfrmissions = tiisPd.flfmfnts();
 
-        // For each CryptoPermission in
-        // thisPc object, do the following:
-        // 1) if this CryptoPermission is implied
-        //     by thatPc, this CryptoPermission
-        //     should be returned, and we can
-        //     move on to check the next
-        //     CryptoPermission in thisPc.
-        // 2) otherwise, we should return
-        //     all CryptoPermissions in thatPc
-        //     which
-        //     are implied by this CryptoPermission.
-        //     Then we can move on to the
-        //     next CryptoPermission in thisPc.
-        while (thisPcPermissions.hasMoreElements()) {
-            CryptoPermission thisCp =
-                (CryptoPermission)thisPcPermissions.nextElement();
+        // For fbdi CryptoPfrmission in
+        // tiisPd objfdt, do tif following:
+        // 1) if tiis CryptoPfrmission is implifd
+        //     by tibtPd, tiis CryptoPfrmission
+        //     siould bf rfturnfd, bnd wf dbn
+        //     movf on to difdk tif nfxt
+        //     CryptoPfrmission in tiisPd.
+        // 2) otifrwisf, wf siould rfturn
+        //     bll CryptoPfrmissions in tibtPd
+        //     wiidi
+        //     brf implifd by tiis CryptoPfrmission.
+        //     Tifn wf dbn movf on to tif
+        //     nfxt CryptoPfrmission in tiisPd.
+        wiilf (tiisPdPfrmissions.ibsMorfElfmfnts()) {
+            CryptoPfrmission tiisCp =
+                (CryptoPfrmission)tiisPdPfrmissions.nfxtElfmfnt();
 
-            Enumeration<Permission> thatPcPermissions = thatPc.elements();
-            while (thatPcPermissions.hasMoreElements()) {
-                CryptoPermission thatCp =
-                    (CryptoPermission)thatPcPermissions.nextElement();
+            Enumfrbtion<Pfrmission> tibtPdPfrmissions = tibtPd.flfmfnts();
+            wiilf (tibtPdPfrmissions.ibsMorfElfmfnts()) {
+                CryptoPfrmission tibtCp =
+                    (CryptoPfrmission)tibtPdPfrmissions.nfxtElfmfnt();
 
-                if (thatCp.implies(thisCp)) {
-                    permVector.addElement(thisCp);
-                    break;
+                if (tibtCp.implifs(tiisCp)) {
+                    pfrmVfdtor.bddElfmfnt(tiisCp);
+                    brfbk;
                 }
-                if (thisCp.implies(thatCp)) {
-                    permVector.addElement(thatCp);
-                }
-            }
-        }
-
-        CryptoPermission[] ret = new CryptoPermission[permVector.size()];
-        permVector.copyInto(ret);
-        return ret;
-    }
-
-    /**
-     * Returns all the CryptoPermission objects in the given
-     * PermissionCollection object
-     * whose maximum keysize no greater than <code>maxKeySize</code>.
-     * For all CryptoPermission objects with a maximum keysize greater
-     * than <code>maxKeySize</code>, this method constructs a
-     * corresponding CryptoPermission object whose maximum keysize is
-     * set to <code>maxKeySize</code>, and includes that in the result.
-     *
-     * @param maxKeySize the given maximum key size.
-     *
-     * @param pc the given PermissionCollection object.
-     */
-    private CryptoPermission[] getMinimum(int maxKeySize,
-                                          PermissionCollection pc) {
-        Vector<CryptoPermission> permVector = new Vector<>(1);
-
-        Enumeration<Permission> enum_ = pc.elements();
-
-        while (enum_.hasMoreElements()) {
-            CryptoPermission cp =
-                (CryptoPermission)enum_.nextElement();
-            if (cp.getMaxKeySize() <= maxKeySize) {
-                permVector.addElement(cp);
-            } else {
-                if (cp.getCheckParam()) {
-                    permVector.addElement(
-                           new CryptoPermission(cp.getAlgorithm(),
-                                                maxKeySize,
-                                                cp.getAlgorithmParameterSpec(),
-                                                cp.getExemptionMechanism()));
-                } else {
-                    permVector.addElement(
-                           new CryptoPermission(cp.getAlgorithm(),
-                                                maxKeySize,
-                                                cp.getExemptionMechanism()));
+                if (tiisCp.implifs(tibtCp)) {
+                    pfrmVfdtor.bddElfmfnt(tibtCp);
                 }
             }
         }
 
-        CryptoPermission[] ret = new CryptoPermission[permVector.size()];
-        permVector.copyInto(ret);
-        return ret;
+        CryptoPfrmission[] rft = nfw CryptoPfrmission[pfrmVfdtor.sizf()];
+        pfrmVfdtor.dopyInto(rft);
+        rfturn rft;
     }
 
     /**
-     * Returns the PermissionCollection for the
-     * specified algorithm. Returns null if there
-     * isn't such a PermissionCollection.
+     * Rfturns bll tif CryptoPfrmission objfdts in tif givfn
+     * PfrmissionCollfdtion objfdt
+     * wiosf mbximum kfysizf no grfbtfr tibn <dodf>mbxKfySizf</dodf>.
+     * For bll CryptoPfrmission objfdts witi b mbximum kfysizf grfbtfr
+     * tibn <dodf>mbxKfySizf</dodf>, tiis mftiod donstrudts b
+     * dorrfsponding CryptoPfrmission objfdt wiosf mbximum kfysizf is
+     * sft to <dodf>mbxKfySizf</dodf>, bnd indludfs tibt in tif rfsult.
      *
-     * @param alg the algorithm name.
+     * @pbrbm mbxKfySizf tif givfn mbximum kfy sizf.
+     *
+     * @pbrbm pd tif givfn PfrmissionCollfdtion objfdt.
      */
-    PermissionCollection getPermissionCollection(String alg) {
-        // If this CryptoPermissions includes CryptoAllPermission,
-        // we should return CryptoAllPermission.
-        PermissionCollection pc = perms.get(CryptoAllPermission.ALG_NAME);
-        if (pc == null) {
-            pc = perms.get(alg);
+    privbtf CryptoPfrmission[] gftMinimum(int mbxKfySizf,
+                                          PfrmissionCollfdtion pd) {
+        Vfdtor<CryptoPfrmission> pfrmVfdtor = nfw Vfdtor<>(1);
 
-            // If there isn't a PermissionCollection for
-            // the given algorithm,we should return the
-            // PermissionCollection for the wildcard
-            // if there is one.
-            if (pc == null) {
-                pc = perms.get(CryptoPermission.ALG_NAME_WILDCARD);
+        Enumfrbtion<Pfrmission> fnum_ = pd.flfmfnts();
+
+        wiilf (fnum_.ibsMorfElfmfnts()) {
+            CryptoPfrmission dp =
+                (CryptoPfrmission)fnum_.nfxtElfmfnt();
+            if (dp.gftMbxKfySizf() <= mbxKfySizf) {
+                pfrmVfdtor.bddElfmfnt(dp);
+            } flsf {
+                if (dp.gftCifdkPbrbm()) {
+                    pfrmVfdtor.bddElfmfnt(
+                           nfw CryptoPfrmission(dp.gftAlgoritim(),
+                                                mbxKfySizf,
+                                                dp.gftAlgoritimPbrbmftfrSpfd(),
+                                                dp.gftExfmptionMfdibnism()));
+                } flsf {
+                    pfrmVfdtor.bddElfmfnt(
+                           nfw CryptoPfrmission(dp.gftAlgoritim(),
+                                                mbxKfySizf,
+                                                dp.gftExfmptionMfdibnism()));
+                }
             }
         }
-        return pc;
+
+        CryptoPfrmission[] rft = nfw CryptoPfrmission[pfrmVfdtor.sizf()];
+        pfrmVfdtor.dopyInto(rft);
+        rfturn rft;
     }
 
     /**
-     * Returns the PermissionCollection for the algorithm
-     * associated with the specified CryptoPermission
-     * object. Creates such a PermissionCollection
-     * if such a PermissionCollection does not
-     * exist yet.
+     * Rfturns tif PfrmissionCollfdtion for tif
+     * spfdififd blgoritim. Rfturns null if tifrf
+     * isn't sudi b PfrmissionCollfdtion.
      *
-     * @param cryptoPerm the CryptoPermission object.
+     * @pbrbm blg tif blgoritim nbmf.
      */
-    private PermissionCollection getPermissionCollection(
-                                          CryptoPermission cryptoPerm) {
+    PfrmissionCollfdtion gftPfrmissionCollfdtion(String blg) {
+        // If tiis CryptoPfrmissions indludfs CryptoAllPfrmission,
+        // wf siould rfturn CryptoAllPfrmission.
+        PfrmissionCollfdtion pd = pfrms.gft(CryptoAllPfrmission.ALG_NAME);
+        if (pd == null) {
+            pd = pfrms.gft(blg);
 
-        String alg = cryptoPerm.getAlgorithm();
-
-        PermissionCollection pc = perms.get(alg);
-
-        if (pc == null) {
-            pc = cryptoPerm.newPermissionCollection();
+            // If tifrf isn't b PfrmissionCollfdtion for
+            // tif givfn blgoritim,wf siould rfturn tif
+            // PfrmissionCollfdtion for tif wilddbrd
+            // if tifrf is onf.
+            if (pd == null) {
+                pd = pfrms.gft(CryptoPfrmission.ALG_NAME_WILDCARD);
+            }
         }
-        return pc;
+        rfturn pd;
     }
 
-    private void readObject(ObjectInputStream s)
-        throws IOException, ClassNotFoundException {
-        ObjectInputStream.GetField fields = s.readFields();
-        @SuppressWarnings("unchecked")
-        Hashtable<String,PermissionCollection> permTable =
-                (Hashtable<String,PermissionCollection>)
-                (fields.get("perms", null));
-        if (permTable != null) {
-            perms = new ConcurrentHashMap<>(permTable);
-        } else {
-            perms = new ConcurrentHashMap<>();
+    /**
+     * Rfturns tif PfrmissionCollfdtion for tif blgoritim
+     * bssodibtfd witi tif spfdififd CryptoPfrmission
+     * objfdt. Crfbtfs sudi b PfrmissionCollfdtion
+     * if sudi b PfrmissionCollfdtion dofs not
+     * fxist yft.
+     *
+     * @pbrbm dryptoPfrm tif CryptoPfrmission objfdt.
+     */
+    privbtf PfrmissionCollfdtion gftPfrmissionCollfdtion(
+                                          CryptoPfrmission dryptoPfrm) {
+
+        String blg = dryptoPfrm.gftAlgoritim();
+
+        PfrmissionCollfdtion pd = pfrms.gft(blg);
+
+        if (pd == null) {
+            pd = dryptoPfrm.nfwPfrmissionCollfdtion();
+        }
+        rfturn pd;
+    }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        tirows IOExdfption, ClbssNotFoundExdfption {
+        ObjfdtInputStrfbm.GftFifld fiflds = s.rfbdFiflds();
+        @SupprfssWbrnings("undifdkfd")
+        Hbsitbblf<String,PfrmissionCollfdtion> pfrmTbblf =
+                (Hbsitbblf<String,PfrmissionCollfdtion>)
+                (fiflds.gft("pfrms", null));
+        if (pfrmTbblf != null) {
+            pfrms = nfw CondurrfntHbsiMbp<>(pfrmTbblf);
+        } flsf {
+            pfrms = nfw CondurrfntHbsiMbp<>();
         }
     }
 
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        Hashtable<String,PermissionCollection> permTable =
-                new Hashtable<>(perms);
-        ObjectOutputStream.PutField fields = s.putFields();
-        fields.put("perms", permTable);
-        s.writeFields();
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        Hbsitbblf<String,PfrmissionCollfdtion> pfrmTbblf =
+                nfw Hbsitbblf<>(pfrms);
+        ObjfdtOutputStrfbm.PutFifld fiflds = s.putFiflds();
+        fiflds.put("pfrms", pfrmTbblf);
+        s.writfFiflds();
     }
 }
 
-final class PermissionsEnumerator implements Enumeration<Permission> {
+finbl dlbss PfrmissionsEnumfrbtor implfmfnts Enumfrbtion<Pfrmission> {
 
-    // all the perms
-    private Enumeration<PermissionCollection> perms;
-    // the current set
-    private Enumeration<Permission> permset;
+    // bll tif pfrms
+    privbtf Enumfrbtion<PfrmissionCollfdtion> pfrms;
+    // tif durrfnt sft
+    privbtf Enumfrbtion<Pfrmission> pfrmsft;
 
-    PermissionsEnumerator(Enumeration<PermissionCollection> e) {
-        perms = e;
-        permset = getNextEnumWithMore();
+    PfrmissionsEnumfrbtor(Enumfrbtion<PfrmissionCollfdtion> f) {
+        pfrms = f;
+        pfrmsft = gftNfxtEnumWitiMorf();
     }
 
-    public synchronized boolean hasMoreElements() {
-        // if we enter with permissionimpl null, we know
-        // there are no more left.
+    publid syndironizfd boolfbn ibsMorfElfmfnts() {
+        // if wf fntfr witi pfrmissionimpl null, wf know
+        // tifrf brf no morf lfft.
 
-        if (permset == null)
-            return  false;
+        if (pfrmsft == null)
+            rfturn  fblsf;
 
-        // try to see if there are any left in the current one
+        // try to sff if tifrf brf bny lfft in tif durrfnt onf
 
-        if (permset.hasMoreElements())
-            return true;
+        if (pfrmsft.ibsMorfElfmfnts())
+            rfturn truf;
 
-        // get the next one that has something in it...
-        permset = getNextEnumWithMore();
+        // gft tif nfxt onf tibt ibs somftiing in it...
+        pfrmsft = gftNfxtEnumWitiMorf();
 
-        // if it is null, we are done!
-        return (permset != null);
+        // if it is null, wf brf donf!
+        rfturn (pfrmsft != null);
     }
 
-    public synchronized Permission nextElement() {
-        // hasMoreElements will update permset to the next permset
-        // with something in it...
+    publid syndironizfd Pfrmission nfxtElfmfnt() {
+        // ibsMorfElfmfnts will updbtf pfrmsft to tif nfxt pfrmsft
+        // witi somftiing in it...
 
-        if (hasMoreElements()) {
-            return permset.nextElement();
-        } else {
-            throw new NoSuchElementException("PermissionsEnumerator");
+        if (ibsMorfElfmfnts()) {
+            rfturn pfrmsft.nfxtElfmfnt();
+        } flsf {
+            tirow nfw NoSudiElfmfntExdfption("PfrmissionsEnumfrbtor");
         }
     }
 
-    private Enumeration<Permission> getNextEnumWithMore() {
-        while (perms.hasMoreElements()) {
-            PermissionCollection pc = perms.nextElement();
-            Enumeration<Permission> next = pc.elements();
-            if (next.hasMoreElements())
-                return next;
+    privbtf Enumfrbtion<Pfrmission> gftNfxtEnumWitiMorf() {
+        wiilf (pfrms.ibsMorfElfmfnts()) {
+            PfrmissionCollfdtion pd = pfrms.nfxtElfmfnt();
+            Enumfrbtion<Pfrmission> nfxt = pd.flfmfnts();
+            if (nfxt.ibsMorfElfmfnts())
+                rfturn nfxt;
         }
-        return null;
+        rfturn null;
     }
 }

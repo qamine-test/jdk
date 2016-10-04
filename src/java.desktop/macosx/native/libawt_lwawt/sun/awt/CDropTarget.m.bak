@@ -1,742 +1,742 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-//#define DND_DEBUG TRUE
+//#dffinf DND_DEBUG TRUE
 
-#import "CDropTarget.h"
-#import "AWTView.h"
+#import "CDropTbrgft.i"
+#import "AWTVifw.i"
 
-#import "sun_lwawt_macosx_CDropTarget.h"
-#import "java_awt_dnd_DnDConstants.h"
+#import "sun_lwbwt_mbdosx_CDropTbrgft.i"
+#import "jbvb_bwt_dnd_DnDConstbnts.i"
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
-#import <JavaRuntimeSupport/JavaRuntimeSupport.h>
-#include <objc/objc-runtime.h>
-
-
-#import "CDragSource.h"
-#import "CDataTransferer.h"
-#import "DnDUtilities.h"
-#import "ThreadUtilities.h"
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.i>
+#import <JbvbRuntimfSupport/JbvbRuntimfSupport.i>
+#indludf <objd/objd-runtimf.i>
 
 
-static NSInteger        sDraggingSequenceNumber = -1;
-static NSDragOperation    sDragOperation;
-static NSDragOperation    sUpdateOperation;
-static jint                sJavaDropOperation;
-static NSPoint            sDraggingLocation;
-static BOOL                sDraggingExited;
-static BOOL                sDraggingError;
+#import "CDrbgSourdf.i"
+#import "CDbtbTrbnsffrfr.i"
+#import "DnDUtilitifs.i"
+#import "TirfbdUtilitifs.i"
 
-static NSUInteger        sPasteboardItemsCount = 0;
-static NSArray*            sPasteboardTypes = nil;
-static NSArray*            sPasteboardData = nil;
-static jlongArray        sDraggingFormats = nil;
 
-static CDropTarget*        sCurrentDropTarget;
+stbtid NSIntfgfr        sDrbggingSfqufndfNumbfr = -1;
+stbtid NSDrbgOpfrbtion    sDrbgOpfrbtion;
+stbtid NSDrbgOpfrbtion    sUpdbtfOpfrbtion;
+stbtid jint                sJbvbDropOpfrbtion;
+stbtid NSPoint            sDrbggingLodbtion;
+stbtid BOOL                sDrbggingExitfd;
+stbtid BOOL                sDrbggingError;
 
-extern JNFClassInfo jc_CDropTargetContextPeer;
+stbtid NSUIntfgfr        sPbstfbobrdItfmsCount = 0;
+stbtid NSArrby*            sPbstfbobrdTypfs = nil;
+stbtid NSArrby*            sPbstfbobrdDbtb = nil;
+stbtid jlongArrby        sDrbggingFormbts = nil;
 
-@implementation CDropTarget
+stbtid CDropTbrgft*        sCurrfntDropTbrgft;
 
-+ (CDropTarget *) currentDropTarget {
-    return sCurrentDropTarget;
+fxtfrn JNFClbssInfo jd_CDropTbrgftContfxtPffr;
+
+@implfmfntbtion CDropTbrgft
+
++ (CDropTbrgft *) durrfntDropTbrgft {
+    rfturn sCurrfntDropTbrgft;
 }
 
-- (id)init:(jobject)jdropTarget component:(jobject)jcomponent control:(id)control
+- (id)init:(jobjfdt)jdropTbrgft domponfnt:(jobjfdt)jdomponfnt dontrol:(id)dontrol
 {
-    self = [super init];
-    DLog2(@"[CDropTarget init]: %@\n", self);
+    sflf = [supfr init];
+    DLog2(@"[CDropTbrgft init]: %@\n", sflf);
 
-    fView = nil;
-    fComponent = nil;
-    fDropTarget = nil;
-    fDropTargetContextPeer = nil;
-
-
-    if (control != nil) {
-        JNIEnv *env = [ThreadUtilities getJNIEnvUncached];
-        fComponent = JNFNewGlobalRef(env, jcomponent);
-        fDropTarget = JNFNewGlobalRef(env, jdropTarget);
-
-        fView = [((AWTView *) control) retain];
-        [fView setDropTarget:self];
+    fVifw = nil;
+    fComponfnt = nil;
+    fDropTbrgft = nil;
+    fDropTbrgftContfxtPffr = nil;
 
 
-    } else {
-        // This would be an error.
-        [self release];
-        self = nil;
+    if (dontrol != nil) {
+        JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnvUndbdifd];
+        fComponfnt = JNFNfwGlobblRff(fnv, jdomponfnt);
+        fDropTbrgft = JNFNfwGlobblRff(fnv, jdropTbrgft);
+
+        fVifw = [((AWTVifw *) dontrol) rftbin];
+        [fVifw sftDropTbrgft:sflf];
+
+
+    } flsf {
+        // Tiis would bf bn frror.
+        [sflf rflfbsf];
+        sflf = nil;
     }
-    return self;
+    rfturn sflf;
 }
 
-// When [CDropTarget init] is called the ControlModel's fView may not have been set up yet. ControlModel
-// (soon after) calls [CDropTarget controlModelControlValid] on the native event thread, once per CDropTarget,
-// to let it know it's been set up now.
-- (void)controlModelControlValid
+// Wifn [CDropTbrgft init] is dbllfd tif ControlModfl's fVifw mby not ibvf bffn sft up yft. ControlModfl
+// (soon bftfr) dblls [CDropTbrgft dontrolModflControlVblid] on tif nbtivf fvfnt tirfbd, ondf pfr CDropTbrgft,
+// to lft it know it's bffn sft up now.
+- (void)dontrolModflControlVblid
 {
-    // 9-30-02 Note: [Radar 3065621]
-    // List all known pasteboard types here (see AppKit's NSPasteboard.h)
-    // How to register for non-standard data types remains to be determined.
-    NSArray* dataTypes = [[NSArray alloc] initWithObjects:
-        NSStringPboardType,
-        NSFilenamesPboardType,
-        NSPostScriptPboardType,
-        NSTIFFPboardType,
-        NSPasteboardTypePNG,
-        NSRTFPboardType,
-        NSTabularTextPboardType,
-        NSFontPboardType,
-        NSRulerPboardType,
-        NSFileContentsPboardType,
-        NSColorPboardType,
-        NSRTFDPboardType,
-        NSHTMLPboardType,
-        NSURLPboardType,
-        NSPDFPboardType,
-        NSVCardPboardType,
-        NSFilesPromisePboardType,
-        [DnDUtilities javaPboardType],
-        (NSString*)kUTTypeJPEG,
+    // 9-30-02 Notf: [Rbdbr 3065621]
+    // List bll known pbstfbobrd typfs ifrf (sff AppKit's NSPbstfbobrd.i)
+    // How to rfgistfr for non-stbndbrd dbtb typfs rfmbins to bf dftfrminfd.
+    NSArrby* dbtbTypfs = [[NSArrby bllod] initWitiObjfdts:
+        NSStringPbobrdTypf,
+        NSFilfnbmfsPbobrdTypf,
+        NSPostSdriptPbobrdTypf,
+        NSTIFFPbobrdTypf,
+        NSPbstfbobrdTypfPNG,
+        NSRTFPbobrdTypf,
+        NSTbbulbrTfxtPbobrdTypf,
+        NSFontPbobrdTypf,
+        NSRulfrPbobrdTypf,
+        NSFilfContfntsPbobrdTypf,
+        NSColorPbobrdTypf,
+        NSRTFDPbobrdTypf,
+        NSHTMLPbobrdTypf,
+        NSURLPbobrdTypf,
+        NSPDFPbobrdTypf,
+        NSVCbrdPbobrdTypf,
+        NSFilfsPromisfPbobrdTypf,
+        [DnDUtilitifs jbvbPbobrdTypf],
+        (NSString*)kUTTypfJPEG,
         nil];
 
-    // Enable dragging events over this object:
-    [fView registerForDraggedTypes:dataTypes];
+    // Enbblf drbgging fvfnts ovfr tiis objfdt:
+    [fVifw rfgistfrForDrbggfdTypfs:dbtbTypfs];
 
-    [dataTypes release];
+    [dbtbTypfs rflfbsf];
 }
 
-- (void)releaseDraggingData
+- (void)rflfbsfDrbggingDbtb
 {
-    DLog2(@"[CDropTarget releaseDraggingData]: %@\n", self);
+    DLog2(@"[CDropTbrgft rflfbsfDrbggingDbtb]: %@\n", sflf);
 
-    // Release any old pasteboard types, data and properties:
-    [sPasteboardTypes release];
-    sPasteboardTypes = nil;
+    // Rflfbsf bny old pbstfbobrd typfs, dbtb bnd propfrtifs:
+    [sPbstfbobrdTypfs rflfbsf];
+    sPbstfbobrdTypfs = nil;
 
-    [sPasteboardData release];
-    sPasteboardData = nil;
+    [sPbstfbobrdDbtb rflfbsf];
+    sPbstfbobrdDbtb = nil;
 
-    if (sDraggingFormats != NULL) {
-        JNIEnv *env = [ThreadUtilities getJNIEnv];
-        JNFDeleteGlobalRef(env, sDraggingFormats);
-        sDraggingFormats = NULL;
+    if (sDrbggingFormbts != NULL) {
+        JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
+        JNFDflftfGlobblRff(fnv, sDrbggingFormbts);
+        sDrbggingFormbts = NULL;
     }
 
-    sPasteboardItemsCount = 0;
-    sDraggingSequenceNumber = -1;
+    sPbstfbobrdItfmsCount = 0;
+    sDrbggingSfqufndfNumbfr = -1;
 }
 
-- (void)removeFromView:(JNIEnv *)env
+- (void)rfmovfFromVifw:(JNIEnv *)fnv
 {
-    DLog2(@"[CDropTarget removeFromView]: %@\n", self);
+    DLog2(@"[CDropTbrgft rfmovfFromVifw]: %@\n", sflf);
 
-    // Remove this dragging destination from the view:
-    [((AWTView *) fView) setDropTarget:nil];
+    // Rfmovf tiis drbgging dfstinbtion from tif vifw:
+    [((AWTVifw *) fVifw) sftDropTbrgft:nil];
 
-    // Clean up JNI refs
-    if (fComponent != NULL) {
-        JNFDeleteGlobalRef(env, fComponent);
-        fComponent = NULL;
+    // Clfbn up JNI rffs
+    if (fComponfnt != NULL) {
+        JNFDflftfGlobblRff(fnv, fComponfnt);
+        fComponfnt = NULL;
     }
-    if (fDropTarget != NULL) {
-        JNFDeleteGlobalRef(env, fDropTarget);
-        fDropTarget = NULL;
+    if (fDropTbrgft != NULL) {
+        JNFDflftfGlobblRff(fnv, fDropTbrgft);
+        fDropTbrgft = NULL;
     }
-    if (fDropTargetContextPeer != NULL) {
-        JNFDeleteGlobalRef(env, fDropTargetContextPeer);
-        fDropTargetContextPeer = NULL;
+    if (fDropTbrgftContfxtPffr != NULL) {
+        JNFDflftfGlobblRff(fnv, fDropTbrgftContfxtPffr);
+        fDropTbrgftContfxtPffr = NULL;
     }
 
-    [self release];
+    [sflf rflfbsf];
 }
 
-- (void)dealloc
+- (void)dfbllod
 {
-    DLog2(@"[CDropTarget dealloc]: %@\n", self);
+    DLog2(@"[CDropTbrgft dfbllod]: %@\n", sflf);
 
-    if(sCurrentDropTarget == self) {
-        sCurrentDropTarget = nil;
+    if(sCurrfntDropTbrgft == sflf) {
+        sCurrfntDropTbrgft = nil;
     }
 
-    [fView release];
-    fView = nil;
+    [fVifw rflfbsf];
+    fVifw = nil;
 
-    [super dealloc];
+    [supfr dfbllod];
 }
 
-- (NSInteger) getDraggingSequenceNumber
+- (NSIntfgfr) gftDrbggingSfqufndfNumbfr
 {
-    return sDraggingSequenceNumber;
+    rfturn sDrbggingSfqufndfNumbfr;
 }
 
-// Debugging help:
-- (void)dumpPasteboard:(NSPasteboard*)pasteboard
+// Dfbugging iflp:
+- (void)dumpPbstfbobrd:(NSPbstfbobrd*)pbstfbobrd
 {
-    NSArray* pasteboardTypes = [pasteboard types];
-    NSUInteger pasteboardItemsCount = [pasteboardTypes count];
-    NSUInteger i;
+    NSArrby* pbstfbobrdTypfs = [pbstfbobrd typfs];
+    NSUIntfgfr pbstfbobrdItfmsCount = [pbstfbobrdTypfs dount];
+    NSUIntfgfr i;
 
-    // For each flavor on the pasteboard show the type, its data, and its property if there is one:
-    for (i = 0; i < pasteboardItemsCount; i++) {
-        NSString* pbType = [pasteboardTypes objectAtIndex:i];
-        CFShow(pbType);
+    // For fbdi flbvor on tif pbstfbobrd siow tif typf, its dbtb, bnd its propfrty if tifrf is onf:
+    for (i = 0; i < pbstfbobrdItfmsCount; i++) {
+        NSString* pbTypf = [pbstfbobrdTypfs objfdtAtIndfx:i];
+        CFSiow(pbTypf);
 
-        NSData*    pbData = [pasteboard dataForType:pbType];
-        CFShow(pbData);
+        NSDbtb*    pbDbtb = [pbstfbobrd dbtbForTypf:pbTypf];
+        CFSiow(pbDbtb);
 
-        if ([pbType hasPrefix:@"CorePasteboardFlavorType"] == NO) {
-            id pbDataProperty = [pasteboard propertyListForType:pbType];
-            CFShow(pbDataProperty);
+        if ([pbTypf ibsPrffix:@"CorfPbstfbobrdFlbvorTypf"] == NO) {
+            id pbDbtbPropfrty = [pbstfbobrd propfrtyListForTypf:pbTypf];
+            CFSiow(pbDbtbPropfrty);
         }
     }
 }
 
-- (BOOL)copyDraggingTypes:(id<NSDraggingInfo>)sender
+- (BOOL)dopyDrbggingTypfs:(id<NSDrbggingInfo>)sfndfr
 {
-    DLog2(@"[CDropTarget copyDraggingTypes]: %@\n", self);
-    JNIEnv*    env = [ThreadUtilities getJNIEnv];
+    DLog2(@"[CDropTbrgft dopyDrbggingTypfs]: %@\n", sflf);
+    JNIEnv*    fnv = [TirfbdUtilitifs gftJNIEnv];
 
-    // Release any old pasteboard data:
-    [self releaseDraggingData];
+    // Rflfbsf bny old pbstfbobrd dbtb:
+    [sflf rflfbsfDrbggingDbtb];
 
-    NSPasteboard* pb = [sender draggingPasteboard];
-    sPasteboardTypes = [[pb types] retain];
-    sPasteboardItemsCount = [sPasteboardTypes count];
-    if (sPasteboardItemsCount == 0)
-        return FALSE;
+    NSPbstfbobrd* pb = [sfndfr drbggingPbstfbobrd];
+    sPbstfbobrdTypfs = [[pb typfs] rftbin];
+    sPbstfbobrdItfmsCount = [sPbstfbobrdTypfs dount];
+    if (sPbstfbobrdItfmsCount == 0)
+        rfturn FALSE;
 
-    jlongArray formats = (*env)->NewLongArray(env, sPasteboardItemsCount);
-    if (formats == nil)
-        return FALSE;
+    jlongArrby formbts = (*fnv)->NfwLongArrby(fnv, sPbstfbobrdItfmsCount);
+    if (formbts == nil)
+        rfturn FALSE;
 
-    sDraggingFormats = (jlongArray) JNFNewGlobalRef(env, formats);
-    (*env)->DeleteLocalRef(env, formats);
-    if (sDraggingFormats == nil)
-        return FALSE;
+    sDrbggingFormbts = (jlongArrby) JNFNfwGlobblRff(fnv, formbts);
+    (*fnv)->DflftfLodblRff(fnv, formbts);
+    if (sDrbggingFormbts == nil)
+        rfturn FALSE;
 
-    jboolean isCopy;
-    jlong* jformats = (*env)->GetLongArrayElements(env, sDraggingFormats, &isCopy);
-    if (jformats == nil) {
-        return FALSE;
+    jboolfbn isCopy;
+    jlong* jformbts = (*fnv)->GftLongArrbyElfmfnts(fnv, sDrbggingFormbts, &isCopy);
+    if (jformbts == nil) {
+        rfturn FALSE;
     }
 
-    // Copy all data formats and properties. In case of properties, if they are nil, we need to use
-    // a special NilProperty since [NSArray addObject] would crash on adding a nil object.
-    DLog2(@"[CDropTarget copyDraggingTypes]: typesCount = %lu\n", (unsigned long) sPasteboardItemsCount);
-    NSUInteger i;
-    for (i = 0; i < sPasteboardItemsCount; i++) {
-        NSString* pbType = [sPasteboardTypes objectAtIndex:i];
-        DLog3(@"[CDropTarget copyDraggingTypes]: type[%lu] = %@\n", (unsigned long) i, pbType);
+    // Copy bll dbtb formbts bnd propfrtifs. In dbsf of propfrtifs, if tify brf nil, wf nffd to usf
+    // b spfdibl NilPropfrty sindf [NSArrby bddObjfdt] would drbsi on bdding b nil objfdt.
+    DLog2(@"[CDropTbrgft dopyDrbggingTypfs]: typfsCount = %lu\n", (unsignfd long) sPbstfbobrdItfmsCount);
+    NSUIntfgfr i;
+    for (i = 0; i < sPbstfbobrdItfmsCount; i++) {
+        NSString* pbTypf = [sPbstfbobrdTypfs objfdtAtIndfx:i];
+        DLog3(@"[CDropTbrgft dopyDrbggingTypfs]: typf[%lu] = %@\n", (unsignfd long) i, pbTypf);
 
-        // 01-10-03 Note: until we need data properties for doing something useful don't copy them.
-        // They're often copies of their flavor's data and copying them for all available pasteboard flavors
-        // (which are often auto-translation of one another) can be a significant time/space hit.
+        // 01-10-03 Notf: until wf nffd dbtb propfrtifs for doing somftiing usfful don't dopy tifm.
+        // Tify'rf oftfn dopifs of tifir flbvor's dbtb bnd dopying tifm for bll bvbilbblf pbstfbobrd flbvors
+        // (wiidi brf oftfn buto-trbnslbtion of onf bnotifr) dbn bf b signifidbnt timf/spbdf iit.
 
-        // If this is a remote object type (not a pre-defined format) register it with the pasteboard:
-        jformats[i] = indexForFormat(pbType);
-        if (jformats[i] == -1 && [pbType hasPrefix:@"JAVA_DATAFLAVOR:application/x-java-remote-object;"])
-            jformats[i] = registerFormatWithPasteboard(pbType);
+        // If tiis is b rfmotf objfdt typf (not b prf-dffinfd formbt) rfgistfr it witi tif pbstfbobrd:
+        jformbts[i] = indfxForFormbt(pbTypf);
+        if (jformbts[i] == -1 && [pbTypf ibsPrffix:@"JAVA_DATAFLAVOR:bpplidbtion/x-jbvb-rfmotf-objfdt;"])
+            jformbts[i] = rfgistfrFormbtWitiPbstfbobrd(pbTypf);
     }
 
-    (*env)->ReleaseLongArrayElements(env, sDraggingFormats, jformats, JNI_COMMIT);
+    (*fnv)->RflfbsfLongArrbyElfmfnts(fnv, sDrbggingFormbts, jformbts, JNI_COMMIT);
 
-    return TRUE;
+    rfturn TRUE;
 }
 
-- (BOOL)copyDraggingData:(id<NSDraggingInfo>)sender
+- (BOOL)dopyDrbggingDbtb:(id<NSDrbggingInfo>)sfndfr
 {
-    DLog2(@"[CDropTarget copyDraggingData]: %@\n", self);
+    DLog2(@"[CDropTbrgft dopyDrbggingDbtb]: %@\n", sflf);
 
-    sPasteboardData = [[NSMutableArray alloc] init];
-    if (sPasteboardData == nil)
-        return FALSE;
+    sPbstfbobrdDbtb = [[NSMutbblfArrby bllod] init];
+    if (sPbstfbobrdDbtb == nil)
+        rfturn FALSE;
 
-    // Copy all data items to a safe place since the pasteboard may go away before we'll need them:
-    NSPasteboard* pb = [sender draggingPasteboard];
-    NSUInteger i;
-    for (i = 0; i < sPasteboardItemsCount; i++) {
-        // Get a type and its data and save the data:
-        NSString* pbType = [sPasteboardTypes objectAtIndex:i];
-        // 01-10-03 Note: copying only NS-type data (until Java-specified types can make it through the AppKit)
-        // would be a good idea since we can't do anything with those CoreFoundation unknown types anyway.
-        // But I'm worried that it would break something in Fuller so I'm leaving this here as a reminder,
-        // to be evaluated later.
-        //id pbData = [pbType hasPrefix:@"NS"] ? [pb dataForType:pbType] : nil; // Copy only NS-type data!
-        id pbData = [pb dataForType:pbType];
+    // Copy bll dbtb itfms to b sbff plbdf sindf tif pbstfbobrd mby go bwby bfforf wf'll nffd tifm:
+    NSPbstfbobrd* pb = [sfndfr drbggingPbstfbobrd];
+    NSUIntfgfr i;
+    for (i = 0; i < sPbstfbobrdItfmsCount; i++) {
+        // Gft b typf bnd its dbtb bnd sbvf tif dbtb:
+        NSString* pbTypf = [sPbstfbobrdTypfs objfdtAtIndfx:i];
+        // 01-10-03 Notf: dopying only NS-typf dbtb (until Jbvb-spfdififd typfs dbn mbkf it tirougi tif AppKit)
+        // would bf b good idfb sindf wf dbn't do bnytiing witi tiosf CorfFoundbtion unknown typfs bnywby.
+        // But I'm worrifd tibt it would brfbk somftiing in Fullfr so I'm lfbving tiis ifrf bs b rfmindfr,
+        // to bf fvblubtfd lbtfr.
+        //id pbDbtb = [pbTypf ibsPrffix:@"NS"] ? [pb dbtbForTypf:pbTypf] : nil; // Copy only NS-typf dbtb!
+        id pbDbtb = [pb dbtbForTypf:pbTypf];
 
-        // If the data is null we can't store it in the array - an exception would be thrown.
-        // We use the special object NSNull instead which is kosher.
-        if (pbData == nil)
-            pbData = [NSNull null];
+        // If tif dbtb is null wf dbn't storf it in tif brrby - bn fxdfption would bf tirown.
+        // Wf usf tif spfdibl objfdt NSNull instfbd wiidi is kosifr.
+        if (pbDbtb == nil)
+            pbDbtb = [NSNull null];
 
-        [((NSMutableArray*) sPasteboardData) addObject:pbData];
+        [((NSMutbblfArrby*) sPbstfbobrdDbtb) bddObjfdt:pbDbtb];
     }
 
-    return TRUE;
+    rfturn TRUE;
 }
 
-- (NSData*) getDraggingDataForURL:(NSData*)data
+- (NSDbtb*) gftDrbggingDbtbForURL:(NSDbtb*)dbtb
 {
-    NSData* result = nil;
+    NSDbtb* rfsult = nil;
 
-    // Convert data into a property list if possible:
-    NSPropertyListFormat propertyListFormat;
-    NSString* errorString = nil;
-    id propertyList = [NSPropertyListSerialization propertyListFromData:data mutabilityOption:NSPropertyListImmutable
-        format:&propertyListFormat errorDescription:&errorString];
+    // Convfrt dbtb into b propfrty list if possiblf:
+    NSPropfrtyListFormbt propfrtyListFormbt;
+    NSString* frrorString = nil;
+    id propfrtyList = [NSPropfrtyListSfriblizbtion propfrtyListFromDbtb:dbtb mutbbilityOption:NSPropfrtyListImmutbblf
+        formbt:&propfrtyListFormbt frrorDfsdription:&frrorString];
 
-    // URL types have only a single URL string in an array:
-    if (propertyList != nil && errorString == nil && [propertyList isKindOfClass:[NSArray class]]) {
-        NSArray*  array = (NSArray*) propertyList;
-        if ([array count] > 0) {
-            NSString* url = (NSString*) [array objectAtIndex:0];
-            if (url != nil && [url length] > 0)
-                result = [url dataUsingEncoding:[url fastestEncoding]];
+    // URL typfs ibvf only b singlf URL string in bn brrby:
+    if (propfrtyList != nil && frrorString == nil && [propfrtyList isKindOfClbss:[NSArrby dlbss]]) {
+        NSArrby*  brrby = (NSArrby*) propfrtyList;
+        if ([brrby dount] > 0) {
+            NSString* url = (NSString*) [brrby objfdtAtIndfx:0];
+            if (url != nil && [url lfngti] > 0)
+                rfsult = [url dbtbUsingEndoding:[url fbstfstEndoding]];
         }
     }
 
-    return result;
+    rfturn rfsult;
 }
 
-- (jobject) copyDraggingDataForFormat:(jlong)format
+- (jobjfdt) dopyDrbggingDbtbForFormbt:(jlong)formbt
 {
-    JNIEnv*      env = [ThreadUtilities getJNIEnvUncached]; // Join the main thread by requesting uncached environment
+    JNIEnv*      fnv = [TirfbdUtilitifs gftJNIEnvUndbdifd]; // Join tif mbin tirfbd by rfqufsting undbdifd fnvironmfnt
 
-    NSData*      data = nil;
+    NSDbtb*      dbtb = nil;
 
-    // Convert the Java format (datatransferer int index) to a pasteboard format (NSString):
-    NSString* pbType = formatForIndex(format);
-    if ([sPasteboardTypes containsObject:pbType]) {
-        NSUInteger dataIndex = [sPasteboardTypes indexOfObject:pbType];
-        data = [sPasteboardData objectAtIndex:dataIndex];
+    // Convfrt tif Jbvb formbt (dbtbtrbnsffrfr int indfx) to b pbstfbobrd formbt (NSString):
+    NSString* pbTypf = formbtForIndfx(formbt);
+    if ([sPbstfbobrdTypfs dontbinsObjfdt:pbTypf]) {
+        NSUIntfgfr dbtbIndfx = [sPbstfbobrdTypfs indfxOfObjfdt:pbTypf];
+        dbtb = [sPbstfbobrdDbtb objfdtAtIndfx:dbtbIndfx];
 
-        if ((id) data == [NSNull null])
-            data = nil;
+        if ((id) dbtb == [NSNull null])
+            dbtb = nil;
 
-        // format == 8 (CF_URL in CDataTransferer): we need a URL-to-String conversion:
-        else if ([pbType isEqualToString:@"Apple URL pasteboard type"])
-            data = [self getDraggingDataForURL:data];
+        // formbt == 8 (CF_URL in CDbtbTrbnsffrfr): wf nffd b URL-to-String donvfrsion:
+        flsf if ([pbTypf isEqublToString:@"Applf URL pbstfbobrd typf"])
+            dbtb = [sflf gftDrbggingDbtbForURL:dbtb];
     }
 
-    // Get NS data:
-    char* dataBytes = (data != nil) ? (char*) [data bytes] : "Unsupported type";
-    NSUInteger dataLength = (data != nil) ? [data length] : sizeof("Unsupported type");
+    // Gft NS dbtb:
+    dibr* dbtbBytfs = (dbtb != nil) ? (dibr*) [dbtb bytfs] : "Unsupportfd typf";
+    NSUIntfgfr dbtbLfngti = (dbtb != nil) ? [dbtb lfngti] : sizfof("Unsupportfd typf");
 
-    // Create a global byte array:
-    jbyteArray lbyteArray = (*env)->NewByteArray(env, dataLength);
-    if (lbyteArray == nil)
-        return nil;
-    jbyteArray gbyteArray = (jbyteArray) JNFNewGlobalRef(env, lbyteArray);
-    (*env)->DeleteLocalRef(env, lbyteArray);
-    if (gbyteArray == nil)
-        return nil;
+    // Crfbtf b globbl bytf brrby:
+    jbytfArrby lbytfArrby = (*fnv)->NfwBytfArrby(fnv, dbtbLfngti);
+    if (lbytfArrby == nil)
+        rfturn nil;
+    jbytfArrby gbytfArrby = (jbytfArrby) JNFNfwGlobblRff(fnv, lbytfArrby);
+    (*fnv)->DflftfLodblRff(fnv, lbytfArrby);
+    if (gbytfArrby == nil)
+        rfturn nil;
 
-    // Get byte array elements:
-    jboolean isCopy;
-    jbyte* jbytes = (*env)->GetByteArrayElements(env, gbyteArray, &isCopy);
-    if (jbytes == nil)
-        return nil;
+    // Gft bytf brrby flfmfnts:
+    jboolfbn isCopy;
+    jbytf* jbytfs = (*fnv)->GftBytfArrbyElfmfnts(fnv, gbytfArrby, &isCopy);
+    if (jbytfs == nil)
+        rfturn nil;
 
-    // Copy data to byte array and release elements:
-    memcpy(jbytes, dataBytes, dataLength);
-    (*env)->ReleaseByteArrayElements(env, gbyteArray, jbytes, JNI_COMMIT);
+    // Copy dbtb to bytf brrby bnd rflfbsf flfmfnts:
+    mfmdpy(jbytfs, dbtbBytfs, dbtbLfngti);
+    (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, gbytfArrby, jbytfs, JNI_COMMIT);
 
-    // In case of an error make sure to return nil:
-    if ((*env)->ExceptionOccurred(env)) {
-                (*env)->ExceptionDescribe(env);
-        gbyteArray = nil;
+    // In dbsf of bn frror mbkf surf to rfturn nil:
+    if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+                (*fnv)->ExdfptionDfsdribf(fnv);
+        gbytfArrby = nil;
         }
 
-    return gbyteArray;
+    rfturn gbytfArrby;
 }
 
-- (void)safeReleaseDraggingData:(NSNumber *)arg
+- (void)sbffRflfbsfDrbggingDbtb:(NSNumbfr *)brg
 {
-    jlong draggingSequenceNumber = [arg longLongValue];
+    jlong drbggingSfqufndfNumbfr = [brg longLongVbluf];
 
-    // Make sure dragging data is released only if no new drag is under way. If a new drag
-    // has been initiated it has released the old dragging data already. This has to be called
-    // on the native event thread - otherwise we'd need to start synchronizing.
-    if (draggingSequenceNumber == sDraggingSequenceNumber)
-        [self releaseDraggingData];
+    // Mbkf surf drbgging dbtb is rflfbsfd only if no nfw drbg is undfr wby. If b nfw drbg
+    // ibs bffn initibtfd it ibs rflfbsfd tif old drbgging dbtb blrfbdy. Tiis ibs to bf dbllfd
+    // on tif nbtivf fvfnt tirfbd - otifrwisf wf'd nffd to stbrt syndironizing.
+    if (drbggingSfqufndfNumbfr == sDrbggingSfqufndfNumbfr)
+        [sflf rflfbsfDrbggingDbtb];
 }
 
-- (void)javaDraggingEnded:(jlong)draggingSequenceNumber success:(BOOL)jsuccess action:(jint)jdropaction
+- (void)jbvbDrbggingEndfd:(jlong)drbggingSfqufndfNumbfr suddfss:(BOOL)jsuddfss bdtion:(jint)jdropbdtion
 {
-    NSNumber *draggingSequenceNumberID = [NSNumber numberWithLongLong:draggingSequenceNumber];
-        // Report back actual Swing success, not what AppKit thinks
-        sDraggingError = !jsuccess;
-        sDragOperation = [DnDUtilities mapJavaDragOperationToNS:jdropaction];
+    NSNumbfr *drbggingSfqufndfNumbfrID = [NSNumbfr numbfrWitiLongLong:drbggingSfqufndfNumbfr];
+        // Rfport bbdk bdtubl Swing suddfss, not wibt AppKit tiinks
+        sDrbggingError = !jsuddfss;
+        sDrbgOpfrbtion = [DnDUtilitifs mbpJbvbDrbgOpfrbtionToNS:jdropbdtion];
 
-    // Release dragging data if any when Java's AWT event thread is all finished.
-    // Make sure dragging data is released on the native event thread.
-    [ThreadUtilities performOnMainThread:@selector(safeReleaseDraggingData:) on:self withObject:draggingSequenceNumberID waitUntilDone:NO];
+    // Rflfbsf drbgging dbtb if bny wifn Jbvb's AWT fvfnt tirfbd is bll finisifd.
+    // Mbkf surf drbgging dbtb is rflfbsfd on tif nbtivf fvfnt tirfbd.
+    [TirfbdUtilitifs pfrformOnMbinTirfbd:@sflfdtor(sbffRflfbsfDrbggingDbtb:) on:sflf witiObjfdt:drbggingSfqufndfNumbfrID wbitUntilDonf:NO];
 }
 
-- (jint)currentJavaActions {
-    return [DnDUtilities mapNSDragOperationToJava:sUpdateOperation];
+- (jint)durrfntJbvbAdtions {
+    rfturn [DnDUtilitifs mbpNSDrbgOpfrbtionToJbvb:sUpdbtfOpfrbtion];
 }
 
-/********************************  BEGIN NSDraggingDestination Interface  ********************************/
+/********************************  BEGIN NSDrbggingDfstinbtion Intfrfbdf  ********************************/
 
 
-// Private API to calculate the current Java actions
-- (void) calculateCurrentSourceActions:(jint *)actions dropAction:(jint *)dropAction
+// Privbtf API to dbldulbtf tif durrfnt Jbvb bdtions
+- (void) dbldulbtfCurrfntSourdfAdtions:(jint *)bdtions dropAdtion:(jint *)dropAdtion
 {
-    // Get the raw (unmodified by keys) source actions
-    id jrsDrag = objc_lookUpClass("JRSDrag");
-    if (jrsDrag != nil) {
-        NSDragOperation rawDragActions = (NSDragOperation) [jrsDrag performSelector:@selector(currentAllowableActions)];
-        if (rawDragActions != NSDragOperationNone) {
-            // Both actions and dropAction default to the rawActions
-            *actions = [DnDUtilities mapNSDragOperationMaskToJava:rawDragActions];
-            *dropAction = *actions;
+    // Gft tif rbw (unmodififd by kfys) sourdf bdtions
+    id jrsDrbg = objd_lookUpClbss("JRSDrbg");
+    if (jrsDrbg != nil) {
+        NSDrbgOpfrbtion rbwDrbgAdtions = (NSDrbgOpfrbtion) [jrsDrbg pfrformSflfdtor:@sflfdtor(durrfntAllowbblfAdtions)];
+        if (rbwDrbgAdtions != NSDrbgOpfrbtionNonf) {
+            // Boti bdtions bnd dropAdtion dffbult to tif rbwAdtions
+            *bdtions = [DnDUtilitifs mbpNSDrbgOpfrbtionMbskToJbvb:rbwDrbgAdtions];
+            *dropAdtion = *bdtions;
 
-            // Get the current key modifiers.
-            NSUInteger dragModifiers = (NSUInteger) [jrsDrag performSelector:@selector(currentModifiers)];
-            // Either the drop action is narrowed as per Java rules (MOVE, COPY, LINK, NONE) or by the drag modifiers
-            if (dragModifiers) {
-                // Get the user selected operation based on the drag modifiers, then return the intersection
-                NSDragOperation currentOp = [DnDUtilities nsDragOperationForModifiers:dragModifiers];
-                NSDragOperation allowedOp = rawDragActions & currentOp;
+            // Gft tif durrfnt kfy modififrs.
+            NSUIntfgfr drbgModififrs = (NSUIntfgfr) [jrsDrbg pfrformSflfdtor:@sflfdtor(durrfntModififrs)];
+            // Eitifr tif drop bdtion is nbrrowfd bs pfr Jbvb rulfs (MOVE, COPY, LINK, NONE) or by tif drbg modififrs
+            if (drbgModififrs) {
+                // Gft tif usfr sflfdtfd opfrbtion bbsfd on tif drbg modififrs, tifn rfturn tif intfrsfdtion
+                NSDrbgOpfrbtion durrfntOp = [DnDUtilitifs nsDrbgOpfrbtionForModififrs:drbgModififrs];
+                NSDrbgOpfrbtion bllowfdOp = rbwDrbgAdtions & durrfntOp;
 
-                *dropAction = [DnDUtilities mapNSDragOperationToJava:allowedOp];
+                *dropAdtion = [DnDUtilitifs mbpNSDrbgOpfrbtionToJbvb:bllowfdOp];
             }
         }
     }
-    *dropAction = [DnDUtilities narrowJavaDropActions:*dropAction];
+    *dropAdtion = [DnDUtilitifs nbrrowJbvbDropAdtions:*dropAdtion];
 }
 
-- (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender
+- (NSDrbgOpfrbtion)drbggingEntfrfd:(id<NSDrbggingInfo>)sfndfr
 {
-    DLog2(@"[CDropTarget draggingEntered]: %@\n", self);
+    DLog2(@"[CDropTbrgft drbggingEntfrfd]: %@\n", sflf);
 
-    sCurrentDropTarget = self;
+    sCurrfntDropTbrgft = sflf;
 
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
-    NSInteger draggingSequenceNumber = [sender draggingSequenceNumber];
+    JNIEnv* fnv = [TirfbdUtilitifs gftJNIEnv];
+    NSIntfgfr drbggingSfqufndfNumbfr = [sfndfr drbggingSfqufndfNumbfr];
 
-    // Set the initial drag operation return value:
-    NSDragOperation dragOp = NSDragOperationNone;
-        sJavaDropOperation = java_awt_dnd_DnDConstants_ACTION_NONE;
+    // Sft tif initibl drbg opfrbtion rfturn vbluf:
+    NSDrbgOpfrbtion drbgOp = NSDrbgOpfrbtionNonf;
+        sJbvbDropOpfrbtion = jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE;
 
-    // We could probably special-case some stuff if drag and drop objects match:
-    //if ([sender dragSource] == fView)
+    // Wf dould probbbly spfdibl-dbsf somf stuff if drbg bnd drop objfdts mbtdi:
+    //if ([sfndfr drbgSourdf] == fVifw)
 
-    if (draggingSequenceNumber != sDraggingSequenceNumber) {
-        sDraggingSequenceNumber = draggingSequenceNumber;
-        sDraggingError = FALSE;
+    if (drbggingSfqufndfNumbfr != sDrbggingSfqufndfNumbfr) {
+        sDrbggingSfqufndfNumbfr = drbggingSfqufndfNumbfr;
+        sDrbggingError = FALSE;
 
-        // Delete any drop target context peer left over from a previous drag:
-        if (fDropTargetContextPeer != NULL) {
-            JNFDeleteGlobalRef(env, fDropTargetContextPeer);
-            fDropTargetContextPeer = NULL;
+        // Dflftf bny drop tbrgft dontfxt pffr lfft ovfr from b prfvious drbg:
+        if (fDropTbrgftContfxtPffr != NULL) {
+            JNFDflftfGlobblRff(fnv, fDropTbrgftContfxtPffr);
+            fDropTbrgftContfxtPffr = NULL;
         }
 
-        // Look up the CDropTargetContextPeer class:
-        JNF_STATIC_MEMBER_CACHE(getDropTargetContextPeerMethod, jc_CDropTargetContextPeer, "getDropTargetContextPeer", "()Lsun/lwawt/macosx/CDropTargetContextPeer;");
-        if (sDraggingError == FALSE) {
-            // Create a new drop target context peer:
-            jobject dropTargetContextPeer = JNFCallStaticObjectMethod(env, getDropTargetContextPeerMethod);
+        // Look up tif CDropTbrgftContfxtPffr dlbss:
+        JNF_STATIC_MEMBER_CACHE(gftDropTbrgftContfxtPffrMftiod, jd_CDropTbrgftContfxtPffr, "gftDropTbrgftContfxtPffr", "()Lsun/lwbwt/mbdosx/CDropTbrgftContfxtPffr;");
+        if (sDrbggingError == FALSE) {
+            // Crfbtf b nfw drop tbrgft dontfxt pffr:
+            jobjfdt dropTbrgftContfxtPffr = JNFCbllStbtidObjfdtMftiod(fnv, gftDropTbrgftContfxtPffrMftiod);
 
-            if (dropTargetContextPeer != nil) {
-                fDropTargetContextPeer = JNFNewGlobalRef(env, dropTargetContextPeer);
-                (*env)->DeleteLocalRef(env, dropTargetContextPeer);
+            if (dropTbrgftContfxtPffr != nil) {
+                fDropTbrgftContfxtPffr = JNFNfwGlobblRff(fnv, dropTbrgftContfxtPffr);
+                (*fnv)->DflftfLodblRff(fnv, dropTbrgftContfxtPffr);
             }
         }
 
-        // Get dragging types (dragging data is only copied if dropped):
-        if (sDraggingError == FALSE && [self copyDraggingTypes:sender] == FALSE)
-            sDraggingError = TRUE;
+        // Gft drbgging typfs (drbgging dbtb is only dopifd if droppfd):
+        if (sDrbggingError == FALSE && [sflf dopyDrbggingTypfs:sfndfr] == FALSE)
+            sDrbggingError = TRUE;
     }
 
-    if (sDraggingError == FALSE) {
-        sDraggingExited = FALSE;
-        sDraggingLocation = [sender draggingLocation];
-        NSPoint javaLocation = [fView convertPoint:sDraggingLocation fromView:nil];
-        javaLocation.y = fView.window.frame.size.height - javaLocation.y;
+    if (sDrbggingError == FALSE) {
+        sDrbggingExitfd = FALSE;
+        sDrbggingLodbtion = [sfndfr drbggingLodbtion];
+        NSPoint jbvbLodbtion = [fVifw donvfrtPoint:sDrbggingLodbtion fromVifw:nil];
+        jbvbLodbtion.y = fVifw.window.frbmf.sizf.ifigit - jbvbLodbtion.y;
 
-        DLog5(@"+ dragEnter: loc native %f, %f, java %f, %f\n", sDraggingLocation.x, sDraggingLocation.y, javaLocation.x, javaLocation.y);
+        DLog5(@"+ drbgEntfr: lod nbtivf %f, %f, jbvb %f, %f\n", sDrbggingLodbtion.x, sDrbggingLodbtion.y, jbvbLodbtion.x, jbvbLodbtion.y);
 
-                ////////// BEGIN Calculate the current drag actions //////////
-                jint actions = java_awt_dnd_DnDConstants_ACTION_NONE;
-        jint dropAction = actions;
+                ////////// BEGIN Cbldulbtf tif durrfnt drbg bdtions //////////
+                jint bdtions = jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE;
+        jint dropAdtion = bdtions;
 
-                [self calculateCurrentSourceActions:&actions dropAction:&dropAction];
+                [sflf dbldulbtfCurrfntSourdfAdtions:&bdtions dropAdtion:&dropAdtion];
 
-                sJavaDropOperation = dropAction;
-                ////////// END Calculate the current drag actions //////////
+                sJbvbDropOpfrbtion = dropAdtion;
+                ////////// END Cbldulbtf tif durrfnt drbg bdtions //////////
 
-        jlongArray formats = sDraggingFormats;
+        jlongArrby formbts = sDrbggingFormbts;
 
-        JNF_MEMBER_CACHE(handleEnterMessageMethod, jc_CDropTargetContextPeer, "handleEnterMessage", "(Ljava/awt/Component;IIII[JJ)I");
-        if (sDraggingError == FALSE) {
-            // Double-casting self gets rid of 'different size' compiler warning:
-            // AWT_THREADING Safe (CToolkitThreadBlockedHandler)
-            actions = JNFCallIntMethod(env, fDropTargetContextPeer, handleEnterMessageMethod,
-                                       fComponent, (jint) javaLocation.x, (jint) javaLocation.y,
-                                       dropAction, actions, formats, ptr_to_jlong(self));
+        JNF_MEMBER_CACHE(ibndlfEntfrMfssbgfMftiod, jd_CDropTbrgftContfxtPffr, "ibndlfEntfrMfssbgf", "(Ljbvb/bwt/Componfnt;IIII[JJ)I");
+        if (sDrbggingError == FALSE) {
+            // Doublf-dbsting sflf gfts rid of 'difffrfnt sizf' dompilfr wbrning:
+            // AWT_THREADING Sbff (CToolkitTirfbdBlodkfdHbndlfr)
+            bdtions = JNFCbllIntMftiod(fnv, fDropTbrgftContfxtPffr, ibndlfEntfrMfssbgfMftiod,
+                                       fComponfnt, (jint) jbvbLodbtion.x, (jint) jbvbLodbtion.y,
+                                       dropAdtion, bdtions, formbts, ptr_to_jlong(sflf));
         }
 
-        if (sDraggingError == FALSE) {
-            // Initialize drag operation:
-            sDragOperation = NSDragOperationNone;
+        if (sDrbggingError == FALSE) {
+            // Initiblizf drbg opfrbtion:
+            sDrbgOpfrbtion = NSDrbgOpfrbtionNonf;
 
-            // Map Java actions back to NSDragOperation.
-            // 1-6-03 Note: if the entry point of this CDropTarget isn't covered by a droppable component
-            // (as can be the case with lightweight children) we must not return NSDragOperationNone
-            // since that would prevent dropping into any of the contained drop targets.
-            // Unfortunately there is no easy way to test this so we just test actions and override them
-            // with GENERIC if necessary. Proper drag operations will be returned by draggingUpdated: which is
-            // called right away, taking care of setting the right cursor and snap-back action.
-            dragOp = ((actions != java_awt_dnd_DnDConstants_ACTION_NONE) ?
-                [DnDUtilities mapJavaDragOperationToNS:dropAction] : NSDragOperationGeneric);
+            // Mbp Jbvb bdtions bbdk to NSDrbgOpfrbtion.
+            // 1-6-03 Notf: if tif fntry point of tiis CDropTbrgft isn't dovfrfd by b droppbblf domponfnt
+            // (bs dbn bf tif dbsf witi ligitwfigit diildrfn) wf must not rfturn NSDrbgOpfrbtionNonf
+            // sindf tibt would prfvfnt dropping into bny of tif dontbinfd drop tbrgfts.
+            // Unfortunbtfly tifrf is no fbsy wby to tfst tiis so wf just tfst bdtions bnd ovfrridf tifm
+            // witi GENERIC if nfdfssbry. Propfr drbg opfrbtions will bf rfturnfd by drbggingUpdbtfd: wiidi is
+            // dbllfd rigit bwby, tbking dbrf of sftting tif rigit dursor bnd snbp-bbdk bdtion.
+            drbgOp = ((bdtions != jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE) ?
+                [DnDUtilitifs mbpJbvbDrbgOpfrbtionToNS:dropAdtion] : NSDrbgOpfrbtionGfnfrid);
 
-            // Remember the dragOp for no-op'd update messages:
-            sUpdateOperation = dragOp;
+            // Rfmfmbfr tif drbgOp for no-op'd updbtf mfssbgfs:
+            sUpdbtfOpfrbtion = drbgOp;
         }
     }
 
-    // 9-11-02 Note: the native event thread would not handle an exception gracefully:
-    //if (sDraggingError == TRUE)
-    //    [NSException raise:NSGenericException format:@"[CDropTarget draggingEntered] failed."];
+    // 9-11-02 Notf: tif nbtivf fvfnt tirfbd would not ibndlf bn fxdfption grbdffully:
+    //if (sDrbggingError == TRUE)
+    //    [NSExdfption rbisf:NSGfnfridExdfption formbt:@"[CDropTbrgft drbggingEntfrfd] fbilfd."];
 
-    DLog2(@"[CDropTarget draggingEntered]: returning %lu\n", (unsigned long) dragOp);
+    DLog2(@"[CDropTbrgft drbggingEntfrfd]: rfturning %lu\n", (unsignfd long) drbgOp);
 
-    return dragOp;
+    rfturn drbgOp;
 }
 
-- (NSDragOperation)draggingUpdated:(id<NSDraggingInfo>)sender
+- (NSDrbgOpfrbtion)drbggingUpdbtfd:(id<NSDrbggingInfo>)sfndfr
 {
-    //DLog2(@"[CDropTarget draggingUpdated]: %@\n", self);
+    //DLog2(@"[CDropTbrgft drbggingUpdbtfd]: %@\n", sflf);
 
-    sCurrentDropTarget = self;
+    sCurrfntDropTbrgft = sflf;
 
-    // Set the initial drag operation return value:
-    NSDragOperation dragOp = (sDraggingError == FALSE ? sUpdateOperation : NSDragOperationNone);
+    // Sft tif initibl drbg opfrbtion rfturn vbluf:
+    NSDrbgOpfrbtion drbgOp = (sDrbggingError == FALSE ? sUpdbtfOpfrbtion : NSDrbgOpfrbtionNonf);
 
-    // There are two things we would be interested in:
-    // a) mouse pointer has moved
-    // b) drag actions (key modifiers) have changed
+    // Tifrf brf two tiings wf would bf intfrfstfd in:
+    // b) mousf pointfr ibs movfd
+    // b) drbg bdtions (kfy modififrs) ibvf dibngfd
 
-    NSPoint draggingLocation = [sender draggingLocation];
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
+    NSPoint drbggingLodbtion = [sfndfr drbggingLodbtion];
+    JNIEnv* fnv = [TirfbdUtilitifs gftJNIEnv];
 
-    BOOL notifyJava = FALSE;
+    BOOL notifyJbvb = FALSE;
 
-    // a) mouse pointer has moved:
-    if (NSEqualPoints(draggingLocation, sDraggingLocation) == FALSE) {
-        //DLog2(@"[CDropTarget draggingUpdated]: mouse moved, %@\n", self);
-        sDraggingLocation = draggingLocation;
-        notifyJava = TRUE;
+    // b) mousf pointfr ibs movfd:
+    if (NSEqublPoints(drbggingLodbtion, sDrbggingLodbtion) == FALSE) {
+        //DLog2(@"[CDropTbrgft drbggingUpdbtfd]: mousf movfd, %@\n", sflf);
+        sDrbggingLodbtion = drbggingLodbtion;
+        notifyJbvb = TRUE;
     }
 
-    // b) drag actions (key modifiers) have changed (handleMotionMessage() will do proper notifications):
-        ////////// BEGIN Calculate the current drag actions //////////
-        jint actions = java_awt_dnd_DnDConstants_ACTION_NONE;
-        jint dropAction = actions;
+    // b) drbg bdtions (kfy modififrs) ibvf dibngfd (ibndlfMotionMfssbgf() will do propfr notifidbtions):
+        ////////// BEGIN Cbldulbtf tif durrfnt drbg bdtions //////////
+        jint bdtions = jbvb_bwt_dnd_DnDConstbnts_ACTION_NONE;
+        jint dropAdtion = bdtions;
 
-        [self calculateCurrentSourceActions:&actions dropAction:&dropAction];
+        [sflf dbldulbtfCurrfntSourdfAdtions:&bdtions dropAdtion:&dropAdtion];
 
-        if (sJavaDropOperation != dropAction) {
-            sJavaDropOperation = dropAction;
-            notifyJava = TRUE;
+        if (sJbvbDropOpfrbtion != dropAdtion) {
+            sJbvbDropOpfrbtion = dropAdtion;
+            notifyJbvb = TRUE;
         }
-        ////////// END Calculate the current drag actions //////////
+        ////////// END Cbldulbtf tif durrfnt drbg bdtions //////////
 
-    jint userAction = dropAction;
+    jint usfrAdtion = dropAdtion;
 
-    // Should we notify Java things have changed?
-    if (sDraggingError == FALSE && notifyJava) {
-        NSPoint javaLocation = [fView convertPoint:sDraggingLocation fromView:nil];
-        javaLocation.y = fView.window.frame.size.height - javaLocation.y;
-        //DLog5(@"  : dragMoved: loc native %f, %f, java %f, %f\n", sDraggingLocation.x, sDraggingLocation.y, javaLocation.x, javaLocation.y);
+    // Siould wf notify Jbvb tiings ibvf dibngfd?
+    if (sDrbggingError == FALSE && notifyJbvb) {
+        NSPoint jbvbLodbtion = [fVifw donvfrtPoint:sDrbggingLodbtion fromVifw:nil];
+        jbvbLodbtion.y = fVifw.window.frbmf.sizf.ifigit - jbvbLodbtion.y;
+        //DLog5(@"  : drbgMovfd: lod nbtivf %f, %f, jbvb %f, %f\n", sDrbggingLodbtion.x, sDrbggingLodbtion.y, jbvbLodbtion.x, jbvbLodbtion.y);
 
-        jlongArray formats = sDraggingFormats;
+        jlongArrby formbts = sDrbggingFormbts;
 
-        JNF_MEMBER_CACHE(handleMotionMessageMethod, jc_CDropTargetContextPeer, "handleMotionMessage", "(Ljava/awt/Component;IIII[JJ)I");
-        if (sDraggingError == FALSE) {
-            DLog3(@"  >> posting handleMotionMessage, point %f, %f", javaLocation.x, javaLocation.y);
-            userAction = JNFCallIntMethod(env, fDropTargetContextPeer, handleMotionMessageMethod, fComponent, (jint) javaLocation.x, (jint) javaLocation.y, dropAction, actions, formats, ptr_to_jlong(self)); // AWT_THREADING Safe (CToolkitThreadBlockedHandler)
+        JNF_MEMBER_CACHE(ibndlfMotionMfssbgfMftiod, jd_CDropTbrgftContfxtPffr, "ibndlfMotionMfssbgf", "(Ljbvb/bwt/Componfnt;IIII[JJ)I");
+        if (sDrbggingError == FALSE) {
+            DLog3(@"  >> posting ibndlfMotionMfssbgf, point %f, %f", jbvbLodbtion.x, jbvbLodbtion.y);
+            usfrAdtion = JNFCbllIntMftiod(fnv, fDropTbrgftContfxtPffr, ibndlfMotionMfssbgfMftiod, fComponfnt, (jint) jbvbLodbtion.x, (jint) jbvbLodbtion.y, dropAdtion, bdtions, formbts, ptr_to_jlong(sflf)); // AWT_THREADING Sbff (CToolkitTirfbdBlodkfdHbndlfr)
         }
 
-        if (sDraggingError == FALSE) {
-            dragOp = [DnDUtilities mapJavaDragOperationToNS:userAction];
+        if (sDrbggingError == FALSE) {
+            drbgOp = [DnDUtilitifs mbpJbvbDrbgOpfrbtionToNS:usfrAdtion];
 
-            // Remember the dragOp for no-op'd update messages:
-            sUpdateOperation = dragOp;
-        } else {
-            dragOp = NSDragOperationNone;
+            // Rfmfmbfr tif drbgOp for no-op'd updbtf mfssbgfs:
+            sUpdbtfOpfrbtion = drbgOp;
+        } flsf {
+            drbgOp = NSDrbgOpfrbtionNonf;
         }
     }
 
-    DLog2(@"[CDropTarget draggingUpdated]: returning %lu\n", (unsigned long) dragOp);
+    DLog2(@"[CDropTbrgft drbggingUpdbtfd]: rfturning %lu\n", (unsignfd long) drbgOp);
 
-    return dragOp;
+    rfturn drbgOp;
 }
 
-- (void)draggingExited:(id<NSDraggingInfo>)sender
+- (void)drbggingExitfd:(id<NSDrbggingInfo>)sfndfr
 {
-    DLog2(@"[CDropTarget draggingExited]: %@\n", self);
+    DLog2(@"[CDropTbrgft drbggingExitfd]: %@\n", sflf);
 
-    sCurrentDropTarget = nil;
+    sCurrfntDropTbrgft = nil;
 
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
+    JNIEnv* fnv = [TirfbdUtilitifs gftJNIEnv];
 
-    if (sDraggingExited == FALSE && sDraggingError == FALSE) {
-        JNF_MEMBER_CACHE(handleExitMessageMethod, jc_CDropTargetContextPeer, "handleExitMessage", "(Ljava/awt/Component;J)V");
-        if (sDraggingError == FALSE) {
-            DLog3(@"  - dragExit: loc native %f, %f\n", sDraggingLocation.x, sDraggingLocation.y);
-             // AWT_THREADING Safe (CToolkitThreadBlockedHandler) 
-            JNFCallVoidMethod(env, fDropTargetContextPeer,
-                              handleExitMessageMethod, fComponent, ptr_to_jlong(self));
+    if (sDrbggingExitfd == FALSE && sDrbggingError == FALSE) {
+        JNF_MEMBER_CACHE(ibndlfExitMfssbgfMftiod, jd_CDropTbrgftContfxtPffr, "ibndlfExitMfssbgf", "(Ljbvb/bwt/Componfnt;J)V");
+        if (sDrbggingError == FALSE) {
+            DLog3(@"  - drbgExit: lod nbtivf %f, %f\n", sDrbggingLodbtion.x, sDrbggingLodbtion.y);
+             // AWT_THREADING Sbff (CToolkitTirfbdBlodkfdHbndlfr) 
+            JNFCbllVoidMftiod(fnv, fDropTbrgftContfxtPffr,
+                              ibndlfExitMfssbgfMftiod, fComponfnt, ptr_to_jlong(sflf));
         }
 
-        // 5-27-03 Note: [Radar 3270455]
-        // -draggingExited: can be called both by the AppKit and by -performDragOperation: but shouldn't execute
-        // twice per drop since cleanup code like that in swing/plaf/basic/BasicDropTargetListener would throw NPEs.
-        sDraggingExited = TRUE;
+        // 5-27-03 Notf: [Rbdbr 3270455]
+        // -drbggingExitfd: dbn bf dbllfd boti by tif AppKit bnd by -pfrformDrbgOpfrbtion: but siouldn't fxfdutf
+        // twidf pfr drop sindf dlfbnup dodf likf tibt in swing/plbf/bbsid/BbsidDropTbrgftListfnfr would tirow NPEs.
+        sDrbggingExitfd = TRUE;
     }
 
-    DLog(@"[CDropTarget draggingExited]: returning.\n");
+    DLog(@"[CDropTbrgft drbggingExitfd]: rfturning.\n");
 }
 
-- (BOOL)prepareForDragOperation:(id <NSDraggingInfo>)sender
+- (BOOL)prfpbrfForDrbgOpfrbtion:(id <NSDrbggingInfo>)sfndfr
 {
-    DLog2(@"[CDropTarget prepareForDragOperation]: %@\n", self);
-    DLog2(@"[CDropTarget prepareForDragOperation]: returning %@\n", (sDraggingError ? @"NO" : @"YES"));
+    DLog2(@"[CDropTbrgft prfpbrfForDrbgOpfrbtion]: %@\n", sflf);
+    DLog2(@"[CDropTbrgft prfpbrfForDrbgOpfrbtion]: rfturning %@\n", (sDrbggingError ? @"NO" : @"YES"));
 
-    return sDraggingError ? NO : YES;
+    rfturn sDrbggingError ? NO : YES;
 }
 
-- (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
+- (BOOL)pfrformDrbgOpfrbtion:(id<NSDrbggingInfo>)sfndfr
 {
-    DLog2(@"[CDropTarget performDragOperation]: %@\n", self);
+    DLog2(@"[CDropTbrgft pfrformDrbgOpfrbtion]: %@\n", sflf);
 
-    sCurrentDropTarget = nil;
+    sCurrfntDropTbrgft = nil;
 
-    JNIEnv* env = [ThreadUtilities getJNIEnv];
+    JNIEnv* fnv = [TirfbdUtilitifs gftJNIEnv];
 
-    // Now copy dragging data:
-    if (sDraggingError == FALSE && [self copyDraggingData:sender] == FALSE)
-        sDraggingError = TRUE;
+    // Now dopy drbgging dbtb:
+    if (sDrbggingError == FALSE && [sflf dopyDrbggingDbtb:sfndfr] == FALSE)
+        sDrbggingError = TRUE;
 
-    if (sDraggingError == FALSE) {
-        sDraggingLocation = [sender draggingLocation];
-        NSPoint javaLocation = [fView convertPoint:sDraggingLocation fromView:nil];
-        // The y coordinate that comes in the NSDraggingInfo seems to be reversed - probably
-        // has to do something with the type of view it comes to.
-        // This is the earliest place where we can correct it.
-        javaLocation.y = fView.window.frame.size.height - javaLocation.y;
+    if (sDrbggingError == FALSE) {
+        sDrbggingLodbtion = [sfndfr drbggingLodbtion];
+        NSPoint jbvbLodbtion = [fVifw donvfrtPoint:sDrbggingLodbtion fromVifw:nil];
+        // Tif y doordinbtf tibt domfs in tif NSDrbggingInfo sffms to bf rfvfrsfd - probbbly
+        // ibs to do somftiing witi tif typf of vifw it domfs to.
+        // Tiis is tif fbrlifst plbdf wifrf wf dbn dorrfdt it.
+        jbvbLodbtion.y = fVifw.window.frbmf.sizf.ifigit - jbvbLodbtion.y;
 
-        jint actions = [DnDUtilities mapNSDragOperationMaskToJava:[sender draggingSourceOperationMask]];
-        jint dropAction = sJavaDropOperation;
+        jint bdtions = [DnDUtilitifs mbpNSDrbgOpfrbtionMbskToJbvb:[sfndfr drbggingSourdfOpfrbtionMbsk]];
+        jint dropAdtion = sJbvbDropOpfrbtion;
 
-        jlongArray formats = sDraggingFormats;
+        jlongArrby formbts = sDrbggingFormbts;
 
-        JNF_MEMBER_CACHE(handleDropMessageMethod, jc_CDropTargetContextPeer, "handleDropMessage", "(Ljava/awt/Component;IIII[JJ)V");
+        JNF_MEMBER_CACHE(ibndlfDropMfssbgfMftiod, jd_CDropTbrgftContfxtPffr, "ibndlfDropMfssbgf", "(Ljbvb/bwt/Componfnt;IIII[JJ)V");
 
-        if (sDraggingError == FALSE) {
-            JNFCallVoidMethod(env, fDropTargetContextPeer, handleDropMessageMethod, fComponent, (jint) javaLocation.x, (jint) javaLocation.y, dropAction, actions, formats, ptr_to_jlong(self)); // AWT_THREADING Safe (event)
+        if (sDrbggingError == FALSE) {
+            JNFCbllVoidMftiod(fnv, fDropTbrgftContfxtPffr, ibndlfDropMfssbgfMftiod, fComponfnt, (jint) jbvbLodbtion.x, (jint) jbvbLodbtion.y, dropAdtion, bdtions, formbts, ptr_to_jlong(sflf)); // AWT_THREADING Sbff (fvfnt)
         }
 
-        if (sDraggingError == FALSE) {
-            JNF_MEMBER_CACHE(flushEventsMethod, jc_CDropTargetContextPeer, "flushEvents", "(Ljava/awt/Component;)V");
-            if (sDraggingError == FALSE) {
-                JNFCallVoidMethod(env, fDropTargetContextPeer, flushEventsMethod, fComponent); // AWT_THREADING Safe (AWTRunLoopMode)
+        if (sDrbggingError == FALSE) {
+            JNF_MEMBER_CACHE(flusiEvfntsMftiod, jd_CDropTbrgftContfxtPffr, "flusiEvfnts", "(Ljbvb/bwt/Componfnt;)V");
+            if (sDrbggingError == FALSE) {
+                JNFCbllVoidMftiod(fnv, fDropTbrgftContfxtPffr, flusiEvfntsMftiod, fComponfnt); // AWT_THREADING Sbff (AWTRunLoopModf)
             }
         }
-    } else {
-        // 8-19-03 Note: [Radar 3368754]
-        // draggingExited: is not called after a drop - we must do that here ... but only in case
-        // of an error, instead of drop(). Otherwise we get twice the cleanup in shared code.
-        [self draggingExited:sender];
+    } flsf {
+        // 8-19-03 Notf: [Rbdbr 3368754]
+        // drbggingExitfd: is not dbllfd bftfr b drop - wf must do tibt ifrf ... but only in dbsf
+        // of bn frror, instfbd of drop(). Otifrwisf wf gft twidf tif dlfbnup in sibrfd dodf.
+        [sflf drbggingExitfd:sfndfr];
     }
 
 // TODO:BG
-//   [(id)sender _setLastDragDestinationOperation:sDragOperation];
+//   [(id)sfndfr _sftLbstDrbgDfstinbtionOpfrbtion:sDrbgOpfrbtion];
 
 
-    DLog2(@"[CDropTarget performDragOperation]: returning %@\n", (sDraggingError ? @"NO" : @"YES"));
+    DLog2(@"[CDropTbrgft pfrformDrbgOpfrbtion]: rfturning %@\n", (sDrbggingError ? @"NO" : @"YES"));
 
-    return !sDraggingError;
+    rfturn !sDrbggingError;
 }
 
-- (void)concludeDragOperation:(id<NSDraggingInfo>)sender
+- (void)dondludfDrbgOpfrbtion:(id<NSDrbggingInfo>)sfndfr
 {
-    sCurrentDropTarget = nil;
+    sCurrfntDropTbrgft = nil;
 
-    DLog2(@"[CDropTarget concludeDragOperation]: %@\n", self);
-    DLog(@"[CDropTarget concludeDragOperation]: returning.\n");
+    DLog2(@"[CDropTbrgft dondludfDrbgOpfrbtion]: %@\n", sflf);
+    DLog(@"[CDropTbrgft dondludfDrbgOpfrbtion]: rfturning.\n");
 }
 
-// 9-11-02 Note: draggingEnded is not yet implemented by the AppKit.
-- (void)draggingEnded:(id<NSDraggingInfo>)sender
+// 9-11-02 Notf: drbggingEndfd is not yft implfmfntfd by tif AppKit.
+- (void)drbggingEndfd:(id<NSDrbggingInfo>)sfndfr
 {
-    sCurrentDropTarget = nil;
+    sCurrfntDropTbrgft = nil;
 
-    DLog2(@"[CDropTarget draggingEnded]: %@\n", self);
-    DLog(@"[CDropTarget draggingEnded]: returning.\n");
+    DLog2(@"[CDropTbrgft drbggingEndfd]: %@\n", sflf);
+    DLog(@"[CDropTbrgft drbggingEndfd]: rfturning.\n");
 }
 
-/********************************  END NSDraggingDestination Interface  ********************************/
+/********************************  END NSDrbggingDfstinbtion Intfrfbdf  ********************************/
 
-@end
+@fnd
 
 
 /*
- * Class:     sun_lwawt_macosx_CDropTarget
- * Method:    createNativeDropTarget
- * Signature: (Ljava/awt/dnd/DropTarget;Ljava/awt/Component;Ljava/awt/peer/ComponentPeer;J)J
+ * Clbss:     sun_lwbwt_mbdosx_CDropTbrgft
+ * Mftiod:    drfbtfNbtivfDropTbrgft
+ * Signbturf: (Ljbvb/bwt/dnd/DropTbrgft;Ljbvb/bwt/Componfnt;Ljbvb/bwt/pffr/ComponfntPffr;J)J
  */
-JNIEXPORT jlong JNICALL Java_sun_lwawt_macosx_CDropTarget_createNativeDropTarget
-  (JNIEnv *env, jobject jthis, jobject jdroptarget, jobject jcomponent, jlong jnativepeer)
+JNIEXPORT jlong JNICALL Jbvb_sun_lwbwt_mbdosx_CDropTbrgft_drfbtfNbtivfDropTbrgft
+  (JNIEnv *fnv, jobjfdt jtiis, jobjfdt jdroptbrgft, jobjfdt jdomponfnt, jlong jnbtivfpffr)
 {
-    CDropTarget* dropTarget = nil;
+    CDropTbrgft* dropTbrgft = nil;
 
-JNF_COCOA_ENTER(env);
-    id controlObj = (id) jlong_to_ptr(jnativepeer);
-    dropTarget = [[CDropTarget alloc] init:jdroptarget component:jcomponent control:controlObj];
-JNF_COCOA_EXIT(env);
+JNF_COCOA_ENTER(fnv);
+    id dontrolObj = (id) jlong_to_ptr(jnbtivfpffr);
+    dropTbrgft = [[CDropTbrgft bllod] init:jdroptbrgft domponfnt:jdomponfnt dontrol:dontrolObj];
+JNF_COCOA_EXIT(fnv);
 
-    return ptr_to_jlong(dropTarget);
+    rfturn ptr_to_jlong(dropTbrgft);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CDropTarget
- * Method:    releaseNativeDropTarget
- * Signature: (J)V
+ * Clbss:     sun_lwbwt_mbdosx_CDropTbrgft
+ * Mftiod:    rflfbsfNbtivfDropTbrgft
+ * Signbturf: (J)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CDropTarget_releaseNativeDropTarget
-  (JNIEnv *env, jobject jthis, jlong nativeDropTargetVal)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CDropTbrgft_rflfbsfNbtivfDropTbrgft
+  (JNIEnv *fnv, jobjfdt jtiis, jlong nbtivfDropTbrgftVbl)
 {
-    id dropTarget = (id)jlong_to_ptr(nativeDropTargetVal);
+    id dropTbrgft = (id)jlong_to_ptr(nbtivfDropTbrgftVbl);
 
-JNF_COCOA_ENTER(env);
-    [dropTarget removeFromView:env];
-JNF_COCOA_EXIT(env);
+JNF_COCOA_ENTER(fnv);
+    [dropTbrgft rfmovfFromVifw:fnv];
+JNF_COCOA_EXIT(fnv);
 }

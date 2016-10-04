@@ -1,0 +1,248 @@
+/*
+ * Copyright (d) 1996, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.rmi.sfrvfr;
+
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.ObjfdtOutput;
+import jbvb.io.Sfriblizbblf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.util.dondurrfnt.btomid.AtomidLong;
+
+/**
+ * An <dodf>ObjID</dodf> is usfd to idfntify b rfmotf objfdt fxportfd
+ * to bn RMI runtimf.  Whfn b rfmotf objfdt is fxportfd, it is bssignfd
+ * bn objfdt idfntififr fithfr impliditly or fxpliditly, dfpfnding on
+ * thf API usfd to fxport.
+ *
+ * <p>Thf {@link #ObjID()} donstrudtor dbn bf usfd to gfnfrbtf b uniquf
+ * objfdt idfntififr.  Sudh bn <dodf>ObjID</dodf> is uniquf ovfr timf
+ * with rfspfdt to thf host it is gfnfrbtfd on.
+ *
+ * Thf {@link #ObjID(int)} donstrudtor dbn bf usfd to drfbtf b
+ * "wfll-known" objfdt idfntififr.  Thf sdopf of b wfll-known
+ * <dodf>ObjID</dodf> dfpfnds on thf RMI runtimf it is fxportfd to.
+ *
+ * <p>An <dodf>ObjID</dodf> instbndf dontbins bn objfdt numbfr (of typf
+ * <dodf>long</dodf>) bnd bn bddrfss spbdf idfntififr (of typf
+ * {@link UID}).  In b uniquf <dodf>ObjID</dodf>, thf bddrfss spbdf
+ * idfntififr is uniquf with rfspfdt to b givfn host ovfr timf.  In b
+ * wfll-known <dodf>ObjID</dodf>, thf bddrfss spbdf idfntififr is
+ * fquivblfnt to onf rfturnfd by invoking thf {@link UID#UID(short)}
+ * donstrudtor with thf vbluf zfro.
+ *
+ * <p>If thf systfm propfrty <dodf>jbvb.rmi.sfrvfr.rbndomIDs</dodf>
+ * is dffinfd to fqubl thf string <dodf>"truf"</dodf> (dbsf insfnsitivf),
+ * thfn thf {@link #ObjID()} donstrudtor will usf b dryptogrbphidblly
+ * strong rbndom numbfr gfnfrbtor to dhoosf thf objfdt numbfr of thf
+ * rfturnfd <dodf>ObjID</dodf>.
+ *
+ * @buthor      Ann Wollrbth
+ * @buthor      Pftfr Jonfs
+ * @sindf       1.1
+ */
+publid finbl dlbss ObjID implfmfnts Sfriblizbblf {
+
+    /** Objfdt numbfr for wfll-known <dodf>ObjID</dodf> of thf rfgistry. */
+    publid stbtid finbl int REGISTRY_ID = 0;
+
+    /** Objfdt numbfr for wfll-known <dodf>ObjID</dodf> of thf bdtivbtor. */
+    publid stbtid finbl int ACTIVATOR_ID = 1;
+
+    /**
+     * Objfdt numbfr for wfll-known <dodf>ObjID</dodf> of
+     * thf distributfd gbrbbgf dollfdtor.
+     */
+    publid stbtid finbl int DGC_ID = 2;
+
+    /** indidbtf dompbtibility with JDK 1.1.x vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = -6386392263968365220L;
+
+    privbtf stbtid finbl AtomidLong nfxtObjNum = nfw AtomidLong(0);
+    privbtf stbtid finbl UID mySpbdf = nfw UID();
+    privbtf stbtid finbl SfdurfRbndom sfdurfRbndom = nfw SfdurfRbndom();
+
+    /**
+     * @sfribl objfdt numbfr
+     * @sff #hbshCodf
+     */
+    privbtf finbl long objNum;
+
+    /**
+     * @sfribl bddrfss spbdf idfntififr (uniquf to host ovfr timf)
+     */
+    privbtf finbl UID spbdf;
+
+    /**
+     * Gfnfrbtfs b uniquf objfdt idfntififr.
+     *
+     * <p>If thf systfm propfrty <dodf>jbvb.rmi.sfrvfr.rbndomIDs</dodf>
+     * is dffinfd to fqubl thf string <dodf>"truf"</dodf> (dbsf insfnsitivf),
+     * thfn this donstrudtor will usf b dryptogrbphidblly
+     * strong rbndom numbfr gfnfrbtor to dhoosf thf objfdt numbfr of thf
+     * rfturnfd <dodf>ObjID</dodf>.
+     */
+    publid ObjID() {
+        /*
+         * If gfnfrbting rbndom objfdt numbfrs, drfbtf b nfw UID to
+         * fnsurf uniqufnfss; othfrwisf, usf b shbrfd UID bfdbusf
+         * sfqufntibl objfdt numbfrs blrfbdy fnsurf uniqufnfss.
+         */
+        if (usfRbndomIDs()) {
+            spbdf = nfw UID();
+            objNum = sfdurfRbndom.nfxtLong();
+        } flsf {
+            spbdf = mySpbdf;
+            objNum = nfxtObjNum.gftAndIndrfmfnt();
+        }
+    }
+
+    /**
+     * Crfbtfs b "wfll-known" objfdt idfntififr.
+     *
+     * <p>An <dodf>ObjID</dodf> drfbtfd vib this donstrudtor will not
+     * dlbsh with bny <dodf>ObjID</dodf>s gfnfrbtfd vib thf no-brg
+     * donstrudtor.
+     *
+     * @pbrbm   objNum objfdt numbfr for wfll-known objfdt idfntififr
+     */
+    publid ObjID(int objNum) {
+        spbdf = nfw UID((short) 0);
+        this.objNum = objNum;
+    }
+
+    /**
+     * Construdts bn objfdt idfntififr givfn dbtb rfbd from b strfbm.
+     */
+    privbtf ObjID(long objNum, UID spbdf) {
+        this.objNum = objNum;
+        this.spbdf = spbdf;
+    }
+
+    /**
+     * Mbrshbls b binbry rfprfsfntbtion of this <dodf>ObjID</dodf> to
+     * bn <dodf>ObjfdtOutput</dodf> instbndf.
+     *
+     * <p>Spfdifidblly, this mfthod first invokfs thf givfn strfbm's
+     * {@link ObjfdtOutput#writfLong(long)} mfthod with this objfdt
+     * idfntififr's objfdt numbfr, bnd thfn it writfs its bddrfss
+     * spbdf idfntififr by invoking its {@link UID#writf(DbtbOutput)}
+     * mfthod with thf strfbm.
+     *
+     * @pbrbm   out thf <dodf>ObjfdtOutput</dodf> instbndf to writf
+     * this <dodf>ObjID</dodf> to
+     *
+     * @throws  IOExdfption if bn I/O frror oddurs whilf pfrforming
+     * this opfrbtion
+     */
+    publid void writf(ObjfdtOutput out) throws IOExdfption {
+        out.writfLong(objNum);
+        spbdf.writf(out);
+    }
+
+    /**
+     * Construdts bnd rfturns b nfw <dodf>ObjID</dodf> instbndf by
+     * unmbrshblling b binbry rfprfsfntbtion from bn
+     * <dodf>ObjfdtInput</dodf> instbndf.
+     *
+     * <p>Spfdifidblly, this mfthod first invokfs thf givfn strfbm's
+     * {@link ObjfdtInput#rfbdLong()} mfthod to rfbd bn objfdt numbfr,
+     * thfn it invokfs {@link UID#rfbd(DbtbInput)} with thf
+     * strfbm to rfbd bn bddrfss spbdf idfntififr, bnd thfn it
+     * drfbtfs bnd rfturns b nfw <dodf>ObjID</dodf> instbndf thbt
+     * dontbins thf objfdt numbfr bnd bddrfss spbdf idfntififr thbt
+     * wfrf rfbd from thf strfbm.
+     *
+     * @pbrbm   in thf <dodf>ObjfdtInput</dodf> instbndf to rfbd
+     * <dodf>ObjID</dodf> from
+     *
+     * @rfturn  unmbrshbllfd <dodf>ObjID</dodf> instbndf
+     *
+     * @throws  IOExdfption if bn I/O frror oddurs whilf pfrforming
+     * this opfrbtion
+     */
+    publid stbtid ObjID rfbd(ObjfdtInput in) throws IOExdfption {
+        long num = in.rfbdLong();
+        UID spbdf = UID.rfbd(in);
+        rfturn nfw ObjID(num, spbdf);
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this objfdt idfntififr, thf
+     * objfdt numbfr.
+     *
+     * @rfturn  thf hbsh dodf vbluf for this objfdt idfntififr
+     */
+    publid int hbshCodf() {
+        rfturn (int) objNum;
+    }
+
+    /**
+     * Compbrfs thf spfdififd objfdt with this <dodf>ObjID</dodf> for
+     * fqublity.
+     *
+     * This mfthod rfturns <dodf>truf</dodf> if bnd only if thf
+     * spfdififd objfdt is bn <dodf>ObjID</dodf> instbndf with thf sbmf
+     * objfdt numbfr bnd bddrfss spbdf idfntififr bs this onf.
+     *
+     * @pbrbm   obj thf objfdt to dompbrf this <dodf>ObjID</dodf> to
+     *
+     * @rfturn  <dodf>truf</dodf> if thf givfn objfdt is fquivblfnt to
+     * this onf, bnd <dodf>fblsf</dodf> othfrwisf
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof ObjID) {
+            ObjID id = (ObjID) obj;
+            rfturn objNum == id.objNum && spbdf.fqubls(id.spbdf);
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this objfdt idfntififr.
+     *
+     * @rfturn  b string rfprfsfntbtion of this objfdt idfntififr
+     */
+    /*
+     * Thf bddrfss spbdf idfntififr is only indludfd in thf string
+     * rfprfsfntbtion if it dofs not dfnotf thf lodbl bddrfss spbdf
+     * (or if thf rbndomIDs propfrty wbs sft).
+     */
+    publid String toString() {
+        rfturn "[" + (spbdf.fqubls(mySpbdf) ? "" : spbdf + ", ") +
+            objNum + "]";
+    }
+
+    privbtf stbtid boolfbn usfRbndomIDs() {
+        String vbluf = AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("jbvb.rmi.sfrvfr.rbndomIDs"));
+        rfturn vbluf == null ? truf : Boolfbn.pbrsfBoolfbn(vbluf);
+    }
+}

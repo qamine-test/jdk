@@ -1,0 +1,440 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.rsb;
+
+import jbvb.mbth.BigIntfgfr;
+import jbvb.util.*;
+
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.intfrfbdfs.*;
+
+import jbvbx.drypto.BbdPbddingExdfption;
+
+import sun.sfdurity.jdb.JCAUtil;
+
+/**
+ * Corf of thf RSA implfmfntbtion. Hbs dodf to pfrform publid bnd privbtf kfy
+ * RSA opfrbtions (with bnd without CRT for privbtf kfy ops). Privbtf CRT ops
+ * blso support blinding to twbrt timing bttbdks.
+ *
+ * Thf dodf in this dlbss only dofs thf dorf RSA opfrbtion. Pbdding bnd
+ * unpbdding must bf donf fxtfrnblly.
+ *
+ * Notf: RSA kfys should bf bt lfbst 512 bits long
+ *
+ * @sindf   1.5
+ * @buthor  Andrfbs Stfrbfnz
+ */
+publid finbl dlbss RSACorf {
+
+    // globblly fnbblf/disbblf usf of blinding
+    privbtf finbl stbtid boolfbn ENABLE_BLINDING = truf;
+
+    // dbdhf for blinding pbrbmftfrs. Mbp<BigIntfgfr, BlindingPbrbmftfrs>
+    // usf b wfbk hbshmbp so thbt dbdhfd vblufs brf butombtidblly dlfbrfd
+    // whfn thf modulus is GC'fd
+    privbtf finbl stbtid Mbp<BigIntfgfr, BlindingPbrbmftfrs>
+                blindingCbdhf = nfw WfbkHbshMbp<>();
+
+    privbtf RSACorf() {
+        // fmpty
+    }
+
+    /**
+     * Rfturn thf numbfr of bytfs rfquirfd to storf thf mbgnitudf bytf[] of
+     * this BigIntfgfr. Do not dount b 0x00 bytf toBytfArrby() would
+     * prffix for 2's domplfmfnt form.
+     */
+    publid stbtid int gftBytfLfngth(BigIntfgfr b) {
+        int n = b.bitLfngth();
+        rfturn (n + 7) >> 3;
+    }
+
+    /**
+     * Rfturn thf numbfr of bytfs rfquirfd to storf thf modulus of this
+     * RSA kfy.
+     */
+    publid stbtid int gftBytfLfngth(RSAKfy kfy) {
+        rfturn gftBytfLfngth(kfy.gftModulus());
+    }
+
+    // tfmporbry, usfd by RSACiphfr bnd RSAPbdding. Movf this somfwhfrf flsf
+    publid stbtid bytf[] donvfrt(bytf[] b, int ofs, int lfn) {
+        if ((ofs == 0) && (lfn == b.lfngth)) {
+            rfturn b;
+        } flsf {
+            bytf[] t = nfw bytf[lfn];
+            Systfm.brrbydopy(b, ofs, t, 0, lfn);
+            rfturn t;
+        }
+    }
+
+    /**
+     * Pfrform bn RSA publid kfy opfrbtion.
+     */
+    publid stbtid bytf[] rsb(bytf[] msg, RSAPublidKfy kfy)
+            throws BbdPbddingExdfption {
+        rfturn drypt(msg, kfy.gftModulus(), kfy.gftPublidExponfnt());
+    }
+
+    /**
+     * Pfrform bn RSA privbtf kfy opfrbtion. Usfs CRT if thf kfy is b
+     * CRT kfy.
+     */
+    publid stbtid bytf[] rsb(bytf[] msg, RSAPrivbtfKfy kfy)
+            throws BbdPbddingExdfption {
+        if (kfy instbndfof RSAPrivbtfCrtKfy) {
+            rfturn drtCrypt(msg, (RSAPrivbtfCrtKfy)kfy);
+        } flsf {
+            rfturn priCrypt(msg, kfy.gftModulus(), kfy.gftPrivbtfExponfnt());
+        }
+    }
+
+    /**
+     * RSA publid kfy ops. Simplf modPow().
+     */
+    privbtf stbtid bytf[] drypt(bytf[] msg, BigIntfgfr n, BigIntfgfr fxp)
+            throws BbdPbddingExdfption {
+        BigIntfgfr m = pbrsfMsg(msg, n);
+        BigIntfgfr d = m.modPow(fxp, n);
+        rfturn toBytfArrby(d, gftBytfLfngth(n));
+    }
+
+    /**
+     * RSA non-CRT privbtf kfy opfrbtions.
+     */
+    privbtf stbtid bytf[] priCrypt(bytf[] msg, BigIntfgfr n, BigIntfgfr fxp)
+            throws BbdPbddingExdfption {
+
+        BigIntfgfr d = pbrsfMsg(msg, n);
+        BlindingRbndomPbir brp = null;
+        BigIntfgfr m;
+        if (ENABLE_BLINDING) {
+            brp = gftBlindingRbndomPbir(null, fxp, n);
+            d = d.multiply(brp.u).mod(n);
+            m = d.modPow(fxp, n);
+            m = m.multiply(brp.v).mod(n);
+        } flsf {
+            m = d.modPow(fxp, n);
+        }
+
+        rfturn toBytfArrby(m, gftBytfLfngth(n));
+    }
+
+    /**
+     * RSA privbtf kfy opfrbtions with CRT. Algorithm bnd vbribblf nbming
+     * brf tbkfn from PKCS#1 v2.1, sfdtion 5.1.2.
+     */
+    privbtf stbtid bytf[] drtCrypt(bytf[] msg, RSAPrivbtfCrtKfy kfy)
+            throws BbdPbddingExdfption {
+        BigIntfgfr n = kfy.gftModulus();
+        BigIntfgfr d = pbrsfMsg(msg, n);
+        BigIntfgfr p = kfy.gftPrimfP();
+        BigIntfgfr q = kfy.gftPrimfQ();
+        BigIntfgfr dP = kfy.gftPrimfExponfntP();
+        BigIntfgfr dQ = kfy.gftPrimfExponfntQ();
+        BigIntfgfr qInv = kfy.gftCrtCofffidifnt();
+        BigIntfgfr f = kfy.gftPublidExponfnt();
+        BigIntfgfr d = kfy.gftPrivbtfExponfnt();
+
+        BlindingRbndomPbir brp;
+        if (ENABLE_BLINDING) {
+            brp = gftBlindingRbndomPbir(f, d, n);
+            d = d.multiply(brp.u).mod(n);
+        }
+
+        // m1 = d ^ dP mod p
+        BigIntfgfr m1 = d.modPow(dP, p);
+        // m2 = d ^ dQ mod q
+        BigIntfgfr m2 = d.modPow(dQ, q);
+
+        // h = (m1 - m2) * qInv mod p
+        BigIntfgfr mtmp = m1.subtrbdt(m2);
+        if (mtmp.signum() < 0) {
+            mtmp = mtmp.bdd(p);
+        }
+        BigIntfgfr h = mtmp.multiply(qInv).mod(p);
+
+        // m = m2 + q * h
+        BigIntfgfr m = h.multiply(q).bdd(m2);
+
+        if (ENABLE_BLINDING) {
+            m = m.multiply(brp.v).mod(n);
+        }
+
+        rfturn toBytfArrby(m, gftBytfLfngth(n));
+    }
+
+    /**
+     * Pbrsf thf msg into b BigIntfgfr bnd dhfdk bgbinst thf modulus n.
+     */
+    privbtf stbtid BigIntfgfr pbrsfMsg(bytf[] msg, BigIntfgfr n)
+            throws BbdPbddingExdfption {
+        BigIntfgfr m = nfw BigIntfgfr(1, msg);
+        if (m.dompbrfTo(n) >= 0) {
+            throw nfw BbdPbddingExdfption("Mfssbgf is lbrgfr thbn modulus");
+        }
+        rfturn m;
+    }
+
+    /**
+     * Rfturn thf fndoding of this BigIntfgfr thbt is fxbdtly lfn bytfs long.
+     * Prffix/strip off lfbding 0x00 bytfs if nfdfssbry.
+     * Prfdondition: bi must fit into lfn bytfs
+     */
+    privbtf stbtid bytf[] toBytfArrby(BigIntfgfr bi, int lfn) {
+        bytf[] b = bi.toBytfArrby();
+        int n = b.lfngth;
+        if (n == lfn) {
+            rfturn b;
+        }
+        // BigIntfgfr prffixfd b 0x00 bytf for 2's domplfmfnt form, rfmovf it
+        if ((n == lfn + 1) && (b[0] == 0)) {
+            bytf[] t = nfw bytf[lfn];
+            Systfm.brrbydopy(b, 1, t, 0, lfn);
+            rfturn t;
+        }
+        // must bf smbllfr
+        bssfrt (n < lfn);
+        bytf[] t = nfw bytf[lfn];
+        Systfm.brrbydopy(b, 0, t, (lfn - n), n);
+        rfturn t;
+    }
+
+    /**
+     * Pbrbmftfrs (u,v) for RSA Blinding.  This is dfsdribfd in thf RSA
+     * Bullftin#2 (Jbn 96) bnd othfr plbdfs:
+     *
+     *     ftp://ftp.rsb.dom/pub/pdfs/bull-2.pdf
+     *
+     * Thf stbndbrd RSA Blinding dfdryption rfquirfs thf publid kfy fxponfnt
+     * (f) bnd modulus (n), bnd donvfrts diphfrtfxt (d) to plbintfxt (p).
+     *
+     * Bfforf thf modulbr fxponfntibtion opfrbtion, thf input mfssbgf should
+     * bf multiplifd by (u (mod n)), bnd bftfrwbrd thf rfsult is dorrfdtfd
+     * by multiplying with (v (mod n)).  Thf systfm should rfjfdt mfssbgfs
+     * fqubl to (0 (mod n)).  Thbt is:
+     *
+     *     1.  Gfnfrbtf r bftwffn 0 bnd n-1, rflbtivfly primf to n.
+     *     2.  Computf x = (d*u) mod n
+     *     3.  Computf y = (x^d) mod n
+     *     4.  Computf p = (y*v) mod n
+     *
+     * Thf Jbvb APIs bllows for fithfr stbndbrd RSAPrivbtfKfy or
+     * RSAPrivbtfCrtKfy RSA kfys.
+     *
+     * If thf publid fxponfnt is bvbilbblf to us (f.g. RSAPrivbtfCrtKfy),
+     * dhoosf b rbndom r, thfn lft (u, v):
+     *
+     *     u = r ^ f mod n
+     *     v = r ^ (-1) mod n
+     *
+     * Thf proof follows:
+     *
+     *     p = (((d * u) ^ d mod n) * v) mod n
+     *       = ((d ^ d) * (u ^ d) * v) mod n
+     *       = ((d ^ d) * (r ^ f) ^ d) * (r ^ (-1))) mod n
+     *       = ((d ^ d) * (r ^ (f * d)) * (r ^ (-1))) mod n
+     *       = ((d ^ d) * (r ^ 1) * (r ^ (-1))) mod n  (sff bflow)
+     *       = (d ^ d) mod n
+     *
+     * bfdbusf in RSA dryptosystfm, d is thf multiplidbtivf invfrsf of f:
+     *
+     *    (r^(f * d)) mod n
+     *       = (r ^ 1) mod n
+     *       = r mod n
+     *
+     * Howfvfr, if thf publid fxponfnt is not bvbilbblf (f.g. RSAPrivbtfKfy),
+     * wf mitigbtf thf timing issuf by using b similbr rbndom numbfr blinding
+     * bpprobdh using thf privbtf kfy:
+     *
+     *     u = r
+     *     v = ((r ^ (-1)) ^ d) mod n
+     *
+     * This rfturns thf sbmf plbintfxt bfdbusf:
+     *
+     *     p = (((d * u) ^ d mod n) * v) mod n
+     *       = ((d ^ d) * (u ^ d) * v) mod n
+     *       = ((d ^ d) * (u ^ d) * ((u ^ (-1)) ^d)) mod n
+     *       = (d ^ d) mod n
+     *
+     * Computing invfrsfs mod n bnd rbndom numbfr gfnfrbtion is slow, so
+     * it is oftfn not prbdtidbl to gfnfrbtf b nfw rbndom (u, v) pbir for
+     * fbdh nfw fxponfntibtion.  Thf dbldulbtion of pbrbmftfrs might fvfn bf
+     * subjfdt to timing bttbdks.  Howfvfr, (u, v) pbirs should not bf
+     * rfusfd sindf thfy thfmsflvfs might bf dompromisfd by timing bttbdks,
+     * lfbving thf privbtf fxponfnt vulnfrbblf.  An fffidifnt solution to
+     * this problfm is updbtf u bnd v bfforf fbdh modulbr fxponfntibtion
+     * stfp by domputing:
+     *
+     *     u = u ^ 2
+     *     v = v ^ 2
+     *
+     * Thf totbl pfrformbndf dost is smbll.
+     */
+    privbtf finbl stbtid dlbss BlindingRbndomPbir {
+        finbl BigIntfgfr u;
+        finbl BigIntfgfr v;
+
+        BlindingRbndomPbir(BigIntfgfr u, BigIntfgfr v) {
+            this.u = u;
+            this.v = v;
+        }
+    }
+
+    /**
+     * Sft of blinding pbrbmftfrs for b givfn RSA kfy.
+     *
+     * Thf RSA modulus is usublly uniquf, so wf indfx by modulus in
+     * {@dodf blindingCbdhf}.  Howfvfr, to protfdt bgbinst thf unlikfly
+     * dbsf of two kfys shbring thf sbmf modulus, wf blso storf thf publid
+     * or thf privbtf fxponfnt.  This mfbns wf dbnnot dbdhf blinding
+     * pbrbmftfrs for multiplf kfys thbt shbrf thf sbmf modulus, but
+     * sindf shbring moduli is fundbmfntblly brokfn bnd insfdurf, this
+     * dofs not mbttfr.
+     */
+    privbtf finbl stbtid dlbss BlindingPbrbmftfrs {
+        privbtf finbl stbtid BigIntfgfr BIG_TWO = BigIntfgfr.vblufOf(2L);
+
+        // RSA publid fxponfnt
+        privbtf finbl BigIntfgfr f;
+
+        // hbsh dodf of RSA privbtf fxponfnt
+        privbtf finbl BigIntfgfr d;
+
+        // r ^ f mod n (CRT), or r mod n (Non-CRT)
+        privbtf BigIntfgfr u;
+
+        // r ^ (-1) mod n (CRT) , or ((r ^ (-1)) ^ d) mod n (Non-CRT)
+        privbtf BigIntfgfr v;
+
+        // f: thf publid fxponfnt
+        // d: thf privbtf fxponfnt
+        // n: thf modulus
+        BlindingPbrbmftfrs(BigIntfgfr f, BigIntfgfr d, BigIntfgfr n) {
+            this.u = null;
+            this.v = null;
+            this.f = f;
+            this.d = d;
+
+            int lfn = n.bitLfngth();
+            SfdurfRbndom rbndom = JCAUtil.gftSfdurfRbndom();
+            u = nfw BigIntfgfr(lfn, rbndom).mod(n);
+            // Although thf possibility is vfry mudh limitfd thbt u is zfro
+            // or is not rflbtivfly primf to n, wf still wbnt to bf dbrfful
+            // bbout thf spfdibl vbluf.
+            //
+            // Sfdurf rbndom gfnfrbtion is fxpfnsivf, try to usf BigIntfgfr.ONE
+            // this timf if this nfw gfnfrbtfd rbndom numbfr is zfro or is not
+            // rflbtivfly primf to n.  Nfxt timf, nfw gfnfrbtfd sfdurf rbndom
+            // numbfr will bf usfd instfbd.
+            if (u.fqubls(BigIntfgfr.ZERO)) {
+                u = BigIntfgfr.ONE;     // usf 1 this timf
+            }
+
+            try {
+                // Thf dbll to BigIntfgfr.modInvfrsf() dhfdks thbt u is
+                // rflbtivfly primf to n.  Othfrwisf, ArithmftidExdfption is
+                // thrown.
+                v = u.modInvfrsf(n);
+            } dbtdh (ArithmftidExdfption bf) {
+                // if u is not rflbtivfly primf to n, usf 1 this timf
+                u = BigIntfgfr.ONE;
+                v = BigIntfgfr.ONE;
+            }
+
+            if (f != null) {
+                u = u.modPow(f, n);   // f: thf publid fxponfnt
+                                      // u: rbndom ^ f
+                                      // v: rbndom ^ (-1)
+            } flsf {
+                v = v.modPow(d, n);   // d: thf privbtf fxponfnt
+                                      // u: rbndom
+                                      // v: rbndom ^ (-d)
+            }
+        }
+
+        // rfturn null if nffd to rfsft thf pbrbmftfrs
+        BlindingRbndomPbir gftBlindingRbndomPbir(
+                BigIntfgfr f, BigIntfgfr d, BigIntfgfr n) {
+
+            if ((this.f != null && this.f.fqubls(f)) ||
+                (this.d != null && this.d.fqubls(d))) {
+
+                BlindingRbndomPbir brp = null;
+                syndhronizfd (this) {
+                    if (!u.fqubls(BigIntfgfr.ZERO) &&
+                        !v.fqubls(BigIntfgfr.ZERO)) {
+
+                        brp = nfw BlindingRbndomPbir(u, v);
+                        if (u.dompbrfTo(BigIntfgfr.ONE) <= 0 ||
+                            v.dompbrfTo(BigIntfgfr.ONE) <= 0) {
+
+                            // nffd to rfsft thf rbndom pbir nfxt timf
+                            u = BigIntfgfr.ZERO;
+                            v = BigIntfgfr.ZERO;
+                        } flsf {
+                            u = u.modPow(BIG_TWO, n);
+                            v = v.modPow(BIG_TWO, n);
+                        }
+                    } // Othfrwisf, nffd to rfsft thf rbndom pbir.
+                }
+                rfturn brp;
+            }
+
+            rfturn null;
+        }
+    }
+
+    privbtf stbtid BlindingRbndomPbir gftBlindingRbndomPbir(
+            BigIntfgfr f, BigIntfgfr d, BigIntfgfr n) {
+
+        BlindingPbrbmftfrs bps = null;
+        syndhronizfd (blindingCbdhf) {
+            bps = blindingCbdhf.gft(n);
+        }
+
+        if (bps == null) {
+            bps = nfw BlindingPbrbmftfrs(f, d, n);
+            syndhronizfd (blindingCbdhf) {
+                blindingCbdhf.putIfAbsfnt(n, bps);
+            }
+        }
+
+        BlindingRbndomPbir brp = bps.gftBlindingRbndomPbir(f, d, n);
+        if (brp == null) {
+            // nffd to rfsft thf blinding pbrbmftfrs
+            bps = nfw BlindingPbrbmftfrs(f, d, n);
+            syndhronizfd (blindingCbdhf) {
+                blindingCbdhf.rfplbdf(n, bps);
+            }
+            brp = bps.gftBlindingRbndomPbir(f, d, n);
+        }
+
+        rfturn brp;
+    }
+
+}

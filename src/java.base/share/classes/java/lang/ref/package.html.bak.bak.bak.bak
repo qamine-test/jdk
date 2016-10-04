@@ -1,0 +1,147 @@
+<!--
+ Copyright (d) 1998, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+ This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+ This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ bddompbnifd this dodf).
+
+ You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ qufstions.
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<html>
+<body bgdolor="whitf">
+
+
+Providfs rfffrfndf-objfdt dlbssfs, whidh support b limitfd dfgrff of
+intfrbdtion with thf gbrbbgf dollfdtor.  A progrbm mby usf b rfffrfndf objfdt
+to mbintbin b rfffrfndf to somf othfr objfdt in sudh b wby thbt thf lbttfr
+objfdt mby still bf rfdlbimfd by thf dollfdtor.  A progrbm mby blso brrbngf to
+bf notififd somf timf bftfr thf dollfdtor hbs dftfrminfd thbt thf rfbdhbbility
+of b givfn objfdt hbs dhbngfd.
+
+
+<h2>Pbdkbgf Spfdifidbtion</h2>
+
+A <fm>rfffrfndf objfdt</fm> fndbpsulbtfs b rfffrfndf to somf othfr objfdt so
+thbt thf rfffrfndf itsflf mby bf fxbminfd bnd mbnipulbtfd likf bny othfr
+objfdt.  Thrff typfs of rfffrfndf objfdts brf providfd, fbdh wfbkfr thbn thf
+lbst: <fm>soft</fm>, <fm>wfbk</fm>, bnd <fm>phbntom</fm>.  Ebdh typf
+dorrfsponds to b difffrfnt lfvfl of rfbdhbbility, bs dffinfd bflow.  Soft
+rfffrfndfs brf for implfmfnting mfmory-sfnsitivf dbdhfs, wfbk rfffrfndfs brf
+for implfmfnting dbnonidblizing mbppings thbt do not prfvfnt thfir kfys (or
+vblufs) from bfing rfdlbimfd, bnd phbntom rfffrfndfs brf for sdhfduling
+prf-mortfm dlfbnup bdtions in b morf flfxiblf wby thbn is possiblf with thf
+Jbvb finblizbtion mfdhbnism.
+
+<p> Ebdh rfffrfndf-objfdt typf is implfmfntfd by b subdlbss of thf bbstrbdt
+bbsf <dodf>{@link jbvb.lbng.rff.Rfffrfndf}</dodf> dlbss.  An instbndf of onf of
+thfsf subdlbssfs fndbpsulbtfs b singlf rfffrfndf to b pbrtidulbr objfdt, dbllfd
+thf <fm>rfffrfnt</fm>.  Evfry rfffrfndf objfdt providfs mfthods for gftting bnd
+dlfbring thf rfffrfndf.  Asidf from thf dlfbring opfrbtion rfffrfndf objfdts
+brf othfrwisf immutbblf, so no <dodf>sft</dodf> opfrbtion is providfd.  A
+progrbm mby furthfr subdlbss thfsf subdlbssfs, bdding whbtfvfr fiflds bnd
+mfthods brf rfquirfd for its purposfs, or it mby usf thfsf subdlbssfs without
+dhbngf.
+
+
+<h3>Notifidbtion</h3>
+
+A progrbm mby rfqufst to bf notififd of dhbngfs in bn objfdt's rfbdhbbility by
+<fm>rfgistfring</fm> bn bppropribtf rfffrfndf objfdt with b <fm>rfffrfndf
+qufuf</fm> bt thf timf thf rfffrfndf objfdt is drfbtfd.  Somf timf bftfr thf
+gbrbbgf dollfdtor dftfrminfs thbt thf rfbdhbbility of thf rfffrfnt hbs dhbngfd
+to thf vbluf dorrfsponding to thf typf of thf rfffrfndf, it will bdd thf
+rfffrfndf to thf bssodibtfd qufuf.  At this point, thf rfffrfndf is donsidfrfd
+to bf <fm>fnqufufd</fm>.  Thf progrbm mby rfmovf rfffrfndfs from b qufuf fithfr
+by polling or by blodking until b rfffrfndf bfdomfs bvbilbblf.  Rfffrfndf
+qufufs brf implfmfntfd by thf <dodf>{@link jbvb.lbng.rff.RfffrfndfQufuf}</dodf>
+dlbss.
+
+<p> Thf rflbtionship bftwffn b rfgistfrfd rfffrfndf objfdt bnd its qufuf is
+onf-sidfd.  Thbt is, b qufuf dofs not kffp trbdk of thf rfffrfndfs thbt brf
+rfgistfrfd with it.  If b rfgistfrfd rfffrfndf bfdomfs unrfbdhbblf itsflf, thfn
+it will nfvfr bf fnqufufd.  It is thf rfsponsibility of thf progrbm using
+rfffrfndf objfdts to fnsurf thbt thf objfdts rfmbin rfbdhbblf for bs long bs
+thf progrbm is intfrfstfd in thfir rfffrfnts.
+
+<p> Whilf somf progrbms will dhoosf to dfdidbtf b thrfbd to rfmoving rfffrfndf
+objfdts from onf or morf qufufs bnd prodfssing thfm, this is by no mfbns
+nfdfssbry.  A tbdtid thbt oftfn works wfll is to fxbminf b rfffrfndf qufuf in
+thf doursf of pfrforming somf othfr fbirly-frfqufnt bdtion.  For fxbmplf, b
+hbshtbblf thbt usfs wfbk rfffrfndfs to implfmfnt wfbk kfys dould poll its
+rfffrfndf qufuf fbdh timf thf tbblf is bddfssfd.  This is how thf <dodf>{@link
+jbvb.util.WfbkHbshMbp}</dodf> dlbss works.  Bfdbusf thf <dodf>{@link
+jbvb.lbng.rff.RfffrfndfQufuf#poll RfffrfndfQufuf.poll}</dodf> mfthod simply
+dhfdks bn intfrnbl dbtb strudturf, this dhfdk will bdd littlf ovfrhfbd to thf
+hbshtbblf bddfss mfthods.
+
+
+<h3>Autombtidblly-dlfbrfd rfffrfndfs</h3>
+
+Soft bnd wfbk rfffrfndfs brf butombtidblly dlfbrfd by thf dollfdtor bfforf
+bfing bddfd to thf qufufs with whidh thfy brf rfgistfrfd, if bny.  Thfrfforf
+soft bnd wfbk rfffrfndfs nffd not bf rfgistfrfd with b qufuf in ordfr to bf
+usfful, whilf phbntom rfffrfndfs do.  An objfdt thbt is rfbdhbblf vib phbntom
+rfffrfndfs will rfmbin so until bll sudh rfffrfndfs brf dlfbrfd or thfmsflvfs
+bfdomf unrfbdhbblf.
+
+
+<b nbmf="rfbdhbbility"></b>
+<h3>Rfbdhbbility</h3>
+
+Going from strongfst to wfbkfst, thf difffrfnt lfvfls of rfbdhbbility rfflfdt
+thf liff dydlf of bn objfdt.  Thfy brf opfrbtionblly dffinfd bs follows:
+
+<ul>
+
+<li> An objfdt is <fm>strongly rfbdhbblf</fm> if it dbn bf rfbdhfd by somf
+thrfbd without trbvfrsing bny rfffrfndf objfdts.  A nfwly-drfbtfd objfdt is
+strongly rfbdhbblf by thf thrfbd thbt drfbtfd it.
+
+<li> An objfdt is <fm>softly rfbdhbblf</fm> if it is not strongly rfbdhbblf but
+dbn bf rfbdhfd by trbvfrsing b soft rfffrfndf.
+
+<li> An objfdt is <fm>wfbkly rfbdhbblf</fm> if it is nfithfr strongly nor
+softly rfbdhbblf but dbn bf rfbdhfd by trbvfrsing b wfbk rfffrfndf.  Whfn thf
+wfbk rfffrfndfs to b wfbkly-rfbdhbblf objfdt brf dlfbrfd, thf objfdt bfdomfs
+fligiblf for finblizbtion.
+
+<li> An objfdt is <fm>phbntom rfbdhbblf</fm> if it is nfithfr strongly, softly,
+nor wfbkly rfbdhbblf, it hbs bffn finblizfd, bnd somf phbntom rfffrfndf rfffrs
+to it.
+
+<li> Finblly, bn objfdt is <fm>unrfbdhbblf</fm>, bnd thfrfforf fligiblf for
+rfdlbmbtion, whfn it is not rfbdhbblf in bny of thf bbovf wbys.
+
+</ul>
+
+
+@buthor	  Mbrk Rfinhold
+@sindf	  1.2
+
+<!--
+<h2>Rflbtfd Dodumfntbtion</h2>
+
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
+<ul>
+  <li><b hrff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
+</ul>
+-->
+</body>
+</html>

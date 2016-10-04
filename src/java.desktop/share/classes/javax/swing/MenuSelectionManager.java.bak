@@ -1,513 +1,513 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
-import java.util.*;
-import java.awt.event.*;
-import javax.swing.event.*;
+import jbvb.bwt.*;
+import jbvb.util.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.fvfnt.*;
 
-import sun.awt.AppContext;
-import sun.swing.SwingUtilities2;
+import sun.bwt.AppContfxt;
+import sun.swing.SwingUtilitifs2;
 
 /**
- * A MenuSelectionManager owns the selection in menu hierarchy.
+ * A MfnuSflfdtionMbnbgfr owns tif sflfdtion in mfnu iifrbrdiy.
  *
- * @author Arnaud Weber
- * @since 1.2
+ * @butior Arnbud Wfbfr
+ * @sindf 1.2
  */
-public class MenuSelectionManager {
-    private Vector<MenuElement> selection = new Vector<MenuElement>();
+publid dlbss MfnuSflfdtionMbnbgfr {
+    privbtf Vfdtor<MfnuElfmfnt> sflfdtion = nfw Vfdtor<MfnuElfmfnt>();
 
-    /* diagnostic aids -- should be false for production builds. */
-    private static final boolean TRACE =   false; // trace creates and disposes
-    private static final boolean VERBOSE = false; // show reuse hits/misses
-    private static final boolean DEBUG =   false;  // show bad params, misc.
+    /* dibgnostid bids -- siould bf fblsf for produdtion builds. */
+    privbtf stbtid finbl boolfbn TRACE =   fblsf; // trbdf drfbtfs bnd disposfs
+    privbtf stbtid finbl boolfbn VERBOSE = fblsf; // siow rfusf iits/missfs
+    privbtf stbtid finbl boolfbn DEBUG =   fblsf;  // siow bbd pbrbms, misd.
 
-    private static final StringBuilder MENU_SELECTION_MANAGER_KEY =
-                       new StringBuilder("javax.swing.MenuSelectionManager");
+    privbtf stbtid finbl StringBuildfr MENU_SELECTION_MANAGER_KEY =
+                       nfw StringBuildfr("jbvbx.swing.MfnuSflfdtionMbnbgfr");
 
     /**
-     * Returns the default menu selection manager.
+     * Rfturns tif dffbult mfnu sflfdtion mbnbgfr.
      *
-     * @return a MenuSelectionManager object
+     * @rfturn b MfnuSflfdtionMbnbgfr objfdt
      */
-    public static MenuSelectionManager defaultManager() {
-        synchronized (MENU_SELECTION_MANAGER_KEY) {
-            AppContext context = AppContext.getAppContext();
-            MenuSelectionManager msm = (MenuSelectionManager)context.get(
+    publid stbtid MfnuSflfdtionMbnbgfr dffbultMbnbgfr() {
+        syndironizfd (MENU_SELECTION_MANAGER_KEY) {
+            AppContfxt dontfxt = AppContfxt.gftAppContfxt();
+            MfnuSflfdtionMbnbgfr msm = (MfnuSflfdtionMbnbgfr)dontfxt.gft(
                                                  MENU_SELECTION_MANAGER_KEY);
             if (msm == null) {
-                msm = new MenuSelectionManager();
-                context.put(MENU_SELECTION_MANAGER_KEY, msm);
+                msm = nfw MfnuSflfdtionMbnbgfr();
+                dontfxt.put(MENU_SELECTION_MANAGER_KEY, msm);
 
-                // installing additional listener if found in the AppContext
-                Object o = context.get(SwingUtilities2.MENU_SELECTION_MANAGER_LISTENER_KEY);
-                if (o != null && o instanceof ChangeListener) {
-                    msm.addChangeListener((ChangeListener) o);
+                // instblling bdditionbl listfnfr if found in tif AppContfxt
+                Objfdt o = dontfxt.gft(SwingUtilitifs2.MENU_SELECTION_MANAGER_LISTENER_KEY);
+                if (o != null && o instbndfof CibngfListfnfr) {
+                    msm.bddCibngfListfnfr((CibngfListfnfr) o);
                 }
             }
 
-            return msm;
+            rfturn msm;
         }
     }
 
     /**
-     * Only one ChangeEvent is needed per button model instance since the
-     * event's only state is the source property.  The source of events
-     * generated is always "this".
+     * Only onf CibngfEvfnt is nffdfd pfr button modfl instbndf sindf tif
+     * fvfnt's only stbtf is tif sourdf propfrty.  Tif sourdf of fvfnts
+     * gfnfrbtfd is blwbys "tiis".
      */
-    protected transient ChangeEvent changeEvent = null;
-    /** The collection of registered listeners */
-    protected EventListenerList listenerList = new EventListenerList();
+    protfdtfd trbnsifnt CibngfEvfnt dibngfEvfnt = null;
+    /** Tif dollfdtion of rfgistfrfd listfnfrs */
+    protfdtfd EvfntListfnfrList listfnfrList = nfw EvfntListfnfrList();
 
     /**
-     * Changes the selection in the menu hierarchy.  The elements
-     * in the array are sorted in order from the root menu
-     * element to the currently selected menu element.
+     * Cibngfs tif sflfdtion in tif mfnu iifrbrdiy.  Tif flfmfnts
+     * in tif brrby brf sortfd in ordfr from tif root mfnu
+     * flfmfnt to tif durrfntly sflfdtfd mfnu flfmfnt.
      * <p>
-     * Note that this method is public but is used by the look and
-     * feel engine and should not be called by client applications.
+     * Notf tibt tiis mftiod is publid but is usfd by tif look bnd
+     * fffl fnginf bnd siould not bf dbllfd by dlifnt bpplidbtions.
      *
-     * @param path  an array of <code>MenuElement</code> objects specifying
-     *        the selected path
+     * @pbrbm pbti  bn brrby of <dodf>MfnuElfmfnt</dodf> objfdts spfdifying
+     *        tif sflfdtfd pbti
      */
-    public void setSelectedPath(MenuElement[] path) {
-        int i,c;
-        int currentSelectionCount = selection.size();
-        int firstDifference = 0;
+    publid void sftSflfdtfdPbti(MfnuElfmfnt[] pbti) {
+        int i,d;
+        int durrfntSflfdtionCount = sflfdtion.sizf();
+        int firstDifffrfndf = 0;
 
-        if(path == null) {
-            path = new MenuElement[0];
+        if(pbti == null) {
+            pbti = nfw MfnuElfmfnt[0];
         }
 
         if (DEBUG) {
-            System.out.print("Previous:  "); printMenuElementArray(getSelectedPath());
-            System.out.print("New:  "); printMenuElementArray(path);
+            Systfm.out.print("Prfvious:  "); printMfnuElfmfntArrby(gftSflfdtfdPbti());
+            Systfm.out.print("Nfw:  "); printMfnuElfmfntArrby(pbti);
         }
 
-        for(i=0,c=path.length;i<c;i++) {
-            if (i < currentSelectionCount && selection.elementAt(i) == path[i])
-                firstDifference++;
-            else
-                break;
+        for(i=0,d=pbti.lfngti;i<d;i++) {
+            if (i < durrfntSflfdtionCount && sflfdtion.flfmfntAt(i) == pbti[i])
+                firstDifffrfndf++;
+            flsf
+                brfbk;
         }
 
-        for(i=currentSelectionCount - 1 ; i >= firstDifference ; i--) {
-            MenuElement me = selection.elementAt(i);
-            selection.removeElementAt(i);
-            me.menuSelectionChanged(false);
+        for(i=durrfntSflfdtionCount - 1 ; i >= firstDifffrfndf ; i--) {
+            MfnuElfmfnt mf = sflfdtion.flfmfntAt(i);
+            sflfdtion.rfmovfElfmfntAt(i);
+            mf.mfnuSflfdtionCibngfd(fblsf);
         }
 
-        for(i = firstDifference, c = path.length ; i < c ; i++) {
-            if (path[i] != null) {
-                selection.addElement(path[i]);
-                path[i].menuSelectionChanged(true);
+        for(i = firstDifffrfndf, d = pbti.lfngti ; i < d ; i++) {
+            if (pbti[i] != null) {
+                sflfdtion.bddElfmfnt(pbti[i]);
+                pbti[i].mfnuSflfdtionCibngfd(truf);
             }
         }
 
-        fireStateChanged();
+        firfStbtfCibngfd();
     }
 
     /**
-     * Returns the path to the currently selected menu item
+     * Rfturns tif pbti to tif durrfntly sflfdtfd mfnu itfm
      *
-     * @return an array of MenuElement objects representing the selected path
+     * @rfturn bn brrby of MfnuElfmfnt objfdts rfprfsfnting tif sflfdtfd pbti
      */
-    public MenuElement[] getSelectedPath() {
-        MenuElement res[] = new MenuElement[selection.size()];
-        int i,c;
-        for(i=0,c=selection.size();i<c;i++)
-            res[i] = selection.elementAt(i);
-        return res;
+    publid MfnuElfmfnt[] gftSflfdtfdPbti() {
+        MfnuElfmfnt rfs[] = nfw MfnuElfmfnt[sflfdtion.sizf()];
+        int i,d;
+        for(i=0,d=sflfdtion.sizf();i<d;i++)
+            rfs[i] = sflfdtion.flfmfntAt(i);
+        rfturn rfs;
     }
 
     /**
-     * Tell the menu selection to close and unselect all the menu components. Call this method
-     * when a choice has been made
+     * Tfll tif mfnu sflfdtion to dlosf bnd unsflfdt bll tif mfnu domponfnts. Cbll tiis mftiod
+     * wifn b dioidf ibs bffn mbdf
      */
-    public void clearSelectedPath() {
-        if (selection.size() > 0) {
-            setSelectedPath(null);
+    publid void dlfbrSflfdtfdPbti() {
+        if (sflfdtion.sizf() > 0) {
+            sftSflfdtfdPbti(null);
         }
     }
 
     /**
-     * Adds a ChangeListener to the button.
+     * Adds b CibngfListfnfr to tif button.
      *
-     * @param l the listener to add
+     * @pbrbm l tif listfnfr to bdd
      */
-    public void addChangeListener(ChangeListener l) {
-        listenerList.add(ChangeListener.class, l);
+    publid void bddCibngfListfnfr(CibngfListfnfr l) {
+        listfnfrList.bdd(CibngfListfnfr.dlbss, l);
     }
 
     /**
-     * Removes a ChangeListener from the button.
+     * Rfmovfs b CibngfListfnfr from tif button.
      *
-     * @param l the listener to remove
+     * @pbrbm l tif listfnfr to rfmovf
      */
-    public void removeChangeListener(ChangeListener l) {
-        listenerList.remove(ChangeListener.class, l);
+    publid void rfmovfCibngfListfnfr(CibngfListfnfr l) {
+        listfnfrList.rfmovf(CibngfListfnfr.dlbss, l);
     }
 
     /**
-     * Returns an array of all the <code>ChangeListener</code>s added
-     * to this MenuSelectionManager with addChangeListener().
+     * Rfturns bn brrby of bll tif <dodf>CibngfListfnfr</dodf>s bddfd
+     * to tiis MfnuSflfdtionMbnbgfr witi bddCibngfListfnfr().
      *
-     * @return all of the <code>ChangeListener</code>s added or an empty
-     *         array if no listeners have been added
-     * @since 1.4
+     * @rfturn bll of tif <dodf>CibngfListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs ibvf bffn bddfd
+     * @sindf 1.4
      */
-    public ChangeListener[] getChangeListeners() {
-        return listenerList.getListeners(ChangeListener.class);
+    publid CibngfListfnfr[] gftCibngfListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(CibngfListfnfr.dlbss);
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is created lazily.
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.  Tif fvfnt instbndf
+     * is drfbtfd lbzily.
      *
-     * @see EventListenerList
+     * @sff EvfntListfnfrList
      */
-    protected void fireStateChanged() {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==ChangeListener.class) {
-                // Lazily create the event:
-                if (changeEvent == null)
-                    changeEvent = new ChangeEvent(this);
-                ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
+    protfdtfd void firfStbtfCibngfd() {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==CibngfListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                if (dibngfEvfnt == null)
+                    dibngfEvfnt = nfw CibngfEvfnt(tiis);
+                ((CibngfListfnfr)listfnfrs[i+1]).stbtfCibngfd(dibngfEvfnt);
             }
         }
     }
 
     /**
-     * When a MenuElement receives an event from a MouseListener, it should never process the event
-     * directly. Instead all MenuElements should call this method with the event.
+     * Wifn b MfnuElfmfnt rfdfivfs bn fvfnt from b MousfListfnfr, it siould nfvfr prodfss tif fvfnt
+     * dirfdtly. Instfbd bll MfnuElfmfnts siould dbll tiis mftiod witi tif fvfnt.
      *
-     * @param event  a MouseEvent object
+     * @pbrbm fvfnt  b MousfEvfnt objfdt
      */
-    public void processMouseEvent(MouseEvent event) {
-        int screenX,screenY;
+    publid void prodfssMousfEvfnt(MousfEvfnt fvfnt) {
+        int sdrffnX,sdrffnY;
         Point p;
-        int i,c,j,d;
-        Component mc;
-        Rectangle r2;
-        int cWidth,cHeight;
-        MenuElement menuElement;
-        MenuElement subElements[];
-        MenuElement path[];
-        int selectionSize;
-        p = event.getPoint();
+        int i,d,j,d;
+        Componfnt md;
+        Rfdtbnglf r2;
+        int dWidti,dHfigit;
+        MfnuElfmfnt mfnuElfmfnt;
+        MfnuElfmfnt subElfmfnts[];
+        MfnuElfmfnt pbti[];
+        int sflfdtionSizf;
+        p = fvfnt.gftPoint();
 
-        Component source = event.getComponent();
+        Componfnt sourdf = fvfnt.gftComponfnt();
 
-        if ((source != null) && !source.isShowing()) {
-            // This can happen if a mouseReleased removes the
-            // containing component -- bug 4146684
-            return;
+        if ((sourdf != null) && !sourdf.isSiowing()) {
+            // Tiis dbn ibppfn if b mousfRflfbsfd rfmovfs tif
+            // dontbining domponfnt -- bug 4146684
+            rfturn;
         }
 
-        int type = event.getID();
-        int modifiers = event.getModifiers();
-        // 4188027: drag enter/exit added in JDK 1.1.7A, JDK1.2
-        if ((type==MouseEvent.MOUSE_ENTERED||
-             type==MouseEvent.MOUSE_EXITED)
-            && ((modifiers & (InputEvent.BUTTON1_MASK |
-                              InputEvent.BUTTON2_MASK | InputEvent.BUTTON3_MASK)) !=0 )) {
-            return;
+        int typf = fvfnt.gftID();
+        int modififrs = fvfnt.gftModififrs();
+        // 4188027: drbg fntfr/fxit bddfd in JDK 1.1.7A, JDK1.2
+        if ((typf==MousfEvfnt.MOUSE_ENTERED||
+             typf==MousfEvfnt.MOUSE_EXITED)
+            && ((modififrs & (InputEvfnt.BUTTON1_MASK |
+                              InputEvfnt.BUTTON2_MASK | InputEvfnt.BUTTON3_MASK)) !=0 )) {
+            rfturn;
         }
 
-        if (source != null) {
-            SwingUtilities.convertPointToScreen(p, source);
+        if (sourdf != null) {
+            SwingUtilitifs.donvfrtPointToSdrffn(p, sourdf);
         }
 
-        screenX = p.x;
-        screenY = p.y;
+        sdrffnX = p.x;
+        sdrffnY = p.y;
 
-        @SuppressWarnings("unchecked")
-        Vector<MenuElement> tmp = (Vector<MenuElement>)selection.clone();
-        selectionSize = tmp.size();
-        boolean success = false;
-        for (i=selectionSize - 1;i >= 0 && success == false; i--) {
-            menuElement = tmp.elementAt(i);
-            subElements = menuElement.getSubElements();
+        @SupprfssWbrnings("undifdkfd")
+        Vfdtor<MfnuElfmfnt> tmp = (Vfdtor<MfnuElfmfnt>)sflfdtion.dlonf();
+        sflfdtionSizf = tmp.sizf();
+        boolfbn suddfss = fblsf;
+        for (i=sflfdtionSizf - 1;i >= 0 && suddfss == fblsf; i--) {
+            mfnuElfmfnt = tmp.flfmfntAt(i);
+            subElfmfnts = mfnuElfmfnt.gftSubElfmfnts();
 
-            path = null;
-            for (j = 0, d = subElements.length;j < d && success == false; j++) {
-                if (subElements[j] == null)
-                    continue;
-                mc = subElements[j].getComponent();
-                if(!mc.isShowing())
-                    continue;
-                if(mc instanceof JComponent) {
-                    cWidth  = mc.getWidth();
-                    cHeight = mc.getHeight();
-                } else {
-                    r2 = mc.getBounds();
-                    cWidth  = r2.width;
-                    cHeight = r2.height;
+            pbti = null;
+            for (j = 0, d = subElfmfnts.lfngti;j < d && suddfss == fblsf; j++) {
+                if (subElfmfnts[j] == null)
+                    dontinuf;
+                md = subElfmfnts[j].gftComponfnt();
+                if(!md.isSiowing())
+                    dontinuf;
+                if(md instbndfof JComponfnt) {
+                    dWidti  = md.gftWidti();
+                    dHfigit = md.gftHfigit();
+                } flsf {
+                    r2 = md.gftBounds();
+                    dWidti  = r2.widti;
+                    dHfigit = r2.ifigit;
                 }
-                p.x = screenX;
-                p.y = screenY;
-                SwingUtilities.convertPointFromScreen(p,mc);
+                p.x = sdrffnX;
+                p.y = sdrffnY;
+                SwingUtilitifs.donvfrtPointFromSdrffn(p,md);
 
-                /** Send the event to visible menu element if menu element currently in
-                 *  the selected path or contains the event location
+                /** Sfnd tif fvfnt to visiblf mfnu flfmfnt if mfnu flfmfnt durrfntly in
+                 *  tif sflfdtfd pbti or dontbins tif fvfnt lodbtion
                  */
                 if(
-                   (p.x >= 0 && p.x < cWidth && p.y >= 0 && p.y < cHeight)) {
+                   (p.x >= 0 && p.x < dWidti && p.y >= 0 && p.y < dHfigit)) {
                     int k;
-                    if(path == null) {
-                        path = new MenuElement[i+2];
+                    if(pbti == null) {
+                        pbti = nfw MfnuElfmfnt[i+2];
                         for(k=0;k<=i;k++)
-                            path[k] = tmp.elementAt(k);
+                            pbti[k] = tmp.flfmfntAt(k);
                     }
-                    path[i+1] = subElements[j];
-                    MenuElement currentSelection[] = getSelectedPath();
+                    pbti[i+1] = subElfmfnts[j];
+                    MfnuElfmfnt durrfntSflfdtion[] = gftSflfdtfdPbti();
 
-                    // Enter/exit detection -- needs tuning...
-                    if (currentSelection[currentSelection.length-1] !=
-                        path[i+1] &&
-                        (currentSelection.length < 2 ||
-                         currentSelection[currentSelection.length-2] !=
-                         path[i+1])) {
-                        Component oldMC = currentSelection[currentSelection.length-1].getComponent();
+                    // Entfr/fxit dftfdtion -- nffds tuning...
+                    if (durrfntSflfdtion[durrfntSflfdtion.lfngti-1] !=
+                        pbti[i+1] &&
+                        (durrfntSflfdtion.lfngti < 2 ||
+                         durrfntSflfdtion[durrfntSflfdtion.lfngti-2] !=
+                         pbti[i+1])) {
+                        Componfnt oldMC = durrfntSflfdtion[durrfntSflfdtion.lfngti-1].gftComponfnt();
 
-                        MouseEvent exitEvent = new MouseEvent(oldMC, MouseEvent.MOUSE_EXITED,
-                                                              event.getWhen(),
-                                                              event.getModifiers(), p.x, p.y,
-                                                              event.getXOnScreen(),
-                                                              event.getYOnScreen(),
-                                                              event.getClickCount(),
-                                                              event.isPopupTrigger(),
-                                                              MouseEvent.NOBUTTON);
-                        currentSelection[currentSelection.length-1].
-                            processMouseEvent(exitEvent, path, this);
+                        MousfEvfnt fxitEvfnt = nfw MousfEvfnt(oldMC, MousfEvfnt.MOUSE_EXITED,
+                                                              fvfnt.gftWifn(),
+                                                              fvfnt.gftModififrs(), p.x, p.y,
+                                                              fvfnt.gftXOnSdrffn(),
+                                                              fvfnt.gftYOnSdrffn(),
+                                                              fvfnt.gftClidkCount(),
+                                                              fvfnt.isPopupTriggfr(),
+                                                              MousfEvfnt.NOBUTTON);
+                        durrfntSflfdtion[durrfntSflfdtion.lfngti-1].
+                            prodfssMousfEvfnt(fxitEvfnt, pbti, tiis);
 
-                        MouseEvent enterEvent = new MouseEvent(mc,
-                                                               MouseEvent.MOUSE_ENTERED,
-                                                               event.getWhen(),
-                                                               event.getModifiers(), p.x, p.y,
-                                                               event.getXOnScreen(),
-                                                               event.getYOnScreen(),
-                                                               event.getClickCount(),
-                                                               event.isPopupTrigger(),
-                                                               MouseEvent.NOBUTTON);
-                        subElements[j].processMouseEvent(enterEvent, path, this);
+                        MousfEvfnt fntfrEvfnt = nfw MousfEvfnt(md,
+                                                               MousfEvfnt.MOUSE_ENTERED,
+                                                               fvfnt.gftWifn(),
+                                                               fvfnt.gftModififrs(), p.x, p.y,
+                                                               fvfnt.gftXOnSdrffn(),
+                                                               fvfnt.gftYOnSdrffn(),
+                                                               fvfnt.gftClidkCount(),
+                                                               fvfnt.isPopupTriggfr(),
+                                                               MousfEvfnt.NOBUTTON);
+                        subElfmfnts[j].prodfssMousfEvfnt(fntfrEvfnt, pbti, tiis);
                     }
-                    MouseEvent mouseEvent = new MouseEvent(mc, event.getID(),event. getWhen(),
-                                                           event.getModifiers(), p.x, p.y,
-                                                           event.getXOnScreen(),
-                                                           event.getYOnScreen(),
-                                                           event.getClickCount(),
-                                                           event.isPopupTrigger(),
-                                                           MouseEvent.NOBUTTON);
-                    subElements[j].processMouseEvent(mouseEvent, path, this);
-                    success = true;
-                    event.consume();
+                    MousfEvfnt mousfEvfnt = nfw MousfEvfnt(md, fvfnt.gftID(),fvfnt. gftWifn(),
+                                                           fvfnt.gftModififrs(), p.x, p.y,
+                                                           fvfnt.gftXOnSdrffn(),
+                                                           fvfnt.gftYOnSdrffn(),
+                                                           fvfnt.gftClidkCount(),
+                                                           fvfnt.isPopupTriggfr(),
+                                                           MousfEvfnt.NOBUTTON);
+                    subElfmfnts[j].prodfssMousfEvfnt(mousfEvfnt, pbti, tiis);
+                    suddfss = truf;
+                    fvfnt.donsumf();
                 }
             }
         }
     }
 
-    private void printMenuElementArray(MenuElement path[]) {
-        printMenuElementArray(path, false);
+    privbtf void printMfnuElfmfntArrby(MfnuElfmfnt pbti[]) {
+        printMfnuElfmfntArrby(pbti, fblsf);
     }
 
-    private void printMenuElementArray(MenuElement path[], boolean dumpStack) {
-        System.out.println("Path is(");
+    privbtf void printMfnuElfmfntArrby(MfnuElfmfnt pbti[], boolfbn dumpStbdk) {
+        Systfm.out.println("Pbti is(");
         int i, j;
-        for(i=0,j=path.length; i<j ;i++){
+        for(i=0,j=pbti.lfngti; i<j ;i++){
             for (int k=0; k<=i; k++)
-                System.out.print("  ");
-            MenuElement me = path[i];
-            if(me instanceof JMenuItem) {
-                System.out.println(((JMenuItem)me).getText() + ", ");
-            } else if (me instanceof JMenuBar) {
-                System.out.println("JMenuBar, ");
-            } else if(me instanceof JPopupMenu) {
-                System.out.println("JPopupMenu, ");
-            } else if (me == null) {
-                System.out.println("NULL , ");
-            } else {
-                System.out.println("" + me + ", ");
+                Systfm.out.print("  ");
+            MfnuElfmfnt mf = pbti[i];
+            if(mf instbndfof JMfnuItfm) {
+                Systfm.out.println(((JMfnuItfm)mf).gftTfxt() + ", ");
+            } flsf if (mf instbndfof JMfnuBbr) {
+                Systfm.out.println("JMfnuBbr, ");
+            } flsf if(mf instbndfof JPopupMfnu) {
+                Systfm.out.println("JPopupMfnu, ");
+            } flsf if (mf == null) {
+                Systfm.out.println("NULL , ");
+            } flsf {
+                Systfm.out.println("" + mf + ", ");
             }
         }
-        System.out.println(")");
+        Systfm.out.println(")");
 
-        if (dumpStack == true)
-            Thread.dumpStack();
+        if (dumpStbdk == truf)
+            Tirfbd.dumpStbdk();
     }
 
     /**
-     * Returns the component in the currently selected path
-     * which contains sourcePoint.
+     * Rfturns tif domponfnt in tif durrfntly sflfdtfd pbti
+     * wiidi dontbins sourdfPoint.
      *
-     * @param source The component in whose coordinate space sourcePoint
-     *        is given
-     * @param sourcePoint The point which is being tested
-     * @return The component in the currently selected path which
-     *         contains sourcePoint (relative to the source component's
-     *         coordinate space.  If sourcePoint is not inside a component
-     *         on the currently selected path, null is returned.
+     * @pbrbm sourdf Tif domponfnt in wiosf doordinbtf spbdf sourdfPoint
+     *        is givfn
+     * @pbrbm sourdfPoint Tif point wiidi is bfing tfstfd
+     * @rfturn Tif domponfnt in tif durrfntly sflfdtfd pbti wiidi
+     *         dontbins sourdfPoint (rflbtivf to tif sourdf domponfnt's
+     *         doordinbtf spbdf.  If sourdfPoint is not insidf b domponfnt
+     *         on tif durrfntly sflfdtfd pbti, null is rfturnfd.
      */
-    public Component componentForPoint(Component source, Point sourcePoint) {
-        int screenX,screenY;
-        Point p = sourcePoint;
-        int i,c,j,d;
-        Component mc;
-        Rectangle r2;
-        int cWidth,cHeight;
-        MenuElement menuElement;
-        MenuElement subElements[];
-        int selectionSize;
+    publid Componfnt domponfntForPoint(Componfnt sourdf, Point sourdfPoint) {
+        int sdrffnX,sdrffnY;
+        Point p = sourdfPoint;
+        int i,d,j,d;
+        Componfnt md;
+        Rfdtbnglf r2;
+        int dWidti,dHfigit;
+        MfnuElfmfnt mfnuElfmfnt;
+        MfnuElfmfnt subElfmfnts[];
+        int sflfdtionSizf;
 
-        SwingUtilities.convertPointToScreen(p,source);
+        SwingUtilitifs.donvfrtPointToSdrffn(p,sourdf);
 
-        screenX = p.x;
-        screenY = p.y;
+        sdrffnX = p.x;
+        sdrffnY = p.y;
 
-        @SuppressWarnings("unchecked")
-        Vector<MenuElement> tmp = (Vector<MenuElement>)selection.clone();
-        selectionSize = tmp.size();
-        for(i=selectionSize - 1 ; i >= 0 ; i--) {
-            menuElement = tmp.elementAt(i);
-            subElements = menuElement.getSubElements();
+        @SupprfssWbrnings("undifdkfd")
+        Vfdtor<MfnuElfmfnt> tmp = (Vfdtor<MfnuElfmfnt>)sflfdtion.dlonf();
+        sflfdtionSizf = tmp.sizf();
+        for(i=sflfdtionSizf - 1 ; i >= 0 ; i--) {
+            mfnuElfmfnt = tmp.flfmfntAt(i);
+            subElfmfnts = mfnuElfmfnt.gftSubElfmfnts();
 
-            for(j = 0, d = subElements.length ; j < d ; j++) {
-                if (subElements[j] == null)
-                    continue;
-                mc = subElements[j].getComponent();
-                if(!mc.isShowing())
-                    continue;
-                if(mc instanceof JComponent) {
-                    cWidth  = mc.getWidth();
-                    cHeight = mc.getHeight();
-                } else {
-                    r2 = mc.getBounds();
-                    cWidth  = r2.width;
-                    cHeight = r2.height;
+            for(j = 0, d = subElfmfnts.lfngti ; j < d ; j++) {
+                if (subElfmfnts[j] == null)
+                    dontinuf;
+                md = subElfmfnts[j].gftComponfnt();
+                if(!md.isSiowing())
+                    dontinuf;
+                if(md instbndfof JComponfnt) {
+                    dWidti  = md.gftWidti();
+                    dHfigit = md.gftHfigit();
+                } flsf {
+                    r2 = md.gftBounds();
+                    dWidti  = r2.widti;
+                    dHfigit = r2.ifigit;
                 }
-                p.x = screenX;
-                p.y = screenY;
-                SwingUtilities.convertPointFromScreen(p,mc);
+                p.x = sdrffnX;
+                p.y = sdrffnY;
+                SwingUtilitifs.donvfrtPointFromSdrffn(p,md);
 
-                /** Return the deepest component on the selection
-                 *  path in whose bounds the event's point occurs
+                /** Rfturn tif dffpfst domponfnt on tif sflfdtion
+                 *  pbti in wiosf bounds tif fvfnt's point oddurs
                  */
-                if (p.x >= 0 && p.x < cWidth && p.y >= 0 && p.y < cHeight) {
-                    return mc;
+                if (p.x >= 0 && p.x < dWidti && p.y >= 0 && p.y < dHfigit) {
+                    rfturn md;
                 }
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * When a MenuElement receives an event from a KeyListener, it should never process the event
-     * directly. Instead all MenuElements should call this method with the event.
+     * Wifn b MfnuElfmfnt rfdfivfs bn fvfnt from b KfyListfnfr, it siould nfvfr prodfss tif fvfnt
+     * dirfdtly. Instfbd bll MfnuElfmfnts siould dbll tiis mftiod witi tif fvfnt.
      *
-     * @param e  a KeyEvent object
+     * @pbrbm f  b KfyEvfnt objfdt
      */
-    public void processKeyEvent(KeyEvent e) {
-        MenuElement[] sel2 = new MenuElement[0];
-        sel2 = selection.toArray(sel2);
-        int selSize = sel2.length;
-        MenuElement[] path;
+    publid void prodfssKfyEvfnt(KfyEvfnt f) {
+        MfnuElfmfnt[] sfl2 = nfw MfnuElfmfnt[0];
+        sfl2 = sflfdtion.toArrby(sfl2);
+        int sflSizf = sfl2.lfngti;
+        MfnuElfmfnt[] pbti;
 
-        if (selSize < 1) {
-            return;
+        if (sflSizf < 1) {
+            rfturn;
         }
 
-        for (int i=selSize-1; i>=0; i--) {
-            MenuElement elem = sel2[i];
-            MenuElement[] subs = elem.getSubElements();
-            path = null;
+        for (int i=sflSizf-1; i>=0; i--) {
+            MfnuElfmfnt flfm = sfl2[i];
+            MfnuElfmfnt[] subs = flfm.gftSubElfmfnts();
+            pbti = null;
 
-            for (int j=0; j<subs.length; j++) {
-                if (subs[j] == null || !subs[j].getComponent().isShowing()
-                    || !subs[j].getComponent().isEnabled()) {
-                    continue;
+            for (int j=0; j<subs.lfngti; j++) {
+                if (subs[j] == null || !subs[j].gftComponfnt().isSiowing()
+                    || !subs[j].gftComponfnt().isEnbblfd()) {
+                    dontinuf;
                 }
 
-                if(path == null) {
-                    path = new MenuElement[i+2];
-                    System.arraycopy(sel2, 0, path, 0, i+1);
+                if(pbti == null) {
+                    pbti = nfw MfnuElfmfnt[i+2];
+                    Systfm.brrbydopy(sfl2, 0, pbti, 0, i+1);
                     }
-                path[i+1] = subs[j];
-                subs[j].processKeyEvent(e, path, this);
-                if (e.isConsumed()) {
-                    return;
+                pbti[i+1] = subs[j];
+                subs[j].prodfssKfyEvfnt(f, pbti, tiis);
+                if (f.isConsumfd()) {
+                    rfturn;
             }
         }
     }
 
-        // finally dispatch event to the first component in path
-        path = new MenuElement[1];
-        path[0] = sel2[0];
-        path[0].processKeyEvent(e, path, this);
-        if (e.isConsumed()) {
-            return;
+        // finblly dispbtdi fvfnt to tif first domponfnt in pbti
+        pbti = nfw MfnuElfmfnt[1];
+        pbti[0] = sfl2[0];
+        pbti[0].prodfssKfyEvfnt(f, pbti, tiis);
+        if (f.isConsumfd()) {
+            rfturn;
         }
     }
 
     /**
-     * Return true if {@code c} is part of the currently used menu
+     * Rfturn truf if {@dodf d} is pbrt of tif durrfntly usfd mfnu
      *
-     * @param c a {@code Component}
-     * @return true if {@code c} is part of the currently used menu,
-     *         false otherwise
+     * @pbrbm d b {@dodf Componfnt}
+     * @rfturn truf if {@dodf d} is pbrt of tif durrfntly usfd mfnu,
+     *         fblsf otifrwisf
      */
-    public boolean isComponentPartOfCurrentMenu(Component c) {
-        if(selection.size() > 0) {
-            MenuElement me = selection.elementAt(0);
-            return isComponentPartOfCurrentMenu(me,c);
-        } else
-            return false;
+    publid boolfbn isComponfntPbrtOfCurrfntMfnu(Componfnt d) {
+        if(sflfdtion.sizf() > 0) {
+            MfnuElfmfnt mf = sflfdtion.flfmfntAt(0);
+            rfturn isComponfntPbrtOfCurrfntMfnu(mf,d);
+        } flsf
+            rfturn fblsf;
     }
 
-    private boolean isComponentPartOfCurrentMenu(MenuElement root,Component c) {
-        MenuElement children[];
+    privbtf boolfbn isComponfntPbrtOfCurrfntMfnu(MfnuElfmfnt root,Componfnt d) {
+        MfnuElfmfnt diildrfn[];
         int i,d;
 
         if (root == null)
-            return false;
+            rfturn fblsf;
 
-        if(root.getComponent() == c)
-            return true;
-        else {
-            children = root.getSubElements();
-            for(i=0,d=children.length;i<d;i++) {
-                if(isComponentPartOfCurrentMenu(children[i],c))
-                    return true;
+        if(root.gftComponfnt() == d)
+            rfturn truf;
+        flsf {
+            diildrfn = root.gftSubElfmfnts();
+            for(i=0,d=diildrfn.lfngti;i<d;i++) {
+                if(isComponfntPbrtOfCurrfntMfnu(diildrfn[i],d))
+                    rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 }

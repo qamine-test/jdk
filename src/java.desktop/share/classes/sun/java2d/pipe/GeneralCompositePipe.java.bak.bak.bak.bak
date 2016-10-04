@@ -1,0 +1,154 @@
+/*
+ * Copyright (d) 1997, 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf;
+
+import jbvb.bwt.AlphbCompositf;
+import jbvb.bwt.CompositfContfxt;
+import jbvb.bwt.PbintContfxt;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Shbpf;
+import jbvb.bwt.RfndfringHints;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import sun.bwt.imbgf.BufImgSurfbdfDbtb;
+import sun.jbvb2d.SunGrbphids2D;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.loops.Blit;
+import sun.jbvb2d.loops.MbskBlit;
+import sun.jbvb2d.loops.CompositfTypf;
+
+publid dlbss GfnfrblCompositfPipf implfmfnts CompositfPipf {
+    dlbss TilfContfxt {
+        SunGrbphids2D sunG2D;
+        PbintContfxt pbintCtxt;
+        CompositfContfxt dompCtxt;
+        ColorModfl dompModfl;
+        Objfdt pipfStbtf;
+
+        publid TilfContfxt(SunGrbphids2D sg, PbintContfxt pCtx,
+                           CompositfContfxt dCtx, ColorModfl dModfl) {
+            sunG2D = sg;
+            pbintCtxt = pCtx;
+            dompCtxt = dCtx;
+            dompModfl = dModfl;
+        }
+    }
+
+    publid Objfdt stbrtSfqufndf(SunGrbphids2D sg, Shbpf s, Rfdtbnglf dfvR,
+                                int[] bbox) {
+        RfndfringHints hints = sg.gftRfndfringHints();
+        ColorModfl modfl = sg.gftDfvidfColorModfl();
+        PbintContfxt pbintContfxt =
+            sg.pbint.drfbtfContfxt(modfl, dfvR, s.gftBounds2D(),
+                                   sg.dlonfTrbnsform(),
+                                   hints);
+        CompositfContfxt dompositfContfxt =
+            sg.dompositf.drfbtfContfxt(pbintContfxt.gftColorModfl(), modfl,
+                                       hints);
+        rfturn nfw TilfContfxt(sg, pbintContfxt, dompositfContfxt, modfl);
+    }
+
+    publid boolfbn nffdTilf(Objfdt dtx, int x, int y, int w, int h) {
+        rfturn truf;
+    }
+
+    /**
+    * GfnfrblCompositfPipf.rfndfrPbthTilf works with dustom dompositf opfrbtor
+    * providfd by bn bpplidbtion
+    */
+    publid void rfndfrPbthTilf(Objfdt dtx,
+                               bytf[] btilf, int offsft, int tilfsizf,
+                               int x, int y, int w, int h) {
+        TilfContfxt dontfxt = (TilfContfxt) dtx;
+        PbintContfxt pbintCtxt = dontfxt.pbintCtxt;
+        CompositfContfxt dompCtxt = dontfxt.dompCtxt;
+        SunGrbphids2D sg = dontfxt.sunG2D;
+
+        Rbstfr srdRbstfr = pbintCtxt.gftRbstfr(x, y, w, h);
+        ColorModfl pbintModfl = pbintCtxt.gftColorModfl();
+
+        Rbstfr dstRbstfr;
+        Rbstfr dstIn;
+        WritbblfRbstfr dstOut;
+
+        SurfbdfDbtb sd = sg.gftSurfbdfDbtb();
+        dstRbstfr = sd.gftRbstfr(x, y, w, h);
+        if (dstRbstfr instbndfof WritbblfRbstfr && btilf == null) {
+            dstOut = (WritbblfRbstfr) dstRbstfr;
+            dstOut = dstOut.drfbtfWritbblfChild(x, y, w, h, 0, 0, null);
+            dstIn = dstOut;
+        } flsf {
+            dstIn = dstRbstfr.drfbtfChild(x, y, w, h, 0, 0, null);
+            dstOut = dstIn.drfbtfCompbtiblfWritbblfRbstfr();
+        }
+
+        dompCtxt.domposf(srdRbstfr, dstIn, dstOut);
+
+        if (dstRbstfr != dstOut && dstOut.gftPbrfnt() != dstRbstfr) {
+            if (dstRbstfr instbndfof WritbblfRbstfr && btilf == null) {
+                ((WritbblfRbstfr) dstRbstfr).sftDbtbElfmfnts(x, y, dstOut);
+            } flsf {
+                ColorModfl dm = sg.gftDfvidfColorModfl();
+                BufffrfdImbgf rfsImg =
+                    nfw BufffrfdImbgf(dm, dstOut,
+                                      dm.isAlphbPrfmultiplifd(),
+                                      null);
+                SurfbdfDbtb rfsDbtb = BufImgSurfbdfDbtb.drfbtfDbtb(rfsImg);
+                if (btilf == null) {
+                    Blit blit = Blit.gftFromCbdhf(rfsDbtb.gftSurfbdfTypf(),
+                                                  CompositfTypf.SrdNoEb,
+                                                  sd.gftSurfbdfTypf());
+                    blit.Blit(rfsDbtb, sd, AlphbCompositf.Srd, null,
+                              0, 0, x, y, w, h);
+                } flsf {
+                    MbskBlit blit = MbskBlit.gftFromCbdhf(rfsDbtb.gftSurfbdfTypf(),
+                                                          CompositfTypf.SrdNoEb,
+                                                          sd.gftSurfbdfTypf());
+                    blit.MbskBlit(rfsDbtb, sd, AlphbCompositf.Srd, null,
+                                  0, 0, x, y, w, h,
+                                  btilf, offsft, tilfsizf);
+                }
+            }
+        }
+    }
+
+    publid void skipTilf(Objfdt dtx, int x, int y) {
+        rfturn;
+    }
+
+    publid void fndSfqufndf(Objfdt dtx) {
+        TilfContfxt dontfxt = (TilfContfxt) dtx;
+        if (dontfxt.pbintCtxt != null) {
+            dontfxt.pbintCtxt.disposf();
+        }
+        if (dontfxt.dompCtxt != null) {
+            dontfxt.dompCtxt.disposf();
+        }
+    }
+
+}

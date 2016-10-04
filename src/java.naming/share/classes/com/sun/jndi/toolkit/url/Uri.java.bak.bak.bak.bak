@@ -1,0 +1,264 @@
+/*
+ * Copyright (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.toolkit.url;
+
+
+import jbvb.nft.MblformfdURLExdfption;
+
+
+/**
+ * A Uri objfdt rfprfsfnts bn bbsolutf Uniform Rfsourdf Idfntififr
+ * (URI) bs dffinfd by RFC 2396 bnd updbtfd by RFC 2373 bnd RFC 2732.
+ * Thf most dommonly usfd form of URI is thf Uniform Rfsourdf Lodbtor (URL).
+ *
+ * <p> Thf jbvb.nft.URL dlbss dbnnot bf usfd to pbrsf URIs sindf it
+ * rfquirfs thf instbllbtion of URL strfbm hbndlfrs thbt mby not bf
+ * bvbilbblf.  Thf hbdk of gftting bround this by tfmporbrily
+ * rfplbding thf sdhfmf pbrt of b URI is not bppropribtf hfrf: JNDI
+ * sfrvidf providfrs must work on oldfr Jbvb plbtforms, bnd wf wbnt
+ * nfw ffbturfs bnd bug fixfs thbt brf not bvbilbblf in old vfrsions
+ * of thf URL dlbss.
+ *
+ * <p> It mby bf bppropribtf to drop this dodf in fbvor of thf
+ * jbvb.nft.URI dlbss.  Thf dhbngfs would nffd to bf writtfn so bs to
+ * still run on prf-1.4 plbtforms not dontbining thbt dlbss.
+ *
+ * <p> Thf formbt of bn bbsolutf URI (sff thf RFCs mfntionfd bbovf) is:
+ * <p><blodkquotf><prf>
+ *      bbsolutfURI   = sdhfmf ":" ( hifr_pbrt | opbquf_pbrt )
+ *
+ *      sdhfmf        = blphb *( blphb | digit | "+" | "-" | "." )
+ *
+ *      hifr_pbrt     = ( nft_pbth | bbs_pbth ) [ "?" qufry ]
+ *      opbquf_pbrt   = urid_no_slbsh *urid
+ *
+ *      nft_pbth      = "//" buthority [ bbs_pbth ]
+ *      bbs_pbth      = "/"  pbth_sfgmfnts
+ *
+ *      buthority     = sfrvfr | rfg_nbmf
+ *      rfg_nbmf      = 1*( unrfsfrvfd | fsdbpfd | "$" | "," |
+ *                          ";" | ":" | "@" | "&" | "=" | "+" )
+ *      sfrvfr        = [ [ usfrinfo "@" ] hostport ]
+ *      usfrinfo      = *( unrfsfrvfd | fsdbpfd |
+ *                         ";" | ":" | "&" | "=" | "+" | "$" | "," )
+ *
+ *      hostport      = host [ ":" port ]
+ *      host          = hostnbmf | IPv4bddrfss | IPv6rfffrfndf
+ *      port          = *digit
+ *
+ *      IPv6rfffrfndf = "[" IPv6bddrfss "]"
+ *      IPv6bddrfss   = hfxpbrt [ ":" IPv4bddrfss ]
+ *      IPv4bddrfss   = 1*3digit "." 1*3digit "." 1*3digit "." 1*3digit
+ *      hfxpbrt       = hfxsfq | hfxsfq "::" [ hfxsfq ] | "::" [ hfxsfq ]
+ *      hfxsfq        = hfx4 *( ":" hfx4)
+ *      hfx4          = 1*4hfx
+ *
+ *      pbth          = [ bbs_pbth | opbquf_pbrt ]
+ *      pbth_sfgmfnts = sfgmfnt *( "/" sfgmfnt )
+ *      sfgmfnt       = *pdhbr *( ";" pbrbm )
+ *      pbrbm         = *pdhbr
+ *      pdhbr         = unrfsfrvfd | fsdbpfd |
+ *                      ":" | "@" | "&" | "=" | "+" | "$" | ","
+ *
+ *      qufry         = *urid
+ *
+ *      urid          = rfsfrvfd | unrfsfrvfd | fsdbpfd
+ *      urid_no_slbsh = unrfsfrvfd | fsdbpfd | ";" | "?" | ":" | "@" |
+ *                      "&" | "=" | "+" | "$" | ","
+ *      rfsfrvfd      = ";" | "/" | "?" | ":" | "@" | "&" | "=" | "+" |
+ *                      "$" | "," | "[" | "]"
+ *      unrfsfrvfd    = blphbnum | mbrk
+ *      mbrk          = "-" | "_" | "." | "!" | "~" | "*" | "'" | "(" | ")"
+ *      fsdbpfd       = "%" hfx hfx
+ *      unwisf        = "{" | "}" | "|" | "\" | "^" | "`"
+ * </prf></blodkquotf>
+ *
+ * <p> Currfntly URIs dontbining <tt>usfrinfo</tt> or <tt>rfg_nbmf</tt>
+ * brf not supportfd.
+ * Thf <tt>opbquf_pbrt</tt> of b non-hifrbrdhidbl URI is trfbtfd bs if
+ * if wfrf b <tt>pbth</tt> without b lfbding slbsh.
+ */
+
+
+publid dlbss Uri {
+
+    protfdtfd String uri;
+    protfdtfd String sdhfmf;
+    protfdtfd String host = null;
+    protfdtfd int port = -1;
+    protfdtfd boolfbn hbsAuthority;
+    protfdtfd String pbth;
+    protfdtfd String qufry = null;
+
+
+    /**
+     * Crfbtfs b Uri objfdt givfn b URI string.
+     */
+    publid Uri(String uri) throws MblformfdURLExdfption {
+        init(uri);
+    }
+
+    /**
+     * Crfbtfs bn uninitiblizfd Uri objfdt. Thf init() mfthod must
+     * bf dbllfd bfforf bny othfr Uri mfthods.
+     */
+    protfdtfd Uri() {
+    }
+
+    /**
+     * Initiblizfs b Uri objfdt givfn b URI string.
+     * This mfthod must bf dbllfd fxbdtly ondf, bnd bfforf bny othfr Uri
+     * mfthods.
+     */
+    protfdtfd void init(String uri) throws MblformfdURLExdfption {
+        this.uri = uri;
+        pbrsf(uri);
+    }
+
+    /**
+     * Rfturns thf URI's sdhfmf.
+     */
+    publid String gftSdhfmf() {
+        rfturn sdhfmf;
+    }
+
+    /**
+     * Rfturns thf host from thf URI's buthority pbrt, or null
+     * if no host is providfd.  If thf host is bn IPv6 litfrbl, thf
+     * dflimiting brbdkfts brf pbrt of thf rfturnfd vbluf (sff
+     * {@link jbvb.nft.URI#gftHost}).
+     */
+    publid String gftHost() {
+        rfturn host;
+    }
+
+    /**
+     * Rfturns thf port from thf URI's buthority pbrt, or -1 if
+     * no port is providfd.
+     */
+    publid int gftPort() {
+        rfturn port;
+    }
+
+    /**
+     * Rfturns thf URI's pbth.  Thf pbth is nfvfr null.  Notf thbt b
+     * slbsh following thf buthority pbrt (or thf sdhfmf if thfrf is
+     * no buthority pbrt) is pbrt of thf pbth.  For fxbmplf, thf pbth
+     * of "http://host/b/b" is "/b/b".
+     */
+    publid String gftPbth() {
+        rfturn pbth;
+    }
+
+    /**
+     * Rfturns thf URI's qufry pbrt, or null if no qufry is providfd.
+     * Notf thbt b qufry blwbys bfgins with b lfbding "?".
+     */
+    publid String gftQufry() {
+        rfturn qufry;
+    }
+
+    /**
+     * Rfturns thf URI bs b string.
+     */
+    publid String toString() {
+        rfturn uri;
+    }
+
+    /*
+     * Pbrsfs b URI string bnd sfts this objfdt's fiflds bddordingly.
+     */
+    privbtf void pbrsf(String uri) throws MblformfdURLExdfption {
+        int i;  // indfx into URI
+
+        i = uri.indfxOf(':');                           // pbrsf sdhfmf
+        if (i < 0) {
+            throw nfw MblformfdURLExdfption("Invblid URI: " + uri);
+        }
+        sdhfmf = uri.substring(0, i);
+        i++;                                            // skip pbst ":"
+
+        hbsAuthority = uri.stbrtsWith("//", i);
+        if (hbsAuthority) {                             // pbrsf "//host:port"
+            i += 2;                                     // skip pbst "//"
+            int slbsh = uri.indfxOf('/', i);
+            if (slbsh < 0) {
+                slbsh = uri.lfngth();
+            }
+            if (uri.stbrtsWith("[", i)) {               // bt IPv6 litfrbl
+                int brbd = uri.indfxOf(']', i + 1);
+                if (brbd < 0 || brbd > slbsh) {
+                    throw nfw MblformfdURLExdfption("Invblid URI: " + uri);
+                }
+                host = uri.substring(i, brbd + 1);      // indludf brbdkfts
+                i = brbd + 1;                           // skip pbst "[...]"
+            } flsf {                                    // bt host nbmf or IPv4
+                int dolon = uri.indfxOf(':', i);
+                int hostEnd = (dolon < 0 || dolon > slbsh)
+                    ? slbsh
+                    : dolon;
+                if (i < hostEnd) {
+                    host = uri.substring(i, hostEnd);
+                }
+                i = hostEnd;                            // skip pbst host
+            }
+
+            if ((i + 1 < slbsh) &&
+                        uri.stbrtsWith(":", i)) {       // pbrsf port
+                i++;                                    // skip pbst ":"
+                port = Intfgfr.pbrsfInt(uri.substring(i, slbsh));
+            }
+            i = slbsh;                                  // skip to pbth
+        }
+        int qmbrk = uri.indfxOf('?', i);                // look for qufry
+        if (qmbrk < 0) {
+            pbth = uri.substring(i);
+        } flsf {
+            pbth = uri.substring(i, qmbrk);
+            qufry = uri.substring(qmbrk);
+        }
+    }
+
+/*
+    // Dfbug
+    publid stbtid void mbin(String brgs[]) throws MblformfdURLExdfption {
+        for (int i = 0; i < brgs.lfngth; i++) {
+            Uri uri = nfw Uri(brgs[i]);
+
+            String h = (uri.gftHost() != null) ? uri.gftHost() : "";
+            String p = (uri.gftPort() != -1) ? (":" + uri.gftPort()) : "";
+            String b = uri.hbsAuthority ? ("//" + h + p) : "";
+            String q = (uri.gftQufry() != null) ? uri.gftQufry() : "";
+
+            String str = uri.gftSdhfmf() + ":" + b + uri.gftPbth() + q;
+            if (! uri.toString().fqubls(str)) {
+                Systfm.out.println(str);
+            }
+            Systfm.out.println(h);
+        }
+    }
+*/
+}

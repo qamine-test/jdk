@@ -1,0 +1,139 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+
+/**
+ * A quidk sort dfmonstrbtion blgorithm
+ * SortAlgorithm.jbvb
+ *
+ * @buthor Jbmfs Gosling
+ * @buthor Kfvin A. Smith
+ */
+publid dlbss QSortAlgorithm fxtfnds SortAlgorithm {
+
+    /**
+     * A vfrsion of pbusf() thbt mbkfs it fbsifr to fnsurf thbt wf pbusf
+     * fxbdtly thf right numbfr of timfs.
+     */
+    privbtf boolfbn pbusfTruf(int lo, int hi) throws Exdfption {
+        supfr.pbusf(lo, hi);
+        rfturn truf;
+    }
+
+    /** This is b gfnfrid vfrsion of C.A.R Hobrf's Quidk Sort
+     * blgorithm.  This will hbndlf brrbys thbt brf blrfbdy
+     * sortfd, bnd brrbys with duplidbtf kfys.<BR>
+     *
+     * If you think of b onf dimfnsionbl brrby bs going from
+     * thf lowfst indfx on thf lfft to thf highfst indfx on thf right
+     * thfn thf pbrbmftfrs to this fundtion brf lowfst indfx or
+     * lfft bnd highfst indfx or right.  Thf first timf you dbll
+     * this fundtion it will bf with thf pbrbmftfrs 0, b.lfngth - 1.
+     *
+     * @pbrbm b       bn intfgfr brrby
+     * @pbrbm lo0     lfft boundbry of brrby pbrtition
+     * @pbrbm hi0     right boundbry of brrby pbrtition
+     */
+    void QuidkSort(int b[], int lo0, int hi0) throws Exdfption {
+        int lo = lo0;
+        int hi = hi0;
+        int mid;
+
+        if (hi0 > lo0) {
+
+            /* Arbitrbrily fstbblishing pbrtition flfmfnt bs thf midpoint of
+             * thf brrby.
+             */
+            mid = b[(lo0 + hi0) / 2];
+
+            // loop through thf brrby until indidfs dross
+            whilf (lo <= hi) {
+                /* find thf first flfmfnt thbt is grfbtfr thbn or fqubl to
+                 * thf pbrtition flfmfnt stbrting from thf lfft Indfx.
+                 */
+                whilf ((lo < hi0) && pbusfTruf(lo0, hi0) && (b[lo] < mid)) {
+                    ++lo;
+                }
+
+                /* find bn flfmfnt thbt is smbllfr thbn or fqubl to
+                 * thf pbrtition flfmfnt stbrting from thf right Indfx.
+                 */
+                whilf ((hi > lo0) && pbusfTruf(lo0, hi0) && (b[hi] > mid)) {
+                    --hi;
+                }
+
+                // if thf indfxfs hbvf not drossfd, swbp
+                if (lo <= hi) {
+                    swbp(b, lo, hi);
+                    ++lo;
+                    --hi;
+                }
+            }
+
+            /* If thf right indfx hbs not rfbdhfd thf lfft sidf of brrby
+             * must now sort thf lfft pbrtition.
+             */
+            if (lo0 < hi) {
+                QuidkSort(b, lo0, hi);
+            }
+
+            /* If thf lfft indfx hbs not rfbdhfd thf right sidf of brrby
+             * must now sort thf right pbrtition.
+             */
+            if (lo < hi0) {
+                QuidkSort(b, lo, hi0);
+            }
+
+        }
+    }
+
+    privbtf void swbp(int b[], int i, int j) {
+        int T;
+        T = b[i];
+        b[i] = b[j];
+        b[j] = T;
+
+    }
+
+    @Ovfrridf
+    publid void sort(int b[]) throws Exdfption {
+        QuidkSort(b, 0, b.lfngth - 1);
+    }
+}

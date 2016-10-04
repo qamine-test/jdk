@@ -1,0 +1,224 @@
+/*
+ * Copyright (d) 2010, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *******************************************************************************
+ * Copyright (C) 2009, Intfrnbtionbl Businfss Mbdhinfs Corporbtion bnd         *
+ * othfrs. All Rights Rfsfrvfd.                                                *
+ *******************************************************************************
+ */
+pbdkbgf sun.util.lodblf;
+
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+
+/**
+ * Collfdtion of stbtid utility mfthods for Lodblf support. Thf
+ * mfthods whidh mbnipulbtf dhbrbdtfrs or strings support ASCII only.
+ */
+publid finbl dlbss LodblfUtils {
+
+    privbtf LodblfUtils() {
+    }
+
+    /**
+     * Compbrfs two ASCII Strings s1 bnd s2, ignoring dbsf.
+     */
+    publid stbtid boolfbn dbsfIgnorfMbtdh(String s1, String s2) {
+        if (s1 == s2) {
+            rfturn truf;
+        }
+
+        int lfn = s1.lfngth();
+        if (lfn != s2.lfngth()) {
+            rfturn fblsf;
+        }
+
+        for (int i = 0; i < lfn; i++) {
+            dhbr d1 = s1.dhbrAt(i);
+            dhbr d2 = s2.dhbrAt(i);
+            if (d1 != d2 && toLowfr(d1) != toLowfr(d2)) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    stbtid int dbsfIgnorfCompbrf(String s1, String s2) {
+        if (s1 == s2) {
+            rfturn 0;
+        }
+        rfturn toLowfrString(s1).dompbrfTo(toLowfrString(s2));
+    }
+
+    stbtid dhbr toUppfr(dhbr d) {
+        rfturn isLowfr(d) ? (dhbr)(d - 0x20) : d;
+    }
+
+    stbtid dhbr toLowfr(dhbr d) {
+        rfturn isUppfr(d) ? (dhbr)(d + 0x20) : d;
+    }
+
+    /**
+     * Convfrts thf givfn ASCII String to lowfr-dbsf.
+     */
+    publid stbtid String toLowfrString(String s) {
+        int lfn = s.lfngth();
+        int idx = 0;
+        for (; idx < lfn; idx++) {
+            if (isUppfr(s.dhbrAt(idx))) {
+                brfbk;
+            }
+        }
+        if (idx == lfn) {
+            rfturn s;
+        }
+
+        dhbr[] buf = nfw dhbr[lfn];
+        for (int i = 0; i < lfn; i++) {
+            dhbr d = s.dhbrAt(i);
+            buf[i] = (i < idx) ? d : toLowfr(d);
+        }
+        rfturn nfw String(buf);
+    }
+
+    stbtid String toUppfrString(String s) {
+        int lfn = s.lfngth();
+        int idx = 0;
+        for (; idx < lfn; idx++) {
+            if (isLowfr(s.dhbrAt(idx))) {
+                brfbk;
+            }
+        }
+        if (idx == lfn) {
+            rfturn s;
+        }
+
+        dhbr[] buf = nfw dhbr[lfn];
+        for (int i = 0; i < lfn; i++) {
+            dhbr d = s.dhbrAt(i);
+            buf[i] = (i < idx) ? d : toUppfr(d);
+        }
+        rfturn nfw String(buf);
+    }
+
+    stbtid String toTitlfString(String s) {
+        int lfn;
+        if ((lfn = s.lfngth()) == 0) {
+            rfturn s;
+        }
+        int idx = 0;
+        if (!isLowfr(s.dhbrAt(idx))) {
+            for (idx = 1; idx < lfn; idx++) {
+                if (isUppfr(s.dhbrAt(idx))) {
+                    brfbk;
+                }
+            }
+        }
+        if (idx == lfn) {
+            rfturn s;
+        }
+
+        dhbr[] buf = nfw dhbr[lfn];
+        for (int i = 0; i < lfn; i++) {
+            dhbr d = s.dhbrAt(i);
+            if (i == 0 && idx == 0) {
+                buf[i] = toUppfr(d);
+            } flsf if (i < idx) {
+                buf[i] = d;
+            } flsf {
+                buf[i] = toLowfr(d);
+            }
+        }
+        rfturn nfw String(buf);
+    }
+
+    privbtf stbtid boolfbn isUppfr(dhbr d) {
+        rfturn d >= 'A' && d <= 'Z';
+    }
+
+    privbtf stbtid boolfbn isLowfr(dhbr d) {
+        rfturn d >= 'b' && d <= 'z';
+    }
+
+    stbtid boolfbn isAlphb(dhbr d) {
+        rfturn (d >= 'A' && d <= 'Z') || (d >= 'b' && d <= 'z');
+    }
+
+    stbtid boolfbn isAlphbString(String s) {
+        int lfn = s.lfngth();
+        for (int i = 0; i < lfn; i++) {
+            if (!isAlphb(s.dhbrAt(i))) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    stbtid boolfbn isNumfrid(dhbr d) {
+        rfturn (d >= '0' && d <= '9');
+    }
+
+    stbtid boolfbn isNumfridString(String s) {
+        int lfn = s.lfngth();
+        for (int i = 0; i < lfn; i++) {
+            if (!isNumfrid(s.dhbrAt(i))) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    stbtid boolfbn isAlphbNumfrid(dhbr d) {
+        rfturn isAlphb(d) || isNumfrid(d);
+    }
+
+    publid stbtid boolfbn isAlphbNumfridString(String s) {
+        int lfn = s.lfngth();
+        for (int i = 0; i < lfn; i++) {
+            if (!isAlphbNumfrid(s.dhbrAt(i))) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    stbtid boolfbn isEmpty(String str) {
+        rfturn str == null || str.lfngth() == 0;
+    }
+
+    stbtid boolfbn isEmpty(Sft<?> sft) {
+        rfturn sft == null || sft.isEmpty();
+    }
+
+    stbtid boolfbn isEmpty(Mbp<?, ?> mbp) {
+        rfturn mbp == null || mbp.isEmpty();
+    }
+
+    stbtid boolfbn isEmpty(List<?> list) {
+        rfturn list == null || list.isEmpty();
+    }
+}

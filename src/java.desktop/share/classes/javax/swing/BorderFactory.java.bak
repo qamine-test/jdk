@@ -1,763 +1,763 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Paint;
-import javax.swing.border.*;
+import jbvb.bwt.BbsidStrokf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.Pbint;
+import jbvbx.swing.bordfr.*;
 
 /**
- * Factory class for vending standard <code>Border</code> objects.  Wherever
- * possible, this factory will hand out references to shared
- * <code>Border</code> instances.
- * For further information and examples see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/border.htmll">How
- to Use Borders</a>,
- * a section in <em>The Java Tutorial</em>.
+ * Fbdtory dlbss for vfnding stbndbrd <dodf>Bordfr</dodf> objfdts.  Wifrfvfr
+ * possiblf, tiis fbdtory will ibnd out rfffrfndfs to sibrfd
+ * <dodf>Bordfr</dodf> instbndfs.
+ * For furtifr informbtion bnd fxbmplfs sff
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/bordfr.itmll">How
+ to Usf Bordfrs</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl</fm>.
  *
- * @author David Kloba
- * @since 1.2
+ * @butior Dbvid Klobb
+ * @sindf 1.2
  */
-public class BorderFactory
+publid dlbss BordfrFbdtory
 {
 
-    /** Don't let anyone instantiate this class */
-    private BorderFactory() {
+    /** Don't lft bnyonf instbntibtf tiis dlbss */
+    privbtf BordfrFbdtory() {
     }
 
 
-//// LineBorder ///////////////////////////////////////////////////////////////
+//// LinfBordfr ///////////////////////////////////////////////////////////////
     /**
-     * Creates a line border withe the specified color.
+     * Crfbtfs b linf bordfr witif tif spfdififd dolor.
      *
-     * @param color  a <code>Color</code> to use for the line
-     * @return the <code>Border</code> object
+     * @pbrbm dolor  b <dodf>Color</dodf> to usf for tif linf
+     * @rfturn tif <dodf>Bordfr</dodf> objfdt
      */
-    public static Border createLineBorder(Color color) {
-        return new LineBorder(color, 1);
-    }
-
-    /**
-     * Creates a line border with the specified color
-     * and width. The width applies to all four sides of the
-     * border. To specify widths individually for the top,
-     * bottom, left, and right, use
-     * {@link #createMatteBorder(int,int,int,int,Color)}.
-     *
-     * @param color  a <code>Color</code> to use for the line
-     * @param thickness  an integer specifying the width in pixels
-     * @return the <code>Border</code> object
-     */
-    public static Border createLineBorder(Color color, int thickness)  {
-        return new LineBorder(color, thickness);
+    publid stbtid Bordfr drfbtfLinfBordfr(Color dolor) {
+        rfturn nfw LinfBordfr(dolor, 1);
     }
 
     /**
-     * Creates a line border with the specified color, thickness, and corner shape.
+     * Crfbtfs b linf bordfr witi tif spfdififd dolor
+     * bnd widti. Tif widti bpplifs to bll four sidfs of tif
+     * bordfr. To spfdify widtis individublly for tif top,
+     * bottom, lfft, bnd rigit, usf
+     * {@link #drfbtfMbttfBordfr(int,int,int,int,Color)}.
      *
-     * @param color      the color of the border
-     * @param thickness  the thickness of the border
-     * @param rounded    whether or not border corners should be round
-     * @return the {@code Border} object
-     *
-     * @see LineBorder#LineBorder(Color, int, boolean)
-     * @since 1.7
+     * @pbrbm dolor  b <dodf>Color</dodf> to usf for tif linf
+     * @pbrbm tiidknfss  bn intfgfr spfdifying tif widti in pixfls
+     * @rfturn tif <dodf>Bordfr</dodf> objfdt
      */
-    public static Border createLineBorder(Color color, int thickness, boolean rounded) {
-        return new LineBorder(color, thickness, rounded);
+    publid stbtid Bordfr drfbtfLinfBordfr(Color dolor, int tiidknfss)  {
+        rfturn nfw LinfBordfr(dolor, tiidknfss);
     }
 
-//// BevelBorder /////////////////////////////////////////////////////////////
+    /**
+     * Crfbtfs b linf bordfr witi tif spfdififd dolor, tiidknfss, bnd dornfr sibpf.
+     *
+     * @pbrbm dolor      tif dolor of tif bordfr
+     * @pbrbm tiidknfss  tif tiidknfss of tif bordfr
+     * @pbrbm roundfd    wiftifr or not bordfr dornfrs siould bf round
+     * @rfturn tif {@dodf Bordfr} objfdt
+     *
+     * @sff LinfBordfr#LinfBordfr(Color, int, boolfbn)
+     * @sindf 1.7
+     */
+    publid stbtid Bordfr drfbtfLinfBordfr(Color dolor, int tiidknfss, boolfbn roundfd) {
+        rfturn nfw LinfBordfr(dolor, tiidknfss, roundfd);
+    }
+
+//// BfvflBordfr /////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-    static final Border sharedRaisedBevel = new BevelBorder(BevelBorder.RAISED);
-    static final Border sharedLoweredBevel = new BevelBorder(BevelBorder.LOWERED);
+    stbtid finbl Bordfr sibrfdRbisfdBfvfl = nfw BfvflBordfr(BfvflBordfr.RAISED);
+    stbtid finbl Bordfr sibrfdLowfrfdBfvfl = nfw BfvflBordfr(BfvflBordfr.LOWERED);
 
     /**
-     * Creates a border with a raised beveled edge, using
-     * brighter shades of the component's current background color
-     * for highlighting, and darker shading for shadows.
-     * (In a raised border, highlights are on top and shadows
-     *  are underneath.)
+     * Crfbtfs b bordfr witi b rbisfd bfvflfd fdgf, using
+     * brigitfr sibdfs of tif domponfnt's durrfnt bbdkground dolor
+     * for iigiligiting, bnd dbrkfr sibding for sibdows.
+     * (In b rbisfd bordfr, iigiligits brf on top bnd sibdows
+     *  brf undfrnfbti.)
      *
-     * @return the <code>Border</code> object
+     * @rfturn tif <dodf>Bordfr</dodf> objfdt
      */
-    public static Border createRaisedBevelBorder() {
-        return createSharedBevel(BevelBorder.RAISED);
+    publid stbtid Bordfr drfbtfRbisfdBfvflBordfr() {
+        rfturn drfbtfSibrfdBfvfl(BfvflBordfr.RAISED);
     }
 
     /**
-     * Creates a border with a lowered beveled edge, using
-     * brighter shades of the component's current background color
-     * for highlighting, and darker shading for shadows.
-     * (In a lowered border, shadows are on top and highlights
-     *  are underneath.)
+     * Crfbtfs b bordfr witi b lowfrfd bfvflfd fdgf, using
+     * brigitfr sibdfs of tif domponfnt's durrfnt bbdkground dolor
+     * for iigiligiting, bnd dbrkfr sibding for sibdows.
+     * (In b lowfrfd bordfr, sibdows brf on top bnd iigiligits
+     *  brf undfrnfbti.)
      *
-     * @return the <code>Border</code> object
+     * @rfturn tif <dodf>Bordfr</dodf> objfdt
      */
-    public static Border createLoweredBevelBorder() {
-        return createSharedBevel(BevelBorder.LOWERED);
+    publid stbtid Bordfr drfbtfLowfrfdBfvflBordfr() {
+        rfturn drfbtfSibrfdBfvfl(BfvflBordfr.LOWERED);
     }
 
     /**
-     * Creates a beveled border of the specified type, using
-     * brighter shades of the component's current background color
-     * for highlighting, and darker shading for shadows.
-     * (In a lowered border, shadows are on top and highlights
-     *  are underneath.)
+     * Crfbtfs b bfvflfd bordfr of tif spfdififd typf, using
+     * brigitfr sibdfs of tif domponfnt's durrfnt bbdkground dolor
+     * for iigiligiting, bnd dbrkfr sibding for sibdows.
+     * (In b lowfrfd bordfr, sibdows brf on top bnd iigiligits
+     *  brf undfrnfbti.)
      *
-     * @param type  an integer specifying either
-     *                  <code>BevelBorder.LOWERED</code> or
-     *                  <code>BevelBorder.RAISED</code>
-     * @return the <code>Border</code> object
+     * @pbrbm typf  bn intfgfr spfdifying fitifr
+     *                  <dodf>BfvflBordfr.LOWERED</dodf> or
+     *                  <dodf>BfvflBordfr.RAISED</dodf>
+     * @rfturn tif <dodf>Bordfr</dodf> objfdt
      */
-    public static Border createBevelBorder(int type) {
-        return createSharedBevel(type);
+    publid stbtid Bordfr drfbtfBfvflBordfr(int typf) {
+        rfturn drfbtfSibrfdBfvfl(typf);
     }
 
     /**
-     * Creates a beveled border of the specified type, using
-     * the specified highlighting and shadowing. The outer
-     * edge of the highlighted area uses a brighter shade of
-     * the highlight color. The inner edge of the shadow area
-     * uses a brighter shade of the shadow color.
+     * Crfbtfs b bfvflfd bordfr of tif spfdififd typf, using
+     * tif spfdififd iigiligiting bnd sibdowing. Tif outfr
+     * fdgf of tif iigiligitfd brfb usfs b brigitfr sibdf of
+     * tif iigiligit dolor. Tif innfr fdgf of tif sibdow brfb
+     * usfs b brigitfr sibdf of tif sibdow dolor.
      *
-     * @param type  an integer specifying either
-     *                  <code>BevelBorder.LOWERED</code> or
-     *                  <code>BevelBorder.RAISED</code>
-     * @param highlight  a <code>Color</code> object for highlights
-     * @param shadow     a <code>Color</code> object for shadows
-     * @return the <code>Border</code> object
+     * @pbrbm typf  bn intfgfr spfdifying fitifr
+     *                  <dodf>BfvflBordfr.LOWERED</dodf> or
+     *                  <dodf>BfvflBordfr.RAISED</dodf>
+     * @pbrbm iigiligit  b <dodf>Color</dodf> objfdt for iigiligits
+     * @pbrbm sibdow     b <dodf>Color</dodf> objfdt for sibdows
+     * @rfturn tif <dodf>Bordfr</dodf> objfdt
      */
-    public static Border createBevelBorder(int type, Color highlight, Color shadow) {
-        return new BevelBorder(type, highlight, shadow);
+    publid stbtid Bordfr drfbtfBfvflBordfr(int typf, Color iigiligit, Color sibdow) {
+        rfturn nfw BfvflBordfr(typf, iigiligit, sibdow);
     }
 
     /**
-     * Creates a beveled border of the specified type, using
-     * the specified colors for the inner and outer highlight
-     * and shadow areas.
+     * Crfbtfs b bfvflfd bordfr of tif spfdififd typf, using
+     * tif spfdififd dolors for tif innfr bnd outfr iigiligit
+     * bnd sibdow brfbs.
      *
-     * @param type  an integer specifying either
-     *          <code>BevelBorder.LOWERED</code> or
-     *          <code>BevelBorder.RAISED</code>
-     * @param highlightOuter  a <code>Color</code> object for the
-     *                  outer edge of the highlight area
-     * @param highlightInner  a <code>Color</code> object for the
-     *                  inner edge of the highlight area
-     * @param shadowOuter     a <code>Color</code> object for the
-     *                  outer edge of the shadow area
-     * @param shadowInner     a <code>Color</code> object for the
-     *                  inner edge of the shadow area
-     * @return the <code>Border</code> object
+     * @pbrbm typf  bn intfgfr spfdifying fitifr
+     *          <dodf>BfvflBordfr.LOWERED</dodf> or
+     *          <dodf>BfvflBordfr.RAISED</dodf>
+     * @pbrbm iigiligitOutfr  b <dodf>Color</dodf> objfdt for tif
+     *                  outfr fdgf of tif iigiligit brfb
+     * @pbrbm iigiligitInnfr  b <dodf>Color</dodf> objfdt for tif
+     *                  innfr fdgf of tif iigiligit brfb
+     * @pbrbm sibdowOutfr     b <dodf>Color</dodf> objfdt for tif
+     *                  outfr fdgf of tif sibdow brfb
+     * @pbrbm sibdowInnfr     b <dodf>Color</dodf> objfdt for tif
+     *                  innfr fdgf of tif sibdow brfb
+     * @rfturn tif <dodf>Bordfr</dodf> objfdt
      */
-    public static Border createBevelBorder(int type,
-                        Color highlightOuter, Color highlightInner,
-                        Color shadowOuter, Color shadowInner) {
-        return new BevelBorder(type, highlightOuter, highlightInner,
-                                        shadowOuter, shadowInner);
+    publid stbtid Bordfr drfbtfBfvflBordfr(int typf,
+                        Color iigiligitOutfr, Color iigiligitInnfr,
+                        Color sibdowOutfr, Color sibdowInnfr) {
+        rfturn nfw BfvflBordfr(typf, iigiligitOutfr, iigiligitInnfr,
+                                        sibdowOutfr, sibdowInnfr);
     }
 
-    static Border createSharedBevel(int type)   {
-        if(type == BevelBorder.RAISED) {
-            return sharedRaisedBevel;
-        } else if(type == BevelBorder.LOWERED) {
-            return sharedLoweredBevel;
+    stbtid Bordfr drfbtfSibrfdBfvfl(int typf)   {
+        if(typf == BfvflBordfr.RAISED) {
+            rfturn sibrfdRbisfdBfvfl;
+        } flsf if(typf == BfvflBordfr.LOWERED) {
+            rfturn sibrfdLowfrfdBfvfl;
         }
-        return null;
+        rfturn null;
     }
 
-//// SoftBevelBorder ///////////////////////////////////////////////////////////
+//// SoftBfvflBordfr ///////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-    private static Border sharedSoftRaisedBevel;
-    private static Border sharedSoftLoweredBevel;
+    privbtf stbtid Bordfr sibrfdSoftRbisfdBfvfl;
+    privbtf stbtid Bordfr sibrfdSoftLowfrfdBfvfl;
 
     /**
-     * Creates a beveled border with a raised edge and softened corners,
-     * using brighter shades of the component's current background color
-     * for highlighting, and darker shading for shadows.
-     * In a raised border, highlights are on top and shadows are underneath.
+     * Crfbtfs b bfvflfd bordfr witi b rbisfd fdgf bnd softfnfd dornfrs,
+     * using brigitfr sibdfs of tif domponfnt's durrfnt bbdkground dolor
+     * for iigiligiting, bnd dbrkfr sibding for sibdows.
+     * In b rbisfd bordfr, iigiligits brf on top bnd sibdows brf undfrnfbti.
      *
-     * @return the {@code Border} object
+     * @rfturn tif {@dodf Bordfr} objfdt
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public static Border createRaisedSoftBevelBorder() {
-        if (sharedSoftRaisedBevel == null) {
-            sharedSoftRaisedBevel = new SoftBevelBorder(BevelBorder.RAISED);
+    publid stbtid Bordfr drfbtfRbisfdSoftBfvflBordfr() {
+        if (sibrfdSoftRbisfdBfvfl == null) {
+            sibrfdSoftRbisfdBfvfl = nfw SoftBfvflBordfr(BfvflBordfr.RAISED);
         }
-        return sharedSoftRaisedBevel;
+        rfturn sibrfdSoftRbisfdBfvfl;
     }
 
     /**
-     * Creates a beveled border with a lowered edge and softened corners,
-     * using brighter shades of the component's current background color
-     * for highlighting, and darker shading for shadows.
-     * In a lowered border, shadows are on top and highlights are underneath.
+     * Crfbtfs b bfvflfd bordfr witi b lowfrfd fdgf bnd softfnfd dornfrs,
+     * using brigitfr sibdfs of tif domponfnt's durrfnt bbdkground dolor
+     * for iigiligiting, bnd dbrkfr sibding for sibdows.
+     * In b lowfrfd bordfr, sibdows brf on top bnd iigiligits brf undfrnfbti.
      *
-     * @return the {@code Border} object
+     * @rfturn tif {@dodf Bordfr} objfdt
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public static Border createLoweredSoftBevelBorder() {
-        if (sharedSoftLoweredBevel == null) {
-            sharedSoftLoweredBevel = new SoftBevelBorder(BevelBorder.LOWERED);
+    publid stbtid Bordfr drfbtfLowfrfdSoftBfvflBordfr() {
+        if (sibrfdSoftLowfrfdBfvfl == null) {
+            sibrfdSoftLowfrfdBfvfl = nfw SoftBfvflBordfr(BfvflBordfr.LOWERED);
         }
-        return sharedSoftLoweredBevel;
+        rfturn sibrfdSoftLowfrfdBfvfl;
     }
 
     /**
-     * Creates a beveled border of the specified type with softened corners,
-     * using brighter shades of the component's current background color
-     * for highlighting, and darker shading for shadows.
-     * The type is either {@link BevelBorder#RAISED} or {@link BevelBorder#LOWERED}.
+     * Crfbtfs b bfvflfd bordfr of tif spfdififd typf witi softfnfd dornfrs,
+     * using brigitfr sibdfs of tif domponfnt's durrfnt bbdkground dolor
+     * for iigiligiting, bnd dbrkfr sibding for sibdows.
+     * Tif typf is fitifr {@link BfvflBordfr#RAISED} or {@link BfvflBordfr#LOWERED}.
      *
-     * @param type  a type of a bevel
-     * @return the {@code Border} object or {@code null}
-     *         if the specified type is not valid
+     * @pbrbm typf  b typf of b bfvfl
+     * @rfturn tif {@dodf Bordfr} objfdt or {@dodf null}
+     *         if tif spfdififd typf is not vblid
      *
-     * @see BevelBorder#BevelBorder(int)
-     * @since 1.7
+     * @sff BfvflBordfr#BfvflBordfr(int)
+     * @sindf 1.7
      */
-    public static Border createSoftBevelBorder(int type) {
-        if (type == BevelBorder.RAISED) {
-            return createRaisedSoftBevelBorder();
+    publid stbtid Bordfr drfbtfSoftBfvflBordfr(int typf) {
+        if (typf == BfvflBordfr.RAISED) {
+            rfturn drfbtfRbisfdSoftBfvflBordfr();
         }
-        if (type == BevelBorder.LOWERED) {
-            return createLoweredSoftBevelBorder();
+        if (typf == BfvflBordfr.LOWERED) {
+            rfturn drfbtfLowfrfdSoftBfvflBordfr();
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Creates a beveled border of the specified type with softened corners,
-     * using the specified highlighting and shadowing.
-     * The type is either {@link BevelBorder#RAISED} or {@link BevelBorder#LOWERED}.
-     * The outer edge of the highlight area uses
-     * a brighter shade of the {@code highlight} color.
-     * The inner edge of the shadow area uses
-     * a brighter shade of the {@code shadow} color.
+     * Crfbtfs b bfvflfd bordfr of tif spfdififd typf witi softfnfd dornfrs,
+     * using tif spfdififd iigiligiting bnd sibdowing.
+     * Tif typf is fitifr {@link BfvflBordfr#RAISED} or {@link BfvflBordfr#LOWERED}.
+     * Tif outfr fdgf of tif iigiligit brfb usfs
+     * b brigitfr sibdf of tif {@dodf iigiligit} dolor.
+     * Tif innfr fdgf of tif sibdow brfb usfs
+     * b brigitfr sibdf of tif {@dodf sibdow} dolor.
      *
-     * @param type       a type of a bevel
-     * @param highlight  a basic color of the highlight area
-     * @param shadow     a basic color of the shadow area
-     * @return the {@code Border} object
+     * @pbrbm typf       b typf of b bfvfl
+     * @pbrbm iigiligit  b bbsid dolor of tif iigiligit brfb
+     * @pbrbm sibdow     b bbsid dolor of tif sibdow brfb
+     * @rfturn tif {@dodf Bordfr} objfdt
      *
-     * @see BevelBorder#BevelBorder(int, Color, Color)
-     * @since 1.7
+     * @sff BfvflBordfr#BfvflBordfr(int, Color, Color)
+     * @sindf 1.7
      */
-    public static Border createSoftBevelBorder(int type, Color highlight, Color shadow) {
-        return new SoftBevelBorder(type, highlight, shadow);
+    publid stbtid Bordfr drfbtfSoftBfvflBordfr(int typf, Color iigiligit, Color sibdow) {
+        rfturn nfw SoftBfvflBordfr(typf, iigiligit, sibdow);
     }
 
     /**
-     * Creates a beveled border of the specified type with softened corners,
-     * using the specified colors for the inner and outer edges
-     * of the highlight and the shadow areas.
-     * The type is either {@link BevelBorder#RAISED} or {@link BevelBorder#LOWERED}.
-     * Note: The shadow inner and outer colors are switched
-     * for a lowered bevel border.
+     * Crfbtfs b bfvflfd bordfr of tif spfdififd typf witi softfnfd dornfrs,
+     * using tif spfdififd dolors for tif innfr bnd outfr fdgfs
+     * of tif iigiligit bnd tif sibdow brfbs.
+     * Tif typf is fitifr {@link BfvflBordfr#RAISED} or {@link BfvflBordfr#LOWERED}.
+     * Notf: Tif sibdow innfr bnd outfr dolors brf switdifd
+     * for b lowfrfd bfvfl bordfr.
      *
-     * @param type            a type of a bevel
-     * @param highlightOuter  a color of the outer edge of the highlight area
-     * @param highlightInner  a color of the inner edge of the highlight area
-     * @param shadowOuter     a color of the outer edge of the shadow area
-     * @param shadowInner     a color of the inner edge of the shadow area
-     * @return the {@code Border} object
+     * @pbrbm typf            b typf of b bfvfl
+     * @pbrbm iigiligitOutfr  b dolor of tif outfr fdgf of tif iigiligit brfb
+     * @pbrbm iigiligitInnfr  b dolor of tif innfr fdgf of tif iigiligit brfb
+     * @pbrbm sibdowOutfr     b dolor of tif outfr fdgf of tif sibdow brfb
+     * @pbrbm sibdowInnfr     b dolor of tif innfr fdgf of tif sibdow brfb
+     * @rfturn tif {@dodf Bordfr} objfdt
      *
-     * @see BevelBorder#BevelBorder(int, Color, Color, Color, Color)
-     * @since 1.7
+     * @sff BfvflBordfr#BfvflBordfr(int, Color, Color, Color, Color)
+     * @sindf 1.7
      */
-    public static Border createSoftBevelBorder(int type, Color highlightOuter, Color highlightInner, Color shadowOuter, Color shadowInner) {
-        return new SoftBevelBorder(type, highlightOuter, highlightInner, shadowOuter, shadowInner);
+    publid stbtid Bordfr drfbtfSoftBfvflBordfr(int typf, Color iigiligitOutfr, Color iigiligitInnfr, Color sibdowOutfr, Color sibdowInnfr) {
+        rfturn nfw SoftBfvflBordfr(typf, iigiligitOutfr, iigiligitInnfr, sibdowOutfr, sibdowInnfr);
     }
 
-//// EtchedBorder ///////////////////////////////////////////////////////////
+//// EtdifdBordfr ///////////////////////////////////////////////////////////
 
-    static final Border sharedEtchedBorder = new EtchedBorder();
-    private static Border sharedRaisedEtchedBorder;
-
-    /**
-     * Creates a border with an "etched" look using
-     * the component's current background color for
-     * highlighting and shading.
-     *
-     * @return the <code>Border</code> object
-     */
-    public static Border createEtchedBorder()    {
-        return sharedEtchedBorder;
-    }
+    stbtid finbl Bordfr sibrfdEtdifdBordfr = nfw EtdifdBordfr();
+    privbtf stbtid Bordfr sibrfdRbisfdEtdifdBordfr;
 
     /**
-     * Creates a border with an "etched" look using
-     * the specified highlighting and shading colors.
+     * Crfbtfs b bordfr witi bn "ftdifd" look using
+     * tif domponfnt's durrfnt bbdkground dolor for
+     * iigiligiting bnd sibding.
      *
-     * @param highlight  a <code>Color</code> object for the border highlights
-     * @param shadow     a <code>Color</code> object for the border shadows
-     * @return the <code>Border</code> object
+     * @rfturn tif <dodf>Bordfr</dodf> objfdt
      */
-    public static Border createEtchedBorder(Color highlight, Color shadow)    {
-        return new EtchedBorder(highlight, shadow);
+    publid stbtid Bordfr drfbtfEtdifdBordfr()    {
+        rfturn sibrfdEtdifdBordfr;
     }
 
     /**
-     * Creates a border with an "etched" look using
-     * the component's current background color for
-     * highlighting and shading.
+     * Crfbtfs b bordfr witi bn "ftdifd" look using
+     * tif spfdififd iigiligiting bnd sibding dolors.
      *
-     * @param type      one of <code>EtchedBorder.RAISED</code>, or
-     *                  <code>EtchedBorder.LOWERED</code>
-     * @return the <code>Border</code> object
-     * @exception IllegalArgumentException if type is not either
-     *                  <code>EtchedBorder.RAISED</code> or
-     *                  <code>EtchedBorder.LOWERED</code>
-     * @since 1.3
+     * @pbrbm iigiligit  b <dodf>Color</dodf> objfdt for tif bordfr iigiligits
+     * @pbrbm sibdow     b <dodf>Color</dodf> objfdt for tif bordfr sibdows
+     * @rfturn tif <dodf>Bordfr</dodf> objfdt
      */
-    public static Border createEtchedBorder(int type)    {
-        switch (type) {
-        case EtchedBorder.RAISED:
-            if (sharedRaisedEtchedBorder == null) {
-                sharedRaisedEtchedBorder = new EtchedBorder
-                                           (EtchedBorder.RAISED);
+    publid stbtid Bordfr drfbtfEtdifdBordfr(Color iigiligit, Color sibdow)    {
+        rfturn nfw EtdifdBordfr(iigiligit, sibdow);
+    }
+
+    /**
+     * Crfbtfs b bordfr witi bn "ftdifd" look using
+     * tif domponfnt's durrfnt bbdkground dolor for
+     * iigiligiting bnd sibding.
+     *
+     * @pbrbm typf      onf of <dodf>EtdifdBordfr.RAISED</dodf>, or
+     *                  <dodf>EtdifdBordfr.LOWERED</dodf>
+     * @rfturn tif <dodf>Bordfr</dodf> objfdt
+     * @fxdfption IllfgblArgumfntExdfption if typf is not fitifr
+     *                  <dodf>EtdifdBordfr.RAISED</dodf> or
+     *                  <dodf>EtdifdBordfr.LOWERED</dodf>
+     * @sindf 1.3
+     */
+    publid stbtid Bordfr drfbtfEtdifdBordfr(int typf)    {
+        switdi (typf) {
+        dbsf EtdifdBordfr.RAISED:
+            if (sibrfdRbisfdEtdifdBordfr == null) {
+                sibrfdRbisfdEtdifdBordfr = nfw EtdifdBordfr
+                                           (EtdifdBordfr.RAISED);
             }
-            return sharedRaisedEtchedBorder;
-        case EtchedBorder.LOWERED:
-            return sharedEtchedBorder;
-        default:
-            throw new IllegalArgumentException("type must be one of EtchedBorder.RAISED or EtchedBorder.LOWERED");
+            rfturn sibrfdRbisfdEtdifdBordfr;
+        dbsf EtdifdBordfr.LOWERED:
+            rfturn sibrfdEtdifdBordfr;
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("typf must bf onf of EtdifdBordfr.RAISED or EtdifdBordfr.LOWERED");
         }
     }
 
     /**
-     * Creates a border with an "etched" look using
-     * the specified highlighting and shading colors.
+     * Crfbtfs b bordfr witi bn "ftdifd" look using
+     * tif spfdififd iigiligiting bnd sibding dolors.
      *
-     * @param type      one of <code>EtchedBorder.RAISED</code>, or
-     *                  <code>EtchedBorder.LOWERED</code>
-     * @param highlight  a <code>Color</code> object for the border highlights
-     * @param shadow     a <code>Color</code> object for the border shadows
-     * @return the <code>Border</code> object
-     * @since 1.3
+     * @pbrbm typf      onf of <dodf>EtdifdBordfr.RAISED</dodf>, or
+     *                  <dodf>EtdifdBordfr.LOWERED</dodf>
+     * @pbrbm iigiligit  b <dodf>Color</dodf> objfdt for tif bordfr iigiligits
+     * @pbrbm sibdow     b <dodf>Color</dodf> objfdt for tif bordfr sibdows
+     * @rfturn tif <dodf>Bordfr</dodf> objfdt
+     * @sindf 1.3
      */
-    public static Border createEtchedBorder(int type, Color highlight,
-                                            Color shadow)    {
-        return new EtchedBorder(type, highlight, shadow);
+    publid stbtid Bordfr drfbtfEtdifdBordfr(int typf, Color iigiligit,
+                                            Color sibdow)    {
+        rfturn nfw EtdifdBordfr(typf, iigiligit, sibdow);
     }
 
-//// TitledBorder ////////////////////////////////////////////////////////////
+//// TitlfdBordfr ////////////////////////////////////////////////////////////
     /**
-     * Creates a new titled border with the specified title,
-     * the default border type (determined by the current look and feel),
-     * the default text position (determined by the current look and feel),
-     * the default justification (leading), and the default
-     * font and text color (determined by the current look and feel).
+     * Crfbtfs b nfw titlfd bordfr witi tif spfdififd titlf,
+     * tif dffbult bordfr typf (dftfrminfd by tif durrfnt look bnd fffl),
+     * tif dffbult tfxt position (dftfrminfd by tif durrfnt look bnd fffl),
+     * tif dffbult justifidbtion (lfbding), bnd tif dffbult
+     * font bnd tfxt dolor (dftfrminfd by tif durrfnt look bnd fffl).
      *
-     * @param title      a <code>String</code> containing the text of the title
-     * @return the <code>TitledBorder</code> object
+     * @pbrbm titlf      b <dodf>String</dodf> dontbining tif tfxt of tif titlf
+     * @rfturn tif <dodf>TitlfdBordfr</dodf> objfdt
      */
-    public static TitledBorder createTitledBorder(String title)     {
-        return new TitledBorder(title);
-    }
-
-    /**
-     * Creates a new titled border with an empty title,
-     * the specified border object,
-     * the default text position (determined by the current look and feel),
-     * the default justification (leading), and the default
-     * font and text color (determined by the current look and feel).
-     *
-     * @param border     the <code>Border</code> object to add the title to; if
-     *                   <code>null</code> the <code>Border</code> is determined
-     *                   by the current look and feel.
-     * @return the <code>TitledBorder</code> object
-     */
-    public static TitledBorder createTitledBorder(Border border)       {
-        return new TitledBorder(border);
+    publid stbtid TitlfdBordfr drfbtfTitlfdBordfr(String titlf)     {
+        rfturn nfw TitlfdBordfr(titlf);
     }
 
     /**
-     * Adds a title to an existing border,
-     * with default positioning (determined by the current look and feel),
-     * default justification (leading) and the default
-     * font and text color (determined by the current look and feel).
+     * Crfbtfs b nfw titlfd bordfr witi bn fmpty titlf,
+     * tif spfdififd bordfr objfdt,
+     * tif dffbult tfxt position (dftfrminfd by tif durrfnt look bnd fffl),
+     * tif dffbult justifidbtion (lfbding), bnd tif dffbult
+     * font bnd tfxt dolor (dftfrminfd by tif durrfnt look bnd fffl).
      *
-     * @param border     the <code>Border</code> object to add the title to
-     * @param title      a <code>String</code> containing the text of the title
-     * @return the <code>TitledBorder</code> object
+     * @pbrbm bordfr     tif <dodf>Bordfr</dodf> objfdt to bdd tif titlf to; if
+     *                   <dodf>null</dodf> tif <dodf>Bordfr</dodf> is dftfrminfd
+     *                   by tif durrfnt look bnd fffl.
+     * @rfturn tif <dodf>TitlfdBordfr</dodf> objfdt
      */
-    public static TitledBorder createTitledBorder(Border border,
-                                                   String title) {
-        return new TitledBorder(border, title);
+    publid stbtid TitlfdBordfr drfbtfTitlfdBordfr(Bordfr bordfr)       {
+        rfturn nfw TitlfdBordfr(bordfr);
     }
 
     /**
-     * Adds a title to an existing border, with the specified
-     * positioning and using the default
-     * font and text color (determined by the current look and feel).
+     * Adds b titlf to bn fxisting bordfr,
+     * witi dffbult positioning (dftfrminfd by tif durrfnt look bnd fffl),
+     * dffbult justifidbtion (lfbding) bnd tif dffbult
+     * font bnd tfxt dolor (dftfrminfd by tif durrfnt look bnd fffl).
      *
-     * @param border      the <code>Border</code> object to add the title to
-     * @param title       a <code>String</code> containing the text of the title
-     * @param titleJustification  an integer specifying the justification
-     *        of the title -- one of the following:
+     * @pbrbm bordfr     tif <dodf>Bordfr</dodf> objfdt to bdd tif titlf to
+     * @pbrbm titlf      b <dodf>String</dodf> dontbining tif tfxt of tif titlf
+     * @rfturn tif <dodf>TitlfdBordfr</dodf> objfdt
+     */
+    publid stbtid TitlfdBordfr drfbtfTitlfdBordfr(Bordfr bordfr,
+                                                   String titlf) {
+        rfturn nfw TitlfdBordfr(bordfr, titlf);
+    }
+
+    /**
+     * Adds b titlf to bn fxisting bordfr, witi tif spfdififd
+     * positioning bnd using tif dffbult
+     * font bnd tfxt dolor (dftfrminfd by tif durrfnt look bnd fffl).
+     *
+     * @pbrbm bordfr      tif <dodf>Bordfr</dodf> objfdt to bdd tif titlf to
+     * @pbrbm titlf       b <dodf>String</dodf> dontbining tif tfxt of tif titlf
+     * @pbrbm titlfJustifidbtion  bn intfgfr spfdifying tif justifidbtion
+     *        of tif titlf -- onf of tif following:
      *<ul>
-     *<li><code>TitledBorder.LEFT</code>
-     *<li><code>TitledBorder.CENTER</code>
-     *<li><code>TitledBorder.RIGHT</code>
-     *<li><code>TitledBorder.LEADING</code>
-     *<li><code>TitledBorder.TRAILING</code>
-     *<li><code>TitledBorder.DEFAULT_JUSTIFICATION</code> (leading)
+     *<li><dodf>TitlfdBordfr.LEFT</dodf>
+     *<li><dodf>TitlfdBordfr.CENTER</dodf>
+     *<li><dodf>TitlfdBordfr.RIGHT</dodf>
+     *<li><dodf>TitlfdBordfr.LEADING</dodf>
+     *<li><dodf>TitlfdBordfr.TRAILING</dodf>
+     *<li><dodf>TitlfdBordfr.DEFAULT_JUSTIFICATION</dodf> (lfbding)
      *</ul>
-     * @param titlePosition       an integer specifying the vertical position of
-     *        the text in relation to the border -- one of the following:
+     * @pbrbm titlfPosition       bn intfgfr spfdifying tif vfrtidbl position of
+     *        tif tfxt in rflbtion to tif bordfr -- onf of tif following:
      *<ul>
-     *<li><code> TitledBorder.ABOVE_TOP</code>
-     *<li><code>TitledBorder.TOP</code> (sitting on the top line)
-     *<li><code>TitledBorder.BELOW_TOP</code>
-     *<li><code>TitledBorder.ABOVE_BOTTOM</code>
-     *<li><code>TitledBorder.BOTTOM</code> (sitting on the bottom line)
-     *<li><code>TitledBorder.BELOW_BOTTOM</code>
-     *<li><code>TitledBorder.DEFAULT_POSITION</code> (the title position
-     *  is determined by the current look and feel)
+     *<li><dodf> TitlfdBordfr.ABOVE_TOP</dodf>
+     *<li><dodf>TitlfdBordfr.TOP</dodf> (sitting on tif top linf)
+     *<li><dodf>TitlfdBordfr.BELOW_TOP</dodf>
+     *<li><dodf>TitlfdBordfr.ABOVE_BOTTOM</dodf>
+     *<li><dodf>TitlfdBordfr.BOTTOM</dodf> (sitting on tif bottom linf)
+     *<li><dodf>TitlfdBordfr.BELOW_BOTTOM</dodf>
+     *<li><dodf>TitlfdBordfr.DEFAULT_POSITION</dodf> (tif titlf position
+     *  is dftfrminfd by tif durrfnt look bnd fffl)
      *</ul>
-     * @return the <code>TitledBorder</code> object
+     * @rfturn tif <dodf>TitlfdBordfr</dodf> objfdt
      */
-    public static TitledBorder createTitledBorder(Border border,
-                        String title,
-                        int titleJustification,
-                        int titlePosition)      {
-        return new TitledBorder(border, title, titleJustification,
-                        titlePosition);
+    publid stbtid TitlfdBordfr drfbtfTitlfdBordfr(Bordfr bordfr,
+                        String titlf,
+                        int titlfJustifidbtion,
+                        int titlfPosition)      {
+        rfturn nfw TitlfdBordfr(bordfr, titlf, titlfJustifidbtion,
+                        titlfPosition);
     }
 
     /**
-     * Adds a title to an existing border, with the specified
-     * positioning and font, and using the default text color
-     * (determined by the current look and feel).
+     * Adds b titlf to bn fxisting bordfr, witi tif spfdififd
+     * positioning bnd font, bnd using tif dffbult tfxt dolor
+     * (dftfrminfd by tif durrfnt look bnd fffl).
      *
-     * @param border      the <code>Border</code> object to add the title to
-     * @param title       a <code>String</code> containing the text of the title
-     * @param titleJustification  an integer specifying the justification
-     *        of the title -- one of the following:
+     * @pbrbm bordfr      tif <dodf>Bordfr</dodf> objfdt to bdd tif titlf to
+     * @pbrbm titlf       b <dodf>String</dodf> dontbining tif tfxt of tif titlf
+     * @pbrbm titlfJustifidbtion  bn intfgfr spfdifying tif justifidbtion
+     *        of tif titlf -- onf of tif following:
      *<ul>
-     *<li><code>TitledBorder.LEFT</code>
-     *<li><code>TitledBorder.CENTER</code>
-     *<li><code>TitledBorder.RIGHT</code>
-     *<li><code>TitledBorder.LEADING</code>
-     *<li><code>TitledBorder.TRAILING</code>
-     *<li><code>TitledBorder.DEFAULT_JUSTIFICATION</code> (leading)
+     *<li><dodf>TitlfdBordfr.LEFT</dodf>
+     *<li><dodf>TitlfdBordfr.CENTER</dodf>
+     *<li><dodf>TitlfdBordfr.RIGHT</dodf>
+     *<li><dodf>TitlfdBordfr.LEADING</dodf>
+     *<li><dodf>TitlfdBordfr.TRAILING</dodf>
+     *<li><dodf>TitlfdBordfr.DEFAULT_JUSTIFICATION</dodf> (lfbding)
      *</ul>
-     * @param titlePosition       an integer specifying the vertical position of
-     *        the text in relation to the border -- one of the following:
+     * @pbrbm titlfPosition       bn intfgfr spfdifying tif vfrtidbl position of
+     *        tif tfxt in rflbtion to tif bordfr -- onf of tif following:
      *<ul>
-     *<li><code> TitledBorder.ABOVE_TOP</code>
-     *<li><code>TitledBorder.TOP</code> (sitting on the top line)
-     *<li><code>TitledBorder.BELOW_TOP</code>
-     *<li><code>TitledBorder.ABOVE_BOTTOM</code>
-     *<li><code>TitledBorder.BOTTOM</code> (sitting on the bottom line)
-     *<li><code>TitledBorder.BELOW_BOTTOM</code>
-     *<li><code>TitledBorder.DEFAULT_POSITION</code> (the title position
-     *  is determined by the current look and feel)
+     *<li><dodf> TitlfdBordfr.ABOVE_TOP</dodf>
+     *<li><dodf>TitlfdBordfr.TOP</dodf> (sitting on tif top linf)
+     *<li><dodf>TitlfdBordfr.BELOW_TOP</dodf>
+     *<li><dodf>TitlfdBordfr.ABOVE_BOTTOM</dodf>
+     *<li><dodf>TitlfdBordfr.BOTTOM</dodf> (sitting on tif bottom linf)
+     *<li><dodf>TitlfdBordfr.BELOW_BOTTOM</dodf>
+     *<li><dodf>TitlfdBordfr.DEFAULT_POSITION</dodf> (tif titlf position
+     *  is dftfrminfd by tif durrfnt look bnd fffl)
      *</ul>
-     * @param titleFont           a Font object specifying the title font
-     * @return the TitledBorder object
+     * @pbrbm titlfFont           b Font objfdt spfdifying tif titlf font
+     * @rfturn tif TitlfdBordfr objfdt
      */
-    public static TitledBorder createTitledBorder(Border border,
-                        String title,
-                        int titleJustification,
-                        int titlePosition,
-                        Font titleFont) {
-        return new TitledBorder(border, title, titleJustification,
-                        titlePosition, titleFont);
+    publid stbtid TitlfdBordfr drfbtfTitlfdBordfr(Bordfr bordfr,
+                        String titlf,
+                        int titlfJustifidbtion,
+                        int titlfPosition,
+                        Font titlfFont) {
+        rfturn nfw TitlfdBordfr(bordfr, titlf, titlfJustifidbtion,
+                        titlfPosition, titlfFont);
     }
 
     /**
-     * Adds a title to an existing border, with the specified
-     * positioning, font and color.
+     * Adds b titlf to bn fxisting bordfr, witi tif spfdififd
+     * positioning, font bnd dolor.
      *
-     * @param border      the <code>Border</code> object to add the title to
-     * @param title       a <code>String</code> containing the text of the title
-     * @param titleJustification  an integer specifying the justification
-     *        of the title -- one of the following:
+     * @pbrbm bordfr      tif <dodf>Bordfr</dodf> objfdt to bdd tif titlf to
+     * @pbrbm titlf       b <dodf>String</dodf> dontbining tif tfxt of tif titlf
+     * @pbrbm titlfJustifidbtion  bn intfgfr spfdifying tif justifidbtion
+     *        of tif titlf -- onf of tif following:
      *<ul>
-     *<li><code>TitledBorder.LEFT</code>
-     *<li><code>TitledBorder.CENTER</code>
-     *<li><code>TitledBorder.RIGHT</code>
-     *<li><code>TitledBorder.LEADING</code>
-     *<li><code>TitledBorder.TRAILING</code>
-     *<li><code>TitledBorder.DEFAULT_JUSTIFICATION</code> (leading)
+     *<li><dodf>TitlfdBordfr.LEFT</dodf>
+     *<li><dodf>TitlfdBordfr.CENTER</dodf>
+     *<li><dodf>TitlfdBordfr.RIGHT</dodf>
+     *<li><dodf>TitlfdBordfr.LEADING</dodf>
+     *<li><dodf>TitlfdBordfr.TRAILING</dodf>
+     *<li><dodf>TitlfdBordfr.DEFAULT_JUSTIFICATION</dodf> (lfbding)
      *</ul>
-     * @param titlePosition       an integer specifying the vertical position of
-     *        the text in relation to the border -- one of the following:
+     * @pbrbm titlfPosition       bn intfgfr spfdifying tif vfrtidbl position of
+     *        tif tfxt in rflbtion to tif bordfr -- onf of tif following:
      *<ul>
-     *<li><code> TitledBorder.ABOVE_TOP</code>
-     *<li><code>TitledBorder.TOP</code> (sitting on the top line)
-     *<li><code>TitledBorder.BELOW_TOP</code>
-     *<li><code>TitledBorder.ABOVE_BOTTOM</code>
-     *<li><code>TitledBorder.BOTTOM</code> (sitting on the bottom line)
-     *<li><code>TitledBorder.BELOW_BOTTOM</code>
-     *<li><code>TitledBorder.DEFAULT_POSITION</code> (the title position
-     *  is determined by the current look and feel)
+     *<li><dodf> TitlfdBordfr.ABOVE_TOP</dodf>
+     *<li><dodf>TitlfdBordfr.TOP</dodf> (sitting on tif top linf)
+     *<li><dodf>TitlfdBordfr.BELOW_TOP</dodf>
+     *<li><dodf>TitlfdBordfr.ABOVE_BOTTOM</dodf>
+     *<li><dodf>TitlfdBordfr.BOTTOM</dodf> (sitting on tif bottom linf)
+     *<li><dodf>TitlfdBordfr.BELOW_BOTTOM</dodf>
+     *<li><dodf>TitlfdBordfr.DEFAULT_POSITION</dodf> (tif titlf position
+     *  is dftfrminfd by tif durrfnt look bnd fffl)
      *</ul>
-     * @param titleFont   a <code>Font</code> object specifying the title font
-     * @param titleColor  a <code>Color</code> object specifying the title color
-     * @return the <code>TitledBorder</code> object
+     * @pbrbm titlfFont   b <dodf>Font</dodf> objfdt spfdifying tif titlf font
+     * @pbrbm titlfColor  b <dodf>Color</dodf> objfdt spfdifying tif titlf dolor
+     * @rfturn tif <dodf>TitlfdBordfr</dodf> objfdt
      */
-    public static TitledBorder createTitledBorder(Border border,
-                        String title,
-                        int titleJustification,
-                        int titlePosition,
-                        Font titleFont,
-                        Color titleColor)       {
-        return new TitledBorder(border, title, titleJustification,
-                        titlePosition, titleFont, titleColor);
+    publid stbtid TitlfdBordfr drfbtfTitlfdBordfr(Bordfr bordfr,
+                        String titlf,
+                        int titlfJustifidbtion,
+                        int titlfPosition,
+                        Font titlfFont,
+                        Color titlfColor)       {
+        rfturn nfw TitlfdBordfr(bordfr, titlf, titlfJustifidbtion,
+                        titlfPosition, titlfFont, titlfColor);
     }
-//// EmptyBorder ///////////////////////////////////////////////////////////
-    final static Border emptyBorder = new EmptyBorder(0, 0, 0, 0);
+//// EmptyBordfr ///////////////////////////////////////////////////////////
+    finbl stbtid Bordfr fmptyBordfr = nfw EmptyBordfr(0, 0, 0, 0);
 
     /**
-     * Creates an empty border that takes up no space. (The width
-     * of the top, bottom, left, and right sides are all zero.)
+     * Crfbtfs bn fmpty bordfr tibt tbkfs up no spbdf. (Tif widti
+     * of tif top, bottom, lfft, bnd rigit sidfs brf bll zfro.)
      *
-     * @return the <code>Border</code> object
+     * @rfturn tif <dodf>Bordfr</dodf> objfdt
      */
-    public static Border createEmptyBorder() {
-        return emptyBorder;
+    publid stbtid Bordfr drfbtfEmptyBordfr() {
+        rfturn fmptyBordfr;
     }
 
     /**
-     * Creates an empty border that takes up space but which does
-     * no drawing, specifying the width of the top, left, bottom, and
-     * right sides.
+     * Crfbtfs bn fmpty bordfr tibt tbkfs up spbdf but wiidi dofs
+     * no drbwing, spfdifying tif widti of tif top, lfft, bottom, bnd
+     * rigit sidfs.
      *
-     * @param top     an integer specifying the width of the top,
-     *                  in pixels
-     * @param left    an integer specifying the width of the left side,
-     *                  in pixels
-     * @param bottom  an integer specifying the width of the bottom,
-     *                  in pixels
-     * @param right   an integer specifying the width of the right side,
-     *                  in pixels
-     * @return the <code>Border</code> object
+     * @pbrbm top     bn intfgfr spfdifying tif widti of tif top,
+     *                  in pixfls
+     * @pbrbm lfft    bn intfgfr spfdifying tif widti of tif lfft sidf,
+     *                  in pixfls
+     * @pbrbm bottom  bn intfgfr spfdifying tif widti of tif bottom,
+     *                  in pixfls
+     * @pbrbm rigit   bn intfgfr spfdifying tif widti of tif rigit sidf,
+     *                  in pixfls
+     * @rfturn tif <dodf>Bordfr</dodf> objfdt
      */
-    public static Border createEmptyBorder(int top, int left,
-                                                int bottom, int right) {
-        return new EmptyBorder(top, left, bottom, right);
+    publid stbtid Bordfr drfbtfEmptyBordfr(int top, int lfft,
+                                                int bottom, int rigit) {
+        rfturn nfw EmptyBordfr(top, lfft, bottom, rigit);
     }
 
-//// CompoundBorder ////////////////////////////////////////////////////////
+//// CompoundBordfr ////////////////////////////////////////////////////////
     /**
-     * Creates a compound border with a <code>null</code> inside edge and a
-     * <code>null</code> outside edge.
+     * Crfbtfs b dompound bordfr witi b <dodf>null</dodf> insidf fdgf bnd b
+     * <dodf>null</dodf> outsidf fdgf.
      *
-     * @return the <code>CompoundBorder</code> object
+     * @rfturn tif <dodf>CompoundBordfr</dodf> objfdt
      */
-    public static CompoundBorder createCompoundBorder() {
-        return new CompoundBorder();
+    publid stbtid CompoundBordfr drfbtfCompoundBordfr() {
+        rfturn nfw CompoundBordfr();
     }
 
     /**
-     * Creates a compound border specifying the border objects to use
-     * for the outside and inside edges.
+     * Crfbtfs b dompound bordfr spfdifying tif bordfr objfdts to usf
+     * for tif outsidf bnd insidf fdgfs.
      *
-     * @param outsideBorder  a <code>Border</code> object for the outer
-     *                          edge of the compound border
-     * @param insideBorder   a <code>Border</code> object for the inner
-     *                          edge of the compound border
-     * @return the <code>CompoundBorder</code> object
+     * @pbrbm outsidfBordfr  b <dodf>Bordfr</dodf> objfdt for tif outfr
+     *                          fdgf of tif dompound bordfr
+     * @pbrbm insidfBordfr   b <dodf>Bordfr</dodf> objfdt for tif innfr
+     *                          fdgf of tif dompound bordfr
+     * @rfturn tif <dodf>CompoundBordfr</dodf> objfdt
      */
-    public static CompoundBorder createCompoundBorder(Border outsideBorder,
-                                                Border insideBorder) {
-        return new CompoundBorder(outsideBorder, insideBorder);
+    publid stbtid CompoundBordfr drfbtfCompoundBordfr(Bordfr outsidfBordfr,
+                                                Bordfr insidfBordfr) {
+        rfturn nfw CompoundBordfr(outsidfBordfr, insidfBordfr);
     }
 
-//// MatteBorder ////////////////////////////////////////////////////////
+//// MbttfBordfr ////////////////////////////////////////////////////////
     /**
-     * Creates a matte-look border using a solid color. (The difference between
-     * this border and a line border is that you can specify the individual
-     * border dimensions.)
+     * Crfbtfs b mbttf-look bordfr using b solid dolor. (Tif difffrfndf bftwffn
+     * tiis bordfr bnd b linf bordfr is tibt you dbn spfdify tif individubl
+     * bordfr dimfnsions.)
      *
-     * @param top     an integer specifying the width of the top,
-     *                          in pixels
-     * @param left    an integer specifying the width of the left side,
-     *                          in pixels
-     * @param bottom  an integer specifying the width of the right side,
-     *                          in pixels
-     * @param right   an integer specifying the width of the bottom,
-     *                          in pixels
-     * @param color   a <code>Color</code> to use for the border
-     * @return the <code>MatteBorder</code> object
+     * @pbrbm top     bn intfgfr spfdifying tif widti of tif top,
+     *                          in pixfls
+     * @pbrbm lfft    bn intfgfr spfdifying tif widti of tif lfft sidf,
+     *                          in pixfls
+     * @pbrbm bottom  bn intfgfr spfdifying tif widti of tif rigit sidf,
+     *                          in pixfls
+     * @pbrbm rigit   bn intfgfr spfdifying tif widti of tif bottom,
+     *                          in pixfls
+     * @pbrbm dolor   b <dodf>Color</dodf> to usf for tif bordfr
+     * @rfturn tif <dodf>MbttfBordfr</dodf> objfdt
      */
-    public static MatteBorder createMatteBorder(int top, int left, int bottom, int right,
-                                                Color color) {
-        return new MatteBorder(top, left, bottom, right, color);
+    publid stbtid MbttfBordfr drfbtfMbttfBordfr(int top, int lfft, int bottom, int rigit,
+                                                Color dolor) {
+        rfturn nfw MbttfBordfr(top, lfft, bottom, rigit, dolor);
     }
 
     /**
-     * Creates a matte-look border that consists of multiple tiles of a
-     * specified icon. Multiple copies of the icon are placed side-by-side
-     * to fill up the border area.
+     * Crfbtfs b mbttf-look bordfr tibt donsists of multiplf tilfs of b
+     * spfdififd idon. Multiplf dopifs of tif idon brf plbdfd sidf-by-sidf
+     * to fill up tif bordfr brfb.
      * <p>
-     * Note:<br>
-     * If the icon doesn't load, the border area is painted gray.
+     * Notf:<br>
+     * If tif idon dofsn't lobd, tif bordfr brfb is pbintfd grby.
      *
-     * @param top     an integer specifying the width of the top,
-     *                          in pixels
-     * @param left    an integer specifying the width of the left side,
-     *                          in pixels
-     * @param bottom  an integer specifying the width of the right side,
-     *                          in pixels
-     * @param right   an integer specifying the width of the bottom,
-     *                          in pixels
-     * @param tileIcon  the <code>Icon</code> object used for the border tiles
-     * @return the <code>MatteBorder</code> object
+     * @pbrbm top     bn intfgfr spfdifying tif widti of tif top,
+     *                          in pixfls
+     * @pbrbm lfft    bn intfgfr spfdifying tif widti of tif lfft sidf,
+     *                          in pixfls
+     * @pbrbm bottom  bn intfgfr spfdifying tif widti of tif rigit sidf,
+     *                          in pixfls
+     * @pbrbm rigit   bn intfgfr spfdifying tif widti of tif bottom,
+     *                          in pixfls
+     * @pbrbm tilfIdon  tif <dodf>Idon</dodf> objfdt usfd for tif bordfr tilfs
+     * @rfturn tif <dodf>MbttfBordfr</dodf> objfdt
      */
-    public static MatteBorder createMatteBorder(int top, int left, int bottom, int right,
-                                                Icon tileIcon) {
-        return new MatteBorder(top, left, bottom, right, tileIcon);
+    publid stbtid MbttfBordfr drfbtfMbttfBordfr(int top, int lfft, int bottom, int rigit,
+                                                Idon tilfIdon) {
+        rfturn nfw MbttfBordfr(top, lfft, bottom, rigit, tilfIdon);
     }
 
-//// StrokeBorder //////////////////////////////////////////////////////////////
+//// StrokfBordfr //////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Creates a border of the specified {@code stroke}.
-     * The component's foreground color will be used to render the border.
+     * Crfbtfs b bordfr of tif spfdififd {@dodf strokf}.
+     * Tif domponfnt's forfground dolor will bf usfd to rfndfr tif bordfr.
      *
-     * @param stroke  the {@link BasicStroke} object used to stroke a shape
-     * @return the {@code Border} object
+     * @pbrbm strokf  tif {@link BbsidStrokf} objfdt usfd to strokf b sibpf
+     * @rfturn tif {@dodf Bordfr} objfdt
      *
-     * @throws NullPointerException if the specified {@code stroke} is {@code null}
+     * @tirows NullPointfrExdfption if tif spfdififd {@dodf strokf} is {@dodf null}
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public static Border createStrokeBorder(BasicStroke stroke) {
-        return new StrokeBorder(stroke);
+    publid stbtid Bordfr drfbtfStrokfBordfr(BbsidStrokf strokf) {
+        rfturn nfw StrokfBordfr(strokf);
     }
 
     /**
-     * Creates a border of the specified {@code stroke} and {@code paint}.
-     * If the specified {@code paint} is {@code null},
-     * the component's foreground color will be used to render the border.
+     * Crfbtfs b bordfr of tif spfdififd {@dodf strokf} bnd {@dodf pbint}.
+     * If tif spfdififd {@dodf pbint} is {@dodf null},
+     * tif domponfnt's forfground dolor will bf usfd to rfndfr tif bordfr.
      *
-     * @param stroke  the {@link BasicStroke} object used to stroke a shape
-     * @param paint   the {@link Paint} object used to generate a color
-     * @return the {@code Border} object
+     * @pbrbm strokf  tif {@link BbsidStrokf} objfdt usfd to strokf b sibpf
+     * @pbrbm pbint   tif {@link Pbint} objfdt usfd to gfnfrbtf b dolor
+     * @rfturn tif {@dodf Bordfr} objfdt
      *
-     * @throws NullPointerException if the specified {@code stroke} is {@code null}
+     * @tirows NullPointfrExdfption if tif spfdififd {@dodf strokf} is {@dodf null}
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public static Border createStrokeBorder(BasicStroke stroke, Paint paint) {
-        return new StrokeBorder(stroke, paint);
+    publid stbtid Bordfr drfbtfStrokfBordfr(BbsidStrokf strokf, Pbint pbint) {
+        rfturn nfw StrokfBordfr(strokf, pbint);
     }
 
-//// DashedBorder //////////////////////////////////////////////////////////////
+//// DbsifdBordfr //////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-    private static Border sharedDashedBorder;
+    privbtf stbtid Bordfr sibrfdDbsifdBordfr;
 
     /**
-     * Creates a dashed border of the specified {@code paint}.
-     * If the specified {@code paint} is {@code null},
-     * the component's foreground color will be used to render the border.
-     * The width of a dash line is equal to {@code 1}.
-     * The relative length of a dash line and
-     * the relative spacing between dash lines are equal to {@code 1}.
-     * A dash line is not rounded.
+     * Crfbtfs b dbsifd bordfr of tif spfdififd {@dodf pbint}.
+     * If tif spfdififd {@dodf pbint} is {@dodf null},
+     * tif domponfnt's forfground dolor will bf usfd to rfndfr tif bordfr.
+     * Tif widti of b dbsi linf is fqubl to {@dodf 1}.
+     * Tif rflbtivf lfngti of b dbsi linf bnd
+     * tif rflbtivf spbding bftwffn dbsi linfs brf fqubl to {@dodf 1}.
+     * A dbsi linf is not roundfd.
      *
-     * @param paint  the {@link Paint} object used to generate a color
-     * @return the {@code Border} object
+     * @pbrbm pbint  tif {@link Pbint} objfdt usfd to gfnfrbtf b dolor
+     * @rfturn tif {@dodf Bordfr} objfdt
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public static Border createDashedBorder(Paint paint) {
-        return createDashedBorder(paint, 1.0f, 1.0f, 1.0f, false);
+    publid stbtid Bordfr drfbtfDbsifdBordfr(Pbint pbint) {
+        rfturn drfbtfDbsifdBordfr(pbint, 1.0f, 1.0f, 1.0f, fblsf);
     }
 
     /**
-     * Creates a dashed border of the specified {@code paint},
-     * relative {@code length}, and relative {@code spacing}.
-     * If the specified {@code paint} is {@code null},
-     * the component's foreground color will be used to render the border.
-     * The width of a dash line is equal to {@code 1}.
-     * A dash line is not rounded.
+     * Crfbtfs b dbsifd bordfr of tif spfdififd {@dodf pbint},
+     * rflbtivf {@dodf lfngti}, bnd rflbtivf {@dodf spbding}.
+     * If tif spfdififd {@dodf pbint} is {@dodf null},
+     * tif domponfnt's forfground dolor will bf usfd to rfndfr tif bordfr.
+     * Tif widti of b dbsi linf is fqubl to {@dodf 1}.
+     * A dbsi linf is not roundfd.
      *
-     * @param paint    the {@link Paint} object used to generate a color
-     * @param length   the relative length of a dash line
-     * @param spacing  the relative spacing between dash lines
-     * @return the {@code Border} object
+     * @pbrbm pbint    tif {@link Pbint} objfdt usfd to gfnfrbtf b dolor
+     * @pbrbm lfngti   tif rflbtivf lfngti of b dbsi linf
+     * @pbrbm spbding  tif rflbtivf spbding bftwffn dbsi linfs
+     * @rfturn tif {@dodf Bordfr} objfdt
      *
-     * @throws IllegalArgumentException if the specified {@code length} is less than {@code 1}, or
-     *                                  if the specified {@code spacing} is less than {@code 0}
-     * @since 1.7
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd {@dodf lfngti} is lfss tibn {@dodf 1}, or
+     *                                  if tif spfdififd {@dodf spbding} is lfss tibn {@dodf 0}
+     * @sindf 1.7
      */
-    public static Border createDashedBorder(Paint paint, float length, float spacing) {
-        return createDashedBorder(paint, 1.0f, length, spacing, false);
+    publid stbtid Bordfr drfbtfDbsifdBordfr(Pbint pbint, flobt lfngti, flobt spbding) {
+        rfturn drfbtfDbsifdBordfr(pbint, 1.0f, lfngti, spbding, fblsf);
     }
 
     /**
-     * Creates a dashed border of the specified {@code paint}, {@code thickness},
-     * line shape, relative {@code length}, and relative {@code spacing}.
-     * If the specified {@code paint} is {@code null},
-     * the component's foreground color will be used to render the border.
+     * Crfbtfs b dbsifd bordfr of tif spfdififd {@dodf pbint}, {@dodf tiidknfss},
+     * linf sibpf, rflbtivf {@dodf lfngti}, bnd rflbtivf {@dodf spbding}.
+     * If tif spfdififd {@dodf pbint} is {@dodf null},
+     * tif domponfnt's forfground dolor will bf usfd to rfndfr tif bordfr.
      *
-     * @param paint      the {@link Paint} object used to generate a color
-     * @param thickness  the width of a dash line
-     * @param length     the relative length of a dash line
-     * @param spacing    the relative spacing between dash lines
-     * @param rounded    whether or not line ends should be round
-     * @return the {@code Border} object
+     * @pbrbm pbint      tif {@link Pbint} objfdt usfd to gfnfrbtf b dolor
+     * @pbrbm tiidknfss  tif widti of b dbsi linf
+     * @pbrbm lfngti     tif rflbtivf lfngti of b dbsi linf
+     * @pbrbm spbding    tif rflbtivf spbding bftwffn dbsi linfs
+     * @pbrbm roundfd    wiftifr or not linf fnds siould bf round
+     * @rfturn tif {@dodf Bordfr} objfdt
      *
-     * @throws IllegalArgumentException if the specified {@code thickness} is less than {@code 1}, or
-     *                                  if the specified {@code length} is less than {@code 1}, or
-     *                                  if the specified {@code spacing} is less than {@code 0}
-     * @since 1.7
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd {@dodf tiidknfss} is lfss tibn {@dodf 1}, or
+     *                                  if tif spfdififd {@dodf lfngti} is lfss tibn {@dodf 1}, or
+     *                                  if tif spfdififd {@dodf spbding} is lfss tibn {@dodf 0}
+     * @sindf 1.7
      */
-    public static Border createDashedBorder(Paint paint, float thickness, float length, float spacing, boolean rounded) {
-        boolean shared = !rounded && (paint == null) && (thickness == 1.0f) && (length == 1.0f) && (spacing == 1.0f);
-        if (shared && (sharedDashedBorder != null)) {
-            return sharedDashedBorder;
+    publid stbtid Bordfr drfbtfDbsifdBordfr(Pbint pbint, flobt tiidknfss, flobt lfngti, flobt spbding, boolfbn roundfd) {
+        boolfbn sibrfd = !roundfd && (pbint == null) && (tiidknfss == 1.0f) && (lfngti == 1.0f) && (spbding == 1.0f);
+        if (sibrfd && (sibrfdDbsifdBordfr != null)) {
+            rfturn sibrfdDbsifdBordfr;
         }
-        if (thickness < 1.0f) {
-            throw new IllegalArgumentException("thickness is less than 1");
+        if (tiidknfss < 1.0f) {
+            tirow nfw IllfgblArgumfntExdfption("tiidknfss is lfss tibn 1");
         }
-        if (length < 1.0f) {
-            throw new IllegalArgumentException("length is less than 1");
+        if (lfngti < 1.0f) {
+            tirow nfw IllfgblArgumfntExdfption("lfngti is lfss tibn 1");
         }
-        if (spacing < 0.0f) {
-            throw new IllegalArgumentException("spacing is less than 0");
+        if (spbding < 0.0f) {
+            tirow nfw IllfgblArgumfntExdfption("spbding is lfss tibn 0");
         }
-        int cap = rounded ? BasicStroke.CAP_ROUND : BasicStroke.CAP_SQUARE;
-        int join = rounded ? BasicStroke.JOIN_ROUND : BasicStroke.JOIN_MITER;
-        float[] array = { thickness * (length - 1.0f), thickness * (spacing + 1.0f) };
-        Border border = createStrokeBorder(new BasicStroke(thickness, cap, join, thickness * 2.0f, array, 0.0f), paint);
-        if (shared) {
-            sharedDashedBorder = border;
+        int dbp = roundfd ? BbsidStrokf.CAP_ROUND : BbsidStrokf.CAP_SQUARE;
+        int join = roundfd ? BbsidStrokf.JOIN_ROUND : BbsidStrokf.JOIN_MITER;
+        flobt[] brrby = { tiidknfss * (lfngti - 1.0f), tiidknfss * (spbding + 1.0f) };
+        Bordfr bordfr = drfbtfStrokfBordfr(nfw BbsidStrokf(tiidknfss, dbp, join, tiidknfss * 2.0f, brrby, 0.0f), pbint);
+        if (sibrfd) {
+            sibrfdDbsifdBordfr = bordfr;
         }
-        return border;
+        rfturn bordfr;
     }
 }

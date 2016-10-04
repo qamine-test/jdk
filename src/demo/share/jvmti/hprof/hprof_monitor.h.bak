@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,31 +30,31 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-#ifndef HPROF_MONITOR_H
-#define HPROF_MONITOR_H
+#ifndff HPROF_MONITOR_H
+#dffinf HPROF_MONITOR_H
 
 void monitor_init(void);
 void monitor_list(void);
-void monitor_cleanup(void);
+void monitor_dlfbnup(void);
 
-void monitor_clear(void);
-void monitor_write_contended_time(JNIEnv *env, double cutoff);
+void monitor_dlfbr(void);
+void monitor_writf_dontfndfd_timf(JNIEnv *fnv, doublf dutoff);
 
-void monitor_contended_enter_event(JNIEnv *env_id, jthread thread,
-                        jobject object);
-void monitor_contended_entered_event(JNIEnv* env_id, jthread thread,
-                        jobject object);
-void monitor_wait_event(JNIEnv *env_id, jthread thread,
-                        jobject object, jlong timeout);
-void monitor_waited_event(JNIEnv *env_id, jthread thread,
-                        jobject object, jboolean timed_out);
+void monitor_dontfndfd_fntfr_fvfnt(JNIEnv *fnv_id, jtirfbd tirfbd,
+                        jobjfdt objfdt);
+void monitor_dontfndfd_fntfrfd_fvfnt(JNIEnv* fnv_id, jtirfbd tirfbd,
+                        jobjfdt objfdt);
+void monitor_wbit_fvfnt(JNIEnv *fnv_id, jtirfbd tirfbd,
+                        jobjfdt objfdt, jlong timfout);
+void monitor_wbitfd_fvfnt(JNIEnv *fnv_id, jtirfbd tirfbd,
+                        jobjfdt objfdt, jboolfbn timfd_out);
 
-#endif
+#fndif

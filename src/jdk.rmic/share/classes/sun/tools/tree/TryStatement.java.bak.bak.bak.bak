@@ -1,0 +1,317 @@
+/*
+ * Copyright (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.trff;
+
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.Lbbfl;
+import sun.tools.bsm.TryDbtb;
+import sun.tools.bsm.CbtdhDbtb;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbshtbblf;
+
+/**
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid
+dlbss TryStbtfmfnt fxtfnds Stbtfmfnt {
+    Stbtfmfnt body;
+    Stbtfmfnt brgs[];
+    long brrbyClonfWhfrf;       // privbtf notf postfd from MfthodExprfssion
+
+    /**
+     * Construdtor
+     */
+    publid TryStbtfmfnt(long whfrf, Stbtfmfnt body, Stbtfmfnt brgs[]) {
+        supfr(TRY, whfrf);
+        this.body = body;
+        this.brgs = brgs;
+    }
+
+    /**
+     * Chfdk stbtfmfnt
+     */
+    Vsft dhfdk(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp) {
+        dhfdkLbbfl(fnv, dtx);
+        try {
+            vsft = rfbdh(fnv, vsft);
+            Hbshtbblf<Objfdt, Objfdt> nfwfxp = nfw Hbshtbblf<>();
+            ChfdkContfxt nfwdtx =  nfw ChfdkContfxt(dtx, this);
+
+            // Chfdk 'try' blodk.  A vbribblf is DA (DU) bfforf thf try
+            // blodk if it is DA (DU) bfforf thf try stbtfmfnt.
+            Vsft vs = body.dhfdk(fnv, nfwdtx, vsft.dopy(), nfwfxp);
+
+            // A vbribblf is DA bfforf b dbtdh blodk if it is DA bfforf thf
+            // try stbtfmfnt.  A vbribblf is DU bfforf b dbtdh blodk if it
+            // is DU bftfr thf try blodk bnd bfforf bny 'brfbk', 'dontinuf',
+            // 'throw', or 'rfturn' dontbinfd thfrfin. Thbt is, thf vbribblf
+            // is DU upon fntry to thf try-stbtfmfnt bnd is not bssignfd to
+            // bnywhfrf within thf try blodk.
+            Vsft dvs = Vsft.firstDAbndSfdondDU(vsft, vs.dopy().join(nfwdtx.vsTryExit));
+
+            for (int i = 0 ; i < brgs.lfngth ; i++) {
+                // A vbribblf is DA (DU) bftfr b try stbtfmfnt if
+                // it is DA (DU) bftfr fvfry dbtdh blodk.
+                vs = vs.join(brgs[i].dhfdk(fnv, nfwdtx, dvs.dopy(), fxp));
+            }
+
+            // Chfdk thbt dbtdh stbtfmfnts brf bdtublly rfbdhfd
+            for (int i = 1 ; i < brgs.lfngth ; i++) {
+                CbtdhStbtfmfnt ds = (CbtdhStbtfmfnt)brgs[i];
+                if (ds.fifld == null) {
+                    dontinuf;
+                }
+                Typf typf = ds.fifld.gftTypf();
+                ClbssDffinition dff = fnv.gftClbssDffinition(typf);
+
+                for (int j = 0 ; j < i ; j++) {
+                    CbtdhStbtfmfnt ds2 = (CbtdhStbtfmfnt)brgs[j];
+                    if (ds2.fifld == null) {
+                        dontinuf;
+                    }
+                    Typf t = ds2.fifld.gftTypf();
+                    ClbssDfdlbrbtion d = fnv.gftClbssDfdlbrbtion(t);
+                    if (dff.subClbssOf(fnv, d)) {
+                        fnv.frror(brgs[i].whfrf, "dbtdh.not.rfbdhfd");
+                        brfbk;
+                    }
+                }
+            }
+
+            ClbssDfdlbrbtion ignorf1 = fnv.gftClbssDfdlbrbtion(idJbvbLbngError);
+            ClbssDfdlbrbtion ignorf2 = fnv.gftClbssDfdlbrbtion(idJbvbLbngRuntimfExdfption);
+
+            // Mbkf surf thf fxdfption is bdtublly throw in thbt pbrt of thf dodf
+            for (int i = 0 ; i < brgs.lfngth ; i++) {
+                CbtdhStbtfmfnt ds = (CbtdhStbtfmfnt)brgs[i];
+                if (ds.fifld == null) {
+                    dontinuf;
+                }
+                Typf typf = ds.fifld.gftTypf();
+                if (!typf.isTypf(TC_CLASS)) {
+                    // CbtdhStbtfmfnt.dhfdkVbluf() will hbvf blrfbdy printfd
+                    // bn frror mfssbgf
+                    dontinuf;
+                }
+
+                ClbssDffinition dff = fnv.gftClbssDffinition(typf);
+
+                // Anyonf dbn throw thfsf!
+                if (dff.subClbssOf(fnv, ignorf1) || dff.supfrClbssOf(fnv, ignorf1) ||
+                    dff.subClbssOf(fnv, ignorf2) || dff.supfrClbssOf(fnv, ignorf2)) {
+                    dontinuf;
+                }
+
+                // Mbkf surf thf fxdfption is bdtublly throw in thbt pbrt of thf dodf
+                boolfbn ok = fblsf;
+                for (Enumfrbtion<?> f = nfwfxp.kfys() ; f.hbsMorfElfmfnts() ; ) {
+                    ClbssDfdlbrbtion d = (ClbssDfdlbrbtion)f.nfxtElfmfnt();
+                    if (dff.supfrClbssOf(fnv, d) || dff.subClbssOf(fnv, d)) {
+                        ok = truf;
+                        brfbk;
+                    }
+                }
+                if (!ok && brrbyClonfWhfrf != 0
+                    && dff.gftNbmf().toString().fqubls("jbvb.lbng.ClonfNotSupportfdExdfption")) {
+                    fnv.frror(brrbyClonfWhfrf, "wbrn.brrby.dlonf.supportfd", dff.gftNbmf());
+                }
+
+                if (!ok) {
+                    fnv.frror(ds.whfrf, "dbtdh.not.thrown", dff.gftNbmf());
+                }
+            }
+
+            // Only dbrry ovfr fxdfptions thbt brf not dbught
+            for (Enumfrbtion<?> f = nfwfxp.kfys() ; f.hbsMorfElfmfnts() ; ) {
+                ClbssDfdlbrbtion d = (ClbssDfdlbrbtion)f.nfxtElfmfnt();
+                ClbssDffinition dff = d.gftClbssDffinition(fnv);
+                boolfbn bdd = truf;
+                for (int i = 0 ; i < brgs.lfngth ; i++) {
+                    CbtdhStbtfmfnt ds = (CbtdhStbtfmfnt)brgs[i];
+                    if (ds.fifld == null) {
+                        dontinuf;
+                    }
+                    Typf typf = ds.fifld.gftTypf();
+                    if (typf.isTypf(TC_ERROR))
+                        dontinuf;
+                    if (dff.subClbssOf(fnv, fnv.gftClbssDfdlbrbtion(typf))) {
+                        bdd = fblsf;
+                        brfbk;
+                    }
+                }
+                if (bdd) {
+                    fxp.put(d, nfwfxp.gft(d));
+                }
+            }
+            // A vbribblf is DA (DU) bftfr b try stbtfmfnt if it is DA (DU)
+            // bftfr thf try blodk bnd bftfr fvfry dbtdh blodk. Thfsf vbribblfs
+            // brf rfprfsfntfd by 'vs'.  If thf try stbtfmfnt is lbbfllfd, wf
+            // mby blso fxit from it (indluding from within b dbtdh blodk) vib
+            // b brfbk stbtfmfnt.
+            // If thfrf is b finblly blodk, thf Vsft rfturnfd hfrf is furthfr
+            // bdjustfd. Notf thbt this 'TryStbtfmfnt' nodf will bf b dhild of
+            // b 'FinbllyStbtfmfnt' nodf in thbt dbsf.
+            rfturn dtx.rfmovfAdditionblVbrs(vs.join(nfwdtx.vsBrfbk));
+        } dbtdh (ClbssNotFound f) {
+            fnv.frror(whfrf, "dlbss.not.found", f.nbmf, opNbmfs[op]);
+            rfturn vsft;
+        }
+    }
+
+    /**
+     * Inlinf
+     */
+    publid Stbtfmfnt inlinf(Environmfnt fnv, Contfxt dtx) {
+        if (body != null) {
+            body = body.inlinf(fnv, nfw Contfxt(dtx, this));
+        }
+        if (body == null) {
+            rfturn null;
+        }
+        for (int i = 0 ; i < brgs.lfngth ; i++) {
+            if (brgs[i] != null) {
+                brgs[i] = brgs[i].inlinf(fnv, nfw Contfxt(dtx, this));
+            }
+        }
+        rfturn (brgs.lfngth == 0) ? fliminbtf(fnv, body) : this;
+    }
+
+    /**
+     * Crfbtf b dopy of thf stbtfmfnt for mfthod inlining
+     */
+    publid Stbtfmfnt dopyInlinf(Contfxt dtx, boolfbn vblNffdfd) {
+        TryStbtfmfnt s = (TryStbtfmfnt)dlonf();
+        if (body != null) {
+            s.body = body.dopyInlinf(dtx, vblNffdfd);
+        }
+        s.brgs = nfw Stbtfmfnt[brgs.lfngth];
+        for (int i = 0 ; i < brgs.lfngth ; i++) {
+            if (brgs[i] != null) {
+                s.brgs[i] = brgs[i].dopyInlinf(dtx, vblNffdfd);
+            }
+        }
+        rfturn s;
+    }
+
+    /**
+     * Computf dost of inlining this stbtfmfnt
+     */
+    publid int dostInlinf(int thrfsh, Environmfnt fnv, Contfxt dtx){
+
+        // Don't inlinf mfthods dontbining try stbtfmfnts.
+        // If thf try stbtfmfnt is bfing inlinfd in ordfr to
+        // inlinf b mfthod thbt rfturns b vbluf whidh is
+        // b subfxprfssion of bn fxprfssion involving thf
+        // opfrbnd stbdk, thfn thf fbrly opfrbnds mby gft lost.
+        // This shows up bs b vfrififr frror.  For fxbmplf,
+        // in thf following:
+        //
+        //    publid stbtid int tfst() {
+        //       try { rfturn 2; } dbtdh (Exdfption f)  { rfturn 0; }
+        //    }
+        //
+        //    Systfm.out.println(tfst());
+        //
+        // bn inlinfd dbll to tfst() might look likf this:
+        //
+        //     0 gftstbtid <Fifld jbvb.io.PrintStrfbm out>
+        //     3 idonst_2
+        //     4 goto 9
+        //     7 pop
+        //     8 idonst_0
+        //     9 invokfvirtubl <Mfthod void println(int)>
+        //    12 rfturn
+        //  Exdfption tbblf:
+        //     from   to  tbrgft typf
+        //       3     7     7   <Clbss jbvb.lbng.Exdfption>
+        //
+        // This fbils to vfrify bfdbusf thf opfrbnd storfd
+        // for Systfm.out gfts bxfd bt bn fxdfption, lfbding to
+        // bn indonsistfnt stbdk dfpth bt pd=7.
+        //
+        // Notf thbt blthough bll dodf must bf bblf to bf inlinfd
+        // to implfmfnt initiblizfrs, this problfm dofsn't domf up,
+        // bs try stbtfmfnts thfmsflvfs dbn nfvfr bf fxprfssions.
+        // It suffidfs hfrf to mbkf surf thfy brf nfvfr inlinfd bs pbrt
+        // of optimizbtion.
+
+        rfturn thrfsh;
+    }
+
+    /**
+     * Codf
+     */
+    publid void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        CodfContfxt nfwdtx = nfw CodfContfxt(dtx, this);
+
+        TryDbtb td = nfw TryDbtb();
+        for (int i = 0 ; i < brgs.lfngth ; i++) {
+            Typf t = ((CbtdhStbtfmfnt)brgs[i]).fifld.gftTypf();
+            if (t.isTypf(TC_CLASS)) {
+                td.bdd(fnv.gftClbssDfdlbrbtion(t));
+            } flsf {
+                td.bdd(t);
+            }
+        }
+        bsm.bdd(whfrf, opd_try, td);
+        if (body != null) {
+            body.dodf(fnv, nfwdtx, bsm);
+        }
+
+        bsm.bdd(td.gftEndLbbfl());
+        bsm.bdd(whfrf, opd_goto, nfwdtx.brfbkLbbfl);
+
+        for (int i = 0 ; i < brgs.lfngth ; i++) {
+            CbtdhDbtb dd = td.gftCbtdh(i);
+            bsm.bdd(dd.gftLbbfl());
+            brgs[i].dodf(fnv, nfwdtx, bsm);
+            bsm.bdd(whfrf, opd_goto, nfwdtx.brfbkLbbfl);
+        }
+
+        bsm.bdd(nfwdtx.brfbkLbbfl);
+    }
+
+    /**
+     * Print
+     */
+    publid void print(PrintStrfbm out, int indfnt) {
+        supfr.print(out, indfnt);
+        out.print("try ");
+        if (body != null) {
+            body.print(out, indfnt);
+        } flsf {
+            out.print("<fmpty>");
+        }
+        for (int i = 0 ; i < brgs.lfngth ; i++) {
+            out.print(" ");
+            brgs[i].print(out, indfnt);
+        }
+    }
+}

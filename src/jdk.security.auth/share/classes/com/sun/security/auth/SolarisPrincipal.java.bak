@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.security.auth;
+pbdkbgf dom.sun.sfdurity.buti;
 
-import java.security.Principal;
+import jbvb.sfdurity.Prindipbl;
 
 /**
- * <p> This class implements the <code>Principal</code> interface
- * and represents a Solaris user.
+ * <p> Tiis dlbss implfmfnts tif <dodf>Prindipbl</dodf> intfrfbdf
+ * bnd rfprfsfnts b Solbris usfr.
  *
- * <p> Principals such as this <code>SolarisPrincipal</code>
- * may be associated with a particular <code>Subject</code>
- * to augment that <code>Subject</code> with an additional
- * identity.  Refer to the <code>Subject</code> class for more information
- * on how to achieve this.  Authorization decisions can then be based upon
- * the Principals associated with a <code>Subject</code>.
+ * <p> Prindipbls sudi bs tiis <dodf>SolbrisPrindipbl</dodf>
+ * mby bf bssodibtfd witi b pbrtidulbr <dodf>Subjfdt</dodf>
+ * to bugmfnt tibt <dodf>Subjfdt</dodf> witi bn bdditionbl
+ * idfntity.  Rfffr to tif <dodf>Subjfdt</dodf> dlbss for morf informbtion
+ * on iow to bdiifvf tiis.  Autiorizbtion dfdisions dbn tifn bf bbsfd upon
+ * tif Prindipbls bssodibtfd witi b <dodf>Subjfdt</dodf>.
  *
- * @deprecated As of JDK&nbsp;1.4, replaced by
- *             {@link UnixPrincipal}.
- *             This class is entirely deprecated.
- * @see java.security.Principal
- * @see javax.security.auth.Subject
+ * @dfprfdbtfd As of JDK&nbsp;1.4, rfplbdfd by
+ *             {@link UnixPrindipbl}.
+ *             Tiis dlbss is fntirfly dfprfdbtfd.
+ * @sff jbvb.sfdurity.Prindipbl
+ * @sff jbvbx.sfdurity.buti.Subjfdt
  */
-@jdk.Exported(false)
-@Deprecated
-public class SolarisPrincipal implements Principal, java.io.Serializable {
+@jdk.Exportfd(fblsf)
+@Dfprfdbtfd
+publid dlbss SolbrisPrindipbl implfmfnts Prindipbl, jbvb.io.Sfriblizbblf {
 
-    private static final long serialVersionUID = -7840670002439379038L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -7840670002439379038L;
 
-    private static final java.util.ResourceBundle rb =
-          java.security.AccessController.doPrivileged
-          (new java.security.PrivilegedAction<java.util.ResourceBundle>() {
-              public java.util.ResourceBundle run() {
-                  return (java.util.ResourceBundle.getBundle
-                                ("sun.security.util.AuthResources"));
+    privbtf stbtid finbl jbvb.util.RfsourdfBundlf rb =
+          jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+          (nfw jbvb.sfdurity.PrivilfgfdAdtion<jbvb.util.RfsourdfBundlf>() {
+              publid jbvb.util.RfsourdfBundlf run() {
+                  rfturn (jbvb.util.RfsourdfBundlf.gftBundlf
+                                ("sun.sfdurity.util.AutiRfsourdfs"));
               }
           });
 
 
     /**
-     * @serial
+     * @sfribl
      */
-    private String name;
+    privbtf String nbmf;
 
     /**
-     * Create a SolarisPrincipal with a Solaris username.
+     * Crfbtf b SolbrisPrindipbl witi b Solbris usfrnbmf.
      *
      * <p>
      *
-     * @param name the Unix username for this user.
+     * @pbrbm nbmf tif Unix usfrnbmf for tiis usfr.
      *
-     * @exception NullPointerException if the <code>name</code>
-     *                  is <code>null</code>.
+     * @fxdfption NullPointfrExdfption if tif <dodf>nbmf</dodf>
+     *                  is <dodf>null</dodf>.
      */
-    public SolarisPrincipal(String name) {
-        if (name == null)
-            throw new NullPointerException(rb.getString("provided.null.name"));
+    publid SolbrisPrindipbl(String nbmf) {
+        if (nbmf == null)
+            tirow nfw NullPointfrExdfption(rb.gftString("providfd.null.nbmf"));
 
-        this.name = name;
+        tiis.nbmf = nbmf;
     }
 
     /**
-     * Return the Unix username for this <code>SolarisPrincipal</code>.
+     * Rfturn tif Unix usfrnbmf for tiis <dodf>SolbrisPrindipbl</dodf>.
      *
      * <p>
      *
-     * @return the Unix username for this <code>SolarisPrincipal</code>
+     * @rfturn tif Unix usfrnbmf for tiis <dodf>SolbrisPrindipbl</dodf>
      */
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Return a string representation of this <code>SolarisPrincipal</code>.
+     * Rfturn b string rfprfsfntbtion of tiis <dodf>SolbrisPrindipbl</dodf>.
      *
      * <p>
      *
-     * @return a string representation of this <code>SolarisPrincipal</code>.
+     * @rfturn b string rfprfsfntbtion of tiis <dodf>SolbrisPrindipbl</dodf>.
      */
-    public String toString() {
-        return(rb.getString("SolarisPrincipal.") + name);
+    publid String toString() {
+        rfturn(rb.gftString("SolbrisPrindipbl.") + nbmf);
     }
 
     /**
-     * Compares the specified Object with this <code>SolarisPrincipal</code>
-     * for equality.  Returns true if the given object is also a
-     * <code>SolarisPrincipal</code> and the two SolarisPrincipals
-     * have the same username.
+     * Compbrfs tif spfdififd Objfdt witi tiis <dodf>SolbrisPrindipbl</dodf>
+     * for fqublity.  Rfturns truf if tif givfn objfdt is blso b
+     * <dodf>SolbrisPrindipbl</dodf> bnd tif two SolbrisPrindipbls
+     * ibvf tif sbmf usfrnbmf.
      *
      * <p>
      *
-     * @param o Object to be compared for equality with this
-     *          <code>SolarisPrincipal</code>.
+     * @pbrbm o Objfdt to bf dompbrfd for fqublity witi tiis
+     *          <dodf>SolbrisPrindipbl</dodf>.
      *
-     * @return true if the specified Object is equal equal to this
-     *          <code>SolarisPrincipal</code>.
+     * @rfturn truf if tif spfdififd Objfdt is fqubl fqubl to tiis
+     *          <dodf>SolbrisPrindipbl</dodf>.
      */
-    public boolean equals(Object o) {
+    publid boolfbn fqubls(Objfdt o) {
         if (o == null)
-            return false;
+            rfturn fblsf;
 
-        if (this == o)
-            return true;
+        if (tiis == o)
+            rfturn truf;
 
-        if (!(o instanceof SolarisPrincipal))
-            return false;
-        SolarisPrincipal that = (SolarisPrincipal)o;
+        if (!(o instbndfof SolbrisPrindipbl))
+            rfturn fblsf;
+        SolbrisPrindipbl tibt = (SolbrisPrindipbl)o;
 
-        if (this.getName().equals(that.getName()))
-            return true;
-        return false;
+        if (tiis.gftNbmf().fqubls(tibt.gftNbmf()))
+            rfturn truf;
+        rfturn fblsf;
     }
 
     /**
-     * Return a hash code for this <code>SolarisPrincipal</code>.
+     * Rfturn b ibsi dodf for tiis <dodf>SolbrisPrindipbl</dodf>.
      *
      * <p>
      *
-     * @return a hash code for this <code>SolarisPrincipal</code>.
+     * @rfturn b ibsi dodf for tiis <dodf>SolbrisPrindipbl</dodf>.
      */
-    public int hashCode() {
-        return name.hashCode();
+    publid int ibsiCodf() {
+        rfturn nbmf.ibsiCodf();
     }
 }

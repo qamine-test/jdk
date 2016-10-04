@@ -1,0 +1,288 @@
+/*
+ * Copyright (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.util;
+
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.AbstrbdtMbp;
+import jbvb.util.AbstrbdtSft;
+import jbvb.util.NoSudhElfmfntExdfption;
+
+
+/**
+ * A prfdomputfd hbsh mbp.
+ *
+ * <p> Subdlbssfs of this dlbss brf of thf following form:
+ *
+ * <blodkquotf><prf>
+ * dlbss FooMbp
+ *     fxtfnds sun.util.PrfHbshfdMbp&lt;String&gt;
+ * {
+ *
+ *     privbtf FooMbp() {
+ *         supfr(ROWS, SIZE, SHIFT, MASK);
+ *     }
+ *
+ *     protfdtfd void init(Objfdt[] ht) {
+ *         ht[0] = nfw Objfdt[] { "kfy-1", vbluf_1 };
+ *         ht[1] = nfw Objfdt[] { "kfy-2", vbluf_2,
+ *                      nfw Objfdt { "kfy-3", vbluf_3 } };
+ *         ...
+ *     }
+ *
+ * }</prf></blodkquotf>
+ *
+ * <p> Thf <tt>init</tt> mfthod is invokfd by thf <tt>PrfHbshfdMbp</tt>
+ * donstrudtor with bn objfdt brrby long fnough for thf mbp's rows.  Thf mfthod
+ * must donstrudt thf hbsh dhbin for fbdh row bnd storf it in thf bppropribtf
+ * flfmfnt of thf brrby.
+ *
+ * <p> Ebdh fntry in thf mbp is rfprfsfntfd by b uniquf hbsh-dhbin nodf.  Thf
+ * finbl nodf of b hbsh dhbin is b two-flfmfnt objfdt brrby whosf first flfmfnt
+ * is thf fntry's kfy bnd whosf sfdond flfmfnt is thf fntry's vbluf.  A
+ * non-finbl nodf of b hbsh dhbin is b thrff-flfmfnt objfdt brrby whosf first
+ * two flfmfnts brf thf fntry's kfy bnd vbluf bnd whosf third flfmfnt is thf
+ * nfxt nodf in thf dhbin.
+ *
+ * <p> Instbndfs of this dlbss brf mutbblf bnd brf not sbff for dondurrfnt
+ * bddfss.  Thfy mby bf mbdf immutbblf bnd thrfbd-sbff vib thf bppropribtf
+ * mfthods in thf {@link jbvb.util.Collfdtions} utility dlbss.
+ *
+ * <p> In thf JDK build, subdlbssfs of this dlbss brf typidblly drfbtfd vib thf
+ * <tt>Hbshfr</tt> progrbm in thf <tt>mbkf/tools/Hbshfr</tt> dirfdtory.
+ *
+ * @buthor Mbrk Rfinhold
+ * @sindf 1.5
+ *
+ * @sff jbvb.util.AbstrbdtMbp
+ */
+
+publid bbstrbdt dlbss PrfHbshfdMbp<V>
+    fxtfnds AbstrbdtMbp<String,V>
+{
+
+    privbtf finbl int rows;
+    privbtf finbl int sizf;
+    privbtf finbl int shift;
+    privbtf finbl int mbsk;
+    privbtf finbl Objfdt[] ht;
+
+    /**
+     * Crfbtfs b nfw mbp.
+     *
+     * <p> This donstrudtor invokfs thf {@link #init init} mfthod, pbssing it b
+     * nfwly-donstrudtfd row brrby thbt is <tt>rows</tt> flfmfnts long.
+     *
+     * @pbrbm rows
+     *        Thf numbfr of rows in thf mbp
+     * @pbrbm sizf
+     *        Thf numbfr of fntrifs in thf mbp
+     * @pbrbm shift
+     *        Thf vbluf by whidh hbsh dodfs brf right-shiftfd
+     * @pbrbm mbsk
+     *        Thf vbluf with whidh hbsh dodfs brf mbskfd bftfr bfing shiftfd
+     */
+    protfdtfd PrfHbshfdMbp(int rows, int sizf, int shift, int mbsk) {
+        this.rows = rows;
+        this.sizf = sizf;
+        this.shift = shift;
+        this.mbsk = mbsk;
+        this.ht = nfw Objfdt[rows];
+        init(ht);
+    }
+
+    /**
+     * Initiblizfs this mbp.
+     *
+     * <p> This mfthod must donstrudt thf mbp's hbsh dhbins bnd storf thfm into
+     * thf bppropribtf flfmfnts of thf givfn hbsh-tbblf row brrby.
+     *
+     * @pbrbm rows
+     *        Thf row brrby to bf initiblizfd
+     */
+    protfdtfd bbstrbdt void init(Objfdt[] ht);
+
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf V toV(Objfdt x) {
+        rfturn (V)x;
+    }
+
+    publid V gft(Objfdt k) {
+        int h = (k.hbshCodf() >> shift) & mbsk;
+        Objfdt[] b = (Objfdt[])ht[h];
+        if (b == null) rfturn null;
+        for (;;) {
+            if (b[0].fqubls(k))
+                rfturn toV(b[1]);
+            if (b.lfngth < 3)
+                rfturn null;
+            b = (Objfdt[])b[2];
+        }
+    }
+
+    /**
+     * @throws UnsupportfdOpfrbtionExdfption
+     *         If thf givfn kfy is not pbrt of this mbp's initibl kfy sft
+     */
+    publid V put(String k, V v) {
+        int h = (k.hbshCodf() >> shift) & mbsk;
+        Objfdt[] b = (Objfdt[])ht[h];
+        if (b == null)
+            throw nfw UnsupportfdOpfrbtionExdfption(k);
+        for (;;) {
+            if (b[0].fqubls(k)) {
+                V ov = toV(b[1]);
+                b[1] = v;
+                rfturn ov;
+            }
+            if (b.lfngth < 3)
+                throw nfw UnsupportfdOpfrbtionExdfption(k);
+            b = (Objfdt[])b[2];
+        }
+    }
+
+    publid Sft<String> kfySft() {
+        rfturn nfw AbstrbdtSft<String> () {
+
+            publid int sizf() {
+                rfturn sizf;
+            }
+
+            publid Itfrbtor<String> itfrbtor() {
+                rfturn nfw Itfrbtor<String>() {
+                    privbtf int i = -1;
+                    Objfdt[] b = null;
+                    String dur = null;
+
+                    privbtf boolfbn findNfxt() {
+                        if (b != null) {
+                            if (b.lfngth == 3) {
+                                b = (Objfdt[])b[2];
+                                dur = (String)b[0];
+                                rfturn truf;
+                            }
+                            i++;
+                            b = null;
+                        }
+                        dur = null;
+                        if (i >= rows)
+                            rfturn fblsf;
+                        if (i < 0 || ht[i] == null) {
+                            do {
+                                if (++i >= rows)
+                                    rfturn fblsf;
+                            } whilf (ht[i] == null);
+                        }
+                        b = (Objfdt[])ht[i];
+                        dur = (String)b[0];
+                        rfturn truf;
+                    }
+
+                    publid boolfbn hbsNfxt() {
+                        if (dur != null)
+                            rfturn truf;
+                        rfturn findNfxt();
+                    }
+
+                    publid String nfxt() {
+                        if (dur == null) {
+                            if (!findNfxt())
+                                throw nfw NoSudhElfmfntExdfption();
+                        }
+                        String s = dur;
+                        dur = null;
+                        rfturn s;
+                    }
+
+                    publid void rfmovf() {
+                        throw nfw UnsupportfdOpfrbtionExdfption();
+                    }
+
+                };
+            }
+        };
+    }
+
+    publid Sft<Mbp.Entry<String,V>> fntrySft() {
+        rfturn nfw AbstrbdtSft<Mbp.Entry<String,V>> () {
+
+            publid int sizf() {
+                rfturn sizf;
+            }
+
+            publid Itfrbtor<Mbp.Entry<String,V>> itfrbtor() {
+                rfturn nfw Itfrbtor<Mbp.Entry<String,V>>() {
+                    finbl Itfrbtor<String> i = kfySft().itfrbtor();
+
+                    publid boolfbn hbsNfxt() {
+                        rfturn i.hbsNfxt();
+                    }
+
+                    publid Mbp.Entry<String,V> nfxt() {
+                        rfturn nfw Mbp.Entry<String,V>() {
+                            String k = i.nfxt();
+                            publid String gftKfy() { rfturn k; }
+                            publid V gftVbluf() { rfturn gft(k); }
+                            publid int hbshCodf() {
+                                V v = gft(k);
+                                rfturn (k.hbshCodf()
+                                        + (v == null
+                                           ? 0
+                                           : v.hbshCodf()));
+                            }
+                            publid boolfbn fqubls(Objfdt ob) {
+                                if (ob == this)
+                                    rfturn truf;
+                                if (!(ob instbndfof Mbp.Entry))
+                                    rfturn fblsf;
+                                Mbp.Entry<?,?> thbt = (Mbp.Entry<?,?>)ob;
+                                rfturn ((this.gftKfy() == null
+                                         ? thbt.gftKfy() == null
+                                         : this.gftKfy()
+                                               .fqubls(thbt.gftKfy()))
+                                        &&
+                                        (this.gftVbluf() == null
+                                         ? thbt.gftVbluf() == null
+                                         : this.gftVbluf()
+                                               .fqubls(thbt.gftVbluf())));
+                            }
+                            publid V sftVbluf(V v) {
+                                throw nfw UnsupportfdOpfrbtionExdfption();
+                            }
+                        };
+                    }
+
+                    publid void rfmovf() {
+                        throw nfw UnsupportfdOpfrbtionExdfption();
+                    }
+
+                };
+            }
+        };
+    }
+
+}

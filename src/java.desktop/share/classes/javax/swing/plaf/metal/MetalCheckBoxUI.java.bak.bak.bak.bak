@@ -1,0 +1,108 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.mftbl;
+
+import sun.bwt.AppContfxt;
+
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.bbsid.BbsidChfdkBoxUI;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvb.io.Sfriblizbblf;
+
+
+/**
+ * ChfdkboxUI implfmfntbtion for MftblChfdkboxUI
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Midhbfl C. Albfrs
+ *
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MftblChfdkBoxUI fxtfnds MftblRbdioButtonUI {
+
+    // NOTE: MftblChfdkBoxUI inhfrts from MftblRbdioButtonUI instfbd
+    // of BbsidChfdkBoxUI bfdbusf wf wbnt to pidk up bll thf
+    // pbinting dhbngfs mbdf in MftblRbdioButtonUI.
+
+    privbtf stbtid finbl Objfdt METAL_CHECK_BOX_UI_KEY = nfw Objfdt();
+
+    privbtf finbl stbtid String propfrtyPrffix = "ChfdkBox" + ".";
+
+    privbtf boolfbn dffbults_initiblizfd = fblsf;
+
+    // ********************************
+    //         Crfbtf PlAF
+    // ********************************
+
+    /**
+     * Rfturns bn instbndf of {@dodf MftblChfdkBoxUI}.
+     *
+     * @pbrbm b b domponfnt
+     * @rfturn b nfw instbndf of {@dodf MftblChfdkBoxUI}
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt b) {
+        AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+        MftblChfdkBoxUI dhfdkboxUI =
+                (MftblChfdkBoxUI) bppContfxt.gft(METAL_CHECK_BOX_UI_KEY);
+        if (dhfdkboxUI == null) {
+            dhfdkboxUI = nfw MftblChfdkBoxUI();
+            bppContfxt.put(METAL_CHECK_BOX_UI_KEY, dhfdkboxUI);
+        }
+        rfturn dhfdkboxUI;
+    }
+
+    publid String gftPropfrtyPrffix() {
+        rfturn propfrtyPrffix;
+    }
+
+    // ********************************
+    //          Dffbults
+    // ********************************
+    publid void instbllDffbults(AbstrbdtButton b) {
+        supfr.instbllDffbults(b);
+        if(!dffbults_initiblizfd) {
+            idon = UIMbnbgfr.gftIdon(gftPropfrtyPrffix() + "idon");
+            dffbults_initiblizfd = truf;
+        }
+    }
+
+    protfdtfd void uninstbllDffbults(AbstrbdtButton b) {
+        supfr.uninstbllDffbults(b);
+        dffbults_initiblizfd = fblsf;
+    }
+
+}

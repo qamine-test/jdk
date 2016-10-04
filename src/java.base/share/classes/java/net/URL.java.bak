@@ -1,1313 +1,1313 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Hashtable;
-import java.util.StringTokenizer;
-import sun.security.util.SecurityConstants;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.StringTokfnizfr;
+import sun.sfdurity.util.SfdurityConstbnts;
 
 /**
- * Class {@code URL} represents a Uniform Resource
- * Locator, a pointer to a "resource" on the World
- * Wide Web. A resource can be something as simple as a file or a
- * directory, or it can be a reference to a more complicated object,
- * such as a query to a database or to a search engine. More
- * information on the types of URLs and their formats can be found at:
- * <a href=
- * "http://web.archive.org/web/20051219043731/http://archive.ncsa.uiuc.edu/SDG/Software/Mosaic/Demo/url-primer.html">
- * <i>Types of URL</i></a>
+ * Clbss {@dodf URL} rfprfsfnts b Uniform Rfsourdf
+ * Lodbtor, b pointfr to b "rfsourdf" on tif World
+ * Widf Wfb. A rfsourdf dbn bf somftiing bs simplf bs b filf or b
+ * dirfdtory, or it dbn bf b rfffrfndf to b morf domplidbtfd objfdt,
+ * sudi bs b qufry to b dbtbbbsf or to b sfbrdi fnginf. Morf
+ * informbtion on tif typfs of URLs bnd tifir formbts dbn bf found bt:
+ * <b irff=
+ * "ittp://wfb.brdiivf.org/wfb/20051219043731/ittp://brdiivf.ndsb.uiud.fdu/SDG/Softwbrf/Mosbid/Dfmo/url-primfr.itml">
+ * <i>Typfs of URL</i></b>
  * <p>
- * In general, a URL can be broken into several parts. Consider the
- * following example:
- * <blockquote><pre>
- *     http://www.example.com/docs/resource1.html
- * </pre></blockquote>
+ * In gfnfrbl, b URL dbn bf brokfn into sfvfrbl pbrts. Considfr tif
+ * following fxbmplf:
+ * <blodkquotf><prf>
+ *     ittp://www.fxbmplf.dom/dods/rfsourdf1.itml
+ * </prf></blodkquotf>
  * <p>
- * The URL above indicates that the protocol to use is
- * {@code http} (HyperText Transfer Protocol) and that the
- * information resides on a host machine named
- * {@code www.example.com}. The information on that host
- * machine is named {@code /docs/resource1.html}. The exact
- * meaning of this name on the host machine is both protocol
- * dependent and host dependent. The information normally resides in
- * a file, but it could be generated on the fly. This component of
- * the URL is called the <i>path</i> component.
+ * Tif URL bbovf indidbtfs tibt tif protodol to usf is
+ * {@dodf ittp} (HypfrTfxt Trbnsffr Protodol) bnd tibt tif
+ * informbtion rfsidfs on b iost mbdiinf nbmfd
+ * {@dodf www.fxbmplf.dom}. Tif informbtion on tibt iost
+ * mbdiinf is nbmfd {@dodf /dods/rfsourdf1.itml}. Tif fxbdt
+ * mfbning of tiis nbmf on tif iost mbdiinf is boti protodol
+ * dfpfndfnt bnd iost dfpfndfnt. Tif informbtion normblly rfsidfs in
+ * b filf, but it dould bf gfnfrbtfd on tif fly. Tiis domponfnt of
+ * tif URL is dbllfd tif <i>pbti</i> domponfnt.
  * <p>
- * A URL can optionally specify a "port", which is the
- * port number to which the TCP connection is made on the remote host
- * machine. If the port is not specified, the default port for
- * the protocol is used instead. For example, the default port for
- * {@code http} is {@code 80}. An alternative port could be
- * specified as:
- * <blockquote><pre>
- *     http://www.example.com:1080/docs/resource1.html
- * </pre></blockquote>
+ * A URL dbn optionblly spfdify b "port", wiidi is tif
+ * port numbfr to wiidi tif TCP donnfdtion is mbdf on tif rfmotf iost
+ * mbdiinf. If tif port is not spfdififd, tif dffbult port for
+ * tif protodol is usfd instfbd. For fxbmplf, tif dffbult port for
+ * {@dodf ittp} is {@dodf 80}. An bltfrnbtivf port dould bf
+ * spfdififd bs:
+ * <blodkquotf><prf>
+ *     ittp://www.fxbmplf.dom:1080/dods/rfsourdf1.itml
+ * </prf></blodkquotf>
  * <p>
- * The syntax of {@code URL} is defined by  <a
- * href="http://www.ietf.org/rfc/rfc2396.txt"><i>RFC&nbsp;2396: Uniform
- * Resource Identifiers (URI): Generic Syntax</i></a>, amended by <a
- * href="http://www.ietf.org/rfc/rfc2732.txt"><i>RFC&nbsp;2732: Format for
- * Literal IPv6 Addresses in URLs</i></a>. The Literal IPv6 address format
- * also supports scope_ids. The syntax and usage of scope_ids is described
- * <a href="Inet6Address.html#scoped">here</a>.
+ * Tif syntbx of {@dodf URL} is dffinfd by  <b
+ * irff="ittp://www.iftf.org/rfd/rfd2396.txt"><i>RFC&nbsp;2396: Uniform
+ * Rfsourdf Idfntififrs (URI): Gfnfrid Syntbx</i></b>, bmfndfd by <b
+ * irff="ittp://www.iftf.org/rfd/rfd2732.txt"><i>RFC&nbsp;2732: Formbt for
+ * Litfrbl IPv6 Addrfssfs in URLs</i></b>. Tif Litfrbl IPv6 bddrfss formbt
+ * blso supports sdopf_ids. Tif syntbx bnd usbgf of sdopf_ids is dfsdribfd
+ * <b irff="Inft6Addrfss.itml#sdopfd">ifrf</b>.
  * <p>
- * A URL may have appended to it a "fragment", also known
- * as a "ref" or a "reference". The fragment is indicated by the sharp
- * sign character "#" followed by more characters. For example,
- * <blockquote><pre>
- *     http://java.sun.com/index.html#chapter1
- * </pre></blockquote>
+ * A URL mby ibvf bppfndfd to it b "frbgmfnt", blso known
+ * bs b "rff" or b "rfffrfndf". Tif frbgmfnt is indidbtfd by tif sibrp
+ * sign dibrbdtfr "#" followfd by morf dibrbdtfrs. For fxbmplf,
+ * <blodkquotf><prf>
+ *     ittp://jbvb.sun.dom/indfx.itml#dibptfr1
+ * </prf></blodkquotf>
  * <p>
- * This fragment is not technically part of the URL. Rather, it
- * indicates that after the specified resource is retrieved, the
- * application is specifically interested in that part of the
- * document that has the tag {@code chapter1} attached to it. The
- * meaning of a tag is resource specific.
+ * Tiis frbgmfnt is not tfdinidblly pbrt of tif URL. Rbtifr, it
+ * indidbtfs tibt bftfr tif spfdififd rfsourdf is rftrifvfd, tif
+ * bpplidbtion is spfdifidblly intfrfstfd in tibt pbrt of tif
+ * dodumfnt tibt ibs tif tbg {@dodf dibptfr1} bttbdifd to it. Tif
+ * mfbning of b tbg is rfsourdf spfdifid.
  * <p>
- * An application can also specify a "relative URL",
- * which contains only enough information to reach the resource
- * relative to another URL. Relative URLs are frequently used within
- * HTML pages. For example, if the contents of the URL:
- * <blockquote><pre>
- *     http://java.sun.com/index.html
- * </pre></blockquote>
- * contained within it the relative URL:
- * <blockquote><pre>
- *     FAQ.html
- * </pre></blockquote>
- * it would be a shorthand for:
- * <blockquote><pre>
- *     http://java.sun.com/FAQ.html
- * </pre></blockquote>
+ * An bpplidbtion dbn blso spfdify b "rflbtivf URL",
+ * wiidi dontbins only fnougi informbtion to rfbdi tif rfsourdf
+ * rflbtivf to bnotifr URL. Rflbtivf URLs brf frfqufntly usfd witiin
+ * HTML pbgfs. For fxbmplf, if tif dontfnts of tif URL:
+ * <blodkquotf><prf>
+ *     ittp://jbvb.sun.dom/indfx.itml
+ * </prf></blodkquotf>
+ * dontbinfd witiin it tif rflbtivf URL:
+ * <blodkquotf><prf>
+ *     FAQ.itml
+ * </prf></blodkquotf>
+ * it would bf b siortibnd for:
+ * <blodkquotf><prf>
+ *     ittp://jbvb.sun.dom/FAQ.itml
+ * </prf></blodkquotf>
  * <p>
- * The relative URL need not specify all the components of a URL. If
- * the protocol, host name, or port number is missing, the value is
- * inherited from the fully specified URL. The file component must be
- * specified. The optional fragment is not inherited.
+ * Tif rflbtivf URL nffd not spfdify bll tif domponfnts of b URL. If
+ * tif protodol, iost nbmf, or port numbfr is missing, tif vbluf is
+ * inifritfd from tif fully spfdififd URL. Tif filf domponfnt must bf
+ * spfdififd. Tif optionbl frbgmfnt is not inifritfd.
  * <p>
- * The URL class does not itself encode or decode any URL components
- * according to the escaping mechanism defined in RFC2396. It is the
- * responsibility of the caller to encode any fields, which need to be
- * escaped prior to calling URL, and also to decode any escaped fields,
- * that are returned from URL. Furthermore, because URL has no knowledge
- * of URL escaping, it does not recognise equivalence between the encoded
- * or decoded form of the same URL. For example, the two URLs:<br>
- * <pre>    http://foo.com/hello world/ and http://foo.com/hello%20world</pre>
- * would be considered not equal to each other.
+ * Tif URL dlbss dofs not itsflf fndodf or dfdodf bny URL domponfnts
+ * bddording to tif fsdbping mfdibnism dffinfd in RFC2396. It is tif
+ * rfsponsibility of tif dbllfr to fndodf bny fiflds, wiidi nffd to bf
+ * fsdbpfd prior to dblling URL, bnd blso to dfdodf bny fsdbpfd fiflds,
+ * tibt brf rfturnfd from URL. Furtifrmorf, bfdbusf URL ibs no knowlfdgf
+ * of URL fsdbping, it dofs not rfdognisf fquivblfndf bftwffn tif fndodfd
+ * or dfdodfd form of tif sbmf URL. For fxbmplf, tif two URLs:<br>
+ * <prf>    ittp://foo.dom/ifllo world/ bnd ittp://foo.dom/ifllo%20world</prf>
+ * would bf donsidfrfd not fqubl to fbdi otifr.
  * <p>
- * Note, the {@link java.net.URI} class does perform escaping of its
- * component fields in certain circumstances. The recommended way
- * to manage the encoding and decoding of URLs is to use {@link java.net.URI},
- * and to convert between these two classes using {@link #toURI()} and
+ * Notf, tif {@link jbvb.nft.URI} dlbss dofs pfrform fsdbping of its
+ * domponfnt fiflds in dfrtbin dirdumstbndfs. Tif rfdommfndfd wby
+ * to mbnbgf tif fndoding bnd dfdoding of URLs is to usf {@link jbvb.nft.URI},
+ * bnd to donvfrt bftwffn tifsf two dlbssfs using {@link #toURI()} bnd
  * {@link URI#toURL()}.
  * <p>
- * The {@link URLEncoder} and {@link URLDecoder} classes can also be
- * used, but only for HTML form encoding, which is not the same
- * as the encoding scheme defined in RFC2396.
+ * Tif {@link URLEndodfr} bnd {@link URLDfdodfr} dlbssfs dbn blso bf
+ * usfd, but only for HTML form fndoding, wiidi is not tif sbmf
+ * bs tif fndoding sdifmf dffinfd in RFC2396.
  *
- * @author  James Gosling
- * @since 1.0
+ * @butior  Jbmfs Gosling
+ * @sindf 1.0
  */
-public final class URL implements java.io.Serializable {
+publid finbl dlbss URL implfmfnts jbvb.io.Sfriblizbblf {
 
-    static final long serialVersionUID = -7627629688361524110L;
-
-    /**
-     * The property which specifies the package prefix list to be scanned
-     * for protocol handlers.  The value of this property (if any) should
-     * be a vertical bar delimited list of package names to search through
-     * for a protocol handler to load.  The policy of this class is that
-     * all protocol handlers will be in a class called <protocolname>.Handler,
-     * and each package in the list is examined in turn for a matching
-     * handler.  If none are found (or the property is not specified), the
-     * default package prefix, sun.net.www.protocol, is used.  The search
-     * proceeds from the first package in the list to the last and stops
-     * when a match is found.
-     */
-    private static final String protocolPathProp = "java.protocol.handler.pkgs";
+    stbtid finbl long sfriblVfrsionUID = -7627629688361524110L;
 
     /**
-     * The protocol to use (ftp, http, nntp, ... etc.) .
-     * @serial
+     * Tif propfrty wiidi spfdififs tif pbdkbgf prffix list to bf sdbnnfd
+     * for protodol ibndlfrs.  Tif vbluf of tiis propfrty (if bny) siould
+     * bf b vfrtidbl bbr dflimitfd list of pbdkbgf nbmfs to sfbrdi tirougi
+     * for b protodol ibndlfr to lobd.  Tif polidy of tiis dlbss is tibt
+     * bll protodol ibndlfrs will bf in b dlbss dbllfd <protodolnbmf>.Hbndlfr,
+     * bnd fbdi pbdkbgf in tif list is fxbminfd in turn for b mbtdiing
+     * ibndlfr.  If nonf brf found (or tif propfrty is not spfdififd), tif
+     * dffbult pbdkbgf prffix, sun.nft.www.protodol, is usfd.  Tif sfbrdi
+     * prodffds from tif first pbdkbgf in tif list to tif lbst bnd stops
+     * wifn b mbtdi is found.
      */
-    private String protocol;
+    privbtf stbtid finbl String protodolPbtiProp = "jbvb.protodol.ibndlfr.pkgs";
 
     /**
-     * The host name to connect to.
-     * @serial
+     * Tif protodol to usf (ftp, ittp, nntp, ... ftd.) .
+     * @sfribl
      */
-    private String host;
+    privbtf String protodol;
 
     /**
-     * The protocol port to connect to.
-     * @serial
+     * Tif iost nbmf to donnfdt to.
+     * @sfribl
      */
-    private int port = -1;
+    privbtf String iost;
 
     /**
-     * The specified file name on that host. {@code file} is
-     * defined as {@code path[?query]}
-     * @serial
+     * Tif protodol port to donnfdt to.
+     * @sfribl
      */
-    private String file;
+    privbtf int port = -1;
 
     /**
-     * The query part of this URL.
+     * Tif spfdififd filf nbmf on tibt iost. {@dodf filf} is
+     * dffinfd bs {@dodf pbti[?qufry]}
+     * @sfribl
      */
-    private transient String query;
+    privbtf String filf;
 
     /**
-     * The authority part of this URL.
-     * @serial
+     * Tif qufry pbrt of tiis URL.
      */
-    private String authority;
+    privbtf trbnsifnt String qufry;
 
     /**
-     * The path part of this URL.
+     * Tif butiority pbrt of tiis URL.
+     * @sfribl
      */
-    private transient String path;
+    privbtf String butiority;
 
     /**
-     * The userinfo part of this URL.
+     * Tif pbti pbrt of tiis URL.
      */
-    private transient String userInfo;
+    privbtf trbnsifnt String pbti;
 
     /**
-     * # reference.
-     * @serial
+     * Tif usfrinfo pbrt of tiis URL.
      */
-    private String ref;
+    privbtf trbnsifnt String usfrInfo;
 
     /**
-     * The host's IP address, used in equals and hashCode.
-     * Computed on demand. An uninitialized or unknown hostAddress is null.
+     * # rfffrfndf.
+     * @sfribl
      */
-    transient InetAddress hostAddress;
+    privbtf String rff;
 
     /**
-     * The URLStreamHandler for this URL.
+     * Tif iost's IP bddrfss, usfd in fqubls bnd ibsiCodf.
+     * Computfd on dfmbnd. An uninitiblizfd or unknown iostAddrfss is null.
      */
-    transient URLStreamHandler handler;
-
-    /* Our hash code.
-     * @serial
-     */
-    private int hashCode = -1;
+    trbnsifnt InftAddrfss iostAddrfss;
 
     /**
-     * Creates a {@code URL} object from the specified
-     * {@code protocol}, {@code host}, {@code port}
-     * number, and {@code file}.<p>
+     * Tif URLStrfbmHbndlfr for tiis URL.
+     */
+    trbnsifnt URLStrfbmHbndlfr ibndlfr;
+
+    /* Our ibsi dodf.
+     * @sfribl
+     */
+    privbtf int ibsiCodf = -1;
+
+    /**
+     * Crfbtfs b {@dodf URL} objfdt from tif spfdififd
+     * {@dodf protodol}, {@dodf iost}, {@dodf port}
+     * numbfr, bnd {@dodf filf}.<p>
      *
-     * {@code host} can be expressed as a host name or a literal
-     * IP address. If IPv6 literal address is used, it should be
-     * enclosed in square brackets ({@code '['} and {@code ']'}), as
-     * specified by <a
-     * href="http://www.ietf.org/rfc/rfc2732.txt">RFC&nbsp;2732</a>;
-     * However, the literal IPv6 address format defined in <a
-     * href="http://www.ietf.org/rfc/rfc2373.txt"><i>RFC&nbsp;2373: IP
-     * Version 6 Addressing Architecture</i></a> is also accepted.<p>
+     * {@dodf iost} dbn bf fxprfssfd bs b iost nbmf or b litfrbl
+     * IP bddrfss. If IPv6 litfrbl bddrfss is usfd, it siould bf
+     * fndlosfd in squbrf brbdkfts ({@dodf '['} bnd {@dodf ']'}), bs
+     * spfdififd by <b
+     * irff="ittp://www.iftf.org/rfd/rfd2732.txt">RFC&nbsp;2732</b>;
+     * Howfvfr, tif litfrbl IPv6 bddrfss formbt dffinfd in <b
+     * irff="ittp://www.iftf.org/rfd/rfd2373.txt"><i>RFC&nbsp;2373: IP
+     * Vfrsion 6 Addrfssing Ardiitfdturf</i></b> is blso bddfptfd.<p>
      *
-     * Specifying a {@code port} number of {@code -1}
-     * indicates that the URL should use the default port for the
-     * protocol.<p>
+     * Spfdifying b {@dodf port} numbfr of {@dodf -1}
+     * indidbtfs tibt tif URL siould usf tif dffbult port for tif
+     * protodol.<p>
      *
-     * If this is the first URL object being created with the specified
-     * protocol, a <i>stream protocol handler</i> object, an instance of
-     * class {@code URLStreamHandler}, is created for that protocol:
+     * If tiis is tif first URL objfdt bfing drfbtfd witi tif spfdififd
+     * protodol, b <i>strfbm protodol ibndlfr</i> objfdt, bn instbndf of
+     * dlbss {@dodf URLStrfbmHbndlfr}, is drfbtfd for tibt protodol:
      * <ol>
-     * <li>If the application has previously set up an instance of
-     *     {@code URLStreamHandlerFactory} as the stream handler factory,
-     *     then the {@code createURLStreamHandler} method of that instance
-     *     is called with the protocol string as an argument to create the
-     *     stream protocol handler.
-     * <li>If no {@code URLStreamHandlerFactory} has yet been set up,
-     *     or if the factory's {@code createURLStreamHandler} method
-     *     returns {@code null}, then the constructor finds the
-     *     value of the system property:
-     *     <blockquote><pre>
-     *         java.protocol.handler.pkgs
-     *     </pre></blockquote>
-     *     If the value of that system property is not {@code null},
-     *     it is interpreted as a list of packages separated by a vertical
-     *     slash character '{@code |}'. The constructor tries to load
-     *     the class named:
-     *     <blockquote><pre>
-     *         &lt;<i>package</i>&gt;.&lt;<i>protocol</i>&gt;.Handler
-     *     </pre></blockquote>
-     *     where &lt;<i>package</i>&gt; is replaced by the name of the package
-     *     and &lt;<i>protocol</i>&gt; is replaced by the name of the protocol.
-     *     If this class does not exist, or if the class exists but it is not
-     *     a subclass of {@code URLStreamHandler}, then the next package
-     *     in the list is tried.
-     * <li>If the previous step fails to find a protocol handler, then the
-     *     constructor tries to load a built-in protocol handler.
-     *     If this class does not exist, or if the class exists but it is not a
-     *     subclass of {@code URLStreamHandler}, then a
-     *     {@code MalformedURLException} is thrown.
+     * <li>If tif bpplidbtion ibs prfviously sft up bn instbndf of
+     *     {@dodf URLStrfbmHbndlfrFbdtory} bs tif strfbm ibndlfr fbdtory,
+     *     tifn tif {@dodf drfbtfURLStrfbmHbndlfr} mftiod of tibt instbndf
+     *     is dbllfd witi tif protodol string bs bn brgumfnt to drfbtf tif
+     *     strfbm protodol ibndlfr.
+     * <li>If no {@dodf URLStrfbmHbndlfrFbdtory} ibs yft bffn sft up,
+     *     or if tif fbdtory's {@dodf drfbtfURLStrfbmHbndlfr} mftiod
+     *     rfturns {@dodf null}, tifn tif donstrudtor finds tif
+     *     vbluf of tif systfm propfrty:
+     *     <blodkquotf><prf>
+     *         jbvb.protodol.ibndlfr.pkgs
+     *     </prf></blodkquotf>
+     *     If tif vbluf of tibt systfm propfrty is not {@dodf null},
+     *     it is intfrprftfd bs b list of pbdkbgfs sfpbrbtfd by b vfrtidbl
+     *     slbsi dibrbdtfr '{@dodf |}'. Tif donstrudtor trifs to lobd
+     *     tif dlbss nbmfd:
+     *     <blodkquotf><prf>
+     *         &lt;<i>pbdkbgf</i>&gt;.&lt;<i>protodol</i>&gt;.Hbndlfr
+     *     </prf></blodkquotf>
+     *     wifrf &lt;<i>pbdkbgf</i>&gt; is rfplbdfd by tif nbmf of tif pbdkbgf
+     *     bnd &lt;<i>protodol</i>&gt; is rfplbdfd by tif nbmf of tif protodol.
+     *     If tiis dlbss dofs not fxist, or if tif dlbss fxists but it is not
+     *     b subdlbss of {@dodf URLStrfbmHbndlfr}, tifn tif nfxt pbdkbgf
+     *     in tif list is trifd.
+     * <li>If tif prfvious stfp fbils to find b protodol ibndlfr, tifn tif
+     *     donstrudtor trifs to lobd b built-in protodol ibndlfr.
+     *     If tiis dlbss dofs not fxist, or if tif dlbss fxists but it is not b
+     *     subdlbss of {@dodf URLStrfbmHbndlfr}, tifn b
+     *     {@dodf MblformfdURLExdfption} is tirown.
      * </ol>
      *
-     * <p>Protocol handlers for the following protocols are guaranteed
-     * to exist on the search path :-
-     * <blockquote><pre>
-     *     http, https, file, and jar
-     * </pre></blockquote>
-     * Protocol handlers for additional protocols may also be
-     * available.
+     * <p>Protodol ibndlfrs for tif following protodols brf gubrbntffd
+     * to fxist on tif sfbrdi pbti :-
+     * <blodkquotf><prf>
+     *     ittp, ittps, filf, bnd jbr
+     * </prf></blodkquotf>
+     * Protodol ibndlfrs for bdditionbl protodols mby blso bf
+     * bvbilbblf.
      *
-     * <p>No validation of the inputs is performed by this constructor.
+     * <p>No vblidbtion of tif inputs is pfrformfd by tiis donstrudtor.
      *
-     * @param      protocol   the name of the protocol to use.
-     * @param      host       the name of the host.
-     * @param      port       the port number on the host.
-     * @param      file       the file on the host
-     * @exception  MalformedURLException  if an unknown protocol is specified.
-     * @see        java.lang.System#getProperty(java.lang.String)
-     * @see        java.net.URL#setURLStreamHandlerFactory(
-     *                  java.net.URLStreamHandlerFactory)
-     * @see        java.net.URLStreamHandler
-     * @see        java.net.URLStreamHandlerFactory#createURLStreamHandler(
-     *                  java.lang.String)
+     * @pbrbm      protodol   tif nbmf of tif protodol to usf.
+     * @pbrbm      iost       tif nbmf of tif iost.
+     * @pbrbm      port       tif port numbfr on tif iost.
+     * @pbrbm      filf       tif filf on tif iost
+     * @fxdfption  MblformfdURLExdfption  if bn unknown protodol is spfdififd.
+     * @sff        jbvb.lbng.Systfm#gftPropfrty(jbvb.lbng.String)
+     * @sff        jbvb.nft.URL#sftURLStrfbmHbndlfrFbdtory(
+     *                  jbvb.nft.URLStrfbmHbndlfrFbdtory)
+     * @sff        jbvb.nft.URLStrfbmHbndlfr
+     * @sff        jbvb.nft.URLStrfbmHbndlfrFbdtory#drfbtfURLStrfbmHbndlfr(
+     *                  jbvb.lbng.String)
      */
-    public URL(String protocol, String host, int port, String file)
-        throws MalformedURLException
+    publid URL(String protodol, String iost, int port, String filf)
+        tirows MblformfdURLExdfption
     {
-        this(protocol, host, port, file, null);
+        tiis(protodol, iost, port, filf, null);
     }
 
     /**
-     * Creates a URL from the specified {@code protocol}
-     * name, {@code host} name, and {@code file} name. The
-     * default port for the specified protocol is used.
+     * Crfbtfs b URL from tif spfdififd {@dodf protodol}
+     * nbmf, {@dodf iost} nbmf, bnd {@dodf filf} nbmf. Tif
+     * dffbult port for tif spfdififd protodol is usfd.
      * <p>
-     * This method is equivalent to calling the four-argument
-     * constructor with the arguments being {@code protocol},
-     * {@code host}, {@code -1}, and {@code file}.
+     * Tiis mftiod is fquivblfnt to dblling tif four-brgumfnt
+     * donstrudtor witi tif brgumfnts bfing {@dodf protodol},
+     * {@dodf iost}, {@dodf -1}, bnd {@dodf filf}.
      *
-     * No validation of the inputs is performed by this constructor.
+     * No vblidbtion of tif inputs is pfrformfd by tiis donstrudtor.
      *
-     * @param      protocol   the name of the protocol to use.
-     * @param      host       the name of the host.
-     * @param      file       the file on the host.
-     * @exception  MalformedURLException  if an unknown protocol is specified.
-     * @see        java.net.URL#URL(java.lang.String, java.lang.String,
-     *                  int, java.lang.String)
+     * @pbrbm      protodol   tif nbmf of tif protodol to usf.
+     * @pbrbm      iost       tif nbmf of tif iost.
+     * @pbrbm      filf       tif filf on tif iost.
+     * @fxdfption  MblformfdURLExdfption  if bn unknown protodol is spfdififd.
+     * @sff        jbvb.nft.URL#URL(jbvb.lbng.String, jbvb.lbng.String,
+     *                  int, jbvb.lbng.String)
      */
-    public URL(String protocol, String host, String file)
-            throws MalformedURLException {
-        this(protocol, host, -1, file);
+    publid URL(String protodol, String iost, String filf)
+            tirows MblformfdURLExdfption {
+        tiis(protodol, iost, -1, filf);
     }
 
     /**
-     * Creates a {@code URL} object from the specified
-     * {@code protocol}, {@code host}, {@code port}
-     * number, {@code file}, and {@code handler}. Specifying
-     * a {@code port} number of {@code -1} indicates that
-     * the URL should use the default port for the protocol. Specifying
-     * a {@code handler} of {@code null} indicates that the URL
-     * should use a default stream handler for the protocol, as outlined
+     * Crfbtfs b {@dodf URL} objfdt from tif spfdififd
+     * {@dodf protodol}, {@dodf iost}, {@dodf port}
+     * numbfr, {@dodf filf}, bnd {@dodf ibndlfr}. Spfdifying
+     * b {@dodf port} numbfr of {@dodf -1} indidbtfs tibt
+     * tif URL siould usf tif dffbult port for tif protodol. Spfdifying
+     * b {@dodf ibndlfr} of {@dodf null} indidbtfs tibt tif URL
+     * siould usf b dffbult strfbm ibndlfr for tif protodol, bs outlinfd
      * for:
-     *     java.net.URL#URL(java.lang.String, java.lang.String, int,
-     *                      java.lang.String)
+     *     jbvb.nft.URL#URL(jbvb.lbng.String, jbvb.lbng.String, int,
+     *                      jbvb.lbng.String)
      *
-     * <p>If the handler is not null and there is a security manager,
-     * the security manager's {@code checkPermission}
-     * method is called with a
-     * {@code NetPermission("specifyStreamHandler")} permission.
-     * This may result in a SecurityException.
+     * <p>If tif ibndlfr is not null bnd tifrf is b sfdurity mbnbgfr,
+     * tif sfdurity mbnbgfr's {@dodf difdkPfrmission}
+     * mftiod is dbllfd witi b
+     * {@dodf NftPfrmission("spfdifyStrfbmHbndlfr")} pfrmission.
+     * Tiis mby rfsult in b SfdurityExdfption.
      *
-     * No validation of the inputs is performed by this constructor.
+     * No vblidbtion of tif inputs is pfrformfd by tiis donstrudtor.
      *
-     * @param      protocol   the name of the protocol to use.
-     * @param      host       the name of the host.
-     * @param      port       the port number on the host.
-     * @param      file       the file on the host
-     * @param      handler    the stream handler for the URL.
-     * @exception  MalformedURLException  if an unknown protocol is specified.
-     * @exception  SecurityException
-     *        if a security manager exists and its
-     *        {@code checkPermission} method doesn't allow
-     *        specifying a stream handler explicitly.
-     * @see        java.lang.System#getProperty(java.lang.String)
-     * @see        java.net.URL#setURLStreamHandlerFactory(
-     *                  java.net.URLStreamHandlerFactory)
-     * @see        java.net.URLStreamHandler
-     * @see        java.net.URLStreamHandlerFactory#createURLStreamHandler(
-     *                  java.lang.String)
-     * @see        SecurityManager#checkPermission
-     * @see        java.net.NetPermission
+     * @pbrbm      protodol   tif nbmf of tif protodol to usf.
+     * @pbrbm      iost       tif nbmf of tif iost.
+     * @pbrbm      port       tif port numbfr on tif iost.
+     * @pbrbm      filf       tif filf on tif iost
+     * @pbrbm      ibndlfr    tif strfbm ibndlfr for tif URL.
+     * @fxdfption  MblformfdURLExdfption  if bn unknown protodol is spfdififd.
+     * @fxdfption  SfdurityExdfption
+     *        if b sfdurity mbnbgfr fxists bnd its
+     *        {@dodf difdkPfrmission} mftiod dofsn't bllow
+     *        spfdifying b strfbm ibndlfr fxpliditly.
+     * @sff        jbvb.lbng.Systfm#gftPropfrty(jbvb.lbng.String)
+     * @sff        jbvb.nft.URL#sftURLStrfbmHbndlfrFbdtory(
+     *                  jbvb.nft.URLStrfbmHbndlfrFbdtory)
+     * @sff        jbvb.nft.URLStrfbmHbndlfr
+     * @sff        jbvb.nft.URLStrfbmHbndlfrFbdtory#drfbtfURLStrfbmHbndlfr(
+     *                  jbvb.lbng.String)
+     * @sff        SfdurityMbnbgfr#difdkPfrmission
+     * @sff        jbvb.nft.NftPfrmission
      */
-    public URL(String protocol, String host, int port, String file,
-               URLStreamHandler handler) throws MalformedURLException {
-        if (handler != null) {
-            SecurityManager sm = System.getSecurityManager();
+    publid URL(String protodol, String iost, int port, String filf,
+               URLStrfbmHbndlfr ibndlfr) tirows MblformfdURLExdfption {
+        if (ibndlfr != null) {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null) {
-                // check for permission to specify a handler
-                checkSpecifyHandler(sm);
+                // difdk for pfrmission to spfdify b ibndlfr
+                difdkSpfdifyHbndlfr(sm);
             }
         }
 
-        protocol = protocol.toLowerCase();
-        this.protocol = protocol;
-        if (host != null) {
+        protodol = protodol.toLowfrCbsf();
+        tiis.protodol = protodol;
+        if (iost != null) {
 
             /**
-             * if host is a literal IPv6 address,
-             * we will make it conform to RFC 2732
+             * if iost is b litfrbl IPv6 bddrfss,
+             * wf will mbkf it donform to RFC 2732
              */
-            if (host.indexOf(':') >= 0 && !host.startsWith("[")) {
-                host = "["+host+"]";
+            if (iost.indfxOf(':') >= 0 && !iost.stbrtsWiti("[")) {
+                iost = "["+iost+"]";
             }
-            this.host = host;
+            tiis.iost = iost;
 
             if (port < -1) {
-                throw new MalformedURLException("Invalid port number :" +
+                tirow nfw MblformfdURLExdfption("Invblid port numbfr :" +
                                                     port);
             }
-            this.port = port;
-            authority = (port == -1) ? host : host + ":" + port;
+            tiis.port = port;
+            butiority = (port == -1) ? iost : iost + ":" + port;
         }
 
-        Parts parts = new Parts(file);
-        path = parts.getPath();
-        query = parts.getQuery();
+        Pbrts pbrts = nfw Pbrts(filf);
+        pbti = pbrts.gftPbti();
+        qufry = pbrts.gftQufry();
 
-        if (query != null) {
-            this.file = path + "?" + query;
-        } else {
-            this.file = path;
+        if (qufry != null) {
+            tiis.filf = pbti + "?" + qufry;
+        } flsf {
+            tiis.filf = pbti;
         }
-        ref = parts.getRef();
+        rff = pbrts.gftRff();
 
-        // Note: we don't do validation of the URL here. Too risky to change
-        // right now, but worth considering for future reference. -br
-        if (handler == null &&
-            (handler = getURLStreamHandler(protocol)) == null) {
-            throw new MalformedURLException("unknown protocol: " + protocol);
+        // Notf: wf don't do vblidbtion of tif URL ifrf. Too risky to dibngf
+        // rigit now, but worti donsidfring for futurf rfffrfndf. -br
+        if (ibndlfr == null &&
+            (ibndlfr = gftURLStrfbmHbndlfr(protodol)) == null) {
+            tirow nfw MblformfdURLExdfption("unknown protodol: " + protodol);
         }
-        this.handler = handler;
+        tiis.ibndlfr = ibndlfr;
     }
 
     /**
-     * Creates a {@code URL} object from the {@code String}
-     * representation.
+     * Crfbtfs b {@dodf URL} objfdt from tif {@dodf String}
+     * rfprfsfntbtion.
      * <p>
-     * This constructor is equivalent to a call to the two-argument
-     * constructor with a {@code null} first argument.
+     * Tiis donstrudtor is fquivblfnt to b dbll to tif two-brgumfnt
+     * donstrudtor witi b {@dodf null} first brgumfnt.
      *
-     * @param      spec   the {@code String} to parse as a URL.
-     * @exception  MalformedURLException  if no protocol is specified, or an
-     *               unknown protocol is found, or {@code spec} is {@code null}.
-     * @see        java.net.URL#URL(java.net.URL, java.lang.String)
+     * @pbrbm      spfd   tif {@dodf String} to pbrsf bs b URL.
+     * @fxdfption  MblformfdURLExdfption  if no protodol is spfdififd, or bn
+     *               unknown protodol is found, or {@dodf spfd} is {@dodf null}.
+     * @sff        jbvb.nft.URL#URL(jbvb.nft.URL, jbvb.lbng.String)
      */
-    public URL(String spec) throws MalformedURLException {
-        this(null, spec);
+    publid URL(String spfd) tirows MblformfdURLExdfption {
+        tiis(null, spfd);
     }
 
     /**
-     * Creates a URL by parsing the given spec within a specified context.
+     * Crfbtfs b URL by pbrsing tif givfn spfd witiin b spfdififd dontfxt.
      *
-     * The new URL is created from the given context URL and the spec
-     * argument as described in
-     * RFC2396 &quot;Uniform Resource Identifiers : Generic * Syntax&quot; :
-     * <blockquote><pre>
-     *          &lt;scheme&gt;://&lt;authority&gt;&lt;path&gt;?&lt;query&gt;#&lt;fragment&gt;
-     * </pre></blockquote>
-     * The reference is parsed into the scheme, authority, path, query and
-     * fragment parts. If the path component is empty and the scheme,
-     * authority, and query components are undefined, then the new URL is a
-     * reference to the current document. Otherwise, the fragment and query
-     * parts present in the spec are used in the new URL.
+     * Tif nfw URL is drfbtfd from tif givfn dontfxt URL bnd tif spfd
+     * brgumfnt bs dfsdribfd in
+     * RFC2396 &quot;Uniform Rfsourdf Idfntififrs : Gfnfrid * Syntbx&quot; :
+     * <blodkquotf><prf>
+     *          &lt;sdifmf&gt;://&lt;butiority&gt;&lt;pbti&gt;?&lt;qufry&gt;#&lt;frbgmfnt&gt;
+     * </prf></blodkquotf>
+     * Tif rfffrfndf is pbrsfd into tif sdifmf, butiority, pbti, qufry bnd
+     * frbgmfnt pbrts. If tif pbti domponfnt is fmpty bnd tif sdifmf,
+     * butiority, bnd qufry domponfnts brf undffinfd, tifn tif nfw URL is b
+     * rfffrfndf to tif durrfnt dodumfnt. Otifrwisf, tif frbgmfnt bnd qufry
+     * pbrts prfsfnt in tif spfd brf usfd in tif nfw URL.
      * <p>
-     * If the scheme component is defined in the given spec and does not match
-     * the scheme of the context, then the new URL is created as an absolute
-     * URL based on the spec alone. Otherwise the scheme component is inherited
-     * from the context URL.
+     * If tif sdifmf domponfnt is dffinfd in tif givfn spfd bnd dofs not mbtdi
+     * tif sdifmf of tif dontfxt, tifn tif nfw URL is drfbtfd bs bn bbsolutf
+     * URL bbsfd on tif spfd blonf. Otifrwisf tif sdifmf domponfnt is inifritfd
+     * from tif dontfxt URL.
      * <p>
-     * If the authority component is present in the spec then the spec is
-     * treated as absolute and the spec authority and path will replace the
-     * context authority and path. If the authority component is absent in the
-     * spec then the authority of the new URL will be inherited from the
-     * context.
+     * If tif butiority domponfnt is prfsfnt in tif spfd tifn tif spfd is
+     * trfbtfd bs bbsolutf bnd tif spfd butiority bnd pbti will rfplbdf tif
+     * dontfxt butiority bnd pbti. If tif butiority domponfnt is bbsfnt in tif
+     * spfd tifn tif butiority of tif nfw URL will bf inifritfd from tif
+     * dontfxt.
      * <p>
-     * If the spec's path component begins with a slash character
-     * &quot;/&quot; then the
-     * path is treated as absolute and the spec path replaces the context path.
+     * If tif spfd's pbti domponfnt bfgins witi b slbsi dibrbdtfr
+     * &quot;/&quot; tifn tif
+     * pbti is trfbtfd bs bbsolutf bnd tif spfd pbti rfplbdfs tif dontfxt pbti.
      * <p>
-     * Otherwise, the path is treated as a relative path and is appended to the
-     * context path, as described in RFC2396. Also, in this case,
-     * the path is canonicalized through the removal of directory
-     * changes made by occurrences of &quot;..&quot; and &quot;.&quot;.
+     * Otifrwisf, tif pbti is trfbtfd bs b rflbtivf pbti bnd is bppfndfd to tif
+     * dontfxt pbti, bs dfsdribfd in RFC2396. Also, in tiis dbsf,
+     * tif pbti is dbnonidblizfd tirougi tif rfmovbl of dirfdtory
+     * dibngfs mbdf by oddurrfndfs of &quot;..&quot; bnd &quot;.&quot;.
      * <p>
-     * For a more detailed description of URL parsing, refer to RFC2396.
+     * For b morf dftbilfd dfsdription of URL pbrsing, rfffr to RFC2396.
      *
-     * @param      context   the context in which to parse the specification.
-     * @param      spec      the {@code String} to parse as a URL.
-     * @exception  MalformedURLException  if no protocol is specified, or an
-     *               unknown protocol is found, or {@code spec} is {@code null}.
-     * @see        java.net.URL#URL(java.lang.String, java.lang.String,
-     *                  int, java.lang.String)
-     * @see        java.net.URLStreamHandler
-     * @see        java.net.URLStreamHandler#parseURL(java.net.URL,
-     *                  java.lang.String, int, int)
+     * @pbrbm      dontfxt   tif dontfxt in wiidi to pbrsf tif spfdifidbtion.
+     * @pbrbm      spfd      tif {@dodf String} to pbrsf bs b URL.
+     * @fxdfption  MblformfdURLExdfption  if no protodol is spfdififd, or bn
+     *               unknown protodol is found, or {@dodf spfd} is {@dodf null}.
+     * @sff        jbvb.nft.URL#URL(jbvb.lbng.String, jbvb.lbng.String,
+     *                  int, jbvb.lbng.String)
+     * @sff        jbvb.nft.URLStrfbmHbndlfr
+     * @sff        jbvb.nft.URLStrfbmHbndlfr#pbrsfURL(jbvb.nft.URL,
+     *                  jbvb.lbng.String, int, int)
      */
-    public URL(URL context, String spec) throws MalformedURLException {
-        this(context, spec, null);
+    publid URL(URL dontfxt, String spfd) tirows MblformfdURLExdfption {
+        tiis(dontfxt, spfd, null);
     }
 
     /**
-     * Creates a URL by parsing the given spec with the specified handler
-     * within a specified context. If the handler is null, the parsing
-     * occurs as with the two argument constructor.
+     * Crfbtfs b URL by pbrsing tif givfn spfd witi tif spfdififd ibndlfr
+     * witiin b spfdififd dontfxt. If tif ibndlfr is null, tif pbrsing
+     * oddurs bs witi tif two brgumfnt donstrudtor.
      *
-     * @param      context   the context in which to parse the specification.
-     * @param      spec      the {@code String} to parse as a URL.
-     * @param      handler   the stream handler for the URL.
-     * @exception  MalformedURLException  if no protocol is specified, or an
-     *               unknown protocol is found, or {@code spec} is {@code null}.
-     * @exception  SecurityException
-     *        if a security manager exists and its
-     *        {@code checkPermission} method doesn't allow
-     *        specifying a stream handler.
-     * @see        java.net.URL#URL(java.lang.String, java.lang.String,
-     *                  int, java.lang.String)
-     * @see        java.net.URLStreamHandler
-     * @see        java.net.URLStreamHandler#parseURL(java.net.URL,
-     *                  java.lang.String, int, int)
+     * @pbrbm      dontfxt   tif dontfxt in wiidi to pbrsf tif spfdifidbtion.
+     * @pbrbm      spfd      tif {@dodf String} to pbrsf bs b URL.
+     * @pbrbm      ibndlfr   tif strfbm ibndlfr for tif URL.
+     * @fxdfption  MblformfdURLExdfption  if no protodol is spfdififd, or bn
+     *               unknown protodol is found, or {@dodf spfd} is {@dodf null}.
+     * @fxdfption  SfdurityExdfption
+     *        if b sfdurity mbnbgfr fxists bnd its
+     *        {@dodf difdkPfrmission} mftiod dofsn't bllow
+     *        spfdifying b strfbm ibndlfr.
+     * @sff        jbvb.nft.URL#URL(jbvb.lbng.String, jbvb.lbng.String,
+     *                  int, jbvb.lbng.String)
+     * @sff        jbvb.nft.URLStrfbmHbndlfr
+     * @sff        jbvb.nft.URLStrfbmHbndlfr#pbrsfURL(jbvb.nft.URL,
+     *                  jbvb.lbng.String, int, int)
      */
-    public URL(URL context, String spec, URLStreamHandler handler)
-        throws MalformedURLException
+    publid URL(URL dontfxt, String spfd, URLStrfbmHbndlfr ibndlfr)
+        tirows MblformfdURLExdfption
     {
-        String original = spec;
-        int i, limit, c;
-        int start = 0;
-        String newProtocol = null;
-        boolean aRef=false;
-        boolean isRelative = false;
+        String originbl = spfd;
+        int i, limit, d;
+        int stbrt = 0;
+        String nfwProtodol = null;
+        boolfbn bRff=fblsf;
+        boolfbn isRflbtivf = fblsf;
 
-        // Check for permission to specify a handler
-        if (handler != null) {
-            SecurityManager sm = System.getSecurityManager();
+        // Cifdk for pfrmission to spfdify b ibndlfr
+        if (ibndlfr != null) {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null) {
-                checkSpecifyHandler(sm);
+                difdkSpfdifyHbndlfr(sm);
             }
         }
 
         try {
-            limit = spec.length();
-            while ((limit > 0) && (spec.charAt(limit - 1) <= ' ')) {
-                limit--;        //eliminate trailing whitespace
+            limit = spfd.lfngti();
+            wiilf ((limit > 0) && (spfd.dibrAt(limit - 1) <= ' ')) {
+                limit--;        //fliminbtf trbiling wiitfspbdf
             }
-            while ((start < limit) && (spec.charAt(start) <= ' ')) {
-                start++;        // eliminate leading whitespace
+            wiilf ((stbrt < limit) && (spfd.dibrAt(stbrt) <= ' ')) {
+                stbrt++;        // fliminbtf lfbding wiitfspbdf
             }
 
-            if (spec.regionMatches(true, start, "url:", 0, 4)) {
-                start += 4;
+            if (spfd.rfgionMbtdifs(truf, stbrt, "url:", 0, 4)) {
+                stbrt += 4;
             }
-            if (start < spec.length() && spec.charAt(start) == '#') {
-                /* we're assuming this is a ref relative to the context URL.
-                 * This means protocols cannot start w/ '#', but we must parse
-                 * ref URL's like: "hello:there" w/ a ':' in them.
+            if (stbrt < spfd.lfngti() && spfd.dibrAt(stbrt) == '#') {
+                /* wf'rf bssuming tiis is b rff rflbtivf to tif dontfxt URL.
+                 * Tiis mfbns protodols dbnnot stbrt w/ '#', but wf must pbrsf
+                 * rff URL's likf: "ifllo:tifrf" w/ b ':' in tifm.
                  */
-                aRef=true;
+                bRff=truf;
             }
-            for (i = start ; !aRef && (i < limit) &&
-                     ((c = spec.charAt(i)) != '/') ; i++) {
-                if (c == ':') {
+            for (i = stbrt ; !bRff && (i < limit) &&
+                     ((d = spfd.dibrAt(i)) != '/') ; i++) {
+                if (d == ':') {
 
-                    String s = spec.substring(start, i).toLowerCase();
-                    if (isValidProtocol(s)) {
-                        newProtocol = s;
-                        start = i + 1;
+                    String s = spfd.substring(stbrt, i).toLowfrCbsf();
+                    if (isVblidProtodol(s)) {
+                        nfwProtodol = s;
+                        stbrt = i + 1;
                     }
-                    break;
+                    brfbk;
                 }
             }
 
-            // Only use our context if the protocols match.
-            protocol = newProtocol;
-            if ((context != null) && ((newProtocol == null) ||
-                            newProtocol.equalsIgnoreCase(context.protocol))) {
-                // inherit the protocol handler from the context
-                // if not specified to the constructor
-                if (handler == null) {
-                    handler = context.handler;
+            // Only usf our dontfxt if tif protodols mbtdi.
+            protodol = nfwProtodol;
+            if ((dontfxt != null) && ((nfwProtodol == null) ||
+                            nfwProtodol.fqublsIgnorfCbsf(dontfxt.protodol))) {
+                // inifrit tif protodol ibndlfr from tif dontfxt
+                // if not spfdififd to tif donstrudtor
+                if (ibndlfr == null) {
+                    ibndlfr = dontfxt.ibndlfr;
                 }
 
-                // If the context is a hierarchical URL scheme and the spec
-                // contains a matching scheme then maintain backwards
-                // compatibility and treat it as if the spec didn't contain
-                // the scheme; see 5.2.3 of RFC2396
-                if (context.path != null && context.path.startsWith("/"))
-                    newProtocol = null;
+                // If tif dontfxt is b iifrbrdiidbl URL sdifmf bnd tif spfd
+                // dontbins b mbtdiing sdifmf tifn mbintbin bbdkwbrds
+                // dompbtibility bnd trfbt it bs if tif spfd didn't dontbin
+                // tif sdifmf; sff 5.2.3 of RFC2396
+                if (dontfxt.pbti != null && dontfxt.pbti.stbrtsWiti("/"))
+                    nfwProtodol = null;
 
-                if (newProtocol == null) {
-                    protocol = context.protocol;
-                    authority = context.authority;
-                    userInfo = context.userInfo;
-                    host = context.host;
-                    port = context.port;
-                    file = context.file;
-                    path = context.path;
-                    isRelative = true;
+                if (nfwProtodol == null) {
+                    protodol = dontfxt.protodol;
+                    butiority = dontfxt.butiority;
+                    usfrInfo = dontfxt.usfrInfo;
+                    iost = dontfxt.iost;
+                    port = dontfxt.port;
+                    filf = dontfxt.filf;
+                    pbti = dontfxt.pbti;
+                    isRflbtivf = truf;
                 }
             }
 
-            if (protocol == null) {
-                throw new MalformedURLException("no protocol: "+original);
+            if (protodol == null) {
+                tirow nfw MblformfdURLExdfption("no protodol: "+originbl);
             }
 
-            // Get the protocol handler if not specified or the protocol
-            // of the context could not be used
-            if (handler == null &&
-                (handler = getURLStreamHandler(protocol)) == null) {
-                throw new MalformedURLException("unknown protocol: "+protocol);
+            // Gft tif protodol ibndlfr if not spfdififd or tif protodol
+            // of tif dontfxt dould not bf usfd
+            if (ibndlfr == null &&
+                (ibndlfr = gftURLStrfbmHbndlfr(protodol)) == null) {
+                tirow nfw MblformfdURLExdfption("unknown protodol: "+protodol);
             }
 
-            this.handler = handler;
+            tiis.ibndlfr = ibndlfr;
 
-            i = spec.indexOf('#', start);
+            i = spfd.indfxOf('#', stbrt);
             if (i >= 0) {
-                ref = spec.substring(i + 1, limit);
+                rff = spfd.substring(i + 1, limit);
                 limit = i;
             }
 
             /*
-             * Handle special case inheritance of query and fragment
-             * implied by RFC2396 section 5.2.2.
+             * Hbndlf spfdibl dbsf inifritbndf of qufry bnd frbgmfnt
+             * implifd by RFC2396 sfdtion 5.2.2.
              */
-            if (isRelative && start == limit) {
-                query = context.query;
-                if (ref == null) {
-                    ref = context.ref;
+            if (isRflbtivf && stbrt == limit) {
+                qufry = dontfxt.qufry;
+                if (rff == null) {
+                    rff = dontfxt.rff;
                 }
             }
 
-            handler.parseURL(this, spec, start, limit);
+            ibndlfr.pbrsfURL(tiis, spfd, stbrt, limit);
 
-        } catch(MalformedURLException e) {
-            throw e;
-        } catch(Exception e) {
-            MalformedURLException exception = new MalformedURLException(e.getMessage());
-            exception.initCause(e);
-            throw exception;
+        } dbtdi(MblformfdURLExdfption f) {
+            tirow f;
+        } dbtdi(Exdfption f) {
+            MblformfdURLExdfption fxdfption = nfw MblformfdURLExdfption(f.gftMfssbgf());
+            fxdfption.initCbusf(f);
+            tirow fxdfption;
         }
     }
 
     /*
-     * Returns true if specified string is a valid protocol name.
+     * Rfturns truf if spfdififd string is b vblid protodol nbmf.
      */
-    private boolean isValidProtocol(String protocol) {
-        int len = protocol.length();
-        if (len < 1)
-            return false;
-        char c = protocol.charAt(0);
-        if (!Character.isLetter(c))
-            return false;
-        for (int i = 1; i < len; i++) {
-            c = protocol.charAt(i);
-            if (!Character.isLetterOrDigit(c) && c != '.' && c != '+' &&
-                c != '-') {
-                return false;
+    privbtf boolfbn isVblidProtodol(String protodol) {
+        int lfn = protodol.lfngti();
+        if (lfn < 1)
+            rfturn fblsf;
+        dibr d = protodol.dibrAt(0);
+        if (!Cibrbdtfr.isLfttfr(d))
+            rfturn fblsf;
+        for (int i = 1; i < lfn; i++) {
+            d = protodol.dibrAt(i);
+            if (!Cibrbdtfr.isLfttfrOrDigit(d) && d != '.' && d != '+' &&
+                d != '-') {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
     /*
-     * Checks for permission to specify a stream handler.
+     * Cifdks for pfrmission to spfdify b strfbm ibndlfr.
      */
-    private void checkSpecifyHandler(SecurityManager sm) {
-        sm.checkPermission(SecurityConstants.SPECIFY_HANDLER_PERMISSION);
+    privbtf void difdkSpfdifyHbndlfr(SfdurityMbnbgfr sm) {
+        sm.difdkPfrmission(SfdurityConstbnts.SPECIFY_HANDLER_PERMISSION);
     }
 
     /**
-     * Sets the fields of the URL. This is not a public method so that
-     * only URLStreamHandlers can modify URL fields. URLs are
-     * otherwise constant.
+     * Sfts tif fiflds of tif URL. Tiis is not b publid mftiod so tibt
+     * only URLStrfbmHbndlfrs dbn modify URL fiflds. URLs brf
+     * otifrwisf donstbnt.
      *
-     * @param protocol the name of the protocol to use
-     * @param host the name of the host
-       @param port the port number on the host
-     * @param file the file on the host
-     * @param ref the internal reference in the URL
+     * @pbrbm protodol tif nbmf of tif protodol to usf
+     * @pbrbm iost tif nbmf of tif iost
+       @pbrbm port tif port numbfr on tif iost
+     * @pbrbm filf tif filf on tif iost
+     * @pbrbm rff tif intfrnbl rfffrfndf in tif URL
      */
-    void set(String protocol, String host, int port,
-             String file, String ref) {
-        synchronized (this) {
-            this.protocol = protocol;
-            this.host = host;
-            authority = port == -1 ? host : host + ":" + port;
-            this.port = port;
-            this.file = file;
-            this.ref = ref;
-            /* This is very important. We must recompute this after the
-             * URL has been changed. */
-            hashCode = -1;
-            hostAddress = null;
-            int q = file.lastIndexOf('?');
+    void sft(String protodol, String iost, int port,
+             String filf, String rff) {
+        syndironizfd (tiis) {
+            tiis.protodol = protodol;
+            tiis.iost = iost;
+            butiority = port == -1 ? iost : iost + ":" + port;
+            tiis.port = port;
+            tiis.filf = filf;
+            tiis.rff = rff;
+            /* Tiis is vfry importbnt. Wf must rfdomputf tiis bftfr tif
+             * URL ibs bffn dibngfd. */
+            ibsiCodf = -1;
+            iostAddrfss = null;
+            int q = filf.lbstIndfxOf('?');
             if (q != -1) {
-                query = file.substring(q+1);
-                path = file.substring(0, q);
-            } else
-                path = file;
+                qufry = filf.substring(q+1);
+                pbti = filf.substring(0, q);
+            } flsf
+                pbti = filf;
         }
     }
 
     /**
-     * Sets the specified 8 fields of the URL. This is not a public method so
-     * that only URLStreamHandlers can modify URL fields. URLs are otherwise
-     * constant.
+     * Sfts tif spfdififd 8 fiflds of tif URL. Tiis is not b publid mftiod so
+     * tibt only URLStrfbmHbndlfrs dbn modify URL fiflds. URLs brf otifrwisf
+     * donstbnt.
      *
-     * @param protocol the name of the protocol to use
-     * @param host the name of the host
-     * @param port the port number on the host
-     * @param authority the authority part for the url
-     * @param userInfo the username and password
-     * @param path the file on the host
-     * @param ref the internal reference in the URL
-     * @param query the query part of this URL
-     * @since 1.3
+     * @pbrbm protodol tif nbmf of tif protodol to usf
+     * @pbrbm iost tif nbmf of tif iost
+     * @pbrbm port tif port numbfr on tif iost
+     * @pbrbm butiority tif butiority pbrt for tif url
+     * @pbrbm usfrInfo tif usfrnbmf bnd pbssword
+     * @pbrbm pbti tif filf on tif iost
+     * @pbrbm rff tif intfrnbl rfffrfndf in tif URL
+     * @pbrbm qufry tif qufry pbrt of tiis URL
+     * @sindf 1.3
      */
-    void set(String protocol, String host, int port,
-             String authority, String userInfo, String path,
-             String query, String ref) {
-        synchronized (this) {
-            this.protocol = protocol;
-            this.host = host;
-            this.port = port;
-            this.file = query == null ? path : path + "?" + query;
-            this.userInfo = userInfo;
-            this.path = path;
-            this.ref = ref;
-            /* This is very important. We must recompute this after the
-             * URL has been changed. */
-            hashCode = -1;
-            hostAddress = null;
-            this.query = query;
-            this.authority = authority;
+    void sft(String protodol, String iost, int port,
+             String butiority, String usfrInfo, String pbti,
+             String qufry, String rff) {
+        syndironizfd (tiis) {
+            tiis.protodol = protodol;
+            tiis.iost = iost;
+            tiis.port = port;
+            tiis.filf = qufry == null ? pbti : pbti + "?" + qufry;
+            tiis.usfrInfo = usfrInfo;
+            tiis.pbti = pbti;
+            tiis.rff = rff;
+            /* Tiis is vfry importbnt. Wf must rfdomputf tiis bftfr tif
+             * URL ibs bffn dibngfd. */
+            ibsiCodf = -1;
+            iostAddrfss = null;
+            tiis.qufry = qufry;
+            tiis.butiority = butiority;
         }
     }
 
     /**
-     * Gets the query part of this {@code URL}.
+     * Gfts tif qufry pbrt of tiis {@dodf URL}.
      *
-     * @return  the query part of this {@code URL},
-     * or <CODE>null</CODE> if one does not exist
-     * @since 1.3
+     * @rfturn  tif qufry pbrt of tiis {@dodf URL},
+     * or <CODE>null</CODE> if onf dofs not fxist
+     * @sindf 1.3
      */
-    public String getQuery() {
-        return query;
+    publid String gftQufry() {
+        rfturn qufry;
     }
 
     /**
-     * Gets the path part of this {@code URL}.
+     * Gfts tif pbti pbrt of tiis {@dodf URL}.
      *
-     * @return  the path part of this {@code URL}, or an
-     * empty string if one does not exist
-     * @since 1.3
+     * @rfturn  tif pbti pbrt of tiis {@dodf URL}, or bn
+     * fmpty string if onf dofs not fxist
+     * @sindf 1.3
      */
-    public String getPath() {
-        return path;
+    publid String gftPbti() {
+        rfturn pbti;
     }
 
     /**
-     * Gets the userInfo part of this {@code URL}.
+     * Gfts tif usfrInfo pbrt of tiis {@dodf URL}.
      *
-     * @return  the userInfo part of this {@code URL}, or
-     * <CODE>null</CODE> if one does not exist
-     * @since 1.3
+     * @rfturn  tif usfrInfo pbrt of tiis {@dodf URL}, or
+     * <CODE>null</CODE> if onf dofs not fxist
+     * @sindf 1.3
      */
-    public String getUserInfo() {
-        return userInfo;
+    publid String gftUsfrInfo() {
+        rfturn usfrInfo;
     }
 
     /**
-     * Gets the authority part of this {@code URL}.
+     * Gfts tif butiority pbrt of tiis {@dodf URL}.
      *
-     * @return  the authority part of this {@code URL}
-     * @since 1.3
+     * @rfturn  tif butiority pbrt of tiis {@dodf URL}
+     * @sindf 1.3
      */
-    public String getAuthority() {
-        return authority;
+    publid String gftAutiority() {
+        rfturn butiority;
     }
 
     /**
-     * Gets the port number of this {@code URL}.
+     * Gfts tif port numbfr of tiis {@dodf URL}.
      *
-     * @return  the port number, or -1 if the port is not set
+     * @rfturn  tif port numbfr, or -1 if tif port is not sft
      */
-    public int getPort() {
-        return port;
+    publid int gftPort() {
+        rfturn port;
     }
 
     /**
-     * Gets the default port number of the protocol associated
-     * with this {@code URL}. If the URL scheme or the URLStreamHandler
-     * for the URL do not define a default port number,
-     * then -1 is returned.
+     * Gfts tif dffbult port numbfr of tif protodol bssodibtfd
+     * witi tiis {@dodf URL}. If tif URL sdifmf or tif URLStrfbmHbndlfr
+     * for tif URL do not dffinf b dffbult port numbfr,
+     * tifn -1 is rfturnfd.
      *
-     * @return  the port number
-     * @since 1.4
+     * @rfturn  tif port numbfr
+     * @sindf 1.4
      */
-    public int getDefaultPort() {
-        return handler.getDefaultPort();
+    publid int gftDffbultPort() {
+        rfturn ibndlfr.gftDffbultPort();
     }
 
     /**
-     * Gets the protocol name of this {@code URL}.
+     * Gfts tif protodol nbmf of tiis {@dodf URL}.
      *
-     * @return  the protocol of this {@code URL}.
+     * @rfturn  tif protodol of tiis {@dodf URL}.
      */
-    public String getProtocol() {
-        return protocol;
+    publid String gftProtodol() {
+        rfturn protodol;
     }
 
     /**
-     * Gets the host name of this {@code URL}, if applicable.
-     * The format of the host conforms to RFC 2732, i.e. for a
-     * literal IPv6 address, this method will return the IPv6 address
-     * enclosed in square brackets ({@code '['} and {@code ']'}).
+     * Gfts tif iost nbmf of tiis {@dodf URL}, if bpplidbblf.
+     * Tif formbt of tif iost donforms to RFC 2732, i.f. for b
+     * litfrbl IPv6 bddrfss, tiis mftiod will rfturn tif IPv6 bddrfss
+     * fndlosfd in squbrf brbdkfts ({@dodf '['} bnd {@dodf ']'}).
      *
-     * @return  the host name of this {@code URL}.
+     * @rfturn  tif iost nbmf of tiis {@dodf URL}.
      */
-    public String getHost() {
-        return host;
+    publid String gftHost() {
+        rfturn iost;
     }
 
     /**
-     * Gets the file name of this {@code URL}.
-     * The returned file portion will be
-     * the same as <CODE>getPath()</CODE>, plus the concatenation of
-     * the value of <CODE>getQuery()</CODE>, if any. If there is
-     * no query portion, this method and <CODE>getPath()</CODE> will
-     * return identical results.
+     * Gfts tif filf nbmf of tiis {@dodf URL}.
+     * Tif rfturnfd filf portion will bf
+     * tif sbmf bs <CODE>gftPbti()</CODE>, plus tif dondbtfnbtion of
+     * tif vbluf of <CODE>gftQufry()</CODE>, if bny. If tifrf is
+     * no qufry portion, tiis mftiod bnd <CODE>gftPbti()</CODE> will
+     * rfturn idfntidbl rfsults.
      *
-     * @return  the file name of this {@code URL},
-     * or an empty string if one does not exist
+     * @rfturn  tif filf nbmf of tiis {@dodf URL},
+     * or bn fmpty string if onf dofs not fxist
      */
-    public String getFile() {
-        return file;
+    publid String gftFilf() {
+        rfturn filf;
     }
 
     /**
-     * Gets the anchor (also known as the "reference") of this
-     * {@code URL}.
+     * Gfts tif bndior (blso known bs tif "rfffrfndf") of tiis
+     * {@dodf URL}.
      *
-     * @return  the anchor (also known as the "reference") of this
-     *          {@code URL}, or <CODE>null</CODE> if one does not exist
+     * @rfturn  tif bndior (blso known bs tif "rfffrfndf") of tiis
+     *          {@dodf URL}, or <CODE>null</CODE> if onf dofs not fxist
      */
-    public String getRef() {
-        return ref;
+    publid String gftRff() {
+        rfturn rff;
     }
 
     /**
-     * Compares this URL for equality with another object.<p>
+     * Compbrfs tiis URL for fqublity witi bnotifr objfdt.<p>
      *
-     * If the given object is not a URL then this method immediately returns
-     * {@code false}.<p>
+     * If tif givfn objfdt is not b URL tifn tiis mftiod immfdibtfly rfturns
+     * {@dodf fblsf}.<p>
      *
-     * Two URL objects are equal if they have the same protocol, reference
-     * equivalent hosts, have the same port number on the host, and the same
-     * file and fragment of the file.<p>
+     * Two URL objfdts brf fqubl if tify ibvf tif sbmf protodol, rfffrfndf
+     * fquivblfnt iosts, ibvf tif sbmf port numbfr on tif iost, bnd tif sbmf
+     * filf bnd frbgmfnt of tif filf.<p>
      *
-     * Two hosts are considered equivalent if both host names can be resolved
-     * into the same IP addresses; else if either host name can't be
-     * resolved, the host names must be equal without regard to case; or both
-     * host names equal to null.<p>
+     * Two iosts brf donsidfrfd fquivblfnt if boti iost nbmfs dbn bf rfsolvfd
+     * into tif sbmf IP bddrfssfs; flsf if fitifr iost nbmf dbn't bf
+     * rfsolvfd, tif iost nbmfs must bf fqubl witiout rfgbrd to dbsf; or boti
+     * iost nbmfs fqubl to null.<p>
      *
-     * Since hosts comparison requires name resolution, this operation is a
-     * blocking operation. <p>
+     * Sindf iosts dompbrison rfquirfs nbmf rfsolution, tiis opfrbtion is b
+     * blodking opfrbtion. <p>
      *
-     * Note: The defined behavior for {@code equals} is known to
-     * be inconsistent with virtual hosting in HTTP.
+     * Notf: Tif dffinfd bfibvior for {@dodf fqubls} is known to
+     * bf indonsistfnt witi virtubl iosting in HTTP.
      *
-     * @param   obj   the URL to compare against.
-     * @return  {@code true} if the objects are the same;
-     *          {@code false} otherwise.
+     * @pbrbm   obj   tif URL to dompbrf bgbinst.
+     * @rfturn  {@dodf truf} if tif objfdts brf tif sbmf;
+     *          {@dodf fblsf} otifrwisf.
      */
-    public boolean equals(Object obj) {
-        if (!(obj instanceof URL))
-            return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof URL))
+            rfturn fblsf;
         URL u2 = (URL)obj;
 
-        return handler.equals(this, u2);
+        rfturn ibndlfr.fqubls(tiis, u2);
     }
 
     /**
-     * Creates an integer suitable for hash table indexing.<p>
+     * Crfbtfs bn intfgfr suitbblf for ibsi tbblf indfxing.<p>
      *
-     * The hash code is based upon all the URL components relevant for URL
-     * comparison. As such, this operation is a blocking operation.
+     * Tif ibsi dodf is bbsfd upon bll tif URL domponfnts rflfvbnt for URL
+     * dompbrison. As sudi, tiis opfrbtion is b blodking opfrbtion.
      *
-     * @return  a hash code for this {@code URL}.
+     * @rfturn  b ibsi dodf for tiis {@dodf URL}.
      */
-    public synchronized int hashCode() {
-        if (hashCode != -1)
-            return hashCode;
+    publid syndironizfd int ibsiCodf() {
+        if (ibsiCodf != -1)
+            rfturn ibsiCodf;
 
-        hashCode = handler.hashCode(this);
-        return hashCode;
+        ibsiCodf = ibndlfr.ibsiCodf(tiis);
+        rfturn ibsiCodf;
     }
 
     /**
-     * Compares two URLs, excluding the fragment component.<p>
+     * Compbrfs two URLs, fxdluding tif frbgmfnt domponfnt.<p>
      *
-     * Returns {@code true} if this {@code URL} and the
-     * {@code other} argument are equal without taking the
-     * fragment component into consideration.
+     * Rfturns {@dodf truf} if tiis {@dodf URL} bnd tif
+     * {@dodf otifr} brgumfnt brf fqubl witiout tbking tif
+     * frbgmfnt domponfnt into donsidfrbtion.
      *
-     * @param   other   the {@code URL} to compare against.
-     * @return  {@code true} if they reference the same remote object;
-     *          {@code false} otherwise.
+     * @pbrbm   otifr   tif {@dodf URL} to dompbrf bgbinst.
+     * @rfturn  {@dodf truf} if tify rfffrfndf tif sbmf rfmotf objfdt;
+     *          {@dodf fblsf} otifrwisf.
      */
-    public boolean sameFile(URL other) {
-        return handler.sameFile(this, other);
+    publid boolfbn sbmfFilf(URL otifr) {
+        rfturn ibndlfr.sbmfFilf(tiis, otifr);
     }
 
     /**
-     * Constructs a string representation of this {@code URL}. The
-     * string is created by calling the {@code toExternalForm}
-     * method of the stream protocol handler for this object.
+     * Construdts b string rfprfsfntbtion of tiis {@dodf URL}. Tif
+     * string is drfbtfd by dblling tif {@dodf toExtfrnblForm}
+     * mftiod of tif strfbm protodol ibndlfr for tiis objfdt.
      *
-     * @return  a string representation of this object.
-     * @see     java.net.URL#URL(java.lang.String, java.lang.String, int,
-     *                  java.lang.String)
-     * @see     java.net.URLStreamHandler#toExternalForm(java.net.URL)
+     * @rfturn  b string rfprfsfntbtion of tiis objfdt.
+     * @sff     jbvb.nft.URL#URL(jbvb.lbng.String, jbvb.lbng.String, int,
+     *                  jbvb.lbng.String)
+     * @sff     jbvb.nft.URLStrfbmHbndlfr#toExtfrnblForm(jbvb.nft.URL)
      */
-    public String toString() {
-        return toExternalForm();
+    publid String toString() {
+        rfturn toExtfrnblForm();
     }
 
     /**
-     * Constructs a string representation of this {@code URL}. The
-     * string is created by calling the {@code toExternalForm}
-     * method of the stream protocol handler for this object.
+     * Construdts b string rfprfsfntbtion of tiis {@dodf URL}. Tif
+     * string is drfbtfd by dblling tif {@dodf toExtfrnblForm}
+     * mftiod of tif strfbm protodol ibndlfr for tiis objfdt.
      *
-     * @return  a string representation of this object.
-     * @see     java.net.URL#URL(java.lang.String, java.lang.String,
-     *                  int, java.lang.String)
-     * @see     java.net.URLStreamHandler#toExternalForm(java.net.URL)
+     * @rfturn  b string rfprfsfntbtion of tiis objfdt.
+     * @sff     jbvb.nft.URL#URL(jbvb.lbng.String, jbvb.lbng.String,
+     *                  int, jbvb.lbng.String)
+     * @sff     jbvb.nft.URLStrfbmHbndlfr#toExtfrnblForm(jbvb.nft.URL)
      */
-    public String toExternalForm() {
-        return handler.toExternalForm(this);
+    publid String toExtfrnblForm() {
+        rfturn ibndlfr.toExtfrnblForm(tiis);
     }
 
     /**
-     * Returns a {@link java.net.URI} equivalent to this URL.
-     * This method functions in the same way as {@code new URI (this.toString())}.
-     * <p>Note, any URL instance that complies with RFC 2396 can be converted
-     * to a URI. However, some URLs that are not strictly in compliance
-     * can not be converted to a URI.
+     * Rfturns b {@link jbvb.nft.URI} fquivblfnt to tiis URL.
+     * Tiis mftiod fundtions in tif sbmf wby bs {@dodf nfw URI (tiis.toString())}.
+     * <p>Notf, bny URL instbndf tibt domplifs witi RFC 2396 dbn bf donvfrtfd
+     * to b URI. Howfvfr, somf URLs tibt brf not stridtly in domplibndf
+     * dbn not bf donvfrtfd to b URI.
      *
-     * @exception URISyntaxException if this URL is not formatted strictly according to
-     *            to RFC2396 and cannot be converted to a URI.
+     * @fxdfption URISyntbxExdfption if tiis URL is not formbttfd stridtly bddording to
+     *            to RFC2396 bnd dbnnot bf donvfrtfd to b URI.
      *
-     * @return    a URI instance equivalent to this URL.
-     * @since 1.5
+     * @rfturn    b URI instbndf fquivblfnt to tiis URL.
+     * @sindf 1.5
      */
-    public URI toURI() throws URISyntaxException {
-        return new URI (toString());
+    publid URI toURI() tirows URISyntbxExdfption {
+        rfturn nfw URI (toString());
     }
 
     /**
-     * Returns a {@link java.net.URLConnection URLConnection} instance that
-     * represents a connection to the remote object referred to by the
-     * {@code URL}.
+     * Rfturns b {@link jbvb.nft.URLConnfdtion URLConnfdtion} instbndf tibt
+     * rfprfsfnts b donnfdtion to tif rfmotf objfdt rfffrrfd to by tif
+     * {@dodf URL}.
      *
-     * <P>A new instance of {@linkplain java.net.URLConnection URLConnection} is
-     * created every time when invoking the
-     * {@linkplain java.net.URLStreamHandler#openConnection(URL)
-     * URLStreamHandler.openConnection(URL)} method of the protocol handler for
-     * this URL.</P>
+     * <P>A nfw instbndf of {@linkplbin jbvb.nft.URLConnfdtion URLConnfdtion} is
+     * drfbtfd fvfry timf wifn invoking tif
+     * {@linkplbin jbvb.nft.URLStrfbmHbndlfr#opfnConnfdtion(URL)
+     * URLStrfbmHbndlfr.opfnConnfdtion(URL)} mftiod of tif protodol ibndlfr for
+     * tiis URL.</P>
      *
-     * <P>It should be noted that a URLConnection instance does not establish
-     * the actual network connection on creation. This will happen only when
-     * calling {@linkplain java.net.URLConnection#connect() URLConnection.connect()}.</P>
+     * <P>It siould bf notfd tibt b URLConnfdtion instbndf dofs not fstbblisi
+     * tif bdtubl nftwork donnfdtion on drfbtion. Tiis will ibppfn only wifn
+     * dblling {@linkplbin jbvb.nft.URLConnfdtion#donnfdt() URLConnfdtion.donnfdt()}.</P>
      *
-     * <P>If for the URL's protocol (such as HTTP or JAR), there
-     * exists a public, specialized URLConnection subclass belonging
-     * to one of the following packages or one of their subpackages:
-     * java.lang, java.io, java.util, java.net, the connection
-     * returned will be of that subclass. For example, for HTTP an
-     * HttpURLConnection will be returned, and for JAR a
-     * JarURLConnection will be returned.</P>
+     * <P>If for tif URL's protodol (sudi bs HTTP or JAR), tifrf
+     * fxists b publid, spfdiblizfd URLConnfdtion subdlbss bflonging
+     * to onf of tif following pbdkbgfs or onf of tifir subpbdkbgfs:
+     * jbvb.lbng, jbvb.io, jbvb.util, jbvb.nft, tif donnfdtion
+     * rfturnfd will bf of tibt subdlbss. For fxbmplf, for HTTP bn
+     * HttpURLConnfdtion will bf rfturnfd, bnd for JAR b
+     * JbrURLConnfdtion will bf rfturnfd.</P>
      *
-     * @return     a {@link java.net.URLConnection URLConnection} linking
-     *             to the URL.
-     * @exception  IOException  if an I/O exception occurs.
-     * @see        java.net.URL#URL(java.lang.String, java.lang.String,
-     *             int, java.lang.String)
+     * @rfturn     b {@link jbvb.nft.URLConnfdtion URLConnfdtion} linking
+     *             to tif URL.
+     * @fxdfption  IOExdfption  if bn I/O fxdfption oddurs.
+     * @sff        jbvb.nft.URL#URL(jbvb.lbng.String, jbvb.lbng.String,
+     *             int, jbvb.lbng.String)
      */
-    public URLConnection openConnection() throws java.io.IOException {
-        return handler.openConnection(this);
+    publid URLConnfdtion opfnConnfdtion() tirows jbvb.io.IOExdfption {
+        rfturn ibndlfr.opfnConnfdtion(tiis);
     }
 
     /**
-     * Same as {@link #openConnection()}, except that the connection will be
-     * made through the specified proxy; Protocol handlers that do not
-     * support proxing will ignore the proxy parameter and make a
-     * normal connection.
+     * Sbmf bs {@link #opfnConnfdtion()}, fxdfpt tibt tif donnfdtion will bf
+     * mbdf tirougi tif spfdififd proxy; Protodol ibndlfrs tibt do not
+     * support proxing will ignorf tif proxy pbrbmftfr bnd mbkf b
+     * normbl donnfdtion.
      *
-     * Invoking this method preempts the system's default
-     * {@link java.net.ProxySelector ProxySelector} settings.
+     * Invoking tiis mftiod prffmpts tif systfm's dffbult
+     * {@link jbvb.nft.ProxySflfdtor ProxySflfdtor} sfttings.
      *
-     * @param      proxy the Proxy through which this connection
-     *             will be made. If direct connection is desired,
-     *             Proxy.NO_PROXY should be specified.
-     * @return     a {@code URLConnection} to the URL.
-     * @exception  IOException  if an I/O exception occurs.
-     * @exception  SecurityException if a security manager is present
-     *             and the caller doesn't have permission to connect
-     *             to the proxy.
-     * @exception  IllegalArgumentException will be thrown if proxy is null,
-     *             or proxy has the wrong type
-     * @exception  UnsupportedOperationException if the subclass that
-     *             implements the protocol handler doesn't support
-     *             this method.
-     * @see        java.net.URL#URL(java.lang.String, java.lang.String,
-     *             int, java.lang.String)
-     * @see        java.net.URLConnection
-     * @see        java.net.URLStreamHandler#openConnection(java.net.URL,
-     *             java.net.Proxy)
-     * @since      1.5
+     * @pbrbm      proxy tif Proxy tirougi wiidi tiis donnfdtion
+     *             will bf mbdf. If dirfdt donnfdtion is dfsirfd,
+     *             Proxy.NO_PROXY siould bf spfdififd.
+     * @rfturn     b {@dodf URLConnfdtion} to tif URL.
+     * @fxdfption  IOExdfption  if bn I/O fxdfption oddurs.
+     * @fxdfption  SfdurityExdfption if b sfdurity mbnbgfr is prfsfnt
+     *             bnd tif dbllfr dofsn't ibvf pfrmission to donnfdt
+     *             to tif proxy.
+     * @fxdfption  IllfgblArgumfntExdfption will bf tirown if proxy is null,
+     *             or proxy ibs tif wrong typf
+     * @fxdfption  UnsupportfdOpfrbtionExdfption if tif subdlbss tibt
+     *             implfmfnts tif protodol ibndlfr dofsn't support
+     *             tiis mftiod.
+     * @sff        jbvb.nft.URL#URL(jbvb.lbng.String, jbvb.lbng.String,
+     *             int, jbvb.lbng.String)
+     * @sff        jbvb.nft.URLConnfdtion
+     * @sff        jbvb.nft.URLStrfbmHbndlfr#opfnConnfdtion(jbvb.nft.URL,
+     *             jbvb.nft.Proxy)
+     * @sindf      1.5
      */
-    public URLConnection openConnection(Proxy proxy)
-        throws java.io.IOException {
+    publid URLConnfdtion opfnConnfdtion(Proxy proxy)
+        tirows jbvb.io.IOExdfption {
         if (proxy == null) {
-            throw new IllegalArgumentException("proxy can not be null");
+            tirow nfw IllfgblArgumfntExdfption("proxy dbn not bf null");
         }
 
-        // Create a copy of Proxy as a security measure
-        Proxy p = proxy == Proxy.NO_PROXY ? Proxy.NO_PROXY : sun.net.ApplicationProxy.create(proxy);
-        SecurityManager sm = System.getSecurityManager();
-        if (p.type() != Proxy.Type.DIRECT && sm != null) {
-            InetSocketAddress epoint = (InetSocketAddress) p.address();
-            if (epoint.isUnresolved())
-                sm.checkConnect(epoint.getHostName(), epoint.getPort());
-            else
-                sm.checkConnect(epoint.getAddress().getHostAddress(),
-                                epoint.getPort());
+        // Crfbtf b dopy of Proxy bs b sfdurity mfbsurf
+        Proxy p = proxy == Proxy.NO_PROXY ? Proxy.NO_PROXY : sun.nft.ApplidbtionProxy.drfbtf(proxy);
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (p.typf() != Proxy.Typf.DIRECT && sm != null) {
+            InftSodkftAddrfss fpoint = (InftSodkftAddrfss) p.bddrfss();
+            if (fpoint.isUnrfsolvfd())
+                sm.difdkConnfdt(fpoint.gftHostNbmf(), fpoint.gftPort());
+            flsf
+                sm.difdkConnfdt(fpoint.gftAddrfss().gftHostAddrfss(),
+                                fpoint.gftPort());
         }
-        return handler.openConnection(this, p);
+        rfturn ibndlfr.opfnConnfdtion(tiis, p);
     }
 
     /**
-     * Opens a connection to this {@code URL} and returns an
-     * {@code InputStream} for reading from that connection. This
-     * method is a shorthand for:
-     * <blockquote><pre>
-     *     openConnection().getInputStream()
-     * </pre></blockquote>
+     * Opfns b donnfdtion to tiis {@dodf URL} bnd rfturns bn
+     * {@dodf InputStrfbm} for rfbding from tibt donnfdtion. Tiis
+     * mftiod is b siortibnd for:
+     * <blodkquotf><prf>
+     *     opfnConnfdtion().gftInputStrfbm()
+     * </prf></blodkquotf>
      *
-     * @return     an input stream for reading from the URL connection.
-     * @exception  IOException  if an I/O exception occurs.
-     * @see        java.net.URL#openConnection()
-     * @see        java.net.URLConnection#getInputStream()
+     * @rfturn     bn input strfbm for rfbding from tif URL donnfdtion.
+     * @fxdfption  IOExdfption  if bn I/O fxdfption oddurs.
+     * @sff        jbvb.nft.URL#opfnConnfdtion()
+     * @sff        jbvb.nft.URLConnfdtion#gftInputStrfbm()
      */
-    public final InputStream openStream() throws java.io.IOException {
-        return openConnection().getInputStream();
+    publid finbl InputStrfbm opfnStrfbm() tirows jbvb.io.IOExdfption {
+        rfturn opfnConnfdtion().gftInputStrfbm();
     }
 
     /**
-     * Gets the contents of this URL. This method is a shorthand for:
-     * <blockquote><pre>
-     *     openConnection().getContent()
-     * </pre></blockquote>
+     * Gfts tif dontfnts of tiis URL. Tiis mftiod is b siortibnd for:
+     * <blodkquotf><prf>
+     *     opfnConnfdtion().gftContfnt()
+     * </prf></blodkquotf>
      *
-     * @return     the contents of this URL.
-     * @exception  IOException  if an I/O exception occurs.
-     * @see        java.net.URLConnection#getContent()
+     * @rfturn     tif dontfnts of tiis URL.
+     * @fxdfption  IOExdfption  if bn I/O fxdfption oddurs.
+     * @sff        jbvb.nft.URLConnfdtion#gftContfnt()
      */
-    public final Object getContent() throws java.io.IOException {
-        return openConnection().getContent();
+    publid finbl Objfdt gftContfnt() tirows jbvb.io.IOExdfption {
+        rfturn opfnConnfdtion().gftContfnt();
     }
 
     /**
-     * Gets the contents of this URL. This method is a shorthand for:
-     * <blockquote><pre>
-     *     openConnection().getContent(classes)
-     * </pre></blockquote>
+     * Gfts tif dontfnts of tiis URL. Tiis mftiod is b siortibnd for:
+     * <blodkquotf><prf>
+     *     opfnConnfdtion().gftContfnt(dlbssfs)
+     * </prf></blodkquotf>
      *
-     * @param classes an array of Java types
-     * @return     the content object of this URL that is the first match of
-     *               the types specified in the classes array.
-     *               null if none of the requested types are supported.
-     * @exception  IOException  if an I/O exception occurs.
-     * @see        java.net.URLConnection#getContent(Class[])
-     * @since 1.3
+     * @pbrbm dlbssfs bn brrby of Jbvb typfs
+     * @rfturn     tif dontfnt objfdt of tiis URL tibt is tif first mbtdi of
+     *               tif typfs spfdififd in tif dlbssfs brrby.
+     *               null if nonf of tif rfqufstfd typfs brf supportfd.
+     * @fxdfption  IOExdfption  if bn I/O fxdfption oddurs.
+     * @sff        jbvb.nft.URLConnfdtion#gftContfnt(Clbss[])
+     * @sindf 1.3
      */
-    public final Object getContent(Class<?>[] classes)
-    throws java.io.IOException {
-        return openConnection().getContent(classes);
+    publid finbl Objfdt gftContfnt(Clbss<?>[] dlbssfs)
+    tirows jbvb.io.IOExdfption {
+        rfturn opfnConnfdtion().gftContfnt(dlbssfs);
     }
 
     /**
-     * The URLStreamHandler factory.
+     * Tif URLStrfbmHbndlfr fbdtory.
      */
-    private static volatile URLStreamHandlerFactory factory;
+    privbtf stbtid volbtilf URLStrfbmHbndlfrFbdtory fbdtory;
 
     /**
-     * Sets an application's {@code URLStreamHandlerFactory}.
-     * This method can be called at most once in a given Java Virtual
-     * Machine.
+     * Sfts bn bpplidbtion's {@dodf URLStrfbmHbndlfrFbdtory}.
+     * Tiis mftiod dbn bf dbllfd bt most ondf in b givfn Jbvb Virtubl
+     * Mbdiinf.
      *
-     *<p> The {@code URLStreamHandlerFactory} instance is used to
-     *construct a stream protocol handler from a protocol name.
+     *<p> Tif {@dodf URLStrfbmHbndlfrFbdtory} instbndf is usfd to
+     *donstrudt b strfbm protodol ibndlfr from b protodol nbmf.
      *
-     * <p> If there is a security manager, this method first calls
-     * the security manager's {@code checkSetFactory} method
-     * to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * <p> If tifrf is b sfdurity mbnbgfr, tiis mftiod first dblls
+     * tif sfdurity mbnbgfr's {@dodf difdkSftFbdtory} mftiod
+     * to fnsurf tif opfrbtion is bllowfd.
+     * Tiis dould rfsult in b SfdurityExdfption.
      *
-     * @param      fac   the desired factory.
-     * @exception  Error  if the application has already set a factory.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkSetFactory} method doesn't allow
-     *             the operation.
-     * @see        java.net.URL#URL(java.lang.String, java.lang.String,
-     *             int, java.lang.String)
-     * @see        java.net.URLStreamHandlerFactory
-     * @see        SecurityManager#checkSetFactory
+     * @pbrbm      fbd   tif dfsirfd fbdtory.
+     * @fxdfption  Error  if tif bpplidbtion ibs blrfbdy sft b fbdtory.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf difdkSftFbdtory} mftiod dofsn't bllow
+     *             tif opfrbtion.
+     * @sff        jbvb.nft.URL#URL(jbvb.lbng.String, jbvb.lbng.String,
+     *             int, jbvb.lbng.String)
+     * @sff        jbvb.nft.URLStrfbmHbndlfrFbdtory
+     * @sff        SfdurityMbnbgfr#difdkSftFbdtory
      */
-    public static void setURLStreamHandlerFactory(URLStreamHandlerFactory fac) {
-        synchronized (streamHandlerLock) {
-            if (factory != null) {
-                throw new Error("factory already defined");
+    publid stbtid void sftURLStrfbmHbndlfrFbdtory(URLStrfbmHbndlfrFbdtory fbd) {
+        syndironizfd (strfbmHbndlfrLodk) {
+            if (fbdtory != null) {
+                tirow nfw Error("fbdtory blrfbdy dffinfd");
             }
-            SecurityManager security = System.getSecurityManager();
-            if (security != null) {
-                security.checkSetFactory();
+            SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+            if (sfdurity != null) {
+                sfdurity.difdkSftFbdtory();
             }
-            handlers.clear();
-            // safe publication of URLStreamHandlerFactory with volatile write
-            factory = fac;
+            ibndlfrs.dlfbr();
+            // sbff publidbtion of URLStrfbmHbndlfrFbdtory witi volbtilf writf
+            fbdtory = fbd;
         }
     }
 
     /**
-     * A table of protocol handlers.
+     * A tbblf of protodol ibndlfrs.
      */
-    static Hashtable<String,URLStreamHandler> handlers = new Hashtable<>();
-    private static Object streamHandlerLock = new Object();
+    stbtid Hbsitbblf<String,URLStrfbmHbndlfr> ibndlfrs = nfw Hbsitbblf<>();
+    privbtf stbtid Objfdt strfbmHbndlfrLodk = nfw Objfdt();
 
     /**
-     * Returns the Stream Handler.
-     * @param protocol the protocol to use
+     * Rfturns tif Strfbm Hbndlfr.
+     * @pbrbm protodol tif protodol to usf
      */
-    static URLStreamHandler getURLStreamHandler(String protocol) {
+    stbtid URLStrfbmHbndlfr gftURLStrfbmHbndlfr(String protodol) {
 
-        URLStreamHandler handler = handlers.get(protocol);
-        if (handler == null) {
+        URLStrfbmHbndlfr ibndlfr = ibndlfrs.gft(protodol);
+        if (ibndlfr == null) {
 
-            boolean checkedWithFactory = false;
+            boolfbn difdkfdWitiFbdtory = fblsf;
 
-            // Use the factory (if any). Volatile read makes
-            // URLStreamHandlerFactory appear fully initialized to current thread.
-            URLStreamHandlerFactory fac = factory;
-            if (fac != null) {
-                handler = fac.createURLStreamHandler(protocol);
-                checkedWithFactory = true;
+            // Usf tif fbdtory (if bny). Volbtilf rfbd mbkfs
+            // URLStrfbmHbndlfrFbdtory bppfbr fully initiblizfd to durrfnt tirfbd.
+            URLStrfbmHbndlfrFbdtory fbd = fbdtory;
+            if (fbd != null) {
+                ibndlfr = fbd.drfbtfURLStrfbmHbndlfr(protodol);
+                difdkfdWitiFbdtory = truf;
             }
 
-            // Try java protocol handler
-            if (handler == null) {
-                String packagePrefixList = null;
+            // Try jbvb protodol ibndlfr
+            if (ibndlfr == null) {
+                String pbdkbgfPrffixList = null;
 
-                packagePrefixList
-                    = java.security.AccessController.doPrivileged(
-                    new sun.security.action.GetPropertyAction(
-                        protocolPathProp,""));
-                if (packagePrefixList != "") {
-                    packagePrefixList += "|";
+                pbdkbgfPrffixList
+                    = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw sun.sfdurity.bdtion.GftPropfrtyAdtion(
+                        protodolPbtiProp,""));
+                if (pbdkbgfPrffixList != "") {
+                    pbdkbgfPrffixList += "|";
                 }
 
-                // REMIND: decide whether to allow the "null" class prefix
+                // REMIND: dfdidf wiftifr to bllow tif "null" dlbss prffix
                 // or not.
-                packagePrefixList += "sun.net.www.protocol";
+                pbdkbgfPrffixList += "sun.nft.www.protodol";
 
-                StringTokenizer packagePrefixIter =
-                    new StringTokenizer(packagePrefixList, "|");
+                StringTokfnizfr pbdkbgfPrffixItfr =
+                    nfw StringTokfnizfr(pbdkbgfPrffixList, "|");
 
-                while (handler == null &&
-                       packagePrefixIter.hasMoreTokens()) {
+                wiilf (ibndlfr == null &&
+                       pbdkbgfPrffixItfr.ibsMorfTokfns()) {
 
-                    String packagePrefix =
-                      packagePrefixIter.nextToken().trim();
+                    String pbdkbgfPrffix =
+                      pbdkbgfPrffixItfr.nfxtTokfn().trim();
                     try {
-                        String clsName = packagePrefix + "." + protocol +
-                          ".Handler";
-                        Class<?> cls = null;
+                        String dlsNbmf = pbdkbgfPrffix + "." + protodol +
+                          ".Hbndlfr";
+                        Clbss<?> dls = null;
                         try {
-                            cls = Class.forName(clsName);
-                        } catch (ClassNotFoundException e) {
-                            ClassLoader cl = ClassLoader.getSystemClassLoader();
-                            if (cl != null) {
-                                cls = cl.loadClass(clsName);
+                            dls = Clbss.forNbmf(dlsNbmf);
+                        } dbtdi (ClbssNotFoundExdfption f) {
+                            ClbssLobdfr dl = ClbssLobdfr.gftSystfmClbssLobdfr();
+                            if (dl != null) {
+                                dls = dl.lobdClbss(dlsNbmf);
                             }
                         }
-                        if (cls != null) {
-                            handler  =
-                              (URLStreamHandler)cls.newInstance();
+                        if (dls != null) {
+                            ibndlfr  =
+                              (URLStrfbmHbndlfr)dls.nfwInstbndf();
                         }
-                    } catch (Exception e) {
-                        // any number of exceptions can get thrown here
+                    } dbtdi (Exdfption f) {
+                        // bny numbfr of fxdfptions dbn gft tirown ifrf
                     }
                 }
             }
 
-            synchronized (streamHandlerLock) {
+            syndironizfd (strfbmHbndlfrLodk) {
 
-                URLStreamHandler handler2 = null;
+                URLStrfbmHbndlfr ibndlfr2 = null;
 
-                // Check again with hashtable just in case another
-                // thread created a handler since we last checked
-                handler2 = handlers.get(protocol);
+                // Cifdk bgbin witi ibsitbblf just in dbsf bnotifr
+                // tirfbd drfbtfd b ibndlfr sindf wf lbst difdkfd
+                ibndlfr2 = ibndlfrs.gft(protodol);
 
-                if (handler2 != null) {
-                    return handler2;
+                if (ibndlfr2 != null) {
+                    rfturn ibndlfr2;
                 }
 
-                // Check with factory if another thread set a
-                // factory since our last check
-                if (!checkedWithFactory && (fac = factory) != null) {
-                    handler2 = fac.createURLStreamHandler(protocol);
+                // Cifdk witi fbdtory if bnotifr tirfbd sft b
+                // fbdtory sindf our lbst difdk
+                if (!difdkfdWitiFbdtory && (fbd = fbdtory) != null) {
+                    ibndlfr2 = fbd.drfbtfURLStrfbmHbndlfr(protodol);
                 }
 
-                if (handler2 != null) {
-                    // The handler from the factory must be given more
-                    // importance. Discard the default handler that
-                    // this thread created.
-                    handler = handler2;
+                if (ibndlfr2 != null) {
+                    // Tif ibndlfr from tif fbdtory must bf givfn morf
+                    // importbndf. Disdbrd tif dffbult ibndlfr tibt
+                    // tiis tirfbd drfbtfd.
+                    ibndlfr = ibndlfr2;
                 }
 
-                // Insert this handler into the hashtable
-                if (handler != null) {
-                    handlers.put(protocol, handler);
+                // Insfrt tiis ibndlfr into tif ibsitbblf
+                if (ibndlfr != null) {
+                    ibndlfrs.put(protodol, ibndlfr);
                 }
 
             }
         }
 
-        return handler;
+        rfturn ibndlfr;
 
     }
 
     /**
-     * WriteObject is called to save the state of the URL to an
-     * ObjectOutputStream. The handler is not saved since it is
-     * specific to this system.
+     * WritfObjfdt is dbllfd to sbvf tif stbtf of tif URL to bn
+     * ObjfdtOutputStrfbm. Tif ibndlfr is not sbvfd sindf it is
+     * spfdifid to tiis systfm.
      *
-     * @serialData the default write object value. When read back in,
-     * the reader must ensure that calling getURLStreamHandler with
-     * the protocol variable returns a valid URLStreamHandler and
-     * throw an IOException if it does not.
+     * @sfriblDbtb tif dffbult writf objfdt vbluf. Wifn rfbd bbdk in,
+     * tif rfbdfr must fnsurf tibt dblling gftURLStrfbmHbndlfr witi
+     * tif protodol vbribblf rfturns b vblid URLStrfbmHbndlfr bnd
+     * tirow bn IOExdfption if it dofs not.
      */
-    private synchronized void writeObject(java.io.ObjectOutputStream s)
-        throws IOException
+    privbtf syndironizfd void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+        tirows IOExdfption
     {
-        s.defaultWriteObject(); // write the fields
+        s.dffbultWritfObjfdt(); // writf tif fiflds
     }
 
     /**
-     * readObject is called to restore the state of the URL from the
-     * stream.  It reads the components of the URL and finds the local
-     * stream handler.
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tif URL from tif
+     * strfbm.  It rfbds tif domponfnts of tif URL bnd finds tif lodbl
+     * strfbm ibndlfr.
      */
-    private synchronized void readObject(java.io.ObjectInputStream s)
-         throws IOException, ClassNotFoundException
+    privbtf syndironizfd void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+         tirows IOExdfption, ClbssNotFoundExdfption
     {
-        s.defaultReadObject();  // read the fields
-        if ((handler = getURLStreamHandler(protocol)) == null) {
-            throw new IOException("unknown protocol: " + protocol);
+        s.dffbultRfbdObjfdt();  // rfbd tif fiflds
+        if ((ibndlfr = gftURLStrfbmHbndlfr(protodol)) == null) {
+            tirow nfw IOExdfption("unknown protodol: " + protodol);
         }
 
-        // Construct authority part
-        if (authority == null &&
-            ((host != null && host.length() > 0) || port != -1)) {
-            if (host == null)
-                host = "";
-            authority = (port == -1) ? host : host + ":" + port;
+        // Construdt butiority pbrt
+        if (butiority == null &&
+            ((iost != null && iost.lfngti() > 0) || port != -1)) {
+            if (iost == null)
+                iost = "";
+            butiority = (port == -1) ? iost : iost + ":" + port;
 
-            // Handle hosts with userInfo in them
-            int at = host.lastIndexOf('@');
-            if (at != -1) {
-                userInfo = host.substring(0, at);
-                host = host.substring(at+1);
+            // Hbndlf iosts witi usfrInfo in tifm
+            int bt = iost.lbstIndfxOf('@');
+            if (bt != -1) {
+                usfrInfo = iost.substring(0, bt);
+                iost = iost.substring(bt+1);
             }
-        } else if (authority != null) {
-            // Construct user info part
-            int ind = authority.indexOf('@');
+        } flsf if (butiority != null) {
+            // Construdt usfr info pbrt
+            int ind = butiority.indfxOf('@');
             if (ind != -1)
-                userInfo = authority.substring(0, ind);
+                usfrInfo = butiority.substring(0, ind);
         }
 
-        // Construct path and query part
-        path = null;
-        query = null;
-        if (file != null) {
-            // Fix: only do this if hierarchical?
-            int q = file.lastIndexOf('?');
+        // Construdt pbti bnd qufry pbrt
+        pbti = null;
+        qufry = null;
+        if (filf != null) {
+            // Fix: only do tiis if iifrbrdiidbl?
+            int q = filf.lbstIndfxOf('?');
             if (q != -1) {
-                query = file.substring(q+1);
-                path = file.substring(0, q);
-            } else
-                path = file;
+                qufry = filf.substring(q+1);
+                pbti = filf.substring(0, q);
+            } flsf
+                pbti = filf;
         }
     }
 }
 
-class Parts {
-    String path, query, ref;
+dlbss Pbrts {
+    String pbti, qufry, rff;
 
-    Parts(String file) {
-        int ind = file.indexOf('#');
-        ref = ind < 0 ? null: file.substring(ind + 1);
-        file = ind < 0 ? file: file.substring(0, ind);
-        int q = file.lastIndexOf('?');
+    Pbrts(String filf) {
+        int ind = filf.indfxOf('#');
+        rff = ind < 0 ? null: filf.substring(ind + 1);
+        filf = ind < 0 ? filf: filf.substring(0, ind);
+        int q = filf.lbstIndfxOf('?');
         if (q != -1) {
-            query = file.substring(q+1);
-            path = file.substring(0, q);
-        } else {
-            path = file;
+            qufry = filf.substring(q+1);
+            pbti = filf.substring(0, q);
+        } flsf {
+            pbti = filf;
         }
     }
 
-    String getPath() {
-        return path;
+    String gftPbti() {
+        rfturn pbti;
     }
 
-    String getQuery() {
-        return query;
+    String gftQufry() {
+        rfturn qufry;
     }
 
-    String getRef() {
-        return ref;
+    String gftRff() {
+        rfturn rff;
     }
 }

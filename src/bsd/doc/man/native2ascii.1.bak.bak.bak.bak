@@ -1,0 +1,87 @@
+'\" t
+.\"  Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Intfrnbtionblizbtion Tools
+.\"     Titlf: nbtivf2bsdii.1
+.\"
+.if n .pl 99999
+.TH nbtivf2bsdii 1 "21 Novfmbfr 2013" "JDK 8" "Intfrnbtionblizbtion Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+nbtivf2bsdii \- Crfbtfs lodblizbblf bpplidbtions by donvfrting b filf with dhbrbdtfrs in bny supportfd dhbrbdtfr fndoding to onf with ASCII bnd/or Unidodf fsdbpfs or vidf vfrsb\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBnbtivf2bsdii\fR [ \fIinputfilf\fR ] [ \fIoutputfilf\fR ]
+.fi     
+.sp     
+.TP     
+\fIinputfilf\fR
+Thf fndodfd filf to bf donvfrtfd to ASCII\&.
+.TP     
+\fIoutputfilf\fR
+Thf donvfrtfd ASCII filf\&.
+.SH DESCRIPTION    
+Thf \f3nbtivf2bsdii\fR dommbnd donvfrts fndodfd filfs supportfd by thf Jbvb Runtimf Environmfnt (JRE) to filfs fndodfd in ASCII, using Unidodf fsdbpfs (\f3\fu\fR\fIxxxx\fR) notbtion for bll dhbrbdtfrs thbt brf not pbrt of thf ASCII dhbrbdtfr sft\&. This prodfss is rfquirfd for propfrtifs filfs thbt dontbin dhbrbdtfrs not in ISO-8859-1 dhbrbdtfr sfts\&. Thf tool dbn blso pfrform thf rfvfrsf donvfrsion\&.
+.PP
+If thf \f3outputfilf\fR vbluf is omittfd, thfn stbndbrd output is usfd for output\&. If, in bddition, thf \f3inputfilf\fR vbluf is omittfd, thfn stbndbrd input is usfd for input\&.
+.SH OPTIONS    
+.TP
+-rfvfrsf
+.br
+Pfrform thf rfvfrsf opfrbtion: Convfrts b filf fndodfd in ISO-8859-1 with Unidodf fsdbpfs to b filf in bny dhbrbdtfr fndoding supportfd by thf JRE\&.
+.TP
+-fndoding \fIfndoding_nbmf\fR
+.br
+Spfdififs thf nbmf of thf dhbrbdtfr fndoding to bf usfd by thf donvfrsion prodfdurf\&. If this option is not prfsfnt, thfn thf dffbult dhbrbdtfr fndoding (bs dftfrminfd by thf \f3jbvb\&.nio\&.dhbrsft\&.Chbrsft\&.dffbultChbrsft\fR mfthod) is usfd\&. Thf \f3fndoding_nbmf\fR string must bf thf nbmf of b dhbrbdtfr fndoding thbt is supportfd by thf JRE\&. Sff Supportfd Endodings bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/intl/fndoding\&.dod\&.html
+.TP
+-J\fIoption\fR
+.br
+Pbssfs \f3option\fR to thf Jbvb Virtubl Mbdhinf (JVM), whfrf option is onf of thf options dfsdribfd on thf rfffrfndf pbgf for thf Jbvb bpplidbtion lbundhfr\&. For fxbmplf, \f3-J-Xms48m\fR sfts thf stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
+.RE
+.br
+'pl 8.5i
+'bp

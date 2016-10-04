@@ -1,310 +1,310 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.util.Vector;
+import jbvb.util.Vfdtor;
 
-import javax.sound.sampled.Control;
-import javax.sound.sampled.Mixer;
-import javax.sound.sampled.Line;
-import javax.sound.sampled.LineUnavailableException;
+import jbvbx.sound.sbmplfd.Control;
+import jbvbx.sound.sbmplfd.Mixfr;
+import jbvbx.sound.sbmplfd.Linf;
+import jbvbx.sound.sbmplfd.LinfUnbvbilbblfExdfption;
 
 /**
- * Abstract Mixer.  Implements Mixer (with abstract methods) and specifies
- * some other common methods for use by our implementation.
+ * Abstrbdt Mixfr.  Implfmfnts Mixfr (witi bbstrbdt mftiods) bnd spfdififs
+ * somf otifr dommon mftiods for usf by our implfmfntbtion.
  *
- * @author Kara Kytle
+ * @butior Kbrb Kytlf
  */
-//$$fb 2002-07-26: let AbstractMixer be an AbstractLine and NOT an AbstractDataLine!
-abstract class AbstractMixer extends AbstractLine implements Mixer {
+//$$fb 2002-07-26: lft AbstrbdtMixfr bf bn AbstrbdtLinf bnd NOT bn AbstrbdtDbtbLinf!
+bbstrbdt dlbss AbstrbdtMixfr fxtfnds AbstrbdtLinf implfmfnts Mixfr {
 
     //  STATIC VARIABLES
-    protected static final int PCM  = 0;
-    protected static final int ULAW = 1;
-    protected static final int ALAW = 2;
+    protfdtfd stbtid finbl int PCM  = 0;
+    protfdtfd stbtid finbl int ULAW = 1;
+    protfdtfd stbtid finbl int ALAW = 2;
 
 
     // IMMUTABLE PROPERTIES
 
     /**
-     * Info object describing this mixer.
+     * Info objfdt dfsdribing tiis mixfr.
      */
-    private final Mixer.Info mixerInfo;
+    privbtf finbl Mixfr.Info mixfrInfo;
 
     /**
-     * source lines provided by this mixer
+     * sourdf linfs providfd by tiis mixfr
      */
-    protected Line.Info[] sourceLineInfo;
+    protfdtfd Linf.Info[] sourdfLinfInfo;
 
     /**
-     * target lines provided by this mixer
+     * tbrgft linfs providfd by tiis mixfr
      */
-    protected Line.Info[] targetLineInfo;
+    protfdtfd Linf.Info[] tbrgftLinfInfo;
 
     /**
-     * if any line of this mixer is started
+     * if bny linf of tiis mixfr is stbrtfd
      */
-    private boolean started = false;
+    privbtf boolfbn stbrtfd = fblsf;
 
     /**
-     * if this mixer had been opened manually with open()
-     * If it was, then it won't be closed automatically,
-     * only when close() is called manually.
+     * if tiis mixfr ibd bffn opfnfd mbnublly witi opfn()
+     * If it wbs, tifn it won't bf dlosfd butombtidblly,
+     * only wifn dlosf() is dbllfd mbnublly.
      */
-    private boolean manuallyOpened = false;
+    privbtf boolfbn mbnubllyOpfnfd = fblsf;
 
 
     /**
-     * Supported formats for the mixer.
+     * Supportfd formbts for tif mixfr.
      */
     //$$fb DELETE
-    //protected Vector formats = new Vector();
+    //protfdtfd Vfdtor formbts = nfw Vfdtor();
 
 
     // STATE VARIABLES
 
 
     /**
-     * Source lines (ports) currently open
+     * Sourdf linfs (ports) durrfntly opfn
      */
-    private final Vector<Line> sourceLines = new Vector<>();
+    privbtf finbl Vfdtor<Linf> sourdfLinfs = nfw Vfdtor<>();
 
 
     /**
-     * Target lines currently open.
+     * Tbrgft linfs durrfntly opfn.
      */
-    private final Vector<Line> targetLines = new Vector<>();
+    privbtf finbl Vfdtor<Linf> tbrgftLinfs = nfw Vfdtor<>();
 
 
     /**
-     * Constructs a new AbstractMixer.
-     * @param mixer the mixer with which this line is associated
-     * @param controls set of supported controls
+     * Construdts b nfw AbstrbdtMixfr.
+     * @pbrbm mixfr tif mixfr witi wiidi tiis linf is bssodibtfd
+     * @pbrbm dontrols sft of supportfd dontrols
      */
-    protected AbstractMixer(Mixer.Info mixerInfo,
-                            Control[] controls,
-                            Line.Info[] sourceLineInfo,
-                            Line.Info[] targetLineInfo) {
+    protfdtfd AbstrbdtMixfr(Mixfr.Info mixfrInfo,
+                            Control[] dontrols,
+                            Linf.Info[] sourdfLinfInfo,
+                            Linf.Info[] tbrgftLinfInfo) {
 
-        // Line.Info, AbstractMixer, Control[]
-        super(new Line.Info(Mixer.class), null, controls);
+        // Linf.Info, AbstrbdtMixfr, Control[]
+        supfr(nfw Linf.Info(Mixfr.dlbss), null, dontrols);
 
-        // setup the line part
-        this.mixer = this;
-        if (controls == null) {
-            controls = new Control[0];
+        // sftup tif linf pbrt
+        tiis.mixfr = tiis;
+        if (dontrols == null) {
+            dontrols = nfw Control[0];
         }
 
-        // setup the mixer part
-        this.mixerInfo = mixerInfo;
-        this.sourceLineInfo = sourceLineInfo;
-        this.targetLineInfo = targetLineInfo;
+        // sftup tif mixfr pbrt
+        tiis.mixfrInfo = mixfrInfo;
+        tiis.sourdfLinfInfo = sourdfLinfInfo;
+        tiis.tbrgftLinfInfo = tbrgftLinfInfo;
     }
 
 
     // MIXER METHODS
 
 
-    public final Mixer.Info getMixerInfo() {
-        return mixerInfo;
+    publid finbl Mixfr.Info gftMixfrInfo() {
+        rfturn mixfrInfo;
     }
 
 
-    public final Line.Info[] getSourceLineInfo() {
-        Line.Info[] localArray = new Line.Info[sourceLineInfo.length];
-        System.arraycopy(sourceLineInfo, 0, localArray, 0, sourceLineInfo.length);
-        return localArray;
+    publid finbl Linf.Info[] gftSourdfLinfInfo() {
+        Linf.Info[] lodblArrby = nfw Linf.Info[sourdfLinfInfo.lfngti];
+        Systfm.brrbydopy(sourdfLinfInfo, 0, lodblArrby, 0, sourdfLinfInfo.lfngti);
+        rfturn lodblArrby;
     }
 
 
-    public final Line.Info[] getTargetLineInfo() {
+    publid finbl Linf.Info[] gftTbrgftLinfInfo() {
 
-        Line.Info[] localArray = new Line.Info[targetLineInfo.length];
-        System.arraycopy(targetLineInfo, 0, localArray, 0, targetLineInfo.length);
-        return localArray;
+        Linf.Info[] lodblArrby = nfw Linf.Info[tbrgftLinfInfo.lfngti];
+        Systfm.brrbydopy(tbrgftLinfInfo, 0, lodblArrby, 0, tbrgftLinfInfo.lfngti);
+        rfturn lodblArrby;
     }
 
 
-    public final Line.Info[] getSourceLineInfo(Line.Info info) {
+    publid finbl Linf.Info[] gftSourdfLinfInfo(Linf.Info info) {
 
         int i;
-        Vector<Line.Info> vec = new Vector<>();
+        Vfdtor<Linf.Info> vfd = nfw Vfdtor<>();
 
-        for (i = 0; i < sourceLineInfo.length; i++) {
+        for (i = 0; i < sourdfLinfInfo.lfngti; i++) {
 
-            if (info.matches(sourceLineInfo[i])) {
-                vec.addElement(sourceLineInfo[i]);
+            if (info.mbtdifs(sourdfLinfInfo[i])) {
+                vfd.bddElfmfnt(sourdfLinfInfo[i]);
             }
         }
 
-        Line.Info[] returnedArray = new Line.Info[vec.size()];
-        for (i = 0; i < returnedArray.length; i++) {
-            returnedArray[i] = vec.elementAt(i);
+        Linf.Info[] rfturnfdArrby = nfw Linf.Info[vfd.sizf()];
+        for (i = 0; i < rfturnfdArrby.lfngti; i++) {
+            rfturnfdArrby[i] = vfd.flfmfntAt(i);
         }
 
-        return returnedArray;
+        rfturn rfturnfdArrby;
     }
 
 
-    public final Line.Info[] getTargetLineInfo(Line.Info info) {
+    publid finbl Linf.Info[] gftTbrgftLinfInfo(Linf.Info info) {
 
         int i;
-        Vector<Line.Info> vec = new Vector<>();
+        Vfdtor<Linf.Info> vfd = nfw Vfdtor<>();
 
-        for (i = 0; i < targetLineInfo.length; i++) {
+        for (i = 0; i < tbrgftLinfInfo.lfngti; i++) {
 
-            if (info.matches(targetLineInfo[i])) {
-                vec.addElement(targetLineInfo[i]);
+            if (info.mbtdifs(tbrgftLinfInfo[i])) {
+                vfd.bddElfmfnt(tbrgftLinfInfo[i]);
             }
         }
 
-        Line.Info[] returnedArray = new Line.Info[vec.size()];
-        for (i = 0; i < returnedArray.length; i++) {
-            returnedArray[i] = vec.elementAt(i);
+        Linf.Info[] rfturnfdArrby = nfw Linf.Info[vfd.sizf()];
+        for (i = 0; i < rfturnfdArrby.lfngti; i++) {
+            rfturnfdArrby[i] = vfd.flfmfntAt(i);
         }
 
-        return returnedArray;
+        rfturn rfturnfdArrby;
     }
 
 
-    public final boolean isLineSupported(Line.Info info) {
+    publid finbl boolfbn isLinfSupportfd(Linf.Info info) {
 
         int i;
 
-        for (i = 0; i < sourceLineInfo.length; i++) {
+        for (i = 0; i < sourdfLinfInfo.lfngti; i++) {
 
-            if (info.matches(sourceLineInfo[i])) {
-                return true;
+            if (info.mbtdifs(sourdfLinfInfo[i])) {
+                rfturn truf;
             }
         }
 
-        for (i = 0; i < targetLineInfo.length; i++) {
+        for (i = 0; i < tbrgftLinfInfo.lfngti; i++) {
 
-            if (info.matches(targetLineInfo[i])) {
-                return true;
+            if (info.mbtdifs(tbrgftLinfInfo[i])) {
+                rfturn truf;
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
 
-    public abstract Line getLine(Line.Info info) throws LineUnavailableException;
+    publid bbstrbdt Linf gftLinf(Linf.Info info) tirows LinfUnbvbilbblfExdfption;
 
-    public abstract int getMaxLines(Line.Info info);
+    publid bbstrbdt int gftMbxLinfs(Linf.Info info);
 
-    protected abstract void implOpen() throws LineUnavailableException;
-    protected abstract void implStart();
-    protected abstract void implStop();
-    protected abstract void implClose();
+    protfdtfd bbstrbdt void implOpfn() tirows LinfUnbvbilbblfExdfption;
+    protfdtfd bbstrbdt void implStbrt();
+    protfdtfd bbstrbdt void implStop();
+    protfdtfd bbstrbdt void implClosf();
 
 
-    public final Line[] getSourceLines() {
+    publid finbl Linf[] gftSourdfLinfs() {
 
-        Line[] localLines;
+        Linf[] lodblLinfs;
 
-        synchronized(sourceLines) {
+        syndironizfd(sourdfLinfs) {
 
-            localLines = new Line[sourceLines.size()];
+            lodblLinfs = nfw Linf[sourdfLinfs.sizf()];
 
-            for (int i = 0; i < localLines.length; i++) {
-                localLines[i] = sourceLines.elementAt(i);
+            for (int i = 0; i < lodblLinfs.lfngti; i++) {
+                lodblLinfs[i] = sourdfLinfs.flfmfntAt(i);
             }
         }
 
-        return localLines;
+        rfturn lodblLinfs;
     }
 
 
-    public final Line[] getTargetLines() {
+    publid finbl Linf[] gftTbrgftLinfs() {
 
-        Line[] localLines;
+        Linf[] lodblLinfs;
 
-        synchronized(targetLines) {
+        syndironizfd(tbrgftLinfs) {
 
-            localLines = new Line[targetLines.size()];
+            lodblLinfs = nfw Linf[tbrgftLinfs.sizf()];
 
-            for (int i = 0; i < localLines.length; i++) {
-                localLines[i] = targetLines.elementAt(i);
+            for (int i = 0; i < lodblLinfs.lfngti; i++) {
+                lodblLinfs[i] = tbrgftLinfs.flfmfntAt(i);
             }
         }
 
-        return localLines;
+        rfturn lodblLinfs;
     }
 
 
     /**
-     * Default implementation always throws an exception.
+     * Dffbult implfmfntbtion blwbys tirows bn fxdfption.
      */
-    public final void synchronize(Line[] lines, boolean maintainSync) {
-        throw new IllegalArgumentException("Synchronization not supported by this mixer.");
+    publid finbl void syndironizf(Linf[] linfs, boolfbn mbintbinSynd) {
+        tirow nfw IllfgblArgumfntExdfption("Syndironizbtion not supportfd by tiis mixfr.");
     }
 
 
     /**
-     * Default implementation always throws an exception.
+     * Dffbult implfmfntbtion blwbys tirows bn fxdfption.
      */
-    public final void unsynchronize(Line[] lines) {
-        throw new IllegalArgumentException("Synchronization not supported by this mixer.");
+    publid finbl void unsyndironizf(Linf[] linfs) {
+        tirow nfw IllfgblArgumfntExdfption("Syndironizbtion not supportfd by tiis mixfr.");
     }
 
 
     /**
-     * Default implementation always returns false.
+     * Dffbult implfmfntbtion blwbys rfturns fblsf.
      */
-    public final boolean isSynchronizationSupported(Line[] lines,
-                                                    boolean maintainSync) {
-        return false;
+    publid finbl boolfbn isSyndironizbtionSupportfd(Linf[] linfs,
+                                                    boolfbn mbintbinSynd) {
+        rfturn fblsf;
     }
 
 
     // OVERRIDES OF ABSTRACT DATA LINE METHODS
 
     /**
-     * This implementation tries to open the mixer with its current format and buffer size settings.
+     * Tiis implfmfntbtion trifs to opfn tif mixfr witi its durrfnt formbt bnd bufffr sizf sfttings.
      */
-    public final synchronized void open() throws LineUnavailableException {
-        open(true);
+    publid finbl syndironizfd void opfn() tirows LinfUnbvbilbblfExdfption {
+        opfn(truf);
     }
 
     /**
-     * This implementation tries to open the mixer with its current format and buffer size settings.
+     * Tiis implfmfntbtion trifs to opfn tif mixfr witi its durrfnt formbt bnd bufffr sizf sfttings.
      */
-    final synchronized void open(boolean manual) throws LineUnavailableException {
-        if (Printer.trace) Printer.trace(">> AbstractMixer: open()");
-        if (!isOpen()) {
-            implOpen();
-            // if the mixer is not currently open, set open to true and send event
-            setOpen(true);
-            if (manual) {
-                manuallyOpened = true;
+    finbl syndironizfd void opfn(boolfbn mbnubl) tirows LinfUnbvbilbblfExdfption {
+        if (Printfr.trbdf) Printfr.trbdf(">> AbstrbdtMixfr: opfn()");
+        if (!isOpfn()) {
+            implOpfn();
+            // if tif mixfr is not durrfntly opfn, sft opfn to truf bnd sfnd fvfnt
+            sftOpfn(truf);
+            if (mbnubl) {
+                mbnubllyOpfnfd = truf;
             }
         }
 
-        if (Printer.trace) Printer.trace("<< AbstractMixer: open() succeeded");
+        if (Printfr.trbdf) Printfr.trbdf("<< AbstrbdtMixfr: opfn() suddffdfd");
     }
 
 
@@ -312,247 +312,247 @@ abstract class AbstractMixer extends AbstractLine implements Mixer {
 
 
     /**
-     * The default implementation of this method just determines whether
-     * this line is a source or target line, calls open(no-arg) on the
-     * mixer, and adds the line to the appropriate vector.
-     * The mixer may be opened at a format different than the line's
-     * format if it is a DataLine.
+     * Tif dffbult implfmfntbtion of tiis mftiod just dftfrminfs wiftifr
+     * tiis linf is b sourdf or tbrgft linf, dblls opfn(no-brg) on tif
+     * mixfr, bnd bdds tif linf to tif bppropribtf vfdtor.
+     * Tif mixfr mby bf opfnfd bt b formbt difffrfnt tibn tif linf's
+     * formbt if it is b DbtbLinf.
      */
-    final synchronized void open(Line line) throws LineUnavailableException {
+    finbl syndironizfd void opfn(Linf linf) tirows LinfUnbvbilbblfExdfption {
 
-        if (Printer.trace) Printer.trace(">> AbstractMixer: open(line = " + line + ")");
+        if (Printfr.trbdf) Printfr.trbdf(">> AbstrbdtMixfr: opfn(linf = " + linf + ")");
 
-        // $$kk: 06.11.99: ignore ourselves for now
-        if (this.equals(line)) {
-            if (Printer.trace) Printer.trace("<< AbstractMixer: open(" + line + ") nothing done");
-            return;
+        // $$kk: 06.11.99: ignorf oursflvfs for now
+        if (tiis.fqubls(linf)) {
+            if (Printfr.trbdf) Printfr.trbdf("<< AbstrbdtMixfr: opfn(" + linf + ") notiing donf");
+            rfturn;
         }
 
-        // source line?
-        if (isSourceLine(line.getLineInfo())) {
-            if (! sourceLines.contains(line) ) {
-                // call the no-arg open method for the mixer; it should open at its
-                // default format if it is not open yet
-                open(false);
+        // sourdf linf?
+        if (isSourdfLinf(linf.gftLinfInfo())) {
+            if (! sourdfLinfs.dontbins(linf) ) {
+                // dbll tif no-brg opfn mftiod for tif mixfr; it siould opfn bt its
+                // dffbult formbt if it is not opfn yft
+                opfn(fblsf);
 
-                // we opened successfully! add the line to the list
-                sourceLines.addElement(line);
+                // wf opfnfd suddfssfully! bdd tif linf to tif list
+                sourdfLinfs.bddElfmfnt(linf);
             }
-        } else {
-            // target line?
-            if(isTargetLine(line.getLineInfo())) {
-                if (! targetLines.contains(line) ) {
-                    // call the no-arg open method for the mixer; it should open at its
-                    // default format if it is not open yet
-                    open(false);
+        } flsf {
+            // tbrgft linf?
+            if(isTbrgftLinf(linf.gftLinfInfo())) {
+                if (! tbrgftLinfs.dontbins(linf) ) {
+                    // dbll tif no-brg opfn mftiod for tif mixfr; it siould opfn bt its
+                    // dffbult formbt if it is not opfn yft
+                    opfn(fblsf);
 
-                    // we opened successfully!  add the line to the list
-                    targetLines.addElement(line);
+                    // wf opfnfd suddfssfully!  bdd tif linf to tif list
+                    tbrgftLinfs.bddElfmfnt(linf);
                 }
-            } else {
-                if (Printer.err) Printer.err("Unknown line received for AbstractMixer.open(Line): " + line);
+            } flsf {
+                if (Printfr.frr) Printfr.frr("Unknown linf rfdfivfd for AbstrbdtMixfr.opfn(Linf): " + linf);
             }
         }
 
-        if (Printer.trace) Printer.trace("<< AbstractMixer: open(" + line + ") completed");
+        if (Printfr.trbdf) Printfr.trbdf("<< AbstrbdtMixfr: opfn(" + linf + ") domplftfd");
     }
 
 
     /**
-     * Removes this line from the list of open source lines and
-     * open target lines, if it exists in either.
-     * If the list is now empty, closes the mixer.
+     * Rfmovfs tiis linf from tif list of opfn sourdf linfs bnd
+     * opfn tbrgft linfs, if it fxists in fitifr.
+     * If tif list is now fmpty, dlosfs tif mixfr.
      */
-    final synchronized void close(Line line) {
+    finbl syndironizfd void dlosf(Linf linf) {
 
-        if (Printer.trace) Printer.trace(">> AbstractMixer: close(" + line + ")");
+        if (Printfr.trbdf) Printfr.trbdf(">> AbstrbdtMixfr: dlosf(" + linf + ")");
 
-        // $$kk: 06.11.99: ignore ourselves for now
-        if (this.equals(line)) {
-            if (Printer.trace) Printer.trace("<< AbstractMixer: close(" + line + ") nothing done");
-            return;
+        // $$kk: 06.11.99: ignorf oursflvfs for now
+        if (tiis.fqubls(linf)) {
+            if (Printfr.trbdf) Printfr.trbdf("<< AbstrbdtMixfr: dlosf(" + linf + ") notiing donf");
+            rfturn;
         }
 
-        sourceLines.removeElement(line);
-        targetLines.removeElement(line);
+        sourdfLinfs.rfmovfElfmfnt(linf);
+        tbrgftLinfs.rfmovfElfmfnt(linf);
 
-        if (Printer.debug) Printer.debug("AbstractMixer: close(line): sourceLines.size() now: " + sourceLines.size());
-        if (Printer.debug) Printer.debug("AbstractMixer: close(line): targetLines.size() now: " + targetLines.size());
+        if (Printfr.dfbug) Printfr.dfbug("AbstrbdtMixfr: dlosf(linf): sourdfLinfs.sizf() now: " + sourdfLinfs.sizf());
+        if (Printfr.dfbug) Printfr.dfbug("AbstrbdtMixfr: dlosf(linf): tbrgftLinfs.sizf() now: " + tbrgftLinfs.sizf());
 
 
-        if (sourceLines.isEmpty() && targetLines.isEmpty() && !manuallyOpened) {
-            if (Printer.trace) Printer.trace("AbstractMixer: close(" + line + "): need to close the mixer");
-            close();
+        if (sourdfLinfs.isEmpty() && tbrgftLinfs.isEmpty() && !mbnubllyOpfnfd) {
+            if (Printfr.trbdf) Printfr.trbdf("AbstrbdtMixfr: dlosf(" + linf + "): nffd to dlosf tif mixfr");
+            dlosf();
         }
 
-        if (Printer.trace) Printer.trace("<< AbstractMixer: close(" + line + ") succeeded");
+        if (Printfr.trbdf) Printfr.trbdf("<< AbstrbdtMixfr: dlosf(" + linf + ") suddffdfd");
     }
 
 
     /**
-     * Close all lines and then close this mixer.
+     * Closf bll linfs bnd tifn dlosf tiis mixfr.
      */
-    public final synchronized void close() {
-        if (Printer.trace) Printer.trace(">> AbstractMixer: close()");
-        if (isOpen()) {
-            // close all source lines
-            Line[] localLines = getSourceLines();
-            for (int i = 0; i<localLines.length; i++) {
-                localLines[i].close();
+    publid finbl syndironizfd void dlosf() {
+        if (Printfr.trbdf) Printfr.trbdf(">> AbstrbdtMixfr: dlosf()");
+        if (isOpfn()) {
+            // dlosf bll sourdf linfs
+            Linf[] lodblLinfs = gftSourdfLinfs();
+            for (int i = 0; i<lodblLinfs.lfngti; i++) {
+                lodblLinfs[i].dlosf();
             }
 
-            // close all target lines
-            localLines = getTargetLines();
-            for (int i = 0; i<localLines.length; i++) {
-                localLines[i].close();
+            // dlosf bll tbrgft linfs
+            lodblLinfs = gftTbrgftLinfs();
+            for (int i = 0; i<lodblLinfs.lfngti; i++) {
+                lodblLinfs[i].dlosf();
             }
 
-            implClose();
+            implClosf();
 
-            // set the open state to false and send events
-            setOpen(false);
+            // sft tif opfn stbtf to fblsf bnd sfnd fvfnts
+            sftOpfn(fblsf);
         }
-        manuallyOpened = false;
-        if (Printer.trace) Printer.trace("<< AbstractMixer: close() succeeded");
+        mbnubllyOpfnfd = fblsf;
+        if (Printfr.trbdf) Printfr.trbdf("<< AbstrbdtMixfr: dlosf() suddffdfd");
     }
 
     /**
-     * Starts the mixer.
+     * Stbrts tif mixfr.
      */
-    final synchronized void start(Line line) {
+    finbl syndironizfd void stbrt(Linf linf) {
 
-        if (Printer.trace) Printer.trace(">> AbstractMixer: start(" + line + ")");
+        if (Printfr.trbdf) Printfr.trbdf(">> AbstrbdtMixfr: stbrt(" + linf + ")");
 
-        // $$kk: 06.11.99: ignore ourselves for now
-        if (this.equals(line)) {
-            if (Printer.trace) Printer.trace("<< AbstractMixer: start(" + line + ") nothing done");
-            return;
+        // $$kk: 06.11.99: ignorf oursflvfs for now
+        if (tiis.fqubls(linf)) {
+            if (Printfr.trbdf) Printfr.trbdf("<< AbstrbdtMixfr: stbrt(" + linf + ") notiing donf");
+            rfturn;
         }
 
-        // we just start the mixer regardless of anything else here.
-        if (!started) {
-            if (Printer.debug) Printer.debug("AbstractMixer: start(line): starting the mixer");
-            implStart();
-            started = true;
+        // wf just stbrt tif mixfr rfgbrdlfss of bnytiing flsf ifrf.
+        if (!stbrtfd) {
+            if (Printfr.dfbug) Printfr.dfbug("AbstrbdtMixfr: stbrt(linf): stbrting tif mixfr");
+            implStbrt();
+            stbrtfd = truf;
         }
 
-        if (Printer.trace) Printer.trace("<< AbstractMixer: start(" + line + ") succeeded");
+        if (Printfr.trbdf) Printfr.trbdf("<< AbstrbdtMixfr: stbrt(" + linf + ") suddffdfd");
     }
 
 
     /**
-     * Stops the mixer if this was the last running line.
+     * Stops tif mixfr if tiis wbs tif lbst running linf.
      */
-    final synchronized void stop(Line line) {
+    finbl syndironizfd void stop(Linf linf) {
 
-        if (Printer.trace) Printer.trace(">> AbstractMixer: stop(" + line + ")");
+        if (Printfr.trbdf) Printfr.trbdf(">> AbstrbdtMixfr: stop(" + linf + ")");
 
-        // $$kk: 06.11.99: ignore ourselves for now
-        if (this.equals(line)) {
-            if (Printer.trace) Printer.trace("<< AbstractMixer: stop(" + line + ") nothing done");
-            return;
+        // $$kk: 06.11.99: ignorf oursflvfs for now
+        if (tiis.fqubls(linf)) {
+            if (Printfr.trbdf) Printfr.trbdf("<< AbstrbdtMixfr: stop(" + linf + ") notiing donf");
+            rfturn;
         }
 
-        @SuppressWarnings("unchecked")
-        Vector<Line> localSourceLines = (Vector<Line>)sourceLines.clone();
-        for (int i = 0; i < localSourceLines.size(); i++) {
+        @SupprfssWbrnings("undifdkfd")
+        Vfdtor<Linf> lodblSourdfLinfs = (Vfdtor<Linf>)sourdfLinfs.dlonf();
+        for (int i = 0; i < lodblSourdfLinfs.sizf(); i++) {
 
-            // if any other open line is running, return
+            // if bny otifr opfn linf is running, rfturn
 
-            // this covers clips and source data lines
-            if (localSourceLines.elementAt(i) instanceof AbstractDataLine) {
-                AbstractDataLine sourceLine = (AbstractDataLine)localSourceLines.elementAt(i);
-                if ( sourceLine.isStartedRunning() && (!sourceLine.equals(line)) ) {
-                    if (Printer.trace) Printer.trace("<< AbstractMixer: stop(" + line + ") found running sourceLine: " + sourceLine);
-                    return;
-                }
-            }
-        }
-
-        @SuppressWarnings("unchecked")
-        Vector<Line> localTargetLines = (Vector<Line>)targetLines.clone();
-        for (int i = 0; i < localTargetLines.size(); i++) {
-
-            // if any other open line is running, return
-            // this covers target data lines
-            if (localTargetLines.elementAt(i) instanceof AbstractDataLine) {
-                AbstractDataLine targetLine = (AbstractDataLine)localTargetLines.elementAt(i);
-                if ( targetLine.isStartedRunning() && (!targetLine.equals(line)) ) {
-                    if (Printer.trace) Printer.trace("<< AbstractMixer: stop(" + line + ") found running targetLine: " + targetLine);
-                    return;
+            // tiis dovfrs dlips bnd sourdf dbtb linfs
+            if (lodblSourdfLinfs.flfmfntAt(i) instbndfof AbstrbdtDbtbLinf) {
+                AbstrbdtDbtbLinf sourdfLinf = (AbstrbdtDbtbLinf)lodblSourdfLinfs.flfmfntAt(i);
+                if ( sourdfLinf.isStbrtfdRunning() && (!sourdfLinf.fqubls(linf)) ) {
+                    if (Printfr.trbdf) Printfr.trbdf("<< AbstrbdtMixfr: stop(" + linf + ") found running sourdfLinf: " + sourdfLinf);
+                    rfturn;
                 }
             }
         }
 
-        // otherwise, stop
-        if (Printer.debug) Printer.debug("AbstractMixer: stop(line): stopping the mixer");
-        started = false;
+        @SupprfssWbrnings("undifdkfd")
+        Vfdtor<Linf> lodblTbrgftLinfs = (Vfdtor<Linf>)tbrgftLinfs.dlonf();
+        for (int i = 0; i < lodblTbrgftLinfs.sizf(); i++) {
+
+            // if bny otifr opfn linf is running, rfturn
+            // tiis dovfrs tbrgft dbtb linfs
+            if (lodblTbrgftLinfs.flfmfntAt(i) instbndfof AbstrbdtDbtbLinf) {
+                AbstrbdtDbtbLinf tbrgftLinf = (AbstrbdtDbtbLinf)lodblTbrgftLinfs.flfmfntAt(i);
+                if ( tbrgftLinf.isStbrtfdRunning() && (!tbrgftLinf.fqubls(linf)) ) {
+                    if (Printfr.trbdf) Printfr.trbdf("<< AbstrbdtMixfr: stop(" + linf + ") found running tbrgftLinf: " + tbrgftLinf);
+                    rfturn;
+                }
+            }
+        }
+
+        // otifrwisf, stop
+        if (Printfr.dfbug) Printfr.dfbug("AbstrbdtMixfr: stop(linf): stopping tif mixfr");
+        stbrtfd = fblsf;
         implStop();
 
-        if (Printer.trace) Printer.trace("<< AbstractMixer: stop(" + line + ") succeeded");
+        if (Printfr.trbdf) Printfr.trbdf("<< AbstrbdtMixfr: stop(" + linf + ") suddffdfd");
     }
 
 
 
     /**
-     * Determines whether this is a source line for this mixer.
-     * Right now this just checks whether it's supported, but should
-     * check whether it actually belongs to this mixer....
+     * Dftfrminfs wiftifr tiis is b sourdf linf for tiis mixfr.
+     * Rigit now tiis just difdks wiftifr it's supportfd, but siould
+     * difdk wiftifr it bdtublly bflongs to tiis mixfr....
      */
-    final boolean isSourceLine(Line.Info info) {
+    finbl boolfbn isSourdfLinf(Linf.Info info) {
 
-        for (int i = 0; i < sourceLineInfo.length; i++) {
-            if (info.matches(sourceLineInfo[i])) {
-                return true;
+        for (int i = 0; i < sourdfLinfInfo.lfngti; i++) {
+            if (info.mbtdifs(sourdfLinfInfo[i])) {
+                rfturn truf;
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
 
     /**
-     * Determines whether this is a target line for this mixer.
-     * Right now this just checks whether it's supported, but should
-     * check whether it actually belongs to this mixer....
+     * Dftfrminfs wiftifr tiis is b tbrgft linf for tiis mixfr.
+     * Rigit now tiis just difdks wiftifr it's supportfd, but siould
+     * difdk wiftifr it bdtublly bflongs to tiis mixfr....
      */
-    final boolean isTargetLine(Line.Info info) {
+    finbl boolfbn isTbrgftLinf(Linf.Info info) {
 
-        for (int i = 0; i < targetLineInfo.length; i++) {
-            if (info.matches(targetLineInfo[i])) {
-                return true;
+        for (int i = 0; i < tbrgftLinfInfo.lfngti; i++) {
+            if (info.mbtdifs(tbrgftLinfInfo[i])) {
+                rfturn truf;
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
 
     /**
-     * Returns the first complete Line.Info object it finds that
-     * matches the one specified, or null if no matching Line.Info
-     * object is found.
+     * Rfturns tif first domplftf Linf.Info objfdt it finds tibt
+     * mbtdifs tif onf spfdififd, or null if no mbtdiing Linf.Info
+     * objfdt is found.
      */
-    final Line.Info getLineInfo(Line.Info info) {
+    finbl Linf.Info gftLinfInfo(Linf.Info info) {
         if (info == null) {
-            return null;
+            rfturn null;
         }
-        // $$kk: 05.31.99: need to change this so that
-        // the format and buffer size get set in the
-        // returned info object for data lines??
-        for (int i = 0; i < sourceLineInfo.length; i++) {
-            if (info.matches(sourceLineInfo[i])) {
-                return sourceLineInfo[i];
+        // $$kk: 05.31.99: nffd to dibngf tiis so tibt
+        // tif formbt bnd bufffr sizf gft sft in tif
+        // rfturnfd info objfdt for dbtb linfs??
+        for (int i = 0; i < sourdfLinfInfo.lfngti; i++) {
+            if (info.mbtdifs(sourdfLinfInfo[i])) {
+                rfturn sourdfLinfInfo[i];
             }
         }
 
-        for (int i = 0; i < targetLineInfo.length; i++) {
-            if (info.matches(targetLineInfo[i])) {
-                return targetLineInfo[i];
+        for (int i = 0; i < tbrgftLinfInfo.lfngti; i++) {
+            if (info.mbtdifs(tbrgftLinfInfo[i])) {
+                rfturn tbrgftLinfInfo[i];
             }
         }
 
-        return null;
+        rfturn null;
     }
 
 }

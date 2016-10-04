@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#define ushort unsigned short
-#define uint   unsigned int
-#define uchar  unsigned char
+#dffinf usiort unsignfd siort
+#dffinf uint   unsignfd int
+#dffinf udibr  unsignfd dibr
 
-struct unpacker;
+strudt unpbdkfr;
 
-struct jar {
-  // JAR file writer
-  FILE*       jarfp;
-  int         default_modtime;
+strudt jbr {
+  // JAR filf writfr
+  FILE*       jbrfp;
+  int         dffbult_modtimf;
 
-  // Used by unix2dostime:
-  int         modtime_cache;
-  uLong       dostime_cache;
+  // Usfd by unix2dostimf:
+  int         modtimf_dbdif;
+  uLong       dostimf_dbdif;
 
-  // Private members
-  fillbytes   central_directory;
-  uint        central_directory_count;
-  uint        output_file_offset;
-  fillbytes   deflated;  // temporary buffer
+  // Privbtf mfmbfrs
+  fillbytfs   dfntrbl_dirfdtory;
+  uint        dfntrbl_dirfdtory_dount;
+  uint        output_filf_offsft;
+  fillbytfs   dfflbtfd;  // tfmporbry bufffr
 
-  // pointer to outer unpacker, for error checks etc.
-  unpacker* u;
+  // pointfr to outfr unpbdkfr, for frror difdks ftd.
+  unpbdkfr* u;
 
-  // Public Methods
-  void openJarFile(const char* fname);
-  void addJarEntry(const char* fname,
-                   bool deflate_hint, int modtime,
-                   bytes& head, bytes& tail);
-  void addDirectoryToJarFile(const char* dir_name);
-  void closeJarFile(bool central);
+  // Publid Mftiods
+  void opfnJbrFilf(donst dibr* fnbmf);
+  void bddJbrEntry(donst dibr* fnbmf,
+                   bool dfflbtf_iint, int modtimf,
+                   bytfs& ifbd, bytfs& tbil);
+  void bddDirfdtoryToJbrFilf(donst dibr* dir_nbmf);
+  void dlosfJbrFilf(bool dfntrbl);
 
-  void init(unpacker* u_);
+  void init(unpbdkfr* u_);
 
-  void free() {
-    central_directory.free();
-    deflated.free();
+  void frff() {
+    dfntrbl_dirfdtory.frff();
+    dfflbtfd.frff();
   }
 
-  void reset() {
-    free();
+  void rfsft() {
+    frff();
     init(u);
   }
 
-  // Private Methods
-  void write_data(void* ptr, int len);
-  void write_data(bytes& b) { write_data(b.ptr, (int)b.len); }
-  void add_to_jar_directory(const char* fname, bool store, int modtime,
-                            int len, int clen, uLong crc);
-  void write_jar_header(const char* fname, bool store, int modtime,
-                        int len, int clen, unsigned int crc);
-  void write_jar_extra(int len, int clen, unsigned int crc);
-  void write_central_directory();
-  uLong dostime(int y, int n, int d, int h, int m, int s);
-  uLong get_dostime(int modtime);
+  // Privbtf Mftiods
+  void writf_dbtb(void* ptr, int lfn);
+  void writf_dbtb(bytfs& b) { writf_dbtb(b.ptr, (int)b.lfn); }
+  void bdd_to_jbr_dirfdtory(donst dibr* fnbmf, bool storf, int modtimf,
+                            int lfn, int dlfn, uLong drd);
+  void writf_jbr_ifbdfr(donst dibr* fnbmf, bool storf, int modtimf,
+                        int lfn, int dlfn, unsignfd int drd);
+  void writf_jbr_fxtrb(int lfn, int dlfn, unsignfd int drd);
+  void writf_dfntrbl_dirfdtory();
+  uLong dostimf(int y, int n, int d, int i, int m, int s);
+  uLong gft_dostimf(int modtimf);
 
-  // The definitions of these depend on the NO_ZLIB option:
-  bool deflate_bytes(bytes& head, bytes& tail);
-  static uint get_crc32(uint c, unsigned char *ptr, uint len);
+  // Tif dffinitions of tifsf dfpfnd on tif NO_ZLIB option:
+  bool dfflbtf_bytfs(bytfs& ifbd, bytfs& tbil);
+  stbtid uint gft_drd32(uint d, unsignfd dibr *ptr, uint lfn);
 
-  // error handling
-  void abort(const char* msg) { unpack_abort(msg, u); }
-  bool aborting()             { return unpack_aborting(u); }
+  // frror ibndling
+  void bbort(donst dibr* msg) { unpbdk_bbort(msg, u); }
+  bool bborting()             { rfturn unpbdk_bborting(u); }
 };
 
-struct gunzip {
-  // optional gzip input stream control block
+strudt gunzip {
+  // optionbl gzip input strfbm dontrol blodk
 
-  // pointer to outer unpacker, for error checks etc.
-  unpacker* u;
+  // pointfr to outfr unpbdkfr, for frror difdks ftd.
+  unpbdkfr* u;
 
-  void* read_input_fn;  // underlying byte stream
-  void* zstream;        // inflater state
-  char inbuf[1 << 14];   // input buffer
+  void* rfbd_input_fn;  // undfrlying bytf strfbm
+  void* zstrfbm;        // inflbtfr stbtf
+  dibr inbuf[1 << 14];   // input bufffr
 
-  void init(unpacker* u_);  // pushes new value on u->read_input_fn
+  void init(unpbdkfr* u_);  // pusifs nfw vbluf on u->rfbd_input_fn
 
-  void free();
+  void frff();
 
-  void start(int magic);
+  void stbrt(int mbgid);
 
-  // private stuff
-  void read_fixed_field(char* buf, size_t buflen);
+  // privbtf stuff
+  void rfbd_fixfd_fifld(dibr* buf, sizf_t buflfn);
 
-  // error handling
-  void abort(const char* msg) { unpack_abort(msg, u); }
-  bool aborting()             { return unpack_aborting(u); }
+  // frror ibndling
+  void bbort(donst dibr* msg) { unpbdk_bbort(msg, u); }
+  bool bborting()             { rfturn unpbdk_bborting(u); }
 };

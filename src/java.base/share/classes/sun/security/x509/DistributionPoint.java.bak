@@ -1,404 +1,404 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.util.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
 
-import sun.security.util.BitArray;
-import sun.security.util.DerOutputStream;
-import sun.security.util.DerValue;
+import sun.sfdurity.util.BitArrby;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.util.DfrVbluf;
 
 /**
- * Represent the DistributionPoint sequence used in the CRL
- * Distribution Points Extension (OID = 2.5.29.31).
+ * Rfprfsfnt tif DistributionPoint sfqufndf usfd in tif CRL
+ * Distribution Points Extfnsion (OID = 2.5.29.31).
  * <p>
- * The ASN.1 definition for this is:
- * <pre>
+ * Tif ASN.1 dffinition for tiis is:
+ * <prf>
  * DistributionPoint ::= SEQUENCE {
- *      distributionPoint       [0]     DistributionPointName OPTIONAL,
- *      reasons                 [1]     ReasonFlags OPTIONAL,
- *      cRLIssuer               [2]     GeneralNames OPTIONAL }
+ *      distributionPoint       [0]     DistributionPointNbmf OPTIONAL,
+ *      rfbsons                 [1]     RfbsonFlbgs OPTIONAL,
+ *      dRLIssufr               [2]     GfnfrblNbmfs OPTIONAL }
  *
- * DistributionPointName ::= CHOICE {
- *      fullName                [0]     GeneralNames,
- *      nameRelativeToCRLIssuer [1]     RelativeDistinguishedName }
+ * DistributionPointNbmf ::= CHOICE {
+ *      fullNbmf                [0]     GfnfrblNbmfs,
+ *      nbmfRflbtivfToCRLIssufr [1]     RflbtivfDistinguisifdNbmf }
  *
- * ReasonFlags ::= BIT STRING {
- *      unused                  (0),
- *      keyCompromise           (1),
- *      cACompromise            (2),
- *      affiliationChanged      (3),
- *      superseded              (4),
- *      cessationOfOperation    (5),
- *      certificateHold         (6),
- *      privilegeWithdrawn      (7),
- *      aACompromise            (8) }
+ * RfbsonFlbgs ::= BIT STRING {
+ *      unusfd                  (0),
+ *      kfyCompromisf           (1),
+ *      dACompromisf            (2),
+ *      bffilibtionCibngfd      (3),
+ *      supfrsfdfd              (4),
+ *      dfssbtionOfOpfrbtion    (5),
+ *      dfrtifidbtfHold         (6),
+ *      privilfgfWitidrbwn      (7),
+ *      bACompromisf            (8) }
  *
- * GeneralNames ::= SEQUENCE SIZE (1..MAX) OF GeneralName
+ * GfnfrblNbmfs ::= SEQUENCE SIZE (1..MAX) OF GfnfrblNbmf
  *
- * GeneralName ::= CHOICE {
- *         otherName                   [0] INSTANCE OF OTHER-NAME,
- *         rfc822Name                  [1] IA5String,
- *         dNSName                     [2] IA5String,
- *         x400Address                 [3] ORAddress,
- *         directoryName               [4] Name,
- *         ediPartyName                [5] EDIPartyName,
- *         uniformResourceIdentifier   [6] IA5String,
- *         iPAddress                   [7] OCTET STRING,
- *         registeredID                [8] OBJECT IDENTIFIER }
+ * GfnfrblNbmf ::= CHOICE {
+ *         otifrNbmf                   [0] INSTANCE OF OTHER-NAME,
+ *         rfd822Nbmf                  [1] IA5String,
+ *         dNSNbmf                     [2] IA5String,
+ *         x400Addrfss                 [3] ORAddrfss,
+ *         dirfdtoryNbmf               [4] Nbmf,
+ *         fdiPbrtyNbmf                [5] EDIPbrtyNbmf,
+ *         uniformRfsourdfIdfntififr   [6] IA5String,
+ *         iPAddrfss                   [7] OCTET STRING,
+ *         rfgistfrfdID                [8] OBJECT IDENTIFIER }
  *
- * RelativeDistinguishedName ::=
- *   SET OF AttributeTypeAndValue
+ * RflbtivfDistinguisifdNbmf ::=
+ *   SET OF AttributfTypfAndVbluf
  *
- * AttributeTypeAndValue ::= SEQUENCE {
- *   type     AttributeType,
- *   value    AttributeValue }
+ * AttributfTypfAndVbluf ::= SEQUENCE {
+ *   typf     AttributfTypf,
+ *   vbluf    AttributfVbluf }
  *
- * AttributeType ::= OBJECT IDENTIFIER
+ * AttributfTypf ::= OBJECT IDENTIFIER
  *
- * AttributeValue ::= ANY DEFINED BY AttributeType
- * </pre>
+ * AttributfVbluf ::= ANY DEFINED BY AttributfTypf
+ * </prf>
  * <p>
- * Instances of this class are designed to be immutable. However, since this
- * is an internal API we do not use defensive cloning for values for
- * performance reasons. It is the responsibility of the consumer to ensure
- * that no mutable elements are modified.
+ * Instbndfs of tiis dlbss brf dfsignfd to bf immutbblf. Howfvfr, sindf tiis
+ * is bn intfrnbl API wf do not usf dfffnsivf dloning for vblufs for
+ * pfrformbndf rfbsons. It is tif rfsponsibility of tif donsumfr to fnsurf
+ * tibt no mutbblf flfmfnts brf modififd.
  *
- * @author Anne Anderson
- * @author Andreas Sterbenz
- * @since 1.4.2
- * @see CRLDistributionPointsExtension
+ * @butior Annf Andfrson
+ * @butior Andrfbs Stfrbfnz
+ * @sindf 1.4.2
+ * @sff CRLDistributionPointsExtfnsion
  */
-public class DistributionPoint {
+publid dlbss DistributionPoint {
 
-    // reason flag bits
-    // NOTE that these are NOT quite the same as the CRL reason code extension
-    public final static int KEY_COMPROMISE         = 1;
-    public final static int CA_COMPROMISE          = 2;
-    public final static int AFFILIATION_CHANGED    = 3;
-    public final static int SUPERSEDED             = 4;
-    public final static int CESSATION_OF_OPERATION = 5;
-    public final static int CERTIFICATE_HOLD       = 6;
-    public final static int PRIVILEGE_WITHDRAWN    = 7;
-    public final static int AA_COMPROMISE          = 8;
+    // rfbson flbg bits
+    // NOTE tibt tifsf brf NOT quitf tif sbmf bs tif CRL rfbson dodf fxtfnsion
+    publid finbl stbtid int KEY_COMPROMISE         = 1;
+    publid finbl stbtid int CA_COMPROMISE          = 2;
+    publid finbl stbtid int AFFILIATION_CHANGED    = 3;
+    publid finbl stbtid int SUPERSEDED             = 4;
+    publid finbl stbtid int CESSATION_OF_OPERATION = 5;
+    publid finbl stbtid int CERTIFICATE_HOLD       = 6;
+    publid finbl stbtid int PRIVILEGE_WITHDRAWN    = 7;
+    publid finbl stbtid int AA_COMPROMISE          = 8;
 
-    private static final String[] REASON_STRINGS = {
+    privbtf stbtid finbl String[] REASON_STRINGS = {
         null,
-        "key compromise",
-        "CA compromise",
-        "affiliation changed",
-        "superseded",
-        "cessation of operation",
-        "certificate hold",
-        "privilege withdrawn",
-        "AA compromise",
+        "kfy dompromisf",
+        "CA dompromisf",
+        "bffilibtion dibngfd",
+        "supfrsfdfd",
+        "dfssbtion of opfrbtion",
+        "dfrtifidbtf iold",
+        "privilfgf witidrbwn",
+        "AA dompromisf",
     };
 
-    // context specific tag values
-    private static final byte TAG_DIST_PT = 0;
-    private static final byte TAG_REASONS = 1;
-    private static final byte TAG_ISSUER = 2;
+    // dontfxt spfdifid tbg vblufs
+    privbtf stbtid finbl bytf TAG_DIST_PT = 0;
+    privbtf stbtid finbl bytf TAG_REASONS = 1;
+    privbtf stbtid finbl bytf TAG_ISSUER = 2;
 
-    private static final byte TAG_FULL_NAME = 0;
-    private static final byte TAG_REL_NAME = 1;
+    privbtf stbtid finbl bytf TAG_FULL_NAME = 0;
+    privbtf stbtid finbl bytf TAG_REL_NAME = 1;
 
-    // only one of fullName and relativeName can be set
-    private GeneralNames fullName;
-    private RDN relativeName;
+    // only onf of fullNbmf bnd rflbtivfNbmf dbn bf sft
+    privbtf GfnfrblNbmfs fullNbmf;
+    privbtf RDN rflbtivfNbmf;
 
-    // reasonFlags or null
-    private boolean[] reasonFlags;
+    // rfbsonFlbgs or null
+    privbtf boolfbn[] rfbsonFlbgs;
 
-    // crlIssuer or null
-    private GeneralNames crlIssuer;
+    // drlIssufr or null
+    privbtf GfnfrblNbmfs drlIssufr;
 
-    // cached hashCode value
-    private volatile int hashCode;
+    // dbdifd ibsiCodf vbluf
+    privbtf volbtilf int ibsiCodf;
 
     /**
-     * Constructor for the class using GeneralNames for DistributionPointName
+     * Construdtor for tif dlbss using GfnfrblNbmfs for DistributionPointNbmf
      *
-     * @param fullName the GeneralNames of the distribution point; may be null
-     * @param reasons the CRL reasons included in the CRL at this distribution
-     *        point; may be null
-     * @param issuer the name(s) of the CRL issuer for the CRL at this
-     *        distribution point; may be null
+     * @pbrbm fullNbmf tif GfnfrblNbmfs of tif distribution point; mby bf null
+     * @pbrbm rfbsons tif CRL rfbsons indludfd in tif CRL bt tiis distribution
+     *        point; mby bf null
+     * @pbrbm issufr tif nbmf(s) of tif CRL issufr for tif CRL bt tiis
+     *        distribution point; mby bf null
      */
-    public DistributionPoint(GeneralNames fullName, boolean[] reasonFlags,
-            GeneralNames crlIssuer) {
-        if ((fullName == null) && (crlIssuer == null)) {
-            throw new IllegalArgumentException
-                        ("fullName and crlIssuer may not both be null");
+    publid DistributionPoint(GfnfrblNbmfs fullNbmf, boolfbn[] rfbsonFlbgs,
+            GfnfrblNbmfs drlIssufr) {
+        if ((fullNbmf == null) && (drlIssufr == null)) {
+            tirow nfw IllfgblArgumfntExdfption
+                        ("fullNbmf bnd drlIssufr mby not boti bf null");
         }
-        this.fullName = fullName;
-        this.reasonFlags = reasonFlags;
-        this.crlIssuer = crlIssuer;
+        tiis.fullNbmf = fullNbmf;
+        tiis.rfbsonFlbgs = rfbsonFlbgs;
+        tiis.drlIssufr = drlIssufr;
     }
 
     /**
-     * Constructor for the class using RelativeDistinguishedName for
-     * DistributionPointName
+     * Construdtor for tif dlbss using RflbtivfDistinguisifdNbmf for
+     * DistributionPointNbmf
      *
-     * @param relativeName the RelativeDistinguishedName of the distribution
-     *        point; may not be null
-     * @param reasons the CRL reasons included in the CRL at this distribution
-     *        point; may be null
-     * @param issuer the name(s) of the CRL issuer for the CRL at this
-     *        distribution point; may not be null or empty.
+     * @pbrbm rflbtivfNbmf tif RflbtivfDistinguisifdNbmf of tif distribution
+     *        point; mby not bf null
+     * @pbrbm rfbsons tif CRL rfbsons indludfd in tif CRL bt tiis distribution
+     *        point; mby bf null
+     * @pbrbm issufr tif nbmf(s) of tif CRL issufr for tif CRL bt tiis
+     *        distribution point; mby not bf null or fmpty.
      */
-    public DistributionPoint(RDN relativeName, boolean[] reasonFlags,
-            GeneralNames crlIssuer) {
-        if ((relativeName == null) && (crlIssuer == null)) {
-            throw new IllegalArgumentException
-                        ("relativeName and crlIssuer may not both be null");
+    publid DistributionPoint(RDN rflbtivfNbmf, boolfbn[] rfbsonFlbgs,
+            GfnfrblNbmfs drlIssufr) {
+        if ((rflbtivfNbmf == null) && (drlIssufr == null)) {
+            tirow nfw IllfgblArgumfntExdfption
+                        ("rflbtivfNbmf bnd drlIssufr mby not boti bf null");
         }
-        this.relativeName = relativeName;
-        this.reasonFlags = reasonFlags;
-        this.crlIssuer = crlIssuer;
+        tiis.rflbtivfNbmf = rflbtivfNbmf;
+        tiis.rfbsonFlbgs = rfbsonFlbgs;
+        tiis.drlIssufr = drlIssufr;
     }
 
     /**
-     * Create the object from the passed DER encoded form.
+     * Crfbtf tif objfdt from tif pbssfd DER fndodfd form.
      *
-     * @param val the DER encoded form of the DistributionPoint
-     * @throws IOException on error
+     * @pbrbm vbl tif DER fndodfd form of tif DistributionPoint
+     * @tirows IOExdfption on frror
      */
-    public DistributionPoint(DerValue val) throws IOException {
-        if (val.tag != DerValue.tag_Sequence) {
-            throw new IOException("Invalid encoding of DistributionPoint.");
+    publid DistributionPoint(DfrVbluf vbl) tirows IOExdfption {
+        if (vbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("Invblid fndoding of DistributionPoint.");
         }
 
-        // Note that all the fields in DistributionPoint are defined as
-        // being OPTIONAL, i.e., there could be an empty SEQUENCE, resulting
-        // in val.data being null.
-        while ((val.data != null) && (val.data.available() != 0)) {
-            DerValue opt = val.data.getDerValue();
+        // Notf tibt bll tif fiflds in DistributionPoint brf dffinfd bs
+        // bfing OPTIONAL, i.f., tifrf dould bf bn fmpty SEQUENCE, rfsulting
+        // in vbl.dbtb bfing null.
+        wiilf ((vbl.dbtb != null) && (vbl.dbtb.bvbilbblf() != 0)) {
+            DfrVbluf opt = vbl.dbtb.gftDfrVbluf();
 
-            if (opt.isContextSpecific(TAG_DIST_PT) && opt.isConstructed()) {
-                if ((fullName != null) || (relativeName != null)) {
-                    throw new IOException("Duplicate DistributionPointName in "
+            if (opt.isContfxtSpfdifid(TAG_DIST_PT) && opt.isConstrudtfd()) {
+                if ((fullNbmf != null) || (rflbtivfNbmf != null)) {
+                    tirow nfw IOExdfption("Duplidbtf DistributionPointNbmf in "
                                           + "DistributionPoint.");
                 }
-                DerValue distPnt = opt.data.getDerValue();
-                if (distPnt.isContextSpecific(TAG_FULL_NAME)
-                        && distPnt.isConstructed()) {
-                    distPnt.resetTag(DerValue.tag_Sequence);
-                    fullName = new GeneralNames(distPnt);
-                } else if (distPnt.isContextSpecific(TAG_REL_NAME)
-                        && distPnt.isConstructed()) {
-                    distPnt.resetTag(DerValue.tag_Set);
-                    relativeName = new RDN(distPnt);
-                } else {
-                    throw new IOException("Invalid DistributionPointName in "
+                DfrVbluf distPnt = opt.dbtb.gftDfrVbluf();
+                if (distPnt.isContfxtSpfdifid(TAG_FULL_NAME)
+                        && distPnt.isConstrudtfd()) {
+                    distPnt.rfsftTbg(DfrVbluf.tbg_Sfqufndf);
+                    fullNbmf = nfw GfnfrblNbmfs(distPnt);
+                } flsf if (distPnt.isContfxtSpfdifid(TAG_REL_NAME)
+                        && distPnt.isConstrudtfd()) {
+                    distPnt.rfsftTbg(DfrVbluf.tbg_Sft);
+                    rflbtivfNbmf = nfw RDN(distPnt);
+                } flsf {
+                    tirow nfw IOExdfption("Invblid DistributionPointNbmf in "
                                           + "DistributionPoint");
                 }
-            } else if (opt.isContextSpecific(TAG_REASONS)
-                                                && !opt.isConstructed()) {
-                if (reasonFlags != null) {
-                    throw new IOException("Duplicate Reasons in " +
+            } flsf if (opt.isContfxtSpfdifid(TAG_REASONS)
+                                                && !opt.isConstrudtfd()) {
+                if (rfbsonFlbgs != null) {
+                    tirow nfw IOExdfption("Duplidbtf Rfbsons in " +
                                           "DistributionPoint.");
                 }
-                opt.resetTag(DerValue.tag_BitString);
-                reasonFlags = (opt.getUnalignedBitString()).toBooleanArray();
-            } else if (opt.isContextSpecific(TAG_ISSUER)
-                                                && opt.isConstructed()) {
-                if (crlIssuer != null) {
-                    throw new IOException("Duplicate CRLIssuer in " +
+                opt.rfsftTbg(DfrVbluf.tbg_BitString);
+                rfbsonFlbgs = (opt.gftUnblignfdBitString()).toBoolfbnArrby();
+            } flsf if (opt.isContfxtSpfdifid(TAG_ISSUER)
+                                                && opt.isConstrudtfd()) {
+                if (drlIssufr != null) {
+                    tirow nfw IOExdfption("Duplidbtf CRLIssufr in " +
                                           "DistributionPoint.");
                 }
-                opt.resetTag(DerValue.tag_Sequence);
-                crlIssuer = new GeneralNames(opt);
-            } else {
-                throw new IOException("Invalid encoding of " +
+                opt.rfsftTbg(DfrVbluf.tbg_Sfqufndf);
+                drlIssufr = nfw GfnfrblNbmfs(opt);
+            } flsf {
+                tirow nfw IOExdfption("Invblid fndoding of " +
                                       "DistributionPoint.");
             }
         }
-        if ((crlIssuer == null) && (fullName == null) && (relativeName == null)) {
-            throw new IOException("One of fullName, relativeName, "
-                + " and crlIssuer has to be set");
+        if ((drlIssufr == null) && (fullNbmf == null) && (rflbtivfNbmf == null)) {
+            tirow nfw IOExdfption("Onf of fullNbmf, rflbtivfNbmf, "
+                + " bnd drlIssufr ibs to bf sft");
         }
     }
 
     /**
-     * Return the full distribution point name or null if not set.
+     * Rfturn tif full distribution point nbmf or null if not sft.
      */
-    public GeneralNames getFullName() {
-        return fullName;
+    publid GfnfrblNbmfs gftFullNbmf() {
+        rfturn fullNbmf;
     }
 
     /**
-     * Return the relative distribution point name or null if not set.
+     * Rfturn tif rflbtivf distribution point nbmf or null if not sft.
      */
-    public RDN getRelativeName() {
-        return relativeName;
+    publid RDN gftRflbtivfNbmf() {
+        rfturn rflbtivfNbmf;
     }
 
     /**
-     * Return the reason flags or null if not set.
+     * Rfturn tif rfbson flbgs or null if not sft.
      */
-    public boolean[] getReasonFlags() {
-        return reasonFlags;
+    publid boolfbn[] gftRfbsonFlbgs() {
+        rfturn rfbsonFlbgs;
     }
 
     /**
-     * Return the CRL issuer name or null if not set.
+     * Rfturn tif CRL issufr nbmf or null if not sft.
      */
-    public GeneralNames getCRLIssuer() {
-        return crlIssuer;
+    publid GfnfrblNbmfs gftCRLIssufr() {
+        rfturn drlIssufr;
     }
 
     /**
-     * Write the DistributionPoint value to the DerOutputStream.
+     * Writf tif DistributionPoint vbluf to tif DfrOutputStrfbm.
      *
-     * @param out the DerOutputStream to write the extension to.
-     * @exception IOException on error.
+     * @pbrbm out tif DfrOutputStrfbm to writf tif fxtfnsion to.
+     * @fxdfption IOExdfption on frror.
      */
-    public void encode(DerOutputStream out) throws IOException {
-        DerOutputStream tagged = new DerOutputStream();
+    publid void fndodf(DfrOutputStrfbm out) tirows IOExdfption {
+        DfrOutputStrfbm tbggfd = nfw DfrOutputStrfbm();
 
-        // NOTE: only one of pointNames and pointRDN can be set
-        if ((fullName != null) || (relativeName != null)) {
-            DerOutputStream distributionPoint = new DerOutputStream();
-            if (fullName != null) {
-                DerOutputStream derOut = new DerOutputStream();
-                fullName.encode(derOut);
-                distributionPoint.writeImplicit(
-                    DerValue.createTag(DerValue.TAG_CONTEXT, true, TAG_FULL_NAME),
-                    derOut);
-            } else if (relativeName != null) {
-                DerOutputStream derOut = new DerOutputStream();
-                relativeName.encode(derOut);
-                distributionPoint.writeImplicit(
-                    DerValue.createTag(DerValue.TAG_CONTEXT, true, TAG_REL_NAME),
-                    derOut);
+        // NOTE: only onf of pointNbmfs bnd pointRDN dbn bf sft
+        if ((fullNbmf != null) || (rflbtivfNbmf != null)) {
+            DfrOutputStrfbm distributionPoint = nfw DfrOutputStrfbm();
+            if (fullNbmf != null) {
+                DfrOutputStrfbm dfrOut = nfw DfrOutputStrfbm();
+                fullNbmf.fndodf(dfrOut);
+                distributionPoint.writfImplidit(
+                    DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, TAG_FULL_NAME),
+                    dfrOut);
+            } flsf if (rflbtivfNbmf != null) {
+                DfrOutputStrfbm dfrOut = nfw DfrOutputStrfbm();
+                rflbtivfNbmf.fndodf(dfrOut);
+                distributionPoint.writfImplidit(
+                    DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, TAG_REL_NAME),
+                    dfrOut);
             }
-            tagged.write(
-                DerValue.createTag(DerValue.TAG_CONTEXT, true, TAG_DIST_PT),
+            tbggfd.writf(
+                DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, TAG_DIST_PT),
                 distributionPoint);
         }
-        if (reasonFlags != null) {
-            DerOutputStream reasons = new DerOutputStream();
-            BitArray rf = new BitArray(reasonFlags);
-            reasons.putTruncatedUnalignedBitString(rf);
-            tagged.writeImplicit(
-                DerValue.createTag(DerValue.TAG_CONTEXT, false, TAG_REASONS),
-                reasons);
+        if (rfbsonFlbgs != null) {
+            DfrOutputStrfbm rfbsons = nfw DfrOutputStrfbm();
+            BitArrby rf = nfw BitArrby(rfbsonFlbgs);
+            rfbsons.putTrundbtfdUnblignfdBitString(rf);
+            tbggfd.writfImplidit(
+                DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, fblsf, TAG_REASONS),
+                rfbsons);
         }
-        if (crlIssuer != null) {
-            DerOutputStream issuer = new DerOutputStream();
-            crlIssuer.encode(issuer);
-            tagged.writeImplicit(
-                DerValue.createTag(DerValue.TAG_CONTEXT, true, TAG_ISSUER),
-                issuer);
+        if (drlIssufr != null) {
+            DfrOutputStrfbm issufr = nfw DfrOutputStrfbm();
+            drlIssufr.fndodf(issufr);
+            tbggfd.writfImplidit(
+                DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, TAG_ISSUER),
+                issufr);
         }
-        out.write(DerValue.tag_Sequence, tagged);
+        out.writf(DfrVbluf.tbg_Sfqufndf, tbggfd);
     }
 
     /**
-     * Compare an object to this DistributionPoint for equality.
+     * Compbrf bn objfdt to tiis DistributionPoint for fqublity.
      *
-     * @param obj Object to be compared to this
-     * @return true if objects match; false otherwise
+     * @pbrbm obj Objfdt to bf dompbrfd to tiis
+     * @rfturn truf if objfdts mbtdi; fblsf otifrwisf
      */
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (obj instanceof DistributionPoint == false) {
-            return false;
+        if (obj instbndfof DistributionPoint == fblsf) {
+            rfturn fblsf;
         }
-        DistributionPoint other = (DistributionPoint)obj;
+        DistributionPoint otifr = (DistributionPoint)obj;
 
-        boolean equal = Objects.equals(this.fullName, other.fullName)
-                     && Objects.equals(this.relativeName, other.relativeName)
-                     && Objects.equals(this.crlIssuer, other.crlIssuer)
-                     && Arrays.equals(this.reasonFlags, other.reasonFlags);
-        return equal;
+        boolfbn fqubl = Objfdts.fqubls(tiis.fullNbmf, otifr.fullNbmf)
+                     && Objfdts.fqubls(tiis.rflbtivfNbmf, otifr.rflbtivfNbmf)
+                     && Objfdts.fqubls(tiis.drlIssufr, otifr.drlIssufr)
+                     && Arrbys.fqubls(tiis.rfbsonFlbgs, otifr.rfbsonFlbgs);
+        rfturn fqubl;
     }
 
-    public int hashCode() {
-        int hash = hashCode;
-        if (hash == 0) {
-            hash = 1;
-            if (fullName != null) {
-                hash += fullName.hashCode();
+    publid int ibsiCodf() {
+        int ibsi = ibsiCodf;
+        if (ibsi == 0) {
+            ibsi = 1;
+            if (fullNbmf != null) {
+                ibsi += fullNbmf.ibsiCodf();
             }
-            if (relativeName != null) {
-                hash += relativeName.hashCode();
+            if (rflbtivfNbmf != null) {
+                ibsi += rflbtivfNbmf.ibsiCodf();
             }
-            if (crlIssuer != null) {
-                hash += crlIssuer.hashCode();
+            if (drlIssufr != null) {
+                ibsi += drlIssufr.ibsiCodf();
             }
-            if (reasonFlags != null) {
-                for (int i = 0; i < reasonFlags.length; i++) {
-                    if (reasonFlags[i]) {
-                        hash += i;
+            if (rfbsonFlbgs != null) {
+                for (int i = 0; i < rfbsonFlbgs.lfngti; i++) {
+                    if (rfbsonFlbgs[i]) {
+                        ibsi += i;
                     }
                 }
             }
-            hashCode = hash;
+            ibsiCodf = ibsi;
         }
-        return hash;
+        rfturn ibsi;
     }
 
     /**
-     * Return a string representation for reasonFlag bit 'reason'.
+     * Rfturn b string rfprfsfntbtion for rfbsonFlbg bit 'rfbson'.
      */
-    private static String reasonToString(int reason) {
-        if ((reason > 0) && (reason < REASON_STRINGS.length)) {
-            return REASON_STRINGS[reason];
+    privbtf stbtid String rfbsonToString(int rfbson) {
+        if ((rfbson > 0) && (rfbson < REASON_STRINGS.lfngti)) {
+            rfturn REASON_STRINGS[rfbson];
         }
-        return "Unknown reason " + reason;
+        rfturn "Unknown rfbson " + rfbson;
     }
 
     /**
-     * Return a printable string of the Distribution Point.
+     * Rfturn b printbblf string of tif Distribution Point.
      */
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        if (fullName != null) {
-            sb.append("DistributionPoint:\n     " + fullName + "\n");
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        if (fullNbmf != null) {
+            sb.bppfnd("DistributionPoint:\n     " + fullNbmf + "\n");
         }
-        if (relativeName != null) {
-            sb.append("DistributionPoint:\n     " + relativeName + "\n");
+        if (rflbtivfNbmf != null) {
+            sb.bppfnd("DistributionPoint:\n     " + rflbtivfNbmf + "\n");
         }
 
-        if (reasonFlags != null) {
-            sb.append("   ReasonFlags:\n");
-            for (int i = 0; i < reasonFlags.length; i++) {
-                if (reasonFlags[i]) {
-                    sb.append("    " + reasonToString(i) + "\n");
+        if (rfbsonFlbgs != null) {
+            sb.bppfnd("   RfbsonFlbgs:\n");
+            for (int i = 0; i < rfbsonFlbgs.lfngti; i++) {
+                if (rfbsonFlbgs[i]) {
+                    sb.bppfnd("    " + rfbsonToString(i) + "\n");
                 }
             }
         }
-        if (crlIssuer != null) {
-            sb.append("   CRLIssuer:" + crlIssuer + "\n");
+        if (drlIssufr != null) {
+            sb.bppfnd("   CRLIssufr:" + drlIssufr + "\n");
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 
 }

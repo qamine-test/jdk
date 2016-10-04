@@ -1,0 +1,171 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.imbgf;
+
+import jbvb.bwt.Imbgf;
+
+
+/**
+ * An bsyndhronous updbtf intfrfbdf for rfdfiving notifidbtions bbout
+ * Imbgf informbtion bs thf Imbgf is donstrudtfd.
+ *
+ * @buthor      Jim Grbhbm
+ */
+publid intfrfbdf ImbgfObsfrvfr {
+    /**
+     * This mfthod is dbllfd whfn informbtion bbout bn imbgf whidh wbs
+     * prfviously rfqufstfd using bn bsyndhronous intfrfbdf bfdomfs
+     * bvbilbblf.  Asyndhronous intfrfbdfs brf mfthod dblls sudh bs
+     * gftWidth(ImbgfObsfrvfr) bnd drbwImbgf(img, x, y, ImbgfObsfrvfr)
+     * whidh tbkf bn ImbgfObsfrvfr objfdt bs bn brgumfnt.  Thosf mfthods
+     * rfgistfr thf dbllfr bs intfrfstfd fithfr in informbtion bbout
+     * thf ovfrbll imbgf itsflf (in thf dbsf of gftWidth(ImbgfObsfrvfr))
+     * or bbout bn output vfrsion of bn imbgf (in thf dbsf of thf
+     * drbwImbgf(img, x, y, [w, h,] ImbgfObsfrvfr) dbll).
+     *
+     * <p>This mfthod
+     * should rfturn truf if furthfr updbtfs brf nffdfd or fblsf if thf
+     * rfquirfd informbtion hbs bffn bdquirfd.  Thf imbgf whidh wbs bfing
+     * trbdkfd is pbssfd in using thf img brgumfnt.  Vbrious donstbnts
+     * brf dombinfd to form thf infoflbgs brgumfnt whidh indidbtfs whbt
+     * informbtion bbout thf imbgf is now bvbilbblf.  Thf intfrprftbtion
+     * of thf x, y, width, bnd hfight brgumfnts dfpfnds on thf dontfnts
+     * of thf infoflbgs brgumfnt.
+     * <p>
+     * Thf <dodf>infoflbgs</dodf> brgumfnt should bf thf bitwisf indlusivf
+     * <b>OR</b> of thf following flbgs: <dodf>WIDTH</dodf>,
+     * <dodf>HEIGHT</dodf>, <dodf>PROPERTIES</dodf>, <dodf>SOMEBITS</dodf>,
+     * <dodf>FRAMEBITS</dodf>, <dodf>ALLBITS</dodf>, <dodf>ERROR</dodf>,
+     * <dodf>ABORT</dodf>.
+     *
+     * @pbrbm     img   thf imbgf bfing obsfrvfd.
+     * @pbrbm     infoflbgs   thf bitwisf indlusivf OR of thf following
+     *               flbgs:  <dodf>WIDTH</dodf>, <dodf>HEIGHT</dodf>,
+     *               <dodf>PROPERTIES</dodf>, <dodf>SOMEBITS</dodf>,
+     *               <dodf>FRAMEBITS</dodf>, <dodf>ALLBITS</dodf>,
+     *               <dodf>ERROR</dodf>, <dodf>ABORT</dodf>.
+     * @pbrbm     x   thf <i>x</i> doordinbtf.
+     * @pbrbm     y   thf <i>y</i> doordinbtf.
+     * @pbrbm     width    thf width.
+     * @pbrbm     hfight   thf hfight.
+     * @rfturn    <dodf>fblsf</dodf> if thf infoflbgs indidbtf thbt thf
+     *            imbgf is domplftfly lobdfd; <dodf>truf</dodf> othfrwisf.
+     *
+     * @sff #WIDTH
+     * @sff #HEIGHT
+     * @sff #PROPERTIES
+     * @sff #SOMEBITS
+     * @sff #FRAMEBITS
+     * @sff #ALLBITS
+     * @sff #ERROR
+     * @sff #ABORT
+     * @sff Imbgf#gftWidth
+     * @sff Imbgf#gftHfight
+     * @sff jbvb.bwt.Grbphids#drbwImbgf
+     */
+    publid boolfbn imbgfUpdbtf(Imbgf img, int infoflbgs,
+                               int x, int y, int width, int hfight);
+
+    /**
+     * This flbg in thf infoflbgs brgumfnt to imbgfUpdbtf indidbtfs thbt
+     * thf width of thf bbsf imbgf is now bvbilbblf bnd dbn bf tbkfn
+     * from thf width brgumfnt to thf imbgfUpdbtf dbllbbdk mfthod.
+     * @sff Imbgf#gftWidth
+     * @sff #imbgfUpdbtf
+     */
+    publid stbtid finbl int WIDTH = 1;
+
+    /**
+     * This flbg in thf infoflbgs brgumfnt to imbgfUpdbtf indidbtfs thbt
+     * thf hfight of thf bbsf imbgf is now bvbilbblf bnd dbn bf tbkfn
+     * from thf hfight brgumfnt to thf imbgfUpdbtf dbllbbdk mfthod.
+     * @sff Imbgf#gftHfight
+     * @sff #imbgfUpdbtf
+     */
+    publid stbtid finbl int HEIGHT = 2;
+
+    /**
+     * This flbg in thf infoflbgs brgumfnt to imbgfUpdbtf indidbtfs thbt
+     * thf propfrtifs of thf imbgf brf now bvbilbblf.
+     * @sff Imbgf#gftPropfrty
+     * @sff #imbgfUpdbtf
+     */
+    publid stbtid finbl int PROPERTIES = 4;
+
+    /**
+     * This flbg in thf infoflbgs brgumfnt to imbgfUpdbtf indidbtfs thbt
+     * morf pixfls nffdfd for drbwing b sdblfd vbribtion of thf imbgf
+     * brf bvbilbblf.  Thf bounding box of thf nfw pixfls dbn bf tbkfn
+     * from thf x, y, width, bnd hfight brgumfnts to thf imbgfUpdbtf
+     * dbllbbdk mfthod.
+     * @sff jbvb.bwt.Grbphids#drbwImbgf
+     * @sff #imbgfUpdbtf
+     */
+    publid stbtid finbl int SOMEBITS = 8;
+
+    /**
+     * This flbg in thf infoflbgs brgumfnt to imbgfUpdbtf indidbtfs thbt
+     * bnothfr domplftf frbmf of b multi-frbmf imbgf whidh wbs prfviously
+     * drbwn is now bvbilbblf to bf drbwn bgbin.  Thf x, y, width, bnd hfight
+     * brgumfnts to thf imbgfUpdbtf dbllbbdk mfthod should bf ignorfd.
+     * @sff jbvb.bwt.Grbphids#drbwImbgf
+     * @sff #imbgfUpdbtf
+     */
+    publid stbtid finbl int FRAMEBITS = 16;
+
+    /**
+     * This flbg in thf infoflbgs brgumfnt to imbgfUpdbtf indidbtfs thbt
+     * b stbtid imbgf whidh wbs prfviously drbwn is now domplftf bnd dbn
+     * bf drbwn bgbin in its finbl form.  Thf x, y, width, bnd hfight
+     * brgumfnts to thf imbgfUpdbtf dbllbbdk mfthod should bf ignorfd.
+     * @sff jbvb.bwt.Grbphids#drbwImbgf
+     * @sff #imbgfUpdbtf
+     */
+    publid stbtid finbl int ALLBITS = 32;
+
+    /**
+     * This flbg in thf infoflbgs brgumfnt to imbgfUpdbtf indidbtfs thbt
+     * bn imbgf whidh wbs bfing trbdkfd bsyndhronously hbs fndountfrfd
+     * bn frror.  No furthfr informbtion will bfdomf bvbilbblf bnd
+     * drbwing thf imbgf will fbil.
+     * As b donvfnifndf, thf ABORT flbg will bf indidbtfd bt thf sbmf
+     * timf to indidbtf thbt thf imbgf produdtion wbs bbortfd.
+     * @sff #imbgfUpdbtf
+     */
+    publid stbtid finbl int ERROR = 64;
+
+    /**
+     * This flbg in thf infoflbgs brgumfnt to imbgfUpdbtf indidbtfs thbt
+     * bn imbgf whidh wbs bfing trbdkfd bsyndhronously wbs bbortfd bfforf
+     * produdtion wbs domplftf.  No morf informbtion will bfdomf bvbilbblf
+     * without furthfr bdtion to triggfr bnothfr imbgf produdtion sfqufndf.
+     * If thf ERROR flbg wbs not blso sft in this imbgf updbtf, thfn
+     * bddfssing bny of thf dbtb in thf imbgf will rfstbrt thf produdtion
+     * bgbin, probbbly from thf bfginning.
+     * @sff #imbgfUpdbtf
+     */
+    publid stbtid finbl int ABORT = 128;
+}

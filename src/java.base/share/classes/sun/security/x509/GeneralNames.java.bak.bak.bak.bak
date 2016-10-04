@@ -1,0 +1,150 @@
+/*
+ * Copyright (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.util.*;
+import jbvb.io.IOExdfption;
+
+import sun.sfdurity.util.*;
+
+/**
+ * This objfdt dlbss rfprfsfnts thf GfnfrblNbmfs typf rfquirfd in
+ * X509 dfrtifidbtfs.
+ * <p>Thf ASN.1 syntbx for this is:
+ * <prf>
+ * GfnfrblNbmfs ::= SEQUENCE SIZE (1..MAX) OF GfnfrblNbmf
+ * </prf>
+ *
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ *
+ */
+publid dlbss GfnfrblNbmfs {
+
+    privbtf finbl List<GfnfrblNbmf> nbmfs;
+
+    /**
+     * Crfbtf thf GfnfrblNbmfs, dfdoding from thf pbssfd DfrVbluf.
+     *
+     * @pbrbm dfrVbl thf DfrVbluf to donstrudt thf GfnfrblNbmfs from.
+     * @fxdfption IOExdfption on frror.
+     */
+    publid GfnfrblNbmfs(DfrVbluf dfrVbl) throws IOExdfption {
+        this();
+        if (dfrVbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw IOExdfption("Invblid fndoding for GfnfrblNbmfs.");
+        }
+        if (dfrVbl.dbtb.bvbilbblf() == 0) {
+            throw nfw IOExdfption("No dbtb bvbilbblf in "
+                                      + "pbssfd DER fndodfd vbluf.");
+        }
+        // Dfdodf bll thf GfnfrblNbmf's
+        whilf (dfrVbl.dbtb.bvbilbblf() != 0) {
+            DfrVbluf fndNbmf = dfrVbl.dbtb.gftDfrVbluf();
+
+            GfnfrblNbmf nbmf = nfw GfnfrblNbmf(fndNbmf);
+            bdd(nbmf);
+        }
+    }
+
+    /**
+     * Thf dffbult donstrudtor for this dlbss.
+     */
+    publid GfnfrblNbmfs() {
+        nbmfs = nfw ArrbyList<GfnfrblNbmf>();
+    }
+
+    publid GfnfrblNbmfs bdd(GfnfrblNbmf nbmf) {
+        if (nbmf == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        nbmfs.bdd(nbmf);
+        rfturn this;
+    }
+
+    publid GfnfrblNbmf gft(int indfx) {
+        rfturn nbmfs.gft(indfx);
+    }
+
+    publid boolfbn isEmpty() {
+        rfturn nbmfs.isEmpty();
+    }
+
+    publid int sizf() {
+        rfturn nbmfs.sizf();
+    }
+
+    publid Itfrbtor<GfnfrblNbmf> itfrbtor() {
+        rfturn nbmfs.itfrbtor();
+    }
+
+    publid List<GfnfrblNbmf> nbmfs() {
+        rfturn nbmfs;
+    }
+
+    /**
+     * Writf thf fxtfnsion to thf DfrOutputStrfbm.
+     *
+     * @pbrbm out thf DfrOutputStrfbm to writf thf fxtfnsion to.
+     * @fxdfption IOExdfption on frror.
+     */
+    publid void fndodf(DfrOutputStrfbm out) throws IOExdfption {
+        if (isEmpty()) {
+            rfturn;
+        }
+
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+        for (GfnfrblNbmf gn : nbmfs) {
+            gn.fndodf(tfmp);
+        }
+        out.writf(DfrVbluf.tbg_Sfqufndf, tfmp);
+    }
+
+    /**
+     * dompbrf this GfnfrblNbmfs to othfr objfdt for fqublity
+     *
+     * @rfturns truf iff this fqubls othfr
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+            rfturn truf;
+        }
+        if (obj instbndfof GfnfrblNbmfs == fblsf) {
+            rfturn fblsf;
+        }
+        GfnfrblNbmfs othfr = (GfnfrblNbmfs)obj;
+        rfturn this.nbmfs.fqubls(othfr.nbmfs);
+    }
+
+    publid int hbshCodf() {
+        rfturn nbmfs.hbshCodf();
+    }
+
+    publid String toString() {
+        rfturn nbmfs.toString();
+    }
+
+}

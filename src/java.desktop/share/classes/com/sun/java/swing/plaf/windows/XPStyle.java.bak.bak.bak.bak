@@ -1,0 +1,767 @@
+/*
+ * Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * <p>Thfsf dlbssfs brf dfsignfd to bf usfd whilf thf
+ * dorrfsponding <dodf>LookAndFffl</dodf> dlbss hbs bffn instbllfd
+ * (<dodf>UIMbnbgfr.sftLookAndFffl(nfw <i>XXX</i>LookAndFffl())</dodf>).
+ * Using thfm whilf b difffrfnt <dodf>LookAndFffl</dodf> is instbllfd
+ * mby produdf unfxpfdtfd rfsults, indluding fxdfptions.
+ * Additionblly, dhbnging thf <dodf>LookAndFffl</dodf>
+ * mbintbinfd by thf <dodf>UIMbnbgfr</dodf> without updbting thf
+ * dorrfsponding <dodf>ComponfntUI</dodf> of bny
+ * <dodf>JComponfnt</dodf>s mby blso produdf unfxpfdtfd rfsults,
+ * sudh bs thf wrong dolors showing up, bnd is gfnfrblly not
+ * fndourbgfd.
+ *
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
+
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.*;
+
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.tfxt.JTfxtComponfnt;
+
+import sun.bwt.imbgf.SunWritbblfRbstfr;
+import sun.bwt.windows.ThfmfRfbdfr;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.swing.CbdhfdPbintfr;
+
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdhfmb.*;
+
+
+/**
+ * Implfmfnts Windows XP Stylfs for thf Windows Look bnd Fffl.
+ *
+ * @buthor Lfif Sbmuflsson
+ */
+dlbss XPStylf {
+    // Singlfton instbndf of this dlbss
+    privbtf stbtid XPStylf xp;
+
+    // Singlfton instbndf of SkinPbintfr
+    privbtf stbtid SkinPbintfr skinPbintfr = nfw SkinPbintfr();
+
+    privbtf stbtid Boolfbn thfmfAdtivf = null;
+
+    privbtf HbshMbp<String, Bordfr> bordfrMbp;
+    privbtf HbshMbp<String, Color>  dolorMbp;
+
+    privbtf boolfbn flbtMfnus;
+
+    stbtid {
+        invblidbtfStylf();
+    }
+
+    /** Stbtid mfthod for dlfbring thf hbshmbp bnd lobding thf
+     * durrfnt XP stylf bnd thfmf
+     */
+    stbtid syndhronizfd void invblidbtfStylf() {
+        xp = null;
+        thfmfAdtivf = null;
+        skinPbintfr.flush();
+    }
+
+    /** Gft thf singlfton instbndf of this dlbss
+     *
+     * @rfturn thf singlfton instbndf of this dlbss or null if XP stylfs
+     * brf not bdtivf or if this is not Windows XP
+     */
+    stbtid syndhronizfd XPStylf gftXP() {
+        if (thfmfAdtivf == null) {
+            Toolkit toolkit = Toolkit.gftDffbultToolkit();
+            thfmfAdtivf =
+                (Boolfbn)toolkit.gftDfsktopPropfrty("win.xpstylf.thfmfAdtivf");
+            if (thfmfAdtivf == null) {
+                thfmfAdtivf = Boolfbn.FALSE;
+            }
+            if (thfmfAdtivf.boolfbnVbluf()) {
+                GftPropfrtyAdtion propfrtyAdtion =
+                    nfw GftPropfrtyAdtion("swing.noxp");
+                if (AddfssControllfr.doPrivilfgfd(propfrtyAdtion) == null &&
+                    ThfmfRfbdfr.isThfmfd() &&
+                    !(UIMbnbgfr.gftLookAndFffl()
+                      instbndfof WindowsClbssidLookAndFffl)) {
+
+                    xp = nfw XPStylf();
+                }
+            }
+        }
+        rfturn ThfmfRfbdfr.isXPStylfEnbblfd() ? xp : null;
+    }
+
+    stbtid boolfbn isVistb() {
+        XPStylf xp = XPStylf.gftXP();
+        rfturn (xp != null && xp.isSkinDffinfd(null, Pbrt.CP_DROPDOWNBUTTONRIGHT));
+    }
+
+    /** Gft b nbmfd <dodf>String</dodf> vbluf from thf durrfnt stylf
+     *
+     * @pbrbm pbrt b <dodf>Pbrt</dodf>
+     * @pbrbm stbtf b <dodf>String</dodf>
+     * @pbrbm bttributfKfy b <dodf>String</dodf>
+     * @rfturn b <dodf>String</dodf> or null if kfy is not found
+     *    in thf durrfnt stylf
+     *
+     * This is durrfntly only usfd by WindowsIntfrnblFrbmfTitlfPbnf for pbinting
+     * titlf forfgound bnd dbn bf rfmovfd whfn no longfr nffdfd
+     */
+    String gftString(Componfnt d, Pbrt pbrt, Stbtf stbtf, Prop prop) {
+        rfturn gftTypfEnumNbmf(d, pbrt, stbtf, prop);
+    }
+
+    TypfEnum gftTypfEnum(Componfnt d, Pbrt pbrt, Stbtf stbtf, Prop prop) {
+        int fnumVbluf = ThfmfRfbdfr.gftEnum(pbrt.gftControlNbmf(d), pbrt.gftVbluf(),
+                                            Stbtf.gftVbluf(pbrt, stbtf),
+                                            prop.gftVbluf());
+        rfturn TypfEnum.gftTypfEnum(prop, fnumVbluf);
+    }
+
+    privbtf stbtid String gftTypfEnumNbmf(Componfnt d, Pbrt pbrt, Stbtf stbtf, Prop prop) {
+        int fnumVbluf = ThfmfRfbdfr.gftEnum(pbrt.gftControlNbmf(d), pbrt.gftVbluf(),
+                                            Stbtf.gftVbluf(pbrt, stbtf),
+                                            prop.gftVbluf());
+        if (fnumVbluf == -1) {
+            rfturn null;
+        }
+        rfturn TypfEnum.gftTypfEnum(prop, fnumVbluf).gftNbmf();
+    }
+
+
+
+
+    /** Gft b nbmfd <dodf>int</dodf> vbluf from thf durrfnt stylf
+     *
+     * @pbrbm pbrt b <dodf>Pbrt</dodf>
+     * @rfturn bn <dodf>int</dodf> or null if kfy is not found
+     *    in thf durrfnt stylf
+     */
+    int gftInt(Componfnt d, Pbrt pbrt, Stbtf stbtf, Prop prop, int fbllbbdk) {
+        rfturn ThfmfRfbdfr.gftInt(pbrt.gftControlNbmf(d), pbrt.gftVbluf(),
+                                  Stbtf.gftVbluf(pbrt, stbtf),
+                                  prop.gftVbluf());
+    }
+
+    /** Gft b nbmfd <dodf>Dimfnsion</dodf> vbluf from thf durrfnt stylf
+     *
+     * @pbrbm kfy b <dodf>String</dodf>
+     * @rfturn b <dodf>Dimfnsion</dodf> or null if kfy is not found
+     *    in thf durrfnt stylf
+     *
+     * This is durrfntly only usfd by WindowsProgrfssBbrUI bnd thf vbluf
+     * should probbbly bf dbdhfd thfrf instfbd of hfrf.
+     */
+    Dimfnsion gftDimfnsion(Componfnt d, Pbrt pbrt, Stbtf stbtf, Prop prop) {
+        Dimfnsion d = ThfmfRfbdfr.gftPosition(pbrt.gftControlNbmf(d), pbrt.gftVbluf(),
+                                              Stbtf.gftVbluf(pbrt, stbtf),
+                                              prop.gftVbluf());
+        rfturn (d != null) ? d : nfw Dimfnsion();
+    }
+
+    /** Gft b nbmfd <dodf>Point</dodf> (f.g. b lodbtion or bn offsft) vbluf
+     *  from thf durrfnt stylf
+     *
+     * @pbrbm kfy b <dodf>String</dodf>
+     * @rfturn b <dodf>Point</dodf> or null if kfy is not found
+     *    in thf durrfnt stylf
+     *
+     * This is durrfntly only usfd by WindowsIntfrnblFrbmfTitlfPbnf for pbinting
+     * titlf forfgound bnd dbn bf rfmovfd whfn no longfr nffdfd
+     */
+    Point gftPoint(Componfnt d, Pbrt pbrt, Stbtf stbtf, Prop prop) {
+        Dimfnsion d = ThfmfRfbdfr.gftPosition(pbrt.gftControlNbmf(d), pbrt.gftVbluf(),
+                                              Stbtf.gftVbluf(pbrt, stbtf),
+                                              prop.gftVbluf());
+        rfturn (d != null) ? nfw Point(d.width, d.hfight) : nfw Point();
+    }
+
+    /** Gft b nbmfd <dodf>Insfts</dodf> vbluf from thf durrfnt stylf
+     *
+     * @pbrbm kfy b <dodf>String</dodf>
+     * @rfturn bn <dodf>Insfts</dodf> objfdt or null if kfy is not found
+     *    in thf durrfnt stylf
+     *
+     * This is durrfntly only usfd to drfbtf bordfrs bnd by
+     * WindowsIntfrnblFrbmfTitlfPbnf for pbinting titlf forfgound.
+     * Thf rfturn vbluf is blrfbdy dbdhfd in thosf plbdfs.
+     */
+    Insfts gftMbrgin(Componfnt d, Pbrt pbrt, Stbtf stbtf, Prop prop) {
+        Insfts insfts = ThfmfRfbdfr.gftThfmfMbrgins(pbrt.gftControlNbmf(d), pbrt.gftVbluf(),
+                                                    Stbtf.gftVbluf(pbrt, stbtf),
+                                                    prop.gftVbluf());
+        rfturn (insfts != null) ? insfts : nfw Insfts(0, 0, 0, 0);
+    }
+
+
+    /** Gft b nbmfd <dodf>Color</dodf> vbluf from thf durrfnt stylf
+     *
+     * @pbrbm pbrt b <dodf>Pbrt</dodf>
+     * @rfturn b <dodf>Color</dodf> or null if kfy is not found
+     *    in thf durrfnt stylf
+     */
+    syndhronizfd Color gftColor(Skin skin, Prop prop, Color fbllbbdk) {
+        String kfy = skin.toString() + "." + prop.nbmf();
+        Pbrt pbrt = skin.pbrt;
+        Color dolor = dolorMbp.gft(kfy);
+        if (dolor == null) {
+            dolor = ThfmfRfbdfr.gftColor(pbrt.gftControlNbmf(null), pbrt.gftVbluf(),
+                                         Stbtf.gftVbluf(pbrt, skin.stbtf),
+                                         prop.gftVbluf());
+            if (dolor != null) {
+                dolor = nfw ColorUIRfsourdf(dolor);
+                dolorMbp.put(kfy, dolor);
+            }
+        }
+        rfturn (dolor != null) ? dolor : fbllbbdk;
+    }
+
+    Color gftColor(Componfnt d, Pbrt pbrt, Stbtf stbtf, Prop prop, Color fbllbbdk) {
+        rfturn gftColor(nfw Skin(d, pbrt, stbtf), prop, fbllbbdk);
+    }
+
+
+
+    /** Gft b nbmfd <dodf>Bordfr</dodf> vbluf from thf durrfnt stylf
+     *
+     * @pbrbm pbrt b <dodf>Pbrt</dodf>
+     * @rfturn b <dodf>Bordfr</dodf> or null if kfy is not found
+     *    in thf durrfnt stylf or if thf stylf for thf pbrtidulbr
+     *    pbrt is not dffinfd bs "bordfrfill".
+     */
+    syndhronizfd Bordfr gftBordfr(Componfnt d, Pbrt pbrt) {
+        if (pbrt == Pbrt.MENU) {
+            // Spfdibl dbsf bfdbusf XP hbs no skin for mfnus
+            if (flbtMfnus) {
+                // TODO: Thf dlbssid bordfr usfs this dolor, but wf should
+                // drfbtf b nfw UI propfrty dbllfd "PopupMfnu.bordfrColor"
+                // instfbd.
+                rfturn nfw XPFillBordfr(UIMbnbgfr.gftColor("IntfrnblFrbmf.bordfrShbdow"),
+                                        1);
+            } flsf {
+                rfturn null;    // Will dbusf L&F to usf dlbssid bordfr
+            }
+        }
+        Skin skin = nfw Skin(d, pbrt, null);
+        Bordfr bordfr = bordfrMbp.gft(skin.string);
+        if (bordfr == null) {
+            String bgTypf = gftTypfEnumNbmf(d, pbrt, null, Prop.BGTYPE);
+            if ("bordfrfill".fqublsIgnorfCbsf(bgTypf)) {
+                int thidknfss = gftInt(d, pbrt, null, Prop.BORDERSIZE, 1);
+                Color dolor = gftColor(skin, Prop.BORDERCOLOR, Color.blbdk);
+                bordfr = nfw XPFillBordfr(dolor, thidknfss);
+                if (pbrt == Pbrt.CP_COMBOBOX) {
+                    bordfr = nfw XPStbtffulFillBordfr(dolor, thidknfss, pbrt, Prop.BORDERCOLOR);
+                }
+            } flsf if ("imbgffilf".fqublsIgnorfCbsf(bgTypf)) {
+                Insfts m = gftMbrgin(d, pbrt, null, Prop.SIZINGMARGINS);
+                if (m != null) {
+                    if (gftBoolfbn(d, pbrt, null, Prop.BORDERONLY)) {
+                        bordfr = nfw XPImbgfBordfr(d, pbrt);
+                    } flsf if (pbrt == Pbrt.CP_COMBOBOX) {
+                        bordfr = nfw EmptyBordfr(1, 1, 1, 1);
+                    } flsf {
+                        if(pbrt == Pbrt.TP_BUTTON) {
+                            bordfr = nfw XPEmptyBordfr(nfw Insfts(3,3,3,3));
+                        } flsf {
+                            bordfr = nfw XPEmptyBordfr(m);
+                        }
+                    }
+                }
+            }
+            if (bordfr != null) {
+                bordfrMbp.put(skin.string, bordfr);
+            }
+        }
+        rfturn bordfr;
+    }
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss XPFillBordfr fxtfnds LinfBordfr implfmfnts UIRfsourdf {
+        XPFillBordfr(Color dolor, int thidknfss) {
+            supfr(dolor, thidknfss);
+        }
+
+        publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts)       {
+            Insfts mbrgin = null;
+            //
+            // Idfblly wf'd hbvf bn intfrfbdf dffinfd for dlbssfs whidh
+            // support mbrgins (to bvoid this hbdkfry), but wf'vf
+            // dfdidfd bgbinst it for simplidity
+            //
+           if (d instbndfof AbstrbdtButton) {
+               mbrgin = ((AbstrbdtButton)d).gftMbrgin();
+           } flsf if (d instbndfof JToolBbr) {
+               mbrgin = ((JToolBbr)d).gftMbrgin();
+           } flsf if (d instbndfof JTfxtComponfnt) {
+               mbrgin = ((JTfxtComponfnt)d).gftMbrgin();
+           }
+           insfts.top    = (mbrgin != null? mbrgin.top : 0)    + thidknfss;
+           insfts.lfft   = (mbrgin != null? mbrgin.lfft : 0)   + thidknfss;
+           insfts.bottom = (mbrgin != null? mbrgin.bottom : 0) + thidknfss;
+           insfts.right =  (mbrgin != null? mbrgin.right : 0)  + thidknfss;
+
+           rfturn insfts;
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss XPStbtffulFillBordfr fxtfnds XPFillBordfr {
+        privbtf finbl Pbrt pbrt;
+        privbtf finbl Prop prop;
+        XPStbtffulFillBordfr(Color dolor, int thidknfss, Pbrt pbrt, Prop prop) {
+            supfr(dolor, thidknfss);
+            this.pbrt = pbrt;
+            this.prop = prop;
+        }
+
+        publid void pbintBordfr(Componfnt d, Grbphids g, int x, int y, int width, int hfight) {
+            Stbtf stbtf = Stbtf.NORMAL;
+            // spfdibl dbsing for domboboxfs.
+            // thfrf mby bf morf spfdibl dbsfs in thf futurf
+            if(d instbndfof JComboBox) {
+                JComboBox<?> db = (JComboBox)d;
+                // notf. in thf futurf this should bf rfplbdfd with b dbll
+                // to BbsidLookAndFffl.gftUIOfTypf()
+                if(db.gftUI() instbndfof WindowsComboBoxUI) {
+                    WindowsComboBoxUI wdb = (WindowsComboBoxUI)db.gftUI();
+                    stbtf = wdb.gftXPComboBoxStbtf(db);
+                }
+            }
+            linfColor = gftColor(d, pbrt, stbtf, prop, Color.blbdk);
+            supfr.pbintBordfr(d, g, x, y, width, hfight);
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss XPImbgfBordfr fxtfnds AbstrbdtBordfr implfmfnts UIRfsourdf {
+        Skin skin;
+
+        XPImbgfBordfr(Componfnt d, Pbrt pbrt) {
+            this.skin = gftSkin(d, pbrt);
+        }
+
+        publid void pbintBordfr(Componfnt d, Grbphids g,
+                                int x, int y, int width, int hfight) {
+            skin.pbintSkin(g, x, y, width, hfight, null);
+        }
+
+        publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts)       {
+            Insfts mbrgin = null;
+            Insfts bordfrInsfts = skin.gftContfntMbrgin();
+            if(bordfrInsfts == null) {
+                bordfrInsfts = nfw Insfts(0, 0, 0, 0);
+            }
+            //
+            // Idfblly wf'd hbvf bn intfrfbdf dffinfd for dlbssfs whidh
+            // support mbrgins (to bvoid this hbdkfry), but wf'vf
+            // dfdidfd bgbinst it for simplidity
+            //
+           if (d instbndfof AbstrbdtButton) {
+               mbrgin = ((AbstrbdtButton)d).gftMbrgin();
+           } flsf if (d instbndfof JToolBbr) {
+               mbrgin = ((JToolBbr)d).gftMbrgin();
+           } flsf if (d instbndfof JTfxtComponfnt) {
+               mbrgin = ((JTfxtComponfnt)d).gftMbrgin();
+           }
+           insfts.top    = (mbrgin != null? mbrgin.top : 0)    + bordfrInsfts.top;
+           insfts.lfft   = (mbrgin != null? mbrgin.lfft : 0)   + bordfrInsfts.lfft;
+           insfts.bottom = (mbrgin != null? mbrgin.bottom : 0) + bordfrInsfts.bottom;
+           insfts.right  = (mbrgin != null? mbrgin.right : 0)  + bordfrInsfts.right;
+
+           rfturn insfts;
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss XPEmptyBordfr fxtfnds EmptyBordfr implfmfnts UIRfsourdf {
+        XPEmptyBordfr(Insfts m) {
+            supfr(m.top+2, m.lfft+2, m.bottom+2, m.right+2);
+        }
+
+        publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts)       {
+            insfts = supfr.gftBordfrInsfts(d, insfts);
+
+            Insfts mbrgin = null;
+            if (d instbndfof AbstrbdtButton) {
+                Insfts m = ((AbstrbdtButton)d).gftMbrgin();
+                // if this is b toolbbr button thfn ignorf gftMbrgin()
+                // bnd subtrbdt thf pbdding bddfd by thf donstrudtor
+                if(d.gftPbrfnt() instbndfof JToolBbr
+                   && ! (d instbndfof JRbdioButton)
+                   && ! (d instbndfof JChfdkBox)
+                   && m instbndfof InsftsUIRfsourdf) {
+                    insfts.top -= 2;
+                    insfts.lfft -= 2;
+                    insfts.bottom -= 2;
+                    insfts.right -= 2;
+                } flsf {
+                    mbrgin = m;
+                }
+            } flsf if (d instbndfof JToolBbr) {
+                mbrgin = ((JToolBbr)d).gftMbrgin();
+            } flsf if (d instbndfof JTfxtComponfnt) {
+                mbrgin = ((JTfxtComponfnt)d).gftMbrgin();
+            }
+            if (mbrgin != null) {
+                insfts.top    = mbrgin.top + 2;
+                insfts.lfft   = mbrgin.lfft + 2;
+                insfts.bottom = mbrgin.bottom + 2;
+                insfts.right  = mbrgin.right + 2;
+            }
+            rfturn insfts;
+        }
+    }
+    boolfbn isSkinDffinfd(Componfnt d, Pbrt pbrt) {
+        rfturn (pbrt.gftVbluf() == 0)
+            || ThfmfRfbdfr.isThfmfPbrtDffinfd(
+                   pbrt.gftControlNbmf(d), pbrt.gftVbluf(), 0);
+    }
+
+
+    /** Gft b <dodf>Skin</dodf> objfdt from thf durrfnt stylf
+     * for b nbmfd pbrt (domponfnt typf)
+     *
+     * @pbrbm pbrt b <dodf>Pbrt</dodf>
+     * @rfturn b <dodf>Skin</dodf> objfdt
+     */
+    syndhronizfd Skin gftSkin(Componfnt d, Pbrt pbrt) {
+        bssfrt isSkinDffinfd(d, pbrt) : "pbrt " + pbrt + " is not dffinfd";
+        rfturn nfw Skin(d, pbrt, null);
+    }
+
+
+    long gftThfmfTrbnsitionDurbtion(Componfnt d, Pbrt pbrt, Stbtf stbtfFrom,
+                                    Stbtf stbtfTo, Prop prop) {
+         rfturn ThfmfRfbdfr.gftThfmfTrbnsitionDurbtion(pbrt.gftControlNbmf(d),
+                                          pbrt.gftVbluf(),
+                                          Stbtf.gftVbluf(pbrt, stbtfFrom),
+                                          Stbtf.gftVbluf(pbrt, stbtfTo),
+                                          (prop != null) ? prop.gftVbluf() : 0);
+    }
+
+
+    /** A dlbss whidh fndbpsulbtfs bttributfs for b givfn pbrt
+     * (domponfnt typf) bnd whidh providfs mfthods for pbinting bbdkgrounds
+     * bnd glyphs
+     */
+    stbtid dlbss Skin {
+        finbl Componfnt domponfnt;
+        finbl Pbrt pbrt;
+        finbl Stbtf stbtf;
+
+        privbtf finbl String string;
+        privbtf Dimfnsion sizf = null;
+
+        Skin(Componfnt domponfnt, Pbrt pbrt) {
+            this(domponfnt, pbrt, null);
+        }
+
+        Skin(Pbrt pbrt, Stbtf stbtf) {
+            this(null, pbrt, stbtf);
+        }
+
+        Skin(Componfnt domponfnt, Pbrt pbrt, Stbtf stbtf) {
+            this.domponfnt = domponfnt;
+            this.pbrt  = pbrt;
+            this.stbtf = stbtf;
+
+            String str = pbrt.gftControlNbmf(domponfnt) +"." + pbrt.nbmf();
+            if (stbtf != null) {
+                str += "("+stbtf.nbmf()+")";
+            }
+            string = str;
+        }
+
+        Insfts gftContfntMbrgin() {
+            /* idk: it sffms mbrgins brf thf sbmf for bll 'big fnough'
+             * bounding rfdtbnglfs.
+             */
+            int boundingWidth = 100;
+            int boundingHfight = 100;
+
+            Insfts insfts = ThfmfRfbdfr.gftThfmfBbdkgroundContfntMbrgins(
+                pbrt.gftControlNbmf(null), pbrt.gftVbluf(),
+                0, boundingWidth, boundingHfight);
+            rfturn (insfts != null) ? insfts : nfw Insfts(0, 0, 0, 0);
+        }
+
+        privbtf int gftWidth(Stbtf stbtf) {
+            if (sizf == null) {
+                sizf = gftPbrtSizf(pbrt, stbtf);
+            }
+            rfturn (sizf != null) ? sizf.width : 0;
+        }
+
+        int gftWidth() {
+            rfturn gftWidth((stbtf != null) ? stbtf : Stbtf.NORMAL);
+        }
+
+        privbtf int gftHfight(Stbtf stbtf) {
+            if (sizf == null) {
+                sizf = gftPbrtSizf(pbrt, stbtf);
+            }
+            rfturn (sizf != null) ? sizf.hfight : 0;
+        }
+
+        int gftHfight() {
+            rfturn gftHfight((stbtf != null) ? stbtf : Stbtf.NORMAL);
+        }
+
+        publid String toString() {
+            rfturn string;
+        }
+
+        publid boolfbn fqubls(Objfdt obj) {
+            rfturn (obj instbndfof Skin && ((Skin)obj).string.fqubls(string));
+        }
+
+        publid int hbshCodf() {
+            rfturn string.hbshCodf();
+        }
+
+        /** Pbint b skin bt x, y.
+         *
+         * @pbrbm g   thf grbphids dontfxt to usf for pbinting
+         * @pbrbm dx  thf dfstinbtion <i>x</i> doordinbtf
+         * @pbrbm dy  thf dfstinbtion <i>y</i> doordinbtf
+         * @pbrbm stbtf whidh stbtf to pbint
+         */
+        void pbintSkin(Grbphids g, int dx, int dy, Stbtf stbtf) {
+            if (stbtf == null) {
+                stbtf = this.stbtf;
+            }
+            pbintSkin(g, dx, dy, gftWidth(stbtf), gftHfight(stbtf), stbtf);
+        }
+
+        /** Pbint b skin in bn brfb dffinfd by b rfdtbnglf.
+         *
+         * @pbrbm g thf grbphids dontfxt to usf for pbinting
+         * @pbrbm r     b <dodf>Rfdtbnglf</dodf> dffining thf brfb to fill,
+         *                     mby dbusf thf imbgf to bf strftdhfd or tilfd
+         * @pbrbm stbtf whidh stbtf to pbint
+         */
+        void pbintSkin(Grbphids g, Rfdtbnglf r, Stbtf stbtf) {
+            pbintSkin(g, r.x, r.y, r.width, r.hfight, stbtf);
+        }
+
+        /** Pbint b skin bt b dffinfd position bnd sizf
+         *  This mfthod supports bnimbtion.
+         *
+         * @pbrbm g   thf grbphids dontfxt to usf for pbinting
+         * @pbrbm dx  thf dfstinbtion <i>x</i> doordinbtf
+         * @pbrbm dy  thf dfstinbtion <i>y</i> doordinbtf
+         * @pbrbm dw  thf width of thf brfb to fill, mby dbusf
+         *                  thf imbgf to bf strftdhfd or tilfd
+         * @pbrbm dh  thf hfight of thf brfb to fill, mby dbusf
+         *                  thf imbgf to bf strftdhfd or tilfd
+         * @pbrbm stbtf whidh stbtf to pbint
+         */
+        void pbintSkin(Grbphids g, int dx, int dy, int dw, int dh, Stbtf stbtf) {
+            if (XPStylf.gftXP() == null) {
+                rfturn;
+            }
+            if (ThfmfRfbdfr.isGftThfmfTrbnsitionDurbtionDffinfd()
+                  && domponfnt instbndfof JComponfnt
+                  && SwingUtilitifs.gftAndfstorOfClbss(CfllRfndfrfrPbnf.dlbss,
+                                                       domponfnt) == null) {
+                AnimbtionControllfr.pbintSkin((JComponfnt) domponfnt, this,
+                                              g, dx, dy, dw, dh, stbtf);
+            } flsf {
+                pbintSkinRbw(g, dx, dy, dw, dh, stbtf);
+            }
+        }
+
+        /** Pbint b skin bt b dffinfd position bnd sizf. This mfthod
+         *  dofs not triggfr bnimbtion. It is nffdfd for thf bnimbtion
+         *  support.
+         *
+         * @pbrbm g   thf grbphids dontfxt to usf for pbinting
+         * @pbrbm dx  thf dfstinbtion <i>x</i> doordinbtf.
+         * @pbrbm dy  thf dfstinbtion <i>y</i> doordinbtf.
+         * @pbrbm dw  thf width of thf brfb to fill, mby dbusf
+         *                  thf imbgf to bf strftdhfd or tilfd
+         * @pbrbm dh  thf hfight of thf brfb to fill, mby dbusf
+         *                  thf imbgf to bf strftdhfd or tilfd
+         * @pbrbm stbtf whidh stbtf to pbint
+         */
+        void pbintSkinRbw(Grbphids g, int dx, int dy, int dw, int dh, Stbtf stbtf) {
+            if (XPStylf.gftXP() == null) {
+                rfturn;
+            }
+            skinPbintfr.pbint(null, g, dx, dy, dw, dh, this, stbtf);
+        }
+
+        /** Pbint b skin bt b dffinfd position bnd sizf
+         *
+         * @pbrbm g   thf grbphids dontfxt to usf for pbinting
+         * @pbrbm dx  thf dfstinbtion <i>x</i> doordinbtf
+         * @pbrbm dy  thf dfstinbtion <i>y</i> doordinbtf
+         * @pbrbm dw  thf width of thf brfb to fill, mby dbusf
+         *                  thf imbgf to bf strftdhfd or tilfd
+         * @pbrbm dh  thf hfight of thf brfb to fill, mby dbusf
+         *                  thf imbgf to bf strftdhfd or tilfd
+         * @pbrbm stbtf whidh stbtf to pbint
+         * @pbrbm bordfrFill should tfst if thf domponfnt usfs b bordfr fill
+                            bnd skip pbinting if it is
+         */
+        void pbintSkin(Grbphids g, int dx, int dy, int dw, int dh, Stbtf stbtf,
+                boolfbn bordfrFill) {
+            if (XPStylf.gftXP() == null) {
+                rfturn;
+            }
+            if(bordfrFill && "bordfrfill".fqubls(gftTypfEnumNbmf(domponfnt, pbrt,
+                    stbtf, Prop.BGTYPE))) {
+                rfturn;
+            }
+            skinPbintfr.pbint(null, g, dx, dy, dw, dh, this, stbtf);
+        }
+    }
+
+    privbtf stbtid dlbss SkinPbintfr fxtfnds CbdhfdPbintfr {
+        SkinPbintfr() {
+            supfr(30);
+            flush();
+        }
+
+        publid void flush() {
+            supfr.flush();
+        }
+
+        protfdtfd void pbintToImbgf(Componfnt d, Imbgf imbgf, Grbphids g,
+                                    int w, int h, Objfdt[] brgs) {
+            boolfbn bddEnbblfd = fblsf;
+            Skin skin = (Skin)brgs[0];
+            Pbrt pbrt = skin.pbrt;
+            Stbtf stbtf = (Stbtf)brgs[1];
+            if (stbtf == null) {
+                stbtf = skin.stbtf;
+            }
+            if (d == null) {
+                d = skin.domponfnt;
+            }
+            BufffrfdImbgf bi = (BufffrfdImbgf)imbgf;
+
+            WritbblfRbstfr rbstfr = bi.gftRbstfr();
+            DbtbBufffrInt dbi = (DbtbBufffrInt)rbstfr.gftDbtbBufffr();
+            // Notf thbt stfblDbtb() rfquirfs b mbrkDirty() bftfrwbrds
+            // sindf wf modify thf dbtb in it.
+            ThfmfRfbdfr.pbintBbdkground(SunWritbblfRbstfr.stfblDbtb(dbi, 0),
+                                        pbrt.gftControlNbmf(d), pbrt.gftVbluf(),
+                                        Stbtf.gftVbluf(pbrt, stbtf),
+                                        0, 0, w, h, w);
+            SunWritbblfRbstfr.mbrkDirty(dbi);
+        }
+
+        protfdtfd Imbgf drfbtfImbgf(Componfnt d, int w, int h,
+                                    GrbphidsConfigurbtion donfig, Objfdt[] brgs) {
+            rfturn nfw BufffrfdImbgf(w, h, BufffrfdImbgf.TYPE_INT_ARGB);
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss GlyphButton fxtfnds JButton {
+        privbtf Skin skin;
+
+        publid GlyphButton(Componfnt pbrfnt, Pbrt pbrt) {
+            XPStylf xp = gftXP();
+            skin = xp != null ? xp.gftSkin(pbrfnt, pbrt) : null;
+            sftBordfr(null);
+            sftContfntArfbFillfd(fblsf);
+            sftMinimumSizf(nfw Dimfnsion(5, 5));
+            sftPrfffrrfdSizf(nfw Dimfnsion(16, 16));
+            sftMbximumSizf(nfw Dimfnsion(Intfgfr.MAX_VALUE, Intfgfr.MAX_VALUE));
+        }
+
+        publid boolfbn isFodusTrbvfrsbblf() {
+            rfturn fblsf;
+        }
+
+        protfdtfd Stbtf gftStbtf() {
+            Stbtf stbtf = Stbtf.NORMAL;
+            if (!isEnbblfd()) {
+                stbtf = Stbtf.DISABLED;
+            } flsf if (gftModfl().isPrfssfd()) {
+                stbtf = Stbtf.PRESSED;
+            } flsf if (gftModfl().isRollovfr()) {
+                stbtf = Stbtf.HOT;
+            }
+            rfturn stbtf;
+        }
+
+        publid void pbintComponfnt(Grbphids g) {
+            if (XPStylf.gftXP() == null || skin == null) {
+                rfturn;
+            }
+            Dimfnsion d = gftSizf();
+            skin.pbintSkin(g, 0, 0, d.width, d.hfight, gftStbtf());
+        }
+
+        publid void sftPbrt(Componfnt pbrfnt, Pbrt pbrt) {
+            XPStylf xp = gftXP();
+            skin = xp != null ? xp.gftSkin(pbrfnt, pbrt) : null;
+            rfvblidbtf();
+            rfpbint();
+        }
+
+        protfdtfd void pbintBordfr(Grbphids g) {
+        }
+
+
+    }
+
+    // Privbtf donstrudtor
+    privbtf XPStylf() {
+        flbtMfnus = gftSysBoolfbn(Prop.FLATMENUS);
+
+        dolorMbp  = nfw HbshMbp<String, Color>();
+        bordfrMbp = nfw HbshMbp<String, Bordfr>();
+        // Notf: All furthfr bddfss to thf mbps must bf syndhronizfd
+    }
+
+
+    privbtf boolfbn gftBoolfbn(Componfnt d, Pbrt pbrt, Stbtf stbtf, Prop prop) {
+        rfturn ThfmfRfbdfr.gftBoolfbn(pbrt.gftControlNbmf(d), pbrt.gftVbluf(),
+                                      Stbtf.gftVbluf(pbrt, stbtf),
+                                      prop.gftVbluf());
+    }
+
+
+
+    stbtid Dimfnsion gftPbrtSizf(Pbrt pbrt, Stbtf stbtf) {
+        rfturn ThfmfRfbdfr.gftPbrtSizf(pbrt.gftControlNbmf(null), pbrt.gftVbluf(),
+                                       Stbtf.gftVbluf(pbrt, stbtf));
+    }
+
+    privbtf stbtid boolfbn gftSysBoolfbn(Prop prop) {
+        // Wf dbn usf bny widgft nbmf hfrf, I gufss.
+        rfturn ThfmfRfbdfr.gftSysBoolfbn("window", prop.gftVbluf());
+    }
+}

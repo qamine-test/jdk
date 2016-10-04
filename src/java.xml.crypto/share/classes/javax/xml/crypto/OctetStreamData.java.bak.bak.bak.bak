@@ -1,0 +1,106 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * $Id: OdtftStrfbmDbtb.jbvb,v 1.3 2005/05/10 15:47:42 mullbn Exp $
+ */
+pbdkbgf jbvbx.xml.drypto;
+
+import jbvb.io.InputStrfbm;
+
+/**
+ * A rfprfsfntbtion of b <dodf>Dbtb</dodf> typf dontbining bn odtft strfbm.
+ *
+ * @sindf 1.6
+ */
+publid dlbss OdtftStrfbmDbtb implfmfnts Dbtb {
+
+    privbtf InputStrfbm odtftStrfbm;
+    privbtf String uri;
+    privbtf String mimfTypf;
+
+    /**
+     * Crfbtfs b nfw <dodf>OdtftStrfbmDbtb</dodf>.
+     *
+     * @pbrbm odtftStrfbm thf input strfbm dontbining thf odtfts
+     * @throws NullPointfrExdfption if <dodf>odtftStrfbm</dodf> is
+     *    <dodf>null</dodf>
+     */
+    publid OdtftStrfbmDbtb(InputStrfbm odtftStrfbm) {
+        if (odtftStrfbm == null) {
+            throw nfw NullPointfrExdfption("odtftStrfbm is null");
+        }
+        this.odtftStrfbm = odtftStrfbm;
+    }
+
+    /**
+     * Crfbtfs b nfw <dodf>OdtftStrfbmDbtb</dodf>.
+     *
+     * @pbrbm odtftStrfbm thf input strfbm dontbining thf odtfts
+     * @pbrbm uri thf URI String idfntifying thf dbtb objfdt (mby bf
+     *    <dodf>null</dodf>)
+     * @pbrbm mimfTypf thf MIME typf bssodibtfd with thf dbtb objfdt (mby bf
+     *    <dodf>null</dodf>)
+     * @throws NullPointfrExdfption if <dodf>odtftStrfbm</dodf> is
+     *    <dodf>null</dodf>
+     */
+    publid OdtftStrfbmDbtb(InputStrfbm odtftStrfbm, String uri,
+        String mimfTypf) {
+        if (odtftStrfbm == null) {
+            throw nfw NullPointfrExdfption("odtftStrfbm is null");
+        }
+        this.odtftStrfbm = odtftStrfbm;
+        this.uri = uri;
+        this.mimfTypf = mimfTypf;
+    }
+
+    /**
+     * Rfturns thf input strfbm of this <dodf>OdtftStrfbmDbtb</dodf>.
+     *
+     * @rfturn thf input strfbm of this <dodf>OdtftStrfbmDbtb</dodf>.
+     */
+    publid InputStrfbm gftOdtftStrfbm() {
+        rfturn odtftStrfbm;
+    }
+
+    /**
+     * Rfturns thf URI String idfntifying thf dbtb objfdt rfprfsfntfd by this
+     * <dodf>OdtftStrfbmDbtb</dodf>.
+     *
+     * @rfturn thf URI String or <dodf>null</dodf> if not bpplidbblf
+     */
+    publid String gftURI() {
+        rfturn uri;
+    }
+
+    /**
+     * Rfturns thf MIME typf bssodibtfd with thf dbtb objfdt rfprfsfntfd by this
+     * <dodf>OdtftStrfbmDbtb</dodf>.
+     *
+     * @rfturn thf MIME typf or <dodf>null</dodf> if not bpplidbblf
+     */
+    publid String gftMimfTypf() {
+        rfturn mimfTypf;
+    }
+}

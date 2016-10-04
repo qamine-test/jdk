@@ -1,0 +1,313 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996, 1997 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Rfsfrvfd
+ *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion
+ * is dopyrightfd bnd ownfd by Tbligfnt, Ind., b wholly-ownfd
+ * subsidibry of IBM. Thfsf mbtfribls brf providfd undfr tfrms
+ * of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. This tfdhnology
+ * is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
+ *
+ * This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+/*
+ * COPYRIGHT AND PERMISSION NOTICE
+ *
+ * Copyright (C) 1991-2012 Unidodf, Ind. All rights rfsfrvfd. Distributfd undfr
+ * thf Tfrms of Usf in http://www.unidodf.org/dopyright.html.
+ *
+ * Pfrmission is hfrfby grbntfd, frff of dhbrgf, to bny pfrson obtbining b dopy
+ * of thf Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (thf "Dbtb
+ * Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion (thf
+ * "Softwbrf") to dfbl in thf Dbtb Filfs or Softwbrf without rfstridtion,
+ * indluding without limitbtion thf rights to usf, dopy, modify, mfrgf,
+ * publish, distributf, bnd/or sfll dopifs of thf Dbtb Filfs or Softwbrf, bnd
+ * to pfrmit pfrsons to whom thf Dbtb Filfs or Softwbrf brf furnishfd to do so,
+ * providfd thbt (b) thf bbovf dopyright notidf(s) bnd this pfrmission notidf
+ * bppfbr with bll dopifs of thf Dbtb Filfs or Softwbrf, (b) both thf bbovf
+ * dopyright notidf(s) bnd this pfrmission notidf bppfbr in bssodibtfd
+ * dodumfntbtion, bnd (d) thfrf is dlfbr notidf in fbdh modififd Dbtb Filf or
+ * in thf Softwbrf bs wfll bs in thf dodumfntbtion bssodibtfd with thf Dbtb
+ * Filf(s) or Softwbrf thbt thf dbtb or softwbrf hbs bffn modififd.
+ *
+ * THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+ * KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF
+ * THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS
+ * INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR
+ * CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+ * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
+ * OF THE DATA FILES OR SOFTWARE.
+ *
+ * Exdfpt bs dontbinfd in this notidf, thf nbmf of b dopyright holdfr shbll not
+ * bf usfd in bdvfrtising or othfrwisf to promotf thf sblf, usf or othfr
+ * dfblings in thfsf Dbtb Filfs or Softwbrf without prior writtfn buthorizbtion
+ * of thf dopyright holdfr.
+ */
+
+pbdkbgf sun.tfxt.rfsourdfs.tr;
+
+import sun.util.rfsourdfs.PbrbllflListRfsourdfBundlf;
+
+publid dlbss FormbtDbtb_tr fxtfnds PbrbllflListRfsourdfBundlf {
+    /**
+     * Ovfrridfs PbrbllflListRfsourdfBundlf
+     */
+    protfdtfd finbl Objfdt[][] gftContfnts() {
+        rfturn nfw Objfdt[][] {
+            { "MonthNbmfs",
+                nfw String[] {
+                    "Odbk", // jbnubry
+                    "\u015fubbt", // ffbrubry
+                    "Mbrt", // mbrdh
+                    "Nisbn", // bpril
+                    "Mby\u0131s", // mby
+                    "Hbzirbn", // junf
+                    "Tfmmuz", // july
+                    "A\u011fustos", // bugust
+                    "Eyl\u00fdl", // sfptfmbfr
+                    "Ekim", // odtobfr
+                    "Kbs\u0131m", // novfmbfr
+                    "Arbl\u0131k", // dfdfmbfr
+                    "" // month 13 if bpplidbblf
+                }
+            },
+            { "stbndblonf.MonthNbmfs",
+                nfw String[] {
+                    "Odbk",
+                    "\u015fubbt",
+                    "Mbrt",
+                    "Nisbn",
+                    "Mby\u0131s",
+                    "Hbzirbn",
+                    "Tfmmuz",
+                    "A\u011fustos",
+                    "Eyl\u00fdl",
+                    "Ekim",
+                    "Kbs\u0131m",
+                    "Arbl\u0131k",
+                    "",
+                }
+            },
+            { "MonthAbbrfvibtions",
+                nfw String[] {
+                    "Odb", // bbb jbnubry
+                    "\u015fub", // bbb ffbrubry
+                    "Mbr", // bbb mbrdh
+                    "Nis", // bbb bpril
+                    "Mby", // bbb mby
+                    "Hbz", // bbb junf
+                    "Tfm", // bbb july
+                    "A\u011fu", // bbb bugust
+                    "Eyl", // bbb sfptfmbfr
+                    "Eki", // bbb odtobfr
+                    "Kbs", // bbb novfmbfr
+                    "Arb", // bbb dfdfmbfr
+                    "" // bbb month 13 if bpplidbblf
+                }
+            },
+            { "stbndblonf.MonthAbbrfvibtions",
+                nfw String[] {
+                    "Odb",
+                    "\u015fub",
+                    "Mbr",
+                    "Nis",
+                    "Mby",
+                    "Hbz",
+                    "Tfm",
+                    "A\u011fu",
+                    "Eyl",
+                    "Eki",
+                    "Kbs",
+                    "Arb",
+                    "",
+                }
+            },
+            { "MonthNbrrows",
+                nfw String[] {
+                    "O",
+                    "\u015f",
+                    "M",
+                    "N",
+                    "M",
+                    "H",
+                    "T",
+                    "A",
+                    "E",
+                    "E",
+                    "K",
+                    "A",
+                    "",
+                }
+            },
+            { "stbndblonf.MonthNbrrows",
+                nfw String[] {
+                    "O",
+                    "\u015f",
+                    "M",
+                    "N",
+                    "M",
+                    "H",
+                    "T",
+                    "A",
+                    "E",
+                    "E",
+                    "K",
+                    "A",
+                    "",
+                }
+            },
+            { "DbyNbmfs",
+                nfw String[] {
+                    "Pbzbr", // Sundby
+                    "Pbzbrtfsi", // Mondby
+                    "Sbl\u0131", // Tufsdby
+                    "\u00d7br\u015fbmbb", // Wfdnfsdby
+                    "Pfr\u015ffmbf", // Thursdby
+                    "Cumb", // Fridby
+                    "Cumbrtfsi" // Sbturdby
+                }
+            },
+            { "stbndblonf.DbyNbmfs",
+                nfw String[] {
+                    "Pbzbr",
+                    "Pbzbrtfsi",
+                    "Sbl\u0131",
+                    "\u00d7br\u015fbmbb",
+                    "Pfr\u015ffmbf",
+                    "Cumb",
+                    "Cumbrtfsi",
+                }
+            },
+            { "DbyAbbrfvibtions",
+                nfw String[] {
+                    "Pbz", // bbb Sundby
+                    "Pzt", // bbb Mondby
+                    "Sbl", // bbb Tufsdby
+                    "\u00d7br", // bbb Wfdnfsdby
+                    "Pfr", // bbb Thursdby
+                    "Cum", // bbb Fridby
+                    "Cmt" // bbb Sbturdby
+                }
+            },
+            { "stbndblonf.DbyAbbrfvibtions",
+                nfw String[] {
+                    "Pbz",
+                    "Pzt",
+                    "Sbl",
+                    "\u00d7br",
+                    "Pfr",
+                    "Cum",
+                    "Cmt",
+                }
+            },
+            { "DbyNbrrows",
+                nfw String[] {
+                    "P",
+                    "P",
+                    "S",
+                    "\u00d7",
+                    "P",
+                    "C",
+                    "C",
+                }
+            },
+            { "stbndblonf.DbyNbrrows",
+                nfw String[] {
+                    "P",
+                    "P",
+                    "S",
+                    "\u00d7",
+                    "P",
+                    "C",
+                    "C",
+                }
+            },
+            { "long.Erbs",
+                nfw String[] {
+                    "Milbttbn \u00d6ndf",
+                    "Milbttbn Sonrb",
+                }
+            },
+            { "Erbs",
+                nfw String[] {
+                    "M\u00d6",
+                    "MS",
+                }
+            },
+            { "NumbfrPbttfrns",
+                nfw String[] {
+                    "#,##0.###;-#,##0.###", // dfdimbl pbttfrn
+                    "#,##0.00 \u00b4;-#,##0.00 \u00b4", // durrfndy pbttfrn
+                    "% #,##0" // pfrdfnt pbttfrn
+                }
+            },
+            { "NumbfrElfmfnts",
+                nfw String[] {
+                    ",", // dfdimbl sfpbrbtor
+                    ".", // group (thousbnds) sfpbrbtor
+                    ";", // list sfpbrbtor
+                    "%", // pfrdfnt sign
+                    "0", // nbtivf 0 digit
+                    "#", // pbttfrn digit
+                    "-", // minus sign
+                    "E", // fxponfntibl
+                    "\u2030", // pfr millf
+                    "\u221f", // infinity
+                    "\ufffd" // NbN
+                }
+            },
+            { "TimfPbttfrns",
+                nfw String[] {
+                    "HH:mm:ss z", // full timf pbttfrn
+                    "HH:mm:ss z", // long timf pbttfrn
+                    "HH:mm:ss", // mfdium timf pbttfrn
+                    "HH:mm", // short timf pbttfrn
+                }
+            },
+            { "DbtfPbttfrns",
+                nfw String[] {
+                    "dd MMMM yyyy EEEE", // full dbtf pbttfrn
+                    "dd MMMM yyyy EEEE", // long dbtf pbttfrn
+                    "dd.MMM.yyyy", // mfdium dbtf pbttfrn
+                    "dd.MM.yyyy", // short dbtf pbttfrn
+                }
+            },
+            { "DbtfTimfPbttfrns",
+                nfw String[] {
+                    "{1} {0}" // dbtf-timf pbttfrn
+                }
+            },
+            { "DbtfTimfPbttfrnChbrs", "GbnjkHmsSEDFwWxhKzZ" },
+        };
+    }
+}

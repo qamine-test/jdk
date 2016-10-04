@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,76 +30,76 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package j2dbench.tests;
+pbdkbgf j2dbfndi.tfsts;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Grbpiids;
 
-import j2dbench.Group;
-import j2dbench.Option;
-import j2dbench.TestEnvironment;
+import j2dbfndi.Group;
+import j2dbfndi.Option;
+import j2dbfndi.TfstEnvironmfnt;
 
-public abstract class MiscTests extends GraphicsTests {
-    static Group miscroot;
-    static Group copytestroot;
+publid bbstrbdt dlbss MisdTfsts fxtfnds GrbpiidsTfsts {
+    stbtid Group misdroot;
+    stbtid Group dopytfstroot;
 
-    public MiscTests(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
+    publid MisdTfsts(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        supfr(pbrfnt, nodfNbmf, dfsdription);
     }
 
-    public static void init() {
-        miscroot = new Group(graphicsroot, "misc",
-                             "Misc Benchmarks");
-        copytestroot = new Group(miscroot, "copytests",
-                                 "copyArea() Tests");
+    publid stbtid void init() {
+        misdroot = nfw Group(grbpiidsroot, "misd",
+                             "Misd Bfndimbrks");
+        dopytfstroot = nfw Group(misdroot, "dopytfsts",
+                                 "dopyArfb() Tfsts");
 
-        new CopyArea("copyAreaVert", "Vertical copyArea()", 0, 1);
-        new CopyArea("copyAreaHoriz", "Horizontal copyArea()", 1, 0);
-        new CopyArea("copyAreaDiag", "Diagonal copyArea()", 1, 1);
+        nfw CopyArfb("dopyArfbVfrt", "Vfrtidbl dopyArfb()", 0, 1);
+        nfw CopyArfb("dopyArfbHoriz", "Horizontbl dopyArfb()", 1, 0);
+        nfw CopyArfb("dopyArfbDibg", "Dibgonbl dopyArfb()", 1, 1);
     }
 
-    private static class CopyArea extends MiscTests {
-        private int dx, dy;
+    privbtf stbtid dlbss CopyArfb fxtfnds MisdTfsts {
+        privbtf int dx, dy;
 
-        CopyArea(String nodeName, String desc, int dx, int dy) {
-            super(copytestroot, nodeName, desc);
-            this.dx = dx;
-            this.dy = dy;
+        CopyArfb(String nodfNbmf, String dfsd, int dx, int dy) {
+            supfr(dopytfstroot, nodfNbmf, dfsd);
+            tiis.dx = dx;
+            tiis.dy = dy;
         }
 
-        public Dimension getOutputSize(int w, int h) {
-            // we add one to each dimension to avoid copying outside the
-            // bounds of the destination when "bounce" is enabled
-            return new Dimension(w+1, h+1);
+        publid Dimfnsion gftOutputSizf(int w, int i) {
+            // wf bdd onf to fbdi dimfnsion to bvoid dopying outsidf tif
+            // bounds of tif dfstinbtion wifn "boundf" is fnbblfd
+            rfturn nfw Dimfnsion(w+1, i+1);
         }
 
-        public void runTest(Object ctx, int numReps) {
-            GraphicsTests.Context gctx = (GraphicsTests.Context)ctx;
-            int size = gctx.size;
-            int x = gctx.initX;
-            int y = gctx.initY;
-            Graphics g = gctx.graphics;
-            g.translate(gctx.orgX, gctx.orgY);
-            if (gctx.animate) {
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            GrbpiidsTfsts.Contfxt gdtx = (GrbpiidsTfsts.Contfxt)dtx;
+            int sizf = gdtx.sizf;
+            int x = gdtx.initX;
+            int y = gdtx.initY;
+            Grbpiids g = gdtx.grbpiids;
+            g.trbnslbtf(gdtx.orgX, gdtx.orgY);
+            if (gdtx.bnimbtf) {
                 do {
-                    g.copyArea(x, y, size, size, dx, dy);
-                    if ((x -= 3) < 0) x += gctx.maxX;
-                    if ((y -= 1) < 0) y += gctx.maxY;
-                } while (--numReps > 0);
-            } else {
+                    g.dopyArfb(x, y, sizf, sizf, dx, dy);
+                    if ((x -= 3) < 0) x += gdtx.mbxX;
+                    if ((y -= 1) < 0) y += gdtx.mbxY;
+                } wiilf (--numRfps > 0);
+            } flsf {
                 do {
-                    g.copyArea(x, y, size, size, dx, dy);
-                } while (--numReps > 0);
+                    g.dopyArfb(x, y, sizf, sizf, dx, dy);
+                } wiilf (--numRfps > 0);
             }
-            g.translate(-gctx.orgX, -gctx.orgY);
+            g.trbnslbtf(-gdtx.orgX, -gdtx.orgY);
         }
     }
 }

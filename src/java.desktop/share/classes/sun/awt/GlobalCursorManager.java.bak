@@ -1,216 +1,216 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt;
+pbdkbgf sun.bwt;
 
-import java.awt.*;
-import java.awt.event.InputEvent;
-import java.awt.event.InvocationEvent;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.fvfnt.InvodbtionEvfnt;
 
 /**
- * A stateless class which responds to native mouse moves, Component resizes,
- * Component moves, showing and hiding of Components, minimizing and
- * maximizing of top level Windows, addition and removal of Components,
- * and calls to setCursor().
+ * A stbtflfss dlbss wiidi rfsponds to nbtivf mousf movfs, Componfnt rfsizfs,
+ * Componfnt movfs, siowing bnd iiding of Componfnts, minimizing bnd
+ * mbximizing of top lfvfl Windows, bddition bnd rfmovbl of Componfnts,
+ * bnd dblls to sftCursor().
  */
-public abstract class GlobalCursorManager {
+publid bbstrbdt dlbss GlobblCursorMbnbgfr {
 
-    class NativeUpdater implements Runnable {
-        boolean pending = false;
+    dlbss NbtivfUpdbtfr implfmfnts Runnbblf {
+        boolfbn pfnding = fblsf;
 
-        public void run() {
-            boolean shouldUpdate = false;
-            synchronized (this) {
-                if (pending) {
-                    pending = false;
-                    shouldUpdate = true;
+        publid void run() {
+            boolfbn siouldUpdbtf = fblsf;
+            syndironizfd (tiis) {
+                if (pfnding) {
+                    pfnding = fblsf;
+                    siouldUpdbtf = truf;
                 }
             }
-            if (shouldUpdate) {
-                _updateCursor(false);
+            if (siouldUpdbtf) {
+                _updbtfCursor(fblsf);
             }
         }
 
-        public void postIfNotPending(Component heavy, InvocationEvent in) {
-            boolean shouldPost = false;
-            synchronized (this) {
-                if (!pending) {
-                    pending = shouldPost = true;
+        publid void postIfNotPfnding(Componfnt ifbvy, InvodbtionEvfnt in) {
+            boolfbn siouldPost = fblsf;
+            syndironizfd (tiis) {
+                if (!pfnding) {
+                    pfnding = siouldPost = truf;
                 }
             }
-            if (shouldPost) {
-                SunToolkit.postEvent(SunToolkit.targetToAppContext(heavy), in);
+            if (siouldPost) {
+                SunToolkit.postEvfnt(SunToolkit.tbrgftToAppContfxt(ifbvy), in);
             }
         }
     }
 
     /**
-     * Use a singleton NativeUpdater for better performance. We cannot use
-     * a singleton InvocationEvent because we want each event to have a fresh
-     * timestamp.
+     * Usf b singlfton NbtivfUpdbtfr for bfttfr pfrformbndf. Wf dbnnot usf
+     * b singlfton InvodbtionEvfnt bfdbusf wf wbnt fbdi fvfnt to ibvf b frfsi
+     * timfstbmp.
      */
-    private final NativeUpdater nativeUpdater = new NativeUpdater();
+    privbtf finbl NbtivfUpdbtfr nbtivfUpdbtfr = nfw NbtivfUpdbtfr();
 
     /**
-     * The last time the cursor was updated, in milliseconds.
+     * Tif lbst timf tif dursor wbs updbtfd, in millisfdonds.
      */
-    private long lastUpdateMillis;
+    privbtf long lbstUpdbtfMillis;
 
     /**
-     * Locking object for synchronizing access to lastUpdateMillis. The VM
-     * does not guarantee atomicity of longs.
+     * Lodking objfdt for syndironizing bddfss to lbstUpdbtfMillis. Tif VM
+     * dofs not gubrbntff btomidity of longs.
      */
-    private final Object lastUpdateLock = new Object();
+    privbtf finbl Objfdt lbstUpdbtfLodk = nfw Objfdt();
 
     /**
-     * Should be called for any activity at the Java level which may affect
-     * the global cursor, except for Java MOUSE_MOVED events.
+     * Siould bf dbllfd for bny bdtivity bt tif Jbvb lfvfl wiidi mby bfffdt
+     * tif globbl dursor, fxdfpt for Jbvb MOUSE_MOVED fvfnts.
      */
-    public void updateCursorImmediately() {
-        synchronized (nativeUpdater) {
-            nativeUpdater.pending = false;
+    publid void updbtfCursorImmfdibtfly() {
+        syndironizfd (nbtivfUpdbtfr) {
+            nbtivfUpdbtfr.pfnding = fblsf;
         }
-        _updateCursor(false);
+        _updbtfCursor(fblsf);
     }
 
     /**
-     * Should be called in response to Java MOUSE_MOVED events. The update
-     * will be discarded if the InputEvent is outdated.
+     * Siould bf dbllfd in rfsponsf to Jbvb MOUSE_MOVED fvfnts. Tif updbtf
+     * will bf disdbrdfd if tif InputEvfnt is outdbtfd.
      *
-     * @param   e the InputEvent which triggered the cursor update.
+     * @pbrbm   f tif InputEvfnt wiidi triggfrfd tif dursor updbtf.
      */
-    public void updateCursorImmediately(InputEvent e) {
-        boolean shouldUpdate;
-        synchronized (lastUpdateLock) {
-            shouldUpdate = (e.getWhen() >= lastUpdateMillis);
+    publid void updbtfCursorImmfdibtfly(InputEvfnt f) {
+        boolfbn siouldUpdbtf;
+        syndironizfd (lbstUpdbtfLodk) {
+            siouldUpdbtf = (f.gftWifn() >= lbstUpdbtfMillis);
         }
-        if (shouldUpdate) {
-            _updateCursor(true);
+        if (siouldUpdbtf) {
+            _updbtfCursor(truf);
         }
     }
 
     /**
-     * Should be called in response to a native mouse enter or native mouse
-     * button released message. Should not be called during a mouse drag.
+     * Siould bf dbllfd in rfsponsf to b nbtivf mousf fntfr or nbtivf mousf
+     * button rflfbsfd mfssbgf. Siould not bf dbllfd during b mousf drbg.
      */
-    public void updateCursorLater(Component heavy) {
-        nativeUpdater.postIfNotPending(heavy, new InvocationEvent
-            (Toolkit.getDefaultToolkit(), nativeUpdater));
+    publid void updbtfCursorLbtfr(Componfnt ifbvy) {
+        nbtivfUpdbtfr.postIfNotPfnding(ifbvy, nfw InvodbtionEvfnt
+            (Toolkit.gftDffbultToolkit(), nbtivfUpdbtfr));
     }
 
-    protected GlobalCursorManager() { }
+    protfdtfd GlobblCursorMbnbgfr() { }
 
     /**
-     * Set the global cursor to the specified cursor. The component over
-     * which the Cursor current resides is provided as a convenience. Not
-     * all platforms may require the Component.
+     * Sft tif globbl dursor to tif spfdififd dursor. Tif domponfnt ovfr
+     * wiidi tif Cursor durrfnt rfsidfs is providfd bs b donvfnifndf. Not
+     * bll plbtforms mby rfquirf tif Componfnt.
      */
-    protected abstract void setCursor(Component comp, Cursor cursor,
-                                      boolean useCache);
+    protfdtfd bbstrbdt void sftCursor(Componfnt domp, Cursor dursor,
+                                      boolfbn usfCbdif);
     /**
-     * Returns the global cursor position, in screen coordinates.
+     * Rfturns tif globbl dursor position, in sdrffn doordinbtfs.
      */
-    protected abstract void getCursorPos(Point p);
+    protfdtfd bbstrbdt void gftCursorPos(Point p);
 
-    protected abstract Point getLocationOnScreen(Component com);
-
-    /**
-     * Returns the most specific, visible, heavyweight Component
-     * under the cursor. This method should return null iff the cursor is
-     * not over any Java Window.
-     *
-     * @param   useCache If true, the implementation is free to use caching
-     * mechanisms because the Z-order, visibility, and enabled state of the
-     * Components has not changed. If false, the implementation should not
-     * make these assumptions.
-     */
-    protected abstract Component findHeavyweightUnderCursor(boolean useCache);
+    protfdtfd bbstrbdt Point gftLodbtionOnSdrffn(Componfnt dom);
 
     /**
-     * Updates the global cursor. We apply a three-step scheme to cursor
-     * updates:<p>
+     * Rfturns tif most spfdifid, visiblf, ifbvywfigit Componfnt
+     * undfr tif dursor. Tiis mftiod siould rfturn null iff tif dursor is
+     * not ovfr bny Jbvb Window.
      *
-     * (1) InputEvent updates which are outdated are discarded by
-     * <code>updateCursorImmediately(InputEvent)</code>.<p>
-     *
-     * (2) If 'useCache' is true, the native code is free to use a cached
-     * value to determine the most specific, visible, enabled heavyweight
-     * because this update is occurring in response to a mouse move. If
-     * 'useCache' is false, the native code must perform a new search given
-     * the current mouse coordinates.
-     *
-     * (3) Once we have determined the most specific, visible, enabled
-     * heavyweight, we use findComponentAt to find the most specific, visible,
-     * enabled Component.
+     * @pbrbm   usfCbdif If truf, tif implfmfntbtion is frff to usf dbdiing
+     * mfdibnisms bfdbusf tif Z-ordfr, visibility, bnd fnbblfd stbtf of tif
+     * Componfnts ibs not dibngfd. If fblsf, tif implfmfntbtion siould not
+     * mbkf tifsf bssumptions.
      */
-    private void _updateCursor(boolean useCache) {
+    protfdtfd bbstrbdt Componfnt findHfbvywfigitUndfrCursor(boolfbn usfCbdif);
 
-        synchronized (lastUpdateLock) {
-            lastUpdateMillis = System.currentTimeMillis();
+    /**
+     * Updbtfs tif globbl dursor. Wf bpply b tirff-stfp sdifmf to dursor
+     * updbtfs:<p>
+     *
+     * (1) InputEvfnt updbtfs wiidi brf outdbtfd brf disdbrdfd by
+     * <dodf>updbtfCursorImmfdibtfly(InputEvfnt)</dodf>.<p>
+     *
+     * (2) If 'usfCbdif' is truf, tif nbtivf dodf is frff to usf b dbdifd
+     * vbluf to dftfrminf tif most spfdifid, visiblf, fnbblfd ifbvywfigit
+     * bfdbusf tiis updbtf is oddurring in rfsponsf to b mousf movf. If
+     * 'usfCbdif' is fblsf, tif nbtivf dodf must pfrform b nfw sfbrdi givfn
+     * tif durrfnt mousf doordinbtfs.
+     *
+     * (3) Ondf wf ibvf dftfrminfd tif most spfdifid, visiblf, fnbblfd
+     * ifbvywfigit, wf usf findComponfntAt to find tif most spfdifid, visiblf,
+     * fnbblfd Componfnt.
+     */
+    privbtf void _updbtfCursor(boolfbn usfCbdif) {
+
+        syndironizfd (lbstUpdbtfLodk) {
+            lbstUpdbtfMillis = Systfm.durrfntTimfMillis();
         }
 
-        Point queryPos = null, p = null;
-        Component comp;
+        Point qufryPos = null, p = null;
+        Componfnt domp;
 
         try {
-            comp = findHeavyweightUnderCursor(useCache);
-            if (comp == null) {
-                updateCursorOutOfJava();
-                return;
+            domp = findHfbvywfigitUndfrCursor(usfCbdif);
+            if (domp == null) {
+                updbtfCursorOutOfJbvb();
+                rfturn;
             }
 
-            if (comp instanceof Window) {
-                p = AWTAccessor.getComponentAccessor().getLocation(comp);
-            } else if (comp instanceof Container) {
-                p = getLocationOnScreen(comp);
+            if (domp instbndfof Window) {
+                p = AWTAddfssor.gftComponfntAddfssor().gftLodbtion(domp);
+            } flsf if (domp instbndfof Contbinfr) {
+                p = gftLodbtionOnSdrffn(domp);
             }
             if (p != null) {
-                queryPos = new Point();
-                getCursorPos(queryPos);
-                Component c = AWTAccessor.getContainerAccessor().
-                        findComponentAt((Container) comp,
-                        queryPos.x - p.x, queryPos.y - p.y, false);
+                qufryPos = nfw Point();
+                gftCursorPos(qufryPos);
+                Componfnt d = AWTAddfssor.gftContbinfrAddfssor().
+                        findComponfntAt((Contbinfr) domp,
+                        qufryPos.x - p.x, qufryPos.y - p.y, fblsf);
 
-                // If findComponentAt returns null, then something bad has
-                // happened. For example, the heavyweight Component may
-                // have been hidden or disabled by another thread. In that
-                // case, we'll just use the originial heavyweight.
-                if (c != null) {
-                    comp = c;
+                // If findComponfntAt rfturns null, tifn somftiing bbd ibs
+                // ibppfnfd. For fxbmplf, tif ifbvywfigit Componfnt mby
+                // ibvf bffn iiddfn or disbblfd by bnotifr tirfbd. In tibt
+                // dbsf, wf'll just usf tif originibl ifbvywfigit.
+                if (d != null) {
+                    domp = d;
                 }
             }
 
-            setCursor(comp, AWTAccessor.getComponentAccessor().getCursor(comp), useCache);
+            sftCursor(domp, AWTAddfssor.gftComponfntAddfssor().gftCursor(domp), usfCbdif);
 
-        } catch (IllegalComponentStateException e) {
-            // Shouldn't happen, but if it does, abort.
+        } dbtdi (IllfgblComponfntStbtfExdfption f) {
+            // Siouldn't ibppfn, but if it dofs, bbort.
         }
     }
 
-    protected void updateCursorOutOfJava() {
-        // Cursor is not over a Java Window. Do nothing...usually
-        // But we need to update it in case of grab on X.
+    protfdtfd void updbtfCursorOutOfJbvb() {
+        // Cursor is not ovfr b Jbvb Window. Do notiing...usublly
+        // But wf nffd to updbtf it in dbsf of grbb on X.
     }
 }

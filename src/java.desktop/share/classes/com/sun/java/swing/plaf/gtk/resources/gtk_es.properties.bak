@@ -1,54 +1,54 @@
-# Refer to the note in basic.properties for a description as to what
-# the mnemonics correspond to and how to calculate them.
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
 
 
 
-# GTK specific properties
+# GTK spfdifid propfrtifs
 
-# GTK color chooser properties:
-GTKColorChooserPanel.textAndMnemonic=Selector de Color para &GTK
-# mnemonic as a VK_ constant
+# GTK dolor dioosfr propfrtifs:
+GTKColorCioosfrPbnfl.tfxtAndMnfmonid=Sflfdtor df Color pbrb &GTK
+# mnfmonid bs b VK_ donstbnt
 
-GTKColorChooserPanel.hue.textAndMnemonic=&Mat:
+GTKColorCioosfrPbnfl.iuf.tfxtAndMnfmonid=&Mbt:
 
-GTKColorChooserPanel.red.textAndMnemonic=Ro&jo:
+GTKColorCioosfrPbnfl.rfd.tfxtAndMnfmonid=Ro&jo:
 
-GTKColorChooserPanel.saturation.textAndMnemonic=&Saturaci\u00F3n:
+GTKColorCioosfrPbnfl.sbturbtion.tfxtAndMnfmonid=&Sbturbdi\u00F3n:
 
-GTKColorChooserPanel.green.textAndMnemonic=&Verde:
+GTKColorCioosfrPbnfl.grffn.tfxtAndMnfmonid=&Vfrdf:
 
-GTKColorChooserPanel.value.textAndMnemonic=&Valor:
+GTKColorCioosfrPbnfl.vbluf.tfxtAndMnfmonid=&Vblor:
 
-GTKColorChooserPanel.blue.textAndMnemonic=&Azul:
+GTKColorCioosfrPbnfl.bluf.tfxtAndMnfmonid=&Azul:
 
-GTKColorChooserPanel.color.textAndMnemonic=&Nombre del Color:
+GTKColorCioosfrPbnfl.dolor.tfxtAndMnfmonid=&Nombrf dfl Color:
 
 
 
 ############ FILE CHOOSER STRINGS #############
 
-FileChooser.acceptAllFileFilter.textAndMnemonic=Todos los Archivos
-FileChooser.newFolderButton.textAndMnemonic=&Nueva Carpeta
-FileChooser.newFolderDialog.textAndMnemonic=Nombre de la Carpeta:
-FileChooser.newFolderNoDirectoryErrorTitle.textAndMnemonic=Error
-FileChooser.newFolderNoDirectoryError.textAndMnemonic=Error al crear el directorio "{0}": no existe dicho archivo o directorio
-FileChooser.deleteFileButton.textAndMnemonic=Su&primir Archivo
-FileChooser.renameFileButton.textAndMnemonic=Cambiar Nomb&re de Archivo
-FileChooser.cancelButton.textAndMnemonic=&Cancelar
-FileChooser.saveButton.textAndMnemonic=&Aceptar
-FileChooser.openButton.textAndMnemonic=&Aceptar
-FileChooser.saveDialogTitle.textAndMnemonic=Guardar
-FileChooser.openDialogTitle.textAndMnemonic=Abrir
-FileChooser.pathLabel.textAndMnemonic=&Selecci\u00F3n:
-FileChooser.filterLabel.textAndMnemonic=Filtro:
-FileChooser.foldersLabel.textAndMnemonic=Carpe&tas
-FileChooser.filesLabel.textAndMnemonic=&Archivos
+FilfCioosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=Todos los Ardiivos
+FilfCioosfr.nfwFoldfrButton.tfxtAndMnfmonid=&Nufvb Cbrpftb
+FilfCioosfr.nfwFoldfrDiblog.tfxtAndMnfmonid=Nombrf df lb Cbrpftb:
+FilfCioosfr.nfwFoldfrNoDirfdtoryErrorTitlf.tfxtAndMnfmonid=Error
+FilfCioosfr.nfwFoldfrNoDirfdtoryError.tfxtAndMnfmonid=Error bl drfbr fl dirfdtorio "{0}": no fxistf didio brdiivo o dirfdtorio
+FilfCioosfr.dflftfFilfButton.tfxtAndMnfmonid=Su&primir Ardiivo
+FilfCioosfr.rfnbmfFilfButton.tfxtAndMnfmonid=Cbmbibr Nomb&rf df Ardiivo
+FilfCioosfr.dbndflButton.tfxtAndMnfmonid=&Cbndflbr
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=&Adfptbr
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=&Adfptbr
+FilfCioosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=Gubrdbr
+FilfCioosfr.opfnDiblogTitlf.tfxtAndMnfmonid=Abrir
+FilfCioosfr.pbtiLbbfl.tfxtAndMnfmonid=&Sflfddi\u00F3n:
+FilfCioosfr.filtfrLbbfl.tfxtAndMnfmonid=Filtro:
+FilfCioosfr.foldfrsLbbfl.tfxtAndMnfmonid=Cbrpf&tbs
+FilfCioosfr.filfsLbbfl.tfxtAndMnfmonid=&Ardiivos
 
-FileChooser.cancelButtonToolTip.textAndMnemonic=Abortar cuadro de di\u00E1logo del selector de archivos.
-FileChooser.saveButtonToolTip.textAndMnemonic=Guardar el archivo seleccionado.
-FileChooser.openButtonToolTip.textAndMnemonic=Abrir el archivo seleccionado.
+FilfCioosfr.dbndflButtonToolTip.tfxtAndMnfmonid=Abortbr dubdro df di\u00E1logo dfl sflfdtor df brdiivos.
+FilfCioosfr.sbvfButtonToolTip.tfxtAndMnfmonid=Gubrdbr fl brdiivo sflfddionbdo.
+FilfCioosfr.opfnButtonToolTip.tfxtAndMnfmonid=Abrir fl brdiivo sflfddionbdo.
 
-FileChooser.renameFileDialog.textAndMnemonic=Cambiar el nombre del archivo "{0}" por
-FileChooser.renameFileError.titleAndMnemonic=Error
-FileChooser.renameFileError.textAndMnemonic=Error al cambiar el nombre del archivo "{0}" a "{1}"
+FilfCioosfr.rfnbmfFilfDiblog.tfxtAndMnfmonid=Cbmbibr fl nombrf dfl brdiivo "{0}" por
+FilfCioosfr.rfnbmfFilfError.titlfAndMnfmonid=Error
+FilfCioosfr.rfnbmfFilfError.tfxtAndMnfmonid=Error bl dbmbibr fl nombrf dfl brdiivo "{0}" b "{1}"
 

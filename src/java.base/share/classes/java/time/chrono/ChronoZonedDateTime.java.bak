@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2007-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2007-2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,619 +59,619 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.chrono;
+pbdkbgf jbvb.timf.dirono;
 
-import static java.time.temporal.ChronoField.INSTANT_SECONDS;
-import static java.time.temporal.ChronoField.OFFSET_SECONDS;
-import static java.time.temporal.ChronoUnit.FOREVER;
-import static java.time.temporal.ChronoUnit.NANOS;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.INSTANT_SECONDS;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.OFFSET_SECONDS;
+import stbtid jbvb.timf.tfmporbl.CironoUnit.FOREVER;
+import stbtid jbvb.timf.tfmporbl.CironoUnit.NANOS;
 
-import java.time.DateTimeException;
-import java.time.Instant;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQueries;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.TemporalUnit;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
-import java.util.Comparator;
-import java.util.Objects;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.Instbnt;
+import jbvb.timf.LodblTimf;
+import jbvb.timf.ZonfId;
+import jbvb.timf.ZonfOffsft;
+import jbvb.timf.ZonfdDbtfTimf;
+import jbvb.timf.formbt.DbtfTimfFormbttfr;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.CironoUnit;
+import jbvb.timf.tfmporbl.Tfmporbl;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblAdjustfr;
+import jbvb.timf.tfmporbl.TfmporblAmount;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblQufrifs;
+import jbvb.timf.tfmporbl.TfmporblQufry;
+import jbvb.timf.tfmporbl.TfmporblUnit;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Objfdts;
 
 /**
- * A date-time with a time-zone in an arbitrary chronology,
- * intended for advanced globalization use cases.
+ * A dbtf-timf witi b timf-zonf in bn brbitrbry dironology,
+ * intfndfd for bdvbndfd globblizbtion usf dbsfs.
  * <p>
- * <b>Most applications should declare method signatures, fields and variables
- * as {@link ZonedDateTime}, not this interface.</b>
+ * <b>Most bpplidbtions siould dfdlbrf mftiod signbturfs, fiflds bnd vbribblfs
+ * bs {@link ZonfdDbtfTimf}, not tiis intfrfbdf.</b>
  * <p>
- * A {@code ChronoZonedDateTime} is the abstract representation of an offset date-time
- * where the {@code Chronology chronology}, or calendar system, is pluggable.
- * The date-time is defined in terms of fields expressed by {@link TemporalField},
- * where most common implementations are defined in {@link ChronoField}.
- * The chronology defines how the calendar system operates and the meaning of
- * the standard fields.
+ * A {@dodf CironoZonfdDbtfTimf} is tif bbstrbdt rfprfsfntbtion of bn offsft dbtf-timf
+ * wifrf tif {@dodf Cironology dironology}, or dblfndbr systfm, is pluggbblf.
+ * Tif dbtf-timf is dffinfd in tfrms of fiflds fxprfssfd by {@link TfmporblFifld},
+ * wifrf most dommon implfmfntbtions brf dffinfd in {@link CironoFifld}.
+ * Tif dironology dffinfs iow tif dblfndbr systfm opfrbtfs bnd tif mfbning of
+ * tif stbndbrd fiflds.
  *
- * <h3>When to use this interface</h3>
- * The design of the API encourages the use of {@code ZonedDateTime} rather than this
- * interface, even in the case where the application needs to deal with multiple
- * calendar systems. The rationale for this is explored in detail in {@link ChronoLocalDate}.
+ * <i3>Wifn to usf tiis intfrfbdf</i3>
+ * Tif dfsign of tif API fndourbgfs tif usf of {@dodf ZonfdDbtfTimf} rbtifr tibn tiis
+ * intfrfbdf, fvfn in tif dbsf wifrf tif bpplidbtion nffds to dfbl witi multiplf
+ * dblfndbr systfms. Tif rbtionblf for tiis is fxplorfd in dftbil in {@link CironoLodblDbtf}.
  * <p>
- * Ensure that the discussion in {@code ChronoLocalDate} has been read and understood
- * before using this interface.
+ * Ensurf tibt tif disdussion in {@dodf CironoLodblDbtf} ibs bffn rfbd bnd undfrstood
+ * bfforf using tiis intfrfbdf.
  *
- * @implSpec
- * This interface must be implemented with care to ensure other classes operate correctly.
- * All implementations that can be instantiated must be final, immutable and thread-safe.
- * Subclasses should be Serializable wherever possible.
+ * @implSpfd
+ * Tiis intfrfbdf must bf implfmfntfd witi dbrf to fnsurf otifr dlbssfs opfrbtf dorrfdtly.
+ * All implfmfntbtions tibt dbn bf instbntibtfd must bf finbl, immutbblf bnd tirfbd-sbff.
+ * Subdlbssfs siould bf Sfriblizbblf wifrfvfr possiblf.
  *
- * @param <D> the concrete type for the date of this date-time
- * @since 1.8
+ * @pbrbm <D> tif dondrftf typf for tif dbtf of tiis dbtf-timf
+ * @sindf 1.8
  */
-public interface ChronoZonedDateTime<D extends ChronoLocalDate>
-        extends Temporal, Comparable<ChronoZonedDateTime<?>> {
+publid intfrfbdf CironoZonfdDbtfTimf<D fxtfnds CironoLodblDbtf>
+        fxtfnds Tfmporbl, Compbrbblf<CironoZonfdDbtfTimf<?>> {
 
     /**
-     * Gets a comparator that compares {@code ChronoZonedDateTime} in
-     * time-line order ignoring the chronology.
+     * Gfts b dompbrbtor tibt dompbrfs {@dodf CironoZonfdDbtfTimf} in
+     * timf-linf ordfr ignoring tif dironology.
      * <p>
-     * This comparator differs from the comparison in {@link #compareTo} in that it
-     * only compares the underlying instant and not the chronology.
-     * This allows dates in different calendar systems to be compared based
-     * on the position of the date-time on the instant time-line.
-     * The underlying comparison is equivalent to comparing the epoch-second and nano-of-second.
+     * Tiis dompbrbtor difffrs from tif dompbrison in {@link #dompbrfTo} in tibt it
+     * only dompbrfs tif undfrlying instbnt bnd not tif dironology.
+     * Tiis bllows dbtfs in difffrfnt dblfndbr systfms to bf dompbrfd bbsfd
+     * on tif position of tif dbtf-timf on tif instbnt timf-linf.
+     * Tif undfrlying dompbrison is fquivblfnt to dompbring tif fpodi-sfdond bnd nbno-of-sfdond.
      *
-     * @return a comparator that compares in time-line order ignoring the chronology
-     * @see #isAfter
-     * @see #isBefore
-     * @see #isEqual
+     * @rfturn b dompbrbtor tibt dompbrfs in timf-linf ordfr ignoring tif dironology
+     * @sff #isAftfr
+     * @sff #isBfforf
+     * @sff #isEqubl
      */
-    static Comparator<ChronoZonedDateTime<?>> timeLineOrder() {
-        return AbstractChronology.INSTANT_ORDER;
+    stbtid Compbrbtor<CironoZonfdDbtfTimf<?>> timfLinfOrdfr() {
+        rfturn AbstrbdtCironology.INSTANT_ORDER;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code ChronoZonedDateTime} from a temporal object.
+     * Obtbins bn instbndf of {@dodf CironoZonfdDbtfTimf} from b tfmporbl objfdt.
      * <p>
-     * This creates a zoned date-time based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code ChronoZonedDateTime}.
+     * Tiis drfbtfs b zonfd dbtf-timf bbsfd on tif spfdififd tfmporbl.
+     * A {@dodf TfmporblAddfssor} rfprfsfnts bn brbitrbry sft of dbtf bnd timf informbtion,
+     * wiidi tiis fbdtory donvfrts to bn instbndf of {@dodf CironoZonfdDbtfTimf}.
      * <p>
-     * The conversion extracts and combines the chronology, date, time and zone
-     * from the temporal object. The behavior is equivalent to using
-     * {@link Chronology#zonedDateTime(TemporalAccessor)} with the extracted chronology.
-     * Implementations are permitted to perform optimizations such as accessing
-     * those fields that are equivalent to the relevant objects.
+     * Tif donvfrsion fxtrbdts bnd dombinfs tif dironology, dbtf, timf bnd zonf
+     * from tif tfmporbl objfdt. Tif bfibvior is fquivblfnt to using
+     * {@link Cironology#zonfdDbtfTimf(TfmporblAddfssor)} witi tif fxtrbdtfd dironology.
+     * Implfmfntbtions brf pfrmittfd to pfrform optimizbtions sudi bs bddfssing
+     * tiosf fiflds tibt brf fquivblfnt to tif rflfvbnt objfdts.
      * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code ChronoZonedDateTime::from}.
+     * Tiis mftiod mbtdifs tif signbturf of tif fundtionbl intfrfbdf {@link TfmporblQufry}
+     * bllowing it to bf usfd bs b qufry vib mftiod rfffrfndf, {@dodf CironoZonfdDbtfTimf::from}.
      *
-     * @param temporal  the temporal object to convert, not null
-     * @return the date-time, not null
-     * @throws DateTimeException if unable to convert to a {@code ChronoZonedDateTime}
-     * @see Chronology#zonedDateTime(TemporalAccessor)
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to donvfrt, not null
+     * @rfturn tif dbtf-timf, not null
+     * @tirows DbtfTimfExdfption if unbblf to donvfrt to b {@dodf CironoZonfdDbtfTimf}
+     * @sff Cironology#zonfdDbtfTimf(TfmporblAddfssor)
      */
-    static ChronoZonedDateTime<?> from(TemporalAccessor temporal) {
-        if (temporal instanceof ChronoZonedDateTime) {
-            return (ChronoZonedDateTime<?>) temporal;
+    stbtid CironoZonfdDbtfTimf<?> from(TfmporblAddfssor tfmporbl) {
+        if (tfmporbl instbndfof CironoZonfdDbtfTimf) {
+            rfturn (CironoZonfdDbtfTimf<?>) tfmporbl;
         }
-        Objects.requireNonNull(temporal, "temporal");
-        Chronology chrono = temporal.query(TemporalQueries.chronology());
-        if (chrono == null) {
-            throw new DateTimeException("Unable to obtain ChronoZonedDateTime from TemporalAccessor: " + temporal.getClass());
+        Objfdts.rfquirfNonNull(tfmporbl, "tfmporbl");
+        Cironology dirono = tfmporbl.qufry(TfmporblQufrifs.dironology());
+        if (dirono == null) {
+            tirow nfw DbtfTimfExdfption("Unbblf to obtbin CironoZonfdDbtfTimf from TfmporblAddfssor: " + tfmporbl.gftClbss());
         }
-        return chrono.zonedDateTime(temporal);
+        rfturn dirono.zonfdDbtfTimf(tfmporbl);
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    default ValueRange range(TemporalField field) {
-        if (field instanceof ChronoField) {
-            if (field == INSTANT_SECONDS || field == OFFSET_SECONDS) {
-                return field.range();
+    @Ovfrridf
+    dffbult VblufRbngf rbngf(TfmporblFifld fifld) {
+        if (fifld instbndfof CironoFifld) {
+            if (fifld == INSTANT_SECONDS || fifld == OFFSET_SECONDS) {
+                rfturn fifld.rbngf();
             }
-            return toLocalDateTime().range(field);
+            rfturn toLodblDbtfTimf().rbngf(fifld);
         }
-        return field.rangeRefinedBy(this);
+        rfturn fifld.rbngfRffinfdBy(tiis);
     }
 
-    @Override
-    default int get(TemporalField field) {
-        if (field instanceof ChronoField) {
-            switch ((ChronoField) field) {
-                case INSTANT_SECONDS:
-                    throw new UnsupportedTemporalTypeException("Invalid field 'InstantSeconds' for get() method, use getLong() instead");
-                case OFFSET_SECONDS:
-                    return getOffset().getTotalSeconds();
+    @Ovfrridf
+    dffbult int gft(TfmporblFifld fifld) {
+        if (fifld instbndfof CironoFifld) {
+            switdi ((CironoFifld) fifld) {
+                dbsf INSTANT_SECONDS:
+                    tirow nfw UnsupportfdTfmporblTypfExdfption("Invblid fifld 'InstbntSfdonds' for gft() mftiod, usf gftLong() instfbd");
+                dbsf OFFSET_SECONDS:
+                    rfturn gftOffsft().gftTotblSfdonds();
             }
-            return toLocalDateTime().get(field);
+            rfturn toLodblDbtfTimf().gft(fifld);
         }
-        return Temporal.super.get(field);
+        rfturn Tfmporbl.supfr.gft(fifld);
     }
 
-    @Override
-    default long getLong(TemporalField field) {
-        if (field instanceof ChronoField) {
-            switch ((ChronoField) field) {
-                case INSTANT_SECONDS: return toEpochSecond();
-                case OFFSET_SECONDS: return getOffset().getTotalSeconds();
+    @Ovfrridf
+    dffbult long gftLong(TfmporblFifld fifld) {
+        if (fifld instbndfof CironoFifld) {
+            switdi ((CironoFifld) fifld) {
+                dbsf INSTANT_SECONDS: rfturn toEpodiSfdond();
+                dbsf OFFSET_SECONDS: rfturn gftOffsft().gftTotblSfdonds();
             }
-            return toLocalDateTime().getLong(field);
+            rfturn toLodblDbtfTimf().gftLong(fifld);
         }
-        return field.getFrom(this);
+        rfturn fifld.gftFrom(tiis);
     }
 
     /**
-     * Gets the local date part of this date-time.
+     * Gfts tif lodbl dbtf pbrt of tiis dbtf-timf.
      * <p>
-     * This returns a local date with the same year, month and day
-     * as this date-time.
+     * Tiis rfturns b lodbl dbtf witi tif sbmf yfbr, monti bnd dby
+     * bs tiis dbtf-timf.
      *
-     * @return the date part of this date-time, not null
+     * @rfturn tif dbtf pbrt of tiis dbtf-timf, not null
      */
-    default D toLocalDate() {
-        return toLocalDateTime().toLocalDate();
+    dffbult D toLodblDbtf() {
+        rfturn toLodblDbtfTimf().toLodblDbtf();
     }
 
     /**
-     * Gets the local time part of this date-time.
+     * Gfts tif lodbl timf pbrt of tiis dbtf-timf.
      * <p>
-     * This returns a local time with the same hour, minute, second and
-     * nanosecond as this date-time.
+     * Tiis rfturns b lodbl timf witi tif sbmf iour, minutf, sfdond bnd
+     * nbnosfdond bs tiis dbtf-timf.
      *
-     * @return the time part of this date-time, not null
+     * @rfturn tif timf pbrt of tiis dbtf-timf, not null
      */
-    default LocalTime toLocalTime() {
-        return toLocalDateTime().toLocalTime();
+    dffbult LodblTimf toLodblTimf() {
+        rfturn toLodblDbtfTimf().toLodblTimf();
     }
 
     /**
-     * Gets the local date-time part of this date-time.
+     * Gfts tif lodbl dbtf-timf pbrt of tiis dbtf-timf.
      * <p>
-     * This returns a local date with the same year, month and day
-     * as this date-time.
+     * Tiis rfturns b lodbl dbtf witi tif sbmf yfbr, monti bnd dby
+     * bs tiis dbtf-timf.
      *
-     * @return the local date-time part of this date-time, not null
+     * @rfturn tif lodbl dbtf-timf pbrt of tiis dbtf-timf, not null
      */
-    ChronoLocalDateTime<D> toLocalDateTime();
+    CironoLodblDbtfTimf<D> toLodblDbtfTimf();
 
     /**
-     * Gets the chronology of this date-time.
+     * Gfts tif dironology of tiis dbtf-timf.
      * <p>
-     * The {@code Chronology} represents the calendar system in use.
-     * The era and other fields in {@link ChronoField} are defined by the chronology.
+     * Tif {@dodf Cironology} rfprfsfnts tif dblfndbr systfm in usf.
+     * Tif frb bnd otifr fiflds in {@link CironoFifld} brf dffinfd by tif dironology.
      *
-     * @return the chronology, not null
+     * @rfturn tif dironology, not null
      */
-    default Chronology getChronology() {
-        return toLocalDate().getChronology();
+    dffbult Cironology gftCironology() {
+        rfturn toLodblDbtf().gftCironology();
     }
 
     /**
-     * Gets the zone offset, such as '+01:00'.
+     * Gfts tif zonf offsft, sudi bs '+01:00'.
      * <p>
-     * This is the offset of the local date-time from UTC/Greenwich.
+     * Tiis is tif offsft of tif lodbl dbtf-timf from UTC/Grffnwidi.
      *
-     * @return the zone offset, not null
+     * @rfturn tif zonf offsft, not null
      */
-    ZoneOffset getOffset();
+    ZonfOffsft gftOffsft();
 
     /**
-     * Gets the zone ID, such as 'Europe/Paris'.
+     * Gfts tif zonf ID, sudi bs 'Europf/Pbris'.
      * <p>
-     * This returns the stored time-zone id used to determine the time-zone rules.
+     * Tiis rfturns tif storfd timf-zonf id usfd to dftfrminf tif timf-zonf rulfs.
      *
-     * @return the zone ID, not null
+     * @rfturn tif zonf ID, not null
      */
-    ZoneId getZone();
+    ZonfId gftZonf();
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this date-time changing the zone offset to the
-     * earlier of the two valid offsets at a local time-line overlap.
+     * Rfturns b dopy of tiis dbtf-timf dibnging tif zonf offsft to tif
+     * fbrlifr of tif two vblid offsfts bt b lodbl timf-linf ovfrlbp.
      * <p>
-     * This method only has any effect when the local time-line overlaps, such as
-     * at an autumn daylight savings cutover. In this scenario, there are two
-     * valid offsets for the local date-time. Calling this method will return
-     * a zoned date-time with the earlier of the two selected.
+     * Tiis mftiod only ibs bny ffffdt wifn tif lodbl timf-linf ovfrlbps, sudi bs
+     * bt bn butumn dbyligit sbvings dutovfr. In tiis sdfnbrio, tifrf brf two
+     * vblid offsfts for tif lodbl dbtf-timf. Cblling tiis mftiod will rfturn
+     * b zonfd dbtf-timf witi tif fbrlifr of tif two sflfdtfd.
      * <p>
-     * If this method is called when it is not an overlap, {@code this}
-     * is returned.
+     * If tiis mftiod is dbllfd wifn it is not bn ovfrlbp, {@dodf tiis}
+     * is rfturnfd.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @return a {@code ChronoZonedDateTime} based on this date-time with the earlier offset, not null
-     * @throws DateTimeException if no rules can be found for the zone
-     * @throws DateTimeException if no rules are valid for this date-time
+     * @rfturn b {@dodf CironoZonfdDbtfTimf} bbsfd on tiis dbtf-timf witi tif fbrlifr offsft, not null
+     * @tirows DbtfTimfExdfption if no rulfs dbn bf found for tif zonf
+     * @tirows DbtfTimfExdfption if no rulfs brf vblid for tiis dbtf-timf
      */
-    ChronoZonedDateTime<D> withEarlierOffsetAtOverlap();
+    CironoZonfdDbtfTimf<D> witiEbrlifrOffsftAtOvfrlbp();
 
     /**
-     * Returns a copy of this date-time changing the zone offset to the
-     * later of the two valid offsets at a local time-line overlap.
+     * Rfturns b dopy of tiis dbtf-timf dibnging tif zonf offsft to tif
+     * lbtfr of tif two vblid offsfts bt b lodbl timf-linf ovfrlbp.
      * <p>
-     * This method only has any effect when the local time-line overlaps, such as
-     * at an autumn daylight savings cutover. In this scenario, there are two
-     * valid offsets for the local date-time. Calling this method will return
-     * a zoned date-time with the later of the two selected.
+     * Tiis mftiod only ibs bny ffffdt wifn tif lodbl timf-linf ovfrlbps, sudi bs
+     * bt bn butumn dbyligit sbvings dutovfr. In tiis sdfnbrio, tifrf brf two
+     * vblid offsfts for tif lodbl dbtf-timf. Cblling tiis mftiod will rfturn
+     * b zonfd dbtf-timf witi tif lbtfr of tif two sflfdtfd.
      * <p>
-     * If this method is called when it is not an overlap, {@code this}
-     * is returned.
+     * If tiis mftiod is dbllfd wifn it is not bn ovfrlbp, {@dodf tiis}
+     * is rfturnfd.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @return a {@code ChronoZonedDateTime} based on this date-time with the later offset, not null
-     * @throws DateTimeException if no rules can be found for the zone
-     * @throws DateTimeException if no rules are valid for this date-time
+     * @rfturn b {@dodf CironoZonfdDbtfTimf} bbsfd on tiis dbtf-timf witi tif lbtfr offsft, not null
+     * @tirows DbtfTimfExdfption if no rulfs dbn bf found for tif zonf
+     * @tirows DbtfTimfExdfption if no rulfs brf vblid for tiis dbtf-timf
      */
-    ChronoZonedDateTime<D> withLaterOffsetAtOverlap();
+    CironoZonfdDbtfTimf<D> witiLbtfrOffsftAtOvfrlbp();
 
     /**
-     * Returns a copy of this date-time with a different time-zone,
-     * retaining the local date-time if possible.
+     * Rfturns b dopy of tiis dbtf-timf witi b difffrfnt timf-zonf,
+     * rftbining tif lodbl dbtf-timf if possiblf.
      * <p>
-     * This method changes the time-zone and retains the local date-time.
-     * The local date-time is only changed if it is invalid for the new zone.
+     * Tiis mftiod dibngfs tif timf-zonf bnd rftbins tif lodbl dbtf-timf.
+     * Tif lodbl dbtf-timf is only dibngfd if it is invblid for tif nfw zonf.
      * <p>
-     * To change the zone and adjust the local date-time,
-     * use {@link #withZoneSameInstant(ZoneId)}.
+     * To dibngf tif zonf bnd bdjust tif lodbl dbtf-timf,
+     * usf {@link #witiZonfSbmfInstbnt(ZonfId)}.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param zone  the time-zone to change to, not null
-     * @return a {@code ChronoZonedDateTime} based on this date-time with the requested zone, not null
+     * @pbrbm zonf  tif timf-zonf to dibngf to, not null
+     * @rfturn b {@dodf CironoZonfdDbtfTimf} bbsfd on tiis dbtf-timf witi tif rfqufstfd zonf, not null
      */
-    ChronoZonedDateTime<D> withZoneSameLocal(ZoneId zone);
+    CironoZonfdDbtfTimf<D> witiZonfSbmfLodbl(ZonfId zonf);
 
     /**
-     * Returns a copy of this date-time with a different time-zone,
-     * retaining the instant.
+     * Rfturns b dopy of tiis dbtf-timf witi b difffrfnt timf-zonf,
+     * rftbining tif instbnt.
      * <p>
-     * This method changes the time-zone and retains the instant.
-     * This normally results in a change to the local date-time.
+     * Tiis mftiod dibngfs tif timf-zonf bnd rftbins tif instbnt.
+     * Tiis normblly rfsults in b dibngf to tif lodbl dbtf-timf.
      * <p>
-     * This method is based on retaining the same instant, thus gaps and overlaps
-     * in the local time-line have no effect on the result.
+     * Tiis mftiod is bbsfd on rftbining tif sbmf instbnt, tius gbps bnd ovfrlbps
+     * in tif lodbl timf-linf ibvf no ffffdt on tif rfsult.
      * <p>
-     * To change the offset while keeping the local time,
-     * use {@link #withZoneSameLocal(ZoneId)}.
+     * To dibngf tif offsft wiilf kffping tif lodbl timf,
+     * usf {@link #witiZonfSbmfLodbl(ZonfId)}.
      *
-     * @param zone  the time-zone to change to, not null
-     * @return a {@code ChronoZonedDateTime} based on this date-time with the requested zone, not null
-     * @throws DateTimeException if the result exceeds the supported date range
+     * @pbrbm zonf  tif timf-zonf to dibngf to, not null
+     * @rfturn b {@dodf CironoZonfdDbtfTimf} bbsfd on tiis dbtf-timf witi tif rfqufstfd zonf, not null
+     * @tirows DbtfTimfExdfption if tif rfsult fxdffds tif supportfd dbtf rbngf
      */
-    ChronoZonedDateTime<D> withZoneSameInstant(ZoneId zone);
+    CironoZonfdDbtfTimf<D> witiZonfSbmfInstbnt(ZonfId zonf);
 
     /**
-     * Checks if the specified field is supported.
+     * Cifdks if tif spfdififd fifld is supportfd.
      * <p>
-     * This checks if the specified field can be queried on this date-time.
-     * If false, then calling the {@link #range(TemporalField) range},
-     * {@link #get(TemporalField) get} and {@link #with(TemporalField, long)}
-     * methods will throw an exception.
+     * Tiis difdks if tif spfdififd fifld dbn bf qufrifd on tiis dbtf-timf.
+     * If fblsf, tifn dblling tif {@link #rbngf(TfmporblFifld) rbngf},
+     * {@link #gft(TfmporblFifld) gft} bnd {@link #witi(TfmporblFifld, long)}
+     * mftiods will tirow bn fxdfption.
      * <p>
-     * The set of supported fields is defined by the chronology and normally includes
-     * all {@code ChronoField} fields.
+     * Tif sft of supportfd fiflds is dffinfd by tif dironology bnd normblly indludfs
+     * bll {@dodf CironoFifld} fiflds.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.isSupportedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
-     * Whether the field is supported is determined by the field.
+     * If tif fifld is not b {@dodf CironoFifld}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.isSupportfdBy(TfmporblAddfssor)}
+     * pbssing {@dodf tiis} bs tif brgumfnt.
+     * Wiftifr tif fifld is supportfd is dftfrminfd by tif fifld.
      *
-     * @param field  the field to check, null returns false
-     * @return true if the field can be queried, false if not
+     * @pbrbm fifld  tif fifld to difdk, null rfturns fblsf
+     * @rfturn truf if tif fifld dbn bf qufrifd, fblsf if not
      */
-    @Override
-    boolean isSupported(TemporalField field);
+    @Ovfrridf
+    boolfbn isSupportfd(TfmporblFifld fifld);
 
     /**
-     * Checks if the specified unit is supported.
+     * Cifdks if tif spfdififd unit is supportfd.
      * <p>
-     * This checks if the specified unit can be added to or subtracted from this date-time.
-     * If false, then calling the {@link #plus(long, TemporalUnit)} and
-     * {@link #minus(long, TemporalUnit) minus} methods will throw an exception.
+     * Tiis difdks if tif spfdififd unit dbn bf bddfd to or subtrbdtfd from tiis dbtf-timf.
+     * If fblsf, tifn dblling tif {@link #plus(long, TfmporblUnit)} bnd
+     * {@link #minus(long, TfmporblUnit) minus} mftiods will tirow bn fxdfption.
      * <p>
-     * The set of supported units is defined by the chronology and normally includes
-     * all {@code ChronoUnit} units except {@code FOREVER}.
+     * Tif sft of supportfd units is dffinfd by tif dironology bnd normblly indludfs
+     * bll {@dodf CironoUnit} units fxdfpt {@dodf FOREVER}.
      * <p>
-     * If the unit is not a {@code ChronoUnit}, then the result of this method
-     * is obtained by invoking {@code TemporalUnit.isSupportedBy(Temporal)}
-     * passing {@code this} as the argument.
-     * Whether the unit is supported is determined by the unit.
+     * If tif unit is not b {@dodf CironoUnit}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblUnit.isSupportfdBy(Tfmporbl)}
+     * pbssing {@dodf tiis} bs tif brgumfnt.
+     * Wiftifr tif unit is supportfd is dftfrminfd by tif unit.
      *
-     * @param unit  the unit to check, null returns false
-     * @return true if the unit can be added/subtracted, false if not
+     * @pbrbm unit  tif unit to difdk, null rfturns fblsf
+     * @rfturn truf if tif unit dbn bf bddfd/subtrbdtfd, fblsf if not
      */
-    @Override
-    default boolean isSupported(TemporalUnit unit) {
-        if (unit instanceof ChronoUnit) {
-            return unit != FOREVER;
+    @Ovfrridf
+    dffbult boolfbn isSupportfd(TfmporblUnit unit) {
+        if (unit instbndfof CironoUnit) {
+            rfturn unit != FOREVER;
         }
-        return unit != null && unit.isSupportedBy(this);
+        rfturn unit != null && unit.isSupportfdBy(tiis);
     }
 
     //-----------------------------------------------------------------------
-    // override for covariant return type
+    // ovfrridf for dovbribnt rfturn typf
     /**
-     * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
-     * @throws ArithmeticException {@inheritDoc}
+     * {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
      */
-    @Override
-    default ChronoZonedDateTime<D> with(TemporalAdjuster adjuster) {
-        return ChronoZonedDateTimeImpl.ensureValid(getChronology(), Temporal.super.with(adjuster));
+    @Ovfrridf
+    dffbult CironoZonfdDbtfTimf<D> witi(TfmporblAdjustfr bdjustfr) {
+        rfturn CironoZonfdDbtfTimfImpl.fnsurfVblid(gftCironology(), Tfmporbl.supfr.witi(bdjustfr));
     }
 
     /**
-     * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
-     * @throws ArithmeticException {@inheritDoc}
+     * {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
      */
-    @Override
-    ChronoZonedDateTime<D> with(TemporalField field, long newValue);
+    @Ovfrridf
+    CironoZonfdDbtfTimf<D> witi(TfmporblFifld fifld, long nfwVbluf);
 
     /**
-     * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
-     * @throws ArithmeticException {@inheritDoc}
+     * {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
      */
-    @Override
-    default ChronoZonedDateTime<D> plus(TemporalAmount amount) {
-        return ChronoZonedDateTimeImpl.ensureValid(getChronology(), Temporal.super.plus(amount));
+    @Ovfrridf
+    dffbult CironoZonfdDbtfTimf<D> plus(TfmporblAmount bmount) {
+        rfturn CironoZonfdDbtfTimfImpl.fnsurfVblid(gftCironology(), Tfmporbl.supfr.plus(bmount));
     }
 
     /**
-     * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
-     * @throws ArithmeticException {@inheritDoc}
+     * {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
      */
-    @Override
-    ChronoZonedDateTime<D> plus(long amountToAdd, TemporalUnit unit);
+    @Ovfrridf
+    CironoZonfdDbtfTimf<D> plus(long bmountToAdd, TfmporblUnit unit);
 
     /**
-     * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
-     * @throws ArithmeticException {@inheritDoc}
+     * {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
      */
-    @Override
-    default ChronoZonedDateTime<D> minus(TemporalAmount amount) {
-        return ChronoZonedDateTimeImpl.ensureValid(getChronology(), Temporal.super.minus(amount));
+    @Ovfrridf
+    dffbult CironoZonfdDbtfTimf<D> minus(TfmporblAmount bmount) {
+        rfturn CironoZonfdDbtfTimfImpl.fnsurfVblid(gftCironology(), Tfmporbl.supfr.minus(bmount));
     }
 
     /**
-     * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
-     * @throws ArithmeticException {@inheritDoc}
+     * {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
      */
-    @Override
-    default ChronoZonedDateTime<D> minus(long amountToSubtract, TemporalUnit unit) {
-        return ChronoZonedDateTimeImpl.ensureValid(getChronology(), Temporal.super.minus(amountToSubtract, unit));
+    @Ovfrridf
+    dffbult CironoZonfdDbtfTimf<D> minus(long bmountToSubtrbdt, TfmporblUnit unit) {
+        rfturn CironoZonfdDbtfTimfImpl.fnsurfVblid(gftCironology(), Tfmporbl.supfr.minus(bmountToSubtrbdt, unit));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Queries this date-time using the specified query.
+     * Qufrifs tiis dbtf-timf using tif spfdififd qufry.
      * <p>
-     * This queries this date-time using the specified query strategy object.
-     * The {@code TemporalQuery} object defines the logic to be used to
-     * obtain the result. Read the documentation of the query to understand
-     * what the result of this method will be.
+     * Tiis qufrifs tiis dbtf-timf using tif spfdififd qufry strbtfgy objfdt.
+     * Tif {@dodf TfmporblQufry} objfdt dffinfs tif logid to bf usfd to
+     * obtbin tif rfsult. Rfbd tif dodumfntbtion of tif qufry to undfrstbnd
+     * wibt tif rfsult of tiis mftiod will bf.
      * <p>
-     * The result of this method is obtained by invoking the
-     * {@link TemporalQuery#queryFrom(TemporalAccessor)} method on the
-     * specified query passing {@code this} as the argument.
+     * Tif rfsult of tiis mftiod is obtbinfd by invoking tif
+     * {@link TfmporblQufry#qufryFrom(TfmporblAddfssor)} mftiod on tif
+     * spfdififd qufry pbssing {@dodf tiis} bs tif brgumfnt.
      *
-     * @param <R> the type of the result
-     * @param query  the query to invoke, not null
-     * @return the query result, null may be returned (defined by the query)
-     * @throws DateTimeException if unable to query (defined by the query)
-     * @throws ArithmeticException if numeric overflow occurs (defined by the query)
+     * @pbrbm <R> tif typf of tif rfsult
+     * @pbrbm qufry  tif qufry to invokf, not null
+     * @rfturn tif qufry rfsult, null mby bf rfturnfd (dffinfd by tif qufry)
+     * @tirows DbtfTimfExdfption if unbblf to qufry (dffinfd by tif qufry)
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs (dffinfd by tif qufry)
      */
-    @SuppressWarnings("unchecked")
-    @Override
-    default <R> R query(TemporalQuery<R> query) {
-        if (query == TemporalQueries.zone() || query == TemporalQueries.zoneId()) {
-            return (R) getZone();
-        } else if (query == TemporalQueries.offset()) {
-            return (R) getOffset();
-        } else if (query == TemporalQueries.localTime()) {
-            return (R) toLocalTime();
-        } else if (query == TemporalQueries.chronology()) {
-            return (R) getChronology();
-        } else if (query == TemporalQueries.precision()) {
-            return (R) NANOS;
+    @SupprfssWbrnings("undifdkfd")
+    @Ovfrridf
+    dffbult <R> R qufry(TfmporblQufry<R> qufry) {
+        if (qufry == TfmporblQufrifs.zonf() || qufry == TfmporblQufrifs.zonfId()) {
+            rfturn (R) gftZonf();
+        } flsf if (qufry == TfmporblQufrifs.offsft()) {
+            rfturn (R) gftOffsft();
+        } flsf if (qufry == TfmporblQufrifs.lodblTimf()) {
+            rfturn (R) toLodblTimf();
+        } flsf if (qufry == TfmporblQufrifs.dironology()) {
+            rfturn (R) gftCironology();
+        } flsf if (qufry == TfmporblQufrifs.prfdision()) {
+            rfturn (R) NANOS;
         }
-        // inline TemporalAccessor.super.query(query) as an optimization
-        // non-JDK classes are not permitted to make this optimization
-        return query.queryFrom(this);
+        // inlinf TfmporblAddfssor.supfr.qufry(qufry) bs bn optimizbtion
+        // non-JDK dlbssfs brf not pfrmittfd to mbkf tiis optimizbtion
+        rfturn qufry.qufryFrom(tiis);
     }
 
     /**
-     * Formats this date-time using the specified formatter.
+     * Formbts tiis dbtf-timf using tif spfdififd formbttfr.
      * <p>
-     * This date-time will be passed to the formatter to produce a string.
+     * Tiis dbtf-timf will bf pbssfd to tif formbttfr to produdf b string.
      * <p>
-     * The default implementation must behave as follows:
-     * <pre>
-     *  return formatter.format(this);
-     * </pre>
+     * Tif dffbult implfmfntbtion must bfibvf bs follows:
+     * <prf>
+     *  rfturn formbttfr.formbt(tiis);
+     * </prf>
      *
-     * @param formatter  the formatter to use, not null
-     * @return the formatted date-time string, not null
-     * @throws DateTimeException if an error occurs during printing
+     * @pbrbm formbttfr  tif formbttfr to usf, not null
+     * @rfturn tif formbttfd dbtf-timf string, not null
+     * @tirows DbtfTimfExdfption if bn frror oddurs during printing
      */
-    default String format(DateTimeFormatter formatter) {
-        Objects.requireNonNull(formatter, "formatter");
-        return formatter.format(this);
+    dffbult String formbt(DbtfTimfFormbttfr formbttfr) {
+        Objfdts.rfquirfNonNull(formbttfr, "formbttfr");
+        rfturn formbttfr.formbt(tiis);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Converts this date-time to an {@code Instant}.
+     * Convfrts tiis dbtf-timf to bn {@dodf Instbnt}.
      * <p>
-     * This returns an {@code Instant} representing the same point on the
-     * time-line as this date-time. The calculation combines the
-     * {@linkplain #toLocalDateTime() local date-time} and
-     * {@linkplain #getOffset() offset}.
+     * Tiis rfturns bn {@dodf Instbnt} rfprfsfnting tif sbmf point on tif
+     * timf-linf bs tiis dbtf-timf. Tif dbldulbtion dombinfs tif
+     * {@linkplbin #toLodblDbtfTimf() lodbl dbtf-timf} bnd
+     * {@linkplbin #gftOffsft() offsft}.
      *
-     * @return an {@code Instant} representing the same instant, not null
+     * @rfturn bn {@dodf Instbnt} rfprfsfnting tif sbmf instbnt, not null
      */
-    default Instant toInstant() {
-        return Instant.ofEpochSecond(toEpochSecond(), toLocalTime().getNano());
+    dffbult Instbnt toInstbnt() {
+        rfturn Instbnt.ofEpodiSfdond(toEpodiSfdond(), toLodblTimf().gftNbno());
     }
 
     /**
-     * Converts this date-time to the number of seconds from the epoch
+     * Convfrts tiis dbtf-timf to tif numbfr of sfdonds from tif fpodi
      * of 1970-01-01T00:00:00Z.
      * <p>
-     * This uses the {@linkplain #toLocalDateTime() local date-time} and
-     * {@linkplain #getOffset() offset} to calculate the epoch-second value,
-     * which is the number of elapsed seconds from 1970-01-01T00:00:00Z.
-     * Instants on the time-line after the epoch are positive, earlier are negative.
+     * Tiis usfs tif {@linkplbin #toLodblDbtfTimf() lodbl dbtf-timf} bnd
+     * {@linkplbin #gftOffsft() offsft} to dbldulbtf tif fpodi-sfdond vbluf,
+     * wiidi is tif numbfr of flbpsfd sfdonds from 1970-01-01T00:00:00Z.
+     * Instbnts on tif timf-linf bftfr tif fpodi brf positivf, fbrlifr brf nfgbtivf.
      *
-     * @return the number of seconds from the epoch of 1970-01-01T00:00:00Z
+     * @rfturn tif numbfr of sfdonds from tif fpodi of 1970-01-01T00:00:00Z
      */
-    default long toEpochSecond() {
-        long epochDay = toLocalDate().toEpochDay();
-        long secs = epochDay * 86400 + toLocalTime().toSecondOfDay();
-        secs -= getOffset().getTotalSeconds();
-        return secs;
+    dffbult long toEpodiSfdond() {
+        long fpodiDby = toLodblDbtf().toEpodiDby();
+        long sfds = fpodiDby * 86400 + toLodblTimf().toSfdondOfDby();
+        sfds -= gftOffsft().gftTotblSfdonds();
+        rfturn sfds;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Compares this date-time to another date-time, including the chronology.
+     * Compbrfs tiis dbtf-timf to bnotifr dbtf-timf, indluding tif dironology.
      * <p>
-     * The comparison is based first on the instant, then on the local date-time,
-     * then on the zone ID, then on the chronology.
-     * It is "consistent with equals", as defined by {@link Comparable}.
+     * Tif dompbrison is bbsfd first on tif instbnt, tifn on tif lodbl dbtf-timf,
+     * tifn on tif zonf ID, tifn on tif dironology.
+     * It is "donsistfnt witi fqubls", bs dffinfd by {@link Compbrbblf}.
      * <p>
-     * If all the date-time objects being compared are in the same chronology, then the
-     * additional chronology stage is not required.
+     * If bll tif dbtf-timf objfdts bfing dompbrfd brf in tif sbmf dironology, tifn tif
+     * bdditionbl dironology stbgf is not rfquirfd.
      * <p>
-     * This default implementation performs the comparison defined above.
+     * Tiis dffbult implfmfntbtion pfrforms tif dompbrison dffinfd bbovf.
      *
-     * @param other  the other date-time to compare to, not null
-     * @return the comparator value, negative if less, positive if greater
+     * @pbrbm otifr  tif otifr dbtf-timf to dompbrf to, not null
+     * @rfturn tif dompbrbtor vbluf, nfgbtivf if lfss, positivf if grfbtfr
      */
-    @Override
-    default int compareTo(ChronoZonedDateTime<?> other) {
-        int cmp = Long.compare(toEpochSecond(), other.toEpochSecond());
-        if (cmp == 0) {
-            cmp = toLocalTime().getNano() - other.toLocalTime().getNano();
-            if (cmp == 0) {
-                cmp = toLocalDateTime().compareTo(other.toLocalDateTime());
-                if (cmp == 0) {
-                    cmp = getZone().getId().compareTo(other.getZone().getId());
-                    if (cmp == 0) {
-                        cmp = getChronology().compareTo(other.getChronology());
+    @Ovfrridf
+    dffbult int dompbrfTo(CironoZonfdDbtfTimf<?> otifr) {
+        int dmp = Long.dompbrf(toEpodiSfdond(), otifr.toEpodiSfdond());
+        if (dmp == 0) {
+            dmp = toLodblTimf().gftNbno() - otifr.toLodblTimf().gftNbno();
+            if (dmp == 0) {
+                dmp = toLodblDbtfTimf().dompbrfTo(otifr.toLodblDbtfTimf());
+                if (dmp == 0) {
+                    dmp = gftZonf().gftId().dompbrfTo(otifr.gftZonf().gftId());
+                    if (dmp == 0) {
+                        dmp = gftCironology().dompbrfTo(otifr.gftCironology());
                     }
                 }
             }
         }
-        return cmp;
+        rfturn dmp;
     }
 
     /**
-     * Checks if the instant of this date-time is before that of the specified date-time.
+     * Cifdks if tif instbnt of tiis dbtf-timf is bfforf tibt of tif spfdififd dbtf-timf.
      * <p>
-     * This method differs from the comparison in {@link #compareTo} in that it
-     * only compares the instant of the date-time. This is equivalent to using
-     * {@code dateTime1.toInstant().isBefore(dateTime2.toInstant());}.
+     * Tiis mftiod difffrs from tif dompbrison in {@link #dompbrfTo} in tibt it
+     * only dompbrfs tif instbnt of tif dbtf-timf. Tiis is fquivblfnt to using
+     * {@dodf dbtfTimf1.toInstbnt().isBfforf(dbtfTimf2.toInstbnt());}.
      * <p>
-     * This default implementation performs the comparison based on the epoch-second
-     * and nano-of-second.
+     * Tiis dffbult implfmfntbtion pfrforms tif dompbrison bbsfd on tif fpodi-sfdond
+     * bnd nbno-of-sfdond.
      *
-     * @param other  the other date-time to compare to, not null
-     * @return true if this point is before the specified date-time
+     * @pbrbm otifr  tif otifr dbtf-timf to dompbrf to, not null
+     * @rfturn truf if tiis point is bfforf tif spfdififd dbtf-timf
      */
-    default boolean isBefore(ChronoZonedDateTime<?> other) {
-        long thisEpochSec = toEpochSecond();
-        long otherEpochSec = other.toEpochSecond();
-        return thisEpochSec < otherEpochSec ||
-            (thisEpochSec == otherEpochSec && toLocalTime().getNano() < other.toLocalTime().getNano());
+    dffbult boolfbn isBfforf(CironoZonfdDbtfTimf<?> otifr) {
+        long tiisEpodiSfd = toEpodiSfdond();
+        long otifrEpodiSfd = otifr.toEpodiSfdond();
+        rfturn tiisEpodiSfd < otifrEpodiSfd ||
+            (tiisEpodiSfd == otifrEpodiSfd && toLodblTimf().gftNbno() < otifr.toLodblTimf().gftNbno());
     }
 
     /**
-     * Checks if the instant of this date-time is after that of the specified date-time.
+     * Cifdks if tif instbnt of tiis dbtf-timf is bftfr tibt of tif spfdififd dbtf-timf.
      * <p>
-     * This method differs from the comparison in {@link #compareTo} in that it
-     * only compares the instant of the date-time. This is equivalent to using
-     * {@code dateTime1.toInstant().isAfter(dateTime2.toInstant());}.
+     * Tiis mftiod difffrs from tif dompbrison in {@link #dompbrfTo} in tibt it
+     * only dompbrfs tif instbnt of tif dbtf-timf. Tiis is fquivblfnt to using
+     * {@dodf dbtfTimf1.toInstbnt().isAftfr(dbtfTimf2.toInstbnt());}.
      * <p>
-     * This default implementation performs the comparison based on the epoch-second
-     * and nano-of-second.
+     * Tiis dffbult implfmfntbtion pfrforms tif dompbrison bbsfd on tif fpodi-sfdond
+     * bnd nbno-of-sfdond.
      *
-     * @param other  the other date-time to compare to, not null
-     * @return true if this is after the specified date-time
+     * @pbrbm otifr  tif otifr dbtf-timf to dompbrf to, not null
+     * @rfturn truf if tiis is bftfr tif spfdififd dbtf-timf
      */
-    default boolean isAfter(ChronoZonedDateTime<?> other) {
-        long thisEpochSec = toEpochSecond();
-        long otherEpochSec = other.toEpochSecond();
-        return thisEpochSec > otherEpochSec ||
-            (thisEpochSec == otherEpochSec && toLocalTime().getNano() > other.toLocalTime().getNano());
+    dffbult boolfbn isAftfr(CironoZonfdDbtfTimf<?> otifr) {
+        long tiisEpodiSfd = toEpodiSfdond();
+        long otifrEpodiSfd = otifr.toEpodiSfdond();
+        rfturn tiisEpodiSfd > otifrEpodiSfd ||
+            (tiisEpodiSfd == otifrEpodiSfd && toLodblTimf().gftNbno() > otifr.toLodblTimf().gftNbno());
     }
 
     /**
-     * Checks if the instant of this date-time is equal to that of the specified date-time.
+     * Cifdks if tif instbnt of tiis dbtf-timf is fqubl to tibt of tif spfdififd dbtf-timf.
      * <p>
-     * This method differs from the comparison in {@link #compareTo} and {@link #equals}
-     * in that it only compares the instant of the date-time. This is equivalent to using
-     * {@code dateTime1.toInstant().equals(dateTime2.toInstant());}.
+     * Tiis mftiod difffrs from tif dompbrison in {@link #dompbrfTo} bnd {@link #fqubls}
+     * in tibt it only dompbrfs tif instbnt of tif dbtf-timf. Tiis is fquivblfnt to using
+     * {@dodf dbtfTimf1.toInstbnt().fqubls(dbtfTimf2.toInstbnt());}.
      * <p>
-     * This default implementation performs the comparison based on the epoch-second
-     * and nano-of-second.
+     * Tiis dffbult implfmfntbtion pfrforms tif dompbrison bbsfd on tif fpodi-sfdond
+     * bnd nbno-of-sfdond.
      *
-     * @param other  the other date-time to compare to, not null
-     * @return true if the instant equals the instant of the specified date-time
+     * @pbrbm otifr  tif otifr dbtf-timf to dompbrf to, not null
+     * @rfturn truf if tif instbnt fqubls tif instbnt of tif spfdififd dbtf-timf
      */
-    default boolean isEqual(ChronoZonedDateTime<?> other) {
-        return toEpochSecond() == other.toEpochSecond() &&
-                toLocalTime().getNano() == other.toLocalTime().getNano();
+    dffbult boolfbn isEqubl(CironoZonfdDbtfTimf<?> otifr) {
+        rfturn toEpodiSfdond() == otifr.toEpodiSfdond() &&
+                toLodblTimf().gftNbno() == otifr.toLodblTimf().gftNbno();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this date-time is equal to another date-time.
+     * Cifdks if tiis dbtf-timf is fqubl to bnotifr dbtf-timf.
      * <p>
-     * The comparison is based on the offset date-time and the zone.
-     * To compare for the same instant on the time-line, use {@link #compareTo}.
-     * Only objects of type {@code ChronoZonedDateTime} are compared, other types return false.
+     * Tif dompbrison is bbsfd on tif offsft dbtf-timf bnd tif zonf.
+     * To dompbrf for tif sbmf instbnt on tif timf-linf, usf {@link #dompbrfTo}.
+     * Only objfdts of typf {@dodf CironoZonfdDbtfTimf} brf dompbrfd, otifr typfs rfturn fblsf.
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other date-time
+     * @pbrbm obj  tif objfdt to difdk, null rfturns fblsf
+     * @rfturn truf if tiis is fqubl to tif otifr dbtf-timf
      */
-    @Override
-    boolean equals(Object obj);
+    @Ovfrridf
+    boolfbn fqubls(Objfdt obj);
 
     /**
-     * A hash code for this date-time.
+     * A ibsi dodf for tiis dbtf-timf.
      *
-     * @return a suitable hash code
+     * @rfturn b suitbblf ibsi dodf
      */
-    @Override
-    int hashCode();
+    @Ovfrridf
+    int ibsiCodf();
 
     //-----------------------------------------------------------------------
     /**
-     * Outputs this date-time as a {@code String}.
+     * Outputs tiis dbtf-timf bs b {@dodf String}.
      * <p>
-     * The output will include the full zoned date-time.
+     * Tif output will indludf tif full zonfd dbtf-timf.
      *
-     * @return a string representation of this date-time, not null
+     * @rfturn b string rfprfsfntbtion of tiis dbtf-timf, not null
      */
-    @Override
+    @Ovfrridf
     String toString();
 
 }

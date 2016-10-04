@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.beans.introspect;
+pbdkbgf dom.sun.bfbns.introspfdt;
 
-import com.sun.beans.TypeResolver;
-import com.sun.beans.finder.MethodFinder;
+import dom.sun.bfbns.TypfRfsolvfr;
+import dom.sun.bfbns.findfr.MftiodFindfr;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.lbng.rfflfdt.Typf;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
 
-final class MethodInfo {
-    final Method method;
-    final Class<?> type;
+finbl dlbss MftiodInfo {
+    finbl Mftiod mftiod;
+    finbl Clbss<?> typf;
 
-    MethodInfo(Method method, Class<?> type) {
-        this.method = method;
-        this.type = type;
+    MftiodInfo(Mftiod mftiod, Clbss<?> typf) {
+        tiis.mftiod = mftiod;
+        tiis.typf = typf;
     }
 
-    MethodInfo(Method method, Type type) {
-        this.method = method;
-        this.type = resolve(method, type);
+    MftiodInfo(Mftiod mftiod, Typf typf) {
+        tiis.mftiod = mftiod;
+        tiis.typf = rfsolvf(mftiod, typf);
     }
 
-    boolean isThrow(Class<?> exception) {
-        for (Class<?> type : this.method.getExceptionTypes()) {
-            if (type == exception) {
-                return true;
+    boolfbn isTirow(Clbss<?> fxdfption) {
+        for (Clbss<?> typf : tiis.mftiod.gftExdfptionTypfs()) {
+            if (typf == fxdfption) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    static Class<?> resolve(Method method, Type type) {
-        return TypeResolver.erase(TypeResolver.resolveInClass(method.getDeclaringClass(), type));
+    stbtid Clbss<?> rfsolvf(Mftiod mftiod, Typf typf) {
+        rfturn TypfRfsolvfr.frbsf(TypfRfsolvfr.rfsolvfInClbss(mftiod.gftDfdlbringClbss(), typf));
     }
 
-    static List<Method> get(Class<?> type) {
-        List<Method> list = null;
-        if (type != null) {
-            boolean inaccessible = !Modifier.isPublic(type.getModifiers());
-            for (Method method : type.getMethods()) {
-                if (method.getDeclaringClass().equals(type)) {
-                    if (inaccessible) {
+    stbtid List<Mftiod> gft(Clbss<?> typf) {
+        List<Mftiod> list = null;
+        if (typf != null) {
+            boolfbn inbddfssiblf = !Modififr.isPublid(typf.gftModififrs());
+            for (Mftiod mftiod : typf.gftMftiods()) {
+                if (mftiod.gftDfdlbringClbss().fqubls(typf)) {
+                    if (inbddfssiblf) {
                         try {
-                            method = MethodFinder.findAccessibleMethod(method);
-                            if (!method.getDeclaringClass().isInterface()) {
-                                method = null; // ignore methods from superclasses
+                            mftiod = MftiodFindfr.findAddfssiblfMftiod(mftiod);
+                            if (!mftiod.gftDfdlbringClbss().isIntfrfbdf()) {
+                                mftiod = null; // ignorf mftiods from supfrdlbssfs
                             }
-                        } catch (NoSuchMethodException exception) {
-                            // commented out because of 6976577
-                            // method = null; // ignore inaccessible methods
+                        } dbtdi (NoSudiMftiodExdfption fxdfption) {
+                            // dommfntfd out bfdbusf of 6976577
+                            // mftiod = null; // ignorf inbddfssiblf mftiods
                         }
                     }
-                    if (method != null) {
+                    if (mftiod != null) {
                         if (list == null) {
-                            list = new ArrayList<>();
+                            list = nfw ArrbyList<>();
                         }
-                        list.add(method);
+                        list.bdd(mftiod);
                     }
                 }
             }
         }
-        return (list != null)
-                ? Collections.unmodifiableList(list)
-                : Collections.emptyList();
+        rfturn (list != null)
+                ? Collfdtions.unmodifibblfList(list)
+                : Collfdtions.fmptyList();
     }
 }

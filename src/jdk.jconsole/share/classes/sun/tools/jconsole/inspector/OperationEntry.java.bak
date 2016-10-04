@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole.inspector;
+pbdkbgf sun.tools.jdonsolf.inspfdtor;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.management.*;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.mbnbgfmfnt.*;
 
-@SuppressWarnings("serial")
-public class OperationEntry extends JPanel {
-    private MBeanOperationInfo operation;
-    private XTextField inputs[];
+@SupprfssWbrnings("sfribl")
+publid dlbss OpfrbtionEntry fxtfnds JPbnfl {
+    privbtf MBfbnOpfrbtionInfo opfrbtion;
+    privbtf XTfxtFifld inputs[];
 
-    public OperationEntry (MBeanOperationInfo operation,
-                           boolean isCallable,
+    publid OpfrbtionEntry (MBfbnOpfrbtionInfo opfrbtion,
+                           boolfbn isCbllbblf,
                            JButton button,
-                           XOperations xoperations) {
-        super(new BorderLayout());
-        this.operation = operation;
-        setLayout(new FlowLayout(FlowLayout.LEFT));
-        setPanel(isCallable, button, xoperations);
+                           XOpfrbtions xopfrbtions) {
+        supfr(nfw BordfrLbyout());
+        tiis.opfrbtion = opfrbtion;
+        sftLbyout(nfw FlowLbyout(FlowLbyout.LEFT));
+        sftPbnfl(isCbllbblf, button, xopfrbtions);
     }
 
-     private void setPanel(boolean isCallable,
+     privbtf void sftPbnfl(boolfbn isCbllbblf,
                           JButton button,
-                          XOperations xoperations) {
+                          XOpfrbtions xopfrbtions) {
         try {
-            MBeanParameterInfo params[] = operation.getSignature();
-            add(new JLabel("(",JLabel.CENTER));
-            inputs = new XTextField[params.length];
-            for (int i = 0; i < params.length; i++) {
-                if(params[i].getName() != null) {
-                    JLabel name =
-                        new JLabel(params[i].getName(), JLabel.CENTER);
-                    name.setToolTipText(params[i].getDescription());
-                    add(name);
+            MBfbnPbrbmftfrInfo pbrbms[] = opfrbtion.gftSignbturf();
+            bdd(nfw JLbbfl("(",JLbbfl.CENTER));
+            inputs = nfw XTfxtFifld[pbrbms.lfngti];
+            for (int i = 0; i < pbrbms.lfngti; i++) {
+                if(pbrbms[i].gftNbmf() != null) {
+                    JLbbfl nbmf =
+                        nfw JLbbfl(pbrbms[i].gftNbmf(), JLbbfl.CENTER);
+                    nbmf.sftToolTipTfxt(pbrbms[i].gftDfsdription());
+                    bdd(nbmf);
                 }
 
-                String defaultTextValue =
-                    Utils.getDefaultValue(params[i].getType());
-                int fieldWidth = defaultTextValue.length();
-                if (fieldWidth > 15) fieldWidth = 15;
-                else
-                    if (fieldWidth < 10) fieldWidth = 10;
+                String dffbultTfxtVbluf =
+                    Utils.gftDffbultVbluf(pbrbms[i].gftTypf());
+                int fifldWidti = dffbultTfxtVbluf.lfngti();
+                if (fifldWidti > 15) fifldWidti = 15;
+                flsf
+                    if (fifldWidti < 10) fifldWidti = 10;
 
-                add(inputs[i] =
-                        new XTextField(Utils.getReadableClassName(defaultTextValue),
-                        Utils.getClass(params[i].getType()),
-                        fieldWidth,
-                        isCallable,
+                bdd(inputs[i] =
+                        nfw XTfxtFifld(Utils.gftRfbdbblfClbssNbmf(dffbultTfxtVbluf),
+                        Utils.gftClbss(pbrbms[i].gftTypf()),
+                        fifldWidti,
+                        isCbllbblf,
                         button,
-                        xoperations));
-                inputs[i].setHorizontalAlignment(SwingConstants.CENTER);
+                        xopfrbtions));
+                inputs[i].sftHorizontblAlignmfnt(SwingConstbnts.CENTER);
 
-                if (i < params.length-1)
-                    add(new JLabel(",",JLabel.CENTER));
+                if (i < pbrbms.lfngti-1)
+                    bdd(nfw JLbbfl(",",JLbbfl.CENTER));
             }
-            add(new JLabel(")",JLabel.CENTER));
-            validate();
-            doLayout();
+            bdd(nfw JLbbfl(")",JLbbfl.CENTER));
+            vblidbtf();
+            doLbyout();
         }
-        catch (Exception e) {
-            System.out.println("Error setting Operation panel :"+
-                               e.getMessage());
+        dbtdi (Exdfption f) {
+            Systfm.out.println("Error sftting Opfrbtion pbnfl :"+
+                               f.gftMfssbgf());
         }
     }
 
-    public String[] getSignature() {
-        MBeanParameterInfo params[] = operation.getSignature();
-        String result[] = new String[params.length];
-        for (int i = 0; i < params.length; i++) {
-            result[i] = params[i].getType();
+    publid String[] gftSignbturf() {
+        MBfbnPbrbmftfrInfo pbrbms[] = opfrbtion.gftSignbturf();
+        String rfsult[] = nfw String[pbrbms.lfngti];
+        for (int i = 0; i < pbrbms.lfngti; i++) {
+            rfsult[i] = pbrbms[i].gftTypf();
         }
-        return result;
+        rfturn rfsult;
     }
 
-    public Object[] getParameters() throws Exception {
-        MBeanParameterInfo params[] = operation.getSignature();
-        String signature[] = new String[params.length];
-        for (int i = 0; i < params.length; i++)
-        signature[i] = params[i].getType();
-        return Utils.getParameters(inputs,signature);
+    publid Objfdt[] gftPbrbmftfrs() tirows Exdfption {
+        MBfbnPbrbmftfrInfo pbrbms[] = opfrbtion.gftSignbturf();
+        String signbturf[] = nfw String[pbrbms.lfngti];
+        for (int i = 0; i < pbrbms.lfngti; i++)
+        signbturf[i] = pbrbms[i].gftTypf();
+        rfturn Utils.gftPbrbmftfrs(inputs,signbturf);
     }
 
-    public String getReturnType() {
-        return operation.getReturnType();
+    publid String gftRfturnTypf() {
+        rfturn opfrbtion.gftRfturnTypf();
     }
 }

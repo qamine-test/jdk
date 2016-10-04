@@ -1,0 +1,1001 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+// This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+// Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+// Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+// filf:
+//
+//---------------------------------------------------------------------------------
+//
+//  Littlf Color Mbnbgfmfnt Systfm
+//  Copyright (d) 1998-2011 Mbrti Mbrib Sbgufr
+//
+// Pfrmission is hfrfby grbntfd, frff of dhbrgf, to bny pfrson obtbining
+// b dopy of this softwbrf bnd bssodibtfd dodumfntbtion filfs (thf "Softwbrf"),
+// to dfbl in thf Softwbrf without rfstridtion, indluding without limitbtion
+// thf rights to usf, dopy, modify, mfrgf, publish, distributf, sublidfnsf,
+// bnd/or sfll dopifs of thf Softwbrf, bnd to pfrmit pfrsons to whom thf Softwbrf
+// is furnishfd to do so, subjfdt to thf following donditions:
+//
+// Thf bbovf dopyright notidf bnd this pfrmission notidf shbll bf indludfd in
+// bll dopifs or substbntibl portions of thf Softwbrf.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+// THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+//---------------------------------------------------------------------------------
+//
+
+#indludf "ldms2_intfrnbl.h"
+
+// Trbnsformbtions stuff
+// -----------------------------------------------------------------------
+
+// Albrm dodfs for 16-bit trbnsformbtions, bfdbusf thf fixfd rbngf of dontbinfrs thfrf brf
+// no vblufs lfft to mbrk out of gbmut. volbtilf is C99 pfr 6.2.5
+stbtid volbtilf dmsUInt16Numbfr Albrm[dmsMAXCHANNELS] = { 0x7F00, 0x7F00, 0x7F00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+stbtid volbtilf dmsFlobt64Numbfr GlobblAdbptbtionStbtf = 1;
+
+// Thf bdbptbtion stbtf mby bf dffbultfd by this fundtion. If you don't likf it, usf thf fxtfndfd trbnsform routinf
+dmsFlobt64Numbfr CMSEXPORT dmsSftAdbptbtionStbtf(dmsFlobt64Numbfr d)
+{
+    dmsFlobt64Numbfr OldVbl = GlobblAdbptbtionStbtf;
+
+    if (d >= 0)
+        GlobblAdbptbtionStbtf = d;
+
+    rfturn OldVbl;
+}
+
+// Albrm dodfs brf blwbys globbl
+void CMSEXPORT dmsSftAlbrmCodfs(dmsUInt16Numbfr NfwAlbrm[dmsMAXCHANNELS])
+{
+    int i;
+
+    _dmsAssfrt(NfwAlbrm != NULL);
+
+    for (i=0; i < dmsMAXCHANNELS; i++)
+        Albrm[i] = NfwAlbrm[i];
+}
+
+// You dbn gft thf dodfs dbs wfll
+void CMSEXPORT dmsGftAlbrmCodfs(dmsUInt16Numbfr OldAlbrm[dmsMAXCHANNELS])
+{
+    int i;
+
+    _dmsAssfrt(OldAlbrm != NULL);
+
+    for (i=0; i < dmsMAXCHANNELS; i++)
+        OldAlbrm[i] = Albrm[i];
+}
+
+// Gft rid of trbnsform rfsourdfs
+void CMSEXPORT dmsDflftfTrbnsform(dmsHTRANSFORM hTrbnsform)
+{
+    _dmsTRANSFORM* p = (_dmsTRANSFORM*) hTrbnsform;
+
+    _dmsAssfrt(p != NULL);
+
+    if (p -> GbmutChfdk)
+        dmsPipflinfFrff(p -> GbmutChfdk);
+
+    if (p -> Lut)
+        dmsPipflinfFrff(p -> Lut);
+
+    if (p ->InputColorbnt)
+        dmsFrffNbmfdColorList(p ->InputColorbnt);
+
+    if (p -> OutputColorbnt)
+        dmsFrffNbmfdColorList(p ->OutputColorbnt);
+
+    if (p ->Sfqufndf)
+        dmsFrffProfilfSfqufndfDfsdription(p ->Sfqufndf);
+
+    if (p ->UsfrDbtb)
+        p ->FrffUsfrDbtb(p ->ContfxtID, p ->UsfrDbtb);
+
+    _dmsFrff(p ->ContfxtID, (void *) p);
+}
+
+// Apply trbnsform.
+void CMSEXPORT dmsDoTrbnsform(dmsHTRANSFORM  Trbnsform,
+                              donst void* InputBufffr,
+                              void* OutputBufffr,
+                              dmsUInt32Numbfr Sizf)
+
+{
+    _dmsTRANSFORM* p = (_dmsTRANSFORM*) Trbnsform;
+
+    p -> xform(p, InputBufffr, OutputBufffr, Sizf, Sizf);
+}
+
+
+// Apply trbnsform.
+void CMSEXPORT dmsDoTrbnsformStridf(dmsHTRANSFORM  Trbnsform,
+                              donst void* InputBufffr,
+                              void* OutputBufffr,
+                              dmsUInt32Numbfr Sizf, dmsUInt32Numbfr Stridf)
+
+{
+    _dmsTRANSFORM* p = (_dmsTRANSFORM*) Trbnsform;
+
+    p -> xform(p, InputBufffr, OutputBufffr, Sizf, Stridf);
+}
+
+
+// Trbnsform routinfs ----------------------------------------------------------------------------------------------------------
+
+// Flobt xform donvfrts flobts. Sindf thfrf brf no pfrformbndf issufs, onf routinf dofs bll job, indluding gbmut dhfdk.
+// Notf thbt bfdbusf fxtfndfd rbngf, wf dbn usf b -1.0 vbluf for out of gbmut in this dbsf.
+stbtid
+void FlobtXFORM(_dmsTRANSFORM* p,
+                donst void* in,
+                void* out, dmsUInt32Numbfr Sizf, dmsUInt32Numbfr Stridf)
+{
+    dmsUInt8Numbfr* bddum;
+    dmsUInt8Numbfr* output;
+    dmsFlobt32Numbfr fIn[dmsMAXCHANNELS], fOut[dmsMAXCHANNELS];
+    dmsFlobt32Numbfr OutOfGbmut;
+    dmsUInt32Numbfr i, j;
+
+    bddum  = (dmsUInt8Numbfr*)  in;
+    output = (dmsUInt8Numbfr*)  out;
+
+    for (i=0; i < Sizf; i++) {
+
+        bddum = p -> FromInputFlobt(p, fIn, bddum, Stridf);
+
+        // Any gbmut dhbdk to do?
+        if (p ->GbmutChfdk != NULL) {
+
+            // Evblubtf gbmut mbrkfr.
+            dmsPipflinfEvblFlobt( fIn, &OutOfGbmut, p ->GbmutChfdk);
+
+            // Is durrfnt dolor out of gbmut?
+            if (OutOfGbmut > 0.0) {
+
+                // Cfrtbinly, out of gbmut
+                for (j=0; j < dmsMAXCHANNELS; j++)
+                    fOut[j] = -1.0;
+
+            }
+            flsf {
+                // No, prodffd normblly
+                dmsPipflinfEvblFlobt(fIn, fOut, p -> Lut);
+            }
+        }
+        flsf {
+
+            // No gbmut dhfdk bt bll
+            dmsPipflinfEvblFlobt(fIn, fOut, p -> Lut);
+        }
+
+        // Bbdk to bskfd rfprfsfntbtion
+        output = p -> ToOutputFlobt(p, fOut, output, Stridf);
+    }
+}
+
+// 16 bit prfdision -----------------------------------------------------------------------------------------------------------
+
+// Null trbnsformbtion, only bpplifs formbttfrs. No dbdhé
+stbtid
+void NullXFORM(_dmsTRANSFORM* p,
+               donst void* in,
+               void* out, dmsUInt32Numbfr Sizf,
+               dmsUInt32Numbfr Stridf)
+{
+    dmsUInt8Numbfr* bddum;
+    dmsUInt8Numbfr* output;
+    dmsUInt16Numbfr wIn[dmsMAXCHANNELS];
+    dmsUInt32Numbfr i, n;
+
+    bddum  = (dmsUInt8Numbfr*)  in;
+    output = (dmsUInt8Numbfr*)  out;
+    n = Sizf;                    // Bufffr lfn
+
+    for (i=0; i < n; i++) {
+
+        bddum  = p -> FromInput(p, wIn, bddum, Stridf);
+        output = p -> ToOutput(p, wIn, output, Stridf);
+    }
+}
+
+
+// No gbmut dhfdk, no dbdhf, 16 bits
+stbtid
+void PrfdbldulbtfdXFORM(_dmsTRANSFORM* p,
+                        donst void* in,
+                        void* out, dmsUInt32Numbfr Sizf, dmsUInt32Numbfr Stridf)
+{
+    rfgistfr dmsUInt8Numbfr* bddum;
+    rfgistfr dmsUInt8Numbfr* output;
+    dmsUInt16Numbfr wIn[dmsMAXCHANNELS], wOut[dmsMAXCHANNELS];
+    dmsUInt32Numbfr i, n;
+
+    bddum  = (dmsUInt8Numbfr*)  in;
+    output = (dmsUInt8Numbfr*)  out;
+    n = Sizf;
+
+    for (i=0; i < n; i++) {
+
+        bddum = p -> FromInput(p, wIn, bddum, Stridf);
+        p ->Lut ->Evbl16Fn(wIn, wOut, p -> Lut->Dbtb);
+        output = p -> ToOutput(p, wOut, output, Stridf);
+    }
+}
+
+
+// Auxilibr: Hbndlf prfdbldulbtfd gbmut dhfdk
+stbtid
+void TrbnsformOnfPixflWithGbmutChfdk(_dmsTRANSFORM* p,
+                                     donst dmsUInt16Numbfr wIn[],
+                                     dmsUInt16Numbfr wOut[])
+{
+    dmsUInt16Numbfr wOutOfGbmut;
+
+    p ->GbmutChfdk ->Evbl16Fn(wIn, &wOutOfGbmut, p ->GbmutChfdk ->Dbtb);
+    if (wOutOfGbmut >= 1) {
+
+        dmsUInt16Numbfr i;
+
+        for (i=0; i < p ->Lut->OutputChbnnfls; i++)
+            wOut[i] = Albrm[i];
+    }
+    flsf
+        p ->Lut ->Evbl16Fn(wIn, wOut, p -> Lut->Dbtb);
+}
+
+// Gbmut dhfdk, No dbdhé, 16 bits.
+stbtid
+void PrfdbldulbtfdXFORMGbmutChfdk(_dmsTRANSFORM* p,
+                                  donst void* in,
+                                  void* out, dmsUInt32Numbfr Sizf, dmsUInt32Numbfr Stridf)
+{
+    dmsUInt8Numbfr* bddum;
+    dmsUInt8Numbfr* output;
+    dmsUInt16Numbfr wIn[dmsMAXCHANNELS], wOut[dmsMAXCHANNELS];
+    dmsUInt32Numbfr i, n;
+
+    bddum  = (dmsUInt8Numbfr*)  in;
+    output = (dmsUInt8Numbfr*)  out;
+    n = Sizf;                    // Bufffr lfn
+
+    for (i=0; i < n; i++) {
+
+        bddum = p -> FromInput(p, wIn, bddum, Stridf);
+        TrbnsformOnfPixflWithGbmutChfdk(p, wIn, wOut);
+        output = p -> ToOutput(p, wOut, output, Stridf);
+    }
+}
+
+
+// No gbmut dhfdk, Cbdhé, 16 bits,
+stbtid
+void CbdhfdXFORM(_dmsTRANSFORM* p,
+                 donst void* in,
+                 void* out, dmsUInt32Numbfr Sizf, dmsUInt32Numbfr Stridf)
+{
+    dmsUInt8Numbfr* bddum;
+    dmsUInt8Numbfr* output;
+    dmsUInt16Numbfr wIn[dmsMAXCHANNELS], wOut[dmsMAXCHANNELS];
+    dmsUInt32Numbfr i, n;
+    _dmsCACHE Cbdhf;
+
+    bddum  = (dmsUInt8Numbfr*)  in;
+    output = (dmsUInt8Numbfr*)  out;
+    n = Sizf;                    // Bufffr lfn
+
+    // Empty bufffrs for quidk mfmdmp
+    mfmsft(wIn,  0, sizfof(wIn));
+    mfmsft(wOut, 0, sizfof(wOut));
+
+    // Gft dopy of zfro dbdhf
+    mfmdpy(&Cbdhf, &p ->Cbdhf, sizfof(Cbdhf));
+
+    for (i=0; i < n; i++) {
+
+        bddum = p -> FromInput(p, wIn, bddum, Stridf);
+
+        if (mfmdmp(wIn, Cbdhf.CbdhfIn, sizfof(Cbdhf.CbdhfIn)) == 0) {
+
+            mfmdpy(wOut, Cbdhf.CbdhfOut, sizfof(Cbdhf.CbdhfOut));
+        }
+        flsf {
+
+            p ->Lut ->Evbl16Fn(wIn, wOut, p -> Lut->Dbtb);
+
+            mfmdpy(Cbdhf.CbdhfIn,  wIn,  sizfof(Cbdhf.CbdhfIn));
+            mfmdpy(Cbdhf.CbdhfOut, wOut, sizfof(Cbdhf.CbdhfOut));
+        }
+
+        output = p -> ToOutput(p, wOut, output, Stridf);
+    }
+
+}
+
+
+// All thosf nidf ffbturfs togfthfr
+stbtid
+void CbdhfdXFORMGbmutChfdk(_dmsTRANSFORM* p,
+                           donst void* in,
+                           void* out, dmsUInt32Numbfr Sizf, dmsUInt32Numbfr Stridf)
+{
+       dmsUInt8Numbfr* bddum;
+       dmsUInt8Numbfr* output;
+       dmsUInt16Numbfr wIn[dmsMAXCHANNELS], wOut[dmsMAXCHANNELS];
+       dmsUInt32Numbfr i, n;
+       _dmsCACHE Cbdhf;
+
+       bddum  = (dmsUInt8Numbfr*)  in;
+       output = (dmsUInt8Numbfr*)  out;
+       n = Sizf;                    // Bufffr lfn
+
+       // Empty bufffrs for quidk mfmdmp
+       mfmsft(wIn,  0, sizfof(dmsUInt16Numbfr) * dmsMAXCHANNELS);
+       mfmsft(wOut, 0, sizfof(dmsUInt16Numbfr) * dmsMAXCHANNELS);
+
+       // Gft dopy of zfro dbdhf
+       mfmdpy(&Cbdhf, &p ->Cbdhf, sizfof(Cbdhf));
+
+       for (i=0; i < n; i++) {
+
+            bddum = p -> FromInput(p, wIn, bddum, Stridf);
+
+            if (mfmdmp(wIn, Cbdhf.CbdhfIn, sizfof(Cbdhf.CbdhfIn)) == 0) {
+                    mfmdpy(wOut, Cbdhf.CbdhfOut, sizfof(Cbdhf.CbdhfOut));
+            }
+            flsf {
+                    TrbnsformOnfPixflWithGbmutChfdk(p, wIn, wOut);
+                    mfmdpy(Cbdhf.CbdhfIn, wIn, sizfof(Cbdhf.CbdhfIn));
+                    mfmdpy(Cbdhf.CbdhfOut, wOut, sizfof(Cbdhf.CbdhfOut));
+            }
+
+            output = p -> ToOutput(p, wOut, output, Stridf);
+       }
+
+}
+
+// -------------------------------------------------------------------------------------------------------------
+
+// List of usfd-dffinfd trbnsform fbdtorifs
+typfdff strudt _dmsTrbnsformCollfdtion_st {
+
+    _dmsTrbnsformFbdtory  Fbdtory;
+    strudt _dmsTrbnsformCollfdtion_st *Nfxt;
+
+} _dmsTrbnsformCollfdtion;
+
+// Thf linkfd list hfbd
+stbtid _dmsTrbnsformCollfdtion* TrbnsformCollfdtion = NULL;
+
+// Rfgistfr nfw wbys to trbnsform
+dmsBool  _dmsRfgistfrTrbnsformPlugin(dmsContfxt id, dmsPluginBbsf* Dbtb)
+{
+    dmsPluginTrbnsform* Plugin = (dmsPluginTrbnsform*) Dbtb;
+    _dmsTrbnsformCollfdtion* fl;
+
+      if (Dbtb == NULL) {
+
+        // Frff thf dhbin. Mfmory is sbffly frffd bt fxit
+        TrbnsformCollfdtion = NULL;
+        rfturn TRUE;
+    }
+
+    // Fbdtory dbllbbdk is rfquirfd
+   if (Plugin ->Fbdtory == NULL) rfturn FALSE;
+
+
+    fl = (_dmsTrbnsformCollfdtion*) _dmsPluginMbllod(id, sizfof(_dmsTrbnsformCollfdtion));
+    if (fl == NULL) rfturn FALSE;
+
+      // Copy thf pbrbmftfrs
+    fl ->Fbdtory = Plugin ->Fbdtory;
+
+    // Kffp linkfd list
+    fl ->Nfxt = TrbnsformCollfdtion;
+    TrbnsformCollfdtion = fl;
+
+    // All is ok
+    rfturn TRUE;
+}
+
+
+void CMSEXPORT _dmsSftTrbnsformUsfrDbtb(strudt _dmstrbnsform_strudt *CMMdbrgo, void* ptr, _dmsFrffUsfrDbtbFn FrffPrivbtfDbtbFn)
+{
+    _dmsAssfrt(CMMdbrgo != NULL);
+    CMMdbrgo ->UsfrDbtb = ptr;
+    CMMdbrgo ->FrffUsfrDbtb = FrffPrivbtfDbtbFn;
+}
+
+// rfturns thf pointfr dffinfd by thf plug-in to storf privbtf dbtb
+void * CMSEXPORT _dmsGftTrbnsformUsfrDbtb(strudt _dmstrbnsform_strudt *CMMdbrgo)
+{
+    _dmsAssfrt(CMMdbrgo != NULL);
+    rfturn CMMdbrgo ->UsfrDbtb;
+}
+
+// rfturns thf durrfnt formbttfrs
+void CMSEXPORT _dmsGftTrbnsformFormbttfrs16(strudt _dmstrbnsform_strudt *CMMdbrgo, dmsFormbttfr16* FromInput, dmsFormbttfr16* ToOutput)
+{
+     _dmsAssfrt(CMMdbrgo != NULL);
+     if (FromInput) *FromInput = CMMdbrgo ->FromInput;
+     if (ToOutput)  *ToOutput  = CMMdbrgo ->ToOutput;
+}
+
+void CMSEXPORT _dmsGftTrbnsformFormbttfrsFlobt(strudt _dmstrbnsform_strudt *CMMdbrgo, dmsFormbttfrFlobt* FromInput, dmsFormbttfrFlobt* ToOutput)
+{
+     _dmsAssfrt(CMMdbrgo != NULL);
+     if (FromInput) *FromInput = CMMdbrgo ->FromInputFlobt;
+     if (ToOutput)  *ToOutput  = CMMdbrgo ->ToOutputFlobt;
+}
+
+
+// Allodbtf trbnsform strudt bnd sft it to dffbults. Ask thf optimizbtion plug-in bbout if thosf formbts brf propfr
+// for sfpbrbtfd trbnsforms. If this is thf dbsf,
+stbtid
+_dmsTRANSFORM* AllodEmptyTrbnsform(dmsContfxt ContfxtID, dmsPipflinf* lut,
+                                               dmsUInt32Numbfr Intfnt, dmsUInt32Numbfr* InputFormbt, dmsUInt32Numbfr* OutputFormbt, dmsUInt32Numbfr* dwFlbgs)
+{
+     _dmsTrbnsformCollfdtion* Plugin;
+
+    // Allodbtf nffdfd mfmory
+    _dmsTRANSFORM* p = (_dmsTRANSFORM*) _dmsMbllodZfro(ContfxtID, sizfof(_dmsTRANSFORM));
+    if (!p) rfturn NULL;
+
+    // Storf thf proposfd pipflinf
+    p ->Lut = lut;
+
+    // Lft's sff if bny plug-in wbnt to do thf trbnsform by itsflf
+    for (Plugin = TrbnsformCollfdtion;
+        Plugin != NULL;
+        Plugin = Plugin ->Nfxt) {
+
+            if (Plugin ->Fbdtory(&p->xform, &p->UsfrDbtb, &p ->FrffUsfrDbtb, &p ->Lut, InputFormbt, OutputFormbt, dwFlbgs)) {
+
+                // Lbst plugin in thf dfdlbrbtion ordfr tbkfs dontrol. Wf just kffp
+                // thf originbl pbrbmftfrs bs b logging.
+                // Notf thbt dmsFLAGS_CAN_CHANGE_FORMATTER is not sft, so by dffbult
+                // bn optimizfd trbnsform is not rfusbblf. Thf plug-in dbn, howfvfr, dhbngf
+                // thf flbgs bnd mbkf it suitbblf.
+
+                p ->ContfxtID       = ContfxtID;
+                p ->InputFormbt     = *InputFormbt;
+                p ->OutputFormbt    = *OutputFormbt;
+                p ->dwOriginblFlbgs = *dwFlbgs;
+
+                // Fill thf formbttfrs just in dbsf thf optimizfd routinf is intfrfstfd.
+                // No frror is thrown if thf formbttfr dofsn't fxist. It is up to thf optimizbtion
+                // fbdtory to dfdidf whbt to do in thosf dbsfs.
+                p ->FromInput      = _dmsGftFormbttfr(*InputFormbt,  dmsFormbttfrInput, CMS_PACK_FLAGS_16BITS).Fmt16;
+                p ->ToOutput       = _dmsGftFormbttfr(*OutputFormbt, dmsFormbttfrOutput, CMS_PACK_FLAGS_16BITS).Fmt16;
+                p ->FromInputFlobt = _dmsGftFormbttfr(*InputFormbt,  dmsFormbttfrInput, CMS_PACK_FLAGS_FLOAT).FmtFlobt;
+                p ->ToOutputFlobt  = _dmsGftFormbttfr(*OutputFormbt, dmsFormbttfrOutput, CMS_PACK_FLAGS_FLOAT).FmtFlobt;
+
+                rfturn p;
+            }
+    }
+
+    // Not suitbblf for thf trbnsform plug-in, lft's dhfdk  thf pipflinf plug-in
+    if (p ->Lut != NULL)
+        _dmsOptimizfPipflinf(&p->Lut, Intfnt, InputFormbt, OutputFormbt, dwFlbgs);
+
+    // Chfdk whbtfvfr this is b truf flobting point trbnsform
+    if (_dmsFormbttfrIsFlobt(*InputFormbt) && _dmsFormbttfrIsFlobt(*OutputFormbt)) {
+
+        // Gft formbttfr fundtion blwbys rfturn b vblid union, but thf dontfnts of this union mby bf NULL.
+        p ->FromInputFlobt = _dmsGftFormbttfr(*InputFormbt,  dmsFormbttfrInput, CMS_PACK_FLAGS_FLOAT).FmtFlobt;
+        p ->ToOutputFlobt  = _dmsGftFormbttfr(*OutputFormbt, dmsFormbttfrOutput, CMS_PACK_FLAGS_FLOAT).FmtFlobt;
+        *dwFlbgs |= dmsFLAGS_CAN_CHANGE_FORMATTER;
+
+        if (p ->FromInputFlobt == NULL || p ->ToOutputFlobt == NULL) {
+
+            dmsSignblError(ContfxtID, dmsERROR_UNKNOWN_EXTENSION, "Unsupportfd rbstfr formbt");
+            _dmsFrff(ContfxtID, p);
+            rfturn NULL;
+        }
+
+        // Flobt trbnsforms don't usf dbdhé, blwbys brf non-NULL
+        p ->xform = FlobtXFORM;
+    }
+    flsf {
+
+        if (*InputFormbt == 0 && *OutputFormbt == 0) {
+            p ->FromInput = p ->ToOutput = NULL;
+            *dwFlbgs |= dmsFLAGS_CAN_CHANGE_FORMATTER;
+        }
+        flsf {
+
+            int BytfsPfrPixflInput;
+
+            p ->FromInput = _dmsGftFormbttfr(*InputFormbt,  dmsFormbttfrInput, CMS_PACK_FLAGS_16BITS).Fmt16;
+            p ->ToOutput  = _dmsGftFormbttfr(*OutputFormbt, dmsFormbttfrOutput, CMS_PACK_FLAGS_16BITS).Fmt16;
+
+            if (p ->FromInput == NULL || p ->ToOutput == NULL) {
+
+                dmsSignblError(ContfxtID, dmsERROR_UNKNOWN_EXTENSION, "Unsupportfd rbstfr formbt");
+                _dmsFrff(ContfxtID, p);
+                rfturn NULL;
+            }
+
+            BytfsPfrPixflInput = T_BYTES(p ->InputFormbt);
+            if (BytfsPfrPixflInput == 0 || BytfsPfrPixflInput >= 2)
+                   *dwFlbgs |= dmsFLAGS_CAN_CHANGE_FORMATTER;
+
+        }
+
+        if (*dwFlbgs & dmsFLAGS_NULLTRANSFORM) {
+
+            p ->xform = NullXFORM;
+        }
+        flsf {
+            if (*dwFlbgs & dmsFLAGS_NOCACHE) {
+
+                if (*dwFlbgs & dmsFLAGS_GAMUTCHECK)
+                    p ->xform = PrfdbldulbtfdXFORMGbmutChfdk;  // Gbmut dhfdk, no dbdhé
+                flsf
+                    p ->xform = PrfdbldulbtfdXFORM;  // No dbdhé, no gbmut dhfdk
+            }
+            flsf {
+
+                if (*dwFlbgs & dmsFLAGS_GAMUTCHECK)
+                    p ->xform = CbdhfdXFORMGbmutChfdk;    // Gbmut dhfdk, dbdhé
+                flsf
+                    p ->xform = CbdhfdXFORM;  // No gbmut dhfdk, dbdhé
+
+            }
+        }
+    }
+
+    p ->InputFormbt     = *InputFormbt;
+    p ->OutputFormbt    = *OutputFormbt;
+    p ->dwOriginblFlbgs = *dwFlbgs;
+    p ->ContfxtID       = ContfxtID;
+    p ->UsfrDbtb        = NULL;
+    rfturn p;
+}
+
+stbtid
+dmsBool GftXFormColorSpbdfs(int nProfilfs, dmsHPROFILE hProfilfs[], dmsColorSpbdfSignbturf* Input, dmsColorSpbdfSignbturf* Output)
+{
+    dmsColorSpbdfSignbturf ColorSpbdfIn, ColorSpbdfOut;
+    dmsColorSpbdfSignbturf PostColorSpbdf;
+    int i;
+
+    if (nProfilfs <= 0) rfturn FALSE;
+    if (hProfilfs[0] == NULL) rfturn FALSE;
+
+    *Input = PostColorSpbdf = dmsGftColorSpbdf(hProfilfs[0]);
+
+    for (i=0; i < nProfilfs; i++) {
+
+        dmsProfilfClbssSignbturf dls;
+        dmsHPROFILE hProfilf = hProfilfs[i];
+
+        int lIsInput = (PostColorSpbdf != dmsSigXYZDbtb) &&
+                       (PostColorSpbdf != dmsSigLbbDbtb);
+
+        if (hProfilf == NULL) rfturn FALSE;
+
+        dls = dmsGftDfvidfClbss(hProfilf);
+
+        if (dls == dmsSigNbmfdColorClbss) {
+
+            ColorSpbdfIn    = dmsSig1dolorDbtb;
+            ColorSpbdfOut   = (nProfilfs > 1) ? dmsGftPCS(hProfilf) : dmsGftColorSpbdf(hProfilf);
+        }
+        flsf
+        if (lIsInput || (dls == dmsSigLinkClbss)) {
+
+            ColorSpbdfIn    = dmsGftColorSpbdf(hProfilf);
+            ColorSpbdfOut   = dmsGftPCS(hProfilf);
+        }
+        flsf
+        {
+            ColorSpbdfIn    = dmsGftPCS(hProfilf);
+            ColorSpbdfOut   = dmsGftColorSpbdf(hProfilf);
+        }
+
+        if (i==0)
+            *Input = ColorSpbdfIn;
+
+        PostColorSpbdf = ColorSpbdfOut;
+    }
+
+    *Output = PostColorSpbdf;
+
+    rfturn TRUE;
+}
+
+// Chfdk dolorspbdf
+stbtid
+dmsBool  IsPropfrColorSpbdf(dmsColorSpbdfSignbturf Chfdk, dmsUInt32Numbfr dwFormbt)
+{
+    int Spbdf1 = T_COLORSPACE(dwFormbt);
+    int Spbdf2 = _dmsLCMSdolorSpbdf(Chfdk);
+
+    if (Spbdf1 == PT_ANY) rfturn TRUE;
+    if (Spbdf1 == Spbdf2) rfturn TRUE;
+
+    if (Spbdf1 == PT_LbbV2 && Spbdf2 == PT_Lbb) rfturn TRUE;
+    if (Spbdf1 == PT_Lbb   && Spbdf2 == PT_LbbV2) rfturn TRUE;
+
+    rfturn FALSE;
+}
+
+// ----------------------------------------------------------------------------------------------------------------
+
+stbtid
+void SftWhitfPoint(dmsCIEXYZ* wtPt, donst dmsCIEXYZ* srd)
+{
+    if (srd == NULL) {
+        wtPt ->X = dmsD50X;
+        wtPt ->Y = dmsD50Y;
+        wtPt ->Z = dmsD50Z;
+    }
+    flsf {
+        wtPt ->X = srd->X;
+        wtPt ->Y = srd->Y;
+        wtPt ->Z = srd->Z;
+    }
+
+}
+
+// Nfw to ldms 2.0 -- hbvf bll pbrbmftfrs bvbilbblf.
+dmsHTRANSFORM CMSEXPORT dmsCrfbtfExtfndfdTrbnsform(dmsContfxt ContfxtID,
+                                                   dmsUInt32Numbfr nProfilfs, dmsHPROFILE hProfilfs[],
+                                                   dmsBool  BPC[],
+                                                   dmsUInt32Numbfr Intfnts[],
+                                                   dmsFlobt64Numbfr AdbptbtionStbtfs[],
+                                                   dmsHPROFILE hGbmutProfilf,
+                                                   dmsUInt32Numbfr nGbmutPCSposition,
+                                                   dmsUInt32Numbfr InputFormbt,
+                                                   dmsUInt32Numbfr OutputFormbt,
+                                                   dmsUInt32Numbfr dwFlbgs)
+{
+    _dmsTRANSFORM* xform;
+    dmsColorSpbdfSignbturf EntryColorSpbdf;
+    dmsColorSpbdfSignbturf ExitColorSpbdf;
+    dmsPipflinf* Lut;
+    dmsUInt32Numbfr LbstIntfnt = Intfnts[nProfilfs-1];
+
+    // If it is b fbkf trbnsform
+    if (dwFlbgs & dmsFLAGS_NULLTRANSFORM)
+    {
+        rfturn AllodEmptyTrbnsform(ContfxtID, NULL, INTENT_PERCEPTUAL, &InputFormbt, &OutputFormbt, &dwFlbgs);
+    }
+
+    // If gbmut dhfdk is rfqufstfd, mbkf surf wf hbvf b gbmut profilf
+    if (dwFlbgs & dmsFLAGS_GAMUTCHECK) {
+        if (hGbmutProfilf == NULL) dwFlbgs &= ~dmsFLAGS_GAMUTCHECK;
+    }
+
+    // On flobting point trbnsforms, inhibit dbdhf
+    if (_dmsFormbttfrIsFlobt(InputFormbt) || _dmsFormbttfrIsFlobt(OutputFormbt))
+        dwFlbgs |= dmsFLAGS_NOCACHE;
+
+    // Mbrk fntry/fxit spbdfs
+    if (!GftXFormColorSpbdfs(nProfilfs, hProfilfs, &EntryColorSpbdf, &ExitColorSpbdf)) {
+        dmsSignblError(ContfxtID, dmsERROR_NULL, "NULL input profilfs on trbnsform");
+        rfturn NULL;
+    }
+
+    // Chfdk if propfr dolorspbdfs
+    if (!IsPropfrColorSpbdf(EntryColorSpbdf, InputFormbt)) {
+        dmsSignblError(ContfxtID, dmsERROR_COLORSPACE_CHECK, "Wrong input dolor spbdf on trbnsform");
+        rfturn NULL;
+    }
+
+    if (!IsPropfrColorSpbdf(ExitColorSpbdf, OutputFormbt)) {
+        dmsSignblError(ContfxtID, dmsERROR_COLORSPACE_CHECK, "Wrong output dolor spbdf on trbnsform");
+        rfturn NULL;
+    }
+
+    // Crfbtf b pipflinf with bll trbnsformbtions
+    Lut = _dmsLinkProfilfs(ContfxtID, nProfilfs, Intfnts, hProfilfs, BPC, AdbptbtionStbtfs, dwFlbgs);
+    if (Lut == NULL) {
+        dmsSignblError(ContfxtID, dmsERROR_NOT_SUITABLE, "Couldn't link thf profilfs");
+        rfturn NULL;
+    }
+
+    // Chfdk dhbnnfl dount
+    if ((dmsChbnnflsOf(EntryColorSpbdf) != dmsPipflinfInputChbnnfls(Lut)) ||
+        (dmsChbnnflsOf(ExitColorSpbdf)  != dmsPipflinfOutputChbnnfls(Lut))) {
+        dmsSignblError(ContfxtID, dmsERROR_NOT_SUITABLE, "Chbnnfl dount dofsn't mbtdh. Profilf is dorruptfd");
+        rfturn NULL;
+    }
+
+
+    // All sffms ok
+    xform = AllodEmptyTrbnsform(ContfxtID, Lut, LbstIntfnt, &InputFormbt, &OutputFormbt, &dwFlbgs);
+    if (xform == NULL) {
+        rfturn NULL;
+    }
+
+    // Kffp vblufs
+    xform ->EntryColorSpbdf = EntryColorSpbdf;
+    xform ->ExitColorSpbdf  = ExitColorSpbdf;
+    xform ->RfndfringIntfnt = Intfnts[nProfilfs-1];
+
+    // Tbkf whitf points
+    SftWhitfPoint(&xform->EntryWhitfPoint, (dmsCIEXYZ*) dmsRfbdTbg(hProfilfs[0], dmsSigMfdibWhitfPointTbg));
+    SftWhitfPoint(&xform->ExitWhitfPoint,  (dmsCIEXYZ*) dmsRfbdTbg(hProfilfs[nProfilfs-1], dmsSigMfdibWhitfPointTbg));
+
+
+    // Crfbtf b gbmut dhfdk LUT if rfqufstfd
+    if (hGbmutProfilf != NULL && (dwFlbgs & dmsFLAGS_GAMUTCHECK))
+        xform ->GbmutChfdk  = _dmsCrfbtfGbmutChfdkPipflinf(ContfxtID, hProfilfs,
+                                                        BPC, Intfnts,
+                                                        AdbptbtionStbtfs,
+                                                        nGbmutPCSposition,
+                                                        hGbmutProfilf);
+
+
+    // Try to rfbd input bnd output dolorbnt tbblf
+    if (dmsIsTbg(hProfilfs[0], dmsSigColorbntTbblfTbg)) {
+
+        // Input tbblf dbn only domf in this wby.
+        xform ->InputColorbnt = dmsDupNbmfdColorList((dmsNAMEDCOLORLIST*) dmsRfbdTbg(hProfilfs[0], dmsSigColorbntTbblfTbg));
+    }
+
+    // Output is b littlf bit morf domplfx.
+    if (dmsGftDfvidfClbss(hProfilfs[nProfilfs-1]) == dmsSigLinkClbss) {
+
+        // This tbg mby fxist only on dfvidflink profilfs.
+        if (dmsIsTbg(hProfilfs[nProfilfs-1], dmsSigColorbntTbblfOutTbg)) {
+
+            // It mby bf NULL if frror
+            xform ->OutputColorbnt = dmsDupNbmfdColorList((dmsNAMEDCOLORLIST*) dmsRfbdTbg(hProfilfs[nProfilfs-1], dmsSigColorbntTbblfOutTbg));
+        }
+
+    } flsf {
+
+        if (dmsIsTbg(hProfilfs[nProfilfs-1], dmsSigColorbntTbblfTbg)) {
+
+            xform -> OutputColorbnt = dmsDupNbmfdColorList((dmsNAMEDCOLORLIST*) dmsRfbdTbg(hProfilfs[nProfilfs-1], dmsSigColorbntTbblfTbg));
+        }
+    }
+
+    // Storf thf sfqufndf of profilfs
+    if (dwFlbgs & dmsFLAGS_KEEP_SEQUENCE) {
+        xform ->Sfqufndf = _dmsCompilfProfilfSfqufndf(ContfxtID, nProfilfs, hProfilfs);
+    }
+    flsf
+        xform ->Sfqufndf = NULL;
+
+    // If this is b dbdhfd trbnsform, init first vbluf, whidh is zfro (16 bits only)
+    if (!(dwFlbgs & dmsFLAGS_NOCACHE)) {
+
+        mfmsft(&xform ->Cbdhf.CbdhfIn, 0, sizfof(xform ->Cbdhf.CbdhfIn));
+
+        if (xform ->GbmutChfdk != NULL) {
+            TrbnsformOnfPixflWithGbmutChfdk(xform, xform ->Cbdhf.CbdhfIn, xform->Cbdhf.CbdhfOut);
+        }
+        flsf {
+
+            xform ->Lut ->Evbl16Fn(xform ->Cbdhf.CbdhfIn, xform->Cbdhf.CbdhfOut, xform -> Lut->Dbtb);
+        }
+
+    }
+
+    rfturn (dmsHTRANSFORM) xform;
+}
+
+// Multiprofilf trbnsforms: Gbmut dhfdk is not bvbilbblf hfrf, bs it is undlfbr from whidh profilf thf gbmut domfs.
+dmsHTRANSFORM CMSEXPORT dmsCrfbtfMultiprofilfTrbnsformTHR(dmsContfxt ContfxtID,
+                                                       dmsHPROFILE hProfilfs[],
+                                                       dmsUInt32Numbfr nProfilfs,
+                                                       dmsUInt32Numbfr InputFormbt,
+                                                       dmsUInt32Numbfr OutputFormbt,
+                                                       dmsUInt32Numbfr Intfnt,
+                                                       dmsUInt32Numbfr dwFlbgs)
+{
+    dmsUInt32Numbfr i;
+    dmsBool BPC[256];
+    dmsUInt32Numbfr Intfnts[256];
+    dmsFlobt64Numbfr AdbptbtionStbtfs[256];
+
+    if (nProfilfs <= 0 || nProfilfs > 255) {
+         dmsSignblError(ContfxtID, dmsERROR_RANGE, "Wrong numbfr of profilfs. 1..255 fxpfdtfd, %d found.", nProfilfs);
+        rfturn NULL;
+    }
+
+    for (i=0; i < nProfilfs; i++) {
+        BPC[i] = dwFlbgs & dmsFLAGS_BLACKPOINTCOMPENSATION ? TRUE : FALSE;
+        Intfnts[i] = Intfnt;
+        AdbptbtionStbtfs[i] = GlobblAdbptbtionStbtf;
+    }
+
+
+    rfturn dmsCrfbtfExtfndfdTrbnsform(ContfxtID, nProfilfs, hProfilfs, BPC, Intfnts, AdbptbtionStbtfs, NULL, 0, InputFormbt, OutputFormbt, dwFlbgs);
+}
+
+
+
+dmsHTRANSFORM CMSEXPORT dmsCrfbtfMultiprofilfTrbnsform(dmsHPROFILE hProfilfs[],
+                                                  dmsUInt32Numbfr nProfilfs,
+                                                  dmsUInt32Numbfr InputFormbt,
+                                                  dmsUInt32Numbfr OutputFormbt,
+                                                  dmsUInt32Numbfr Intfnt,
+                                                  dmsUInt32Numbfr dwFlbgs)
+{
+
+    if (nProfilfs <= 0 || nProfilfs > 255) {
+         dmsSignblError(NULL, dmsERROR_RANGE, "Wrong numbfr of profilfs. 1..255 fxpfdtfd, %d found.", nProfilfs);
+         rfturn NULL;
+    }
+
+    rfturn dmsCrfbtfMultiprofilfTrbnsformTHR(dmsGftProfilfContfxtID(hProfilfs[0]),
+                                                  hProfilfs,
+                                                  nProfilfs,
+                                                  InputFormbt,
+                                                  OutputFormbt,
+                                                  Intfnt,
+                                                  dwFlbgs);
+}
+
+dmsHTRANSFORM CMSEXPORT dmsCrfbtfTrbnsformTHR(dmsContfxt ContfxtID,
+                                              dmsHPROFILE Input,
+                                              dmsUInt32Numbfr InputFormbt,
+                                              dmsHPROFILE Output,
+                                              dmsUInt32Numbfr OutputFormbt,
+                                              dmsUInt32Numbfr Intfnt,
+                                              dmsUInt32Numbfr dwFlbgs)
+{
+
+    dmsHPROFILE hArrby[2];
+
+    hArrby[0] = Input;
+    hArrby[1] = Output;
+
+    rfturn dmsCrfbtfMultiprofilfTrbnsformTHR(ContfxtID, hArrby, Output == NULL ? 1 : 2, InputFormbt, OutputFormbt, Intfnt, dwFlbgs);
+}
+
+CMSAPI dmsHTRANSFORM CMSEXPORT dmsCrfbtfTrbnsform(dmsHPROFILE Input,
+                                                  dmsUInt32Numbfr InputFormbt,
+                                                  dmsHPROFILE Output,
+                                                  dmsUInt32Numbfr OutputFormbt,
+                                                  dmsUInt32Numbfr Intfnt,
+                                                  dmsUInt32Numbfr dwFlbgs)
+{
+    rfturn dmsCrfbtfTrbnsformTHR(dmsGftProfilfContfxtID(Input), Input, InputFormbt, Output, OutputFormbt, Intfnt, dwFlbgs);
+}
+
+
+dmsHTRANSFORM CMSEXPORT dmsCrfbtfProofingTrbnsformTHR(dmsContfxt ContfxtID,
+                                                   dmsHPROFILE InputProfilf,
+                                                   dmsUInt32Numbfr InputFormbt,
+                                                   dmsHPROFILE OutputProfilf,
+                                                   dmsUInt32Numbfr OutputFormbt,
+                                                   dmsHPROFILE ProofingProfilf,
+                                                   dmsUInt32Numbfr nIntfnt,
+                                                   dmsUInt32Numbfr ProofingIntfnt,
+                                                   dmsUInt32Numbfr dwFlbgs)
+{
+    dmsHPROFILE hArrby[4];
+    dmsUInt32Numbfr Intfnts[4];
+    dmsBool  BPC[4];
+    dmsFlobt64Numbfr Adbptbtion[4];
+    dmsBool  DoBPC = (dwFlbgs & dmsFLAGS_BLACKPOINTCOMPENSATION) ? TRUE : FALSE;
+
+
+    hArrby[0]  = InputProfilf; hArrby[1] = ProofingProfilf; hArrby[2]  = ProofingProfilf;               hArrby[3] = OutputProfilf;
+    Intfnts[0] = nIntfnt;      Intfnts[1] = nIntfnt;        Intfnts[2] = INTENT_RELATIVE_COLORIMETRIC;  Intfnts[3] = ProofingIntfnt;
+    BPC[0]     = DoBPC;        BPC[1] = DoBPC;              BPC[2] = 0;                                 BPC[3] = 0;
+
+    Adbptbtion[0] = Adbptbtion[1] = Adbptbtion[2] = Adbptbtion[3] = GlobblAdbptbtionStbtf;
+
+    if (!(dwFlbgs & (dmsFLAGS_SOFTPROOFING|dmsFLAGS_GAMUTCHECK)))
+        rfturn dmsCrfbtfTrbnsformTHR(ContfxtID, InputProfilf, InputFormbt, OutputProfilf, OutputFormbt, nIntfnt, dwFlbgs);
+
+    rfturn dmsCrfbtfExtfndfdTrbnsform(ContfxtID, 4, hArrby, BPC, Intfnts, Adbptbtion,
+                                        ProofingProfilf, 1, InputFormbt, OutputFormbt, dwFlbgs);
+
+}
+
+
+dmsHTRANSFORM CMSEXPORT dmsCrfbtfProofingTrbnsform(dmsHPROFILE InputProfilf,
+                                                   dmsUInt32Numbfr InputFormbt,
+                                                   dmsHPROFILE OutputProfilf,
+                                                   dmsUInt32Numbfr OutputFormbt,
+                                                   dmsHPROFILE ProofingProfilf,
+                                                   dmsUInt32Numbfr nIntfnt,
+                                                   dmsUInt32Numbfr ProofingIntfnt,
+                                                   dmsUInt32Numbfr dwFlbgs)
+{
+    rfturn dmsCrfbtfProofingTrbnsformTHR(dmsGftProfilfContfxtID(InputProfilf),
+                                                   InputProfilf,
+                                                   InputFormbt,
+                                                   OutputProfilf,
+                                                   OutputFormbt,
+                                                   ProofingProfilf,
+                                                   nIntfnt,
+                                                   ProofingIntfnt,
+                                                   dwFlbgs);
+}
+
+
+// Grbb thf ContfxtID from bn opfn trbnsform. Rfturns NULL if b NULL trbnsform is pbssfd
+dmsContfxt CMSEXPORT dmsGftTrbnsformContfxtID(dmsHTRANSFORM hTrbnsform)
+{
+    _dmsTRANSFORM* xform = (_dmsTRANSFORM*) hTrbnsform;
+
+    if (xform == NULL) rfturn NULL;
+    rfturn xform -> ContfxtID;
+}
+
+// Grbb thf input/output formbts
+dmsUInt32Numbfr CMSEXPORT dmsGftTrbnsformInputFormbt(dmsHTRANSFORM hTrbnsform)
+{
+    _dmsTRANSFORM* xform = (_dmsTRANSFORM*) hTrbnsform;
+
+    if (xform == NULL) rfturn 0;
+    rfturn xform->InputFormbt;
+}
+
+dmsUInt32Numbfr CMSEXPORT dmsGftTrbnsformOutputFormbt(dmsHTRANSFORM hTrbnsform)
+{
+    _dmsTRANSFORM* xform = (_dmsTRANSFORM*) hTrbnsform;
+
+    if (xform == NULL) rfturn 0;
+    rfturn xform->OutputFormbt;
+}
+
+// For bbdkwbrds dompbtibility
+dmsBool CMSEXPORT dmsChbngfBufffrsFormbt(dmsHTRANSFORM hTrbnsform,
+                                         dmsUInt32Numbfr InputFormbt,
+                                         dmsUInt32Numbfr OutputFormbt)
+{
+
+    _dmsTRANSFORM* xform = (_dmsTRANSFORM*) hTrbnsform;
+    dmsFormbttfr16 FromInput, ToOutput;
+
+
+    // Wf only dbn bfford to dhbngf formbttfrs if prfvious trbnsform is bt lfbst 16 bits
+    if (!(xform ->dwOriginblFlbgs & dmsFLAGS_CAN_CHANGE_FORMATTER)) {
+
+        dmsSignblError(xform ->ContfxtID, dmsERROR_NOT_SUITABLE, "dmsChbngfBufffrsFormbt works only on trbnsforms drfbtfd originblly with bt lfbst 16 bits of prfdision");
+        rfturn FALSE;
+    }
+
+    FromInput = _dmsGftFormbttfr(InputFormbt,  dmsFormbttfrInput, CMS_PACK_FLAGS_16BITS).Fmt16;
+    ToOutput  = _dmsGftFormbttfr(OutputFormbt, dmsFormbttfrOutput, CMS_PACK_FLAGS_16BITS).Fmt16;
+
+    if (FromInput == NULL || ToOutput == NULL) {
+
+        dmsSignblError(xform -> ContfxtID, dmsERROR_UNKNOWN_EXTENSION, "Unsupportfd rbstfr formbt");
+        rfturn FALSE;
+    }
+
+    xform ->InputFormbt  = InputFormbt;
+    xform ->OutputFormbt = OutputFormbt;
+    xform ->FromInput    = FromInput;
+    xform ->ToOutput     = ToOutput;
+    rfturn TRUE;
+}

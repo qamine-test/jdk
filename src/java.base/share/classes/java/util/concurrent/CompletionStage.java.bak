@@ -1,760 +1,760 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent;
-import java.util.function.Supplier;
-import java.util.function.Consumer;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
-import java.util.function.BiFunction;
-import java.util.concurrent.Executor;
+pbdkbgf jbvb.util.dondurrfnt;
+import jbvb.util.fundtion.Supplifr;
+import jbvb.util.fundtion.Consumfr;
+import jbvb.util.fundtion.BiConsumfr;
+import jbvb.util.fundtion.Fundtion;
+import jbvb.util.fundtion.BiFundtion;
+import jbvb.util.dondurrfnt.Exfdutor;
 
 /**
- * A stage of a possibly asynchronous computation, that performs an
- * action or computes a value when another CompletionStage completes.
- * A stage completes upon termination of its computation, but this may
- * in turn trigger other dependent stages.  The functionality defined
- * in this interface takes only a few basic forms, which expand out to
- * a larger set of methods to capture a range of usage styles: <ul>
+ * A stbgf of b possibly bsyndironous domputbtion, tibt pfrforms bn
+ * bdtion or domputfs b vbluf wifn bnotifr ComplftionStbgf domplftfs.
+ * A stbgf domplftfs upon tfrminbtion of its domputbtion, but tiis mby
+ * in turn triggfr otifr dfpfndfnt stbgfs.  Tif fundtionblity dffinfd
+ * in tiis intfrfbdf tbkfs only b ffw bbsid forms, wiidi fxpbnd out to
+ * b lbrgfr sft of mftiods to dbpturf b rbngf of usbgf stylfs: <ul>
  *
- * <li>The computation performed by a stage may be expressed as a
- * Function, Consumer, or Runnable (using methods with names including
- * <em>apply</em>, <em>accept</em>, or <em>run</em>, respectively)
- * depending on whether it requires arguments and/or produces results.
- * For example, {@code stage.thenApply(x -> square(x)).thenAccept(x ->
- * System.out.print(x)).thenRun(() -> System.out.println())}. An
- * additional form (<em>compose</em>) applies functions of stages
- * themselves, rather than their results. </li>
+ * <li>Tif domputbtion pfrformfd by b stbgf mby bf fxprfssfd bs b
+ * Fundtion, Consumfr, or Runnbblf (using mftiods witi nbmfs indluding
+ * <fm>bpply</fm>, <fm>bddfpt</fm>, or <fm>run</fm>, rfspfdtivfly)
+ * dfpfnding on wiftifr it rfquirfs brgumfnts bnd/or produdfs rfsults.
+ * For fxbmplf, {@dodf stbgf.tifnApply(x -> squbrf(x)).tifnAddfpt(x ->
+ * Systfm.out.print(x)).tifnRun(() -> Systfm.out.println())}. An
+ * bdditionbl form (<fm>domposf</fm>) bpplifs fundtions of stbgfs
+ * tifmsflvfs, rbtifr tibn tifir rfsults. </li>
  *
- * <li> One stage's execution may be triggered by completion of a
- * single stage, or both of two stages, or either of two stages.
- * Dependencies on a single stage are arranged using methods with
- * prefix <em>then</em>. Those triggered by completion of
- * <em>both</em> of two stages may <em>combine</em> their results or
- * effects, using correspondingly named methods. Those triggered by
- * <em>either</em> of two stages make no guarantees about which of the
- * results or effects are used for the dependent stage's
- * computation.</li>
+ * <li> Onf stbgf's fxfdution mby bf triggfrfd by domplftion of b
+ * singlf stbgf, or boti of two stbgfs, or fitifr of two stbgfs.
+ * Dfpfndfndifs on b singlf stbgf brf brrbngfd using mftiods witi
+ * prffix <fm>tifn</fm>. Tiosf triggfrfd by domplftion of
+ * <fm>boti</fm> of two stbgfs mby <fm>dombinf</fm> tifir rfsults or
+ * ffffdts, using dorrfspondingly nbmfd mftiods. Tiosf triggfrfd by
+ * <fm>fitifr</fm> of two stbgfs mbkf no gubrbntffs bbout wiidi of tif
+ * rfsults or ffffdts brf usfd for tif dfpfndfnt stbgf's
+ * domputbtion.</li>
  *
- * <li> Dependencies among stages control the triggering of
- * computations, but do not otherwise guarantee any particular
- * ordering. Additionally, execution of a new stage's computations may
- * be arranged in any of three ways: default execution, default
- * asynchronous execution (using methods with suffix <em>async</em>
- * that employ the stage's default asynchronous execution facility),
- * or custom (via a supplied {@link Executor}).  The execution
- * properties of default and async modes are specified by
- * CompletionStage implementations, not this interface. Methods with
- * explicit Executor arguments may have arbitrary execution
- * properties, and might not even support concurrent execution, but
- * are arranged for processing in a way that accommodates asynchrony.
+ * <li> Dfpfndfndifs bmong stbgfs dontrol tif triggfring of
+ * domputbtions, but do not otifrwisf gubrbntff bny pbrtidulbr
+ * ordfring. Additionblly, fxfdution of b nfw stbgf's domputbtions mby
+ * bf brrbngfd in bny of tirff wbys: dffbult fxfdution, dffbult
+ * bsyndironous fxfdution (using mftiods witi suffix <fm>bsynd</fm>
+ * tibt fmploy tif stbgf's dffbult bsyndironous fxfdution fbdility),
+ * or dustom (vib b supplifd {@link Exfdutor}).  Tif fxfdution
+ * propfrtifs of dffbult bnd bsynd modfs brf spfdififd by
+ * ComplftionStbgf implfmfntbtions, not tiis intfrfbdf. Mftiods witi
+ * fxplidit Exfdutor brgumfnts mby ibvf brbitrbry fxfdution
+ * propfrtifs, bnd migit not fvfn support dondurrfnt fxfdution, but
+ * brf brrbngfd for prodfssing in b wby tibt bddommodbtfs bsyndirony.
  *
- * <li> Two method forms support processing whether the triggering
- * stage completed normally or exceptionally: Method {@link
- * #whenComplete whenComplete} allows injection of an action
- * regardless of outcome, otherwise preserving the outcome in its
- * completion. Method {@link #handle handle} additionally allows the
- * stage to compute a replacement result that may enable further
- * processing by other dependent stages.  In all other cases, if a
- * stage's computation terminates abruptly with an (unchecked)
- * exception or error, then all dependent stages requiring its
- * completion complete exceptionally as well, with a {@link
- * CompletionException} holding the exception as its cause.  If a
- * stage is dependent on <em>both</em> of two stages, and both
- * complete exceptionally, then the CompletionException may correspond
- * to either one of these exceptions.  If a stage is dependent on
- * <em>either</em> of two others, and only one of them completes
- * exceptionally, no guarantees are made about whether the dependent
- * stage completes normally or exceptionally. In the case of method
- * {@code whenComplete}, when the supplied action itself encounters an
- * exception, then the stage exceptionally completes with this
- * exception if not already completed exceptionally.</li>
+ * <li> Two mftiod forms support prodfssing wiftifr tif triggfring
+ * stbgf domplftfd normblly or fxdfptionblly: Mftiod {@link
+ * #wifnComplftf wifnComplftf} bllows injfdtion of bn bdtion
+ * rfgbrdlfss of outdomf, otifrwisf prfsfrving tif outdomf in its
+ * domplftion. Mftiod {@link #ibndlf ibndlf} bdditionblly bllows tif
+ * stbgf to domputf b rfplbdfmfnt rfsult tibt mby fnbblf furtifr
+ * prodfssing by otifr dfpfndfnt stbgfs.  In bll otifr dbsfs, if b
+ * stbgf's domputbtion tfrminbtfs bbruptly witi bn (undifdkfd)
+ * fxdfption or frror, tifn bll dfpfndfnt stbgfs rfquiring its
+ * domplftion domplftf fxdfptionblly bs wfll, witi b {@link
+ * ComplftionExdfption} iolding tif fxdfption bs its dbusf.  If b
+ * stbgf is dfpfndfnt on <fm>boti</fm> of two stbgfs, bnd boti
+ * domplftf fxdfptionblly, tifn tif ComplftionExdfption mby dorrfspond
+ * to fitifr onf of tifsf fxdfptions.  If b stbgf is dfpfndfnt on
+ * <fm>fitifr</fm> of two otifrs, bnd only onf of tifm domplftfs
+ * fxdfptionblly, no gubrbntffs brf mbdf bbout wiftifr tif dfpfndfnt
+ * stbgf domplftfs normblly or fxdfptionblly. In tif dbsf of mftiod
+ * {@dodf wifnComplftf}, wifn tif supplifd bdtion itsflf fndountfrs bn
+ * fxdfption, tifn tif stbgf fxdfptionblly domplftfs witi tiis
+ * fxdfption if not blrfbdy domplftfd fxdfptionblly.</li>
  *
  * </ul>
  *
- * <p>All methods adhere to the above triggering, execution, and
- * exceptional completion specifications (which are not repeated in
- * individual method specifications). Additionally, while arguments
- * used to pass a completion result (that is, for parameters of type
- * {@code T}) for methods accepting them may be null, passing a null
- * value for any other parameter will result in a {@link
- * NullPointerException} being thrown.
+ * <p>All mftiods bdifrf to tif bbovf triggfring, fxfdution, bnd
+ * fxdfptionbl domplftion spfdifidbtions (wiidi brf not rfpfbtfd in
+ * individubl mftiod spfdifidbtions). Additionblly, wiilf brgumfnts
+ * usfd to pbss b domplftion rfsult (tibt is, for pbrbmftfrs of typf
+ * {@dodf T}) for mftiods bddfpting tifm mby bf null, pbssing b null
+ * vbluf for bny otifr pbrbmftfr will rfsult in b {@link
+ * NullPointfrExdfption} bfing tirown.
  *
- * <p>This interface does not define methods for initially creating,
- * forcibly completing normally or exceptionally, probing completion
- * status or results, or awaiting completion of a stage.
- * Implementations of CompletionStage may provide means of achieving
- * such effects, as appropriate.  Method {@link #toCompletableFuture}
- * enables interoperability among different implementations of this
- * interface by providing a common conversion type.
+ * <p>Tiis intfrfbdf dofs not dffinf mftiods for initiblly drfbting,
+ * fordibly domplfting normblly or fxdfptionblly, probing domplftion
+ * stbtus or rfsults, or bwbiting domplftion of b stbgf.
+ * Implfmfntbtions of ComplftionStbgf mby providf mfbns of bdiifving
+ * sudi ffffdts, bs bppropribtf.  Mftiod {@link #toComplftbblfFuturf}
+ * fnbblfs intfropfrbbility bmong difffrfnt implfmfntbtions of tiis
+ * intfrfbdf by providing b dommon donvfrsion typf.
  *
- * @author Doug Lea
- * @since 1.8
+ * @butior Doug Lfb
+ * @sindf 1.8
  */
-public interface CompletionStage<T> {
+publid intfrfbdf ComplftionStbgf<T> {
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * normally, is executed with this stage's result as the argument
-     * to the supplied function.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn tiis stbgf domplftfs
+     * normblly, is fxfdutfd witi tiis stbgf's rfsult bs tif brgumfnt
+     * to tif supplifd fundtion.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param fn the function to use to compute the value of
-     * the returned CompletionStage
-     * @param <U> the function's return type
-     * @return the new CompletionStage
+     * @pbrbm fn tif fundtion to usf to domputf tif vbluf of
+     * tif rfturnfd ComplftionStbgf
+     * @pbrbm <U> tif fundtion's rfturn typf
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public <U> CompletionStage<U> thenApply(Function<? super T,? extends U> fn);
+    publid <U> ComplftionStbgf<U> tifnApply(Fundtion<? supfr T,? fxtfnds U> fn);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * normally, is executed using this stage's default asynchronous
-     * execution facility, with this stage's result as the argument to
-     * the supplied function.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn tiis stbgf domplftfs
+     * normblly, is fxfdutfd using tiis stbgf's dffbult bsyndironous
+     * fxfdution fbdility, witi tiis stbgf's rfsult bs tif brgumfnt to
+     * tif supplifd fundtion.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param fn the function to use to compute the value of
-     * the returned CompletionStage
-     * @param <U> the function's return type
-     * @return the new CompletionStage
+     * @pbrbm fn tif fundtion to usf to domputf tif vbluf of
+     * tif rfturnfd ComplftionStbgf
+     * @pbrbm <U> tif fundtion's rfturn typf
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public <U> CompletionStage<U> thenApplyAsync
-        (Function<? super T,? extends U> fn);
+    publid <U> ComplftionStbgf<U> tifnApplyAsynd
+        (Fundtion<? supfr T,? fxtfnds U> fn);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * normally, is executed using the supplied Executor, with this
-     * stage's result as the argument to the supplied function.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn tiis stbgf domplftfs
+     * normblly, is fxfdutfd using tif supplifd Exfdutor, witi tiis
+     * stbgf's rfsult bs tif brgumfnt to tif supplifd fundtion.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param fn the function to use to compute the value of
-     * the returned CompletionStage
-     * @param executor the executor to use for asynchronous execution
-     * @param <U> the function's return type
-     * @return the new CompletionStage
+     * @pbrbm fn tif fundtion to usf to domputf tif vbluf of
+     * tif rfturnfd ComplftionStbgf
+     * @pbrbm fxfdutor tif fxfdutor to usf for bsyndironous fxfdution
+     * @pbrbm <U> tif fundtion's rfturn typf
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public <U> CompletionStage<U> thenApplyAsync
-        (Function<? super T,? extends U> fn,
-         Executor executor);
+    publid <U> ComplftionStbgf<U> tifnApplyAsynd
+        (Fundtion<? supfr T,? fxtfnds U> fn,
+         Exfdutor fxfdutor);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * normally, is executed with this stage's result as the argument
-     * to the supplied action.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn tiis stbgf domplftfs
+     * normblly, is fxfdutfd witi tiis stbgf's rfsult bs tif brgumfnt
+     * to tif supplifd bdtion.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @return the new CompletionStage
+     * @pbrbm bdtion tif bdtion to pfrform bfforf domplfting tif
+     * rfturnfd ComplftionStbgf
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public CompletionStage<Void> thenAccept(Consumer<? super T> action);
+    publid ComplftionStbgf<Void> tifnAddfpt(Consumfr<? supfr T> bdtion);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * normally, is executed using this stage's default asynchronous
-     * execution facility, with this stage's result as the argument to
-     * the supplied action.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn tiis stbgf domplftfs
+     * normblly, is fxfdutfd using tiis stbgf's dffbult bsyndironous
+     * fxfdution fbdility, witi tiis stbgf's rfsult bs tif brgumfnt to
+     * tif supplifd bdtion.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @return the new CompletionStage
+     * @pbrbm bdtion tif bdtion to pfrform bfforf domplfting tif
+     * rfturnfd ComplftionStbgf
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public CompletionStage<Void> thenAcceptAsync(Consumer<? super T> action);
+    publid ComplftionStbgf<Void> tifnAddfptAsynd(Consumfr<? supfr T> bdtion);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * normally, is executed using the supplied Executor, with this
-     * stage's result as the argument to the supplied action.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn tiis stbgf domplftfs
+     * normblly, is fxfdutfd using tif supplifd Exfdutor, witi tiis
+     * stbgf's rfsult bs tif brgumfnt to tif supplifd bdtion.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @param executor the executor to use for asynchronous execution
-     * @return the new CompletionStage
+     * @pbrbm bdtion tif bdtion to pfrform bfforf domplfting tif
+     * rfturnfd ComplftionStbgf
+     * @pbrbm fxfdutor tif fxfdutor to usf for bsyndironous fxfdution
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public CompletionStage<Void> thenAcceptAsync(Consumer<? super T> action,
-                                                 Executor executor);
+    publid ComplftionStbgf<Void> tifnAddfptAsynd(Consumfr<? supfr T> bdtion,
+                                                 Exfdutor fxfdutor);
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * normally, executes the given action.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn tiis stbgf domplftfs
+     * normblly, fxfdutfs tif givfn bdtion.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @return the new CompletionStage
+     * @pbrbm bdtion tif bdtion to pfrform bfforf domplfting tif
+     * rfturnfd ComplftionStbgf
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public CompletionStage<Void> thenRun(Runnable action);
+    publid ComplftionStbgf<Void> tifnRun(Runnbblf bdtion);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * normally, executes the given action using this stage's default
-     * asynchronous execution facility.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn tiis stbgf domplftfs
+     * normblly, fxfdutfs tif givfn bdtion using tiis stbgf's dffbult
+     * bsyndironous fxfdution fbdility.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @return the new CompletionStage
+     * @pbrbm bdtion tif bdtion to pfrform bfforf domplfting tif
+     * rfturnfd ComplftionStbgf
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public CompletionStage<Void> thenRunAsync(Runnable action);
+    publid ComplftionStbgf<Void> tifnRunAsynd(Runnbblf bdtion);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * normally, executes the given action using the supplied Executor.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn tiis stbgf domplftfs
+     * normblly, fxfdutfs tif givfn bdtion using tif supplifd Exfdutor.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @param executor the executor to use for asynchronous execution
-     * @return the new CompletionStage
+     * @pbrbm bdtion tif bdtion to pfrform bfforf domplfting tif
+     * rfturnfd ComplftionStbgf
+     * @pbrbm fxfdutor tif fxfdutor to usf for bsyndironous fxfdution
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public CompletionStage<Void> thenRunAsync(Runnable action,
-                                              Executor executor);
+    publid ComplftionStbgf<Void> tifnRunAsynd(Runnbblf bdtion,
+                                              Exfdutor fxfdutor);
 
     /**
-     * Returns a new CompletionStage that, when this and the other
-     * given stage both complete normally, is executed with the two
-     * results as arguments to the supplied function.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn tiis bnd tif otifr
+     * givfn stbgf boti domplftf normblly, is fxfdutfd witi tif two
+     * rfsults bs brgumfnts to tif supplifd fundtion.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param other the other CompletionStage
-     * @param fn the function to use to compute the value of
-     * the returned CompletionStage
-     * @param <U> the type of the other CompletionStage's result
-     * @param <V> the function's return type
-     * @return the new CompletionStage
+     * @pbrbm otifr tif otifr ComplftionStbgf
+     * @pbrbm fn tif fundtion to usf to domputf tif vbluf of
+     * tif rfturnfd ComplftionStbgf
+     * @pbrbm <U> tif typf of tif otifr ComplftionStbgf's rfsult
+     * @pbrbm <V> tif fundtion's rfturn typf
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public <U,V> CompletionStage<V> thenCombine
-        (CompletionStage<? extends U> other,
-         BiFunction<? super T,? super U,? extends V> fn);
+    publid <U,V> ComplftionStbgf<V> tifnCombinf
+        (ComplftionStbgf<? fxtfnds U> otifr,
+         BiFundtion<? supfr T,? supfr U,? fxtfnds V> fn);
 
     /**
-     * Returns a new CompletionStage that, when this and the other
-     * given stage complete normally, is executed using this stage's
-     * default asynchronous execution facility, with the two results
-     * as arguments to the supplied function.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn tiis bnd tif otifr
+     * givfn stbgf domplftf normblly, is fxfdutfd using tiis stbgf's
+     * dffbult bsyndironous fxfdution fbdility, witi tif two rfsults
+     * bs brgumfnts to tif supplifd fundtion.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param other the other CompletionStage
-     * @param fn the function to use to compute the value of
-     * the returned CompletionStage
-     * @param <U> the type of the other CompletionStage's result
-     * @param <V> the function's return type
-     * @return the new CompletionStage
+     * @pbrbm otifr tif otifr ComplftionStbgf
+     * @pbrbm fn tif fundtion to usf to domputf tif vbluf of
+     * tif rfturnfd ComplftionStbgf
+     * @pbrbm <U> tif typf of tif otifr ComplftionStbgf's rfsult
+     * @pbrbm <V> tif fundtion's rfturn typf
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public <U,V> CompletionStage<V> thenCombineAsync
-        (CompletionStage<? extends U> other,
-         BiFunction<? super T,? super U,? extends V> fn);
+    publid <U,V> ComplftionStbgf<V> tifnCombinfAsynd
+        (ComplftionStbgf<? fxtfnds U> otifr,
+         BiFundtion<? supfr T,? supfr U,? fxtfnds V> fn);
 
     /**
-     * Returns a new CompletionStage that, when this and the other
-     * given stage complete normally, is executed using the supplied
-     * executor, with the two results as arguments to the supplied
-     * function.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn tiis bnd tif otifr
+     * givfn stbgf domplftf normblly, is fxfdutfd using tif supplifd
+     * fxfdutor, witi tif two rfsults bs brgumfnts to tif supplifd
+     * fundtion.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param other the other CompletionStage
-     * @param fn the function to use to compute the value of
-     * the returned CompletionStage
-     * @param executor the executor to use for asynchronous execution
-     * @param <U> the type of the other CompletionStage's result
-     * @param <V> the function's return type
-     * @return the new CompletionStage
+     * @pbrbm otifr tif otifr ComplftionStbgf
+     * @pbrbm fn tif fundtion to usf to domputf tif vbluf of
+     * tif rfturnfd ComplftionStbgf
+     * @pbrbm fxfdutor tif fxfdutor to usf for bsyndironous fxfdution
+     * @pbrbm <U> tif typf of tif otifr ComplftionStbgf's rfsult
+     * @pbrbm <V> tif fundtion's rfturn typf
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public <U,V> CompletionStage<V> thenCombineAsync
-        (CompletionStage<? extends U> other,
-         BiFunction<? super T,? super U,? extends V> fn,
-         Executor executor);
+    publid <U,V> ComplftionStbgf<V> tifnCombinfAsynd
+        (ComplftionStbgf<? fxtfnds U> otifr,
+         BiFundtion<? supfr T,? supfr U,? fxtfnds V> fn,
+         Exfdutor fxfdutor);
 
     /**
-     * Returns a new CompletionStage that, when this and the other
-     * given stage both complete normally, is executed with the two
-     * results as arguments to the supplied action.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn tiis bnd tif otifr
+     * givfn stbgf boti domplftf normblly, is fxfdutfd witi tif two
+     * rfsults bs brgumfnts to tif supplifd bdtion.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param other the other CompletionStage
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @param <U> the type of the other CompletionStage's result
-     * @return the new CompletionStage
+     * @pbrbm otifr tif otifr ComplftionStbgf
+     * @pbrbm bdtion tif bdtion to pfrform bfforf domplfting tif
+     * rfturnfd ComplftionStbgf
+     * @pbrbm <U> tif typf of tif otifr ComplftionStbgf's rfsult
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public <U> CompletionStage<Void> thenAcceptBoth
-        (CompletionStage<? extends U> other,
-         BiConsumer<? super T, ? super U> action);
+    publid <U> ComplftionStbgf<Void> tifnAddfptBoti
+        (ComplftionStbgf<? fxtfnds U> otifr,
+         BiConsumfr<? supfr T, ? supfr U> bdtion);
 
     /**
-     * Returns a new CompletionStage that, when this and the other
-     * given stage complete normally, is executed using this stage's
-     * default asynchronous execution facility, with the two results
-     * as arguments to the supplied action.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn tiis bnd tif otifr
+     * givfn stbgf domplftf normblly, is fxfdutfd using tiis stbgf's
+     * dffbult bsyndironous fxfdution fbdility, witi tif two rfsults
+     * bs brgumfnts to tif supplifd bdtion.
      *
-     * @param other the other CompletionStage
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @param <U> the type of the other CompletionStage's result
-     * @return the new CompletionStage
+     * @pbrbm otifr tif otifr ComplftionStbgf
+     * @pbrbm bdtion tif bdtion to pfrform bfforf domplfting tif
+     * rfturnfd ComplftionStbgf
+     * @pbrbm <U> tif typf of tif otifr ComplftionStbgf's rfsult
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public <U> CompletionStage<Void> thenAcceptBothAsync
-        (CompletionStage<? extends U> other,
-         BiConsumer<? super T, ? super U> action);
+    publid <U> ComplftionStbgf<Void> tifnAddfptBotiAsynd
+        (ComplftionStbgf<? fxtfnds U> otifr,
+         BiConsumfr<? supfr T, ? supfr U> bdtion);
 
     /**
-     * Returns a new CompletionStage that, when this and the other
-     * given stage complete normally, is executed using the supplied
-     * executor, with the two results as arguments to the supplied
-     * function.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn tiis bnd tif otifr
+     * givfn stbgf domplftf normblly, is fxfdutfd using tif supplifd
+     * fxfdutor, witi tif two rfsults bs brgumfnts to tif supplifd
+     * fundtion.
      *
-     * @param other the other CompletionStage
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @param executor the executor to use for asynchronous execution
-     * @param <U> the type of the other CompletionStage's result
-     * @return the new CompletionStage
+     * @pbrbm otifr tif otifr ComplftionStbgf
+     * @pbrbm bdtion tif bdtion to pfrform bfforf domplfting tif
+     * rfturnfd ComplftionStbgf
+     * @pbrbm fxfdutor tif fxfdutor to usf for bsyndironous fxfdution
+     * @pbrbm <U> tif typf of tif otifr ComplftionStbgf's rfsult
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public <U> CompletionStage<Void> thenAcceptBothAsync
-        (CompletionStage<? extends U> other,
-         BiConsumer<? super T, ? super U> action,
-         Executor executor);
+    publid <U> ComplftionStbgf<Void> tifnAddfptBotiAsynd
+        (ComplftionStbgf<? fxtfnds U> otifr,
+         BiConsumfr<? supfr T, ? supfr U> bdtion,
+         Exfdutor fxfdutor);
 
     /**
-     * Returns a new CompletionStage that, when this and the other
-     * given stage both complete normally, executes the given action.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn tiis bnd tif otifr
+     * givfn stbgf boti domplftf normblly, fxfdutfs tif givfn bdtion.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param other the other CompletionStage
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @return the new CompletionStage
+     * @pbrbm otifr tif otifr ComplftionStbgf
+     * @pbrbm bdtion tif bdtion to pfrform bfforf domplfting tif
+     * rfturnfd ComplftionStbgf
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public CompletionStage<Void> runAfterBoth(CompletionStage<?> other,
-                                              Runnable action);
+    publid ComplftionStbgf<Void> runAftfrBoti(ComplftionStbgf<?> otifr,
+                                              Runnbblf bdtion);
     /**
-     * Returns a new CompletionStage that, when this and the other
-     * given stage complete normally, executes the given action using
-     * this stage's default asynchronous execution facility.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn tiis bnd tif otifr
+     * givfn stbgf domplftf normblly, fxfdutfs tif givfn bdtion using
+     * tiis stbgf's dffbult bsyndironous fxfdution fbdility.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param other the other CompletionStage
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @return the new CompletionStage
+     * @pbrbm otifr tif otifr ComplftionStbgf
+     * @pbrbm bdtion tif bdtion to pfrform bfforf domplfting tif
+     * rfturnfd ComplftionStbgf
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public CompletionStage<Void> runAfterBothAsync(CompletionStage<?> other,
-                                                   Runnable action);
+    publid ComplftionStbgf<Void> runAftfrBotiAsynd(ComplftionStbgf<?> otifr,
+                                                   Runnbblf bdtion);
 
     /**
-     * Returns a new CompletionStage that, when this and the other
-     * given stage complete normally, executes the given action using
-     * the supplied executor
+     * Rfturns b nfw ComplftionStbgf tibt, wifn tiis bnd tif otifr
+     * givfn stbgf domplftf normblly, fxfdutfs tif givfn bdtion using
+     * tif supplifd fxfdutor
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param other the other CompletionStage
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @param executor the executor to use for asynchronous execution
-     * @return the new CompletionStage
+     * @pbrbm otifr tif otifr ComplftionStbgf
+     * @pbrbm bdtion tif bdtion to pfrform bfforf domplfting tif
+     * rfturnfd ComplftionStbgf
+     * @pbrbm fxfdutor tif fxfdutor to usf for bsyndironous fxfdution
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public CompletionStage<Void> runAfterBothAsync(CompletionStage<?> other,
-                                                   Runnable action,
-                                                   Executor executor);
+    publid ComplftionStbgf<Void> runAftfrBotiAsynd(ComplftionStbgf<?> otifr,
+                                                   Runnbblf bdtion,
+                                                   Exfdutor fxfdutor);
     /**
-     * Returns a new CompletionStage that, when either this or the
-     * other given stage complete normally, is executed with the
-     * corresponding result as argument to the supplied function.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn fitifr tiis or tif
+     * otifr givfn stbgf domplftf normblly, is fxfdutfd witi tif
+     * dorrfsponding rfsult bs brgumfnt to tif supplifd fundtion.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param other the other CompletionStage
-     * @param fn the function to use to compute the value of
-     * the returned CompletionStage
-     * @param <U> the function's return type
-     * @return the new CompletionStage
+     * @pbrbm otifr tif otifr ComplftionStbgf
+     * @pbrbm fn tif fundtion to usf to domputf tif vbluf of
+     * tif rfturnfd ComplftionStbgf
+     * @pbrbm <U> tif fundtion's rfturn typf
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public <U> CompletionStage<U> applyToEither
-        (CompletionStage<? extends T> other,
-         Function<? super T, U> fn);
+    publid <U> ComplftionStbgf<U> bpplyToEitifr
+        (ComplftionStbgf<? fxtfnds T> otifr,
+         Fundtion<? supfr T, U> fn);
 
     /**
-     * Returns a new CompletionStage that, when either this or the
-     * other given stage complete normally, is executed using this
-     * stage's default asynchronous execution facility, with the
-     * corresponding result as argument to the supplied function.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn fitifr tiis or tif
+     * otifr givfn stbgf domplftf normblly, is fxfdutfd using tiis
+     * stbgf's dffbult bsyndironous fxfdution fbdility, witi tif
+     * dorrfsponding rfsult bs brgumfnt to tif supplifd fundtion.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param other the other CompletionStage
-     * @param fn the function to use to compute the value of
-     * the returned CompletionStage
-     * @param <U> the function's return type
-     * @return the new CompletionStage
+     * @pbrbm otifr tif otifr ComplftionStbgf
+     * @pbrbm fn tif fundtion to usf to domputf tif vbluf of
+     * tif rfturnfd ComplftionStbgf
+     * @pbrbm <U> tif fundtion's rfturn typf
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public <U> CompletionStage<U> applyToEitherAsync
-        (CompletionStage<? extends T> other,
-         Function<? super T, U> fn);
+    publid <U> ComplftionStbgf<U> bpplyToEitifrAsynd
+        (ComplftionStbgf<? fxtfnds T> otifr,
+         Fundtion<? supfr T, U> fn);
 
     /**
-     * Returns a new CompletionStage that, when either this or the
-     * other given stage complete normally, is executed using the
-     * supplied executor, with the corresponding result as argument to
-     * the supplied function.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn fitifr tiis or tif
+     * otifr givfn stbgf domplftf normblly, is fxfdutfd using tif
+     * supplifd fxfdutor, witi tif dorrfsponding rfsult bs brgumfnt to
+     * tif supplifd fundtion.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param other the other CompletionStage
-     * @param fn the function to use to compute the value of
-     * the returned CompletionStage
-     * @param executor the executor to use for asynchronous execution
-     * @param <U> the function's return type
-     * @return the new CompletionStage
+     * @pbrbm otifr tif otifr ComplftionStbgf
+     * @pbrbm fn tif fundtion to usf to domputf tif vbluf of
+     * tif rfturnfd ComplftionStbgf
+     * @pbrbm fxfdutor tif fxfdutor to usf for bsyndironous fxfdution
+     * @pbrbm <U> tif fundtion's rfturn typf
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public <U> CompletionStage<U> applyToEitherAsync
-        (CompletionStage<? extends T> other,
-         Function<? super T, U> fn,
-         Executor executor);
+    publid <U> ComplftionStbgf<U> bpplyToEitifrAsynd
+        (ComplftionStbgf<? fxtfnds T> otifr,
+         Fundtion<? supfr T, U> fn,
+         Exfdutor fxfdutor);
 
     /**
-     * Returns a new CompletionStage that, when either this or the
-     * other given stage complete normally, is executed with the
-     * corresponding result as argument to the supplied action.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn fitifr tiis or tif
+     * otifr givfn stbgf domplftf normblly, is fxfdutfd witi tif
+     * dorrfsponding rfsult bs brgumfnt to tif supplifd bdtion.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param other the other CompletionStage
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @return the new CompletionStage
+     * @pbrbm otifr tif otifr ComplftionStbgf
+     * @pbrbm bdtion tif bdtion to pfrform bfforf domplfting tif
+     * rfturnfd ComplftionStbgf
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public CompletionStage<Void> acceptEither
-        (CompletionStage<? extends T> other,
-         Consumer<? super T> action);
+    publid ComplftionStbgf<Void> bddfptEitifr
+        (ComplftionStbgf<? fxtfnds T> otifr,
+         Consumfr<? supfr T> bdtion);
 
     /**
-     * Returns a new CompletionStage that, when either this or the
-     * other given stage complete normally, is executed using this
-     * stage's default asynchronous execution facility, with the
-     * corresponding result as argument to the supplied action.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn fitifr tiis or tif
+     * otifr givfn stbgf domplftf normblly, is fxfdutfd using tiis
+     * stbgf's dffbult bsyndironous fxfdution fbdility, witi tif
+     * dorrfsponding rfsult bs brgumfnt to tif supplifd bdtion.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param other the other CompletionStage
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @return the new CompletionStage
+     * @pbrbm otifr tif otifr ComplftionStbgf
+     * @pbrbm bdtion tif bdtion to pfrform bfforf domplfting tif
+     * rfturnfd ComplftionStbgf
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public CompletionStage<Void> acceptEitherAsync
-        (CompletionStage<? extends T> other,
-         Consumer<? super T> action);
+    publid ComplftionStbgf<Void> bddfptEitifrAsynd
+        (ComplftionStbgf<? fxtfnds T> otifr,
+         Consumfr<? supfr T> bdtion);
 
     /**
-     * Returns a new CompletionStage that, when either this or the
-     * other given stage complete normally, is executed using the
-     * supplied executor, with the corresponding result as argument to
-     * the supplied function.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn fitifr tiis or tif
+     * otifr givfn stbgf domplftf normblly, is fxfdutfd using tif
+     * supplifd fxfdutor, witi tif dorrfsponding rfsult bs brgumfnt to
+     * tif supplifd fundtion.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param other the other CompletionStage
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @param executor the executor to use for asynchronous execution
-     * @return the new CompletionStage
+     * @pbrbm otifr tif otifr ComplftionStbgf
+     * @pbrbm bdtion tif bdtion to pfrform bfforf domplfting tif
+     * rfturnfd ComplftionStbgf
+     * @pbrbm fxfdutor tif fxfdutor to usf for bsyndironous fxfdution
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public CompletionStage<Void> acceptEitherAsync
-        (CompletionStage<? extends T> other,
-         Consumer<? super T> action,
-         Executor executor);
+    publid ComplftionStbgf<Void> bddfptEitifrAsynd
+        (ComplftionStbgf<? fxtfnds T> otifr,
+         Consumfr<? supfr T> bdtion,
+         Exfdutor fxfdutor);
 
     /**
-     * Returns a new CompletionStage that, when either this or the
-     * other given stage complete normally, executes the given action.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn fitifr tiis or tif
+     * otifr givfn stbgf domplftf normblly, fxfdutfs tif givfn bdtion.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param other the other CompletionStage
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @return the new CompletionStage
+     * @pbrbm otifr tif otifr ComplftionStbgf
+     * @pbrbm bdtion tif bdtion to pfrform bfforf domplfting tif
+     * rfturnfd ComplftionStbgf
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public CompletionStage<Void> runAfterEither(CompletionStage<?> other,
-                                                Runnable action);
+    publid ComplftionStbgf<Void> runAftfrEitifr(ComplftionStbgf<?> otifr,
+                                                Runnbblf bdtion);
 
     /**
-     * Returns a new CompletionStage that, when either this or the
-     * other given stage complete normally, executes the given action
-     * using this stage's default asynchronous execution facility.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn fitifr tiis or tif
+     * otifr givfn stbgf domplftf normblly, fxfdutfs tif givfn bdtion
+     * using tiis stbgf's dffbult bsyndironous fxfdution fbdility.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param other the other CompletionStage
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @return the new CompletionStage
+     * @pbrbm otifr tif otifr ComplftionStbgf
+     * @pbrbm bdtion tif bdtion to pfrform bfforf domplfting tif
+     * rfturnfd ComplftionStbgf
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public CompletionStage<Void> runAfterEitherAsync
-        (CompletionStage<?> other,
-         Runnable action);
+    publid ComplftionStbgf<Void> runAftfrEitifrAsynd
+        (ComplftionStbgf<?> otifr,
+         Runnbblf bdtion);
 
     /**
-     * Returns a new CompletionStage that, when either this or the
-     * other given stage complete normally, executes the given action
-     * using supplied executor.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn fitifr tiis or tif
+     * otifr givfn stbgf domplftf normblly, fxfdutfs tif givfn bdtion
+     * using supplifd fxfdutor.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param other the other CompletionStage
-     * @param action the action to perform before completing the
-     * returned CompletionStage
-     * @param executor the executor to use for asynchronous execution
-     * @return the new CompletionStage
+     * @pbrbm otifr tif otifr ComplftionStbgf
+     * @pbrbm bdtion tif bdtion to pfrform bfforf domplfting tif
+     * rfturnfd ComplftionStbgf
+     * @pbrbm fxfdutor tif fxfdutor to usf for bsyndironous fxfdution
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public CompletionStage<Void> runAfterEitherAsync
-        (CompletionStage<?> other,
-         Runnable action,
-         Executor executor);
+    publid ComplftionStbgf<Void> runAftfrEitifrAsynd
+        (ComplftionStbgf<?> otifr,
+         Runnbblf bdtion,
+         Exfdutor fxfdutor);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * normally, is executed with this stage as the argument
-     * to the supplied function.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn tiis stbgf domplftfs
+     * normblly, is fxfdutfd witi tiis stbgf bs tif brgumfnt
+     * to tif supplifd fundtion.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param fn the function returning a new CompletionStage
-     * @param <U> the type of the returned CompletionStage's result
-     * @return the CompletionStage
+     * @pbrbm fn tif fundtion rfturning b nfw ComplftionStbgf
+     * @pbrbm <U> tif typf of tif rfturnfd ComplftionStbgf's rfsult
+     * @rfturn tif ComplftionStbgf
      */
-    public <U> CompletionStage<U> thenCompose
-        (Function<? super T, ? extends CompletionStage<U>> fn);
+    publid <U> ComplftionStbgf<U> tifnComposf
+        (Fundtion<? supfr T, ? fxtfnds ComplftionStbgf<U>> fn);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * normally, is executed using this stage's default asynchronous
-     * execution facility, with this stage as the argument to the
-     * supplied function.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn tiis stbgf domplftfs
+     * normblly, is fxfdutfd using tiis stbgf's dffbult bsyndironous
+     * fxfdution fbdility, witi tiis stbgf bs tif brgumfnt to tif
+     * supplifd fundtion.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param fn the function returning a new CompletionStage
-     * @param <U> the type of the returned CompletionStage's result
-     * @return the CompletionStage
+     * @pbrbm fn tif fundtion rfturning b nfw ComplftionStbgf
+     * @pbrbm <U> tif typf of tif rfturnfd ComplftionStbgf's rfsult
+     * @rfturn tif ComplftionStbgf
      */
-    public <U> CompletionStage<U> thenComposeAsync
-        (Function<? super T, ? extends CompletionStage<U>> fn);
+    publid <U> ComplftionStbgf<U> tifnComposfAsynd
+        (Fundtion<? supfr T, ? fxtfnds ComplftionStbgf<U>> fn);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * normally, is executed using the supplied Executor, with this
-     * stage's result as the argument to the supplied function.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn tiis stbgf domplftfs
+     * normblly, is fxfdutfd using tif supplifd Exfdutor, witi tiis
+     * stbgf's rfsult bs tif brgumfnt to tif supplifd fundtion.
      *
-     * See the {@link CompletionStage} documentation for rules
-     * covering exceptional completion.
+     * Sff tif {@link ComplftionStbgf} dodumfntbtion for rulfs
+     * dovfring fxdfptionbl domplftion.
      *
-     * @param fn the function returning a new CompletionStage
-     * @param executor the executor to use for asynchronous execution
-     * @param <U> the type of the returned CompletionStage's result
-     * @return the CompletionStage
+     * @pbrbm fn tif fundtion rfturning b nfw ComplftionStbgf
+     * @pbrbm fxfdutor tif fxfdutor to usf for bsyndironous fxfdution
+     * @pbrbm <U> tif typf of tif rfturnfd ComplftionStbgf's rfsult
+     * @rfturn tif ComplftionStbgf
      */
-    public <U> CompletionStage<U> thenComposeAsync
-        (Function<? super T, ? extends CompletionStage<U>> fn,
-         Executor executor);
+    publid <U> ComplftionStbgf<U> tifnComposfAsynd
+        (Fundtion<? supfr T, ? fxtfnds ComplftionStbgf<U>> fn,
+         Exfdutor fxfdutor);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * exceptionally, is executed with this stage's exception as the
-     * argument to the supplied function.  Otherwise, if this stage
-     * completes normally, then the returned stage also completes
-     * normally with the same value.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn tiis stbgf domplftfs
+     * fxdfptionblly, is fxfdutfd witi tiis stbgf's fxdfption bs tif
+     * brgumfnt to tif supplifd fundtion.  Otifrwisf, if tiis stbgf
+     * domplftfs normblly, tifn tif rfturnfd stbgf blso domplftfs
+     * normblly witi tif sbmf vbluf.
      *
-     * @param fn the function to use to compute the value of the
-     * returned CompletionStage if this CompletionStage completed
-     * exceptionally
-     * @return the new CompletionStage
+     * @pbrbm fn tif fundtion to usf to domputf tif vbluf of tif
+     * rfturnfd ComplftionStbgf if tiis ComplftionStbgf domplftfd
+     * fxdfptionblly
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public CompletionStage<T> exceptionally
-        (Function<Throwable, ? extends T> fn);
+    publid ComplftionStbgf<T> fxdfptionblly
+        (Fundtion<Tirowbblf, ? fxtfnds T> fn);
 
     /**
-     * Returns a new CompletionStage with the same result or exception
-     * as this stage, and when this stage completes, executes the
-     * given action with the result (or {@code null} if none) and the
-     * exception (or {@code null} if none) of this stage.
+     * Rfturns b nfw ComplftionStbgf witi tif sbmf rfsult or fxdfption
+     * bs tiis stbgf, bnd wifn tiis stbgf domplftfs, fxfdutfs tif
+     * givfn bdtion witi tif rfsult (or {@dodf null} if nonf) bnd tif
+     * fxdfption (or {@dodf null} if nonf) of tiis stbgf.
      *
-     * @param action the action to perform
-     * @return the new CompletionStage
+     * @pbrbm bdtion tif bdtion to pfrform
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public CompletionStage<T> whenComplete
-        (BiConsumer<? super T, ? super Throwable> action);
+    publid ComplftionStbgf<T> wifnComplftf
+        (BiConsumfr<? supfr T, ? supfr Tirowbblf> bdtion);
 
     /**
-     * Returns a new CompletionStage with the same result or exception
-     * as this stage, and when this stage completes, executes the
-     * given action executes the given action using this stage's
-     * default asynchronous execution facility, with the result (or
-     * {@code null} if none) and the exception (or {@code null} if
-     * none) of this stage as arguments.
+     * Rfturns b nfw ComplftionStbgf witi tif sbmf rfsult or fxdfption
+     * bs tiis stbgf, bnd wifn tiis stbgf domplftfs, fxfdutfs tif
+     * givfn bdtion fxfdutfs tif givfn bdtion using tiis stbgf's
+     * dffbult bsyndironous fxfdution fbdility, witi tif rfsult (or
+     * {@dodf null} if nonf) bnd tif fxdfption (or {@dodf null} if
+     * nonf) of tiis stbgf bs brgumfnts.
      *
-     * @param action the action to perform
-     * @return the new CompletionStage
+     * @pbrbm bdtion tif bdtion to pfrform
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public CompletionStage<T> whenCompleteAsync
-        (BiConsumer<? super T, ? super Throwable> action);
+    publid ComplftionStbgf<T> wifnComplftfAsynd
+        (BiConsumfr<? supfr T, ? supfr Tirowbblf> bdtion);
 
     /**
-     * Returns a new CompletionStage with the same result or exception
-     * as this stage, and when this stage completes, executes using
-     * the supplied Executor, the given action with the result (or
-     * {@code null} if none) and the exception (or {@code null} if
-     * none) of this stage as arguments.
+     * Rfturns b nfw ComplftionStbgf witi tif sbmf rfsult or fxdfption
+     * bs tiis stbgf, bnd wifn tiis stbgf domplftfs, fxfdutfs using
+     * tif supplifd Exfdutor, tif givfn bdtion witi tif rfsult (or
+     * {@dodf null} if nonf) bnd tif fxdfption (or {@dodf null} if
+     * nonf) of tiis stbgf bs brgumfnts.
      *
-     * @param action the action to perform
-     * @param executor the executor to use for asynchronous execution
-     * @return the new CompletionStage
+     * @pbrbm bdtion tif bdtion to pfrform
+     * @pbrbm fxfdutor tif fxfdutor to usf for bsyndironous fxfdution
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public CompletionStage<T> whenCompleteAsync
-        (BiConsumer<? super T, ? super Throwable> action,
-         Executor executor);
+    publid ComplftionStbgf<T> wifnComplftfAsynd
+        (BiConsumfr<? supfr T, ? supfr Tirowbblf> bdtion,
+         Exfdutor fxfdutor);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * either normally or exceptionally, is executed with this stage's
-     * result and exception as arguments to the supplied function.
-     * The given function is invoked with the result (or {@code null}
-     * if none) and the exception (or {@code null} if none) of this
-     * stage when complete as arguments.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn tiis stbgf domplftfs
+     * fitifr normblly or fxdfptionblly, is fxfdutfd witi tiis stbgf's
+     * rfsult bnd fxdfption bs brgumfnts to tif supplifd fundtion.
+     * Tif givfn fundtion is invokfd witi tif rfsult (or {@dodf null}
+     * if nonf) bnd tif fxdfption (or {@dodf null} if nonf) of tiis
+     * stbgf wifn domplftf bs brgumfnts.
      *
-     * @param fn the function to use to compute the value of the
-     * returned CompletionStage
-     * @param <U> the function's return type
-     * @return the new CompletionStage
+     * @pbrbm fn tif fundtion to usf to domputf tif vbluf of tif
+     * rfturnfd ComplftionStbgf
+     * @pbrbm <U> tif fundtion's rfturn typf
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public <U> CompletionStage<U> handle
-        (BiFunction<? super T, Throwable, ? extends U> fn);
+    publid <U> ComplftionStbgf<U> ibndlf
+        (BiFundtion<? supfr T, Tirowbblf, ? fxtfnds U> fn);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * either normally or exceptionally, is executed using this stage's
-     * default asynchronous execution facility, with this stage's
-     * result and exception as arguments to the supplied function.
-     * The given function is invoked with the result (or {@code null}
-     * if none) and the exception (or {@code null} if none) of this
-     * stage when complete as arguments.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn tiis stbgf domplftfs
+     * fitifr normblly or fxdfptionblly, is fxfdutfd using tiis stbgf's
+     * dffbult bsyndironous fxfdution fbdility, witi tiis stbgf's
+     * rfsult bnd fxdfption bs brgumfnts to tif supplifd fundtion.
+     * Tif givfn fundtion is invokfd witi tif rfsult (or {@dodf null}
+     * if nonf) bnd tif fxdfption (or {@dodf null} if nonf) of tiis
+     * stbgf wifn domplftf bs brgumfnts.
      *
-     * @param fn the function to use to compute the value of the
-     * returned CompletionStage
-     * @param <U> the function's return type
-     * @return the new CompletionStage
+     * @pbrbm fn tif fundtion to usf to domputf tif vbluf of tif
+     * rfturnfd ComplftionStbgf
+     * @pbrbm <U> tif fundtion's rfturn typf
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public <U> CompletionStage<U> handleAsync
-        (BiFunction<? super T, Throwable, ? extends U> fn);
+    publid <U> ComplftionStbgf<U> ibndlfAsynd
+        (BiFundtion<? supfr T, Tirowbblf, ? fxtfnds U> fn);
 
     /**
-     * Returns a new CompletionStage that, when this stage completes
-     * either normally or exceptionally, is executed using the
-     * supplied executor, with this stage's result and exception as
-     * arguments to the supplied function.  The given function is
-     * invoked with the result (or {@code null} if none) and the
-     * exception (or {@code null} if none) of this stage when complete
-     * as arguments.
+     * Rfturns b nfw ComplftionStbgf tibt, wifn tiis stbgf domplftfs
+     * fitifr normblly or fxdfptionblly, is fxfdutfd using tif
+     * supplifd fxfdutor, witi tiis stbgf's rfsult bnd fxdfption bs
+     * brgumfnts to tif supplifd fundtion.  Tif givfn fundtion is
+     * invokfd witi tif rfsult (or {@dodf null} if nonf) bnd tif
+     * fxdfption (or {@dodf null} if nonf) of tiis stbgf wifn domplftf
+     * bs brgumfnts.
      *
-     * @param fn the function to use to compute the value of the
-     * returned CompletionStage
-     * @param executor the executor to use for asynchronous execution
-     * @param <U> the function's return type
-     * @return the new CompletionStage
+     * @pbrbm fn tif fundtion to usf to domputf tif vbluf of tif
+     * rfturnfd ComplftionStbgf
+     * @pbrbm fxfdutor tif fxfdutor to usf for bsyndironous fxfdution
+     * @pbrbm <U> tif fundtion's rfturn typf
+     * @rfturn tif nfw ComplftionStbgf
      */
-    public <U> CompletionStage<U> handleAsync
-        (BiFunction<? super T, Throwable, ? extends U> fn,
-         Executor executor);
+    publid <U> ComplftionStbgf<U> ibndlfAsynd
+        (BiFundtion<? supfr T, Tirowbblf, ? fxtfnds U> fn,
+         Exfdutor fxfdutor);
 
     /**
-     * Returns a {@link CompletableFuture} maintaining the same
-     * completion properties as this stage. If this stage is already a
-     * CompletableFuture, this method may return this stage itself.
-     * Otherwise, invocation of this method may be equivalent in
-     * effect to {@code thenApply(x -> x)}, but returning an instance
-     * of type {@code CompletableFuture}. A CompletionStage
-     * implementation that does not choose to interoperate with others
-     * may throw {@code UnsupportedOperationException}.
+     * Rfturns b {@link ComplftbblfFuturf} mbintbining tif sbmf
+     * domplftion propfrtifs bs tiis stbgf. If tiis stbgf is blrfbdy b
+     * ComplftbblfFuturf, tiis mftiod mby rfturn tiis stbgf itsflf.
+     * Otifrwisf, invodbtion of tiis mftiod mby bf fquivblfnt in
+     * ffffdt to {@dodf tifnApply(x -> x)}, but rfturning bn instbndf
+     * of typf {@dodf ComplftbblfFuturf}. A ComplftionStbgf
+     * implfmfntbtion tibt dofs not dioosf to intfropfrbtf witi otifrs
+     * mby tirow {@dodf UnsupportfdOpfrbtionExdfption}.
      *
-     * @return the CompletableFuture
-     * @throws UnsupportedOperationException if this implementation
-     * does not interoperate with CompletableFuture
+     * @rfturn tif ComplftbblfFuturf
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis implfmfntbtion
+     * dofs not intfropfrbtf witi ComplftbblfFuturf
      */
-    public CompletableFuture<T> toCompletableFuture();
+    publid ComplftbblfFuturf<T> toComplftbblfFuturf();
 
 }

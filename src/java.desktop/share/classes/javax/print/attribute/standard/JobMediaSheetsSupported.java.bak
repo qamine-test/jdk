@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.print.attribute.standard;
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.SetOfIntegerSyntax;
-import javax.print.attribute.SupportedValuesAttribute;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.SftOfIntfgfrSyntbx;
+import jbvbx.print.bttributf.SupportfdVblufsAttributf;
 
 /**
- * Class JobMediaSheetsSupported is a printing attribute class, a set of
- * integers, that gives the supported values for a {@link JobMediaSheets
- * JobMediaSheets} attribute. It is restricted to a single contiguous range of
- * integers; multiple non-overlapping ranges are not allowed. This gives the
- * lower and upper bounds of the total sizes of print jobs in number of media
- * sheets that the printer will accept.
+ * Clbss JobMfdibSifftsSupportfd is b printing bttributf dlbss, b sft of
+ * intfgfrs, tibt givfs tif supportfd vblufs for b {@link JobMfdibSiffts
+ * JobMfdibSiffts} bttributf. It is rfstridtfd to b singlf dontiguous rbngf of
+ * intfgfrs; multiplf non-ovfrlbpping rbngfs brf not bllowfd. Tiis givfs tif
+ * lowfr bnd uppfr bounds of tif totbl sizfs of print jobs in numbfr of mfdib
+ * siffts tibt tif printfr will bddfpt.
  * <P>
- * <B>IPP Compatibility:</B> The JobMediaSheetsSupported attribute's canonical
- * array form gives the lower and upper bound for the range of values to be
- * included in an IPP "job-media-sheets-supported" attribute. See class {@link
- * javax.print.attribute.SetOfIntegerSyntax SetOfIntegerSyntax} for an
- * explanation of canonical array form. The category name returned by
- * <CODE>getName()</CODE> gives the IPP attribute name.
+ * <B>IPP Compbtibility:</B> Tif JobMfdibSifftsSupportfd bttributf's dbnonidbl
+ * brrby form givfs tif lowfr bnd uppfr bound for tif rbngf of vblufs to bf
+ * indludfd in bn IPP "job-mfdib-siffts-supportfd" bttributf. Sff dlbss {@link
+ * jbvbx.print.bttributf.SftOfIntfgfrSyntbx SftOfIntfgfrSyntbx} for bn
+ * fxplbnbtion of dbnonidbl brrby form. Tif dbtfgory nbmf rfturnfd by
+ * <CODE>gftNbmf()</CODE> givfs tif IPP bttributf nbmf.
  *
- * @author  Alan Kaminsky
+ * @butior  Albn Kbminsky
  */
-public final class JobMediaSheetsSupported extends SetOfIntegerSyntax
-        implements SupportedValuesAttribute {
+publid finbl dlbss JobMfdibSifftsSupportfd fxtfnds SftOfIntfgfrSyntbx
+        implfmfnts SupportfdVblufsAttributf {
 
-    private static final long serialVersionUID = 2953685470388672940L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 2953685470388672940L;
 
     /**
-     * Construct a new job media sheets supported attribute containing a single
-     * range of integers. That is, only those values of JobMediaSheets in the
-     * one range are supported.
+     * Construdt b nfw job mfdib siffts supportfd bttributf dontbining b singlf
+     * rbngf of intfgfrs. Tibt is, only tiosf vblufs of JobMfdibSiffts in tif
+     * onf rbngf brf supportfd.
      *
-     * @param  lowerBound  Lower bound of the range.
-     * @param  upperBound  Upper bound of the range.
+     * @pbrbm  lowfrBound  Lowfr bound of tif rbngf.
+     * @pbrbm  uppfrBound  Uppfr bound of tif rbngf.
      *
-     * @exception  IllegalArgumentException
-     *  (Unchecked exception) Thrown if a null range is specified or if a
-     *   non-null range is specified with <CODE>lowerBound</CODE> less than
+     * @fxdfption  IllfgblArgumfntExdfption
+     *  (Undifdkfd fxdfption) Tirown if b null rbngf is spfdififd or if b
+     *   non-null rbngf is spfdififd witi <CODE>lowfrBound</CODE> lfss tibn
      *    0.
      */
-    public JobMediaSheetsSupported(int lowerBound, int upperBound) {
-        super (lowerBound, upperBound);
-        if (lowerBound > upperBound) {
-            throw new IllegalArgumentException("Null range specified");
-        } else if (lowerBound < 0) {
-            throw new IllegalArgumentException
-                                ("Job K octets value < 0 specified");
+    publid JobMfdibSifftsSupportfd(int lowfrBound, int uppfrBound) {
+        supfr (lowfrBound, uppfrBound);
+        if (lowfrBound > uppfrBound) {
+            tirow nfw IllfgblArgumfntExdfption("Null rbngf spfdififd");
+        } flsf if (lowfrBound < 0) {
+            tirow nfw IllfgblArgumfntExdfption
+                                ("Job K odtfts vbluf < 0 spfdififd");
         }
     }
 
     /**
-     * Returns whether this job media sheets supported attribute is equivalent
-     * to the passed in object. To be equivalent, all of the following
-     * conditions must be true:
+     * Rfturns wiftifr tiis job mfdib siffts supportfd bttributf is fquivblfnt
+     * to tif pbssfd in objfdt. To bf fquivblfnt, bll of tif following
+     * donditions must bf truf:
      * <OL TYPE=1>
      * <LI>
-     * <CODE>object</CODE> is not null.
+     * <CODE>objfdt</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class JobMediaSheetsSupported.
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss JobMfdibSifftsSupportfd.
      * <LI>
-     * This job media sheets supported attribute's members and
-     * <CODE>object</CODE>'s members are the same.
+     * Tiis job mfdib siffts supportfd bttributf's mfmbfrs bnd
+     * <CODE>objfdt</CODE>'s mfmbfrs brf tif sbmf.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this job media
-     *          sheets supported attribute, false otherwise.
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to tiis job mfdib
+     *          siffts supportfd bttributf, fblsf otifrwisf.
      */
-    public boolean equals(Object object) {
-        return (super.equals (object) &&
-                object instanceof JobMediaSheetsSupported);
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn (supfr.fqubls (objfdt) &&
+                objfdt instbndfof JobMfdibSifftsSupportfd);
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Gft tif printing bttributf dlbss wiidi is to bf usfd bs tif "dbtfgory"
+     * for tiis printing bttributf vbluf.
      * <P>
-     * For class JobMediaSheetsSupported, the
-     * category is class JobMediaSheetsSupported itself.
+     * For dlbss JobMfdibSifftsSupportfd, tif
+     * dbtfgory is dlbss JobMfdibSifftsSupportfd itsflf.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return JobMediaSheetsSupported.class;
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn JobMfdibSifftsSupportfd.dlbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Gft tif nbmf of tif dbtfgory of wiidi tiis bttributf vbluf is bn
+     * instbndf.
      * <P>
-     * For class JobMediaSheetsSupported, the
-     * category name is <CODE>"job-media-sheets-supported"</CODE>.
+     * For dlbss JobMfdibSifftsSupportfd, tif
+     * dbtfgory nbmf is <CODE>"job-mfdib-siffts-supportfd"</CODE>.
      *
-     * @return  Attribute category name.
+     * @rfturn  Attributf dbtfgory nbmf.
      */
-    public final String getName() {
-        return "job-media-sheets-supported";
+    publid finbl String gftNbmf() {
+        rfturn "job-mfdib-siffts-supportfd";
     }
 
 }

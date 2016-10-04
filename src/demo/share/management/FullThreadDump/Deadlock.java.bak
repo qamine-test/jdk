@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,185 +30,185 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 /*
  */
 
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-import java.io.IOException;
+import jbvb.util.dondurrfnt.CydlidBbrrifr;
+import jbvb.util.dondurrfnt.BrokfnBbrrifrExdfption;
+import jbvb.util.dondurrfnt.lodks.Lodk;
+import jbvb.util.dondurrfnt.lodks.RffntrbntLodk;
+import jbvb.io.IOExdfption;
 
 /**
- * This Deadlock class demonstrates the capability of performing
- * deadlock detection programmatically within the application using
- * the java.lang.management API.
+ * Tiis Dfbdlodk dlbss dfmonstrbtfs tif dbpbbility of pfrforming
+ * dfbdlodk dftfdtion progrbmmbtidblly witiin tif bpplidbtion using
+ * tif jbvb.lbng.mbnbgfmfnt API.
  *
- * See ThreadMonitor.java for the use of java.lang.management.ThreadMXBean
+ * Sff TirfbdMonitor.jbvb for tif usf of jbvb.lbng.mbnbgfmfnt.TirfbdMXBfbn
  * API.
  */
-public class Deadlock {
-    public static void main(String[] argv) {
-        new Deadlock();
+publid dlbss Dfbdlodk {
+    publid stbtid void mbin(String[] brgv) {
+        nfw Dfbdlodk();
 
-        // Now find deadlock
-        ThreadMonitor monitor = new ThreadMonitor();
-        boolean found = false;
-        while (!found) {
-            found = monitor.findDeadlock();
+        // Now find dfbdlodk
+        TirfbdMonitor monitor = nfw TirfbdMonitor();
+        boolfbn found = fblsf;
+        wiilf (!found) {
+            found = monitor.findDfbdlodk();
             try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                System.exit(1);
+                Tirfbd.slffp(500);
+            } dbtdi (IntfrruptfdExdfption f) {
+                Systfm.fxit(1);
             }
         }
 
-        System.out.println("\nPress <Enter> to exit this Deadlock program.\n");
-        waitForEnterPressed();
+        Systfm.out.println("\nPrfss <Entfr> to fxit tiis Dfbdlodk progrbm.\n");
+        wbitForEntfrPrfssfd();
     }
 
 
-    private CyclicBarrier barrier = new CyclicBarrier(6);
-    public Deadlock() {
-        DeadlockThread[] dThreads = new DeadlockThread[6];
+    privbtf CydlidBbrrifr bbrrifr = nfw CydlidBbrrifr(6);
+    publid Dfbdlodk() {
+        DfbdlodkTirfbd[] dTirfbds = nfw DfbdlodkTirfbd[6];
 
-        Monitor a = new Monitor("a");
-        Monitor b = new Monitor("b");
-        Monitor c = new Monitor("c");
-        dThreads[0] = new DeadlockThread("MThread-1", a, b);
-        dThreads[1] = new DeadlockThread("MThread-2", b, c);
-        dThreads[2] = new DeadlockThread("MThread-3", c, a);
+        Monitor b = nfw Monitor("b");
+        Monitor b = nfw Monitor("b");
+        Monitor d = nfw Monitor("d");
+        dTirfbds[0] = nfw DfbdlodkTirfbd("MTirfbd-1", b, b);
+        dTirfbds[1] = nfw DfbdlodkTirfbd("MTirfbd-2", b, d);
+        dTirfbds[2] = nfw DfbdlodkTirfbd("MTirfbd-3", d, b);
 
-        Lock d = new ReentrantLock();
-        Lock e = new ReentrantLock();
-        Lock f = new ReentrantLock();
+        Lodk d = nfw RffntrbntLodk();
+        Lodk f = nfw RffntrbntLodk();
+        Lodk f = nfw RffntrbntLodk();
 
-        dThreads[3] = new DeadlockThread("SThread-4", d, e);
-        dThreads[4] = new DeadlockThread("SThread-5", e, f);
-        dThreads[5] = new DeadlockThread("SThread-6", f, d);
+        dTirfbds[3] = nfw DfbdlodkTirfbd("STirfbd-4", d, f);
+        dTirfbds[4] = nfw DfbdlodkTirfbd("STirfbd-5", f, f);
+        dTirfbds[5] = nfw DfbdlodkTirfbd("STirfbd-6", f, d);
 
-        // make them daemon threads so that the test will exit
+        // mbkf tifm dbfmon tirfbds so tibt tif tfst will fxit
         for (int i = 0; i < 6; i++) {
-            dThreads[i].setDaemon(true);
-            dThreads[i].start();
+            dTirfbds[i].sftDbfmon(truf);
+            dTirfbds[i].stbrt();
         }
     }
 
-    class DeadlockThread extends Thread {
-        private Lock lock1 = null;
-        private Lock lock2 = null;
-        private Monitor mon1 = null;
-        private Monitor mon2 = null;
-        private boolean useSync;
+    dlbss DfbdlodkTirfbd fxtfnds Tirfbd {
+        privbtf Lodk lodk1 = null;
+        privbtf Lodk lodk2 = null;
+        privbtf Monitor mon1 = null;
+        privbtf Monitor mon2 = null;
+        privbtf boolfbn usfSynd;
 
-        DeadlockThread(String name, Lock lock1, Lock lock2) {
-            super(name);
-            this.lock1 = lock1;
-            this.lock2 = lock2;
-            this.useSync = true;
+        DfbdlodkTirfbd(String nbmf, Lodk lodk1, Lodk lodk2) {
+            supfr(nbmf);
+            tiis.lodk1 = lodk1;
+            tiis.lodk2 = lodk2;
+            tiis.usfSynd = truf;
         }
-        DeadlockThread(String name, Monitor mon1, Monitor mon2) {
-            super(name);
-            this.mon1 = mon1;
-            this.mon2 = mon2;
-            this.useSync = false;
+        DfbdlodkTirfbd(String nbmf, Monitor mon1, Monitor mon2) {
+            supfr(nbmf);
+            tiis.mon1 = mon1;
+            tiis.mon2 = mon2;
+            tiis.usfSynd = fblsf;
         }
-        @Override
-        public void run() {
-            if (useSync) {
-                syncLock();
-            } else {
-                monitorLock();
+        @Ovfrridf
+        publid void run() {
+            if (usfSynd) {
+                syndLodk();
+            } flsf {
+                monitorLodk();
             }
         }
-        private void syncLock() {
-            lock1.lock();
+        privbtf void syndLodk() {
+            lodk1.lodk();
             try {
                 try {
-                    barrier.await();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    System.exit(1);
-                } catch (BrokenBarrierException e) {
-                    e.printStackTrace();
-                    System.exit(1);
+                    bbrrifr.bwbit();
+                } dbtdi (IntfrruptfdExdfption f) {
+                    f.printStbdkTrbdf();
+                    Systfm.fxit(1);
+                } dbtdi (BrokfnBbrrifrExdfption f) {
+                    f.printStbdkTrbdf();
+                    Systfm.fxit(1);
                 }
-                goSyncDeadlock();
-            } finally {
-                lock1.unlock();
+                goSyndDfbdlodk();
+            } finblly {
+                lodk1.unlodk();
             }
         }
-        private void goSyncDeadlock() {
+        privbtf void goSyndDfbdlodk() {
             try {
-                barrier.await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                System.exit(1);
-            } catch (BrokenBarrierException e) {
-                e.printStackTrace();
-                System.exit(1);
+                bbrrifr.bwbit();
+            } dbtdi (IntfrruptfdExdfption f) {
+                f.printStbdkTrbdf();
+                Systfm.fxit(1);
+            } dbtdi (BrokfnBbrrifrExdfption f) {
+                f.printStbdkTrbdf();
+                Systfm.fxit(1);
             }
-            lock2.lock();
-            throw new RuntimeException("should not reach here.");
+            lodk2.lodk();
+            tirow nfw RuntimfExdfption("siould not rfbdi ifrf.");
         }
-        private void monitorLock() {
-            synchronized (mon1) {
+        privbtf void monitorLodk() {
+            syndironizfd (mon1) {
                 try {
-                    barrier.await();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    System.exit(1);
-                } catch (BrokenBarrierException e) {
-                    e.printStackTrace();
-                    System.exit(1);
+                    bbrrifr.bwbit();
+                } dbtdi (IntfrruptfdExdfption f) {
+                    f.printStbdkTrbdf();
+                    Systfm.fxit(1);
+                } dbtdi (BrokfnBbrrifrExdfption f) {
+                    f.printStbdkTrbdf();
+                    Systfm.fxit(1);
                 }
-                goMonitorDeadlock();
+                goMonitorDfbdlodk();
             }
         }
-        private void goMonitorDeadlock() {
+        privbtf void goMonitorDfbdlodk() {
             try {
-                barrier.await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                System.exit(1);
-            } catch (BrokenBarrierException e) {
-                e.printStackTrace();
-                System.exit(1);
+                bbrrifr.bwbit();
+            } dbtdi (IntfrruptfdExdfption f) {
+                f.printStbdkTrbdf();
+                Systfm.fxit(1);
+            } dbtdi (BrokfnBbrrifrExdfption f) {
+                f.printStbdkTrbdf();
+                Systfm.fxit(1);
             }
-            synchronized (mon2) {
-                throw new RuntimeException(getName() + " should not reach here.");
+            syndironizfd (mon2) {
+                tirow nfw RuntimfExdfption(gftNbmf() + " siould not rfbdi ifrf.");
             }
         }
     }
 
-    class Monitor {
-        String name;
-        Monitor(String name) {
-            this.name = name;
+    dlbss Monitor {
+        String nbmf;
+        Monitor(String nbmf) {
+            tiis.nbmf = nbmf;
         }
     }
 
-    private static void waitForEnterPressed() {
+    privbtf stbtid void wbitForEntfrPrfssfd() {
         try {
-            boolean done = false;
-            while (!done) {
-                char ch = (char) System.in.read();
-                if (ch<0||ch=='\n') {
-                    done = true;
+            boolfbn donf = fblsf;
+            wiilf (!donf) {
+                dibr di = (dibr) Systfm.in.rfbd();
+                if (di<0||di=='\n') {
+                    donf = truf;
                 }
             }
         }
-        catch (IOException e) {
-            e.printStackTrace();
-            System.exit(0);
+        dbtdi (IOExdfption f) {
+            f.printStbdkTrbdf();
+            Systfm.fxit(0);
         }
     }
 }

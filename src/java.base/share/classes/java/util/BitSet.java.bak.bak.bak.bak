@@ -1,0 +1,1248 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+import jbvb.io.*;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.BytfOrdfr;
+import jbvb.nio.LongBufffr;
+import jbvb.util.strfbm.IntStrfbm;
+import jbvb.util.strfbm.StrfbmSupport;
+
+/**
+ * This dlbss implfmfnts b vfdtor of bits thbt grows bs nffdfd. Ebdh
+ * domponfnt of thf bit sft hbs b {@dodf boolfbn} vbluf. Thf
+ * bits of b {@dodf BitSft} brf indfxfd by nonnfgbtivf intfgfrs.
+ * Individubl indfxfd bits dbn bf fxbminfd, sft, or dlfbrfd. Onf
+ * {@dodf BitSft} mby bf usfd to modify thf dontfnts of bnothfr
+ * {@dodf BitSft} through logidbl AND, logidbl indlusivf OR, bnd
+ * logidbl fxdlusivf OR opfrbtions.
+ *
+ * <p>By dffbult, bll bits in thf sft initiblly hbvf thf vbluf
+ * {@dodf fblsf}.
+ *
+ * <p>Evfry bit sft hbs b durrfnt sizf, whidh is thf numbfr of bits
+ * of spbdf durrfntly in usf by thf bit sft. Notf thbt thf sizf is
+ * rflbtfd to thf implfmfntbtion of b bit sft, so it mby dhbngf with
+ * implfmfntbtion. Thf lfngth of b bit sft rflbtfs to logidbl lfngth
+ * of b bit sft bnd is dffinfd indfpfndfntly of implfmfntbtion.
+ *
+ * <p>Unlfss othfrwisf notfd, pbssing b null pbrbmftfr to bny of thf
+ * mfthods in b {@dodf BitSft} will rfsult in b
+ * {@dodf NullPointfrExdfption}.
+ *
+ * <p>A {@dodf BitSft} is not sbff for multithrfbdfd usf without
+ * fxtfrnbl syndhronizbtion.
+ *
+ * @buthor  Arthur vbn Hoff
+ * @buthor  Midhbfl MdCloskfy
+ * @buthor  Mbrtin Budhholz
+ * @sindf   1.0
+ */
+publid dlbss BitSft implfmfnts Clonfbblf, jbvb.io.Sfriblizbblf {
+    /*
+     * BitSfts brf pbdkfd into brrbys of "words."  Currfntly b word is
+     * b long, whidh donsists of 64 bits, rfquiring 6 bddrfss bits.
+     * Thf dhoidf of word sizf is dftfrminfd purfly by pfrformbndf dondfrns.
+     */
+    privbtf finbl stbtid int ADDRESS_BITS_PER_WORD = 6;
+    privbtf finbl stbtid int BITS_PER_WORD = 1 << ADDRESS_BITS_PER_WORD;
+    privbtf finbl stbtid int BIT_INDEX_MASK = BITS_PER_WORD - 1;
+
+    /* Usfd to shift lfft or right for b pbrtibl word mbsk */
+    privbtf stbtid finbl long WORD_MASK = 0xffffffffffffffffL;
+
+    /**
+     * @sfriblFifld bits long[]
+     *
+     * Thf bits in this BitSft.  Thf ith bit is storfd in bits[i/64] bt
+     * bit position i % 64 (whfrf bit position 0 rfffrs to thf lfbst
+     * signifidbnt bit bnd 63 rfffrs to thf most signifidbnt bit).
+     */
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds = {
+        nfw ObjfdtStrfbmFifld("bits", long[].dlbss),
+    };
+
+    /**
+     * Thf intfrnbl fifld dorrfsponding to thf sfriblFifld "bits".
+     */
+    privbtf long[] words;
+
+    /**
+     * Thf numbfr of words in thf logidbl sizf of this BitSft.
+     */
+    privbtf trbnsifnt int wordsInUsf = 0;
+
+    /**
+     * Whfthfr thf sizf of "words" is usfr-spfdififd.  If so, wf bssumf
+     * thf usfr knows whbt hf's doing bnd try hbrdfr to prfsfrvf it.
+     */
+    privbtf trbnsifnt boolfbn sizfIsStidky = fblsf;
+
+    /* usf sfriblVfrsionUID from JDK 1.0.2 for intfropfrbbility */
+    privbtf stbtid finbl long sfriblVfrsionUID = 7997698588986878753L;
+
+    /**
+     * Givfn b bit indfx, rfturn word indfx dontbining it.
+     */
+    privbtf stbtid int wordIndfx(int bitIndfx) {
+        rfturn bitIndfx >> ADDRESS_BITS_PER_WORD;
+    }
+
+    /**
+     * Evfry publid mfthod must prfsfrvf thfsf invbribnts.
+     */
+    privbtf void dhfdkInvbribnts() {
+        bssfrt(wordsInUsf == 0 || words[wordsInUsf - 1] != 0);
+        bssfrt(wordsInUsf >= 0 && wordsInUsf <= words.lfngth);
+        bssfrt(wordsInUsf == words.lfngth || words[wordsInUsf] == 0);
+    }
+
+    /**
+     * Sfts thf fifld wordsInUsf to thf logidbl sizf in words of thf bit sft.
+     * WARNING:This mfthod bssumfs thbt thf numbfr of words bdtublly in usf is
+     * lfss thbn or fqubl to thf durrfnt vbluf of wordsInUsf!
+     */
+    privbtf void rfdbldulbtfWordsInUsf() {
+        // Trbvfrsf thf bitsft until b usfd word is found
+        int i;
+        for (i = wordsInUsf-1; i >= 0; i--)
+            if (words[i] != 0)
+                brfbk;
+
+        wordsInUsf = i+1; // Thf nfw logidbl sizf
+    }
+
+    /**
+     * Crfbtfs b nfw bit sft. All bits brf initiblly {@dodf fblsf}.
+     */
+    publid BitSft() {
+        initWords(BITS_PER_WORD);
+        sizfIsStidky = fblsf;
+    }
+
+    /**
+     * Crfbtfs b bit sft whosf initibl sizf is lbrgf fnough to fxpliditly
+     * rfprfsfnt bits with indidfs in thf rbngf {@dodf 0} through
+     * {@dodf nbits-1}. All bits brf initiblly {@dodf fblsf}.
+     *
+     * @pbrbm  nbits thf initibl sizf of thf bit sft
+     * @throws NfgbtivfArrbySizfExdfption if thf spfdififd initibl sizf
+     *         is nfgbtivf
+     */
+    publid BitSft(int nbits) {
+        // nbits dbn't bf nfgbtivf; sizf 0 is OK
+        if (nbits < 0)
+            throw nfw NfgbtivfArrbySizfExdfption("nbits < 0: " + nbits);
+
+        initWords(nbits);
+        sizfIsStidky = truf;
+    }
+
+    privbtf void initWords(int nbits) {
+        words = nfw long[wordIndfx(nbits-1) + 1];
+    }
+
+    /**
+     * Crfbtfs b bit sft using words bs thf intfrnbl rfprfsfntbtion.
+     * Thf lbst word (if thfrf is onf) must bf non-zfro.
+     */
+    privbtf BitSft(long[] words) {
+        this.words = words;
+        this.wordsInUsf = words.lfngth;
+        dhfdkInvbribnts();
+    }
+
+    /**
+     * Rfturns b nfw bit sft dontbining bll thf bits in thf givfn long brrby.
+     *
+     * <p>Morf prfdisfly,
+     * <br>{@dodf BitSft.vblufOf(longs).gft(n) == ((longs[n/64] & (1L<<(n%64))) != 0)}
+     * <br>for bll {@dodf n < 64 * longs.lfngth}.
+     *
+     * <p>This mfthod is fquivblfnt to
+     * {@dodf BitSft.vblufOf(LongBufffr.wrbp(longs))}.
+     *
+     * @pbrbm longs b long brrby dontbining b littlf-fndibn rfprfsfntbtion
+     *        of b sfqufndf of bits to bf usfd bs thf initibl bits of thf
+     *        nfw bit sft
+     * @rfturn b {@dodf BitSft} dontbining bll thf bits in thf long brrby
+     * @sindf 1.7
+     */
+    publid stbtid BitSft vblufOf(long[] longs) {
+        int n;
+        for (n = longs.lfngth; n > 0 && longs[n - 1] == 0; n--)
+            ;
+        rfturn nfw BitSft(Arrbys.dopyOf(longs, n));
+    }
+
+    /**
+     * Rfturns b nfw bit sft dontbining bll thf bits in thf givfn long
+     * bufffr bftwffn its position bnd limit.
+     *
+     * <p>Morf prfdisfly,
+     * <br>{@dodf BitSft.vblufOf(lb).gft(n) == ((lb.gft(lb.position()+n/64) & (1L<<(n%64))) != 0)}
+     * <br>for bll {@dodf n < 64 * lb.rfmbining()}.
+     *
+     * <p>Thf long bufffr is not modififd by this mfthod, bnd no
+     * rfffrfndf to thf bufffr is rftbinfd by thf bit sft.
+     *
+     * @pbrbm lb b long bufffr dontbining b littlf-fndibn rfprfsfntbtion
+     *        of b sfqufndf of bits bftwffn its position bnd limit, to bf
+     *        usfd bs thf initibl bits of thf nfw bit sft
+     * @rfturn b {@dodf BitSft} dontbining bll thf bits in thf bufffr in thf
+     *         spfdififd rbngf
+     * @sindf 1.7
+     */
+    publid stbtid BitSft vblufOf(LongBufffr lb) {
+        lb = lb.slidf();
+        int n;
+        for (n = lb.rfmbining(); n > 0 && lb.gft(n - 1) == 0; n--)
+            ;
+        long[] words = nfw long[n];
+        lb.gft(words);
+        rfturn nfw BitSft(words);
+    }
+
+    /**
+     * Rfturns b nfw bit sft dontbining bll thf bits in thf givfn bytf brrby.
+     *
+     * <p>Morf prfdisfly,
+     * <br>{@dodf BitSft.vblufOf(bytfs).gft(n) == ((bytfs[n/8] & (1<<(n%8))) != 0)}
+     * <br>for bll {@dodf n <  8 * bytfs.lfngth}.
+     *
+     * <p>This mfthod is fquivblfnt to
+     * {@dodf BitSft.vblufOf(BytfBufffr.wrbp(bytfs))}.
+     *
+     * @pbrbm bytfs b bytf brrby dontbining b littlf-fndibn
+     *        rfprfsfntbtion of b sfqufndf of bits to bf usfd bs thf
+     *        initibl bits of thf nfw bit sft
+     * @rfturn b {@dodf BitSft} dontbining bll thf bits in thf bytf brrby
+     * @sindf 1.7
+     */
+    publid stbtid BitSft vblufOf(bytf[] bytfs) {
+        rfturn BitSft.vblufOf(BytfBufffr.wrbp(bytfs));
+    }
+
+    /**
+     * Rfturns b nfw bit sft dontbining bll thf bits in thf givfn bytf
+     * bufffr bftwffn its position bnd limit.
+     *
+     * <p>Morf prfdisfly,
+     * <br>{@dodf BitSft.vblufOf(bb).gft(n) == ((bb.gft(bb.position()+n/8) & (1<<(n%8))) != 0)}
+     * <br>for bll {@dodf n < 8 * bb.rfmbining()}.
+     *
+     * <p>Thf bytf bufffr is not modififd by this mfthod, bnd no
+     * rfffrfndf to thf bufffr is rftbinfd by thf bit sft.
+     *
+     * @pbrbm bb b bytf bufffr dontbining b littlf-fndibn rfprfsfntbtion
+     *        of b sfqufndf of bits bftwffn its position bnd limit, to bf
+     *        usfd bs thf initibl bits of thf nfw bit sft
+     * @rfturn b {@dodf BitSft} dontbining bll thf bits in thf bufffr in thf
+     *         spfdififd rbngf
+     * @sindf 1.7
+     */
+    publid stbtid BitSft vblufOf(BytfBufffr bb) {
+        bb = bb.slidf().ordfr(BytfOrdfr.LITTLE_ENDIAN);
+        int n;
+        for (n = bb.rfmbining(); n > 0 && bb.gft(n - 1) == 0; n--)
+            ;
+        long[] words = nfw long[(n + 7) / 8];
+        bb.limit(n);
+        int i = 0;
+        whilf (bb.rfmbining() >= 8)
+            words[i++] = bb.gftLong();
+        for (int rfmbining = bb.rfmbining(), j = 0; j < rfmbining; j++)
+            words[i] |= (bb.gft() & 0xffL) << (8 * j);
+        rfturn nfw BitSft(words);
+    }
+
+    /**
+     * Rfturns b nfw bytf brrby dontbining bll thf bits in this bit sft.
+     *
+     * <p>Morf prfdisfly, if
+     * <br>{@dodf bytf[] bytfs = s.toBytfArrby();}
+     * <br>thfn {@dodf bytfs.lfngth == (s.lfngth()+7)/8} bnd
+     * <br>{@dodf s.gft(n) == ((bytfs[n/8] & (1<<(n%8))) != 0)}
+     * <br>for bll {@dodf n < 8 * bytfs.lfngth}.
+     *
+     * @rfturn b bytf brrby dontbining b littlf-fndibn rfprfsfntbtion
+     *         of bll thf bits in this bit sft
+     * @sindf 1.7
+    */
+    publid bytf[] toBytfArrby() {
+        int n = wordsInUsf;
+        if (n == 0)
+            rfturn nfw bytf[0];
+        int lfn = 8 * (n-1);
+        for (long x = words[n - 1]; x != 0; x >>>= 8)
+            lfn++;
+        bytf[] bytfs = nfw bytf[lfn];
+        BytfBufffr bb = BytfBufffr.wrbp(bytfs).ordfr(BytfOrdfr.LITTLE_ENDIAN);
+        for (int i = 0; i < n - 1; i++)
+            bb.putLong(words[i]);
+        for (long x = words[n - 1]; x != 0; x >>>= 8)
+            bb.put((bytf) (x & 0xff));
+        rfturn bytfs;
+    }
+
+    /**
+     * Rfturns b nfw long brrby dontbining bll thf bits in this bit sft.
+     *
+     * <p>Morf prfdisfly, if
+     * <br>{@dodf long[] longs = s.toLongArrby();}
+     * <br>thfn {@dodf longs.lfngth == (s.lfngth()+63)/64} bnd
+     * <br>{@dodf s.gft(n) == ((longs[n/64] & (1L<<(n%64))) != 0)}
+     * <br>for bll {@dodf n < 64 * longs.lfngth}.
+     *
+     * @rfturn b long brrby dontbining b littlf-fndibn rfprfsfntbtion
+     *         of bll thf bits in this bit sft
+     * @sindf 1.7
+    */
+    publid long[] toLongArrby() {
+        rfturn Arrbys.dopyOf(words, wordsInUsf);
+    }
+
+    /**
+     * Ensurfs thbt thf BitSft dbn hold fnough words.
+     * @pbrbm wordsRfquirfd thf minimum bddfptbblf numbfr of words.
+     */
+    privbtf void fnsurfCbpbdity(int wordsRfquirfd) {
+        if (words.lfngth < wordsRfquirfd) {
+            // Allodbtf lbrgfr of doublfd sizf or rfquirfd sizf
+            int rfqufst = Mbth.mbx(2 * words.lfngth, wordsRfquirfd);
+            words = Arrbys.dopyOf(words, rfqufst);
+            sizfIsStidky = fblsf;
+        }
+    }
+
+    /**
+     * Ensurfs thbt thf BitSft dbn bddommodbtf b givfn wordIndfx,
+     * tfmporbrily violbting thf invbribnts.  Thf dbllfr must
+     * rfstorf thf invbribnts bfforf rfturning to thf usfr,
+     * possibly using rfdbldulbtfWordsInUsf().
+     * @pbrbm wordIndfx thf indfx to bf bddommodbtfd.
+     */
+    privbtf void fxpbndTo(int wordIndfx) {
+        int wordsRfquirfd = wordIndfx+1;
+        if (wordsInUsf < wordsRfquirfd) {
+            fnsurfCbpbdity(wordsRfquirfd);
+            wordsInUsf = wordsRfquirfd;
+        }
+    }
+
+    /**
+     * Chfdks thbt fromIndfx ... toIndfx is b vblid rbngf of bit indidfs.
+     */
+    privbtf stbtid void dhfdkRbngf(int fromIndfx, int toIndfx) {
+        if (fromIndfx < 0)
+            throw nfw IndfxOutOfBoundsExdfption("fromIndfx < 0: " + fromIndfx);
+        if (toIndfx < 0)
+            throw nfw IndfxOutOfBoundsExdfption("toIndfx < 0: " + toIndfx);
+        if (fromIndfx > toIndfx)
+            throw nfw IndfxOutOfBoundsExdfption("fromIndfx: " + fromIndfx +
+                                                " > toIndfx: " + toIndfx);
+    }
+
+    /**
+     * Sfts thf bit bt thf spfdififd indfx to thf domplfmfnt of its
+     * durrfnt vbluf.
+     *
+     * @pbrbm  bitIndfx thf indfx of thf bit to flip
+     * @throws IndfxOutOfBoundsExdfption if thf spfdififd indfx is nfgbtivf
+     * @sindf  1.4
+     */
+    publid void flip(int bitIndfx) {
+        if (bitIndfx < 0)
+            throw nfw IndfxOutOfBoundsExdfption("bitIndfx < 0: " + bitIndfx);
+
+        int wordIndfx = wordIndfx(bitIndfx);
+        fxpbndTo(wordIndfx);
+
+        words[wordIndfx] ^= (1L << bitIndfx);
+
+        rfdbldulbtfWordsInUsf();
+        dhfdkInvbribnts();
+    }
+
+    /**
+     * Sfts fbdh bit from thf spfdififd {@dodf fromIndfx} (indlusivf) to thf
+     * spfdififd {@dodf toIndfx} (fxdlusivf) to thf domplfmfnt of its durrfnt
+     * vbluf.
+     *
+     * @pbrbm  fromIndfx indfx of thf first bit to flip
+     * @pbrbm  toIndfx indfx bftfr thf lbst bit to flip
+     * @throws IndfxOutOfBoundsExdfption if {@dodf fromIndfx} is nfgbtivf,
+     *         or {@dodf toIndfx} is nfgbtivf, or {@dodf fromIndfx} is
+     *         lbrgfr thbn {@dodf toIndfx}
+     * @sindf  1.4
+     */
+    publid void flip(int fromIndfx, int toIndfx) {
+        dhfdkRbngf(fromIndfx, toIndfx);
+
+        if (fromIndfx == toIndfx)
+            rfturn;
+
+        int stbrtWordIndfx = wordIndfx(fromIndfx);
+        int fndWordIndfx   = wordIndfx(toIndfx - 1);
+        fxpbndTo(fndWordIndfx);
+
+        long firstWordMbsk = WORD_MASK << fromIndfx;
+        long lbstWordMbsk  = WORD_MASK >>> -toIndfx;
+        if (stbrtWordIndfx == fndWordIndfx) {
+            // Cbsf 1: Onf word
+            words[stbrtWordIndfx] ^= (firstWordMbsk & lbstWordMbsk);
+        } flsf {
+            // Cbsf 2: Multiplf words
+            // Hbndlf first word
+            words[stbrtWordIndfx] ^= firstWordMbsk;
+
+            // Hbndlf intfrmfdibtf words, if bny
+            for (int i = stbrtWordIndfx+1; i < fndWordIndfx; i++)
+                words[i] ^= WORD_MASK;
+
+            // Hbndlf lbst word
+            words[fndWordIndfx] ^= lbstWordMbsk;
+        }
+
+        rfdbldulbtfWordsInUsf();
+        dhfdkInvbribnts();
+    }
+
+    /**
+     * Sfts thf bit bt thf spfdififd indfx to {@dodf truf}.
+     *
+     * @pbrbm  bitIndfx b bit indfx
+     * @throws IndfxOutOfBoundsExdfption if thf spfdififd indfx is nfgbtivf
+     * @sindf  1.0
+     */
+    publid void sft(int bitIndfx) {
+        if (bitIndfx < 0)
+            throw nfw IndfxOutOfBoundsExdfption("bitIndfx < 0: " + bitIndfx);
+
+        int wordIndfx = wordIndfx(bitIndfx);
+        fxpbndTo(wordIndfx);
+
+        words[wordIndfx] |= (1L << bitIndfx); // Rfstorfs invbribnts
+
+        dhfdkInvbribnts();
+    }
+
+    /**
+     * Sfts thf bit bt thf spfdififd indfx to thf spfdififd vbluf.
+     *
+     * @pbrbm  bitIndfx b bit indfx
+     * @pbrbm  vbluf b boolfbn vbluf to sft
+     * @throws IndfxOutOfBoundsExdfption if thf spfdififd indfx is nfgbtivf
+     * @sindf  1.4
+     */
+    publid void sft(int bitIndfx, boolfbn vbluf) {
+        if (vbluf)
+            sft(bitIndfx);
+        flsf
+            dlfbr(bitIndfx);
+    }
+
+    /**
+     * Sfts thf bits from thf spfdififd {@dodf fromIndfx} (indlusivf) to thf
+     * spfdififd {@dodf toIndfx} (fxdlusivf) to {@dodf truf}.
+     *
+     * @pbrbm  fromIndfx indfx of thf first bit to bf sft
+     * @pbrbm  toIndfx indfx bftfr thf lbst bit to bf sft
+     * @throws IndfxOutOfBoundsExdfption if {@dodf fromIndfx} is nfgbtivf,
+     *         or {@dodf toIndfx} is nfgbtivf, or {@dodf fromIndfx} is
+     *         lbrgfr thbn {@dodf toIndfx}
+     * @sindf  1.4
+     */
+    publid void sft(int fromIndfx, int toIndfx) {
+        dhfdkRbngf(fromIndfx, toIndfx);
+
+        if (fromIndfx == toIndfx)
+            rfturn;
+
+        // Indrfbsf dbpbdity if nfdfssbry
+        int stbrtWordIndfx = wordIndfx(fromIndfx);
+        int fndWordIndfx   = wordIndfx(toIndfx - 1);
+        fxpbndTo(fndWordIndfx);
+
+        long firstWordMbsk = WORD_MASK << fromIndfx;
+        long lbstWordMbsk  = WORD_MASK >>> -toIndfx;
+        if (stbrtWordIndfx == fndWordIndfx) {
+            // Cbsf 1: Onf word
+            words[stbrtWordIndfx] |= (firstWordMbsk & lbstWordMbsk);
+        } flsf {
+            // Cbsf 2: Multiplf words
+            // Hbndlf first word
+            words[stbrtWordIndfx] |= firstWordMbsk;
+
+            // Hbndlf intfrmfdibtf words, if bny
+            for (int i = stbrtWordIndfx+1; i < fndWordIndfx; i++)
+                words[i] = WORD_MASK;
+
+            // Hbndlf lbst word (rfstorfs invbribnts)
+            words[fndWordIndfx] |= lbstWordMbsk;
+        }
+
+        dhfdkInvbribnts();
+    }
+
+    /**
+     * Sfts thf bits from thf spfdififd {@dodf fromIndfx} (indlusivf) to thf
+     * spfdififd {@dodf toIndfx} (fxdlusivf) to thf spfdififd vbluf.
+     *
+     * @pbrbm  fromIndfx indfx of thf first bit to bf sft
+     * @pbrbm  toIndfx indfx bftfr thf lbst bit to bf sft
+     * @pbrbm  vbluf vbluf to sft thf sflfdtfd bits to
+     * @throws IndfxOutOfBoundsExdfption if {@dodf fromIndfx} is nfgbtivf,
+     *         or {@dodf toIndfx} is nfgbtivf, or {@dodf fromIndfx} is
+     *         lbrgfr thbn {@dodf toIndfx}
+     * @sindf  1.4
+     */
+    publid void sft(int fromIndfx, int toIndfx, boolfbn vbluf) {
+        if (vbluf)
+            sft(fromIndfx, toIndfx);
+        flsf
+            dlfbr(fromIndfx, toIndfx);
+    }
+
+    /**
+     * Sfts thf bit spfdififd by thf indfx to {@dodf fblsf}.
+     *
+     * @pbrbm  bitIndfx thf indfx of thf bit to bf dlfbrfd
+     * @throws IndfxOutOfBoundsExdfption if thf spfdififd indfx is nfgbtivf
+     * @sindf  1.0
+     */
+    publid void dlfbr(int bitIndfx) {
+        if (bitIndfx < 0)
+            throw nfw IndfxOutOfBoundsExdfption("bitIndfx < 0: " + bitIndfx);
+
+        int wordIndfx = wordIndfx(bitIndfx);
+        if (wordIndfx >= wordsInUsf)
+            rfturn;
+
+        words[wordIndfx] &= ~(1L << bitIndfx);
+
+        rfdbldulbtfWordsInUsf();
+        dhfdkInvbribnts();
+    }
+
+    /**
+     * Sfts thf bits from thf spfdififd {@dodf fromIndfx} (indlusivf) to thf
+     * spfdififd {@dodf toIndfx} (fxdlusivf) to {@dodf fblsf}.
+     *
+     * @pbrbm  fromIndfx indfx of thf first bit to bf dlfbrfd
+     * @pbrbm  toIndfx indfx bftfr thf lbst bit to bf dlfbrfd
+     * @throws IndfxOutOfBoundsExdfption if {@dodf fromIndfx} is nfgbtivf,
+     *         or {@dodf toIndfx} is nfgbtivf, or {@dodf fromIndfx} is
+     *         lbrgfr thbn {@dodf toIndfx}
+     * @sindf  1.4
+     */
+    publid void dlfbr(int fromIndfx, int toIndfx) {
+        dhfdkRbngf(fromIndfx, toIndfx);
+
+        if (fromIndfx == toIndfx)
+            rfturn;
+
+        int stbrtWordIndfx = wordIndfx(fromIndfx);
+        if (stbrtWordIndfx >= wordsInUsf)
+            rfturn;
+
+        int fndWordIndfx = wordIndfx(toIndfx - 1);
+        if (fndWordIndfx >= wordsInUsf) {
+            toIndfx = lfngth();
+            fndWordIndfx = wordsInUsf - 1;
+        }
+
+        long firstWordMbsk = WORD_MASK << fromIndfx;
+        long lbstWordMbsk  = WORD_MASK >>> -toIndfx;
+        if (stbrtWordIndfx == fndWordIndfx) {
+            // Cbsf 1: Onf word
+            words[stbrtWordIndfx] &= ~(firstWordMbsk & lbstWordMbsk);
+        } flsf {
+            // Cbsf 2: Multiplf words
+            // Hbndlf first word
+            words[stbrtWordIndfx] &= ~firstWordMbsk;
+
+            // Hbndlf intfrmfdibtf words, if bny
+            for (int i = stbrtWordIndfx+1; i < fndWordIndfx; i++)
+                words[i] = 0;
+
+            // Hbndlf lbst word
+            words[fndWordIndfx] &= ~lbstWordMbsk;
+        }
+
+        rfdbldulbtfWordsInUsf();
+        dhfdkInvbribnts();
+    }
+
+    /**
+     * Sfts bll of thf bits in this BitSft to {@dodf fblsf}.
+     *
+     * @sindf 1.4
+     */
+    publid void dlfbr() {
+        whilf (wordsInUsf > 0)
+            words[--wordsInUsf] = 0;
+    }
+
+    /**
+     * Rfturns thf vbluf of thf bit with thf spfdififd indfx. Thf vbluf
+     * is {@dodf truf} if thf bit with thf indfx {@dodf bitIndfx}
+     * is durrfntly sft in this {@dodf BitSft}; othfrwisf, thf rfsult
+     * is {@dodf fblsf}.
+     *
+     * @pbrbm  bitIndfx   thf bit indfx
+     * @rfturn thf vbluf of thf bit with thf spfdififd indfx
+     * @throws IndfxOutOfBoundsExdfption if thf spfdififd indfx is nfgbtivf
+     */
+    publid boolfbn gft(int bitIndfx) {
+        if (bitIndfx < 0)
+            throw nfw IndfxOutOfBoundsExdfption("bitIndfx < 0: " + bitIndfx);
+
+        dhfdkInvbribnts();
+
+        int wordIndfx = wordIndfx(bitIndfx);
+        rfturn (wordIndfx < wordsInUsf)
+            && ((words[wordIndfx] & (1L << bitIndfx)) != 0);
+    }
+
+    /**
+     * Rfturns b nfw {@dodf BitSft} domposfd of bits from this {@dodf BitSft}
+     * from {@dodf fromIndfx} (indlusivf) to {@dodf toIndfx} (fxdlusivf).
+     *
+     * @pbrbm  fromIndfx indfx of thf first bit to indludf
+     * @pbrbm  toIndfx indfx bftfr thf lbst bit to indludf
+     * @rfturn b nfw {@dodf BitSft} from b rbngf of this {@dodf BitSft}
+     * @throws IndfxOutOfBoundsExdfption if {@dodf fromIndfx} is nfgbtivf,
+     *         or {@dodf toIndfx} is nfgbtivf, or {@dodf fromIndfx} is
+     *         lbrgfr thbn {@dodf toIndfx}
+     * @sindf  1.4
+     */
+    publid BitSft gft(int fromIndfx, int toIndfx) {
+        dhfdkRbngf(fromIndfx, toIndfx);
+
+        dhfdkInvbribnts();
+
+        int lfn = lfngth();
+
+        // If no sft bits in rbngf rfturn fmpty bitsft
+        if (lfn <= fromIndfx || fromIndfx == toIndfx)
+            rfturn nfw BitSft(0);
+
+        // An optimizbtion
+        if (toIndfx > lfn)
+            toIndfx = lfn;
+
+        BitSft rfsult = nfw BitSft(toIndfx - fromIndfx);
+        int tbrgftWords = wordIndfx(toIndfx - fromIndfx - 1) + 1;
+        int sourdfIndfx = wordIndfx(fromIndfx);
+        boolfbn wordAlignfd = ((fromIndfx & BIT_INDEX_MASK) == 0);
+
+        // Prodfss bll words but thf lbst word
+        for (int i = 0; i < tbrgftWords - 1; i++, sourdfIndfx++)
+            rfsult.words[i] = wordAlignfd ? words[sourdfIndfx] :
+                (words[sourdfIndfx] >>> fromIndfx) |
+                (words[sourdfIndfx+1] << -fromIndfx);
+
+        // Prodfss thf lbst word
+        long lbstWordMbsk = WORD_MASK >>> -toIndfx;
+        rfsult.words[tbrgftWords - 1] =
+            ((toIndfx-1) & BIT_INDEX_MASK) < (fromIndfx & BIT_INDEX_MASK)
+            ? /* strbddlfs sourdf words */
+            ((words[sourdfIndfx] >>> fromIndfx) |
+             (words[sourdfIndfx+1] & lbstWordMbsk) << -fromIndfx)
+            :
+            ((words[sourdfIndfx] & lbstWordMbsk) >>> fromIndfx);
+
+        // Sft wordsInUsf dorrfdtly
+        rfsult.wordsInUsf = tbrgftWords;
+        rfsult.rfdbldulbtfWordsInUsf();
+        rfsult.dhfdkInvbribnts();
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns thf indfx of thf first bit thbt is sft to {@dodf truf}
+     * thbt oddurs on or bftfr thf spfdififd stbrting indfx. If no sudh
+     * bit fxists thfn {@dodf -1} is rfturnfd.
+     *
+     * <p>To itfrbtf ovfr thf {@dodf truf} bits in b {@dodf BitSft},
+     * usf thf following loop:
+     *
+     *  <prf> {@dodf
+     * for (int i = bs.nfxtSftBit(0); i >= 0; i = bs.nfxtSftBit(i+1)) {
+     *     // opfrbtf on indfx i hfrf
+     *     if (i == Intfgfr.MAX_VALUE) {
+     *         brfbk; // or (i+1) would ovfrflow
+     *     }
+     * }}</prf>
+     *
+     * @pbrbm  fromIndfx thf indfx to stbrt dhfdking from (indlusivf)
+     * @rfturn thf indfx of thf nfxt sft bit, or {@dodf -1} if thfrf
+     *         is no sudh bit
+     * @throws IndfxOutOfBoundsExdfption if thf spfdififd indfx is nfgbtivf
+     * @sindf  1.4
+     */
+    publid int nfxtSftBit(int fromIndfx) {
+        if (fromIndfx < 0)
+            throw nfw IndfxOutOfBoundsExdfption("fromIndfx < 0: " + fromIndfx);
+
+        dhfdkInvbribnts();
+
+        int u = wordIndfx(fromIndfx);
+        if (u >= wordsInUsf)
+            rfturn -1;
+
+        long word = words[u] & (WORD_MASK << fromIndfx);
+
+        whilf (truf) {
+            if (word != 0)
+                rfturn (u * BITS_PER_WORD) + Long.numbfrOfTrbilingZfros(word);
+            if (++u == wordsInUsf)
+                rfturn -1;
+            word = words[u];
+        }
+    }
+
+    /**
+     * Rfturns thf indfx of thf first bit thbt is sft to {@dodf fblsf}
+     * thbt oddurs on or bftfr thf spfdififd stbrting indfx.
+     *
+     * @pbrbm  fromIndfx thf indfx to stbrt dhfdking from (indlusivf)
+     * @rfturn thf indfx of thf nfxt dlfbr bit
+     * @throws IndfxOutOfBoundsExdfption if thf spfdififd indfx is nfgbtivf
+     * @sindf  1.4
+     */
+    publid int nfxtClfbrBit(int fromIndfx) {
+        // Nfithfr spfd nor implfmfntbtion hbndlf bitsfts of mbximbl lfngth.
+        // Sff 4816253.
+        if (fromIndfx < 0)
+            throw nfw IndfxOutOfBoundsExdfption("fromIndfx < 0: " + fromIndfx);
+
+        dhfdkInvbribnts();
+
+        int u = wordIndfx(fromIndfx);
+        if (u >= wordsInUsf)
+            rfturn fromIndfx;
+
+        long word = ~words[u] & (WORD_MASK << fromIndfx);
+
+        whilf (truf) {
+            if (word != 0)
+                rfturn (u * BITS_PER_WORD) + Long.numbfrOfTrbilingZfros(word);
+            if (++u == wordsInUsf)
+                rfturn wordsInUsf * BITS_PER_WORD;
+            word = ~words[u];
+        }
+    }
+
+    /**
+     * Rfturns thf indfx of thf nfbrfst bit thbt is sft to {@dodf truf}
+     * thbt oddurs on or bfforf thf spfdififd stbrting indfx.
+     * If no sudh bit fxists, or if {@dodf -1} is givfn bs thf
+     * stbrting indfx, thfn {@dodf -1} is rfturnfd.
+     *
+     * <p>To itfrbtf ovfr thf {@dodf truf} bits in b {@dodf BitSft},
+     * usf thf following loop:
+     *
+     *  <prf> {@dodf
+     * for (int i = bs.lfngth(); (i = bs.prfviousSftBit(i-1)) >= 0; ) {
+     *     // opfrbtf on indfx i hfrf
+     * }}</prf>
+     *
+     * @pbrbm  fromIndfx thf indfx to stbrt dhfdking from (indlusivf)
+     * @rfturn thf indfx of thf prfvious sft bit, or {@dodf -1} if thfrf
+     *         is no sudh bit
+     * @throws IndfxOutOfBoundsExdfption if thf spfdififd indfx is lfss
+     *         thbn {@dodf -1}
+     * @sindf  1.7
+     */
+    publid int prfviousSftBit(int fromIndfx) {
+        if (fromIndfx < 0) {
+            if (fromIndfx == -1)
+                rfturn -1;
+            throw nfw IndfxOutOfBoundsExdfption(
+                "fromIndfx < -1: " + fromIndfx);
+        }
+
+        dhfdkInvbribnts();
+
+        int u = wordIndfx(fromIndfx);
+        if (u >= wordsInUsf)
+            rfturn lfngth() - 1;
+
+        long word = words[u] & (WORD_MASK >>> -(fromIndfx+1));
+
+        whilf (truf) {
+            if (word != 0)
+                rfturn (u+1) * BITS_PER_WORD - 1 - Long.numbfrOfLfbdingZfros(word);
+            if (u-- == 0)
+                rfturn -1;
+            word = words[u];
+        }
+    }
+
+    /**
+     * Rfturns thf indfx of thf nfbrfst bit thbt is sft to {@dodf fblsf}
+     * thbt oddurs on or bfforf thf spfdififd stbrting indfx.
+     * If no sudh bit fxists, or if {@dodf -1} is givfn bs thf
+     * stbrting indfx, thfn {@dodf -1} is rfturnfd.
+     *
+     * @pbrbm  fromIndfx thf indfx to stbrt dhfdking from (indlusivf)
+     * @rfturn thf indfx of thf prfvious dlfbr bit, or {@dodf -1} if thfrf
+     *         is no sudh bit
+     * @throws IndfxOutOfBoundsExdfption if thf spfdififd indfx is lfss
+     *         thbn {@dodf -1}
+     * @sindf  1.7
+     */
+    publid int prfviousClfbrBit(int fromIndfx) {
+        if (fromIndfx < 0) {
+            if (fromIndfx == -1)
+                rfturn -1;
+            throw nfw IndfxOutOfBoundsExdfption(
+                "fromIndfx < -1: " + fromIndfx);
+        }
+
+        dhfdkInvbribnts();
+
+        int u = wordIndfx(fromIndfx);
+        if (u >= wordsInUsf)
+            rfturn fromIndfx;
+
+        long word = ~words[u] & (WORD_MASK >>> -(fromIndfx+1));
+
+        whilf (truf) {
+            if (word != 0)
+                rfturn (u+1) * BITS_PER_WORD -1 - Long.numbfrOfLfbdingZfros(word);
+            if (u-- == 0)
+                rfturn -1;
+            word = ~words[u];
+        }
+    }
+
+    /**
+     * Rfturns thf "logidbl sizf" of this {@dodf BitSft}: thf indfx of
+     * thf highfst sft bit in thf {@dodf BitSft} plus onf. Rfturns zfro
+     * if thf {@dodf BitSft} dontbins no sft bits.
+     *
+     * @rfturn thf logidbl sizf of this {@dodf BitSft}
+     * @sindf  1.2
+     */
+    publid int lfngth() {
+        if (wordsInUsf == 0)
+            rfturn 0;
+
+        rfturn BITS_PER_WORD * (wordsInUsf - 1) +
+            (BITS_PER_WORD - Long.numbfrOfLfbdingZfros(words[wordsInUsf - 1]));
+    }
+
+    /**
+     * Rfturns truf if this {@dodf BitSft} dontbins no bits thbt brf sft
+     * to {@dodf truf}.
+     *
+     * @rfturn boolfbn indidbting whfthfr this {@dodf BitSft} is fmpty
+     * @sindf  1.4
+     */
+    publid boolfbn isEmpty() {
+        rfturn wordsInUsf == 0;
+    }
+
+    /**
+     * Rfturns truf if thf spfdififd {@dodf BitSft} hbs bny bits sft to
+     * {@dodf truf} thbt brf blso sft to {@dodf truf} in this {@dodf BitSft}.
+     *
+     * @pbrbm  sft {@dodf BitSft} to intfrsfdt with
+     * @rfturn boolfbn indidbting whfthfr this {@dodf BitSft} intfrsfdts
+     *         thf spfdififd {@dodf BitSft}
+     * @sindf  1.4
+     */
+    publid boolfbn intfrsfdts(BitSft sft) {
+        for (int i = Mbth.min(wordsInUsf, sft.wordsInUsf) - 1; i >= 0; i--)
+            if ((words[i] & sft.words[i]) != 0)
+                rfturn truf;
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns thf numbfr of bits sft to {@dodf truf} in this {@dodf BitSft}.
+     *
+     * @rfturn thf numbfr of bits sft to {@dodf truf} in this {@dodf BitSft}
+     * @sindf  1.4
+     */
+    publid int dbrdinblity() {
+        int sum = 0;
+        for (int i = 0; i < wordsInUsf; i++)
+            sum += Long.bitCount(words[i]);
+        rfturn sum;
+    }
+
+    /**
+     * Pfrforms b logidbl <b>AND</b> of this tbrgft bit sft with thf
+     * brgumfnt bit sft. This bit sft is modififd so thbt fbdh bit in it
+     * hbs thf vbluf {@dodf truf} if bnd only if it both initiblly
+     * hbd thf vbluf {@dodf truf} bnd thf dorrfsponding bit in thf
+     * bit sft brgumfnt blso hbd thf vbluf {@dodf truf}.
+     *
+     * @pbrbm sft b bit sft
+     */
+    publid void bnd(BitSft sft) {
+        if (this == sft)
+            rfturn;
+
+        whilf (wordsInUsf > sft.wordsInUsf)
+            words[--wordsInUsf] = 0;
+
+        // Pfrform logidbl AND on words in dommon
+        for (int i = 0; i < wordsInUsf; i++)
+            words[i] &= sft.words[i];
+
+        rfdbldulbtfWordsInUsf();
+        dhfdkInvbribnts();
+    }
+
+    /**
+     * Pfrforms b logidbl <b>OR</b> of this bit sft with thf bit sft
+     * brgumfnt. This bit sft is modififd so thbt b bit in it hbs thf
+     * vbluf {@dodf truf} if bnd only if it fithfr blrfbdy hbd thf
+     * vbluf {@dodf truf} or thf dorrfsponding bit in thf bit sft
+     * brgumfnt hbs thf vbluf {@dodf truf}.
+     *
+     * @pbrbm sft b bit sft
+     */
+    publid void or(BitSft sft) {
+        if (this == sft)
+            rfturn;
+
+        int wordsInCommon = Mbth.min(wordsInUsf, sft.wordsInUsf);
+
+        if (wordsInUsf < sft.wordsInUsf) {
+            fnsurfCbpbdity(sft.wordsInUsf);
+            wordsInUsf = sft.wordsInUsf;
+        }
+
+        // Pfrform logidbl OR on words in dommon
+        for (int i = 0; i < wordsInCommon; i++)
+            words[i] |= sft.words[i];
+
+        // Copy bny rfmbining words
+        if (wordsInCommon < sft.wordsInUsf)
+            Systfm.brrbydopy(sft.words, wordsInCommon,
+                             words, wordsInCommon,
+                             wordsInUsf - wordsInCommon);
+
+        // rfdbldulbtfWordsInUsf() is unnfdfssbry
+        dhfdkInvbribnts();
+    }
+
+    /**
+     * Pfrforms b logidbl <b>XOR</b> of this bit sft with thf bit sft
+     * brgumfnt. This bit sft is modififd so thbt b bit in it hbs thf
+     * vbluf {@dodf truf} if bnd only if onf of thf following
+     * stbtfmfnts holds:
+     * <ul>
+     * <li>Thf bit initiblly hbs thf vbluf {@dodf truf}, bnd thf
+     *     dorrfsponding bit in thf brgumfnt hbs thf vbluf {@dodf fblsf}.
+     * <li>Thf bit initiblly hbs thf vbluf {@dodf fblsf}, bnd thf
+     *     dorrfsponding bit in thf brgumfnt hbs thf vbluf {@dodf truf}.
+     * </ul>
+     *
+     * @pbrbm  sft b bit sft
+     */
+    publid void xor(BitSft sft) {
+        int wordsInCommon = Mbth.min(wordsInUsf, sft.wordsInUsf);
+
+        if (wordsInUsf < sft.wordsInUsf) {
+            fnsurfCbpbdity(sft.wordsInUsf);
+            wordsInUsf = sft.wordsInUsf;
+        }
+
+        // Pfrform logidbl XOR on words in dommon
+        for (int i = 0; i < wordsInCommon; i++)
+            words[i] ^= sft.words[i];
+
+        // Copy bny rfmbining words
+        if (wordsInCommon < sft.wordsInUsf)
+            Systfm.brrbydopy(sft.words, wordsInCommon,
+                             words, wordsInCommon,
+                             sft.wordsInUsf - wordsInCommon);
+
+        rfdbldulbtfWordsInUsf();
+        dhfdkInvbribnts();
+    }
+
+    /**
+     * Clfbrs bll of thf bits in this {@dodf BitSft} whosf dorrfsponding
+     * bit is sft in thf spfdififd {@dodf BitSft}.
+     *
+     * @pbrbm  sft thf {@dodf BitSft} with whidh to mbsk this
+     *         {@dodf BitSft}
+     * @sindf  1.2
+     */
+    publid void bndNot(BitSft sft) {
+        // Pfrform logidbl (b & !b) on words in dommon
+        for (int i = Mbth.min(wordsInUsf, sft.wordsInUsf) - 1; i >= 0; i--)
+            words[i] &= ~sft.words[i];
+
+        rfdbldulbtfWordsInUsf();
+        dhfdkInvbribnts();
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this bit sft. Thf hbsh dodf dfpfnds
+     * only on whidh bits brf sft within this {@dodf BitSft}.
+     *
+     * <p>Thf hbsh dodf is dffinfd to bf thf rfsult of thf following
+     * dbldulbtion:
+     *  <prf> {@dodf
+     * publid int hbshCodf() {
+     *     long h = 1234;
+     *     long[] words = toLongArrby();
+     *     for (int i = words.lfngth; --i >= 0; )
+     *         h ^= words[i] * (i + 1);
+     *     rfturn (int)((h >> 32) ^ h);
+     * }}</prf>
+     * Notf thbt thf hbsh dodf dhbngfs if thf sft of bits is bltfrfd.
+     *
+     * @rfturn thf hbsh dodf vbluf for this bit sft
+     */
+    publid int hbshCodf() {
+        long h = 1234;
+        for (int i = wordsInUsf; --i >= 0; )
+            h ^= words[i] * (i + 1);
+
+        rfturn (int)((h >> 32) ^ h);
+    }
+
+    /**
+     * Rfturns thf numbfr of bits of spbdf bdtublly in usf by this
+     * {@dodf BitSft} to rfprfsfnt bit vblufs.
+     * Thf mbximum flfmfnt in thf sft is thf sizf - 1st flfmfnt.
+     *
+     * @rfturn thf numbfr of bits durrfntly in this bit sft
+     */
+    publid int sizf() {
+        rfturn words.lfngth * BITS_PER_WORD;
+    }
+
+    /**
+     * Compbrfs this objfdt bgbinst thf spfdififd objfdt.
+     * Thf rfsult is {@dodf truf} if bnd only if thf brgumfnt is
+     * not {@dodf null} bnd is b {@dodf Bitsft} objfdt thbt hbs
+     * fxbdtly thf sbmf sft of bits sft to {@dodf truf} bs this bit
+     * sft. Thbt is, for fvfry nonnfgbtivf {@dodf int} indfx {@dodf k},
+     * <prf>((BitSft)obj).gft(k) == this.gft(k)</prf>
+     * must bf truf. Thf durrfnt sizfs of thf two bit sfts brf not dompbrfd.
+     *
+     * @pbrbm  obj thf objfdt to dompbrf with
+     * @rfturn {@dodf truf} if thf objfdts brf thf sbmf;
+     *         {@dodf fblsf} othfrwisf
+     * @sff    #sizf()
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof BitSft))
+            rfturn fblsf;
+        if (this == obj)
+            rfturn truf;
+
+        BitSft sft = (BitSft) obj;
+
+        dhfdkInvbribnts();
+        sft.dhfdkInvbribnts();
+
+        if (wordsInUsf != sft.wordsInUsf)
+            rfturn fblsf;
+
+        // Chfdk words in usf by both BitSfts
+        for (int i = 0; i < wordsInUsf; i++)
+            if (words[i] != sft.words[i])
+                rfturn fblsf;
+
+        rfturn truf;
+    }
+
+    /**
+     * Cloning this {@dodf BitSft} produdfs b nfw {@dodf BitSft}
+     * thbt is fqubl to it.
+     * Thf dlonf of thf bit sft is bnothfr bit sft thbt hbs fxbdtly thf
+     * sbmf bits sft to {@dodf truf} bs this bit sft.
+     *
+     * @rfturn b dlonf of this bit sft
+     * @sff    #sizf()
+     */
+    publid Objfdt dlonf() {
+        if (! sizfIsStidky)
+            trimToSizf();
+
+        try {
+            BitSft rfsult = (BitSft) supfr.dlonf();
+            rfsult.words = words.dlonf();
+            rfsult.dhfdkInvbribnts();
+            rfturn rfsult;
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            throw nfw IntfrnblError(f);
+        }
+    }
+
+    /**
+     * Attfmpts to rfdudf intfrnbl storbgf usfd for thf bits in this bit sft.
+     * Cblling this mfthod mby, but is not rfquirfd to, bfffdt thf vbluf
+     * rfturnfd by b subsfqufnt dbll to thf {@link #sizf()} mfthod.
+     */
+    privbtf void trimToSizf() {
+        if (wordsInUsf != words.lfngth) {
+            words = Arrbys.dopyOf(words, wordsInUsf);
+            dhfdkInvbribnts();
+        }
+    }
+
+    /**
+     * Sbvf thf stbtf of thf {@dodf BitSft} instbndf to b strfbm (i.f.,
+     * sfriblizf it).
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+        throws IOExdfption {
+
+        dhfdkInvbribnts();
+
+        if (! sizfIsStidky)
+            trimToSizf();
+
+        ObjfdtOutputStrfbm.PutFifld fiflds = s.putFiflds();
+        fiflds.put("bits", words);
+        s.writfFiflds();
+    }
+
+    /**
+     * Rfdonstitutf thf {@dodf BitSft} instbndf from b strfbm (i.f.,
+     * dfsfriblizf it).
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        throws IOExdfption, ClbssNotFoundExdfption {
+
+        ObjfdtInputStrfbm.GftFifld fiflds = s.rfbdFiflds();
+        words = (long[]) fiflds.gft("bits", null);
+
+        // Assumf mbximum lfngth thfn find rfbl lfngth
+        // bfdbusf rfdbldulbtfWordsInUsf bssumfs mbintfnbndf
+        // or rfdudtion in logidbl sizf
+        wordsInUsf = words.lfngth;
+        rfdbldulbtfWordsInUsf();
+        sizfIsStidky = (words.lfngth > 0 && words[words.lfngth-1] == 0L); // hfuristid
+        dhfdkInvbribnts();
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this bit sft. For fvfry indfx
+     * for whidh this {@dodf BitSft} dontbins b bit in thf sft
+     * stbtf, thf dfdimbl rfprfsfntbtion of thbt indfx is indludfd in
+     * thf rfsult. Sudh indidfs brf listfd in ordfr from lowfst to
+     * highfst, sfpbrbtfd by ",&nbsp;" (b dommb bnd b spbdf) bnd
+     * surroundfd by brbdfs, rfsulting in thf usubl mbthfmbtidbl
+     * notbtion for b sft of intfgfrs.
+     *
+     * <p>Exbmplf:
+     * <prf>
+     * BitSft drPfppfr = nfw BitSft();</prf>
+     * Now {@dodf drPfppfr.toString()} rfturns "{@dodf {}}".
+     * <prf>
+     * drPfppfr.sft(2);</prf>
+     * Now {@dodf drPfppfr.toString()} rfturns "{@dodf {2}}".
+     * <prf>
+     * drPfppfr.sft(4);
+     * drPfppfr.sft(10);</prf>
+     * Now {@dodf drPfppfr.toString()} rfturns "{@dodf {2, 4, 10}}".
+     *
+     * @rfturn b string rfprfsfntbtion of this bit sft
+     */
+    publid String toString() {
+        dhfdkInvbribnts();
+
+        int numBits = (wordsInUsf > 128) ?
+            dbrdinblity() : wordsInUsf * BITS_PER_WORD;
+        StringBuildfr b = nfw StringBuildfr(6*numBits + 2);
+        b.bppfnd('{');
+
+        int i = nfxtSftBit(0);
+        if (i != -1) {
+            b.bppfnd(i);
+            whilf (truf) {
+                if (++i < 0) brfbk;
+                if ((i = nfxtSftBit(i)) < 0) brfbk;
+                int fndOfRun = nfxtClfbrBit(i);
+                do { b.bppfnd(", ").bppfnd(i); }
+                whilf (++i != fndOfRun);
+            }
+        }
+
+        b.bppfnd('}');
+        rfturn b.toString();
+    }
+
+    /**
+     * Rfturns b strfbm of indidfs for whidh this {@dodf BitSft}
+     * dontbins b bit in thf sft stbtf. Thf indidfs brf rfturnfd
+     * in ordfr, from lowfst to highfst. Thf sizf of thf strfbm
+     * is thf numbfr of bits in thf sft stbtf, fqubl to thf vbluf
+     * rfturnfd by thf {@link #dbrdinblity()} mfthod.
+     *
+     * <p>Thf bit sft must rfmbin donstbnt during thf fxfdution of thf
+     * tfrminbl strfbm opfrbtion.  Othfrwisf, thf rfsult of thf tfrminbl
+     * strfbm opfrbtion is undffinfd.
+     *
+     * @rfturn b strfbm of intfgfrs rfprfsfnting sft indidfs
+     * @sindf 1.8
+     */
+    publid IntStrfbm strfbm() {
+        dlbss BitSftItfrbtor implfmfnts PrimitivfItfrbtor.OfInt {
+            int nfxt = nfxtSftBit(0);
+
+            @Ovfrridf
+            publid boolfbn hbsNfxt() {
+                rfturn nfxt != -1;
+            }
+
+            @Ovfrridf
+            publid int nfxtInt() {
+                if (nfxt != -1) {
+                    int rft = nfxt;
+                    nfxt = nfxtSftBit(nfxt+1);
+                    rfturn rft;
+                } flsf {
+                    throw nfw NoSudhElfmfntExdfption();
+                }
+            }
+        }
+
+        rfturn StrfbmSupport.intStrfbm(
+                () -> Splitfrbtors.splitfrbtor(
+                        nfw BitSftItfrbtor(), dbrdinblity(),
+                        Splitfrbtor.ORDERED | Splitfrbtor.DISTINCT | Splitfrbtor.SORTED),
+                Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED |
+                        Splitfrbtor.ORDERED | Splitfrbtor.DISTINCT | Splitfrbtor.SORTED,
+                fblsf);
+    }
+}

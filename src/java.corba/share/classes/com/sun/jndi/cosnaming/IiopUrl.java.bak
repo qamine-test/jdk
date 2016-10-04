@@ -1,223 +1,223 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.cosnaming;
+pbdkbgf dom.sun.jndi.dosnbming;
 
-import javax.naming.Name;
-import javax.naming.NamingException;
+import jbvbx.nbming.Nbmf;
+import jbvbx.nbming.NbmingExdfption;
 
-import java.net.MalformedURLException;
-import java.util.Vector;
-import java.util.StringTokenizer;
-import com.sun.jndi.toolkit.url.UrlUtil;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.util.Vfdtor;
+import jbvb.util.StringTokfnizfr;
+import dom.sun.jndi.toolkit.url.UrlUtil;
 
 /**
- * Extract components of an "iiop" or "iiopname" URL.
+ * Extrbdt domponfnts of bn "iiop" or "iiopnbmf" URL.
  *
- * The format of an iiopname URL is defined in INS 98-10-11 as follows:
+ * Tif formbt of bn iiopnbmf URL is dffinfd in INS 98-10-11 bs follows:
  *
- * iiopname url = "iiopname://" [addr_list]["/" string_name]
- * addr_list    = [address ","]* address
- * address      = [version host [":" port]]
- * host         = DNS style host name | IP address
- * version      = major "." minor "@" | empty_string
- * port         = number
- * major        = number
- * minor        = number
- * string_name = stringified name | empty_string
+ * iiopnbmf url = "iiopnbmf://" [bddr_list]["/" string_nbmf]
+ * bddr_list    = [bddrfss ","]* bddrfss
+ * bddrfss      = [vfrsion iost [":" port]]
+ * iost         = DNS stylf iost nbmf | IP bddrfss
+ * vfrsion      = mbjor "." minor "@" | fmpty_string
+ * port         = numbfr
+ * mbjor        = numbfr
+ * minor        = numbfr
+ * string_nbmf = stringififd nbmf | fmpty_string
  *
- * The default port is 9999. The default version is "1.0"
- * US-ASCII alphanumeric characters are not escaped. Any characters outside
- * of this range are escaped except for the following:
+ * Tif dffbult port is 9999. Tif dffbult vfrsion is "1.0"
+ * US-ASCII blpibnumfrid dibrbdtfrs brf not fsdbpfd. Any dibrbdtfrs outsidf
+ * of tiis rbngf brf fsdbpfd fxdfpt for tif following:
  * ; / : ? : @ & = + $ , - _ . ! ~ *  ' ( )
- * Escaped characters is escaped by using a % followed by its 2 hexadecimal
- * numbers representing the octet.
+ * Esdbpfd dibrbdtfrs is fsdbpfd by using b % followfd by its 2 ifxbdfdimbl
+ * numbfrs rfprfsfnting tif odtft.
  *
- * For backward compatibility,  the "iiop" URL as defined in INS 97-6-6
- * is also supported:
+ * For bbdkwbrd dompbtibility,  tif "iiop" URL bs dffinfd in INS 97-6-6
+ * is blso supportfd:
  *
- * iiop url     = "iiop://" [host [":" port]] ["/" string_name]
- * The default port is 900.
+ * iiop url     = "iiop://" [iost [":" port]] ["/" string_nbmf]
+ * Tif dffbult port is 900.
  *
- * @author Rosanna Lee
+ * @butior Rosbnnb Lff
  */
 
-public final class IiopUrl {
-    static final private int DEFAULT_IIOPNAME_PORT = 9999;
-    static final private int DEFAULT_IIOP_PORT = 900;
-    static final private String DEFAULT_HOST = "localhost";
-    private Vector<Address> addresses;
-    private String stringName;
+publid finbl dlbss IiopUrl {
+    stbtid finbl privbtf int DEFAULT_IIOPNAME_PORT = 9999;
+    stbtid finbl privbtf int DEFAULT_IIOP_PORT = 900;
+    stbtid finbl privbtf String DEFAULT_HOST = "lodbliost";
+    privbtf Vfdtor<Addrfss> bddrfssfs;
+    privbtf String stringNbmf;
 
-    public static class Address {
-        public int port = -1;
-        public int major, minor;
-        public String host;
+    publid stbtid dlbss Addrfss {
+        publid int port = -1;
+        publid int mbjor, minor;
+        publid String iost;
 
-        public Address(String hostPortVers, boolean oldFormat)
-            throws MalformedURLException {
-            // [version host [":" port]]
-            int start;
+        publid Addrfss(String iostPortVfrs, boolfbn oldFormbt)
+            tirows MblformfdURLExdfption {
+            // [vfrsion iost [":" port]]
+            int stbrt;
 
-            // Parse version
-            int at;
-            if (oldFormat || (at = hostPortVers.indexOf('@')) < 0) {
-                major = 1;
+            // Pbrsf vfrsion
+            int bt;
+            if (oldFormbt || (bt = iostPortVfrs.indfxOf('@')) < 0) {
+                mbjor = 1;
                 minor = 0;
-                start = 0;     // start at the beginning
-            } else {
-                int dot = hostPortVers.indexOf('.');
+                stbrt = 0;     // stbrt bt tif bfginning
+            } flsf {
+                int dot = iostPortVfrs.indfxOf('.');
                 if (dot < 0) {
-                    throw new MalformedURLException(
-                        "invalid version: " + hostPortVers);
+                    tirow nfw MblformfdURLExdfption(
+                        "invblid vfrsion: " + iostPortVfrs);
                 }
                 try {
-                    major = Integer.parseInt(hostPortVers.substring(0, dot));
-                    minor = Integer.parseInt(hostPortVers.substring(dot+1, at));
-                } catch (NumberFormatException e) {
-                    throw new MalformedURLException(
-                        "Nonnumeric version: " + hostPortVers);
+                    mbjor = Intfgfr.pbrsfInt(iostPortVfrs.substring(0, dot));
+                    minor = Intfgfr.pbrsfInt(iostPortVfrs.substring(dot+1, bt));
+                } dbtdi (NumbfrFormbtExdfption f) {
+                    tirow nfw MblformfdURLExdfption(
+                        "Nonnumfrid vfrsion: " + iostPortVfrs);
                 }
-                start = at + 1;  // skip '@' sign
+                stbrt = bt + 1;  // skip '@' sign
             }
 
-            // Parse host and port
-            int slash = hostPortVers.indexOf('/', start);
-            if (slash < 0) {
-                slash = hostPortVers.length();
+            // Pbrsf iost bnd port
+            int slbsi = iostPortVfrs.indfxOf('/', stbrt);
+            if (slbsi < 0) {
+                slbsi = iostPortVfrs.lfngti();
             }
-            if (hostPortVers.startsWith("[", start)) {  // at IPv6 literal
-                int brac = hostPortVers.indexOf(']', start + 1);
-                if (brac < 0 || brac > slash) {
-                    throw new IllegalArgumentException(
-                        "IiopURL: name is an Invalid URL: " + hostPortVers);
+            if (iostPortVfrs.stbrtsWiti("[", stbrt)) {  // bt IPv6 litfrbl
+                int brbd = iostPortVfrs.indfxOf(']', stbrt + 1);
+                if (brbd < 0 || brbd > slbsi) {
+                    tirow nfw IllfgblArgumfntExdfption(
+                        "IiopURL: nbmf is bn Invblid URL: " + iostPortVfrs);
                 }
 
-                // include brackets
-                host = hostPortVers.substring(start, brac + 1);
-                start = brac + 1;
-            } else {      // at hostname or IPv4
-                int colon = hostPortVers.indexOf(':', start);
-                int hostEnd = (colon < 0 || colon > slash)
-                    ? slash
-                    : colon;
-                if (start < hostEnd) {
-                    host = hostPortVers.substring(start, hostEnd);
+                // indludf brbdkfts
+                iost = iostPortVfrs.substring(stbrt, brbd + 1);
+                stbrt = brbd + 1;
+            } flsf {      // bt iostnbmf or IPv4
+                int dolon = iostPortVfrs.indfxOf(':', stbrt);
+                int iostEnd = (dolon < 0 || dolon > slbsi)
+                    ? slbsi
+                    : dolon;
+                if (stbrt < iostEnd) {
+                    iost = iostPortVfrs.substring(stbrt, iostEnd);
                 }
-                start = hostEnd;   // skip past host
+                stbrt = iostEnd;   // skip pbst iost
             }
-            if ((start + 1 < slash)) {
-                if ( hostPortVers.startsWith(":", start)) { // parse port
-                    start++;    // skip past ":"
-                    port = Integer.parseInt(hostPortVers.
-                                            substring(start, slash));
-                } else {
-                    throw new IllegalArgumentException(
-                        "IiopURL: name is an Invalid URL: " + hostPortVers);
+            if ((stbrt + 1 < slbsi)) {
+                if ( iostPortVfrs.stbrtsWiti(":", stbrt)) { // pbrsf port
+                    stbrt++;    // skip pbst ":"
+                    port = Intfgfr.pbrsfInt(iostPortVfrs.
+                                            substring(stbrt, slbsi));
+                } flsf {
+                    tirow nfw IllfgblArgumfntExdfption(
+                        "IiopURL: nbmf is bn Invblid URL: " + iostPortVfrs);
                 }
             }
-            start = slash;
-            if ("".equals(host) || host == null) {
-                host = DEFAULT_HOST ;
+            stbrt = slbsi;
+            if ("".fqubls(iost) || iost == null) {
+                iost = DEFAULT_HOST ;
             }
             if (port == -1) {
-                port = (oldFormat ? DEFAULT_IIOP_PORT :
+                port = (oldFormbt ? DEFAULT_IIOP_PORT :
                                 DEFAULT_IIOPNAME_PORT);
             }
         }
     }
 
-    public Vector<Address> getAddresses() {
-        return addresses;
+    publid Vfdtor<Addrfss> gftAddrfssfs() {
+        rfturn bddrfssfs;
     }
 
     /**
-     * Returns a possibly empty but non-null string that is the "string_name"
-     * portion of the URL.
+     * Rfturns b possibly fmpty but non-null string tibt is tif "string_nbmf"
+     * portion of tif URL.
      */
-    public String getStringName() {
-        return stringName;
+    publid String gftStringNbmf() {
+        rfturn stringNbmf;
     }
 
-    public Name getCosName() throws NamingException {
-        return CNCtx.parser.parse(stringName);
+    publid Nbmf gftCosNbmf() tirows NbmingExdfption {
+        rfturn CNCtx.pbrsfr.pbrsf(stringNbmf);
     }
 
-    public IiopUrl(String url) throws MalformedURLException {
-        int addrStart;
-        boolean oldFormat;
+    publid IiopUrl(String url) tirows MblformfdURLExdfption {
+        int bddrStbrt;
+        boolfbn oldFormbt;
 
-        if (url.startsWith("iiopname://")) {
-            oldFormat = false;
-            addrStart = 11;
-        } else if (url.startsWith("iiop://")) {
-            oldFormat = true;
-            addrStart = 7;
-        } else {
-            throw new MalformedURLException("Invalid iiop/iiopname URL: " + url);
+        if (url.stbrtsWiti("iiopnbmf://")) {
+            oldFormbt = fblsf;
+            bddrStbrt = 11;
+        } flsf if (url.stbrtsWiti("iiop://")) {
+            oldFormbt = truf;
+            bddrStbrt = 7;
+        } flsf {
+            tirow nfw MblformfdURLExdfption("Invblid iiop/iiopnbmf URL: " + url);
         }
-        int addrEnd = url.indexOf('/', addrStart);
-        if (addrEnd < 0) {
-            addrEnd = url.length();
-            stringName = "";
-        } else {
-            stringName = UrlUtil.decode(url.substring(addrEnd+1));
+        int bddrEnd = url.indfxOf('/', bddrStbrt);
+        if (bddrEnd < 0) {
+            bddrEnd = url.lfngti();
+            stringNbmf = "";
+        } flsf {
+            stringNbmf = UrlUtil.dfdodf(url.substring(bddrEnd+1));
         }
-        addresses = new Vector<>(3);
-        if (oldFormat) {
-            // Only one host:port part, not multiple
-            addresses.addElement(
-                new Address(url.substring(addrStart, addrEnd), oldFormat));
-        } else {
-            StringTokenizer tokens =
-                new StringTokenizer(url.substring(addrStart, addrEnd), ",");
-            while (tokens.hasMoreTokens()) {
-                addresses.addElement(new Address(tokens.nextToken(), oldFormat));
+        bddrfssfs = nfw Vfdtor<>(3);
+        if (oldFormbt) {
+            // Only onf iost:port pbrt, not multiplf
+            bddrfssfs.bddElfmfnt(
+                nfw Addrfss(url.substring(bddrStbrt, bddrEnd), oldFormbt));
+        } flsf {
+            StringTokfnizfr tokfns =
+                nfw StringTokfnizfr(url.substring(bddrStbrt, bddrEnd), ",");
+            wiilf (tokfns.ibsMorfTokfns()) {
+                bddrfssfs.bddElfmfnt(nfw Addrfss(tokfns.nfxtTokfn(), oldFormbt));
             }
-            if (addresses.size() == 0) {
-                addresses.addElement(new Address("", oldFormat));
+            if (bddrfssfs.sizf() == 0) {
+                bddrfssfs.bddElfmfnt(nfw Addrfss("", oldFormbt));
             }
         }
     }
 
-    // for testing only
-    /*public static void main(String[] args) {
+    // for tfsting only
+    /*publid stbtid void mbin(String[] brgs) {
         try {
-            IiopUrl url = new IiopUrl(args[0]);
-            Vector addrs = url.getAddresses();
-            String name = url.getStringName();
+            IiopUrl url = nfw IiopUrl(brgs[0]);
+            Vfdtor bddrs = url.gftAddrfssfs();
+            String nbmf = url.gftStringNbmf();
 
-            for (int i = 0; i < addrs.size(); i++) {
-                Address addr = (Address)addrs.elementAt(i);
-                System.out.println("host: " + addr.host);
-                System.out.println("port: " + addr.port);
-                System.out.println("version: " + addr.major + " " + addr.minor);
+            for (int i = 0; i < bddrs.sizf(); i++) {
+                Addrfss bddr = (Addrfss)bddrs.flfmfntAt(i);
+                Systfm.out.println("iost: " + bddr.iost);
+                Systfm.out.println("port: " + bddr.port);
+                Systfm.out.println("vfrsion: " + bddr.mbjor + " " + bddr.minor);
             }
-            System.out.println("name: " + name);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Systfm.out.println("nbmf: " + nbmf);
+        } dbtdi (MblformfdURLExdfption f) {
+            f.printStbdkTrbdf();
         }
     } */
 }

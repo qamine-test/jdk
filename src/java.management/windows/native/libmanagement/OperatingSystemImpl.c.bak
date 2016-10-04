@@ -1,941 +1,941 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "jni.h"
-#include "jni_util.h"
-#include "jlong.h"
-#include "jvm.h"
-#include "management.h"
-#include "sun_management_OperatingSystemImpl.h"
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jlong.i"
+#indludf "jvm.i"
+#indludf "mbnbgfmfnt.i"
+#indludf "sun_mbnbgfmfnt_OpfrbtingSystfmImpl.i"
 
-#include <psapi.h>
-#include <errno.h>
-#include <stdlib.h>
+#indludf <psbpi.i>
+#indludf <frrno.i>
+#indludf <stdlib.i>
 
-#include <malloc.h>
-#pragma warning (push,0)
-#include <windows.h>
-#pragma warning (pop)
-#include <stdio.h>
-#include <time.h>
-#include <stdint.h>
-#include <assert.h>
+#indludf <mbllod.i>
+#prbgmb wbrning (pusi,0)
+#indludf <windows.i>
+#prbgmb wbrning (pop)
+#indludf <stdio.i>
+#indludf <timf.i>
+#indludf <stdint.i>
+#indludf <bssfrt.i>
 
-/* Disable warnings due to broken header files from Microsoft... */
-#pragma warning(push, 3)
-#include <pdh.h>
-#include <pdhmsg.h>
-#include <process.h>
-#pragma warning(pop)
+/* Disbblf wbrnings duf to brokfn ifbdfr filfs from Midrosoft... */
+#prbgmb wbrning(pusi, 3)
+#indludf <pdi.i>
+#indludf <pdimsg.i>
+#indludf <prodfss.i>
+#prbgmb wbrning(pop)
 
-typedef unsigned __int32 juint;
-typedef unsigned __int64 julong;
+typfdff unsignfd __int32 juint;
+typfdff unsignfd __int64 julong;
 
-typedef enum boolean_values { false=0, true=1};
+typfdff fnum boolfbn_vblufs { fblsf=0, truf=1};
 
-static void set_low(jlong* value, jint low) {
-    *value &= (jlong)0xffffffff << 32;
-    *value |= (jlong)(julong)(juint)low;
+stbtid void sft_low(jlong* vbluf, jint low) {
+    *vbluf &= (jlong)0xffffffff << 32;
+    *vbluf |= (jlong)(julong)(juint)low;
 }
 
-static void set_high(jlong* value, jint high) {
-    *value &= (jlong)(julong)(juint)0xffffffff;
-    *value |= (jlong)high       << 32;
+stbtid void sft_iigi(jlong* vbluf, jint iigi) {
+    *vbluf &= (jlong)(julong)(juint)0xffffffff;
+    *vbluf |= (jlong)iigi       << 32;
 }
 
-static jlong jlong_from(jint h, jint l) {
-  jlong result = 0; // initialization to avoid warning
-  set_high(&result, h);
-  set_low(&result,  l);
-  return result;
+stbtid jlong jlong_from(jint i, jint l) {
+  jlong rfsult = 0; // initiblizbtion to bvoid wbrning
+  sft_iigi(&rfsult, i);
+  sft_low(&rfsult,  l);
+  rfturn rfsult;
 }
 
-static HANDLE main_process;
+stbtid HANDLE mbin_prodfss;
 
-int perfiInit(void);
+int pfrfiInit(void);
 
 JNIEXPORT void JNICALL
-Java_sun_management_OperatingSystemImpl_initialize0
-  (JNIEnv *env, jclass cls)
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_initiblizf0
+  (JNIEnv *fnv, jdlbss dls)
 {
-    main_process = GetCurrentProcess();
-     perfiInit();
+    mbin_prodfss = GftCurrfntProdfss();
+     pfrfiInit();
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_OperatingSystemImpl_getCommittedVirtualMemorySize0
-  (JNIEnv *env, jobject mbean)
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftCommittfdVirtublMfmorySizf0
+  (JNIEnv *fnv, jobjfdt mbfbn)
 {
-    PROCESS_MEMORY_COUNTERS pmc;
-    if (GetProcessMemoryInfo(main_process, &pmc, sizeof(PROCESS_MEMORY_COUNTERS)) == 0) {
-        return (jlong)-1L;
-    } else {
-        return (jlong) pmc.PagefileUsage;
+    PROCESS_MEMORY_COUNTERS pmd;
+    if (GftProdfssMfmoryInfo(mbin_prodfss, &pmd, sizfof(PROCESS_MEMORY_COUNTERS)) == 0) {
+        rfturn (jlong)-1L;
+    } flsf {
+        rfturn (jlong) pmd.PbgffilfUsbgf;
     }
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_OperatingSystemImpl_getTotalSwapSpaceSize0
-  (JNIEnv *env, jobject mbean)
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftTotblSwbpSpbdfSizf0
+  (JNIEnv *fnv, jobjfdt mbfbn)
 {
     MEMORYSTATUSEX ms;
-    ms.dwLength = sizeof(ms);
-    GlobalMemoryStatusEx(&ms);
-    return (jlong) ms.ullTotalPageFile;
+    ms.dwLfngti = sizfof(ms);
+    GlobblMfmoryStbtusEx(&ms);
+    rfturn (jlong) ms.ullTotblPbgfFilf;
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_OperatingSystemImpl_getFreeSwapSpaceSize0
-  (JNIEnv *env, jobject mbean)
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftFrffSwbpSpbdfSizf0
+  (JNIEnv *fnv, jobjfdt mbfbn)
 {
     MEMORYSTATUSEX ms;
-    ms.dwLength = sizeof(ms);
-    GlobalMemoryStatusEx(&ms);
-    return (jlong) ms.ullAvailPageFile;
+    ms.dwLfngti = sizfof(ms);
+    GlobblMfmoryStbtusEx(&ms);
+    rfturn (jlong) ms.ullAvbilPbgfFilf;
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_OperatingSystemImpl_getProcessCpuTime0
-  (JNIEnv *env, jobject mbean)
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftProdfssCpuTimf0
+  (JNIEnv *fnv, jobjfdt mbfbn)
 {
 
-    FILETIME process_creation_time, process_exit_time,
-             process_user_time, process_kernel_time;
+    FILETIME prodfss_drfbtion_timf, prodfss_fxit_timf,
+             prodfss_usfr_timf, prodfss_kfrnfl_timf;
 
-    // Using static variables declared above
-    // Units are 100-ns intervals.  Convert to ns.
-    GetProcessTimes(main_process, &process_creation_time,
-                    &process_exit_time,
-                    &process_kernel_time, &process_user_time);
-    return (jlong_from(process_user_time.dwHighDateTime,
-                        process_user_time.dwLowDateTime) +
-            jlong_from(process_kernel_time.dwHighDateTime,
-                        process_kernel_time.dwLowDateTime)) * 100;
+    // Using stbtid vbribblfs dfdlbrfd bbovf
+    // Units brf 100-ns intfrvbls.  Convfrt to ns.
+    GftProdfssTimfs(mbin_prodfss, &prodfss_drfbtion_timf,
+                    &prodfss_fxit_timf,
+                    &prodfss_kfrnfl_timf, &prodfss_usfr_timf);
+    rfturn (jlong_from(prodfss_usfr_timf.dwHigiDbtfTimf,
+                        prodfss_usfr_timf.dwLowDbtfTimf) +
+            jlong_from(prodfss_kfrnfl_timf.dwHigiDbtfTimf,
+                        prodfss_kfrnfl_timf.dwLowDbtfTimf)) * 100;
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_OperatingSystemImpl_getFreePhysicalMemorySize0
-  (JNIEnv *env, jobject mbean)
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftFrffPiysidblMfmorySizf0
+  (JNIEnv *fnv, jobjfdt mbfbn)
 {
     MEMORYSTATUSEX ms;
-    ms.dwLength = sizeof(ms);
-    GlobalMemoryStatusEx(&ms);
-    return (jlong) ms.ullAvailPhys;
+    ms.dwLfngti = sizfof(ms);
+    GlobblMfmoryStbtusEx(&ms);
+    rfturn (jlong) ms.ullAvbilPiys;
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_management_OperatingSystemImpl_getTotalPhysicalMemorySize0
-  (JNIEnv *env, jobject mbean)
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftTotblPiysidblMfmorySizf0
+  (JNIEnv *fnv, jobjfdt mbfbn)
 {
     MEMORYSTATUSEX ms;
-    ms.dwLength = sizeof(ms);
-    GlobalMemoryStatusEx(&ms);
-    return (jlong) ms.ullTotalPhys;
+    ms.dwLfngti = sizfof(ms);
+    GlobblMfmoryStbtusEx(&ms);
+    rfturn (jlong) ms.ullTotblPiys;
 }
 
-// Seems WinXP PDH returns PDH_MORE_DATA whenever we send in a NULL buffer.
-// Let's just ignore it, since we make sure we have enough buffer anyway.
-static int
-pdh_fail(PDH_STATUS pdhStat) {
-    return pdhStat != ERROR_SUCCESS && pdhStat != PDH_MORE_DATA;
+// Sffms WinXP PDH rfturns PDH_MORE_DATA wifnfvfr wf sfnd in b NULL bufffr.
+// Lft's just ignorf it, sindf wf mbkf surf wf ibvf fnougi bufffr bnywby.
+stbtid int
+pdi_fbil(PDH_STATUS pdiStbt) {
+    rfturn pdiStbt != ERROR_SUCCESS && pdiStbt != PDH_MORE_DATA;
 }
 
-// INFO: Using PDH APIs Correctly in a Localized Language (Q287159)
-//       http://support.microsoft.com/default.aspx?scid=kb;EN-US;q287159
-// The index value for the base system counters and objects like processor,
-// process, thread, memory, and so forth are always the same irrespective
-// of the localized version of the operating system or service pack installed.
-#define PDH_PROCESSOR_IDX        ((DWORD) 238)
-#define PDH_PROCESSOR_TIME_IDX        ((DWORD)   6)
-#define PDH_PRIV_PROCESSOR_TIME_IDX ((DWORD) 144)
-#define PDH_PROCESS_IDX            ((DWORD) 230)
-#define PDH_ID_PROCESS_IDX        ((DWORD) 784)
-#define PDH_CONTEXT_SWITCH_RATE_IDX ((DWORD) 146)
-#define PDH_SYSTEM_IDX            ((DWORD)   2)
-#define PDH_VIRTUAL_BYTES_IDX        ((DWORD) 174)
+// INFO: Using PDH APIs Corrfdtly in b Lodblizfd Lbngubgf (Q287159)
+//       ittp://support.midrosoft.dom/dffbult.bspx?sdid=kb;EN-US;q287159
+// Tif indfx vbluf for tif bbsf systfm dountfrs bnd objfdts likf prodfssor,
+// prodfss, tirfbd, mfmory, bnd so forti brf blwbys tif sbmf irrfspfdtivf
+// of tif lodblizfd vfrsion of tif opfrbting systfm or sfrvidf pbdk instbllfd.
+#dffinf PDH_PROCESSOR_IDX        ((DWORD) 238)
+#dffinf PDH_PROCESSOR_TIME_IDX        ((DWORD)   6)
+#dffinf PDH_PRIV_PROCESSOR_TIME_IDX ((DWORD) 144)
+#dffinf PDH_PROCESS_IDX            ((DWORD) 230)
+#dffinf PDH_ID_PROCESS_IDX        ((DWORD) 784)
+#dffinf PDH_CONTEXT_SWITCH_RATE_IDX ((DWORD) 146)
+#dffinf PDH_SYSTEM_IDX            ((DWORD)   2)
+#dffinf PDH_VIRTUAL_BYTES_IDX        ((DWORD) 174)
 
-typedef PDH_STATUS (WINAPI *PdhAddCounterFunc)(
-                           HQUERY      hQuery,
-                           LPCSTR      szFullCounterPath,
-                           DWORD       dwUserData,
-                           HCOUNTER    *phCounter
+typfdff PDH_STATUS (WINAPI *PdiAddCountfrFund)(
+                           HQUERY      iQufry,
+                           LPCSTR      szFullCountfrPbti,
+                           DWORD       dwUsfrDbtb,
+                           HCOUNTER    *piCountfr
                            );
-typedef PDH_STATUS (WINAPI *PdhOpenQueryFunc)(
-                          LPCWSTR     szDataSource,
-                          DWORD       dwUserData,
-                          HQUERY      *phQuery
+typfdff PDH_STATUS (WINAPI *PdiOpfnQufryFund)(
+                          LPCWSTR     szDbtbSourdf,
+                          DWORD       dwUsfrDbtb,
+                          HQUERY      *piQufry
                           );
-typedef DWORD (WINAPI *PdhCloseQueryFunc)(
-                      HQUERY      hQuery
+typfdff DWORD (WINAPI *PdiClosfQufryFund)(
+                      HQUERY      iQufry
                       );
-typedef PDH_STATUS (WINAPI *PdhCollectQueryDataFunc)(
-                             HQUERY      hQuery
+typfdff PDH_STATUS (WINAPI *PdiCollfdtQufryDbtbFund)(
+                             HQUERY      iQufry
                              );
-typedef DWORD (WINAPI *PdhGetFormattedCounterValueFunc)(
-                            HCOUNTER                hCounter,
-                            DWORD                   dwFormat,
-                            LPDWORD                 lpdwType,
-                            PPDH_FMT_COUNTERVALUE   pValue
+typfdff DWORD (WINAPI *PdiGftFormbttfdCountfrVblufFund)(
+                            HCOUNTER                iCountfr,
+                            DWORD                   dwFormbt,
+                            LPDWORD                 lpdwTypf,
+                            PPDH_FMT_COUNTERVALUE   pVbluf
                             );
-typedef PDH_STATUS (WINAPI *PdhEnumObjectItemsFunc)(
-                            LPCTSTR    szDataSource,
-                            LPCTSTR    szMachineName,
-                            LPCTSTR    szObjectName,
-                            LPTSTR     mszCounterList,
-                            LPDWORD    pcchCounterListLength,
-                            LPTSTR     mszInstanceList,
-                            LPDWORD    pcchInstanceListLength,
-                            DWORD      dwDetailLevel,
-                            DWORD      dwFlags
+typfdff PDH_STATUS (WINAPI *PdiEnumObjfdtItfmsFund)(
+                            LPCTSTR    szDbtbSourdf,
+                            LPCTSTR    szMbdiinfNbmf,
+                            LPCTSTR    szObjfdtNbmf,
+                            LPTSTR     mszCountfrList,
+                            LPDWORD    pddiCountfrListLfngti,
+                            LPTSTR     mszInstbndfList,
+                            LPDWORD    pddiInstbndfListLfngti,
+                            DWORD      dwDftbilLfvfl,
+                            DWORD      dwFlbgs
                             );
-typedef PDH_STATUS (WINAPI *PdhRemoveCounterFunc)(
-                          HCOUNTER  hCounter
+typfdff PDH_STATUS (WINAPI *PdiRfmovfCountfrFund)(
+                          HCOUNTER  iCountfr
                           );
-typedef PDH_STATUS (WINAPI *PdhLookupPerfNameByIndexFunc)(
-                              LPCSTR  szMachineName,
-                              DWORD   dwNameIndex,
-                              LPSTR   szNameBuffer,
-                              LPDWORD pcchNameBufferSize
+typfdff PDH_STATUS (WINAPI *PdiLookupPfrfNbmfByIndfxFund)(
+                              LPCSTR  szMbdiinfNbmf,
+                              DWORD   dwNbmfIndfx,
+                              LPSTR   szNbmfBufffr,
+                              LPDWORD pddiNbmfBufffrSizf
                               );
-typedef PDH_STATUS (WINAPI *PdhMakeCounterPathFunc)(
-                            PDH_COUNTER_PATH_ELEMENTS *pCounterPathElements,
-                            LPTSTR szFullPathBuffer,
-                            LPDWORD pcchBufferSize,
-                            DWORD dwFlags
+typfdff PDH_STATUS (WINAPI *PdiMbkfCountfrPbtiFund)(
+                            PDH_COUNTER_PATH_ELEMENTS *pCountfrPbtiElfmfnts,
+                            LPTSTR szFullPbtiBufffr,
+                            LPDWORD pddiBufffrSizf,
+                            DWORD dwFlbgs
                             );
 
-static PdhAddCounterFunc PdhAddCounter_i;
-static PdhOpenQueryFunc PdhOpenQuery_i;
-static PdhCloseQueryFunc PdhCloseQuery_i;
-static PdhCollectQueryDataFunc PdhCollectQueryData_i;
-static PdhGetFormattedCounterValueFunc PdhGetFormattedCounterValue_i;
-static PdhEnumObjectItemsFunc PdhEnumObjectItems_i;
-static PdhRemoveCounterFunc PdhRemoveCounter_i;
-static PdhLookupPerfNameByIndexFunc PdhLookupPerfNameByIndex_i;
-static PdhMakeCounterPathFunc PdhMakeCounterPath_i;
+stbtid PdiAddCountfrFund PdiAddCountfr_i;
+stbtid PdiOpfnQufryFund PdiOpfnQufry_i;
+stbtid PdiClosfQufryFund PdiClosfQufry_i;
+stbtid PdiCollfdtQufryDbtbFund PdiCollfdtQufryDbtb_i;
+stbtid PdiGftFormbttfdCountfrVblufFund PdiGftFormbttfdCountfrVbluf_i;
+stbtid PdiEnumObjfdtItfmsFund PdiEnumObjfdtItfms_i;
+stbtid PdiRfmovfCountfrFund PdiRfmovfCountfr_i;
+stbtid PdiLookupPfrfNbmfByIndfxFund PdiLookupPfrfNbmfByIndfx_i;
+stbtid PdiMbkfCountfrPbtiFund PdiMbkfCountfrPbti_i;
 
-static HANDLE thisProcess;
-static double cpuFactor;
-static DWORD  num_cpus;
+stbtid HANDLE tiisProdfss;
+stbtid doublf dpuFbdtor;
+stbtid DWORD  num_dpus;
 
-#define FT2JLONG(X)  ((((jlong)X.dwHighDateTime) << 32) | ((jlong)X.dwLowDateTime))
-#define COUNTER_BUF_SIZE 256
-// Min time between query updates.
-#define MIN_UPDATE_INTERVAL 500
-#define CONFIG_SUCCESSFUL 0
+#dffinf FT2JLONG(X)  ((((jlong)X.dwHigiDbtfTimf) << 32) | ((jlong)X.dwLowDbtfTimf))
+#dffinf COUNTER_BUF_SIZE 256
+// Min timf bftwffn qufry updbtfs.
+#dffinf MIN_UPDATE_INTERVAL 500
+#dffinf CONFIG_SUCCESSFUL 0
 
 /**
- * Struct for PDH queries.
+ * Strudt for PDH qufrifs.
  */
-typedef struct {
-    HQUERY      query;
-    uint64_t      lastUpdate; // Last time query was updated (current millis).
-} UpdateQueryS, *UpdateQueryP;
+typfdff strudt {
+    HQUERY      qufry;
+    uint64_t      lbstUpdbtf; // Lbst timf qufry wbs updbtfd (durrfnt millis).
+} UpdbtfQufryS, *UpdbtfQufryP;
 
 /**
- * Struct for the processor load counters.
+ * Strudt for tif prodfssor lobd dountfrs.
  */
-typedef struct {
-    UpdateQueryS      query;
-    HCOUNTER*      counters;
-    int          noOfCounters;
-} MultipleCounterQueryS, *MultipleCounterQueryP;
+typfdff strudt {
+    UpdbtfQufryS      qufry;
+    HCOUNTER*      dountfrs;
+    int          noOfCountfrs;
+} MultiplfCountfrQufryS, *MultiplfCountfrQufryP;
 
 /**
- * Struct for the jvm process load counter.
+ * Strudt for tif jvm prodfss lobd dountfr.
  */
-typedef struct {
-    UpdateQueryS      query;
-    HCOUNTER      counter;
-} SingleCounterQueryS, *SingleCounterQueryP;
+typfdff strudt {
+    UpdbtfQufryS      qufry;
+    HCOUNTER      dountfr;
+} SinglfCountfrQufryS, *SinglfCountfrQufryP;
 
-static char* getProcessPDHHeader(void);
+stbtid dibr* gftProdfssPDHHfbdfr(void);
 
 /**
- * Currently available counters.
+ * Currfntly bvbilbblf dountfrs.
  */
-static SingleCounterQueryS cntCtxtSwitchRate;
-static SingleCounterQueryS cntVirtualSize;
-static SingleCounterQueryS cntProcLoad;
-static SingleCounterQueryS cntProcSystemLoad;
-static MultipleCounterQueryS multiCounterCPULoad;
+stbtid SinglfCountfrQufryS dntCtxtSwitdiRbtf;
+stbtid SinglfCountfrQufryS dntVirtublSizf;
+stbtid SinglfCountfrQufryS dntProdLobd;
+stbtid SinglfCountfrQufryS dntProdSystfmLobd;
+stbtid MultiplfCountfrQufryS multiCountfrCPULobd;
 
-static CRITICAL_SECTION processHeaderLock;
-static CRITICAL_SECTION initializationLock;
+stbtid CRITICAL_SECTION prodfssHfbdfrLodk;
+stbtid CRITICAL_SECTION initiblizbtionLodk;
 
 /**
- * Initialize the perf module at startup.
+ * Initiblizf tif pfrf modulf bt stbrtup.
  */
 int
-perfiInit(void)
+pfrfiInit(void)
 {
-    InitializeCriticalSection(&processHeaderLock);
-    InitializeCriticalSection(&initializationLock);
-    return 0;
+    InitiblizfCritidblSfdtion(&prodfssHfbdfrLodk);
+    InitiblizfCritidblSfdtion(&initiblizbtionLodk);
+    rfturn 0;
 }
 
 /**
- * Dynamically sets up function pointers to the PDH library.
+ * Dynbmidblly sfts up fundtion pointfrs to tif PDH librbry.
  *
- * @return CONFIG_SUCCESSFUL on success, negative on failure.
+ * @rfturn CONFIG_SUCCESSFUL on suddfss, nfgbtivf on fbilurf.
  */
-static int
-get_functions(HMODULE h, char *ebuf, size_t elen) {
-    // The 'A' at the end means the ANSI (not the UNICODE) vesions of the methods
-    PdhAddCounter_i         = (PdhAddCounterFunc)GetProcAddress(h, "PdhAddCounterA");
-    PdhOpenQuery_i         = (PdhOpenQueryFunc)GetProcAddress(h, "PdhOpenQueryA");
-    PdhCloseQuery_i         = (PdhCloseQueryFunc)GetProcAddress(h, "PdhCloseQuery");
-    PdhCollectQueryData_i     = (PdhCollectQueryDataFunc)GetProcAddress(h, "PdhCollectQueryData");
-    PdhGetFormattedCounterValue_i = (PdhGetFormattedCounterValueFunc)GetProcAddress(h, "PdhGetFormattedCounterValue");
-    PdhEnumObjectItems_i         = (PdhEnumObjectItemsFunc)GetProcAddress(h, "PdhEnumObjectItemsA");
-    PdhRemoveCounter_i         = (PdhRemoveCounterFunc)GetProcAddress(h, "PdhRemoveCounter");
-    PdhLookupPerfNameByIndex_i     = (PdhLookupPerfNameByIndexFunc)GetProcAddress(h, "PdhLookupPerfNameByIndexA");
-    PdhMakeCounterPath_i         = (PdhMakeCounterPathFunc)GetProcAddress(h, "PdhMakeCounterPathA");
+stbtid int
+gft_fundtions(HMODULE i, dibr *fbuf, sizf_t flfn) {
+    // Tif 'A' bt tif fnd mfbns tif ANSI (not tif UNICODE) vfsions of tif mftiods
+    PdiAddCountfr_i         = (PdiAddCountfrFund)GftProdAddrfss(i, "PdiAddCountfrA");
+    PdiOpfnQufry_i         = (PdiOpfnQufryFund)GftProdAddrfss(i, "PdiOpfnQufryA");
+    PdiClosfQufry_i         = (PdiClosfQufryFund)GftProdAddrfss(i, "PdiClosfQufry");
+    PdiCollfdtQufryDbtb_i     = (PdiCollfdtQufryDbtbFund)GftProdAddrfss(i, "PdiCollfdtQufryDbtb");
+    PdiGftFormbttfdCountfrVbluf_i = (PdiGftFormbttfdCountfrVblufFund)GftProdAddrfss(i, "PdiGftFormbttfdCountfrVbluf");
+    PdiEnumObjfdtItfms_i         = (PdiEnumObjfdtItfmsFund)GftProdAddrfss(i, "PdiEnumObjfdtItfmsA");
+    PdiRfmovfCountfr_i         = (PdiRfmovfCountfrFund)GftProdAddrfss(i, "PdiRfmovfCountfr");
+    PdiLookupPfrfNbmfByIndfx_i     = (PdiLookupPfrfNbmfByIndfxFund)GftProdAddrfss(i, "PdiLookupPfrfNbmfByIndfxA");
+    PdiMbkfCountfrPbti_i         = (PdiMbkfCountfrPbtiFund)GftProdAddrfss(i, "PdiMbkfCountfrPbtiA");
 
-    if (PdhAddCounter_i == NULL || PdhOpenQuery_i == NULL ||
-    PdhCloseQuery_i == NULL || PdhCollectQueryData_i == NULL ||
-    PdhGetFormattedCounterValue_i == NULL || PdhEnumObjectItems_i == NULL ||
-    PdhRemoveCounter_i == NULL || PdhLookupPerfNameByIndex_i == NULL || PdhMakeCounterPath_i == NULL)
+    if (PdiAddCountfr_i == NULL || PdiOpfnQufry_i == NULL ||
+    PdiClosfQufry_i == NULL || PdiCollfdtQufryDbtb_i == NULL ||
+    PdiGftFormbttfdCountfrVbluf_i == NULL || PdiEnumObjfdtItfms_i == NULL ||
+    PdiRfmovfCountfr_i == NULL || PdiLookupPfrfNbmfByIndfx_i == NULL || PdiMbkfCountfrPbti_i == NULL)
     {
-        _snprintf(ebuf, elen, "Required method could not be found.");
-        return -1;
+        _snprintf(fbuf, flfn, "Rfquirfd mftiod dould not bf found.");
+        rfturn -1;
     }
-    return CONFIG_SUCCESSFUL;
+    rfturn CONFIG_SUCCESSFUL;
 }
 
 /**
- * Returns the counter value as a double for the specified query.
- * Will collect the query data and update the counter values as necessary.
+ * Rfturns tif dountfr vbluf bs b doublf for tif spfdififd qufry.
+ * Will dollfdt tif qufry dbtb bnd updbtf tif dountfr vblufs bs nfdfssbry.
  *
- * @param query       the query to update (if needed).
- * @param c          the counter to read.
- * @param value       where to store the formatted value.
- * @param format      the format to use (i.e. PDH_FMT_DOUBLE, PDH_FMT_LONG etc)
- * @return            CONFIG_SUCCESSFUL if no error
- *                    -1 if PdhCollectQueryData fails
- *                    -2 if PdhGetFormattedCounterValue fails
+ * @pbrbm qufry       tif qufry to updbtf (if nffdfd).
+ * @pbrbm d          tif dountfr to rfbd.
+ * @pbrbm vbluf       wifrf to storf tif formbttfd vbluf.
+ * @pbrbm formbt      tif formbt to usf (i.f. PDH_FMT_DOUBLE, PDH_FMT_LONG ftd)
+ * @rfturn            CONFIG_SUCCESSFUL if no frror
+ *                    -1 if PdiCollfdtQufryDbtb fbils
+ *                    -2 if PdiGftFormbttfdCountfrVbluf fbils
  */
-static int
-getPerformanceData(UpdateQueryP query, HCOUNTER c, PDH_FMT_COUNTERVALUE* value, DWORD format) {
-    clock_t now;
-    now = clock();
+stbtid int
+gftPfrformbndfDbtb(UpdbtfQufryP qufry, HCOUNTER d, PDH_FMT_COUNTERVALUE* vbluf, DWORD formbt) {
+    dlodk_t now;
+    now = dlodk();
 
-    // Need to limit how often we update the query
-    // to mimise the heisenberg effect.
-    // (PDH behaves erratically if the counters are
-    // queried too often, especially counters that
-    // store and use values from two consecutive updates,
-    // like cpu load.)
-    if (now - query->lastUpdate > MIN_UPDATE_INTERVAL) {
-        if (PdhCollectQueryData_i(query->query) != ERROR_SUCCESS) {
-            return -1;
+    // Nffd to limit iow oftfn wf updbtf tif qufry
+    // to mimisf tif ifisfnbfrg ffffdt.
+    // (PDH bfibvfs frrbtidblly if tif dountfrs brf
+    // qufrifd too oftfn, fspfdiblly dountfrs tibt
+    // storf bnd usf vblufs from two donsfdutivf updbtfs,
+    // likf dpu lobd.)
+    if (now - qufry->lbstUpdbtf > MIN_UPDATE_INTERVAL) {
+        if (PdiCollfdtQufryDbtb_i(qufry->qufry) != ERROR_SUCCESS) {
+            rfturn -1;
         }
-        query->lastUpdate = now;
+        qufry->lbstUpdbtf = now;
     }
 
-    if (PdhGetFormattedCounterValue_i(c, format, NULL, value) != ERROR_SUCCESS) {
-        return -2;
+    if (PdiGftFormbttfdCountfrVbluf_i(d, formbt, NULL, vbluf) != ERROR_SUCCESS) {
+        rfturn -2;
     }
-    return CONFIG_SUCCESSFUL;
+    rfturn CONFIG_SUCCESSFUL;
 }
 
 /**
- * Places the resolved counter name of the counter at the specified index in the
- * supplied buffer. There must be enough space in the buffer to hold the counter name.
+ * Plbdfs tif rfsolvfd dountfr nbmf of tif dountfr bt tif spfdififd indfx in tif
+ * supplifd bufffr. Tifrf must bf fnougi spbdf in tif bufffr to iold tif dountfr nbmf.
  *
- * @param index   the counter index as specified in the registry.
- * @param buf     the buffer in which to place the counter name.
- * @param size      the size of the counter name buffer.
- * @param ebuf    the error message buffer.
- * @param elen    the length of the error buffer.
- * @return        CONFIG_SUCCESSFUL if successful, negative on failure.
+ * @pbrbm indfx   tif dountfr indfx bs spfdififd in tif rfgistry.
+ * @pbrbm buf     tif bufffr in wiidi to plbdf tif dountfr nbmf.
+ * @pbrbm sizf      tif sizf of tif dountfr nbmf bufffr.
+ * @pbrbm fbuf    tif frror mfssbgf bufffr.
+ * @pbrbm flfn    tif lfngti of tif frror bufffr.
+ * @rfturn        CONFIG_SUCCESSFUL if suddfssful, nfgbtivf on fbilurf.
  */
-static int
-find_name(DWORD index, char *buf, DWORD size) {
-    PDH_STATUS res;
+stbtid int
+find_nbmf(DWORD indfx, dibr *buf, DWORD sizf) {
+    PDH_STATUS rfs;
 
-    if ((res = PdhLookupPerfNameByIndex_i(NULL, index, buf, &size)) != ERROR_SUCCESS) {
+    if ((rfs = PdiLookupPfrfNbmfByIndfx_i(NULL, indfx, buf, &sizf)) != ERROR_SUCCESS) {
 
-        /* printf("Could not open counter %d: error=0x%08x", index, res); */
-        /* if (res == PDH_CSTATUS_NO_MACHINE) { */
-        /*      printf("User probably does not have sufficient privileges to use"); */
-        /*      printf("performance counters. If you are running on Windows 2003"); */
-        /*      printf("or Windows Vista, make sure the user is in the"); */
-        /*      printf("Performance Logs user group."); */
+        /* printf("Could not opfn dountfr %d: frror=0x%08x", indfx, rfs); */
+        /* if (rfs == PDH_CSTATUS_NO_MACHINE) { */
+        /*      printf("Usfr probbbly dofs not ibvf suffidifnt privilfgfs to usf"); */
+        /*      printf("pfrformbndf dountfrs. If you brf running on Windows 2003"); */
+        /*      printf("or Windows Vistb, mbkf surf tif usfr is in tif"); */
+        /*      printf("Pfrformbndf Logs usfr group."); */
         /* } */
-        return -1;
+        rfturn -1;
     }
 
-    if (size == 0) {
-        /* printf("Failed to get counter name for %d: empty string", index); */
-        return -1;
+    if (sizf == 0) {
+        /* printf("Fbilfd to gft dountfr nbmf for %d: fmpty string", indfx); */
+        rfturn -1;
     }
 
-    // windows vista does not null-terminate the string (allthough the docs says it will)
-    buf[size - 1] = '\0';
-    return CONFIG_SUCCESSFUL;
+    // windows vistb dofs not null-tfrminbtf tif string (blltiougi tif dods sbys it will)
+    buf[sizf - 1] = '\0';
+    rfturn CONFIG_SUCCESSFUL;
 }
 
 /**
- * Sets up the supplied SingleCounterQuery to listen for the specified counter.
- * initPDH() must have been run prior to calling this function!
+ * Sfts up tif supplifd SinglfCountfrQufry to listfn for tif spfdififd dountfr.
+ * initPDH() must ibvf bffn run prior to dblling tiis fundtion!
  *
- * @param counterQuery   the counter query to set up.
- * @param counterString  the string specifying the path to the counter.
- * @param ebuf           the error buffer.
- * @param elen           the length of the error buffer.
- * @returns              CONFIG_SUCCESSFUL if successful, negative on failure.
+ * @pbrbm dountfrQufry   tif dountfr qufry to sft up.
+ * @pbrbm dountfrString  tif string spfdifying tif pbti to tif dountfr.
+ * @pbrbm fbuf           tif frror bufffr.
+ * @pbrbm flfn           tif lfngti of tif frror bufffr.
+ * @rfturns              CONFIG_SUCCESSFUL if suddfssful, nfgbtivf on fbilurf.
  */
-static int
-initSingleCounterQuery(SingleCounterQueryP counterQuery, char *counterString) {
-    if (PdhOpenQuery_i(NULL, 0, &counterQuery->query.query) != ERROR_SUCCESS) {
-        /* printf("Could not open query for %s", counterString); */
-        return -1;
+stbtid int
+initSinglfCountfrQufry(SinglfCountfrQufryP dountfrQufry, dibr *dountfrString) {
+    if (PdiOpfnQufry_i(NULL, 0, &dountfrQufry->qufry.qufry) != ERROR_SUCCESS) {
+        /* printf("Could not opfn qufry for %s", dountfrString); */
+        rfturn -1;
     }
-    if (PdhAddCounter_i(counterQuery->query.query, counterString, 0, &counterQuery->counter) != ERROR_SUCCESS) {
-        /* printf("Could not add counter %s for query", counterString); */
-        if (counterQuery->counter != NULL) {
-            PdhRemoveCounter_i(counterQuery->counter);
+    if (PdiAddCountfr_i(dountfrQufry->qufry.qufry, dountfrString, 0, &dountfrQufry->dountfr) != ERROR_SUCCESS) {
+        /* printf("Could not bdd dountfr %s for qufry", dountfrString); */
+        if (dountfrQufry->dountfr != NULL) {
+            PdiRfmovfCountfr_i(dountfrQufry->dountfr);
         }
-        if (counterQuery->query.query != NULL) {
-            PdhCloseQuery_i(counterQuery->query.query);
+        if (dountfrQufry->qufry.qufry != NULL) {
+            PdiClosfQufry_i(dountfrQufry->qufry.qufry);
         }
-        memset(counterQuery, 0, sizeof(SingleCounterQueryS));
-        return -1;
+        mfmsft(dountfrQufry, 0, sizfof(SinglfCountfrQufryS));
+        rfturn -1;
     }
-    return CONFIG_SUCCESSFUL;
+    rfturn CONFIG_SUCCESSFUL;
 }
 
 /**
- * Sets up the supplied SingleCounterQuery to listen for the time spent
- * by the HotSpot process.
+ * Sfts up tif supplifd SinglfCountfrQufry to listfn for tif timf spfnt
+ * by tif HotSpot prodfss.
  *
- * @param counterQuery   the counter query to set up as a process counter.
- * @param ebuf           the error buffer.
- * @param elen           the length of the error buffer.
- * @returns              CONFIG_SUCCESSFUL if successful, negative on failure.
+ * @pbrbm dountfrQufry   tif dountfr qufry to sft up bs b prodfss dountfr.
+ * @pbrbm fbuf           tif frror bufffr.
+ * @pbrbm flfn           tif lfngti of tif frror bufffr.
+ * @rfturns              CONFIG_SUCCESSFUL if suddfssful, nfgbtivf on fbilurf.
  */
-static int
-initProcLoadCounter(void) {
-    char time[COUNTER_BUF_SIZE];
-    char counter[COUNTER_BUF_SIZE*2];
+stbtid int
+initProdLobdCountfr(void) {
+    dibr timf[COUNTER_BUF_SIZE];
+    dibr dountfr[COUNTER_BUF_SIZE*2];
 
-    if (find_name(PDH_PROCESSOR_TIME_IDX, time, sizeof(time)-1) < 0) {
-        return -1;
+    if (find_nbmf(PDH_PROCESSOR_TIME_IDX, timf, sizfof(timf)-1) < 0) {
+        rfturn -1;
     }
-    _snprintf(counter, sizeof(counter)-1, "%s\\%s", getProcessPDHHeader(), time);
-    return initSingleCounterQuery(&cntProcLoad, counter);
+    _snprintf(dountfr, sizfof(dountfr)-1, "%s\\%s", gftProdfssPDHHfbdfr(), timf);
+    rfturn initSinglfCountfrQufry(&dntProdLobd, dountfr);
 }
 
-static int
-initProcSystemLoadCounter(void) {
-    char time[COUNTER_BUF_SIZE];
-    char counter[COUNTER_BUF_SIZE*2];
+stbtid int
+initProdSystfmLobdCountfr(void) {
+    dibr timf[COUNTER_BUF_SIZE];
+    dibr dountfr[COUNTER_BUF_SIZE*2];
 
-    if (find_name(PDH_PRIV_PROCESSOR_TIME_IDX, time, sizeof(time)-1) < 0) {
-        return -1;
+    if (find_nbmf(PDH_PRIV_PROCESSOR_TIME_IDX, timf, sizfof(timf)-1) < 0) {
+        rfturn -1;
     }
-    _snprintf(counter, sizeof(counter)-1, "%s\\%s", getProcessPDHHeader(), time);
-    return initSingleCounterQuery(&cntProcSystemLoad, counter);
+    _snprintf(dountfr, sizfof(dountfr)-1, "%s\\%s", gftProdfssPDHHfbdfr(), timf);
+    rfturn initSinglfCountfrQufry(&dntProdSystfmLobd, dountfr);
 }
 
 /**
- * Sets up the supplied MultipleCounterQuery to check on the processors.
- * (Comment: Refactor and prettify as with the the SingleCounter queries
- * if more MultipleCounterQueries are discovered.)
+ * Sfts up tif supplifd MultiplfCountfrQufry to difdk on tif prodfssors.
+ * (Commfnt: Rffbdtor bnd prfttify bs witi tif tif SinglfCountfr qufrifs
+ * if morf MultiplfCountfrQufrifs brf disdovfrfd.)
  *
- * initPDH() must have been run prior to calling this function.
+ * initPDH() must ibvf bffn run prior to dblling tiis fundtion.
  *
- * @param multiQuery  a pointer to a MultipleCounterQueryS, will be filled in with
- *                    the necessary info to check the PDH processor counters.
- * @return            CONFIG_SUCCESSFUL if successful, negative on failure.
+ * @pbrbm multiQufry  b pointfr to b MultiplfCountfrQufryS, will bf fillfd in witi
+ *                    tif nfdfssbry info to difdk tif PDH prodfssor dountfrs.
+ * @rfturn            CONFIG_SUCCESSFUL if suddfssful, nfgbtivf on fbilurf.
  */
-static int
-initProcessorCounters(void) {
-    char          processor[COUNTER_BUF_SIZE]; //'Processor' == #238
-    char          time[COUNTER_BUF_SIZE];      //'Time' == 6
-    DWORD      c_size, i_size;
-    HQUERY     tmpQuery;
-    DWORD      i, p_count;
-    BOOL          error;
-    char         *instances, *tmp;
-    PDH_STATUS pdhStat;
+stbtid int
+initProdfssorCountfrs(void) {
+    dibr          prodfssor[COUNTER_BUF_SIZE]; //'Prodfssor' == #238
+    dibr          timf[COUNTER_BUF_SIZE];      //'Timf' == 6
+    DWORD      d_sizf, i_sizf;
+    HQUERY     tmpQufry;
+    DWORD      i, p_dount;
+    BOOL          frror;
+    dibr         *instbndfs, *tmp;
+    PDH_STATUS pdiStbt;
 
-    c_size   = i_size = 0;
-    tmpQuery = NULL;
-    error    = false;
+    d_sizf   = i_sizf = 0;
+    tmpQufry = NULL;
+    frror    = fblsf;
 
-    // This __try / __except stuff is there since Windows 2000 beta (or so) sometimes triggered
-    // an access violation when the user had insufficient privileges to use the performance
-    // counters. This was previously guarded by a very ugly piece of code which disabled the
-    // global trap handling in JRockit. Don't know if this really is needed anymore, but otoh,
-    // if we keep it we don't crash on Win2k beta. /Ihse, 2005-05-30
+    // Tiis __try / __fxdfpt stuff is tifrf sindf Windows 2000 bftb (or so) somftimfs triggfrfd
+    // bn bddfss violbtion wifn tif usfr ibd insuffidifnt privilfgfs to usf tif pfrformbndf
+    // dountfrs. Tiis wbs prfviously gubrdfd by b vfry ugly pifdf of dodf wiidi disbblfd tif
+    // globbl trbp ibndling in JRodkit. Don't know if tiis rfblly is nffdfd bnymorf, but otoi,
+    // if wf kffp it wf don't drbsi on Win2k bftb. /Iisf, 2005-05-30
     __try {
-        if (find_name(PDH_PROCESSOR_IDX, processor, sizeof(processor)-1) < 0) {
-            return -1;
+        if (find_nbmf(PDH_PROCESSOR_IDX, prodfssor, sizfof(prodfssor)-1) < 0) {
+            rfturn -1;
         }
-    } __except (EXCEPTION_EXECUTE_HANDLER) { // We'll catch all exceptions here.
-        /* printf("User does not have sufficient privileges to use performance counters"); */
-        return -1;
+    } __fxdfpt (EXCEPTION_EXECUTE_HANDLER) { // Wf'll dbtdi bll fxdfptions ifrf.
+        /* printf("Usfr dofs not ibvf suffidifnt privilfgfs to usf pfrformbndf dountfrs"); */
+        rfturn -1;
     }
 
-    if (find_name(PDH_PROCESSOR_TIME_IDX, time, sizeof(time)-1) < 0) {
-        return -1;
+    if (find_nbmf(PDH_PROCESSOR_TIME_IDX, timf, sizfof(timf)-1) < 0) {
+        rfturn -1;
     }
-    //ok, now we have enough to enumerate all processors.
-    pdhStat = PdhEnumObjectItems_i (
-                    NULL,                   // reserved
-                    NULL,                   // local machine
-                    processor,          // object to enumerate
-                    NULL,              // pass in NULL buffers
-                    &c_size,              // and 0 length to get
-                    NULL,              // required size
-                    &i_size,              // of the buffers in chars
-                    PERF_DETAIL_WIZARD,     // counter detail level
+    //ok, now wf ibvf fnougi to fnumfrbtf bll prodfssors.
+    pdiStbt = PdiEnumObjfdtItfms_i (
+                    NULL,                   // rfsfrvfd
+                    NULL,                   // lodbl mbdiinf
+                    prodfssor,          // objfdt to fnumfrbtf
+                    NULL,              // pbss in NULL bufffrs
+                    &d_sizf,              // bnd 0 lfngti to gft
+                    NULL,              // rfquirfd sizf
+                    &i_sizf,              // of tif bufffrs in dibrs
+                    PERF_DETAIL_WIZARD,     // dountfr dftbil lfvfl
                     0);
-    if (pdh_fail(pdhStat)) {
-        /* printf("could not enumerate processors (1) error=%d", pdhStat); */
-        return -1;
+    if (pdi_fbil(pdiStbt)) {
+        /* printf("dould not fnumfrbtf prodfssors (1) frror=%d", pdiStbt); */
+        rfturn -1;
     }
 
-    // use calloc because windows vista does not null terminate the instance names (allthough the docs says it will)
-    instances = calloc(i_size, 1);
-    if (instances == NULL) {
-        /* printf("could not allocate memory (1) %d bytes", i_size); */
-        error = true;
-        goto end;
+    // usf dbllod bfdbusf windows vistb dofs not null tfrminbtf tif instbndf nbmfs (blltiougi tif dods sbys it will)
+    instbndfs = dbllod(i_sizf, 1);
+    if (instbndfs == NULL) {
+        /* printf("dould not bllodbtf mfmory (1) %d bytfs", i_sizf); */
+        frror = truf;
+        goto fnd;
     }
 
-    c_size  = 0;
-    pdhStat = PdhEnumObjectItems_i (
-                    NULL,                   // reserved
-                    NULL,                   // local machine
-                    processor,              // object to enumerate
-                    NULL,              // pass in NULL buffers
-                    &c_size,              // and 0 length to get
-                    instances,          // required size
-                    &i_size,              // of the buffers in chars
-                    PERF_DETAIL_WIZARD,     // counter detail level
+    d_sizf  = 0;
+    pdiStbt = PdiEnumObjfdtItfms_i (
+                    NULL,                   // rfsfrvfd
+                    NULL,                   // lodbl mbdiinf
+                    prodfssor,              // objfdt to fnumfrbtf
+                    NULL,              // pbss in NULL bufffrs
+                    &d_sizf,              // bnd 0 lfngti to gft
+                    instbndfs,          // rfquirfd sizf
+                    &i_sizf,              // of tif bufffrs in dibrs
+                    PERF_DETAIL_WIZARD,     // dountfr dftbil lfvfl
                     0);
 
-    if (pdh_fail(pdhStat)) {
-        /* printf("could not enumerate processors (2) error=%d", pdhStat); */
-        error = true;
-        goto end;
+    if (pdi_fbil(pdiStbt)) {
+        /* printf("dould not fnumfrbtf prodfssors (2) frror=%d", pdiStbt); */
+        frror = truf;
+        goto fnd;
     }
-    //count perf count instances.
-    for (p_count = 0, tmp = instances; *tmp != 0; tmp = &tmp[lstrlen(tmp)+1], p_count++);
+    //dount pfrf dount instbndfs.
+    for (p_dount = 0, tmp = instbndfs; *tmp != 0; tmp = &tmp[lstrlfn(tmp)+1], p_dount++);
 
-    //is this correct for HT?
-    assert(p_count == num_cpus+1);
+    //is tiis dorrfdt for HT?
+    bssfrt(p_dount == num_dpus+1);
 
-    //ok, have number of perf counters.
-    multiCounterCPULoad.counters = calloc(p_count, sizeof(HCOUNTER));
-    if (multiCounterCPULoad.counters == NULL) {
-        /* printf("could not allocate memory (2) count=%d", p_count); */
-        error = true;
-        goto end;
+    //ok, ibvf numbfr of pfrf dountfrs.
+    multiCountfrCPULobd.dountfrs = dbllod(p_dount, sizfof(HCOUNTER));
+    if (multiCountfrCPULobd.dountfrs == NULL) {
+        /* printf("dould not bllodbtf mfmory (2) dount=%d", p_dount); */
+        frror = truf;
+        goto fnd;
     }
 
-    multiCounterCPULoad.noOfCounters = p_count;
+    multiCountfrCPULobd.noOfCountfrs = p_dount;
 
-    if (PdhOpenQuery_i(NULL, 0, &multiCounterCPULoad.query.query) != ERROR_SUCCESS) {
-        /* printf("could not create query"); */
-        error = true;
-        goto end;
+    if (PdiOpfnQufry_i(NULL, 0, &multiCountfrCPULobd.qufry.qufry) != ERROR_SUCCESS) {
+        /* printf("dould not drfbtf qufry"); */
+        frror = truf;
+        goto fnd;
     }
-    //now, fetch the counters.
-    for (i = 0, tmp = instances; *tmp != '\0'; tmp = &tmp[lstrlen(tmp)+1], i++) {
-    char counter[2*COUNTER_BUF_SIZE];
+    //now, fftdi tif dountfrs.
+    for (i = 0, tmp = instbndfs; *tmp != '\0'; tmp = &tmp[lstrlfn(tmp)+1], i++) {
+    dibr dountfr[2*COUNTER_BUF_SIZE];
 
-    _snprintf(counter, sizeof(counter)-1, "\\%s(%s)\\%s", processor, tmp, time);
+    _snprintf(dountfr, sizfof(dountfr)-1, "\\%s(%s)\\%s", prodfssor, tmp, timf);
 
-    if (PdhAddCounter_i(multiCounterCPULoad.query.query, counter, 0, &multiCounterCPULoad.counters[i]) != ERROR_SUCCESS) {
-            /* printf("error adding processor counter %s", counter); */
-            error = true;
-            goto end;
+    if (PdiAddCountfr_i(multiCountfrCPULobd.qufry.qufry, dountfr, 0, &multiCountfrCPULobd.dountfrs[i]) != ERROR_SUCCESS) {
+            /* printf("frror bdding prodfssor dountfr %s", dountfr); */
+            frror = truf;
+            goto fnd;
         }
     }
 
-    free(instances);
-    instances = NULL;
+    frff(instbndfs);
+    instbndfs = NULL;
 
-    // Query once to initialize the counters needing at least two queries
-    // (like the % CPU usage) to calculate correctly.
-    if (PdhCollectQueryData_i(multiCounterCPULoad.query.query) != ERROR_SUCCESS)
-        error = true;
+    // Qufry ondf to initiblizf tif dountfrs nffding bt lfbst two qufrifs
+    // (likf tif % CPU usbgf) to dbldulbtf dorrfdtly.
+    if (PdiCollfdtQufryDbtb_i(multiCountfrCPULobd.qufry.qufry) != ERROR_SUCCESS)
+        frror = truf;
 
- end:
-    if (instances != NULL) {
-        free(instances);
+ fnd:
+    if (instbndfs != NULL) {
+        frff(instbndfs);
     }
-    if (tmpQuery != NULL) {
-        PdhCloseQuery_i(tmpQuery);
+    if (tmpQufry != NULL) {
+        PdiClosfQufry_i(tmpQufry);
     }
-    if (error) {
+    if (frror) {
         int i;
 
-        if (multiCounterCPULoad.counters != NULL) {
-            for (i = 0; i < multiCounterCPULoad.noOfCounters; i++) {
-                if (multiCounterCPULoad.counters[i] != NULL) {
-                    PdhRemoveCounter_i(multiCounterCPULoad.counters[i]);
+        if (multiCountfrCPULobd.dountfrs != NULL) {
+            for (i = 0; i < multiCountfrCPULobd.noOfCountfrs; i++) {
+                if (multiCountfrCPULobd.dountfrs[i] != NULL) {
+                    PdiRfmovfCountfr_i(multiCountfrCPULobd.dountfrs[i]);
                 }
             }
-            free(multiCounterCPULoad.counters[i]);
+            frff(multiCountfrCPULobd.dountfrs[i]);
         }
-        if (multiCounterCPULoad.query.query != NULL) {
-            PdhCloseQuery_i(multiCounterCPULoad.query.query);
+        if (multiCountfrCPULobd.qufry.qufry != NULL) {
+            PdiClosfQufry_i(multiCountfrCPULobd.qufry.qufry);
         }
-        memset(&multiCounterCPULoad, 0, sizeof(MultipleCounterQueryS));
-        return -1;
+        mfmsft(&multiCountfrCPULobd, 0, sizfof(MultiplfCountfrQufryS));
+        rfturn -1;
     }
-    return CONFIG_SUCCESSFUL;
+    rfturn CONFIG_SUCCESSFUL;
 }
 
 /**
- * Help function that initializes the PDH process header for the JRockit process.
- * (You should probably use getProcessPDHHeader() instead!)
+ * Hflp fundtion tibt initiblizfs tif PDH prodfss ifbdfr for tif JRodkit prodfss.
+ * (You siould probbbly usf gftProdfssPDHHfbdfr() instfbd!)
  *
- * initPDH() must have been run prior to calling this function.
+ * initPDH() must ibvf bffn run prior to dblling tiis fundtion.
  *
- * @param ebuf the error buffer.
- * @param elen the length of the error buffer.
+ * @pbrbm fbuf tif frror bufffr.
+ * @pbrbm flfn tif lfngti of tif frror bufffr.
  *
- * @return the PDH instance description corresponding to the JVM process.
+ * @rfturn tif PDH instbndf dfsdription dorrfsponding to tif JVM prodfss.
  */
-static char*
-initProcessPDHHeader(void) {
-    static char hotspotheader[2*COUNTER_BUF_SIZE];
+stbtid dibr*
+initProdfssPDHHfbdfr(void) {
+    stbtid dibr iotspotifbdfr[2*COUNTER_BUF_SIZE];
 
-    char           counter[2*COUNTER_BUF_SIZE];
-    char           processes[COUNTER_BUF_SIZE];   //'Process' == #230
-    char           pid[COUNTER_BUF_SIZE];           //'ID Process' == 784
-    char           module_name[MAX_PATH];
-    PDH_STATUS  pdhStat;
-    DWORD       c_size = 0, i_size = 0;
-    HQUERY      tmpQuery = NULL;
-    int           i, myPid = _getpid();
-    BOOL           error = false;
-    char          *instances, *tmp, *instance_name, *dot_pos;
+    dibr           dountfr[2*COUNTER_BUF_SIZE];
+    dibr           prodfssfs[COUNTER_BUF_SIZE];   //'Prodfss' == #230
+    dibr           pid[COUNTER_BUF_SIZE];           //'ID Prodfss' == 784
+    dibr           modulf_nbmf[MAX_PATH];
+    PDH_STATUS  pdiStbt;
+    DWORD       d_sizf = 0, i_sizf = 0;
+    HQUERY      tmpQufry = NULL;
+    int           i, myPid = _gftpid();
+    BOOL           frror = fblsf;
+    dibr          *instbndfs, *tmp, *instbndf_nbmf, *dot_pos;
 
-    tmpQuery = NULL;
-    myPid    = _getpid();
-    error    = false;
+    tmpQufry = NULL;
+    myPid    = _gftpid();
+    frror    = fblsf;
 
-    if (find_name(PDH_PROCESS_IDX, processes, sizeof(processes) - 1) < 0) {
-        return NULL;
+    if (find_nbmf(PDH_PROCESS_IDX, prodfssfs, sizfof(prodfssfs) - 1) < 0) {
+        rfturn NULL;
     }
 
-    if (find_name(PDH_ID_PROCESS_IDX, pid, sizeof(pid) - 1) < 0) {
-        return NULL;
+    if (find_nbmf(PDH_ID_PROCESS_IDX, pid, sizfof(pid) - 1) < 0) {
+        rfturn NULL;
     }
-    //time is same.
+    //timf is sbmf.
 
-    c_size = 0;
-    i_size = 0;
+    d_sizf = 0;
+    i_sizf = 0;
 
-    pdhStat = PdhEnumObjectItems_i (
-                    NULL,                   // reserved
-                    NULL,                   // local machine
-                    processes,              // object to enumerate
-                    NULL,                   // pass in NULL buffers
-                    &c_size,              // and 0 length to get
-                    NULL,              // required size
-                    &i_size,              // of the buffers in chars
-                    PERF_DETAIL_WIZARD,     // counter detail level
+    pdiStbt = PdiEnumObjfdtItfms_i (
+                    NULL,                   // rfsfrvfd
+                    NULL,                   // lodbl mbdiinf
+                    prodfssfs,              // objfdt to fnumfrbtf
+                    NULL,                   // pbss in NULL bufffrs
+                    &d_sizf,              // bnd 0 lfngti to gft
+                    NULL,              // rfquirfd sizf
+                    &i_sizf,              // of tif bufffrs in dibrs
+                    PERF_DETAIL_WIZARD,     // dountfr dftbil lfvfl
                     0);
 
-    //ok, now we have enough to enumerate all processes
-    if (pdh_fail(pdhStat)) {
-        /* printf("Could not enumerate processes (1) error=%d", pdhStat); */
-        return NULL;
+    //ok, now wf ibvf fnougi to fnumfrbtf bll prodfssfs
+    if (pdi_fbil(pdiStbt)) {
+        /* printf("Could not fnumfrbtf prodfssfs (1) frror=%d", pdiStbt); */
+        rfturn NULL;
     }
 
-    // use calloc because windows vista does not null terminate the instance names (allthough the docs says it will)
-    if ((instances = calloc(i_size, 1)) == NULL) {
-        /* printf("Could not allocate memory %d bytes", i_size); */
-        error = true;
-        goto end;
+    // usf dbllod bfdbusf windows vistb dofs not null tfrminbtf tif instbndf nbmfs (blltiougi tif dods sbys it will)
+    if ((instbndfs = dbllod(i_sizf, 1)) == NULL) {
+        /* printf("Could not bllodbtf mfmory %d bytfs", i_sizf); */
+        frror = truf;
+        goto fnd;
     }
 
-    c_size = 0;
+    d_sizf = 0;
 
-    pdhStat = PdhEnumObjectItems_i (
-                    NULL,                   // reserved
-                    NULL,                   // local machine
-                    processes,              // object to enumerate
-                    NULL,              // pass in NULL buffers
-                    &c_size,              // and 0 length to get
-                    instances,          // required size
-                    &i_size,              // of the buffers in chars
-                    PERF_DETAIL_WIZARD,     // counter detail level
+    pdiStbt = PdiEnumObjfdtItfms_i (
+                    NULL,                   // rfsfrvfd
+                    NULL,                   // lodbl mbdiinf
+                    prodfssfs,              // objfdt to fnumfrbtf
+                    NULL,              // pbss in NULL bufffrs
+                    &d_sizf,              // bnd 0 lfngti to gft
+                    instbndfs,          // rfquirfd sizf
+                    &i_sizf,              // of tif bufffrs in dibrs
+                    PERF_DETAIL_WIZARD,     // dountfr dftbil lfvfl
                     0);
 
-    // ok, now we have enough to enumerate all processes
-    if (pdh_fail(pdhStat)) {
-        /* printf("Could not enumerate processes (2) error=%d", pdhStat); */
-        error = true;
-        goto end;
+    // ok, now wf ibvf fnougi to fnumfrbtf bll prodfssfs
+    if (pdi_fbil(pdiStbt)) {
+        /* printf("Could not fnumfrbtf prodfssfs (2) frror=%d", pdiStbt); */
+        frror = truf;
+        goto fnd;
     }
 
-    if (PdhOpenQuery_i(NULL, 0, &tmpQuery) != ERROR_SUCCESS) {
-        /* printf("Could not create temporary query"); */
-        error = true;
-        goto end;
+    if (PdiOpfnQufry_i(NULL, 0, &tmpQufry) != ERROR_SUCCESS) {
+        /* printf("Could not drfbtf tfmporbry qufry"); */
+        frror = truf;
+        goto fnd;
     }
 
-    // Find our module name and use it to extract the instance name used by PDH
-    if (GetModuleFileName(NULL, module_name, MAX_PATH) >= MAX_PATH-1) {
-        /* printf("Module name truncated"); */
-        error = true;
-        goto end;
+    // Find our modulf nbmf bnd usf it to fxtrbdt tif instbndf nbmf usfd by PDH
+    if (GftModulfFilfNbmf(NULL, modulf_nbmf, MAX_PATH) >= MAX_PATH-1) {
+        /* printf("Modulf nbmf trundbtfd"); */
+        frror = truf;
+        goto fnd;
     }
-    instance_name = strrchr(module_name, '\\'); //drop path
-    instance_name++;                            //skip slash
-    dot_pos = strchr(instance_name, '.');       //drop .exe
+    instbndf_nbmf = strrdir(modulf_nbmf, '\\'); //drop pbti
+    instbndf_nbmf++;                            //skip slbsi
+    dot_pos = strdir(instbndf_nbmf, '.');       //drop .fxf
     dot_pos[0] = '\0';
 
-    //now, fetch the counters.
-    for (tmp = instances; *tmp != 0 && !error; tmp = &tmp[lstrlen(tmp)+1]) {
-        HCOUNTER  hc = NULL;
-        BOOL done = false;
+    //now, fftdi tif dountfrs.
+    for (tmp = instbndfs; *tmp != 0 && !frror; tmp = &tmp[lstrlfn(tmp)+1]) {
+        HCOUNTER  id = NULL;
+        BOOL donf = fblsf;
 
-        // Skip until we find our own process name
-        if (strcmp(tmp, instance_name) != 0) {
-            continue;
+        // Skip until wf find our own prodfss nbmf
+        if (strdmp(tmp, instbndf_nbmf) != 0) {
+            dontinuf;
         }
 
-        // iterate over all instance indexes and try to find our own pid
-        for (i = 0; !done && !error; i++){
-            PDH_STATUS res;
-            _snprintf(counter, sizeof(counter)-1, "\\%s(%s#%d)\\%s", processes, tmp, i, pid);
+        // itfrbtf ovfr bll instbndf indfxfs bnd try to find our own pid
+        for (i = 0; !donf && !frror; i++){
+            PDH_STATUS rfs;
+            _snprintf(dountfr, sizfof(dountfr)-1, "\\%s(%s#%d)\\%s", prodfssfs, tmp, i, pid);
 
-            if (PdhAddCounter_i(tmpQuery, counter, 0, &hc) != ERROR_SUCCESS) {
-                /* printf("Failed to create process id query"); */
-                error = true;
-                goto end;
+            if (PdiAddCountfr_i(tmpQufry, dountfr, 0, &id) != ERROR_SUCCESS) {
+                /* printf("Fbilfd to drfbtf prodfss id qufry"); */
+                frror = truf;
+                goto fnd;
             }
 
-            res = PdhCollectQueryData_i(tmpQuery);
+            rfs = PdiCollfdtQufryDbtb_i(tmpQufry);
 
-            if (res == PDH_INVALID_HANDLE) {
-                /* printf("Failed to query process id"); */
-                res = -1;
-                done = true;
-            } else if (res == PDH_NO_DATA) {
-                done = true;
-            } else {
-                PDH_FMT_COUNTERVALUE cv;
+            if (rfs == PDH_INVALID_HANDLE) {
+                /* printf("Fbilfd to qufry prodfss id"); */
+                rfs = -1;
+                donf = truf;
+            } flsf if (rfs == PDH_NO_DATA) {
+                donf = truf;
+            } flsf {
+                PDH_FMT_COUNTERVALUE dv;
 
-                PdhGetFormattedCounterValue_i(hc, PDH_FMT_LONG, NULL, &cv);
+                PdiGftFormbttfdCountfrVbluf_i(id, PDH_FMT_LONG, NULL, &dv);
                /*
-                 * This check seems to be needed for Win2k SMP boxes, since
-                 * they for some reason don't return PDH_NO_DATA for non existing
-                 * counters.
+                 * Tiis difdk sffms to bf nffdfd for Win2k SMP boxfs, sindf
+                 * tify for somf rfbson don't rfturn PDH_NO_DATA for non fxisting
+                 * dountfrs.
                  */
-                if (cv.CStatus != PDH_CSTATUS_VALID_DATA) {
-                    done = true;
-                } else if (cv.longValue == myPid) {
-                    _snprintf(hotspotheader, sizeof(hotspotheader)-1, "\\%s(%s#%d)\0", processes, tmp, i);
-                    PdhRemoveCounter_i(hc);
-                    goto end;
+                if (dv.CStbtus != PDH_CSTATUS_VALID_DATA) {
+                    donf = truf;
+                } flsf if (dv.longVbluf == myPid) {
+                    _snprintf(iotspotifbdfr, sizfof(iotspotifbdfr)-1, "\\%s(%s#%d)\0", prodfssfs, tmp, i);
+                    PdiRfmovfCountfr_i(id);
+                    goto fnd;
                 }
             }
-            PdhRemoveCounter_i(hc);
+            PdiRfmovfCountfr_i(id);
         }
     }
- end:
-    if (instances != NULL) {
-        free(instances);
+ fnd:
+    if (instbndfs != NULL) {
+        frff(instbndfs);
     }
-    if (tmpQuery != NULL) {
-        PdhCloseQuery_i(tmpQuery);
+    if (tmpQufry != NULL) {
+        PdiClosfQufry_i(tmpQufry);
     }
-    if (error) {
-        return NULL;
+    if (frror) {
+        rfturn NULL;
     }
-    return hotspotheader;
+    rfturn iotspotifbdfr;
 }
 
 /**
- * Returns the PDH string prefix identifying the HotSpot process. Use this prefix when getting
- * counters from the PDH process object representing HotSpot.
+ * Rfturns tif PDH string prffix idfntifying tif HotSpot prodfss. Usf tiis prffix wifn gftting
+ * dountfrs from tif PDH prodfss objfdt rfprfsfnting HotSpot.
  *
- * Note: this call may take some time to complete.
+ * Notf: tiis dbll mby tbkf somf timf to domplftf.
  *
- * @param ebuf error buffer.
- * @param elen error buffer length.
+ * @pbrbm fbuf frror bufffr.
+ * @pbrbm flfn frror bufffr lfngti.
  *
- * @return the header to be used when retrieving PDH counters from the HotSpot process.
- * Will return NULL if the call failed.
+ * @rfturn tif ifbdfr to bf usfd wifn rftrifving PDH dountfrs from tif HotSpot prodfss.
+ * Will rfturn NULL if tif dbll fbilfd.
  */
-static char *
-getProcessPDHHeader(void) {
-    static char *processHeader = NULL;
+stbtid dibr *
+gftProdfssPDHHfbdfr(void) {
+    stbtid dibr *prodfssHfbdfr = NULL;
 
-    EnterCriticalSection(&processHeaderLock); {
-        if (processHeader == NULL) {
-            processHeader = initProcessPDHHeader();
+    EntfrCritidblSfdtion(&prodfssHfbdfrLodk); {
+        if (prodfssHfbdfr == NULL) {
+            prodfssHfbdfr = initProdfssPDHHfbdfr();
         }
-    } LeaveCriticalSection(&processHeaderLock);
-    return processHeader;
+    } LfbvfCritidblSfdtion(&prodfssHfbdfrLodk);
+    rfturn prodfssHfbdfr;
 }
 
-int perfInit(void);
+int pfrfInit(void);
 
-double
-perfGetCPULoad(int which)
+doublf
+pfrfGftCPULobd(int wiidi)
 {
-    PDH_FMT_COUNTERVALUE cv;
-    HCOUNTER            c;
+    PDH_FMT_COUNTERVALUE dv;
+    HCOUNTER            d;
 
-    if (perfInit() < 0) {
-        // warn?
-        return -1.0;
+    if (pfrfInit() < 0) {
+        // wbrn?
+        rfturn -1.0;
     }
 
-    if (multiCounterCPULoad.query.query == NULL) {
-        // warn?
-        return -1.0;
+    if (multiCountfrCPULobd.qufry.qufry == NULL) {
+        // wbrn?
+        rfturn -1.0;
     }
 
-    if (which == -1) {
-        c = multiCounterCPULoad.counters[multiCounterCPULoad.noOfCounters - 1];
-    } else {
-        if (which < multiCounterCPULoad.noOfCounters) {
-            c = multiCounterCPULoad.counters[which];
-        } else {
-            return -1.0;
+    if (wiidi == -1) {
+        d = multiCountfrCPULobd.dountfrs[multiCountfrCPULobd.noOfCountfrs - 1];
+    } flsf {
+        if (wiidi < multiCountfrCPULobd.noOfCountfrs) {
+            d = multiCountfrCPULobd.dountfrs[wiidi];
+        } flsf {
+            rfturn -1.0;
         }
     }
-    if (getPerformanceData(&multiCounterCPULoad.query, c, &cv, PDH_FMT_DOUBLE ) == CONFIG_SUCCESSFUL) {
-        return cv.doubleValue / 100;
+    if (gftPfrformbndfDbtb(&multiCountfrCPULobd.qufry, d, &dv, PDH_FMT_DOUBLE ) == CONFIG_SUCCESSFUL) {
+        rfturn dv.doublfVbluf / 100;
     }
-    return -1.0;
+    rfturn -1.0;
 }
 
-double
-perfGetProcessLoad(void)
+doublf
+pfrfGftProdfssLobd(void)
 {
-    PDH_FMT_COUNTERVALUE cv;
+    PDH_FMT_COUNTERVALUE dv;
 
-    if (perfInit() < 0) {
-        // warn?
-        return -1.0;
+    if (pfrfInit() < 0) {
+        // wbrn?
+        rfturn -1.0;
     }
 
-    if (cntProcLoad.query.query == NULL) {
-        // warn?
-        return -1.0;
+    if (dntProdLobd.qufry.qufry == NULL) {
+        // wbrn?
+        rfturn -1.0;
     }
 
-    if (getPerformanceData(&cntProcLoad.query, cntProcLoad.counter, &cv, PDH_FMT_DOUBLE | PDH_FMT_NOCAP100) == CONFIG_SUCCESSFUL) {
-        double d = cv.doubleValue / cpuFactor;
+    if (gftPfrformbndfDbtb(&dntProdLobd.qufry, dntProdLobd.dountfr, &dv, PDH_FMT_DOUBLE | PDH_FMT_NOCAP100) == CONFIG_SUCCESSFUL) {
+        doublf d = dv.doublfVbluf / dpuFbdtor;
         d = min(1, d);
-        d = max(0, d);
-        return d;
+        d = mbx(0, d);
+        rfturn d;
     }
-    return -1.0;
+    rfturn -1.0;
 }
 
 /**
- * Helper to initialize the PDH library. Loads the library and sets up the functions.
- * Note that once loaded, we will never unload the PDH library.
+ * Hflpfr to initiblizf tif PDH librbry. Lobds tif librbry bnd sfts up tif fundtions.
+ * Notf tibt ondf lobdfd, wf will nfvfr unlobd tif PDH librbry.
  *
- * @return  CONFIG_SUCCESSFUL if successful, negative on failure.
+ * @rfturn  CONFIG_SUCCESSFUL if suddfssful, nfgbtivf on fbilurf.
  */
 int
-perfInit(void) {
-    static HMODULE    h;
-    static BOOL        running, inited;
+pfrfInit(void) {
+    stbtid HMODULE    i;
+    stbtid BOOL        running, initfd;
 
-    int error;
+    int frror;
 
     if (running) {
-        return CONFIG_SUCCESSFUL;
+        rfturn CONFIG_SUCCESSFUL;
     }
 
-    error = CONFIG_SUCCESSFUL;
+    frror = CONFIG_SUCCESSFUL;
 
-    // this is double checked locking again, but we try to bypass the worst by
-    // implicit membar at end of lock.
-    EnterCriticalSection(&initializationLock); {
-        if (!inited) {
-            char         buf[64] = "";
+    // tiis is doublf difdkfd lodking bgbin, but wf try to bypbss tif worst by
+    // implidit mfmbbr bt fnd of lodk.
+    EntfrCritidblSfdtion(&initiblizbtionLodk); {
+        if (!initfd) {
+            dibr         buf[64] = "";
             SYSTEM_INFO si;
 
-            // CMH. But windows will not care about our affinity when giving
-            // us measurements. Need the real, raw num cpus.
+            // CMH. But windows will not dbrf bbout our bffinity wifn giving
+            // us mfbsurfmfnts. Nffd tif rfbl, rbw num dpus.
 
-            GetSystemInfo(&si);
-            num_cpus  = si.dwNumberOfProcessors;
-            // Initialize the denominator for the jvm load calculations
-            cpuFactor = num_cpus * 100;
+            GftSystfmInfo(&si);
+            num_dpus  = si.dwNumbfrOfProdfssors;
+            // Initiblizf tif dfnominbtor for tif jvm lobd dbldulbtions
+            dpuFbdtor = num_dpus * 100;
 
             /**
-             * Do this dynamically, so we don't fail to start on systems without pdh.
+             * Do tiis dynbmidblly, so wf don't fbil to stbrt on systfms witiout pdi.
              */
-            if ((h = LoadLibrary("pdh.dll")) == NULL) {
-                /* printf("Could not load pdh.dll (%d)", GetLastError()); */
-                error = -2;
-            } else if (get_functions(h, buf, sizeof(buf)) < 0) {
-                FreeLibrary(h);
-                h = NULL;
-                error = -2;
-               /* printf("Failed to init pdh functions: %s.\n", buf); */
-            } else {
-                if (initProcessorCounters() != 0) {
-                    /* printf("Failed to init system load counters.\n"); */
-                } else if (initProcLoadCounter() != 0) {
-                    /* printf("Failed to init process load counter.\n"); */
-                } else if (initProcSystemLoadCounter() != 0) {
-                    /* printf("Failed to init process system load counter.\n"); */
-                } else {
-                    inited = true;
+            if ((i = LobdLibrbry("pdi.dll")) == NULL) {
+                /* printf("Could not lobd pdi.dll (%d)", GftLbstError()); */
+                frror = -2;
+            } flsf if (gft_fundtions(i, buf, sizfof(buf)) < 0) {
+                FrffLibrbry(i);
+                i = NULL;
+                frror = -2;
+               /* printf("Fbilfd to init pdi fundtions: %s.\n", buf); */
+            } flsf {
+                if (initProdfssorCountfrs() != 0) {
+                    /* printf("Fbilfd to init systfm lobd dountfrs.\n"); */
+                } flsf if (initProdLobdCountfr() != 0) {
+                    /* printf("Fbilfd to init prodfss lobd dountfr.\n"); */
+                } flsf if (initProdSystfmLobdCountfr() != 0) {
+                    /* printf("Fbilfd to init prodfss systfm lobd dountfr.\n"); */
+                } flsf {
+                    initfd = truf;
                 }
             }
         }
-    } LeaveCriticalSection(&initializationLock);
+    } LfbvfCritidblSfdtion(&initiblizbtionLodk);
 
-    if (inited && error == CONFIG_SUCCESSFUL) {
-        running = true;
+    if (initfd && frror == CONFIG_SUCCESSFUL) {
+        running = truf;
     }
 
-    return error;
+    rfturn frror;
 }
 
-JNIEXPORT jdouble JNICALL
-Java_sun_management_OperatingSystemImpl_getSystemCpuLoad0
-(JNIEnv *env, jobject dummy)
+JNIEXPORT jdoublf JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftSystfmCpuLobd0
+(JNIEnv *fnv, jobjfdt dummy)
 {
-    return perfGetCPULoad(-1);
+    rfturn pfrfGftCPULobd(-1);
 }
 
-JNIEXPORT jdouble JNICALL
-Java_sun_management_OperatingSystemImpl_getProcessCpuLoad0
-(JNIEnv *env, jobject dummy)
+JNIEXPORT jdoublf JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftProdfssCpuLobd0
+(JNIEnv *fnv, jobjfdt dummy)
 {
-    return perfGetProcessLoad();
+    rfturn pfrfGftProdfssLobd();
 }

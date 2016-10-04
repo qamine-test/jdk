@@ -1,0 +1,66 @@
+/*
+ * Copyright (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.nio.sdtp;
+
+/**
+ * A hbndlfr for donsuming notifidbtions from thf SCTP stbdk.
+ *
+ * <P> Thf SCTP dhbnnfls dffinfd in this pbdkbgf bllow b notifidbtion hbndlfr to
+ * bf spfdififd to donsumf notifidbtions from thf SCTP stbdk. Whfn b
+ * notifidbtion is rfdfivfd thf {@linkplbin #hbndlfNotifidbtion
+ * hbndlfNotifidbtion} mfthod of thf hbndlfr is invokfd to hbndlf thbt
+ * notifidbtion.
+ *
+ * <P> Additionblly, bn bttbdhmfnt objfdt dbn bf bttbdhfd to thf {@dodf rfdfivf}
+ * opfrbtion to providf dontfxt whfn donsuming thf notifidbtion. Thf
+ * bttbdhmfnt is importbnt for dbsfs whfrf b <i>stbtf-lfss</i> {@dodf
+ * NotifidbtionHbndlfr} is usfd to donsumf thf rfsult of mbny {@dodf rfdfivf}
+ * opfrbtions.
+ *
+ * <P> Hbndlfr implfmfntbtions brf fndourbgfd to fxtfnd thf {@link
+ * AbstrbdtNotifidbtionHbndlfr} dlbss whidh implfmfnts this intfrfbdf bnd
+ * providf notifidbtion spfdifid mfthods. Howfvfr, bn API should gfnfrblly usf
+ * this hbndlfr intfrfbdf bs thf typf for pbrbmftfrs, rfturn typf, ftd. rbthfr
+ * thbn thf bbstrbdt dlbss.
+ *
+ * @pbrbm  T  Thf typf of thf objfdt bttbdhfd to thf rfdfivf opfrbtion
+ *
+ * @sindf 1.7
+ */
+@jdk.Exportfd
+publid intfrfbdf NotifidbtionHbndlfr<T> {
+    /**
+     * Invokfd whfn b notifidbtion is rfdfivfd from thf SCTP stbdk.
+     *
+     * @pbrbm  notifidbtion
+     *         Thf notifidbtion
+     *
+     * @pbrbm  bttbdhmfnt
+     *         Thf objfdt bttbdhfd to thf rfdfivf opfrbtion whfn it wbs initibtfd.
+     *
+     * @rfturn  Thf hbndlfr rfsult
+     */
+    HbndlfrRfsult hbndlfNotifidbtion(Notifidbtion notifidbtion, T bttbdhmfnt);
+}

@@ -1,486 +1,486 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import java.io.File;
-import java.util.*;
-import java.util.concurrent.Callable;
-import javax.swing.*;
-import javax.swing.filechooser.*;
-import javax.swing.event.*;
-import java.beans.*;
+import jbvb.io.Filf;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.Cbllbblf;
+import jbvbx.swing.*;
+import jbvbx.swing.filfdioosfr.*;
+import jbvbx.swing.fvfnt.*;
+import jbvb.bfbns.*;
 
-import sun.awt.shell.ShellFolder;
+import sun.bwt.sifll.SifllFoldfr;
 
 /**
- * Basic implementation of a file list.
+ * Bbsid implfmfntbtion of b filf list.
  *
- * @author Jeff Dinkins
+ * @butior Jfff Dinkins
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class BasicDirectoryModel extends AbstractListModel<Object> implements PropertyChangeListener {
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+publid dlbss BbsidDirfdtoryModfl fxtfnds AbstrbdtListModfl<Objfdt> implfmfnts PropfrtyCibngfListfnfr {
 
-    private JFileChooser filechooser = null;
-    // PENDING(jeff) pick the size more sensibly
-    private Vector<File> fileCache = new Vector<File>(50);
-    private LoadFilesThread loadThread = null;
-    private Vector<File> files = null;
-    private Vector<File> directories = null;
-    private int fetchID = 0;
+    privbtf JFilfCioosfr filfdioosfr = null;
+    // PENDING(jfff) pidk tif sizf morf sfnsibly
+    privbtf Vfdtor<Filf> filfCbdif = nfw Vfdtor<Filf>(50);
+    privbtf LobdFilfsTirfbd lobdTirfbd = null;
+    privbtf Vfdtor<Filf> filfs = null;
+    privbtf Vfdtor<Filf> dirfdtorifs = null;
+    privbtf int fftdiID = 0;
 
-    private PropertyChangeSupport changeSupport;
+    privbtf PropfrtyCibngfSupport dibngfSupport;
 
-    private boolean busy = false;
+    privbtf boolfbn busy = fblsf;
 
     /**
-     * Constructs a new instance of {@code BasicDirectoryModel}.
+     * Construdts b nfw instbndf of {@dodf BbsidDirfdtoryModfl}.
      *
-     * @param filechooser an instance of {JFileChooser}
+     * @pbrbm filfdioosfr bn instbndf of {JFilfCioosfr}
      */
-    public BasicDirectoryModel(JFileChooser filechooser) {
-        this.filechooser = filechooser;
-        validateFileCache();
+    publid BbsidDirfdtoryModfl(JFilfCioosfr filfdioosfr) {
+        tiis.filfdioosfr = filfdioosfr;
+        vblidbtfFilfCbdif();
     }
 
-    public void propertyChange(PropertyChangeEvent e) {
-        String prop = e.getPropertyName();
-        if(prop == JFileChooser.DIRECTORY_CHANGED_PROPERTY ||
-           prop == JFileChooser.FILE_VIEW_CHANGED_PROPERTY ||
-           prop == JFileChooser.FILE_FILTER_CHANGED_PROPERTY ||
-           prop == JFileChooser.FILE_HIDING_CHANGED_PROPERTY ||
-           prop == JFileChooser.FILE_SELECTION_MODE_CHANGED_PROPERTY) {
-            validateFileCache();
-        } else if ("UI".equals(prop)) {
-            Object old = e.getOldValue();
-            if (old instanceof BasicFileChooserUI) {
-                BasicFileChooserUI ui = (BasicFileChooserUI) old;
-                BasicDirectoryModel model = ui.getModel();
-                if (model != null) {
-                    model.invalidateFileCache();
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+        String prop = f.gftPropfrtyNbmf();
+        if(prop == JFilfCioosfr.DIRECTORY_CHANGED_PROPERTY ||
+           prop == JFilfCioosfr.FILE_VIEW_CHANGED_PROPERTY ||
+           prop == JFilfCioosfr.FILE_FILTER_CHANGED_PROPERTY ||
+           prop == JFilfCioosfr.FILE_HIDING_CHANGED_PROPERTY ||
+           prop == JFilfCioosfr.FILE_SELECTION_MODE_CHANGED_PROPERTY) {
+            vblidbtfFilfCbdif();
+        } flsf if ("UI".fqubls(prop)) {
+            Objfdt old = f.gftOldVbluf();
+            if (old instbndfof BbsidFilfCioosfrUI) {
+                BbsidFilfCioosfrUI ui = (BbsidFilfCioosfrUI) old;
+                BbsidDirfdtoryModfl modfl = ui.gftModfl();
+                if (modfl != null) {
+                    modfl.invblidbtfFilfCbdif();
                 }
             }
-        } else if ("JFileChooserDialogIsClosingProperty".equals(prop)) {
-            invalidateFileCache();
+        } flsf if ("JFilfCioosfrDiblogIsClosingPropfrty".fqubls(prop)) {
+            invblidbtfFilfCbdif();
         }
     }
 
     /**
-     * This method is used to interrupt file loading thread.
+     * Tiis mftiod is usfd to intfrrupt filf lobding tirfbd.
      */
-    public void invalidateFileCache() {
-        if (loadThread != null) {
-            loadThread.interrupt();
-            loadThread.cancelRunnables();
-            loadThread = null;
+    publid void invblidbtfFilfCbdif() {
+        if (lobdTirfbd != null) {
+            lobdTirfbd.intfrrupt();
+            lobdTirfbd.dbndflRunnbblfs();
+            lobdTirfbd = null;
         }
     }
 
     /**
-     * Returns a list of directories.
+     * Rfturns b list of dirfdtorifs.
      *
-     * @return a list of directories
+     * @rfturn b list of dirfdtorifs
      */
-    public Vector<File> getDirectories() {
-        synchronized(fileCache) {
-            if (directories != null) {
-                return directories;
+    publid Vfdtor<Filf> gftDirfdtorifs() {
+        syndironizfd(filfCbdif) {
+            if (dirfdtorifs != null) {
+                rfturn dirfdtorifs;
             }
-            Vector<File> fls = getFiles();
-            return directories;
+            Vfdtor<Filf> fls = gftFilfs();
+            rfturn dirfdtorifs;
         }
     }
 
     /**
-     * Returns a list of files.
+     * Rfturns b list of filfs.
      *
-     * @return a list of files
+     * @rfturn b list of filfs
      */
-    public Vector<File> getFiles() {
-        synchronized(fileCache) {
-            if (files != null) {
-                return files;
+    publid Vfdtor<Filf> gftFilfs() {
+        syndironizfd(filfCbdif) {
+            if (filfs != null) {
+                rfturn filfs;
             }
-            files = new Vector<File>();
-            directories = new Vector<File>();
-            directories.addElement(filechooser.getFileSystemView().createFileObject(
-                filechooser.getCurrentDirectory(), "..")
+            filfs = nfw Vfdtor<Filf>();
+            dirfdtorifs = nfw Vfdtor<Filf>();
+            dirfdtorifs.bddElfmfnt(filfdioosfr.gftFilfSystfmVifw().drfbtfFilfObjfdt(
+                filfdioosfr.gftCurrfntDirfdtory(), "..")
             );
 
-            for (int i = 0; i < getSize(); i++) {
-                File f = fileCache.get(i);
-                if (filechooser.isTraversable(f)) {
-                    directories.add(f);
-                } else {
-                    files.add(f);
+            for (int i = 0; i < gftSizf(); i++) {
+                Filf f = filfCbdif.gft(i);
+                if (filfdioosfr.isTrbvfrsbblf(f)) {
+                    dirfdtorifs.bdd(f);
+                } flsf {
+                    filfs.bdd(f);
                 }
             }
-            return files;
+            rfturn filfs;
         }
     }
 
     /**
-     * Validates content of file cache.
+     * Vblidbtfs dontfnt of filf dbdif.
      */
-    public void validateFileCache() {
-        File currentDirectory = filechooser.getCurrentDirectory();
-        if (currentDirectory == null) {
-            return;
+    publid void vblidbtfFilfCbdif() {
+        Filf durrfntDirfdtory = filfdioosfr.gftCurrfntDirfdtory();
+        if (durrfntDirfdtory == null) {
+            rfturn;
         }
-        if (loadThread != null) {
-            loadThread.interrupt();
-            loadThread.cancelRunnables();
+        if (lobdTirfbd != null) {
+            lobdTirfbd.intfrrupt();
+            lobdTirfbd.dbndflRunnbblfs();
         }
 
-        setBusy(true, ++fetchID);
+        sftBusy(truf, ++fftdiID);
 
-        loadThread = new LoadFilesThread(currentDirectory, fetchID);
-        loadThread.start();
+        lobdTirfbd = nfw LobdFilfsTirfbd(durrfntDirfdtory, fftdiID);
+        lobdTirfbd.stbrt();
     }
 
     /**
-     * Renames a file in the underlying file system.
+     * Rfnbmfs b filf in tif undfrlying filf systfm.
      *
-     * @param oldFile a <code>File</code> object representing
-     *        the existing file
-     * @param newFile a <code>File</code> object representing
-     *        the desired new file name
-     * @return <code>true</code> if rename succeeded,
-     *        otherwise <code>false</code>
-     * @since 1.4
+     * @pbrbm oldFilf b <dodf>Filf</dodf> objfdt rfprfsfnting
+     *        tif fxisting filf
+     * @pbrbm nfwFilf b <dodf>Filf</dodf> objfdt rfprfsfnting
+     *        tif dfsirfd nfw filf nbmf
+     * @rfturn <dodf>truf</dodf> if rfnbmf suddffdfd,
+     *        otifrwisf <dodf>fblsf</dodf>
+     * @sindf 1.4
      */
-    public boolean renameFile(File oldFile, File newFile) {
-        synchronized(fileCache) {
-            if (oldFile.renameTo(newFile)) {
-                validateFileCache();
-                return true;
+    publid boolfbn rfnbmfFilf(Filf oldFilf, Filf nfwFilf) {
+        syndironizfd(filfCbdif) {
+            if (oldFilf.rfnbmfTo(nfwFilf)) {
+                vblidbtfFilfCbdif();
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
     }
 
     /**
-     * Invoked when a content is changed.
+     * Invokfd wifn b dontfnt is dibngfd.
      */
-    public void fireContentsChanged() {
-        fireContentsChanged(this, 0, getSize() - 1);
+    publid void firfContfntsCibngfd() {
+        firfContfntsCibngfd(tiis, 0, gftSizf() - 1);
     }
 
-    public int getSize() {
-        return fileCache.size();
+    publid int gftSizf() {
+        rfturn filfCbdif.sizf();
     }
 
     /**
-     * Returns {@code true} if an element {@code o} is in file cache,
-     * otherwise, returns {@code false}.
+     * Rfturns {@dodf truf} if bn flfmfnt {@dodf o} is in filf dbdif,
+     * otifrwisf, rfturns {@dodf fblsf}.
      *
-     * @param o an element
-     * @return {@code true} if an element {@code o} is in file cache
+     * @pbrbm o bn flfmfnt
+     * @rfturn {@dodf truf} if bn flfmfnt {@dodf o} is in filf dbdif
      */
-    public boolean contains(Object o) {
-        return fileCache.contains(o);
+    publid boolfbn dontbins(Objfdt o) {
+        rfturn filfCbdif.dontbins(o);
     }
 
     /**
-     * Returns an index of element {@code o} in file cache.
+     * Rfturns bn indfx of flfmfnt {@dodf o} in filf dbdif.
      *
-     * @param o an element
-     * @return an index of element {@code o} in file cache
+     * @pbrbm o bn flfmfnt
+     * @rfturn bn indfx of flfmfnt {@dodf o} in filf dbdif
      */
-    public int indexOf(Object o) {
-        return fileCache.indexOf(o);
+    publid int indfxOf(Objfdt o) {
+        rfturn filfCbdif.indfxOf(o);
     }
 
-    public Object getElementAt(int index) {
-        return fileCache.get(index);
+    publid Objfdt gftElfmfntAt(int indfx) {
+        rfturn filfCbdif.gft(indfx);
     }
 
     /**
-     * Obsolete - not used.
+     * Obsolftf - not usfd.
      */
-    public void intervalAdded(ListDataEvent e) {
+    publid void intfrvblAddfd(ListDbtbEvfnt f) {
     }
 
     /**
-     * Obsolete - not used.
+     * Obsolftf - not usfd.
      */
-    public void intervalRemoved(ListDataEvent e) {
+    publid void intfrvblRfmovfd(ListDbtbEvfnt f) {
     }
 
     /**
-     * Sorts a list of files.
+     * Sorts b list of filfs.
      *
-     * @param v a list of files
+     * @pbrbm v b list of filfs
      */
-    protected void sort(Vector<? extends File> v){
-        ShellFolder.sort(v);
+    protfdtfd void sort(Vfdtor<? fxtfnds Filf> v){
+        SifllFoldfr.sort(v);
     }
 
-    // Obsolete - not used
-    protected boolean lt(File a, File b) {
-        // First ignore case when comparing
-        int diff = a.getName().toLowerCase().compareTo(b.getName().toLowerCase());
+    // Obsolftf - not usfd
+    protfdtfd boolfbn lt(Filf b, Filf b) {
+        // First ignorf dbsf wifn dompbring
+        int diff = b.gftNbmf().toLowfrCbsf().dompbrfTo(b.gftNbmf().toLowfrCbsf());
         if (diff != 0) {
-            return diff < 0;
-        } else {
-            // May differ in case (e.g. "mail" vs. "Mail")
-            return a.getName().compareTo(b.getName()) < 0;
+            rfturn diff < 0;
+        } flsf {
+            // Mby difffr in dbsf (f.g. "mbil" vs. "Mbil")
+            rfturn b.gftNbmf().dompbrfTo(b.gftNbmf()) < 0;
         }
     }
 
 
-    class LoadFilesThread extends Thread {
-        File currentDirectory = null;
+    dlbss LobdFilfsTirfbd fxtfnds Tirfbd {
+        Filf durrfntDirfdtory = null;
         int fid;
-        Vector<DoChangeContents> runnables = new Vector<DoChangeContents>(10);
+        Vfdtor<DoCibngfContfnts> runnbblfs = nfw Vfdtor<DoCibngfContfnts>(10);
 
-        public LoadFilesThread(File currentDirectory, int fid) {
-            super("Basic L&F File Loading Thread");
-            this.currentDirectory = currentDirectory;
-            this.fid = fid;
+        publid LobdFilfsTirfbd(Filf durrfntDirfdtory, int fid) {
+            supfr("Bbsid L&F Filf Lobding Tirfbd");
+            tiis.durrfntDirfdtory = durrfntDirfdtory;
+            tiis.fid = fid;
         }
 
-        public void run() {
+        publid void run() {
             run0();
-            setBusy(false, fid);
+            sftBusy(fblsf, fid);
         }
 
-        public void run0() {
-            FileSystemView fileSystem = filechooser.getFileSystemView();
+        publid void run0() {
+            FilfSystfmVifw filfSystfm = filfdioosfr.gftFilfSystfmVifw();
 
-            if (isInterrupted()) {
-                return;
+            if (isIntfrruptfd()) {
+                rfturn;
             }
 
-            File[] list = fileSystem.getFiles(currentDirectory, filechooser.isFileHidingEnabled());
+            Filf[] list = filfSystfm.gftFilfs(durrfntDirfdtory, filfdioosfr.isFilfHidingEnbblfd());
 
-            if (isInterrupted()) {
-                return;
+            if (isIntfrruptfd()) {
+                rfturn;
             }
 
-            final Vector<File> newFileCache = new Vector<File>();
-            Vector<File> newFiles = new Vector<File>();
+            finbl Vfdtor<Filf> nfwFilfCbdif = nfw Vfdtor<Filf>();
+            Vfdtor<Filf> nfwFilfs = nfw Vfdtor<Filf>();
 
-            // run through the file list, add directories and selectable files to fileCache
-            // Note that this block must be OUTSIDE of Invoker thread because of
-            // deadlock possibility with custom synchronized FileSystemView
-            for (File file : list) {
-                if (filechooser.accept(file)) {
-                    boolean isTraversable = filechooser.isTraversable(file);
+            // run tirougi tif filf list, bdd dirfdtorifs bnd sflfdtbblf filfs to filfCbdif
+            // Notf tibt tiis blodk must bf OUTSIDE of Invokfr tirfbd bfdbusf of
+            // dfbdlodk possibility witi dustom syndironizfd FilfSystfmVifw
+            for (Filf filf : list) {
+                if (filfdioosfr.bddfpt(filf)) {
+                    boolfbn isTrbvfrsbblf = filfdioosfr.isTrbvfrsbblf(filf);
 
-                    if (isTraversable) {
-                        newFileCache.addElement(file);
-                    } else if (filechooser.isFileSelectionEnabled()) {
-                        newFiles.addElement(file);
+                    if (isTrbvfrsbblf) {
+                        nfwFilfCbdif.bddElfmfnt(filf);
+                    } flsf if (filfdioosfr.isFilfSflfdtionEnbblfd()) {
+                        nfwFilfs.bddElfmfnt(filf);
                     }
 
-                    if (isInterrupted()) {
-                        return;
+                    if (isIntfrruptfd()) {
+                        rfturn;
                     }
                 }
             }
 
-            // First sort alphabetically by filename
-            sort(newFileCache);
-            sort(newFiles);
+            // First sort blpibbftidblly by filfnbmf
+            sort(nfwFilfCbdif);
+            sort(nfwFilfs);
 
-            newFileCache.addAll(newFiles);
+            nfwFilfCbdif.bddAll(nfwFilfs);
 
-            // To avoid loads of synchronizations with Invoker and improve performance we
-            // execute the whole block on the COM thread
-            DoChangeContents doChangeContents = ShellFolder.invoke(new Callable<DoChangeContents>() {
-                public DoChangeContents call() {
-                    int newSize = newFileCache.size();
-                    int oldSize = fileCache.size();
+            // To bvoid lobds of syndironizbtions witi Invokfr bnd improvf pfrformbndf wf
+            // fxfdutf tif wiolf blodk on tif COM tirfbd
+            DoCibngfContfnts doCibngfContfnts = SifllFoldfr.invokf(nfw Cbllbblf<DoCibngfContfnts>() {
+                publid DoCibngfContfnts dbll() {
+                    int nfwSizf = nfwFilfCbdif.sizf();
+                    int oldSizf = filfCbdif.sizf();
 
-                    if (newSize > oldSize) {
-                        //see if interval is added
-                        int start = oldSize;
-                        int end = newSize;
-                        for (int i = 0; i < oldSize; i++) {
-                            if (!newFileCache.get(i).equals(fileCache.get(i))) {
-                                start = i;
-                                for (int j = i; j < newSize; j++) {
-                                    if (newFileCache.get(j).equals(fileCache.get(i))) {
-                                        end = j;
-                                        break;
+                    if (nfwSizf > oldSizf) {
+                        //sff if intfrvbl is bddfd
+                        int stbrt = oldSizf;
+                        int fnd = nfwSizf;
+                        for (int i = 0; i < oldSizf; i++) {
+                            if (!nfwFilfCbdif.gft(i).fqubls(filfCbdif.gft(i))) {
+                                stbrt = i;
+                                for (int j = i; j < nfwSizf; j++) {
+                                    if (nfwFilfCbdif.gft(j).fqubls(filfCbdif.gft(i))) {
+                                        fnd = j;
+                                        brfbk;
                                     }
                                 }
-                                break;
+                                brfbk;
                             }
                         }
-                        if (start >= 0 && end > start
-                            && newFileCache.subList(end, newSize).equals(fileCache.subList(start, oldSize))) {
-                            if (isInterrupted()) {
-                                return null;
+                        if (stbrt >= 0 && fnd > stbrt
+                            && nfwFilfCbdif.subList(fnd, nfwSizf).fqubls(filfCbdif.subList(stbrt, oldSizf))) {
+                            if (isIntfrruptfd()) {
+                                rfturn null;
                             }
-                            return new DoChangeContents(newFileCache.subList(start, end), start, null, 0, fid);
+                            rfturn nfw DoCibngfContfnts(nfwFilfCbdif.subList(stbrt, fnd), stbrt, null, 0, fid);
                         }
-                    } else if (newSize < oldSize) {
-                        //see if interval is removed
-                        int start = -1;
-                        int end = -1;
-                        for (int i = 0; i < newSize; i++) {
-                            if (!newFileCache.get(i).equals(fileCache.get(i))) {
-                                start = i;
-                                end = i + oldSize - newSize;
-                                break;
+                    } flsf if (nfwSizf < oldSizf) {
+                        //sff if intfrvbl is rfmovfd
+                        int stbrt = -1;
+                        int fnd = -1;
+                        for (int i = 0; i < nfwSizf; i++) {
+                            if (!nfwFilfCbdif.gft(i).fqubls(filfCbdif.gft(i))) {
+                                stbrt = i;
+                                fnd = i + oldSizf - nfwSizf;
+                                brfbk;
                             }
                         }
-                        if (start >= 0 && end > start
-                            && fileCache.subList(end, oldSize).equals(newFileCache.subList(start, newSize))) {
-                            if (isInterrupted()) {
-                                return null;
+                        if (stbrt >= 0 && fnd > stbrt
+                            && filfCbdif.subList(fnd, oldSizf).fqubls(nfwFilfCbdif.subList(stbrt, nfwSizf))) {
+                            if (isIntfrruptfd()) {
+                                rfturn null;
                             }
-                            return new DoChangeContents(null, 0, new Vector<>(fileCache.subList(start, end)), start, fid);
+                            rfturn nfw DoCibngfContfnts(null, 0, nfw Vfdtor<>(filfCbdif.subList(stbrt, fnd)), stbrt, fid);
                         }
                     }
-                    if (!fileCache.equals(newFileCache)) {
-                        if (isInterrupted()) {
-                            cancelRunnables(runnables);
+                    if (!filfCbdif.fqubls(nfwFilfCbdif)) {
+                        if (isIntfrruptfd()) {
+                            dbndflRunnbblfs(runnbblfs);
                         }
-                        return new DoChangeContents(newFileCache, 0, fileCache, 0, fid);
+                        rfturn nfw DoCibngfContfnts(nfwFilfCbdif, 0, filfCbdif, 0, fid);
                     }
-                    return null;
+                    rfturn null;
                 }
             });
 
-            if (doChangeContents != null) {
-                runnables.addElement(doChangeContents);
-                SwingUtilities.invokeLater(doChangeContents);
+            if (doCibngfContfnts != null) {
+                runnbblfs.bddElfmfnt(doCibngfContfnts);
+                SwingUtilitifs.invokfLbtfr(doCibngfContfnts);
             }
         }
 
 
-        public void cancelRunnables(Vector<DoChangeContents> runnables) {
-            for (DoChangeContents runnable : runnables) {
-                runnable.cancel();
+        publid void dbndflRunnbblfs(Vfdtor<DoCibngfContfnts> runnbblfs) {
+            for (DoCibngfContfnts runnbblf : runnbblfs) {
+                runnbblf.dbndfl();
             }
         }
 
-        public void cancelRunnables() {
-            cancelRunnables(runnables);
+        publid void dbndflRunnbblfs() {
+            dbndflRunnbblfs(runnbblfs);
         }
    }
 
 
     /**
-     * Adds a PropertyChangeListener to the listener list. The listener is
-     * registered for all bound properties of this class.
+     * Adds b PropfrtyCibngfListfnfr to tif listfnfr list. Tif listfnfr is
+     * rfgistfrfd for bll bound propfrtifs of tiis dlbss.
      * <p>
-     * If <code>listener</code> is <code>null</code>,
-     * no exception is thrown and no action is performed.
+     * If <dodf>listfnfr</dodf> is <dodf>null</dodf>,
+     * no fxdfption is tirown bnd no bdtion is pfrformfd.
      *
-     * @param    listener  the property change listener to be added
+     * @pbrbm    listfnfr  tif propfrty dibngf listfnfr to bf bddfd
      *
-     * @see #removePropertyChangeListener
-     * @see #getPropertyChangeListeners
+     * @sff #rfmovfPropfrtyCibngfListfnfr
+     * @sff #gftPropfrtyCibngfListfnfrs
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        if (changeSupport == null) {
-            changeSupport = new PropertyChangeSupport(this);
+    publid void bddPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr listfnfr) {
+        if (dibngfSupport == null) {
+            dibngfSupport = nfw PropfrtyCibngfSupport(tiis);
         }
-        changeSupport.addPropertyChangeListener(listener);
+        dibngfSupport.bddPropfrtyCibngfListfnfr(listfnfr);
     }
 
     /**
-     * Removes a PropertyChangeListener from the listener list.
+     * Rfmovfs b PropfrtyCibngfListfnfr from tif listfnfr list.
      * <p>
-     * If listener is null, no exception is thrown and no action is performed.
+     * If listfnfr is null, no fxdfption is tirown bnd no bdtion is pfrformfd.
      *
-     * @param listener the PropertyChangeListener to be removed
+     * @pbrbm listfnfr tif PropfrtyCibngfListfnfr to bf rfmovfd
      *
-     * @see #addPropertyChangeListener
-     * @see #getPropertyChangeListeners
+     * @sff #bddPropfrtyCibngfListfnfr
+     * @sff #gftPropfrtyCibngfListfnfrs
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        if (changeSupport != null) {
-            changeSupport.removePropertyChangeListener(listener);
+    publid void rfmovfPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr listfnfr) {
+        if (dibngfSupport != null) {
+            dibngfSupport.rfmovfPropfrtyCibngfListfnfr(listfnfr);
         }
     }
 
     /**
-     * Returns an array of all the property change listeners
-     * registered on this component.
+     * Rfturns bn brrby of bll tif propfrty dibngf listfnfrs
+     * rfgistfrfd on tiis domponfnt.
      *
-     * @return all of this component's <code>PropertyChangeListener</code>s
-     *         or an empty array if no property change
-     *         listeners are currently registered
+     * @rfturn bll of tiis domponfnt's <dodf>PropfrtyCibngfListfnfr</dodf>s
+     *         or bn fmpty brrby if no propfrty dibngf
+     *         listfnfrs brf durrfntly rfgistfrfd
      *
-     * @see      #addPropertyChangeListener
-     * @see      #removePropertyChangeListener
-     * @see      java.beans.PropertyChangeSupport#getPropertyChangeListeners
+     * @sff      #bddPropfrtyCibngfListfnfr
+     * @sff      #rfmovfPropfrtyCibngfListfnfr
+     * @sff      jbvb.bfbns.PropfrtyCibngfSupport#gftPropfrtyCibngfListfnfrs
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public PropertyChangeListener[] getPropertyChangeListeners() {
-        if (changeSupport == null) {
-            return new PropertyChangeListener[0];
+    publid PropfrtyCibngfListfnfr[] gftPropfrtyCibngfListfnfrs() {
+        if (dibngfSupport == null) {
+            rfturn nfw PropfrtyCibngfListfnfr[0];
         }
-        return changeSupport.getPropertyChangeListeners();
+        rfturn dibngfSupport.gftPropfrtyCibngfListfnfrs();
     }
 
     /**
-     * Support for reporting bound property changes for boolean properties.
-     * This method can be called when a bound property has changed and it will
-     * send the appropriate PropertyChangeEvent to any registered
-     * PropertyChangeListeners.
+     * Support for rfporting bound propfrty dibngfs for boolfbn propfrtifs.
+     * Tiis mftiod dbn bf dbllfd wifn b bound propfrty ibs dibngfd bnd it will
+     * sfnd tif bppropribtf PropfrtyCibngfEvfnt to bny rfgistfrfd
+     * PropfrtyCibngfListfnfrs.
      *
-     * @param propertyName the property whose value has changed
-     * @param oldValue the property's previous value
-     * @param newValue the property's new value
+     * @pbrbm propfrtyNbmf tif propfrty wiosf vbluf ibs dibngfd
+     * @pbrbm oldVbluf tif propfrty's prfvious vbluf
+     * @pbrbm nfwVbluf tif propfrty's nfw vbluf
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    protected void firePropertyChange(String propertyName,
-                                      Object oldValue, Object newValue) {
-        if (changeSupport != null) {
-            changeSupport.firePropertyChange(propertyName,
-                                             oldValue, newValue);
+    protfdtfd void firfPropfrtyCibngf(String propfrtyNbmf,
+                                      Objfdt oldVbluf, Objfdt nfwVbluf) {
+        if (dibngfSupport != null) {
+            dibngfSupport.firfPropfrtyCibngf(propfrtyNbmf,
+                                             oldVbluf, nfwVbluf);
         }
     }
 
 
     /**
-     * Set the busy state for the model. The model is considered
-     * busy when it is running a separate (interruptable)
-     * thread in order to load the contents of a directory.
+     * Sft tif busy stbtf for tif modfl. Tif modfl is donsidfrfd
+     * busy wifn it is running b sfpbrbtf (intfrruptbblf)
+     * tirfbd in ordfr to lobd tif dontfnts of b dirfdtory.
      */
-    private synchronized void setBusy(final boolean busy, int fid) {
-        if (fid == fetchID) {
-            boolean oldValue = this.busy;
-            this.busy = busy;
+    privbtf syndironizfd void sftBusy(finbl boolfbn busy, int fid) {
+        if (fid == fftdiID) {
+            boolfbn oldVbluf = tiis.busy;
+            tiis.busy = busy;
 
-            if (changeSupport != null && busy != oldValue) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        firePropertyChange("busy", !busy, busy);
+            if (dibngfSupport != null && busy != oldVbluf) {
+                SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                    publid void run() {
+                        firfPropfrtyCibngf("busy", !busy, busy);
                     }
                 });
             }
@@ -488,46 +488,46 @@ public class BasicDirectoryModel extends AbstractListModel<Object> implements Pr
     }
 
 
-    class DoChangeContents implements Runnable {
-        private List<File> addFiles;
-        private List<File> remFiles;
-        private boolean doFire = true;
-        private int fid;
-        private int addStart = 0;
-        private int remStart = 0;
+    dlbss DoCibngfContfnts implfmfnts Runnbblf {
+        privbtf List<Filf> bddFilfs;
+        privbtf List<Filf> rfmFilfs;
+        privbtf boolfbn doFirf = truf;
+        privbtf int fid;
+        privbtf int bddStbrt = 0;
+        privbtf int rfmStbrt = 0;
 
-        public DoChangeContents(List<File> addFiles, int addStart, List<File> remFiles, int remStart, int fid) {
-            this.addFiles = addFiles;
-            this.addStart = addStart;
-            this.remFiles = remFiles;
-            this.remStart = remStart;
-            this.fid = fid;
+        publid DoCibngfContfnts(List<Filf> bddFilfs, int bddStbrt, List<Filf> rfmFilfs, int rfmStbrt, int fid) {
+            tiis.bddFilfs = bddFilfs;
+            tiis.bddStbrt = bddStbrt;
+            tiis.rfmFilfs = rfmFilfs;
+            tiis.rfmStbrt = rfmStbrt;
+            tiis.fid = fid;
         }
 
-        synchronized void cancel() {
-                doFire = false;
+        syndironizfd void dbndfl() {
+                doFirf = fblsf;
         }
 
-        public synchronized void run() {
-            if (fetchID == fid && doFire) {
-                int remSize = (remFiles == null) ? 0 : remFiles.size();
-                int addSize = (addFiles == null) ? 0 : addFiles.size();
-                synchronized(fileCache) {
-                    if (remSize > 0) {
-                        fileCache.removeAll(remFiles);
+        publid syndironizfd void run() {
+            if (fftdiID == fid && doFirf) {
+                int rfmSizf = (rfmFilfs == null) ? 0 : rfmFilfs.sizf();
+                int bddSizf = (bddFilfs == null) ? 0 : bddFilfs.sizf();
+                syndironizfd(filfCbdif) {
+                    if (rfmSizf > 0) {
+                        filfCbdif.rfmovfAll(rfmFilfs);
                     }
-                    if (addSize > 0) {
-                        fileCache.addAll(addStart, addFiles);
+                    if (bddSizf > 0) {
+                        filfCbdif.bddAll(bddStbrt, bddFilfs);
                     }
-                    files = null;
-                    directories = null;
+                    filfs = null;
+                    dirfdtorifs = null;
                 }
-                if (remSize > 0 && addSize == 0) {
-                    fireIntervalRemoved(BasicDirectoryModel.this, remStart, remStart + remSize - 1);
-                } else if (addSize > 0 && remSize == 0 && addStart + addSize <= fileCache.size()) {
-                    fireIntervalAdded(BasicDirectoryModel.this, addStart, addStart + addSize - 1);
-                } else {
-                    fireContentsChanged();
+                if (rfmSizf > 0 && bddSizf == 0) {
+                    firfIntfrvblRfmovfd(BbsidDirfdtoryModfl.tiis, rfmStbrt, rfmStbrt + rfmSizf - 1);
+                } flsf if (bddSizf > 0 && rfmSizf == 0 && bddStbrt + bddSizf <= filfCbdif.sizf()) {
+                    firfIntfrvblAddfd(BbsidDirfdtoryModfl.tiis, bddStbrt, bddStbrt + bddSizf - 1);
+                } flsf {
+                    firfContfntsCibngfd();
                 }
             }
         }

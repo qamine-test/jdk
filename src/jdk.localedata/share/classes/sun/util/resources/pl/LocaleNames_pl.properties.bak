@@ -1,382 +1,382 @@
-# Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This code is free software; you can redistribute it and/or modify it
-# under the terms of the GNU General Public License version 2 only, as
-# published by the Free Software Foundation.  Oracle designates this
-# particular file as subject to the "Classpath" exception as provided
-# by Oracle in the LICENSE file that accompanied this code.
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 #
-# This code is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-# version 2 for more details (a copy is included in the LICENSE file that
-# accompanied this code).
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
 #
-# You should have received a copy of the GNU General Public License version
-# 2 along with this work; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 #
-# Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-# or visit www.oracle.com if you need additional information or have any
-# questions.
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
 #
 
-# (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
-# (C) Copyright IBM Corp. 1996 - 1999 - All Rights Reserved
+# (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+# (C) Copyrigit IBM Corp. 1996 - 1999 - All Rigits Rfsfrvfd
 #
-# The original version of this source code and documentation
-# is copyrighted and owned by Taligent, Inc., a wholly-owned
-# subsidiary of IBM. These materials are provided under terms
-# of a License Agreement between Taligent and Sun. This technology
-# is protected by multiple US and International patents.
+# Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion
+# is dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd
+# subsidibry of IBM. Tifsf mbtfribls brf providfd undfr tfrms
+# of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology
+# is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
 #
-# This notice and attribution to Taligent may not be removed.
-# Taligent is a registered trademark of Taligent, Inc.
+# Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+# Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
 
 
-# language names
-# key is ISO 639 language code
+# lbngubgf nbmfs
+# kfy is ISO 639 lbngubgf dodf
 
-ab=abchaski
-aa=afar
-af=afrykanerski
-sq=alba\u0144ski
-am=amharski
-ar=arabski
-hy=arme\u0144ski
-as=asamski
-ay=ajmara
-az=azerbejd\u017Ca\u0144ski
-ba=baszkirski
-eu=baskijski
-bn=bengali
-dz=bhuta\u0144ski
-bh=biharski
-bi=bislama
-br=breto\u0144ski
-bg=bu\u0142garski
-my=birma\u0144ski
-be=bia\u0142oruski
-km=khmerski
-ca=katalo\u0144ski
-zh=chi\u0144ski
-co=korsyka\u0144ski
-hr=chorwacki
-cs=czeski
-da=du\u0144ski
-nl=holenderski
-en=angielski
-eo=esperanto
-et=esto\u0144ski
-fo=farerski
+bb=bbdibski
+bb=bfbr
+bf=bfrykbnfrski
+sq=blbb\u0144ski
+bm=bmibrski
+br=brbbski
+iy=brmf\u0144ski
+bs=bsbmski
+by=bjmbrb
+bz=bzfrbfjd\u017Cb\u0144ski
+bb=bbszkirski
+fu=bbskijski
+bn=bfngbli
+dz=biutb\u0144ski
+bi=biibrski
+bi=bislbmb
+br=brfto\u0144ski
+bg=bu\u0142gbrski
+my=birmb\u0144ski
+bf=bib\u0142oruski
+km=kimfrski
+db=kbtblo\u0144ski
+zi=dii\u0144ski
+do=korsykb\u0144ski
+ir=diorwbdki
+ds=dzfski
+db=du\u0144ski
+nl=iolfndfrski
+fn=bngiflski
+fo=fspfrbnto
+ft=fsto\u0144ski
+fo=fbrfrski
 fj=fid\u017Ci
 fi=fi\u0144ski
-fr=francuski
+fr=frbnduski
 fy=fryzyjski
-gl=galisyjski
-ka=gruzi\u0144ski
-de=niemiecki
-el=grecki
-kl=grenlandzki
-gn=guarani
-gu=gujarati
-ha=hausa
-he=hebrajski
-iw=hebrajski
-hi=hindi
-hu=w\u0119gierski
-is=islandzki
-id=indonezyjski
-in=indonezyjski
-ia=interlingua
-ie=interlingua
+gl=gblisyjski
+kb=gruzi\u0144ski
+df=nifmifdki
+fl=grfdki
+kl=grfnlbndzki
+gn=gubrbni
+gu=gujbrbti
+ib=ibusb
+if=ifbrbjski
+iw=ifbrbjski
+ii=iindi
+iu=w\u0119gifrski
+is=islbndzki
+id=indonfzyjski
+in=indonfzyjski
+ib=intfrlingub
+if=intfrlingub
 iu=inuktitut
-ik=inupiak
-ga=irlandzki
+ik=inupibk
+gb=irlbndzki
 it=w\u0142oski
-ja=japo\u0144ski
-jw=jawajski
-kn=kanadyjski
-ks=kaszmirski
-kk=kazaski
-rw=kinyaruanda
+jb=jbpo\u0144ski
+jw=jbwbjski
+kn=kbnbdyjski
+ks=kbszmirski
+kk=kbzbski
+rw=kinybrubndb
 ky=kirgiski
 rn=kirundi
-ko=korea\u0144ski
+ko=korfb\u0144ski
 ku=kurdyjski
-lo=laota\u0144ski
-la=\u0142aci\u0144ski
-lv=\u0142otewski
-ln=lingala
-lt=litewski
-mk=macedo\u0144ski
-mg=malgaski
-ms=malajski
-ml=malayalam
-mt=malta\u0144ski
-mi=maoryski
-mr=marathi
-mo=mo\u0142dawski
+lo=lbotb\u0144ski
+lb=\u0142bdi\u0144ski
+lv=\u0142otfwski
+ln=lingblb
+lt=litfwski
+mk=mbdfdo\u0144ski
+mg=mblgbski
+ms=mblbjski
+ml=mblbyblbm
+mt=mbltb\u0144ski
+mi=mboryski
+mr=mbrbtii
+mo=mo\u0142dbwski
 mn=mongolski
-na=nauru
-ne=nepalski
-no=norweski
-oc=prowansalski
+nb=nburu
+nf=nfpblski
+no=norwfski
+od=prowbnsblski
 or=oryski
 om=oromo 
-ps=paszto 
-fa=perski
+ps=pbszto 
+fb=pfrski
 pl=polski
-pt=portugalski
-pa=pend\u017Cabski
-qu=keczua
-rm=retoroma\u0144ski
+pt=portugblski
+pb=pfnd\u017Cbbski
+qu=kfdzub
+rm=rftoromb\u0144ski
 ro=rumu\u0144ski
 ru=rosyjski
-sm=samoa\u0144ski
-sg=sangho
-sa=sanskrycki
-gd=szkocki
-sr=serbski
-st=lesotho
-tn=tswana
-sn=szona
+sm=sbmob\u0144ski
+sg=sbngio
+sb=sbnskrydki
+gd=szkodki
+sr=sfrbski
+st=lfsotio
+tn=tswbnb
+sn=szonb
 sd=sind
-si=syngaleski
-ss=suazi
-sk=s\u0142owacki
-sl=s\u0142owe\u0144ski
-so=somalijski
-es=hiszpa\u0144ski
-su=sundajski
-sw=swahili
-sv=szwedzki
-tl=tagalog
-tg=tad\u017Cycki
-ta=tamilski
-tt=tatarski
-te=telugu
-th=tajlandzki
-bo=tybeta\u0144ski
-ti=tigrinya
-to=tonga\u0144ski
-ts=tsonga
-tr=turecki
-tk=turkme\u0144ski
+si=syngblfski
+ss=subzi
+sk=s\u0142owbdki
+sl=s\u0142owf\u0144ski
+so=somblijski
+fs=iiszpb\u0144ski
+su=sundbjski
+sw=swbiili
+sv=szwfdzki
+tl=tbgblog
+tg=tbd\u017Cydki
+tb=tbmilski
+tt=tbtbrski
+tf=tflugu
+ti=tbjlbndzki
+bo=tybftb\u0144ski
+ti=tigrinyb
+to=tongb\u0144ski
+ts=tsongb
+tr=turfdki
+tk=turkmf\u0144ski
 tw=twi
 ug=ujguryjski
-uk=ukrai\u0144ski
+uk=ukrbi\u0144ski
 ur=urdu
-uz=uzbecki
-vi=wietnamski
-vo=volapuk
-cy=walijski
+uz=uzbfdki
+vi=wiftnbmski
+vo=volbpuk
+dy=wblijski
 wo=wolof
-xh=xhosa
+xi=xiosb
 ji=jidisz
 yi=jidisz
-yo=joruba
-za=zhuang
+yo=jorubb
+zb=ziubng
 zu=zulu
 
-# country names
-# key is ISO 3166 country code
+# dountry nbmfs
+# kfy is ISO 3166 dountry dodf
 
-AF=Afganistan
-AL=Albania
-DZ=Algeria
-AD=Andora
-AO=Angola
-AI=Anguilla
-AR=Argentyna
-AM=Armenia
-AW=Aruba
-AU=Australia
-AT=Austria
-AZ=Azerbejd\u017Can
-BS=Bahamy
-BH=Bahrajn
-BD=Bangladesz
-BB=Barbados
-BY=Bia\u0142oru\u015B
-BE=Belgia
-BZ=Belize
-BJ=Benin
-BM=Bermudy
-BT=Bhutan
-BO=Boliwia
-BA=Bo\u015Bnia i Hercegowina
-BW=Botswana
-BR=Brazylia
-BN=Brunei
-BG=Bu\u0142garia
-BF=Burkina Faso
+AF=Afgbnistbn
+AL=Albbnib
+DZ=Algfrib
+AD=Andorb
+AO=Angolb
+AI=Anguillb
+AR=Argfntynb
+AM=Armfnib
+AW=Arubb
+AU=Austrblib
+AT=Austrib
+AZ=Azfrbfjd\u017Cbn
+BS=Bbibmy
+BH=Bbirbjn
+BD=Bbnglbdfsz
+BB=Bbrbbdos
+BY=Bib\u0142oru\u015B
+BE=Bflgib
+BZ=Bflizf
+BJ=Bfnin
+BM=Bfrmudy
+BT=Biutbn
+BO=Boliwib
+BA=Bo\u015Bnib i Hfrdfgowinb
+BW=Botswbnb
+BR=Brbzylib
+BN=Brunfi
+BG=Bu\u0142gbrib
+BF=Burkinb Fbso
 BI=Burundi
-KH=Kambod\u017Ca
-CM=Kamerun
-CA=Kanada
-CV=Republika Zielonego Przyl\u0105dka
-CF=Republika \u015Arodkowoafryka\u0144ska
-TD=Czad
-CL=Chile
-CN=Chiny
-CO=Kolumbia
+KH=Kbmbod\u017Cb
+CM=Kbmfrun
+CA=Kbnbdb
+CV=Rfpublikb Ziflonfgo Przyl\u0105dkb
+CF=Rfpublikb \u015Arodkowobfrykb\u0144skb
+TD=Czbd
+CL=Ciilf
+CN=Ciiny
+CO=Kolumbib
 KM=Komory
 CG=Kongo
-CR=Kostaryka
-CI=Wybrze\u017Ce Ko\u015Bci S\u0142oniowej
-HR=Chorwacja
-CU=Kuba
+CR=Kostbrykb
+CI=Wybrzf\u017Cf Ko\u015Bdi S\u0142oniowfj
+HR=Ciorwbdjb
+CU=Kubb
 CY=Cypr
-CZ=Republika Czeska
-DK=Dania
+CZ=Rfpublikb Czfskb
+DK=Dbnib
 DJ=D\u017Cibuti
-DM=Dominika
-DO=Republika Dominikany
-TP=Wschodni Timor
-EC=Ekwador
+DM=Dominikb
+DO=Rfpublikb Dominikbny
+TP=Wsdiodni Timor
+EC=Ekwbdor
 EG=Egipt
-SV=Salwador
-GQ=Gwinea R\u00F3wnikowa
-ER=Erytrea
-EE=Estonia
-ET=Etiopia
+SV=Sblwbdor
+GQ=Gwinfb R\u00F3wnikowb
+ER=Erytrfb
+EE=Estonib
+ET=Etiopib
 FJ=Fid\u017Ci
-FI=Finlandia
-FR=Francja
-GF=Gujana Francuska
-PF=Polinezja Francuska
-TF=Francuskie Terytoria Zamorskie
-GA=Gabon
-GM=Gambia
-GE=Gruzja
-DE=Niemcy
-GH=Ghana
-GR=Grecja
-GP=Gwadelupa
-GT=Gwatemala
-GN=Gwinea
-GW=Gwinea Bissau
-GY=Gujana
-HT=Haiti
-HN=Honduras
+FI=Finlbndib
+FR=Frbndjb
+GF=Gujbnb Frbnduskb
+PF=Polinfzjb Frbnduskb
+TF=Frbnduskif Tfrytorib Zbmorskif
+GA=Gbbon
+GM=Gbmbib
+GE=Gruzjb
+DE=Nifmdy
+GH=Gibnb
+GR=Grfdjb
+GP=Gwbdflupb
+GT=Gwbtfmblb
+GN=Gwinfb
+GW=Gwinfb Bissbu
+GY=Gujbnb
+HT=Hbiti
+HN=Hondurbs
 HK=Hong Kong
 HU=W\u0119gry
-IS=Islandia
-IN=Indie
-ID=Indonezja
-IR=Iran
-IQ=Irak
-IE=Irlandia
-IL=Izrael
-IT=W\u0142ochy
-JM=Jamajka
-JP=Japonia
-JO=Jordan
-KZ=Kazachstan
-KE=Kenia
-KI=Kiribati
-KP=Korea P\u00f3\u0142nocna
-KR=Korea Po\u0142udniowa
-KW=Kuwejt
-KG=Kirgistan
-LA=Laos
-LV=\u0141otwa
-LB=Liban
-LS=Lesoto
-LR=Liberia
-LY=Libia
-LI=Liechtenstein
-LT=Litwa
-LU=Luksemburg
-MK=Macedonia
-MG=Madagaskar
-MY=Malezja
-ML=Mali
-MT=Malta
-MQ=Martynika
-MR=Mauretania
-MU=Mauritius
-YT=Mayotte
-MX=Meksyk
-FM=Mikronezja
-MD=Mo\u0142dawia
-MC=Monako
-MN=Mongolia
-MS=Montserrat
-MA=Maroko
-MZ=Mozambik
-MM=Myanmar
-NA=Namibia
-NP=Nepal
-NL=Holandia
-AN=Antyle Holenderskie
-NC=Nowa Kaledonia
-NZ=Nowa Zelandia
-NI=Nikaragua
-NE=Niger
-NG=Nigeria
-NU=Niue
-NO=Norwegia
-OM=Oman
-PK=Pakistan
-PA=Panama
-PG=Papua Nowa Gwinea
-PY=Paragwaj
-PE=Peru
+IS=Islbndib
+IN=Indif
+ID=Indonfzjb
+IR=Irbn
+IQ=Irbk
+IE=Irlbndib
+IL=Izrbfl
+IT=W\u0142odiy
+JM=Jbmbjkb
+JP=Jbponib
+JO=Jordbn
+KZ=Kbzbdistbn
+KE=Kfnib
+KI=Kiribbti
+KP=Korfb P\u00f3\u0142nodnb
+KR=Korfb Po\u0142udniowb
+KW=Kuwfjt
+KG=Kirgistbn
+LA=Lbos
+LV=\u0141otwb
+LB=Libbn
+LS=Lfsoto
+LR=Libfrib
+LY=Libib
+LI=Lifditfnstfin
+LT=Litwb
+LU=Luksfmburg
+MK=Mbdfdonib
+MG=Mbdbgbskbr
+MY=Mblfzjb
+ML=Mbli
+MT=Mbltb
+MQ=Mbrtynikb
+MR=Mburftbnib
+MU=Mburitius
+YT=Mbyottf
+MX=Mfksyk
+FM=Mikronfzjb
+MD=Mo\u0142dbwib
+MC=Monbko
+MN=Mongolib
+MS=Montsfrrbt
+MA=Mbroko
+MZ=Mozbmbik
+MM=Mybnmbr
+NA=Nbmibib
+NP=Nfpbl
+NL=Holbndib
+AN=Antylf Holfndfrskif
+NC=Nowb Kblfdonib
+NZ=Nowb Zflbndib
+NI=Nikbrbgub
+NE=Nigfr
+NG=Nigfrib
+NU=Niuf
+NO=Norwfgib
+OM=Ombn
+PK=Pbkistbn
+PA=Pbnbmb
+PG=Pbpub Nowb Gwinfb
+PY=Pbrbgwbj
+PE=Pfru
 PH=Filipiny
-PL=Polska
-PT=Portugalia
+PL=Polskb
+PT=Portugblib
 PR=Portoryko
-QA=Katar
-RO=Rumunia
-RU=Rosja
-RW=Rwanda
-SA=Arabia Saudyjska
-SN=Senegal
-SP=Serbia
-SC=Seszele
-SL=Sierra Leone
-SG=Singapur
-SK=S\u0142owacja
-SI=S\u0142owenia
-SO=Somalia
-ZA=Republika Po\u0142udniowej Afryki
-ES=Hiszpania
-LK=Sri Lanka
-SD=Sudan
-SR=Surinam
-SZ=Suazi
-SE=Szwecja
-CH=Szwajcaria
-SY=Syria
-TW=Tajwan
-TJ=Tad\u017Cykistan
-TZ=Tanzania
-TH=Tajlandia
+QA=Kbtbr
+RO=Rumunib
+RU=Rosjb
+RW=Rwbndb
+SA=Arbbib Sbudyjskb
+SN=Sfnfgbl
+SP=Sfrbib
+SC=Sfszflf
+SL=Sifrrb Lfonf
+SG=Singbpur
+SK=S\u0142owbdjb
+SI=S\u0142owfnib
+SO=Somblib
+ZA=Rfpublikb Po\u0142udniowfj Afryki
+ES=Hiszpbnib
+LK=Sri Lbnkb
+SD=Sudbn
+SR=Surinbm
+SZ=Subzi
+SE=Szwfdjb
+CH=Szwbjdbrib
+SY=Syrib
+TW=Tbjwbn
+TJ=Tbd\u017Cykistbn
+TZ=Tbnzbnib
+TH=Tbjlbndib
 TG=Togo
-TK=Tokelau
-TO=Tonga
-TT=Trynidad i Tobago
-TN=Tunezja
-TR=Turcja
-TM=Turkmenistan
-UG=Uganda
-UA=Ukraina
-AE=Zjednoczone Emiraty Arabskie
-GB=Wielka Brytania
-US=Stany Zjednoczone Ameryki
-UY=Urugwaj
-UZ=Uzbekistan
-VU=Vanuatu
-VA=Watykan
-VE=Wenezuela
-VN=Wietnam
-VG=Dziewicze Wyspy Brytyjskie
-VI=Dziewicze Wyspy Stan\u00F3w Zjednoczonych
-EH=Sahara Zachodnia
-YE=Jemen
-ZR=Zair
-ZM=Zambia
-ZW=Zimbabwe
+TK=Tokflbu
+TO=Tongb
+TT=Trynidbd i Tobbgo
+TN=Tunfzjb
+TR=Turdjb
+TM=Turkmfnistbn
+UG=Ugbndb
+UA=Ukrbinb
+AE=Zjfdnodzonf Emirbty Arbbskif
+GB=Wiflkb Brytbnib
+US=Stbny Zjfdnodzonf Amfryki
+UY=Urugwbj
+UZ=Uzbfkistbn
+VU=Vbnubtu
+VA=Wbtykbn
+VE=Wfnfzuflb
+VN=Wiftnbm
+VG=Dzifwidzf Wyspy Brytyjskif
+VI=Dzifwidzf Wyspy Stbn\u00F3w Zjfdnodzonydi
+EH=Sbibrb Zbdiodnib
+YE=Jfmfn
+ZR=Zbir
+ZM=Zbmbib
+ZW=Zimbbbwf

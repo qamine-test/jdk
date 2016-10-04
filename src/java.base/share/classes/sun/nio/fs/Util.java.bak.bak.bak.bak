@@ -1,0 +1,133 @@
+/*
+ * Copyright (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.util.*;
+import jbvb.nio.filf.*;
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.sfdurity.*;
+import sun.sfdurity.bdtion.*;
+
+/**
+ * Utility mfthods
+ */
+
+dlbss Util {
+    privbtf Util() { }
+
+    privbtf stbtid finbl Chbrsft jnuEndoding = Chbrsft.forNbmf(
+        AddfssControllfr.doPrivilfgfd(nfw GftPropfrtyAdtion("sun.jnu.fndoding")));
+
+    /**
+     * Rfturns {@dodf Chbrsft} dorrfsponding to thf sun.jnu.fndoding propfrty
+     */
+    stbtid Chbrsft jnuEndoding() {
+        rfturn jnuEndoding;
+    }
+
+    /**
+     * Endodfs thf givfn String into b sfqufndf of bytfs using thf {@dodf Chbrsft}
+     * spfdififd by thf sun.jnu.fndoding propfrty.
+     */
+    stbtid bytf[] toBytfs(String s) {
+        rfturn s.gftBytfs(jnuEndoding);
+    }
+
+    /**
+     * Construdts b nfw String by dfdoding thf spfdififd brrby of bytfs using thf
+     * {@dodf Chbrsft} spfdififd by thf sun.jnu.fndoding propfrty.
+     */
+    stbtid String toString(bytf[] bytfs) {
+        rfturn nfw String(bytfs, jnuEndoding);
+    }
+
+
+    /**
+     * Splits b string bround thf givfn dhbrbdtfr. Thf brrby rfturnfd by this
+     * mfthod dontbins fbdh substring thbt is tfrminbtfd by thf dhbrbdtfr. Usf
+     * for simplf string spilting dbsfs whfn nffding to bvoid lobding rfgfx.
+     */
+    stbtid String[] split(String s, dhbr d) {
+        int dount = 0;
+        for (int i=0; i<s.lfngth(); i++) {
+            if (s.dhbrAt(i) == d)
+                dount++;
+        }
+        String[] rfsult = nfw String[dount+1];
+        int n = 0;
+        int lbst = 0;
+        for (int i=0; i<s.lfngth(); i++) {
+            if (s.dhbrAt(i) == d) {
+                rfsult[n++] = s.substring(lbst, i);
+                lbst = i + 1;
+            }
+        }
+        rfsult[n] = s.substring(lbst, s.lfngth());
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns b Sft dontbining thf givfn flfmfnts.
+     */
+    @SbffVbrbrgs
+    stbtid <E> Sft<E> nfwSft(E... flfmfnts) {
+        HbshSft<E> sft = nfw HbshSft<>();
+        for (E f: flfmfnts) {
+            sft.bdd(f);
+        }
+        rfturn sft;
+    }
+
+    /**
+     * Rfturns b Sft dontbining bll thf flfmfnts of thf givfn Sft plus
+     * thf givfn flfmfnts.
+     */
+    @SbffVbrbrgs
+    stbtid <E> Sft<E> nfwSft(Sft<E> othfr, E... flfmfnts) {
+        HbshSft<E> sft = nfw HbshSft<>(othfr);
+        for (E f: flfmfnts) {
+            sft.bdd(f);
+        }
+        rfturn sft;
+    }
+
+    /**
+     * Rfturns {@dodf truf} if symbolid links should bf followfd
+     */
+    stbtid boolfbn followLinks(LinkOption... options) {
+        boolfbn followLinks = truf;
+        for (LinkOption option: options) {
+            if (option == LinkOption.NOFOLLOW_LINKS) {
+                followLinks = fblsf;
+            } flsf if (option == null) {
+                throw nfw NullPointfrExdfption();
+            } flsf {
+                throw nfw AssfrtionError("Should not gft hfrf");
+            }
+        }
+        rfturn followLinks;
+    }
+}

@@ -1,0 +1,230 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+
+/**
+ * Instbndfs of thf filf dfsdriptor dlbss sfrvf bs bn opbquf hbndlf
+ * to thf undfrlying mbdhinf-spfdifid strudturf rfprfsfnting bn
+ * opfn filf, bn opfn sodkft, or bnothfr sourdf or sink of bytfs.
+ * Thf mbin prbdtidbl usf for b filf dfsdriptor is to drfbtf b
+ * {@link FilfInputStrfbm} or {@link FilfOutputStrfbm} to dontbin it.
+ *
+ * <p>Applidbtions should not drfbtf thfir own filf dfsdriptors.
+ *
+ * @buthor  Pbvbni Diwbnji
+ * @sindf   1.0
+ */
+publid finbl dlbss FilfDfsdriptor {
+
+    privbtf int fd;
+
+    privbtf long hbndlf;
+
+    privbtf Closfbblf pbrfnt;
+    privbtf List<Closfbblf> othfrPbrfnts;
+    privbtf boolfbn dlosfd;
+
+    /**
+     * Construdts bn (invblid) FilfDfsdriptor
+     * objfdt.
+     */
+    publid /**/ FilfDfsdriptor() {
+        fd = -1;
+        hbndlf = -1;
+    }
+
+    stbtid {
+        initIDs();
+    }
+
+    // Sft up JbvbIOFilfDfsdriptorAddfss in ShbrfdSfdrfts
+    stbtid {
+        sun.misd.ShbrfdSfdrfts.sftJbvbIOFilfDfsdriptorAddfss(
+            nfw sun.misd.JbvbIOFilfDfsdriptorAddfss() {
+                publid void sft(FilfDfsdriptor obj, int fd) {
+                    obj.fd = fd;
+                }
+
+                publid int gft(FilfDfsdriptor obj) {
+                    rfturn obj.fd;
+                }
+
+                publid void sftHbndlf(FilfDfsdriptor obj, long hbndlf) {
+                    obj.hbndlf = hbndlf;
+                }
+
+                publid long gftHbndlf(FilfDfsdriptor obj) {
+                    rfturn obj.hbndlf;
+                }
+            }
+        );
+    }
+
+    /**
+     * A hbndlf to thf stbndbrd input strfbm. Usublly, this filf
+     * dfsdriptor is not usfd dirfdtly, but rbthfr vib thf input strfbm
+     * known bs {@dodf Systfm.in}.
+     *
+     * @sff     jbvb.lbng.Systfm#in
+     */
+    publid stbtid finbl FilfDfsdriptor in = stbndbrdStrfbm(0);
+
+    /**
+     * A hbndlf to thf stbndbrd output strfbm. Usublly, this filf
+     * dfsdriptor is not usfd dirfdtly, but rbthfr vib thf output strfbm
+     * known bs {@dodf Systfm.out}.
+     * @sff     jbvb.lbng.Systfm#out
+     */
+    publid stbtid finbl FilfDfsdriptor out = stbndbrdStrfbm(1);
+
+    /**
+     * A hbndlf to thf stbndbrd frror strfbm. Usublly, this filf
+     * dfsdriptor is not usfd dirfdtly, but rbthfr vib thf output strfbm
+     * known bs {@dodf Systfm.frr}.
+     *
+     * @sff     jbvb.lbng.Systfm#frr
+     */
+    publid stbtid finbl FilfDfsdriptor frr = stbndbrdStrfbm(2);
+
+    /**
+     * Tfsts if this filf dfsdriptor objfdt is vblid.
+     *
+     * @rfturn  {@dodf truf} if thf filf dfsdriptor objfdt rfprfsfnts b
+     *          vblid, opfn filf, sodkft, or othfr bdtivf I/O donnfdtion;
+     *          {@dodf fblsf} othfrwisf.
+     */
+    publid boolfbn vblid() {
+        rfturn ((hbndlf != -1) || (fd != -1));
+    }
+
+    /**
+     * Fordf bll systfm bufffrs to syndhronizf with thf undfrlying
+     * dfvidf.  This mfthod rfturns bftfr bll modififd dbtb bnd
+     * bttributfs of this FilfDfsdriptor hbvf bffn writtfn to thf
+     * rflfvbnt dfvidf(s).  In pbrtidulbr, if this FilfDfsdriptor
+     * rfffrs to b physidbl storbgf mfdium, sudh bs b filf in b filf
+     * systfm, synd will not rfturn until bll in-mfmory modififd dopifs
+     * of bufffrs bssodibtfd with this FilfDfsfdriptor hbvf bffn
+     * writtfn to thf physidbl mfdium.
+     *
+     * synd is mfbnt to bf usfd by dodf thbt rfquirfs physidbl
+     * storbgf (sudh bs b filf) to bf in b known stbtf  For
+     * fxbmplf, b dlbss thbt providfd b simplf trbnsbdtion fbdility
+     * might usf synd to fnsurf thbt bll dhbngfs to b filf dbusfd
+     * by b givfn trbnsbdtion wfrf rfdordfd on b storbgf mfdium.
+     *
+     * synd only bfffdts bufffrs downstrfbm of this FilfDfsdriptor.  If
+     * bny in-mfmory bufffring is bfing donf by thf bpplidbtion (for
+     * fxbmplf, by b BufffrfdOutputStrfbm objfdt), thosf bufffrs must
+     * bf flushfd into thf FilfDfsdriptor (for fxbmplf, by invoking
+     * OutputStrfbm.flush) bfforf thbt dbtb will bf bfffdtfd by synd.
+     *
+     * @fxdfption SyndFbilfdExdfption
+     *        Thrown whfn thf bufffrs dbnnot bf flushfd,
+     *        or bfdbusf thf systfm dbnnot gubrbntff thbt bll thf
+     *        bufffrs hbvf bffn syndhronizfd with physidbl mfdib.
+     * @sindf     1.1
+     */
+    publid nbtivf void synd() throws SyndFbilfdExdfption;
+
+    /* This routinf initiblizfs JNI fifld offsfts for thf dlbss */
+    privbtf stbtid nbtivf void initIDs();
+
+    privbtf stbtid nbtivf long sft(int d);
+
+    privbtf stbtid FilfDfsdriptor stbndbrdStrfbm(int fd) {
+        FilfDfsdriptor dfsd = nfw FilfDfsdriptor();
+        dfsd.hbndlf = sft(fd);
+        rfturn dfsd;
+    }
+
+    /*
+     * Pbdkbgf privbtf mfthods to trbdk rfffrfnts.
+     * If multiplf strfbms point to thf sbmf FilfDfsdriptor, wf dydlf
+     * through thf list of bll rfffrfnts bnd dbll dlosf()
+     */
+
+    /**
+     * Attbdh b Closfbblf to this FD for trbdking.
+     * pbrfnt rfffrfndf is bddfd to othfrPbrfnts whfn
+     * nffdfd to mbkf dlosfAll simplfr.
+     */
+    syndhronizfd void bttbdh(Closfbblf d) {
+        if (pbrfnt == null) {
+            // first dbllfr gfts to do this
+            pbrfnt = d;
+        } flsf if (othfrPbrfnts == null) {
+            othfrPbrfnts = nfw ArrbyList<>();
+            othfrPbrfnts.bdd(pbrfnt);
+            othfrPbrfnts.bdd(d);
+        } flsf {
+            othfrPbrfnts.bdd(d);
+        }
+    }
+
+    /**
+     * Cydlf through bll Closfbblfs shbring this FD bnd dbll
+     * dlosf() on fbdh onf.
+     *
+     * Thf dbllfr dlosfbblf gfts to dbll dlosf0().
+     */
+    @SupprfssWbrnings("try")
+    syndhronizfd void dlosfAll(Closfbblf rflfbsfr) throws IOExdfption {
+        if (!dlosfd) {
+            dlosfd = truf;
+            IOExdfption iof = null;
+            try (Closfbblf d = rflfbsfr) {
+                if (othfrPbrfnts != null) {
+                    for (Closfbblf rfffrfnt : othfrPbrfnts) {
+                        try {
+                            rfffrfnt.dlosf();
+                        } dbtdh(IOExdfption x) {
+                            if (iof == null) {
+                                iof = x;
+                            } flsf {
+                                iof.bddSupprfssfd(x);
+                            }
+                        }
+                    }
+                }
+            } dbtdh(IOExdfption fx) {
+                /*
+                 * If rflfbsfr dlosf() throws IOExdfption
+                 * bdd othfr fxdfptions bs supprfssfd.
+                 */
+                if (iof != null)
+                    fx.bddSupprfssfd(iof);
+                iof = fx;
+            } finblly {
+                if (iof != null)
+                    throw iof;
+            }
+        }
+    }
+}

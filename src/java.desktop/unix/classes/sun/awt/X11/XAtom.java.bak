@@ -1,835 +1,835 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
 /**
- * XAtom is a class that allows you to create and modify X Window properties.
- * An X Atom is an identifier for a property that you can set on any X Window.
- * Standard X Atom are defined by X11 and these atoms are defined in this class
- * for convenience. Common X Atoms like <code>XA_WM_NAME</code> are used to communicate with the
- * Window manager to let it know the Window name. The use and protocol for these
- * atoms are defined in the Inter client communications converntions manual.
- * User specified XAtoms are defined by specifying a name that gets Interned
- * by the XServer and an <code>XAtom</code> object is returned. An <code>XAtom</code> can also be created
- * by using a pre-exisiting atom like <code>XA_WM_CLASS</code>. A <code>display</code> has to be specified
- * in order to create an <code>XAtom</code>. <p> <p>
+ * XAtom is b dlbss tibt bllows you to drfbtf bnd modify X Window propfrtifs.
+ * An X Atom is bn idfntififr for b propfrty tibt you dbn sft on bny X Window.
+ * Stbndbrd X Atom brf dffinfd by X11 bnd tifsf btoms brf dffinfd in tiis dlbss
+ * for donvfnifndf. Common X Atoms likf <dodf>XA_WM_NAME</dodf> brf usfd to dommunidbtf witi tif
+ * Window mbnbgfr to lft it know tif Window nbmf. Tif usf bnd protodol for tifsf
+ * btoms brf dffinfd in tif Intfr dlifnt dommunidbtions donvfrntions mbnubl.
+ * Usfr spfdififd XAtoms brf dffinfd by spfdifying b nbmf tibt gfts Intfrnfd
+ * by tif XSfrvfr bnd bn <dodf>XAtom</dodf> objfdt is rfturnfd. An <dodf>XAtom</dodf> dbn blso bf drfbtfd
+ * by using b prf-fxisiting btom likf <dodf>XA_WM_CLASS</dodf>. A <dodf>displby</dodf> ibs to bf spfdififd
+ * in ordfr to drfbtf bn <dodf>XAtom</dodf>. <p> <p>
  *
- * Once an <code>XAtom</code> instance is created, you can call get and set property methods to
- * set the values for a particular window. <p> <p>
+ * Ondf bn <dodf>XAtom</dodf> instbndf is drfbtfd, you dbn dbll gft bnd sft propfrty mftiods to
+ * sft tif vblufs for b pbrtidulbr window. <p> <p>
  *
  *
- * Example usage : To set the window name for a top level: <p>
- * <code>
- * XAtom xa = new XAtom(display,XAtom.XA_WM_NAME); <p>
- * xa.setProperty(window,"Hello World");<p></code>
+ * Exbmplf usbgf : To sft tif window nbmf for b top lfvfl: <p>
+ * <dodf>
+ * XAtom xb = nfw XAtom(displby,XAtom.XA_WM_NAME); <p>
+ * xb.sftPropfrty(window,"Hfllo World");<p></dodf>
  *<p>
  *<p>
- * To get the cut buffer :<p>
- * <p><code>
- * XAtom xa = new XAtom(display,XAtom.XA_CUT_BUFFER0);<p>
- * String selection = xa.getProperty(root_window);<p></code>
- * @author  Bino George
- * @since       1.5
+ * To gft tif dut bufffr :<p>
+ * <p><dodf>
+ * XAtom xb = nfw XAtom(displby,XAtom.XA_CUT_BUFFER0);<p>
+ * String sflfdtion = xb.gftPropfrty(root_window);<p></dodf>
+ * @butior  Bino Gforgf
+ * @sindf       1.5
  */
 
-import sun.misc.Unsafe;
-import java.util.HashMap;
+import sun.misd.Unsbff;
+import jbvb.util.HbsiMbp;
 
-public final class XAtom {
+publid finbl dlbss XAtom {
 
-    // Order of lock:  XAWTLock -> XAtom.class
+    // Ordfr of lodk:  XAWTLodk -> XAtom.dlbss
 
-    /* Predefined Atoms - automatically extracted from XAtom.h */
-    private static Unsafe unsafe = XlibWrapper.unsafe;
-    private static XAtom[] emptyList = new XAtom[0];
+    /* Prfdffinfd Atoms - butombtidblly fxtrbdtfd from XAtom.i */
+    privbtf stbtid Unsbff unsbff = XlibWrbppfr.unsbff;
+    privbtf stbtid XAtom[] fmptyList = nfw XAtom[0];
 
-    public static final long XA_PRIMARY=1;
-    public static final long XA_SECONDARY=2;
-    public static final long XA_ARC=3;
-    public static final long XA_ATOM=4;
-    public static final long XA_BITMAP=5;
-    public static final long XA_CARDINAL=6;
-    public static final long XA_COLORMAP=7;
-    public static final long XA_CURSOR=8;
-    public static final long XA_CUT_BUFFER0=9;
-    public static final long XA_CUT_BUFFER1=10;
-    public static final long XA_CUT_BUFFER2=11;
-    public static final long XA_CUT_BUFFER3=12;
-    public static final long XA_CUT_BUFFER4=13;
-    public static final long XA_CUT_BUFFER5=14;
-    public static final long XA_CUT_BUFFER6=15;
-    public static final long XA_CUT_BUFFER7=16;
-    public static final long XA_DRAWABLE=17;
-    public static final long XA_FONT=18;
-    public static final long XA_INTEGER=19;
-    public static final long XA_PIXMAP=20;
-    public static final long XA_POINT=21;
-    public static final long XA_RECTANGLE=22;
-    public static final long XA_RESOURCE_MANAGER=23;
-    public static final long XA_RGB_COLOR_MAP=24;
-    public static final long XA_RGB_BEST_MAP=25;
-    public static final long XA_RGB_BLUE_MAP=26;
-    public static final long XA_RGB_DEFAULT_MAP=27;
-    public static final long XA_RGB_GRAY_MAP=28;
-    public static final long XA_RGB_GREEN_MAP=29;
-    public static final long XA_RGB_RED_MAP=30;
-    public static final long XA_STRING=31;
-    public static final long XA_VISUALID=32;
-    public static final long XA_WINDOW=33;
-    public static final long XA_WM_COMMAND=34;
-    public static final long XA_WM_HINTS=35;
-    public static final long XA_WM_CLIENT_MACHINE=36;
-    public static final long XA_WM_ICON_NAME=37;
-    public static final long XA_WM_ICON_SIZE=38;
-    public static final long XA_WM_NAME=39;
-    public static final long XA_WM_NORMAL_HINTS=40;
-    public static final long XA_WM_SIZE_HINTS=41;
-    public static final long XA_WM_ZOOM_HINTS=42;
-    public static final long XA_MIN_SPACE=43;
-    public static final long XA_NORM_SPACE=44;
-    public static final long XA_MAX_SPACE=45;
-    public static final long XA_END_SPACE=46;
-    public static final long XA_SUPERSCRIPT_X=47;
-    public static final long XA_SUPERSCRIPT_Y=48;
-    public static final long XA_SUBSCRIPT_X=49;
-    public static final long XA_SUBSCRIPT_Y=50;
-    public static final long XA_UNDERLINE_POSITION=51;
-    public static final long XA_UNDERLINE_THICKNESS=52 ;
-    public static final long XA_STRIKEOUT_ASCENT=53;
-    public static final long XA_STRIKEOUT_DESCENT=54;
-    public static final long XA_ITALIC_ANGLE=55;
-    public static final long XA_X_HEIGHT=56;
-    public static final long XA_QUAD_WIDTH=57;
-    public static final long XA_WEIGHT=58;
-    public static final long XA_POINT_SIZE=59;
-    public static final long XA_RESOLUTION=60;
-    public static final long XA_COPYRIGHT=61;
-    public static final long XA_NOTICE=62;
-    public static final long XA_FONT_NAME=63;
-    public static final long XA_FAMILY_NAME=64;
-    public static final long XA_FULL_NAME=65;
-    public static final long XA_CAP_HEIGHT=66;
-    public static final long XA_WM_CLASS=67;
-    public static final long XA_WM_TRANSIENT_FOR=68;
-    public static final long XA_LAST_PREDEFINED=68;
-    static HashMap<Long, XAtom> atomToAtom = new HashMap<Long, XAtom>();
-    static HashMap<String, XAtom> nameToAtom = new HashMap<String, XAtom>();
-    static void register(XAtom at) {
-        if (at == null) {
-            return;
+    publid stbtid finbl long XA_PRIMARY=1;
+    publid stbtid finbl long XA_SECONDARY=2;
+    publid stbtid finbl long XA_ARC=3;
+    publid stbtid finbl long XA_ATOM=4;
+    publid stbtid finbl long XA_BITMAP=5;
+    publid stbtid finbl long XA_CARDINAL=6;
+    publid stbtid finbl long XA_COLORMAP=7;
+    publid stbtid finbl long XA_CURSOR=8;
+    publid stbtid finbl long XA_CUT_BUFFER0=9;
+    publid stbtid finbl long XA_CUT_BUFFER1=10;
+    publid stbtid finbl long XA_CUT_BUFFER2=11;
+    publid stbtid finbl long XA_CUT_BUFFER3=12;
+    publid stbtid finbl long XA_CUT_BUFFER4=13;
+    publid stbtid finbl long XA_CUT_BUFFER5=14;
+    publid stbtid finbl long XA_CUT_BUFFER6=15;
+    publid stbtid finbl long XA_CUT_BUFFER7=16;
+    publid stbtid finbl long XA_DRAWABLE=17;
+    publid stbtid finbl long XA_FONT=18;
+    publid stbtid finbl long XA_INTEGER=19;
+    publid stbtid finbl long XA_PIXMAP=20;
+    publid stbtid finbl long XA_POINT=21;
+    publid stbtid finbl long XA_RECTANGLE=22;
+    publid stbtid finbl long XA_RESOURCE_MANAGER=23;
+    publid stbtid finbl long XA_RGB_COLOR_MAP=24;
+    publid stbtid finbl long XA_RGB_BEST_MAP=25;
+    publid stbtid finbl long XA_RGB_BLUE_MAP=26;
+    publid stbtid finbl long XA_RGB_DEFAULT_MAP=27;
+    publid stbtid finbl long XA_RGB_GRAY_MAP=28;
+    publid stbtid finbl long XA_RGB_GREEN_MAP=29;
+    publid stbtid finbl long XA_RGB_RED_MAP=30;
+    publid stbtid finbl long XA_STRING=31;
+    publid stbtid finbl long XA_VISUALID=32;
+    publid stbtid finbl long XA_WINDOW=33;
+    publid stbtid finbl long XA_WM_COMMAND=34;
+    publid stbtid finbl long XA_WM_HINTS=35;
+    publid stbtid finbl long XA_WM_CLIENT_MACHINE=36;
+    publid stbtid finbl long XA_WM_ICON_NAME=37;
+    publid stbtid finbl long XA_WM_ICON_SIZE=38;
+    publid stbtid finbl long XA_WM_NAME=39;
+    publid stbtid finbl long XA_WM_NORMAL_HINTS=40;
+    publid stbtid finbl long XA_WM_SIZE_HINTS=41;
+    publid stbtid finbl long XA_WM_ZOOM_HINTS=42;
+    publid stbtid finbl long XA_MIN_SPACE=43;
+    publid stbtid finbl long XA_NORM_SPACE=44;
+    publid stbtid finbl long XA_MAX_SPACE=45;
+    publid stbtid finbl long XA_END_SPACE=46;
+    publid stbtid finbl long XA_SUPERSCRIPT_X=47;
+    publid stbtid finbl long XA_SUPERSCRIPT_Y=48;
+    publid stbtid finbl long XA_SUBSCRIPT_X=49;
+    publid stbtid finbl long XA_SUBSCRIPT_Y=50;
+    publid stbtid finbl long XA_UNDERLINE_POSITION=51;
+    publid stbtid finbl long XA_UNDERLINE_THICKNESS=52 ;
+    publid stbtid finbl long XA_STRIKEOUT_ASCENT=53;
+    publid stbtid finbl long XA_STRIKEOUT_DESCENT=54;
+    publid stbtid finbl long XA_ITALIC_ANGLE=55;
+    publid stbtid finbl long XA_X_HEIGHT=56;
+    publid stbtid finbl long XA_QUAD_WIDTH=57;
+    publid stbtid finbl long XA_WEIGHT=58;
+    publid stbtid finbl long XA_POINT_SIZE=59;
+    publid stbtid finbl long XA_RESOLUTION=60;
+    publid stbtid finbl long XA_COPYRIGHT=61;
+    publid stbtid finbl long XA_NOTICE=62;
+    publid stbtid finbl long XA_FONT_NAME=63;
+    publid stbtid finbl long XA_FAMILY_NAME=64;
+    publid stbtid finbl long XA_FULL_NAME=65;
+    publid stbtid finbl long XA_CAP_HEIGHT=66;
+    publid stbtid finbl long XA_WM_CLASS=67;
+    publid stbtid finbl long XA_WM_TRANSIENT_FOR=68;
+    publid stbtid finbl long XA_LAST_PREDEFINED=68;
+    stbtid HbsiMbp<Long, XAtom> btomToAtom = nfw HbsiMbp<Long, XAtom>();
+    stbtid HbsiMbp<String, XAtom> nbmfToAtom = nfw HbsiMbp<String, XAtom>();
+    stbtid void rfgistfr(XAtom bt) {
+        if (bt == null) {
+            rfturn;
         }
-        synchronized (XAtom.class) {
-            if (at.atom != 0) {
-                atomToAtom.put(Long.valueOf(at.atom), at);
+        syndironizfd (XAtom.dlbss) {
+            if (bt.btom != 0) {
+                btomToAtom.put(Long.vblufOf(bt.btom), bt);
             }
-            if (at.name != null) {
-                nameToAtom.put(at.name, at);
+            if (bt.nbmf != null) {
+                nbmfToAtom.put(bt.nbmf, bt);
             }
         }
     }
-    static XAtom lookup(long atom) {
-        synchronized (XAtom.class) {
-            return atomToAtom.get(Long.valueOf(atom));
+    stbtid XAtom lookup(long btom) {
+        syndironizfd (XAtom.dlbss) {
+            rfturn btomToAtom.gft(Long.vblufOf(btom));
         }
     }
-    static XAtom lookup(String name) {
-        synchronized (XAtom.class) {
-            return nameToAtom.get(name);
+    stbtid XAtom lookup(String nbmf) {
+        syndironizfd (XAtom.dlbss) {
+            rfturn nbmfToAtom.gft(nbmf);
         }
     }
     /*
-     * [das]Suggestion:
-     * 1.Make XAtom immutable.
-     * 2.Replace public ctors with factory methods (e.g. get() below).
+     * [dbs]Suggfstion:
+     * 1.Mbkf XAtom immutbblf.
+     * 2.Rfplbdf publid dtors witi fbdtory mftiods (f.g. gft() bflow).
      */
-    static XAtom get(long atom) {
-        XAtom xatom = lookup(atom);
-        if (xatom == null) {
-            xatom = new XAtom(XToolkit.getDisplay(), atom);
+    stbtid XAtom gft(long btom) {
+        XAtom xbtom = lookup(btom);
+        if (xbtom == null) {
+            xbtom = nfw XAtom(XToolkit.gftDisplby(), btom);
         }
-        return xatom;
+        rfturn xbtom;
     }
-    public static XAtom get(String name) {
-        XAtom xatom = lookup(name);
-        if (xatom == null) {
-            xatom = new XAtom(XToolkit.getDisplay(), name);
+    publid stbtid XAtom gft(String nbmf) {
+        XAtom xbtom = lookup(nbmf);
+        if (xbtom == null) {
+            xbtom = nfw XAtom(XToolkit.gftDisplby(), nbmf);
         }
-        return xatom;
+        rfturn xbtom;
     }
-    public final String getName() {
-        if (name == null) {
-            XToolkit.awtLock();
+    publid finbl String gftNbmf() {
+        if (nbmf == null) {
+            XToolkit.bwtLodk();
             try {
-                this.name = XlibWrapper.XGetAtomName(display, atom);
-            } finally {
-                XToolkit.awtUnlock();
+                tiis.nbmf = XlibWrbppfr.XGftAtomNbmf(displby, btom);
+            } finblly {
+                XToolkit.bwtUnlodk();
             }
-            register();
+            rfgistfr();
         }
-        return name;
+        rfturn nbmf;
     }
-    static String asString(long atom) {
-        XAtom at = lookup(atom);
-        if (at == null) {
-            return Long.toString(atom);
-        } else {
-            return at.toString();
-        }
-    }
-    void register() {
-        register(this);
-    }
-    public String toString() {
-        if (name != null) {
-            return name + ":" + atom;
-        } else {
-            return Long.toString(atom);
+    stbtid String bsString(long btom) {
+        XAtom bt = lookup(btom);
+        if (bt == null) {
+            rfturn Long.toString(btom);
+        } flsf {
+            rfturn bt.toString();
         }
     }
-
-    /* interned value of Atom */
-    long atom = 0;
-
-    /* name of atom */
-    String name;
-
-    /* display for X connection */
-    long display;
-
-
-    /**  This constructor will create and intern a new XAtom that is specified
-     *  by the supplied name.
-     *
-     * @param display X display to use
-     * @param name name of the XAtom to create.
-     * @since 1.5
-     */
-
-    private XAtom(long display, String name) {
-        this(display, name, true);
+    void rfgistfr() {
+        rfgistfr(tiis);
+    }
+    publid String toString() {
+        if (nbmf != null) {
+            rfturn nbmf + ":" + btom;
+        } flsf {
+            rfturn Long.toString(btom);
+        }
     }
 
-    public XAtom(String name, boolean autoIntern) {
-        this(XToolkit.getDisplay(), name, autoIntern);
-    }
+    /* intfrnfd vbluf of Atom */
+    long btom = 0;
 
-    /**  This constructor will create an instance of XAtom that is specified
-     *  by the predefined XAtom specified by u <code> latom </code>
-     *
-     * @param display X display to use.
-     * @param atom a predefined XAtom.
-     * @since 1.5
-     */
-    public XAtom(long display, long atom) {
-        this.atom = atom;
-        this.display = display;
-        register();
-    }
+    /* nbmf of btom */
+    String nbmf;
 
-    /**  This constructor will create the instance,
-     *  and if <code>autoIntern</code> is true intern a new XAtom that is specified
-     *  by the supplied name.
+    /* displby for X donnfdtion */
+    long displby;
+
+
+    /**  Tiis donstrudtor will drfbtf bnd intfrn b nfw XAtom tibt is spfdififd
+     *  by tif supplifd nbmf.
      *
-     * @param display X display to use
-     * @param name name of the XAtom to create.
-     * @since 1.5
+     * @pbrbm displby X displby to usf
+     * @pbrbm nbmf nbmf of tif XAtom to drfbtf.
+     * @sindf 1.5
      */
 
-    private XAtom(long display, String name, boolean autoIntern) {
-        this.name = name;
-        this.display = display;
-        if (autoIntern) {
-            XToolkit.awtLock();
+    privbtf XAtom(long displby, String nbmf) {
+        tiis(displby, nbmf, truf);
+    }
+
+    publid XAtom(String nbmf, boolfbn butoIntfrn) {
+        tiis(XToolkit.gftDisplby(), nbmf, butoIntfrn);
+    }
+
+    /**  Tiis donstrudtor will drfbtf bn instbndf of XAtom tibt is spfdififd
+     *  by tif prfdffinfd XAtom spfdififd by u <dodf> lbtom </dodf>
+     *
+     * @pbrbm displby X displby to usf.
+     * @pbrbm btom b prfdffinfd XAtom.
+     * @sindf 1.5
+     */
+    publid XAtom(long displby, long btom) {
+        tiis.btom = btom;
+        tiis.displby = displby;
+        rfgistfr();
+    }
+
+    /**  Tiis donstrudtor will drfbtf tif instbndf,
+     *  bnd if <dodf>butoIntfrn</dodf> is truf intfrn b nfw XAtom tibt is spfdififd
+     *  by tif supplifd nbmf.
+     *
+     * @pbrbm displby X displby to usf
+     * @pbrbm nbmf nbmf of tif XAtom to drfbtf.
+     * @sindf 1.5
+     */
+
+    privbtf XAtom(long displby, String nbmf, boolfbn butoIntfrn) {
+        tiis.nbmf = nbmf;
+        tiis.displby = displby;
+        if (butoIntfrn) {
+            XToolkit.bwtLodk();
             try {
-                atom = XlibWrapper.InternAtom(display,name,0);
-            } finally {
-                XToolkit.awtUnlock();
+                btom = XlibWrbppfr.IntfrnAtom(displby,nbmf,0);
+            } finblly {
+                XToolkit.bwtUnlodk();
             }
         }
-        register();
+        rfgistfr();
     }
 
     /**
-     * Creates uninitialized instance of
+     * Crfbtfs uninitiblizfd instbndf of
      */
-    public XAtom() {
+    publid XAtom() {
     }
 
-    /**  Sets the window property for the specified window
-     * @param window window id to use
-     * @param str value to set to.
-     * @since 1.5
+    /**  Sfts tif window propfrty for tif spfdififd window
+     * @pbrbm window window id to usf
+     * @pbrbm str vbluf to sft to.
+     * @sindf 1.5
      */
-    public void setProperty(long window, String str) {
-        if (atom == 0) {
-            throw new IllegalStateException("Atom should be initialized");
+    publid void sftPropfrty(long window, String str) {
+        if (btom == 0) {
+            tirow nfw IllfgblStbtfExdfption("Atom siould bf initiblizfd");
         }
-        checkWindow(window);
-        XToolkit.awtLock();
+        difdkWindow(window);
+        XToolkit.bwtLodk();
         try {
-            XlibWrapper.SetProperty(display,window,atom,str);
-        } finally {
-            XToolkit.awtUnlock();
-        }
-    }
-
-    /**
-     * Sets UTF8_STRING type property. Explicitly converts str to UTF-8 byte sequence.
-     */
-    public void setPropertyUTF8(long window, String str) {
-        XAtom XA_UTF8_STRING = XAtom.get("UTF8_STRING");   /* like STRING but encoding is UTF-8 */
-        if (atom == 0) {
-            throw new IllegalStateException("Atom should be initialized");
-        }
-        checkWindow(window);
-        byte[] bdata = null;
-        try {
-            bdata = str.getBytes("UTF-8");
-        } catch (java.io.UnsupportedEncodingException uee) {
-            uee.printStackTrace();
-        }
-        if (bdata != null) {
-            setAtomData(window, XA_UTF8_STRING.atom, bdata);
+            XlibWrbppfr.SftPropfrty(displby,window,btom,str);
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
     /**
-     * Sets STRING/8 type property. Explicitly converts str to Latin-1 byte sequence.
+     * Sfts UTF8_STRING typf propfrty. Expliditly donvfrts str to UTF-8 bytf sfqufndf.
      */
-    public void setProperty8(long window, String str) {
-        if (atom == 0) {
-            throw new IllegalStateException("Atom should be initialized");
+    publid void sftPropfrtyUTF8(long window, String str) {
+        XAtom XA_UTF8_STRING = XAtom.gft("UTF8_STRING");   /* likf STRING but fndoding is UTF-8 */
+        if (btom == 0) {
+            tirow nfw IllfgblStbtfExdfption("Atom siould bf initiblizfd");
         }
-        checkWindow(window);
-        byte[] bdata = null;
+        difdkWindow(window);
+        bytf[] bdbtb = null;
         try {
-            bdata = str.getBytes("ISO-8859-1");
-        } catch (java.io.UnsupportedEncodingException uee) {
-            uee.printStackTrace();
+            bdbtb = str.gftBytfs("UTF-8");
+        } dbtdi (jbvb.io.UnsupportfdEndodingExdfption uff) {
+            uff.printStbdkTrbdf();
         }
-        if (bdata != null) {
-            setAtomData(window, XA_STRING, bdata);
+        if (bdbtb != null) {
+            sftAtomDbtb(window, XA_UTF8_STRING.btom, bdbtb);
+        }
+    }
+
+    /**
+     * Sfts STRING/8 typf propfrty. Expliditly donvfrts str to Lbtin-1 bytf sfqufndf.
+     */
+    publid void sftPropfrty8(long window, String str) {
+        if (btom == 0) {
+            tirow nfw IllfgblStbtfExdfption("Atom siould bf initiblizfd");
+        }
+        difdkWindow(window);
+        bytf[] bdbtb = null;
+        try {
+            bdbtb = str.gftBytfs("ISO-8859-1");
+        } dbtdi (jbvb.io.UnsupportfdEndodingExdfption uff) {
+            uff.printStbdkTrbdf();
+        }
+        if (bdbtb != null) {
+            sftAtomDbtb(window, XA_STRING, bdbtb);
         }
     }
 
 
-    /**  Gets the window property for the specified window
-     * @param window window id to use
-     * @param str value to set to.
-     * @return string with the property.
-     * @since 1.5
+    /**  Gfts tif window propfrty for tif spfdififd window
+     * @pbrbm window window id to usf
+     * @pbrbm str vbluf to sft to.
+     * @rfturn string witi tif propfrty.
+     * @sindf 1.5
      */
-    public String getProperty(long window) {
-        if (atom == 0) {
-            throw new IllegalStateException("Atom should be initialized");
+    publid String gftPropfrty(long window) {
+        if (btom == 0) {
+            tirow nfw IllfgblStbtfExdfption("Atom siould bf initiblizfd");
         }
-        checkWindow(window);
-        XToolkit.awtLock();
+        difdkWindow(window);
+        XToolkit.bwtLodk();
         try {
-            return XlibWrapper.GetProperty(display,window,atom);
-        } finally {
-            XToolkit.awtUnlock();
+            rfturn XlibWrbppfr.GftPropfrty(displby,window,btom);
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
 
     /*
-     * Auxiliary function that returns the value of 'property' of type
-     * 'property_type' on window 'window'.  Format of the property must be 32.
+     * Auxilibry fundtion tibt rfturns tif vbluf of 'propfrty' of typf
+     * 'propfrty_typf' on window 'window'.  Formbt of tif propfrty must bf 32.
      */
-    public long get32Property(long window, long property_type) {
-        if (atom == 0) {
-            throw new IllegalStateException("Atom should be initialized");
+    publid long gft32Propfrty(long window, long propfrty_typf) {
+        if (btom == 0) {
+            tirow nfw IllfgblStbtfExdfption("Atom siould bf initiblizfd");
         }
-        checkWindow(window);
-        WindowPropertyGetter getter =
-            new WindowPropertyGetter(window, this, 0, 1,
-                                     false, property_type);
+        difdkWindow(window);
+        WindowPropfrtyGfttfr gfttfr =
+            nfw WindowPropfrtyGfttfr(window, tiis, 0, 1,
+                                     fblsf, propfrty_typf);
         try {
-            int status = getter.execute();
-            if (status != XConstants.Success || getter.getData() == 0) {
-                return 0;
+            int stbtus = gfttfr.fxfdutf();
+            if (stbtus != XConstbnts.Suddfss || gfttfr.gftDbtb() == 0) {
+                rfturn 0;
             }
-            if (getter.getActualType() != property_type || getter.getActualFormat() != 32) {
-                return 0;
+            if (gfttfr.gftAdtublTypf() != propfrty_typf || gfttfr.gftAdtublFormbt() != 32) {
+                rfturn 0;
             }
-            return Native.getCard32(getter.getData());
-        } finally {
-            getter.dispose();
+            rfturn Nbtivf.gftCbrd32(gfttfr.gftDbtb());
+        } finblly {
+            gfttfr.disposf();
         }
     }
 
     /**
-     *  Returns value of property of type CARDINAL/32 of this window
+     *  Rfturns vbluf of propfrty of typf CARDINAL/32 of tiis window
      */
-    public long getCard32Property(XBaseWindow window) {
-        return get32Property(window.getWindow(), XA_CARDINAL);
+    publid long gftCbrd32Propfrty(XBbsfWindow window) {
+        rfturn gft32Propfrty(window.gftWindow(), XA_CARDINAL);
     }
 
     /**
-     * Sets property of type CARDINAL on the window
+     * Sfts propfrty of typf CARDINAL on tif window
      */
-    public void setCard32Property(long window, long value) {
-        if (atom == 0) {
-            throw new IllegalStateException("Atom should be initialized");
+    publid void sftCbrd32Propfrty(long window, long vbluf) {
+        if (btom == 0) {
+            tirow nfw IllfgblStbtfExdfption("Atom siould bf initiblizfd");
         }
-        checkWindow(window);
-        XToolkit.awtLock();
+        difdkWindow(window);
+        XToolkit.bwtLodk();
         try {
-            Native.putCard32(XlibWrapper.larg1, value);
-            XlibWrapper.XChangeProperty(XToolkit.getDisplay(), window,
-                atom, XA_CARDINAL, 32, XConstants.PropModeReplace,
-                XlibWrapper.larg1, 1);
-        } finally {
-            XToolkit.awtUnlock();
+            Nbtivf.putCbrd32(XlibWrbppfr.lbrg1, vbluf);
+            XlibWrbppfr.XCibngfPropfrty(XToolkit.gftDisplby(), window,
+                btom, XA_CARDINAL, 32, XConstbnts.PropModfRfplbdf,
+                XlibWrbppfr.lbrg1, 1);
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
     /**
-     * Sets property of type CARDINAL/32 on the window
+     * Sfts propfrty of typf CARDINAL/32 on tif window
      */
-    public void setCard32Property(XBaseWindow window, long value) {
-        setCard32Property(window.getWindow(), value);
+    publid void sftCbrd32Propfrty(XBbsfWindow window, long vbluf) {
+        sftCbrd32Propfrty(window.gftWindow(), vbluf);
     }
 
     /**
-     * Gets uninterpreted set of data from property and stores them in data_ptr.
-     * Property type is the same as current atom, property is current atom.
-     * Property format is 32. Property 'delete' is false.
-     * Returns boolean if requested type, format, length match returned values
-     * and returned data pointer is not null.
+     * Gfts unintfrprftfd sft of dbtb from propfrty bnd storfs tifm in dbtb_ptr.
+     * Propfrty typf is tif sbmf bs durrfnt btom, propfrty is durrfnt btom.
+     * Propfrty formbt is 32. Propfrty 'dflftf' is fblsf.
+     * Rfturns boolfbn if rfqufstfd typf, formbt, lfngti mbtdi rfturnfd vblufs
+     * bnd rfturnfd dbtb pointfr is not null.
      */
-    public boolean getAtomData(long window, long data_ptr, int length) {
-        if (atom == 0) {
-            throw new IllegalStateException("Atom should be initialized");
+    publid boolfbn gftAtomDbtb(long window, long dbtb_ptr, int lfngti) {
+        if (btom == 0) {
+            tirow nfw IllfgblStbtfExdfption("Atom siould bf initiblizfd");
         }
-        checkWindow(window);
-        WindowPropertyGetter getter =
-            new WindowPropertyGetter(window, this, 0, (long)length,
-                                     false, this);
+        difdkWindow(window);
+        WindowPropfrtyGfttfr gfttfr =
+            nfw WindowPropfrtyGfttfr(window, tiis, 0, (long)lfngti,
+                                     fblsf, tiis);
         try {
-            int status = getter.execute();
-            if (status != XConstants.Success || getter.getData() == 0) {
-                return false;
+            int stbtus = gfttfr.fxfdutf();
+            if (stbtus != XConstbnts.Suddfss || gfttfr.gftDbtb() == 0) {
+                rfturn fblsf;
             }
-            if (getter.getActualType() != atom
-                || getter.getActualFormat() != 32
-                || getter.getNumberOfItems() != length
+            if (gfttfr.gftAdtublTypf() != btom
+                || gfttfr.gftAdtublFormbt() != 32
+                || gfttfr.gftNumbfrOfItfms() != lfngti
                 )
                 {
-                    return false;
+                    rfturn fblsf;
                 }
-            XlibWrapper.memcpy(data_ptr, getter.getData(), length*getAtomSize());
-            return true;
-        } finally {
-            getter.dispose();
+            XlibWrbppfr.mfmdpy(dbtb_ptr, gfttfr.gftDbtb(), lfngti*gftAtomSizf());
+            rfturn truf;
+        } finblly {
+            gfttfr.disposf();
         }
     }
 
     /**
-     * Gets uninterpreted set of data from property and stores them in data_ptr.
-     * Property type is <code>type</code>, property is current atom.
-     * Property format is 32. Property 'delete' is false.
-     * Returns boolean if requested type, format, length match returned values
-     * and returned data pointer is not null.
+     * Gfts unintfrprftfd sft of dbtb from propfrty bnd storfs tifm in dbtb_ptr.
+     * Propfrty typf is <dodf>typf</dodf>, propfrty is durrfnt btom.
+     * Propfrty formbt is 32. Propfrty 'dflftf' is fblsf.
+     * Rfturns boolfbn if rfqufstfd typf, formbt, lfngti mbtdi rfturnfd vblufs
+     * bnd rfturnfd dbtb pointfr is not null.
      */
-    public boolean getAtomData(long window, long type, long data_ptr, int length) {
-        if (atom == 0) {
-            throw new IllegalStateException("Atom should be initialized");
+    publid boolfbn gftAtomDbtb(long window, long typf, long dbtb_ptr, int lfngti) {
+        if (btom == 0) {
+            tirow nfw IllfgblStbtfExdfption("Atom siould bf initiblizfd");
         }
-        checkWindow(window);
-        WindowPropertyGetter getter =
-            new WindowPropertyGetter(window, this, 0, (long)length,
-                                     false, type);
+        difdkWindow(window);
+        WindowPropfrtyGfttfr gfttfr =
+            nfw WindowPropfrtyGfttfr(window, tiis, 0, (long)lfngti,
+                                     fblsf, typf);
         try {
-            int status = getter.execute();
-            if (status != XConstants.Success || getter.getData() == 0) {
-                return false;
+            int stbtus = gfttfr.fxfdutf();
+            if (stbtus != XConstbnts.Suddfss || gfttfr.gftDbtb() == 0) {
+                rfturn fblsf;
             }
-            if (getter.getActualType() != type
-                || getter.getActualFormat() != 32
-                || getter.getNumberOfItems() != length
+            if (gfttfr.gftAdtublTypf() != typf
+                || gfttfr.gftAdtublFormbt() != 32
+                || gfttfr.gftNumbfrOfItfms() != lfngti
                 )
                 {
-                    return false;
+                    rfturn fblsf;
                 }
-            XlibWrapper.memcpy(data_ptr, getter.getData(), length*getAtomSize());
-            return true;
-        } finally {
-            getter.dispose();
+            XlibWrbppfr.mfmdpy(dbtb_ptr, gfttfr.gftDbtb(), lfngti*gftAtomSizf());
+            rfturn truf;
+        } finblly {
+            gfttfr.disposf();
         }
     }
 
     /**
-     * Sets uninterpreted set of data into property from data_ptr.
-     * Property type is the same as current atom, property is current atom.
-     * Property format is 32. Mode is PropModeReplace. length is a number
-     * of items pointer by data_ptr.
+     * Sfts unintfrprftfd sft of dbtb into propfrty from dbtb_ptr.
+     * Propfrty typf is tif sbmf bs durrfnt btom, propfrty is durrfnt btom.
+     * Propfrty formbt is 32. Modf is PropModfRfplbdf. lfngti is b numbfr
+     * of itfms pointfr by dbtb_ptr.
      */
-    public void setAtomData(long window, long data_ptr, int length) {
-        if (atom == 0) {
-            throw new IllegalStateException("Atom should be initialized");
+    publid void sftAtomDbtb(long window, long dbtb_ptr, int lfngti) {
+        if (btom == 0) {
+            tirow nfw IllfgblStbtfExdfption("Atom siould bf initiblizfd");
         }
-        checkWindow(window);
-        XToolkit.awtLock();
+        difdkWindow(window);
+        XToolkit.bwtLodk();
         try {
-            XlibWrapper.XChangeProperty(XToolkit.getDisplay(), window,
-                atom, atom, 32, XConstants.PropModeReplace,
-                data_ptr, length);
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbppfr.XCibngfPropfrty(XToolkit.gftDisplby(), window,
+                btom, btom, 32, XConstbnts.PropModfRfplbdf,
+                dbtb_ptr, lfngti);
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
     /**
-     * Sets uninterpreted set of data into property from data_ptr.
-     * Property type is <code>type</code>, property is current atom.
-     * Property format is 32. Mode is PropModeReplace. length is a number
-     * of items pointer by data_ptr.
+     * Sfts unintfrprftfd sft of dbtb into propfrty from dbtb_ptr.
+     * Propfrty typf is <dodf>typf</dodf>, propfrty is durrfnt btom.
+     * Propfrty formbt is 32. Modf is PropModfRfplbdf. lfngti is b numbfr
+     * of itfms pointfr by dbtb_ptr.
      */
-    public void setAtomData(long window, long type, long data_ptr, int length) {
-        if (atom == 0) {
-            throw new IllegalStateException("Atom should be initialized");
+    publid void sftAtomDbtb(long window, long typf, long dbtb_ptr, int lfngti) {
+        if (btom == 0) {
+            tirow nfw IllfgblStbtfExdfption("Atom siould bf initiblizfd");
         }
-        checkWindow(window);
-        XToolkit.awtLock();
+        difdkWindow(window);
+        XToolkit.bwtLodk();
         try {
-            XlibWrapper.XChangeProperty(XToolkit.getDisplay(), window,
-                atom, type, 32, XConstants.PropModeReplace,
-                data_ptr, length);
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbppfr.XCibngfPropfrty(XToolkit.gftDisplby(), window,
+                btom, typf, 32, XConstbnts.PropModfRfplbdf,
+                dbtb_ptr, lfngti);
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
     /**
-     * Sets uninterpreted set of data into property from data_ptr.
-     * Property type is <code>type</code>, property is current atom.
-     * Property format is 8. Mode is PropModeReplace. length is a number
-     * of bytes pointer by data_ptr.
+     * Sfts unintfrprftfd sft of dbtb into propfrty from dbtb_ptr.
+     * Propfrty typf is <dodf>typf</dodf>, propfrty is durrfnt btom.
+     * Propfrty formbt is 8. Modf is PropModfRfplbdf. lfngti is b numbfr
+     * of bytfs pointfr by dbtb_ptr.
      */
-    public void setAtomData8(long window, long type, long data_ptr, int length) {
-        if (atom == 0) {
-            throw new IllegalStateException("Atom should be initialized");
+    publid void sftAtomDbtb8(long window, long typf, long dbtb_ptr, int lfngti) {
+        if (btom == 0) {
+            tirow nfw IllfgblStbtfExdfption("Atom siould bf initiblizfd");
         }
-        checkWindow(window);
-        XToolkit.awtLock();
+        difdkWindow(window);
+        XToolkit.bwtLodk();
         try {
-            XlibWrapper.XChangeProperty(XToolkit.getDisplay(), window,
-                atom, type, 8, XConstants.PropModeReplace,
-                data_ptr, length);
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbppfr.XCibngfPropfrty(XToolkit.gftDisplby(), window,
+                btom, typf, 8, XConstbnts.PropModfRfplbdf,
+                dbtb_ptr, lfngti);
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
     /**
-     * Deletes property specified by this item on the window.
+     * Dflftfs propfrty spfdififd by tiis itfm on tif window.
      */
-    public void DeleteProperty(long window) {
-        if (atom == 0) {
-            throw new IllegalStateException("Atom should be initialized");
+    publid void DflftfPropfrty(long window) {
+        if (btom == 0) {
+            tirow nfw IllfgblStbtfExdfption("Atom siould bf initiblizfd");
         }
-        checkWindow(window);
-        XToolkit.awtLock();
+        difdkWindow(window);
+        XToolkit.bwtLodk();
         try {
-             XlibWrapper.XDeleteProperty(XToolkit.getDisplay(), window, atom);
-        } finally {
-            XToolkit.awtUnlock();
+             XlibWrbppfr.XDflftfPropfrty(XToolkit.gftDisplby(), window, btom);
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
     /**
-     * Deletes property specified by this item on the window.
+     * Dflftfs propfrty spfdififd by tiis itfm on tif window.
      */
-    public void DeleteProperty(XBaseWindow window) {
-        if (atom == 0) {
-            throw new IllegalStateException("Atom should be initialized");
+    publid void DflftfPropfrty(XBbsfWindow window) {
+        if (btom == 0) {
+            tirow nfw IllfgblStbtfExdfption("Atom siould bf initiblizfd");
         }
-        checkWindow(window.getWindow());
-        XToolkit.awtLock();
+        difdkWindow(window.gftWindow());
+        XToolkit.bwtLodk();
         try {
-            XlibWrapper.XDeleteProperty(XToolkit.getDisplay(),
-                window.getWindow(), atom);
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbppfr.XDflftfPropfrty(XToolkit.gftDisplby(),
+                window.gftWindow(), btom);
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    public void setAtomData(long window, long property_type, byte[] data) {
-        long bdata = Native.toData(data);
+    publid void sftAtomDbtb(long window, long propfrty_typf, bytf[] dbtb) {
+        long bdbtb = Nbtivf.toDbtb(dbtb);
         try {
-            setAtomData8(window, property_type, bdata, data.length);
-        } finally {
-            unsafe.freeMemory(bdata);
+            sftAtomDbtb8(window, propfrty_typf, bdbtb, dbtb.lfngti);
+        } finblly {
+            unsbff.frffMfmory(bdbtb);
         }
     }
 
     /*
-     * Auxiliary function that returns the value of 'property' of type
-     * 'property_type' on window 'window'.  Format of the property must be 8.
+     * Auxilibry fundtion tibt rfturns tif vbluf of 'propfrty' of typf
+     * 'propfrty_typf' on window 'window'.  Formbt of tif propfrty must bf 8.
      */
-    public byte[] getByteArrayProperty(long window, long property_type) {
-        if (atom == 0) {
-            throw new IllegalStateException("Atom should be initialized");
+    publid bytf[] gftBytfArrbyPropfrty(long window, long propfrty_typf) {
+        if (btom == 0) {
+            tirow nfw IllfgblStbtfExdfption("Atom siould bf initiblizfd");
         }
-        checkWindow(window);
-        WindowPropertyGetter getter =
-            new WindowPropertyGetter(window, this, 0, 0xFFFF,
-                                     false, property_type);
+        difdkWindow(window);
+        WindowPropfrtyGfttfr gfttfr =
+            nfw WindowPropfrtyGfttfr(window, tiis, 0, 0xFFFF,
+                                     fblsf, propfrty_typf);
         try {
-            int status = getter.execute();
-            if (status != XConstants.Success || getter.getData() == 0) {
-                return null;
+            int stbtus = gfttfr.fxfdutf();
+            if (stbtus != XConstbnts.Suddfss || gfttfr.gftDbtb() == 0) {
+                rfturn null;
             }
-            if (getter.getActualType() != property_type || getter.getActualFormat() != 8) {
-                return null;
+            if (gfttfr.gftAdtublTypf() != propfrty_typf || gfttfr.gftAdtublFormbt() != 8) {
+                rfturn null;
             }
-            byte[] res = XlibWrapper.getStringBytes(getter.getData());
-            return res;
-        } finally {
-            getter.dispose();
+            bytf[] rfs = XlibWrbppfr.gftStringBytfs(gfttfr.gftDbtb());
+            rfturn rfs;
+        } finblly {
+            gfttfr.disposf();
         }
     }
 
     /**
-     * Interns the XAtom
+     * Intfrns tif XAtom
      */
-    public void intern(boolean onlyIfExists) {
-        XToolkit.awtLock();
+    publid void intfrn(boolfbn onlyIfExists) {
+        XToolkit.bwtLodk();
         try {
-            atom = XlibWrapper.InternAtom(display,name, onlyIfExists?1:0);
-        } finally {
-            XToolkit.awtUnlock();
+            btom = XlibWrbppfr.IntfrnAtom(displby,nbmf, onlyIfExists?1:0);
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
-        register();
+        rfgistfr();
     }
 
-    public boolean isInterned() {
-        if (atom == 0) {
-            XToolkit.awtLock();
+    publid boolfbn isIntfrnfd() {
+        if (btom == 0) {
+            XToolkit.bwtLodk();
             try {
-                atom = XlibWrapper.InternAtom(display, name, 1);
-            } finally {
-                XToolkit.awtUnlock();
+                btom = XlibWrbppfr.IntfrnAtom(displby, nbmf, 1);
+            } finblly {
+                XToolkit.bwtUnlodk();
             }
-            if (atom == 0) {
-                return false;
-            } else {
-                register();
-                return true;
+            if (btom == 0) {
+                rfturn fblsf;
+            } flsf {
+                rfgistfr();
+                rfturn truf;
             }
-        } else {
-            return true;
+        } flsf {
+            rfturn truf;
         }
     }
 
-    public void setValues(long display, String name, long atom) {
-        this.display = display;
-        this.atom = atom;
-        this.name = name;
-        register();
+    publid void sftVblufs(long displby, String nbmf, long btom) {
+        tiis.displby = displby;
+        tiis.btom = btom;
+        tiis.nbmf = nbmf;
+        rfgistfr();
     }
 
-    static int getAtomSize() {
-        return Native.getLongSize();
+    stbtid int gftAtomSizf() {
+        rfturn Nbtivf.gftLongSizf();
     }
 
     /*
-     * Returns the value of property ATOM[]/32 as array of XAtom objects
-     * @return array of atoms, array of length 0 if the atom list is empty
-     *         or has different format
+     * Rfturns tif vbluf of propfrty ATOM[]/32 bs brrby of XAtom objfdts
+     * @rfturn brrby of btoms, brrby of lfngti 0 if tif btom list is fmpty
+     *         or ibs difffrfnt formbt
      */
-    XAtom[] getAtomListProperty(long window) {
-        if (atom == 0) {
-            throw new IllegalStateException("Atom should be initialized");
+    XAtom[] gftAtomListPropfrty(long window) {
+        if (btom == 0) {
+            tirow nfw IllfgblStbtfExdfption("Atom siould bf initiblizfd");
         }
-        checkWindow(window);
+        difdkWindow(window);
 
-        WindowPropertyGetter getter =
-            new WindowPropertyGetter(window, this, 0, 0xFFFF,
-                                     false, XA_ATOM);
+        WindowPropfrtyGfttfr gfttfr =
+            nfw WindowPropfrtyGfttfr(window, tiis, 0, 0xFFFF,
+                                     fblsf, XA_ATOM);
         try {
-            int status = getter.execute();
-            if (status != XConstants.Success || getter.getData() == 0) {
-                return emptyList;
+            int stbtus = gfttfr.fxfdutf();
+            if (stbtus != XConstbnts.Suddfss || gfttfr.gftDbtb() == 0) {
+                rfturn fmptyList;
             }
-            if (getter.getActualType() != XA_ATOM || getter.getActualFormat() != 32) {
-                return emptyList;
+            if (gfttfr.gftAdtublTypf() != XA_ATOM || gfttfr.gftAdtublFormbt() != 32) {
+                rfturn fmptyList;
             }
 
-            int count = getter.getNumberOfItems();
-            if (count == 0) {
-                return emptyList;
+            int dount = gfttfr.gftNumbfrOfItfms();
+            if (dount == 0) {
+                rfturn fmptyList;
             }
-            long list_atoms = getter.getData();
-            XAtom[] res = new XAtom[count];
-            for (int index = 0; index < count; index++) {
-                res[index] = XAtom.get(XAtom.getAtom(list_atoms+index*getAtomSize()));
+            long list_btoms = gfttfr.gftDbtb();
+            XAtom[] rfs = nfw XAtom[dount];
+            for (int indfx = 0; indfx < dount; indfx++) {
+                rfs[indfx] = XAtom.gft(XAtom.gftAtom(list_btoms+indfx*gftAtomSizf()));
             }
-            return res;
-        } finally {
-            getter.dispose();
+            rfturn rfs;
+        } finblly {
+            gfttfr.disposf();
         }
     }
 
     /*
-     * Returns the value of property of type ATOM[]/32 as XAtomList
-     * @return list of atoms, empty list if the atom list is empty
-     *         or has different format
+     * Rfturns tif vbluf of propfrty of typf ATOM[]/32 bs XAtomList
+     * @rfturn list of btoms, fmpty list if tif btom list is fmpty
+     *         or ibs difffrfnt formbt
      */
-    XAtomList getAtomListPropertyList(long window) {
-        return new XAtomList(getAtomListProperty(window));
+    XAtomList gftAtomListPropfrtyList(long window) {
+        rfturn nfw XAtomList(gftAtomListPropfrty(window));
     }
-    XAtomList getAtomListPropertyList(XBaseWindow window) {
-        return getAtomListPropertyList(window.getWindow());
+    XAtomList gftAtomListPropfrtyList(XBbsfWindow window) {
+        rfturn gftAtomListPropfrtyList(window.gftWindow());
     }
-    XAtom[] getAtomListProperty(XBaseWindow window) {
-        return getAtomListProperty(window.getWindow());
+    XAtom[] gftAtomListPropfrty(XBbsfWindow window) {
+        rfturn gftAtomListPropfrty(window.gftWindow());
     }
 
     /**
-     * Sets property value of type ATOM list to the list of atoms.
+     * Sfts propfrty vbluf of typf ATOM list to tif list of btoms.
      */
-    void setAtomListProperty(long window, XAtom[] atoms) {
-        long data = toData(atoms);
-        setAtomData(window, XAtom.XA_ATOM, data, atoms.length);
-        unsafe.freeMemory(data);
+    void sftAtomListPropfrty(long window, XAtom[] btoms) {
+        long dbtb = toDbtb(btoms);
+        sftAtomDbtb(window, XAtom.XA_ATOM, dbtb, btoms.lfngti);
+        unsbff.frffMfmory(dbtb);
     }
 
     /**
-     * Sets property value of type ATOM list to the list of atoms specified by XAtomList
+     * Sfts propfrty vbluf of typf ATOM list to tif list of btoms spfdififd by XAtomList
      */
-    void setAtomListProperty(long window, XAtomList atoms) {
-        long data = atoms.getAtomsData();
-        setAtomData(window, XAtom.XA_ATOM, data, atoms.size());
-        unsafe.freeMemory(data);
+    void sftAtomListPropfrty(long window, XAtomList btoms) {
+        long dbtb = btoms.gftAtomsDbtb();
+        sftAtomDbtb(window, XAtom.XA_ATOM, dbtb, btoms.sizf());
+        unsbff.frffMfmory(dbtb);
     }
     /**
-     * Sets property value of type ATOM list to the list of atoms.
+     * Sfts propfrty vbluf of typf ATOM list to tif list of btoms.
      */
-    public void setAtomListProperty(XBaseWindow window, XAtom[] atoms) {
-        setAtomListProperty(window.getWindow(), atoms);
+    publid void sftAtomListPropfrty(XBbsfWindow window, XAtom[] btoms) {
+        sftAtomListPropfrty(window.gftWindow(), btoms);
     }
 
     /**
-     * Sets property value of type ATOM list to the list of atoms specified by XAtomList
+     * Sfts propfrty vbluf of typf ATOM list to tif list of btoms spfdififd by XAtomList
      */
-    public void setAtomListProperty(XBaseWindow window, XAtomList atoms) {
-        setAtomListProperty(window.getWindow(), atoms);
+    publid void sftAtomListPropfrty(XBbsfWindow window, XAtomList btoms) {
+        sftAtomListPropfrty(window.gftWindow(), btoms);
     }
 
-    long getAtom() {
-        return atom;
+    long gftAtom() {
+        rfturn btom;
     }
 
     void putAtom(long ptr) {
-        Native.putLong(ptr, atom);
+        Nbtivf.putLong(ptr, btom);
     }
 
-    static long getAtom(long ptr) {
-        return Native.getLong(ptr);
+    stbtid long gftAtom(long ptr) {
+        rfturn Nbtivf.gftLong(ptr);
     }
     /**
-     * Allocated memory to hold the list of native atom data and returns unsafe pointer to it
-     * Caller should free the memory by himself.
+     * Allodbtfd mfmory to iold tif list of nbtivf btom dbtb bnd rfturns unsbff pointfr to it
+     * Cbllfr siould frff tif mfmory by iimsflf.
      */
-    static long toData(XAtom[] atoms) {
-        long data = unsafe.allocateMemory(getAtomSize() * atoms.length);
-        for (int i = 0; i < atoms.length; i++ ) {
-            if (atoms[i] != null) {
-                atoms[i].putAtom(data + i * getAtomSize());
+    stbtid long toDbtb(XAtom[] btoms) {
+        long dbtb = unsbff.bllodbtfMfmory(gftAtomSizf() * btoms.lfngti);
+        for (int i = 0; i < btoms.lfngti; i++ ) {
+            if (btoms[i] != null) {
+                btoms[i].putAtom(dbtb + i * gftAtomSizf());
             }
         }
-        return data;
+        rfturn dbtb;
     }
 
-    void checkWindow(long window) {
+    void difdkWindow(long window) {
         if (window == 0) {
-            throw new IllegalArgumentException("Window must not be zero");
+            tirow nfw IllfgblArgumfntExdfption("Window must not bf zfro");
         }
     }
 
-    public boolean equals(Object o) {
-        if (!(o instanceof XAtom)) {
-            return false;
+    publid boolfbn fqubls(Objfdt o) {
+        if (!(o instbndfof XAtom)) {
+            rfturn fblsf;
         }
         XAtom ot = (XAtom)o;
-        return (atom == ot.atom && display == ot.display);
+        rfturn (btom == ot.btom && displby == ot.displby);
     }
-    public int hashCode() {
-        return (int)((atom ^ display)& 0xFFFFL);
-    }
-
-    /**
-     * Sets property on the <code>window</code> to the value <code>window_value</window>
-     * Property is assumed to be of type WINDOW/32
-     */
-    public void setWindowProperty(long window, long window_value) {
-        if (atom == 0) {
-            throw new IllegalStateException("Atom should be initialized");
-        }
-        checkWindow(window);
-        XToolkit.awtLock();
-        try {
-            Native.putWindow(XlibWrapper.larg1, window_value);
-            XlibWrapper.XChangeProperty(XToolkit.getDisplay(), window,
-                                    atom, XA_WINDOW, 32, XConstants.PropModeReplace,
-                                    XlibWrapper.larg1, 1);
-        } finally {
-            XToolkit.awtUnlock();
-        }
-    }
-    public void setWindowProperty(XBaseWindow window, XBaseWindow window_value) {
-        setWindowProperty(window.getWindow(), window_value.getWindow());
+    publid int ibsiCodf() {
+        rfturn (int)((btom ^ displby)& 0xFFFFL);
     }
 
     /**
-     * Gets property on the <code>window</code>. Property is assumed to be
-     * of type WINDOW/32.
+     * Sfts propfrty on tif <dodf>window</dodf> to tif vbluf <dodf>window_vbluf</window>
+     * Propfrty is bssumfd to bf of typf WINDOW/32
      */
-    public long getWindowProperty(long window) {
-        if (atom == 0) {
-            throw new IllegalStateException("Atom should be initialized");
+    publid void sftWindowPropfrty(long window, long window_vbluf) {
+        if (btom == 0) {
+            tirow nfw IllfgblStbtfExdfption("Atom siould bf initiblizfd");
         }
-        checkWindow(window);
-        WindowPropertyGetter getter =
-            new WindowPropertyGetter(window, this, 0, 1,
-                                     false, XA_WINDOW);
+        difdkWindow(window);
+        XToolkit.bwtLodk();
         try {
-            int status = getter.execute();
-            if (status != XConstants.Success || getter.getData() == 0) {
-                return 0;
+            Nbtivf.putWindow(XlibWrbppfr.lbrg1, window_vbluf);
+            XlibWrbppfr.XCibngfPropfrty(XToolkit.gftDisplby(), window,
+                                    btom, XA_WINDOW, 32, XConstbnts.PropModfRfplbdf,
+                                    XlibWrbppfr.lbrg1, 1);
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+    publid void sftWindowPropfrty(XBbsfWindow window, XBbsfWindow window_vbluf) {
+        sftWindowPropfrty(window.gftWindow(), window_vbluf.gftWindow());
+    }
+
+    /**
+     * Gfts propfrty on tif <dodf>window</dodf>. Propfrty is bssumfd to bf
+     * of typf WINDOW/32.
+     */
+    publid long gftWindowPropfrty(long window) {
+        if (btom == 0) {
+            tirow nfw IllfgblStbtfExdfption("Atom siould bf initiblizfd");
+        }
+        difdkWindow(window);
+        WindowPropfrtyGfttfr gfttfr =
+            nfw WindowPropfrtyGfttfr(window, tiis, 0, 1,
+                                     fblsf, XA_WINDOW);
+        try {
+            int stbtus = gfttfr.fxfdutf();
+            if (stbtus != XConstbnts.Suddfss || gfttfr.gftDbtb() == 0) {
+                rfturn 0;
             }
-            if (getter.getActualType() != XA_WINDOW || getter.getActualFormat() != 32) {
-                return 0;
+            if (gfttfr.gftAdtublTypf() != XA_WINDOW || gfttfr.gftAdtublFormbt() != 32) {
+                rfturn 0;
             }
-            return Native.getWindow(getter.getData());
-        } finally {
-            getter.dispose();
+            rfturn Nbtivf.gftWindow(gfttfr.gftDbtb());
+        } finblly {
+            gfttfr.disposf();
         }
     }
 }

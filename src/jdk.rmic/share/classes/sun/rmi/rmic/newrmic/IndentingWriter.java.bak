@@ -1,289 +1,289 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.rmi.rmic.newrmic;
+pbdkbgf sun.rmi.rmid.nfwrmid;
 
-import java.io.Writer;
-import java.io.BufferedWriter;
-import java.io.IOException;
+import jbvb.io.Writfr;
+import jbvb.io.BufffrfdWritfr;
+import jbvb.io.IOExdfption;
 
 /**
- * A BufferedWriter that supports automatic indentation of lines of
- * text written to the underlying Writer.
+ * A BufffrfdWritfr tibt supports butombtid indfntbtion of linfs of
+ * tfxt writtfn to tif undfrlying Writfr.
  *
- * Methods are provided for compact/convenient indenting in and out,
- * writing text, and writing lines of text in various combinations.
+ * Mftiods brf providfd for dompbdt/donvfnifnt indfnting in bnd out,
+ * writing tfxt, bnd writing linfs of tfxt in vbrious dombinbtions.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  *
- * @author Peter Jones
+ * @butior Pftfr Jonfs
  **/
-public class IndentingWriter extends BufferedWriter {
+publid dlbss IndfntingWritfr fxtfnds BufffrfdWritfr {
 
-    /** number of spaces to change indent when indenting in or out */
-    private final int indentStep;
+    /** numbfr of spbdfs to dibngf indfnt wifn indfnting in or out */
+    privbtf finbl int indfntStfp;
 
-    /** number of spaces to convert into tabs (use MAX_VALUE to disable) */
-    private final int tabSize;
+    /** numbfr of spbdfs to donvfrt into tbbs (usf MAX_VALUE to disbblf) */
+    privbtf finbl int tbbSizf;
 
-    /** true if the next character written is the first on a line */
-    private boolean beginningOfLine = true;
+    /** truf if tif nfxt dibrbdtfr writtfn is tif first on b linf */
+    privbtf boolfbn bfginningOfLinf = truf;
 
-    /** current number of spaces to prepend to lines */
-    private int currentIndent = 0;
+    /** durrfnt numbfr of spbdfs to prfpfnd to linfs */
+    privbtf int durrfntIndfnt = 0;
 
     /**
-     * Creates a new IndentingWriter that writes indented text to the
-     * given Writer.  Use the default indent step of four spaces.
+     * Crfbtfs b nfw IndfntingWritfr tibt writfs indfntfd tfxt to tif
+     * givfn Writfr.  Usf tif dffbult indfnt stfp of four spbdfs.
      **/
-    public IndentingWriter(Writer out) {
-        this(out, 4);
+    publid IndfntingWritfr(Writfr out) {
+        tiis(out, 4);
     }
 
     /**
-     * Creates a new IndentingWriter that writes indented text to the
-     * given Writer and uses the supplied indent step.
+     * Crfbtfs b nfw IndfntingWritfr tibt writfs indfntfd tfxt to tif
+     * givfn Writfr bnd usfs tif supplifd indfnt stfp.
      **/
-    public IndentingWriter(Writer out, int indentStep) {
-        this(out, indentStep, 8);
+    publid IndfntingWritfr(Writfr out, int indfntStfp) {
+        tiis(out, indfntStfp, 8);
     }
 
     /**
-     * Creates a new IndentingWriter that writes indented text to the
-     * given Writer and uses the supplied indent step and tab size.
+     * Crfbtfs b nfw IndfntingWritfr tibt writfs indfntfd tfxt to tif
+     * givfn Writfr bnd usfs tif supplifd indfnt stfp bnd tbb sizf.
      **/
-    public IndentingWriter(Writer out, int indentStep, int tabSize) {
-        super(out);
-        if (indentStep < 0) {
-            throw new IllegalArgumentException("negative indent step");
+    publid IndfntingWritfr(Writfr out, int indfntStfp, int tbbSizf) {
+        supfr(out);
+        if (indfntStfp < 0) {
+            tirow nfw IllfgblArgumfntExdfption("nfgbtivf indfnt stfp");
         }
-        if (tabSize < 0) {
-            throw new IllegalArgumentException("negative tab size");
+        if (tbbSizf < 0) {
+            tirow nfw IllfgblArgumfntExdfption("nfgbtivf tbb sizf");
         }
-        this.indentStep = indentStep;
-        this.tabSize = tabSize;
+        tiis.indfntStfp = indfntStfp;
+        tiis.tbbSizf = tbbSizf;
     }
 
     /**
-     * Writes a single character.
+     * Writfs b singlf dibrbdtfr.
      **/
-    public void write(int c) throws IOException {
-        checkWrite();
-        super.write(c);
+    publid void writf(int d) tirows IOExdfption {
+        difdkWritf();
+        supfr.writf(d);
     }
 
     /**
-     * Writes a portion of an array of characters.
+     * Writfs b portion of bn brrby of dibrbdtfrs.
      **/
-    public void write(char[] cbuf, int off, int len) throws IOException {
-        if (len > 0) {
-            checkWrite();
+    publid void writf(dibr[] dbuf, int off, int lfn) tirows IOExdfption {
+        if (lfn > 0) {
+            difdkWritf();
         }
-        super.write(cbuf, off, len);
+        supfr.writf(dbuf, off, lfn);
     }
 
     /**
-     * Writes a portion of a String.
+     * Writfs b portion of b String.
      **/
-    public void write(String s, int off, int len) throws IOException {
-        if (len > 0) {
-            checkWrite();
+    publid void writf(String s, int off, int lfn) tirows IOExdfption {
+        if (lfn > 0) {
+            difdkWritf();
         }
-        super.write(s, off, len);
+        supfr.writf(s, off, lfn);
     }
 
     /**
-     * Writes a line separator.  The next character written will be
-     * preceded by an indent.
+     * Writfs b linf sfpbrbtor.  Tif nfxt dibrbdtfr writtfn will bf
+     * prfdfdfd by bn indfnt.
      **/
-    public void newLine() throws IOException {
-        super.newLine();
-        beginningOfLine = true;
+    publid void nfwLinf() tirows IOExdfption {
+        supfr.nfwLinf();
+        bfginningOfLinf = truf;
     }
 
     /**
-     * Checks if an indent needs to be written before writing the next
-     * character.
+     * Cifdks if bn indfnt nffds to bf writtfn bfforf writing tif nfxt
+     * dibrbdtfr.
      *
-     * The indent generation is optimized (and made consistent with
-     * certain coding conventions) by condensing groups of eight
-     * spaces into tab characters.
+     * Tif indfnt gfnfrbtion is optimizfd (bnd mbdf donsistfnt witi
+     * dfrtbin doding donvfntions) by dondfnsing groups of figit
+     * spbdfs into tbb dibrbdtfrs.
      **/
-    protected void checkWrite() throws IOException {
-        if (beginningOfLine) {
-            beginningOfLine = false;
-            int i = currentIndent;
-            while (i >= tabSize) {
-                super.write('\t');
-                i -= tabSize;
+    protfdtfd void difdkWritf() tirows IOExdfption {
+        if (bfginningOfLinf) {
+            bfginningOfLinf = fblsf;
+            int i = durrfntIndfnt;
+            wiilf (i >= tbbSizf) {
+                supfr.writf('\t');
+                i -= tbbSizf;
             }
-            while (i > 0) {
-                super.write(' ');
+            wiilf (i > 0) {
+                supfr.writf(' ');
                 i--;
             }
         }
     }
 
     /**
-     * Increases the current indent by the indent step.
+     * Indrfbsfs tif durrfnt indfnt by tif indfnt stfp.
      **/
-    protected void indentIn() {
-        currentIndent += indentStep;
+    protfdtfd void indfntIn() {
+        durrfntIndfnt += indfntStfp;
     }
 
     /**
-     * Decreases the current indent by the indent step.
+     * Dfdrfbsfs tif durrfnt indfnt by tif indfnt stfp.
      **/
-    protected void indentOut() {
-        currentIndent -= indentStep;
-        if (currentIndent < 0)
-            currentIndent = 0;
+    protfdtfd void indfntOut() {
+        durrfntIndfnt -= indfntStfp;
+        if (durrfntIndfnt < 0)
+            durrfntIndfnt = 0;
     }
 
     /**
-     * Indents in.
+     * Indfnts in.
      **/
-    public void pI() {
-        indentIn();
+    publid void pI() {
+        indfntIn();
     }
 
     /**
-     * Indents out.
+     * Indfnts out.
      **/
-    public void pO() {
-        indentOut();
+    publid void pO() {
+        indfntOut();
     }
 
     /**
-     * Writes string.
+     * Writfs string.
      **/
-    public void p(String s) throws IOException {
-        write(s);
+    publid void p(String s) tirows IOExdfption {
+        writf(s);
     }
 
     /**
-     * Ends current line.
+     * Ends durrfnt linf.
      **/
-    public void pln() throws IOException {
-        newLine();
+    publid void pln() tirows IOExdfption {
+        nfwLinf();
     }
 
     /**
-     * Writes string; ends current line.
+     * Writfs string; fnds durrfnt linf.
      **/
-    public void pln(String s) throws IOException {
+    publid void pln(String s) tirows IOExdfption {
         p(s);
         pln();
     }
 
     /**
-     * Writes string; ends current line; indents in.
+     * Writfs string; fnds durrfnt linf; indfnts in.
      **/
-    public void plnI(String s) throws IOException {
+    publid void plnI(String s) tirows IOExdfption {
         p(s);
         pln();
         pI();
     }
 
     /**
-     * Indents out; writes string.
+     * Indfnts out; writfs string.
      **/
-    public void pO(String s) throws IOException {
+    publid void pO(String s) tirows IOExdfption {
         pO();
         p(s);
     }
 
     /**
-     * Indents out; writes string; ends current line.
+     * Indfnts out; writfs string; fnds durrfnt linf.
      **/
-    public void pOln(String s) throws IOException {
+    publid void pOln(String s) tirows IOExdfption {
         pO(s);
         pln();
     }
 
     /**
-     * Indents out; writes string; ends current line; indents in.
+     * Indfnts out; writfs string; fnds durrfnt linf; indfnts in.
      *
-     * This method is useful for generating lines of code that both
-     * end and begin nested blocks, like "} else {".
+     * Tiis mftiod is usfful for gfnfrbting linfs of dodf tibt boti
+     * fnd bnd bfgin nfstfd blodks, likf "} flsf {".
      **/
-    public void pOlnI(String s) throws IOException {
+    publid void pOlnI(String s) tirows IOExdfption {
         pO(s);
         pln();
         pI();
     }
 
     /**
-     * Writes object.
+     * Writfs objfdt.
      **/
-    public void p(Object o) throws IOException {
-        write(o.toString());
+    publid void p(Objfdt o) tirows IOExdfption {
+        writf(o.toString());
     }
 
     /**
-     * Writes object; ends current line.
+     * Writfs objfdt; fnds durrfnt linf.
      **/
-    public void pln(Object o) throws IOException {
+    publid void pln(Objfdt o) tirows IOExdfption {
         p(o.toString());
         pln();
     }
 
     /**
-     * Writes object; ends current line; indents in.
+     * Writfs objfdt; fnds durrfnt linf; indfnts in.
      **/
-    public void plnI(Object o) throws IOException {
+    publid void plnI(Objfdt o) tirows IOExdfption {
         p(o.toString());
         pln();
         pI();
     }
 
     /**
-     * Indents out; writes object.
+     * Indfnts out; writfs objfdt.
      **/
-    public void pO(Object o) throws IOException {
+    publid void pO(Objfdt o) tirows IOExdfption {
         pO();
         p(o.toString());
     }
 
     /**
-     * Indents out; writes object; ends current line.
+     * Indfnts out; writfs objfdt; fnds durrfnt linf.
      **/
-    public void pOln(Object o) throws IOException {
+    publid void pOln(Objfdt o) tirows IOExdfption {
         pO(o.toString());
         pln();
     }
 
     /**
-     * Indents out; writes object; ends current line; indents in.
+     * Indfnts out; writfs objfdt; fnds durrfnt linf; indfnts in.
      *
-     * This method is useful for generating lines of code that both
-     * end and begin nested blocks, like "} else {".
+     * Tiis mftiod is usfful for gfnfrbting linfs of dodf tibt boti
+     * fnd bnd bfgin nfstfd blodks, likf "} flsf {".
      **/
-    public void pOlnI(Object o) throws IOException {
+    publid void pOlnI(Objfdt o) tirows IOExdfption {
         pO(o.toString());
         pln();
         pI();

@@ -1,46 +1,46 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Copyright (c) 2011-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2011-2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -54,231 +54,231 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time;
+pbdkbgf jbvb.timf;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.InvalidClassException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.io.StreamCorruptedException;
+import jbvb.io.Extfrnblizbblf;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidClbssExdfption;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.ObjfdtOutput;
+import jbvb.io.StrfbmCorruptfdExdfption;
 
 /**
- * The shared serialization delegate for this package.
+ * Tif sibrfd sfriblizbtion dflfgbtf for tiis pbdkbgf.
  *
- * @implNote
- * This class wraps the object being serialized, and takes a byte representing the type of the class to
- * be serialized.  This byte can also be used for versioning the serialization format.  In this case another
- * byte flag would be used in order to specify an alternative version of the type format.
- * For example {@code LOCAL_DATE_TYPE_VERSION_2 = 21}.
+ * @implNotf
+ * Tiis dlbss wrbps tif objfdt bfing sfriblizfd, bnd tbkfs b bytf rfprfsfnting tif typf of tif dlbss to
+ * bf sfriblizfd.  Tiis bytf dbn blso bf usfd for vfrsioning tif sfriblizbtion formbt.  In tiis dbsf bnotifr
+ * bytf flbg would bf usfd in ordfr to spfdify bn bltfrnbtivf vfrsion of tif typf formbt.
+ * For fxbmplf {@dodf LOCAL_DATE_TYPE_VERSION_2 = 21}.
  * <p>
- * In order to serialize the object it writes its byte and then calls back to the appropriate class where
- * the serialization is performed.  In order to deserialize the object it read in the type byte, switching
- * in order to select which class to call back into.
+ * In ordfr to sfriblizf tif objfdt it writfs its bytf bnd tifn dblls bbdk to tif bppropribtf dlbss wifrf
+ * tif sfriblizbtion is pfrformfd.  In ordfr to dfsfriblizf tif objfdt it rfbd in tif typf bytf, switdiing
+ * in ordfr to sflfdt wiidi dlbss to dbll bbdk into.
  * <p>
- * The serialization format is determined on a per class basis.  In the case of field based classes each
- * of the fields is written out with an appropriate size format in descending order of the field's size.  For
- * example in the case of {@link LocalDate} year is written before month.  Composite classes, such as
- * {@link LocalDateTime} are serialized as one object.
+ * Tif sfriblizbtion formbt is dftfrminfd on b pfr dlbss bbsis.  In tif dbsf of fifld bbsfd dlbssfs fbdi
+ * of tif fiflds is writtfn out witi bn bppropribtf sizf formbt in dfsdfnding ordfr of tif fifld's sizf.  For
+ * fxbmplf in tif dbsf of {@link LodblDbtf} yfbr is writtfn bfforf monti.  Compositf dlbssfs, sudi bs
+ * {@link LodblDbtfTimf} brf sfriblizfd bs onf objfdt.
  * <p>
- * This class is mutable and should be created once per serialization.
+ * Tiis dlbss is mutbblf bnd siould bf drfbtfd ondf pfr sfriblizbtion.
  *
- * @serial include
- * @since 1.8
+ * @sfribl indludf
+ * @sindf 1.8
  */
-final class Ser implements Externalizable {
+finbl dlbss Sfr implfmfnts Extfrnblizbblf {
 
     /**
-     * Serialization version.
+     * Sfriblizbtion vfrsion.
      */
-    private static final long serialVersionUID = -7683839454370182990L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -7683839454370182990L;
 
-    static final byte DURATION_TYPE = 1;
-    static final byte INSTANT_TYPE = 2;
-    static final byte LOCAL_DATE_TYPE = 3;
-    static final byte LOCAL_TIME_TYPE = 4;
-    static final byte LOCAL_DATE_TIME_TYPE = 5;
-    static final byte ZONE_DATE_TIME_TYPE = 6;
-    static final byte ZONE_REGION_TYPE = 7;
-    static final byte ZONE_OFFSET_TYPE = 8;
-    static final byte OFFSET_TIME_TYPE = 9;
-    static final byte OFFSET_DATE_TIME_TYPE = 10;
-    static final byte YEAR_TYPE = 11;
-    static final byte YEAR_MONTH_TYPE = 12;
-    static final byte MONTH_DAY_TYPE = 13;
-    static final byte PERIOD_TYPE = 14;
+    stbtid finbl bytf DURATION_TYPE = 1;
+    stbtid finbl bytf INSTANT_TYPE = 2;
+    stbtid finbl bytf LOCAL_DATE_TYPE = 3;
+    stbtid finbl bytf LOCAL_TIME_TYPE = 4;
+    stbtid finbl bytf LOCAL_DATE_TIME_TYPE = 5;
+    stbtid finbl bytf ZONE_DATE_TIME_TYPE = 6;
+    stbtid finbl bytf ZONE_REGION_TYPE = 7;
+    stbtid finbl bytf ZONE_OFFSET_TYPE = 8;
+    stbtid finbl bytf OFFSET_TIME_TYPE = 9;
+    stbtid finbl bytf OFFSET_DATE_TIME_TYPE = 10;
+    stbtid finbl bytf YEAR_TYPE = 11;
+    stbtid finbl bytf YEAR_MONTH_TYPE = 12;
+    stbtid finbl bytf MONTH_DAY_TYPE = 13;
+    stbtid finbl bytf PERIOD_TYPE = 14;
 
-    /** The type being serialized. */
-    private byte type;
-    /** The object being serialized. */
-    private Object object;
+    /** Tif typf bfing sfriblizfd. */
+    privbtf bytf typf;
+    /** Tif objfdt bfing sfriblizfd. */
+    privbtf Objfdt objfdt;
 
     /**
-     * Constructor for deserialization.
+     * Construdtor for dfsfriblizbtion.
      */
-    public Ser() {
+    publid Sfr() {
     }
 
     /**
-     * Creates an instance for serialization.
+     * Crfbtfs bn instbndf for sfriblizbtion.
      *
-     * @param type  the type
-     * @param object  the object
+     * @pbrbm typf  tif typf
+     * @pbrbm objfdt  tif objfdt
      */
-    Ser(byte type, Object object) {
-        this.type = type;
-        this.object = object;
+    Sfr(bytf typf, Objfdt objfdt) {
+        tiis.typf = typf;
+        tiis.objfdt = objfdt;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Implements the {@code Externalizable} interface to write the object.
-     * @serialData
+     * Implfmfnts tif {@dodf Extfrnblizbblf} intfrfbdf to writf tif objfdt.
+     * @sfriblDbtb
      *
-     * Each serializable class is mapped to a type that is the first byte
-     * in the stream.  Refer to each class {@code writeReplace}
-     * serialized form for the value of the type and sequence of values for the type.
+     * Ebdi sfriblizbblf dlbss is mbppfd to b typf tibt is tif first bytf
+     * in tif strfbm.  Rfffr to fbdi dlbss {@dodf writfRfplbdf}
+     * sfriblizfd form for tif vbluf of tif typf bnd sfqufndf of vblufs for tif typf.
      * <ul>
-     * <li><a href="../../serialized-form.html#java.time.Duration">Duration.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.Instant">Instant.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.LocalDate">LocalDate.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.LocalDateTime">LocalDateTime.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.LocalTime">LocalTime.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.MonthDay">MonthDay.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.OffsetTime">OffsetTime.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.OffsetDateTime">OffsetDateTime.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.Period">Period.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.Year">Year.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.YearMonth">YearMonth.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.ZoneId">ZoneId.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.ZoneOffset">ZoneOffset.writeReplace</a>
-     * <li><a href="../../serialized-form.html#java.time.ZonedDateTime">ZonedDateTime.writeReplace</a>
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.Durbtion">Durbtion.writfRfplbdf</b>
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.Instbnt">Instbnt.writfRfplbdf</b>
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.LodblDbtf">LodblDbtf.writfRfplbdf</b>
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.LodblDbtfTimf">LodblDbtfTimf.writfRfplbdf</b>
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.LodblTimf">LodblTimf.writfRfplbdf</b>
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.MontiDby">MontiDby.writfRfplbdf</b>
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.OffsftTimf">OffsftTimf.writfRfplbdf</b>
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.OffsftDbtfTimf">OffsftDbtfTimf.writfRfplbdf</b>
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.Pfriod">Pfriod.writfRfplbdf</b>
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.Yfbr">Yfbr.writfRfplbdf</b>
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.YfbrMonti">YfbrMonti.writfRfplbdf</b>
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.ZonfId">ZonfId.writfRfplbdf</b>
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.ZonfOffsft">ZonfOffsft.writfRfplbdf</b>
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.ZonfdDbtfTimf">ZonfdDbtfTimf.writfRfplbdf</b>
      * </ul>
      *
-     * @param out  the data stream to write to, not null
+     * @pbrbm out  tif dbtb strfbm to writf to, not null
      */
-    @Override
-    public void writeExternal(ObjectOutput out) throws IOException {
-        writeInternal(type, object, out);
+    @Ovfrridf
+    publid void writfExtfrnbl(ObjfdtOutput out) tirows IOExdfption {
+        writfIntfrnbl(typf, objfdt, out);
     }
 
-    static void writeInternal(byte type, Object object, ObjectOutput out) throws IOException {
-        out.writeByte(type);
-        switch (type) {
-            case DURATION_TYPE:
-                ((Duration) object).writeExternal(out);
-                break;
-            case INSTANT_TYPE:
-                ((Instant) object).writeExternal(out);
-                break;
-            case LOCAL_DATE_TYPE:
-                ((LocalDate) object).writeExternal(out);
-                break;
-            case LOCAL_DATE_TIME_TYPE:
-                ((LocalDateTime) object).writeExternal(out);
-                break;
-            case LOCAL_TIME_TYPE:
-                ((LocalTime) object).writeExternal(out);
-                break;
-            case ZONE_REGION_TYPE:
-                ((ZoneRegion) object).writeExternal(out);
-                break;
-            case ZONE_OFFSET_TYPE:
-                ((ZoneOffset) object).writeExternal(out);
-                break;
-            case ZONE_DATE_TIME_TYPE:
-                ((ZonedDateTime) object).writeExternal(out);
-                break;
-            case OFFSET_TIME_TYPE:
-                ((OffsetTime) object).writeExternal(out);
-                break;
-            case OFFSET_DATE_TIME_TYPE:
-                ((OffsetDateTime) object).writeExternal(out);
-                break;
-            case YEAR_TYPE:
-                ((Year) object).writeExternal(out);
-                break;
-            case YEAR_MONTH_TYPE:
-                ((YearMonth) object).writeExternal(out);
-                break;
-            case MONTH_DAY_TYPE:
-                ((MonthDay) object).writeExternal(out);
-                break;
-            case PERIOD_TYPE:
-                ((Period) object).writeExternal(out);
-                break;
-            default:
-                throw new InvalidClassException("Unknown serialized type");
+    stbtid void writfIntfrnbl(bytf typf, Objfdt objfdt, ObjfdtOutput out) tirows IOExdfption {
+        out.writfBytf(typf);
+        switdi (typf) {
+            dbsf DURATION_TYPE:
+                ((Durbtion) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf INSTANT_TYPE:
+                ((Instbnt) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf LOCAL_DATE_TYPE:
+                ((LodblDbtf) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf LOCAL_DATE_TIME_TYPE:
+                ((LodblDbtfTimf) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf LOCAL_TIME_TYPE:
+                ((LodblTimf) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf ZONE_REGION_TYPE:
+                ((ZonfRfgion) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf ZONE_OFFSET_TYPE:
+                ((ZonfOffsft) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf ZONE_DATE_TIME_TYPE:
+                ((ZonfdDbtfTimf) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf OFFSET_TIME_TYPE:
+                ((OffsftTimf) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf OFFSET_DATE_TIME_TYPE:
+                ((OffsftDbtfTimf) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf YEAR_TYPE:
+                ((Yfbr) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf YEAR_MONTH_TYPE:
+                ((YfbrMonti) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf MONTH_DAY_TYPE:
+                ((MontiDby) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dbsf PERIOD_TYPE:
+                ((Pfriod) objfdt).writfExtfrnbl(out);
+                brfbk;
+            dffbult:
+                tirow nfw InvblidClbssExdfption("Unknown sfriblizfd typf");
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Implements the {@code Externalizable} interface to read the object.
-     * @serialData
+     * Implfmfnts tif {@dodf Extfrnblizbblf} intfrfbdf to rfbd tif objfdt.
+     * @sfriblDbtb
      *
-     * The streamed type and parameters defined by the type's {@code writeReplace}
-     * method are read and passed to the corresponding static factory for the type
-     * to create a new instance.  That instance is returned as the de-serialized
-     * {@code Ser} object.
+     * Tif strfbmfd typf bnd pbrbmftfrs dffinfd by tif typf's {@dodf writfRfplbdf}
+     * mftiod brf rfbd bnd pbssfd to tif dorrfsponding stbtid fbdtory for tif typf
+     * to drfbtf b nfw instbndf.  Tibt instbndf is rfturnfd bs tif df-sfriblizfd
+     * {@dodf Sfr} objfdt.
      *
      * <ul>
-     * <li><a href="../../serialized-form.html#java.time.Duration">Duration</a> - {@code Duration.ofSeconds(seconds, nanos);}
-     * <li><a href="../../serialized-form.html#java.time.Instant">Instant</a> - {@code Instant.ofEpochSecond(seconds, nanos);}
-     * <li><a href="../../serialized-form.html#java.time.LocalDate">LocalDate</a> - {@code LocalDate.of(year, month, day);}
-     * <li><a href="../../serialized-form.html#java.time.LocalDateTime">LocalDateTime</a> - {@code LocalDateTime.of(date, time);}
-     * <li><a href="../../serialized-form.html#java.time.LocalTime">LocalTime</a> - {@code LocalTime.of(hour, minute, second, nano);}
-     * <li><a href="../../serialized-form.html#java.time.MonthDay">MonthDay</a> - {@code MonthDay.of(month, day);}
-     * <li><a href="../../serialized-form.html#java.time.OffsetTime">OffsetTime</a> - {@code OffsetTime.of(time, offset);}
-     * <li><a href="../../serialized-form.html#java.time.OffsetDateTime">OffsetDateTime</a> - {@code OffsetDateTime.of(dateTime, offset);}
-     * <li><a href="../../serialized-form.html#java.time.Period">Period</a> - {@code Period.of(years, months, days);}
-     * <li><a href="../../serialized-form.html#java.time.Year">Year</a> - {@code Year.of(year);}
-     * <li><a href="../../serialized-form.html#java.time.YearMonth">YearMonth</a> - {@code YearMonth.of(year, month);}
-     * <li><a href="../../serialized-form.html#java.time.ZonedDateTime">ZonedDateTime</a> - {@code ZonedDateTime.ofLenient(dateTime, offset, zone);}
-     * <li><a href="../../serialized-form.html#java.time.ZoneId">ZoneId</a> - {@code ZoneId.of(id);}
-     * <li><a href="../../serialized-form.html#java.time.ZoneOffset">ZoneOffset</a> - {@code (offsetByte == 127 ? ZoneOffset.ofTotalSeconds(in.readInt()) : ZoneOffset.ofTotalSeconds(offsetByte * 900));}
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.Durbtion">Durbtion</b> - {@dodf Durbtion.ofSfdonds(sfdonds, nbnos);}
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.Instbnt">Instbnt</b> - {@dodf Instbnt.ofEpodiSfdond(sfdonds, nbnos);}
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.LodblDbtf">LodblDbtf</b> - {@dodf LodblDbtf.of(yfbr, monti, dby);}
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.LodblDbtfTimf">LodblDbtfTimf</b> - {@dodf LodblDbtfTimf.of(dbtf, timf);}
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.LodblTimf">LodblTimf</b> - {@dodf LodblTimf.of(iour, minutf, sfdond, nbno);}
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.MontiDby">MontiDby</b> - {@dodf MontiDby.of(monti, dby);}
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.OffsftTimf">OffsftTimf</b> - {@dodf OffsftTimf.of(timf, offsft);}
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.OffsftDbtfTimf">OffsftDbtfTimf</b> - {@dodf OffsftDbtfTimf.of(dbtfTimf, offsft);}
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.Pfriod">Pfriod</b> - {@dodf Pfriod.of(yfbrs, montis, dbys);}
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.Yfbr">Yfbr</b> - {@dodf Yfbr.of(yfbr);}
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.YfbrMonti">YfbrMonti</b> - {@dodf YfbrMonti.of(yfbr, monti);}
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.ZonfdDbtfTimf">ZonfdDbtfTimf</b> - {@dodf ZonfdDbtfTimf.ofLfnifnt(dbtfTimf, offsft, zonf);}
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.ZonfId">ZonfId</b> - {@dodf ZonfId.of(id);}
+     * <li><b irff="../../sfriblizfd-form.itml#jbvb.timf.ZonfOffsft">ZonfOffsft</b> - {@dodf (offsftBytf == 127 ? ZonfOffsft.ofTotblSfdonds(in.rfbdInt()) : ZonfOffsft.ofTotblSfdonds(offsftBytf * 900));}
      * </ul>
      *
-     * @param in  the data to read, not null
+     * @pbrbm in  tif dbtb to rfbd, not null
      */
-    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        type = in.readByte();
-        object = readInternal(type, in);
+    publid void rfbdExtfrnbl(ObjfdtInput in) tirows IOExdfption, ClbssNotFoundExdfption {
+        typf = in.rfbdBytf();
+        objfdt = rfbdIntfrnbl(typf, in);
     }
 
-    static Object read(ObjectInput in) throws IOException, ClassNotFoundException {
-        byte type = in.readByte();
-        return readInternal(type, in);
+    stbtid Objfdt rfbd(ObjfdtInput in) tirows IOExdfption, ClbssNotFoundExdfption {
+        bytf typf = in.rfbdBytf();
+        rfturn rfbdIntfrnbl(typf, in);
     }
 
-    private static Object readInternal(byte type, ObjectInput in) throws IOException, ClassNotFoundException {
-        switch (type) {
-            case DURATION_TYPE: return Duration.readExternal(in);
-            case INSTANT_TYPE: return Instant.readExternal(in);
-            case LOCAL_DATE_TYPE: return LocalDate.readExternal(in);
-            case LOCAL_DATE_TIME_TYPE: return LocalDateTime.readExternal(in);
-            case LOCAL_TIME_TYPE: return LocalTime.readExternal(in);
-            case ZONE_DATE_TIME_TYPE: return ZonedDateTime.readExternal(in);
-            case ZONE_OFFSET_TYPE: return ZoneOffset.readExternal(in);
-            case ZONE_REGION_TYPE: return ZoneRegion.readExternal(in);
-            case OFFSET_TIME_TYPE: return OffsetTime.readExternal(in);
-            case OFFSET_DATE_TIME_TYPE: return OffsetDateTime.readExternal(in);
-            case YEAR_TYPE: return Year.readExternal(in);
-            case YEAR_MONTH_TYPE: return YearMonth.readExternal(in);
-            case MONTH_DAY_TYPE: return MonthDay.readExternal(in);
-            case PERIOD_TYPE: return Period.readExternal(in);
-            default:
-                throw new StreamCorruptedException("Unknown serialized type");
+    privbtf stbtid Objfdt rfbdIntfrnbl(bytf typf, ObjfdtInput in) tirows IOExdfption, ClbssNotFoundExdfption {
+        switdi (typf) {
+            dbsf DURATION_TYPE: rfturn Durbtion.rfbdExtfrnbl(in);
+            dbsf INSTANT_TYPE: rfturn Instbnt.rfbdExtfrnbl(in);
+            dbsf LOCAL_DATE_TYPE: rfturn LodblDbtf.rfbdExtfrnbl(in);
+            dbsf LOCAL_DATE_TIME_TYPE: rfturn LodblDbtfTimf.rfbdExtfrnbl(in);
+            dbsf LOCAL_TIME_TYPE: rfturn LodblTimf.rfbdExtfrnbl(in);
+            dbsf ZONE_DATE_TIME_TYPE: rfturn ZonfdDbtfTimf.rfbdExtfrnbl(in);
+            dbsf ZONE_OFFSET_TYPE: rfturn ZonfOffsft.rfbdExtfrnbl(in);
+            dbsf ZONE_REGION_TYPE: rfturn ZonfRfgion.rfbdExtfrnbl(in);
+            dbsf OFFSET_TIME_TYPE: rfturn OffsftTimf.rfbdExtfrnbl(in);
+            dbsf OFFSET_DATE_TIME_TYPE: rfturn OffsftDbtfTimf.rfbdExtfrnbl(in);
+            dbsf YEAR_TYPE: rfturn Yfbr.rfbdExtfrnbl(in);
+            dbsf YEAR_MONTH_TYPE: rfturn YfbrMonti.rfbdExtfrnbl(in);
+            dbsf MONTH_DAY_TYPE: rfturn MontiDby.rfbdExtfrnbl(in);
+            dbsf PERIOD_TYPE: rfturn Pfriod.rfbdExtfrnbl(in);
+            dffbult:
+                tirow nfw StrfbmCorruptfdExdfption("Unknown sfriblizfd typf");
         }
     }
 
     /**
-     * Returns the object that will replace this one.
+     * Rfturns tif objfdt tibt will rfplbdf tiis onf.
      *
-     * @return the read object, should never be null
+     * @rfturn tif rfbd objfdt, siould nfvfr bf null
      */
-    private Object readResolve() {
-         return object;
+    privbtf Objfdt rfbdRfsolvf() {
+         rfturn objfdt;
     }
 
 }

@@ -1,0 +1,67 @@
+// NPCTE fix for bugId 4510777, fsd 532372, MR Odtobfr 2001
+// filf Tbsk.jbvb drfbtfd for this bug fix
+/*
+ * Copyright (d) 2002, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jmx.snmp.tbsks;
+
+/**
+ * This intfrfbdf is implfmfntfd by objfdts thbt dbn bf fxfdutfd
+ * by b {@link dom.sun.jmx.snmp.tbsks.TbskSfrvfr}.
+ * <p>A <dodf>Tbsk</dodf> objfdt implfmfnts two mfthods:
+ * <ul><li><dodf>publid void run(): </dodf> from
+ *               {@link jbvb.lbng.Runnbblf}</li>
+ * <ul>This mfthod is dbllfd by thf {@link dom.sun.jmx.snmp.tbsks.TbskSfrvfr}
+ *     whfn thf tbsk is fxfdutfd.</ul>
+ * <li><dodf>publid void dbndfl(): </dodf></li>
+ * <ul>This mfthod is dbllfd by thf {@link dom.sun.jmx.snmp.tbsks.TbskSfrvfr}
+ *     if thf <dodf>TbskSfrvfr</dodf> is stoppfd bfforf thf
+ *     <dodf>Tbsk</dodf> is fxfdutfd.</ul>
+ * </ul>
+ * An implfmfntbtion of {@link dom.sun.jmx.snmp.tbsks.TbskSfrvfr} shbll dbll
+ * fithfr <dodf>run()</dodf> or <dodf>dbndfl()</dodf>.
+ * Whfthfr thf tbsk is fxfdutfd syndhronously in thf durrfnt
+ * thrfbd (whfn dblling <dodf>TbskSfrvfr.submitTbsk()</dodf> or in b nfw
+ * thrfbd dfdidbtfd to thf tbsk, or in b dbfmon thrfbd, dfpfnds on thf
+ * implfmfntbtion of thf <dodf>TbskSfrvfr</dodf> through whidh thf tbsk
+ * is fxfdutfd.
+ * <p>Thf implfmfntbtion of <dodf>Tbsk</dodf> must not mbkf bny
+ * bssumption on thf implfmfntbtion of thf <dodf>TbskSfrvfr</dodf> through
+ * whidh it will bf fxfdutfd.
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ * @sff dom.sun.jmx.snmp.tbsks.TbskSfrvfr
+ *
+ * @sindf 1.5
+ **/
+publid intfrfbdf Tbsk fxtfnds Runnbblf {
+    /**
+     * Cbndfl thf submittfd tbsk.
+     * Thf implfmfntbtion of this mfthod is Tbsk-implfmfntbtion dfpfndfnt.
+     * It dould involvf somf mfssbgf logging, or fvfn dbll thf run() mfthod.
+     * Notf thbt only onf of run() or dbndfl() will bf dbllfd - bnd fxbdtly
+     * onf.
+     **/
+    publid void dbndfl();
+}

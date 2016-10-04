@@ -1,1075 +1,1075 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole.inspector;
+pbdkbgf sun.tools.jdonsolf.inspfdtor;
 
 
-import java.awt.Component;
-import java.awt.EventQueue;
-import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.IOException;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.EvfntQufuf;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.fvfnt.MousfAdbptfr;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.io.IOExdfption;
 
-import java.lang.reflect.Array;
+import jbvb.lbng.rfflfdt.Arrby;
 
-import java.util.EventObject;
-import java.util.HashMap;
-import java.util.WeakHashMap;
+import jbvb.util.EvfntObjfdt;
+import jbvb.util.HbsiMbp;
+import jbvb.util.WfbkHbsiMbp;
 
-import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.management.JMException;
-import javax.management.MBeanInfo;
-import javax.management.MBeanAttributeInfo;
-import javax.management.AttributeList;
-import javax.management.Attribute;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.TabularData;
+import jbvb.util.dondurrfnt.ExfdutionExdfption;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.logging.Loggfr;
+import jbvbx.mbnbgfmfnt.JMExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnInfo;
+import jbvbx.mbnbgfmfnt.MBfbnAttributfInfo;
+import jbvbx.mbnbgfmfnt.AttributfList;
+import jbvbx.mbnbgfmfnt.Attributf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtb;
 
-import javax.swing.JComponent;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingWorker;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
-import javax.swing.table.TableModel;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JOptionPbnf;
+import jbvbx.swing.JTbblf;
+import jbvbx.swing.JTfxtFifld;
+import jbvbx.swing.SwingWorkfr;
+import jbvbx.swing.fvfnt.CibngfEvfnt;
+import jbvbx.swing.fvfnt.TbblfModflEvfnt;
+import jbvbx.swing.fvfnt.TbblfModflListfnfr;
+import jbvbx.swing.tbblf.DffbultTbblfCfllRfndfrfr;
+import jbvbx.swing.tbblf.DffbultTbblfModfl;
+import jbvbx.swing.tbblf.TbblfCfllEditor;
+import jbvbx.swing.tbblf.TbblfCfllRfndfrfr;
+import jbvbx.swing.tbblf.TbblfColumn;
+import jbvbx.swing.tbblf.TbblfColumnModfl;
+import jbvbx.swing.tbblf.TbblfModfl;
 
-import sun.tools.jconsole.MBeansTab;
-import sun.tools.jconsole.JConsole;
-import sun.tools.jconsole.Messages;
-import sun.tools.jconsole.ProxyClient.SnapshotMBeanServerConnection;
+import sun.tools.jdonsolf.MBfbnsTbb;
+import sun.tools.jdonsolf.JConsolf;
+import sun.tools.jdonsolf.Mfssbgfs;
+import sun.tools.jdonsolf.ProxyClifnt.SnbpsiotMBfbnSfrvfrConnfdtion;
 
 /*IMPORTANT :
-  There is a deadlock issue there if we don't synchronize well loadAttributes,
-  refresh attributes and empty table methods since a UI thread can call
-  loadAttributes and at the same time a JMX notification can raise an
-  emptyTable. Since there are synchronization in the JMX world it's
-  COMPULSORY to not call the JMX world in synchronized blocks */
-@SuppressWarnings("serial")
-public class XMBeanAttributes extends XTable {
+  Tifrf is b dfbdlodk issuf tifrf if wf don't syndironizf wfll lobdAttributfs,
+  rffrfsi bttributfs bnd fmpty tbblf mftiods sindf b UI tirfbd dbn dbll
+  lobdAttributfs bnd bt tif sbmf timf b JMX notifidbtion dbn rbisf bn
+  fmptyTbblf. Sindf tifrf brf syndironizbtion in tif JMX world it's
+  COMPULSORY to not dbll tif JMX world in syndironizfd blodks */
+@SupprfssWbrnings("sfribl")
+publid dlbss XMBfbnAttributfs fxtfnds XTbblf {
 
-    final Logger LOGGER =
-            Logger.getLogger(XMBeanAttributes.class.getPackage().getName());
+    finbl Loggfr LOGGER =
+            Loggfr.gftLoggfr(XMBfbnAttributfs.dlbss.gftPbdkbgf().gftNbmf());
 
-    private final static String[] columnNames =
-    {Messages.NAME,
-     Messages.VALUE};
+    privbtf finbl stbtid String[] dolumnNbmfs =
+    {Mfssbgfs.NAME,
+     Mfssbgfs.VALUE};
 
-    private XMBean mbean;
-    private MBeanInfo mbeanInfo;
-    private MBeanAttributeInfo[] attributesInfo;
-    private HashMap<String, Object> attributes;
-    private HashMap<String, Object> unavailableAttributes;
-    private HashMap<String, Object> viewableAttributes;
-    private WeakHashMap<XMBean, HashMap<String, ZoomedCell>> viewersCache =
-            new WeakHashMap<XMBean, HashMap<String, ZoomedCell>>();
-    private final TableModelListener attributesListener;
-    private MBeansTab mbeansTab;
-    private TableCellEditor valueCellEditor = new ValueCellEditor();
-    private int rowMinHeight = -1;
-    private AttributesMouseListener mouseListener = new AttributesMouseListener();
+    privbtf XMBfbn mbfbn;
+    privbtf MBfbnInfo mbfbnInfo;
+    privbtf MBfbnAttributfInfo[] bttributfsInfo;
+    privbtf HbsiMbp<String, Objfdt> bttributfs;
+    privbtf HbsiMbp<String, Objfdt> unbvbilbblfAttributfs;
+    privbtf HbsiMbp<String, Objfdt> vifwbblfAttributfs;
+    privbtf WfbkHbsiMbp<XMBfbn, HbsiMbp<String, ZoomfdCfll>> vifwfrsCbdif =
+            nfw WfbkHbsiMbp<XMBfbn, HbsiMbp<String, ZoomfdCfll>>();
+    privbtf finbl TbblfModflListfnfr bttributfsListfnfr;
+    privbtf MBfbnsTbb mbfbnsTbb;
+    privbtf TbblfCfllEditor vblufCfllEditor = nfw VblufCfllEditor();
+    privbtf int rowMinHfigit = -1;
+    privbtf AttributfsMousfListfnfr mousfListfnfr = nfw AttributfsMousfListfnfr();
 
-    private static TableCellEditor editor =
-            new Utils.ReadOnlyTableCellEditor(new JTextField());
+    privbtf stbtid TbblfCfllEditor fditor =
+            nfw Utils.RfbdOnlyTbblfCfllEditor(nfw JTfxtFifld());
 
-    public XMBeanAttributes(MBeansTab mbeansTab) {
-        super();
-        this.mbeansTab = mbeansTab;
-        ((DefaultTableModel)getModel()).setColumnIdentifiers(columnNames);
-        attributesListener = new AttributesListener(this);
-        getModel().addTableModelListener(attributesListener);
-        getColumnModel().getColumn(NAME_COLUMN).setPreferredWidth(40);
+    publid XMBfbnAttributfs(MBfbnsTbb mbfbnsTbb) {
+        supfr();
+        tiis.mbfbnsTbb = mbfbnsTbb;
+        ((DffbultTbblfModfl)gftModfl()).sftColumnIdfntififrs(dolumnNbmfs);
+        bttributfsListfnfr = nfw AttributfsListfnfr(tiis);
+        gftModfl().bddTbblfModflListfnfr(bttributfsListfnfr);
+        gftColumnModfl().gftColumn(NAME_COLUMN).sftPrfffrrfdWidti(40);
 
-        addMouseListener(mouseListener);
-        getTableHeader().setReorderingAllowed(false);
-        setColumnEditors();
-        addKeyListener(new Utils.CopyKeyAdapter());
+        bddMousfListfnfr(mousfListfnfr);
+        gftTbblfHfbdfr().sftRfordfringAllowfd(fblsf);
+        sftColumnEditors();
+        bddKfyListfnfr(nfw Utils.CopyKfyAdbptfr());
     }
 
-    @Override
-    public synchronized Component prepareRenderer(TableCellRenderer renderer,
-                                                  int row, int column) {
-        //In case we have a repaint thread that is in the process of
-        //repainting an obsolete table, just ignore the call.
-        //It can happen when MBean selection is switched at a very quick rate
-        if(row >= getRowCount())
-            return null;
-        else
-            return super.prepareRenderer(renderer, row, column);
+    @Ovfrridf
+    publid syndironizfd Componfnt prfpbrfRfndfrfr(TbblfCfllRfndfrfr rfndfrfr,
+                                                  int row, int dolumn) {
+        //In dbsf wf ibvf b rfpbint tirfbd tibt is in tif prodfss of
+        //rfpbinting bn obsolftf tbblf, just ignorf tif dbll.
+        //It dbn ibppfn wifn MBfbn sflfdtion is switdifd bt b vfry quidk rbtf
+        if(row >= gftRowCount())
+            rfturn null;
+        flsf
+            rfturn supfr.prfpbrfRfndfrfr(rfndfrfr, row, dolumn);
     }
 
-    void updateRowHeight(Object obj, int row) {
-        ZoomedCell cell = null;
-        if(obj instanceof ZoomedCell) {
-            cell = (ZoomedCell) obj;
-            if(cell.isInited())
-                setRowHeight(row, cell.getHeight());
-            else
-                if(rowMinHeight != - 1)
-                    setRowHeight(row, rowMinHeight);
-        } else
-            if(rowMinHeight != - 1)
-                setRowHeight(row, rowMinHeight);
+    void updbtfRowHfigit(Objfdt obj, int row) {
+        ZoomfdCfll dfll = null;
+        if(obj instbndfof ZoomfdCfll) {
+            dfll = (ZoomfdCfll) obj;
+            if(dfll.isInitfd())
+                sftRowHfigit(row, dfll.gftHfigit());
+            flsf
+                if(rowMinHfigit != - 1)
+                    sftRowHfigit(row, rowMinHfigit);
+        } flsf
+            if(rowMinHfigit != - 1)
+                sftRowHfigit(row, rowMinHfigit);
     }
 
-    @Override
-    public synchronized TableCellRenderer getCellRenderer(int row,
-            int column) {
-        //In case we have a repaint thread that is in the process of
-        //repainting an obsolete table, just ignore the call.
-        //It can happen when MBean selection is switched at a very quick rate
-        if (row >= getRowCount()) {
-            return null;
-        } else {
-            if (column == VALUE_COLUMN) {
-                Object obj = getModel().getValueAt(row, column);
-                if (obj instanceof ZoomedCell) {
-                    ZoomedCell cell = (ZoomedCell) obj;
-                    if (cell.isInited()) {
-                        DefaultTableCellRenderer renderer =
-                                (DefaultTableCellRenderer) cell.getRenderer();
-                        renderer.setToolTipText(getToolTip(row,column));
-                        return renderer;
+    @Ovfrridf
+    publid syndironizfd TbblfCfllRfndfrfr gftCfllRfndfrfr(int row,
+            int dolumn) {
+        //In dbsf wf ibvf b rfpbint tirfbd tibt is in tif prodfss of
+        //rfpbinting bn obsolftf tbblf, just ignorf tif dbll.
+        //It dbn ibppfn wifn MBfbn sflfdtion is switdifd bt b vfry quidk rbtf
+        if (row >= gftRowCount()) {
+            rfturn null;
+        } flsf {
+            if (dolumn == VALUE_COLUMN) {
+                Objfdt obj = gftModfl().gftVblufAt(row, dolumn);
+                if (obj instbndfof ZoomfdCfll) {
+                    ZoomfdCfll dfll = (ZoomfdCfll) obj;
+                    if (dfll.isInitfd()) {
+                        DffbultTbblfCfllRfndfrfr rfndfrfr =
+                                (DffbultTbblfCfllRfndfrfr) dfll.gftRfndfrfr();
+                        rfndfrfr.sftToolTipTfxt(gftToolTip(row,dolumn));
+                        rfturn rfndfrfr;
                     }
                 }
             }
-            DefaultTableCellRenderer renderer = (DefaultTableCellRenderer)
-                super.getCellRenderer(row, column);
-            if (!isCellError(row, column)) {
-                if (!(isColumnEditable(column) && isWritable(row) &&
-                      Utils.isEditableType(getClassName(row)))) {
-                    renderer.setForeground(getDefaultColor());
+            DffbultTbblfCfllRfndfrfr rfndfrfr = (DffbultTbblfCfllRfndfrfr)
+                supfr.gftCfllRfndfrfr(row, dolumn);
+            if (!isCfllError(row, dolumn)) {
+                if (!(isColumnEditbblf(dolumn) && isWritbblf(row) &&
+                      Utils.isEditbblfTypf(gftClbssNbmf(row)))) {
+                    rfndfrfr.sftForfground(gftDffbultColor());
                 }
             }
-            return renderer;
+            rfturn rfndfrfr;
         }
     }
 
-    private void setColumnEditors() {
-        TableColumnModel tcm = getColumnModel();
-        for (int i = 0; i < columnNames.length; i++) {
-            TableColumn tc = tcm.getColumn(i);
-            if (isColumnEditable(i)) {
-                tc.setCellEditor(valueCellEditor);
-            } else {
-                tc.setCellEditor(editor);
+    privbtf void sftColumnEditors() {
+        TbblfColumnModfl tdm = gftColumnModfl();
+        for (int i = 0; i < dolumnNbmfs.lfngti; i++) {
+            TbblfColumn td = tdm.gftColumn(i);
+            if (isColumnEditbblf(i)) {
+                td.sftCfllEditor(vblufCfllEditor);
+            } flsf {
+                td.sftCfllEditor(fditor);
             }
         }
     }
 
-    public void cancelCellEditing() {
-        if (LOGGER.isLoggable(Level.FINER)) {
-            LOGGER.finer("Cancel Editing Row: "+getEditingRow());
+    publid void dbndflCfllEditing() {
+        if (LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            LOGGER.finfr("Cbndfl Editing Row: "+gftEditingRow());
         }
-        final TableCellEditor tableCellEditor = getCellEditor();
-        if (tableCellEditor != null) {
-            tableCellEditor.cancelCellEditing();
-        }
-    }
-
-    public void stopCellEditing() {
-        if (LOGGER.isLoggable(Level.FINER)) {
-            LOGGER.finer("Stop Editing Row: "+getEditingRow());
-        }
-        final TableCellEditor tableCellEditor = getCellEditor();
-        if (tableCellEditor != null) {
-            tableCellEditor.stopCellEditing();
+        finbl TbblfCfllEditor tbblfCfllEditor = gftCfllEditor();
+        if (tbblfCfllEditor != null) {
+            tbblfCfllEditor.dbndflCfllEditing();
         }
     }
 
-    @Override
-    public final boolean editCellAt(final int row, final int column, EventObject e) {
-        if (LOGGER.isLoggable(Level.FINER)) {
-            LOGGER.finer("editCellAt(row="+row+", col="+column+
-                    ", e="+e+")");
+    publid void stopCfllEditing() {
+        if (LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            LOGGER.finfr("Stop Editing Row: "+gftEditingRow());
         }
-        if (JConsole.isDebug()) {
-            System.err.println("edit: "+getValueName(row)+"="+getValue(row));
+        finbl TbblfCfllEditor tbblfCfllEditor = gftCfllEditor();
+        if (tbblfCfllEditor != null) {
+            tbblfCfllEditor.stopCfllEditing();
         }
-        boolean retVal = super.editCellAt(row, column, e);
-        if (retVal) {
-            final TableCellEditor tableCellEditor =
-                    getColumnModel().getColumn(column).getCellEditor();
-            if (tableCellEditor == valueCellEditor) {
-                ((JComponent) tableCellEditor).requestFocus();
+    }
+
+    @Ovfrridf
+    publid finbl boolfbn fditCfllAt(finbl int row, finbl int dolumn, EvfntObjfdt f) {
+        if (LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            LOGGER.finfr("fditCfllAt(row="+row+", dol="+dolumn+
+                    ", f="+f+")");
+        }
+        if (JConsolf.isDfbug()) {
+            Systfm.frr.println("fdit: "+gftVblufNbmf(row)+"="+gftVbluf(row));
+        }
+        boolfbn rftVbl = supfr.fditCfllAt(row, dolumn, f);
+        if (rftVbl) {
+            finbl TbblfCfllEditor tbblfCfllEditor =
+                    gftColumnModfl().gftColumn(dolumn).gftCfllEditor();
+            if (tbblfCfllEditor == vblufCfllEditor) {
+                ((JComponfnt) tbblfCfllEditor).rfqufstFodus();
             }
         }
-        return retVal;
+        rfturn rftVbl;
     }
 
-    @Override
-    public boolean isCellEditable(int row, int col) {
-        // All the cells in non-editable columns are editable
-        if (!isColumnEditable(col)) {
-            return true;
+    @Ovfrridf
+    publid boolfbn isCfllEditbblf(int row, int dol) {
+        // All tif dflls in non-fditbblf dolumns brf fditbblf
+        if (!isColumnEditbblf(dol)) {
+            rfturn truf;
         }
-        // Maximized zoomed cells are editable
-        Object obj = getModel().getValueAt(row, col);
-        if (obj instanceof ZoomedCell) {
-            ZoomedCell cell = (ZoomedCell) obj;
-            return cell.isMaximized();
+        // Mbximizfd zoomfd dflls brf fditbblf
+        Objfdt obj = gftModfl().gftVblufAt(row, dol);
+        if (obj instbndfof ZoomfdCfll) {
+            ZoomfdCfll dfll = (ZoomfdCfll) obj;
+            rfturn dfll.isMbximizfd();
         }
-        return true;
+        rfturn truf;
     }
 
-    @Override
-    public void setValueAt(Object value, int row, int column) {
-        if (!isCellError(row, column) && isColumnEditable(column) &&
-            isWritable(row) && Utils.isEditableType(getClassName(row))) {
-            if (JConsole.isDebug()) {
-                System.err.println("validating [row="+row+", column="+column+
-                        "]: "+getValueName(row)+"="+value);
+    @Ovfrridf
+    publid void sftVblufAt(Objfdt vbluf, int row, int dolumn) {
+        if (!isCfllError(row, dolumn) && isColumnEditbblf(dolumn) &&
+            isWritbblf(row) && Utils.isEditbblfTypf(gftClbssNbmf(row))) {
+            if (JConsolf.isDfbug()) {
+                Systfm.frr.println("vblidbting [row="+row+", dolumn="+dolumn+
+                        "]: "+gftVblufNbmf(row)+"="+vbluf);
             }
-            super.setValueAt(value, row, column);
+            supfr.sftVblufAt(vbluf, row, dolumn);
         }
     }
 
-    //Table methods
+    //Tbblf mftiods
 
-    public boolean isTableEditable() {
-        return true;
+    publid boolfbn isTbblfEditbblf() {
+        rfturn truf;
     }
 
-    public void setTableValue(Object value, int row) {
+    publid void sftTbblfVbluf(Objfdt vbluf, int row) {
     }
 
-    public boolean isColumnEditable(int column) {
-        if (column < getColumnCount()) {
-            return getColumnName(column).equals(Messages.VALUE);
+    publid boolfbn isColumnEditbblf(int dolumn) {
+        if (dolumn < gftColumnCount()) {
+            rfturn gftColumnNbmf(dolumn).fqubls(Mfssbgfs.VALUE);
         }
-        else {
-            return false;
-        }
-    }
-
-    public String getClassName(int row) {
-        int index = convertRowToIndex(row);
-        if (index != -1) {
-            return attributesInfo[index].getType();
-        }
-        else {
-            return null;
+        flsf {
+            rfturn fblsf;
         }
     }
 
-
-    public String getValueName(int row) {
-        int index = convertRowToIndex(row);
-        if (index != -1) {
-            return attributesInfo[index].getName();
+    publid String gftClbssNbmf(int row) {
+        int indfx = donvfrtRowToIndfx(row);
+        if (indfx != -1) {
+            rfturn bttributfsInfo[indfx].gftTypf();
         }
-        else {
-            return null;
+        flsf {
+            rfturn null;
         }
     }
 
-    public Object getValue(int row) {
-        final Object val = ((DefaultTableModel) getModel())
-                .getValueAt(row, VALUE_COLUMN);
-        return val;
+
+    publid String gftVblufNbmf(int row) {
+        int indfx = donvfrtRowToIndfx(row);
+        if (indfx != -1) {
+            rfturn bttributfsInfo[indfx].gftNbmf();
+        }
+        flsf {
+            rfturn null;
+        }
     }
 
-    //tool tip only for editable column
-    @Override
-    public String getToolTip(int row, int column) {
-        if (isCellError(row, column)) {
-            return (String) unavailableAttributes.get(getValueName(row));
+    publid Objfdt gftVbluf(int row) {
+        finbl Objfdt vbl = ((DffbultTbblfModfl) gftModfl())
+                .gftVblufAt(row, VALUE_COLUMN);
+        rfturn vbl;
+    }
+
+    //tool tip only for fditbblf dolumn
+    @Ovfrridf
+    publid String gftToolTip(int row, int dolumn) {
+        if (isCfllError(row, dolumn)) {
+            rfturn (String) unbvbilbblfAttributfs.gft(gftVblufNbmf(row));
         }
-        if (isColumnEditable(column)) {
-            Object value = getValue(row);
+        if (isColumnEditbblf(dolumn)) {
+            Objfdt vbluf = gftVbluf(row);
             String tip = null;
-            if (value != null) {
-                tip = value.toString();
-                if(isAttributeViewable(row, VALUE_COLUMN))
-                    tip = Messages.DOUBLE_CLICK_TO_EXPAND_FORWARD_SLASH_COLLAPSE+
+            if (vbluf != null) {
+                tip = vbluf.toString();
+                if(isAttributfVifwbblf(row, VALUE_COLUMN))
+                    tip = Mfssbgfs.DOUBLE_CLICK_TO_EXPAND_FORWARD_SLASH_COLLAPSE+
                         ". " + tip;
             }
 
-            return tip;
+            rfturn tip;
         }
 
-        if(column == NAME_COLUMN) {
-            int index = convertRowToIndex(row);
-            if (index != -1) {
-                return attributesInfo[index].getDescription();
+        if(dolumn == NAME_COLUMN) {
+            int indfx = donvfrtRowToIndfx(row);
+            if (indfx != -1) {
+                rfturn bttributfsInfo[indfx].gftDfsdription();
             }
         }
-        return null;
+        rfturn null;
     }
 
-    public synchronized boolean isWritable(int row) {
-        int index = convertRowToIndex(row);
-        if (index != -1) {
-            return (attributesInfo[index].isWritable());
+    publid syndironizfd boolfbn isWritbblf(int row) {
+        int indfx = donvfrtRowToIndfx(row);
+        if (indfx != -1) {
+            rfturn (bttributfsInfo[indfx].isWritbblf());
         }
-        else {
-            return false;
+        flsf {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Override JTable method in order to make any call to this method
-     * atomic with TableModel elements.
+     * Ovfrridf JTbblf mftiod in ordfr to mbkf bny dbll to tiis mftiod
+     * btomid witi TbblfModfl flfmfnts.
      */
-    @Override
-    public synchronized int getRowCount() {
-        return super.getRowCount();
+    @Ovfrridf
+    publid syndironizfd int gftRowCount() {
+        rfturn supfr.gftRowCount();
     }
 
-    public synchronized boolean isReadable(int row) {
-        int index = convertRowToIndex(row);
-        if (index != -1) {
-            return (attributesInfo[index].isReadable());
+    publid syndironizfd boolfbn isRfbdbblf(int row) {
+        int indfx = donvfrtRowToIndfx(row);
+        if (indfx != -1) {
+            rfturn (bttributfsInfo[indfx].isRfbdbblf());
         }
-        else {
-            return false;
+        flsf {
+            rfturn fblsf;
         }
     }
 
-    public synchronized boolean isCellError(int row, int col) {
-        return (isColumnEditable(col) &&
-                (unavailableAttributes.containsKey(getValueName(row))));
+    publid syndironizfd boolfbn isCfllError(int row, int dol) {
+        rfturn (isColumnEditbblf(dol) &&
+                (unbvbilbblfAttributfs.dontbinsKfy(gftVblufNbmf(row))));
     }
 
-    public synchronized boolean isAttributeViewable(int row, int col) {
-        boolean isViewable = false;
-        if(col == VALUE_COLUMN) {
-            Object obj = getModel().getValueAt(row, col);
-            if(obj instanceof ZoomedCell)
-                isViewable = true;
+    publid syndironizfd boolfbn isAttributfVifwbblf(int row, int dol) {
+        boolfbn isVifwbblf = fblsf;
+        if(dol == VALUE_COLUMN) {
+            Objfdt obj = gftModfl().gftVblufAt(row, dol);
+            if(obj instbndfof ZoomfdCfll)
+                isVifwbblf = truf;
         }
 
-        return isViewable;
+        rfturn isVifwbblf;
     }
 
-    // Call this in EDT
-    public void loadAttributes(final XMBean mbean, final MBeanInfo mbeanInfo) {
+    // Cbll tiis in EDT
+    publid void lobdAttributfs(finbl XMBfbn mbfbn, finbl MBfbnInfo mbfbnInfo) {
 
-        final SwingWorker<Runnable,Void> load =
-                new SwingWorker<Runnable,Void>() {
-            @Override
-            protected Runnable doInBackground() throws Exception {
-                return doLoadAttributes(mbean,mbeanInfo);
+        finbl SwingWorkfr<Runnbblf,Void> lobd =
+                nfw SwingWorkfr<Runnbblf,Void>() {
+            @Ovfrridf
+            protfdtfd Runnbblf doInBbdkground() tirows Exdfption {
+                rfturn doLobdAttributfs(mbfbn,mbfbnInfo);
             }
 
-            @Override
-            protected void done() {
+            @Ovfrridf
+            protfdtfd void donf() {
                 try {
-                    final Runnable updateUI = get();
-                    if (updateUI != null) updateUI.run();
-                } catch (RuntimeException x) {
-                    throw x;
-                } catch (ExecutionException x) {
-                    if(JConsole.isDebug()) {
-                       System.err.println(
-                               "Exception raised while loading attributes: "
-                               +x.getCause());
-                       x.printStackTrace();
+                    finbl Runnbblf updbtfUI = gft();
+                    if (updbtfUI != null) updbtfUI.run();
+                } dbtdi (RuntimfExdfption x) {
+                    tirow x;
+                } dbtdi (ExfdutionExdfption x) {
+                    if(JConsolf.isDfbug()) {
+                       Systfm.frr.println(
+                               "Exdfption rbisfd wiilf lobding bttributfs: "
+                               +x.gftCbusf());
+                       x.printStbdkTrbdf();
                     }
-                } catch (InterruptedException x) {
-                    if(JConsole.isDebug()) {
-                       System.err.println(
-                            "Interrupted while loading attributes: "+x);
-                       x.printStackTrace();
+                } dbtdi (IntfrruptfdExdfption x) {
+                    if(JConsolf.isDfbug()) {
+                       Systfm.frr.println(
+                            "Intfrruptfd wiilf lobding bttributfs: "+x);
+                       x.printStbdkTrbdf();
                     }
                 }
             }
 
         };
-        mbeansTab.workerAdd(load);
+        mbfbnsTbb.workfrAdd(lobd);
     }
 
-    // Don't call this in EDT, but execute returned Runnable inside
-    // EDT - typically in the done() method of a SwingWorker
-    // This method can return null.
-    private Runnable doLoadAttributes(final XMBean mbean, MBeanInfo infoOrNull)
-        throws JMException, IOException {
-        // To avoid deadlock with events coming from the JMX side,
-        // we retrieve all JMX stuff in a non synchronized block.
+    // Don't dbll tiis in EDT, but fxfdutf rfturnfd Runnbblf insidf
+    // EDT - typidblly in tif donf() mftiod of b SwingWorkfr
+    // Tiis mftiod dbn rfturn null.
+    privbtf Runnbblf doLobdAttributfs(finbl XMBfbn mbfbn, MBfbnInfo infoOrNull)
+        tirows JMExdfption, IOExdfption {
+        // To bvoid dfbdlodk witi fvfnts doming from tif JMX sidf,
+        // wf rftrifvf bll JMX stuff in b non syndironizfd blodk.
 
-        if(mbean == null) return null;
-        final MBeanInfo curMBeanInfo =
-                (infoOrNull==null)?mbean.getMBeanInfo():infoOrNull;
+        if(mbfbn == null) rfturn null;
+        finbl MBfbnInfo durMBfbnInfo =
+                (infoOrNull==null)?mbfbn.gftMBfbnInfo():infoOrNull;
 
-        final MBeanAttributeInfo[] attrsInfo = curMBeanInfo.getAttributes();
-        final HashMap<String, Object> attrs =
-            new HashMap<String, Object>(attrsInfo.length);
-        final HashMap<String, Object> unavailableAttrs =
-            new HashMap<String, Object>(attrsInfo.length);
-        final HashMap<String, Object> viewableAttrs =
-            new HashMap<String, Object>(attrsInfo.length);
-        AttributeList list = null;
+        finbl MBfbnAttributfInfo[] bttrsInfo = durMBfbnInfo.gftAttributfs();
+        finbl HbsiMbp<String, Objfdt> bttrs =
+            nfw HbsiMbp<String, Objfdt>(bttrsInfo.lfngti);
+        finbl HbsiMbp<String, Objfdt> unbvbilbblfAttrs =
+            nfw HbsiMbp<String, Objfdt>(bttrsInfo.lfngti);
+        finbl HbsiMbp<String, Objfdt> vifwbblfAttrs =
+            nfw HbsiMbp<String, Objfdt>(bttrsInfo.lfngti);
+        AttributfList list = null;
 
         try {
-            list = mbean.getAttributes(attrsInfo);
-        }catch(Exception e) {
-            if (JConsole.isDebug()) {
-                System.err.println("Error calling getAttributes() on MBean \"" +
-                                   mbean.getObjectName() + "\". JConsole will " +
-                                   "try to get them individually calling " +
-                                   "getAttribute() instead. Exception:");
-                e.printStackTrace(System.err);
+            list = mbfbn.gftAttributfs(bttrsInfo);
+        }dbtdi(Exdfption f) {
+            if (JConsolf.isDfbug()) {
+                Systfm.frr.println("Error dblling gftAttributfs() on MBfbn \"" +
+                                   mbfbn.gftObjfdtNbmf() + "\". JConsolf will " +
+                                   "try to gft tifm individublly dblling " +
+                                   "gftAttributf() instfbd. Exdfption:");
+                f.printStbdkTrbdf(Systfm.frr);
             }
-            list = new AttributeList();
-            //Can't load all attributes, do it one after each other.
-            for(int i = 0; i < attrsInfo.length; i++) {
-                String name = null;
+            list = nfw AttributfList();
+            //Cbn't lobd bll bttributfs, do it onf bftfr fbdi otifr.
+            for(int i = 0; i < bttrsInfo.lfngti; i++) {
+                String nbmf = null;
                 try {
-                    name = attrsInfo[i].getName();
-                    Object value =
-                        mbean.getMBeanServerConnection().
-                        getAttribute(mbean.getObjectName(), name);
-                    list.add(new Attribute(name, value));
-                }catch(Exception ex) {
-                    if(attrsInfo[i].isReadable()) {
-                        unavailableAttrs.put(name,
-                                Utils.getActualException(ex).toString());
+                    nbmf = bttrsInfo[i].gftNbmf();
+                    Objfdt vbluf =
+                        mbfbn.gftMBfbnSfrvfrConnfdtion().
+                        gftAttributf(mbfbn.gftObjfdtNbmf(), nbmf);
+                    list.bdd(nfw Attributf(nbmf, vbluf));
+                }dbtdi(Exdfption fx) {
+                    if(bttrsInfo[i].isRfbdbblf()) {
+                        unbvbilbblfAttrs.put(nbmf,
+                                Utils.gftAdtublExdfption(fx).toString());
                     }
                 }
             }
         }
         try {
-            int att_length = list.size();
-            for (int i=0;i<att_length;i++) {
-                Attribute attribute = (Attribute) list.get(i);
-                if(isViewable(attribute)) {
-                    viewableAttrs.put(attribute.getName(),
-                                           attribute.getValue());
+            int btt_lfngti = list.sizf();
+            for (int i=0;i<btt_lfngti;i++) {
+                Attributf bttributf = (Attributf) list.gft(i);
+                if(isVifwbblf(bttributf)) {
+                    vifwbblfAttrs.put(bttributf.gftNbmf(),
+                                           bttributf.gftVbluf());
                 }
-                else
-                    attrs.put(attribute.getName(),attribute.getValue());
+                flsf
+                    bttrs.put(bttributf.gftNbmf(),bttributf.gftVbluf());
 
             }
-            // if not all attributes are accessible,
-            // check them one after the other.
-            if (att_length < attrsInfo.length) {
-                for (int i=0;i<attrsInfo.length;i++) {
-                    MBeanAttributeInfo attributeInfo = attrsInfo[i];
-                    if (!attrs.containsKey(attributeInfo.getName()) &&
-                        !viewableAttrs.containsKey(attributeInfo.
-                                                        getName()) &&
-                        !unavailableAttrs.containsKey(attributeInfo.
-                                                           getName())) {
-                        if (attributeInfo.isReadable()) {
-                            // getAttributes didn't help resolving the
-                            // exception.
-                            // We must call it again to understand what
-                            // went wrong.
+            // if not bll bttributfs brf bddfssiblf,
+            // difdk tifm onf bftfr tif otifr.
+            if (btt_lfngti < bttrsInfo.lfngti) {
+                for (int i=0;i<bttrsInfo.lfngti;i++) {
+                    MBfbnAttributfInfo bttributfInfo = bttrsInfo[i];
+                    if (!bttrs.dontbinsKfy(bttributfInfo.gftNbmf()) &&
+                        !vifwbblfAttrs.dontbinsKfy(bttributfInfo.
+                                                        gftNbmf()) &&
+                        !unbvbilbblfAttrs.dontbinsKfy(bttributfInfo.
+                                                           gftNbmf())) {
+                        if (bttributfInfo.isRfbdbblf()) {
+                            // gftAttributfs didn't iflp rfsolving tif
+                            // fxdfption.
+                            // Wf must dbll it bgbin to undfrstbnd wibt
+                            // wfnt wrong.
                             try {
-                                Object v =
-                                    mbean.getMBeanServerConnection().getAttribute(
-                                    mbean.getObjectName(), attributeInfo.getName());
-                                //What happens if now it is ok?
-                                // Be pragmatic, add it to readable...
-                                attrs.put(attributeInfo.getName(),
+                                Objfdt v =
+                                    mbfbn.gftMBfbnSfrvfrConnfdtion().gftAttributf(
+                                    mbfbn.gftObjfdtNbmf(), bttributfInfo.gftNbmf());
+                                //Wibt ibppfns if now it is ok?
+                                // Bf prbgmbtid, bdd it to rfbdbblf...
+                                bttrs.put(bttributfInfo.gftNbmf(),
                                                v);
-                            }catch(Exception e) {
-                                //Put the exception that will be displayed
+                            }dbtdi(Exdfption f) {
+                                //Put tif fxdfption tibt will bf displbyfd
                                 // in tooltip
-                                unavailableAttrs.put(attributeInfo.getName(),
-                                        Utils.getActualException(e).toString());
+                                unbvbilbblfAttrs.put(bttributfInfo.gftNbmf(),
+                                        Utils.gftAdtublExdfption(f).toString());
                             }
                         }
                     }
                 }
             }
         }
-        catch(Exception e) {
-            //sets all attributes unavailable except the writable ones
-            for (int i=0;i<attrsInfo.length;i++) {
-                MBeanAttributeInfo attributeInfo = attrsInfo[i];
-                if (attributeInfo.isReadable()) {
-                    unavailableAttrs.put(attributeInfo.getName(),
-                                              Utils.getActualException(e).
+        dbtdi(Exdfption f) {
+            //sfts bll bttributfs unbvbilbblf fxdfpt tif writbblf onfs
+            for (int i=0;i<bttrsInfo.lfngti;i++) {
+                MBfbnAttributfInfo bttributfInfo = bttrsInfo[i];
+                if (bttributfInfo.isRfbdbblf()) {
+                    unbvbilbblfAttrs.put(bttributfInfo.gftNbmf(),
+                                              Utils.gftAdtublExdfption(f).
                                               toString());
                 }
             }
         }
-        //end of retrieval
+        //fnd of rftrifvbl
 
-        //one update at a time
-        return new Runnable() {
-            public void run() {
-                synchronized (XMBeanAttributes.this) {
-                    XMBeanAttributes.this.mbean = mbean;
-                    XMBeanAttributes.this.mbeanInfo = curMBeanInfo;
-                    XMBeanAttributes.this.attributesInfo = attrsInfo;
-                    XMBeanAttributes.this.attributes = attrs;
-                    XMBeanAttributes.this.unavailableAttributes = unavailableAttrs;
-                    XMBeanAttributes.this.viewableAttributes = viewableAttrs;
+        //onf updbtf bt b timf
+        rfturn nfw Runnbblf() {
+            publid void run() {
+                syndironizfd (XMBfbnAttributfs.tiis) {
+                    XMBfbnAttributfs.tiis.mbfbn = mbfbn;
+                    XMBfbnAttributfs.tiis.mbfbnInfo = durMBfbnInfo;
+                    XMBfbnAttributfs.tiis.bttributfsInfo = bttrsInfo;
+                    XMBfbnAttributfs.tiis.bttributfs = bttrs;
+                    XMBfbnAttributfs.tiis.unbvbilbblfAttributfs = unbvbilbblfAttrs;
+                    XMBfbnAttributfs.tiis.vifwbblfAttributfs = vifwbblfAttrs;
 
-                    DefaultTableModel tableModel =
-                            (DefaultTableModel) getModel();
+                    DffbultTbblfModfl tbblfModfl =
+                            (DffbultTbblfModfl) gftModfl();
 
-                    // add attribute information
-                    emptyTable(tableModel);
+                    // bdd bttributf informbtion
+                    fmptyTbblf(tbblfModfl);
 
-                    addTableData(tableModel,
-                            mbean,
-                            attrsInfo,
-                            attrs,
-                            unavailableAttrs,
-                            viewableAttrs);
+                    bddTbblfDbtb(tbblfModfl,
+                            mbfbn,
+                            bttrsInfo,
+                            bttrs,
+                            unbvbilbblfAttrs,
+                            vifwbblfAttrs);
 
-                    // update the model with the new data
-                    tableModel.newDataAvailable(new TableModelEvent(tableModel));
-                    // re-register for change events
-                    tableModel.addTableModelListener(attributesListener);
+                    // updbtf tif modfl witi tif nfw dbtb
+                    tbblfModfl.nfwDbtbAvbilbblf(nfw TbblfModflEvfnt(tbblfModfl));
+                    // rf-rfgistfr for dibngf fvfnts
+                    tbblfModfl.bddTbblfModflListfnfr(bttributfsListfnfr);
                 }
             }
         };
     }
 
-    void collapse(String attributeName, final Component c) {
-        final int row = getSelectedRow();
-        Object obj = getModel().getValueAt(row, VALUE_COLUMN);
-        if(obj instanceof ZoomedCell) {
-            cancelCellEditing();
-            ZoomedCell cell = (ZoomedCell) obj;
-            cell.reset();
-            setRowHeight(row,
-                         cell.getHeight());
-            editCellAt(row,
+    void dollbpsf(String bttributfNbmf, finbl Componfnt d) {
+        finbl int row = gftSflfdtfdRow();
+        Objfdt obj = gftModfl().gftVblufAt(row, VALUE_COLUMN);
+        if(obj instbndfof ZoomfdCfll) {
+            dbndflCfllEditing();
+            ZoomfdCfll dfll = (ZoomfdCfll) obj;
+            dfll.rfsft();
+            sftRowHfigit(row,
+                         dfll.gftHfigit());
+            fditCfllAt(row,
                        VALUE_COLUMN);
-            invalidate();
-            repaint();
+            invblidbtf();
+            rfpbint();
         }
     }
 
-    ZoomedCell updateZoomedCell(int row,
-                                int col) {
-        Object obj = getModel().getValueAt(row, VALUE_COLUMN);
-        ZoomedCell cell = null;
-        if(obj instanceof ZoomedCell) {
-            cell = (ZoomedCell) obj;
-            if(!cell.isInited()) {
-                Object elem = cell.getValue();
-                String attributeName =
-                    (String) getModel().getValueAt(row,
+    ZoomfdCfll updbtfZoomfdCfll(int row,
+                                int dol) {
+        Objfdt obj = gftModfl().gftVblufAt(row, VALUE_COLUMN);
+        ZoomfdCfll dfll = null;
+        if(obj instbndfof ZoomfdCfll) {
+            dfll = (ZoomfdCfll) obj;
+            if(!dfll.isInitfd()) {
+                Objfdt flfm = dfll.gftVbluf();
+                String bttributfNbmf =
+                    (String) gftModfl().gftVblufAt(row,
                                                    NAME_COLUMN);
-                Component comp = mbeansTab.getDataViewer().
-                        createAttributeViewer(elem, mbean, attributeName, this);
-                if(comp != null){
-                    if(rowMinHeight == -1)
-                        rowMinHeight = getRowHeight(row);
+                Componfnt domp = mbfbnsTbb.gftDbtbVifwfr().
+                        drfbtfAttributfVifwfr(flfm, mbfbn, bttributfNbmf, tiis);
+                if(domp != null){
+                    if(rowMinHfigit == -1)
+                        rowMinHfigit = gftRowHfigit(row);
 
-                    cell.init(super.getCellRenderer(row, col),
-                              comp,
-                              rowMinHeight);
+                    dfll.init(supfr.gftCfllRfndfrfr(row, dol),
+                              domp,
+                              rowMinHfigit);
 
-                    XDataViewer.registerForMouseEvent(
-                            comp, mouseListener);
-                } else
-                    return cell;
+                    XDbtbVifwfr.rfgistfrForMousfEvfnt(
+                            domp, mousfListfnfr);
+                } flsf
+                    rfturn dfll;
             }
 
-            cell.switchState();
-            setRowHeight(row,
-                         cell.getHeight());
+            dfll.switdiStbtf();
+            sftRowHfigit(row,
+                         dfll.gftHfigit());
 
-            if(!cell.isMaximized()) {
-                cancelCellEditing();
-                //Back to simple editor.
-                editCellAt(row,
+            if(!dfll.isMbximizfd()) {
+                dbndflCfllEditing();
+                //Bbdk to simplf fditor.
+                fditCfllAt(row,
                            VALUE_COLUMN);
             }
 
-            invalidate();
-            repaint();
+            invblidbtf();
+            rfpbint();
         }
-        return cell;
+        rfturn dfll;
     }
 
-    // This is called by XSheet when the "refresh" button is pressed.
-    // In this case we will commit any pending attribute values by
-    // calling 'stopCellEditing'.
+    // Tiis is dbllfd by XSifft wifn tif "rffrfsi" button is prfssfd.
+    // In tiis dbsf wf will dommit bny pfnding bttributf vblufs by
+    // dblling 'stopCfllEditing'.
     //
-    public void refreshAttributes() {
-         refreshAttributes(true);
+    publid void rffrfsiAttributfs() {
+         rffrfsiAttributfs(truf);
     }
 
-    // refreshAttributes(false) is called by tableChanged().
-    // in this case we must not call stopCellEditing, because it's already
-    // been called - e.g.
-    // lostFocus/mousePressed -> stopCellEditing -> setValueAt -> tableChanged
-    //                        -> refreshAttributes(false)
+    // rffrfsiAttributfs(fblsf) is dbllfd by tbblfCibngfd().
+    // in tiis dbsf wf must not dbll stopCfllEditing, bfdbusf it's blrfbdy
+    // bffn dbllfd - f.g.
+    // lostFodus/mousfPrfssfd -> stopCfllEditing -> sftVblufAt -> tbblfCibngfd
+    //                        -> rffrfsiAttributfs(fblsf)
     //
-    // Can be called in EDT - as long as the implementation of
-    // mbeansTab.getCachedMBeanServerConnection() and mbsc.flush() doesn't
-    // change
+    // Cbn bf dbllfd in EDT - bs long bs tif implfmfntbtion of
+    // mbfbnsTbb.gftCbdifdMBfbnSfrvfrConnfdtion() bnd mbsd.flusi() dofsn't
+    // dibngf
     //
-    private void refreshAttributes(final boolean stopCellEditing) {
-         SwingWorker<Void,Void> sw = new SwingWorker<Void,Void>() {
+    privbtf void rffrfsiAttributfs(finbl boolfbn stopCfllEditing) {
+         SwingWorkfr<Void,Void> sw = nfw SwingWorkfr<Void,Void>() {
 
-            @Override
-            protected Void doInBackground() throws Exception {
-                SnapshotMBeanServerConnection mbsc =
-                mbeansTab.getSnapshotMBeanServerConnection();
-                mbsc.flush();
-                return null;
+            @Ovfrridf
+            protfdtfd Void doInBbdkground() tirows Exdfption {
+                SnbpsiotMBfbnSfrvfrConnfdtion mbsd =
+                mbfbnsTbb.gftSnbpsiotMBfbnSfrvfrConnfdtion();
+                mbsd.flusi();
+                rfturn null;
             }
 
-            @Override
-            protected void done() {
+            @Ovfrridf
+            protfdtfd void donf() {
                 try {
-                    get();
-                    if (stopCellEditing) stopCellEditing();
-                    loadAttributes(mbean, mbeanInfo);
-                } catch (Exception x) {
-                    if (JConsole.isDebug()) {
-                        x.printStackTrace();
+                    gft();
+                    if (stopCfllEditing) stopCfllEditing();
+                    lobdAttributfs(mbfbn, mbfbnInfo);
+                } dbtdi (Exdfption x) {
+                    if (JConsolf.isDfbug()) {
+                        x.printStbdkTrbdf();
                     }
                 }
             }
          };
-         mbeansTab.workerAdd(sw);
+         mbfbnsTbb.workfrAdd(sw);
      }
-    // We need to call stop editing here - otherwise edits are lost
-    // when resizing the table.
+    // Wf nffd to dbll stop fditing ifrf - otifrwisf fdits brf lost
+    // wifn rfsizing tif tbblf.
     //
-    @Override
-    public void columnMarginChanged(ChangeEvent e) {
-        if (isEditing()) stopCellEditing();
-        super.columnMarginChanged(e);
+    @Ovfrridf
+    publid void dolumnMbrginCibngfd(CibngfEvfnt f) {
+        if (isEditing()) stopCfllEditing();
+        supfr.dolumnMbrginCibngfd(f);
     }
 
-    // We need to call stop editing here - otherwise the edited value
-    // is transferred to the wrong row...
+    // Wf nffd to dbll stop fditing ifrf - otifrwisf tif fditfd vbluf
+    // is trbnsffrrfd to tif wrong row...
     //
-    @Override
-    void sortRequested(int column) {
-        if (isEditing()) stopCellEditing();
-        super.sortRequested(column);
+    @Ovfrridf
+    void sortRfqufstfd(int dolumn) {
+        if (isEditing()) stopCfllEditing();
+        supfr.sortRfqufstfd(dolumn);
     }
 
 
-    @Override
-    public synchronized void emptyTable() {
-         emptyTable((DefaultTableModel)getModel());
+    @Ovfrridf
+    publid syndironizfd void fmptyTbblf() {
+         fmptyTbblf((DffbultTbblfModfl)gftModfl());
      }
 
-    // Call this in synchronized block.
-    private void emptyTable(DefaultTableModel model) {
-         model.removeTableModelListener(attributesListener);
-         super.emptyTable();
+    // Cbll tiis in syndironizfd blodk.
+    privbtf void fmptyTbblf(DffbultTbblfModfl modfl) {
+         modfl.rfmovfTbblfModflListfnfr(bttributfsListfnfr);
+         supfr.fmptyTbblf();
     }
 
-    private boolean isViewable(Attribute attribute) {
-        Object data = attribute.getValue();
-        return XDataViewer.isViewableValue(data);
+    privbtf boolfbn isVifwbblf(Attributf bttributf) {
+        Objfdt dbtb = bttributf.gftVbluf();
+        rfturn XDbtbVifwfr.isVifwbblfVbluf(dbtb);
 
     }
 
-    synchronized void removeAttributes() {
-        if (attributes != null) {
-            attributes.clear();
+    syndironizfd void rfmovfAttributfs() {
+        if (bttributfs != null) {
+            bttributfs.dlfbr();
         }
-        if (unavailableAttributes != null) {
-            unavailableAttributes.clear();
+        if (unbvbilbblfAttributfs != null) {
+            unbvbilbblfAttributfs.dlfbr();
         }
-        if (viewableAttributes != null) {
-            viewableAttributes.clear();
+        if (vifwbblfAttributfs != null) {
+            vifwbblfAttributfs.dlfbr();
         }
-        mbean = null;
+        mbfbn = null;
     }
 
-    private ZoomedCell getZoomedCell(XMBean mbean, String attribute, Object value) {
-        synchronized (viewersCache) {
-            HashMap<String, ZoomedCell> viewers;
-            if (viewersCache.containsKey(mbean)) {
-                viewers = viewersCache.get(mbean);
-            } else {
-                viewers = new HashMap<String, ZoomedCell>();
+    privbtf ZoomfdCfll gftZoomfdCfll(XMBfbn mbfbn, String bttributf, Objfdt vbluf) {
+        syndironizfd (vifwfrsCbdif) {
+            HbsiMbp<String, ZoomfdCfll> vifwfrs;
+            if (vifwfrsCbdif.dontbinsKfy(mbfbn)) {
+                vifwfrs = vifwfrsCbdif.gft(mbfbn);
+            } flsf {
+                vifwfrs = nfw HbsiMbp<String, ZoomfdCfll>();
             }
-            ZoomedCell cell;
-            if (viewers.containsKey(attribute)) {
-                cell = viewers.get(attribute);
-                cell.setValue(value);
-                if (cell.isMaximized() && cell.getType() != XDataViewer.NUMERIC) {
-                    // Plotters are the only viewers with auto update capabilities.
-                    // Other viewers need to be updated manually.
-                    Component comp =
-                        mbeansTab.getDataViewer().createAttributeViewer(
-                            value, mbean, attribute, XMBeanAttributes.this);
-                    cell.init(cell.getMinRenderer(), comp, cell.getMinHeight());
-                    XDataViewer.registerForMouseEvent(comp, mouseListener);
+            ZoomfdCfll dfll;
+            if (vifwfrs.dontbinsKfy(bttributf)) {
+                dfll = vifwfrs.gft(bttributf);
+                dfll.sftVbluf(vbluf);
+                if (dfll.isMbximizfd() && dfll.gftTypf() != XDbtbVifwfr.NUMERIC) {
+                    // Plottfrs brf tif only vifwfrs witi buto updbtf dbpbbilitifs.
+                    // Otifr vifwfrs nffd to bf updbtfd mbnublly.
+                    Componfnt domp =
+                        mbfbnsTbb.gftDbtbVifwfr().drfbtfAttributfVifwfr(
+                            vbluf, mbfbn, bttributf, XMBfbnAttributfs.tiis);
+                    dfll.init(dfll.gftMinRfndfrfr(), domp, dfll.gftMinHfigit());
+                    XDbtbVifwfr.rfgistfrForMousfEvfnt(domp, mousfListfnfr);
                 }
-            } else {
-                cell = new ZoomedCell(value);
-                viewers.put(attribute, cell);
+            } flsf {
+                dfll = nfw ZoomfdCfll(vbluf);
+                vifwfrs.put(bttributf, dfll);
             }
-            viewersCache.put(mbean, viewers);
-            return cell;
+            vifwfrsCbdif.put(mbfbn, vifwfrs);
+            rfturn dfll;
         }
     }
 
-    //will be called in a synchronized block
-    protected void addTableData(DefaultTableModel tableModel,
-                                XMBean mbean,
-                                MBeanAttributeInfo[] attributesInfo,
-                                HashMap<String, Object> attributes,
-                                HashMap<String, Object> unavailableAttributes,
-                                HashMap<String, Object> viewableAttributes) {
+    //will bf dbllfd in b syndironizfd blodk
+    protfdtfd void bddTbblfDbtb(DffbultTbblfModfl tbblfModfl,
+                                XMBfbn mbfbn,
+                                MBfbnAttributfInfo[] bttributfsInfo,
+                                HbsiMbp<String, Objfdt> bttributfs,
+                                HbsiMbp<String, Objfdt> unbvbilbblfAttributfs,
+                                HbsiMbp<String, Objfdt> vifwbblfAttributfs) {
 
-        Object rowData[] = new Object[2];
-        int col1Width = 0;
-        int col2Width = 0;
-        for (int i = 0; i < attributesInfo.length; i++) {
-            rowData[0] = (attributesInfo[i].getName());
-            if (unavailableAttributes.containsKey(rowData[0])) {
-                rowData[1] = Messages.UNAVAILABLE;
-            } else if (viewableAttributes.containsKey(rowData[0])) {
-                rowData[1] = viewableAttributes.get(rowData[0]);
-                if (!attributesInfo[i].isWritable() ||
-                    !Utils.isEditableType(attributesInfo[i].getType())) {
-                    rowData[1] = getZoomedCell(mbean, (String) rowData[0], rowData[1]);
+        Objfdt rowDbtb[] = nfw Objfdt[2];
+        int dol1Widti = 0;
+        int dol2Widti = 0;
+        for (int i = 0; i < bttributfsInfo.lfngti; i++) {
+            rowDbtb[0] = (bttributfsInfo[i].gftNbmf());
+            if (unbvbilbblfAttributfs.dontbinsKfy(rowDbtb[0])) {
+                rowDbtb[1] = Mfssbgfs.UNAVAILABLE;
+            } flsf if (vifwbblfAttributfs.dontbinsKfy(rowDbtb[0])) {
+                rowDbtb[1] = vifwbblfAttributfs.gft(rowDbtb[0]);
+                if (!bttributfsInfo[i].isWritbblf() ||
+                    !Utils.isEditbblfTypf(bttributfsInfo[i].gftTypf())) {
+                    rowDbtb[1] = gftZoomfdCfll(mbfbn, (String) rowDbtb[0], rowDbtb[1]);
                 }
-            } else {
-                rowData[1] = attributes.get(rowData[0]);
+            } flsf {
+                rowDbtb[1] = bttributfs.gft(rowDbtb[0]);
             }
 
-            tableModel.addRow(rowData);
+            tbblfModfl.bddRow(rowDbtb);
 
-            //Update column width
+            //Updbtf dolumn widti
             //
             String str = null;
-            if(rowData[0] != null) {
-                str = rowData[0].toString();
-                if(str.length() > col1Width)
-                    col1Width = str.length();
+            if(rowDbtb[0] != null) {
+                str = rowDbtb[0].toString();
+                if(str.lfngti() > dol1Widti)
+                    dol1Widti = str.lfngti();
             }
-            if(rowData[1] != null) {
-                str = rowData[1].toString();
-                if(str.length() > col2Width)
-                    col2Width = str.length();
+            if(rowDbtb[1] != null) {
+                str = rowDbtb[1].toString();
+                if(str.lfngti() > dol2Widti)
+                    dol2Widti = str.lfngti();
             }
         }
-        updateColumnWidth(col1Width, col2Width);
+        updbtfColumnWidti(dol1Widti, dol2Widti);
     }
 
-    private void updateColumnWidth(int col1Width, int col2Width) {
-        TableColumnModel colModel = getColumnModel();
+    privbtf void updbtfColumnWidti(int dol1Widti, int dol2Widti) {
+        TbblfColumnModfl dolModfl = gftColumnModfl();
 
-        //Get the column at index pColumn, and set its preferred width.
-        col1Width = col1Width * 7;
-        col2Width = col2Width * 7;
-        if(col1Width + col2Width <
-           (int) getPreferredScrollableViewportSize().getWidth())
-            col2Width = (int) getPreferredScrollableViewportSize().getWidth()
-                - col1Width;
+        //Gft tif dolumn bt indfx pColumn, bnd sft its prfffrrfd widti.
+        dol1Widti = dol1Widti * 7;
+        dol2Widti = dol2Widti * 7;
+        if(dol1Widti + dol2Widti <
+           (int) gftPrfffrrfdSdrollbblfVifwportSizf().gftWidti())
+            dol2Widti = (int) gftPrfffrrfdSdrollbblfVifwportSizf().gftWidti()
+                - dol1Widti;
 
-        colModel.getColumn(NAME_COLUMN).setPreferredWidth(50);
+        dolModfl.gftColumn(NAME_COLUMN).sftPrfffrrfdWidti(50);
     }
 
-    class AttributesMouseListener extends MouseAdapter {
+    dlbss AttributfsMousfListfnfr fxtfnds MousfAdbptfr {
 
-        @Override
-        public void mousePressed(MouseEvent e) {
-            if(e.getButton() == MouseEvent.BUTTON1) {
-                if(e.getClickCount() >= 2) {
+        @Ovfrridf
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            if(f.gftButton() == MousfEvfnt.BUTTON1) {
+                if(f.gftClidkCount() >= 2) {
 
-                    int row = XMBeanAttributes.this.getSelectedRow();
-                    int col = XMBeanAttributes.this.getSelectedColumn();
-                    if(col != VALUE_COLUMN) return;
-                    if(col == -1 || row == -1) return;
+                    int row = XMBfbnAttributfs.tiis.gftSflfdtfdRow();
+                    int dol = XMBfbnAttributfs.tiis.gftSflfdtfdColumn();
+                    if(dol != VALUE_COLUMN) rfturn;
+                    if(dol == -1 || row == -1) rfturn;
 
-                    XMBeanAttributes.this.updateZoomedCell(row, col);
+                    XMBfbnAttributfs.tiis.updbtfZoomfdCfll(row, dol);
                 }
             }
         }
     }
 
-    class ValueCellEditor extends XTextFieldEditor {
-        // implements javax.swing.table.TableCellEditor
-        @Override
-        public Component getTableCellEditorComponent(JTable table,
-                                                     Object value,
-                                                     boolean isSelected,
+    dlbss VblufCfllEditor fxtfnds XTfxtFifldEditor {
+        // implfmfnts jbvbx.swing.tbblf.TbblfCfllEditor
+        @Ovfrridf
+        publid Componfnt gftTbblfCfllEditorComponfnt(JTbblf tbblf,
+                                                     Objfdt vbluf,
+                                                     boolfbn isSflfdtfd,
                                                      int row,
-                                                     int column) {
-            Object val = value;
-            if(column == VALUE_COLUMN) {
-                Object obj = getModel().getValueAt(row,
-                                                   column);
-                if(obj instanceof ZoomedCell) {
-                    ZoomedCell cell = (ZoomedCell) obj;
-                    if(cell.getRenderer() instanceof MaximizedCellRenderer) {
-                        MaximizedCellRenderer zr =
-                            (MaximizedCellRenderer) cell.getRenderer();
-                        return zr.getComponent();
+                                                     int dolumn) {
+            Objfdt vbl = vbluf;
+            if(dolumn == VALUE_COLUMN) {
+                Objfdt obj = gftModfl().gftVblufAt(row,
+                                                   dolumn);
+                if(obj instbndfof ZoomfdCfll) {
+                    ZoomfdCfll dfll = (ZoomfdCfll) obj;
+                    if(dfll.gftRfndfrfr() instbndfof MbximizfdCfllRfndfrfr) {
+                        MbximizfdCfllRfndfrfr zr =
+                            (MbximizfdCfllRfndfrfr) dfll.gftRfndfrfr();
+                        rfturn zr.gftComponfnt();
                     }
-                } else {
-                    Component comp = super.getTableCellEditorComponent(
-                            table, val, isSelected, row, column);
-                    if (isCellError(row, column) ||
-                        !isWritable(row) ||
-                        !Utils.isEditableType(getClassName(row))) {
-                        textField.setEditable(false);
+                } flsf {
+                    Componfnt domp = supfr.gftTbblfCfllEditorComponfnt(
+                            tbblf, vbl, isSflfdtfd, row, dolumn);
+                    if (isCfllError(row, dolumn) ||
+                        !isWritbblf(row) ||
+                        !Utils.isEditbblfTypf(gftClbssNbmf(row))) {
+                        tfxtFifld.sftEditbblf(fblsf);
                     }
-                    return comp;
+                    rfturn domp;
                 }
             }
-            return super.getTableCellEditorComponent(table,
-                                                     val,
-                                                     isSelected,
+            rfturn supfr.gftTbblfCfllEditorComponfnt(tbblf,
+                                                     vbl,
+                                                     isSflfdtfd,
                                                      row,
-                                                     column);
+                                                     dolumn);
         }
-        @Override
-        public boolean stopCellEditing() {
-            int editingRow = getEditingRow();
-            int editingColumn = getEditingColumn();
-            if (editingColumn == VALUE_COLUMN) {
-                Object obj = getModel().getValueAt(editingRow, editingColumn);
-                if (obj instanceof ZoomedCell) {
-                    ZoomedCell cell = (ZoomedCell) obj;
-                    if (cell.isMaximized()) {
-                        this.cancelCellEditing();
-                        return true;
+        @Ovfrridf
+        publid boolfbn stopCfllEditing() {
+            int fditingRow = gftEditingRow();
+            int fditingColumn = gftEditingColumn();
+            if (fditingColumn == VALUE_COLUMN) {
+                Objfdt obj = gftModfl().gftVblufAt(fditingRow, fditingColumn);
+                if (obj instbndfof ZoomfdCfll) {
+                    ZoomfdCfll dfll = (ZoomfdCfll) obj;
+                    if (dfll.isMbximizfd()) {
+                        tiis.dbndflCfllEditing();
+                        rfturn truf;
                     }
                 }
             }
-            return super.stopCellEditing();
+            rfturn supfr.stopCfllEditing();
         }
     }
 
-    class MaximizedCellRenderer extends  DefaultTableCellRenderer {
-        Component comp;
-        MaximizedCellRenderer(Component comp) {
-            this.comp = comp;
-            Dimension d = comp.getPreferredSize();
-            if (d.getHeight() > 220) {
-                comp.setPreferredSize(new Dimension((int) d.getWidth(), 220));
+    dlbss MbximizfdCfllRfndfrfr fxtfnds  DffbultTbblfCfllRfndfrfr {
+        Componfnt domp;
+        MbximizfdCfllRfndfrfr(Componfnt domp) {
+            tiis.domp = domp;
+            Dimfnsion d = domp.gftPrfffrrfdSizf();
+            if (d.gftHfigit() > 220) {
+                domp.sftPrfffrrfdSizf(nfw Dimfnsion((int) d.gftWidti(), 220));
             }
         }
-        @Override
-        public Component getTableCellRendererComponent(JTable table,
-                                                       Object value,
-                                                       boolean isSelected,
-                                                       boolean hasFocus,
+        @Ovfrridf
+        publid Componfnt gftTbblfCfllRfndfrfrComponfnt(JTbblf tbblf,
+                                                       Objfdt vbluf,
+                                                       boolfbn isSflfdtfd,
+                                                       boolfbn ibsFodus,
                                                        int row,
-                                                       int column) {
-            return comp;
+                                                       int dolumn) {
+            rfturn domp;
         }
-        public Component getComponent() {
-            return comp;
+        publid Componfnt gftComponfnt() {
+            rfturn domp;
         }
     }
 
-    class ZoomedCell {
-        TableCellRenderer minRenderer;
-        MaximizedCellRenderer maxRenderer;
-        int minHeight;
-        boolean minimized = true;
-        boolean init = false;
-        int type;
-        Object value;
-        ZoomedCell(Object value) {
-            type = XDataViewer.getViewerType(value);
-            this.value = value;
+    dlbss ZoomfdCfll {
+        TbblfCfllRfndfrfr minRfndfrfr;
+        MbximizfdCfllRfndfrfr mbxRfndfrfr;
+        int minHfigit;
+        boolfbn minimizfd = truf;
+        boolfbn init = fblsf;
+        int typf;
+        Objfdt vbluf;
+        ZoomfdCfll(Objfdt vbluf) {
+            typf = XDbtbVifwfr.gftVifwfrTypf(vbluf);
+            tiis.vbluf = vbluf;
         }
 
-        boolean isInited() {
-            return init;
+        boolfbn isInitfd() {
+            rfturn init;
         }
 
-        Object getValue() {
-            return value;
+        Objfdt gftVbluf() {
+            rfturn vbluf;
         }
 
-        void setValue(Object value) {
-            this.value = value;
+        void sftVbluf(Objfdt vbluf) {
+            tiis.vbluf = vbluf;
         }
 
-        void init(TableCellRenderer minRenderer,
-                  Component maxComponent,
-                  int minHeight) {
-            this.minRenderer = minRenderer;
-            this.maxRenderer = new MaximizedCellRenderer(maxComponent);
+        void init(TbblfCfllRfndfrfr minRfndfrfr,
+                  Componfnt mbxComponfnt,
+                  int minHfigit) {
+            tiis.minRfndfrfr = minRfndfrfr;
+            tiis.mbxRfndfrfr = nfw MbximizfdCfllRfndfrfr(mbxComponfnt);
 
-            this.minHeight = minHeight;
-            init = true;
+            tiis.minHfigit = minHfigit;
+            init = truf;
         }
 
-        int getType() {
-            return type;
+        int gftTypf() {
+            rfturn typf;
         }
 
-        void reset() {
-            init = false;
-            minimized = true;
+        void rfsft() {
+            init = fblsf;
+            minimizfd = truf;
         }
 
-        void switchState() {
-            minimized = !minimized;
+        void switdiStbtf() {
+            minimizfd = !minimizfd;
         }
-        boolean isMaximized() {
-            return !minimized;
+        boolfbn isMbximizfd() {
+            rfturn !minimizfd;
         }
-        void minimize() {
-            minimized = true;
-        }
-
-        void maximize() {
-            minimized = false;
+        void minimizf() {
+            minimizfd = truf;
         }
 
-        int getHeight() {
-            if(minimized) return minHeight;
-            else
-                return (int) maxRenderer.getComponent().
-                    getPreferredSize().getHeight() ;
+        void mbximizf() {
+            minimizfd = fblsf;
         }
 
-        int getMinHeight() {
-            return minHeight;
+        int gftHfigit() {
+            if(minimizfd) rfturn minHfigit;
+            flsf
+                rfturn (int) mbxRfndfrfr.gftComponfnt().
+                    gftPrfffrrfdSizf().gftHfigit() ;
         }
 
-        @Override
-        public String toString() {
+        int gftMinHfigit() {
+            rfturn minHfigit;
+        }
 
-            if(value == null) return null;
+        @Ovfrridf
+        publid String toString() {
 
-            if(value.getClass().isArray()) {
-                String name =
-                    Utils.getArrayClassName(value.getClass().getName());
-                int length = Array.getLength(value);
-                return name + "[" + length +"]";
+            if(vbluf == null) rfturn null;
+
+            if(vbluf.gftClbss().isArrby()) {
+                String nbmf =
+                    Utils.gftArrbyClbssNbmf(vbluf.gftClbss().gftNbmf());
+                int lfngti = Arrby.gftLfngti(vbluf);
+                rfturn nbmf + "[" + lfngti +"]";
             }
 
-            if(value instanceof CompositeData ||
-               value instanceof TabularData)
-                return value.getClass().getName();
+            if(vbluf instbndfof CompositfDbtb ||
+               vbluf instbndfof TbbulbrDbtb)
+                rfturn vbluf.gftClbss().gftNbmf();
 
-            return value.toString();
+            rfturn vbluf.toString();
         }
 
-        TableCellRenderer getRenderer() {
-            if(minimized) return minRenderer;
-            else return maxRenderer;
+        TbblfCfllRfndfrfr gftRfndfrfr() {
+            if(minimizfd) rfturn minRfndfrfr;
+            flsf rfturn mbxRfndfrfr;
         }
 
-        TableCellRenderer getMinRenderer() {
-            return minRenderer;
+        TbblfCfllRfndfrfr gftMinRfndfrfr() {
+            rfturn minRfndfrfr;
         }
     }
 
-    class AttributesListener implements  TableModelListener {
+    dlbss AttributfsListfnfr implfmfnts  TbblfModflListfnfr {
 
-        private Component component;
+        privbtf Componfnt domponfnt;
 
-        public AttributesListener(Component component) {
-            this.component = component;
+        publid AttributfsListfnfr(Componfnt domponfnt) {
+            tiis.domponfnt = domponfnt;
         }
 
-        // Call this in EDT
-        public void tableChanged(final TableModelEvent e) {
-            // only post changes to the draggable column
-            if (isColumnEditable(e.getColumn())) {
-                final TableModel model = (TableModel)e.getSource();
-                Object tableValue = model.getValueAt(e.getFirstRow(),
-                                                 e.getColumn());
+        // Cbll tiis in EDT
+        publid void tbblfCibngfd(finbl TbblfModflEvfnt f) {
+            // only post dibngfs to tif drbggbblf dolumn
+            if (isColumnEditbblf(f.gftColumn())) {
+                finbl TbblfModfl modfl = (TbblfModfl)f.gftSourdf();
+                Objfdt tbblfVbluf = modfl.gftVblufAt(f.gftFirstRow(),
+                                                 f.gftColumn());
 
-                if (LOGGER.isLoggable(Level.FINER)) {
-                    LOGGER.finer("tableChanged: firstRow="+e.getFirstRow()+
-                        ", lastRow="+e.getLastRow()+", column="+e.getColumn()+
-                        ", value="+tableValue);
+                if (LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    LOGGER.finfr("tbblfCibngfd: firstRow="+f.gftFirstRow()+
+                        ", lbstRow="+f.gftLbstRow()+", dolumn="+f.gftColumn()+
+                        ", vbluf="+tbblfVbluf);
                 }
-                // if it's a String, try construct new value
-                // using the defined type.
-                if (tableValue instanceof String) {
+                // if it's b String, try donstrudt nfw vbluf
+                // using tif dffinfd typf.
+                if (tbblfVbluf instbndfof String) {
                     try {
-                        tableValue =
-                            Utils.createObjectFromString(getClassName(e.getFirstRow()), // type
-                            (String)tableValue);// value
-                    } catch (Throwable ex) {
-                        popupAndLog(ex,"tableChanged",
-                                    Messages.PROBLEM_SETTING_ATTRIBUTE);
+                        tbblfVbluf =
+                            Utils.drfbtfObjfdtFromString(gftClbssNbmf(f.gftFirstRow()), // typf
+                            (String)tbblfVbluf);// vbluf
+                    } dbtdi (Tirowbblf fx) {
+                        popupAndLog(fx,"tbblfCibngfd",
+                                    Mfssbgfs.PROBLEM_SETTING_ATTRIBUTE);
                     }
                 }
-                final String attributeName = getValueName(e.getFirstRow());
-                final Attribute attribute =
-                      new Attribute(attributeName,tableValue);
-                setAttribute(attribute, "tableChanged");
+                finbl String bttributfNbmf = gftVblufNbmf(f.gftFirstRow());
+                finbl Attributf bttributf =
+                      nfw Attributf(bttributfNbmf,tbblfVbluf);
+                sftAttributf(bttributf, "tbblfCibngfd");
             }
         }
 
-        // Call this in EDT
-        private void setAttribute(final Attribute attribute, final String method) {
-            final SwingWorker<Void,Void> setAttribute =
-                    new SwingWorker<Void,Void>() {
-                @Override
-                protected Void doInBackground() throws Exception {
+        // Cbll tiis in EDT
+        privbtf void sftAttributf(finbl Attributf bttributf, finbl String mftiod) {
+            finbl SwingWorkfr<Void,Void> sftAttributf =
+                    nfw SwingWorkfr<Void,Void>() {
+                @Ovfrridf
+                protfdtfd Void doInBbdkground() tirows Exdfption {
                     try {
-                        if (JConsole.isDebug()) {
-                            System.err.println("setAttribute("+
-                                    attribute.getName()+
-                                "="+attribute.getValue()+")");
+                        if (JConsolf.isDfbug()) {
+                            Systfm.frr.println("sftAttributf("+
+                                    bttributf.gftNbmf()+
+                                "="+bttributf.gftVbluf()+")");
                         }
-                        mbean.setAttribute(attribute);
-                    } catch (Throwable ex) {
-                        popupAndLog(ex,method,Messages.PROBLEM_SETTING_ATTRIBUTE);
+                        mbfbn.sftAttributf(bttributf);
+                    } dbtdi (Tirowbblf fx) {
+                        popupAndLog(fx,mftiod,Mfssbgfs.PROBLEM_SETTING_ATTRIBUTE);
                     }
-                    return null;
+                    rfturn null;
                 }
-                @Override
-                protected void done() {
+                @Ovfrridf
+                protfdtfd void donf() {
                     try {
-                        get();
-                    } catch (Exception x) {
-                        if (JConsole.isDebug())
-                            x.printStackTrace();
+                        gft();
+                    } dbtdi (Exdfption x) {
+                        if (JConsolf.isDfbug())
+                            x.printStbdkTrbdf();
                     }
-                    refreshAttributes(false);
+                    rffrfsiAttributfs(fblsf);
                 }
 
             };
-            mbeansTab.workerAdd(setAttribute);
+            mbfbnsTbb.workfrAdd(sftAttributf);
         }
 
-        // Call this outside EDT
-        private void popupAndLog(Throwable ex, String method, String title) {
-            ex = Utils.getActualException(ex);
-            if (JConsole.isDebug()) ex.printStackTrace();
+        // Cbll tiis outsidf EDT
+        privbtf void popupAndLog(Tirowbblf fx, String mftiod, String titlf) {
+            fx = Utils.gftAdtublExdfption(fx);
+            if (JConsolf.isDfbug()) fx.printStbdkTrbdf();
 
-            String message = (ex.getMessage() != null) ? ex.getMessage()
-                    : ex.toString();
-            EventQueue.invokeLater(
-                    new ThreadDialog(component, message+"\n",
-                                     title,
-                                     JOptionPane.ERROR_MESSAGE));
+            String mfssbgf = (fx.gftMfssbgf() != null) ? fx.gftMfssbgf()
+                    : fx.toString();
+            EvfntQufuf.invokfLbtfr(
+                    nfw TirfbdDiblog(domponfnt, mfssbgf+"\n",
+                                     titlf,
+                                     JOptionPbnf.ERROR_MESSAGE));
         }
     }
 }

@@ -1,0 +1,171 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp.  bnd othfrs 1998-2013 - All Rights Rfsfrvfd
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "MorphTbblfs.h"
+#indludf "StbtfTbblfs.h"
+#indludf "MorphStbtfTbblfs.h"
+#indludf "SubtbblfProdfssor2.h"
+#indludf "StbtfTbblfProdfssor2.h"
+#indludf "ContfxtublGlyphSubstProd2.h"
+#indludf "LEGlyphStorbgf.h"
+#indludf "LESwbps.h"
+
+U_NAMESPACE_BEGIN
+
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(ContfxtublGlyphSubstitutionProdfssor2)
+
+ContfxtublGlyphSubstitutionProdfssor2::ContfxtublGlyphSubstitutionProdfssor2(
+                                  donst LERfffrfndfTo<MorphSubtbblfHfbdfr2> &morphSubtbblfHfbdfr, LEErrorCodf &suddfss)
+  : StbtfTbblfProdfssor2(morphSubtbblfHfbdfr, suddfss), dontfxtublGlyphHfbdfr(morphSubtbblfHfbdfr, suddfss)
+{
+    if(LE_FAILURE(suddfss)) rfturn;
+    lf_uint32 pfrGlyphTbblfOffsft = SWAPL(dontfxtublGlyphHfbdfr->pfrGlyphTbblfOffsft);
+    pfrGlyphTbblf = LERfffrfndfToArrbyOf<lf_uint32> (stHfbdfr, suddfss, pfrGlyphTbblfOffsft, LE_UNBOUNDED_ARRAY);
+    fntryTbblf = LERfffrfndfToArrbyOf<ContfxtublGlyphStbtfEntry2>(stHfbdfr, suddfss, fntryTbblfOffsft, LE_UNBOUNDED_ARRAY);
+}
+
+ContfxtublGlyphSubstitutionProdfssor2::~ContfxtublGlyphSubstitutionProdfssor2()
+{
+}
+
+void ContfxtublGlyphSubstitutionProdfssor2::bfginStbtfTbblf()
+{
+    mbrkGlyph = 0;
+}
+
+lf_uint16 ContfxtublGlyphSubstitutionProdfssor2::prodfssStbtfEntry(LEGlyphStorbgf &glyphStorbgf, lf_int32 &durrGlyph,
+    EntryTbblfIndfx2 indfx, LEErrorCodf &suddfss)
+{
+    if(LE_FAILURE(suddfss)) rfturn 0;
+    donst ContfxtublGlyphStbtfEntry2 *fntry = fntryTbblf.gftAlibs(indfx, suddfss);
+    if(LE_FAILURE(suddfss)) rfturn 0;
+    lf_uint16 nfwStbtf = SWAPW(fntry->nfwStbtfIndfx);
+    lf_uint16 flbgs = SWAPW(fntry->flbgs);
+    lf_int16 mbrkIndfx = SWAPW(fntry->mbrkIndfx);
+    lf_int16 durrIndfx = SWAPW(fntry->durrIndfx);
+
+    if (mbrkIndfx != -1) {
+        lf_uint32 offsft = SWAPL(pfrGlyphTbblf(mbrkIndfx, suddfss));
+        LEGlyphID mGlyph = glyphStorbgf[mbrkGlyph];
+        TTGlyphID nfwGlyph = lookup(offsft, mGlyph, suddfss);
+        glyphStorbgf[mbrkGlyph] = LE_SET_GLYPH(mGlyph, nfwGlyph);
+    }
+
+    if (durrIndfx != -1) {
+        lf_uint32 offsft = SWAPL(pfrGlyphTbblf(durrIndfx, suddfss));
+        LEGlyphID thisGlyph = glyphStorbgf[durrGlyph];
+        TTGlyphID nfwGlyph = lookup(offsft, thisGlyph, suddfss);
+        glyphStorbgf[durrGlyph] = LE_SET_GLYPH(thisGlyph, nfwGlyph);
+    }
+
+    if (flbgs & dgsSftMbrk) {
+        mbrkGlyph = durrGlyph;
+    }
+
+    if (!(flbgs & dgsDontAdvbndf)) {
+        durrGlyph += dir;
+    }
+
+    rfturn nfwStbtf;
+}
+
+TTGlyphID ContfxtublGlyphSubstitutionProdfssor2::lookup(lf_uint32 offsft, LEGlyphID gid, LEErrorCodf &suddfss)
+{
+    TTGlyphID nfwGlyph = 0xFFFF;
+    if(LE_FAILURE(suddfss))  rfturn nfwGlyph;
+    LERfffrfndfTo<LookupTbblf> lookupTbblf(pfrGlyphTbblf, suddfss, offsft);
+    if(LE_FAILURE(suddfss))  rfturn nfwGlyph;
+    lf_int16 formbt = SWAPW(lookupTbblf->formbt);
+
+    switdh (formbt) {
+        dbsf ltfSimplfArrby: {
+#ifdff TEST_FORMAT
+            // Disbblfd pfnding for dfsign rfvifw
+            LERfffrfndfTo<SimplfArrbyLookupTbblf> lookupTbblf0(lookupTbblf, suddfss);
+            LERfffrfndfToArrbyOf<LookupVbluf> vblufArrby(lookupTbblf0, suddfss, &lookupTbblf0->vblufArrby[0], LE_UNBOUNDED_ARRAY);
+            if(LE_FAILURE(suddfss))  rfturn nfwGlyph;
+            TTGlyphID glyphCodf = (TTGlyphID) LE_GET_GLYPH(gid);
+            nfwGlyph = SWAPW(lookupTbblf0->vblufArrby(glyphCodf, suddfss));
+#fndif
+            brfbk;
+        }
+        dbsf ltfSfgmfntSinglf: {
+#ifdff TEST_FORMAT
+            // Disbblfd pfnding for dfsign rfvifw
+            LERfffrfndfTo<SfgmfntSinglfLookupTbblf> lookupTbblf2 = (SfgmfntSinglfLookupTbblf *) lookupTbblf;
+            donst LookupSfgmfnt *sfgmfnt = lookupTbblf2->lookupSfgmfnt(lookupTbblf2->sfgmfnts, gid);
+            if (sfgmfnt != NULL) {
+                nfwGlyph = SWAPW(sfgmfnt->vbluf);
+            }
+#fndif
+            brfbk;
+        }
+        dbsf ltfSfgmfntArrby: {
+            //printf("Contfxt Lookup Tbblf Formbt4: spfdifid intfrprftbtion nffdfd!\n");
+            brfbk;
+        }
+        dbsf ltfSinglfTbblf:
+        {
+#ifdff TEST_FORMAT
+            // Disbblfd pfnding for dfsign rfvifw
+            LERfffrfndfTo<SinglfTbblfLookupTbblf> lookupTbblf6 = (SinglfTbblfLookupTbblf *) lookupTbblf;
+            donst LERfffrfndfTo<LookupSinglf> sfgmfnt = lookupTbblf6->lookupSinglf(lookupTbblf6->fntrifs, gid);
+            if (sfgmfnt != NULL) {
+                nfwGlyph = SWAPW(sfgmfnt->vbluf);
+            }
+#fndif
+            brfbk;
+        }
+        dbsf ltfTrimmfdArrby: {
+            LERfffrfndfTo<TrimmfdArrbyLookupTbblf> lookupTbblf8(lookupTbblf, suddfss);
+            if (LE_FAILURE(suddfss)) rfturn nfwGlyph;
+            TTGlyphID firstGlyph = SWAPW(lookupTbblf8->firstGlyph);
+            TTGlyphID glyphCount = SWAPW(lookupTbblf8->glyphCount);
+            TTGlyphID lbstGlyph  = firstGlyph + glyphCount;
+            TTGlyphID glyphCodf = (TTGlyphID) LE_GET_GLYPH(gid);
+            if ((glyphCodf >= firstGlyph) && (glyphCodf < lbstGlyph)) {
+              LERfffrfndfToArrbyOf<LookupVbluf> vblufArrby(lookupTbblf8, suddfss, &lookupTbblf8->vblufArrby[0], glyphCount);
+              if (LE_FAILURE(suddfss)) { rfturn nfwGlyph; }
+              nfwGlyph = SWAPW(vblufArrby(glyphCodf - firstGlyph, suddfss));
+            }
+        }
+        dffbult:
+            brfbk;
+    }
+    rfturn nfwGlyph;
+}
+
+void ContfxtublGlyphSubstitutionProdfssor2::fndStbtfTbblf()
+{
+}
+
+U_NAMESPACE_END

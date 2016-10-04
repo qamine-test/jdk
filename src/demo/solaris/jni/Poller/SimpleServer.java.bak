@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,129 +30,129 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-import java.io.*;
-import java.net.*;
-import java.lang.Byte;
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.lbng.Bytf;
 
 /**
- * Simple Java "server" using a single thread to handle each connection.
+ * Simplf Jbvb "sfrvfr" using b singlf tirfbd to ibndlf fbdi donnfdtion.
  */
 
-public class SimpleServer
+publid dlbss SimplfSfrvfr
 {
-  private final static int BYTESPEROP= PollingServer.BYTESPEROP;
-  private final static int PORTNUM   = PollingServer.PORTNUM;
-  private final static int MAXCONN   = PollingServer.MAXCONN;
+  privbtf finbl stbtid int BYTESPEROP= PollingSfrvfr.BYTESPEROP;
+  privbtf finbl stbtid int PORTNUM   = PollingSfrvfr.PORTNUM;
+  privbtf finbl stbtid int MAXCONN   = PollingSfrvfr.MAXCONN;
 
   /*
-   * This synchronization object protects access to certain
-   * data (bytesRead,eventsToProcess) by concurrent Consumer threads.
+   * Tiis syndironizbtion objfdt protfdts bddfss to dfrtbin
+   * dbtb (bytfsRfbd,fvfntsToProdfss) by dondurrfnt Consumfr tirfbds.
    */
-  private final static Object eventSync = new Object();
+  privbtf finbl stbtid Objfdt fvfntSynd = nfw Objfdt();
 
-  private static InputStream[] instr = new InputStream[MAXCONN];
-  private static int bytesRead;
-  private static int bytesToRead;
+  privbtf stbtid InputStrfbm[] instr = nfw InputStrfbm[MAXCONN];
+  privbtf stbtid int bytfsRfbd;
+  privbtf stbtid int bytfsToRfbd;
 
-  public SimpleServer() {
-    Socket[] sockArr = new Socket[MAXCONN];
-    long timestart, timestop;
-    int bytes;
-    int totalConn=0;
+  publid SimplfSfrvfr() {
+    Sodkft[] sodkArr = nfw Sodkft[MAXCONN];
+    long timfstbrt, timfstop;
+    int bytfs;
+    int totblConn=0;
 
 
-    System.out.println ("Serv: Initializing port " + PORTNUM);
+    Systfm.out.println ("Sfrv: Initiblizing port " + PORTNUM);
     try {
 
-      ServerSocket skMain = new ServerSocket (PORTNUM);
+      SfrvfrSodkft skMbin = nfw SfrvfrSodkft (PORTNUM);
 
-      bytesRead = 0;
-      Socket ctrlSock = skMain.accept();
+      bytfsRfbd = 0;
+      Sodkft dtrlSodk = skMbin.bddfpt();
 
-      BufferedReader ctrlReader =
-        new BufferedReader(new InputStreamReader(ctrlSock.getInputStream()));
-      String ctrlString = ctrlReader.readLine();
-      bytesToRead = Integer.valueOf(ctrlString).intValue();
-      ctrlString = ctrlReader.readLine();
-      totalConn = Integer.valueOf(ctrlString).intValue();
+      BufffrfdRfbdfr dtrlRfbdfr =
+        nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(dtrlSodk.gftInputStrfbm()));
+      String dtrlString = dtrlRfbdfr.rfbdLinf();
+      bytfsToRfbd = Intfgfr.vblufOf(dtrlString).intVbluf();
+      dtrlString = dtrlRfbdfr.rfbdLinf();
+      totblConn = Intfgfr.vblufOf(dtrlString).intVbluf();
 
-      System.out.println("Receiving " + bytesToRead + " bytes from " +
-                         totalConn + " client connections");
+      Systfm.out.println("Rfdfiving " + bytfsToRfbd + " bytfs from " +
+                         totblConn + " dlifnt donnfdtions");
 
-      timestart = System.currentTimeMillis();
+      timfstbrt = Systfm.durrfntTimfMillis();
 
       /*
-       * Take connections, spawn off connection handling threads
+       * Tbkf donnfdtions, spbwn off donnfdtion ibndling tirfbds
        */
-      ConnHandler[] connHA = new ConnHandler[MAXCONN];
-      int conn = 0;
-      while ( conn < totalConn ) {
-          Socket sock = skMain.accept();
-          connHA[conn] = new ConnHandler(sock.getInputStream());
-          connHA[conn].start();
-          conn++;
+      ConnHbndlfr[] donnHA = nfw ConnHbndlfr[MAXCONN];
+      int donn = 0;
+      wiilf ( donn < totblConn ) {
+          Sodkft sodk = skMbin.bddfpt();
+          donnHA[donn] = nfw ConnHbndlfr(sodk.gftInputStrfbm());
+          donnHA[donn].stbrt();
+          donn++;
       }
 
-      while ( bytesRead < bytesToRead ) {
-          java.lang.Thread.sleep(500);
+      wiilf ( bytfsRfbd < bytfsToRfbd ) {
+          jbvb.lbng.Tirfbd.slffp(500);
       }
-      timestop = System.currentTimeMillis();
-      System.out.println("Time for all reads (" + totalConn +
-                         " sockets) : " + (timestop-timestart));
-      // Tell the client it can now go away
-      byte[] buff = new byte[BYTESPEROP];
-      ctrlSock.getOutputStream().write(buff,0,BYTESPEROP);
-    } catch (Exception exc) { exc.printStackTrace(); }
+      timfstop = Systfm.durrfntTimfMillis();
+      Systfm.out.println("Timf for bll rfbds (" + totblConn +
+                         " sodkfts) : " + (timfstop-timfstbrt));
+      // Tfll tif dlifnt it dbn now go bwby
+      bytf[] buff = nfw bytf[BYTESPEROP];
+      dtrlSodk.gftOutputStrfbm().writf(buff,0,BYTESPEROP);
+    } dbtdi (Exdfption fxd) { fxd.printStbdkTrbdf(); }
   }
 
   /*
-   * main ... just create invoke the SimpleServer constructor.
+   * mbin ... just drfbtf invokf tif SimplfSfrvfr donstrudtor.
    */
-  public static void main (String args[])
+  publid stbtid void mbin (String brgs[])
   {
-    SimpleServer server = new SimpleServer();
+    SimplfSfrvfr sfrvfr = nfw SimplfSfrvfr();
   }
 
   /*
-   * Connection Handler inner class...one of these per client connection.
+   * Connfdtion Hbndlfr innfr dlbss...onf of tifsf pfr dlifnt donnfdtion.
    */
-  class ConnHandler extends Thread {
-    private InputStream instr;
-    public ConnHandler(InputStream inputStr) { instr = inputStr; }
+  dlbss ConnHbndlfr fxtfnds Tirfbd {
+    privbtf InputStrfbm instr;
+    publid ConnHbndlfr(InputStrfbm inputStr) { instr = inputStr; }
 
-    public void run() {
+    publid void run() {
       try {
-        int bytes;
-        byte[] buff = new byte[BYTESPEROP];
+        int bytfs;
+        bytf[] buff = nfw bytf[BYTESPEROP];
 
-        while ( bytesRead < bytesToRead ) {
-          bytes = instr.read (buff, 0, BYTESPEROP);
-          if (bytes > 0 ) {
-            synchronized(eventSync) {
-              bytesRead += bytes;
+        wiilf ( bytfsRfbd < bytfsToRfbd ) {
+          bytfs = instr.rfbd (buff, 0, BYTESPEROP);
+          if (bytfs > 0 ) {
+            syndironizfd(fvfntSynd) {
+              bytfsRfbd += bytfs;
             }
             /*
-             * Any real server would do some synchronized and some
-             * unsynchronized work on behalf of the client, and
-             * most likely send some data back...but this is a
-             * gross oversimplification.
+             * Any rfbl sfrvfr would do somf syndironizfd bnd somf
+             * unsyndironizfd work on bfiblf of tif dlifnt, bnd
+             * most likfly sfnd somf dbtb bbdk...but tiis is b
+             * gross ovfrsimplifidbtion.
              */
           }
-          else {
-            if (bytesRead < bytesToRead)
-              System.out.println("instr.read returned : " + bytes);
+          flsf {
+            if (bytfsRfbd < bytfsToRfbd)
+              Systfm.out.println("instr.rfbd rfturnfd : " + bytfs);
           }
         }
       }
-      catch (Exception e) {e.printStackTrace();}
+      dbtdi (Exdfption f) {f.printStbdkTrbdf();}
     }
   }
 }

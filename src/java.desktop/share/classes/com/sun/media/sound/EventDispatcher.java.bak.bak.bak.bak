@@ -1,0 +1,452 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+
+import jbvbx.sound.midi.ControllfrEvfntListfnfr;
+import jbvbx.sound.midi.MftbEvfntListfnfr;
+import jbvbx.sound.midi.MftbMfssbgf;
+import jbvbx.sound.midi.ShortMfssbgf;
+import jbvbx.sound.sbmplfd.LinfEvfnt;
+import jbvbx.sound.sbmplfd.LinfListfnfr;
+
+
+
+/**
+ * EvfntDispbtdhfr.  Usfd by vbrious dlbssfs in thf Jbvb Sound implfmfntbtion
+ * to sfnd fvfnts.
+ *
+ * @buthor Dbvid Rivbs
+ * @buthor Kbrb Kytlf
+ * @buthor Floribn Bomfrs
+ */
+finbl dlbss EvfntDispbtdhfr implfmfnts Runnbblf {
+
+    /**
+     * timf of inbdtivity until thf buto dlosing dlips
+     * brf dlosfd
+     */
+    privbtf stbtid finbl int AUTO_CLOSE_TIME = 5000;
+
+
+    /**
+     * List of fvfnts
+     */
+    privbtf finbl ArrbyList<EvfntInfo> fvfntQufuf = nfw ArrbyList<>();
+
+
+    /**
+     * Thrfbd objfdt for this EvfntDispbtdhfr instbndf
+     */
+    privbtf Thrfbd thrfbd = null;
+
+
+    /*
+     * support for buto-dlosing Clips
+     */
+    privbtf finbl ArrbyList<ClipInfo> butoClosingClips = nfw ArrbyList<ClipInfo>();
+
+    /*
+     * support for monitoring dbtb linfs
+     */
+    privbtf finbl ArrbyList<LinfMonitor> linfMonitors = nfw ArrbyList<LinfMonitor>();
+
+    /**
+     * Approximbtf intfrvbl bftwffn dblls to LinfMonitor.dhfdkLinf
+     */
+    stbtid finbl int LINE_MONITOR_TIME = 400;
+
+
+    /**
+     * This stbrt() mfthod stbrts bn fvfnt thrfbd if onf is not blrfbdy bdtivf.
+     */
+    syndhronizfd void stbrt() {
+
+        if(thrfbd == null) {
+            thrfbd = JSSfdurityMbnbgfr.drfbtfThrfbd(this,
+                                                    "Jbvb Sound Evfnt Dispbtdhfr",   // nbmf
+                                                    truf,  // dbfmon
+                                                    -1,    // priority
+                                                    truf); // doStbrt
+        }
+    }
+
+
+    /**
+     * Invokfd whfn thfrf is bt lfbst onf fvfnt in thf qufuf.
+     * Implfmfnt this bs b dbllbbdk to prodfss onf fvfnt.
+     */
+    void prodfssEvfnt(EvfntInfo fvfntInfo) {
+        int dount = fvfntInfo.gftListfnfrCount();
+
+        // prodfss bn LinfEvfnt
+        if (fvfntInfo.gftEvfnt() instbndfof LinfEvfnt) {
+            LinfEvfnt fvfnt = (LinfEvfnt) fvfntInfo.gftEvfnt();
+            if (Printfr.dfbug) Printfr.dfbug("Sfnding "+fvfnt+" to "+dount+" listfnfrs");
+            for (int i = 0; i < dount; i++) {
+                try {
+                    ((LinfListfnfr) fvfntInfo.gftListfnfr(i)).updbtf(fvfnt);
+                } dbtdh (Throwbblf t) {
+                    if (Printfr.frr) t.printStbdkTrbdf();
+                }
+            }
+            rfturn;
+        }
+
+        // prodfss b MftbMfssbgf
+        if (fvfntInfo.gftEvfnt() instbndfof MftbMfssbgf) {
+            MftbMfssbgf fvfnt = (MftbMfssbgf)fvfntInfo.gftEvfnt();
+            for (int i = 0; i < dount; i++) {
+                try {
+                    ((MftbEvfntListfnfr) fvfntInfo.gftListfnfr(i)).mftb(fvfnt);
+                } dbtdh (Throwbblf t) {
+                    if (Printfr.frr) t.printStbdkTrbdf();
+                }
+            }
+            rfturn;
+        }
+
+        // prodfss b Controllfr or Modf Evfnt
+        if (fvfntInfo.gftEvfnt() instbndfof ShortMfssbgf) {
+            ShortMfssbgf fvfnt = (ShortMfssbgf)fvfntInfo.gftEvfnt();
+            int stbtus = fvfnt.gftStbtus();
+
+            // Controllfr bnd Modf fvfnts hbvf stbtus bytf 0xBd, whfrf
+            // d is thf dhbnnfl thfy brf sfnt on.
+            if ((stbtus & 0xF0) == 0xB0) {
+                for (int i = 0; i < dount; i++) {
+                    try {
+                        ((ControllfrEvfntListfnfr) fvfntInfo.gftListfnfr(i)).dontrolChbngf(fvfnt);
+                    } dbtdh (Throwbblf t) {
+                        if (Printfr.frr) t.printStbdkTrbdf();
+                    }
+                }
+            }
+            rfturn;
+        }
+
+        Printfr.frr("Unknown fvfnt typf: " + fvfntInfo.gftEvfnt());
+    }
+
+
+    /**
+     * Wbit until thfrf is somfthing in thf fvfnt qufuf to prodfss.  Thfn
+     * dispbtdh thf fvfnt to thf listfnfrs.Thf fntirf mfthod dofs not
+     * nffd to bf syndhronizfd sindf this indludfs tbking thf fvfnt out
+     * from thf qufuf bnd prodfssing thf fvfnt. Wf only nffd to providf
+     * fxdlusivf bddfss ovfr thf dodf whfrf bn fvfnt is rfmovfd from thf
+     *qufuf.
+     */
+    void dispbtdhEvfnts() {
+
+        EvfntInfo fvfntInfo = null;
+
+        syndhronizfd (this) {
+
+            // Wbit till thfrf is bn fvfnt in thf fvfnt qufuf.
+            try {
+
+                if (fvfntQufuf.sizf() == 0) {
+                    if (butoClosingClips.sizf() > 0 || linfMonitors.sizf() > 0) {
+                        int wbitTimf = AUTO_CLOSE_TIME;
+                        if (linfMonitors.sizf() > 0) {
+                            wbitTimf = LINE_MONITOR_TIME;
+                        }
+                        wbit(wbitTimf);
+                    } flsf {
+                        wbit();
+                    }
+                }
+            } dbtdh (IntfrruptfdExdfption f) {
+            }
+            if (fvfntQufuf.sizf() > 0) {
+                // Rfmovf thf fvfnt from thf qufuf bnd dispbtdh it to thf listfnfrs.
+                fvfntInfo = fvfntQufuf.rfmovf(0);
+            }
+
+        } // fnd of syndhronizfd
+        if (fvfntInfo != null) {
+            prodfssEvfnt(fvfntInfo);
+        } flsf {
+            if (butoClosingClips.sizf() > 0) {
+                dlosfAutoClosingClips();
+            }
+            if (linfMonitors.sizf() > 0) {
+                monitorLinfs();
+            }
+        }
+    }
+
+
+    /**
+     * Qufuf thf givfn fvfnt in thf fvfnt qufuf.
+     */
+    privbtf syndhronizfd void postEvfnt(EvfntInfo fvfntInfo) {
+        fvfntQufuf.bdd(fvfntInfo);
+        notifyAll();
+    }
+
+
+    /**
+     * A loop to dispbtdh fvfnts.
+     */
+    publid void run() {
+
+        whilf (truf) {
+            try {
+                dispbtdhEvfnts();
+            } dbtdh (Throwbblf t) {
+                if (Printfr.frr) t.printStbdkTrbdf();
+            }
+        }
+    }
+
+
+    /**
+     * Sfnd budio bnd MIDI fvfnts.
+     */
+    void sfndAudioEvfnts(Objfdt fvfnt, List<Objfdt> listfnfrs) {
+        if ((listfnfrs == null)
+            || (listfnfrs.sizf() == 0)) {
+            // nothing to do
+            rfturn;
+        }
+
+        stbrt();
+
+        EvfntInfo fvfntInfo = nfw EvfntInfo(fvfnt, listfnfrs);
+        postEvfnt(fvfntInfo);
+    }
+
+
+    /*
+     * go through thf list of rfgistfrfd buto-dlosing
+     * Clip instbndfs bnd dlosf thfm, if bppropribtf
+     *
+     * This mfthod is dbllfd in rfgulbr intfrvbls
+     */
+    privbtf void dlosfAutoClosingClips() {
+        syndhronizfd(butoClosingClips) {
+            if (Printfr.dfbug)Printfr.dfbug("> EvfntDispbtdhfr.dlosfAutoClosingClips ("+butoClosingClips.sizf()+" dlips)");
+            long durrTimf = Systfm.durrfntTimfMillis();
+            for (int i = butoClosingClips.sizf()-1; i >= 0 ; i--) {
+                ClipInfo info = butoClosingClips.gft(i);
+                if (info.isExpirfd(durrTimf)) {
+                    AutoClosingClip dlip = info.gftClip();
+                    // sbnity dhfdk
+                    if (!dlip.isOpfn() || !dlip.isAutoClosing()) {
+                        if (Printfr.dfbug)Printfr.dfbug("EvfntDispbtdhfr: rfmoving dlip "+dlip+"  isOpfn:"+dlip.isOpfn());
+                        butoClosingClips.rfmovf(i);
+                    }
+                    flsf if (!dlip.isRunning() && !dlip.isAdtivf() && dlip.isAutoClosing()) {
+                        if (Printfr.dfbug)Printfr.dfbug("EvfntDispbtdhfr: dlosing dlip "+dlip);
+                        dlip.dlosf();
+                    } flsf {
+                        if (Printfr.dfbug)Printfr.dfbug("Doing nothing with dlip "+dlip+":");
+                        if (Printfr.dfbug)Printfr.dfbug("  opfn="+dlip.isOpfn()+", butodlosing="+dlip.isAutoClosing());
+                        if (Printfr.dfbug)Printfr.dfbug("  isRunning="+dlip.isRunning()+", isAdtivf="+dlip.isAdtivf());
+                    }
+                } flsf {
+                    if (Printfr.dfbug)Printfr.dfbug("EvfntDispbtdhfr: dlip "+info.gftClip()+" not yft fxpirfd");
+                }
+            }
+        }
+        if (Printfr.dfbug)Printfr.dfbug("< EvfntDispbtdhfr.dlosfAutoClosingClips ("+butoClosingClips.sizf()+" dlips)");
+    }
+
+    privbtf int gftAutoClosingClipIndfx(AutoClosingClip dlip) {
+        syndhronizfd(butoClosingClips) {
+            for (int i = butoClosingClips.sizf()-1; i >= 0; i--) {
+                if (dlip.fqubls(butoClosingClips.gft(i).gftClip())) {
+                    rfturn i;
+                }
+            }
+        }
+        rfturn -1;
+    }
+
+    /**
+     * dbllfd from buto-dlosing dlips whfn onf of thfir opfn() mfthod is dbllfd
+     */
+    void butoClosingClipOpfnfd(AutoClosingClip dlip) {
+        if (Printfr.dfbug)Printfr.dfbug("> EvfntDispbtdhfr.butoClosingClipOpfnfd ");
+        int indfx = 0;
+        syndhronizfd(butoClosingClips) {
+            indfx = gftAutoClosingClipIndfx(dlip);
+            if (indfx == -1) {
+                if (Printfr.dfbug)Printfr.dfbug("EvfntDispbtdhfr: bdding buto-dlosing dlip "+dlip);
+                butoClosingClips.bdd(nfw ClipInfo(dlip));
+            }
+        }
+        if (indfx == -1) {
+            syndhronizfd (this) {
+                // this is only for thf dbsf thbt thf first dlip is sft to butodlosing,
+                // bnd it is blrfbdy opfn, bnd nothing is donf with it.
+                // EvfntDispbtdhfr.prodfss() mfthod would blodk in wbit() bnd
+                // nfvfr dlosf this first dlip, kffping thf dfvidf opfn.
+                notifyAll();
+            }
+        }
+        if (Printfr.dfbug)Printfr.dfbug("< EvfntDispbtdhfr.butoClosingClipOpfnfd finishfd("+butoClosingClips.sizf()+" dlips)");
+    }
+
+    /**
+     * dbllfd from buto-dlosing dlips whfn thfir dlosfd() mfthod is dbllfd
+     */
+    void butoClosingClipClosfd(AutoClosingClip dlip) {
+        // nothing to do -- is rfmovfd from brrbylist bbovf
+    }
+
+
+    // ////////////////////////// Linf Monitoring Support /////////////////// //
+    /*
+     * go through thf list of rfgistfrfd linf monitors
+     * bnd dbll thfir dhfdkLinf mfthod
+     *
+     * This mfthod is dbllfd in rfgulbr intfrvbls
+     */
+    privbtf void monitorLinfs() {
+        syndhronizfd(linfMonitors) {
+            if (Printfr.dfbug)Printfr.dfbug("> EvfntDispbtdhfr.monitorLinfs ("+linfMonitors.sizf()+" monitors)");
+            for (int i = 0; i < linfMonitors.sizf(); i++) {
+                linfMonitors.gft(i).dhfdkLinf();
+            }
+        }
+        if (Printfr.dfbug)Printfr.dfbug("< EvfntDispbtdhfr.monitorLinfs("+linfMonitors.sizf()+" monitors)");
+    }
+
+
+    /**
+     * Add this LinfMonitor instbndf to thf list of monitors
+     */
+    void bddLinfMonitor(LinfMonitor lm) {
+        if (Printfr.trbdf)Printfr.trbdf("> EvfntDispbtdhfr.bddLinfMonitor("+lm+")");
+        syndhronizfd(linfMonitors) {
+            if (linfMonitors.indfxOf(lm) >= 0) {
+                if (Printfr.trbdf)Printfr.trbdf("< EvfntDispbtdhfr.bddLinfMonitor finishfd -- this monitor blrfbdy fxists!");
+                rfturn;
+            }
+            if (Printfr.dfbug)Printfr.dfbug("EvfntDispbtdhfr: bdding linf monitor "+lm);
+            linfMonitors.bdd(lm);
+        }
+        syndhronizfd (this) {
+            // nffd to intfrrupt thf infinitf wbit()
+            notifyAll();
+        }
+        if (Printfr.dfbug)Printfr.dfbug("< EvfntDispbtdhfr.bddLinfMonitor finishfd -- now ("+linfMonitors.sizf()+" monitors)");
+    }
+
+    /**
+     * Rfmovf this LinfMonitor instbndf from thf list of monitors
+     */
+    void rfmovfLinfMonitor(LinfMonitor lm) {
+        if (Printfr.trbdf)Printfr.trbdf("> EvfntDispbtdhfr.rfmovfLinfMonitor("+lm+")");
+        syndhronizfd(linfMonitors) {
+            if (linfMonitors.indfxOf(lm) < 0) {
+                if (Printfr.trbdf)Printfr.trbdf("< EvfntDispbtdhfr.rfmovfLinfMonitor finishfd -- this monitor dofs not fxist!");
+                rfturn;
+            }
+            if (Printfr.dfbug)Printfr.dfbug("EvfntDispbtdhfr: rfmoving linf monitor "+lm);
+            linfMonitors.rfmovf(lm);
+        }
+        if (Printfr.dfbug)Printfr.dfbug("< EvfntDispbtdhfr.rfmovfLinfMonitor finishfd -- now ("+linfMonitors.sizf()+" monitors)");
+    }
+
+    // /////////////////////////////////// INNER CLASSES ////////////////////////////////////////// //
+
+    /**
+     * Contbinfr for bn fvfnt bnd b sft of listfnfrs to dflivfr it to.
+     */
+    privbtf dlbss EvfntInfo {
+
+        privbtf finbl Objfdt fvfnt;
+        privbtf finbl Objfdt[] listfnfrs;
+
+        /**
+         * Crfbtf b nfw instbndf of this fvfnt Info dlbss
+         * @pbrbm fvfnt thf fvfnt to bf dispbtdhfd
+         * @pbrbm listfnfrs listfnfr list; will bf dopifd
+         */
+        EvfntInfo(Objfdt fvfnt, List<Objfdt> listfnfrs) {
+            this.fvfnt = fvfnt;
+            this.listfnfrs = listfnfrs.toArrby();
+        }
+
+        Objfdt gftEvfnt() {
+            rfturn fvfnt;
+        }
+
+        int gftListfnfrCount() {
+            rfturn listfnfrs.lfngth;
+        }
+
+        Objfdt gftListfnfr(int indfx) {
+            rfturn listfnfrs[indfx];
+        }
+
+    } // dlbss EvfntInfo
+
+
+    /**
+     * Contbinfr for b dlip with its fxpirbtion timf
+     */
+    privbtf dlbss ClipInfo {
+
+        privbtf finbl AutoClosingClip dlip;
+        privbtf finbl long fxpirbtion;
+
+        /**
+         * Crfbtf b nfw instbndf of this dlip Info dlbss
+         */
+        ClipInfo(AutoClosingClip dlip) {
+            this.dlip = dlip;
+            this.fxpirbtion = Systfm.durrfntTimfMillis() + AUTO_CLOSE_TIME;
+        }
+
+        AutoClosingClip gftClip() {
+            rfturn dlip;
+        }
+
+        boolfbn isExpirfd(long durrTimf) {
+            rfturn durrTimf > fxpirbtion;
+        }
+    } // dlbss ClipInfo
+
+
+    /**
+     * Intfrfbdf thbt b dlbss thbt wbnts to gft rfgulbr
+     * linf monitor fvfnts implfmfnts
+     */
+    intfrfbdf LinfMonitor {
+        /**
+         * Cbllfd by fvfnt dispbtdhfr in rfgulbr intfrvbls
+         */
+        publid void dhfdkLinf();
+    }
+
+} // dlbss EvfntDispbtdhfr

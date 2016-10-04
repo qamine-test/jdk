@@ -1,2601 +1,2601 @@
 /*
- * Copyright (c) 2006, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.geom;
+pbdkbgf jbvb.bwt.gfom;
 
-import java.awt.Shape;
-import java.awt.Rectangle;
-import sun.awt.geom.Curve;
-import java.io.Serializable;
-import java.io.StreamCorruptedException;
-import java.util.Arrays;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.Rfdtbnglf;
+import sun.bwt.gfom.Curvf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.StrfbmCorruptfdExdfption;
+import jbvb.util.Arrbys;
 
 /**
- * The {@code Path2D} class provides a simple, yet flexible
- * shape which represents an arbitrary geometric path.
- * It can fully represent any path which can be iterated by the
- * {@link PathIterator} interface including all of its segment
- * types and winding rules and it implements all of the
- * basic hit testing methods of the {@link Shape} interface.
+ * Tif {@dodf Pbti2D} dlbss providfs b simplf, yft flfxiblf
+ * sibpf wiidi rfprfsfnts bn brbitrbry gfomftrid pbti.
+ * It dbn fully rfprfsfnt bny pbti wiidi dbn bf itfrbtfd by tif
+ * {@link PbtiItfrbtor} intfrfbdf indluding bll of its sfgmfnt
+ * typfs bnd winding rulfs bnd it implfmfnts bll of tif
+ * bbsid iit tfsting mftiods of tif {@link Sibpf} intfrfbdf.
  * <p>
- * Use {@link Path2D.Float} when dealing with data that can be represented
- * and used with floating point precision.  Use {@link Path2D.Double}
- * for data that requires the accuracy or range of double precision.
+ * Usf {@link Pbti2D.Flobt} wifn dfbling witi dbtb tibt dbn bf rfprfsfntfd
+ * bnd usfd witi flobting point prfdision.  Usf {@link Pbti2D.Doublf}
+ * for dbtb tibt rfquirfs tif bddurbdy or rbngf of doublf prfdision.
  * <p>
- * {@code Path2D} provides exactly those facilities required for
- * basic construction and management of a geometric path and
- * implementation of the above interfaces with little added
- * interpretation.
- * If it is useful to manipulate the interiors of closed
- * geometric shapes beyond simple hit testing then the
- * {@link Area} class provides additional capabilities
- * specifically targeted at closed figures.
- * While both classes nominally implement the {@code Shape}
- * interface, they differ in purpose and together they provide
- * two useful views of a geometric shape where {@code Path2D}
- * deals primarily with a trajectory formed by path segments
- * and {@code Area} deals more with interpretation and manipulation
- * of enclosed regions of 2D geometric space.
+ * {@dodf Pbti2D} providfs fxbdtly tiosf fbdilitifs rfquirfd for
+ * bbsid donstrudtion bnd mbnbgfmfnt of b gfomftrid pbti bnd
+ * implfmfntbtion of tif bbovf intfrfbdfs witi littlf bddfd
+ * intfrprftbtion.
+ * If it is usfful to mbnipulbtf tif intfriors of dlosfd
+ * gfomftrid sibpfs bfyond simplf iit tfsting tifn tif
+ * {@link Arfb} dlbss providfs bdditionbl dbpbbilitifs
+ * spfdifidblly tbrgftfd bt dlosfd figurfs.
+ * Wiilf boti dlbssfs nominblly implfmfnt tif {@dodf Sibpf}
+ * intfrfbdf, tify difffr in purposf bnd togftifr tify providf
+ * two usfful vifws of b gfomftrid sibpf wifrf {@dodf Pbti2D}
+ * dfbls primbrily witi b trbjfdtory formfd by pbti sfgmfnts
+ * bnd {@dodf Arfb} dfbls morf witi intfrprftbtion bnd mbnipulbtion
+ * of fndlosfd rfgions of 2D gfomftrid spbdf.
  * <p>
- * The {@link PathIterator} interface has more detailed descriptions
- * of the types of segments that make up a path and the winding rules
- * that control how to determine which regions are inside or outside
- * the path.
+ * Tif {@link PbtiItfrbtor} intfrfbdf ibs morf dftbilfd dfsdriptions
+ * of tif typfs of sfgmfnts tibt mbkf up b pbti bnd tif winding rulfs
+ * tibt dontrol iow to dftfrminf wiidi rfgions brf insidf or outsidf
+ * tif pbti.
  *
- * @author Jim Graham
- * @since 1.6
+ * @butior Jim Grbibm
+ * @sindf 1.6
  */
-public abstract class Path2D implements Shape, Cloneable {
+publid bbstrbdt dlbss Pbti2D implfmfnts Sibpf, Clonfbblf {
     /**
-     * An even-odd winding rule for determining the interior of
-     * a path.
+     * An fvfn-odd winding rulf for dftfrmining tif intfrior of
+     * b pbti.
      *
-     * @see PathIterator#WIND_EVEN_ODD
-     * @since 1.6
+     * @sff PbtiItfrbtor#WIND_EVEN_ODD
+     * @sindf 1.6
      */
-    public static final int WIND_EVEN_ODD = PathIterator.WIND_EVEN_ODD;
-
-    /**
-     * A non-zero winding rule for determining the interior of a
-     * path.
-     *
-     * @see PathIterator#WIND_NON_ZERO
-     * @since 1.6
-     */
-    public static final int WIND_NON_ZERO = PathIterator.WIND_NON_ZERO;
-
-    // For code simplicity, copy these constants to our namespace
-    // and cast them to byte constants for easy storage.
-    private static final byte SEG_MOVETO  = (byte) PathIterator.SEG_MOVETO;
-    private static final byte SEG_LINETO  = (byte) PathIterator.SEG_LINETO;
-    private static final byte SEG_QUADTO  = (byte) PathIterator.SEG_QUADTO;
-    private static final byte SEG_CUBICTO = (byte) PathIterator.SEG_CUBICTO;
-    private static final byte SEG_CLOSE   = (byte) PathIterator.SEG_CLOSE;
-
-    transient byte[] pointTypes;
-    transient int numTypes;
-    transient int numCoords;
-    transient int windingRule;
-
-    static final int INIT_SIZE = 20;
-    static final int EXPAND_MAX = 500;
+    publid stbtid finbl int WIND_EVEN_ODD = PbtiItfrbtor.WIND_EVEN_ODD;
 
     /**
-     * Constructs a new empty {@code Path2D} object.
-     * It is assumed that the package sibling subclass that is
-     * defaulting to this constructor will fill in all values.
+     * A non-zfro winding rulf for dftfrmining tif intfrior of b
+     * pbti.
      *
-     * @since 1.6
+     * @sff PbtiItfrbtor#WIND_NON_ZERO
+     * @sindf 1.6
      */
-    /* private protected */
-    Path2D() {
+    publid stbtid finbl int WIND_NON_ZERO = PbtiItfrbtor.WIND_NON_ZERO;
+
+    // For dodf simplidity, dopy tifsf donstbnts to our nbmfspbdf
+    // bnd dbst tifm to bytf donstbnts for fbsy storbgf.
+    privbtf stbtid finbl bytf SEG_MOVETO  = (bytf) PbtiItfrbtor.SEG_MOVETO;
+    privbtf stbtid finbl bytf SEG_LINETO  = (bytf) PbtiItfrbtor.SEG_LINETO;
+    privbtf stbtid finbl bytf SEG_QUADTO  = (bytf) PbtiItfrbtor.SEG_QUADTO;
+    privbtf stbtid finbl bytf SEG_CUBICTO = (bytf) PbtiItfrbtor.SEG_CUBICTO;
+    privbtf stbtid finbl bytf SEG_CLOSE   = (bytf) PbtiItfrbtor.SEG_CLOSE;
+
+    trbnsifnt bytf[] pointTypfs;
+    trbnsifnt int numTypfs;
+    trbnsifnt int numCoords;
+    trbnsifnt int windingRulf;
+
+    stbtid finbl int INIT_SIZE = 20;
+    stbtid finbl int EXPAND_MAX = 500;
+
+    /**
+     * Construdts b nfw fmpty {@dodf Pbti2D} objfdt.
+     * It is bssumfd tibt tif pbdkbgf sibling subdlbss tibt is
+     * dffbulting to tiis donstrudtor will fill in bll vblufs.
+     *
+     * @sindf 1.6
+     */
+    /* privbtf protfdtfd */
+    Pbti2D() {
     }
 
     /**
-     * Constructs a new {@code Path2D} object from the given
-     * specified initial values.
-     * This method is only intended for internal use and should
-     * not be made public if the other constructors for this class
-     * are ever exposed.
+     * Construdts b nfw {@dodf Pbti2D} objfdt from tif givfn
+     * spfdififd initibl vblufs.
+     * Tiis mftiod is only intfndfd for intfrnbl usf bnd siould
+     * not bf mbdf publid if tif otifr donstrudtors for tiis dlbss
+     * brf fvfr fxposfd.
      *
-     * @param rule the winding rule
-     * @param initialTypes the size to make the initial array to
-     *                     store the path segment types
-     * @since 1.6
+     * @pbrbm rulf tif winding rulf
+     * @pbrbm initiblTypfs tif sizf to mbkf tif initibl brrby to
+     *                     storf tif pbti sfgmfnt typfs
+     * @sindf 1.6
      */
-    /* private protected */
-    Path2D(int rule, int initialTypes) {
-        setWindingRule(rule);
-        this.pointTypes = new byte[initialTypes];
+    /* privbtf protfdtfd */
+    Pbti2D(int rulf, int initiblTypfs) {
+        sftWindingRulf(rulf);
+        tiis.pointTypfs = nfw bytf[initiblTypfs];
     }
 
-    abstract float[] cloneCoordsFloat(AffineTransform at);
-    abstract double[] cloneCoordsDouble(AffineTransform at);
-    abstract void append(float x, float y);
-    abstract void append(double x, double y);
-    abstract Point2D getPoint(int coordindex);
-    abstract void needRoom(boolean needMove, int newCoords);
-    abstract int pointCrossings(double px, double py);
-    abstract int rectCrossings(double rxmin, double rymin,
-                               double rxmax, double rymax);
+    bbstrbdt flobt[] dlonfCoordsFlobt(AffinfTrbnsform bt);
+    bbstrbdt doublf[] dlonfCoordsDoublf(AffinfTrbnsform bt);
+    bbstrbdt void bppfnd(flobt x, flobt y);
+    bbstrbdt void bppfnd(doublf x, doublf y);
+    bbstrbdt Point2D gftPoint(int doordindfx);
+    bbstrbdt void nffdRoom(boolfbn nffdMovf, int nfwCoords);
+    bbstrbdt int pointCrossings(doublf px, doublf py);
+    bbstrbdt int rfdtCrossings(doublf rxmin, doublf rymin,
+                               doublf rxmbx, doublf rymbx);
 
     /**
-     * The {@code Float} class defines a geometric path with
-     * coordinates stored in single precision floating point.
+     * Tif {@dodf Flobt} dlbss dffinfs b gfomftrid pbti witi
+     * doordinbtfs storfd in singlf prfdision flobting point.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static class Float extends Path2D implements Serializable {
-        transient float floatCoords[];
+    publid stbtid dlbss Flobt fxtfnds Pbti2D implfmfnts Sfriblizbblf {
+        trbnsifnt flobt flobtCoords[];
 
         /**
-         * Constructs a new empty single precision {@code Path2D} object
-         * with a default winding rule of {@link #WIND_NON_ZERO}.
+         * Construdts b nfw fmpty singlf prfdision {@dodf Pbti2D} objfdt
+         * witi b dffbult winding rulf of {@link #WIND_NON_ZERO}.
          *
-         * @since 1.6
+         * @sindf 1.6
          */
-        public Float() {
-            this(WIND_NON_ZERO, INIT_SIZE);
+        publid Flobt() {
+            tiis(WIND_NON_ZERO, INIT_SIZE);
         }
 
         /**
-         * Constructs a new empty single precision {@code Path2D} object
-         * with the specified winding rule to control operations that
-         * require the interior of the path to be defined.
+         * Construdts b nfw fmpty singlf prfdision {@dodf Pbti2D} objfdt
+         * witi tif spfdififd winding rulf to dontrol opfrbtions tibt
+         * rfquirf tif intfrior of tif pbti to bf dffinfd.
          *
-         * @param rule the winding rule
-         * @see #WIND_EVEN_ODD
-         * @see #WIND_NON_ZERO
-         * @since 1.6
+         * @pbrbm rulf tif winding rulf
+         * @sff #WIND_EVEN_ODD
+         * @sff #WIND_NON_ZERO
+         * @sindf 1.6
          */
-        public Float(int rule) {
-            this(rule, INIT_SIZE);
+        publid Flobt(int rulf) {
+            tiis(rulf, INIT_SIZE);
         }
 
         /**
-         * Constructs a new empty single precision {@code Path2D} object
-         * with the specified winding rule and the specified initial
-         * capacity to store path segments.
-         * This number is an initial guess as to how many path segments
-         * will be added to the path, but the storage is expanded as
-         * needed to store whatever path segments are added.
+         * Construdts b nfw fmpty singlf prfdision {@dodf Pbti2D} objfdt
+         * witi tif spfdififd winding rulf bnd tif spfdififd initibl
+         * dbpbdity to storf pbti sfgmfnts.
+         * Tiis numbfr is bn initibl gufss bs to iow mbny pbti sfgmfnts
+         * will bf bddfd to tif pbti, but tif storbgf is fxpbndfd bs
+         * nffdfd to storf wibtfvfr pbti sfgmfnts brf bddfd.
          *
-         * @param rule the winding rule
-         * @param initialCapacity the estimate for the number of path segments
-         *                        in the path
-         * @see #WIND_EVEN_ODD
-         * @see #WIND_NON_ZERO
-         * @since 1.6
+         * @pbrbm rulf tif winding rulf
+         * @pbrbm initiblCbpbdity tif fstimbtf for tif numbfr of pbti sfgmfnts
+         *                        in tif pbti
+         * @sff #WIND_EVEN_ODD
+         * @sff #WIND_NON_ZERO
+         * @sindf 1.6
          */
-        public Float(int rule, int initialCapacity) {
-            super(rule, initialCapacity);
-            floatCoords = new float[initialCapacity * 2];
+        publid Flobt(int rulf, int initiblCbpbdity) {
+            supfr(rulf, initiblCbpbdity);
+            flobtCoords = nfw flobt[initiblCbpbdity * 2];
         }
 
         /**
-         * Constructs a new single precision {@code Path2D} object
-         * from an arbitrary {@link Shape} object.
-         * All of the initial geometry and the winding rule for this path are
-         * taken from the specified {@code Shape} object.
+         * Construdts b nfw singlf prfdision {@dodf Pbti2D} objfdt
+         * from bn brbitrbry {@link Sibpf} objfdt.
+         * All of tif initibl gfomftry bnd tif winding rulf for tiis pbti brf
+         * tbkfn from tif spfdififd {@dodf Sibpf} objfdt.
          *
-         * @param s the specified {@code Shape} object
-         * @since 1.6
+         * @pbrbm s tif spfdififd {@dodf Sibpf} objfdt
+         * @sindf 1.6
          */
-        public Float(Shape s) {
-            this(s, null);
+        publid Flobt(Sibpf s) {
+            tiis(s, null);
         }
 
         /**
-         * Constructs a new single precision {@code Path2D} object
-         * from an arbitrary {@link Shape} object, transformed by an
-         * {@link AffineTransform} object.
-         * All of the initial geometry and the winding rule for this path are
-         * taken from the specified {@code Shape} object and transformed
-         * by the specified {@code AffineTransform} object.
+         * Construdts b nfw singlf prfdision {@dodf Pbti2D} objfdt
+         * from bn brbitrbry {@link Sibpf} objfdt, trbnsformfd by bn
+         * {@link AffinfTrbnsform} objfdt.
+         * All of tif initibl gfomftry bnd tif winding rulf for tiis pbti brf
+         * tbkfn from tif spfdififd {@dodf Sibpf} objfdt bnd trbnsformfd
+         * by tif spfdififd {@dodf AffinfTrbnsform} objfdt.
          *
-         * @param s the specified {@code Shape} object
-         * @param at the specified {@code AffineTransform} object
-         * @since 1.6
+         * @pbrbm s tif spfdififd {@dodf Sibpf} objfdt
+         * @pbrbm bt tif spfdififd {@dodf AffinfTrbnsform} objfdt
+         * @sindf 1.6
          */
-        public Float(Shape s, AffineTransform at) {
-            if (s instanceof Path2D) {
-                Path2D p2d = (Path2D) s;
-                setWindingRule(p2d.windingRule);
-                this.numTypes = p2d.numTypes;
-                this.pointTypes = Arrays.copyOf(p2d.pointTypes,
-                                                p2d.pointTypes.length);
-                this.numCoords = p2d.numCoords;
-                this.floatCoords = p2d.cloneCoordsFloat(at);
-            } else {
-                PathIterator pi = s.getPathIterator(at);
-                setWindingRule(pi.getWindingRule());
-                this.pointTypes = new byte[INIT_SIZE];
-                this.floatCoords = new float[INIT_SIZE * 2];
-                append(pi, false);
+        publid Flobt(Sibpf s, AffinfTrbnsform bt) {
+            if (s instbndfof Pbti2D) {
+                Pbti2D p2d = (Pbti2D) s;
+                sftWindingRulf(p2d.windingRulf);
+                tiis.numTypfs = p2d.numTypfs;
+                tiis.pointTypfs = Arrbys.dopyOf(p2d.pointTypfs,
+                                                p2d.pointTypfs.lfngti);
+                tiis.numCoords = p2d.numCoords;
+                tiis.flobtCoords = p2d.dlonfCoordsFlobt(bt);
+            } flsf {
+                PbtiItfrbtor pi = s.gftPbtiItfrbtor(bt);
+                sftWindingRulf(pi.gftWindingRulf());
+                tiis.pointTypfs = nfw bytf[INIT_SIZE];
+                tiis.flobtCoords = nfw flobt[INIT_SIZE * 2];
+                bppfnd(pi, fblsf);
             }
         }
 
-        float[] cloneCoordsFloat(AffineTransform at) {
-            float ret[];
-            if (at == null) {
-                ret = Arrays.copyOf(this.floatCoords, this.floatCoords.length);
-            } else {
-                ret = new float[floatCoords.length];
-                at.transform(floatCoords, 0, ret, 0, numCoords / 2);
+        flobt[] dlonfCoordsFlobt(AffinfTrbnsform bt) {
+            flobt rft[];
+            if (bt == null) {
+                rft = Arrbys.dopyOf(tiis.flobtCoords, tiis.flobtCoords.lfngti);
+            } flsf {
+                rft = nfw flobt[flobtCoords.lfngti];
+                bt.trbnsform(flobtCoords, 0, rft, 0, numCoords / 2);
             }
-            return ret;
+            rfturn rft;
         }
 
-        double[] cloneCoordsDouble(AffineTransform at) {
-            double ret[] = new double[floatCoords.length];
-            if (at == null) {
+        doublf[] dlonfCoordsDoublf(AffinfTrbnsform bt) {
+            doublf rft[] = nfw doublf[flobtCoords.lfngti];
+            if (bt == null) {
                 for (int i = 0; i < numCoords; i++) {
-                    ret[i] = floatCoords[i];
+                    rft[i] = flobtCoords[i];
                 }
-            } else {
-                at.transform(floatCoords, 0, ret, 0, numCoords / 2);
+            } flsf {
+                bt.trbnsform(flobtCoords, 0, rft, 0, numCoords / 2);
             }
-            return ret;
+            rfturn rft;
         }
 
-        void append(float x, float y) {
-            floatCoords[numCoords++] = x;
-            floatCoords[numCoords++] = y;
+        void bppfnd(flobt x, flobt y) {
+            flobtCoords[numCoords++] = x;
+            flobtCoords[numCoords++] = y;
         }
 
-        void append(double x, double y) {
-            floatCoords[numCoords++] = (float) x;
-            floatCoords[numCoords++] = (float) y;
+        void bppfnd(doublf x, doublf y) {
+            flobtCoords[numCoords++] = (flobt) x;
+            flobtCoords[numCoords++] = (flobt) y;
         }
 
-        Point2D getPoint(int coordindex) {
-            return new Point2D.Float(floatCoords[coordindex],
-                                     floatCoords[coordindex+1]);
+        Point2D gftPoint(int doordindfx) {
+            rfturn nfw Point2D.Flobt(flobtCoords[doordindfx],
+                                     flobtCoords[doordindfx+1]);
         }
 
-        void needRoom(boolean needMove, int newCoords) {
-            if (needMove && numTypes == 0) {
-                throw new IllegalPathStateException("missing initial moveto "+
-                                                    "in path definition");
+        void nffdRoom(boolfbn nffdMovf, int nfwCoords) {
+            if (nffdMovf && numTypfs == 0) {
+                tirow nfw IllfgblPbtiStbtfExdfption("missing initibl movfto "+
+                                                    "in pbti dffinition");
             }
-            int size = pointTypes.length;
-            if (numTypes >= size) {
-                int grow = size;
+            int sizf = pointTypfs.lfngti;
+            if (numTypfs >= sizf) {
+                int grow = sizf;
                 if (grow > EXPAND_MAX) {
                     grow = EXPAND_MAX;
-                } else if (grow == 0) {
+                } flsf if (grow == 0) {
                     grow = 1;
                 }
-                pointTypes = Arrays.copyOf(pointTypes, size+grow);
+                pointTypfs = Arrbys.dopyOf(pointTypfs, sizf+grow);
             }
-            size = floatCoords.length;
-            if (numCoords + newCoords > size) {
-                int grow = size;
+            sizf = flobtCoords.lfngti;
+            if (numCoords + nfwCoords > sizf) {
+                int grow = sizf;
                 if (grow > EXPAND_MAX * 2) {
                     grow = EXPAND_MAX * 2;
                 }
-                if (grow < newCoords) {
-                    grow = newCoords;
+                if (grow < nfwCoords) {
+                    grow = nfwCoords;
                 }
-                floatCoords = Arrays.copyOf(floatCoords, size+grow);
+                flobtCoords = Arrbys.dopyOf(flobtCoords, sizf+grow);
             }
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.6
+         * {@inifritDod}
+         * @sindf 1.6
          */
-        public final synchronized void moveTo(double x, double y) {
-            if (numTypes > 0 && pointTypes[numTypes - 1] == SEG_MOVETO) {
-                floatCoords[numCoords-2] = (float) x;
-                floatCoords[numCoords-1] = (float) y;
-            } else {
-                needRoom(false, 2);
-                pointTypes[numTypes++] = SEG_MOVETO;
-                floatCoords[numCoords++] = (float) x;
-                floatCoords[numCoords++] = (float) y;
+        publid finbl syndironizfd void movfTo(doublf x, doublf y) {
+            if (numTypfs > 0 && pointTypfs[numTypfs - 1] == SEG_MOVETO) {
+                flobtCoords[numCoords-2] = (flobt) x;
+                flobtCoords[numCoords-1] = (flobt) y;
+            } flsf {
+                nffdRoom(fblsf, 2);
+                pointTypfs[numTypfs++] = SEG_MOVETO;
+                flobtCoords[numCoords++] = (flobt) x;
+                flobtCoords[numCoords++] = (flobt) y;
             }
         }
 
         /**
-         * Adds a point to the path by moving to the specified
-         * coordinates specified in float precision.
+         * Adds b point to tif pbti by moving to tif spfdififd
+         * doordinbtfs spfdififd in flobt prfdision.
          * <p>
-         * This method provides a single precision variant of
-         * the double precision {@code moveTo()} method on the
-         * base {@code Path2D} class.
+         * Tiis mftiod providfs b singlf prfdision vbribnt of
+         * tif doublf prfdision {@dodf movfTo()} mftiod on tif
+         * bbsf {@dodf Pbti2D} dlbss.
          *
-         * @param x the specified X coordinate
-         * @param y the specified Y coordinate
-         * @see Path2D#moveTo
-         * @since 1.6
+         * @pbrbm x tif spfdififd X doordinbtf
+         * @pbrbm y tif spfdififd Y doordinbtf
+         * @sff Pbti2D#movfTo
+         * @sindf 1.6
          */
-        public final synchronized void moveTo(float x, float y) {
-            if (numTypes > 0 && pointTypes[numTypes - 1] == SEG_MOVETO) {
-                floatCoords[numCoords-2] = x;
-                floatCoords[numCoords-1] = y;
-            } else {
-                needRoom(false, 2);
-                pointTypes[numTypes++] = SEG_MOVETO;
-                floatCoords[numCoords++] = x;
-                floatCoords[numCoords++] = y;
+        publid finbl syndironizfd void movfTo(flobt x, flobt y) {
+            if (numTypfs > 0 && pointTypfs[numTypfs - 1] == SEG_MOVETO) {
+                flobtCoords[numCoords-2] = x;
+                flobtCoords[numCoords-1] = y;
+            } flsf {
+                nffdRoom(fblsf, 2);
+                pointTypfs[numTypfs++] = SEG_MOVETO;
+                flobtCoords[numCoords++] = x;
+                flobtCoords[numCoords++] = y;
             }
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.6
+         * {@inifritDod}
+         * @sindf 1.6
          */
-        public final synchronized void lineTo(double x, double y) {
-            needRoom(true, 2);
-            pointTypes[numTypes++] = SEG_LINETO;
-            floatCoords[numCoords++] = (float) x;
-            floatCoords[numCoords++] = (float) y;
+        publid finbl syndironizfd void linfTo(doublf x, doublf y) {
+            nffdRoom(truf, 2);
+            pointTypfs[numTypfs++] = SEG_LINETO;
+            flobtCoords[numCoords++] = (flobt) x;
+            flobtCoords[numCoords++] = (flobt) y;
         }
 
         /**
-         * Adds a point to the path by drawing a straight line from the
-         * current coordinates to the new specified coordinates
-         * specified in float precision.
+         * Adds b point to tif pbti by drbwing b strbigit linf from tif
+         * durrfnt doordinbtfs to tif nfw spfdififd doordinbtfs
+         * spfdififd in flobt prfdision.
          * <p>
-         * This method provides a single precision variant of
-         * the double precision {@code lineTo()} method on the
-         * base {@code Path2D} class.
+         * Tiis mftiod providfs b singlf prfdision vbribnt of
+         * tif doublf prfdision {@dodf linfTo()} mftiod on tif
+         * bbsf {@dodf Pbti2D} dlbss.
          *
-         * @param x the specified X coordinate
-         * @param y the specified Y coordinate
-         * @see Path2D#lineTo
-         * @since 1.6
+         * @pbrbm x tif spfdififd X doordinbtf
+         * @pbrbm y tif spfdififd Y doordinbtf
+         * @sff Pbti2D#linfTo
+         * @sindf 1.6
          */
-        public final synchronized void lineTo(float x, float y) {
-            needRoom(true, 2);
-            pointTypes[numTypes++] = SEG_LINETO;
-            floatCoords[numCoords++] = x;
-            floatCoords[numCoords++] = y;
+        publid finbl syndironizfd void linfTo(flobt x, flobt y) {
+            nffdRoom(truf, 2);
+            pointTypfs[numTypfs++] = SEG_LINETO;
+            flobtCoords[numCoords++] = x;
+            flobtCoords[numCoords++] = y;
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.6
+         * {@inifritDod}
+         * @sindf 1.6
          */
-        public final synchronized void quadTo(double x1, double y1,
-                                              double x2, double y2)
+        publid finbl syndironizfd void qubdTo(doublf x1, doublf y1,
+                                              doublf x2, doublf y2)
         {
-            needRoom(true, 4);
-            pointTypes[numTypes++] = SEG_QUADTO;
-            floatCoords[numCoords++] = (float) x1;
-            floatCoords[numCoords++] = (float) y1;
-            floatCoords[numCoords++] = (float) x2;
-            floatCoords[numCoords++] = (float) y2;
+            nffdRoom(truf, 4);
+            pointTypfs[numTypfs++] = SEG_QUADTO;
+            flobtCoords[numCoords++] = (flobt) x1;
+            flobtCoords[numCoords++] = (flobt) y1;
+            flobtCoords[numCoords++] = (flobt) x2;
+            flobtCoords[numCoords++] = (flobt) y2;
         }
 
         /**
-         * Adds a curved segment, defined by two new points, to the path by
-         * drawing a Quadratic curve that intersects both the current
-         * coordinates and the specified coordinates {@code (x2,y2)},
-         * using the specified point {@code (x1,y1)} as a quadratic
-         * parametric control point.
-         * All coordinates are specified in float precision.
+         * Adds b durvfd sfgmfnt, dffinfd by two nfw points, to tif pbti by
+         * drbwing b Qubdrbtid durvf tibt intfrsfdts boti tif durrfnt
+         * doordinbtfs bnd tif spfdififd doordinbtfs {@dodf (x2,y2)},
+         * using tif spfdififd point {@dodf (x1,y1)} bs b qubdrbtid
+         * pbrbmftrid dontrol point.
+         * All doordinbtfs brf spfdififd in flobt prfdision.
          * <p>
-         * This method provides a single precision variant of
-         * the double precision {@code quadTo()} method on the
-         * base {@code Path2D} class.
+         * Tiis mftiod providfs b singlf prfdision vbribnt of
+         * tif doublf prfdision {@dodf qubdTo()} mftiod on tif
+         * bbsf {@dodf Pbti2D} dlbss.
          *
-         * @param x1 the X coordinate of the quadratic control point
-         * @param y1 the Y coordinate of the quadratic control point
-         * @param x2 the X coordinate of the final end point
-         * @param y2 the Y coordinate of the final end point
-         * @see Path2D#quadTo
-         * @since 1.6
+         * @pbrbm x1 tif X doordinbtf of tif qubdrbtid dontrol point
+         * @pbrbm y1 tif Y doordinbtf of tif qubdrbtid dontrol point
+         * @pbrbm x2 tif X doordinbtf of tif finbl fnd point
+         * @pbrbm y2 tif Y doordinbtf of tif finbl fnd point
+         * @sff Pbti2D#qubdTo
+         * @sindf 1.6
          */
-        public final synchronized void quadTo(float x1, float y1,
-                                              float x2, float y2)
+        publid finbl syndironizfd void qubdTo(flobt x1, flobt y1,
+                                              flobt x2, flobt y2)
         {
-            needRoom(true, 4);
-            pointTypes[numTypes++] = SEG_QUADTO;
-            floatCoords[numCoords++] = x1;
-            floatCoords[numCoords++] = y1;
-            floatCoords[numCoords++] = x2;
-            floatCoords[numCoords++] = y2;
+            nffdRoom(truf, 4);
+            pointTypfs[numTypfs++] = SEG_QUADTO;
+            flobtCoords[numCoords++] = x1;
+            flobtCoords[numCoords++] = y1;
+            flobtCoords[numCoords++] = x2;
+            flobtCoords[numCoords++] = y2;
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.6
+         * {@inifritDod}
+         * @sindf 1.6
          */
-        public final synchronized void curveTo(double x1, double y1,
-                                               double x2, double y2,
-                                               double x3, double y3)
+        publid finbl syndironizfd void durvfTo(doublf x1, doublf y1,
+                                               doublf x2, doublf y2,
+                                               doublf x3, doublf y3)
         {
-            needRoom(true, 6);
-            pointTypes[numTypes++] = SEG_CUBICTO;
-            floatCoords[numCoords++] = (float) x1;
-            floatCoords[numCoords++] = (float) y1;
-            floatCoords[numCoords++] = (float) x2;
-            floatCoords[numCoords++] = (float) y2;
-            floatCoords[numCoords++] = (float) x3;
-            floatCoords[numCoords++] = (float) y3;
+            nffdRoom(truf, 6);
+            pointTypfs[numTypfs++] = SEG_CUBICTO;
+            flobtCoords[numCoords++] = (flobt) x1;
+            flobtCoords[numCoords++] = (flobt) y1;
+            flobtCoords[numCoords++] = (flobt) x2;
+            flobtCoords[numCoords++] = (flobt) y2;
+            flobtCoords[numCoords++] = (flobt) x3;
+            flobtCoords[numCoords++] = (flobt) y3;
         }
 
         /**
-         * Adds a curved segment, defined by three new points, to the path by
-         * drawing a B&eacute;zier curve that intersects both the current
-         * coordinates and the specified coordinates {@code (x3,y3)},
-         * using the specified points {@code (x1,y1)} and {@code (x2,y2)} as
-         * B&eacute;zier control points.
-         * All coordinates are specified in float precision.
+         * Adds b durvfd sfgmfnt, dffinfd by tirff nfw points, to tif pbti by
+         * drbwing b B&fbdutf;zifr durvf tibt intfrsfdts boti tif durrfnt
+         * doordinbtfs bnd tif spfdififd doordinbtfs {@dodf (x3,y3)},
+         * using tif spfdififd points {@dodf (x1,y1)} bnd {@dodf (x2,y2)} bs
+         * B&fbdutf;zifr dontrol points.
+         * All doordinbtfs brf spfdififd in flobt prfdision.
          * <p>
-         * This method provides a single precision variant of
-         * the double precision {@code curveTo()} method on the
-         * base {@code Path2D} class.
+         * Tiis mftiod providfs b singlf prfdision vbribnt of
+         * tif doublf prfdision {@dodf durvfTo()} mftiod on tif
+         * bbsf {@dodf Pbti2D} dlbss.
          *
-         * @param x1 the X coordinate of the first B&eacute;zier control point
-         * @param y1 the Y coordinate of the first B&eacute;zier control point
-         * @param x2 the X coordinate of the second B&eacute;zier control point
-         * @param y2 the Y coordinate of the second B&eacute;zier control point
-         * @param x3 the X coordinate of the final end point
-         * @param y3 the Y coordinate of the final end point
-         * @see Path2D#curveTo
-         * @since 1.6
+         * @pbrbm x1 tif X doordinbtf of tif first B&fbdutf;zifr dontrol point
+         * @pbrbm y1 tif Y doordinbtf of tif first B&fbdutf;zifr dontrol point
+         * @pbrbm x2 tif X doordinbtf of tif sfdond B&fbdutf;zifr dontrol point
+         * @pbrbm y2 tif Y doordinbtf of tif sfdond B&fbdutf;zifr dontrol point
+         * @pbrbm x3 tif X doordinbtf of tif finbl fnd point
+         * @pbrbm y3 tif Y doordinbtf of tif finbl fnd point
+         * @sff Pbti2D#durvfTo
+         * @sindf 1.6
          */
-        public final synchronized void curveTo(float x1, float y1,
-                                               float x2, float y2,
-                                               float x3, float y3)
+        publid finbl syndironizfd void durvfTo(flobt x1, flobt y1,
+                                               flobt x2, flobt y2,
+                                               flobt x3, flobt y3)
         {
-            needRoom(true, 6);
-            pointTypes[numTypes++] = SEG_CUBICTO;
-            floatCoords[numCoords++] = x1;
-            floatCoords[numCoords++] = y1;
-            floatCoords[numCoords++] = x2;
-            floatCoords[numCoords++] = y2;
-            floatCoords[numCoords++] = x3;
-            floatCoords[numCoords++] = y3;
+            nffdRoom(truf, 6);
+            pointTypfs[numTypfs++] = SEG_CUBICTO;
+            flobtCoords[numCoords++] = x1;
+            flobtCoords[numCoords++] = y1;
+            flobtCoords[numCoords++] = x2;
+            flobtCoords[numCoords++] = y2;
+            flobtCoords[numCoords++] = x3;
+            flobtCoords[numCoords++] = y3;
         }
 
-        int pointCrossings(double px, double py) {
-            double movx, movy, curx, cury, endx, endy;
-            float coords[] = floatCoords;
-            curx = movx = coords[0];
-            cury = movy = coords[1];
-            int crossings = 0;
-            int ci = 2;
-            for (int i = 1; i < numTypes; i++) {
-                switch (pointTypes[i]) {
-                case PathIterator.SEG_MOVETO:
-                    if (cury != movy) {
-                        crossings +=
-                            Curve.pointCrossingsForLine(px, py,
-                                                        curx, cury,
+        int pointCrossings(doublf px, doublf py) {
+            doublf movx, movy, durx, dury, fndx, fndy;
+            flobt doords[] = flobtCoords;
+            durx = movx = doords[0];
+            dury = movy = doords[1];
+            int drossings = 0;
+            int di = 2;
+            for (int i = 1; i < numTypfs; i++) {
+                switdi (pointTypfs[i]) {
+                dbsf PbtiItfrbtor.SEG_MOVETO:
+                    if (dury != movy) {
+                        drossings +=
+                            Curvf.pointCrossingsForLinf(px, py,
+                                                        durx, dury,
                                                         movx, movy);
                     }
-                    movx = curx = coords[ci++];
-                    movy = cury = coords[ci++];
-                    break;
-                case PathIterator.SEG_LINETO:
-                    crossings +=
-                        Curve.pointCrossingsForLine(px, py,
-                                                    curx, cury,
-                                                    endx = coords[ci++],
-                                                    endy = coords[ci++]);
-                    curx = endx;
-                    cury = endy;
-                    break;
-                case PathIterator.SEG_QUADTO:
-                    crossings +=
-                        Curve.pointCrossingsForQuad(px, py,
-                                                    curx, cury,
-                                                    coords[ci++],
-                                                    coords[ci++],
-                                                    endx = coords[ci++],
-                                                    endy = coords[ci++],
+                    movx = durx = doords[di++];
+                    movy = dury = doords[di++];
+                    brfbk;
+                dbsf PbtiItfrbtor.SEG_LINETO:
+                    drossings +=
+                        Curvf.pointCrossingsForLinf(px, py,
+                                                    durx, dury,
+                                                    fndx = doords[di++],
+                                                    fndy = doords[di++]);
+                    durx = fndx;
+                    dury = fndy;
+                    brfbk;
+                dbsf PbtiItfrbtor.SEG_QUADTO:
+                    drossings +=
+                        Curvf.pointCrossingsForQubd(px, py,
+                                                    durx, dury,
+                                                    doords[di++],
+                                                    doords[di++],
+                                                    fndx = doords[di++],
+                                                    fndy = doords[di++],
                                                     0);
-                    curx = endx;
-                    cury = endy;
-                    break;
-            case PathIterator.SEG_CUBICTO:
-                    crossings +=
-                        Curve.pointCrossingsForCubic(px, py,
-                                                     curx, cury,
-                                                     coords[ci++],
-                                                     coords[ci++],
-                                                     coords[ci++],
-                                                     coords[ci++],
-                                                     endx = coords[ci++],
-                                                     endy = coords[ci++],
+                    durx = fndx;
+                    dury = fndy;
+                    brfbk;
+            dbsf PbtiItfrbtor.SEG_CUBICTO:
+                    drossings +=
+                        Curvf.pointCrossingsForCubid(px, py,
+                                                     durx, dury,
+                                                     doords[di++],
+                                                     doords[di++],
+                                                     doords[di++],
+                                                     doords[di++],
+                                                     fndx = doords[di++],
+                                                     fndy = doords[di++],
                                                      0);
-                    curx = endx;
-                    cury = endy;
-                    break;
-                case PathIterator.SEG_CLOSE:
-                    if (cury != movy) {
-                        crossings +=
-                            Curve.pointCrossingsForLine(px, py,
-                                                        curx, cury,
+                    durx = fndx;
+                    dury = fndy;
+                    brfbk;
+                dbsf PbtiItfrbtor.SEG_CLOSE:
+                    if (dury != movy) {
+                        drossings +=
+                            Curvf.pointCrossingsForLinf(px, py,
+                                                        durx, dury,
                                                         movx, movy);
                     }
-                    curx = movx;
-                    cury = movy;
-                    break;
+                    durx = movx;
+                    dury = movy;
+                    brfbk;
                 }
             }
-            if (cury != movy) {
-                crossings +=
-                    Curve.pointCrossingsForLine(px, py,
-                                                curx, cury,
+            if (dury != movy) {
+                drossings +=
+                    Curvf.pointCrossingsForLinf(px, py,
+                                                durx, dury,
                                                 movx, movy);
             }
-            return crossings;
+            rfturn drossings;
         }
 
-        int rectCrossings(double rxmin, double rymin,
-                          double rxmax, double rymax)
+        int rfdtCrossings(doublf rxmin, doublf rymin,
+                          doublf rxmbx, doublf rymbx)
         {
-            float coords[] = floatCoords;
-            double curx, cury, movx, movy, endx, endy;
-            curx = movx = coords[0];
-            cury = movy = coords[1];
-            int crossings = 0;
-            int ci = 2;
+            flobt doords[] = flobtCoords;
+            doublf durx, dury, movx, movy, fndx, fndy;
+            durx = movx = doords[0];
+            dury = movy = doords[1];
+            int drossings = 0;
+            int di = 2;
             for (int i = 1;
-                 crossings != Curve.RECT_INTERSECTS && i < numTypes;
+                 drossings != Curvf.RECT_INTERSECTS && i < numTypfs;
                  i++)
             {
-                switch (pointTypes[i]) {
-                case PathIterator.SEG_MOVETO:
-                    if (curx != movx || cury != movy) {
-                        crossings =
-                            Curve.rectCrossingsForLine(crossings,
+                switdi (pointTypfs[i]) {
+                dbsf PbtiItfrbtor.SEG_MOVETO:
+                    if (durx != movx || dury != movy) {
+                        drossings =
+                            Curvf.rfdtCrossingsForLinf(drossings,
                                                        rxmin, rymin,
-                                                       rxmax, rymax,
-                                                       curx, cury,
+                                                       rxmbx, rymbx,
+                                                       durx, dury,
                                                        movx, movy);
                     }
-                    // Count should always be a multiple of 2 here.
-                    // assert((crossings & 1) != 0);
-                    movx = curx = coords[ci++];
-                    movy = cury = coords[ci++];
-                    break;
-                case PathIterator.SEG_LINETO:
-                    crossings =
-                        Curve.rectCrossingsForLine(crossings,
+                    // Count siould blwbys bf b multiplf of 2 ifrf.
+                    // bssfrt((drossings & 1) != 0);
+                    movx = durx = doords[di++];
+                    movy = dury = doords[di++];
+                    brfbk;
+                dbsf PbtiItfrbtor.SEG_LINETO:
+                    drossings =
+                        Curvf.rfdtCrossingsForLinf(drossings,
                                                    rxmin, rymin,
-                                                   rxmax, rymax,
-                                                   curx, cury,
-                                                   endx = coords[ci++],
-                                                   endy = coords[ci++]);
-                    curx = endx;
-                    cury = endy;
-                    break;
-                case PathIterator.SEG_QUADTO:
-                    crossings =
-                        Curve.rectCrossingsForQuad(crossings,
+                                                   rxmbx, rymbx,
+                                                   durx, dury,
+                                                   fndx = doords[di++],
+                                                   fndy = doords[di++]);
+                    durx = fndx;
+                    dury = fndy;
+                    brfbk;
+                dbsf PbtiItfrbtor.SEG_QUADTO:
+                    drossings =
+                        Curvf.rfdtCrossingsForQubd(drossings,
                                                    rxmin, rymin,
-                                                   rxmax, rymax,
-                                                   curx, cury,
-                                                   coords[ci++],
-                                                   coords[ci++],
-                                                   endx = coords[ci++],
-                                                   endy = coords[ci++],
+                                                   rxmbx, rymbx,
+                                                   durx, dury,
+                                                   doords[di++],
+                                                   doords[di++],
+                                                   fndx = doords[di++],
+                                                   fndy = doords[di++],
                                                    0);
-                    curx = endx;
-                    cury = endy;
-                    break;
-                case PathIterator.SEG_CUBICTO:
-                    crossings =
-                        Curve.rectCrossingsForCubic(crossings,
+                    durx = fndx;
+                    dury = fndy;
+                    brfbk;
+                dbsf PbtiItfrbtor.SEG_CUBICTO:
+                    drossings =
+                        Curvf.rfdtCrossingsForCubid(drossings,
                                                     rxmin, rymin,
-                                                    rxmax, rymax,
-                                                    curx, cury,
-                                                    coords[ci++],
-                                                    coords[ci++],
-                                                    coords[ci++],
-                                                    coords[ci++],
-                                                    endx = coords[ci++],
-                                                    endy = coords[ci++],
+                                                    rxmbx, rymbx,
+                                                    durx, dury,
+                                                    doords[di++],
+                                                    doords[di++],
+                                                    doords[di++],
+                                                    doords[di++],
+                                                    fndx = doords[di++],
+                                                    fndy = doords[di++],
                                                     0);
-                    curx = endx;
-                    cury = endy;
-                    break;
-                case PathIterator.SEG_CLOSE:
-                    if (curx != movx || cury != movy) {
-                        crossings =
-                            Curve.rectCrossingsForLine(crossings,
+                    durx = fndx;
+                    dury = fndy;
+                    brfbk;
+                dbsf PbtiItfrbtor.SEG_CLOSE:
+                    if (durx != movx || dury != movy) {
+                        drossings =
+                            Curvf.rfdtCrossingsForLinf(drossings,
                                                        rxmin, rymin,
-                                                       rxmax, rymax,
-                                                       curx, cury,
+                                                       rxmbx, rymbx,
+                                                       durx, dury,
                                                        movx, movy);
                     }
-                    curx = movx;
-                    cury = movy;
-                    // Count should always be a multiple of 2 here.
-                    // assert((crossings & 1) != 0);
-                    break;
+                    durx = movx;
+                    dury = movy;
+                    // Count siould blwbys bf b multiplf of 2 ifrf.
+                    // bssfrt((drossings & 1) != 0);
+                    brfbk;
                 }
             }
-            if (crossings != Curve.RECT_INTERSECTS &&
-                (curx != movx || cury != movy))
+            if (drossings != Curvf.RECT_INTERSECTS &&
+                (durx != movx || dury != movy))
             {
-                crossings =
-                    Curve.rectCrossingsForLine(crossings,
+                drossings =
+                    Curvf.rfdtCrossingsForLinf(drossings,
                                                rxmin, rymin,
-                                               rxmax, rymax,
-                                               curx, cury,
+                                               rxmbx, rymbx,
+                                               durx, dury,
                                                movx, movy);
             }
-            // Count should always be a multiple of 2 here.
-            // assert((crossings & 1) != 0);
-            return crossings;
+            // Count siould blwbys bf b multiplf of 2 ifrf.
+            // bssfrt((drossings & 1) != 0);
+            rfturn drossings;
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.6
+         * {@inifritDod}
+         * @sindf 1.6
          */
-        public final void append(PathIterator pi, boolean connect) {
-            float coords[] = new float[6];
-            while (!pi.isDone()) {
-                switch (pi.currentSegment(coords)) {
-                case SEG_MOVETO:
-                    if (!connect || numTypes < 1 || numCoords < 1) {
-                        moveTo(coords[0], coords[1]);
-                        break;
+        publid finbl void bppfnd(PbtiItfrbtor pi, boolfbn donnfdt) {
+            flobt doords[] = nfw flobt[6];
+            wiilf (!pi.isDonf()) {
+                switdi (pi.durrfntSfgmfnt(doords)) {
+                dbsf SEG_MOVETO:
+                    if (!donnfdt || numTypfs < 1 || numCoords < 1) {
+                        movfTo(doords[0], doords[1]);
+                        brfbk;
                     }
-                    if (pointTypes[numTypes - 1] != SEG_CLOSE &&
-                        floatCoords[numCoords-2] == coords[0] &&
-                        floatCoords[numCoords-1] == coords[1])
+                    if (pointTypfs[numTypfs - 1] != SEG_CLOSE &&
+                        flobtCoords[numCoords-2] == doords[0] &&
+                        flobtCoords[numCoords-1] == doords[1])
                     {
-                        // Collapse out initial moveto/lineto
-                        break;
+                        // Collbpsf out initibl movfto/linfto
+                        brfbk;
                     }
-                    lineTo(coords[0], coords[1]);
-                    break;
-                case SEG_LINETO:
-                    lineTo(coords[0], coords[1]);
-                    break;
-                case SEG_QUADTO:
-                    quadTo(coords[0], coords[1],
-                           coords[2], coords[3]);
-                    break;
-                case SEG_CUBICTO:
-                    curveTo(coords[0], coords[1],
-                            coords[2], coords[3],
-                            coords[4], coords[5]);
-                    break;
-                case SEG_CLOSE:
-                    closePath();
-                    break;
+                    linfTo(doords[0], doords[1]);
+                    brfbk;
+                dbsf SEG_LINETO:
+                    linfTo(doords[0], doords[1]);
+                    brfbk;
+                dbsf SEG_QUADTO:
+                    qubdTo(doords[0], doords[1],
+                           doords[2], doords[3]);
+                    brfbk;
+                dbsf SEG_CUBICTO:
+                    durvfTo(doords[0], doords[1],
+                            doords[2], doords[3],
+                            doords[4], doords[5]);
+                    brfbk;
+                dbsf SEG_CLOSE:
+                    dlosfPbti();
+                    brfbk;
                 }
-                pi.next();
-                connect = false;
+                pi.nfxt();
+                donnfdt = fblsf;
             }
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.6
+         * {@inifritDod}
+         * @sindf 1.6
          */
-        public final void transform(AffineTransform at) {
-            at.transform(floatCoords, 0, floatCoords, 0, numCoords / 2);
+        publid finbl void trbnsform(AffinfTrbnsform bt) {
+            bt.trbnsform(flobtCoords, 0, flobtCoords, 0, numCoords / 2);
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.6
+         * {@inifritDod}
+         * @sindf 1.6
          */
-        public final synchronized Rectangle2D getBounds2D() {
-            float x1, y1, x2, y2;
+        publid finbl syndironizfd Rfdtbnglf2D gftBounds2D() {
+            flobt x1, y1, x2, y2;
             int i = numCoords;
             if (i > 0) {
-                y1 = y2 = floatCoords[--i];
-                x1 = x2 = floatCoords[--i];
-                while (i > 0) {
-                    float y = floatCoords[--i];
-                    float x = floatCoords[--i];
+                y1 = y2 = flobtCoords[--i];
+                x1 = x2 = flobtCoords[--i];
+                wiilf (i > 0) {
+                    flobt y = flobtCoords[--i];
+                    flobt x = flobtCoords[--i];
                     if (x < x1) x1 = x;
                     if (y < y1) y1 = y;
                     if (x > x2) x2 = x;
                     if (y > y2) y2 = y;
                 }
-            } else {
+            } flsf {
                 x1 = y1 = x2 = y2 = 0.0f;
             }
-            return new Rectangle2D.Float(x1, y1, x2 - x1, y2 - y1);
+            rfturn nfw Rfdtbnglf2D.Flobt(x1, y1, x2 - x1, y2 - y1);
         }
 
         /**
-         * {@inheritDoc}
+         * {@inifritDod}
          * <p>
-         * The iterator for this class is not multi-threaded safe,
-         * which means that the {@code Path2D} class does not
-         * guarantee that modifications to the geometry of this
-         * {@code Path2D} object do not affect any iterations of
-         * that geometry that are already in process.
+         * Tif itfrbtor for tiis dlbss is not multi-tirfbdfd sbff,
+         * wiidi mfbns tibt tif {@dodf Pbti2D} dlbss dofs not
+         * gubrbntff tibt modifidbtions to tif gfomftry of tiis
+         * {@dodf Pbti2D} objfdt do not bfffdt bny itfrbtions of
+         * tibt gfomftry tibt brf blrfbdy in prodfss.
          *
-         * @since 1.6
+         * @sindf 1.6
          */
-        public final PathIterator getPathIterator(AffineTransform at) {
-            if (at == null) {
-                return new CopyIterator(this);
-            } else {
-                return new TxIterator(this, at);
+        publid finbl PbtiItfrbtor gftPbtiItfrbtor(AffinfTrbnsform bt) {
+            if (bt == null) {
+                rfturn nfw CopyItfrbtor(tiis);
+            } flsf {
+                rfturn nfw TxItfrbtor(tiis, bt);
             }
         }
 
         /**
-         * Creates a new object of the same class as this object.
+         * Crfbtfs b nfw objfdt of tif sbmf dlbss bs tiis objfdt.
          *
-         * @return     a clone of this instance.
-         * @exception  OutOfMemoryError    if there is not enough memory.
-         * @see        java.lang.Cloneable
-         * @since      1.6
+         * @rfturn     b dlonf of tiis instbndf.
+         * @fxdfption  OutOfMfmoryError    if tifrf is not fnougi mfmory.
+         * @sff        jbvb.lbng.Clonfbblf
+         * @sindf      1.6
          */
-        public final Object clone() {
-            // Note: It would be nice to have this return Path2D
-            // but one of our subclasses (GeneralPath) needs to
-            // offer "public Object clone()" for backwards
-            // compatibility so we cannot restrict it further.
-            // REMIND: Can we do both somehow?
-            if (this instanceof GeneralPath) {
-                return new GeneralPath(this);
-            } else {
-                return new Path2D.Float(this);
+        publid finbl Objfdt dlonf() {
+            // Notf: It would bf nidf to ibvf tiis rfturn Pbti2D
+            // but onf of our subdlbssfs (GfnfrblPbti) nffds to
+            // offfr "publid Objfdt dlonf()" for bbdkwbrds
+            // dompbtibility so wf dbnnot rfstridt it furtifr.
+            // REMIND: Cbn wf do boti somfiow?
+            if (tiis instbndfof GfnfrblPbti) {
+                rfturn nfw GfnfrblPbti(tiis);
+            } flsf {
+                rfturn nfw Pbti2D.Flobt(tiis);
             }
         }
 
         /*
-         * JDK 1.6 serialVersionUID
+         * JDK 1.6 sfriblVfrsionUID
          */
-        private static final long serialVersionUID = 6990832515060788886L;
+        privbtf stbtid finbl long sfriblVfrsionUID = 6990832515060788886L;
 
         /**
-         * Writes the default serializable fields to the
-         * {@code ObjectOutputStream} followed by an explicit
-         * serialization of the path segments stored in this
-         * path.
+         * Writfs tif dffbult sfriblizbblf fiflds to tif
+         * {@dodf ObjfdtOutputStrfbm} followfd by bn fxplidit
+         * sfriblizbtion of tif pbti sfgmfnts storfd in tiis
+         * pbti.
          *
-         * @serialData
-         * <a name="Path2DSerialData"><!-- --></a>
+         * @sfriblDbtb
+         * <b nbmf="Pbti2DSfriblDbtb"><!-- --></b>
          * <ol>
-         * <li>The default serializable fields.
-         * There are no default serializable fields as of 1.6.
-         * <li>followed by
-         * a byte indicating the storage type of the original object
-         * as a hint (SERIAL_STORAGE_FLT_ARRAY)
-         * <li>followed by
-         * an integer indicating the number of path segments to follow (NP)
-         * or -1 to indicate an unknown number of path segments follows
-         * <li>followed by
-         * an integer indicating the total number of coordinates to follow (NC)
-         * or -1 to indicate an unknown number of coordinates follows
-         * (NC should always be even since coordinates always appear in pairs
-         *  representing an x,y pair)
-         * <li>followed by
-         * a byte indicating the winding rule
+         * <li>Tif dffbult sfriblizbblf fiflds.
+         * Tifrf brf no dffbult sfriblizbblf fiflds bs of 1.6.
+         * <li>followfd by
+         * b bytf indidbting tif storbgf typf of tif originbl objfdt
+         * bs b iint (SERIAL_STORAGE_FLT_ARRAY)
+         * <li>followfd by
+         * bn intfgfr indidbting tif numbfr of pbti sfgmfnts to follow (NP)
+         * or -1 to indidbtf bn unknown numbfr of pbti sfgmfnts follows
+         * <li>followfd by
+         * bn intfgfr indidbting tif totbl numbfr of doordinbtfs to follow (NC)
+         * or -1 to indidbtf bn unknown numbfr of doordinbtfs follows
+         * (NC siould blwbys bf fvfn sindf doordinbtfs blwbys bppfbr in pbirs
+         *  rfprfsfnting bn x,y pbir)
+         * <li>followfd by
+         * b bytf indidbting tif winding rulf
          * ({@link #WIND_EVEN_ODD WIND_EVEN_ODD} or
          *  {@link #WIND_NON_ZERO WIND_NON_ZERO})
-         * <li>followed by
-         * {@code NP} (or unlimited if {@code NP < 0}) sets of values consisting of
-         * a single byte indicating a path segment type
-         * followed by one or more pairs of float or double
-         * values representing the coordinates of the path segment
-         * <li>followed by
-         * a byte indicating the end of the path (SERIAL_PATH_END).
+         * <li>followfd by
+         * {@dodf NP} (or unlimitfd if {@dodf NP < 0}) sfts of vblufs donsisting of
+         * b singlf bytf indidbting b pbti sfgmfnt typf
+         * followfd by onf or morf pbirs of flobt or doublf
+         * vblufs rfprfsfnting tif doordinbtfs of tif pbti sfgmfnt
+         * <li>followfd by
+         * b bytf indidbting tif fnd of tif pbti (SERIAL_PATH_END).
          * </ol>
          * <p>
-         * The following byte value constants are used in the serialized form
-         * of {@code Path2D} objects:
-         * <table>
+         * Tif following bytf vbluf donstbnts brf usfd in tif sfriblizfd form
+         * of {@dodf Pbti2D} objfdts:
+         * <tbblf>
          * <tr>
-         * <th>Constant Name</th>
-         * <th>Byte Value</th>
-         * <th>Followed by</th>
-         * <th>Description</th>
+         * <ti>Constbnt Nbmf</ti>
+         * <ti>Bytf Vbluf</ti>
+         * <ti>Followfd by</ti>
+         * <ti>Dfsdription</ti>
          * </tr>
          * <tr>
-         * <td>{@code SERIAL_STORAGE_FLT_ARRAY}</td>
+         * <td>{@dodf SERIAL_STORAGE_FLT_ARRAY}</td>
          * <td>0x30</td>
          * <td></td>
-         * <td>A hint that the original {@code Path2D} object stored
-         * the coordinates in a Java array of floats.</td>
+         * <td>A iint tibt tif originbl {@dodf Pbti2D} objfdt storfd
+         * tif doordinbtfs in b Jbvb brrby of flobts.</td>
          * </tr>
          * <tr>
-         * <td>{@code SERIAL_STORAGE_DBL_ARRAY}</td>
+         * <td>{@dodf SERIAL_STORAGE_DBL_ARRAY}</td>
          * <td>0x31</td>
          * <td></td>
-         * <td>A hint that the original {@code Path2D} object stored
-         * the coordinates in a Java array of doubles.</td>
+         * <td>A iint tibt tif originbl {@dodf Pbti2D} objfdt storfd
+         * tif doordinbtfs in b Jbvb brrby of doublfs.</td>
          * </tr>
          * <tr>
-         * <td>{@code SERIAL_SEG_FLT_MOVETO}</td>
+         * <td>{@dodf SERIAL_SEG_FLT_MOVETO}</td>
          * <td>0x40</td>
-         * <td>2 floats</td>
-         * <td>A {@link #moveTo moveTo} path segment follows.</td>
+         * <td>2 flobts</td>
+         * <td>A {@link #movfTo movfTo} pbti sfgmfnt follows.</td>
          * </tr>
          * <tr>
-         * <td>{@code SERIAL_SEG_FLT_LINETO}</td>
+         * <td>{@dodf SERIAL_SEG_FLT_LINETO}</td>
          * <td>0x41</td>
-         * <td>2 floats</td>
-         * <td>A {@link #lineTo lineTo} path segment follows.</td>
+         * <td>2 flobts</td>
+         * <td>A {@link #linfTo linfTo} pbti sfgmfnt follows.</td>
          * </tr>
          * <tr>
-         * <td>{@code SERIAL_SEG_FLT_QUADTO}</td>
+         * <td>{@dodf SERIAL_SEG_FLT_QUADTO}</td>
          * <td>0x42</td>
-         * <td>4 floats</td>
-         * <td>A {@link #quadTo quadTo} path segment follows.</td>
+         * <td>4 flobts</td>
+         * <td>A {@link #qubdTo qubdTo} pbti sfgmfnt follows.</td>
          * </tr>
          * <tr>
-         * <td>{@code SERIAL_SEG_FLT_CUBICTO}</td>
+         * <td>{@dodf SERIAL_SEG_FLT_CUBICTO}</td>
          * <td>0x43</td>
-         * <td>6 floats</td>
-         * <td>A {@link #curveTo curveTo} path segment follows.</td>
+         * <td>6 flobts</td>
+         * <td>A {@link #durvfTo durvfTo} pbti sfgmfnt follows.</td>
          * </tr>
          * <tr>
-         * <td>{@code SERIAL_SEG_DBL_MOVETO}</td>
+         * <td>{@dodf SERIAL_SEG_DBL_MOVETO}</td>
          * <td>0x50</td>
-         * <td>2 doubles</td>
-         * <td>A {@link #moveTo moveTo} path segment follows.</td>
+         * <td>2 doublfs</td>
+         * <td>A {@link #movfTo movfTo} pbti sfgmfnt follows.</td>
          * </tr>
          * <tr>
-         * <td>{@code SERIAL_SEG_DBL_LINETO}</td>
+         * <td>{@dodf SERIAL_SEG_DBL_LINETO}</td>
          * <td>0x51</td>
-         * <td>2 doubles</td>
-         * <td>A {@link #lineTo lineTo} path segment follows.</td>
+         * <td>2 doublfs</td>
+         * <td>A {@link #linfTo linfTo} pbti sfgmfnt follows.</td>
          * </tr>
          * <tr>
-         * <td>{@code SERIAL_SEG_DBL_QUADTO}</td>
+         * <td>{@dodf SERIAL_SEG_DBL_QUADTO}</td>
          * <td>0x52</td>
-         * <td>4 doubles</td>
-         * <td>A {@link #curveTo curveTo} path segment follows.</td>
+         * <td>4 doublfs</td>
+         * <td>A {@link #durvfTo durvfTo} pbti sfgmfnt follows.</td>
          * </tr>
          * <tr>
-         * <td>{@code SERIAL_SEG_DBL_CUBICTO}</td>
+         * <td>{@dodf SERIAL_SEG_DBL_CUBICTO}</td>
          * <td>0x53</td>
-         * <td>6 doubles</td>
-         * <td>A {@link #curveTo curveTo} path segment follows.</td>
+         * <td>6 doublfs</td>
+         * <td>A {@link #durvfTo durvfTo} pbti sfgmfnt follows.</td>
          * </tr>
          * <tr>
-         * <td>{@code SERIAL_SEG_CLOSE}</td>
+         * <td>{@dodf SERIAL_SEG_CLOSE}</td>
          * <td>0x60</td>
          * <td></td>
-         * <td>A {@link #closePath closePath} path segment.</td>
+         * <td>A {@link #dlosfPbti dlosfPbti} pbti sfgmfnt.</td>
          * </tr>
          * <tr>
-         * <td>{@code SERIAL_PATH_END}</td>
+         * <td>{@dodf SERIAL_PATH_END}</td>
          * <td>0x61</td>
          * <td></td>
-         * <td>There are no more path segments following.</td>
-         * </table>
+         * <td>Tifrf brf no morf pbti sfgmfnts following.</td>
+         * </tbblf>
          *
-         * @since 1.6
+         * @sindf 1.6
          */
-        private void writeObject(java.io.ObjectOutputStream s)
-            throws java.io.IOException
+        privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+            tirows jbvb.io.IOExdfption
         {
-            super.writeObject(s, false);
+            supfr.writfObjfdt(s, fblsf);
         }
 
         /**
-         * Reads the default serializable fields from the
-         * {@code ObjectInputStream} followed by an explicit
-         * serialization of the path segments stored in this
-         * path.
+         * Rfbds tif dffbult sfriblizbblf fiflds from tif
+         * {@dodf ObjfdtInputStrfbm} followfd by bn fxplidit
+         * sfriblizbtion of tif pbti sfgmfnts storfd in tiis
+         * pbti.
          * <p>
-         * There are no default serializable fields as of 1.6.
+         * Tifrf brf no dffbult sfriblizbblf fiflds bs of 1.6.
          * <p>
-         * The serial data for this object is described in the
-         * writeObject method.
+         * Tif sfribl dbtb for tiis objfdt is dfsdribfd in tif
+         * writfObjfdt mftiod.
          *
-         * @since 1.6
+         * @sindf 1.6
          */
-        private void readObject(java.io.ObjectInputStream s)
-            throws java.lang.ClassNotFoundException, java.io.IOException
+        privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+            tirows jbvb.lbng.ClbssNotFoundExdfption, jbvb.io.IOExdfption
         {
-            super.readObject(s, false);
+            supfr.rfbdObjfdt(s, fblsf);
         }
 
-        static class CopyIterator extends Path2D.Iterator {
-            float floatCoords[];
+        stbtid dlbss CopyItfrbtor fxtfnds Pbti2D.Itfrbtor {
+            flobt flobtCoords[];
 
-            CopyIterator(Path2D.Float p2df) {
-                super(p2df);
-                this.floatCoords = p2df.floatCoords;
+            CopyItfrbtor(Pbti2D.Flobt p2df) {
+                supfr(p2df);
+                tiis.flobtCoords = p2df.flobtCoords;
             }
 
-            public int currentSegment(float[] coords) {
-                int type = path.pointTypes[typeIdx];
-                int numCoords = curvecoords[type];
+            publid int durrfntSfgmfnt(flobt[] doords) {
+                int typf = pbti.pointTypfs[typfIdx];
+                int numCoords = durvfdoords[typf];
                 if (numCoords > 0) {
-                    System.arraycopy(floatCoords, pointIdx,
-                                     coords, 0, numCoords);
+                    Systfm.brrbydopy(flobtCoords, pointIdx,
+                                     doords, 0, numCoords);
                 }
-                return type;
+                rfturn typf;
             }
 
-            public int currentSegment(double[] coords) {
-                int type = path.pointTypes[typeIdx];
-                int numCoords = curvecoords[type];
+            publid int durrfntSfgmfnt(doublf[] doords) {
+                int typf = pbti.pointTypfs[typfIdx];
+                int numCoords = durvfdoords[typf];
                 if (numCoords > 0) {
                     for (int i = 0; i < numCoords; i++) {
-                        coords[i] = floatCoords[pointIdx + i];
+                        doords[i] = flobtCoords[pointIdx + i];
                     }
                 }
-                return type;
+                rfturn typf;
             }
         }
 
-        static class TxIterator extends Path2D.Iterator {
-            float floatCoords[];
-            AffineTransform affine;
+        stbtid dlbss TxItfrbtor fxtfnds Pbti2D.Itfrbtor {
+            flobt flobtCoords[];
+            AffinfTrbnsform bffinf;
 
-            TxIterator(Path2D.Float p2df, AffineTransform at) {
-                super(p2df);
-                this.floatCoords = p2df.floatCoords;
-                this.affine = at;
+            TxItfrbtor(Pbti2D.Flobt p2df, AffinfTrbnsform bt) {
+                supfr(p2df);
+                tiis.flobtCoords = p2df.flobtCoords;
+                tiis.bffinf = bt;
             }
 
-            public int currentSegment(float[] coords) {
-                int type = path.pointTypes[typeIdx];
-                int numCoords = curvecoords[type];
+            publid int durrfntSfgmfnt(flobt[] doords) {
+                int typf = pbti.pointTypfs[typfIdx];
+                int numCoords = durvfdoords[typf];
                 if (numCoords > 0) {
-                    affine.transform(floatCoords, pointIdx,
-                                     coords, 0, numCoords / 2);
+                    bffinf.trbnsform(flobtCoords, pointIdx,
+                                     doords, 0, numCoords / 2);
                 }
-                return type;
+                rfturn typf;
             }
 
-            public int currentSegment(double[] coords) {
-                int type = path.pointTypes[typeIdx];
-                int numCoords = curvecoords[type];
+            publid int durrfntSfgmfnt(doublf[] doords) {
+                int typf = pbti.pointTypfs[typfIdx];
+                int numCoords = durvfdoords[typf];
                 if (numCoords > 0) {
-                    affine.transform(floatCoords, pointIdx,
-                                     coords, 0, numCoords / 2);
+                    bffinf.trbnsform(flobtCoords, pointIdx,
+                                     doords, 0, numCoords / 2);
                 }
-                return type;
+                rfturn typf;
             }
         }
 
     }
 
     /**
-     * The {@code Double} class defines a geometric path with
-     * coordinates stored in double precision floating point.
+     * Tif {@dodf Doublf} dlbss dffinfs b gfomftrid pbti witi
+     * doordinbtfs storfd in doublf prfdision flobting point.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static class Double extends Path2D implements Serializable {
-        transient double doubleCoords[];
+    publid stbtid dlbss Doublf fxtfnds Pbti2D implfmfnts Sfriblizbblf {
+        trbnsifnt doublf doublfCoords[];
 
         /**
-         * Constructs a new empty double precision {@code Path2D} object
-         * with a default winding rule of {@link #WIND_NON_ZERO}.
+         * Construdts b nfw fmpty doublf prfdision {@dodf Pbti2D} objfdt
+         * witi b dffbult winding rulf of {@link #WIND_NON_ZERO}.
          *
-         * @since 1.6
+         * @sindf 1.6
          */
-        public Double() {
-            this(WIND_NON_ZERO, INIT_SIZE);
+        publid Doublf() {
+            tiis(WIND_NON_ZERO, INIT_SIZE);
         }
 
         /**
-         * Constructs a new empty double precision {@code Path2D} object
-         * with the specified winding rule to control operations that
-         * require the interior of the path to be defined.
+         * Construdts b nfw fmpty doublf prfdision {@dodf Pbti2D} objfdt
+         * witi tif spfdififd winding rulf to dontrol opfrbtions tibt
+         * rfquirf tif intfrior of tif pbti to bf dffinfd.
          *
-         * @param rule the winding rule
-         * @see #WIND_EVEN_ODD
-         * @see #WIND_NON_ZERO
-         * @since 1.6
+         * @pbrbm rulf tif winding rulf
+         * @sff #WIND_EVEN_ODD
+         * @sff #WIND_NON_ZERO
+         * @sindf 1.6
          */
-        public Double(int rule) {
-            this(rule, INIT_SIZE);
+        publid Doublf(int rulf) {
+            tiis(rulf, INIT_SIZE);
         }
 
         /**
-         * Constructs a new empty double precision {@code Path2D} object
-         * with the specified winding rule and the specified initial
-         * capacity to store path segments.
-         * This number is an initial guess as to how many path segments
-         * are in the path, but the storage is expanded as needed to store
-         * whatever path segments are added to this path.
+         * Construdts b nfw fmpty doublf prfdision {@dodf Pbti2D} objfdt
+         * witi tif spfdififd winding rulf bnd tif spfdififd initibl
+         * dbpbdity to storf pbti sfgmfnts.
+         * Tiis numbfr is bn initibl gufss bs to iow mbny pbti sfgmfnts
+         * brf in tif pbti, but tif storbgf is fxpbndfd bs nffdfd to storf
+         * wibtfvfr pbti sfgmfnts brf bddfd to tiis pbti.
          *
-         * @param rule the winding rule
-         * @param initialCapacity the estimate for the number of path segments
-         *                        in the path
-         * @see #WIND_EVEN_ODD
-         * @see #WIND_NON_ZERO
-         * @since 1.6
+         * @pbrbm rulf tif winding rulf
+         * @pbrbm initiblCbpbdity tif fstimbtf for tif numbfr of pbti sfgmfnts
+         *                        in tif pbti
+         * @sff #WIND_EVEN_ODD
+         * @sff #WIND_NON_ZERO
+         * @sindf 1.6
          */
-        public Double(int rule, int initialCapacity) {
-            super(rule, initialCapacity);
-            doubleCoords = new double[initialCapacity * 2];
+        publid Doublf(int rulf, int initiblCbpbdity) {
+            supfr(rulf, initiblCbpbdity);
+            doublfCoords = nfw doublf[initiblCbpbdity * 2];
         }
 
         /**
-         * Constructs a new double precision {@code Path2D} object
-         * from an arbitrary {@link Shape} object.
-         * All of the initial geometry and the winding rule for this path are
-         * taken from the specified {@code Shape} object.
+         * Construdts b nfw doublf prfdision {@dodf Pbti2D} objfdt
+         * from bn brbitrbry {@link Sibpf} objfdt.
+         * All of tif initibl gfomftry bnd tif winding rulf for tiis pbti brf
+         * tbkfn from tif spfdififd {@dodf Sibpf} objfdt.
          *
-         * @param s the specified {@code Shape} object
-         * @since 1.6
+         * @pbrbm s tif spfdififd {@dodf Sibpf} objfdt
+         * @sindf 1.6
          */
-        public Double(Shape s) {
-            this(s, null);
+        publid Doublf(Sibpf s) {
+            tiis(s, null);
         }
 
         /**
-         * Constructs a new double precision {@code Path2D} object
-         * from an arbitrary {@link Shape} object, transformed by an
-         * {@link AffineTransform} object.
-         * All of the initial geometry and the winding rule for this path are
-         * taken from the specified {@code Shape} object and transformed
-         * by the specified {@code AffineTransform} object.
+         * Construdts b nfw doublf prfdision {@dodf Pbti2D} objfdt
+         * from bn brbitrbry {@link Sibpf} objfdt, trbnsformfd by bn
+         * {@link AffinfTrbnsform} objfdt.
+         * All of tif initibl gfomftry bnd tif winding rulf for tiis pbti brf
+         * tbkfn from tif spfdififd {@dodf Sibpf} objfdt bnd trbnsformfd
+         * by tif spfdififd {@dodf AffinfTrbnsform} objfdt.
          *
-         * @param s the specified {@code Shape} object
-         * @param at the specified {@code AffineTransform} object
-         * @since 1.6
+         * @pbrbm s tif spfdififd {@dodf Sibpf} objfdt
+         * @pbrbm bt tif spfdififd {@dodf AffinfTrbnsform} objfdt
+         * @sindf 1.6
          */
-        public Double(Shape s, AffineTransform at) {
-            if (s instanceof Path2D) {
-                Path2D p2d = (Path2D) s;
-                setWindingRule(p2d.windingRule);
-                this.numTypes = p2d.numTypes;
-                this.pointTypes = Arrays.copyOf(p2d.pointTypes,
-                                                p2d.pointTypes.length);
-                this.numCoords = p2d.numCoords;
-                this.doubleCoords = p2d.cloneCoordsDouble(at);
-            } else {
-                PathIterator pi = s.getPathIterator(at);
-                setWindingRule(pi.getWindingRule());
-                this.pointTypes = new byte[INIT_SIZE];
-                this.doubleCoords = new double[INIT_SIZE * 2];
-                append(pi, false);
+        publid Doublf(Sibpf s, AffinfTrbnsform bt) {
+            if (s instbndfof Pbti2D) {
+                Pbti2D p2d = (Pbti2D) s;
+                sftWindingRulf(p2d.windingRulf);
+                tiis.numTypfs = p2d.numTypfs;
+                tiis.pointTypfs = Arrbys.dopyOf(p2d.pointTypfs,
+                                                p2d.pointTypfs.lfngti);
+                tiis.numCoords = p2d.numCoords;
+                tiis.doublfCoords = p2d.dlonfCoordsDoublf(bt);
+            } flsf {
+                PbtiItfrbtor pi = s.gftPbtiItfrbtor(bt);
+                sftWindingRulf(pi.gftWindingRulf());
+                tiis.pointTypfs = nfw bytf[INIT_SIZE];
+                tiis.doublfCoords = nfw doublf[INIT_SIZE * 2];
+                bppfnd(pi, fblsf);
             }
         }
 
-        float[] cloneCoordsFloat(AffineTransform at) {
-            float ret[] = new float[doubleCoords.length];
-            if (at == null) {
+        flobt[] dlonfCoordsFlobt(AffinfTrbnsform bt) {
+            flobt rft[] = nfw flobt[doublfCoords.lfngti];
+            if (bt == null) {
                 for (int i = 0; i < numCoords; i++) {
-                    ret[i] = (float) doubleCoords[i];
+                    rft[i] = (flobt) doublfCoords[i];
                 }
-            } else {
-                at.transform(doubleCoords, 0, ret, 0, numCoords / 2);
+            } flsf {
+                bt.trbnsform(doublfCoords, 0, rft, 0, numCoords / 2);
             }
-            return ret;
+            rfturn rft;
         }
 
-        double[] cloneCoordsDouble(AffineTransform at) {
-            double ret[];
-            if (at == null) {
-                ret = Arrays.copyOf(this.doubleCoords,
-                                    this.doubleCoords.length);
-            } else {
-                ret = new double[doubleCoords.length];
-                at.transform(doubleCoords, 0, ret, 0, numCoords / 2);
+        doublf[] dlonfCoordsDoublf(AffinfTrbnsform bt) {
+            doublf rft[];
+            if (bt == null) {
+                rft = Arrbys.dopyOf(tiis.doublfCoords,
+                                    tiis.doublfCoords.lfngti);
+            } flsf {
+                rft = nfw doublf[doublfCoords.lfngti];
+                bt.trbnsform(doublfCoords, 0, rft, 0, numCoords / 2);
             }
-            return ret;
+            rfturn rft;
         }
 
-        void append(float x, float y) {
-            doubleCoords[numCoords++] = x;
-            doubleCoords[numCoords++] = y;
+        void bppfnd(flobt x, flobt y) {
+            doublfCoords[numCoords++] = x;
+            doublfCoords[numCoords++] = y;
         }
 
-        void append(double x, double y) {
-            doubleCoords[numCoords++] = x;
-            doubleCoords[numCoords++] = y;
+        void bppfnd(doublf x, doublf y) {
+            doublfCoords[numCoords++] = x;
+            doublfCoords[numCoords++] = y;
         }
 
-        Point2D getPoint(int coordindex) {
-            return new Point2D.Double(doubleCoords[coordindex],
-                                      doubleCoords[coordindex+1]);
+        Point2D gftPoint(int doordindfx) {
+            rfturn nfw Point2D.Doublf(doublfCoords[doordindfx],
+                                      doublfCoords[doordindfx+1]);
         }
 
-        void needRoom(boolean needMove, int newCoords) {
-            if (needMove && numTypes == 0) {
-                throw new IllegalPathStateException("missing initial moveto "+
-                                                    "in path definition");
+        void nffdRoom(boolfbn nffdMovf, int nfwCoords) {
+            if (nffdMovf && numTypfs == 0) {
+                tirow nfw IllfgblPbtiStbtfExdfption("missing initibl movfto "+
+                                                    "in pbti dffinition");
             }
-            int size = pointTypes.length;
-            if (numTypes >= size) {
-                int grow = size;
+            int sizf = pointTypfs.lfngti;
+            if (numTypfs >= sizf) {
+                int grow = sizf;
                 if (grow > EXPAND_MAX) {
                     grow = EXPAND_MAX;
-                } else if (grow == 0) {
+                } flsf if (grow == 0) {
                     grow = 1;
                 }
-                pointTypes = Arrays.copyOf(pointTypes, size+grow);
+                pointTypfs = Arrbys.dopyOf(pointTypfs, sizf+grow);
             }
-            size = doubleCoords.length;
-            if (numCoords + newCoords > size) {
-                int grow = size;
+            sizf = doublfCoords.lfngti;
+            if (numCoords + nfwCoords > sizf) {
+                int grow = sizf;
                 if (grow > EXPAND_MAX * 2) {
                     grow = EXPAND_MAX * 2;
                 }
-                if (grow < newCoords) {
-                    grow = newCoords;
+                if (grow < nfwCoords) {
+                    grow = nfwCoords;
                 }
-                doubleCoords = Arrays.copyOf(doubleCoords, size+grow);
+                doublfCoords = Arrbys.dopyOf(doublfCoords, sizf+grow);
             }
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.6
+         * {@inifritDod}
+         * @sindf 1.6
          */
-        public final synchronized void moveTo(double x, double y) {
-            if (numTypes > 0 && pointTypes[numTypes - 1] == SEG_MOVETO) {
-                doubleCoords[numCoords-2] = x;
-                doubleCoords[numCoords-1] = y;
-            } else {
-                needRoom(false, 2);
-                pointTypes[numTypes++] = SEG_MOVETO;
-                doubleCoords[numCoords++] = x;
-                doubleCoords[numCoords++] = y;
+        publid finbl syndironizfd void movfTo(doublf x, doublf y) {
+            if (numTypfs > 0 && pointTypfs[numTypfs - 1] == SEG_MOVETO) {
+                doublfCoords[numCoords-2] = x;
+                doublfCoords[numCoords-1] = y;
+            } flsf {
+                nffdRoom(fblsf, 2);
+                pointTypfs[numTypfs++] = SEG_MOVETO;
+                doublfCoords[numCoords++] = x;
+                doublfCoords[numCoords++] = y;
             }
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.6
+         * {@inifritDod}
+         * @sindf 1.6
          */
-        public final synchronized void lineTo(double x, double y) {
-            needRoom(true, 2);
-            pointTypes[numTypes++] = SEG_LINETO;
-            doubleCoords[numCoords++] = x;
-            doubleCoords[numCoords++] = y;
+        publid finbl syndironizfd void linfTo(doublf x, doublf y) {
+            nffdRoom(truf, 2);
+            pointTypfs[numTypfs++] = SEG_LINETO;
+            doublfCoords[numCoords++] = x;
+            doublfCoords[numCoords++] = y;
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.6
+         * {@inifritDod}
+         * @sindf 1.6
          */
-        public final synchronized void quadTo(double x1, double y1,
-                                              double x2, double y2)
+        publid finbl syndironizfd void qubdTo(doublf x1, doublf y1,
+                                              doublf x2, doublf y2)
         {
-            needRoom(true, 4);
-            pointTypes[numTypes++] = SEG_QUADTO;
-            doubleCoords[numCoords++] = x1;
-            doubleCoords[numCoords++] = y1;
-            doubleCoords[numCoords++] = x2;
-            doubleCoords[numCoords++] = y2;
+            nffdRoom(truf, 4);
+            pointTypfs[numTypfs++] = SEG_QUADTO;
+            doublfCoords[numCoords++] = x1;
+            doublfCoords[numCoords++] = y1;
+            doublfCoords[numCoords++] = x2;
+            doublfCoords[numCoords++] = y2;
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.6
+         * {@inifritDod}
+         * @sindf 1.6
          */
-        public final synchronized void curveTo(double x1, double y1,
-                                               double x2, double y2,
-                                               double x3, double y3)
+        publid finbl syndironizfd void durvfTo(doublf x1, doublf y1,
+                                               doublf x2, doublf y2,
+                                               doublf x3, doublf y3)
         {
-            needRoom(true, 6);
-            pointTypes[numTypes++] = SEG_CUBICTO;
-            doubleCoords[numCoords++] = x1;
-            doubleCoords[numCoords++] = y1;
-            doubleCoords[numCoords++] = x2;
-            doubleCoords[numCoords++] = y2;
-            doubleCoords[numCoords++] = x3;
-            doubleCoords[numCoords++] = y3;
+            nffdRoom(truf, 6);
+            pointTypfs[numTypfs++] = SEG_CUBICTO;
+            doublfCoords[numCoords++] = x1;
+            doublfCoords[numCoords++] = y1;
+            doublfCoords[numCoords++] = x2;
+            doublfCoords[numCoords++] = y2;
+            doublfCoords[numCoords++] = x3;
+            doublfCoords[numCoords++] = y3;
         }
 
-        int pointCrossings(double px, double py) {
-            double movx, movy, curx, cury, endx, endy;
-            double coords[] = doubleCoords;
-            curx = movx = coords[0];
-            cury = movy = coords[1];
-            int crossings = 0;
-            int ci = 2;
-            for (int i = 1; i < numTypes; i++) {
-                switch (pointTypes[i]) {
-                case PathIterator.SEG_MOVETO:
-                    if (cury != movy) {
-                        crossings +=
-                            Curve.pointCrossingsForLine(px, py,
-                                                        curx, cury,
+        int pointCrossings(doublf px, doublf py) {
+            doublf movx, movy, durx, dury, fndx, fndy;
+            doublf doords[] = doublfCoords;
+            durx = movx = doords[0];
+            dury = movy = doords[1];
+            int drossings = 0;
+            int di = 2;
+            for (int i = 1; i < numTypfs; i++) {
+                switdi (pointTypfs[i]) {
+                dbsf PbtiItfrbtor.SEG_MOVETO:
+                    if (dury != movy) {
+                        drossings +=
+                            Curvf.pointCrossingsForLinf(px, py,
+                                                        durx, dury,
                                                         movx, movy);
                     }
-                    movx = curx = coords[ci++];
-                    movy = cury = coords[ci++];
-                    break;
-                case PathIterator.SEG_LINETO:
-                    crossings +=
-                        Curve.pointCrossingsForLine(px, py,
-                                                    curx, cury,
-                                                    endx = coords[ci++],
-                                                    endy = coords[ci++]);
-                    curx = endx;
-                    cury = endy;
-                    break;
-                case PathIterator.SEG_QUADTO:
-                    crossings +=
-                        Curve.pointCrossingsForQuad(px, py,
-                                                    curx, cury,
-                                                    coords[ci++],
-                                                    coords[ci++],
-                                                    endx = coords[ci++],
-                                                    endy = coords[ci++],
+                    movx = durx = doords[di++];
+                    movy = dury = doords[di++];
+                    brfbk;
+                dbsf PbtiItfrbtor.SEG_LINETO:
+                    drossings +=
+                        Curvf.pointCrossingsForLinf(px, py,
+                                                    durx, dury,
+                                                    fndx = doords[di++],
+                                                    fndy = doords[di++]);
+                    durx = fndx;
+                    dury = fndy;
+                    brfbk;
+                dbsf PbtiItfrbtor.SEG_QUADTO:
+                    drossings +=
+                        Curvf.pointCrossingsForQubd(px, py,
+                                                    durx, dury,
+                                                    doords[di++],
+                                                    doords[di++],
+                                                    fndx = doords[di++],
+                                                    fndy = doords[di++],
                                                     0);
-                    curx = endx;
-                    cury = endy;
-                    break;
-            case PathIterator.SEG_CUBICTO:
-                    crossings +=
-                        Curve.pointCrossingsForCubic(px, py,
-                                                     curx, cury,
-                                                     coords[ci++],
-                                                     coords[ci++],
-                                                     coords[ci++],
-                                                     coords[ci++],
-                                                     endx = coords[ci++],
-                                                     endy = coords[ci++],
+                    durx = fndx;
+                    dury = fndy;
+                    brfbk;
+            dbsf PbtiItfrbtor.SEG_CUBICTO:
+                    drossings +=
+                        Curvf.pointCrossingsForCubid(px, py,
+                                                     durx, dury,
+                                                     doords[di++],
+                                                     doords[di++],
+                                                     doords[di++],
+                                                     doords[di++],
+                                                     fndx = doords[di++],
+                                                     fndy = doords[di++],
                                                      0);
-                    curx = endx;
-                    cury = endy;
-                    break;
-                case PathIterator.SEG_CLOSE:
-                    if (cury != movy) {
-                        crossings +=
-                            Curve.pointCrossingsForLine(px, py,
-                                                        curx, cury,
+                    durx = fndx;
+                    dury = fndy;
+                    brfbk;
+                dbsf PbtiItfrbtor.SEG_CLOSE:
+                    if (dury != movy) {
+                        drossings +=
+                            Curvf.pointCrossingsForLinf(px, py,
+                                                        durx, dury,
                                                         movx, movy);
                     }
-                    curx = movx;
-                    cury = movy;
-                    break;
+                    durx = movx;
+                    dury = movy;
+                    brfbk;
                 }
             }
-            if (cury != movy) {
-                crossings +=
-                    Curve.pointCrossingsForLine(px, py,
-                                                curx, cury,
+            if (dury != movy) {
+                drossings +=
+                    Curvf.pointCrossingsForLinf(px, py,
+                                                durx, dury,
                                                 movx, movy);
             }
-            return crossings;
+            rfturn drossings;
         }
 
-        int rectCrossings(double rxmin, double rymin,
-                          double rxmax, double rymax)
+        int rfdtCrossings(doublf rxmin, doublf rymin,
+                          doublf rxmbx, doublf rymbx)
         {
-            double coords[] = doubleCoords;
-            double curx, cury, movx, movy, endx, endy;
-            curx = movx = coords[0];
-            cury = movy = coords[1];
-            int crossings = 0;
-            int ci = 2;
+            doublf doords[] = doublfCoords;
+            doublf durx, dury, movx, movy, fndx, fndy;
+            durx = movx = doords[0];
+            dury = movy = doords[1];
+            int drossings = 0;
+            int di = 2;
             for (int i = 1;
-                 crossings != Curve.RECT_INTERSECTS && i < numTypes;
+                 drossings != Curvf.RECT_INTERSECTS && i < numTypfs;
                  i++)
             {
-                switch (pointTypes[i]) {
-                case PathIterator.SEG_MOVETO:
-                    if (curx != movx || cury != movy) {
-                        crossings =
-                            Curve.rectCrossingsForLine(crossings,
+                switdi (pointTypfs[i]) {
+                dbsf PbtiItfrbtor.SEG_MOVETO:
+                    if (durx != movx || dury != movy) {
+                        drossings =
+                            Curvf.rfdtCrossingsForLinf(drossings,
                                                        rxmin, rymin,
-                                                       rxmax, rymax,
-                                                       curx, cury,
+                                                       rxmbx, rymbx,
+                                                       durx, dury,
                                                        movx, movy);
                     }
-                    // Count should always be a multiple of 2 here.
-                    // assert((crossings & 1) != 0);
-                    movx = curx = coords[ci++];
-                    movy = cury = coords[ci++];
-                    break;
-                case PathIterator.SEG_LINETO:
-                    endx = coords[ci++];
-                    endy = coords[ci++];
-                    crossings =
-                        Curve.rectCrossingsForLine(crossings,
+                    // Count siould blwbys bf b multiplf of 2 ifrf.
+                    // bssfrt((drossings & 1) != 0);
+                    movx = durx = doords[di++];
+                    movy = dury = doords[di++];
+                    brfbk;
+                dbsf PbtiItfrbtor.SEG_LINETO:
+                    fndx = doords[di++];
+                    fndy = doords[di++];
+                    drossings =
+                        Curvf.rfdtCrossingsForLinf(drossings,
                                                    rxmin, rymin,
-                                                   rxmax, rymax,
-                                                   curx, cury,
-                                                   endx, endy);
-                    curx = endx;
-                    cury = endy;
-                    break;
-                case PathIterator.SEG_QUADTO:
-                    crossings =
-                        Curve.rectCrossingsForQuad(crossings,
+                                                   rxmbx, rymbx,
+                                                   durx, dury,
+                                                   fndx, fndy);
+                    durx = fndx;
+                    dury = fndy;
+                    brfbk;
+                dbsf PbtiItfrbtor.SEG_QUADTO:
+                    drossings =
+                        Curvf.rfdtCrossingsForQubd(drossings,
                                                    rxmin, rymin,
-                                                   rxmax, rymax,
-                                                   curx, cury,
-                                                   coords[ci++],
-                                                   coords[ci++],
-                                                   endx = coords[ci++],
-                                                   endy = coords[ci++],
+                                                   rxmbx, rymbx,
+                                                   durx, dury,
+                                                   doords[di++],
+                                                   doords[di++],
+                                                   fndx = doords[di++],
+                                                   fndy = doords[di++],
                                                    0);
-                    curx = endx;
-                    cury = endy;
-                    break;
-                case PathIterator.SEG_CUBICTO:
-                    crossings =
-                        Curve.rectCrossingsForCubic(crossings,
+                    durx = fndx;
+                    dury = fndy;
+                    brfbk;
+                dbsf PbtiItfrbtor.SEG_CUBICTO:
+                    drossings =
+                        Curvf.rfdtCrossingsForCubid(drossings,
                                                     rxmin, rymin,
-                                                    rxmax, rymax,
-                                                    curx, cury,
-                                                    coords[ci++],
-                                                    coords[ci++],
-                                                    coords[ci++],
-                                                    coords[ci++],
-                                                    endx = coords[ci++],
-                                                    endy = coords[ci++],
+                                                    rxmbx, rymbx,
+                                                    durx, dury,
+                                                    doords[di++],
+                                                    doords[di++],
+                                                    doords[di++],
+                                                    doords[di++],
+                                                    fndx = doords[di++],
+                                                    fndy = doords[di++],
                                                     0);
-                    curx = endx;
-                    cury = endy;
-                    break;
-                case PathIterator.SEG_CLOSE:
-                    if (curx != movx || cury != movy) {
-                        crossings =
-                            Curve.rectCrossingsForLine(crossings,
+                    durx = fndx;
+                    dury = fndy;
+                    brfbk;
+                dbsf PbtiItfrbtor.SEG_CLOSE:
+                    if (durx != movx || dury != movy) {
+                        drossings =
+                            Curvf.rfdtCrossingsForLinf(drossings,
                                                        rxmin, rymin,
-                                                       rxmax, rymax,
-                                                       curx, cury,
+                                                       rxmbx, rymbx,
+                                                       durx, dury,
                                                        movx, movy);
                     }
-                    curx = movx;
-                    cury = movy;
-                    // Count should always be a multiple of 2 here.
-                    // assert((crossings & 1) != 0);
-                    break;
+                    durx = movx;
+                    dury = movy;
+                    // Count siould blwbys bf b multiplf of 2 ifrf.
+                    // bssfrt((drossings & 1) != 0);
+                    brfbk;
                 }
             }
-            if (crossings != Curve.RECT_INTERSECTS &&
-                (curx != movx || cury != movy))
+            if (drossings != Curvf.RECT_INTERSECTS &&
+                (durx != movx || dury != movy))
             {
-                crossings =
-                    Curve.rectCrossingsForLine(crossings,
+                drossings =
+                    Curvf.rfdtCrossingsForLinf(drossings,
                                                rxmin, rymin,
-                                               rxmax, rymax,
-                                               curx, cury,
+                                               rxmbx, rymbx,
+                                               durx, dury,
                                                movx, movy);
             }
-            // Count should always be a multiple of 2 here.
-            // assert((crossings & 1) != 0);
-            return crossings;
+            // Count siould blwbys bf b multiplf of 2 ifrf.
+            // bssfrt((drossings & 1) != 0);
+            rfturn drossings;
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.6
+         * {@inifritDod}
+         * @sindf 1.6
          */
-        public final void append(PathIterator pi, boolean connect) {
-            double coords[] = new double[6];
-            while (!pi.isDone()) {
-                switch (pi.currentSegment(coords)) {
-                case SEG_MOVETO:
-                    if (!connect || numTypes < 1 || numCoords < 1) {
-                        moveTo(coords[0], coords[1]);
-                        break;
+        publid finbl void bppfnd(PbtiItfrbtor pi, boolfbn donnfdt) {
+            doublf doords[] = nfw doublf[6];
+            wiilf (!pi.isDonf()) {
+                switdi (pi.durrfntSfgmfnt(doords)) {
+                dbsf SEG_MOVETO:
+                    if (!donnfdt || numTypfs < 1 || numCoords < 1) {
+                        movfTo(doords[0], doords[1]);
+                        brfbk;
                     }
-                    if (pointTypes[numTypes - 1] != SEG_CLOSE &&
-                        doubleCoords[numCoords-2] == coords[0] &&
-                        doubleCoords[numCoords-1] == coords[1])
+                    if (pointTypfs[numTypfs - 1] != SEG_CLOSE &&
+                        doublfCoords[numCoords-2] == doords[0] &&
+                        doublfCoords[numCoords-1] == doords[1])
                     {
-                        // Collapse out initial moveto/lineto
-                        break;
+                        // Collbpsf out initibl movfto/linfto
+                        brfbk;
                     }
-                    lineTo(coords[0], coords[1]);
-                    break;
-                case SEG_LINETO:
-                    lineTo(coords[0], coords[1]);
-                    break;
-                case SEG_QUADTO:
-                    quadTo(coords[0], coords[1],
-                           coords[2], coords[3]);
-                    break;
-                case SEG_CUBICTO:
-                    curveTo(coords[0], coords[1],
-                            coords[2], coords[3],
-                            coords[4], coords[5]);
-                    break;
-                case SEG_CLOSE:
-                    closePath();
-                    break;
+                    linfTo(doords[0], doords[1]);
+                    brfbk;
+                dbsf SEG_LINETO:
+                    linfTo(doords[0], doords[1]);
+                    brfbk;
+                dbsf SEG_QUADTO:
+                    qubdTo(doords[0], doords[1],
+                           doords[2], doords[3]);
+                    brfbk;
+                dbsf SEG_CUBICTO:
+                    durvfTo(doords[0], doords[1],
+                            doords[2], doords[3],
+                            doords[4], doords[5]);
+                    brfbk;
+                dbsf SEG_CLOSE:
+                    dlosfPbti();
+                    brfbk;
                 }
-                pi.next();
-                connect = false;
+                pi.nfxt();
+                donnfdt = fblsf;
             }
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.6
+         * {@inifritDod}
+         * @sindf 1.6
          */
-        public final void transform(AffineTransform at) {
-            at.transform(doubleCoords, 0, doubleCoords, 0, numCoords / 2);
+        publid finbl void trbnsform(AffinfTrbnsform bt) {
+            bt.trbnsform(doublfCoords, 0, doublfCoords, 0, numCoords / 2);
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.6
+         * {@inifritDod}
+         * @sindf 1.6
          */
-        public final synchronized Rectangle2D getBounds2D() {
-            double x1, y1, x2, y2;
+        publid finbl syndironizfd Rfdtbnglf2D gftBounds2D() {
+            doublf x1, y1, x2, y2;
             int i = numCoords;
             if (i > 0) {
-                y1 = y2 = doubleCoords[--i];
-                x1 = x2 = doubleCoords[--i];
-                while (i > 0) {
-                    double y = doubleCoords[--i];
-                    double x = doubleCoords[--i];
+                y1 = y2 = doublfCoords[--i];
+                x1 = x2 = doublfCoords[--i];
+                wiilf (i > 0) {
+                    doublf y = doublfCoords[--i];
+                    doublf x = doublfCoords[--i];
                     if (x < x1) x1 = x;
                     if (y < y1) y1 = y;
                     if (x > x2) x2 = x;
                     if (y > y2) y2 = y;
                 }
-            } else {
+            } flsf {
                 x1 = y1 = x2 = y2 = 0.0;
             }
-            return new Rectangle2D.Double(x1, y1, x2 - x1, y2 - y1);
+            rfturn nfw Rfdtbnglf2D.Doublf(x1, y1, x2 - x1, y2 - y1);
         }
 
         /**
-         * {@inheritDoc}
+         * {@inifritDod}
          * <p>
-         * The iterator for this class is not multi-threaded safe,
-         * which means that the {@code Path2D} class does not
-         * guarantee that modifications to the geometry of this
-         * {@code Path2D} object do not affect any iterations of
-         * that geometry that are already in process.
+         * Tif itfrbtor for tiis dlbss is not multi-tirfbdfd sbff,
+         * wiidi mfbns tibt tif {@dodf Pbti2D} dlbss dofs not
+         * gubrbntff tibt modifidbtions to tif gfomftry of tiis
+         * {@dodf Pbti2D} objfdt do not bfffdt bny itfrbtions of
+         * tibt gfomftry tibt brf blrfbdy in prodfss.
          *
-         * @param at an {@code AffineTransform}
-         * @return a new {@code PathIterator} that iterates along the boundary
-         *         of this {@code Shape} and provides access to the geometry
-         *         of this {@code Shape}'s outline
-         * @since 1.6
+         * @pbrbm bt bn {@dodf AffinfTrbnsform}
+         * @rfturn b nfw {@dodf PbtiItfrbtor} tibt itfrbtfs blong tif boundbry
+         *         of tiis {@dodf Sibpf} bnd providfs bddfss to tif gfomftry
+         *         of tiis {@dodf Sibpf}'s outlinf
+         * @sindf 1.6
          */
-        public final PathIterator getPathIterator(AffineTransform at) {
-            if (at == null) {
-                return new CopyIterator(this);
-            } else {
-                return new TxIterator(this, at);
+        publid finbl PbtiItfrbtor gftPbtiItfrbtor(AffinfTrbnsform bt) {
+            if (bt == null) {
+                rfturn nfw CopyItfrbtor(tiis);
+            } flsf {
+                rfturn nfw TxItfrbtor(tiis, bt);
             }
         }
 
         /**
-         * Creates a new object of the same class as this object.
+         * Crfbtfs b nfw objfdt of tif sbmf dlbss bs tiis objfdt.
          *
-         * @return     a clone of this instance.
-         * @exception  OutOfMemoryError    if there is not enough memory.
-         * @see        java.lang.Cloneable
-         * @since      1.6
+         * @rfturn     b dlonf of tiis instbndf.
+         * @fxdfption  OutOfMfmoryError    if tifrf is not fnougi mfmory.
+         * @sff        jbvb.lbng.Clonfbblf
+         * @sindf      1.6
          */
-        public final Object clone() {
-            // Note: It would be nice to have this return Path2D
-            // but one of our subclasses (GeneralPath) needs to
-            // offer "public Object clone()" for backwards
-            // compatibility so we cannot restrict it further.
-            // REMIND: Can we do both somehow?
-            return new Path2D.Double(this);
+        publid finbl Objfdt dlonf() {
+            // Notf: It would bf nidf to ibvf tiis rfturn Pbti2D
+            // but onf of our subdlbssfs (GfnfrblPbti) nffds to
+            // offfr "publid Objfdt dlonf()" for bbdkwbrds
+            // dompbtibility so wf dbnnot rfstridt it furtifr.
+            // REMIND: Cbn wf do boti somfiow?
+            rfturn nfw Pbti2D.Doublf(tiis);
         }
 
         /*
-         * JDK 1.6 serialVersionUID
+         * JDK 1.6 sfriblVfrsionUID
          */
-        private static final long serialVersionUID = 1826762518450014216L;
+        privbtf stbtid finbl long sfriblVfrsionUID = 1826762518450014216L;
 
         /**
-         * Writes the default serializable fields to the
-         * {@code ObjectOutputStream} followed by an explicit
-         * serialization of the path segments stored in this
-         * path.
+         * Writfs tif dffbult sfriblizbblf fiflds to tif
+         * {@dodf ObjfdtOutputStrfbm} followfd by bn fxplidit
+         * sfriblizbtion of tif pbti sfgmfnts storfd in tiis
+         * pbti.
          *
-         * @serialData
-         * <a name="Path2DSerialData"><!-- --></a>
+         * @sfriblDbtb
+         * <b nbmf="Pbti2DSfriblDbtb"><!-- --></b>
          * <ol>
-         * <li>The default serializable fields.
-         * There are no default serializable fields as of 1.6.
-         * <li>followed by
-         * a byte indicating the storage type of the original object
-         * as a hint (SERIAL_STORAGE_DBL_ARRAY)
-         * <li>followed by
-         * an integer indicating the number of path segments to follow (NP)
-         * or -1 to indicate an unknown number of path segments follows
-         * <li>followed by
-         * an integer indicating the total number of coordinates to follow (NC)
-         * or -1 to indicate an unknown number of coordinates follows
-         * (NC should always be even since coordinates always appear in pairs
-         *  representing an x,y pair)
-         * <li>followed by
-         * a byte indicating the winding rule
+         * <li>Tif dffbult sfriblizbblf fiflds.
+         * Tifrf brf no dffbult sfriblizbblf fiflds bs of 1.6.
+         * <li>followfd by
+         * b bytf indidbting tif storbgf typf of tif originbl objfdt
+         * bs b iint (SERIAL_STORAGE_DBL_ARRAY)
+         * <li>followfd by
+         * bn intfgfr indidbting tif numbfr of pbti sfgmfnts to follow (NP)
+         * or -1 to indidbtf bn unknown numbfr of pbti sfgmfnts follows
+         * <li>followfd by
+         * bn intfgfr indidbting tif totbl numbfr of doordinbtfs to follow (NC)
+         * or -1 to indidbtf bn unknown numbfr of doordinbtfs follows
+         * (NC siould blwbys bf fvfn sindf doordinbtfs blwbys bppfbr in pbirs
+         *  rfprfsfnting bn x,y pbir)
+         * <li>followfd by
+         * b bytf indidbting tif winding rulf
          * ({@link #WIND_EVEN_ODD WIND_EVEN_ODD} or
          *  {@link #WIND_NON_ZERO WIND_NON_ZERO})
-         * <li>followed by
-         * {@code NP} (or unlimited if {@code NP < 0}) sets of values consisting of
-         * a single byte indicating a path segment type
-         * followed by one or more pairs of float or double
-         * values representing the coordinates of the path segment
-         * <li>followed by
-         * a byte indicating the end of the path (SERIAL_PATH_END).
+         * <li>followfd by
+         * {@dodf NP} (or unlimitfd if {@dodf NP < 0}) sfts of vblufs donsisting of
+         * b singlf bytf indidbting b pbti sfgmfnt typf
+         * followfd by onf or morf pbirs of flobt or doublf
+         * vblufs rfprfsfnting tif doordinbtfs of tif pbti sfgmfnt
+         * <li>followfd by
+         * b bytf indidbting tif fnd of tif pbti (SERIAL_PATH_END).
          * </ol>
          * <p>
-         * The following byte value constants are used in the serialized form
-         * of {@code Path2D} objects:
-         * <table>
+         * Tif following bytf vbluf donstbnts brf usfd in tif sfriblizfd form
+         * of {@dodf Pbti2D} objfdts:
+         * <tbblf>
          * <tr>
-         * <th>Constant Name</th>
-         * <th>Byte Value</th>
-         * <th>Followed by</th>
-         * <th>Description</th>
+         * <ti>Constbnt Nbmf</ti>
+         * <ti>Bytf Vbluf</ti>
+         * <ti>Followfd by</ti>
+         * <ti>Dfsdription</ti>
          * </tr>
          * <tr>
-         * <td>{@code SERIAL_STORAGE_FLT_ARRAY}</td>
+         * <td>{@dodf SERIAL_STORAGE_FLT_ARRAY}</td>
          * <td>0x30</td>
          * <td></td>
-         * <td>A hint that the original {@code Path2D} object stored
-         * the coordinates in a Java array of floats.</td>
+         * <td>A iint tibt tif originbl {@dodf Pbti2D} objfdt storfd
+         * tif doordinbtfs in b Jbvb brrby of flobts.</td>
          * </tr>
          * <tr>
-         * <td>{@code SERIAL_STORAGE_DBL_ARRAY}</td>
+         * <td>{@dodf SERIAL_STORAGE_DBL_ARRAY}</td>
          * <td>0x31</td>
          * <td></td>
-         * <td>A hint that the original {@code Path2D} object stored
-         * the coordinates in a Java array of doubles.</td>
+         * <td>A iint tibt tif originbl {@dodf Pbti2D} objfdt storfd
+         * tif doordinbtfs in b Jbvb brrby of doublfs.</td>
          * </tr>
          * <tr>
-         * <td>{@code SERIAL_SEG_FLT_MOVETO}</td>
+         * <td>{@dodf SERIAL_SEG_FLT_MOVETO}</td>
          * <td>0x40</td>
-         * <td>2 floats</td>
-         * <td>A {@link #moveTo moveTo} path segment follows.</td>
+         * <td>2 flobts</td>
+         * <td>A {@link #movfTo movfTo} pbti sfgmfnt follows.</td>
          * </tr>
          * <tr>
-         * <td>{@code SERIAL_SEG_FLT_LINETO}</td>
+         * <td>{@dodf SERIAL_SEG_FLT_LINETO}</td>
          * <td>0x41</td>
-         * <td>2 floats</td>
-         * <td>A {@link #lineTo lineTo} path segment follows.</td>
+         * <td>2 flobts</td>
+         * <td>A {@link #linfTo linfTo} pbti sfgmfnt follows.</td>
          * </tr>
          * <tr>
-         * <td>{@code SERIAL_SEG_FLT_QUADTO}</td>
+         * <td>{@dodf SERIAL_SEG_FLT_QUADTO}</td>
          * <td>0x42</td>
-         * <td>4 floats</td>
-         * <td>A {@link #quadTo quadTo} path segment follows.</td>
+         * <td>4 flobts</td>
+         * <td>A {@link #qubdTo qubdTo} pbti sfgmfnt follows.</td>
          * </tr>
          * <tr>
-         * <td>{@code SERIAL_SEG_FLT_CUBICTO}</td>
+         * <td>{@dodf SERIAL_SEG_FLT_CUBICTO}</td>
          * <td>0x43</td>
-         * <td>6 floats</td>
-         * <td>A {@link #curveTo curveTo} path segment follows.</td>
+         * <td>6 flobts</td>
+         * <td>A {@link #durvfTo durvfTo} pbti sfgmfnt follows.</td>
          * </tr>
          * <tr>
-         * <td>{@code SERIAL_SEG_DBL_MOVETO}</td>
+         * <td>{@dodf SERIAL_SEG_DBL_MOVETO}</td>
          * <td>0x50</td>
-         * <td>2 doubles</td>
-         * <td>A {@link #moveTo moveTo} path segment follows.</td>
+         * <td>2 doublfs</td>
+         * <td>A {@link #movfTo movfTo} pbti sfgmfnt follows.</td>
          * </tr>
          * <tr>
-         * <td>{@code SERIAL_SEG_DBL_LINETO}</td>
+         * <td>{@dodf SERIAL_SEG_DBL_LINETO}</td>
          * <td>0x51</td>
-         * <td>2 doubles</td>
-         * <td>A {@link #lineTo lineTo} path segment follows.</td>
+         * <td>2 doublfs</td>
+         * <td>A {@link #linfTo linfTo} pbti sfgmfnt follows.</td>
          * </tr>
          * <tr>
-         * <td>{@code SERIAL_SEG_DBL_QUADTO}</td>
+         * <td>{@dodf SERIAL_SEG_DBL_QUADTO}</td>
          * <td>0x52</td>
-         * <td>4 doubles</td>
-         * <td>A {@link #curveTo curveTo} path segment follows.</td>
+         * <td>4 doublfs</td>
+         * <td>A {@link #durvfTo durvfTo} pbti sfgmfnt follows.</td>
          * </tr>
          * <tr>
-         * <td>{@code SERIAL_SEG_DBL_CUBICTO}</td>
+         * <td>{@dodf SERIAL_SEG_DBL_CUBICTO}</td>
          * <td>0x53</td>
-         * <td>6 doubles</td>
-         * <td>A {@link #curveTo curveTo} path segment follows.</td>
+         * <td>6 doublfs</td>
+         * <td>A {@link #durvfTo durvfTo} pbti sfgmfnt follows.</td>
          * </tr>
          * <tr>
-         * <td>{@code SERIAL_SEG_CLOSE}</td>
+         * <td>{@dodf SERIAL_SEG_CLOSE}</td>
          * <td>0x60</td>
          * <td></td>
-         * <td>A {@link #closePath closePath} path segment.</td>
+         * <td>A {@link #dlosfPbti dlosfPbti} pbti sfgmfnt.</td>
          * </tr>
          * <tr>
-         * <td>{@code SERIAL_PATH_END}</td>
+         * <td>{@dodf SERIAL_PATH_END}</td>
          * <td>0x61</td>
          * <td></td>
-         * <td>There are no more path segments following.</td>
-         * </table>
+         * <td>Tifrf brf no morf pbti sfgmfnts following.</td>
+         * </tbblf>
          *
-         * @since 1.6
+         * @sindf 1.6
          */
-        private void writeObject(java.io.ObjectOutputStream s)
-            throws java.io.IOException
+        privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+            tirows jbvb.io.IOExdfption
         {
-            super.writeObject(s, true);
+            supfr.writfObjfdt(s, truf);
         }
 
         /**
-         * Reads the default serializable fields from the
-         * {@code ObjectInputStream} followed by an explicit
-         * serialization of the path segments stored in this
-         * path.
+         * Rfbds tif dffbult sfriblizbblf fiflds from tif
+         * {@dodf ObjfdtInputStrfbm} followfd by bn fxplidit
+         * sfriblizbtion of tif pbti sfgmfnts storfd in tiis
+         * pbti.
          * <p>
-         * There are no default serializable fields as of 1.6.
+         * Tifrf brf no dffbult sfriblizbblf fiflds bs of 1.6.
          * <p>
-         * The serial data for this object is described in the
-         * writeObject method.
+         * Tif sfribl dbtb for tiis objfdt is dfsdribfd in tif
+         * writfObjfdt mftiod.
          *
-         * @since 1.6
+         * @sindf 1.6
          */
-        private void readObject(java.io.ObjectInputStream s)
-            throws java.lang.ClassNotFoundException, java.io.IOException
+        privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+            tirows jbvb.lbng.ClbssNotFoundExdfption, jbvb.io.IOExdfption
         {
-            super.readObject(s, true);
+            supfr.rfbdObjfdt(s, truf);
         }
 
-        static class CopyIterator extends Path2D.Iterator {
-            double doubleCoords[];
+        stbtid dlbss CopyItfrbtor fxtfnds Pbti2D.Itfrbtor {
+            doublf doublfCoords[];
 
-            CopyIterator(Path2D.Double p2dd) {
-                super(p2dd);
-                this.doubleCoords = p2dd.doubleCoords;
+            CopyItfrbtor(Pbti2D.Doublf p2dd) {
+                supfr(p2dd);
+                tiis.doublfCoords = p2dd.doublfCoords;
             }
 
-            public int currentSegment(float[] coords) {
-                int type = path.pointTypes[typeIdx];
-                int numCoords = curvecoords[type];
+            publid int durrfntSfgmfnt(flobt[] doords) {
+                int typf = pbti.pointTypfs[typfIdx];
+                int numCoords = durvfdoords[typf];
                 if (numCoords > 0) {
                     for (int i = 0; i < numCoords; i++) {
-                        coords[i] = (float) doubleCoords[pointIdx + i];
+                        doords[i] = (flobt) doublfCoords[pointIdx + i];
                     }
                 }
-                return type;
+                rfturn typf;
             }
 
-            public int currentSegment(double[] coords) {
-                int type = path.pointTypes[typeIdx];
-                int numCoords = curvecoords[type];
+            publid int durrfntSfgmfnt(doublf[] doords) {
+                int typf = pbti.pointTypfs[typfIdx];
+                int numCoords = durvfdoords[typf];
                 if (numCoords > 0) {
-                    System.arraycopy(doubleCoords, pointIdx,
-                                     coords, 0, numCoords);
+                    Systfm.brrbydopy(doublfCoords, pointIdx,
+                                     doords, 0, numCoords);
                 }
-                return type;
+                rfturn typf;
             }
         }
 
-        static class TxIterator extends Path2D.Iterator {
-            double doubleCoords[];
-            AffineTransform affine;
+        stbtid dlbss TxItfrbtor fxtfnds Pbti2D.Itfrbtor {
+            doublf doublfCoords[];
+            AffinfTrbnsform bffinf;
 
-            TxIterator(Path2D.Double p2dd, AffineTransform at) {
-                super(p2dd);
-                this.doubleCoords = p2dd.doubleCoords;
-                this.affine = at;
+            TxItfrbtor(Pbti2D.Doublf p2dd, AffinfTrbnsform bt) {
+                supfr(p2dd);
+                tiis.doublfCoords = p2dd.doublfCoords;
+                tiis.bffinf = bt;
             }
 
-            public int currentSegment(float[] coords) {
-                int type = path.pointTypes[typeIdx];
-                int numCoords = curvecoords[type];
+            publid int durrfntSfgmfnt(flobt[] doords) {
+                int typf = pbti.pointTypfs[typfIdx];
+                int numCoords = durvfdoords[typf];
                 if (numCoords > 0) {
-                    affine.transform(doubleCoords, pointIdx,
-                                     coords, 0, numCoords / 2);
+                    bffinf.trbnsform(doublfCoords, pointIdx,
+                                     doords, 0, numCoords / 2);
                 }
-                return type;
+                rfturn typf;
             }
 
-            public int currentSegment(double[] coords) {
-                int type = path.pointTypes[typeIdx];
-                int numCoords = curvecoords[type];
+            publid int durrfntSfgmfnt(doublf[] doords) {
+                int typf = pbti.pointTypfs[typfIdx];
+                int numCoords = durvfdoords[typf];
                 if (numCoords > 0) {
-                    affine.transform(doubleCoords, pointIdx,
-                                     coords, 0, numCoords / 2);
+                    bffinf.trbnsform(doublfCoords, pointIdx,
+                                     doords, 0, numCoords / 2);
                 }
-                return type;
+                rfturn typf;
             }
-        }
-    }
-
-    /**
-     * Adds a point to the path by moving to the specified
-     * coordinates specified in double precision.
-     *
-     * @param x the specified X coordinate
-     * @param y the specified Y coordinate
-     * @since 1.6
-     */
-    public abstract void moveTo(double x, double y);
-
-    /**
-     * Adds a point to the path by drawing a straight line from the
-     * current coordinates to the new specified coordinates
-     * specified in double precision.
-     *
-     * @param x the specified X coordinate
-     * @param y the specified Y coordinate
-     * @since 1.6
-     */
-    public abstract void lineTo(double x, double y);
-
-    /**
-     * Adds a curved segment, defined by two new points, to the path by
-     * drawing a Quadratic curve that intersects both the current
-     * coordinates and the specified coordinates {@code (x2,y2)},
-     * using the specified point {@code (x1,y1)} as a quadratic
-     * parametric control point.
-     * All coordinates are specified in double precision.
-     *
-     * @param x1 the X coordinate of the quadratic control point
-     * @param y1 the Y coordinate of the quadratic control point
-     * @param x2 the X coordinate of the final end point
-     * @param y2 the Y coordinate of the final end point
-     * @since 1.6
-     */
-    public abstract void quadTo(double x1, double y1,
-                                double x2, double y2);
-
-    /**
-     * Adds a curved segment, defined by three new points, to the path by
-     * drawing a B&eacute;zier curve that intersects both the current
-     * coordinates and the specified coordinates {@code (x3,y3)},
-     * using the specified points {@code (x1,y1)} and {@code (x2,y2)} as
-     * B&eacute;zier control points.
-     * All coordinates are specified in double precision.
-     *
-     * @param x1 the X coordinate of the first B&eacute;zier control point
-     * @param y1 the Y coordinate of the first B&eacute;zier control point
-     * @param x2 the X coordinate of the second B&eacute;zier control point
-     * @param y2 the Y coordinate of the second B&eacute;zier control point
-     * @param x3 the X coordinate of the final end point
-     * @param y3 the Y coordinate of the final end point
-     * @since 1.6
-     */
-    public abstract void curveTo(double x1, double y1,
-                                 double x2, double y2,
-                                 double x3, double y3);
-
-    /**
-     * Closes the current subpath by drawing a straight line back to
-     * the coordinates of the last {@code moveTo}.  If the path is already
-     * closed then this method has no effect.
-     *
-     * @since 1.6
-     */
-    public final synchronized void closePath() {
-        if (numTypes == 0 || pointTypes[numTypes - 1] != SEG_CLOSE) {
-            needRoom(true, 0);
-            pointTypes[numTypes++] = SEG_CLOSE;
         }
     }
 
     /**
-     * Appends the geometry of the specified {@code Shape} object to the
-     * path, possibly connecting the new geometry to the existing path
-     * segments with a line segment.
-     * If the {@code connect} parameter is {@code true} and the
-     * path is not empty then any initial {@code moveTo} in the
-     * geometry of the appended {@code Shape}
-     * is turned into a {@code lineTo} segment.
-     * If the destination coordinates of such a connecting {@code lineTo}
-     * segment match the ending coordinates of a currently open
-     * subpath then the segment is omitted as superfluous.
-     * The winding rule of the specified {@code Shape} is ignored
-     * and the appended geometry is governed by the winding
-     * rule specified for this path.
+     * Adds b point to tif pbti by moving to tif spfdififd
+     * doordinbtfs spfdififd in doublf prfdision.
      *
-     * @param s the {@code Shape} whose geometry is appended
-     *          to this path
-     * @param connect a boolean to control whether or not to turn an initial
-     *                {@code moveTo} segment into a {@code lineTo} segment
-     *                to connect the new geometry to the existing path
-     * @since 1.6
+     * @pbrbm x tif spfdififd X doordinbtf
+     * @pbrbm y tif spfdififd Y doordinbtf
+     * @sindf 1.6
      */
-    public final void append(Shape s, boolean connect) {
-        append(s.getPathIterator(null), connect);
+    publid bbstrbdt void movfTo(doublf x, doublf y);
+
+    /**
+     * Adds b point to tif pbti by drbwing b strbigit linf from tif
+     * durrfnt doordinbtfs to tif nfw spfdififd doordinbtfs
+     * spfdififd in doublf prfdision.
+     *
+     * @pbrbm x tif spfdififd X doordinbtf
+     * @pbrbm y tif spfdififd Y doordinbtf
+     * @sindf 1.6
+     */
+    publid bbstrbdt void linfTo(doublf x, doublf y);
+
+    /**
+     * Adds b durvfd sfgmfnt, dffinfd by two nfw points, to tif pbti by
+     * drbwing b Qubdrbtid durvf tibt intfrsfdts boti tif durrfnt
+     * doordinbtfs bnd tif spfdififd doordinbtfs {@dodf (x2,y2)},
+     * using tif spfdififd point {@dodf (x1,y1)} bs b qubdrbtid
+     * pbrbmftrid dontrol point.
+     * All doordinbtfs brf spfdififd in doublf prfdision.
+     *
+     * @pbrbm x1 tif X doordinbtf of tif qubdrbtid dontrol point
+     * @pbrbm y1 tif Y doordinbtf of tif qubdrbtid dontrol point
+     * @pbrbm x2 tif X doordinbtf of tif finbl fnd point
+     * @pbrbm y2 tif Y doordinbtf of tif finbl fnd point
+     * @sindf 1.6
+     */
+    publid bbstrbdt void qubdTo(doublf x1, doublf y1,
+                                doublf x2, doublf y2);
+
+    /**
+     * Adds b durvfd sfgmfnt, dffinfd by tirff nfw points, to tif pbti by
+     * drbwing b B&fbdutf;zifr durvf tibt intfrsfdts boti tif durrfnt
+     * doordinbtfs bnd tif spfdififd doordinbtfs {@dodf (x3,y3)},
+     * using tif spfdififd points {@dodf (x1,y1)} bnd {@dodf (x2,y2)} bs
+     * B&fbdutf;zifr dontrol points.
+     * All doordinbtfs brf spfdififd in doublf prfdision.
+     *
+     * @pbrbm x1 tif X doordinbtf of tif first B&fbdutf;zifr dontrol point
+     * @pbrbm y1 tif Y doordinbtf of tif first B&fbdutf;zifr dontrol point
+     * @pbrbm x2 tif X doordinbtf of tif sfdond B&fbdutf;zifr dontrol point
+     * @pbrbm y2 tif Y doordinbtf of tif sfdond B&fbdutf;zifr dontrol point
+     * @pbrbm x3 tif X doordinbtf of tif finbl fnd point
+     * @pbrbm y3 tif Y doordinbtf of tif finbl fnd point
+     * @sindf 1.6
+     */
+    publid bbstrbdt void durvfTo(doublf x1, doublf y1,
+                                 doublf x2, doublf y2,
+                                 doublf x3, doublf y3);
+
+    /**
+     * Closfs tif durrfnt subpbti by drbwing b strbigit linf bbdk to
+     * tif doordinbtfs of tif lbst {@dodf movfTo}.  If tif pbti is blrfbdy
+     * dlosfd tifn tiis mftiod ibs no ffffdt.
+     *
+     * @sindf 1.6
+     */
+    publid finbl syndironizfd void dlosfPbti() {
+        if (numTypfs == 0 || pointTypfs[numTypfs - 1] != SEG_CLOSE) {
+            nffdRoom(truf, 0);
+            pointTypfs[numTypfs++] = SEG_CLOSE;
+        }
     }
 
     /**
-     * Appends the geometry of the specified
-     * {@link PathIterator} object
-     * to the path, possibly connecting the new geometry to the existing
-     * path segments with a line segment.
-     * If the {@code connect} parameter is {@code true} and the
-     * path is not empty then any initial {@code moveTo} in the
-     * geometry of the appended {@code Shape} is turned into a
-     * {@code lineTo} segment.
-     * If the destination coordinates of such a connecting {@code lineTo}
-     * segment match the ending coordinates of a currently open
-     * subpath then the segment is omitted as superfluous.
-     * The winding rule of the specified {@code Shape} is ignored
-     * and the appended geometry is governed by the winding
-     * rule specified for this path.
+     * Appfnds tif gfomftry of tif spfdififd {@dodf Sibpf} objfdt to tif
+     * pbti, possibly donnfdting tif nfw gfomftry to tif fxisting pbti
+     * sfgmfnts witi b linf sfgmfnt.
+     * If tif {@dodf donnfdt} pbrbmftfr is {@dodf truf} bnd tif
+     * pbti is not fmpty tifn bny initibl {@dodf movfTo} in tif
+     * gfomftry of tif bppfndfd {@dodf Sibpf}
+     * is turnfd into b {@dodf linfTo} sfgmfnt.
+     * If tif dfstinbtion doordinbtfs of sudi b donnfdting {@dodf linfTo}
+     * sfgmfnt mbtdi tif fnding doordinbtfs of b durrfntly opfn
+     * subpbti tifn tif sfgmfnt is omittfd bs supfrfluous.
+     * Tif winding rulf of tif spfdififd {@dodf Sibpf} is ignorfd
+     * bnd tif bppfndfd gfomftry is govfrnfd by tif winding
+     * rulf spfdififd for tiis pbti.
      *
-     * @param pi the {@code PathIterator} whose geometry is appended to
-     *           this path
-     * @param connect a boolean to control whether or not to turn an initial
-     *                {@code moveTo} segment into a {@code lineTo} segment
-     *                to connect the new geometry to the existing path
-     * @since 1.6
+     * @pbrbm s tif {@dodf Sibpf} wiosf gfomftry is bppfndfd
+     *          to tiis pbti
+     * @pbrbm donnfdt b boolfbn to dontrol wiftifr or not to turn bn initibl
+     *                {@dodf movfTo} sfgmfnt into b {@dodf linfTo} sfgmfnt
+     *                to donnfdt tif nfw gfomftry to tif fxisting pbti
+     * @sindf 1.6
      */
-    public abstract void append(PathIterator pi, boolean connect);
-
-    /**
-     * Returns the fill style winding rule.
-     *
-     * @return an integer representing the current winding rule.
-     * @see #WIND_EVEN_ODD
-     * @see #WIND_NON_ZERO
-     * @see #setWindingRule
-     * @since 1.6
-     */
-    public final synchronized int getWindingRule() {
-        return windingRule;
+    publid finbl void bppfnd(Sibpf s, boolfbn donnfdt) {
+        bppfnd(s.gftPbtiItfrbtor(null), donnfdt);
     }
 
     /**
-     * Sets the winding rule for this path to the specified value.
+     * Appfnds tif gfomftry of tif spfdififd
+     * {@link PbtiItfrbtor} objfdt
+     * to tif pbti, possibly donnfdting tif nfw gfomftry to tif fxisting
+     * pbti sfgmfnts witi b linf sfgmfnt.
+     * If tif {@dodf donnfdt} pbrbmftfr is {@dodf truf} bnd tif
+     * pbti is not fmpty tifn bny initibl {@dodf movfTo} in tif
+     * gfomftry of tif bppfndfd {@dodf Sibpf} is turnfd into b
+     * {@dodf linfTo} sfgmfnt.
+     * If tif dfstinbtion doordinbtfs of sudi b donnfdting {@dodf linfTo}
+     * sfgmfnt mbtdi tif fnding doordinbtfs of b durrfntly opfn
+     * subpbti tifn tif sfgmfnt is omittfd bs supfrfluous.
+     * Tif winding rulf of tif spfdififd {@dodf Sibpf} is ignorfd
+     * bnd tif bppfndfd gfomftry is govfrnfd by tif winding
+     * rulf spfdififd for tiis pbti.
      *
-     * @param rule an integer representing the specified
-     *             winding rule
-     * @exception IllegalArgumentException if
-     *          {@code rule} is not either
+     * @pbrbm pi tif {@dodf PbtiItfrbtor} wiosf gfomftry is bppfndfd to
+     *           tiis pbti
+     * @pbrbm donnfdt b boolfbn to dontrol wiftifr or not to turn bn initibl
+     *                {@dodf movfTo} sfgmfnt into b {@dodf linfTo} sfgmfnt
+     *                to donnfdt tif nfw gfomftry to tif fxisting pbti
+     * @sindf 1.6
+     */
+    publid bbstrbdt void bppfnd(PbtiItfrbtor pi, boolfbn donnfdt);
+
+    /**
+     * Rfturns tif fill stylf winding rulf.
+     *
+     * @rfturn bn intfgfr rfprfsfnting tif durrfnt winding rulf.
+     * @sff #WIND_EVEN_ODD
+     * @sff #WIND_NON_ZERO
+     * @sff #sftWindingRulf
+     * @sindf 1.6
+     */
+    publid finbl syndironizfd int gftWindingRulf() {
+        rfturn windingRulf;
+    }
+
+    /**
+     * Sfts tif winding rulf for tiis pbti to tif spfdififd vbluf.
+     *
+     * @pbrbm rulf bn intfgfr rfprfsfnting tif spfdififd
+     *             winding rulf
+     * @fxdfption IllfgblArgumfntExdfption if
+     *          {@dodf rulf} is not fitifr
      *          {@link #WIND_EVEN_ODD} or
      *          {@link #WIND_NON_ZERO}
-     * @see #getWindingRule
-     * @since 1.6
+     * @sff #gftWindingRulf
+     * @sindf 1.6
      */
-    public final void setWindingRule(int rule) {
-        if (rule != WIND_EVEN_ODD && rule != WIND_NON_ZERO) {
-            throw new IllegalArgumentException("winding rule must be "+
+    publid finbl void sftWindingRulf(int rulf) {
+        if (rulf != WIND_EVEN_ODD && rulf != WIND_NON_ZERO) {
+            tirow nfw IllfgblArgumfntExdfption("winding rulf must bf "+
                                                "WIND_EVEN_ODD or "+
                                                "WIND_NON_ZERO");
         }
-        windingRule = rule;
+        windingRulf = rulf;
     }
 
     /**
-     * Returns the coordinates most recently added to the end of the path
-     * as a {@link Point2D} object.
+     * Rfturns tif doordinbtfs most rfdfntly bddfd to tif fnd of tif pbti
+     * bs b {@link Point2D} objfdt.
      *
-     * @return a {@code Point2D} object containing the ending coordinates of
-     *         the path or {@code null} if there are no points in the path.
-     * @since 1.6
+     * @rfturn b {@dodf Point2D} objfdt dontbining tif fnding doordinbtfs of
+     *         tif pbti or {@dodf null} if tifrf brf no points in tif pbti.
+     * @sindf 1.6
      */
-    public final synchronized Point2D getCurrentPoint() {
-        int index = numCoords;
-        if (numTypes < 1 || index < 1) {
-            return null;
+    publid finbl syndironizfd Point2D gftCurrfntPoint() {
+        int indfx = numCoords;
+        if (numTypfs < 1 || indfx < 1) {
+            rfturn null;
         }
-        if (pointTypes[numTypes - 1] == SEG_CLOSE) {
+        if (pointTypfs[numTypfs - 1] == SEG_CLOSE) {
         loop:
-            for (int i = numTypes - 2; i > 0; i--) {
-                switch (pointTypes[i]) {
-                case SEG_MOVETO:
-                    break loop;
-                case SEG_LINETO:
-                    index -= 2;
-                    break;
-                case SEG_QUADTO:
-                    index -= 4;
-                    break;
-                case SEG_CUBICTO:
-                    index -= 6;
-                    break;
-                case SEG_CLOSE:
-                    break;
+            for (int i = numTypfs - 2; i > 0; i--) {
+                switdi (pointTypfs[i]) {
+                dbsf SEG_MOVETO:
+                    brfbk loop;
+                dbsf SEG_LINETO:
+                    indfx -= 2;
+                    brfbk;
+                dbsf SEG_QUADTO:
+                    indfx -= 4;
+                    brfbk;
+                dbsf SEG_CUBICTO:
+                    indfx -= 6;
+                    brfbk;
+                dbsf SEG_CLOSE:
+                    brfbk;
                 }
             }
         }
-        return getPoint(index - 2);
+        rfturn gftPoint(indfx - 2);
     }
 
     /**
-     * Resets the path to empty.  The append position is set back to the
-     * beginning of the path and all coordinates and point types are
-     * forgotten.
+     * Rfsfts tif pbti to fmpty.  Tif bppfnd position is sft bbdk to tif
+     * bfginning of tif pbti bnd bll doordinbtfs bnd point typfs brf
+     * forgottfn.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public final synchronized void reset() {
-        numTypes = numCoords = 0;
+    publid finbl syndironizfd void rfsft() {
+        numTypfs = numCoords = 0;
     }
 
     /**
-     * Transforms the geometry of this path using the specified
-     * {@link AffineTransform}.
-     * The geometry is transformed in place, which permanently changes the
-     * boundary defined by this object.
+     * Trbnsforms tif gfomftry of tiis pbti using tif spfdififd
+     * {@link AffinfTrbnsform}.
+     * Tif gfomftry is trbnsformfd in plbdf, wiidi pfrmbnfntly dibngfs tif
+     * boundbry dffinfd by tiis objfdt.
      *
-     * @param at the {@code AffineTransform} used to transform the area
-     * @since 1.6
+     * @pbrbm bt tif {@dodf AffinfTrbnsform} usfd to trbnsform tif brfb
+     * @sindf 1.6
      */
-    public abstract void transform(AffineTransform at);
+    publid bbstrbdt void trbnsform(AffinfTrbnsform bt);
 
     /**
-     * Returns a new {@code Shape} representing a transformed version
-     * of this {@code Path2D}.
-     * Note that the exact type and coordinate precision of the return
-     * value is not specified for this method.
-     * The method will return a Shape that contains no less precision
-     * for the transformed geometry than this {@code Path2D} currently
-     * maintains, but it may contain no more precision either.
-     * If the tradeoff of precision vs. storage size in the result is
-     * important then the convenience constructors in the
-     * {@link Path2D.Float#Float(Shape, AffineTransform) Path2D.Float}
-     * and
-     * {@link Path2D.Double#Double(Shape, AffineTransform) Path2D.Double}
-     * subclasses should be used to make the choice explicit.
+     * Rfturns b nfw {@dodf Sibpf} rfprfsfnting b trbnsformfd vfrsion
+     * of tiis {@dodf Pbti2D}.
+     * Notf tibt tif fxbdt typf bnd doordinbtf prfdision of tif rfturn
+     * vbluf is not spfdififd for tiis mftiod.
+     * Tif mftiod will rfturn b Sibpf tibt dontbins no lfss prfdision
+     * for tif trbnsformfd gfomftry tibn tiis {@dodf Pbti2D} durrfntly
+     * mbintbins, but it mby dontbin no morf prfdision fitifr.
+     * If tif trbdfoff of prfdision vs. storbgf sizf in tif rfsult is
+     * importbnt tifn tif donvfnifndf donstrudtors in tif
+     * {@link Pbti2D.Flobt#Flobt(Sibpf, AffinfTrbnsform) Pbti2D.Flobt}
+     * bnd
+     * {@link Pbti2D.Doublf#Doublf(Sibpf, AffinfTrbnsform) Pbti2D.Doublf}
+     * subdlbssfs siould bf usfd to mbkf tif dioidf fxplidit.
      *
-     * @param at the {@code AffineTransform} used to transform a
-     *           new {@code Shape}.
-     * @return a new {@code Shape}, transformed with the specified
-     *         {@code AffineTransform}.
-     * @since 1.6
+     * @pbrbm bt tif {@dodf AffinfTrbnsform} usfd to trbnsform b
+     *           nfw {@dodf Sibpf}.
+     * @rfturn b nfw {@dodf Sibpf}, trbnsformfd witi tif spfdififd
+     *         {@dodf AffinfTrbnsform}.
+     * @sindf 1.6
      */
-    public final synchronized Shape createTransformedShape(AffineTransform at) {
-        Path2D p2d = (Path2D) clone();
-        if (at != null) {
-            p2d.transform(at);
+    publid finbl syndironizfd Sibpf drfbtfTrbnsformfdSibpf(AffinfTrbnsform bt) {
+        Pbti2D p2d = (Pbti2D) dlonf();
+        if (bt != null) {
+            p2d.trbnsform(bt);
         }
-        return p2d;
+        rfturn p2d;
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.6
+     * {@inifritDod}
+     * @sindf 1.6
      */
-    public final Rectangle getBounds() {
-        return getBounds2D().getBounds();
+    publid finbl Rfdtbnglf gftBounds() {
+        rfturn gftBounds2D().gftBounds();
     }
 
     /**
-     * Tests if the specified coordinates are inside the closed
-     * boundary of the specified {@link PathIterator}.
+     * Tfsts if tif spfdififd doordinbtfs brf insidf tif dlosfd
+     * boundbry of tif spfdififd {@link PbtiItfrbtor}.
      * <p>
-     * This method provides a basic facility for implementors of
-     * the {@link Shape} interface to implement support for the
-     * {@link Shape#contains(double, double)} method.
+     * Tiis mftiod providfs b bbsid fbdility for implfmfntors of
+     * tif {@link Sibpf} intfrfbdf to implfmfnt support for tif
+     * {@link Sibpf#dontbins(doublf, doublf)} mftiod.
      *
-     * @param pi the specified {@code PathIterator}
-     * @param x the specified X coordinate
-     * @param y the specified Y coordinate
-     * @return {@code true} if the specified coordinates are inside the
-     *         specified {@code PathIterator}; {@code false} otherwise
-     * @since 1.6
+     * @pbrbm pi tif spfdififd {@dodf PbtiItfrbtor}
+     * @pbrbm x tif spfdififd X doordinbtf
+     * @pbrbm y tif spfdififd Y doordinbtf
+     * @rfturn {@dodf truf} if tif spfdififd doordinbtfs brf insidf tif
+     *         spfdififd {@dodf PbtiItfrbtor}; {@dodf fblsf} otifrwisf
+     * @sindf 1.6
      */
-    public static boolean contains(PathIterator pi, double x, double y) {
+    publid stbtid boolfbn dontbins(PbtiItfrbtor pi, doublf x, doublf y) {
         if (x * 0.0 + y * 0.0 == 0.0) {
-            /* N * 0.0 is 0.0 only if N is finite.
-             * Here we know that both x and y are finite.
+            /* N * 0.0 is 0.0 only if N is finitf.
+             * Hfrf wf know tibt boti x bnd y brf finitf.
              */
-            int mask = (pi.getWindingRule() == WIND_NON_ZERO ? -1 : 1);
-            int cross = Curve.pointCrossingsForPath(pi, x, y);
-            return ((cross & mask) != 0);
-        } else {
-            /* Either x or y was infinite or NaN.
-             * A NaN always produces a negative response to any test
-             * and Infinity values cannot be "inside" any path so
-             * they should return false as well.
+            int mbsk = (pi.gftWindingRulf() == WIND_NON_ZERO ? -1 : 1);
+            int dross = Curvf.pointCrossingsForPbti(pi, x, y);
+            rfturn ((dross & mbsk) != 0);
+        } flsf {
+            /* Eitifr x or y wbs infinitf or NbN.
+             * A NbN blwbys produdfs b nfgbtivf rfsponsf to bny tfst
+             * bnd Infinity vblufs dbnnot bf "insidf" bny pbti so
+             * tify siould rfturn fblsf bs wfll.
              */
-            return false;
+            rfturn fblsf;
         }
     }
 
     /**
-     * Tests if the specified {@link Point2D} is inside the closed
-     * boundary of the specified {@link PathIterator}.
+     * Tfsts if tif spfdififd {@link Point2D} is insidf tif dlosfd
+     * boundbry of tif spfdififd {@link PbtiItfrbtor}.
      * <p>
-     * This method provides a basic facility for implementors of
-     * the {@link Shape} interface to implement support for the
-     * {@link Shape#contains(Point2D)} method.
+     * Tiis mftiod providfs b bbsid fbdility for implfmfntors of
+     * tif {@link Sibpf} intfrfbdf to implfmfnt support for tif
+     * {@link Sibpf#dontbins(Point2D)} mftiod.
      *
-     * @param pi the specified {@code PathIterator}
-     * @param p the specified {@code Point2D}
-     * @return {@code true} if the specified coordinates are inside the
-     *         specified {@code PathIterator}; {@code false} otherwise
-     * @since 1.6
+     * @pbrbm pi tif spfdififd {@dodf PbtiItfrbtor}
+     * @pbrbm p tif spfdififd {@dodf Point2D}
+     * @rfturn {@dodf truf} if tif spfdififd doordinbtfs brf insidf tif
+     *         spfdififd {@dodf PbtiItfrbtor}; {@dodf fblsf} otifrwisf
+     * @sindf 1.6
      */
-    public static boolean contains(PathIterator pi, Point2D p) {
-        return contains(pi, p.getX(), p.getY());
+    publid stbtid boolfbn dontbins(PbtiItfrbtor pi, Point2D p) {
+        rfturn dontbins(pi, p.gftX(), p.gftY());
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.6
+     * {@inifritDod}
+     * @sindf 1.6
      */
-    public final boolean contains(double x, double y) {
+    publid finbl boolfbn dontbins(doublf x, doublf y) {
         if (x * 0.0 + y * 0.0 == 0.0) {
-            /* N * 0.0 is 0.0 only if N is finite.
-             * Here we know that both x and y are finite.
+            /* N * 0.0 is 0.0 only if N is finitf.
+             * Hfrf wf know tibt boti x bnd y brf finitf.
              */
-            if (numTypes < 2) {
-                return false;
+            if (numTypfs < 2) {
+                rfturn fblsf;
             }
-            int mask = (windingRule == WIND_NON_ZERO ? -1 : 1);
-            return ((pointCrossings(x, y) & mask) != 0);
-        } else {
-            /* Either x or y was infinite or NaN.
-             * A NaN always produces a negative response to any test
-             * and Infinity values cannot be "inside" any path so
-             * they should return false as well.
+            int mbsk = (windingRulf == WIND_NON_ZERO ? -1 : 1);
+            rfturn ((pointCrossings(x, y) & mbsk) != 0);
+        } flsf {
+            /* Eitifr x or y wbs infinitf or NbN.
+             * A NbN blwbys produdfs b nfgbtivf rfsponsf to bny tfst
+             * bnd Infinity vblufs dbnnot bf "insidf" bny pbti so
+             * tify siould rfturn fblsf bs wfll.
              */
-            return false;
+            rfturn fblsf;
         }
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.6
+     * {@inifritDod}
+     * @sindf 1.6
      */
-    public final boolean contains(Point2D p) {
-        return contains(p.getX(), p.getY());
+    publid finbl boolfbn dontbins(Point2D p) {
+        rfturn dontbins(p.gftX(), p.gftY());
     }
 
     /**
-     * Tests if the specified rectangular area is entirely inside the
-     * closed boundary of the specified {@link PathIterator}.
+     * Tfsts if tif spfdififd rfdtbngulbr brfb is fntirfly insidf tif
+     * dlosfd boundbry of tif spfdififd {@link PbtiItfrbtor}.
      * <p>
-     * This method provides a basic facility for implementors of
-     * the {@link Shape} interface to implement support for the
-     * {@link Shape#contains(double, double, double, double)} method.
+     * Tiis mftiod providfs b bbsid fbdility for implfmfntors of
+     * tif {@link Sibpf} intfrfbdf to implfmfnt support for tif
+     * {@link Sibpf#dontbins(doublf, doublf, doublf, doublf)} mftiod.
      * <p>
-     * This method object may conservatively return false in
-     * cases where the specified rectangular area intersects a
-     * segment of the path, but that segment does not represent a
-     * boundary between the interior and exterior of the path.
-     * Such segments could lie entirely within the interior of the
-     * path if they are part of a path with a {@link #WIND_NON_ZERO}
-     * winding rule or if the segments are retraced in the reverse
-     * direction such that the two sets of segments cancel each
-     * other out without any exterior area falling between them.
-     * To determine whether segments represent true boundaries of
-     * the interior of the path would require extensive calculations
-     * involving all of the segments of the path and the winding
-     * rule and are thus beyond the scope of this implementation.
+     * Tiis mftiod objfdt mby donsfrvbtivfly rfturn fblsf in
+     * dbsfs wifrf tif spfdififd rfdtbngulbr brfb intfrsfdts b
+     * sfgmfnt of tif pbti, but tibt sfgmfnt dofs not rfprfsfnt b
+     * boundbry bftwffn tif intfrior bnd fxtfrior of tif pbti.
+     * Sudi sfgmfnts dould lif fntirfly witiin tif intfrior of tif
+     * pbti if tify brf pbrt of b pbti witi b {@link #WIND_NON_ZERO}
+     * winding rulf or if tif sfgmfnts brf rftrbdfd in tif rfvfrsf
+     * dirfdtion sudi tibt tif two sfts of sfgmfnts dbndfl fbdi
+     * otifr out witiout bny fxtfrior brfb fblling bftwffn tifm.
+     * To dftfrminf wiftifr sfgmfnts rfprfsfnt truf boundbrifs of
+     * tif intfrior of tif pbti would rfquirf fxtfnsivf dbldulbtions
+     * involving bll of tif sfgmfnts of tif pbti bnd tif winding
+     * rulf bnd brf tius bfyond tif sdopf of tiis implfmfntbtion.
      *
-     * @param pi the specified {@code PathIterator}
-     * @param x the specified X coordinate
-     * @param y the specified Y coordinate
-     * @param w the width of the specified rectangular area
-     * @param h the height of the specified rectangular area
-     * @return {@code true} if the specified {@code PathIterator} contains
-     *         the specified rectangular area; {@code false} otherwise.
-     * @since 1.6
+     * @pbrbm pi tif spfdififd {@dodf PbtiItfrbtor}
+     * @pbrbm x tif spfdififd X doordinbtf
+     * @pbrbm y tif spfdififd Y doordinbtf
+     * @pbrbm w tif widti of tif spfdififd rfdtbngulbr brfb
+     * @pbrbm i tif ifigit of tif spfdififd rfdtbngulbr brfb
+     * @rfturn {@dodf truf} if tif spfdififd {@dodf PbtiItfrbtor} dontbins
+     *         tif spfdififd rfdtbngulbr brfb; {@dodf fblsf} otifrwisf.
+     * @sindf 1.6
      */
-    public static boolean contains(PathIterator pi,
-                                   double x, double y, double w, double h)
+    publid stbtid boolfbn dontbins(PbtiItfrbtor pi,
+                                   doublf x, doublf y, doublf w, doublf i)
     {
-        if (java.lang.Double.isNaN(x+w) || java.lang.Double.isNaN(y+h)) {
-            /* [xy]+[wh] is NaN if any of those values are NaN,
-             * or if adding the two together would produce NaN
-             * by virtue of adding opposing Infinte values.
-             * Since we need to add them below, their sum must
-             * not be NaN.
-             * We return false because NaN always produces a
-             * negative response to tests
+        if (jbvb.lbng.Doublf.isNbN(x+w) || jbvb.lbng.Doublf.isNbN(y+i)) {
+            /* [xy]+[wi] is NbN if bny of tiosf vblufs brf NbN,
+             * or if bdding tif two togftifr would produdf NbN
+             * by virtuf of bdding opposing Infintf vblufs.
+             * Sindf wf nffd to bdd tifm bflow, tifir sum must
+             * not bf NbN.
+             * Wf rfturn fblsf bfdbusf NbN blwbys produdfs b
+             * nfgbtivf rfsponsf to tfsts
              */
-            return false;
+            rfturn fblsf;
         }
-        if (w <= 0 || h <= 0) {
-            return false;
+        if (w <= 0 || i <= 0) {
+            rfturn fblsf;
         }
-        int mask = (pi.getWindingRule() == WIND_NON_ZERO ? -1 : 2);
-        int crossings = Curve.rectCrossingsForPath(pi, x, y, x+w, y+h);
-        return (crossings != Curve.RECT_INTERSECTS &&
-                (crossings & mask) != 0);
+        int mbsk = (pi.gftWindingRulf() == WIND_NON_ZERO ? -1 : 2);
+        int drossings = Curvf.rfdtCrossingsForPbti(pi, x, y, x+w, y+i);
+        rfturn (drossings != Curvf.RECT_INTERSECTS &&
+                (drossings & mbsk) != 0);
     }
 
     /**
-     * Tests if the specified {@link Rectangle2D} is entirely inside the
-     * closed boundary of the specified {@link PathIterator}.
+     * Tfsts if tif spfdififd {@link Rfdtbnglf2D} is fntirfly insidf tif
+     * dlosfd boundbry of tif spfdififd {@link PbtiItfrbtor}.
      * <p>
-     * This method provides a basic facility for implementors of
-     * the {@link Shape} interface to implement support for the
-     * {@link Shape#contains(Rectangle2D)} method.
+     * Tiis mftiod providfs b bbsid fbdility for implfmfntors of
+     * tif {@link Sibpf} intfrfbdf to implfmfnt support for tif
+     * {@link Sibpf#dontbins(Rfdtbnglf2D)} mftiod.
      * <p>
-     * This method object may conservatively return false in
-     * cases where the specified rectangular area intersects a
-     * segment of the path, but that segment does not represent a
-     * boundary between the interior and exterior of the path.
-     * Such segments could lie entirely within the interior of the
-     * path if they are part of a path with a {@link #WIND_NON_ZERO}
-     * winding rule or if the segments are retraced in the reverse
-     * direction such that the two sets of segments cancel each
-     * other out without any exterior area falling between them.
-     * To determine whether segments represent true boundaries of
-     * the interior of the path would require extensive calculations
-     * involving all of the segments of the path and the winding
-     * rule and are thus beyond the scope of this implementation.
+     * Tiis mftiod objfdt mby donsfrvbtivfly rfturn fblsf in
+     * dbsfs wifrf tif spfdififd rfdtbngulbr brfb intfrsfdts b
+     * sfgmfnt of tif pbti, but tibt sfgmfnt dofs not rfprfsfnt b
+     * boundbry bftwffn tif intfrior bnd fxtfrior of tif pbti.
+     * Sudi sfgmfnts dould lif fntirfly witiin tif intfrior of tif
+     * pbti if tify brf pbrt of b pbti witi b {@link #WIND_NON_ZERO}
+     * winding rulf or if tif sfgmfnts brf rftrbdfd in tif rfvfrsf
+     * dirfdtion sudi tibt tif two sfts of sfgmfnts dbndfl fbdi
+     * otifr out witiout bny fxtfrior brfb fblling bftwffn tifm.
+     * To dftfrminf wiftifr sfgmfnts rfprfsfnt truf boundbrifs of
+     * tif intfrior of tif pbti would rfquirf fxtfnsivf dbldulbtions
+     * involving bll of tif sfgmfnts of tif pbti bnd tif winding
+     * rulf bnd brf tius bfyond tif sdopf of tiis implfmfntbtion.
      *
-     * @param pi the specified {@code PathIterator}
-     * @param r a specified {@code Rectangle2D}
-     * @return {@code true} if the specified {@code PathIterator} contains
-     *         the specified {@code Rectangle2D}; {@code false} otherwise.
-     * @since 1.6
+     * @pbrbm pi tif spfdififd {@dodf PbtiItfrbtor}
+     * @pbrbm r b spfdififd {@dodf Rfdtbnglf2D}
+     * @rfturn {@dodf truf} if tif spfdififd {@dodf PbtiItfrbtor} dontbins
+     *         tif spfdififd {@dodf Rfdtbnglf2D}; {@dodf fblsf} otifrwisf.
+     * @sindf 1.6
      */
-    public static boolean contains(PathIterator pi, Rectangle2D r) {
-        return contains(pi, r.getX(), r.getY(), r.getWidth(), r.getHeight());
+    publid stbtid boolfbn dontbins(PbtiItfrbtor pi, Rfdtbnglf2D r) {
+        rfturn dontbins(pi, r.gftX(), r.gftY(), r.gftWidti(), r.gftHfigit());
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      * <p>
-     * This method object may conservatively return false in
-     * cases where the specified rectangular area intersects a
-     * segment of the path, but that segment does not represent a
-     * boundary between the interior and exterior of the path.
-     * Such segments could lie entirely within the interior of the
-     * path if they are part of a path with a {@link #WIND_NON_ZERO}
-     * winding rule or if the segments are retraced in the reverse
-     * direction such that the two sets of segments cancel each
-     * other out without any exterior area falling between them.
-     * To determine whether segments represent true boundaries of
-     * the interior of the path would require extensive calculations
-     * involving all of the segments of the path and the winding
-     * rule and are thus beyond the scope of this implementation.
+     * Tiis mftiod objfdt mby donsfrvbtivfly rfturn fblsf in
+     * dbsfs wifrf tif spfdififd rfdtbngulbr brfb intfrsfdts b
+     * sfgmfnt of tif pbti, but tibt sfgmfnt dofs not rfprfsfnt b
+     * boundbry bftwffn tif intfrior bnd fxtfrior of tif pbti.
+     * Sudi sfgmfnts dould lif fntirfly witiin tif intfrior of tif
+     * pbti if tify brf pbrt of b pbti witi b {@link #WIND_NON_ZERO}
+     * winding rulf or if tif sfgmfnts brf rftrbdfd in tif rfvfrsf
+     * dirfdtion sudi tibt tif two sfts of sfgmfnts dbndfl fbdi
+     * otifr out witiout bny fxtfrior brfb fblling bftwffn tifm.
+     * To dftfrminf wiftifr sfgmfnts rfprfsfnt truf boundbrifs of
+     * tif intfrior of tif pbti would rfquirf fxtfnsivf dbldulbtions
+     * involving bll of tif sfgmfnts of tif pbti bnd tif winding
+     * rulf bnd brf tius bfyond tif sdopf of tiis implfmfntbtion.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public final boolean contains(double x, double y, double w, double h) {
-        if (java.lang.Double.isNaN(x+w) || java.lang.Double.isNaN(y+h)) {
-            /* [xy]+[wh] is NaN if any of those values are NaN,
-             * or if adding the two together would produce NaN
-             * by virtue of adding opposing Infinte values.
-             * Since we need to add them below, their sum must
-             * not be NaN.
-             * We return false because NaN always produces a
-             * negative response to tests
+    publid finbl boolfbn dontbins(doublf x, doublf y, doublf w, doublf i) {
+        if (jbvb.lbng.Doublf.isNbN(x+w) || jbvb.lbng.Doublf.isNbN(y+i)) {
+            /* [xy]+[wi] is NbN if bny of tiosf vblufs brf NbN,
+             * or if bdding tif two togftifr would produdf NbN
+             * by virtuf of bdding opposing Infintf vblufs.
+             * Sindf wf nffd to bdd tifm bflow, tifir sum must
+             * not bf NbN.
+             * Wf rfturn fblsf bfdbusf NbN blwbys produdfs b
+             * nfgbtivf rfsponsf to tfsts
              */
-            return false;
+            rfturn fblsf;
         }
-        if (w <= 0 || h <= 0) {
-            return false;
+        if (w <= 0 || i <= 0) {
+            rfturn fblsf;
         }
-        int mask = (windingRule == WIND_NON_ZERO ? -1 : 2);
-        int crossings = rectCrossings(x, y, x+w, y+h);
-        return (crossings != Curve.RECT_INTERSECTS &&
-                (crossings & mask) != 0);
+        int mbsk = (windingRulf == WIND_NON_ZERO ? -1 : 2);
+        int drossings = rfdtCrossings(x, y, x+w, y+i);
+        rfturn (drossings != Curvf.RECT_INTERSECTS &&
+                (drossings & mbsk) != 0);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      * <p>
-     * This method object may conservatively return false in
-     * cases where the specified rectangular area intersects a
-     * segment of the path, but that segment does not represent a
-     * boundary between the interior and exterior of the path.
-     * Such segments could lie entirely within the interior of the
-     * path if they are part of a path with a {@link #WIND_NON_ZERO}
-     * winding rule or if the segments are retraced in the reverse
-     * direction such that the two sets of segments cancel each
-     * other out without any exterior area falling between them.
-     * To determine whether segments represent true boundaries of
-     * the interior of the path would require extensive calculations
-     * involving all of the segments of the path and the winding
-     * rule and are thus beyond the scope of this implementation.
+     * Tiis mftiod objfdt mby donsfrvbtivfly rfturn fblsf in
+     * dbsfs wifrf tif spfdififd rfdtbngulbr brfb intfrsfdts b
+     * sfgmfnt of tif pbti, but tibt sfgmfnt dofs not rfprfsfnt b
+     * boundbry bftwffn tif intfrior bnd fxtfrior of tif pbti.
+     * Sudi sfgmfnts dould lif fntirfly witiin tif intfrior of tif
+     * pbti if tify brf pbrt of b pbti witi b {@link #WIND_NON_ZERO}
+     * winding rulf or if tif sfgmfnts brf rftrbdfd in tif rfvfrsf
+     * dirfdtion sudi tibt tif two sfts of sfgmfnts dbndfl fbdi
+     * otifr out witiout bny fxtfrior brfb fblling bftwffn tifm.
+     * To dftfrminf wiftifr sfgmfnts rfprfsfnt truf boundbrifs of
+     * tif intfrior of tif pbti would rfquirf fxtfnsivf dbldulbtions
+     * involving bll of tif sfgmfnts of tif pbti bnd tif winding
+     * rulf bnd brf tius bfyond tif sdopf of tiis implfmfntbtion.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public final boolean contains(Rectangle2D r) {
-        return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+    publid finbl boolfbn dontbins(Rfdtbnglf2D r) {
+        rfturn dontbins(r.gftX(), r.gftY(), r.gftWidti(), r.gftHfigit());
     }
 
     /**
-     * Tests if the interior of the specified {@link PathIterator}
-     * intersects the interior of a specified set of rectangular
-     * coordinates.
+     * Tfsts if tif intfrior of tif spfdififd {@link PbtiItfrbtor}
+     * intfrsfdts tif intfrior of b spfdififd sft of rfdtbngulbr
+     * doordinbtfs.
      * <p>
-     * This method provides a basic facility for implementors of
-     * the {@link Shape} interface to implement support for the
-     * {@link Shape#intersects(double, double, double, double)} method.
+     * Tiis mftiod providfs b bbsid fbdility for implfmfntors of
+     * tif {@link Sibpf} intfrfbdf to implfmfnt support for tif
+     * {@link Sibpf#intfrsfdts(doublf, doublf, doublf, doublf)} mftiod.
      * <p>
-     * This method object may conservatively return true in
-     * cases where the specified rectangular area intersects a
-     * segment of the path, but that segment does not represent a
-     * boundary between the interior and exterior of the path.
-     * Such a case may occur if some set of segments of the
-     * path are retraced in the reverse direction such that the
-     * two sets of segments cancel each other out without any
-     * interior area between them.
-     * To determine whether segments represent true boundaries of
-     * the interior of the path would require extensive calculations
-     * involving all of the segments of the path and the winding
-     * rule and are thus beyond the scope of this implementation.
+     * Tiis mftiod objfdt mby donsfrvbtivfly rfturn truf in
+     * dbsfs wifrf tif spfdififd rfdtbngulbr brfb intfrsfdts b
+     * sfgmfnt of tif pbti, but tibt sfgmfnt dofs not rfprfsfnt b
+     * boundbry bftwffn tif intfrior bnd fxtfrior of tif pbti.
+     * Sudi b dbsf mby oddur if somf sft of sfgmfnts of tif
+     * pbti brf rftrbdfd in tif rfvfrsf dirfdtion sudi tibt tif
+     * two sfts of sfgmfnts dbndfl fbdi otifr out witiout bny
+     * intfrior brfb bftwffn tifm.
+     * To dftfrminf wiftifr sfgmfnts rfprfsfnt truf boundbrifs of
+     * tif intfrior of tif pbti would rfquirf fxtfnsivf dbldulbtions
+     * involving bll of tif sfgmfnts of tif pbti bnd tif winding
+     * rulf bnd brf tius bfyond tif sdopf of tiis implfmfntbtion.
      *
-     * @param pi the specified {@code PathIterator}
-     * @param x the specified X coordinate
-     * @param y the specified Y coordinate
-     * @param w the width of the specified rectangular coordinates
-     * @param h the height of the specified rectangular coordinates
-     * @return {@code true} if the specified {@code PathIterator} and
-     *         the interior of the specified set of rectangular
-     *         coordinates intersect each other; {@code false} otherwise.
-     * @since 1.6
+     * @pbrbm pi tif spfdififd {@dodf PbtiItfrbtor}
+     * @pbrbm x tif spfdififd X doordinbtf
+     * @pbrbm y tif spfdififd Y doordinbtf
+     * @pbrbm w tif widti of tif spfdififd rfdtbngulbr doordinbtfs
+     * @pbrbm i tif ifigit of tif spfdififd rfdtbngulbr doordinbtfs
+     * @rfturn {@dodf truf} if tif spfdififd {@dodf PbtiItfrbtor} bnd
+     *         tif intfrior of tif spfdififd sft of rfdtbngulbr
+     *         doordinbtfs intfrsfdt fbdi otifr; {@dodf fblsf} otifrwisf.
+     * @sindf 1.6
      */
-    public static boolean intersects(PathIterator pi,
-                                     double x, double y, double w, double h)
+    publid stbtid boolfbn intfrsfdts(PbtiItfrbtor pi,
+                                     doublf x, doublf y, doublf w, doublf i)
     {
-        if (java.lang.Double.isNaN(x+w) || java.lang.Double.isNaN(y+h)) {
-            /* [xy]+[wh] is NaN if any of those values are NaN,
-             * or if adding the two together would produce NaN
-             * by virtue of adding opposing Infinte values.
-             * Since we need to add them below, their sum must
-             * not be NaN.
-             * We return false because NaN always produces a
-             * negative response to tests
+        if (jbvb.lbng.Doublf.isNbN(x+w) || jbvb.lbng.Doublf.isNbN(y+i)) {
+            /* [xy]+[wi] is NbN if bny of tiosf vblufs brf NbN,
+             * or if bdding tif two togftifr would produdf NbN
+             * by virtuf of bdding opposing Infintf vblufs.
+             * Sindf wf nffd to bdd tifm bflow, tifir sum must
+             * not bf NbN.
+             * Wf rfturn fblsf bfdbusf NbN blwbys produdfs b
+             * nfgbtivf rfsponsf to tfsts
              */
-            return false;
+            rfturn fblsf;
         }
-        if (w <= 0 || h <= 0) {
-            return false;
+        if (w <= 0 || i <= 0) {
+            rfturn fblsf;
         }
-        int mask = (pi.getWindingRule() == WIND_NON_ZERO ? -1 : 2);
-        int crossings = Curve.rectCrossingsForPath(pi, x, y, x+w, y+h);
-        return (crossings == Curve.RECT_INTERSECTS ||
-                (crossings & mask) != 0);
+        int mbsk = (pi.gftWindingRulf() == WIND_NON_ZERO ? -1 : 2);
+        int drossings = Curvf.rfdtCrossingsForPbti(pi, x, y, x+w, y+i);
+        rfturn (drossings == Curvf.RECT_INTERSECTS ||
+                (drossings & mbsk) != 0);
     }
 
     /**
-     * Tests if the interior of the specified {@link PathIterator}
-     * intersects the interior of a specified {@link Rectangle2D}.
+     * Tfsts if tif intfrior of tif spfdififd {@link PbtiItfrbtor}
+     * intfrsfdts tif intfrior of b spfdififd {@link Rfdtbnglf2D}.
      * <p>
-     * This method provides a basic facility for implementors of
-     * the {@link Shape} interface to implement support for the
-     * {@link Shape#intersects(Rectangle2D)} method.
+     * Tiis mftiod providfs b bbsid fbdility for implfmfntors of
+     * tif {@link Sibpf} intfrfbdf to implfmfnt support for tif
+     * {@link Sibpf#intfrsfdts(Rfdtbnglf2D)} mftiod.
      * <p>
-     * This method object may conservatively return true in
-     * cases where the specified rectangular area intersects a
-     * segment of the path, but that segment does not represent a
-     * boundary between the interior and exterior of the path.
-     * Such a case may occur if some set of segments of the
-     * path are retraced in the reverse direction such that the
-     * two sets of segments cancel each other out without any
-     * interior area between them.
-     * To determine whether segments represent true boundaries of
-     * the interior of the path would require extensive calculations
-     * involving all of the segments of the path and the winding
-     * rule and are thus beyond the scope of this implementation.
+     * Tiis mftiod objfdt mby donsfrvbtivfly rfturn truf in
+     * dbsfs wifrf tif spfdififd rfdtbngulbr brfb intfrsfdts b
+     * sfgmfnt of tif pbti, but tibt sfgmfnt dofs not rfprfsfnt b
+     * boundbry bftwffn tif intfrior bnd fxtfrior of tif pbti.
+     * Sudi b dbsf mby oddur if somf sft of sfgmfnts of tif
+     * pbti brf rftrbdfd in tif rfvfrsf dirfdtion sudi tibt tif
+     * two sfts of sfgmfnts dbndfl fbdi otifr out witiout bny
+     * intfrior brfb bftwffn tifm.
+     * To dftfrminf wiftifr sfgmfnts rfprfsfnt truf boundbrifs of
+     * tif intfrior of tif pbti would rfquirf fxtfnsivf dbldulbtions
+     * involving bll of tif sfgmfnts of tif pbti bnd tif winding
+     * rulf bnd brf tius bfyond tif sdopf of tiis implfmfntbtion.
      *
-     * @param pi the specified {@code PathIterator}
-     * @param r the specified {@code Rectangle2D}
-     * @return {@code true} if the specified {@code PathIterator} and
-     *         the interior of the specified {@code Rectangle2D}
-     *         intersect each other; {@code false} otherwise.
-     * @since 1.6
+     * @pbrbm pi tif spfdififd {@dodf PbtiItfrbtor}
+     * @pbrbm r tif spfdififd {@dodf Rfdtbnglf2D}
+     * @rfturn {@dodf truf} if tif spfdififd {@dodf PbtiItfrbtor} bnd
+     *         tif intfrior of tif spfdififd {@dodf Rfdtbnglf2D}
+     *         intfrsfdt fbdi otifr; {@dodf fblsf} otifrwisf.
+     * @sindf 1.6
      */
-    public static boolean intersects(PathIterator pi, Rectangle2D r) {
-        return intersects(pi, r.getX(), r.getY(), r.getWidth(), r.getHeight());
+    publid stbtid boolfbn intfrsfdts(PbtiItfrbtor pi, Rfdtbnglf2D r) {
+        rfturn intfrsfdts(pi, r.gftX(), r.gftY(), r.gftWidti(), r.gftHfigit());
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      * <p>
-     * This method object may conservatively return true in
-     * cases where the specified rectangular area intersects a
-     * segment of the path, but that segment does not represent a
-     * boundary between the interior and exterior of the path.
-     * Such a case may occur if some set of segments of the
-     * path are retraced in the reverse direction such that the
-     * two sets of segments cancel each other out without any
-     * interior area between them.
-     * To determine whether segments represent true boundaries of
-     * the interior of the path would require extensive calculations
-     * involving all of the segments of the path and the winding
-     * rule and are thus beyond the scope of this implementation.
+     * Tiis mftiod objfdt mby donsfrvbtivfly rfturn truf in
+     * dbsfs wifrf tif spfdififd rfdtbngulbr brfb intfrsfdts b
+     * sfgmfnt of tif pbti, but tibt sfgmfnt dofs not rfprfsfnt b
+     * boundbry bftwffn tif intfrior bnd fxtfrior of tif pbti.
+     * Sudi b dbsf mby oddur if somf sft of sfgmfnts of tif
+     * pbti brf rftrbdfd in tif rfvfrsf dirfdtion sudi tibt tif
+     * two sfts of sfgmfnts dbndfl fbdi otifr out witiout bny
+     * intfrior brfb bftwffn tifm.
+     * To dftfrminf wiftifr sfgmfnts rfprfsfnt truf boundbrifs of
+     * tif intfrior of tif pbti would rfquirf fxtfnsivf dbldulbtions
+     * involving bll of tif sfgmfnts of tif pbti bnd tif winding
+     * rulf bnd brf tius bfyond tif sdopf of tiis implfmfntbtion.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public final boolean intersects(double x, double y, double w, double h) {
-        if (java.lang.Double.isNaN(x+w) || java.lang.Double.isNaN(y+h)) {
-            /* [xy]+[wh] is NaN if any of those values are NaN,
-             * or if adding the two together would produce NaN
-             * by virtue of adding opposing Infinte values.
-             * Since we need to add them below, their sum must
-             * not be NaN.
-             * We return false because NaN always produces a
-             * negative response to tests
+    publid finbl boolfbn intfrsfdts(doublf x, doublf y, doublf w, doublf i) {
+        if (jbvb.lbng.Doublf.isNbN(x+w) || jbvb.lbng.Doublf.isNbN(y+i)) {
+            /* [xy]+[wi] is NbN if bny of tiosf vblufs brf NbN,
+             * or if bdding tif two togftifr would produdf NbN
+             * by virtuf of bdding opposing Infintf vblufs.
+             * Sindf wf nffd to bdd tifm bflow, tifir sum must
+             * not bf NbN.
+             * Wf rfturn fblsf bfdbusf NbN blwbys produdfs b
+             * nfgbtivf rfsponsf to tfsts
              */
-            return false;
+            rfturn fblsf;
         }
-        if (w <= 0 || h <= 0) {
-            return false;
+        if (w <= 0 || i <= 0) {
+            rfturn fblsf;
         }
-        int mask = (windingRule == WIND_NON_ZERO ? -1 : 2);
-        int crossings = rectCrossings(x, y, x+w, y+h);
-        return (crossings == Curve.RECT_INTERSECTS ||
-                (crossings & mask) != 0);
+        int mbsk = (windingRulf == WIND_NON_ZERO ? -1 : 2);
+        int drossings = rfdtCrossings(x, y, x+w, y+i);
+        rfturn (drossings == Curvf.RECT_INTERSECTS ||
+                (drossings & mbsk) != 0);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      * <p>
-     * This method object may conservatively return true in
-     * cases where the specified rectangular area intersects a
-     * segment of the path, but that segment does not represent a
-     * boundary between the interior and exterior of the path.
-     * Such a case may occur if some set of segments of the
-     * path are retraced in the reverse direction such that the
-     * two sets of segments cancel each other out without any
-     * interior area between them.
-     * To determine whether segments represent true boundaries of
-     * the interior of the path would require extensive calculations
-     * involving all of the segments of the path and the winding
-     * rule and are thus beyond the scope of this implementation.
+     * Tiis mftiod objfdt mby donsfrvbtivfly rfturn truf in
+     * dbsfs wifrf tif spfdififd rfdtbngulbr brfb intfrsfdts b
+     * sfgmfnt of tif pbti, but tibt sfgmfnt dofs not rfprfsfnt b
+     * boundbry bftwffn tif intfrior bnd fxtfrior of tif pbti.
+     * Sudi b dbsf mby oddur if somf sft of sfgmfnts of tif
+     * pbti brf rftrbdfd in tif rfvfrsf dirfdtion sudi tibt tif
+     * two sfts of sfgmfnts dbndfl fbdi otifr out witiout bny
+     * intfrior brfb bftwffn tifm.
+     * To dftfrminf wiftifr sfgmfnts rfprfsfnt truf boundbrifs of
+     * tif intfrior of tif pbti would rfquirf fxtfnsivf dbldulbtions
+     * involving bll of tif sfgmfnts of tif pbti bnd tif winding
+     * rulf bnd brf tius bfyond tif sdopf of tiis implfmfntbtion.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public final boolean intersects(Rectangle2D r) {
-        return intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+    publid finbl boolfbn intfrsfdts(Rfdtbnglf2D r) {
+        rfturn intfrsfdts(r.gftX(), r.gftY(), r.gftWidti(), r.gftHfigit());
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      * <p>
-     * The iterator for this class is not multi-threaded safe,
-     * which means that this {@code Path2D} class does not
-     * guarantee that modifications to the geometry of this
-     * {@code Path2D} object do not affect any iterations of
-     * that geometry that are already in process.
+     * Tif itfrbtor for tiis dlbss is not multi-tirfbdfd sbff,
+     * wiidi mfbns tibt tiis {@dodf Pbti2D} dlbss dofs not
+     * gubrbntff tibt modifidbtions to tif gfomftry of tiis
+     * {@dodf Pbti2D} objfdt do not bfffdt bny itfrbtions of
+     * tibt gfomftry tibt brf blrfbdy in prodfss.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public final PathIterator getPathIterator(AffineTransform at,
-                                              double flatness)
+    publid finbl PbtiItfrbtor gftPbtiItfrbtor(AffinfTrbnsform bt,
+                                              doublf flbtnfss)
     {
-        return new FlatteningPathIterator(getPathIterator(at), flatness);
+        rfturn nfw FlbttfningPbtiItfrbtor(gftPbtiItfrbtor(bt), flbtnfss);
     }
 
     /**
-     * Creates a new object of the same class as this object.
+     * Crfbtfs b nfw objfdt of tif sbmf dlbss bs tiis objfdt.
      *
-     * @return     a clone of this instance.
-     * @exception  OutOfMemoryError            if there is not enough memory.
-     * @see        java.lang.Cloneable
-     * @since      1.6
+     * @rfturn     b dlonf of tiis instbndf.
+     * @fxdfption  OutOfMfmoryError            if tifrf is not fnougi mfmory.
+     * @sff        jbvb.lbng.Clonfbblf
+     * @sindf      1.6
      */
-    public abstract Object clone();
-        // Note: It would be nice to have this return Path2D
-        // but one of our subclasses (GeneralPath) needs to
-        // offer "public Object clone()" for backwards
-        // compatibility so we cannot restrict it further.
-        // REMIND: Can we do both somehow?
+    publid bbstrbdt Objfdt dlonf();
+        // Notf: It would bf nidf to ibvf tiis rfturn Pbti2D
+        // but onf of our subdlbssfs (GfnfrblPbti) nffds to
+        // offfr "publid Objfdt dlonf()" for bbdkwbrds
+        // dompbtibility so wf dbnnot rfstridt it furtifr.
+        // REMIND: Cbn wf do boti somfiow?
 
     /*
-     * Support fields and methods for serializing the subclasses.
+     * Support fiflds bnd mftiods for sfriblizing tif subdlbssfs.
      */
-    private static final byte SERIAL_STORAGE_FLT_ARRAY = 0x30;
-    private static final byte SERIAL_STORAGE_DBL_ARRAY = 0x31;
+    privbtf stbtid finbl bytf SERIAL_STORAGE_FLT_ARRAY = 0x30;
+    privbtf stbtid finbl bytf SERIAL_STORAGE_DBL_ARRAY = 0x31;
 
-    private static final byte SERIAL_SEG_FLT_MOVETO    = 0x40;
-    private static final byte SERIAL_SEG_FLT_LINETO    = 0x41;
-    private static final byte SERIAL_SEG_FLT_QUADTO    = 0x42;
-    private static final byte SERIAL_SEG_FLT_CUBICTO   = 0x43;
+    privbtf stbtid finbl bytf SERIAL_SEG_FLT_MOVETO    = 0x40;
+    privbtf stbtid finbl bytf SERIAL_SEG_FLT_LINETO    = 0x41;
+    privbtf stbtid finbl bytf SERIAL_SEG_FLT_QUADTO    = 0x42;
+    privbtf stbtid finbl bytf SERIAL_SEG_FLT_CUBICTO   = 0x43;
 
-    private static final byte SERIAL_SEG_DBL_MOVETO    = 0x50;
-    private static final byte SERIAL_SEG_DBL_LINETO    = 0x51;
-    private static final byte SERIAL_SEG_DBL_QUADTO    = 0x52;
-    private static final byte SERIAL_SEG_DBL_CUBICTO   = 0x53;
+    privbtf stbtid finbl bytf SERIAL_SEG_DBL_MOVETO    = 0x50;
+    privbtf stbtid finbl bytf SERIAL_SEG_DBL_LINETO    = 0x51;
+    privbtf stbtid finbl bytf SERIAL_SEG_DBL_QUADTO    = 0x52;
+    privbtf stbtid finbl bytf SERIAL_SEG_DBL_CUBICTO   = 0x53;
 
-    private static final byte SERIAL_SEG_CLOSE         = 0x60;
-    private static final byte SERIAL_PATH_END          = 0x61;
+    privbtf stbtid finbl bytf SERIAL_SEG_CLOSE         = 0x60;
+    privbtf stbtid finbl bytf SERIAL_PATH_END          = 0x61;
 
-    final void writeObject(java.io.ObjectOutputStream s, boolean isdbl)
-        throws java.io.IOException
+    finbl void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s, boolfbn isdbl)
+        tirows jbvb.io.IOExdfption
     {
-        s.defaultWriteObject();
+        s.dffbultWritfObjfdt();
 
-        float fCoords[];
-        double dCoords[];
+        flobt fCoords[];
+        doublf dCoords[];
 
         if (isdbl) {
-            dCoords = ((Path2D.Double) this).doubleCoords;
+            dCoords = ((Pbti2D.Doublf) tiis).doublfCoords;
             fCoords = null;
-        } else {
-            fCoords = ((Path2D.Float) this).floatCoords;
+        } flsf {
+            fCoords = ((Pbti2D.Flobt) tiis).flobtCoords;
             dCoords = null;
         }
 
-        int numTypes = this.numTypes;
+        int numTypfs = tiis.numTypfs;
 
-        s.writeByte(isdbl
+        s.writfBytf(isdbl
                     ? SERIAL_STORAGE_DBL_ARRAY
                     : SERIAL_STORAGE_FLT_ARRAY);
-        s.writeInt(numTypes);
-        s.writeInt(numCoords);
-        s.writeByte((byte) windingRule);
+        s.writfInt(numTypfs);
+        s.writfInt(numCoords);
+        s.writfBytf((bytf) windingRulf);
 
-        int cindex = 0;
-        for (int i = 0; i < numTypes; i++) {
+        int dindfx = 0;
+        for (int i = 0; i < numTypfs; i++) {
             int npoints;
-            byte serialtype;
-            switch (pointTypes[i]) {
-            case SEG_MOVETO:
+            bytf sfribltypf;
+            switdi (pointTypfs[i]) {
+            dbsf SEG_MOVETO:
                 npoints = 1;
-                serialtype = (isdbl
+                sfribltypf = (isdbl
                               ? SERIAL_SEG_DBL_MOVETO
                               : SERIAL_SEG_FLT_MOVETO);
-                break;
-            case SEG_LINETO:
+                brfbk;
+            dbsf SEG_LINETO:
                 npoints = 1;
-                serialtype = (isdbl
+                sfribltypf = (isdbl
                               ? SERIAL_SEG_DBL_LINETO
                               : SERIAL_SEG_FLT_LINETO);
-                break;
-            case SEG_QUADTO:
+                brfbk;
+            dbsf SEG_QUADTO:
                 npoints = 2;
-                serialtype = (isdbl
+                sfribltypf = (isdbl
                               ? SERIAL_SEG_DBL_QUADTO
                               : SERIAL_SEG_FLT_QUADTO);
-                break;
-            case SEG_CUBICTO:
+                brfbk;
+            dbsf SEG_CUBICTO:
                 npoints = 3;
-                serialtype = (isdbl
+                sfribltypf = (isdbl
                               ? SERIAL_SEG_DBL_CUBICTO
                               : SERIAL_SEG_FLT_CUBICTO);
-                break;
-            case SEG_CLOSE:
+                brfbk;
+            dbsf SEG_CLOSE:
                 npoints = 0;
-                serialtype = SERIAL_SEG_CLOSE;
-                break;
+                sfribltypf = SERIAL_SEG_CLOSE;
+                brfbk;
 
-            default:
-                // Should never happen
-                throw new InternalError("unrecognized path type");
+            dffbult:
+                // Siould nfvfr ibppfn
+                tirow nfw IntfrnblError("unrfdognizfd pbti typf");
             }
-            s.writeByte(serialtype);
-            while (--npoints >= 0) {
+            s.writfBytf(sfribltypf);
+            wiilf (--npoints >= 0) {
                 if (isdbl) {
-                    s.writeDouble(dCoords[cindex++]);
-                    s.writeDouble(dCoords[cindex++]);
-                } else {
-                    s.writeFloat(fCoords[cindex++]);
-                    s.writeFloat(fCoords[cindex++]);
+                    s.writfDoublf(dCoords[dindfx++]);
+                    s.writfDoublf(dCoords[dindfx++]);
+                } flsf {
+                    s.writfFlobt(fCoords[dindfx++]);
+                    s.writfFlobt(fCoords[dindfx++]);
                 }
             }
         }
-        s.writeByte(SERIAL_PATH_END);
+        s.writfBytf(SERIAL_PATH_END);
     }
 
-    final void readObject(java.io.ObjectInputStream s, boolean storedbl)
-        throws java.lang.ClassNotFoundException, java.io.IOException
+    finbl void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s, boolfbn storfdbl)
+        tirows jbvb.lbng.ClbssNotFoundExdfption, jbvb.io.IOExdfption
     {
-        s.defaultReadObject();
+        s.dffbultRfbdObjfdt();
 
-        // The subclass calls this method with the storage type that
-        // they want us to use (storedbl) so we ignore the storage
-        // method hint from the stream.
-        s.readByte();
-        int nT = s.readInt();
-        int nC = s.readInt();
+        // Tif subdlbss dblls tiis mftiod witi tif storbgf typf tibt
+        // tify wbnt us to usf (storfdbl) so wf ignorf tif storbgf
+        // mftiod iint from tif strfbm.
+        s.rfbdBytf();
+        int nT = s.rfbdInt();
+        int nC = s.rfbdInt();
         try {
-            setWindingRule(s.readByte());
-        } catch (IllegalArgumentException iae) {
-            throw new java.io.InvalidObjectException(iae.getMessage());
+            sftWindingRulf(s.rfbdBytf());
+        } dbtdi (IllfgblArgumfntExdfption ibf) {
+            tirow nfw jbvb.io.InvblidObjfdtExdfption(ibf.gftMfssbgf());
         }
 
-        pointTypes = new byte[(nT < 0) ? INIT_SIZE : nT];
+        pointTypfs = nfw bytf[(nT < 0) ? INIT_SIZE : nT];
         if (nC < 0) {
             nC = INIT_SIZE * 2;
         }
-        if (storedbl) {
-            ((Path2D.Double) this).doubleCoords = new double[nC];
-        } else {
-            ((Path2D.Float) this).floatCoords = new float[nC];
+        if (storfdbl) {
+            ((Pbti2D.Doublf) tiis).doublfCoords = nfw doublf[nC];
+        } flsf {
+            ((Pbti2D.Flobt) tiis).flobtCoords = nfw flobt[nC];
         }
 
     PATHDONE:
         for (int i = 0; nT < 0 || i < nT; i++) {
-            boolean isdbl;
+            boolfbn isdbl;
             int npoints;
-            byte segtype;
+            bytf sfgtypf;
 
-            byte serialtype = s.readByte();
-            switch (serialtype) {
-            case SERIAL_SEG_FLT_MOVETO:
-                isdbl = false;
+            bytf sfribltypf = s.rfbdBytf();
+            switdi (sfribltypf) {
+            dbsf SERIAL_SEG_FLT_MOVETO:
+                isdbl = fblsf;
                 npoints = 1;
-                segtype = SEG_MOVETO;
-                break;
-            case SERIAL_SEG_FLT_LINETO:
-                isdbl = false;
+                sfgtypf = SEG_MOVETO;
+                brfbk;
+            dbsf SERIAL_SEG_FLT_LINETO:
+                isdbl = fblsf;
                 npoints = 1;
-                segtype = SEG_LINETO;
-                break;
-            case SERIAL_SEG_FLT_QUADTO:
-                isdbl = false;
+                sfgtypf = SEG_LINETO;
+                brfbk;
+            dbsf SERIAL_SEG_FLT_QUADTO:
+                isdbl = fblsf;
                 npoints = 2;
-                segtype = SEG_QUADTO;
-                break;
-            case SERIAL_SEG_FLT_CUBICTO:
-                isdbl = false;
+                sfgtypf = SEG_QUADTO;
+                brfbk;
+            dbsf SERIAL_SEG_FLT_CUBICTO:
+                isdbl = fblsf;
                 npoints = 3;
-                segtype = SEG_CUBICTO;
-                break;
+                sfgtypf = SEG_CUBICTO;
+                brfbk;
 
-            case SERIAL_SEG_DBL_MOVETO:
-                isdbl = true;
+            dbsf SERIAL_SEG_DBL_MOVETO:
+                isdbl = truf;
                 npoints = 1;
-                segtype = SEG_MOVETO;
-                break;
-            case SERIAL_SEG_DBL_LINETO:
-                isdbl = true;
+                sfgtypf = SEG_MOVETO;
+                brfbk;
+            dbsf SERIAL_SEG_DBL_LINETO:
+                isdbl = truf;
                 npoints = 1;
-                segtype = SEG_LINETO;
-                break;
-            case SERIAL_SEG_DBL_QUADTO:
-                isdbl = true;
+                sfgtypf = SEG_LINETO;
+                brfbk;
+            dbsf SERIAL_SEG_DBL_QUADTO:
+                isdbl = truf;
                 npoints = 2;
-                segtype = SEG_QUADTO;
-                break;
-            case SERIAL_SEG_DBL_CUBICTO:
-                isdbl = true;
+                sfgtypf = SEG_QUADTO;
+                brfbk;
+            dbsf SERIAL_SEG_DBL_CUBICTO:
+                isdbl = truf;
                 npoints = 3;
-                segtype = SEG_CUBICTO;
-                break;
+                sfgtypf = SEG_CUBICTO;
+                brfbk;
 
-            case SERIAL_SEG_CLOSE:
-                isdbl = false;
+            dbsf SERIAL_SEG_CLOSE:
+                isdbl = fblsf;
                 npoints = 0;
-                segtype = SEG_CLOSE;
-                break;
+                sfgtypf = SEG_CLOSE;
+                brfbk;
 
-            case SERIAL_PATH_END:
+            dbsf SERIAL_PATH_END:
                 if (nT < 0) {
-                    break PATHDONE;
+                    brfbk PATHDONE;
                 }
-                throw new StreamCorruptedException("unexpected PATH_END");
+                tirow nfw StrfbmCorruptfdExdfption("unfxpfdtfd PATH_END");
 
-            default:
-                throw new StreamCorruptedException("unrecognized path type");
+            dffbult:
+                tirow nfw StrfbmCorruptfdExdfption("unrfdognizfd pbti typf");
             }
-            needRoom(segtype != SEG_MOVETO, npoints * 2);
+            nffdRoom(sfgtypf != SEG_MOVETO, npoints * 2);
             if (isdbl) {
-                while (--npoints >= 0) {
-                    append(s.readDouble(), s.readDouble());
+                wiilf (--npoints >= 0) {
+                    bppfnd(s.rfbdDoublf(), s.rfbdDoublf());
                 }
-            } else {
-                while (--npoints >= 0) {
-                    append(s.readFloat(), s.readFloat());
+            } flsf {
+                wiilf (--npoints >= 0) {
+                    bppfnd(s.rfbdFlobt(), s.rfbdFlobt());
                 }
             }
-            pointTypes[numTypes++] = segtype;
+            pointTypfs[numTypfs++] = sfgtypf;
         }
-        if (nT >= 0 && s.readByte() != SERIAL_PATH_END) {
-            throw new StreamCorruptedException("missing PATH_END");
+        if (nT >= 0 && s.rfbdBytf() != SERIAL_PATH_END) {
+            tirow nfw StrfbmCorruptfdExdfption("missing PATH_END");
         }
     }
 
-    static abstract class Iterator implements PathIterator {
-        int typeIdx;
+    stbtid bbstrbdt dlbss Itfrbtor implfmfnts PbtiItfrbtor {
+        int typfIdx;
         int pointIdx;
-        Path2D path;
+        Pbti2D pbti;
 
-        static final int curvecoords[] = {2, 2, 4, 6, 0};
+        stbtid finbl int durvfdoords[] = {2, 2, 4, 6, 0};
 
-        Iterator(Path2D path) {
-            this.path = path;
+        Itfrbtor(Pbti2D pbti) {
+            tiis.pbti = pbti;
         }
 
-        public int getWindingRule() {
-            return path.getWindingRule();
+        publid int gftWindingRulf() {
+            rfturn pbti.gftWindingRulf();
         }
 
-        public boolean isDone() {
-            return (typeIdx >= path.numTypes);
+        publid boolfbn isDonf() {
+            rfturn (typfIdx >= pbti.numTypfs);
         }
 
-        public void next() {
-            int type = path.pointTypes[typeIdx++];
-            pointIdx += curvecoords[type];
+        publid void nfxt() {
+            int typf = pbti.pointTypfs[typfIdx++];
+            pointIdx += durvfdoords[typf];
         }
     }
 }

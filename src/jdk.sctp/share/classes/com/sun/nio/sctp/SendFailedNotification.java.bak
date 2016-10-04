@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.nio.sctp;
+pbdkbgf dom.sun.nio.sdtp;
 
-import java.nio.ByteBuffer;
-import java.net.SocketAddress;
+import jbvb.nio.BytfBufffr;
+import jbvb.nft.SodkftAddrfss;
 
 /**
- * Notification emitted when a send failed notification has been received.
+ * Notifidbtion fmittfd wifn b sfnd fbilfd notifidbtion ibs bffn rfdfivfd.
  *
- * <P> A send failed notification indicates that a message cannot be delivered.
- * Typically this is because the association has been shutdown with unsent data
- * in the socket output buffer, or in the case of a {@link SctpMultiChannel}
- * the association failed to setup.
+ * <P> A sfnd fbilfd notifidbtion indidbtfs tibt b mfssbgf dbnnot bf dflivfrfd.
+ * Typidblly tiis is bfdbusf tif bssodibtion ibs bffn siutdown witi unsfnt dbtb
+ * in tif sodkft output bufffr, or in tif dbsf of b {@link SdtpMultiCibnnfl}
+ * tif bssodibtion fbilfd to sftup.
  *
- * @since 1.7
+ * @sindf 1.7
  */
-@jdk.Exported
-public abstract class SendFailedNotification implements Notification {
+@jdk.Exportfd
+publid bbstrbdt dlbss SfndFbilfdNotifidbtion implfmfnts Notifidbtion {
     /**
-     * Initializes a new instance of this class.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
      */
-    protected SendFailedNotification() {}
+    protfdtfd SfndFbilfdNotifidbtion() {}
 
     /**
-     * Returns the association that this notification is applicable to.
+     * Rfturns tif bssodibtion tibt tiis notifidbtion is bpplidbblf to.
      *
-     * @return  The association that failed to send, or {@code null} if
-     *          there is no association, that is, the notification follows a
-     *          {@linkplain
-     *          com.sun.nio.sctp.AssociationChangeNotification.AssocChangeEvent#CANT_START}
+     * @rfturn  Tif bssodibtion tibt fbilfd to sfnd, or {@dodf null} if
+     *          tifrf is no bssodibtion, tibt is, tif notifidbtion follows b
+     *          {@linkplbin
+     *          dom.sun.nio.sdtp.AssodibtionCibngfNotifidbtion.AssodCibngfEvfnt#CANT_START}
      */
-    @Override
-    public abstract Association association();
+    @Ovfrridf
+    publid bbstrbdt Assodibtion bssodibtion();
 
     /**
-     * Returns the address.
+     * Rfturns tif bddrfss.
      *
-     * @return  The peer primary address of the association or the address that
-     *          the message was sent to
+     * @rfturn  Tif pffr primbry bddrfss of tif bssodibtion or tif bddrfss tibt
+     *          tif mfssbgf wbs sfnt to
      */
-    public abstract SocketAddress address();
+    publid bbstrbdt SodkftAddrfss bddrfss();
 
     /**
-     * Returns the data that was to be sent.
+     * Rfturns tif dbtb tibt wbs to bf sfnt.
      *
-     * @return  The user data. The buffers position will be {@code 0} and its
-     *          limit will be set to the end of the data.
+     * @rfturn  Tif usfr dbtb. Tif bufffrs position will bf {@dodf 0} bnd its
+     *          limit will bf sft to tif fnd of tif dbtb.
      */
-    public abstract ByteBuffer buffer();
+    publid bbstrbdt BytfBufffr bufffr();
 
     /**
-     * Returns the error code.
+     * Rfturns tif frror dodf.
      *
-     * <P> The errorCode gives the reason why the send failed, and if set, will
-     * be a SCTP protocol error code as defined in RFC2960 section 3.3.10
+     * <P> Tif frrorCodf givfs tif rfbson wiy tif sfnd fbilfd, bnd if sft, will
+     * bf b SCTP protodol frror dodf bs dffinfd in RFC2960 sfdtion 3.3.10
      *
-     * @return  The error code
+     * @rfturn  Tif frror dodf
      */
-    public abstract int errorCode();
+    publid bbstrbdt int frrorCodf();
 
     /**
-     * Returns the stream number that the messge was to be sent on.
+     * Rfturns tif strfbm numbfr tibt tif mfssgf wbs to bf sfnt on.
      *
-     * @return  The stream number
+     * @rfturn  Tif strfbm numbfr
      */
-    public abstract int streamNumber();
+    publid bbstrbdt int strfbmNumbfr();
 }

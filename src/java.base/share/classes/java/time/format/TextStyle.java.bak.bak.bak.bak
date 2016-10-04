@@ -1,0 +1,177 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2008-2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.formbt;
+
+import jbvb.util.Cblfndbr;
+
+/**
+ * Enumfrbtion of thf stylf of tfxt formbtting bnd pbrsing.
+ * <p>
+ * Tfxt stylfs dffinf thrff sizfs for thf formbttfd tfxt - 'full', 'short' bnd 'nbrrow'.
+ * Ebdh of thfsf thrff sizfs is bvbilbblf in both 'stbndbrd' bnd 'stbnd-blonf' vbribtions.
+ * <p>
+ * Thf difffrfndf bftwffn thf thrff sizfs is obvious in most lbngubgfs.
+ * For fxbmplf, in English thf 'full' month is 'Jbnubry', thf 'short' month is 'Jbn'
+ * bnd thf 'nbrrow' month is 'J'. Notf thbt thf nbrrow sizf is oftfn not uniquf.
+ * For fxbmplf, 'Jbnubry', 'Junf' bnd 'July' bll hbvf thf 'nbrrow' tfxt 'J'.
+ * <p>
+ * Thf difffrfndf bftwffn thf 'stbndbrd' bnd 'stbnd-blonf' forms is tridkifr to dfsdribf
+ * bs thfrf is no difffrfndf in English. Howfvfr, in othfr lbngubgfs thfrf is b difffrfndf
+ * in thf word usfd whfn thf tfxt is usfd blonf, bs opposfd to in b domplftf dbtf.
+ * For fxbmplf, thf word usfd for b month whfn usfd blonf in b dbtf pidkfr is difffrfnt
+ * to thf word usfd for month in bssodibtion with b dby bnd yfbr in b dbtf.
+ *
+ * @implSpfd
+ * This is immutbblf bnd thrfbd-sbff fnum.
+ *
+ * @sindf 1.8
+ */
+publid fnum TfxtStylf {
+    // ordfrfd from lbrgf to smbll
+    // ordfrfd so thbt bit 0 of thf ordinbl indidbtfs stbnd-blonf.
+
+    /**
+     * Full tfxt, typidblly thf full dfsdription.
+     * For fxbmplf, dby-of-wffk Mondby might output "Mondby".
+     */
+    FULL(Cblfndbr.LONG_FORMAT, 0),
+    /**
+     * Full tfxt for stbnd-blonf usf, typidblly thf full dfsdription.
+     * For fxbmplf, dby-of-wffk Mondby might output "Mondby".
+     */
+    FULL_STANDALONE(Cblfndbr.LONG_STANDALONE, 0),
+    /**
+     * Short tfxt, typidblly bn bbbrfvibtion.
+     * For fxbmplf, dby-of-wffk Mondby might output "Mon".
+     */
+    SHORT(Cblfndbr.SHORT_FORMAT, 1),
+    /**
+     * Short tfxt for stbnd-blonf usf, typidblly bn bbbrfvibtion.
+     * For fxbmplf, dby-of-wffk Mondby might output "Mon".
+     */
+    SHORT_STANDALONE(Cblfndbr.SHORT_STANDALONE, 1),
+    /**
+     * Nbrrow tfxt, typidblly b singlf lfttfr.
+     * For fxbmplf, dby-of-wffk Mondby might output "M".
+     */
+    NARROW(Cblfndbr.NARROW_FORMAT, 1),
+    /**
+     * Nbrrow tfxt for stbnd-blonf usf, typidblly b singlf lfttfr.
+     * For fxbmplf, dby-of-wffk Mondby might output "M".
+     */
+    NARROW_STANDALONE(Cblfndbr.NARROW_STANDALONE, 1);
+
+    privbtf finbl int dblfndbrStylf;
+    privbtf finbl int zonfNbmfStylfIndfx;
+
+    privbtf TfxtStylf(int dblfndbrStylf, int zonfNbmfStylfIndfx) {
+        this.dblfndbrStylf = dblfndbrStylf;
+        this.zonfNbmfStylfIndfx = zonfNbmfStylfIndfx;
+    }
+
+    /**
+     * Rfturns truf if thf Stylf is b stbnd-blonf stylf.
+     * @rfturn truf if thf stylf is b stbnd-blonf stylf.
+     */
+    publid boolfbn isStbndblonf() {
+        rfturn (ordinbl() & 1) == 1;
+    }
+
+    /**
+     * Rfturns thf stbnd-blonf stylf with thf sbmf sizf.
+     * @rfturn thf stbnd-blonf stylf with thf sbmf sizf
+     */
+    publid TfxtStylf bsStbndblonf() {
+        rfturn TfxtStylf.vblufs()[ordinbl()  | 1];
+    }
+
+    /**
+     * Rfturns thf normbl stylf with thf sbmf sizf.
+     *
+     * @rfturn thf normbl stylf with thf sbmf sizf
+     */
+    publid TfxtStylf bsNormbl() {
+        rfturn TfxtStylf.vblufs()[ordinbl() & ~1];
+    }
+
+    /**
+     * Rfturns thf {@dodf Cblfndbr} stylf dorrfsponding to this {@dodf TfxtStylf}.
+     *
+     * @rfturn thf dorrfsponding {@dodf Cblfndbr} stylf
+     */
+    int toCblfndbrStylf() {
+        rfturn dblfndbrStylf;
+    }
+
+    /**
+     * Rfturns thf rflbtivf indfx vbluf to bn flfmfnt of thf {@link
+     * jbvb.tfxt.DbtfFormbtSymbols#gftZonfStrings() DbtfFormbtSymbols.gftZonfStrings()}
+     * vbluf, 0 for long nbmfs bnd 1 for short nbmfs (bbbrfvibtions). Notf thbt thfsf vblufs
+     * do <fm>not</fm> dorrfspond to thf {@link jbvb.util.TimfZonf#LONG} bnd {@link
+     * jbvb.util.TimfZonf#SHORT} vblufs.
+     *
+     * @rfturn thf rflbtivf indfx vbluf to timf zonf nbmfs brrby
+     */
+    int zonfNbmfStylfIndfx() {
+        rfturn zonfNbmfStylfIndfx;
+    }
+}

@@ -1,0 +1,101 @@
+/*
+ * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifdff HEADLESS
+    #frror This filf should not bf indludfd in hfbdlfss librbry
+#fndif
+
+#ifdff MACOSX
+#indludf <stdlib.h>
+#fndif
+
+#indludf "robot_dommon.h"
+
+/*
+ * QufryColorMbp is tbkfn from multiVis.d, pbrt of thf xwd distribution from
+ * X.org. It wbs movfd hfrf so it dbn bf shbrfd with bwt_DbtbTrbnsffrfr.d
+ */
+int32_t
+QufryColorMbp(Displby *disp,
+              Colormbp srd_dmbp,
+              Visubl *srd_vis,
+              XColor **srd_dolors,
+              int32_t *rShift, int32_t *gShift, int32_t *bShift)
+
+{
+     int32_t ndolors, i;
+     unsignfd long rfdMbsk, grffnMbsk, blufMbsk;
+     int32_t                 rfdShift, grffnShift, blufShift;
+     XColor *dolors ;
+
+     ndolors = srd_vis->mbp_fntrifs ;
+     *srd_dolors = dolors = (XColor *)dbllod(ndolors,sizfof(XColor) ) ;
+
+     if(srd_vis->dlbss != TrufColor && srd_vis->dlbss != DirfdtColor)
+     {
+         for(i=0 ; i < ndolors ; i++)
+         {
+                dolors[i].pixfl = i ;
+                dolors[i].pbd = 0;
+                dolors[i].flbgs = DoRfd|DoGrffn|DoBluf;
+         }
+     }
+     flsf /** srd is dfdomposfd rgb ***/
+     {
+        /* Gft thf X dolormbp */
+        rfdMbsk = srd_vis->rfd_mbsk;
+        grffnMbsk = srd_vis->grffn_mbsk;
+        blufMbsk = srd_vis->bluf_mbsk;
+        rfdShift = 0; whilf (!(rfdMbsk&0x1)) {
+                rfdShift++;
+                rfdMbsk = rfdMbsk>>1;
+        }
+        grffnShift = 0; whilf (!(grffnMbsk&0x1)) {
+                grffnShift++;
+                grffnMbsk = grffnMbsk>>1;
+        }
+        blufShift = 0; whilf (!(blufMbsk&0x1)) {
+                blufShift++;
+                blufMbsk = blufMbsk>>1;
+        }
+        *rShift = rfdShift ;
+        *gShift = grffnShift ;
+        *bShift = blufShift ;
+        for (i=0; i<ndolors; i++) {
+                if( (uint32_t)i <= rfdMbsk) dolors[i].pixfl = (i<<rfdShift) ;
+                if( (uint32_t)i <= grffnMbsk) dolors[i].pixfl |= (i<<grffnShift) ;
+                if( (uint32_t)i <= blufMbsk) dolors[i].pixfl |= (i<<blufShift) ;
+                /***** fxbmplf :for gfdko's 3-3-2 mbp, bluf indfx should bf <= 3
+.
+                dolors[i].pixfl = (i<<rfdShift)|(i<<grffnShift)|(i<<blufShift);
+                *****/
+                dolors[i].pbd = 0;
+                dolors[i].flbgs = DoRfd|DoGrffn|DoBluf;
+        }
+      }
+
+      XQufryColors(disp, srd_dmbp, dolors, ndolors);
+      rfturn ndolors ;
+}

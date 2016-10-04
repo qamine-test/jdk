@@ -1,0 +1,74 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio;
+
+import jbvb.io.IOExdfption;
+
+/**
+ * An fxdfption dlbss usfd for signbling run-timf fbilurf of rfbding
+ * bnd writing opfrbtions.
+ *
+ * <p> In bddition to b mfssbgf string, b rfffrfndf to bnothfr
+ * <dodf>Throwbblf</dodf> (<dodf>Error</dodf> or
+ * <dodf>Exdfption</dodf>) is mbintbinfd.  This rfffrfndf, if
+ * non-<dodf>null</dodf>, rfffrs to thf fvfnt thbt dbusfd this
+ * fxdfption to oddur.  For fxbmplf, bn <dodf>IOExdfption</dodf> whilf
+ * rfbding from b <dodf>Filf</dodf> would bf storfd thfrf.
+ *
+ */
+publid dlbss IIOExdfption fxtfnds IOExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = -3216210718638985251L;
+
+    /**
+     * Construdts bn <dodf>IIOExdfption</dodf> with b givfn mfssbgf
+     * <dodf>String</dodf>.  No undfrlying dbusf is sft;
+     * <dodf>gftCbusf</dodf> will rfturn <dodf>null</dodf>.
+     *
+     * @pbrbm mfssbgf thf frror mfssbgf.
+     *
+     * @sff #gftMfssbgf
+     */
+    publid IIOExdfption(String mfssbgf) {
+        supfr(mfssbgf);
+    }
+
+    /**
+     * Construdts bn <dodf>IIOExdfption</dodf> with b givfn mfssbgf
+     * <dodf>String</dodf> bnd b <dodf>Throwbblf</dodf> thbt wbs its
+     * undfrlying dbusf.
+     *
+     * @pbrbm mfssbgf thf frror mfssbgf.
+     * @pbrbm dbusf thf <dodf>Throwbblf</dodf> (<dodf>Error</dodf> or
+     * <dodf>Exdfption</dodf>) thbt dbusfd this fxdfption to oddur.
+     *
+     * @sff #gftCbusf
+     * @sff #gftMfssbgf
+     */
+    publid IIOExdfption(String mfssbgf, Throwbblf dbusf) {
+        supfr(mfssbgf);
+        initCbusf(dbusf);
+    }
+}

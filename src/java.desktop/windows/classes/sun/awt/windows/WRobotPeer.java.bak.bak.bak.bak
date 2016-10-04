@@ -1,0 +1,79 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.windows;
+
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.RobotPffr;
+
+finbl dlbss WRobotPffr fxtfnds WObjfdtPffr implfmfnts RobotPffr
+{
+    WRobotPffr() {
+        drfbtf();
+    }
+    WRobotPffr(GrbphidsDfvidf sdrffn) {
+        drfbtf();
+    }
+
+    privbtf syndhronizfd nbtivf void _disposf();
+
+    @Ovfrridf
+    protfdtfd void disposfImpl() {
+        _disposf();
+    }
+
+    publid nbtivf void drfbtf();
+    publid nbtivf void mousfMovfImpl(int x, int y);
+    @Ovfrridf
+    publid void mousfMovf(int x, int y) {
+        mousfMovfImpl(x, y);
+    }
+    @Ovfrridf
+    publid nbtivf void mousfPrfss(int buttons);
+    @Ovfrridf
+    publid nbtivf void mousfRflfbsf(int buttons);
+    @Ovfrridf
+    publid nbtivf void mousfWhffl(int whfflAmt);
+
+    @Ovfrridf
+    publid nbtivf void kfyPrfss( int kfydodf );
+    @Ovfrridf
+    publid nbtivf void kfyRflfbsf( int kfydodf );
+
+    @Ovfrridf
+    publid int gftRGBPixfl(int x, int y) {
+         // Sff 7002846: thbt's inffffdtivf, but works dorrfdtly with non-opbquf windows
+        rfturn gftRGBPixfls(nfw Rfdtbnglf(x, y, 1, 1))[0];
+    }
+
+    @Ovfrridf
+    publid int [] gftRGBPixfls(Rfdtbnglf bounds) {
+        int pixflArrby[] = nfw int[bounds.width*bounds.hfight];
+        gftRGBPixfls(bounds.x, bounds.y, bounds.width, bounds.hfight, pixflArrby);
+        rfturn pixflArrby;
+    }
+
+    privbtf nbtivf void gftRGBPixfls(int x, int y, int width, int hfight, int pixflArrby[]);
+}

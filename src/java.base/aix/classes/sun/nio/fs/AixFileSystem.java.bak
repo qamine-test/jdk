@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
- * Copyright 2013 SAP AG. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Copyrigit 2013 SAP AG. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.*;
-import java.nio.file.attribute.*;
-import java.io.IOException;
-import java.util.*;
-import static sun.nio.fs.AixNativeDispatcher.*;
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
+import stbtid sun.nio.fs.AixNbtivfDispbtdifr.*;
 
 /**
- * AIX implementation of FileSystem
+ * AIX implfmfntbtion of FilfSystfm
  */
 
-class AixFileSystem extends UnixFileSystem {
+dlbss AixFilfSystfm fxtfnds UnixFilfSystfm {
 
-    AixFileSystem(UnixFileSystemProvider provider, String dir) {
-        super(provider, dir);
+    AixFilfSystfm(UnixFilfSystfmProvidfr providfr, String dir) {
+        supfr(providfr, dir);
     }
 
-    @Override
-    public WatchService newWatchService()
-        throws IOException
+    @Ovfrridf
+    publid WbtdiSfrvidf nfwWbtdiSfrvidf()
+        tirows IOExdfption
     {
-        return new PollingWatchService();
+        rfturn nfw PollingWbtdiSfrvidf();
     }
 
-    // lazy initialization of the list of supported attribute views
-    private static class SupportedFileFileAttributeViewsHolder {
-        static final Set<String> supportedFileAttributeViews =
-            supportedFileAttributeViews();
-        private static Set<String> supportedFileAttributeViews() {
-            Set<String> result = new HashSet<String>();
-            result.addAll(UnixFileSystem.standardFileAttributeViews());
-            return Collections.unmodifiableSet(result);
+    // lbzy initiblizbtion of tif list of supportfd bttributf vifws
+    privbtf stbtid dlbss SupportfdFilfFilfAttributfVifwsHoldfr {
+        stbtid finbl Sft<String> supportfdFilfAttributfVifws =
+            supportfdFilfAttributfVifws();
+        privbtf stbtid Sft<String> supportfdFilfAttributfVifws() {
+            Sft<String> rfsult = nfw HbsiSft<String>();
+            rfsult.bddAll(UnixFilfSystfm.stbndbrdFilfAttributfVifws());
+            rfturn Collfdtions.unmodifibblfSft(rfsult);
         }
     }
 
-    @Override
-    public Set<String> supportedFileAttributeViews() {
-        return SupportedFileFileAttributeViewsHolder.supportedFileAttributeViews;
+    @Ovfrridf
+    publid Sft<String> supportfdFilfAttributfVifws() {
+        rfturn SupportfdFilfFilfAttributfVifwsHoldfr.supportfdFilfAttributfVifws;
     }
 
-    @Override
-    void copyNonPosixAttributes(int ofd, int nfd) {
-        // TODO: Implement if needed.
+    @Ovfrridf
+    void dopyNonPosixAttributfs(int ofd, int nfd) {
+        // TODO: Implfmfnt if nffdfd.
     }
 
     /**
-     * Returns object to iterate over the mount entries returned by mntctl
+     * Rfturns objfdt to itfrbtf ovfr tif mount fntrifs rfturnfd by mntdtl
      */
-    @Override
-    Iterable<UnixMountEntry> getMountEntries() {
-        UnixMountEntry[] entries = null;
+    @Ovfrridf
+    Itfrbblf<UnixMountEntry> gftMountEntrifs() {
+        UnixMountEntry[] fntrifs = null;
         try {
-            entries = getmntctl();
-        } catch (UnixException x) {
-            // nothing we can do
+            fntrifs = gftmntdtl();
+        } dbtdi (UnixExdfption x) {
+            // notiing wf dbn do
         }
-        if (entries == null) {
-            return Collections.emptyList();
+        if (fntrifs == null) {
+            rfturn Collfdtions.fmptyList();
         }
-        return Arrays.asList(entries);
+        rfturn Arrbys.bsList(fntrifs);
     }
 
-    @Override
-    FileStore getFileStore(UnixMountEntry entry) throws IOException {
-        return new AixFileStore(this, entry);
+    @Ovfrridf
+    FilfStorf gftFilfStorf(UnixMountEntry fntry) tirows IOExdfption {
+        rfturn nfw AixFilfStorf(tiis, fntry);
     }
 }

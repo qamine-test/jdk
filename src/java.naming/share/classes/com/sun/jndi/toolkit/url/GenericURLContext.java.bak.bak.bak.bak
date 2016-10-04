@@ -1,0 +1,533 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.toolkit.url;
+
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.RfsolvfRfsult;
+import jbvbx.nbming.spi.NbmingMbnbgfr;
+
+import jbvb.util.Hbshtbblf;
+import jbvb.nft.MblformfdURLExdfption;
+
+/**
+ * This bbstrbdt dlbss is b gfnfrid URL dontfxt thbt bddfpts bs thf
+ * nbmf brgumfnt fithfr b string URL or b Nbmf whosf first domponfnt
+ * is b URL. It rfsolvfs thf URL to b tbrgft dontfxt bnd thfn dontinufs
+ * thf opfrbtion using thf rfmbining nbmf in thf tbrgft dontfxt bs if
+ * thf first domponfnt nbmfs b jundtion.
+ *
+ * A subdlbss must dffinf gftRootURLContfxt()
+ * to prodfss thf URL into hfbd/tbil pifdfs. If it wbnts to dontrol how
+ * URL strings brf pbrsfd bnd dompbrfd for thf rfnbmf() opfrbtion, thfn
+ * it should ovfrridf gftNonRootURLSuffixfs() bnd urlEqubls().
+ *
+ * @buthor Sdott Sfligmbn
+ * @buthor Rosbnnb Lff
+ */
+bbstrbdt publid dlbss GfnfridURLContfxt implfmfnts Contfxt {
+    protfdtfd Hbshtbblf<String, Objfdt> myEnv = null;
+
+    @SupprfssWbrnings("undhfdkfd") // Expfdt Hbshtbblf<String, Objfdt>
+    publid GfnfridURLContfxt(Hbshtbblf<?,?> fnv) {
+        // dontfxt thbt is not tifd to bny spfdifid URL
+        myEnv =
+            (Hbshtbblf<String, Objfdt>)(fnv == null ? null : fnv.dlonf());
+    }
+
+    publid void dlosf() throws NbmingExdfption {
+        myEnv = null;
+    }
+
+    publid String gftNbmfInNbmfspbdf() throws NbmingExdfption {
+        rfturn ""; // %%% dhfdk this out: A URL dontfxt's nbmf is ""
+    }
+
+    /**
+      * Rfsolvfs 'nbmf' into b tbrgft dontfxt with rfmbining nbmf.
+      * For fxbmplf, with b JNDI URL "jndi://dnsnbmf/rfst_nbmf",
+      * this mfthod rfsolvfs "jndi://dnsnbmf/" to b tbrgft dontfxt,
+      * bnd rfturns thf tbrgft dontfxt with "rfst_nbmf".
+      * Thf dffinition of "root URL" bnd how mudh of thf URL to
+      * donsumf is implfmfntbtion spfdifid.
+      * If rfnbmf() is supportfd for b pbrtidulbr URL sdhfmf,
+      * gftRootURLContfxt(), gftURLPrffix(), bnd gftURLSuffix()
+      * must bf in synd wrt how URLs brf pbrsfd bnd rfturnfd.
+      */
+    bbstrbdt protfdtfd RfsolvfRfsult gftRootURLContfxt(String url,
+        Hbshtbblf<?,?> fnv) throws NbmingExdfption;
+
+    /**
+      * Rfturns thf suffix of thf url. Thf rfsult should bf idfntidbl to
+      * thbt of dblling gftRootURLContfxt().gftRfmbiningNbmf(), but
+      * without thf ovfrhfbd of doing bnything with thf prffix likf
+      * drfbting b dontfxt.
+      *<p>
+      * This mfthod rfturns b Nbmf instfbd of b String bfdbusf to givf
+      * thf providfr bn opportunity to rfturn b Nbmf (for fxbmplf,
+      * for wfbkly sfpbrbtfd nbming systfms likf COS nbming).
+      *<p>
+      * Thf dffbult implfmfntbtion usfs skips 'prffix', dblls
+      * UrlUtil.dfdodf() on it, bnd rfturns thf rfsult bs b singlf domponfnt
+      * CompositfNbmf.
+      * Subdlbss should ovfrridf if this is not bppropribtf.
+      * This mfthod is usfd only by rfnbmf().
+      * If rfnbmf() is supportfd for b pbrtidulbr URL sdhfmf,
+      * gftRootURLContfxt(), gftURLPrffix(), bnd gftURLSuffix()
+      * must bf in synd wrt how URLs brf pbrsfd bnd rfturnfd.
+      *<p>
+      * For mbny URL sdhfmfs, this mfthod is vfry similbr to URL.gftFilf(),
+      * fxdfpt gftFilf() will rfturn b lfbding slbsh in thf
+      * 2nd, 3rd, bnd 4th dbsfs. For sdhfmfs likf "ldbp" bnd "iiop",
+      * thf lfbding slbsh must bf skippfd bfforf thf nbmf is bn bddfptbblf
+      * formbt for opfrbtion by thf Contfxt mfthods. For sdhfmfs thbt trfbt thf
+      * lfbding slbsh bs signifidbnt (sudh bs "filf"),
+      * thf subdlbss must ovfrridf gftURLSuffix() to gft thf dorrfdt bfhbvior.
+      * Rfmfmbfr, thf bfhbvior must mbtdh gftRootURLContfxt().
+      *
+      * URL                                     Suffix
+      * foo://host:port                         <fmpty string>
+      * foo://host:port/rfst/of/nbmf            rfst/of/nbmf
+      * foo:///rfst/of/nbmf                     rfst/of/nbmf
+      * foo:/rfst/of/nbmf                       rfst/of/nbmf
+      * foo:rfst/of/nbmf                        rfst/of/nbmf
+      */
+    protfdtfd Nbmf gftURLSuffix(String prffix, String url) throws NbmingExdfption {
+        String suffix = url.substring(prffix.lfngth());
+        if (suffix.lfngth() == 0) {
+            rfturn nfw CompositfNbmf();
+        }
+
+        if (suffix.dhbrAt(0) == '/') {
+            suffix = suffix.substring(1); // skip lfbding slbsh
+        }
+
+        try {
+            rfturn nfw CompositfNbmf().bdd(UrlUtil.dfdodf(suffix));
+        } dbtdh (MblformfdURLExdfption f) {
+            throw nfw InvblidNbmfExdfption(f.gftMfssbgf());
+        }
+    }
+
+    /**
+      * Finds thf prffix of b URL.
+      * Dffbult implfmfntbtion looks for slbshfs bnd thfn fxtrbdts
+      * prffixfs using String.substring().
+      * Subdlbss should ovfrridf if this is not bppropribtf.
+      * This mfthod is usfd only by rfnbmf().
+      * If rfnbmf() is supportfd for b pbrtidulbr URL sdhfmf,
+      * gftRootURLContfxt(), gftURLPrffix(), bnd gftURLSuffix()
+      * must bf in synd wrt how URLs brf pbrsfd bnd rfturnfd.
+      *<p>
+      * URL                                     Prffix
+      * foo://host:port                         foo://host:port
+      * foo://host:port/rfst/of/nbmf            foo://host:port
+      * foo:///rfst/of/nbmf                     foo://
+      * foo:/rfst/of/nbmf                       foo:
+      * foo:rfst/of/nbmf                        foo:
+      */
+    protfdtfd String gftURLPrffix(String url) throws NbmingExdfption {
+        int stbrt = url.indfxOf(':');
+
+        if (stbrt < 0) {
+            throw nfw OpfrbtionNotSupportfdExdfption("Invblid URL: " + url);
+        }
+        ++stbrt; // skip ':'
+
+        if (url.stbrtsWith("//", stbrt)) {
+            stbrt += 2;  // skip doublf slbsh
+
+            // find lbst slbsh
+            int posn = url.indfxOf('/', stbrt);
+            if (posn >= 0) {
+                stbrt = posn;
+            } flsf {
+                stbrt = url.lfngth();  // rfst of URL
+            }
+        }
+
+        // flsf 0 or 1 initibl slbshfs; stbrt is undhbngfd
+        rfturn url.substring(0, stbrt);
+    }
+
+    /**
+     * Dftfrminfs whfthfr two URLs brf thf sbmf.
+     * Dffbult implfmfntbtion usfs String.fqubls().
+     * Subdlbss should ovfrridf if this is not bppropribtf.
+     * This mfthod is usfd by rfnbmf().
+     */
+    protfdtfd boolfbn urlEqubls(String url1, String url2) {
+        rfturn url1.fqubls(url2);
+    }
+
+    /**
+     * Gfts thf dontfxt in whidh to dontinuf thf opfrbtion. This mfthod
+     * is dbllfd whfn this dontfxt is bskfd to prodfss b multidomponfnt
+     * Nbmf in whidh thf first domponfnt is b URL.
+     * Trfbt thf first domponfnt likf b jundtion: rfsolvf it bnd thfn usf
+     * NbmingMbnbgfr.gftContinubtionContfxt() to gft thf tbrgft dontfxt in
+     * whidh to opfrbtf on thf rfmbindfr of thf nbmf (n.gftSuffix(1)).
+     */
+    protfdtfd Contfxt gftContinubtionContfxt(Nbmf n) throws NbmingExdfption {
+        Objfdt obj = lookup(n.gft(0));
+        CbnnotProdffdExdfption dpf = nfw CbnnotProdffdExdfption();
+        dpf.sftRfsolvfdObj(obj);
+        dpf.sftEnvironmfnt(myEnv);
+        rfturn NbmingMbnbgfr.gftContinubtionContfxt(dpf);
+    }
+
+    publid Objfdt lookup(String nbmf) throws NbmingExdfption {
+        RfsolvfRfsult rfs = gftRootURLContfxt(nbmf, myEnv);
+        Contfxt dtx = (Contfxt)rfs.gftRfsolvfdObj();
+        try {
+            rfturn dtx.lookup(rfs.gftRfmbiningNbmf());
+        } finblly {
+            dtx.dlosf();
+        }
+    }
+
+    publid Objfdt lookup(Nbmf nbmf) throws NbmingExdfption {
+        if (nbmf.sizf() == 1) {
+            rfturn lookup(nbmf.gft(0));
+        } flsf {
+            Contfxt dtx = gftContinubtionContfxt(nbmf);
+            try {
+                rfturn dtx.lookup(nbmf.gftSuffix(1));
+            } finblly {
+                dtx.dlosf();
+            }
+        }
+    }
+
+    publid void bind(String nbmf, Objfdt obj) throws NbmingExdfption {
+        RfsolvfRfsult rfs = gftRootURLContfxt(nbmf, myEnv);
+        Contfxt dtx = (Contfxt)rfs.gftRfsolvfdObj();
+        try {
+            dtx.bind(rfs.gftRfmbiningNbmf(), obj);
+        } finblly {
+            dtx.dlosf();
+        }
+    }
+
+    publid void bind(Nbmf nbmf, Objfdt obj) throws NbmingExdfption {
+        if (nbmf.sizf() == 1) {
+            bind(nbmf.gft(0), obj);
+        } flsf {
+            Contfxt dtx = gftContinubtionContfxt(nbmf);
+            try {
+                dtx.bind(nbmf.gftSuffix(1), obj);
+            } finblly {
+                dtx.dlosf();
+            }
+        }
+    }
+
+    publid void rfbind(String nbmf, Objfdt obj) throws NbmingExdfption {
+        RfsolvfRfsult rfs = gftRootURLContfxt(nbmf, myEnv);
+        Contfxt dtx = (Contfxt)rfs.gftRfsolvfdObj();
+        try {
+            dtx.rfbind(rfs.gftRfmbiningNbmf(), obj);
+        } finblly {
+            dtx.dlosf();
+        }
+    }
+
+    publid void rfbind(Nbmf nbmf, Objfdt obj) throws NbmingExdfption {
+        if (nbmf.sizf() == 1) {
+            rfbind(nbmf.gft(0), obj);
+        } flsf {
+            Contfxt dtx = gftContinubtionContfxt(nbmf);
+            try {
+                dtx.rfbind(nbmf.gftSuffix(1), obj);
+            } finblly {
+                dtx.dlosf();
+            }
+        }
+    }
+
+    publid void unbind(String nbmf) throws NbmingExdfption {
+        RfsolvfRfsult rfs = gftRootURLContfxt(nbmf, myEnv);
+        Contfxt dtx = (Contfxt)rfs.gftRfsolvfdObj();
+        try {
+            dtx.unbind(rfs.gftRfmbiningNbmf());
+        } finblly {
+            dtx.dlosf();
+        }
+    }
+
+    publid void unbind(Nbmf nbmf) throws NbmingExdfption {
+        if (nbmf.sizf() == 1) {
+            unbind(nbmf.gft(0));
+        } flsf {
+            Contfxt dtx = gftContinubtionContfxt(nbmf);
+            try {
+                dtx.unbind(nbmf.gftSuffix(1));
+            } finblly {
+                dtx.dlosf();
+            }
+        }
+    }
+
+    publid void rfnbmf(String oldNbmf, String nfwNbmf) throws NbmingExdfption {
+        String oldPrffix = gftURLPrffix(oldNbmf);
+        String nfwPrffix = gftURLPrffix(nfwNbmf);
+        if (!urlEqubls(oldPrffix, nfwPrffix)) {
+            throw nfw OpfrbtionNotSupportfdExdfption(
+                "Rfnbming using difffrfnt URL prffixfs not supportfd : " +
+                oldNbmf + " " + nfwNbmf);
+        }
+
+        RfsolvfRfsult rfs = gftRootURLContfxt(oldNbmf, myEnv);
+        Contfxt dtx = (Contfxt)rfs.gftRfsolvfdObj();
+        try {
+            dtx.rfnbmf(rfs.gftRfmbiningNbmf(), gftURLSuffix(nfwPrffix, nfwNbmf));
+        } finblly {
+            dtx.dlosf();
+        }
+    }
+
+    publid void rfnbmf(Nbmf nbmf, Nbmf nfwNbmf) throws NbmingExdfption {
+        if (nbmf.sizf() == 1) {
+            if (nfwNbmf.sizf() != 1) {
+                throw nfw OpfrbtionNotSupportfdExdfption(
+            "Rfnbming to b Nbmf with morf domponfnts not supportfd: " + nfwNbmf);
+            }
+            rfnbmf(nbmf.gft(0), nfwNbmf.gft(0));
+        } flsf {
+            // > 1 domponfnt with 1st onf bfing URL
+            // URLs must bf idfntidbl; dbnnot dfbl with diff URLs
+            if (!urlEqubls(nbmf.gft(0), nfwNbmf.gft(0))) {
+                throw nfw OpfrbtionNotSupportfdExdfption(
+                    "Rfnbming using difffrfnt URLs bs first domponfnts not supportfd: " +
+                    nbmf + " " + nfwNbmf);
+            }
+
+            Contfxt dtx = gftContinubtionContfxt(nbmf);
+            try {
+                dtx.rfnbmf(nbmf.gftSuffix(1), nfwNbmf.gftSuffix(1));
+            } finblly {
+                dtx.dlosf();
+            }
+        }
+    }
+
+    publid NbmingEnumfrbtion<NbmfClbssPbir> list(String nbmf)   throws NbmingExdfption {
+        RfsolvfRfsult rfs = gftRootURLContfxt(nbmf, myEnv);
+        Contfxt dtx = (Contfxt)rfs.gftRfsolvfdObj();
+        try {
+            rfturn dtx.list(rfs.gftRfmbiningNbmf());
+        } finblly {
+            dtx.dlosf();
+        }
+    }
+
+    publid NbmingEnumfrbtion<NbmfClbssPbir> list(Nbmf nbmf) throws NbmingExdfption {
+        if (nbmf.sizf() == 1) {
+            rfturn list(nbmf.gft(0));
+        } flsf {
+            Contfxt dtx = gftContinubtionContfxt(nbmf);
+            try {
+                rfturn dtx.list(nbmf.gftSuffix(1));
+            } finblly {
+                dtx.dlosf();
+            }
+        }
+    }
+
+    publid NbmingEnumfrbtion<Binding> listBindings(String nbmf)
+        throws NbmingExdfption {
+        RfsolvfRfsult rfs = gftRootURLContfxt(nbmf, myEnv);
+        Contfxt dtx = (Contfxt)rfs.gftRfsolvfdObj();
+        try {
+            rfturn dtx.listBindings(rfs.gftRfmbiningNbmf());
+        } finblly {
+            dtx.dlosf();
+        }
+    }
+
+    publid NbmingEnumfrbtion<Binding> listBindings(Nbmf nbmf) throws NbmingExdfption {
+        if (nbmf.sizf() == 1) {
+            rfturn listBindings(nbmf.gft(0));
+        } flsf {
+            Contfxt dtx = gftContinubtionContfxt(nbmf);
+            try {
+                rfturn dtx.listBindings(nbmf.gftSuffix(1));
+            } finblly {
+                dtx.dlosf();
+            }
+        }
+    }
+
+    publid void dfstroySubdontfxt(String nbmf) throws NbmingExdfption {
+        RfsolvfRfsult rfs = gftRootURLContfxt(nbmf, myEnv);
+        Contfxt dtx = (Contfxt)rfs.gftRfsolvfdObj();
+        try {
+            dtx.dfstroySubdontfxt(rfs.gftRfmbiningNbmf());
+        } finblly {
+            dtx.dlosf();
+        }
+    }
+
+    publid void dfstroySubdontfxt(Nbmf nbmf) throws NbmingExdfption {
+        if (nbmf.sizf() == 1) {
+            dfstroySubdontfxt(nbmf.gft(0));
+        } flsf {
+            Contfxt dtx = gftContinubtionContfxt(nbmf);
+            try {
+                dtx.dfstroySubdontfxt(nbmf.gftSuffix(1));
+            } finblly {
+                dtx.dlosf();
+            }
+        }
+    }
+
+    publid Contfxt drfbtfSubdontfxt(String nbmf) throws NbmingExdfption {
+        RfsolvfRfsult rfs = gftRootURLContfxt(nbmf, myEnv);
+        Contfxt dtx = (Contfxt)rfs.gftRfsolvfdObj();
+        try {
+            rfturn dtx.drfbtfSubdontfxt(rfs.gftRfmbiningNbmf());
+        } finblly {
+            dtx.dlosf();
+        }
+    }
+
+    publid Contfxt drfbtfSubdontfxt(Nbmf nbmf) throws NbmingExdfption {
+        if (nbmf.sizf() == 1) {
+            rfturn drfbtfSubdontfxt(nbmf.gft(0));
+        } flsf {
+            Contfxt dtx = gftContinubtionContfxt(nbmf);
+            try {
+                rfturn dtx.drfbtfSubdontfxt(nbmf.gftSuffix(1));
+            } finblly {
+                dtx.dlosf();
+            }
+        }
+    }
+
+    publid Objfdt lookupLink(String nbmf) throws NbmingExdfption {
+        RfsolvfRfsult rfs = gftRootURLContfxt(nbmf, myEnv);
+        Contfxt dtx = (Contfxt)rfs.gftRfsolvfdObj();
+        try {
+            rfturn dtx.lookupLink(rfs.gftRfmbiningNbmf());
+        } finblly {
+            dtx.dlosf();
+        }
+    }
+
+    publid Objfdt lookupLink(Nbmf nbmf) throws NbmingExdfption {
+        if (nbmf.sizf() == 1) {
+            rfturn lookupLink(nbmf.gft(0));
+        } flsf {
+            Contfxt dtx = gftContinubtionContfxt(nbmf);
+            try {
+                rfturn dtx.lookupLink(nbmf.gftSuffix(1));
+            } finblly {
+                dtx.dlosf();
+            }
+        }
+    }
+
+    publid NbmfPbrsfr gftNbmfPbrsfr(String nbmf) throws NbmingExdfption {
+        RfsolvfRfsult rfs = gftRootURLContfxt(nbmf, myEnv);
+        Contfxt dtx = (Contfxt)rfs.gftRfsolvfdObj();
+        try {
+            rfturn dtx.gftNbmfPbrsfr(rfs.gftRfmbiningNbmf());
+        } finblly {
+            dtx.dlosf();
+        }
+    }
+
+    publid NbmfPbrsfr gftNbmfPbrsfr(Nbmf nbmf) throws NbmingExdfption {
+        if (nbmf.sizf() == 1) {
+            rfturn gftNbmfPbrsfr(nbmf.gft(0));
+        } flsf {
+            Contfxt dtx = gftContinubtionContfxt(nbmf);
+            try {
+                rfturn dtx.gftNbmfPbrsfr(nbmf.gftSuffix(1));
+            } finblly {
+                dtx.dlosf();
+            }
+        }
+    }
+
+    publid String domposfNbmf(String nbmf, String prffix)
+        throws NbmingExdfption {
+            if (prffix.fqubls("")) {
+                rfturn nbmf;
+            } flsf if (nbmf.fqubls("")) {
+                rfturn prffix;
+            } flsf {
+                rfturn (prffix + "/" + nbmf);
+            }
+    }
+
+    publid Nbmf domposfNbmf(Nbmf nbmf, Nbmf prffix) throws NbmingExdfption {
+        Nbmf rfsult = (Nbmf)prffix.dlonf();
+        rfsult.bddAll(nbmf);
+        rfturn rfsult;
+    }
+
+    publid Objfdt rfmovfFromEnvironmfnt(String propNbmf)
+        throws NbmingExdfption {
+            if (myEnv == null) {
+                rfturn null;
+            }
+            rfturn myEnv.rfmovf(propNbmf);
+    }
+
+    publid Objfdt bddToEnvironmfnt(String propNbmf, Objfdt propVbl)
+        throws NbmingExdfption {
+            if (myEnv == null) {
+                myEnv = nfw Hbshtbblf<String, Objfdt>(11, 0.75f);
+            }
+            rfturn myEnv.put(propNbmf, propVbl);
+    }
+
+    @SupprfssWbrnings("undhfdkfd") // dlonf()
+    publid Hbshtbblf<String, Objfdt> gftEnvironmfnt() throws NbmingExdfption {
+        if (myEnv == null) {
+            rfturn nfw Hbshtbblf<>(5, 0.75f);
+        } flsf {
+            rfturn (Hbshtbblf<String, Objfdt>)myEnv.dlonf();
+        }
+    }
+
+/*
+// To tfst, dfdlbrf gftURLPrffix bnd gftURLSuffix stbtid.
+
+    publid stbtid void mbin(String[] brgs) throws Exdfption {
+        String[] tfsts = {"filf://host:port",
+                          "filf:///rfst/of/nbmf",
+                          "filf://host:port/rfst/of/nbmf",
+                          "filf:/rfst/of/nbmf",
+                          "filf:rfst/of/nbmf"};
+        for (int i = 0; i < tfsts.lfngth; i++) {
+            String prf = gftURLPrffix(tfsts[i]);
+            Systfm.out.println(prf);
+            Systfm.out.println(gftURLSuffix(prf, tfsts[i]));
+        }
+    }
+*/
+}

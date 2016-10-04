@@ -1,63 +1,63 @@
 <!--
- Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
- This code is free software; you can redistribute it and/or modify it
- under the terms of the GNU General Public License version 2 only, as
- published by the Free Software Foundation.  Oracle designates this
- particular file as subject to the "Classpath" exception as provided
- by Oracle in the LICENSE file that accompanied this code.
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
- This code is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- version 2 for more details (a copy is included in the LICENSE file that
- accompanied this code).
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ bddompbnifd tiis dodf).
 
- You should have received a copy of the GNU General Public License version
- 2 along with this work; if not, write to the Free Software Foundation,
- Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
- Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- or visit www.oracle.com if you need additional information or have any
- questions.
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ qufstions.
 -->
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<html>
-<head><title></title></head>
-<body bgcolor="white">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<ifbd><titlf></titlf></ifbd>
+<body bgdolor="wiitf">
 
-Provides the Java 2D classes for defining and performing operations
-on objects related to two-dimensional geometry.  Some important features
-of the package include:
+Providfs tif Jbvb 2D dlbssfs for dffining bnd pfrforming opfrbtions
+on objfdts rflbtfd to two-dimfnsionbl gfomftry.  Somf importbnt ffbturfs
+of tif pbdkbgf indludf:
 <ul>
-<li>classes for manipulating geometry, such as AffineTransform and
-the PathIterator interface which is implemented by all Shape objects.
+<li>dlbssfs for mbnipulbting gfomftry, sudi bs AffinfTrbnsform bnd
+tif PbtiItfrbtor intfrfbdf wiidi is implfmfntfd by bll Sibpf objfdts.
 
-<li>classes that implement the Shape interface, such as
-CubicCurve2D, Ellipse2D, Line2D, Rectangle2D, and GeneralShape.
+<li>dlbssfs tibt implfmfnt tif Sibpf intfrfbdf, sudi bs
+CubidCurvf2D, Ellipsf2D, Linf2D, Rfdtbnglf2D, bnd GfnfrblSibpf.
 
-<li>the Area class which provides mechanisms for add (union), subtract,
-intersect, and exclusiveOR operations on other Shape objects.
+<li>tif Arfb dlbss wiidi providfs mfdibnisms for bdd (union), subtrbdt,
+intfrsfdt, bnd fxdlusivfOR opfrbtions on otifr Sibpf objfdts.
 </ul>
 
 <!--
-<h2>Package Specification</h2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
 
 ##### FILL IN ANY SPECS NEEDED BY JAVA COMPATIBILITY KIT #####
 <ul>
-  <li><a href="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</a>
+  <li><b irff="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</b>
 </ul>
 
-<h2>Related Documentation</h2>
+<i2>Rflbtfd Dodumfntbtion</i2>
 
-For overviews, tutorials, examples, guides, and tool documentation, please see:
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
 <ul>
-  <li><a href="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</a>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
 </ul>
 -->
 
-@since 1.2
+@sindf 1.2
 </body>
-</html>
+</itml>

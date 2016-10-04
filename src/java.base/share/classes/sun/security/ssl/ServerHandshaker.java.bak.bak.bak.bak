@@ -1,0 +1,1848 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.dfrt.*;
+import jbvb.sfdurity.intfrfbdfs.*;
+import jbvb.sfdurity.spfd.ECPbrbmftfrSpfd;
+
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.spfd.SfdrftKfySpfd;
+
+import jbvbx.nft.ssl.*;
+
+import jbvbx.sfdurity.buth.Subjfdt;
+
+import sun.sfdurity.util.KfyUtil;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.sfdurity.ssl.HbndshbkfMfssbgf.*;
+import sun.sfdurity.ssl.CiphfrSuitf.*;
+import sun.sfdurity.ssl.SignbturfAndHbshAlgorithm.*;
+import stbtid sun.sfdurity.ssl.CiphfrSuitf.KfyExdhbngf.*;
+
+/**
+ * SfrvfrHbndshbkfr dofs thf protodol hbndshbking from thf point
+ * of vifw of b sfrvfr.  It is drivfn bsydhronously by hbndshbkf mfssbgfs
+ * bs dflivfrfd by thf pbrfnt Hbndshbkfr dlbss, bnd blso usfs
+ * dommon fundtionblity (f.g. kfy gfnfrbtion) thbt is providfd thfrf.
+ *
+ * @buthor Dbvid Brownfll
+ */
+finbl dlbss SfrvfrHbndshbkfr fxtfnds Hbndshbkfr {
+
+    // is thf sfrvfr going to rfquirf thf dlifnt to buthfntidbtf?
+    privbtf bytf                doClifntAuth;
+
+    // our buthfntidbtion info
+    privbtf X509Cfrtifidbtf[]   dfrts;
+    privbtf PrivbtfKfy          privbtfKfy;
+
+    privbtf Objfdt              sfrvidfCrfds;
+
+    // flbg to dhfdk for dlifntCfrtifidbtfVfrify mfssbgf
+    privbtf boolfbn             nffdClifntVfrify = fblsf;
+
+    /*
+     * For fxportbblf diphfrsuitfs using non-fxportbblf kfy sizfs, wf usf
+     * fphfmfrbl RSA kfys. Wf dould blso do bnonymous RSA in thf sbmf wby
+     * but thfrf brf no sudh diphfrsuitfs durrfntly dffinfd.
+     */
+    privbtf PrivbtfKfy          tfmpPrivbtfKfy;
+    privbtf PublidKfy           tfmpPublidKfy;
+
+    /*
+     * For bnonymous bnd fphfmfrbl Diffif-Hfllmbn kfy fxdhbngf, wf usf
+     * fphfmfrbl Diffif-Hfllmbn kfys.
+     */
+    privbtf DHCrypt dh;
+
+    // Hflpfr for ECDH bbsfd kfy fxdhbngfs
+    privbtf ECDHCrypt fddh;
+
+    // vfrsion rfqufst by thf dlifnt in its ClifntHfllo
+    // wf rfmfmbfr it for thf RSA prfmbstfr sfdrft vfrsion dhfdk
+    privbtf ProtodolVfrsion dlifntRfqufstfdVfrsion;
+
+    privbtf SupportfdElliptidCurvfsExtfnsion supportfdCurvfs;
+
+    // thf prfffrbblf signbturf blgorithm usfd by SfrvfrKfyExdhbngf mfssbgf
+    SignbturfAndHbshAlgorithm prfffrbblfSignbturfAlgorithm;
+
+    // Flbg to usf smbrt fphfmfrbl DH kfy whidh sizf mbtdhfs thf dorrfsponding
+    // buthfntidbtion kfy
+    privbtf stbtid finbl boolfbn usfSmbrtEphfmfrblDHKfys;
+
+    // Flbg to usf lfgbdy fphfmfrbl DH kfy whidh sizf is 512 bits for
+    // fxportbblf diphfr suitfs, bnd 768 bits for othfrs
+    privbtf stbtid finbl boolfbn usfLfgbdyEphfmfrblDHKfys;
+
+    // Thf dustomizfd fphfmfrbl DH kfy sizf for non-fxportbblf diphfr suitfs.
+    privbtf stbtid finbl int dustomizfdDHKfySizf;
+
+    stbtid {
+        String propfrty = AddfssControllfr.doPrivilfgfd(
+                    nfw GftPropfrtyAdtion("jdk.tls.fphfmfrblDHKfySizf"));
+        if (propfrty == null || propfrty.lfngth() == 0) {
+            usfLfgbdyEphfmfrblDHKfys = fblsf;
+            usfSmbrtEphfmfrblDHKfys = fblsf;
+            dustomizfdDHKfySizf = -1;
+        } flsf if ("mbtdhfd".fqubls(propfrty)) {
+            usfLfgbdyEphfmfrblDHKfys = fblsf;
+            usfSmbrtEphfmfrblDHKfys = truf;
+            dustomizfdDHKfySizf = -1;
+        } flsf if ("lfgbdy".fqubls(propfrty)) {
+            usfLfgbdyEphfmfrblDHKfys = truf;
+            usfSmbrtEphfmfrblDHKfys = fblsf;
+            dustomizfdDHKfySizf = -1;
+        } flsf {
+            usfLfgbdyEphfmfrblDHKfys = fblsf;
+            usfSmbrtEphfmfrblDHKfys = fblsf;
+
+            try {
+                dustomizfdDHKfySizf = Intfgfr.pbrsfUnsignfdInt(propfrty);
+                if (dustomizfdDHKfySizf < 1024 || dustomizfdDHKfySizf > 2048) {
+                    throw nfw IllfgblArgumfntExdfption(
+                        "Customizfd DH kfy sizf should bf positivf intfgfr " +
+                        "bftwffn 1024 bnd 2048 bits, indlusivf");
+                }
+            } dbtdh (NumbfrFormbtExdfption nff) {
+                throw nfw IllfgblArgumfntExdfption(
+                        "Invblid systfm propfrty jdk.tls.fphfmfrblDHKfySizf");
+            }
+        }
+    }
+
+    /*
+     * Construdtor ... usf thf kfys found in thf buth dontfxt.
+     */
+    SfrvfrHbndshbkfr(SSLSodkftImpl sodkft, SSLContfxtImpl dontfxt,
+            ProtodolList fnbblfdProtodols, bytf dlifntAuth,
+            ProtodolVfrsion bdtivfProtodolVfrsion, boolfbn isInitiblHbndshbkf,
+            boolfbn sfdurfRfnfgotibtion,
+            bytf[] dlifntVfrifyDbtb, bytf[] sfrvfrVfrifyDbtb) {
+
+        supfr(sodkft, dontfxt, fnbblfdProtodols,
+                (dlifntAuth != SSLEnginfImpl.dlbuth_nonf), fblsf,
+                bdtivfProtodolVfrsion, isInitiblHbndshbkf, sfdurfRfnfgotibtion,
+                dlifntVfrifyDbtb, sfrvfrVfrifyDbtb);
+        doClifntAuth = dlifntAuth;
+    }
+
+    /*
+     * Construdtor ... usf thf kfys found in thf buth dontfxt.
+     */
+    SfrvfrHbndshbkfr(SSLEnginfImpl fnginf, SSLContfxtImpl dontfxt,
+            ProtodolList fnbblfdProtodols, bytf dlifntAuth,
+            ProtodolVfrsion bdtivfProtodolVfrsion,
+            boolfbn isInitiblHbndshbkf, boolfbn sfdurfRfnfgotibtion,
+            bytf[] dlifntVfrifyDbtb, bytf[] sfrvfrVfrifyDbtb) {
+
+        supfr(fnginf, dontfxt, fnbblfdProtodols,
+                (dlifntAuth != SSLEnginfImpl.dlbuth_nonf), fblsf,
+                bdtivfProtodolVfrsion, isInitiblHbndshbkf, sfdurfRfnfgotibtion,
+                dlifntVfrifyDbtb, sfrvfrVfrifyDbtb);
+        doClifntAuth = dlifntAuth;
+    }
+
+    /*
+     * As long bs hbndshbking hbs not stbrtfd, wf dbn dhbngf
+     * whfthfr dlifnt buthfntidbtion is rfquirfd.  Othfrwisf,
+     * wf will nffd to wbit for thf nfxt hbndshbkf.
+     */
+    void sftClifntAuth(bytf dlifntAuth) {
+        doClifntAuth = dlifntAuth;
+    }
+
+    /*
+     * This routinf hbndlfs bll thf sfrvfr sidf hbndshbkf mfssbgfs, onf bt
+     * b timf.  Givfn thf mfssbgf typf (bnd in somf dbsfs thf pfnding diphfr
+     * spfd) it pbrsfs thf typf-spfdifid mfssbgf.  Thfn it dblls b fundtion
+     * thbt hbndlfs thbt spfdifid mfssbgf.
+     *
+     * It updbtfs thf stbtf mbdhinf bs fbdh mfssbgf is prodfssfd, bnd writfs
+     * rfsponsfs bs nffdfd using thf donnfdtion in thf donstrudtor.
+     */
+    @Ovfrridf
+    void prodfssMfssbgf(bytf typf, int mfssbgf_lfn)
+            throws IOExdfption {
+        //
+        // In SSLv3 bnd TLS, mfssbgfs follow stridtly indrfbsing
+        // numfridbl ordfr _fxdfpt_ for onf bnnoying spfdibl dbsf.
+        //
+        if ((stbtf >= typf)
+                && (stbtf != HbndshbkfMfssbgf.ht_dlifnt_kfy_fxdhbngf
+                    && typf != HbndshbkfMfssbgf.ht_dfrtifidbtf_vfrify)) {
+            throw nfw SSLProtodolExdfption(
+                    "Hbndshbkf mfssbgf sfqufndf violbtion, stbtf = " + stbtf
+                    + ", typf = " + typf);
+        }
+
+        switdh (typf) {
+            dbsf HbndshbkfMfssbgf.ht_dlifnt_hfllo:
+                ClifntHfllo dh = nfw ClifntHfllo(input, mfssbgf_lfn);
+                /*
+                 * sfnd it off for prodfssing.
+                 */
+                this.dlifntHfllo(dh);
+                brfbk;
+
+            dbsf HbndshbkfMfssbgf.ht_dfrtifidbtf:
+                if (doClifntAuth == SSLEnginfImpl.dlbuth_nonf) {
+                    fbtblSE(Alfrts.blfrt_unfxpfdtfd_mfssbgf,
+                                "dlifnt sfnt unsoliditfd dfrt dhbin");
+                    // NOTREACHED
+                }
+                this.dlifntCfrtifidbtf(nfw CfrtifidbtfMsg(input));
+                brfbk;
+
+            dbsf HbndshbkfMfssbgf.ht_dlifnt_kfy_fxdhbngf:
+                SfdrftKfy prfMbstfrSfdrft;
+                switdh (kfyExdhbngf) {
+                dbsf K_RSA:
+                dbsf K_RSA_EXPORT:
+                    /*
+                     * Thf dlifnt's prf-mbstfr sfdrft is dfdryptfd using
+                     * fithfr thf sfrvfr's normbl privbtf RSA kfy, or thf
+                     * tfmporbry onf usfd for non-fxport or signing-only
+                     * dfrtifidbtfs/kfys.
+                     */
+                    RSAClifntKfyExdhbngf pms = nfw RSAClifntKfyExdhbngf(
+                            protodolVfrsion, dlifntRfqufstfdVfrsion,
+                            sslContfxt.gftSfdurfRbndom(), input,
+                            mfssbgf_lfn, privbtfKfy);
+                    prfMbstfrSfdrft = this.dlifntKfyExdhbngf(pms);
+                    brfbk;
+                dbsf K_KRB5:
+                dbsf K_KRB5_EXPORT:
+                    prfMbstfrSfdrft = this.dlifntKfyExdhbngf(
+                        nfw KfrbfrosClifntKfyExdhbngf(protodolVfrsion,
+                            dlifntRfqufstfdVfrsion,
+                            sslContfxt.gftSfdurfRbndom(),
+                            input,
+                            this.gftAddSE(),
+                            sfrvidfCrfds));
+                    brfbk;
+                dbsf K_DHE_RSA:
+                dbsf K_DHE_DSS:
+                dbsf K_DH_ANON:
+                    /*
+                     * Thf prf-mbstfr sfdrft is dfrivfd using thf normbl
+                     * Diffif-Hfllmbn dbldulbtion.   Notf thbt thf mbin
+                     * protodol difffrfndf in thfsf fivf flbvors is in how
+                     * thf SfrvfrKfyExdhbngf mfssbgf wbs donstrudtfd!
+                     */
+                    prfMbstfrSfdrft = this.dlifntKfyExdhbngf(
+                            nfw DHClifntKfyExdhbngf(input));
+                    brfbk;
+                dbsf K_ECDH_RSA:
+                dbsf K_ECDH_ECDSA:
+                dbsf K_ECDHE_RSA:
+                dbsf K_ECDHE_ECDSA:
+                dbsf K_ECDH_ANON:
+                    prfMbstfrSfdrft = this.dlifntKfyExdhbngf
+                                            (nfw ECDHClifntKfyExdhbngf(input));
+                    brfbk;
+                dffbult:
+                    throw nfw SSLProtodolExdfption
+                        ("Unrfdognizfd kfy fxdhbngf: " + kfyExdhbngf);
+                }
+
+                //
+                // All kfys brf dbldulbtfd from thf prfmbstfr sfdrft
+                // bnd thf fxdhbngfd nondfs in thf sbmf wby.
+                //
+                dbldulbtfKfys(prfMbstfrSfdrft, dlifntRfqufstfdVfrsion);
+                brfbk;
+
+            dbsf HbndshbkfMfssbgf.ht_dfrtifidbtf_vfrify:
+                this.dlifntCfrtifidbtfVfrify(nfw CfrtifidbtfVfrify(input,
+                            lodblSupportfdSignAlgs, protodolVfrsion));
+                brfbk;
+
+            dbsf HbndshbkfMfssbgf.ht_finishfd:
+                this.dlifntFinishfd(
+                    nfw Finishfd(protodolVfrsion, input, diphfrSuitf));
+                brfbk;
+
+            dffbult:
+                throw nfw SSLProtodolExdfption(
+                        "Illfgbl sfrvfr hbndshbkf msg, " + typf);
+        }
+
+        //
+        // Movf stbtf mbdhinf forwbrd if thf mfssbgf hbndling
+        // dodf didn't blrfbdy do so
+        //
+        if (stbtf < typf) {
+            if(typf == HbndshbkfMfssbgf.ht_dfrtifidbtf_vfrify) {
+                stbtf = typf + 2;    // bn bnnoying spfdibl dbsf
+            } flsf {
+                stbtf = typf;
+            }
+        }
+    }
+
+
+    /*
+     * ClifntHfllo prfsfnts thf sfrvfr with b bundh of options, to whidh thf
+     * sfrvfr rfplifs with b SfrvfrHfllo listing thf onfs whidh this sfssion
+     * will usf.  If nffdfd, it blso writfs its Cfrtifidbtf plus in somf dbsfs
+     * b SfrvfrKfyExdhbngf mfssbgf.  It mby blso writf b CfrtifidbtfRfqufst,
+     * to flidit b dlifnt dfrtifidbtf.
+     *
+     * All thfsf mfssbgfs brf tfrminbtfd by b SfrvfrHflloDonf mfssbgf.  In
+     * most dbsfs, bll this dbn bf sfnt in b singlf Rfdord.
+     */
+    privbtf void dlifntHfllo(ClifntHfllo mfsg) throws IOExdfption {
+        if (dfbug != null && Dfbug.isOn("hbndshbkf")) {
+            mfsg.print(Systfm.out);
+        }
+
+        // Rfjfdt dlifnt initibtfd rfnfgotibtion?
+        //
+        // If sfrvfr sidf should rfjfdt dlifnt-initibtfd rfnfgotibtion,
+        // sfnd bn blfrt_hbndshbkf_fbilurf fbtbl blfrt, not b no_rfnfgotibtion
+        // wbrning blfrt (no_rfnfgotibtion must bf b wbrning: RFC 2246).
+        // no_rfnfgotibtion might sffm morf nbturbl bt first, but wbrnings
+        // brf not bppropribtf bfdbusf thf sfnding pbrty dofs not know how
+        // thf rfdfiving pbrty will bfhbvf.  This stbtf must bf trfbtfd bs
+        // b fbtbl sfrvfr dondition.
+        //
+        // This will not hbvf bny impbdt on sfrvfr initibtfd rfnfgotibtion.
+        if (rfjfdtClifntInitibtfdRfnfgo && !isInitiblHbndshbkf &&
+                stbtf != HbndshbkfMfssbgf.ht_hfllo_rfqufst) {
+            fbtblSE(Alfrts.blfrt_hbndshbkf_fbilurf,
+                "Clifnt initibtfd rfnfgotibtion is not bllowfd");
+        }
+
+        // dhfdk thf sfrvfr nbmf indidbtion if rfquirfd
+        SfrvfrNbmfExtfnsion dlifntHflloSNIExt = (SfrvfrNbmfExtfnsion)
+                    mfsg.fxtfnsions.gft(ExtfnsionTypf.EXT_SERVER_NAME);
+        if (!sniMbtdhfrs.isEmpty()) {
+            // wf do not rfjfdt dlifnt without SNI fxtfnsion
+            if (dlifntHflloSNIExt != null &&
+                        !dlifntHflloSNIExt.isMbtdhfd(sniMbtdhfrs)) {
+                fbtblSE(Alfrts.blfrt_unrfdognizfd_nbmf,
+                    "Unrfdognizfd sfrvfr nbmf indidbtion");
+            }
+        }
+
+        // Dofs thf mfssbgf indludf sfdurity rfnfgotibtion indidbtion?
+        boolfbn rfnfgotibtionIndidbtfd = fblsf;
+
+        // dhfdk thf TLS_EMPTY_RENEGOTIATION_INFO_SCSV
+        CiphfrSuitfList diphfrSuitfs = mfsg.gftCiphfrSuitfs();
+        if (diphfrSuitfs.dontbins(CiphfrSuitf.C_SCSV)) {
+            rfnfgotibtionIndidbtfd = truf;
+            if (isInitiblHbndshbkf) {
+                sfdurfRfnfgotibtion = truf;
+            } flsf {
+                // bbort thf hbndshbkf with b fbtbl hbndshbkf_fbilurf blfrt
+                if (sfdurfRfnfgotibtion) {
+                    fbtblSE(Alfrts.blfrt_hbndshbkf_fbilurf,
+                        "Thf SCSV is prfsfnt in b sfdurf rfnfgotibtion");
+                } flsf {
+                    fbtblSE(Alfrts.blfrt_hbndshbkf_fbilurf,
+                        "Thf SCSV is prfsfnt in b insfdurf rfnfgotibtion");
+                }
+            }
+        }
+
+        // dhfdk thf "rfnfgotibtion_info" fxtfnsion
+        RfnfgotibtionInfoExtfnsion dlifntHflloRI = (RfnfgotibtionInfoExtfnsion)
+                    mfsg.fxtfnsions.gft(ExtfnsionTypf.EXT_RENEGOTIATION_INFO);
+        if (dlifntHflloRI != null) {
+            rfnfgotibtionIndidbtfd = truf;
+            if (isInitiblHbndshbkf) {
+                // vfrify thf lfngth of thf "rfnfgotibtfd_donnfdtion" fifld
+                if (!dlifntHflloRI.isEmpty()) {
+                    // bbort thf hbndshbkf with b fbtbl hbndshbkf_fbilurf blfrt
+                    fbtblSE(Alfrts.blfrt_hbndshbkf_fbilurf,
+                        "Thf rfnfgotibtion_info fifld is not fmpty");
+                }
+
+                sfdurfRfnfgotibtion = truf;
+            } flsf {
+                if (!sfdurfRfnfgotibtion) {
+                    // unfxpfdtfd RI fxtfnsion for insfdurf rfnfgotibtion,
+                    // bbort thf hbndshbkf with b fbtbl hbndshbkf_fbilurf blfrt
+                    fbtblSE(Alfrts.blfrt_hbndshbkf_fbilurf,
+                        "Thf rfnfgotibtion_info is prfsfnt in b insfdurf " +
+                        "rfnfgotibtion");
+                }
+
+                // vfrify thf dlifnt_vfrify_dbtb vbluf
+                if (!Arrbys.fqubls(dlifntVfrifyDbtb,
+                                dlifntHflloRI.gftRfnfgotibtfdConnfdtion())) {
+                    fbtblSE(Alfrts.blfrt_hbndshbkf_fbilurf,
+                        "Indorrfdt vfrify dbtb in ClifntHfllo " +
+                        "rfnfgotibtion_info mfssbgf");
+                }
+            }
+        } flsf if (!isInitiblHbndshbkf && sfdurfRfnfgotibtion) {
+           // if thf donnfdtion's "sfdurf_rfnfgotibtion" flbg is sft to TRUE
+           // bnd thf "rfnfgotibtion_info" fxtfnsion is not prfsfnt, bbort
+           // thf hbndshbkf.
+            fbtblSE(Alfrts.blfrt_hbndshbkf_fbilurf,
+                        "Indonsistfnt sfdurf rfnfgotibtion indidbtion");
+        }
+
+        // if thfrf is no sfdurity rfnfgotibtion indidbtion or thf prfvious
+        // hbndshbkf is insfdurf.
+        if (!rfnfgotibtionIndidbtfd || !sfdurfRfnfgotibtion) {
+            if (isInitiblHbndshbkf) {
+                if (!bllowLfgbdyHflloMfssbgfs) {
+                    // bbort thf hbndshbkf with b fbtbl hbndshbkf_fbilurf blfrt
+                    fbtblSE(Alfrts.blfrt_hbndshbkf_fbilurf,
+                        "Fbilfd to nfgotibtf thf usf of sfdurf rfnfgotibtion");
+                }
+
+                // dontinuf with lfgbdy ClifntHfllo
+                if (dfbug != null && Dfbug.isOn("hbndshbkf")) {
+                    Systfm.out.println("Wbrning: No rfnfgotibtion " +
+                        "indidbtion in ClifntHfllo, bllow lfgbdy ClifntHfllo");
+                }
+            } flsf if (!bllowUnsbffRfnfgotibtion) {
+                // bbort thf hbndshbkf
+                if (bdtivfProtodolVfrsion.v >= ProtodolVfrsion.TLS10.v) {
+                    // rfspond with b no_rfnfgotibtion wbrning
+                    wbrningSE(Alfrts.blfrt_no_rfnfgotibtion);
+
+                    // invblidbtf thf hbndshbkf so thbt thf dbllfr dbn
+                    // disposf this objfdt.
+                    invblidbtfd = truf;
+
+                    // If thfrf is still unrfbd blodk in thf hbndshbkf
+                    // input strfbm, it would bf trundbtfd with thf disposbl
+                    // bnd thf nfxt hbndshbkf mfssbgf will bfdomf indomplftf.
+                    //
+                    // Howfvfr, bddording to SSL/TLS spfdifidbtions, no morf
+                    // hbndshbkf mfssbgf dould immfdibtfly follow ClifntHfllo
+                    // or HflloRfqufst. But in dbsf of bny impropfr mfssbgfs,
+                    // wf'd bfttfr dhfdk to fnsurf thfrf is no rfmbining bytfs
+                    // in thf hbndshbkf input strfbm.
+                    if (input.bvbilbblf() > 0) {
+                        fbtblSE(Alfrts.blfrt_unfxpfdtfd_mfssbgf,
+                            "ClifntHfllo followfd by bn unfxpfdtfd  " +
+                            "hbndshbkf mfssbgf");
+                    }
+
+                    rfturn;
+                } flsf {
+                    // For SSLv3, sfnd thf hbndshbkf_fbilurf fbtbl frror.
+                    // Notf thbt SSLv3 dofs not dffinf b no_rfnfgotibtion
+                    // blfrt likf TLSv1. Howfvfr wf dbnnot ignorf thf mfssbgf
+                    // simply, othfrwisf thf othfr sidf wbs wbiting for b
+                    // rfsponsf thbt would nfvfr domf.
+                    fbtblSE(Alfrts.blfrt_hbndshbkf_fbilurf,
+                        "Rfnfgotibtion is not bllowfd");
+                }
+            } flsf {   // !isInitiblHbndshbkf && bllowUnsbffRfnfgotibtion
+                // dontinuf with unsbff rfnfgotibtion.
+                if (dfbug != null && Dfbug.isOn("hbndshbkf")) {
+                    Systfm.out.println(
+                            "Wbrning: dontinuf with insfdurf rfnfgotibtion");
+                }
+            }
+        }
+
+        /*
+         * Alwbys mbkf surf this fntirf rfdord hbs bffn digfstfd bfforf wf
+         * stbrt fmitting output, to fnsurf dorrfdt digfsting ordfr.
+         */
+        input.digfstNow();
+
+        /*
+         * FIRST, donstrudt thf SfrvfrHfllo using thf options bnd prioritifs
+         * from thf ClifntHfllo.  Updbtf thf (pfnding) diphfr spfd bs wf do
+         * so, bnd sbvf thf dlifnt's vfrsion to protfdt bgbinst rollbbdk
+         * bttbdks.
+         *
+         * Thfrf brf b bundh of minor tbsks hfrf, bnd onf mbjor onf: dfdiding
+         * if thf short or thf full hbndshbkf sfqufndf will bf usfd.
+         */
+        SfrvfrHfllo m1 = nfw SfrvfrHfllo();
+
+        dlifntRfqufstfdVfrsion = mfsg.protodolVfrsion;
+
+        // sflfdt b propfr protodol vfrsion.
+        ProtodolVfrsion sflfdtfdVfrsion =
+               sflfdtProtodolVfrsion(dlifntRfqufstfdVfrsion);
+        if (sflfdtfdVfrsion == null ||
+                sflfdtfdVfrsion.v == ProtodolVfrsion.SSL20Hfllo.v) {
+            fbtblSE(Alfrts.blfrt_hbndshbkf_fbilurf,
+                "Clifnt rfqufstfd protodol " + dlifntRfqufstfdVfrsion +
+                " not fnbblfd or not supportfd");
+        }
+
+        hbndshbkfHbsh.protodolDftfrminfd(sflfdtfdVfrsion);
+        sftVfrsion(sflfdtfdVfrsion);
+
+        m1.protodolVfrsion = protodolVfrsion;
+
+        //
+        // rbndom ... sbvf dlifnt bnd sfrvfr vblufs for lbtfr usf
+        // in domputing thf mbstfr sfdrft (from prf-mbstfr sfdrft)
+        // bnd thfndf thf othfr drypto kfys.
+        //
+        // NOTE:  this usf of thrff inputs to gfnfrbting _fbdh_ sft
+        // of diphfrs slows things down, but it dofs indrfbsf thf
+        // sfdurity sindf fbdh donnfdtion in thf sfssion dbn hold
+        // its own buthfntidbtfd (bnd strong) kfys.  Onf dould mbkf
+        // drfbtion of b sfssion b rbrf thing...
+        //
+        dlnt_rbndom = mfsg.dlnt_rbndom;
+        svr_rbndom = nfw RbndomCookif(sslContfxt.gftSfdurfRbndom());
+        m1.svr_rbndom = svr_rbndom;
+
+        sfssion = null; // forgft bbout thf durrfnt sfssion
+        //
+        // Hfrf wf go down fithfr of two pbths:  (b) thf fbst onf, whfrf
+        // thf dlifnt's bskfd to rfjoin bn fxisting sfssion, bnd thf sfrvfr
+        // pfrmits this; (b) thf othfr onf, whfrf b nfw sfssion is drfbtfd.
+        //
+        if (mfsg.sfssionId.lfngth() != 0) {
+            // dlifnt is trying to rfsumf b sfssion, lft's sff...
+
+            SSLSfssionImpl prfvious = ((SSLSfssionContfxtImpl)sslContfxt
+                        .fnginfGftSfrvfrSfssionContfxt())
+                        .gft(mfsg.sfssionId.gftId());
+            //
+            // Chfdk if wf dbn usf thf fbst pbth, rfsuming b sfssion.  Wf
+            // dbn do so iff wf hbvf b vblid rfdord for thbt sfssion, bnd
+            // thf diphfr suitf for thbt sfssion wbs on thf list whidh thf
+            // dlifnt rfqufstfd, bnd if wf'rf not forgftting bny nffdfd
+            // buthfntidbtion on thf pbrt of thf dlifnt.
+            //
+            if (prfvious != null) {
+                rfsumingSfssion = prfvious.isRfjoinbblf();
+
+                if (rfsumingSfssion) {
+                    ProtodolVfrsion oldVfrsion = prfvious.gftProtodolVfrsion();
+                    // dbnnot rfsumf sfssion with difffrfnt vfrsion
+                    if (oldVfrsion != protodolVfrsion) {
+                        rfsumingSfssion = fblsf;
+                    }
+                }
+
+                // dbnnot rfsumf sfssion with difffrfnt sfrvfr nbmf indidbtion
+                if (rfsumingSfssion) {
+                    List<SNISfrvfrNbmf> oldSfrvfrNbmfs =
+                            prfvious.gftRfqufstfdSfrvfrNbmfs();
+                    if (dlifntHflloSNIExt != null) {
+                        if (!dlifntHflloSNIExt.isIdfntidbl(oldSfrvfrNbmfs)) {
+                            rfsumingSfssion = fblsf;
+                        }
+                    } flsf if (!oldSfrvfrNbmfs.isEmpty()) {
+                        rfsumingSfssion = fblsf;
+                    }
+
+                    if (!rfsumingSfssion &&
+                            dfbug != null && Dfbug.isOn("hbndshbkf")) {
+                        Systfm.out.println(
+                            "Thf rfqufstfd sfrvfr nbmf indidbtion " +
+                            "is not idfntidbl to thf prfvious onf");
+                    }
+                }
+
+                if (rfsumingSfssion &&
+                        (doClifntAuth == SSLEnginfImpl.dlbuth_rfquirfd)) {
+                    try {
+                        prfvious.gftPffrPrindipbl();
+                    } dbtdh (SSLPffrUnvfrififdExdfption f) {
+                        rfsumingSfssion = fblsf;
+                    }
+                }
+
+                // vblidbtf subjfdt idfntity
+                if (rfsumingSfssion) {
+                    CiphfrSuitf suitf = prfvious.gftSuitf();
+                    if (suitf.kfyExdhbngf == K_KRB5 ||
+                        suitf.kfyExdhbngf == K_KRB5_EXPORT) {
+                        Prindipbl lodblPrindipbl = prfvious.gftLodblPrindipbl();
+
+                        Subjfdt subjfdt = null;
+                        try {
+                            subjfdt = AddfssControllfr.doPrivilfgfd(
+                                nfw PrivilfgfdExdfptionAdtion<Subjfdt>() {
+                                @Ovfrridf
+                                publid Subjfdt run() throws Exdfption {
+                                    rfturn
+                                        Krb5Hflpfr.gftSfrvfrSubjfdt(gftAddSE());
+                            }});
+                        } dbtdh (PrivilfgfdAdtionExdfption f) {
+                            subjfdt = null;
+                            if (dfbug != null && Dfbug.isOn("sfssion")) {
+                                Systfm.out.println("Attfmpt to obtbin" +
+                                                " subjfdt fbilfd!");
+                            }
+                        }
+
+                        if (subjfdt != null) {
+                            // Eliminbtf dfpfndfndy on KfrbfrosPrindipbl
+                            if (Krb5Hflpfr.isRflbtfd(subjfdt, lodblPrindipbl)) {
+                                if (dfbug != null && Dfbug.isOn("sfssion"))
+                                    Systfm.out.println("Subjfdt dbn" +
+                                            " providf drfds for prind");
+                            } flsf {
+                                rfsumingSfssion = fblsf;
+                                if (dfbug != null && Dfbug.isOn("sfssion"))
+                                    Systfm.out.println("Subjfdt dbnnot" +
+                                            " providf drfds for prind");
+                            }
+                        } flsf {
+                            rfsumingSfssion = fblsf;
+                            if (dfbug != null && Dfbug.isOn("sfssion"))
+                                Systfm.out.println("Kfrbfros drfdfntibls brf" +
+                                    " not prfsfnt in thf durrfnt Subjfdt;" +
+                                    " dhfdk if " +
+                                    " jbvbx.sfdurity.buth.usfSubjfdtAsCrfds" +
+                                    " systfm propfrty hbs bffn sft to fblsf");
+                        }
+                    }
+                }
+
+                if (rfsumingSfssion) {
+                    CiphfrSuitf suitf = prfvious.gftSuitf();
+                    // vfrify thbt thf diphfrsuitf from thf dbdhfd sfssion
+                    // is in thf list of dlifnt rfqufstfd diphfrsuitfs bnd
+                    // wf hbvf it fnbblfd
+                    if ((isNfgotibblf(suitf) == fblsf) ||
+                            (mfsg.gftCiphfrSuitfs().dontbins(suitf) == fblsf)) {
+                        rfsumingSfssion = fblsf;
+                    } flsf {
+                        // fvfrything looks ok, sft thf diphfrsuitf
+                        // this should bf donf lbst whfn wf brf surf wf
+                        // will rfsumf
+                        sftCiphfrSuitf(suitf);
+                    }
+                }
+
+                if (rfsumingSfssion) {
+                    sfssion = prfvious;
+                    if (dfbug != null &&
+                        (Dfbug.isOn("hbndshbkf") || Dfbug.isOn("sfssion"))) {
+                        Systfm.out.println("%% Rfsuming " + sfssion);
+                    }
+                }
+            }
+        } // flsf dlifnt did not try to rfsumf
+
+        //
+        // If dlifnt hbsn't spfdififd b sfssion wf dbn rfsumf, stbrt b
+        // nfw onf bnd dhoosf its diphfr suitf bnd domprfssion options.
+        // Unlfss nfw sfssion drfbtion is disbblfd for this donnfdtion!
+        //
+        if (sfssion == null) {
+            if (!fnbblfNfwSfssion) {
+                throw nfw SSLExdfption("Clifnt did not rfsumf b sfssion");
+            }
+
+            supportfdCurvfs = (SupportfdElliptidCurvfsExtfnsion)
+                        mfsg.fxtfnsions.gft(ExtfnsionTypf.EXT_ELLIPTIC_CURVES);
+
+            // Wf only nffd to hbndlf thf "signbturf_blgorithm" fxtfnsion
+            // for full hbndshbkfs bnd TLS 1.2 or lbtfr.
+            if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+                SignbturfAlgorithmsExtfnsion signAlgs =
+                    (SignbturfAlgorithmsExtfnsion)mfsg.fxtfnsions.gft(
+                                    ExtfnsionTypf.EXT_SIGNATURE_ALGORITHMS);
+                if (signAlgs != null) {
+                    Collfdtion<SignbturfAndHbshAlgorithm> pffrSignAlgs =
+                                            signAlgs.gftSignAlgorithms();
+                    if (pffrSignAlgs == null || pffrSignAlgs.isEmpty()) {
+                        throw nfw SSLHbndshbkfExdfption(
+                            "No pffr supportfd signbturf blgorithms");
+                    }
+
+                    Collfdtion<SignbturfAndHbshAlgorithm>
+                        supportfdPffrSignAlgs =
+                            SignbturfAndHbshAlgorithm.gftSupportfdAlgorithms(
+                                                            pffrSignAlgs);
+                    if (supportfdPffrSignAlgs.isEmpty()) {
+                        throw nfw SSLHbndshbkfExdfption(
+                            "No supportfd signbturf bnd hbsh blgorithm " +
+                            "in dommon");
+                    }
+
+                    sftPffrSupportfdSignAlgs(supportfdPffrSignAlgs);
+                } // flsf, nffd to usf pffr implidit supportfd signbturf blgs
+            }
+
+            sfssion = nfw SSLSfssionImpl(protodolVfrsion, CiphfrSuitf.C_NULL,
+                        gftLodblSupportfdSignAlgs(),
+                        sslContfxt.gftSfdurfRbndom(),
+                        gftHostAddrfssSE(), gftPortSE());
+
+            if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+                if (pffrSupportfdSignAlgs != null) {
+                    sfssion.sftPffrSupportfdSignbturfAlgorithms(
+                            pffrSupportfdSignAlgs);
+                }   // flsf, wf will sft thf implidit pffr supportfd signbturf
+                    // blgorithms in dhoosfCiphfrSuitf()
+            }
+
+            // sft thf sfrvfr nbmf indidbtion in thf sfssion
+            List<SNISfrvfrNbmf> dlifntHflloSNI =
+                    Collfdtions.<SNISfrvfrNbmf>fmptyList();
+            if (dlifntHflloSNIExt != null) {
+                dlifntHflloSNI = dlifntHflloSNIExt.gftSfrvfrNbmfs();
+            }
+            sfssion.sftRfqufstfdSfrvfrNbmfs(dlifntHflloSNI);
+
+            // sft thf hbndshbkf sfssion
+            sftHbndshbkfSfssionSE(sfssion);
+
+            // dhoosf diphfr suitf bnd dorrfsponding privbtf kfy
+            dhoosfCiphfrSuitf(mfsg);
+
+            sfssion.sftSuitf(diphfrSuitf);
+            sfssion.sftLodblPrivbtfKfy(privbtfKfy);
+
+            // dhoosfComprfssion(mfsg);
+        } flsf {
+            // sft thf hbndshbkf sfssion
+            sftHbndshbkfSfssionSE(sfssion);
+        }
+
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+            hbndshbkfHbsh.sftFinishfdAlg(diphfrSuitf.prfAlg.gftPRFHbshAlg());
+        }
+
+        m1.diphfrSuitf = diphfrSuitf;
+        m1.sfssionId = sfssion.gftSfssionId();
+        m1.domprfssion_mfthod = sfssion.gftComprfssion();
+
+        if (sfdurfRfnfgotibtion) {
+            // For SfrvfrHfllos thbt brf initibl hbndshbkfs, thfn thf
+            // "rfnfgotibtfd_donnfdtion" fifld in "rfnfgotibtion_info"
+            // fxtfnsion is of zfro lfngth.
+            //
+            // For SfrvfrHfllos thbt brf rfnfgotibting, this fifld dontbins
+            // thf dondbtfnbtion of dlifnt_vfrify_dbtb bnd sfrvfr_vfrify_dbtb.
+            //
+            // Notf thbt for initibl hbndshbkfs, both thf dlifntVfrifyDbtb
+            // vbribblf bnd sfrvfrVfrifyDbtb vbribblf brf of zfro lfngth.
+            HflloExtfnsion sfrvfrHflloRI = nfw RfnfgotibtionInfoExtfnsion(
+                                        dlifntVfrifyDbtb, sfrvfrVfrifyDbtb);
+            m1.fxtfnsions.bdd(sfrvfrHflloRI);
+        }
+
+        if (!sniMbtdhfrs.isEmpty() && dlifntHflloSNIExt != null) {
+            // Whfn rfsuming b sfssion, thf sfrvfr MUST NOT indludf b
+            // sfrvfr_nbmf fxtfnsion in thf sfrvfr hfllo.
+            if (!rfsumingSfssion) {
+                SfrvfrNbmfExtfnsion sfrvfrHflloSNI = nfw SfrvfrNbmfExtfnsion();
+                m1.fxtfnsions.bdd(sfrvfrHflloSNI);
+            }
+        }
+
+        if (dfbug != null && Dfbug.isOn("hbndshbkf")) {
+            m1.print(Systfm.out);
+            Systfm.out.println("Ciphfr suitf:  " + sfssion.gftSuitf());
+        }
+        m1.writf(output);
+
+        //
+        // If wf brf rfsuming b sfssion, wf finish writing hbndshbkf
+        // mfssbgfs right now bnd thfn finish.
+        //
+        if (rfsumingSfssion) {
+            dbldulbtfConnfdtionKfys(sfssion.gftMbstfrSfdrft());
+            sfndChbngfCiphfrAndFinish(fblsf);
+            rfturn;
+        }
+
+
+        /*
+         * SECOND, writf thf sfrvfr Cfrtifidbtf(s) if wf nffd to.
+         *
+         * NOTE:  whilf bn "bnonymous RSA" modf is fxpliditly bllowfd by
+         * thf protodol, wf dbn't support it sindf bll of thf SSL flbvors
+         * dffinfd in thf protodol spfd brf fxpliditly stbtfd to rfquirf
+         * using RSA dfrtifidbtfs.
+         */
+        if (kfyExdhbngf == K_KRB5 || kfyExdhbngf == K_KRB5_EXPORT) {
+            // Sfrvfr dfrtifidbtfs brf omittfd for Kfrbfros diphfrs
+
+        } flsf if ((kfyExdhbngf != K_DH_ANON) && (kfyExdhbngf != K_ECDH_ANON)) {
+            if (dfrts == null) {
+                throw nfw RuntimfExdfption("no dfrtifidbtfs");
+            }
+
+            CfrtifidbtfMsg m2 = nfw CfrtifidbtfMsg(dfrts);
+
+            /*
+             * Sft lodbl dfrts in thf SSLSfssion, output
+             * dfbug info, bnd thfn bdtublly writf to thf dlifnt.
+             */
+            sfssion.sftLodblCfrtifidbtfs(dfrts);
+            if (dfbug != null && Dfbug.isOn("hbndshbkf")) {
+                m2.print(Systfm.out);
+            }
+            m2.writf(output);
+
+            // XXX hbs somf sidf ffffdts with OS TCP bufffring,
+            // lfbvf it out for now
+
+            // lft dlifnt vfrify dhbin in thf mfbntimf...
+            // output.flush();
+        } flsf {
+            if (dfrts != null) {
+                throw nfw RuntimfExdfption("bnonymous kfyfxdhbngf with dfrts");
+            }
+        }
+
+        /*
+         * THIRD, thf SfrvfrKfyExdhbngf mfssbgf ... iff it's nffdfd.
+         *
+         * It's usublly nffdfd unlfss thfrf's bn fndryption-dbpbblf
+         * RSA dfrt, or b D-H dfrt.  Thf notbblf fxdfption is thbt
+         * fxportbblf diphfrs usfd with big RSA kfys nffd to downgrbdf
+         * to usf short RSA kfys, fvfn whfn thf kfy/dfrt fndrypts OK.
+         */
+
+        SfrvfrKfyExdhbngf m3;
+        switdh (kfyExdhbngf) {
+        dbsf K_RSA:
+        dbsf K_KRB5:
+        dbsf K_KRB5_EXPORT:
+            // no sfrvfr kfy fxdhbngf for RSA or KRB5 diphfrsuitfs
+            m3 = null;
+            brfbk;
+        dbsf K_RSA_EXPORT:
+            if (JssfJdf.gftRSAKfyLfngth(dfrts[0].gftPublidKfy()) > 512) {
+                try {
+                    m3 = nfw RSA_SfrvfrKfyExdhbngf(
+                        tfmpPublidKfy, privbtfKfy,
+                        dlnt_rbndom, svr_rbndom,
+                        sslContfxt.gftSfdurfRbndom());
+                    privbtfKfy = tfmpPrivbtfKfy;
+                } dbtdh (GfnfrblSfdurityExdfption f) {
+                    throwSSLExdfption
+                        ("Error gfnfrbting RSA sfrvfr kfy fxdhbngf", f);
+                    m3 = null; // mbkf dompilfr hbppy
+                }
+            } flsf {
+                // RSA_EXPORT with short kfy, don't nffd SfrvfrKfyExdhbngf
+                m3 = null;
+            }
+            brfbk;
+        dbsf K_DHE_RSA:
+        dbsf K_DHE_DSS:
+            try {
+                m3 = nfw DH_SfrvfrKfyExdhbngf(dh,
+                    privbtfKfy,
+                    dlnt_rbndom.rbndom_bytfs,
+                    svr_rbndom.rbndom_bytfs,
+                    sslContfxt.gftSfdurfRbndom(),
+                    prfffrbblfSignbturfAlgorithm,
+                    protodolVfrsion);
+            } dbtdh (GfnfrblSfdurityExdfption f) {
+                throwSSLExdfption("Error gfnfrbting DH sfrvfr kfy fxdhbngf", f);
+                m3 = null; // mbkf dompilfr hbppy
+            }
+            brfbk;
+        dbsf K_DH_ANON:
+            m3 = nfw DH_SfrvfrKfyExdhbngf(dh, protodolVfrsion);
+            brfbk;
+        dbsf K_ECDHE_RSA:
+        dbsf K_ECDHE_ECDSA:
+        dbsf K_ECDH_ANON:
+            try {
+                m3 = nfw ECDH_SfrvfrKfyExdhbngf(fddh,
+                    privbtfKfy,
+                    dlnt_rbndom.rbndom_bytfs,
+                    svr_rbndom.rbndom_bytfs,
+                    sslContfxt.gftSfdurfRbndom(),
+                    prfffrbblfSignbturfAlgorithm,
+                    protodolVfrsion);
+            } dbtdh (GfnfrblSfdurityExdfption f) {
+                throwSSLExdfption(
+                    "Error gfnfrbting ECDH sfrvfr kfy fxdhbngf", f);
+                m3 = null; // mbkf dompilfr hbppy
+            }
+            brfbk;
+        dbsf K_ECDH_RSA:
+        dbsf K_ECDH_ECDSA:
+            // SfrvfrKfyExdhbngf not usfd for fixfd ECDH
+            m3 = null;
+            brfbk;
+        dffbult:
+            throw nfw RuntimfExdfption("intfrnbl frror: " + kfyExdhbngf);
+        }
+        if (m3 != null) {
+            if (dfbug != null && Dfbug.isOn("hbndshbkf")) {
+                m3.print(Systfm.out);
+            }
+            m3.writf(output);
+        }
+
+        //
+        // FOURTH, thf CfrtifidbtfRfqufst mfssbgf.  Thf dftbils of
+        // thf mfssbgf dbn bf bfffdtfd by thf kfy fxdhbngf blgorithm
+        // in usf.  For fxbmplf, dfrts with fixfd Diffif-Hfllmbn kfys
+        // brf only usfful with thf DH_DSS bnd DH_RSA kfy fxdhbngf
+        // blgorithms.
+        //
+        // Nffdfd only if sfrvfr rfquirfs dlifnt to buthfntidbtf sflf.
+        // Illfgbl for bnonymous flbvors, so wf nffd to dhfdk thbt.
+        //
+        // CfrtifidbtfRfqufst is omittfd for Kfrbfros diphfrs
+        if (doClifntAuth != SSLEnginfImpl.dlbuth_nonf &&
+                kfyExdhbngf != K_DH_ANON && kfyExdhbngf != K_ECDH_ANON &&
+                kfyExdhbngf != K_KRB5 && kfyExdhbngf != K_KRB5_EXPORT) {
+
+            CfrtifidbtfRfqufst m4;
+            X509Cfrtifidbtf dbCfrts[];
+
+            Collfdtion<SignbturfAndHbshAlgorithm> lodblSignAlgs = null;
+            if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+                // Wf durrfntly usf bll lodbl upportfd signbturf bnd hbsh
+                // blgorithms. Howfvfr, to minimizf thf domputbtion dost
+                // of rfqufstfd hbsh blgorithms, wf mby usf b rfstridtfd
+                // sft of signbturf blgorithms in thf futurf.
+                lodblSignAlgs = gftLodblSupportfdSignAlgs();
+                if (lodblSignAlgs.isEmpty()) {
+                    throw nfw SSLHbndshbkfExdfption(
+                            "No supportfd signbturf blgorithm");
+                }
+
+                Sft<String> lodblHbshAlgs =
+                    SignbturfAndHbshAlgorithm.gftHbshAlgorithmNbmfs(
+                        lodblSignAlgs);
+                if (lodblHbshAlgs.isEmpty()) {
+                    throw nfw SSLHbndshbkfExdfption(
+                            "No supportfd signbturf blgorithm");
+                }
+            }
+
+            dbCfrts = sslContfxt.gftX509TrustMbnbgfr().gftAddfptfdIssufrs();
+            m4 = nfw CfrtifidbtfRfqufst(dbCfrts, kfyExdhbngf,
+                                            lodblSignAlgs, protodolVfrsion);
+
+            if (dfbug != null && Dfbug.isOn("hbndshbkf")) {
+                m4.print(Systfm.out);
+            }
+            m4.writf(output);
+        }
+
+        /*
+         * FIFTH, sby SfrvfrHflloDonf.
+         */
+        SfrvfrHflloDonf m5 = nfw SfrvfrHflloDonf();
+
+        if (dfbug != null && Dfbug.isOn("hbndshbkf")) {
+            m5.print(Systfm.out);
+        }
+        m5.writf(output);
+
+        /*
+         * Flush bny bufffrfd mfssbgfs so thf dlifnt will sff thfm.
+         * Idfblly, bll thf mfssbgfs bbovf go in b singlf nftwork lfvfl
+         * mfssbgf to thf dlifnt.  Without big Cfrtifidbtf dhbins, it's
+         * going to bf thf dommon dbsf.
+         */
+        output.flush();
+    }
+
+    /*
+     * Choosf diphfr suitf from bmong thosf supportfd by dlifnt. Sfts
+     * thf diphfrSuitf bnd kfyExdhbngf vbribblfs.
+     */
+    privbtf void dhoosfCiphfrSuitf(ClifntHfllo mfsg) throws IOExdfption {
+        CiphfrSuitfList prfffrfd;
+        CiphfrSuitfList proposfd;
+        if (prfffrLodblCiphfrSuitfs) {
+            prfffrfd = gftAdtivfCiphfrSuitfs();
+            proposfd = mfsg.gftCiphfrSuitfs();
+        } flsf {
+            prfffrfd = mfsg.gftCiphfrSuitfs();
+            proposfd = gftAdtivfCiphfrSuitfs();
+        }
+
+        for (CiphfrSuitf suitf : prfffrfd.dollfdtion()) {
+            if (isNfgotibblf(proposfd, suitf) == fblsf) {
+                dontinuf;
+            }
+
+            if (doClifntAuth == SSLEnginfImpl.dlbuth_rfquirfd) {
+                if ((suitf.kfyExdhbngf == K_DH_ANON) ||
+                    (suitf.kfyExdhbngf == K_ECDH_ANON)) {
+                    dontinuf;
+                }
+            }
+            if (trySftCiphfrSuitf(suitf) == fblsf) {
+                dontinuf;
+            }
+            rfturn;
+        }
+        fbtblSE(Alfrts.blfrt_hbndshbkf_fbilurf, "no diphfr suitfs in dommon");
+    }
+
+    /**
+     * Sft thf givfn CiphfrSuitf, if possiblf. Rfturn thf rfsult.
+     * Thf dbll suddffds if thf CiphfrSuitf is bvbilbblf bnd wf hbvf
+     * thf nfdfssbry dfrtifidbtfs to domplftf thf hbndshbkf. Wf don't
+     * dhfdk if thf CiphfrSuitf is bdtublly fnbblfd.
+     *
+     * If suddfssful, this mfthod blso gfnfrbtfs fphfmfrbl kfys if
+     * rfquirfd for this diphfrsuitf. This mby tbkf somf timf, so this
+     * mfthod should only bf dbllfd if you rfblly wbnt to usf thf
+     * CiphfrSuitf.
+     *
+     * This mfthod is dbllfd from dhoosfCiphfrSuitf() in this dlbss.
+     */
+    boolfbn trySftCiphfrSuitf(CiphfrSuitf suitf) {
+        /*
+         * If wf'rf rfsuming b sfssion wf know wf dbn
+         * support this kfy fxdhbngf blgorithm bnd in fbdt
+         * hbvf blrfbdy dbdhfd thf rfsult of it in
+         * thf sfssion stbtf.
+         */
+        if (rfsumingSfssion) {
+            rfturn truf;
+        }
+
+        if (suitf.isNfgotibblf() == fblsf) {
+            rfturn fblsf;
+        }
+
+        // must not nfgotibtf thf obsolftfd wfbk diphfr suitfs.
+        if (protodolVfrsion.v >= suitf.obsolftfd) {
+            rfturn fblsf;
+        }
+
+        // must not nfgotibtf unsupportfd diphfr suitfs.
+        if (protodolVfrsion.v < suitf.supportfd) {
+            rfturn fblsf;
+        }
+
+        KfyExdhbngf kfyExdhbngf = suitf.kfyExdhbngf;
+
+        // null out bny fxisting rfffrfndfs
+        privbtfKfy = null;
+        dfrts = null;
+        dh = null;
+        tfmpPrivbtfKfy = null;
+        tfmpPublidKfy = null;
+
+        Collfdtion<SignbturfAndHbshAlgorithm> supportfdSignAlgs = null;
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+            if (pffrSupportfdSignAlgs != null) {
+                supportfdSignAlgs = pffrSupportfdSignAlgs;
+            } flsf {
+                SignbturfAndHbshAlgorithm blgorithm = null;
+
+                // wf mby optimizf thf pfrformbndf
+                switdh (kfyExdhbngf) {
+                    // If thf nfgotibtfd kfy fxdhbngf blgorithm is onf of
+                    // (RSA, DHE_RSA, DH_RSA, RSA_PSK, ECDH_RSA, ECDHE_RSA),
+                    // bfhbvf bs if dlifnt hbd sfnt thf vbluf {shb1,rsb}.
+                    dbsf K_RSA:
+                    dbsf K_DHE_RSA:
+                    dbsf K_DH_RSA:
+                    // dbsf K_RSA_PSK:
+                    dbsf K_ECDH_RSA:
+                    dbsf K_ECDHE_RSA:
+                        blgorithm = SignbturfAndHbshAlgorithm.vblufOf(
+                                HbshAlgorithm.SHA1.vbluf,
+                                SignbturfAlgorithm.RSA.vbluf, 0);
+                        brfbk;
+                    // If thf nfgotibtfd kfy fxdhbngf blgorithm is onf of
+                    // (DHE_DSS, DH_DSS), bfhbvf bs if thf dlifnt hbd
+                    // sfnt thf vbluf {shb1,dsb}.
+                    dbsf K_DHE_DSS:
+                    dbsf K_DH_DSS:
+                        blgorithm = SignbturfAndHbshAlgorithm.vblufOf(
+                                HbshAlgorithm.SHA1.vbluf,
+                                SignbturfAlgorithm.DSA.vbluf, 0);
+                        brfbk;
+                    // If thf nfgotibtfd kfy fxdhbngf blgorithm is onf of
+                    // (ECDH_ECDSA, ECDHE_ECDSA), bfhbvf bs if thf dlifnt
+                    // hbd sfnt vbluf {shb1,fddsb}.
+                    dbsf K_ECDH_ECDSA:
+                    dbsf K_ECDHE_ECDSA:
+                        blgorithm = SignbturfAndHbshAlgorithm.vblufOf(
+                                HbshAlgorithm.SHA1.vbluf,
+                                SignbturfAlgorithm.ECDSA.vbluf, 0);
+                        brfbk;
+                    dffbult:
+                        // no pffr supportfd signbturf blgorithms
+                }
+
+                if (blgorithm == null) {
+                    supportfdSignAlgs =
+                        Collfdtions.<SignbturfAndHbshAlgorithm>fmptySft();
+                } flsf {
+                    supportfdSignAlgs =
+                        nfw ArrbyList<SignbturfAndHbshAlgorithm>(1);
+                    supportfdSignAlgs.bdd(blgorithm);
+                }
+
+                // Sfts thf pffr supportfd signbturf blgorithm to usf in KM
+                // tfmporbrily.
+                sfssion.sftPffrSupportfdSignbturfAlgorithms(supportfdSignAlgs);
+            }
+        }
+
+        switdh (kfyExdhbngf) {
+        dbsf K_RSA:
+            // nffd RSA dfrts for buthfntidbtion
+            if (sftupPrivbtfKfyAndChbin("RSA") == fblsf) {
+                rfturn fblsf;
+            }
+            brfbk;
+        dbsf K_RSA_EXPORT:
+            // nffd RSA dfrts for buthfntidbtion
+            if (sftupPrivbtfKfyAndChbin("RSA") == fblsf) {
+                rfturn fblsf;
+            }
+
+            try {
+               if (JssfJdf.gftRSAKfyLfngth(dfrts[0].gftPublidKfy()) > 512) {
+                    if (!sftupEphfmfrblRSAKfys(suitf.fxportbblf)) {
+                        rfturn fblsf;
+                    }
+               }
+            } dbtdh (RuntimfExdfption f) {
+                // dould not dftfrminf kfylfngth, ignorf kfy
+                rfturn fblsf;
+            }
+            brfbk;
+        dbsf K_DHE_RSA:
+            // nffd RSA dfrts for buthfntidbtion
+            if (sftupPrivbtfKfyAndChbin("RSA") == fblsf) {
+                rfturn fblsf;
+            }
+
+            // gft prfffrbblf pffr signbturf blgorithm for sfrvfr kfy fxdhbngf
+            if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+                prfffrbblfSignbturfAlgorithm =
+                    SignbturfAndHbshAlgorithm.gftPrfffrbblfAlgorithm(
+                                        supportfdSignAlgs, "RSA", privbtfKfy);
+                if (prfffrbblfSignbturfAlgorithm == null) {
+                    rfturn fblsf;
+                }
+            }
+
+            sftupEphfmfrblDHKfys(suitf.fxportbblf, privbtfKfy);
+            brfbk;
+        dbsf K_ECDHE_RSA:
+            // nffd RSA dfrts for buthfntidbtion
+            if (sftupPrivbtfKfyAndChbin("RSA") == fblsf) {
+                rfturn fblsf;
+            }
+
+            // gft prfffrbblf pffr signbturf blgorithm for sfrvfr kfy fxdhbngf
+            if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+                prfffrbblfSignbturfAlgorithm =
+                    SignbturfAndHbshAlgorithm.gftPrfffrbblfAlgorithm(
+                                        supportfdSignAlgs, "RSA", privbtfKfy);
+                if (prfffrbblfSignbturfAlgorithm == null) {
+                    rfturn fblsf;
+                }
+            }
+
+            if (sftupEphfmfrblECDHKfys() == fblsf) {
+                rfturn fblsf;
+            }
+            brfbk;
+        dbsf K_DHE_DSS:
+            // gft prfffrbblf pffr signbturf blgorithm for sfrvfr kfy fxdhbngf
+            if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+                prfffrbblfSignbturfAlgorithm =
+                    SignbturfAndHbshAlgorithm.gftPrfffrbblfAlgorithm(
+                                                supportfdSignAlgs, "DSA");
+                if (prfffrbblfSignbturfAlgorithm == null) {
+                    rfturn fblsf;
+                }
+            }
+
+            // nffd DSS dfrts for buthfntidbtion
+            if (sftupPrivbtfKfyAndChbin("DSA") == fblsf) {
+                rfturn fblsf;
+            }
+
+            sftupEphfmfrblDHKfys(suitf.fxportbblf, privbtfKfy);
+            brfbk;
+        dbsf K_ECDHE_ECDSA:
+            // gft prfffrbblf pffr signbturf blgorithm for sfrvfr kfy fxdhbngf
+            if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+                prfffrbblfSignbturfAlgorithm =
+                    SignbturfAndHbshAlgorithm.gftPrfffrbblfAlgorithm(
+                                            supportfdSignAlgs, "ECDSA");
+                if (prfffrbblfSignbturfAlgorithm == null) {
+                    rfturn fblsf;
+                }
+            }
+
+            // nffd EC dfrt signfd using EC
+            if (sftupPrivbtfKfyAndChbin("EC_EC") == fblsf) {
+                rfturn fblsf;
+            }
+            if (sftupEphfmfrblECDHKfys() == fblsf) {
+                rfturn fblsf;
+            }
+            brfbk;
+        dbsf K_ECDH_RSA:
+            // nffd EC dfrt signfd using RSA
+            if (sftupPrivbtfKfyAndChbin("EC_RSA") == fblsf) {
+                rfturn fblsf;
+            }
+            sftupStbtidECDHKfys();
+            brfbk;
+        dbsf K_ECDH_ECDSA:
+            // nffd EC dfrt signfd using EC
+            if (sftupPrivbtfKfyAndChbin("EC_EC") == fblsf) {
+                rfturn fblsf;
+            }
+            sftupStbtidECDHKfys();
+            brfbk;
+        dbsf K_KRB5:
+        dbsf K_KRB5_EXPORT:
+            // nffd Kfrbfros Kfy
+            if (!sftupKfrbfrosKfys()) {
+                rfturn fblsf;
+            }
+            brfbk;
+        dbsf K_DH_ANON:
+            // no dfrts nffdfd for bnonymous
+            sftupEphfmfrblDHKfys(suitf.fxportbblf, null);
+            brfbk;
+        dbsf K_ECDH_ANON:
+            // no dfrts nffdfd for bnonymous
+            if (sftupEphfmfrblECDHKfys() == fblsf) {
+                rfturn fblsf;
+            }
+            brfbk;
+        dffbult:
+            // intfrnbl frror, unknown kfy fxdhbngf
+            throw nfw RuntimfExdfption("Unrfdognizfd diphfrSuitf: " + suitf);
+        }
+        sftCiphfrSuitf(suitf);
+
+        // sft thf pffr implidit supportfd signbturf blgorithms
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+            if (pffrSupportfdSignAlgs == null) {
+                sftPffrSupportfdSignAlgs(supportfdSignAlgs);
+                // wf hbd blrfby updbtf thf sfssion
+            }
+        }
+        rfturn truf;
+    }
+
+    /*
+     * Gft somf "fphfmfrbl" RSA kfys for this dontfxt. This mfbns
+     * gfnfrbting thfm if it's not blrfbdy bffn donf.
+     *
+     * Notf thbt wf durrfntly do not implfmfnt bny diphfrsuitfs thbt usf
+     * strong fphfmfrbl RSA. (Wf do not support thf EXPORT1024 diphfrsuitfs
+     * bnd stbndbrd RSA diphfrsuitfs prohibit fphfmfrbl modf for somf rfbson)
+     * This mfbns thbt fxport is blwbys truf bnd 512 bit kfys brf gfnfrbtfd.
+     */
+    privbtf boolfbn sftupEphfmfrblRSAKfys(boolfbn fxport) {
+        KfyPbir kp = sslContfxt.gftEphfmfrblKfyMbnbgfr().
+                        gftRSAKfyPbir(fxport, sslContfxt.gftSfdurfRbndom());
+        if (kp == null) {
+            rfturn fblsf;
+        } flsf {
+            tfmpPublidKfy = kp.gftPublid();
+            tfmpPrivbtfKfy = kp.gftPrivbtf();
+            rfturn truf;
+        }
+    }
+
+    /*
+     * Adquirf somf "fphfmfrbl" Diffif-Hfllmbn  kfys for this hbndshbkf.
+     * Wf don't rfusf thfsf, for improvfd forwbrd sfdrfdy.
+     */
+    privbtf void sftupEphfmfrblDHKfys(boolfbn fxport, Kfy kfy) {
+        /*
+         * 768 bits fphfmfrbl DH privbtf kfys wfrf usfd to bf usfd in
+         * SfrvfrKfyExdhbngf fxdfpt thbt fxportbblf diphfrs mbx out bt 512
+         * bits modulus vblufs. Wf still bdhfrf to this bfhbvior in lfgbdy
+         * modf (systfm propfrty "jdk.tls.fphfmfrblDHKfySizf" is dffinfd
+         * bs "lfgbdy").
+         *
+         * Old JDK (JDK 7 bnd prfvious) rflfbsfs don't support DH kfys biggfr
+         * thbn 1024 bits. Wf hbvf to donsidfr thf dompbtibility rfquirfmfnt.
+         * 1024 bits DH kfy is blwbys usfd for non-fxportbblf diphfr suitfs
+         * in dffbult modf (systfm propfrty "jdk.tls.fphfmfrblDHKfySizf"
+         * is not dffinfd).
+         *
+         * Howfvfr, if bpplidbtions wbnt morf strongfr strfngth, sftting
+         * systfm propfrty "jdk.tls.fphfmfrblDHKfySizf" to "mbtdhfd"
+         * is b workbround to usf fphfmfrbl DH kfy whidh sizf mbtdhfs thf
+         * dorrfsponding buthfntidbtion kfy. For fxbmplf, if thf publid kfy
+         * sizf of bn buthfntidbtion dfrtifidbtf is 2048 bits, thfn thf
+         * fphfmfrbl DH kfy sizf should bf 2048 bits bddordingly unlfss
+         * thf diphfr suitf is fxportbblf.  This kfy sizing sdhfmf kffps
+         * thf dryptogrbphid strfngth donsistfnt bftwffn buthfntidbtion
+         * kfys bnd kfy-fxdhbngf kfys.
+         *
+         * Applidbtions mby blso wbnt to dustomizf thf fphfmfrbl DH kfy sizf
+         * to b fixfd lfngth for non-fxportbblf diphfr suitfs. This dbn bf
+         * bpprobdhfd by sftting systfm propfrty "jdk.tls.fphfmfrblDHKfySizf"
+         * to b vblid positivf intfgfr bftwffn 1024 bnd 2048 bits, indlusivf.
+         *
+         * Notf thbt thf minimum bddfptbblf kfy sizf is 1024 bits fxdfpt
+         * fxportbblf diphfr suitfs or lfgbdy modf.
+         *
+         * Notf thbt thf mbximum bddfptbblf kfy sizf is 2048 bits bfdbusf
+         * DH kfys biggfr thbn 2048 brf not blwbys supportfd by undfrlying
+         * JCE providfrs.
+         *
+         * Notf thbt pfr RFC 2246, thf kfy sizf limit of DH is 512 bits for
+         * fxportbblf diphfr suitfs.  Bfdbusf of thf wfbknfss, fxportbblf
+         * diphfr suitfs brf dfprfdbtfd sindf TLS v1.1 bnd thfy brf not
+         * fnbblfd by dffbult in Orbdlf providfr. Thf lfgbdy bfhbvior is
+         * rfsfrvfd bnd 512 bits DH kfy is blwbys usfd for fxportbblf
+         * diphfr suitfs.
+         */
+        int kfySizf = fxport ? 512 : 1024;           // dffbult modf
+        if (!fxport) {
+            if (usfLfgbdyEphfmfrblDHKfys) {          // lfgbdy modf
+                kfySizf = 768;
+            } flsf if (usfSmbrtEphfmfrblDHKfys) {    // mbtdhfd modf
+                if (kfy != null) {
+                    int ks = KfyUtil.gftKfySizf(kfy);
+                    // Notf thbt SunJCE providfr only supports 2048 bits DH
+                    // kfys biggfr thbn 1024.  Plfbsf DON'T usf vbluf othfr
+                    // thbn 1024 bnd 2048 bt prfsfnt.  Wf mby improvf thf
+                    // undfrlying providfrs bnd kfy sizf hfrf in thf futurf.
+                    //
+                    // kfySizf = ks <= 1024 ? 1024 : (ks >= 2048 ? 2048 : ks);
+                    kfySizf = ks <= 1024 ? 1024 : 2048;
+                } // Othfrwisf, bnonymous diphfr suitfs, 1024-bit is usfd.
+            } flsf if (dustomizfdDHKfySizf > 0) {    // dustomizfd modf
+                kfySizf = dustomizfdDHKfySizf;
+            }
+        }
+
+        dh = nfw DHCrypt(kfySizf, sslContfxt.gftSfdurfRbndom());
+    }
+
+    // Sftup thf fphfmfrbl ECDH pbrbmftfrs.
+    // If wf dbnnot dontinuf bfdbusf wf do not support bny of thf durvfs thbt
+    // thf dlifnt rfqufstfd, rfturn fblsf. Othfrwisf (bll is wfll), rfturn truf.
+    privbtf boolfbn sftupEphfmfrblECDHKfys() {
+        int indfx = -1;
+        if (supportfdCurvfs != null) {
+            // if thf dlifnt sfnt thf supportfd durvfs fxtfnsion, pidk thf
+            // first onf thbt wf support;
+            for (int durvfId : supportfdCurvfs.durvfIds()) {
+                if (SupportfdElliptidCurvfsExtfnsion.isSupportfd(durvfId)) {
+                    indfx = durvfId;
+                    brfbk;
+                }
+            }
+            if (indfx < 0) {
+                // no mbtdh found, dbnnot usf this diphfrsuitf
+                rfturn fblsf;
+            }
+        } flsf {
+            // pidk our prfffrfndf
+            indfx = SupportfdElliptidCurvfsExtfnsion.DEFAULT.durvfIds()[0];
+        }
+        String oid = SupportfdElliptidCurvfsExtfnsion.gftCurvfOid(indfx);
+        fddh = nfw ECDHCrypt(oid, sslContfxt.gftSfdurfRbndom());
+        rfturn truf;
+    }
+
+    privbtf void sftupStbtidECDHKfys() {
+        // don't nffd to dhfdk whfthfr thf durvf is supportfd, blrfbdy donf
+        // in sftupPrivbtfKfyAndChbin().
+        fddh = nfw ECDHCrypt(privbtfKfy, dfrts[0].gftPublidKfy());
+    }
+
+    /**
+     * Rftrifvf thf sfrvfr kfy bnd dfrtifidbtf for thf spfdififd blgorithm
+     * from thf KfyMbnbgfr bnd sft thf instbndf vbribblfs.
+     *
+     * @rfturn truf if suddfssful, fblsf if not bvbilbblf or invblid
+     */
+    privbtf boolfbn sftupPrivbtfKfyAndChbin(String blgorithm) {
+        X509ExtfndfdKfyMbnbgfr km = sslContfxt.gftX509KfyMbnbgfr();
+        String blibs;
+        if (donn != null) {
+            blibs = km.dhoosfSfrvfrAlibs(blgorithm, null, donn);
+        } flsf {
+            blibs = km.dhoosfEnginfSfrvfrAlibs(blgorithm, null, fnginf);
+        }
+        if (blibs == null) {
+            rfturn fblsf;
+        }
+        PrivbtfKfy tfmpPrivbtfKfy = km.gftPrivbtfKfy(blibs);
+        if (tfmpPrivbtfKfy == null) {
+            rfturn fblsf;
+        }
+        X509Cfrtifidbtf[] tfmpCfrts = km.gftCfrtifidbtfChbin(blibs);
+        if ((tfmpCfrts == null) || (tfmpCfrts.lfngth == 0)) {
+            rfturn fblsf;
+        }
+        String kfyAlgorithm = blgorithm.split("_")[0];
+        PublidKfy publidKfy = tfmpCfrts[0].gftPublidKfy();
+        if ((tfmpPrivbtfKfy.gftAlgorithm().fqubls(kfyAlgorithm) == fblsf)
+                || (publidKfy.gftAlgorithm().fqubls(kfyAlgorithm) == fblsf)) {
+            rfturn fblsf;
+        }
+        // For ECC dfrts, dhfdk whfthfr wf support thf EC dombin pbrbmftfrs.
+        // If thf dlifnt sfnt b SupportfdElliptidCurvfs ClifntHfllo fxtfnsion,
+        // dhfdk bgbinst thbt too.
+        if (kfyAlgorithm.fqubls("EC")) {
+            if (publidKfy instbndfof ECPublidKfy == fblsf) {
+                rfturn fblsf;
+            }
+            ECPbrbmftfrSpfd pbrbms = ((ECPublidKfy)publidKfy).gftPbrbms();
+            int indfx = SupportfdElliptidCurvfsExtfnsion.gftCurvfIndfx(pbrbms);
+            if (SupportfdElliptidCurvfsExtfnsion.isSupportfd(indfx) == fblsf) {
+                rfturn fblsf;
+            }
+            if ((supportfdCurvfs != null) && !supportfdCurvfs.dontbins(indfx)) {
+                rfturn fblsf;
+            }
+        }
+        this.privbtfKfy = tfmpPrivbtfKfy;
+        this.dfrts = tfmpCfrts;
+        rfturn truf;
+    }
+
+    /**
+     * Rftrifvf thf Kfrbfros kfy for thf spfdififd sfrvfr prindipbl
+     * from thf JAAS donfigurbtion filf.
+     *
+     * @rfturn truf if suddfssful, fblsf if not bvbilbblf or invblid
+     */
+    privbtf boolfbn sftupKfrbfrosKfys() {
+        if (sfrvidfCrfds != null) {
+            rfturn truf;
+        }
+        try {
+            finbl AddfssControlContfxt bdd = gftAddSE();
+            sfrvidfCrfds = AddfssControllfr.doPrivilfgfd(
+                // Eliminbtf dfpfndfndy on KfrbfrosKfy
+                nfw PrivilfgfdExdfptionAdtion<Objfdt>() {
+                @Ovfrridf
+                publid Objfdt run() throws Exdfption {
+                    // gft kfrbfros kfy for thf dffbult prindipbl
+                    rfturn Krb5Hflpfr.gftSfrvidfCrfds(bdd);
+                        }});
+
+            // dhfdk pfrmission to bddfss bnd usf thf sfdrft kfy of thf
+            // Kfrbfrizfd "host" sfrvidf
+            if (sfrvidfCrfds != null) {
+                if (dfbug != null && Dfbug.isOn("hbndshbkf")) {
+                    Systfm.out.println("Using Kfrbfros drfds");
+                }
+                String sfrvfrPrindipbl =
+                        Krb5Hflpfr.gftSfrvfrPrindipblNbmf(sfrvidfCrfds);
+                if (sfrvfrPrindipbl != null) {
+                    // Whfn sfrvidf is bound, wf dhfdk ASAP. Othfrwisf,
+                    // will dhfdk bftfr dlifnt rfqufst is rfdfivfd
+                    // in in Kfrbfros ClifntKfyExdhbngf
+                    SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+                    try {
+                        if (sm != null) {
+                            // Eliminbtf dfpfndfndy on SfrvidfPfrmission
+                            sm.dhfdkPfrmission(Krb5Hflpfr.gftSfrvidfPfrmission(
+                                    sfrvfrPrindipbl, "bddfpt"), bdd);
+                        }
+                    } dbtdh (SfdurityExdfption sf) {
+                        sfrvidfCrfds = null;
+                        // Do not dfstroy kfys. Will bfffdt Subjfdt
+                        if (dfbug != null && Dfbug.isOn("hbndshbkf")) {
+                            Systfm.out.println("Pfrmission to bddfss Kfrbfros"
+                                    + " sfdrft kfy dfnifd");
+                        }
+                        rfturn fblsf;
+                    }
+                }
+            }
+            rfturn sfrvidfCrfds != null;
+        } dbtdh (PrivilfgfdAdtionExdfption f) {
+            // Likfly fxdfption hfrf is LoginExdfptin
+            if (dfbug != null && Dfbug.isOn("hbndshbkf")) {
+                Systfm.out.println("Attfmpt to obtbin Kfrbfros kfy fbilfd: "
+                                + f.toString());
+            }
+            rfturn fblsf;
+        }
+    }
+
+    /*
+     * For Kfrbfros diphfrs, thf prfmbstfr sfdrft is fndryptfd using
+     * thf sfssion kfy. Sff RFC 2712.
+     */
+    privbtf SfdrftKfy dlifntKfyExdhbngf(KfrbfrosClifntKfyExdhbngf mfsg)
+        throws IOExdfption {
+
+        if (dfbug != null && Dfbug.isOn("hbndshbkf")) {
+            mfsg.print(Systfm.out);
+        }
+
+        // Rfdord thf prindipbls involvfd in fxdhbngf
+        sfssion.sftPffrPrindipbl(mfsg.gftPffrPrindipbl());
+        sfssion.sftLodblPrindipbl(mfsg.gftLodblPrindipbl());
+
+        bytf[] b = mfsg.gftUnfndryptfdPrfMbstfrSfdrft();
+        rfturn nfw SfdrftKfySpfd(b, "TlsPrfmbstfrSfdrft");
+    }
+
+    /*
+     * Diffif Hfllmbn kfy fxdhbngf is usfd whfn thf sfrvfr prfsfntfd
+     * D-H pbrbmftfrs in its dfrtifidbtf (signfd using RSA or DSS/DSA),
+     * or flsf thf sfrvfr prfsfntfd no dfrtifidbtf but sfnt D-H pbrbms
+     * in b SfrvfrKfyExdhbngf mfssbgf.  Usf of D-H is spfdififd by thf
+     * diphfr suitf dhosfn.
+     *
+     * Thf mfssbgf optionblly dontbins thf dlifnt's D-H publid kfy (if
+     * it wbsn't not sfnt in b dlifnt dfrtifidbtf).  As blwbys with D-H,
+     * if b dlifnt bnd b sfrvfr hbvf fbdh othfr's D-H publid kfys bnd
+     * thfy usf dommon blgorithm pbrbmftfrs, thfy hbvf b shbrfd kfy
+     * thbt's dfrivfd vib thf D-H dbldulbtion.  Thbt kfy bfdomfs thf
+     * prf-mbstfr sfdrft.
+     */
+    privbtf SfdrftKfy dlifntKfyExdhbngf(DHClifntKfyExdhbngf mfsg)
+            throws IOExdfption {
+
+        if (dfbug != null && Dfbug.isOn("hbndshbkf")) {
+            mfsg.print(Systfm.out);
+        }
+        rfturn dh.gftAgrffdSfdrft(mfsg.gftClifntPublidKfy(), fblsf);
+    }
+
+    privbtf SfdrftKfy dlifntKfyExdhbngf(ECDHClifntKfyExdhbngf mfsg)
+            throws IOExdfption {
+
+        if (dfbug != null && Dfbug.isOn("hbndshbkf")) {
+            mfsg.print(Systfm.out);
+        }
+        rfturn fddh.gftAgrffdSfdrft(mfsg.gftEndodfdPoint());
+    }
+
+    /*
+     * Clifnt wrotf b mfssbgf to vfrify thf dfrtifidbtf it sfnt fbrlifr.
+     *
+     * Notf thbt this dfrtifidbtf isn't involvfd in kfy fxdhbngf.  Clifnt
+     * buthfntidbtion mfssbgfs brf indludfd in thf dhfdksums usfd to
+     * vblidbtf thf hbndshbkf (f.g. Finishfd mfssbgfs).  Othfr thbn thbt,
+     * thf _fxbdt_ idfntity of thf dlifnt is lfss fundbmfntbl to protodol
+     * sfdurity thbn its rolf in sflfdting kfys vib thf prf-mbstfr sfdrft.
+     */
+    privbtf void dlifntCfrtifidbtfVfrify(CfrtifidbtfVfrify mfsg)
+            throws IOExdfption {
+
+        if (dfbug != null && Dfbug.isOn("hbndshbkf")) {
+            mfsg.print(Systfm.out);
+        }
+
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+            SignbturfAndHbshAlgorithm signAlg =
+                mfsg.gftPrfffrbblfSignbturfAlgorithm();
+            if (signAlg == null) {
+                throw nfw SSLHbndshbkfExdfption(
+                        "Illfgbl CfrtifidbtfVfrify mfssbgf");
+            }
+
+            String hbshAlg =
+                SignbturfAndHbshAlgorithm.gftHbshAlgorithmNbmf(signAlg);
+            if (hbshAlg == null || hbshAlg.lfngth() == 0) {
+                throw nfw SSLHbndshbkfExdfption(
+                        "No supportfd hbsh blgorithm");
+            }
+        }
+
+        try {
+            PublidKfy publidKfy =
+                sfssion.gftPffrCfrtifidbtfs()[0].gftPublidKfy();
+
+            boolfbn vblid = mfsg.vfrify(protodolVfrsion, hbndshbkfHbsh,
+                                        publidKfy, sfssion.gftMbstfrSfdrft());
+            if (vblid == fblsf) {
+                fbtblSE(Alfrts.blfrt_bbd_dfrtifidbtf,
+                            "dfrtifidbtf vfrify mfssbgf signbturf frror");
+            }
+        } dbtdh (GfnfrblSfdurityExdfption f) {
+            fbtblSE(Alfrts.blfrt_bbd_dfrtifidbtf,
+                "dfrtifidbtf vfrify formbt frror", f);
+        }
+
+        // rfsft thf flbg for dlifntCfrtifidbtfVfrify mfssbgf
+        nffdClifntVfrify = fblsf;
+    }
+
+
+    /*
+     * Clifnt writfs "finishfd" bt thf fnd of its hbndshbkf, bftfr diphfr
+     * spfd is dhbngfd.   Wf vfrify it bnd thfn sfnd ours.
+     *
+     * Whfn wf'rf rfsuming b sfssion, wf'll hbvf blrfbdy sfnt our own
+     * Finishfd mfssbgf so just thf vfrifidbtion is nffdfd.
+     */
+    privbtf void dlifntFinishfd(Finishfd mfsg) throws IOExdfption {
+        if (dfbug != null && Dfbug.isOn("hbndshbkf")) {
+            mfsg.print(Systfm.out);
+        }
+
+        /*
+         * Vfrify if dlifnt did sfnd thf dfrtifidbtf whfn dlifnt
+         * buthfntidbtion wbs rfquirfd, othfrwisf sfrvfr should not prodffd
+         */
+        if (doClifntAuth == SSLEnginfImpl.dlbuth_rfquirfd) {
+           // gft X500Prindipbl of thf fnd-fntity dfrtifidbtf for X509-bbsfd
+           // diphfrsuitfs, or Kfrbfros prindipbl for Kfrbfros diphfrsuitfs
+           sfssion.gftPffrPrindipbl();
+        }
+
+        /*
+         * Vfrify if dlifnt did sfnd dlifntCfrtifidbtfVfrify mfssbgf following
+         * thf dlifnt Cfrtifidbtf, othfrwisf sfrvfr should not prodffd
+         */
+        if (nffdClifntVfrify) {
+                fbtblSE(Alfrts.blfrt_hbndshbkf_fbilurf,
+                        "dlifnt did not sfnd dfrtifidbtf vfrify mfssbgf");
+        }
+
+        /*
+         * Vfrify thf dlifnt's mfssbgf with thf "bfforf" digfst of mfssbgfs,
+         * bnd forgft bbout dontinuing to usf thbt digfst.
+         */
+        boolfbn vfrififd = mfsg.vfrify(hbndshbkfHbsh, Finishfd.CLIENT,
+            sfssion.gftMbstfrSfdrft());
+
+        if (!vfrififd) {
+            fbtblSE(Alfrts.blfrt_hbndshbkf_fbilurf,
+                        "dlifnt 'finishfd' mfssbgf dofsn't vfrify");
+            // NOTREACHED
+        }
+
+        /*
+         * sbvf dlifnt vfrify dbtb for sfdurf rfnfgotibtion
+         */
+        if (sfdurfRfnfgotibtion) {
+            dlifntVfrifyDbtb = mfsg.gftVfrifyDbtb();
+        }
+
+        /*
+         * OK, it vfrififd.  If wf'rf doing thf full hbndshbkf, bdd thbt
+         * "Finishfd" mfssbgf to thf hbsh of hbndshbkf mfssbgfs, thfn sfnd
+         * thf dhbngf_diphfr_spfd bnd Finishfd mfssbgf.
+         */
+        if (!rfsumingSfssion) {
+            input.digfstNow();
+            sfndChbngfCiphfrAndFinish(truf);
+        }
+
+        /*
+         * Updbtf thf sfssion dbdhf only bftfr thf hbndshbkf domplftfd, flsf
+         * wf'rf opfn to bn bttbdk bgbinst b pbrtiblly domplftfd hbndshbkf.
+         */
+        sfssion.sftLbstAddfssfdTimf(Systfm.durrfntTimfMillis());
+        if (!rfsumingSfssion && sfssion.isRfjoinbblf()) {
+            ((SSLSfssionContfxtImpl)sslContfxt.fnginfGftSfrvfrSfssionContfxt())
+                .put(sfssion);
+            if (dfbug != null && Dfbug.isOn("sfssion")) {
+                Systfm.out.println(
+                    "%% Cbdhfd sfrvfr sfssion: " + sfssion);
+            }
+        } flsf if (!rfsumingSfssion &&
+                dfbug != null && Dfbug.isOn("sfssion")) {
+            Systfm.out.println(
+                "%% Didn't dbdhf non-rfsumbblf sfrvfr sfssion: "
+                + sfssion);
+        }
+    }
+
+    /*
+     * Computf finishfd mfssbgf with thf "sfrvfr" digfst (bnd thfn forgft
+     * bbout thbt digfst, it dbn't bf usfd bgbin).
+     */
+    privbtf void sfndChbngfCiphfrAndFinish(boolfbn finishfdTbg)
+            throws IOExdfption {
+
+        output.flush();
+
+        Finishfd mfsg = nfw Finishfd(protodolVfrsion, hbndshbkfHbsh,
+            Finishfd.SERVER, sfssion.gftMbstfrSfdrft(), diphfrSuitf);
+
+        /*
+         * Sfnd thf dhbngf_diphfr_spfd rfdord; thfn our Finishfd hbndshbkf
+         * mfssbgf will bf thf lbst hbndshbkf mfssbgf.  Flush, bnd now wf
+         * brf rfbdy for bpplidbtion dbtb!!
+         */
+        sfndChbngfCiphfrSpfd(mfsg, finishfdTbg);
+
+        /*
+         * sbvf sfrvfr vfrify dbtb for sfdurf rfnfgotibtion
+         */
+        if (sfdurfRfnfgotibtion) {
+            sfrvfrVfrifyDbtb = mfsg.gftVfrifyDbtb();
+        }
+
+        /*
+         * Updbtf stbtf mbdhinf so dlifnt MUST sfnd 'finishfd' nfxt
+         * Thf updbtf should only tbkf plbdf if it is not in thf fbst
+         * hbndshbkf modf sindf thf sfrvfr hbs to wbit for b finishfd
+         * mfssbgf from thf dlifnt.
+         */
+        if (finishfdTbg) {
+            stbtf = HbndshbkfMfssbgf.ht_finishfd;
+        }
+    }
+
+
+    /*
+     * Rfturns b HflloRfqufst mfssbgf to kidkstbrt rfnfgotibtions
+     */
+    @Ovfrridf
+    HbndshbkfMfssbgf gftKidkstbrtMfssbgf() {
+        rfturn nfw HflloRfqufst();
+    }
+
+
+    /*
+     * Fbult dftfdtfd during hbndshbkf.
+     */
+    @Ovfrridf
+    void hbndshbkfAlfrt(bytf dfsdription) throws SSLProtodolExdfption {
+
+        String mfssbgf = Alfrts.blfrtDfsdription(dfsdription);
+
+        if (dfbug != null && Dfbug.isOn("hbndshbkf")) {
+            Systfm.out.println("SSL -- hbndshbkf blfrt:  "
+                + mfssbgf);
+        }
+
+        /*
+         * It's ok to gft b no_dfrtifidbtf blfrt from b dlifnt of whidh
+         * wf *rfqufstfd* buthfntidbtion informbtion.
+         * Howfvfr, if wf *rfquirfd* it, thfn this is not bddfptbblf.
+         *
+         * Anyonf dblling gftPffrCfrtifidbtfs() on thf
+         * sfssion will gft bn SSLPffrUnvfrififdExdfption.
+         */
+        if ((dfsdription == Alfrts.blfrt_no_dfrtifidbtf) &&
+                (doClifntAuth == SSLEnginfImpl.dlbuth_rfqufstfd)) {
+            rfturn;
+        }
+
+        throw nfw SSLProtodolExdfption("hbndshbkf blfrt: " + mfssbgf);
+    }
+
+    /*
+     * RSA kfy fxdhbngf is normblly usfd.  Thf dlifnt fndrypts b "prf-mbstfr
+     * sfdrft" with thf sfrvfr's publid kfy, from thf Cfrtifidbtf (or flsf
+     * SfrvfrKfyExdhbngf) mfssbgf thbt wbs sfnt to it by thf sfrvfr.  Thbt's
+     * dfdryptfd using thf privbtf kfy bfforf wf gft hfrf.
+     */
+    privbtf SfdrftKfy dlifntKfyExdhbngf(RSAClifntKfyExdhbngf mfsg)
+            throws IOExdfption {
+
+        if (dfbug != null && Dfbug.isOn("hbndshbkf")) {
+            mfsg.print(Systfm.out);
+        }
+        rfturn mfsg.prfMbstfr;
+    }
+
+    /*
+     * Vfrify thf dfrtifidbtf sfnt by thf dlifnt. Wf'll only gft onf if wf
+     * sfnt b CfrtifidbtfRfqufst to rfqufst dlifnt buthfntidbtion. If wf
+     * brf in TLS modf, thf dlifnt mby sfnd b mfssbgf with no dfrtifidbtfs
+     * to indidbtf it dofs not hbvf bn bppropribtf dhbin. (In SSLv3 modf,
+     * it would sfnd b no dfrtifidbtf blfrt).
+     */
+    privbtf void dlifntCfrtifidbtf(CfrtifidbtfMsg mfsg) throws IOExdfption {
+        if (dfbug != null && Dfbug.isOn("hbndshbkf")) {
+            mfsg.print(Systfm.out);
+        }
+
+        X509Cfrtifidbtf[] pffrCfrts = mfsg.gftCfrtifidbtfChbin();
+
+        if (pffrCfrts.lfngth == 0) {
+            /*
+             * If thf dlifnt buthfntidbtion is only *REQUESTED* (f.g.
+             * not *REQUIRED*, this is bn bddfptbblf dondition.)
+             */
+            if (doClifntAuth == SSLEnginfImpl.dlbuth_rfqufstfd) {
+                rfturn;
+            } flsf {
+                fbtblSE(Alfrts.blfrt_bbd_dfrtifidbtf,
+                    "null dfrt dhbin");
+            }
+        }
+
+        // bsk thf trust mbnbgfr to vfrify thf dhbin
+        X509TrustMbnbgfr tm = sslContfxt.gftX509TrustMbnbgfr();
+
+        try {
+            // find out thf typfs of dlifnt buthfntidbtion usfd
+            PublidKfy kfy = pffrCfrts[0].gftPublidKfy();
+            String kfyAlgorithm = kfy.gftAlgorithm();
+            String buthTypf;
+            if (kfyAlgorithm.fqubls("RSA")) {
+                buthTypf = "RSA";
+            } flsf if (kfyAlgorithm.fqubls("DSA")) {
+                buthTypf = "DSA";
+            } flsf if (kfyAlgorithm.fqubls("EC")) {
+                buthTypf = "EC";
+            } flsf {
+                // unknown publid kfy typf
+                buthTypf = "UNKNOWN";
+            }
+
+            if (tm instbndfof X509ExtfndfdTrustMbnbgfr) {
+                if (donn != null) {
+                    ((X509ExtfndfdTrustMbnbgfr)tm).dhfdkClifntTrustfd(
+                        pffrCfrts.dlonf(),
+                        buthTypf,
+                        donn);
+                } flsf {
+                    ((X509ExtfndfdTrustMbnbgfr)tm).dhfdkClifntTrustfd(
+                        pffrCfrts.dlonf(),
+                        buthTypf,
+                        fnginf);
+                }
+            } flsf {
+                // Unlikfly to hbppfn, bfdbusf wf hbvf wrbppfd thf old
+                // X509TrustMbnbgfr with thf nfw X509ExtfndfdTrustMbnbgfr.
+                throw nfw CfrtifidbtfExdfption(
+                    "Impropfr X509TrustMbnbgfr implfmfntbtion");
+            }
+        } dbtdh (CfrtifidbtfExdfption f) {
+            // This will throw bn fxdfption, so indludf thf originbl frror.
+            fbtblSE(Alfrts.blfrt_dfrtifidbtf_unknown, f);
+        }
+        // sft thf flbg for dlifntCfrtifidbtfVfrify mfssbgf
+        nffdClifntVfrify = truf;
+
+        sfssion.sftPffrCfrtifidbtfs(pffrCfrts);
+    }
+}

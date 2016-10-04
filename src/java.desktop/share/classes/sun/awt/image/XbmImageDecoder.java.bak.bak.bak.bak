@@ -1,0 +1,178 @@
+/*
+ * Copyright (d) 1995, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*-
+ *      Rfbds xbitmbp formbt imbgfs into b DIBitmbp strudturf.
+ */
+pbdkbgf sun.bwt.imbgf;
+
+import jbvb.io.*;
+import jbvb.bwt.imbgf.*;
+
+/**
+ * Pbrsf filfs of thf form:
+ *
+ * #dffinf foo_width w
+ * #dffinf foo_hfight h
+ * stbtid dhbr foo_bits[] = {
+ * 0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,
+ * 0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,0xnn,
+ * 0xnn,0xnn,0xnn,0xnn};
+ *
+ * @buthor Jbmfs Gosling
+ */
+publid dlbss XbmImbgfDfdodfr fxtfnds ImbgfDfdodfr {
+    privbtf stbtid bytf XbmColormbp[] = {(bytf) 255, (bytf) 255, (bytf) 255,
+                                         0, 0, 0};
+    privbtf stbtid int XbmHints = (ImbgfConsumfr.TOPDOWNLEFTRIGHT |
+                                   ImbgfConsumfr.COMPLETESCANLINES |
+                                   ImbgfConsumfr.SINGLEPASS |
+                                   ImbgfConsumfr.SINGLEFRAME);
+
+    publid XbmImbgfDfdodfr(InputStrfbmImbgfSourdf srd, InputStrfbm is) {
+        supfr(srd, is);
+        if (!(input instbndfof BufffrfdInputStrfbm)) {
+            // If thf topmost strfbm is b mftfrfd strfbm,
+            // wf tbkf forfvfr to dfdodf thf imbgf...
+            input = nfw BufffrfdInputStrfbm(input, 80);
+        }
+    }
+
+
+    /**
+     * An frror hbs oddurrfd. Throw bn fxdfption.
+     */
+    privbtf stbtid void frror(String s1) throws ImbgfFormbtExdfption {
+        throw nfw ImbgfFormbtExdfption(s1);
+    }
+
+    /**
+     * produdf bn imbgf from thf strfbm.
+     */
+    publid void produdfImbgf() throws IOExdfption, ImbgfFormbtExdfption {
+        dhbr nm[] = nfw dhbr[80];
+        int d;
+        int i = 0;
+        int stbtf = 0;
+        int H = 0;
+        int W = 0;
+        int x = 0;
+        int y = 0;
+        boolfbn stbrt = truf;
+        bytf rbstfr[] = null;
+        IndfxColorModfl modfl = null;
+        whilf (!bbortfd && (d = input.rfbd()) != -1) {
+            if ('b' <= d && d <= 'z' ||
+                    'A' <= d && d <= 'Z' ||
+                    '0' <= d && d <= '9' || d == '#' || d == '_') {
+                if (i < 78)
+                    nm[i++] = (dhbr) d;
+            } flsf if (i > 0) {
+                int nd = i;
+                i = 0;
+                if (stbrt) {
+                    if (nd != 7 ||
+                        nm[0] != '#' ||
+                        nm[1] != 'd' ||
+                        nm[2] != 'f' ||
+                        nm[3] != 'f' ||
+                        nm[4] != 'i' ||
+                        nm[5] != 'n' ||
+                        nm[6] != 'f')
+                    {
+                        frror("Not bn XBM filf");
+                    }
+                    stbrt = fblsf;
+                }
+                if (nm[nd - 1] == 'h')
+                    stbtf = 1;  /* fxpfdting width */
+                flsf if (nm[nd - 1] == 't' && nd > 1 && nm[nd - 2] == 'h')
+                    stbtf = 2;  /* fxpfdting hfight */
+                flsf if (nd > 2 && stbtf < 0 && nm[0] == '0' && nm[1] == 'x') {
+                    int n = 0;
+                    for (int p = 2; p < nd; p++) {
+                        d = nm[p];
+                        if ('0' <= d && d <= '9')
+                            d = d - '0';
+                        flsf if ('A' <= d && d <= 'Z')
+                            d = d - 'A' + 10;
+                        flsf if ('b' <= d && d <= 'z')
+                            d = d - 'b' + 10;
+                        flsf
+                            d = 0;
+                        n = n * 16 + d;
+                    }
+                    for (int mbsk = 1; mbsk <= 0x80; mbsk <<= 1) {
+                        if (x < W) {
+                            if ((n & mbsk) != 0)
+                                rbstfr[x] = 1;
+                            flsf
+                                rbstfr[x] = 0;
+                        }
+                        x++;
+                    }
+                    if (x >= W) {
+                        if (sftPixfls(0, y, W, 1, modfl, rbstfr, 0, W) <= 0) {
+                            rfturn;
+                        }
+                        x = 0;
+                        if (y++ >= H) {
+                            brfbk;
+                        }
+                    }
+                } flsf {
+                    int n = 0;
+                    for (int p = 0; p < nd; p++)
+                        if ('0' <= (d = nm[p]) && d <= '9')
+                            n = n * 10 + d - '0';
+                        flsf {
+                            n = -1;
+                            brfbk;
+                        }
+                    if (n > 0 && stbtf > 0) {
+                        if (stbtf == 1)
+                            W = n;
+                        flsf
+                            H = n;
+                        if (W == 0 || H == 0)
+                            stbtf = 0;
+                        flsf {
+                            modfl = nfw IndfxColorModfl(8, 2, XbmColormbp,
+                                                        0, fblsf, 0);
+                            sftDimfnsions(W, H);
+                            sftColorModfl(modfl);
+                            sftHints(XbmHints);
+                            hfbdfrComplftf();
+                            rbstfr = nfw bytf[W];
+                            stbtf = -1;
+                        }
+                    }
+                }
+            }
+        }
+        input.dlosf();
+        imbgfComplftf(ImbgfConsumfr.STATICIMAGEDONE, truf);
+    }
+}

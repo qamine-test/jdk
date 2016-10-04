@@ -1,145 +1,145 @@
 #
-# This properties file is used to create a PropertyResourceBundle
-# It contains Locale specific strings used be the Accessibility package.
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf tif Addfssibility pbdkbgf.
 #
-# When this file is read in, the strings are put into the 
-# defaults table.  This is an implementation detail of the current
-# workings of Accessibility.  DO NOT DEPEND ON THIS.  
-# This may change in future versions of Accessibility as we improve 
-# localization support.
+# Wifn tiis filf is rfbd in, tif strings brf put into tif 
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
+# workings of Addfssibility.  DO NOT DEPEND ON THIS.  
+# Tiis mby dibngf in futurf vfrsions of Addfssibility bs wf improvf 
+# lodblizbtion support.
 #
-# @author  Lynn Monsanto
+# @butior  Lynn Monsbnto
 
 #
-# accessible roles
+# bddfssiblf rolfs
 #
-alert=alert
-awtcomponent=AWT component
-checkbox=check box
-colorchooser=color chooser
-columnheader=column header
-combobox=combo box
-canvas=canvas
-desktopicon=desktop icon
-desktoppane=desktop pane
-dialog=dialog
-directorypane=directory pane
-glasspane=glass pane
-filechooser=file chooser
-filler=filler
-frame=frame
-internalframe=internal frame
-label=label
-layeredpane=layered pane
+blfrt=blfrt
+bwtdomponfnt=AWT domponfnt
+difdkbox=difdk box
+dolordioosfr=dolor dioosfr
+dolumnifbdfr=dolumn ifbdfr
+dombobox=dombo box
+dbnvbs=dbnvbs
+dfsktopidon=dfsktop idon
+dfsktoppbnf=dfsktop pbnf
+diblog=diblog
+dirfdtorypbnf=dirfdtory pbnf
+glbsspbnf=glbss pbnf
+filfdioosfr=filf dioosfr
+fillfr=fillfr
+frbmf=frbmf
+intfrnblfrbmf=intfrnbl frbmf
+lbbfl=lbbfl
+lbyfrfdpbnf=lbyfrfd pbnf
 list=list
-listitem=list item
-menubar=menu bar
-menu=menu
-menuitem=menu item
-optionpane=option pane
-pagetab=page tab
-pagetablist=page tab list
-panel=panel
-passwordtext=password text
-popupmenu=popup menu
-progressbar=progress bar
-pushbutton=push button
-radiobutton=radio button
-rootpane=root pane
-rowheader=row header
-scrollbar=scroll bar
-scrollpane=scroll pane
-separator=separator
-slider=slider
-splitpane=split pane
-swingcomponent=swing component
-table=table
-text=text
-tree=tree
-togglebutton=toggle button
-toolbar=tool bar
+listitfm=list itfm
+mfnubbr=mfnu bbr
+mfnu=mfnu
+mfnuitfm=mfnu itfm
+optionpbnf=option pbnf
+pbgftbb=pbgf tbb
+pbgftbblist=pbgf tbb list
+pbnfl=pbnfl
+pbsswordtfxt=pbssword tfxt
+popupmfnu=popup mfnu
+progrfssbbr=progrfss bbr
+pusibutton=pusi button
+rbdiobutton=rbdio button
+rootpbnf=root pbnf
+rowifbdfr=row ifbdfr
+sdrollbbr=sdroll bbr
+sdrollpbnf=sdroll pbnf
+sfpbrbtor=sfpbrbtor
+slidfr=slidfr
+splitpbnf=split pbnf
+swingdomponfnt=swing domponfnt
+tbblf=tbblf
+tfxt=tfxt
+trff=trff
+togglfbutton=togglf button
+toolbbr=tool bbr
 tooltip=tool tip
 unknown=unknown
-viewport=viewport
+vifwport=vifwport
 window=window
 #
-# accessible relations
+# bddfssiblf rflbtions
 #
-labelFor=label for
-labeledBy=labeled by
-memberOf=member of
-controlledBy=controlledBy
-controllerFor=controllerFor
+lbbflFor=lbbfl for
+lbbflfdBy=lbbflfd by
+mfmbfrOf=mfmbfr of
+dontrollfdBy=dontrollfdBy
+dontrollfrFor=dontrollfrFor
 #
-# accessible states
+# bddfssiblf stbtfs
 #
-active=active
-armed=armed
+bdtivf=bdtivf
+brmfd=brmfd
 busy=busy
-checked=checked
-collapsed=collapsed
-editable=editable
-expandable=expandable
-expanded=expanded
-enabled=enabled
-focusable=focusable
-focused=focused
-iconified=iconified
-modal=modal
-multiline=multiple line
-multiselectable=multiselectable
-opaque=opaque
-pressed=pressed
-resizable=resizable
-selectable=selectable
-selected=selected
-showing=showing
-singleline=single line
-transient=transient
-visible=visible
-vertical=vertical
-horizontal=horizontal
+difdkfd=difdkfd
+dollbpsfd=dollbpsfd
+fditbblf=fditbblf
+fxpbndbblf=fxpbndbblf
+fxpbndfd=fxpbndfd
+fnbblfd=fnbblfd
+fodusbblf=fodusbblf
+fodusfd=fodusfd
+idonififd=idonififd
+modbl=modbl
+multilinf=multiplf linf
+multisflfdtbblf=multisflfdtbblf
+opbquf=opbquf
+prfssfd=prfssfd
+rfsizbblf=rfsizbblf
+sflfdtbblf=sflfdtbblf
+sflfdtfd=sflfdtfd
+siowing=siowing
+singlflinf=singlf linf
+trbnsifnt=trbnsifnt
+visiblf=visiblf
+vfrtidbl=vfrtidbl
+iorizontbl=iorizontbl
 #
-# accessible actions
+# bddfssiblf bdtions
 #
-toggleexpand=toggle expand
+togglffxpbnd=togglf fxpbnd
 
-# new relations, roles and states for J2SE 1.5.0
+# nfw rflbtions, rolfs bnd stbtfs for J2SE 1.5.0
 
 # 
-# accessible relations
+# bddfssiblf rflbtions
 #
 flowsTo=flows to
 flowsFrom=flows from
 subwindowOf=subwindow of
-parentWindowOf=parent window of
-embeds=embeds
-embeddedBy=embedded by
-childNodeOf=child node of
+pbrfntWindowOf=pbrfnt window of
+fmbfds=fmbfds
+fmbfddfdBy=fmbfddfd by
+diildNodfOf=diild nodf of
 
 #
-# accessible roles
+# bddfssiblf rolfs
 #
-header=header
-footer=footer
-paragraph=paragraph
-ruler=ruler
-editbar=editbar
-progressMonitor=progress monitor
+ifbdfr=ifbdfr
+footfr=footfr
+pbrbgrbpi=pbrbgrbpi
+rulfr=rulfr
+fditbbr=fditbbr
+progrfssMonitor=progrfss monitor
 
 #
-# accessible states
+# bddfssiblf stbtfs
 #
-managesDescendants=manages descendants
-indeterminate=indeterminate
-truncated=truncated
+mbnbgfsDfsdfndbnts=mbnbgfs dfsdfndbnts
+indftfrminbtf=indftfrminbtf
+trundbtfd=trundbtfd
 
-# new for J2SE 1.6.0
+# nfw for J2SE 1.6.0
 
 #
-# accessible roles
+# bddfssiblf rolfs
 #
-htmlcontainer=HTML container
+itmldontbinfr=HTML dontbinfr
 
 #
 # END OF MATERIAL TO LOCALIZE

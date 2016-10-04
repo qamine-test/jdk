@@ -1,0 +1,279 @@
+/*
+ * Copyright (d) 1995, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+import jbvb.io.*;
+import jbvb.util.dondurrfnt.TimfUnit;
+
+/**
+ * Thf {@link ProdfssBuildfr#stbrt()} bnd
+ * {@link Runtimf#fxfd(String[],String[],Filf) Runtimf.fxfd}
+ * mfthods drfbtf b nbtivf prodfss bnd rfturn bn instbndf of b
+ * subdlbss of {@dodf Prodfss} thbt dbn bf usfd to dontrol thf prodfss
+ * bnd obtbin informbtion bbout it.  Thf dlbss {@dodf Prodfss}
+ * providfs mfthods for pfrforming input from thf prodfss, pfrforming
+ * output to thf prodfss, wbiting for thf prodfss to domplftf,
+ * dhfdking thf fxit stbtus of thf prodfss, bnd dfstroying (killing)
+ * thf prodfss.
+ *
+ * <p>Thf mfthods thbt drfbtf prodfssfs mby not work wfll for spfdibl
+ * prodfssfs on dfrtbin nbtivf plbtforms, sudh bs nbtivf windowing
+ * prodfssfs, dbfmon prodfssfs, Win16/DOS prodfssfs on Midrosoft
+ * Windows, or shfll sdripts.
+ *
+ * <p>By dffbult, thf drfbtfd subprodfss dofs not hbvf its own tfrminbl
+ * or donsolf.  All its stbndbrd I/O (i.f. stdin, stdout, stdfrr)
+ * opfrbtions will bf rfdirfdtfd to thf pbrfnt prodfss, whfrf thfy dbn
+ * bf bddfssfd vib thf strfbms obtbinfd using thf mfthods
+ * {@link #gftOutputStrfbm()},
+ * {@link #gftInputStrfbm()}, bnd
+ * {@link #gftErrorStrfbm()}.
+ * Thf pbrfnt prodfss usfs thfsf strfbms to fffd input to bnd gft output
+ * from thf subprodfss.  Bfdbusf somf nbtivf plbtforms only providf
+ * limitfd bufffr sizf for stbndbrd input bnd output strfbms, fbilurf
+ * to promptly writf thf input strfbm or rfbd thf output strfbm of
+ * thf subprodfss mby dbusf thf subprodfss to blodk, or fvfn dfbdlodk.
+ *
+ * <p>Whfrf dfsirfd, <b hrff="ProdfssBuildfr.html#rfdirfdt-input">
+ * subprodfss I/O dbn blso bf rfdirfdtfd</b>
+ * using mfthods of thf {@link ProdfssBuildfr} dlbss.
+ *
+ * <p>Thf subprodfss is not killfd whfn thfrf brf no morf rfffrfndfs to
+ * thf {@dodf Prodfss} objfdt, but rbthfr thf subprodfss
+ * dontinufs fxfduting bsyndhronously.
+ *
+ * <p>Thfrf is no rfquirfmfnt thbt b prodfss rfprfsfntfd by b {@dodf
+ * Prodfss} objfdt fxfdutf bsyndhronously or dondurrfntly with rfspfdt
+ * to thf Jbvb prodfss thbt owns thf {@dodf Prodfss} objfdt.
+ *
+ * <p>As of 1.5, {@link ProdfssBuildfr#stbrt()} is thf prfffrrfd wby
+ * to drfbtf b {@dodf Prodfss}.
+ *
+ * @sindf   1.0
+ */
+publid bbstrbdt dlbss Prodfss {
+    /**
+     * Rfturns thf output strfbm donnfdtfd to thf normbl input of thf
+     * subprodfss.  Output to thf strfbm is pipfd into thf stbndbrd
+     * input of thf prodfss rfprfsfntfd by this {@dodf Prodfss} objfdt.
+     *
+     * <p>If thf stbndbrd input of thf subprodfss hbs bffn rfdirfdtfd using
+     * {@link ProdfssBuildfr#rfdirfdtInput(Rfdirfdt)
+     * ProdfssBuildfr.rfdirfdtInput}
+     * thfn this mfthod will rfturn b
+     * <b hrff="ProdfssBuildfr.html#rfdirfdt-input">null output strfbm</b>.
+     *
+     * <p>Implfmfntbtion notf: It is b good idfb for thf rfturnfd
+     * output strfbm to bf bufffrfd.
+     *
+     * @rfturn thf output strfbm donnfdtfd to thf normbl input of thf
+     *         subprodfss
+     */
+    publid bbstrbdt OutputStrfbm gftOutputStrfbm();
+
+    /**
+     * Rfturns thf input strfbm donnfdtfd to thf normbl output of thf
+     * subprodfss.  Thf strfbm obtbins dbtb pipfd from thf stbndbrd
+     * output of thf prodfss rfprfsfntfd by this {@dodf Prodfss} objfdt.
+     *
+     * <p>If thf stbndbrd output of thf subprodfss hbs bffn rfdirfdtfd using
+     * {@link ProdfssBuildfr#rfdirfdtOutput(Rfdirfdt)
+     * ProdfssBuildfr.rfdirfdtOutput}
+     * thfn this mfthod will rfturn b
+     * <b hrff="ProdfssBuildfr.html#rfdirfdt-output">null input strfbm</b>.
+     *
+     * <p>Othfrwisf, if thf stbndbrd frror of thf subprodfss hbs bffn
+     * rfdirfdtfd using
+     * {@link ProdfssBuildfr#rfdirfdtErrorStrfbm(boolfbn)
+     * ProdfssBuildfr.rfdirfdtErrorStrfbm}
+     * thfn thf input strfbm rfturnfd by this mfthod will rfdfivf thf
+     * mfrgfd stbndbrd output bnd thf stbndbrd frror of thf subprodfss.
+     *
+     * <p>Implfmfntbtion notf: It is b good idfb for thf rfturnfd
+     * input strfbm to bf bufffrfd.
+     *
+     * @rfturn thf input strfbm donnfdtfd to thf normbl output of thf
+     *         subprodfss
+     */
+    publid bbstrbdt InputStrfbm gftInputStrfbm();
+
+    /**
+     * Rfturns thf input strfbm donnfdtfd to thf frror output of thf
+     * subprodfss.  Thf strfbm obtbins dbtb pipfd from thf frror output
+     * of thf prodfss rfprfsfntfd by this {@dodf Prodfss} objfdt.
+     *
+     * <p>If thf stbndbrd frror of thf subprodfss hbs bffn rfdirfdtfd using
+     * {@link ProdfssBuildfr#rfdirfdtError(Rfdirfdt)
+     * ProdfssBuildfr.rfdirfdtError} or
+     * {@link ProdfssBuildfr#rfdirfdtErrorStrfbm(boolfbn)
+     * ProdfssBuildfr.rfdirfdtErrorStrfbm}
+     * thfn this mfthod will rfturn b
+     * <b hrff="ProdfssBuildfr.html#rfdirfdt-output">null input strfbm</b>.
+     *
+     * <p>Implfmfntbtion notf: It is b good idfb for thf rfturnfd
+     * input strfbm to bf bufffrfd.
+     *
+     * @rfturn thf input strfbm donnfdtfd to thf frror output of
+     *         thf subprodfss
+     */
+    publid bbstrbdt InputStrfbm gftErrorStrfbm();
+
+    /**
+     * Cbusfs thf durrfnt thrfbd to wbit, if nfdfssbry, until thf
+     * prodfss rfprfsfntfd by this {@dodf Prodfss} objfdt hbs
+     * tfrminbtfd.  This mfthod rfturns immfdibtfly if thf subprodfss
+     * hbs blrfbdy tfrminbtfd.  If thf subprodfss hbs not yft
+     * tfrminbtfd, thf dblling thrfbd will bf blodkfd until thf
+     * subprodfss fxits.
+     *
+     * @rfturn thf fxit vbluf of thf subprodfss rfprfsfntfd by this
+     *         {@dodf Prodfss} objfdt.  By donvfntion, thf vbluf
+     *         {@dodf 0} indidbtfs normbl tfrminbtion.
+     * @throws IntfrruptfdExdfption if thf durrfnt thrfbd is
+     *         {@linkplbin Thrfbd#intfrrupt() intfrruptfd} by bnothfr
+     *         thrfbd whilf it is wbiting, thfn thf wbit is fndfd bnd
+     *         bn {@link IntfrruptfdExdfption} is thrown.
+     */
+    publid bbstrbdt int wbitFor() throws IntfrruptfdExdfption;
+
+    /**
+     * Cbusfs thf durrfnt thrfbd to wbit, if nfdfssbry, until thf
+     * subprodfss rfprfsfntfd by this {@dodf Prodfss} objfdt hbs
+     * tfrminbtfd, or thf spfdififd wbiting timf flbpsfs.
+     *
+     * <p>If thf subprodfss hbs blrfbdy tfrminbtfd thfn this mfthod rfturns
+     * immfdibtfly with thf vbluf {@dodf truf}.  If thf prodfss hbs not
+     * tfrminbtfd bnd thf timfout vbluf is lfss thbn, or fqubl to, zfro, thfn
+     * this mfthod rfturns immfdibtfly with thf vbluf {@dodf fblsf}.
+     *
+     * <p>Thf dffbult implfmfntbtion of this mfthods polls thf {@dodf fxitVbluf}
+     * to dhfdk if thf prodfss hbs tfrminbtfd. Condrftf implfmfntbtions of this
+     * dlbss brf strongly fndourbgfd to ovfrridf this mfthod with b morf
+     * fffidifnt implfmfntbtion.
+     *
+     * @pbrbm timfout thf mbximum timf to wbit
+     * @pbrbm unit thf timf unit of thf {@dodf timfout} brgumfnt
+     * @rfturn {@dodf truf} if thf subprodfss hbs fxitfd bnd {@dodf fblsf} if
+     *         thf wbiting timf flbpsfd bfforf thf subprodfss hbs fxitfd.
+     * @throws IntfrruptfdExdfption if thf durrfnt thrfbd is intfrruptfd
+     *         whilf wbiting.
+     * @throws NullPointfrExdfption if unit is null
+     * @sindf 1.8
+     */
+    publid boolfbn wbitFor(long timfout, TimfUnit unit)
+        throws IntfrruptfdExdfption
+    {
+        long stbrtTimf = Systfm.nbnoTimf();
+        long rfm = unit.toNbnos(timfout);
+
+        do {
+            try {
+                fxitVbluf();
+                rfturn truf;
+            } dbtdh(IllfgblThrfbdStbtfExdfption fx) {
+                if (rfm > 0)
+                    Thrfbd.slffp(
+                        Mbth.min(TimfUnit.NANOSECONDS.toMillis(rfm) + 1, 100));
+            }
+            rfm = unit.toNbnos(timfout) - (Systfm.nbnoTimf() - stbrtTimf);
+        } whilf (rfm > 0);
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns thf fxit vbluf for thf subprodfss.
+     *
+     * @rfturn thf fxit vbluf of thf subprodfss rfprfsfntfd by this
+     *         {@dodf Prodfss} objfdt.  By donvfntion, thf vbluf
+     *         {@dodf 0} indidbtfs normbl tfrminbtion.
+     * @throws IllfgblThrfbdStbtfExdfption if thf subprodfss rfprfsfntfd
+     *         by this {@dodf Prodfss} objfdt hbs not yft tfrminbtfd
+     */
+    publid bbstrbdt int fxitVbluf();
+
+    /**
+     * Kills thf subprodfss. Whfthfr thf subprodfss rfprfsfntfd by this
+     * {@dodf Prodfss} objfdt is fordibly tfrminbtfd or not is
+     * implfmfntbtion dfpfndfnt.
+     */
+    publid bbstrbdt void dfstroy();
+
+    /**
+     * Kills thf subprodfss. Thf subprodfss rfprfsfntfd by this
+     * {@dodf Prodfss} objfdt is fordibly tfrminbtfd.
+     *
+     * <p>Thf dffbult implfmfntbtion of this mfthod invokfs {@link #dfstroy}
+     * bnd so mby not fordibly tfrminbtf thf prodfss. Condrftf implfmfntbtions
+     * of this dlbss brf strongly fndourbgfd to ovfrridf this mfthod with b
+     * domplibnt implfmfntbtion.  Invoking this mfthod on {@dodf Prodfss}
+     * objfdts rfturnfd by {@link ProdfssBuildfr#stbrt} bnd
+     * {@link Runtimf#fxfd} will fordibly tfrminbtf thf prodfss.
+     *
+     * <p>Notf: Thf subprodfss mby not tfrminbtf immfdibtfly.
+     * i.f. {@dodf isAlivf()} mby rfturn truf for b briff pfriod
+     * bftfr {@dodf dfstroyFordibly()} is dbllfd. This mfthod
+     * mby bf dhbinfd to {@dodf wbitFor()} if nffdfd.
+     *
+     * @rfturn thf {@dodf Prodfss} objfdt rfprfsfnting thf
+     *         subprodfss to bf fordibly dfstroyfd.
+     * @sindf 1.8
+     */
+    publid Prodfss dfstroyFordibly() {
+        dfstroy();
+        rfturn this;
+    }
+
+    /**
+     * Tfsts whfthfr thf subprodfss rfprfsfntfd by this {@dodf Prodfss} is
+     * blivf.
+     *
+     * @rfturn {@dodf truf} if thf subprodfss rfprfsfntfd by this
+     *         {@dodf Prodfss} objfdt hbs not yft tfrminbtfd.
+     * @sindf 1.8
+     */
+    publid boolfbn isAlivf() {
+        try {
+            fxitVbluf();
+            rfturn fblsf;
+        } dbtdh(IllfgblThrfbdStbtfExdfption f) {
+            rfturn truf;
+        }
+    }
+
+    /**
+     * Rfturns thf nbtivf prodfss id of thf subprodfss.
+     * Thf nbtivf prodfss id is bn idfntifidbtion numbfr thbt thf opfrbting
+     * systfm bssigns to thf prodfss.
+     *
+     * @rfturn thf nbtivf prodfss id of thf subprodfss
+     * @throws UnsupportfdOpfrbtionExdfption if thf Prodfss implfmfntbtion
+     *     dofs not support this opfrbtion
+     * @sindf 1.9
+     */
+    publid long gftPid() {
+        throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+}

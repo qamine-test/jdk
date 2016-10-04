@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<!--
+
+ Copyright (d) 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+ This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+ This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ bddompbnifd this dodf).
+
+ You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ qufstions.
+ 
+-->
+</HEAD>
+<BODY BGCOLOR="whitf">
+<P>
+
+<B> Lidfnsff impbdt of JDK 1.4 rfflfdtion dhbngfs </B>
+
+</P>
+<P>
+
+Sun's JDK 1.4 dontbins b nfw implfmfntbtion of jbvb.lbng.rfflfdt whidh
+offfrs substbntiblly highfr pfrformbndf thbn prfvious JDKs' nbtivf
+dodf. Lidfnsffs dbn bt thfir disdrftion port thfsf dhbngfs. Thfrf brf
+no publid API or dodumfntbtion dhbngfs bssodibtfd with thf nfw
+rfflfdtion implfmfntbtion bsidf from b ffw minor dlbrifidbtions in thf
+spfdifidbtions of Mfthod.invokf(), Construdtor.nfwInstbndf(), bnd b
+ffw mfthods in jbvb.lbng.rfflfdt.Fifld.
+
+</P>
+<P>
+
+Thf bulk of thf nfw implfmfntbtion is Jbvb progrbmming lbngubgf dodf
+whidh gfnfrbtfs bytfdodfs, bnd is thfrfforf portbblf. If lidfnsffs
+dfsirf to port it, thf following JVM dhbngfs brf rfquirfd:
+
+<OL>
+<LI> Thf following four nfw JVM fntry points must bf bddfd:
+
+ <UL>
+ <LI> JVM_GftClbssDfdlbrfdConstrudtors
+ <LI> JVM_GftClbssDfdlbrfdFiflds
+ <LI> JVM_GftClbssDfdlbrfdMfthods
+ <LI> JVM_GftClbssAddfssFlbgs
+ </UL>
+
+Thf first thrff rfturn thf dfdlbrfd donstrudtors, fiflds, bnd mfthods
+for b givfn dlbss, with bn option to rfturn only thf publid onfs. Thfy
+brf similbr in fundtionblity to thf fbrlifr GftClbssConstrudtors,
+GftClbssFiflds, bnd GftClbssMfthods.  JVM_GftClbssDfdlbrfdFiflds bnd
+JVM_GftClbssDfdlbrfdMfthods must intfrn thf Strings for thf nbmfs of
+thf Fifld bnd Mfthod objfdts rfturnfd. Thf fouth rfturns thf bddfss
+flbgs for b givfn dlbss bs mbrkfd in thf dlbss filf, bs opposfd to in
+thf InnfrClbssfs bttributf if thf dlbss is bn innfr dlbss, bnd
+thfrfforf difffrs from JVM_GftClbssModififrs for innfr dlbssfs (most
+importbntly, protfdtfd innfr dlbssfs; sff 4471811.)
+
+<LI> Thf JVM's link rfsolvfr must bf modififd to bllow bll fifld bnd
+mfthod rfffrfndfs from subdlbssfs of sun.rfflfdt.MbgidAddfssorImpl to
+bny othfr dlbss (fvfn to privbtf mfmbfrs of othfr dlbssfs) to
+suddffd. This bllows sftAddfssiblf() bnd its bssodibtfd dhfdks to bf
+implfmfntfd in Jbvb.
+
+<LI> Thf dodf whidh dblls thf vfrififr must skip vfrifidbtion for bll
+subdlbssfs of sun.rfflfdt.MbgidAddfssorImpl. (It wbs originblly
+intfndfd thbt only b subsft of thf stub dlbssfs usfd for sfriblizbtion
+would not pbss thf vfrififr, spfdifidblly, thosf subdlbssing
+SfriblizbtionConstrudtorAddfssorImpl; sff 4486457 for b dbsf whfrf
+this dofs not work.)
+
+<LI> Thf stbdk wblkfr for sfdurity dhfdks must bf modififd to skip not
+only bll Mfthod.invokf() frbmfs, but blso bny frbmfs for whidh thf
+dlbss is b subdlbss of sun.rfflfdt.MfthodAddfssorImpl.
+
+<LI> Thf JVM fntry points JVM_InvokfMfthod bnd
+JVM_NfwInstbndfFromConstrudtor brf durrfntly still usfd bfdbusf thf
+first invodbtion of thf bytfdodf-bbsfd rfflfdtion is durrfntly slowfr
+thbn thf originbl nbtivf dodf. Thf sfdurity dhfdks thfy pfrform dbn,
+howfvfr, bf disbblfd, bs thfy brf now pfrformfd by Jbvb progrbmming
+lbngubgf dodf.
+
+</OL>
+
+</P>
+<P>
+
+Thf following dhbngfs wfrf disdovfrfd to bf nfdfssbry for bbdkwbrd
+dompbtibility with dfrtbin bpplidbtions (sff bug 4474172):
+
+<OL>
+
+<LI> Thf fxisting JVM fntry point JVM_LbtfstUsfrDffinfdLobdfr
+(typidblly usfd in bpplidbtions whidh rfly on thf 1.1 sfdurity
+frbmfwork) must skip rfflfdtion-rflbtfd frbmfs in its stbdk wblk:
+spfdifidblly bll frbmfs bssodibtfd with subdlbssfs of
+sun.rfflfdt.MfthodAddfssorImpl bnd
+sun.rfflfdt.ConstrudtorAddfssorImpl.
+
+<LI> Thf nfw rfflfdtion implfmfntbtion dbn dbusf dlbss lobding to
+oddur in prfviously-unfxpfdtfd plbdfs (nbmfly during rfflfdtivf
+dblls).  This dbn dbusf dlbss lobdfrs whidh dontbin subtlf bugs to
+brfbk.  In gfnfrbl it is not possiblf to gubrbntff domplftf bbdkwbrd
+bug dompbtibility, but onf kind of bug hbs bffn obsfrvfd morf thbn
+ondf: thf inbbility of b usfr-dffinfd lobdfr to hbndlf dflfgbtion to
+it for b dlbss it hbs blrfbdy lobdfd. Thf nfw rfflfdtion
+implfmfntbtion is prfdidbtfd on dflfgbtion working propfrly, bs it
+lobds stub dlbssfs into nfwly-fbbridbtfd dlbss lobdfrs of typf
+sun.rfflfdt.DflfgbtingClbssLobdfr, onf stub dlbss pfr lobdfr, to bllow
+unlobding of thf stub dlbssfs to oddur morf quidkly. To hbndlf this
+kind of bug, thf JVM's intfrnbl dlbss lookup mfdhbnism must bf
+slightly modififd to dhfdk for instbndfs of
+sun.rfflfdt.DflfgbtingClbssLobdfr bs thf indoming dlbss lobdfr bnd
+silfntly trbvfrsf thf "pbrfnt" fifld ondf for sudh lobdfrs bfforf
+fntfring thf bulk of thf rfsolution dodf. This bvoids bn updbll to
+Jbvb progrbmming lbngubgf dodf whidh dfrtbin lobdfrs dbn not hbndlf.
+
+</OL>
+
+</P>
+<P>
+
+Thf following JVM fntry points mby bf dflftfd:
+
+<UL>
+<LI> JVM_GftClbssFiflds
+<LI> JVM_GftClbssMfthods
+<LI> JVM_GftClbssConstrudtors
+<LI> JVM_GftClbssFifld
+<LI> JVM_GftClbssMfthod
+<LI> JVM_GftClbssConstrudtor
+<LI> JVM_NfwInstbndf
+<LI> JVM_GftFifld
+<LI> JVM_GftPrimitivfFifld
+<LI> JVM_SftFifld
+<LI> JVM_SftPrimitivfFifld
+</UL>
+
+</P>
+<P>
+
+To kffp using thf prfvious rfflfdtion implfmfntbtion, lidfnsffs should
+not tbkf dhbngfs from Sun's JDK 1.4 rflbting spfdifidblly to thf
+implfmfntbtion of rfflfdtion in thf following dlbssfs/mfthods bnd
+bny bssodibtfd nbtivf dodf:
+
+<UL>
+<LI> jbvb.lbng.Clbss.nfwInstbndf0
+<LI> jbvb.lbng.Clbss.gftClbssLobdfr0
+<LI> jbvb.lbng.Clbss.gftFiflds
+<LI> jbvb.lbng.Clbss.gftMfthods
+<LI> jbvb.lbng.Clbss.gftDfdlbrfdFiflds
+<LI> jbvb.lbng.Clbss.gftDfdlbrfdMfthods
+<LI> jbvb.lbng.Clbss.gftFiflds0
+<LI> jbvb.lbng.Clbss.gftMfthods0
+<LI> jbvb.lbng.Clbss.gftConstrudtors0
+<LI> jbvb.lbng.Clbss.gftFifld0
+<LI> jbvb.lbng.Clbss.gftMfthod0
+<LI> jbvb.lbng.Clbss.gftConstrudtor0
+<LI> jbvb.lbng.ClbssLobdfr.gftCbllfrClbssLobdfr
+<LI> jbvb.lbng.Systfm.gftCbllfrClbss
+<LI> jbvb.lbng.rfflfdt.AddfssiblfObjfdt
+<LI> jbvb.lbng.rfflfdt.Construdtor
+<LI> jbvb.lbng.rfflfdt.Fifld
+<LI> jbvb.lbng.rfflfdt.Mfthod
+<LI> jbvb.lbng.rfflfdt.Modififr
+<LI> sun.misd.ClbssRfflfdtor
+</UL>
+
+</P>
+</HTML>

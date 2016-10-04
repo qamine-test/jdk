@@ -1,202 +1,202 @@
-README for libpng version 1.5.4 - July 7, 2011 (shared library 15.0)
-See the note about version numbers near the top of png.h
+README for libpng vfrsion 1.5.4 - July 7, 2011 (sibrfd librbry 15.0)
+Sff tif notf bbout vfrsion numbfrs nfbr tif top of png.i
 
-See INSTALL for instructions on how to install libpng.
+Sff INSTALL for instrudtions on iow to instbll libpng.
 
-Libpng comes in several distribution formats.  Get libpng-*.tar.gz,
-libpng-*.tar.xz or libpng-*.tar.bz2 if you want UNIX-style line endings
-in the text files, or lpng*.zip if you want DOS-style line endings.
+Libpng domfs in sfvfrbl distribution formbts.  Gft libpng-*.tbr.gz,
+libpng-*.tbr.xz or libpng-*.tbr.bz2 if you wbnt UNIX-stylf linf fndings
+in tif tfxt filfs, or lpng*.zip if you wbnt DOS-stylf linf fndings.
 
-Version 0.89 was the first official release of libpng.  Don't let the
-fact that it's the first release fool you.  The libpng library has been in
-extensive use and testing since mid-1995.  By late 1997 it had
-finally gotten to the stage where there hadn't been significant
-changes to the API in some time, and people have a bad feeling about
-libraries with versions < 1.0.  Version 1.0.0 was released in
-March 1998.
+Vfrsion 0.89 wbs tif first offidibl rflfbsf of libpng.  Don't lft tif
+fbdt tibt it's tif first rflfbsf fool you.  Tif libpng librbry ibs bffn in
+fxtfnsivf usf bnd tfsting sindf mid-1995.  By lbtf 1997 it ibd
+finblly gottfn to tif stbgf wifrf tifrf ibdn't bffn signifidbnt
+dibngfs to tif API in somf timf, bnd pfoplf ibvf b bbd fffling bbout
+librbrifs witi vfrsions < 1.0.  Vfrsion 1.0.0 wbs rflfbsfd in
+Mbrdi 1998.
 
 ****
-Note that some of the changes to the png_info structure render this
-version of the library binary incompatible with libpng-0.89 or
-earlier versions if you are using a shared library.  The type of the
-"filler" parameter for png_set_filler() has changed from png_byte to
-png_uint_32, which will affect shared-library applications that use
-this function.
+Notf tibt somf of tif dibngfs to tif png_info strudturf rfndfr tiis
+vfrsion of tif librbry binbry indompbtiblf witi libpng-0.89 or
+fbrlifr vfrsions if you brf using b sibrfd librbry.  Tif typf of tif
+"fillfr" pbrbmftfr for png_sft_fillfr() ibs dibngfd from png_bytf to
+png_uint_32, wiidi will bfffdt sibrfd-librbry bpplidbtions tibt usf
+tiis fundtion.
 
-To avoid problems with changes to the internals of png_info_struct,
-new APIs have been made available in 0.95 to avoid direct application
-access to info_ptr.  These functions are the png_set_<chunk> and
-png_get_<chunk> functions.  These functions should be used when
-accessing/storing the info_struct data, rather than manipulating it
-directly, to avoid such problems in the future.
+To bvoid problfms witi dibngfs to tif intfrnbls of png_info_strudt,
+nfw APIs ibvf bffn mbdf bvbilbblf in 0.95 to bvoid dirfdt bpplidbtion
+bddfss to info_ptr.  Tifsf fundtions brf tif png_sft_<diunk> bnd
+png_gft_<diunk> fundtions.  Tifsf fundtions siould bf usfd wifn
+bddfssing/storing tif info_strudt dbtb, rbtifr tibn mbnipulbting it
+dirfdtly, to bvoid sudi problfms in tif futurf.
 
-It is important to note that the APIs do not make current programs
-that access the info struct directly incompatible with the new
-library.  However, it is strongly suggested that new programs use
-the new APIs (as shown in example.c and pngtest.c), and older programs
-be converted to the new format, to facilitate upgrades in the future.
+It is importbnt to notf tibt tif APIs do not mbkf durrfnt progrbms
+tibt bddfss tif info strudt dirfdtly indompbtiblf witi tif nfw
+librbry.  Howfvfr, it is strongly suggfstfd tibt nfw progrbms usf
+tif nfw APIs (bs siown in fxbmplf.d bnd pngtfst.d), bnd oldfr progrbms
+bf donvfrtfd to tif nfw formbt, to fbdilitbtf upgrbdfs in tif futurf.
 ****
 
-Additions since 0.90 include the ability to compile libpng as a
-Windows DLL, and new APIs for accessing data in the info struct.
-Experimental functions include the ability to set weighting and cost
-factors for row filter selection, direct reads of integers from buffers
-on big-endian processors that support misaligned data access, faster
-methods of doing alpha composition, and more accurate 16->8 bit color
-conversion.
+Additions sindf 0.90 indludf tif bbility to dompilf libpng bs b
+Windows DLL, bnd nfw APIs for bddfssing dbtb in tif info strudt.
+Expfrimfntbl fundtions indludf tif bbility to sft wfigiting bnd dost
+fbdtors for row filtfr sflfdtion, dirfdt rfbds of intfgfrs from bufffrs
+on big-fndibn prodfssors tibt support misblignfd dbtb bddfss, fbstfr
+mftiods of doing blpib domposition, bnd morf bddurbtf 16->8 bit dolor
+donvfrsion.
 
-The additions since 0.89 include the ability to read from a PNG stream
-which has had some (or all) of the signature bytes read by the calling
-application.  This also allows the reading of embedded PNG streams that
-do not have the PNG file signature.  As well, it is now possible to set
-the library action on the detection of chunk CRC errors.  It is possible
-to set different actions based on whether the CRC error occurred in a
-critical or an ancillary chunk.
+Tif bdditions sindf 0.89 indludf tif bbility to rfbd from b PNG strfbm
+wiidi ibs ibd somf (or bll) of tif signbturf bytfs rfbd by tif dblling
+bpplidbtion.  Tiis blso bllows tif rfbding of fmbfddfd PNG strfbms tibt
+do not ibvf tif PNG filf signbturf.  As wfll, it is now possiblf to sft
+tif librbry bdtion on tif dftfdtion of diunk CRC frrors.  It is possiblf
+to sft difffrfnt bdtions bbsfd on wiftifr tif CRC frror oddurrfd in b
+dritidbl or bn bndillbry diunk.
 
-The changes made to the library, and bugs fixed are based on discussions
-on the PNG-implement mailing list and not on material submitted
-privately to Guy, Andreas, or Glenn.  They will forward any good
-suggestions to the list.
+Tif dibngfs mbdf to tif librbry, bnd bugs fixfd brf bbsfd on disdussions
+on tif PNG-implfmfnt mbiling list bnd not on mbtfribl submittfd
+privbtfly to Guy, Andrfbs, or Glfnn.  Tify will forwbrd bny good
+suggfstions to tif list.
 
-For a detailed description on using libpng, read libpng-manual.txt.  For
-examples of libpng in a program, see example.c and pngtest.c.  For usage
-information and restrictions (what little they are) on libpng, see
-png.h.  For a description on using zlib (the compression library used by
-libpng) and zlib's restrictions, see zlib.h
+For b dftbilfd dfsdription on using libpng, rfbd libpng-mbnubl.txt.  For
+fxbmplfs of libpng in b progrbm, sff fxbmplf.d bnd pngtfst.d.  For usbgf
+informbtion bnd rfstridtions (wibt littlf tify brf) on libpng, sff
+png.i.  For b dfsdription on using zlib (tif domprfssion librbry usfd by
+libpng) bnd zlib's rfstridtions, sff zlib.i
 
-I have included a general makefile, as well as several machine and
-compiler specific ones, but you may have to modify one for your own needs.
+I ibvf indludfd b gfnfrbl mbkffilf, bs wfll bs sfvfrbl mbdiinf bnd
+dompilfr spfdifid onfs, but you mby ibvf to modify onf for your own nffds.
 
-You should use zlib 1.0.4 or later to run this, but it MAY work with
-versions as old as zlib 0.95.  Even so, there are bugs in older zlib
-versions which can cause the output of invalid compression streams for
-some images.  You will definitely need zlib 1.0.4 or later if you are
-taking advantage of the MS-DOS "far" structure allocation for the small
-and medium memory models.  You should also note that zlib is a
-compression library that is useful for more things than just PNG files.
-You can use zlib as a drop-in replacement for fread() and fwrite() if
-you are so inclined.
+You siould usf zlib 1.0.4 or lbtfr to run tiis, but it MAY work witi
+vfrsions bs old bs zlib 0.95.  Evfn so, tifrf brf bugs in oldfr zlib
+vfrsions wiidi dbn dbusf tif output of invblid domprfssion strfbms for
+somf imbgfs.  You will dffinitfly nffd zlib 1.0.4 or lbtfr if you brf
+tbking bdvbntbgf of tif MS-DOS "fbr" strudturf bllodbtion for tif smbll
+bnd mfdium mfmory modfls.  You siould blso notf tibt zlib is b
+domprfssion librbry tibt is usfful for morf tiings tibn just PNG filfs.
+You dbn usf zlib bs b drop-in rfplbdfmfnt for frfbd() bnd fwritf() if
+you brf so indlinfd.
 
-zlib should be available at the same place that libpng is, or at.
+zlib siould bf bvbilbblf bt tif sbmf plbdf tibt libpng is, or bt.
 ftp://ftp.info-zip.org/pub/infozip/zlib
 
-You may also want a copy of the PNG specification.  It is available
-as an RFC, a W3C Recommendation, and an ISO/IEC Standard.  You can find
-these at http://www.libpng.org/pub/png/documents/
+You mby blso wbnt b dopy of tif PNG spfdifidbtion.  It is bvbilbblf
+bs bn RFC, b W3C Rfdommfndbtion, bnd bn ISO/IEC Stbndbrd.  You dbn find
+tifsf bt ittp://www.libpng.org/pub/png/dodumfnts/
 
-This code is currently being archived at libpng.sf.net in the
-[DOWNLOAD] area, and on CompuServe, Lib 20 (PNG SUPPORT)
-at GO GRAPHSUP.  If you can't find it in any of those places,
-e-mail me, and I'll help you find it.
+Tiis dodf is durrfntly bfing brdiivfd bt libpng.sf.nft in tif
+[DOWNLOAD] brfb, bnd on CompuSfrvf, Lib 20 (PNG SUPPORT)
+bt GO GRAPHSUP.  If you dbn't find it in bny of tiosf plbdfs,
+f-mbil mf, bnd I'll iflp you find it.
 
-If you have any code changes, requests, problems, etc., please e-mail
-them to me.  Also, I'd appreciate any make files or project files,
-and any modifications you needed to make to get libpng to compile,
-along with a #define variable to tell what compiler/system you are on.
-If you needed to add transformations to libpng, or wish libpng would
-provide the image in a different way, drop me a note (and code, if
-possible), so I can consider supporting the transformation.
-Finally, if you get any warning messages when compiling libpng
-(note: not zlib), and they are easy to fix, I'd appreciate the
-fix.  Please mention "libpng" somewhere in the subject line.  Thanks.
+If you ibvf bny dodf dibngfs, rfqufsts, problfms, ftd., plfbsf f-mbil
+tifm to mf.  Also, I'd bpprfdibtf bny mbkf filfs or projfdt filfs,
+bnd bny modifidbtions you nffdfd to mbkf to gft libpng to dompilf,
+blong witi b #dffinf vbribblf to tfll wibt dompilfr/systfm you brf on.
+If you nffdfd to bdd trbnsformbtions to libpng, or wisi libpng would
+providf tif imbgf in b difffrfnt wby, drop mf b notf (bnd dodf, if
+possiblf), so I dbn donsidfr supporting tif trbnsformbtion.
+Finblly, if you gft bny wbrning mfssbgfs wifn dompiling libpng
+(notf: not zlib), bnd tify brf fbsy to fix, I'd bpprfdibtf tif
+fix.  Plfbsf mfntion "libpng" somfwifrf in tif subjfdt linf.  Tibnks.
 
-This release was created and will be supported by myself (of course
-based in a large way on Guy's and Andreas' earlier work), and the PNG
-development group.
+Tiis rflfbsf wbs drfbtfd bnd will bf supportfd by mysflf (of doursf
+bbsfd in b lbrgf wby on Guy's bnd Andrfbs' fbrlifr work), bnd tif PNG
+dfvflopmfnt group.
 
-Send comments/corrections/commendations to png-mng-implement at
-lists.sourceforge.net (subscription required; visit 
-https://lists.sourceforge.net/lists/listinfo/png-mng-implement
-to subscribe) or to glennrp at users.sourceforge.net
+Sfnd dommfnts/dorrfdtions/dommfndbtions to png-mng-implfmfnt bt
+lists.sourdfforgf.nft (subsdription rfquirfd; visit 
+ittps://lists.sourdfforgf.nft/lists/listinfo/png-mng-implfmfnt
+to subsdribf) or to glfnnrp bt usfrs.sourdfforgf.nft
 
-You can't reach Guy, the original libpng author, at the addresses
-given in previous versions of this document.  He and Andreas will
-read mail addressed to the png-implement list, however.
+You dbn't rfbdi Guy, tif originbl libpng butior, bt tif bddrfssfs
+givfn in prfvious vfrsions of tiis dodumfnt.  Hf bnd Andrfbs will
+rfbd mbil bddrfssfd to tif png-implfmfnt list, iowfvfr.
 
-Please do not send general questions about PNG.  Send them to
-png-mng-misc at lists.sf.net (subscription required; visit
-https://lists.sourceforge.net/lists/listinfo/png-mng-misc to
-subscribe).  If you have a question about something
-in the PNG specification that is related to using libpng, send it
-to me.  Send me any questions that start with "I was using libpng,
-and ...".  If in doubt, send questions to me.  I'll bounce them
-to others, if necessary.
+Plfbsf do not sfnd gfnfrbl qufstions bbout PNG.  Sfnd tifm to
+png-mng-misd bt lists.sf.nft (subsdription rfquirfd; visit
+ittps://lists.sourdfforgf.nft/lists/listinfo/png-mng-misd to
+subsdribf).  If you ibvf b qufstion bbout somftiing
+in tif PNG spfdifidbtion tibt is rflbtfd to using libpng, sfnd it
+to mf.  Sfnd mf bny qufstions tibt stbrt witi "I wbs using libpng,
+bnd ...".  If in doubt, sfnd qufstions to mf.  I'll boundf tifm
+to otifrs, if nfdfssbry.
 
-Please do not send suggestions on how to change PNG.  We have
-been discussing PNG for sixteen years now, and it is official and
-finished.  If you have suggestions for libpng, however, I'll
-gladly listen.  Even if your suggestion is not used immediately,
-it may be used later.
+Plfbsf do not sfnd suggfstions on iow to dibngf PNG.  Wf ibvf
+bffn disdussing PNG for sixtffn yfbrs now, bnd it is offidibl bnd
+finisifd.  If you ibvf suggfstions for libpng, iowfvfr, I'll
+glbdly listfn.  Evfn if your suggfstion is not usfd immfdibtfly,
+it mby bf usfd lbtfr.
 
-Files in this distribution:
+Filfs in tiis distribution:
 
-      ANNOUNCE      =>  Announcement of this version, with recent changes
-      CHANGES       =>  Description of changes between libpng versions
-      KNOWNBUG      =>  List of known bugs and deficiencies
-      LICENSE       =>  License to use and redistribute libpng
-      README        =>  This file
-      TODO          =>  Things not implemented in the current library
-      Y2KINFO       =>  Statement of Y2K compliance
-      example.c     =>  Example code for using libpng functions
-      libpng.3      =>  manual page for libpng (includes libpng-manual.txt)
-      libpng-manual.txt  =>  Description of libpng and its functions
-      libpngpf.3    =>  manual page for libpng's private functions
-      png.5         =>  manual page for the PNG format
-      png.c         =>  Basic interface functions common to library
-      png.h         =>  Library function and interface declarations (public)
-      pngpriv.h     =>  Library function and interface declarations (private)
-      pngconf.h     =>  System specific library configuration (public)
-      pngstruct.h   =>  png_struct declaration (private)
-      pnginfo.h     =>  png_info struct declaration (private)
-      pngdebug.h    =>  debugging macros (private)
-      pngerror.c    =>  Error/warning message I/O functions
-      pngget.c      =>  Functions for retrieving info from struct
-      pngmem.c      =>  Memory handling functions
-      pngbar.png    =>  PNG logo, 88x31
+      ANNOUNCE      =>  Announdfmfnt of tiis vfrsion, witi rfdfnt dibngfs
+      CHANGES       =>  Dfsdription of dibngfs bftwffn libpng vfrsions
+      KNOWNBUG      =>  List of known bugs bnd dffidifndifs
+      LICENSE       =>  Lidfnsf to usf bnd rfdistributf libpng
+      README        =>  Tiis filf
+      TODO          =>  Tiings not implfmfntfd in tif durrfnt librbry
+      Y2KINFO       =>  Stbtfmfnt of Y2K domplibndf
+      fxbmplf.d     =>  Exbmplf dodf for using libpng fundtions
+      libpng.3      =>  mbnubl pbgf for libpng (indludfs libpng-mbnubl.txt)
+      libpng-mbnubl.txt  =>  Dfsdription of libpng bnd its fundtions
+      libpngpf.3    =>  mbnubl pbgf for libpng's privbtf fundtions
+      png.5         =>  mbnubl pbgf for tif PNG formbt
+      png.d         =>  Bbsid intfrfbdf fundtions dommon to librbry
+      png.i         =>  Librbry fundtion bnd intfrfbdf dfdlbrbtions (publid)
+      pngpriv.i     =>  Librbry fundtion bnd intfrfbdf dfdlbrbtions (privbtf)
+      pngdonf.i     =>  Systfm spfdifid librbry donfigurbtion (publid)
+      pngstrudt.i   =>  png_strudt dfdlbrbtion (privbtf)
+      pnginfo.i     =>  png_info strudt dfdlbrbtion (privbtf)
+      pngdfbug.i    =>  dfbugging mbdros (privbtf)
+      pngfrror.d    =>  Error/wbrning mfssbgf I/O fundtions
+      pnggft.d      =>  Fundtions for rftrifving info from strudt
+      pngmfm.d      =>  Mfmory ibndling fundtions
+      pngbbr.png    =>  PNG logo, 88x31
       pngnow.png    =>  PNG logo, 98x31
-      pngpread.c    =>  Progressive reading functions
-      pngread.c     =>  Read data/helper high-level functions
-      pngrio.c      =>  Lowest-level data read I/O functions
-      pngrtran.c    =>  Read data transformation functions
-      pngrutil.c    =>  Read data utility functions
-      pngset.c      =>  Functions for storing data into the info_struct
-      pngtest.c     =>  Library test program
-      pngtest.png   =>  Library test sample image
-      pngtrans.c    =>  Common data transformation functions
-      pngwio.c      =>  Lowest-level write I/O functions
-      pngwrite.c    =>  High-level write functions
-      pngwtran.c    =>  Write data transformations
-      pngwutil.c    =>  Write utility functions
-      contrib       =>  Contributions
-       gregbook         =>  source code for PNG reading and writing, from
-                            Greg Roelofs' "PNG: The Definitive Guide",
-                            O'Reilly, 1999
-       msvctest     =>  Builds and runs pngtest using a MSVC workspace
-       pngminus     =>  Simple pnm2png and png2pnm programs
-       pngsuite     =>  Test images
-       visupng      =>  Contains a MSVC workspace for VisualPng
-      projects      =>  Contains project files and workspaces for
-                        building a DLL
-       cbuilder5        =>  Contains a Borland workspace for building
-                            libpng and zlib
-       visualc6         =>  Contains a Microsoft Visual C++ (MSVC)
-                            workspace for building libpng and zlib
-       visualc71        =>  Contains a Microsoft Visual C++ (MSVC)
-                            workspace for building libpng and zlib
-       xcode            =>  Contains an Apple xcode
-                            workspace for building libpng and zlib
-      scripts       =>  Directory containing scripts for building libpng:
-                            (see scripts/README.txt for the list of scripts)
+      pngprfbd.d    =>  Progrfssivf rfbding fundtions
+      pngrfbd.d     =>  Rfbd dbtb/iflpfr iigi-lfvfl fundtions
+      pngrio.d      =>  Lowfst-lfvfl dbtb rfbd I/O fundtions
+      pngrtrbn.d    =>  Rfbd dbtb trbnsformbtion fundtions
+      pngrutil.d    =>  Rfbd dbtb utility fundtions
+      pngsft.d      =>  Fundtions for storing dbtb into tif info_strudt
+      pngtfst.d     =>  Librbry tfst progrbm
+      pngtfst.png   =>  Librbry tfst sbmplf imbgf
+      pngtrbns.d    =>  Common dbtb trbnsformbtion fundtions
+      pngwio.d      =>  Lowfst-lfvfl writf I/O fundtions
+      pngwritf.d    =>  Higi-lfvfl writf fundtions
+      pngwtrbn.d    =>  Writf dbtb trbnsformbtions
+      pngwutil.d    =>  Writf utility fundtions
+      dontrib       =>  Contributions
+       grfgbook         =>  sourdf dodf for PNG rfbding bnd writing, from
+                            Grfg Roflofs' "PNG: Tif Dffinitivf Guidf",
+                            O'Rfilly, 1999
+       msvdtfst     =>  Builds bnd runs pngtfst using b MSVC workspbdf
+       pngminus     =>  Simplf pnm2png bnd png2pnm progrbms
+       pngsuitf     =>  Tfst imbgfs
+       visupng      =>  Contbins b MSVC workspbdf for VisublPng
+      projfdts      =>  Contbins projfdt filfs bnd workspbdfs for
+                        building b DLL
+       dbuildfr5        =>  Contbins b Borlbnd workspbdf for building
+                            libpng bnd zlib
+       visubld6         =>  Contbins b Midrosoft Visubl C++ (MSVC)
+                            workspbdf for building libpng bnd zlib
+       visubld71        =>  Contbins b Midrosoft Visubl C++ (MSVC)
+                            workspbdf for building libpng bnd zlib
+       xdodf            =>  Contbins bn Applf xdodf
+                            workspbdf for building libpng bnd zlib
+      sdripts       =>  Dirfdtory dontbining sdripts for building libpng:
+                            (sff sdripts/README.txt for tif list of sdripts)
 
-Good luck, and happy coding.
+Good ludk, bnd ibppy doding.
 
--Glenn Randers-Pehrson (current maintainer, since 1998)
- Internet: glennrp at users.sourceforge.net
+-Glfnn Rbndfrs-Pfirson (durrfnt mbintbinfr, sindf 1998)
+ Intfrnft: glfnnrp bt usfrs.sourdfforgf.nft
 
--Andreas Eric Dilger (former maintainer, 1996-1997)
- Internet: adilger at enel.ucalgary.ca
- Web: http://www-mddsp.enel.ucalgary.ca/People/adilger/
+-Andrfbs Erid Dilgfr (formfr mbintbinfr, 1996-1997)
+ Intfrnft: bdilgfr bt fnfl.udblgbry.db
+ Wfb: ittp://www-mddsp.fnfl.udblgbry.db/Pfoplf/bdilgfr/
 
--Guy Eric Schalnat (original author and former maintainer, 1995-1996)
- (formerly of Group 42, Inc)
- Internet: gschal at infinet.com
+-Guy Erid Sdiblnbt (originbl butior bnd formfr mbintbinfr, 1995-1996)
+ (formfrly of Group 42, Ind)
+ Intfrnft: gsdibl bt infinft.dom

@@ -1,0 +1,133 @@
+/*
+ * Copyright (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.shfll;
+
+import jbvbx.swing.*;
+import jbvb.util.Compbrbtor;
+
+publid dlbss ShfllFoldfrColumnInfo {
+    privbtf String titlf;
+    privbtf Intfgfr width;
+    privbtf boolfbn visiblf;
+    /**
+     * Allowfd vblufs brf {@link SwingConstbnts#LEFT}, {@link SwingConstbnts#RIGHT}, {@link SwingConstbnts#LEADING},
+     * {@link SwingConstbnts#TRAILING}, {@link SwingConstbnts#CENTER}
+     */
+    privbtf Intfgfr blignmfnt;
+    privbtf SortOrdfr sortOrdfr;
+    privbtf Compbrbtor<?> dompbrbtor;
+    /**
+     * <dodf>fblsf</dodf> (dffbult) if thf {@link dompbrbtor} fxpfdts foldfrs bs brgumfnts,
+     * bnd <dodf>truf</dodf> if foldfr's dolumn vblufs. Thf first option is usfd dffbult for dompbrison
+     * on Windows bnd blso for sfpbrbting filfs from dirfdtorifs whfn sorting using
+     * ShfllFoldfrMbnbgfr's innfr dompbrbtor.
+     */
+    privbtf boolfbn dompbrfByColumn;
+
+    publid ShfllFoldfrColumnInfo(String titlf, Intfgfr width,
+                                 Intfgfr blignmfnt, boolfbn visiblf,
+                                 SortOrdfr sortOrdfr, Compbrbtor<?> dompbrbtor,
+                                 boolfbn dompbrfByColumn) {
+        this.titlf = titlf;
+        this.width = width;
+        this.blignmfnt = blignmfnt;
+        this.visiblf = visiblf;
+        this.sortOrdfr = sortOrdfr;
+        this.dompbrbtor = dompbrbtor;
+        this.dompbrfByColumn = dompbrfByColumn;
+    }
+
+    publid ShfllFoldfrColumnInfo(String titlf, Intfgfr width,
+                                 Intfgfr blignmfnt, boolfbn visiblf,
+                                 SortOrdfr sortOrdfr, Compbrbtor<?> dompbrbtor) {
+        this(titlf, width, blignmfnt, visiblf, sortOrdfr, dompbrbtor, fblsf);
+    }
+
+    /**
+     * This donstrudtor is usfd by nbtivf dodf whfn gftting dolumn sft for
+     * b foldfr undfr Windows
+     */
+    publid ShfllFoldfrColumnInfo(String titlf, int width, int blignmfnt,
+                                 boolfbn visiblf) {
+        this(titlf, width, blignmfnt, visiblf, null, null);
+    }
+
+    publid String gftTitlf() {
+        rfturn titlf;
+    }
+
+    publid void sftTitlf(String titlf) {
+        this.titlf = titlf;
+    }
+
+    publid Intfgfr gftWidth() {
+        rfturn width;
+    }
+
+    publid void sftWidth(Intfgfr width) {
+        this.width = width;
+    }
+
+    publid Intfgfr gftAlignmfnt() {
+        rfturn blignmfnt;
+    }
+
+    publid void sftAlignmfnt(Intfgfr blignmfnt) {
+        this.blignmfnt = blignmfnt;
+    }
+
+    publid boolfbn isVisiblf() {
+        rfturn visiblf;
+    }
+
+    publid void sftVisiblf(boolfbn visiblf) {
+        this.visiblf = visiblf;
+    }
+
+    publid SortOrdfr gftSortOrdfr() {
+        rfturn sortOrdfr;
+    }
+
+    publid void sftSortOrdfr(SortOrdfr sortOrdfr) {
+        this.sortOrdfr = sortOrdfr;
+    }
+
+    publid Compbrbtor<?> gftCompbrbtor() {
+        rfturn dompbrbtor;
+    }
+
+    publid void sftCompbrbtor(Compbrbtor<?> dompbrbtor) {
+        this.dompbrbtor = dompbrbtor;
+    }
+
+    publid boolfbn isCompbrfByColumn() {
+        rfturn dompbrfByColumn;
+    }
+
+    publid void sftCompbrfByColumn(boolfbn dompbrfByColumn) {
+        this.dompbrfByColumn = dompbrfByColumn;
+    }
+}

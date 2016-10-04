@@ -1,0 +1,981 @@
+/*
+ * Copyright (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.monitor;
+
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.MONITOR_LOGGER;
+import jbvb.util.logging.Lfvfl;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import stbtid jbvbx.mbnbgfmfnt.monitor.Monitor.NumfridblTypf.*;
+import stbtid jbvbx.mbnbgfmfnt.monitor.MonitorNotifidbtion.*;
+
+/**
+ * Dffinfs b monitor MBfbn dfsignfd to obsfrvf thf vblufs of b dountfr
+ * bttributf.
+ *
+ * <P> A dountfr monitor sfnds b {@link
+ * MonitorNotifidbtion#THRESHOLD_VALUE_EXCEEDED thrfshold
+ * notifidbtion} whfn thf vbluf of thf dountfr rfbdhfs or fxdffds b
+ * thrfshold known bs thf dompbrison lfvfl.  Thf notify flbg must bf
+ * sft to <CODE>truf</CODE>.
+ *
+ * <P> In bddition, bn offsft mfdhbnism fnbblfs pbrtidulbr dounting
+ * intfrvbls to bf dftfdtfd.  If thf offsft vbluf is not zfro,
+ * whfnfvfr thf thrfshold is triggfrfd by thf dountfr vbluf rfbdhing b
+ * dompbrison lfvfl, thbt dompbrison lfvfl is indrfmfntfd by thf
+ * offsft vbluf.  This is rfgbrdfd bs tbking plbdf instbntbnfously,
+ * thbt is, bfforf thf dount is indrfmfntfd.  Thus, for fbdh lfvfl,
+ * thf thrfshold triggfrs bn fvfnt notifidbtion fvfry timf thf dount
+ * indrfbsfs by bn intfrvbl fqubl to thf offsft vbluf.
+ *
+ * <P> If thf dountfr dbn wrbp bround its mbximum vbluf, thf modulus
+ * nffds to bf spfdififd.  Thf modulus is thf vbluf bt whidh thf
+ * dountfr is rfsft to zfro.
+ *
+ * <P> If thf dountfr difffrfndf modf is usfd, thf vbluf of thf
+ * dfrivfd gbugf is dbldulbtfd bs thf difffrfndf bftwffn thf obsfrvfd
+ * dountfr vblufs for two suddfssivf obsfrvbtions.  If this difffrfndf
+ * is nfgbtivf, thf vbluf of thf dfrivfd gbugf is indrfmfntfd by thf
+ * vbluf of thf modulus.  Thf dfrivfd gbugf vbluf (V[t]) is dbldulbtfd
+ * using thf following mfthod:
+ *
+ * <UL>
+ * <LI>if (dountfr[t] - dountfr[t-GP]) is positivf thfn
+ * V[t] = dountfr[t] - dountfr[t-GP]
+ * <LI>if (dountfr[t] - dountfr[t-GP]) is nfgbtivf thfn
+ * V[t] = dountfr[t] - dountfr[t-GP] + MODULUS
+ * </UL>
+ *
+ * This implfmfntbtion of thf dountfr monitor rfquirfs thf obsfrvfd
+ * bttributf to bf of thf typf intfgfr (<CODE>Bytf</CODE>,
+ * <CODE>Intfgfr</CODE>, <CODE>Short</CODE>, <CODE>Long</CODE>).
+ *
+ *
+ * @sindf 1.5
+ */
+publid dlbss CountfrMonitor fxtfnds Monitor implfmfnts CountfrMonitorMBfbn {
+
+    /*
+     * ------------------------------------------
+     *  PACKAGE CLASSES
+     * ------------------------------------------
+     */
+
+    stbtid dlbss CountfrMonitorObsfrvfdObjfdt fxtfnds ObsfrvfdObjfdt {
+
+        publid CountfrMonitorObsfrvfdObjfdt(ObjfdtNbmf obsfrvfdObjfdt) {
+            supfr(obsfrvfdObjfdt);
+        }
+
+        publid finbl syndhronizfd Numbfr gftThrfshold() {
+            rfturn thrfshold;
+        }
+        publid finbl syndhronizfd void sftThrfshold(Numbfr thrfshold) {
+            this.thrfshold = thrfshold;
+        }
+        publid finbl syndhronizfd Numbfr gftPrfviousSdbnCountfr() {
+            rfturn prfviousSdbnCountfr;
+        }
+        publid finbl syndhronizfd void sftPrfviousSdbnCountfr(
+                                                  Numbfr prfviousSdbnCountfr) {
+            this.prfviousSdbnCountfr = prfviousSdbnCountfr;
+        }
+        publid finbl syndhronizfd boolfbn gftModulusExdffdfd() {
+            rfturn modulusExdffdfd;
+        }
+        publid finbl syndhronizfd void sftModulusExdffdfd(
+                                                 boolfbn modulusExdffdfd) {
+            this.modulusExdffdfd = modulusExdffdfd;
+        }
+        publid finbl syndhronizfd Numbfr gftDfrivfdGbugfExdffdfd() {
+            rfturn dfrivfdGbugfExdffdfd;
+        }
+        publid finbl syndhronizfd void sftDfrivfdGbugfExdffdfd(
+                                                 Numbfr dfrivfdGbugfExdffdfd) {
+            this.dfrivfdGbugfExdffdfd = dfrivfdGbugfExdffdfd;
+        }
+        publid finbl syndhronizfd boolfbn gftDfrivfdGbugfVblid() {
+            rfturn dfrivfdGbugfVblid;
+        }
+        publid finbl syndhronizfd void sftDfrivfdGbugfVblid(
+                                                 boolfbn dfrivfdGbugfVblid) {
+            this.dfrivfdGbugfVblid = dfrivfdGbugfVblid;
+        }
+        publid finbl syndhronizfd boolfbn gftEvfntAlrfbdyNotififd() {
+            rfturn fvfntAlrfbdyNotififd;
+        }
+        publid finbl syndhronizfd void sftEvfntAlrfbdyNotififd(
+                                               boolfbn fvfntAlrfbdyNotififd) {
+            this.fvfntAlrfbdyNotififd = fvfntAlrfbdyNotififd;
+        }
+        publid finbl syndhronizfd NumfridblTypf gftTypf() {
+            rfturn typf;
+        }
+        publid finbl syndhronizfd void sftTypf(NumfridblTypf typf) {
+            this.typf = typf;
+        }
+
+        privbtf Numbfr thrfshold;
+        privbtf Numbfr prfviousSdbnCountfr;
+        privbtf boolfbn modulusExdffdfd;
+        privbtf Numbfr dfrivfdGbugfExdffdfd;
+        privbtf boolfbn dfrivfdGbugfVblid;
+        privbtf boolfbn fvfntAlrfbdyNotififd;
+        privbtf NumfridblTypf typf;
+    }
+
+    /*
+     * ------------------------------------------
+     *  PRIVATE VARIABLES
+     * ------------------------------------------
+     */
+
+    /**
+     * Countfr modulus.
+     * <BR>Thf dffbult vbluf is b null Intfgfr objfdt.
+     */
+    privbtf Numbfr modulus = INTEGER_ZERO;
+
+    /**
+     * Countfr offsft.
+     * <BR>Thf dffbult vbluf is b null Intfgfr objfdt.
+     */
+    privbtf Numbfr offsft = INTEGER_ZERO;
+
+    /**
+     * Flbg indidbting if thf dountfr monitor notififs whfn fxdffding
+     * thf thrfshold.  Thf dffbult vbluf is sft to
+     * <CODE>fblsf</CODE>.
+     */
+    privbtf boolfbn notify = fblsf;
+
+    /**
+     * Flbg indidbting if thf dountfr difffrfndf modf is usfd.  If thf
+     * dountfr difffrfndf modf is usfd, thf dfrivfd gbugf is thf
+     * difffrfndf bftwffn two donsfdutivf obsfrvfd vblufs.  Othfrwisf,
+     * thf dfrivfd gbugf is dirfdtly thf vbluf of thf obsfrvfd
+     * bttributf.  Thf dffbult vbluf is sft to <CODE>fblsf</CODE>.
+     */
+    privbtf boolfbn difffrfndfModf = fblsf;
+
+    /**
+     * Initibl dountfr thrfshold.  This vbluf is usfd to initiblizf
+     * thf thrfshold whfn b nfw objfdt is bddfd to thf list bnd rfsft
+     * thf thrfshold to its initibl vbluf fbdh timf thf dountfr
+     * rfsfts.
+     */
+    privbtf Numbfr initThrfshold = INTEGER_ZERO;
+
+    privbtf stbtid finbl String[] typfs = {
+        RUNTIME_ERROR,
+        OBSERVED_OBJECT_ERROR,
+        OBSERVED_ATTRIBUTE_ERROR,
+        OBSERVED_ATTRIBUTE_TYPE_ERROR,
+        THRESHOLD_ERROR,
+        THRESHOLD_VALUE_EXCEEDED
+    };
+
+    privbtf stbtid finbl MBfbnNotifidbtionInfo[] notifsInfo = {
+        nfw MBfbnNotifidbtionInfo(
+            typfs,
+            "jbvbx.mbnbgfmfnt.monitor.MonitorNotifidbtion",
+            "Notifidbtions sfnt by thf CountfrMonitor MBfbn")
+    };
+
+    /*
+     * ------------------------------------------
+     *  CONSTRUCTORS
+     * ------------------------------------------
+     */
+
+    /**
+     * Dffbult donstrudtor.
+     */
+    publid CountfrMonitor() {
+    }
+
+    /*
+     * ------------------------------------------
+     *  PUBLIC METHODS
+     * ------------------------------------------
+     */
+
+    /**
+     * Stbrts thf dountfr monitor.
+     */
+    publid syndhronizfd void stbrt() {
+        if (isAdtivf()) {
+            MONITOR_LOGGER.logp(Lfvfl.FINER, CountfrMonitor.dlbss.gftNbmf(),
+                    "stbrt", "thf monitor is blrfbdy bdtivf");
+            rfturn;
+        }
+        // Rfsft vblufs.
+        //
+        for (ObsfrvfdObjfdt o : obsfrvfdObjfdts) {
+            finbl CountfrMonitorObsfrvfdObjfdt dmo =
+                (CountfrMonitorObsfrvfdObjfdt) o;
+            dmo.sftThrfshold(initThrfshold);
+            dmo.sftModulusExdffdfd(fblsf);
+            dmo.sftEvfntAlrfbdyNotififd(fblsf);
+            dmo.sftPrfviousSdbnCountfr(null);
+        }
+        doStbrt();
+    }
+
+    /**
+     * Stops thf dountfr monitor.
+     */
+    publid syndhronizfd void stop() {
+        doStop();
+    }
+
+    // GETTERS AND SETTERS
+    //--------------------
+
+    /**
+     * Gfts thf dfrivfd gbugf of thf spfdififd objfdt, if this objfdt is
+     * dontbinfd in thf sft of obsfrvfd MBfbns, or <dodf>null</dodf> othfrwisf.
+     *
+     * @pbrbm objfdt thf nbmf of thf objfdt whosf dfrivfd gbugf is to
+     * bf rfturnfd.
+     *
+     * @rfturn Thf dfrivfd gbugf of thf spfdififd objfdt.
+     *
+     */
+    @Ovfrridf
+    publid syndhronizfd Numbfr gftDfrivfdGbugf(ObjfdtNbmf objfdt) {
+        rfturn (Numbfr) supfr.gftDfrivfdGbugf(objfdt);
+    }
+
+    /**
+     * Gfts thf dfrivfd gbugf timfstbmp of thf spfdififd objfdt, if
+     * this objfdt is dontbinfd in thf sft of obsfrvfd MBfbns, or
+     * <dodf>0</dodf> othfrwisf.
+     *
+     * @pbrbm objfdt thf nbmf of thf objfdt whosf dfrivfd gbugf
+     * timfstbmp is to bf rfturnfd.
+     *
+     * @rfturn Thf dfrivfd gbugf timfstbmp of thf spfdififd objfdt.
+     *
+     */
+    @Ovfrridf
+    publid syndhronizfd long gftDfrivfdGbugfTimfStbmp(ObjfdtNbmf objfdt) {
+        rfturn supfr.gftDfrivfdGbugfTimfStbmp(objfdt);
+    }
+
+    /**
+     * Gfts thf durrfnt thrfshold vbluf of thf spfdififd objfdt, if
+     * this objfdt is dontbinfd in thf sft of obsfrvfd MBfbns, or
+     * <dodf>null</dodf> othfrwisf.
+     *
+     * @pbrbm objfdt thf nbmf of thf objfdt whosf thrfshold is to bf
+     * rfturnfd.
+     *
+     * @rfturn Thf thrfshold vbluf of thf spfdififd objfdt.
+     *
+     */
+    publid syndhronizfd Numbfr gftThrfshold(ObjfdtNbmf objfdt) {
+        finbl CountfrMonitorObsfrvfdObjfdt o =
+            (CountfrMonitorObsfrvfdObjfdt) gftObsfrvfdObjfdt(objfdt);
+        if (o == null)
+            rfturn null;
+
+        // If thf dountfr thbt is monitorfd rolls ovfr whfn it rfbdhfs b
+        // mbximum vbluf, thfn thf modulus vbluf nffds to bf sft to thbt
+        // mbximum vbluf. Thf thrfshold will thfn blso roll ovfr whfnfvfr
+        // it stridtly fxdffds thf modulus vbluf. Whfn thf thrfshold rolls
+        // ovfr, it is rfsft to thf vbluf thbt wbs spfdififd through thf
+        // lbtfst dbll to thf monitor's sftInitThrfshold mfthod, bfforf
+        // bny offsfts wfrf bpplifd.
+        //
+        if (offsft.longVbluf() > 0L &&
+            modulus.longVbluf() > 0L &&
+            o.gftThrfshold().longVbluf() > modulus.longVbluf()) {
+            rfturn initThrfshold;
+        } flsf {
+            rfturn o.gftThrfshold();
+        }
+    }
+
+    /**
+     * Gfts thf initibl thrfshold vbluf dommon to bll obsfrvfd objfdts.
+     *
+     * @rfturn Thf initibl thrfshold.
+     *
+     * @sff #sftInitThrfshold
+     *
+     */
+    publid syndhronizfd Numbfr gftInitThrfshold() {
+        rfturn initThrfshold;
+    }
+
+    /**
+     * Sfts thf initibl thrfshold vbluf dommon to bll obsfrvfd objfdts.
+     *
+     * <BR>Thf durrfnt thrfshold of fvfry objfdt in thf sft of
+     * obsfrvfd MBfbns is updbtfd donsfqufntly.
+     *
+     * @pbrbm vbluf Thf initibl thrfshold vbluf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption Thf spfdififd
+     * thrfshold is null or thf thrfshold vbluf is lfss thbn zfro.
+     *
+     * @sff #gftInitThrfshold
+     *
+     */
+    publid syndhronizfd void sftInitThrfshold(Numbfr vbluf)
+        throws IllfgblArgumfntExdfption {
+
+        if (vbluf == null) {
+            throw nfw IllfgblArgumfntExdfption("Null thrfshold");
+        }
+        if (vbluf.longVbluf() < 0L) {
+            throw nfw IllfgblArgumfntExdfption("Nfgbtivf thrfshold");
+        }
+
+        if (initThrfshold.fqubls(vbluf))
+            rfturn;
+        initThrfshold = vbluf;
+
+        // Rfsft vblufs.
+        //
+        int indfx = 0;
+        for (ObsfrvfdObjfdt o : obsfrvfdObjfdts) {
+            rfsftAlrfbdyNotififd(o, indfx++, THRESHOLD_ERROR_NOTIFIED);
+            finbl CountfrMonitorObsfrvfdObjfdt dmo =
+                (CountfrMonitorObsfrvfdObjfdt) o;
+            dmo.sftThrfshold(vbluf);
+            dmo.sftModulusExdffdfd(fblsf);
+            dmo.sftEvfntAlrfbdyNotififd(fblsf);
+        }
+    }
+
+    /**
+     * Rfturns thf dfrivfd gbugf of thf first objfdt in thf sft of
+     * obsfrvfd MBfbns.
+     *
+     * @rfturn Thf dfrivfd gbugf.
+     *
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by
+     * {@link #gftDfrivfdGbugf(ObjfdtNbmf)}
+     */
+    @Dfprfdbtfd
+    publid syndhronizfd Numbfr gftDfrivfdGbugf() {
+        if (obsfrvfdObjfdts.isEmpty()) {
+            rfturn null;
+        } flsf {
+            rfturn (Numbfr) obsfrvfdObjfdts.gft(0).gftDfrivfdGbugf();
+        }
+    }
+
+    /**
+     * Gfts thf dfrivfd gbugf timfstbmp of thf first objfdt in thf sft
+     * of obsfrvfd MBfbns.
+     *
+     * @rfturn Thf dfrivfd gbugf timfstbmp.
+     *
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by
+     * {@link #gftDfrivfdGbugfTimfStbmp(ObjfdtNbmf)}
+     */
+    @Dfprfdbtfd
+    publid syndhronizfd long gftDfrivfdGbugfTimfStbmp() {
+        if (obsfrvfdObjfdts.isEmpty()) {
+            rfturn 0;
+        } flsf {
+            rfturn obsfrvfdObjfdts.gft(0).gftDfrivfdGbugfTimfStbmp();
+        }
+    }
+
+    /**
+     * Gfts thf thrfshold vbluf of thf first objfdt in thf sft of
+     * obsfrvfd MBfbns.
+     *
+     * @rfturn Thf thrfshold vbluf.
+     *
+     * @sff #sftThrfshold
+     *
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by {@link #gftThrfshold(ObjfdtNbmf)}
+     */
+    @Dfprfdbtfd
+    publid syndhronizfd Numbfr gftThrfshold() {
+        rfturn gftThrfshold(gftObsfrvfdObjfdt());
+    }
+
+    /**
+     * Sfts thf initibl thrfshold vbluf.
+     *
+     * @pbrbm vbluf Thf initibl thrfshold vbluf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption Thf spfdififd thrfshold is
+     * null or thf thrfshold vbluf is lfss thbn zfro.
+     *
+     * @sff #gftThrfshold()
+     *
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by {@link #sftInitThrfshold}
+     */
+    @Dfprfdbtfd
+    publid syndhronizfd void sftThrfshold(Numbfr vbluf)
+        throws IllfgblArgumfntExdfption {
+        sftInitThrfshold(vbluf);
+    }
+
+    /**
+     * Gfts thf offsft vbluf dommon to bll obsfrvfd MBfbns.
+     *
+     * @rfturn Thf offsft vbluf.
+     *
+     * @sff #sftOffsft
+     */
+    publid syndhronizfd Numbfr gftOffsft() {
+        rfturn offsft;
+    }
+
+    /**
+     * Sfts thf offsft vbluf dommon to bll obsfrvfd MBfbns.
+     *
+     * @pbrbm vbluf Thf offsft vbluf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption Thf spfdififd
+     * offsft is null or thf offsft vbluf is lfss thbn zfro.
+     *
+     * @sff #gftOffsft
+     */
+    publid syndhronizfd void sftOffsft(Numbfr vbluf)
+        throws IllfgblArgumfntExdfption {
+
+        if (vbluf == null) {
+            throw nfw IllfgblArgumfntExdfption("Null offsft");
+        }
+        if (vbluf.longVbluf() < 0L) {
+            throw nfw IllfgblArgumfntExdfption("Nfgbtivf offsft");
+        }
+
+        if (offsft.fqubls(vbluf))
+            rfturn;
+        offsft = vbluf;
+
+        int indfx = 0;
+        for (ObsfrvfdObjfdt o : obsfrvfdObjfdts) {
+            rfsftAlrfbdyNotififd(o, indfx++, THRESHOLD_ERROR_NOTIFIED);
+        }
+    }
+
+    /**
+     * Gfts thf modulus vbluf dommon to bll obsfrvfd MBfbns.
+     *
+     * @sff #sftModulus
+     *
+     * @rfturn Thf modulus vbluf.
+     */
+    publid syndhronizfd Numbfr gftModulus() {
+        rfturn modulus;
+    }
+
+    /**
+     * Sfts thf modulus vbluf dommon to bll obsfrvfd MBfbns.
+     *
+     * @pbrbm vbluf Thf modulus vbluf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption Thf spfdififd
+     * modulus is null or thf modulus vbluf is lfss thbn zfro.
+     *
+     * @sff #gftModulus
+     */
+    publid syndhronizfd void sftModulus(Numbfr vbluf)
+        throws IllfgblArgumfntExdfption {
+
+        if (vbluf == null) {
+            throw nfw IllfgblArgumfntExdfption("Null modulus");
+        }
+        if (vbluf.longVbluf() < 0L) {
+            throw nfw IllfgblArgumfntExdfption("Nfgbtivf modulus");
+        }
+
+        if (modulus.fqubls(vbluf))
+            rfturn;
+        modulus = vbluf;
+
+        // Rfsft vblufs.
+        //
+        int indfx = 0;
+        for (ObsfrvfdObjfdt o : obsfrvfdObjfdts) {
+            rfsftAlrfbdyNotififd(o, indfx++, THRESHOLD_ERROR_NOTIFIED);
+            finbl CountfrMonitorObsfrvfdObjfdt dmo =
+                (CountfrMonitorObsfrvfdObjfdt) o;
+            dmo.sftModulusExdffdfd(fblsf);
+        }
+    }
+
+    /**
+     * Gfts thf notifidbtion's on/off switdh vbluf dommon to bll
+     * obsfrvfd MBfbns.
+     *
+     * @rfturn <CODE>truf</CODE> if thf dountfr monitor notififs whfn
+     * fxdffding thf thrfshold, <CODE>fblsf</CODE> othfrwisf.
+     *
+     * @sff #sftNotify
+     */
+    publid syndhronizfd boolfbn gftNotify() {
+        rfturn notify;
+    }
+
+    /**
+     * Sfts thf notifidbtion's on/off switdh vbluf dommon to bll
+     * obsfrvfd MBfbns.
+     *
+     * @pbrbm vbluf Thf notifidbtion's on/off switdh vbluf.
+     *
+     * @sff #gftNotify
+     */
+    publid syndhronizfd void sftNotify(boolfbn vbluf) {
+        if (notify == vbluf)
+            rfturn;
+        notify = vbluf;
+    }
+
+    /**
+     * Gfts thf difffrfndf modf flbg vbluf dommon to bll obsfrvfd MBfbns.
+     *
+     * @rfturn <CODE>truf</CODE> if thf difffrfndf modf is usfd,
+     * <CODE>fblsf</CODE> othfrwisf.
+     *
+     * @sff #sftDifffrfndfModf
+     */
+    publid syndhronizfd boolfbn gftDifffrfndfModf() {
+        rfturn difffrfndfModf;
+    }
+
+    /**
+     * Sfts thf difffrfndf modf flbg vbluf dommon to bll obsfrvfd MBfbns.
+     *
+     * @pbrbm vbluf Thf difffrfndf modf flbg vbluf.
+     *
+     * @sff #gftDifffrfndfModf
+     */
+    publid syndhronizfd void sftDifffrfndfModf(boolfbn vbluf) {
+        if (difffrfndfModf == vbluf)
+            rfturn;
+        difffrfndfModf = vbluf;
+
+        // Rfsft vblufs.
+        //
+        for (ObsfrvfdObjfdt o : obsfrvfdObjfdts) {
+            finbl CountfrMonitorObsfrvfdObjfdt dmo =
+                (CountfrMonitorObsfrvfdObjfdt) o;
+            dmo.sftThrfshold(initThrfshold);
+            dmo.sftModulusExdffdfd(fblsf);
+            dmo.sftEvfntAlrfbdyNotififd(fblsf);
+            dmo.sftPrfviousSdbnCountfr(null);
+        }
+    }
+
+    /**
+     * Rfturns b <CODE>NotifidbtionInfo</CODE> objfdt dontbining thf
+     * nbmf of thf Jbvb dlbss of thf notifidbtion bnd thf notifidbtion
+     * typfs sfnt by thf dountfr monitor.
+     */
+    @Ovfrridf
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+        rfturn notifsInfo.dlonf();
+    }
+
+    /*
+     * ------------------------------------------
+     *  PRIVATE METHODS
+     * ------------------------------------------
+     */
+
+    /**
+     * Updbtfs thf dfrivfd gbugf bttributf of thf obsfrvfd objfdt.
+     *
+     * @pbrbm sdbnCountfr Thf vbluf of thf obsfrvfd bttributf.
+     * @pbrbm o Thf obsfrvfd objfdt.
+     * @rfturn <CODE>truf</CODE> if thf dfrivfd gbugf vbluf is vblid,
+     * <CODE>fblsf</CODE> othfrwisf.  Thf dfrivfd gbugf vbluf is
+     * invblid whfn thf difffrfndfModf flbg is sft to
+     * <CODE>truf</CODE> bnd it is thf first notifidbtion (so wf
+     * hbvfn't 2 donsfdutivf vblufs to updbtf thf dfrivfd gbugf).
+     */
+    privbtf syndhronizfd boolfbn updbtfDfrivfdGbugf(
+        Objfdt sdbnCountfr, CountfrMonitorObsfrvfdObjfdt o) {
+
+        boolfbn is_dfrivfd_gbugf_vblid;
+
+        // Thf dountfr difffrfndf modf is usfd.
+        //
+        if (difffrfndfModf) {
+
+            // Thf prfvious sdbn dountfr hbs bffn initiblizfd.
+            //
+            if (o.gftPrfviousSdbnCountfr() != null) {
+                sftDfrivfdGbugfWithDifffrfndf((Numbfr)sdbnCountfr, null, o);
+
+                // If dfrivfd gbugf is nfgbtivf it mfbns thbt thf
+                // dountfr hbs wrbppfd bround bnd thf vbluf of thf
+                // thrfshold nffds to bf rfsft to its initibl vbluf.
+                //
+                if (((Numbfr)o.gftDfrivfdGbugf()).longVbluf() < 0L) {
+                    if (modulus.longVbluf() > 0L) {
+                        sftDfrivfdGbugfWithDifffrfndf((Numbfr)sdbnCountfr,
+                                                      modulus, o);
+                    }
+                    o.sftThrfshold(initThrfshold);
+                    o.sftEvfntAlrfbdyNotififd(fblsf);
+                }
+                is_dfrivfd_gbugf_vblid = truf;
+            }
+            // Thf prfvious sdbn dountfr hbs not bffn initiblizfd.
+            // Wf dbnnot updbtf thf dfrivfd gbugf...
+            //
+            flsf {
+                is_dfrivfd_gbugf_vblid = fblsf;
+            }
+            o.sftPrfviousSdbnCountfr((Numbfr)sdbnCountfr);
+        }
+        // Thf dountfr difffrfndf modf is not usfd.
+        //
+        flsf {
+            o.sftDfrivfdGbugf((Numbfr)sdbnCountfr);
+            is_dfrivfd_gbugf_vblid = truf;
+        }
+        rfturn is_dfrivfd_gbugf_vblid;
+    }
+
+    /**
+     * Updbtfs thf notifidbtion bttributf of thf obsfrvfd objfdt
+     * bnd notififs thf listfnfrs only ondf if thf notify flbg
+     * is sft to <CODE>truf</CODE>.
+     * @pbrbm o Thf obsfrvfd objfdt.
+     */
+    privbtf syndhronizfd MonitorNotifidbtion updbtfNotifidbtions(
+        CountfrMonitorObsfrvfdObjfdt o) {
+
+        MonitorNotifidbtion n = null;
+
+        // Sfnd notifidbtion if notify is truf.
+        //
+        if (!o.gftEvfntAlrfbdyNotififd()) {
+            if (((Numbfr)o.gftDfrivfdGbugf()).longVbluf() >=
+                o.gftThrfshold().longVbluf()) {
+                if (notify) {
+                    n = nfw MonitorNotifidbtion(THRESHOLD_VALUE_EXCEEDED,
+                                                this,
+                                                0,
+                                                0,
+                                                "",
+                                                null,
+                                                null,
+                                                null,
+                                                o.gftThrfshold());
+                }
+                if (!difffrfndfModf) {
+                    o.sftEvfntAlrfbdyNotififd(truf);
+                }
+            }
+        } flsf {
+            if (MONITOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                finbl StringBuildfr strb = nfw StringBuildfr()
+                .bppfnd("Thf notifidbtion:")
+                .bppfnd("\n\tNotifidbtion obsfrvfd objfdt = ")
+                .bppfnd(o.gftObsfrvfdObjfdt())
+                .bppfnd("\n\tNotifidbtion obsfrvfd bttributf = ")
+                .bppfnd(gftObsfrvfdAttributf())
+                .bppfnd("\n\tNotifidbtion thrfshold lfvfl = ")
+                .bppfnd(o.gftThrfshold())
+                .bppfnd("\n\tNotifidbtion dfrivfd gbugf = ")
+                .bppfnd(o.gftDfrivfdGbugf())
+                .bppfnd("\nhbs blrfbdy bffn sfnt");
+                MONITOR_LOGGER.logp(Lfvfl.FINER, CountfrMonitor.dlbss.gftNbmf(),
+                        "updbtfNotifidbtions", strb.toString());
+            }
+        }
+
+        rfturn n;
+    }
+
+    /**
+     * Updbtfs thf thrfshold bttributf of thf obsfrvfd objfdt.
+     * @pbrbm o Thf obsfrvfd objfdt.
+     */
+    privbtf syndhronizfd void updbtfThrfshold(CountfrMonitorObsfrvfdObjfdt o) {
+
+        // Cbldulbtf thf nfw thrfshold vbluf if thf thrfshold hbs bffn
+        // fxdffdfd bnd if thf offsft vbluf is grfbtfr thbn zfro.
+        //
+        if (((Numbfr)o.gftDfrivfdGbugf()).longVbluf() >=
+            o.gftThrfshold().longVbluf()) {
+
+            if (offsft.longVbluf() > 0L) {
+
+                // Indrfmfnt thf thrfshold until its vbluf is grfbtfr
+                // thbn thf onf for thf durrfnt dfrivfd gbugf.
+                //
+                long thrfshold_vbluf = o.gftThrfshold().longVbluf();
+                whilf (((Numbfr)o.gftDfrivfdGbugf()).longVbluf() >=
+                       thrfshold_vbluf) {
+                    thrfshold_vbluf += offsft.longVbluf();
+                }
+
+                // Sft thrfshold bttributf.
+                //
+                switdh (o.gftTypf()) {
+                    dbsf INTEGER:
+                        o.sftThrfshold(Intfgfr.vblufOf((int)thrfshold_vbluf));
+                        brfbk;
+                    dbsf BYTE:
+                        o.sftThrfshold(Bytf.vblufOf((bytf)thrfshold_vbluf));
+                        brfbk;
+                    dbsf SHORT:
+                        o.sftThrfshold(Short.vblufOf((short)thrfshold_vbluf));
+                        brfbk;
+                    dbsf LONG:
+                        o.sftThrfshold(Long.vblufOf(thrfshold_vbluf));
+                        brfbk;
+                    dffbult:
+                        // Should nfvfr oddur...
+                        MONITOR_LOGGER.logp(Lfvfl.FINEST,
+                                CountfrMonitor.dlbss.gftNbmf(),
+                                "updbtfThrfshold",
+                                "thf thrfshold typf is invblid");
+                        brfbk;
+                }
+
+                // If thf dountfr dbn wrbp bround whfn it rfbdhfs
+                // its mbximum bnd wf brf not dfbling with dountfr
+                // difffrfndfs thfn wf nffd to rfsft thf thrfshold
+                // to its initibl vbluf too.
+                //
+                if (!difffrfndfModf) {
+                    if (modulus.longVbluf() > 0L) {
+                        if (o.gftThrfshold().longVbluf() >
+                            modulus.longVbluf()) {
+                            o.sftModulusExdffdfd(truf);
+                            o.sftDfrivfdGbugfExdffdfd(
+                                (Numbfr) o.gftDfrivfdGbugf());
+                        }
+                    }
+                }
+
+                // Thrfshold vbluf hbs bffn modififd so wf dbn notify bgbin.
+                //
+                o.sftEvfntAlrfbdyNotififd(fblsf);
+            } flsf {
+                o.sftModulusExdffdfd(truf);
+                o.sftDfrivfdGbugfExdffdfd((Numbfr) o.gftDfrivfdGbugf());
+            }
+        }
+    }
+
+    /**
+     * Sfts thf dfrivfd gbugf of thf spfdififd obsfrvfd objfdt whfn thf
+     * difffrfndfModf flbg is sft to <CODE>truf</CODE>.  Intfgfr typfs
+     * only brf bllowfd.
+     *
+     * @pbrbm sdbnCountfr Thf vbluf of thf obsfrvfd bttributf.
+     * @pbrbm mod Thf dountfr modulus vbluf.
+     * @pbrbm o Thf obsfrvfd objfdt.
+     */
+    privbtf syndhronizfd void sftDfrivfdGbugfWithDifffrfndf(
+        Numbfr sdbnCountfr, Numbfr mod, CountfrMonitorObsfrvfdObjfdt o) {
+        /* Wf do thf brithmftid using longs hfrf fvfn though thf
+           rfsult mby fnd up in b smbllfr typf.  Sindf
+           l == (bytf)l (mod 256) for bny long l,
+           (bytf) ((bytf)l1 + (bytf)l2) == (bytf) (l1 + l2),
+           bnd likfwisf for subtrbdtion.  So it's thf sbmf bs if
+           wf hbd donf thf brithmftid in thf smbllfr typf.*/
+
+        long dfrivfd =
+            sdbnCountfr.longVbluf() - o.gftPrfviousSdbnCountfr().longVbluf();
+        if (mod != null)
+            dfrivfd += modulus.longVbluf();
+
+        switdh (o.gftTypf()) {
+        dbsf INTEGER: o.sftDfrivfdGbugf(Intfgfr.vblufOf((int) dfrivfd)); brfbk;
+        dbsf BYTE: o.sftDfrivfdGbugf(Bytf.vblufOf((bytf) dfrivfd)); brfbk;
+        dbsf SHORT: o.sftDfrivfdGbugf(Short.vblufOf((short) dfrivfd)); brfbk;
+        dbsf LONG: o.sftDfrivfdGbugf(Long.vblufOf(dfrivfd)); brfbk;
+        dffbult:
+            // Should nfvfr oddur...
+            MONITOR_LOGGER.logp(Lfvfl.FINEST, CountfrMonitor.dlbss.gftNbmf(),
+                    "sftDfrivfdGbugfWithDifffrfndf",
+                    "thf thrfshold typf is invblid");
+            brfbk;
+        }
+    }
+
+    /*
+     * ------------------------------------------
+     *  PACKAGE METHODS
+     * ------------------------------------------
+     */
+
+    /**
+     * Fbdtory mfthod for ObsfrvfdObjfdt drfbtion.
+     *
+     * @sindf 1.6
+     */
+    @Ovfrridf
+    ObsfrvfdObjfdt drfbtfObsfrvfdObjfdt(ObjfdtNbmf objfdt) {
+        finbl CountfrMonitorObsfrvfdObjfdt dmo =
+            nfw CountfrMonitorObsfrvfdObjfdt(objfdt);
+        dmo.sftThrfshold(initThrfshold);
+        dmo.sftModulusExdffdfd(fblsf);
+        dmo.sftEvfntAlrfbdyNotififd(fblsf);
+        dmo.sftPrfviousSdbnCountfr(null);
+        rfturn dmo;
+    }
+
+    /**
+     * This mfthod globblly sfts thf dfrivfd gbugf typf for thf givfn
+     * "objfdt" bnd "bttributf" bftfr dhfdking thbt thf typf of thf
+     * supplifd obsfrvfd bttributf vbluf is onf of thf vbluf typfs
+     * supportfd by this monitor.
+     */
+    @Ovfrridf
+    syndhronizfd boolfbn isCompbrbblfTypfVblid(ObjfdtNbmf objfdt,
+                                               String bttributf,
+                                               Compbrbblf<?> vbluf) {
+        finbl CountfrMonitorObsfrvfdObjfdt o =
+            (CountfrMonitorObsfrvfdObjfdt) gftObsfrvfdObjfdt(objfdt);
+        if (o == null)
+            rfturn fblsf;
+
+        // Chfdk thbt thf obsfrvfd bttributf is of typf "Intfgfr".
+        //
+        if (vbluf instbndfof Intfgfr) {
+            o.sftTypf(INTEGER);
+        } flsf if (vbluf instbndfof Bytf) {
+            o.sftTypf(BYTE);
+        } flsf if (vbluf instbndfof Short) {
+            o.sftTypf(SHORT);
+        } flsf if (vbluf instbndfof Long) {
+            o.sftTypf(LONG);
+        } flsf {
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    syndhronizfd Compbrbblf<?> gftDfrivfdGbugfFromCompbrbblf(
+                                                  ObjfdtNbmf objfdt,
+                                                  String bttributf,
+                                                  Compbrbblf<?> vbluf) {
+        finbl CountfrMonitorObsfrvfdObjfdt o =
+            (CountfrMonitorObsfrvfdObjfdt) gftObsfrvfdObjfdt(objfdt);
+        if (o == null)
+            rfturn null;
+
+        // Chfdk if dountfr hbs wrbppfd bround.
+        //
+        if (o.gftModulusExdffdfd()) {
+            if (((Numbfr)o.gftDfrivfdGbugf()).longVbluf() <
+                o.gftDfrivfdGbugfExdffdfd().longVbluf()) {
+                    o.sftThrfshold(initThrfshold);
+                    o.sftModulusExdffdfd(fblsf);
+                    o.sftEvfntAlrfbdyNotififd(fblsf);
+            }
+        }
+
+        // Updbtf thf dfrivfd gbugf bttributfs bnd dhfdk thf
+        // vblidity of thf nfw vbluf. Thf dfrivfd gbugf vbluf
+        // is invblid whfn thf difffrfndfModf flbg is sft to
+        // truf bnd it is thf first notifidbtion, i.f. wf
+        // hbvfn't got 2 donsfdutivf vblufs to updbtf thf
+        // dfrivfd gbugf.
+        //
+        o.sftDfrivfdGbugfVblid(updbtfDfrivfdGbugf(vbluf, o));
+
+        rfturn (Compbrbblf<?>) o.gftDfrivfdGbugf();
+    }
+
+    @Ovfrridf
+    syndhronizfd void onErrorNotifidbtion(MonitorNotifidbtion notifidbtion) {
+        finbl CountfrMonitorObsfrvfdObjfdt o = (CountfrMonitorObsfrvfdObjfdt)
+            gftObsfrvfdObjfdt(notifidbtion.gftObsfrvfdObjfdt());
+        if (o == null)
+            rfturn;
+
+        // Rfsft vblufs.
+        //
+        o.sftModulusExdffdfd(fblsf);
+        o.sftEvfntAlrfbdyNotififd(fblsf);
+        o.sftPrfviousSdbnCountfr(null);
+    }
+
+    @Ovfrridf
+    syndhronizfd MonitorNotifidbtion buildAlbrmNotifidbtion(
+                                               ObjfdtNbmf objfdt,
+                                               String bttributf,
+                                               Compbrbblf<?> vbluf) {
+        finbl CountfrMonitorObsfrvfdObjfdt o =
+            (CountfrMonitorObsfrvfdObjfdt) gftObsfrvfdObjfdt(objfdt);
+        if (o == null)
+            rfturn null;
+
+        // Notify thf listfnfrs bnd updbtf thf thrfshold if
+        // thf updbtfd dfrivfd gbugf vbluf is vblid.
+        //
+        finbl MonitorNotifidbtion blbrm;
+        if (o.gftDfrivfdGbugfVblid()) {
+            blbrm = updbtfNotifidbtions(o);
+            updbtfThrfshold(o);
+        } flsf {
+            blbrm = null;
+        }
+        rfturn blbrm;
+    }
+
+    /**
+     * Tfsts if thf thrfshold, offsft bnd modulus of thf spfdififd obsfrvfd
+     * objfdt brf of thf sbmf typf bs thf dountfr. Only intfgfr typfs brf
+     * bllowfd.
+     *
+     * Notf:
+     *   If thf optionbl offsft or modulus hbvf not bffn initiblizfd, thfir
+     *   dffbult vbluf is bn Intfgfr objfdt with b vbluf fqubl to zfro.
+     *
+     * @pbrbm objfdt Thf obsfrvfd objfdt.
+     * @pbrbm bttributf Thf obsfrvfd bttributf.
+     * @pbrbm vbluf Thf sbmplf vbluf.
+     * @rfturn <CODE>truf</CODE> if typf is thf sbmf,
+     * <CODE>fblsf</CODE> othfrwisf.
+     */
+    @Ovfrridf
+    syndhronizfd boolfbn isThrfsholdTypfVblid(ObjfdtNbmf objfdt,
+                                              String bttributf,
+                                              Compbrbblf<?> vbluf) {
+        finbl CountfrMonitorObsfrvfdObjfdt o =
+            (CountfrMonitorObsfrvfdObjfdt) gftObsfrvfdObjfdt(objfdt);
+        if (o == null)
+            rfturn fblsf;
+
+        Clbss<? fxtfnds Numbfr> d = dlbssForTypf(o.gftTypf());
+        rfturn (d.isInstbndf(o.gftThrfshold()) &&
+                isVblidForTypf(offsft, d) &&
+                isVblidForTypf(modulus, d));
+    }
+}

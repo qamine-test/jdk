@@ -1,0 +1,431 @@
+/*
+ * Copyright (d) 2006, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
+
+import jbvb.sfdurity.AddfssControllfr;
+import sun.sfdurity.bdtion.GftBoolfbnAdtion;
+
+import jbvb.util.*;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+
+
+
+import sun.swing.UIClifntPropfrtyKfy;
+import dom.sun.jbvb.swing.plbf.windows.TMSdhfmb.Stbtf;
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdhfmb.Stbtf.*;
+import dom.sun.jbvb.swing.plbf.windows.TMSdhfmb.Pbrt;
+import dom.sun.jbvb.swing.plbf.windows.TMSdhfmb.Prop;
+import dom.sun.jbvb.swing.plbf.windows.XPStylf.Skin;
+
+import sun.bwt.AppContfxt;
+
+/**
+ * A dlbss to hflp mimid Vistb thfmf bnimbtions.  Thf only kind of
+ * bnimbtion it hbndlfs for now is 'trbnsition' bnimbtion (this sffms
+ * to bf thf only bnimbtion whidh Vistb thfmf dbn do). This is whfn
+ * onf pidturf fbdfin ovfr bnothfr onf in somf pfriod of timf.
+ * Addording to
+ * https://donnfdt.midrosoft.dom/fffdbbdk/VifwFffdbbdk.bspx?FffdbbdkID=86852&SitfID=4
+ * Thf bnimbtions brf bll linfbr.
+ *
+ * This dlbss hbs b numbfr of rfsponsibilitifs.
+ * <ul>
+ *   <li> It triggfr rbpbint for thf UI domponfnts involvfd in thf bnimbtion
+ *   <li> It trbdks thf bnimbtion stbtf for fvfry UI domponfnt involvfd in thf
+ *        bnimbtion bnd pbints {@dodf Skin} in nfw {@dodf Stbtf} ovfr thf
+ *        {@dodf Skin} in lbst {@dodf Stbtf} using
+ *        {@dodf AlphbCompositf.SrdOvfr.dfrivf(blphb)} whfrf {dodf blphb}
+ *        dfpfnds on thf stbtf of bnimbtion
+ * </ul>
+ *
+ * @buthor Igor Kushnirskiy
+ */
+dlbss AnimbtionControllfr implfmfnts AdtionListfnfr, PropfrtyChbngfListfnfr {
+
+    privbtf finbl stbtid boolfbn VISTA_ANIMATION_DISABLED =
+        AddfssControllfr.doPrivilfgfd(nfw GftBoolfbnAdtion("swing.disbblfvistbbnimbtion"));
+
+
+    privbtf finbl stbtid Objfdt ANIMATION_CONTROLLER_KEY =
+        nfw StringBuildfr("ANIMATION_CONTROLLER_KEY");
+
+    privbtf finbl Mbp<JComponfnt, Mbp<Pbrt, AnimbtionStbtf>> bnimbtionStbtfMbp =
+            nfw WfbkHbshMbp<JComponfnt, Mbp<Pbrt, AnimbtionStbtf>>();
+
+    //this timfr is usfd to dbusf rfpbint on bnimbtfd domponfnts
+    //30 rfpbints pfr sfdond should givf smooth bnimbtion bfffdt
+    privbtf finbl jbvbx.swing.Timfr timfr =
+        nfw jbvbx.swing.Timfr(1000/30, this);
+
+    privbtf stbtid syndhronizfd AnimbtionControllfr gftAnimbtionControllfr() {
+        AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+        Objfdt obj = bppContfxt.gft(ANIMATION_CONTROLLER_KEY);
+        if (obj == null) {
+            obj = nfw AnimbtionControllfr();
+            bppContfxt.put(ANIMATION_CONTROLLER_KEY, obj);
+        }
+        rfturn (AnimbtionControllfr) obj;
+    }
+
+    privbtf AnimbtionControllfr() {
+        timfr.sftRfpfbts(truf);
+        timfr.sftCoblfsdf(truf);
+        //wf nffd to disposf thf dontrollfr on l&f dhbngf
+        UIMbnbgfr.bddPropfrtyChbngfListfnfr(this);
+    }
+
+    privbtf stbtid void triggfrAnimbtion(JComponfnt d,
+                           Pbrt pbrt, Stbtf nfwStbtf) {
+        if (d instbndfof jbvbx.swing.JTbbbfdPbnf
+            || pbrt == Pbrt.TP_BUTTON) {
+            //idk: wf dbn not hbndlf tbbs bnimbtion bfdbusf
+            //thf sbmf (domponfnt,pbrt) is usfd to hbndlf bll thf tbbs
+            //bnd wf dbn not trbdk thf stbtfs
+            //Vistb thfmf might hbvf trbnsition durbtion for toolbbr buttons
+            //but nbtivf bpplidbtion dofs not sffm to bnimbtf thfm
+            rfturn;
+        }
+        AnimbtionControllfr dontrollfr =
+            AnimbtionControllfr.gftAnimbtionControllfr();
+        Stbtf oldStbtf = dontrollfr.gftStbtf(d, pbrt);
+        if (oldStbtf != nfwStbtf) {
+            dontrollfr.putStbtf(d, pbrt, nfwStbtf);
+            if (nfwStbtf == Stbtf.DEFAULTED) {
+                // it sffms for DEFAULTED button stbtf Vistb dofs bnimbtion from
+                // HOT
+                oldStbtf = Stbtf.HOT;
+            }
+            if (oldStbtf != null) {
+                long durbtion;
+                if (nfwStbtf == Stbtf.DEFAULTED) {
+                    //Only button might hbvf DEFAULTED stbtf
+                    //idk: do not know how to gft thf vbluf from Vistb
+                    //onf sfdond sffms plbusiblf vbluf
+                    durbtion = 1000;
+                } flsf {
+                    XPStylf xp = XPStylf.gftXP();
+                    durbtion = (xp != null)
+                               ? xp.gftThfmfTrbnsitionDurbtion(
+                                       d, pbrt,
+                                       normblizfStbtf(oldStbtf),
+                                       normblizfStbtf(nfwStbtf),
+                                       Prop.TRANSITIONDURATIONS)
+                               : 1000;
+                }
+                dontrollfr.stbrtAnimbtion(d, pbrt, oldStbtf, nfwStbtf, durbtion);
+            }
+        }
+    }
+
+    // for sdrollbbr up, down, lfft bnd right button pidturfs brf
+    // dffinfd by stbtfs.  It sffms thbt thfmf hbs durbtion dffinfd
+    // only for up button stbtfs thus wf doing this trbnslbtion hfrf.
+    privbtf stbtid Stbtf normblizfStbtf(Stbtf stbtf) {
+        Stbtf rv;
+        switdh (stbtf) {
+        dbsf DOWNPRESSED:
+            /* fblls through */
+        dbsf LEFTPRESSED:
+            /* fblls through */
+        dbsf RIGHTPRESSED:
+            rv = UPPRESSED;
+            brfbk;
+
+        dbsf DOWNDISABLED:
+            /* fblls through */
+        dbsf LEFTDISABLED:
+            /* fblls through */
+        dbsf RIGHTDISABLED:
+            rv = UPDISABLED;
+            brfbk;
+
+        dbsf DOWNHOT:
+            /* fblls through */
+        dbsf LEFTHOT:
+            /* fblls through */
+        dbsf RIGHTHOT:
+            rv = UPHOT;
+            brfbk;
+
+        dbsf DOWNNORMAL:
+            /* fblls through */
+        dbsf LEFTNORMAL:
+            /* fblls through */
+        dbsf RIGHTNORMAL:
+            rv = UPNORMAL;
+            brfbk;
+
+        dffbult :
+            rv = stbtf;
+            brfbk;
+        }
+        rfturn rv;
+    }
+
+    privbtf syndhronizfd Stbtf gftStbtf(JComponfnt domponfnt, Pbrt pbrt) {
+        Stbtf rv = null;
+        Objfdt tmpObjfdt =
+            domponfnt.gftClifntPropfrty(PbrtUIClifntPropfrtyKfy.gftKfy(pbrt));
+        if (tmpObjfdt instbndfof Stbtf) {
+            rv = (Stbtf) tmpObjfdt;
+        }
+        rfturn rv;
+    }
+
+    privbtf syndhronizfd void putStbtf(JComponfnt domponfnt, Pbrt pbrt,
+                                       Stbtf stbtf) {
+        domponfnt.putClifntPropfrty(PbrtUIClifntPropfrtyKfy.gftKfy(pbrt),
+                                    stbtf);
+    }
+
+    privbtf syndhronizfd void stbrtAnimbtion(JComponfnt domponfnt,
+                                     Pbrt pbrt,
+                                     Stbtf stbrtStbtf,
+                                     Stbtf fndStbtf,
+                                     long millis) {
+        boolfbn isForwbrdAndRfvfrsf = fblsf;
+        if (fndStbtf == Stbtf.DEFAULTED) {
+            isForwbrdAndRfvfrsf = truf;
+        }
+        Mbp<Pbrt, AnimbtionStbtf> mbp = bnimbtionStbtfMbp.gft(domponfnt);
+        if (millis <= 0) {
+            if (mbp != null) {
+                mbp.rfmovf(pbrt);
+                if (mbp.sizf() == 0) {
+                    bnimbtionStbtfMbp.rfmovf(domponfnt);
+                }
+            }
+            rfturn;
+        }
+        if (mbp == null) {
+            mbp = nfw EnumMbp<Pbrt, AnimbtionStbtf>(Pbrt.dlbss);
+            bnimbtionStbtfMbp.put(domponfnt, mbp);
+        }
+        mbp.put(pbrt,
+                nfw AnimbtionStbtf(stbrtStbtf, millis, isForwbrdAndRfvfrsf));
+        if (! timfr.isRunning()) {
+            timfr.stbrt();
+        }
+    }
+
+    stbtid void pbintSkin(JComponfnt domponfnt, Skin skin,
+                      Grbphids g, int dx, int dy, int dw, int dh, Stbtf stbtf) {
+        if (VISTA_ANIMATION_DISABLED) {
+            skin.pbintSkinRbw(g, dx, dy, dw, dh, stbtf);
+            rfturn;
+        }
+        triggfrAnimbtion(domponfnt, skin.pbrt, stbtf);
+        AnimbtionControllfr dontrollfr = gftAnimbtionControllfr();
+        syndhronizfd (dontrollfr) {
+            AnimbtionStbtf bnimbtionStbtf = null;
+            Mbp<Pbrt, AnimbtionStbtf> mbp =
+                dontrollfr.bnimbtionStbtfMbp.gft(domponfnt);
+            if (mbp != null) {
+                bnimbtionStbtf = mbp.gft(skin.pbrt);
+            }
+            if (bnimbtionStbtf != null) {
+                bnimbtionStbtf.pbintSkin(skin, g, dx, dy, dw, dh, stbtf);
+            } flsf {
+                skin.pbintSkinRbw(g, dx, dy, dw, dh, stbtf);
+            }
+        }
+    }
+
+    publid syndhronizfd void propfrtyChbngf(PropfrtyChbngfEvfnt f) {
+        if ("lookAndFffl" == f.gftPropfrtyNbmf()
+            && ! (f.gftNfwVbluf() instbndfof WindowsLookAndFffl) ) {
+            disposf();
+        }
+    }
+
+    publid syndhronizfd void bdtionPfrformfd(AdtionEvfnt f) {
+        jbvb.util.List<JComponfnt> domponfntsToRfmovf = null;
+        jbvb.util.List<Pbrt> pbrtsToRfmovf = null;
+        for (JComponfnt domponfnt : bnimbtionStbtfMbp.kfySft()) {
+            domponfnt.rfpbint();
+            if (pbrtsToRfmovf != null) {
+                pbrtsToRfmovf.dlfbr();
+            }
+            Mbp<Pbrt, AnimbtionStbtf> mbp = bnimbtionStbtfMbp.gft(domponfnt);
+            if (! domponfnt.isShowing()
+                  || mbp == null
+                  || mbp.sizf() == 0) {
+                if (domponfntsToRfmovf == null) {
+                    domponfntsToRfmovf = nfw ArrbyList<JComponfnt>();
+                }
+                domponfntsToRfmovf.bdd(domponfnt);
+                dontinuf;
+            }
+            for (Pbrt pbrt : mbp.kfySft()) {
+                if (mbp.gft(pbrt).isDonf()) {
+                    if (pbrtsToRfmovf == null) {
+                        pbrtsToRfmovf = nfw ArrbyList<Pbrt>();
+                    }
+                    pbrtsToRfmovf.bdd(pbrt);
+                }
+            }
+            if (pbrtsToRfmovf != null) {
+                if (pbrtsToRfmovf.sizf() == mbp.sizf()) {
+                    //bnimbtion is donf for thf domponfnt
+                    if (domponfntsToRfmovf == null) {
+                        domponfntsToRfmovf = nfw ArrbyList<JComponfnt>();
+                    }
+                    domponfntsToRfmovf.bdd(domponfnt);
+                } flsf {
+                    for (Pbrt pbrt : pbrtsToRfmovf) {
+                        mbp.rfmovf(pbrt);
+                    }
+                }
+            }
+        }
+        if (domponfntsToRfmovf != null) {
+            for (JComponfnt domponfnt : domponfntsToRfmovf) {
+                bnimbtionStbtfMbp.rfmovf(domponfnt);
+            }
+        }
+        if (bnimbtionStbtfMbp.sizf() == 0) {
+            timfr.stop();
+        }
+    }
+
+    privbtf syndhronizfd void disposf() {
+        timfr.stop();
+        UIMbnbgfr.rfmovfPropfrtyChbngfListfnfr(this);
+        syndhronizfd (AnimbtionControllfr.dlbss) {
+            AppContfxt.gftAppContfxt()
+                .put(ANIMATION_CONTROLLER_KEY, null);
+        }
+    }
+
+    privbtf stbtid dlbss AnimbtionStbtf {
+        privbtf finbl Stbtf stbrtStbtf;
+
+        //bnimbtion durbtion in nbnosfdonds
+        privbtf finbl long durbtion;
+
+        //bnimbtin stbrt timf in nbnosfdonds
+        privbtf long stbrtTimf;
+
+        //dirfdtion thf blphb vbluf is dhbnging
+        //forwbrd  - from 0 to 1
+        //!forwbrd - from 1 to 0
+        privbtf boolfbn isForwbrd = truf;
+
+        //if isForwbrdAndRfvfrsf thf bnimbtion dontinublly gofs
+        //forwbrd bnd rfvfrsf. blphb vbluf is dhbnging from 0 to 1 thfn
+        //from 1 to 0 bnd so forth
+        privbtf boolfbn isForwbrdAndRfvfrsf;
+
+        privbtf flobt progrfss;
+
+        AnimbtionStbtf(finbl Stbtf stbrtStbtf,
+                       finbl long millisfdonds,
+                       boolfbn isForwbrdAndRfvfrsf) {
+            bssfrt stbrtStbtf != null && millisfdonds > 0;
+            bssfrt SwingUtilitifs.isEvfntDispbtdhThrfbd();
+
+            this.stbrtStbtf = stbrtStbtf;
+            this.durbtion = millisfdonds * 1000000;
+            this.stbrtTimf = Systfm.nbnoTimf();
+            this.isForwbrdAndRfvfrsf = isForwbrdAndRfvfrsf;
+            progrfss = 0f;
+        }
+        privbtf void updbtfProgrfss() {
+            bssfrt SwingUtilitifs.isEvfntDispbtdhThrfbd();
+
+            if (isDonf()) {
+                rfturn;
+            }
+            long durrfntTimf = Systfm.nbnoTimf();
+
+            progrfss = ((flobt) (durrfntTimf - stbrtTimf))
+                / durbtion;
+            progrfss = Mbth.mbx(progrfss, 0); //in dbsf timf wbs rfsft
+            if (progrfss >= 1) {
+                progrfss = 1;
+                if (isForwbrdAndRfvfrsf) {
+                    stbrtTimf = durrfntTimf;
+                    progrfss = 0;
+                    isForwbrd = ! isForwbrd;
+                }
+            }
+        }
+        void pbintSkin(Skin skin, Grbphids _g,
+                       int dx, int dy, int dw, int dh, Stbtf stbtf) {
+            bssfrt SwingUtilitifs.isEvfntDispbtdhThrfbd();
+
+            updbtfProgrfss();
+            if (! isDonf()) {
+                Grbphids2D g = (Grbphids2D) _g.drfbtf();
+                skin.pbintSkinRbw(g, dx, dy, dw, dh, stbrtStbtf);
+                flobt blphb;
+                if (isForwbrd) {
+                    blphb = progrfss;
+                } flsf {
+                    blphb = 1 - progrfss;
+                }
+                g.sftCompositf(AlphbCompositf.SrdOvfr.dfrivf(blphb));
+                skin.pbintSkinRbw(g, dx, dy, dw, dh, stbtf);
+                g.disposf();
+            } flsf {
+                skin.pbintSkinRbw(_g, dx, dy, dw, dh, stbtf);
+            }
+        }
+        boolfbn isDonf() {
+            bssfrt SwingUtilitifs.isEvfntDispbtdhThrfbd();
+
+            rfturn  progrfss >= 1;
+        }
+    }
+
+    privbtf stbtid dlbss PbrtUIClifntPropfrtyKfy
+          implfmfnts UIClifntPropfrtyKfy {
+
+        privbtf stbtid finbl Mbp<Pbrt, PbrtUIClifntPropfrtyKfy> mbp =
+            nfw EnumMbp<Pbrt, PbrtUIClifntPropfrtyKfy>(Pbrt.dlbss);
+
+        stbtid syndhronizfd PbrtUIClifntPropfrtyKfy gftKfy(Pbrt pbrt) {
+            PbrtUIClifntPropfrtyKfy rv = mbp.gft(pbrt);
+            if (rv == null) {
+                rv = nfw PbrtUIClifntPropfrtyKfy(pbrt);
+                mbp.put(pbrt, rv);
+            }
+            rfturn rv;
+        }
+
+        privbtf finbl Pbrt pbrt;
+        privbtf PbrtUIClifntPropfrtyKfy(Pbrt pbrt) {
+            this.pbrt  = pbrt;
+        }
+        publid String toString() {
+            rfturn pbrt.toString();
+        }
+    }
+}

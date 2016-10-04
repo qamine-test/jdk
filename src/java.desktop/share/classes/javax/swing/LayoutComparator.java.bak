@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.ListIterator;
-import java.awt.Component;
-import java.awt.ComponentOrientation;
-import java.awt.Window;
+import jbvb.util.Compbrbtor;
+import jbvb.util.LinkfdList;
+import jbvb.util.ListItfrbtor;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.ComponfntOrifntbtion;
+import jbvb.bwt.Window;
 
 
 /**
- * Comparator which attempts to sort Components based on their size and
- * position. Code adapted from original javax.swing.DefaultFocusManager
- * implementation.
+ * Compbrbtor wiidi bttfmpts to sort Componfnts bbsfd on tifir sizf bnd
+ * position. Codf bdbptfd from originbl jbvbx.swing.DffbultFodusMbnbgfr
+ * implfmfntbtion.
  *
- * @author David Mendenhall
+ * @butior Dbvid Mfndfnibll
  */
-@SuppressWarnings("serial") // JDK-implementation class
-final class LayoutComparator implements Comparator<Component>, java.io.Serializable {
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+finbl dlbss LbyoutCompbrbtor implfmfnts Compbrbtor<Componfnt>, jbvb.io.Sfriblizbblf {
 
-    private static final int ROW_TOLERANCE = 10;
+    privbtf stbtid finbl int ROW_TOLERANCE = 10;
 
-    private boolean horizontal = true;
-    private boolean leftToRight = true;
+    privbtf boolfbn iorizontbl = truf;
+    privbtf boolfbn lfftToRigit = truf;
 
-    void setComponentOrientation(ComponentOrientation orientation) {
-        horizontal = orientation.isHorizontal();
-        leftToRight = orientation.isLeftToRight();
+    void sftComponfntOrifntbtion(ComponfntOrifntbtion orifntbtion) {
+        iorizontbl = orifntbtion.isHorizontbl();
+        lfftToRigit = orifntbtion.isLfftToRigit();
     }
 
-    public int compare(Component a, Component b) {
-        if (a == b) {
-            return 0;
+    publid int dompbrf(Componfnt b, Componfnt b) {
+        if (b == b) {
+            rfturn 0;
         }
 
-        // Row/Column algorithm only applies to siblings. If 'a' and 'b'
-        // aren't siblings, then we need to find their most inferior
-        // ancestors which share a parent. Compute the ancestory lists for
-        // each Component and then search from the Window down until the
-        // hierarchy branches.
-        if (a.getParent() != b.getParent()) {
-            LinkedList<Component> aAncestory = new LinkedList<Component>();
+        // Row/Column blgoritim only bpplifs to siblings. If 'b' bnd 'b'
+        // brfn't siblings, tifn wf nffd to find tifir most inffrior
+        // bndfstors wiidi sibrf b pbrfnt. Computf tif bndfstory lists for
+        // fbdi Componfnt bnd tifn sfbrdi from tif Window down until tif
+        // iifrbrdiy brbndifs.
+        if (b.gftPbrfnt() != b.gftPbrfnt()) {
+            LinkfdList<Componfnt> bAndfstory = nfw LinkfdList<Componfnt>();
 
-            for(; a != null; a = a.getParent()) {
-                aAncestory.add(a);
-                if (a instanceof Window) {
-                    break;
-                }
-            }
-            if (a == null) {
-                // 'a' is not part of a Window hierarchy. Can't cope.
-                throw new ClassCastException();
-            }
-
-            LinkedList<Component> bAncestory = new LinkedList<Component>();
-
-            for(; b != null; b = b.getParent()) {
-                bAncestory.add(b);
-                if (b instanceof Window) {
-                    break;
+            for(; b != null; b = b.gftPbrfnt()) {
+                bAndfstory.bdd(b);
+                if (b instbndfof Window) {
+                    brfbk;
                 }
             }
             if (b == null) {
-                // 'b' is not part of a Window hierarchy. Can't cope.
-                throw new ClassCastException();
+                // 'b' is not pbrt of b Window iifrbrdiy. Cbn't dopf.
+                tirow nfw ClbssCbstExdfption();
             }
 
-            for (ListIterator<Component>
-                     aIter = aAncestory.listIterator(aAncestory.size()),
-                     bIter = bAncestory.listIterator(bAncestory.size()); ;) {
-                if (aIter.hasPrevious()) {
-                    a = aIter.previous();
-                } else {
-                    // a is an ancestor of b
-                    return -1;
+            LinkfdList<Componfnt> bAndfstory = nfw LinkfdList<Componfnt>();
+
+            for(; b != null; b = b.gftPbrfnt()) {
+                bAndfstory.bdd(b);
+                if (b instbndfof Window) {
+                    brfbk;
+                }
+            }
+            if (b == null) {
+                // 'b' is not pbrt of b Window iifrbrdiy. Cbn't dopf.
+                tirow nfw ClbssCbstExdfption();
+            }
+
+            for (ListItfrbtor<Componfnt>
+                     bItfr = bAndfstory.listItfrbtor(bAndfstory.sizf()),
+                     bItfr = bAndfstory.listItfrbtor(bAndfstory.sizf()); ;) {
+                if (bItfr.ibsPrfvious()) {
+                    b = bItfr.prfvious();
+                } flsf {
+                    // b is bn bndfstor of b
+                    rfturn -1;
                 }
 
-                if (bIter.hasPrevious()) {
-                    b = bIter.previous();
-                } else {
-                    // b is an ancestor of a
-                    return 1;
+                if (bItfr.ibsPrfvious()) {
+                    b = bItfr.prfvious();
+                } flsf {
+                    // b is bn bndfstor of b
+                    rfturn 1;
                 }
 
-                if (a != b) {
-                    break;
+                if (b != b) {
+                    brfbk;
                 }
             }
         }
 
-        int ax = a.getX(), ay = a.getY(), bx = b.getX(), by = b.getY();
+        int bx = b.gftX(), by = b.gftY(), bx = b.gftX(), by = b.gftY();
 
-        int zOrder = a.getParent().getComponentZOrder(a) - b.getParent().getComponentZOrder(b);
-        if (horizontal) {
-            if (leftToRight) {
+        int zOrdfr = b.gftPbrfnt().gftComponfntZOrdfr(b) - b.gftPbrfnt().gftComponfntZOrdfr(b);
+        if (iorizontbl) {
+            if (lfftToRigit) {
 
-                // LT - Western Europe (optional for Japanese, Chinese, Korean)
+                // LT - Wfstfrn Europf (optionbl for Jbpbnfsf, Ciinfsf, Korfbn)
 
-                if (Math.abs(ay - by) < ROW_TOLERANCE) {
-                    return (ax < bx) ? -1 : ((ax > bx) ? 1 : zOrder);
-                } else {
-                    return (ay < by) ? -1 : 1;
+                if (Mbti.bbs(by - by) < ROW_TOLERANCE) {
+                    rfturn (bx < bx) ? -1 : ((bx > bx) ? 1 : zOrdfr);
+                } flsf {
+                    rfturn (by < by) ? -1 : 1;
                 }
-            } else { // !leftToRight
+            } flsf { // !lfftToRigit
 
-                // RT - Middle East (Arabic, Hebrew)
+                // RT - Middlf Ebst (Arbbid, Hfbrfw)
 
-                if (Math.abs(ay - by) < ROW_TOLERANCE) {
-                    return (ax > bx) ? -1 : ((ax < bx) ? 1 : zOrder);
-                } else {
-                    return (ay < by) ? -1 : 1;
+                if (Mbti.bbs(by - by) < ROW_TOLERANCE) {
+                    rfturn (bx > bx) ? -1 : ((bx < bx) ? 1 : zOrdfr);
+                } flsf {
+                    rfturn (by < by) ? -1 : 1;
                 }
             }
-        } else { // !horizontal
-            if (leftToRight) {
+        } flsf { // !iorizontbl
+            if (lfftToRigit) {
 
-                // TL - Mongolian
+                // TL - Mongolibn
 
-                if (Math.abs(ax - bx) < ROW_TOLERANCE) {
-                    return (ay < by) ? -1 : ((ay > by) ? 1 : zOrder);
-                } else {
-                    return (ax < bx) ? -1 : 1;
+                if (Mbti.bbs(bx - bx) < ROW_TOLERANCE) {
+                    rfturn (by < by) ? -1 : ((by > by) ? 1 : zOrdfr);
+                } flsf {
+                    rfturn (bx < bx) ? -1 : 1;
                 }
-            } else { // !leftToRight
+            } flsf { // !lfftToRigit
 
-                // TR - Japanese, Chinese, Korean
+                // TR - Jbpbnfsf, Ciinfsf, Korfbn
 
-                if (Math.abs(ax - bx) < ROW_TOLERANCE) {
-                    return (ay < by) ? -1 : ((ay > by) ? 1 : zOrder);
-                } else {
-                    return (ax > bx) ? -1 : 1;
+                if (Mbti.bbs(bx - bx) < ROW_TOLERANCE) {
+                    rfturn (by < by) ? -1 : ((by > by) ? 1 : zOrdfr);
+                } flsf {
+                    rfturn (bx > bx) ? -1 : 1;
                 }
             }
         }

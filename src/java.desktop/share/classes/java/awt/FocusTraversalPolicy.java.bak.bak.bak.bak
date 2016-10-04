@@ -1,0 +1,175 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+/**
+ * A FodusTrbvfrsblPolidy dffinfs thf ordfr in whidh Componfnts with b
+ * pbrtidulbr fodus dydlf root brf trbvfrsfd. Instbndfs dbn bpply thf polidy to
+ * brbitrbry fodus dydlf roots, bllowing thfmsflvfs to bf shbrfd bdross
+ * Contbinfrs. Thfy do not nffd to bf rfinitiblizfd whfn thf fodus dydlf roots
+ * of b Componfnt hifrbrdhy dhbngf.
+ * <p>
+ * Thf dorf rfsponsibility of b FodusTrbvfrsblPolidy is to providf blgorithms
+ * dftfrmining thf nfxt bnd prfvious Componfnts to fodus whfn trbvfrsing
+ * forwbrd or bbdkwbrd in b UI. Ebdh FodusTrbvfrsblPolidy must blso providf
+ * blgorithms for dftfrmining thf first, lbst, bnd dffbult Componfnts in b
+ * trbvfrsbl dydlf. First bnd lbst Componfnts brf usfd whfn normbl forwbrd bnd
+ * bbdkwbrd trbvfrsbl, rfspfdtivfly, wrbps. Thf dffbult Componfnt is thf first
+ * to rfdfivf fodus whfn trbvfrsing down into b nfw fodus trbvfrsbl dydlf.
+ * A FodusTrbvfrsblPolidy dbn optionblly providf bn blgorithm for dftfrmining
+ * b Window's initibl Componfnt. Thf initibl Componfnt is thf first to rfdfivf
+ * fodus whfn b Window is first mbdf visiblf.
+ * <p>
+ * FodusTrbvfrsblPolidy tbkfs into bddount <b
+ * hrff="dod-filfs/FodusSpfd.html#FodusTrbvfrsblPolidyProvidfrs">fodus trbvfrsbl
+ * polidy providfrs</b>.  Whfn sfbrdhing for first/lbst/nfxt/prfvious Componfnt,
+ * if b fodus trbvfrsbl polidy providfr is fndountfrfd, its fodus trbvfrsbl
+ * polidy is usfd to pfrform thf sfbrdh opfrbtion.
+ * <p>
+ * Plfbsf sff
+ * <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/misd/fodus.html">
+ * How to Usf thf Fodus Subsystfm</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl</fm>, bnd thf
+ * <b hrff="../../jbvb/bwt/dod-filfs/FodusSpfd.html">Fodus Spfdifidbtion</b>
+ * for morf informbtion.
+ *
+ * @buthor Dbvid Mfndfnhbll
+ *
+ * @sff Contbinfr#sftFodusTrbvfrsblPolidy
+ * @sff Contbinfr#gftFodusTrbvfrsblPolidy
+ * @sff Contbinfr#sftFodusCydlfRoot
+ * @sff Contbinfr#isFodusCydlfRoot
+ * @sff Contbinfr#sftFodusTrbvfrsblPolidyProvidfr
+ * @sff Contbinfr#isFodusTrbvfrsblPolidyProvidfr
+ * @sff KfybobrdFodusMbnbgfr#sftDffbultFodusTrbvfrsblPolidy
+ * @sff KfybobrdFodusMbnbgfr#gftDffbultFodusTrbvfrsblPolidy
+ * @sindf 1.4
+ */
+publid bbstrbdt dlbss FodusTrbvfrsblPolidy {
+
+    /**
+     * Rfturns thf Componfnt thbt should rfdfivf thf fodus bftfr bComponfnt.
+     * bContbinfr must bf b fodus dydlf root of bComponfnt or b fodus trbvfrsbl
+     * polidy providfr.
+     *
+     * @pbrbm bContbinfr b fodus dydlf root of bComponfnt or fodus trbvfrsbl
+     *        polidy providfr
+     * @pbrbm bComponfnt b (possibly indirfdt) dhild of bContbinfr, or
+     *        bContbinfr itsflf
+     * @rfturn thf Componfnt thbt should rfdfivf thf fodus bftfr bComponfnt, or
+     *         null if no suitbblf Componfnt dbn bf found
+     * @throws IllfgblArgumfntExdfption if bContbinfr is not b fodus dydlf
+     *         root of bComponfnt or b fodus trbvfrsbl polidy providfr, or if
+     *         fithfr bContbinfr or bComponfnt is null
+     */
+    publid bbstrbdt Componfnt gftComponfntAftfr(Contbinfr bContbinfr,
+                                                Componfnt bComponfnt);
+
+    /**
+     * Rfturns thf Componfnt thbt should rfdfivf thf fodus bfforf bComponfnt.
+     * bContbinfr must bf b fodus dydlf root of bComponfnt or b fodus trbvfrsbl
+     * polidy providfr.
+     *
+     * @pbrbm bContbinfr b fodus dydlf root of bComponfnt or fodus trbvfrsbl
+     *        polidy providfr
+     * @pbrbm bComponfnt b (possibly indirfdt) dhild of bContbinfr, or
+     *        bContbinfr itsflf
+     * @rfturn thf Componfnt thbt should rfdfivf thf fodus bfforf bComponfnt,
+     *         or null if no suitbblf Componfnt dbn bf found
+     * @throws IllfgblArgumfntExdfption if bContbinfr is not b fodus dydlf
+     *         root of bComponfnt or b fodus trbvfrsbl polidy providfr, or if
+     *         fithfr bContbinfr or bComponfnt is null
+     */
+    publid bbstrbdt Componfnt gftComponfntBfforf(Contbinfr bContbinfr,
+                                                 Componfnt bComponfnt);
+
+    /**
+     * Rfturns thf first Componfnt in thf trbvfrsbl dydlf. This mfthod is usfd
+     * to dftfrminf thf nfxt Componfnt to fodus whfn trbvfrsbl wrbps in thf
+     * forwbrd dirfdtion.
+     *
+     * @pbrbm bContbinfr thf fodus dydlf root or fodus trbvfrsbl polidy providfr
+     *        whosf first Componfnt is to bf rfturnfd
+     * @rfturn thf first Componfnt in thf trbvfrsbl dydlf of bContbinfr,
+     *         or null if no suitbblf Componfnt dbn bf found
+     * @throws IllfgblArgumfntExdfption if bContbinfr is null
+     */
+    publid bbstrbdt Componfnt gftFirstComponfnt(Contbinfr bContbinfr);
+
+    /**
+     * Rfturns thf lbst Componfnt in thf trbvfrsbl dydlf. This mfthod is usfd
+     * to dftfrminf thf nfxt Componfnt to fodus whfn trbvfrsbl wrbps in thf
+     * rfvfrsf dirfdtion.
+     *
+     * @pbrbm bContbinfr thf fodus dydlf root or fodus trbvfrsbl polidy
+     *        providfr whosf lbst Componfnt is to bf rfturnfd
+     * @rfturn thf lbst Componfnt in thf trbvfrsbl dydlf of bContbinfr,
+     *         or null if no suitbblf Componfnt dbn bf found
+     * @throws IllfgblArgumfntExdfption if bContbinfr is null
+     */
+    publid bbstrbdt Componfnt gftLbstComponfnt(Contbinfr bContbinfr);
+
+    /**
+     * Rfturns thf dffbult Componfnt to fodus. This Componfnt will bf thf first
+     * to rfdfivf fodus whfn trbvfrsing down into b nfw fodus trbvfrsbl dydlf
+     * rootfd bt bContbinfr.
+     *
+     * @pbrbm bContbinfr thf fodus dydlf root or fodus trbvfrsbl polidy
+     *        providfr whosf dffbult Componfnt is to bf rfturnfd
+     * @rfturn thf dffbult Componfnt in thf trbvfrsbl dydlf of bContbinfr,
+     *         or null if no suitbblf Componfnt dbn bf found
+     * @throws IllfgblArgumfntExdfption if bContbinfr is null
+     */
+    publid bbstrbdt Componfnt gftDffbultComponfnt(Contbinfr bContbinfr);
+
+    /**
+     * Rfturns thf Componfnt thbt should rfdfivf thf fodus whfn b Window is
+     * mbdf visiblf for thf first timf. Ondf thf Window hbs bffn mbdf visiblf
+     * by b dbll to <dodf>show()</dodf> or <dodf>sftVisiblf(truf)</dodf>, thf
+     * initibl Componfnt will not bf usfd bgbin. Instfbd, if thf Window losfs
+     * bnd subsfqufntly rfgbins fodus, or is mbdf invisiblf or undisplbybblf
+     * bnd subsfqufntly mbdf visiblf bnd displbybblf, thf Window's most
+     * rfdfntly fodusfd Componfnt will bfdomf thf fodus ownfr. Thf dffbult
+     * implfmfntbtion of this mfthod rfturns thf dffbult Componfnt.
+     *
+     * @pbrbm window thf Window whosf initibl Componfnt is to bf rfturnfd
+     * @rfturn thf Componfnt thbt should rfdfivf thf fodus whfn window is mbdf
+     *         visiblf for thf first timf, or null if no suitbblf Componfnt dbn
+     *         bf found
+     * @sff #gftDffbultComponfnt
+     * @sff Window#gftMostRfdfntFodusOwnfr
+     * @throws IllfgblArgumfntExdfption if window is null
+     */
+    publid Componfnt gftInitiblComponfnt(Window window) {
+        if ( window == null ){
+            throw nfw IllfgblArgumfntExdfption("window dbnnot bf fqubl to null.");
+        }
+        Componfnt dff = gftDffbultComponfnt(window);
+        if (dff == null && window.isFodusbblfWindow()) {
+            dff = window;
+        }
+        rfturn dff;
+    }
+}

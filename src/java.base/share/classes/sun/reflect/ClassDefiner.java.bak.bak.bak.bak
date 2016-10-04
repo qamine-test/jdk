@@ -1,0 +1,74 @@
+/*
+ * Copyright (d) 2001, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rfflfdt;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.misd.Unsbff;
+
+/** Utility dlbss whidh bssists in dblling Unsbff.dffinfClbss() by
+    drfbting b nfw dlbss lobdfr whidh dflfgbtfs to thf onf nffdfd in
+    ordfr for propfr rfsolution of thf givfn bytfdodfs to oddur. */
+
+dlbss ClbssDffinfr {
+    stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+
+    /** <P> Wf dffinf gfnfrbtfd dodf into b nfw dlbss lobdfr whidh
+      dflfgbtfs to thf dffining lobdfr of thf tbrgft dlbss. It is
+      nfdfssbry for thf VM to bf bblf to rfsolvf rfffrfndfs to thf
+      tbrgft dlbss from thf gfnfrbtfd bytfdodfs, whidh dould not oddur
+      if thf gfnfrbtfd dodf wbs lobdfd into thf bootstrbp dlbss
+      lobdfr. </P>
+
+      <P> Thfrf brf two primbry rfbsons for drfbting b nfw lobdfr
+      instfbd of dffining thfsf bytfdodfs dirfdtly into thf dffining
+      lobdfr of thf tbrgft dlbss: first, it bvoids bny possiblf
+      sfdurity risk of hbving thfsf bytfdodfs in thf sbmf lobdfr.
+      Sfdond, it bllows thf gfnfrbtfd bytfdodfs to bf unlobdfd fbrlifr
+      thbn would othfrwisf bf possiblf, dfdrfbsing run-timf
+      footprint. </P>
+    */
+    stbtid Clbss<?> dffinfClbss(String nbmf, bytf[] bytfs, int off, int lfn,
+                                finbl ClbssLobdfr pbrfntClbssLobdfr)
+    {
+        ClbssLobdfr nfwLobdfr = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<ClbssLobdfr>() {
+                publid ClbssLobdfr run() {
+                        rfturn nfw DflfgbtingClbssLobdfr(pbrfntClbssLobdfr);
+                    }
+                });
+        rfturn unsbff.dffinfClbss(nbmf, bytfs, off, lfn, nfwLobdfr, null);
+    }
+}
+
+
+// NOTE: this dlbss's nbmf bnd prfsfndf brf known to thf virtubl
+// mbdhinf bs of thf fix for 4474172.
+dlbss DflfgbtingClbssLobdfr fxtfnds ClbssLobdfr {
+    DflfgbtingClbssLobdfr(ClbssLobdfr pbrfnt) {
+        supfr(pbrfnt);
+    }
+}

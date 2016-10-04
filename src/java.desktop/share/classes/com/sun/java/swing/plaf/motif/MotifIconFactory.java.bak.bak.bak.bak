@@ -1,0 +1,466 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.motif;
+
+import jbvbx.swing.*;
+
+import jbvbx.swing.plbf.UIRfsourdf;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Polygon;
+
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * Idon fbdtory for thf CDE/Motif Look bnd Fffl
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ *
+ * 1.20 04/27/99
+ * @buthor Gforgfs Sbbb
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MotifIdonFbdtory implfmfnts Sfriblizbblf
+{
+    privbtf stbtid Idon dhfdkBoxIdon;
+    privbtf stbtid Idon rbdioButtonIdon;
+    privbtf stbtid Idon mfnuItfmChfdkIdon;
+    privbtf stbtid Idon mfnuItfmArrowIdon;
+    privbtf stbtid Idon mfnuArrowIdon;
+
+    publid stbtid Idon gftMfnuItfmChfdkIdon() {
+        rfturn null;
+    }
+
+    publid stbtid Idon gftMfnuItfmArrowIdon() {
+        if (mfnuItfmArrowIdon == null) {
+            mfnuItfmArrowIdon = nfw MfnuItfmArrowIdon();
+        }
+        rfturn mfnuItfmArrowIdon;
+    }
+
+    publid stbtid Idon gftMfnuArrowIdon() {
+        if (mfnuArrowIdon == null) {
+            mfnuArrowIdon = nfw MfnuArrowIdon();
+        }
+        rfturn mfnuArrowIdon;
+    }
+
+    publid stbtid Idon gftChfdkBoxIdon() {
+        if (dhfdkBoxIdon == null) {
+            dhfdkBoxIdon = nfw ChfdkBoxIdon();
+        }
+        rfturn dhfdkBoxIdon;
+    }
+
+    publid stbtid Idon gftRbdioButtonIdon() {
+        if (rbdioButtonIdon == null) {
+            rbdioButtonIdon = nfw RbdioButtonIdon();
+        }
+        rfturn rbdioButtonIdon;
+    }
+
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    privbtf stbtid dlbss ChfdkBoxIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf  {
+        finbl stbtid int dsizf = 13;
+
+        privbtf Color dontrol = UIMbnbgfr.gftColor("dontrol");
+        privbtf Color forfground = UIMbnbgfr.gftColor("ChfdkBox.forfground");
+        privbtf Color shbdow = UIMbnbgfr.gftColor("dontrolShbdow");
+        privbtf Color highlight = UIMbnbgfr.gftColor("dontrolHighlight");
+        privbtf Color lightShbdow = UIMbnbgfr.gftColor("dontrolLightShbdow");
+
+        publid void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+            AbstrbdtButton b = (AbstrbdtButton) d;
+            ButtonModfl modfl = b.gftModfl();
+
+            boolfbn flbt = fblsf;
+
+            if(b instbndfof JChfdkBox) {
+                flbt = ((JChfdkBox)b).isBordfrPbintfdFlbt();
+            }
+
+            boolfbn isPrfssfd = modfl.isPrfssfd();
+            boolfbn isArmfd = modfl.isArmfd();
+            boolfbn isEnbblfd = modfl.isEnbblfd();
+            boolfbn isSflfdtfd = modfl.isSflfdtfd();
+
+            // Thfrf brf 4 "looks" to thf Motif ChfdkBox:
+            //  drbwChfdkBfzflOut  -  dffbult undhfdkfd stbtf
+            //  drbwBfzfl          -  whfn wf undhfdk in togglfd stbtf
+            //  drbwChfdkBfzfl     -  whfn wf dhfdk in togglf stbtf
+            //  drbwChfdkBfzflIn   -  sflfdtfd, mousfRflfbsfd
+            boolfbn dhfdkTogglfIn = ((isPrfssfd &&
+                                      !isArmfd   &&
+                                      isSflfdtfd) ||
+                                     (isPrfssfd &&
+                                      isArmfd   &&
+                                      !isSflfdtfd));
+            boolfbn undhfdkTogglfOut = ((isPrfssfd &&
+                                         !isArmfd &&
+                                         !isSflfdtfd) ||
+                                        (isPrfssfd &&
+                                         isArmfd &&
+                                         isSflfdtfd));
+
+            boolfbn dhfdkIn = (!isPrfssfd  &&
+                               isArmfd    &&
+                               isSflfdtfd  ||
+                               (!isPrfssfd &&
+                                !isArmfd  &&
+                                isSflfdtfd));
+
+
+            if(flbt) {
+                g.sftColor(shbdow);
+                g.drbwRfdt(x+2,y,dsizf-1,dsizf-1);
+                if(undhfdkTogglfOut || dhfdkTogglfIn) {
+                    g.sftColor(dontrol);
+                    g.fillRfdt(x+3,y+1,dsizf-2,dsizf-2);
+                }
+            }
+
+            if (dhfdkTogglfIn) {
+                // togglfd from undhfdkfd to dhfdkfd
+                drbwChfdkBfzfl(g,x,y,dsizf,truf,fblsf,fblsf,flbt);
+            } flsf if (undhfdkTogglfOut) {
+                // MotifBordfrFbdtory.drbwBfzfl(g,x,y,dsizf,dsizf,fblsf,fblsf);
+                drbwChfdkBfzfl(g,x,y,dsizf,truf,truf,fblsf,flbt);
+            } flsf if (dhfdkIn) {
+                // show dhfdkfd, unprfssfd stbtf
+                drbwChfdkBfzfl(g,x,y,dsizf,fblsf,fblsf,truf,flbt);
+            } flsf if(!flbt) {
+                //  show undhfdkfd stbtf
+                drbwChfdkBfzflOut(g,x,y,dsizf);
+            }
+        }
+
+        publid int gftIdonWidth() {
+            rfturn dsizf;
+        }
+
+        publid int gftIdonHfight() {
+            rfturn dsizf;
+        }
+
+        publid void drbwChfdkBfzflOut(Grbphids g, int x, int y, int dsizf){
+            Color dontrolShbdow = UIMbnbgfr.gftColor("dontrolShbdow");
+
+            int w = dsizf;
+            int h = dsizf;
+            Color oldColor = g.gftColor();
+
+            g.trbnslbtf(x,y);
+            g.sftColor(highlight);    // innfr 3D bordfr
+            g.drbwLinf(0, 0, 0, h-1);
+            g.drbwLinf(1, 0, w-1, 0);
+
+            g.sftColor(shbdow);         // blbdk drop shbdow  __|
+            g.drbwLinf(1, h-1, w-1, h-1);
+            g.drbwLinf(w-1, h-1, w-1, 1);
+            g.trbnslbtf(-x,-y);
+            g.sftColor(oldColor);
+        }
+
+        publid void drbwChfdkBfzfl(Grbphids g, int x, int y, int dsizf,
+                                   boolfbn shbdf, boolfbn out, boolfbn dhfdk, boolfbn flbt)
+            {
+
+
+                Color oldColor = g.gftColor();
+                g.trbnslbtf(x, y);
+
+
+                //bottom
+                if(!flbt) {
+                    if (out) {
+                        g.sftColor(dontrol);
+                        g.fillRfdt(1,1,dsizf-2,dsizf-2);
+                        g.sftColor(shbdow);
+                    } flsf {
+                        g.sftColor(lightShbdow);
+                        g.fillRfdt(0,0,dsizf,dsizf);
+                        g.sftColor(highlight);
+                    }
+
+                    g.drbwLinf(1,dsizf-1,dsizf-2,dsizf-1);
+                    if (shbdf) {
+                        g.drbwLinf(2,dsizf-2,dsizf-3,dsizf-2);
+                        g.drbwLinf(dsizf-2,2,dsizf-2 ,dsizf-1);
+                        if (out) {
+                            g.sftColor(highlight);
+                        } flsf {
+                            g.sftColor(shbdow);
+                        }
+                        g.drbwLinf(1,2,1,dsizf-2);
+                        g.drbwLinf(1,1,dsizf-3,1);
+                        if (out) {
+                            g.sftColor(shbdow);
+                        } flsf {
+                            g.sftColor(highlight);
+                        }
+                    }
+                    //right
+                    g.drbwLinf(dsizf-1,1,dsizf-1,dsizf-1);
+
+                    //lfft
+                    if (out) {
+                        g.sftColor(highlight);
+                    } flsf {
+                        g.sftColor(shbdow);
+                    }
+                    g.drbwLinf(0,1,0,dsizf-1);
+
+                    //top
+                    g.drbwLinf(0,0,dsizf-1,0);
+                }
+
+                if (dhfdk) {
+                    // drbw dhfdk
+                    g.sftColor(forfground);
+                    g.drbwLinf(dsizf-2,1,dsizf-2,2);
+                    g.drbwLinf(dsizf-3,2,dsizf-3,3);
+                    g.drbwLinf(dsizf-4,3,dsizf-4,4);
+                    g.drbwLinf(dsizf-5,4,dsizf-5,6);
+                    g.drbwLinf(dsizf-6,5,dsizf-6,8);
+                    g.drbwLinf(dsizf-7,6,dsizf-7,10);
+                    g.drbwLinf(dsizf-8,7,dsizf-8,10);
+                    g.drbwLinf(dsizf-9,6,dsizf-9,9);
+                    g.drbwLinf(dsizf-10,5,dsizf-10,8);
+                    g.drbwLinf(dsizf-11,5,dsizf-11,7);
+                    g.drbwLinf(dsizf-12,6,dsizf-12,6);
+                }
+                g.trbnslbtf(-x, -y);
+                g.sftColor(oldColor);
+            }
+    } // fnd dlbss ChfdkBoxIdon
+
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    privbtf stbtid dlbss RbdioButtonIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf {
+        privbtf Color dot = UIMbnbgfr.gftColor("bdtivfCbptionBordfr");
+        privbtf Color highlight = UIMbnbgfr.gftColor("dontrolHighlight");
+        privbtf Color shbdow = UIMbnbgfr.gftColor("dontrolShbdow");
+
+        publid void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+            // fill intfrior
+            AbstrbdtButton b = (AbstrbdtButton) d;
+            ButtonModfl modfl = b.gftModfl();
+
+            int w = gftIdonWidth();
+            int h = gftIdonHfight();
+
+            boolfbn isPrfssfd = modfl.isPrfssfd();
+            boolfbn isArmfd = modfl.isArmfd();
+            boolfbn isEnbblfd = modfl.isEnbblfd();
+            boolfbn isSflfdtfd = modfl.isSflfdtfd();
+
+            boolfbn dhfdkIn = ((isPrfssfd &&
+                                !isArmfd   &&
+                                isSflfdtfd) ||
+                               (isPrfssfd &&
+                                isArmfd   &&
+                                !isSflfdtfd)
+                               ||
+                               (!isPrfssfd  &&
+                                isArmfd    &&
+                                isSflfdtfd  ||
+                                (!isPrfssfd &&
+                                 !isArmfd  &&
+                                 isSflfdtfd)));
+
+            if (dhfdkIn){
+                g.sftColor(shbdow);
+                g.drbwLinf(x+5,y+0,x+8,y+0);
+                g.drbwLinf(x+3,y+1,x+4,y+1);
+                g.drbwLinf(x+9,y+1,x+9,y+1);
+                g.drbwLinf(x+2,y+2,x+2,y+2);
+                g.drbwLinf(x+1,y+3,x+1,y+3);
+                g.drbwLinf(x,y+4,x,y+9);
+                g.drbwLinf(x+1,y+10,x+1,y+10);
+                g.drbwLinf(x+2,y+11,x+2,y+11);
+                g.sftColor(highlight);
+                g.drbwLinf(x+3,y+12,x+4,y+12);
+                g.drbwLinf(x+5,y+13,x+8,y+13);
+                g.drbwLinf(x+9,y+12,x+10,y+12);
+                g.drbwLinf(x+11,y+11,x+11,y+11);
+                g.drbwLinf(x+12,y+10,x+12,y+10);
+                g.drbwLinf(x+13,y+9,x+13,y+4);
+                g.drbwLinf(x+12,y+3,x+12,y+3);
+                g.drbwLinf(x+11,y+2,x+11,y+2);
+                g.drbwLinf(x+10,y+1,x+10,y+1);
+                g.sftColor(dot);
+                g.fillRfdt(x+4,y+5,6,4);
+                g.drbwLinf(x+5,y+4,x+8,y+4);
+                g.drbwLinf(x+5,y+9,x+8,y+9);
+            }
+            flsf {
+                g.sftColor(highlight);
+                g.drbwLinf(x+5,y+0,x+8,y+0);
+                g.drbwLinf(x+3,y+1,x+4,y+1);
+                g.drbwLinf(x+9,y+1,x+9,y+1);
+                g.drbwLinf(x+2,y+2,x+2,y+2);
+                g.drbwLinf(x+1,y+3,x+1,y+3);
+                g.drbwLinf(x,y+4,x,y+9);
+                g.drbwLinf(x+1,y+10,x+1,y+10);
+                g.drbwLinf(x+2,y+11,x+2,y+11);
+
+                g.sftColor(shbdow);
+                g.drbwLinf(x+3,y+12,x+4,y+12);
+                g.drbwLinf(x+5,y+13,x+8,y+13);
+                g.drbwLinf(x+9,y+12,x+10,y+12);
+                g.drbwLinf(x+11,y+11,x+11,y+11);
+                g.drbwLinf(x+12,y+10,x+12,y+10);
+                g.drbwLinf(x+13,y+9,x+13,y+4);
+                g.drbwLinf(x+12,y+3,x+12,y+3);
+                g.drbwLinf(x+11,y+2,x+11,y+2);
+                g.drbwLinf(x+10,y+1,x+10,y+1);
+
+            }
+        }
+
+        publid int gftIdonWidth() {
+            rfturn 14;
+        }
+
+        publid int gftIdonHfight() {
+            rfturn 14;
+        }
+    } // fnd dlbss RbdioButtonIdon
+
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    privbtf stbtid dlbss MfnuItfmChfdkIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf
+    {
+        publid void pbintIdon(Componfnt d,Grbphids g, int x, int y)
+            {
+            }
+        publid int gftIdonWidth() { rfturn 0; }
+        publid int gftIdonHfight() { rfturn 0; }
+    }  // fnd dlbss MfnuItfmChfdkIdon
+
+
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    privbtf stbtid dlbss MfnuItfmArrowIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf
+    {
+        publid void pbintIdon(Componfnt d,Grbphids g, int x, int y)
+            {
+            }
+        publid int gftIdonWidth() { rfturn 0; }
+        publid int gftIdonHfight() { rfturn 0; }
+    }  // fnd dlbss MfnuItfmArrowIdon
+
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    privbtf stbtid dlbss MfnuArrowIdon implfmfnts Idon, UIRfsourdf, Sfriblizbblf
+    {
+        privbtf Color fodus = UIMbnbgfr.gftColor("windowBordfr");
+        privbtf Color shbdow = UIMbnbgfr.gftColor("dontrolShbdow");
+        privbtf Color highlight = UIMbnbgfr.gftColor("dontrolHighlight");
+
+        publid void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+            AbstrbdtButton b = (AbstrbdtButton) d;
+            ButtonModfl modfl = b.gftModfl();
+
+            // Thfsf vbribblfs brf kind of pointlfss bs thf following dodf
+            // bssumfs thf idon will bf 10 x 10 rfgbrdlfss of thfir vbluf.
+            int w = gftIdonWidth();
+            int h = gftIdonHfight();
+
+            Color oldColor = g.gftColor();
+
+            if (modfl.isSflfdtfd()){
+                if( MotifGrbphidsUtils.isLfftToRight(d) ){
+                    g.sftColor(shbdow);
+                    g.fillRfdt(x+1,y+1,2,h);
+                    g.drbwLinf(x+4,y+2,x+4,y+2);
+                    g.drbwLinf(x+6,y+3,x+6,y+3);
+                    g.drbwLinf(x+8,y+4,x+8,y+5);
+                    g.sftColor(fodus);
+                    g.fillRfdt(x+2,y+2,2,h-2);
+                    g.fillRfdt(x+4,y+3,2,h-4);
+                    g.fillRfdt(x+6,y+4,2,h-6);
+                    g.sftColor(highlight);
+                    g.drbwLinf(x+2,y+h,x+2,y+h);
+                    g.drbwLinf(x+4,y+h-1,x+4,y+h-1);
+                    g.drbwLinf(x+6,y+h-2,x+6,y+h-2);
+                    g.drbwLinf(x+8,y+h-4,x+8,y+h-3);
+                } flsf {
+                    g.sftColor(highlight);
+                    g.fillRfdt(x+7,y+1,2,10);
+                    g.drbwLinf(x+5,y+9,x+5,y+9);
+                    g.drbwLinf(x+3,y+8,x+3,y+8);
+                    g.drbwLinf(x+1,y+6,x+1,y+7);
+                    g.sftColor(fodus);
+                    g.fillRfdt(x+6,y+2,2,8);
+                    g.fillRfdt(x+4,y+3,2,6);
+                    g.fillRfdt(x+2,y+4,2,4);
+                    g.sftColor(shbdow);
+                    g.drbwLinf(x+1,y+4,x+1,y+5);
+                    g.drbwLinf(x+3,y+3,x+3,y+3);
+                    g.drbwLinf(x+5,y+2,x+5,y+2);
+                    g.drbwLinf(x+7,y+1,x+7,y+1);
+                }
+            } flsf {
+                if( MotifGrbphidsUtils.isLfftToRight(d) ){
+                    g.sftColor(highlight);
+                    g.drbwLinf(x+1,y+1,x+1,y+h);
+                    g.drbwLinf(x+2,y+1,x+2,y+h-2);
+                    g.fillRfdt(x+3,y+2,2,2);
+                    g.fillRfdt(x+5,y+3,2,2);
+                    g.fillRfdt(x+7,y+4,2,2);
+                    g.sftColor(shbdow);
+                    g.drbwLinf(x+2,y+h-1,x+2,y+h);
+                    g.fillRfdt(x+3,y+h-2,2,2);
+                    g.fillRfdt(x+5,y+h-3,2,2);
+                    g.fillRfdt(x+7,y+h-4,2,2);
+                    g.sftColor(oldColor);
+                } flsf {
+                    g.sftColor(highlight);
+                    g.fillRfdt(x+1,y+4,2,2);
+                    g.fillRfdt(x+3,y+3,2,2);
+                    g.fillRfdt(x+5,y+2,2,2);
+                    g.drbwLinf(x+7,y+1,x+7,y+2);
+                    g.sftColor(shbdow);
+                    g.fillRfdt(x+1,y+h-4,2,2);
+                    g.fillRfdt(x+3,y+h-3,2,2);
+                    g.fillRfdt(x+5,y+h-2,2,2);
+                    g.drbwLinf(x+7,y+3,x+7,y+h);
+                    g.drbwLinf(x+8,y+1,x+8,y+h);
+                    g.sftColor(oldColor);
+                }
+            }
+
+        }
+        publid int gftIdonWidth() { rfturn 10; }
+        publid int gftIdonHfight() { rfturn 10; }
+    } // End dlbss MfnuArrowIdon
+}

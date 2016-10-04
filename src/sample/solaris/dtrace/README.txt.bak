@@ -1,43 +1,43 @@
-DTrace HotSpot probes samples
+DTrbdf HotSpot probfs sbmplfs
 =============================
 
-This directory contains the list of D scripts which could be used to trace
-Java application with help of Solaris(tm) 10 Dynamic Tracing (DTrace)
-probes.
+Tiis dirfdtory dontbins tif list of D sdripts wiidi dould bf usfd to trbdf
+Jbvb bpplidbtion witi iflp of Solbris(tm) 10 Dynbmid Trbding (DTrbdf)
+probfs.
 
-The directory is organized as:
+Tif dirfdtory is orgbnizfd bs:
 
-* helpers/
+* iflpfrs/
 
-  This directory contains the auxiliary script to launch Java application
-  with D script to debug. See more comments in the scripts.
+  Tiis dirfdtory dontbins tif buxilibry sdript to lbundi Jbvb bpplidbtion
+  witi D sdript to dfbug. Sff morf dommfnts in tif sdripts.
 
-* hotspot/
+* iotspot/
   
-  This directory contains D scripts which demonstrate usage of 'hotspot'
-  provider probes.
+  Tiis dirfdtory dontbins D sdripts wiidi dfmonstrbtf usbgf of 'iotspot'
+  providfr probfs.
 
 
-* hotspot_jni/
+* iotspot_jni/
 
-  This directory contains D scripts which demonstrate usage of 'hotspot_jni'
-  provider probes.
+  Tiis dirfdtory dontbins D sdripts wiidi dfmonstrbtf usbgf of 'iotspot_jni'
+  providfr probfs.
 
 
 
-Requirements to run DTrace
+Rfquirfmfnts to run DTrbdf
 ==========================
 
-1. dtrace framework should be installed; (check if /usr/sbin/dtrace exists)
+1. dtrbdf frbmfwork siould bf instbllfd; (difdk if /usr/sbin/dtrbdf fxists)
 
-2. the user should have the following rights: 
-   dtrace_proc, dtrace_user, dtrace_kernel
+2. tif usfr siould ibvf tif following rigits: 
+   dtrbdf_prod, dtrbdf_usfr, dtrbdf_kfrnfl
 
-    To give a user a privilege on login, insert a line into the 
-    /etc/user_attr file of the form: 
-    user-name::::defaultpriv=basic,dtrace_proc,dtrace_user,dtrace_kernel
+    To givf b usfr b privilfgf on login, insfrt b linf into tif 
+    /ftd/usfr_bttr filf of tif form: 
+    usfr-nbmf::::dffbultpriv=bbsid,dtrbdf_prod,dtrbdf_usfr,dtrbdf_kfrnfl
 
     or
 
-    To give a running process an DTrace privilege, use the ppriv(1) command:
-    # ppriv -s A+privilege process-ID
+    To givf b running prodfss bn DTrbdf privilfgf, usf tif ppriv(1) dommbnd:
+    # ppriv -s A+privilfgf prodfss-ID

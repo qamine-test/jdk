@@ -1,583 +1,583 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.peer.FileDialogPeer;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.File;
-import sun.awt.AWTAccessor;
+import jbvb.bwt.pffr.FilfDiblogPffr;
+import jbvb.io.FilfnbmfFiltfr;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Filf;
+import sun.bwt.AWTAddfssor;
 
 /**
- * The <code>FileDialog</code> class displays a dialog window
- * from which the user can select a file.
+ * Tif <dodf>FilfDiblog</dodf> dlbss displbys b diblog window
+ * from wiidi tif usfr dbn sflfdt b filf.
  * <p>
- * Since it is a modal dialog, when the application calls
- * its <code>show</code> method to display the dialog,
- * it blocks the rest of the application until the user has
- * chosen a file.
+ * Sindf it is b modbl diblog, wifn tif bpplidbtion dblls
+ * its <dodf>siow</dodf> mftiod to displby tif diblog,
+ * it blodks tif rfst of tif bpplidbtion until tif usfr ibs
+ * diosfn b filf.
  *
- * @see Window#show
+ * @sff Window#siow
  *
- * @author      Sami Shaio
- * @author      Arthur van Hoff
- * @since       1.0
+ * @butior      Sbmi Sibio
+ * @butior      Artiur vbn Hoff
+ * @sindf       1.0
  */
-public class FileDialog extends Dialog {
+publid dlbss FilfDiblog fxtfnds Diblog {
 
     /**
-     * This constant value indicates that the purpose of the file
-     * dialog window is to locate a file from which to read.
+     * Tiis donstbnt vbluf indidbtfs tibt tif purposf of tif filf
+     * diblog window is to lodbtf b filf from wiidi to rfbd.
      */
-    public static final int LOAD = 0;
+    publid stbtid finbl int LOAD = 0;
 
     /**
-     * This constant value indicates that the purpose of the file
-     * dialog window is to locate a file to which to write.
+     * Tiis donstbnt vbluf indidbtfs tibt tif purposf of tif filf
+     * diblog window is to lodbtf b filf to wiidi to writf.
      */
-    public static final int SAVE = 1;
+    publid stbtid finbl int SAVE = 1;
 
     /*
-     * There are two <code>FileDialog</code> modes: <code>LOAD</code> and
-     * <code>SAVE</code>.
-     * This integer will represent one or the other.
-     * If the mode is not specified it will default to <code>LOAD</code>.
+     * Tifrf brf two <dodf>FilfDiblog</dodf> modfs: <dodf>LOAD</dodf> bnd
+     * <dodf>SAVE</dodf>.
+     * Tiis intfgfr will rfprfsfnt onf or tif otifr.
+     * If tif modf is not spfdififd it will dffbult to <dodf>LOAD</dodf>.
      *
-     * @serial
-     * @see getMode()
-     * @see setMode()
-     * @see java.awt.FileDialog#LOAD
-     * @see java.awt.FileDialog#SAVE
+     * @sfribl
+     * @sff gftModf()
+     * @sff sftModf()
+     * @sff jbvb.bwt.FilfDiblog#LOAD
+     * @sff jbvb.bwt.FilfDiblog#SAVE
      */
-    int mode;
+    int modf;
 
     /*
-     * The string specifying the directory to display
-     * in the file dialog.  This variable may be <code>null</code>.
+     * Tif string spfdifying tif dirfdtory to displby
+     * in tif filf diblog.  Tiis vbribblf mby bf <dodf>null</dodf>.
      *
-     * @serial
-     * @see getDirectory()
-     * @see setDirectory()
+     * @sfribl
+     * @sff gftDirfdtory()
+     * @sff sftDirfdtory()
      */
     String dir;
 
     /*
-     * The string specifying the initial value of the
-     * filename text field in the file dialog.
-     * This variable may be <code>null</code>.
+     * Tif string spfdifying tif initibl vbluf of tif
+     * filfnbmf tfxt fifld in tif filf diblog.
+     * Tiis vbribblf mby bf <dodf>null</dodf>.
      *
-     * @serial
-     * @see getFile()
-     * @see setFile()
+     * @sfribl
+     * @sff gftFilf()
+     * @sff sftFilf()
      */
-    String file;
+    String filf;
 
     /**
-     * Contains the File instances for all the files that the user selects.
+     * Contbins tif Filf instbndfs for bll tif filfs tibt tif usfr sflfdts.
      *
-     * @serial
-     * @see #getFiles
-     * @since 1.7
+     * @sfribl
+     * @sff #gftFilfs
+     * @sindf 1.7
      */
-    private File[] files;
+    privbtf Filf[] filfs;
 
     /**
-     * Represents whether the file dialog allows the multiple file selection.
+     * Rfprfsfnts wiftifr tif filf diblog bllows tif multiplf filf sflfdtion.
      *
-     * @serial
-     * @see #setMultipleMode
-     * @see #isMultipleMode
-     * @since 1.7
+     * @sfribl
+     * @sff #sftMultiplfModf
+     * @sff #isMultiplfModf
+     * @sindf 1.7
      */
-    private boolean multipleMode = false;
+    privbtf boolfbn multiplfModf = fblsf;
 
     /*
-     * The filter used as the file dialog's filename filter.
-     * The file dialog will only be displaying files whose
-     * names are accepted by this filter.
-     * This variable may be <code>null</code>.
+     * Tif filtfr usfd bs tif filf diblog's filfnbmf filtfr.
+     * Tif filf diblog will only bf displbying filfs wiosf
+     * nbmfs brf bddfptfd by tiis filtfr.
+     * Tiis vbribblf mby bf <dodf>null</dodf>.
      *
-     * @serial
-     * @see #getFilenameFilter()
-     * @see #setFilenameFilter()
-     * @see FileNameFilter
+     * @sfribl
+     * @sff #gftFilfnbmfFiltfr()
+     * @sff #sftFilfnbmfFiltfr()
+     * @sff FilfNbmfFiltfr
      */
-    FilenameFilter filter;
+    FilfnbmfFiltfr filtfr;
 
-    private static final String base = "filedlg";
-    private static int nameCounter = 0;
+    privbtf stbtid finbl String bbsf = "filfdlg";
+    privbtf stbtid int nbmfCountfr = 0;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-     private static final long serialVersionUID = 5035145889651310422L;
+     privbtf stbtid finbl long sfriblVfrsionUID = 5035145889651310422L;
 
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtid {
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
             initIDs();
         }
     }
 
-    static {
-        AWTAccessor.setFileDialogAccessor(
-            new AWTAccessor.FileDialogAccessor() {
-                public void setFiles(FileDialog fileDialog, File files[]) {
-                    fileDialog.setFiles(files);
+    stbtid {
+        AWTAddfssor.sftFilfDiblogAddfssor(
+            nfw AWTAddfssor.FilfDiblogAddfssor() {
+                publid void sftFilfs(FilfDiblog filfDiblog, Filf filfs[]) {
+                    filfDiblog.sftFilfs(filfs);
                 }
-                public void setFile(FileDialog fileDialog, String file) {
-                    fileDialog.file = ("".equals(file)) ? null : file;
+                publid void sftFilf(FilfDiblog filfDiblog, String filf) {
+                    filfDiblog.filf = ("".fqubls(filf)) ? null : filf;
                 }
-                public void setDirectory(FileDialog fileDialog, String directory) {
-                    fileDialog.dir = ("".equals(directory)) ? null : directory;
+                publid void sftDirfdtory(FilfDiblog filfDiblog, String dirfdtory) {
+                    filfDiblog.dir = ("".fqubls(dirfdtory)) ? null : dirfdtory;
                 }
-                public boolean isMultipleMode(FileDialog fileDialog) {
-                    synchronized (fileDialog.getObjectLock()) {
-                        return fileDialog.multipleMode;
+                publid boolfbn isMultiplfModf(FilfDiblog filfDiblog) {
+                    syndironizfd (filfDiblog.gftObjfdtLodk()) {
+                        rfturn filfDiblog.multiplfModf;
                     }
                 }
             });
     }
 
     /**
-     * Initialize JNI field and method IDs for fields that may be
-       accessed from C.
+     * Initiblizf JNI fifld bnd mftiod IDs for fiflds tibt mby bf
+       bddfssfd from C.
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
     /**
-     * Creates a file dialog for loading a file.  The title of the
-     * file dialog is initially empty.  This is a convenience method for
-     * <code>FileDialog(parent, "", LOAD)</code>.
+     * Crfbtfs b filf diblog for lobding b filf.  Tif titlf of tif
+     * filf diblog is initiblly fmpty.  Tiis is b donvfnifndf mftiod for
+     * <dodf>FilfDiblog(pbrfnt, "", LOAD)</dodf>.
      *
-     * @param parent the owner of the dialog
-     * @since 1.1
+     * @pbrbm pbrfnt tif ownfr of tif diblog
+     * @sindf 1.1
      */
-    public FileDialog(Frame parent) {
-        this(parent, "", LOAD);
+    publid FilfDiblog(Frbmf pbrfnt) {
+        tiis(pbrfnt, "", LOAD);
     }
 
     /**
-     * Creates a file dialog window with the specified title for loading
-     * a file. The files shown are those in the current directory.
-     * This is a convenience method for
-     * <code>FileDialog(parent, title, LOAD)</code>.
+     * Crfbtfs b filf diblog window witi tif spfdififd titlf for lobding
+     * b filf. Tif filfs siown brf tiosf in tif durrfnt dirfdtory.
+     * Tiis is b donvfnifndf mftiod for
+     * <dodf>FilfDiblog(pbrfnt, titlf, LOAD)</dodf>.
      *
-     * @param     parent   the owner of the dialog
-     * @param     title    the title of the dialog
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     titlf    tif titlf of tif diblog
      */
-    public FileDialog(Frame parent, String title) {
-        this(parent, title, LOAD);
+    publid FilfDiblog(Frbmf pbrfnt, String titlf) {
+        tiis(pbrfnt, titlf, LOAD);
     }
 
     /**
-     * Creates a file dialog window with the specified title for loading
-     * or saving a file.
+     * Crfbtfs b filf diblog window witi tif spfdififd titlf for lobding
+     * or sbving b filf.
      * <p>
-     * If the value of <code>mode</code> is <code>LOAD</code>, then the
-     * file dialog is finding a file to read, and the files shown are those
-     * in the current directory.   If the value of
-     * <code>mode</code> is <code>SAVE</code>, the file dialog is finding
-     * a place to write a file.
+     * If tif vbluf of <dodf>modf</dodf> is <dodf>LOAD</dodf>, tifn tif
+     * filf diblog is finding b filf to rfbd, bnd tif filfs siown brf tiosf
+     * in tif durrfnt dirfdtory.   If tif vbluf of
+     * <dodf>modf</dodf> is <dodf>SAVE</dodf>, tif filf diblog is finding
+     * b plbdf to writf b filf.
      *
-     * @param     parent   the owner of the dialog
-     * @param     title   the title of the dialog
-     * @param     mode   the mode of the dialog; either
-     *          <code>FileDialog.LOAD</code> or <code>FileDialog.SAVE</code>
-     * @exception  IllegalArgumentException if an illegal file
-     *                 dialog mode is supplied
-     * @see       java.awt.FileDialog#LOAD
-     * @see       java.awt.FileDialog#SAVE
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     titlf   tif titlf of tif diblog
+     * @pbrbm     modf   tif modf of tif diblog; fitifr
+     *          <dodf>FilfDiblog.LOAD</dodf> or <dodf>FilfDiblog.SAVE</dodf>
+     * @fxdfption  IllfgblArgumfntExdfption if bn illfgbl filf
+     *                 diblog modf is supplifd
+     * @sff       jbvb.bwt.FilfDiblog#LOAD
+     * @sff       jbvb.bwt.FilfDiblog#SAVE
      */
-    public FileDialog(Frame parent, String title, int mode) {
-        super(parent, title, true);
-        this.setMode(mode);
-        setLayout(null);
+    publid FilfDiblog(Frbmf pbrfnt, String titlf, int modf) {
+        supfr(pbrfnt, titlf, truf);
+        tiis.sftModf(modf);
+        sftLbyout(null);
     }
 
     /**
-     * Creates a file dialog for loading a file.  The title of the
-     * file dialog is initially empty.  This is a convenience method for
-     * <code>FileDialog(parent, "", LOAD)</code>.
+     * Crfbtfs b filf diblog for lobding b filf.  Tif titlf of tif
+     * filf diblog is initiblly fmpty.  Tiis is b donvfnifndf mftiod for
+     * <dodf>FilfDiblog(pbrfnt, "", LOAD)</dodf>.
      *
-     * @param     parent   the owner of the dialog
-     * @exception java.lang.IllegalArgumentException if the <code>parent</code>'s
-     *            <code>GraphicsConfiguration</code>
-     *            is not from a screen device;
-     * @exception java.lang.IllegalArgumentException if <code>parent</code>
-     *            is <code>null</code>; this exception is always thrown when
-     *            <code>GraphicsEnvironment.isHeadless</code>
-     *            returns <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @since 1.5
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>pbrfnt</dodf>'s
+     *            <dodf>GrbpiidsConfigurbtion</dodf>
+     *            is not from b sdrffn dfvidf;
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>pbrfnt</dodf>
+     *            is <dodf>null</dodf>; tiis fxdfption is blwbys tirown wifn
+     *            <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf>
+     *            rfturns <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sindf 1.5
      */
-    public FileDialog(Dialog parent) {
-        this(parent, "", LOAD);
+    publid FilfDiblog(Diblog pbrfnt) {
+        tiis(pbrfnt, "", LOAD);
     }
 
     /**
-     * Creates a file dialog window with the specified title for loading
-     * a file. The files shown are those in the current directory.
-     * This is a convenience method for
-     * <code>FileDialog(parent, title, LOAD)</code>.
+     * Crfbtfs b filf diblog window witi tif spfdififd titlf for lobding
+     * b filf. Tif filfs siown brf tiosf in tif durrfnt dirfdtory.
+     * Tiis is b donvfnifndf mftiod for
+     * <dodf>FilfDiblog(pbrfnt, titlf, LOAD)</dodf>.
      *
-     * @param     parent   the owner of the dialog
-     * @param     title    the title of the dialog; a <code>null</code> value
-     *                     will be accepted without causing a
-     *                     <code>NullPointerException</code> to be thrown
-     * @exception java.lang.IllegalArgumentException if the <code>parent</code>'s
-     *            <code>GraphicsConfiguration</code>
-     *            is not from a screen device;
-     * @exception java.lang.IllegalArgumentException if <code>parent</code>
-     *            is <code>null</code>; this exception is always thrown when
-     *            <code>GraphicsEnvironment.isHeadless</code>
-     *            returns <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @since     1.5
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     titlf    tif titlf of tif diblog; b <dodf>null</dodf> vbluf
+     *                     will bf bddfptfd witiout dbusing b
+     *                     <dodf>NullPointfrExdfption</dodf> to bf tirown
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>pbrfnt</dodf>'s
+     *            <dodf>GrbpiidsConfigurbtion</dodf>
+     *            is not from b sdrffn dfvidf;
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>pbrfnt</dodf>
+     *            is <dodf>null</dodf>; tiis fxdfption is blwbys tirown wifn
+     *            <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf>
+     *            rfturns <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sindf     1.5
      */
-    public FileDialog(Dialog parent, String title) {
-        this(parent, title, LOAD);
+    publid FilfDiblog(Diblog pbrfnt, String titlf) {
+        tiis(pbrfnt, titlf, LOAD);
     }
 
     /**
-     * Creates a file dialog window with the specified title for loading
-     * or saving a file.
+     * Crfbtfs b filf diblog window witi tif spfdififd titlf for lobding
+     * or sbving b filf.
      * <p>
-     * If the value of <code>mode</code> is <code>LOAD</code>, then the
-     * file dialog is finding a file to read, and the files shown are those
-     * in the current directory.   If the value of
-     * <code>mode</code> is <code>SAVE</code>, the file dialog is finding
-     * a place to write a file.
+     * If tif vbluf of <dodf>modf</dodf> is <dodf>LOAD</dodf>, tifn tif
+     * filf diblog is finding b filf to rfbd, bnd tif filfs siown brf tiosf
+     * in tif durrfnt dirfdtory.   If tif vbluf of
+     * <dodf>modf</dodf> is <dodf>SAVE</dodf>, tif filf diblog is finding
+     * b plbdf to writf b filf.
      *
-     * @param     parent   the owner of the dialog
-     * @param     title    the title of the dialog; a <code>null</code> value
-     *                     will be accepted without causing a
-     *                     <code>NullPointerException</code> to be thrown
-     * @param     mode     the mode of the dialog; either
-     *                     <code>FileDialog.LOAD</code> or <code>FileDialog.SAVE</code>
-     * @exception java.lang.IllegalArgumentException if an illegal
-     *            file dialog mode is supplied;
-     * @exception java.lang.IllegalArgumentException if the <code>parent</code>'s
-     *            <code>GraphicsConfiguration</code>
-     *            is not from a screen device;
-     * @exception java.lang.IllegalArgumentException if <code>parent</code>
-     *            is <code>null</code>; this exception is always thrown when
-     *            <code>GraphicsEnvironment.isHeadless</code>
-     *            returns <code>true</code>
-     * @see       java.awt.GraphicsEnvironment#isHeadless
-     * @see       java.awt.FileDialog#LOAD
-     * @see       java.awt.FileDialog#SAVE
-     * @since     1.5
+     * @pbrbm     pbrfnt   tif ownfr of tif diblog
+     * @pbrbm     titlf    tif titlf of tif diblog; b <dodf>null</dodf> vbluf
+     *                     will bf bddfptfd witiout dbusing b
+     *                     <dodf>NullPointfrExdfption</dodf> to bf tirown
+     * @pbrbm     modf     tif modf of tif diblog; fitifr
+     *                     <dodf>FilfDiblog.LOAD</dodf> or <dodf>FilfDiblog.SAVE</dodf>
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if bn illfgbl
+     *            filf diblog modf is supplifd;
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>pbrfnt</dodf>'s
+     *            <dodf>GrbpiidsConfigurbtion</dodf>
+     *            is not from b sdrffn dfvidf;
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>pbrfnt</dodf>
+     *            is <dodf>null</dodf>; tiis fxdfption is blwbys tirown wifn
+     *            <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf>
+     *            rfturns <dodf>truf</dodf>
+     * @sff       jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.FilfDiblog#LOAD
+     * @sff       jbvb.bwt.FilfDiblog#SAVE
+     * @sindf     1.5
      */
-    public FileDialog(Dialog parent, String title, int mode) {
-        super(parent, title, true);
-        this.setMode(mode);
-        setLayout(null);
+    publid FilfDiblog(Diblog pbrfnt, String titlf, int modf) {
+        supfr(pbrfnt, titlf, truf);
+        tiis.sftModf(modf);
+        sftLbyout(null);
     }
 
     /**
-     * Constructs a name for this component. Called by <code>getName()</code>
-     * when the name is <code>null</code>.
+     * Construdts b nbmf for tiis domponfnt. Cbllfd by <dodf>gftNbmf()</dodf>
+     * wifn tif nbmf is <dodf>null</dodf>.
      */
-    String constructComponentName() {
-        synchronized (FileDialog.class) {
-            return base + nameCounter++;
+    String donstrudtComponfntNbmf() {
+        syndironizfd (FilfDiblog.dlbss) {
+            rfturn bbsf + nbmfCountfr++;
         }
     }
 
     /**
-     * Creates the file dialog's peer.  The peer allows us to change the look
-     * of the file dialog without changing its functionality.
+     * Crfbtfs tif filf diblog's pffr.  Tif pffr bllows us to dibngf tif look
+     * of tif filf diblog witiout dibnging its fundtionblity.
      */
-    public void addNotify() {
-        synchronized(getTreeLock()) {
-            if (parent != null && parent.getPeer() == null) {
-                parent.addNotify();
+    publid void bddNotify() {
+        syndironizfd(gftTrffLodk()) {
+            if (pbrfnt != null && pbrfnt.gftPffr() == null) {
+                pbrfnt.bddNotify();
             }
-            if (peer == null)
-                peer = getToolkit().createFileDialog(this);
-            super.addNotify();
+            if (pffr == null)
+                pffr = gftToolkit().drfbtfFilfDiblog(tiis);
+            supfr.bddNotify();
         }
     }
 
     /**
-     * Indicates whether this file dialog box is for loading from a file
-     * or for saving to a file.
+     * Indidbtfs wiftifr tiis filf diblog box is for lobding from b filf
+     * or for sbving to b filf.
      *
-     * @return   the mode of this file dialog window, either
-     *               <code>FileDialog.LOAD</code> or
-     *               <code>FileDialog.SAVE</code>
-     * @see      java.awt.FileDialog#LOAD
-     * @see      java.awt.FileDialog#SAVE
-     * @see      java.awt.FileDialog#setMode
+     * @rfturn   tif modf of tiis filf diblog window, fitifr
+     *               <dodf>FilfDiblog.LOAD</dodf> or
+     *               <dodf>FilfDiblog.SAVE</dodf>
+     * @sff      jbvb.bwt.FilfDiblog#LOAD
+     * @sff      jbvb.bwt.FilfDiblog#SAVE
+     * @sff      jbvb.bwt.FilfDiblog#sftModf
      */
-    public int getMode() {
-        return mode;
+    publid int gftModf() {
+        rfturn modf;
     }
 
     /**
-     * Sets the mode of the file dialog.  If <code>mode</code> is not
-     * a legal value, an exception will be thrown and <code>mode</code>
-     * will not be set.
+     * Sfts tif modf of tif filf diblog.  If <dodf>modf</dodf> is not
+     * b lfgbl vbluf, bn fxdfption will bf tirown bnd <dodf>modf</dodf>
+     * will not bf sft.
      *
-     * @param      mode  the mode for this file dialog, either
-     *                 <code>FileDialog.LOAD</code> or
-     *                 <code>FileDialog.SAVE</code>
-     * @see        java.awt.FileDialog#LOAD
-     * @see        java.awt.FileDialog#SAVE
-     * @see        java.awt.FileDialog#getMode
-     * @exception  IllegalArgumentException if an illegal file
-     *                 dialog mode is supplied
-     * @since      1.1
+     * @pbrbm      modf  tif modf for tiis filf diblog, fitifr
+     *                 <dodf>FilfDiblog.LOAD</dodf> or
+     *                 <dodf>FilfDiblog.SAVE</dodf>
+     * @sff        jbvb.bwt.FilfDiblog#LOAD
+     * @sff        jbvb.bwt.FilfDiblog#SAVE
+     * @sff        jbvb.bwt.FilfDiblog#gftModf
+     * @fxdfption  IllfgblArgumfntExdfption if bn illfgbl filf
+     *                 diblog modf is supplifd
+     * @sindf      1.1
      */
-    public void setMode(int mode) {
-        switch (mode) {
-          case LOAD:
-          case SAVE:
-            this.mode = mode;
-            break;
-          default:
-            throw new IllegalArgumentException("illegal file dialog mode");
+    publid void sftModf(int modf) {
+        switdi (modf) {
+          dbsf LOAD:
+          dbsf SAVE:
+            tiis.modf = modf;
+            brfbk;
+          dffbult:
+            tirow nfw IllfgblArgumfntExdfption("illfgbl filf diblog modf");
         }
     }
 
     /**
-     * Gets the directory of this file dialog.
+     * Gfts tif dirfdtory of tiis filf diblog.
      *
-     * @return  the (potentially <code>null</code> or invalid)
-     *          directory of this <code>FileDialog</code>
-     * @see       java.awt.FileDialog#setDirectory
+     * @rfturn  tif (potfntiblly <dodf>null</dodf> or invblid)
+     *          dirfdtory of tiis <dodf>FilfDiblog</dodf>
+     * @sff       jbvb.bwt.FilfDiblog#sftDirfdtory
      */
-    public String getDirectory() {
-        return dir;
+    publid String gftDirfdtory() {
+        rfturn dir;
     }
 
     /**
-     * Sets the directory of this file dialog window to be the
-     * specified directory. Specifying a <code>null</code> or an
-     * invalid directory implies an implementation-defined default.
-     * This default will not be realized, however, until the user
-     * has selected a file. Until this point, <code>getDirectory()</code>
-     * will return the value passed into this method.
+     * Sfts tif dirfdtory of tiis filf diblog window to bf tif
+     * spfdififd dirfdtory. Spfdifying b <dodf>null</dodf> or bn
+     * invblid dirfdtory implifs bn implfmfntbtion-dffinfd dffbult.
+     * Tiis dffbult will not bf rfblizfd, iowfvfr, until tif usfr
+     * ibs sflfdtfd b filf. Until tiis point, <dodf>gftDirfdtory()</dodf>
+     * will rfturn tif vbluf pbssfd into tiis mftiod.
      * <p>
-     * Specifying "" as the directory is exactly equivalent to
-     * specifying <code>null</code> as the directory.
+     * Spfdifying "" bs tif dirfdtory is fxbdtly fquivblfnt to
+     * spfdifying <dodf>null</dodf> bs tif dirfdtory.
      *
-     * @param     dir   the specified directory
-     * @see       java.awt.FileDialog#getDirectory
+     * @pbrbm     dir   tif spfdififd dirfdtory
+     * @sff       jbvb.bwt.FilfDiblog#gftDirfdtory
      */
-    public void setDirectory(String dir) {
-        this.dir = (dir != null && dir.equals("")) ? null : dir;
-        FileDialogPeer peer = (FileDialogPeer)this.peer;
-        if (peer != null) {
-            peer.setDirectory(this.dir);
+    publid void sftDirfdtory(String dir) {
+        tiis.dir = (dir != null && dir.fqubls("")) ? null : dir;
+        FilfDiblogPffr pffr = (FilfDiblogPffr)tiis.pffr;
+        if (pffr != null) {
+            pffr.sftDirfdtory(tiis.dir);
         }
     }
 
     /**
-     * Gets the selected file of this file dialog.  If the user
-     * selected <code>CANCEL</code>, the returned file is <code>null</code>.
+     * Gfts tif sflfdtfd filf of tiis filf diblog.  If tif usfr
+     * sflfdtfd <dodf>CANCEL</dodf>, tif rfturnfd filf is <dodf>null</dodf>.
      *
-     * @return    the currently selected file of this file dialog window,
-     *                or <code>null</code> if none is selected
-     * @see       java.awt.FileDialog#setFile
+     * @rfturn    tif durrfntly sflfdtfd filf of tiis filf diblog window,
+     *                or <dodf>null</dodf> if nonf is sflfdtfd
+     * @sff       jbvb.bwt.FilfDiblog#sftFilf
      */
-    public String getFile() {
-        return file;
+    publid String gftFilf() {
+        rfturn filf;
     }
 
     /**
-     * Returns files that the user selects.
+     * Rfturns filfs tibt tif usfr sflfdts.
      * <p>
-     * If the user cancels the file dialog,
-     * then the method returns an empty array.
+     * If tif usfr dbndfls tif filf diblog,
+     * tifn tif mftiod rfturns bn fmpty brrby.
      *
-     * @return    files that the user selects or an empty array
-     *            if the user cancels the file dialog.
-     * @see       #setFile(String)
-     * @see       #getFile
-     * @since 1.7
+     * @rfturn    filfs tibt tif usfr sflfdts or bn fmpty brrby
+     *            if tif usfr dbndfls tif filf diblog.
+     * @sff       #sftFilf(String)
+     * @sff       #gftFilf
+     * @sindf 1.7
      */
-    public File[] getFiles() {
-        synchronized (getObjectLock()) {
-            if (files != null) {
-                return files.clone();
-            } else {
-                return new File[0];
+    publid Filf[] gftFilfs() {
+        syndironizfd (gftObjfdtLodk()) {
+            if (filfs != null) {
+                rfturn filfs.dlonf();
+            } flsf {
+                rfturn nfw Filf[0];
             }
         }
     }
 
     /**
-     * Stores the names of all the files that the user selects.
+     * Storfs tif nbmfs of bll tif filfs tibt tif usfr sflfdts.
      *
-     * Note that the method is private and it's intended to be used
-     * by the peers through the AWTAccessor API.
+     * Notf tibt tif mftiod is privbtf bnd it's intfndfd to bf usfd
+     * by tif pffrs tirougi tif AWTAddfssor API.
      *
-     * @param files     the array that contains the short names of
-     *                  all the files that the user selects.
+     * @pbrbm filfs     tif brrby tibt dontbins tif siort nbmfs of
+     *                  bll tif filfs tibt tif usfr sflfdts.
      *
-     * @see #getFiles
-     * @since 1.7
+     * @sff #gftFilfs
+     * @sindf 1.7
      */
-    private void setFiles(File files[]) {
-        synchronized (getObjectLock()) {
-            this.files = files;
+    privbtf void sftFilfs(Filf filfs[]) {
+        syndironizfd (gftObjfdtLodk()) {
+            tiis.filfs = filfs;
         }
     }
 
     /**
-     * Sets the selected file for this file dialog window to be the
-     * specified file. This file becomes the default file if it is set
-     * before the file dialog window is first shown.
+     * Sfts tif sflfdtfd filf for tiis filf diblog window to bf tif
+     * spfdififd filf. Tiis filf bfdomfs tif dffbult filf if it is sft
+     * bfforf tif filf diblog window is first siown.
      * <p>
-     * When the dialog is shown, the specified file is selected. The kind of
-     * selection depends on the file existence, the dialog type, and the native
-     * platform. E.g., the file could be highlighted in the file list, or a
-     * file name editbox could be populated with the file name.
+     * Wifn tif diblog is siown, tif spfdififd filf is sflfdtfd. Tif kind of
+     * sflfdtion dfpfnds on tif filf fxistfndf, tif diblog typf, bnd tif nbtivf
+     * plbtform. E.g., tif filf dould bf iigiligitfd in tif filf list, or b
+     * filf nbmf fditbox dould bf populbtfd witi tif filf nbmf.
      * <p>
-     * This method accepts either a full file path, or a file name with an
-     * extension if used together with the {@code setDirectory} method.
+     * Tiis mftiod bddfpts fitifr b full filf pbti, or b filf nbmf witi bn
+     * fxtfnsion if usfd togftifr witi tif {@dodf sftDirfdtory} mftiod.
      * <p>
-     * Specifying "" as the file is exactly equivalent to specifying
-     * {@code null} as the file.
+     * Spfdifying "" bs tif filf is fxbdtly fquivblfnt to spfdifying
+     * {@dodf null} bs tif filf.
      *
-     * @param    file   the file being set
-     * @see      #getFile
-     * @see      #getFiles
+     * @pbrbm    filf   tif filf bfing sft
+     * @sff      #gftFilf
+     * @sff      #gftFilfs
      */
-    public void setFile(String file) {
-        this.file = (file != null && file.equals("")) ? null : file;
-        FileDialogPeer peer = (FileDialogPeer)this.peer;
-        if (peer != null) {
-            peer.setFile(this.file);
+    publid void sftFilf(String filf) {
+        tiis.filf = (filf != null && filf.fqubls("")) ? null : filf;
+        FilfDiblogPffr pffr = (FilfDiblogPffr)tiis.pffr;
+        if (pffr != null) {
+            pffr.sftFilf(tiis.filf);
         }
     }
 
     /**
-     * Enables or disables multiple file selection for the file dialog.
+     * Enbblfs or disbblfs multiplf filf sflfdtion for tif filf diblog.
      *
-     * @param enable    if {@code true}, multiple file selection is enabled;
-     *                  {@code false} - disabled.
-     * @see #isMultipleMode
-     * @since 1.7
+     * @pbrbm fnbblf    if {@dodf truf}, multiplf filf sflfdtion is fnbblfd;
+     *                  {@dodf fblsf} - disbblfd.
+     * @sff #isMultiplfModf
+     * @sindf 1.7
      */
-    public void setMultipleMode(boolean enable) {
-        synchronized (getObjectLock()) {
-            this.multipleMode = enable;
+    publid void sftMultiplfModf(boolfbn fnbblf) {
+        syndironizfd (gftObjfdtLodk()) {
+            tiis.multiplfModf = fnbblf;
         }
     }
 
     /**
-     * Returns whether the file dialog allows the multiple file selection.
+     * Rfturns wiftifr tif filf diblog bllows tif multiplf filf sflfdtion.
      *
-     * @return          {@code true} if the file dialog allows the multiple
-     *                  file selection; {@code false} otherwise.
-     * @see #setMultipleMode
-     * @since 1.7
+     * @rfturn          {@dodf truf} if tif filf diblog bllows tif multiplf
+     *                  filf sflfdtion; {@dodf fblsf} otifrwisf.
+     * @sff #sftMultiplfModf
+     * @sindf 1.7
      */
-    public boolean isMultipleMode() {
-        synchronized (getObjectLock()) {
-            return multipleMode;
+    publid boolfbn isMultiplfModf() {
+        syndironizfd (gftObjfdtLodk()) {
+            rfturn multiplfModf;
         }
     }
 
     /**
-     * Determines this file dialog's filename filter. A filename filter
-     * allows the user to specify which files appear in the file dialog
-     * window.  Filename filters do not function in Sun's reference
-     * implementation for Microsoft Windows.
+     * Dftfrminfs tiis filf diblog's filfnbmf filtfr. A filfnbmf filtfr
+     * bllows tif usfr to spfdify wiidi filfs bppfbr in tif filf diblog
+     * window.  Filfnbmf filtfrs do not fundtion in Sun's rfffrfndf
+     * implfmfntbtion for Midrosoft Windows.
      *
-     * @return    this file dialog's filename filter
-     * @see       java.io.FilenameFilter
-     * @see       java.awt.FileDialog#setFilenameFilter
+     * @rfturn    tiis filf diblog's filfnbmf filtfr
+     * @sff       jbvb.io.FilfnbmfFiltfr
+     * @sff       jbvb.bwt.FilfDiblog#sftFilfnbmfFiltfr
      */
-    public FilenameFilter getFilenameFilter() {
-        return filter;
+    publid FilfnbmfFiltfr gftFilfnbmfFiltfr() {
+        rfturn filtfr;
     }
 
     /**
-     * Sets the filename filter for this file dialog window to the
-     * specified filter.
-     * Filename filters do not function in Sun's reference
-     * implementation for Microsoft Windows.
+     * Sfts tif filfnbmf filtfr for tiis filf diblog window to tif
+     * spfdififd filtfr.
+     * Filfnbmf filtfrs do not fundtion in Sun's rfffrfndf
+     * implfmfntbtion for Midrosoft Windows.
      *
-     * @param   filter   the specified filter
-     * @see     java.io.FilenameFilter
-     * @see     java.awt.FileDialog#getFilenameFilter
+     * @pbrbm   filtfr   tif spfdififd filtfr
+     * @sff     jbvb.io.FilfnbmfFiltfr
+     * @sff     jbvb.bwt.FilfDiblog#gftFilfnbmfFiltfr
      */
-    public synchronized void setFilenameFilter(FilenameFilter filter) {
-        this.filter = filter;
-        FileDialogPeer peer = (FileDialogPeer)this.peer;
-        if (peer != null) {
-            peer.setFilenameFilter(filter);
+    publid syndironizfd void sftFilfnbmfFiltfr(FilfnbmfFiltfr filtfr) {
+        tiis.filtfr = filtfr;
+        FilfDiblogPffr pffr = (FilfDiblogPffr)tiis.pffr;
+        if (pffr != null) {
+            pffr.sftFilfnbmfFiltfr(filtfr);
         }
     }
 
     /**
-     * Reads the <code>ObjectInputStream</code> and performs
-     * a backwards compatibility check by converting
-     * either a <code>dir</code> or a <code>file</code>
-     * equal to an empty string to <code>null</code>.
+     * Rfbds tif <dodf>ObjfdtInputStrfbm</dodf> bnd pfrforms
+     * b bbdkwbrds dompbtibility difdk by donvfrting
+     * fitifr b <dodf>dir</dodf> or b <dodf>filf</dodf>
+     * fqubl to bn fmpty string to <dodf>null</dodf>.
      *
-     * @param s the <code>ObjectInputStream</code> to read
+     * @pbrbm s tif <dodf>ObjfdtInputStrfbm</dodf> to rfbd
      */
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        tirows ClbssNotFoundExdfption, IOExdfption
     {
-        s.defaultReadObject();
+        s.dffbultRfbdObjfdt();
 
-        // 1.1 Compatibility: "" is not converted to null in 1.1
-        if (dir != null && dir.equals("")) {
+        // 1.1 Compbtibility: "" is not donvfrtfd to null in 1.1
+        if (dir != null && dir.fqubls("")) {
             dir = null;
         }
-        if (file != null && file.equals("")) {
-            file = null;
+        if (filf != null && filf.fqubls("")) {
+            filf = null;
         }
     }
 
     /**
-     * Returns a string representing the state of this <code>FileDialog</code>
-     * window. This method is intended to be used only for debugging purposes,
-     * and the content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not be
-     * <code>null</code>.
+     * Rfturns b string rfprfsfnting tif stbtf of tiis <dodf>FilfDiblog</dodf>
+     * window. Tiis mftiod is intfndfd to bf usfd only for dfbugging purposfs,
+     * bnd tif dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not bf
+     * <dodf>null</dodf>.
      *
-     * @return  the parameter string of this file dialog window
+     * @rfturn  tif pbrbmftfr string of tiis filf diblog window
      */
-    protected String paramString() {
-        String str = super.paramString();
+    protfdtfd String pbrbmString() {
+        String str = supfr.pbrbmString();
         str += ",dir= " + dir;
-        str += ",file= " + file;
-        return str + ((mode == LOAD) ? ",load" : ",save");
+        str += ",filf= " + filf;
+        rfturn str + ((modf == LOAD) ? ",lobd" : ",sbvf");
     }
 
-    boolean postsOldMouseEvents() {
-        return false;
+    boolfbn postsOldMousfEvfnts() {
+        rfturn fblsf;
     }
 }

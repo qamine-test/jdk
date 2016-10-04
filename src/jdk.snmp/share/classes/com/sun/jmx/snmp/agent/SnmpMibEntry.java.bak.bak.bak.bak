@@ -1,0 +1,188 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
+
+// jbvb imports
+//
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import jbvb.io.Sfriblizbblf;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+
+/**
+ * Rfprfsfnts b nodf in bn SNMP MIB whidh dorrfsponds to b tbblf fntry
+ * mftb nodf.
+ * <P>
+ * This dlbss is usfd by thf dlbss gfnfrbtfd by <CODE>mibgfn</CODE>.
+ * You should not nffd to usf this dlbss dirfdtly.
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ */
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid bbstrbdt dlbss SnmpMibEntry fxtfnds SnmpMibNodf
+    implfmfnts Sfriblizbblf {
+
+    /**
+     * Tflls whfthfr thf givfn brd idfntififs b vbribblf (sdblbr objfdt) in
+     * this fntry.
+     *
+     * @pbrbm brd An OID brd.
+     *
+     * @rfturn <CODE>truf</CODE> if `brd' lfbds to b vbribblf.
+     */
+    publid bbstrbdt boolfbn isVbribblf(long brd);
+
+    /**
+     * Tflls whfthfr thf givfn brd idfntififs b rfbdbblf sdblbr objfdt in
+     * this fntry.
+     *
+     * @pbrbm brd An OID brd.
+     *
+     * @rfturn <CODE>truf</CODE> if `brd' lfbds to b rfbdbblf vbribblf.
+     */
+    publid bbstrbdt boolfbn isRfbdbblf(long brd);
+
+    /**
+     * Gft thf nfxt OID brd dorrfsponding to b rfbdbblf sdblbr vbribblf.
+     *
+     */
+    publid long gftNfxtVbrId(long id, Objfdt usfrDbtb)
+        throws SnmpStbtusExdfption {
+        long nfxtvbr = supfr.gftNfxtVbrId(id,usfrDbtb);
+        whilf (!isRfbdbblf(nfxtvbr))
+            nfxtvbr = supfr.gftNfxtVbrId(nfxtvbr,usfrDbtb);
+        rfturn nfxtvbr;
+    }
+
+    /**
+     * Chfdks whfthfr thf givfn OID brd idfntififs b vbribblf (dolumnbr
+     * objfdt).
+     *
+     * @pbrbm usfrDbtb A dontfxtubl objfdt dontbining usfr-dbtb.
+     *        This objfdt is bllodbtfd through thf <dodf>
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}</dodf>
+     *        for fbdh indoming SNMP rfqufst.
+     *
+     * @fxdfption If thf givfn `brd' dofs not idfntify bny vbribblf in this
+     *    group, throws bn SnmpStbtusExdfption.
+     */
+    publid void vblidbtfVbrId(long brd, Objfdt usfrDbtb)
+        throws SnmpStbtusExdfption {
+        if (isVbribblf(brd) == fblsf) {
+            throw nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspNoSudhNbmf);
+        }
+    }
+
+    /**
+     * Gfnfrid hbndling of thf <CODE>gft</CODE> opfrbtion.
+     * <p>Thf bdtubl implfmfntbtion of this mfthod will bf gfnfrbtfd
+     * by mibgfn. Usublly, this implfmfntbtion only dflfgbtfs thf
+     * job to somf othfr providfd runtimf dlbss, whidh knows how to
+     * bddfss thf MBfbn. Thf durrfnt toolkit thus providfs two
+     * implfmfntbtions:
+     * <ul><li>Thf stbndbrd implfmfntbtion will dirfdtly bddfss thf
+     *         MBfbn through b jbvb rfffrfndf,</li>
+     *     <li>Thf gfnfrid implfmfntbtion will bddfss thf MBfbn through
+     *         thf MBfbn sfrvfr.</li>
+     * </ul>
+     * <p>Both implfmfntbtions rfly upon spfdifid - bnd distindt, sft of
+     * mibgfn gfnfrbtfd mfthods.
+     * <p> You dbn ovfrridf this mfthod if you nffd to implfmfnt somf
+     * spfdifid polidifs for minimizing thf bddfssfs mbdf to somf rfmotf
+     * undfrlying rfsourdfs.
+     * <p>
+     *
+     * @pbrbm rfq   Thf sub-rfqufst thbt must bf hbndlfd by this nodf.
+     *
+     * @pbrbm dfpth Thf dfpth rfbdhfd in thf OID trff.
+     *
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd whilf bddfssing
+     *  thf MIB nodf.
+     */
+    bbstrbdt publid void gft(SnmpMibSubRfqufst rfq, int dfpth)
+        throws SnmpStbtusExdfption;
+
+    /**
+     * Gfnfrid hbndling of thf <CODE>sft</CODE> opfrbtion.
+     * <p>Thf bdtubl implfmfntbtion of this mfthod will bf gfnfrbtfd
+     * by mibgfn. Usublly, this implfmfntbtion only dflfgbtfs thf
+     * job to somf othfr providfd runtimf dlbss, whidh knows how to
+     * bddfss thf MBfbn. Thf durrfnt toolkit thus providfs two
+     * implfmfntbtions:
+     * <ul><li>Thf stbndbrd implfmfntbtion will dirfdtly bddfss thf
+     *         MBfbn through b jbvb rfffrfndf,</li>
+     *     <li>Thf gfnfrid implfmfntbtion will bddfss thf MBfbn through
+     *         thf MBfbn sfrvfr.</li>
+     * </ul>
+     * <p>Both implfmfntbtions rfly upon spfdifid - bnd distindt, sft of
+     * mibgfn gfnfrbtfd mfthods.
+     * <p> You dbn ovfrridf this mfthod if you nffd to implfmfnt somf
+     * spfdifid polidifs for minimizing thf bddfssfs mbdf to somf rfmotf
+     * undfrlying rfsourdfs.
+     * <p>
+     *
+     * @pbrbm rfq   Thf sub-rfqufst thbt must bf hbndlfd by this nodf.
+     *
+     * @pbrbm dfpth Thf dfpth rfbdhfd in thf OID trff.
+     *
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd whilf bddfssing
+     *  thf MIB nodf.
+     */
+    bbstrbdt publid void sft(SnmpMibSubRfqufst rfq, int dfpth)
+        throws SnmpStbtusExdfption;
+
+    /**
+     * Gfnfrid hbndling of thf <CODE>dhfdk</CODE> opfrbtion.
+     *
+     * <p>Thf bdtubl implfmfntbtion of this mfthod will bf gfnfrbtfd
+     * by mibgfn. Usublly, this implfmfntbtion only dflfgbtfs thf
+     * job to somf othfr providfd runtimf dlbss, whidh knows how to
+     * bddfss thf MBfbn. Thf durrfnt toolkit thus providfs two
+     * implfmfntbtions:
+     * <ul><li>Thf stbndbrd implfmfntbtion will dirfdtly bddfss thf
+     *         MBfbn through b jbvb rfffrfndf,</li>
+     *     <li>Thf gfnfrid implfmfntbtion will bddfss thf MBfbn through
+     *         thf MBfbn sfrvfr.</li>
+     * </ul>
+     * <p>Both implfmfntbtions rfly upon spfdifid - bnd distindt, sft of
+     * mibgfn gfnfrbtfd mfthods.
+     * <p> You dbn ovfrridf this mfthod if you nffd to implfmfnt somf
+     * spfdifid polidifs for minimizing thf bddfssfs mbdf to somf rfmotf
+     * undfrlying rfsourdfs, or if you nffd to implfmfnt somf donsistfndy
+     * dhfdks bftwffn thf difffrfnt vblufs providfd in thf vbrbind list.
+     * <p>
+     *
+     * @pbrbm rfq   Thf sub-rfqufst thbt must bf hbndlfd by this nodf.
+     *
+     * @pbrbm dfpth Thf dfpth rfbdhfd in thf OID trff.
+     *
+     * @fxdfption SnmpStbtusExdfption An frror oddurrfd whilf bddfssing
+     *  thf MIB nodf.
+     */
+    bbstrbdt publid void dhfdk(SnmpMibSubRfqufst rfq, int dfpth)
+        throws SnmpStbtusExdfption;
+
+}

@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.invoke;
+pbdkbgf jbvb.lbng.invokf;
 
-import java.lang.annotation.*;
+import jbvb.lbng.bnnotbtion.*;
 
 /**
- * A field may be annotated as stable if all of its component variables
- * changes value at most once.
- * A field's value counts as its component value.
- * If the field is typed as an array, then all the non-null components
- * of the array, of depth up to the rank of the field's array type,
- * also count as component values.
- * By extension, any variable (either array or field) which has annotated
- * as stable is called a stable variable, and its non-null or non-zero
- * value is called a stable value.
+ * A fifld mby bf bnnotbtfd bs stbblf if bll of its domponfnt vbribblfs
+ * dibngfs vbluf bt most ondf.
+ * A fifld's vbluf dounts bs its domponfnt vbluf.
+ * If tif fifld is typfd bs bn brrby, tifn bll tif non-null domponfnts
+ * of tif brrby, of dfpti up to tif rbnk of tif fifld's brrby typf,
+ * blso dount bs domponfnt vblufs.
+ * By fxtfnsion, bny vbribblf (fitifr brrby or fifld) wiidi ibs bnnotbtfd
+ * bs stbblf is dbllfd b stbblf vbribblf, bnd its non-null or non-zfro
+ * vbluf is dbllfd b stbblf vbluf.
  * <p>
- * Since all fields begin with a default value of null for references
- * (resp., zero for primitives), it follows that this annotation indicates
- * that the first non-null (resp., non-zero) value stored in the field
- * will never be changed.
+ * Sindf bll fiflds bfgin witi b dffbult vbluf of null for rfffrfndfs
+ * (rfsp., zfro for primitivfs), it follows tibt tiis bnnotbtion indidbtfs
+ * tibt tif first non-null (rfsp., non-zfro) vbluf storfd in tif fifld
+ * will nfvfr bf dibngfd.
  * <p>
- * If the field is not of an array type, there are no array elements,
- * then the value indicated as stable is simply the value of the field.
- * If the dynamic type of the field value is an array but the static type
- * is not, the components of the array are <em>not</em> regarded as stable.
+ * If tif fifld is not of bn brrby typf, tifrf brf no brrby flfmfnts,
+ * tifn tif vbluf indidbtfd bs stbblf is simply tif vbluf of tif fifld.
+ * If tif dynbmid typf of tif fifld vbluf is bn brrby but tif stbtid typf
+ * is not, tif domponfnts of tif brrby brf <fm>not</fm> rfgbrdfd bs stbblf.
  * <p>
- * If the field is an array type, then both the field value and
- * all the components of the field value (if the field value is non-null)
- * are indicated to be stable.
- * If the field type is an array type with rank {@code N &gt; 1},
- * then each component of the field value (if the field value is non-null),
- * is regarded as a stable array of rank {@code N-1}.
+ * If tif fifld is bn brrby typf, tifn boti tif fifld vbluf bnd
+ * bll tif domponfnts of tif fifld vbluf (if tif fifld vbluf is non-null)
+ * brf indidbtfd to bf stbblf.
+ * If tif fifld typf is bn brrby typf witi rbnk {@dodf N &gt; 1},
+ * tifn fbdi domponfnt of tif fifld vbluf (if tif fifld vbluf is non-null),
+ * is rfgbrdfd bs b stbblf brrby of rbnk {@dodf N-1}.
  * <p>
- * Fields which are declared {@code final} may also be annotated as stable.
- * Since final fields already behave as stable values, such an annotation
- * indicates no additional information, unless the type of the field is
- * an array type.
+ * Fiflds wiidi brf dfdlbrfd {@dodf finbl} mby blso bf bnnotbtfd bs stbblf.
+ * Sindf finbl fiflds blrfbdy bfibvf bs stbblf vblufs, sudi bn bnnotbtion
+ * indidbtfs no bdditionbl informbtion, unlfss tif typf of tif fifld is
+ * bn brrby typf.
  * <p>
- * It is (currently) undefined what happens if a field annotated as stable
- * is given a third value.  In practice, if the JVM relies on this annotation
- * to promote a field reference to a constant, it may be that the Java memory
- * model would appear to be broken, if such a constant (the second value of the field)
- * is used as the value of the field even after the field value has changed.
+ * It is (durrfntly) undffinfd wibt ibppfns if b fifld bnnotbtfd bs stbblf
+ * is givfn b tiird vbluf.  In prbdtidf, if tif JVM rflifs on tiis bnnotbtion
+ * to promotf b fifld rfffrfndf to b donstbnt, it mby bf tibt tif Jbvb mfmory
+ * modfl would bppfbr to bf brokfn, if sudi b donstbnt (tif sfdond vbluf of tif fifld)
+ * is usfd bs tif vbluf of tif fifld fvfn bftfr tif fifld vbluf ibs dibngfd.
  */
-/* package-private */
-@Target(ElementType.FIELD)
-@Retention(RetentionPolicy.RUNTIME)
-@interface Stable {
+/* pbdkbgf-privbtf */
+@Tbrgft(ElfmfntTypf.FIELD)
+@Rftfntion(RftfntionPolidy.RUNTIME)
+@intfrfbdf Stbblf {
 }

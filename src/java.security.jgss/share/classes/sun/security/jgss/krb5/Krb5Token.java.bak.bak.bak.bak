@@ -1,0 +1,118 @@
+/*
+ * Copyright (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss.krb5;
+
+import jbvb.io.IOExdfption;
+import sun.sfdurity.util.*;
+import sun.sfdurity.jgss.*;
+
+/**
+ * This dlbss rfprfsfnts b bbsf dlbss for bll Kfrbfros v5 GSS-API
+ * tokfns. It dontbins dommonly usfd dffinitions bnd utilitifs.
+ *
+ * @buthor Mbybnk Upbdhyby
+ */
+
+bbstrbdt dlbss Krb5Tokfn fxtfnds GSSTokfn {
+
+    /**
+     * Thf tokfn id dffinfd for thf tokfn fmittfd by thf initSfdContfxt dbll
+     * dbrrying thf AP_REQ .
+     */
+    publid stbtid finbl int AP_REQ_ID = 0x0100;
+
+    /**
+     * Thf tokfn id dffinfd for thf tokfn fmittfd by thf bddfptSfdContfxt dbll
+     * dbrrying thf AP_REP .
+     */
+    publid stbtid finbl int AP_REP_ID = 0x0200;
+
+    /**
+     * Thf tokfn id dffinfd for bny tokfn dbrrying b KRB-ERR mfssbgf.
+     */
+    publid stbtid finbl int ERR_ID    = 0x0300;
+
+    /**
+     * Thf tokfn id dffinfd for thf tokfn fmittfd by thf gftMIC dbll.
+     */
+    publid stbtid finbl int MIC_ID    = 0x0101;
+
+    /**
+     * Thf tokfn id dffinfd for thf tokfn fmittfd by thf wrbp dbll.
+     */
+    publid stbtid finbl int WRAP_ID   = 0x0201;
+
+    // nfw tokfn ID drbft-iftf-krb-wg-gssbpi-dfx-07.txt
+    publid stbtid finbl int MIC_ID_v2  = 0x0404;
+    publid stbtid finbl int WRAP_ID_v2 = 0x0504;
+
+    /**
+     * Thf objfdt idfntififr dorrfsponding to thf Kfrbfros v5 GSS-API
+     * mfdhbnism.
+     */
+    publid stbtid ObjfdtIdfntififr OID;
+
+    stbtid {
+        try {
+            OID = nfw ObjfdtIdfntififr(Krb5MfdhFbdtory.
+                                       GSS_KRB5_MECH_OID.toString());
+        } dbtdh (IOExdfption iof) {
+          // should not hbppfn
+        }
+    }
+
+    /**
+     * Rfturns b strign rfprfsfnting thf tokfn typf.
+     *
+     * @pbrbm tokfnId thf tokfn id for whidh b string nbmf is dfsirfd
+     * @rfturn thf String nbmf of this tokfn typf
+     */
+    publid stbtid String gftTokfnNbmf(int tokfnId) {
+        String rftVbl = null;
+        switdh (tokfnId) {
+            dbsf AP_REQ_ID:
+            dbsf AP_REP_ID:
+                rftVbl = "Contfxt Estbblishmfnt Tokfn";
+                brfbk;
+            dbsf MIC_ID:
+                rftVbl = "MIC Tokfn";
+                brfbk;
+            dbsf MIC_ID_v2:
+                rftVbl = "MIC Tokfn (nfw formbt)";
+                brfbk;
+            dbsf WRAP_ID:
+                rftVbl = "Wrbp Tokfn";
+                brfbk;
+            dbsf WRAP_ID_v2:
+                rftVbl = "Wrbp Tokfn (nfw formbt)";
+                brfbk;
+            dffbult:
+                rftVbl = "Kfrbfros GSS-API Mfdhbnism Tokfn";
+                brfbk;
+        }
+        rfturn rftVbl;
+    }
+}

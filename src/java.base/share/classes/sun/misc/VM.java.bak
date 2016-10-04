@@ -1,409 +1,409 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.misc;
+pbdkbgf sun.misd;
 
-import static java.lang.Thread.State.*;
-import java.util.Properties;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import stbtid jbvb.lbng.Tirfbd.Stbtf.*;
+import jbvb.util.Propfrtifs;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
 
-public class VM {
+publid dlbss VM {
 
-    /* The following methods used to be native methods that instruct
-     * the VM to selectively suspend certain threads in low-memory
-     * situations. They are inherently dangerous and not implementable
-     * on native threads. We removed them in JDK 1.2. The skeletons
-     * remain so that existing applications that use these methods
+    /* Tif following mftiods usfd to bf nbtivf mftiods tibt instrudt
+     * tif VM to sflfdtivfly suspfnd dfrtbin tirfbds in low-mfmory
+     * situbtions. Tify brf inifrfntly dbngfrous bnd not implfmfntbblf
+     * on nbtivf tirfbds. Wf rfmovfd tifm in JDK 1.2. Tif skflftons
+     * rfmbin so tibt fxisting bpplidbtions tibt usf tifsf mftiods
      * will still work.
      */
-    private static boolean suspended = false;
+    privbtf stbtid boolfbn suspfndfd = fblsf;
 
-    /** @deprecated */
-    @Deprecated
-    public static boolean threadsSuspended() {
-        return suspended;
+    /** @dfprfdbtfd */
+    @Dfprfdbtfd
+    publid stbtid boolfbn tirfbdsSuspfndfd() {
+        rfturn suspfndfd;
     }
 
-    @SuppressWarnings("deprecation")
-    public static boolean allowThreadSuspension(ThreadGroup g, boolean b) {
-        return g.allowThreadSuspension(b);
+    @SupprfssWbrnings("dfprfdbtion")
+    publid stbtid boolfbn bllowTirfbdSuspfnsion(TirfbdGroup g, boolfbn b) {
+        rfturn g.bllowTirfbdSuspfnsion(b);
     }
 
-    /** @deprecated */
-    @Deprecated
-    public static boolean suspendThreads() {
-        suspended = true;
-        return true;
+    /** @dfprfdbtfd */
+    @Dfprfdbtfd
+    publid stbtid boolfbn suspfndTirfbds() {
+        suspfndfd = truf;
+        rfturn truf;
     }
 
-    // Causes any suspended threadgroups to be resumed.
-    /** @deprecated */
-    @Deprecated
-    public static void unsuspendThreads() {
-        suspended = false;
+    // Cbusfs bny suspfndfd tirfbdgroups to bf rfsumfd.
+    /** @dfprfdbtfd */
+    @Dfprfdbtfd
+    publid stbtid void unsuspfndTirfbds() {
+        suspfndfd = fblsf;
     }
 
-    // Causes threadgroups no longer marked suspendable to be resumed.
-    /** @deprecated */
-    @Deprecated
-    public static void unsuspendSomeThreads() {
+    // Cbusfs tirfbdgroups no longfr mbrkfd suspfndbblf to bf rfsumfd.
+    /** @dfprfdbtfd */
+    @Dfprfdbtfd
+    publid stbtid void unsuspfndSomfTirfbds() {
     }
 
-    /* Deprecated fields and methods -- Memory advice not supported in 1.2 */
+    /* Dfprfdbtfd fiflds bnd mftiods -- Mfmory bdvidf not supportfd in 1.2 */
 
-    /** @deprecated */
-    @Deprecated
-    public static final int STATE_GREEN = 1;
+    /** @dfprfdbtfd */
+    @Dfprfdbtfd
+    publid stbtid finbl int STATE_GREEN = 1;
 
-    /** @deprecated */
-    @Deprecated
-    public static final int STATE_YELLOW = 2;
+    /** @dfprfdbtfd */
+    @Dfprfdbtfd
+    publid stbtid finbl int STATE_YELLOW = 2;
 
-    /** @deprecated */
-    @Deprecated
-    public static final int STATE_RED = 3;
+    /** @dfprfdbtfd */
+    @Dfprfdbtfd
+    publid stbtid finbl int STATE_RED = 3;
 
-    /** @deprecated */
-    @Deprecated
-    public static final int getState() {
-        return STATE_GREEN;
+    /** @dfprfdbtfd */
+    @Dfprfdbtfd
+    publid stbtid finbl int gftStbtf() {
+        rfturn STATE_GREEN;
     }
 
-    /** @deprecated */
-    @Deprecated
-    public static void registerVMNotification(VMNotification n) { }
+    /** @dfprfdbtfd */
+    @Dfprfdbtfd
+    publid stbtid void rfgistfrVMNotifidbtion(VMNotifidbtion n) { }
 
-    /** @deprecated */
-    @Deprecated
-    public static void asChange(int as_old, int as_new) { }
+    /** @dfprfdbtfd */
+    @Dfprfdbtfd
+    publid stbtid void bsCibngf(int bs_old, int bs_nfw) { }
 
-    /** @deprecated */
-    @Deprecated
-    public static void asChange_otherthread(int as_old, int as_new) { }
+    /** @dfprfdbtfd */
+    @Dfprfdbtfd
+    publid stbtid void bsCibngf_otifrtirfbd(int bs_old, int bs_nfw) { }
 
     /*
-     * Not supported in 1.2 because these will have to be exported as
-     * JVM functions, and we are not sure we want do that. Leaving
-     * here so it can be easily resurrected -- just remove the //
-     * comments.
+     * Not supportfd in 1.2 bfdbusf tifsf will ibvf to bf fxportfd bs
+     * JVM fundtions, bnd wf brf not surf wf wbnt do tibt. Lfbving
+     * ifrf so it dbn bf fbsily rfsurrfdtfd -- just rfmovf tif //
+     * dommfnts.
      */
 
     /**
-     * Resume Java profiling.  All profiling data is added to any
-     * earlier profiling, unless <code>resetJavaProfiler</code> is
-     * called in between.  If profiling was not started from the
-     * command line, <code>resumeJavaProfiler</code> will start it.
+     * Rfsumf Jbvb profiling.  All profiling dbtb is bddfd to bny
+     * fbrlifr profiling, unlfss <dodf>rfsftJbvbProfilfr</dodf> is
+     * dbllfd in bftwffn.  If profiling wbs not stbrtfd from tif
+     * dommbnd linf, <dodf>rfsumfJbvbProfilfr</dodf> will stbrt it.
      * <p>
      *
-     * NOTE: Profiling must be enabled from the command line for a
-     * java.prof report to be automatically generated on exit; if not,
-     * writeJavaProfilerReport must be invoked to write a report.
+     * NOTE: Profiling must bf fnbblfd from tif dommbnd linf for b
+     * jbvb.prof rfport to bf butombtidblly gfnfrbtfd on fxit; if not,
+     * writfJbvbProfilfrRfport must bf invokfd to writf b rfport.
      *
-     * @see     resetJavaProfiler
-     * @see     writeJavaProfilerReport
+     * @sff     rfsftJbvbProfilfr
+     * @sff     writfJbvbProfilfrRfport
      */
 
-    // public native static void resumeJavaProfiler();
+    // publid nbtivf stbtid void rfsumfJbvbProfilfr();
 
     /**
-     * Suspend Java profiling.
+     * Suspfnd Jbvb profiling.
      */
-    // public native static void suspendJavaProfiler();
+    // publid nbtivf stbtid void suspfndJbvbProfilfr();
 
     /**
-     * Initialize Java profiling.  Any accumulated profiling
-     * information is discarded.
+     * Initiblizf Jbvb profiling.  Any bddumulbtfd profiling
+     * informbtion is disdbrdfd.
      */
-    // public native static void resetJavaProfiler();
+    // publid nbtivf stbtid void rfsftJbvbProfilfr();
 
     /**
-     * Write the current profiling contents to the file "java.prof".
-     * If the file already exists, it will be overwritten.
+     * Writf tif durrfnt profiling dontfnts to tif filf "jbvb.prof".
+     * If tif filf blrfbdy fxists, it will bf ovfrwrittfn.
      */
-    // public native static void writeJavaProfilerReport();
+    // publid nbtivf stbtid void writfJbvbProfilfrRfport();
 
 
-    private static volatile boolean booted = false;
-    private static final Object lock = new Object();
+    privbtf stbtid volbtilf boolfbn bootfd = fblsf;
+    privbtf stbtid finbl Objfdt lodk = nfw Objfdt();
 
-    // Invoked by by System.initializeSystemClass just before returning.
-    // Subsystems that are invoked during initialization can check this
-    // property in order to avoid doing things that should wait until the
-    // application class loader has been set up.
+    // Invokfd by by Systfm.initiblizfSystfmClbss just bfforf rfturning.
+    // Subsystfms tibt brf invokfd during initiblizbtion dbn difdk tiis
+    // propfrty in ordfr to bvoid doing tiings tibt siould wbit until tif
+    // bpplidbtion dlbss lobdfr ibs bffn sft up.
     //
-    public static void booted() {
-        synchronized (lock) {
-            booted = true;
-            lock.notifyAll();
+    publid stbtid void bootfd() {
+        syndironizfd (lodk) {
+            bootfd = truf;
+            lodk.notifyAll();
         }
     }
 
-    public static boolean isBooted() {
-        return booted;
+    publid stbtid boolfbn isBootfd() {
+        rfturn bootfd;
     }
 
-    // Waits until VM completes initialization
+    // Wbits until VM domplftfs initiblizbtion
     //
-    // This method is invoked by the Finalizer thread
-    public static void awaitBooted() throws InterruptedException {
-        synchronized (lock) {
-            while (!booted) {
-                lock.wait();
+    // Tiis mftiod is invokfd by tif Finblizfr tirfbd
+    publid stbtid void bwbitBootfd() tirows IntfrruptfdExdfption {
+        syndironizfd (lodk) {
+            wiilf (!bootfd) {
+                lodk.wbit();
             }
         }
     }
 
-    // A user-settable upper limit on the maximum amount of allocatable direct
-    // buffer memory.  This value may be changed during VM initialization if
-    // "java" is launched with "-XX:MaxDirectMemorySize=<size>".
+    // A usfr-sfttbblf uppfr limit on tif mbximum bmount of bllodbtbblf dirfdt
+    // bufffr mfmory.  Tiis vbluf mby bf dibngfd during VM initiblizbtion if
+    // "jbvb" is lbundifd witi "-XX:MbxDirfdtMfmorySizf=<sizf>".
     //
-    // The initial value of this field is arbitrary; during JRE initialization
-    // it will be reset to the value specified on the command line, if any,
-    // otherwise to Runtime.getRuntime().maxMemory().
+    // Tif initibl vbluf of tiis fifld is brbitrbry; during JRE initiblizbtion
+    // it will bf rfsft to tif vbluf spfdififd on tif dommbnd linf, if bny,
+    // otifrwisf to Runtimf.gftRuntimf().mbxMfmory().
     //
-    private static long directMemory = 64 * 1024 * 1024;
+    privbtf stbtid long dirfdtMfmory = 64 * 1024 * 1024;
 
-    // Returns the maximum amount of allocatable direct buffer memory.
-    // The directMemory variable is initialized during system initialization
-    // in the saveAndRemoveProperties method.
+    // Rfturns tif mbximum bmount of bllodbtbblf dirfdt bufffr mfmory.
+    // Tif dirfdtMfmory vbribblf is initiblizfd during systfm initiblizbtion
+    // in tif sbvfAndRfmovfPropfrtifs mftiod.
     //
-    public static long maxDirectMemory() {
-        return directMemory;
+    publid stbtid long mbxDirfdtMfmory() {
+        rfturn dirfdtMfmory;
     }
 
-    // User-controllable flag that determines if direct buffers should be page
-    // aligned. The "-XX:+PageAlignDirectMemory" option can be used to force
-    // buffers, allocated by ByteBuffer.allocateDirect, to be page aligned.
-    private static boolean pageAlignDirectMemory;
+    // Usfr-dontrollbblf flbg tibt dftfrminfs if dirfdt bufffrs siould bf pbgf
+    // blignfd. Tif "-XX:+PbgfAlignDirfdtMfmory" option dbn bf usfd to fordf
+    // bufffrs, bllodbtfd by BytfBufffr.bllodbtfDirfdt, to bf pbgf blignfd.
+    privbtf stbtid boolfbn pbgfAlignDirfdtMfmory;
 
-    // Returns {@code true} if the direct buffers should be page aligned. This
-    // variable is initialized by saveAndRemoveProperties.
-    public static boolean isDirectMemoryPageAligned() {
-        return pageAlignDirectMemory;
-    }
-
-    /**
-     * Returns true if the given class loader is in the system domain
-     * in which all permissions are granted.
-     */
-    public static boolean isSystemDomainLoader(ClassLoader loader) {
-        return loader == null;
+    // Rfturns {@dodf truf} if tif dirfdt bufffrs siould bf pbgf blignfd. Tiis
+    // vbribblf is initiblizfd by sbvfAndRfmovfPropfrtifs.
+    publid stbtid boolfbn isDirfdtMfmoryPbgfAlignfd() {
+        rfturn pbgfAlignDirfdtMfmory;
     }
 
     /**
-     * Returns the system property of the specified key saved at
-     * system initialization time.  This method should only be used
-     * for the system properties that are not changed during runtime.
-     * It accesses a private copy of the system properties so
-     * that user's locking of the system properties object will not
-     * cause the library to deadlock.
-     *
-     * Note that the saved system properties do not include
-     * the ones set by sun.misc.Version.init().
-     *
+     * Rfturns truf if tif givfn dlbss lobdfr is in tif systfm dombin
+     * in wiidi bll pfrmissions brf grbntfd.
      */
-    public static String getSavedProperty(String key) {
-        if (savedProps.isEmpty())
-            throw new IllegalStateException("Should be non-empty if initialized");
-
-        return savedProps.getProperty(key);
+    publid stbtid boolfbn isSystfmDombinLobdfr(ClbssLobdfr lobdfr) {
+        rfturn lobdfr == null;
     }
 
-    // TODO: the Property Management needs to be refactored and
-    // the appropriate prop keys need to be accessible to the
-    // calling classes to avoid duplication of keys.
-    private static final Properties savedProps = new Properties();
+    /**
+     * Rfturns tif systfm propfrty of tif spfdififd kfy sbvfd bt
+     * systfm initiblizbtion timf.  Tiis mftiod siould only bf usfd
+     * for tif systfm propfrtifs tibt brf not dibngfd during runtimf.
+     * It bddfssfs b privbtf dopy of tif systfm propfrtifs so
+     * tibt usfr's lodking of tif systfm propfrtifs objfdt will not
+     * dbusf tif librbry to dfbdlodk.
+     *
+     * Notf tibt tif sbvfd systfm propfrtifs do not indludf
+     * tif onfs sft by sun.misd.Vfrsion.init().
+     *
+     */
+    publid stbtid String gftSbvfdPropfrty(String kfy) {
+        if (sbvfdProps.isEmpty())
+            tirow nfw IllfgblStbtfExdfption("Siould bf non-fmpty if initiblizfd");
 
-    // Save a private copy of the system properties and remove
-    // the system properties that are not intended for public access.
+        rfturn sbvfdProps.gftPropfrty(kfy);
+    }
+
+    // TODO: tif Propfrty Mbnbgfmfnt nffds to bf rffbdtorfd bnd
+    // tif bppropribtf prop kfys nffd to bf bddfssiblf to tif
+    // dblling dlbssfs to bvoid duplidbtion of kfys.
+    privbtf stbtid finbl Propfrtifs sbvfdProps = nfw Propfrtifs();
+
+    // Sbvf b privbtf dopy of tif systfm propfrtifs bnd rfmovf
+    // tif systfm propfrtifs tibt brf not intfndfd for publid bddfss.
     //
-    // This method can only be invoked during system initialization.
-    public static void saveAndRemoveProperties(Properties props) {
-        if (booted)
-            throw new IllegalStateException("System initialization has completed");
+    // Tiis mftiod dbn only bf invokfd during systfm initiblizbtion.
+    publid stbtid void sbvfAndRfmovfPropfrtifs(Propfrtifs props) {
+        if (bootfd)
+            tirow nfw IllfgblStbtfExdfption("Systfm initiblizbtion ibs domplftfd");
 
-        savedProps.putAll(props);
+        sbvfdProps.putAll(props);
 
-        // Set the maximum amount of direct memory.  This value is controlled
-        // by the vm option -XX:MaxDirectMemorySize=<size>.
-        // The maximum amount of allocatable direct buffer memory (in bytes)
-        // from the system property sun.nio.MaxDirectMemorySize set by the VM.
-        // The system property will be removed.
-        String s = (String)props.remove("sun.nio.MaxDirectMemorySize");
+        // Sft tif mbximum bmount of dirfdt mfmory.  Tiis vbluf is dontrollfd
+        // by tif vm option -XX:MbxDirfdtMfmorySizf=<sizf>.
+        // Tif mbximum bmount of bllodbtbblf dirfdt bufffr mfmory (in bytfs)
+        // from tif systfm propfrty sun.nio.MbxDirfdtMfmorySizf sft by tif VM.
+        // Tif systfm propfrty will bf rfmovfd.
+        String s = (String)props.rfmovf("sun.nio.MbxDirfdtMfmorySizf");
         if (s != null) {
-            if (s.equals("-1")) {
-                // -XX:MaxDirectMemorySize not given, take default
-                directMemory = Runtime.getRuntime().maxMemory();
-            } else {
-                long l = Long.parseLong(s);
+            if (s.fqubls("-1")) {
+                // -XX:MbxDirfdtMfmorySizf not givfn, tbkf dffbult
+                dirfdtMfmory = Runtimf.gftRuntimf().mbxMfmory();
+            } flsf {
+                long l = Long.pbrsfLong(s);
                 if (l > -1)
-                    directMemory = l;
+                    dirfdtMfmory = l;
             }
         }
 
-        // Check if direct buffers should be page aligned
-        s = (String)props.remove("sun.nio.PageAlignDirectMemory");
-        if ("true".equals(s))
-            pageAlignDirectMemory = true;
+        // Cifdk if dirfdt bufffrs siould bf pbgf blignfd
+        s = (String)props.rfmovf("sun.nio.PbgfAlignDirfdtMfmory");
+        if ("truf".fqubls(s))
+            pbgfAlignDirfdtMfmory = truf;
 
-        // Remove other private system properties
-        // used by java.lang.Integer.IntegerCache
-        props.remove("java.lang.Integer.IntegerCache.high");
+        // Rfmovf otifr privbtf systfm propfrtifs
+        // usfd by jbvb.lbng.Intfgfr.IntfgfrCbdif
+        props.rfmovf("jbvb.lbng.Intfgfr.IntfgfrCbdif.iigi");
 
-        // used by java.util.zip.ZipFile
-        props.remove("sun.zip.disableMemoryMapping");
+        // usfd by jbvb.util.zip.ZipFilf
+        props.rfmovf("sun.zip.disbblfMfmoryMbpping");
 
-        // used by sun.launcher.LauncherHelper
-        props.remove("sun.java.launcher.diag");
+        // usfd by sun.lbundifr.LbundifrHflpfr
+        props.rfmovf("sun.jbvb.lbundifr.dibg");
     }
 
-    // Initialize any miscellenous operating system settings that need to be
-    // set for the class libraries.
+    // Initiblizf bny misdfllfnous opfrbting systfm sfttings tibt nffd to bf
+    // sft for tif dlbss librbrifs.
     //
-    public static void initializeOSEnvironment() {
-        if (!booted) {
-            OSEnvironment.initialize();
+    publid stbtid void initiblizfOSEnvironmfnt() {
+        if (!bootfd) {
+            OSEnvironmfnt.initiblizf();
         }
     }
 
-    /* Current count of objects pending for finalization */
-    private static volatile int finalRefCount = 0;
+    /* Currfnt dount of objfdts pfnding for finblizbtion */
+    privbtf stbtid volbtilf int finblRffCount = 0;
 
-    /* Peak count of objects pending for finalization */
-    private static volatile int peakFinalRefCount = 0;
+    /* Pfbk dount of objfdts pfnding for finblizbtion */
+    privbtf stbtid volbtilf int pfbkFinblRffCount = 0;
 
     /*
-     * Gets the number of objects pending for finalization.
+     * Gfts tif numbfr of objfdts pfnding for finblizbtion.
      *
-     * @return the number of objects pending for finalization.
+     * @rfturn tif numbfr of objfdts pfnding for finblizbtion.
      */
-    public static int getFinalRefCount() {
-        return finalRefCount;
+    publid stbtid int gftFinblRffCount() {
+        rfturn finblRffCount;
     }
 
     /*
-     * Gets the peak number of objects pending for finalization.
+     * Gfts tif pfbk numbfr of objfdts pfnding for finblizbtion.
      *
-     * @return the peak number of objects pending for finalization.
+     * @rfturn tif pfbk numbfr of objfdts pfnding for finblizbtion.
      */
-    public static int getPeakFinalRefCount() {
-        return peakFinalRefCount;
+    publid stbtid int gftPfbkFinblRffCount() {
+        rfturn pfbkFinblRffCount;
     }
 
     /*
-     * Add <tt>n</tt> to the objects pending for finalization count.
+     * Add <tt>n</tt> to tif objfdts pfnding for finblizbtion dount.
      *
-     * @param n an integer value to be added to the objects pending
-     * for finalization count
+     * @pbrbm n bn intfgfr vbluf to bf bddfd to tif objfdts pfnding
+     * for finblizbtion dount
      */
-    public static void addFinalRefCount(int n) {
-        // The caller must hold lock to synchronize the update.
+    publid stbtid void bddFinblRffCount(int n) {
+        // Tif dbllfr must iold lodk to syndironizf tif updbtf.
 
-        finalRefCount += n;
-        if (finalRefCount > peakFinalRefCount) {
-            peakFinalRefCount = finalRefCount;
+        finblRffCount += n;
+        if (finblRffCount > pfbkFinblRffCount) {
+            pfbkFinblRffCount = finblRffCount;
         }
     }
 
     /**
-     * Returns Thread.State for the given threadStatus
+     * Rfturns Tirfbd.Stbtf for tif givfn tirfbdStbtus
      */
-    public static Thread.State toThreadState(int threadStatus) {
-        if ((threadStatus & JVMTI_THREAD_STATE_RUNNABLE) != 0) {
-            return RUNNABLE;
-        } else if ((threadStatus & JVMTI_THREAD_STATE_BLOCKED_ON_MONITOR_ENTER) != 0) {
-            return BLOCKED;
-        } else if ((threadStatus & JVMTI_THREAD_STATE_WAITING_INDEFINITELY) != 0) {
-            return WAITING;
-        } else if ((threadStatus & JVMTI_THREAD_STATE_WAITING_WITH_TIMEOUT) != 0) {
-            return TIMED_WAITING;
-        } else if ((threadStatus & JVMTI_THREAD_STATE_TERMINATED) != 0) {
-            return TERMINATED;
-        } else if ((threadStatus & JVMTI_THREAD_STATE_ALIVE) == 0) {
-            return NEW;
-        } else {
-            return RUNNABLE;
+    publid stbtid Tirfbd.Stbtf toTirfbdStbtf(int tirfbdStbtus) {
+        if ((tirfbdStbtus & JVMTI_THREAD_STATE_RUNNABLE) != 0) {
+            rfturn RUNNABLE;
+        } flsf if ((tirfbdStbtus & JVMTI_THREAD_STATE_BLOCKED_ON_MONITOR_ENTER) != 0) {
+            rfturn BLOCKED;
+        } flsf if ((tirfbdStbtus & JVMTI_THREAD_STATE_WAITING_INDEFINITELY) != 0) {
+            rfturn WAITING;
+        } flsf if ((tirfbdStbtus & JVMTI_THREAD_STATE_WAITING_WITH_TIMEOUT) != 0) {
+            rfturn TIMED_WAITING;
+        } flsf if ((tirfbdStbtus & JVMTI_THREAD_STATE_TERMINATED) != 0) {
+            rfturn TERMINATED;
+        } flsf if ((tirfbdStbtus & JVMTI_THREAD_STATE_ALIVE) == 0) {
+            rfturn NEW;
+        } flsf {
+            rfturn RUNNABLE;
         }
     }
 
-    /* The threadStatus field is set by the VM at state transition
-     * in the hotspot implementation. Its value is set according to
-     * the JVM TI specification GetThreadState function.
+    /* Tif tirfbdStbtus fifld is sft by tif VM bt stbtf trbnsition
+     * in tif iotspot implfmfntbtion. Its vbluf is sft bddording to
+     * tif JVM TI spfdifidbtion GftTirfbdStbtf fundtion.
      */
-    private final static int JVMTI_THREAD_STATE_ALIVE = 0x0001;
-    private final static int JVMTI_THREAD_STATE_TERMINATED = 0x0002;
-    private final static int JVMTI_THREAD_STATE_RUNNABLE = 0x0004;
-    private final static int JVMTI_THREAD_STATE_BLOCKED_ON_MONITOR_ENTER = 0x0400;
-    private final static int JVMTI_THREAD_STATE_WAITING_INDEFINITELY = 0x0010;
-    private final static int JVMTI_THREAD_STATE_WAITING_WITH_TIMEOUT = 0x0020;
+    privbtf finbl stbtid int JVMTI_THREAD_STATE_ALIVE = 0x0001;
+    privbtf finbl stbtid int JVMTI_THREAD_STATE_TERMINATED = 0x0002;
+    privbtf finbl stbtid int JVMTI_THREAD_STATE_RUNNABLE = 0x0004;
+    privbtf finbl stbtid int JVMTI_THREAD_STATE_BLOCKED_ON_MONITOR_ENTER = 0x0400;
+    privbtf finbl stbtid int JVMTI_THREAD_STATE_WAITING_INDEFINITELY = 0x0010;
+    privbtf finbl stbtid int JVMTI_THREAD_STATE_WAITING_WITH_TIMEOUT = 0x0020;
 
     /*
-     * Returns the first non-null class loader up the execution stack,
-     * or null if only code from the null class loader is on the stack.
+     * Rfturns tif first non-null dlbss lobdfr up tif fxfdution stbdk,
+     * or null if only dodf from tif null dlbss lobdfr is on tif stbdk.
      */
-    public static native ClassLoader latestUserDefinedLoader();
+    publid stbtid nbtivf ClbssLobdfr lbtfstUsfrDffinfdLobdfr();
 
     /**
-     * Returns {@code true} if we are in a set UID program.
+     * Rfturns {@dodf truf} if wf brf in b sft UID progrbm.
      */
-    public static boolean isSetUID() {
-        long uid = getuid();
-        long euid = geteuid();
-        long gid = getgid();
-        long egid = getegid();
-        return uid != euid  || gid != egid;
+    publid stbtid boolfbn isSftUID() {
+        long uid = gftuid();
+        long fuid = gftfuid();
+        long gid = gftgid();
+        long fgid = gftfgid();
+        rfturn uid != fuid  || gid != fgid;
     }
 
     /**
-     * Returns the real user ID of the calling process,
-     * or -1 if the value is not available.
+     * Rfturns tif rfbl usfr ID of tif dblling prodfss,
+     * or -1 if tif vbluf is not bvbilbblf.
      */
-    public static native long getuid();
+    publid stbtid nbtivf long gftuid();
 
     /**
-     * Returns the effective user ID of the calling process,
-     * or -1 if the value is not available.
+     * Rfturns tif ffffdtivf usfr ID of tif dblling prodfss,
+     * or -1 if tif vbluf is not bvbilbblf.
      */
-    public static native long geteuid();
+    publid stbtid nbtivf long gftfuid();
 
     /**
-     * Returns the real group ID of the calling process,
-     * or -1 if the value is not available.
+     * Rfturns tif rfbl group ID of tif dblling prodfss,
+     * or -1 if tif vbluf is not bvbilbblf.
      */
-    public static native long getgid();
+    publid stbtid nbtivf long gftgid();
 
     /**
-     * Returns the effective group ID of the calling process,
-     * or -1 if the value is not available.
+     * Rfturns tif ffffdtivf group ID of tif dblling prodfss,
+     * or -1 if tif vbluf is not bvbilbblf.
      */
-    public static native long getegid();
+    publid stbtid nbtivf long gftfgid();
 
-    static {
-        initialize();
+    stbtid {
+        initiblizf();
     }
-    private native static void initialize();
+    privbtf nbtivf stbtid void initiblizf();
 }

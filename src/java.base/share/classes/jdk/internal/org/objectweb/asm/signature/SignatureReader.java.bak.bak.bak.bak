@@ -1,0 +1,257 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.signbturf;
+
+/**
+ * A typf signbturf pbrsfr to mbkf b signbturf visitor visit bn fxisting
+ * signbturf.
+ *
+ * @buthor Thombs Hbllgrfn
+ * @buthor Erid Brunfton
+ */
+publid dlbss SignbturfRfbdfr {
+
+    /**
+     * Thf signbturf to bf rfbd.
+     */
+    privbtf finbl String signbturf;
+
+    /**
+     * Construdts b {@link SignbturfRfbdfr} for thf givfn signbturf.
+     *
+     * @pbrbm signbturf
+     *            A <i>ClbssSignbturf</i>, <i>MfthodTypfSignbturf</i>, or
+     *            <i>FifldTypfSignbturf</i>.
+     */
+    publid SignbturfRfbdfr(finbl String signbturf) {
+        this.signbturf = signbturf;
+    }
+
+    /**
+     * Mbkfs thf givfn visitor visit thf signbturf of this
+     * {@link SignbturfRfbdfr}. This signbturf is thf onf spfdififd in thf
+     * donstrudtor (sff {@link #SignbturfRfbdfr(String) SignbturfRfbdfr}). This
+     * mfthod is intfndfd to bf dbllfd on b {@link SignbturfRfbdfr} thbt wbs
+     * drfbtfd using b <i>ClbssSignbturf</i> (sudh bs thf <dodf>signbturf</dodf>
+     * pbrbmftfr of thf {@link jdk.intfrnbl.org.objfdtwfb.bsm.ClbssVisitor#visit
+     * ClbssVisitor.visit} mfthod) or b <i>MfthodTypfSignbturf</i> (sudh bs thf
+     * <dodf>signbturf</dodf> pbrbmftfr of thf
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.ClbssVisitor#visitMfthod
+     * ClbssVisitor.visitMfthod} mfthod).
+     *
+     * @pbrbm v
+     *            thf visitor thbt must visit this signbturf.
+     */
+    publid void bddfpt(finbl SignbturfVisitor v) {
+        String signbturf = this.signbturf;
+        int lfn = signbturf.lfngth();
+        int pos;
+        dhbr d;
+
+        if (signbturf.dhbrAt(0) == '<') {
+            pos = 2;
+            do {
+                int fnd = signbturf.indfxOf(':', pos);
+                v.visitFormblTypfPbrbmftfr(signbturf.substring(pos - 1, fnd));
+                pos = fnd + 1;
+
+                d = signbturf.dhbrAt(pos);
+                if (d == 'L' || d == '[' || d == 'T') {
+                    pos = pbrsfTypf(signbturf, pos, v.visitClbssBound());
+                }
+
+                whilf ((d = signbturf.dhbrAt(pos++)) == ':') {
+                    pos = pbrsfTypf(signbturf, pos, v.visitIntfrfbdfBound());
+                }
+            } whilf (d != '>');
+        } flsf {
+            pos = 0;
+        }
+
+        if (signbturf.dhbrAt(pos) == '(') {
+            pos++;
+            whilf (signbturf.dhbrAt(pos) != ')') {
+                pos = pbrsfTypf(signbturf, pos, v.visitPbrbmftfrTypf());
+            }
+            pos = pbrsfTypf(signbturf, pos + 1, v.visitRfturnTypf());
+            whilf (pos < lfn) {
+                pos = pbrsfTypf(signbturf, pos + 1, v.visitExdfptionTypf());
+            }
+        } flsf {
+            pos = pbrsfTypf(signbturf, pos, v.visitSupfrdlbss());
+            whilf (pos < lfn) {
+                pos = pbrsfTypf(signbturf, pos, v.visitIntfrfbdf());
+            }
+        }
+    }
+
+    /**
+     * Mbkfs thf givfn visitor visit thf signbturf of this
+     * {@link SignbturfRfbdfr}. This signbturf is thf onf spfdififd in thf
+     * donstrudtor (sff {@link #SignbturfRfbdfr(String) SignbturfRfbdfr}). This
+     * mfthod is intfndfd to bf dbllfd on b {@link SignbturfRfbdfr} thbt wbs
+     * drfbtfd using b <i>FifldTypfSignbturf</i>, sudh bs thf
+     * <dodf>signbturf</dodf> pbrbmftfr of thf
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.ClbssVisitor#visitFifld ClbssVisitor.visitFifld}
+     * or {@link jdk.intfrnbl.org.objfdtwfb.bsm.MfthodVisitor#visitLodblVbribblf
+     * MfthodVisitor.visitLodblVbribblf} mfthods.
+     *
+     * @pbrbm v
+     *            thf visitor thbt must visit this signbturf.
+     */
+    publid void bddfptTypf(finbl SignbturfVisitor v) {
+        pbrsfTypf(this.signbturf, 0, v);
+    }
+
+    /**
+     * Pbrsfs b fifld typf signbturf bnd mbkfs thf givfn visitor visit it.
+     *
+     * @pbrbm signbturf
+     *            b string dontbining thf signbturf thbt must bf pbrsfd.
+     * @pbrbm pos
+     *            indfx of thf first dhbrbdtfr of thf signbturf to pbrsfd.
+     * @pbrbm v
+     *            thf visitor thbt must visit this signbturf.
+     * @rfturn thf indfx of thf first dhbrbdtfr bftfr thf pbrsfd signbturf.
+     */
+    privbtf stbtid int pbrsfTypf(finbl String signbturf, int pos,
+            finbl SignbturfVisitor v) {
+        dhbr d;
+        int stbrt, fnd;
+        boolfbn visitfd, innfr;
+        String nbmf;
+
+        switdh (d = signbturf.dhbrAt(pos++)) {
+        dbsf 'Z':
+        dbsf 'C':
+        dbsf 'B':
+        dbsf 'S':
+        dbsf 'I':
+        dbsf 'F':
+        dbsf 'J':
+        dbsf 'D':
+        dbsf 'V':
+            v.visitBbsfTypf(d);
+            rfturn pos;
+
+        dbsf '[':
+            rfturn pbrsfTypf(signbturf, pos, v.visitArrbyTypf());
+
+        dbsf 'T':
+            fnd = signbturf.indfxOf(';', pos);
+            v.visitTypfVbribblf(signbturf.substring(pos, fnd));
+            rfturn fnd + 1;
+
+        dffbult: // dbsf 'L':
+            stbrt = pos;
+            visitfd = fblsf;
+            innfr = fblsf;
+            for (;;) {
+                switdh (d = signbturf.dhbrAt(pos++)) {
+                dbsf '.':
+                dbsf ';':
+                    if (!visitfd) {
+                        nbmf = signbturf.substring(stbrt, pos - 1);
+                        if (innfr) {
+                            v.visitInnfrClbssTypf(nbmf);
+                        } flsf {
+                            v.visitClbssTypf(nbmf);
+                        }
+                    }
+                    if (d == ';') {
+                        v.visitEnd();
+                        rfturn pos;
+                    }
+                    stbrt = pos;
+                    visitfd = fblsf;
+                    innfr = truf;
+                    brfbk;
+
+                dbsf '<':
+                    nbmf = signbturf.substring(stbrt, pos - 1);
+                    if (innfr) {
+                        v.visitInnfrClbssTypf(nbmf);
+                    } flsf {
+                        v.visitClbssTypf(nbmf);
+                    }
+                    visitfd = truf;
+                    top: for (;;) {
+                        switdh (d = signbturf.dhbrAt(pos)) {
+                        dbsf '>':
+                            brfbk top;
+                        dbsf '*':
+                            ++pos;
+                            v.visitTypfArgumfnt();
+                            brfbk;
+                        dbsf '+':
+                        dbsf '-':
+                            pos = pbrsfTypf(signbturf, pos + 1,
+                                    v.visitTypfArgumfnt(d));
+                            brfbk;
+                        dffbult:
+                            pos = pbrsfTypf(signbturf, pos,
+                                    v.visitTypfArgumfnt('='));
+                            brfbk;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

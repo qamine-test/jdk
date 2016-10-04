@@ -1,0 +1,1693 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+import jbvb.sfdurity.*;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.io.Filf;
+import jbvb.io.FilfPfrmission;
+import jbvb.util.PropfrtyPfrmission;
+import jbvb.lbng.RuntimfPfrmission;
+import jbvb.nft.SodkftPfrmission;
+import jbvb.nft.NftPfrmission;
+import jbvb.util.Hbshtbblf;
+import jbvb.nft.InftAddrfss;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.nft.URL;
+
+import sun.rfflfdt.CbllfrSfnsitivf;
+import sun.sfdurity.util.SfdurityConstbnts;
+
+/**
+ * Thf sfdurity mbnbgfr is b dlbss thbt bllows
+ * bpplidbtions to implfmfnt b sfdurity polidy. It bllows bn
+ * bpplidbtion to dftfrminf, bfforf pfrforming b possibly unsbff or
+ * sfnsitivf opfrbtion, whbt thf opfrbtion is bnd whfthfr
+ * it is bfing bttfmptfd in b sfdurity dontfxt thbt bllows thf
+ * opfrbtion to bf pfrformfd. Thf
+ * bpplidbtion dbn bllow or disbllow thf opfrbtion.
+ * <p>
+ * Thf <dodf>SfdurityMbnbgfr</dodf> dlbss dontbins mbny mfthods with
+ * nbmfs thbt bfgin with thf word <dodf>dhfdk</dodf>. Thfsf mfthods
+ * brf dbllfd by vbrious mfthods in thf Jbvb librbrifs bfforf thosf
+ * mfthods pfrform dfrtbin potfntiblly sfnsitivf opfrbtions. Thf
+ * invodbtion of sudh b <dodf>dhfdk</dodf> mfthod typidblly looks likf this:
+ * <blodkquotf><prf>
+ *     SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+ *     if (sfdurity != null) {
+ *         sfdurity.dhfdk<i>XXX</i>(brgumfnt, &nbsp;.&nbsp;.&nbsp;.&nbsp;);
+ *     }
+ * </prf></blodkquotf>
+ * <p>
+ * Thf sfdurity mbnbgfr is thfrfby givfn bn opportunity to prfvfnt
+ * domplftion of thf opfrbtion by throwing bn fxdfption. A sfdurity
+ * mbnbgfr routinf simply rfturns if thf opfrbtion is pfrmittfd, but
+ * throws b <dodf>SfdurityExdfption</dodf> if thf opfrbtion is not
+ * pfrmittfd.
+ * <p>
+ * Thf durrfnt sfdurity mbnbgfr is sft by thf
+ * <dodf>sftSfdurityMbnbgfr</dodf> mfthod in dlbss
+ * <dodf>Systfm</dodf>. Thf durrfnt sfdurity mbnbgfr is obtbinfd
+ * by thf <dodf>gftSfdurityMbnbgfr</dodf> mfthod.
+ * <p>
+ * Thf spfdibl mfthod
+ * {@link SfdurityMbnbgfr#dhfdkPfrmission(jbvb.sfdurity.Pfrmission)}
+ * dftfrminfs whfthfr bn bddfss rfqufst indidbtfd by b spfdififd
+ * pfrmission should bf grbntfd or dfnifd. Thf
+ * dffbult implfmfntbtion dblls
+ *
+ * <prf>
+ *   AddfssControllfr.dhfdkPfrmission(pfrm);
+ * </prf>
+ *
+ * <p>
+ * If b rfqufstfd bddfss is bllowfd,
+ * <dodf>dhfdkPfrmission</dodf> rfturns quiftly. If dfnifd, b
+ * <dodf>SfdurityExdfption</dodf> is thrown.
+ * <p>
+ * As of Jbvb 2 SDK v1.2, thf dffbult implfmfntbtion of fbdh of thf othfr
+ * <dodf>dhfdk</dodf> mfthods in <dodf>SfdurityMbnbgfr</dodf> is to
+ * dbll thf <dodf>SfdurityMbnbgfr dhfdkPfrmission</dodf> mfthod
+ * to dftfrminf if thf dblling thrfbd hbs pfrmission to pfrform thf rfqufstfd
+ * opfrbtion.
+ * <p>
+ * Notf thbt thf <dodf>dhfdkPfrmission</dodf> mfthod with
+ * just b singlf pfrmission brgumfnt blwbys pfrforms sfdurity dhfdks
+ * within thf dontfxt of thf durrfntly fxfduting thrfbd.
+ * Somftimfs b sfdurity dhfdk thbt should bf mbdf within b givfn dontfxt
+ * will bdtublly nffd to bf donf from within b
+ * <i>difffrfnt</i> dontfxt (for fxbmplf, from within b workfr thrfbd).
+ * Thf {@link SfdurityMbnbgfr#gftSfdurityContfxt gftSfdurityContfxt} mfthod
+ * bnd thf {@link SfdurityMbnbgfr#dhfdkPfrmission(jbvb.sfdurity.Pfrmission,
+ * jbvb.lbng.Objfdt) dhfdkPfrmission}
+ * mfthod thbt indludfs b dontfxt brgumfnt brf providfd
+ * for this situbtion. Thf
+ * <dodf>gftSfdurityContfxt</dodf> mfthod rfturns b "snbpshot"
+ * of thf durrfnt dblling dontfxt. (Thf dffbult implfmfntbtion
+ * rfturns bn AddfssControlContfxt objfdt.) A sbmplf dbll is
+ * thf following:
+ *
+ * <prf>
+ *   Objfdt dontfxt = null;
+ *   SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+ *   if (sm != null) dontfxt = sm.gftSfdurityContfxt();
+ * </prf>
+ *
+ * <p>
+ * Thf <dodf>dhfdkPfrmission</dodf> mfthod
+ * thbt tbkfs b dontfxt objfdt in bddition to b pfrmission
+ * mbkfs bddfss dfdisions bbsfd on thbt dontfxt,
+ * rbthfr thbn on thbt of thf durrfnt fxfdution thrfbd.
+ * Codf within b difffrfnt dontfxt dbn thus dbll thbt mfthod,
+ * pbssing thf pfrmission bnd thf
+ * prfviously-sbvfd dontfxt objfdt. A sbmplf dbll, using thf
+ * SfdurityMbnbgfr <dodf>sm</dodf> obtbinfd bs in thf prfvious fxbmplf,
+ * is thf following:
+ *
+ * <prf>
+ *   if (sm != null) sm.dhfdkPfrmission(pfrmission, dontfxt);
+ * </prf>
+ *
+ * <p>Pfrmissions fbll into thfsf dbtfgorifs: Filf, Sodkft, Nft,
+ * Sfdurity, Runtimf, Propfrty, AWT, Rfflfdt, bnd Sfriblizbblf.
+ * Thf dlbssfs mbnbging thfsf vbrious
+ * pfrmission dbtfgorifs brf <dodf>jbvb.io.FilfPfrmission</dodf>,
+ * <dodf>jbvb.nft.SodkftPfrmission</dodf>,
+ * <dodf>jbvb.nft.NftPfrmission</dodf>,
+ * <dodf>jbvb.sfdurity.SfdurityPfrmission</dodf>,
+ * <dodf>jbvb.lbng.RuntimfPfrmission</dodf>,
+ * <dodf>jbvb.util.PropfrtyPfrmission</dodf>,
+ * <dodf>jbvb.bwt.AWTPfrmission</dodf>,
+ * <dodf>jbvb.lbng.rfflfdt.RfflfdtPfrmission</dodf>, bnd
+ * <dodf>jbvb.io.SfriblizbblfPfrmission</dodf>.
+ *
+ * <p>All but thf first two (FilfPfrmission bnd SodkftPfrmission) brf
+ * subdlbssfs of <dodf>jbvb.sfdurity.BbsidPfrmission</dodf>, whidh itsflf
+ * is bn bbstrbdt subdlbss of thf
+ * top-lfvfl dlbss for pfrmissions, whidh is
+ * <dodf>jbvb.sfdurity.Pfrmission</dodf>. BbsidPfrmission dffinfs thf
+ * fundtionblity nffdfd for bll pfrmissions thbt dontbin b nbmf
+ * thbt follows thf hifrbrdhidbl propfrty nbming donvfntion
+ * (for fxbmplf, "fxitVM", "sftFbdtory", "qufufPrintJob", ftd).
+ * An bstfrisk
+ * mby bppfbr bt thf fnd of thf nbmf, following b ".", or by itsflf, to
+ * signify b wilddbrd mbtdh. For fxbmplf: "b.*" or "*" is vblid,
+ * "*b" or "b*b" is not vblid.
+ *
+ * <p>FilfPfrmission bnd SodkftPfrmission brf subdlbssfs of thf
+ * top-lfvfl dlbss for pfrmissions
+ * (<dodf>jbvb.sfdurity.Pfrmission</dodf>). Clbssfs likf thfsf
+ * thbt hbvf b morf domplidbtfd nbmf syntbx thbn thbt usfd by
+ * BbsidPfrmission subdlbss dirfdtly from Pfrmission rbthfr thbn from
+ * BbsidPfrmission. For fxbmplf,
+ * for b <dodf>jbvb.io.FilfPfrmission</dodf> objfdt, thf pfrmission nbmf is
+ * thf pbth nbmf of b filf (or dirfdtory).
+ *
+ * <p>Somf of thf pfrmission dlbssfs hbvf bn "bdtions" list thbt tflls
+ * thf bdtions thbt brf pfrmittfd for thf objfdt.  For fxbmplf,
+ * for b <dodf>jbvb.io.FilfPfrmission</dodf> objfdt, thf bdtions list
+ * (sudh bs "rfbd, writf") spfdififs whidh bdtions brf grbntfd for thf
+ * spfdififd filf (or for filfs in thf spfdififd dirfdtory).
+ *
+ * <p>Othfr pfrmission dlbssfs brf for "nbmfd" pfrmissions -
+ * onfs thbt dontbin b nbmf but no bdtions list; you fithfr hbvf thf
+ * nbmfd pfrmission or you don't.
+ *
+ * <p>Notf: Thfrf is blso b <dodf>jbvb.sfdurity.AllPfrmission</dodf>
+ * pfrmission thbt implifs bll pfrmissions. It fxists to simplify thf work
+ * of systfm bdministrbtors who might nffd to pfrform multiplf
+ * tbsks thbt rfquirf bll (or numfrous) pfrmissions.
+ * <p>
+ * Sff <b hrff ="../../../tfdhnotfs/guidfs/sfdurity/pfrmissions.html">
+ * Pfrmissions in thf JDK</b> for pfrmission-rflbtfd informbtion.
+ * This dodumfnt indludfs, for fxbmplf, b tbblf listing thf vbrious SfdurityMbnbgfr
+ * <dodf>dhfdk</dodf> mfthods bnd thf pfrmission(s) thf dffbult
+ * implfmfntbtion of fbdh sudh mfthod rfquirfs.
+ * It blso dontbins b tbblf of bll thf vfrsion 1.2 mfthods
+ * thbt rfquirf pfrmissions, bnd for fbdh sudh mfthod tflls
+ * whidh pfrmission it rfquirfs.
+ * <p>
+ * For morf informbtion bbout <dodf>SfdurityMbnbgfr</dodf> dhbngfs mbdf in
+ * thf JDK bnd bdvidf rfgbrding porting of 1.1-stylf sfdurity mbnbgfrs,
+ * sff thf <b hrff="../../../tfdhnotfs/guidfs/sfdurity/indfx.html">sfdurity dodumfntbtion</b>.
+ *
+ * @buthor  Arthur vbn Hoff
+ * @buthor  Rolbnd Sdhfmfrs
+ *
+ * @sff     jbvb.lbng.ClbssLobdfr
+ * @sff     jbvb.lbng.SfdurityExdfption
+ * @sff     jbvb.lbng.Systfm#gftSfdurityMbnbgfr() gftSfdurityMbnbgfr
+ * @sff     jbvb.lbng.Systfm#sftSfdurityMbnbgfr(jbvb.lbng.SfdurityMbnbgfr)
+ *  sftSfdurityMbnbgfr
+ * @sff     jbvb.sfdurity.AddfssControllfr AddfssControllfr
+ * @sff     jbvb.sfdurity.AddfssControlContfxt AddfssControlContfxt
+ * @sff     jbvb.sfdurity.AddfssControlExdfption AddfssControlExdfption
+ * @sff     jbvb.sfdurity.Pfrmission
+ * @sff     jbvb.sfdurity.BbsidPfrmission
+ * @sff     jbvb.io.FilfPfrmission
+ * @sff     jbvb.nft.SodkftPfrmission
+ * @sff     jbvb.util.PropfrtyPfrmission
+ * @sff     jbvb.lbng.RuntimfPfrmission
+ * @sff     jbvb.bwt.AWTPfrmission
+ * @sff     jbvb.sfdurity.Polidy Polidy
+ * @sff     jbvb.sfdurity.SfdurityPfrmission SfdurityPfrmission
+ * @sff     jbvb.sfdurity.ProtfdtionDombin
+ *
+ * @sindf   1.0
+ */
+publid
+dlbss SfdurityMbnbgfr {
+
+    /**
+     * This fifld is <dodf>truf</dodf> if thfrf is b sfdurity dhfdk in
+     * progrfss; <dodf>fblsf</dodf> othfrwisf.
+     *
+     * @dfprfdbtfd This typf of sfdurity dhfdking is not rfdommfndfd.
+     *  It is rfdommfndfd thbt thf <dodf>dhfdkPfrmission</dodf>
+     *  dbll bf usfd instfbd.
+     */
+    @Dfprfdbtfd
+    protfdtfd boolfbn inChfdk;
+
+    /*
+     * Hbvf wf bffn initiblizfd. Efffdtivf bgbinst finblizfr bttbdks.
+     */
+    privbtf boolfbn initiblizfd = fblsf;
+
+
+    /**
+     * rfturns truf if thf durrfnt dontfxt hbs bffn grbntfd AllPfrmission
+     */
+    privbtf boolfbn hbsAllPfrmission() {
+        try {
+            dhfdkPfrmission(SfdurityConstbnts.ALL_PERMISSION);
+            rfturn truf;
+        } dbtdh (SfdurityExdfption sf) {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Tfsts if thfrf is b sfdurity dhfdk in progrfss.
+     *
+     * @rfturn thf vbluf of thf <dodf>inChfdk</dodf> fifld. This fifld
+     *          should dontbin <dodf>truf</dodf> if b sfdurity dhfdk is
+     *          in progrfss,
+     *          <dodf>fblsf</dodf> othfrwisf.
+     * @sff     jbvb.lbng.SfdurityMbnbgfr#inChfdk
+     * @dfprfdbtfd This typf of sfdurity dhfdking is not rfdommfndfd.
+     *  It is rfdommfndfd thbt thf <dodf>dhfdkPfrmission</dodf>
+     *  dbll bf usfd instfbd.
+     */
+    @Dfprfdbtfd
+    publid boolfbn gftInChfdk() {
+        rfturn inChfdk;
+    }
+
+    /**
+     * Construdts b nfw <dodf>SfdurityMbnbgfr</dodf>.
+     *
+     * <p> If thfrf is b sfdurity mbnbgfr blrfbdy instbllfd, this mfthod first
+     * dblls thf sfdurity mbnbgfr's <dodf>dhfdkPfrmission</dodf> mfthod
+     * with thf <dodf>RuntimfPfrmission("drfbtfSfdurityMbnbgfr")</dodf>
+     * pfrmission to fnsurf thf dblling thrfbd hbs pfrmission to drfbtf b nfw
+     * sfdurity mbnbgfr.
+     * This mby rfsult in throwing b <dodf>SfdurityExdfption</dodf>.
+     *
+     * @fxdfption  jbvb.lbng.SfdurityExdfption if b sfdurity mbnbgfr blrfbdy
+     *             fxists bnd its <dodf>dhfdkPfrmission</dodf> mfthod
+     *             dofsn't bllow drfbtion of b nfw sfdurity mbnbgfr.
+     * @sff        jbvb.lbng.Systfm#gftSfdurityMbnbgfr()
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     * @sff jbvb.lbng.RuntimfPfrmission
+     */
+    publid SfdurityMbnbgfr() {
+        syndhronizfd(SfdurityMbnbgfr.dlbss) {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+            if (sm != null) {
+                // bsk thf durrfntly instbllfd sfdurity mbnbgfr if wf
+                // dbn drfbtf b nfw onf.
+                sm.dhfdkPfrmission(nfw RuntimfPfrmission
+                                   ("drfbtfSfdurityMbnbgfr"));
+            }
+            initiblizfd = truf;
+        }
+    }
+
+    /**
+     * Rfturns thf durrfnt fxfdution stbdk bs bn brrby of dlbssfs.
+     * <p>
+     * Thf lfngth of thf brrby is thf numbfr of mfthods on thf fxfdution
+     * stbdk. Thf flfmfnt bt indfx <dodf>0</dodf> is thf dlbss of thf
+     * durrfntly fxfduting mfthod, thf flfmfnt bt indfx <dodf>1</dodf> is
+     * thf dlbss of thbt mfthod's dbllfr, bnd so on.
+     *
+     * @rfturn  thf fxfdution stbdk.
+     */
+    protfdtfd nbtivf Clbss<?>[] gftClbssContfxt();
+
+    /**
+     * Rfturns thf dlbss lobdfr of thf most rfdfntly fxfduting mfthod from
+     * b dlbss dffinfd using b non-systfm dlbss lobdfr. A non-systfm
+     * dlbss lobdfr is dffinfd bs bfing b dlbss lobdfr thbt is not fqubl to
+     * thf systfm dlbss lobdfr (bs rfturnfd
+     * by {@link ClbssLobdfr#gftSystfmClbssLobdfr}) or onf of its bndfstors.
+     * <p>
+     * This mfthod will rfturn
+     * <dodf>null</dodf> in thf following thrff dbsfs:
+     * <ol>
+     *   <li>All mfthods on thf fxfdution stbdk brf from dlbssfs
+     *   dffinfd using thf systfm dlbss lobdfr or onf of its bndfstors.
+     *
+     *   <li>All mfthods on thf fxfdution stbdk up to thf first
+     *   "privilfgfd" dbllfr
+     *   (sff {@link jbvb.sfdurity.AddfssControllfr#doPrivilfgfd})
+     *   brf from dlbssfs
+     *   dffinfd using thf systfm dlbss lobdfr or onf of its bndfstors.
+     *
+     *   <li> A dbll to <dodf>dhfdkPfrmission</dodf> with
+     *   <dodf>jbvb.sfdurity.AllPfrmission</dodf> dofs not
+     *   rfsult in b SfdurityExdfption.
+     *
+     * </ol>
+     *
+     * @rfturn  thf dlbss lobdfr of thf most rfdfnt oddurrfndf on thf stbdk
+     *          of b mfthod from b dlbss dffinfd using b non-systfm dlbss
+     *          lobdfr.
+     *
+     * @dfprfdbtfd This typf of sfdurity dhfdking is not rfdommfndfd.
+     *  It is rfdommfndfd thbt thf <dodf>dhfdkPfrmission</dodf>
+     *  dbll bf usfd instfbd.
+     *
+     * @sff  jbvb.lbng.ClbssLobdfr#gftSystfmClbssLobdfr() gftSystfmClbssLobdfr
+     * @sff  #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    @Dfprfdbtfd
+    protfdtfd ClbssLobdfr durrfntClbssLobdfr() {
+        ClbssLobdfr dl = durrfntClbssLobdfr0();
+        if ((dl != null) && hbsAllPfrmission())
+            dl = null;
+        rfturn dl;
+    }
+
+    privbtf nbtivf ClbssLobdfr durrfntClbssLobdfr0();
+
+    /**
+     * Rfturns thf dlbss of thf most rfdfntly fxfduting mfthod from
+     * b dlbss dffinfd using b non-systfm dlbss lobdfr. A non-systfm
+     * dlbss lobdfr is dffinfd bs bfing b dlbss lobdfr thbt is not fqubl to
+     * thf systfm dlbss lobdfr (bs rfturnfd
+     * by {@link ClbssLobdfr#gftSystfmClbssLobdfr}) or onf of its bndfstors.
+     * <p>
+     * This mfthod will rfturn
+     * <dodf>null</dodf> in thf following thrff dbsfs:
+     * <ol>
+     *   <li>All mfthods on thf fxfdution stbdk brf from dlbssfs
+     *   dffinfd using thf systfm dlbss lobdfr or onf of its bndfstors.
+     *
+     *   <li>All mfthods on thf fxfdution stbdk up to thf first
+     *   "privilfgfd" dbllfr
+     *   (sff {@link jbvb.sfdurity.AddfssControllfr#doPrivilfgfd})
+     *   brf from dlbssfs
+     *   dffinfd using thf systfm dlbss lobdfr or onf of its bndfstors.
+     *
+     *   <li> A dbll to <dodf>dhfdkPfrmission</dodf> with
+     *   <dodf>jbvb.sfdurity.AllPfrmission</dodf> dofs not
+     *   rfsult in b SfdurityExdfption.
+     *
+     * </ol>
+     *
+     * @rfturn  thf dlbss  of thf most rfdfnt oddurrfndf on thf stbdk
+     *          of b mfthod from b dlbss dffinfd using b non-systfm dlbss
+     *          lobdfr.
+     *
+     * @dfprfdbtfd This typf of sfdurity dhfdking is not rfdommfndfd.
+     *  It is rfdommfndfd thbt thf <dodf>dhfdkPfrmission</dodf>
+     *  dbll bf usfd instfbd.
+     *
+     * @sff  jbvb.lbng.ClbssLobdfr#gftSystfmClbssLobdfr() gftSystfmClbssLobdfr
+     * @sff  #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    @Dfprfdbtfd
+    protfdtfd Clbss<?> durrfntLobdfdClbss() {
+        Clbss<?> d = durrfntLobdfdClbss0();
+        if ((d != null) && hbsAllPfrmission())
+            d = null;
+        rfturn d;
+    }
+
+    /**
+     * Rfturns thf stbdk dfpth of thf spfdififd dlbss.
+     *
+     * @pbrbm   nbmf   thf fully qublififd nbmf of thf dlbss to sfbrdh for.
+     * @rfturn  thf dfpth on thf stbdk frbmf of thf first oddurrfndf of b
+     *          mfthod from b dlbss with thf spfdififd nbmf;
+     *          <dodf>-1</dodf> if sudh b frbmf dbnnot bf found.
+     * @dfprfdbtfd This typf of sfdurity dhfdking is not rfdommfndfd.
+     *  It is rfdommfndfd thbt thf <dodf>dhfdkPfrmission</dodf>
+     *  dbll bf usfd instfbd.
+     *
+     */
+    @Dfprfdbtfd
+    protfdtfd nbtivf int dlbssDfpth(String nbmf);
+
+    /**
+     * Rfturns thf stbdk dfpth of thf most rfdfntly fxfduting mfthod
+     * from b dlbss dffinfd using b non-systfm dlbss lobdfr.  A non-systfm
+     * dlbss lobdfr is dffinfd bs bfing b dlbss lobdfr thbt is not fqubl to
+     * thf systfm dlbss lobdfr (bs rfturnfd
+     * by {@link ClbssLobdfr#gftSystfmClbssLobdfr}) or onf of its bndfstors.
+     * <p>
+     * This mfthod will rfturn
+     * -1 in thf following thrff dbsfs:
+     * <ol>
+     *   <li>All mfthods on thf fxfdution stbdk brf from dlbssfs
+     *   dffinfd using thf systfm dlbss lobdfr or onf of its bndfstors.
+     *
+     *   <li>All mfthods on thf fxfdution stbdk up to thf first
+     *   "privilfgfd" dbllfr
+     *   (sff {@link jbvb.sfdurity.AddfssControllfr#doPrivilfgfd})
+     *   brf from dlbssfs
+     *   dffinfd using thf systfm dlbss lobdfr or onf of its bndfstors.
+     *
+     *   <li> A dbll to <dodf>dhfdkPfrmission</dodf> with
+     *   <dodf>jbvb.sfdurity.AllPfrmission</dodf> dofs not
+     *   rfsult in b SfdurityExdfption.
+     *
+     * </ol>
+     *
+     * @rfturn thf dfpth on thf stbdk frbmf of thf most rfdfnt oddurrfndf of
+     *          b mfthod from b dlbss dffinfd using b non-systfm dlbss lobdfr.
+     *
+     * @dfprfdbtfd This typf of sfdurity dhfdking is not rfdommfndfd.
+     *  It is rfdommfndfd thbt thf <dodf>dhfdkPfrmission</dodf>
+     *  dbll bf usfd instfbd.
+     *
+     * @sff   jbvb.lbng.ClbssLobdfr#gftSystfmClbssLobdfr() gftSystfmClbssLobdfr
+     * @sff   #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    @Dfprfdbtfd
+    protfdtfd int dlbssLobdfrDfpth() {
+        int dfpth = dlbssLobdfrDfpth0();
+        if (dfpth != -1) {
+            if (hbsAllPfrmission())
+                dfpth = -1;
+            flsf
+                dfpth--; // mbkf surf wf don't indludf oursflf
+        }
+        rfturn dfpth;
+    }
+
+    privbtf nbtivf int dlbssLobdfrDfpth0();
+
+    /**
+     * Tfsts if b mfthod from b dlbss with thf spfdififd
+     *         nbmf is on thf fxfdution stbdk.
+     *
+     * @pbrbm  nbmf   thf fully qublififd nbmf of thf dlbss.
+     * @rfturn <dodf>truf</dodf> if b mfthod from b dlbss with thf spfdififd
+     *         nbmf is on thf fxfdution stbdk; <dodf>fblsf</dodf> othfrwisf.
+     * @dfprfdbtfd This typf of sfdurity dhfdking is not rfdommfndfd.
+     *  It is rfdommfndfd thbt thf <dodf>dhfdkPfrmission</dodf>
+     *  dbll bf usfd instfbd.
+     */
+    @Dfprfdbtfd
+    protfdtfd boolfbn inClbss(String nbmf) {
+        rfturn dlbssDfpth(nbmf) >= 0;
+    }
+
+    /**
+     * Bbsidblly, tfsts if b mfthod from b dlbss dffinfd using b
+     *          dlbss lobdfr is on thf fxfdution stbdk.
+     *
+     * @rfturn  <dodf>truf</dodf> if b dbll to <dodf>durrfntClbssLobdfr</dodf>
+     *          hbs b non-null rfturn vbluf.
+     *
+     * @dfprfdbtfd This typf of sfdurity dhfdking is not rfdommfndfd.
+     *  It is rfdommfndfd thbt thf <dodf>dhfdkPfrmission</dodf>
+     *  dbll bf usfd instfbd.
+     * @sff        #durrfntClbssLobdfr() durrfntClbssLobdfr
+     */
+    @Dfprfdbtfd
+    protfdtfd boolfbn inClbssLobdfr() {
+        rfturn durrfntClbssLobdfr() != null;
+    }
+
+    /**
+     * Crfbtfs bn objfdt thbt fndbpsulbtfs thf durrfnt fxfdution
+     * fnvironmfnt. Thf rfsult of this mfthod is usfd, for fxbmplf, by thf
+     * thrff-brgumfnt <dodf>dhfdkConnfdt</dodf> mfthod bnd by thf
+     * two-brgumfnt <dodf>dhfdkRfbd</dodf> mfthod.
+     * Thfsf mfthods brf nffdfd bfdbusf b trustfd mfthod mby bf dbllfd
+     * on to rfbd b filf or opfn b sodkft on bfhblf of bnothfr mfthod.
+     * Thf trustfd mfthod nffds to dftfrminf if thf othfr (possibly
+     * untrustfd) mfthod would bf bllowfd to pfrform thf opfrbtion on its
+     * own.
+     * <p> Thf dffbult implfmfntbtion of this mfthod is to rfturn
+     * bn <dodf>AddfssControlContfxt</dodf> objfdt.
+     *
+     * @rfturn  bn implfmfntbtion-dfpfndfnt objfdt thbt fndbpsulbtfs
+     *          suffidifnt informbtion bbout thf durrfnt fxfdution fnvironmfnt
+     *          to pfrform somf sfdurity dhfdks lbtfr.
+     * @sff     jbvb.lbng.SfdurityMbnbgfr#dhfdkConnfdt(jbvb.lbng.String, int,
+     *   jbvb.lbng.Objfdt) dhfdkConnfdt
+     * @sff     jbvb.lbng.SfdurityMbnbgfr#dhfdkRfbd(jbvb.lbng.String,
+     *   jbvb.lbng.Objfdt) dhfdkRfbd
+     * @sff     jbvb.sfdurity.AddfssControlContfxt AddfssControlContfxt
+     */
+    publid Objfdt gftSfdurityContfxt() {
+        rfturn AddfssControllfr.gftContfxt();
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf rfqufstfd
+     * bddfss, spfdififd by thf givfn pfrmission, is not pfrmittfd bbsfd
+     * on thf sfdurity polidy durrfntly in ffffdt.
+     * <p>
+     * This mfthod dblls <dodf>AddfssControllfr.dhfdkPfrmission</dodf>
+     * with thf givfn pfrmission.
+     *
+     * @pbrbm     pfrm   thf rfqufstfd pfrmission.
+     * @fxdfption SfdurityExdfption if bddfss is not pfrmittfd bbsfd on
+     *            thf durrfnt sfdurity polidy.
+     * @fxdfption NullPointfrExdfption if thf pfrmission brgumfnt is
+     *            <dodf>null</dodf>.
+     * @sindf     1.2
+     */
+    publid void dhfdkPfrmission(Pfrmission pfrm) {
+        jbvb.sfdurity.AddfssControllfr.dhfdkPfrmission(pfrm);
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * spfdififd sfdurity dontfxt is dfnifd bddfss to thf rfsourdf
+     * spfdififd by thf givfn pfrmission.
+     * Thf dontfxt must bf b sfdurity
+     * dontfxt rfturnfd by b prfvious dbll to
+     * <dodf>gftSfdurityContfxt</dodf> bnd thf bddfss dontrol
+     * dfdision is bbsfd upon thf donfigurfd sfdurity polidy for
+     * thbt sfdurity dontfxt.
+     * <p>
+     * If <dodf>dontfxt</dodf> is bn instbndf of
+     * <dodf>AddfssControlContfxt</dodf> thfn thf
+     * <dodf>AddfssControlContfxt.dhfdkPfrmission</dodf> mfthod is
+     * invokfd with thf spfdififd pfrmission.
+     * <p>
+     * If <dodf>dontfxt</dodf> is not bn instbndf of
+     * <dodf>AddfssControlContfxt</dodf> thfn b
+     * <dodf>SfdurityExdfption</dodf> is thrown.
+     *
+     * @pbrbm      pfrm      thf spfdififd pfrmission
+     * @pbrbm      dontfxt   b systfm-dfpfndfnt sfdurity dontfxt.
+     * @fxdfption  SfdurityExdfption  if thf spfdififd sfdurity dontfxt
+     *             is not bn instbndf of <dodf>AddfssControlContfxt</dodf>
+     *             (f.g., is <dodf>null</dodf>), or is dfnifd bddfss to thf
+     *             rfsourdf spfdififd by thf givfn pfrmission.
+     * @fxdfption  NullPointfrExdfption if thf pfrmission brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#gftSfdurityContfxt()
+     * @sff jbvb.sfdurity.AddfssControlContfxt#dhfdkPfrmission(jbvb.sfdurity.Pfrmission)
+     * @sindf      1.2
+     */
+    publid void dhfdkPfrmission(Pfrmission pfrm, Objfdt dontfxt) {
+        if (dontfxt instbndfof AddfssControlContfxt) {
+            ((AddfssControlContfxt)dontfxt).dhfdkPfrmission(pfrm);
+        } flsf {
+            throw nfw SfdurityExdfption();
+        }
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * dblling thrfbd is not bllowfd to drfbtf b nfw dlbss lobdfr.
+     * <p>
+     * This mfthod dblls <dodf>dhfdkPfrmission</dodf> with thf
+     * <dodf>RuntimfPfrmission("drfbtfClbssLobdfr")</dodf>
+     * pfrmission.
+     * <p>
+     * If you ovfrridf this mfthod, thfn you should mbkf b dbll to
+     * <dodf>supfr.dhfdkCrfbtfClbssLobdfr</dodf>
+     * bt thf point thf ovfrriddfn mfthod would normblly throw bn
+     * fxdfption.
+     *
+     * @fxdfption SfdurityExdfption if thf dblling thrfbd dofs not
+     *             hbvf pfrmission
+     *             to drfbtf b nfw dlbss lobdfr.
+     * @sff        jbvb.lbng.ClbssLobdfr#ClbssLobdfr()
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    publid void dhfdkCrfbtfClbssLobdfr() {
+        dhfdkPfrmission(SfdurityConstbnts.CREATE_CLASSLOADER_PERMISSION);
+    }
+
+    /**
+     * rfffrfndf to thf root thrfbd group, usfd for thf dhfdkAddfss
+     * mfthods.
+     */
+
+    privbtf stbtid ThrfbdGroup rootGroup = gftRootGroup();
+
+    privbtf stbtid ThrfbdGroup gftRootGroup() {
+        ThrfbdGroup root =  Thrfbd.durrfntThrfbd().gftThrfbdGroup();
+        whilf (root.gftPbrfnt() != null) {
+            root = root.gftPbrfnt();
+        }
+        rfturn root;
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * dblling thrfbd is not bllowfd to modify thf thrfbd brgumfnt.
+     * <p>
+     * This mfthod is invokfd for thf durrfnt sfdurity mbnbgfr by thf
+     * <dodf>stop</dodf>, <dodf>suspfnd</dodf>, <dodf>rfsumf</dodf>,
+     * <dodf>sftPriority</dodf>, <dodf>sftNbmf</dodf>, bnd
+     * <dodf>sftDbfmon</dodf> mfthods of dlbss <dodf>Thrfbd</dodf>.
+     * <p>
+     * If thf thrfbd brgumfnt is b systfm thrfbd (bflongs to
+     * thf thrfbd group with b <dodf>null</dodf> pbrfnt) thfn
+     * this mfthod dblls <dodf>dhfdkPfrmission</dodf> with thf
+     * <dodf>RuntimfPfrmission("modifyThrfbd")</dodf> pfrmission.
+     * If thf thrfbd brgumfnt is <i>not</i> b systfm thrfbd,
+     * this mfthod just rfturns silfntly.
+     * <p>
+     * Applidbtions thbt wbnt b stridtfr polidy should ovfrridf this
+     * mfthod. If this mfthod is ovfrriddfn, thf mfthod thbt ovfrridfs
+     * it should bdditionblly dhfdk to sff if thf dblling thrfbd hbs thf
+     * <dodf>RuntimfPfrmission("modifyThrfbd")</dodf> pfrmission, bnd
+     * if so, rfturn silfntly. This is to fnsurf thbt dodf grbntfd
+     * thbt pfrmission (sudh bs thf JDK itsflf) is bllowfd to
+     * mbnipulbtf bny thrfbd.
+     * <p>
+     * If this mfthod is ovfrriddfn, thfn
+     * <dodf>supfr.dhfdkAddfss</dodf> should
+     * bf dbllfd by thf first stbtfmfnt in thf ovfrriddfn mfthod, or thf
+     * fquivblfnt sfdurity dhfdk should bf plbdfd in thf ovfrriddfn mfthod.
+     *
+     * @pbrbm      t   thf thrfbd to bf dhfdkfd.
+     * @fxdfption  SfdurityExdfption  if thf dblling thrfbd dofs not hbvf
+     *             pfrmission to modify thf thrfbd.
+     * @fxdfption  NullPointfrExdfption if thf thrfbd brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        jbvb.lbng.Thrfbd#rfsumf() rfsumf
+     * @sff        jbvb.lbng.Thrfbd#sftDbfmon(boolfbn) sftDbfmon
+     * @sff        jbvb.lbng.Thrfbd#sftNbmf(jbvb.lbng.String) sftNbmf
+     * @sff        jbvb.lbng.Thrfbd#sftPriority(int) sftPriority
+     * @sff        jbvb.lbng.Thrfbd#stop() stop
+     * @sff        jbvb.lbng.Thrfbd#suspfnd() suspfnd
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    publid void dhfdkAddfss(Thrfbd t) {
+        if (t == null) {
+            throw nfw NullPointfrExdfption("thrfbd dbn't bf null");
+        }
+        if (t.gftThrfbdGroup() == rootGroup) {
+            dhfdkPfrmission(SfdurityConstbnts.MODIFY_THREAD_PERMISSION);
+        } flsf {
+            // just rfturn
+        }
+    }
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * dblling thrfbd is not bllowfd to modify thf thrfbd group brgumfnt.
+     * <p>
+     * This mfthod is invokfd for thf durrfnt sfdurity mbnbgfr whfn b
+     * nfw dhild thrfbd or dhild thrfbd group is drfbtfd, bnd by thf
+     * <dodf>sftDbfmon</dodf>, <dodf>sftMbxPriority</dodf>,
+     * <dodf>stop</dodf>, <dodf>suspfnd</dodf>, <dodf>rfsumf</dodf>, bnd
+     * <dodf>dfstroy</dodf> mfthods of dlbss <dodf>ThrfbdGroup</dodf>.
+     * <p>
+     * If thf thrfbd group brgumfnt is thf systfm thrfbd group (
+     * hbs b <dodf>null</dodf> pbrfnt) thfn
+     * this mfthod dblls <dodf>dhfdkPfrmission</dodf> with thf
+     * <dodf>RuntimfPfrmission("modifyThrfbdGroup")</dodf> pfrmission.
+     * If thf thrfbd group brgumfnt is <i>not</i> thf systfm thrfbd group,
+     * this mfthod just rfturns silfntly.
+     * <p>
+     * Applidbtions thbt wbnt b stridtfr polidy should ovfrridf this
+     * mfthod. If this mfthod is ovfrriddfn, thf mfthod thbt ovfrridfs
+     * it should bdditionblly dhfdk to sff if thf dblling thrfbd hbs thf
+     * <dodf>RuntimfPfrmission("modifyThrfbdGroup")</dodf> pfrmission, bnd
+     * if so, rfturn silfntly. This is to fnsurf thbt dodf grbntfd
+     * thbt pfrmission (sudh bs thf JDK itsflf) is bllowfd to
+     * mbnipulbtf bny thrfbd.
+     * <p>
+     * If this mfthod is ovfrriddfn, thfn
+     * <dodf>supfr.dhfdkAddfss</dodf> should
+     * bf dbllfd by thf first stbtfmfnt in thf ovfrriddfn mfthod, or thf
+     * fquivblfnt sfdurity dhfdk should bf plbdfd in thf ovfrriddfn mfthod.
+     *
+     * @pbrbm      g   thf thrfbd group to bf dhfdkfd.
+     * @fxdfption  SfdurityExdfption  if thf dblling thrfbd dofs not hbvf
+     *             pfrmission to modify thf thrfbd group.
+     * @fxdfption  NullPointfrExdfption if thf thrfbd group brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        jbvb.lbng.ThrfbdGroup#dfstroy() dfstroy
+     * @sff        jbvb.lbng.ThrfbdGroup#rfsumf() rfsumf
+     * @sff        jbvb.lbng.ThrfbdGroup#sftDbfmon(boolfbn) sftDbfmon
+     * @sff        jbvb.lbng.ThrfbdGroup#sftMbxPriority(int) sftMbxPriority
+     * @sff        jbvb.lbng.ThrfbdGroup#stop() stop
+     * @sff        jbvb.lbng.ThrfbdGroup#suspfnd() suspfnd
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    publid void dhfdkAddfss(ThrfbdGroup g) {
+        if (g == null) {
+            throw nfw NullPointfrExdfption("thrfbd group dbn't bf null");
+        }
+        if (g == rootGroup) {
+            dhfdkPfrmission(SfdurityConstbnts.MODIFY_THREADGROUP_PERMISSION);
+        } flsf {
+            // just rfturn
+        }
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * dblling thrfbd is not bllowfd to dbusf thf Jbvb Virtubl Mbdhinf to
+     * hblt with thf spfdififd stbtus dodf.
+     * <p>
+     * This mfthod is invokfd for thf durrfnt sfdurity mbnbgfr by thf
+     * <dodf>fxit</dodf> mfthod of dlbss <dodf>Runtimf</dodf>. A stbtus
+     * of <dodf>0</dodf> indidbtfs suddfss; othfr vblufs indidbtf vbrious
+     * frrors.
+     * <p>
+     * This mfthod dblls <dodf>dhfdkPfrmission</dodf> with thf
+     * <dodf>RuntimfPfrmission("fxitVM."+stbtus)</dodf> pfrmission.
+     * <p>
+     * If you ovfrridf this mfthod, thfn you should mbkf b dbll to
+     * <dodf>supfr.dhfdkExit</dodf>
+     * bt thf point thf ovfrriddfn mfthod would normblly throw bn
+     * fxdfption.
+     *
+     * @pbrbm      stbtus   thf fxit stbtus.
+     * @fxdfption SfdurityExdfption if thf dblling thrfbd dofs not hbvf
+     *              pfrmission to hblt thf Jbvb Virtubl Mbdhinf with
+     *              thf spfdififd stbtus.
+     * @sff        jbvb.lbng.Runtimf#fxit(int) fxit
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    publid void dhfdkExit(int stbtus) {
+        dhfdkPfrmission(nfw RuntimfPfrmission("fxitVM."+stbtus));
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * dblling thrfbd is not bllowfd to drfbtf b subprodfss.
+     * <p>
+     * This mfthod is invokfd for thf durrfnt sfdurity mbnbgfr by thf
+     * <dodf>fxfd</dodf> mfthods of dlbss <dodf>Runtimf</dodf>.
+     * <p>
+     * This mfthod dblls <dodf>dhfdkPfrmission</dodf> with thf
+     * <dodf>FilfPfrmission(dmd,"fxfdutf")</dodf> pfrmission
+     * if dmd is bn bbsolutf pbth, othfrwisf it dblls
+     * <dodf>dhfdkPfrmission</dodf> with
+     * <dodf>FilfPfrmission("&lt;&lt;ALL FILES&gt;&gt;","fxfdutf")</dodf>.
+     * <p>
+     * If you ovfrridf this mfthod, thfn you should mbkf b dbll to
+     * <dodf>supfr.dhfdkExfd</dodf>
+     * bt thf point thf ovfrriddfn mfthod would normblly throw bn
+     * fxdfption.
+     *
+     * @pbrbm      dmd   thf spfdififd systfm dommbnd.
+     * @fxdfption  SfdurityExdfption if thf dblling thrfbd dofs not hbvf
+     *             pfrmission to drfbtf b subprodfss.
+     * @fxdfption  NullPointfrExdfption if thf <dodf>dmd</dodf> brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff     jbvb.lbng.Runtimf#fxfd(jbvb.lbng.String)
+     * @sff     jbvb.lbng.Runtimf#fxfd(jbvb.lbng.String, jbvb.lbng.String[])
+     * @sff     jbvb.lbng.Runtimf#fxfd(jbvb.lbng.String[])
+     * @sff     jbvb.lbng.Runtimf#fxfd(jbvb.lbng.String[], jbvb.lbng.String[])
+     * @sff     #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    publid void dhfdkExfd(String dmd) {
+        Filf f = nfw Filf(dmd);
+        if (f.isAbsolutf()) {
+            dhfdkPfrmission(nfw FilfPfrmission(dmd,
+                SfdurityConstbnts.FILE_EXECUTE_ACTION));
+        } flsf {
+            dhfdkPfrmission(nfw FilfPfrmission("<<ALL FILES>>",
+                SfdurityConstbnts.FILE_EXECUTE_ACTION));
+        }
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * dblling thrfbd is not bllowfd to dynbmid link thf librbry dodf
+     * spfdififd by thf string brgumfnt filf. Thf brgumfnt is fithfr b
+     * simplf librbry nbmf or b domplftf filfnbmf.
+     * <p>
+     * This mfthod is invokfd for thf durrfnt sfdurity mbnbgfr by
+     * mfthods <dodf>lobd</dodf> bnd <dodf>lobdLibrbry</dodf> of dlbss
+     * <dodf>Runtimf</dodf>.
+     * <p>
+     * This mfthod dblls <dodf>dhfdkPfrmission</dodf> with thf
+     * <dodf>RuntimfPfrmission("lobdLibrbry."+lib)</dodf> pfrmission.
+     * <p>
+     * If you ovfrridf this mfthod, thfn you should mbkf b dbll to
+     * <dodf>supfr.dhfdkLink</dodf>
+     * bt thf point thf ovfrriddfn mfthod would normblly throw bn
+     * fxdfption.
+     *
+     * @pbrbm      lib   thf nbmf of thf librbry.
+     * @fxdfption  SfdurityExdfption if thf dblling thrfbd dofs not hbvf
+     *             pfrmission to dynbmidblly link thf librbry.
+     * @fxdfption  NullPointfrExdfption if thf <dodf>lib</dodf> brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        jbvb.lbng.Runtimf#lobd(jbvb.lbng.String)
+     * @sff        jbvb.lbng.Runtimf#lobdLibrbry(jbvb.lbng.String)
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    publid void dhfdkLink(String lib) {
+        if (lib == null) {
+            throw nfw NullPointfrExdfption("librbry dbn't bf null");
+        }
+        dhfdkPfrmission(nfw RuntimfPfrmission("lobdLibrbry."+lib));
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * dblling thrfbd is not bllowfd to rfbd from thf spfdififd filf
+     * dfsdriptor.
+     * <p>
+     * This mfthod dblls <dodf>dhfdkPfrmission</dodf> with thf
+     * <dodf>RuntimfPfrmission("rfbdFilfDfsdriptor")</dodf>
+     * pfrmission.
+     * <p>
+     * If you ovfrridf this mfthod, thfn you should mbkf b dbll to
+     * <dodf>supfr.dhfdkRfbd</dodf>
+     * bt thf point thf ovfrriddfn mfthod would normblly throw bn
+     * fxdfption.
+     *
+     * @pbrbm      fd   thf systfm-dfpfndfnt filf dfsdriptor.
+     * @fxdfption  SfdurityExdfption  if thf dblling thrfbd dofs not hbvf
+     *             pfrmission to bddfss thf spfdififd filf dfsdriptor.
+     * @fxdfption  NullPointfrExdfption if thf filf dfsdriptor brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        jbvb.io.FilfDfsdriptor
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    publid void dhfdkRfbd(FilfDfsdriptor fd) {
+        if (fd == null) {
+            throw nfw NullPointfrExdfption("filf dfsdriptor dbn't bf null");
+        }
+        dhfdkPfrmission(nfw RuntimfPfrmission("rfbdFilfDfsdriptor"));
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * dblling thrfbd is not bllowfd to rfbd thf filf spfdififd by thf
+     * string brgumfnt.
+     * <p>
+     * This mfthod dblls <dodf>dhfdkPfrmission</dodf> with thf
+     * <dodf>FilfPfrmission(filf,"rfbd")</dodf> pfrmission.
+     * <p>
+     * If you ovfrridf this mfthod, thfn you should mbkf b dbll to
+     * <dodf>supfr.dhfdkRfbd</dodf>
+     * bt thf point thf ovfrriddfn mfthod would normblly throw bn
+     * fxdfption.
+     *
+     * @pbrbm      filf   thf systfm-dfpfndfnt filf nbmf.
+     * @fxdfption  SfdurityExdfption if thf dblling thrfbd dofs not hbvf
+     *             pfrmission to bddfss thf spfdififd filf.
+     * @fxdfption  NullPointfrExdfption if thf <dodf>filf</dodf> brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    publid void dhfdkRfbd(String filf) {
+        dhfdkPfrmission(nfw FilfPfrmission(filf,
+            SfdurityConstbnts.FILE_READ_ACTION));
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * spfdififd sfdurity dontfxt is not bllowfd to rfbd thf filf
+     * spfdififd by thf string brgumfnt. Thf dontfxt must bf b sfdurity
+     * dontfxt rfturnfd by b prfvious dbll to
+     * <dodf>gftSfdurityContfxt</dodf>.
+     * <p> If <dodf>dontfxt</dodf> is bn instbndf of
+     * <dodf>AddfssControlContfxt</dodf> thfn thf
+     * <dodf>AddfssControlContfxt.dhfdkPfrmission</dodf> mfthod will
+     * bf invokfd with thf <dodf>FilfPfrmission(filf,"rfbd")</dodf> pfrmission.
+     * <p> If <dodf>dontfxt</dodf> is not bn instbndf of
+     * <dodf>AddfssControlContfxt</dodf> thfn b
+     * <dodf>SfdurityExdfption</dodf> is thrown.
+     * <p>
+     * If you ovfrridf this mfthod, thfn you should mbkf b dbll to
+     * <dodf>supfr.dhfdkRfbd</dodf>
+     * bt thf point thf ovfrriddfn mfthod would normblly throw bn
+     * fxdfption.
+     *
+     * @pbrbm      filf      thf systfm-dfpfndfnt filfnbmf.
+     * @pbrbm      dontfxt   b systfm-dfpfndfnt sfdurity dontfxt.
+     * @fxdfption  SfdurityExdfption  if thf spfdififd sfdurity dontfxt
+     *             is not bn instbndf of <dodf>AddfssControlContfxt</dodf>
+     *             (f.g., is <dodf>null</dodf>), or dofs not hbvf pfrmission
+     *             to rfbd thf spfdififd filf.
+     * @fxdfption  NullPointfrExdfption if thf <dodf>filf</dodf> brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#gftSfdurityContfxt()
+     * @sff        jbvb.sfdurity.AddfssControlContfxt#dhfdkPfrmission(jbvb.sfdurity.Pfrmission)
+     */
+    publid void dhfdkRfbd(String filf, Objfdt dontfxt) {
+        dhfdkPfrmission(
+            nfw FilfPfrmission(filf, SfdurityConstbnts.FILE_READ_ACTION),
+            dontfxt);
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * dblling thrfbd is not bllowfd to writf to thf spfdififd filf
+     * dfsdriptor.
+     * <p>
+     * This mfthod dblls <dodf>dhfdkPfrmission</dodf> with thf
+     * <dodf>RuntimfPfrmission("writfFilfDfsdriptor")</dodf>
+     * pfrmission.
+     * <p>
+     * If you ovfrridf this mfthod, thfn you should mbkf b dbll to
+     * <dodf>supfr.dhfdkWritf</dodf>
+     * bt thf point thf ovfrriddfn mfthod would normblly throw bn
+     * fxdfption.
+     *
+     * @pbrbm      fd   thf systfm-dfpfndfnt filf dfsdriptor.
+     * @fxdfption SfdurityExdfption  if thf dblling thrfbd dofs not hbvf
+     *             pfrmission to bddfss thf spfdififd filf dfsdriptor.
+     * @fxdfption  NullPointfrExdfption if thf filf dfsdriptor brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        jbvb.io.FilfDfsdriptor
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    publid void dhfdkWritf(FilfDfsdriptor fd) {
+        if (fd == null) {
+            throw nfw NullPointfrExdfption("filf dfsdriptor dbn't bf null");
+        }
+        dhfdkPfrmission(nfw RuntimfPfrmission("writfFilfDfsdriptor"));
+
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * dblling thrfbd is not bllowfd to writf to thf filf spfdififd by
+     * thf string brgumfnt.
+     * <p>
+     * This mfthod dblls <dodf>dhfdkPfrmission</dodf> with thf
+     * <dodf>FilfPfrmission(filf,"writf")</dodf> pfrmission.
+     * <p>
+     * If you ovfrridf this mfthod, thfn you should mbkf b dbll to
+     * <dodf>supfr.dhfdkWritf</dodf>
+     * bt thf point thf ovfrriddfn mfthod would normblly throw bn
+     * fxdfption.
+     *
+     * @pbrbm      filf   thf systfm-dfpfndfnt filfnbmf.
+     * @fxdfption  SfdurityExdfption  if thf dblling thrfbd dofs not
+     *             hbvf pfrmission to bddfss thf spfdififd filf.
+     * @fxdfption  NullPointfrExdfption if thf <dodf>filf</dodf> brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    publid void dhfdkWritf(String filf) {
+        dhfdkPfrmission(nfw FilfPfrmission(filf,
+            SfdurityConstbnts.FILE_WRITE_ACTION));
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * dblling thrfbd is not bllowfd to dflftf thf spfdififd filf.
+     * <p>
+     * This mfthod is invokfd for thf durrfnt sfdurity mbnbgfr by thf
+     * <dodf>dflftf</dodf> mfthod of dlbss <dodf>Filf</dodf>.
+     * <p>
+     * This mfthod dblls <dodf>dhfdkPfrmission</dodf> with thf
+     * <dodf>FilfPfrmission(filf,"dflftf")</dodf> pfrmission.
+     * <p>
+     * If you ovfrridf this mfthod, thfn you should mbkf b dbll to
+     * <dodf>supfr.dhfdkDflftf</dodf>
+     * bt thf point thf ovfrriddfn mfthod would normblly throw bn
+     * fxdfption.
+     *
+     * @pbrbm      filf   thf systfm-dfpfndfnt filfnbmf.
+     * @fxdfption  SfdurityExdfption if thf dblling thrfbd dofs not
+     *             hbvf pfrmission to dflftf thf filf.
+     * @fxdfption  NullPointfrExdfption if thf <dodf>filf</dodf> brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        jbvb.io.Filf#dflftf()
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    publid void dhfdkDflftf(String filf) {
+        dhfdkPfrmission(nfw FilfPfrmission(filf,
+            SfdurityConstbnts.FILE_DELETE_ACTION));
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * dblling thrfbd is not bllowfd to opfn b sodkft donnfdtion to thf
+     * spfdififd host bnd port numbfr.
+     * <p>
+     * A port numbfr of <dodf>-1</dodf> indidbtfs thbt thf dblling
+     * mfthod is bttfmpting to dftfrminf thf IP bddrfss of thf spfdififd
+     * host nbmf.
+     * <p>
+     * This mfthod dblls <dodf>dhfdkPfrmission</dodf> with thf
+     * <dodf>SodkftPfrmission(host+":"+port,"donnfdt")</dodf> pfrmission if
+     * thf port is not fqubl to -1. If thf port is fqubl to -1, thfn
+     * it dblls <dodf>dhfdkPfrmission</dodf> with thf
+     * <dodf>SodkftPfrmission(host,"rfsolvf")</dodf> pfrmission.
+     * <p>
+     * If you ovfrridf this mfthod, thfn you should mbkf b dbll to
+     * <dodf>supfr.dhfdkConnfdt</dodf>
+     * bt thf point thf ovfrriddfn mfthod would normblly throw bn
+     * fxdfption.
+     *
+     * @pbrbm      host   thf host nbmf port to donnfdt to.
+     * @pbrbm      port   thf protodol port to donnfdt to.
+     * @fxdfption  SfdurityExdfption  if thf dblling thrfbd dofs not hbvf
+     *             pfrmission to opfn b sodkft donnfdtion to thf spfdififd
+     *               <dodf>host</dodf> bnd <dodf>port</dodf>.
+     * @fxdfption  NullPointfrExdfption if thf <dodf>host</dodf> brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    publid void dhfdkConnfdt(String host, int port) {
+        if (host == null) {
+            throw nfw NullPointfrExdfption("host dbn't bf null");
+        }
+        if (!host.stbrtsWith("[") && host.indfxOf(':') != -1) {
+            host = "[" + host + "]";
+        }
+        if (port == -1) {
+            dhfdkPfrmission(nfw SodkftPfrmission(host,
+                SfdurityConstbnts.SOCKET_RESOLVE_ACTION));
+        } flsf {
+            dhfdkPfrmission(nfw SodkftPfrmission(host+":"+port,
+                SfdurityConstbnts.SOCKET_CONNECT_ACTION));
+        }
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * spfdififd sfdurity dontfxt is not bllowfd to opfn b sodkft
+     * donnfdtion to thf spfdififd host bnd port numbfr.
+     * <p>
+     * A port numbfr of <dodf>-1</dodf> indidbtfs thbt thf dblling
+     * mfthod is bttfmpting to dftfrminf thf IP bddrfss of thf spfdififd
+     * host nbmf.
+     * <p> If <dodf>dontfxt</dodf> is not bn instbndf of
+     * <dodf>AddfssControlContfxt</dodf> thfn b
+     * <dodf>SfdurityExdfption</dodf> is thrown.
+     * <p>
+     * Othfrwisf, thf port numbfr is dhfdkfd. If it is not fqubl
+     * to -1, thf <dodf>dontfxt</dodf>'s <dodf>dhfdkPfrmission</dodf>
+     * mfthod is dbllfd with b
+     * <dodf>SodkftPfrmission(host+":"+port,"donnfdt")</dodf> pfrmission.
+     * If thf port is fqubl to -1, thfn
+     * thf <dodf>dontfxt</dodf>'s <dodf>dhfdkPfrmission</dodf> mfthod
+     * is dbllfd with b
+     * <dodf>SodkftPfrmission(host,"rfsolvf")</dodf> pfrmission.
+     * <p>
+     * If you ovfrridf this mfthod, thfn you should mbkf b dbll to
+     * <dodf>supfr.dhfdkConnfdt</dodf>
+     * bt thf point thf ovfrriddfn mfthod would normblly throw bn
+     * fxdfption.
+     *
+     * @pbrbm      host      thf host nbmf port to donnfdt to.
+     * @pbrbm      port      thf protodol port to donnfdt to.
+     * @pbrbm      dontfxt   b systfm-dfpfndfnt sfdurity dontfxt.
+     * @fxdfption  SfdurityExdfption if thf spfdififd sfdurity dontfxt
+     *             is not bn instbndf of <dodf>AddfssControlContfxt</dodf>
+     *             (f.g., is <dodf>null</dodf>), or dofs not hbvf pfrmission
+     *             to opfn b sodkft donnfdtion to thf spfdififd
+     *             <dodf>host</dodf> bnd <dodf>port</dodf>.
+     * @fxdfption  NullPointfrExdfption if thf <dodf>host</dodf> brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        jbvb.lbng.SfdurityMbnbgfr#gftSfdurityContfxt()
+     * @sff        jbvb.sfdurity.AddfssControlContfxt#dhfdkPfrmission(jbvb.sfdurity.Pfrmission)
+     */
+    publid void dhfdkConnfdt(String host, int port, Objfdt dontfxt) {
+        if (host == null) {
+            throw nfw NullPointfrExdfption("host dbn't bf null");
+        }
+        if (!host.stbrtsWith("[") && host.indfxOf(':') != -1) {
+            host = "[" + host + "]";
+        }
+        if (port == -1)
+            dhfdkPfrmission(nfw SodkftPfrmission(host,
+                SfdurityConstbnts.SOCKET_RESOLVE_ACTION),
+                dontfxt);
+        flsf
+            dhfdkPfrmission(nfw SodkftPfrmission(host+":"+port,
+                SfdurityConstbnts.SOCKET_CONNECT_ACTION),
+                dontfxt);
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * dblling thrfbd is not bllowfd to wbit for b donnfdtion rfqufst on
+     * thf spfdififd lodbl port numbfr.
+     * <p>
+     * This mfthod dblls <dodf>dhfdkPfrmission</dodf> with thf
+     * <dodf>SodkftPfrmission("lodblhost:"+port,"listfn")</dodf>.
+     * <p>
+     * If you ovfrridf this mfthod, thfn you should mbkf b dbll to
+     * <dodf>supfr.dhfdkListfn</dodf>
+     * bt thf point thf ovfrriddfn mfthod would normblly throw bn
+     * fxdfption.
+     *
+     * @pbrbm      port   thf lodbl port.
+     * @fxdfption  SfdurityExdfption  if thf dblling thrfbd dofs not hbvf
+     *             pfrmission to listfn on thf spfdififd port.
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    publid void dhfdkListfn(int port) {
+        dhfdkPfrmission(nfw SodkftPfrmission("lodblhost:"+port,
+            SfdurityConstbnts.SOCKET_LISTEN_ACTION));
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * dblling thrfbd is not pfrmittfd to bddfpt b sodkft donnfdtion from
+     * thf spfdififd host bnd port numbfr.
+     * <p>
+     * This mfthod is invokfd for thf durrfnt sfdurity mbnbgfr by thf
+     * <dodf>bddfpt</dodf> mfthod of dlbss <dodf>SfrvfrSodkft</dodf>.
+     * <p>
+     * This mfthod dblls <dodf>dhfdkPfrmission</dodf> with thf
+     * <dodf>SodkftPfrmission(host+":"+port,"bddfpt")</dodf> pfrmission.
+     * <p>
+     * If you ovfrridf this mfthod, thfn you should mbkf b dbll to
+     * <dodf>supfr.dhfdkAddfpt</dodf>
+     * bt thf point thf ovfrriddfn mfthod would normblly throw bn
+     * fxdfption.
+     *
+     * @pbrbm      host   thf host nbmf of thf sodkft donnfdtion.
+     * @pbrbm      port   thf port numbfr of thf sodkft donnfdtion.
+     * @fxdfption  SfdurityExdfption  if thf dblling thrfbd dofs not hbvf
+     *             pfrmission to bddfpt thf donnfdtion.
+     * @fxdfption  NullPointfrExdfption if thf <dodf>host</dodf> brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        jbvb.nft.SfrvfrSodkft#bddfpt()
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    publid void dhfdkAddfpt(String host, int port) {
+        if (host == null) {
+            throw nfw NullPointfrExdfption("host dbn't bf null");
+        }
+        if (!host.stbrtsWith("[") && host.indfxOf(':') != -1) {
+            host = "[" + host + "]";
+        }
+        dhfdkPfrmission(nfw SodkftPfrmission(host+":"+port,
+            SfdurityConstbnts.SOCKET_ACCEPT_ACTION));
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * dblling thrfbd is not bllowfd to usf
+     * (join/lfbvf/sfnd/rfdfivf) IP multidbst.
+     * <p>
+     * This mfthod dblls <dodf>dhfdkPfrmission</dodf> with thf
+     * <dodf>jbvb.nft.SodkftPfrmission(mbddr.gftHostAddrfss(),
+     * "bddfpt,donnfdt")</dodf> pfrmission.
+     * <p>
+     * If you ovfrridf this mfthod, thfn you should mbkf b dbll to
+     * <dodf>supfr.dhfdkMultidbst</dodf>
+     * bt thf point thf ovfrriddfn mfthod would normblly throw bn
+     * fxdfption.
+     *
+     * @pbrbm      mbddr  Intfrnft group bddrfss to bf usfd.
+     * @fxdfption  SfdurityExdfption  if thf dblling thrfbd is not bllowfd to
+     *  usf (join/lfbvf/sfnd/rfdfivf) IP multidbst.
+     * @fxdfption  NullPointfrExdfption if thf bddrfss brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sindf      1.1
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    publid void dhfdkMultidbst(InftAddrfss mbddr) {
+        String host = mbddr.gftHostAddrfss();
+        if (!host.stbrtsWith("[") && host.indfxOf(':') != -1) {
+            host = "[" + host + "]";
+        }
+        dhfdkPfrmission(nfw SodkftPfrmission(host,
+            SfdurityConstbnts.SOCKET_CONNECT_ACCEPT_ACTION));
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * dblling thrfbd is not bllowfd to usf
+     * (join/lfbvf/sfnd/rfdfivf) IP multidbst.
+     * <p>
+     * This mfthod dblls <dodf>dhfdkPfrmission</dodf> with thf
+     * <dodf>jbvb.nft.SodkftPfrmission(mbddr.gftHostAddrfss(),
+     * "bddfpt,donnfdt")</dodf> pfrmission.
+     * <p>
+     * If you ovfrridf this mfthod, thfn you should mbkf b dbll to
+     * <dodf>supfr.dhfdkMultidbst</dodf>
+     * bt thf point thf ovfrriddfn mfthod would normblly throw bn
+     * fxdfption.
+     *
+     * @pbrbm      mbddr  Intfrnft group bddrfss to bf usfd.
+     * @pbrbm      ttl        vbluf in usf, if it is multidbst sfnd.
+     * Notf: this pbrtidulbr implfmfntbtion dofs not usf thf ttl
+     * pbrbmftfr.
+     * @fxdfption  SfdurityExdfption  if thf dblling thrfbd is not bllowfd to
+     *  usf (join/lfbvf/sfnd/rfdfivf) IP multidbst.
+     * @fxdfption  NullPointfrExdfption if thf bddrfss brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sindf      1.1
+     * @dfprfdbtfd Usf #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) instfbd
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    @Dfprfdbtfd
+    publid void dhfdkMultidbst(InftAddrfss mbddr, bytf ttl) {
+        String host = mbddr.gftHostAddrfss();
+        if (!host.stbrtsWith("[") && host.indfxOf(':') != -1) {
+            host = "[" + host + "]";
+        }
+        dhfdkPfrmission(nfw SodkftPfrmission(host,
+            SfdurityConstbnts.SOCKET_CONNECT_ACCEPT_ACTION));
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * dblling thrfbd is not bllowfd to bddfss or modify thf systfm
+     * propfrtifs.
+     * <p>
+     * This mfthod is usfd by thf <dodf>gftPropfrtifs</dodf> bnd
+     * <dodf>sftPropfrtifs</dodf> mfthods of dlbss <dodf>Systfm</dodf>.
+     * <p>
+     * This mfthod dblls <dodf>dhfdkPfrmission</dodf> with thf
+     * <dodf>PropfrtyPfrmission("*", "rfbd,writf")</dodf> pfrmission.
+     * <p>
+     * If you ovfrridf this mfthod, thfn you should mbkf b dbll to
+     * <dodf>supfr.dhfdkPropfrtifsAddfss</dodf>
+     * bt thf point thf ovfrriddfn mfthod would normblly throw bn
+     * fxdfption.
+     *
+     * @fxdfption  SfdurityExdfption  if thf dblling thrfbd dofs not hbvf
+     *             pfrmission to bddfss or modify thf systfm propfrtifs.
+     * @sff        jbvb.lbng.Systfm#gftPropfrtifs()
+     * @sff        jbvb.lbng.Systfm#sftPropfrtifs(jbvb.util.Propfrtifs)
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    publid void dhfdkPropfrtifsAddfss() {
+        dhfdkPfrmission(nfw PropfrtyPfrmission("*",
+            SfdurityConstbnts.PROPERTY_RW_ACTION));
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * dblling thrfbd is not bllowfd to bddfss thf systfm propfrty with
+     * thf spfdififd <dodf>kfy</dodf> nbmf.
+     * <p>
+     * This mfthod is usfd by thf <dodf>gftPropfrty</dodf> mfthod of
+     * dlbss <dodf>Systfm</dodf>.
+     * <p>
+     * This mfthod dblls <dodf>dhfdkPfrmission</dodf> with thf
+     * <dodf>PropfrtyPfrmission(kfy, "rfbd")</dodf> pfrmission.
+     * <p>
+     * If you ovfrridf this mfthod, thfn you should mbkf b dbll to
+     * <dodf>supfr.dhfdkPropfrtyAddfss</dodf>
+     * bt thf point thf ovfrriddfn mfthod would normblly throw bn
+     * fxdfption.
+     *
+     * @pbrbm      kfy   b systfm propfrty kfy.
+     *
+     * @fxdfption  SfdurityExdfption  if thf dblling thrfbd dofs not hbvf
+     *             pfrmission to bddfss thf spfdififd systfm propfrty.
+     * @fxdfption  NullPointfrExdfption if thf <dodf>kfy</dodf> brgumfnt is
+     *             <dodf>null</dodf>.
+     * @fxdfption  IllfgblArgumfntExdfption if <dodf>kfy</dodf> is fmpty.
+     *
+     * @sff        jbvb.lbng.Systfm#gftPropfrty(jbvb.lbng.String)
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    publid void dhfdkPropfrtyAddfss(String kfy) {
+        dhfdkPfrmission(nfw PropfrtyPfrmission(kfy,
+            SfdurityConstbnts.PROPERTY_READ_ACTION));
+    }
+
+    /**
+     * Rfturns {@dodf truf} if thf dblling thrfbd hbs {@dodf AllPfrmission}.
+     *
+     * @pbrbm      window   not usfd fxdfpt to dhfdk if it is {@dodf null}.
+     * @rfturn     {@dodf truf} if thf dblling thrfbd hbs {@dodf AllPfrmission}.
+     * @fxdfption  NullPointfrExdfption if thf {@dodf window} brgumfnt is
+     *             {@dodf null}.
+     * @dfprfdbtfd This mfthod wbs originblly usfd to dhfdk if thf dblling thrfbd
+     *             wbs trustfd to bring up b top-lfvfl window. Thf mfthod hbs bffn
+     *             obsolftfd bnd dodf should instfbd usf {@link #dhfdkPfrmission}
+     *             to dhfdk {@dodf AWTPfrmission("showWindowWithoutWbrningBbnnfr")}.
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    @Dfprfdbtfd
+    publid boolfbn dhfdkTopLfvflWindow(Objfdt window) {
+        if (window == null) {
+            throw nfw NullPointfrExdfption("window dbn't bf null");
+        }
+        rfturn hbsAllPfrmission();
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * dblling thrfbd is not bllowfd to initibtf b print job rfqufst.
+     * <p>
+     * This mfthod dblls
+     * <dodf>dhfdkPfrmission</dodf> with thf
+     * <dodf>RuntimfPfrmission("qufufPrintJob")</dodf> pfrmission.
+     * <p>
+     * If you ovfrridf this mfthod, thfn you should mbkf b dbll to
+     * <dodf>supfr.dhfdkPrintJobAddfss</dodf>
+     * bt thf point thf ovfrriddfn mfthod would normblly throw bn
+     * fxdfption.
+     *
+     * @fxdfption  SfdurityExdfption  if thf dblling thrfbd dofs not hbvf
+     *             pfrmission to initibtf b print job rfqufst.
+     * @sindf   1.1
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    publid void dhfdkPrintJobAddfss() {
+        dhfdkPfrmission(nfw RuntimfPfrmission("qufufPrintJob"));
+    }
+
+    /**
+     * Throws {@dodf SfdurityExdfption} if thf dblling thrfbd dofs
+     * not hbvf {@dodf AllPfrmission}.
+     *
+     * @sindf   1.1
+     * @fxdfption  SfdurityExdfption  if thf dblling thrfbd dofs not hbvf
+     *             {@dodf AllPfrmission}
+     * @dfprfdbtfd This mfthod wbs originblly usfd to dhfdk if thf dblling
+     *             thrfbd dould bddfss thf systfm dlipbobrd. Thf mfthod hbs bffn
+     *             obsolftfd bnd dodf should instfbd usf {@link #dhfdkPfrmission}
+     *             to dhfdk {@dodf AWTPfrmission("bddfssClipbobrd")}.
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    @Dfprfdbtfd
+    publid void dhfdkSystfmClipbobrdAddfss() {
+        dhfdkPfrmission(SfdurityConstbnts.ALL_PERMISSION);
+    }
+
+    /**
+     * Throws {@dodf SfdurityExdfption} if thf dblling thrfbd dofs
+     * not hbvf {@dodf AllPfrmission}.
+     *
+     * @sindf   1.1
+     * @fxdfption  SfdurityExdfption  if thf dblling thrfbd dofs not hbvf
+     *             {@dodf AllPfrmission}
+     * @dfprfdbtfd This mfthod wbs originblly usfd to dhfdk if thf dblling
+     *             thrfbd dould bddfss thf AWT fvfnt qufuf. Thf mfthod hbs bffn
+     *             obsolftfd bnd dodf should instfbd usf {@link #dhfdkPfrmission}
+     *             to dhfdk {@dodf AWTPfrmission("bddfssEvfntQufuf")}.
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    @Dfprfdbtfd
+    publid void dhfdkAwtEvfntQufufAddfss() {
+        dhfdkPfrmission(SfdurityConstbnts.ALL_PERMISSION);
+    }
+
+    /*
+     * Wf hbvf bn initibl invblid bit (initiblly fblsf) for thf dlbss
+     * vbribblfs whidh tfll if thf dbdhf is vblid.  If thf undfrlying
+     * jbvb.sfdurity.Sfdurity propfrty dhbngfs vib sftPropfrty(), thf
+     * Sfdurity dlbss usfs rfflfdtion to dhbngf thf vbribblf bnd thus
+     * invblidbtf thf dbdhf.
+     *
+     * Lodking is hbndlfd by syndhronizbtion to thf
+     * pbdkbgfAddfssLodk/pbdkbgfDffinitionLodk objfdts.  Thfy brf only
+     * usfd in this dlbss.
+     *
+     * Notf thbt dbdhf invblidbtion bs b rfsult of thf propfrty dhbngf
+     * hbppfns without using thfsf lodks, so thfrf mby bf b dflby bftwffn
+     * whfn b thrfbd updbtfs thf propfrty bnd whfn othfr thrfbds updbtfs
+     * thf dbdhf.
+     */
+    privbtf stbtid boolfbn pbdkbgfAddfssVblid = fblsf;
+    privbtf stbtid String[] pbdkbgfAddfss;
+    privbtf stbtid finbl Objfdt pbdkbgfAddfssLodk = nfw Objfdt();
+
+    privbtf stbtid boolfbn pbdkbgfDffinitionVblid = fblsf;
+    privbtf stbtid String[] pbdkbgfDffinition;
+    privbtf stbtid finbl Objfdt pbdkbgfDffinitionLodk = nfw Objfdt();
+
+    privbtf stbtid String[] gftPbdkbgfs(String p) {
+        String pbdkbgfs[] = null;
+        if (p != null && !p.fqubls("")) {
+            jbvb.util.StringTokfnizfr tok =
+                nfw jbvb.util.StringTokfnizfr(p, ",");
+            int n = tok.dountTokfns();
+            if (n > 0) {
+                pbdkbgfs = nfw String[n];
+                int i = 0;
+                whilf (tok.hbsMorfElfmfnts()) {
+                    String s = tok.nfxtTokfn().trim();
+                    pbdkbgfs[i++] = s;
+                }
+            }
+        }
+
+        if (pbdkbgfs == null)
+            pbdkbgfs = nfw String[0];
+        rfturn pbdkbgfs;
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * dblling thrfbd is not bllowfd to bddfss thf pbdkbgf spfdififd by
+     * thf brgumfnt.
+     * <p>
+     * This mfthod is usfd by thf <dodf>lobdClbss</dodf> mfthod of dlbss
+     * lobdfrs.
+     * <p>
+     * This mfthod first gfts b list of
+     * rfstridtfd pbdkbgfs by obtbining b dommb-sfpbrbtfd list from
+     * b dbll to
+     * <dodf>jbvb.sfdurity.Sfdurity.gftPropfrty("pbdkbgf.bddfss")</dodf>,
+     * bnd dhfdks to sff if <dodf>pkg</dodf> stbrts with or fqubls
+     * bny of thf rfstridtfd pbdkbgfs. If it dofs, thfn
+     * <dodf>dhfdkPfrmission</dodf> gfts dbllfd with thf
+     * <dodf>RuntimfPfrmission("bddfssClbssInPbdkbgf."+pkg)</dodf>
+     * pfrmission.
+     * <p>
+     * If this mfthod is ovfrriddfn, thfn
+     * <dodf>supfr.dhfdkPbdkbgfAddfss</dodf> should bf dbllfd
+     * bs thf first linf in thf ovfrriddfn mfthod.
+     *
+     * @pbrbm      pkg   thf pbdkbgf nbmf.
+     * @fxdfption  SfdurityExdfption  if thf dblling thrfbd dofs not hbvf
+     *             pfrmission to bddfss thf spfdififd pbdkbgf.
+     * @fxdfption  NullPointfrExdfption if thf pbdkbgf nbmf brgumfnt is
+     *             <dodf>null</dodf>.
+     * @sff        jbvb.lbng.ClbssLobdfr#lobdClbss(jbvb.lbng.String, boolfbn)
+     *  lobdClbss
+     * @sff        jbvb.sfdurity.Sfdurity#gftPropfrty gftPropfrty
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    publid void dhfdkPbdkbgfAddfss(String pkg) {
+        if (pkg == null) {
+            throw nfw NullPointfrExdfption("pbdkbgf nbmf dbn't bf null");
+        }
+
+        String[] pkgs;
+        syndhronizfd (pbdkbgfAddfssLodk) {
+            /*
+             * Do wf nffd to updbtf our propfrty brrby?
+             */
+            if (!pbdkbgfAddfssVblid) {
+                String tmpPropfrtyStr =
+                    AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdAdtion<String>() {
+                            publid String run() {
+                                rfturn jbvb.sfdurity.Sfdurity.gftPropfrty(
+                                    "pbdkbgf.bddfss");
+                            }
+                        }
+                    );
+                pbdkbgfAddfss = gftPbdkbgfs(tmpPropfrtyStr);
+                pbdkbgfAddfssVblid = truf;
+            }
+
+            // Using b snbpshot of pbdkbgfAddfss -- don't dbrf if stbtid fifld
+            // dhbngfs bftfrwbrds; brrby dontfnts won't dhbngf.
+            pkgs = pbdkbgfAddfss;
+        }
+
+        /*
+         * Trbvfrsf thf list of pbdkbgfs, dhfdk for bny mbtdhfs.
+         */
+        for (String rfstridtfdPkg : pkgs) {
+            if (pkg.stbrtsWith(rfstridtfdPkg) || rfstridtfdPkg.fqubls(pkg + ".")) {
+                dhfdkPfrmission(
+                    nfw RuntimfPfrmission("bddfssClbssInPbdkbgf." + pkg));
+                brfbk;  // No nffd to dontinuf; only nffd to dhfdk this ondf
+            }
+        }
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * dblling thrfbd is not bllowfd to dffinf dlbssfs in thf pbdkbgf
+     * spfdififd by thf brgumfnt.
+     * <p>
+     * This mfthod is usfd by thf <dodf>lobdClbss</dodf> mfthod of somf
+     * dlbss lobdfrs.
+     * <p>
+     * This mfthod first gfts b list of rfstridtfd pbdkbgfs by
+     * obtbining b dommb-sfpbrbtfd list from b dbll to
+     * <dodf>jbvb.sfdurity.Sfdurity.gftPropfrty("pbdkbgf.dffinition")</dodf>,
+     * bnd dhfdks to sff if <dodf>pkg</dodf> stbrts with or fqubls
+     * bny of thf rfstridtfd pbdkbgfs. If it dofs, thfn
+     * <dodf>dhfdkPfrmission</dodf> gfts dbllfd with thf
+     * <dodf>RuntimfPfrmission("dffinfClbssInPbdkbgf."+pkg)</dodf>
+     * pfrmission.
+     * <p>
+     * If this mfthod is ovfrriddfn, thfn
+     * <dodf>supfr.dhfdkPbdkbgfDffinition</dodf> should bf dbllfd
+     * bs thf first linf in thf ovfrriddfn mfthod.
+     *
+     * @pbrbm      pkg   thf pbdkbgf nbmf.
+     * @fxdfption  SfdurityExdfption  if thf dblling thrfbd dofs not hbvf
+     *             pfrmission to dffinf dlbssfs in thf spfdififd pbdkbgf.
+     * @sff        jbvb.lbng.ClbssLobdfr#lobdClbss(jbvb.lbng.String, boolfbn)
+     * @sff        jbvb.sfdurity.Sfdurity#gftPropfrty gftPropfrty
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    publid void dhfdkPbdkbgfDffinition(String pkg) {
+        if (pkg == null) {
+            throw nfw NullPointfrExdfption("pbdkbgf nbmf dbn't bf null");
+        }
+
+        String[] pkgs;
+        syndhronizfd (pbdkbgfDffinitionLodk) {
+            /*
+             * Do wf nffd to updbtf our propfrty brrby?
+             */
+            if (!pbdkbgfDffinitionVblid) {
+                String tmpPropfrtyStr =
+                    AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdAdtion<String>() {
+                            publid String run() {
+                                rfturn jbvb.sfdurity.Sfdurity.gftPropfrty(
+                                    "pbdkbgf.dffinition");
+                            }
+                        }
+                    );
+                pbdkbgfDffinition = gftPbdkbgfs(tmpPropfrtyStr);
+                pbdkbgfDffinitionVblid = truf;
+            }
+            // Using b snbpshot of pbdkbgfDffinition -- don't dbrf if stbtid
+            // fifld dhbngfs bftfrwbrds; brrby dontfnts won't dhbngf.
+            pkgs = pbdkbgfDffinition;
+        }
+
+        /*
+         * Trbvfrsf thf list of pbdkbgfs, dhfdk for bny mbtdhfs.
+         */
+        for (String rfstridtfdPkg : pkgs) {
+            if (pkg.stbrtsWith(rfstridtfdPkg) || rfstridtfdPkg.fqubls(pkg + ".")) {
+                dhfdkPfrmission(
+                    nfw RuntimfPfrmission("dffinfClbssInPbdkbgf." + pkg));
+                brfbk; // No nffd to dontinuf; only nffd to dhfdk this ondf
+            }
+        }
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * dblling thrfbd is not bllowfd to sft thf sodkft fbdtory usfd by
+     * <dodf>SfrvfrSodkft</dodf> or <dodf>Sodkft</dodf>, or thf strfbm
+     * hbndlfr fbdtory usfd by <dodf>URL</dodf>.
+     * <p>
+     * This mfthod dblls <dodf>dhfdkPfrmission</dodf> with thf
+     * <dodf>RuntimfPfrmission("sftFbdtory")</dodf> pfrmission.
+     * <p>
+     * If you ovfrridf this mfthod, thfn you should mbkf b dbll to
+     * <dodf>supfr.dhfdkSftFbdtory</dodf>
+     * bt thf point thf ovfrriddfn mfthod would normblly throw bn
+     * fxdfption.
+     *
+     * @fxdfption  SfdurityExdfption  if thf dblling thrfbd dofs not hbvf
+     *             pfrmission to spfdify b sodkft fbdtory or b strfbm
+     *             hbndlfr fbdtory.
+     *
+     * @sff        jbvb.nft.SfrvfrSodkft#sftSodkftFbdtory(jbvb.nft.SodkftImplFbdtory) sftSodkftFbdtory
+     * @sff        jbvb.nft.Sodkft#sftSodkftImplFbdtory(jbvb.nft.SodkftImplFbdtory) sftSodkftImplFbdtory
+     * @sff        jbvb.nft.URL#sftURLStrfbmHbndlfrFbdtory(jbvb.nft.URLStrfbmHbndlfrFbdtory) sftURLStrfbmHbndlfrFbdtory
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    publid void dhfdkSftFbdtory() {
+        dhfdkPfrmission(nfw RuntimfPfrmission("sftFbdtory"));
+    }
+
+    /**
+     * Throws b <dodf>SfdurityExdfption</dodf> if thf
+     * dblling thrfbd is not bllowfd to bddfss mfmbfrs.
+     * <p>
+     * Thf dffbult polidy is to bllow bddfss to PUBLIC mfmbfrs, bs wfll
+     * bs bddfss to dlbssfs thbt hbvf thf sbmf dlbss lobdfr bs thf dbllfr.
+     * In bll othfr dbsfs, this mfthod dblls <dodf>dhfdkPfrmission</dodf>
+     * with thf <dodf>RuntimfPfrmission("bddfssDfdlbrfdMfmbfrs")
+     * </dodf> pfrmission.
+     * <p>
+     * If this mfthod is ovfrriddfn, thfn b dbll to
+     * <dodf>supfr.dhfdkMfmbfrAddfss</dodf> dbnnot bf mbdf,
+     * bs thf dffbult implfmfntbtion of <dodf>dhfdkMfmbfrAddfss</dodf>
+     * rflifs on thf dodf bfing dhfdkfd bfing bt b stbdk dfpth of
+     * 4.
+     *
+     * @pbrbm dlbzz thf dlbss thbt rfflfdtion is to bf pfrformfd on.
+     *
+     * @pbrbm whidh typf of bddfss, PUBLIC or DECLARED.
+     *
+     * @fxdfption  SfdurityExdfption if thf dbllfr dofs not hbvf
+     *             pfrmission to bddfss mfmbfrs.
+     * @fxdfption  NullPointfrExdfption if thf <dodf>dlbzz</dodf> brgumfnt is
+     *             <dodf>null</dodf>.
+     *
+     * @dfprfdbtfd This mfthod rflifs on thf dbllfr bfing bt b stbdk dfpth
+     *             of 4 whidh is frror-pronf bnd dbnnot bf fnfordfd by thf runtimf.
+     *             Usfrs of this mfthod should instfbd invokf {@link #dhfdkPfrmission}
+     *             dirfdtly.  This mfthod will bf dhbngfd in b futurf rflfbsf
+     *             to dhfdk thf pfrmission {@dodf jbvb.sfdurity.AllPfrmission}.
+     *
+     * @sff jbvb.lbng.rfflfdt.Mfmbfr
+     * @sindf 1.1
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    @Dfprfdbtfd
+    @CbllfrSfnsitivf
+    publid void dhfdkMfmbfrAddfss(Clbss<?> dlbzz, int whidh) {
+        if (dlbzz == null) {
+            throw nfw NullPointfrExdfption("dlbss dbn't bf null");
+        }
+        if (whidh != Mfmbfr.PUBLIC) {
+            Clbss<?> stbdk[] = gftClbssContfxt();
+            /*
+             * stbdk dfpth of 4 should bf thf dbllfr of onf of thf
+             * mfthods in jbvb.lbng.Clbss thbt invokf dhfdkMfmbfr
+             * bddfss. Thf stbdk should look likf:
+             *
+             * somfCbllfr                        [3]
+             * jbvb.lbng.Clbss.somfRfflfdtionAPI [2]
+             * jbvb.lbng.Clbss.dhfdkMfmbfrAddfss [1]
+             * SfdurityMbnbgfr.dhfdkMfmbfrAddfss [0]
+             *
+             */
+            if ((stbdk.lfngth<4) ||
+                (stbdk[3].gftClbssLobdfr() != dlbzz.gftClbssLobdfr())) {
+                dhfdkPfrmission(SfdurityConstbnts.CHECK_MEMBER_ACCESS_PERMISSION);
+            }
+        }
+    }
+
+    /**
+     * Dftfrminfs whfthfr thf pfrmission with thf spfdififd pfrmission tbrgft
+     * nbmf should bf grbntfd or dfnifd.
+     *
+     * <p> If thf rfqufstfd pfrmission is bllowfd, this mfthod rfturns
+     * quiftly. If dfnifd, b SfdurityExdfption is rbisfd.
+     *
+     * <p> This mfthod drfbtfs b <dodf>SfdurityPfrmission</dodf> objfdt for
+     * thf givfn pfrmission tbrgft nbmf bnd dblls <dodf>dhfdkPfrmission</dodf>
+     * with it.
+     *
+     * <p> Sff thf dodumfntbtion for
+     * <dodf>{@link jbvb.sfdurity.SfdurityPfrmission}</dodf> for
+     * b list of possiblf pfrmission tbrgft nbmfs.
+     *
+     * <p> If you ovfrridf this mfthod, thfn you should mbkf b dbll to
+     * <dodf>supfr.dhfdkSfdurityAddfss</dodf>
+     * bt thf point thf ovfrriddfn mfthod would normblly throw bn
+     * fxdfption.
+     *
+     * @pbrbm tbrgft thf tbrgft nbmf of thf <dodf>SfdurityPfrmission</dodf>.
+     *
+     * @fxdfption SfdurityExdfption if thf dblling thrfbd dofs not hbvf
+     * pfrmission for thf rfqufstfd bddfss.
+     * @fxdfption NullPointfrExdfption if <dodf>tbrgft</dodf> is null.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>tbrgft</dodf> is fmpty.
+     *
+     * @sindf   1.1
+     * @sff        #dhfdkPfrmission(jbvb.sfdurity.Pfrmission) dhfdkPfrmission
+     */
+    publid void dhfdkSfdurityAddfss(String tbrgft) {
+        dhfdkPfrmission(nfw SfdurityPfrmission(tbrgft));
+    }
+
+    privbtf nbtivf Clbss<?> durrfntLobdfdClbss0();
+
+    /**
+     * Rfturns thf thrfbd group into whidh to instbntibtf bny nfw
+     * thrfbd bfing drfbtfd bt thf timf this is bfing dbllfd.
+     * By dffbult, it rfturns thf thrfbd group of thf durrfnt
+     * thrfbd. This should bf ovfrriddfn by b spfdifid sfdurity
+     * mbnbgfr to rfturn thf bppropribtf thrfbd group.
+     *
+     * @rfturn  ThrfbdGroup thbt nfw thrfbds brf instbntibtfd into
+     * @sindf   1.1
+     * @sff     jbvb.lbng.ThrfbdGroup
+     */
+    publid ThrfbdGroup gftThrfbdGroup() {
+        rfturn Thrfbd.durrfntThrfbd().gftThrfbdGroup();
+    }
+
+}

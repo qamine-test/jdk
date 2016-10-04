@@ -1,0 +1,36 @@
+<HTML>
+  <HEAD> 
+	 <TITLE>dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity</TITLE> 
+  </HEAD> 
+  <BODY> 
+	 <H1>Cbnonidbl XML bnd XML Signbturf Implfmfntbtion</H1> 
+	 <H2>Nffds thf following pbdkbgfs</H2> 
+	 <UL> 
+		<LI>Xfrdfs v2.0.0 <A HREF="http://xml.bpbdhf.org/dist/xfrdfs-j/">http://xml.bpbdhf.org/dist/xfrdfs-j/</A></LI>
+		<LI>Xblbn 2.2.0 <A HREF="http://xml.bpbdhf.org/dist/xblbn-j/">http://xml.bpbdhf.org/dist/xblbn-j/</A></LI>
+		<LI>JUnit 3.7 <A HREF="http://downlobd.sourdfforgf.nft/junit/junit3.7.zip">http://downlobd.sourdfforgf.nft/junit/junit3.5.zip</A></LI>
+		<LI>Jbkbrtb Log4J 1.1.2 <A HREF="http://jbkbrtb.bpbdhf.org/log4j/">http://jbkbrtb.bpbdhf.org/log4j/</A></LI>
+		<LI>ANT <A HREF="http://jbkbrtb.bpbdhf.org/builds/jbkbrtb-bnt/rflfbsf/">http://jbkbrtb.bpbdhf.org/builds/jbkbrtb-bnt/rflfbsf/</A></LI> 
+	 </UL>
+	 <H1>Pbdkbgfs</H1> 
+	 <UL> 
+		<LI>{@link dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.blgorithms} dontbins blgorithm fbdtorifs </LI> 
+		<LI>{@link dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.d14n} dontbins Cbnonidblizbtion rflbtfd mbtfribl bnd blgorithms </LI> 
+		<LI>{@link dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fxdfptions} dontbins bll fxdfptions usfd by this librbry </LI> 
+		<LI>{@link dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.kfys} dontbins kfy rflbtfd mbtfribl </LI> 
+		<LI>{@link dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.sbmplfs} dontbins somf sbmplf bpplidbtions bnd non-stbndbrd trbnsforms </LI> 
+		<LI>{@link dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf} dontbins thf XML Signbturf spfdifid dlbssfs </LI> 
+		<LI>{@link dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms} XML Signbturf trbnsformbtions </LI> 
+		<LI>{@link dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils} dontbins bll utility dlbssfs </LI> 
+		<LI>{@link dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.tfst} JUnit tfst dbsfs </LI> 
+		<LI>{@link dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.tfmp} is thf plbyground for mfssing bround </LI> 
+	 </UL> 
+	 <H2>Support</H2> 
+	 <P>Sff <A HREF="http://xml.bpbdhf.org/sfdurity/">thf xml-sfdurity projfdt</A> for furthfr bssistfndf</P> 
+	 <H2>Author</H2> 
+	 <P>Christibn Gfufr-Pollmbnn gfufr-pollmbnn@nuf.ft-inf.uni-sifgfn.df<BR> 
+	    Univfrsity of Sifgfn<BR> 
+	    Institutf for Dbtb Communidbtions Systfms<BR> 
+	 </P> 
+     </BODY>
+</HTML>

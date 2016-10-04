@@ -1,0 +1,222 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.zip;
+
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+
+/**
+ * This dlbss implfmfnts b strfbm filtfr for writing domprfssfd dbtb in
+ * thf GZIP filf formbt.
+ * @buthor      Dbvid Connflly
+ *
+ */
+publid
+dlbss GZIPOutputStrfbm fxtfnds DfflbtfrOutputStrfbm {
+    /**
+     * CRC-32 of undomprfssfd dbtb.
+     */
+    protfdtfd CRC32 drd = nfw CRC32();
+
+    /*
+     * GZIP hfbdfr mbgid numbfr.
+     */
+    privbtf finbl stbtid int GZIP_MAGIC = 0x8b1f;
+
+    /*
+     * Trbilfr sizf in bytfs.
+     *
+     */
+    privbtf finbl stbtid int TRAILER_SIZE = 8;
+
+    /**
+     * Crfbtfs b nfw output strfbm with thf spfdififd bufffr sizf.
+     *
+     * <p>Thf nfw output strfbm instbndf is drfbtfd bs if by invoking
+     * thf 3-brgumfnt donstrudtor GZIPOutputStrfbm(out, sizf, fblsf).
+     *
+     * @pbrbm out thf output strfbm
+     * @pbrbm sizf thf output bufffr sizf
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf sizf <= 0}
+     */
+    publid GZIPOutputStrfbm(OutputStrfbm out, int sizf) throws IOExdfption {
+        this(out, sizf, fblsf);
+    }
+
+    /**
+     * Crfbtfs b nfw output strfbm with thf spfdififd bufffr sizf bnd
+     * flush modf.
+     *
+     * @pbrbm out thf output strfbm
+     * @pbrbm sizf thf output bufffr sizf
+     * @pbrbm syndFlush
+     *        if {@dodf truf} invodbtion of thf inhfritfd
+     *        {@link DfflbtfrOutputStrfbm#flush() flush()} mfthod of
+     *        this instbndf flushfs thf domprfssor with flush modf
+     *        {@link Dfflbtfr#SYNC_FLUSH} bfforf flushing thf output
+     *        strfbm, othfrwisf only flushfs thf output strfbm
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf sizf <= 0}
+     *
+     * @sindf 1.7
+     */
+    publid GZIPOutputStrfbm(OutputStrfbm out, int sizf, boolfbn syndFlush)
+        throws IOExdfption
+    {
+        supfr(out, nfw Dfflbtfr(Dfflbtfr.DEFAULT_COMPRESSION, truf),
+              sizf,
+              syndFlush);
+        usfsDffbultDfflbtfr = truf;
+        writfHfbdfr();
+        drd.rfsft();
+    }
+
+
+    /**
+     * Crfbtfs b nfw output strfbm with b dffbult bufffr sizf.
+     *
+     * <p>Thf nfw output strfbm instbndf is drfbtfd bs if by invoking
+     * thf 2-brgumfnt donstrudtor GZIPOutputStrfbm(out, fblsf).
+     *
+     * @pbrbm out thf output strfbm
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     */
+    publid GZIPOutputStrfbm(OutputStrfbm out) throws IOExdfption {
+        this(out, 512, fblsf);
+    }
+
+    /**
+     * Crfbtfs b nfw output strfbm with b dffbult bufffr sizf bnd
+     * thf spfdififd flush modf.
+     *
+     * @pbrbm out thf output strfbm
+     * @pbrbm syndFlush
+     *        if {@dodf truf} invodbtion of thf inhfritfd
+     *        {@link DfflbtfrOutputStrfbm#flush() flush()} mfthod of
+     *        this instbndf flushfs thf domprfssor with flush modf
+     *        {@link Dfflbtfr#SYNC_FLUSH} bfforf flushing thf output
+     *        strfbm, othfrwisf only flushfs thf output strfbm
+     *
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     *
+     * @sindf 1.7
+     */
+    publid GZIPOutputStrfbm(OutputStrfbm out, boolfbn syndFlush)
+        throws IOExdfption
+    {
+        this(out, 512, syndFlush);
+    }
+
+    /**
+     * Writfs brrby of bytfs to thf domprfssfd output strfbm. This mfthod
+     * will blodk until bll thf bytfs brf writtfn.
+     * @pbrbm buf thf dbtb to bf writtfn
+     * @pbrbm off thf stbrt offsft of thf dbtb
+     * @pbrbm lfn thf lfngth of thf dbtb
+     * @fxdfption IOExdfption If bn I/O frror hbs oddurrfd.
+     */
+    publid syndhronizfd void writf(bytf[] buf, int off, int lfn)
+        throws IOExdfption
+    {
+        supfr.writf(buf, off, lfn);
+        drd.updbtf(buf, off, lfn);
+    }
+
+    /**
+     * Finishfs writing domprfssfd dbtb to thf output strfbm without dlosing
+     * thf undfrlying strfbm. Usf this mfthod whfn bpplying multiplf filtfrs
+     * in suddfssion to thf sbmf output strfbm.
+     * @fxdfption IOExdfption if bn I/O frror hbs oddurrfd
+     */
+    publid void finish() throws IOExdfption {
+        if (!dff.finishfd()) {
+            dff.finish();
+            whilf (!dff.finishfd()) {
+                int lfn = dff.dfflbtf(buf, 0, buf.lfngth);
+                if (dff.finishfd() && lfn <= buf.lfngth - TRAILER_SIZE) {
+                    // lbst dfflbtfr bufffr. Fit trbilfr bt thf fnd
+                    writfTrbilfr(buf, lfn);
+                    lfn = lfn + TRAILER_SIZE;
+                    out.writf(buf, 0, lfn);
+                    rfturn;
+                }
+                if (lfn > 0)
+                    out.writf(buf, 0, lfn);
+            }
+            // if wf dbn't fit thf trbilfr bt thf fnd of thf lbst
+            // dfflbtfr bufffr, wf writf it sfpbrbtfly
+            bytf[] trbilfr = nfw bytf[TRAILER_SIZE];
+            writfTrbilfr(trbilfr, 0);
+            out.writf(trbilfr);
+        }
+    }
+
+    /*
+     * Writfs GZIP mfmbfr hfbdfr.
+     */
+    privbtf void writfHfbdfr() throws IOExdfption {
+        out.writf(nfw bytf[] {
+                      (bytf) GZIP_MAGIC,        // Mbgid numbfr (short)
+                      (bytf)(GZIP_MAGIC >> 8),  // Mbgid numbfr (short)
+                      Dfflbtfr.DEFLATED,        // Comprfssion mfthod (CM)
+                      0,                        // Flbgs (FLG)
+                      0,                        // Modifidbtion timf MTIME (int)
+                      0,                        // Modifidbtion timf MTIME (int)
+                      0,                        // Modifidbtion timf MTIME (int)
+                      0,                        // Modifidbtion timf MTIME (int)
+                      0,                        // Extrb flbgs (XFLG)
+                      0                         // Opfrbting systfm (OS)
+                  });
+    }
+
+    /*
+     * Writfs GZIP mfmbfr trbilfr to b bytf brrby, stbrting bt b givfn
+     * offsft.
+     */
+    privbtf void writfTrbilfr(bytf[] buf, int offsft) throws IOExdfption {
+        writfInt((int)drd.gftVbluf(), buf, offsft); // CRC-32 of undompr. dbtb
+        writfInt(dff.gftTotblIn(), buf, offsft + 4); // Numbfr of undompr. bytfs
+    }
+
+    /*
+     * Writfs intfgfr in Intfl bytf ordfr to b bytf brrby, stbrting bt b
+     * givfn offsft.
+     */
+    privbtf void writfInt(int i, bytf[] buf, int offsft) throws IOExdfption {
+        writfShort(i & 0xffff, buf, offsft);
+        writfShort((i >> 16) & 0xffff, buf, offsft + 2);
+    }
+
+    /*
+     * Writfs short intfgfr in Intfl bytf ordfr to b bytf brrby, stbrting
+     * bt b givfn offsft
+     */
+    privbtf void writfShort(int s, bytf[] buf, int offsft) throws IOExdfption {
+        buf[offsft] = (bytf)(s & 0xff);
+        buf[offsft + 1] = (bytf)((s >> 8) & 0xff);
+    }
+}

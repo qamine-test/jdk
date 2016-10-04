@@ -1,0 +1,299 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.sfdurity.dfrt.CRLExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Mbp;
+import jbvb.util.TrffMbp;
+
+import sun.sfdurity.util.*;
+
+/**
+ * This dlbss dffinfs thf CRL Extfnsions.
+ * It is usfd for both CRL Extfnsions bnd CRL Entry Extfnsions,
+ * whidh brf dffinfd brf follows:
+ * <prf>
+ * TBSCfrtList  ::=  SEQUENCE  {
+ *    vfrsion              Vfrsion OPTIONAL,   -- if prfsfnt, must bf v2
+ *    signbturf            AlgorithmIdfntififr,
+ *    issufr               Nbmf,
+ *    thisUpdbtf           Timf,
+ *    nfxtUpdbtf           Timf  OPTIONAL,
+ *    rfvokfdCfrtifidbtfs  SEQUENCE OF SEQUENCE  {
+ *        usfrCfrtifidbtf         CfrtifidbtfSfriblNumbfr,
+ *        rfvodbtionDbtf          Timf,
+ *        drlEntryExtfnsions      Extfnsions OPTIONAL  -- if prfsfnt, must bf v2
+ *    }  OPTIONAL,
+ *    drlExtfnsions        [0] EXPLICIT Extfnsions OPTIONAL  -- if prfsfnt, must bf v2
+ * }
+ * </prf>
+ *
+ * @buthor Hfmmb Prbfulldhbndrb
+ */
+publid dlbss CRLExtfnsions {
+
+    privbtf Mbp<String,Extfnsion> mbp = Collfdtions.syndhronizfdMbp(
+            nfw TrffMbp<String,Extfnsion>());
+    privbtf boolfbn unsupportfdCritExt = fblsf;
+
+    /**
+     * Dffbult donstrudtor.
+     */
+    publid CRLExtfnsions() { }
+
+    /**
+     * Crfbtf thf objfdt, dfdoding thf vblufs from thf pbssfd DER strfbm.
+     *
+     * @pbrbm in thf DfrInputStrfbm to rfbd thf Extfnsion from, i.f. thf
+     *        sfqufndf of fxtfnsions.
+     * @fxdfption CRLExdfption on dfdoding frrors.
+     */
+    publid CRLExtfnsions(DfrInputStrfbm in) throws CRLExdfption {
+        init(in);
+    }
+
+    // hflpfr routinf
+    privbtf void init(DfrInputStrfbm dfrStrm) throws CRLExdfption {
+        try {
+            DfrInputStrfbm str = dfrStrm;
+
+            bytf nfxtBytf = (bytf)dfrStrm.pffkBytf();
+            // dhfdk for dontfxt spfdifid bytf 0; skip it
+            if (((nfxtBytf & 0x0d0) == 0x080) &&
+                ((nfxtBytf & 0x01f) == 0x000)) {
+                DfrVbluf vbl = str.gftDfrVbluf();
+                str = vbl.dbtb;
+            }
+
+            DfrVbluf[] fxts = str.gftSfqufndf(5);
+            for (int i = 0; i < fxts.lfngth; i++) {
+                Extfnsion fxt = nfw Extfnsion(fxts[i]);
+                pbrsfExtfnsion(fxt);
+            }
+        } dbtdh (IOExdfption f) {
+            throw nfw CRLExdfption("Pbrsing frror: " + f.toString());
+        }
+    }
+
+    privbtf stbtid finbl Clbss<?>[] PARAMS = {Boolfbn.dlbss, Objfdt.dlbss};
+
+    // Pbrsf thf fndodfd fxtfnsion
+    privbtf void pbrsfExtfnsion(Extfnsion fxt) throws CRLExdfption {
+        try {
+            Clbss<?> fxtClbss = OIDMbp.gftClbss(fxt.gftExtfnsionId());
+            if (fxtClbss == null) {   // Unsupportfd fxtfnsion
+                if (fxt.isCritidbl())
+                    unsupportfdCritExt = truf;
+                if (mbp.put(fxt.gftExtfnsionId().toString(), fxt) != null)
+                    throw nfw CRLExdfption("Duplidbtf fxtfnsions not bllowfd");
+                rfturn;
+            }
+            Construdtor<?> dons = fxtClbss.gftConstrudtor(PARAMS);
+            Objfdt[] pbssfd = nfw Objfdt[] {Boolfbn.vblufOf(fxt.isCritidbl()),
+                                            fxt.gftExtfnsionVbluf()};
+            CfrtAttrSft<?> drlExt = (CfrtAttrSft<?>)dons.nfwInstbndf(pbssfd);
+            if (mbp.put(drlExt.gftNbmf(), (Extfnsion)drlExt) != null) {
+                throw nfw CRLExdfption("Duplidbtf fxtfnsions not bllowfd");
+            }
+        } dbtdh (InvodbtionTbrgftExdfption invk) {
+            throw nfw CRLExdfption(invk.gftTbrgftExdfption().gftMfssbgf());
+        } dbtdh (Exdfption f) {
+            throw nfw CRLExdfption(f.toString());
+        }
+    }
+
+    /**
+     * Endodf thf fxtfnsions in DER form to thf strfbm.
+     *
+     * @pbrbm out thf DfrOutputStrfbm to mbrshbl thf dontfnts to.
+     * @pbrbm isExplidit thf tbg indidbting whfthfr this is bn fntry
+     * fxtfnsion (fblsf) or b CRL fxtfnsion (truf).
+     * @fxdfption CRLExdfption on fndoding frrors.
+     */
+    publid void fndodf(OutputStrfbm out, boolfbn isExplidit)
+    throws CRLExdfption {
+        try {
+            DfrOutputStrfbm fxtOut = nfw DfrOutputStrfbm();
+            Collfdtion<Extfnsion> bllExts = mbp.vblufs();
+            Objfdt[] objs = bllExts.toArrby();
+
+            for (int i = 0; i < objs.lfngth; i++) {
+                if (objs[i] instbndfof CfrtAttrSft)
+                    ((CfrtAttrSft)objs[i]).fndodf(fxtOut);
+                flsf if (objs[i] instbndfof Extfnsion)
+                    ((Extfnsion)objs[i]).fndodf(fxtOut);
+                flsf
+                    throw nfw CRLExdfption("Illfgbl fxtfnsion objfdt");
+            }
+
+            DfrOutputStrfbm sfq = nfw DfrOutputStrfbm();
+            sfq.writf(DfrVbluf.tbg_Sfqufndf, fxtOut);
+
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            if (isExplidit)
+                tmp.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                             truf, (bytf)0), sfq);
+            flsf
+                tmp = sfq;
+
+            out.writf(tmp.toBytfArrby());
+        } dbtdh (IOExdfption f) {
+            throw nfw CRLExdfption("Endoding frror: " + f.toString());
+        } dbtdh (CfrtifidbtfExdfption f) {
+            throw nfw CRLExdfption("Endoding frror: " + f.toString());
+        }
+    }
+
+    /**
+     * Gft thf fxtfnsion with this blibs.
+     *
+     * @pbrbm blibs thf idfntififr string for thf fxtfnsion to rftrifvf.
+     */
+    publid Extfnsion gft(String blibs) {
+        X509AttributfNbmf bttr = nfw X509AttributfNbmf(blibs);
+        String nbmf;
+        String id = bttr.gftPrffix();
+        if (id.fqublsIgnorfCbsf(X509CfrtImpl.NAME)) { // fully qublififd
+            int indfx = blibs.lbstIndfxOf('.');
+            nbmf = blibs.substring(indfx + 1);
+        } flsf
+            nbmf = blibs;
+        rfturn mbp.gft(nbmf);
+    }
+
+    /**
+     * Sft thf fxtfnsion vbluf with this blibs.
+     *
+     * @pbrbm blibs thf idfntififr string for thf fxtfnsion to sft.
+     * @pbrbm obj thf Objfdt to sft thf fxtfnsion idfntififd by thf
+     *        blibs.
+     */
+    publid void sft(String blibs, Objfdt obj) {
+        mbp.put(blibs, (Extfnsion)obj);
+    }
+
+    /**
+     * Dflftf thf fxtfnsion vbluf with this blibs.
+     *
+     * @pbrbm blibs thf idfntififr string for thf fxtfnsion to dflftf.
+     */
+    publid void dflftf(String blibs) {
+        mbp.rfmovf(blibs);
+    }
+
+    /**
+     * Rfturn bn fnumfrbtion of thf fxtfnsions.
+     * @rfturn bn fnumfrbtion of thf fxtfnsions in this CRL.
+     */
+    publid Enumfrbtion<Extfnsion> gftElfmfnts() {
+        rfturn Collfdtions.fnumfrbtion(mbp.vblufs());
+    }
+
+    /**
+     * Rfturn b dollfdtion vifw of thf fxtfnsions.
+     * @rfturn b dollfdtion vifw of thf fxtfnsions in this CRL.
+     */
+    publid Collfdtion<Extfnsion> gftAllExtfnsions() {
+        rfturn mbp.vblufs();
+    }
+
+    /**
+     * Rfturn truf if b dritidbl fxtfnsion is found thbt is
+     * not supportfd, othfrwisf rfturn fblsf.
+     */
+    publid boolfbn hbsUnsupportfdCritidblExtfnsion() {
+        rfturn unsupportfdCritExt;
+    }
+
+    /**
+     * Compbrfs this CRLExtfnsions for fqublity with thf spfdififd
+     * objfdt. If thf <dodf>othfr</dodf> objfdt is bn
+     * <dodf>instbndfof</dodf> <dodf>CRLExtfnsions</dodf>, thfn
+     * bll thf fntrifs brf dompbrfd with thf fntrifs from this.
+     *
+     * @pbrbm othfr thf objfdt to tfst for fqublity with this CRLExtfnsions.
+     * @rfturn truf iff bll thf fntrifs mbtdh thbt of thf Othfr,
+     * fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt othfr) {
+        if (this == othfr)
+            rfturn truf;
+        if (!(othfr instbndfof CRLExtfnsions))
+            rfturn fblsf;
+        Collfdtion<Extfnsion> othfrC =
+                        ((CRLExtfnsions)othfr).gftAllExtfnsions();
+        Objfdt[] objs = othfrC.toArrby();
+
+        int lfn = objs.lfngth;
+        if (lfn != mbp.sizf())
+            rfturn fblsf;
+
+        Extfnsion othfrExt, thisExt;
+        String kfy = null;
+        for (int i = 0; i < lfn; i++) {
+            if (objs[i] instbndfof CfrtAttrSft)
+                kfy = ((CfrtAttrSft)objs[i]).gftNbmf();
+            othfrExt = (Extfnsion)objs[i];
+            if (kfy == null)
+                kfy = othfrExt.gftExtfnsionId().toString();
+            thisExt = mbp.gft(kfy);
+            if (thisExt == null)
+                rfturn fblsf;
+            if (! thisExt.fqubls(othfrExt))
+                rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns b hbshdodf vbluf for this CRLExtfnsions.
+     *
+     * @rfturn thf hbshdodf vbluf.
+     */
+    publid int hbshCodf() {
+        rfturn mbp.hbshCodf();
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this <tt>CRLExtfnsions</tt> objfdt
+     * in thf form of b sft of fntrifs, fndlosfd in brbdfs bnd sfpbrbtfd
+     * by thf ASCII dhbrbdtfrs "<tt>,&nbsp;</tt>" (dommb bnd spbdf).
+     * <p>Ovfrridfs to <tt>toString</tt> mfthod of <tt>Objfdt</tt>.
+     *
+     * @rfturn  b string rfprfsfntbtion of this CRLExtfnsions.
+     */
+    publid String toString() {
+        rfturn mbp.toString();
+    }
+}

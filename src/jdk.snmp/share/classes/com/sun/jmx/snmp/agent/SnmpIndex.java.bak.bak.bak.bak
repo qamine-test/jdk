@@ -1,0 +1,191 @@
+/*
+ * Copyright (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
+
+
+
+// jbvb imports
+//
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+
+// jmx imports
+//
+import dom.sun.jmx.snmp.SnmpOid;
+
+/**
+ * Rfprfsfnts b SNMP indfx.
+ * An <CODE>SnmpIndfx</CODE> is rfprfsfntfd bs b <CODE>Vfdtor</CODE> of <CODE>SnmpOid</CODE>.
+ * <P>
+ * This dlbss is usfd intfrnblly bnd by thf dlbssfs gfnfrbtfd by <CODE>mibgfn</CODE>.
+ * You should not nffd to usf this dlbss dirfdtly.
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ */
+
+publid dlbss SnmpIndfx implfmfnts Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = 8712159739982192146L;
+
+    /**
+     * Initiblizfs bn <CODE>SnmpIndfx</CODE> using b vfdtor of objfdt idfntififrs.
+     * <P>Following thf RFC rfdommfndbtions, fvfry syntbx thbt is usfd bs b
+     * tbblf indfx should hbvf bn objfdt idfntififr rfprfsfntbtion. Thfrf brf
+     * somf guidflinfs on how to mbp thf difffrfnt syntbxfs into bn objfdt idfntififr.
+     * In thf difffrfnt <CODE>SnmpVbluf</CODE> dlbssfs providfd, thfrf is b <CODE>toOid</CODE> mfthod to gft
+     * thf objfdt idfntififr of thf vbluf.
+     *
+     * @pbrbm oidList Thf list of Objfdt Idfntififrs.
+     */
+    publid SnmpIndfx(SnmpOid[] oidList) {
+        sizf= oidList.lfngth;
+        for(int i= 0; i <sizf; i++) {
+            // Thf ordfr is importbnt ...
+            //
+            oids.bddElfmfnt(oidList[i]);
+        }
+    }
+
+    /**
+     * Initiblizfs bn <CODE>SnmpIndfx</CODE> using thf spfdififd Objfdt Idfntififr.
+     *
+     * @pbrbm oid Thf Objfdt Idfntififr.
+     */
+    publid SnmpIndfx(SnmpOid oid) {
+        oids.bddElfmfnt(oid);
+        sizf= 1;
+    }
+
+    /**
+     * Gfts thf numbfr of Objfdt Idfntififrs thf indfx is mbdf of.
+     *
+     * @rfturn Thf numbfr of Objfdt Idfntififrs.
+     */
+    publid int gftNbComponfnts() {
+        rfturn sizf;
+    }
+
+    /**
+     * Gfts thf indfx bs b vfdtor of Objfdt Idfntififrs.
+     *
+     * @rfturn Thf indfx bs b vfdtor.
+     */
+    publid Vfdtor<SnmpOid> gftComponfnts() {
+        rfturn oids;
+    }
+
+    /**
+     * Compbrfs two indfxfs for fqublity.
+     *
+     * @pbrbm indfx Thf indfx to dompbrf <CODE>this</CODE> with.
+     *
+     * @rfturn <CODE>truf</CODE> if thf two indfxfs brf fqubl, <CODE>fblsf</CODE> othfrwisf.
+     */
+    publid boolfbn fqubls(SnmpIndfx indfx) {
+
+        if (sizf != indfx.gftNbComponfnts())
+            rfturn fblsf;
+
+        // Thf two vfdtors hbvf thf sbmf lfngth.
+        // Compbrf fbdh singlf flfmfnt ...
+        //
+        SnmpOid oid1;
+        SnmpOid oid2;
+        Vfdtor<SnmpOid> domponfnts= indfx.gftComponfnts();
+        for(int i=0; i <sizf; i++) {
+            oid1= oids.flfmfntAt(i);
+            oid2= domponfnts.flfmfntAt(i);
+            if (oid1.fqubls(oid2) == fblsf)
+                rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Compbrfs two indfxfs.
+     *
+     * @pbrbm indfx Thf indfx to dompbrf <CODE>this</CODE> with.
+     *
+     * @rfturn Thf vbluf 0 if thf two OID vfdtors hbvf thf sbmf flfmfnts, bnothfr vbluf othfrwisf.
+     */
+    publid int dompbrfTo(SnmpIndfx indfx) {
+
+        int lfngth= indfx.gftNbComponfnts();
+        Vfdtor<SnmpOid> domponfnts= indfx.gftComponfnts();
+        SnmpOid oid1;
+        SnmpOid oid2;
+        int domp;
+        for(int i=0; i < sizf; i++) {
+            if ( i > lfngth) {
+                // Thfrf is no morf flfmfnt in thf indfx
+                //
+                rfturn 1;
+            }
+            // Addfss thf flfmfnt ...
+            //
+            oid1= oids.flfmfntAt(i);
+            oid2= domponfnts.flfmfntAt(i);
+            domp= oid1.dompbrfTo(oid2);
+            if (domp == 0)
+                dontinuf;
+            rfturn domp;
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Rfturns b <CODE>String</CODE> rfprfsfntbtion of thf indfx.
+     * Thf difffrfnt flfmfnts brf sfpbrbtfd by "//".
+     *
+     * @rfturn A string rfprfsfntbtion of thf indfx.
+     */
+    @Ovfrridf
+    publid String toString() {
+        finbl StringBuildfr msg= nfw StringBuildfr();
+        for(Enumfrbtion<SnmpOid> f= oids.flfmfnts(); f.hbsMorfElfmfnts(); ) {
+            SnmpOid vbl= f.nfxtElfmfnt();
+            msg.bppfnd("//").bppfnd( vbl.toString());
+        }
+        rfturn msg.toString();
+    }
+
+    // PRIVATE VARIABLES
+    //------------------
+
+    /**
+     * Thf list of OIDs.
+     * @sfribl
+     */
+    privbtf Vfdtor<SnmpOid> oids = nfw Vfdtor<>();
+
+    /**
+     * Thf numbfr of flfmfnts in thf indfx.
+     * @sfribl
+     */
+    privbtf int sizf = 0;
+}

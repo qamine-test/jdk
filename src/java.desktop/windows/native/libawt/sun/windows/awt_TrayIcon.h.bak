@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef AWT_TRAY_ICON_H
-#define AWT_TRAY_ICON_H
+#ifndff AWT_TRAY_ICON_H
+#dffinf AWT_TRAY_ICON_H
 
-#include "awt_Object.h"
-#include "awt_Component.h"
+#indludf "bwt_Objfdt.i"
+#indludf "bwt_Componfnt.i"
 
-#include "java_awt_TrayIcon.h"
-#include "sun_awt_windows_WTrayIconPeer.h"
-#include "java_awt_event_ActionEvent.h"
+#indludf "jbvb_bwt_TrbyIdon.i"
+#indludf "sun_bwt_windows_WTrbyIdonPffr.i"
+#indludf "jbvb_bwt_fvfnt_AdtionEvfnt.i"
 
-#define TRAY_ICON_X_HOTSPOT 0
-#define TRAY_ICON_Y_HOTSPOT 0
+#dffinf TRAY_ICON_X_HOTSPOT 0
+#dffinf TRAY_ICON_Y_HOTSPOT 0
 
-#define TRAY_ICON_TOOLTIP_MAX_SIZE 128
+#dffinf TRAY_ICON_TOOLTIP_MAX_SIZE 128
 
-#define TRAY_ICON_BALLOON_TITLE_MAX_SIZE 64
-#define TRAY_ICON_BALLOON_INFO_MAX_SIZE  256
+#dffinf TRAY_ICON_BALLOON_TITLE_MAX_SIZE 64
+#dffinf TRAY_ICON_BALLOON_INFO_MAX_SIZE  256
 
 /************************************************************************
- * AwtTrayIcon class
+ * AwtTrbyIdon dlbss
  */
 
-class AwtTrayIcon: public AwtObject {
-public:
-    AwtTrayIcon();
-    virtual ~AwtTrayIcon();
+dlbss AwtTrbyIdon: publid AwtObjfdt {
+publid:
+    AwtTrbyIdon();
+    virtubl ~AwtTrbyIdon();
 
-    virtual void Dispose();
+    virtubl void Disposf();
 
-    BOOL SendTrayMessage(DWORD dwMessage);
-    void LinkObjects(JNIEnv *env, jobject peer);
-    void UnlinkObjects();
+    BOOL SfndTrbyMfssbgf(DWORD dwMfssbgf);
+    void LinkObjfdts(JNIEnv *fnv, jobjfdt pffr);
+    void UnlinkObjfdts();
 
     void InitNID(UINT uID);
 
-    void InitMessage(MSG* msg, UINT message, WPARAM wParam, LPARAM lParam,
+    void InitMfssbgf(MSG* msg, UINT mfssbgf, WPARAM wPbrbm, LPARAM lPbrbm,
                      int x = 0, int y = 0);
 
-    void SendMouseEvent(jint id, jlong when, jint x, jint y, jint modifiers, jint clickCount,
-                        jboolean popupTrigger, jint button = 0, MSG *pMsg = NULL);
-    void SendActionEvent(jint id, jlong when, jint modifiers, MSG *pMsg = NULL);
+    void SfndMousfEvfnt(jint id, jlong wifn, jint x, jint y, jint modififrs, jint dlidkCount,
+                        jboolfbn popupTriggfr, jint button = 0, MSG *pMsg = NULL);
+    void SfndAdtionEvfnt(jint id, jlong wifn, jint modififrs, MSG *pMsg = NULL);
 
-    virtual MsgRouting WmAwtTrayNotify(WPARAM wParam, LPARAM lParam);
-    virtual MsgRouting WmMouseDown(UINT flags, int x, int y, int button);
-    virtual MsgRouting WmMouseUp(UINT flags, int x, int y, int button);
-    virtual MsgRouting WmMouseMove(UINT flags, int x, int y);
-    virtual MsgRouting WmBalloonUserClick(UINT flags, int x, int y);
-    virtual MsgRouting WmKeySelect(UINT flags, int x, int y);
-    virtual MsgRouting WmSelect(UINT flags, int x, int y);
-    virtual MsgRouting WmContextMenu(UINT flags, int x, int y);
-    static MsgRouting WmTaskbarCreated();
+    virtubl MsgRouting WmAwtTrbyNotify(WPARAM wPbrbm, LPARAM lPbrbm);
+    virtubl MsgRouting WmMousfDown(UINT flbgs, int x, int y, int button);
+    virtubl MsgRouting WmMousfUp(UINT flbgs, int x, int y, int button);
+    virtubl MsgRouting WmMousfMovf(UINT flbgs, int x, int y);
+    virtubl MsgRouting WmBblloonUsfrClidk(UINT flbgs, int x, int y);
+    virtubl MsgRouting WmKfySflfdt(UINT flbgs, int x, int y);
+    virtubl MsgRouting WmSflfdt(UINT flbgs, int x, int y);
+    virtubl MsgRouting WmContfxtMfnu(UINT flbgs, int x, int y);
+    stbtid MsgRouting WmTbskbbrCrfbtfd();
 
-    INLINE void SetID(int ID) { m_nid.uID = ID; }
-    INLINE int GetID() { return m_nid.uID; }
+    INLINE void SftID(int ID) { m_nid.uID = ID; }
+    INLINE int GftID() { rfturn m_nid.uID; }
 
-    void SetToolTip(LPCTSTR tooltip);
-    INLINE LPTSTR GetToolTip() { return m_nid.szTip; }
+    void SftToolTip(LPCTSTR tooltip);
+    INLINE LPTSTR GftToolTip() { rfturn m_nid.szTip; }
 
-    void SetIcon(HICON hIcon);
-    INLINE HICON GetIcon() { return m_nid.hIcon; }
+    void SftIdon(HICON iIdon);
+    INLINE HICON GftIdon() { rfturn m_nid.iIdon; }
 
-    void DisplayMessage(LPCTSTR caption, LPCTSTR text, LPCTSTR msgType);
+    void DisplbyMfssbgf(LPCTSTR dbption, LPCTSTR tfxt, LPCTSTR msgTypf);
 
-    // Adds to the head of the list
-    INLINE void AddTrayIconItem(UINT id) {
-        TrayIconListItem* item = new TrayIconListItem(id, this);
-        item->m_next = sm_trayIconList;
-        sm_trayIconList = item;
+    // Adds to tif ifbd of tif list
+    INLINE void AddTrbyIdonItfm(UINT id) {
+        TrbyIdonListItfm* itfm = nfw TrbyIdonListItfm(id, tiis);
+        itfm->m_nfxt = sm_trbyIdonList;
+        sm_trbyIdonList = itfm;
     }
 
-    static AwtTrayIcon* SearchTrayIconItem(UINT id);
-    static void RemoveTrayIconItem(UINT id);
+    stbtid AwtTrbyIdon* SfbrdiTrbyIdonItfm(UINT id);
+    stbtid void RfmovfTrbyIdonItfm(UINT id);
 
-    static LPCTSTR GetClassName();
-    static void FillClassInfo(WNDCLASS *lpwc);
-    static void RegisterClass();
-    static void UnregisterClass();
+    stbtid LPCTSTR GftClbssNbmf();
+    stbtid void FillClbssInfo(WNDCLASS *lpwd);
+    stbtid void RfgistfrClbss();
+    stbtid void UnrfgistfrClbss();
 
-    static LRESULT CALLBACK TrayWindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+    stbtid LRESULT CALLBACK TrbyWindowProd(HWND iWnd, UINT uMsg, WPARAM wPbrbm, LPARAM lPbrbm);
 
-    static AwtTrayIcon* Create(jobject self, jobject parent);
+    stbtid AwtTrbyIdon* Crfbtf(jobjfdt sflf, jobjfdt pbrfnt);
 
-    static HWND CreateMessageWindow();
-    static void DestroyMessageWindow();
+    stbtid HWND CrfbtfMfssbgfWindow();
+    stbtid void DfstroyMfssbgfWindow();
 
-    static HBITMAP CreateBMP(HWND hW,int* imageData,int nSS, int nW, int nH);
+    stbtid HBITMAP CrfbtfBMP(HWND iW,int* imbgfDbtb,int nSS, int nW, int nH);
 
-    // methods called on Toolkit thread
-    static void _SetToolTip(void *param);
-    static void _SetIcon(void *param);
-    static void _UpdateIcon(void *param);
-    static void _DisplayMessage(void *param);
+    // mftiods dbllfd on Toolkit tirfbd
+    stbtid void _SftToolTip(void *pbrbm);
+    stbtid void _SftIdon(void *pbrbm);
+    stbtid void _UpdbtfIdon(void *pbrbm);
+    stbtid void _DisplbyMfssbgf(void *pbrbm);
 
     /*
-     * java.awt.TrayIcon fields
+     * jbvb.bwt.TrbyIdon fiflds
      */
-    static jfieldID idID;
-    static jfieldID actionCommandID;
+    stbtid jfifldID idID;
+    stbtid jfifldID bdtionCommbndID;
 
     // ************************
 
-    static HWND sm_msgWindow;
-    static int sm_instCount;
+    stbtid HWND sm_msgWindow;
+    stbtid int sm_instCount;
 
-private:
+privbtf:
     NOTIFYICONDATA m_nid;
 
-    /* A bitmask keeps the button's numbers as MK_LBUTTON, MK_MBUTTON, MK_RBUTTON
-     * which are allowed to
-     * generate the CLICK event after the RELEASE has happened.
-     * There are conditions that must be true for that sending CLICK event:
-     * 1) button was initially PRESSED
-     * 2) no movement or drag has happened until RELEASE
+    /* A bitmbsk kffps tif button's numbfrs bs MK_LBUTTON, MK_MBUTTON, MK_RBUTTON
+     * wiidi brf bllowfd to
+     * gfnfrbtf tif CLICK fvfnt bftfr tif RELEASE ibs ibppfnfd.
+     * Tifrf brf donditions tibt must bf truf for tibt sfnding CLICK fvfnt:
+     * 1) button wbs initiblly PRESSED
+     * 2) no movfmfnt or drbg ibs ibppfnfd until RELEASE
     */
-    UINT m_mouseButtonClickAllowed;
+    UINT m_mousfButtonClidkAllowfd;
 
-    class TrayIconListItem {
-      public:
-        TrayIconListItem(UINT id, AwtTrayIcon* trayIcon) {
+    dlbss TrbyIdonListItfm {
+      publid:
+        TrbyIdonListItfm(UINT id, AwtTrbyIdon* trbyIdon) {
             m_ID = id;
-            m_trayIcon = trayIcon;
-            m_next = NULL;
+            m_trbyIdon = trbyIdon;
+            m_nfxt = NULL;
         }
         UINT m_ID;
-        AwtTrayIcon* m_trayIcon;
-        TrayIconListItem* m_next;
+        AwtTrbyIdon* m_trbyIdon;
+        TrbyIdonListItfm* m_nfxt;
     };
 
-public:
-    static TrayIconListItem* sm_trayIconList;
+publid:
+    stbtid TrbyIdonListItfm* sm_trbyIdonList;
 };
 
-#endif /* AWT_TRAY_ICON_H */
+#fndif /* AWT_TRAY_ICON_H */

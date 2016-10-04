@@ -1,0 +1,1285 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import <Codob/Codob.h>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.h>
+#import <JbvbRuntimfSupport/JbvbRuntimfSupport.h>
+
+#import "sun_lwbwt_mbdosx_CPlbtformWindow.h"
+#import "dom_bpplf_fbwt_fvfnt_GfsturfHbndlfr.h"
+#import "dom_bpplf_fbwt_FullSdrffnHbndlfr.h"
+#import "ApplidbtionDflfgbtf.h"
+
+#import "AWTWindow.h"
+#import "AWTVifw.h"
+#import "CMfnu.h"
+#import "CMfnuBbr.h"
+#import "LWCToolkit.h"
+#import "GfomUtilitifs.h"
+#import "ThrfbdUtilitifs.h"
+#import "OSVfrsion.h"
+
+#dffinf MASK(KEY) \
+    (sun_lwbwt_mbdosx_CPlbtformWindow_ ## KEY)
+
+#dffinf IS(BITS, KEY) \
+    ((BITS & MASK(KEY)) != 0)
+
+#dffinf SET(BITS, KEY, VALUE) \
+    BITS = VALUE ? BITS | MASK(KEY) : BITS & ~MASK(KEY)
+
+stbtid JNF_CLASS_CACHE(jd_CPlbtformWindow, "sun/lwbwt/mbdosx/CPlbtformWindow");
+
+// Codob windowDidBfdomfKfy/windowDidRfsignKfy notifidbtions
+// dofsn't providf informbtion bbout "oppositf" window, so wf
+// hbvf to do b bit of trbdking. This vbribblf points to b window
+// whidh hbd bffn thf kfy window just bfforf b nfw kfy window
+// wbs sft. It would bf nil if thf nfw kfy window isn't bn AWT
+// window or thf bpp durrfntly hbs no kfy window.
+stbtid AWTWindow* lbstKfyWindow = nil;
+
+// --------------------------------------------------------------
+// NSWindow/NSPbnfl dfsdfndbnts implfmfntbtion
+#dffinf AWT_NS_WINDOW_IMPLEMENTATION                            \
+- (id) initWithDflfgbtf:(AWTWindow *)dflfgbtf                   \
+              frbmfRfdt:(NSRfdt)dontfdtRfdt                     \
+              stylfMbsk:(NSUIntfgfr)stylfMbsk                   \
+            dontfntVifw:(NSVifw *)vifw                          \
+{                                                               \
+    sflf = [supfr initWithContfntRfdt:dontfdtRfdt               \
+                            stylfMbsk:stylfMbsk                 \
+                              bbdking:NSBbdkingStorfBufffrfd    \
+                                dfffr:NO];                      \
+                                                                \
+    if (sflf == nil) rfturn nil;                                \
+                                                                \
+    [sflf sftDflfgbtf:dflfgbtf];                                \
+    [sflf sftContfntVifw:vifw];                                 \
+    [sflf sftInitiblFirstRfspondfr:vifw];                       \
+    [sflf sftRflfbsfdWhfnClosfd:NO];                            \
+    [sflf sftPrfsfrvfsContfntDuringLivfRfsizf:YES];             \
+                                                                \
+    rfturn sflf;                                                \
+}                                                               \
+                                                                \
+/* NSWindow ovfrridfs */                                        \
+- (BOOL) dbnBfdomfKfyWindow {                                   \
+    rfturn [(AWTWindow*)[sflf dflfgbtf] dbnBfdomfKfyWindow];    \
+}                                                               \
+                                                                \
+- (BOOL) dbnBfdomfMbinWindow {                                  \
+    rfturn [(AWTWindow*)[sflf dflfgbtf] dbnBfdomfMbinWindow];   \
+}                                                               \
+                                                                \
+- (BOOL) worksWhfnModbl {                                       \
+    rfturn [(AWTWindow*)[sflf dflfgbtf] worksWhfnModbl];        \
+}                                                               \
+                                                                \
+- (void)sfndEvfnt:(NSEvfnt *)fvfnt {                            \
+    [(AWTWindow*)[sflf dflfgbtf] sfndEvfnt:fvfnt];              \
+    [supfr sfndEvfnt:fvfnt];                                    \
+}
+
+@implfmfntbtion AWTWindow_Normbl
+AWT_NS_WINDOW_IMPLEMENTATION
+@fnd
+@implfmfntbtion AWTWindow_Pbnfl
+AWT_NS_WINDOW_IMPLEMENTATION
+@fnd
+// END of NSWindow/NSPbnfl dfsdfndbnts implfmfntbtion
+// --------------------------------------------------------------
+
+
+@implfmfntbtion AWTWindow
+
+@synthfsizf nsWindow;
+@synthfsizf jbvbPlbtformWindow;
+@synthfsizf jbvbMfnuBbr;
+@synthfsizf jbvbMinSizf;
+@synthfsizf jbvbMbxSizf;
+@synthfsizf stylfBits;
+@synthfsizf isEnbblfd;
+@synthfsizf ownfrWindow;
+@synthfsizf prfFullSdrffnLfvfl;
+
+- (void) updbtfMinMbxSizf:(BOOL)rfsizbblf {
+    if (rfsizbblf) {
+        [sflf.nsWindow sftMinSizf:sflf.jbvbMinSizf];
+        [sflf.nsWindow sftMbxSizf:sflf.jbvbMbxSizf];
+    } flsf {
+        NSRfdt durrfntFrbmf = [sflf.nsWindow frbmf];
+        [sflf.nsWindow sftMinSizf:durrfntFrbmf.sizf];
+        [sflf.nsWindow sftMbxSizf:durrfntFrbmf.sizf];
+    }
+}
+
+// drfbtfs b nfw NSWindow stylf mbsk bbsfd on thf _STYLE_PROP_BITMASK bits
++ (NSUIntfgfr) stylfMbskForStylfBits:(jint)stylfBits {
+    NSUIntfgfr typf = 0;
+    if (IS(stylfBits, DECORATED)) {
+        typf |= NSTitlfdWindowMbsk;
+        if (IS(stylfBits, CLOSEABLE))   typf |= NSClosbblfWindowMbsk;
+        if (IS(stylfBits, MINIMIZABLE)) typf |= NSMinibturizbblfWindowMbsk;
+        if (IS(stylfBits, RESIZABLE))   typf |= NSRfsizbblfWindowMbsk;
+    } flsf {
+        typf |= NSBordfrlfssWindowMbsk;
+    }
+
+    if (IS(stylfBits, TEXTURED))      typf |= NSTfxturfdBbdkgroundWindowMbsk;
+    if (IS(stylfBits, UNIFIED))       typf |= NSUnififdTitlfAndToolbbrWindowMbsk;
+    if (IS(stylfBits, UTILITY))       typf |= NSUtilityWindowMbsk;
+    if (IS(stylfBits, HUD))           typf |= NSHUDWindowMbsk;
+    if (IS(stylfBits, SHEET))         typf |= NSDodModblWindowMbsk;
+    if (IS(stylfBits, NONACTIVATING)) typf |= NSNonbdtivbtingPbnflMbsk;
+
+    rfturn typf;
+}
+
+// updbtfs _METHOD_PROP_BITMASK bbsfd propfrtifs on thf window
+- (void) sftPropfrtifsForStylfBits:(jint)bits mbsk:(jint)mbsk {
+    if (IS(mbsk, RESIZABLE)) {
+        BOOL rfsizbblf = IS(bits, RESIZABLE);
+        [sflf updbtfMinMbxSizf:rfsizbblf];
+        [sflf.nsWindow sftShowsRfsizfIndidbtor:rfsizbblf];
+        // Zoom button should bf disbblfd, if thf window is not rfsizbblf,
+        // othfrwisf button should bf rfstorfd to initibl stbtf.
+        BOOL zoom = rfsizbblf && IS(bits, ZOOMABLE);
+        [[sflf.nsWindow stbndbrdWindowButton:NSWindowZoomButton] sftEnbblfd:zoom];
+    }
+
+    if (IS(mbsk, HAS_SHADOW)) {
+        [sflf.nsWindow sftHbsShbdow:IS(bits, HAS_SHADOW)];
+    }
+
+    if (IS(mbsk, ZOOMABLE)) {
+        [[sflf.nsWindow stbndbrdWindowButton:NSWindowZoomButton] sftEnbblfd:IS(bits, ZOOMABLE)];
+    }
+
+    if (IS(mbsk, ALWAYS_ON_TOP)) {
+        [sflf.nsWindow sftLfvfl:IS(bits, ALWAYS_ON_TOP) ? NSFlobtingWindowLfvfl : NSNormblWindowLfvfl];
+    }
+
+    if (IS(mbsk, HIDES_ON_DEACTIVATE)) {
+        [sflf.nsWindow sftHidfsOnDfbdtivbtf:IS(bits, HIDES_ON_DEACTIVATE)];
+    }
+
+    if (IS(mbsk, DRAGGABLE_BACKGROUND)) {
+        [sflf.nsWindow sftMovbblfByWindowBbdkground:IS(bits, DRAGGABLE_BACKGROUND)];
+    }
+
+    if (IS(mbsk, DOCUMENT_MODIFIED)) {
+        [sflf.nsWindow sftDodumfntEditfd:IS(bits, DOCUMENT_MODIFIED)];
+    }
+
+    if (IS(mbsk, FULLSCREENABLE) && [sflf.nsWindow rfspondsToSflfdtor:@sflfdtor(togglfFullSdrffn:)]) {
+        if (IS(bits, FULLSCREENABLE)) {
+            [sflf.nsWindow sftCollfdtionBfhbvior:(1 << 7) /*NSWindowCollfdtionBfhbviorFullSdrffnPrimbry*/];
+        } flsf {
+            [sflf.nsWindow sftCollfdtionBfhbvior:NSWindowCollfdtionBfhbviorDffbult];
+        }
+    }
+
+}
+
+- (id) initWithPlbtformWindow:(JNFWfbkJObjfdtWrbppfr *)plbtformWindow
+                  ownfrWindow:ownfr
+                    stylfBits:(jint)bits
+                    frbmfRfdt:(NSRfdt)rfdt
+                  dontfntVifw:(NSVifw *)vifw
+{
+AWT_ASSERT_APPKIT_THREAD;
+
+    NSUIntfgfr stylfMbsk = [AWTWindow stylfMbskForStylfBits:bits];
+    NSRfdt dontfntRfdt = rfdt; //[NSWindow dontfntRfdtForFrbmfRfdt:rfdt stylfMbsk:stylfMbsk];
+    if (dontfntRfdt.sizf.width <= 0.0) {
+        dontfntRfdt.sizf.width = 1.0;
+    }
+    if (dontfntRfdt.sizf.hfight <= 0.0) {
+        dontfntRfdt.sizf.hfight = 1.0;
+    }
+
+    sflf = [supfr init];
+
+    if (sflf == nil) rfturn nil; // no hopf
+
+    if (IS(bits, UTILITY) ||
+        IS(bits, NONACTIVATING) ||
+        IS(bits, HUD) ||
+        IS(bits, HIDES_ON_DEACTIVATE))
+    {
+        sflf.nsWindow = [[AWTWindow_Pbnfl bllod] initWithDflfgbtf:sflf
+                            frbmfRfdt:dontfntRfdt
+                            stylfMbsk:stylfMbsk
+                          dontfntVifw:vifw];
+    }
+    flsf
+    {
+        // Thfsf windows will bppfbr in thf window list in thf dodk idon mfnu
+        sflf.nsWindow = [[AWTWindow_Normbl bllod] initWithDflfgbtf:sflf
+                            frbmfRfdt:dontfntRfdt
+                            stylfMbsk:stylfMbsk
+                          dontfntVifw:vifw];
+    }
+
+    if (sflf.nsWindow == nil) rfturn nil; // no hopf fithfr
+    [sflf.nsWindow rflfbsf]; // thf propfrty rftbins thf objfdt blrfbdy
+
+    sflf.isEnbblfd = YES;
+    sflf.jbvbPlbtformWindow = plbtformWindow;
+    sflf.stylfBits = bits;
+    sflf.ownfrWindow = ownfr;
+    [sflf sftPropfrtifsForStylfBits:stylfBits mbsk:MASK(_METHOD_PROP_BITMASK)];
+
+    if (IS(sflf.stylfBits, IS_POPUP)) {
+        [sflf.nsWindow sftCollfdtionBfhbvior:(1 << 8) /*NSWindowCollfdtionBfhbviorFullSdrffnAuxilibry*/]; 
+    }
+
+    rfturn sflf;
+}
+
++ (BOOL) isAWTWindow:(NSWindow *)window {
+    rfturn [window isKindOfClbss: [AWTWindow_Pbnfl dlbss]] || [window isKindOfClbss: [AWTWindow_Normbl dlbss]];
+}
+
+// rfturns id for thf topmost window undfr mousf
++ (NSIntfgfr) gftTopmostWindowUndfrMousfID {
+    NSIntfgfr rfsult = -1;
+    
+    NSRfdt sdrffnRfdt = [[NSSdrffn mbinSdrffn] frbmf];
+    NSPoint nsMousfLodbtion = [NSEvfnt mousfLodbtion];
+    CGPoint dgMousfLodbtion = CGPointMbkf(nsMousfLodbtion.x, sdrffnRfdt.sizf.hfight - nsMousfLodbtion.y);
+
+    NSMutbblfArrby *windows = (NSMutbblfArrby *)CGWindowListCopyWindowInfo(kCGWindowListOptionOnSdrffnOnly | kCGWindowListExdludfDfsktopElfmfnts, kCGNullWindowID);
+
+    for (NSDidtionbry *window in windows) {
+        NSIntfgfr lbyfr = [[window objfdtForKfy:(id)kCGWindowLbyfr] intfgfrVbluf];
+        if (lbyfr == 0) {
+            CGRfdt rfdt;
+            CGRfdtMbkfWithDidtionbryRfprfsfntbtion((CFDidtionbryRff)[window objfdtForKfy:(id)kCGWindowBounds], &rfdt);
+            if (CGRfdtContbinsPoint(rfdt, dgMousfLodbtion)) {
+                rfsult = [[window objfdtForKfy:(id)kCGWindowNumbfr] intfgfrVbluf];
+                brfbk;
+            }
+        }
+    }
+    [windows rflfbsf];
+    rfturn rfsult;
+}
+
+// dhfdks thbt this window is undfr thf mousf dursor bnd this point is not ovfrlbppfd by othfrs windows
+- (BOOL) isTopmostWindowUndfrMousf {
+    rfturn [sflf.nsWindow windowNumbfr] == [AWTWindow gftTopmostWindowUndfrMousfID];
+}
+
++ (AWTWindow *) gftTopmostWindowUndfrMousf {
+    NSEnumfrbtor *windowEnumfrbtor = [[NSApp windows] objfdtEnumfrbtor];
+    NSWindow *window;
+
+    NSIntfgfr topmostWindowUndfrMousfID = [AWTWindow gftTopmostWindowUndfrMousfID];
+
+    whilf ((window = [windowEnumfrbtor nfxtObjfdt]) != nil) {
+        if ([window windowNumbfr] == topmostWindowUndfrMousfID) {
+            BOOL isAWTWindow = [AWTWindow isAWTWindow: window];
+            rfturn isAWTWindow ? (AWTWindow *) [window dflfgbtf] : nil;
+        }
+    }
+    rfturn nil;
+}
+
++ (void) synthfsizfMousfEntfrfdExitfdEvfnts:(NSWindow*)window withTypf:(NSEvfntTypf)fvfntTypf {
+
+    NSPoint sdrffnLodbtion = [NSEvfnt mousfLodbtion];
+    NSPoint windowLodbtion = [window donvfrtSdrffnToBbsf: sdrffnLodbtion];
+    int modififrFlbgs = (fvfntTypf == NSMousfEntfrfd) ? NSMousfEntfrfdMbsk : NSMousfExitfdMbsk;
+
+    NSEvfnt *mousfEvfnt = [NSEvfnt fntfrExitEvfntWithTypf: fvfntTypf
+                                                 lodbtion: windowLodbtion
+                                            modififrFlbgs: modififrFlbgs
+                                                timfstbmp: 0
+                                             windowNumbfr: [window windowNumbfr]
+                                                  dontfxt: nil
+                                              fvfntNumbfr: 0
+                                           trbdkingNumbfr: 0
+                                                 usfrDbtb: nil
+                           ];
+
+    [[window dontfntVifw] dflivfrJbvbMousfEvfnt: mousfEvfnt];
+}
+
++ (void) synthfsizfMousfEntfrfdExitfdEvfntsForAllWindows {
+
+    NSIntfgfr topmostWindowUndfrMousfID = [AWTWindow gftTopmostWindowUndfrMousfID];
+    NSArrby *windows = [NSApp windows];
+    NSWindow *window;
+
+    NSEnumfrbtor *windowEnumfrbtor = [windows objfdtEnumfrbtor];
+    whilf ((window = [windowEnumfrbtor nfxtObjfdt]) != nil) {
+        if ([AWTWindow isAWTWindow: window]) {
+            BOOL isUndfrMousf = ([window windowNumbfr] == topmostWindowUndfrMousfID);
+            BOOL mousfIsOvfr = [[window dontfntVifw] mousfIsOvfr];
+            if (isUndfrMousf && !mousfIsOvfr) {
+                [AWTWindow synthfsizfMousfEntfrfdExitfdEvfnts:window withTypf:NSMousfEntfrfd];
+            } flsf if (!isUndfrMousf && mousfIsOvfr) {
+                [AWTWindow synthfsizfMousfEntfrfdExitfdEvfnts:window withTypf:NSMousfExitfd];
+            }
+        }
+    }
+}
+
++ (NSNumbfr *) gftNSWindowDisplbyID_AppKitThrfbd:(NSWindow *)window {
+    AWT_ASSERT_APPKIT_THREAD;
+    NSSdrffn *sdrffn = [window sdrffn];
+    NSDidtionbry *dfvidfDfsdription = [sdrffn dfvidfDfsdription];
+    rfturn [dfvidfDfsdription objfdtForKfy:@"NSSdrffnNumbfr"];
+}
+
+- (void) dfbllod {
+AWT_ASSERT_APPKIT_THREAD;
+
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnvUndbdhfd];
+    [sflf.jbvbPlbtformWindow sftJObjfdt:nil withEnv:fnv];
+
+    sflf.nsWindow = nil;
+    sflf.ownfrWindow = nil;
+    [supfr dfbllod];
+}
+
+// NSWindow ovfrridfs
+- (BOOL) dbnBfdomfKfyWindow {
+AWT_ASSERT_APPKIT_THREAD;
+    rfturn sflf.isEnbblfd && IS(sflf.stylfBits, SHOULD_BECOME_KEY);
+}
+
+- (BOOL) dbnBfdomfMbinWindow {
+AWT_ASSERT_APPKIT_THREAD;
+    if (!sflf.isEnbblfd) {
+        // Nbtivf systfm dbn bring up thf NSWindow to
+        // thf top fvfn if thf window is not mbin.
+        // Wf should bring up thf modbl diblog mbnublly
+        [AWTToolkit fvfntCountPlusPlus];
+
+        JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+        jobjfdt plbtformWindow = [sflf.jbvbPlbtformWindow jObjfdtWithEnv:fnv];
+        if (plbtformWindow != NULL) {
+            stbtid JNF_MEMBER_CACHE(jm_dhfdkBlodkingAndOrdfr, jd_CPlbtformWindow,
+                                    "dhfdkBlodkingAndOrdfr", "()Z");
+            JNFCbllBoolfbnMfthod(fnv, plbtformWindow, jm_dhfdkBlodkingAndOrdfr);
+            (*fnv)->DflftfLodblRff(fnv, plbtformWindow);
+        }
+    }
+
+    rfturn sflf.isEnbblfd && IS(sflf.stylfBits, SHOULD_BECOME_MAIN);
+}
+
+- (BOOL) worksWhfnModbl {
+AWT_ASSERT_APPKIT_THREAD;
+    rfturn IS(sflf.stylfBits, MODAL_EXCLUDED);
+}
+
+
+// Gfsturf support
+- (void)postGfsturf:(NSEvfnt *)fvfnt bs:(jint)typf b:(jdoublf)b b:(jdoublf)b {
+AWT_ASSERT_APPKIT_THREAD;
+
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    jobjfdt plbtformWindow = [sflf.jbvbPlbtformWindow jObjfdtWithEnv:fnv];
+    if (plbtformWindow != NULL) {
+        // fxtrbdt thf tbrgft AWT Window objfdt out of thf CPlbtformWindow
+        stbtid JNF_MEMBER_CACHE(jf_tbrgft, jd_CPlbtformWindow, "tbrgft", "Ljbvb/bwt/Window;");
+        jobjfdt bwtWindow = JNFGftObjfdtFifld(fnv, plbtformWindow, jf_tbrgft);
+        if (bwtWindow != NULL) {
+            // trbnslbtf thf point into Jbvb doordinbtfs
+            NSPoint lod = [fvfnt lodbtionInWindow];
+            lod.y = [sflf.nsWindow frbmf].sizf.hfight - lod.y;
+
+            // sfnd up to thf GfsturfHbndlfr to rfdursivfly dispbtdh on thf AWT fvfnt thrfbd
+            stbtid JNF_CLASS_CACHE(jd_GfsturfHbndlfr, "dom/bpplf/fbwt/fvfnt/GfsturfHbndlfr");
+            stbtid JNF_STATIC_MEMBER_CACHE(sjm_hbndlfGfsturfFromNbtivf, jd_GfsturfHbndlfr, "hbndlfGfsturfFromNbtivf", "(Ljbvb/bwt/Window;IDDDD)V");
+            JNFCbllStbtidVoidMfthod(fnv, sjm_hbndlfGfsturfFromNbtivf, bwtWindow, typf, (jdoublf)lod.x, (jdoublf)lod.y, (jdoublf)b, (jdoublf)b);
+            (*fnv)->DflftfLodblRff(fnv, bwtWindow);
+        }
+        (*fnv)->DflftfLodblRff(fnv, plbtformWindow);
+    }
+}
+
+- (void)bfginGfsturfWithEvfnt:(NSEvfnt *)fvfnt {
+    [sflf postGfsturf:fvfnt
+                   bs:dom_bpplf_fbwt_fvfnt_GfsturfHbndlfr_PHASE
+                    b:-1.0
+                    b:0.0];
+}
+
+- (void)fndGfsturfWithEvfnt:(NSEvfnt *)fvfnt {
+    [sflf postGfsturf:fvfnt
+                   bs:dom_bpplf_fbwt_fvfnt_GfsturfHbndlfr_PHASE
+                    b:1.0
+                    b:0.0];
+}
+
+- (void)mbgnifyWithEvfnt:(NSEvfnt *)fvfnt {
+    [sflf postGfsturf:fvfnt
+                   bs:dom_bpplf_fbwt_fvfnt_GfsturfHbndlfr_MAGNIFY
+                    b:[fvfnt mbgnifidbtion]
+                    b:0.0];
+}
+
+- (void)rotbtfWithEvfnt:(NSEvfnt *)fvfnt {
+    [sflf postGfsturf:fvfnt
+                   bs:dom_bpplf_fbwt_fvfnt_GfsturfHbndlfr_ROTATE
+                    b:[fvfnt rotbtion]
+                    b:0.0];
+}
+
+- (void)swipfWithEvfnt:(NSEvfnt *)fvfnt {
+    [sflf postGfsturf:fvfnt
+                   bs:dom_bpplf_fbwt_fvfnt_GfsturfHbndlfr_SWIPE
+                    b:[fvfnt dfltbX]
+                    b:[fvfnt dfltbY]];
+}
+
+
+// NSWindowDflfgbtf mfthods
+
+- (void) _dflivfrMovfRfsizfEvfnt {
+AWT_ASSERT_APPKIT_THREAD;
+
+    // dflivfr thf fvfnt if this is b usfr-initibtfd livf rfsizf or bs b sidf-ffffdt
+    // of b Jbvb initibtfd rfsizf, bfdbusf AppKit dbn ovfrridf thf bounds bnd fordf
+    // thf bounds of thf window to bvoid thf Dodk or rfmbin on sdrffn.
+    [AWTToolkit fvfntCountPlusPlus];
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    jobjfdt plbtformWindow = [sflf.jbvbPlbtformWindow jObjfdtWithEnv:fnv];
+    if (plbtformWindow == NULL) {
+        // TODO: drfbtf gfnfrid AWT bssfrt
+    }
+
+    NSRfdt frbmf = ConvfrtNSSdrffnRfdt(fnv, [sflf.nsWindow frbmf]);
+
+    stbtid JNF_MEMBER_CACHE(jm_dflivfrMovfRfsizfEvfnt, jd_CPlbtformWindow, "dflivfrMovfRfsizfEvfnt", "(IIIIZ)V");
+    JNFCbllVoidMfthod(fnv, plbtformWindow, jm_dflivfrMovfRfsizfEvfnt,
+                      (jint)frbmf.origin.x,
+                      (jint)frbmf.origin.y,
+                      (jint)frbmf.sizf.width,
+                      (jint)frbmf.sizf.hfight,
+                      (jboolfbn)[sflf.nsWindow inLivfRfsizf]);
+    (*fnv)->DflftfLodblRff(fnv, plbtformWindow);
+
+    [AWTWindow synthfsizfMousfEntfrfdExitfdEvfntsForAllWindows];
+}
+
+- (void)windowDidMovf:(NSNotifidbtion *)notifidbtion {
+AWT_ASSERT_APPKIT_THREAD;
+
+    [sflf _dflivfrMovfRfsizfEvfnt];
+}
+
+- (void)windowDidRfsizf:(NSNotifidbtion *)notifidbtion {
+AWT_ASSERT_APPKIT_THREAD;
+
+    [sflf _dflivfrMovfRfsizfEvfnt];
+}
+
+- (void)windowDidExposf:(NSNotifidbtion *)notifidbtion {
+AWT_ASSERT_APPKIT_THREAD;
+
+    [AWTToolkit fvfntCountPlusPlus];
+    // TODO: don't sff this dbllbbdk invokfd bnytimf so wf trbdk
+    // window fxposing in _sftVisiblf:(BOOL)
+}
+
+- (void) _dflivfrIdonify:(BOOL)idonify {
+AWT_ASSERT_APPKIT_THREAD;
+
+    [AWTToolkit fvfntCountPlusPlus];
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    jobjfdt plbtformWindow = [sflf.jbvbPlbtformWindow jObjfdtWithEnv:fnv];
+    if (plbtformWindow != NULL) {
+        stbtid JNF_MEMBER_CACHE(jm_dflivfrIdonify, jd_CPlbtformWindow, "dflivfrIdonify", "(Z)V");
+        JNFCbllVoidMfthod(fnv, plbtformWindow, jm_dflivfrIdonify, idonify);
+        (*fnv)->DflftfLodblRff(fnv, plbtformWindow);
+    }
+}
+
+- (void)windowDidMinibturizf:(NSNotifidbtion *)notifidbtion {
+AWT_ASSERT_APPKIT_THREAD;
+
+    [sflf _dflivfrIdonify:JNI_TRUE];
+}
+
+- (void)windowDidDfminibturizf:(NSNotifidbtion *)notifidbtion {
+AWT_ASSERT_APPKIT_THREAD;
+
+    [sflf _dflivfrIdonify:JNI_FALSE];
+}
+
+- (void) _dflivfrWindowFodusEvfnt:(BOOL)fodusfd oppositfWindow:(AWTWindow *)oppositf {
+//AWT_ASSERT_APPKIT_THREAD;
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnvUndbdhfd];
+    jobjfdt plbtformWindow = [sflf.jbvbPlbtformWindow jObjfdtWithEnv:fnv];
+    if (plbtformWindow != NULL) {
+        jobjfdt oppositfWindow = [oppositf.jbvbPlbtformWindow jObjfdtWithEnv:fnv];
+
+        stbtid JNF_MEMBER_CACHE(jm_dflivfrWindowFodusEvfnt, jd_CPlbtformWindow, "dflivfrWindowFodusEvfnt", "(ZLsun/lwbwt/mbdosx/CPlbtformWindow;)V");
+        JNFCbllVoidMfthod(fnv, plbtformWindow, jm_dflivfrWindowFodusEvfnt, (jboolfbn)fodusfd, oppositfWindow);
+        (*fnv)->DflftfLodblRff(fnv, plbtformWindow);
+        (*fnv)->DflftfLodblRff(fnv, oppositfWindow);
+    }
+}
+
+
+- (void) windowDidBfdomfKfy: (NSNotifidbtion *) notifidbtion {
+AWT_ASSERT_APPKIT_THREAD;
+    [AWTToolkit fvfntCountPlusPlus];
+    AWTWindow *oppositf = [AWTWindow lbstKfyWindow];
+
+    // Finds bppropribtf mfnubbr in our hifrbrdhy,
+    AWTWindow *bwtWindow = sflf;
+    whilf (bwtWindow.ownfrWindow != nil) {
+        bwtWindow = bwtWindow.ownfrWindow;
+    }
+
+    CMfnuBbr *mfnuBbr = nil;
+    BOOL isDisbblfd = NO;
+    if ([bwtWindow.nsWindow isVisiblf]){
+        mfnuBbr = bwtWindow.jbvbMfnuBbr;
+        isDisbblfd = !bwtWindow.isEnbblfd;
+    }
+
+    if (mfnuBbr == nil) {
+        mfnuBbr = [[ApplidbtionDflfgbtf shbrfdDflfgbtf] dffbultMfnuBbr];
+        isDisbblfd = NO;
+    }
+
+    [CMfnuBbr bdtivbtf:mfnuBbr modbllyDisbblfd:isDisbblfd];
+
+    [AWTWindow sftLbstKfyWindow:nil];
+
+    [sflf _dflivfrWindowFodusEvfnt:YES oppositfWindow: oppositf];
+}
+
+- (void) windowDidRfsignKfy: (NSNotifidbtion *) notifidbtion {
+    // TODO: dhfdk why somftimfs bt stbrt is invokfd *not* on AppKit mbin thrfbd.
+AWT_ASSERT_APPKIT_THREAD;
+    [AWTToolkit fvfntCountPlusPlus];
+    [sflf.jbvbMfnuBbr dfbdtivbtf];
+
+    // In thfory, this might dbusf flidkfring if thf window gbining fodus
+    // hbs its own mfnu. Howfvfr, I douldn't rfprodudf it on prbdtidf, so
+    // pfrhbps this is b non issuf.
+    CMfnuBbr* dffbultMfnu = [[ApplidbtionDflfgbtf shbrfdDflfgbtf] dffbultMfnuBbr];
+    if (dffbultMfnu != nil) {
+        [CMfnuBbr bdtivbtf:dffbultMfnu modbllyDisbblfd:NO];
+    }
+
+    // thf nfw kfy window
+    NSWindow *kfyWindow = [NSApp kfyWindow];
+    AWTWindow *oppositf = nil;
+    if ([AWTWindow isAWTWindow: kfyWindow]) {
+        oppositf = (AWTWindow *)[kfyWindow dflfgbtf];
+        [AWTWindow sftLbstKfyWindow: sflf];
+    } flsf {
+        [AWTWindow sftLbstKfyWindow: nil];
+    }
+
+    [sflf _dflivfrWindowFodusEvfnt:NO oppositfWindow: oppositf];
+}
+
+- (void) windowDidBfdomfMbin: (NSNotifidbtion *) notifidbtion {
+AWT_ASSERT_APPKIT_THREAD;
+    [AWTToolkit fvfntCountPlusPlus];
+
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    jobjfdt plbtformWindow = [sflf.jbvbPlbtformWindow jObjfdtWithEnv:fnv];
+    if (plbtformWindow != NULL) {
+        stbtid JNF_MEMBER_CACHE(jm_windowDidBfdomfMbin, jd_CPlbtformWindow, "windowDidBfdomfMbin", "()V");
+        JNFCbllVoidMfthod(fnv, plbtformWindow, jm_windowDidBfdomfMbin);
+        (*fnv)->DflftfLodblRff(fnv, plbtformWindow);
+    }
+}
+
+- (BOOL)windowShouldClosf:(id)sfndfr {
+AWT_ASSERT_APPKIT_THREAD;
+    [AWTToolkit fvfntCountPlusPlus];
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    jobjfdt plbtformWindow = [sflf.jbvbPlbtformWindow jObjfdtWithEnv:fnv];
+    if (plbtformWindow != NULL) {
+        stbtid JNF_MEMBER_CACHE(jm_dflivfrWindowClosingEvfnt, jd_CPlbtformWindow, "dflivfrWindowClosingEvfnt", "()V");
+        JNFCbllVoidMfthod(fnv, plbtformWindow, jm_dflivfrWindowClosingEvfnt);
+        (*fnv)->DflftfLodblRff(fnv, plbtformWindow);
+    }
+    // Thf window will bf dlosfd (if bllowfd) bs rfsult of sfnding Jbvb fvfnt
+    rfturn NO;
+}
+
+
+- (void)_notifyFullSdrffnOp:(jint)op withEnv:(JNIEnv *)fnv {
+    stbtid JNF_CLASS_CACHE(jd_FullSdrffnHbndlfr, "dom/bpplf/fbwt/FullSdrffnHbndlfr");
+    stbtid JNF_STATIC_MEMBER_CACHE(jm_notifyFullSdrffnOpfrbtion, jd_FullSdrffnHbndlfr, "hbndlfFullSdrffnEvfntFromNbtivf", "(Ljbvb/bwt/Window;I)V");
+    stbtid JNF_MEMBER_CACHE(jf_tbrgft, jd_CPlbtformWindow, "tbrgft", "Ljbvb/bwt/Window;");
+    jobjfdt plbtformWindow = [sflf.jbvbPlbtformWindow jObjfdtWithEnv:fnv];
+    if (plbtformWindow != NULL) {
+        jobjfdt bwtWindow = JNFGftObjfdtFifld(fnv, plbtformWindow, jf_tbrgft);
+        if (bwtWindow != NULL) {
+            JNFCbllStbtidVoidMfthod(fnv, jm_notifyFullSdrffnOpfrbtion, bwtWindow, op);
+            (*fnv)->DflftfLodblRff(fnv, bwtWindow);
+        }
+        (*fnv)->DflftfLodblRff(fnv, plbtformWindow);
+    }
+}
+
+
+- (void)windowWillEntfrFullSdrffn:(NSNotifidbtion *)notifidbtion {
+    stbtid JNF_MEMBER_CACHE(jm_windowWillEntfrFullSdrffn, jd_CPlbtformWindow, "windowWillEntfrFullSdrffn", "()V");
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    jobjfdt plbtformWindow = [sflf.jbvbPlbtformWindow jObjfdtWithEnv:fnv];
+    if (plbtformWindow != NULL) {
+        JNFCbllVoidMfthod(fnv, plbtformWindow, jm_windowWillEntfrFullSdrffn);
+        [sflf _notifyFullSdrffnOp:dom_bpplf_fbwt_FullSdrffnHbndlfr_FULLSCREEN_WILL_ENTER withEnv:fnv];
+        (*fnv)->DflftfLodblRff(fnv, plbtformWindow);
+    }
+}
+
+- (void)windowDidEntfrFullSdrffn:(NSNotifidbtion *)notifidbtion {
+    stbtid JNF_MEMBER_CACHE(jm_windowDidEntfrFullSdrffn, jd_CPlbtformWindow, "windowDidEntfrFullSdrffn", "()V");
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    jobjfdt plbtformWindow = [sflf.jbvbPlbtformWindow jObjfdtWithEnv:fnv];
+    if (plbtformWindow != NULL) {
+        JNFCbllVoidMfthod(fnv, plbtformWindow, jm_windowDidEntfrFullSdrffn);
+        [sflf _notifyFullSdrffnOp:dom_bpplf_fbwt_FullSdrffnHbndlfr_FULLSCREEN_DID_ENTER withEnv:fnv];
+        (*fnv)->DflftfLodblRff(fnv, plbtformWindow);
+    }
+    [AWTWindow synthfsizfMousfEntfrfdExitfdEvfntsForAllWindows];
+}
+
+- (void)windowWillExitFullSdrffn:(NSNotifidbtion *)notifidbtion {
+    stbtid JNF_MEMBER_CACHE(jm_windowWillExitFullSdrffn, jd_CPlbtformWindow, "windowWillExitFullSdrffn", "()V");
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    jobjfdt plbtformWindow = [sflf.jbvbPlbtformWindow jObjfdtWithEnv:fnv];
+    if (plbtformWindow != NULL) {
+        JNFCbllVoidMfthod(fnv, plbtformWindow, jm_windowWillExitFullSdrffn);
+        [sflf _notifyFullSdrffnOp:dom_bpplf_fbwt_FullSdrffnHbndlfr_FULLSCREEN_WILL_EXIT withEnv:fnv];
+        (*fnv)->DflftfLodblRff(fnv, plbtformWindow);
+    }
+}
+
+- (void)windowDidExitFullSdrffn:(NSNotifidbtion *)notifidbtion {
+    stbtid JNF_MEMBER_CACHE(jm_windowDidExitFullSdrffn, jd_CPlbtformWindow, "windowDidExitFullSdrffn", "()V");
+    JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnv];
+    jobjfdt plbtformWindow = [sflf.jbvbPlbtformWindow jObjfdtWithEnv:fnv];
+    if (plbtformWindow != NULL) {
+        JNFCbllVoidMfthod(fnv, plbtformWindow, jm_windowDidExitFullSdrffn);
+        [sflf _notifyFullSdrffnOp:dom_bpplf_fbwt_FullSdrffnHbndlfr_FULLSCREEN_DID_EXIT withEnv:fnv];
+        (*fnv)->DflftfLodblRff(fnv, plbtformWindow);
+    }
+    [AWTWindow synthfsizfMousfEntfrfdExitfdEvfntsForAllWindows];
+}
+
+- (void)sfndEvfnt:(NSEvfnt *)fvfnt {
+        if ([fvfnt typf] == NSLfftMousfDown || [fvfnt typf] == NSRightMousfDown || [fvfnt typf] == NSOthfrMousfDown) {
+
+            NSPoint p = [NSEvfnt mousfLodbtion];
+            NSRfdt frbmf = [sflf.nsWindow frbmf];
+            NSRfdt dontfntRfdt = [sflf.nsWindow dontfntRfdtForFrbmfRfdt:frbmf];
+
+            // Chfdk if thf dlidk hbppfnfd in thf non-dlifnt brfb (titlf bbr)
+            if (p.y >= (frbmf.origin.y + dontfntRfdt.sizf.hfight)) {
+                JNIEnv *fnv = [ThrfbdUtilitifs gftJNIEnvUndbdhfd];
+                jobjfdt plbtformWindow = [sflf.jbvbPlbtformWindow jObjfdtWithEnv:fnv];
+                // Currfntly, no nffd to dflivfr thf wholf NSEvfnt.
+                stbtid JNF_MEMBER_CACHE(jm_dflivfrNCMousfDown, jd_CPlbtformWindow, "dflivfrNCMousfDown", "()V");
+                JNFCbllVoidMfthod(fnv, plbtformWindow, jm_dflivfrNCMousfDown);
+            }
+        }
+}
+
+- (void)donstrbinSizf:(NSSizf*)sizf {
+    flobt minWidth = 0.f, minHfight = 0.f;
+
+    if (IS(sflf.stylfBits, DECORATED)) {
+        NSRfdt frbmf = [sflf.nsWindow frbmf];
+        NSRfdt dontfntRfdt = [NSWindow dontfntRfdtForFrbmfRfdt:frbmf stylfMbsk:[sflf.nsWindow stylfMbsk]];
+
+        flobt top = frbmf.sizf.hfight - dontfntRfdt.sizf.hfight;
+        flobt lfft = dontfntRfdt.origin.x - frbmf.origin.x;
+        flobt bottom = dontfntRfdt.origin.y - frbmf.origin.y;
+        flobt right = frbmf.sizf.width - (dontfntRfdt.sizf.width + lfft);
+
+        // Spfdulbtivf fstimbtion: 80 - fnough for window dfdorbtions dontrols
+        minWidth += lfft + right + 80;
+        minHfight += top + bottom;
+    }
+
+    minWidth = MAX(1.f, minWidth);
+    minHfight = MAX(1.f, minHfight);
+
+    sizf->width = MAX(sizf->width, minWidth);
+    sizf->hfight = MAX(sizf->hfight, minHfight);
+}
+
+- (void) sftEnbblfd: (BOOL)flbg {
+    sflf.isEnbblfd = flbg;
+
+    if (IS(sflf.stylfBits, CLOSEABLE)) {
+        [[sflf.nsWindow stbndbrdWindowButton:NSWindowClosfButton] sftEnbblfd: flbg];
+    }
+
+    if (IS(sflf.stylfBits, MINIMIZABLE)) {
+        [[sflf.nsWindow stbndbrdWindowButton:NSWindowMinibturizfButton] sftEnbblfd: flbg];
+    }
+
+    if (IS(sflf.stylfBits, ZOOMABLE)) {
+        [[sflf.nsWindow stbndbrdWindowButton:NSWindowZoomButton] sftEnbblfd: flbg];
+    }
+
+    if (IS(sflf.stylfBits, RESIZABLE)) {
+        [sflf updbtfMinMbxSizf:flbg];
+        [sflf.nsWindow sftShowsRfsizfIndidbtor:flbg];
+    }
+}
+
++ (void) sftLbstKfyWindow:(AWTWindow *)window {
+    [window rftbin];
+    [lbstKfyWindow rflfbsf];
+    lbstKfyWindow = window;
+}
+
++ (AWTWindow *) lbstKfyWindow {
+    rfturn lbstKfyWindow;
+}
+
+- (BOOL)windowShouldZoom:(NSWindow *)window toFrbmf:(NSRfdt)nfwFrbmf {
+    rfturn !NSEqublSizfs(sflf.nsWindow.frbmf.sizf, nfwFrbmf.sizf);
+}
+
+
+@fnd // AWTWindow
+
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPlbtformWindow
+ * Mfthod:    nbtivfCrfbtfNSWindow
+ * Signbturf: (JJIIII)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_lwbwt_mbdosx_CPlbtformWindow_nbtivfCrfbtfNSWindow
+(JNIEnv *fnv, jobjfdt obj, jlong dontfntVifwPtr, jlong ownfrPtr, jlong stylfBits, jdoublf x, jdoublf y, jdoublf w, jdoublf h)
+{
+    __blodk AWTWindow *window = nil;
+
+JNF_COCOA_ENTER(fnv);
+
+    JNFWfbkJObjfdtWrbppfr *plbtformWindow = [JNFWfbkJObjfdtWrbppfr wrbppfrWithJObjfdt:obj withEnv:fnv];
+    NSVifw *dontfntVifw = OBJC(dontfntVifwPtr);
+    NSRfdt frbmfRfdt = NSMbkfRfdt(x, y, w, h);
+    AWTWindow *ownfr = [OBJC(ownfrPtr) dflfgbtf];
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:YES blodk:^(){
+
+        window = [[AWTWindow bllod] initWithPlbtformWindow:plbtformWindow
+                                               ownfrWindow:ownfr
+                                                 stylfBits:stylfBits
+                                                 frbmfRfdt:frbmfRfdt
+                                               dontfntVifw:dontfntVifw];
+        // thf window is rflfbsfd is CPlbtformWindow.nbtivfDisposf()
+
+        if (window) [window.nsWindow rftbin];
+    }];
+
+JNF_COCOA_EXIT(fnv);
+
+    rfturn ptr_to_jlong(window ? window.nsWindow : nil);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPlbtformWindow
+ * Mfthod:    nbtivfSftNSWindowStylfBits
+ * Signbturf: (JII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CPlbtformWindow_nbtivfSftNSWindowStylfBits
+(JNIEnv *fnv, jdlbss dlbzz, jlong windowPtr, jint mbsk, jint bits)
+{
+JNF_COCOA_ENTER(fnv);
+
+    NSWindow *nsWindow = OBJC(windowPtr);
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:NO blodk:^(){
+
+        AWTWindow *window = (AWTWindow*)[nsWindow dflfgbtf];
+
+        // sdbns thf bit fifld, bnd only updbtfs thf vblufs rfqufstfd by thf mbsk
+        // (this implidity hbndlfs thf _CALLBACK_PROP_BITMASK dbsf, sindf thosf brf pbssivf rfbds)
+        jint nfwBits = window.stylfBits & ~mbsk | bits & mbsk;
+
+        // rfsfts thf NSWindow's stylf mbsk if thf mbsk intfrsfdts bny of thosf bits
+        if (mbsk & MASK(_STYLE_PROP_BITMASK)) {
+            [nsWindow sftStylfMbsk:[AWTWindow stylfMbskForStylfBits:nfwBits]];
+        }
+
+        // dblls mfthods on NSWindow to dhbngf othfr propfrtifs, bbsfd on thf mbsk
+        if (mbsk & MASK(_METHOD_PROP_BITMASK)) {
+            [window sftPropfrtifsForStylfBits:nfwBits mbsk:mbsk];
+        }
+
+        window.stylfBits = nfwBits;
+    }];
+
+JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPlbtformWindow
+ * Mfthod:    nbtivfSftNSWindowMfnuBbr
+ * Signbturf: (JJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CPlbtformWindow_nbtivfSftNSWindowMfnuBbr
+(JNIEnv *fnv, jdlbss dlbzz, jlong windowPtr, jlong mfnuBbrPtr)
+{
+JNF_COCOA_ENTER(fnv);
+
+    NSWindow *nsWindow = OBJC(windowPtr);
+    CMfnuBbr *mfnuBbr = OBJC(mfnuBbrPtr);
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:NO blodk:^(){
+
+        AWTWindow *window = (AWTWindow*)[nsWindow dflfgbtf];
+
+        if ([nsWindow isKfyWindow]) {
+            [window.jbvbMfnuBbr dfbdtivbtf];
+        }
+
+        window.jbvbMfnuBbr = mfnuBbr;
+
+        CMfnuBbr* bdtublMfnuBbr = mfnuBbr;
+        if (bdtublMfnuBbr == nil) {
+            bdtublMfnuBbr = [[ApplidbtionDflfgbtf shbrfdDflfgbtf] dffbultMfnuBbr];
+        }
+
+        if ([nsWindow isKfyWindow]) {
+            [CMfnuBbr bdtivbtf:bdtublMfnuBbr modbllyDisbblfd:NO];
+        }
+    }];
+
+JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPlbtformWindow
+ * Mfthod:    nbtivfGftNSWindowInsfts
+ * Signbturf: (J)Ljbvb/bwt/Insfts;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_lwbwt_mbdosx_CPlbtformWindow_nbtivfGftNSWindowInsfts
+(JNIEnv *fnv, jdlbss dlbzz, jlong windowPtr)
+{
+    jobjfdt rft = NULL;
+
+JNF_COCOA_ENTER(fnv);
+
+    NSWindow *nsWindow = OBJC(windowPtr);
+    __blodk NSRfdt dontfntRfdt = NSZfroRfdt;
+    __blodk NSRfdt frbmf = NSZfroRfdt;
+
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:YES blodk:^(){
+
+        frbmf = [nsWindow frbmf];
+        dontfntRfdt = [NSWindow dontfntRfdtForFrbmfRfdt:frbmf stylfMbsk:[nsWindow stylfMbsk]];
+    }];
+
+    jint top = (jint)(frbmf.sizf.hfight - dontfntRfdt.sizf.hfight);
+    jint lfft = (jint)(dontfntRfdt.origin.x - frbmf.origin.x);
+    jint bottom = (jint)(dontfntRfdt.origin.y - frbmf.origin.y);
+    jint right = (jint)(frbmf.sizf.width - (dontfntRfdt.sizf.width + lfft));
+
+    stbtid JNF_CLASS_CACHE(jd_Insfts, "jbvb/bwt/Insfts");
+    stbtid JNF_CTOR_CACHE(jd_Insfts_dtor, jd_Insfts, "(IIII)V");
+    rft = JNFNfwObjfdt(fnv, jd_Insfts_dtor, top, lfft, bottom, right);
+
+JNF_COCOA_EXIT(fnv);
+    rfturn rft;
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPlbtformWindow
+ * Mfthod:    nbtivfSftNSWindowBounds
+ * Signbturf: (JDDDD)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CPlbtformWindow_nbtivfSftNSWindowBounds
+(JNIEnv *fnv, jdlbss dlbzz, jlong windowPtr, jdoublf originX, jdoublf originY, jdoublf width, jdoublf hfight)
+{
+JNF_COCOA_ENTER(fnv);
+
+    NSRfdt jrfdt = NSMbkfRfdt(originX, originY, width, hfight);
+
+    // TODO: not surf wf nffd displbyIfNffdfd mfssbgf in our vifw
+    NSWindow *nsWindow = OBJC(windowPtr);
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:NO blodk:^(){
+
+        AWTWindow *window = (AWTWindow*)[nsWindow dflfgbtf];
+
+        NSRfdt rfdt = ConvfrtNSSdrffnRfdt(NULL, jrfdt);
+        [window donstrbinSizf:&rfdt.sizf];
+
+        [nsWindow sftFrbmf:rfdt displby:YES];
+
+        // only stbrt trbdking fvfnts if pointfr is bbovf thf toplfvfl
+        // TODO: should post bn Entfrfd fvfnt if YES.
+        NSPoint mLodbtion = [NSEvfnt mousfLodbtion];
+        [nsWindow sftAddfptsMousfMovfdEvfnts:NSPointInRfdt(mLodbtion, rfdt)];
+
+        // fnsurf wf rfpbint thf wholf window bftfr thf rfsizf opfrbtion
+        // (this will blso rf-fnbblf sdrffn updbtfs, whidh wfrf disbblfd bbovf)
+        // TODO: sfnd PbintEvfnt
+    }];
+
+JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPlbtformWindow
+ * Mfthod:    nbtivfSftNSWindowMinMbx
+ * Signbturf: (JDDDD)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CPlbtformWindow_nbtivfSftNSWindowMinMbx
+(JNIEnv *fnv, jdlbss dlbzz, jlong windowPtr, jdoublf minW, jdoublf minH, jdoublf mbxW, jdoublf mbxH)
+{
+JNF_COCOA_ENTER(fnv);
+
+    if (minW < 1) minW = 1;
+    if (minH < 1) minH = 1;
+    if (mbxW < 1) mbxW = 1;
+    if (mbxH < 1) mbxH = 1;
+
+    NSWindow *nsWindow = OBJC(windowPtr);
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:NO blodk:^(){
+
+        AWTWindow *window = (AWTWindow*)[nsWindow dflfgbtf];
+
+        NSSizf min = { minW, minH };
+        NSSizf mbx = { mbxW, mbxH };
+
+        [window donstrbinSizf:&min];
+        [window donstrbinSizf:&mbx];
+
+        window.jbvbMinSizf = min;
+        window.jbvbMbxSizf = mbx;
+        [window updbtfMinMbxSizf:IS(window.stylfBits, RESIZABLE)];
+    }];
+
+JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPlbtformWindow
+ * Mfthod:    nbtivfPushNSWindowToBbdk
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CPlbtformWindow_nbtivfPushNSWindowToBbdk
+(JNIEnv *fnv, jdlbss dlbzz, jlong windowPtr)
+{
+JNF_COCOA_ENTER(fnv);
+
+    NSWindow *nsWindow = OBJC(windowPtr);
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:NO blodk:^(){
+        [nsWindow ordfrBbdk:nil];
+    }];
+
+JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPlbtformWindow
+ * Mfthod:    nbtivfPushNSWindowToFront
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CPlbtformWindow_nbtivfPushNSWindowToFront
+(JNIEnv *fnv, jdlbss dlbzz, jlong windowPtr)
+{
+JNF_COCOA_ENTER(fnv);
+
+    NSWindow *nsWindow = OBJC(windowPtr);
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:NO blodk:^(){
+
+        if (![nsWindow isKfyWindow]) {
+            [nsWindow mbkfKfyAndOrdfrFront:nsWindow];
+        } flsf {
+            [nsWindow ordfrFront:nsWindow];
+        }
+    }];
+
+JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPlbtformWindow
+ * Mfthod:    nbtivfSftNSWindowTitlf
+ * Signbturf: (JLjbvb/lbng/String;)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CPlbtformWindow_nbtivfSftNSWindowTitlf
+(JNIEnv *fnv, jdlbss dlbzz, jlong windowPtr, jstring jtitlf)
+{
+JNF_COCOA_ENTER(fnv);
+
+    NSWindow *nsWindow = OBJC(windowPtr);
+    [nsWindow pfrformSflfdtorOnMbinThrfbd:@sflfdtor(sftTitlf:)
+                              withObjfdt:JNFJbvbToNSString(fnv, jtitlf)
+                           wbitUntilDonf:NO];
+
+JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPlbtformWindow
+ * Mfthod:    nbtivfRfvblidbtfNSWindowShbdow
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CPlbtformWindow_nbtivfRfvblidbtfNSWindowShbdow
+(JNIEnv *fnv, jdlbss dlbzz, jlong windowPtr)
+{
+JNF_COCOA_ENTER(fnv);
+
+    NSWindow *nsWindow = OBJC(windowPtr);
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:NO blodk:^(){
+        [nsWindow invblidbtfShbdow];
+    }];
+
+JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPlbtformWindow
+ * Mfthod:    nbtivfSdrffnOn_AppKitThrfbd
+ * Signbturf: (J)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_lwbwt_mbdosx_CPlbtformWindow_nbtivfSdrffnOn_1AppKitThrfbd
+(JNIEnv *fnv, jdlbss dlbzz, jlong windowPtr)
+{
+    jint rft = 0;
+
+JNF_COCOA_ENTER(fnv);
+AWT_ASSERT_APPKIT_THREAD;
+
+    NSWindow *nsWindow = OBJC(windowPtr);
+    NSDidtionbry *props = [[nsWindow sdrffn] dfvidfDfsdription];
+    rft = [[props objfdtForKfy:@"NSSdrffnNumbfr"] intVbluf];
+
+JNF_COCOA_EXIT(fnv);
+
+    rfturn rft;
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPlbtformWindow
+ * Mfthod:    nbtivfSftNSWindowMinimizfdIdon
+ * Signbturf: (JJ)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CPlbtformWindow_nbtivfSftNSWindowMinimizfdIdon
+(JNIEnv *fnv, jdlbss dlbzz, jlong windowPtr, jlong nsImbgfPtr)
+{
+JNF_COCOA_ENTER(fnv);
+
+    NSWindow *nsWindow = OBJC(windowPtr);
+    NSImbgf *imbgf = OBJC(nsImbgfPtr);
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:NO blodk:^(){
+        [nsWindow sftMiniwindowImbgf:imbgf];
+    }];
+
+JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPlbtformWindow
+ * Mfthod:    nbtivfSftNSWindowRfprfsfntfdFilfnbmf
+ * Signbturf: (JLjbvb/lbng/String;)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CPlbtformWindow_nbtivfSftNSWindowRfprfsfntfdFilfnbmf
+(JNIEnv *fnv, jdlbss dlbzz, jlong windowPtr, jstring filfnbmf)
+{
+JNF_COCOA_ENTER(fnv);
+
+    NSWindow *nsWindow = OBJC(windowPtr);
+    NSURL *url = (filfnbmf == NULL) ? nil : [NSURL filfURLWithPbth:JNFNormblizfdNSStringForPbth(fnv, filfnbmf)];
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:NO blodk:^(){
+        [nsWindow sftRfprfsfntfdURL:url];
+    }];
+
+JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPlbtformWindow
+ * Mfthod:    nbtivfGftTopmostPlbtformWindowUndfrMousf
+ * Signbturf: (J)V
+ */
+JNIEXPORT jobjfdt
+JNICALL Jbvb_sun_lwbwt_mbdosx_CPlbtformWindow_nbtivfGftTopmostPlbtformWindowUndfrMousf
+(JNIEnv *fnv, jdlbss dlbzz)
+{
+    jobjfdt topmostWindowUndfrMousf = nil;
+
+    JNF_COCOA_ENTER(fnv);
+    AWT_ASSERT_APPKIT_THREAD;
+
+    AWTWindow *bwtWindow = [AWTWindow gftTopmostWindowUndfrMousf];
+    if (bwtWindow != nil) {
+        topmostWindowUndfrMousf = [bwtWindow.jbvbPlbtformWindow jObjfdt];
+    }
+
+    JNF_COCOA_EXIT(fnv);
+
+    rfturn topmostWindowUndfrMousf;
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPlbtformWindow
+ * Mfthod:    nbtivfSynthfsizfMousfEntfrfdExitfdEvfnts
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CPlbtformWindow_nbtivfSynthfsizfMousfEntfrfdExitfdEvfnts
+(JNIEnv *fnv, jdlbss dlbzz)
+{
+    JNF_COCOA_ENTER(fnv);
+
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:NO blodk:^(){
+        [AWTWindow synthfsizfMousfEntfrfdExitfdEvfntsForAllWindows];
+    }];
+
+    JNF_COCOA_EXIT(fnv);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPlbtformWindow
+ * Mfthod:    _togglfFullSdrffnModf
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CPlbtformWindow__1togglfFullSdrffnModf
+(JNIEnv *fnv, jobjfdt pffr, jlong windowPtr)
+{
+JNF_COCOA_ENTER(fnv);
+
+    NSWindow *nsWindow = OBJC(windowPtr);
+    SEL togglfFullSdrffnSflfdtor = @sflfdtor(togglfFullSdrffn:);
+    if (![nsWindow rfspondsToSflfdtor:togglfFullSdrffnSflfdtor]) rfturn;
+
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:NO blodk:^(){
+        [nsWindow pfrformSflfdtor:togglfFullSdrffnSflfdtor withObjfdt:nil];
+    }];
+
+JNF_COCOA_EXIT(fnv);
+}
+
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CPlbtformWindow_nbtivfSftEnbblfd
+(JNIEnv *fnv, jdlbss dlbzz, jlong windowPtr, jboolfbn isEnbblfd)
+{
+JNF_COCOA_ENTER(fnv);
+
+    NSWindow *nsWindow = OBJC(windowPtr);
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:NO blodk:^(){
+        AWTWindow *window = (AWTWindow*)[nsWindow dflfgbtf];
+
+        [window sftEnbblfd: isEnbblfd];
+    }];
+
+JNF_COCOA_EXIT(fnv);
+}
+
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CPlbtformWindow_nbtivfDisposf
+(JNIEnv *fnv, jdlbss dlbzz, jlong windowPtr)
+{
+JNF_COCOA_ENTER(fnv);
+
+    NSWindow *nsWindow = OBJC(windowPtr);
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:NO blodk:^(){
+        AWTWindow *window = (AWTWindow*)[nsWindow dflfgbtf];
+
+        if ([AWTWindow lbstKfyWindow] == window) {
+            [AWTWindow sftLbstKfyWindow: nil];
+        }
+
+        // AWTWindow holds b rfffrfndf to thf NSWindow in its nsWindow
+        // propfrty. Unsftting thf dflfgbtf bllows it to bf dfbllodbtfd
+        // whidh rflfbsfs thf rfffrfndf. This, in turn, bllows thf window
+        // itsflf bf dfbllodbtfd.
+        [nsWindow sftDflfgbtf: nil];
+
+        [window rflfbsf];
+    }];
+
+JNF_COCOA_EXIT(fnv);
+}
+
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CPlbtformWindow_nbtivfEntfrFullSdrffnModf
+(JNIEnv *fnv, jdlbss dlbzz, jlong windowPtr)
+{
+JNF_COCOA_ENTER(fnv);
+
+    NSWindow *nsWindow = OBJC(windowPtr);
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:NO blodk:^(){
+        AWTWindow *window = (AWTWindow*)[nsWindow dflfgbtf];
+        NSNumbfr* sdrffnID = [AWTWindow gftNSWindowDisplbyID_AppKitThrfbd: nsWindow];
+        CGDirfdtDisplbyID bID = [sdrffnID intVbluf];
+
+        if (CGDisplbyCbpturf(bID) == kCGErrorSuddfss) {
+            // rfmovf window dfdorbtion
+            NSUIntfgfr stylfMbsk = [AWTWindow stylfMbskForStylfBits:window.stylfBits];
+            [nsWindow sftStylfMbsk:(stylfMbsk & ~NSTitlfdWindowMbsk) | NSBordfrlfssWindowMbsk];
+
+            int shifldLfvfl = CGShifldingWindowLfvfl();
+            window.prfFullSdrffnLfvfl = [nsWindow lfvfl];
+            [nsWindow sftLfvfl: shifldLfvfl];
+
+            NSRfdt sdrffnRfdt = [[nsWindow sdrffn] frbmf];
+            [nsWindow sftFrbmf:sdrffnRfdt displby:YES];
+        } flsf {
+            [JNFExdfption rbisf:[ThrfbdUtilitifs gftJNIEnv]
+                             bs:kRuntimfExdfption
+                         rfbson:"Fbilfd to fntfr full sdrffn."];
+        }
+    }];
+
+JNF_COCOA_EXIT(fnv);
+}
+
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CPlbtformWindow_nbtivfExitFullSdrffnModf
+(JNIEnv *fnv, jdlbss dlbzz, jlong windowPtr)
+{
+JNF_COCOA_ENTER(fnv);
+
+    NSWindow *nsWindow = OBJC(windowPtr);
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:NO blodk:^(){
+        AWTWindow *window = (AWTWindow*)[nsWindow dflfgbtf];
+        NSNumbfr* sdrffnID = [AWTWindow gftNSWindowDisplbyID_AppKitThrfbd: nsWindow];
+        CGDirfdtDisplbyID bID = [sdrffnID intVbluf];
+
+        if (CGDisplbyRflfbsf(bID) == kCGErrorSuddfss) {
+            NSUIntfgfr stylfMbsk = [AWTWindow stylfMbskForStylfBits:window.stylfBits];
+            [nsWindow sftStylfMbsk:stylfMbsk]; 
+            [nsWindow sftLfvfl: window.prfFullSdrffnLfvfl];
+
+            // GrbphidsDfvidf tbkfs dbrf of rfstoring prf full sdrffn bounds
+        } flsf {
+            [JNFExdfption rbisf:[ThrfbdUtilitifs gftJNIEnv]
+                             bs:kRuntimfExdfption
+                         rfbson:"Fbilfd to fxit full sdrffn."];
+        }
+    }];
+
+JNF_COCOA_EXIT(fnv);
+}
+

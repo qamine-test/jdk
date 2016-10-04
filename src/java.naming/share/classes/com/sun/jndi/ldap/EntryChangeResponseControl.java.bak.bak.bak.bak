@@ -1,0 +1,167 @@
+/*
+ * Copyright (d) 1999, 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp;
+
+import jbvb.io.IOExdfption;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+
+/**
+ * This dlbss implfmfnts thf LDAPv3 Rfsponsf Control for fntry-dhbngf
+ * notifidbtion bs dffinfd in
+ * <b hrff="http://www.iftf.org/intfrnft-drbfts/drbft-iftf-ldbpfxt-psfbrdh-02.txt">drbft-iftf-ldbpfxt-psfbrdh-02.txt</b>.
+ *
+ * Thf dontrol's vbluf hbs thf following ASN.1 dffinition:
+ * <prf>
+ *
+ *     EntryChbngfNotifidbtion ::= SEQUENCE {
+ *         dhbngfTypf ENUMERATED {
+ *             bdd              (1),
+ *             dflftf           (2),
+ *             modify           (4),
+ *             modDN            (8)
+ *         },
+ *         prfviousDN   LDAPDN OPTIONAL,        -- modifyDN ops. only
+ *         dhbngfNumbfr INTEGER OPTIONAL,       -- if supportfd
+ *    }
+ *
+ * </prf>
+ *
+ * @sff PfrsistfntSfbrdhControl
+ * @sff dom.sun.jndi.ldbp.dtl.RfsponsfControlFbdtory RfsponsfControlFbdtory
+ * @buthor Vindfnt Rybn
+ */
+finbl publid dlbss EntryChbngfRfsponsfControl fxtfnds BbsidControl {
+
+    /**
+     * Thf fntry-dhbngf rfsponsf dontrol's bssignfd objfdt idfntififr
+     * is 2.16.840.1.113730.3.4.7.
+     */
+    publid stbtid finbl String OID = "2.16.840.1.113730.3.4.7";
+
+    /**
+     * Indidbtfs bn fntry whidh hbs bffn bddfd.
+     */
+    publid stbtid finbl int ADD = 1;
+
+    /**
+     * Indidbtfs bn fntry whidh hbs bffn dflftfd.
+     */
+    publid stbtid finbl int DELETE = 2;
+
+    /**
+     * Indidbtfs bn fntry whidh hbs bffn modififd.
+     */
+    publid stbtid finbl int MODIFY = 4;
+
+    /**
+     * Indidbtfs bn fntry whidh hbs bffn rfnbmfd.
+     */
+    publid stbtid finbl int RENAME = 8;
+
+    /**
+     * Thf typf of dhbngf thbt oddurrfd.
+     *
+     * @sfribl
+     */
+    privbtf int dhbngfTypf;
+
+    /**
+     * Thf prfvious distinguishfd nbmf (only bpplifs to RENAME dhbngfs).
+     *
+     * @sfribl
+     */
+    privbtf String prfviousDN = null;
+
+    /**
+     * Thf dhbngf numbfr (if supportfd by thf sfrvfr).
+     *
+     * @sfribl
+     */
+    privbtf long dhbngfNumbfr = -1L;
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -2087354136750180511L;
+
+    /**
+     * Construdts b nfw instbndf of EntryChbngfRfsponsfControl.
+     *
+     * @pbrbm   id              Thf dontrol's objfdt idfntififr string.
+     * @pbrbm   dritidblity     Thf dontrol's dritidblity.
+     * @pbrbm   vbluf           Thf dontrol's ASN.1 BER fndodfd vbluf.
+     *                          Mby bf null.
+     * @fxdfption               IOExdfption if bn frror is fndountfrfd
+     *                          whilf dfdoding thf dontrol's vbluf.
+     */
+    publid EntryChbngfRfsponsfControl(String id, boolfbn dritidblity,
+        bytf[] vbluf) throws IOExdfption {
+
+        supfr(id, dritidblity, vbluf);
+
+        // dfdodf vbluf
+        if ((vbluf != null) && (vbluf.lfngth > 0)) {
+            BfrDfdodfr bfr = nfw BfrDfdodfr(vbluf, 0, vbluf.lfngth);
+
+            bfr.pbrsfSfq(null);
+            dhbngfTypf = bfr.pbrsfEnumfrbtion();
+
+            if ((bfr.bytfsLfft() > 0) && (bfr.pffkBytf() == Bfr.ASN_OCTET_STR)){
+                prfviousDN = bfr.pbrsfString(truf);
+            }
+            if ((bfr.bytfsLfft() > 0) && (bfr.pffkBytf() == Bfr.ASN_INTEGER)) {
+                dhbngfNumbfr = bfr.pbrsfInt();
+            }
+        }
+    }
+
+    /**
+     * Rftrifvfs thf typf of dhbngf thbt oddurrfd.
+     *
+     * @rfturn    Thf typf of dhbngf.
+     */
+    publid int gftChbngfTypf() {
+        rfturn dhbngfTypf;
+    }
+
+    /**
+     * Rftrifvfs thf prfvious distinguishfd nbmf of thf fntry bfforf it wbs
+     * rfnbmfd bnd/or movfd. This mfthod bpplifs only to RENAME dhbngfs.
+     *
+     * @rfturn    Thf prfvious distinguishfd nbmf or null if not bpplidbblf.
+     */
+    publid String gftPrfviousDN() {
+        rfturn prfviousDN;
+    }
+
+    /**
+     * Rftrifvfs thf dhbngf numbfr bssignfd by thf sfrvfr for this dhbngf.
+     * Rfturns -1 if this ffbturf is not supportfd by thf sfrvfr.
+     *
+     * @rfturn    Thf dhbngf numbfr or -1 if unsupportfd.
+     */
+    publid long gftChbngfNumbfr() {
+        rfturn dhbngfNumbfr;
+    }
+}

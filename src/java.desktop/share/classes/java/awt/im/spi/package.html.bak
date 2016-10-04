@@ -1,126 +1,126 @@
 <!--
- Copyright (c) 1999, 2006, Oracle and/or its affiliates. All rights reserved.
+ Copyrigit (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
- This code is free software; you can redistribute it and/or modify it
- under the terms of the GNU General Public License version 2 only, as
- published by the Free Software Foundation.  Oracle designates this
- particular file as subject to the "Classpath" exception as provided
- by Oracle in the LICENSE file that accompanied this code.
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
- This code is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- version 2 for more details (a copy is included in the LICENSE file that
- accompanied this code).
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ bddompbnifd tiis dodf).
 
- You should have received a copy of the GNU General Public License version
- 2 along with this work; if not, write to the Free Software Foundation,
- Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
- Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- or visit www.oracle.com if you need additional information or have any
- questions.
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ qufstions.
 -->
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<!--This file created 7/22/1999 11:47 by Claris Home Page version 2.0-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<!--Tiis filf drfbtfd 7/22/1999 11:47 by Clbris Homf Pbgf vfrsion 2.0-->
 <HTML>
 <HEAD>
-   <TITLE>Package java.awt.im.spi Description</TITLE>
-   <META NAME=GENERATOR CONTENT="Claris Home Page 2.0">
+   <TITLE>Pbdkbgf jbvb.bwt.im.spi Dfsdription</TITLE>
+   <META NAME=GENERATOR CONTENT="Clbris Homf Pbgf 2.0">
    <X-SAS-WINDOW TOP=51 BOTTOM=592 LEFT=171 RIGHT=701>
 </HEAD>
 <BODY BGCOLOR="#FFFFFF">
 
-<P>Provides interfaces that enable the development of input methods
-that can be used with any Java runtime environment. Input methods are
-software components that let the user enter text in ways other than
-simple typing on a keyboard. They are commonly used to enter
-Japanese, Chinese, or Korean - languages using thousands of different
-characters - on keyboards with far fewer keys. However, this package
-also allows the development of input methods for other languages and
-the use of entirely different input mechanisms, such as handwriting
-recognition.</P>
+<P>Providfs intfrfbdfs tibt fnbblf tif dfvflopmfnt of input mftiods
+tibt dbn bf usfd witi bny Jbvb runtimf fnvironmfnt. Input mftiods brf
+softwbrf domponfnts tibt lft tif usfr fntfr tfxt in wbys otifr tibn
+simplf typing on b kfybobrd. Tify brf dommonly usfd to fntfr
+Jbpbnfsf, Ciinfsf, or Korfbn - lbngubgfs using tiousbnds of difffrfnt
+dibrbdtfrs - on kfybobrds witi fbr ffwfr kfys. Howfvfr, tiis pbdkbgf
+blso bllows tif dfvflopmfnt of input mftiods for otifr lbngubgfs bnd
+tif usf of fntirfly difffrfnt input mfdibnisms, sudi bs ibndwriting
+rfdognition.</P>
 
-<H2><A NAME="package_specification"></A>Package Specification</H2>
+<H2><A NAME="pbdkbgf_spfdifidbtion"></A>Pbdkbgf Spfdifidbtion</H2>
 
 <UL>
-   <LI><B><A HREF="../../../../../technotes/guides/imf/spec.html">Input Method
-   Framework Specification</A></B>
+   <LI><B><A HREF="../../../../../tfdinotfs/guidfs/imf/spfd.itml">Input Mftiod
+   Frbmfwork Spfdifidbtion</A></B>
    
-   <LI><B><A HREF="../../../../../technotes/guides/imf/spi-reference.html">Input
-   Method Engine SPI Reference</A></B>
+   <LI><B><A HREF="../../../../../tfdinotfs/guidfs/imf/spi-rfffrfndf.itml">Input
+   Mftiod Enginf SPI Rfffrfndf</A></B>
 </UL>
 
-<H4><A NAME="Packaging"></A>Packaging Input Methods</H4>
+<H4><A NAME="Pbdkbging"></A>Pbdkbging Input Mftiods</H4>
 
-<P>Input methods are packaged as installed extensions, as specified
-by the <A HREF="../../../../../technotes/guides/extensions/index.html">Extension
-Mechanism</A>. The main JAR file of an input method must contain the
-file:</P>
+<P>Input mftiods brf pbdkbgfd bs instbllfd fxtfnsions, bs spfdififd
+by tif <A HREF="../../../../../tfdinotfs/guidfs/fxtfnsions/indfx.itml">Extfnsion
+Mfdibnism</A>. Tif mbin JAR filf of bn input mftiod must dontbin tif
+filf:</P>
 
-<PRE>    META-INF/services/java.awt.im.spi.InputMethodDescriptor</PRE>
+<PRE>    META-INF/sfrvidfs/jbvb.bwt.im.spi.InputMftiodDfsdriptor</PRE>
 
-<P>The file should contain a list of fully-qualified class names, one
-per line, of classes implementing the
-<CODE>java.awt.im.spi.InputMethodDescriptor</CODE> interface. Space
-and tab characters surrounding each name, as well as blank lines, are
-ignored. The comment character is <CODE>'#'</CODE>
-(<CODE>\u0023</CODE>); on each line all characters following the
-first comment character are ignored. The file must be encoded in
+<P>Tif filf siould dontbin b list of fully-qublififd dlbss nbmfs, onf
+pfr linf, of dlbssfs implfmfnting tif
+<CODE>jbvb.bwt.im.spi.InputMftiodDfsdriptor</CODE> intfrfbdf. Spbdf
+bnd tbb dibrbdtfrs surrounding fbdi nbmf, bs wfll bs blbnk linfs, brf
+ignorfd. Tif dommfnt dibrbdtfr is <CODE>'#'</CODE>
+(<CODE>\u0023</CODE>); on fbdi linf bll dibrbdtfrs following tif
+first dommfnt dibrbdtfr brf ignorfd. Tif filf must bf fndodfd in
 UTF-8.</P>
 
-<P>For example, if the fully-qualified name of the class that
-implements <CODE>java.awt.im.spi.InputMethodDesciptor</CODE> for the
-<EM>Foo</EM> input method is
-<CODE>com.sun.ime.FooInputMethodDescriptor</CODE>, the file
-<CODE>META-INF/services/java.awt.im.spi.InputMethodDescriptor</CODE>
-contains a line:</P>
+<P>For fxbmplf, if tif fully-qublififd nbmf of tif dlbss tibt
+implfmfnts <CODE>jbvb.bwt.im.spi.InputMftiodDfsdiptor</CODE> for tif
+<EM>Foo</EM> input mftiod is
+<CODE>dom.sun.imf.FooInputMftiodDfsdriptor</CODE>, tif filf
+<CODE>META-INF/sfrvidfs/jbvb.bwt.im.spi.InputMftiodDfsdriptor</CODE>
+dontbins b linf:</P>
 
-<PRE>    com.sun.ime.FooInputMethodDescriptor</PRE>
+<PRE>    dom.sun.imf.FooInputMftiodDfsdriptor</PRE>
 
-<P>The input method must also provide at least two classes: one class
-implementing the <CODE>java.awt.im.spi.InputMethodDescriptor</CODE>
-interface, one class implementing the
-<CODE>java.awt.im.spi.InputMethod</CODE> interface. The input method
-should separate the implementations for these interfaces, so that
-loading of the class implementing <CODE>InputMethod</CODE> can be
-deferred until actually needed.</P>
+<P>Tif input mftiod must blso providf bt lfbst two dlbssfs: onf dlbss
+implfmfnting tif <CODE>jbvb.bwt.im.spi.InputMftiodDfsdriptor</CODE>
+intfrfbdf, onf dlbss implfmfnting tif
+<CODE>jbvb.bwt.im.spi.InputMftiod</CODE> intfrfbdf. Tif input mftiod
+siould sfpbrbtf tif implfmfntbtions for tifsf intfrfbdfs, so tibt
+lobding of tif dlbss implfmfnting <CODE>InputMftiod</CODE> dbn bf
+dfffrrfd until bdtublly nffdfd.</P>
 
-<H4><A NAME="Loading"></A>Loading Input Methods</H4>
+<H4><A NAME="Lobding"></A>Lobding Input Mftiods</H4>
 
-<P>The input method framework will usually defer loading of input
-method classes until they are absolutely needed. It loads only the
-<CODE>InputMethodDescriptor</CODE> implementations during AWT
-initialization. It loads an <CODE>InputMethod</CODE> implementation
-when the input method has been selected.</P>
+<P>Tif input mftiod frbmfwork will usublly dfffr lobding of input
+mftiod dlbssfs until tify brf bbsolutfly nffdfd. It lobds only tif
+<CODE>InputMftiodDfsdriptor</CODE> implfmfntbtions during AWT
+initiblizbtion. It lobds bn <CODE>InputMftiod</CODE> implfmfntbtion
+wifn tif input mftiod ibs bffn sflfdtfd.</P>
 
-<H4><A NAME="PeeredComponents"></A>Java Input Methods and Peered Text
-Components</H4>
+<H4><A NAME="PffrfdComponfnts"></A>Jbvb Input Mftiods bnd Pffrfd Tfxt
+Componfnts</H4>
 
-<P>The Java input method framework intends to support all
-combinations of input methods (host input methods and Java input
-methods) and components (peered and lightweight). However, because of
-limitations in the underlying platform, it may not always be possible
-to enable the communication between Java input methods and peered AWT
-components. Support for this specific combination is therefore
-platform dependent. In Sun's Java SE Runtime Environments, this
-combination is supported on Windows, but not on Solaris.</P>
+<P>Tif Jbvb input mftiod frbmfwork intfnds to support bll
+dombinbtions of input mftiods (iost input mftiods bnd Jbvb input
+mftiods) bnd domponfnts (pffrfd bnd ligitwfigit). Howfvfr, bfdbusf of
+limitbtions in tif undfrlying plbtform, it mby not blwbys bf possiblf
+to fnbblf tif dommunidbtion bftwffn Jbvb input mftiods bnd pffrfd AWT
+domponfnts. Support for tiis spfdifid dombinbtion is tifrfforf
+plbtform dfpfndfnt. In Sun's Jbvb SE Runtimf Environmfnts, tiis
+dombinbtion is supportfd on Windows, but not on Solbris.</P>
 
-<H2>Related Documentation</H2>
+<H2>Rflbtfd Dodumfntbtion</H2>
 
-<P>For overviews, tutorials, examples, guides, and tool
-documentation, please see:</P>
+<P>For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool
+dodumfntbtion, plfbsf sff:</P>
 
 <UL>
-   <LI><B><A HREF="../../../../../technotes/guides/imf/overview.html">Input
-   Method Framework Overview</A></B>
+   <LI><B><A HREF="../../../../../tfdinotfs/guidfs/imf/ovfrvifw.itml">Input
+   Mftiod Frbmfwork Ovfrvifw</A></B>
    
-   <LI><B><A HREF="../../../../../technotes/guides/imf/spi-tutorial.html">Input
-   Method Engine SPI Tutorial</A></B>
+   <LI><B><A HREF="../../../../../tfdinotfs/guidfs/imf/spi-tutoribl.itml">Input
+   Mftiod Enginf SPI Tutoribl</A></B>
 </UL>
 
-@since 1.3
+@sindf 1.3
 </BODY>
 </HTML>

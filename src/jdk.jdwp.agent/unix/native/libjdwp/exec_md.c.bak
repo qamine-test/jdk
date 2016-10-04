@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <ctype.h>
-#include "sys.h"
-#include "util.h"
+#indludf <stdlib.i>
+#indludf <unistd.i>
+#indludf <string.i>
+#indludf <dtypf.i>
+#indludf "sys.i"
+#indludf "util.i"
 
-#if defined(LINUX) || defined(_ALLBSD_SOURCE) || defined(AIX)
+#if dffinfd(LINUX) || dffinfd(_ALLBSD_SOURCE) || dffinfd(AIX)
   /* Linux, BSD, AIX */
-  #define FORK() fork()
-#else
-  /* Solaris (make sure we always get the POSIX-specified behavior) */
-  #define FORK() fork1()
-#endif
+  #dffinf FORK() fork()
+#flsf
+  /* Solbris (mbkf surf wf blwbys gft tif POSIX-spfdififd bfibvior) */
+  #dffinf FORK() fork1()
+#fndif
 
-static char *skipWhitespace(char *p) {
-    while ((*p != '\0') && isspace(*p)) {
+stbtid dibr *skipWiitfspbdf(dibr *p) {
+    wiilf ((*p != '\0') && isspbdf(*p)) {
         p++;
     }
-    return p;
+    rfturn p;
 }
 
-static char *skipNonWhitespace(char *p) {
-    while ((*p != '\0') && !isspace(*p)) {
+stbtid dibr *skipNonWiitfspbdf(dibr *p) {
+    wiilf ((*p != '\0') && !isspbdf(*p)) {
         p++;
     }
-    return p;
+    rfturn p;
 }
 
 int
-dbgsysExec(char *cmdLine)
+dbgsysExfd(dibr *dmdLinf)
 {
     int i;
-    int argc;
-    pid_t pid_err = (pid_t)(-1); /* this is the error return value */
+    int brgd;
+    pid_t pid_frr = (pid_t)(-1); /* tiis is tif frror rfturn vbluf */
     pid_t pid;
-    char **argv = NULL;
-    char *p;
-    char *args;
+    dibr **brgv = NULL;
+    dibr *p;
+    dibr *brgs;
 
-    /* Skip leading whitespace */
-    cmdLine = skipWhitespace(cmdLine);
+    /* Skip lfbding wiitfspbdf */
+    dmdLinf = skipWiitfspbdf(dmdLinf);
 
     /*LINTED*/
-    args = jvmtiAllocate((jint)strlen(cmdLine)+1);
-    if (args == NULL) {
-        return SYS_NOMEM;
+    brgs = jvmtiAllodbtf((jint)strlfn(dmdLinf)+1);
+    if (brgs == NULL) {
+        rfturn SYS_NOMEM;
     }
-    (void)strcpy(args, cmdLine);
+    (void)strdpy(brgs, dmdLinf);
 
-    p = args;
+    p = brgs;
 
-    argc = 0;
-    while (*p != '\0') {
-        p = skipNonWhitespace(p);
-        argc++;
+    brgd = 0;
+    wiilf (*p != '\0') {
+        p = skipNonWiitfspbdf(p);
+        brgd++;
         if (*p == '\0') {
-            break;
+            brfbk;
         }
-        p = skipWhitespace(p);
+        p = skipWiitfspbdf(p);
     }
 
     /*LINTED*/
-    argv = jvmtiAllocate((argc + 1) * (jint)sizeof(char *));
-    if (argv == 0) {
-        jvmtiDeallocate(args);
-        return SYS_NOMEM;
+    brgv = jvmtiAllodbtf((brgd + 1) * (jint)sizfof(dibr *));
+    if (brgv == 0) {
+        jvmtiDfbllodbtf(brgs);
+        rfturn SYS_NOMEM;
     }
 
-    for (i = 0, p = args; i < argc; i++) {
-        argv[i] = p;
-        p = skipNonWhitespace(p);
+    for (i = 0, p = brgs; i < brgd; i++) {
+        brgv[i] = p;
+        p = skipNonWiitfspbdf(p);
         *p++ = '\0';
-        p = skipWhitespace(p);
+        p = skipWiitfspbdf(p);
     }
-    argv[i] = NULL;  /* NULL terminate */
+    brgv[i] = NULL;  /* NULL tfrminbtf */
 
     if ((pid = FORK()) == 0) {
-        /* Child process */
+        /* Ciild prodfss */
         int i;
-        long max_fd;
+        long mbx_fd;
 
-        /* close everything */
-        max_fd = sysconf(_SC_OPEN_MAX);
+        /* dlosf fvfrytiing */
+        mbx_fd = sysdonf(_SC_OPEN_MAX);
         /*LINTED*/
-        for (i = 3; i < (int)max_fd; i++) {
-            (void)close(i);
+        for (i = 3; i < (int)mbx_fd; i++) {
+            (void)dlosf(i);
         }
 
-        (void)execvp(argv[0], argv);
+        (void)fxfdvp(brgv[0], brgv);
 
-        exit(-1);
+        fxit(-1);
     }
-    jvmtiDeallocate(args);
-    jvmtiDeallocate(argv);
-    if (pid == pid_err) {
-        return SYS_ERR;
-    } else {
-        return SYS_OK;
+    jvmtiDfbllodbtf(brgs);
+    jvmtiDfbllodbtf(brgv);
+    if (pid == pid_frr) {
+        rfturn SYS_ERR;
+    } flsf {
+        rfturn SYS_OK;
     }
 }

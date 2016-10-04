@@ -1,0 +1,116 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.bordfr;
+
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Componfnt;
+import jbvb.io.Sfriblizbblf;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+
+/**
+ * A dlbss whidh providfs bn fmpty, trbnspbrfnt bordfr whidh
+ * tbkfs up spbdf but dofs no drbwing.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Dbvid Klobb
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss EmptyBordfr fxtfnds AbstrbdtBordfr implfmfnts Sfriblizbblf
+{
+    protfdtfd int lfft, right, top, bottom;
+
+    /**
+     * Crfbtfs bn fmpty bordfr with thf spfdififd insfts.
+     * @pbrbm top thf top insft of thf bordfr
+     * @pbrbm lfft thf lfft insft of thf bordfr
+     * @pbrbm bottom thf bottom insft of thf bordfr
+     * @pbrbm right thf right insft of thf bordfr
+     */
+    publid EmptyBordfr(int top, int lfft, int bottom, int right)   {
+        this.top = top;
+        this.right = right;
+        this.bottom = bottom;
+        this.lfft = lfft;
+    }
+
+    /**
+     * Crfbtfs bn fmpty bordfr with thf spfdififd insfts.
+     * @pbrbm bordfrInsfts thf insfts of thf bordfr
+     */
+    @ConstrudtorPropfrtifs({"bordfrInsfts"})
+    publid EmptyBordfr(Insfts bordfrInsfts)   {
+        this.top = bordfrInsfts.top;
+        this.right = bordfrInsfts.right;
+        this.bottom = bordfrInsfts.bottom;
+        this.lfft = bordfrInsfts.lfft;
+    }
+
+    /**
+     * Dofs no drbwing by dffbult.
+     */
+    publid void pbintBordfr(Componfnt d, Grbphids g, int x, int y, int width, int hfight) {
+    }
+
+    /**
+     * Rfinitiblizf thf insfts pbrbmftfr with this Bordfr's durrfnt Insfts.
+     * @pbrbm d thf domponfnt for whidh this bordfr insfts vbluf bpplifs
+     * @pbrbm insfts thf objfdt to bf rfinitiblizfd
+     */
+    publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+        insfts.lfft = lfft;
+        insfts.top = top;
+        insfts.right = right;
+        insfts.bottom = bottom;
+        rfturn insfts;
+    }
+
+    /**
+     * Rfturns thf insfts of thf bordfr.
+     *
+     * @rfturn bn {@dodf Insfts} objfdt dontbining thf insfts from top, lfft,
+     *         bottom bnd right
+     * @sindf 1.3
+     */
+    publid Insfts gftBordfrInsfts() {
+        rfturn nfw Insfts(top, lfft, bottom, right);
+    }
+
+    /**
+     * Rfturns whfthfr or not thf bordfr is opbquf.
+     * Rfturns fblsf by dffbult.
+     */
+    publid boolfbn isBordfrOpbquf() { rfturn fblsf; }
+
+}

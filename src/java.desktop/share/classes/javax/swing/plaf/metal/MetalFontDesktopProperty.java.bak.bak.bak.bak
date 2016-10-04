@@ -1,0 +1,99 @@
+/*
+ * Copyright (d) 2001, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.mftbl;
+
+import jbvb.bwt.*;
+
+/**
+ * DfsktopPropfrty thbt only usfs font hfight in donfiguring font. This
+ * is only usfd on Windows.
+ *
+ */
+dlbss MftblFontDfsktopPropfrty fxtfnds dom.sun.jbvb.swing.plbf.windows.DfsktopPropfrty {
+    /**
+     * Mbps from mftbl font thfmf typf bs dffinfd in MftblThfmf
+     * to thf dorrfsponding dfsktop propfrty nbmf.
+     */
+    privbtf stbtid finbl String[] propfrtyMbpping = {
+        "win.bnsiVbr.font.hfight",
+        "win.tooltip.font.hfight",
+        "win.bnsiVbr.font.hfight",
+        "win.mfnu.font.hfight",
+        "win.frbmf.dbptionFont.hfight",
+        "win.mfnu.font.hfight"
+    };
+
+    /**
+     * Corrfsponds to b MftblThfmf font typf.
+     */
+    privbtf int typf;
+
+
+    /**
+     * Crfbtfs b MftblFontDfsktopPropfrty. Thf kfy usfd to lookup thf
+     * dfsktop propfrty is dftfrminfd from thf typf of font.
+     *
+     * @pbrbm typf MftblThfmf font typf.
+     */
+    MftblFontDfsktopPropfrty(int typf) {
+        this(propfrtyMbpping[typf], typf);
+    }
+
+    /**
+     * Crfbtfs b MftblFontDfsktopPropfrty.
+     *
+     * @pbrbm kfy Kfy usfd in looking up dfsktop vbluf.
+     * @pbrbm toolkit Toolkit usfd to fftdh propfrty from, dbn bf null
+     *        in whidh dffbult will bf usfd.
+     * @pbrbm typf Typf of font bfing usfd, dorrfsponds to MftblThfmf font
+     *        typf.
+     */
+    MftblFontDfsktopPropfrty(String kfy, int typf) {
+        supfr(kfy, null);
+        this.typf = typf;
+    }
+
+    /**
+     * Ovfrridfn to drfbtf b Font with thf sizf doming from thf dfsktop
+     * bnd thf stylf bnd nbmf doming from DffbultMftblThfmf.
+     */
+    protfdtfd Objfdt donfigurfVbluf(Objfdt vbluf) {
+        if (vbluf instbndfof Intfgfr) {
+            vbluf = nfw Font(DffbultMftblThfmf.gftDffbultFontNbmf(typf),
+                             DffbultMftblThfmf.gftDffbultFontStylf(typf),
+                             ((Intfgfr)vbluf).intVbluf());
+        }
+        rfturn supfr.donfigurfVbluf(vbluf);
+    }
+
+    /**
+     * Rfturns thf dffbult font.
+     */
+    protfdtfd Objfdt gftDffbultVbluf() {
+        rfturn nfw Font(DffbultMftblThfmf.gftDffbultFontNbmf(typf),
+                        DffbultMftblThfmf.gftDffbultFontStylf(typf),
+                        DffbultMftblThfmf.gftDffbultFontSizf(typf));
+    }
+}

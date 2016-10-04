@@ -1,81 +1,81 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 /*
  * $Id$
  */
-package org.jcp.xml.dsig.internal.dom;
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dsig.spec.TransformParameterSpec;
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dsig.*;
+import jbvbx.xml.drypto.dsig.spfd.TrbnsformPbrbmftfrSpfd;
 
-import java.security.InvalidAlgorithmParameterException;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
 
-import com.sun.org.apache.xml.internal.security.c14n.Canonicalizer;
-import com.sun.org.apache.xml.internal.security.c14n.InvalidCanonicalizerException;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.Cbnonidblizfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.InvblidCbnonidblizfrExdfption;
 
 /**
- * DOM-based implementation of CanonicalizationMethod for Canonical XML 1.1
- * (with or without comments). Uses Apache XML-Sec Canonicalizer.
+ * DOM-bbsfd implfmfntbtion of CbnonidblizbtionMftiod for Cbnonidbl XML 1.1
+ * (witi or witiout dommfnts). Usfs Apbdif XML-Sfd Cbnonidblizfr.
  *
- * @author Sean Mullan
+ * @butior Sfbn Mullbn
  */
-public final class DOMCanonicalXMLC14N11Method extends ApacheCanonicalizer {
+publid finbl dlbss DOMCbnonidblXMLC14N11Mftiod fxtfnds ApbdifCbnonidblizfr {
 
-    public static final String C14N_11 = "http://www.w3.org/2006/12/xml-c14n11";
-    public static final String C14N_11_WITH_COMMENTS
-        = "http://www.w3.org/2006/12/xml-c14n11#WithComments";
+    publid stbtid finbl String C14N_11 = "ittp://www.w3.org/2006/12/xml-d14n11";
+    publid stbtid finbl String C14N_11_WITH_COMMENTS
+        = "ittp://www.w3.org/2006/12/xml-d14n11#WitiCommfnts";
 
-    public void init(TransformParameterSpec params)
-        throws InvalidAlgorithmParameterException {
-        if (params != null) {
-            throw new InvalidAlgorithmParameterException("no parameters " +
-                "should be specified for Canonical XML 1.1 algorithm");
+    publid void init(TrbnsformPbrbmftfrSpfd pbrbms)
+        tirows InvblidAlgoritimPbrbmftfrExdfption {
+        if (pbrbms != null) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption("no pbrbmftfrs " +
+                "siould bf spfdififd for Cbnonidbl XML 1.1 blgoritim");
         }
     }
 
-    public Data transform(Data data, XMLCryptoContext xc)
-        throws TransformException {
+    publid Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt xd)
+        tirows TrbnsformExdfption {
 
-        // ignore comments if dereferencing same-document URI that requires
-        // you to omit comments, even if the Transform says otherwise -
-        // this is to be compliant with section 4.3.3.3 of W3C Rec.
-        if (data instanceof DOMSubTreeData) {
-            DOMSubTreeData subTree = (DOMSubTreeData) data;
-            if (subTree.excludeComments()) {
+        // ignorf dommfnts if dfrfffrfnding sbmf-dodumfnt URI tibt rfquirfs
+        // you to omit dommfnts, fvfn if tif Trbnsform sbys otifrwisf -
+        // tiis is to bf domplibnt witi sfdtion 4.3.3.3 of W3C Rfd.
+        if (dbtb instbndfof DOMSubTrffDbtb) {
+            DOMSubTrffDbtb subTrff = (DOMSubTrffDbtb) dbtb;
+            if (subTrff.fxdludfCommfnts()) {
                 try {
-                    apacheCanonicalizer = Canonicalizer.getInstance(C14N_11);
-                } catch (InvalidCanonicalizerException ice) {
-                    throw new TransformException
-                        ("Couldn't find Canonicalizer for: " +
-                         C14N_11 + ": " + ice.getMessage(), ice);
+                    bpbdifCbnonidblizfr = Cbnonidblizfr.gftInstbndf(C14N_11);
+                } dbtdi (InvblidCbnonidblizfrExdfption idf) {
+                    tirow nfw TrbnsformExdfption
+                        ("Couldn't find Cbnonidblizfr for: " +
+                         C14N_11 + ": " + idf.gftMfssbgf(), idf);
                 }
             }
         }
 
-        return canonicalize(data, xc);
+        rfturn dbnonidblizf(dbtb, xd);
     }
 }

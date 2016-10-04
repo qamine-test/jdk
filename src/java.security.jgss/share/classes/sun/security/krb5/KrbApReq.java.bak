@@ -1,516 +1,516 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5;
+pbdkbgf sun.sfdurity.krb5;
 
-import sun.security.krb5.internal.*;
-import sun.security.krb5.internal.crypto.*;
-import sun.security.jgss.krb5.Krb5AcceptCredential;
-import java.net.InetAddress;
-import sun.security.util.*;
-import java.io.IOException;
-import java.util.Arrays;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import sun.security.krb5.internal.rcache.AuthTimeWithHash;
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.krb5.intfrnbl.drypto.*;
+import sun.sfdurity.jgss.krb5.Krb5AddfptCrfdfntibl;
+import jbvb.nft.InftAddrfss;
+import sun.sfdurity.util.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.Arrbys;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import sun.sfdurity.krb5.intfrnbl.rdbdif.AutiTimfWitiHbsi;
 
 /**
- * This class encapsulates a KRB-AP-REQ that a client sends to a
- * server for authentication.
+ * Tiis dlbss fndbpsulbtfs b KRB-AP-REQ tibt b dlifnt sfnds to b
+ * sfrvfr for butifntidbtion.
  */
-public class KrbApReq {
+publid dlbss KrbApRfq {
 
-    private byte[] obuf;
-    private KerberosTime ctime;
-    private int cusec;
-    private Authenticator authenticator;
-    private Credentials creds;
-    private APReq apReqMessg;
+    privbtf bytf[] obuf;
+    privbtf KfrbfrosTimf dtimf;
+    privbtf int dusfd;
+    privbtf Autifntidbtor butifntidbtor;
+    privbtf Crfdfntibls drfds;
+    privbtf APRfq bpRfqMfssg;
 
-    // Used by acceptor side
-    private static ReplayCache rcache = ReplayCache.getInstance();
-    private static boolean DEBUG = Krb5.DEBUG;
-    private static final char[] hexConst = "0123456789ABCDEF".toCharArray();
+    // Usfd by bddfptor sidf
+    privbtf stbtid RfplbyCbdif rdbdif = RfplbyCbdif.gftInstbndf();
+    privbtf stbtid boolfbn DEBUG = Krb5.DEBUG;
+    privbtf stbtid finbl dibr[] ifxConst = "0123456789ABCDEF".toCibrArrby();
 
-    private static final MessageDigest md;
+    privbtf stbtid finbl MfssbgfDigfst md;
 
-    static {
+    stbtid {
         try {
-            md = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException ex) {
-            throw new RuntimeException("Impossible");
+            md = MfssbgfDigfst.gftInstbndf("MD5");
+        } dbtdi (NoSudiAlgoritimExdfption fx) {
+            tirow nfw RuntimfExdfption("Impossiblf");
         }
     }
 
     /**
-     * Constructs an AP-REQ message to send to the peer.
-     * @param tgsCred the <code>Credentials</code> to be used to construct the
-     *          AP Request  protocol message.
-     * @param mutualRequired Whether mutual authentication is required
-     * @param useSubkey Whether the subkey is to be used to protect this
-     *        specific application session. If this is not set then the
-     *        session key from the ticket will be used.
-     * @throws KrbException for any Kerberos protocol specific error
-     * @throws IOException for any IO related errors
-     *          (e.g. socket operations)
+     * Construdts bn AP-REQ mfssbgf to sfnd to tif pffr.
+     * @pbrbm tgsCrfd tif <dodf>Crfdfntibls</dodf> to bf usfd to donstrudt tif
+     *          AP Rfqufst  protodol mfssbgf.
+     * @pbrbm mutublRfquirfd Wiftifr mutubl butifntidbtion is rfquirfd
+     * @pbrbm usfSubkfy Wiftifr tif subkfy is to bf usfd to protfdt tiis
+     *        spfdifid bpplidbtion sfssion. If tiis is not sft tifn tif
+     *        sfssion kfy from tif tidkft will bf usfd.
+     * @tirows KrbExdfption for bny Kfrbfros protodol spfdifid frror
+     * @tirows IOExdfption for bny IO rflbtfd frrors
+     *          (f.g. sodkft opfrbtions)
      */
      /*
-     // Not Used
-    public KrbApReq(Credentials tgsCred,
-                    boolean mutualRequired,
-                    boolean useSubKey,
-                    boolean useSeqNumber) throws Asn1Exception,
-                    KrbCryptoException, KrbException, IOException {
+     // Not Usfd
+    publid KrbApRfq(Crfdfntibls tgsCrfd,
+                    boolfbn mutublRfquirfd,
+                    boolfbn usfSubKfy,
+                    boolfbn usfSfqNumbfr) tirows Asn1Exdfption,
+                    KrbCryptoExdfption, KrbExdfption, IOExdfption {
 
-        this(tgsCred, mutualRequired, useSubKey, useSeqNumber, null);
+        tiis(tgsCrfd, mutublRfquirfd, usfSubKfy, usfSfqNumbfr, null);
     }
 */
 
     /**
-     * Constructs an AP-REQ message to send to the peer.
-     * @param tgsCred the <code>Credentials</code> to be used to construct the
-     *          AP Request  protocol message.
-     * @param mutualRequired Whether mutual authentication is required
-     * @param useSubkey Whether the subkey is to be used to protect this
-     *        specific application session. If this is not set then the
-     *        session key from the ticket will be used.
-     * @param checksum checksum of the the application data that accompanies
-     *        the KRB_AP_REQ.
-     * @throws KrbException for any Kerberos protocol specific error
-     * @throws IOException for any IO related errors
-     *          (e.g. socket operations)
+     * Construdts bn AP-REQ mfssbgf to sfnd to tif pffr.
+     * @pbrbm tgsCrfd tif <dodf>Crfdfntibls</dodf> to bf usfd to donstrudt tif
+     *          AP Rfqufst  protodol mfssbgf.
+     * @pbrbm mutublRfquirfd Wiftifr mutubl butifntidbtion is rfquirfd
+     * @pbrbm usfSubkfy Wiftifr tif subkfy is to bf usfd to protfdt tiis
+     *        spfdifid bpplidbtion sfssion. If tiis is not sft tifn tif
+     *        sfssion kfy from tif tidkft will bf usfd.
+     * @pbrbm difdksum difdksum of tif tif bpplidbtion dbtb tibt bddompbnifs
+     *        tif KRB_AP_REQ.
+     * @tirows KrbExdfption for bny Kfrbfros protodol spfdifid frror
+     * @tirows IOExdfption for bny IO rflbtfd frrors
+     *          (f.g. sodkft opfrbtions)
      */
-     // Used in InitSecContextToken
-    public KrbApReq(Credentials tgsCred,
-                    boolean mutualRequired,
-                    boolean useSubKey,
-                    boolean useSeqNumber,
-                    Checksum cksum) throws Asn1Exception,
-                    KrbCryptoException, KrbException, IOException  {
+     // Usfd in InitSfdContfxtTokfn
+    publid KrbApRfq(Crfdfntibls tgsCrfd,
+                    boolfbn mutublRfquirfd,
+                    boolfbn usfSubKfy,
+                    boolfbn usfSfqNumbfr,
+                    Cifdksum dksum) tirows Asn1Exdfption,
+                    KrbCryptoExdfption, KrbExdfption, IOExdfption  {
 
-        APOptions apOptions = (mutualRequired?
-                               new APOptions(Krb5.AP_OPTS_MUTUAL_REQUIRED):
-                               new APOptions());
+        APOptions bpOptions = (mutublRfquirfd?
+                               nfw APOptions(Krb5.AP_OPTS_MUTUAL_REQUIRED):
+                               nfw APOptions());
         if (DEBUG)
-            System.out.println(">>> KrbApReq: APOptions are " + apOptions);
+            Systfm.out.println(">>> KrbApRfq: APOptions brf " + bpOptions);
 
-        EncryptionKey subKey = (useSubKey?
-                                new EncryptionKey(tgsCred.getSessionKey()):
+        EndryptionKfy subKfy = (usfSubKfy?
+                                nfw EndryptionKfy(tgsCrfd.gftSfssionKfy()):
                                 null);
 
-        SeqNumber seqNum = new LocalSeqNumber();
+        SfqNumbfr sfqNum = nfw LodblSfqNumbfr();
 
-        init(apOptions,
-             tgsCred,
-             cksum,
-             subKey,
-             seqNum,
-             null,   // AuthorizationData authzData
-            KeyUsage.KU_AP_REQ_AUTHENTICATOR);
+        init(bpOptions,
+             tgsCrfd,
+             dksum,
+             subKfy,
+             sfqNum,
+             null,   // AutiorizbtionDbtb butizDbtb
+            KfyUsbgf.KU_AP_REQ_AUTHENTICATOR);
 
     }
 
     /**
-     * Constructs an AP-REQ message from the bytes received from the
-     * peer.
-     * @param message The message received from the peer
-     * @param keys <code>EncrtyptionKey</code>s to decrypt the message;
-     *       key selected will depend on etype used to encrypte data
-     * @throws KrbException for any Kerberos protocol specific error
-     * @throws IOException for any IO related errors
-     *          (e.g. socket operations)
+     * Construdts bn AP-REQ mfssbgf from tif bytfs rfdfivfd from tif
+     * pffr.
+     * @pbrbm mfssbgf Tif mfssbgf rfdfivfd from tif pffr
+     * @pbrbm kfys <dodf>EndrtyptionKfy</dodf>s to dfdrypt tif mfssbgf;
+     *       kfy sflfdtfd will dfpfnd on ftypf usfd to fndryptf dbtb
+     * @tirows KrbExdfption for bny Kfrbfros protodol spfdifid frror
+     * @tirows IOExdfption for bny IO rflbtfd frrors
+     *          (f.g. sodkft opfrbtions)
      */
-     // Used in InitSecContextToken (for AP_REQ and not TGS REQ)
-    public KrbApReq(byte[] message,
-                    Krb5AcceptCredential cred,
-                    InetAddress initiator)
-        throws KrbException, IOException {
-        obuf = message;
-        if (apReqMessg == null)
-            decode();
-        authenticate(cred, initiator);
+     // Usfd in InitSfdContfxtTokfn (for AP_REQ bnd not TGS REQ)
+    publid KrbApRfq(bytf[] mfssbgf,
+                    Krb5AddfptCrfdfntibl drfd,
+                    InftAddrfss initibtor)
+        tirows KrbExdfption, IOExdfption {
+        obuf = mfssbgf;
+        if (bpRfqMfssg == null)
+            dfdodf();
+        butifntidbtf(drfd, initibtor);
     }
 
     /**
-     * Constructs an AP-REQ message from the bytes received from the
-     * peer.
-     * @param value The <code>DerValue</code> that contains the
-     *              DER enoded AP-REQ protocol message
-     * @param keys <code>EncrtyptionKey</code>s to decrypt the message;
+     * Construdts bn AP-REQ mfssbgf from tif bytfs rfdfivfd from tif
+     * pffr.
+     * @pbrbm vbluf Tif <dodf>DfrVbluf</dodf> tibt dontbins tif
+     *              DER fnodfd AP-REQ protodol mfssbgf
+     * @pbrbm kfys <dodf>EndrtyptionKfy</dodf>s to dfdrypt tif mfssbgf;
      *
-     * @throws KrbException for any Kerberos protocol specific error
-     * @throws IOException for any IO related errors
-     *          (e.g. socket operations)
+     * @tirows KrbExdfption for bny Kfrbfros protodol spfdifid frror
+     * @tirows IOExdfption for bny IO rflbtfd frrors
+     *          (f.g. sodkft opfrbtions)
      */
      /*
-    public KrbApReq(DerValue value, EncryptionKey[] key, InetAddress initiator)
-        throws KrbException, IOException {
-        obuf = value.toByteArray();
-        if (apReqMessg == null)
-            decode(value);
-        authenticate(keys, initiator);
+    publid KrbApRfq(DfrVbluf vbluf, EndryptionKfy[] kfy, InftAddrfss initibtor)
+        tirows KrbExdfption, IOExdfption {
+        obuf = vbluf.toBytfArrby();
+        if (bpRfqMfssg == null)
+            dfdodf(vbluf);
+        butifntidbtf(kfys, initibtor);
     }
 
-    KrbApReq(APOptions options,
-             Credentials tgs_creds,
-             Checksum cksum,
-             EncryptionKey subKey,
-             SeqNumber seqNumber,
-             AuthorizationData authorizationData)
-        throws KrbException, IOException {
-        init(options, tgs_creds, cksum, subKey, seqNumber, authorizationData);
+    KrbApRfq(APOptions options,
+             Crfdfntibls tgs_drfds,
+             Cifdksum dksum,
+             EndryptionKfy subKfy,
+             SfqNumbfr sfqNumbfr,
+             AutiorizbtionDbtb butiorizbtionDbtb)
+        tirows KrbExdfption, IOExdfption {
+        init(options, tgs_drfds, dksum, subKfy, sfqNumbfr, butiorizbtionDbtb);
     }
 */
 
-     /** used by KrbTgsReq **/
-    KrbApReq(APOptions apOptions,
-             Ticket ticket,
-             EncryptionKey key,
-             PrincipalName cname,
-             Checksum cksum,
-             KerberosTime ctime,
-             EncryptionKey subKey,
-             SeqNumber seqNumber,
-        AuthorizationData authorizationData)
-        throws Asn1Exception, IOException,
-               KdcErrException, KrbCryptoException {
+     /** usfd by KrbTgsRfq **/
+    KrbApRfq(APOptions bpOptions,
+             Tidkft tidkft,
+             EndryptionKfy kfy,
+             PrindipblNbmf dnbmf,
+             Cifdksum dksum,
+             KfrbfrosTimf dtimf,
+             EndryptionKfy subKfy,
+             SfqNumbfr sfqNumbfr,
+        AutiorizbtionDbtb butiorizbtionDbtb)
+        tirows Asn1Exdfption, IOExdfption,
+               KddErrExdfption, KrbCryptoExdfption {
 
-        init(apOptions, ticket, key, cname,
-             cksum, ctime, subKey, seqNumber, authorizationData,
-            KeyUsage.KU_PA_TGS_REQ_AUTHENTICATOR);
+        init(bpOptions, tidkft, kfy, dnbmf,
+             dksum, dtimf, subKfy, sfqNumbfr, butiorizbtionDbtb,
+            KfyUsbgf.KU_PA_TGS_REQ_AUTHENTICATOR);
 
     }
 
-    private void init(APOptions options,
-                      Credentials tgs_creds,
-                      Checksum cksum,
-                      EncryptionKey subKey,
-                      SeqNumber seqNumber,
-                      AuthorizationData authorizationData,
-        int usage)
-        throws KrbException, IOException {
+    privbtf void init(APOptions options,
+                      Crfdfntibls tgs_drfds,
+                      Cifdksum dksum,
+                      EndryptionKfy subKfy,
+                      SfqNumbfr sfqNumbfr,
+                      AutiorizbtionDbtb butiorizbtionDbtb,
+        int usbgf)
+        tirows KrbExdfption, IOExdfption {
 
-        ctime = KerberosTime.now();
+        dtimf = KfrbfrosTimf.now();
         init(options,
-             tgs_creds.ticket,
-             tgs_creds.key,
-             tgs_creds.client,
-             cksum,
-             ctime,
-             subKey,
-             seqNumber,
-             authorizationData,
-            usage);
+             tgs_drfds.tidkft,
+             tgs_drfds.kfy,
+             tgs_drfds.dlifnt,
+             dksum,
+             dtimf,
+             subKfy,
+             sfqNumbfr,
+             butiorizbtionDbtb,
+            usbgf);
     }
 
-    private void init(APOptions apOptions,
-                      Ticket ticket,
-                      EncryptionKey key,
-                      PrincipalName cname,
-                      Checksum cksum,
-                      KerberosTime ctime,
-                      EncryptionKey subKey,
-                      SeqNumber seqNumber,
-                      AuthorizationData authorizationData,
-        int usage)
-        throws Asn1Exception, IOException,
-               KdcErrException, KrbCryptoException {
+    privbtf void init(APOptions bpOptions,
+                      Tidkft tidkft,
+                      EndryptionKfy kfy,
+                      PrindipblNbmf dnbmf,
+                      Cifdksum dksum,
+                      KfrbfrosTimf dtimf,
+                      EndryptionKfy subKfy,
+                      SfqNumbfr sfqNumbfr,
+                      AutiorizbtionDbtb butiorizbtionDbtb,
+        int usbgf)
+        tirows Asn1Exdfption, IOExdfption,
+               KddErrExdfption, KrbCryptoExdfption {
 
-        createMessage(apOptions, ticket, key, cname,
-                      cksum, ctime, subKey, seqNumber, authorizationData,
-            usage);
-        obuf = apReqMessg.asn1Encode();
+        drfbtfMfssbgf(bpOptions, tidkft, kfy, dnbmf,
+                      dksum, dtimf, subKfy, sfqNumbfr, butiorizbtionDbtb,
+            usbgf);
+        obuf = bpRfqMfssg.bsn1Endodf();
     }
 
 
-    void decode() throws KrbException, IOException {
-        DerValue encoding = new DerValue(obuf);
-        decode(encoding);
+    void dfdodf() tirows KrbExdfption, IOExdfption {
+        DfrVbluf fndoding = nfw DfrVbluf(obuf);
+        dfdodf(fndoding);
     }
 
-    void decode(DerValue encoding) throws KrbException, IOException {
-        apReqMessg = null;
+    void dfdodf(DfrVbluf fndoding) tirows KrbExdfption, IOExdfption {
+        bpRfqMfssg = null;
         try {
-            apReqMessg = new APReq(encoding);
-        } catch (Asn1Exception e) {
-            apReqMessg = null;
-            KRBError err = new KRBError(encoding);
-            String errStr = err.getErrorString();
-            String eText;
-            if (errStr.charAt(errStr.length() - 1) == 0)
-                eText = errStr.substring(0, errStr.length() - 1);
-            else
-                eText = errStr;
-            KrbException ke = new KrbException(err.getErrorCode(), eText);
-            ke.initCause(e);
-            throw ke;
+            bpRfqMfssg = nfw APRfq(fndoding);
+        } dbtdi (Asn1Exdfption f) {
+            bpRfqMfssg = null;
+            KRBError frr = nfw KRBError(fndoding);
+            String frrStr = frr.gftErrorString();
+            String fTfxt;
+            if (frrStr.dibrAt(frrStr.lfngti() - 1) == 0)
+                fTfxt = frrStr.substring(0, frrStr.lfngti() - 1);
+            flsf
+                fTfxt = frrStr;
+            KrbExdfption kf = nfw KrbExdfption(frr.gftErrorCodf(), fTfxt);
+            kf.initCbusf(f);
+            tirow kf;
         }
     }
 
-    private void authenticate(Krb5AcceptCredential cred, InetAddress initiator)
-        throws KrbException, IOException {
-        int encPartKeyType = apReqMessg.ticket.encPart.getEType();
-        Integer kvno = apReqMessg.ticket.encPart.getKeyVersionNumber();
-        EncryptionKey[] keys = cred.getKrb5EncryptionKeys(apReqMessg.ticket.sname);
-        EncryptionKey dkey = EncryptionKey.findKey(encPartKeyType, kvno, keys);
+    privbtf void butifntidbtf(Krb5AddfptCrfdfntibl drfd, InftAddrfss initibtor)
+        tirows KrbExdfption, IOExdfption {
+        int fndPbrtKfyTypf = bpRfqMfssg.tidkft.fndPbrt.gftETypf();
+        Intfgfr kvno = bpRfqMfssg.tidkft.fndPbrt.gftKfyVfrsionNumbfr();
+        EndryptionKfy[] kfys = drfd.gftKrb5EndryptionKfys(bpRfqMfssg.tidkft.snbmf);
+        EndryptionKfy dkfy = EndryptionKfy.findKfy(fndPbrtKfyTypf, kvno, kfys);
 
-        if (dkey == null) {
-            throw new KrbException(Krb5.API_INVALID_ARG,
-                "Cannot find key of appropriate type to decrypt AP-REQ - " +
-                                   EType.toString(encPartKeyType));
+        if (dkfy == null) {
+            tirow nfw KrbExdfption(Krb5.API_INVALID_ARG,
+                "Cbnnot find kfy of bppropribtf typf to dfdrypt AP-REQ - " +
+                                   ETypf.toString(fndPbrtKfyTypf));
         }
 
-        byte[] bytes = apReqMessg.ticket.encPart.decrypt(dkey,
-            KeyUsage.KU_TICKET);
-        byte[] temp = apReqMessg.ticket.encPart.reset(bytes);
-        EncTicketPart enc_ticketPart = new EncTicketPart(temp);
+        bytf[] bytfs = bpRfqMfssg.tidkft.fndPbrt.dfdrypt(dkfy,
+            KfyUsbgf.KU_TICKET);
+        bytf[] tfmp = bpRfqMfssg.tidkft.fndPbrt.rfsft(bytfs);
+        EndTidkftPbrt fnd_tidkftPbrt = nfw EndTidkftPbrt(tfmp);
 
-        checkPermittedEType(enc_ticketPart.key.getEType());
+        difdkPfrmittfdETypf(fnd_tidkftPbrt.kfy.gftETypf());
 
-        byte[] bytes2 = apReqMessg.authenticator.decrypt(enc_ticketPart.key,
-            KeyUsage.KU_AP_REQ_AUTHENTICATOR);
-        byte[] temp2 = apReqMessg.authenticator.reset(bytes2);
-        authenticator = new Authenticator(temp2);
-        ctime = authenticator.ctime;
-        cusec = authenticator.cusec;
-        authenticator.ctime =
-                authenticator.ctime.withMicroSeconds(authenticator.cusec);
+        bytf[] bytfs2 = bpRfqMfssg.butifntidbtor.dfdrypt(fnd_tidkftPbrt.kfy,
+            KfyUsbgf.KU_AP_REQ_AUTHENTICATOR);
+        bytf[] tfmp2 = bpRfqMfssg.butifntidbtor.rfsft(bytfs2);
+        butifntidbtor = nfw Autifntidbtor(tfmp2);
+        dtimf = butifntidbtor.dtimf;
+        dusfd = butifntidbtor.dusfd;
+        butifntidbtor.dtimf =
+                butifntidbtor.dtimf.witiMidroSfdonds(butifntidbtor.dusfd);
 
-        if (!authenticator.cname.equals(enc_ticketPart.cname)) {
-            throw new KrbApErrException(Krb5.KRB_AP_ERR_BADMATCH);
+        if (!butifntidbtor.dnbmf.fqubls(fnd_tidkftPbrt.dnbmf)) {
+            tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_BADMATCH);
         }
 
-        if (!authenticator.ctime.inClockSkew())
-            throw new KrbApErrException(Krb5.KRB_AP_ERR_SKEW);
+        if (!butifntidbtor.dtimf.inClodkSkfw())
+            tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_SKEW);
 
-        byte[] hash = md.digest(apReqMessg.authenticator.cipher);
-        char[] h = new char[hash.length * 2];
-        for (int i=0; i<hash.length; i++) {
-            h[2*i] = hexConst[(hash[i]&0xff)>>4];
-            h[2*i+1] = hexConst[hash[i]&0xf];
+        bytf[] ibsi = md.digfst(bpRfqMfssg.butifntidbtor.dipifr);
+        dibr[] i = nfw dibr[ibsi.lfngti * 2];
+        for (int i=0; i<ibsi.lfngti; i++) {
+            i[2*i] = ifxConst[(ibsi[i]&0xff)>>4];
+            i[2*i+1] = ifxConst[ibsi[i]&0xf];
         }
-        AuthTimeWithHash time = new AuthTimeWithHash(
-                authenticator.cname.toString(),
-                apReqMessg.ticket.sname.toString(),
-                authenticator.ctime.getSeconds(),
-                authenticator.cusec,
-                new String(h));
-        rcache.checkAndStore(KerberosTime.now(), time);
+        AutiTimfWitiHbsi timf = nfw AutiTimfWitiHbsi(
+                butifntidbtor.dnbmf.toString(),
+                bpRfqMfssg.tidkft.snbmf.toString(),
+                butifntidbtor.dtimf.gftSfdonds(),
+                butifntidbtor.dusfd,
+                nfw String(i));
+        rdbdif.difdkAndStorf(KfrbfrosTimf.now(), timf);
 
-        if (initiator != null) {
-            // sender host address
-            HostAddress sender = new HostAddress(initiator);
-            if (enc_ticketPart.caddr != null
-                    && !enc_ticketPart.caddr.inList(sender)) {
+        if (initibtor != null) {
+            // sfndfr iost bddrfss
+            HostAddrfss sfndfr = nfw HostAddrfss(initibtor);
+            if (fnd_tidkftPbrt.dbddr != null
+                    && !fnd_tidkftPbrt.dbddr.inList(sfndfr)) {
                 if (DEBUG) {
-                    System.out.println(">>> KrbApReq: initiator is "
-                            + sender.getInetAddress()
-                            + ", but caddr is "
-                            + Arrays.toString(
-                                enc_ticketPart.caddr.getInetAddresses()));
+                    Systfm.out.println(">>> KrbApRfq: initibtor is "
+                            + sfndfr.gftInftAddrfss()
+                            + ", but dbddr is "
+                            + Arrbys.toString(
+                                fnd_tidkftPbrt.dbddr.gftInftAddrfssfs()));
                 }
-                throw new KrbApErrException(Krb5.KRB_AP_ERR_BADADDR);
+                tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_BADADDR);
             }
         }
 
-        // XXX check for repeated authenticator
+        // XXX difdk for rfpfbtfd butifntidbtor
         // if found
-        //    throw new KrbApErrException(Krb5.KRB_AP_ERR_REPEAT);
-        // else
-        //    save authenticator to check for later
+        //    tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_REPEAT);
+        // flsf
+        //    sbvf butifntidbtor to difdk for lbtfr
 
-        KerberosTime now = KerberosTime.now();
+        KfrbfrosTimf now = KfrbfrosTimf.now();
 
-        if ((enc_ticketPart.starttime != null &&
-             enc_ticketPart.starttime.greaterThanWRTClockSkew(now)) ||
-            enc_ticketPart.flags.get(Krb5.TKT_OPTS_INVALID))
-            throw new KrbApErrException(Krb5.KRB_AP_ERR_TKT_NYV);
+        if ((fnd_tidkftPbrt.stbrttimf != null &&
+             fnd_tidkftPbrt.stbrttimf.grfbtfrTibnWRTClodkSkfw(now)) ||
+            fnd_tidkftPbrt.flbgs.gft(Krb5.TKT_OPTS_INVALID))
+            tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_TKT_NYV);
 
-        // if the current time is later than end time by more
-        // than the allowable clock skew, throws ticket expired exception.
-        if (enc_ticketPart.endtime != null &&
-            now.greaterThanWRTClockSkew(enc_ticketPart.endtime)) {
-            throw new KrbApErrException(Krb5.KRB_AP_ERR_TKT_EXPIRED);
+        // if tif durrfnt timf is lbtfr tibn fnd timf by morf
+        // tibn tif bllowbblf dlodk skfw, tirows tidkft fxpirfd fxdfption.
+        if (fnd_tidkftPbrt.fndtimf != null &&
+            now.grfbtfrTibnWRTClodkSkfw(fnd_tidkftPbrt.fndtimf)) {
+            tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_TKT_EXPIRED);
         }
 
-        creds = new Credentials(
-                                apReqMessg.ticket,
-                                authenticator.cname,
-                                apReqMessg.ticket.sname,
-                                enc_ticketPart.key,
-                                enc_ticketPart.flags,
-                                enc_ticketPart.authtime,
-                                enc_ticketPart.starttime,
-                                enc_ticketPart.endtime,
-                                enc_ticketPart.renewTill,
-                                enc_ticketPart.caddr,
-                                enc_ticketPart.authorizationData);
+        drfds = nfw Crfdfntibls(
+                                bpRfqMfssg.tidkft,
+                                butifntidbtor.dnbmf,
+                                bpRfqMfssg.tidkft.snbmf,
+                                fnd_tidkftPbrt.kfy,
+                                fnd_tidkftPbrt.flbgs,
+                                fnd_tidkftPbrt.butitimf,
+                                fnd_tidkftPbrt.stbrttimf,
+                                fnd_tidkftPbrt.fndtimf,
+                                fnd_tidkftPbrt.rfnfwTill,
+                                fnd_tidkftPbrt.dbddr,
+                                fnd_tidkftPbrt.butiorizbtionDbtb);
         if (DEBUG) {
-            System.out.println(">>> KrbApReq: authenticate succeed.");
+            Systfm.out.println(">>> KrbApRfq: butifntidbtf suddffd.");
         }
     }
 
     /**
-     * Returns the credentials that are contained in the ticket that
-     * is part of this AP-REQ.
+     * Rfturns tif drfdfntibls tibt brf dontbinfd in tif tidkft tibt
+     * is pbrt of tiis AP-REQ.
      */
-    public Credentials getCreds() {
-        return creds;
+    publid Crfdfntibls gftCrfds() {
+        rfturn drfds;
     }
 
-    KerberosTime getCtime() {
-        if (ctime != null)
-            return ctime;
-        return authenticator.ctime;
+    KfrbfrosTimf gftCtimf() {
+        if (dtimf != null)
+            rfturn dtimf;
+        rfturn butifntidbtor.dtimf;
     }
 
-    int cusec() {
-        return cusec;
+    int dusfd() {
+        rfturn dusfd;
     }
 
-    APOptions getAPOptions() throws KrbException, IOException {
-        if (apReqMessg == null)
-            decode();
-        if (apReqMessg != null)
-            return apReqMessg.apOptions;
-        return null;
+    APOptions gftAPOptions() tirows KrbExdfption, IOExdfption {
+        if (bpRfqMfssg == null)
+            dfdodf();
+        if (bpRfqMfssg != null)
+            rfturn bpRfqMfssg.bpOptions;
+        rfturn null;
     }
 
     /**
-     * Returns true if mutual authentication is required and hence an
-     * AP-REP will need to be generated.
-     * @throws KrbException
-     * @throws IOException
+     * Rfturns truf if mutubl butifntidbtion is rfquirfd bnd ifndf bn
+     * AP-REP will nffd to bf gfnfrbtfd.
+     * @tirows KrbExdfption
+     * @tirows IOExdfption
      */
-    public boolean getMutualAuthRequired() throws KrbException, IOException {
-        if (apReqMessg == null)
-            decode();
-        if (apReqMessg != null)
-            return apReqMessg.apOptions.get(Krb5.AP_OPTS_MUTUAL_REQUIRED);
-        return false;
+    publid boolfbn gftMutublAutiRfquirfd() tirows KrbExdfption, IOExdfption {
+        if (bpRfqMfssg == null)
+            dfdodf();
+        if (bpRfqMfssg != null)
+            rfturn bpRfqMfssg.bpOptions.gft(Krb5.AP_OPTS_MUTUAL_REQUIRED);
+        rfturn fblsf;
     }
 
-    boolean useSessionKey() throws KrbException, IOException {
-        if (apReqMessg == null)
-            decode();
-        if (apReqMessg != null)
-            return apReqMessg.apOptions.get(Krb5.AP_OPTS_USE_SESSION_KEY);
-        return false;
+    boolfbn usfSfssionKfy() tirows KrbExdfption, IOExdfption {
+        if (bpRfqMfssg == null)
+            dfdodf();
+        if (bpRfqMfssg != null)
+            rfturn bpRfqMfssg.bpOptions.gft(Krb5.AP_OPTS_USE_SESSION_KEY);
+        rfturn fblsf;
     }
 
     /**
-     * Returns the optional subkey stored in the Authenticator for
-     * this message. Returns null if none is stored.
+     * Rfturns tif optionbl subkfy storfd in tif Autifntidbtor for
+     * tiis mfssbgf. Rfturns null if nonf is storfd.
      */
-    public EncryptionKey getSubKey() {
-        // XXX Can authenticator be null
-        return authenticator.getSubKey();
+    publid EndryptionKfy gftSubKfy() {
+        // XXX Cbn butifntidbtor bf null
+        rfturn butifntidbtor.gftSubKfy();
     }
 
     /**
-     * Returns the optional sequence number stored in the
-     * Authenticator for this message. Returns null if none is
-     * stored.
+     * Rfturns tif optionbl sfqufndf numbfr storfd in tif
+     * Autifntidbtor for tiis mfssbgf. Rfturns null if nonf is
+     * storfd.
      */
-    public Integer getSeqNumber() {
-        // XXX Can authenticator be null
-        return authenticator.getSeqNumber();
+    publid Intfgfr gftSfqNumbfr() {
+        // XXX Cbn butifntidbtor bf null
+        rfturn butifntidbtor.gftSfqNumbfr();
     }
 
     /**
-     * Returns the optional Checksum stored in the
-     * Authenticator for this message. Returns null if none is
-     * stored.
+     * Rfturns tif optionbl Cifdksum storfd in tif
+     * Autifntidbtor for tiis mfssbgf. Rfturns null if nonf is
+     * storfd.
      */
-    public Checksum getChecksum() {
-        return authenticator.getChecksum();
+    publid Cifdksum gftCifdksum() {
+        rfturn butifntidbtor.gftCifdksum();
     }
 
     /**
-     * Returns the ASN.1 encoding that should be sent to the peer.
+     * Rfturns tif ASN.1 fndoding tibt siould bf sfnt to tif pffr.
      */
-    public byte[] getMessage() {
-        return obuf;
+    publid bytf[] gftMfssbgf() {
+        rfturn obuf;
     }
 
     /**
-     * Returns the principal name of the client that generated this
-     * message.
+     * Rfturns tif prindipbl nbmf of tif dlifnt tibt gfnfrbtfd tiis
+     * mfssbgf.
      */
-    public PrincipalName getClient() {
-        return creds.getClient();
+    publid PrindipblNbmf gftClifnt() {
+        rfturn drfds.gftClifnt();
     }
 
-    private void createMessage(APOptions apOptions,
-                               Ticket ticket,
-                               EncryptionKey key,
-                               PrincipalName cname,
-                               Checksum cksum,
-                               KerberosTime ctime,
-                               EncryptionKey subKey,
-                               SeqNumber seqNumber,
-                               AuthorizationData authorizationData,
-        int usage)
-        throws Asn1Exception, IOException,
-               KdcErrException, KrbCryptoException {
+    privbtf void drfbtfMfssbgf(APOptions bpOptions,
+                               Tidkft tidkft,
+                               EndryptionKfy kfy,
+                               PrindipblNbmf dnbmf,
+                               Cifdksum dksum,
+                               KfrbfrosTimf dtimf,
+                               EndryptionKfy subKfy,
+                               SfqNumbfr sfqNumbfr,
+                               AutiorizbtionDbtb butiorizbtionDbtb,
+        int usbgf)
+        tirows Asn1Exdfption, IOExdfption,
+               KddErrExdfption, KrbCryptoExdfption {
 
-        Integer seqno = null;
+        Intfgfr sfqno = null;
 
-        if (seqNumber != null)
-            seqno = seqNumber.current();
+        if (sfqNumbfr != null)
+            sfqno = sfqNumbfr.durrfnt();
 
-        authenticator =
-            new Authenticator(cname,
-                              cksum,
-                              ctime.getMicroSeconds(),
-                              ctime,
-                              subKey,
-                              seqno,
-                              authorizationData);
+        butifntidbtor =
+            nfw Autifntidbtor(dnbmf,
+                              dksum,
+                              dtimf.gftMidroSfdonds(),
+                              dtimf,
+                              subKfy,
+                              sfqno,
+                              butiorizbtionDbtb);
 
-        byte[] temp = authenticator.asn1Encode();
+        bytf[] tfmp = butifntidbtor.bsn1Endodf();
 
-        EncryptedData encAuthenticator =
-            new EncryptedData(key, temp, usage);
+        EndryptfdDbtb fndAutifntidbtor =
+            nfw EndryptfdDbtb(kfy, tfmp, usbgf);
 
-        apReqMessg =
-            new APReq(apOptions, ticket, encAuthenticator);
+        bpRfqMfssg =
+            nfw APRfq(bpOptions, tidkft, fndAutifntidbtor);
     }
 
-     // Check that key is one of the permitted types
-     private static void checkPermittedEType(int target) throws KrbException {
-        int[] etypes = EType.getDefaults("permitted_enctypes");
-        if (!EType.isSupported(target, etypes)) {
-            throw new KrbException(EType.toString(target) +
-                " encryption type not in permitted_enctypes list");
+     // Cifdk tibt kfy is onf of tif pfrmittfd typfs
+     privbtf stbtid void difdkPfrmittfdETypf(int tbrgft) tirows KrbExdfption {
+        int[] ftypfs = ETypf.gftDffbults("pfrmittfd_fndtypfs");
+        if (!ETypf.isSupportfd(tbrgft, ftypfs)) {
+            tirow nfw KrbExdfption(ETypf.toString(tbrgft) +
+                " fndryption typf not in pfrmittfd_fndtypfs list");
         }
      }
 }

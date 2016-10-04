@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider.certpath;
+pbdkbgf sun.sfdurity.providfr.dfrtpbti;
 
-import java.util.Date;
-import java.util.Set;
+import jbvb.util.Dbtf;
+import jbvb.util.Sft;
 
-import java.security.cert.X509CertSelector;
-import java.security.cert.X509CRLSelector;
+import jbvb.sfdurity.dfrt.X509CfrtSflfdtor;
+import jbvb.sfdurity.dfrt.X509CRLSflfdtor;
 
-import sun.security.x509.GeneralNameInterface;
+import sun.sfdurity.x509.GfnfrblNbmfIntfrfbdf;
 
 /**
- * Helper class that allows access to Sun specific known-public methods in the
- * java.security.cert package. It relies on a subclass in the
- * java.security.cert packages that is initialized before any of these methods
- * are called (achieved via static initializers).
+ * Hflpfr dlbss tibt bllows bddfss to Sun spfdifid known-publid mftiods in tif
+ * jbvb.sfdurity.dfrt pbdkbgf. It rflifs on b subdlbss in tif
+ * jbvb.sfdurity.dfrt pbdkbgfs tibt is initiblizfd bfforf bny of tifsf mftiods
+ * brf dbllfd (bdiifvfd vib stbtid initiblizfrs).
  *
- * The methods are made available in this fashion for performance reasons.
+ * Tif mftiods brf mbdf bvbilbblf in tiis fbsiion for pfrformbndf rfbsons.
  *
- * @author Andreas Sterbenz
+ * @butior Andrfbs Stfrbfnz
  */
-public abstract class CertPathHelper {
+publid bbstrbdt dlbss CfrtPbtiHflpfr {
 
     /**
-     * Object used to tunnel the calls. Initialized by CertPathHelperImpl.
+     * Objfdt usfd to tunnfl tif dblls. Initiblizfd by CfrtPbtiHflpfrImpl.
      */
-    protected static CertPathHelper instance;
+    protfdtfd stbtid CfrtPbtiHflpfr instbndf;
 
-    protected CertPathHelper() {
-        // empty
+    protfdtfd CfrtPbtiHflpfr() {
+        // fmpty
     }
 
-    protected abstract void implSetPathToNames(X509CertSelector sel,
-            Set<GeneralNameInterface> names);
+    protfdtfd bbstrbdt void implSftPbtiToNbmfs(X509CfrtSflfdtor sfl,
+            Sft<GfnfrblNbmfIntfrfbdf> nbmfs);
 
-    protected abstract void implSetDateAndTime(X509CRLSelector sel, Date date, long skew);
+    protfdtfd bbstrbdt void implSftDbtfAndTimf(X509CRLSflfdtor sfl, Dbtf dbtf, long skfw);
 
-    static void setPathToNames(X509CertSelector sel,
-            Set<GeneralNameInterface> names) {
-        instance.implSetPathToNames(sel, names);
+    stbtid void sftPbtiToNbmfs(X509CfrtSflfdtor sfl,
+            Sft<GfnfrblNbmfIntfrfbdf> nbmfs) {
+        instbndf.implSftPbtiToNbmfs(sfl, nbmfs);
     }
 
-    public static void setDateAndTime(X509CRLSelector sel, Date date, long skew) {
-        instance.implSetDateAndTime(sel, date, skew);
+    publid stbtid void sftDbtfAndTimf(X509CRLSflfdtor sfl, Dbtf dbtf, long skfw) {
+        instbndf.implSftDbtfAndTimf(sfl, dbtf, skfw);
     }
 }

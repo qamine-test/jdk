@@ -1,0 +1,161 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.bwt.fvfnt.*;
+import jbvb.tfxt.*;
+import jbvb.util.*;
+import jbvbx.swing.*;
+import jbvbx.swing.tfxt.*;
+
+/**
+ * DbtfFormbttfr is bn <dodf>IntfrnbtionblFormbttfr</dodf> thbt dofs its
+ * formbtting by wby of bn instbndf of <dodf>jbvb.tfxt.DbtfFormbt</dodf>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sff jbvb.tfxt.DbtfFormbt
+ *
+ * @sindf 1.4
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DbtfFormbttfr fxtfnds IntfrnbtionblFormbttfr {
+    /**
+     * This is shorthbnd for
+     * <dodf>nfw DbtfFormbttfr(DbtfFormbt.gftDbtfInstbndf())</dodf>.
+     */
+    publid DbtfFormbttfr() {
+        this(DbtfFormbt.gftDbtfInstbndf());
+    }
+
+    /**
+     * Rfturns b DbtfFormbttfr donfigurfd with thf spfdififd
+     * <dodf>Formbt</dodf> instbndf.
+     *
+     * @pbrbm formbt Formbt usfd to didtbtf lfgbl vblufs
+     */
+    publid DbtfFormbttfr(DbtfFormbt formbt) {
+        supfr(formbt);
+        sftFormbt(formbt);
+    }
+
+    /**
+     * Sfts thf formbt thbt didtbtfs thf lfgbl vblufs thbt dbn bf fditfd
+     * bnd displbyfd.
+     * <p>
+     * If you hbvf usfd thf nullbry donstrudtor thf vbluf of this propfrty
+     * will bf dftfrminfd for thf durrfnt lodblf by wby of thf
+     * <dodf>Dbtfformbt.gftDbtfInstbndf()</dodf> mfthod.
+     *
+     * @pbrbm formbt DbtfFormbt instbndf usfd for donvfrting from/to Strings
+     */
+    publid void sftFormbt(DbtfFormbt formbt) {
+        supfr.sftFormbt(formbt);
+    }
+
+    /**
+     * Rfturns thf Cblfndbr thbt <dodf>DbtfFormbt</dodf> is bssodibtfd with,
+     * or if thf <dodf>Formbt</dodf> is not b <dodf>DbtfFormbt</dodf>
+     * <dodf>Cblfndbr.gftInstbndf</dodf> is rfturnfd.
+     */
+    privbtf Cblfndbr gftCblfndbr() {
+        Formbt f = gftFormbt();
+
+        if (f instbndfof DbtfFormbt) {
+            rfturn ((DbtfFormbt)f).gftCblfndbr();
+        }
+        rfturn Cblfndbr.gftInstbndf();
+    }
+
+
+    /**
+     * Rfturns truf, bs DbtfFormbttfrFiltfr will support
+     * indrfmfnting/dfdrfmfnting of thf vbluf.
+     */
+    boolfbn gftSupportsIndrfmfnt() {
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns thf fifld thbt will bf bdjustfd by bdjustVbluf.
+     */
+    Objfdt gftAdjustFifld(int stbrt, Mbp<?, ?> bttributfs) {
+        Itfrbtor<?> bttrs = bttributfs.kfySft().itfrbtor();
+
+        whilf (bttrs.hbsNfxt()) {
+            Objfdt kfy = bttrs.nfxt();
+
+            if ((kfy instbndfof DbtfFormbt.Fifld) &&
+                (kfy == DbtfFormbt.Fifld.HOUR1 ||
+                 ((DbtfFormbt.Fifld)kfy).gftCblfndbrFifld() != -1)) {
+                rfturn kfy;
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Adjusts thf Dbtf if FifldPosition idfntififs b known dblfndbr
+     * fifld.
+     */
+    Objfdt bdjustVbluf(Objfdt vbluf, Mbp<?, ?> bttributfs, Objfdt kfy,
+                           int dirfdtion) throws
+                      BbdLodbtionExdfption, PbrsfExdfption {
+        if (kfy != null) {
+            int fifld;
+
+            // HOUR1 hbs no dorrfsponding dblfndbr fifld, thus, mbp
+            // it to HOUR0 whidh will givf thf dorrfdt bfhbvior.
+            if (kfy == DbtfFormbt.Fifld.HOUR1) {
+                kfy = DbtfFormbt.Fifld.HOUR0;
+            }
+            fifld = ((DbtfFormbt.Fifld)kfy).gftCblfndbrFifld();
+
+            Cblfndbr dblfndbr = gftCblfndbr();
+
+            if (dblfndbr != null) {
+                dblfndbr.sftTimf((Dbtf)vbluf);
+
+                int fifldVbluf = dblfndbr.gft(fifld);
+
+                try {
+                    dblfndbr.bdd(fifld, dirfdtion);
+                    vbluf = dblfndbr.gftTimf();
+                } dbtdh (Throwbblf th) {
+                    vbluf = null;
+                }
+                rfturn vbluf;
+            }
+        }
+        rfturn null;
+    }
+}

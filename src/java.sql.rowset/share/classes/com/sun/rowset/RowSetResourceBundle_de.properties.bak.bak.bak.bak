@@ -1,0 +1,170 @@
+#
+# Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+# This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+# pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+# by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+#
+# This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+# ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+# bddompbnifd this dodf).
+#
+# You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+# qufstions.
+#
+
+# CbdhfRowSftImpl fxdfptions
+dbdhfdrowsftimpl.populbtf = Ung\u00FCltigfs RfsultSft-Objfkt zum Auff\u00FCllfn dfr Mfthodf bngfgfbfn
+dbdhfdrowsftimpl.invblidp = Ung\u00FCltigfr Pfrsistfndf-Providfr gfnfrifrt
+dbdhfdrowsftimpl.nullhbsh = CbdhfdRowSftImpl-Instbnz kbnn nidht instbnziifrt wfrdfn. Null-Hbsh-Tbbfllf f\u00FCr Construdtor bngfgfbfn
+dbdhfdrowsftimpl.invblidop = Ung\u00FCltigfr Vorgbng bfim Zfilfnfinf\u00FCgfn
+dbdhfdrowsftimpl.bddfbilfd = bddfptChbngfs nidht frfolgrfidh
+dbdhfdrowsftimpl.invbliddp = Ung\u00FCltigf Cursorposition
+dbdhfdrowsftimpl.illfgblop = Ung\u00FCltigfr Vorgbng bfi nidht fingff\u00FCgtfr Zfilf
+dbdhfdrowsftimpl.dlonffbil = Clonfn nidht frfolgrfidh: {0}
+dbdhfdrowsftimpl.invbliddol = Ung\u00FCltigfr Spbltfnindfx
+dbdhfdrowsftimpl.invbldolnm = Ung\u00FCltigfr Spbltfnnbmf
+dbdhfdrowsftimpl.boolfbil = gftBoolfn bfi Wfrt ( {0} ) in Spbltf {1} nidht frfolgrfidh
+dbdhfdrowsftimpl.bytffbil = gftBytf bfi Wfrt ( {0} ) in Spbltf {1} nidht frfolgrfidh
+dbdhfdrowsftimpl.shortfbil = gftShort bfi Wfrt ( {0} ) in Spbltf {1} nidht frfolgrfidh
+dbdhfdrowsftimpl.intfbil = gftInt bfi Wfrt ( {0} ) in Spbltf {1} nidht frfolgrfidh
+dbdhfdrowsftimpl.longfbil = gftLong bfi Wfrt ( {0} ) in Spbltf {1} nidht frfolgrfidh
+dbdhfdrowsftimpl.flobtfbil = gftFlobt bfi Wfrt ( {0} ) in Spbltf {1} nidht frfolgrfidh
+dbdhfdrowsftimpl.doublffbil = gftDoublf bfi Wfrt ( {0} ) in Spbltf {1} nidht frfolgrfidh
+dbdhfdrowsftimpl.dtypfmismt = Kfinf Dbtfntyp\u00FCbfrfinstimmung 
+dbdhfdrowsftimpl.dbtffbil = gftDbtf bfi Wfrt ( {0} ) in Spbltf {1} nidht frfolgrfidh. Kfinf Konvfrtifrung m\u00F6glidh
+dbdhfdrowsftimpl.timffbil = gftTimf bfi Wfrt ( {0} ) in Spbltf {1} nidht frfolgrfidh. Kfinf Konvfrtifrung m\u00F6glidh
+dbdhfdrowsftimpl.posupdbtf = Positionifrtf Updbtfs wfrdfn nidht untfrst\u00FCtzt
+dbdhfdrowsftimpl.unbblfins = Kfinf Instbnziifrung m\u00F6glidh: {0}
+dbdhfdrowsftimpl.bfforffirst = bfforfFirst: Ung\u00FCltigfr Cursorvorgbng
+dbdhfdrowsftimpl.first = First: Ung\u00FCltigfr Cursorvorgbng
+dbdhfdrowsftimpl.lbst = lbst: TYPE_FORWARD_ONLY
+dbdhfdrowsftimpl.bbsolutf = bbsolutf: Ung\u00FCltigf Cursorposition
+dbdhfdrowsftimpl.rflbtivf = rflbtivf: Ung\u00FCltigf Cursorposition
+dbdhfdrowsftimpl.bsdiistrfbm = Lfsfn von ASCII-Strfbm nidht frfolgrfidh
+dbdhfdrowsftimpl.binstrfbm = Lfsfn von Bin\u00E4r-Strfbm nidht frfolgrfidh
+dbdhfdrowsftimpl.fbilfdins = Ffhlfr bfim Zfilfnfinf\u00FCgfn
+dbdhfdrowsftimpl.updbtfins = updbtfRow bfim Zfilfnfinf\u00FCgfn bufgfruffn
+dbdhfdrowsftimpl.movftoins = movfToInsfrtRow: CONCUR_READ_ONLY
+dbdhfdrowsftimpl.movftoins1 = movfToInsfrtRow: kfinf Mftbdbtfn
+dbdhfdrowsftimpl.movftoins2 = movfToInsfrtRow: ung\u00FCltigf Spbltfnbnzbhl
+dbdhfdrowsftimpl.tbblfnbmf = Tbbfllfnnbmf dbrf nidht null sfin
+dbdhfdrowsftimpl.kfydols = Ung\u00FCltigf Sdhl\u00FCssflspbltfn
+dbdhfdrowsftimpl.invbliddol = Ung\u00FCltigfr Spbltfnindfx
+dbdhfdrowsftimpl.opnotsupp = Vorgbng nidht von Dbtfnbbnk untfrst\u00FCtzt
+dbdhfdrowsftimpl.mbtdhdols = \u00DCbfrfinstimmungsspbltfn fntsprfdhfn nidht dfn ffstgflfgtfn Spbltfn
+dbdhfdrowsftimpl.sftmbtdhdols = \u00DCbfrfinstimmungsspbltfn m\u00FCssfn vor dfm Abruffn ffstgflfgt wfrdfn
+dbdhfdrowsftimpl.mbtdhdols1 = Wfrt f\u00FCr \u00DCbfrfinstimmungsspbltfn muss gr\u00F6\u00DFfr bls 0 sfin
+dbdhfdrowsftimpl.mbtdhdols2 = \u00DCbfrfinstimmungsspbltfn m\u00FCssfn lffr sfin odfr finf Nullzfidhfnfolgf bufwfisfn
+dbdhfdrowsftimpl.unsftmbtdh = Spbltfn, dfrfn Wfrt bufgfhobfn wird, fntsprfdhfn nidht dfn ffstgflfgtfn Spbltfn
+dbdhfdrowsftimpl.unsftmbtdh1 = Spbltfnnbmf bls Argumfnt f\u00FCr unsftMbtdhColumn vfrwfndfn
+dbdhfdrowsftimpl.unsftmbtdh2 = Spbltfn-ID bls Argumfnt f\u00FCr unsftMbtdhColumn vfrwfndfn
+dbdhfdrowsftimpl.numrows = Zfilfnbnzbhl ist klfinfr bls null odfr klfinfr bls Abrufgr\u00F6\u00DFf
+dbdhfdrowsftimpl.stbrtpos = Stbrtposition dbrf kfinfn Nfgbtivwfrt bufwfisfn
+dbdhfdrowsftimpl.nfxtpbgf = Dbtfn m\u00FCssfn vor dfm Aufruf busgff\u00FCllt wfrdfn 
+dbdhfdrowsftimpl.pbgfsizf = Sfitfngr\u00F6\u00DFf dbrf nidht klfinfr bls null sfin
+dbdhfdrowsftimpl.pbgfsizf1 = Sfitfngr\u00F6\u00DFf dbrf nidht gr\u00F6\u00DFfr bls mbxRows sfin
+dbdhfdrowsftimpl.fwdonly = RfsultSft kbnn nur vorw\u00E4rts gfridhtft sfin
+dbdhfdrowsftimpl.typf = Typ ist: {0}
+dbdhfdrowsftimpl.opnotysupp = Vorgbng nodh nidht untfrst\u00FCtzt
+dbdhfdrowsftimpl.ffbtnotsupp = Ffbturf nidht untfrst\u00FCtzt
+
+# WfbRowSftImpl fxdfptions
+wfbrowsftimpl.nullhbsh = WfbRowSftImpl-Instbnz kbnn nidht instbnziifrt wfrdfn. Null-Hbsh-Tbbfllf f\u00FCr Construdtor bngfgfbfn
+wfbrowsftimpl.invblidwr = Ung\u00FCltigfr Writfr
+wfbrowsftimpl.invblidrd = Ung\u00FCltigfr Rfbdfr
+
+#FiltfrfdRowSftImpl fxdfptions
+filtfrfdrowsftimpl.rflbtivf = rflbtivf: Ung\u00FCltigfr Cursorvorgbng 
+filtfrfdrowsftimpl.bbsolutf = bbsolutf: Ung\u00FCltigfr Cursorvorgbng
+filtfrfdrowsftimpl.notbllowfd = Kfin zul\u00E4ssigfr Wfrt im Filtfr
+
+#JoinRowSftImpl fxdfptions
+joinrowsftimpl.notinstbndf = Kfinf Instbnz von rowsft
+joinrowsftimpl.mbtdhnotsft = \u00DCbfrfinstimmungsspbltf wurdf nidht f\u00FCr Join ffstgflfgt
+joinrowsftimpl.numnotfqubl = Elfmfntbnzbhl in rowsft nidht glfidh \u00DCbfrfinstimmungsspbltf
+joinrowsftimpl.notdffinfd = Kfin dffinifrtfr Join-Typ
+joinrowsftimpl.notsupportfd = Join-Typ wird nidht untfrst\u00FCtzt
+joinrowsftimpl.initfrror = JoinRowSft-Initiblisifrungsffhlfr
+joinrowsftimpl.gfnfridfrr = Gfnfrisdhfr Anfbngsffhlfr bfi joinrowsft
+joinrowsftimpl.fmptyrowsft = Lffrfs rowsft kbnn nidht zu difsfm JoinRowSft hinzugff\u00FCgt wfrdfn
+
+#JdbdRowSftImpl fxdfptions
+jdbdrowsftimpl.invblstbtf = Ung\u00FCltigfr Stbtus
+jdbdrowsftimpl.donnfdt = JdbdRowSft (vfrbindfn), kfinf JNDI-Vfrbindung m\u00F6glidh
+jdbdrowsftimpl.pbrbmtypf = Pbrbmftfrtyp kbnn nidht bbgflfitft wfrdfn
+jdbdrowsftimpl.mbtdhdols = \u00DCbfrfinstimmungsspbltfn fntsprfdhfn nidht dfn ffstgflfgtfn Spbltfn
+jdbdrowsftimpl.sftmbtdhdols = \u00DCbfrfinstimmungsspbltfn m\u00FCssfn vor dfm Abruffn ffstgflfgt wfrdfn
+jdbdrowsftimpl.mbtdhdols1 = Wfrt f\u00FCr \u00DCbfrfinstimmungsspbltfn muss gr\u00F6\u00DFfr bls 0 sfin
+jdbdrowsftimpl.mbtdhdols2 = \u00DCbfrfinstimmungsspbltfn k\u00F6nnfn kfinf Null- odfr lffrf Zfidhfnfolgf bufwfisfn
+jdbdrowsftimpl.unsftmbtdh = Spbltfn, dfrfn Wfrt bufgfhobfn wird, fntsprfdhfn nidht dfn ffstgflfgtfn Spbltfn
+jdbdrowsftimpl.usfdolnbmf = Spbltfnnbmf bls Argumfnt f\u00FCr unsftMbtdhColumn vfrwfndfn
+jdbdrowsftimpl.usfdolid = Spbltfn-ID bls Argumfnt f\u00FCr unsftMbtdhColumn vfrwfndfn
+jdbdrowsftimpl.rfsnotupd = RfsultSft kbnn nidht bktublisifrt wfrdfn
+jdbdrowsftimpl.opnotysupp = Vorgbng nodh nidht untfrst\u00FCtzt
+jdbdrowsftimpl.ffbtnotsupp = Ffbturf nidht untfrst\u00FCtzt
+
+#CbdhfdRowSftRfbdfr fxdfptions
+drsrfbdfr.donnfdt = (JNDI) Vfrbindung nidht m\u00F6glidh
+drsrfbdfr.pbrbmtypf = Pbrbmftfrtyp kbnn nidht bbgflfitft wfrdfn
+drsrfbdfr.donnfdtfrr = Intfrnfr Ffhlfr in RowSftRfbdfr: Kfinf Vfrbindung odfr kfin Bfffhl
+drsrfbdfr.dbtfdftfdtfd = Dbtum ffstgfstfllt
+drsrfbdfr.dbldftfdtfd = Kblfndfr ffstgfstfllt
+
+#CbdhfdRowSftWritfr fxdfptions
+drswritfr.donnfdt = Vfrbindung kbnn nidht hfrgfstfllt wfrdfn
+drswritfr.tnbmf = writfDbtb kbnn Tbbfllfnnbmfn nidht bfstimmfn
+drswritfr.pbrbms1 = Wfrt f\u00FCr pbrbms1: {0} 
+drswritfr.pbrbms2 = Wfrt f\u00FCr pbrbms2: {0} 
+drswritfr.donflidtsno =  Konfliktf bfim Syndhronisifrfn 
+
+#InsfrtRow fxdfptions
+insfrtrow.novbluf = Es wurdf kfin Wfrt fingff\u00FCgt
+
+#SyndRfsolvfrImpl fxdfptions
+syndrsimpl.indfxvbl = Indfxwfrt lifgt bu\u00DFfrhblb dfs Bfrfidhs  
+syndrsimpl.nodonflidt = Kfin Konflikt bfi difsfr Spbltf
+syndrsimpl.syndnotpos = Kfinf Syndhronisifrung m\u00F6glidh
+syndrsimpl.vbltorfs = Aufzul\u00F6sfndfr Wfrt kbnn sidh fntwfdfr in dfr Dbtfnbbnk odfr in dbdhfdrowsft bffindfn
+
+#WfbRowSftXmlRfbdfr fxdfption
+wrsxmlrfbdfr.invbliddp = Endf von RowSft wurdf frrfidht. Ung\u00FCltigf Cursorposition
+wrsxmlrfbdfr.rfbdxml = rfbdXML: {0}
+wrsxmlrfbdfr.pbrsffrr = ** Pbrsing-Ffhlfr: {0}, Zfilf: {1} , URI: {2}
+
+#WfbRowSftXmlWritfr fxdfptions
+wrsxmlwritfr.iofx = IOExdfption: {0}
+wrsxmlwritfr.sqlfx = SQLExdfption: {0}
+wrsxmlwritfr.fbilfdwritf = Sdhrfibfn dfs Wfrtfs nidht frfolgrfidh
+wsrxmlwritfr.notpropfr = Kfin zul\u00E4ssigfr Typ
+
+#XmlRfbdfrContfntHbndlfr fxdfptions
+xmlrdh.frrmbp = Ffhlfr bfim Ffstlfgfn dfr Zuordnung: {0}
+xmlrdh.frrmftbdbtb = Ffhlfr bfim Ffstlfgfn dfr Mftbdbtfn: {0}
+xmlrdh.frrinsfrtvbl = Ffhlfr bfim Einf\u00FCgfn dfr Wfrtf: {0}
+xmlrdh.frrdonstr = Ffhlfr bfim Erstfllfn dfr Zfilf: {0}
+xmlrdh.frrdfl = Ffhlfr bfim L\u00F6sdhfn dfr Zfilf: {0}
+xmlrdh.frrinsfrt = Ffhlfr bfim Erstfllfn dfr Einf\u00FCgfzfilf: {0}
+xmlrdh.frrinsdfl = Ffhlfr bfim Erstfllfn dfr Einf\u00FCgf- odfr L\u00F6sdhzfilf: {0}
+xmlrdh.frrupdbtf = Ffhlfr bfim Erstfllfn dfr Updbtfzfilf: {0}
+xmlrdh.frrupdrow = Ffhlfr bfim Aktublisifrfn dfr Zfilf: {0}
+xmlrdh.dhbrs = Zfidhfn:
+xmlrdh.bbdvbluf = Ung\u00FCltigfr Wfrt. Eigfnsdhbft kbnn nidht buf null gfsftzt wfrdfn
+xmlrdh.bbdvbluf1 = Ung\u00FCltigfr Wfrt. Mftbdbtfn k\u00F6nnfn nidht buf null gfsftzt wfrdfn
+xmlrdh.wbrning =  ** Wbrnung: {0}, Zfilf: {1} , URI: {2}
+
+#RIOptimistidProvidfr Exdfptions
+riop.lodking = Spfrrfn dfr Klbssifizifrung wird nidht untfrst\u00FCtzt
+
+#RIXMLProvidfr fxdfptions
+rixml.unsupp = Kfinf Untfrst\u00FCtzung bfi RIXMLProvidfr

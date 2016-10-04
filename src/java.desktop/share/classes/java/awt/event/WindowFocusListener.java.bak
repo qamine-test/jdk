@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.event;
+pbdkbgf jbvb.bwt.fvfnt;
 
-import java.util.EventListener;
+import jbvb.util.EvfntListfnfr;
 
 /**
- * The listener interface for receiving <code>WindowEvents</code>, including
- * <code>WINDOW_GAINED_FOCUS</code> and <code>WINDOW_LOST_FOCUS</code> events.
- * The class that is interested in processing a <code>WindowEvent</code>
- * either implements this interface (and
- * all the methods it contains) or extends the abstract
- * <code>WindowAdapter</code> class (overriding only the methods of interest).
- * The listener object created from that class is then registered with a
- * <code>Window</code>
- * using the <code>Window</code>'s <code>addWindowFocusListener</code> method.
- * When the <code>Window</code>'s
- * status changes by virtue of it being opened, closed, activated, deactivated,
- * iconified, or deiconified, or by focus being transfered into or out of the
- * <code>Window</code>, the relevant method in the listener object is invoked,
- * and the <code>WindowEvent</code> is passed to it.
+ * Tif listfnfr intfrfbdf for rfdfiving <dodf>WindowEvfnts</dodf>, indluding
+ * <dodf>WINDOW_GAINED_FOCUS</dodf> bnd <dodf>WINDOW_LOST_FOCUS</dodf> fvfnts.
+ * Tif dlbss tibt is intfrfstfd in prodfssing b <dodf>WindowEvfnt</dodf>
+ * fitifr implfmfnts tiis intfrfbdf (bnd
+ * bll tif mftiods it dontbins) or fxtfnds tif bbstrbdt
+ * <dodf>WindowAdbptfr</dodf> dlbss (ovfrriding only tif mftiods of intfrfst).
+ * Tif listfnfr objfdt drfbtfd from tibt dlbss is tifn rfgistfrfd witi b
+ * <dodf>Window</dodf>
+ * using tif <dodf>Window</dodf>'s <dodf>bddWindowFodusListfnfr</dodf> mftiod.
+ * Wifn tif <dodf>Window</dodf>'s
+ * stbtus dibngfs by virtuf of it bfing opfnfd, dlosfd, bdtivbtfd, dfbdtivbtfd,
+ * idonififd, or dfidonififd, or by fodus bfing trbnsffrfd into or out of tif
+ * <dodf>Window</dodf>, tif rflfvbnt mftiod in tif listfnfr objfdt is invokfd,
+ * bnd tif <dodf>WindowEvfnt</dodf> is pbssfd to it.
  *
- * @author David Mendenhall
+ * @butior Dbvid Mfndfnibll
  *
- * @see WindowAdapter
- * @see WindowEvent
- * @see <a href="http://docs.oracle.com/javase/tutorial/uiswing/events/windowlistener.html">Tutorial: Writing a Window Listener</a>
+ * @sff WindowAdbptfr
+ * @sff WindowEvfnt
+ * @sff <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/fvfnts/windowlistfnfr.itml">Tutoribl: Writing b Window Listfnfr</b>
  *
- * @since 1.4
+ * @sindf 1.4
  */
-public interface WindowFocusListener extends EventListener {
+publid intfrfbdf WindowFodusListfnfr fxtfnds EvfntListfnfr {
 
     /**
-     * Invoked when the Window is set to be the focused Window, which means
-     * that the Window, or one of its subcomponents, will receive keyboard
-     * events.
-     * @param e the event to be processed
+     * Invokfd wifn tif Window is sft to bf tif fodusfd Window, wiidi mfbns
+     * tibt tif Window, or onf of its subdomponfnts, will rfdfivf kfybobrd
+     * fvfnts.
+     * @pbrbm f tif fvfnt to bf prodfssfd
      */
-    public void windowGainedFocus(WindowEvent e);
+    publid void windowGbinfdFodus(WindowEvfnt f);
 
     /**
-     * Invoked when the Window is no longer the focused Window, which means
-     * that keyboard events will no longer be delivered to the Window or any of
-     * its subcomponents.
-     * @param e the event to be processed
+     * Invokfd wifn tif Window is no longfr tif fodusfd Window, wiidi mfbns
+     * tibt kfybobrd fvfnts will no longfr bf dflivfrfd to tif Window or bny of
+     * its subdomponfnts.
+     * @pbrbm f tif fvfnt to bf prodfssfd
      */
-    public void windowLostFocus(WindowEvent e);
+    publid void windowLostFodus(WindowEvfnt f);
 }

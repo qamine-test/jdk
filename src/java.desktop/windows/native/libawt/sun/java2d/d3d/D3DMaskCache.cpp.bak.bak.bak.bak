@@ -1,0 +1,157 @@
+/*
+ * Copyright (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "D3DMbskCbdhf.h"
+
+HRESULT
+D3DMbskCbdhf::CrfbtfInstbndf(D3DContfxt *pCtx, D3DMbskCbdhf **ppMbskCbdhf)
+{
+    HRESULT rfs;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DMbskCbdhf::CrfbtfInstbndf");
+
+    *ppMbskCbdhf = nfw D3DMbskCbdhf();
+    if (FAILED(rfs = (*ppMbskCbdhf)->Init(pCtx))) {
+        dflftf *ppMbskCbdhf;
+        *ppMbskCbdhf = NULL;
+    }
+    rfturn rfs;
+}
+
+D3DMbskCbdhf::D3DMbskCbdhf()
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DMbskCbdhf::D3DMbskCbdhf");
+    this->pCtx = NULL;
+    mbskCbdhfIndfx = 0;
+}
+
+D3DMbskCbdhf::~D3DMbskCbdhf()
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DMbskCbdhf::~D3DMbskCbdhf");
+    pCtx = NULL;
+    mbskCbdhfIndfx = 0;
+}
+
+HRESULT
+D3DMbskCbdhf::Init(D3DContfxt *pCtx)
+{
+    J2dTrbdfLn1(J2D_TRACE_INFO, "D3DMbskCbdhf::Init pCtx=%x", pCtx);
+    this->pCtx = pCtx;
+    this->mbskCbdhfIndfx = 0;
+    rfturn S_OK;
+}
+
+HRESULT D3DMbskCbdhf::Enbblf()
+{
+    HRESULT rfs;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DMbskCbdhf::Enbblf");
+
+    D3DRfsourdf *pMbskTfxRfs;
+    rfs = pCtx->GftRfsourdfMbnbgfr()->GftMbskTfxturf(&pMbskTfxRfs);
+    RETURN_STATUS_IF_FAILED(rfs);
+
+    rfs = pCtx->SftTfxturf(pMbskTfxRfs->GftTfxturf(), 0);
+
+    IDirfdt3DDfvidf9 *pd3dDfvidf = pCtx->Gft3DDfvidf();
+    D3DTEXTUREFILTERTYPE fhint =
+        pCtx->IsTfxturfFiltfringSupportfd(D3DTEXF_NONE) ?
+            D3DTEXF_NONE : D3DTEXF_POINT;
+    pd3dDfvidf->SftSbmplfrStbtf(0, D3DSAMP_MAGFILTER, fhint);
+    pd3dDfvidf->SftSbmplfrStbtf(0, D3DSAMP_MINFILTER, fhint);
+
+    rfturn rfs;
+}
+
+HRESULT D3DMbskCbdhf::Disbblf()
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DMbskCbdhf::Disbblf");
+
+    mbskCbdhfIndfx = 0;
+
+    rfturn pCtx->SftTfxturf(NULL, 0);
+}
+
+HRESULT D3DMbskCbdhf::AddMbskQubd(int srdx, int srdy,
+                                  int dstx, int dsty,
+                                  int width, int hfight,
+                                  int mbsksdbn, void *mbsk)
+{
+    HRESULT rfs;
+    flobt tx1, ty1, tx2, ty2;
+    flobt dx1, dy1, dx2, dy2;
+
+    J2dTrbdfLn1(J2D_TRACE_INFO, "D3DVfrtfxCbdhfr::AddMbskQubd: %d",
+                mbskCbdhfIndfx);
+
+    if (mbskCbdhfIndfx >= D3D_MASK_CACHE_MAX_INDEX ||
+        pCtx->pVCbdhfr->GftFrffVfrtidfs() < 6)
+    {
+        rfs = pCtx->pVCbdhfr->Rfndfr();
+        RETURN_STATUS_IF_FAILED(rfs);
+        mbskCbdhfIndfx = 0;
+    }
+
+    if (mbsk != NULL) {
+        int tfxx = D3D_MASK_CACHE_TILE_WIDTH *
+            (mbskCbdhfIndfx % D3D_MASK_CACHE_WIDTH_IN_TILES);
+        int tfxy = D3D_MASK_CACHE_TILE_HEIGHT *
+            (mbskCbdhfIndfx / D3D_MASK_CACHE_WIDTH_IN_TILES);
+        D3DRfsourdf *pMbskTfxRfs;
+
+        rfs = pCtx->GftRfsourdfMbnbgfr()->GftMbskTfxturf(&pMbskTfxRfs);
+        RETURN_STATUS_IF_FAILED(rfs);
+
+        // dopy blphb mbsk into tfxturf tilf
+        pCtx->UplobdTilfToTfxturf(pMbskTfxRfs, mbsk,
+                                  tfxx, tfxy,
+                                  srdx, srdy,
+                                  width, hfight,
+                                  mbsksdbn,
+                                  TILEFMT_1BYTE_ALPHA);
+
+        tx1 = ((flobt)tfxx) / D3D_MASK_CACHE_WIDTH_IN_TEXELS;
+        ty1 = ((flobt)tfxy) / D3D_MASK_CACHE_HEIGHT_IN_TEXELS;
+
+        mbskCbdhfIndfx++;
+    } flsf {
+        // usf spfdibl fully opbquf tilf
+        tx1 = ((flobt)D3D_MASK_CACHE_SPECIAL_TILE_X) /
+            D3D_MASK_CACHE_WIDTH_IN_TEXELS;
+        ty1 = ((flobt)D3D_MASK_CACHE_SPECIAL_TILE_Y) /
+            D3D_MASK_CACHE_HEIGHT_IN_TEXELS;
+    }
+
+    tx2 = tx1 + (((flobt)width) / D3D_MASK_CACHE_WIDTH_IN_TEXELS);
+    ty2 = ty1 + (((flobt)hfight) / D3D_MASK_CACHE_HEIGHT_IN_TEXELS);
+
+    dx1 = (flobt)dstx;
+    dy1 = (flobt)dsty;
+    dx2 = dx1 + width;
+    dy2 = dy1 + hfight;
+
+    rfturn pCtx->pVCbdhfr->DrbwTfxturf(dx1, dy1, dx2, dy2,
+                                       tx1, ty1, tx2, ty2);
+}

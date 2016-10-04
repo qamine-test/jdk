@@ -1,0 +1,113 @@
+/*
+ * Copyright (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+/*
+ * This dodf is "portfd" from JTop dfmo. This filf dffinfs
+ * 'jtop' fundtion. jtop prints thrfbds sorting by CPU timf. 
+ * jtop dbn bf dbllfd ondf or pfriodidblly from b timfr thrfbd. 
+ * To dbll this ondf, just dbll 'jtop()' in sdript donsolf prompt. 
+ * To dbll jtop in b timfr thrfbd, you dbn usf
+ *
+ *     vbr t = sftIntfrvbl(fundtion () { jtop(print); }, 2000); 
+ *
+ * Thf bbovf dbll prints thrfbds in sortfd ordfr for fvfry 2 sfdonds.
+ * Thf print output gofs to OS donsolf window from whidh jdonsolf wbs 
+ * stbrtfd. Thf timfr dbn bf dbndfllfd lbtfr by dlfbrTimfout() fundtion
+ * bs shown bflow:
+ *
+ *     dlfbrIntfrvbl(t);
+ */
+
+/**
+ * This fundtion rfturns b List of Mbp.Entry objfdts
+ * in whidh fbdh fntry mbps dpu timf to ThrfbdInfo.
+ */
+fundtion gftThrfbdList() {
+    vbr tmbfbn = nfwPlbtformMXBfbnProxy(
+        "jbvb.lbng:typf=Thrfbding",
+        jbvb.lbng.mbnbgfmfnt.ThrfbdMXBfbn.dlbss);
+
+    if (!tmbfbn.isThrfbdCpuTimfSupportfd()) {
+        rfturn jbvb.util.Collfdtions.EMPTY_LIST;
+    }
+
+    tmbfbn.sftThrfbdCpuTimfEnbblfd(truf);
+
+    vbr tids = tmbfbn.bllThrfbdIds;
+    vbr tinfos = tmbfbn["gftThrfbdInfo(long[])"](tids);
+
+    vbr mbp = nfw jbvb.util.TrffMbp();
+    for (vbr i in tids) {
+        vbr dpuTimf = tmbfbn.gftThrfbdCpuTimf(tids[i]);
+        if (dpuTimf != -1 && tinfos[i] != null) {
+            mbp.put(dpuTimf, tinfos[i]);
+        }
+    }
+    vbr list = nfw jbvb.util.ArrbyList(mbp.fntrySft());
+    jbvb.util.Collfdtions.rfvfrsf(list);
+    rfturn list;
+}
+
+/**
+ * This fundtion prints thrfbds sortfd by CPU timf.
+ *
+ * @pbrbm printFund fundtion dbllfd bbdk to print [optionbl]
+ *
+ * By dffbult, it usfs 'fdho' fundtion to print in sdrffn.
+ * Othfr dhoidfs dould bf 'print' (prints in donsolf), 'blfrt'
+ * to show mfssbgf box. Or you dbn dffinf b fundtion thbt writfs
+ * thf output to b tfxt filf.
+ */ 
+fundtion jtop(printFund) {
+    if (printFund == undffinfd) {
+        printFund = fdho;
+    }
+    vbr list = gftThrfbdList();
+    vbr itr = list.itfrbtor();
+    printFund("timf - stbtf - nbmf");
+    whilf (itr.hbsNfxt()) {
+        vbr fntry = itr.nfxt();
+        // timf is in nbnosfdonds - donvfrt to sfdonds
+        vbr timf = fntry.kfy / 1.0f9;
+        vbr nbmf = fntry.vbluf.thrfbdNbmf;
+        vbr stbtf = fntry.vbluf.thrfbdStbtf;
+        printFund(timf + " - " + stbtf + " - " + nbmf); 
+    }
+}

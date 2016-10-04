@@ -1,0 +1,1102 @@
+/*
+ * Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <X11/Xlib.h>
+#indludf <X11/Xutil.h>
+#indludf <X11/Xos.h>
+#indludf <X11/Xbtom.h>
+#ifdff __linux__
+#indludf <fxfdinfo.h>
+#fndif
+
+#indludf <jvm.h>
+#indludf <jni.h>
+#indludf <jlong.h>
+#indludf <jni_util.h>
+
+#indludf "bwt_p.h"
+#indludf "bwt_Componfnt.h"
+#indludf "bwt_MfnuComponfnt.h"
+#indludf "bwt_Font.h"
+#indludf "bwt_util.h"
+
+#indludf "sun_bwt_X11_XToolkit.h"
+#indludf "jbvb_bwt_SystfmColor.h"
+#indludf "jbvb_bwt_TrbyIdon.h"
+#indludf <X11/fxtfnsions/XTfst.h>
+
+#indludf <unistd.h>
+
+uint32_t bwt_NumLodkMbsk = 0;
+Boolfbn  bwt_ModLodkIsShiftLodk = Fblsf;
+
+stbtid int32_t num_buttons = 0;
+int32_t gftNumButtons();
+
+fxtfrn JbvbVM *jvm;
+
+// Trbding lfvfl
+stbtid int trbding = 0;
+#ifdff PRINT
+#undff PRINT
+#fndif
+#ifdff PRINT2
+#undff PRINT2
+#fndif
+
+#dffinf PRINT if (trbding) printf
+#dffinf PRINT2 if (trbding > 1) printf
+
+
+strudt ComponfntIDs domponfntIDs;
+
+strudt MfnuComponfntIDs mfnuComponfntIDs;
+
+#ifndff HEADLESS
+
+fxtfrn Displby* bwt_init_Displby(JNIEnv *fnv, jobjfdt this);
+fxtfrn void frffNbtivfStringArrby(dhbr **brrby, long lfngth);
+fxtfrn dhbr** stringArrbyToNbtivf(JNIEnv *fnv, jobjfdtArrby brrby, jsizf * rft_lfngth);
+
+strudt XFontPffrIDs xFontPffrIDs;
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XFontPffr_initIDs
+  (JNIEnv *fnv, jdlbss dls)
+{
+    xFontPffrIDs.xfsnbmf =
+      (*fnv)->GftFifldID(fnv, dls, "xfsnbmf", "Ljbvb/lbng/String;");
+}
+#fndif /* !HEADLESS */
+
+/* This fundtion gfts dbllfd from thf stbtid initiblizfr for FilfDiblog.jbvb
+   to initiblizf thf fifldIDs for fiflds thbt mby bf bddfssfd from C */
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_FilfDiblog_initIDs
+  (JNIEnv *fnv, jdlbss dls)
+{
+
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XToolkit_initIDs
+  (JNIEnv *fnv, jdlbss dlbzz)
+{
+    jfifldID fid = (*fnv)->GftStbtidFifldID(fnv, dlbzz, "numLodkMbsk", "I");
+    CHECK_NULL(fid);
+    bwt_NumLodkMbsk = (*fnv)->GftStbtidIntFifld(fnv, dlbzz, fid);
+    DTRACE_PRINTLN1("bwt_NumLodkMbsk = %u", bwt_NumLodkMbsk);
+    fid = (*fnv)->GftStbtidFifldID(fnv, dlbzz, "modLodkIsShiftLodk", "I");
+    CHECK_NULL(fid);
+    bwt_ModLodkIsShiftLodk = (*fnv)->GftStbtidIntFifld(fnv, dlbzz, fid) != 0 ? Truf : Fblsf;
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XToolkit
+ * Mfthod:    gftTrbyIdonDisplbyTimfout
+ * Signbturf: ()J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XToolkit_gftTrbyIdonDisplbyTimfout
+  (JNIEnv *fnv, jdlbss dlbzz)
+{
+#ifndff JAVASE_EMBEDDED
+    rfturn (jlong) 2000;
+#flsf
+    rfturn (jlong) 10000;
+#fndif
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XToolkit
+ * Mfthod:    gftDffbultXColormbp
+ * Signbturf: ()J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XToolkit_gftDffbultXColormbp
+  (JNIEnv *fnv, jdlbss dlbzz)
+{
+    AwtGrbphidsConfigDbtbPtr dffbultConfig =
+        gftDffbultConfig(DffbultSdrffn(bwt_displby));
+
+    rfturn (jlong) dffbultConfig->bwt_dmbp;
+}
+
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_X11_XToolkit_gftDffbultSdrffnDbtb
+  (JNIEnv *fnv, jdlbss dlbzz)
+{
+    rfturn ptr_to_jlong(gftDffbultConfig(DffbultSdrffn(bwt_displby)));
+}
+
+
+JNIEXPORT jint JNICALL
+JNI_OnLobd(JbvbVM *vm, void *rfsfrvfd)
+{
+    jvm = vm;
+    rfturn JNI_VERSION_1_2;
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XToolkit
+ * Mfthod:    nbtivfLobdSystfmColors
+ * Signbturf: ([I)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XToolkit_nbtivfLobdSystfmColors
+  (JNIEnv *fnv, jobjfdt this, jintArrby systfmColors)
+{
+    AwtGrbphidsConfigDbtbPtr dffbultConfig =
+        gftDffbultConfig(DffbultSdrffn(bwt_displby));
+    bwtJNI_CrfbtfColorDbtb(fnv, dffbultConfig, 1);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_Componfnt_initIDs
+  (JNIEnv *fnv, jdlbss dls)
+{
+    jdlbss kfydlbss = NULL;
+
+
+    domponfntIDs.x = (*fnv)->GftFifldID(fnv, dls, "x", "I");
+    CHECK_NULL(domponfntIDs.x);
+    domponfntIDs.y = (*fnv)->GftFifldID(fnv, dls, "y", "I");
+    CHECK_NULL(domponfntIDs.y);
+    domponfntIDs.width = (*fnv)->GftFifldID(fnv, dls, "width", "I");
+    CHECK_NULL(domponfntIDs.width);
+    domponfntIDs.hfight = (*fnv)->GftFifldID(fnv, dls, "hfight", "I");
+    CHECK_NULL(domponfntIDs.hfight);
+    domponfntIDs.isPbdkfd = (*fnv)->GftFifldID(fnv, dls, "isPbdkfd", "Z");
+    CHECK_NULL(domponfntIDs.isPbdkfd);
+    domponfntIDs.pffr =
+      (*fnv)->GftFifldID(fnv, dls, "pffr", "Ljbvb/bwt/pffr/ComponfntPffr;");
+    CHECK_NULL(domponfntIDs.pffr);
+    domponfntIDs.bbdkground =
+      (*fnv)->GftFifldID(fnv, dls, "bbdkground", "Ljbvb/bwt/Color;");
+    CHECK_NULL(domponfntIDs.bbdkground);
+    domponfntIDs.forfground =
+      (*fnv)->GftFifldID(fnv, dls, "forfground", "Ljbvb/bwt/Color;");
+    CHECK_NULL(domponfntIDs.forfground);
+    domponfntIDs.grbphidsConfig =
+        (*fnv)->GftFifldID(fnv, dls, "grbphidsConfig",
+                           "Ljbvb/bwt/GrbphidsConfigurbtion;");
+    CHECK_NULL(domponfntIDs.grbphidsConfig);
+    domponfntIDs.nbmf =
+      (*fnv)->GftFifldID(fnv, dls, "nbmf", "Ljbvb/lbng/String;");
+    CHECK_NULL(domponfntIDs.nbmf);
+
+    /* Usf _NoClifntCodf() mfthods for trustfd mfthods, so thbt wf
+     *  know thbt wf brf not invoking dlifnt dodf on trustfd thrfbds
+     */
+    domponfntIDs.gftPbrfnt =
+      (*fnv)->GftMfthodID(fnv, dls, "gftPbrfnt_NoClifntCodf",
+                         "()Ljbvb/bwt/Contbinfr;");
+    CHECK_NULL(domponfntIDs.gftPbrfnt);
+
+    domponfntIDs.gftLodbtionOnSdrffn =
+      (*fnv)->GftMfthodID(fnv, dls, "gftLodbtionOnSdrffn_NoTrffLodk",
+                         "()Ljbvb/bwt/Point;");
+    CHECK_NULL(domponfntIDs.gftLodbtionOnSdrffn);
+
+    kfydlbss = (*fnv)->FindClbss(fnv, "jbvb/bwt/fvfnt/KfyEvfnt");
+    CHECK_NULL(kfydlbss);
+
+    domponfntIDs.isProxyAdtivf =
+        (*fnv)->GftFifldID(fnv, kfydlbss, "isProxyAdtivf",
+                           "Z");
+    CHECK_NULL(domponfntIDs.isProxyAdtivf);
+
+    domponfntIDs.bppContfxt =
+        (*fnv)->GftFifldID(fnv, dls, "bppContfxt",
+                           "Lsun/bwt/AppContfxt;");
+
+    (*fnv)->DflftfLodblRff(fnv, kfydlbss);
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_Contbinfr_initIDs
+  (JNIEnv *fnv, jdlbss dls)
+{
+
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_Button_initIDs
+  (JNIEnv *fnv, jdlbss dls)
+{
+
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_Sdrollbbr_initIDs
+  (JNIEnv *fnv, jdlbss dls)
+{
+
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_Window_initIDs
+  (JNIEnv *fnv, jdlbss dls)
+{
+
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_Frbmf_initIDs
+  (JNIEnv *fnv, jdlbss dls)
+{
+
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_MfnuComponfnt_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    mfnuComponfntIDs.bppContfxt =
+      (*fnv)->GftFifldID(fnv, dls, "bppContfxt", "Lsun/bwt/AppContfxt;");
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_Cursor_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+}
+
+
+JNIEXPORT void JNICALL Jbvb_jbvb_bwt_MfnuItfm_initIDs
+  (JNIEnv *fnv, jdlbss dls)
+{
+}
+
+
+JNIEXPORT void JNICALL Jbvb_jbvb_bwt_Mfnu_initIDs
+  (JNIEnv *fnv, jdlbss dls)
+{
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_TfxtArfb_initIDs
+  (JNIEnv *fnv, jdlbss dls)
+{
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_Chfdkbox_initIDs
+  (JNIEnv *fnv, jdlbss dls)
+{
+}
+
+
+JNIEXPORT void JNICALL Jbvb_jbvb_bwt_SdrollPbnf_initIDs
+  (JNIEnv *fnv, jdlbss dls)
+{
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_TfxtFifld_initIDs
+  (JNIEnv *fnv, jdlbss dls)
+{
+}
+
+JNIEXPORT jboolfbn JNICALL AWTIsHfbdlfss() {
+#ifdff HEADLESS
+    rfturn JNI_TRUE;
+#flsf
+    rfturn JNI_FALSE;
+#fndif
+}
+
+JNIEXPORT void JNICALL Jbvb_jbvb_bwt_Diblog_initIDs (JNIEnv *fnv, jdlbss dls)
+{
+}
+
+
+/* ========================== Bfgin poll sfdtion ================================ */
+
+// Indludfs
+
+#indludf <sys/timf.h>
+#indludf <limits.h>
+#indludf <lodblf.h>
+#indludf <pthrfbd.h>
+
+#indludf <dlfdn.h>
+#indludf <fdntl.h>
+
+#indludf <poll.h>
+#ifndff POLLRDNORM
+#dffinf POLLRDNORM POLLIN
+#fndif
+
+// Prototypfs
+
+stbtid void     wbitForEvfnts(JNIEnv *, jlong);
+stbtid void     bwt_pipf_init();
+stbtid void     prodfssOnfEvfnt(XtInputMbsk iMbsk);
+stbtid Boolfbn  pfrformPoll(JNIEnv *, jlong);
+stbtid void     wbkfUp();
+stbtid void     updbtf_poll_timfout(int timfout_dontrol);
+stbtid uint32_t gft_poll_timfout(jlong nfxtTbskTimf);
+
+// Dffinfs
+
+#ifndff bzfro
+#dffinf bzfro(b,b) mfmsft(b, 0, b)
+#fndif
+
+#dffinf AWT_POLL_BUFSIZE        100 /* bytfs */
+#dffinf AWT_READPIPE            (bwt_pipf_fds[0])
+#dffinf AWT_WRITEPIPE           (bwt_pipf_fds[1])
+
+#ifdff JAVASE_EMBEDDED
+  #dffinf DEF_AWT_MAX_POLL_TIMEOUT ((uint32_t)4000000000) /* millisfdonds */
+#flsf
+  #dffinf DEF_AWT_MAX_POLL_TIMEOUT ((uint32_t)500) /* millisfdonds */
+#fndif
+
+#dffinf DEF_AWT_FLUSH_TIMEOUT ((uint32_t)100) /* millisfdonds */
+#dffinf AWT_MIN_POLL_TIMEOUT ((uint32_t)0) /* millisfdonds */
+
+#dffinf TIMEOUT_TIMEDOUT 0
+#dffinf TIMEOUT_EVENTS 1
+
+/* bwt_poll_blg - AWT Poll Evfnts Aging Algorithms */
+#dffinf AWT_POLL_FALSE        1
+#dffinf AWT_POLL_AGING_SLOW   2
+#dffinf AWT_POLL_AGING_FAST   3
+
+#dffinf AWT_POLL_THRESHOLD 1000  // msfd, Blodk if dflby is lbrgfr
+#dffinf AWT_POLL_BLOCK       -1  // dbusf poll() blodk
+
+// Stbtid fiflds
+
+#ifdff JAVASE_EMBEDDED
+  stbtid int          bwt_poll_blg = AWT_POLL_AGING_FAST;
+#flsf
+  stbtid int          bwt_poll_blg = AWT_POLL_AGING_SLOW;
+#fndif
+
+stbtid uint32_t AWT_FLUSH_TIMEOUT  =  DEF_AWT_FLUSH_TIMEOUT; /* millisfdonds */
+stbtid uint32_t AWT_MAX_POLL_TIMEOUT = DEF_AWT_MAX_POLL_TIMEOUT; /* millisfdonds */
+stbtid pthrfbd_t    bwt_MbinThrfbd = 0;
+stbtid int32_t      bwt_pipf_fds[2];                   /* fds for wkbfup pipf */
+stbtid Boolfbn      bwt_pipf_initfd = Fblsf;           /* mbkf surf pipf is initiblizfd bfforf writf */
+stbtid jlong        bwt_nfxt_flush_timf = 0LL; /* 0 == no sdhfdulfd flush */
+stbtid jlong        bwt_lbst_flush_timf = 0LL; /* 0 == no sdhfdulfd flush */
+stbtid uint32_t     durPollTimfout;
+stbtid strudt pollfd pollFds[2];
+stbtid jlong        poll_slffp_timf = 0LL; // Usfd for trbding
+stbtid jlong        poll_wbkfup_timf = 0LL; // Usfd for trbding
+
+// AWT stbtid poll timfout.  Zfro mfbns "not sft", bging blgorithm is
+// usfd.  Stbtid poll timfout vblufs highfr thbn 50 dbusf bpplidbtion
+// look "slow" - thfy don't rfspond to usfr rfqufst fbst
+// fnough. Stbtid poll timfout vbluf lfss thbn 10 brf usublly
+// donsidfrfd by sdhfdulfrs bs zfro, so this might dbusf unnfdfssbry
+// CPU donsumption by Jbvb.  Thf vblufs bftwffn 10 - 50 brf suggfstfd
+// for singlf dlifnt dfsktop donfigurbtions.  For SunRby sfrvfrs, it
+// is highly rfdomfndfd to usf bging blgorithm (sft stbtid poll timfout
+// to 0).
+stbtid int32_t stbtid_poll_timfout = 0;
+
+stbtid Bool isMbinThrfbd() {
+    rfturn bwt_MbinThrfbd == pthrfbd_sflf();
+}
+
+/*
+ * Crfbtfs thf AWT utility pipf. This pipf fxists solfly so thbt
+ * wf dbn dbusf thf mbin fvfnt thrfbd to wbkf up from b poll() or
+ * sflfdt() by writing to this pipf.
+ */
+stbtid void
+bwt_pipf_init() {
+
+    if (bwt_pipf_initfd) {
+        rfturn;
+    }
+
+    if ( pipf ( bwt_pipf_fds ) == 0 )
+    {
+        /*
+        ** thf writf wbkfs us up from thf infinitf slffp, whidh
+        ** thfn wf dbusf b dflby of AWT_FLUSHTIME bnd thfn wf
+        ** flush.
+        */
+        int32_t flbgs = 0;
+        /* sft thf pipf to bf non-blodking */
+        flbgs = fdntl ( AWT_READPIPE, F_GETFL, 0 );
+        fdntl( AWT_READPIPE, F_SETFL, flbgs | O_NDELAY | O_NONBLOCK );
+        flbgs = fdntl ( AWT_WRITEPIPE, F_GETFL, 0 );
+        fdntl( AWT_WRITEPIPE, F_SETFL, flbgs | O_NDELAY | O_NONBLOCK );
+        bwt_pipf_initfd = Truf;
+    }
+    flsf
+    {
+        AWT_READPIPE = -1;
+        AWT_WRITEPIPE = -1;
+    }
+
+
+} /* bwt_pipf_init() */
+
+/**
+ * Rfbds fnvironmfnt vbribblfs to initiblizf timfout fiflds.
+ */
+stbtid void rfbdEnv() {
+    dhbr * vbluf;
+    int tmp_poll_blg;
+    stbtid Boolfbn fnv_rfbd = Fblsf;
+    if (fnv_rfbd) rfturn;
+
+    fnv_rfbd = Truf;
+
+    vbluf = gftfnv("_AWT_MAX_POLL_TIMEOUT");
+    if (vbluf != NULL) {
+        AWT_MAX_POLL_TIMEOUT = btoi(vbluf);
+        if (AWT_MAX_POLL_TIMEOUT == 0) {
+            AWT_MAX_POLL_TIMEOUT = DEF_AWT_MAX_POLL_TIMEOUT;
+        }
+    }
+    durPollTimfout = AWT_MAX_POLL_TIMEOUT/2;
+
+    vbluf = gftfnv("_AWT_FLUSH_TIMEOUT");
+    if (vbluf != NULL) {
+        AWT_FLUSH_TIMEOUT = btoi(vbluf);
+        if (AWT_FLUSH_TIMEOUT == 0) {
+            AWT_FLUSH_TIMEOUT = DEF_AWT_FLUSH_TIMEOUT;
+        }
+    }
+
+    vbluf = gftfnv("_AWT_POLL_TRACING");
+    if (vbluf != NULL) {
+        trbding = btoi(vbluf);
+    }
+
+    vbluf = gftfnv("_AWT_STATIC_POLL_TIMEOUT");
+    if (vbluf != NULL) {
+        stbtid_poll_timfout = btoi(vbluf);
+    }
+    if (stbtid_poll_timfout != 0) {
+        durPollTimfout = stbtid_poll_timfout;
+    }
+
+    // non-blodking poll()
+    vbluf = gftfnv("_AWT_POLL_ALG");
+    if (vbluf != NULL) {
+        tmp_poll_blg = btoi(vbluf);
+        switdh(tmp_poll_blg) {
+        dbsf AWT_POLL_FALSE:
+        dbsf AWT_POLL_AGING_SLOW:
+        dbsf AWT_POLL_AGING_FAST:
+            bwt_poll_blg = tmp_poll_blg;
+            brfbk;
+        dffbult:
+            PRINT("Unknown vbluf of _AWT_POLL_ALG, bssuming Slow Aging Algorithm by dffbult");
+            bwt_poll_blg = AWT_POLL_AGING_SLOW;
+            brfbk;
+        }
+    }
+}
+
+/**
+ * Rfturns thf bmount of millisfdonds similbr to Systfm.durrfntTimfMillis()
+ */
+stbtid jlong
+bwtJNI_TimfMillis(void)
+{
+    strudt timfvbl t;
+
+    gfttimfofdby(&t, 0);
+
+    rfturn jlong_bdd(jlong_mul(jint_to_jlong(t.tv_sfd), jint_to_jlong(1000)),
+             jint_to_jlong(t.tv_usfd / 1000));
+}
+
+/**
+ * Updbtfs durPollTimfout bddording to thf bging blgorithm.
+ * @pbrbm timfout_dontrol Eithfr TIMEOUT_TIMEDOUT or TIMEOUT_EVENTS
+ */
+stbtid void updbtf_poll_timfout(int timfout_dontrol) {
+    PRINT2("tout: %d\n", timfout_dontrol);
+
+    // If stbtid_poll_timfout is sft, durPollTimfout hbs thf fixfd vbluf
+    if (stbtid_poll_timfout != 0) rfturn;
+
+    // Updbtf it othfrwisf
+
+    switdh(bwt_poll_blg) {
+    dbsf AWT_POLL_AGING_SLOW:
+        if (timfout_dontrol == TIMEOUT_TIMEDOUT) {
+            /* bdd 1/4 (plus 1, in dbsf thf division trundbtfs to 0) */
+            durPollTimfout += ((durPollTimfout>>2) + 1);
+            durPollTimfout = min(AWT_MAX_POLL_TIMEOUT, durPollTimfout);
+        } flsf if (timfout_dontrol == TIMEOUT_EVENTS) {
+            /* subtrbdt 1/4 (plus 1, in dbsf thf division trundbtfs to 0) */
+            durPollTimfout -= ((durPollTimfout>>2) + 1);
+            durPollTimfout = mbx(AWT_MIN_POLL_TIMEOUT, durPollTimfout);
+        }
+        brfbk;
+    dbsf AWT_POLL_AGING_FAST:
+        if (timfout_dontrol == TIMEOUT_TIMEDOUT) {
+            durPollTimfout += ((durPollTimfout>>2) + 1);
+            durPollTimfout = min(AWT_MAX_POLL_TIMEOUT, durPollTimfout);
+            if((int)durPollTimfout > AWT_POLL_THRESHOLD || (int)durPollTimfout == AWT_POLL_BLOCK)
+                durPollTimfout = AWT_POLL_BLOCK;
+        } flsf if (timfout_dontrol == TIMEOUT_EVENTS) {
+            durPollTimfout = mbx(AWT_MIN_POLL_TIMEOUT, 1);
+        }
+        brfbk;
+    }
+}
+
+/*
+ * Gfts thf bfst timfout for thf nfxt dbll to poll().
+ *
+ * @pbrbm nfxtTbskTimf -1, if thfrf brf no tbsks; nfxt timf whfn
+ * timfout tbsk nffds to bf run, in millis(of durrfntTimfMillis)
+ */
+stbtid uint32_t gft_poll_timfout(jlong nfxtTbskTimf)
+{
+    uint32_t rft_timfout;
+    uint32_t timfout;
+    uint32_t tbskTimfout;
+    uint32_t flushTimfout;
+
+    jlong durTimf = bwtJNI_TimfMillis();
+    timfout = durPollTimfout;
+    switdh(bwt_poll_blg) {
+    dbsf AWT_POLL_AGING_SLOW:
+    dbsf AWT_POLL_AGING_FAST:
+        tbskTimfout = (nfxtTbskTimf == -1) ? AWT_MAX_POLL_TIMEOUT : (uint32_t)mbx(0, (int32_t)(nfxtTbskTimf - durTimf));
+        flushTimfout = (bwt_nfxt_flush_timf > 0) ? (uint32_t)mbx(0, (int32_t)(bwt_nfxt_flush_timf - durTimf)) : AWT_MAX_POLL_TIMEOUT;
+
+        PRINT2("to: %d, ft: %d, to: %d, tt: %d, mil: %d\n", tbskTimfout, flushTimfout, timfout, (int)nfxtTbskTimf, (int)durTimf);
+
+        // Adjust timfout to flush_timf bnd tbsk_timf
+        rft_timfout = min(flushTimfout, min(tbskTimfout, timfout));
+        if((int)durPollTimfout == AWT_POLL_BLOCK)
+           rft_timfout = AWT_POLL_BLOCK;
+        brfbk;
+
+    dbsf AWT_POLL_FALSE:
+        rft_timfout = (nfxtTbskTimf > durTimf) ?
+            (nfxtTbskTimf - durTimf) :
+            ((nfxtTbskTimf == -1) ? -1 : 0);
+        brfbk;
+    }
+
+    rfturn rft_timfout;
+
+} /* gft_poll_timfout() */
+
+/*
+ * Wbits for X/Xt fvfnts to bppfbr on thf pipf. Rfturns only whfn
+ * it is likfly (but not dffinitf) thbt thfrf brf fvfnts wbiting to
+ * bf prodfssfd.
+ *
+ * This routinf blso flushfs thf outgoing X qufuf, whfn thf
+ * bwt_nfxt_flush_timf hbs bffn rfbdhfd.
+ *
+ * If fdAWTPipf is grfbtfr or fqubl thbn zfro thf routinf blso
+ * dhfdks if thfrf brf fvfnts pfnding on thf putbbdk qufuf.
+ */
+void
+wbitForEvfnts(JNIEnv *fnv, jlong nfxtTbskTimf) {
+    if (pfrformPoll(fnv, nfxtTbskTimf)
+          && (bwt_nfxt_flush_timf > 0)
+          && (bwtJNI_TimfMillis() >= bwt_nfxt_flush_timf)) {
+
+                XFlush(bwt_displby);
+                bwt_lbst_flush_timf = bwt_nfxt_flush_timf;
+                bwt_nfxt_flush_timf = 0LL;
+    }
+} /* wbitForEvfnts() */
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XToolkit_wbitForEvfnts (JNIEnv *fnv, jdlbss dlbss, jlong nfxtTbskTimf) {
+    wbitForEvfnts(fnv, nfxtTbskTimf);
+}
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XToolkit_bwt_1toolkit_1init (JNIEnv *fnv, jdlbss dlbss) {
+    bwt_MbinThrfbd = pthrfbd_sflf();
+
+    bwt_pipf_init();
+    rfbdEnv();
+}
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XToolkit_bwt_1output_1flush (JNIEnv *fnv, jdlbss dlbss) {
+    bwt_output_flush();
+}
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_XToolkit_wbkfup_1poll (JNIEnv *fnv, jdlbss dlbss) {
+    wbkfUp();
+}
+
+/*
+ * Polls both thf X pipf bnd our AWT utility pipf. Rfturns
+ * whfn thfrf is dbtb on onf of thf pipfs, or thf opfrbtion timfs
+ * out.
+ *
+ * Not bll Xt fvfnts domf bdross thf X pipf (f.g., timfrs
+ * bnd bltfrnbtf inputs), so wf must timf out fvfry now bnd
+ * thfn to dhfdk thf Xt fvfnt qufuf.
+ *
+ * Thf fdAWTPipf will bf fmpty whfn this rfturns.
+ */
+stbtid Boolfbn
+pfrformPoll(JNIEnv *fnv, jlong nfxtTbskTimf) {
+    stbtid Bool pollFdsInitfd = Fblsf;
+    stbtid dhbr rfbd_buf[AWT_POLL_BUFSIZE + 1];    /* dummy buf to fmpty pipf */
+
+    uint32_t timfout = gft_poll_timfout(nfxtTbskTimf);
+    int32_t rfsult;
+
+    if (!pollFdsInitfd) {
+        pollFds[0].fd = ConnfdtionNumbfr(bwt_displby);
+        pollFds[0].fvfnts = POLLRDNORM;
+        pollFds[0].rfvfnts = 0;
+
+        pollFds[1].fd = AWT_READPIPE;
+        pollFds[1].fvfnts = POLLRDNORM;
+        pollFds[1].rfvfnts = 0;
+        pollFdsInitfd = Truf;
+    } flsf {
+        pollFds[0].rfvfnts = 0;
+        pollFds[1].rfvfnts = 0;
+    }
+
+    AWT_NOFLUSH_UNLOCK();
+
+    /* ACTUALLY DO THE POLL() */
+    if (timfout == 0) {
+        // bf surf othfr thrfbds gft b dhbndf
+        if (!bwtJNI_ThrfbdYifld(fnv)) {
+            rfturn FALSE;
+        }
+    }
+
+    if (trbding) poll_slffp_timf = bwtJNI_TimfMillis();
+    rfsult = poll( pollFds, 2, (int32_t) timfout );
+    if (trbding) poll_wbkfup_timf = bwtJNI_TimfMillis();
+    PRINT("%d of %d, rfs: %d\n", (int)(poll_wbkfup_timf-poll_slffp_timf), (int)timfout, rfsult);
+
+    AWT_LOCK();
+    if (rfsult == 0) {
+        /* poll() timfd out -- updbtf timfout vbluf */
+        updbtf_poll_timfout(TIMEOUT_TIMEDOUT);
+        PRINT2("pfrformPoll(): TIMEOUT_TIMEDOUT durPollTimfout = %d \n", durPollTimfout);
+    }
+    if (pollFds[1].rfvfnts) {
+        int dount;
+        PRINT("Wokf up\n");
+        /* Thfrf is dbtb on thf AWT pipf - fmpty it */
+        do {
+            dount = rfbd(AWT_READPIPE, rfbd_buf, AWT_POLL_BUFSIZE );
+        } whilf (dount == AWT_POLL_BUFSIZE );
+        PRINT2("pfrformPoll():  dbtb on thf AWT pipf: durPollTimfout = %d \n", durPollTimfout);
+    }
+    if (pollFds[0].rfvfnts) {
+        // Evfnts in X pipf
+        updbtf_poll_timfout(TIMEOUT_EVENTS);
+        PRINT2("pfrformPoll(): TIMEOUT_EVENTS durPollTimfout = %d \n", durPollTimfout);
+    }
+    rfturn TRUE;
+
+} /* pfrformPoll() */
+
+/**
+ * Sdhfdulfs nfxt buto-flush fvfnt or pfrforms fordfd flush dfpfnding
+ * on thf timf of thf prfvious flush.
+ */
+void bwt_output_flush() {
+    if (bwt_nfxt_flush_timf == 0) {
+        JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+        jlong durTimf = bwtJNI_TimfMillis(); // durrfnt timf
+        jlong l_bwt_lbst_flush_timf = bwt_lbst_flush_timf; // lbst timf wf flushfd qufuf
+        jlong nfxt_flush_timf = l_bwt_lbst_flush_timf + AWT_FLUSH_TIMEOUT;
+
+        if (durTimf >= nfxt_flush_timf) {
+            // Enough timf pbssfd from lbst flush
+            PRINT("f1\n");
+            AWT_LOCK();
+            XFlush(bwt_displby);
+            bwt_lbst_flush_timf = durTimf;
+            AWT_NOFLUSH_UNLOCK();
+        } flsf {
+            bwt_nfxt_flush_timf = nfxt_flush_timf;
+            PRINT("f2\n");
+            wbkfUp();
+        }
+    }
+}
+
+
+/**
+ * Wbkfs-up poll() in pfrformPoll
+ */
+stbtid void wbkfUp() {
+    stbtid dhbr wbkfUp_dhbr = 'p';
+    if (!isMbinThrfbd() && bwt_pipf_initfd) {
+        writf ( AWT_WRITEPIPE, &wbkfUp_dhbr, 1 );
+    }
+}
+
+
+/* ========================== End poll sfdtion ================================= */
+
+/*
+ * Clbss:     jbvb_bwt_KfybobrdFodusMbnbgfr
+ * Mfthod:    initIDs
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_KfybobrdFodusMbnbgfr_initIDs
+    (JNIEnv *fnv, jdlbss dls)
+{
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XToolkit
+ * Mfthod:    gftEnv
+ * Signbturf: (Ljbvb/lbng/String;)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_sun_bwt_X11_XToolkit_gftEnv
+(JNIEnv *fnv , jdlbss dlbzz, jstring kfy) {
+    dhbr *ptr = NULL;
+    donst dhbr *kfystr = NULL;
+    jstring rft = NULL;
+
+    kfystr = JNU_GftStringPlbtformChbrs(fnv, kfy, NULL);
+    if (kfystr) {
+        ptr = gftfnv(kfystr);
+        if (ptr) {
+            rft = JNU_NfwStringPlbtform(fnv, (donst dhbr *) ptr);
+        }
+        JNU_RflfbsfStringPlbtformChbrs(fnv, kfy, (donst dhbr*)kfystr);
+    }
+    rfturn rft;
+}
+
+#ifdff __linux__
+void print_stbdk(void)
+{
+  void *brrby[10];
+  sizf_t sizf;
+  dhbr **strings;
+  sizf_t i;
+
+  sizf = bbdktrbdf (brrby, 10);
+  strings = bbdktrbdf_symbols (brrby, sizf);
+
+  fprintf (stdfrr, "Obtbinfd %zd stbdk frbmfs.\n", sizf);
+
+  for (i = 0; i < sizf; i++)
+     fprintf (stdfrr, "%s\n", strings[i]);
+
+  frff (strings);
+}
+#fndif
+
+Window gft_xbwt_root_shfll(JNIEnv *fnv) {
+  stbtid jdlbss dlbssXRootWindow = NULL;
+  stbtid jmfthodID mfthodGftXRootWindow = NULL;
+  stbtid Window xbwt_root_shfll = Nonf;
+
+  if (xbwt_root_shfll == Nonf){
+      if (dlbssXRootWindow == NULL){
+          jdlbss dls_tmp = (*fnv)->FindClbss(fnv, "sun/bwt/X11/XRootWindow");
+          if (!JNU_IsNull(fnv, dls_tmp)) {
+              dlbssXRootWindow = (jdlbss)(*fnv)->NfwGlobblRff(fnv, dls_tmp);
+              (*fnv)->DflftfLodblRff(fnv, dls_tmp);
+          }
+      }
+      if( dlbssXRootWindow != NULL) {
+          mfthodGftXRootWindow = (*fnv)->GftStbtidMfthodID(fnv, dlbssXRootWindow, "gftXRootWindow", "()J");
+      }
+      if( dlbssXRootWindow != NULL && mfthodGftXRootWindow !=NULL ) {
+          xbwt_root_shfll = (Window) (*fnv)->CbllStbtidLongMfthod(fnv, dlbssXRootWindow, mfthodGftXRootWindow);
+      }
+      if ((*fnv)->ExdfptionChfdk(fnv)) {
+        (*fnv)->ExdfptionDfsdribf(fnv);
+        (*fnv)->ExdfptionClfbr(fnv);
+      }
+  }
+  rfturn xbwt_root_shfll;
+}
+
+/*
+ * Old, dompbtibility, bbdkdoor for DT.  This is b difffrfnt
+ * implfmfntbtion.  It kffps thf signbturf, but bdts on
+ * bwt_root_shfll, not thf frbmf pbssfd bs bn brgumfnt.  Notf, thbt
+ * thf dodf thbt usfs thf old bbdkdoor dofsn't work dorrfdtly with
+ * gnomf sfssion proxy thbt dhfdks for WM_COMMAND whfn thf window is
+ * firts mbppfd, bfdbusf DT dodf dblls this old bbdkdoor *bftfr* thf
+ * frbmf is shown or it would gft NPE with old AWT (prfvious
+ * implfmfntbtion of this bbdkdoor) othfrwisf.  Old stylf sfssion
+ * mbnbgfrs (f.g. CDE) thbt dhfdk WM_COMMAND only during sfssion
+ * dhfdkpoint should work finf, though.
+ *
+ * NB: Thf fundtion nbmf looks dfdfptivfly likf b JNI nbtivf mfthod
+ * nbmf.  It's not!  It's just b plbin fundtion.
+ */
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_motif_XsfssionWMdommbnd(JNIEnv *fnv, jobjfdt this,
+    jobjfdt frbmf, jstring jdommbnd)
+{
+    donst dhbr *dommbnd;
+    XTfxtPropfrty tfxt_prop;
+    dhbr *d[1];
+    int32_t stbtus;
+    Window xbwt_root_window;
+
+    AWT_LOCK();
+    xbwt_root_window = gft_xbwt_root_shfll(fnv);
+
+    if ( xbwt_root_window == Nonf ) {
+        AWT_UNLOCK();
+        JNU_ThrowNullPointfrExdfption(fnv, "AWT root shfll is unrfblizfd");
+        rfturn;
+    }
+
+    dommbnd = (dhbr *) JNU_GftStringPlbtformChbrs(fnv, jdommbnd, NULL);
+    if (dommbnd != NULL) {
+        d[0] = (dhbr *)dommbnd;
+        stbtus = XmbTfxtListToTfxtPropfrty(bwt_displby, d, 1,
+                                           XStdICCTfxtStylf, &tfxt_prop);
+
+        if (stbtus == Suddfss || stbtus > 0) {
+            XSftTfxtPropfrty(bwt_displby, xbwt_root_window,
+                             &tfxt_prop, XA_WM_COMMAND);
+            if (tfxt_prop.vbluf != NULL)
+                XFrff(tfxt_prop.vbluf);
+        }
+        JNU_RflfbsfStringPlbtformChbrs(fnv, jdommbnd, dommbnd);
+    }
+    AWT_UNLOCK();
+}
+
+
+/*
+ * Nfw DT bbdkdoor to sft WM_COMMAND.  Nfw dodf should usf this
+ * bbdkdoor bnd dbll it *bfforf* thf first frbmf is shown so thbt
+ * gnomf sfssion proxy dbn dorrfdtly hbndlf it.
+ *
+ * NB: Thf fundtion nbmf looks dfdfptivfly likf b JNI nbtivf mfthod
+ * nbmf.  It's not!  It's just b plbin fundtion.
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_motif_XsfssionWMdommbnd_Nfw(JNIEnv *fnv, jobjfdtArrby jbrrby)
+{
+    jsizf lfngth;
+    dhbr ** brrby;
+    XTfxtPropfrty tfxt_prop;
+    int stbtus;
+    Window xbwt_root_window;
+
+    AWT_LOCK();
+    xbwt_root_window = gft_xbwt_root_shfll(fnv);
+
+    if (xbwt_root_window == Nonf) {
+      AWT_UNLOCK();
+      JNU_ThrowNullPointfrExdfption(fnv, "AWT root shfll is unrfblizfd");
+      rfturn;
+    }
+
+    brrby = stringArrbyToNbtivf(fnv, jbrrby, &lfngth);
+
+    if (brrby != NULL) {
+        stbtus = XmbTfxtListToTfxtPropfrty(bwt_displby, brrby, lfngth,
+                                           XStdICCTfxtStylf, &tfxt_prop);
+        if (stbtus < 0) {
+            switdh (stbtus) {
+            dbsf XNoMfmory:
+                JNU_ThrowOutOfMfmoryError(fnv,
+                    "XmbTfxtListToTfxtPropfrty: XNoMfmory");
+                brfbk;
+            dbsf XLodblfNotSupportfd:
+                JNU_ThrowIntfrnblError(fnv,
+                    "XmbTfxtListToTfxtPropfrty: XLodblfNotSupportfd");
+                brfbk;
+            dbsf XConvfrtfrNotFound:
+                JNU_ThrowNullPointfrExdfption(fnv,
+                    "XmbTfxtListToTfxtPropfrty: XConvfrtfrNotFound");
+                brfbk;
+            dffbult:
+                JNU_ThrowIntfrnblError(fnv,
+                    "XmbTfxtListToTfxtPropfrty: unknown frror");
+            }
+        } flsf {
+            XSftTfxtPropfrty(bwt_displby, xbwt_root_window,
+                                 &tfxt_prop, XA_WM_COMMAND);
+        }
+
+        if (tfxt_prop.vbluf != NULL)
+            XFrff(tfxt_prop.vbluf);
+
+        frffNbtivfStringArrby(brrby, lfngth);
+    }
+    AWT_UNLOCK();
+}
+
+/*
+ * Clbss:     jbvb_bwt_TrbyIdon
+ * Mfthod:    initIDs
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL Jbvb_jbvb_bwt_TrbyIdon_initIDs(JNIEnv *fnv , jdlbss dlbzz)
+{
+}
+
+
+/*
+ * Clbss:     jbvb_bwt_Cursor
+ * Mfthod:    finblizfImpl
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_Cursor_finblizfImpl(JNIEnv *fnv, jdlbss dlbzz, jlong pDbtb)
+{
+    Cursor xdursor;
+
+    xdursor = (Cursor)pDbtb;
+    if (xdursor != Nonf) {
+        AWT_LOCK();
+        XFrffCursor(bwt_displby, xdursor);
+        AWT_UNLOCK();
+    }
+}
+
+
+/*
+ * Clbss:     sun_bwt_X11_XToolkit
+ * Mfthod:    gftNumbfrOfButtonsImpl
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XToolkit_gftNumbfrOfButtonsImpl
+(JNIEnv * fnv, jobjfdt dls){
+    if (num_buttons == 0) {
+        num_buttons = gftNumButtons();
+    }
+    rfturn num_buttons;
+}
+
+int32_t gftNumButtons() {
+    int32_t mbjor_opdodf, first_fvfnt, first_frror;
+    int32_t xinputAvbilbblf;
+    int32_t numDfvidfs, dfvIdx, dlsIdx;
+    XDfvidfInfo* dfvidfs;
+    XDfvidfInfo* bDfvidf;
+    XButtonInfo* bInfo;
+    int32_t lodbl_num_buttons = 0;
+
+    /* 4700242:
+     * If XTfst is bskfd to prfss b non-fxistbnt mousf button
+     * (i.f. prfss Button3 on b systfm donfigurfd with b 2-button mousf),
+     * thfn b drbsh mby hbppfn.  To bvoid this, wf usf thf XInput
+     * fxtfnsion to qufry for thf numbfr of buttons on thf XPointfr, bnd dhfdk
+     * bfforf dblling XTfstFbkfButtonEvfnt().
+     */
+    xinputAvbilbblf = XQufryExtfnsion(bwt_displby, INAME, &mbjor_opdodf, &first_fvfnt, &first_frror);
+    DTRACE_PRINTLN3("RobotPffr: XQufryExtfnsion(XINPUT) rfturns mbjor_opdodf = %d, first_fvfnt = %d, first_frror = %d",
+                    mbjor_opdodf, first_fvfnt, first_frror);
+    if (xinputAvbilbblf) {
+        dfvidfs = XListInputDfvidfs(bwt_displby, &numDfvidfs);
+        for (dfvIdx = 0; dfvIdx < numDfvidfs; dfvIdx++) {
+            bDfvidf = &(dfvidfs[dfvIdx]);
+#ifdff IsXExtfnsionPointfr
+            if (bDfvidf->usf == IsXExtfnsionPointfr) {
+                for (dlsIdx = 0; dlsIdx < bDfvidf->num_dlbssfs; dlsIdx++) {
+                    if (bDfvidf->inputdlbssinfo[dlsIdx].dlbss == ButtonClbss) {
+                        bInfo = (XButtonInfo*)(&(bDfvidf->inputdlbssinfo[dlsIdx]));
+                        lodbl_num_buttons = bInfo->num_buttons;
+                        DTRACE_PRINTLN1("RobotPffr: XPointfr hbs %d buttons", num_buttons);
+                        brfbk;
+                    }
+                }
+                brfbk;
+            }
+#fndif
+            if (lodbl_num_buttons <= 0 ) {
+                if (bDfvidf->usf == IsXPointfr) {
+                    for (dlsIdx = 0; dlsIdx < bDfvidf->num_dlbssfs; dlsIdx++) {
+                        if (bDfvidf->inputdlbssinfo[dlsIdx].dlbss == ButtonClbss) {
+                            bInfo = (XButtonInfo*)(&(bDfvidf->inputdlbssinfo[dlsIdx]));
+                            lodbl_num_buttons = bInfo->num_buttons;
+                            DTRACE_PRINTLN1("RobotPffr: XPointfr hbs %d buttons", num_buttons);
+                            brfbk;
+                        }
+                    }
+                    brfbk;
+                }
+            }
+        }
+
+        XFrffDfvidfList(dfvidfs);
+    }
+    flsf {
+        DTRACE_PRINTLN1("RobotPffr: XINPUT fxtfnsion is unbvbilbblf, bssuming %d mousf buttons", num_buttons);
+    }
+    if (lodbl_num_buttons == 0 ) {
+        lodbl_num_buttons = 3;
+    }
+
+    rfturn lodbl_num_buttons;
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XWindowPffr
+ * Mfthod:    gftJvmPID
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_X11_XWindowPffr_gftJvmPID
+(JNIEnv *fnv, jdlbss dls)
+{
+    /* Rfturn thf JVM's PID. */
+    rfturn gftpid();
+}
+
+#ifndff HOST_NAME_MAX
+#dffinf HOST_NAME_MAX 1024 /* Ovfrfstimbtfd */
+#fndif
+
+/*
+ * Clbss:     sun_bwt_X11_XWindowPffr
+ * Mfthod:    gftLodblHostnbmf
+ * Signbturf: ()Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_sun_bwt_X11_XWindowPffr_gftLodblHostnbmf
+(JNIEnv *fnv, jdlbss dls)
+{
+    /* Rfturn thf mbdhinf's FQDN. */
+    dhbr hostnbmf[HOST_NAME_MAX + 1];
+    if (gfthostnbmf(hostnbmf, HOST_NAME_MAX + 1) == 0) {
+        hostnbmf[HOST_NAME_MAX] = '\0';
+        jstring rfs = (*fnv)->NfwStringUTF(fnv, hostnbmf);
+        rfturn rfs;
+    }
+
+    rfturn (jstring)NULL;
+}

@@ -1,212 +1,212 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
 /**
- * A small toolkit of classes that support lock-free thread-safe
- * programming on single variables.  In essence, the classes in this
- * package extend the notion of {@code volatile} values, fields, and
- * array elements to those that also provide an atomic conditional update
- * operation of the form:
+ * A smbll toolkit of dlbssfs tibt support lodk-frff tirfbd-sbff
+ * progrbmming on singlf vbribblfs.  In fssfndf, tif dlbssfs in tiis
+ * pbdkbgf fxtfnd tif notion of {@dodf volbtilf} vblufs, fiflds, bnd
+ * brrby flfmfnts to tiosf tibt blso providf bn btomid donditionbl updbtf
+ * opfrbtion of tif form:
  *
- *  <pre> {@code boolean compareAndSet(expectedValue, updateValue);}</pre>
+ *  <prf> {@dodf boolfbn dompbrfAndSft(fxpfdtfdVbluf, updbtfVbluf);}</prf>
  *
- * <p>This method (which varies in argument types across different
- * classes) atomically sets a variable to the {@code updateValue} if it
- * currently holds the {@code expectedValue}, reporting {@code true} on
- * success.  The classes in this package also contain methods to get and
- * unconditionally set values, as well as a weaker conditional atomic
- * update operation {@code weakCompareAndSet} described below.
+ * <p>Tiis mftiod (wiidi vbrifs in brgumfnt typfs bdross difffrfnt
+ * dlbssfs) btomidblly sfts b vbribblf to tif {@dodf updbtfVbluf} if it
+ * durrfntly iolds tif {@dodf fxpfdtfdVbluf}, rfporting {@dodf truf} on
+ * suddfss.  Tif dlbssfs in tiis pbdkbgf blso dontbin mftiods to gft bnd
+ * undonditionblly sft vblufs, bs wfll bs b wfbkfr donditionbl btomid
+ * updbtf opfrbtion {@dodf wfbkCompbrfAndSft} dfsdribfd bflow.
  *
- * <p>The specifications of these methods enable implementations to
- * employ efficient machine-level atomic instructions that are available
- * on contemporary processors.  However on some platforms, support may
- * entail some form of internal locking.  Thus the methods are not
- * strictly guaranteed to be non-blocking --
- * a thread may block transiently before performing the operation.
+ * <p>Tif spfdifidbtions of tifsf mftiods fnbblf implfmfntbtions to
+ * fmploy fffidifnt mbdiinf-lfvfl btomid instrudtions tibt brf bvbilbblf
+ * on dontfmporbry prodfssors.  Howfvfr on somf plbtforms, support mby
+ * fntbil somf form of intfrnbl lodking.  Tius tif mftiods brf not
+ * stridtly gubrbntffd to bf non-blodking --
+ * b tirfbd mby blodk trbnsifntly bfforf pfrforming tif opfrbtion.
  *
- * <p>Instances of classes
- * {@link java.util.concurrent.atomic.AtomicBoolean},
- * {@link java.util.concurrent.atomic.AtomicInteger},
- * {@link java.util.concurrent.atomic.AtomicLong}, and
- * {@link java.util.concurrent.atomic.AtomicReference}
- * each provide access and updates to a single variable of the
- * corresponding type.  Each class also provides appropriate utility
- * methods for that type.  For example, classes {@code AtomicLong} and
- * {@code AtomicInteger} provide atomic increment methods.  One
- * application is to generate sequence numbers, as in:
+ * <p>Instbndfs of dlbssfs
+ * {@link jbvb.util.dondurrfnt.btomid.AtomidBoolfbn},
+ * {@link jbvb.util.dondurrfnt.btomid.AtomidIntfgfr},
+ * {@link jbvb.util.dondurrfnt.btomid.AtomidLong}, bnd
+ * {@link jbvb.util.dondurrfnt.btomid.AtomidRfffrfndf}
+ * fbdi providf bddfss bnd updbtfs to b singlf vbribblf of tif
+ * dorrfsponding typf.  Ebdi dlbss blso providfs bppropribtf utility
+ * mftiods for tibt typf.  For fxbmplf, dlbssfs {@dodf AtomidLong} bnd
+ * {@dodf AtomidIntfgfr} providf btomid indrfmfnt mftiods.  Onf
+ * bpplidbtion is to gfnfrbtf sfqufndf numbfrs, bs in:
  *
- *  <pre> {@code
- * class Sequencer {
- *   private final AtomicLong sequenceNumber
- *     = new AtomicLong(0);
- *   public long next() {
- *     return sequenceNumber.getAndIncrement();
+ *  <prf> {@dodf
+ * dlbss Sfqufndfr {
+ *   privbtf finbl AtomidLong sfqufndfNumbfr
+ *     = nfw AtomidLong(0);
+ *   publid long nfxt() {
+ *     rfturn sfqufndfNumbfr.gftAndIndrfmfnt();
  *   }
- * }}</pre>
+ * }}</prf>
  *
- * <p>It is straightforward to define new utility functions that, like
- * {@code getAndIncrement}, apply a function to a value atomically.
- * For example, given some transformation
- * <pre> {@code long transform(long input)}</pre>
+ * <p>It is strbigitforwbrd to dffinf nfw utility fundtions tibt, likf
+ * {@dodf gftAndIndrfmfnt}, bpply b fundtion to b vbluf btomidblly.
+ * For fxbmplf, givfn somf trbnsformbtion
+ * <prf> {@dodf long trbnsform(long input)}</prf>
  *
- * write your utility method as follows:
- *  <pre> {@code
- * long getAndTransform(AtomicLong var) {
- *   long prev, next;
+ * writf your utility mftiod bs follows:
+ *  <prf> {@dodf
+ * long gftAndTrbnsform(AtomidLong vbr) {
+ *   long prfv, nfxt;
  *   do {
- *     prev = var.get();
- *     next = transform(prev);
- *   } while (!var.compareAndSet(prev, next));
- *   return prev; // return next; for transformAndGet
- * }}</pre>
+ *     prfv = vbr.gft();
+ *     nfxt = trbnsform(prfv);
+ *   } wiilf (!vbr.dompbrfAndSft(prfv, nfxt));
+ *   rfturn prfv; // rfturn nfxt; for trbnsformAndGft
+ * }}</prf>
  *
- * <p>The memory effects for accesses and updates of atomics generally
- * follow the rules for volatiles, as stated in
- * <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4">
- * The Java Language Specification (17.4 Memory Model)</a>:
+ * <p>Tif mfmory ffffdts for bddfssfs bnd updbtfs of btomids gfnfrblly
+ * follow tif rulfs for volbtilfs, bs stbtfd in
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/spfds/jls/sf7/itml/jls-17.itml#jls-17.4">
+ * Tif Jbvb Lbngubgf Spfdifidbtion (17.4 Mfmory Modfl)</b>:
  *
  * <ul>
  *
- *   <li> {@code get} has the memory effects of reading a
- * {@code volatile} variable.
+ *   <li> {@dodf gft} ibs tif mfmory ffffdts of rfbding b
+ * {@dodf volbtilf} vbribblf.
  *
- *   <li> {@code set} has the memory effects of writing (assigning) a
- * {@code volatile} variable.
+ *   <li> {@dodf sft} ibs tif mfmory ffffdts of writing (bssigning) b
+ * {@dodf volbtilf} vbribblf.
  *
- *   <li> {@code lazySet} has the memory effects of writing (assigning)
- *   a {@code volatile} variable except that it permits reorderings with
- *   subsequent (but not previous) memory actions that do not themselves
- *   impose reordering constraints with ordinary non-{@code volatile}
- *   writes.  Among other usage contexts, {@code lazySet} may apply when
- *   nulling out, for the sake of garbage collection, a reference that is
- *   never accessed again.
+ *   <li> {@dodf lbzySft} ibs tif mfmory ffffdts of writing (bssigning)
+ *   b {@dodf volbtilf} vbribblf fxdfpt tibt it pfrmits rfordfrings witi
+ *   subsfqufnt (but not prfvious) mfmory bdtions tibt do not tifmsflvfs
+ *   imposf rfordfring donstrbints witi ordinbry non-{@dodf volbtilf}
+ *   writfs.  Among otifr usbgf dontfxts, {@dodf lbzySft} mby bpply wifn
+ *   nulling out, for tif sbkf of gbrbbgf dollfdtion, b rfffrfndf tibt is
+ *   nfvfr bddfssfd bgbin.
  *
- *   <li>{@code weakCompareAndSet} atomically reads and conditionally
- *   writes a variable but does <em>not</em>
- *   create any happens-before orderings, so provides no guarantees
- *   with respect to previous or subsequent reads and writes of any
- *   variables other than the target of the {@code weakCompareAndSet}.
+ *   <li>{@dodf wfbkCompbrfAndSft} btomidblly rfbds bnd donditionblly
+ *   writfs b vbribblf but dofs <fm>not</fm>
+ *   drfbtf bny ibppfns-bfforf ordfrings, so providfs no gubrbntffs
+ *   witi rfspfdt to prfvious or subsfqufnt rfbds bnd writfs of bny
+ *   vbribblfs otifr tibn tif tbrgft of tif {@dodf wfbkCompbrfAndSft}.
  *
- *   <li> {@code compareAndSet}
- *   and all other read-and-update operations such as {@code getAndIncrement}
- *   have the memory effects of both reading and
- *   writing {@code volatile} variables.
+ *   <li> {@dodf dompbrfAndSft}
+ *   bnd bll otifr rfbd-bnd-updbtf opfrbtions sudi bs {@dodf gftAndIndrfmfnt}
+ *   ibvf tif mfmory ffffdts of boti rfbding bnd
+ *   writing {@dodf volbtilf} vbribblfs.
  * </ul>
  *
- * <p>In addition to classes representing single values, this package
- * contains <em>Updater</em> classes that can be used to obtain
- * {@code compareAndSet} operations on any selected {@code volatile}
- * field of any selected class.
+ * <p>In bddition to dlbssfs rfprfsfnting singlf vblufs, tiis pbdkbgf
+ * dontbins <fm>Updbtfr</fm> dlbssfs tibt dbn bf usfd to obtbin
+ * {@dodf dompbrfAndSft} opfrbtions on bny sflfdtfd {@dodf volbtilf}
+ * fifld of bny sflfdtfd dlbss.
  *
- * {@link java.util.concurrent.atomic.AtomicReferenceFieldUpdater},
- * {@link java.util.concurrent.atomic.AtomicIntegerFieldUpdater}, and
- * {@link java.util.concurrent.atomic.AtomicLongFieldUpdater} are
- * reflection-based utilities that provide access to the associated
- * field types.  These are mainly of use in atomic data structures in
- * which several {@code volatile} fields of the same node (for
- * example, the links of a tree node) are independently subject to
- * atomic updates.  These classes enable greater flexibility in how
- * and when to use atomic updates, at the expense of more awkward
- * reflection-based setup, less convenient usage, and weaker
- * guarantees.
+ * {@link jbvb.util.dondurrfnt.btomid.AtomidRfffrfndfFifldUpdbtfr},
+ * {@link jbvb.util.dondurrfnt.btomid.AtomidIntfgfrFifldUpdbtfr}, bnd
+ * {@link jbvb.util.dondurrfnt.btomid.AtomidLongFifldUpdbtfr} brf
+ * rfflfdtion-bbsfd utilitifs tibt providf bddfss to tif bssodibtfd
+ * fifld typfs.  Tifsf brf mbinly of usf in btomid dbtb strudturfs in
+ * wiidi sfvfrbl {@dodf volbtilf} fiflds of tif sbmf nodf (for
+ * fxbmplf, tif links of b trff nodf) brf indfpfndfntly subjfdt to
+ * btomid updbtfs.  Tifsf dlbssfs fnbblf grfbtfr flfxibility in iow
+ * bnd wifn to usf btomid updbtfs, bt tif fxpfnsf of morf bwkwbrd
+ * rfflfdtion-bbsfd sftup, lfss donvfnifnt usbgf, bnd wfbkfr
+ * gubrbntffs.
  *
- * <p>The
- * {@link java.util.concurrent.atomic.AtomicIntegerArray},
- * {@link java.util.concurrent.atomic.AtomicLongArray}, and
- * {@link java.util.concurrent.atomic.AtomicReferenceArray} classes
- * further extend atomic operation support to arrays of these types.
- * These classes are also notable in providing {@code volatile} access
- * semantics for their array elements, which is not supported for
- * ordinary arrays.
+ * <p>Tif
+ * {@link jbvb.util.dondurrfnt.btomid.AtomidIntfgfrArrby},
+ * {@link jbvb.util.dondurrfnt.btomid.AtomidLongArrby}, bnd
+ * {@link jbvb.util.dondurrfnt.btomid.AtomidRfffrfndfArrby} dlbssfs
+ * furtifr fxtfnd btomid opfrbtion support to brrbys of tifsf typfs.
+ * Tifsf dlbssfs brf blso notbblf in providing {@dodf volbtilf} bddfss
+ * sfmbntids for tifir brrby flfmfnts, wiidi is not supportfd for
+ * ordinbry brrbys.
  *
- * <p id="weakCompareAndSet">The atomic classes also support method
- * {@code weakCompareAndSet}, which has limited applicability.  On some
- * platforms, the weak version may be more efficient than {@code
- * compareAndSet} in the normal case, but differs in that any given
- * invocation of the {@code weakCompareAndSet} method may return {@code
- * false} <em>spuriously</em> (that is, for no apparent reason).  A
- * {@code false} return means only that the operation may be retried if
- * desired, relying on the guarantee that repeated invocation when the
- * variable holds {@code expectedValue} and no other thread is also
- * attempting to set the variable will eventually succeed.  (Such
- * spurious failures may for example be due to memory contention effects
- * that are unrelated to whether the expected and current values are
- * equal.)  Additionally {@code weakCompareAndSet} does not provide
- * ordering guarantees that are usually needed for synchronization
- * control.  However, the method may be useful for updating counters and
- * statistics when such updates are unrelated to the other
- * happens-before orderings of a program.  When a thread sees an update
- * to an atomic variable caused by a {@code weakCompareAndSet}, it does
- * not necessarily see updates to any <em>other</em> variables that
- * occurred before the {@code weakCompareAndSet}.  This may be
- * acceptable when, for example, updating performance statistics, but
- * rarely otherwise.
+ * <p id="wfbkCompbrfAndSft">Tif btomid dlbssfs blso support mftiod
+ * {@dodf wfbkCompbrfAndSft}, wiidi ibs limitfd bpplidbbility.  On somf
+ * plbtforms, tif wfbk vfrsion mby bf morf fffidifnt tibn {@dodf
+ * dompbrfAndSft} in tif normbl dbsf, but difffrs in tibt bny givfn
+ * invodbtion of tif {@dodf wfbkCompbrfAndSft} mftiod mby rfturn {@dodf
+ * fblsf} <fm>spuriously</fm> (tibt is, for no bppbrfnt rfbson).  A
+ * {@dodf fblsf} rfturn mfbns only tibt tif opfrbtion mby bf rftrifd if
+ * dfsirfd, rflying on tif gubrbntff tibt rfpfbtfd invodbtion wifn tif
+ * vbribblf iolds {@dodf fxpfdtfdVbluf} bnd no otifr tirfbd is blso
+ * bttfmpting to sft tif vbribblf will fvfntublly suddffd.  (Sudi
+ * spurious fbilurfs mby for fxbmplf bf duf to mfmory dontfntion ffffdts
+ * tibt brf unrflbtfd to wiftifr tif fxpfdtfd bnd durrfnt vblufs brf
+ * fqubl.)  Additionblly {@dodf wfbkCompbrfAndSft} dofs not providf
+ * ordfring gubrbntffs tibt brf usublly nffdfd for syndironizbtion
+ * dontrol.  Howfvfr, tif mftiod mby bf usfful for updbting dountfrs bnd
+ * stbtistids wifn sudi updbtfs brf unrflbtfd to tif otifr
+ * ibppfns-bfforf ordfrings of b progrbm.  Wifn b tirfbd sffs bn updbtf
+ * to bn btomid vbribblf dbusfd by b {@dodf wfbkCompbrfAndSft}, it dofs
+ * not nfdfssbrily sff updbtfs to bny <fm>otifr</fm> vbribblfs tibt
+ * oddurrfd bfforf tif {@dodf wfbkCompbrfAndSft}.  Tiis mby bf
+ * bddfptbblf wifn, for fxbmplf, updbting pfrformbndf stbtistids, but
+ * rbrfly otifrwisf.
  *
- * <p>The {@link java.util.concurrent.atomic.AtomicMarkableReference}
- * class associates a single boolean with a reference.  For example, this
- * bit might be used inside a data structure to mean that the object
- * being referenced has logically been deleted.
+ * <p>Tif {@link jbvb.util.dondurrfnt.btomid.AtomidMbrkbblfRfffrfndf}
+ * dlbss bssodibtfs b singlf boolfbn witi b rfffrfndf.  For fxbmplf, tiis
+ * bit migit bf usfd insidf b dbtb strudturf to mfbn tibt tif objfdt
+ * bfing rfffrfndfd ibs logidblly bffn dflftfd.
  *
- * The {@link java.util.concurrent.atomic.AtomicStampedReference}
- * class associates an integer value with a reference.  This may be
- * used for example, to represent version numbers corresponding to
- * series of updates.
+ * Tif {@link jbvb.util.dondurrfnt.btomid.AtomidStbmpfdRfffrfndf}
+ * dlbss bssodibtfs bn intfgfr vbluf witi b rfffrfndf.  Tiis mby bf
+ * usfd for fxbmplf, to rfprfsfnt vfrsion numbfrs dorrfsponding to
+ * sfrifs of updbtfs.
  *
- * <p>Atomic classes are designed primarily as building blocks for
- * implementing non-blocking data structures and related infrastructure
- * classes.  The {@code compareAndSet} method is not a general
- * replacement for locking.  It applies only when critical updates for an
- * object are confined to a <em>single</em> variable.
+ * <p>Atomid dlbssfs brf dfsignfd primbrily bs building blodks for
+ * implfmfnting non-blodking dbtb strudturfs bnd rflbtfd infrbstrudturf
+ * dlbssfs.  Tif {@dodf dompbrfAndSft} mftiod is not b gfnfrbl
+ * rfplbdfmfnt for lodking.  It bpplifs only wifn dritidbl updbtfs for bn
+ * objfdt brf donfinfd to b <fm>singlf</fm> vbribblf.
  *
- * <p>Atomic classes are not general purpose replacements for
- * {@code java.lang.Integer} and related classes.  They do <em>not</em>
- * define methods such as {@code equals}, {@code hashCode} and
- * {@code compareTo}.  (Because atomic variables are expected to be
- * mutated, they are poor choices for hash table keys.)  Additionally,
- * classes are provided only for those types that are commonly useful in
- * intended applications.  For example, there is no atomic class for
- * representing {@code byte}.  In those infrequent cases where you would
- * like to do so, you can use an {@code AtomicInteger} to hold
- * {@code byte} values, and cast appropriately.
+ * <p>Atomid dlbssfs brf not gfnfrbl purposf rfplbdfmfnts for
+ * {@dodf jbvb.lbng.Intfgfr} bnd rflbtfd dlbssfs.  Tify do <fm>not</fm>
+ * dffinf mftiods sudi bs {@dodf fqubls}, {@dodf ibsiCodf} bnd
+ * {@dodf dompbrfTo}.  (Bfdbusf btomid vbribblfs brf fxpfdtfd to bf
+ * mutbtfd, tify brf poor dioidfs for ibsi tbblf kfys.)  Additionblly,
+ * dlbssfs brf providfd only for tiosf typfs tibt brf dommonly usfful in
+ * intfndfd bpplidbtions.  For fxbmplf, tifrf is no btomid dlbss for
+ * rfprfsfnting {@dodf bytf}.  In tiosf infrfqufnt dbsfs wifrf you would
+ * likf to do so, you dbn usf bn {@dodf AtomidIntfgfr} to iold
+ * {@dodf bytf} vblufs, bnd dbst bppropribtfly.
  *
- * You can also hold floats using
- * {@link java.lang.Float#floatToRawIntBits} and
- * {@link java.lang.Float#intBitsToFloat} conversions, and doubles using
- * {@link java.lang.Double#doubleToRawLongBits} and
- * {@link java.lang.Double#longBitsToDouble} conversions.
+ * You dbn blso iold flobts using
+ * {@link jbvb.lbng.Flobt#flobtToRbwIntBits} bnd
+ * {@link jbvb.lbng.Flobt#intBitsToFlobt} donvfrsions, bnd doublfs using
+ * {@link jbvb.lbng.Doublf#doublfToRbwLongBits} bnd
+ * {@link jbvb.lbng.Doublf#longBitsToDoublf} donvfrsions.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-package java.util.concurrent.atomic;
+pbdkbgf jbvb.util.dondurrfnt.btomid;

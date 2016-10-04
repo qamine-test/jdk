@@ -1,0 +1,66 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.print;
+
+import jbvbx.print.bttributf.PrintRfqufstAttributfSft;
+
+/**
+ *
+ * Obtbinfd from b MultiDodPrintSfrvidf, b MultiDodPrintJob dbn print b
+ * spfdififd dollfdtion of dodumfnts bs b singlf print job with b sft of
+ * job bttributfs.
+ */
+
+publid intfrfbdf MultiDodPrintJob fxtfnds DodPrintJob {
+
+   /**
+     * Print b MultiDod with thf spfdififd job bttributfs.
+     * This mfthod should only bf dbllfd ondf for b givfn print job.
+     * Cblling it bgbin will not rfsult in b nfw job bfing spoolfd to
+     * thf printfr. Thf sfrvidf implfmfntbtion will dffinf polidy
+     * for sfrvidf intfrruption bnd rfdovfry. Applidbtion dlifnts whidh
+     * wbnt to monitor thf suddfss or fbilurf should rfgistfr b
+     * PrintJobListfnfr.
+     *
+     * @pbrbm multiDod Thf dodumfnts to bf printfd. ALL must bf b flbvor
+     *        supportfd by thf PrintJob {@litfrbl &} PrintSfrvidf.
+     *
+     * @pbrbm bttributfs Thf job bttributfs to bf bpplifd to this print job.
+     *        If this pbrbmftfr is null thfn thf dffbult bttributfs brf usfd.
+     *
+     * @throws PrintExdfption Thf fxdfption bdditionblly mby implfmfnt
+     * bn intfrfbdfs whidh morf prfdisfly dfsdribfs thf dbusf of thf fxdfption
+     * <ul>
+     * <li>FlbvorExdfption.
+     *  If thf dodumfnt hbs b flbvor not supportfd by this print job.
+     * <li>AttributfExdfption.
+     *  If onf or morf of thf bttributfs brf not vblid for this print job.
+     * </ul>
+     */
+    publid void print(MultiDod multiDod, PrintRfqufstAttributfSft bttributfs)
+                throws PrintExdfption;
+
+}

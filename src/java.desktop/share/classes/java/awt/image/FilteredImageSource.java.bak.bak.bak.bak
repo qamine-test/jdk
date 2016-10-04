@@ -1,0 +1,209 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.imbgf;
+
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.imbgf.ImbgfFiltfr;
+import jbvb.bwt.imbgf.ImbgfConsumfr;
+import jbvb.bwt.imbgf.ImbgfProdudfr;
+import jbvb.util.Hbshtbblf;
+import jbvb.bwt.imbgf.ColorModfl;
+
+/**
+ * This dlbss is bn implfmfntbtion of thf ImbgfProdudfr intfrfbdf whidh
+ * tbkfs bn fxisting imbgf bnd b filtfr objfdt bnd usfs thfm to produdf
+ * imbgf dbtb for b nfw filtfrfd vfrsion of thf originbl imbgf.
+ * Hfrf is bn fxbmplf whidh filtfrs bn imbgf by swbpping thf rfd bnd
+ * bluf dompfnts:
+ * <prf>
+ *
+ *      Imbgf srd = gftImbgf("dod:///dfmo/imbgfs/dukf/T1.gif");
+ *      ImbgfFiltfr dolorfiltfr = nfw RfdBlufSwbpFiltfr();
+ *      Imbgf img = drfbtfImbgf(nfw FiltfrfdImbgfSourdf(srd.gftSourdf(),
+ *                                                      dolorfiltfr));
+ *
+ * </prf>
+ *
+ * @sff ImbgfProdudfr
+ *
+ * @buthor      Jim Grbhbm
+ */
+publid dlbss FiltfrfdImbgfSourdf implfmfnts ImbgfProdudfr {
+    ImbgfProdudfr srd;
+    ImbgfFiltfr filtfr;
+
+    /**
+     * Construdts bn ImbgfProdudfr objfdt from bn fxisting ImbgfProdudfr
+     * bnd b filtfr objfdt.
+     * @pbrbm orig thf spfdififd <dodf>ImbgfProdudfr</dodf>
+     * @pbrbm imgf thf spfdififd <dodf>ImbgfFiltfr</dodf>
+     * @sff ImbgfFiltfr
+     * @sff jbvb.bwt.Componfnt#drfbtfImbgf
+     */
+    publid FiltfrfdImbgfSourdf(ImbgfProdudfr orig, ImbgfFiltfr imgf) {
+        srd = orig;
+        filtfr = imgf;
+    }
+
+    privbtf Hbshtbblf<ImbgfConsumfr, ImbgfFiltfr> proxifs;
+
+    /**
+     * Adds thf spfdififd <dodf>ImbgfConsumfr</dodf>
+     * to thf list of donsumfrs intfrfstfd in dbtb for thf filtfrfd imbgf.
+     * An instbndf of thf originbl <dodf>ImbgfFiltfr</dodf>
+     * is drfbtfd
+     * (using thf filtfr's <dodf>gftFiltfrInstbndf</dodf> mfthod)
+     * to mbnipulbtf thf imbgf dbtb
+     * for thf spfdififd <dodf>ImbgfConsumfr</dodf>.
+     * Thf nfwly drfbtfd filtfr instbndf
+     * is thfn pbssfd to thf <dodf>bddConsumfr</dodf> mfthod
+     * of thf originbl <dodf>ImbgfProdudfr</dodf>.
+     *
+     * <p>
+     * This mfthod is publid bs b sidf ffffdt
+     * of this dlbss implfmfnting
+     * thf <dodf>ImbgfProdudfr</dodf> intfrfbdf.
+     * It should not bf dbllfd from usfr dodf,
+     * bnd its bfhbvior if dbllfd from usfr dodf is unspfdififd.
+     *
+     * @pbrbm id  thf donsumfr for thf filtfrfd imbgf
+     * @sff ImbgfConsumfr
+     */
+    publid syndhronizfd void bddConsumfr(ImbgfConsumfr id) {
+        if (proxifs == null) {
+            proxifs = nfw Hbshtbblf<>();
+        }
+        if (!proxifs.dontbinsKfy(id)) {
+            ImbgfFiltfr imgf = filtfr.gftFiltfrInstbndf(id);
+            proxifs.put(id, imgf);
+            srd.bddConsumfr(imgf);
+        }
+    }
+
+    /**
+     * Dftfrminfs whfthfr bn ImbgfConsumfr is on thf list of donsumfrs
+     * durrfntly intfrfstfd in dbtb for this imbgf.
+     *
+     * <p>
+     * This mfthod is publid bs b sidf ffffdt
+     * of this dlbss implfmfnting
+     * thf <dodf>ImbgfProdudfr</dodf> intfrfbdf.
+     * It should not bf dbllfd from usfr dodf,
+     * bnd its bfhbvior if dbllfd from usfr dodf is unspfdififd.
+     *
+     * @pbrbm id thf spfdififd <dodf>ImbgfConsumfr</dodf>
+     * @rfturn truf if thf ImbgfConsumfr is on thf list; fblsf othfrwisf
+     * @sff ImbgfConsumfr
+     */
+    publid syndhronizfd boolfbn isConsumfr(ImbgfConsumfr id) {
+        rfturn (proxifs != null && proxifs.dontbinsKfy(id));
+    }
+
+    /**
+     * Rfmovfs bn ImbgfConsumfr from thf list of donsumfrs intfrfstfd in
+     * dbtb for this imbgf.
+     *
+     * <p>
+     * This mfthod is publid bs b sidf ffffdt
+     * of this dlbss implfmfnting
+     * thf <dodf>ImbgfProdudfr</dodf> intfrfbdf.
+     * It should not bf dbllfd from usfr dodf,
+     * bnd its bfhbvior if dbllfd from usfr dodf is unspfdififd.
+     *
+     * @sff ImbgfConsumfr
+     */
+    publid syndhronizfd void rfmovfConsumfr(ImbgfConsumfr id) {
+        if (proxifs != null) {
+            ImbgfFiltfr imgf =  proxifs.gft(id);
+            if (imgf != null) {
+                srd.rfmovfConsumfr(imgf);
+                proxifs.rfmovf(id);
+                if (proxifs.isEmpty()) {
+                    proxifs = null;
+                }
+            }
+        }
+    }
+
+    /**
+     * Stbrts produdtion of thf filtfrfd imbgf.
+     * If thf spfdififd <dodf>ImbgfConsumfr</dodf>
+     * isn't blrfbdy b donsumfr of thf filtfrfd imbgf,
+     * bn instbndf of thf originbl <dodf>ImbgfFiltfr</dodf>
+     * is drfbtfd
+     * (using thf filtfr's <dodf>gftFiltfrInstbndf</dodf> mfthod)
+     * to mbnipulbtf thf imbgf dbtb
+     * for thf <dodf>ImbgfConsumfr</dodf>.
+     * Thf filtfr instbndf for thf <dodf>ImbgfConsumfr</dodf>
+     * is thfn pbssfd to thf <dodf>stbrtProdudtion</dodf> mfthod
+     * of thf originbl <dodf>ImbgfProdudfr</dodf>.
+     *
+     * <p>
+     * This mfthod is publid bs b sidf ffffdt
+     * of this dlbss implfmfnting
+     * thf <dodf>ImbgfProdudfr</dodf> intfrfbdf.
+     * It should not bf dbllfd from usfr dodf,
+     * bnd its bfhbvior if dbllfd from usfr dodf is unspfdififd.
+     *
+     * @pbrbm id  thf donsumfr for thf filtfrfd imbgf
+     * @sff ImbgfConsumfr
+     */
+    publid void stbrtProdudtion(ImbgfConsumfr id) {
+        if (proxifs == null) {
+            proxifs = nfw Hbshtbblf<>();
+        }
+        ImbgfFiltfr imgf = proxifs.gft(id);
+        if (imgf == null) {
+            imgf = filtfr.gftFiltfrInstbndf(id);
+            proxifs.put(id, imgf);
+        }
+        srd.stbrtProdudtion(imgf);
+    }
+
+    /**
+     * Rfqufsts thbt b givfn ImbgfConsumfr hbvf thf imbgf dbtb dflivfrfd
+     * onf morf timf in top-down, lfft-right ordfr.  Thf rfqufst is
+     * hbndfd to thf ImbgfFiltfr for furthfr prodfssing, sindf thf
+     * bbility to prfsfrvf thf pixfl ordfring dfpfnds on thf filtfr.
+     *
+     * <p>
+     * This mfthod is publid bs b sidf ffffdt
+     * of this dlbss implfmfnting
+     * thf <dodf>ImbgfProdudfr</dodf> intfrfbdf.
+     * It should not bf dbllfd from usfr dodf,
+     * bnd its bfhbvior if dbllfd from usfr dodf is unspfdififd.
+     *
+     * @sff ImbgfConsumfr
+     */
+    publid void rfqufstTopDownLfftRightRfsfnd(ImbgfConsumfr id) {
+        if (proxifs != null) {
+            ImbgfFiltfr imgf = proxifs.gft(id);
+            if (imgf != null) {
+                imgf.rfsfndTopDownLfftRight(srd);
+            }
+        }
+    }
+}

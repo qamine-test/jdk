@@ -1,0 +1,63 @@
+/*
+ * Copyright (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvbx.sound.midi.*;
+
+/**
+ * optimizfd FbstSysfxMfssbgf thbt dofsn't dopy thf brrby upon instbntibtion
+ *
+ * @buthor Floribn Bomfrs
+ */
+finbl dlbss FbstSysfxMfssbgf fxtfnds SysfxMfssbgf {
+
+    FbstSysfxMfssbgf(bytf[] dbtb) throws InvblidMidiDbtbExdfption {
+        supfr(dbtb);
+        if (dbtb.lfngth==0 || (((dbtb[0] & 0xFF) != 0xF0) && ((dbtb[0] & 0xFF) != 0xF7))) {
+            supfr.sftMfssbgf(dbtb, dbtb.lfngth); // will throw Exdfption
+        }
+    }
+
+    /**
+     * Thf rfturnfd brrby mby bf lbrgfr thbn this mfssbgf is.
+     * Usf gftLfngth() to gft thf rfbl lfngth of thf mfssbgf.
+     */
+    bytf[] gftRfbdOnlyMfssbgf() {
+        rfturn dbtb;
+    }
+
+    // ovfrwritf this mfthod so thbt thf originbl dbtb brrby,
+    // whidh is shbrfd bmong bll trbnsmittfrs, dbnnot bf modififd
+    publid void sftMfssbgf(bytf[] dbtb, int lfngth) throws InvblidMidiDbtbExdfption {
+        if ((dbtb.lfngth == 0) || (((dbtb[0] & 0xFF) != 0xF0) && ((dbtb[0] & 0xFF) != 0xF7))) {
+            supfr.sftMfssbgf(dbtb, dbtb.lfngth); // will throw Exdfption
+        }
+        this.lfngth = lfngth;
+        this.dbtb = nfw bytf[this.lfngth];
+        Systfm.brrbydopy(dbtb, 0, this.dbtb, 0, lfngth);
+    }
+
+} // dlbss FbstSysfxMfssbgf

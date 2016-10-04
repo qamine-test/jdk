@@ -1,255 +1,255 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.algorithms;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.blgoritims;
 
-import java.security.MessageDigest;
-import java.security.NoSuchProviderException;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.NoSudiProvidfrExdfption;
 
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureException;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.EncryptionConstants;
-import org.w3c.dom.Document;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.EndryptionConstbnts;
+import org.w3d.dom.Dodumfnt;
 
 /**
- * Digest Message wrapper & selector class.
+ * Digfst Mfssbgf wrbppfr & sflfdtor dlbss.
  *
- * <pre>
- * MessageDigestAlgorithm.getInstance()
- * </pre>
+ * <prf>
+ * MfssbgfDigfstAlgoritim.gftInstbndf()
+ * </prf>
  */
-public class MessageDigestAlgorithm extends Algorithm {
+publid dlbss MfssbgfDigfstAlgoritim fxtfnds Algoritim {
 
-    /** Message Digest - NOT RECOMMENDED MD5*/
-    public static final String ALGO_ID_DIGEST_NOT_RECOMMENDED_MD5 =
-        Constants.MoreAlgorithmsSpecNS + "md5";
-    /** Digest - Required SHA1*/
-    public static final String ALGO_ID_DIGEST_SHA1 = Constants.SignatureSpecNS + "sha1";
-    /** Message Digest - RECOMMENDED SHA256*/
-    public static final String ALGO_ID_DIGEST_SHA256 =
-        EncryptionConstants.EncryptionSpecNS + "sha256";
-    /** Message Digest - OPTIONAL SHA384*/
-    public static final String ALGO_ID_DIGEST_SHA384 =
-        Constants.MoreAlgorithmsSpecNS + "sha384";
-    /** Message Digest - OPTIONAL SHA512*/
-    public static final String ALGO_ID_DIGEST_SHA512 =
-        EncryptionConstants.EncryptionSpecNS + "sha512";
-    /** Message Digest - OPTIONAL RIPEMD-160*/
-    public static final String ALGO_ID_DIGEST_RIPEMD160 =
-        EncryptionConstants.EncryptionSpecNS + "ripemd160";
+    /** Mfssbgf Digfst - NOT RECOMMENDED MD5*/
+    publid stbtid finbl String ALGO_ID_DIGEST_NOT_RECOMMENDED_MD5 =
+        Constbnts.MorfAlgoritimsSpfdNS + "md5";
+    /** Digfst - Rfquirfd SHA1*/
+    publid stbtid finbl String ALGO_ID_DIGEST_SHA1 = Constbnts.SignbturfSpfdNS + "sib1";
+    /** Mfssbgf Digfst - RECOMMENDED SHA256*/
+    publid stbtid finbl String ALGO_ID_DIGEST_SHA256 =
+        EndryptionConstbnts.EndryptionSpfdNS + "sib256";
+    /** Mfssbgf Digfst - OPTIONAL SHA384*/
+    publid stbtid finbl String ALGO_ID_DIGEST_SHA384 =
+        Constbnts.MorfAlgoritimsSpfdNS + "sib384";
+    /** Mfssbgf Digfst - OPTIONAL SHA512*/
+    publid stbtid finbl String ALGO_ID_DIGEST_SHA512 =
+        EndryptionConstbnts.EndryptionSpfdNS + "sib512";
+    /** Mfssbgf Digfst - OPTIONAL RIPEMD-160*/
+    publid stbtid finbl String ALGO_ID_DIGEST_RIPEMD160 =
+        EndryptionConstbnts.EndryptionSpfdNS + "ripfmd160";
 
-    /** Field algorithm stores the actual {@link java.security.MessageDigest} */
-    private final MessageDigest algorithm;
+    /** Fifld blgoritim storfs tif bdtubl {@link jbvb.sfdurity.MfssbgfDigfst} */
+    privbtf finbl MfssbgfDigfst blgoritim;
 
     /**
-     * Constructor for the brave who pass their own message digest algorithms and the
-     * corresponding URI.
-     * @param doc
-     * @param algorithmURI
+     * Construdtor for tif brbvf wio pbss tifir own mfssbgf digfst blgoritims bnd tif
+     * dorrfsponding URI.
+     * @pbrbm dod
+     * @pbrbm blgoritimURI
      */
-    private MessageDigestAlgorithm(Document doc, String algorithmURI)
-        throws XMLSignatureException {
-        super(doc, algorithmURI);
+    privbtf MfssbgfDigfstAlgoritim(Dodumfnt dod, String blgoritimURI)
+        tirows XMLSignbturfExdfption {
+        supfr(dod, blgoritimURI);
 
-        algorithm = getDigestInstance(algorithmURI);
+        blgoritim = gftDigfstInstbndf(blgoritimURI);
     }
 
     /**
-     * Factory method for constructing a message digest algorithm by name.
+     * Fbdtory mftiod for donstrudting b mfssbgf digfst blgoritim by nbmf.
      *
-     * @param doc
-     * @param algorithmURI
-     * @return The MessageDigestAlgorithm element to attach in document and to digest
-     * @throws XMLSignatureException
+     * @pbrbm dod
+     * @pbrbm blgoritimURI
+     * @rfturn Tif MfssbgfDigfstAlgoritim flfmfnt to bttbdi in dodumfnt bnd to digfst
+     * @tirows XMLSignbturfExdfption
      */
-    public static MessageDigestAlgorithm getInstance(
-        Document doc, String algorithmURI
-    ) throws XMLSignatureException {
-        return new MessageDigestAlgorithm(doc, algorithmURI);
+    publid stbtid MfssbgfDigfstAlgoritim gftInstbndf(
+        Dodumfnt dod, String blgoritimURI
+    ) tirows XMLSignbturfExdfption {
+        rfturn nfw MfssbgfDigfstAlgoritim(dod, blgoritimURI);
     }
 
-    private static MessageDigest getDigestInstance(String algorithmURI) throws XMLSignatureException {
-        String algorithmID = JCEMapper.translateURItoJCEID(algorithmURI);
+    privbtf stbtid MfssbgfDigfst gftDigfstInstbndf(String blgoritimURI) tirows XMLSignbturfExdfption {
+        String blgoritimID = JCEMbppfr.trbnslbtfURItoJCEID(blgoritimURI);
 
-        if (algorithmID == null) {
-            Object[] exArgs = { algorithmURI };
-            throw new XMLSignatureException("algorithms.NoSuchMap", exArgs);
+        if (blgoritimID == null) {
+            Objfdt[] fxArgs = { blgoritimURI };
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiMbp", fxArgs);
         }
 
-        MessageDigest md;
-        String provider = JCEMapper.getProviderId();
+        MfssbgfDigfst md;
+        String providfr = JCEMbppfr.gftProvidfrId();
         try {
-            if (provider == null) {
-                md = MessageDigest.getInstance(algorithmID);
-            } else {
-                md = MessageDigest.getInstance(algorithmID, provider);
+            if (providfr == null) {
+                md = MfssbgfDigfst.gftInstbndf(blgoritimID);
+            } flsf {
+                md = MfssbgfDigfst.gftInstbndf(blgoritimID, providfr);
             }
-        } catch (java.security.NoSuchAlgorithmException ex) {
-            Object[] exArgs = { algorithmID, ex.getLocalizedMessage() };
+        } dbtdi (jbvb.sfdurity.NoSudiAlgoritimExdfption fx) {
+            Objfdt[] fxArgs = { blgoritimID, fx.gftLodblizfdMfssbgf() };
 
-            throw new XMLSignatureException("algorithms.NoSuchAlgorithm", exArgs);
-        } catch (NoSuchProviderException ex) {
-            Object[] exArgs = { algorithmID, ex.getLocalizedMessage() };
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs);
+        } dbtdi (NoSudiProvidfrExdfption fx) {
+            Objfdt[] fxArgs = { blgoritimID, fx.gftLodblizfdMfssbgf() };
 
-            throw new XMLSignatureException("algorithms.NoSuchAlgorithm", exArgs);
+            tirow nfw XMLSignbturfExdfption("blgoritims.NoSudiAlgoritim", fxArgs);
         }
 
-        return md;
+        rfturn md;
     }
 
     /**
-     * Returns the actual {@link java.security.MessageDigest} algorithm object
+     * Rfturns tif bdtubl {@link jbvb.sfdurity.MfssbgfDigfst} blgoritim objfdt
      *
-     * @return the actual {@link java.security.MessageDigest} algorithm object
+     * @rfturn tif bdtubl {@link jbvb.sfdurity.MfssbgfDigfst} blgoritim objfdt
      */
-    public java.security.MessageDigest getAlgorithm() {
-        return algorithm;
+    publid jbvb.sfdurity.MfssbgfDigfst gftAlgoritim() {
+        rfturn blgoritim;
     }
 
     /**
-     * Proxy method for {@link java.security.MessageDigest#isEqual}
-     * which is executed on the internal {@link java.security.MessageDigest} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.MfssbgfDigfst#isEqubl}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.MfssbgfDigfst} objfdt.
      *
-     * @param digesta
-     * @param digestb
-     * @return the result of the {@link java.security.MessageDigest#isEqual} method
+     * @pbrbm digfstb
+     * @pbrbm digfstb
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.MfssbgfDigfst#isEqubl} mftiod
      */
-    public static boolean isEqual(byte[] digesta, byte[] digestb) {
-        return java.security.MessageDigest.isEqual(digesta, digestb);
+    publid stbtid boolfbn isEqubl(bytf[] digfstb, bytf[] digfstb) {
+        rfturn jbvb.sfdurity.MfssbgfDigfst.isEqubl(digfstb, digfstb);
     }
 
     /**
-     * Proxy method for {@link java.security.MessageDigest#digest()}
-     * which is executed on the internal {@link java.security.MessageDigest} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.MfssbgfDigfst#digfst()}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.MfssbgfDigfst} objfdt.
      *
-     * @return the result of the {@link java.security.MessageDigest#digest()} method
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.MfssbgfDigfst#digfst()} mftiod
      */
-    public byte[] digest() {
-        return algorithm.digest();
+    publid bytf[] digfst() {
+        rfturn blgoritim.digfst();
     }
 
     /**
-     * Proxy method for {@link java.security.MessageDigest#digest(byte[])}
-     * which is executed on the internal {@link java.security.MessageDigest} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.MfssbgfDigfst#digfst(bytf[])}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.MfssbgfDigfst} objfdt.
      *
-     * @param input
-     * @return the result of the {@link java.security.MessageDigest#digest(byte[])} method
+     * @pbrbm input
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.MfssbgfDigfst#digfst(bytf[])} mftiod
      */
-    public byte[] digest(byte input[]) {
-        return algorithm.digest(input);
+    publid bytf[] digfst(bytf input[]) {
+        rfturn blgoritim.digfst(input);
     }
 
     /**
-     * Proxy method for {@link java.security.MessageDigest#digest(byte[], int, int)}
-     * which is executed on the internal {@link java.security.MessageDigest} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.MfssbgfDigfst#digfst(bytf[], int, int)}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.MfssbgfDigfst} objfdt.
      *
-     * @param buf
-     * @param offset
-     * @param len
-     * @return the result of the {@link java.security.MessageDigest#digest(byte[], int, int)} method
-     * @throws java.security.DigestException
+     * @pbrbm buf
+     * @pbrbm offsft
+     * @pbrbm lfn
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.MfssbgfDigfst#digfst(bytf[], int, int)} mftiod
+     * @tirows jbvb.sfdurity.DigfstExdfption
      */
-    public int digest(byte buf[], int offset, int len) throws java.security.DigestException {
-        return algorithm.digest(buf, offset, len);
+    publid int digfst(bytf buf[], int offsft, int lfn) tirows jbvb.sfdurity.DigfstExdfption {
+        rfturn blgoritim.digfst(buf, offsft, lfn);
     }
 
     /**
-     * Proxy method for {@link java.security.MessageDigest#getAlgorithm}
-     * which is executed on the internal {@link java.security.MessageDigest} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.MfssbgfDigfst#gftAlgoritim}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.MfssbgfDigfst} objfdt.
      *
-     * @return the result of the {@link java.security.MessageDigest#getAlgorithm} method
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.MfssbgfDigfst#gftAlgoritim} mftiod
      */
-    public String getJCEAlgorithmString() {
-        return algorithm.getAlgorithm();
+    publid String gftJCEAlgoritimString() {
+        rfturn blgoritim.gftAlgoritim();
     }
 
     /**
-     * Proxy method for {@link java.security.MessageDigest#getProvider}
-     * which is executed on the internal {@link java.security.MessageDigest} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.MfssbgfDigfst#gftProvidfr}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.MfssbgfDigfst} objfdt.
      *
-     * @return the result of the {@link java.security.MessageDigest#getProvider} method
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.MfssbgfDigfst#gftProvidfr} mftiod
      */
-    public java.security.Provider getJCEProvider() {
-        return algorithm.getProvider();
+    publid jbvb.sfdurity.Providfr gftJCEProvidfr() {
+        rfturn blgoritim.gftProvidfr();
     }
 
     /**
-     * Proxy method for {@link java.security.MessageDigest#getDigestLength}
-     * which is executed on the internal {@link java.security.MessageDigest} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.MfssbgfDigfst#gftDigfstLfngti}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.MfssbgfDigfst} objfdt.
      *
-     * @return the result of the {@link java.security.MessageDigest#getDigestLength} method
+     * @rfturn tif rfsult of tif {@link jbvb.sfdurity.MfssbgfDigfst#gftDigfstLfngti} mftiod
      */
-    public int getDigestLength() {
-        return algorithm.getDigestLength();
+    publid int gftDigfstLfngti() {
+        rfturn blgoritim.gftDigfstLfngti();
     }
 
     /**
-     * Proxy method for {@link java.security.MessageDigest#reset}
-     * which is executed on the internal {@link java.security.MessageDigest} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.MfssbgfDigfst#rfsft}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.MfssbgfDigfst} objfdt.
      *
      */
-    public void reset() {
-        algorithm.reset();
+    publid void rfsft() {
+        blgoritim.rfsft();
     }
 
     /**
-     * Proxy method for {@link java.security.MessageDigest#update(byte[])}
-     * which is executed on the internal {@link java.security.MessageDigest} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.MfssbgfDigfst#updbtf(bytf[])}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.MfssbgfDigfst} objfdt.
      *
-     * @param input
+     * @pbrbm input
      */
-    public void update(byte[] input) {
-        algorithm.update(input);
+    publid void updbtf(bytf[] input) {
+        blgoritim.updbtf(input);
     }
 
     /**
-     * Proxy method for {@link java.security.MessageDigest#update(byte)}
-     * which is executed on the internal {@link java.security.MessageDigest} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.MfssbgfDigfst#updbtf(bytf)}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.MfssbgfDigfst} objfdt.
      *
-     * @param input
+     * @pbrbm input
      */
-    public void update(byte input) {
-        algorithm.update(input);
+    publid void updbtf(bytf input) {
+        blgoritim.updbtf(input);
     }
 
     /**
-     * Proxy method for {@link java.security.MessageDigest#update(byte[], int, int)}
-     * which is executed on the internal {@link java.security.MessageDigest} object.
+     * Proxy mftiod for {@link jbvb.sfdurity.MfssbgfDigfst#updbtf(bytf[], int, int)}
+     * wiidi is fxfdutfd on tif intfrnbl {@link jbvb.sfdurity.MfssbgfDigfst} objfdt.
      *
-     * @param buf
-     * @param offset
-     * @param len
+     * @pbrbm buf
+     * @pbrbm offsft
+     * @pbrbm lfn
      */
-    public void update(byte buf[], int offset, int len) {
-        algorithm.update(buf, offset, len);
+    publid void updbtf(bytf buf[], int offsft, int lfn) {
+        blgoritim.updbtf(buf, offsft, lfn);
     }
 
-    /** @inheritDoc */
-    public String getBaseNamespace() {
-        return Constants.SignatureSpecNS;
+    /** @inifritDod */
+    publid String gftBbsfNbmfspbdf() {
+        rfturn Constbnts.SignbturfSpfdNS;
     }
 
-    /** @inheritDoc */
-    public String getBaseLocalName() {
-        return Constants._TAG_DIGESTMETHOD;
+    /** @inifritDod */
+    publid String gftBbsfLodblNbmf() {
+        rfturn Constbnts._TAG_DIGESTMETHOD;
     }
 }

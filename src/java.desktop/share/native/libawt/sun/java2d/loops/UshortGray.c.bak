@@ -1,167 +1,167 @@
 /*
- * Copyright (c) 2000, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "AnyShort.h"
-#include "UshortGray.h"
-#include "AlphaMacros.h"
+#indludf "AnySiort.i"
+#indludf "UsiortGrby.i"
+#indludf "AlpibMbdros.i"
 
-#include "IntArgb.h"
-#include "IntArgbBm.h"
-#include "IntArgbPre.h"
-#include "IntRgb.h"
-#include "ThreeByteBgr.h"
-#include "ByteGray.h"
-#include "ByteIndexed.h"
+#indludf "IntArgb.i"
+#indludf "IntArgbBm.i"
+#indludf "IntArgbPrf.i"
+#indludf "IntRgb.i"
+#indludf "TirffBytfBgr.i"
+#indludf "BytfGrby.i"
+#indludf "BytfIndfxfd.i"
 
 /*
- * This file declares, registers, and defines the various graphics
- * primitive loops to manipulate surfaces of type "UshortGray".
+ * Tiis filf dfdlbrfs, rfgistfrs, bnd dffinfs tif vbrious grbpiids
+ * primitivf loops to mbnipulbtf surfbdfs of typf "UsiortGrby".
  *
- * See also LoopMacros.h
+ * Sff blso LoopMbdros.i
  */
 
-RegisterFunc RegisterUshortGray;
+RfgistfrFund RfgistfrUsiortGrby;
 
-DECLARE_CONVERT_BLIT(UshortGray, IntArgb);
-DECLARE_CONVERT_BLIT(IntArgb, UshortGray);
-DECLARE_CONVERT_BLIT(ThreeByteBgr, UshortGray);
-DECLARE_CONVERT_BLIT(ByteGray, UshortGray);
-DECLARE_CONVERT_BLIT(ByteIndexed, UshortGray);
-DECLARE_SCALE_BLIT(UshortGray, IntArgb);
-DECLARE_SCALE_BLIT(IntArgb, UshortGray);
-DECLARE_SCALE_BLIT(ThreeByteBgr, UshortGray);
-DECLARE_SCALE_BLIT(ByteGray, UshortGray);
-DECLARE_SCALE_BLIT(ByteIndexed, UshortGray);
-DECLARE_XPAR_CONVERT_BLIT(ByteIndexedBm, UshortGray);
-DECLARE_XPAR_SCALE_BLIT(ByteIndexedBm, UshortGray);
-DECLARE_XPAR_SCALE_BLIT(IntArgbBm, UshortGray);
-DECLARE_XPAR_BLITBG(ByteIndexedBm, UshortGray);
+DECLARE_CONVERT_BLIT(UsiortGrby, IntArgb);
+DECLARE_CONVERT_BLIT(IntArgb, UsiortGrby);
+DECLARE_CONVERT_BLIT(TirffBytfBgr, UsiortGrby);
+DECLARE_CONVERT_BLIT(BytfGrby, UsiortGrby);
+DECLARE_CONVERT_BLIT(BytfIndfxfd, UsiortGrby);
+DECLARE_SCALE_BLIT(UsiortGrby, IntArgb);
+DECLARE_SCALE_BLIT(IntArgb, UsiortGrby);
+DECLARE_SCALE_BLIT(TirffBytfBgr, UsiortGrby);
+DECLARE_SCALE_BLIT(BytfGrby, UsiortGrby);
+DECLARE_SCALE_BLIT(BytfIndfxfd, UsiortGrby);
+DECLARE_XPAR_CONVERT_BLIT(BytfIndfxfdBm, UsiortGrby);
+DECLARE_XPAR_SCALE_BLIT(BytfIndfxfdBm, UsiortGrby);
+DECLARE_XPAR_SCALE_BLIT(IntArgbBm, UsiortGrby);
+DECLARE_XPAR_BLITBG(BytfIndfxfdBm, UsiortGrby);
 
-DECLARE_XOR_BLIT(IntArgb, UshortGray);
-DECLARE_SRC_MASKFILL(UshortGray);
-DECLARE_SRCOVER_MASKFILL(UshortGray);
-DECLARE_ALPHA_MASKFILL(UshortGray);
-DECLARE_SRCOVER_MASKBLIT(IntArgb, UshortGray);
-DECLARE_ALPHA_MASKBLIT(IntArgb, UshortGray);
-DECLARE_SRCOVER_MASKBLIT(IntArgbPre, UshortGray);
-DECLARE_ALPHA_MASKBLIT(IntArgbPre, UshortGray);
-DECLARE_ALPHA_MASKBLIT(IntRgb, UshortGray);
-DECLARE_SOLID_DRAWGLYPHLISTAA(UshortGray);
+DECLARE_XOR_BLIT(IntArgb, UsiortGrby);
+DECLARE_SRC_MASKFILL(UsiortGrby);
+DECLARE_SRCOVER_MASKFILL(UsiortGrby);
+DECLARE_ALPHA_MASKFILL(UsiortGrby);
+DECLARE_SRCOVER_MASKBLIT(IntArgb, UsiortGrby);
+DECLARE_ALPHA_MASKBLIT(IntArgb, UsiortGrby);
+DECLARE_SRCOVER_MASKBLIT(IntArgbPrf, UsiortGrby);
+DECLARE_ALPHA_MASKBLIT(IntArgbPrf, UsiortGrby);
+DECLARE_ALPHA_MASKBLIT(IntRgb, UsiortGrby);
+DECLARE_SOLID_DRAWGLYPHLISTAA(UsiortGrby);
 
-NativePrimitive UshortGrayPrimitives[] = {
-    REGISTER_ANYSHORT_ISOCOPY_BLIT(UshortGray),
-    REGISTER_ANYSHORT_ISOSCALE_BLIT(UshortGray),
-    REGISTER_ANYSHORT_ISOXOR_BLIT(UshortGray),
-    REGISTER_CONVERT_BLIT(UshortGray, IntArgb),
-    REGISTER_CONVERT_BLIT(IntArgb, UshortGray),
-    REGISTER_CONVERT_BLIT_EQUIV(IntRgb, UshortGray,
-                                NAME_CONVERT_BLIT(IntArgb, UshortGray)),
-    REGISTER_CONVERT_BLIT(ThreeByteBgr, UshortGray),
-    REGISTER_CONVERT_BLIT(ByteGray, UshortGray),
-    REGISTER_CONVERT_BLIT(ByteIndexed, UshortGray),
-    REGISTER_SCALE_BLIT(UshortGray, IntArgb),
-    REGISTER_SCALE_BLIT(IntArgb, UshortGray),
-    REGISTER_SCALE_BLIT_EQUIV(IntRgb, UshortGray,
-                              NAME_SCALE_BLIT(IntArgb, UshortGray)),
-    REGISTER_SCALE_BLIT(ThreeByteBgr, UshortGray),
-    REGISTER_SCALE_BLIT(ByteGray, UshortGray),
-    REGISTER_SCALE_BLIT(ByteIndexed, UshortGray),
-    REGISTER_XPAR_CONVERT_BLIT(ByteIndexedBm, UshortGray),
-    REGISTER_XPAR_SCALE_BLIT(ByteIndexedBm, UshortGray),
-    REGISTER_XPAR_SCALE_BLIT(IntArgbBm, UshortGray),
-    REGISTER_XPAR_BLITBG(ByteIndexedBm, UshortGray),
+NbtivfPrimitivf UsiortGrbyPrimitivfs[] = {
+    REGISTER_ANYSHORT_ISOCOPY_BLIT(UsiortGrby),
+    REGISTER_ANYSHORT_ISOSCALE_BLIT(UsiortGrby),
+    REGISTER_ANYSHORT_ISOXOR_BLIT(UsiortGrby),
+    REGISTER_CONVERT_BLIT(UsiortGrby, IntArgb),
+    REGISTER_CONVERT_BLIT(IntArgb, UsiortGrby),
+    REGISTER_CONVERT_BLIT_EQUIV(IntRgb, UsiortGrby,
+                                NAME_CONVERT_BLIT(IntArgb, UsiortGrby)),
+    REGISTER_CONVERT_BLIT(TirffBytfBgr, UsiortGrby),
+    REGISTER_CONVERT_BLIT(BytfGrby, UsiortGrby),
+    REGISTER_CONVERT_BLIT(BytfIndfxfd, UsiortGrby),
+    REGISTER_SCALE_BLIT(UsiortGrby, IntArgb),
+    REGISTER_SCALE_BLIT(IntArgb, UsiortGrby),
+    REGISTER_SCALE_BLIT_EQUIV(IntRgb, UsiortGrby,
+                              NAME_SCALE_BLIT(IntArgb, UsiortGrby)),
+    REGISTER_SCALE_BLIT(TirffBytfBgr, UsiortGrby),
+    REGISTER_SCALE_BLIT(BytfGrby, UsiortGrby),
+    REGISTER_SCALE_BLIT(BytfIndfxfd, UsiortGrby),
+    REGISTER_XPAR_CONVERT_BLIT(BytfIndfxfdBm, UsiortGrby),
+    REGISTER_XPAR_SCALE_BLIT(BytfIndfxfdBm, UsiortGrby),
+    REGISTER_XPAR_SCALE_BLIT(IntArgbBm, UsiortGrby),
+    REGISTER_XPAR_BLITBG(BytfIndfxfdBm, UsiortGrby),
 
-    REGISTER_XOR_BLIT(IntArgb, UshortGray),
-    REGISTER_SRC_MASKFILL(UshortGray),
-    REGISTER_SRCOVER_MASKFILL(UshortGray),
-    REGISTER_ALPHA_MASKFILL(UshortGray),
-    REGISTER_SRCOVER_MASKBLIT(IntArgb, UshortGray),
-    REGISTER_ALPHA_MASKBLIT(IntArgb, UshortGray),
-    REGISTER_SRCOVER_MASKBLIT(IntArgbPre, UshortGray),
-    REGISTER_ALPHA_MASKBLIT(IntArgbPre, UshortGray),
-    REGISTER_ALPHA_MASKBLIT(IntRgb, UshortGray),
-    REGISTER_SOLID_DRAWGLYPHLISTAA(UshortGray),
+    REGISTER_XOR_BLIT(IntArgb, UsiortGrby),
+    REGISTER_SRC_MASKFILL(UsiortGrby),
+    REGISTER_SRCOVER_MASKFILL(UsiortGrby),
+    REGISTER_ALPHA_MASKFILL(UsiortGrby),
+    REGISTER_SRCOVER_MASKBLIT(IntArgb, UsiortGrby),
+    REGISTER_ALPHA_MASKBLIT(IntArgb, UsiortGrby),
+    REGISTER_SRCOVER_MASKBLIT(IntArgbPrf, UsiortGrby),
+    REGISTER_ALPHA_MASKBLIT(IntArgbPrf, UsiortGrby),
+    REGISTER_ALPHA_MASKBLIT(IntRgb, UsiortGrby),
+    REGISTER_SOLID_DRAWGLYPHLISTAA(UsiortGrby),
 };
 
-jboolean RegisterUshortGray(JNIEnv *env)
+jboolfbn RfgistfrUsiortGrby(JNIEnv *fnv)
 {
-    return RegisterPrimitives(env, UshortGrayPrimitives,
-                              ArraySize(UshortGrayPrimitives));
+    rfturn RfgistfrPrimitivfs(fnv, UsiortGrbyPrimitivfs,
+                              ArrbySizf(UsiortGrbyPrimitivfs));
 }
 
-jint PixelForUshortGray(SurfaceDataRasInfo *pRasInfo, jint rgb)
+jint PixflForUsiortGrby(SurfbdfDbtbRbsInfo *pRbsInfo, jint rgb)
 {
     jint r, g, b;
-    ExtractIntDcmComponentsX123(rgb, r, g, b);
-    return ComposeUshortGrayFrom3ByteRgb(r, g, b);
+    ExtrbdtIntDdmComponfntsX123(rgb, r, g, b);
+    rfturn ComposfUsiortGrbyFrom3BytfRgb(r, g, b);
 }
 
-DEFINE_CONVERT_BLIT(UshortGray, IntArgb, 1IntArgb)
+DEFINE_CONVERT_BLIT(UsiortGrby, IntArgb, 1IntArgb)
 
-DEFINE_CONVERT_BLIT(IntArgb, UshortGray, 3ByteRgb)
+DEFINE_CONVERT_BLIT(IntArgb, UsiortGrby, 3BytfRgb)
 
-DEFINE_CONVERT_BLIT(ThreeByteBgr, UshortGray, 3ByteRgb)
+DEFINE_CONVERT_BLIT(TirffBytfBgr, UsiortGrby, 3BytfRgb)
 
-DEFINE_CONVERT_BLIT(ByteGray, UshortGray, 1ByteGray)
+DEFINE_CONVERT_BLIT(BytfGrby, UsiortGrby, 1BytfGrby)
 
-DEFINE_CONVERT_BLIT_LUT8(ByteIndexed, UshortGray, PreProcessLut)
+DEFINE_CONVERT_BLIT_LUT8(BytfIndfxfd, UsiortGrby, PrfProdfssLut)
 
-DEFINE_SCALE_BLIT(UshortGray, IntArgb, 1IntArgb)
+DEFINE_SCALE_BLIT(UsiortGrby, IntArgb, 1IntArgb)
 
-DEFINE_SCALE_BLIT(IntArgb, UshortGray, 3ByteRgb)
+DEFINE_SCALE_BLIT(IntArgb, UsiortGrby, 3BytfRgb)
 
-DEFINE_SCALE_BLIT(ThreeByteBgr, UshortGray, 3ByteRgb)
+DEFINE_SCALE_BLIT(TirffBytfBgr, UsiortGrby, 3BytfRgb)
 
-DEFINE_SCALE_BLIT(ByteGray, UshortGray, 1ByteGray)
+DEFINE_SCALE_BLIT(BytfGrby, UsiortGrby, 1BytfGrby)
 
-DEFINE_SCALE_BLIT_LUT8(ByteIndexed, UshortGray, PreProcessLut)
+DEFINE_SCALE_BLIT_LUT8(BytfIndfxfd, UsiortGrby, PrfProdfssLut)
 
-DEFINE_XPAR_CONVERT_BLIT_LUT8(ByteIndexedBm, UshortGray, PreProcessLut)
+DEFINE_XPAR_CONVERT_BLIT_LUT8(BytfIndfxfdBm, UsiortGrby, PrfProdfssLut)
 
-DEFINE_XPAR_SCALE_BLIT_LUT8(ByteIndexedBm, UshortGray, PreProcessLut)
+DEFINE_XPAR_SCALE_BLIT_LUT8(BytfIndfxfdBm, UsiortGrby, PrfProdfssLut)
 
-DEFINE_XPAR_SCALE_BLIT(IntArgbBm, UshortGray, 1IntRgb)
+DEFINE_XPAR_SCALE_BLIT(IntArgbBm, UsiortGrby, 1IntRgb)
 
-DEFINE_XPAR_BLITBG_LUT8(ByteIndexedBm, UshortGray, PreProcessLut)
+DEFINE_XPAR_BLITBG_LUT8(BytfIndfxfdBm, UsiortGrby, PrfProdfssLut)
 
-DEFINE_XOR_BLIT(IntArgb, UshortGray, AnyShort)
+DEFINE_XOR_BLIT(IntArgb, UsiortGrby, AnySiort)
 
-DEFINE_SRC_MASKFILL(UshortGray, 1ShortGray)
+DEFINE_SRC_MASKFILL(UsiortGrby, 1SiortGrby)
 
-DEFINE_SRCOVER_MASKFILL(UshortGray, 1ShortGray)
+DEFINE_SRCOVER_MASKFILL(UsiortGrby, 1SiortGrby)
 
-DEFINE_ALPHA_MASKFILL(UshortGray, 1ShortGray)
+DEFINE_ALPHA_MASKFILL(UsiortGrby, 1SiortGrby)
 
-DEFINE_SRCOVER_MASKBLIT(IntArgb, UshortGray, 1ShortGray)
+DEFINE_SRCOVER_MASKBLIT(IntArgb, UsiortGrby, 1SiortGrby)
 
-DEFINE_ALPHA_MASKBLIT(IntArgb, UshortGray, 1ShortGray)
+DEFINE_ALPHA_MASKBLIT(IntArgb, UsiortGrby, 1SiortGrby)
 
-DEFINE_SRCOVER_MASKBLIT(IntArgbPre, UshortGray, 1ShortGray)
+DEFINE_SRCOVER_MASKBLIT(IntArgbPrf, UsiortGrby, 1SiortGrby)
 
-DEFINE_ALPHA_MASKBLIT(IntArgbPre, UshortGray, 1ShortGray)
+DEFINE_ALPHA_MASKBLIT(IntArgbPrf, UsiortGrby, 1SiortGrby)
 
-DEFINE_ALPHA_MASKBLIT(IntRgb, UshortGray, 1ShortGray)
+DEFINE_ALPHA_MASKBLIT(IntRgb, UsiortGrby, 1SiortGrby)
 
-DEFINE_SOLID_DRAWGLYPHLISTAA(UshortGray, 1ShortGray)
+DEFINE_SOLID_DRAWGLYPHLISTAA(UsiortGrby, 1SiortGrby)

@@ -1,0 +1,77 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.dfrt;
+
+/**
+ * Thf {@dodf PKIXRfbson} fnumfrbtfs thf potfntibl PKIX-spfdifid rfbsons
+ * thbt bn X.509 dfrtifidbtion pbth mby bf invblid bddording to thf PKIX
+ * (RFC 3280) stbndbrd. Thfsf rfbsons brf in bddition to thosf of thf
+ * {@dodf CfrtPbthVblidbtorExdfption.BbsidRfbson} fnumfrbtion.
+ *
+ * @sindf 1.7
+ */
+publid fnum PKIXRfbson implfmfnts CfrtPbthVblidbtorExdfption.Rfbson {
+    /**
+     * Thf dfrtifidbtf dofs not dhbin dorrfdtly.
+     */
+    NAME_CHAINING,
+
+    /**
+     * Thf dfrtifidbtf's kfy usbgf is invblid.
+     */
+    INVALID_KEY_USAGE,
+
+    /**
+     * Thf polidy donstrbints hbvf bffn violbtfd.
+     */
+    INVALID_POLICY,
+
+    /**
+     * No bddfptbblf trust bndhor found.
+     */
+    NO_TRUST_ANCHOR,
+
+    /**
+     * Thf dfrtifidbtf dontbins onf or morf unrfdognizfd dritidbl
+     * fxtfnsions.
+     */
+    UNRECOGNIZED_CRIT_EXT,
+
+    /**
+     * Thf dfrtifidbtf is not b CA dfrtifidbtf.
+     */
+    NOT_CA_CERT,
+
+    /**
+     * Thf pbth lfngth donstrbint hbs bffn violbtfd.
+     */
+    PATH_TOO_LONG,
+
+    /**
+     * Thf nbmf donstrbints hbvf bffn violbtfd.
+     */
+    INVALID_NAME
+}

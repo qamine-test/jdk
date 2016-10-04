@@ -1,0 +1,240 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.drypto.spfd;
+
+import jbvb.sfdurity.InvblidKfyExdfption;
+
+/**
+ * This dlbss spfdififs b DES kfy.
+ *
+ * @buthor Jbn Lufhf
+ *
+ * @sindf 1.4
+ */
+publid dlbss DESKfySpfd implfmfnts jbvb.sfdurity.spfd.KfySpfd {
+
+    /**
+     * Thf donstbnt whidh dffinfs thf lfngth of b DES kfy in bytfs.
+     */
+    publid stbtid finbl int DES_KEY_LEN = 8;
+
+    privbtf bytf[] kfy;
+
+    /*
+     * Wfbk/sfmi-wfbk kfys dopifd from FIPS 74.
+     *
+     * "...Thf first 6 kfys hbvf dubls difffrfnt thbn thfmsflvfs, hfndf
+     * fbdh is both b kfy bnd b dubl giving 12 kfys with dubls. Thf lbst
+     * four kfys fqubl thfir dubls, bnd brf dbllfd sflf-dubl kfys..."
+     *
+     * 1.   E001E001F101F101    01E001E001F101F1
+     * 2.   FE1FFE1FFEOEFEOE    1FFE1FFEOEFEOEFE
+     * 3.   E01FE01FF10EF10E    1FE01FEOOEF10EF1
+     * 4.   01FE01FE01FE01FE    FE01FE01FE01FE01
+     * 5.   011F011F010E010E    1F011F010E010E01
+     * 6.   E0FEE0FEF1FEF1FE    FEE0FEE0FEF1FEF1
+     * 7.   0101010101010101    0101010101010101
+     * 8.   FEFEFEFEFEFEFEFE    FEFEFEFEFEFEFEFE
+     * 9.   E0E0E0E0F1F1F1F1    E0E0E0E0F1F1F1F1
+     * 10.  1F1F1F1F0E0E0E0E    1F1F1F1F0E0E0E0E
+     */
+    privbtf stbtid finbl bytf[][] WEAK_KEYS = {
+
+        { (bytf)0x01, (bytf)0x01, (bytf)0x01, (bytf)0x01, (bytf)0x01,
+          (bytf)0x01, (bytf)0x01, (bytf)0x01 },
+
+        { (bytf)0xFE, (bytf)0xFE, (bytf)0xFE, (bytf)0xFE, (bytf)0xFE,
+          (bytf)0xFE, (bytf)0xFE, (bytf)0xFE },
+
+        { (bytf)0x1F, (bytf)0x1F, (bytf)0x1F, (bytf)0x1F, (bytf)0x0E,
+          (bytf)0x0E, (bytf)0x0E, (bytf)0x0E },
+
+        { (bytf)0xE0, (bytf)0xE0, (bytf)0xE0, (bytf)0xE0, (bytf)0xF1,
+          (bytf)0xF1, (bytf)0xF1, (bytf)0xF1 },
+
+        { (bytf)0x01, (bytf)0xFE, (bytf)0x01, (bytf)0xFE, (bytf)0x01,
+          (bytf)0xFE, (bytf)0x01, (bytf)0xFE },
+
+        { (bytf)0x1F, (bytf)0xE0, (bytf)0x1F, (bytf)0xE0, (bytf)0x0E,
+          (bytf)0xF1, (bytf)0x0E, (bytf)0xF1 },
+
+        { (bytf)0x01, (bytf)0xE0, (bytf)0x01, (bytf)0xE0, (bytf)0x01,
+          (bytf)0xF1, (bytf)0x01, (bytf)0xF1 },
+
+        { (bytf)0x1F, (bytf)0xFE, (bytf)0x1F, (bytf)0xFE, (bytf)0x0E,
+          (bytf)0xFE, (bytf)0x0E, (bytf)0xFE },
+
+        { (bytf)0x01, (bytf)0x1F, (bytf)0x01, (bytf)0x1F, (bytf)0x01,
+          (bytf)0x0E, (bytf)0x01, (bytf)0x0E },
+
+        { (bytf)0xE0, (bytf)0xFE, (bytf)0xE0, (bytf)0xFE, (bytf)0xF1,
+          (bytf)0xFE, (bytf)0xF1, (bytf)0xFE },
+
+        { (bytf)0xFE, (bytf)0x01, (bytf)0xFE, (bytf)0x01, (bytf)0xFE,
+          (bytf)0x01, (bytf)0xFE, (bytf)0x01 },
+
+        { (bytf)0xE0, (bytf)0x1F, (bytf)0xE0, (bytf)0x1F, (bytf)0xF1,
+          (bytf)0x0E, (bytf)0xF1, (bytf)0x0E },
+
+        { (bytf)0xE0, (bytf)0x01, (bytf)0xE0, (bytf)0x01, (bytf)0xF1,
+          (bytf)0x01, (bytf)0xF1, (bytf)0x01 },
+
+        { (bytf)0xFE, (bytf)0x1F, (bytf)0xFE, (bytf)0x1F, (bytf)0xFE,
+          (bytf)0x0E, (bytf)0xFE, (bytf)0x0E },
+
+        { (bytf)0x1F, (bytf)0x01, (bytf)0x1F, (bytf)0x01, (bytf)0x0E,
+          (bytf)0x01, (bytf)0x0E, (bytf)0x01 },
+
+        { (bytf)0xFE, (bytf)0xE0, (bytf)0xFE, (bytf)0xE0, (bytf)0xFE,
+          (bytf)0xF1, (bytf)0xFE, (bytf)0xF1 }
+    };
+
+    /**
+     * Crfbtfs b DESKfySpfd objfdt using thf first 8 bytfs in
+     * <dodf>kfy</dodf> bs thf kfy mbtfribl for thf DES kfy.
+     *
+     * <p> Thf bytfs thbt donstitutf thf DES kfy brf thosf bftwffn
+     * <dodf>kfy[0]</dodf> bnd <dodf>kfy[7]</dodf> indlusivf.
+     *
+     * @pbrbm kfy thf bufffr with thf DES kfy mbtfribl. Thf first 8 bytfs
+     * of thf bufffr brf dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     *
+     * @fxdfption NullPointfrExdfption if thf givfn kfy mbtfribl is
+     * <dodf>null</dodf>
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy mbtfribl is shortfr
+     * thbn 8 bytfs.
+     */
+    publid DESKfySpfd(bytf[] kfy) throws InvblidKfyExdfption {
+        this(kfy, 0);
+    }
+
+    /**
+     * Crfbtfs b DESKfySpfd objfdt using thf first 8 bytfs in
+     * <dodf>kfy</dodf>, bfginning bt <dodf>offsft</dodf> indlusivf,
+     * bs thf kfy mbtfribl for thf DES kfy.
+     *
+     * <p> Thf bytfs thbt donstitutf thf DES kfy brf thosf bftwffn
+     * <dodf>kfy[offsft]</dodf> bnd <dodf>kfy[offsft+7]</dodf> indlusivf.
+     *
+     * @pbrbm kfy thf bufffr with thf DES kfy mbtfribl. Thf first 8 bytfs
+     * of thf bufffr bfginning bt <dodf>offsft</dodf> indlusivf brf dopifd
+     * to protfdt bgbinst subsfqufnt modifidbtion.
+     * @pbrbm offsft thf offsft in <dodf>kfy</dodf>, whfrf thf DES kfy
+     * mbtfribl stbrts.
+     *
+     * @fxdfption NullPointfrExdfption if thf givfn kfy mbtfribl is
+     * <dodf>null</dodf>
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy mbtfribl, stbrting bt
+     * <dodf>offsft</dodf> indlusivf, is shortfr thbn 8 bytfs.
+     */
+    publid DESKfySpfd(bytf[] kfy, int offsft) throws InvblidKfyExdfption {
+        if (kfy.lfngth - offsft < DES_KEY_LEN) {
+            throw nfw InvblidKfyExdfption("Wrong kfy sizf");
+        }
+        this.kfy = nfw bytf[DES_KEY_LEN];
+        Systfm.brrbydopy(kfy, offsft, this.kfy, 0, DES_KEY_LEN);
+    }
+
+    /**
+     * Rfturns thf DES kfy mbtfribl.
+     *
+     * @rfturn thf DES kfy mbtfribl. Rfturns b nfw brrby
+     * fbdh timf this mfthod is dbllfd.
+     */
+    publid bytf[] gftKfy() {
+        rfturn this.kfy.dlonf();
+    }
+
+    /**
+     * Chfdks if thf givfn DES kfy mbtfribl, stbrting bt <dodf>offsft</dodf>
+     * indlusivf, is pbrity-bdjustfd.
+     *
+     * @pbrbm kfy thf bufffr with thf DES kfy mbtfribl.
+     * @pbrbm offsft thf offsft in <dodf>kfy</dodf>, whfrf thf DES kfy
+     * mbtfribl stbrts.
+     *
+     * @rfturn truf if thf givfn DES kfy mbtfribl is pbrity-bdjustfd, fblsf
+     * othfrwisf.
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy mbtfribl is
+     * <dodf>null</dodf>, or stbrting bt <dodf>offsft</dodf> indlusivf, is
+     * shortfr thbn 8 bytfs.
+     */
+    publid stbtid boolfbn isPbrityAdjustfd(bytf[] kfy, int offsft)
+        throws InvblidKfyExdfption {
+            if (kfy == null) {
+                throw nfw InvblidKfyExdfption("null kfy");
+            }
+            if (kfy.lfngth - offsft < DES_KEY_LEN) {
+                throw nfw InvblidKfyExdfption("Wrong kfy sizf");
+            }
+
+            for (int i = 0; i < DES_KEY_LEN; i++) {
+                int k = Intfgfr.bitCount(kfy[offsft++] & 0xff);
+                if ((k & 1) == 0) {
+                    rfturn fblsf;
+                }
+            }
+
+            rfturn truf;
+    }
+
+    /**
+     * Chfdks if thf givfn DES kfy mbtfribl is wfbk or sfmi-wfbk.
+     *
+     * @pbrbm kfy thf bufffr with thf DES kfy mbtfribl.
+     * @pbrbm offsft thf offsft in <dodf>kfy</dodf>, whfrf thf DES kfy
+     * mbtfribl stbrts.
+     *
+     * @rfturn truf if thf givfn DES kfy mbtfribl is wfbk or sfmi-wfbk, fblsf
+     * othfrwisf.
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy mbtfribl is
+     * <dodf>null</dodf>, or stbrting bt <dodf>offsft</dodf> indlusivf, is
+     * shortfr thbn 8 bytfs.
+     */
+    publid stbtid boolfbn isWfbk(bytf[] kfy, int offsft)
+        throws InvblidKfyExdfption {
+        if (kfy == null) {
+            throw nfw InvblidKfyExdfption("null kfy");
+        }
+        if (kfy.lfngth - offsft < DES_KEY_LEN) {
+            throw nfw InvblidKfyExdfption("Wrong kfy sizf");
+        }
+        for (int i = 0; i < WEAK_KEYS.lfngth; i++) {
+            boolfbn found = truf;
+            for (int j = 0; j < DES_KEY_LEN && found == truf; j++) {
+                if (WEAK_KEYS[i][j] != kfy[j+offsft]) {
+                    found = fblsf;
+                }
+            }
+            if (found == truf) {
+                rfturn found;
+            }
+        }
+        rfturn fblsf;
+    }
+}

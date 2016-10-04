@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,726 +56,726 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.commons;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.dommons;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import jbvb.util.AbstrbdtMbp;
+import jbvb.util.ArrbyList;
+import jbvb.util.BitSft;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.LinkfdList;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
 
-import jdk.internal.org.objectweb.asm.Label;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.Type;
-import jdk.internal.org.objectweb.asm.tree.AbstractInsnNode;
-import jdk.internal.org.objectweb.asm.tree.InsnList;
-import jdk.internal.org.objectweb.asm.tree.InsnNode;
-import jdk.internal.org.objectweb.asm.tree.JumpInsnNode;
-import jdk.internal.org.objectweb.asm.tree.LabelNode;
-import jdk.internal.org.objectweb.asm.tree.LocalVariableNode;
-import jdk.internal.org.objectweb.asm.tree.LookupSwitchInsnNode;
-import jdk.internal.org.objectweb.asm.tree.MethodNode;
-import jdk.internal.org.objectweb.asm.tree.TableSwitchInsnNode;
-import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Lbbfl;
+import jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.AbstrbdtInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.InsnList;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.InsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.JumpInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.LbbflNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.LodblVbribblfNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.LookupSwitdiInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.MftiodNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.TbblfSwitdiInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.TryCbtdiBlodkNodf;
 
 /**
- * A {@link jdk.internal.org.objectweb.asm.MethodVisitor} that removes JSR instructions and
- * inlines the referenced subroutines.
+ * A {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor} tibt rfmovfs JSR instrudtions bnd
+ * inlinfs tif rfffrfndfd subroutinfs.
  *
- * <b>Explanation of how it works</b> TODO
+ * <b>Explbnbtion of iow it works</b> TODO
  *
- * @author Niko Matsakis
+ * @butior Niko Mbtsbkis
  */
-public class JSRInlinerAdapter extends MethodNode implements Opcodes {
+publid dlbss JSRInlinfrAdbptfr fxtfnds MftiodNodf implfmfnts Opdodfs {
 
-    private static final boolean LOGGING = false;
+    privbtf stbtid finbl boolfbn LOGGING = fblsf;
 
     /**
-     * For each label that is jumped to by a JSR, we create a BitSet instance.
+     * For fbdi lbbfl tibt is jumpfd to by b JSR, wf drfbtf b BitSft instbndf.
      */
-    private final Map<LabelNode, BitSet> subroutineHeads = new HashMap<LabelNode, BitSet>();
+    privbtf finbl Mbp<LbbflNodf, BitSft> subroutinfHfbds = nfw HbsiMbp<LbbflNodf, BitSft>();
 
     /**
-     * This subroutine instance denotes the line of execution that is not
-     * contained within any subroutine; i.e., the "subroutine" that is executing
-     * when a method first begins.
+     * Tiis subroutinf instbndf dfnotfs tif linf of fxfdution tibt is not
+     * dontbinfd witiin bny subroutinf; i.f., tif "subroutinf" tibt is fxfduting
+     * wifn b mftiod first bfgins.
      */
-    private final BitSet mainSubroutine = new BitSet();
+    privbtf finbl BitSft mbinSubroutinf = nfw BitSft();
 
     /**
-     * This BitSet contains the index of every instruction that belongs to more
-     * than one subroutine. This should not happen often.
+     * Tiis BitSft dontbins tif indfx of fvfry instrudtion tibt bflongs to morf
+     * tibn onf subroutinf. Tiis siould not ibppfn oftfn.
      */
-    final BitSet dualCitizens = new BitSet();
+    finbl BitSft dublCitizfns = nfw BitSft();
 
     /**
-     * Creates a new JSRInliner. <i>Subclasses must not use this
-     * constructor</i>. Instead, they must use the
-     * {@link #JSRInlinerAdapter(int, MethodVisitor, int, String, String, String, String[])}
-     * version.
+     * Crfbtfs b nfw JSRInlinfr. <i>Subdlbssfs must not usf tiis
+     * donstrudtor</i>. Instfbd, tify must usf tif
+     * {@link #JSRInlinfrAdbptfr(int, MftiodVisitor, int, String, String, String, String[])}
+     * vfrsion.
      *
-     * @param mv
-     *            the <code>MethodVisitor</code> to send the resulting inlined
-     *            method code to (use <code>null</code> for none).
-     * @param access
-     *            the method's access flags (see {@link Opcodes}). This
-     *            parameter also indicates if the method is synthetic and/or
-     *            deprecated.
-     * @param name
-     *            the method's name.
-     * @param desc
-     *            the method's descriptor (see {@link Type}).
-     * @param signature
-     *            the method's signature. May be <tt>null</tt>.
-     * @param exceptions
-     *            the internal names of the method's exception classes (see
-     *            {@link Type#getInternalName() getInternalName}). May be
+     * @pbrbm mv
+     *            tif <dodf>MftiodVisitor</dodf> to sfnd tif rfsulting inlinfd
+     *            mftiod dodf to (usf <dodf>null</dodf> for nonf).
+     * @pbrbm bddfss
+     *            tif mftiod's bddfss flbgs (sff {@link Opdodfs}). Tiis
+     *            pbrbmftfr blso indidbtfs if tif mftiod is syntiftid bnd/or
+     *            dfprfdbtfd.
+     * @pbrbm nbmf
+     *            tif mftiod's nbmf.
+     * @pbrbm dfsd
+     *            tif mftiod's dfsdriptor (sff {@link Typf}).
+     * @pbrbm signbturf
+     *            tif mftiod's signbturf. Mby bf <tt>null</tt>.
+     * @pbrbm fxdfptions
+     *            tif intfrnbl nbmfs of tif mftiod's fxdfption dlbssfs (sff
+     *            {@link Typf#gftIntfrnblNbmf() gftIntfrnblNbmf}). Mby bf
      *            <tt>null</tt>.
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     * @tirows IllfgblStbtfExdfption
+     *             If b subdlbss dblls tiis donstrudtor.
      */
-    public JSRInlinerAdapter(final MethodVisitor mv, final int access,
-            final String name, final String desc, final String signature,
-            final String[] exceptions) {
-        this(Opcodes.ASM5, mv, access, name, desc, signature, exceptions);
-        if (getClass() != JSRInlinerAdapter.class) {
-            throw new IllegalStateException();
+    publid JSRInlinfrAdbptfr(finbl MftiodVisitor mv, finbl int bddfss,
+            finbl String nbmf, finbl String dfsd, finbl String signbturf,
+            finbl String[] fxdfptions) {
+        tiis(Opdodfs.ASM5, mv, bddfss, nbmf, dfsd, signbturf, fxdfptions);
+        if (gftClbss() != JSRInlinfrAdbptfr.dlbss) {
+            tirow nfw IllfgblStbtfExdfption();
         }
     }
 
     /**
-     * Creates a new JSRInliner.
+     * Crfbtfs b nfw JSRInlinfr.
      *
-     * @param api
-     *            the ASM API version implemented by this visitor. Must be one
-     *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param mv
-     *            the <code>MethodVisitor</code> to send the resulting inlined
-     *            method code to (use <code>null</code> for none).
-     * @param access
-     *            the method's access flags (see {@link Opcodes}). This
-     *            parameter also indicates if the method is synthetic and/or
-     *            deprecated.
-     * @param name
-     *            the method's name.
-     * @param desc
-     *            the method's descriptor (see {@link Type}).
-     * @param signature
-     *            the method's signature. May be <tt>null</tt>.
-     * @param exceptions
-     *            the internal names of the method's exception classes (see
-     *            {@link Type#getInternalName() getInternalName}). May be
+     * @pbrbm bpi
+     *            tif ASM API vfrsion implfmfntfd by tiis visitor. Must bf onf
+     *            of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
+     * @pbrbm mv
+     *            tif <dodf>MftiodVisitor</dodf> to sfnd tif rfsulting inlinfd
+     *            mftiod dodf to (usf <dodf>null</dodf> for nonf).
+     * @pbrbm bddfss
+     *            tif mftiod's bddfss flbgs (sff {@link Opdodfs}). Tiis
+     *            pbrbmftfr blso indidbtfs if tif mftiod is syntiftid bnd/or
+     *            dfprfdbtfd.
+     * @pbrbm nbmf
+     *            tif mftiod's nbmf.
+     * @pbrbm dfsd
+     *            tif mftiod's dfsdriptor (sff {@link Typf}).
+     * @pbrbm signbturf
+     *            tif mftiod's signbturf. Mby bf <tt>null</tt>.
+     * @pbrbm fxdfptions
+     *            tif intfrnbl nbmfs of tif mftiod's fxdfption dlbssfs (sff
+     *            {@link Typf#gftIntfrnblNbmf() gftIntfrnblNbmf}). Mby bf
      *            <tt>null</tt>.
      */
-    protected JSRInlinerAdapter(final int api, final MethodVisitor mv,
-            final int access, final String name, final String desc,
-            final String signature, final String[] exceptions) {
-        super(api, access, name, desc, signature, exceptions);
-        this.mv = mv;
+    protfdtfd JSRInlinfrAdbptfr(finbl int bpi, finbl MftiodVisitor mv,
+            finbl int bddfss, finbl String nbmf, finbl String dfsd,
+            finbl String signbturf, finbl String[] fxdfptions) {
+        supfr(bpi, bddfss, nbmf, dfsd, signbturf, fxdfptions);
+        tiis.mv = mv;
     }
 
     /**
-     * Detects a JSR instruction and sets a flag to indicate we will need to do
+     * Dftfdts b JSR instrudtion bnd sfts b flbg to indidbtf wf will nffd to do
      * inlining.
      */
-    @Override
-    public void visitJumpInsn(final int opcode, final Label lbl) {
-        super.visitJumpInsn(opcode, lbl);
-        LabelNode ln = ((JumpInsnNode) instructions.getLast()).label;
-        if (opcode == JSR && !subroutineHeads.containsKey(ln)) {
-            subroutineHeads.put(ln, new BitSet());
+    @Ovfrridf
+    publid void visitJumpInsn(finbl int opdodf, finbl Lbbfl lbl) {
+        supfr.visitJumpInsn(opdodf, lbl);
+        LbbflNodf ln = ((JumpInsnNodf) instrudtions.gftLbst()).lbbfl;
+        if (opdodf == JSR && !subroutinfHfbds.dontbinsKfy(ln)) {
+            subroutinfHfbds.put(ln, nfw BitSft());
         }
     }
 
     /**
-     * If any JSRs were seen, triggers the inlining process. Otherwise, forwards
-     * the byte codes untouched.
+     * If bny JSRs wfrf sffn, triggfrs tif inlining prodfss. Otifrwisf, forwbrds
+     * tif bytf dodfs untoudifd.
      */
-    @Override
-    public void visitEnd() {
-        if (!subroutineHeads.isEmpty()) {
-            markSubroutines();
+    @Ovfrridf
+    publid void visitEnd() {
+        if (!subroutinfHfbds.isEmpty()) {
+            mbrkSubroutinfs();
             if (LOGGING) {
-                log(mainSubroutine.toString());
-                Iterator<BitSet> it = subroutineHeads.values().iterator();
-                while (it.hasNext()) {
-                    BitSet sub = it.next();
+                log(mbinSubroutinf.toString());
+                Itfrbtor<BitSft> it = subroutinfHfbds.vblufs().itfrbtor();
+                wiilf (it.ibsNfxt()) {
+                    BitSft sub = it.nfxt();
                     log(sub.toString());
                 }
             }
-            emitCode();
+            fmitCodf();
         }
 
-        // Forward the translate opcodes on if appropriate:
+        // Forwbrd tif trbnslbtf opdodfs on if bppropribtf:
         if (mv != null) {
-            accept(mv);
+            bddfpt(mv);
         }
     }
 
     /**
-     * Walks the method and determines which internal subroutine(s), if any,
-     * each instruction is a method of.
+     * Wblks tif mftiod bnd dftfrminfs wiidi intfrnbl subroutinf(s), if bny,
+     * fbdi instrudtion is b mftiod of.
      */
-    private void markSubroutines() {
-        BitSet anyvisited = new BitSet();
+    privbtf void mbrkSubroutinfs() {
+        BitSft bnyvisitfd = nfw BitSft();
 
-        // First walk the main subroutine and find all those instructions which
-        // can be reached without invoking any JSR at all
-        markSubroutineWalk(mainSubroutine, 0, anyvisited);
+        // First wblk tif mbin subroutinf bnd find bll tiosf instrudtions wiidi
+        // dbn bf rfbdifd witiout invoking bny JSR bt bll
+        mbrkSubroutinfWblk(mbinSubroutinf, 0, bnyvisitfd);
 
-        // Go through the head of each subroutine and find any nodes reachable
-        // to that subroutine without following any JSR links.
-        for (Iterator<Map.Entry<LabelNode, BitSet>> it = subroutineHeads
-                .entrySet().iterator(); it.hasNext();) {
-            Map.Entry<LabelNode, BitSet> entry = it.next();
-            LabelNode lab = entry.getKey();
-            BitSet sub = entry.getValue();
-            int index = instructions.indexOf(lab);
-            markSubroutineWalk(sub, index, anyvisited);
+        // Go tirougi tif ifbd of fbdi subroutinf bnd find bny nodfs rfbdibblf
+        // to tibt subroutinf witiout following bny JSR links.
+        for (Itfrbtor<Mbp.Entry<LbbflNodf, BitSft>> it = subroutinfHfbds
+                .fntrySft().itfrbtor(); it.ibsNfxt();) {
+            Mbp.Entry<LbbflNodf, BitSft> fntry = it.nfxt();
+            LbbflNodf lbb = fntry.gftKfy();
+            BitSft sub = fntry.gftVbluf();
+            int indfx = instrudtions.indfxOf(lbb);
+            mbrkSubroutinfWblk(sub, indfx, bnyvisitfd);
         }
     }
 
     /**
-     * Performs a depth first search walking the normal byte code path starting
-     * at <code>index</code>, and adding each instruction encountered into the
-     * subroutine <code>sub</code>. After this walk is complete, iterates over
-     * the exception handlers to ensure that we also include those byte codes
-     * which are reachable through an exception that may be thrown during the
-     * execution of the subroutine. Invoked from <code>markSubroutines()</code>.
+     * Pfrforms b dfpti first sfbrdi wblking tif normbl bytf dodf pbti stbrting
+     * bt <dodf>indfx</dodf>, bnd bdding fbdi instrudtion fndountfrfd into tif
+     * subroutinf <dodf>sub</dodf>. Aftfr tiis wblk is domplftf, itfrbtfs ovfr
+     * tif fxdfption ibndlfrs to fnsurf tibt wf blso indludf tiosf bytf dodfs
+     * wiidi brf rfbdibblf tirougi bn fxdfption tibt mby bf tirown during tif
+     * fxfdution of tif subroutinf. Invokfd from <dodf>mbrkSubroutinfs()</dodf>.
      *
-     * @param sub
-     *            the subroutine whose instructions must be computed.
-     * @param index
-     *            an instruction of this subroutine.
-     * @param anyvisited
-     *            indexes of the already visited instructions, i.e. marked as
-     *            part of this subroutine or any previously computed subroutine.
+     * @pbrbm sub
+     *            tif subroutinf wiosf instrudtions must bf domputfd.
+     * @pbrbm indfx
+     *            bn instrudtion of tiis subroutinf.
+     * @pbrbm bnyvisitfd
+     *            indfxfs of tif blrfbdy visitfd instrudtions, i.f. mbrkfd bs
+     *            pbrt of tiis subroutinf or bny prfviously domputfd subroutinf.
      */
-    private void markSubroutineWalk(final BitSet sub, final int index,
-            final BitSet anyvisited) {
+    privbtf void mbrkSubroutinfWblk(finbl BitSft sub, finbl int indfx,
+            finbl BitSft bnyvisitfd) {
         if (LOGGING) {
-            log("markSubroutineWalk: sub=" + sub + " index=" + index);
+            log("mbrkSubroutinfWblk: sub=" + sub + " indfx=" + indfx);
         }
 
-        // First find those instructions reachable via normal execution
-        markSubroutineWalkDFS(sub, index, anyvisited);
+        // First find tiosf instrudtions rfbdibblf vib normbl fxfdution
+        mbrkSubroutinfWblkDFS(sub, indfx, bnyvisitfd);
 
-        // Now, make sure we also include any applicable exception handlers
-        boolean loop = true;
-        while (loop) {
-            loop = false;
-            for (Iterator<TryCatchBlockNode> it = tryCatchBlocks.iterator(); it
-                    .hasNext();) {
-                TryCatchBlockNode trycatch = it.next();
+        // Now, mbkf surf wf blso indludf bny bpplidbblf fxdfption ibndlfrs
+        boolfbn loop = truf;
+        wiilf (loop) {
+            loop = fblsf;
+            for (Itfrbtor<TryCbtdiBlodkNodf> it = tryCbtdiBlodks.itfrbtor(); it
+                    .ibsNfxt();) {
+                TryCbtdiBlodkNodf trydbtdi = it.nfxt();
 
                 if (LOGGING) {
-                    // TODO use of default toString().
-                    log("Scanning try/catch " + trycatch);
+                    // TODO usf of dffbult toString().
+                    log("Sdbnning try/dbtdi " + trydbtdi);
                 }
 
-                // If the handler has already been processed, skip it.
-                int handlerindex = instructions.indexOf(trycatch.handler);
-                if (sub.get(handlerindex)) {
-                    continue;
+                // If tif ibndlfr ibs blrfbdy bffn prodfssfd, skip it.
+                int ibndlfrindfx = instrudtions.indfxOf(trydbtdi.ibndlfr);
+                if (sub.gft(ibndlfrindfx)) {
+                    dontinuf;
                 }
 
-                int startindex = instructions.indexOf(trycatch.start);
-                int endindex = instructions.indexOf(trycatch.end);
-                int nextbit = sub.nextSetBit(startindex);
-                if (nextbit != -1 && nextbit < endindex) {
+                int stbrtindfx = instrudtions.indfxOf(trydbtdi.stbrt);
+                int fndindfx = instrudtions.indfxOf(trydbtdi.fnd);
+                int nfxtbit = sub.nfxtSftBit(stbrtindfx);
+                if (nfxtbit != -1 && nfxtbit < fndindfx) {
                     if (LOGGING) {
-                        log("Adding exception handler: " + startindex + '-'
-                                + endindex + " due to " + nextbit + " handler "
-                                + handlerindex);
+                        log("Adding fxdfption ibndlfr: " + stbrtindfx + '-'
+                                + fndindfx + " duf to " + nfxtbit + " ibndlfr "
+                                + ibndlfrindfx);
                     }
-                    markSubroutineWalkDFS(sub, handlerindex, anyvisited);
-                    loop = true;
+                    mbrkSubroutinfWblkDFS(sub, ibndlfrindfx, bnyvisitfd);
+                    loop = truf;
                 }
             }
         }
     }
 
     /**
-     * Performs a simple DFS of the instructions, assigning each to the
-     * subroutine <code>sub</code>. Starts from <code>index</code>. Invoked only
-     * by <code>markSubroutineWalk()</code>.
+     * Pfrforms b simplf DFS of tif instrudtions, bssigning fbdi to tif
+     * subroutinf <dodf>sub</dodf>. Stbrts from <dodf>indfx</dodf>. Invokfd only
+     * by <dodf>mbrkSubroutinfWblk()</dodf>.
      *
-     * @param sub
-     *            the subroutine whose instructions must be computed.
-     * @param index
-     *            an instruction of this subroutine.
-     * @param anyvisited
-     *            indexes of the already visited instructions, i.e. marked as
-     *            part of this subroutine or any previously computed subroutine.
+     * @pbrbm sub
+     *            tif subroutinf wiosf instrudtions must bf domputfd.
+     * @pbrbm indfx
+     *            bn instrudtion of tiis subroutinf.
+     * @pbrbm bnyvisitfd
+     *            indfxfs of tif blrfbdy visitfd instrudtions, i.f. mbrkfd bs
+     *            pbrt of tiis subroutinf or bny prfviously domputfd subroutinf.
      */
-    private void markSubroutineWalkDFS(final BitSet sub, int index,
-            final BitSet anyvisited) {
-        while (true) {
-            AbstractInsnNode node = instructions.get(index);
+    privbtf void mbrkSubroutinfWblkDFS(finbl BitSft sub, int indfx,
+            finbl BitSft bnyvisitfd) {
+        wiilf (truf) {
+            AbstrbdtInsnNodf nodf = instrudtions.gft(indfx);
 
-            // don't visit a node twice
-            if (sub.get(index)) {
-                return;
+            // don't visit b nodf twidf
+            if (sub.gft(indfx)) {
+                rfturn;
             }
-            sub.set(index);
+            sub.sft(indfx);
 
-            // check for those nodes already visited by another subroutine
-            if (anyvisited.get(index)) {
-                dualCitizens.set(index);
+            // difdk for tiosf nodfs blrfbdy visitfd by bnotifr subroutinf
+            if (bnyvisitfd.gft(indfx)) {
+                dublCitizfns.sft(indfx);
                 if (LOGGING) {
-                    log("Instruction #" + index + " is dual citizen.");
+                    log("Instrudtion #" + indfx + " is dubl ditizfn.");
                 }
             }
-            anyvisited.set(index);
+            bnyvisitfd.sft(indfx);
 
-            if (node.getType() == AbstractInsnNode.JUMP_INSN
-                    && node.getOpcode() != JSR) {
-                // we do not follow recursively called subroutines here; but any
-                // other sort of branch we do follow
-                JumpInsnNode jnode = (JumpInsnNode) node;
-                int destidx = instructions.indexOf(jnode.label);
-                markSubroutineWalkDFS(sub, destidx, anyvisited);
+            if (nodf.gftTypf() == AbstrbdtInsnNodf.JUMP_INSN
+                    && nodf.gftOpdodf() != JSR) {
+                // wf do not follow rfdursivfly dbllfd subroutinfs ifrf; but bny
+                // otifr sort of brbndi wf do follow
+                JumpInsnNodf jnodf = (JumpInsnNodf) nodf;
+                int dfstidx = instrudtions.indfxOf(jnodf.lbbfl);
+                mbrkSubroutinfWblkDFS(sub, dfstidx, bnyvisitfd);
             }
-            if (node.getType() == AbstractInsnNode.TABLESWITCH_INSN) {
-                TableSwitchInsnNode tsnode = (TableSwitchInsnNode) node;
-                int destidx = instructions.indexOf(tsnode.dflt);
-                markSubroutineWalkDFS(sub, destidx, anyvisited);
-                for (int i = tsnode.labels.size() - 1; i >= 0; --i) {
-                    LabelNode l = tsnode.labels.get(i);
-                    destidx = instructions.indexOf(l);
-                    markSubroutineWalkDFS(sub, destidx, anyvisited);
+            if (nodf.gftTypf() == AbstrbdtInsnNodf.TABLESWITCH_INSN) {
+                TbblfSwitdiInsnNodf tsnodf = (TbblfSwitdiInsnNodf) nodf;
+                int dfstidx = instrudtions.indfxOf(tsnodf.dflt);
+                mbrkSubroutinfWblkDFS(sub, dfstidx, bnyvisitfd);
+                for (int i = tsnodf.lbbfls.sizf() - 1; i >= 0; --i) {
+                    LbbflNodf l = tsnodf.lbbfls.gft(i);
+                    dfstidx = instrudtions.indfxOf(l);
+                    mbrkSubroutinfWblkDFS(sub, dfstidx, bnyvisitfd);
                 }
             }
-            if (node.getType() == AbstractInsnNode.LOOKUPSWITCH_INSN) {
-                LookupSwitchInsnNode lsnode = (LookupSwitchInsnNode) node;
-                int destidx = instructions.indexOf(lsnode.dflt);
-                markSubroutineWalkDFS(sub, destidx, anyvisited);
-                for (int i = lsnode.labels.size() - 1; i >= 0; --i) {
-                    LabelNode l = lsnode.labels.get(i);
-                    destidx = instructions.indexOf(l);
-                    markSubroutineWalkDFS(sub, destidx, anyvisited);
+            if (nodf.gftTypf() == AbstrbdtInsnNodf.LOOKUPSWITCH_INSN) {
+                LookupSwitdiInsnNodf lsnodf = (LookupSwitdiInsnNodf) nodf;
+                int dfstidx = instrudtions.indfxOf(lsnodf.dflt);
+                mbrkSubroutinfWblkDFS(sub, dfstidx, bnyvisitfd);
+                for (int i = lsnodf.lbbfls.sizf() - 1; i >= 0; --i) {
+                    LbbflNodf l = lsnodf.lbbfls.gft(i);
+                    dfstidx = instrudtions.indfxOf(l);
+                    mbrkSubroutinfWblkDFS(sub, dfstidx, bnyvisitfd);
                 }
             }
 
-            // check to see if this opcode falls through to the next instruction
-            // or not; if not, return.
-            switch (instructions.get(index).getOpcode()) {
-            case GOTO:
-            case RET:
-            case TABLESWITCH:
-            case LOOKUPSWITCH:
-            case IRETURN:
-            case LRETURN:
-            case FRETURN:
-            case DRETURN:
-            case ARETURN:
-            case RETURN:
-            case ATHROW:
+            // difdk to sff if tiis opdodf fblls tirougi to tif nfxt instrudtion
+            // or not; if not, rfturn.
+            switdi (instrudtions.gft(indfx).gftOpdodf()) {
+            dbsf GOTO:
+            dbsf RET:
+            dbsf TABLESWITCH:
+            dbsf LOOKUPSWITCH:
+            dbsf IRETURN:
+            dbsf LRETURN:
+            dbsf FRETURN:
+            dbsf DRETURN:
+            dbsf ARETURN:
+            dbsf RETURN:
+            dbsf ATHROW:
                 /*
-                 * note: this either returns from this subroutine, or a parent
-                 * subroutine which invoked it
+                 * notf: tiis fitifr rfturns from tiis subroutinf, or b pbrfnt
+                 * subroutinf wiidi invokfd it
                  */
-                return;
+                rfturn;
             }
 
-            // Use tail recursion here in the form of an outer while loop to
-            // avoid our stack growing needlessly:
-            index++;
+            // Usf tbil rfdursion ifrf in tif form of bn outfr wiilf loop to
+            // bvoid our stbdk growing nffdlfssly:
+            indfx++;
 
-            // We implicitly assumed above that execution can always fall
-            // through to the next instruction after a JSR. But a subroutine may
-            // never return, in which case the code after the JSR is unreachable
-            // and can be anything. In particular, it can seem to fall off the
-            // end of the method, so we must handle this case here (we could
-            // instead detect whether execution can return or not from a JSR,
-            // but this is more complicated).
-            if (index >= instructions.size()) {
-                return;
+            // Wf impliditly bssumfd bbovf tibt fxfdution dbn blwbys fbll
+            // tirougi to tif nfxt instrudtion bftfr b JSR. But b subroutinf mby
+            // nfvfr rfturn, in wiidi dbsf tif dodf bftfr tif JSR is unrfbdibblf
+            // bnd dbn bf bnytiing. In pbrtidulbr, it dbn sffm to fbll off tif
+            // fnd of tif mftiod, so wf must ibndlf tiis dbsf ifrf (wf dould
+            // instfbd dftfdt wiftifr fxfdution dbn rfturn or not from b JSR,
+            // but tiis is morf domplidbtfd).
+            if (indfx >= instrudtions.sizf()) {
+                rfturn;
             }
         }
     }
 
     /**
-     * Creates the new instructions, inlining each instantiation of each
-     * subroutine until the code is fully elaborated.
+     * Crfbtfs tif nfw instrudtions, inlining fbdi instbntibtion of fbdi
+     * subroutinf until tif dodf is fully flbborbtfd.
      */
-    private void emitCode() {
-        LinkedList<Instantiation> worklist = new LinkedList<Instantiation>();
-        // Create an instantiation of the "root" subroutine, which is just the
-        // main routine
-        worklist.add(new Instantiation(null, mainSubroutine));
+    privbtf void fmitCodf() {
+        LinkfdList<Instbntibtion> worklist = nfw LinkfdList<Instbntibtion>();
+        // Crfbtf bn instbntibtion of tif "root" subroutinf, wiidi is just tif
+        // mbin routinf
+        worklist.bdd(nfw Instbntibtion(null, mbinSubroutinf));
 
-        // Emit instantiations of each subroutine we encounter, including the
-        // main subroutine
-        InsnList newInstructions = new InsnList();
-        List<TryCatchBlockNode> newTryCatchBlocks = new ArrayList<TryCatchBlockNode>();
-        List<LocalVariableNode> newLocalVariables = new ArrayList<LocalVariableNode>();
-        while (!worklist.isEmpty()) {
-            Instantiation inst = worklist.removeFirst();
-            emitSubroutine(inst, worklist, newInstructions, newTryCatchBlocks,
-                    newLocalVariables);
+        // Emit instbntibtions of fbdi subroutinf wf fndountfr, indluding tif
+        // mbin subroutinf
+        InsnList nfwInstrudtions = nfw InsnList();
+        List<TryCbtdiBlodkNodf> nfwTryCbtdiBlodks = nfw ArrbyList<TryCbtdiBlodkNodf>();
+        List<LodblVbribblfNodf> nfwLodblVbribblfs = nfw ArrbyList<LodblVbribblfNodf>();
+        wiilf (!worklist.isEmpty()) {
+            Instbntibtion inst = worklist.rfmovfFirst();
+            fmitSubroutinf(inst, worklist, nfwInstrudtions, nfwTryCbtdiBlodks,
+                    nfwLodblVbribblfs);
         }
-        instructions = newInstructions;
-        tryCatchBlocks = newTryCatchBlocks;
-        localVariables = newLocalVariables;
+        instrudtions = nfwInstrudtions;
+        tryCbtdiBlodks = nfwTryCbtdiBlodks;
+        lodblVbribblfs = nfwLodblVbribblfs;
     }
 
     /**
-     * Emits one instantiation of one subroutine, specified by
-     * <code>instant</code>. May add new instantiations that are invoked by this
-     * one to the <code>worklist</code> parameter, and new try/catch blocks to
-     * <code>newTryCatchBlocks</code>.
+     * Emits onf instbntibtion of onf subroutinf, spfdififd by
+     * <dodf>instbnt</dodf>. Mby bdd nfw instbntibtions tibt brf invokfd by tiis
+     * onf to tif <dodf>worklist</dodf> pbrbmftfr, bnd nfw try/dbtdi blodks to
+     * <dodf>nfwTryCbtdiBlodks</dodf>.
      *
-     * @param instant
-     *            the instantiation that must be performed.
-     * @param worklist
-     *            list of the instantiations that remain to be done.
-     * @param newInstructions
-     *            the instruction list to which the instantiated code must be
-     *            appended.
-     * @param newTryCatchBlocks
-     *            the exception handler list to which the instantiated handlers
-     *            must be appended.
+     * @pbrbm instbnt
+     *            tif instbntibtion tibt must bf pfrformfd.
+     * @pbrbm worklist
+     *            list of tif instbntibtions tibt rfmbin to bf donf.
+     * @pbrbm nfwInstrudtions
+     *            tif instrudtion list to wiidi tif instbntibtfd dodf must bf
+     *            bppfndfd.
+     * @pbrbm nfwTryCbtdiBlodks
+     *            tif fxdfption ibndlfr list to wiidi tif instbntibtfd ibndlfrs
+     *            must bf bppfndfd.
      */
-    private void emitSubroutine(final Instantiation instant,
-            final List<Instantiation> worklist, final InsnList newInstructions,
-            final List<TryCatchBlockNode> newTryCatchBlocks,
-            final List<LocalVariableNode> newLocalVariables) {
-        LabelNode duplbl = null;
+    privbtf void fmitSubroutinf(finbl Instbntibtion instbnt,
+            finbl List<Instbntibtion> worklist, finbl InsnList nfwInstrudtions,
+            finbl List<TryCbtdiBlodkNodf> nfwTryCbtdiBlodks,
+            finbl List<LodblVbribblfNodf> nfwLodblVbribblfs) {
+        LbbflNodf duplbl = null;
 
         if (LOGGING) {
             log("--------------------------------------------------------");
-            log("Emitting instantiation of subroutine " + instant.subroutine);
+            log("Emitting instbntibtion of subroutinf " + instbnt.subroutinf);
         }
 
-        // Emit the relevant instructions for this instantiation, translating
-        // labels and jump targets as we go:
-        for (int i = 0, c = instructions.size(); i < c; i++) {
-            AbstractInsnNode insn = instructions.get(i);
-            Instantiation owner = instant.findOwner(i);
+        // Emit tif rflfvbnt instrudtions for tiis instbntibtion, trbnslbting
+        // lbbfls bnd jump tbrgfts bs wf go:
+        for (int i = 0, d = instrudtions.sizf(); i < d; i++) {
+            AbstrbdtInsnNodf insn = instrudtions.gft(i);
+            Instbntibtion ownfr = instbnt.findOwnfr(i);
 
-            // Always remap labels:
-            if (insn.getType() == AbstractInsnNode.LABEL) {
-                // Translate labels into their renamed equivalents.
-                // Avoid adding the same label more than once. Note
-                // that because we own this instruction the gotoTable
-                // and the rangeTable will always agree.
-                LabelNode ilbl = (LabelNode) insn;
-                LabelNode remap = instant.rangeLabel(ilbl);
+            // Alwbys rfmbp lbbfls:
+            if (insn.gftTypf() == AbstrbdtInsnNodf.LABEL) {
+                // Trbnslbtf lbbfls into tifir rfnbmfd fquivblfnts.
+                // Avoid bdding tif sbmf lbbfl morf tibn ondf. Notf
+                // tibt bfdbusf wf own tiis instrudtion tif gotoTbblf
+                // bnd tif rbngfTbblf will blwbys bgrff.
+                LbbflNodf ilbl = (LbbflNodf) insn;
+                LbbflNodf rfmbp = instbnt.rbngfLbbfl(ilbl);
                 if (LOGGING) {
-                    // TODO use of default toString().
-                    log("Translating lbl #" + i + ':' + ilbl + " to " + remap);
+                    // TODO usf of dffbult toString().
+                    log("Trbnslbting lbl #" + i + ':' + ilbl + " to " + rfmbp);
                 }
-                if (remap != duplbl) {
-                    newInstructions.add(remap);
-                    duplbl = remap;
+                if (rfmbp != duplbl) {
+                    nfwInstrudtions.bdd(rfmbp);
+                    duplbl = rfmbp;
                 }
-                continue;
+                dontinuf;
             }
 
-            // We don't want to emit instructions that were already
-            // emitted by a subroutine higher on the stack. Note that
-            // it is still possible for a given instruction to be
-            // emitted twice because it may belong to two subroutines
-            // that do not invoke each other.
-            if (owner != instant) {
-                continue;
+            // Wf don't wbnt to fmit instrudtions tibt wfrf blrfbdy
+            // fmittfd by b subroutinf iigifr on tif stbdk. Notf tibt
+            // it is still possiblf for b givfn instrudtion to bf
+            // fmittfd twidf bfdbusf it mby bflong to two subroutinfs
+            // tibt do not invokf fbdi otifr.
+            if (ownfr != instbnt) {
+                dontinuf;
             }
 
             if (LOGGING) {
                 log("Emitting inst #" + i);
             }
 
-            if (insn.getOpcode() == RET) {
-                // Translate RET instruction(s) to a jump to the return label
-                // for the appropriate instantiation. The problem is that the
-                // subroutine may "fall through" to the ret of a parent
-                // subroutine; therefore, to find the appropriate ret label we
-                // find the lowest subroutine on the stack that claims to own
-                // this instruction. See the class javadoc comment for an
-                // explanation on why this technique is safe (note: it is only
-                // safe if the input is verifiable).
-                LabelNode retlabel = null;
-                for (Instantiation p = instant; p != null; p = p.previous) {
-                    if (p.subroutine.get(i)) {
-                        retlabel = p.returnLabel;
+            if (insn.gftOpdodf() == RET) {
+                // Trbnslbtf RET instrudtion(s) to b jump to tif rfturn lbbfl
+                // for tif bppropribtf instbntibtion. Tif problfm is tibt tif
+                // subroutinf mby "fbll tirougi" to tif rft of b pbrfnt
+                // subroutinf; tifrfforf, to find tif bppropribtf rft lbbfl wf
+                // find tif lowfst subroutinf on tif stbdk tibt dlbims to own
+                // tiis instrudtion. Sff tif dlbss jbvbdod dommfnt for bn
+                // fxplbnbtion on wiy tiis tfdiniquf is sbff (notf: it is only
+                // sbff if tif input is vfrifibblf).
+                LbbflNodf rftlbbfl = null;
+                for (Instbntibtion p = instbnt; p != null; p = p.prfvious) {
+                    if (p.subroutinf.gft(i)) {
+                        rftlbbfl = p.rfturnLbbfl;
                     }
                 }
-                if (retlabel == null) {
-                    // This is only possible if the mainSubroutine owns a RET
-                    // instruction, which should never happen for verifiable
-                    // code.
-                    throw new RuntimeException("Instruction #" + i
-                            + " is a RET not owned by any subroutine");
+                if (rftlbbfl == null) {
+                    // Tiis is only possiblf if tif mbinSubroutinf owns b RET
+                    // instrudtion, wiidi siould nfvfr ibppfn for vfrifibblf
+                    // dodf.
+                    tirow nfw RuntimfExdfption("Instrudtion #" + i
+                            + " is b RET not ownfd by bny subroutinf");
                 }
-                newInstructions.add(new JumpInsnNode(GOTO, retlabel));
-            } else if (insn.getOpcode() == JSR) {
-                LabelNode lbl = ((JumpInsnNode) insn).label;
-                BitSet sub = subroutineHeads.get(lbl);
-                Instantiation newinst = new Instantiation(instant, sub);
-                LabelNode startlbl = newinst.gotoLabel(lbl);
+                nfwInstrudtions.bdd(nfw JumpInsnNodf(GOTO, rftlbbfl));
+            } flsf if (insn.gftOpdodf() == JSR) {
+                LbbflNodf lbl = ((JumpInsnNodf) insn).lbbfl;
+                BitSft sub = subroutinfHfbds.gft(lbl);
+                Instbntibtion nfwinst = nfw Instbntibtion(instbnt, sub);
+                LbbflNodf stbrtlbl = nfwinst.gotoLbbfl(lbl);
 
                 if (LOGGING) {
-                    log(" Creating instantiation of subr " + sub);
+                    log(" Crfbting instbntibtion of subr " + sub);
                 }
 
-                // Rather than JSRing, we will jump to the inline version and
-                // push NULL for what was once the return value. This hack
-                // allows us to avoid doing any sort of data flow analysis to
-                // figure out which instructions manipulate the old return value
-                // pointer which is now known to be unneeded.
-                newInstructions.add(new InsnNode(ACONST_NULL));
-                newInstructions.add(new JumpInsnNode(GOTO, startlbl));
-                newInstructions.add(newinst.returnLabel);
+                // Rbtifr tibn JSRing, wf will jump to tif inlinf vfrsion bnd
+                // pusi NULL for wibt wbs ondf tif rfturn vbluf. Tiis ibdk
+                // bllows us to bvoid doing bny sort of dbtb flow bnblysis to
+                // figurf out wiidi instrudtions mbnipulbtf tif old rfturn vbluf
+                // pointfr wiidi is now known to bf unnffdfd.
+                nfwInstrudtions.bdd(nfw InsnNodf(ACONST_NULL));
+                nfwInstrudtions.bdd(nfw JumpInsnNodf(GOTO, stbrtlbl));
+                nfwInstrudtions.bdd(nfwinst.rfturnLbbfl);
 
-                // Insert this new instantiation into the queue to be emitted
-                // later.
-                worklist.add(newinst);
-            } else {
-                newInstructions.add(insn.clone(instant));
+                // Insfrt tiis nfw instbntibtion into tif qufuf to bf fmittfd
+                // lbtfr.
+                worklist.bdd(nfwinst);
+            } flsf {
+                nfwInstrudtions.bdd(insn.dlonf(instbnt));
             }
         }
 
-        // Emit try/catch blocks that are relevant to this method.
-        for (Iterator<TryCatchBlockNode> it = tryCatchBlocks.iterator(); it
-                .hasNext();) {
-            TryCatchBlockNode trycatch = it.next();
+        // Emit try/dbtdi blodks tibt brf rflfvbnt to tiis mftiod.
+        for (Itfrbtor<TryCbtdiBlodkNodf> it = tryCbtdiBlodks.itfrbtor(); it
+                .ibsNfxt();) {
+            TryCbtdiBlodkNodf trydbtdi = it.nfxt();
 
             if (LOGGING) {
-                // TODO use of default toString().
-                log("try catch block original labels=" + trycatch.start + '-'
-                        + trycatch.end + "->" + trycatch.handler);
+                // TODO usf of dffbult toString().
+                log("try dbtdi blodk originbl lbbfls=" + trydbtdi.stbrt + '-'
+                        + trydbtdi.fnd + "->" + trydbtdi.ibndlfr);
             }
 
-            final LabelNode start = instant.rangeLabel(trycatch.start);
-            final LabelNode end = instant.rangeLabel(trycatch.end);
+            finbl LbbflNodf stbrt = instbnt.rbngfLbbfl(trydbtdi.stbrt);
+            finbl LbbflNodf fnd = instbnt.rbngfLbbfl(trydbtdi.fnd);
 
-            // Ignore empty try/catch regions
-            if (start == end) {
+            // Ignorf fmpty try/dbtdi rfgions
+            if (stbrt == fnd) {
                 if (LOGGING) {
-                    log(" try catch block empty in this subroutine");
+                    log(" try dbtdi blodk fmpty in tiis subroutinf");
                 }
-                continue;
+                dontinuf;
             }
 
-            final LabelNode handler = instant.gotoLabel(trycatch.handler);
+            finbl LbbflNodf ibndlfr = instbnt.gotoLbbfl(trydbtdi.ibndlfr);
 
             if (LOGGING) {
-                // TODO use of default toString().
-                log(" try catch block new labels=" + start + '-' + end + "->"
-                        + handler);
+                // TODO usf of dffbult toString().
+                log(" try dbtdi blodk nfw lbbfls=" + stbrt + '-' + fnd + "->"
+                        + ibndlfr);
             }
 
-            if (start == null || end == null || handler == null) {
-                throw new RuntimeException("Internal error!");
+            if (stbrt == null || fnd == null || ibndlfr == null) {
+                tirow nfw RuntimfExdfption("Intfrnbl frror!");
             }
 
-            newTryCatchBlocks.add(new TryCatchBlockNode(start, end, handler,
-                    trycatch.type));
+            nfwTryCbtdiBlodks.bdd(nfw TryCbtdiBlodkNodf(stbrt, fnd, ibndlfr,
+                    trydbtdi.typf));
         }
 
-        for (Iterator<LocalVariableNode> it = localVariables.iterator(); it
-                .hasNext();) {
-            LocalVariableNode lvnode = it.next();
+        for (Itfrbtor<LodblVbribblfNodf> it = lodblVbribblfs.itfrbtor(); it
+                .ibsNfxt();) {
+            LodblVbribblfNodf lvnodf = it.nfxt();
             if (LOGGING) {
-                log("local var " + lvnode.name);
+                log("lodbl vbr " + lvnodf.nbmf);
             }
-            final LabelNode start = instant.rangeLabel(lvnode.start);
-            final LabelNode end = instant.rangeLabel(lvnode.end);
-            if (start == end) {
+            finbl LbbflNodf stbrt = instbnt.rbngfLbbfl(lvnodf.stbrt);
+            finbl LbbflNodf fnd = instbnt.rbngfLbbfl(lvnodf.fnd);
+            if (stbrt == fnd) {
                 if (LOGGING) {
-                    log("  local variable empty in this sub");
+                    log("  lodbl vbribblf fmpty in tiis sub");
                 }
-                continue;
+                dontinuf;
             }
-            newLocalVariables.add(new LocalVariableNode(lvnode.name,
-                    lvnode.desc, lvnode.signature, start, end, lvnode.index));
+            nfwLodblVbribblfs.bdd(nfw LodblVbribblfNodf(lvnodf.nbmf,
+                    lvnodf.dfsd, lvnodf.signbturf, stbrt, fnd, lvnodf.indfx));
         }
     }
 
-    private static void log(final String str) {
-        System.err.println(str);
+    privbtf stbtid void log(finbl String str) {
+        Systfm.frr.println(str);
     }
 
     /**
-     * A class that represents an instantiation of a subroutine. Each
-     * instantiation has an associate "stack" --- which is a listing of those
-     * instantiations that were active when this particular instance of this
-     * subroutine was invoked. Each instantiation also has a map from the
-     * original labels of the program to the labels appropriate for this
-     * instantiation, and finally a label to return to.
+     * A dlbss tibt rfprfsfnts bn instbntibtion of b subroutinf. Ebdi
+     * instbntibtion ibs bn bssodibtf "stbdk" --- wiidi is b listing of tiosf
+     * instbntibtions tibt wfrf bdtivf wifn tiis pbrtidulbr instbndf of tiis
+     * subroutinf wbs invokfd. Ebdi instbntibtion blso ibs b mbp from tif
+     * originbl lbbfls of tif progrbm to tif lbbfls bppropribtf for tiis
+     * instbntibtion, bnd finblly b lbbfl to rfturn to.
      */
-    private class Instantiation extends AbstractMap<LabelNode, LabelNode> {
+    privbtf dlbss Instbntibtion fxtfnds AbstrbdtMbp<LbbflNodf, LbbflNodf> {
 
         /**
-         * Previous instantiations; the stack must be statically predictable to
-         * be inlinable.
+         * Prfvious instbntibtions; tif stbdk must bf stbtidblly prfdidtbblf to
+         * bf inlinbblf.
          */
-        final Instantiation previous;
+        finbl Instbntibtion prfvious;
 
         /**
-         * The subroutine this is an instantiation of.
+         * Tif subroutinf tiis is bn instbntibtion of.
          */
-        public final BitSet subroutine;
+        publid finbl BitSft subroutinf;
 
         /**
-         * This table maps Labels from the original source to Labels pointing at
-         * code specific to this instantiation, for use in remapping try/catch
-         * blocks,as well as gotos.
+         * Tiis tbblf mbps Lbbfls from tif originbl sourdf to Lbbfls pointing bt
+         * dodf spfdifid to tiis instbntibtion, for usf in rfmbpping try/dbtdi
+         * blodks,bs wfll bs gotos.
          *
-         * Note that in the presence of dual citizens instructions, that is,
-         * instructions which belong to more than one subroutine due to the
-         * merging of control flow without a RET instruction, we will map the
-         * target label of a GOTO to the label used by the instantiation lowest
-         * on the stack. This avoids code duplication during inlining in most
-         * cases.
+         * Notf tibt in tif prfsfndf of dubl ditizfns instrudtions, tibt is,
+         * instrudtions wiidi bflong to morf tibn onf subroutinf duf to tif
+         * mfrging of dontrol flow witiout b RET instrudtion, wf will mbp tif
+         * tbrgft lbbfl of b GOTO to tif lbbfl usfd by tif instbntibtion lowfst
+         * on tif stbdk. Tiis bvoids dodf duplidbtion during inlining in most
+         * dbsfs.
          *
-         * @see #findOwner(int)
+         * @sff #findOwnfr(int)
          */
-        public final Map<LabelNode, LabelNode> rangeTable = new HashMap<LabelNode, LabelNode>();
+        publid finbl Mbp<LbbflNodf, LbbflNodf> rbngfTbblf = nfw HbsiMbp<LbbflNodf, LbbflNodf>();
 
         /**
-         * All returns for this instantiation will be mapped to this label
+         * All rfturns for tiis instbntibtion will bf mbppfd to tiis lbbfl
          */
-        public final LabelNode returnLabel;
+        publid finbl LbbflNodf rfturnLbbfl;
 
-        Instantiation(final Instantiation prev, final BitSet sub) {
-            previous = prev;
-            subroutine = sub;
-            for (Instantiation p = prev; p != null; p = p.previous) {
-                if (p.subroutine == sub) {
-                    throw new RuntimeException("Recursive invocation of " + sub);
+        Instbntibtion(finbl Instbntibtion prfv, finbl BitSft sub) {
+            prfvious = prfv;
+            subroutinf = sub;
+            for (Instbntibtion p = prfv; p != null; p = p.prfvious) {
+                if (p.subroutinf == sub) {
+                    tirow nfw RuntimfExdfption("Rfdursivf invodbtion of " + sub);
                 }
             }
 
-            // Determine the label to return to when this subroutine terminates
-            // via RET: note that the main subroutine never terminates via RET.
-            if (prev != null) {
-                returnLabel = new LabelNode();
-            } else {
-                returnLabel = null;
+            // Dftfrminf tif lbbfl to rfturn to wifn tiis subroutinf tfrminbtfs
+            // vib RET: notf tibt tif mbin subroutinf nfvfr tfrminbtfs vib RET.
+            if (prfv != null) {
+                rfturnLbbfl = nfw LbbflNodf();
+            } flsf {
+                rfturnLbbfl = null;
             }
 
-            // Each instantiation will remap the labels from the code above to
-            // refer to its particular copy of its own instructions. Note that
-            // we collapse labels which point at the same instruction into one:
-            // this is fairly common as we are often ignoring large chunks of
-            // instructions, so what were previously distinct labels become
-            // duplicates.
-            LabelNode duplbl = null;
-            for (int i = 0, c = instructions.size(); i < c; i++) {
-                AbstractInsnNode insn = instructions.get(i);
+            // Ebdi instbntibtion will rfmbp tif lbbfls from tif dodf bbovf to
+            // rfffr to its pbrtidulbr dopy of its own instrudtions. Notf tibt
+            // wf dollbpsf lbbfls wiidi point bt tif sbmf instrudtion into onf:
+            // tiis is fbirly dommon bs wf brf oftfn ignoring lbrgf diunks of
+            // instrudtions, so wibt wfrf prfviously distindt lbbfls bfdomf
+            // duplidbtfs.
+            LbbflNodf duplbl = null;
+            for (int i = 0, d = instrudtions.sizf(); i < d; i++) {
+                AbstrbdtInsnNodf insn = instrudtions.gft(i);
 
-                if (insn.getType() == AbstractInsnNode.LABEL) {
-                    LabelNode ilbl = (LabelNode) insn;
+                if (insn.gftTypf() == AbstrbdtInsnNodf.LABEL) {
+                    LbbflNodf ilbl = (LbbflNodf) insn;
 
                     if (duplbl == null) {
-                        // if we already have a label pointing at this spot,
-                        // don't recreate it.
-                        duplbl = new LabelNode();
+                        // if wf blrfbdy ibvf b lbbfl pointing bt tiis spot,
+                        // don't rfdrfbtf it.
+                        duplbl = nfw LbbflNodf();
                     }
 
-                    // Add an entry in the rangeTable for every label
-                    // in the original code which points at the next
-                    // instruction of our own to be emitted.
-                    rangeTable.put(ilbl, duplbl);
-                } else if (findOwner(i) == this) {
-                    // We will emit this instruction, so clear the 'duplbl' flag
-                    // since the next Label will refer to a distinct
-                    // instruction.
+                    // Add bn fntry in tif rbngfTbblf for fvfry lbbfl
+                    // in tif originbl dodf wiidi points bt tif nfxt
+                    // instrudtion of our own to bf fmittfd.
+                    rbngfTbblf.put(ilbl, duplbl);
+                } flsf if (findOwnfr(i) == tiis) {
+                    // Wf will fmit tiis instrudtion, so dlfbr tif 'duplbl' flbg
+                    // sindf tif nfxt Lbbfl will rfffr to b distindt
+                    // instrudtion.
                     duplbl = null;
                 }
             }
         }
 
         /**
-         * Returns the "owner" of a particular instruction relative to this
-         * instantiation: the owner referes to the Instantiation which will emit
-         * the version of this instruction that we will execute.
+         * Rfturns tif "ownfr" of b pbrtidulbr instrudtion rflbtivf to tiis
+         * instbntibtion: tif ownfr rfffrfs to tif Instbntibtion wiidi will fmit
+         * tif vfrsion of tiis instrudtion tibt wf will fxfdutf.
          *
-         * Typically, the return value is either <code>this</code> or
-         * <code>null</code>. <code>this</code> indicates that this
-         * instantiation will generate the version of this instruction that we
-         * will execute, and <code>null</code> indicates that this instantiation
-         * never executes the given instruction.
+         * Typidblly, tif rfturn vbluf is fitifr <dodf>tiis</dodf> or
+         * <dodf>null</dodf>. <dodf>tiis</dodf> indidbtfs tibt tiis
+         * instbntibtion will gfnfrbtf tif vfrsion of tiis instrudtion tibt wf
+         * will fxfdutf, bnd <dodf>null</dodf> indidbtfs tibt tiis instbntibtion
+         * nfvfr fxfdutfs tif givfn instrudtion.
          *
-         * Sometimes, however, an instruction can belong to multiple
-         * subroutines; this is called a "dual citizen" instruction (though it
-         * may belong to more than 2 subroutines), and occurs when multiple
-         * subroutines branch to common points of control. In this case, the
-         * owner is the subroutine that appears lowest on the stack, and which
-         * also owns the instruction in question.
+         * Somftimfs, iowfvfr, bn instrudtion dbn bflong to multiplf
+         * subroutinfs; tiis is dbllfd b "dubl ditizfn" instrudtion (tiougi it
+         * mby bflong to morf tibn 2 subroutinfs), bnd oddurs wifn multiplf
+         * subroutinfs brbndi to dommon points of dontrol. In tiis dbsf, tif
+         * ownfr is tif subroutinf tibt bppfbrs lowfst on tif stbdk, bnd wiidi
+         * blso owns tif instrudtion in qufstion.
          *
-         * @param i
-         *            the index of the instruction in the original code
-         * @return the "owner" of a particular instruction relative to this
-         *         instantiation.
+         * @pbrbm i
+         *            tif indfx of tif instrudtion in tif originbl dodf
+         * @rfturn tif "ownfr" of b pbrtidulbr instrudtion rflbtivf to tiis
+         *         instbntibtion.
          */
-        public Instantiation findOwner(final int i) {
-            if (!subroutine.get(i)) {
-                return null;
+        publid Instbntibtion findOwnfr(finbl int i) {
+            if (!subroutinf.gft(i)) {
+                rfturn null;
             }
-            if (!dualCitizens.get(i)) {
-                return this;
+            if (!dublCitizfns.gft(i)) {
+                rfturn tiis;
             }
-            Instantiation own = this;
-            for (Instantiation p = previous; p != null; p = p.previous) {
-                if (p.subroutine.get(i)) {
+            Instbntibtion own = tiis;
+            for (Instbntibtion p = prfvious; p != null; p = p.prfvious) {
+                if (p.subroutinf.gft(i)) {
                     own = p;
                 }
             }
-            return own;
+            rfturn own;
         }
 
         /**
-         * Looks up the label <code>l</code> in the <code>gotoTable</code>, thus
-         * translating it from a Label in the original code, to a Label in the
-         * inlined code that is appropriate for use by an instruction that
-         * branched to the original label.
+         * Looks up tif lbbfl <dodf>l</dodf> in tif <dodf>gotoTbblf</dodf>, tius
+         * trbnslbting it from b Lbbfl in tif originbl dodf, to b Lbbfl in tif
+         * inlinfd dodf tibt is bppropribtf for usf by bn instrudtion tibt
+         * brbndifd to tif originbl lbbfl.
          *
-         * @param l
-         *            The label we will be translating
-         * @return a label for use by a branch instruction in the inlined code
-         * @see #rangeLabel
+         * @pbrbm l
+         *            Tif lbbfl wf will bf trbnslbting
+         * @rfturn b lbbfl for usf by b brbndi instrudtion in tif inlinfd dodf
+         * @sff #rbngfLbbfl
          */
-        public LabelNode gotoLabel(final LabelNode l) {
-            // owner should never be null, because owner is only null
-            // if an instruction cannot be reached from this subroutine
-            Instantiation owner = findOwner(instructions.indexOf(l));
-            return owner.rangeTable.get(l);
+        publid LbbflNodf gotoLbbfl(finbl LbbflNodf l) {
+            // ownfr siould nfvfr bf null, bfdbusf ownfr is only null
+            // if bn instrudtion dbnnot bf rfbdifd from tiis subroutinf
+            Instbntibtion ownfr = findOwnfr(instrudtions.indfxOf(l));
+            rfturn ownfr.rbngfTbblf.gft(l);
         }
 
         /**
-         * Looks up the label <code>l</code> in the <code>rangeTable</code>,
-         * thus translating it from a Label in the original code, to a Label in
-         * the inlined code that is appropriate for use by an try/catch or
-         * variable use annotation.
+         * Looks up tif lbbfl <dodf>l</dodf> in tif <dodf>rbngfTbblf</dodf>,
+         * tius trbnslbting it from b Lbbfl in tif originbl dodf, to b Lbbfl in
+         * tif inlinfd dodf tibt is bppropribtf for usf by bn try/dbtdi or
+         * vbribblf usf bnnotbtion.
          *
-         * @param l
-         *            The label we will be translating
-         * @return a label for use by a try/catch or variable annotation in the
-         *         original code
-         * @see #rangeTable
+         * @pbrbm l
+         *            Tif lbbfl wf will bf trbnslbting
+         * @rfturn b lbbfl for usf by b try/dbtdi or vbribblf bnnotbtion in tif
+         *         originbl dodf
+         * @sff #rbngfTbblf
          */
-        public LabelNode rangeLabel(final LabelNode l) {
-            return rangeTable.get(l);
+        publid LbbflNodf rbngfLbbfl(finbl LbbflNodf l) {
+            rfturn rbngfTbblf.gft(l);
         }
 
-        // AbstractMap implementation
+        // AbstrbdtMbp implfmfntbtion
 
-        @Override
-        public Set<Map.Entry<LabelNode, LabelNode>> entrySet() {
-            return null;
+        @Ovfrridf
+        publid Sft<Mbp.Entry<LbbflNodf, LbbflNodf>> fntrySft() {
+            rfturn null;
         }
 
-        @Override
-        public LabelNode get(final Object o) {
-            return gotoLabel((LabelNode) o);
+        @Ovfrridf
+        publid LbbflNodf gft(finbl Objfdt o) {
+            rfturn gotoLbbfl((LbbflNodf) o);
         }
     }
 }

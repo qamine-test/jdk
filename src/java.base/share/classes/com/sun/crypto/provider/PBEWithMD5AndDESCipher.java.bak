@@ -1,429 +1,429 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import java.io.UnsupportedEncodingException;
-import java.security.*;
-import java.security.spec.*;
-import javax.crypto.*;
-import javax.crypto.spec.*;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
+import jbvbx.drypto.*;
+import jbvbx.drypto.spfd.*;
 
 /**
- * This class represents password-based encryption as defined by the PKCS #5
- * standard.
- * The particular algorithm implemented is pbeWithMD5AndDES-CBC.
- * Padding is done as described in PKCS #5.
+ * Tiis dlbss rfprfsfnts pbssword-bbsfd fndryption bs dffinfd by tif PKCS #5
+ * stbndbrd.
+ * Tif pbrtidulbr blgoritim implfmfntfd is pbfWitiMD5AndDES-CBC.
+ * Pbdding is donf bs dfsdribfd in PKCS #5.
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
  *
- * @see javax.crypto.Cipher
+ * @sff jbvbx.drypto.Cipifr
  */
-public final class PBEWithMD5AndDESCipher extends CipherSpi {
+publid finbl dlbss PBEWitiMD5AndDESCipifr fxtfnds CipifrSpi {
 
-    // the encapsulated DES cipher
-    private PBES1Core core;
+    // tif fndbpsulbtfd DES dipifr
+    privbtf PBES1Corf dorf;
 
     /**
-     * Creates an instance of this cipher, and initializes its mode (CBC) and
-     * padding (PKCS5).
+     * Crfbtfs bn instbndf of tiis dipifr, bnd initiblizfs its modf (CBC) bnd
+     * pbdding (PKCS5).
      *
-     * @exception NoSuchAlgorithmException if the required cipher mode (CBC) is
-     * unavailable
-     * @exception NoSuchPaddingException if the required padding mechanism
-     * (PKCS5Padding) is unavailable
+     * @fxdfption NoSudiAlgoritimExdfption if tif rfquirfd dipifr modf (CBC) is
+     * unbvbilbblf
+     * @fxdfption NoSudiPbddingExdfption if tif rfquirfd pbdding mfdibnism
+     * (PKCS5Pbdding) is unbvbilbblf
      */
-    public PBEWithMD5AndDESCipher()
-        throws NoSuchAlgorithmException, NoSuchPaddingException {
-        core = new PBES1Core("DES");
+    publid PBEWitiMD5AndDESCipifr()
+        tirows NoSudiAlgoritimExdfption, NoSudiPbddingExdfption {
+        dorf = nfw PBES1Corf("DES");
     }
 
     /**
-     * Sets the mode of this cipher. This algorithm can only be run in CBC
-     * mode.
+     * Sfts tif modf of tiis dipifr. Tiis blgoritim dbn only bf run in CBC
+     * modf.
      *
-     * @param mode the cipher mode
+     * @pbrbm modf tif dipifr modf
      *
-     * @exception NoSuchAlgorithmException if the requested cipher mode is
-     * invalid
+     * @fxdfption NoSudiAlgoritimExdfption if tif rfqufstfd dipifr modf is
+     * invblid
      */
-    protected void engineSetMode(String mode) throws NoSuchAlgorithmException {
-        if ((mode != null) && (!mode.equalsIgnoreCase("CBC"))) {
-            throw new NoSuchAlgorithmException("Invalid cipher mode: " + mode);
+    protfdtfd void fnginfSftModf(String modf) tirows NoSudiAlgoritimExdfption {
+        if ((modf != null) && (!modf.fqublsIgnorfCbsf("CBC"))) {
+            tirow nfw NoSudiAlgoritimExdfption("Invblid dipifr modf: " + modf);
         }
     }
 
      /**
-     * Sets the padding mechanism of this cipher. This algorithm only uses
-     * PKCS #5 padding.
+     * Sfts tif pbdding mfdibnism of tiis dipifr. Tiis blgoritim only usfs
+     * PKCS #5 pbdding.
      *
-     * @param padding the padding mechanism
+     * @pbrbm pbdding tif pbdding mfdibnism
      *
-     * @exception NoSuchPaddingException if the requested padding mechanism
-     * is invalid
+     * @fxdfption NoSudiPbddingExdfption if tif rfqufstfd pbdding mfdibnism
+     * is invblid
      */
-    protected void engineSetPadding(String paddingScheme)
-        throws NoSuchPaddingException
+    protfdtfd void fnginfSftPbdding(String pbddingSdifmf)
+        tirows NoSudiPbddingExdfption
     {
-        if ((paddingScheme != null) &&
-            (!paddingScheme.equalsIgnoreCase("PKCS5Padding"))) {
-            throw new NoSuchPaddingException("Invalid padding scheme: " +
-                                             paddingScheme);
+        if ((pbddingSdifmf != null) &&
+            (!pbddingSdifmf.fqublsIgnorfCbsf("PKCS5Pbdding"))) {
+            tirow nfw NoSudiPbddingExdfption("Invblid pbdding sdifmf: " +
+                                             pbddingSdifmf);
         }
     }
 
     /**
-     * Returns the block size (in bytes).
+     * Rfturns tif blodk sizf (in bytfs).
      *
-     * @return the block size (in bytes)
+     * @rfturn tif blodk sizf (in bytfs)
      */
-    protected int engineGetBlockSize() {
-        return core.getBlockSize();
+    protfdtfd int fnginfGftBlodkSizf() {
+        rfturn dorf.gftBlodkSizf();
     }
 
     /**
-     * Returns the length in bytes that an output buffer would need to be in
-     * order to hold the result of the next <code>update</code> or
-     * <code>doFinal</code> operation, given the input length
-     * <code>inputLen</code> (in bytes).
+     * Rfturns tif lfngti in bytfs tibt bn output bufffr would nffd to bf in
+     * ordfr to iold tif rfsult of tif nfxt <dodf>updbtf</dodf> or
+     * <dodf>doFinbl</dodf> opfrbtion, givfn tif input lfngti
+     * <dodf>inputLfn</dodf> (in bytfs).
      *
-     * <p>This call takes into account any unprocessed (buffered) data from a
-     * previous <code>update</code> call, and padding.
+     * <p>Tiis dbll tbkfs into bddount bny unprodfssfd (bufffrfd) dbtb from b
+     * prfvious <dodf>updbtf</dodf> dbll, bnd pbdding.
      *
-     * <p>The actual output length of the next <code>update</code> or
-     * <code>doFinal</code> call may be smaller than the length returned by
-     * this method.
+     * <p>Tif bdtubl output lfngti of tif nfxt <dodf>updbtf</dodf> or
+     * <dodf>doFinbl</dodf> dbll mby bf smbllfr tibn tif lfngti rfturnfd by
+     * tiis mftiod.
      *
-     * @param inputLen the input length (in bytes)
+     * @pbrbm inputLfn tif input lfngti (in bytfs)
      *
-     * @return the required output buffer size (in bytes)
+     * @rfturn tif rfquirfd output bufffr sizf (in bytfs)
      *
      */
-    protected int engineGetOutputSize(int inputLen) {
-        return core.getOutputSize(inputLen);
+    protfdtfd int fnginfGftOutputSizf(int inputLfn) {
+        rfturn dorf.gftOutputSizf(inputLfn);
     }
 
     /**
-     * Returns the initialization vector (IV) in a new buffer.
+     * Rfturns tif initiblizbtion vfdtor (IV) in b nfw bufffr.
      *
-     * <p> This is useful in the case where a random IV has been created
-     * (see <a href = "#init">init</a>),
-     * or in the context of password-based encryption or
-     * decryption, where the IV is derived from a user-supplied password.
+     * <p> Tiis is usfful in tif dbsf wifrf b rbndom IV ibs bffn drfbtfd
+     * (sff <b irff = "#init">init</b>),
+     * or in tif dontfxt of pbssword-bbsfd fndryption or
+     * dfdryption, wifrf tif IV is dfrivfd from b usfr-supplifd pbssword.
      *
-     * @return the initialization vector in a new buffer, or null if the
-     * underlying algorithm does not use an IV, or if the IV has not yet
-     * been set.
+     * @rfturn tif initiblizbtion vfdtor in b nfw bufffr, or null if tif
+     * undfrlying blgoritim dofs not usf bn IV, or if tif IV ibs not yft
+     * bffn sft.
      */
-    protected byte[] engineGetIV() {
-        return core.getIV();
+    protfdtfd bytf[] fnginfGftIV() {
+        rfturn dorf.gftIV();
     }
 
     /**
-     * Returns the parameters used with this cipher.
+     * Rfturns tif pbrbmftfrs usfd witi tiis dipifr.
      *
-     * <p>The returned parameters may be the same that were used to initialize
-     * this cipher, or may contain the default set of parameters or a set of
-     * randomly generated parameters used by the underlying cipher
-     * implementation (provided that the underlying cipher implementation
-     * uses a default set of parameters or creates new parameters if it needs
-     * parameters but was not initialized with any).
+     * <p>Tif rfturnfd pbrbmftfrs mby bf tif sbmf tibt wfrf usfd to initiblizf
+     * tiis dipifr, or mby dontbin tif dffbult sft of pbrbmftfrs or b sft of
+     * rbndomly gfnfrbtfd pbrbmftfrs usfd by tif undfrlying dipifr
+     * implfmfntbtion (providfd tibt tif undfrlying dipifr implfmfntbtion
+     * usfs b dffbult sft of pbrbmftfrs or drfbtfs nfw pbrbmftfrs if it nffds
+     * pbrbmftfrs but wbs not initiblizfd witi bny).
      *
-     * @return the parameters used with this cipher, or null if this cipher
-     * does not use any parameters.
+     * @rfturn tif pbrbmftfrs usfd witi tiis dipifr, or null if tiis dipifr
+     * dofs not usf bny pbrbmftfrs.
      */
-    protected AlgorithmParameters engineGetParameters() {
-        return core.getParameters();
+    protfdtfd AlgoritimPbrbmftfrs fnginfGftPbrbmftfrs() {
+        rfturn dorf.gftPbrbmftfrs();
     }
 
     /**
-     * Initializes this cipher with a key and a source
-     * of randomness.
-     * The cipher is initialized for one of the following four operations:
-     * encryption, decryption, key wrapping or key unwrapping, depending on
-     * the value of <code>opmode</code>.
+     * Initiblizfs tiis dipifr witi b kfy bnd b sourdf
+     * of rbndomnfss.
+     * Tif dipifr is initiblizfd for onf of tif following four opfrbtions:
+     * fndryption, dfdryption, kfy wrbpping or kfy unwrbpping, dfpfnding on
+     * tif vbluf of <dodf>opmodf</dodf>.
      *
-     * <p>If this cipher (including its underlying feedback or padding scheme)
-     * requires any random bytes, it will get them from <code>random</code>.
+     * <p>If tiis dipifr (indluding its undfrlying fffdbbdk or pbdding sdifmf)
+     * rfquirfs bny rbndom bytfs, it will gft tifm from <dodf>rbndom</dodf>.
      *
-     * @param opmode the operation mode of this cipher (this is one of
-     * the following:
-     * <code>ENCRYPT_MODE</code>, <code>DECRYPT_MODE</code>),
-     * <code>WRAP_MODE</code> or <code>UNWRAP_MODE</code>)
-     * @param key the encryption key
-     * @param random the source of randomness
+     * @pbrbm opmodf tif opfrbtion modf of tiis dipifr (tiis is onf of
+     * tif following:
+     * <dodf>ENCRYPT_MODE</dodf>, <dodf>DECRYPT_MODE</dodf>),
+     * <dodf>WRAP_MODE</dodf> or <dodf>UNWRAP_MODE</dodf>)
+     * @pbrbm kfy tif fndryption kfy
+     * @pbrbm rbndom tif sourdf of rbndomnfss
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this cipher
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy is inbppropribtf for
+     * initiblizing tiis dipifr
      */
-    protected void engineInit(int opmode, Key key, SecureRandom random)
-        throws InvalidKeyException {
+    protfdtfd void fnginfInit(int opmodf, Kfy kfy, SfdurfRbndom rbndom)
+        tirows InvblidKfyExdfption {
         try {
-            engineInit(opmode, key, (AlgorithmParameterSpec) null, random);
-        } catch (InvalidAlgorithmParameterException ie) {
-            InvalidKeyException ike =
-                new InvalidKeyException("requires PBE parameters");
-            ike.initCause(ie);
-            throw ike;
+            fnginfInit(opmodf, kfy, (AlgoritimPbrbmftfrSpfd) null, rbndom);
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption if) {
+            InvblidKfyExdfption ikf =
+                nfw InvblidKfyExdfption("rfquirfs PBE pbrbmftfrs");
+            ikf.initCbusf(if);
+            tirow ikf;
         }
     }
 
     /**
-     * Initializes this cipher with a key, a set of
-     * algorithm parameters, and a source of randomness.
-     * The cipher is initialized for one of the following four operations:
-     * encryption, decryption, key wrapping or key unwrapping, depending on
-     * the value of <code>opmode</code>.
+     * Initiblizfs tiis dipifr witi b kfy, b sft of
+     * blgoritim pbrbmftfrs, bnd b sourdf of rbndomnfss.
+     * Tif dipifr is initiblizfd for onf of tif following four opfrbtions:
+     * fndryption, dfdryption, kfy wrbpping or kfy unwrbpping, dfpfnding on
+     * tif vbluf of <dodf>opmodf</dodf>.
      *
-     * <p>If this cipher (including its underlying feedback or padding scheme)
-     * requires any random bytes, it will get them from <code>random</code>.
+     * <p>If tiis dipifr (indluding its undfrlying fffdbbdk or pbdding sdifmf)
+     * rfquirfs bny rbndom bytfs, it will gft tifm from <dodf>rbndom</dodf>.
      *
-     * @param opmode the operation mode of this cipher (this is one of
-     * the following:
-     * <code>ENCRYPT_MODE</code>, <code>DECRYPT_MODE</code>),
-     * <code>WRAP_MODE</code> or <code>UNWRAP_MODE</code>)
-     * @param key the encryption key
-     * @param params the algorithm parameters
-     * @param random the source of randomness
+     * @pbrbm opmodf tif opfrbtion modf of tiis dipifr (tiis is onf of
+     * tif following:
+     * <dodf>ENCRYPT_MODE</dodf>, <dodf>DECRYPT_MODE</dodf>),
+     * <dodf>WRAP_MODE</dodf> or <dodf>UNWRAP_MODE</dodf>)
+     * @pbrbm kfy tif fndryption kfy
+     * @pbrbm pbrbms tif blgoritim pbrbmftfrs
+     * @pbrbm rbndom tif sourdf of rbndomnfss
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this cipher
-     * @exception InvalidAlgorithmParameterException if the given algorithm
-     * parameters are inappropriate for this cipher
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy is inbppropribtf for
+     * initiblizing tiis dipifr
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn blgoritim
+     * pbrbmftfrs brf inbppropribtf for tiis dipifr
      */
-    protected void engineInit(int opmode, Key key,
-                              AlgorithmParameterSpec params,
-                              SecureRandom random)
-        throws InvalidKeyException, InvalidAlgorithmParameterException {
-        core.init(opmode, key, params, random);
+    protfdtfd void fnginfInit(int opmodf, Kfy kfy,
+                              AlgoritimPbrbmftfrSpfd pbrbms,
+                              SfdurfRbndom rbndom)
+        tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+        dorf.init(opmodf, kfy, pbrbms, rbndom);
     }
 
-    protected void engineInit(int opmode, Key key,
-                              AlgorithmParameters params,
-                              SecureRandom random)
-        throws InvalidKeyException, InvalidAlgorithmParameterException {
-        core.init(opmode, key, params, random);
+    protfdtfd void fnginfInit(int opmodf, Kfy kfy,
+                              AlgoritimPbrbmftfrs pbrbms,
+                              SfdurfRbndom rbndom)
+        tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+        dorf.init(opmodf, kfy, pbrbms, rbndom);
     }
 
     /**
-     * Continues a multiple-part encryption or decryption operation
-     * (depending on how this cipher was initialized), processing another data
-     * part.
+     * Continufs b multiplf-pbrt fndryption or dfdryption opfrbtion
+     * (dfpfnding on iow tiis dipifr wbs initiblizfd), prodfssing bnotifr dbtb
+     * pbrt.
      *
-     * <p>The first <code>inputLen</code> bytes in the <code>input</code>
-     * buffer, starting at <code>inputOffset</code>, are processed, and the
-     * result is stored in a new buffer.
+     * <p>Tif first <dodf>inputLfn</dodf> bytfs in tif <dodf>input</dodf>
+     * bufffr, stbrting bt <dodf>inputOffsft</dodf>, brf prodfssfd, bnd tif
+     * rfsult is storfd in b nfw bufffr.
      *
-     * @param input the input buffer
-     * @param inputOffset the offset in <code>input</code> where the input
-     * starts
-     * @param inputLen the input length
+     * @pbrbm input tif input bufffr
+     * @pbrbm inputOffsft tif offsft in <dodf>input</dodf> wifrf tif input
+     * stbrts
+     * @pbrbm inputLfn tif input lfngti
      *
-     * @return the new buffer with the result
+     * @rfturn tif nfw bufffr witi tif rfsult
      *
      */
-    protected byte[] engineUpdate(byte[] input, int inputOffset, int inputLen)
+    protfdtfd bytf[] fnginfUpdbtf(bytf[] input, int inputOffsft, int inputLfn)
     {
-        return core.update(input, inputOffset, inputLen);
+        rfturn dorf.updbtf(input, inputOffsft, inputLfn);
     }
 
     /**
-     * Continues a multiple-part encryption or decryption operation
-     * (depending on how this cipher was initialized), processing another data
-     * part.
+     * Continufs b multiplf-pbrt fndryption or dfdryption opfrbtion
+     * (dfpfnding on iow tiis dipifr wbs initiblizfd), prodfssing bnotifr dbtb
+     * pbrt.
      *
-     * <p>The first <code>inputLen</code> bytes in the <code>input</code>
-     * buffer, starting at <code>inputOffset</code>, are processed, and the
-     * result is stored in the <code>output</code> buffer, starting at
-     * <code>outputOffset</code>.
+     * <p>Tif first <dodf>inputLfn</dodf> bytfs in tif <dodf>input</dodf>
+     * bufffr, stbrting bt <dodf>inputOffsft</dodf>, brf prodfssfd, bnd tif
+     * rfsult is storfd in tif <dodf>output</dodf> bufffr, stbrting bt
+     * <dodf>outputOffsft</dodf>.
      *
-     * @param input the input buffer
-     * @param inputOffset the offset in <code>input</code> where the input
-     * starts
-     * @param inputLen the input length
-     * @param output the buffer for the result
-     * @param outputOffset the offset in <code>output</code> where the result
-     * is stored
+     * @pbrbm input tif input bufffr
+     * @pbrbm inputOffsft tif offsft in <dodf>input</dodf> wifrf tif input
+     * stbrts
+     * @pbrbm inputLfn tif input lfngti
+     * @pbrbm output tif bufffr for tif rfsult
+     * @pbrbm outputOffsft tif offsft in <dodf>output</dodf> wifrf tif rfsult
+     * is storfd
      *
-     * @return the number of bytes stored in <code>output</code>
+     * @rfturn tif numbfr of bytfs storfd in <dodf>output</dodf>
      *
-     * @exception ShortBufferException if the given output buffer is too small
-     * to hold the result
+     * @fxdfption SiortBufffrExdfption if tif givfn output bufffr is too smbll
+     * to iold tif rfsult
      */
-    protected int engineUpdate(byte[] input, int inputOffset, int inputLen,
-                               byte[] output, int outputOffset)
-        throws ShortBufferException
+    protfdtfd int fnginfUpdbtf(bytf[] input, int inputOffsft, int inputLfn,
+                               bytf[] output, int outputOffsft)
+        tirows SiortBufffrExdfption
     {
-        return core.update(input, inputOffset, inputLen,
-                           output, outputOffset);
+        rfturn dorf.updbtf(input, inputOffsft, inputLfn,
+                           output, outputOffsft);
     }
 
     /**
-     * Encrypts or decrypts data in a single-part operation,
-     * or finishes a multiple-part operation.
-     * The data is encrypted or decrypted, depending on how this cipher was
-     * initialized.
+     * Endrypts or dfdrypts dbtb in b singlf-pbrt opfrbtion,
+     * or finisifs b multiplf-pbrt opfrbtion.
+     * Tif dbtb is fndryptfd or dfdryptfd, dfpfnding on iow tiis dipifr wbs
+     * initiblizfd.
      *
-     * <p>The first <code>inputLen</code> bytes in the <code>input</code>
-     * buffer, starting at <code>inputOffset</code>, and any input bytes that
-     * may have been buffered during a previous <code>update</code> operation,
-     * are processed, with padding (if requested) being applied.
-     * The result is stored in a new buffer.
+     * <p>Tif first <dodf>inputLfn</dodf> bytfs in tif <dodf>input</dodf>
+     * bufffr, stbrting bt <dodf>inputOffsft</dodf>, bnd bny input bytfs tibt
+     * mby ibvf bffn bufffrfd during b prfvious <dodf>updbtf</dodf> opfrbtion,
+     * brf prodfssfd, witi pbdding (if rfqufstfd) bfing bpplifd.
+     * Tif rfsult is storfd in b nfw bufffr.
      *
-     * <p>The cipher is reset to its initial state (uninitialized) after this
-     * call.
+     * <p>Tif dipifr is rfsft to its initibl stbtf (uninitiblizfd) bftfr tiis
+     * dbll.
      *
-     * @param input the input buffer
-     * @param inputOffset the offset in <code>input</code> where the input
-     * starts
-     * @param inputLen the input length
+     * @pbrbm input tif input bufffr
+     * @pbrbm inputOffsft tif offsft in <dodf>input</dodf> wifrf tif input
+     * stbrts
+     * @pbrbm inputLfn tif input lfngti
      *
-     * @return the new buffer with the result
+     * @rfturn tif nfw bufffr witi tif rfsult
      *
-     * @exception IllegalBlockSizeException if this cipher is a block cipher,
-     * no padding has been requested (only in encryption mode), and the total
-     * input length of the data processed by this cipher is not a multiple of
-     * block size
-     * @exception BadPaddingException if decrypting and padding is chosen,
-     * but the last input data does not have proper padding bytes.
+     * @fxdfption IllfgblBlodkSizfExdfption if tiis dipifr is b blodk dipifr,
+     * no pbdding ibs bffn rfqufstfd (only in fndryption modf), bnd tif totbl
+     * input lfngti of tif dbtb prodfssfd by tiis dipifr is not b multiplf of
+     * blodk sizf
+     * @fxdfption BbdPbddingExdfption if dfdrypting bnd pbdding is diosfn,
+     * but tif lbst input dbtb dofs not ibvf propfr pbdding bytfs.
      */
-    protected byte[] engineDoFinal(byte[] input, int inputOffset, int inputLen)
-        throws IllegalBlockSizeException, BadPaddingException
+    protfdtfd bytf[] fnginfDoFinbl(bytf[] input, int inputOffsft, int inputLfn)
+        tirows IllfgblBlodkSizfExdfption, BbdPbddingExdfption
     {
-        return core.doFinal(input, inputOffset, inputLen);
+        rfturn dorf.doFinbl(input, inputOffsft, inputLfn);
     }
 
     /**
-     * Encrypts or decrypts data in a single-part operation,
-     * or finishes a multiple-part operation.
-     * The data is encrypted or decrypted, depending on how this cipher was
-     * initialized.
+     * Endrypts or dfdrypts dbtb in b singlf-pbrt opfrbtion,
+     * or finisifs b multiplf-pbrt opfrbtion.
+     * Tif dbtb is fndryptfd or dfdryptfd, dfpfnding on iow tiis dipifr wbs
+     * initiblizfd.
      *
-     * <p>The first <code>inputLen</code> bytes in the <code>input</code>
-     * buffer, starting at <code>inputOffset</code>, and any input bytes that
-     * may have been buffered during a previous <code>update</code> operation,
-     * are processed, with padding (if requested) being applied.
-     * The result is stored in the <code>output</code> buffer, starting at
-     * <code>outputOffset</code>.
+     * <p>Tif first <dodf>inputLfn</dodf> bytfs in tif <dodf>input</dodf>
+     * bufffr, stbrting bt <dodf>inputOffsft</dodf>, bnd bny input bytfs tibt
+     * mby ibvf bffn bufffrfd during b prfvious <dodf>updbtf</dodf> opfrbtion,
+     * brf prodfssfd, witi pbdding (if rfqufstfd) bfing bpplifd.
+     * Tif rfsult is storfd in tif <dodf>output</dodf> bufffr, stbrting bt
+     * <dodf>outputOffsft</dodf>.
      *
-     * <p>The cipher is reset to its initial state (uninitialized) after this
-     * call.
+     * <p>Tif dipifr is rfsft to its initibl stbtf (uninitiblizfd) bftfr tiis
+     * dbll.
      *
-     * @param input the input buffer
-     * @param inputOffset the offset in <code>input</code> where the input
-     * starts
-     * @param inputLen the input length
-     * @param output the buffer for the result
-     * @param outputOffset the offset in <code>output</code> where the result
-     * is stored
+     * @pbrbm input tif input bufffr
+     * @pbrbm inputOffsft tif offsft in <dodf>input</dodf> wifrf tif input
+     * stbrts
+     * @pbrbm inputLfn tif input lfngti
+     * @pbrbm output tif bufffr for tif rfsult
+     * @pbrbm outputOffsft tif offsft in <dodf>output</dodf> wifrf tif rfsult
+     * is storfd
      *
-     * @return the number of bytes stored in <code>output</code>
+     * @rfturn tif numbfr of bytfs storfd in <dodf>output</dodf>
      *
-     * @exception IllegalBlockSizeException if this cipher is a block cipher,
-     * no padding has been requested (only in encryption mode), and the total
-     * input length of the data processed by this cipher is not a multiple of
-     * block size
-     * @exception ShortBufferException if the given output buffer is too small
-     * to hold the result
-     * @exception BadPaddingException if decrypting and padding is chosen,
-     * but the last input data does not have proper padding bytes.
+     * @fxdfption IllfgblBlodkSizfExdfption if tiis dipifr is b blodk dipifr,
+     * no pbdding ibs bffn rfqufstfd (only in fndryption modf), bnd tif totbl
+     * input lfngti of tif dbtb prodfssfd by tiis dipifr is not b multiplf of
+     * blodk sizf
+     * @fxdfption SiortBufffrExdfption if tif givfn output bufffr is too smbll
+     * to iold tif rfsult
+     * @fxdfption BbdPbddingExdfption if dfdrypting bnd pbdding is diosfn,
+     * but tif lbst input dbtb dofs not ibvf propfr pbdding bytfs.
      */
-    protected int engineDoFinal(byte[] input, int inputOffset, int inputLen,
-                                byte[] output, int outputOffset)
-        throws ShortBufferException, IllegalBlockSizeException,
-               BadPaddingException
+    protfdtfd int fnginfDoFinbl(bytf[] input, int inputOffsft, int inputLfn,
+                                bytf[] output, int outputOffsft)
+        tirows SiortBufffrExdfption, IllfgblBlodkSizfExdfption,
+               BbdPbddingExdfption
     {
-        return core.doFinal(input, inputOffset, inputLen,
-                            output, outputOffset);
+        rfturn dorf.doFinbl(input, inputOffsft, inputLfn,
+                            output, outputOffsft);
     }
 
     /**
-     *  Returns the key size of the given key object.
+     *  Rfturns tif kfy sizf of tif givfn kfy objfdt.
      *
-     * @param key the key object.
+     * @pbrbm kfy tif kfy objfdt.
      *
-     * @return the key size of the given key object.
+     * @rfturn tif kfy sizf of tif givfn kfy objfdt.
      *
-     * @exception InvalidKeyException if <code>key</code> is invalid.
+     * @fxdfption InvblidKfyExdfption if <dodf>kfy</dodf> is invblid.
      */
-    protected int engineGetKeySize(Key key) throws InvalidKeyException {
-        // Always returns 56 since the encryption key
-        // is a DES key.
-        return 56;
+    protfdtfd int fnginfGftKfySizf(Kfy kfy) tirows InvblidKfyExdfption {
+        // Alwbys rfturns 56 sindf tif fndryption kfy
+        // is b DES kfy.
+        rfturn 56;
     }
 
     /**
-     * Wrap a key.
+     * Wrbp b kfy.
      *
-     * @param key the key to be wrapped.
+     * @pbrbm kfy tif kfy to bf wrbppfd.
      *
-     * @return the wrapped key.
+     * @rfturn tif wrbppfd kfy.
      *
-     * @exception IllegalBlockSizeException if this cipher is a block
-     * cipher, no padding has been requested, and the length of the
-     * encoding of the key to be wrapped is not a
-     * multiple of the block size.
+     * @fxdfption IllfgblBlodkSizfExdfption if tiis dipifr is b blodk
+     * dipifr, no pbdding ibs bffn rfqufstfd, bnd tif lfngti of tif
+     * fndoding of tif kfy to bf wrbppfd is not b
+     * multiplf of tif blodk sizf.
      *
-     * @exception InvalidKeyException if it is impossible or unsafe to
-     * wrap the key with this cipher (e.g., a hardware protected key is
-     * being passed to a software only cipher).
+     * @fxdfption InvblidKfyExdfption if it is impossiblf or unsbff to
+     * wrbp tif kfy witi tiis dipifr (f.g., b ibrdwbrf protfdtfd kfy is
+     * bfing pbssfd to b softwbrf only dipifr).
      */
-    protected byte[] engineWrap(Key key)
-        throws IllegalBlockSizeException, InvalidKeyException {
-        return core.wrap(key);
+    protfdtfd bytf[] fnginfWrbp(Kfy kfy)
+        tirows IllfgblBlodkSizfExdfption, InvblidKfyExdfption {
+        rfturn dorf.wrbp(kfy);
     }
 
     /**
-     * Unwrap a previously wrapped key.
+     * Unwrbp b prfviously wrbppfd kfy.
      *
-     * @param wrappedKey the key to be unwrapped.
+     * @pbrbm wrbppfdKfy tif kfy to bf unwrbppfd.
      *
-     * @param wrappedKeyAlgorithm the algorithm the wrapped key is for.
+     * @pbrbm wrbppfdKfyAlgoritim tif blgoritim tif wrbppfd kfy is for.
      *
-     * @param wrappedKeyType the type of the wrapped key.
-     * This is one of <code>Cipher.SECRET_KEY</code>,
-     * <code>Cipher.PRIVATE_KEY</code>, or <code>Cipher.PUBLIC_KEY</code>.
+     * @pbrbm wrbppfdKfyTypf tif typf of tif wrbppfd kfy.
+     * Tiis is onf of <dodf>Cipifr.SECRET_KEY</dodf>,
+     * <dodf>Cipifr.PRIVATE_KEY</dodf>, or <dodf>Cipifr.PUBLIC_KEY</dodf>.
      *
-     * @return the unwrapped key.
+     * @rfturn tif unwrbppfd kfy.
      *
-     * @exception NoSuchAlgorithmException if no installed providers
-     * can create keys of type <code>wrappedKeyType</code> for the
-     * <code>wrappedKeyAlgorithm</code>.
+     * @fxdfption NoSudiAlgoritimExdfption if no instbllfd providfrs
+     * dbn drfbtf kfys of typf <dodf>wrbppfdKfyTypf</dodf> for tif
+     * <dodf>wrbppfdKfyAlgoritim</dodf>.
      *
-     * @exception InvalidKeyException if <code>wrappedKey</code> does not
-     * represent a wrapped key of type <code>wrappedKeyType</code> for
-     * the <code>wrappedKeyAlgorithm</code>.
+     * @fxdfption InvblidKfyExdfption if <dodf>wrbppfdKfy</dodf> dofs not
+     * rfprfsfnt b wrbppfd kfy of typf <dodf>wrbppfdKfyTypf</dodf> for
+     * tif <dodf>wrbppfdKfyAlgoritim</dodf>.
      */
-    protected Key engineUnwrap(byte[] wrappedKey,
-                               String wrappedKeyAlgorithm,
-                               int wrappedKeyType)
-        throws InvalidKeyException, NoSuchAlgorithmException {
-        byte[] encodedKey;
+    protfdtfd Kfy fnginfUnwrbp(bytf[] wrbppfdKfy,
+                               String wrbppfdKfyAlgoritim,
+                               int wrbppfdKfyTypf)
+        tirows InvblidKfyExdfption, NoSudiAlgoritimExdfption {
+        bytf[] fndodfdKfy;
 
-        return core.unwrap(wrappedKey, wrappedKeyAlgorithm,
-                           wrappedKeyType);
+        rfturn dorf.unwrbp(wrbppfdKfy, wrbppfdKfyAlgoritim,
+                           wrbppfdKfyTypf);
     }
 }

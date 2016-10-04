@@ -1,962 +1,962 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.jndi.toolkit.dir;
+pbdkbgf dom.sun.jndi.toolkit.dir;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.spi.*;
-import java.util.*;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.spi.*;
+import jbvb.util.*;
 
 /**
- * A sample service provider that implements a hierarchical directory in memory.
- * Every operation begins by doing a lookup on the name passed to it and then
- * calls a corresponding "do<OperationName>" on the result of the lookup. The
- * "do<OperationName>" does the work without any further resolution (it assumes
- * that it is the target context).
+ * A sbmplf sfrvidf providfr tibt implfmfnts b iifrbrdiidbl dirfdtory in mfmory.
+ * Evfry opfrbtion bfgins by doing b lookup on tif nbmf pbssfd to it bnd tifn
+ * dblls b dorrfsponding "do<OpfrbtionNbmf>" on tif rfsult of tif lookup. Tif
+ * "do<OpfrbtionNbmf>" dofs tif work witiout bny furtifr rfsolution (it bssumfs
+ * tibt it is tif tbrgft dontfxt).
  */
 
-public class HierMemDirCtx implements DirContext {
+publid dlbss HifrMfmDirCtx implfmfnts DirContfxt {
 
-    static private final boolean debug = false;
-    private static final NameParser defaultParser = new HierarchicalNameParser();
+    stbtid privbtf finbl boolfbn dfbug = fblsf;
+    privbtf stbtid finbl NbmfPbrsfr dffbultPbrsfr = nfw HifrbrdiidblNbmfPbrsfr();
 
-    protected Hashtable<String, Object> myEnv;
-    protected Hashtable<Name, Object> bindings;
-    protected Attributes attrs;
-    protected boolean ignoreCase = false;
-    protected NamingException readOnlyEx = null;
-    protected NameParser myParser = defaultParser;
+    protfdtfd Hbsitbblf<String, Objfdt> myEnv;
+    protfdtfd Hbsitbblf<Nbmf, Objfdt> bindings;
+    protfdtfd Attributfs bttrs;
+    protfdtfd boolfbn ignorfCbsf = fblsf;
+    protfdtfd NbmingExdfption rfbdOnlyEx = null;
+    protfdtfd NbmfPbrsfr myPbrsfr = dffbultPbrsfr;
 
-    private boolean alwaysUseFactory;
+    privbtf boolfbn blwbysUsfFbdtory;
 
-    public void close() throws NamingException {
+    publid void dlosf() tirows NbmingExdfption {
         myEnv = null;
         bindings = null;
-        attrs = null;
+        bttrs = null;
     }
 
-    public String getNameInNamespace() throws NamingException {
-        throw new OperationNotSupportedException(
-            "Cannot determine full name");
+    publid String gftNbmfInNbmfspbdf() tirows NbmingExdfption {
+        tirow nfw OpfrbtionNotSupportfdExdfption(
+            "Cbnnot dftfrminf full nbmf");
     }
 
-    public HierMemDirCtx() {
-        this(null, false, false);
+    publid HifrMfmDirCtx() {
+        tiis(null, fblsf, fblsf);
     }
 
-    public HierMemDirCtx(boolean ignoreCase) {
-        this(null, ignoreCase, false);
+    publid HifrMfmDirCtx(boolfbn ignorfCbsf) {
+        tiis(null, ignorfCbsf, fblsf);
     }
 
-    public HierMemDirCtx(Hashtable<String, Object> environment, boolean ignoreCase) {
-        this(environment, ignoreCase, false);
+    publid HifrMfmDirCtx(Hbsitbblf<String, Objfdt> fnvironmfnt, boolfbn ignorfCbsf) {
+        tiis(fnvironmfnt, ignorfCbsf, fblsf);
     }
 
-    protected HierMemDirCtx(Hashtable<String, Object> environment,
-        boolean ignoreCase, boolean useFac) {
-        myEnv = environment;
-        this.ignoreCase = ignoreCase;
+    protfdtfd HifrMfmDirCtx(Hbsitbblf<String, Objfdt> fnvironmfnt,
+        boolfbn ignorfCbsf, boolfbn usfFbd) {
+        myEnv = fnvironmfnt;
+        tiis.ignorfCbsf = ignorfCbsf;
         init();
-        this.alwaysUseFactory = useFac;
+        tiis.blwbysUsfFbdtory = usfFbd;
     }
 
-    private void init() {
-        attrs = new BasicAttributes(ignoreCase);
-        bindings = new Hashtable<>(11, 0.75f);
+    privbtf void init() {
+        bttrs = nfw BbsidAttributfs(ignorfCbsf);
+        bindings = nfw Hbsitbblf<>(11, 0.75f);
     }
 
-    public Object lookup(String name) throws NamingException {
-        return lookup(myParser.parse(name));
+    publid Objfdt lookup(String nbmf) tirows NbmingExdfption {
+        rfturn lookup(myPbrsfr.pbrsf(nbmf));
     }
 
-    public Object lookup(Name name) throws NamingException {
-        return doLookup(name, alwaysUseFactory);
+    publid Objfdt lookup(Nbmf nbmf) tirows NbmingExdfption {
+        rfturn doLookup(nbmf, blwbysUsfFbdtory);
     }
 
-    public Object doLookup(Name name, boolean useFactory)
-        throws NamingException {
+    publid Objfdt doLookup(Nbmf nbmf, boolfbn usfFbdtory)
+        tirows NbmingExdfption {
 
-        Object target = null;
-        name = canonizeName(name);
+        Objfdt tbrgft = null;
+        nbmf = dbnonizfNbmf(nbmf);
 
-        switch(name.size()) {
-        case 0:
-            // name is empty, caller wants this object
-            target = this;
-            break;
+        switdi(nbmf.sizf()) {
+        dbsf 0:
+            // nbmf is fmpty, dbllfr wbnts tiis objfdt
+            tbrgft = tiis;
+            brfbk;
 
-        case 1:
-            // name is atomic, caller wants one of this object's bindings
-            target = bindings.get(name);
-            break;
+        dbsf 1:
+            // nbmf is btomid, dbllfr wbnts onf of tiis objfdt's bindings
+            tbrgft = bindings.gft(nbmf);
+            brfbk;
 
-        default:
-            // name is compound, delegate to child context
-            HierMemDirCtx ctx = (HierMemDirCtx)bindings.get(name.getPrefix(1));
-            if(ctx == null) {
-                target = null;
-            } else {
-                target = ctx.doLookup(name.getSuffix(1), false);
+        dffbult:
+            // nbmf is dompound, dflfgbtf to diild dontfxt
+            HifrMfmDirCtx dtx = (HifrMfmDirCtx)bindings.gft(nbmf.gftPrffix(1));
+            if(dtx == null) {
+                tbrgft = null;
+            } flsf {
+                tbrgft = dtx.doLookup(nbmf.gftSuffix(1), fblsf);
             }
-            break;
+            brfbk;
         }
 
-        if(target == null) {
-            throw new NameNotFoundException(name.toString());
+        if(tbrgft == null) {
+            tirow nfw NbmfNotFoundExdfption(nbmf.toString());
         }
 
-        if (useFactory) {
+        if (usfFbdtory) {
             try {
-                return DirectoryManager.getObjectInstance(target,
-                    name, this, myEnv,
-                    (target instanceof HierMemDirCtx) ?
-                    ((HierMemDirCtx)target).attrs : null);
-            } catch (NamingException e) {
-                throw e;
-            } catch (Exception e) {
-                NamingException e2 = new NamingException(
-                    "Problem calling getObjectInstance");
-                e2.setRootCause(e);
-                throw e2;
+                rfturn DirfdtoryMbnbgfr.gftObjfdtInstbndf(tbrgft,
+                    nbmf, tiis, myEnv,
+                    (tbrgft instbndfof HifrMfmDirCtx) ?
+                    ((HifrMfmDirCtx)tbrgft).bttrs : null);
+            } dbtdi (NbmingExdfption f) {
+                tirow f;
+            } dbtdi (Exdfption f) {
+                NbmingExdfption f2 = nfw NbmingExdfption(
+                    "Problfm dblling gftObjfdtInstbndf");
+                f2.sftRootCbusf(f);
+                tirow f2;
             }
-        } else {
-            return target;
+        } flsf {
+            rfturn tbrgft;
         }
     }
 
-    public void bind(String name, Object obj) throws NamingException {
-        bind(myParser.parse(name), obj);
+    publid void bind(String nbmf, Objfdt obj) tirows NbmingExdfption {
+        bind(myPbrsfr.pbrsf(nbmf), obj);
     }
 
-    public void bind(Name name, Object obj) throws NamingException {
-        doBind(name, obj, null, alwaysUseFactory);
+    publid void bind(Nbmf nbmf, Objfdt obj) tirows NbmingExdfption {
+        doBind(nbmf, obj, null, blwbysUsfFbdtory);
     }
 
-    public void bind(String name, Object obj, Attributes attrs)
-            throws NamingException {
-        bind(myParser.parse(name), obj, attrs);
+    publid void bind(String nbmf, Objfdt obj, Attributfs bttrs)
+            tirows NbmingExdfption {
+        bind(myPbrsfr.pbrsf(nbmf), obj, bttrs);
     }
 
-    public void bind(Name name, Object obj, Attributes attrs)
-            throws NamingException {
-        doBind(name, obj, attrs, alwaysUseFactory);
+    publid void bind(Nbmf nbmf, Objfdt obj, Attributfs bttrs)
+            tirows NbmingExdfption {
+        doBind(nbmf, obj, bttrs, blwbysUsfFbdtory);
     }
 
-    protected void doBind(Name name, Object obj, Attributes attrs,
-        boolean useFactory) throws NamingException {
-        if (name.isEmpty()) {
-            throw new InvalidNameException("Cannot bind empty name");
+    protfdtfd void doBind(Nbmf nbmf, Objfdt obj, Attributfs bttrs,
+        boolfbn usfFbdtory) tirows NbmingExdfption {
+        if (nbmf.isEmpty()) {
+            tirow nfw InvblidNbmfExdfption("Cbnnot bind fmpty nbmf");
         }
 
-        if (useFactory) {
-            DirStateFactory.Result res = DirectoryManager.getStateToBind(
-                obj, name, this, myEnv, attrs);
-            obj = res.getObject();
-            attrs = res.getAttributes();
+        if (usfFbdtory) {
+            DirStbtfFbdtory.Rfsult rfs = DirfdtoryMbnbgfr.gftStbtfToBind(
+                obj, nbmf, tiis, myEnv, bttrs);
+            obj = rfs.gftObjfdt();
+            bttrs = rfs.gftAttributfs();
         }
 
-        HierMemDirCtx ctx= (HierMemDirCtx) doLookup(getInternalName(name), false);
-        ctx.doBindAux(getLeafName(name), obj);
+        HifrMfmDirCtx dtx= (HifrMfmDirCtx) doLookup(gftIntfrnblNbmf(nbmf), fblsf);
+        dtx.doBindAux(gftLfbfNbmf(nbmf), obj);
 
-        if (attrs != null && attrs.size() > 0) {
-            modifyAttributes(name, ADD_ATTRIBUTE, attrs);
-        }
-    }
-
-    protected void doBindAux(Name name, Object obj) throws NamingException {
-        if (readOnlyEx != null) {
-            throw (NamingException) readOnlyEx.fillInStackTrace();
-        }
-
-        if (bindings.get(name) != null) {
-            throw new NameAlreadyBoundException(name.toString());
-        }
-        if(obj instanceof HierMemDirCtx) {
-            bindings.put(name, obj);
-        } else {
-            throw new SchemaViolationException(
-                "This context only supports binding objects of it's own kind");
+        if (bttrs != null && bttrs.sizf() > 0) {
+            modifyAttributfs(nbmf, ADD_ATTRIBUTE, bttrs);
         }
     }
 
-    public void rebind(String name, Object obj) throws NamingException {
-        rebind(myParser.parse(name), obj);
-    }
-
-    public void rebind(Name name, Object obj) throws NamingException {
-        doRebind(name, obj, null, alwaysUseFactory);
-    }
-
-    public void rebind(String name, Object obj, Attributes attrs)
-            throws NamingException {
-        rebind(myParser.parse(name), obj, attrs);
-    }
-
-    public void rebind(Name name, Object obj, Attributes attrs)
-            throws NamingException {
-        doRebind(name, obj, attrs, alwaysUseFactory);
-    }
-
-    protected void doRebind(Name name, Object obj, Attributes attrs,
-        boolean useFactory) throws NamingException {
-        if (name.isEmpty()) {
-            throw new InvalidNameException("Cannot rebind empty name");
+    protfdtfd void doBindAux(Nbmf nbmf, Objfdt obj) tirows NbmingExdfption {
+        if (rfbdOnlyEx != null) {
+            tirow (NbmingExdfption) rfbdOnlyEx.fillInStbdkTrbdf();
         }
 
-        if (useFactory) {
-            DirStateFactory.Result res = DirectoryManager.getStateToBind(
-                obj, name, this, myEnv, attrs);
-            obj = res.getObject();
-            attrs = res.getAttributes();
+        if (bindings.gft(nbmf) != null) {
+            tirow nfw NbmfAlrfbdyBoundExdfption(nbmf.toString());
+        }
+        if(obj instbndfof HifrMfmDirCtx) {
+            bindings.put(nbmf, obj);
+        } flsf {
+            tirow nfw SdifmbViolbtionExdfption(
+                "Tiis dontfxt only supports binding objfdts of it's own kind");
+        }
+    }
+
+    publid void rfbind(String nbmf, Objfdt obj) tirows NbmingExdfption {
+        rfbind(myPbrsfr.pbrsf(nbmf), obj);
+    }
+
+    publid void rfbind(Nbmf nbmf, Objfdt obj) tirows NbmingExdfption {
+        doRfbind(nbmf, obj, null, blwbysUsfFbdtory);
+    }
+
+    publid void rfbind(String nbmf, Objfdt obj, Attributfs bttrs)
+            tirows NbmingExdfption {
+        rfbind(myPbrsfr.pbrsf(nbmf), obj, bttrs);
+    }
+
+    publid void rfbind(Nbmf nbmf, Objfdt obj, Attributfs bttrs)
+            tirows NbmingExdfption {
+        doRfbind(nbmf, obj, bttrs, blwbysUsfFbdtory);
+    }
+
+    protfdtfd void doRfbind(Nbmf nbmf, Objfdt obj, Attributfs bttrs,
+        boolfbn usfFbdtory) tirows NbmingExdfption {
+        if (nbmf.isEmpty()) {
+            tirow nfw InvblidNbmfExdfption("Cbnnot rfbind fmpty nbmf");
         }
 
-        HierMemDirCtx ctx= (HierMemDirCtx) doLookup(getInternalName(name), false);
-        ctx.doRebindAux(getLeafName(name), obj);
+        if (usfFbdtory) {
+            DirStbtfFbdtory.Rfsult rfs = DirfdtoryMbnbgfr.gftStbtfToBind(
+                obj, nbmf, tiis, myEnv, bttrs);
+            obj = rfs.gftObjfdt();
+            bttrs = rfs.gftAttributfs();
+        }
+
+        HifrMfmDirCtx dtx= (HifrMfmDirCtx) doLookup(gftIntfrnblNbmf(nbmf), fblsf);
+        dtx.doRfbindAux(gftLfbfNbmf(nbmf), obj);
 
         //
-        // attrs == null -> use attrs from obj
-        // attrs != null -> use attrs
+        // bttrs == null -> usf bttrs from obj
+        // bttrs != null -> usf bttrs
         //
-        // %%% Strictly speaking, when attrs is non-null, we should
-        // take the explicit step of removing obj's attrs.
-        // We don't do that currently.
+        // %%% Stridtly spfbking, wifn bttrs is non-null, wf siould
+        // tbkf tif fxplidit stfp of rfmoving obj's bttrs.
+        // Wf don't do tibt durrfntly.
 
-        if (attrs != null && attrs.size() > 0) {
-            modifyAttributes(name, ADD_ATTRIBUTE, attrs);
+        if (bttrs != null && bttrs.sizf() > 0) {
+            modifyAttributfs(nbmf, ADD_ATTRIBUTE, bttrs);
         }
     }
 
-    protected void doRebindAux(Name name, Object obj) throws NamingException {
-        if (readOnlyEx != null) {
-            throw (NamingException) readOnlyEx.fillInStackTrace();
+    protfdtfd void doRfbindAux(Nbmf nbmf, Objfdt obj) tirows NbmingExdfption {
+        if (rfbdOnlyEx != null) {
+            tirow (NbmingExdfption) rfbdOnlyEx.fillInStbdkTrbdf();
         }
-        if(obj instanceof HierMemDirCtx) {
-            bindings.put(name, obj);
+        if(obj instbndfof HifrMfmDirCtx) {
+            bindings.put(nbmf, obj);
 
-        } else {
-            throw new SchemaViolationException(
-                "This context only supports binding objects of it's own kind");
-        }
-    }
-
-    public void unbind(String name) throws NamingException {
-        unbind(myParser.parse(name));
-    }
-
-    public void unbind(Name name) throws NamingException {
-        if (name.isEmpty()) {
-            throw new InvalidNameException("Cannot unbind empty name");
-        } else {
-            HierMemDirCtx ctx=
-                (HierMemDirCtx) doLookup(getInternalName(name), false);
-            ctx.doUnbind(getLeafName(name));
+        } flsf {
+            tirow nfw SdifmbViolbtionExdfption(
+                "Tiis dontfxt only supports binding objfdts of it's own kind");
         }
     }
 
-    protected void doUnbind(Name name) throws NamingException {
-        if (readOnlyEx != null) {
-            throw (NamingException) readOnlyEx.fillInStackTrace();
-        }
-
-        bindings.remove(name);  // attrs will also be removed along with ctx
+    publid void unbind(String nbmf) tirows NbmingExdfption {
+        unbind(myPbrsfr.pbrsf(nbmf));
     }
 
-    public void rename(String oldname, String newname)
-            throws NamingException {
-         rename(myParser.parse(oldname), myParser.parse(newname));
+    publid void unbind(Nbmf nbmf) tirows NbmingExdfption {
+        if (nbmf.isEmpty()) {
+            tirow nfw InvblidNbmfExdfption("Cbnnot unbind fmpty nbmf");
+        } flsf {
+            HifrMfmDirCtx dtx=
+                (HifrMfmDirCtx) doLookup(gftIntfrnblNbmf(nbmf), fblsf);
+            dtx.doUnbind(gftLfbfNbmf(nbmf));
+        }
     }
 
-    public void rename(Name oldname, Name newname)
-            throws NamingException {
-
-        if(newname.isEmpty() || oldname.isEmpty()) {
-            throw new InvalidNameException("Cannot rename empty name");
+    protfdtfd void doUnbind(Nbmf nbmf) tirows NbmingExdfption {
+        if (rfbdOnlyEx != null) {
+            tirow (NbmingExdfption) rfbdOnlyEx.fillInStbdkTrbdf();
         }
 
-        if (!getInternalName(newname).equals(getInternalName(oldname))) {
-            throw new InvalidNameException("Cannot rename across contexts");
-        }
-
-        HierMemDirCtx ctx =
-            (HierMemDirCtx) doLookup(getInternalName(newname), false);
-        ctx.doRename(getLeafName(oldname), getLeafName(newname));
+        bindings.rfmovf(nbmf);  // bttrs will blso bf rfmovfd blong witi dtx
     }
 
-    protected void doRename(Name oldname, Name newname) throws NamingException {
-        if (readOnlyEx != null) {
-            throw (NamingException) readOnlyEx.fillInStackTrace();
+    publid void rfnbmf(String oldnbmf, String nfwnbmf)
+            tirows NbmingExdfption {
+         rfnbmf(myPbrsfr.pbrsf(oldnbmf), myPbrsfr.pbrsf(nfwnbmf));
+    }
+
+    publid void rfnbmf(Nbmf oldnbmf, Nbmf nfwnbmf)
+            tirows NbmingExdfption {
+
+        if(nfwnbmf.isEmpty() || oldnbmf.isEmpty()) {
+            tirow nfw InvblidNbmfExdfption("Cbnnot rfnbmf fmpty nbmf");
         }
 
-        oldname = canonizeName(oldname);
-        newname = canonizeName(newname);
-
-        // Check if new name exists
-        if (bindings.get(newname) != null) {
-            throw new NameAlreadyBoundException(newname.toString());
+        if (!gftIntfrnblNbmf(nfwnbmf).fqubls(gftIntfrnblNbmf(oldnbmf))) {
+            tirow nfw InvblidNbmfExdfption("Cbnnot rfnbmf bdross dontfxts");
         }
 
-        // Check if old name is bound
-        Object oldBinding = bindings.remove(oldname);
+        HifrMfmDirCtx dtx =
+            (HifrMfmDirCtx) doLookup(gftIntfrnblNbmf(nfwnbmf), fblsf);
+        dtx.doRfnbmf(gftLfbfNbmf(oldnbmf), gftLfbfNbmf(nfwnbmf));
+    }
+
+    protfdtfd void doRfnbmf(Nbmf oldnbmf, Nbmf nfwnbmf) tirows NbmingExdfption {
+        if (rfbdOnlyEx != null) {
+            tirow (NbmingExdfption) rfbdOnlyEx.fillInStbdkTrbdf();
+        }
+
+        oldnbmf = dbnonizfNbmf(oldnbmf);
+        nfwnbmf = dbnonizfNbmf(nfwnbmf);
+
+        // Cifdk if nfw nbmf fxists
+        if (bindings.gft(nfwnbmf) != null) {
+            tirow nfw NbmfAlrfbdyBoundExdfption(nfwnbmf.toString());
+        }
+
+        // Cifdk if old nbmf is bound
+        Objfdt oldBinding = bindings.rfmovf(oldnbmf);
         if (oldBinding == null) {
-            throw new NameNotFoundException(oldname.toString());
+            tirow nfw NbmfNotFoundExdfption(oldnbmf.toString());
         }
 
-        bindings.put(newname, oldBinding);
+        bindings.put(nfwnbmf, oldBinding);
     }
 
-    public NamingEnumeration<NameClassPair> list(String name) throws NamingException {
-        return list(myParser.parse(name));
+    publid NbmingEnumfrbtion<NbmfClbssPbir> list(String nbmf) tirows NbmingExdfption {
+        rfturn list(myPbrsfr.pbrsf(nbmf));
     }
 
-    public NamingEnumeration<NameClassPair> list(Name name) throws NamingException {
-        HierMemDirCtx ctx = (HierMemDirCtx) doLookup(name, false);
-        return ctx.doList();
+    publid NbmingEnumfrbtion<NbmfClbssPbir> list(Nbmf nbmf) tirows NbmingExdfption {
+        HifrMfmDirCtx dtx = (HifrMfmDirCtx) doLookup(nbmf, fblsf);
+        rfturn dtx.doList();
     }
 
-    protected NamingEnumeration<NameClassPair> doList () throws NamingException {
-        return new FlatNames(bindings.keys());
+    protfdtfd NbmingEnumfrbtion<NbmfClbssPbir> doList () tirows NbmingExdfption {
+        rfturn nfw FlbtNbmfs(bindings.kfys());
     }
 
 
-    public NamingEnumeration<Binding> listBindings(String name) throws NamingException {
-        return listBindings(myParser.parse(name));
+    publid NbmingEnumfrbtion<Binding> listBindings(String nbmf) tirows NbmingExdfption {
+        rfturn listBindings(myPbrsfr.pbrsf(nbmf));
     }
 
-    public NamingEnumeration<Binding> listBindings(Name name) throws NamingException {
-        HierMemDirCtx ctx = (HierMemDirCtx)doLookup(name, false);
-        return ctx.doListBindings(alwaysUseFactory);
+    publid NbmingEnumfrbtion<Binding> listBindings(Nbmf nbmf) tirows NbmingExdfption {
+        HifrMfmDirCtx dtx = (HifrMfmDirCtx)doLookup(nbmf, fblsf);
+        rfturn dtx.doListBindings(blwbysUsfFbdtory);
     }
 
-    protected NamingEnumeration<Binding> doListBindings(boolean useFactory)
-        throws NamingException {
-        return new FlatBindings(bindings, myEnv, useFactory);
+    protfdtfd NbmingEnumfrbtion<Binding> doListBindings(boolfbn usfFbdtory)
+        tirows NbmingExdfption {
+        rfturn nfw FlbtBindings(bindings, myEnv, usfFbdtory);
     }
 
-    public void destroySubcontext(String name) throws NamingException {
-        destroySubcontext(myParser.parse(name));
+    publid void dfstroySubdontfxt(String nbmf) tirows NbmingExdfption {
+        dfstroySubdontfxt(myPbrsfr.pbrsf(nbmf));
     }
 
-    public void destroySubcontext(Name name) throws NamingException {
-        HierMemDirCtx ctx =
-            (HierMemDirCtx) doLookup(getInternalName(name), false);
-        ctx.doDestroySubcontext(getLeafName(name));
+    publid void dfstroySubdontfxt(Nbmf nbmf) tirows NbmingExdfption {
+        HifrMfmDirCtx dtx =
+            (HifrMfmDirCtx) doLookup(gftIntfrnblNbmf(nbmf), fblsf);
+        dtx.doDfstroySubdontfxt(gftLfbfNbmf(nbmf));
     }
 
-    protected void doDestroySubcontext(Name name) throws NamingException {
+    protfdtfd void doDfstroySubdontfxt(Nbmf nbmf) tirows NbmingExdfption {
 
-        if (readOnlyEx != null) {
-            throw (NamingException) readOnlyEx.fillInStackTrace();
+        if (rfbdOnlyEx != null) {
+            tirow (NbmingExdfption) rfbdOnlyEx.fillInStbdkTrbdf();
         }
-        name = canonizeName(name);
-        bindings.remove(name);
+        nbmf = dbnonizfNbmf(nbmf);
+        bindings.rfmovf(nbmf);
     }
 
-    public Context createSubcontext(String name) throws NamingException {
-        return createSubcontext(myParser.parse(name));
+    publid Contfxt drfbtfSubdontfxt(String nbmf) tirows NbmingExdfption {
+        rfturn drfbtfSubdontfxt(myPbrsfr.pbrsf(nbmf));
     }
 
-    public Context createSubcontext(Name name) throws NamingException {
-        return createSubcontext(name, null);
+    publid Contfxt drfbtfSubdontfxt(Nbmf nbmf) tirows NbmingExdfption {
+        rfturn drfbtfSubdontfxt(nbmf, null);
     }
 
-    public DirContext createSubcontext(String name, Attributes attrs)
-            throws NamingException {
-        return createSubcontext(myParser.parse(name), attrs);
+    publid DirContfxt drfbtfSubdontfxt(String nbmf, Attributfs bttrs)
+            tirows NbmingExdfption {
+        rfturn drfbtfSubdontfxt(myPbrsfr.pbrsf(nbmf), bttrs);
     }
 
-    public DirContext createSubcontext(Name name, Attributes attrs)
-            throws NamingException {
-        HierMemDirCtx ctx =
-            (HierMemDirCtx) doLookup(getInternalName(name), false);
-        return ctx.doCreateSubcontext(getLeafName(name), attrs);
+    publid DirContfxt drfbtfSubdontfxt(Nbmf nbmf, Attributfs bttrs)
+            tirows NbmingExdfption {
+        HifrMfmDirCtx dtx =
+            (HifrMfmDirCtx) doLookup(gftIntfrnblNbmf(nbmf), fblsf);
+        rfturn dtx.doCrfbtfSubdontfxt(gftLfbfNbmf(nbmf), bttrs);
     }
 
-    protected DirContext doCreateSubcontext(Name name, Attributes attrs)
-        throws NamingException {
-        if (readOnlyEx != null) {
-            throw (NamingException) readOnlyEx.fillInStackTrace();
+    protfdtfd DirContfxt doCrfbtfSubdontfxt(Nbmf nbmf, Attributfs bttrs)
+        tirows NbmingExdfption {
+        if (rfbdOnlyEx != null) {
+            tirow (NbmingExdfption) rfbdOnlyEx.fillInStbdkTrbdf();
         }
 
-        name = canonizeName(name);
+        nbmf = dbnonizfNbmf(nbmf);
 
-        if (bindings.get(name) != null) {
-            throw new NameAlreadyBoundException(name.toString());
+        if (bindings.gft(nbmf) != null) {
+            tirow nfw NbmfAlrfbdyBoundExdfption(nbmf.toString());
         }
-        HierMemDirCtx newCtx = createNewCtx();
-        bindings.put(name, newCtx);
-        if(attrs != null) {
-            newCtx.modifyAttributes("", ADD_ATTRIBUTE, attrs);
+        HifrMfmDirCtx nfwCtx = drfbtfNfwCtx();
+        bindings.put(nbmf, nfwCtx);
+        if(bttrs != null) {
+            nfwCtx.modifyAttributfs("", ADD_ATTRIBUTE, bttrs);
         }
-        return newCtx;
+        rfturn nfwCtx;
     }
 
 
-    public Object lookupLink(String name) throws NamingException {
-        // This context does not treat links specially
-        return lookupLink(myParser.parse(name));
+    publid Objfdt lookupLink(String nbmf) tirows NbmingExdfption {
+        // Tiis dontfxt dofs not trfbt links spfdiblly
+        rfturn lookupLink(myPbrsfr.pbrsf(nbmf));
     }
 
-    public Object lookupLink(Name name) throws NamingException {
-        // Flat namespace; no federation; just call string version
-        return lookup(name);
+    publid Objfdt lookupLink(Nbmf nbmf) tirows NbmingExdfption {
+        // Flbt nbmfspbdf; no ffdfrbtion; just dbll string vfrsion
+        rfturn lookup(nbmf);
     }
 
-    public NameParser getNameParser(String name) throws NamingException {
-        return myParser;
+    publid NbmfPbrsfr gftNbmfPbrsfr(String nbmf) tirows NbmingExdfption {
+        rfturn myPbrsfr;
     }
 
-    public NameParser getNameParser(Name name) throws NamingException {
-        return myParser;
+    publid NbmfPbrsfr gftNbmfPbrsfr(Nbmf nbmf) tirows NbmingExdfption {
+        rfturn myPbrsfr;
     }
 
-    public String composeName(String name, String prefix)
-            throws NamingException {
-        Name result = composeName(new CompositeName(name),
-                                  new CompositeName(prefix));
-        return result.toString();
+    publid String domposfNbmf(String nbmf, String prffix)
+            tirows NbmingExdfption {
+        Nbmf rfsult = domposfNbmf(nfw CompositfNbmf(nbmf),
+                                  nfw CompositfNbmf(prffix));
+        rfturn rfsult.toString();
     }
 
-    public Name composeName(Name name, Name prefix)
-            throws NamingException {
-        name = canonizeName(name);
-        prefix = canonizeName(prefix);
-        Name result = (Name)(prefix.clone());
-        result.addAll(name);
-        return result;
+    publid Nbmf domposfNbmf(Nbmf nbmf, Nbmf prffix)
+            tirows NbmingExdfption {
+        nbmf = dbnonizfNbmf(nbmf);
+        prffix = dbnonizfNbmf(prffix);
+        Nbmf rfsult = (Nbmf)(prffix.dlonf());
+        rfsult.bddAll(nbmf);
+        rfturn rfsult;
     }
 
-    @SuppressWarnings("unchecked") // clone()
-    public Object addToEnvironment(String propName, Object propVal)
-            throws NamingException {
+    @SupprfssWbrnings("undifdkfd") // dlonf()
+    publid Objfdt bddToEnvironmfnt(String propNbmf, Objfdt propVbl)
+            tirows NbmingExdfption {
         myEnv = (myEnv == null)
-                ? new Hashtable<String, Object>(11, 0.75f)
-                : (Hashtable<String, Object>)myEnv.clone();
+                ? nfw Hbsitbblf<String, Objfdt>(11, 0.75f)
+                : (Hbsitbblf<String, Objfdt>)myEnv.dlonf();
 
-        return myEnv.put(propName, propVal);
+        rfturn myEnv.put(propNbmf, propVbl);
     }
 
-    @SuppressWarnings("unchecked") // clone()
-    public Object removeFromEnvironment(String propName)
-            throws NamingException {
+    @SupprfssWbrnings("undifdkfd") // dlonf()
+    publid Objfdt rfmovfFromEnvironmfnt(String propNbmf)
+            tirows NbmingExdfption {
         if (myEnv == null)
-            return null;
+            rfturn null;
 
-        myEnv = (Hashtable<String, Object>)myEnv.clone();
-        return myEnv.remove(propName);
+        myEnv = (Hbsitbblf<String, Objfdt>)myEnv.dlonf();
+        rfturn myEnv.rfmovf(propNbmf);
     }
 
-    @SuppressWarnings("unchecked") // clone()
-    public Hashtable<String, Object> getEnvironment() throws NamingException {
+    @SupprfssWbrnings("undifdkfd") // dlonf()
+    publid Hbsitbblf<String, Objfdt> gftEnvironmfnt() tirows NbmingExdfption {
         if (myEnv == null) {
-            return new Hashtable<>(5, 0.75f);
-        } else {
-            return (Hashtable<String, Object>)myEnv.clone();
+            rfturn nfw Hbsitbblf<>(5, 0.75f);
+        } flsf {
+            rfturn (Hbsitbblf<String, Objfdt>)myEnv.dlonf();
         }
     }
 
-    public Attributes getAttributes(String name)
-       throws NamingException {
-       return getAttributes(myParser.parse(name));
+    publid Attributfs gftAttributfs(String nbmf)
+       tirows NbmingExdfption {
+       rfturn gftAttributfs(myPbrsfr.pbrsf(nbmf));
     }
 
-    public Attributes getAttributes(Name name)
-        throws NamingException {
-        HierMemDirCtx ctx = (HierMemDirCtx) doLookup(name, false);
-        return ctx.doGetAttributes();
+    publid Attributfs gftAttributfs(Nbmf nbmf)
+        tirows NbmingExdfption {
+        HifrMfmDirCtx dtx = (HifrMfmDirCtx) doLookup(nbmf, fblsf);
+        rfturn dtx.doGftAttributfs();
     }
 
-    protected Attributes doGetAttributes() throws NamingException {
-        return (Attributes)attrs.clone();
+    protfdtfd Attributfs doGftAttributfs() tirows NbmingExdfption {
+        rfturn (Attributfs)bttrs.dlonf();
     }
 
-    public Attributes getAttributes(String name, String[] attrIds)
-        throws NamingException {
-        return getAttributes(myParser.parse(name), attrIds);
+    publid Attributfs gftAttributfs(String nbmf, String[] bttrIds)
+        tirows NbmingExdfption {
+        rfturn gftAttributfs(myPbrsfr.pbrsf(nbmf), bttrIds);
     }
 
-    public Attributes getAttributes(Name name, String[] attrIds)
-        throws NamingException {
-        HierMemDirCtx ctx = (HierMemDirCtx) doLookup(name, false);
-        return ctx.doGetAttributes(attrIds);
+    publid Attributfs gftAttributfs(Nbmf nbmf, String[] bttrIds)
+        tirows NbmingExdfption {
+        HifrMfmDirCtx dtx = (HifrMfmDirCtx) doLookup(nbmf, fblsf);
+        rfturn dtx.doGftAttributfs(bttrIds);
     }
 
-    protected Attributes doGetAttributes(String[] attrIds)
-        throws NamingException {
+    protfdtfd Attributfs doGftAttributfs(String[] bttrIds)
+        tirows NbmingExdfption {
 
-        if (attrIds == null) {
-            return doGetAttributes();
+        if (bttrIds == null) {
+            rfturn doGftAttributfs();
         }
-        Attributes attrs = new BasicAttributes(ignoreCase);
-        Attribute attr = null;
-            for(int i=0; i<attrIds.length; i++) {
-                attr = this.attrs.get(attrIds[i]);
-                if (attr != null) {
-                    attrs.put(attr);
+        Attributfs bttrs = nfw BbsidAttributfs(ignorfCbsf);
+        Attributf bttr = null;
+            for(int i=0; i<bttrIds.lfngti; i++) {
+                bttr = tiis.bttrs.gft(bttrIds[i]);
+                if (bttr != null) {
+                    bttrs.put(bttr);
                 }
             }
-        return attrs;
+        rfturn bttrs;
     }
 
-    public void modifyAttributes(String name, int mod_op, Attributes attrs)
-        throws NamingException   {
-        modifyAttributes(myParser.parse(name), mod_op, attrs);
+    publid void modifyAttributfs(String nbmf, int mod_op, Attributfs bttrs)
+        tirows NbmingExdfption   {
+        modifyAttributfs(myPbrsfr.pbrsf(nbmf), mod_op, bttrs);
     }
 
-    public void modifyAttributes(Name name, int mod_op, Attributes attrs)
-        throws NamingException {
+    publid void modifyAttributfs(Nbmf nbmf, int mod_op, Attributfs bttrs)
+        tirows NbmingExdfption {
 
-        if (attrs == null || attrs.size() == 0) {
-            throw new IllegalArgumentException(
-                "Cannot modify without an attribute");
+        if (bttrs == null || bttrs.sizf() == 0) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Cbnnot modify witiout bn bttributf");
         }
 
-        // turn it into a modification Enumeration and pass it on
-        NamingEnumeration<? extends Attribute> attrEnum = attrs.getAll();
-        ModificationItem[] mods = new ModificationItem[attrs.size()];
-        for (int i = 0; i < mods.length && attrEnum.hasMoreElements(); i++) {
-            mods[i] = new ModificationItem(mod_op, attrEnum.next());
+        // turn it into b modifidbtion Enumfrbtion bnd pbss it on
+        NbmingEnumfrbtion<? fxtfnds Attributf> bttrEnum = bttrs.gftAll();
+        ModifidbtionItfm[] mods = nfw ModifidbtionItfm[bttrs.sizf()];
+        for (int i = 0; i < mods.lfngti && bttrEnum.ibsMorfElfmfnts(); i++) {
+            mods[i] = nfw ModifidbtionItfm(mod_op, bttrEnum.nfxt());
         }
 
-        modifyAttributes(name, mods);
+        modifyAttributfs(nbmf, mods);
     }
 
-    public void modifyAttributes(String name, ModificationItem[] mods)
-        throws NamingException   {
-        modifyAttributes(myParser.parse(name), mods);
+    publid void modifyAttributfs(String nbmf, ModifidbtionItfm[] mods)
+        tirows NbmingExdfption   {
+        modifyAttributfs(myPbrsfr.pbrsf(nbmf), mods);
     }
 
-    public void modifyAttributes(Name name, ModificationItem[] mods)
-        throws NamingException {
-        HierMemDirCtx ctx = (HierMemDirCtx) doLookup(name, false);
-        ctx.doModifyAttributes(mods);
+    publid void modifyAttributfs(Nbmf nbmf, ModifidbtionItfm[] mods)
+        tirows NbmingExdfption {
+        HifrMfmDirCtx dtx = (HifrMfmDirCtx) doLookup(nbmf, fblsf);
+        dtx.doModifyAttributfs(mods);
     }
 
-    protected void doModifyAttributes(ModificationItem[] mods)
-        throws NamingException {
+    protfdtfd void doModifyAttributfs(ModifidbtionItfm[] mods)
+        tirows NbmingExdfption {
 
-        if (readOnlyEx != null) {
-            throw (NamingException) readOnlyEx.fillInStackTrace();
+        if (rfbdOnlyEx != null) {
+            tirow (NbmingExdfption) rfbdOnlyEx.fillInStbdkTrbdf();
         }
 
-        applyMods(mods, attrs);
+        bpplyMods(mods, bttrs);
     }
 
-    protected static Attributes applyMods(ModificationItem[] mods,
-        Attributes orig) throws NamingException {
+    protfdtfd stbtid Attributfs bpplyMods(ModifidbtionItfm[] mods,
+        Attributfs orig) tirows NbmingExdfption {
 
-        ModificationItem mod;
-        Attribute existingAttr, modAttr;
-        NamingEnumeration<?> modVals;
+        ModifidbtionItfm mod;
+        Attributf fxistingAttr, modAttr;
+        NbmingEnumfrbtion<?> modVbls;
 
-        for (int i = 0; i < mods.length; i++) {
+        for (int i = 0; i < mods.lfngti; i++) {
             mod = mods[i];
-            modAttr = mod.getAttribute();
+            modAttr = mod.gftAttributf();
 
-            switch(mod.getModificationOp()) {
-            case ADD_ATTRIBUTE:
-                if (debug) {
-                    System.out.println("HierMemDSCtx: adding " +
-                                       mod.getAttribute().toString());
+            switdi(mod.gftModifidbtionOp()) {
+            dbsf ADD_ATTRIBUTE:
+                if (dfbug) {
+                    Systfm.out.println("HifrMfmDSCtx: bdding " +
+                                       mod.gftAttributf().toString());
                 }
-                existingAttr = orig.get(modAttr.getID());
-                if (existingAttr == null) {
-                    orig.put((Attribute)modAttr.clone());
-                } else {
-                    // Add new attribute values to existing attribute
-                    modVals = modAttr.getAll();
-                    while (modVals.hasMore()) {
-                        existingAttr.add(modVals.next());
+                fxistingAttr = orig.gft(modAttr.gftID());
+                if (fxistingAttr == null) {
+                    orig.put((Attributf)modAttr.dlonf());
+                } flsf {
+                    // Add nfw bttributf vblufs to fxisting bttributf
+                    modVbls = modAttr.gftAll();
+                    wiilf (modVbls.ibsMorf()) {
+                        fxistingAttr.bdd(modVbls.nfxt());
                     }
                 }
-                break;
-            case REPLACE_ATTRIBUTE:
-                if (modAttr.size() == 0) {
-                    orig.remove(modAttr.getID());
-                } else {
-                    orig.put((Attribute)modAttr.clone());
+                brfbk;
+            dbsf REPLACE_ATTRIBUTE:
+                if (modAttr.sizf() == 0) {
+                    orig.rfmovf(modAttr.gftID());
+                } flsf {
+                    orig.put((Attributf)modAttr.dlonf());
                 }
-                break;
-            case REMOVE_ATTRIBUTE:
-                existingAttr = orig.get(modAttr.getID());
-                if (existingAttr != null) {
-                    if (modAttr.size() == 0) {
-                        orig.remove(modAttr.getID());
-                    } else {
-                        // Remove attribute values from existing attribute
-                        modVals = modAttr.getAll();
-                        while (modVals.hasMore()) {
-                            existingAttr.remove(modVals.next());
+                brfbk;
+            dbsf REMOVE_ATTRIBUTE:
+                fxistingAttr = orig.gft(modAttr.gftID());
+                if (fxistingAttr != null) {
+                    if (modAttr.sizf() == 0) {
+                        orig.rfmovf(modAttr.gftID());
+                    } flsf {
+                        // Rfmovf bttributf vblufs from fxisting bttributf
+                        modVbls = modAttr.gftAll();
+                        wiilf (modVbls.ibsMorf()) {
+                            fxistingAttr.rfmovf(modVbls.nfxt());
                         }
-                        if (existingAttr.size() == 0) {
-                            orig.remove(modAttr.getID());
+                        if (fxistingAttr.sizf() == 0) {
+                            orig.rfmovf(modAttr.gftID());
                         }
                     }
                 }
-                break;
-            default:
-                throw new AttributeModificationException("Unknown mod_op");
+                brfbk;
+            dffbult:
+                tirow nfw AttributfModifidbtionExdfption("Unknown mod_op");
             }
         }
 
-        return orig;
+        rfturn orig;
     }
 
-    public NamingEnumeration<SearchResult> search(String name,
-                                                  Attributes matchingAttributes)
-        throws NamingException {
-        return search(name, matchingAttributes, null);
+    publid NbmingEnumfrbtion<SfbrdiRfsult> sfbrdi(String nbmf,
+                                                  Attributfs mbtdiingAttributfs)
+        tirows NbmingExdfption {
+        rfturn sfbrdi(nbmf, mbtdiingAttributfs, null);
     }
 
-    public NamingEnumeration<SearchResult> search(Name name,
-                                                  Attributes matchingAttributes)
-        throws NamingException {
-            return search(name, matchingAttributes, null);
+    publid NbmingEnumfrbtion<SfbrdiRfsult> sfbrdi(Nbmf nbmf,
+                                                  Attributfs mbtdiingAttributfs)
+        tirows NbmingExdfption {
+            rfturn sfbrdi(nbmf, mbtdiingAttributfs, null);
     }
 
-     public NamingEnumeration<SearchResult> search(String name,
-                                                   Attributes matchingAttributes,
-                                                   String[] attributesToReturn)
-        throws NamingException {
-        return search(myParser.parse(name), matchingAttributes,
-            attributesToReturn);
+     publid NbmingEnumfrbtion<SfbrdiRfsult> sfbrdi(String nbmf,
+                                                   Attributfs mbtdiingAttributfs,
+                                                   String[] bttributfsToRfturn)
+        tirows NbmingExdfption {
+        rfturn sfbrdi(myPbrsfr.pbrsf(nbmf), mbtdiingAttributfs,
+            bttributfsToRfturn);
     }
 
-     public NamingEnumeration<SearchResult> search(Name name,
-                                                   Attributes matchingAttributes,
-                                                   String[] attributesToReturn)
-         throws NamingException {
+     publid NbmingEnumfrbtion<SfbrdiRfsult> sfbrdi(Nbmf nbmf,
+                                                   Attributfs mbtdiingAttributfs,
+                                                   String[] bttributfsToRfturn)
+         tirows NbmingExdfption {
 
-        HierMemDirCtx target = (HierMemDirCtx) doLookup(name, false);
+        HifrMfmDirCtx tbrgft = (HifrMfmDirCtx) doLookup(nbmf, fblsf);
 
-        SearchControls cons = new SearchControls();
-        cons.setReturningAttributes(attributesToReturn);
+        SfbrdiControls dons = nfw SfbrdiControls();
+        dons.sftRfturningAttributfs(bttributfsToRfturn);
 
-        return new LazySearchEnumerationImpl(
-            target.doListBindings(false),
-            new ContainmentFilter(matchingAttributes),
-            cons, this, myEnv,
-            false); // alwaysUseFactory ignored because objReturnFlag == false
+        rfturn nfw LbzySfbrdiEnumfrbtionImpl(
+            tbrgft.doListBindings(fblsf),
+            nfw ContbinmfntFiltfr(mbtdiingAttributfs),
+            dons, tiis, myEnv,
+            fblsf); // blwbysUsfFbdtory ignorfd bfdbusf objRfturnFlbg == fblsf
     }
 
-    public NamingEnumeration<SearchResult> search(Name name,
-                                                  String filter,
-                                                  SearchControls cons)
-        throws NamingException {
-        DirContext target = (DirContext) doLookup(name, false);
+    publid NbmingEnumfrbtion<SfbrdiRfsult> sfbrdi(Nbmf nbmf,
+                                                  String filtfr,
+                                                  SfbrdiControls dons)
+        tirows NbmingExdfption {
+        DirContfxt tbrgft = (DirContfxt) doLookup(nbmf, fblsf);
 
-        SearchFilter stringfilter = new SearchFilter(filter);
-        return new LazySearchEnumerationImpl(
-            new HierContextEnumerator(target,
-                (cons != null) ? cons.getSearchScope() :
-                SearchControls.ONELEVEL_SCOPE),
-            stringfilter,
-            cons, this, myEnv, alwaysUseFactory);
+        SfbrdiFiltfr stringfiltfr = nfw SfbrdiFiltfr(filtfr);
+        rfturn nfw LbzySfbrdiEnumfrbtionImpl(
+            nfw HifrContfxtEnumfrbtor(tbrgft,
+                (dons != null) ? dons.gftSfbrdiSdopf() :
+                SfbrdiControls.ONELEVEL_SCOPE),
+            stringfiltfr,
+            dons, tiis, myEnv, blwbysUsfFbdtory);
     }
 
-     public NamingEnumeration<SearchResult> search(Name name,
-                                                   String filterExpr,
-                                                   Object[] filterArgs,
-                                                   SearchControls cons)
-            throws NamingException {
+     publid NbmingEnumfrbtion<SfbrdiRfsult> sfbrdi(Nbmf nbmf,
+                                                   String filtfrExpr,
+                                                   Objfdt[] filtfrArgs,
+                                                   SfbrdiControls dons)
+            tirows NbmingExdfption {
 
-        String strfilter = SearchFilter.format(filterExpr, filterArgs);
-        return search(name, strfilter, cons);
+        String strfiltfr = SfbrdiFiltfr.formbt(filtfrExpr, filtfrArgs);
+        rfturn sfbrdi(nbmf, strfiltfr, dons);
     }
 
-    public NamingEnumeration<SearchResult> search(String name,
-                                                  String filter,
-                                                  SearchControls cons)
-        throws NamingException {
-        return search(myParser.parse(name), filter, cons);
+    publid NbmingEnumfrbtion<SfbrdiRfsult> sfbrdi(String nbmf,
+                                                  String filtfr,
+                                                  SfbrdiControls dons)
+        tirows NbmingExdfption {
+        rfturn sfbrdi(myPbrsfr.pbrsf(nbmf), filtfr, dons);
     }
 
-    public NamingEnumeration<SearchResult> search(String name,
-                                                  String filterExpr,
-                                                  Object[] filterArgs,
-                                                  SearchControls cons)
-            throws NamingException {
-        return search(myParser.parse(name), filterExpr, filterArgs, cons);
+    publid NbmingEnumfrbtion<SfbrdiRfsult> sfbrdi(String nbmf,
+                                                  String filtfrExpr,
+                                                  Objfdt[] filtfrArgs,
+                                                  SfbrdiControls dons)
+            tirows NbmingExdfption {
+        rfturn sfbrdi(myPbrsfr.pbrsf(nbmf), filtfrExpr, filtfrArgs, dons);
     }
 
-    // This function is called whenever a new object needs to be created.
-    // this is used so that if anyone subclasses us, they can override this
-    // and return object of their own kind.
-    protected HierMemDirCtx createNewCtx() throws NamingException {
-        return new HierMemDirCtx(myEnv, ignoreCase);
+    // Tiis fundtion is dbllfd wifnfvfr b nfw objfdt nffds to bf drfbtfd.
+    // tiis is usfd so tibt if bnyonf subdlbssfs us, tify dbn ovfrridf tiis
+    // bnd rfturn objfdt of tifir own kind.
+    protfdtfd HifrMfmDirCtx drfbtfNfwCtx() tirows NbmingExdfption {
+        rfturn nfw HifrMfmDirCtx(myEnv, ignorfCbsf);
     }
 
-    // If the supplied name is a composite name, return the name that
-    // is its first component.
-    protected Name canonizeName(Name name) throws NamingException {
-        Name canonicalName = name;
+    // If tif supplifd nbmf is b dompositf nbmf, rfturn tif nbmf tibt
+    // is its first domponfnt.
+    protfdtfd Nbmf dbnonizfNbmf(Nbmf nbmf) tirows NbmingExdfption {
+        Nbmf dbnonidblNbmf = nbmf;
 
-        if(!(name instanceof HierarchicalName)) {
-            // If name is not of the correct type, make copy
-            canonicalName = new HierarchicalName();
-            int n = name.size();
+        if(!(nbmf instbndfof HifrbrdiidblNbmf)) {
+            // If nbmf is not of tif dorrfdt typf, mbkf dopy
+            dbnonidblNbmf = nfw HifrbrdiidblNbmf();
+            int n = nbmf.sizf();
             for(int i = 0; i < n; i++) {
-                canonicalName.add(i, name.get(i));
+                dbnonidblNbmf.bdd(i, nbmf.gft(i));
             }
         }
 
-        return canonicalName;
+        rfturn dbnonidblNbmf;
     }
 
-     protected Name getInternalName(Name name) throws NamingException {
-         return (name.getPrefix(name.size() - 1));
+     protfdtfd Nbmf gftIntfrnblNbmf(Nbmf nbmf) tirows NbmingExdfption {
+         rfturn (nbmf.gftPrffix(nbmf.sizf() - 1));
      }
 
-     protected Name getLeafName(Name name) throws NamingException {
-         return (name.getSuffix(name.size() - 1));
+     protfdtfd Nbmf gftLfbfNbmf(Nbmf nbmf) tirows NbmingExdfption {
+         rfturn (nbmf.gftSuffix(nbmf.sizf() - 1));
      }
 
 
-     public DirContext getSchema(String name) throws NamingException {
-        throw new OperationNotSupportedException();
+     publid DirContfxt gftSdifmb(String nbmf) tirows NbmingExdfption {
+        tirow nfw OpfrbtionNotSupportfdExdfption();
     }
 
-     public DirContext getSchema(Name name) throws NamingException {
-        throw new OperationNotSupportedException();
+     publid DirContfxt gftSdifmb(Nbmf nbmf) tirows NbmingExdfption {
+        tirow nfw OpfrbtionNotSupportfdExdfption();
     }
 
-     public DirContext getSchemaClassDefinition(String name)
-        throws NamingException {
-        throw new OperationNotSupportedException();
+     publid DirContfxt gftSdifmbClbssDffinition(String nbmf)
+        tirows NbmingExdfption {
+        tirow nfw OpfrbtionNotSupportfdExdfption();
     }
 
-    public DirContext getSchemaClassDefinition(Name name)
-            throws NamingException {
-        throw new OperationNotSupportedException();
+    publid DirContfxt gftSdifmbClbssDffinition(Nbmf nbmf)
+            tirows NbmingExdfption {
+        tirow nfw OpfrbtionNotSupportfdExdfption();
     }
 
-    // Set context in readonly mode; throw e when update operation attempted.
-    public void setReadOnly(NamingException e) {
-        readOnlyEx = e;
+    // Sft dontfxt in rfbdonly modf; tirow f wifn updbtf opfrbtion bttfmptfd.
+    publid void sftRfbdOnly(NbmingExdfption f) {
+        rfbdOnlyEx = f;
     }
 
-    // Set context to support case-insensitive names
-    public void setIgnoreCase(boolean ignoreCase) {
-        this.ignoreCase = ignoreCase;
+    // Sft dontfxt to support dbsf-insfnsitivf nbmfs
+    publid void sftIgnorfCbsf(boolfbn ignorfCbsf) {
+        tiis.ignorfCbsf = ignorfCbsf;
     }
 
-    public void setNameParser(NameParser parser) {
-        myParser = parser;
+    publid void sftNbmfPbrsfr(NbmfPbrsfr pbrsfr) {
+        myPbrsfr = pbrsfr;
     }
 
     /*
-     * Common base class for FlatNames and FlatBindings.
+     * Common bbsf dlbss for FlbtNbmfs bnd FlbtBindings.
      */
-    private abstract class BaseFlatNames<T> implements NamingEnumeration<T> {
-        Enumeration<Name> names;
+    privbtf bbstrbdt dlbss BbsfFlbtNbmfs<T> implfmfnts NbmingEnumfrbtion<T> {
+        Enumfrbtion<Nbmf> nbmfs;
 
-        BaseFlatNames (Enumeration<Name> names) {
-            this.names = names;
+        BbsfFlbtNbmfs (Enumfrbtion<Nbmf> nbmfs) {
+            tiis.nbmfs = nbmfs;
         }
 
-        public final boolean hasMoreElements() {
+        publid finbl boolfbn ibsMorfElfmfnts() {
             try {
-                return hasMore();
-            } catch (NamingException e) {
-                return false;
+                rfturn ibsMorf();
+            } dbtdi (NbmingExdfption f) {
+                rfturn fblsf;
             }
         }
 
-        public final boolean hasMore() throws NamingException {
-            return names.hasMoreElements();
+        publid finbl boolfbn ibsMorf() tirows NbmingExdfption {
+            rfturn nbmfs.ibsMorfElfmfnts();
         }
 
-        public final T nextElement() {
+        publid finbl T nfxtElfmfnt() {
             try {
-                return next();
-            } catch (NamingException e) {
-                throw new NoSuchElementException(e.toString());
+                rfturn nfxt();
+            } dbtdi (NbmingExdfption f) {
+                tirow nfw NoSudiElfmfntExdfption(f.toString());
             }
         }
 
-        public abstract T next() throws NamingException;
+        publid bbstrbdt T nfxt() tirows NbmingExdfption;
 
-        public final void close() {
-            names = null;
+        publid finbl void dlosf() {
+            nbmfs = null;
         }
     }
 
-    // Class for enumerating name/class pairs
-    private final class FlatNames extends BaseFlatNames<NameClassPair> {
-        FlatNames (Enumeration<Name> names) {
-            super(names);
+    // Clbss for fnumfrbting nbmf/dlbss pbirs
+    privbtf finbl dlbss FlbtNbmfs fxtfnds BbsfFlbtNbmfs<NbmfClbssPbir> {
+        FlbtNbmfs (Enumfrbtion<Nbmf> nbmfs) {
+            supfr(nbmfs);
         }
 
-        @Override
-        public NameClassPair next() throws NamingException {
-            Name name = names.nextElement();
-            String className = bindings.get(name).getClass().getName();
-            return new NameClassPair(name.toString(), className);
+        @Ovfrridf
+        publid NbmfClbssPbir nfxt() tirows NbmingExdfption {
+            Nbmf nbmf = nbmfs.nfxtElfmfnt();
+            String dlbssNbmf = bindings.gft(nbmf).gftClbss().gftNbmf();
+            rfturn nfw NbmfClbssPbir(nbmf.toString(), dlbssNbmf);
         }
     }
 
-    // Class for enumerating bindings
-    private final class FlatBindings extends BaseFlatNames<Binding> {
-        private Hashtable<Name, Object> bds;
-        private Hashtable<String, Object> env;
-        private boolean useFactory;
+    // Clbss for fnumfrbting bindings
+    privbtf finbl dlbss FlbtBindings fxtfnds BbsfFlbtNbmfs<Binding> {
+        privbtf Hbsitbblf<Nbmf, Objfdt> bds;
+        privbtf Hbsitbblf<String, Objfdt> fnv;
+        privbtf boolfbn usfFbdtory;
 
-        FlatBindings(Hashtable<Name, Object> bindings,
-                     Hashtable<String, Object> env,
-                     boolean useFactory) {
-            super(bindings.keys());
-            this.env = env;
-            this.bds = bindings;
-            this.useFactory = useFactory;
+        FlbtBindings(Hbsitbblf<Nbmf, Objfdt> bindings,
+                     Hbsitbblf<String, Objfdt> fnv,
+                     boolfbn usfFbdtory) {
+            supfr(bindings.kfys());
+            tiis.fnv = fnv;
+            tiis.bds = bindings;
+            tiis.usfFbdtory = usfFbdtory;
         }
 
-        @Override
-        public Binding next() throws NamingException {
-            Name name = names.nextElement();
+        @Ovfrridf
+        publid Binding nfxt() tirows NbmingExdfption {
+            Nbmf nbmf = nbmfs.nfxtElfmfnt();
 
-            HierMemDirCtx obj = (HierMemDirCtx)bds.get(name);
+            HifrMfmDirCtx obj = (HifrMfmDirCtx)bds.gft(nbmf);
 
-            Object answer = obj;
-            if (useFactory) {
-                Attributes attrs = obj.getAttributes(""); // only method available
+            Objfdt bnswfr = obj;
+            if (usfFbdtory) {
+                Attributfs bttrs = obj.gftAttributfs(""); // only mftiod bvbilbblf
                 try {
-                    answer = DirectoryManager.getObjectInstance(obj,
-                        name, HierMemDirCtx.this, env, attrs);
-                } catch (NamingException e) {
-                    throw e;
-                } catch (Exception e) {
-                    NamingException e2 = new NamingException(
-                        "Problem calling getObjectInstance");
-                    e2.setRootCause(e);
-                    throw e2;
+                    bnswfr = DirfdtoryMbnbgfr.gftObjfdtInstbndf(obj,
+                        nbmf, HifrMfmDirCtx.tiis, fnv, bttrs);
+                } dbtdi (NbmingExdfption f) {
+                    tirow f;
+                } dbtdi (Exdfption f) {
+                    NbmingExdfption f2 = nfw NbmingExdfption(
+                        "Problfm dblling gftObjfdtInstbndf");
+                    f2.sftRootCbusf(f);
+                    tirow f2;
                 }
             }
 
-            return new Binding(name.toString(), answer);
+            rfturn nfw Binding(nbmf.toString(), bnswfr);
         }
     }
 
-    public class HierContextEnumerator extends ContextEnumerator {
-        public HierContextEnumerator(Context context, int scope)
-            throws NamingException {
-                super(context, scope);
+    publid dlbss HifrContfxtEnumfrbtor fxtfnds ContfxtEnumfrbtor {
+        publid HifrContfxtEnumfrbtor(Contfxt dontfxt, int sdopf)
+            tirows NbmingExdfption {
+                supfr(dontfxt, sdopf);
         }
 
-        protected HierContextEnumerator(Context context, int scope,
-            String contextName, boolean returnSelf) throws NamingException {
-            super(context, scope, contextName, returnSelf);
+        protfdtfd HifrContfxtEnumfrbtor(Contfxt dontfxt, int sdopf,
+            String dontfxtNbmf, boolfbn rfturnSflf) tirows NbmingExdfption {
+            supfr(dontfxt, sdopf, dontfxtNbmf, rfturnSflf);
         }
 
-        protected NamingEnumeration<Binding> getImmediateChildren(Context ctx)
-            throws NamingException {
-                return ((HierMemDirCtx)ctx).doListBindings(false);
+        protfdtfd NbmingEnumfrbtion<Binding> gftImmfdibtfCiildrfn(Contfxt dtx)
+            tirows NbmingExdfption {
+                rfturn ((HifrMfmDirCtx)dtx).doListBindings(fblsf);
         }
 
-        protected ContextEnumerator newEnumerator(Context ctx, int scope,
-            String contextName, boolean returnSelf) throws NamingException {
-                return new HierContextEnumerator(ctx, scope, contextName,
-                    returnSelf);
+        protfdtfd ContfxtEnumfrbtor nfwEnumfrbtor(Contfxt dtx, int sdopf,
+            String dontfxtNbmf, boolfbn rfturnSflf) tirows NbmingExdfption {
+                rfturn nfw HifrContfxtEnumfrbtor(dtx, sdopf, dontfxtNbmf,
+                    rfturnSflf);
         }
     }
 }
 
-    // CompoundNames's HashCode() method isn't good enough for many strings.
-    // The only purpose of this subclass is to have a more discerning
-    // hash function. We'll make up for the performance hit by caching
-    // the hash value.
+    // CompoundNbmfs's HbsiCodf() mftiod isn't good fnougi for mbny strings.
+    // Tif only purposf of tiis subdlbss is to ibvf b morf disdfrning
+    // ibsi fundtion. Wf'll mbkf up for tif pfrformbndf iit by dbdiing
+    // tif ibsi vbluf.
 
-final class HierarchicalName extends CompoundName {
-    private int hashValue = -1;
+finbl dlbss HifrbrdiidblNbmf fxtfnds CompoundNbmf {
+    privbtf int ibsiVbluf = -1;
 
-    // Creates an empty name
-    HierarchicalName() {
-        super(new Enumeration<String>() {
-                  public boolean hasMoreElements() {return false;}
-                  public String nextElement() {throw new NoSuchElementException();}
+    // Crfbtfs bn fmpty nbmf
+    HifrbrdiidblNbmf() {
+        supfr(nfw Enumfrbtion<String>() {
+                  publid boolfbn ibsMorfElfmfnts() {rfturn fblsf;}
+                  publid String nfxtElfmfnt() {tirow nfw NoSudiElfmfntExdfption();}
               },
-              HierarchicalNameParser.mySyntax);
+              HifrbrdiidblNbmfPbrsfr.mySyntbx);
     }
 
-    HierarchicalName(Enumeration<String> comps, Properties syntax) {
-        super(comps, syntax);
+    HifrbrdiidblNbmf(Enumfrbtion<String> domps, Propfrtifs syntbx) {
+        supfr(domps, syntbx);
     }
 
-    HierarchicalName(String n, Properties syntax) throws InvalidNameException {
-        super(n, syntax);
+    HifrbrdiidblNbmf(String n, Propfrtifs syntbx) tirows InvblidNbmfExdfption {
+        supfr(n, syntbx);
     }
 
-    // just like String.hashCode, only it pays no attention to length
-    public int hashCode() {
-        if (hashValue == -1) {
+    // just likf String.ibsiCodf, only it pbys no bttfntion to lfngti
+    publid int ibsiCodf() {
+        if (ibsiVbluf == -1) {
 
-            String name = toString().toUpperCase(Locale.ENGLISH);
-            int len = name.length();
+            String nbmf = toString().toUppfrCbsf(Lodblf.ENGLISH);
+            int lfn = nbmf.lfngti();
             int off = 0;
-            char val[] = new char[len];
+            dibr vbl[] = nfw dibr[lfn];
 
-            name.getChars(0, len, val, 0);
+            nbmf.gftCibrs(0, lfn, vbl, 0);
 
-            for (int i = len; i > 0; i--) {
-                hashValue = (hashValue * 37) + val[off++];
+            for (int i = lfn; i > 0; i--) {
+                ibsiVbluf = (ibsiVbluf * 37) + vbl[off++];
             }
         }
 
-        return hashValue;
+        rfturn ibsiVbluf;
     }
 
-    public Name getPrefix(int posn) {
-        Enumeration<String> comps = super.getPrefix(posn).getAll();
-        return (new HierarchicalName(comps, mySyntax));
+    publid Nbmf gftPrffix(int posn) {
+        Enumfrbtion<String> domps = supfr.gftPrffix(posn).gftAll();
+        rfturn (nfw HifrbrdiidblNbmf(domps, mySyntbx));
     }
 
-    public Name getSuffix(int posn) {
-        Enumeration<String> comps = super.getSuffix(posn).getAll();
-        return (new HierarchicalName(comps, mySyntax));
+    publid Nbmf gftSuffix(int posn) {
+        Enumfrbtion<String> domps = supfr.gftSuffix(posn).gftAll();
+        rfturn (nfw HifrbrdiidblNbmf(domps, mySyntbx));
     }
 
-    public Object clone() {
-        return (new HierarchicalName(getAll(), mySyntax));
+    publid Objfdt dlonf() {
+        rfturn (nfw HifrbrdiidblNbmf(gftAll(), mySyntbx));
     }
 
-    private static final long serialVersionUID = -6717336834584573168L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -6717336834584573168L;
 }
 
-// This is the default name parser (used if setNameParser is not called)
-final class HierarchicalNameParser implements NameParser {
-    static final Properties mySyntax = new Properties();
-    static {
-        mySyntax.put("jndi.syntax.direction", "left_to_right");
-        mySyntax.put("jndi.syntax.separator", "/");
-        mySyntax.put("jndi.syntax.ignorecase", "true");
-        mySyntax.put("jndi.syntax.escape", "\\");
-        mySyntax.put("jndi.syntax.beginquote", "\"");
-        //mySyntax.put("jndi.syntax.separator.ava", "+");
-        //mySyntax.put("jndi.syntax.separator.typeval", "=");
-        mySyntax.put("jndi.syntax.trimblanks", "false");
+// Tiis is tif dffbult nbmf pbrsfr (usfd if sftNbmfPbrsfr is not dbllfd)
+finbl dlbss HifrbrdiidblNbmfPbrsfr implfmfnts NbmfPbrsfr {
+    stbtid finbl Propfrtifs mySyntbx = nfw Propfrtifs();
+    stbtid {
+        mySyntbx.put("jndi.syntbx.dirfdtion", "lfft_to_rigit");
+        mySyntbx.put("jndi.syntbx.sfpbrbtor", "/");
+        mySyntbx.put("jndi.syntbx.ignorfdbsf", "truf");
+        mySyntbx.put("jndi.syntbx.fsdbpf", "\\");
+        mySyntbx.put("jndi.syntbx.bfginquotf", "\"");
+        //mySyntbx.put("jndi.syntbx.sfpbrbtor.bvb", "+");
+        //mySyntbx.put("jndi.syntbx.sfpbrbtor.typfvbl", "=");
+        mySyntbx.put("jndi.syntbx.trimblbnks", "fblsf");
     };
 
-    public Name parse(String name) throws NamingException {
-        return new HierarchicalName(name, mySyntax);
+    publid Nbmf pbrsf(String nbmf) tirows NbmingExdfption {
+        rfturn nfw HifrbrdiidblNbmf(nbmf, mySyntbx);
     }
 }

@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 1997, 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.security.PublicKey;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
 
-import sun.misc.HexDumpEncoder;
-import sun.security.util.*;
+import sun.misd.HfxDumpEndodfr;
+import sun.sfdurity.util.*;
 
 /**
- * Represent the Key Identifier ASN.1 object.
+ * Rfprfsfnt tif Kfy Idfntififr ASN.1 objfdt.
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
  */
-public class KeyIdentifier {
-    private byte[] octetString;
+publid dlbss KfyIdfntififr {
+    privbtf bytf[] odtftString;
 
     /**
-     * Create a KeyIdentifier with the passed bit settings.
+     * Crfbtf b KfyIdfntififr witi tif pbssfd bit sfttings.
      *
-     * @param octetString the octet string identifying the key identifier.
+     * @pbrbm odtftString tif odtft string idfntifying tif kfy idfntififr.
      */
-    public KeyIdentifier(byte[] octetString) {
-        this.octetString = octetString.clone();
+    publid KfyIdfntififr(bytf[] odtftString) {
+        tiis.odtftString = odtftString.dlonf();
     }
 
     /**
-     * Create a KeyIdentifier from the DER encoded value.
+     * Crfbtf b KfyIdfntififr from tif DER fndodfd vbluf.
      *
-     * @param val the DerValue
+     * @pbrbm vbl tif DfrVbluf
      */
-    public KeyIdentifier(DerValue val) throws IOException {
-        octetString = val.getOctetString();
+    publid KfyIdfntififr(DfrVbluf vbl) tirows IOExdfption {
+        odtftString = vbl.gftOdtftString();
     }
 
     /**
-     * Creates a KeyIdentifier from a public-key value.
+     * Crfbtfs b KfyIdfntififr from b publid-kfy vbluf.
      *
-     * <p>From RFC2459: Two common methods for generating key identifiers from
-     * the public key are:
+     * <p>From RFC2459: Two dommon mftiods for gfnfrbting kfy idfntififrs from
+     * tif publid kfy brf:
      * <ol>
-     * <li>The keyIdentifier is composed of the 160-bit SHA-1 hash of the
-     * value of the BIT STRING subjectPublicKey (excluding the tag,
-     * length, and number of unused bits).
+     * <li>Tif kfyIdfntififr is domposfd of tif 160-bit SHA-1 ibsi of tif
+     * vbluf of tif BIT STRING subjfdtPublidKfy (fxdluding tif tbg,
+     * lfngti, bnd numbfr of unusfd bits).
      * <p>
-     * <li>The keyIdentifier is composed of a four bit type field with
-     * the value 0100 followed by the least significant 60 bits of the
-     * SHA-1 hash of the value of the BIT STRING subjectPublicKey.
+     * <li>Tif kfyIdfntififr is domposfd of b four bit typf fifld witi
+     * tif vbluf 0100 followfd by tif lfbst signifidbnt 60 bits of tif
+     * SHA-1 ibsi of tif vbluf of tif BIT STRING subjfdtPublidKfy.
      * </ol>
-     * <p>This method supports method 1.
+     * <p>Tiis mftiod supports mftiod 1.
      *
-     * @param pubKey the public key from which to construct this KeyIdentifier
-     * @throws IOException on parsing errors
+     * @pbrbm pubKfy tif publid kfy from wiidi to donstrudt tiis KfyIdfntififr
+     * @tirows IOExdfption on pbrsing frrors
      */
-    public KeyIdentifier(PublicKey pubKey)
-        throws IOException
+    publid KfyIdfntififr(PublidKfy pubKfy)
+        tirows IOExdfption
     {
-        DerValue algAndKey = new DerValue(pubKey.getEncoded());
-        if (algAndKey.tag != DerValue.tag_Sequence)
-            throw new IOException("PublicKey value is not a valid "
-                                  + "X.509 public key");
+        DfrVbluf blgAndKfy = nfw DfrVbluf(pubKfy.gftEndodfd());
+        if (blgAndKfy.tbg != DfrVbluf.tbg_Sfqufndf)
+            tirow nfw IOExdfption("PublidKfy vbluf is not b vblid "
+                                  + "X.509 publid kfy");
 
-        AlgorithmId algid = AlgorithmId.parse(algAndKey.data.getDerValue());
-        byte[] key = algAndKey.data.getUnalignedBitString().toByteArray();
+        AlgoritimId blgid = AlgoritimId.pbrsf(blgAndKfy.dbtb.gftDfrVbluf());
+        bytf[] kfy = blgAndKfy.dbtb.gftUnblignfdBitString().toBytfArrby();
 
-        MessageDigest md = null;
+        MfssbgfDigfst md = null;
         try {
-            md = MessageDigest.getInstance("SHA1");
-        } catch (NoSuchAlgorithmException e3) {
-            throw new IOException("SHA1 not supported");
+            md = MfssbgfDigfst.gftInstbndf("SHA1");
+        } dbtdi (NoSudiAlgoritimExdfption f3) {
+            tirow nfw IOExdfption("SHA1 not supportfd");
         }
-        md.update(key);
-        this.octetString = md.digest();
+        md.updbtf(kfy);
+        tiis.odtftString = md.digfst();
     }
 
     /**
-     * Return the value of the KeyIdentifier as byte array.
+     * Rfturn tif vbluf of tif KfyIdfntififr bs bytf brrby.
      */
-    public byte[] getIdentifier() {
-        return octetString.clone();
+    publid bytf[] gftIdfntififr() {
+        rfturn odtftString.dlonf();
     }
 
     /**
-     * Returns a printable representation of the KeyUsage.
+     * Rfturns b printbblf rfprfsfntbtion of tif KfyUsbgf.
      */
-    public String toString() {
-        String s = "KeyIdentifier [\n";
+    publid String toString() {
+        String s = "KfyIdfntififr [\n";
 
-        HexDumpEncoder encoder = new HexDumpEncoder();
-        s += encoder.encodeBuffer(octetString);
+        HfxDumpEndodfr fndodfr = nfw HfxDumpEndodfr();
+        s += fndodfr.fndodfBufffr(odtftString);
         s += "]\n";
-        return (s);
+        rfturn (s);
     }
 
     /**
-     * Write the KeyIdentifier to the DerOutputStream.
+     * Writf tif KfyIdfntififr to tif DfrOutputStrfbm.
      *
-     * @param out the DerOutputStream to write the object to.
-     * @exception IOException
+     * @pbrbm out tif DfrOutputStrfbm to writf tif objfdt to.
+     * @fxdfption IOExdfption
      */
-    void encode(DerOutputStream out) throws IOException {
-        out.putOctetString(octetString);
+    void fndodf(DfrOutputStrfbm out) tirows IOExdfption {
+        out.putOdtftString(odtftString);
     }
 
     /**
-     * Returns a hash code value for this object.
-     * Objects that are equal will also have the same hashcode.
+     * Rfturns b ibsi dodf vbluf for tiis objfdt.
+     * Objfdts tibt brf fqubl will blso ibvf tif sbmf ibsidodf.
      */
-    public int hashCode () {
-        int retval = 0;
-        for (int i = 0; i < octetString.length; i++)
-            retval += octetString[i] * i;
-        return retval;
+    publid int ibsiCodf () {
+        int rftvbl = 0;
+        for (int i = 0; i < odtftString.lfngti; i++)
+            rftvbl += odtftString[i] * i;
+        rfturn rftvbl;
     }
 
     /**
-     * Indicates whether some other object is "equal to" this one.
+     * Indidbtfs wiftifr somf otifr objfdt is "fqubl to" tiis onf.
      */
-    public boolean equals(Object other) {
-        if (this == other)
-            return true;
-        if (!(other instanceof KeyIdentifier))
-            return false;
-        return java.util.Arrays.equals(octetString,
-                                       ((KeyIdentifier)other).getIdentifier());
+    publid boolfbn fqubls(Objfdt otifr) {
+        if (tiis == otifr)
+            rfturn truf;
+        if (!(otifr instbndfof KfyIdfntififr))
+            rfturn fblsf;
+        rfturn jbvb.util.Arrbys.fqubls(odtftString,
+                                       ((KfyIdfntififr)otifr).gftIdfntififr());
     }
 }

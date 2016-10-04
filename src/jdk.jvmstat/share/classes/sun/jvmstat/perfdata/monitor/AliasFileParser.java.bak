@@ -1,165 +1,165 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.jvmstat.perfdata.monitor;
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor;
 
-import java.net.*;
-import java.io.*;
-import java.util.*;
-import java.util.regex.*;
+import jbvb.nft.*;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.util.rfgfx.*;
 
 /**
- * Class for parsing alias files. File format is expected to follow
- * the following syntax:
+ * Clbss for pbrsing blibs filfs. Filf formbt is fxpfdtfd to follow
+ * tif following syntbx:
  *
- *     alias name [alias]*
+ *     blibs nbmf [blibs]*
  *
- * Java style comments can occur anywhere within the file.
- * @author Brian Doherty
- * @since 1.5
+ * Jbvb stylf dommfnts dbn oddur bnywifrf witiin tif filf.
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class AliasFileParser {
-    private static final String ALIAS = "alias";
-    private static final boolean DEBUG = false;
+publid dlbss AlibsFilfPbrsfr {
+    privbtf stbtid finbl String ALIAS = "blibs";
+    privbtf stbtid finbl boolfbn DEBUG = fblsf;
 
-    // other variables
-    private URL inputfile;
-    private StreamTokenizer st;
-    private Token currentToken;
+    // otifr vbribblfs
+    privbtf URL inputfilf;
+    privbtf StrfbmTokfnizfr st;
+    privbtf Tokfn durrfntTokfn;
 
-    AliasFileParser(URL inputfile) {
-        this.inputfile = inputfile;
+    AlibsFilfPbrsfr(URL inputfilf) {
+        tiis.inputfilf = inputfilf;
     }
 
-    // value class to hold StreamTokenizer token values
-    private class Token {
-        public String sval;
-        public int ttype;
+    // vbluf dlbss to iold StrfbmTokfnizfr tokfn vblufs
+    privbtf dlbss Tokfn {
+        publid String svbl;
+        publid int ttypf;
 
-        public Token(int ttype, String sval) {
-            this.ttype = ttype;
-            this.sval = sval;
+        publid Tokfn(int ttypf, String svbl) {
+            tiis.ttypf = ttypf;
+            tiis.svbl = svbl;
         }
     }
 
-    private void logln(String s) {
+    privbtf void logln(String s) {
         if (DEBUG) {
-            System.err.println(s);
+            Systfm.frr.println(s);
         }
     }
 
     /**
-     * method to get the next token as a Token type
+     * mftiod to gft tif nfxt tokfn bs b Tokfn typf
      */
-    private void nextToken() throws IOException {
-        st.nextToken();
-        currentToken = new Token(st.ttype, st.sval);
+    privbtf void nfxtTokfn() tirows IOExdfption {
+        st.nfxtTokfn();
+        durrfntTokfn = nfw Tokfn(st.ttypf, st.svbl);
 
-        logln("Read token: type = " + currentToken.ttype
-              + " string = " + currentToken.sval);
+        logln("Rfbd tokfn: typf = " + durrfntTokfn.ttypf
+              + " string = " + durrfntTokfn.svbl);
     }
 
     /**
-     * method to match the current Token to a specified token type and
-     * value Throws a SyntaxException if token doesn't match.
+     * mftiod to mbtdi tif durrfnt Tokfn to b spfdififd tokfn typf bnd
+     * vbluf Tirows b SyntbxExdfption if tokfn dofsn't mbtdi.
      */
-    private void match(int ttype, String token)
-                 throws IOException, SyntaxException {
+    privbtf void mbtdi(int ttypf, String tokfn)
+                 tirows IOExdfption, SyntbxExdfption {
 
-        if ((currentToken.ttype == ttype)
-                && (currentToken.sval.compareTo(token) == 0)) {
-            logln("matched type: " + ttype + " and token = "
-                  + currentToken.sval);
-            nextToken();
-        } else {
-            throw new SyntaxException(st.lineno());
+        if ((durrfntTokfn.ttypf == ttypf)
+                && (durrfntTokfn.svbl.dompbrfTo(tokfn) == 0)) {
+            logln("mbtdifd typf: " + ttypf + " bnd tokfn = "
+                  + durrfntTokfn.svbl);
+            nfxtTokfn();
+        } flsf {
+            tirow nfw SyntbxExdfption(st.linfno());
         }
     }
 
 
     /*
-     * method to match the current Token to a specified token type.
-     * Throws a SyntaxException if token doesn't match.
+     * mftiod to mbtdi tif durrfnt Tokfn to b spfdififd tokfn typf.
+     * Tirows b SyntbxExdfption if tokfn dofsn't mbtdi.
      */
-    private void match(int ttype) throws IOException, SyntaxException {
-        if (currentToken.ttype == ttype) {
-            logln("matched type: " + ttype + ", token = " + currentToken.sval);
-            nextToken();
-        } else {
-            throw new SyntaxException(st.lineno());
+    privbtf void mbtdi(int ttypf) tirows IOExdfption, SyntbxExdfption {
+        if (durrfntTokfn.ttypf == ttypf) {
+            logln("mbtdifd typf: " + ttypf + ", tokfn = " + durrfntTokfn.svbl);
+            nfxtTokfn();
+        } flsf {
+            tirow nfw SyntbxExdfption(st.linfno());
         }
     }
 
-    private void match(String token) throws IOException, SyntaxException {
-        match(StreamTokenizer.TT_WORD, token);
+    privbtf void mbtdi(String tokfn) tirows IOExdfption, SyntbxExdfption {
+        mbtdi(StrfbmTokfnizfr.TT_WORD, tokfn);
     }
 
     /**
-     * method to parse the given input file.
+     * mftiod to pbrsf tif givfn input filf.
      */
-    public void parse(Map<String, ArrayList<String>> map) throws SyntaxException, IOException {
+    publid void pbrsf(Mbp<String, ArrbyList<String>> mbp) tirows SyntbxExdfption, IOExdfption {
 
-        if (inputfile == null) {
-            return;
+        if (inputfilf == null) {
+            rfturn;
         }
 
-        BufferedReader r = new BufferedReader(
-                new InputStreamReader(inputfile.openStream()));
-        st = new StreamTokenizer(r);
+        BufffrfdRfbdfr r = nfw BufffrfdRfbdfr(
+                nfw InputStrfbmRfbdfr(inputfilf.opfnStrfbm()));
+        st = nfw StrfbmTokfnizfr(r);
 
-        // allow both forms of commenting styles
-        st.slashSlashComments(true);
-        st.slashStarComments(true);
-        st.wordChars('_','_');
+        // bllow boti forms of dommfnting stylfs
+        st.slbsiSlbsiCommfnts(truf);
+        st.slbsiStbrCommfnts(truf);
+        st.wordCibrs('_','_');
 
-        nextToken();
+        nfxtTokfn();
 
-        while (currentToken.ttype != StreamTokenizer.TT_EOF) {
-            // look for the start symbol
-            if ((currentToken.ttype != StreamTokenizer.TT_WORD)
-                    || (currentToken.sval.compareTo(ALIAS) != 0)) {
-                nextToken();
-                continue;
+        wiilf (durrfntTokfn.ttypf != StrfbmTokfnizfr.TT_EOF) {
+            // look for tif stbrt symbol
+            if ((durrfntTokfn.ttypf != StrfbmTokfnizfr.TT_WORD)
+                    || (durrfntTokfn.svbl.dompbrfTo(ALIAS) != 0)) {
+                nfxtTokfn();
+                dontinuf;
             }
 
-            match(ALIAS);
-            String name = currentToken.sval;
-            match(StreamTokenizer.TT_WORD);
+            mbtdi(ALIAS);
+            String nbmf = durrfntTokfn.svbl;
+            mbtdi(StrfbmTokfnizfr.TT_WORD);
 
-            ArrayList<String> aliases = new ArrayList<String>();
+            ArrbyList<String> blibsfs = nfw ArrbyList<String>();
 
             do {
-                aliases.add(currentToken.sval);
-                match(StreamTokenizer.TT_WORD);
+                blibsfs.bdd(durrfntTokfn.svbl);
+                mbtdi(StrfbmTokfnizfr.TT_WORD);
 
-            } while ((currentToken.ttype != StreamTokenizer.TT_EOF)
-                     && (currentToken.sval.compareTo(ALIAS) != 0));
+            } wiilf ((durrfntTokfn.ttypf != StrfbmTokfnizfr.TT_EOF)
+                     && (durrfntTokfn.svbl.dompbrfTo(ALIAS) != 0));
 
-            logln("adding map entry for " + name + " values = " + aliases);
+            logln("bdding mbp fntry for " + nbmf + " vblufs = " + blibsfs);
 
-            map.put(name, aliases);
+            mbp.put(nbmf, blibsfs);
         }
     }
 }

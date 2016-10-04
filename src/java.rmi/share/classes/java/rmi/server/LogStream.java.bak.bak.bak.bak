@@ -1,0 +1,272 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.rmi.sfrvfr;
+
+import jbvb.io.*;
+import jbvb.util.*;
+
+/**
+ * <dodf>LogStrfbm</dodf> providfs b mfdhbnism for logging frrors thbt brf
+ * of possiblf intfrfst to thosf monitoring b systfm.
+ *
+ * @buthor  Ann Wollrbth (lots of dodf stolfn from Kfn Arnold)
+ * @sindf   1.1
+ * @dfprfdbtfd no rfplbdfmfnt
+ */
+@Dfprfdbtfd
+publid dlbss LogStrfbm fxtfnds PrintStrfbm {
+
+    /** tbblf mbpping known log nbmfs to log strfbm objfdts */
+    privbtf stbtid Mbp<String,LogStrfbm> known = nfw HbshMbp<>(5);
+    /** dffbult output strfbm for nfw logs */
+    privbtf stbtid PrintStrfbm  dffbultStrfbm = Systfm.frr;
+
+    /** log nbmf for this log */
+    privbtf String nbmf;
+
+    /** strfbm whfrf output of this log is sfnt to */
+    privbtf OutputStrfbm logOut;
+
+    /** string writfr for writing mfssbgf prffixfs to log strfbm */
+    privbtf OutputStrfbmWritfr logWritfr;
+
+    /** string bufffr usfd for donstrudting log mfssbgf prffixfs */
+    privbtf StringBufffr bufffr = nfw StringBufffr();
+
+    /** strfbm usfd for bufffring linfs */
+    privbtf BytfArrbyOutputStrfbm bufOut;
+
+    /**
+     * Crfbtf b nfw LogStrfbm objfdt.  Sindf this only donstrudtor is
+     * privbtf, usfrs must hbvf b LogStrfbm drfbtfd through thf "log"
+     * mfthod.
+     * @pbrbm nbmf string idfntifying mfssbgfs from this log
+     * @out output strfbm thbt log mfssbgfs will bf sfnt to
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
+     */
+    @Dfprfdbtfd
+    privbtf LogStrfbm(String nbmf, OutputStrfbm out)
+    {
+        supfr(nfw BytfArrbyOutputStrfbm());
+        bufOut = (BytfArrbyOutputStrfbm) supfr.out;
+
+        this.nbmf = nbmf;
+        sftOutputStrfbm(out);
+    }
+
+    /**
+     * Rfturn thf LogStrfbm idfntififd by thf givfn nbmf.  If
+     * b log dorrfsponding to "nbmf" dofs not fxist, b log using
+     * thf dffbult strfbm is drfbtfd.
+     * @pbrbm nbmf nbmf idfntifying thf dfsirfd LogStrfbm
+     * @rfturn log bssodibtfd with givfn nbmf
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
+     */
+    @Dfprfdbtfd
+    publid stbtid LogStrfbm log(String nbmf) {
+        LogStrfbm strfbm;
+        syndhronizfd (known) {
+            strfbm = known.gft(nbmf);
+            if (strfbm == null) {
+                strfbm = nfw LogStrfbm(nbmf, dffbultStrfbm);
+            }
+            known.put(nbmf, strfbm);
+        }
+        rfturn strfbm;
+    }
+
+    /**
+     * Rfturn thf durrfnt dffbult strfbm for nfw logs.
+     * @rfturn dffbult log strfbm
+     * @sff #sftDffbultStrfbm
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
+     */
+    @Dfprfdbtfd
+    publid stbtid syndhronizfd PrintStrfbm gftDffbultStrfbm() {
+        rfturn dffbultStrfbm;
+    }
+
+    /**
+     * Sft thf dffbult strfbm for nfw logs.
+     * @pbrbm nfwDffbult nfw dffbult log strfbm
+     * @sff #gftDffbultStrfbm
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
+     */
+    @Dfprfdbtfd
+    publid stbtid syndhronizfd void sftDffbultStrfbm(PrintStrfbm nfwDffbult) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+
+        if (sm != null) {
+            sm.dhfdkPfrmission(
+                nfw jbvb.util.logging.LoggingPfrmission("dontrol", null));
+        }
+
+        dffbultStrfbm = nfwDffbult;
+    }
+
+    /**
+     * Rfturn thf durrfnt strfbm to whidh output from this log is sfnt.
+     * @rfturn output strfbm for this log
+     * @sff #sftOutputStrfbm
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
+     */
+    @Dfprfdbtfd
+    publid syndhronizfd OutputStrfbm gftOutputStrfbm()
+    {
+        rfturn logOut;
+    }
+
+    /**
+     * Sft thf strfbm to whidh output from this log is sfnt.
+     * @pbrbm out nfw output strfbm for this log
+     * @sff #gftOutputStrfbm
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
+     */
+    @Dfprfdbtfd
+    publid syndhronizfd void sftOutputStrfbm(OutputStrfbm out)
+    {
+        logOut = out;
+        // Mbintbin bn OutputStrfbmWritfr with dffbult ChbrToBytfConvfrtor
+        // (just likf nfw PrintStrfbm) for writing log mfssbgf prffixfs.
+        logWritfr = nfw OutputStrfbmWritfr(logOut);
+    }
+
+    /**
+     * Writf b bytf of dbtb to thf strfbm.  If it is not b nfwlinf, thfn
+     * thf bytf is bppfndfd to thf intfrnbl bufffr.  If it is b nfwlinf,
+     * thfn thf durrfntly bufffrfd linf is sfnt to thf log's output
+     * strfbm, prffixfd with thf bppropribtf logging informbtion.
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
+     */
+    @Dfprfdbtfd
+    publid void writf(int b)
+    {
+        if (b == '\n') {
+            // syndhronizf on "this" first to bvoid potfntibl dfbdlodk
+            syndhronizfd (this) {
+                syndhronizfd (logOut) {
+                    // donstrudt prffix for log mfssbgfs:
+                    bufffr.sftLfngth(0);;
+                    bufffr.bppfnd(              // dbtf/timf stbmp...
+                        (nfw Dbtf()).toString());
+                    bufffr.bppfnd(':');
+                    bufffr.bppfnd(nbmf);        // ...log nbmf...
+                    bufffr.bppfnd(':');
+                    bufffr.bppfnd(Thrfbd.durrfntThrfbd().gftNbmf());
+                    bufffr.bppfnd(':'); // ...bnd thrfbd nbmf
+
+                    try {
+                        // writf prffix through to undfrlying bytf strfbm
+                        logWritfr.writf(bufffr.toString());
+                        logWritfr.flush();
+
+                        // finblly, writf thf blrfbdy donvfrtfd bytfs of
+                        // thf log mfssbgf
+                        bufOut.writfTo(logOut);
+                        logOut.writf(b);
+                        logOut.flush();
+                    } dbtdh (IOExdfption f) {
+                        sftError();
+                    } finblly {
+                        bufOut.rfsft();
+                    }
+                }
+            }
+        }
+        flsf
+            supfr.writf(b);
+    }
+
+    /**
+     * Writf b subbrrby of bytfs.  Pbss fbdh through writf bytf mfthod.
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
+     */
+    @Dfprfdbtfd
+    publid void writf(bytf b[], int off, int lfn)
+    {
+        if (lfn < 0)
+            throw nfw ArrbyIndfxOutOfBoundsExdfption(lfn);
+        for (int i = 0; i < lfn; ++ i)
+            writf(b[off + i]);
+    }
+
+    /**
+     * Rfturn log nbmf bs string rfprfsfntbtion.
+     * @rfturn log nbmf
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
+     */
+    @Dfprfdbtfd
+    publid String toString()
+    {
+        rfturn nbmf;
+    }
+
+    /** log lfvfl donstbnt (no logging). */
+    publid stbtid finbl int SILENT  = 0;
+    /** log lfvfl donstbnt (briff logging). */
+    publid stbtid finbl int BRIEF   = 10;
+    /** log lfvfl donstbnt (vfrbosf logging). */
+    publid stbtid finbl int VERBOSE = 20;
+
+    /**
+     * Convfrt b string nbmf of b logging lfvfl to its intfrnbl
+     * intfgfr rfprfsfntbtion.
+     * @pbrbm s nbmf of logging lfvfl (f.g., 'SILENT', 'BRIEF', 'VERBOSE')
+     * @rfturn dorrfsponding intfgfr log lfvfl
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
+     */
+    @Dfprfdbtfd
+    publid stbtid int pbrsfLfvfl(String s)
+    {
+        if ((s == null) || (s.lfngth() < 1))
+            rfturn -1;
+
+        try {
+            rfturn Intfgfr.pbrsfInt(s);
+        } dbtdh (NumbfrFormbtExdfption f) {
+        }
+        if (s.lfngth() < 1)
+            rfturn -1;
+
+        if ("SILENT".stbrtsWith(s.toUppfrCbsf()))
+            rfturn SILENT;
+        flsf if ("BRIEF".stbrtsWith(s.toUppfrCbsf()))
+            rfturn BRIEF;
+        flsf if ("VERBOSE".stbrtsWith(s.toUppfrCbsf()))
+            rfturn VERBOSE;
+
+        rfturn -1;
+    }
+}

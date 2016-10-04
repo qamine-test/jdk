@@ -1,271 +1,271 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.synth;
+pbdkbgf jbvbx.swing.plbf.synti;
 
-import java.beans.*;
-import javax.swing.*;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Insets;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.SeparatorUI;
-import javax.swing.plaf.UIResource;
-import javax.swing.plaf.DimensionUIResource;
+import jbvb.bfbns.*;
+import jbvbx.swing.*;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Insfts;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.plbf.SfpbrbtorUI;
+import jbvbx.swing.plbf.UIRfsourdf;
+import jbvbx.swing.plbf.DimfnsionUIRfsourdf;
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JSeparator}.
+ * Providfs tif Synti L&bmp;F UI dflfgbtf for
+ * {@link jbvbx.swing.JSfpbrbtor}.
  *
- * @author Shannon Hickey
- * @author Joshua Outwater
- * @since 1.7
+ * @butior Sibnnon Hidkfy
+ * @butior Josiub Outwbtfr
+ * @sindf 1.7
  */
-public class SynthSeparatorUI extends SeparatorUI
-                              implements PropertyChangeListener, SynthUI {
-    private SynthStyle style;
+publid dlbss SyntiSfpbrbtorUI fxtfnds SfpbrbtorUI
+                              implfmfnts PropfrtyCibngfListfnfr, SyntiUI {
+    privbtf SyntiStylf stylf;
 
     /**
-     * Creates a new UI object for the given component.
+     * Crfbtfs b nfw UI objfdt for tif givfn domponfnt.
      *
-     * @param c component to create UI object for
-     * @return the UI object
+     * @pbrbm d domponfnt to drfbtf UI objfdt for
+     * @rfturn tif UI objfdt
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new SynthSeparatorUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw SyntiSfpbrbtorUI();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void installUI(JComponent c) {
-        installDefaults((JSeparator)c);
-        installListeners((JSeparator)c);
+    @Ovfrridf
+    publid void instbllUI(JComponfnt d) {
+        instbllDffbults((JSfpbrbtor)d);
+        instbllListfnfrs((JSfpbrbtor)d);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void uninstallUI(JComponent c) {
-        uninstallListeners((JSeparator)c);
-        uninstallDefaults((JSeparator)c);
+    @Ovfrridf
+    publid void uninstbllUI(JComponfnt d) {
+        uninstbllListfnfrs((JSfpbrbtor)d);
+        uninstbllDffbults((JSfpbrbtor)d);
     }
 
     /**
-     * Installs default setting. This method is called when a
-     * {@code LookAndFeel} is installed.
+     * Instblls dffbult sftting. Tiis mftiod is dbllfd wifn b
+     * {@dodf LookAndFffl} is instbllfd.
      *
-     * @param c specifies the {@code JSeparator} for the installed
-     * {@code LookAndFeel}.
+     * @pbrbm d spfdififs tif {@dodf JSfpbrbtor} for tif instbllfd
+     * {@dodf LookAndFffl}.
      */
-    public void installDefaults(JSeparator c) {
-        updateStyle(c);
+    publid void instbllDffbults(JSfpbrbtor d) {
+        updbtfStylf(d);
     }
 
-    private void updateStyle(JSeparator sep) {
-        SynthContext context = getContext(sep, ENABLED);
-        SynthStyle oldStyle = style;
+    privbtf void updbtfStylf(JSfpbrbtor sfp) {
+        SyntiContfxt dontfxt = gftContfxt(sfp, ENABLED);
+        SyntiStylf oldStylf = stylf;
 
-        style = SynthLookAndFeel.updateStyle(context, this);
+        stylf = SyntiLookAndFffl.updbtfStylf(dontfxt, tiis);
 
-        if (style != oldStyle) {
-            if (sep instanceof JToolBar.Separator) {
-                Dimension size = ((JToolBar.Separator)sep).getSeparatorSize();
-                if (size == null || size instanceof UIResource) {
-                    size = (DimensionUIResource)style.get(
-                                      context, "ToolBar.separatorSize");
-                    if (size == null) {
-                        size = new DimensionUIResource(10, 10);
+        if (stylf != oldStylf) {
+            if (sfp instbndfof JToolBbr.Sfpbrbtor) {
+                Dimfnsion sizf = ((JToolBbr.Sfpbrbtor)sfp).gftSfpbrbtorSizf();
+                if (sizf == null || sizf instbndfof UIRfsourdf) {
+                    sizf = (DimfnsionUIRfsourdf)stylf.gft(
+                                      dontfxt, "ToolBbr.sfpbrbtorSizf");
+                    if (sizf == null) {
+                        sizf = nfw DimfnsionUIRfsourdf(10, 10);
                     }
-                    ((JToolBar.Separator)sep).setSeparatorSize(size);
+                    ((JToolBbr.Sfpbrbtor)sfp).sftSfpbrbtorSizf(sizf);
                 }
             }
         }
 
-        context.dispose();
+        dontfxt.disposf();
     }
 
     /**
-     * Uninstalls default setting. This method is called when a
-     * {@code LookAndFeel} is uninstalled.
+     * Uninstblls dffbult sftting. Tiis mftiod is dbllfd wifn b
+     * {@dodf LookAndFffl} is uninstbllfd.
      *
-     * @param c specifies the {@code JSeparator} for the (un)installed
-     * {@code LookAndFeel}.
+     * @pbrbm d spfdififs tif {@dodf JSfpbrbtor} for tif (un)instbllfd
+     * {@dodf LookAndFffl}.
      */
-    public void uninstallDefaults(JSeparator c) {
-        SynthContext context = getContext(c, ENABLED);
+    publid void uninstbllDffbults(JSfpbrbtor d) {
+        SyntiContfxt dontfxt = gftContfxt(d, ENABLED);
 
-        style.uninstallDefaults(context);
-        context.dispose();
-        style = null;
+        stylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        stylf = null;
     }
 
     /**
-     * Installs listeners. This method is called when a
-     * {@code LookAndFeel} is installed.
+     * Instblls listfnfrs. Tiis mftiod is dbllfd wifn b
+     * {@dodf LookAndFffl} is instbllfd.
      *
-     * @param c specifies the {@code JSeparator} for the installed
-     * {@code LookAndFeel}.
+     * @pbrbm d spfdififs tif {@dodf JSfpbrbtor} for tif instbllfd
+     * {@dodf LookAndFffl}.
      */
-    public void installListeners(JSeparator c) {
-        c.addPropertyChangeListener(this);
+    publid void instbllListfnfrs(JSfpbrbtor d) {
+        d.bddPropfrtyCibngfListfnfr(tiis);
     }
 
     /**
-     * Uninstalls listeners. This method is called when a
-     * {@code LookAndFeel} is uninstalled.
+     * Uninstblls listfnfrs. Tiis mftiod is dbllfd wifn b
+     * {@dodf LookAndFffl} is uninstbllfd.
      *
-     * @param c specifies the {@code JSeparator} for the (un)installed
-     * {@code LookAndFeel}.
+     * @pbrbm d spfdififs tif {@dodf JSfpbrbtor} for tif (un)instbllfd
+     * {@dodf LookAndFffl}.
      */
-    public void uninstallListeners(JSeparator c) {
-        c.removePropertyChangeListener(this);
+    publid void uninstbllListfnfrs(JSfpbrbtor d) {
+        d.rfmovfPropfrtyCibngfListfnfr(tiis);
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notififs tiis UI dflfgbtf to rfpbint tif spfdififd domponfnt.
+     * Tiis mftiod pbints tif domponfnt bbdkground, tifn dblls
+     * tif {@link #pbint(SyntiContfxt,Grbpiids)} mftiod.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In gfnfrbl, tiis mftiod dofs not nffd to bf ovfrriddfn by subdlbssfs.
+     * All Look bnd Fffl rfndfring dodf siould rfsidf in tif {@dodf pbint} mftiod.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint(SyntiContfxt,Grbpiids)
      */
-    @Override
-    public void update(Graphics g, JComponent c) {
-        SynthContext context = getContext(c);
+    @Ovfrridf
+    publid void updbtf(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
 
-        JSeparator separator = (JSeparator)context.getComponent();
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintSeparatorBackground(context,
-                          g, 0, 0, c.getWidth(), c.getHeight(),
-                          separator.getOrientation());
-        paint(context, g);
-        context.dispose();
+        JSfpbrbtor sfpbrbtor = (JSfpbrbtor)dontfxt.gftComponfnt();
+        SyntiLookAndFffl.updbtf(dontfxt, g);
+        dontfxt.gftPbintfr().pbintSfpbrbtorBbdkground(dontfxt,
+                          g, 0, 0, d.gftWidti(), d.gftHfigit(),
+                          sfpbrbtor.gftOrifntbtion());
+        pbint(dontfxt, g);
+        dontfxt.disposf();
     }
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints tif spfdififd domponfnt bddording to tif Look bnd Fffl.
+     * <p>Tiis mftiod is not usfd by Synti Look bnd Fffl.
+     * Pbinting is ibndlfd by tif {@link #pbint(SyntiContfxt,Grbpiids)} mftiod.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint(SyntiContfxt,Grbpiids)
      */
-    @Override
-    public void paint(Graphics g, JComponent c) {
-        SynthContext context = getContext(c);
+    @Ovfrridf
+    publid void pbint(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
 
-        paint(context, g);
-        context.dispose();
+        pbint(dontfxt, g);
+        dontfxt.disposf();
     }
 
     /**
-     * Paints the specified component.
+     * Pbints tif spfdififd domponfnt.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm dontfxt dontfxt for tif domponfnt bfing pbintfd
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @sff #updbtf(Grbpiids,JComponfnt)
      */
-    protected void paint(SynthContext context, Graphics g) {
-        JSeparator separator = (JSeparator)context.getComponent();
-        context.getPainter().paintSeparatorForeground(context, g, 0, 0,
-                             separator.getWidth(), separator.getHeight(),
-                             separator.getOrientation());
+    protfdtfd void pbint(SyntiContfxt dontfxt, Grbpiids g) {
+        JSfpbrbtor sfpbrbtor = (JSfpbrbtor)dontfxt.gftComponfnt();
+        dontfxt.gftPbintfr().pbintSfpbrbtorForfground(dontfxt, g, 0, 0,
+                             sfpbrbtor.gftWidti(), sfpbrbtor.gftHfigit(),
+                             sfpbrbtor.gftOrifntbtion());
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
-                            int y, int w, int h) {
-        JSeparator separator = (JSeparator)context.getComponent();
-        context.getPainter().paintSeparatorBorder(context, g, x, y, w, h,
-                                                  separator.getOrientation());
+    @Ovfrridf
+    publid void pbintBordfr(SyntiContfxt dontfxt, Grbpiids g, int x,
+                            int y, int w, int i) {
+        JSfpbrbtor sfpbrbtor = (JSfpbrbtor)dontfxt.gftComponfnt();
+        dontfxt.gftPbintfr().pbintSfpbrbtorBordfr(dontfxt, g, x, y, w, i,
+                                                  sfpbrbtor.gftOrifntbtion());
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public Dimension getPreferredSize(JComponent c) {
-        SynthContext context = getContext(c);
+    @Ovfrridf
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
 
-        int thickness = style.getInt(context, "Separator.thickness", 2);
-        Insets insets = c.getInsets();
-        Dimension size;
+        int tiidknfss = stylf.gftInt(dontfxt, "Sfpbrbtor.tiidknfss", 2);
+        Insfts insfts = d.gftInsfts();
+        Dimfnsion sizf;
 
-        if (((JSeparator)c).getOrientation() == JSeparator.VERTICAL) {
-            size = new Dimension(insets.left + insets.right + thickness,
-                                 insets.top + insets.bottom);
-        } else {
-            size = new Dimension(insets.left + insets.right,
-                                 insets.top + insets.bottom + thickness);
+        if (((JSfpbrbtor)d).gftOrifntbtion() == JSfpbrbtor.VERTICAL) {
+            sizf = nfw Dimfnsion(insfts.lfft + insfts.rigit + tiidknfss,
+                                 insfts.top + insfts.bottom);
+        } flsf {
+            sizf = nfw Dimfnsion(insfts.lfft + insfts.rigit,
+                                 insfts.top + insfts.bottom + tiidknfss);
         }
-        context.dispose();
-        return size;
+        dontfxt.disposf();
+        rfturn sizf;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public Dimension getMinimumSize(JComponent c) {
-        return getPreferredSize(c);
+    @Ovfrridf
+    publid Dimfnsion gftMinimumSizf(JComponfnt d) {
+        rfturn gftPrfffrrfdSizf(d);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public Dimension getMaximumSize(JComponent c) {
-        return new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
+    @Ovfrridf
+    publid Dimfnsion gftMbximumSizf(JComponfnt d) {
+        rfturn nfw Dimfnsion(Siort.MAX_VALUE, Siort.MAX_VALUE);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public SynthContext getContext(JComponent c) {
-        return getContext(c, SynthLookAndFeel.getComponentState(c));
+    @Ovfrridf
+    publid SyntiContfxt gftContfxt(JComponfnt d) {
+        rfturn gftContfxt(d, SyntiLookAndFffl.gftComponfntStbtf(d));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbtf SyntiContfxt gftContfxt(JComponfnt d, int stbtf) {
+        rfturn SyntiContfxt.gftContfxt(d, stylf, stbtf);
     }
 
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (SynthLookAndFeel.shouldUpdateStyle(evt)) {
-            updateStyle((JSeparator)evt.getSource());
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvt) {
+        if (SyntiLookAndFffl.siouldUpdbtfStylf(fvt)) {
+            updbtfStylf((JSfpbrbtor)fvt.gftSourdf());
         }
     }
 }

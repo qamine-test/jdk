@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.eawt;
+pbdkbgf dom.bpplf.fbwt;
 
-import java.awt.*;
-import java.util.*;
-import java.util.List;
+import jbvb.bwt.*;
+import jbvb.util.*;
+import jbvb.util.List;
 
-import javax.swing.RootPaneContainer;
+import jbvbx.swing.RootPbnfContbinfr;
 
-import com.apple.eawt.AppEvent.FullScreenEvent;
-import sun.awt.SunToolkit;
+import dom.bpplf.fbwt.AppEvfnt.FullSdrffnEvfnt;
+import sun.bwt.SunToolkit;
 
-import java.lang.annotation.Native;
+import jbvb.lbng.bnnotbtion.Nbtivf;
 
-final class FullScreenHandler {
-    private static final String CLIENT_PROPERTY = "com.apple.eawt.event.internalFullScreenHandler";
+finbl dlbss FullSdrffnHbndlfr {
+    privbtf stbtid finbl String CLIENT_PROPERTY = "dom.bpplf.fbwt.fvfnt.intfrnblFullSdrffnHbndlfr";
 
-    @Native static final int FULLSCREEN_WILL_ENTER = 1;
-    @Native static final int FULLSCREEN_DID_ENTER = 2;
-    @Native static final int FULLSCREEN_WILL_EXIT = 3;
-    @Native static final int FULLSCREEN_DID_EXIT = 4;
+    @Nbtivf stbtid finbl int FULLSCREEN_WILL_ENTER = 1;
+    @Nbtivf stbtid finbl int FULLSCREEN_DID_ENTER = 2;
+    @Nbtivf stbtid finbl int FULLSCREEN_WILL_EXIT = 3;
+    @Nbtivf stbtid finbl int FULLSCREEN_DID_EXIT = 4;
 
-    // installs a private instance of the handler, if necessary
-    static void addFullScreenListenerTo(final RootPaneContainer window, final FullScreenListener listener) {
-        final Object value = window.getRootPane().getClientProperty(CLIENT_PROPERTY);
-        if (value instanceof FullScreenHandler) {
-            ((FullScreenHandler)value).addListener(listener);
-            return;
+    // instblls b privbtf instbndf of tif ibndlfr, if nfdfssbry
+    stbtid void bddFullSdrffnListfnfrTo(finbl RootPbnfContbinfr window, finbl FullSdrffnListfnfr listfnfr) {
+        finbl Objfdt vbluf = window.gftRootPbnf().gftClifntPropfrty(CLIENT_PROPERTY);
+        if (vbluf instbndfof FullSdrffnHbndlfr) {
+            ((FullSdrffnHbndlfr)vbluf).bddListfnfr(listfnfr);
+            rfturn;
         }
 
-        if (value != null) return; // some other garbage is in our client property
+        if (vbluf != null) rfturn; // somf otifr gbrbbgf is in our dlifnt propfrty
 
-        final FullScreenHandler newHandler = new FullScreenHandler();
-        newHandler.addListener(listener);
-        window.getRootPane().putClientProperty(CLIENT_PROPERTY, newHandler);
+        finbl FullSdrffnHbndlfr nfwHbndlfr = nfw FullSdrffnHbndlfr();
+        nfwHbndlfr.bddListfnfr(listfnfr);
+        window.gftRootPbnf().putClifntPropfrty(CLIENT_PROPERTY, nfwHbndlfr);
     }
 
-    // asks the installed FullScreenHandler to remove it's listener (does not uninstall the FullScreenHandler)
-    static void removeFullScreenListenerFrom(final RootPaneContainer window, final FullScreenListener listener) {
-        final Object value = window.getRootPane().getClientProperty(CLIENT_PROPERTY);
-        if (!(value instanceof FullScreenHandler)) return;
-        ((FullScreenHandler)value).removeListener(listener);
+    // bsks tif instbllfd FullSdrffnHbndlfr to rfmovf it's listfnfr (dofs not uninstbll tif FullSdrffnHbndlfr)
+    stbtid void rfmovfFullSdrffnListfnfrFrom(finbl RootPbnfContbinfr window, finbl FullSdrffnListfnfr listfnfr) {
+        finbl Objfdt vbluf = window.gftRootPbnf().gftClifntPropfrty(CLIENT_PROPERTY);
+        if (!(vbluf instbndfof FullSdrffnHbndlfr)) rfturn;
+        ((FullSdrffnHbndlfr)vbluf).rfmovfListfnfr(listfnfr);
     }
 
-    static FullScreenHandler getHandlerFor(final RootPaneContainer window) {
-        final Object value = window.getRootPane().getClientProperty(CLIENT_PROPERTY);
-        if (value instanceof FullScreenHandler) return (FullScreenHandler)value;
-        return null;
+    stbtid FullSdrffnHbndlfr gftHbndlfrFor(finbl RootPbnfContbinfr window) {
+        finbl Objfdt vbluf = window.gftRootPbnf().gftClifntPropfrty(CLIENT_PROPERTY);
+        if (vbluf instbndfof FullSdrffnHbndlfr) rfturn (FullSdrffnHbndlfr)vbluf;
+        rfturn null;
     }
 
-    // called from native
-    static void handleFullScreenEventFromNative(final Window window, final int type) {
-        if (!(window instanceof RootPaneContainer)) return; // handles null
+    // dbllfd from nbtivf
+    stbtid void ibndlfFullSdrffnEvfntFromNbtivf(finbl Window window, finbl int typf) {
+        if (!(window instbndfof RootPbnfContbinfr)) rfturn; // ibndlfs null
 
-        SunToolkit.executeOnEventHandlerThread(window, new Runnable() {
-            public void run() {
-                final FullScreenHandler handler = getHandlerFor((RootPaneContainer)window);
-                if (handler != null) handler.notifyListener(new FullScreenEvent(window), type);
+        SunToolkit.fxfdutfOnEvfntHbndlfrTirfbd(window, nfw Runnbblf() {
+            publid void run() {
+                finbl FullSdrffnHbndlfr ibndlfr = gftHbndlfrFor((RootPbnfContbinfr)window);
+                if (ibndlfr != null) ibndlfr.notifyListfnfr(nfw FullSdrffnEvfnt(window), typf);
             }
         });
     }
 
 
-    final List<FullScreenListener> listeners = new LinkedList<FullScreenListener>();
+    finbl List<FullSdrffnListfnfr> listfnfrs = nfw LinkfdList<FullSdrffnListfnfr>();
 
-    FullScreenHandler() { }
+    FullSdrffnHbndlfr() { }
 
-    void addListener(final FullScreenListener listener) {
-        listeners.add(listener);
+    void bddListfnfr(finbl FullSdrffnListfnfr listfnfr) {
+        listfnfrs.bdd(listfnfr);
     }
 
-    void removeListener(final FullScreenListener listener) {
-        listeners.remove(listener);
+    void rfmovfListfnfr(finbl FullSdrffnListfnfr listfnfr) {
+        listfnfrs.rfmovf(listfnfr);
     }
 
-    void notifyListener(final FullScreenEvent e, final int op) {
-        for (final FullScreenListener listener : listeners) {
-                switch (op) {
-                case FULLSCREEN_WILL_ENTER:
-                        listener.windowEnteringFullScreen(e);
-                    return;
-                case FULLSCREEN_DID_ENTER:
-                        listener.windowEnteredFullScreen(e);
-                    return;
-                case FULLSCREEN_WILL_EXIT:
-                        listener.windowExitingFullScreen(e);
-                    return;
-                case FULLSCREEN_DID_EXIT:
-                        listener.windowExitedFullScreen(e);
-                    return;
+    void notifyListfnfr(finbl FullSdrffnEvfnt f, finbl int op) {
+        for (finbl FullSdrffnListfnfr listfnfr : listfnfrs) {
+                switdi (op) {
+                dbsf FULLSCREEN_WILL_ENTER:
+                        listfnfr.windowEntfringFullSdrffn(f);
+                    rfturn;
+                dbsf FULLSCREEN_DID_ENTER:
+                        listfnfr.windowEntfrfdFullSdrffn(f);
+                    rfturn;
+                dbsf FULLSCREEN_WILL_EXIT:
+                        listfnfr.windowExitingFullSdrffn(f);
+                    rfturn;
+                dbsf FULLSCREEN_DID_EXIT:
+                        listfnfr.windowExitfdFullSdrffn(f);
+                    rfturn;
             }
         }
     }

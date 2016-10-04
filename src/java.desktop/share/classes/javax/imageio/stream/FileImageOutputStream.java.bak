@@ -1,172 +1,172 @@
 /*
- * Copyright (c) 2000, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio.stream;
+pbdkbgf jbvbx.imbgfio.strfbm;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import com.sun.imageio.stream.CloseableDisposerRecord;
-import com.sun.imageio.stream.StreamFinalizer;
-import sun.java2d.Disposer;
+import jbvb.io.Filf;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.RbndomAddfssFilf;
+import dom.sun.imbgfio.strfbm.ClosfbblfDisposfrRfdord;
+import dom.sun.imbgfio.strfbm.StrfbmFinblizfr;
+import sun.jbvb2d.Disposfr;
 
 /**
- * An implementation of <code>ImageOutputStream</code> that writes its
- * output directly to a <code>File</code> or
- * <code>RandomAccessFile</code>.
+ * An implfmfntbtion of <dodf>ImbgfOutputStrfbm</dodf> tibt writfs its
+ * output dirfdtly to b <dodf>Filf</dodf> or
+ * <dodf>RbndomAddfssFilf</dodf>.
  *
  */
-public class FileImageOutputStream extends ImageOutputStreamImpl {
+publid dlbss FilfImbgfOutputStrfbm fxtfnds ImbgfOutputStrfbmImpl {
 
-    private RandomAccessFile raf;
+    privbtf RbndomAddfssFilf rbf;
 
-    /** The referent to be registered with the Disposer. */
-    private final Object disposerReferent;
+    /** Tif rfffrfnt to bf rfgistfrfd witi tif Disposfr. */
+    privbtf finbl Objfdt disposfrRfffrfnt;
 
-    /** The DisposerRecord that closes the underlying RandomAccessFile. */
-    private final CloseableDisposerRecord disposerRecord;
-
-    /**
-     * Constructs a <code>FileImageOutputStream</code> that will write
-     * to a given <code>File</code>.
-     *
-     * @param f a <code>File</code> to write to.
-     *
-     * @exception IllegalArgumentException if <code>f</code> is
-     * <code>null</code>.
-     * @exception SecurityException if a security manager exists
-     * and does not allow write access to the file.
-     * @exception FileNotFoundException if <code>f</code> does not denote
-     * a regular file or it cannot be opened for reading and writing for any
-     * other reason.
-     * @exception IOException if an I/O error occurs.
-     */
-    public FileImageOutputStream(File f)
-        throws FileNotFoundException, IOException {
-        this(f == null ? null : new RandomAccessFile(f, "rw"));
-    }
+    /** Tif DisposfrRfdord tibt dlosfs tif undfrlying RbndomAddfssFilf. */
+    privbtf finbl ClosfbblfDisposfrRfdord disposfrRfdord;
 
     /**
-     * Constructs a <code>FileImageOutputStream</code> that will write
-     * to a given <code>RandomAccessFile</code>.
+     * Construdts b <dodf>FilfImbgfOutputStrfbm</dodf> tibt will writf
+     * to b givfn <dodf>Filf</dodf>.
      *
-     * @param raf a <code>RandomAccessFile</code> to write to.
+     * @pbrbm f b <dodf>Filf</dodf> to writf to.
      *
-     * @exception IllegalArgumentException if <code>raf</code> is
-     * <code>null</code>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>f</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption SfdurityExdfption if b sfdurity mbnbgfr fxists
+     * bnd dofs not bllow writf bddfss to tif filf.
+     * @fxdfption FilfNotFoundExdfption if <dodf>f</dodf> dofs not dfnotf
+     * b rfgulbr filf or it dbnnot bf opfnfd for rfbding bnd writing for bny
+     * otifr rfbson.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    public FileImageOutputStream(RandomAccessFile raf) {
-        if (raf == null) {
-            throw new IllegalArgumentException("raf == null!");
+    publid FilfImbgfOutputStrfbm(Filf f)
+        tirows FilfNotFoundExdfption, IOExdfption {
+        tiis(f == null ? null : nfw RbndomAddfssFilf(f, "rw"));
+    }
+
+    /**
+     * Construdts b <dodf>FilfImbgfOutputStrfbm</dodf> tibt will writf
+     * to b givfn <dodf>RbndomAddfssFilf</dodf>.
+     *
+     * @pbrbm rbf b <dodf>RbndomAddfssFilf</dodf> to writf to.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>rbf</dodf> is
+     * <dodf>null</dodf>.
+     */
+    publid FilfImbgfOutputStrfbm(RbndomAddfssFilf rbf) {
+        if (rbf == null) {
+            tirow nfw IllfgblArgumfntExdfption("rbf == null!");
         }
-        this.raf = raf;
+        tiis.rbf = rbf;
 
-        disposerRecord = new CloseableDisposerRecord(raf);
-        if (getClass() == FileImageOutputStream.class) {
-            disposerReferent = new Object();
-            Disposer.addRecord(disposerReferent, disposerRecord);
-        } else {
-            disposerReferent = new StreamFinalizer(this);
+        disposfrRfdord = nfw ClosfbblfDisposfrRfdord(rbf);
+        if (gftClbss() == FilfImbgfOutputStrfbm.dlbss) {
+            disposfrRfffrfnt = nfw Objfdt();
+            Disposfr.bddRfdord(disposfrRfffrfnt, disposfrRfdord);
+        } flsf {
+            disposfrRfffrfnt = nfw StrfbmFinblizfr(tiis);
         }
     }
 
-    public int read() throws IOException {
-        checkClosed();
-        bitOffset = 0;
-        int val = raf.read();
-        if (val != -1) {
-            ++streamPos;
+    publid int rfbd() tirows IOExdfption {
+        difdkClosfd();
+        bitOffsft = 0;
+        int vbl = rbf.rfbd();
+        if (vbl != -1) {
+            ++strfbmPos;
         }
-        return val;
+        rfturn vbl;
     }
 
-    public int read(byte[] b, int off, int len) throws IOException {
-        checkClosed();
-        bitOffset = 0;
-        int nbytes = raf.read(b, off, len);
-        if (nbytes != -1) {
-            streamPos += nbytes;
+    publid int rfbd(bytf[] b, int off, int lfn) tirows IOExdfption {
+        difdkClosfd();
+        bitOffsft = 0;
+        int nbytfs = rbf.rfbd(b, off, lfn);
+        if (nbytfs != -1) {
+            strfbmPos += nbytfs;
         }
-        return nbytes;
+        rfturn nbytfs;
     }
 
-    public void write(int b) throws IOException {
-        flushBits(); // this will call checkClosed() for us
-        raf.write(b);
-        ++streamPos;
+    publid void writf(int b) tirows IOExdfption {
+        flusiBits(); // tiis will dbll difdkClosfd() for us
+        rbf.writf(b);
+        ++strfbmPos;
     }
 
-    public void write(byte[] b, int off, int len) throws IOException {
-        flushBits(); // this will call checkClosed() for us
-        raf.write(b, off, len);
-        streamPos += len;
+    publid void writf(bytf[] b, int off, int lfn) tirows IOExdfption {
+        flusiBits(); // tiis will dbll difdkClosfd() for us
+        rbf.writf(b, off, lfn);
+        strfbmPos += lfn;
     }
 
-    public long length() {
+    publid long lfngti() {
         try {
-            checkClosed();
-            return raf.length();
-        } catch (IOException e) {
-            return -1L;
+            difdkClosfd();
+            rfturn rbf.lfngti();
+        } dbtdi (IOExdfption f) {
+            rfturn -1L;
         }
     }
 
     /**
-     * Sets the current stream position and resets the bit offset to
-     * 0.  It is legal to seeking past the end of the file; an
-     * <code>EOFException</code> will be thrown only if a read is
-     * performed.  The file length will not be increased until a write
-     * is performed.
+     * Sfts tif durrfnt strfbm position bnd rfsfts tif bit offsft to
+     * 0.  It is lfgbl to sffking pbst tif fnd of tif filf; bn
+     * <dodf>EOFExdfption</dodf> will bf tirown only if b rfbd is
+     * pfrformfd.  Tif filf lfngti will not bf indrfbsfd until b writf
+     * is pfrformfd.
      *
-     * @exception IndexOutOfBoundsException if <code>pos</code> is smaller
-     * than the flushed position.
-     * @exception IOException if any other I/O error occurs.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>pos</dodf> is smbllfr
+     * tibn tif flusifd position.
+     * @fxdfption IOExdfption if bny otifr I/O frror oddurs.
      */
-    public void seek(long pos) throws IOException {
-        checkClosed();
-        if (pos < flushedPos) {
-            throw new IndexOutOfBoundsException("pos < flushedPos!");
+    publid void sffk(long pos) tirows IOExdfption {
+        difdkClosfd();
+        if (pos < flusifdPos) {
+            tirow nfw IndfxOutOfBoundsExdfption("pos < flusifdPos!");
         }
-        bitOffset = 0;
-        raf.seek(pos);
-        streamPos = raf.getFilePointer();
+        bitOffsft = 0;
+        rbf.sffk(pos);
+        strfbmPos = rbf.gftFilfPointfr();
     }
 
-    public void close() throws IOException {
-        super.close();
-        disposerRecord.dispose(); // this closes the RandomAccessFile
-        raf = null;
+    publid void dlosf() tirows IOExdfption {
+        supfr.dlosf();
+        disposfrRfdord.disposf(); // tiis dlosfs tif RbndomAddfssFilf
+        rbf = null;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    protected void finalize() throws Throwable {
-        // Empty finalizer: for performance reasons we instead use the
-        // Disposer mechanism for ensuring that the underlying
-        // RandomAccessFile is closed prior to garbage collection
+    protfdtfd void finblizf() tirows Tirowbblf {
+        // Empty finblizfr: for pfrformbndf rfbsons wf instfbd usf tif
+        // Disposfr mfdibnism for fnsuring tibt tif undfrlying
+        // RbndomAddfssFilf is dlosfd prior to gbrbbgf dollfdtion
     }
 }

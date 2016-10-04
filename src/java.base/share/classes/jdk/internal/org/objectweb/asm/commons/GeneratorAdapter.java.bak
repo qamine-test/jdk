@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,783 +56,783 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.commons;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.dommons;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
 
-import jdk.internal.org.objectweb.asm.ClassVisitor;
-import jdk.internal.org.objectweb.asm.Handle;
-import jdk.internal.org.objectweb.asm.Label;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.Type;
+import jdk.intfrnbl.org.objfdtwfb.bsm.ClbssVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Hbndlf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Lbbfl;
+import jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
 
 /**
- * A {@link jdk.internal.org.objectweb.asm.MethodVisitor} with convenient methods to generate
- * code. For example, using this adapter, the class below
+ * A {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor} witi donvfnifnt mftiods to gfnfrbtf
+ * dodf. For fxbmplf, using tiis bdbptfr, tif dlbss bflow
  *
- * <pre>
- * public class Example {
- *     public static void main(String[] args) {
- *         System.out.println(&quot;Hello world!&quot;);
+ * <prf>
+ * publid dlbss Exbmplf {
+ *     publid stbtid void mbin(String[] brgs) {
+ *         Systfm.out.println(&quot;Hfllo world!&quot;);
  *     }
  * }
- * </pre>
+ * </prf>
  *
- * can be generated as follows:
+ * dbn bf gfnfrbtfd bs follows:
  *
- * <pre>
- * ClassWriter cw = new ClassWriter(true);
- * cw.visit(V1_1, ACC_PUBLIC, &quot;Example&quot;, null, &quot;java/lang/Object&quot;, null);
+ * <prf>
+ * ClbssWritfr dw = nfw ClbssWritfr(truf);
+ * dw.visit(V1_1, ACC_PUBLIC, &quot;Exbmplf&quot;, null, &quot;jbvb/lbng/Objfdt&quot;, null);
  *
- * Method m = Method.getMethod(&quot;void &lt;init&gt; ()&quot;);
- * GeneratorAdapter mg = new GeneratorAdapter(ACC_PUBLIC, m, null, null, cw);
- * mg.loadThis();
- * mg.invokeConstructor(Type.getType(Object.class), m);
- * mg.returnValue();
- * mg.endMethod();
+ * Mftiod m = Mftiod.gftMftiod(&quot;void &lt;init&gt; ()&quot;);
+ * GfnfrbtorAdbptfr mg = nfw GfnfrbtorAdbptfr(ACC_PUBLIC, m, null, null, dw);
+ * mg.lobdTiis();
+ * mg.invokfConstrudtor(Typf.gftTypf(Objfdt.dlbss), m);
+ * mg.rfturnVbluf();
+ * mg.fndMftiod();
  *
- * m = Method.getMethod(&quot;void main (String[])&quot;);
- * mg = new GeneratorAdapter(ACC_PUBLIC + ACC_STATIC, m, null, null, cw);
- * mg.getStatic(Type.getType(System.class), &quot;out&quot;, Type.getType(PrintStream.class));
- * mg.push(&quot;Hello world!&quot;);
- * mg.invokeVirtual(Type.getType(PrintStream.class),
- *         Method.getMethod(&quot;void println (String)&quot;));
- * mg.returnValue();
- * mg.endMethod();
+ * m = Mftiod.gftMftiod(&quot;void mbin (String[])&quot;);
+ * mg = nfw GfnfrbtorAdbptfr(ACC_PUBLIC + ACC_STATIC, m, null, null, dw);
+ * mg.gftStbtid(Typf.gftTypf(Systfm.dlbss), &quot;out&quot;, Typf.gftTypf(PrintStrfbm.dlbss));
+ * mg.pusi(&quot;Hfllo world!&quot;);
+ * mg.invokfVirtubl(Typf.gftTypf(PrintStrfbm.dlbss),
+ *         Mftiod.gftMftiod(&quot;void println (String)&quot;));
+ * mg.rfturnVbluf();
+ * mg.fndMftiod();
  *
- * cw.visitEnd();
- * </pre>
+ * dw.visitEnd();
+ * </prf>
  *
- * @author Juozas Baliuka
- * @author Chris Nokleberg
- * @author Eric Bruneton
- * @author Prashant Deva
+ * @butior Juozbs Bbliukb
+ * @butior Ciris Noklfbfrg
+ * @butior Erid Brunfton
+ * @butior Prbsibnt Dfvb
  */
-public class GeneratorAdapter extends LocalVariablesSorter {
+publid dlbss GfnfrbtorAdbptfr fxtfnds LodblVbribblfsSortfr {
 
-    private static final String CLDESC = "Ljava/lang/Class;";
+    privbtf stbtid finbl String CLDESC = "Ljbvb/lbng/Clbss;";
 
-    private static final Type BYTE_TYPE = Type.getObjectType("java/lang/Byte");
+    privbtf stbtid finbl Typf BYTE_TYPE = Typf.gftObjfdtTypf("jbvb/lbng/Bytf");
 
-    private static final Type BOOLEAN_TYPE = Type
-            .getObjectType("java/lang/Boolean");
+    privbtf stbtid finbl Typf BOOLEAN_TYPE = Typf
+            .gftObjfdtTypf("jbvb/lbng/Boolfbn");
 
-    private static final Type SHORT_TYPE = Type
-            .getObjectType("java/lang/Short");
+    privbtf stbtid finbl Typf SHORT_TYPE = Typf
+            .gftObjfdtTypf("jbvb/lbng/Siort");
 
-    private static final Type CHARACTER_TYPE = Type
-            .getObjectType("java/lang/Character");
+    privbtf stbtid finbl Typf CHARACTER_TYPE = Typf
+            .gftObjfdtTypf("jbvb/lbng/Cibrbdtfr");
 
-    private static final Type INTEGER_TYPE = Type
-            .getObjectType("java/lang/Integer");
+    privbtf stbtid finbl Typf INTEGER_TYPE = Typf
+            .gftObjfdtTypf("jbvb/lbng/Intfgfr");
 
-    private static final Type FLOAT_TYPE = Type
-            .getObjectType("java/lang/Float");
+    privbtf stbtid finbl Typf FLOAT_TYPE = Typf
+            .gftObjfdtTypf("jbvb/lbng/Flobt");
 
-    private static final Type LONG_TYPE = Type.getObjectType("java/lang/Long");
+    privbtf stbtid finbl Typf LONG_TYPE = Typf.gftObjfdtTypf("jbvb/lbng/Long");
 
-    private static final Type DOUBLE_TYPE = Type
-            .getObjectType("java/lang/Double");
+    privbtf stbtid finbl Typf DOUBLE_TYPE = Typf
+            .gftObjfdtTypf("jbvb/lbng/Doublf");
 
-    private static final Type NUMBER_TYPE = Type
-            .getObjectType("java/lang/Number");
+    privbtf stbtid finbl Typf NUMBER_TYPE = Typf
+            .gftObjfdtTypf("jbvb/lbng/Numbfr");
 
-    private static final Type OBJECT_TYPE = Type
-            .getObjectType("java/lang/Object");
+    privbtf stbtid finbl Typf OBJECT_TYPE = Typf
+            .gftObjfdtTypf("jbvb/lbng/Objfdt");
 
-    private static final Method BOOLEAN_VALUE = Method
-            .getMethod("boolean booleanValue()");
+    privbtf stbtid finbl Mftiod BOOLEAN_VALUE = Mftiod
+            .gftMftiod("boolfbn boolfbnVbluf()");
 
-    private static final Method CHAR_VALUE = Method
-            .getMethod("char charValue()");
+    privbtf stbtid finbl Mftiod CHAR_VALUE = Mftiod
+            .gftMftiod("dibr dibrVbluf()");
 
-    private static final Method INT_VALUE = Method.getMethod("int intValue()");
+    privbtf stbtid finbl Mftiod INT_VALUE = Mftiod.gftMftiod("int intVbluf()");
 
-    private static final Method FLOAT_VALUE = Method
-            .getMethod("float floatValue()");
+    privbtf stbtid finbl Mftiod FLOAT_VALUE = Mftiod
+            .gftMftiod("flobt flobtVbluf()");
 
-    private static final Method LONG_VALUE = Method
-            .getMethod("long longValue()");
+    privbtf stbtid finbl Mftiod LONG_VALUE = Mftiod
+            .gftMftiod("long longVbluf()");
 
-    private static final Method DOUBLE_VALUE = Method
-            .getMethod("double doubleValue()");
+    privbtf stbtid finbl Mftiod DOUBLE_VALUE = Mftiod
+            .gftMftiod("doublf doublfVbluf()");
 
     /**
-     * Constant for the {@link #math math} method.
+     * Constbnt for tif {@link #mbti mbti} mftiod.
      */
-    public static final int ADD = Opcodes.IADD;
+    publid stbtid finbl int ADD = Opdodfs.IADD;
 
     /**
-     * Constant for the {@link #math math} method.
+     * Constbnt for tif {@link #mbti mbti} mftiod.
      */
-    public static final int SUB = Opcodes.ISUB;
+    publid stbtid finbl int SUB = Opdodfs.ISUB;
 
     /**
-     * Constant for the {@link #math math} method.
+     * Constbnt for tif {@link #mbti mbti} mftiod.
      */
-    public static final int MUL = Opcodes.IMUL;
+    publid stbtid finbl int MUL = Opdodfs.IMUL;
 
     /**
-     * Constant for the {@link #math math} method.
+     * Constbnt for tif {@link #mbti mbti} mftiod.
      */
-    public static final int DIV = Opcodes.IDIV;
+    publid stbtid finbl int DIV = Opdodfs.IDIV;
 
     /**
-     * Constant for the {@link #math math} method.
+     * Constbnt for tif {@link #mbti mbti} mftiod.
      */
-    public static final int REM = Opcodes.IREM;
+    publid stbtid finbl int REM = Opdodfs.IREM;
 
     /**
-     * Constant for the {@link #math math} method.
+     * Constbnt for tif {@link #mbti mbti} mftiod.
      */
-    public static final int NEG = Opcodes.INEG;
+    publid stbtid finbl int NEG = Opdodfs.INEG;
 
     /**
-     * Constant for the {@link #math math} method.
+     * Constbnt for tif {@link #mbti mbti} mftiod.
      */
-    public static final int SHL = Opcodes.ISHL;
+    publid stbtid finbl int SHL = Opdodfs.ISHL;
 
     /**
-     * Constant for the {@link #math math} method.
+     * Constbnt for tif {@link #mbti mbti} mftiod.
      */
-    public static final int SHR = Opcodes.ISHR;
+    publid stbtid finbl int SHR = Opdodfs.ISHR;
 
     /**
-     * Constant for the {@link #math math} method.
+     * Constbnt for tif {@link #mbti mbti} mftiod.
      */
-    public static final int USHR = Opcodes.IUSHR;
+    publid stbtid finbl int USHR = Opdodfs.IUSHR;
 
     /**
-     * Constant for the {@link #math math} method.
+     * Constbnt for tif {@link #mbti mbti} mftiod.
      */
-    public static final int AND = Opcodes.IAND;
+    publid stbtid finbl int AND = Opdodfs.IAND;
 
     /**
-     * Constant for the {@link #math math} method.
+     * Constbnt for tif {@link #mbti mbti} mftiod.
      */
-    public static final int OR = Opcodes.IOR;
+    publid stbtid finbl int OR = Opdodfs.IOR;
 
     /**
-     * Constant for the {@link #math math} method.
+     * Constbnt for tif {@link #mbti mbti} mftiod.
      */
-    public static final int XOR = Opcodes.IXOR;
+    publid stbtid finbl int XOR = Opdodfs.IXOR;
 
     /**
-     * Constant for the {@link #ifCmp ifCmp} method.
+     * Constbnt for tif {@link #ifCmp ifCmp} mftiod.
      */
-    public static final int EQ = Opcodes.IFEQ;
+    publid stbtid finbl int EQ = Opdodfs.IFEQ;
 
     /**
-     * Constant for the {@link #ifCmp ifCmp} method.
+     * Constbnt for tif {@link #ifCmp ifCmp} mftiod.
      */
-    public static final int NE = Opcodes.IFNE;
+    publid stbtid finbl int NE = Opdodfs.IFNE;
 
     /**
-     * Constant for the {@link #ifCmp ifCmp} method.
+     * Constbnt for tif {@link #ifCmp ifCmp} mftiod.
      */
-    public static final int LT = Opcodes.IFLT;
+    publid stbtid finbl int LT = Opdodfs.IFLT;
 
     /**
-     * Constant for the {@link #ifCmp ifCmp} method.
+     * Constbnt for tif {@link #ifCmp ifCmp} mftiod.
      */
-    public static final int GE = Opcodes.IFGE;
+    publid stbtid finbl int GE = Opdodfs.IFGE;
 
     /**
-     * Constant for the {@link #ifCmp ifCmp} method.
+     * Constbnt for tif {@link #ifCmp ifCmp} mftiod.
      */
-    public static final int GT = Opcodes.IFGT;
+    publid stbtid finbl int GT = Opdodfs.IFGT;
 
     /**
-     * Constant for the {@link #ifCmp ifCmp} method.
+     * Constbnt for tif {@link #ifCmp ifCmp} mftiod.
      */
-    public static final int LE = Opcodes.IFLE;
+    publid stbtid finbl int LE = Opdodfs.IFLE;
 
     /**
-     * Access flags of the method visited by this adapter.
+     * Addfss flbgs of tif mftiod visitfd by tiis bdbptfr.
      */
-    private final int access;
+    privbtf finbl int bddfss;
 
     /**
-     * Return type of the method visited by this adapter.
+     * Rfturn typf of tif mftiod visitfd by tiis bdbptfr.
      */
-    private final Type returnType;
+    privbtf finbl Typf rfturnTypf;
 
     /**
-     * Argument types of the method visited by this adapter.
+     * Argumfnt typfs of tif mftiod visitfd by tiis bdbptfr.
      */
-    private final Type[] argumentTypes;
+    privbtf finbl Typf[] brgumfntTypfs;
 
     /**
-     * Types of the local variables of the method visited by this adapter.
+     * Typfs of tif lodbl vbribblfs of tif mftiod visitfd by tiis bdbptfr.
      */
-    private final List<Type> localTypes = new ArrayList<Type>();
+    privbtf finbl List<Typf> lodblTypfs = nfw ArrbyList<Typf>();
 
     /**
-     * Creates a new {@link GeneratorAdapter}. <i>Subclasses must not use this
-     * constructor</i>. Instead, they must use the
-     * {@link #GeneratorAdapter(int, MethodVisitor, int, String, String)}
-     * version.
+     * Crfbtfs b nfw {@link GfnfrbtorAdbptfr}. <i>Subdlbssfs must not usf tiis
+     * donstrudtor</i>. Instfbd, tify must usf tif
+     * {@link #GfnfrbtorAdbptfr(int, MftiodVisitor, int, String, String)}
+     * vfrsion.
      *
-     * @param mv
-     *            the method visitor to which this adapter delegates calls.
-     * @param access
-     *            the method's access flags (see {@link Opcodes}).
-     * @param name
-     *            the method's name.
-     * @param desc
-     *            the method's descriptor (see {@link Type Type}).
-     * @throws IllegalStateException
-     *             If a subclass calls this constructor.
+     * @pbrbm mv
+     *            tif mftiod visitor to wiidi tiis bdbptfr dflfgbtfs dblls.
+     * @pbrbm bddfss
+     *            tif mftiod's bddfss flbgs (sff {@link Opdodfs}).
+     * @pbrbm nbmf
+     *            tif mftiod's nbmf.
+     * @pbrbm dfsd
+     *            tif mftiod's dfsdriptor (sff {@link Typf Typf}).
+     * @tirows IllfgblStbtfExdfption
+     *             If b subdlbss dblls tiis donstrudtor.
      */
-    public GeneratorAdapter(final MethodVisitor mv, final int access,
-            final String name, final String desc) {
-        this(Opcodes.ASM5, mv, access, name, desc);
-        if (getClass() != GeneratorAdapter.class) {
-            throw new IllegalStateException();
+    publid GfnfrbtorAdbptfr(finbl MftiodVisitor mv, finbl int bddfss,
+            finbl String nbmf, finbl String dfsd) {
+        tiis(Opdodfs.ASM5, mv, bddfss, nbmf, dfsd);
+        if (gftClbss() != GfnfrbtorAdbptfr.dlbss) {
+            tirow nfw IllfgblStbtfExdfption();
         }
     }
 
     /**
-     * Creates a new {@link GeneratorAdapter}.
+     * Crfbtfs b nfw {@link GfnfrbtorAdbptfr}.
      *
-     * @param api
-     *            the ASM API version implemented by this visitor. Must be one
-     *            of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
-     * @param mv
-     *            the method visitor to which this adapter delegates calls.
-     * @param access
-     *            the method's access flags (see {@link Opcodes}).
-     * @param name
-     *            the method's name.
-     * @param desc
-     *            the method's descriptor (see {@link Type Type}).
+     * @pbrbm bpi
+     *            tif ASM API vfrsion implfmfntfd by tiis visitor. Must bf onf
+     *            of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
+     * @pbrbm mv
+     *            tif mftiod visitor to wiidi tiis bdbptfr dflfgbtfs dblls.
+     * @pbrbm bddfss
+     *            tif mftiod's bddfss flbgs (sff {@link Opdodfs}).
+     * @pbrbm nbmf
+     *            tif mftiod's nbmf.
+     * @pbrbm dfsd
+     *            tif mftiod's dfsdriptor (sff {@link Typf Typf}).
      */
-    protected GeneratorAdapter(final int api, final MethodVisitor mv,
-            final int access, final String name, final String desc) {
-        super(api, access, desc, mv);
-        this.access = access;
-        this.returnType = Type.getReturnType(desc);
-        this.argumentTypes = Type.getArgumentTypes(desc);
+    protfdtfd GfnfrbtorAdbptfr(finbl int bpi, finbl MftiodVisitor mv,
+            finbl int bddfss, finbl String nbmf, finbl String dfsd) {
+        supfr(bpi, bddfss, dfsd, mv);
+        tiis.bddfss = bddfss;
+        tiis.rfturnTypf = Typf.gftRfturnTypf(dfsd);
+        tiis.brgumfntTypfs = Typf.gftArgumfntTypfs(dfsd);
     }
 
     /**
-     * Creates a new {@link GeneratorAdapter}. <i>Subclasses must not use this
-     * constructor</i>. Instead, they must use the
-     * {@link #GeneratorAdapter(int, MethodVisitor, int, String, String)}
-     * version.
+     * Crfbtfs b nfw {@link GfnfrbtorAdbptfr}. <i>Subdlbssfs must not usf tiis
+     * donstrudtor</i>. Instfbd, tify must usf tif
+     * {@link #GfnfrbtorAdbptfr(int, MftiodVisitor, int, String, String)}
+     * vfrsion.
      *
-     * @param access
-     *            access flags of the adapted method.
-     * @param method
-     *            the adapted method.
-     * @param mv
-     *            the method visitor to which this adapter delegates calls.
+     * @pbrbm bddfss
+     *            bddfss flbgs of tif bdbptfd mftiod.
+     * @pbrbm mftiod
+     *            tif bdbptfd mftiod.
+     * @pbrbm mv
+     *            tif mftiod visitor to wiidi tiis bdbptfr dflfgbtfs dblls.
      */
-    public GeneratorAdapter(final int access, final Method method,
-            final MethodVisitor mv) {
-        this(mv, access, null, method.getDescriptor());
+    publid GfnfrbtorAdbptfr(finbl int bddfss, finbl Mftiod mftiod,
+            finbl MftiodVisitor mv) {
+        tiis(mv, bddfss, null, mftiod.gftDfsdriptor());
     }
 
     /**
-     * Creates a new {@link GeneratorAdapter}. <i>Subclasses must not use this
-     * constructor</i>. Instead, they must use the
-     * {@link #GeneratorAdapter(int, MethodVisitor, int, String, String)}
-     * version.
+     * Crfbtfs b nfw {@link GfnfrbtorAdbptfr}. <i>Subdlbssfs must not usf tiis
+     * donstrudtor</i>. Instfbd, tify must usf tif
+     * {@link #GfnfrbtorAdbptfr(int, MftiodVisitor, int, String, String)}
+     * vfrsion.
      *
-     * @param access
-     *            access flags of the adapted method.
-     * @param method
-     *            the adapted method.
-     * @param signature
-     *            the signature of the adapted method (may be <tt>null</tt>).
-     * @param exceptions
-     *            the exceptions thrown by the adapted method (may be
+     * @pbrbm bddfss
+     *            bddfss flbgs of tif bdbptfd mftiod.
+     * @pbrbm mftiod
+     *            tif bdbptfd mftiod.
+     * @pbrbm signbturf
+     *            tif signbturf of tif bdbptfd mftiod (mby bf <tt>null</tt>).
+     * @pbrbm fxdfptions
+     *            tif fxdfptions tirown by tif bdbptfd mftiod (mby bf
      *            <tt>null</tt>).
-     * @param cv
-     *            the class visitor to which this adapter delegates calls.
+     * @pbrbm dv
+     *            tif dlbss visitor to wiidi tiis bdbptfr dflfgbtfs dblls.
      */
-    public GeneratorAdapter(final int access, final Method method,
-            final String signature, final Type[] exceptions,
-            final ClassVisitor cv) {
-        this(access, method, cv
-                .visitMethod(access, method.getName(), method.getDescriptor(),
-                        signature, getInternalNames(exceptions)));
+    publid GfnfrbtorAdbptfr(finbl int bddfss, finbl Mftiod mftiod,
+            finbl String signbturf, finbl Typf[] fxdfptions,
+            finbl ClbssVisitor dv) {
+        tiis(bddfss, mftiod, dv
+                .visitMftiod(bddfss, mftiod.gftNbmf(), mftiod.gftDfsdriptor(),
+                        signbturf, gftIntfrnblNbmfs(fxdfptions)));
     }
 
     /**
-     * Returns the internal names of the given types.
+     * Rfturns tif intfrnbl nbmfs of tif givfn typfs.
      *
-     * @param types
-     *            a set of types.
-     * @return the internal names of the given types.
+     * @pbrbm typfs
+     *            b sft of typfs.
+     * @rfturn tif intfrnbl nbmfs of tif givfn typfs.
      */
-    private static String[] getInternalNames(final Type[] types) {
-        if (types == null) {
-            return null;
+    privbtf stbtid String[] gftIntfrnblNbmfs(finbl Typf[] typfs) {
+        if (typfs == null) {
+            rfturn null;
         }
-        String[] names = new String[types.length];
-        for (int i = 0; i < names.length; ++i) {
-            names[i] = types[i].getInternalName();
+        String[] nbmfs = nfw String[typfs.lfngti];
+        for (int i = 0; i < nbmfs.lfngti; ++i) {
+            nbmfs[i] = typfs[i].gftIntfrnblNbmf();
         }
-        return names;
+        rfturn nbmfs;
     }
 
     // ------------------------------------------------------------------------
-    // Instructions to push constants on the stack
+    // Instrudtions to pusi donstbnts on tif stbdk
     // ------------------------------------------------------------------------
 
     /**
-     * Generates the instruction to push the given value on the stack.
+     * Gfnfrbtfs tif instrudtion to pusi tif givfn vbluf on tif stbdk.
      *
-     * @param value
-     *            the value to be pushed on the stack.
+     * @pbrbm vbluf
+     *            tif vbluf to bf pusifd on tif stbdk.
      */
-    public void push(final boolean value) {
-        push(value ? 1 : 0);
+    publid void pusi(finbl boolfbn vbluf) {
+        pusi(vbluf ? 1 : 0);
     }
 
     /**
-     * Generates the instruction to push the given value on the stack.
+     * Gfnfrbtfs tif instrudtion to pusi tif givfn vbluf on tif stbdk.
      *
-     * @param value
-     *            the value to be pushed on the stack.
+     * @pbrbm vbluf
+     *            tif vbluf to bf pusifd on tif stbdk.
      */
-    public void push(final int value) {
-        if (value >= -1 && value <= 5) {
-            mv.visitInsn(Opcodes.ICONST_0 + value);
-        } else if (value >= Byte.MIN_VALUE && value <= Byte.MAX_VALUE) {
-            mv.visitIntInsn(Opcodes.BIPUSH, value);
-        } else if (value >= Short.MIN_VALUE && value <= Short.MAX_VALUE) {
-            mv.visitIntInsn(Opcodes.SIPUSH, value);
-        } else {
-            mv.visitLdcInsn(new Integer(value));
+    publid void pusi(finbl int vbluf) {
+        if (vbluf >= -1 && vbluf <= 5) {
+            mv.visitInsn(Opdodfs.ICONST_0 + vbluf);
+        } flsf if (vbluf >= Bytf.MIN_VALUE && vbluf <= Bytf.MAX_VALUE) {
+            mv.visitIntInsn(Opdodfs.BIPUSH, vbluf);
+        } flsf if (vbluf >= Siort.MIN_VALUE && vbluf <= Siort.MAX_VALUE) {
+            mv.visitIntInsn(Opdodfs.SIPUSH, vbluf);
+        } flsf {
+            mv.visitLddInsn(nfw Intfgfr(vbluf));
         }
     }
 
     /**
-     * Generates the instruction to push the given value on the stack.
+     * Gfnfrbtfs tif instrudtion to pusi tif givfn vbluf on tif stbdk.
      *
-     * @param value
-     *            the value to be pushed on the stack.
+     * @pbrbm vbluf
+     *            tif vbluf to bf pusifd on tif stbdk.
      */
-    public void push(final long value) {
-        if (value == 0L || value == 1L) {
-            mv.visitInsn(Opcodes.LCONST_0 + (int) value);
-        } else {
-            mv.visitLdcInsn(new Long(value));
+    publid void pusi(finbl long vbluf) {
+        if (vbluf == 0L || vbluf == 1L) {
+            mv.visitInsn(Opdodfs.LCONST_0 + (int) vbluf);
+        } flsf {
+            mv.visitLddInsn(nfw Long(vbluf));
         }
     }
 
     /**
-     * Generates the instruction to push the given value on the stack.
+     * Gfnfrbtfs tif instrudtion to pusi tif givfn vbluf on tif stbdk.
      *
-     * @param value
-     *            the value to be pushed on the stack.
+     * @pbrbm vbluf
+     *            tif vbluf to bf pusifd on tif stbdk.
      */
-    public void push(final float value) {
-        int bits = Float.floatToIntBits(value);
+    publid void pusi(finbl flobt vbluf) {
+        int bits = Flobt.flobtToIntBits(vbluf);
         if (bits == 0L || bits == 0x3f800000 || bits == 0x40000000) { // 0..2
-            mv.visitInsn(Opcodes.FCONST_0 + (int) value);
-        } else {
-            mv.visitLdcInsn(new Float(value));
+            mv.visitInsn(Opdodfs.FCONST_0 + (int) vbluf);
+        } flsf {
+            mv.visitLddInsn(nfw Flobt(vbluf));
         }
     }
 
     /**
-     * Generates the instruction to push the given value on the stack.
+     * Gfnfrbtfs tif instrudtion to pusi tif givfn vbluf on tif stbdk.
      *
-     * @param value
-     *            the value to be pushed on the stack.
+     * @pbrbm vbluf
+     *            tif vbluf to bf pusifd on tif stbdk.
      */
-    public void push(final double value) {
-        long bits = Double.doubleToLongBits(value);
-        if (bits == 0L || bits == 0x3ff0000000000000L) { // +0.0d and 1.0d
-            mv.visitInsn(Opcodes.DCONST_0 + (int) value);
-        } else {
-            mv.visitLdcInsn(new Double(value));
+    publid void pusi(finbl doublf vbluf) {
+        long bits = Doublf.doublfToLongBits(vbluf);
+        if (bits == 0L || bits == 0x3ff0000000000000L) { // +0.0d bnd 1.0d
+            mv.visitInsn(Opdodfs.DCONST_0 + (int) vbluf);
+        } flsf {
+            mv.visitLddInsn(nfw Doublf(vbluf));
         }
     }
 
     /**
-     * Generates the instruction to push the given value on the stack.
+     * Gfnfrbtfs tif instrudtion to pusi tif givfn vbluf on tif stbdk.
      *
-     * @param value
-     *            the value to be pushed on the stack. May be <tt>null</tt>.
+     * @pbrbm vbluf
+     *            tif vbluf to bf pusifd on tif stbdk. Mby bf <tt>null</tt>.
      */
-    public void push(final String value) {
-        if (value == null) {
-            mv.visitInsn(Opcodes.ACONST_NULL);
-        } else {
-            mv.visitLdcInsn(value);
+    publid void pusi(finbl String vbluf) {
+        if (vbluf == null) {
+            mv.visitInsn(Opdodfs.ACONST_NULL);
+        } flsf {
+            mv.visitLddInsn(vbluf);
         }
     }
 
     /**
-     * Generates the instruction to push the given value on the stack.
+     * Gfnfrbtfs tif instrudtion to pusi tif givfn vbluf on tif stbdk.
      *
-     * @param value
-     *            the value to be pushed on the stack.
+     * @pbrbm vbluf
+     *            tif vbluf to bf pusifd on tif stbdk.
      */
-    public void push(final Type value) {
-        if (value == null) {
-            mv.visitInsn(Opcodes.ACONST_NULL);
-        } else {
-            switch (value.getSort()) {
-            case Type.BOOLEAN:
-                mv.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/Boolean",
+    publid void pusi(finbl Typf vbluf) {
+        if (vbluf == null) {
+            mv.visitInsn(Opdodfs.ACONST_NULL);
+        } flsf {
+            switdi (vbluf.gftSort()) {
+            dbsf Typf.BOOLEAN:
+                mv.visitFifldInsn(Opdodfs.GETSTATIC, "jbvb/lbng/Boolfbn",
                         "TYPE", CLDESC);
-                break;
-            case Type.CHAR:
-                mv.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/Character",
+                brfbk;
+            dbsf Typf.CHAR:
+                mv.visitFifldInsn(Opdodfs.GETSTATIC, "jbvb/lbng/Cibrbdtfr",
                         "TYPE", CLDESC);
-                break;
-            case Type.BYTE:
-                mv.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/Byte", "TYPE",
+                brfbk;
+            dbsf Typf.BYTE:
+                mv.visitFifldInsn(Opdodfs.GETSTATIC, "jbvb/lbng/Bytf", "TYPE",
                         CLDESC);
-                break;
-            case Type.SHORT:
-                mv.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/Short", "TYPE",
+                brfbk;
+            dbsf Typf.SHORT:
+                mv.visitFifldInsn(Opdodfs.GETSTATIC, "jbvb/lbng/Siort", "TYPE",
                         CLDESC);
-                break;
-            case Type.INT:
-                mv.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/Integer",
+                brfbk;
+            dbsf Typf.INT:
+                mv.visitFifldInsn(Opdodfs.GETSTATIC, "jbvb/lbng/Intfgfr",
                         "TYPE", CLDESC);
-                break;
-            case Type.FLOAT:
-                mv.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/Float", "TYPE",
+                brfbk;
+            dbsf Typf.FLOAT:
+                mv.visitFifldInsn(Opdodfs.GETSTATIC, "jbvb/lbng/Flobt", "TYPE",
                         CLDESC);
-                break;
-            case Type.LONG:
-                mv.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/Long", "TYPE",
+                brfbk;
+            dbsf Typf.LONG:
+                mv.visitFifldInsn(Opdodfs.GETSTATIC, "jbvb/lbng/Long", "TYPE",
                         CLDESC);
-                break;
-            case Type.DOUBLE:
-                mv.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/Double",
+                brfbk;
+            dbsf Typf.DOUBLE:
+                mv.visitFifldInsn(Opdodfs.GETSTATIC, "jbvb/lbng/Doublf",
                         "TYPE", CLDESC);
-                break;
-            default:
-                mv.visitLdcInsn(value);
+                brfbk;
+            dffbult:
+                mv.visitLddInsn(vbluf);
             }
         }
     }
 
     /**
-     * Generates the instruction to push a handle on the stack.
+     * Gfnfrbtfs tif instrudtion to pusi b ibndlf on tif stbdk.
      *
-     * @param handle
-     *            the handle to be pushed on the stack.
+     * @pbrbm ibndlf
+     *            tif ibndlf to bf pusifd on tif stbdk.
      */
-    public void push(final Handle handle) {
-        mv.visitLdcInsn(handle);
+    publid void pusi(finbl Hbndlf ibndlf) {
+        mv.visitLddInsn(ibndlf);
     }
 
     // ------------------------------------------------------------------------
-    // Instructions to load and store method arguments
+    // Instrudtions to lobd bnd storf mftiod brgumfnts
     // ------------------------------------------------------------------------
 
     /**
-     * Returns the index of the given method argument in the frame's local
-     * variables array.
+     * Rfturns tif indfx of tif givfn mftiod brgumfnt in tif frbmf's lodbl
+     * vbribblfs brrby.
      *
-     * @param arg
-     *            the index of a method argument.
-     * @return the index of the given method argument in the frame's local
-     *         variables array.
+     * @pbrbm brg
+     *            tif indfx of b mftiod brgumfnt.
+     * @rfturn tif indfx of tif givfn mftiod brgumfnt in tif frbmf's lodbl
+     *         vbribblfs brrby.
      */
-    private int getArgIndex(final int arg) {
-        int index = (access & Opcodes.ACC_STATIC) == 0 ? 1 : 0;
-        for (int i = 0; i < arg; i++) {
-            index += argumentTypes[i].getSize();
+    privbtf int gftArgIndfx(finbl int brg) {
+        int indfx = (bddfss & Opdodfs.ACC_STATIC) == 0 ? 1 : 0;
+        for (int i = 0; i < brg; i++) {
+            indfx += brgumfntTypfs[i].gftSizf();
         }
-        return index;
+        rfturn indfx;
     }
 
     /**
-     * Generates the instruction to push a local variable on the stack.
+     * Gfnfrbtfs tif instrudtion to pusi b lodbl vbribblf on tif stbdk.
      *
-     * @param type
-     *            the type of the local variable to be loaded.
-     * @param index
-     *            an index in the frame's local variables array.
+     * @pbrbm typf
+     *            tif typf of tif lodbl vbribblf to bf lobdfd.
+     * @pbrbm indfx
+     *            bn indfx in tif frbmf's lodbl vbribblfs brrby.
      */
-    private void loadInsn(final Type type, final int index) {
-        mv.visitVarInsn(type.getOpcode(Opcodes.ILOAD), index);
+    privbtf void lobdInsn(finbl Typf typf, finbl int indfx) {
+        mv.visitVbrInsn(typf.gftOpdodf(Opdodfs.ILOAD), indfx);
     }
 
     /**
-     * Generates the instruction to store the top stack value in a local
-     * variable.
+     * Gfnfrbtfs tif instrudtion to storf tif top stbdk vbluf in b lodbl
+     * vbribblf.
      *
-     * @param type
-     *            the type of the local variable to be stored.
-     * @param index
-     *            an index in the frame's local variables array.
+     * @pbrbm typf
+     *            tif typf of tif lodbl vbribblf to bf storfd.
+     * @pbrbm indfx
+     *            bn indfx in tif frbmf's lodbl vbribblfs brrby.
      */
-    private void storeInsn(final Type type, final int index) {
-        mv.visitVarInsn(type.getOpcode(Opcodes.ISTORE), index);
+    privbtf void storfInsn(finbl Typf typf, finbl int indfx) {
+        mv.visitVbrInsn(typf.gftOpdodf(Opdodfs.ISTORE), indfx);
     }
 
     /**
-     * Generates the instruction to load 'this' on the stack.
+     * Gfnfrbtfs tif instrudtion to lobd 'tiis' on tif stbdk.
      */
-    public void loadThis() {
-        if ((access & Opcodes.ACC_STATIC) != 0) {
-            throw new IllegalStateException(
-                    "no 'this' pointer within static method");
+    publid void lobdTiis() {
+        if ((bddfss & Opdodfs.ACC_STATIC) != 0) {
+            tirow nfw IllfgblStbtfExdfption(
+                    "no 'tiis' pointfr witiin stbtid mftiod");
         }
-        mv.visitVarInsn(Opcodes.ALOAD, 0);
+        mv.visitVbrInsn(Opdodfs.ALOAD, 0);
     }
 
     /**
-     * Generates the instruction to load the given method argument on the stack.
+     * Gfnfrbtfs tif instrudtion to lobd tif givfn mftiod brgumfnt on tif stbdk.
      *
-     * @param arg
-     *            the index of a method argument.
+     * @pbrbm brg
+     *            tif indfx of b mftiod brgumfnt.
      */
-    public void loadArg(final int arg) {
-        loadInsn(argumentTypes[arg], getArgIndex(arg));
+    publid void lobdArg(finbl int brg) {
+        lobdInsn(brgumfntTypfs[brg], gftArgIndfx(brg));
     }
 
     /**
-     * Generates the instructions to load the given method arguments on the
-     * stack.
+     * Gfnfrbtfs tif instrudtions to lobd tif givfn mftiod brgumfnts on tif
+     * stbdk.
      *
-     * @param arg
-     *            the index of the first method argument to be loaded.
-     * @param count
-     *            the number of method arguments to be loaded.
+     * @pbrbm brg
+     *            tif indfx of tif first mftiod brgumfnt to bf lobdfd.
+     * @pbrbm dount
+     *            tif numbfr of mftiod brgumfnts to bf lobdfd.
      */
-    public void loadArgs(final int arg, final int count) {
-        int index = getArgIndex(arg);
-        for (int i = 0; i < count; ++i) {
-            Type t = argumentTypes[arg + i];
-            loadInsn(t, index);
-            index += t.getSize();
+    publid void lobdArgs(finbl int brg, finbl int dount) {
+        int indfx = gftArgIndfx(brg);
+        for (int i = 0; i < dount; ++i) {
+            Typf t = brgumfntTypfs[brg + i];
+            lobdInsn(t, indfx);
+            indfx += t.gftSizf();
         }
     }
 
     /**
-     * Generates the instructions to load all the method arguments on the stack.
+     * Gfnfrbtfs tif instrudtions to lobd bll tif mftiod brgumfnts on tif stbdk.
      */
-    public void loadArgs() {
-        loadArgs(0, argumentTypes.length);
+    publid void lobdArgs() {
+        lobdArgs(0, brgumfntTypfs.lfngti);
     }
 
     /**
-     * Generates the instructions to load all the method arguments on the stack,
-     * as a single object array.
+     * Gfnfrbtfs tif instrudtions to lobd bll tif mftiod brgumfnts on tif stbdk,
+     * bs b singlf objfdt brrby.
      */
-    public void loadArgArray() {
-        push(argumentTypes.length);
-        newArray(OBJECT_TYPE);
-        for (int i = 0; i < argumentTypes.length; i++) {
+    publid void lobdArgArrby() {
+        pusi(brgumfntTypfs.lfngti);
+        nfwArrby(OBJECT_TYPE);
+        for (int i = 0; i < brgumfntTypfs.lfngti; i++) {
             dup();
-            push(i);
-            loadArg(i);
-            box(argumentTypes[i]);
-            arrayStore(OBJECT_TYPE);
+            pusi(i);
+            lobdArg(i);
+            box(brgumfntTypfs[i]);
+            brrbyStorf(OBJECT_TYPE);
         }
     }
 
     /**
-     * Generates the instruction to store the top stack value in the given
-     * method argument.
+     * Gfnfrbtfs tif instrudtion to storf tif top stbdk vbluf in tif givfn
+     * mftiod brgumfnt.
      *
-     * @param arg
-     *            the index of a method argument.
+     * @pbrbm brg
+     *            tif indfx of b mftiod brgumfnt.
      */
-    public void storeArg(final int arg) {
-        storeInsn(argumentTypes[arg], getArgIndex(arg));
+    publid void storfArg(finbl int brg) {
+        storfInsn(brgumfntTypfs[brg], gftArgIndfx(brg));
     }
 
     // ------------------------------------------------------------------------
-    // Instructions to load and store local variables
+    // Instrudtions to lobd bnd storf lodbl vbribblfs
     // ------------------------------------------------------------------------
 
     /**
-     * Returns the type of the given local variable.
+     * Rfturns tif typf of tif givfn lodbl vbribblf.
      *
-     * @param local
-     *            a local variable identifier, as returned by
-     *            {@link LocalVariablesSorter#newLocal(Type) newLocal()}.
-     * @return the type of the given local variable.
+     * @pbrbm lodbl
+     *            b lodbl vbribblf idfntififr, bs rfturnfd by
+     *            {@link LodblVbribblfsSortfr#nfwLodbl(Typf) nfwLodbl()}.
+     * @rfturn tif typf of tif givfn lodbl vbribblf.
      */
-    public Type getLocalType(final int local) {
-        return localTypes.get(local - firstLocal);
+    publid Typf gftLodblTypf(finbl int lodbl) {
+        rfturn lodblTypfs.gft(lodbl - firstLodbl);
     }
 
-    @Override
-    protected void setLocalType(final int local, final Type type) {
-        int index = local - firstLocal;
-        while (localTypes.size() < index + 1) {
-            localTypes.add(null);
+    @Ovfrridf
+    protfdtfd void sftLodblTypf(finbl int lodbl, finbl Typf typf) {
+        int indfx = lodbl - firstLodbl;
+        wiilf (lodblTypfs.sizf() < indfx + 1) {
+            lodblTypfs.bdd(null);
         }
-        localTypes.set(index, type);
+        lodblTypfs.sft(indfx, typf);
     }
 
     /**
-     * Generates the instruction to load the given local variable on the stack.
+     * Gfnfrbtfs tif instrudtion to lobd tif givfn lodbl vbribblf on tif stbdk.
      *
-     * @param local
-     *            a local variable identifier, as returned by
-     *            {@link LocalVariablesSorter#newLocal(Type) newLocal()}.
+     * @pbrbm lodbl
+     *            b lodbl vbribblf idfntififr, bs rfturnfd by
+     *            {@link LodblVbribblfsSortfr#nfwLodbl(Typf) nfwLodbl()}.
      */
-    public void loadLocal(final int local) {
-        loadInsn(getLocalType(local), local);
+    publid void lobdLodbl(finbl int lodbl) {
+        lobdInsn(gftLodblTypf(lodbl), lodbl);
     }
 
     /**
-     * Generates the instruction to load the given local variable on the stack.
+     * Gfnfrbtfs tif instrudtion to lobd tif givfn lodbl vbribblf on tif stbdk.
      *
-     * @param local
-     *            a local variable identifier, as returned by
-     *            {@link LocalVariablesSorter#newLocal(Type) newLocal()}.
-     * @param type
-     *            the type of this local variable.
+     * @pbrbm lodbl
+     *            b lodbl vbribblf idfntififr, bs rfturnfd by
+     *            {@link LodblVbribblfsSortfr#nfwLodbl(Typf) nfwLodbl()}.
+     * @pbrbm typf
+     *            tif typf of tiis lodbl vbribblf.
      */
-    public void loadLocal(final int local, final Type type) {
-        setLocalType(local, type);
-        loadInsn(type, local);
+    publid void lobdLodbl(finbl int lodbl, finbl Typf typf) {
+        sftLodblTypf(lodbl, typf);
+        lobdInsn(typf, lodbl);
     }
 
     /**
-     * Generates the instruction to store the top stack value in the given local
-     * variable.
+     * Gfnfrbtfs tif instrudtion to storf tif top stbdk vbluf in tif givfn lodbl
+     * vbribblf.
      *
-     * @param local
-     *            a local variable identifier, as returned by
-     *            {@link LocalVariablesSorter#newLocal(Type) newLocal()}.
+     * @pbrbm lodbl
+     *            b lodbl vbribblf idfntififr, bs rfturnfd by
+     *            {@link LodblVbribblfsSortfr#nfwLodbl(Typf) nfwLodbl()}.
      */
-    public void storeLocal(final int local) {
-        storeInsn(getLocalType(local), local);
+    publid void storfLodbl(finbl int lodbl) {
+        storfInsn(gftLodblTypf(lodbl), lodbl);
     }
 
     /**
-     * Generates the instruction to store the top stack value in the given local
-     * variable.
+     * Gfnfrbtfs tif instrudtion to storf tif top stbdk vbluf in tif givfn lodbl
+     * vbribblf.
      *
-     * @param local
-     *            a local variable identifier, as returned by
-     *            {@link LocalVariablesSorter#newLocal(Type) newLocal()}.
-     * @param type
-     *            the type of this local variable.
+     * @pbrbm lodbl
+     *            b lodbl vbribblf idfntififr, bs rfturnfd by
+     *            {@link LodblVbribblfsSortfr#nfwLodbl(Typf) nfwLodbl()}.
+     * @pbrbm typf
+     *            tif typf of tiis lodbl vbribblf.
      */
-    public void storeLocal(final int local, final Type type) {
-        setLocalType(local, type);
-        storeInsn(type, local);
+    publid void storfLodbl(finbl int lodbl, finbl Typf typf) {
+        sftLodblTypf(lodbl, typf);
+        storfInsn(typf, lodbl);
     }
 
     /**
-     * Generates the instruction to load an element from an array.
+     * Gfnfrbtfs tif instrudtion to lobd bn flfmfnt from bn brrby.
      *
-     * @param type
-     *            the type of the array element to be loaded.
+     * @pbrbm typf
+     *            tif typf of tif brrby flfmfnt to bf lobdfd.
      */
-    public void arrayLoad(final Type type) {
-        mv.visitInsn(type.getOpcode(Opcodes.IALOAD));
+    publid void brrbyLobd(finbl Typf typf) {
+        mv.visitInsn(typf.gftOpdodf(Opdodfs.IALOAD));
     }
 
     /**
-     * Generates the instruction to store an element in an array.
+     * Gfnfrbtfs tif instrudtion to storf bn flfmfnt in bn brrby.
      *
-     * @param type
-     *            the type of the array element to be stored.
+     * @pbrbm typf
+     *            tif typf of tif brrby flfmfnt to bf storfd.
      */
-    public void arrayStore(final Type type) {
-        mv.visitInsn(type.getOpcode(Opcodes.IASTORE));
+    publid void brrbyStorf(finbl Typf typf) {
+        mv.visitInsn(typf.gftOpdodf(Opdodfs.IASTORE));
     }
 
     // ------------------------------------------------------------------------
-    // Instructions to manage the stack
+    // Instrudtions to mbnbgf tif stbdk
     // ------------------------------------------------------------------------
 
     /**
-     * Generates a POP instruction.
+     * Gfnfrbtfs b POP instrudtion.
      */
-    public void pop() {
-        mv.visitInsn(Opcodes.POP);
+    publid void pop() {
+        mv.visitInsn(Opdodfs.POP);
     }
 
     /**
-     * Generates a POP2 instruction.
+     * Gfnfrbtfs b POP2 instrudtion.
      */
-    public void pop2() {
-        mv.visitInsn(Opcodes.POP2);
+    publid void pop2() {
+        mv.visitInsn(Opdodfs.POP2);
     }
 
     /**
-     * Generates a DUP instruction.
+     * Gfnfrbtfs b DUP instrudtion.
      */
-    public void dup() {
-        mv.visitInsn(Opcodes.DUP);
+    publid void dup() {
+        mv.visitInsn(Opdodfs.DUP);
     }
 
     /**
-     * Generates a DUP2 instruction.
+     * Gfnfrbtfs b DUP2 instrudtion.
      */
-    public void dup2() {
-        mv.visitInsn(Opcodes.DUP2);
+    publid void dup2() {
+        mv.visitInsn(Opdodfs.DUP2);
     }
 
     /**
-     * Generates a DUP_X1 instruction.
+     * Gfnfrbtfs b DUP_X1 instrudtion.
      */
-    public void dupX1() {
-        mv.visitInsn(Opcodes.DUP_X1);
+    publid void dupX1() {
+        mv.visitInsn(Opdodfs.DUP_X1);
     }
 
     /**
-     * Generates a DUP_X2 instruction.
+     * Gfnfrbtfs b DUP_X2 instrudtion.
      */
-    public void dupX2() {
-        mv.visitInsn(Opcodes.DUP_X2);
+    publid void dupX2() {
+        mv.visitInsn(Opdodfs.DUP_X2);
     }
 
     /**
-     * Generates a DUP2_X1 instruction.
+     * Gfnfrbtfs b DUP2_X1 instrudtion.
      */
-    public void dup2X1() {
-        mv.visitInsn(Opcodes.DUP2_X1);
+    publid void dup2X1() {
+        mv.visitInsn(Opdodfs.DUP2_X1);
     }
 
     /**
-     * Generates a DUP2_X2 instruction.
+     * Gfnfrbtfs b DUP2_X2 instrudtion.
      */
-    public void dup2X2() {
-        mv.visitInsn(Opcodes.DUP2_X2);
+    publid void dup2X2() {
+        mv.visitInsn(Opdodfs.DUP2_X2);
     }
 
     /**
-     * Generates a SWAP instruction.
+     * Gfnfrbtfs b SWAP instrudtion.
      */
-    public void swap() {
-        mv.visitInsn(Opcodes.SWAP);
+    publid void swbp() {
+        mv.visitInsn(Opdodfs.SWAP);
     }
 
     /**
-     * Generates the instructions to swap the top two stack values.
+     * Gfnfrbtfs tif instrudtions to swbp tif top two stbdk vblufs.
      *
-     * @param prev
-     *            type of the top - 1 stack value.
-     * @param type
-     *            type of the top stack value.
+     * @pbrbm prfv
+     *            typf of tif top - 1 stbdk vbluf.
+     * @pbrbm typf
+     *            typf of tif top stbdk vbluf.
      */
-    public void swap(final Type prev, final Type type) {
-        if (type.getSize() == 1) {
-            if (prev.getSize() == 1) {
-                swap(); // same as dupX1(), pop();
-            } else {
+    publid void swbp(finbl Typf prfv, finbl Typf typf) {
+        if (typf.gftSizf() == 1) {
+            if (prfv.gftSizf() == 1) {
+                swbp(); // sbmf bs dupX1(), pop();
+            } flsf {
                 dupX2();
                 pop();
             }
-        } else {
-            if (prev.getSize() == 1) {
+        } flsf {
+            if (prfv.gftSizf() == 1) {
                 dup2X1();
                 pop2();
-            } else {
+            } flsf {
                 dup2X2();
                 pop2();
             }
@@ -840,818 +840,818 @@ public class GeneratorAdapter extends LocalVariablesSorter {
     }
 
     // ------------------------------------------------------------------------
-    // Instructions to do mathematical and logical operations
+    // Instrudtions to do mbtifmbtidbl bnd logidbl opfrbtions
     // ------------------------------------------------------------------------
 
     /**
-     * Generates the instruction to do the specified mathematical or logical
-     * operation.
+     * Gfnfrbtfs tif instrudtion to do tif spfdififd mbtifmbtidbl or logidbl
+     * opfrbtion.
      *
-     * @param op
-     *            a mathematical or logical operation. Must be one of ADD, SUB,
+     * @pbrbm op
+     *            b mbtifmbtidbl or logidbl opfrbtion. Must bf onf of ADD, SUB,
      *            MUL, DIV, REM, NEG, SHL, SHR, USHR, AND, OR, XOR.
-     * @param type
-     *            the type of the operand(s) for this operation.
+     * @pbrbm typf
+     *            tif typf of tif opfrbnd(s) for tiis opfrbtion.
      */
-    public void math(final int op, final Type type) {
-        mv.visitInsn(type.getOpcode(op));
+    publid void mbti(finbl int op, finbl Typf typf) {
+        mv.visitInsn(typf.gftOpdodf(op));
     }
 
     /**
-     * Generates the instructions to compute the bitwise negation of the top
-     * stack value.
+     * Gfnfrbtfs tif instrudtions to domputf tif bitwisf nfgbtion of tif top
+     * stbdk vbluf.
      */
-    public void not() {
-        mv.visitInsn(Opcodes.ICONST_1);
-        mv.visitInsn(Opcodes.IXOR);
+    publid void not() {
+        mv.visitInsn(Opdodfs.ICONST_1);
+        mv.visitInsn(Opdodfs.IXOR);
     }
 
     /**
-     * Generates the instruction to increment the given local variable.
+     * Gfnfrbtfs tif instrudtion to indrfmfnt tif givfn lodbl vbribblf.
      *
-     * @param local
-     *            the local variable to be incremented.
-     * @param amount
-     *            the amount by which the local variable must be incremented.
+     * @pbrbm lodbl
+     *            tif lodbl vbribblf to bf indrfmfntfd.
+     * @pbrbm bmount
+     *            tif bmount by wiidi tif lodbl vbribblf must bf indrfmfntfd.
      */
-    public void iinc(final int local, final int amount) {
-        mv.visitIincInsn(local, amount);
+    publid void iind(finbl int lodbl, finbl int bmount) {
+        mv.visitIindInsn(lodbl, bmount);
     }
 
     /**
-     * Generates the instructions to cast a numerical value from one type to
-     * another.
+     * Gfnfrbtfs tif instrudtions to dbst b numfridbl vbluf from onf typf to
+     * bnotifr.
      *
-     * @param from
-     *            the type of the top stack value
-     * @param to
-     *            the type into which this value must be cast.
+     * @pbrbm from
+     *            tif typf of tif top stbdk vbluf
+     * @pbrbm to
+     *            tif typf into wiidi tiis vbluf must bf dbst.
      */
-    public void cast(final Type from, final Type to) {
+    publid void dbst(finbl Typf from, finbl Typf to) {
         if (from != to) {
-            if (from == Type.DOUBLE_TYPE) {
-                if (to == Type.FLOAT_TYPE) {
-                    mv.visitInsn(Opcodes.D2F);
-                } else if (to == Type.LONG_TYPE) {
-                    mv.visitInsn(Opcodes.D2L);
-                } else {
-                    mv.visitInsn(Opcodes.D2I);
-                    cast(Type.INT_TYPE, to);
+            if (from == Typf.DOUBLE_TYPE) {
+                if (to == Typf.FLOAT_TYPE) {
+                    mv.visitInsn(Opdodfs.D2F);
+                } flsf if (to == Typf.LONG_TYPE) {
+                    mv.visitInsn(Opdodfs.D2L);
+                } flsf {
+                    mv.visitInsn(Opdodfs.D2I);
+                    dbst(Typf.INT_TYPE, to);
                 }
-            } else if (from == Type.FLOAT_TYPE) {
-                if (to == Type.DOUBLE_TYPE) {
-                    mv.visitInsn(Opcodes.F2D);
-                } else if (to == Type.LONG_TYPE) {
-                    mv.visitInsn(Opcodes.F2L);
-                } else {
-                    mv.visitInsn(Opcodes.F2I);
-                    cast(Type.INT_TYPE, to);
+            } flsf if (from == Typf.FLOAT_TYPE) {
+                if (to == Typf.DOUBLE_TYPE) {
+                    mv.visitInsn(Opdodfs.F2D);
+                } flsf if (to == Typf.LONG_TYPE) {
+                    mv.visitInsn(Opdodfs.F2L);
+                } flsf {
+                    mv.visitInsn(Opdodfs.F2I);
+                    dbst(Typf.INT_TYPE, to);
                 }
-            } else if (from == Type.LONG_TYPE) {
-                if (to == Type.DOUBLE_TYPE) {
-                    mv.visitInsn(Opcodes.L2D);
-                } else if (to == Type.FLOAT_TYPE) {
-                    mv.visitInsn(Opcodes.L2F);
-                } else {
-                    mv.visitInsn(Opcodes.L2I);
-                    cast(Type.INT_TYPE, to);
+            } flsf if (from == Typf.LONG_TYPE) {
+                if (to == Typf.DOUBLE_TYPE) {
+                    mv.visitInsn(Opdodfs.L2D);
+                } flsf if (to == Typf.FLOAT_TYPE) {
+                    mv.visitInsn(Opdodfs.L2F);
+                } flsf {
+                    mv.visitInsn(Opdodfs.L2I);
+                    dbst(Typf.INT_TYPE, to);
                 }
-            } else {
-                if (to == Type.BYTE_TYPE) {
-                    mv.visitInsn(Opcodes.I2B);
-                } else if (to == Type.CHAR_TYPE) {
-                    mv.visitInsn(Opcodes.I2C);
-                } else if (to == Type.DOUBLE_TYPE) {
-                    mv.visitInsn(Opcodes.I2D);
-                } else if (to == Type.FLOAT_TYPE) {
-                    mv.visitInsn(Opcodes.I2F);
-                } else if (to == Type.LONG_TYPE) {
-                    mv.visitInsn(Opcodes.I2L);
-                } else if (to == Type.SHORT_TYPE) {
-                    mv.visitInsn(Opcodes.I2S);
+            } flsf {
+                if (to == Typf.BYTE_TYPE) {
+                    mv.visitInsn(Opdodfs.I2B);
+                } flsf if (to == Typf.CHAR_TYPE) {
+                    mv.visitInsn(Opdodfs.I2C);
+                } flsf if (to == Typf.DOUBLE_TYPE) {
+                    mv.visitInsn(Opdodfs.I2D);
+                } flsf if (to == Typf.FLOAT_TYPE) {
+                    mv.visitInsn(Opdodfs.I2F);
+                } flsf if (to == Typf.LONG_TYPE) {
+                    mv.visitInsn(Opdodfs.I2L);
+                } flsf if (to == Typf.SHORT_TYPE) {
+                    mv.visitInsn(Opdodfs.I2S);
                 }
             }
         }
     }
 
     // ------------------------------------------------------------------------
-    // Instructions to do boxing and unboxing operations
+    // Instrudtions to do boxing bnd unboxing opfrbtions
     // ------------------------------------------------------------------------
 
-    private static Type getBoxedType(final Type type) {
-        switch (type.getSort()) {
-        case Type.BYTE:
-            return BYTE_TYPE;
-        case Type.BOOLEAN:
-            return BOOLEAN_TYPE;
-        case Type.SHORT:
-            return SHORT_TYPE;
-        case Type.CHAR:
-            return CHARACTER_TYPE;
-        case Type.INT:
-            return INTEGER_TYPE;
-        case Type.FLOAT:
-            return FLOAT_TYPE;
-        case Type.LONG:
-            return LONG_TYPE;
-        case Type.DOUBLE:
-            return DOUBLE_TYPE;
+    privbtf stbtid Typf gftBoxfdTypf(finbl Typf typf) {
+        switdi (typf.gftSort()) {
+        dbsf Typf.BYTE:
+            rfturn BYTE_TYPE;
+        dbsf Typf.BOOLEAN:
+            rfturn BOOLEAN_TYPE;
+        dbsf Typf.SHORT:
+            rfturn SHORT_TYPE;
+        dbsf Typf.CHAR:
+            rfturn CHARACTER_TYPE;
+        dbsf Typf.INT:
+            rfturn INTEGER_TYPE;
+        dbsf Typf.FLOAT:
+            rfturn FLOAT_TYPE;
+        dbsf Typf.LONG:
+            rfturn LONG_TYPE;
+        dbsf Typf.DOUBLE:
+            rfturn DOUBLE_TYPE;
         }
-        return type;
+        rfturn typf;
     }
 
     /**
-     * Generates the instructions to box the top stack value. This value is
-     * replaced by its boxed equivalent on top of the stack.
+     * Gfnfrbtfs tif instrudtions to box tif top stbdk vbluf. Tiis vbluf is
+     * rfplbdfd by its boxfd fquivblfnt on top of tif stbdk.
      *
-     * @param type
-     *            the type of the top stack value.
+     * @pbrbm typf
+     *            tif typf of tif top stbdk vbluf.
      */
-    public void box(final Type type) {
-        if (type.getSort() == Type.OBJECT || type.getSort() == Type.ARRAY) {
-            return;
+    publid void box(finbl Typf typf) {
+        if (typf.gftSort() == Typf.OBJECT || typf.gftSort() == Typf.ARRAY) {
+            rfturn;
         }
-        if (type == Type.VOID_TYPE) {
-            push((String) null);
-        } else {
-            Type boxed = getBoxedType(type);
-            newInstance(boxed);
-            if (type.getSize() == 2) {
+        if (typf == Typf.VOID_TYPE) {
+            pusi((String) null);
+        } flsf {
+            Typf boxfd = gftBoxfdTypf(typf);
+            nfwInstbndf(boxfd);
+            if (typf.gftSizf() == 2) {
                 // Pp -> Ppo -> oPpo -> ooPpo -> ooPp -> o
                 dupX2();
                 dupX2();
                 pop();
-            } else {
+            } flsf {
                 // p -> po -> opo -> oop -> o
                 dupX1();
-                swap();
+                swbp();
             }
-            invokeConstructor(boxed, new Method("<init>", Type.VOID_TYPE,
-                    new Type[] { type }));
+            invokfConstrudtor(boxfd, nfw Mftiod("<init>", Typf.VOID_TYPE,
+                    nfw Typf[] { typf }));
         }
     }
 
     /**
-     * Generates the instructions to box the top stack value using Java 5's
-     * valueOf() method. This value is replaced by its boxed equivalent on top
-     * of the stack.
+     * Gfnfrbtfs tif instrudtions to box tif top stbdk vbluf using Jbvb 5's
+     * vblufOf() mftiod. Tiis vbluf is rfplbdfd by its boxfd fquivblfnt on top
+     * of tif stbdk.
      *
-     * @param type
-     *            the type of the top stack value.
+     * @pbrbm typf
+     *            tif typf of tif top stbdk vbluf.
      */
-    public void valueOf(final Type type) {
-        if (type.getSort() == Type.OBJECT || type.getSort() == Type.ARRAY) {
-            return;
+    publid void vblufOf(finbl Typf typf) {
+        if (typf.gftSort() == Typf.OBJECT || typf.gftSort() == Typf.ARRAY) {
+            rfturn;
         }
-        if (type == Type.VOID_TYPE) {
-            push((String) null);
-        } else {
-            Type boxed = getBoxedType(type);
-            invokeStatic(boxed, new Method("valueOf", boxed,
-                    new Type[] { type }));
+        if (typf == Typf.VOID_TYPE) {
+            pusi((String) null);
+        } flsf {
+            Typf boxfd = gftBoxfdTypf(typf);
+            invokfStbtid(boxfd, nfw Mftiod("vblufOf", boxfd,
+                    nfw Typf[] { typf }));
         }
     }
 
     /**
-     * Generates the instructions to unbox the top stack value. This value is
-     * replaced by its unboxed equivalent on top of the stack.
+     * Gfnfrbtfs tif instrudtions to unbox tif top stbdk vbluf. Tiis vbluf is
+     * rfplbdfd by its unboxfd fquivblfnt on top of tif stbdk.
      *
-     * @param type
-     *            the type of the top stack value.
+     * @pbrbm typf
+     *            tif typf of tif top stbdk vbluf.
      */
-    public void unbox(final Type type) {
-        Type t = NUMBER_TYPE;
-        Method sig = null;
-        switch (type.getSort()) {
-        case Type.VOID:
-            return;
-        case Type.CHAR:
+    publid void unbox(finbl Typf typf) {
+        Typf t = NUMBER_TYPE;
+        Mftiod sig = null;
+        switdi (typf.gftSort()) {
+        dbsf Typf.VOID:
+            rfturn;
+        dbsf Typf.CHAR:
             t = CHARACTER_TYPE;
             sig = CHAR_VALUE;
-            break;
-        case Type.BOOLEAN:
+            brfbk;
+        dbsf Typf.BOOLEAN:
             t = BOOLEAN_TYPE;
             sig = BOOLEAN_VALUE;
-            break;
-        case Type.DOUBLE:
+            brfbk;
+        dbsf Typf.DOUBLE:
             sig = DOUBLE_VALUE;
-            break;
-        case Type.FLOAT:
+            brfbk;
+        dbsf Typf.FLOAT:
             sig = FLOAT_VALUE;
-            break;
-        case Type.LONG:
+            brfbk;
+        dbsf Typf.LONG:
             sig = LONG_VALUE;
-            break;
-        case Type.INT:
-        case Type.SHORT:
-        case Type.BYTE:
+            brfbk;
+        dbsf Typf.INT:
+        dbsf Typf.SHORT:
+        dbsf Typf.BYTE:
             sig = INT_VALUE;
         }
         if (sig == null) {
-            checkCast(type);
-        } else {
-            checkCast(t);
-            invokeVirtual(t, sig);
+            difdkCbst(typf);
+        } flsf {
+            difdkCbst(t);
+            invokfVirtubl(t, sig);
         }
     }
 
     // ------------------------------------------------------------------------
-    // Instructions to jump to other instructions
+    // Instrudtions to jump to otifr instrudtions
     // ------------------------------------------------------------------------
 
     /**
-     * Creates a new {@link Label}.
+     * Crfbtfs b nfw {@link Lbbfl}.
      *
-     * @return a new {@link Label}.
+     * @rfturn b nfw {@link Lbbfl}.
      */
-    public Label newLabel() {
-        return new Label();
+    publid Lbbfl nfwLbbfl() {
+        rfturn nfw Lbbfl();
     }
 
     /**
-     * Marks the current code position with the given label.
+     * Mbrks tif durrfnt dodf position witi tif givfn lbbfl.
      *
-     * @param label
-     *            a label.
+     * @pbrbm lbbfl
+     *            b lbbfl.
      */
-    public void mark(final Label label) {
-        mv.visitLabel(label);
+    publid void mbrk(finbl Lbbfl lbbfl) {
+        mv.visitLbbfl(lbbfl);
     }
 
     /**
-     * Marks the current code position with a new label.
+     * Mbrks tif durrfnt dodf position witi b nfw lbbfl.
      *
-     * @return the label that was created to mark the current code position.
+     * @rfturn tif lbbfl tibt wbs drfbtfd to mbrk tif durrfnt dodf position.
      */
-    public Label mark() {
-        Label label = new Label();
-        mv.visitLabel(label);
-        return label;
+    publid Lbbfl mbrk() {
+        Lbbfl lbbfl = nfw Lbbfl();
+        mv.visitLbbfl(lbbfl);
+        rfturn lbbfl;
     }
 
     /**
-     * Generates the instructions to jump to a label based on the comparison of
-     * the top two stack values.
+     * Gfnfrbtfs tif instrudtions to jump to b lbbfl bbsfd on tif dompbrison of
+     * tif top two stbdk vblufs.
      *
-     * @param type
-     *            the type of the top two stack values.
-     * @param mode
-     *            how these values must be compared. One of EQ, NE, LT, GE, GT,
+     * @pbrbm typf
+     *            tif typf of tif top two stbdk vblufs.
+     * @pbrbm modf
+     *            iow tifsf vblufs must bf dompbrfd. Onf of EQ, NE, LT, GE, GT,
      *            LE.
-     * @param label
-     *            where to jump if the comparison result is <tt>true</tt>.
+     * @pbrbm lbbfl
+     *            wifrf to jump if tif dompbrison rfsult is <tt>truf</tt>.
      */
-    public void ifCmp(final Type type, final int mode, final Label label) {
-        switch (type.getSort()) {
-        case Type.LONG:
-            mv.visitInsn(Opcodes.LCMP);
-            break;
-        case Type.DOUBLE:
-            mv.visitInsn(mode == GE || mode == GT ? Opcodes.DCMPL
-                    : Opcodes.DCMPG);
-            break;
-        case Type.FLOAT:
-            mv.visitInsn(mode == GE || mode == GT ? Opcodes.FCMPL
-                    : Opcodes.FCMPG);
-            break;
-        case Type.ARRAY:
-        case Type.OBJECT:
-            switch (mode) {
-            case EQ:
-                mv.visitJumpInsn(Opcodes.IF_ACMPEQ, label);
-                return;
-            case NE:
-                mv.visitJumpInsn(Opcodes.IF_ACMPNE, label);
-                return;
+    publid void ifCmp(finbl Typf typf, finbl int modf, finbl Lbbfl lbbfl) {
+        switdi (typf.gftSort()) {
+        dbsf Typf.LONG:
+            mv.visitInsn(Opdodfs.LCMP);
+            brfbk;
+        dbsf Typf.DOUBLE:
+            mv.visitInsn(modf == GE || modf == GT ? Opdodfs.DCMPL
+                    : Opdodfs.DCMPG);
+            brfbk;
+        dbsf Typf.FLOAT:
+            mv.visitInsn(modf == GE || modf == GT ? Opdodfs.FCMPL
+                    : Opdodfs.FCMPG);
+            brfbk;
+        dbsf Typf.ARRAY:
+        dbsf Typf.OBJECT:
+            switdi (modf) {
+            dbsf EQ:
+                mv.visitJumpInsn(Opdodfs.IF_ACMPEQ, lbbfl);
+                rfturn;
+            dbsf NE:
+                mv.visitJumpInsn(Opdodfs.IF_ACMPNE, lbbfl);
+                rfturn;
             }
-            throw new IllegalArgumentException("Bad comparison for type "
-                    + type);
-        default:
+            tirow nfw IllfgblArgumfntExdfption("Bbd dompbrison for typf "
+                    + typf);
+        dffbult:
             int intOp = -1;
-            switch (mode) {
-            case EQ:
-                intOp = Opcodes.IF_ICMPEQ;
-                break;
-            case NE:
-                intOp = Opcodes.IF_ICMPNE;
-                break;
-            case GE:
-                intOp = Opcodes.IF_ICMPGE;
-                break;
-            case LT:
-                intOp = Opcodes.IF_ICMPLT;
-                break;
-            case LE:
-                intOp = Opcodes.IF_ICMPLE;
-                break;
-            case GT:
-                intOp = Opcodes.IF_ICMPGT;
-                break;
+            switdi (modf) {
+            dbsf EQ:
+                intOp = Opdodfs.IF_ICMPEQ;
+                brfbk;
+            dbsf NE:
+                intOp = Opdodfs.IF_ICMPNE;
+                brfbk;
+            dbsf GE:
+                intOp = Opdodfs.IF_ICMPGE;
+                brfbk;
+            dbsf LT:
+                intOp = Opdodfs.IF_ICMPLT;
+                brfbk;
+            dbsf LE:
+                intOp = Opdodfs.IF_ICMPLE;
+                brfbk;
+            dbsf GT:
+                intOp = Opdodfs.IF_ICMPGT;
+                brfbk;
             }
-            mv.visitJumpInsn(intOp, label);
-            return;
+            mv.visitJumpInsn(intOp, lbbfl);
+            rfturn;
         }
-        mv.visitJumpInsn(mode, label);
+        mv.visitJumpInsn(modf, lbbfl);
     }
 
     /**
-     * Generates the instructions to jump to a label based on the comparison of
-     * the top two integer stack values.
+     * Gfnfrbtfs tif instrudtions to jump to b lbbfl bbsfd on tif dompbrison of
+     * tif top two intfgfr stbdk vblufs.
      *
-     * @param mode
-     *            how these values must be compared. One of EQ, NE, LT, GE, GT,
+     * @pbrbm modf
+     *            iow tifsf vblufs must bf dompbrfd. Onf of EQ, NE, LT, GE, GT,
      *            LE.
-     * @param label
-     *            where to jump if the comparison result is <tt>true</tt>.
+     * @pbrbm lbbfl
+     *            wifrf to jump if tif dompbrison rfsult is <tt>truf</tt>.
      */
-    public void ifICmp(final int mode, final Label label) {
-        ifCmp(Type.INT_TYPE, mode, label);
+    publid void ifICmp(finbl int modf, finbl Lbbfl lbbfl) {
+        ifCmp(Typf.INT_TYPE, modf, lbbfl);
     }
 
     /**
-     * Generates the instructions to jump to a label based on the comparison of
-     * the top integer stack value with zero.
+     * Gfnfrbtfs tif instrudtions to jump to b lbbfl bbsfd on tif dompbrison of
+     * tif top intfgfr stbdk vbluf witi zfro.
      *
-     * @param mode
-     *            how these values must be compared. One of EQ, NE, LT, GE, GT,
+     * @pbrbm modf
+     *            iow tifsf vblufs must bf dompbrfd. Onf of EQ, NE, LT, GE, GT,
      *            LE.
-     * @param label
-     *            where to jump if the comparison result is <tt>true</tt>.
+     * @pbrbm lbbfl
+     *            wifrf to jump if tif dompbrison rfsult is <tt>truf</tt>.
      */
-    public void ifZCmp(final int mode, final Label label) {
-        mv.visitJumpInsn(mode, label);
+    publid void ifZCmp(finbl int modf, finbl Lbbfl lbbfl) {
+        mv.visitJumpInsn(modf, lbbfl);
     }
 
     /**
-     * Generates the instruction to jump to the given label if the top stack
-     * value is null.
+     * Gfnfrbtfs tif instrudtion to jump to tif givfn lbbfl if tif top stbdk
+     * vbluf is null.
      *
-     * @param label
-     *            where to jump if the condition is <tt>true</tt>.
+     * @pbrbm lbbfl
+     *            wifrf to jump if tif dondition is <tt>truf</tt>.
      */
-    public void ifNull(final Label label) {
-        mv.visitJumpInsn(Opcodes.IFNULL, label);
+    publid void ifNull(finbl Lbbfl lbbfl) {
+        mv.visitJumpInsn(Opdodfs.IFNULL, lbbfl);
     }
 
     /**
-     * Generates the instruction to jump to the given label if the top stack
-     * value is not null.
+     * Gfnfrbtfs tif instrudtion to jump to tif givfn lbbfl if tif top stbdk
+     * vbluf is not null.
      *
-     * @param label
-     *            where to jump if the condition is <tt>true</tt>.
+     * @pbrbm lbbfl
+     *            wifrf to jump if tif dondition is <tt>truf</tt>.
      */
-    public void ifNonNull(final Label label) {
-        mv.visitJumpInsn(Opcodes.IFNONNULL, label);
+    publid void ifNonNull(finbl Lbbfl lbbfl) {
+        mv.visitJumpInsn(Opdodfs.IFNONNULL, lbbfl);
     }
 
     /**
-     * Generates the instruction to jump to the given label.
+     * Gfnfrbtfs tif instrudtion to jump to tif givfn lbbfl.
      *
-     * @param label
-     *            where to jump if the condition is <tt>true</tt>.
+     * @pbrbm lbbfl
+     *            wifrf to jump if tif dondition is <tt>truf</tt>.
      */
-    public void goTo(final Label label) {
-        mv.visitJumpInsn(Opcodes.GOTO, label);
+    publid void goTo(finbl Lbbfl lbbfl) {
+        mv.visitJumpInsn(Opdodfs.GOTO, lbbfl);
     }
 
     /**
-     * Generates a RET instruction.
+     * Gfnfrbtfs b RET instrudtion.
      *
-     * @param local
-     *            a local variable identifier, as returned by
-     *            {@link LocalVariablesSorter#newLocal(Type) newLocal()}.
+     * @pbrbm lodbl
+     *            b lodbl vbribblf idfntififr, bs rfturnfd by
+     *            {@link LodblVbribblfsSortfr#nfwLodbl(Typf) nfwLodbl()}.
      */
-    public void ret(final int local) {
-        mv.visitVarInsn(Opcodes.RET, local);
+    publid void rft(finbl int lodbl) {
+        mv.visitVbrInsn(Opdodfs.RET, lodbl);
     }
 
     /**
-     * Generates the instructions for a switch statement.
+     * Gfnfrbtfs tif instrudtions for b switdi stbtfmfnt.
      *
-     * @param keys
-     *            the switch case keys.
-     * @param generator
-     *            a generator to generate the code for the switch cases.
+     * @pbrbm kfys
+     *            tif switdi dbsf kfys.
+     * @pbrbm gfnfrbtor
+     *            b gfnfrbtor to gfnfrbtf tif dodf for tif switdi dbsfs.
      */
-    public void tableSwitch(final int[] keys,
-            final TableSwitchGenerator generator) {
-        float density;
-        if (keys.length == 0) {
-            density = 0;
-        } else {
-            density = (float) keys.length
-                    / (keys[keys.length - 1] - keys[0] + 1);
+    publid void tbblfSwitdi(finbl int[] kfys,
+            finbl TbblfSwitdiGfnfrbtor gfnfrbtor) {
+        flobt dfnsity;
+        if (kfys.lfngti == 0) {
+            dfnsity = 0;
+        } flsf {
+            dfnsity = (flobt) kfys.lfngti
+                    / (kfys[kfys.lfngti - 1] - kfys[0] + 1);
         }
-        tableSwitch(keys, generator, density >= 0.5f);
+        tbblfSwitdi(kfys, gfnfrbtor, dfnsity >= 0.5f);
     }
 
     /**
-     * Generates the instructions for a switch statement.
+     * Gfnfrbtfs tif instrudtions for b switdi stbtfmfnt.
      *
-     * @param keys
-     *            the switch case keys.
-     * @param generator
-     *            a generator to generate the code for the switch cases.
-     * @param useTable
-     *            <tt>true</tt> to use a TABLESWITCH instruction, or
-     *            <tt>false</tt> to use a LOOKUPSWITCH instruction.
+     * @pbrbm kfys
+     *            tif switdi dbsf kfys.
+     * @pbrbm gfnfrbtor
+     *            b gfnfrbtor to gfnfrbtf tif dodf for tif switdi dbsfs.
+     * @pbrbm usfTbblf
+     *            <tt>truf</tt> to usf b TABLESWITCH instrudtion, or
+     *            <tt>fblsf</tt> to usf b LOOKUPSWITCH instrudtion.
      */
-    public void tableSwitch(final int[] keys,
-            final TableSwitchGenerator generator, final boolean useTable) {
-        for (int i = 1; i < keys.length; ++i) {
-            if (keys[i] < keys[i - 1]) {
-                throw new IllegalArgumentException(
-                        "keys must be sorted ascending");
+    publid void tbblfSwitdi(finbl int[] kfys,
+            finbl TbblfSwitdiGfnfrbtor gfnfrbtor, finbl boolfbn usfTbblf) {
+        for (int i = 1; i < kfys.lfngti; ++i) {
+            if (kfys[i] < kfys[i - 1]) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "kfys must bf sortfd bsdfnding");
             }
         }
-        Label def = newLabel();
-        Label end = newLabel();
-        if (keys.length > 0) {
-            int len = keys.length;
-            int min = keys[0];
-            int max = keys[len - 1];
-            int range = max - min + 1;
-            if (useTable) {
-                Label[] labels = new Label[range];
-                Arrays.fill(labels, def);
-                for (int i = 0; i < len; ++i) {
-                    labels[keys[i] - min] = newLabel();
+        Lbbfl dff = nfwLbbfl();
+        Lbbfl fnd = nfwLbbfl();
+        if (kfys.lfngti > 0) {
+            int lfn = kfys.lfngti;
+            int min = kfys[0];
+            int mbx = kfys[lfn - 1];
+            int rbngf = mbx - min + 1;
+            if (usfTbblf) {
+                Lbbfl[] lbbfls = nfw Lbbfl[rbngf];
+                Arrbys.fill(lbbfls, dff);
+                for (int i = 0; i < lfn; ++i) {
+                    lbbfls[kfys[i] - min] = nfwLbbfl();
                 }
-                mv.visitTableSwitchInsn(min, max, def, labels);
-                for (int i = 0; i < range; ++i) {
-                    Label label = labels[i];
-                    if (label != def) {
-                        mark(label);
-                        generator.generateCase(i + min, end);
+                mv.visitTbblfSwitdiInsn(min, mbx, dff, lbbfls);
+                for (int i = 0; i < rbngf; ++i) {
+                    Lbbfl lbbfl = lbbfls[i];
+                    if (lbbfl != dff) {
+                        mbrk(lbbfl);
+                        gfnfrbtor.gfnfrbtfCbsf(i + min, fnd);
                     }
                 }
-            } else {
-                Label[] labels = new Label[len];
-                for (int i = 0; i < len; ++i) {
-                    labels[i] = newLabel();
+            } flsf {
+                Lbbfl[] lbbfls = nfw Lbbfl[lfn];
+                for (int i = 0; i < lfn; ++i) {
+                    lbbfls[i] = nfwLbbfl();
                 }
-                mv.visitLookupSwitchInsn(def, keys, labels);
-                for (int i = 0; i < len; ++i) {
-                    mark(labels[i]);
-                    generator.generateCase(keys[i], end);
+                mv.visitLookupSwitdiInsn(dff, kfys, lbbfls);
+                for (int i = 0; i < lfn; ++i) {
+                    mbrk(lbbfls[i]);
+                    gfnfrbtor.gfnfrbtfCbsf(kfys[i], fnd);
                 }
             }
         }
-        mark(def);
-        generator.generateDefault();
-        mark(end);
+        mbrk(dff);
+        gfnfrbtor.gfnfrbtfDffbult();
+        mbrk(fnd);
     }
 
     /**
-     * Generates the instruction to return the top stack value to the caller.
+     * Gfnfrbtfs tif instrudtion to rfturn tif top stbdk vbluf to tif dbllfr.
      */
-    public void returnValue() {
-        mv.visitInsn(returnType.getOpcode(Opcodes.IRETURN));
-    }
-
-    // ------------------------------------------------------------------------
-    // Instructions to load and store fields
-    // ------------------------------------------------------------------------
-
-    /**
-     * Generates a get field or set field instruction.
-     *
-     * @param opcode
-     *            the instruction's opcode.
-     * @param ownerType
-     *            the class in which the field is defined.
-     * @param name
-     *            the name of the field.
-     * @param fieldType
-     *            the type of the field.
-     */
-    private void fieldInsn(final int opcode, final Type ownerType,
-            final String name, final Type fieldType) {
-        mv.visitFieldInsn(opcode, ownerType.getInternalName(), name,
-                fieldType.getDescriptor());
-    }
-
-    /**
-     * Generates the instruction to push the value of a static field on the
-     * stack.
-     *
-     * @param owner
-     *            the class in which the field is defined.
-     * @param name
-     *            the name of the field.
-     * @param type
-     *            the type of the field.
-     */
-    public void getStatic(final Type owner, final String name, final Type type) {
-        fieldInsn(Opcodes.GETSTATIC, owner, name, type);
-    }
-
-    /**
-     * Generates the instruction to store the top stack value in a static field.
-     *
-     * @param owner
-     *            the class in which the field is defined.
-     * @param name
-     *            the name of the field.
-     * @param type
-     *            the type of the field.
-     */
-    public void putStatic(final Type owner, final String name, final Type type) {
-        fieldInsn(Opcodes.PUTSTATIC, owner, name, type);
-    }
-
-    /**
-     * Generates the instruction to push the value of a non static field on the
-     * stack.
-     *
-     * @param owner
-     *            the class in which the field is defined.
-     * @param name
-     *            the name of the field.
-     * @param type
-     *            the type of the field.
-     */
-    public void getField(final Type owner, final String name, final Type type) {
-        fieldInsn(Opcodes.GETFIELD, owner, name, type);
-    }
-
-    /**
-     * Generates the instruction to store the top stack value in a non static
-     * field.
-     *
-     * @param owner
-     *            the class in which the field is defined.
-     * @param name
-     *            the name of the field.
-     * @param type
-     *            the type of the field.
-     */
-    public void putField(final Type owner, final String name, final Type type) {
-        fieldInsn(Opcodes.PUTFIELD, owner, name, type);
+    publid void rfturnVbluf() {
+        mv.visitInsn(rfturnTypf.gftOpdodf(Opdodfs.IRETURN));
     }
 
     // ------------------------------------------------------------------------
-    // Instructions to invoke methods
+    // Instrudtions to lobd bnd storf fiflds
     // ------------------------------------------------------------------------
 
     /**
-     * Generates an invoke method instruction.
+     * Gfnfrbtfs b gft fifld or sft fifld instrudtion.
      *
-     * @param opcode
-     *            the instruction's opcode.
-     * @param type
-     *            the class in which the method is defined.
-     * @param method
-     *            the method to be invoked.
+     * @pbrbm opdodf
+     *            tif instrudtion's opdodf.
+     * @pbrbm ownfrTypf
+     *            tif dlbss in wiidi tif fifld is dffinfd.
+     * @pbrbm nbmf
+     *            tif nbmf of tif fifld.
+     * @pbrbm fifldTypf
+     *            tif typf of tif fifld.
      */
-    private void invokeInsn(final int opcode, final Type type,
-            final Method method, final boolean itf) {
-        String owner = type.getSort() == Type.ARRAY ? type.getDescriptor()
-                : type.getInternalName();
-        mv.visitMethodInsn(opcode, owner, method.getName(),
-                method.getDescriptor(), itf);
+    privbtf void fifldInsn(finbl int opdodf, finbl Typf ownfrTypf,
+            finbl String nbmf, finbl Typf fifldTypf) {
+        mv.visitFifldInsn(opdodf, ownfrTypf.gftIntfrnblNbmf(), nbmf,
+                fifldTypf.gftDfsdriptor());
     }
 
     /**
-     * Generates the instruction to invoke a normal method.
+     * Gfnfrbtfs tif instrudtion to pusi tif vbluf of b stbtid fifld on tif
+     * stbdk.
      *
-     * @param owner
-     *            the class in which the method is defined.
-     * @param method
-     *            the method to be invoked.
+     * @pbrbm ownfr
+     *            tif dlbss in wiidi tif fifld is dffinfd.
+     * @pbrbm nbmf
+     *            tif nbmf of tif fifld.
+     * @pbrbm typf
+     *            tif typf of tif fifld.
      */
-    public void invokeVirtual(final Type owner, final Method method) {
-        invokeInsn(Opcodes.INVOKEVIRTUAL, owner, method, false);
+    publid void gftStbtid(finbl Typf ownfr, finbl String nbmf, finbl Typf typf) {
+        fifldInsn(Opdodfs.GETSTATIC, ownfr, nbmf, typf);
     }
 
     /**
-     * Generates the instruction to invoke a constructor.
+     * Gfnfrbtfs tif instrudtion to storf tif top stbdk vbluf in b stbtid fifld.
      *
-     * @param type
-     *            the class in which the constructor is defined.
-     * @param method
-     *            the constructor to be invoked.
+     * @pbrbm ownfr
+     *            tif dlbss in wiidi tif fifld is dffinfd.
+     * @pbrbm nbmf
+     *            tif nbmf of tif fifld.
+     * @pbrbm typf
+     *            tif typf of tif fifld.
      */
-    public void invokeConstructor(final Type type, final Method method) {
-        invokeInsn(Opcodes.INVOKESPECIAL, type, method, false);
+    publid void putStbtid(finbl Typf ownfr, finbl String nbmf, finbl Typf typf) {
+        fifldInsn(Opdodfs.PUTSTATIC, ownfr, nbmf, typf);
     }
 
     /**
-     * Generates the instruction to invoke a static method.
+     * Gfnfrbtfs tif instrudtion to pusi tif vbluf of b non stbtid fifld on tif
+     * stbdk.
      *
-     * @param owner
-     *            the class in which the method is defined.
-     * @param method
-     *            the method to be invoked.
+     * @pbrbm ownfr
+     *            tif dlbss in wiidi tif fifld is dffinfd.
+     * @pbrbm nbmf
+     *            tif nbmf of tif fifld.
+     * @pbrbm typf
+     *            tif typf of tif fifld.
      */
-    public void invokeStatic(final Type owner, final Method method) {
-        invokeInsn(Opcodes.INVOKESTATIC, owner, method, false);
+    publid void gftFifld(finbl Typf ownfr, finbl String nbmf, finbl Typf typf) {
+        fifldInsn(Opdodfs.GETFIELD, ownfr, nbmf, typf);
     }
 
     /**
-     * Generates the instruction to invoke an interface method.
+     * Gfnfrbtfs tif instrudtion to storf tif top stbdk vbluf in b non stbtid
+     * fifld.
      *
-     * @param owner
-     *            the class in which the method is defined.
-     * @param method
-     *            the method to be invoked.
+     * @pbrbm ownfr
+     *            tif dlbss in wiidi tif fifld is dffinfd.
+     * @pbrbm nbmf
+     *            tif nbmf of tif fifld.
+     * @pbrbm typf
+     *            tif typf of tif fifld.
      */
-    public void invokeInterface(final Type owner, final Method method) {
-        invokeInsn(Opcodes.INVOKEINTERFACE, owner, method, true);
-    }
-
-    /**
-     * Generates an invokedynamic instruction.
-     *
-     * @param name
-     *            the method's name.
-     * @param desc
-     *            the method's descriptor (see {@link Type Type}).
-     * @param bsm
-     *            the bootstrap method.
-     * @param bsmArgs
-     *            the bootstrap method constant arguments. Each argument must be
-     *            an {@link Integer}, {@link Float}, {@link Long},
-     *            {@link Double}, {@link String}, {@link Type} or {@link Handle}
-     *            value. This method is allowed to modify the content of the
-     *            array so a caller should expect that this array may change.
-     */
-    public void invokeDynamic(String name, String desc, Handle bsm,
-            Object... bsmArgs) {
-        mv.visitInvokeDynamicInsn(name, desc, bsm, bsmArgs);
+    publid void putFifld(finbl Typf ownfr, finbl String nbmf, finbl Typf typf) {
+        fifldInsn(Opdodfs.PUTFIELD, ownfr, nbmf, typf);
     }
 
     // ------------------------------------------------------------------------
-    // Instructions to create objects and arrays
+    // Instrudtions to invokf mftiods
     // ------------------------------------------------------------------------
 
     /**
-     * Generates a type dependent instruction.
+     * Gfnfrbtfs bn invokf mftiod instrudtion.
      *
-     * @param opcode
-     *            the instruction's opcode.
-     * @param type
-     *            the instruction's operand.
+     * @pbrbm opdodf
+     *            tif instrudtion's opdodf.
+     * @pbrbm typf
+     *            tif dlbss in wiidi tif mftiod is dffinfd.
+     * @pbrbm mftiod
+     *            tif mftiod to bf invokfd.
      */
-    private void typeInsn(final int opcode, final Type type) {
-        mv.visitTypeInsn(opcode, type.getInternalName());
+    privbtf void invokfInsn(finbl int opdodf, finbl Typf typf,
+            finbl Mftiod mftiod, finbl boolfbn itf) {
+        String ownfr = typf.gftSort() == Typf.ARRAY ? typf.gftDfsdriptor()
+                : typf.gftIntfrnblNbmf();
+        mv.visitMftiodInsn(opdodf, ownfr, mftiod.gftNbmf(),
+                mftiod.gftDfsdriptor(), itf);
     }
 
     /**
-     * Generates the instruction to create a new object.
+     * Gfnfrbtfs tif instrudtion to invokf b normbl mftiod.
      *
-     * @param type
-     *            the class of the object to be created.
+     * @pbrbm ownfr
+     *            tif dlbss in wiidi tif mftiod is dffinfd.
+     * @pbrbm mftiod
+     *            tif mftiod to bf invokfd.
      */
-    public void newInstance(final Type type) {
-        typeInsn(Opcodes.NEW, type);
+    publid void invokfVirtubl(finbl Typf ownfr, finbl Mftiod mftiod) {
+        invokfInsn(Opdodfs.INVOKEVIRTUAL, ownfr, mftiod, fblsf);
     }
 
     /**
-     * Generates the instruction to create a new array.
+     * Gfnfrbtfs tif instrudtion to invokf b donstrudtor.
      *
-     * @param type
-     *            the type of the array elements.
+     * @pbrbm typf
+     *            tif dlbss in wiidi tif donstrudtor is dffinfd.
+     * @pbrbm mftiod
+     *            tif donstrudtor to bf invokfd.
      */
-    public void newArray(final Type type) {
+    publid void invokfConstrudtor(finbl Typf typf, finbl Mftiod mftiod) {
+        invokfInsn(Opdodfs.INVOKESPECIAL, typf, mftiod, fblsf);
+    }
+
+    /**
+     * Gfnfrbtfs tif instrudtion to invokf b stbtid mftiod.
+     *
+     * @pbrbm ownfr
+     *            tif dlbss in wiidi tif mftiod is dffinfd.
+     * @pbrbm mftiod
+     *            tif mftiod to bf invokfd.
+     */
+    publid void invokfStbtid(finbl Typf ownfr, finbl Mftiod mftiod) {
+        invokfInsn(Opdodfs.INVOKESTATIC, ownfr, mftiod, fblsf);
+    }
+
+    /**
+     * Gfnfrbtfs tif instrudtion to invokf bn intfrfbdf mftiod.
+     *
+     * @pbrbm ownfr
+     *            tif dlbss in wiidi tif mftiod is dffinfd.
+     * @pbrbm mftiod
+     *            tif mftiod to bf invokfd.
+     */
+    publid void invokfIntfrfbdf(finbl Typf ownfr, finbl Mftiod mftiod) {
+        invokfInsn(Opdodfs.INVOKEINTERFACE, ownfr, mftiod, truf);
+    }
+
+    /**
+     * Gfnfrbtfs bn invokfdynbmid instrudtion.
+     *
+     * @pbrbm nbmf
+     *            tif mftiod's nbmf.
+     * @pbrbm dfsd
+     *            tif mftiod's dfsdriptor (sff {@link Typf Typf}).
+     * @pbrbm bsm
+     *            tif bootstrbp mftiod.
+     * @pbrbm bsmArgs
+     *            tif bootstrbp mftiod donstbnt brgumfnts. Ebdi brgumfnt must bf
+     *            bn {@link Intfgfr}, {@link Flobt}, {@link Long},
+     *            {@link Doublf}, {@link String}, {@link Typf} or {@link Hbndlf}
+     *            vbluf. Tiis mftiod is bllowfd to modify tif dontfnt of tif
+     *            brrby so b dbllfr siould fxpfdt tibt tiis brrby mby dibngf.
+     */
+    publid void invokfDynbmid(String nbmf, String dfsd, Hbndlf bsm,
+            Objfdt... bsmArgs) {
+        mv.visitInvokfDynbmidInsn(nbmf, dfsd, bsm, bsmArgs);
+    }
+
+    // ------------------------------------------------------------------------
+    // Instrudtions to drfbtf objfdts bnd brrbys
+    // ------------------------------------------------------------------------
+
+    /**
+     * Gfnfrbtfs b typf dfpfndfnt instrudtion.
+     *
+     * @pbrbm opdodf
+     *            tif instrudtion's opdodf.
+     * @pbrbm typf
+     *            tif instrudtion's opfrbnd.
+     */
+    privbtf void typfInsn(finbl int opdodf, finbl Typf typf) {
+        mv.visitTypfInsn(opdodf, typf.gftIntfrnblNbmf());
+    }
+
+    /**
+     * Gfnfrbtfs tif instrudtion to drfbtf b nfw objfdt.
+     *
+     * @pbrbm typf
+     *            tif dlbss of tif objfdt to bf drfbtfd.
+     */
+    publid void nfwInstbndf(finbl Typf typf) {
+        typfInsn(Opdodfs.NEW, typf);
+    }
+
+    /**
+     * Gfnfrbtfs tif instrudtion to drfbtf b nfw brrby.
+     *
+     * @pbrbm typf
+     *            tif typf of tif brrby flfmfnts.
+     */
+    publid void nfwArrby(finbl Typf typf) {
         int typ;
-        switch (type.getSort()) {
-        case Type.BOOLEAN:
-            typ = Opcodes.T_BOOLEAN;
-            break;
-        case Type.CHAR:
-            typ = Opcodes.T_CHAR;
-            break;
-        case Type.BYTE:
-            typ = Opcodes.T_BYTE;
-            break;
-        case Type.SHORT:
-            typ = Opcodes.T_SHORT;
-            break;
-        case Type.INT:
-            typ = Opcodes.T_INT;
-            break;
-        case Type.FLOAT:
-            typ = Opcodes.T_FLOAT;
-            break;
-        case Type.LONG:
-            typ = Opcodes.T_LONG;
-            break;
-        case Type.DOUBLE:
-            typ = Opcodes.T_DOUBLE;
-            break;
-        default:
-            typeInsn(Opcodes.ANEWARRAY, type);
-            return;
+        switdi (typf.gftSort()) {
+        dbsf Typf.BOOLEAN:
+            typ = Opdodfs.T_BOOLEAN;
+            brfbk;
+        dbsf Typf.CHAR:
+            typ = Opdodfs.T_CHAR;
+            brfbk;
+        dbsf Typf.BYTE:
+            typ = Opdodfs.T_BYTE;
+            brfbk;
+        dbsf Typf.SHORT:
+            typ = Opdodfs.T_SHORT;
+            brfbk;
+        dbsf Typf.INT:
+            typ = Opdodfs.T_INT;
+            brfbk;
+        dbsf Typf.FLOAT:
+            typ = Opdodfs.T_FLOAT;
+            brfbk;
+        dbsf Typf.LONG:
+            typ = Opdodfs.T_LONG;
+            brfbk;
+        dbsf Typf.DOUBLE:
+            typ = Opdodfs.T_DOUBLE;
+            brfbk;
+        dffbult:
+            typfInsn(Opdodfs.ANEWARRAY, typf);
+            rfturn;
         }
-        mv.visitIntInsn(Opcodes.NEWARRAY, typ);
+        mv.visitIntInsn(Opdodfs.NEWARRAY, typ);
     }
 
     // ------------------------------------------------------------------------
-    // Miscelaneous instructions
+    // Misdflbnfous instrudtions
     // ------------------------------------------------------------------------
 
     /**
-     * Generates the instruction to compute the length of an array.
+     * Gfnfrbtfs tif instrudtion to domputf tif lfngti of bn brrby.
      */
-    public void arrayLength() {
-        mv.visitInsn(Opcodes.ARRAYLENGTH);
+    publid void brrbyLfngti() {
+        mv.visitInsn(Opdodfs.ARRAYLENGTH);
     }
 
     /**
-     * Generates the instruction to throw an exception.
+     * Gfnfrbtfs tif instrudtion to tirow bn fxdfption.
      */
-    public void throwException() {
-        mv.visitInsn(Opcodes.ATHROW);
+    publid void tirowExdfption() {
+        mv.visitInsn(Opdodfs.ATHROW);
     }
 
     /**
-     * Generates the instructions to create and throw an exception. The
-     * exception class must have a constructor with a single String argument.
+     * Gfnfrbtfs tif instrudtions to drfbtf bnd tirow bn fxdfption. Tif
+     * fxdfption dlbss must ibvf b donstrudtor witi b singlf String brgumfnt.
      *
-     * @param type
-     *            the class of the exception to be thrown.
-     * @param msg
-     *            the detailed message of the exception.
+     * @pbrbm typf
+     *            tif dlbss of tif fxdfption to bf tirown.
+     * @pbrbm msg
+     *            tif dftbilfd mfssbgf of tif fxdfption.
      */
-    public void throwException(final Type type, final String msg) {
-        newInstance(type);
+    publid void tirowExdfption(finbl Typf typf, finbl String msg) {
+        nfwInstbndf(typf);
         dup();
-        push(msg);
-        invokeConstructor(type, Method.getMethod("void <init> (String)"));
-        throwException();
+        pusi(msg);
+        invokfConstrudtor(typf, Mftiod.gftMftiod("void <init> (String)"));
+        tirowExdfption();
     }
 
     /**
-     * Generates the instruction to check that the top stack value is of the
-     * given type.
+     * Gfnfrbtfs tif instrudtion to difdk tibt tif top stbdk vbluf is of tif
+     * givfn typf.
      *
-     * @param type
-     *            a class or interface type.
+     * @pbrbm typf
+     *            b dlbss or intfrfbdf typf.
      */
-    public void checkCast(final Type type) {
-        if (!type.equals(OBJECT_TYPE)) {
-            typeInsn(Opcodes.CHECKCAST, type);
+    publid void difdkCbst(finbl Typf typf) {
+        if (!typf.fqubls(OBJECT_TYPE)) {
+            typfInsn(Opdodfs.CHECKCAST, typf);
         }
     }
 
     /**
-     * Generates the instruction to test if the top stack value is of the given
-     * type.
+     * Gfnfrbtfs tif instrudtion to tfst if tif top stbdk vbluf is of tif givfn
+     * typf.
      *
-     * @param type
-     *            a class or interface type.
+     * @pbrbm typf
+     *            b dlbss or intfrfbdf typf.
      */
-    public void instanceOf(final Type type) {
-        typeInsn(Opcodes.INSTANCEOF, type);
+    publid void instbndfOf(finbl Typf typf) {
+        typfInsn(Opdodfs.INSTANCEOF, typf);
     }
 
     /**
-     * Generates the instruction to get the monitor of the top stack value.
+     * Gfnfrbtfs tif instrudtion to gft tif monitor of tif top stbdk vbluf.
      */
-    public void monitorEnter() {
-        mv.visitInsn(Opcodes.MONITORENTER);
+    publid void monitorEntfr() {
+        mv.visitInsn(Opdodfs.MONITORENTER);
     }
 
     /**
-     * Generates the instruction to release the monitor of the top stack value.
+     * Gfnfrbtfs tif instrudtion to rflfbsf tif monitor of tif top stbdk vbluf.
      */
-    public void monitorExit() {
-        mv.visitInsn(Opcodes.MONITOREXIT);
+    publid void monitorExit() {
+        mv.visitInsn(Opdodfs.MONITOREXIT);
     }
 
     // ------------------------------------------------------------------------
-    // Non instructions
+    // Non instrudtions
     // ------------------------------------------------------------------------
 
     /**
-     * Marks the end of the visited method.
+     * Mbrks tif fnd of tif visitfd mftiod.
      */
-    public void endMethod() {
-        if ((access & Opcodes.ACC_ABSTRACT) == 0) {
-            mv.visitMaxs(0, 0);
+    publid void fndMftiod() {
+        if ((bddfss & Opdodfs.ACC_ABSTRACT) == 0) {
+            mv.visitMbxs(0, 0);
         }
         mv.visitEnd();
     }
 
     /**
-     * Marks the start of an exception handler.
+     * Mbrks tif stbrt of bn fxdfption ibndlfr.
      *
-     * @param start
-     *            beginning of the exception handler's scope (inclusive).
-     * @param end
-     *            end of the exception handler's scope (exclusive).
-     * @param exception
-     *            internal name of the type of exceptions handled by the
-     *            handler.
+     * @pbrbm stbrt
+     *            bfginning of tif fxdfption ibndlfr's sdopf (indlusivf).
+     * @pbrbm fnd
+     *            fnd of tif fxdfption ibndlfr's sdopf (fxdlusivf).
+     * @pbrbm fxdfption
+     *            intfrnbl nbmf of tif typf of fxdfptions ibndlfd by tif
+     *            ibndlfr.
      */
-    public void catchException(final Label start, final Label end,
-            final Type exception) {
-        if (exception == null) {
-            mv.visitTryCatchBlock(start, end, mark(), null);
-        } else {
-            mv.visitTryCatchBlock(start, end, mark(),
-                    exception.getInternalName());
+    publid void dbtdiExdfption(finbl Lbbfl stbrt, finbl Lbbfl fnd,
+            finbl Typf fxdfption) {
+        if (fxdfption == null) {
+            mv.visitTryCbtdiBlodk(stbrt, fnd, mbrk(), null);
+        } flsf {
+            mv.visitTryCbtdiBlodk(stbrt, fnd, mbrk(),
+                    fxdfption.gftIntfrnblNbmf());
         }
     }
 }

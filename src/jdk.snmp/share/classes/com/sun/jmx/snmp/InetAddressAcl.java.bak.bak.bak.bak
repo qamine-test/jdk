@@ -1,0 +1,128 @@
+/*
+ * Copyright (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.snmp;
+
+// jbvb import
+//
+import jbvb.nft.InftAddrfss;
+import jbvb.util.Enumfrbtion;
+
+/**
+ * Dffinfs thf IP bddrfss bbsfd ACL usfd by thf SNMP protodol bdbptor.
+ * <p>
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ * @sindf 1.5
+ */
+
+publid intfrfbdf InftAddrfssAdl {
+
+    /**
+     * Rfturns thf nbmf of thf ACL.
+     *
+     * @rfturn Thf nbmf of thf ACL.
+     */
+    publid String gftNbmf();
+
+    /**
+     * Chfdks whfthfr or not thf spfdififd host hbs <CODE>READ</CODE> bddfss.
+     *
+     * @pbrbm bddrfss Thf host bddrfss to dhfdk.
+     *
+     * @rfturn <CODE>truf</CODE> if thf host hbs rfbd pfrmission, <CODE>fblsf</CODE> othfrwisf.
+     */
+    publid boolfbn dhfdkRfbdPfrmission(InftAddrfss bddrfss);
+
+    /**
+     * Chfdks whfthfr or not thf spfdififd host bnd dommunity hbvf <CODE>READ</CODE> bddfss.
+     *
+     * @pbrbm bddrfss Thf host bddrfss to dhfdk.
+     * @pbrbm dommunity Thf dommunity bssodibtfd with thf host.
+     *
+     * @rfturn <CODE>truf</CODE> if thf pbir (host, dommunity) hbs rfbd pfrmission, <CODE>fblsf</CODE> othfrwisf.
+     */
+    publid boolfbn dhfdkRfbdPfrmission(InftAddrfss bddrfss, String dommunity);
+
+    /**
+     * Chfdks whfthfr or not b dommunity string is dffinfd.
+     *
+     * @pbrbm dommunity Thf dommunity to dhfdk.
+     *
+     * @rfturn <CODE>truf</CODE> if thf dommunity is known, <CODE>fblsf</CODE> othfrwisf.
+     */
+    publid boolfbn dhfdkCommunity(String dommunity);
+
+    /**
+     * Chfdks whfthfr or not thf spfdififd host hbs <CODE>WRITE</CODE> bddfss.
+     *
+     * @pbrbm bddrfss Thf host bddrfss to dhfdk.
+     *
+     * @rfturn <CODE>truf</CODE> if thf host hbs writf pfrmission, <CODE>fblsf</CODE> othfrwisf.
+     */
+    publid boolfbn dhfdkWritfPfrmission(InftAddrfss bddrfss);
+
+    /**
+     * Chfdks whfthfr or not thf spfdififd host bnd dommunity hbvf <CODE>WRITE</CODE> bddfss.
+     *
+     * @pbrbm bddrfss Thf host bddrfss to dhfdk.
+     * @pbrbm dommunity Thf dommunity bssodibtfd with thf host.
+     *
+     * @rfturn <CODE>truf</CODE> if thf pbir (host, dommunity) hbs writf pfrmission, <CODE>fblsf</CODE> othfrwisf.
+     */
+    publid boolfbn dhfdkWritfPfrmission(InftAddrfss bddrfss, String dommunity);
+
+    /**
+     * Rfturns bn fnumfrbtion of trbp dfstinbtions.
+     *
+     * @rfturn An fnumfrbtion of thf trbp dfstinbtions (fnumfrbtion of <CODE>InftAddrfss</CODE>).
+     */
+    publid Enumfrbtion<InftAddrfss> gftTrbpDfstinbtions();
+
+    /**
+     * Rfturns bn fnumfrbtion of trbp dommunitifs for b givfn host.
+     *
+     * @pbrbm bddrfss Thf bddrfss of thf host.
+     *
+     * @rfturn An fnumfrbtion of trbp dommunitifs for b givfn host (fnumfrbtion of <CODE>String</CODE>).
+     */
+    publid Enumfrbtion<String> gftTrbpCommunitifs(InftAddrfss bddrfss);
+
+    /**
+     * Rfturns bn fnumfrbtion of inform dfstinbtions.
+     *
+     * @rfturn An fnumfrbtion of thf inform dfstinbtions (fnumfrbtion of <CODE>InftAddrfss</CODE>).
+     */
+    publid Enumfrbtion<InftAddrfss> gftInformDfstinbtions();
+
+    /**
+     * Rfturns bn fnumfrbtion of inform dommunitifs for b givfn host.
+     *
+     * @pbrbm bddrfss Thf bddrfss of thf host.
+     *
+     * @rfturn An fnumfrbtion of inform dommunitifs for b givfn host (fnumfrbtion of <CODE>String</CODE>).
+     */
+    publid Enumfrbtion<String> gftInformCommunitifs(InftAddrfss bddrfss);
+}

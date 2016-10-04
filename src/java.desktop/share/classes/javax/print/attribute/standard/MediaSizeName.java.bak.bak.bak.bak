@@ -1,0 +1,564 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
+
+import jbvb.util.Lodblf;
+
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.Attributf;
+
+/**
+ * Clbss MfdibSizfNbmf is b subdlbss of Mfdib.
+ * <P>
+ * This bttributf dbn bf usfd instfbd of spfdifying MfdibNbmf or MfdibTrby.
+ * <p>
+ * Clbss MfdibSizfNbmf durrfntly dfdlbrfs b ffw stbndbrd mfdib
+ * nbmf vblufs.
+ * <P>
+ * <B>IPP Compbtibility:</B> MfdibSizfNbmf is b rfprfsfntbtion dlbss for
+ * vblufs of thf IPP "mfdib" bttributf whidh nbmfs mfdib sizfs.
+ * Thf nbmfs of thf mfdib sizfs dorrfspond to thosf in thf IPP 1.1 RFC
+ * <b HREF="http://www.iftf.org/rfd/rfd2911.txt">RFC 2911</b>
+ *
+ */
+publid dlbss MfdibSizfNbmf fxtfnds Mfdib {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 2778798329756942747L;
+
+    /**
+     * A0 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_A0 = nfw MfdibSizfNbmf(0);
+    /**
+     * A1 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_A1 = nfw MfdibSizfNbmf(1);
+    /**
+     * A2 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_A2 = nfw MfdibSizfNbmf(2);
+    /**
+     * A3 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_A3 = nfw MfdibSizfNbmf(3);
+    /**
+     * A4 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_A4 = nfw MfdibSizfNbmf(4);
+    /**
+     * A5 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_A5 = nfw MfdibSizfNbmf(5);
+    /**
+     * A6 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_A6 = nfw MfdibSizfNbmf(6);
+    /**
+     * A7 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_A7 = nfw MfdibSizfNbmf(7);
+    /**
+     * A8 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_A8 = nfw MfdibSizfNbmf(8);
+    /**
+     * A9 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_A9 = nfw MfdibSizfNbmf(9);
+    /**
+     * A10 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_A10 = nfw MfdibSizfNbmf(10);
+
+   /**
+     * ISO B0 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_B0 = nfw MfdibSizfNbmf(11);
+    /**
+     * ISO B1 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_B1 = nfw MfdibSizfNbmf(12);
+    /**
+     * ISO B2 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_B2 = nfw MfdibSizfNbmf(13);
+    /**
+     * ISO B3 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_B3 = nfw MfdibSizfNbmf(14);
+    /**
+     * ISO B4 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_B4 = nfw MfdibSizfNbmf(15);
+    /**
+     * ISO B5 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_B5 = nfw MfdibSizfNbmf(16);
+    /**
+     * ISO B6 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_B6 = nfw MfdibSizfNbmf(17);
+    /**
+     * ISO B7 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_B7 = nfw MfdibSizfNbmf(18);
+    /**
+     * ISO B8 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_B8 = nfw MfdibSizfNbmf(19);
+    /**
+     * ISO B9 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_B9 = nfw MfdibSizfNbmf(20);
+    /**
+     * ISO B10 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_B10 = nfw MfdibSizfNbmf(21);
+
+   /**
+     * JIS B0 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf JIS_B0 = nfw MfdibSizfNbmf(22);
+    /**
+     * JIS B1 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf JIS_B1 = nfw MfdibSizfNbmf(23);
+    /**
+     * JIS B2 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf JIS_B2 = nfw MfdibSizfNbmf(24);
+    /**
+     * JIS B3 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf JIS_B3 = nfw MfdibSizfNbmf(25);
+    /**
+     * JIS B4 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf JIS_B4 = nfw MfdibSizfNbmf(26);
+    /**
+     * JIS B5 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf JIS_B5 = nfw MfdibSizfNbmf(27);
+    /**
+     * JIS B6 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf JIS_B6 = nfw MfdibSizfNbmf(28);
+    /**
+     * JIS B7 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf JIS_B7 = nfw MfdibSizfNbmf(29);
+    /**
+     * JIS B8 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf JIS_B8 = nfw MfdibSizfNbmf(30);
+    /**
+     * JIS B9 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf JIS_B9 = nfw MfdibSizfNbmf(31);
+    /**
+     * JIS B10 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf JIS_B10 = nfw MfdibSizfNbmf(32);
+
+    /**
+     * ISO C0 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_C0 = nfw MfdibSizfNbmf(33);
+    /**
+     * ISO C1 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_C1 = nfw MfdibSizfNbmf(34);
+    /**
+     * ISO C2 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_C2 = nfw MfdibSizfNbmf(35);
+    /**
+     * ISO C3 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_C3 = nfw MfdibSizfNbmf(36);
+    /**
+     * ISO C4 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_C4 = nfw MfdibSizfNbmf(37);
+    /**
+     * ISO C5 sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_C5 = nfw MfdibSizfNbmf(38);
+    /**
+     *   lfttfr sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf ISO_C6 = nfw MfdibSizfNbmf(39);
+    /**
+     *   lfttfr sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf NA_LETTER = nfw MfdibSizfNbmf(40);
+
+    /**
+     *  lfgbl sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf NA_LEGAL = nfw MfdibSizfNbmf(41);
+
+    /**
+     *  fxfdutivf sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf EXECUTIVE = nfw MfdibSizfNbmf(42);
+
+    /**
+     *  lfdgfr sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf LEDGER = nfw MfdibSizfNbmf(43);
+
+    /**
+     *  tbbloid sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf TABLOID = nfw MfdibSizfNbmf(44);
+
+    /**
+     *  invoidf sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf INVOICE = nfw MfdibSizfNbmf(45);
+
+    /**
+     *  folio sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf FOLIO = nfw MfdibSizfNbmf(46);
+
+    /**
+     *  qubrto sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf QUARTO = nfw MfdibSizfNbmf(47);
+
+    /**
+     *  Jbpbnfsf Postdbrd sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        JAPANESE_POSTCARD = nfw MfdibSizfNbmf(48);
+   /**
+     *  Jbpbnfsf Doublf Postdbrd sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        JAPANESE_DOUBLE_POSTCARD = nfw MfdibSizfNbmf(49);
+
+    /**
+     *  A sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf A = nfw MfdibSizfNbmf(50);
+
+    /**
+     *  B sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf B = nfw MfdibSizfNbmf(51);
+
+    /**
+     *  C sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf C = nfw MfdibSizfNbmf(52);
+
+    /**
+     *  D sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf D = nfw MfdibSizfNbmf(53);
+
+    /**
+     *  E sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf E = nfw MfdibSizfNbmf(54);
+
+    /**
+     *  ISO dfsignbtfd long sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        ISO_DESIGNATED_LONG = nfw MfdibSizfNbmf(55);
+
+    /**
+     *  Itbly fnvflopf sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        ITALY_ENVELOPE = nfw MfdibSizfNbmf(56);  // DESIGNATED_LONG?
+
+    /**
+     *  monbrdh fnvflopf sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        MONARCH_ENVELOPE = nfw MfdibSizfNbmf(57);
+    /**
+     * pfrsonbl fnvflopf sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        PERSONAL_ENVELOPE = nfw MfdibSizfNbmf(58);
+    /**
+     *  numbfr 9 fnvflopf sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        NA_NUMBER_9_ENVELOPE = nfw MfdibSizfNbmf(59);
+    /**
+     *  numbfr 10 fnvflopf sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        NA_NUMBER_10_ENVELOPE = nfw MfdibSizfNbmf(60);
+    /**
+     *  numbfr 11 fnvflopf sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        NA_NUMBER_11_ENVELOPE = nfw MfdibSizfNbmf(61);
+    /**
+     *  numbfr 12 fnvflopf sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        NA_NUMBER_12_ENVELOPE = nfw MfdibSizfNbmf(62);
+    /**
+     *  numbfr 14 fnvflopf sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        NA_NUMBER_14_ENVELOPE = nfw MfdibSizfNbmf(63);
+   /**
+     *  6x9 North Amfridbn fnvflopf sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        NA_6X9_ENVELOPE = nfw MfdibSizfNbmf(64);
+   /**
+     *  7x9 North Amfridbn fnvflopf sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        NA_7X9_ENVELOPE = nfw MfdibSizfNbmf(65);
+   /**
+     *  9x11 North Amfridbn fnvflopf sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        NA_9X11_ENVELOPE = nfw MfdibSizfNbmf(66);
+    /**
+     *  9x12 North Amfridbn fnvflopf sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        NA_9X12_ENVELOPE = nfw MfdibSizfNbmf(67);
+
+    /**
+     *  10x13 North Amfridbn fnvflopf sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        NA_10X13_ENVELOPE = nfw MfdibSizfNbmf(68);
+    /**
+     *  10x14North Amfridbn  fnvflopf sizf .
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        NA_10X14_ENVELOPE = nfw MfdibSizfNbmf(69);
+    /**
+     *  10x15 North Amfridbn fnvflopf sizf.
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        NA_10X15_ENVELOPE = nfw MfdibSizfNbmf(70);
+
+    /**
+     *  5x7 North Amfridbn pbpfr.
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        NA_5X7 = nfw MfdibSizfNbmf(71);
+
+    /**
+     *  8x10 North Amfridbn pbpfr.
+     */
+    publid stbtid finbl MfdibSizfNbmf
+        NA_8X10 = nfw MfdibSizfNbmf(72);
+
+    /**
+     * Construdt b nfw mfdib sizf fnumfrbtion vbluf with thf givfn intfgfr
+     * vbluf.
+     *
+     * @pbrbm  vbluf  Intfgfr vbluf.
+     */
+    protfdtfd MfdibSizfNbmf(int vbluf) {
+        supfr (vbluf);
+    }
+
+    privbtf stbtid finbl String[] myStringTbblf = {
+                "iso-b0",
+                "iso-b1",
+                "iso-b2",
+                "iso-b3",
+                "iso-b4",
+                "iso-b5",
+                "iso-b6",
+                "iso-b7",
+                "iso-b8",
+                "iso-b9",
+                "iso-b10",
+                "iso-b0",
+                "iso-b1",
+                "iso-b2",
+                "iso-b3",
+                "iso-b4",
+                "iso-b5",
+                "iso-b6",
+                "iso-b7",
+                "iso-b8",
+                "iso-b9",
+                "iso-b10",
+                "jis-b0",
+                "jis-b1",
+                "jis-b2",
+                "jis-b3",
+                "jis-b4",
+                "jis-b5",
+                "jis-b6",
+                "jis-b7",
+                "jis-b8",
+                "jis-b9",
+                "jis-b10",
+                "iso-d0",
+                "iso-d1",
+                "iso-d2",
+                "iso-d3",
+                "iso-d4",
+                "iso-d5",
+                "iso-d6",
+                "nb-lfttfr",
+                "nb-lfgbl",
+                "fxfdutivf",
+                "lfdgfr",
+                "tbbloid",
+                "invoidf",
+                "folio",
+                "qubrto",
+                "jbpbnfsf-postdbrd",
+                "oufuko-postdbrd",
+                "b",
+                "b",
+                "d",
+                "d",
+                "f",
+                "iso-dfsignbtfd-long",
+                "itblibn-fnvflopf",
+                "monbrdh-fnvflopf",
+                "pfrsonbl-fnvflopf",
+                "nb-numbfr-9-fnvflopf",
+                "nb-numbfr-10-fnvflopf",
+                "nb-numbfr-11-fnvflopf",
+                "nb-numbfr-12-fnvflopf",
+                "nb-numbfr-14-fnvflopf",
+                "nb-6x9-fnvflopf",
+                "nb-7x9-fnvflopf",
+                "nb-9x11-fnvflopf",
+                "nb-9x12-fnvflopf",
+                "nb-10x13-fnvflopf",
+                "nb-10x14-fnvflopf",
+                "nb-10x15-fnvflopf",
+                "nb-5x7",
+                "nb-8x10",
+        };
+
+    privbtf stbtid finbl MfdibSizfNbmf[] myEnumVblufTbblf = {
+                ISO_A0,
+                ISO_A1,
+                ISO_A2,
+                ISO_A3,
+                ISO_A4,
+                ISO_A5,
+                ISO_A6,
+                ISO_A7,
+                ISO_A8,
+                ISO_A9,
+                ISO_A10,
+                ISO_B0,
+                ISO_B1,
+                ISO_B2,
+                ISO_B3,
+                ISO_B4,
+                ISO_B5,
+                ISO_B6,
+                ISO_B7,
+                ISO_B8,
+                ISO_B9,
+                ISO_B10,
+                JIS_B0,
+                JIS_B1,
+                JIS_B2,
+                JIS_B3,
+                JIS_B4,
+                JIS_B5,
+                JIS_B6,
+                JIS_B7,
+                JIS_B8,
+                JIS_B9,
+                JIS_B10,
+                ISO_C0,
+                ISO_C1,
+                ISO_C2,
+                ISO_C3,
+                ISO_C4,
+                ISO_C5,
+                ISO_C6,
+                NA_LETTER,
+                NA_LEGAL,
+                EXECUTIVE,
+                LEDGER,
+                TABLOID,
+                INVOICE,
+                FOLIO,
+                QUARTO,
+                JAPANESE_POSTCARD,
+                JAPANESE_DOUBLE_POSTCARD,
+                A,
+                B,
+                C,
+                D,
+                E,
+                ISO_DESIGNATED_LONG,
+                ITALY_ENVELOPE,
+                MONARCH_ENVELOPE,
+                PERSONAL_ENVELOPE,
+                NA_NUMBER_9_ENVELOPE,
+                NA_NUMBER_10_ENVELOPE,
+                NA_NUMBER_11_ENVELOPE,
+                NA_NUMBER_12_ENVELOPE,
+                NA_NUMBER_14_ENVELOPE,
+                NA_6X9_ENVELOPE,
+                NA_7X9_ENVELOPE,
+                NA_9X11_ENVELOPE,
+                NA_9X12_ENVELOPE,
+                NA_10X13_ENVELOPE,
+                NA_10X14_ENVELOPE,
+                NA_10X15_ENVELOPE,
+                NA_5X7,
+                NA_8X10,
+        };
+
+
+    /**
+     * Rfturns thf string tbblf for dlbss MfdibSizfNbmf.
+     */
+    protfdtfd String[] gftStringTbblf()
+    {
+        rfturn myStringTbblf.dlonf();
+    }
+
+    /**
+     * Rfturns thf fnumfrbtion vbluf tbblf for dlbss MfdibSizfNbmf.
+     */
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+        rfturn (EnumSyntbx[])myEnumVblufTbblf.dlonf();
+    }
+
+
+}

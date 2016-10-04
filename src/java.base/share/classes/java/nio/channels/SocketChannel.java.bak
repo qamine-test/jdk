@@ -1,526 +1,526 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.channels;
+pbdkbgf jbvb.nio.dibnnfls;
 
-import java.io.IOException;
-import java.net.Socket;
-import java.net.SocketOption;
-import java.net.SocketAddress;
-import java.nio.ByteBuffer;
-import java.nio.channels.spi.AbstractSelectableChannel;
-import java.nio.channels.spi.SelectorProvider;
+import jbvb.io.IOExdfption;
+import jbvb.nft.Sodkft;
+import jbvb.nft.SodkftOption;
+import jbvb.nft.SodkftAddrfss;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dibnnfls.spi.AbstrbdtSflfdtbblfCibnnfl;
+import jbvb.nio.dibnnfls.spi.SflfdtorProvidfr;
 
 /**
- * A selectable channel for stream-oriented connecting sockets.
+ * A sflfdtbblf dibnnfl for strfbm-orifntfd donnfdting sodkfts.
  *
- * <p> A socket channel is created by invoking one of the {@link #open open}
- * methods of this class.  It is not possible to create a channel for an arbitrary,
- * pre-existing socket. A newly-created socket channel is open but not yet
- * connected.  An attempt to invoke an I/O operation upon an unconnected
- * channel will cause a {@link NotYetConnectedException} to be thrown.  A
- * socket channel can be connected by invoking its {@link #connect connect}
- * method; once connected, a socket channel remains connected until it is
- * closed.  Whether or not a socket channel is connected may be determined by
- * invoking its {@link #isConnected isConnected} method.
+ * <p> A sodkft dibnnfl is drfbtfd by invoking onf of tif {@link #opfn opfn}
+ * mftiods of tiis dlbss.  It is not possiblf to drfbtf b dibnnfl for bn brbitrbry,
+ * prf-fxisting sodkft. A nfwly-drfbtfd sodkft dibnnfl is opfn but not yft
+ * donnfdtfd.  An bttfmpt to invokf bn I/O opfrbtion upon bn undonnfdtfd
+ * dibnnfl will dbusf b {@link NotYftConnfdtfdExdfption} to bf tirown.  A
+ * sodkft dibnnfl dbn bf donnfdtfd by invoking its {@link #donnfdt donnfdt}
+ * mftiod; ondf donnfdtfd, b sodkft dibnnfl rfmbins donnfdtfd until it is
+ * dlosfd.  Wiftifr or not b sodkft dibnnfl is donnfdtfd mby bf dftfrminfd by
+ * invoking its {@link #isConnfdtfd isConnfdtfd} mftiod.
  *
- * <p> Socket channels support <i>non-blocking connection:</i>&nbsp;A socket
- * channel may be created and the process of establishing the link to the
- * remote socket may be initiated via the {@link #connect connect} method for
- * later completion by the {@link #finishConnect finishConnect} method.
- * Whether or not a connection operation is in progress may be determined by
- * invoking the {@link #isConnectionPending isConnectionPending} method.
+ * <p> Sodkft dibnnfls support <i>non-blodking donnfdtion:</i>&nbsp;A sodkft
+ * dibnnfl mby bf drfbtfd bnd tif prodfss of fstbblisiing tif link to tif
+ * rfmotf sodkft mby bf initibtfd vib tif {@link #donnfdt donnfdt} mftiod for
+ * lbtfr domplftion by tif {@link #finisiConnfdt finisiConnfdt} mftiod.
+ * Wiftifr or not b donnfdtion opfrbtion is in progrfss mby bf dftfrminfd by
+ * invoking tif {@link #isConnfdtionPfnding isConnfdtionPfnding} mftiod.
  *
- * <p> Socket channels support <i>asynchronous shutdown,</i> which is similar
- * to the asynchronous close operation specified in the {@link Channel} class.
- * If the input side of a socket is shut down by one thread while another
- * thread is blocked in a read operation on the socket's channel, then the read
- * operation in the blocked thread will complete without reading any bytes and
- * will return <tt>-1</tt>.  If the output side of a socket is shut down by one
- * thread while another thread is blocked in a write operation on the socket's
- * channel, then the blocked thread will receive an {@link
- * AsynchronousCloseException}.
+ * <p> Sodkft dibnnfls support <i>bsyndironous siutdown,</i> wiidi is similbr
+ * to tif bsyndironous dlosf opfrbtion spfdififd in tif {@link Cibnnfl} dlbss.
+ * If tif input sidf of b sodkft is siut down by onf tirfbd wiilf bnotifr
+ * tirfbd is blodkfd in b rfbd opfrbtion on tif sodkft's dibnnfl, tifn tif rfbd
+ * opfrbtion in tif blodkfd tirfbd will domplftf witiout rfbding bny bytfs bnd
+ * will rfturn <tt>-1</tt>.  If tif output sidf of b sodkft is siut down by onf
+ * tirfbd wiilf bnotifr tirfbd is blodkfd in b writf opfrbtion on tif sodkft's
+ * dibnnfl, tifn tif blodkfd tirfbd will rfdfivf bn {@link
+ * AsyndironousClosfExdfption}.
  *
- * <p> Socket options are configured using the {@link #setOption(SocketOption,Object)
- * setOption} method. Socket channels support the following options:
- * <blockquote>
- * <table border summary="Socket options">
+ * <p> Sodkft options brf donfigurfd using tif {@link #sftOption(SodkftOption,Objfdt)
+ * sftOption} mftiod. Sodkft dibnnfls support tif following options:
+ * <blodkquotf>
+ * <tbblf bordfr summbry="Sodkft options">
  *   <tr>
- *     <th>Option Name</th>
- *     <th>Description</th>
+ *     <ti>Option Nbmf</ti>
+ *     <ti>Dfsdription</ti>
  *   </tr>
  *   <tr>
- *     <td> {@link java.net.StandardSocketOptions#SO_SNDBUF SO_SNDBUF} </td>
- *     <td> The size of the socket send buffer </td>
+ *     <td> {@link jbvb.nft.StbndbrdSodkftOptions#SO_SNDBUF SO_SNDBUF} </td>
+ *     <td> Tif sizf of tif sodkft sfnd bufffr </td>
  *   </tr>
  *   <tr>
- *     <td> {@link java.net.StandardSocketOptions#SO_RCVBUF SO_RCVBUF} </td>
- *     <td> The size of the socket receive buffer </td>
+ *     <td> {@link jbvb.nft.StbndbrdSodkftOptions#SO_RCVBUF SO_RCVBUF} </td>
+ *     <td> Tif sizf of tif sodkft rfdfivf bufffr </td>
  *   </tr>
  *   <tr>
- *     <td> {@link java.net.StandardSocketOptions#SO_KEEPALIVE SO_KEEPALIVE} </td>
- *     <td> Keep connection alive </td>
+ *     <td> {@link jbvb.nft.StbndbrdSodkftOptions#SO_KEEPALIVE SO_KEEPALIVE} </td>
+ *     <td> Kffp donnfdtion blivf </td>
  *   </tr>
  *   <tr>
- *     <td> {@link java.net.StandardSocketOptions#SO_REUSEADDR SO_REUSEADDR} </td>
- *     <td> Re-use address </td>
+ *     <td> {@link jbvb.nft.StbndbrdSodkftOptions#SO_REUSEADDR SO_REUSEADDR} </td>
+ *     <td> Rf-usf bddrfss </td>
  *   </tr>
  *   <tr>
- *     <td> {@link java.net.StandardSocketOptions#SO_LINGER SO_LINGER} </td>
- *     <td> Linger on close if data is present (when configured in blocking mode
+ *     <td> {@link jbvb.nft.StbndbrdSodkftOptions#SO_LINGER SO_LINGER} </td>
+ *     <td> Lingfr on dlosf if dbtb is prfsfnt (wifn donfigurfd in blodking modf
  *          only) </td>
  *   </tr>
  *   <tr>
- *     <td> {@link java.net.StandardSocketOptions#TCP_NODELAY TCP_NODELAY} </td>
- *     <td> Disable the Nagle algorithm </td>
+ *     <td> {@link jbvb.nft.StbndbrdSodkftOptions#TCP_NODELAY TCP_NODELAY} </td>
+ *     <td> Disbblf tif Nbglf blgoritim </td>
  *   </tr>
- * </table>
- * </blockquote>
- * Additional (implementation specific) options may also be supported.
+ * </tbblf>
+ * </blodkquotf>
+ * Additionbl (implfmfntbtion spfdifid) options mby blso bf supportfd.
  *
- * <p> Socket channels are safe for use by multiple concurrent threads.  They
- * support concurrent reading and writing, though at most one thread may be
- * reading and at most one thread may be writing at any given time.  The {@link
- * #connect connect} and {@link #finishConnect finishConnect} methods are
- * mutually synchronized against each other, and an attempt to initiate a read
- * or write operation while an invocation of one of these methods is in
- * progress will block until that invocation is complete.  </p>
+ * <p> Sodkft dibnnfls brf sbff for usf by multiplf dondurrfnt tirfbds.  Tify
+ * support dondurrfnt rfbding bnd writing, tiougi bt most onf tirfbd mby bf
+ * rfbding bnd bt most onf tirfbd mby bf writing bt bny givfn timf.  Tif {@link
+ * #donnfdt donnfdt} bnd {@link #finisiConnfdt finisiConnfdt} mftiods brf
+ * mutublly syndironizfd bgbinst fbdi otifr, bnd bn bttfmpt to initibtf b rfbd
+ * or writf opfrbtion wiilf bn invodbtion of onf of tifsf mftiods is in
+ * progrfss will blodk until tibt invodbtion is domplftf.  </p>
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
- * @since 1.4
+ * @butior Mbrk Rfiniold
+ * @butior JSR-51 Expfrt Group
+ * @sindf 1.4
  */
 
-public abstract class SocketChannel
-    extends AbstractSelectableChannel
-    implements ByteChannel, ScatteringByteChannel, GatheringByteChannel, NetworkChannel
+publid bbstrbdt dlbss SodkftCibnnfl
+    fxtfnds AbstrbdtSflfdtbblfCibnnfl
+    implfmfnts BytfCibnnfl, SdbttfringBytfCibnnfl, GbtifringBytfCibnnfl, NftworkCibnnfl
 {
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
      *
-     * @param  provider
-     *         The provider that created this channel
+     * @pbrbm  providfr
+     *         Tif providfr tibt drfbtfd tiis dibnnfl
      */
-    protected SocketChannel(SelectorProvider provider) {
-        super(provider);
+    protfdtfd SodkftCibnnfl(SflfdtorProvidfr providfr) {
+        supfr(providfr);
     }
 
     /**
-     * Opens a socket channel.
+     * Opfns b sodkft dibnnfl.
      *
-     * <p> The new channel is created by invoking the {@link
-     * java.nio.channels.spi.SelectorProvider#openSocketChannel
-     * openSocketChannel} method of the system-wide default {@link
-     * java.nio.channels.spi.SelectorProvider} object.  </p>
+     * <p> Tif nfw dibnnfl is drfbtfd by invoking tif {@link
+     * jbvb.nio.dibnnfls.spi.SflfdtorProvidfr#opfnSodkftCibnnfl
+     * opfnSodkftCibnnfl} mftiod of tif systfm-widf dffbult {@link
+     * jbvb.nio.dibnnfls.spi.SflfdtorProvidfr} objfdt.  </p>
      *
-     * @return  A new socket channel
+     * @rfturn  A nfw sodkft dibnnfl
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    public static SocketChannel open() throws IOException {
-        return SelectorProvider.provider().openSocketChannel();
+    publid stbtid SodkftCibnnfl opfn() tirows IOExdfption {
+        rfturn SflfdtorProvidfr.providfr().opfnSodkftCibnnfl();
     }
 
     /**
-     * Opens a socket channel and connects it to a remote address.
+     * Opfns b sodkft dibnnfl bnd donnfdts it to b rfmotf bddrfss.
      *
-     * <p> This convenience method works as if by invoking the {@link #open()}
-     * method, invoking the {@link #connect(SocketAddress) connect} method upon
-     * the resulting socket channel, passing it <tt>remote</tt>, and then
-     * returning that channel.  </p>
+     * <p> Tiis donvfnifndf mftiod works bs if by invoking tif {@link #opfn()}
+     * mftiod, invoking tif {@link #donnfdt(SodkftAddrfss) donnfdt} mftiod upon
+     * tif rfsulting sodkft dibnnfl, pbssing it <tt>rfmotf</tt>, bnd tifn
+     * rfturning tibt dibnnfl.  </p>
      *
-     * @param  remote
-     *         The remote address to which the new channel is to be connected
+     * @pbrbm  rfmotf
+     *         Tif rfmotf bddrfss to wiidi tif nfw dibnnfl is to bf donnfdtfd
      *
-     * @return  A new, and connected, socket channel
+     * @rfturn  A nfw, bnd donnfdtfd, sodkft dibnnfl
      *
-     * @throws  AsynchronousCloseException
-     *          If another thread closes this channel
-     *          while the connect operation is in progress
+     * @tirows  AsyndironousClosfExdfption
+     *          If bnotifr tirfbd dlosfs tiis dibnnfl
+     *          wiilf tif donnfdt opfrbtion is in progrfss
      *
-     * @throws  ClosedByInterruptException
-     *          If another thread interrupts the current thread
-     *          while the connect operation is in progress, thereby
-     *          closing the channel and setting the current thread's
-     *          interrupt status
+     * @tirows  ClosfdByIntfrruptExdfption
+     *          If bnotifr tirfbd intfrrupts tif durrfnt tirfbd
+     *          wiilf tif donnfdt opfrbtion is in progrfss, tifrfby
+     *          dlosing tif dibnnfl bnd sftting tif durrfnt tirfbd's
+     *          intfrrupt stbtus
      *
-     * @throws  UnresolvedAddressException
-     *          If the given remote address is not fully resolved
+     * @tirows  UnrfsolvfdAddrfssExdfption
+     *          If tif givfn rfmotf bddrfss is not fully rfsolvfd
      *
-     * @throws  UnsupportedAddressTypeException
-     *          If the type of the given remote address is not supported
+     * @tirows  UnsupportfdAddrfssTypfExdfption
+     *          If tif typf of tif givfn rfmotf bddrfss is not supportfd
      *
-     * @throws  SecurityException
-     *          If a security manager has been installed
-     *          and it does not permit access to the given remote endpoint
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd
+     *          bnd it dofs not pfrmit bddfss to tif givfn rfmotf fndpoint
      *
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      */
-    public static SocketChannel open(SocketAddress remote)
-        throws IOException
+    publid stbtid SodkftCibnnfl opfn(SodkftAddrfss rfmotf)
+        tirows IOExdfption
     {
-        SocketChannel sc = open();
+        SodkftCibnnfl sd = opfn();
         try {
-            sc.connect(remote);
-        } catch (Throwable x) {
+            sd.donnfdt(rfmotf);
+        } dbtdi (Tirowbblf x) {
             try {
-                sc.close();
-            } catch (Throwable suppressed) {
-                x.addSuppressed(suppressed);
+                sd.dlosf();
+            } dbtdi (Tirowbblf supprfssfd) {
+                x.bddSupprfssfd(supprfssfd);
             }
-            throw x;
+            tirow x;
         }
-        assert sc.isConnected();
-        return sc;
+        bssfrt sd.isConnfdtfd();
+        rfturn sd;
     }
 
     /**
-     * Returns an operation set identifying this channel's supported
-     * operations.
+     * Rfturns bn opfrbtion sft idfntifying tiis dibnnfl's supportfd
+     * opfrbtions.
      *
-     * <p> Socket channels support connecting, reading, and writing, so this
-     * method returns <tt>(</tt>{@link SelectionKey#OP_CONNECT}
-     * <tt>|</tt>&nbsp;{@link SelectionKey#OP_READ} <tt>|</tt>&nbsp;{@link
-     * SelectionKey#OP_WRITE}<tt>)</tt>.  </p>
+     * <p> Sodkft dibnnfls support donnfdting, rfbding, bnd writing, so tiis
+     * mftiod rfturns <tt>(</tt>{@link SflfdtionKfy#OP_CONNECT}
+     * <tt>|</tt>&nbsp;{@link SflfdtionKfy#OP_READ} <tt>|</tt>&nbsp;{@link
+     * SflfdtionKfy#OP_WRITE}<tt>)</tt>.  </p>
      *
-     * @return  The valid-operation set
+     * @rfturn  Tif vblid-opfrbtion sft
      */
-    public final int validOps() {
-        return (SelectionKey.OP_READ
-                | SelectionKey.OP_WRITE
-                | SelectionKey.OP_CONNECT);
+    publid finbl int vblidOps() {
+        rfturn (SflfdtionKfy.OP_READ
+                | SflfdtionKfy.OP_WRITE
+                | SflfdtionKfy.OP_CONNECT);
     }
 
 
-    // -- Socket-specific operations --
+    // -- Sodkft-spfdifid opfrbtions --
 
     /**
-     * @throws  ConnectionPendingException
-     *          If a non-blocking connect operation is already in progress on
-     *          this channel
-     * @throws  AlreadyBoundException               {@inheritDoc}
-     * @throws  UnsupportedAddressTypeException     {@inheritDoc}
-     * @throws  ClosedChannelException              {@inheritDoc}
-     * @throws  IOException                         {@inheritDoc}
-     * @throws  SecurityException
-     *          If a security manager has been installed and its
-     *          {@link SecurityManager#checkListen checkListen} method denies
-     *          the operation
+     * @tirows  ConnfdtionPfndingExdfption
+     *          If b non-blodking donnfdt opfrbtion is blrfbdy in progrfss on
+     *          tiis dibnnfl
+     * @tirows  AlrfbdyBoundExdfption               {@inifritDod}
+     * @tirows  UnsupportfdAddrfssTypfExdfption     {@inifritDod}
+     * @tirows  ClosfdCibnnflExdfption              {@inifritDod}
+     * @tirows  IOExdfption                         {@inifritDod}
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd its
+     *          {@link SfdurityMbnbgfr#difdkListfn difdkListfn} mftiod dfnifs
+     *          tif opfrbtion
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    @Override
-    public abstract SocketChannel bind(SocketAddress local)
-        throws IOException;
+    @Ovfrridf
+    publid bbstrbdt SodkftCibnnfl bind(SodkftAddrfss lodbl)
+        tirows IOExdfption;
 
     /**
-     * @throws  UnsupportedOperationException           {@inheritDoc}
-     * @throws  IllegalArgumentException                {@inheritDoc}
-     * @throws  ClosedChannelException                  {@inheritDoc}
-     * @throws  IOException                             {@inheritDoc}
+     * @tirows  UnsupportfdOpfrbtionExdfption           {@inifritDod}
+     * @tirows  IllfgblArgumfntExdfption                {@inifritDod}
+     * @tirows  ClosfdCibnnflExdfption                  {@inifritDod}
+     * @tirows  IOExdfption                             {@inifritDod}
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    @Override
-    public abstract <T> SocketChannel setOption(SocketOption<T> name, T value)
-        throws IOException;
+    @Ovfrridf
+    publid bbstrbdt <T> SodkftCibnnfl sftOption(SodkftOption<T> nbmf, T vbluf)
+        tirows IOExdfption;
 
     /**
-     * Shutdown the connection for reading without closing the channel.
+     * Siutdown tif donnfdtion for rfbding witiout dlosing tif dibnnfl.
      *
-     * <p> Once shutdown for reading then further reads on the channel will
-     * return {@code -1}, the end-of-stream indication. If the input side of the
-     * connection is already shutdown then invoking this method has no effect.
+     * <p> Ondf siutdown for rfbding tifn furtifr rfbds on tif dibnnfl will
+     * rfturn {@dodf -1}, tif fnd-of-strfbm indidbtion. If tif input sidf of tif
+     * donnfdtion is blrfbdy siutdown tifn invoking tiis mftiod ibs no ffffdt.
      *
-     * @return  The channel
+     * @rfturn  Tif dibnnfl
      *
-     * @throws  NotYetConnectedException
-     *          If this channel is not yet connected
-     * @throws  ClosedChannelException
-     *          If this channel is closed
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  NotYftConnfdtfdExdfption
+     *          If tiis dibnnfl is not yft donnfdtfd
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public abstract SocketChannel shutdownInput() throws IOException;
+    publid bbstrbdt SodkftCibnnfl siutdownInput() tirows IOExdfption;
 
     /**
-     * Shutdown the connection for writing without closing the channel.
+     * Siutdown tif donnfdtion for writing witiout dlosing tif dibnnfl.
      *
-     * <p> Once shutdown for writing then further attempts to write to the
-     * channel will throw {@link ClosedChannelException}. If the output side of
-     * the connection is already shutdown then invoking this method has no
-     * effect.
+     * <p> Ondf siutdown for writing tifn furtifr bttfmpts to writf to tif
+     * dibnnfl will tirow {@link ClosfdCibnnflExdfption}. If tif output sidf of
+     * tif donnfdtion is blrfbdy siutdown tifn invoking tiis mftiod ibs no
+     * ffffdt.
      *
-     * @return  The channel
+     * @rfturn  Tif dibnnfl
      *
-     * @throws  NotYetConnectedException
-     *          If this channel is not yet connected
-     * @throws  ClosedChannelException
-     *          If this channel is closed
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  NotYftConnfdtfdExdfption
+     *          If tiis dibnnfl is not yft donnfdtfd
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public abstract SocketChannel shutdownOutput() throws IOException;
+    publid bbstrbdt SodkftCibnnfl siutdownOutput() tirows IOExdfption;
 
     /**
-     * Retrieves a socket associated with this channel.
+     * Rftrifvfs b sodkft bssodibtfd witi tiis dibnnfl.
      *
-     * <p> The returned object will not declare any public methods that are not
-     * declared in the {@link java.net.Socket} class.  </p>
+     * <p> Tif rfturnfd objfdt will not dfdlbrf bny publid mftiods tibt brf not
+     * dfdlbrfd in tif {@link jbvb.nft.Sodkft} dlbss.  </p>
      *
-     * @return  A socket associated with this channel
+     * @rfturn  A sodkft bssodibtfd witi tiis dibnnfl
      */
-    public abstract Socket socket();
+    publid bbstrbdt Sodkft sodkft();
 
     /**
-     * Tells whether or not this channel's network socket is connected.
+     * Tflls wiftifr or not tiis dibnnfl's nftwork sodkft is donnfdtfd.
      *
-     * @return  <tt>true</tt> if, and only if, this channel's network socket
-     *          is {@link #isOpen open} and connected
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis dibnnfl's nftwork sodkft
+     *          is {@link #isOpfn opfn} bnd donnfdtfd
      */
-    public abstract boolean isConnected();
+    publid bbstrbdt boolfbn isConnfdtfd();
 
     /**
-     * Tells whether or not a connection operation is in progress on this
-     * channel.
+     * Tflls wiftifr or not b donnfdtion opfrbtion is in progrfss on tiis
+     * dibnnfl.
      *
-     * @return  <tt>true</tt> if, and only if, a connection operation has been
-     *          initiated on this channel but not yet completed by invoking the
-     *          {@link #finishConnect finishConnect} method
+     * @rfturn  <tt>truf</tt> if, bnd only if, b donnfdtion opfrbtion ibs bffn
+     *          initibtfd on tiis dibnnfl but not yft domplftfd by invoking tif
+     *          {@link #finisiConnfdt finisiConnfdt} mftiod
      */
-    public abstract boolean isConnectionPending();
+    publid bbstrbdt boolfbn isConnfdtionPfnding();
 
     /**
-     * Connects this channel's socket.
+     * Connfdts tiis dibnnfl's sodkft.
      *
-     * <p> If this channel is in non-blocking mode then an invocation of this
-     * method initiates a non-blocking connection operation.  If the connection
-     * is established immediately, as can happen with a local connection, then
-     * this method returns <tt>true</tt>.  Otherwise this method returns
-     * <tt>false</tt> and the connection operation must later be completed by
-     * invoking the {@link #finishConnect finishConnect} method.
+     * <p> If tiis dibnnfl is in non-blodking modf tifn bn invodbtion of tiis
+     * mftiod initibtfs b non-blodking donnfdtion opfrbtion.  If tif donnfdtion
+     * is fstbblisifd immfdibtfly, bs dbn ibppfn witi b lodbl donnfdtion, tifn
+     * tiis mftiod rfturns <tt>truf</tt>.  Otifrwisf tiis mftiod rfturns
+     * <tt>fblsf</tt> bnd tif donnfdtion opfrbtion must lbtfr bf domplftfd by
+     * invoking tif {@link #finisiConnfdt finisiConnfdt} mftiod.
      *
-     * <p> If this channel is in blocking mode then an invocation of this
-     * method will block until the connection is established or an I/O error
-     * occurs.
+     * <p> If tiis dibnnfl is in blodking modf tifn bn invodbtion of tiis
+     * mftiod will blodk until tif donnfdtion is fstbblisifd or bn I/O frror
+     * oddurs.
      *
-     * <p> This method performs exactly the same security checks as the {@link
-     * java.net.Socket} class.  That is, if a security manager has been
-     * installed then this method verifies that its {@link
-     * java.lang.SecurityManager#checkConnect checkConnect} method permits
-     * connecting to the address and port number of the given remote endpoint.
+     * <p> Tiis mftiod pfrforms fxbdtly tif sbmf sfdurity difdks bs tif {@link
+     * jbvb.nft.Sodkft} dlbss.  Tibt is, if b sfdurity mbnbgfr ibs bffn
+     * instbllfd tifn tiis mftiod vfrififs tibt its {@link
+     * jbvb.lbng.SfdurityMbnbgfr#difdkConnfdt difdkConnfdt} mftiod pfrmits
+     * donnfdting to tif bddrfss bnd port numbfr of tif givfn rfmotf fndpoint.
      *
-     * <p> This method may be invoked at any time.  If a read or write
-     * operation upon this channel is invoked while an invocation of this
-     * method is in progress then that operation will first block until this
-     * invocation is complete.  If a connection attempt is initiated but fails,
-     * that is, if an invocation of this method throws a checked exception,
-     * then the channel will be closed.  </p>
+     * <p> Tiis mftiod mby bf invokfd bt bny timf.  If b rfbd or writf
+     * opfrbtion upon tiis dibnnfl is invokfd wiilf bn invodbtion of tiis
+     * mftiod is in progrfss tifn tibt opfrbtion will first blodk until tiis
+     * invodbtion is domplftf.  If b donnfdtion bttfmpt is initibtfd but fbils,
+     * tibt is, if bn invodbtion of tiis mftiod tirows b difdkfd fxdfption,
+     * tifn tif dibnnfl will bf dlosfd.  </p>
      *
-     * @param  remote
-     *         The remote address to which this channel is to be connected
+     * @pbrbm  rfmotf
+     *         Tif rfmotf bddrfss to wiidi tiis dibnnfl is to bf donnfdtfd
      *
-     * @return  <tt>true</tt> if a connection was established,
-     *          <tt>false</tt> if this channel is in non-blocking mode
-     *          and the connection operation is in progress
+     * @rfturn  <tt>truf</tt> if b donnfdtion wbs fstbblisifd,
+     *          <tt>fblsf</tt> if tiis dibnnfl is in non-blodking modf
+     *          bnd tif donnfdtion opfrbtion is in progrfss
      *
-     * @throws  AlreadyConnectedException
-     *          If this channel is already connected
+     * @tirows  AlrfbdyConnfdtfdExdfption
+     *          If tiis dibnnfl is blrfbdy donnfdtfd
      *
-     * @throws  ConnectionPendingException
-     *          If a non-blocking connection operation is already in progress
-     *          on this channel
+     * @tirows  ConnfdtionPfndingExdfption
+     *          If b non-blodking donnfdtion opfrbtion is blrfbdy in progrfss
+     *          on tiis dibnnfl
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
      *
-     * @throws  AsynchronousCloseException
-     *          If another thread closes this channel
-     *          while the connect operation is in progress
+     * @tirows  AsyndironousClosfExdfption
+     *          If bnotifr tirfbd dlosfs tiis dibnnfl
+     *          wiilf tif donnfdt opfrbtion is in progrfss
      *
-     * @throws  ClosedByInterruptException
-     *          If another thread interrupts the current thread
-     *          while the connect operation is in progress, thereby
-     *          closing the channel and setting the current thread's
-     *          interrupt status
+     * @tirows  ClosfdByIntfrruptExdfption
+     *          If bnotifr tirfbd intfrrupts tif durrfnt tirfbd
+     *          wiilf tif donnfdt opfrbtion is in progrfss, tifrfby
+     *          dlosing tif dibnnfl bnd sftting tif durrfnt tirfbd's
+     *          intfrrupt stbtus
      *
-     * @throws  UnresolvedAddressException
-     *          If the given remote address is not fully resolved
+     * @tirows  UnrfsolvfdAddrfssExdfption
+     *          If tif givfn rfmotf bddrfss is not fully rfsolvfd
      *
-     * @throws  UnsupportedAddressTypeException
-     *          If the type of the given remote address is not supported
+     * @tirows  UnsupportfdAddrfssTypfExdfption
+     *          If tif typf of tif givfn rfmotf bddrfss is not supportfd
      *
-     * @throws  SecurityException
-     *          If a security manager has been installed
-     *          and it does not permit access to the given remote endpoint
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd
+     *          bnd it dofs not pfrmit bddfss to tif givfn rfmotf fndpoint
      *
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      */
-    public abstract boolean connect(SocketAddress remote) throws IOException;
+    publid bbstrbdt boolfbn donnfdt(SodkftAddrfss rfmotf) tirows IOExdfption;
 
     /**
-     * Finishes the process of connecting a socket channel.
+     * Finisifs tif prodfss of donnfdting b sodkft dibnnfl.
      *
-     * <p> A non-blocking connection operation is initiated by placing a socket
-     * channel in non-blocking mode and then invoking its {@link #connect
-     * connect} method.  Once the connection is established, or the attempt has
-     * failed, the socket channel will become connectable and this method may
-     * be invoked to complete the connection sequence.  If the connection
-     * operation failed then invoking this method will cause an appropriate
-     * {@link java.io.IOException} to be thrown.
+     * <p> A non-blodking donnfdtion opfrbtion is initibtfd by plbding b sodkft
+     * dibnnfl in non-blodking modf bnd tifn invoking its {@link #donnfdt
+     * donnfdt} mftiod.  Ondf tif donnfdtion is fstbblisifd, or tif bttfmpt ibs
+     * fbilfd, tif sodkft dibnnfl will bfdomf donnfdtbblf bnd tiis mftiod mby
+     * bf invokfd to domplftf tif donnfdtion sfqufndf.  If tif donnfdtion
+     * opfrbtion fbilfd tifn invoking tiis mftiod will dbusf bn bppropribtf
+     * {@link jbvb.io.IOExdfption} to bf tirown.
      *
-     * <p> If this channel is already connected then this method will not block
-     * and will immediately return <tt>true</tt>.  If this channel is in
-     * non-blocking mode then this method will return <tt>false</tt> if the
-     * connection process is not yet complete.  If this channel is in blocking
-     * mode then this method will block until the connection either completes
-     * or fails, and will always either return <tt>true</tt> or throw a checked
-     * exception describing the failure.
+     * <p> If tiis dibnnfl is blrfbdy donnfdtfd tifn tiis mftiod will not blodk
+     * bnd will immfdibtfly rfturn <tt>truf</tt>.  If tiis dibnnfl is in
+     * non-blodking modf tifn tiis mftiod will rfturn <tt>fblsf</tt> if tif
+     * donnfdtion prodfss is not yft domplftf.  If tiis dibnnfl is in blodking
+     * modf tifn tiis mftiod will blodk until tif donnfdtion fitifr domplftfs
+     * or fbils, bnd will blwbys fitifr rfturn <tt>truf</tt> or tirow b difdkfd
+     * fxdfption dfsdribing tif fbilurf.
      *
-     * <p> This method may be invoked at any time.  If a read or write
-     * operation upon this channel is invoked while an invocation of this
-     * method is in progress then that operation will first block until this
-     * invocation is complete.  If a connection attempt fails, that is, if an
-     * invocation of this method throws a checked exception, then the channel
-     * will be closed.  </p>
+     * <p> Tiis mftiod mby bf invokfd bt bny timf.  If b rfbd or writf
+     * opfrbtion upon tiis dibnnfl is invokfd wiilf bn invodbtion of tiis
+     * mftiod is in progrfss tifn tibt opfrbtion will first blodk until tiis
+     * invodbtion is domplftf.  If b donnfdtion bttfmpt fbils, tibt is, if bn
+     * invodbtion of tiis mftiod tirows b difdkfd fxdfption, tifn tif dibnnfl
+     * will bf dlosfd.  </p>
      *
-     * @return  <tt>true</tt> if, and only if, this channel's socket is now
-     *          connected
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis dibnnfl's sodkft is now
+     *          donnfdtfd
      *
-     * @throws  NoConnectionPendingException
-     *          If this channel is not connected and a connection operation
-     *          has not been initiated
+     * @tirows  NoConnfdtionPfndingExdfption
+     *          If tiis dibnnfl is not donnfdtfd bnd b donnfdtion opfrbtion
+     *          ibs not bffn initibtfd
      *
-     * @throws  ClosedChannelException
-     *          If this channel is closed
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
      *
-     * @throws  AsynchronousCloseException
-     *          If another thread closes this channel
-     *          while the connect operation is in progress
+     * @tirows  AsyndironousClosfExdfption
+     *          If bnotifr tirfbd dlosfs tiis dibnnfl
+     *          wiilf tif donnfdt opfrbtion is in progrfss
      *
-     * @throws  ClosedByInterruptException
-     *          If another thread interrupts the current thread
-     *          while the connect operation is in progress, thereby
-     *          closing the channel and setting the current thread's
-     *          interrupt status
+     * @tirows  ClosfdByIntfrruptExdfption
+     *          If bnotifr tirfbd intfrrupts tif durrfnt tirfbd
+     *          wiilf tif donnfdt opfrbtion is in progrfss, tifrfby
+     *          dlosing tif dibnnfl bnd sftting tif durrfnt tirfbd's
+     *          intfrrupt stbtus
      *
-     * @throws  IOException
-     *          If some other I/O error occurs
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
      */
-    public abstract boolean finishConnect() throws IOException;
+    publid bbstrbdt boolfbn finisiConnfdt() tirows IOExdfption;
 
     /**
-     * Returns the remote address to which this channel's socket is connected.
+     * Rfturns tif rfmotf bddrfss to wiidi tiis dibnnfl's sodkft is donnfdtfd.
      *
-     * <p> Where the channel is bound and connected to an Internet Protocol
-     * socket address then the return value from this method is of type {@link
-     * java.net.InetSocketAddress}.
+     * <p> Wifrf tif dibnnfl is bound bnd donnfdtfd to bn Intfrnft Protodol
+     * sodkft bddrfss tifn tif rfturn vbluf from tiis mftiod is of typf {@link
+     * jbvb.nft.InftSodkftAddrfss}.
      *
-     * @return  The remote address; {@code null} if the channel's socket is not
-     *          connected
+     * @rfturn  Tif rfmotf bddrfss; {@dodf null} if tif dibnnfl's sodkft is not
+     *          donnfdtfd
      *
-     * @throws  ClosedChannelException
-     *          If the channel is closed
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tif dibnnfl is dlosfd
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public abstract SocketAddress getRemoteAddress() throws IOException;
+    publid bbstrbdt SodkftAddrfss gftRfmotfAddrfss() tirows IOExdfption;
 
-    // -- ByteChannel operations --
-
-    /**
-     * @throws  NotYetConnectedException
-     *          If this channel is not yet connected
-     */
-    public abstract int read(ByteBuffer dst) throws IOException;
+    // -- BytfCibnnfl opfrbtions --
 
     /**
-     * @throws  NotYetConnectedException
-     *          If this channel is not yet connected
+     * @tirows  NotYftConnfdtfdExdfption
+     *          If tiis dibnnfl is not yft donnfdtfd
      */
-    public abstract long read(ByteBuffer[] dsts, int offset, int length)
-        throws IOException;
+    publid bbstrbdt int rfbd(BytfBufffr dst) tirows IOExdfption;
 
     /**
-     * @throws  NotYetConnectedException
-     *          If this channel is not yet connected
+     * @tirows  NotYftConnfdtfdExdfption
+     *          If tiis dibnnfl is not yft donnfdtfd
      */
-    public final long read(ByteBuffer[] dsts) throws IOException {
-        return read(dsts, 0, dsts.length);
+    publid bbstrbdt long rfbd(BytfBufffr[] dsts, int offsft, int lfngti)
+        tirows IOExdfption;
+
+    /**
+     * @tirows  NotYftConnfdtfdExdfption
+     *          If tiis dibnnfl is not yft donnfdtfd
+     */
+    publid finbl long rfbd(BytfBufffr[] dsts) tirows IOExdfption {
+        rfturn rfbd(dsts, 0, dsts.lfngti);
     }
 
     /**
-     * @throws  NotYetConnectedException
-     *          If this channel is not yet connected
+     * @tirows  NotYftConnfdtfdExdfption
+     *          If tiis dibnnfl is not yft donnfdtfd
      */
-    public abstract int write(ByteBuffer src) throws IOException;
+    publid bbstrbdt int writf(BytfBufffr srd) tirows IOExdfption;
 
     /**
-     * @throws  NotYetConnectedException
-     *          If this channel is not yet connected
+     * @tirows  NotYftConnfdtfdExdfption
+     *          If tiis dibnnfl is not yft donnfdtfd
      */
-    public abstract long write(ByteBuffer[] srcs, int offset, int length)
-        throws IOException;
+    publid bbstrbdt long writf(BytfBufffr[] srds, int offsft, int lfngti)
+        tirows IOExdfption;
 
     /**
-     * @throws  NotYetConnectedException
-     *          If this channel is not yet connected
+     * @tirows  NotYftConnfdtfdExdfption
+     *          If tiis dibnnfl is not yft donnfdtfd
      */
-    public final long write(ByteBuffer[] srcs) throws IOException {
-        return write(srcs, 0, srcs.length);
+    publid finbl long writf(BytfBufffr[] srds) tirows IOExdfption {
+        rfturn writf(srds, 0, srds.lfngti);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      * <p>
-     * If there is a security manager set, its {@code checkConnect} method is
-     * called with the local address and {@code -1} as its arguments to see
-     * if the operation is allowed. If the operation is not allowed,
-     * a {@code SocketAddress} representing the
-     * {@link java.net.InetAddress#getLoopbackAddress loopback} address and the
-     * local port of the channel's socket is returned.
+     * If tifrf is b sfdurity mbnbgfr sft, its {@dodf difdkConnfdt} mftiod is
+     * dbllfd witi tif lodbl bddrfss bnd {@dodf -1} bs its brgumfnts to sff
+     * if tif opfrbtion is bllowfd. If tif opfrbtion is not bllowfd,
+     * b {@dodf SodkftAddrfss} rfprfsfnting tif
+     * {@link jbvb.nft.InftAddrfss#gftLoopbbdkAddrfss loopbbdk} bddrfss bnd tif
+     * lodbl port of tif dibnnfl's sodkft is rfturnfd.
      *
-     * @return  The {@code SocketAddress} that the socket is bound to, or the
-     *          {@code SocketAddress} representing the loopback address if
-     *          denied by the security manager, or {@code null} if the
-     *          channel's socket is not bound
+     * @rfturn  Tif {@dodf SodkftAddrfss} tibt tif sodkft is bound to, or tif
+     *          {@dodf SodkftAddrfss} rfprfsfnting tif loopbbdk bddrfss if
+     *          dfnifd by tif sfdurity mbnbgfr, or {@dodf null} if tif
+     *          dibnnfl's sodkft is not bound
      *
-     * @throws  ClosedChannelException     {@inheritDoc}
-     * @throws  IOException                {@inheritDoc}
+     * @tirows  ClosfdCibnnflExdfption     {@inifritDod}
+     * @tirows  IOExdfption                {@inifritDod}
      */
-    @Override
-    public abstract SocketAddress getLocalAddress() throws IOException;
+    @Ovfrridf
+    publid bbstrbdt SodkftAddrfss gftLodblAddrfss() tirows IOExdfption;
 
 }

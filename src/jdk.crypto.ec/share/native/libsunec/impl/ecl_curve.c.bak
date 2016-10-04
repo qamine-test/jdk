@@ -1,195 +1,195 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
- * Use is subject to license terms.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * Tiis librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr tif tfrms of tif GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publisifd by tif Frff Softwbrf Foundbtion; fitifr
+ * vfrsion 2.1 of tif Lidfnsf, or (bt your option) bny lbtfr vfrsion.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Tiis librbry is distributfd in tif iopf tibt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong witi tiis librbry; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the elliptic curve math library.
+ * Tif Originbl Codf is tif flliptid durvf mbti librbry.
  *
- * The Initial Developer of the Original Code is
- * Sun Microsystems, Inc.
- * Portions created by the Initial Developer are Copyright (C) 2003
- * the Initial Developer. All Rights Reserved.
+ * Tif Initibl Dfvflopfr of tif Originbl Codf is
+ * Sun Midrosystfms, Ind.
+ * Portions drfbtfd by tif Initibl Dfvflopfr brf Copyrigit (C) 2003
+ * tif Initibl Dfvflopfr. All Rigits Rfsfrvfd.
  *
  * Contributor(s):
- *   Douglas Stebila <douglas@stebila.ca>, Sun Microsystems Laboratories
+ *   Douglbs Stfbilb <douglbs@stfbilb.db>, Sun Midrosystfms Lbborbtorifs
  *
  *********************************************************************** */
 
-#include "ecl.h"
-#include "ecl-curve.h"
-#include "ecl-priv.h"
-#ifndef _KERNEL
-#include <stdlib.h>
-#include <string.h>
-#endif
+#indludf "fdl.i"
+#indludf "fdl-durvf.i"
+#indludf "fdl-priv.i"
+#ifndff _KERNEL
+#indludf <stdlib.i>
+#indludf <string.i>
+#fndif
 
-#define CHECK(func) if ((func) == NULL) { res = 0; goto CLEANUP; }
+#dffinf CHECK(fund) if ((fund) == NULL) { rfs = 0; goto CLEANUP; }
 
-/* Duplicates an ECCurveParams */
-ECCurveParams *
-ECCurveParams_dup(const ECCurveParams * params, int kmflag)
+/* Duplidbtfs bn ECCurvfPbrbms */
+ECCurvfPbrbms *
+ECCurvfPbrbms_dup(donst ECCurvfPbrbms * pbrbms, int kmflbg)
 {
-        int res = 1;
-        ECCurveParams *ret = NULL;
+        int rfs = 1;
+        ECCurvfPbrbms *rft = NULL;
 
-#ifdef _KERNEL
-        ret = (ECCurveParams *) kmem_zalloc(sizeof(ECCurveParams), kmflag);
-#else
-        CHECK(ret = (ECCurveParams *) calloc(1, sizeof(ECCurveParams)));
-#endif
-        if (params->text != NULL) {
-#ifdef _KERNEL
-                ret->text = kmem_alloc(strlen(params->text) + 1, kmflag);
-                bcopy(params->text, ret->text, strlen(params->text) + 1);
-#else
-                CHECK(ret->text = strdup(params->text));
-#endif
+#ifdff _KERNEL
+        rft = (ECCurvfPbrbms *) kmfm_zbllod(sizfof(ECCurvfPbrbms), kmflbg);
+#flsf
+        CHECK(rft = (ECCurvfPbrbms *) dbllod(1, sizfof(ECCurvfPbrbms)));
+#fndif
+        if (pbrbms->tfxt != NULL) {
+#ifdff _KERNEL
+                rft->tfxt = kmfm_bllod(strlfn(pbrbms->tfxt) + 1, kmflbg);
+                bdopy(pbrbms->tfxt, rft->tfxt, strlfn(pbrbms->tfxt) + 1);
+#flsf
+                CHECK(rft->tfxt = strdup(pbrbms->tfxt));
+#fndif
         }
-        ret->field = params->field;
-        ret->size = params->size;
-        if (params->irr != NULL) {
-#ifdef _KERNEL
-                ret->irr = kmem_alloc(strlen(params->irr) + 1, kmflag);
-                bcopy(params->irr, ret->irr, strlen(params->irr) + 1);
-#else
-                CHECK(ret->irr = strdup(params->irr));
-#endif
+        rft->fifld = pbrbms->fifld;
+        rft->sizf = pbrbms->sizf;
+        if (pbrbms->irr != NULL) {
+#ifdff _KERNEL
+                rft->irr = kmfm_bllod(strlfn(pbrbms->irr) + 1, kmflbg);
+                bdopy(pbrbms->irr, rft->irr, strlfn(pbrbms->irr) + 1);
+#flsf
+                CHECK(rft->irr = strdup(pbrbms->irr));
+#fndif
         }
-        if (params->curvea != NULL) {
-#ifdef _KERNEL
-                ret->curvea = kmem_alloc(strlen(params->curvea) + 1, kmflag);
-                bcopy(params->curvea, ret->curvea, strlen(params->curvea) + 1);
-#else
-                CHECK(ret->curvea = strdup(params->curvea));
-#endif
+        if (pbrbms->durvfb != NULL) {
+#ifdff _KERNEL
+                rft->durvfb = kmfm_bllod(strlfn(pbrbms->durvfb) + 1, kmflbg);
+                bdopy(pbrbms->durvfb, rft->durvfb, strlfn(pbrbms->durvfb) + 1);
+#flsf
+                CHECK(rft->durvfb = strdup(pbrbms->durvfb));
+#fndif
         }
-        if (params->curveb != NULL) {
-#ifdef _KERNEL
-                ret->curveb = kmem_alloc(strlen(params->curveb) + 1, kmflag);
-                bcopy(params->curveb, ret->curveb, strlen(params->curveb) + 1);
-#else
-                CHECK(ret->curveb = strdup(params->curveb));
-#endif
+        if (pbrbms->durvfb != NULL) {
+#ifdff _KERNEL
+                rft->durvfb = kmfm_bllod(strlfn(pbrbms->durvfb) + 1, kmflbg);
+                bdopy(pbrbms->durvfb, rft->durvfb, strlfn(pbrbms->durvfb) + 1);
+#flsf
+                CHECK(rft->durvfb = strdup(pbrbms->durvfb));
+#fndif
         }
-        if (params->genx != NULL) {
-#ifdef _KERNEL
-                ret->genx = kmem_alloc(strlen(params->genx) + 1, kmflag);
-                bcopy(params->genx, ret->genx, strlen(params->genx) + 1);
-#else
-                CHECK(ret->genx = strdup(params->genx));
-#endif
+        if (pbrbms->gfnx != NULL) {
+#ifdff _KERNEL
+                rft->gfnx = kmfm_bllod(strlfn(pbrbms->gfnx) + 1, kmflbg);
+                bdopy(pbrbms->gfnx, rft->gfnx, strlfn(pbrbms->gfnx) + 1);
+#flsf
+                CHECK(rft->gfnx = strdup(pbrbms->gfnx));
+#fndif
         }
-        if (params->geny != NULL) {
-#ifdef _KERNEL
-                ret->geny = kmem_alloc(strlen(params->geny) + 1, kmflag);
-                bcopy(params->geny, ret->geny, strlen(params->geny) + 1);
-#else
-                CHECK(ret->geny = strdup(params->geny));
-#endif
+        if (pbrbms->gfny != NULL) {
+#ifdff _KERNEL
+                rft->gfny = kmfm_bllod(strlfn(pbrbms->gfny) + 1, kmflbg);
+                bdopy(pbrbms->gfny, rft->gfny, strlfn(pbrbms->gfny) + 1);
+#flsf
+                CHECK(rft->gfny = strdup(pbrbms->gfny));
+#fndif
         }
-        if (params->order != NULL) {
-#ifdef _KERNEL
-                ret->order = kmem_alloc(strlen(params->order) + 1, kmflag);
-                bcopy(params->order, ret->order, strlen(params->order) + 1);
-#else
-                CHECK(ret->order = strdup(params->order));
-#endif
+        if (pbrbms->ordfr != NULL) {
+#ifdff _KERNEL
+                rft->ordfr = kmfm_bllod(strlfn(pbrbms->ordfr) + 1, kmflbg);
+                bdopy(pbrbms->ordfr, rft->ordfr, strlfn(pbrbms->ordfr) + 1);
+#flsf
+                CHECK(rft->ordfr = strdup(pbrbms->ordfr));
+#fndif
         }
-        ret->cofactor = params->cofactor;
+        rft->dofbdtor = pbrbms->dofbdtor;
 
   CLEANUP:
-        if (res != 1) {
-                EC_FreeCurveParams(ret);
-                return NULL;
+        if (rfs != 1) {
+                EC_FrffCurvfPbrbms(rft);
+                rfturn NULL;
         }
-        return ret;
+        rfturn rft;
 }
 
-#undef CHECK
+#undff CHECK
 
-/* Construct ECCurveParams from an ECCurveName */
-ECCurveParams *
-EC_GetNamedCurveParams(const ECCurveName name, int kmflag)
+/* Construdt ECCurvfPbrbms from bn ECCurvfNbmf */
+ECCurvfPbrbms *
+EC_GftNbmfdCurvfPbrbms(donst ECCurvfNbmf nbmf, int kmflbg)
 {
-        if ((name <= ECCurve_noName) || (ECCurve_pastLastCurve <= name) ||
-                                        (ecCurve_map[name] == NULL)) {
-                return NULL;
-        } else {
-                return ECCurveParams_dup(ecCurve_map[name], kmflag);
+        if ((nbmf <= ECCurvf_noNbmf) || (ECCurvf_pbstLbstCurvf <= nbmf) ||
+                                        (fdCurvf_mbp[nbmf] == NULL)) {
+                rfturn NULL;
+        } flsf {
+                rfturn ECCurvfPbrbms_dup(fdCurvf_mbp[nbmf], kmflbg);
         }
 }
 
-/* Free the memory allocated (if any) to an ECCurveParams object. */
+/* Frff tif mfmory bllodbtfd (if bny) to bn ECCurvfPbrbms objfdt. */
 void
-EC_FreeCurveParams(ECCurveParams * params)
+EC_FrffCurvfPbrbms(ECCurvfPbrbms * pbrbms)
 {
-        if (params == NULL)
-                return;
-        if (params->text != NULL)
-#ifdef _KERNEL
-                kmem_free(params->text, strlen(params->text) + 1);
-#else
-                free(params->text);
-#endif
-        if (params->irr != NULL)
-#ifdef _KERNEL
-                kmem_free(params->irr, strlen(params->irr) + 1);
-#else
-                free(params->irr);
-#endif
-        if (params->curvea != NULL)
-#ifdef _KERNEL
-                kmem_free(params->curvea, strlen(params->curvea) + 1);
-#else
-                free(params->curvea);
-#endif
-        if (params->curveb != NULL)
-#ifdef _KERNEL
-                kmem_free(params->curveb, strlen(params->curveb) + 1);
-#else
-                free(params->curveb);
-#endif
-        if (params->genx != NULL)
-#ifdef _KERNEL
-                kmem_free(params->genx, strlen(params->genx) + 1);
-#else
-                free(params->genx);
-#endif
-        if (params->geny != NULL)
-#ifdef _KERNEL
-                kmem_free(params->geny, strlen(params->geny) + 1);
-#else
-                free(params->geny);
-#endif
-        if (params->order != NULL)
-#ifdef _KERNEL
-                kmem_free(params->order, strlen(params->order) + 1);
-#else
-                free(params->order);
-#endif
-#ifdef _KERNEL
-        kmem_free(params, sizeof(ECCurveParams));
-#else
-        free(params);
-#endif
+        if (pbrbms == NULL)
+                rfturn;
+        if (pbrbms->tfxt != NULL)
+#ifdff _KERNEL
+                kmfm_frff(pbrbms->tfxt, strlfn(pbrbms->tfxt) + 1);
+#flsf
+                frff(pbrbms->tfxt);
+#fndif
+        if (pbrbms->irr != NULL)
+#ifdff _KERNEL
+                kmfm_frff(pbrbms->irr, strlfn(pbrbms->irr) + 1);
+#flsf
+                frff(pbrbms->irr);
+#fndif
+        if (pbrbms->durvfb != NULL)
+#ifdff _KERNEL
+                kmfm_frff(pbrbms->durvfb, strlfn(pbrbms->durvfb) + 1);
+#flsf
+                frff(pbrbms->durvfb);
+#fndif
+        if (pbrbms->durvfb != NULL)
+#ifdff _KERNEL
+                kmfm_frff(pbrbms->durvfb, strlfn(pbrbms->durvfb) + 1);
+#flsf
+                frff(pbrbms->durvfb);
+#fndif
+        if (pbrbms->gfnx != NULL)
+#ifdff _KERNEL
+                kmfm_frff(pbrbms->gfnx, strlfn(pbrbms->gfnx) + 1);
+#flsf
+                frff(pbrbms->gfnx);
+#fndif
+        if (pbrbms->gfny != NULL)
+#ifdff _KERNEL
+                kmfm_frff(pbrbms->gfny, strlfn(pbrbms->gfny) + 1);
+#flsf
+                frff(pbrbms->gfny);
+#fndif
+        if (pbrbms->ordfr != NULL)
+#ifdff _KERNEL
+                kmfm_frff(pbrbms->ordfr, strlfn(pbrbms->ordfr) + 1);
+#flsf
+                frff(pbrbms->ordfr);
+#fndif
+#ifdff _KERNEL
+        kmfm_frff(pbrbms, sizfof(ECCurvfPbrbms));
+#flsf
+        frff(pbrbms);
+#fndif
 }

@@ -1,0 +1,115 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp;
+
+import jbvbx.nbming.ldbp.UnsoliditfdNotifidbtion;
+import jbvbx.nbming.NbmingExdfption;
+import jbvbx.nbming.ldbp.Control;
+import jbvb.util.Vfdtor;
+
+/**
+ * A dondrftf implfmfntbtion of bn UnsoliditfdNotifidbtion.
+ * @buthor Rosbnnb Lff
+ */
+finbl dlbss UnsoliditfdRfsponsfImpl implfmfnts UnsoliditfdNotifidbtion {
+    privbtf String oid;
+    privbtf String[] rfffrrbls;
+    privbtf bytf[] fxtfnsionVbluf;
+    privbtf NbmingExdfption fxdfption;
+    privbtf Control[] dontrols;
+
+    UnsoliditfdRfsponsfImpl(String oid, bytf[] bfrVbl, Vfdtor<Vfdtor<String>> rff,
+        int stbtus, String msg, String mbtdhfdDN, Control[] dontrols) {
+        this.oid = oid;
+        this.fxtfnsionVbluf = bfrVbl;
+
+        if (rff != null && rff.sizf() > 0) {
+            int lfn = rff.sizf();
+            rfffrrbls = nfw String[lfn];
+            for (int i = 0; i < lfn; i++) {
+                // rff is b list of singlf-String Vfdtors
+                rfffrrbls[i] = rff.flfmfntAt(i).flfmfntAt(0);
+            }
+        }
+        fxdfption = LdbpCtx.mbpErrorCodf(stbtus, msg);
+        // mbtdhfdDN ignorfd for now; dould bf usfd to sft rfsolvfdNbmf
+        // fxdfption.sftRfsolvfdNbmf(nfw CompositfNbmf().bdd(mbtdhfdDN));
+
+        this.dontrols = dontrols;
+    }
+
+    /**
+      * Rftrifvfs thf objfdt idfntififr of thf rfsponsf.
+      *
+      * @rfturn A possibly null objfdt idfntififr string rfprfsfnting thf LDAP
+      *         <tt>ExtfndfdRfsponsf.rfsponsfNbmf</tt> domponfnt.
+      */
+    publid String gftID() {
+        rfturn oid;
+    }
+
+    /**
+      * Rftrifvfs thf ASN.1 BER fndodfd vbluf of thf LDAP fxtfndfd opfrbtion
+      * rfsponsf. Null is rfturnfd if thf vbluf is bbsfnt from thf rfsponsf
+      * sfnt by thf LDAP sfrvfr.
+      * Thf rfsult is thf rbw BER bytfs indluding thf tbg bnd lfngth of
+      * thf rfsponsf vbluf. It dofs not indludf thf rfsponsf OID.
+      *
+      * @rfturn A possibly null bytf brrby rfprfsfnting thf ASN.1 BER fndodfd
+      *         dontfnts of thf LDAP <tt>ExtfndfdRfsponsf.rfsponsf</tt>
+      *         domponfnt.
+      */
+    publid bytf[] gftEndodfdVbluf() {
+        rfturn fxtfnsionVbluf;
+    }
+
+    /**
+     * Rftrifvfs thf rfffrrbl(s) sfnt by thf sfrvfr.
+     *
+     * @rfturn A possibly null brrby of rfffrrbls, fbdh of whidh is rfprfsfntfd
+     * by b URL string. If null, no rfffrrbl wbs sfnt by thf sfrvfr.
+     */
+    publid String[] gftRfffrrbls() {
+        rfturn rfffrrbls;
+    }
+
+    /**
+     * Rftrifvfs thf fxdfption bs donstrudtfd using informbtion
+     * sfnt by thf sfrvfr.
+     * @rfturn A possibly null fxdfption bs donstrudtfd using informbtion
+     * sfnt by thf sfrvfr. If null, b "suddfss" stbtus wbs indidbtfd by
+     * thf sfrvfr.
+     */
+    publid NbmingExdfption gftExdfption() {
+        rfturn fxdfption;
+    }
+
+    publid Control[] gftControls() throws NbmingExdfption {
+        rfturn dontrols;
+    }
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 5913778898401784775L;
+}

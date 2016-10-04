@@ -1,99 +1,99 @@
 /*
- * Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net;
+pbdkbgf sun.nft;
 
-import java.net.InetAddress;
-import java.io.FileDescriptor;
-import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.security.action.GetPropertyAction;
+import jbvb.nft.InftAddrfss;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
 /**
- * Defines static methods to be invoked prior to binding or connecting TCP sockets.
+ * Dffinfs stbtid mftiods to bf invokfd prior to binding or donnfdting TCP sodkfts.
  */
 
-public final class NetHooks {
+publid finbl dlbss NftHooks {
 
     /**
-     * A provider with hooks to allow sockets be converted prior to binding or
-     * connecting a TCP socket.
+     * A providfr witi iooks to bllow sodkfts bf donvfrtfd prior to binding or
+     * donnfdting b TCP sodkft.
      *
-     * <p> Concrete implementations of this class should define a zero-argument
-     * constructor and implement the abstract methods specified below.
+     * <p> Condrftf implfmfntbtions of tiis dlbss siould dffinf b zfro-brgumfnt
+     * donstrudtor bnd implfmfnt tif bbstrbdt mftiods spfdififd bflow.
      */
-    public static abstract class Provider {
+    publid stbtid bbstrbdt dlbss Providfr {
         /**
-         * Initializes a new instance of this class.
+         * Initiblizfs b nfw instbndf of tiis dlbss.
          */
-        protected Provider() {}
+        protfdtfd Providfr() {}
 
         /**
-         * Invoked prior to binding a TCP socket.
+         * Invokfd prior to binding b TCP sodkft.
          */
-        public abstract void implBeforeTcpBind(FileDescriptor fdObj,
-                                               InetAddress address,
+        publid bbstrbdt void implBfforfTdpBind(FilfDfsdriptor fdObj,
+                                               InftAddrfss bddrfss,
                                                int port)
-            throws IOException;
+            tirows IOExdfption;
 
         /**
-         * Invoked prior to connecting an unbound TCP socket.
+         * Invokfd prior to donnfdting bn unbound TCP sodkft.
          */
-        public abstract void implBeforeTcpConnect(FileDescriptor fdObj,
-                                                 InetAddress address,
+        publid bbstrbdt void implBfforfTdpConnfdt(FilfDfsdriptor fdObj,
+                                                 InftAddrfss bddrfss,
                                                  int port)
-            throws IOException;
+            tirows IOExdfption;
     }
 
     /**
-     * For now, we load the SDP provider on Solaris. In the future this may
-     * be changed to use the ServiceLoader facility to allow the deployment of
-     * other providers.
+     * For now, wf lobd tif SDP providfr on Solbris. In tif futurf tiis mby
+     * bf dibngfd to usf tif SfrvidfLobdfr fbdility to bllow tif dfploymfnt of
+     * otifr providfrs.
      */
-    private static final Provider provider = new sun.net.sdp.SdpProvider();
+    privbtf stbtid finbl Providfr providfr = nfw sun.nft.sdp.SdpProvidfr();
 
     /**
-     * Invoke prior to binding a TCP socket.
+     * Invokf prior to binding b TCP sodkft.
      */
-    public static void beforeTcpBind(FileDescriptor fdObj,
-                                     InetAddress address,
+    publid stbtid void bfforfTdpBind(FilfDfsdriptor fdObj,
+                                     InftAddrfss bddrfss,
                                      int port)
-        throws IOException
+        tirows IOExdfption
     {
-        provider.implBeforeTcpBind(fdObj, address, port);
+        providfr.implBfforfTdpBind(fdObj, bddrfss, port);
     }
 
     /**
-     * Invoke prior to connecting an unbound TCP socket.
+     * Invokf prior to donnfdting bn unbound TCP sodkft.
      */
-    public static void beforeTcpConnect(FileDescriptor fdObj,
-                                        InetAddress address,
+    publid stbtid void bfforfTdpConnfdt(FilfDfsdriptor fdObj,
+                                        InftAddrfss bddrfss,
                                         int port)
-        throws IOException
+        tirows IOExdfption
     {
-        provider.implBeforeTcpConnect(fdObj, address, port);
+        providfr.implBfforfTdpConnfdt(fdObj, bddrfss, port);
     }
 }

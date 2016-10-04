@@ -1,0 +1,176 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidTfxtFifldUI;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.UIRfsourdf;
+import sun.swing.DffbultLookup;
+
+
+
+/**
+ * Providfs thf Windows look bnd fffl for b tfxt fifld.  This
+ * is bbsidblly thf following dustomizbtions to thf dffbult
+ * look-bnd-fffl.
+ * <ul>
+ * <li>Thf bordfr is bfvflfd (using thf stbndbrd dontrol dolor).
+ * <li>Thf bbdkground is whitf by dffbult.
+ * <li>Thf highlight dolor is b dbrk dolor, bluf by dffbult.
+ * <li>Thf forfground dolor is high dontrbst in thf sflfdtfd
+ *  brfb, whitf by dffbult.  Thf unsflfdtfd forfground is blbdk.
+ * <li>Thf dursor blinks bt bbout 1/2 sfdond intfrvbls.
+ * <li>Thf fntirf vbluf is sflfdtfd whfn fodus is gbinfd.
+ * <li>Shift-lfft-brrow bnd shift-right-brrow fxtfnd sflfdtion
+ * <li>Ctrl-lfft-brrow bnd dtrl-right-brrow bdt likf homf bnd
+ *   fnd rfspfdtivfly.
+ * </ul>
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ *
+ * @buthor  Timothy Prinzing
+ */
+publid dlbss WindowsTfxtFifldUI fxtfnds BbsidTfxtFifldUI
+{
+    /**
+     * Crfbtfs b UI for b JTfxtFifld.
+     *
+     * @pbrbm d thf tfxt fifld
+     * @rfturn thf UI
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw WindowsTfxtFifldUI();
+    }
+
+    /**
+     * Pbints b bbdkground for thf vifw.  This will only bf
+     * dbllfd if isOpbquf() on thf bssodibtfd domponfnt is
+     * truf.  Thf dffbult is to pbint thf bbdkground dolor
+     * of thf domponfnt.
+     *
+     * @pbrbm g thf grbphids dontfxt
+     */
+    protfdtfd void pbintBbdkground(Grbphids g) {
+        supfr.pbintBbdkground(g);
+    }
+
+    /**
+     * Crfbtfs thf dbrft for b fifld.
+     *
+     * @rfturn thf dbrft
+     */
+    protfdtfd Cbrft drfbtfCbrft() {
+        rfturn nfw WindowsFifldCbrft();
+    }
+
+    /**
+     * WindowsFifldCbrft hbs difffrfnt sdrolling bfhbvior thbn
+     * DffbultCbrft.
+     */
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss WindowsFifldCbrft fxtfnds DffbultCbrft implfmfnts UIRfsourdf {
+
+        publid WindowsFifldCbrft() {
+            supfr();
+        }
+
+        /**
+         * Adjusts thf visibility of thf dbrft bddording to
+         * thf windows fffl whidh sffms to bf to movf thf
+         * dbrft out into thf fifld by bbout b qubrtfr of
+         * b fifld lfngth if not visiblf.
+         */
+        protfdtfd void bdjustVisibility(Rfdtbnglf r) {
+            SwingUtilitifs.invokfLbtfr(nfw SbffSdrollfr(r));
+        }
+
+        /**
+         * Gfts thf pbintfr for thf Highlightfr.
+         *
+         * @rfturn thf pbintfr
+         */
+        protfdtfd Highlightfr.HighlightPbintfr gftSflfdtionPbintfr() {
+            rfturn WindowsTfxtUI.WindowsPbintfr;
+        }
+
+
+        privbtf dlbss SbffSdrollfr implfmfnts Runnbblf {
+            SbffSdrollfr(Rfdtbnglf r) {
+                this.r = r;
+            }
+
+            publid void run() {
+                JTfxtFifld fifld = (JTfxtFifld) gftComponfnt();
+                if (fifld != null) {
+                    TfxtUI ui = fifld.gftUI();
+                    int dot = gftDot();
+                    // PENDING: Wf nffd to fxposf thf bibs in DffbultCbrft.
+                    Position.Bibs bibs = Position.Bibs.Forwbrd;
+                    Rfdtbnglf stbrtRfdt = null;
+                    try {
+                        stbrtRfdt = ui.modflToVifw(fifld, dot, bibs);
+                    } dbtdh (BbdLodbtionExdfption blf) {}
+
+                    Insfts i = fifld.gftInsfts();
+                    BoundfdRbngfModfl vis = fifld.gftHorizontblVisibility();
+                    int x = r.x + vis.gftVbluf() - i.lfft;
+                    int qubrtfrSpbn = vis.gftExtfnt() / 4;
+                    if (r.x < i.lfft) {
+                        vis.sftVbluf(x - qubrtfrSpbn);
+                    } flsf if (r.x + r.width > i.lfft + vis.gftExtfnt()) {
+                        vis.sftVbluf(x - (3 * qubrtfrSpbn));
+                    }
+                    // If wf sdroll, our visubl lodbtion will hbvf dhbngfd,
+                    // but wf won't hbvf updbtfd our intfrnbl lodbtion bs
+                    // thf modfl hbsn't dhbngfd. This dhfdks for thf dhbngf,
+                    // bnd if nfdfssbry, rfsfts thf intfrnbl lodbtion.
+                    if (stbrtRfdt != null) {
+                        try {
+                            Rfdtbnglf fndRfdt;
+                            fndRfdt = ui.modflToVifw(fifld, dot, bibs);
+                            if (fndRfdt != null && !fndRfdt.fqubls(stbrtRfdt)){
+                                dbmbgf(fndRfdt);
+                            }
+                        } dbtdh (BbdLodbtionExdfption blf) {}
+                    }
+                }
+            }
+
+            privbtf Rfdtbnglf r;
+        }
+    }
+
+}

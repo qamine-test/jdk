@@ -1,1163 +1,1163 @@
 /*
- * Copyright (c) 2012, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider.certpath;
+pbdkbgf sun.sfdurity.providfr.dfrtpbti;
 
-import java.io.IOException;
-import java.math.BigInteger;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.security.AccessController;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivilegedAction;
-import java.security.PublicKey;
-import java.security.Security;
-import java.security.cert.CertPathValidatorException.BasicReason;
-import java.security.cert.Extension;
-import java.security.cert.*;
-import java.util.*;
-import javax.security.auth.x500.X500Principal;
+import jbvb.io.IOExdfption;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.nft.URI;
+import jbvb.nft.URISyntbxExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.Sfdurity;
+import jbvb.sfdurity.dfrt.CfrtPbtiVblidbtorExdfption.BbsidRfbson;
+import jbvb.sfdurity.dfrt.Extfnsion;
+import jbvb.sfdurity.dfrt.*;
+import jbvb.util.*;
+import jbvbx.sfdurity.buti.x500.X500Prindipbl;
 
-import static sun.security.provider.certpath.OCSP.*;
-import static sun.security.provider.certpath.PKIX.*;
-import sun.security.action.GetPropertyAction;
-import sun.security.x509.*;
-import static sun.security.x509.PKIXExtensions.*;
-import sun.security.util.Debug;
+import stbtid sun.sfdurity.providfr.dfrtpbti.OCSP.*;
+import stbtid sun.sfdurity.providfr.dfrtpbti.PKIX.*;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.sfdurity.x509.*;
+import stbtid sun.sfdurity.x509.PKIXExtfnsions.*;
+import sun.sfdurity.util.Dfbug;
 
-class RevocationChecker extends PKIXRevocationChecker {
+dlbss RfvodbtionCifdkfr fxtfnds PKIXRfvodbtionCifdkfr {
 
-    private static final Debug debug = Debug.getInstance("certpath");
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbti");
 
-    private TrustAnchor anchor;
-    private ValidatorParams params;
-    private boolean onlyEE;
-    private boolean softFail;
-    private boolean crlDP;
-    private URI responderURI;
-    private X509Certificate responderCert;
-    private List<CertStore> certStores;
-    private Map<X509Certificate, byte[]> ocspResponses;
-    private List<Extension> ocspExtensions;
-    private boolean legacy;
-    private LinkedList<CertPathValidatorException> softFailExceptions =
-        new LinkedList<>();
+    privbtf TrustAndior bndior;
+    privbtf VblidbtorPbrbms pbrbms;
+    privbtf boolfbn onlyEE;
+    privbtf boolfbn softFbil;
+    privbtf boolfbn drlDP;
+    privbtf URI rfspondfrURI;
+    privbtf X509Cfrtifidbtf rfspondfrCfrt;
+    privbtf List<CfrtStorf> dfrtStorfs;
+    privbtf Mbp<X509Cfrtifidbtf, bytf[]> odspRfsponsfs;
+    privbtf List<Extfnsion> odspExtfnsions;
+    privbtf boolfbn lfgbdy;
+    privbtf LinkfdList<CfrtPbtiVblidbtorExdfption> softFbilExdfptions =
+        nfw LinkfdList<>();
 
-    // state variables
-    private X509Certificate issuerCert;
-    private PublicKey prevPubKey;
-    private boolean crlSignFlag;
-    private int certIndex;
+    // stbtf vbribblfs
+    privbtf X509Cfrtifidbtf issufrCfrt;
+    privbtf PublidKfy prfvPubKfy;
+    privbtf boolfbn drlSignFlbg;
+    privbtf int dfrtIndfx;
 
-    private enum Mode { PREFER_OCSP, PREFER_CRLS, ONLY_CRLS, ONLY_OCSP };
-    private Mode mode = Mode.PREFER_OCSP;
+    privbtf fnum Modf { PREFER_OCSP, PREFER_CRLS, ONLY_CRLS, ONLY_OCSP };
+    privbtf Modf modf = Modf.PREFER_OCSP;
 
-    private static class RevocationProperties {
-        boolean onlyEE;
-        boolean ocspEnabled;
-        boolean crlDPEnabled;
-        String ocspUrl;
-        String ocspSubject;
-        String ocspIssuer;
-        String ocspSerial;
+    privbtf stbtid dlbss RfvodbtionPropfrtifs {
+        boolfbn onlyEE;
+        boolfbn odspEnbblfd;
+        boolfbn drlDPEnbblfd;
+        String odspUrl;
+        String odspSubjfdt;
+        String odspIssufr;
+        String odspSfribl;
     }
 
-    RevocationChecker() {
-        legacy = false;
+    RfvodbtionCifdkfr() {
+        lfgbdy = fblsf;
     }
 
-    RevocationChecker(TrustAnchor anchor, ValidatorParams params)
-        throws CertPathValidatorException
+    RfvodbtionCifdkfr(TrustAndior bndior, VblidbtorPbrbms pbrbms)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        legacy = true;
-        init(anchor, params);
+        lfgbdy = truf;
+        init(bndior, pbrbms);
     }
 
-    void init(TrustAnchor anchor, ValidatorParams params)
-        throws CertPathValidatorException
+    void init(TrustAndior bndior, VblidbtorPbrbms pbrbms)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        RevocationProperties rp = getRevocationProperties();
-        URI uri = getOcspResponder();
-        responderURI = (uri == null) ? toURI(rp.ocspUrl) : uri;
-        X509Certificate cert = getOcspResponderCert();
-        responderCert = (cert == null)
-                        ? getResponderCert(rp, params.trustAnchors(),
-                                           params.certStores())
-                        : cert;
-        Set<Option> options = getOptions();
+        RfvodbtionPropfrtifs rp = gftRfvodbtionPropfrtifs();
+        URI uri = gftOdspRfspondfr();
+        rfspondfrURI = (uri == null) ? toURI(rp.odspUrl) : uri;
+        X509Cfrtifidbtf dfrt = gftOdspRfspondfrCfrt();
+        rfspondfrCfrt = (dfrt == null)
+                        ? gftRfspondfrCfrt(rp, pbrbms.trustAndiors(),
+                                           pbrbms.dfrtStorfs())
+                        : dfrt;
+        Sft<Option> options = gftOptions();
         for (Option option : options) {
-            switch (option) {
-            case ONLY_END_ENTITY:
-            case PREFER_CRLS:
-            case SOFT_FAIL:
-            case NO_FALLBACK:
-                break;
-            default:
-                throw new CertPathValidatorException(
-                    "Unrecognized revocation parameter option: " + option);
+            switdi (option) {
+            dbsf ONLY_END_ENTITY:
+            dbsf PREFER_CRLS:
+            dbsf SOFT_FAIL:
+            dbsf NO_FALLBACK:
+                brfbk;
+            dffbult:
+                tirow nfw CfrtPbtiVblidbtorExdfption(
+                    "Unrfdognizfd rfvodbtion pbrbmftfr option: " + option);
             }
         }
-        softFail = options.contains(Option.SOFT_FAIL);
+        softFbil = options.dontbins(Option.SOFT_FAIL);
 
-        // set mode, only end entity flag
-        if (legacy) {
-            mode = (rp.ocspEnabled) ? Mode.PREFER_OCSP : Mode.ONLY_CRLS;
+        // sft modf, only fnd fntity flbg
+        if (lfgbdy) {
+            modf = (rp.odspEnbblfd) ? Modf.PREFER_OCSP : Modf.ONLY_CRLS;
             onlyEE = rp.onlyEE;
-        } else {
-            if (options.contains(Option.NO_FALLBACK)) {
-                if (options.contains(Option.PREFER_CRLS)) {
-                    mode = Mode.ONLY_CRLS;
-                } else {
-                    mode = Mode.ONLY_OCSP;
+        } flsf {
+            if (options.dontbins(Option.NO_FALLBACK)) {
+                if (options.dontbins(Option.PREFER_CRLS)) {
+                    modf = Modf.ONLY_CRLS;
+                } flsf {
+                    modf = Modf.ONLY_OCSP;
                 }
-            } else if (options.contains(Option.PREFER_CRLS)) {
-                mode = Mode.PREFER_CRLS;
+            } flsf if (options.dontbins(Option.PREFER_CRLS)) {
+                modf = Modf.PREFER_CRLS;
             }
-            onlyEE = options.contains(Option.ONLY_END_ENTITY);
+            onlyEE = options.dontbins(Option.ONLY_END_ENTITY);
         }
-        if (legacy) {
-            crlDP = rp.crlDPEnabled;
-        } else {
-            crlDP = true;
+        if (lfgbdy) {
+            drlDP = rp.drlDPEnbblfd;
+        } flsf {
+            drlDP = truf;
         }
-        ocspResponses = getOcspResponses();
-        ocspExtensions = getOcspExtensions();
+        odspRfsponsfs = gftOdspRfsponsfs();
+        odspExtfnsions = gftOdspExtfnsions();
 
-        this.anchor = anchor;
-        this.params = params;
-        this.certStores = new ArrayList<>(params.certStores());
+        tiis.bndior = bndior;
+        tiis.pbrbms = pbrbms;
+        tiis.dfrtStorfs = nfw ArrbyList<>(pbrbms.dfrtStorfs());
         try {
-            this.certStores.add(CertStore.getInstance("Collection",
-                new CollectionCertStoreParameters(params.certificates())));
-        } catch (InvalidAlgorithmParameterException |
-                 NoSuchAlgorithmException e) {
-            // should never occur but not necessarily fatal, so log it,
-            // ignore and continue
-            if (debug != null) {
-                debug.println("RevocationChecker: " +
-                              "error creating Collection CertStore: " + e);
+            tiis.dfrtStorfs.bdd(CfrtStorf.gftInstbndf("Collfdtion",
+                nfw CollfdtionCfrtStorfPbrbmftfrs(pbrbms.dfrtifidbtfs())));
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption |
+                 NoSudiAlgoritimExdfption f) {
+            // siould nfvfr oddur but not nfdfssbrily fbtbl, so log it,
+            // ignorf bnd dontinuf
+            if (dfbug != null) {
+                dfbug.println("RfvodbtionCifdkfr: " +
+                              "frror drfbting Collfdtion CfrtStorf: " + f);
             }
         }
     }
 
-    private static URI toURI(String uriString)
-        throws CertPathValidatorException
+    privbtf stbtid URI toURI(String uriString)
+        tirows CfrtPbtiVblidbtorExdfption
     {
         try {
             if (uriString != null) {
-                return new URI(uriString);
+                rfturn nfw URI(uriString);
             }
-            return null;
-        } catch (URISyntaxException e) {
-            throw new CertPathValidatorException(
-                "cannot parse ocsp.responderURL property", e);
+            rfturn null;
+        } dbtdi (URISyntbxExdfption f) {
+            tirow nfw CfrtPbtiVblidbtorExdfption(
+                "dbnnot pbrsf odsp.rfspondfrURL propfrty", f);
         }
     }
 
-    private static RevocationProperties getRevocationProperties() {
-        return AccessController.doPrivileged(
-            new PrivilegedAction<RevocationProperties>() {
-                public RevocationProperties run() {
-                    RevocationProperties rp = new RevocationProperties();
-                    String onlyEE = Security.getProperty(
-                        "com.sun.security.onlyCheckRevocationOfEECert");
+    privbtf stbtid RfvodbtionPropfrtifs gftRfvodbtionPropfrtifs() {
+        rfturn AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<RfvodbtionPropfrtifs>() {
+                publid RfvodbtionPropfrtifs run() {
+                    RfvodbtionPropfrtifs rp = nfw RfvodbtionPropfrtifs();
+                    String onlyEE = Sfdurity.gftPropfrty(
+                        "dom.sun.sfdurity.onlyCifdkRfvodbtionOfEECfrt");
                     rp.onlyEE = onlyEE != null
-                                && onlyEE.equalsIgnoreCase("true");
-                    String ocspEnabled = Security.getProperty("ocsp.enable");
-                    rp.ocspEnabled = ocspEnabled != null
-                                     && ocspEnabled.equalsIgnoreCase("true");
-                    rp.ocspUrl = Security.getProperty("ocsp.responderURL");
-                    rp.ocspSubject
-                        = Security.getProperty("ocsp.responderCertSubjectName");
-                    rp.ocspIssuer
-                        = Security.getProperty("ocsp.responderCertIssuerName");
-                    rp.ocspSerial
-                        = Security.getProperty("ocsp.responderCertSerialNumber");
-                    rp.crlDPEnabled
-                        = Boolean.getBoolean("com.sun.security.enableCRLDP");
-                    return rp;
+                                && onlyEE.fqublsIgnorfCbsf("truf");
+                    String odspEnbblfd = Sfdurity.gftPropfrty("odsp.fnbblf");
+                    rp.odspEnbblfd = odspEnbblfd != null
+                                     && odspEnbblfd.fqublsIgnorfCbsf("truf");
+                    rp.odspUrl = Sfdurity.gftPropfrty("odsp.rfspondfrURL");
+                    rp.odspSubjfdt
+                        = Sfdurity.gftPropfrty("odsp.rfspondfrCfrtSubjfdtNbmf");
+                    rp.odspIssufr
+                        = Sfdurity.gftPropfrty("odsp.rfspondfrCfrtIssufrNbmf");
+                    rp.odspSfribl
+                        = Sfdurity.gftPropfrty("odsp.rfspondfrCfrtSfriblNumbfr");
+                    rp.drlDPEnbblfd
+                        = Boolfbn.gftBoolfbn("dom.sun.sfdurity.fnbblfCRLDP");
+                    rfturn rp;
                 }
             }
         );
     }
 
-    private static X509Certificate getResponderCert(RevocationProperties rp,
-                                                    Set<TrustAnchor> anchors,
-                                                    List<CertStore> stores)
-        throws CertPathValidatorException
+    privbtf stbtid X509Cfrtifidbtf gftRfspondfrCfrt(RfvodbtionPropfrtifs rp,
+                                                    Sft<TrustAndior> bndiors,
+                                                    List<CfrtStorf> storfs)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        if (rp.ocspSubject != null) {
-            return getResponderCert(rp.ocspSubject, anchors, stores);
-        } else if (rp.ocspIssuer != null && rp.ocspSerial != null) {
-            return getResponderCert(rp.ocspIssuer, rp.ocspSerial,
-                                    anchors, stores);
-        } else if (rp.ocspIssuer != null || rp.ocspSerial != null) {
-            throw new CertPathValidatorException(
-                "Must specify both ocsp.responderCertIssuerName and " +
-                "ocsp.responderCertSerialNumber properties");
+        if (rp.odspSubjfdt != null) {
+            rfturn gftRfspondfrCfrt(rp.odspSubjfdt, bndiors, storfs);
+        } flsf if (rp.odspIssufr != null && rp.odspSfribl != null) {
+            rfturn gftRfspondfrCfrt(rp.odspIssufr, rp.odspSfribl,
+                                    bndiors, storfs);
+        } flsf if (rp.odspIssufr != null || rp.odspSfribl != null) {
+            tirow nfw CfrtPbtiVblidbtorExdfption(
+                "Must spfdify boti odsp.rfspondfrCfrtIssufrNbmf bnd " +
+                "odsp.rfspondfrCfrtSfriblNumbfr propfrtifs");
         }
-        return null;
+        rfturn null;
     }
 
-    private static X509Certificate getResponderCert(String subject,
-                                                    Set<TrustAnchor> anchors,
-                                                    List<CertStore> stores)
-        throws CertPathValidatorException
+    privbtf stbtid X509Cfrtifidbtf gftRfspondfrCfrt(String subjfdt,
+                                                    Sft<TrustAndior> bndiors,
+                                                    List<CfrtStorf> storfs)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        X509CertSelector sel = new X509CertSelector();
+        X509CfrtSflfdtor sfl = nfw X509CfrtSflfdtor();
         try {
-            sel.setSubject(new X500Principal(subject));
-        } catch (IllegalArgumentException e) {
-            throw new CertPathValidatorException(
-                "cannot parse ocsp.responderCertSubjectName property", e);
+            sfl.sftSubjfdt(nfw X500Prindipbl(subjfdt));
+        } dbtdi (IllfgblArgumfntExdfption f) {
+            tirow nfw CfrtPbtiVblidbtorExdfption(
+                "dbnnot pbrsf odsp.rfspondfrCfrtSubjfdtNbmf propfrty", f);
         }
-        return getResponderCert(sel, anchors, stores);
+        rfturn gftRfspondfrCfrt(sfl, bndiors, storfs);
     }
 
-    private static X509Certificate getResponderCert(String issuer,
-                                                    String serial,
-                                                    Set<TrustAnchor> anchors,
-                                                    List<CertStore> stores)
-        throws CertPathValidatorException
+    privbtf stbtid X509Cfrtifidbtf gftRfspondfrCfrt(String issufr,
+                                                    String sfribl,
+                                                    Sft<TrustAndior> bndiors,
+                                                    List<CfrtStorf> storfs)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        X509CertSelector sel = new X509CertSelector();
+        X509CfrtSflfdtor sfl = nfw X509CfrtSflfdtor();
         try {
-            sel.setIssuer(new X500Principal(issuer));
-        } catch (IllegalArgumentException e) {
-            throw new CertPathValidatorException(
-                "cannot parse ocsp.responderCertIssuerName property", e);
+            sfl.sftIssufr(nfw X500Prindipbl(issufr));
+        } dbtdi (IllfgblArgumfntExdfption f) {
+            tirow nfw CfrtPbtiVblidbtorExdfption(
+                "dbnnot pbrsf odsp.rfspondfrCfrtIssufrNbmf propfrty", f);
         }
         try {
-            sel.setSerialNumber(new BigInteger(stripOutSeparators(serial), 16));
-        } catch (NumberFormatException e) {
-            throw new CertPathValidatorException(
-                "cannot parse ocsp.responderCertSerialNumber property", e);
+            sfl.sftSfriblNumbfr(nfw BigIntfgfr(stripOutSfpbrbtors(sfribl), 16));
+        } dbtdi (NumbfrFormbtExdfption f) {
+            tirow nfw CfrtPbtiVblidbtorExdfption(
+                "dbnnot pbrsf odsp.rfspondfrCfrtSfriblNumbfr propfrty", f);
         }
-        return getResponderCert(sel, anchors, stores);
+        rfturn gftRfspondfrCfrt(sfl, bndiors, storfs);
     }
 
-    private static X509Certificate getResponderCert(X509CertSelector sel,
-                                                    Set<TrustAnchor> anchors,
-                                                    List<CertStore> stores)
-        throws CertPathValidatorException
+    privbtf stbtid X509Cfrtifidbtf gftRfspondfrCfrt(X509CfrtSflfdtor sfl,
+                                                    Sft<TrustAndior> bndiors,
+                                                    List<CfrtStorf> storfs)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        // first check TrustAnchors
-        for (TrustAnchor anchor : anchors) {
-            X509Certificate cert = anchor.getTrustedCert();
-            if (cert == null) {
-                continue;
+        // first difdk TrustAndiors
+        for (TrustAndior bndior : bndiors) {
+            X509Cfrtifidbtf dfrt = bndior.gftTrustfdCfrt();
+            if (dfrt == null) {
+                dontinuf;
             }
-            if (sel.match(cert)) {
-                return cert;
+            if (sfl.mbtdi(dfrt)) {
+                rfturn dfrt;
             }
         }
-        // now check CertStores
-        for (CertStore store : stores) {
+        // now difdk CfrtStorfs
+        for (CfrtStorf storf : storfs) {
             try {
-                Collection<? extends Certificate> certs =
-                    store.getCertificates(sel);
-                if (!certs.isEmpty()) {
-                    return (X509Certificate)certs.iterator().next();
+                Collfdtion<? fxtfnds Cfrtifidbtf> dfrts =
+                    storf.gftCfrtifidbtfs(sfl);
+                if (!dfrts.isEmpty()) {
+                    rfturn (X509Cfrtifidbtf)dfrts.itfrbtor().nfxt();
                 }
-            } catch (CertStoreException e) {
-                // ignore and try next CertStore
-                if (debug != null) {
-                    debug.println("CertStore exception:" + e);
+            } dbtdi (CfrtStorfExdfption f) {
+                // ignorf bnd try nfxt CfrtStorf
+                if (dfbug != null) {
+                    dfbug.println("CfrtStorf fxdfption:" + f);
                 }
-                continue;
+                dontinuf;
             }
         }
-        throw new CertPathValidatorException(
-            "Cannot find the responder's certificate " +
-            "(set using the OCSP security properties).");
+        tirow nfw CfrtPbtiVblidbtorExdfption(
+            "Cbnnot find tif rfspondfr's dfrtifidbtf " +
+            "(sft using tif OCSP sfdurity propfrtifs).");
     }
 
-    @Override
-    public void init(boolean forward) throws CertPathValidatorException {
-        if (forward) {
-            throw new
-                CertPathValidatorException("forward checking not supported");
+    @Ovfrridf
+    publid void init(boolfbn forwbrd) tirows CfrtPbtiVblidbtorExdfption {
+        if (forwbrd) {
+            tirow nfw
+                CfrtPbtiVblidbtorExdfption("forwbrd difdking not supportfd");
         }
-        if (anchor != null) {
-            issuerCert = anchor.getTrustedCert();
-            prevPubKey = (issuerCert != null) ? issuerCert.getPublicKey()
-                                              : anchor.getCAPublicKey();
+        if (bndior != null) {
+            issufrCfrt = bndior.gftTrustfdCfrt();
+            prfvPubKfy = (issufrCfrt != null) ? issufrCfrt.gftPublidKfy()
+                                              : bndior.gftCAPublidKfy();
         }
-        crlSignFlag = true;
-        if (params != null && params.certPath() != null) {
-            certIndex = params.certPath().getCertificates().size() - 1;
-        } else {
-            certIndex = -1;
+        drlSignFlbg = truf;
+        if (pbrbms != null && pbrbms.dfrtPbti() != null) {
+            dfrtIndfx = pbrbms.dfrtPbti().gftCfrtifidbtfs().sizf() - 1;
+        } flsf {
+            dfrtIndfx = -1;
         }
-        softFailExceptions.clear();
+        softFbilExdfptions.dlfbr();
     }
 
-    @Override
-    public boolean isForwardCheckingSupported() {
-        return false;
+    @Ovfrridf
+    publid boolfbn isForwbrdCifdkingSupportfd() {
+        rfturn fblsf;
     }
 
-    @Override
-    public Set<String> getSupportedExtensions() {
-        return null;
+    @Ovfrridf
+    publid Sft<String> gftSupportfdExtfnsions() {
+        rfturn null;
     }
 
-    @Override
-    public List<CertPathValidatorException> getSoftFailExceptions() {
-        return Collections.unmodifiableList(softFailExceptions);
+    @Ovfrridf
+    publid List<CfrtPbtiVblidbtorExdfption> gftSoftFbilExdfptions() {
+        rfturn Collfdtions.unmodifibblfList(softFbilExdfptions);
     }
 
-    @Override
-    public void check(Certificate cert, Collection<String> unresolvedCritExts)
-        throws CertPathValidatorException
+    @Ovfrridf
+    publid void difdk(Cfrtifidbtf dfrt, Collfdtion<String> unrfsolvfdCritExts)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        check((X509Certificate)cert, unresolvedCritExts,
-              prevPubKey, crlSignFlag);
+        difdk((X509Cfrtifidbtf)dfrt, unrfsolvfdCritExts,
+              prfvPubKfy, drlSignFlbg);
     }
 
-    private void check(X509Certificate xcert,
-                       Collection<String> unresolvedCritExts,
-                       PublicKey pubKey, boolean crlSignFlag)
-        throws CertPathValidatorException
+    privbtf void difdk(X509Cfrtifidbtf xdfrt,
+                       Collfdtion<String> unrfsolvfdCritExts,
+                       PublidKfy pubKfy, boolfbn drlSignFlbg)
+        tirows CfrtPbtiVblidbtorExdfption
     {
         try {
-            if (onlyEE && xcert.getBasicConstraints() != -1) {
-                if (debug != null) {
-                    debug.println("Skipping revocation check, not end " +
-                                  "entity cert");
+            if (onlyEE && xdfrt.gftBbsidConstrbints() != -1) {
+                if (dfbug != null) {
+                    dfbug.println("Skipping rfvodbtion difdk, not fnd " +
+                                  "fntity dfrt");
                 }
-                return;
+                rfturn;
             }
-            switch (mode) {
-                case PREFER_OCSP:
-                case ONLY_OCSP:
-                    checkOCSP(xcert, unresolvedCritExts);
-                    break;
-                case PREFER_CRLS:
-                case ONLY_CRLS:
-                    checkCRLs(xcert, unresolvedCritExts, null,
-                              pubKey, crlSignFlag);
-                    break;
+            switdi (modf) {
+                dbsf PREFER_OCSP:
+                dbsf ONLY_OCSP:
+                    difdkOCSP(xdfrt, unrfsolvfdCritExts);
+                    brfbk;
+                dbsf PREFER_CRLS:
+                dbsf ONLY_CRLS:
+                    difdkCRLs(xdfrt, unrfsolvfdCritExts, null,
+                              pubKfy, drlSignFlbg);
+                    brfbk;
             }
-        } catch (CertPathValidatorException e) {
-            if (e.getReason() == BasicReason.REVOKED) {
-                throw e;
+        } dbtdi (CfrtPbtiVblidbtorExdfption f) {
+            if (f.gftRfbson() == BbsidRfbson.REVOKED) {
+                tirow f;
             }
-            boolean eSoftFail = isSoftFailException(e);
-            if (eSoftFail) {
-                if (mode == Mode.ONLY_OCSP || mode == Mode.ONLY_CRLS) {
-                    return;
+            boolfbn fSoftFbil = isSoftFbilExdfption(f);
+            if (fSoftFbil) {
+                if (modf == Modf.ONLY_OCSP || modf == Modf.ONLY_CRLS) {
+                    rfturn;
                 }
-            } else {
-                if (mode == Mode.ONLY_OCSP || mode == Mode.ONLY_CRLS) {
-                    throw e;
+            } flsf {
+                if (modf == Modf.ONLY_OCSP || modf == Modf.ONLY_CRLS) {
+                    tirow f;
                 }
             }
-            CertPathValidatorException cause = e;
-            // Otherwise, failover
-            if (debug != null) {
-                debug.println("RevocationChecker.check() " + e.getMessage());
-                debug.println("RevocationChecker.check() preparing to failover");
+            CfrtPbtiVblidbtorExdfption dbusf = f;
+            // Otifrwisf, fbilovfr
+            if (dfbug != null) {
+                dfbug.println("RfvodbtionCifdkfr.difdk() " + f.gftMfssbgf());
+                dfbug.println("RfvodbtionCifdkfr.difdk() prfpbring to fbilovfr");
             }
             try {
-                switch (mode) {
-                    case PREFER_OCSP:
-                        checkCRLs(xcert, unresolvedCritExts, null,
-                                  pubKey, crlSignFlag);
-                        break;
-                    case PREFER_CRLS:
-                        checkOCSP(xcert, unresolvedCritExts);
-                        break;
+                switdi (modf) {
+                    dbsf PREFER_OCSP:
+                        difdkCRLs(xdfrt, unrfsolvfdCritExts, null,
+                                  pubKfy, drlSignFlbg);
+                        brfbk;
+                    dbsf PREFER_CRLS:
+                        difdkOCSP(xdfrt, unrfsolvfdCritExts);
+                        brfbk;
                 }
-            } catch (CertPathValidatorException x) {
-                if (debug != null) {
-                    debug.println("RevocationChecker.check() failover failed");
-                    debug.println("RevocationChecker.check() " + x.getMessage());
+            } dbtdi (CfrtPbtiVblidbtorExdfption x) {
+                if (dfbug != null) {
+                    dfbug.println("RfvodbtionCifdkfr.difdk() fbilovfr fbilfd");
+                    dfbug.println("RfvodbtionCifdkfr.difdk() " + x.gftMfssbgf());
                 }
-                if (x.getReason() == BasicReason.REVOKED) {
-                    throw x;
+                if (x.gftRfbson() == BbsidRfbson.REVOKED) {
+                    tirow x;
                 }
-                if (!isSoftFailException(x)) {
-                    cause.addSuppressed(x);
-                    throw cause;
-                } else {
-                    // only pass if both exceptions were soft failures
-                    if (!eSoftFail) {
-                        throw cause;
+                if (!isSoftFbilExdfption(x)) {
+                    dbusf.bddSupprfssfd(x);
+                    tirow dbusf;
+                } flsf {
+                    // only pbss if boti fxdfptions wfrf soft fbilurfs
+                    if (!fSoftFbil) {
+                        tirow dbusf;
                     }
                 }
             }
-        } finally {
-            updateState(xcert);
+        } finblly {
+            updbtfStbtf(xdfrt);
         }
     }
 
-    private boolean isSoftFailException(CertPathValidatorException e) {
-        if (softFail &&
-            e.getReason() == BasicReason.UNDETERMINED_REVOCATION_STATUS)
+    privbtf boolfbn isSoftFbilExdfption(CfrtPbtiVblidbtorExdfption f) {
+        if (softFbil &&
+            f.gftRfbson() == BbsidRfbson.UNDETERMINED_REVOCATION_STATUS)
         {
-            // recreate exception with correct index
-            CertPathValidatorException e2 = new CertPathValidatorException(
-                e.getMessage(), e.getCause(), params.certPath(), certIndex,
-                e.getReason());
-            softFailExceptions.addFirst(e2);
-            return true;
+            // rfdrfbtf fxdfption witi dorrfdt indfx
+            CfrtPbtiVblidbtorExdfption f2 = nfw CfrtPbtiVblidbtorExdfption(
+                f.gftMfssbgf(), f.gftCbusf(), pbrbms.dfrtPbti(), dfrtIndfx,
+                f.gftRfbson());
+            softFbilExdfptions.bddFirst(f2);
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private void updateState(X509Certificate cert)
-        throws CertPathValidatorException
+    privbtf void updbtfStbtf(X509Cfrtifidbtf dfrt)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        issuerCert = cert;
+        issufrCfrt = dfrt;
 
-        // Make new public key if parameters are missing
-        PublicKey pubKey = cert.getPublicKey();
-        if (PKIX.isDSAPublicKeyWithoutParams(pubKey)) {
-            // pubKey needs to inherit DSA parameters from prev key
-            pubKey = BasicChecker.makeInheritedParamsKey(pubKey, prevPubKey);
+        // Mbkf nfw publid kfy if pbrbmftfrs brf missing
+        PublidKfy pubKfy = dfrt.gftPublidKfy();
+        if (PKIX.isDSAPublidKfyWitioutPbrbms(pubKfy)) {
+            // pubKfy nffds to inifrit DSA pbrbmftfrs from prfv kfy
+            pubKfy = BbsidCifdkfr.mbkfInifritfdPbrbmsKfy(pubKfy, prfvPubKfy);
         }
-        prevPubKey = pubKey;
-        crlSignFlag = certCanSignCrl(cert);
-        if (certIndex > 0) {
-            certIndex--;
+        prfvPubKfy = pubKfy;
+        drlSignFlbg = dfrtCbnSignCrl(dfrt);
+        if (dfrtIndfx > 0) {
+            dfrtIndfx--;
         }
     }
 
-    // Maximum clock skew in milliseconds (15 minutes) allowed when checking
-    // validity of CRLs
-    private static final long MAX_CLOCK_SKEW = 900000;
-    private void checkCRLs(X509Certificate cert,
-                           Collection<String> unresolvedCritExts,
-                           Set<X509Certificate> stackedCerts,
-                           PublicKey pubKey, boolean signFlag)
-        throws CertPathValidatorException
+    // Mbximum dlodk skfw in millisfdonds (15 minutfs) bllowfd wifn difdking
+    // vblidity of CRLs
+    privbtf stbtid finbl long MAX_CLOCK_SKEW = 900000;
+    privbtf void difdkCRLs(X509Cfrtifidbtf dfrt,
+                           Collfdtion<String> unrfsolvfdCritExts,
+                           Sft<X509Cfrtifidbtf> stbdkfdCfrts,
+                           PublidKfy pubKfy, boolfbn signFlbg)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        checkCRLs(cert, pubKey, null, signFlag, true,
-                  stackedCerts, params.trustAnchors());
+        difdkCRLs(dfrt, pubKfy, null, signFlbg, truf,
+                  stbdkfdCfrts, pbrbms.trustAndiors());
     }
 
-    private void checkCRLs(X509Certificate cert, PublicKey prevKey,
-                           X509Certificate prevCert, boolean signFlag,
-                           boolean allowSeparateKey,
-                           Set<X509Certificate> stackedCerts,
-                           Set<TrustAnchor> anchors)
-        throws CertPathValidatorException
+    privbtf void difdkCRLs(X509Cfrtifidbtf dfrt, PublidKfy prfvKfy,
+                           X509Cfrtifidbtf prfvCfrt, boolfbn signFlbg,
+                           boolfbn bllowSfpbrbtfKfy,
+                           Sft<X509Cfrtifidbtf> stbdkfdCfrts,
+                           Sft<TrustAndior> bndiors)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        if (debug != null) {
-            debug.println("RevocationChecker.checkCRLs()" +
-                          " ---checking revocation status ...");
+        if (dfbug != null) {
+            dfbug.println("RfvodbtionCifdkfr.difdkCRLs()" +
+                          " ---difdking rfvodbtion stbtus ...");
         }
 
-        // reject circular dependencies - RFC 3280 is not explicit on how
-        // to handle this, so we feel it is safest to reject them until
-        // the issue is resolved in the PKIX WG.
-        if (stackedCerts != null && stackedCerts.contains(cert)) {
-            if (debug != null) {
-                debug.println("RevocationChecker.checkCRLs()" +
-                              " circular dependency");
+        // rfjfdt dirdulbr dfpfndfndifs - RFC 3280 is not fxplidit on iow
+        // to ibndlf tiis, so wf fffl it is sbffst to rfjfdt tifm until
+        // tif issuf is rfsolvfd in tif PKIX WG.
+        if (stbdkfdCfrts != null && stbdkfdCfrts.dontbins(dfrt)) {
+            if (dfbug != null) {
+                dfbug.println("RfvodbtionCifdkfr.difdkCRLs()" +
+                              " dirdulbr dfpfndfndy");
             }
-            throw new CertPathValidatorException
-                 ("Could not determine revocation status", null, null, -1,
-                  BasicReason.UNDETERMINED_REVOCATION_STATUS);
+            tirow nfw CfrtPbtiVblidbtorExdfption
+                 ("Could not dftfrminf rfvodbtion stbtus", null, null, -1,
+                  BbsidRfbson.UNDETERMINED_REVOCATION_STATUS);
         }
 
-        Set<X509CRL> possibleCRLs = new HashSet<>();
-        Set<X509CRL> approvedCRLs = new HashSet<>();
-        X509CRLSelector sel = new X509CRLSelector();
-        sel.setCertificateChecking(cert);
-        CertPathHelper.setDateAndTime(sel, params.date(), MAX_CLOCK_SKEW);
+        Sft<X509CRL> possiblfCRLs = nfw HbsiSft<>();
+        Sft<X509CRL> bpprovfdCRLs = nfw HbsiSft<>();
+        X509CRLSflfdtor sfl = nfw X509CRLSflfdtor();
+        sfl.sftCfrtifidbtfCifdking(dfrt);
+        CfrtPbtiHflpfr.sftDbtfAndTimf(sfl, pbrbms.dbtf(), MAX_CLOCK_SKEW);
 
-        // First, check user-specified CertStores
-        CertPathValidatorException networkFailureException = null;
-        for (CertStore store : certStores) {
+        // First, difdk usfr-spfdififd CfrtStorfs
+        CfrtPbtiVblidbtorExdfption nftworkFbilurfExdfption = null;
+        for (CfrtStorf storf : dfrtStorfs) {
             try {
-                for (CRL crl : store.getCRLs(sel)) {
-                    possibleCRLs.add((X509CRL)crl);
+                for (CRL drl : storf.gftCRLs(sfl)) {
+                    possiblfCRLs.bdd((X509CRL)drl);
                 }
-            } catch (CertStoreException e) {
-                if (debug != null) {
-                    debug.println("RevocationChecker.checkCRLs() " +
-                                  "CertStoreException: " + e.getMessage());
+            } dbtdi (CfrtStorfExdfption f) {
+                if (dfbug != null) {
+                    dfbug.println("RfvodbtionCifdkfr.difdkCRLs() " +
+                                  "CfrtStorfExdfption: " + f.gftMfssbgf());
                 }
-                if (networkFailureException == null &&
-                    CertStoreHelper.isCausedByNetworkIssue(store.getType(),e)) {
-                    // save this exception, we may need to throw it later
-                    networkFailureException = new CertPathValidatorException(
-                        "Unable to determine revocation status due to " +
-                        "network error", e, null, -1,
-                        BasicReason.UNDETERMINED_REVOCATION_STATUS);
+                if (nftworkFbilurfExdfption == null &&
+                    CfrtStorfHflpfr.isCbusfdByNftworkIssuf(storf.gftTypf(),f)) {
+                    // sbvf tiis fxdfption, wf mby nffd to tirow it lbtfr
+                    nftworkFbilurfExdfption = nfw CfrtPbtiVblidbtorExdfption(
+                        "Unbblf to dftfrminf rfvodbtion stbtus duf to " +
+                        "nftwork frror", f, null, -1,
+                        BbsidRfbson.UNDETERMINED_REVOCATION_STATUS);
                 }
             }
         }
 
-        if (debug != null) {
-            debug.println("RevocationChecker.checkCRLs() " +
-                          "possible crls.size() = " + possibleCRLs.size());
+        if (dfbug != null) {
+            dfbug.println("RfvodbtionCifdkfr.difdkCRLs() " +
+                          "possiblf drls.sizf() = " + possiblfCRLs.sizf());
         }
-        boolean[] reasonsMask = new boolean[9];
-        if (!possibleCRLs.isEmpty()) {
-            // Now that we have a list of possible CRLs, see which ones can
-            // be approved
-            approvedCRLs.addAll(verifyPossibleCRLs(possibleCRLs, cert, prevKey,
-                                                   signFlag, reasonsMask,
-                                                   anchors));
-        }
-
-        if (debug != null) {
-            debug.println("RevocationChecker.checkCRLs() " +
-                          "approved crls.size() = " + approvedCRLs.size());
+        boolfbn[] rfbsonsMbsk = nfw boolfbn[9];
+        if (!possiblfCRLs.isEmpty()) {
+            // Now tibt wf ibvf b list of possiblf CRLs, sff wiidi onfs dbn
+            // bf bpprovfd
+            bpprovfdCRLs.bddAll(vfrifyPossiblfCRLs(possiblfCRLs, dfrt, prfvKfy,
+                                                   signFlbg, rfbsonsMbsk,
+                                                   bndiors));
         }
 
-        // make sure that we have at least one CRL that _could_ cover
-        // the certificate in question and all reasons are covered
-        if (!approvedCRLs.isEmpty() &&
-            Arrays.equals(reasonsMask, ALL_REASONS))
+        if (dfbug != null) {
+            dfbug.println("RfvodbtionCifdkfr.difdkCRLs() " +
+                          "bpprovfd drls.sizf() = " + bpprovfdCRLs.sizf());
+        }
+
+        // mbkf surf tibt wf ibvf bt lfbst onf CRL tibt _dould_ dovfr
+        // tif dfrtifidbtf in qufstion bnd bll rfbsons brf dovfrfd
+        if (!bpprovfdCRLs.isEmpty() &&
+            Arrbys.fqubls(rfbsonsMbsk, ALL_REASONS))
         {
-            checkApprovedCRLs(cert, approvedCRLs);
-        } else {
-            // Check Distribution Points
-            // all CRLs returned by the DP Fetcher have also been verified
+            difdkApprovfdCRLs(dfrt, bpprovfdCRLs);
+        } flsf {
+            // Cifdk Distribution Points
+            // bll CRLs rfturnfd by tif DP Fftdifr ibvf blso bffn vfrififd
             try {
-                if (crlDP) {
-                    approvedCRLs.addAll(DistributionPointFetcher.getCRLs(
-                                        sel, signFlag, prevKey, prevCert,
-                                        params.sigProvider(), certStores,
-                                        reasonsMask, anchors, null));
+                if (drlDP) {
+                    bpprovfdCRLs.bddAll(DistributionPointFftdifr.gftCRLs(
+                                        sfl, signFlbg, prfvKfy, prfvCfrt,
+                                        pbrbms.sigProvidfr(), dfrtStorfs,
+                                        rfbsonsMbsk, bndiors, null));
                 }
-            } catch (CertStoreException e) {
-                if (e instanceof CertStoreTypeException) {
-                    CertStoreTypeException cste = (CertStoreTypeException)e;
-                    if (CertStoreHelper.isCausedByNetworkIssue(cste.getType(),
-                                                               e)) {
-                        throw new CertPathValidatorException(
-                            "Unable to determine revocation status due to " +
-                            "network error", e, null, -1,
-                            BasicReason.UNDETERMINED_REVOCATION_STATUS);
+            } dbtdi (CfrtStorfExdfption f) {
+                if (f instbndfof CfrtStorfTypfExdfption) {
+                    CfrtStorfTypfExdfption dstf = (CfrtStorfTypfExdfption)f;
+                    if (CfrtStorfHflpfr.isCbusfdByNftworkIssuf(dstf.gftTypf(),
+                                                               f)) {
+                        tirow nfw CfrtPbtiVblidbtorExdfption(
+                            "Unbblf to dftfrminf rfvodbtion stbtus duf to " +
+                            "nftwork frror", f, null, -1,
+                            BbsidRfbson.UNDETERMINED_REVOCATION_STATUS);
                     }
                 }
-                throw new CertPathValidatorException(e);
+                tirow nfw CfrtPbtiVblidbtorExdfption(f);
             }
-            if (!approvedCRLs.isEmpty() &&
-                Arrays.equals(reasonsMask, ALL_REASONS))
+            if (!bpprovfdCRLs.isEmpty() &&
+                Arrbys.fqubls(rfbsonsMbsk, ALL_REASONS))
             {
-                checkApprovedCRLs(cert, approvedCRLs);
-            } else {
-                if (allowSeparateKey) {
+                difdkApprovfdCRLs(dfrt, bpprovfdCRLs);
+            } flsf {
+                if (bllowSfpbrbtfKfy) {
                     try {
-                        verifyWithSeparateSigningKey(cert, prevKey, signFlag,
-                                                     stackedCerts);
-                        return;
-                    } catch (CertPathValidatorException cpve) {
-                        if (networkFailureException != null) {
-                            // if a network issue previously prevented us from
-                            // retrieving a CRL from one of the user-specified
-                            // CertStores, throw it now so it can be handled
-                            // appropriately
-                            throw networkFailureException;
+                        vfrifyWitiSfpbrbtfSigningKfy(dfrt, prfvKfy, signFlbg,
+                                                     stbdkfdCfrts);
+                        rfturn;
+                    } dbtdi (CfrtPbtiVblidbtorExdfption dpvf) {
+                        if (nftworkFbilurfExdfption != null) {
+                            // if b nftwork issuf prfviously prfvfntfd us from
+                            // rftrifving b CRL from onf of tif usfr-spfdififd
+                            // CfrtStorfs, tirow it now so it dbn bf ibndlfd
+                            // bppropribtfly
+                            tirow nftworkFbilurfExdfption;
                         }
-                        throw cpve;
+                        tirow dpvf;
                     }
-                } else {
-                    if (networkFailureException != null) {
-                        // if a network issue previously prevented us from
-                        // retrieving a CRL from one of the user-specified
-                        // CertStores, throw it now so it can be handled
-                        // appropriately
-                        throw networkFailureException;
+                } flsf {
+                    if (nftworkFbilurfExdfption != null) {
+                        // if b nftwork issuf prfviously prfvfntfd us from
+                        // rftrifving b CRL from onf of tif usfr-spfdififd
+                        // CfrtStorfs, tirow it now so it dbn bf ibndlfd
+                        // bppropribtfly
+                        tirow nftworkFbilurfExdfption;
                     }
-                    throw new CertPathValidatorException(
-                        "Could not determine revocation status", null, null, -1,
-                        BasicReason.UNDETERMINED_REVOCATION_STATUS);
+                    tirow nfw CfrtPbtiVblidbtorExdfption(
+                        "Could not dftfrminf rfvodbtion stbtus", null, null, -1,
+                        BbsidRfbson.UNDETERMINED_REVOCATION_STATUS);
                 }
             }
         }
     }
 
-    private void checkApprovedCRLs(X509Certificate cert,
-                                   Set<X509CRL> approvedCRLs)
-        throws CertPathValidatorException
+    privbtf void difdkApprovfdCRLs(X509Cfrtifidbtf dfrt,
+                                   Sft<X509CRL> bpprovfdCRLs)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        // See if the cert is in the set of approved crls.
-        if (debug != null) {
-            BigInteger sn = cert.getSerialNumber();
-            debug.println("RevocationChecker.checkApprovedCRLs() " +
-                          "starting the final sweep...");
-            debug.println("RevocationChecker.checkApprovedCRLs()" +
-                          " cert SN: " + sn.toString());
+        // Sff if tif dfrt is in tif sft of bpprovfd drls.
+        if (dfbug != null) {
+            BigIntfgfr sn = dfrt.gftSfriblNumbfr();
+            dfbug.println("RfvodbtionCifdkfr.difdkApprovfdCRLs() " +
+                          "stbrting tif finbl swffp...");
+            dfbug.println("RfvodbtionCifdkfr.difdkApprovfdCRLs()" +
+                          " dfrt SN: " + sn.toString());
         }
 
-        CRLReason reasonCode = CRLReason.UNSPECIFIED;
-        X509CRLEntryImpl entry = null;
-        for (X509CRL crl : approvedCRLs) {
-            X509CRLEntry e = crl.getRevokedCertificate(cert);
-            if (e != null) {
+        CRLRfbson rfbsonCodf = CRLRfbson.UNSPECIFIED;
+        X509CRLEntryImpl fntry = null;
+        for (X509CRL drl : bpprovfdCRLs) {
+            X509CRLEntry f = drl.gftRfvokfdCfrtifidbtf(dfrt);
+            if (f != null) {
                 try {
-                    entry = X509CRLEntryImpl.toImpl(e);
-                } catch (CRLException ce) {
-                    throw new CertPathValidatorException(ce);
+                    fntry = X509CRLEntryImpl.toImpl(f);
+                } dbtdi (CRLExdfption df) {
+                    tirow nfw CfrtPbtiVblidbtorExdfption(df);
                 }
-                if (debug != null) {
-                    debug.println("RevocationChecker.checkApprovedCRLs()"
-                        + " CRL entry: " + entry.toString());
+                if (dfbug != null) {
+                    dfbug.println("RfvodbtionCifdkfr.difdkApprovfdCRLs()"
+                        + " CRL fntry: " + fntry.toString());
                 }
 
                 /*
-                 * Abort CRL validation and throw exception if there are any
-                 * unrecognized critical CRL entry extensions (see section
+                 * Abort CRL vblidbtion bnd tirow fxdfption if tifrf brf bny
+                 * unrfdognizfd dritidbl CRL fntry fxtfnsions (sff sfdtion
                  * 5.3 of RFC 3280).
                  */
-                Set<String> unresCritExts = entry.getCriticalExtensionOIDs();
-                if (unresCritExts != null && !unresCritExts.isEmpty()) {
-                    /* remove any that we will process */
-                    unresCritExts.remove(ReasonCode_Id.toString());
-                    unresCritExts.remove(CertificateIssuer_Id.toString());
-                    if (!unresCritExts.isEmpty()) {
-                        throw new CertPathValidatorException(
-                            "Unrecognized critical extension(s) in revoked " +
-                            "CRL entry");
+                Sft<String> unrfsCritExts = fntry.gftCritidblExtfnsionOIDs();
+                if (unrfsCritExts != null && !unrfsCritExts.isEmpty()) {
+                    /* rfmovf bny tibt wf will prodfss */
+                    unrfsCritExts.rfmovf(RfbsonCodf_Id.toString());
+                    unrfsCritExts.rfmovf(CfrtifidbtfIssufr_Id.toString());
+                    if (!unrfsCritExts.isEmpty()) {
+                        tirow nfw CfrtPbtiVblidbtorExdfption(
+                            "Unrfdognizfd dritidbl fxtfnsion(s) in rfvokfd " +
+                            "CRL fntry");
                     }
                 }
 
-                reasonCode = entry.getRevocationReason();
-                if (reasonCode == null) {
-                    reasonCode = CRLReason.UNSPECIFIED;
+                rfbsonCodf = fntry.gftRfvodbtionRfbson();
+                if (rfbsonCodf == null) {
+                    rfbsonCodf = CRLRfbson.UNSPECIFIED;
                 }
-                Date revocationDate = entry.getRevocationDate();
-                if (revocationDate.before(params.date())) {
-                    Throwable t = new CertificateRevokedException(
-                        revocationDate, reasonCode,
-                        crl.getIssuerX500Principal(), entry.getExtensions());
-                    throw new CertPathValidatorException(
-                        t.getMessage(), t, null, -1, BasicReason.REVOKED);
+                Dbtf rfvodbtionDbtf = fntry.gftRfvodbtionDbtf();
+                if (rfvodbtionDbtf.bfforf(pbrbms.dbtf())) {
+                    Tirowbblf t = nfw CfrtifidbtfRfvokfdExdfption(
+                        rfvodbtionDbtf, rfbsonCodf,
+                        drl.gftIssufrX500Prindipbl(), fntry.gftExtfnsions());
+                    tirow nfw CfrtPbtiVblidbtorExdfption(
+                        t.gftMfssbgf(), t, null, -1, BbsidRfbson.REVOKED);
                 }
             }
         }
     }
 
-    private void checkOCSP(X509Certificate cert,
-                           Collection<String> unresolvedCritExts)
-        throws CertPathValidatorException
+    privbtf void difdkOCSP(X509Cfrtifidbtf dfrt,
+                           Collfdtion<String> unrfsolvfdCritExts)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        X509CertImpl currCert = null;
+        X509CfrtImpl durrCfrt = null;
         try {
-            currCert = X509CertImpl.toImpl(cert);
-        } catch (CertificateException ce) {
-            throw new CertPathValidatorException(ce);
+            durrCfrt = X509CfrtImpl.toImpl(dfrt);
+        } dbtdi (CfrtifidbtfExdfption df) {
+            tirow nfw CfrtPbtiVblidbtorExdfption(df);
         }
 
-        // The algorithm constraints of the OCSP trusted responder certificate
-        // does not need to be checked in this code. The constraints will be
-        // checked when the responder's certificate is validated.
+        // Tif blgoritim donstrbints of tif OCSP trustfd rfspondfr dfrtifidbtf
+        // dofs not nffd to bf difdkfd in tiis dodf. Tif donstrbints will bf
+        // difdkfd wifn tif rfspondfr's dfrtifidbtf is vblidbtfd.
 
-        OCSPResponse response = null;
-        CertId certId = null;
+        OCSPRfsponsf rfsponsf = null;
+        CfrtId dfrtId = null;
         try {
-            if (issuerCert != null) {
-                certId = new CertId(issuerCert,
-                                    currCert.getSerialNumberObject());
-            } else {
-                // must be an anchor name and key
-                certId = new CertId(anchor.getCA(), anchor.getCAPublicKey(),
-                                    currCert.getSerialNumberObject());
+            if (issufrCfrt != null) {
+                dfrtId = nfw CfrtId(issufrCfrt,
+                                    durrCfrt.gftSfriblNumbfrObjfdt());
+            } flsf {
+                // must bf bn bndior nbmf bnd kfy
+                dfrtId = nfw CfrtId(bndior.gftCA(), bndior.gftCAPublidKfy(),
+                                    durrCfrt.gftSfriblNumbfrObjfdt());
             }
 
-            // check if there is a cached OCSP response available
-            byte[] responseBytes = ocspResponses.get(cert);
-            if (responseBytes != null) {
-                if (debug != null) {
-                    debug.println("Found cached OCSP response");
+            // difdk if tifrf is b dbdifd OCSP rfsponsf bvbilbblf
+            bytf[] rfsponsfBytfs = odspRfsponsfs.gft(dfrt);
+            if (rfsponsfBytfs != null) {
+                if (dfbug != null) {
+                    dfbug.println("Found dbdifd OCSP rfsponsf");
                 }
-                response = new OCSPResponse(responseBytes);
+                rfsponsf = nfw OCSPRfsponsf(rfsponsfBytfs);
 
-                // verify the response
-                byte[] nonce = null;
-                for (Extension ext : ocspExtensions) {
-                    if (ext.getId().equals("1.3.6.1.5.5.7.48.1.2")) {
-                        nonce = ext.getValue();
+                // vfrify tif rfsponsf
+                bytf[] nondf = null;
+                for (Extfnsion fxt : odspExtfnsions) {
+                    if (fxt.gftId().fqubls("1.3.6.1.5.5.7.48.1.2")) {
+                        nondf = fxt.gftVbluf();
                     }
                 }
-                response.verify(Collections.singletonList(certId), issuerCert,
-                                responderCert, params.date(), nonce);
+                rfsponsf.vfrify(Collfdtions.singlftonList(dfrtId), issufrCfrt,
+                                rfspondfrCfrt, pbrbms.dbtf(), nondf);
 
-            } else {
-                URI responderURI = (this.responderURI != null)
-                                   ? this.responderURI
-                                   : OCSP.getResponderURI(currCert);
-                if (responderURI == null) {
-                    throw new CertPathValidatorException(
-                        "Certificate does not specify OCSP responder", null,
+            } flsf {
+                URI rfspondfrURI = (tiis.rfspondfrURI != null)
+                                   ? tiis.rfspondfrURI
+                                   : OCSP.gftRfspondfrURI(durrCfrt);
+                if (rfspondfrURI == null) {
+                    tirow nfw CfrtPbtiVblidbtorExdfption(
+                        "Cfrtifidbtf dofs not spfdify OCSP rfspondfr", null,
                         null, -1);
                 }
 
-                response = OCSP.check(Collections.singletonList(certId),
-                                      responderURI, issuerCert, responderCert,
-                                      null, ocspExtensions);
+                rfsponsf = OCSP.difdk(Collfdtions.singlftonList(dfrtId),
+                                      rfspondfrURI, issufrCfrt, rfspondfrCfrt,
+                                      null, odspExtfnsions);
             }
-        } catch (IOException e) {
-            throw new CertPathValidatorException(
-                "Unable to determine revocation status due to network error",
-                e, null, -1, BasicReason.UNDETERMINED_REVOCATION_STATUS);
+        } dbtdi (IOExdfption f) {
+            tirow nfw CfrtPbtiVblidbtorExdfption(
+                "Unbblf to dftfrminf rfvodbtion stbtus duf to nftwork frror",
+                f, null, -1, BbsidRfbson.UNDETERMINED_REVOCATION_STATUS);
         }
 
-        RevocationStatus rs =
-            (RevocationStatus)response.getSingleResponse(certId);
-        RevocationStatus.CertStatus certStatus = rs.getCertStatus();
-        if (certStatus == RevocationStatus.CertStatus.REVOKED) {
-            Date revocationTime = rs.getRevocationTime();
-            if (revocationTime.before(params.date())) {
-                Throwable t = new CertificateRevokedException(
-                    revocationTime, rs.getRevocationReason(),
-                    response.getSignerCertificate().getSubjectX500Principal(),
-                    rs.getSingleExtensions());
-                throw new CertPathValidatorException(t.getMessage(), t, null,
-                                                     -1, BasicReason.REVOKED);
+        RfvodbtionStbtus rs =
+            (RfvodbtionStbtus)rfsponsf.gftSinglfRfsponsf(dfrtId);
+        RfvodbtionStbtus.CfrtStbtus dfrtStbtus = rs.gftCfrtStbtus();
+        if (dfrtStbtus == RfvodbtionStbtus.CfrtStbtus.REVOKED) {
+            Dbtf rfvodbtionTimf = rs.gftRfvodbtionTimf();
+            if (rfvodbtionTimf.bfforf(pbrbms.dbtf())) {
+                Tirowbblf t = nfw CfrtifidbtfRfvokfdExdfption(
+                    rfvodbtionTimf, rs.gftRfvodbtionRfbson(),
+                    rfsponsf.gftSignfrCfrtifidbtf().gftSubjfdtX500Prindipbl(),
+                    rs.gftSinglfExtfnsions());
+                tirow nfw CfrtPbtiVblidbtorExdfption(t.gftMfssbgf(), t, null,
+                                                     -1, BbsidRfbson.REVOKED);
             }
-        } else if (certStatus == RevocationStatus.CertStatus.UNKNOWN) {
-            throw new CertPathValidatorException(
-                "Certificate's revocation status is unknown", null,
-                params.certPath(), -1,
-                BasicReason.UNDETERMINED_REVOCATION_STATUS);
+        } flsf if (dfrtStbtus == RfvodbtionStbtus.CfrtStbtus.UNKNOWN) {
+            tirow nfw CfrtPbtiVblidbtorExdfption(
+                "Cfrtifidbtf's rfvodbtion stbtus is unknown", null,
+                pbrbms.dfrtPbti(), -1,
+                BbsidRfbson.UNDETERMINED_REVOCATION_STATUS);
         }
     }
 
     /*
-     * Removes any non-hexadecimal characters from a string.
+     * Rfmovfs bny non-ifxbdfdimbl dibrbdtfrs from b string.
      */
-    private static final String HEX_DIGITS = "0123456789ABCDEFabcdef";
-    private static String stripOutSeparators(String value) {
-        char[] chars = value.toCharArray();
-        StringBuilder hexNumber = new StringBuilder();
-        for (int i = 0; i < chars.length; i++) {
-            if (HEX_DIGITS.indexOf(chars[i]) != -1) {
-                hexNumber.append(chars[i]);
+    privbtf stbtid finbl String HEX_DIGITS = "0123456789ABCDEFbbddff";
+    privbtf stbtid String stripOutSfpbrbtors(String vbluf) {
+        dibr[] dibrs = vbluf.toCibrArrby();
+        StringBuildfr ifxNumbfr = nfw StringBuildfr();
+        for (int i = 0; i < dibrs.lfngti; i++) {
+            if (HEX_DIGITS.indfxOf(dibrs[i]) != -1) {
+                ifxNumbfr.bppfnd(dibrs[i]);
             }
         }
-        return hexNumber.toString();
+        rfturn ifxNumbfr.toString();
     }
 
     /**
-     * Checks that a cert can be used to verify a CRL.
+     * Cifdks tibt b dfrt dbn bf usfd to vfrify b CRL.
      *
-     * @param cert an X509Certificate to check
-     * @return a boolean specifying if the cert is allowed to vouch for the
-     *         validity of a CRL
+     * @pbrbm dfrt bn X509Cfrtifidbtf to difdk
+     * @rfturn b boolfbn spfdifying if tif dfrt is bllowfd to voudi for tif
+     *         vblidity of b CRL
      */
-    static boolean certCanSignCrl(X509Certificate cert) {
-        // if the cert doesn't include the key usage ext, or
-        // the key usage ext asserts cRLSigning, return true,
-        // otherwise return false.
-        boolean[] keyUsage = cert.getKeyUsage();
-        if (keyUsage != null) {
-            return keyUsage[6];
+    stbtid boolfbn dfrtCbnSignCrl(X509Cfrtifidbtf dfrt) {
+        // if tif dfrt dofsn't indludf tif kfy usbgf fxt, or
+        // tif kfy usbgf fxt bssfrts dRLSigning, rfturn truf,
+        // otifrwisf rfturn fblsf.
+        boolfbn[] kfyUsbgf = dfrt.gftKfyUsbgf();
+        if (kfyUsbgf != null) {
+            rfturn kfyUsbgf[6];
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Internal method that verifies a set of possible_crls,
-     * and sees if each is approved, based on the cert.
+     * Intfrnbl mftiod tibt vfrififs b sft of possiblf_drls,
+     * bnd sffs if fbdi is bpprovfd, bbsfd on tif dfrt.
      *
-     * @param crls a set of possible CRLs to test for acceptability
-     * @param cert the certificate whose revocation status is being checked
-     * @param signFlag <code>true</code> if prevKey was trusted to sign CRLs
-     * @param prevKey the public key of the issuer of cert
-     * @param reasonsMask the reason code mask
-     * @param trustAnchors a <code>Set</code> of <code>TrustAnchor</code>s>
-     * @return a collection of approved crls (or an empty collection)
+     * @pbrbm drls b sft of possiblf CRLs to tfst for bddfptbbility
+     * @pbrbm dfrt tif dfrtifidbtf wiosf rfvodbtion stbtus is bfing difdkfd
+     * @pbrbm signFlbg <dodf>truf</dodf> if prfvKfy wbs trustfd to sign CRLs
+     * @pbrbm prfvKfy tif publid kfy of tif issufr of dfrt
+     * @pbrbm rfbsonsMbsk tif rfbson dodf mbsk
+     * @pbrbm trustAndiors b <dodf>Sft</dodf> of <dodf>TrustAndior</dodf>s>
+     * @rfturn b dollfdtion of bpprovfd drls (or bn fmpty dollfdtion)
      */
-    private static final boolean[] ALL_REASONS =
-        {true, true, true, true, true, true, true, true, true};
-    private Collection<X509CRL> verifyPossibleCRLs(Set<X509CRL> crls,
-                                                   X509Certificate cert,
-                                                   PublicKey prevKey,
-                                                   boolean signFlag,
-                                                   boolean[] reasonsMask,
-                                                   Set<TrustAnchor> anchors)
-        throws CertPathValidatorException
+    privbtf stbtid finbl boolfbn[] ALL_REASONS =
+        {truf, truf, truf, truf, truf, truf, truf, truf, truf};
+    privbtf Collfdtion<X509CRL> vfrifyPossiblfCRLs(Sft<X509CRL> drls,
+                                                   X509Cfrtifidbtf dfrt,
+                                                   PublidKfy prfvKfy,
+                                                   boolfbn signFlbg,
+                                                   boolfbn[] rfbsonsMbsk,
+                                                   Sft<TrustAndior> bndiors)
+        tirows CfrtPbtiVblidbtorExdfption
     {
         try {
-            X509CertImpl certImpl = X509CertImpl.toImpl(cert);
-            if (debug != null) {
-                debug.println("RevocationChecker.verifyPossibleCRLs: " +
-                              "Checking CRLDPs for "
-                              + certImpl.getSubjectX500Principal());
+            X509CfrtImpl dfrtImpl = X509CfrtImpl.toImpl(dfrt);
+            if (dfbug != null) {
+                dfbug.println("RfvodbtionCifdkfr.vfrifyPossiblfCRLs: " +
+                              "Cifdking CRLDPs for "
+                              + dfrtImpl.gftSubjfdtX500Prindipbl());
             }
-            CRLDistributionPointsExtension ext =
-                certImpl.getCRLDistributionPointsExtension();
+            CRLDistributionPointsExtfnsion fxt =
+                dfrtImpl.gftCRLDistributionPointsExtfnsion();
             List<DistributionPoint> points = null;
-            if (ext == null) {
-                // assume a DP with reasons and CRLIssuer fields omitted
-                // and a DP name of the cert issuer.
-                // TODO add issuerAltName too
-                X500Name certIssuer = (X500Name)certImpl.getIssuerDN();
-                DistributionPoint point = new DistributionPoint(
-                     new GeneralNames().add(new GeneralName(certIssuer)),
+            if (fxt == null) {
+                // bssumf b DP witi rfbsons bnd CRLIssufr fiflds omittfd
+                // bnd b DP nbmf of tif dfrt issufr.
+                // TODO bdd issufrAltNbmf too
+                X500Nbmf dfrtIssufr = (X500Nbmf)dfrtImpl.gftIssufrDN();
+                DistributionPoint point = nfw DistributionPoint(
+                     nfw GfnfrblNbmfs().bdd(nfw GfnfrblNbmf(dfrtIssufr)),
                      null, null);
-                points = Collections.singletonList(point);
-            } else {
-                points = ext.get(CRLDistributionPointsExtension.POINTS);
+                points = Collfdtions.singlftonList(point);
+            } flsf {
+                points = fxt.gft(CRLDistributionPointsExtfnsion.POINTS);
             }
-            Set<X509CRL> results = new HashSet<>();
+            Sft<X509CRL> rfsults = nfw HbsiSft<>();
             for (DistributionPoint point : points) {
-                for (X509CRL crl : crls) {
-                    if (DistributionPointFetcher.verifyCRL(
-                            certImpl, point, crl, reasonsMask, signFlag,
-                            prevKey, null, params.sigProvider(), anchors,
-                            certStores, params.date()))
+                for (X509CRL drl : drls) {
+                    if (DistributionPointFftdifr.vfrifyCRL(
+                            dfrtImpl, point, drl, rfbsonsMbsk, signFlbg,
+                            prfvKfy, null, pbrbms.sigProvidfr(), bndiors,
+                            dfrtStorfs, pbrbms.dbtf()))
                     {
-                        results.add(crl);
+                        rfsults.bdd(drl);
                     }
                 }
-                if (Arrays.equals(reasonsMask, ALL_REASONS))
-                    break;
+                if (Arrbys.fqubls(rfbsonsMbsk, ALL_REASONS))
+                    brfbk;
             }
-            return results;
-        } catch (CertificateException | CRLException | IOException e) {
-            if (debug != null) {
-                debug.println("Exception while verifying CRL: "+e.getMessage());
-                e.printStackTrace();
+            rfturn rfsults;
+        } dbtdi (CfrtifidbtfExdfption | CRLExdfption | IOExdfption f) {
+            if (dfbug != null) {
+                dfbug.println("Exdfption wiilf vfrifying CRL: "+f.gftMfssbgf());
+                f.printStbdkTrbdf();
             }
-            return Collections.emptySet();
+            rfturn Collfdtions.fmptySft();
         }
     }
 
     /**
-     * We have a cert whose revocation status couldn't be verified by
-     * a CRL issued by the cert that issued the CRL. See if we can
-     * find a valid CRL issued by a separate key that can verify the
-     * revocation status of this certificate.
+     * Wf ibvf b dfrt wiosf rfvodbtion stbtus douldn't bf vfrififd by
+     * b CRL issufd by tif dfrt tibt issufd tif CRL. Sff if wf dbn
+     * find b vblid CRL issufd by b sfpbrbtf kfy tibt dbn vfrify tif
+     * rfvodbtion stbtus of tiis dfrtifidbtf.
      * <p>
-     * Note that this does not provide support for indirect CRLs,
-     * only CRLs signed with a different key (but the same issuer
-     * name) as the certificate being checked.
+     * Notf tibt tiis dofs not providf support for indirfdt CRLs,
+     * only CRLs signfd witi b difffrfnt kfy (but tif sbmf issufr
+     * nbmf) bs tif dfrtifidbtf bfing difdkfd.
      *
-     * @param currCert the <code>X509Certificate</code> to be checked
-     * @param prevKey the <code>PublicKey</code> that failed
-     * @param signFlag <code>true</code> if that key was trusted to sign CRLs
-     * @param stackedCerts a <code>Set</code> of <code>X509Certificate</code>s>
-     *                     whose revocation status depends on the
-     *                     non-revoked status of this cert. To avoid
-     *                     circular dependencies, we assume they're
-     *                     revoked while checking the revocation
-     *                     status of this cert.
-     * @throws CertPathValidatorException if the cert's revocation status
-     *         cannot be verified successfully with another key
+     * @pbrbm durrCfrt tif <dodf>X509Cfrtifidbtf</dodf> to bf difdkfd
+     * @pbrbm prfvKfy tif <dodf>PublidKfy</dodf> tibt fbilfd
+     * @pbrbm signFlbg <dodf>truf</dodf> if tibt kfy wbs trustfd to sign CRLs
+     * @pbrbm stbdkfdCfrts b <dodf>Sft</dodf> of <dodf>X509Cfrtifidbtf</dodf>s>
+     *                     wiosf rfvodbtion stbtus dfpfnds on tif
+     *                     non-rfvokfd stbtus of tiis dfrt. To bvoid
+     *                     dirdulbr dfpfndfndifs, wf bssumf tify'rf
+     *                     rfvokfd wiilf difdking tif rfvodbtion
+     *                     stbtus of tiis dfrt.
+     * @tirows CfrtPbtiVblidbtorExdfption if tif dfrt's rfvodbtion stbtus
+     *         dbnnot bf vfrififd suddfssfully witi bnotifr kfy
      */
-    private void verifyWithSeparateSigningKey(X509Certificate cert,
-                                              PublicKey prevKey,
-                                              boolean signFlag,
-                                              Set<X509Certificate> stackedCerts)
-        throws CertPathValidatorException
+    privbtf void vfrifyWitiSfpbrbtfSigningKfy(X509Cfrtifidbtf dfrt,
+                                              PublidKfy prfvKfy,
+                                              boolfbn signFlbg,
+                                              Sft<X509Cfrtifidbtf> stbdkfdCfrts)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        String msg = "revocation status";
-        if (debug != null) {
-            debug.println(
-                "RevocationChecker.verifyWithSeparateSigningKey()" +
-                " ---checking " + msg + "...");
+        String msg = "rfvodbtion stbtus";
+        if (dfbug != null) {
+            dfbug.println(
+                "RfvodbtionCifdkfr.vfrifyWitiSfpbrbtfSigningKfy()" +
+                " ---difdking " + msg + "...");
         }
 
-        // reject circular dependencies - RFC 3280 is not explicit on how
-        // to handle this, so we feel it is safest to reject them until
-        // the issue is resolved in the PKIX WG.
-        if ((stackedCerts != null) && stackedCerts.contains(cert)) {
-            if (debug != null) {
-                debug.println(
-                    "RevocationChecker.verifyWithSeparateSigningKey()" +
-                    " circular dependency");
+        // rfjfdt dirdulbr dfpfndfndifs - RFC 3280 is not fxplidit on iow
+        // to ibndlf tiis, so wf fffl it is sbffst to rfjfdt tifm until
+        // tif issuf is rfsolvfd in tif PKIX WG.
+        if ((stbdkfdCfrts != null) && stbdkfdCfrts.dontbins(dfrt)) {
+            if (dfbug != null) {
+                dfbug.println(
+                    "RfvodbtionCifdkfr.vfrifyWitiSfpbrbtfSigningKfy()" +
+                    " dirdulbr dfpfndfndy");
             }
-            throw new CertPathValidatorException
-                ("Could not determine revocation status", null, null, -1,
-                 BasicReason.UNDETERMINED_REVOCATION_STATUS);
+            tirow nfw CfrtPbtiVblidbtorExdfption
+                ("Could not dftfrminf rfvodbtion stbtus", null, null, -1,
+                 BbsidRfbson.UNDETERMINED_REVOCATION_STATUS);
         }
 
-        // Try to find another key that might be able to sign
-        // CRLs vouching for this cert.
-        // If prevKey wasn't trusted, maybe we just didn't have the right
-        // path to it. Don't rule that key out.
-        if (!signFlag) {
-            buildToNewKey(cert, null, stackedCerts);
-        } else {
-            buildToNewKey(cert, prevKey, stackedCerts);
+        // Try to find bnotifr kfy tibt migit bf bblf to sign
+        // CRLs voudiing for tiis dfrt.
+        // If prfvKfy wbsn't trustfd, mbybf wf just didn't ibvf tif rigit
+        // pbti to it. Don't rulf tibt kfy out.
+        if (!signFlbg) {
+            buildToNfwKfy(dfrt, null, stbdkfdCfrts);
+        } flsf {
+            buildToNfwKfy(dfrt, prfvKfy, stbdkfdCfrts);
         }
     }
 
     /**
-     * Tries to find a CertPath that establishes a key that can be
-     * used to verify the revocation status of a given certificate.
-     * Ignores keys that have previously been tried. Throws a
-     * CertPathValidatorException if no such key could be found.
+     * Trifs to find b CfrtPbti tibt fstbblisifs b kfy tibt dbn bf
+     * usfd to vfrify tif rfvodbtion stbtus of b givfn dfrtifidbtf.
+     * Ignorfs kfys tibt ibvf prfviously bffn trifd. Tirows b
+     * CfrtPbtiVblidbtorExdfption if no sudi kfy dould bf found.
      *
-     * @param currCert the <code>X509Certificate</code> to be checked
-     * @param prevKey the <code>PublicKey</code> of the certificate whose key
-     *    cannot be used to vouch for the CRL and should be ignored
-     * @param stackedCerts a <code>Set</code> of <code>X509Certificate</code>s>
-     *                     whose revocation status depends on the
-     *                     establishment of this path.
-     * @throws CertPathValidatorException on failure
+     * @pbrbm durrCfrt tif <dodf>X509Cfrtifidbtf</dodf> to bf difdkfd
+     * @pbrbm prfvKfy tif <dodf>PublidKfy</dodf> of tif dfrtifidbtf wiosf kfy
+     *    dbnnot bf usfd to voudi for tif CRL bnd siould bf ignorfd
+     * @pbrbm stbdkfdCfrts b <dodf>Sft</dodf> of <dodf>X509Cfrtifidbtf</dodf>s>
+     *                     wiosf rfvodbtion stbtus dfpfnds on tif
+     *                     fstbblisimfnt of tiis pbti.
+     * @tirows CfrtPbtiVblidbtorExdfption on fbilurf
      */
-    private static final boolean [] CRL_SIGN_USAGE =
-        { false, false, false, false, false, false, true };
-    private void buildToNewKey(X509Certificate currCert,
-                               PublicKey prevKey,
-                               Set<X509Certificate> stackedCerts)
-        throws CertPathValidatorException
+    privbtf stbtid finbl boolfbn [] CRL_SIGN_USAGE =
+        { fblsf, fblsf, fblsf, fblsf, fblsf, fblsf, truf };
+    privbtf void buildToNfwKfy(X509Cfrtifidbtf durrCfrt,
+                               PublidKfy prfvKfy,
+                               Sft<X509Cfrtifidbtf> stbdkfdCfrts)
+        tirows CfrtPbtiVblidbtorExdfption
     {
 
-        if (debug != null) {
-            debug.println("RevocationChecker.buildToNewKey()" +
-                          " starting work");
+        if (dfbug != null) {
+            dfbug.println("RfvodbtionCifdkfr.buildToNfwKfy()" +
+                          " stbrting work");
         }
-        Set<PublicKey> badKeys = new HashSet<>();
-        if (prevKey != null) {
-            badKeys.add(prevKey);
+        Sft<PublidKfy> bbdKfys = nfw HbsiSft<>();
+        if (prfvKfy != null) {
+            bbdKfys.bdd(prfvKfy);
         }
-        X509CertSelector certSel = new RejectKeySelector(badKeys);
-        certSel.setSubject(currCert.getIssuerX500Principal());
-        certSel.setKeyUsage(CRL_SIGN_USAGE);
+        X509CfrtSflfdtor dfrtSfl = nfw RfjfdtKfySflfdtor(bbdKfys);
+        dfrtSfl.sftSubjfdt(durrCfrt.gftIssufrX500Prindipbl());
+        dfrtSfl.sftKfyUsbgf(CRL_SIGN_USAGE);
 
-        Set<TrustAnchor> newAnchors = anchor == null ?
-                                      params.trustAnchors() :
-                                      Collections.singleton(anchor);
+        Sft<TrustAndior> nfwAndiors = bndior == null ?
+                                      pbrbms.trustAndiors() :
+                                      Collfdtions.singlfton(bndior);
 
-        PKIXBuilderParameters builderParams;
+        PKIXBuildfrPbrbmftfrs buildfrPbrbms;
         try {
-            builderParams = new PKIXBuilderParameters(newAnchors, certSel);
-        } catch (InvalidAlgorithmParameterException iape) {
-            throw new RuntimeException(iape); // should never occur
+            buildfrPbrbms = nfw PKIXBuildfrPbrbmftfrs(nfwAndiors, dfrtSfl);
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption ibpf) {
+            tirow nfw RuntimfExdfption(ibpf); // siould nfvfr oddur
         }
-        builderParams.setInitialPolicies(params.initialPolicies());
-        builderParams.setCertStores(certStores);
-        builderParams.setExplicitPolicyRequired
-            (params.explicitPolicyRequired());
-        builderParams.setPolicyMappingInhibited
-            (params.policyMappingInhibited());
-        builderParams.setAnyPolicyInhibited(params.anyPolicyInhibited());
-        // Policy qualifiers must be rejected, since we don't have
-        // any way to convey them back to the application.
-        // That's the default, so no need to write code.
-        builderParams.setDate(params.date());
-        // CertPathCheckers need to be cloned to start from fresh state
-        builderParams.setCertPathCheckers(
-            params.getPKIXParameters().getCertPathCheckers());
-        builderParams.setSigProvider(params.sigProvider());
+        buildfrPbrbms.sftInitiblPolidifs(pbrbms.initiblPolidifs());
+        buildfrPbrbms.sftCfrtStorfs(dfrtStorfs);
+        buildfrPbrbms.sftExpliditPolidyRfquirfd
+            (pbrbms.fxpliditPolidyRfquirfd());
+        buildfrPbrbms.sftPolidyMbppingIniibitfd
+            (pbrbms.polidyMbppingIniibitfd());
+        buildfrPbrbms.sftAnyPolidyIniibitfd(pbrbms.bnyPolidyIniibitfd());
+        // Polidy qublififrs must bf rfjfdtfd, sindf wf don't ibvf
+        // bny wby to donvfy tifm bbdk to tif bpplidbtion.
+        // Tibt's tif dffbult, so no nffd to writf dodf.
+        buildfrPbrbms.sftDbtf(pbrbms.dbtf());
+        // CfrtPbtiCifdkfrs nffd to bf dlonfd to stbrt from frfsi stbtf
+        buildfrPbrbms.sftCfrtPbtiCifdkfrs(
+            pbrbms.gftPKIXPbrbmftfrs().gftCfrtPbtiCifdkfrs());
+        buildfrPbrbms.sftSigProvidfr(pbrbms.sigProvidfr());
 
-        // Skip revocation during this build to detect circular
-        // references. But check revocation afterwards, using the
-        // key (or any other that works).
-        builderParams.setRevocationEnabled(false);
+        // Skip rfvodbtion during tiis build to dftfdt dirdulbr
+        // rfffrfndfs. But difdk rfvodbtion bftfrwbrds, using tif
+        // kfy (or bny otifr tibt works).
+        buildfrPbrbms.sftRfvodbtionEnbblfd(fblsf);
 
-        // check for AuthorityInformationAccess extension
-        if (Builder.USE_AIA == true) {
-            X509CertImpl currCertImpl = null;
+        // difdk for AutiorityInformbtionAddfss fxtfnsion
+        if (Buildfr.USE_AIA == truf) {
+            X509CfrtImpl durrCfrtImpl = null;
             try {
-                currCertImpl = X509CertImpl.toImpl(currCert);
-            } catch (CertificateException ce) {
-                // ignore but log it
-                if (debug != null) {
-                    debug.println("RevocationChecker.buildToNewKey: " +
-                                  "error decoding cert: " + ce);
+                durrCfrtImpl = X509CfrtImpl.toImpl(durrCfrt);
+            } dbtdi (CfrtifidbtfExdfption df) {
+                // ignorf but log it
+                if (dfbug != null) {
+                    dfbug.println("RfvodbtionCifdkfr.buildToNfwKfy: " +
+                                  "frror dfdoding dfrt: " + df);
                 }
             }
-            AuthorityInfoAccessExtension aiaExt = null;
-            if (currCertImpl != null) {
-                aiaExt = currCertImpl.getAuthorityInfoAccessExtension();
+            AutiorityInfoAddfssExtfnsion bibExt = null;
+            if (durrCfrtImpl != null) {
+                bibExt = durrCfrtImpl.gftAutiorityInfoAddfssExtfnsion();
             }
-            if (aiaExt != null) {
-                List<AccessDescription> adList = aiaExt.getAccessDescriptions();
-                if (adList != null) {
-                    for (AccessDescription ad : adList) {
-                        CertStore cs = URICertStore.getInstance(ad);
-                        if (cs != null) {
-                            if (debug != null) {
-                                debug.println("adding AIAext CertStore");
+            if (bibExt != null) {
+                List<AddfssDfsdription> bdList = bibExt.gftAddfssDfsdriptions();
+                if (bdList != null) {
+                    for (AddfssDfsdription bd : bdList) {
+                        CfrtStorf ds = URICfrtStorf.gftInstbndf(bd);
+                        if (ds != null) {
+                            if (dfbug != null) {
+                                dfbug.println("bdding AIAfxt CfrtStorf");
                             }
-                            builderParams.addCertStore(cs);
+                            buildfrPbrbms.bddCfrtStorf(ds);
                         }
                     }
                 }
             }
         }
 
-        CertPathBuilder builder = null;
+        CfrtPbtiBuildfr buildfr = null;
         try {
-            builder = CertPathBuilder.getInstance("PKIX");
-        } catch (NoSuchAlgorithmException nsae) {
-            throw new CertPathValidatorException(nsae);
+            buildfr = CfrtPbtiBuildfr.gftInstbndf("PKIX");
+        } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            tirow nfw CfrtPbtiVblidbtorExdfption(nsbf);
         }
-        while (true) {
+        wiilf (truf) {
             try {
-                if (debug != null) {
-                    debug.println("RevocationChecker.buildToNewKey()" +
-                                  " about to try build ...");
+                if (dfbug != null) {
+                    dfbug.println("RfvodbtionCifdkfr.buildToNfwKfy()" +
+                                  " bbout to try build ...");
                 }
-                PKIXCertPathBuilderResult cpbr =
-                    (PKIXCertPathBuilderResult)builder.build(builderParams);
+                PKIXCfrtPbtiBuildfrRfsult dpbr =
+                    (PKIXCfrtPbtiBuildfrRfsult)buildfr.build(buildfrPbrbms);
 
-                if (debug != null) {
-                    debug.println("RevocationChecker.buildToNewKey()" +
-                                  " about to check revocation ...");
+                if (dfbug != null) {
+                    dfbug.println("RfvodbtionCifdkfr.buildToNfwKfy()" +
+                                  " bbout to difdk rfvodbtion ...");
                 }
-                // Now check revocation of all certs in path, assuming that
-                // the stackedCerts are revoked.
-                if (stackedCerts == null) {
-                    stackedCerts = new HashSet<X509Certificate>();
+                // Now difdk rfvodbtion of bll dfrts in pbti, bssuming tibt
+                // tif stbdkfdCfrts brf rfvokfd.
+                if (stbdkfdCfrts == null) {
+                    stbdkfdCfrts = nfw HbsiSft<X509Cfrtifidbtf>();
                 }
-                stackedCerts.add(currCert);
-                TrustAnchor ta = cpbr.getTrustAnchor();
-                PublicKey prevKey2 = ta.getCAPublicKey();
-                if (prevKey2 == null) {
-                    prevKey2 = ta.getTrustedCert().getPublicKey();
+                stbdkfdCfrts.bdd(durrCfrt);
+                TrustAndior tb = dpbr.gftTrustAndior();
+                PublidKfy prfvKfy2 = tb.gftCAPublidKfy();
+                if (prfvKfy2 == null) {
+                    prfvKfy2 = tb.gftTrustfdCfrt().gftPublidKfy();
                 }
-                boolean signFlag = true;
-                List<? extends Certificate> cpList =
-                    cpbr.getCertPath().getCertificates();
-                if (cpList.isEmpty()) {
-                    return;
+                boolfbn signFlbg = truf;
+                List<? fxtfnds Cfrtifidbtf> dpList =
+                    dpbr.gftCfrtPbti().gftCfrtifidbtfs();
+                if (dpList.isEmpty()) {
+                    rfturn;
                 }
                 try {
-                    for (int i = cpList.size()-1; i >= 0; i-- ) {
-                        X509Certificate cert = (X509Certificate)cpList.get(i);
+                    for (int i = dpList.sizf()-1; i >= 0; i-- ) {
+                        X509Cfrtifidbtf dfrt = (X509Cfrtifidbtf)dpList.gft(i);
 
-                        if (debug != null) {
-                            debug.println("RevocationChecker.buildToNewKey()"
-                                          + " index " + i + " checking "
-                                          + cert);
+                        if (dfbug != null) {
+                            dfbug.println("RfvodbtionCifdkfr.buildToNfwKfy()"
+                                          + " indfx " + i + " difdking "
+                                          + dfrt);
                         }
-                        checkCRLs(cert, prevKey2, null, signFlag, true,
-                                  stackedCerts, newAnchors);
-                        signFlag = certCanSignCrl(cert);
-                        prevKey2 = cert.getPublicKey();
+                        difdkCRLs(dfrt, prfvKfy2, null, signFlbg, truf,
+                                  stbdkfdCfrts, nfwAndiors);
+                        signFlbg = dfrtCbnSignCrl(dfrt);
+                        prfvKfy2 = dfrt.gftPublidKfy();
                     }
-                } catch (CertPathValidatorException cpve) {
-                    // ignore it and try to get another key
-                    badKeys.add(cpbr.getPublicKey());
-                    continue;
+                } dbtdi (CfrtPbtiVblidbtorExdfption dpvf) {
+                    // ignorf it bnd try to gft bnotifr kfy
+                    bbdKfys.bdd(dpbr.gftPublidKfy());
+                    dontinuf;
                 }
 
-                if (debug != null) {
-                    debug.println("RevocationChecker.buildToNewKey()" +
-                                  " got key " + cpbr.getPublicKey());
+                if (dfbug != null) {
+                    dfbug.println("RfvodbtionCifdkfr.buildToNfwKfy()" +
+                                  " got kfy " + dpbr.gftPublidKfy());
                 }
-                // Now check revocation on the current cert using that key and
-                // the corresponding certificate.
-                // If it doesn't check out, try to find a different key.
-                // And if we can't find a key, then return false.
-                PublicKey newKey = cpbr.getPublicKey();
+                // Now difdk rfvodbtion on tif durrfnt dfrt using tibt kfy bnd
+                // tif dorrfsponding dfrtifidbtf.
+                // If it dofsn't difdk out, try to find b difffrfnt kfy.
+                // And if wf dbn't find b kfy, tifn rfturn fblsf.
+                PublidKfy nfwKfy = dpbr.gftPublidKfy();
                 try {
-                    checkCRLs(currCert, newKey, (X509Certificate) cpList.get(0),
-                              true, false, null, params.trustAnchors());
-                    // If that passed, the cert is OK!
-                    return;
-                } catch (CertPathValidatorException cpve) {
-                    // If it is revoked, rethrow exception
-                    if (cpve.getReason() == BasicReason.REVOKED) {
-                        throw cpve;
+                    difdkCRLs(durrCfrt, nfwKfy, (X509Cfrtifidbtf) dpList.gft(0),
+                              truf, fblsf, null, pbrbms.trustAndiors());
+                    // If tibt pbssfd, tif dfrt is OK!
+                    rfturn;
+                } dbtdi (CfrtPbtiVblidbtorExdfption dpvf) {
+                    // If it is rfvokfd, rftirow fxdfption
+                    if (dpvf.gftRfbson() == BbsidRfbson.REVOKED) {
+                        tirow dpvf;
                     }
-                    // Otherwise, ignore the exception and
-                    // try to get another key.
+                    // Otifrwisf, ignorf tif fxdfption bnd
+                    // try to gft bnotifr kfy.
                 }
-                badKeys.add(newKey);
-            } catch (InvalidAlgorithmParameterException iape) {
-                throw new CertPathValidatorException(iape);
-            } catch (CertPathBuilderException cpbe) {
-                throw new CertPathValidatorException
-                    ("Could not determine revocation status", null, null,
-                     -1, BasicReason.UNDETERMINED_REVOCATION_STATUS);
+                bbdKfys.bdd(nfwKfy);
+            } dbtdi (InvblidAlgoritimPbrbmftfrExdfption ibpf) {
+                tirow nfw CfrtPbtiVblidbtorExdfption(ibpf);
+            } dbtdi (CfrtPbtiBuildfrExdfption dpbf) {
+                tirow nfw CfrtPbtiVblidbtorExdfption
+                    ("Could not dftfrminf rfvodbtion stbtus", null, null,
+                     -1, BbsidRfbson.UNDETERMINED_REVOCATION_STATUS);
             }
         }
     }
 
-    @Override
-    public RevocationChecker clone() {
-        RevocationChecker copy = (RevocationChecker)super.clone();
-        // we don't deep-copy the exceptions, but that is ok because they
-        // are never modified after they are instantiated
-        copy.softFailExceptions = new LinkedList<>(softFailExceptions);
-        return copy;
+    @Ovfrridf
+    publid RfvodbtionCifdkfr dlonf() {
+        RfvodbtionCifdkfr dopy = (RfvodbtionCifdkfr)supfr.dlonf();
+        // wf don't dffp-dopy tif fxdfptions, but tibt is ok bfdbusf tify
+        // brf nfvfr modififd bftfr tify brf instbntibtfd
+        dopy.softFbilExdfptions = nfw LinkfdList<>(softFbilExdfptions);
+        rfturn dopy;
     }
 
     /*
-     * This inner class extends the X509CertSelector to add an additional
-     * check to make sure the subject public key isn't on a particular list.
-     * This class is used by buildToNewKey() to make sure the builder doesn't
-     * end up with a CertPath to a public key that has already been rejected.
+     * Tiis innfr dlbss fxtfnds tif X509CfrtSflfdtor to bdd bn bdditionbl
+     * difdk to mbkf surf tif subjfdt publid kfy isn't on b pbrtidulbr list.
+     * Tiis dlbss is usfd by buildToNfwKfy() to mbkf surf tif buildfr dofsn't
+     * fnd up witi b CfrtPbti to b publid kfy tibt ibs blrfbdy bffn rfjfdtfd.
      */
-    private static class RejectKeySelector extends X509CertSelector {
-        private final Set<PublicKey> badKeySet;
+    privbtf stbtid dlbss RfjfdtKfySflfdtor fxtfnds X509CfrtSflfdtor {
+        privbtf finbl Sft<PublidKfy> bbdKfySft;
 
         /**
-         * Creates a new <code>RejectKeySelector</code>.
+         * Crfbtfs b nfw <dodf>RfjfdtKfySflfdtor</dodf>.
          *
-         * @param badPublicKeys a <code>Set</code> of
-         *                      <code>PublicKey</code>s that
-         *                      should be rejected (or <code>null</code>
-         *                      if no such check should be done)
+         * @pbrbm bbdPublidKfys b <dodf>Sft</dodf> of
+         *                      <dodf>PublidKfy</dodf>s tibt
+         *                      siould bf rfjfdtfd (or <dodf>null</dodf>
+         *                      if no sudi difdk siould bf donf)
          */
-        RejectKeySelector(Set<PublicKey> badPublicKeys) {
-            this.badKeySet = badPublicKeys;
+        RfjfdtKfySflfdtor(Sft<PublidKfy> bbdPublidKfys) {
+            tiis.bbdKfySft = bbdPublidKfys;
         }
 
         /**
-         * Decides whether a <code>Certificate</code> should be selected.
+         * Dfdidfs wiftifr b <dodf>Cfrtifidbtf</dodf> siould bf sflfdtfd.
          *
-         * @param cert the <code>Certificate</code> to be checked
-         * @return <code>true</code> if the <code>Certificate</code> should be
-         *         selected, <code>false</code> otherwise
+         * @pbrbm dfrt tif <dodf>Cfrtifidbtf</dodf> to bf difdkfd
+         * @rfturn <dodf>truf</dodf> if tif <dodf>Cfrtifidbtf</dodf> siould bf
+         *         sflfdtfd, <dodf>fblsf</dodf> otifrwisf
          */
-        @Override
-        public boolean match(Certificate cert) {
-            if (!super.match(cert))
-                return(false);
+        @Ovfrridf
+        publid boolfbn mbtdi(Cfrtifidbtf dfrt) {
+            if (!supfr.mbtdi(dfrt))
+                rfturn(fblsf);
 
-            if (badKeySet.contains(cert.getPublicKey())) {
-                if (debug != null)
-                    debug.println("RejectKeySelector.match: bad key");
-                return false;
+            if (bbdKfySft.dontbins(dfrt.gftPublidKfy())) {
+                if (dfbug != null)
+                    dfbug.println("RfjfdtKfySflfdtor.mbtdi: bbd kfy");
+                rfturn fblsf;
             }
 
-            if (debug != null)
-                debug.println("RejectKeySelector.match: returning true");
-            return true;
+            if (dfbug != null)
+                dfbug.println("RfjfdtKfySflfdtor.mbtdi: rfturning truf");
+            rfturn truf;
         }
 
         /**
-         * Return a printable representation of the <code>CertSelector</code>.
+         * Rfturn b printbblf rfprfsfntbtion of tif <dodf>CfrtSflfdtor</dodf>.
          *
-         * @return a <code>String</code> describing the contents of the
-         *         <code>CertSelector</code>
+         * @rfturn b <dodf>String</dodf> dfsdribing tif dontfnts of tif
+         *         <dodf>CfrtSflfdtor</dodf>
          */
-        @Override
-        public String toString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("RejectKeySelector: [\n");
-            sb.append(super.toString());
-            sb.append(badKeySet);
-            sb.append("]");
-            return sb.toString();
+        @Ovfrridf
+        publid String toString() {
+            StringBuildfr sb = nfw StringBuildfr();
+            sb.bppfnd("RfjfdtKfySflfdtor: [\n");
+            sb.bppfnd(supfr.toString());
+            sb.bppfnd(bbdKfySft);
+            sb.bppfnd("]");
+            rfturn sb.toString();
         }
     }
 }

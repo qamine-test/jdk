@@ -1,231 +1,231 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.io.File;
-import java.io.FileInputStream;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
-import java.util.ServiceLoader;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Propfrtifs;
+import jbvb.util.SfrvidfLobdfr;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
-import javax.sound.sampled.AudioPermission;
+import jbvbx.sound.sbmplfd.AudioPfrmission;
 
-/** Managing security in the Java Sound implementation.
- * This class contains all code that uses and is used by
- * SecurityManager.doPrivileged().
+/** Mbnbging sfdurity in tif Jbvb Sound implfmfntbtion.
+ * Tiis dlbss dontbins bll dodf tibt usfs bnd is usfd by
+ * SfdurityMbnbgfr.doPrivilfgfd().
  *
- * @author Matthias Pfisterer
+ * @butior Mbttiibs Pfistfrfr
  */
-final class JSSecurityManager {
+finbl dlbss JSSfdurityMbnbgfr {
 
-    /** Prevent instantiation.
+    /** Prfvfnt instbntibtion.
      */
-    private JSSecurityManager() {
+    privbtf JSSfdurityMbnbgfr() {
     }
 
-    /** Checks if the VM currently has a SecurityManager installed.
-     * Note that this may change over time. So the result of this method
-     * should not be cached.
+    /** Cifdks if tif VM durrfntly ibs b SfdurityMbnbgfr instbllfd.
+     * Notf tibt tiis mby dibngf ovfr timf. So tif rfsult of tiis mftiod
+     * siould not bf dbdifd.
      *
-     * @return true if a SecurityManger is installed, false otherwise.
+     * @rfturn truf if b SfdurityMbngfr is instbllfd, fblsf otifrwisf.
      */
-    private static boolean hasSecurityManager() {
-        return (System.getSecurityManager() != null);
+    privbtf stbtid boolfbn ibsSfdurityMbnbgfr() {
+        rfturn (Systfm.gftSfdurityMbnbgfr() != null);
     }
 
 
-    static void checkRecordPermission() throws SecurityException {
-        if(Printer.trace) Printer.trace("JSSecurityManager.checkRecordPermission()");
-        SecurityManager sm = System.getSecurityManager();
+    stbtid void difdkRfdordPfrmission() tirows SfdurityExdfption {
+        if(Printfr.trbdf) Printfr.trbdf("JSSfdurityMbnbgfr.difdkRfdordPfrmission()");
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(new AudioPermission("record"));
+            sm.difdkPfrmission(nfw AudioPfrmission("rfdord"));
         }
     }
 
-    static String getProperty(final String propertyName) {
-        String propertyValue;
-        if (hasSecurityManager()) {
-            if(Printer.debug) Printer.debug("using JDK 1.2 security to get property");
+    stbtid String gftPropfrty(finbl String propfrtyNbmf) {
+        String propfrtyVbluf;
+        if (ibsSfdurityMbnbgfr()) {
+            if(Printfr.dfbug) Printfr.dfbug("using JDK 1.2 sfdurity to gft propfrty");
             try{
-                PrivilegedAction<String> action = new PrivilegedAction<String>() {
-                        public String run() {
+                PrivilfgfdAdtion<String> bdtion = nfw PrivilfgfdAdtion<String>() {
+                        publid String run() {
                             try {
-                                return System.getProperty(propertyName);
-                            } catch (Throwable t) {
-                                return null;
+                                rfturn Systfm.gftPropfrty(propfrtyNbmf);
+                            } dbtdi (Tirowbblf t) {
+                                rfturn null;
                             }
                         }
                     };
-                propertyValue = AccessController.doPrivileged(action);
-            } catch( Exception e ) {
-                if(Printer.debug) Printer.debug("not using JDK 1.2 security to get properties");
-                propertyValue = System.getProperty(propertyName);
+                propfrtyVbluf = AddfssControllfr.doPrivilfgfd(bdtion);
+            } dbtdi( Exdfption f ) {
+                if(Printfr.dfbug) Printfr.dfbug("not using JDK 1.2 sfdurity to gft propfrtifs");
+                propfrtyVbluf = Systfm.gftPropfrty(propfrtyNbmf);
             }
-        } else {
-            if(Printer.debug) Printer.debug("not using JDK 1.2 security to get properties");
-            propertyValue = System.getProperty(propertyName);
+        } flsf {
+            if(Printfr.dfbug) Printfr.dfbug("not using JDK 1.2 sfdurity to gft propfrtifs");
+            propfrtyVbluf = Systfm.gftPropfrty(propfrtyNbmf);
         }
-        return propertyValue;
+        rfturn propfrtyVbluf;
     }
 
 
-    /** Load properties from a file.
-        This method tries to load properties from the filename give into
-        the passed properties object.
-        If the file cannot be found or something else goes wrong,
-        the method silently fails.
-        @param properties The properties bundle to store the values of the
-        properties file.
-        @param filename The filename of the properties file to load. This
-        filename is interpreted as relative to the subdirectory "lib" in
-        the JRE directory.
+    /** Lobd propfrtifs from b filf.
+        Tiis mftiod trifs to lobd propfrtifs from tif filfnbmf givf into
+        tif pbssfd propfrtifs objfdt.
+        If tif filf dbnnot bf found or somftiing flsf gofs wrong,
+        tif mftiod silfntly fbils.
+        @pbrbm propfrtifs Tif propfrtifs bundlf to storf tif vblufs of tif
+        propfrtifs filf.
+        @pbrbm filfnbmf Tif filfnbmf of tif propfrtifs filf to lobd. Tiis
+        filfnbmf is intfrprftfd bs rflbtivf to tif subdirfdtory "lib" in
+        tif JRE dirfdtory.
      */
-    static void loadProperties(final Properties properties,
-                               final String filename) {
-        if(hasSecurityManager()) {
+    stbtid void lobdPropfrtifs(finbl Propfrtifs propfrtifs,
+                               finbl String filfnbmf) {
+        if(ibsSfdurityMbnbgfr()) {
             try {
-                // invoke the privileged action using 1.2 security
-                PrivilegedAction<Void> action = new PrivilegedAction<Void>() {
-                        public Void run() {
-                            loadPropertiesImpl(properties, filename);
-                            return null;
+                // invokf tif privilfgfd bdtion using 1.2 sfdurity
+                PrivilfgfdAdtion<Void> bdtion = nfw PrivilfgfdAdtion<Void>() {
+                        publid Void run() {
+                            lobdPropfrtifsImpl(propfrtifs, filfnbmf);
+                            rfturn null;
                         }
                     };
-                AccessController.doPrivileged(action);
-                if(Printer.debug)Printer.debug("Loaded properties with JDK 1.2 security");
-            } catch (Exception e) {
-                if(Printer.debug)Printer.debug("Exception loading properties with JDK 1.2 security");
-                // try without using JDK 1.2 security
-                loadPropertiesImpl(properties, filename);
+                AddfssControllfr.doPrivilfgfd(bdtion);
+                if(Printfr.dfbug)Printfr.dfbug("Lobdfd propfrtifs witi JDK 1.2 sfdurity");
+            } dbtdi (Exdfption f) {
+                if(Printfr.dfbug)Printfr.dfbug("Exdfption lobding propfrtifs witi JDK 1.2 sfdurity");
+                // try witiout using JDK 1.2 sfdurity
+                lobdPropfrtifsImpl(propfrtifs, filfnbmf);
             }
-        } else {
-            // not JDK 1.2 security, assume we already have permission
-            loadPropertiesImpl(properties, filename);
+        } flsf {
+            // not JDK 1.2 sfdurity, bssumf wf blrfbdy ibvf pfrmission
+            lobdPropfrtifsImpl(propfrtifs, filfnbmf);
         }
     }
 
 
-    private static void loadPropertiesImpl(Properties properties,
-                                           String filename) {
-        if(Printer.trace)Printer.trace(">> JSSecurityManager: loadPropertiesImpl()");
-        String fname = System.getProperty("java.home");
+    privbtf stbtid void lobdPropfrtifsImpl(Propfrtifs propfrtifs,
+                                           String filfnbmf) {
+        if(Printfr.trbdf)Printfr.trbdf(">> JSSfdurityMbnbgfr: lobdPropfrtifsImpl()");
+        String fnbmf = Systfm.gftPropfrty("jbvb.iomf");
         try {
-            if (fname == null) {
-                throw new Error("Can't find java.home ??");
+            if (fnbmf == null) {
+                tirow nfw Error("Cbn't find jbvb.iomf ??");
             }
-            File f = new File(fname, "lib");
-            f = new File(f, filename);
-            fname = f.getCanonicalPath();
-            InputStream in = new FileInputStream(fname);
-            BufferedInputStream bin = new BufferedInputStream(in);
+            Filf f = nfw Filf(fnbmf, "lib");
+            f = nfw Filf(f, filfnbmf);
+            fnbmf = f.gftCbnonidblPbti();
+            InputStrfbm in = nfw FilfInputStrfbm(fnbmf);
+            BufffrfdInputStrfbm bin = nfw BufffrfdInputStrfbm(in);
             try {
-                properties.load(bin);
-            } finally {
+                propfrtifs.lobd(bin);
+            } finblly {
                 if (in != null) {
-                    in.close();
+                    in.dlosf();
                 }
             }
-        } catch (Throwable t) {
-            if (Printer.trace) {
-                System.err.println("Could not load properties file \"" + fname + "\"");
-                t.printStackTrace();
+        } dbtdi (Tirowbblf t) {
+            if (Printfr.trbdf) {
+                Systfm.frr.println("Could not lobd propfrtifs filf \"" + fnbmf + "\"");
+                t.printStbdkTrbdf();
             }
         }
-        if(Printer.trace)Printer.trace("<< JSSecurityManager: loadPropertiesImpl() completed");
+        if(Printfr.trbdf)Printfr.trbdf("<< JSSfdurityMbnbgfr: lobdPropfrtifsImpl() domplftfd");
     }
 
-    /** Create a Thread in the current ThreadGroup.
+    /** Crfbtf b Tirfbd in tif durrfnt TirfbdGroup.
      */
-    static Thread createThread(final Runnable runnable,
-                               final String threadName,
-                               final boolean isDaemon, final int priority,
-                               final boolean doStart) {
-        Thread thread = new Thread(runnable);
-        if (threadName != null) {
-            thread.setName(threadName);
+    stbtid Tirfbd drfbtfTirfbd(finbl Runnbblf runnbblf,
+                               finbl String tirfbdNbmf,
+                               finbl boolfbn isDbfmon, finbl int priority,
+                               finbl boolfbn doStbrt) {
+        Tirfbd tirfbd = nfw Tirfbd(runnbblf);
+        if (tirfbdNbmf != null) {
+            tirfbd.sftNbmf(tirfbdNbmf);
         }
-        thread.setDaemon(isDaemon);
+        tirfbd.sftDbfmon(isDbfmon);
         if (priority >= 0) {
-            thread.setPriority(priority);
+            tirfbd.sftPriority(priority);
         }
-        if (doStart) {
-            thread.start();
+        if (doStbrt) {
+            tirfbd.stbrt();
         }
-        return thread;
+        rfturn tirfbd;
     }
 
-    static synchronized <T> List<T> getProviders(final Class<T> providerClass) {
-        List<T> p = new ArrayList<>(7);
-        // ServiceLoader creates "lazy" iterator instance, but it ensures that
-        // next/hasNext run with permissions that are restricted by whatever
-        // creates the ServiceLoader instance, so it requires to be called from
-        // privileged section
-        final PrivilegedAction<Iterator<T>> psAction =
-                new PrivilegedAction<Iterator<T>>() {
-                    @Override
-                    public Iterator<T> run() {
-                        return ServiceLoader.load(providerClass).iterator();
+    stbtid syndironizfd <T> List<T> gftProvidfrs(finbl Clbss<T> providfrClbss) {
+        List<T> p = nfw ArrbyList<>(7);
+        // SfrvidfLobdfr drfbtfs "lbzy" itfrbtor instbndf, but it fnsurfs tibt
+        // nfxt/ibsNfxt run witi pfrmissions tibt brf rfstridtfd by wibtfvfr
+        // drfbtfs tif SfrvidfLobdfr instbndf, so it rfquirfs to bf dbllfd from
+        // privilfgfd sfdtion
+        finbl PrivilfgfdAdtion<Itfrbtor<T>> psAdtion =
+                nfw PrivilfgfdAdtion<Itfrbtor<T>>() {
+                    @Ovfrridf
+                    publid Itfrbtor<T> run() {
+                        rfturn SfrvidfLobdfr.lobd(providfrClbss).itfrbtor();
                     }
                 };
-        final Iterator<T> ps = AccessController.doPrivileged(psAction);
+        finbl Itfrbtor<T> ps = AddfssControllfr.doPrivilfgfd(psAdtion);
 
-        // the iterator's hasNext() method looks through classpath for
-        // the provider class names, so it requires read permissions
-        PrivilegedAction<Boolean> hasNextAction = new PrivilegedAction<Boolean>() {
-            public Boolean run() {
-                return ps.hasNext();
+        // tif itfrbtor's ibsNfxt() mftiod looks tirougi dlbsspbti for
+        // tif providfr dlbss nbmfs, so it rfquirfs rfbd pfrmissions
+        PrivilfgfdAdtion<Boolfbn> ibsNfxtAdtion = nfw PrivilfgfdAdtion<Boolfbn>() {
+            publid Boolfbn run() {
+                rfturn ps.ibsNfxt();
             }
         };
 
-        while (AccessController.doPrivileged(hasNextAction)) {
+        wiilf (AddfssControllfr.doPrivilfgfd(ibsNfxtAdtion)) {
             try {
-                // the iterator's next() method creates instances of the
-                // providers and it should be called in the current security
-                // context
-                T provider = ps.next();
-                if (providerClass.isInstance(provider)) {
+                // tif itfrbtor's nfxt() mftiod drfbtfs instbndfs of tif
+                // providfrs bnd it siould bf dbllfd in tif durrfnt sfdurity
+                // dontfxt
+                T providfr = ps.nfxt();
+                if (providfrClbss.isInstbndf(providfr)) {
                     // $$mp 2003-08-22
-                    // Always adding at the beginning reverses the
-                    // order of the providers. So we no longer have
-                    // to do this in AudioSystem and MidiSystem.
-                    p.add(0, provider);
+                    // Alwbys bdding bt tif bfginning rfvfrsfs tif
+                    // ordfr of tif providfrs. So wf no longfr ibvf
+                    // to do tiis in AudioSystfm bnd MidiSystfm.
+                    p.bdd(0, providfr);
                 }
-            } catch (Throwable t) {
-                //$$fb 2002-11-07: do not fail on SPI not found
-                if (Printer.err) t.printStackTrace();
+            } dbtdi (Tirowbblf t) {
+                //$$fb 2002-11-07: do not fbil on SPI not found
+                if (Printfr.frr) t.printStbdkTrbdf();
             }
         }
-        return p;
+        rfturn p;
     }
 }

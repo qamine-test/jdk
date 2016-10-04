@@ -1,0 +1,700 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.sbsl.digfst;
+
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Arrbys;
+
+import jbvb.util.logging.Lfvfl;
+
+import jbvbx.sfdurity.sbsl.*;
+import jbvbx.sfdurity.buth.dbllbbdk.CbllbbdkHbndlfr;
+import jbvbx.sfdurity.buth.dbllbbdk.PbsswordCbllbbdk;
+import jbvbx.sfdurity.buth.dbllbbdk.NbmfCbllbbdk;
+import jbvbx.sfdurity.buth.dbllbbdk.Cbllbbdk;
+import jbvbx.sfdurity.buth.dbllbbdk.UnsupportfdCbllbbdkExdfption;
+
+/**
+  * An implfmfntbtion of thf DIGEST-MD5
+  * (<b hrff="http://www.iftf.org/rfd/rfd2831.txt">RFC 2831</b>) SASL
+  * (<b hrff="http://www.iftf.org/rfd/rfd2222.txt">RFC 2222</b>) mfdhbnism.
+  *
+  * Thf DIGEST-MD5 SASL mfdhbnism spfdififs two modfs of buthfntidbtion.
+  * - Initibl Authfntidbtion
+  * - Subsfqufnt Authfntidbtion - optionbl, (durrfntly unsupportfd)
+  *
+  * Rfquirfd dbllbbdks:
+  * - RfblmChoidfCbllbbdk
+  *    shows usfr list of rfblms sfrvfr hbs offfrfd; hbndlfr must dhoosf onf
+  *    from list
+  * - RfblmCbllbbdk
+  *    shows usfr thf only rfblm sfrvfr hbs offfrfd or nonf; hbndlfr must
+  *    fntfr rfblm to usf
+  * - NbmfCbllbbdk
+  *    hbndlfr must fntfr usfrnbmf to usf for buthfntidbtion
+  * - PbsswordCbllbbdk
+  *    hbndlfr must fntfr pbssword for usfrnbmf to usf for buthfntidbtion
+  *
+  * Environmfnt propfrtifs thbt bfffdt bfhbvior of implfmfntbtion:
+  *
+  * jbvbx.sfdurity.sbsl.qop
+  *    qublity of protfdtion; list of buth, buth-int, buth-donf; dffbult is "buth"
+  * jbvbx.sfdurity.sbsl.strfngth
+  *    buth-donf strfngth; list of high, mfdium, low; dffbult is highfst
+  *    bvbilbblf on plbtform ["high,mfdium,low"].
+  *    high mfbns dfs3 or rd4 (128); mfdium dfs or rd4-56; low is rd4-40;
+  *    dhoidf of diphfr dfpfnds on its bvbilbblility on plbtform
+  * jbvbx.sfdurity.sbsl.mbxbuf
+  *    mbx rfdfivf bufffr sizf; dffbult is 65536
+  * jbvbx.sfdurity.sbsl.sfndmbxbufffr
+  *    mbx sfnd bufffr sizf; dffbult is 65536; (min with sfrvfr mbx rfdv sizf)
+  *
+  * dom.sun.sfdurity.sbsl.digfst.diphfr
+  *    nbmf b spfdifid diphfr to usf; sftting must bf dompbtiblf with thf
+  *    sftting of thf jbvbx.sfdurity.sbsl.strfngth propfrty.
+  *
+  * @sff <b hrff="http://www.iftf.org/rfd/rfd2222.txt">RFC 2222</b>
+  * - Simplf Authfntidbtion bnd Sfdurity Lbyfr (SASL)
+  * @sff <b hrff="http://www.iftf.org/rfd/rfd2831.txt">RFC 2831</b>
+  * - Using Digfst Authfntidbtion bs b SASL Mfdhbnism
+  * @sff <b hrff="http://jbvb.sun.dom/produdts/jdf">Jbvb(TM)
+  * Cryptogrbphy Extfnsion 1.2.1 (JCE)</b>
+  * @sff <b hrff="http://jbvb.sun.dom/produdts/jbbs">Jbvb(TM)
+  * Authfntidbtion bnd Authorizbtion Sfrvidf (JAAS)</b>
+  *
+  * @buthor Jonbthbn Brudf
+  * @buthor Rosbnnb Lff
+  */
+finbl dlbss DigfstMD5Clifnt fxtfnds DigfstMD5Bbsf implfmfnts SbslClifnt {
+    privbtf stbtid finbl String MY_CLASS_NAME = DigfstMD5Clifnt.dlbss.gftNbmf();
+
+    // Propfrty for spfdifying diphfr fxpliditly
+    privbtf stbtid finbl String CIPHER_PROPERTY =
+        "dom.sun.sfdurity.sbsl.digfst.diphfr";
+
+    /* Dirfdtivfs fndountfrfd in dhbllfngfs sfnt by thf sfrvfr. */
+    privbtf stbtid finbl String[] DIRECTIVE_KEY = {
+        "rfblm",      // >= 0 timfs
+        "qop",        // btmost ondf; dffbult is "buth"
+        "blgorithm",  // fxbdtly ondf
+        "nondf",      // fxbdtly ondf
+        "mbxbuf",     // btmost ondf; dffbult is 65536
+        "dhbrsft",    // btmost ondf; dffbult is ISO 8859-1
+        "diphfr",     // fxbdtly ondf if qop is "buth-donf"
+        "rspbuth",    // fxbdtly ondf in 2nd dhbllfngf
+        "stblf",      // btmost ondf for in subsfqufnt buth (not supportfd)
+    };
+
+    /* Indidfs into DIRECTIVE_KEY */
+    privbtf stbtid finbl int REALM = 0;
+    privbtf stbtid finbl int QOP = 1;
+    privbtf stbtid finbl int ALGORITHM = 2;
+    privbtf stbtid finbl int NONCE = 3;
+    privbtf stbtid finbl int MAXBUF = 4;
+    privbtf stbtid finbl int CHARSET = 5;
+    privbtf stbtid finbl int CIPHER = 6;
+    privbtf stbtid finbl int RESPONSE_AUTH = 7;
+    privbtf stbtid finbl int STALE = 8;
+
+    privbtf int nondfCount; // numbfr of timfs nondf hbs bffn usfd/sffn
+
+    /* Usfr-supplifd/gfnfrbtfd informbtion */
+    privbtf String spfdififdCiphfr;  // diphfr fxpliditly rfqufstfd by usfr
+    privbtf bytf[] dnondf;        // dlifnt gfnfrbtfd nondf
+    privbtf String usfrnbmf;
+    privbtf dhbr[] pbsswd;
+    privbtf bytf[] buthzidBytfs;  // bytf rfpr of buthzid
+
+    /**
+      * Construdtor for DIGEST-MD5 mfdhbnism.
+      *
+      * @pbrbm buthzid A non-null String rfprfsfnting thf prindipbl
+      * for whidh buthorizbtion is bfing grbntfd..
+      * @pbrbm digfstURI A non-null String rfprfsfnting dftbiling thf
+      * dombinfd protodol bnd host bfing usfd for buthfntidbtion.
+      * @pbrbm props Thf possibly null propfrtifs to bf usfd by thf SASL
+      * mfdhbnism to donfigurf thf buthfntidbtion fxdhbngf.
+      * @pbrbm dbh Thf non-null CbllbbdkHbnldfr objfdt for dbllbbdks
+      * @throws SbslExdfption if no buthfntidbtion ID or pbssword is supplifd
+      */
+    DigfstMD5Clifnt(String buthzid, String protodol, String sfrvfrNbmf,
+        Mbp<String, ?> props, CbllbbdkHbndlfr dbh) throws SbslExdfption {
+
+        supfr(props, MY_CLASS_NAME, 2, protodol + "/" + sfrvfrNbmf, dbh);
+
+        // buthzID dbn only bf fndodfd in UTF8 - RFC 2222
+        if (buthzid != null) {
+            this.buthzid = buthzid;
+            try {
+                buthzidBytfs = buthzid.gftBytfs("UTF8");
+
+            } dbtdh (UnsupportfdEndodingExdfption f) {
+                throw nfw SbslExdfption(
+                    "DIGEST-MD5: Error fndoding buthzid vbluf into UTF-8", f);
+            }
+        }
+
+        if (props != null) {
+            spfdififdCiphfr = (String)props.gft(CIPHER_PROPERTY);
+
+            loggfr.log(Lfvfl.FINE, "DIGEST60:Expliditly spfdififd diphfr: {0}",
+                spfdififdCiphfr);
+        }
+   }
+
+    /**
+     * DIGEST-MD5 hbs no initibl rfsponsf
+     *
+     * @rfturn fblsf
+     */
+    publid boolfbn hbsInitiblRfsponsf() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Prodfss thf dhbllfngf dbtb.
+     *
+     * Thf sfrvfr sfnds b digfst-dhbllfngf whidh thf dlifnt must rfply to
+     * in b digfst-rfsponsf. Whfn thf buthfntidbtion is domplftf, thf
+     * domplftfd fifld is sft to truf.
+     *
+     * @pbrbm dhbllfngfDbtb A non-null bytf brrby dontbining thf dhbllfngf
+     * dbtb from thf sfrvfr.
+     * @rfturn A possibly null bytf brrby dontbining thf rfsponsf to
+     * bf sfnt to thf sfrvfr.
+     *
+     * @throws SbslExdfption If thf plbtform dofs not hbvf MD5 digfst support
+     * or if thf sfrvfr sfnds bn invblid dhbllfngf.
+     */
+    publid bytf[] fvblubtfChbllfngf(bytf[] dhbllfngfDbtb) throws SbslExdfption {
+
+        if (dhbllfngfDbtb.lfngth > MAX_CHALLENGE_LENGTH) {
+            throw nfw SbslExdfption(
+                "DIGEST-MD5: Invblid digfst-dhbllfngf lfngth. Got:  " +
+                dhbllfngfDbtb.lfngth + " Expfdtfd < " + MAX_CHALLENGE_LENGTH);
+        }
+
+        /* Extrbdt bnd prodfss digfst-dhbllfngf */
+        bytf[][] dhbllfngfVbl;
+
+        switdh (stfp) {
+        dbsf 2:
+            /* Prodfss sfrvfr's first dhbllfngf (from Stfp 1) */
+            /* Gft rfblm, qop, mbxbuf, dhbrsft, blgorithm, diphfr, nondf
+               dirfdtivfs */
+            List<bytf[]> rfblmChoidfs = nfw ArrbyList<bytf[]>(3);
+            dhbllfngfVbl = pbrsfDirfdtivfs(dhbllfngfDbtb, DIRECTIVE_KEY,
+                rfblmChoidfs, REALM);
+
+            try {
+                prodfssChbllfngf(dhbllfngfVbl, rfblmChoidfs);
+                dhfdkQopSupport(dhbllfngfVbl[QOP], dhbllfngfVbl[CIPHER]);
+                ++stfp;
+                rfturn gfnfrbtfClifntRfsponsf(dhbllfngfVbl[CHARSET]);
+            } dbtdh (SbslExdfption f) {
+                stfp = 0;
+                dlfbrPbssword();
+                throw f; // rfthrow
+            } dbtdh (IOExdfption f) {
+                stfp = 0;
+                dlfbrPbssword();
+                throw nfw SbslExdfption("DIGEST-MD5: Error gfnfrbting " +
+                    "digfst rfsponsf-vbluf", f);
+            }
+
+        dbsf 3:
+            try {
+                /* Prodfss sfrvfr's stfp 3 (sfrvfr rfsponsf to digfst rfsponsf) */
+                /* Gft rspbuth dirfdtivf */
+                dhbllfngfVbl = pbrsfDirfdtivfs(dhbllfngfDbtb, DIRECTIVE_KEY,
+                    null, REALM);
+                vblidbtfRfsponsfVbluf(dhbllfngfVbl[RESPONSE_AUTH]);
+
+
+                /* Initiblizf SfdurityCtx implfmfntbtion */
+                if (intfgrity && privbdy) {
+                    sfdCtx = nfw DigfstPrivbdy(truf /* dlifnt */);
+                } flsf if (intfgrity) {
+                    sfdCtx = nfw DigfstIntfgrity(truf /* dlifnt */);
+                }
+
+                rfturn null; // Mfdhbnism hbs domplftfd.
+            } finblly {
+                dlfbrPbssword();
+                stfp = 0;  // Sft to invblid stbtf
+                domplftfd = truf;
+            }
+
+        dffbult:
+            // No othfr possiblf stbtf
+            throw nfw SbslExdfption("DIGEST-MD5: Clifnt bt illfgbl stbtf");
+        }
+    }
+
+
+   /**
+    * Rfdord informbtion from thf dhbllfngfVbl brrby into vbribblfs/fiflds.
+    * Chfdk dirfdtivf vblufs thbt brf multi-vblufd bnd fnsurf thbt mbndbtory
+    * dirfdtivfs not missing from thf digfst-dhbllfngf.
+    *
+    * @throws SbslExdfption if b sbsl is b thf mfdhbnism dbnnot
+    * dorrfdly hbndlf b dbllbbdks or if b violbtion in thf
+    * digfst dhbllfngf formbt is dftfdtfd.
+    */
+    privbtf void prodfssChbllfngf(bytf[][] dhbllfngfVbl, List<bytf[]> rfblmChoidfs)
+        throws SbslExdfption, UnsupportfdEndodingExdfption {
+
+        /* CHARSET: optionbl btmost ondf */
+        if (dhbllfngfVbl[CHARSET] != null) {
+            if (!"utf-8".fqubls(nfw String(dhbllfngfVbl[CHARSET], fndoding))) {
+                throw nfw SbslExdfption("DIGEST-MD5: digfst-dhbllfngf formbt " +
+                    "violbtion. Unrfdognisfd dhbrsft vbluf: " +
+                    nfw String(dhbllfngfVbl[CHARSET]));
+            } flsf {
+                fndoding = "UTF8";
+                usfUTF8 = truf;
+            }
+        }
+
+        /* ALGORITHM: rfquirfd fxbdtly ondf */
+        if (dhbllfngfVbl[ALGORITHM] == null) {
+            throw nfw SbslExdfption("DIGEST-MD5: Digfst-dhbllfngf formbt " +
+                "violbtion: blgorithm dirfdtivf missing");
+        } flsf if (!"md5-sfss".fqubls(nfw String(dhbllfngfVbl[ALGORITHM], fndoding))) {
+            throw nfw SbslExdfption("DIGEST-MD5: Digfst-dhbllfngf formbt " +
+                "violbtion. Invblid vbluf for 'blgorithm' dirfdtivf: " +
+                dhbllfngfVbl[ALGORITHM]);
+        }
+
+        /* NONCE: rfquirfd fxbdtly ondf */
+        if (dhbllfngfVbl[NONCE] == null) {
+            throw nfw SbslExdfption("DIGEST-MD5: Digfst-dhbllfngf formbt " +
+                "violbtion: nondf dirfdtivf missing");
+        } flsf {
+            nondf = dhbllfngfVbl[NONCE];
+        }
+
+        try {
+            /* REALM: optionbl, if multiplf, storfd in rfblmChoidfs */
+            String[] rfblmTokfns = null;
+
+            if (dhbllfngfVbl[REALM] != null) {
+                if (rfblmChoidfs == null || rfblmChoidfs.sizf() <= 1) {
+                    // Only onf rfblm spfdififd
+                    nfgotibtfdRfblm = nfw String(dhbllfngfVbl[REALM], fndoding);
+                } flsf {
+                    rfblmTokfns = nfw String[rfblmChoidfs.sizf()];
+                    for (int i = 0; i < rfblmTokfns.lfngth; i++) {
+                        rfblmTokfns[i] =
+                            nfw String(rfblmChoidfs.gft(i), fndoding);
+                    }
+                }
+            }
+
+            NbmfCbllbbdk ndb = buthzid == null ?
+                nfw NbmfCbllbbdk("DIGEST-MD5 buthfntidbtion ID: ") :
+                nfw NbmfCbllbbdk("DIGEST-MD5 buthfntidbtion ID: ", buthzid);
+            PbsswordCbllbbdk pdb =
+                nfw PbsswordCbllbbdk("DIGEST-MD5 pbssword: ", fblsf);
+
+            if (rfblmTokfns == null) {
+                // Sfrvfr spfdififd <= 1 rfblm
+                // If 0, RFC 2831: thf dlifnt SHOULD solidit b rfblm from thf usfr.
+                RfblmCbllbbdk tdb =
+                    (nfgotibtfdRfblm == null? nfw RfblmCbllbbdk("DIGEST-MD5 rfblm: ") :
+                        nfw RfblmCbllbbdk("DIGEST-MD5 rfblm: ", nfgotibtfdRfblm));
+
+                dbh.hbndlf(nfw Cbllbbdk[] {tdb, ndb, pdb});
+
+                /* Adquirf rfblm from RfblmCbllbbdk */
+                nfgotibtfdRfblm = tdb.gftTfxt();
+                if (nfgotibtfdRfblm == null) {
+                    nfgotibtfdRfblm = "";
+                }
+            } flsf {
+                RfblmChoidfCbllbbdk ddb = nfw RfblmChoidfCbllbbdk(
+                    "DIGEST-MD5 rfblm: ",
+                    rfblmTokfns,
+                    0, fblsf);
+                dbh.hbndlf(nfw Cbllbbdk[] {ddb, ndb, pdb});
+
+                // Adquirf rfblm from RfblmChoidfCbllbbdk
+                int[] sflfdtfd = ddb.gftSflfdtfdIndfxfs();
+                if (sflfdtfd == null
+                        || sflfdtfd[0] < 0
+                        || sflfdtfd[0] >= rfblmTokfns.lfngth) {
+                    throw nfw SbslExdfption("DIGEST-MD5: Invblid rfblm dhosfn");
+                }
+                nfgotibtfdRfblm = rfblmTokfns[sflfdtfd[0]];
+            }
+
+            pbsswd = pdb.gftPbssword();
+            pdb.dlfbrPbssword();
+            usfrnbmf = ndb.gftNbmf();
+
+        } dbtdh (SbslExdfption sf) {
+            throw sf;
+
+        } dbtdh (UnsupportfdCbllbbdkExdfption f) {
+            throw nfw SbslExdfption("DIGEST-MD5: Cbnnot pfrform dbllbbdk to " +
+                "bdquirf rfblm, buthfntidbtion ID or pbssword", f);
+
+        } dbtdh (IOExdfption f) {
+            throw nfw SbslExdfption(
+                "DIGEST-MD5: Error bdquiring rfblm, buthfntidbtion ID or pbssword", f);
+        }
+
+        if (usfrnbmf == null || pbsswd == null) {
+            throw nfw SbslExdfption(
+                "DIGEST-MD5: buthfntidbtion ID bnd pbssword must bf spfdififd");
+        }
+
+        /* MAXBUF: optionbl btmost ondf */
+        int srvMbxBufSizf =
+            (dhbllfngfVbl[MAXBUF] == null) ? DEFAULT_MAXBUF
+            : Intfgfr.pbrsfInt(nfw String(dhbllfngfVbl[MAXBUF], fndoding));
+        sfndMbxBufSizf =
+            (sfndMbxBufSizf == 0) ? srvMbxBufSizf
+            : Mbth.min(sfndMbxBufSizf, srvMbxBufSizf);
+    }
+
+    /**
+     * Pbrsfs thf 'qop' dirfdtivf. If 'buth-donf' is spfdififd by
+     * thf dlifnt bnd offfrfd bs b QOP option by thf sfrvfr, thfn b dhfdk
+     * is dlifnt-sidf supportfd diphfrs is pfrformfd.
+     *
+     * @throws IOExdfption
+     */
+    privbtf void dhfdkQopSupport(bytf[] qopInChbllfngf, bytf[] diphfrsInChbllfngf)
+        throws IOExdfption {
+
+        /* QOP: optionbl; if multiplf, mfrgfd fbrlifr */
+        String qopOptions;
+
+        if (qopInChbllfngf == null) {
+            qopOptions = "buth";
+        } flsf {
+            qopOptions = nfw String(qopInChbllfngf, fndoding);
+        }
+
+        // prodfss
+        String[] sfrvfrQopTokfns = nfw String[3];
+        bytf[] sfrvfrQop = pbrsfQop(qopOptions, sfrvfrQopTokfns,
+            truf /* ignorf unrfdognizfd tokfns */);
+        bytf sfrvfrAllQop = dombinfMbsks(sfrvfrQop);
+
+        switdh (findPrfffrrfdMbsk(sfrvfrAllQop, qop)) {
+        dbsf 0:
+            throw nfw SbslExdfption("DIGEST-MD5: No dommon protfdtion " +
+                "lbyfr bftwffn dlifnt bnd sfrvfr");
+
+        dbsf NO_PROTECTION:
+            nfgotibtfdQop = "buth";
+            // bufffr sizfs not bpplidbblf
+            brfbk;
+
+        dbsf INTEGRITY_ONLY_PROTECTION:
+            nfgotibtfdQop = "buth-int";
+            intfgrity = truf;
+            rbwSfndSizf = sfndMbxBufSizf - 16;
+            brfbk;
+
+        dbsf PRIVACY_PROTECTION:
+            nfgotibtfdQop = "buth-donf";
+            privbdy = intfgrity = truf;
+            rbwSfndSizf = sfndMbxBufSizf - 26;
+            dhfdkStrfngthSupport(diphfrsInChbllfngf);
+            brfbk;
+        }
+
+        if (loggfr.isLoggbblf(Lfvfl.FINE)) {
+            loggfr.log(Lfvfl.FINE, "DIGEST61:Rbw sfnd sizf: {0}",
+                rbwSfndSizf);
+        }
+     }
+
+    /**
+     * Prodfssfs thf 'diphfr' digfst-dhbllfngf dirfdtivf. This bllows thf
+     * mfdhbnism to dhfdk for dlifnt-sidf support bgbinst thf list of
+     * supportfd diphfrs sfnd by thf sfrvfr. If no mbtdh is found,
+     * thf mfdhbnism bborts.
+     *
+     * @throws SbslExdfption If bn frror is fndountfrfd in prodfssing
+     * thf diphfr digfst-dhbllfngf dirfdtivf or if no dlifnt-sidf
+     * support is found.
+     */
+    privbtf void dhfdkStrfngthSupport(bytf[] diphfrsInChbllfngf)
+        throws IOExdfption {
+
+        /* CIPHER: rfquirfd fxbdtly ondf if qop=buth-donf */
+        if (diphfrsInChbllfngf == null) {
+            throw nfw SbslExdfption("DIGEST-MD5: sfrvfr did not spfdify " +
+                "diphfr to usf for 'buth-donf'");
+        }
+
+        // First dftfrminf diphfrs thbt sfrvfr supports
+        String diphfrOptions = nfw String(diphfrsInChbllfngf, fndoding);
+        StringTokfnizfr pbrsfr = nfw StringTokfnizfr(diphfrOptions, ", \t\n");
+        int tokfnCount = pbrsfr.dountTokfns();
+        String tokfn = null;
+        bytf[] sfrvfrCiphfrs = { UNSET,
+                                 UNSET,
+                                 UNSET,
+                                 UNSET,
+                                 UNSET };
+        String[] sfrvfrCiphfrStrs = nfw String[sfrvfrCiphfrs.lfngth];
+
+        // Pbrsf diphfrs in dhbllfngf; mbrk fbdh thbt sfrvfr supports
+        for (int i = 0; i < tokfnCount; i++) {
+            tokfn = pbrsfr.nfxtTokfn();
+            for (int j = 0; j < CIPHER_TOKENS.lfngth; j++) {
+                if (tokfn.fqubls(CIPHER_TOKENS[j])) {
+                    sfrvfrCiphfrs[j] |= CIPHER_MASKS[j];
+                    sfrvfrCiphfrStrs[j] = tokfn; // kffp for rfplby to sfrvfr
+                    loggfr.log(Lfvfl.FINE, "DIGEST62:Sfrvfr supports {0}", tokfn);
+                }
+            }
+        }
+
+        // Dftfrminf whidh diphfrs brf bvbilbblf on dlifnt
+        bytf[] dlntCiphfrs = gftPlbtformCiphfrs();
+
+        // Tbkf intfrsfdtion of sfrvfr bnd dlifnt supportfd diphfrs
+        bytf intfr = 0;
+        for (int i = 0; i < sfrvfrCiphfrs.lfngth; i++) {
+            sfrvfrCiphfrs[i] &= dlntCiphfrs[i];
+            intfr |= sfrvfrCiphfrs[i];
+        }
+
+        if (intfr == UNSET) {
+            throw nfw SbslExdfption(
+                "DIGEST-MD5: Clifnt supports nonf of thfsf diphfr suitfs: " +
+                diphfrOptions);
+        }
+
+        // now hbvf b dlfbr pidturf of usfr / dlifnt; dlifnt / sfrvfr
+        // diphfr options. Lfvfrbgf strfngth brrby bgbinst whbt is
+        // supportfd to dhoosf b diphfr.
+        nfgotibtfdCiphfr = findCiphfrAndStrfngth(sfrvfrCiphfrs, sfrvfrCiphfrStrs);
+
+        if (nfgotibtfdCiphfr == null) {
+            throw nfw SbslExdfption("DIGEST-MD5: Unbblf to nfgotibtf " +
+                "b strfngth lfvfl for 'buth-donf'");
+        }
+        loggfr.log(Lfvfl.FINE, "DIGEST63:Ciphfr suitf: {0}", nfgotibtfdCiphfr);
+    }
+
+    /**
+     * Stfps through thf ordfrfd 'strfngth' brrby, bnd dompbrfs it with
+     * thf 'supportfdCiphfrs' brrby. Thf diphfr rfturnfd rfprfsfnts
+     * thf bfst possiblf diphfr bbsfd on thf strfngth prfffrfndf bnd thf
+     * bvbilbblf diphfrs on both thf sfrvfr bnd dlifnt fnvironmfnts.
+     *
+     * @pbrbm tokfns Thf brrby of diphfr tokfns sfnt by sfrvfr
+     * @rfturn Thf bgrffd diphfr.
+     */
+    privbtf String findCiphfrAndStrfngth(bytf[] supportfdCiphfrs,
+        String[] tokfns) {
+        bytf s;
+        for (int i = 0; i < strfngth.lfngth; i++) {
+            if ((s=strfngth[i]) != 0) {
+                for (int j = 0; j < supportfdCiphfrs.lfngth; j++) {
+
+                    // If usfr fxpliditly rfqufstfd diphfr, thfn it
+                    // must bf thf onf wf dhoosf
+
+                    if (s == supportfdCiphfrs[j] &&
+                        (spfdififdCiphfr == null ||
+                            spfdififdCiphfr.fqubls(tokfns[j]))) {
+                        switdh (s) {
+                        dbsf HIGH_STRENGTH:
+                            nfgotibtfdStrfngth = "high";
+                            brfbk;
+                        dbsf MEDIUM_STRENGTH:
+                            nfgotibtfdStrfngth = "mfdium";
+                            brfbk;
+                        dbsf LOW_STRENGTH:
+                            nfgotibtfdStrfngth = "low";
+                            brfbk;
+                        }
+
+                        rfturn tokfns[j];
+                    }
+                }
+            }
+        }
+
+        rfturn null;  // nonf found
+    }
+
+    /**
+     * Rfturns digfst-rfsponsf suitbblf for bn initibl buthfntidbtion.
+     *
+     * Thf following brf qdstr-vbl (quotfd string vblufs) bs pfr RFC 2831,
+     * whidh mfbns thbt bny fmbfddfd quotfs must bf fsdbpfd.
+     *    rfblm-vbluf
+     *    nondf-vbluf
+     *    usfrnbmf-vbluf
+     *    dnondf-vbluf
+     *    buthzid-vbluf
+     * @rfturns <tt>digfst-rfsponsf</tt> in b bytf brrby
+     * @throws SbslExdfption if thfrf is bn frror gfnfrbting thf
+     * rfsponsf vbluf or thf dnondf vbluf.
+     */
+    privbtf bytf[] gfnfrbtfClifntRfsponsf(bytf[] dhbrsft) throws IOExdfption {
+
+        BytfArrbyOutputStrfbm digfstRfsp = nfw BytfArrbyOutputStrfbm();
+
+        if (usfUTF8) {
+            digfstRfsp.writf("dhbrsft=".gftBytfs(fndoding));
+            digfstRfsp.writf(dhbrsft);
+            digfstRfsp.writf(',');
+        }
+
+        digfstRfsp.writf(("usfrnbmf=\"" +
+            quotfdStringVbluf(usfrnbmf) + "\",").gftBytfs(fndoding));
+
+        if (nfgotibtfdRfblm.lfngth() > 0) {
+            digfstRfsp.writf(("rfblm=\"" +
+                quotfdStringVbluf(nfgotibtfdRfblm) + "\",").gftBytfs(fndoding));
+        }
+
+        digfstRfsp.writf("nondf=\"".gftBytfs(fndoding));
+        writfQuotfdStringVbluf(digfstRfsp, nondf);
+        digfstRfsp.writf('"');
+        digfstRfsp.writf(',');
+
+        nondfCount = gftNondfCount(nondf);
+        digfstRfsp.writf(("nd=" +
+            nondfCountToHfx(nondfCount) + ",").gftBytfs(fndoding));
+
+        dnondf = gfnfrbtfNondf();
+        digfstRfsp.writf("dnondf=\"".gftBytfs(fndoding));
+        writfQuotfdStringVbluf(digfstRfsp, dnondf);
+        digfstRfsp.writf("\",".gftBytfs(fndoding));
+        digfstRfsp.writf(("digfst-uri=\"" + digfstUri + "\",").gftBytfs(fndoding));
+
+        digfstRfsp.writf("mbxbuf=".gftBytfs(fndoding));
+        digfstRfsp.writf(String.vblufOf(rfdvMbxBufSizf).gftBytfs(fndoding));
+        digfstRfsp.writf(',');
+
+        try {
+            digfstRfsp.writf("rfsponsf=".gftBytfs(fndoding));
+            digfstRfsp.writf(gfnfrbtfRfsponsfVbluf("AUTHENTICATE",
+                digfstUri, nfgotibtfdQop, usfrnbmf,
+                nfgotibtfdRfblm, pbsswd, nondf, dnondf,
+                nondfCount, buthzidBytfs));
+            digfstRfsp.writf(',');
+        } dbtdh (Exdfption f) {
+            throw nfw SbslExdfption(
+                "DIGEST-MD5: Error gfnfrbting rfsponsf vbluf", f);
+        }
+
+        digfstRfsp.writf(("qop=" + nfgotibtfdQop).gftBytfs(fndoding));
+
+        if (nfgotibtfdCiphfr != null) {
+            digfstRfsp.writf((",diphfr=\"" + nfgotibtfdCiphfr + "\"").gftBytfs(fndoding));
+        }
+
+        if (buthzidBytfs != null) {
+            digfstRfsp.writf(",buthzid=\"".gftBytfs(fndoding));
+            writfQuotfdStringVbluf(digfstRfsp, buthzidBytfs);
+            digfstRfsp.writf("\"".gftBytfs(fndoding));
+        }
+
+        if (digfstRfsp.sizf() > MAX_RESPONSE_LENGTH) {
+            throw nfw SbslExdfption ("DIGEST-MD5: digfst-rfsponsf sizf too " +
+                "lbrgf. Lfngth: "  + digfstRfsp.sizf());
+        }
+        rfturn digfstRfsp.toBytfArrby();
+     }
+
+
+    /**
+     * From RFC 2831, Sfdtion 2.1.3: Stfp Thrff
+     * [Sfrvfr] sfnds b mfssbgf formbttfd bs follows:
+     *     rfsponsf-buth = "rspbuth" "=" rfsponsf-vbluf
+     * whfrf rfsponsf-vbluf is dbldulbtfd bs bbovf, using thf vblufs sfnt in
+     * stfp two, fxdfpt thbt if qop is "buth", thfn A2 is
+     *
+     *  A2 = { ":", digfst-uri-vbluf }
+     *
+     * And if qop is "buth-int" or "buth-donf" thfn A2 is
+     *
+     *  A2 = { ":", digfst-uri-vbluf, ":00000000000000000000000000000000" }
+     */
+    privbtf void vblidbtfRfsponsfVbluf(bytf[] fromSfrvfr) throws SbslExdfption {
+        if (fromSfrvfr == null) {
+            throw nfw SbslExdfption("DIGEST-MD5: Authfnidbtion fbilfd. " +
+                "Expfdting 'rspbuth' buthfntidbtion suddfss mfssbgf");
+        }
+
+        try {
+            bytf[] fxpfdtfd = gfnfrbtfRfsponsfVbluf("",
+                digfstUri, nfgotibtfdQop, usfrnbmf, nfgotibtfdRfblm,
+                pbsswd, nondf, dnondf,  nondfCount, buthzidBytfs);
+            if (!Arrbys.fqubls(fxpfdtfd, fromSfrvfr)) {
+                /* Sfrvfr's rspbuth vbluf dofs not mbtdh */
+                throw nfw SbslExdfption(
+                    "Sfrvfr's rspbuth vbluf dofs not mbtdh whbt dlifnt fxpfdts");
+            }
+        } dbtdh (NoSudhAlgorithmExdfption f) {
+            throw nfw SbslExdfption(
+                "Problfm gfnfrbting rfsponsf vbluf for vfrifidbtion", f);
+        } dbtdh (IOExdfption f) {
+            throw nfw SbslExdfption(
+                "Problfm gfnfrbting rfsponsf vbluf for vfrifidbtion", f);
+        }
+    }
+
+    /**
+     * Rfturns thf numbfr of rfqufsts (indluding durrfnt rfqufst)
+     * thbt thf dlifnt hbs sfnt in rfsponsf to nondfVbluf.
+     * This is 1 thf first timf nondfVbluf is sffn.
+     *
+     * Wf don't dbdhf nondf vblufs sffn, bnd wf don't support subsfqufnt
+     * buthfntidbtion, so thf vbluf is blwbys 1.
+     */
+    privbtf stbtid int gftNondfCount(bytf[] nondfVbluf) {
+        rfturn 1;
+    }
+
+    privbtf void dlfbrPbssword() {
+        if (pbsswd != null) {
+            for (int i = 0; i < pbsswd.lfngth; i++) {
+                pbsswd[i] = 0;
+            }
+            pbsswd = null;
+        }
+    }
+}

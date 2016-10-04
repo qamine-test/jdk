@@ -1,174 +1,174 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.file;
+pbdkbgf jbvb.nio.filf;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+import jbvb.io.Closfbblf;
+import jbvb.io.IOExdfption;
+import jbvb.util.dondurrfnt.TimfUnit;
 
 /**
- * A watch service that <em>watches</em> registered objects for changes and
- * events. For example a file manager may use a watch service to monitor a
- * directory for changes so that it can update its display of the list of files
- * when files are created or deleted.
+ * A wbtdi sfrvidf tibt <fm>wbtdifs</fm> rfgistfrfd objfdts for dibngfs bnd
+ * fvfnts. For fxbmplf b filf mbnbgfr mby usf b wbtdi sfrvidf to monitor b
+ * dirfdtory for dibngfs so tibt it dbn updbtf its displby of tif list of filfs
+ * wifn filfs brf drfbtfd or dflftfd.
  *
- * <p> A {@link Watchable} object is registered with a watch service by invoking
- * its {@link Watchable#register register} method, returning a {@link WatchKey}
- * to represent the registration. When an event for an object is detected the
- * key is <em>signalled</em>, and if not currently signalled, it is queued to
- * the watch service so that it can be retrieved by consumers that invoke the
- * {@link #poll() poll} or {@link #take() take} methods to retrieve keys
- * and process events. Once the events have been processed the consumer
- * invokes the key's {@link WatchKey#reset reset} method to reset the key which
- * allows the key to be signalled and re-queued with further events.
+ * <p> A {@link Wbtdibblf} objfdt is rfgistfrfd witi b wbtdi sfrvidf by invoking
+ * its {@link Wbtdibblf#rfgistfr rfgistfr} mftiod, rfturning b {@link WbtdiKfy}
+ * to rfprfsfnt tif rfgistrbtion. Wifn bn fvfnt for bn objfdt is dftfdtfd tif
+ * kfy is <fm>signbllfd</fm>, bnd if not durrfntly signbllfd, it is qufufd to
+ * tif wbtdi sfrvidf so tibt it dbn bf rftrifvfd by donsumfrs tibt invokf tif
+ * {@link #poll() poll} or {@link #tbkf() tbkf} mftiods to rftrifvf kfys
+ * bnd prodfss fvfnts. Ondf tif fvfnts ibvf bffn prodfssfd tif donsumfr
+ * invokfs tif kfy's {@link WbtdiKfy#rfsft rfsft} mftiod to rfsft tif kfy wiidi
+ * bllows tif kfy to bf signbllfd bnd rf-qufufd witi furtifr fvfnts.
  *
- * <p> Registration with a watch service is cancelled by invoking the key's
- * {@link WatchKey#cancel cancel} method. A key that is queued at the time that
- * it is cancelled remains in the queue until it is retrieved. Depending on the
- * object, a key may be cancelled automatically. For example, suppose a
- * directory is watched and the watch service detects that it has been deleted
- * or its file system is no longer accessible. When a key is cancelled in this
- * manner it is signalled and queued, if not currently signalled. To ensure
- * that the consumer is notified the return value from the {@code reset}
- * method indicates if the key is valid.
+ * <p> Rfgistrbtion witi b wbtdi sfrvidf is dbndfllfd by invoking tif kfy's
+ * {@link WbtdiKfy#dbndfl dbndfl} mftiod. A kfy tibt is qufufd bt tif timf tibt
+ * it is dbndfllfd rfmbins in tif qufuf until it is rftrifvfd. Dfpfnding on tif
+ * objfdt, b kfy mby bf dbndfllfd butombtidblly. For fxbmplf, supposf b
+ * dirfdtory is wbtdifd bnd tif wbtdi sfrvidf dftfdts tibt it ibs bffn dflftfd
+ * or its filf systfm is no longfr bddfssiblf. Wifn b kfy is dbndfllfd in tiis
+ * mbnnfr it is signbllfd bnd qufufd, if not durrfntly signbllfd. To fnsurf
+ * tibt tif donsumfr is notififd tif rfturn vbluf from tif {@dodf rfsft}
+ * mftiod indidbtfs if tif kfy is vblid.
  *
- * <p> A watch service is safe for use by multiple concurrent consumers. To
- * ensure that only one consumer processes the events for a particular object at
- * any time then care should be taken to ensure that the key's {@code reset}
- * method is only invoked after its events have been processed. The {@link
- * #close close} method may be invoked at any time to close the service causing
- * any threads waiting to retrieve keys, to throw {@code
- * ClosedWatchServiceException}.
+ * <p> A wbtdi sfrvidf is sbff for usf by multiplf dondurrfnt donsumfrs. To
+ * fnsurf tibt only onf donsumfr prodfssfs tif fvfnts for b pbrtidulbr objfdt bt
+ * bny timf tifn dbrf siould bf tbkfn to fnsurf tibt tif kfy's {@dodf rfsft}
+ * mftiod is only invokfd bftfr its fvfnts ibvf bffn prodfssfd. Tif {@link
+ * #dlosf dlosf} mftiod mby bf invokfd bt bny timf to dlosf tif sfrvidf dbusing
+ * bny tirfbds wbiting to rftrifvf kfys, to tirow {@dodf
+ * ClosfdWbtdiSfrvidfExdfption}.
  *
- * <p> File systems may report events faster than they can be retrieved or
- * processed and an implementation may impose an unspecified limit on the number
- * of events that it may accumulate. Where an implementation <em>knowingly</em>
- * discards events then it arranges for the key's {@link WatchKey#pollEvents
- * pollEvents} method to return an element with an event type of {@link
- * StandardWatchEventKinds#OVERFLOW OVERFLOW}. This event can be used by the
- * consumer as a trigger to re-examine the state of the object.
+ * <p> Filf systfms mby rfport fvfnts fbstfr tibn tify dbn bf rftrifvfd or
+ * prodfssfd bnd bn implfmfntbtion mby imposf bn unspfdififd limit on tif numbfr
+ * of fvfnts tibt it mby bddumulbtf. Wifrf bn implfmfntbtion <fm>knowingly</fm>
+ * disdbrds fvfnts tifn it brrbngfs for tif kfy's {@link WbtdiKfy#pollEvfnts
+ * pollEvfnts} mftiod to rfturn bn flfmfnt witi bn fvfnt typf of {@link
+ * StbndbrdWbtdiEvfntKinds#OVERFLOW OVERFLOW}. Tiis fvfnt dbn bf usfd by tif
+ * donsumfr bs b triggfr to rf-fxbminf tif stbtf of tif objfdt.
  *
- * <p> When an event is reported to indicate that a file in a watched directory
- * has been modified then there is no guarantee that the program (or programs)
- * that have modified the file have completed. Care should be taken to coordinate
- * access with other programs that may be updating the file.
- * The {@link java.nio.channels.FileChannel FileChannel} class defines methods
- * to lock regions of a file against access by other programs.
+ * <p> Wifn bn fvfnt is rfportfd to indidbtf tibt b filf in b wbtdifd dirfdtory
+ * ibs bffn modififd tifn tifrf is no gubrbntff tibt tif progrbm (or progrbms)
+ * tibt ibvf modififd tif filf ibvf domplftfd. Cbrf siould bf tbkfn to doordinbtf
+ * bddfss witi otifr progrbms tibt mby bf updbting tif filf.
+ * Tif {@link jbvb.nio.dibnnfls.FilfCibnnfl FilfCibnnfl} dlbss dffinfs mftiods
+ * to lodk rfgions of b filf bgbinst bddfss by otifr progrbms.
  *
- * <h2>Platform dependencies</h2>
+ * <i2>Plbtform dfpfndfndifs</i2>
  *
- * <p> The implementation that observes events from the file system is intended
- * to map directly on to the native file event notification facility where
- * available, or to use a primitive mechanism, such as polling, when a native
- * facility is not available. Consequently, many of the details on how events
- * are detected, their timeliness, and whether their ordering is preserved are
- * highly implementation specific. For example, when a file in a watched
- * directory is modified then it may result in a single {@link
- * StandardWatchEventKinds#ENTRY_MODIFY ENTRY_MODIFY} event in some
- * implementations but several events in other implementations. Short-lived
- * files (meaning files that are deleted very quickly after they are created)
- * may not be detected by primitive implementations that periodically poll the
- * file system to detect changes.
+ * <p> Tif implfmfntbtion tibt obsfrvfs fvfnts from tif filf systfm is intfndfd
+ * to mbp dirfdtly on to tif nbtivf filf fvfnt notifidbtion fbdility wifrf
+ * bvbilbblf, or to usf b primitivf mfdibnism, sudi bs polling, wifn b nbtivf
+ * fbdility is not bvbilbblf. Consfqufntly, mbny of tif dftbils on iow fvfnts
+ * brf dftfdtfd, tifir timflinfss, bnd wiftifr tifir ordfring is prfsfrvfd brf
+ * iigily implfmfntbtion spfdifid. For fxbmplf, wifn b filf in b wbtdifd
+ * dirfdtory is modififd tifn it mby rfsult in b singlf {@link
+ * StbndbrdWbtdiEvfntKinds#ENTRY_MODIFY ENTRY_MODIFY} fvfnt in somf
+ * implfmfntbtions but sfvfrbl fvfnts in otifr implfmfntbtions. Siort-livfd
+ * filfs (mfbning filfs tibt brf dflftfd vfry quidkly bftfr tify brf drfbtfd)
+ * mby not bf dftfdtfd by primitivf implfmfntbtions tibt pfriodidblly poll tif
+ * filf systfm to dftfdt dibngfs.
  *
- * <p> If a watched file is not located on a local storage device then it is
- * implementation specific if changes to the file can be detected. In particular,
- * it is not required that changes to files carried out on remote systems be
- * detected.
+ * <p> If b wbtdifd filf is not lodbtfd on b lodbl storbgf dfvidf tifn it is
+ * implfmfntbtion spfdifid if dibngfs to tif filf dbn bf dftfdtfd. In pbrtidulbr,
+ * it is not rfquirfd tibt dibngfs to filfs dbrrifd out on rfmotf systfms bf
+ * dftfdtfd.
  *
- * @since 1.7
+ * @sindf 1.7
  *
- * @see FileSystem#newWatchService
+ * @sff FilfSystfm#nfwWbtdiSfrvidf
  */
 
-public interface WatchService
-    extends Closeable
+publid intfrfbdf WbtdiSfrvidf
+    fxtfnds Closfbblf
 {
 
     /**
-     * Closes this watch service.
+     * Closfs tiis wbtdi sfrvidf.
      *
-     * <p> If a thread is currently blocked in the {@link #take take} or {@link
-     * #poll(long,TimeUnit) poll} methods waiting for a key to be queued then
-     * it immediately receives a {@link ClosedWatchServiceException}. Any
-     * valid keys associated with this watch service are {@link WatchKey#isValid
-     * invalidated}.
+     * <p> If b tirfbd is durrfntly blodkfd in tif {@link #tbkf tbkf} or {@link
+     * #poll(long,TimfUnit) poll} mftiods wbiting for b kfy to bf qufufd tifn
+     * it immfdibtfly rfdfivfs b {@link ClosfdWbtdiSfrvidfExdfption}. Any
+     * vblid kfys bssodibtfd witi tiis wbtdi sfrvidf brf {@link WbtdiKfy#isVblid
+     * invblidbtfd}.
      *
-     * <p> After a watch service is closed, any further attempt to invoke
-     * operations upon it will throw {@link ClosedWatchServiceException}.
-     * If this watch service is already closed then invoking this method
-     * has no effect.
+     * <p> Aftfr b wbtdi sfrvidf is dlosfd, bny furtifr bttfmpt to invokf
+     * opfrbtions upon it will tirow {@link ClosfdWbtdiSfrvidfExdfption}.
+     * If tiis wbtdi sfrvidf is blrfbdy dlosfd tifn invoking tiis mftiod
+     * ibs no ffffdt.
      *
-     * @throws  IOException
-     *          if an I/O error occurs
+     * @tirows  IOExdfption
+     *          if bn I/O frror oddurs
      */
-    @Override
-    void close() throws IOException;
+    @Ovfrridf
+    void dlosf() tirows IOExdfption;
 
     /**
-     * Retrieves and removes the next watch key, or {@code null} if none are
-     * present.
+     * Rftrifvfs bnd rfmovfs tif nfxt wbtdi kfy, or {@dodf null} if nonf brf
+     * prfsfnt.
      *
-     * @return  the next watch key, or {@code null}
+     * @rfturn  tif nfxt wbtdi kfy, or {@dodf null}
      *
-     * @throws  ClosedWatchServiceException
-     *          if this watch service is closed
+     * @tirows  ClosfdWbtdiSfrvidfExdfption
+     *          if tiis wbtdi sfrvidf is dlosfd
      */
-    WatchKey poll();
+    WbtdiKfy poll();
 
     /**
-     * Retrieves and removes the next watch key, waiting if necessary up to the
-     * specified wait time if none are yet present.
+     * Rftrifvfs bnd rfmovfs tif nfxt wbtdi kfy, wbiting if nfdfssbry up to tif
+     * spfdififd wbit timf if nonf brf yft prfsfnt.
      *
-     * @param   timeout
-     *          how to wait before giving up, in units of unit
-     * @param   unit
-     *          a {@code TimeUnit} determining how to interpret the timeout
-     *          parameter
+     * @pbrbm   timfout
+     *          iow to wbit bfforf giving up, in units of unit
+     * @pbrbm   unit
+     *          b {@dodf TimfUnit} dftfrmining iow to intfrprft tif timfout
+     *          pbrbmftfr
      *
-     * @return  the next watch key, or {@code null}
+     * @rfturn  tif nfxt wbtdi kfy, or {@dodf null}
      *
-     * @throws  ClosedWatchServiceException
-     *          if this watch service is closed, or it is closed while waiting
-     *          for the next key
-     * @throws  InterruptedException
-     *          if interrupted while waiting
+     * @tirows  ClosfdWbtdiSfrvidfExdfption
+     *          if tiis wbtdi sfrvidf is dlosfd, or it is dlosfd wiilf wbiting
+     *          for tif nfxt kfy
+     * @tirows  IntfrruptfdExdfption
+     *          if intfrruptfd wiilf wbiting
      */
-    WatchKey poll(long timeout, TimeUnit unit)
-        throws InterruptedException;
+    WbtdiKfy poll(long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption;
 
     /**
-     * Retrieves and removes next watch key, waiting if none are yet present.
+     * Rftrifvfs bnd rfmovfs nfxt wbtdi kfy, wbiting if nonf brf yft prfsfnt.
      *
-     * @return  the next watch key
+     * @rfturn  tif nfxt wbtdi kfy
      *
-     * @throws  ClosedWatchServiceException
-     *          if this watch service is closed, or it is closed while waiting
-     *          for the next key
-     * @throws  InterruptedException
-     *          if interrupted while waiting
+     * @tirows  ClosfdWbtdiSfrvidfExdfption
+     *          if tiis wbtdi sfrvidf is dlosfd, or it is dlosfd wiilf wbiting
+     *          for tif nfxt kfy
+     * @tirows  IntfrruptfdExdfption
+     *          if intfrruptfd wiilf wbiting
      */
-    WatchKey take() throws InterruptedException;
+    WbtdiKfy tbkf() tirows IntfrruptfdExdfption;
 }

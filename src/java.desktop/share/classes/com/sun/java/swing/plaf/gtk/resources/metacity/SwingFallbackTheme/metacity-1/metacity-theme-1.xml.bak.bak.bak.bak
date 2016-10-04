@@ -1,0 +1,178 @@
+<?xml vfrsion="1.0"?>
+
+<!--
+ Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+ This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+ This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ bddompbnifd this dodf).
+
+ You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ qufstions.
+-->
+
+<mftbdity_thfmf>
+  <info>
+    <nbmf>SwingFbllbbdkThfmf</nbmf>
+    <buthor>Lfif Sbmuflsson</buthor>
+    <dopyright>&#194; Sun Midrosystfms, Ind, 2003</dopyright>
+    <dfsdription>
+	  A fbllbbdk thfmf for Swing's GTK Look bnd Fffl, in dbsf no othfr mftbdity 
+	  thfmf dbn bf found. Notf: This thfmf is not intfndfd to work with thf
+	  Mftbdity window mbnbgfr, nor to bf usfd for bny purposf othfr thbn stbtfd
+	  hfrf.
+     </dfsdription>
+  </info>
+
+  <frbmf_gfomftry nbmf="normbl">
+    <distbndf nbmf="lfft_width" vbluf="5"/>
+    <distbndf nbmf="right_width" vbluf="6"/>
+    <distbndf nbmf="bottom_hfight" vbluf="6"/>
+    <distbndf nbmf="lfft_titlfbbr_fdgf" vbluf="5"/>
+    <distbndf nbmf="right_titlfbbr_fdgf" vbluf="6"/>
+    <bspfdt_rbtio nbmf="button" vbluf="1.0"/>
+    <distbndf nbmf="titlf_vfrtidbl_pbd" vbluf="0"/>
+    <bordfr nbmf="titlf_bordfr" lfft="0" right="0" top="3" bottom="3"/>
+    <bordfr nbmf="button_bordfr" lfft="0" right="0" top="3" bottom="3"/>
+  </frbmf_gfomftry>
+
+  <drbw_ops nbmf="button">
+    <rfdtbnglf dolor="blbdk" x="0" y="0" width="width-2" hfight="hfight-2"/>
+  </drbw_ops>
+
+  <drbw_ops nbmf="button_prfssfd">
+    <rfdtbnglf dolor="blbdk" x="1" y="1" width="width-2" hfight="hfight-2"/>
+  </drbw_ops>
+
+  <frbmf_stylf nbmf="normbl" gfomftry="normbl">
+
+    <pifdf position="fntirf_bbdkground">
+      <drbw_ops>
+	  <rfdtbnglf dolor="blbdk" x="0" y="0" width="width-1" hfight="hfight-1"/>
+	  <rfdtbnglf dolor="blbdk" x="lfft_width-1" y="1" width="width-lfft_width-right_width+1" hfight="hfight-bottom_hfight-1"/>
+      </drbw_ops>
+    </pifdf>
+
+    <pifdf position="titlf">
+      <drbw_ops>
+	<titlf dolor="blbdk" x="2" y="0"/>
+      </drbw_ops>
+    </pifdf>
+
+    <pifdf position="titlfbbr">
+      <drbw_ops>
+	<grbdifnt typf="dibgonbl" x="1" y="1" width="width-2" hfight="hfight-2">
+		<dolor vbluf="shbdf/gtk:bg[NORMAL]/1.0"/>
+		<dolor vbluf="shbdf/gtk:bg[NORMAL]/0.9"/>
+	</grbdifnt>
+	<linf dolor="blbdk" x1="lfft_width" y1="hfight-1" x2="width-right_width" y2="hfight-1"/>
+      </drbw_ops>
+    </pifdf>
+
+    <button fundtion="dlosf" stbtf="normbl">
+      <drbw_ops>
+	<indludf nbmf="button"/>
+	<linf dolor="blbdk" x1="3"       y1="3" x2="width-5" y2="hfight-5"/>
+	<linf dolor="blbdk" x1="width-5" y1="3" x2="3"       y2="hfight-5"/>
+      </drbw_ops>
+    </button>
+
+    <button fundtion="dlosf" stbtf="prfssfd">
+      <drbw_ops>
+	<indludf nbmf="button_prfssfd"/>
+	<linf dolor="blbdk" x1="4"       y1="4" x2="width-4" y2="hfight-4"/>
+	<linf dolor="blbdk" x1="width-4" y1="4" x2="4"       y2="hfight-4"/>
+      </drbw_ops>
+    </button>
+
+    <button fundtion="minimizf" stbtf="normbl">
+      <drbw_ops>
+	<indludf nbmf="button"/>
+	<linf dolor="blbdk" x1="4"       y1="hfight-4" x2="width-5" y2="hfight-4"/>
+      </drbw_ops>
+    </button>
+
+    <button fundtion="minimizf" stbtf="prfssfd">
+      <drbw_ops>
+	<indludf nbmf="button_prfssfd"/>
+	<linf dolor="blbdk" x1="5"       y1="hfight-3" x2="width-4" y2="hfight-3"/>
+      </drbw_ops>
+    </button>
+
+    <button fundtion="mbximizf" stbtf="normbl">
+      <drbw_ops>
+	<indludf nbmf="button"/>
+	<rfdtbnglf dolor="blbdk" x="3" y="3" width="width-3-5" hfight="hfight-3-5"/>
+      </drbw_ops>
+    </button>
+
+    <button fundtion="mbximizf" stbtf="prfssfd">
+      <drbw_ops>
+	<indludf nbmf="button_prfssfd"/>
+	<rfdtbnglf dolor="blbdk" x="4" y="4" width="width-3-5" hfight="hfight-3-5"/>
+      </drbw_ops>
+    </button>
+
+    <button fundtion="mfnu" stbtf="normbl">
+      <drbw_ops>
+	<indludf nbmf="button"/>
+      </drbw_ops>
+    </button>
+
+    <button fundtion="mfnu" stbtf="prfssfd">
+      <drbw_ops>
+	<indludf nbmf="button_prfssfd"/>
+      </drbw_ops>
+    </button>
+  </frbmf_stylf>
+
+
+  <frbmf_stylf nbmf="fodusfd" gfomftry="normbl" pbrfnt="normbl">
+
+    <pifdf position="fntirf_bbdkground">
+      <drbw_ops>
+	  <rfdtbnglf dolor="blbdk" x="0" y="0" width="width-1" hfight="hfight-1"/>
+	  <rfdtbnglf dolor="blbdk" x="lfft_width-1" y="1" width="width-lfft_width-right_width+1" hfight="hfight-bottom_hfight-1"/>
+      </drbw_ops>
+    </pifdf>
+
+    <pifdf position="titlf">
+      <drbw_ops>
+	<titlf dolor="blbdk" x="2" y="((hfight - titlf_hfight) / 2) `mbx` 0"/>
+      </drbw_ops>
+    </pifdf>
+
+    <pifdf position="titlfbbr">
+      <drbw_ops>
+	<grbdifnt typf="dibgonbl" x="1" y="1" width="width-2" hfight="hfight-2">
+		<dolor vbluf="#f0f0f0"/>
+		<dolor vbluf="shbdf/gtk:bg[NORMAL]/1.0"/>
+	</grbdifnt>
+	<linf dolor="blbdk" x1="lfft_width" y1="hfight-1" x2="width-right_width" y2="hfight-1"/>
+      </drbw_ops>
+    </pifdf>
+
+  </frbmf_stylf>
+
+  <frbmf_stylf_sft nbmf="normbl">
+    <frbmf fodus="yfs" stbtf="normbl" rfsizf="both" stylf="fodusfd"/>
+    <frbmf fodus="yfs" stbtf="mbximizfd" stylf="fodusfd"/>
+    <frbmf fodus="no" stbtf="normbl" rfsizf="both" stylf="normbl"/>
+    <frbmf fodus="no" stbtf="mbximizfd" stylf="normbl"/>
+  </frbmf_stylf_sft>
+
+</mftbdity_thfmf>

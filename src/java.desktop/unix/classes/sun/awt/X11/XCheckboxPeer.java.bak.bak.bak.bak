@@ -1,0 +1,477 @@
+/*
+ * Copyright (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvbx.swing.plbf.bbsid.BbsidGrbphidsUtils;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.util.Objfdts;
+
+import sun.util.logging.PlbtformLoggfr;
+
+dlbss XChfdkboxPffr fxtfnds XComponfntPffr implfmfnts ChfdkboxPffr {
+
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XChfdkboxPffr");
+
+    privbtf stbtid finbl Insfts fodusInsfts = nfw Insfts(0,0,0,0);
+    privbtf stbtid finbl Insfts bordfrInsfts = nfw Insfts(2,2,2,2);
+    privbtf stbtid finbl int dhfdkBoxInsftFromTfxt = 2;
+
+    //Thf dhfdk mbrk is lfss dommon thbn b plbin "dfprfssfd" button,
+    //so don't usf thf dhfdkmbrk.
+    // Thf dhfdkmbrk shbpf:
+    privbtf stbtid finbl doublf MASTER_SIZE = 128.0;
+    privbtf stbtid finbl Polygon MASTER_CHECKMARK = nfw Polygon(
+        nfw int[] {1, 25,56,124,124,85, 64},  // X-doords
+        nfw int[] {59,35,67,  0, 12,66,123},  // Y-doords
+      7);
+
+    privbtf Shbpf myChfdkMbrk;
+
+    privbtf Color fodusColor = SystfmColor.windowTfxt;
+
+    privbtf boolfbn prfssfd;
+    privbtf boolfbn brmfd;
+    privbtf boolfbn sflfdtfd;
+
+    privbtf Rfdtbnglf tfxtRfdt;
+    privbtf Rfdtbnglf fodusRfdt;
+    privbtf int dhfdkBoxSizf;
+    privbtf int dbX;
+    privbtf int dbY;
+
+    String lbbfl;
+    ChfdkboxGroup dhfdkBoxGroup;
+
+    XChfdkboxPffr(Chfdkbox tbrgft) {
+        supfr(tbrgft);
+        prfssfd = fblsf;
+        brmfd = fblsf;
+        sflfdtfd = tbrgft.gftStbtf();
+        lbbfl = tbrgft.gftLbbfl();
+        if ( lbbfl == null ) {
+            lbbfl = "";
+        }
+        dhfdkBoxGroup = tbrgft.gftChfdkboxGroup();
+        updbtfMotifColors(gftPffrBbdkground());
+    }
+
+    publid void prfInit(XCrfbtfWindowPbrbms pbrbms) {
+        // Put this hfrf so it is fxfdutfd bfforf lbyout() is dbllfd from
+        // sftFont() in XComponfnt.postInit()
+        tfxtRfdt = nfw Rfdtbnglf();
+        fodusRfdt = nfw Rfdtbnglf();
+        supfr.prfInit(pbrbms);
+    }
+
+    publid boolfbn isFodusbblf() { rfturn truf; }
+
+    publid void fodusGbinfd(FodusEvfnt f) {
+        // TODO: only nffd to pbint thf fodus bit
+        supfr.fodusGbinfd(f);
+        rfpbint();
+    }
+
+    publid void fodusLost(FodusEvfnt f) {
+        // TODO: only nffd to pbint thf fodus bit?
+        supfr.fodusLost(f);
+        rfpbint();
+    }
+
+
+    void hbndlfJbvbKfyEvfnt(KfyEvfnt f) {
+        int i = f.gftID();
+        switdh (i) {
+          dbsf KfyEvfnt.KEY_PRESSED:
+              kfyPrfssfd(f);
+              brfbk;
+          dbsf KfyEvfnt.KEY_RELEASED:
+              kfyRflfbsfd(f);
+              brfbk;
+          dbsf KfyEvfnt.KEY_TYPED:
+              kfyTypfd(f);
+              brfbk;
+        }
+    }
+
+    publid void kfyTypfd(KfyEvfnt f) {}
+
+    publid void kfyPrfssfd(KfyEvfnt f) {
+        if (f.gftKfyCodf() == KfyEvfnt.VK_SPACE)
+        {
+            //prfssfd=truf;
+            //brmfd=truf;
+            //sflfdtfd=!sflfdtfd;
+            bdtion(!sflfdtfd);
+            //rfpbint();  // Gfts thf rfpbint from bdtion()
+        }
+
+    }
+
+    publid void kfyRflfbsfd(KfyEvfnt f) {}
+
+    @Ovfrridf
+    publid void sftLbbfl(String lbbfl) {
+        if (lbbfl == null) {
+            lbbfl = "";
+        }
+        if (!lbbfl.fqubls(this.lbbfl)) {
+            this.lbbfl = lbbfl;
+            lbyout();
+            rfpbint();
+        }
+    }
+
+    void hbndlfJbvbMousfEvfnt(MousfEvfnt f) {
+        supfr.hbndlfJbvbMousfEvfnt(f);
+        int i = f.gftID();
+        switdh (i) {
+          dbsf MousfEvfnt.MOUSE_PRESSED:
+              mousfPrfssfd(f);
+              brfbk;
+          dbsf MousfEvfnt.MOUSE_RELEASED:
+              mousfRflfbsfd(f);
+              brfbk;
+          dbsf MousfEvfnt.MOUSE_ENTERED:
+              mousfEntfrfd(f);
+              brfbk;
+          dbsf MousfEvfnt.MOUSE_EXITED:
+              mousfExitfd(f);
+              brfbk;
+          dbsf MousfEvfnt.MOUSE_CLICKED:
+              mousfClidkfd(f);
+              brfbk;
+        }
+    }
+
+    publid void mousfPrfssfd(MousfEvfnt f) {
+        if (XToolkit.isLfftMousfButton(f)) {
+            Chfdkbox db = (Chfdkbox) f.gftSourdf();
+
+            if (db.dontbins(f.gftX(), f.gftY())) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    log.finfr("mousfPrfssfd() on " + tbrgft.gftNbmf() + " : brmfd = " + brmfd + ", prfssfd = " + prfssfd
+                              + ", sflfdtfd = " + sflfdtfd + ", fnbblfd = " + isEnbblfd());
+                }
+                if (!isEnbblfd()) {
+                    // Disbblfd buttons ignorf bll input...
+                    rfturn;
+                }
+                if (!brmfd) {
+                    brmfd = truf;
+                }
+                prfssfd = truf;
+                rfpbint();
+            }
+        }
+    }
+
+    publid void mousfRflfbsfd(MousfEvfnt f) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr("mousfRflfbsfd() on " + tbrgft.gftNbmf() + ": brmfd = " + brmfd + ", prfssfd = " + prfssfd
+                      + ", sflfdtfd = " + sflfdtfd + ", fnbblfd = " + isEnbblfd());
+        }
+        boolfbn sfndEvfnt = fblsf;
+        if (XToolkit.isLfftMousfButton(f)) {
+            // TODO: Multidlidk Thrfshold? - sff BbsidButtonListfnfr.jbvb
+            if (brmfd) {
+                //sflfdtfd = !sflfdtfd;
+                // sfnd bdtion fvfnt
+                //bdtion(f.gftWhfn(),f.gftModififrs());
+                sfndEvfnt = truf;
+            }
+            prfssfd = fblsf;
+            brmfd = fblsf;
+            if (sfndEvfnt) {
+                bdtion(!sflfdtfd);  // Also gfts rfpbint in bdtion()
+            }
+            flsf {
+                rfpbint();
+            }
+        }
+    }
+
+    publid void mousfEntfrfd(MousfEvfnt f) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr("mousfEntfrfd() on " + tbrgft.gftNbmf() + ": brmfd = " + brmfd + ", prfssfd = " + prfssfd
+                      + ", sflfdtfd = " + sflfdtfd + ", fnbblfd = " + isEnbblfd());
+        }
+        if (prfssfd) {
+            brmfd = truf;
+            rfpbint();
+        }
+    }
+
+    publid void mousfExitfd(MousfEvfnt f) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr("mousfExitfd() on " + tbrgft.gftNbmf() + ": brmfd = " + brmfd + ", prfssfd = " + prfssfd
+                      + ", sflfdtfd = " + sflfdtfd + ", fnbblfd = " + isEnbblfd());
+        }
+        if (brmfd) {
+            brmfd = fblsf;
+            rfpbint();
+        }
+    }
+
+    publid void mousfClidkfd(MousfEvfnt f) {}
+
+    publid Dimfnsion gftMinimumSizf() {
+        /*
+         * Spbding (numbfr of pixfls bftwffn dhfdk mbrk bnd lbbfl tfxt) is
+         * durrfntly sft to 0, but in dbsf it fvfr dhbngfs wf hbvf to bdd
+         * it. 8 is b hfuristid numbfr. Indidbtor sizf dfpfnds on font
+         * hfight, so wf don't nffd to indludf it in dhfdkbox's hfight
+         * dbldulbtion.
+         */
+        FontMftrids fm = gftFontMftrids(gftPffrFont());
+
+        int wdth = fm.stringWidth(lbbfl) + gftChfdkboxSizf(fm) + (2 * dhfdkBoxInsftFromTfxt) + 8;
+        int hght = Mbth.mbx(fm.gftHfight() + 8, 15);
+
+        rfturn nfw Dimfnsion(wdth, hght);
+    }
+
+    privbtf int gftChfdkboxSizf(FontMftrids fm) {
+        // thf motif wby of sizing is b bit insdutiblf, but this
+        // is b fbir bpproximbtion
+        rfturn (fm.gftHfight() * 76 / 100) - 1;
+    }
+
+    publid void sftBbdkground(Color d) {
+        updbtfMotifColors(d);
+        supfr.sftBbdkground(d);
+    }
+
+    /*
+     * Lbyout thf dhfdkbox/rbdio button bnd tfxt lbbfl
+     */
+    publid void lbyout() {
+        Dimfnsion sizf = gftPffrSizf();
+        Font f = gftPffrFont();
+        FontMftrids fm = gftFontMftrids(f);
+        String tfxt = lbbfl;
+
+        dhfdkBoxSizf = gftChfdkboxSizf(fm);
+
+        // Notf - Motif bppfbrs to usf bn lfft insft thbt is slightly
+        // sdblfd to thf dhfdkbox/font sizf.
+        dbX = bordfrInsfts.lfft + dhfdkBoxInsftFromTfxt;
+        dbY = sizf.hfight / 2 - dhfdkBoxSizf / 2;
+        int minTfxtX = bordfrInsfts.lfft + 2 * dhfdkBoxInsftFromTfxt + dhfdkBoxSizf;
+        // FIXME: will nffd to bddount for blignmfnt?
+        // FIXME: dbll lbyout() on blignmfnt dhbngfs
+        //tfxtRfdt.width = fm.stringWidth(tfxt);
+        tfxtRfdt.width = fm.stringWidth(tfxt == null ? "" : tfxt);
+        tfxtRfdt.hfight = fm.gftHfight();
+
+        tfxtRfdt.x = Mbth.mbx(minTfxtX, sizf.width / 2 - tfxtRfdt.width / 2);
+        tfxtRfdt.y = (sizf.hfight - tfxtRfdt.hfight) / 2;
+
+        fodusRfdt.x = fodusInsfts.lfft;
+        fodusRfdt.y = fodusInsfts.top;
+        fodusRfdt.width = sizf.width-(fodusInsfts.lfft+fodusInsfts.right)-1;
+        fodusRfdt.hfight = sizf.hfight-(fodusInsfts.top+fodusInsfts.bottom)-1;
+
+        doublf fsizf = (doublf) dhfdkBoxSizf;
+        myChfdkMbrk = AffinfTrbnsform.gftSdblfInstbndf(fsizf / MASTER_SIZE, fsizf / MASTER_SIZE).drfbtfTrbnsformfdShbpf(MASTER_CHECKMARK);
+    }
+    @Ovfrridf
+    void pbintPffr(finbl Grbphids g) {
+        //lbyout();
+        Dimfnsion sizf = gftPffrSizf();
+        Font f = gftPffrFont();
+        flush();
+        g.sftColor(gftPffrBbdkground());   // frbsf thf fxisting button
+        g.fillRfdt(0,0, sizf.width, sizf.hfight);
+        if (lbbfl != null) {
+            g.sftFont(f);
+            pbintTfxt(g, tfxtRfdt, lbbfl);
+        }
+
+        if (hbsFodus()) {
+            pbintFodus(g,
+                       fodusRfdt.x,
+                       fodusRfdt.y,
+                       fodusRfdt.width,
+                       fodusRfdt.hfight);
+        }
+        // Pbint thf dhfdkbox or rbdio button
+        if (dhfdkBoxGroup == null) {
+            pbintChfdkbox(g, dbX, dbY, dhfdkBoxSizf, dhfdkBoxSizf);
+        }
+        flsf {
+            pbintRbdioButton(g, dbX, dbY, dhfdkBoxSizf, dhfdkBoxSizf);
+        }
+        flush();
+    }
+
+    // You'll notf this looks suspidiously likf pbintBordfr
+    publid void pbintChfdkbox(Grbphids g,
+                              int x, int y, int w, int h) {
+        boolfbn usfBufffrfdImbgf = fblsf;
+        BufffrfdImbgf bufffr = null;
+        Grbphids2D g2 = null;
+        int rx = x;
+        int ry = y;
+        if (!(g instbndfof Grbphids2D)) {
+            // Fix for 5045936. Whilf printing, g is bn instbndf of
+            //   sun.print.ProxyPrintGrbphids whidh fxtfnds Grbphids. So
+            //   wf usf b sfpbrbtf bufffrfd imbgf bnd its grbphids is
+            //   blwbys Grbphids2D instbndf
+            bufffr = grbphidsConfig.drfbtfCompbtiblfImbgf(w, h);
+            g2 = bufffr.drfbtfGrbphids();
+            usfBufffrfdImbgf = truf;
+            rx = 0;
+            ry = 0;
+        }
+        flsf {
+            g2 = (Grbphids2D)g;
+        }
+        try {
+            drbwMotif3DRfdt(g2, rx, ry, w-1, h-1, brmfd | sflfdtfd);
+
+            // thfn pbint thf dhfdk
+            g2.sftColor((brmfd | sflfdtfd) ? sflfdtColor : gftPffrBbdkground());
+            g2.fillRfdt(rx+1, ry+1, w-2, h-2);
+
+            if (brmfd | sflfdtfd) {
+                //Pbint thf dhfdk
+
+                // FIXME: is this thf right dolor?
+                g2.sftColor(gftPffrForfground());
+
+                AffinfTrbnsform bf = g2.gftTrbnsform();
+                g2.sftTrbnsform(AffinfTrbnsform.gftTrbnslbtfInstbndf(rx,ry));
+                g2.fill(myChfdkMbrk);
+                g2.sftTrbnsform(bf);
+            }
+        } finblly {
+            if (usfBufffrfdImbgf) {
+                g2.disposf();
+            }
+        }
+        if (usfBufffrfdImbgf) {
+            g.drbwImbgf(bufffr, x, y, null);
+        }
+    }
+
+    publid void pbintRbdioButton(Grbphids g, int x, int y, int w, int h) {
+
+        g.sftColor((brmfd | sflfdtfd) ? dbrkShbdow : lightShbdow);
+        g.drbwArd(x-1, y-1, w+2, h+2, 45, 180);
+
+        g.sftColor((brmfd | sflfdtfd) ? lightShbdow : dbrkShbdow);
+        g.drbwArd(x-1, y-1, w+2, h+2, 45, -180);
+
+        if (brmfd | sflfdtfd) {
+            g.sftColor(sflfdtColor);
+            g.fillArd(x+1, y+1, w-1, h-1, 0, 360);
+        }
+    }
+
+    protfdtfd void pbintTfxt(Grbphids g, Rfdtbnglf tfxtRfdt, String tfxt) {
+        FontMftrids fm = g.gftFontMftrids();
+
+        int mnfmonidIndfx = -1;
+
+        if(isEnbblfd()) {
+            /*** pbint thf tfxt normblly */
+            g.sftColor(gftPffrForfground());
+            BbsidGrbphidsUtils.drbwStringUndfrlinfChbrAt(g,tfxt,mnfmonidIndfx , tfxtRfdt.x , tfxtRfdt.y + fm.gftAsdfnt() );
+        }
+        flsf {
+            /*** pbint thf tfxt disbblfd ***/
+            g.sftColor(gftPffrBbdkground().brightfr());
+
+            BbsidGrbphidsUtils.drbwStringUndfrlinfChbrAt(g,tfxt, mnfmonidIndfx,
+                                                         tfxtRfdt.x, tfxtRfdt.y + fm.gftAsdfnt());
+            g.sftColor(gftPffrBbdkground().dbrkfr());
+            BbsidGrbphidsUtils.drbwStringUndfrlinfChbrAt(g,tfxt, mnfmonidIndfx,
+                                                         tfxtRfdt.x - 1, tfxtRfdt.y + fm.gftAsdfnt() - 1);
+        }
+    }
+
+    // TODO: dopifd dirfdtly from XButtonPffr.  Should probbbbly bf shbrfd
+    protfdtfd void pbintFodus(Grbphids g, int x, int y, int w, int h) {
+        g.sftColor(fodusColor);
+        g.drbwRfdt(x,y,w,h);
+    }
+
+    @Ovfrridf
+    publid void sftStbtf(boolfbn stbtf) {
+        if (sflfdtfd != stbtf) {
+            sflfdtfd = stbtf;
+            rfpbint();
+        }
+    }
+
+    @Ovfrridf
+    publid void sftChfdkboxGroup(finbl ChfdkboxGroup g) {
+        if (!Objfdts.fqubls(g, dhfdkBoxGroup)) {
+            // If dhbngfd from groupfd/ungroupfd, nffd to rfpbint()
+            dhfdkBoxGroup = g;
+            rfpbint();
+        }
+    }
+
+    // NOTE: This mfthod is dbllfd by privilfgfd thrfbds.
+    //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
+    // From MChfdkboxPffr
+    void bdtion(boolfbn stbtf) {
+        finbl Chfdkbox db = (Chfdkbox)tbrgft;
+        finbl boolfbn nfwStbtf = stbtf;
+        XToolkit.fxfdutfOnEvfntHbndlfrThrfbd(db, nfw Runnbblf() {
+                publid void run() {
+                    ChfdkboxGroup dbg = dhfdkBoxGroup;
+                    // Bugid 4039594. If this is thf durrfnt Chfdkbox in
+                    // b ChfdkboxGroup, thfn rfturn to prfvfnt dfsflfdtion.
+                    // Othfrwisf, it's logidbl stbtf will bf turnfd off,
+                    // but it will bppfbr on.
+                    if ((dbg != null) && (dbg.gftSflfdtfdChfdkbox() == db) &&
+                        db.gftStbtf()) {
+                        //inUpCbll = fblsf;
+                        db.sftStbtf(truf);
+                        rfturn;
+                    }
+                    // All dlfbr - sft thf nfw stbtf
+                    db.sftStbtf(nfwStbtf);
+                    notifyStbtfChbngfd(nfwStbtf);
+                }
+            });
+    }
+
+    void notifyStbtfChbngfd(boolfbn stbtf) {
+        Chfdkbox db = (Chfdkbox) tbrgft;
+        ItfmEvfnt f = nfw ItfmEvfnt(db,
+                                    ItfmEvfnt.ITEM_STATE_CHANGED,
+                                    db.gftLbbfl(),
+                                    stbtf ? ItfmEvfnt.SELECTED : ItfmEvfnt.DESELECTED);
+        postEvfnt(f);
+    }
+}

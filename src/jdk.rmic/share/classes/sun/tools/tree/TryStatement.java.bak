@@ -1,317 +1,317 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.Label;
-import sun.tools.asm.TryData;
-import sun.tools.asm.CatchData;
-import java.io.PrintStream;
-import java.util.Enumeration;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.Lbbfl;
+import sun.tools.bsm.TryDbtb;
+import sun.tools.bsm.CbtdiDbtb;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class TryStatement extends Statement {
-    Statement body;
-    Statement args[];
-    long arrayCloneWhere;       // private note posted from MethodExpression
+publid
+dlbss TryStbtfmfnt fxtfnds Stbtfmfnt {
+    Stbtfmfnt body;
+    Stbtfmfnt brgs[];
+    long brrbyClonfWifrf;       // privbtf notf postfd from MftiodExprfssion
 
     /**
-     * Constructor
+     * Construdtor
      */
-    public TryStatement(long where, Statement body, Statement args[]) {
-        super(TRY, where);
-        this.body = body;
-        this.args = args;
+    publid TryStbtfmfnt(long wifrf, Stbtfmfnt body, Stbtfmfnt brgs[]) {
+        supfr(TRY, wifrf);
+        tiis.body = body;
+        tiis.brgs = brgs;
     }
 
     /**
-     * Check statement
+     * Cifdk stbtfmfnt
      */
-    Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        checkLabel(env, ctx);
+    Vsft difdk(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        difdkLbbfl(fnv, dtx);
         try {
-            vset = reach(env, vset);
-            Hashtable<Object, Object> newexp = new Hashtable<>();
-            CheckContext newctx =  new CheckContext(ctx, this);
+            vsft = rfbdi(fnv, vsft);
+            Hbsitbblf<Objfdt, Objfdt> nfwfxp = nfw Hbsitbblf<>();
+            CifdkContfxt nfwdtx =  nfw CifdkContfxt(dtx, tiis);
 
-            // Check 'try' block.  A variable is DA (DU) before the try
-            // block if it is DA (DU) before the try statement.
-            Vset vs = body.check(env, newctx, vset.copy(), newexp);
+            // Cifdk 'try' blodk.  A vbribblf is DA (DU) bfforf tif try
+            // blodk if it is DA (DU) bfforf tif try stbtfmfnt.
+            Vsft vs = body.difdk(fnv, nfwdtx, vsft.dopy(), nfwfxp);
 
-            // A variable is DA before a catch block if it is DA before the
-            // try statement.  A variable is DU before a catch block if it
-            // is DU after the try block and before any 'break', 'continue',
-            // 'throw', or 'return' contained therein. That is, the variable
-            // is DU upon entry to the try-statement and is not assigned to
-            // anywhere within the try block.
-            Vset cvs = Vset.firstDAandSecondDU(vset, vs.copy().join(newctx.vsTryExit));
+            // A vbribblf is DA bfforf b dbtdi blodk if it is DA bfforf tif
+            // try stbtfmfnt.  A vbribblf is DU bfforf b dbtdi blodk if it
+            // is DU bftfr tif try blodk bnd bfforf bny 'brfbk', 'dontinuf',
+            // 'tirow', or 'rfturn' dontbinfd tifrfin. Tibt is, tif vbribblf
+            // is DU upon fntry to tif try-stbtfmfnt bnd is not bssignfd to
+            // bnywifrf witiin tif try blodk.
+            Vsft dvs = Vsft.firstDAbndSfdondDU(vsft, vs.dopy().join(nfwdtx.vsTryExit));
 
-            for (int i = 0 ; i < args.length ; i++) {
-                // A variable is DA (DU) after a try statement if
-                // it is DA (DU) after every catch block.
-                vs = vs.join(args[i].check(env, newctx, cvs.copy(), exp));
+            for (int i = 0 ; i < brgs.lfngti ; i++) {
+                // A vbribblf is DA (DU) bftfr b try stbtfmfnt if
+                // it is DA (DU) bftfr fvfry dbtdi blodk.
+                vs = vs.join(brgs[i].difdk(fnv, nfwdtx, dvs.dopy(), fxp));
             }
 
-            // Check that catch statements are actually reached
-            for (int i = 1 ; i < args.length ; i++) {
-                CatchStatement cs = (CatchStatement)args[i];
-                if (cs.field == null) {
-                    continue;
+            // Cifdk tibt dbtdi stbtfmfnts brf bdtublly rfbdifd
+            for (int i = 1 ; i < brgs.lfngti ; i++) {
+                CbtdiStbtfmfnt ds = (CbtdiStbtfmfnt)brgs[i];
+                if (ds.fifld == null) {
+                    dontinuf;
                 }
-                Type type = cs.field.getType();
-                ClassDefinition def = env.getClassDefinition(type);
+                Typf typf = ds.fifld.gftTypf();
+                ClbssDffinition dff = fnv.gftClbssDffinition(typf);
 
                 for (int j = 0 ; j < i ; j++) {
-                    CatchStatement cs2 = (CatchStatement)args[j];
-                    if (cs2.field == null) {
-                        continue;
+                    CbtdiStbtfmfnt ds2 = (CbtdiStbtfmfnt)brgs[j];
+                    if (ds2.fifld == null) {
+                        dontinuf;
                     }
-                    Type t = cs2.field.getType();
-                    ClassDeclaration c = env.getClassDeclaration(t);
-                    if (def.subClassOf(env, c)) {
-                        env.error(args[i].where, "catch.not.reached");
-                        break;
+                    Typf t = ds2.fifld.gftTypf();
+                    ClbssDfdlbrbtion d = fnv.gftClbssDfdlbrbtion(t);
+                    if (dff.subClbssOf(fnv, d)) {
+                        fnv.frror(brgs[i].wifrf, "dbtdi.not.rfbdifd");
+                        brfbk;
                     }
                 }
             }
 
-            ClassDeclaration ignore1 = env.getClassDeclaration(idJavaLangError);
-            ClassDeclaration ignore2 = env.getClassDeclaration(idJavaLangRuntimeException);
+            ClbssDfdlbrbtion ignorf1 = fnv.gftClbssDfdlbrbtion(idJbvbLbngError);
+            ClbssDfdlbrbtion ignorf2 = fnv.gftClbssDfdlbrbtion(idJbvbLbngRuntimfExdfption);
 
-            // Make sure the exception is actually throw in that part of the code
-            for (int i = 0 ; i < args.length ; i++) {
-                CatchStatement cs = (CatchStatement)args[i];
-                if (cs.field == null) {
-                    continue;
+            // Mbkf surf tif fxdfption is bdtublly tirow in tibt pbrt of tif dodf
+            for (int i = 0 ; i < brgs.lfngti ; i++) {
+                CbtdiStbtfmfnt ds = (CbtdiStbtfmfnt)brgs[i];
+                if (ds.fifld == null) {
+                    dontinuf;
                 }
-                Type type = cs.field.getType();
-                if (!type.isType(TC_CLASS)) {
-                    // CatchStatement.checkValue() will have already printed
-                    // an error message
-                    continue;
-                }
-
-                ClassDefinition def = env.getClassDefinition(type);
-
-                // Anyone can throw these!
-                if (def.subClassOf(env, ignore1) || def.superClassOf(env, ignore1) ||
-                    def.subClassOf(env, ignore2) || def.superClassOf(env, ignore2)) {
-                    continue;
+                Typf typf = ds.fifld.gftTypf();
+                if (!typf.isTypf(TC_CLASS)) {
+                    // CbtdiStbtfmfnt.difdkVbluf() will ibvf blrfbdy printfd
+                    // bn frror mfssbgf
+                    dontinuf;
                 }
 
-                // Make sure the exception is actually throw in that part of the code
-                boolean ok = false;
-                for (Enumeration<?> e = newexp.keys() ; e.hasMoreElements() ; ) {
-                    ClassDeclaration c = (ClassDeclaration)e.nextElement();
-                    if (def.superClassOf(env, c) || def.subClassOf(env, c)) {
-                        ok = true;
-                        break;
+                ClbssDffinition dff = fnv.gftClbssDffinition(typf);
+
+                // Anyonf dbn tirow tifsf!
+                if (dff.subClbssOf(fnv, ignorf1) || dff.supfrClbssOf(fnv, ignorf1) ||
+                    dff.subClbssOf(fnv, ignorf2) || dff.supfrClbssOf(fnv, ignorf2)) {
+                    dontinuf;
+                }
+
+                // Mbkf surf tif fxdfption is bdtublly tirow in tibt pbrt of tif dodf
+                boolfbn ok = fblsf;
+                for (Enumfrbtion<?> f = nfwfxp.kfys() ; f.ibsMorfElfmfnts() ; ) {
+                    ClbssDfdlbrbtion d = (ClbssDfdlbrbtion)f.nfxtElfmfnt();
+                    if (dff.supfrClbssOf(fnv, d) || dff.subClbssOf(fnv, d)) {
+                        ok = truf;
+                        brfbk;
                     }
                 }
-                if (!ok && arrayCloneWhere != 0
-                    && def.getName().toString().equals("java.lang.CloneNotSupportedException")) {
-                    env.error(arrayCloneWhere, "warn.array.clone.supported", def.getName());
+                if (!ok && brrbyClonfWifrf != 0
+                    && dff.gftNbmf().toString().fqubls("jbvb.lbng.ClonfNotSupportfdExdfption")) {
+                    fnv.frror(brrbyClonfWifrf, "wbrn.brrby.dlonf.supportfd", dff.gftNbmf());
                 }
 
                 if (!ok) {
-                    env.error(cs.where, "catch.not.thrown", def.getName());
+                    fnv.frror(ds.wifrf, "dbtdi.not.tirown", dff.gftNbmf());
                 }
             }
 
-            // Only carry over exceptions that are not caught
-            for (Enumeration<?> e = newexp.keys() ; e.hasMoreElements() ; ) {
-                ClassDeclaration c = (ClassDeclaration)e.nextElement();
-                ClassDefinition def = c.getClassDefinition(env);
-                boolean add = true;
-                for (int i = 0 ; i < args.length ; i++) {
-                    CatchStatement cs = (CatchStatement)args[i];
-                    if (cs.field == null) {
-                        continue;
+            // Only dbrry ovfr fxdfptions tibt brf not dbugit
+            for (Enumfrbtion<?> f = nfwfxp.kfys() ; f.ibsMorfElfmfnts() ; ) {
+                ClbssDfdlbrbtion d = (ClbssDfdlbrbtion)f.nfxtElfmfnt();
+                ClbssDffinition dff = d.gftClbssDffinition(fnv);
+                boolfbn bdd = truf;
+                for (int i = 0 ; i < brgs.lfngti ; i++) {
+                    CbtdiStbtfmfnt ds = (CbtdiStbtfmfnt)brgs[i];
+                    if (ds.fifld == null) {
+                        dontinuf;
                     }
-                    Type type = cs.field.getType();
-                    if (type.isType(TC_ERROR))
-                        continue;
-                    if (def.subClassOf(env, env.getClassDeclaration(type))) {
-                        add = false;
-                        break;
+                    Typf typf = ds.fifld.gftTypf();
+                    if (typf.isTypf(TC_ERROR))
+                        dontinuf;
+                    if (dff.subClbssOf(fnv, fnv.gftClbssDfdlbrbtion(typf))) {
+                        bdd = fblsf;
+                        brfbk;
                     }
                 }
-                if (add) {
-                    exp.put(c, newexp.get(c));
+                if (bdd) {
+                    fxp.put(d, nfwfxp.gft(d));
                 }
             }
-            // A variable is DA (DU) after a try statement if it is DA (DU)
-            // after the try block and after every catch block. These variables
-            // are represented by 'vs'.  If the try statement is labelled, we
-            // may also exit from it (including from within a catch block) via
-            // a break statement.
-            // If there is a finally block, the Vset returned here is further
-            // adjusted. Note that this 'TryStatement' node will be a child of
-            // a 'FinallyStatement' node in that case.
-            return ctx.removeAdditionalVars(vs.join(newctx.vsBreak));
-        } catch (ClassNotFound e) {
-            env.error(where, "class.not.found", e.name, opNames[op]);
-            return vset;
+            // A vbribblf is DA (DU) bftfr b try stbtfmfnt if it is DA (DU)
+            // bftfr tif try blodk bnd bftfr fvfry dbtdi blodk. Tifsf vbribblfs
+            // brf rfprfsfntfd by 'vs'.  If tif try stbtfmfnt is lbbfllfd, wf
+            // mby blso fxit from it (indluding from witiin b dbtdi blodk) vib
+            // b brfbk stbtfmfnt.
+            // If tifrf is b finblly blodk, tif Vsft rfturnfd ifrf is furtifr
+            // bdjustfd. Notf tibt tiis 'TryStbtfmfnt' nodf will bf b diild of
+            // b 'FinbllyStbtfmfnt' nodf in tibt dbsf.
+            rfturn dtx.rfmovfAdditionblVbrs(vs.join(nfwdtx.vsBrfbk));
+        } dbtdi (ClbssNotFound f) {
+            fnv.frror(wifrf, "dlbss.not.found", f.nbmf, opNbmfs[op]);
+            rfturn vsft;
         }
     }
 
     /**
-     * Inline
+     * Inlinf
      */
-    public Statement inline(Environment env, Context ctx) {
+    publid Stbtfmfnt inlinf(Environmfnt fnv, Contfxt dtx) {
         if (body != null) {
-            body = body.inline(env, new Context(ctx, this));
+            body = body.inlinf(fnv, nfw Contfxt(dtx, tiis));
         }
         if (body == null) {
-            return null;
+            rfturn null;
         }
-        for (int i = 0 ; i < args.length ; i++) {
-            if (args[i] != null) {
-                args[i] = args[i].inline(env, new Context(ctx, this));
+        for (int i = 0 ; i < brgs.lfngti ; i++) {
+            if (brgs[i] != null) {
+                brgs[i] = brgs[i].inlinf(fnv, nfw Contfxt(dtx, tiis));
             }
         }
-        return (args.length == 0) ? eliminate(env, body) : this;
+        rfturn (brgs.lfngti == 0) ? fliminbtf(fnv, body) : tiis;
     }
 
     /**
-     * Create a copy of the statement for method inlining
+     * Crfbtf b dopy of tif stbtfmfnt for mftiod inlining
      */
-    public Statement copyInline(Context ctx, boolean valNeeded) {
-        TryStatement s = (TryStatement)clone();
+    publid Stbtfmfnt dopyInlinf(Contfxt dtx, boolfbn vblNffdfd) {
+        TryStbtfmfnt s = (TryStbtfmfnt)dlonf();
         if (body != null) {
-            s.body = body.copyInline(ctx, valNeeded);
+            s.body = body.dopyInlinf(dtx, vblNffdfd);
         }
-        s.args = new Statement[args.length];
-        for (int i = 0 ; i < args.length ; i++) {
-            if (args[i] != null) {
-                s.args[i] = args[i].copyInline(ctx, valNeeded);
+        s.brgs = nfw Stbtfmfnt[brgs.lfngti];
+        for (int i = 0 ; i < brgs.lfngti ; i++) {
+            if (brgs[i] != null) {
+                s.brgs[i] = brgs[i].dopyInlinf(dtx, vblNffdfd);
             }
         }
-        return s;
+        rfturn s;
     }
 
     /**
-     * Compute cost of inlining this statement
+     * Computf dost of inlining tiis stbtfmfnt
      */
-    public int costInline(int thresh, Environment env, Context ctx){
+    publid int dostInlinf(int tirfsi, Environmfnt fnv, Contfxt dtx){
 
-        // Don't inline methods containing try statements.
-        // If the try statement is being inlined in order to
-        // inline a method that returns a value which is
-        // a subexpression of an expression involving the
-        // operand stack, then the early operands may get lost.
-        // This shows up as a verifier error.  For example,
-        // in the following:
+        // Don't inlinf mftiods dontbining try stbtfmfnts.
+        // If tif try stbtfmfnt is bfing inlinfd in ordfr to
+        // inlinf b mftiod tibt rfturns b vbluf wiidi is
+        // b subfxprfssion of bn fxprfssion involving tif
+        // opfrbnd stbdk, tifn tif fbrly opfrbnds mby gft lost.
+        // Tiis siows up bs b vfrififr frror.  For fxbmplf,
+        // in tif following:
         //
-        //    public static int test() {
-        //       try { return 2; } catch (Exception e)  { return 0; }
+        //    publid stbtid int tfst() {
+        //       try { rfturn 2; } dbtdi (Exdfption f)  { rfturn 0; }
         //    }
         //
-        //    System.out.println(test());
+        //    Systfm.out.println(tfst());
         //
-        // an inlined call to test() might look like this:
+        // bn inlinfd dbll to tfst() migit look likf tiis:
         //
-        //     0 getstatic <Field java.io.PrintStream out>
-        //     3 iconst_2
+        //     0 gftstbtid <Fifld jbvb.io.PrintStrfbm out>
+        //     3 idonst_2
         //     4 goto 9
         //     7 pop
-        //     8 iconst_0
-        //     9 invokevirtual <Method void println(int)>
-        //    12 return
-        //  Exception table:
-        //     from   to  target type
-        //       3     7     7   <Class java.lang.Exception>
+        //     8 idonst_0
+        //     9 invokfvirtubl <Mftiod void println(int)>
+        //    12 rfturn
+        //  Exdfption tbblf:
+        //     from   to  tbrgft typf
+        //       3     7     7   <Clbss jbvb.lbng.Exdfption>
         //
-        // This fails to verify because the operand stored
-        // for System.out gets axed at an exception, leading to
-        // an inconsistent stack depth at pc=7.
+        // Tiis fbils to vfrify bfdbusf tif opfrbnd storfd
+        // for Systfm.out gfts bxfd bt bn fxdfption, lfbding to
+        // bn indonsistfnt stbdk dfpti bt pd=7.
         //
-        // Note that although all code must be able to be inlined
-        // to implement initializers, this problem doesn't come up,
-        // as try statements themselves can never be expressions.
-        // It suffices here to make sure they are never inlined as part
-        // of optimization.
+        // Notf tibt bltiougi bll dodf must bf bblf to bf inlinfd
+        // to implfmfnt initiblizfrs, tiis problfm dofsn't domf up,
+        // bs try stbtfmfnts tifmsflvfs dbn nfvfr bf fxprfssions.
+        // It suffidfs ifrf to mbkf surf tify brf nfvfr inlinfd bs pbrt
+        // of optimizbtion.
 
-        return thresh;
+        rfturn tirfsi;
     }
 
     /**
-     * Code
+     * Codf
      */
-    public void code(Environment env, Context ctx, Assembler asm) {
-        CodeContext newctx = new CodeContext(ctx, this);
+    publid void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        CodfContfxt nfwdtx = nfw CodfContfxt(dtx, tiis);
 
-        TryData td = new TryData();
-        for (int i = 0 ; i < args.length ; i++) {
-            Type t = ((CatchStatement)args[i]).field.getType();
-            if (t.isType(TC_CLASS)) {
-                td.add(env.getClassDeclaration(t));
-            } else {
-                td.add(t);
+        TryDbtb td = nfw TryDbtb();
+        for (int i = 0 ; i < brgs.lfngti ; i++) {
+            Typf t = ((CbtdiStbtfmfnt)brgs[i]).fifld.gftTypf();
+            if (t.isTypf(TC_CLASS)) {
+                td.bdd(fnv.gftClbssDfdlbrbtion(t));
+            } flsf {
+                td.bdd(t);
             }
         }
-        asm.add(where, opc_try, td);
+        bsm.bdd(wifrf, opd_try, td);
         if (body != null) {
-            body.code(env, newctx, asm);
+            body.dodf(fnv, nfwdtx, bsm);
         }
 
-        asm.add(td.getEndLabel());
-        asm.add(where, opc_goto, newctx.breakLabel);
+        bsm.bdd(td.gftEndLbbfl());
+        bsm.bdd(wifrf, opd_goto, nfwdtx.brfbkLbbfl);
 
-        for (int i = 0 ; i < args.length ; i++) {
-            CatchData cd = td.getCatch(i);
-            asm.add(cd.getLabel());
-            args[i].code(env, newctx, asm);
-            asm.add(where, opc_goto, newctx.breakLabel);
+        for (int i = 0 ; i < brgs.lfngti ; i++) {
+            CbtdiDbtb dd = td.gftCbtdi(i);
+            bsm.bdd(dd.gftLbbfl());
+            brgs[i].dodf(fnv, nfwdtx, bsm);
+            bsm.bdd(wifrf, opd_goto, nfwdtx.brfbkLbbfl);
         }
 
-        asm.add(newctx.breakLabel);
+        bsm.bdd(nfwdtx.brfbkLbbfl);
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out, int indent) {
-        super.print(out, indent);
+    publid void print(PrintStrfbm out, int indfnt) {
+        supfr.print(out, indfnt);
         out.print("try ");
         if (body != null) {
-            body.print(out, indent);
-        } else {
-            out.print("<empty>");
+            body.print(out, indfnt);
+        } flsf {
+            out.print("<fmpty>");
         }
-        for (int i = 0 ; i < args.length ; i++) {
+        for (int i = 0 ; i < brgs.lfngti ; i++) {
             out.print(" ");
-            args[i].print(out, indent);
+            brgs[i].print(out, indfnt);
         }
     }
 }

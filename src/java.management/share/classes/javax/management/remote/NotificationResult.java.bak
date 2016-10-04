@@ -1,170 +1,170 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.remote;
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
 
 /**
- * <p>Result of a query for buffered notifications.  Notifications in
- * a notification buffer have positive, monotonically increasing
- * sequence numbers.  The result of a notification query contains the
- * following elements:</p>
+ * <p>Rfsult of b qufry for bufffrfd notifidbtions.  Notifidbtions in
+ * b notifidbtion bufffr ibvf positivf, monotonidblly indrfbsing
+ * sfqufndf numbfrs.  Tif rfsult of b notifidbtion qufry dontbins tif
+ * following flfmfnts:</p>
  *
  * <ul>
  *
- * <li>The sequence number of the earliest notification still in
- * the buffer.
+ * <li>Tif sfqufndf numbfr of tif fbrlifst notifidbtion still in
+ * tif bufffr.
  *
- * <li>The sequence number of the next notification available for
- * querying.  This will be the starting sequence number for the next
- * notification query.
+ * <li>Tif sfqufndf numbfr of tif nfxt notifidbtion bvbilbblf for
+ * qufrying.  Tiis will bf tif stbrting sfqufndf numbfr for tif nfxt
+ * notifidbtion qufry.
  *
- * <li>An array of (Notification,listenerID) pairs corresponding to
- * the returned notifications and the listeners they correspond to.
+ * <li>An brrby of (Notifidbtion,listfnfrID) pbirs dorrfsponding to
+ * tif rfturnfd notifidbtions bnd tif listfnfrs tify dorrfspond to.
  *
  * </ul>
  *
- * <p>It is possible for the <code>nextSequenceNumber</code> to be less
- * than the <code>earliestSequenceNumber</code>.  This signifies that
- * notifications between the two might have been lost.</p>
+ * <p>It is possiblf for tif <dodf>nfxtSfqufndfNumbfr</dodf> to bf lfss
+ * tibn tif <dodf>fbrlifstSfqufndfNumbfr</dodf>.  Tiis signififs tibt
+ * notifidbtions bftwffn tif two migit ibvf bffn lost.</p>
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class NotificationResult implements Serializable {
+publid dlbss NotifidbtionRfsult implfmfnts Sfriblizbblf {
 
-    private static final long serialVersionUID = 1191800228721395279L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 1191800228721395279L;
 
     /**
-     * <p>Constructs a notification query result.</p>
+     * <p>Construdts b notifidbtion qufry rfsult.</p>
      *
-     * @param earliestSequenceNumber the sequence number of the
-     * earliest notification still in the buffer.
-     * @param nextSequenceNumber the sequence number of the next
-     * notification available for querying.
-     * @param targetedNotifications the notifications resulting from
-     * the query, and the listeners they correspond to.  This array
-     * can be empty.
+     * @pbrbm fbrlifstSfqufndfNumbfr tif sfqufndf numbfr of tif
+     * fbrlifst notifidbtion still in tif bufffr.
+     * @pbrbm nfxtSfqufndfNumbfr tif sfqufndf numbfr of tif nfxt
+     * notifidbtion bvbilbblf for qufrying.
+     * @pbrbm tbrgftfdNotifidbtions tif notifidbtions rfsulting from
+     * tif qufry, bnd tif listfnfrs tify dorrfspond to.  Tiis brrby
+     * dbn bf fmpty.
      *
-     * @exception IllegalArgumentException if
-     * <code>targetedNotifications</code> is null or if
-     * <code>earliestSequenceNumber</code> or
-     * <code>nextSequenceNumber</code> is negative.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>tbrgftfdNotifidbtions</dodf> is null or if
+     * <dodf>fbrlifstSfqufndfNumbfr</dodf> or
+     * <dodf>nfxtSfqufndfNumbfr</dodf> is nfgbtivf.
      */
-    public NotificationResult(long earliestSequenceNumber,
-                              long nextSequenceNumber,
-                              TargetedNotification[] targetedNotifications) {
-        validate(targetedNotifications, earliestSequenceNumber, nextSequenceNumber);
-        this.earliestSequenceNumber = earliestSequenceNumber;
-        this.nextSequenceNumber = nextSequenceNumber;
-        this.targetedNotifications = (targetedNotifications.length == 0 ? targetedNotifications : targetedNotifications.clone());
+    publid NotifidbtionRfsult(long fbrlifstSfqufndfNumbfr,
+                              long nfxtSfqufndfNumbfr,
+                              TbrgftfdNotifidbtion[] tbrgftfdNotifidbtions) {
+        vblidbtf(tbrgftfdNotifidbtions, fbrlifstSfqufndfNumbfr, nfxtSfqufndfNumbfr);
+        tiis.fbrlifstSfqufndfNumbfr = fbrlifstSfqufndfNumbfr;
+        tiis.nfxtSfqufndfNumbfr = nfxtSfqufndfNumbfr;
+        tiis.tbrgftfdNotifidbtions = (tbrgftfdNotifidbtions.lfngti == 0 ? tbrgftfdNotifidbtions : tbrgftfdNotifidbtions.dlonf());
     }
 
     /**
-     * Returns the sequence number of the earliest notification still
-     * in the buffer.
+     * Rfturns tif sfqufndf numbfr of tif fbrlifst notifidbtion still
+     * in tif bufffr.
      *
-     * @return the sequence number of the earliest notification still
-     * in the buffer.
+     * @rfturn tif sfqufndf numbfr of tif fbrlifst notifidbtion still
+     * in tif bufffr.
      */
-    public long getEarliestSequenceNumber() {
-        return earliestSequenceNumber;
+    publid long gftEbrlifstSfqufndfNumbfr() {
+        rfturn fbrlifstSfqufndfNumbfr;
     }
 
     /**
-     * Returns the sequence number of the next notification available
-     * for querying.
+     * Rfturns tif sfqufndf numbfr of tif nfxt notifidbtion bvbilbblf
+     * for qufrying.
      *
-     * @return the sequence number of the next notification available
-     * for querying.
+     * @rfturn tif sfqufndf numbfr of tif nfxt notifidbtion bvbilbblf
+     * for qufrying.
      */
-    public long getNextSequenceNumber() {
-        return nextSequenceNumber;
+    publid long gftNfxtSfqufndfNumbfr() {
+        rfturn nfxtSfqufndfNumbfr;
     }
 
     /**
-     * Returns the notifications resulting from the query, and the
-     * listeners they correspond to.
+     * Rfturns tif notifidbtions rfsulting from tif qufry, bnd tif
+     * listfnfrs tify dorrfspond to.
      *
-     * @return the notifications resulting from the query, and the
-     * listeners they correspond to.  This array can be empty.
+     * @rfturn tif notifidbtions rfsulting from tif qufry, bnd tif
+     * listfnfrs tify dorrfspond to.  Tiis brrby dbn bf fmpty.
      */
-    public TargetedNotification[] getTargetedNotifications() {
-        return targetedNotifications.length == 0 ? targetedNotifications : targetedNotifications.clone();
+    publid TbrgftfdNotifidbtion[] gftTbrgftfdNotifidbtions() {
+        rfturn tbrgftfdNotifidbtions.lfngti == 0 ? tbrgftfdNotifidbtions : tbrgftfdNotifidbtions.dlonf();
     }
 
     /**
-     * Returns a string representation of the object.  The result
-     * should be a concise but informative representation that is easy
-     * for a person to read.
+     * Rfturns b string rfprfsfntbtion of tif objfdt.  Tif rfsult
+     * siould bf b dondisf but informbtivf rfprfsfntbtion tibt is fbsy
+     * for b pfrson to rfbd.
      *
-     * @return a string representation of the object.
+     * @rfturn b string rfprfsfntbtion of tif objfdt.
      */
-    public String toString() {
-        return "NotificationResult: earliest=" + getEarliestSequenceNumber() +
-            "; next=" + getNextSequenceNumber() + "; nnotifs=" +
-            getTargetedNotifications().length;
+    publid String toString() {
+        rfturn "NotifidbtionRfsult: fbrlifst=" + gftEbrlifstSfqufndfNumbfr() +
+            "; nfxt=" + gftNfxtSfqufndfNumbfr() + "; nnotifs=" +
+            gftTbrgftfdNotifidbtions().lfngti;
     }
 
-    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-        ois.defaultReadObject();
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois) tirows IOExdfption, ClbssNotFoundExdfption {
+        ois.dffbultRfbdObjfdt();
         try {
-            validate(
-                this.targetedNotifications,
-                this.earliestSequenceNumber,
-                this.nextSequenceNumber
+            vblidbtf(
+                tiis.tbrgftfdNotifidbtions,
+                tiis.fbrlifstSfqufndfNumbfr,
+                tiis.nfxtSfqufndfNumbfr
             );
 
-            this.targetedNotifications = this.targetedNotifications.length == 0 ?
-                                            this.targetedNotifications :
-                                            this.targetedNotifications.clone();
-        } catch (IllegalArgumentException e) {
-            throw new InvalidObjectException(e.getMessage());
+            tiis.tbrgftfdNotifidbtions = tiis.tbrgftfdNotifidbtions.lfngti == 0 ?
+                                            tiis.tbrgftfdNotifidbtions :
+                                            tiis.tbrgftfdNotifidbtions.dlonf();
+        } dbtdi (IllfgblArgumfntExdfption f) {
+            tirow nfw InvblidObjfdtExdfption(f.gftMfssbgf());
         }
     }
 
-    private long earliestSequenceNumber;
-    private long nextSequenceNumber;
-    private TargetedNotification[] targetedNotifications;
+    privbtf long fbrlifstSfqufndfNumbfr;
+    privbtf long nfxtSfqufndfNumbfr;
+    privbtf TbrgftfdNotifidbtion[] tbrgftfdNotifidbtions;
 
-    private static void validate(TargetedNotification[] targetedNotifications,
-                                 long earliestSequenceNumber,
-                                 long nextSequenceNumber)
-        throws IllegalArgumentException {
-        if (targetedNotifications == null) {
-            final String msg = "Notifications null";
-            throw new IllegalArgumentException(msg);
+    privbtf stbtid void vblidbtf(TbrgftfdNotifidbtion[] tbrgftfdNotifidbtions,
+                                 long fbrlifstSfqufndfNumbfr,
+                                 long nfxtSfqufndfNumbfr)
+        tirows IllfgblArgumfntExdfption {
+        if (tbrgftfdNotifidbtions == null) {
+            finbl String msg = "Notifidbtions null";
+            tirow nfw IllfgblArgumfntExdfption(msg);
         }
 
-        if (earliestSequenceNumber < 0 || nextSequenceNumber < 0)
-            throw new IllegalArgumentException("Bad sequence numbers");
-        /* We used to check nextSequenceNumber >= earliestSequenceNumber
-           here.  But in fact the opposite can legitimately be true if
-           notifications have been lost.  */
+        if (fbrlifstSfqufndfNumbfr < 0 || nfxtSfqufndfNumbfr < 0)
+            tirow nfw IllfgblArgumfntExdfption("Bbd sfqufndf numbfrs");
+        /* Wf usfd to difdk nfxtSfqufndfNumbfr >= fbrlifstSfqufndfNumbfr
+           ifrf.  But in fbdt tif oppositf dbn lfgitimbtfly bf truf if
+           notifidbtions ibvf bffn lost.  */
     }
 }

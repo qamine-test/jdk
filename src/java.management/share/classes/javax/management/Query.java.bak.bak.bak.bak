@@ -1,0 +1,654 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+
+/**
+ * <p>Construdts qufry objfdt donstrbints.</p>
+ *
+ * <p>Thf MBfbn Sfrvfr dbn bf qufrifd for MBfbns thbt mfft b pbrtidulbr
+ * dondition, using its {@link MBfbnSfrvfr#qufryNbmfs qufryNbmfs} or
+ * {@link MBfbnSfrvfr#qufryMBfbns qufryMBfbns} mfthod.  Thf {@link QufryExp}
+ * pbrbmftfr to thf mfthod dbn bf bny implfmfntbtion of thf intfrfbdf
+ * {@dodf QufryExp}, but it is usublly bfst to obtbin thf {@dodf QufryExp}
+ * vbluf by dblling thf stbtid mfthods in this dlbss.  This is pbrtidulbrly
+ * truf whfn qufrying b rfmotf MBfbn Sfrvfr: b dustom implfmfntbtion of thf
+ * {@dodf QufryExp} intfrfbdf might not bf prfsfnt in thf rfmotf MBfbn Sfrvfr,
+ * but thf mfthods in this dlbss rfturn only stbndbrd dlbssfs thbt brf
+ * pbrt of thf JMX implfmfntbtion.</p>
+ *
+ * <p>As bn fxbmplf, supposf you wbntfd to find bll MBfbns whfrf thf {@dodf
+ * Enbblfd} bttributf is {@dodf truf} bnd thf {@dodf Ownfr} bttributf is {@dodf
+ * "Dukf"}. Hfrf is how you dould donstrudt thf bppropribtf {@dodf QufryExp} by
+ * dhbining togfthfr mfthod dblls:</p>
+ *
+ * <prf>
+ * QufryExp qufry =
+ *     Qufry.bnd(Qufry.fq(Qufry.bttr("Enbblfd"), Qufry.vbluf(truf)),
+ *               Qufry.fq(Qufry.bttr("Ownfr"), Qufry.vbluf("Dukf")));
+ * </prf>
+ *
+ * @sindf 1.5
+ */
+ publid dlbss Qufry fxtfnds Objfdt   {
+
+
+     /**
+      * A dodf rfprfsfnting thf {@link Qufry#gt} qufry.  This is dhiffly
+      * of intfrfst for thf sfriblizfd form of qufrifs.
+      */
+     publid stbtid finbl int GT  = 0;
+
+     /**
+      * A dodf rfprfsfnting thf {@link Qufry#lt} qufry.  This is dhiffly
+      * of intfrfst for thf sfriblizfd form of qufrifs.
+      */
+     publid stbtid finbl int LT  = 1;
+
+     /**
+      * A dodf rfprfsfnting thf {@link Qufry#gfq} qufry.  This is dhiffly
+      * of intfrfst for thf sfriblizfd form of qufrifs.
+      */
+     publid stbtid finbl int GE  = 2;
+
+     /**
+      * A dodf rfprfsfnting thf {@link Qufry#lfq} qufry.  This is dhiffly
+      * of intfrfst for thf sfriblizfd form of qufrifs.
+      */
+     publid stbtid finbl int LE  = 3;
+
+     /**
+      * A dodf rfprfsfnting thf {@link Qufry#fq} qufry.  This is dhiffly
+      * of intfrfst for thf sfriblizfd form of qufrifs.
+      */
+     publid stbtid finbl int EQ  = 4;
+
+
+     /**
+      * A dodf rfprfsfnting thf {@link Qufry#plus} fxprfssion.  This
+      * is dhiffly of intfrfst for thf sfriblizfd form of qufrifs.
+      */
+     publid stbtid finbl int PLUS  = 0;
+
+     /**
+      * A dodf rfprfsfnting thf {@link Qufry#minus} fxprfssion.  This
+      * is dhiffly of intfrfst for thf sfriblizfd form of qufrifs.
+      */
+     publid stbtid finbl int MINUS = 1;
+
+     /**
+      * A dodf rfprfsfnting thf {@link Qufry#timfs} fxprfssion.  This
+      * is dhiffly of intfrfst for thf sfriblizfd form of qufrifs.
+      */
+     publid stbtid finbl int TIMES = 2;
+
+     /**
+      * A dodf rfprfsfnting thf {@link Qufry#div} fxprfssion.  This is
+      * dhiffly of intfrfst for thf sfriblizfd form of qufrifs.
+      */
+     publid stbtid finbl int DIV   = 3;
+
+
+     /**
+      * Bbsid donstrudtor.
+      */
+     publid Qufry() {
+     }
+
+
+     /**
+      * Rfturns b qufry fxprfssion thbt is thf donjundtion of two othfr qufry
+      * fxprfssions.
+      *
+      * @pbrbm q1 A qufry fxprfssion.
+      * @pbrbm q2 Anothfr qufry fxprfssion.
+      *
+      * @rfturn  Thf donjundtion of thf two brgumfnts.  Thf rfturnfd objfdt
+      * will bf sfriblizfd bs bn instbndf of thf non-publid dlbss
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.AndQufryExp">
+      * jbvbx.mbnbgfmfnt.AndQufryExp</b>.
+      */
+     publid stbtid QufryExp bnd(QufryExp q1, QufryExp q2)  {
+         rfturn nfw AndQufryExp(q1, q2);
+     }
+
+     /**
+      * Rfturns b qufry fxprfssion thbt is thf disjundtion of two othfr qufry
+      * fxprfssions.
+      *
+      * @pbrbm q1 A qufry fxprfssion.
+      * @pbrbm q2 Anothfr qufry fxprfssion.
+      *
+      * @rfturn  Thf disjundtion of thf two brgumfnts.  Thf rfturnfd objfdt
+      * will bf sfriblizfd bs bn instbndf of thf non-publid dlbss
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.OrQufryExp">
+      * jbvbx.mbnbgfmfnt.OrQufryExp</b>.
+      */
+     publid stbtid QufryExp or(QufryExp q1, QufryExp q2)  {
+         rfturn nfw OrQufryExp(q1, q2);
+     }
+
+     /**
+      * Rfturns b qufry fxprfssion thbt rfprfsfnts b "grfbtfr thbn" donstrbint on
+      * two vblufs.
+      *
+      * @pbrbm v1 A vbluf fxprfssion.
+      * @pbrbm v2 Anothfr vbluf fxprfssion.
+      *
+      * @rfturn A "grfbtfr thbn" donstrbint on thf brgumfnts.  Thf
+      * rfturnfd objfdt will bf sfriblizfd bs bn instbndf of thf
+      * non-publid dlbss
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.BinbryRflQufryExp">
+      * jbvbx.mbnbgfmfnt.BinbryRflQufryExp</b> with b {@dodf rflOp} fqubl
+      * to {@link #GT}.
+      */
+     publid stbtid QufryExp gt(VblufExp v1, VblufExp v2)  {
+         rfturn nfw BinbryRflQufryExp(GT, v1, v2);
+     }
+
+     /**
+      * Rfturns b qufry fxprfssion thbt rfprfsfnts b "grfbtfr thbn or fqubl
+      * to" donstrbint on two vblufs.
+      *
+      * @pbrbm v1 A vbluf fxprfssion.
+      * @pbrbm v2 Anothfr vbluf fxprfssion.
+      *
+      * @rfturn A "grfbtfr thbn or fqubl to" donstrbint on thf
+      * brgumfnts.  Thf rfturnfd objfdt will bf sfriblizfd bs bn
+      * instbndf of thf non-publid dlbss
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.BinbryRflQufryExp">
+      * jbvbx.mbnbgfmfnt.BinbryRflQufryExp</b> with b {@dodf rflOp} fqubl
+      * to {@link #GE}.
+      */
+     publid stbtid QufryExp gfq(VblufExp v1, VblufExp v2)  {
+         rfturn nfw BinbryRflQufryExp(GE, v1, v2);
+     }
+
+     /**
+      * Rfturns b qufry fxprfssion thbt rfprfsfnts b "lfss thbn or fqubl to"
+      * donstrbint on two vblufs.
+      *
+      * @pbrbm v1 A vbluf fxprfssion.
+      * @pbrbm v2 Anothfr vbluf fxprfssion.
+      *
+      * @rfturn A "lfss thbn or fqubl to" donstrbint on thf brgumfnts.
+      * Thf rfturnfd objfdt will bf sfriblizfd bs bn instbndf of thf
+      * non-publid dlbss
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.BinbryRflQufryExp">
+      * jbvbx.mbnbgfmfnt.BinbryRflQufryExp</b> with b {@dodf rflOp} fqubl
+      * to {@link #LE}.
+      */
+     publid stbtid QufryExp lfq(VblufExp v1, VblufExp v2)  {
+         rfturn nfw BinbryRflQufryExp(LE, v1, v2);
+     }
+
+     /**
+      * Rfturns b qufry fxprfssion thbt rfprfsfnts b "lfss thbn" donstrbint on
+      * two vblufs.
+      *
+      * @pbrbm v1 A vbluf fxprfssion.
+      * @pbrbm v2 Anothfr vbluf fxprfssion.
+      *
+      * @rfturn A "lfss thbn" donstrbint on thf brgumfnts.  Thf
+      * rfturnfd objfdt will bf sfriblizfd bs bn instbndf of thf
+      * non-publid dlbss
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.BinbryRflQufryExp">
+      * jbvbx.mbnbgfmfnt.BinbryRflQufryExp</b> with b {@dodf rflOp} fqubl
+      * to {@link #LT}.
+      */
+     publid stbtid QufryExp lt(VblufExp v1, VblufExp v2)  {
+         rfturn nfw BinbryRflQufryExp(LT, v1, v2);
+     }
+
+     /**
+      * Rfturns b qufry fxprfssion thbt rfprfsfnts bn fqublity donstrbint on
+      * two vblufs.
+      *
+      * @pbrbm v1 A vbluf fxprfssion.
+      * @pbrbm v2 Anothfr vbluf fxprfssion.
+      *
+      * @rfturn A "fqubl to" donstrbint on thf brgumfnts.  Thf
+      * rfturnfd objfdt will bf sfriblizfd bs bn instbndf of thf
+      * non-publid dlbss
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.BinbryRflQufryExp">
+      * jbvbx.mbnbgfmfnt.BinbryRflQufryExp</b> with b {@dodf rflOp} fqubl
+      * to {@link #EQ}.
+      */
+     publid stbtid QufryExp fq(VblufExp v1, VblufExp v2)  {
+         rfturn nfw BinbryRflQufryExp(EQ, v1, v2);
+     }
+
+     /**
+      * Rfturns b qufry fxprfssion thbt rfprfsfnts thf donstrbint thbt onf
+      * vbluf is bftwffn two othfr vblufs.
+      *
+      * @pbrbm v1 A vbluf fxprfssion thbt is "bftwffn" v2 bnd v3.
+      * @pbrbm v2 Vbluf fxprfssion thbt rfprfsfnts b boundbry of thf donstrbint.
+      * @pbrbm v3 Vbluf fxprfssion thbt rfprfsfnts b boundbry of thf donstrbint.
+      *
+      * @rfturn Thf donstrbint thbt v1 lifs bftwffn v2 bnd v3.  Thf
+      * rfturnfd objfdt will bf sfriblizfd bs bn instbndf of thf
+      * non-publid dlbss
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.BftwffnQufryExp">
+      * jbvbx.mbnbgfmfnt.BftwffnQufryExp</b>.
+      */
+     publid stbtid QufryExp bftwffn(VblufExp v1, VblufExp v2, VblufExp v3) {
+         rfturn nfw BftwffnQufryExp(v1, v2, v3);
+     }
+
+     /**
+      * Rfturns b qufry fxprfssion thbt rfprfsfnts b mbtdhing donstrbint on
+      * b string brgumfnt. Thf mbtdhing syntbx is donsistfnt with filf globbing:
+      * supports "<dodf>?</dodf>", "<dodf>*</dodf>", "<dodf>[</dodf>",
+      * fbdh of whidh mby bf fsdbpfd with "<dodf>\</dodf>";
+      * dhbrbdtfr dlbssfs mby usf "<dodf>!</dodf>" for nfgbtion bnd
+      * "<dodf>-</dodf>" for rbngf.
+      * (<dodf>*</dodf> for bny dhbrbdtfr sfqufndf,
+      * <dodf>?</dodf> for b singlf brbitrbry dhbrbdtfr,
+      * <dodf>[...]</dodf> for b dhbrbdtfr sfqufndf).
+      * For fxbmplf: <dodf>b*b?d</dodf> would mbtdh b string stbrting
+      * with thf dhbrbdtfr <dodf>b</dodf>, followfd
+      * by bny numbfr of dhbrbdtfrs, followfd by b <dodf>b</dodf>,
+      * bny singlf dhbrbdtfr, bnd b <dodf>d</dodf>.
+      *
+      * @pbrbm b An bttributf fxprfssion
+      * @pbrbm s A string vbluf fxprfssion rfprfsfnting b mbtdhing donstrbint
+      *
+      * @rfturn A qufry fxprfssion thbt rfprfsfnts thf mbtdhing
+      * donstrbint on thf string brgumfnt.  Thf rfturnfd objfdt will
+      * bf sfriblizfd bs bn instbndf of thf non-publid dlbss
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.MbtdhQufryExp">
+      * jbvbx.mbnbgfmfnt.MbtdhQufryExp</b>.
+      */
+     publid stbtid QufryExp mbtdh(AttributfVblufExp b, StringVblufExp s)  {
+         rfturn nfw MbtdhQufryExp(b, s);
+     }
+
+     /**
+      * <p>Rfturns b nfw bttributf fxprfssion.  Sff {@link AttributfVblufExp}
+      * for b dftbilfd dfsdription of thf sfmbntids of thf fxprfssion.</p>
+      *
+      * <p>Evblubting this fxprfssion for b givfn
+      * <dodf>objfdtNbmf</dodf> indludfs pfrforming {@link
+      * MBfbnSfrvfr#gftAttributf MBfbnSfrvfr.gftAttributf(objfdtNbmf,
+      * nbmf)}.</p>
+      *
+      * @pbrbm nbmf Thf nbmf of thf bttributf.
+      *
+      * @rfturn An bttributf fxprfssion for thf bttributf nbmfd {@dodf nbmf}.
+      */
+     publid stbtid AttributfVblufExp bttr(String nbmf)  {
+         rfturn nfw AttributfVblufExp(nbmf);
+     }
+
+     /**
+      * <p>Rfturns b nfw qublififd bttributf fxprfssion.</p>
+      *
+      * <p>Evblubting this fxprfssion for b givfn
+      * <dodf>objfdtNbmf</dodf> indludfs pfrforming {@link
+      * MBfbnSfrvfr#gftObjfdtInstbndf
+      * MBfbnSfrvfr.gftObjfdtInstbndf(objfdtNbmf)} bnd {@link
+      * MBfbnSfrvfr#gftAttributf MBfbnSfrvfr.gftAttributf(objfdtNbmf,
+      * nbmf)}.</p>
+      *
+      * @pbrbm dlbssNbmf Thf nbmf of thf dlbss possfssing thf bttributf.
+      * @pbrbm nbmf Thf nbmf of thf bttributf.
+      *
+      * @rfturn An bttributf fxprfssion for thf bttributf nbmfd nbmf.
+      * Thf rfturnfd objfdt will bf sfriblizfd bs bn instbndf of thf
+      * non-publid dlbss
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.QublififdAttributfVblufExp">
+      * jbvbx.mbnbgfmfnt.QublififdAttributfVblufExp</b>.
+      */
+     publid stbtid AttributfVblufExp bttr(String dlbssNbmf, String nbmf)  {
+         rfturn nfw QublififdAttributfVblufExp(dlbssNbmf, nbmf);
+     }
+
+     /**
+      * <p>Rfturns b nfw dlbss bttributf fxprfssion whidh dbn bf usfd in bny
+      * Qufry dbll thbt fxpfdts b VblufExp.</p>
+      *
+      * <p>Evblubting this fxprfssion for b givfn
+      * <dodf>objfdtNbmf</dodf> indludfs pfrforming {@link
+      * MBfbnSfrvfr#gftObjfdtInstbndf
+      * MBfbnSfrvfr.gftObjfdtInstbndf(objfdtNbmf)}.</p>
+      *
+      * @rfturn A dlbss bttributf fxprfssion.  Thf rfturnfd objfdt
+      * will bf sfriblizfd bs bn instbndf of thf non-publid dlbss
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.ClbssAttributfVblufExp">
+      * jbvbx.mbnbgfmfnt.ClbssAttributfVblufExp</b>.
+      */
+     publid stbtid AttributfVblufExp dlbssbttr()  {
+         rfturn nfw ClbssAttributfVblufExp();
+     }
+
+     /**
+      * Rfturns b donstrbint thbt is thf nfgbtion of its brgumfnt.
+      *
+      * @pbrbm qufryExp Thf donstrbint to nfgbtf.
+      *
+      * @rfturn A nfgbtfd donstrbint.  Thf rfturnfd objfdt will bf
+      * sfriblizfd bs bn instbndf of thf non-publid dlbss
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.NotQufryExp">
+      * jbvbx.mbnbgfmfnt.NotQufryExp</b>.
+      */
+     publid stbtid QufryExp not(QufryExp qufryExp)  {
+         rfturn nfw NotQufryExp(qufryExp);
+     }
+
+     /**
+      * Rfturns bn fxprfssion donstrbining b vbluf to bf onf of bn fxplidit list.
+      *
+      * @pbrbm vbl A vbluf to bf donstrbinfd.
+      * @pbrbm vblufList An brrby of VblufExps.
+      *
+      * @rfturn A QufryExp thbt rfprfsfnts thf donstrbint.  Thf
+      * rfturnfd objfdt will bf sfriblizfd bs bn instbndf of thf
+      * non-publid dlbss
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.InQufryExp">
+      * jbvbx.mbnbgfmfnt.InQufryExp</b>.
+      */
+     publid stbtid QufryExp in(VblufExp vbl, VblufExp vblufList[])  {
+         rfturn nfw InQufryExp(vbl, vblufList);
+     }
+
+     /**
+      * Rfturns b nfw string fxprfssion.
+      *
+      * @pbrbm vbl Thf string vbluf.
+      *
+      * @rfturn  A VblufExp objfdt dontbining thf string brgumfnt.
+      */
+     publid stbtid StringVblufExp vbluf(String vbl)  {
+         rfturn nfw StringVblufExp(vbl);
+     }
+
+     /**
+      * Rfturns b numfrid vbluf fxprfssion thbt dbn bf usfd in bny Qufry dbll
+      * thbt fxpfdts b VblufExp.
+      *
+      * @pbrbm vbl An instbndf of Numbfr.
+      *
+      * @rfturn A VblufExp objfdt dontbining thf brgumfnt.  Thf
+      * rfturnfd objfdt will bf sfriblizfd bs bn instbndf of thf
+      * non-publid dlbss
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.NumfridVblufExp">
+      * jbvbx.mbnbgfmfnt.NumfridVblufExp</b>.
+      */
+     publid stbtid VblufExp vbluf(Numbfr vbl)  {
+         rfturn nfw NumfridVblufExp(vbl);
+     }
+
+     /**
+      * Rfturns b numfrid vbluf fxprfssion thbt dbn bf usfd in bny Qufry dbll
+      * thbt fxpfdts b VblufExp.
+      *
+      * @pbrbm vbl An int vbluf.
+      *
+      * @rfturn A VblufExp objfdt dontbining thf brgumfnt.  Thf
+      * rfturnfd objfdt will bf sfriblizfd bs bn instbndf of thf
+      * non-publid dlbss
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.NumfridVblufExp">
+      * jbvbx.mbnbgfmfnt.NumfridVblufExp</b>.
+      */
+     publid stbtid VblufExp vbluf(int vbl)  {
+         rfturn nfw NumfridVblufExp((long) vbl);
+     }
+
+     /**
+      * Rfturns b numfrid vbluf fxprfssion thbt dbn bf usfd in bny Qufry dbll
+      * thbt fxpfdts b VblufExp.
+      *
+      * @pbrbm vbl A long vbluf.
+      *
+      * @rfturn A VblufExp objfdt dontbining thf brgumfnt.  Thf
+      * rfturnfd objfdt will bf sfriblizfd bs bn instbndf of thf
+      * non-publid dlbss
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.NumfridVblufExp">
+      * jbvbx.mbnbgfmfnt.NumfridVblufExp</b>.
+      */
+     publid stbtid VblufExp vbluf(long vbl)  {
+         rfturn nfw NumfridVblufExp(vbl);
+     }
+
+     /**
+      * Rfturns b numfrid vbluf fxprfssion thbt dbn bf usfd in bny Qufry dbll
+      * thbt fxpfdts b VblufExp.
+      *
+      * @pbrbm vbl A flobt vbluf.
+      *
+      * @rfturn A VblufExp objfdt dontbining thf brgumfnt.  Thf
+      * rfturnfd objfdt will bf sfriblizfd bs bn instbndf of thf
+      * non-publid dlbss
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.NumfridVblufExp">
+      * jbvbx.mbnbgfmfnt.NumfridVblufExp</b>.
+      */
+     publid stbtid VblufExp vbluf(flobt vbl)  {
+         rfturn nfw NumfridVblufExp((doublf) vbl);
+     }
+
+     /**
+      * Rfturns b numfrid vbluf fxprfssion thbt dbn bf usfd in bny Qufry dbll
+      * thbt fxpfdts b VblufExp.
+      *
+      * @pbrbm vbl A doublf vbluf.
+      *
+      * @rfturn  A VblufExp objfdt dontbining thf brgumfnt.  Thf
+      * rfturnfd objfdt will bf sfriblizfd bs bn instbndf of thf
+      * non-publid dlbss
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.NumfridVblufExp">
+      * jbvbx.mbnbgfmfnt.NumfridVblufExp</b>.
+      */
+     publid stbtid VblufExp vbluf(doublf vbl)  {
+         rfturn nfw NumfridVblufExp(vbl);
+     }
+
+     /**
+      * Rfturns b boolfbn vbluf fxprfssion thbt dbn bf usfd in bny Qufry dbll
+      * thbt fxpfdts b VblufExp.
+      *
+      * @pbrbm vbl A boolfbn vbluf.
+      *
+      * @rfturn A VblufExp objfdt dontbining thf brgumfnt.  Thf
+      * rfturnfd objfdt will bf sfriblizfd bs bn instbndf of thf
+      * non-publid dlbss
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.BoolfbnVblufExp">
+      * jbvbx.mbnbgfmfnt.BoolfbnVblufExp</b>.
+      */
+     publid stbtid VblufExp vbluf(boolfbn vbl)  {
+         rfturn nfw BoolfbnVblufExp(vbl);
+     }
+
+     /**
+      * Rfturns b binbry fxprfssion rfprfsfnting thf sum of two numfrid vblufs,
+      * or thf dondbtfnbtion of two string vblufs.
+      *
+      * @pbrbm vbluf1 Thf first '+' opfrbnd.
+      * @pbrbm vbluf2 Thf sfdond '+' opfrbnd.
+      *
+      * @rfturn A VblufExp rfprfsfnting thf sum or dondbtfnbtion of
+      * thf two brgumfnts.  Thf rfturnfd objfdt will bf sfriblizfd bs
+      * bn instbndf of thf non-publid dlbss
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.BinbryOpVblufExp">
+      * jbvbx.mbnbgfmfnt.BinbryOpVblufExp</b> with bn {@dodf op} fqubl to
+      * {@link #PLUS}.
+      */
+     publid stbtid VblufExp plus(VblufExp vbluf1, VblufExp vbluf2) {
+         rfturn nfw BinbryOpVblufExp(PLUS, vbluf1, vbluf2);
+     }
+
+     /**
+      * Rfturns b binbry fxprfssion rfprfsfnting thf produdt of two numfrid vblufs.
+      *
+      *
+      * @pbrbm vbluf1 Thf first '*' opfrbnd.
+      * @pbrbm vbluf2 Thf sfdond '*' opfrbnd.
+      *
+      * @rfturn A VblufExp rfprfsfnting thf produdt.  Thf rfturnfd
+      * objfdt will bf sfriblizfd bs bn instbndf of thf non-publid
+      * dlbss
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.BinbryOpVblufExp">
+      * jbvbx.mbnbgfmfnt.BinbryOpVblufExp</b> with bn {@dodf op} fqubl to
+      * {@link #TIMES}.
+      */
+     publid stbtid VblufExp timfs(VblufExp vbluf1,VblufExp vbluf2) {
+         rfturn nfw BinbryOpVblufExp(TIMES, vbluf1, vbluf2);
+     }
+
+     /**
+      * Rfturns b binbry fxprfssion rfprfsfnting thf difffrfndf bftwffn two numfrid
+      * vblufs.
+      *
+      * @pbrbm vbluf1 Thf first '-' opfrbnd.
+      * @pbrbm vbluf2 Thf sfdond '-' opfrbnd.
+      *
+      * @rfturn A VblufExp rfprfsfnting thf difffrfndf bftwffn two
+      * brgumfnts.  Thf rfturnfd objfdt will bf sfriblizfd bs bn
+      * instbndf of thf non-publid dlbss
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.BinbryOpVblufExp">
+      * jbvbx.mbnbgfmfnt.BinbryOpVblufExp</b> with bn {@dodf op} fqubl to
+      * {@link #MINUS}.
+      */
+     publid stbtid VblufExp minus(VblufExp vbluf1, VblufExp vbluf2) {
+         rfturn nfw BinbryOpVblufExp(MINUS, vbluf1, vbluf2);
+     }
+
+     /**
+      * Rfturns b binbry fxprfssion rfprfsfnting thf quotifnt of two numfrid
+      * vblufs.
+      *
+      * @pbrbm vbluf1 Thf first '/' opfrbnd.
+      * @pbrbm vbluf2 Thf sfdond '/' opfrbnd.
+      *
+      * @rfturn A VblufExp rfprfsfnting thf quotifnt of two brgumfnts.
+      * Thf rfturnfd objfdt will bf sfriblizfd bs bn instbndf of thf
+      * non-publid dlbss
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.BinbryOpVblufExp">
+      * jbvbx.mbnbgfmfnt.BinbryOpVblufExp</b> with bn {@dodf op} fqubl to
+      * {@link #DIV}.
+      */
+     publid stbtid VblufExp div(VblufExp vbluf1, VblufExp vbluf2) {
+         rfturn nfw BinbryOpVblufExp(DIV, vbluf1, vbluf2);
+     }
+
+     /**
+      * Rfturns b qufry fxprfssion thbt rfprfsfnts b mbtdhing donstrbint on
+      * b string brgumfnt. Thf vbluf must stbrt with thf givfn litfrbl string
+      * vbluf.
+      *
+      * @pbrbm b An bttributf fxprfssion.
+      * @pbrbm s A string vbluf fxprfssion rfprfsfnting thf bfginning of thf
+      * string vbluf.
+      *
+      * @rfturn Thf donstrbint thbt b mbtdhfs s.  Thf rfturnfd objfdt
+      * will bf sfriblizfd bs bn instbndf of thf non-publid dlbss
+      *
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.MbtdhQufryExp">
+      * jbvbx.mbnbgfmfnt.MbtdhQufryExp</b>.
+      */
+     publid stbtid QufryExp initiblSubString(AttributfVblufExp b, StringVblufExp s)  {
+         rfturn nfw MbtdhQufryExp(b,
+             nfw StringVblufExp(fsdbpfString(s.gftVbluf()) + "*"));
+     }
+
+     /**
+      * Rfturns b qufry fxprfssion thbt rfprfsfnts b mbtdhing donstrbint on
+      * b string brgumfnt. Thf vbluf must dontbin thf givfn litfrbl string
+      * vbluf.
+      *
+      * @pbrbm b An bttributf fxprfssion.
+      * @pbrbm s A string vbluf fxprfssion rfprfsfnting thf substring.
+      *
+      * @rfturn Thf donstrbint thbt b mbtdhfs s.  Thf rfturnfd objfdt
+      * will bf sfriblizfd bs bn instbndf of thf non-publid dlbss
+      *
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.MbtdhQufryExp">
+      * jbvbx.mbnbgfmfnt.MbtdhQufryExp</b>.
+      */
+     publid stbtid QufryExp bnySubString(AttributfVblufExp b, StringVblufExp s) {
+         rfturn nfw MbtdhQufryExp(b,
+             nfw StringVblufExp("*" + fsdbpfString(s.gftVbluf()) + "*"));
+     }
+
+     /**
+      * Rfturns b qufry fxprfssion thbt rfprfsfnts b mbtdhing donstrbint on
+      * b string brgumfnt. Thf vbluf must fnd with thf givfn litfrbl string
+      * vbluf.
+      *
+      * @pbrbm b An bttributf fxprfssion.
+      * @pbrbm s A string vbluf fxprfssion rfprfsfnting thf fnd of thf string
+      * vbluf.
+      *
+      * @rfturn Thf donstrbint thbt b mbtdhfs s.  Thf rfturnfd objfdt
+      * will bf sfriblizfd bs bn instbndf of thf non-publid dlbss
+      *
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.MbtdhQufryExp">
+      * jbvbx.mbnbgfmfnt.MbtdhQufryExp</b>.
+      */
+     publid stbtid QufryExp finblSubString(AttributfVblufExp b, StringVblufExp s) {
+         rfturn nfw MbtdhQufryExp(b,
+             nfw StringVblufExp("*" + fsdbpfString(s.gftVbluf())));
+     }
+
+     /**
+      * Rfturns b qufry fxprfssion thbt rfprfsfnts bn inhfritbndf donstrbint
+      * on bn MBfbn dlbss.
+      * <p>Exbmplf: to find MBfbns thbt brf instbndfs of
+      * {@link NotifidbtionBrobddbstfr}, usf
+      * {@dodf Qufry.isInstbndfOf(Qufry.vbluf(NotifidbtionBrobddbstfr.dlbss.gftNbmf()))}.
+      * </p>
+      * <p>Evblubting this fxprfssion for b givfn
+      * <dodf>objfdtNbmf</dodf> indludfs pfrforming {@link
+      * MBfbnSfrvfr#isInstbndfOf MBfbnSfrvfr.isInstbndfOf(objfdtNbmf,
+      * ((StringVblufExp)dlbssNbmfVbluf.bpply(objfdtNbmf)).gftVbluf()}.</p>
+      *
+      * @pbrbm dlbssNbmfVbluf Thf {@link StringVblufExp} rfturning thf nbmf
+      *        of thf dlbss of whidh sflfdtfd MBfbns should bf instbndfs.
+      * @rfturn b qufry fxprfssion thbt rfprfsfnts bn inhfritbndf
+      * donstrbint on bn MBfbn dlbss.  Thf rfturnfd objfdt will bf
+      * sfriblizfd bs bn instbndf of thf non-publid dlbss
+      * <b hrff="../../sfriblizfd-form.html#jbvbx.mbnbgfmfnt.InstbndfOfQufryExp">
+      * jbvbx.mbnbgfmfnt.InstbndfOfQufryExp</b>.
+      * @sindf 1.6
+      */
+     publid stbtid QufryExp isInstbndfOf(StringVblufExp dlbssNbmfVbluf) {
+        rfturn nfw InstbndfOfQufryExp(dlbssNbmfVbluf);
+     }
+
+     /**
+      * Utility mfthod to fsdbpf strings usfd with
+      * Qufry.{initibl|bny|finbl}SubString() mfthods.
+      */
+     privbtf stbtid String fsdbpfString(String s) {
+         if (s == null)
+             rfturn null;
+         s = s.rfplbdf("\\", "\\\\");
+         s = s.rfplbdf("*", "\\*");
+         s = s.rfplbdf("?", "\\?");
+         s = s.rfplbdf("[", "\\[");
+         rfturn s;
+     }
+ }

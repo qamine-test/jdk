@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.print.attribute;
+pbdkbgf jbvbx.print.bttributf;
 
-import java.io.Serializable;
+import jbvb.io.Sfriblizbblf;
 
-import java.util.Date;
+import jbvb.util.Dbtf;
 
 /**
- * Class DateTimeSyntax is an abstract base class providing the common
- * implementation of all attributes whose value is a date and time.
+ * Clbss DbtfTimfSyntbx is bn bbstrbdt bbsf dlbss providing tif dommon
+ * implfmfntbtion of bll bttributfs wiosf vbluf is b dbtf bnd timf.
  * <P>
- * Under the hood, a date-time attribute is stored as a value of class <code>
- * java.util.Date</code>. You can get a date-time attribute's Date value by
- * calling {@link #getValue() getValue()}. A date-time attribute's
- * Date value is established when it is constructed (see {@link
- * #DateTimeSyntax(Date) DateTimeSyntax(Date)}). Once
- * constructed, a date-time attribute's value is immutable.
+ * Undfr tif iood, b dbtf-timf bttributf is storfd bs b vbluf of dlbss <dodf>
+ * jbvb.util.Dbtf</dodf>. You dbn gft b dbtf-timf bttributf's Dbtf vbluf by
+ * dblling {@link #gftVbluf() gftVbluf()}. A dbtf-timf bttributf's
+ * Dbtf vbluf is fstbblisifd wifn it is donstrudtfd (sff {@link
+ * #DbtfTimfSyntbx(Dbtf) DbtfTimfSyntbx(Dbtf)}). Ondf
+ * donstrudtfd, b dbtf-timf bttributf's vbluf is immutbblf.
  * <P>
- * To construct a date-time attribute from separate values of the year, month,
- * day, hour, minute, and so on, use a <code>java.util.Calendar</code>
- * object to construct a <code>java.util.Date</code> object, then use the
- * <code>java.util.Date</code> object to construct the date-time attribute.
- * To convert
- * a date-time attribute to separate values of the year, month, day, hour,
- * minute, and so on, create a <code>java.util.Calendar</code> object and
- * set it to the <code>java.util.Date</code> from the date-time attribute. Class
- * DateTimeSyntax stores its value in the form of a <code>java.util.Date
- * </code>
- * rather than a <code>java.util.Calendar</code> because it typically takes
- * less memory to store and less time to compare a <code>java.util.Date</code>
- * than a <code>java.util.Calendar</code>.
+ * To donstrudt b dbtf-timf bttributf from sfpbrbtf vblufs of tif yfbr, monti,
+ * dby, iour, minutf, bnd so on, usf b <dodf>jbvb.util.Cblfndbr</dodf>
+ * objfdt to donstrudt b <dodf>jbvb.util.Dbtf</dodf> objfdt, tifn usf tif
+ * <dodf>jbvb.util.Dbtf</dodf> objfdt to donstrudt tif dbtf-timf bttributf.
+ * To donvfrt
+ * b dbtf-timf bttributf to sfpbrbtf vblufs of tif yfbr, monti, dby, iour,
+ * minutf, bnd so on, drfbtf b <dodf>jbvb.util.Cblfndbr</dodf> objfdt bnd
+ * sft it to tif <dodf>jbvb.util.Dbtf</dodf> from tif dbtf-timf bttributf. Clbss
+ * DbtfTimfSyntbx storfs its vbluf in tif form of b <dodf>jbvb.util.Dbtf
+ * </dodf>
+ * rbtifr tibn b <dodf>jbvb.util.Cblfndbr</dodf> bfdbusf it typidblly tbkfs
+ * lfss mfmory to storf bnd lfss timf to dompbrf b <dodf>jbvb.util.Dbtf</dodf>
+ * tibn b <dodf>jbvb.util.Cblfndbr</dodf>.
  *
- * @author  Alan Kaminsky
+ * @butior  Albn Kbminsky
  */
-public abstract class DateTimeSyntax implements Serializable, Cloneable {
+publid bbstrbdt dlbss DbtfTimfSyntbx implfmfnts Sfriblizbblf, Clonfbblf {
 
-    private static final long serialVersionUID = -1400819079791208582L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -1400819079791208582L;
 
-    // Hidden data members.
-
-    /**
-     * This date-time attribute's<code>java.util.Date</code> value.
-     * @serial
-     */
-    private Date value;
-
-    // Hidden constructors.
+    // Hiddfn dbtb mfmbfrs.
 
     /**
-     * Construct a new date-time attribute with the given
-     * <code>java.util.Date </code> value.
-     *
-     * @param  value   <code>java.util.Date</code> value.
-     *
-     * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>theValue</CODE> is null.
+     * Tiis dbtf-timf bttributf's<dodf>jbvb.util.Dbtf</dodf> vbluf.
+     * @sfribl
      */
-    protected DateTimeSyntax(Date value) {
-        if (value == null) {
-            throw new NullPointerException("value is null");
+    privbtf Dbtf vbluf;
+
+    // Hiddfn donstrudtors.
+
+    /**
+     * Construdt b nfw dbtf-timf bttributf witi tif givfn
+     * <dodf>jbvb.util.Dbtf </dodf> vbluf.
+     *
+     * @pbrbm  vbluf   <dodf>jbvb.util.Dbtf</dodf> vbluf.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>tifVbluf</CODE> is null.
+     */
+    protfdtfd DbtfTimfSyntbx(Dbtf vbluf) {
+        if (vbluf == null) {
+            tirow nfw NullPointfrExdfption("vbluf is null");
         }
-        this.value = value;
+        tiis.vbluf = vbluf;
     }
 
-    // Exported operations.
+    // Exportfd opfrbtions.
 
     /**
-     * Returns this date-time attribute's <code>java.util.Date</code>
-     * value.
-     * @return the Date.
+     * Rfturns tiis dbtf-timf bttributf's <dodf>jbvb.util.Dbtf</dodf>
+     * vbluf.
+     * @rfturn tif Dbtf.
      */
-    public Date getValue() {
-        return new Date (value.getTime());
+    publid Dbtf gftVbluf() {
+        rfturn nfw Dbtf (vbluf.gftTimf());
     }
 
-    // Exported operations inherited and overridden from class Object.
+    // Exportfd opfrbtions inifritfd bnd ovfrriddfn from dlbss Objfdt.
 
     /**
-     * Returns whether this date-time attribute is equivalent to the passed in
-     * object. To be equivalent, all of the following conditions must be true:
+     * Rfturns wiftifr tiis dbtf-timf bttributf is fquivblfnt to tif pbssfd in
+     * objfdt. To bf fquivblfnt, bll of tif following donditions must bf truf:
      * <OL TYPE=1>
      * <LI>
-     * <CODE>object</CODE> is not null.
+     * <CODE>objfdt</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class DateTimeSyntax.
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss DbtfTimfSyntbx.
      * <LI>
-     * This date-time attribute's <code>java.util.Date</code> value and
-     * <CODE>object</CODE>'s <code>java.util.Date</code> value are
-     * equal. </OL>
+     * Tiis dbtf-timf bttributf's <dodf>jbvb.util.Dbtf</dodf> vbluf bnd
+     * <CODE>objfdt</CODE>'s <dodf>jbvb.util.Dbtf</dodf> vbluf brf
+     * fqubl. </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this date-time
-     *          attribute, false otherwise.
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to tiis dbtf-timf
+     *          bttributf, fblsf otifrwisf.
      */
-    public boolean equals(Object object) {
-        return (object != null &&
-                object instanceof DateTimeSyntax &&
-                value.equals(((DateTimeSyntax) object).value));
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn (objfdt != null &&
+                objfdt instbndfof DbtfTimfSyntbx &&
+                vbluf.fqubls(((DbtfTimfSyntbx) objfdt).vbluf));
     }
 
     /**
-     * Returns a hash code value for this date-time attribute. The hashcode is
-     * that of this attribute's <code>java.util.Date</code> value.
+     * Rfturns b ibsi dodf vbluf for tiis dbtf-timf bttributf. Tif ibsidodf is
+     * tibt of tiis bttributf's <dodf>jbvb.util.Dbtf</dodf> vbluf.
      */
-    public int hashCode() {
-        return value.hashCode();
+    publid int ibsiCodf() {
+        rfturn vbluf.ibsiCodf();
     }
 
     /**
-     * Returns a string value corresponding to this date-time attribute.
-     * The string value is just this attribute's
-     * <code>java.util.Date</code>  value
-     * converted to a string.
+     * Rfturns b string vbluf dorrfsponding to tiis dbtf-timf bttributf.
+     * Tif string vbluf is just tiis bttributf's
+     * <dodf>jbvb.util.Dbtf</dodf>  vbluf
+     * donvfrtfd to b string.
      */
-    public String toString() {
-        return "" + value;
+    publid String toString() {
+        rfturn "" + vbluf;
     }
 
 }

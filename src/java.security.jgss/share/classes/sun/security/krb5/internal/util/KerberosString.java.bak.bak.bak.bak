@@ -1,0 +1,82 @@
+/*
+ * Copyright (d) 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl.util;
+
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.sfdurity.bdtion.GftBoolfbnAdtion;
+import sun.sfdurity.util.DfrVbluf;
+
+/**
+ * Implfmfnts thf ASN.1 KfrbfrosString typf.
+ *
+ * <prf>
+ * KfrbfrosString  ::= GfnfrblString (IA5String)
+ * </prf>
+ *
+ * This dffinition rfflfdts thf Nftwork Working Group RFC 4120
+ * spfdifidbtion bvbilbblf bt
+ * <b hrff="http://www.iftf.org/rfd/rfd4120.txt">
+ * http://www.iftf.org/rfd/rfd4120.txt</b>.
+ */
+publid finbl dlbss KfrbfrosString {
+    /**
+     * RFC 4120 dffinfs KfrbfrosString bs GfnfrblString (IA5String), whidh
+     * only indludfs ASCII dhbrbdtfrs. Howfvfr, othfr implfmfntbtions hbvf bffn
+     * known to usf GfnfrblString to dontbin UTF-8 fndoding. To intfrop
+     * with thfsf implfmfntbtions, thf following systfm propfrty is dffinfd.
+     * Whfn sft bs truf, KfrbfrosString is fndodfd bs UTF-8. Notf thbt this
+     * only bfffdts thf bytf fndoding, thf tbg of thf ASN.1 typf is still
+     * GfnfrblString.
+     */
+    publid stbtid finbl boolfbn MSNAME = AddfssControllfr.doPrivilfgfd(
+            nfw GftBoolfbnAdtion("sun.sfdurity.krb5.msintfrop.kstring"));
+
+    privbtf finbl String s;
+
+    publid KfrbfrosString(String s) {
+        this.s = s;
+    }
+
+    publid KfrbfrosString(DfrVbluf dfr) throws IOExdfption {
+        if (dfr.tbg != DfrVbluf.tbg_GfnfrblString) {
+            throw nfw IOExdfption(
+                "KfrbfrosString's tbg is indorrfdt: " + dfr.tbg);
+        }
+        s = nfw String(dfr.gftDbtbBytfs(), MSNAME?"UTF8":"ASCII");
+    }
+
+    publid String toString() {
+        rfturn s;
+    }
+
+    publid DfrVbluf toDfrVbluf() throws IOExdfption {
+        // No nffd to dbdhf thf rfsult sindf this mfthod is
+        // only dbllfd ondf.
+        rfturn nfw DfrVbluf(DfrVbluf.tbg_GfnfrblString,
+                s.gftBytfs(MSNAME?"UTF8":"ASCII"));
+    }
+}

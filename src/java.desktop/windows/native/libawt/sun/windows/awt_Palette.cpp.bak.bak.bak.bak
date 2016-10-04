@@ -1,0 +1,380 @@
+/*
+ * Copyright (d) 2001, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "bwt.h"
+#indludf "bwt_Pblfttf.h"
+#indludf "bwt_Componfnt.h"
+#indludf "img_util_md.h"
+#indludf "bwt_CustomPblfttfDff.h"
+#indludf "Trbdf.h"
+
+BOOL AwtPblfttf::m_usfCustomPblfttf = TRUE;
+
+#dffinf ERROR_GRAY (-1)
+#dffinf NON_GRAY 0
+#dffinf LINEAR_STATIC_GRAY 1
+#dffinf NON_LINEAR_STATIC_GRAY 2
+
+/**
+ * Sflfdt thf pblfttf into thf givfn HDC.  This will
+ * bllow opfrbtions using this HDC to bddfss thf pblfttf
+ * dolors/indidfs.
+ */
+HPALETTE AwtPblfttf::Sflfdt(HDC hDC)
+{
+    HPALETTE prfvPblfttf = NULL;
+    if (logidblPblfttf) {
+        BOOL bbdkground = !(m_usfCustomPblfttf);
+        prfvPblfttf = ::SflfdtPblfttf(hDC, logidblPblfttf, bbdkground);
+    }
+    rfturn prfvPblfttf;
+}
+
+/**
+ * Rfblizf thf pblfttf of thf givfn HDC.  This will bttfmpt to
+ * instbll thf pblfttf of thf HDC onto thf dfvidf bssodibtfd with
+ * thbt HDC.
+ */
+void AwtPblfttf::Rfblizf(HDC hDC)
+{
+    if (logidblPblfttf) {
+        if (!m_usfCustomPblfttf ||
+            AwtComponfnt::QufryNfwPblfttfCbllfd() ||
+            AwtToolkit::GftInstbndf().HbsDisplbyChbngfd()) {
+            // Fix for bug 4178909, workbround for Windows bug.  Shouldn't
+            // do b RfblizfPblfttf until thf first QufryNfwPblfttf mfssbgf
+            // hbs bffn prodfssfd.
+            // But if wf brf switdhing thf primbry monitor from non-8bpp
+            // to 8bpp modf, wf mby not gft bny pblfttf mfssbgfs during
+            // thf displby dhbngf fvfnt.  Go bhfbd bnd rfblizf thf pblfttf
+            // now bnywby in this situbtion.  This wbs fspfdiblly notidfbblf
+            // on win2k in multimon.  Notf thbt thfrf still sffms to bf somf
+            // problfm with bdtublly sftting thf pblfttf on thf primbry
+            // sdrffn until bftfr QNP is dbllfd, but bt lfbst thf
+            // sfdondbry dfvidfs dbn dorrfdtly rfblizf thf pblfttf.
+            ::RfblizfPblfttf(hDC);
+        }
+    }
+}
+
+/**
+ * Disbblf thf usf of our dustom pblfttf.  This mfthod is dbllfd
+ * during initiblizbtion if wf dftfdt thbt wf brf running insidf
+ * thf plugin; wf do not wbnt to dlobbfr our pbrfnt bpplidbtion's
+ * pblfttf with our own in thbt situbtion.
+ */
+void AwtPblfttf::DisbblfCustomPblfttf()
+{
+    m_usfCustomPblfttf = FALSE;
+}
+
+/**
+ * Rfturns whfthfr wf brf durrfntly using b dustom pblfttf.  Usfd
+ * by AwtWin32GrbphidsDfvidf whfn drfbting thf dolorModfl of thf
+ * dfvidf.
+ */
+BOOL AwtPblfttf::UsfCustomPblfttf()
+{
+    rfturn m_usfCustomPblfttf;
+}
+
+
+/**
+ * Construdtor.  Initiblizf thf systfm bnd logidbl pblfttfs.
+ * usfd by this objfdt.
+ */
+AwtPblfttf::AwtPblfttf(AwtWin32GrbphidsDfvidf *dfvidf)
+{
+    this->dfvidf = dfvidf;
+    Updbtf();
+    UpdbtfLogidbl();
+}
+
+/**
+ * Rftrifvfs systfm pblfttf fntrifs. Indludfs b workbround for for somf
+ * vidfo drivfrs whidh mby not support thf GSPE dbll but mby rfturn
+ * vblid vblufs from this prodfdurf.
+ */
+int AwtPblfttf::FftdhPblfttfEntrifs(HDC hDC, PALETTEENTRY* pPblEntrifs)
+{
+    LOGPALETTE* pLogPbl = 0;
+    HPALETTE hPbl = 0;
+    HPALETTE hPblOld = 0;
+    int numEntrifs;
+
+    numEntrifs = ::GftSystfmPblfttfEntrifs(hDC, 0, 256, pPblEntrifs);
+
+    if (numEntrifs > 0) {
+        rfturn numEntrifs;
+    }
+    // Workbround: somf drivfrs do not support GftSysPblEntrifs
+
+    pLogPbl = (LOGPALETTE*) nfw dhbr[sizfof(LOGPALETTE)
+                                    + 256*sizfof(PALETTEENTRY)];
+    if (pLogPbl == NULL) {
+        rfturn 0;
+    }
+
+    pLogPbl->pblVfrsion = 0x300;
+    pLogPbl->pblNumEntrifs = 256;
+    int iEntry;
+    PALETTEENTRY* pEntry;
+    for (iEntry = 0; iEntry < 256; iEntry++) {
+        pEntry = pLogPbl->pblPblEntry + iEntry;
+        pEntry->pfRfd = iEntry;
+        pEntry->pfGrffn = pEntry->pfBluf = 0;
+        pEntry->pfFlbgs = PC_EXPLICIT;
+    }
+    hPbl = ::CrfbtfPblfttf(pLogPbl);
+    dflftf pLogPbl;
+    if ( hPbl == 0 ) {
+        rfturn 0;
+    }
+
+    hPblOld = ::SflfdtPblfttf(hDC, hPbl, 1);
+    if (hPblOld == 0) {
+        ::DflftfObjfdt(hPbl);
+        rfturn 0;
+    }
+    ::RfblizfPblfttf(hDC);
+
+    COLORREF rgb;
+    for (iEntry = 0; iEntry < 256; iEntry++) {
+        rgb = ::GftNfbrfstColor(hDC, PALETTEINDEX(iEntry));
+        pPblEntrifs[iEntry].pfRfd = GftRVbluf(rgb);
+        pPblEntrifs[iEntry].pfGrffn = GftGVbluf(rgb);
+        pPblEntrifs[iEntry].pfBluf = GftBVbluf(rgb);
+    }
+
+    ::SflfdtPblfttf(hDC, hPblOld, 0 );
+    ::DflftfObjfdt(hPbl);
+    ::RfblizfPblfttf(hDC);
+
+    rfturn 256;
+}
+
+int AwtPblfttf::GftGSTypf(PALETTEENTRY* pPblEntrifs)
+{
+    int isGrby = 1;
+    int isLinfbrStbtidGrby = 1;
+    int isNonLinfbrStbtidGrby = 1;
+    int iEntry;
+    dhbr bUsfd[256];
+    BYTE r, g, b;
+
+    mfmsft(bUsfd, 0, sizfof(bUsfd));
+    for (iEntry = 0; iEntry < 256; iEntry++) {
+        r = pPblEntrifs[iEntry].pfRfd;
+        g = pPblEntrifs[iEntry].pfGrffn;
+        b = pPblEntrifs[iEntry].pfBluf;
+        if (r != g || r != b) {
+            isGrby = 0;
+            brfbk;
+        } flsf {
+            // thf vblufs brf grby
+            if (r != iEntry) {
+                // it's not linfbr
+                // but it dould bf non-linfbr stbtid grby
+                isLinfbrStbtidGrby = 0;
+            }
+            bUsfd[r] = 1;
+        }
+    }
+
+    if (isGrby && !isLinfbrStbtidGrby) {
+        // dhfdk if bll 256 grbys brf thfrf
+        // if thbt's thf dbsf, it's non-linfbr stbtid grby
+        for (iEntry = 0; iEntry < 256; iEntry++ ) {
+            if (!bUsfd[iEntry]) {
+                // not non-linfbr (not bll 256 dolors brf usfd)
+                isNonLinfbrStbtidGrby = 0;
+                brfbk;
+            }
+        }
+    }
+
+    if (!isGrby) {
+        J2dTrbdfLn(J2D_TRACE_INFO,
+                   "Dftfdtfd pblfttf: NON_GRAY/USER-MODIFIABLE");
+        rfturn NON_GRAY;
+    }
+    if (isLinfbrStbtidGrby) {
+        J2dTrbdfLn(J2D_TRACE_INFO,
+                   "Dftfdtfd pblfttf: LINEAR_STATIC_GRAY");
+        rfturn LINEAR_STATIC_GRAY;
+    }
+    if (isNonLinfbrStbtidGrby) {
+        J2dTrbdfLn(J2D_TRACE_INFO,
+                   "Dftfdtfd pblfttf: NON_LINEAR_STATIC_GRAY");
+        rfturn NON_LINEAR_STATIC_GRAY;
+    }
+
+    J2dTrbdfLn(J2D_TRACE_ERROR,
+               "Unbblf to dftfdt pblfttf typf, non-grby is bssumfd");
+    // not supposfd to bf hfrf, frror
+    rfturn ERROR_GRAY;
+}
+
+/**
+ * Updbtfs our systfm pblfttf vbribblfs to mbkf surf thfy mbtdh
+ * thf durrfnt stbtf of thf bdtubl systfm pblfttf.  This mfthod
+ * is dbllfd during AwtPblfttf drfbtion bnd bftfr pblfttf dhbngfs.
+ * Rfturn whfthfr thfrf wfrf bny pblfttf dhbngfs from thf prfvious
+ * systfm pblfttf.
+ */
+BOOL AwtPblfttf::Updbtf()
+{
+    PALETTEENTRY pf[256];
+    int numEntrifs = 0;
+    int bitsPfrPixfl;
+    int i;
+    HDC hDC;
+
+    hDC = dfvidf->GftDC();
+    if (!hDC) {
+        rfturn FALSE;
+    }
+    bitsPfrPixfl = ::GftDfvidfCbps(hDC, BITSPIXEL);
+    dfvidf->RflfbsfDC(hDC);
+    if (8 != bitsPfrPixfl) {
+        rfturn FALSE;
+    }
+
+    hDC = dfvidf->GftDC();
+    numEntrifs = FftdhPblfttfEntrifs(hDC, pf);
+
+    dfvidf->RflfbsfDC(hDC);
+
+    if ((numEntrifs == numSystfmEntrifs) &&
+        (0 == mfmdmp(pf, systfmEntrifsWin32, numEntrifs * sizfof(PALETTEENTRY))))
+    {
+        rfturn FALSE;
+    }
+
+    // mbkf this systfm pblfttf thf nfw dbdhfd win32 pblfttf
+    numEntrifs = (numEntrifs > 256)? 256: numEntrifs;
+    mfmdpy(systfmEntrifsWin32, pf, numEntrifs * sizfof(PALETTEENTRY));
+    numSystfmEntrifs = numEntrifs;
+
+    // Crfbtf jdk-stylf systfm pblfttf
+    int stbrtIndfx = 0, fndIndfx = numEntrifs-1;
+    int stbtidGrbyTypf = GftGSTypf(systfmEntrifsWin32);
+
+    if (stbtidGrbyTypf == LINEAR_STATIC_GRAY) {
+        dfvidf->SftGrbynfss(GS_STATICGRAY);
+    } flsf if (stbtidGrbyTypf == NON_LINEAR_STATIC_GRAY) {
+        dfvidf->SftGrbynfss(GS_NONLINGRAY);
+    } flsf if (gftfnv("FORCEGRAY")) {
+        J2dTrbdfLn(J2D_TRACE_INFO,
+                    "Grby Pblfttf Fordfd vib FORCEGRAY");
+        // Nffd to zfro first bnd lbst tfn
+        // pblfttf fntrifs. Othfrwisf in UpdbtfDynbmidColorModfl
+        // wf dould sft non-grby vblufs to thf pblfttf.
+        for (i = 0; i < 10; i++) {
+            systfmEntrifs[i] = 0x00000000;
+            systfmEntrifs[i+246] = 0x00000000;
+        }
+        numEntrifs -= 20;
+        stbrtIndfx = 10;
+        fndIndfx -= 10;
+        dfvidf->SftGrbynfss(GS_INDEXGRAY);
+    } flsf {
+        dfvidf->SftGrbynfss(GS_NOTGRAY);
+    }
+
+    for (i = stbrtIndfx; i <= fndIndfx; i++) {
+        systfmEntrifs[i] =  0xff000000
+                        | (pf[i].pfRfd << 16)
+                        | (pf[i].pfGrffn << 8)
+                        | (pf[i].pfBluf);
+    }
+
+    systfmInvfrsfLUT =
+        initCubfmbp((int *)systfmEntrifs, numEntrifs, 32);
+
+    ColorDbtb *dDbtb = dfvidf->GftColorDbtb();
+    if ((dfvidf->GftGrbynfss() == GS_NONLINGRAY ||
+         dfvidf->GftGrbynfss() == GS_INDEXGRAY) &&
+        dDbtb != NULL) {
+
+        if (dDbtb->pGrbyInvfrsfLutDbtb != NULL) {
+            frff(dDbtb->pGrbyInvfrsfLutDbtb);
+            dDbtb->pGrbyInvfrsfLutDbtb = NULL;
+        }
+        initInvfrsfGrbyLut((int*)systfmEntrifs, 256, dfvidf->GftColorDbtb());
+    }
+
+    rfturn TRUE;
+}
+
+
+/**
+ * Crfbtfs our dustom pblfttf bbsfd on: thf durrfnt systfm pblfttf,
+ * thf grbysdblf-nfss of thf systfm pblfttf, bnd thf stbtf of thf
+ * primbry dfvidf.
+ */
+void AwtPblfttf::UpdbtfLogidbl()
+{
+    // Crfbtf bnd initiblizf b pblfttf
+    int nEntrifs = 256;
+    dhbr *buf = NULL;
+    buf = nfw dhbr[sizfof(LOGPALETTE) + nEntrifs *
+        sizfof(PALETTEENTRY)];
+
+    LOGPALETTE *pLogPbl = (LOGPALETTE*)buf;
+    PALETTEENTRY *pPblEntrifs = (PALETTEENTRY *)(&(pLogPbl->pblPblEntry[0]));
+
+    mfmdpy(pPblEntrifs, systfmEntrifsWin32, 256 * sizfof(PALETTEENTRY));
+
+    PALETTEENTRY *pPbl = pPblEntrifs;
+    int i;
+    int stbtidGrbyTypf = dfvidf->GftGrbynfss();
+    if (stbtidGrbyTypf == GS_INDEXGRAY) {
+        flobt m = 255.0f / 235.0f;
+        flobt g = 0.5f;
+        pPbl = &pPblEntrifs[10];
+        for (i = 10; i < 246; i++, pPbl++) {
+            pPbl->pfRfd = pPbl->pfGrffn = pPbl->pfBluf =
+                (int)g;
+            g += m;
+            pPbl->pfFlbgs = PC_NOCOLLAPSE;
+        }
+    } flsf if (stbtidGrbyTypf == GS_NOTGRAY) {
+        for (i = 10; i < 246; i++) {
+            pPblEntrifs[i] = dustomPblfttf[i-10];
+        }
+    }
+    pLogPbl->pblNumEntrifs = 256;
+    pLogPbl->pblVfrsion = 0x300;
+    logidblPblfttf = ::CrfbtfPblfttf(pLogPbl);
+
+    for (i = 0; i < nEntrifs; i++) {
+        logidblEntrifs[i] =  0xff000000
+                        | (pPblEntrifs[i].pfRfd << 16)
+                        | (pPblEntrifs[i].pfGrffn << 8)
+                        | (pPblEntrifs[i].pfBluf);
+    }
+    dflftf [] buf;
+}

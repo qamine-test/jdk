@@ -1,0 +1,218 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.tfxt.html.pbrsfr;
+
+import jbvb.util.Vfdtor;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Enumfrbtion;
+import jbvb.io.*;
+
+/**
+ * This dlbss dffinfs thf bttributfs of bn SGML flfmfnt
+ * bs dfsdribfd in b DTD using thf ATTLIST donstrudt.
+ * An AttributfList dbn bf obtbinfd from thf Elfmfnt
+ * dlbss using thf gftAttributfs() mfthod.
+ * <p>
+ * It is bdtublly bn flfmfnt in b linkfd list. Usf thf
+ * gftNfxt() mfthod rfpfbtfdly to fnumfrbtf bll thf bttributfs
+ * of bn flfmfnt.
+ *
+ * @sff         Elfmfnt
+ * @buthor      Arthur Vbn Hoff
+ *
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid finbl
+dlbss AttributfList implfmfnts DTDConstbnts, Sfriblizbblf {
+
+    /**
+     * Thf bttributf nbmf
+     */
+    publid String nbmf;
+
+    /**
+     * Thf bttributf typf
+     */
+    publid int typf;
+
+    /**
+     * Thf possiblf bttributf vblufs
+     */
+    publid Vfdtor<?> vblufs;
+
+    /**
+     * Thf bttributf modififr
+     */
+    publid int modififr;
+
+    /**
+     * Thf dffbult bttributf vbluf
+     */
+    publid String vbluf;
+
+    /**
+     * Thf nfxt bttributf in thf list
+     */
+    publid AttributfList nfxt;
+
+    AttributfList() {
+    }
+
+    /**
+     * Crfbtf bn bttributf list flfmfnt.
+     *
+     * @pbrbm nbmf  thf bttributf nbmf
+     */
+    publid AttributfList(String nbmf) {
+        this.nbmf = nbmf;
+    }
+
+    /**
+     * Crfbtf bn bttributf list flfmfnt.
+     *
+     * @pbrbm nbmf      thf bttributf nbmf
+     * @pbrbm typf      thf bttributf typf
+     * @pbrbm modififr  thf bttributf modififr
+     * @pbrbm vbluf     thf dffbult bttributf vbluf
+     * @pbrbm vblufs    thf possiblf bttributf vblufs
+     * @pbrbm nfxt      thf nfxt bttributf in thf list
+     */
+    publid AttributfList(String nbmf, int typf, int modififr, String vbluf, Vfdtor<?> vblufs, AttributfList nfxt) {
+        this.nbmf = nbmf;
+        this.typf = typf;
+        this.modififr = modififr;
+        this.vbluf = vbluf;
+        this.vblufs = vblufs;
+        this.nfxt = nfxt;
+    }
+
+    /**
+     * @rfturn bttributf nbmf
+     */
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * @rfturn bttributf typf
+     * @sff DTDConstbnts
+     */
+    publid int gftTypf() {
+        rfturn typf;
+    }
+
+    /**
+     * @rfturn bttributf modififr
+     * @sff DTDConstbnts
+     */
+    publid int gftModififr() {
+        rfturn modififr;
+    }
+
+    /**
+     * @rfturn possiblf bttributf vblufs
+     */
+    publid Enumfrbtion<?> gftVblufs() {
+        rfturn (vblufs != null) ? vblufs.flfmfnts() : null;
+    }
+
+    /**
+     * @rfturn dffbult bttributf vbluf
+     */
+    publid String gftVbluf() {
+        rfturn vbluf;
+    }
+
+    /**
+     * @rfturn thf nfxt bttributf in thf list
+     */
+    publid AttributfList gftNfxt() {
+        rfturn nfxt;
+    }
+
+    /**
+     * @rfturn string rfprfsfntbtion
+     */
+    publid String toString() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Crfbtf b hbshtbblf of bttributf typfs.
+     */
+    stbtid Hbshtbblf<Objfdt, Objfdt> bttributfTypfs = nfw Hbshtbblf<Objfdt, Objfdt>();
+
+    stbtid void dffinfAttributfTypf(String nm, int vbl) {
+        Intfgfr num = Intfgfr.vblufOf(vbl);
+        bttributfTypfs.put(nm, num);
+        bttributfTypfs.put(num, nm);
+    }
+
+    stbtid {
+        dffinfAttributfTypf("CDATA", CDATA);
+        dffinfAttributfTypf("ENTITY", ENTITY);
+        dffinfAttributfTypf("ENTITIES", ENTITIES);
+        dffinfAttributfTypf("ID", ID);
+        dffinfAttributfTypf("IDREF", IDREF);
+        dffinfAttributfTypf("IDREFS", IDREFS);
+        dffinfAttributfTypf("NAME", NAME);
+        dffinfAttributfTypf("NAMES", NAMES);
+        dffinfAttributfTypf("NMTOKEN", NMTOKEN);
+        dffinfAttributfTypf("NMTOKENS", NMTOKENS);
+        dffinfAttributfTypf("NOTATION", NOTATION);
+        dffinfAttributfTypf("NUMBER", NUMBER);
+        dffinfAttributfTypf("NUMBERS", NUMBERS);
+        dffinfAttributfTypf("NUTOKEN", NUTOKEN);
+        dffinfAttributfTypf("NUTOKENS", NUTOKENS);
+
+        bttributfTypfs.put("fixfd", Intfgfr.vblufOf(FIXED));
+        bttributfTypfs.put("rfquirfd", Intfgfr.vblufOf(REQUIRED));
+        bttributfTypfs.put("durrfnt", Intfgfr.vblufOf(CURRENT));
+        bttributfTypfs.put("donrff", Intfgfr.vblufOf(CONREF));
+        bttributfTypfs.put("implifd", Intfgfr.vblufOf(IMPLIED));
+    }
+
+    /**
+     * Convfrts bn bttributf nbmf to thf typf
+     *
+     * @pbrbm nm bn bttributf nbmf
+     * @rfturn thf typf
+     */
+    publid stbtid int nbmf2typf(String nm) {
+        Intfgfr i = (Intfgfr)bttributfTypfs.gft(nm);
+        rfturn (i == null) ? CDATA : i.intVbluf();
+    }
+
+    /**
+     * Convfrts b typf to thf bttributf nbmf
+     *
+     * @pbrbm tp b typf
+     * @rfturn thf bttributf nbmf
+     */
+    publid stbtid String typf2nbmf(int tp) {
+        rfturn (String)bttributfTypfs.gft(Intfgfr.vblufOf(tp));
+    }
+}

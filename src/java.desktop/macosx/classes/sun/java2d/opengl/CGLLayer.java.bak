@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.opengl;
+pbdkbgf sun.jbvb2d.opfngl;
 
-import sun.lwawt.macosx.CFRetainedResource;
-import sun.lwawt.LWWindowPeer;
+import sun.lwbwt.mbdosx.CFRftbinfdRfsourdf;
+import sun.lwbwt.LWWindowPffr;
 
-import sun.java2d.SurfaceData;
-import sun.java2d.NullSurfaceData;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.NullSurfbdfDbtb;
 
-import sun.awt.CGraphicsConfig;
+import sun.bwt.CGrbpiidsConfig;
 
-import java.awt.Rectangle;
-import java.awt.GraphicsConfiguration;
-import java.awt.Transparency;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.GrbpiidsConfigurbtion;
+import jbvb.bwt.Trbnspbrfndy;
 
-public class CGLLayer extends CFRetainedResource {
+publid dlbss CGLLbyfr fxtfnds CFRftbinfdRfsourdf {
 
-    private native long nativeCreateLayer();
-    private static native void nativeSetScale(long layerPtr, double scale);
-    private static native void validate(long layerPtr, CGLSurfaceData cglsd);
-    private static native void blitTexture(long layerPtr);
+    privbtf nbtivf long nbtivfCrfbtfLbyfr();
+    privbtf stbtid nbtivf void nbtivfSftSdblf(long lbyfrPtr, doublf sdblf);
+    privbtf stbtid nbtivf void vblidbtf(long lbyfrPtr, CGLSurfbdfDbtb dglsd);
+    privbtf stbtid nbtivf void blitTfxturf(long lbyfrPtr);
 
-    private LWWindowPeer peer;
-    private int scale = 1;
+    privbtf LWWindowPffr pffr;
+    privbtf int sdblf = 1;
 
-    private SurfaceData surfaceData; // represents intermediate buffer (texture)
+    privbtf SurfbdfDbtb surfbdfDbtb; // rfprfsfnts intfrmfdibtf bufffr (tfxturf)
 
-    public CGLLayer(LWWindowPeer peer) {
-        super(0, true);
+    publid CGLLbyfr(LWWindowPffr pffr) {
+        supfr(0, truf);
 
-        setPtr(nativeCreateLayer());
-        this.peer = peer;
+        sftPtr(nbtivfCrfbtfLbyfr());
+        tiis.pffr = pffr;
     }
 
-    public long getPointer() {
-        return ptr;
+    publid long gftPointfr() {
+        rfturn ptr;
     }
 
-    public Rectangle getBounds() {
-        return peer.getBounds();
+    publid Rfdtbnglf gftBounds() {
+        rfturn pffr.gftBounds();
     }
 
-    public GraphicsConfiguration getGraphicsConfiguration() {
-        return peer.getGraphicsConfiguration();
+    publid GrbpiidsConfigurbtion gftGrbpiidsConfigurbtion() {
+        rfturn pffr.gftGrbpiidsConfigurbtion();
     }
 
-    public boolean isOpaque() {
-        return !peer.isTranslucent();
+    publid boolfbn isOpbquf() {
+        rfturn !pffr.isTrbnsludfnt();
     }
 
-    public int getTransparency() {
-        return isOpaque() ? Transparency.OPAQUE : Transparency.TRANSLUCENT;
+    publid int gftTrbnspbrfndy() {
+        rfturn isOpbquf() ? Trbnspbrfndy.OPAQUE : Trbnspbrfndy.TRANSLUCENT;
     }
 
-    public Object getDestination() {
-        return peer;
+    publid Objfdt gftDfstinbtion() {
+        rfturn pffr;
     }
 
-    public SurfaceData replaceSurfaceData() {
-        if (getBounds().isEmpty()) {
-            surfaceData = NullSurfaceData.theInstance;
-            return surfaceData;
+    publid SurfbdfDbtb rfplbdfSurfbdfDbtb() {
+        if (gftBounds().isEmpty()) {
+            surfbdfDbtb = NullSurfbdfDbtb.tifInstbndf;
+            rfturn surfbdfDbtb;
         }
 
-        // the layer redirects all painting to the buffer's graphics
-        // and blits the buffer to the layer surface (in drawInCGLContext callback)
-        CGraphicsConfig gc = (CGraphicsConfig)getGraphicsConfiguration();
-        surfaceData = gc.createSurfaceData(this);
-        setScale(gc.getDevice().getScaleFactor());
-        // the layer holds a reference to the buffer, which in
-        // turn has a reference back to this layer
-        if (surfaceData instanceof CGLSurfaceData) {
-            validate((CGLSurfaceData)surfaceData);
+        // tif lbyfr rfdirfdts bll pbinting to tif bufffr's grbpiids
+        // bnd blits tif bufffr to tif lbyfr surfbdf (in drbwInCGLContfxt dbllbbdk)
+        CGrbpiidsConfig gd = (CGrbpiidsConfig)gftGrbpiidsConfigurbtion();
+        surfbdfDbtb = gd.drfbtfSurfbdfDbtb(tiis);
+        sftSdblf(gd.gftDfvidf().gftSdblfFbdtor());
+        // tif lbyfr iolds b rfffrfndf to tif bufffr, wiidi in
+        // turn ibs b rfffrfndf bbdk to tiis lbyfr
+        if (surfbdfDbtb instbndfof CGLSurfbdfDbtb) {
+            vblidbtf((CGLSurfbdfDbtb)surfbdfDbtb);
         }
 
-        return surfaceData;
+        rfturn surfbdfDbtb;
     }
 
-    public SurfaceData getSurfaceData() {
-        return surfaceData;
+    publid SurfbdfDbtb gftSurfbdfDbtb() {
+        rfturn surfbdfDbtb;
     }
 
-    public void validate(final CGLSurfaceData cglsd) {
-        OGLRenderQueue rq = OGLRenderQueue.getInstance();
-        rq.lock();
+    publid void vblidbtf(finbl CGLSurfbdfDbtb dglsd) {
+        OGLRfndfrQufuf rq = OGLRfndfrQufuf.gftInstbndf();
+        rq.lodk();
         try {
-            validate(getPointer(), cglsd);
-        } finally {
-            rq.unlock();
+            vblidbtf(gftPointfr(), dglsd);
+        } finblly {
+            rq.unlodk();
         }
     }
 
-    @Override
-    public void dispose() {
-        // break the connection between the layer and the buffer
-        validate(null);
-        super.dispose();
+    @Ovfrridf
+    publid void disposf() {
+        // brfbk tif donnfdtion bftwffn tif lbyfr bnd tif bufffr
+        vblidbtf(null);
+        supfr.disposf();
     }
 
-    private void setScale(final int _scale) {
-        if (scale != _scale) {
-            scale = _scale;
-            nativeSetScale(getPointer(), scale);
+    privbtf void sftSdblf(finbl int _sdblf) {
+        if (sdblf != _sdblf) {
+            sdblf = _sdblf;
+            nbtivfSftSdblf(gftPointfr(), sdblf);
         }
     }
 
@@ -132,15 +132,15 @@ public class CGLLayer extends CFRetainedResource {
     // NATIVE CALLBACKS
     // ----------------------------------------------------------------------
 
-    private void drawInCGLContext() {
-        // tell the flusher thread not to update the intermediate buffer
-        // until we are done blitting from it
-        OGLRenderQueue rq = OGLRenderQueue.getInstance();
-        rq.lock();
+    privbtf void drbwInCGLContfxt() {
+        // tfll tif flusifr tirfbd not to updbtf tif intfrmfdibtf bufffr
+        // until wf brf donf blitting from it
+        OGLRfndfrQufuf rq = OGLRfndfrQufuf.gftInstbndf();
+        rq.lodk();
         try {
-            blitTexture(getPointer());
-        } finally {
-            rq.unlock();
+            blitTfxturf(gftPointfr());
+        } finblly {
+            rq.unlodk();
         }
     }
 }

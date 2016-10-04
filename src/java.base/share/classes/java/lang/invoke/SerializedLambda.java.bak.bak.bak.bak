@@ -1,0 +1,258 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.lbng.invokf;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.util.Objfdts;
+
+/**
+ * Sfriblizfd form of b lbmbdb fxprfssion.  Thf propfrtifs of this dlbss
+ * rfprfsfnt thf informbtion thbt is prfsfnt bt thf lbmbdb fbdtory sitf, indluding
+ * stbtid mftbfbdtory brgumfnts sudh bs thf idfntity of thf primbry fundtionbl
+ * intfrfbdf mfthod bnd thf idfntity of thf implfmfntbtion mfthod, bs wfll bs
+ * dynbmid mftbfbdtory brgumfnts sudh bs vblufs dbpturfd from thf lfxidbl sdopf
+ * bt thf timf of lbmbdb dbpturf.
+ *
+ * <p>Implfmfntors of sfriblizbblf lbmbdbs, sudh bs dompilfrs or lbngubgf
+ * runtimf librbrifs, brf fxpfdtfd to fnsurf thbt instbndfs dfsfriblizf propfrly.
+ * Onf mfbns to do so is to fnsurf thbt thf {@dodf writfRfplbdf} mfthod rfturns
+ * bn instbndf of {@dodf SfriblizfdLbmbdb}, rbthfr thbn bllowing dffbult
+ * sfriblizbtion to prodffd.
+ *
+ * <p>{@dodf SfriblizfdLbmbdb} hbs b {@dodf rfbdRfsolvf} mfthod thbt looks for
+ * b (possibly privbtf) stbtid mfthod dbllfd
+ * {@dodf $dfsfriblizfLbmbdb$(SfriblizfdLbmbdb)} in thf dbpturing dlbss, invokfs
+ * thbt with itsflf bs thf first brgumfnt, bnd rfturns thf rfsult.  Lbmbdb dlbssfs
+ * implfmfnting {@dodf $dfsfriblizfLbmbdb$} brf rfsponsiblf for vblidbting
+ * thbt thf propfrtifs of thf {@dodf SfriblizfdLbmbdb} brf donsistfnt with b
+ * lbmbdb bdtublly dbpturfd by thbt dlbss.
+ *
+ * @sff LbmbdbMftbfbdtory
+ */
+publid finbl dlbss SfriblizfdLbmbdb implfmfnts Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = 8025925345765570181L;
+    privbtf finbl Clbss<?> dbpturingClbss;
+    privbtf finbl String fundtionblIntfrfbdfClbss;
+    privbtf finbl String fundtionblIntfrfbdfMfthodNbmf;
+    privbtf finbl String fundtionblIntfrfbdfMfthodSignbturf;
+    privbtf finbl String implClbss;
+    privbtf finbl String implMfthodNbmf;
+    privbtf finbl String implMfthodSignbturf;
+    privbtf finbl int implMfthodKind;
+    privbtf finbl String instbntibtfdMfthodTypf;
+    privbtf finbl Objfdt[] dbpturfdArgs;
+
+    /**
+     * Crfbtf b {@dodf SfriblizfdLbmbdb} from thf low-lfvfl informbtion prfsfnt
+     * bt thf lbmbdb fbdtory sitf.
+     *
+     * @pbrbm dbpturingClbss Thf dlbss in whidh thf lbmbdb fxprfssion bppfbrs
+     * @pbrbm fundtionblIntfrfbdfClbss Nbmf, in slbsh-dflimitfd form, of stbtid
+     *                                 typf of thf rfturnfd lbmbdb objfdt
+     * @pbrbm fundtionblIntfrfbdfMfthodNbmf Nbmf of thf fundtionbl intfrfbdf
+     *                                      mfthod for thf prfsfnt bt thf
+     *                                      lbmbdb fbdtory sitf
+     * @pbrbm fundtionblIntfrfbdfMfthodSignbturf Signbturf of thf fundtionbl
+     *                                           intfrfbdf mfthod prfsfnt bt
+     *                                           thf lbmbdb fbdtory sitf
+     * @pbrbm implMfthodKind Mfthod hbndlf kind for thf implfmfntbtion mfthod
+     * @pbrbm implClbss Nbmf, in slbsh-dflimitfd form, for thf dlbss holding
+     *                  thf implfmfntbtion mfthod
+     * @pbrbm implMfthodNbmf Nbmf of thf implfmfntbtion mfthod
+     * @pbrbm implMfthodSignbturf Signbturf of thf implfmfntbtion mfthod
+     * @pbrbm instbntibtfdMfthodTypf Thf signbturf of thf primbry fundtionbl
+     *                               intfrfbdf mfthod bftfr typf vbribblfs
+     *                               brf substitutfd with thfir instbntibtion
+     *                               from thf dbpturf sitf
+     * @pbrbm dbpturfdArgs Thf dynbmid brgumfnts to thf lbmbdb fbdtory sitf,
+     *                     whidh rfprfsfnt vbribblfs dbpturfd by
+     *                     thf lbmbdb
+     */
+    publid SfriblizfdLbmbdb(Clbss<?> dbpturingClbss,
+                            String fundtionblIntfrfbdfClbss,
+                            String fundtionblIntfrfbdfMfthodNbmf,
+                            String fundtionblIntfrfbdfMfthodSignbturf,
+                            int implMfthodKind,
+                            String implClbss,
+                            String implMfthodNbmf,
+                            String implMfthodSignbturf,
+                            String instbntibtfdMfthodTypf,
+                            Objfdt[] dbpturfdArgs) {
+        this.dbpturingClbss = dbpturingClbss;
+        this.fundtionblIntfrfbdfClbss = fundtionblIntfrfbdfClbss;
+        this.fundtionblIntfrfbdfMfthodNbmf = fundtionblIntfrfbdfMfthodNbmf;
+        this.fundtionblIntfrfbdfMfthodSignbturf = fundtionblIntfrfbdfMfthodSignbturf;
+        this.implMfthodKind = implMfthodKind;
+        this.implClbss = implClbss;
+        this.implMfthodNbmf = implMfthodNbmf;
+        this.implMfthodSignbturf = implMfthodSignbturf;
+        this.instbntibtfdMfthodTypf = instbntibtfdMfthodTypf;
+        this.dbpturfdArgs = Objfdts.rfquirfNonNull(dbpturfdArgs).dlonf();
+    }
+
+    /**
+     * Gft thf nbmf of thf dlbss thbt dbpturfd this lbmbdb.
+     * @rfturn thf nbmf of thf dlbss thbt dbpturfd this lbmbdb
+     */
+    publid String gftCbpturingClbss() {
+        rfturn dbpturingClbss.gftNbmf().rfplbdf('.', '/');
+    }
+
+    /**
+     * Gft thf nbmf of thf invokfd typf to whidh this
+     * lbmbdb hbs bffn donvfrtfd
+     * @rfturn thf nbmf of thf fundtionbl intfrfbdf dlbss to whidh
+     * this lbmbdb hbs bffn donvfrtfd
+     */
+    publid String gftFundtionblIntfrfbdfClbss() {
+        rfturn fundtionblIntfrfbdfClbss;
+    }
+
+    /**
+     * Gft thf nbmf of thf primbry mfthod for thf fundtionbl intfrfbdf
+     * to whidh this lbmbdb hbs bffn donvfrtfd.
+     * @rfturn thf nbmf of thf primbry mfthods of thf fundtionbl intfrfbdf
+     */
+    publid String gftFundtionblIntfrfbdfMfthodNbmf() {
+        rfturn fundtionblIntfrfbdfMfthodNbmf;
+    }
+
+    /**
+     * Gft thf signbturf of thf primbry mfthod for thf fundtionbl
+     * intfrfbdf to whidh this lbmbdb hbs bffn donvfrtfd.
+     * @rfturn thf signbturf of thf primbry mfthod of thf fundtionbl
+     * intfrfbdf
+     */
+    publid String gftFundtionblIntfrfbdfMfthodSignbturf() {
+        rfturn fundtionblIntfrfbdfMfthodSignbturf;
+    }
+
+    /**
+     * Gft thf nbmf of thf dlbss dontbining thf implfmfntbtion
+     * mfthod.
+     * @rfturn thf nbmf of thf dlbss dontbining thf implfmfntbtion
+     * mfthod
+     */
+    publid String gftImplClbss() {
+        rfturn implClbss;
+    }
+
+    /**
+     * Gft thf nbmf of thf implfmfntbtion mfthod.
+     * @rfturn thf nbmf of thf implfmfntbtion mfthod
+     */
+    publid String gftImplMfthodNbmf() {
+        rfturn implMfthodNbmf;
+    }
+
+    /**
+     * Gft thf signbturf of thf implfmfntbtion mfthod.
+     * @rfturn thf signbturf of thf implfmfntbtion mfthod
+     */
+    publid String gftImplMfthodSignbturf() {
+        rfturn implMfthodSignbturf;
+    }
+
+    /**
+     * Gft thf mfthod hbndlf kind (sff {@link MfthodHbndlfInfo}) of
+     * thf implfmfntbtion mfthod.
+     * @rfturn thf mfthod hbndlf kind of thf implfmfntbtion mfthod
+     */
+    publid int gftImplMfthodKind() {
+        rfturn implMfthodKind;
+    }
+
+    /**
+     * Gft thf signbturf of thf primbry fundtionbl intfrfbdf mfthod
+     * bftfr typf vbribblfs brf substitutfd with thfir instbntibtion
+     * from thf dbpturf sitf.
+     * @rfturn thf signbturf of thf primbry fundtionbl intfrfbdf mfthod
+     * bftfr typf vbribblf prodfssing
+     */
+    publid finbl String gftInstbntibtfdMfthodTypf() {
+        rfturn instbntibtfdMfthodTypf;
+    }
+
+    /**
+     * Gft thf dount of dynbmid brgumfnts to thf lbmbdb dbpturf sitf.
+     * @rfturn thf dount of dynbmid brgumfnts to thf lbmbdb dbpturf sitf
+     */
+    publid int gftCbpturfdArgCount() {
+        rfturn dbpturfdArgs.lfngth;
+    }
+
+    /**
+     * Gft b dynbmid brgumfnt to thf lbmbdb dbpturf sitf.
+     * @pbrbm i thf brgumfnt to dbpturf
+     * @rfturn b dynbmid brgumfnt to thf lbmbdb dbpturf sitf
+     */
+    publid Objfdt gftCbpturfdArg(int i) {
+        rfturn dbpturfdArgs[i];
+    }
+
+    privbtf Objfdt rfbdRfsolvf() throws RfflfdtivfOpfrbtionExdfption {
+        try {
+            Mfthod dfsfriblizf = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdExdfptionAdtion<Mfthod>() {
+                @Ovfrridf
+                publid Mfthod run() throws Exdfption {
+                    Mfthod m = dbpturingClbss.gftDfdlbrfdMfthod("$dfsfriblizfLbmbdb$", SfriblizfdLbmbdb.dlbss);
+                    m.sftAddfssiblf(truf);
+                    rfturn m;
+                }
+            });
+
+            rfturn dfsfriblizf.invokf(null, this);
+        }
+        dbtdh (PrivilfgfdAdtionExdfption f) {
+            Exdfption dbusf = f.gftExdfption();
+            if (dbusf instbndfof RfflfdtivfOpfrbtionExdfption)
+                throw (RfflfdtivfOpfrbtionExdfption) dbusf;
+            flsf if (dbusf instbndfof RuntimfExdfption)
+                throw (RuntimfExdfption) dbusf;
+            flsf
+                throw nfw RuntimfExdfption("Exdfption in SfriblizfdLbmbdb.rfbdRfsolvf", f);
+        }
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        String implKind=MfthodHbndlfInfo.rfffrfndfKindToString(implMfthodKind);
+        rfturn String.formbt("SfriblizfdLbmbdb[%s=%s, %s=%s.%s:%s, " +
+                             "%s=%s %s.%s:%s, %s=%s, %s=%d]",
+                             "dbpturingClbss", dbpturingClbss,
+                             "fundtionblIntfrfbdfMfthod", fundtionblIntfrfbdfClbss,
+                               fundtionblIntfrfbdfMfthodNbmf,
+                               fundtionblIntfrfbdfMfthodSignbturf,
+                             "implfmfntbtion",
+                               implKind,
+                               implClbss, implMfthodNbmf, implMfthodSignbturf,
+                             "instbntibtfdMfthodTypf", instbntibtfdMfthodTypf,
+                             "numCbpturfd", dbpturfdArgs.lfngth);
+    }
+}

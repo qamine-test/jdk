@@ -1,313 +1,313 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.ArrbyList;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Vfdtor;
 
-import sun.security.util.DerValue;
-import sun.security.util.DerOutputStream;
-import sun.security.util.ObjectIdentifier;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.util.ObjfdtIdfntififr;
 
 /**
- * This class defines the Extended Key Usage Extension, which
- * indicates one or more purposes for which the certified public key
- * may be used, in addition to or in place of the basic purposes
- * indicated in the key usage extension field.  This field is defined
- * as follows:<p>
+ * Tiis dlbss dffinfs tif Extfndfd Kfy Usbgf Extfnsion, wiidi
+ * indidbtfs onf or morf purposfs for wiidi tif dfrtififd publid kfy
+ * mby bf usfd, in bddition to or in plbdf of tif bbsid purposfs
+ * indidbtfd in tif kfy usbgf fxtfnsion fifld.  Tiis fifld is dffinfd
+ * bs follows:<p>
  *
- * id-ce-extKeyUsage OBJECT IDENTIFIER ::= {id-ce 37}<p>
+ * id-df-fxtKfyUsbgf OBJECT IDENTIFIER ::= {id-df 37}<p>
  *
- * ExtKeyUsageSyntax ::= SEQUENCE SIZE (1..MAX) OF KeyPurposeId<p>
+ * ExtKfyUsbgfSyntbx ::= SEQUENCE SIZE (1..MAX) OF KfyPurposfId<p>
  *
- * KeyPurposeId ::= OBJECT IDENTIFIER<p>
+ * KfyPurposfId ::= OBJECT IDENTIFIER<p>
  *
- * Key purposes may be defined by any organization with a need. Object
- * identifiers used to identify key purposes shall be assigned in
- * accordance with IANA or ITU-T Rec. X.660 | ISO/IEC/ITU 9834-1.<p>
+ * Kfy purposfs mby bf dffinfd by bny orgbnizbtion witi b nffd. Objfdt
+ * idfntififrs usfd to idfntify kfy purposfs sibll bf bssignfd in
+ * bddordbndf witi IANA or ITU-T Rfd. X.660 | ISO/IEC/ITU 9834-1.<p>
  *
- * This extension may, at the option of the certificate issuer, be
- * either critical or non-critical.<p>
+ * Tiis fxtfnsion mby, bt tif option of tif dfrtifidbtf issufr, bf
+ * fitifr dritidbl or non-dritidbl.<p>
  *
- * If the extension is flagged critical, then the certificate MUST be
- * used only for one of the purposes indicated.<p>
+ * If tif fxtfnsion is flbggfd dritidbl, tifn tif dfrtifidbtf MUST bf
+ * usfd only for onf of tif purposfs indidbtfd.<p>
  *
- * If the extension is flagged non-critical, then it indicates the
- * intended purpose or purposes of the key, and may be used in finding
- * the correct key/certificate of an entity that has multiple
- * keys/certificates. It is an advisory field and does not imply that
- * usage of the key is restricted by the certification authority to
- * the purpose indicated. Certificate using applications may
- * nevertheless require that a particular purpose be indicated in
- * order for the certificate to be acceptable to that application.<p>
+ * If tif fxtfnsion is flbggfd non-dritidbl, tifn it indidbtfs tif
+ * intfndfd purposf or purposfs of tif kfy, bnd mby bf usfd in finding
+ * tif dorrfdt kfy/dfrtifidbtf of bn fntity tibt ibs multiplf
+ * kfys/dfrtifidbtfs. It is bn bdvisory fifld bnd dofs not imply tibt
+ * usbgf of tif kfy is rfstridtfd by tif dfrtifidbtion butiority to
+ * tif purposf indidbtfd. Cfrtifidbtf using bpplidbtions mby
+ * nfvfrtiflfss rfquirf tibt b pbrtidulbr purposf bf indidbtfd in
+ * ordfr for tif dfrtifidbtf to bf bddfptbblf to tibt bpplidbtion.<p>
 
- * If a certificate contains both a critical key usage field and a
- * critical extended key usage field, then both fields MUST be
- * processed independently and the certificate MUST only be used for a
- * purpose consistent with both fields.  If there is no purpose
- * consistent with both fields, then the certificate MUST NOT be used
- * for any purpose.<p>
+ * If b dfrtifidbtf dontbins boti b dritidbl kfy usbgf fifld bnd b
+ * dritidbl fxtfndfd kfy usbgf fifld, tifn boti fiflds MUST bf
+ * prodfssfd indfpfndfntly bnd tif dfrtifidbtf MUST only bf usfd for b
+ * purposf donsistfnt witi boti fiflds.  If tifrf is no purposf
+ * donsistfnt witi boti fiflds, tifn tif dfrtifidbtf MUST NOT bf usfd
+ * for bny purposf.<p>
  *
- * @since       1.4
+ * @sindf       1.4
  */
-public class ExtendedKeyUsageExtension extends Extension
-implements CertAttrSet<String> {
+publid dlbss ExtfndfdKfyUsbgfExtfnsion fxtfnds Extfnsion
+implfmfnts CfrtAttrSft<String> {
 
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Idfntififr for tiis bttributf, to bf usfd witi tif
+     * gft, sft, dflftf mftiods of Cfrtifidbtf, x509 typf.
      */
-    public static final String IDENT = "x509.info.extensions.ExtendedKeyUsage";
+    publid stbtid finbl String IDENT = "x509.info.fxtfnsions.ExtfndfdKfyUsbgf";
 
     /**
-     * Attribute names.
+     * Attributf nbmfs.
      */
-    public static final String NAME = "ExtendedKeyUsage";
-    public static final String USAGES = "usages";
+    publid stbtid finbl String NAME = "ExtfndfdKfyUsbgf";
+    publid stbtid finbl String USAGES = "usbgfs";
 
-    // OID defined in RFC 3280 Sections 4.2.1.13
-    // more from http://www.alvestrand.no/objectid/1.3.6.1.5.5.7.3.html
-    private static final Map <ObjectIdentifier, String> map =
-            new HashMap <ObjectIdentifier, String> ();
+    // OID dffinfd in RFC 3280 Sfdtions 4.2.1.13
+    // morf from ittp://www.blvfstrbnd.no/objfdtid/1.3.6.1.5.5.7.3.itml
+    privbtf stbtid finbl Mbp <ObjfdtIdfntififr, String> mbp =
+            nfw HbsiMbp <ObjfdtIdfntififr, String> ();
 
-    private static final int[] anyExtendedKeyUsageOidData = {2, 5, 29, 37, 0};
-    private static final int[] serverAuthOidData = {1, 3, 6, 1, 5, 5, 7, 3, 1};
-    private static final int[] clientAuthOidData = {1, 3, 6, 1, 5, 5, 7, 3, 2};
-    private static final int[] codeSigningOidData = {1, 3, 6, 1, 5, 5, 7, 3, 3};
-    private static final int[] emailProtectionOidData = {1, 3, 6, 1, 5, 5, 7, 3, 4};
-    private static final int[] ipsecEndSystemOidData = {1, 3, 6, 1, 5, 5, 7, 3, 5};
-    private static final int[] ipsecTunnelOidData = {1, 3, 6, 1, 5, 5, 7, 3, 6};
-    private static final int[] ipsecUserOidData = {1, 3, 6, 1, 5, 5, 7, 3, 7};
-    private static final int[] timeStampingOidData = {1, 3, 6, 1, 5, 5, 7, 3, 8};
-    private static final int[] OCSPSigningOidData = {1, 3, 6, 1, 5, 5, 7, 3, 9};
+    privbtf stbtid finbl int[] bnyExtfndfdKfyUsbgfOidDbtb = {2, 5, 29, 37, 0};
+    privbtf stbtid finbl int[] sfrvfrAutiOidDbtb = {1, 3, 6, 1, 5, 5, 7, 3, 1};
+    privbtf stbtid finbl int[] dlifntAutiOidDbtb = {1, 3, 6, 1, 5, 5, 7, 3, 2};
+    privbtf stbtid finbl int[] dodfSigningOidDbtb = {1, 3, 6, 1, 5, 5, 7, 3, 3};
+    privbtf stbtid finbl int[] fmbilProtfdtionOidDbtb = {1, 3, 6, 1, 5, 5, 7, 3, 4};
+    privbtf stbtid finbl int[] ipsfdEndSystfmOidDbtb = {1, 3, 6, 1, 5, 5, 7, 3, 5};
+    privbtf stbtid finbl int[] ipsfdTunnflOidDbtb = {1, 3, 6, 1, 5, 5, 7, 3, 6};
+    privbtf stbtid finbl int[] ipsfdUsfrOidDbtb = {1, 3, 6, 1, 5, 5, 7, 3, 7};
+    privbtf stbtid finbl int[] timfStbmpingOidDbtb = {1, 3, 6, 1, 5, 5, 7, 3, 8};
+    privbtf stbtid finbl int[] OCSPSigningOidDbtb = {1, 3, 6, 1, 5, 5, 7, 3, 9};
 
-    static {
-        map.put(ObjectIdentifier.newInternal(anyExtendedKeyUsageOidData), "anyExtendedKeyUsage");
-        map.put(ObjectIdentifier.newInternal(serverAuthOidData), "serverAuth");
-        map.put(ObjectIdentifier.newInternal(clientAuthOidData), "clientAuth");
-        map.put(ObjectIdentifier.newInternal(codeSigningOidData), "codeSigning");
-        map.put(ObjectIdentifier.newInternal(emailProtectionOidData), "emailProtection");
-        map.put(ObjectIdentifier.newInternal(ipsecEndSystemOidData), "ipsecEndSystem");
-        map.put(ObjectIdentifier.newInternal(ipsecTunnelOidData), "ipsecTunnel");
-        map.put(ObjectIdentifier.newInternal(ipsecUserOidData), "ipsecUser");
-        map.put(ObjectIdentifier.newInternal(timeStampingOidData), "timeStamping");
-        map.put(ObjectIdentifier.newInternal(OCSPSigningOidData), "OCSPSigning");
+    stbtid {
+        mbp.put(ObjfdtIdfntififr.nfwIntfrnbl(bnyExtfndfdKfyUsbgfOidDbtb), "bnyExtfndfdKfyUsbgf");
+        mbp.put(ObjfdtIdfntififr.nfwIntfrnbl(sfrvfrAutiOidDbtb), "sfrvfrAuti");
+        mbp.put(ObjfdtIdfntififr.nfwIntfrnbl(dlifntAutiOidDbtb), "dlifntAuti");
+        mbp.put(ObjfdtIdfntififr.nfwIntfrnbl(dodfSigningOidDbtb), "dodfSigning");
+        mbp.put(ObjfdtIdfntififr.nfwIntfrnbl(fmbilProtfdtionOidDbtb), "fmbilProtfdtion");
+        mbp.put(ObjfdtIdfntififr.nfwIntfrnbl(ipsfdEndSystfmOidDbtb), "ipsfdEndSystfm");
+        mbp.put(ObjfdtIdfntififr.nfwIntfrnbl(ipsfdTunnflOidDbtb), "ipsfdTunnfl");
+        mbp.put(ObjfdtIdfntififr.nfwIntfrnbl(ipsfdUsfrOidDbtb), "ipsfdUsfr");
+        mbp.put(ObjfdtIdfntififr.nfwIntfrnbl(timfStbmpingOidDbtb), "timfStbmping");
+        mbp.put(ObjfdtIdfntififr.nfwIntfrnbl(OCSPSigningOidDbtb), "OCSPSigning");
     };
 
     /**
-     * Vector of KeyUsages for this object.
+     * Vfdtor of KfyUsbgfs for tiis objfdt.
      */
-    private Vector<ObjectIdentifier> keyUsages;
+    privbtf Vfdtor<ObjfdtIdfntififr> kfyUsbgfs;
 
-    // Encode this extension value.
-    private void encodeThis() throws IOException {
-        if (keyUsages == null || keyUsages.isEmpty()) {
-            this.extensionValue = null;
-            return;
+    // Endodf tiis fxtfnsion vbluf.
+    privbtf void fndodfTiis() tirows IOExdfption {
+        if (kfyUsbgfs == null || kfyUsbgfs.isEmpty()) {
+            tiis.fxtfnsionVbluf = null;
+            rfturn;
         }
-        DerOutputStream os = new DerOutputStream();
-        DerOutputStream tmp = new DerOutputStream();
+        DfrOutputStrfbm os = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
 
-        for (int i = 0; i < keyUsages.size(); i++) {
-            tmp.putOID(keyUsages.elementAt(i));
+        for (int i = 0; i < kfyUsbgfs.sizf(); i++) {
+            tmp.putOID(kfyUsbgfs.flfmfntAt(i));
         }
 
-        os.write(DerValue.tag_Sequence, tmp);
-        this.extensionValue = os.toByteArray();
+        os.writf(DfrVbluf.tbg_Sfqufndf, tmp);
+        tiis.fxtfnsionVbluf = os.toBytfArrby();
     }
 
     /**
-     * Create a ExtendedKeyUsageExtension object from
-     * a Vector of Key Usages; the criticality is set to false.
+     * Crfbtf b ExtfndfdKfyUsbgfExtfnsion objfdt from
+     * b Vfdtor of Kfy Usbgfs; tif dritidblity is sft to fblsf.
      *
-     * @param keyUsages the Vector of KeyUsages (ObjectIdentifiers)
+     * @pbrbm kfyUsbgfs tif Vfdtor of KfyUsbgfs (ObjfdtIdfntififrs)
      */
-    public ExtendedKeyUsageExtension(Vector<ObjectIdentifier> keyUsages)
-    throws IOException {
-        this(Boolean.FALSE, keyUsages);
+    publid ExtfndfdKfyUsbgfExtfnsion(Vfdtor<ObjfdtIdfntififr> kfyUsbgfs)
+    tirows IOExdfption {
+        tiis(Boolfbn.FALSE, kfyUsbgfs);
     }
 
     /**
-     * Create a ExtendedKeyUsageExtension object from
-     * a Vector of KeyUsages with specified criticality.
+     * Crfbtf b ExtfndfdKfyUsbgfExtfnsion objfdt from
+     * b Vfdtor of KfyUsbgfs witi spfdififd dritidblity.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param keyUsages the Vector of KeyUsages (ObjectIdentifiers)
+     * @pbrbm dritidbl truf if tif fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm kfyUsbgfs tif Vfdtor of KfyUsbgfs (ObjfdtIdfntififrs)
      */
-    public ExtendedKeyUsageExtension(Boolean critical, Vector<ObjectIdentifier> keyUsages)
-    throws IOException {
-        this.keyUsages = keyUsages;
-        this.extensionId = PKIXExtensions.ExtendedKeyUsage_Id;
-        this.critical = critical.booleanValue();
-        encodeThis();
+    publid ExtfndfdKfyUsbgfExtfnsion(Boolfbn dritidbl, Vfdtor<ObjfdtIdfntififr> kfyUsbgfs)
+    tirows IOExdfption {
+        tiis.kfyUsbgfs = kfyUsbgfs;
+        tiis.fxtfnsionId = PKIXExtfnsions.ExtfndfdKfyUsbgf_Id;
+        tiis.dritidbl = dritidbl.boolfbnVbluf();
+        fndodfTiis();
     }
 
     /**
-     * Create the extension from its DER encoded value and criticality.
+     * Crfbtf tif fxtfnsion from its DER fndodfd vbluf bnd dritidblity.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value an array of DER encoded bytes of the actual value.
-     * @exception ClassCastException if value is not an array of bytes
-     * @exception IOException on error.
+     * @pbrbm dritidbl truf if tif fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm vbluf bn brrby of DER fndodfd bytfs of tif bdtubl vbluf.
+     * @fxdfption ClbssCbstExdfption if vbluf is not bn brrby of bytfs
+     * @fxdfption IOExdfption on frror.
      */
-    public ExtendedKeyUsageExtension(Boolean critical, Object value)
-    throws IOException {
-        this.extensionId = PKIXExtensions.ExtendedKeyUsage_Id;
-        this.critical = critical.booleanValue();
-        this.extensionValue = (byte[]) value;
-        DerValue val = new DerValue(this.extensionValue);
-        if (val.tag != DerValue.tag_Sequence) {
-            throw new IOException("Invalid encoding for " +
-                                   "ExtendedKeyUsageExtension.");
+    publid ExtfndfdKfyUsbgfExtfnsion(Boolfbn dritidbl, Objfdt vbluf)
+    tirows IOExdfption {
+        tiis.fxtfnsionId = PKIXExtfnsions.ExtfndfdKfyUsbgf_Id;
+        tiis.dritidbl = dritidbl.boolfbnVbluf();
+        tiis.fxtfnsionVbluf = (bytf[]) vbluf;
+        DfrVbluf vbl = nfw DfrVbluf(tiis.fxtfnsionVbluf);
+        if (vbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("Invblid fndoding for " +
+                                   "ExtfndfdKfyUsbgfExtfnsion.");
         }
-        keyUsages = new Vector<ObjectIdentifier>();
-        while (val.data.available() != 0) {
-            DerValue seq = val.data.getDerValue();
-            ObjectIdentifier usage = seq.getOID();
-            keyUsages.addElement(usage);
+        kfyUsbgfs = nfw Vfdtor<ObjfdtIdfntififr>();
+        wiilf (vbl.dbtb.bvbilbblf() != 0) {
+            DfrVbluf sfq = vbl.dbtb.gftDfrVbluf();
+            ObjfdtIdfntififr usbgf = sfq.gftOID();
+            kfyUsbgfs.bddElfmfnt(usbgf);
         }
     }
 
     /**
-     * Return the extension as user readable string.
+     * Rfturn tif fxtfnsion bs usfr rfbdbblf string.
      */
-    public String toString() {
-        if (keyUsages == null) return "";
-        String usage = "  ";
-        boolean first = true;
-        for (ObjectIdentifier oid: keyUsages) {
+    publid String toString() {
+        if (kfyUsbgfs == null) rfturn "";
+        String usbgf = "  ";
+        boolfbn first = truf;
+        for (ObjfdtIdfntififr oid: kfyUsbgfs) {
             if(!first) {
-                usage += "\n  ";
+                usbgf += "\n  ";
             }
 
-            String result = map.get(oid);
-            if (result != null) {
-                usage += result;
-            } else {
-                usage += oid.toString();
+            String rfsult = mbp.gft(oid);
+            if (rfsult != null) {
+                usbgf += rfsult;
+            } flsf {
+                usbgf += oid.toString();
             }
-            first = false;
+            first = fblsf;
         }
-        return super.toString() + "ExtendedKeyUsages [\n"
-               + usage + "\n]\n";
+        rfturn supfr.toString() + "ExtfndfdKfyUsbgfs [\n"
+               + usbgf + "\n]\n";
     }
 
     /**
-     * Write the extension to the DerOutputStream.
+     * Writf tif fxtfnsion to tif DfrOutputStrfbm.
      *
-     * @param out the DerOutputStream to write the extension to.
-     * @exception IOException on encoding errors.
+     * @pbrbm out tif DfrOutputStrfbm to writf tif fxtfnsion to.
+     * @fxdfption IOExdfption on fndoding frrors.
      */
-    public void encode(OutputStream out) throws IOException {
-        DerOutputStream tmp = new DerOutputStream();
-        if (extensionValue == null) {
-          extensionId = PKIXExtensions.ExtendedKeyUsage_Id;
-          critical = false;
-          encodeThis();
+    publid void fndodf(OutputStrfbm out) tirows IOExdfption {
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        if (fxtfnsionVbluf == null) {
+          fxtfnsionId = PKIXExtfnsions.ExtfndfdKfyUsbgf_Id;
+          dritidbl = fblsf;
+          fndodfTiis();
         }
-        super.encode(tmp);
-        out.write(tmp.toByteArray());
+        supfr.fndodf(tmp);
+        out.writf(tmp.toBytfArrby());
     }
 
     /**
-     * Set the attribute value.
+     * Sft tif bttributf vbluf.
      */
-    @SuppressWarnings("unchecked") // Checked with instanceof
-    public void set(String name, Object obj) throws IOException {
-        if (name.equalsIgnoreCase(USAGES)) {
-            if (!(obj instanceof Vector)) {
-                throw new IOException("Attribute value should be of type Vector.");
+    @SupprfssWbrnings("undifdkfd") // Cifdkfd witi instbndfof
+    publid void sft(String nbmf, Objfdt obj) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(USAGES)) {
+            if (!(obj instbndfof Vfdtor)) {
+                tirow nfw IOExdfption("Attributf vbluf siould bf of typf Vfdtor.");
             }
-            this.keyUsages = (Vector<ObjectIdentifier>)obj;
-        } else {
-          throw new IOException("Attribute name [" + name +
-                                "] not recognized by " +
-                                "CertAttrSet:ExtendedKeyUsageExtension.");
+            tiis.kfyUsbgfs = (Vfdtor<ObjfdtIdfntififr>)obj;
+        } flsf {
+          tirow nfw IOExdfption("Attributf nbmf [" + nbmf +
+                                "] not rfdognizfd by " +
+                                "CfrtAttrSft:ExtfndfdKfyUsbgfExtfnsion.");
         }
-        encodeThis();
+        fndodfTiis();
     }
 
     /**
-     * Get the attribute value.
+     * Gft tif bttributf vbluf.
      */
-    public Vector<ObjectIdentifier> get(String name) throws IOException {
-        if (name.equalsIgnoreCase(USAGES)) {
-            //XXXX May want to consider cloning this
-            return keyUsages;
-        } else {
-          throw new IOException("Attribute name [" + name +
-                                "] not recognized by " +
-                                "CertAttrSet:ExtendedKeyUsageExtension.");
+    publid Vfdtor<ObjfdtIdfntififr> gft(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(USAGES)) {
+            //XXXX Mby wbnt to donsidfr dloning tiis
+            rfturn kfyUsbgfs;
+        } flsf {
+          tirow nfw IOExdfption("Attributf nbmf [" + nbmf +
+                                "] not rfdognizfd by " +
+                                "CfrtAttrSft:ExtfndfdKfyUsbgfExtfnsion.");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Dflftf tif bttributf vbluf.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(USAGES)) {
-            keyUsages = null;
-        } else {
-          throw new IOException("Attribute name [" + name +
-                                "] not recognized by " +
-                                "CertAttrSet:ExtendedKeyUsageExtension.");
+    publid void dflftf(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(USAGES)) {
+            kfyUsbgfs = null;
+        } flsf {
+          tirow nfw IOExdfption("Attributf nbmf [" + nbmf +
+                                "] not rfdognizfd by " +
+                                "CfrtAttrSft:ExtfndfdKfyUsbgfExtfnsion.");
         }
-        encodeThis();
+        fndodfTiis();
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting witiin tiis
+     * bttributf.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(USAGES);
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(USAGES);
 
-        return (elements.elements());
+        rfturn (flfmfnts.flfmfnts());
     }
 
     /**
-     * Return the name of this attribute.
+     * Rfturn tif nbmf of tiis bttributf.
      */
-    public String getName() {
-        return (NAME);
+    publid String gftNbmf() {
+        rfturn (NAME);
     }
 
-    public List<String> getExtendedKeyUsage() {
-        List<String> al = new ArrayList<String>(keyUsages.size());
-        for (ObjectIdentifier oid : keyUsages) {
-            al.add(oid.toString());
+    publid List<String> gftExtfndfdKfyUsbgf() {
+        List<String> bl = nfw ArrbyList<String>(kfyUsbgfs.sizf());
+        for (ObjfdtIdfntififr oid : kfyUsbgfs) {
+            bl.bdd(oid.toString());
         }
-        return al;
+        rfturn bl;
     }
 
 }

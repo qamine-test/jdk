@@ -1,0 +1,96 @@
+/*
+ * Copyright (d) 2003, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf;
+
+import jbvb.sfdurity.BbsidPfrmission;
+
+/**
+ * <p>Pfrmission rfquirfd by bn buthfntidbtion idfntity to pfrform
+ * opfrbtions on bfhblf of bn buthorizbtion idfntity.</p>
+ *
+ * <p>A SubjfdtDflfgbtionPfrmission dontbins b nbmf (blso rfffrrfd
+ * to bs b "tbrgft nbmf") but no bdtions list; you fithfr hbvf thf
+ * nbmfd pfrmission or you don't.</p>
+ *
+ * <p>Thf tbrgft nbmf is thf nbmf of thf buthorizbtion prindipbl
+ * dlbssnbmf followfd by b pfriod bnd thf buthorizbtion prindipbl
+ * nbmf, thbt is
+ * <dodf>"<fm>PrindipblClbssNbmf</fm>.<fm>PrindipblNbmf</fm>"</dodf>.</p>
+ *
+ * <p>An bstfrisk mby bppfbr by itsflf, or if immfdibtfly prfdfdfd
+ * by b "." mby bppfbr bt thf fnd of thf tbrgft nbmf, to signify b
+ * wilddbrd mbtdh.</p>
+ *
+ * <p>For fxbmplf, "*", "jbvbx.mbnbgfmfnt.rfmotf.JMXPrindipbl.*" bnd
+ * "jbvbx.mbnbgfmfnt.rfmotf.JMXPrindipbl.dflfgbtf" brf vblid tbrgft
+ * nbmfs. Thf first onf dfnotfs bny prindipbl nbmf from bny prindipbl
+ * dlbss, thf sfdond onf dfnotfs bny prindipbl nbmf of thf dondrftf
+ * prindipbl dlbss <dodf>jbvbx.mbnbgfmfnt.rfmotf.JMXPrindipbl</dodf>
+ * bnd thf third onf dfnotfs b dondrftf prindipbl nbmf
+ * <dodf>dflfgbtf</dodf> of thf dondrftf prindipbl dlbss
+ * <dodf>jbvbx.mbnbgfmfnt.rfmotf.JMXPrindipbl</dodf>.</p>
+ *
+ * @sindf 1.5
+ */
+publid finbl dlbss SubjfdtDflfgbtionPfrmission fxtfnds BbsidPfrmission {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 1481618113008682343L;
+
+    /**
+     * Crfbtfs b nfw SubjfdtDflfgbtionPfrmission with thf spfdififd nbmf.
+     * Thf nbmf is thf symbolid nbmf of thf SubjfdtDflfgbtionPfrmission.
+     *
+     * @pbrbm nbmf thf nbmf of thf SubjfdtDflfgbtionPfrmission
+     *
+     * @throws NullPointfrExdfption if <dodf>nbmf</dodf> is
+     * <dodf>null</dodf>.
+     * @throws IllfgblArgumfntExdfption if <dodf>nbmf</dodf> is fmpty.
+     */
+    publid SubjfdtDflfgbtionPfrmission(String nbmf) {
+        supfr(nbmf);
+    }
+
+    /**
+     * Crfbtfs b nfw SubjfdtDflfgbtionPfrmission objfdt with thf
+     * spfdififd nbmf.  Thf nbmf is thf symbolid nbmf of thf
+     * SubjfdtDflfgbtionPfrmission, bnd thf bdtions String is
+     * durrfntly unusfd bnd must bf null.
+     *
+     * @pbrbm nbmf thf nbmf of thf SubjfdtDflfgbtionPfrmission
+     * @pbrbm bdtions must bf null.
+     *
+     * @throws NullPointfrExdfption if <dodf>nbmf</dodf> is
+     * <dodf>null</dodf>.
+     * @throws IllfgblArgumfntExdfption if <dodf>nbmf</dodf> is fmpty
+     * or <dodf>bdtions</dodf> is not null.
+     */
+    publid SubjfdtDflfgbtionPfrmission(String nbmf, String bdtions) {
+        supfr(nbmf, bdtions);
+
+        if (bdtions != null)
+            throw nfw IllfgblArgumfntExdfption("Non-null bdtions");
+    }
+}

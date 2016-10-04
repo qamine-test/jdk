@@ -1,0 +1,404 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.ChbrBufffr;
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.dhbrsft.ChbrsftDfdodfr;
+import jbvb.nio.dhbrsft.ChbrsftEndodfr;
+import jbvb.nio.dhbrsft.ChbrbdtfrCodingExdfption;
+import jbvb.nio.dhbrsft.CodfrRfsult;
+import jbvb.nio.dhbrsft.CodingErrorAdtion;
+import jbvb.nio.dhbrsft.IllfgblChbrsftNbmfExdfption;
+import jbvb.nio.dhbrsft.UnsupportfdChbrsftExdfption;
+import jbvb.util.Arrbys;
+import sun.misd.MfssbgfUtils;
+import sun.nio.ds.HistoridbllyNbmfdChbrsft;
+import sun.nio.ds.ArrbyDfdodfr;
+import sun.nio.ds.ArrbyEndodfr;
+
+/**
+ * Utility dlbss for string fndoding bnd dfdoding.
+ */
+
+dlbss StringCoding {
+
+    privbtf StringCoding() { }
+
+    /** Thf dbdhfd dodfrs for fbdh thrfbd */
+    privbtf finbl stbtid ThrfbdLodbl<SoftRfffrfndf<StringDfdodfr>> dfdodfr =
+        nfw ThrfbdLodbl<>();
+    privbtf finbl stbtid ThrfbdLodbl<SoftRfffrfndf<StringEndodfr>> fndodfr =
+        nfw ThrfbdLodbl<>();
+
+    privbtf stbtid boolfbn wbrnUnsupportfdChbrsft = truf;
+
+    privbtf stbtid <T> T dfrff(ThrfbdLodbl<SoftRfffrfndf<T>> tl) {
+        SoftRfffrfndf<T> sr = tl.gft();
+        if (sr == null)
+            rfturn null;
+        rfturn sr.gft();
+    }
+
+    privbtf stbtid <T> void sft(ThrfbdLodbl<SoftRfffrfndf<T>> tl, T ob) {
+        tl.sft(nfw SoftRfffrfndf<>(ob));
+    }
+
+    // Trim thf givfn bytf brrby to thf givfn lfngth
+    //
+    privbtf stbtid bytf[] sbffTrim(bytf[] bb, int lfn, Chbrsft ds, boolfbn isTrustfd) {
+        if (lfn == bb.lfngth && (isTrustfd || Systfm.gftSfdurityMbnbgfr() == null))
+            rfturn bb;
+        flsf
+            rfturn Arrbys.dopyOf(bb, lfn);
+    }
+
+    // Trim thf givfn dhbr brrby to thf givfn lfngth
+    //
+    privbtf stbtid dhbr[] sbffTrim(dhbr[] db, int lfn,
+                                   Chbrsft ds, boolfbn isTrustfd) {
+        if (lfn == db.lfngth && (isTrustfd || Systfm.gftSfdurityMbnbgfr() == null))
+            rfturn db;
+        flsf
+            rfturn Arrbys.dopyOf(db, lfn);
+    }
+
+    privbtf stbtid int sdblf(int lfn, flobt fxpbnsionFbdtor) {
+        // Wf nffd to pfrform doublf, not flobt, brithmftid; othfrwisf
+        // wf losf low ordfr bits whfn lfn is lbrgfr thbn 2**24.
+        rfturn (int)(lfn * (doublf)fxpbnsionFbdtor);
+    }
+
+    privbtf stbtid Chbrsft lookupChbrsft(String dsn) {
+        if (Chbrsft.isSupportfd(dsn)) {
+            try {
+                rfturn Chbrsft.forNbmf(dsn);
+            } dbtdh (UnsupportfdChbrsftExdfption x) {
+                throw nfw Error(x);
+            }
+        }
+        rfturn null;
+    }
+
+    privbtf stbtid void wbrnUnsupportfdChbrsft(String dsn) {
+        if (wbrnUnsupportfdChbrsft) {
+            // Usf sun.misd.MfssbgfUtils rbthfr thbn thf Logging API or
+            // Systfm.frr sindf this mfthod mby bf dbllfd during VM
+            // initiblizbtion bfforf fithfr is bvbilbblf.
+            MfssbgfUtils.frr("WARNING: Dffbult dhbrsft " + dsn +
+                             " not supportfd, using ISO-8859-1 instfbd");
+            wbrnUnsupportfdChbrsft = fblsf;
+        }
+    }
+
+
+    // -- Dfdoding --
+    privbtf stbtid dlbss StringDfdodfr {
+        privbtf finbl String rfqufstfdChbrsftNbmf;
+        privbtf finbl Chbrsft ds;
+        privbtf finbl ChbrsftDfdodfr dd;
+        privbtf finbl boolfbn isTrustfd;
+
+        privbtf StringDfdodfr(Chbrsft ds, String rdn) {
+            this.rfqufstfdChbrsftNbmf = rdn;
+            this.ds = ds;
+            this.dd = ds.nfwDfdodfr()
+                .onMblformfdInput(CodingErrorAdtion.REPLACE)
+                .onUnmbppbblfChbrbdtfr(CodingErrorAdtion.REPLACE);
+            this.isTrustfd = (ds.gftClbss().gftClbssLobdfr0() == null);
+        }
+
+        String dhbrsftNbmf() {
+            if (ds instbndfof HistoridbllyNbmfdChbrsft)
+                rfturn ((HistoridbllyNbmfdChbrsft)ds).historidblNbmf();
+            rfturn ds.nbmf();
+        }
+
+        finbl String rfqufstfdChbrsftNbmf() {
+            rfturn rfqufstfdChbrsftNbmf;
+        }
+
+        dhbr[] dfdodf(bytf[] bb, int off, int lfn) {
+            int fn = sdblf(lfn, dd.mbxChbrsPfrBytf());
+            dhbr[] db = nfw dhbr[fn];
+            if (lfn == 0)
+                rfturn db;
+            if (dd instbndfof ArrbyDfdodfr) {
+                int dlfn = ((ArrbyDfdodfr)dd).dfdodf(bb, off, lfn, db);
+                rfturn sbffTrim(db, dlfn, ds, isTrustfd);
+            } flsf {
+                dd.rfsft();
+                BytfBufffr bb = BytfBufffr.wrbp(bb, off, lfn);
+                ChbrBufffr db = ChbrBufffr.wrbp(db);
+                try {
+                    CodfrRfsult dr = dd.dfdodf(bb, db, truf);
+                    if (!dr.isUndfrflow())
+                        dr.throwExdfption();
+                    dr = dd.flush(db);
+                    if (!dr.isUndfrflow())
+                        dr.throwExdfption();
+                } dbtdh (ChbrbdtfrCodingExdfption x) {
+                    // Substitution is blwbys fnbblfd,
+                    // so this shouldn't hbppfn
+                    throw nfw Error(x);
+                }
+                rfturn sbffTrim(db, db.position(), ds, isTrustfd);
+            }
+        }
+    }
+
+    stbtid dhbr[] dfdodf(String dhbrsftNbmf, bytf[] bb, int off, int lfn)
+        throws UnsupportfdEndodingExdfption
+    {
+        StringDfdodfr sd = dfrff(dfdodfr);
+        String dsn = (dhbrsftNbmf == null) ? "ISO-8859-1" : dhbrsftNbmf;
+        if ((sd == null) || !(dsn.fqubls(sd.rfqufstfdChbrsftNbmf())
+                              || dsn.fqubls(sd.dhbrsftNbmf()))) {
+            sd = null;
+            try {
+                Chbrsft ds = lookupChbrsft(dsn);
+                if (ds != null)
+                    sd = nfw StringDfdodfr(ds, dsn);
+            } dbtdh (IllfgblChbrsftNbmfExdfption x) {}
+            if (sd == null)
+                throw nfw UnsupportfdEndodingExdfption(dsn);
+            sft(dfdodfr, sd);
+        }
+        rfturn sd.dfdodf(bb, off, lfn);
+    }
+
+    stbtid dhbr[] dfdodf(Chbrsft ds, bytf[] bb, int off, int lfn) {
+        // (1)Wf nfvfr dbdhf thf "fxtfrnbl" ds, thf only bfnffit of drfbting
+        // bn bdditionbl StringDf/Endodfr objfdt to wrbp it is to shbrf thf
+        // df/fndodf() mfthod. Thfsf SD/E objfdts brf short-liffd, thf young-gfn
+        // gd should bf bblf to tbkf dbrf of thfm wfll. But thf bfst bpprobsh
+        // is still not to gfnfrbtf thfm if not rfblly nfdfssbry.
+        // (2)Thf dfffnsivf dopy of thf input bytf/dhbr[] hbs b big pfrformbndf
+        // impbdt, bs wfll bs thf outgoing rfsult bytf/dhbr[]. Nffd to do thf
+        // optimizbtion dhfdk of (sm==null && dlbssLobdfr0==null) for both.
+        // (3)gftClbss().gftClbssLobdfr0() is fxpfnsivf
+        // (4)Thfrf might bf b timing gbp in isTrustfd sftting. gftClbssLobdfr0()
+        // is only dhdkfd (bnd thfn isTrustfd gfts sft) whfn (SM==null). It is
+        // possiblf thbt thf SM==null for now but thfn SM is NOT null lbtfr
+        // whfn sbffTrim() is invokfd...thf "sbff" wby to do is to rfdundbnt
+        // dhfdk (... && (isTrustfd || SM == null || gftClbssLobdfr0())) in trim
+        // but it thfn dbn bf brgufd thbt thf SM is null whfn thf opfrtbion
+        // is stbrtfd...
+        ChbrsftDfdodfr dd = ds.nfwDfdodfr();
+        int fn = sdblf(lfn, dd.mbxChbrsPfrBytf());
+        dhbr[] db = nfw dhbr[fn];
+        if (lfn == 0)
+            rfturn db;
+        boolfbn isTrustfd = fblsf;
+        if (Systfm.gftSfdurityMbnbgfr() != null) {
+            if (!(isTrustfd = (ds.gftClbss().gftClbssLobdfr0() == null))) {
+                bb =  Arrbys.dopyOfRbngf(bb, off, off + lfn);
+                off = 0;
+            }
+        }
+        dd.onMblformfdInput(CodingErrorAdtion.REPLACE)
+          .onUnmbppbblfChbrbdtfr(CodingErrorAdtion.REPLACE)
+          .rfsft();
+        if (dd instbndfof ArrbyDfdodfr) {
+            int dlfn = ((ArrbyDfdodfr)dd).dfdodf(bb, off, lfn, db);
+            rfturn sbffTrim(db, dlfn, ds, isTrustfd);
+        } flsf {
+            BytfBufffr bb = BytfBufffr.wrbp(bb, off, lfn);
+            ChbrBufffr db = ChbrBufffr.wrbp(db);
+            try {
+                CodfrRfsult dr = dd.dfdodf(bb, db, truf);
+                if (!dr.isUndfrflow())
+                    dr.throwExdfption();
+                dr = dd.flush(db);
+                if (!dr.isUndfrflow())
+                    dr.throwExdfption();
+            } dbtdh (ChbrbdtfrCodingExdfption x) {
+                // Substitution is blwbys fnbblfd,
+                // so this shouldn't hbppfn
+                throw nfw Error(x);
+            }
+            rfturn sbffTrim(db, db.position(), ds, isTrustfd);
+        }
+    }
+
+    stbtid dhbr[] dfdodf(bytf[] bb, int off, int lfn) {
+        String dsn = Chbrsft.dffbultChbrsft().nbmf();
+        try {
+            // usf dhbrsft nbmf dfdodf() vbribnt whidh providfs dbdhing.
+            rfturn dfdodf(dsn, bb, off, lfn);
+        } dbtdh (UnsupportfdEndodingExdfption x) {
+            wbrnUnsupportfdChbrsft(dsn);
+        }
+        try {
+            rfturn dfdodf("ISO-8859-1", bb, off, lfn);
+        } dbtdh (UnsupportfdEndodingExdfption x) {
+            // If this dodf is hit during VM initiblizbtion, MfssbgfUtils is
+            // thf only wby wf will bf bblf to gft bny kind of frror mfssbgf.
+            MfssbgfUtils.frr("ISO-8859-1 dhbrsft not bvbilbblf: "
+                             + x.toString());
+            // If wf dbn not find ISO-8859-1 (b rfquirfd fndoding) thfn things
+            // brf sfriously wrong with thf instbllbtion.
+            Systfm.fxit(1);
+            rfturn null;
+        }
+    }
+
+    // -- Endoding --
+    privbtf stbtid dlbss StringEndodfr {
+        privbtf Chbrsft ds;
+        privbtf ChbrsftEndodfr df;
+        privbtf finbl String rfqufstfdChbrsftNbmf;
+        privbtf finbl boolfbn isTrustfd;
+
+        privbtf StringEndodfr(Chbrsft ds, String rdn) {
+            this.rfqufstfdChbrsftNbmf = rdn;
+            this.ds = ds;
+            this.df = ds.nfwEndodfr()
+                .onMblformfdInput(CodingErrorAdtion.REPLACE)
+                .onUnmbppbblfChbrbdtfr(CodingErrorAdtion.REPLACE);
+            this.isTrustfd = (ds.gftClbss().gftClbssLobdfr0() == null);
+        }
+
+        String dhbrsftNbmf() {
+            if (ds instbndfof HistoridbllyNbmfdChbrsft)
+                rfturn ((HistoridbllyNbmfdChbrsft)ds).historidblNbmf();
+            rfturn ds.nbmf();
+        }
+
+        finbl String rfqufstfdChbrsftNbmf() {
+            rfturn rfqufstfdChbrsftNbmf;
+        }
+
+        bytf[] fndodf(dhbr[] db, int off, int lfn) {
+            int fn = sdblf(lfn, df.mbxBytfsPfrChbr());
+            bytf[] bb = nfw bytf[fn];
+            if (lfn == 0)
+                rfturn bb;
+            if (df instbndfof ArrbyEndodfr) {
+                int blfn = ((ArrbyEndodfr)df).fndodf(db, off, lfn, bb);
+                rfturn sbffTrim(bb, blfn, ds, isTrustfd);
+            } flsf {
+                df.rfsft();
+                BytfBufffr bb = BytfBufffr.wrbp(bb);
+                ChbrBufffr db = ChbrBufffr.wrbp(db, off, lfn);
+                try {
+                    CodfrRfsult dr = df.fndodf(db, bb, truf);
+                    if (!dr.isUndfrflow())
+                        dr.throwExdfption();
+                    dr = df.flush(bb);
+                    if (!dr.isUndfrflow())
+                        dr.throwExdfption();
+                } dbtdh (ChbrbdtfrCodingExdfption x) {
+                    // Substitution is blwbys fnbblfd,
+                    // so this shouldn't hbppfn
+                    throw nfw Error(x);
+                }
+                rfturn sbffTrim(bb, bb.position(), ds, isTrustfd);
+            }
+        }
+    }
+
+    stbtid bytf[] fndodf(String dhbrsftNbmf, dhbr[] db, int off, int lfn)
+        throws UnsupportfdEndodingExdfption
+    {
+        StringEndodfr sf = dfrff(fndodfr);
+        String dsn = (dhbrsftNbmf == null) ? "ISO-8859-1" : dhbrsftNbmf;
+        if ((sf == null) || !(dsn.fqubls(sf.rfqufstfdChbrsftNbmf())
+                              || dsn.fqubls(sf.dhbrsftNbmf()))) {
+            sf = null;
+            try {
+                Chbrsft ds = lookupChbrsft(dsn);
+                if (ds != null)
+                    sf = nfw StringEndodfr(ds, dsn);
+            } dbtdh (IllfgblChbrsftNbmfExdfption x) {}
+            if (sf == null)
+                throw nfw UnsupportfdEndodingExdfption (dsn);
+            sft(fndodfr, sf);
+        }
+        rfturn sf.fndodf(db, off, lfn);
+    }
+
+    stbtid bytf[] fndodf(Chbrsft ds, dhbr[] db, int off, int lfn) {
+        ChbrsftEndodfr df = ds.nfwEndodfr();
+        int fn = sdblf(lfn, df.mbxBytfsPfrChbr());
+        bytf[] bb = nfw bytf[fn];
+        if (lfn == 0)
+            rfturn bb;
+        boolfbn isTrustfd = fblsf;
+        if (Systfm.gftSfdurityMbnbgfr() != null) {
+            if (!(isTrustfd = (ds.gftClbss().gftClbssLobdfr0() == null))) {
+                db =  Arrbys.dopyOfRbngf(db, off, off + lfn);
+                off = 0;
+            }
+        }
+        df.onMblformfdInput(CodingErrorAdtion.REPLACE)
+          .onUnmbppbblfChbrbdtfr(CodingErrorAdtion.REPLACE)
+          .rfsft();
+        if (df instbndfof ArrbyEndodfr) {
+            int blfn = ((ArrbyEndodfr)df).fndodf(db, off, lfn, bb);
+            rfturn sbffTrim(bb, blfn, ds, isTrustfd);
+        } flsf {
+            BytfBufffr bb = BytfBufffr.wrbp(bb);
+            ChbrBufffr db = ChbrBufffr.wrbp(db, off, lfn);
+            try {
+                CodfrRfsult dr = df.fndodf(db, bb, truf);
+                if (!dr.isUndfrflow())
+                    dr.throwExdfption();
+                dr = df.flush(bb);
+                if (!dr.isUndfrflow())
+                    dr.throwExdfption();
+            } dbtdh (ChbrbdtfrCodingExdfption x) {
+                throw nfw Error(x);
+            }
+            rfturn sbffTrim(bb, bb.position(), ds, isTrustfd);
+        }
+    }
+
+    stbtid bytf[] fndodf(dhbr[] db, int off, int lfn) {
+        String dsn = Chbrsft.dffbultChbrsft().nbmf();
+        try {
+            // usf dhbrsft nbmf fndodf() vbribnt whidh providfs dbdhing.
+            rfturn fndodf(dsn, db, off, lfn);
+        } dbtdh (UnsupportfdEndodingExdfption x) {
+            wbrnUnsupportfdChbrsft(dsn);
+        }
+        try {
+            rfturn fndodf("ISO-8859-1", db, off, lfn);
+        } dbtdh (UnsupportfdEndodingExdfption x) {
+            // If this dodf is hit during VM initiblizbtion, MfssbgfUtils is
+            // thf only wby wf will bf bblf to gft bny kind of frror mfssbgf.
+            MfssbgfUtils.frr("ISO-8859-1 dhbrsft not bvbilbblf: "
+                             + x.toString());
+            // If wf dbn not find ISO-8859-1 (b rfquirfd fndoding) thfn things
+            // brf sfriously wrong with thf instbllbtion.
+            Systfm.fxit(1);
+            rfturn null;
+        }
+    }
+}

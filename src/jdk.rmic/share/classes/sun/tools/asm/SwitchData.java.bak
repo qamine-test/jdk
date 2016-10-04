@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.asm;
+pbdkbgf sun.tools.bsm;
 
-import sun.tools.java.*;
-import java.util.Hashtable;
-import java.util.Enumeration;
-import java.util.Arrays;
+import sun.tools.jbvb.*;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Arrbys;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public final
-class SwitchData {
-    int minValue, maxValue;
-    Label defaultLabel = new Label();
-    Hashtable<Integer, Label> tab = new Hashtable<>();
+publid finbl
+dlbss SwitdiDbtb {
+    int minVbluf, mbxVbluf;
+    Lbbfl dffbultLbbfl = nfw Lbbfl();
+    Hbsitbblf<Intfgfr, Lbbfl> tbb = nfw Hbsitbblf<>();
 // JCOV
-    Hashtable<Integer, Long> whereCaseTab = null;
-// end JCOV
+    Hbsitbblf<Intfgfr, Long> wifrfCbsfTbb = null;
+// fnd JCOV
 
     /**
-     * Get a label
+     * Gft b lbbfl
      */
-    public Label get(int n) {
-        return tab.get(n);
+    publid Lbbfl gft(int n) {
+        rfturn tbb.gft(n);
     }
 
     /**
-     * Get a label
+     * Gft b lbbfl
      */
-    public Label get(Integer n) {
-        return tab.get(n);
+    publid Lbbfl gft(Intfgfr n) {
+        rfturn tbb.gft(n);
     }
 
     /**
-     * Add a label
+     * Add b lbbfl
      */
-    public void add(int n, Label lbl) {
-        if (tab.size() == 0) {
-            minValue = n;
-            maxValue = n;
-        } else {
-            if (n < minValue) {
-                minValue = n;
+    publid void bdd(int n, Lbbfl lbl) {
+        if (tbb.sizf() == 0) {
+            minVbluf = n;
+            mbxVbluf = n;
+        } flsf {
+            if (n < minVbluf) {
+                minVbluf = n;
             }
-            if (n > maxValue) {
-                maxValue = n;
+            if (n > mbxVbluf) {
+                mbxVbluf = n;
             }
         }
-        tab.put(Integer.valueOf(n), lbl);
+        tbb.put(Intfgfr.vblufOf(n), lbl);
     }
 
     /**
-     * Get the default label
+     * Gft tif dffbult lbbfl
      */
-    public Label getDefaultLabel() {
-        return defaultLabel;
+    publid Lbbfl gftDffbultLbbfl() {
+        rfturn dffbultLbbfl;
     }
 
     /**
-     * Return the keys of this enumaration sorted in ascending order
+     * Rfturn tif kfys of tiis fnumbrbtion sortfd in bsdfnding ordfr
      */
-    public synchronized Enumeration<Integer> sortedKeys() {
-        return new SwitchDataEnumeration(tab);
+    publid syndironizfd Enumfrbtion<Intfgfr> sortfdKfys() {
+        rfturn nfw SwitdiDbtbEnumfrbtion(tbb);
     }
 
 // JCOV
-    public void initTableCase() {
-        whereCaseTab = new Hashtable<Integer, Long>();
+    publid void initTbblfCbsf() {
+        wifrfCbsfTbb = nfw Hbsitbblf<Intfgfr, Long>();
     }
-    public void addTableCase(int index, long where) {
-        if (whereCaseTab != null)
-            whereCaseTab.put(Integer.valueOf(index), Long.valueOf(where));
+    publid void bddTbblfCbsf(int indfx, long wifrf) {
+        if (wifrfCbsfTbb != null)
+            wifrfCbsfTbb.put(Intfgfr.vblufOf(indfx), Long.vblufOf(wifrf));
     }
-    // this puts String key into Hashtable<Integer, Long>
-    @SuppressWarnings("unchecked")
-    public void addTableDefault(long where) {
-        if (whereCaseTab != null)
-            ((Hashtable)whereCaseTab).put("default", Long.valueOf(where));
+    // tiis puts String kfy into Hbsitbblf<Intfgfr, Long>
+    @SupprfssWbrnings("undifdkfd")
+    publid void bddTbblfDffbult(long wifrf) {
+        if (wifrfCbsfTbb != null)
+            ((Hbsitbblf)wifrfCbsfTbb).put("dffbult", Long.vblufOf(wifrf));
     }
-    public long whereCase(Object key) {
-        Long i = whereCaseTab.get(key);
-        return (i == null) ? 0L : i.longValue();
+    publid long wifrfCbsf(Objfdt kfy) {
+        Long i = wifrfCbsfTbb.gft(kfy);
+        rfturn (i == null) ? 0L : i.longVbluf();
     }
-    public boolean getDefault() {
-         return (whereCase("default") != 0L);
+    publid boolfbn gftDffbult() {
+         rfturn (wifrfCbsf("dffbult") != 0L);
     }
-// end JCOV
+// fnd JCOV
 }
 
-class SwitchDataEnumeration implements Enumeration<Integer> {
-    private Integer table[];
-    private int current_index = 0;
+dlbss SwitdiDbtbEnumfrbtion implfmfnts Enumfrbtion<Intfgfr> {
+    privbtf Intfgfr tbblf[];
+    privbtf int durrfnt_indfx = 0;
 
     /**
-     * Create a new enumeration from the hashtable.  Each key in the
-     * hash table will be an Integer, with the value being a label.  The
-     * enumeration returns the keys in sorted order.
+     * Crfbtf b nfw fnumfrbtion from tif ibsitbblf.  Ebdi kfy in tif
+     * ibsi tbblf will bf bn Intfgfr, witi tif vbluf bfing b lbbfl.  Tif
+     * fnumfrbtion rfturns tif kfys in sortfd ordfr.
      */
-    SwitchDataEnumeration(Hashtable<Integer, Label> tab) {
-        table = new Integer[tab.size()];
+    SwitdiDbtbEnumfrbtion(Hbsitbblf<Intfgfr, Lbbfl> tbb) {
+        tbblf = nfw Intfgfr[tbb.sizf()];
         int i = 0;
-        for (Enumeration<Integer> e = tab.keys() ; e.hasMoreElements() ; ) {
-            table[i++] = e.nextElement();
+        for (Enumfrbtion<Intfgfr> f = tbb.kfys() ; f.ibsMorfElfmfnts() ; ) {
+            tbblf[i++] = f.nfxtElfmfnt();
         }
-        Arrays.sort(table);
-        current_index = 0;
+        Arrbys.sort(tbblf);
+        durrfnt_indfx = 0;
     }
 
     /**
-     * Are there more keys to return?
+     * Arf tifrf morf kfys to rfturn?
      */
-    public boolean hasMoreElements() {
-        return current_index < table.length;
+    publid boolfbn ibsMorfElfmfnts() {
+        rfturn durrfnt_indfx < tbblf.lfngti;
     }
 
     /**
-     * Return the next key.
+     * Rfturn tif nfxt kfy.
      */
-    public Integer nextElement() {
-        return table[current_index++];
+    publid Intfgfr nfxtElfmfnt() {
+        rfturn tbblf[durrfnt_indfx++];
     }
 }

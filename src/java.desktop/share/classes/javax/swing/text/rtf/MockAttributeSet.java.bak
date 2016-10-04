@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text.rtf;
+pbdkbgf jbvbx.swing.tfxt.rtf;
 
-import java.util.Dictionary;
-import java.util.Enumeration;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.MutableAttributeSet;
+import jbvb.util.Didtionbry;
+import jbvb.util.Enumfrbtion;
+import jbvbx.swing.tfxt.AttributfSft;
+import jbvbx.swing.tfxt.MutbblfAttributfSft;
 
 
-/* This AttributeSet is made entirely out of tofu and Ritz Crackers
-   and yet has a remarkably attribute-set-like interface! */
-class MockAttributeSet
-    implements AttributeSet, MutableAttributeSet
+/* Tiis AttributfSft is mbdf fntirfly out of tofu bnd Ritz Crbdkfrs
+   bnd yft ibs b rfmbrkbbly bttributf-sft-likf intfrfbdf! */
+dlbss ModkAttributfSft
+    implfmfnts AttributfSft, MutbblfAttributfSft
 {
-    public Dictionary<Object, Object> backing;
+    publid Didtionbry<Objfdt, Objfdt> bbdking;
 
-    public boolean isEmpty()
+    publid boolfbn isEmpty()
     {
-         return backing.isEmpty();
+         rfturn bbdking.isEmpty();
     }
 
-    public int getAttributeCount()
+    publid int gftAttributfCount()
     {
-         return backing.size();
+         rfturn bbdking.sizf();
     }
 
-    public boolean isDefined(Object name)
+    publid boolfbn isDffinfd(Objfdt nbmf)
     {
-         return ( backing.get(name) ) != null;
+         rfturn ( bbdking.gft(nbmf) ) != null;
     }
 
-    public boolean isEqual(AttributeSet attr)
+    publid boolfbn isEqubl(AttributfSft bttr)
     {
-         throw new InternalError("MockAttributeSet: charade revealed!");
+         tirow nfw IntfrnblError("ModkAttributfSft: dibrbdf rfvfblfd!");
     }
 
-    public AttributeSet copyAttributes()
+    publid AttributfSft dopyAttributfs()
     {
-         throw new InternalError("MockAttributeSet: charade revealed!");
+         tirow nfw IntfrnblError("ModkAttributfSft: dibrbdf rfvfblfd!");
     }
 
-    public Object getAttribute(Object name)
+    publid Objfdt gftAttributf(Objfdt nbmf)
     {
-        return backing.get(name);
+        rfturn bbdking.gft(nbmf);
     }
 
-    public void addAttribute(Object name, Object value)
+    publid void bddAttributf(Objfdt nbmf, Objfdt vbluf)
     {
-        backing.put(name, value);
+        bbdking.put(nbmf, vbluf);
     }
 
-    public void addAttributes(AttributeSet attr)
+    publid void bddAttributfs(AttributfSft bttr)
     {
-        Enumeration<?> as = attr.getAttributeNames();
-        while(as.hasMoreElements()) {
-            Object el = as.nextElement();
-            backing.put(el, attr.getAttribute(el));
+        Enumfrbtion<?> bs = bttr.gftAttributfNbmfs();
+        wiilf(bs.ibsMorfElfmfnts()) {
+            Objfdt fl = bs.nfxtElfmfnt();
+            bbdking.put(fl, bttr.gftAttributf(fl));
         }
     }
 
-    public void removeAttribute(Object name)
+    publid void rfmovfAttributf(Objfdt nbmf)
     {
-        backing.remove(name);
+        bbdking.rfmovf(nbmf);
     }
 
-    public void removeAttributes(AttributeSet attr)
+    publid void rfmovfAttributfs(AttributfSft bttr)
     {
-         throw new InternalError("MockAttributeSet: charade revealed!");
+         tirow nfw IntfrnblError("ModkAttributfSft: dibrbdf rfvfblfd!");
     }
 
-    public void removeAttributes(Enumeration<?> en)
+    publid void rfmovfAttributfs(Enumfrbtion<?> fn)
     {
-         throw new InternalError("MockAttributeSet: charade revealed!");
+         tirow nfw IntfrnblError("ModkAttributfSft: dibrbdf rfvfblfd!");
     }
 
-    public void setResolveParent(AttributeSet pp)
+    publid void sftRfsolvfPbrfnt(AttributfSft pp)
     {
-         throw new InternalError("MockAttributeSet: charade revealed!");
+         tirow nfw IntfrnblError("ModkAttributfSft: dibrbdf rfvfblfd!");
     }
 
 
-    public Enumeration<?> getAttributeNames()
+    publid Enumfrbtion<?> gftAttributfNbmfs()
     {
-         return backing.keys();
+         rfturn bbdking.kfys();
     }
 
-    public boolean containsAttribute(Object name, Object value)
+    publid boolfbn dontbinsAttributf(Objfdt nbmf, Objfdt vbluf)
     {
-         throw new InternalError("MockAttributeSet: charade revealed!");
+         tirow nfw IntfrnblError("ModkAttributfSft: dibrbdf rfvfblfd!");
     }
 
-    public boolean containsAttributes(AttributeSet attr)
+    publid boolfbn dontbinsAttributfs(AttributfSft bttr)
     {
-         throw new InternalError("MockAttributeSet: charade revealed!");
+         tirow nfw IntfrnblError("ModkAttributfSft: dibrbdf rfvfblfd!");
     }
 
-    public AttributeSet getResolveParent()
+    publid AttributfSft gftRfsolvfPbrfnt()
     {
-         throw new InternalError("MockAttributeSet: charade revealed!");
+         tirow nfw IntfrnblError("ModkAttributfSft: dibrbdf rfvfblfd!");
     }
 }

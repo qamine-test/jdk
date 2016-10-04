@@ -1,295 +1,295 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 /*
- * $Id: DOMHMACSignatureMethod.java 1333415 2012-05-03 12:03:51Z coheigea $
+ * $Id: DOMHMACSignbturfMftiod.jbvb 1333415 2012-05-03 12:03:51Z doifigfb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dsig.spec.HMACParameterSpec;
-import javax.xml.crypto.dsig.spec.SignatureMethodParameterSpec;
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dsig.*;
+import jbvbx.xml.drypto.dsig.spfd.HMACPbrbmftfrSpfd;
+import jbvbx.xml.drypto.dsig.spfd.SignbturfMftiodPbrbmftfrSpfd;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.Key;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SignatureException;
-import java.security.spec.AlgorithmParameterSpec;
-import javax.crypto.Mac;
-import javax.crypto.SecretKey;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.SignbturfExdfption;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvbx.drypto.Mbd;
+import jbvbx.drypto.SfdrftKfy;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
 
-import org.jcp.xml.dsig.internal.MacOutputStream;
+import org.jdp.xml.dsig.intfrnbl.MbdOutputStrfbm;
 
 /**
- * DOM-based implementation of HMAC SignatureMethod.
+ * DOM-bbsfd implfmfntbtion of HMAC SignbturfMftiod.
  *
- * @author Sean Mullan
+ * @butior Sfbn Mullbn
  */
-public abstract class DOMHMACSignatureMethod extends AbstractDOMSignatureMethod {
+publid bbstrbdt dlbss DOMHMACSignbturfMftiod fxtfnds AbstrbdtDOMSignbturfMftiod {
 
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger("org.jcp.xml.dsig.internal.dom");
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr("org.jdp.xml.dsig.intfrnbl.dom");
 
-    // see RFC 4051 for these algorithm definitions
-    static final String HMAC_SHA256 =
-        "http://www.w3.org/2001/04/xmldsig-more#hmac-sha256";
-    static final String HMAC_SHA384 =
-        "http://www.w3.org/2001/04/xmldsig-more#hmac-sha384";
-    static final String HMAC_SHA512 =
-        "http://www.w3.org/2001/04/xmldsig-more#hmac-sha512";
+    // sff RFC 4051 for tifsf blgoritim dffinitions
+    stbtid finbl String HMAC_SHA256 =
+        "ittp://www.w3.org/2001/04/xmldsig-morf#imbd-sib256";
+    stbtid finbl String HMAC_SHA384 =
+        "ittp://www.w3.org/2001/04/xmldsig-morf#imbd-sib384";
+    stbtid finbl String HMAC_SHA512 =
+        "ittp://www.w3.org/2001/04/xmldsig-morf#imbd-sib512";
 
-    private Mac hmac;
-    private int outputLength;
-    private boolean outputLengthSet;
-    private SignatureMethodParameterSpec params;
+    privbtf Mbd imbd;
+    privbtf int outputLfngti;
+    privbtf boolfbn outputLfngtiSft;
+    privbtf SignbturfMftiodPbrbmftfrSpfd pbrbms;
 
     /**
-     * Creates a <code>DOMHMACSignatureMethod</code> with the specified params
+     * Crfbtfs b <dodf>DOMHMACSignbturfMftiod</dodf> witi tif spfdififd pbrbms
      *
-     * @param params algorithm-specific parameters (may be <code>null</code>)
-     * @throws InvalidAlgorithmParameterException if params are inappropriate
+     * @pbrbm pbrbms blgoritim-spfdifid pbrbmftfrs (mby bf <dodf>null</dodf>)
+     * @tirows InvblidAlgoritimPbrbmftfrExdfption if pbrbms brf inbppropribtf
      */
-    DOMHMACSignatureMethod(AlgorithmParameterSpec params)
-        throws InvalidAlgorithmParameterException
+    DOMHMACSignbturfMftiod(AlgoritimPbrbmftfrSpfd pbrbms)
+        tirows InvblidAlgoritimPbrbmftfrExdfption
     {
-        checkParams((SignatureMethodParameterSpec)params);
-        this.params = (SignatureMethodParameterSpec)params;
+        difdkPbrbms((SignbturfMftiodPbrbmftfrSpfd)pbrbms);
+        tiis.pbrbms = (SignbturfMftiodPbrbmftfrSpfd)pbrbms;
     }
 
     /**
-     * Creates a <code>DOMHMACSignatureMethod</code> from an element.
+     * Crfbtfs b <dodf>DOMHMACSignbturfMftiod</dodf> from bn flfmfnt.
      *
-     * @param smElem a SignatureMethod element
+     * @pbrbm smElfm b SignbturfMftiod flfmfnt
      */
-    DOMHMACSignatureMethod(Element smElem) throws MarshalException {
-        Element paramsElem = DOMUtils.getFirstChildElement(smElem);
-        if (paramsElem != null) {
-            params = unmarshalParams(paramsElem);
+    DOMHMACSignbturfMftiod(Elfmfnt smElfm) tirows MbrsiblExdfption {
+        Elfmfnt pbrbmsElfm = DOMUtils.gftFirstCiildElfmfnt(smElfm);
+        if (pbrbmsElfm != null) {
+            pbrbms = unmbrsiblPbrbms(pbrbmsElfm);
         }
         try {
-            checkParams(params);
-        } catch (InvalidAlgorithmParameterException iape) {
-            throw new MarshalException(iape);
+            difdkPbrbms(pbrbms);
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption ibpf) {
+            tirow nfw MbrsiblExdfption(ibpf);
         }
     }
 
-    void checkParams(SignatureMethodParameterSpec params)
-        throws InvalidAlgorithmParameterException
+    void difdkPbrbms(SignbturfMftiodPbrbmftfrSpfd pbrbms)
+        tirows InvblidAlgoritimPbrbmftfrExdfption
     {
-        if (params != null) {
-            if (!(params instanceof HMACParameterSpec)) {
-                throw new InvalidAlgorithmParameterException
-                    ("params must be of type HMACParameterSpec");
+        if (pbrbms != null) {
+            if (!(pbrbms instbndfof HMACPbrbmftfrSpfd)) {
+                tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                    ("pbrbms must bf of typf HMACPbrbmftfrSpfd");
             }
-            outputLength = ((HMACParameterSpec)params).getOutputLength();
-            outputLengthSet = true;
-            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                log.log(java.util.logging.Level.FINE, "Setting outputLength from HMACParameterSpec to: " + outputLength);
+            outputLfngti = ((HMACPbrbmftfrSpfd)pbrbms).gftOutputLfngti();
+            outputLfngtiSft = truf;
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "Sftting outputLfngti from HMACPbrbmftfrSpfd to: " + outputLfngti);
             }
         }
     }
 
-    public final AlgorithmParameterSpec getParameterSpec() {
-        return params;
+    publid finbl AlgoritimPbrbmftfrSpfd gftPbrbmftfrSpfd() {
+        rfturn pbrbms;
     }
 
-    SignatureMethodParameterSpec unmarshalParams(Element paramsElem)
-        throws MarshalException
+    SignbturfMftiodPbrbmftfrSpfd unmbrsiblPbrbms(Elfmfnt pbrbmsElfm)
+        tirows MbrsiblExdfption
     {
-        outputLength = Integer.valueOf(paramsElem.getFirstChild().getNodeValue()).intValue();
-        outputLengthSet = true;
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "unmarshalled outputLength: " + outputLength);
+        outputLfngti = Intfgfr.vblufOf(pbrbmsElfm.gftFirstCiild().gftNodfVbluf()).intVbluf();
+        outputLfngtiSft = truf;
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "unmbrsibllfd outputLfngti: " + outputLfngti);
         }
-        return new HMACParameterSpec(outputLength);
+        rfturn nfw HMACPbrbmftfrSpfd(outputLfngti);
     }
 
-    void marshalParams(Element parent, String prefix)
-        throws MarshalException
+    void mbrsiblPbrbms(Elfmfnt pbrfnt, String prffix)
+        tirows MbrsiblExdfption
     {
-        Document ownerDoc = DOMUtils.getOwnerDocument(parent);
-        Element hmacElem = DOMUtils.createElement(ownerDoc, "HMACOutputLength",
-                                                  XMLSignature.XMLNS, prefix);
-        hmacElem.appendChild(ownerDoc.createTextNode
-           (String.valueOf(outputLength)));
+        Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
+        Elfmfnt imbdElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "HMACOutputLfngti",
+                                                  XMLSignbturf.XMLNS, prffix);
+        imbdElfm.bppfndCiild(ownfrDod.drfbtfTfxtNodf
+           (String.vblufOf(outputLfngti)));
 
-        parent.appendChild(hmacElem);
+        pbrfnt.bppfndCiild(imbdElfm);
     }
 
-    boolean verify(Key key, SignedInfo si, byte[] sig,
-                   XMLValidateContext context)
-        throws InvalidKeyException, SignatureException, XMLSignatureException
+    boolfbn vfrify(Kfy kfy, SignfdInfo si, bytf[] sig,
+                   XMLVblidbtfContfxt dontfxt)
+        tirows InvblidKfyExdfption, SignbturfExdfption, XMLSignbturfExdfption
     {
-        if (key == null || si == null || sig == null) {
-            throw new NullPointerException();
+        if (kfy == null || si == null || sig == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        if (!(key instanceof SecretKey)) {
-            throw new InvalidKeyException("key must be SecretKey");
+        if (!(kfy instbndfof SfdrftKfy)) {
+            tirow nfw InvblidKfyExdfption("kfy must bf SfdrftKfy");
         }
-        if (hmac == null) {
+        if (imbd == null) {
             try {
-                hmac = Mac.getInstance(getJCAAlgorithm());
-            } catch (NoSuchAlgorithmException nsae) {
-                throw new XMLSignatureException(nsae);
+                imbd = Mbd.gftInstbndf(gftJCAAlgoritim());
+            } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+                tirow nfw XMLSignbturfExdfption(nsbf);
             }
         }
-        if (outputLengthSet && outputLength < getDigestLength()) {
-            throw new XMLSignatureException
-                ("HMACOutputLength must not be less than " + getDigestLength());
+        if (outputLfngtiSft && outputLfngti < gftDigfstLfngti()) {
+            tirow nfw XMLSignbturfExdfption
+                ("HMACOutputLfngti must not bf lfss tibn " + gftDigfstLfngti());
         }
-        hmac.init((SecretKey)key);
-        ((DOMSignedInfo)si).canonicalize(context, new MacOutputStream(hmac));
-        byte[] result = hmac.doFinal();
+        imbd.init((SfdrftKfy)kfy);
+        ((DOMSignfdInfo)si).dbnonidblizf(dontfxt, nfw MbdOutputStrfbm(imbd));
+        bytf[] rfsult = imbd.doFinbl();
 
-        return MessageDigest.isEqual(sig, result);
+        rfturn MfssbgfDigfst.isEqubl(sig, rfsult);
     }
 
-    byte[] sign(Key key, SignedInfo si, XMLSignContext context)
-        throws InvalidKeyException, XMLSignatureException
+    bytf[] sign(Kfy kfy, SignfdInfo si, XMLSignContfxt dontfxt)
+        tirows InvblidKfyExdfption, XMLSignbturfExdfption
     {
-        if (key == null || si == null) {
-            throw new NullPointerException();
+        if (kfy == null || si == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        if (!(key instanceof SecretKey)) {
-            throw new InvalidKeyException("key must be SecretKey");
+        if (!(kfy instbndfof SfdrftKfy)) {
+            tirow nfw InvblidKfyExdfption("kfy must bf SfdrftKfy");
         }
-        if (hmac == null) {
+        if (imbd == null) {
             try {
-                hmac = Mac.getInstance(getJCAAlgorithm());
-            } catch (NoSuchAlgorithmException nsae) {
-                throw new XMLSignatureException(nsae);
+                imbd = Mbd.gftInstbndf(gftJCAAlgoritim());
+            } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+                tirow nfw XMLSignbturfExdfption(nsbf);
             }
         }
-        if (outputLengthSet && outputLength < getDigestLength()) {
-            throw new XMLSignatureException
-                ("HMACOutputLength must not be less than " + getDigestLength());
+        if (outputLfngtiSft && outputLfngti < gftDigfstLfngti()) {
+            tirow nfw XMLSignbturfExdfption
+                ("HMACOutputLfngti must not bf lfss tibn " + gftDigfstLfngti());
         }
-        hmac.init((SecretKey)key);
-        ((DOMSignedInfo)si).canonicalize(context, new MacOutputStream(hmac));
-        return hmac.doFinal();
+        imbd.init((SfdrftKfy)kfy);
+        ((DOMSignfdInfo)si).dbnonidblizf(dontfxt, nfw MbdOutputStrfbm(imbd));
+        rfturn imbd.doFinbl();
     }
 
-    boolean paramsEqual(AlgorithmParameterSpec spec) {
-        if (getParameterSpec() == spec) {
-            return true;
+    boolfbn pbrbmsEqubl(AlgoritimPbrbmftfrSpfd spfd) {
+        if (gftPbrbmftfrSpfd() == spfd) {
+            rfturn truf;
         }
-        if (!(spec instanceof HMACParameterSpec)) {
-            return false;
+        if (!(spfd instbndfof HMACPbrbmftfrSpfd)) {
+            rfturn fblsf;
         }
-        HMACParameterSpec ospec = (HMACParameterSpec)spec;
+        HMACPbrbmftfrSpfd ospfd = (HMACPbrbmftfrSpfd)spfd;
 
-        return (outputLength == ospec.getOutputLength());
+        rfturn (outputLfngti == ospfd.gftOutputLfngti());
     }
 
-    Type getAlgorithmType() {
-        return Type.HMAC;
+    Typf gftAlgoritimTypf() {
+        rfturn Typf.HMAC;
     }
 
     /**
-     * Returns the output length of the hash/digest.
+     * Rfturns tif output lfngti of tif ibsi/digfst.
      */
-    abstract int getDigestLength();
+    bbstrbdt int gftDigfstLfngti();
 
-    static final class SHA1 extends DOMHMACSignatureMethod {
-        SHA1(AlgorithmParameterSpec params)
-            throws InvalidAlgorithmParameterException {
-            super(params);
+    stbtid finbl dlbss SHA1 fxtfnds DOMHMACSignbturfMftiod {
+        SHA1(AlgoritimPbrbmftfrSpfd pbrbms)
+            tirows InvblidAlgoritimPbrbmftfrExdfption {
+            supfr(pbrbms);
         }
-        SHA1(Element dmElem) throws MarshalException {
-            super(dmElem);
+        SHA1(Elfmfnt dmElfm) tirows MbrsiblExdfption {
+            supfr(dmElfm);
         }
-        public String getAlgorithm() {
-            return SignatureMethod.HMAC_SHA1;
+        publid String gftAlgoritim() {
+            rfturn SignbturfMftiod.HMAC_SHA1;
         }
-        String getJCAAlgorithm() {
-            return "HmacSHA1";
+        String gftJCAAlgoritim() {
+            rfturn "HmbdSHA1";
         }
-        int getDigestLength() {
-            return 160;
+        int gftDigfstLfngti() {
+            rfturn 160;
         }
     }
 
-    static final class SHA256 extends DOMHMACSignatureMethod {
-        SHA256(AlgorithmParameterSpec params)
-            throws InvalidAlgorithmParameterException {
-            super(params);
+    stbtid finbl dlbss SHA256 fxtfnds DOMHMACSignbturfMftiod {
+        SHA256(AlgoritimPbrbmftfrSpfd pbrbms)
+            tirows InvblidAlgoritimPbrbmftfrExdfption {
+            supfr(pbrbms);
         }
-        SHA256(Element dmElem) throws MarshalException {
-            super(dmElem);
+        SHA256(Elfmfnt dmElfm) tirows MbrsiblExdfption {
+            supfr(dmElfm);
         }
-        public String getAlgorithm() {
-            return HMAC_SHA256;
+        publid String gftAlgoritim() {
+            rfturn HMAC_SHA256;
         }
-        String getJCAAlgorithm() {
-            return "HmacSHA256";
+        String gftJCAAlgoritim() {
+            rfturn "HmbdSHA256";
         }
-        int getDigestLength() {
-            return 256;
-        }
-    }
-
-    static final class SHA384 extends DOMHMACSignatureMethod {
-        SHA384(AlgorithmParameterSpec params)
-            throws InvalidAlgorithmParameterException {
-            super(params);
-        }
-        SHA384(Element dmElem) throws MarshalException {
-            super(dmElem);
-        }
-        public String getAlgorithm() {
-            return HMAC_SHA384;
-        }
-        String getJCAAlgorithm() {
-            return "HmacSHA384";
-        }
-        int getDigestLength() {
-            return 384;
+        int gftDigfstLfngti() {
+            rfturn 256;
         }
     }
 
-    static final class SHA512 extends DOMHMACSignatureMethod {
-        SHA512(AlgorithmParameterSpec params)
-            throws InvalidAlgorithmParameterException {
-            super(params);
+    stbtid finbl dlbss SHA384 fxtfnds DOMHMACSignbturfMftiod {
+        SHA384(AlgoritimPbrbmftfrSpfd pbrbms)
+            tirows InvblidAlgoritimPbrbmftfrExdfption {
+            supfr(pbrbms);
         }
-        SHA512(Element dmElem) throws MarshalException {
-            super(dmElem);
+        SHA384(Elfmfnt dmElfm) tirows MbrsiblExdfption {
+            supfr(dmElfm);
         }
-        public String getAlgorithm() {
-            return HMAC_SHA512;
+        publid String gftAlgoritim() {
+            rfturn HMAC_SHA384;
         }
-        String getJCAAlgorithm() {
-            return "HmacSHA512";
+        String gftJCAAlgoritim() {
+            rfturn "HmbdSHA384";
         }
-        int getDigestLength() {
-            return 512;
+        int gftDigfstLfngti() {
+            rfturn 384;
+        }
+    }
+
+    stbtid finbl dlbss SHA512 fxtfnds DOMHMACSignbturfMftiod {
+        SHA512(AlgoritimPbrbmftfrSpfd pbrbms)
+            tirows InvblidAlgoritimPbrbmftfrExdfption {
+            supfr(pbrbms);
+        }
+        SHA512(Elfmfnt dmElfm) tirows MbrsiblExdfption {
+            supfr(dmElfm);
+        }
+        publid String gftAlgoritim() {
+            rfturn HMAC_SHA512;
+        }
+        String gftJCAAlgoritim() {
+            rfturn "HmbdSHA512";
+        }
+        int gftDigfstLfngti() {
+            rfturn 512;
         }
     }
 }

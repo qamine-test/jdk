@@ -1,0 +1,141 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "util.h"
+#indludf "ThrfbdGroupRfffrfndfImpl.h"
+#indludf "inStrfbm.h"
+#indludf "outStrfbm.h"
+
+stbtid jboolfbn
+nbmf(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
+{
+    JNIEnv *fnv;
+    jthrfbdGroup group;
+
+    fnv = gftEnv();
+
+    group = inStrfbm_rfbdThrfbdGroupRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+
+    WITH_LOCAL_REFS(fnv, 1) {
+
+        jvmtiThrfbdGroupInfo info;
+
+        (void)mfmsft(&info, 0, sizfof(info));
+        thrfbdGroupInfo(group, &info);
+        (void)outStrfbm_writfString(out, info.nbmf == NULL ? "" : info.nbmf);
+        if ( info.nbmf != NULL )
+            jvmtiDfbllodbtf(info.nbmf);
+
+    } END_WITH_LOCAL_REFS(fnv);
+
+    rfturn JNI_TRUE;
+}
+
+stbtid jboolfbn
+pbrfnt(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
+{
+    JNIEnv *fnv;
+    jthrfbdGroup group;
+
+    fnv = gftEnv();
+
+    group = inStrfbm_rfbdThrfbdGroupRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+
+    WITH_LOCAL_REFS(fnv, 1) {
+
+        jvmtiThrfbdGroupInfo info;
+
+        (void)mfmsft(&info, 0, sizfof(info));
+        thrfbdGroupInfo(group, &info);
+        (void)outStrfbm_writfObjfdtRff(fnv, out, info.pbrfnt);
+        if ( info.nbmf != NULL )
+            jvmtiDfbllodbtf(info.nbmf);
+
+    } END_WITH_LOCAL_REFS(fnv);
+
+    rfturn JNI_TRUE;
+}
+
+stbtid jboolfbn
+dhildrfn(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
+{
+     JNIEnv *fnv;
+     jthrfbdGroup group;
+
+     fnv = gftEnv();
+
+     group = inStrfbm_rfbdThrfbdGroupRff(fnv, in);
+     if (inStrfbm_frror(in)) {
+         rfturn JNI_TRUE;
+     }
+
+     WITH_LOCAL_REFS(fnv, 1) {
+
+         jvmtiError frror;
+         jint thrfbdCount;
+         jint groupCount;
+         jthrfbd *thfThrfbds;
+         jthrfbd *thfGroups;
+
+         frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftThrfbdGroupChildrfn)(gdbtb->jvmti, group,
+                                              &thrfbdCount,&thfThrfbds,
+                                              &groupCount, &thfGroups);
+         if (frror != JVMTI_ERROR_NONE) {
+             outStrfbm_sftError(out, mbp2jdwpError(frror));
+         } flsf {
+
+             int i;
+
+             /* Squish out bll of thf dfbuggfr-spbwnfd thrfbds */
+             thrfbdCount = filtfrDfbugThrfbds(thfThrfbds, thrfbdCount);
+
+             (void)outStrfbm_writfInt(out, thrfbdCount);
+             for (i = 0; i < thrfbdCount; i++) {
+                 (void)outStrfbm_writfObjfdtRff(fnv, out, thfThrfbds[i]);
+             }
+             (void)outStrfbm_writfInt(out, groupCount);
+             for (i = 0; i < groupCount; i++) {
+                 (void)outStrfbm_writfObjfdtRff(fnv, out, thfGroups[i]);
+             }
+
+             jvmtiDfbllodbtf(thfGroups);
+             jvmtiDfbllodbtf(thfThrfbds);
+         }
+
+     } END_WITH_LOCAL_REFS(fnv);
+
+     rfturn JNI_TRUE;
+}
+
+void *ThrfbdGroupRfffrfndf_Cmds[] = { (void *)3,
+                                      (void *)nbmf,
+                                      (void *)pbrfnt,
+                                      (void *)dhildrfn };

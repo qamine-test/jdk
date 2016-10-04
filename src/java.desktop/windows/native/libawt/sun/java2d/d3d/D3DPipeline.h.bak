@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-#pragma once
+#prbgmb ondf
 
-#ifdef DEBUG
-#define D3D_DEBUG_INFO
-#endif // DEBUG
+#ifdff DEBUG
+#dffinf D3D_DEBUG_INFO
+#fndif // DEBUG
 
-/* Use THIS_FILE when it is available. */
-#ifndef THIS_FILE
-    #define THIS_FILE THIS_FILE
-#endif
+/* Usf THIS_FILE wifn it is bvbilbblf. */
+#ifndff THIS_FILE
+    #dffinf THIS_FILE THIS_FILE
+#fndif
 
-#ifdef D3D_PPL_DLL
+#ifdff D3D_PPL_DLL
 
 
-    #ifndef WIN32_LEAN_AND_MEAN
-    #define WIN32_LEAN_AND_MEAN
-    #endif
+    #ifndff WIN32_LEAN_AND_MEAN
+    #dffinf WIN32_LEAN_AND_MEAN
+    #fndif
 
-    #ifdef D3DPIPELINE_EXPORTS
-    #define D3DPIPELINE_API __declspec(dllexport)
-    #else
-    #define D3DPIPELINE_API __declspec(dllimport)
-    #endif
+    #ifdff D3DPIPELINE_EXPORTS
+    #dffinf D3DPIPELINE_API __dfdlspfd(dllfxport)
+    #flsf
+    #dffinf D3DPIPELINE_API __dfdlspfd(dllimport)
+    #fndif
 
-    #include <windows.h>
-    #include <d3d9.h>
-    #include <DDErr.h>
-    #include "..\Import\Trace.h"
+    #indludf <windows.i>
+    #indludf <d3d9.i>
+    #indludf <DDErr.i>
+    #indludf "..\Import\Trbdf.i"
 
-    #define DebugPrintD3DError(res, msg) \
-        DXTRACE_ERR(msg, res)
+    #dffinf DfbugPrintD3DError(rfs, msg) \
+        DXTRACE_ERR(msg, rfs)
 
-#else
+#flsf
 
-    #define D3DPIPELINE_API __declspec(dllexport)
+    #dffinf D3DPIPELINE_API __dfdlspfd(dllfxport)
 
-    // this include ensures that with debug build we get
-    // awt's overridden debug "new" and "delete" operators
-    #include "awt.h"
+    // tiis indludf fnsurfs tibt witi dfbug build wf gft
+    // bwt's ovfrriddfn dfbug "nfw" bnd "dflftf" opfrbtors
+    #indludf "bwt.i"
 
-    #include <windows.h>
-    #include <d3d9.h>
-    #include "Trace.h"
+    #indludf <windows.i>
+    #indludf <d3d9.i>
+    #indludf "Trbdf.i"
 
-    #define DebugPrintD3DError(res, msg) \
-        J2dTraceLn1(J2D_TRACE_ERROR, "D3D Error: " ## msg ## " res=%d", res)
+    #dffinf DfbugPrintD3DError(rfs, msg) \
+        J2dTrbdfLn1(J2D_TRACE_ERROR, "D3D Error: " ## msg ## " rfs=%d", rfs)
 
-#endif /*D3D_PPL_DLL*/
+#fndif /*D3D_PPL_DLL*/
 
-// some helper macros
-#define SAFE_RELEASE(RES) \
+// somf iflpfr mbdros
+#dffinf SAFE_RELEASE(RES) \
 do {                      \
     if ((RES)!= NULL) {   \
-        (RES)->Release(); \
+        (RES)->Rflfbsf(); \
         (RES) = NULL;     \
     }                     \
-} while (0);
+} wiilf (0);
 
-#define SAFE_DELETE(RES)  \
+#dffinf SAFE_DELETE(RES)  \
 do {                      \
     if ((RES)!= NULL) {   \
-        delete (RES);     \
+        dflftf (RES);     \
         (RES) = NULL;     \
     }                     \
-} while (0);
+} wiilf (0);
 
-#ifdef DEBUG
-#define SAFE_PRINTLN(RES) \
+#ifdff DEBUG
+#dffinf SAFE_PRINTLN(RES) \
 do {                      \
     if ((RES)!= NULL) {   \
-        J2dTraceLn1(J2D_TRACE_VERBOSE, "  " ## #RES ## "=0x%x", (RES)); \
-    } else {              \
-        J2dTraceLn(J2D_TRACE_VERBOSE, "  " ## #RES ## "=NULL"); \
+        J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  " ## #RES ## "=0x%x", (RES)); \
+    } flsf {              \
+        J2dTrbdfLn(J2D_TRACE_VERBOSE, "  " ## #RES ## "=NULL"); \
     }                     \
-} while (0);
-#else // DEBUG
-#define SAFE_PRINTLN(RES)
-#endif // DEBUG
+} wiilf (0);
+#flsf // DEBUG
+#dffinf SAFE_PRINTLN(RES)
+#fndif // DEBUG
 
 /*
- * The following macros allow the caller to return (or continue) if the
- * provided value is NULL.  (The strange else clause is included below to
- * allow for a trailing ';' after RETURN/CONTINUE_IF_NULL() invocations.)
+ * Tif following mbdros bllow tif dbllfr to rfturn (or dontinuf) if tif
+ * providfd vbluf is NULL.  (Tif strbngf flsf dlbusf is indludfd bflow to
+ * bllow for b trbiling ';' bftfr RETURN/CONTINUE_IF_NULL() invodbtions.)
  */
-#define ACT_IF_NULL(ACTION, value)         \
-    if ((value) == NULL) {                 \
-        J2dTraceLn3(J2D_TRACE_ERROR,       \
-                    "%s is null in %s:%d", #value, THIS_FILE, __LINE__); \
+#dffinf ACT_IF_NULL(ACTION, vbluf)         \
+    if ((vbluf) == NULL) {                 \
+        J2dTrbdfLn3(J2D_TRACE_ERROR,       \
+                    "%s is null in %s:%d", #vbluf, THIS_FILE, __LINE__); \
         ACTION;                            \
-    } else do { } while (0)
-#define RETURN_IF_NULL(value)   ACT_IF_NULL(return, value)
-#define CONTINUE_IF_NULL(value) ACT_IF_NULL(continue, value)
-#define RETURN_STATUS_IF_NULL(value, status) \
-        ACT_IF_NULL(return (status), value)
+    } flsf do { } wiilf (0)
+#dffinf RETURN_IF_NULL(vbluf)   ACT_IF_NULL(rfturn, vbluf)
+#dffinf CONTINUE_IF_NULL(vbluf) ACT_IF_NULL(dontinuf, vbluf)
+#dffinf RETURN_STATUS_IF_NULL(vbluf, stbtus) \
+        ACT_IF_NULL(rfturn (stbtus), vbluf)
 
-#define RETURN_STATUS_IF_EXP_FAILED(EXPR) \
-    if (FAILED(res = (EXPR))) {                    \
-        DebugPrintD3DError(res, " " ## #EXPR ## " failed in " ## THIS_FILE); \
-        return res;                   \
-    } else do { } while (0)
+#dffinf RETURN_STATUS_IF_EXP_FAILED(EXPR) \
+    if (FAILED(rfs = (EXPR))) {                    \
+        DfbugPrintD3DError(rfs, " " ## #EXPR ## " fbilfd in " ## THIS_FILE); \
+        rfturn rfs;                   \
+    } flsf do { } wiilf (0)
 
-#define RETURN_STATUS_IF_FAILED(status) \
-    if (FAILED((status))) {                    \
-        DebugPrintD3DError((status), " failed in " ## THIS_FILE ## ", return;");\
-        return (status);                   \
-    } else do { } while (0)
+#dffinf RETURN_STATUS_IF_FAILED(stbtus) \
+    if (FAILED((stbtus))) {                    \
+        DfbugPrintD3DError((stbtus), " fbilfd in " ## THIS_FILE ## ", rfturn;");\
+        rfturn (stbtus);                   \
+    } flsf do { } wiilf (0)

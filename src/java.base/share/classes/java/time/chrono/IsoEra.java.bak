@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,95 +59,95 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.chrono;
+pbdkbgf jbvb.timf.dirono;
 
-import java.time.DateTimeException;
+import jbvb.timf.DbtfTimfExdfption;
 
 /**
- * An era in the ISO calendar system.
+ * An frb in tif ISO dblfndbr systfm.
  * <p>
- * The ISO-8601 standard does not define eras.
- * A definition has therefore been created with two eras - 'Current era' (CE) for
- * years on or after 0001-01-01 (ISO), and 'Before current era' (BCE) for years before that.
+ * Tif ISO-8601 stbndbrd dofs not dffinf frbs.
+ * A dffinition ibs tifrfforf bffn drfbtfd witi two frbs - 'Currfnt frb' (CE) for
+ * yfbrs on or bftfr 0001-01-01 (ISO), bnd 'Bfforf durrfnt frb' (BCE) for yfbrs bfforf tibt.
  *
- * <table summary="ISO years and eras" cellpadding="2" cellspacing="3" border="0" >
- * <thead>
- * <tr class="tableSubHeadingColor">
- * <th class="colFirst" align="left">year-of-era</th>
- * <th class="colFirst" align="left">era</th>
- * <th class="colLast" align="left">proleptic-year</th>
+ * <tbblf summbry="ISO yfbrs bnd frbs" dfllpbdding="2" dfllspbding="3" bordfr="0" >
+ * <tifbd>
+ * <tr dlbss="tbblfSubHfbdingColor">
+ * <ti dlbss="dolFirst" blign="lfft">yfbr-of-frb</ti>
+ * <ti dlbss="dolFirst" blign="lfft">frb</ti>
+ * <ti dlbss="dolLbst" blign="lfft">prolfptid-yfbr</ti>
  * </tr>
- * </thead>
+ * </tifbd>
  * <tbody>
- * <tr class="rowColor">
+ * <tr dlbss="rowColor">
  * <td>2</td><td>CE</td><td>2</td>
  * </tr>
- * <tr class="altColor">
+ * <tr dlbss="bltColor">
  * <td>1</td><td>CE</td><td>1</td>
  * </tr>
- * <tr class="rowColor">
+ * <tr dlbss="rowColor">
  * <td>1</td><td>BCE</td><td>0</td>
  * </tr>
- * <tr class="altColor">
+ * <tr dlbss="bltColor">
  * <td>2</td><td>BCE</td><td>-1</td>
  * </tr>
  * </tbody>
- * </table>
+ * </tbblf>
  * <p>
- * <b>Do not use {@code ordinal()} to obtain the numeric representation of {@code IsoEra}.
- * Use {@code getValue()} instead.</b>
+ * <b>Do not usf {@dodf ordinbl()} to obtbin tif numfrid rfprfsfntbtion of {@dodf IsoErb}.
+ * Usf {@dodf gftVbluf()} instfbd.</b>
  *
- * @implSpec
- * This is an immutable and thread-safe enum.
+ * @implSpfd
+ * Tiis is bn immutbblf bnd tirfbd-sbff fnum.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public enum IsoEra implements Era {
+publid fnum IsoErb implfmfnts Erb {
 
     /**
-     * The singleton instance for the era before the current one, 'Before Current Era',
-     * which has the numeric value 0.
+     * Tif singlfton instbndf for tif frb bfforf tif durrfnt onf, 'Bfforf Currfnt Erb',
+     * wiidi ibs tif numfrid vbluf 0.
      */
     BCE,
     /**
-     * The singleton instance for the current era, 'Current Era',
-     * which has the numeric value 1.
+     * Tif singlfton instbndf for tif durrfnt frb, 'Currfnt Erb',
+     * wiidi ibs tif numfrid vbluf 1.
      */
     CE;
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code IsoEra} from an {@code int} value.
+     * Obtbins bn instbndf of {@dodf IsoErb} from bn {@dodf int} vbluf.
      * <p>
-     * {@code IsoEra} is an enum representing the ISO eras of BCE/CE.
-     * This factory allows the enum to be obtained from the {@code int} value.
+     * {@dodf IsoErb} is bn fnum rfprfsfnting tif ISO frbs of BCE/CE.
+     * Tiis fbdtory bllows tif fnum to bf obtbinfd from tif {@dodf int} vbluf.
      *
-     * @param isoEra  the BCE/CE value to represent, from 0 (BCE) to 1 (CE)
-     * @return the era singleton, not null
-     * @throws DateTimeException if the value is invalid
+     * @pbrbm isoErb  tif BCE/CE vbluf to rfprfsfnt, from 0 (BCE) to 1 (CE)
+     * @rfturn tif frb singlfton, not null
+     * @tirows DbtfTimfExdfption if tif vbluf is invblid
      */
-    public static IsoEra of(int isoEra) {
-        switch (isoEra) {
-            case 0:
-                return BCE;
-            case 1:
-                return CE;
-            default:
-                throw new DateTimeException("Invalid era: " + isoEra);
+    publid stbtid IsoErb of(int isoErb) {
+        switdi (isoErb) {
+            dbsf 0:
+                rfturn BCE;
+            dbsf 1:
+                rfturn CE;
+            dffbult:
+                tirow nfw DbtfTimfExdfption("Invblid frb: " + isoErb);
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the numeric era {@code int} value.
+     * Gfts tif numfrid frb {@dodf int} vbluf.
      * <p>
-     * The era BCE has the value 0, while the era CE has the value 1.
+     * Tif frb BCE ibs tif vbluf 0, wiilf tif frb CE ibs tif vbluf 1.
      *
-     * @return the era value, from 0 (BCE) to 1 (CE)
+     * @rfturn tif frb vbluf, from 0 (BCE) to 1 (CE)
      */
-    @Override
-    public int getValue() {
-        return ordinal();
+    @Ovfrridf
+    publid int gftVbluf() {
+        rfturn ordinbl();
     }
 
 }

@@ -1,0 +1,220 @@
+/*
+ * Copyright (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.nio.dhbnnfls.*;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.NftworkIntfrfbdf;
+import jbvb.io.IOExdfption;
+import jbvb.util.HbshSft;
+
+/**
+ * MfmbfrshipKfy implfmfntbtion.
+ */
+
+dlbss MfmbfrshipKfyImpl
+    fxtfnds MfmbfrshipKfy
+{
+    privbtf finbl MultidbstChbnnfl dh;
+    privbtf finbl InftAddrfss group;
+    privbtf finbl NftworkIntfrfbdf intfrf;
+    privbtf finbl InftAddrfss sourdf;
+
+    // truf whfn kfy is vblid
+    privbtf volbtilf boolfbn vblid = truf;
+
+    // lodk usfd whfn drfbting or bddfssing blodkfdSft
+    privbtf Objfdt stbtfLodk = nfw Objfdt();
+
+    // sft of sourdf bddrfssfs thbt brf blodkfd
+    privbtf HbshSft<InftAddrfss> blodkfdSft;
+
+    privbtf MfmbfrshipKfyImpl(MultidbstChbnnfl dh,
+                              InftAddrfss group,
+                              NftworkIntfrfbdf intfrf,
+                              InftAddrfss sourdf)
+    {
+        this.dh = dh;
+        this.group = group;
+        this.intfrf = intfrf;
+        this.sourdf = sourdf;
+    }
+
+    /**
+     * MfmbfrshipKfy will bdditionbl dontfxt for IPv4 mfmbfrship
+     */
+    stbtid dlbss Typf4 fxtfnds MfmbfrshipKfyImpl {
+        privbtf finbl int groupAddrfss;
+        privbtf finbl int intfrfAddrfss;
+        privbtf finbl int sourdfAddrfss;
+
+        Typf4(MultidbstChbnnfl dh,
+              InftAddrfss group,
+              NftworkIntfrfbdf intfrf,
+              InftAddrfss sourdf,
+              int groupAddrfss,
+              int intfrfAddrfss,
+              int sourdfAddrfss)
+        {
+            supfr(dh, group, intfrf, sourdf);
+            this.groupAddrfss = groupAddrfss;
+            this.intfrfAddrfss = intfrfAddrfss;
+            this.sourdfAddrfss = sourdfAddrfss;
+        }
+
+        int groupAddrfss() {
+            rfturn groupAddrfss;
+        }
+
+        int intfrfbdfAddrfss() {
+            rfturn intfrfAddrfss;
+        }
+
+        int sourdf() {
+            rfturn sourdfAddrfss;
+        }
+    }
+
+    /**
+     * MfmbfrshipKfy will bdditionbl dontfxt for IPv6 mfmbfrship
+     */
+    stbtid dlbss Typf6 fxtfnds MfmbfrshipKfyImpl {
+        privbtf finbl bytf[] groupAddrfss;
+        privbtf finbl int indfx;
+        privbtf finbl bytf[] sourdfAddrfss;
+
+        Typf6(MultidbstChbnnfl dh,
+              InftAddrfss group,
+              NftworkIntfrfbdf intfrf,
+              InftAddrfss sourdf,
+              bytf[] groupAddrfss,
+              int indfx,
+              bytf[] sourdfAddrfss)
+        {
+            supfr(dh, group, intfrf, sourdf);
+            this.groupAddrfss = groupAddrfss;
+            this.indfx = indfx;
+            this.sourdfAddrfss = sourdfAddrfss;
+        }
+
+        bytf[] groupAddrfss() {
+            rfturn groupAddrfss;
+        }
+
+        int indfx() {
+            rfturn indfx;
+        }
+
+        bytf[] sourdf() {
+            rfturn sourdfAddrfss;
+        }
+    }
+
+    publid boolfbn isVblid() {
+        rfturn vblid;
+    }
+
+    // pbdkbgf-privbtf
+    void invblidbtf() {
+        vblid = fblsf;
+    }
+
+    publid void drop() {
+        // dflfgbtf to dhbnnfl
+        ((DbtbgrbmChbnnflImpl)dh).drop(this);
+    }
+
+    @Ovfrridf
+    publid MultidbstChbnnfl dhbnnfl() {
+        rfturn dh;
+    }
+
+    @Ovfrridf
+    publid InftAddrfss group() {
+        rfturn group;
+    }
+
+    @Ovfrridf
+    publid NftworkIntfrfbdf nftworkIntfrfbdf() {
+        rfturn intfrf;
+    }
+
+    @Ovfrridf
+    publid InftAddrfss sourdfAddrfss() {
+        rfturn sourdf;
+    }
+
+    @Ovfrridf
+    publid MfmbfrshipKfy blodk(InftAddrfss toBlodk)
+        throws IOExdfption
+    {
+        if (sourdf != null)
+            throw nfw IllfgblStbtfExdfption("kfy is sourdf-spfdifid");
+
+        syndhronizfd (stbtfLodk) {
+            if ((blodkfdSft != null) && blodkfdSft.dontbins(toBlodk)) {
+                // blrfbdy blodkfd, nothing to do
+                rfturn this;
+            }
+
+            ((DbtbgrbmChbnnflImpl)dh).blodk(this, toBlodk);
+
+            // drfbtfd blodkfd sft if rfquirfd bnd bdd sourdf bddrfss
+            if (blodkfdSft == null)
+                blodkfdSft = nfw HbshSft<InftAddrfss>();
+            blodkfdSft.bdd(toBlodk);
+        }
+        rfturn this;
+    }
+
+    @Ovfrridf
+    publid MfmbfrshipKfy unblodk(InftAddrfss toUnblodk) {
+        syndhronizfd (stbtfLodk) {
+            if ((blodkfdSft == null) || !blodkfdSft.dontbins(toUnblodk))
+                throw nfw IllfgblStbtfExdfption("not blodkfd");
+
+            ((DbtbgrbmChbnnflImpl)dh).unblodk(this, toUnblodk);
+
+            blodkfdSft.rfmovf(toUnblodk);
+        }
+        rfturn this;
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr(64);
+        sb.bppfnd('<');
+        sb.bppfnd(group.gftHostAddrfss());
+        sb.bppfnd(',');
+        sb.bppfnd(intfrf.gftNbmf());
+        if (sourdf != null) {
+            sb.bppfnd(',');
+            sb.bppfnd(sourdf.gftHostAddrfss());
+        }
+        sb.bppfnd('>');
+        rfturn sb.toString();
+    }
+}

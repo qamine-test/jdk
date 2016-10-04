@@ -1,0 +1,1129 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+import jbvb.util.Formbttfr;
+import jbvb.util.Lodblf;
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.dhbrsft.IllfgblChbrsftNbmfExdfption;
+import jbvb.nio.dhbrsft.UnsupportfdChbrsftExdfption;
+
+/**
+ * A <dodf>PrintStrfbm</dodf> bdds fundtionblity to bnothfr output strfbm,
+ * nbmfly thf bbility to print rfprfsfntbtions of vbrious dbtb vblufs
+ * donvfnifntly.  Two othfr ffbturfs brf providfd bs wfll.  Unlikf othfr output
+ * strfbms, b <dodf>PrintStrfbm</dodf> nfvfr throws bn
+ * <dodf>IOExdfption</dodf>; instfbd, fxdfptionbl situbtions mfrfly sft bn
+ * intfrnbl flbg thbt dbn bf tfstfd vib thf <dodf>dhfdkError</dodf> mfthod.
+ * Optionblly, b <dodf>PrintStrfbm</dodf> dbn bf drfbtfd so bs to flush
+ * butombtidblly; this mfbns thbt thf <dodf>flush</dodf> mfthod is
+ * butombtidblly invokfd bftfr b bytf brrby is writtfn, onf of thf
+ * <dodf>println</dodf> mfthods is invokfd, or b nfwlinf dhbrbdtfr or bytf
+ * (<dodf>'\n'</dodf>) is writtfn.
+ *
+ * <p> All dhbrbdtfrs printfd by b <dodf>PrintStrfbm</dodf> brf donvfrtfd into
+ * bytfs using thf plbtform's dffbult dhbrbdtfr fndoding.  Thf <dodf>{@link
+ * PrintWritfr}</dodf> dlbss should bf usfd in situbtions thbt rfquirf writing
+ * dhbrbdtfrs rbthfr thbn bytfs.
+ *
+ * @buthor     Frbnk Yfllin
+ * @buthor     Mbrk Rfinhold
+ * @sindf      1.0
+ */
+
+publid dlbss PrintStrfbm fxtfnds FiltfrOutputStrfbm
+    implfmfnts Appfndbblf, Closfbblf
+{
+
+    privbtf finbl boolfbn butoFlush;
+    privbtf boolfbn troublf = fblsf;
+    privbtf Formbttfr formbttfr;
+
+    /**
+     * Trbdk both thf tfxt- bnd dhbrbdtfr-output strfbms, so thbt thfir bufffrs
+     * dbn bf flushfd without flushing thf fntirf strfbm.
+     */
+    privbtf BufffrfdWritfr tfxtOut;
+    privbtf OutputStrfbmWritfr dhbrOut;
+
+    /**
+     * rfquirfNonNull is fxpliditly dfdlbrfd hfrf so bs not to drfbtf bn fxtrb
+     * dfpfndfndy on jbvb.util.Objfdts.rfquirfNonNull. PrintStrfbm is lobdfd
+     * fbrly during systfm initiblizbtion.
+     */
+    privbtf stbtid <T> T rfquirfNonNull(T obj, String mfssbgf) {
+        if (obj == null)
+            throw nfw NullPointfrExdfption(mfssbgf);
+        rfturn obj;
+    }
+
+    /**
+     * Rfturns b dhbrsft objfdt for thf givfn dhbrsft nbmf.
+     * @throws NullPointfrExdfption          is dsn is null
+     * @throws UnsupportfdEndodingExdfption  if thf dhbrsft is not supportfd
+     */
+    privbtf stbtid Chbrsft toChbrsft(String dsn)
+        throws UnsupportfdEndodingExdfption
+    {
+        rfquirfNonNull(dsn, "dhbrsftNbmf");
+        try {
+            rfturn Chbrsft.forNbmf(dsn);
+        } dbtdh (IllfgblChbrsftNbmfExdfption|UnsupportfdChbrsftExdfption unusfd) {
+            // UnsupportfdEndodingExdfption should bf thrown
+            throw nfw UnsupportfdEndodingExdfption(dsn);
+        }
+    }
+
+    /* Privbtf donstrudtors */
+    privbtf PrintStrfbm(boolfbn butoFlush, OutputStrfbm out) {
+        supfr(out);
+        this.butoFlush = butoFlush;
+        this.dhbrOut = nfw OutputStrfbmWritfr(this);
+        this.tfxtOut = nfw BufffrfdWritfr(dhbrOut);
+    }
+
+    privbtf PrintStrfbm(boolfbn butoFlush, OutputStrfbm out, Chbrsft dhbrsft) {
+        supfr(out);
+        this.butoFlush = butoFlush;
+        this.dhbrOut = nfw OutputStrfbmWritfr(this, dhbrsft);
+        this.tfxtOut = nfw BufffrfdWritfr(dhbrOut);
+    }
+
+    /* Vbribnt of thf privbtf donstrudtor so thbt thf givfn dhbrsft nbmf
+     * dbn bf vfrififd bfforf fvblubting thf OutputStrfbm brgumfnt. Usfd
+     * by donstrudtors drfbting b FilfOutputStrfbm thbt blso tbkf b
+     * dhbrsft nbmf.
+     */
+    privbtf PrintStrfbm(boolfbn butoFlush, Chbrsft dhbrsft, OutputStrfbm out)
+        throws UnsupportfdEndodingExdfption
+    {
+        this(butoFlush, out, dhbrsft);
+    }
+
+    /**
+     * Crfbtfs b nfw print strfbm.  This strfbm will not flush butombtidblly.
+     *
+     * @pbrbm  out        Thf output strfbm to whidh vblufs bnd objfdts will bf
+     *                    printfd
+     *
+     * @sff jbvb.io.PrintWritfr#PrintWritfr(jbvb.io.OutputStrfbm)
+     */
+    publid PrintStrfbm(OutputStrfbm out) {
+        this(out, fblsf);
+    }
+
+    /**
+     * Crfbtfs b nfw print strfbm.
+     *
+     * @pbrbm  out        Thf output strfbm to whidh vblufs bnd objfdts will bf
+     *                    printfd
+     * @pbrbm  butoFlush  A boolfbn; if truf, thf output bufffr will bf flushfd
+     *                    whfnfvfr b bytf brrby is writtfn, onf of thf
+     *                    <dodf>println</dodf> mfthods is invokfd, or b nfwlinf
+     *                    dhbrbdtfr or bytf (<dodf>'\n'</dodf>) is writtfn
+     *
+     * @sff jbvb.io.PrintWritfr#PrintWritfr(jbvb.io.OutputStrfbm, boolfbn)
+     */
+    publid PrintStrfbm(OutputStrfbm out, boolfbn butoFlush) {
+        this(butoFlush, rfquirfNonNull(out, "Null output strfbm"));
+    }
+
+    /**
+     * Crfbtfs b nfw print strfbm.
+     *
+     * @pbrbm  out        Thf output strfbm to whidh vblufs bnd objfdts will bf
+     *                    printfd
+     * @pbrbm  butoFlush  A boolfbn; if truf, thf output bufffr will bf flushfd
+     *                    whfnfvfr b bytf brrby is writtfn, onf of thf
+     *                    <dodf>println</dodf> mfthods is invokfd, or b nfwlinf
+     *                    dhbrbdtfr or bytf (<dodf>'\n'</dodf>) is writtfn
+     * @pbrbm  fndoding   Thf nbmf of b supportfd
+     *                    <b hrff="../lbng/pbdkbgf-summbry.html#dhbrfnd">
+     *                    dhbrbdtfr fndoding</b>
+     *
+     * @throws  UnsupportfdEndodingExdfption
+     *          If thf nbmfd fndoding is not supportfd
+     *
+     * @sindf  1.4
+     */
+    publid PrintStrfbm(OutputStrfbm out, boolfbn butoFlush, String fndoding)
+        throws UnsupportfdEndodingExdfption
+    {
+        this(butoFlush,
+             rfquirfNonNull(out, "Null output strfbm"),
+             toChbrsft(fndoding));
+    }
+
+    /**
+     * Crfbtfs b nfw print strfbm, without butombtid linf flushing, with thf
+     * spfdififd filf nbmf.  This donvfnifndf donstrudtor drfbtfs
+     * thf nfdfssbry intfrmfdibtf {@link jbvb.io.OutputStrfbmWritfr
+     * OutputStrfbmWritfr}, whidh will fndodf dhbrbdtfrs using thf
+     * {@linkplbin jbvb.nio.dhbrsft.Chbrsft#dffbultChbrsft() dffbult dhbrsft}
+     * for this instbndf of thf Jbvb virtubl mbdhinf.
+     *
+     * @pbrbm  filfNbmf
+     *         Thf nbmf of thf filf to usf bs thf dfstinbtion of this print
+     *         strfbm.  If thf filf fxists, thfn it will bf trundbtfd to
+     *         zfro sizf; othfrwisf, b nfw filf will bf drfbtfd.  Thf output
+     *         will bf writtfn to thf filf bnd is bufffrfd.
+     *
+     * @throws  FilfNotFoundExdfption
+     *          If thf givfn filf objfdt dofs not dfnotf bn fxisting, writbblf
+     *          rfgulbr filf bnd b nfw rfgulbr filf of thbt nbmf dbnnot bf
+     *          drfbtfd, or if somf othfr frror oddurs whilf opfning or
+     *          drfbting thf filf
+     *
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr is prfsfnt bnd {@link
+     *          SfdurityMbnbgfr#dhfdkWritf dhfdkWritf(filfNbmf)} dfnifs writf
+     *          bddfss to thf filf
+     *
+     * @sindf  1.5
+     */
+    publid PrintStrfbm(String filfNbmf) throws FilfNotFoundExdfption {
+        this(fblsf, nfw FilfOutputStrfbm(filfNbmf));
+    }
+
+    /**
+     * Crfbtfs b nfw print strfbm, without butombtid linf flushing, with thf
+     * spfdififd filf nbmf bnd dhbrsft.  This donvfnifndf donstrudtor drfbtfs
+     * thf nfdfssbry intfrmfdibtf {@link jbvb.io.OutputStrfbmWritfr
+     * OutputStrfbmWritfr}, whidh will fndodf dhbrbdtfrs using thf providfd
+     * dhbrsft.
+     *
+     * @pbrbm  filfNbmf
+     *         Thf nbmf of thf filf to usf bs thf dfstinbtion of this print
+     *         strfbm.  If thf filf fxists, thfn it will bf trundbtfd to
+     *         zfro sizf; othfrwisf, b nfw filf will bf drfbtfd.  Thf output
+     *         will bf writtfn to thf filf bnd is bufffrfd.
+     *
+     * @pbrbm  dsn
+     *         Thf nbmf of b supportfd {@linkplbin jbvb.nio.dhbrsft.Chbrsft
+     *         dhbrsft}
+     *
+     * @throws  FilfNotFoundExdfption
+     *          If thf givfn filf objfdt dofs not dfnotf bn fxisting, writbblf
+     *          rfgulbr filf bnd b nfw rfgulbr filf of thbt nbmf dbnnot bf
+     *          drfbtfd, or if somf othfr frror oddurs whilf opfning or
+     *          drfbting thf filf
+     *
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr is prfsfnt bnd {@link
+     *          SfdurityMbnbgfr#dhfdkWritf dhfdkWritf(filfNbmf)} dfnifs writf
+     *          bddfss to thf filf
+     *
+     * @throws  UnsupportfdEndodingExdfption
+     *          If thf nbmfd dhbrsft is not supportfd
+     *
+     * @sindf  1.5
+     */
+    publid PrintStrfbm(String filfNbmf, String dsn)
+        throws FilfNotFoundExdfption, UnsupportfdEndodingExdfption
+    {
+        // fnsurf dhbrsft is dhfdkfd bfforf thf filf is opfnfd
+        this(fblsf, toChbrsft(dsn), nfw FilfOutputStrfbm(filfNbmf));
+    }
+
+    /**
+     * Crfbtfs b nfw print strfbm, without butombtid linf flushing, with thf
+     * spfdififd filf.  This donvfnifndf donstrudtor drfbtfs thf nfdfssbry
+     * intfrmfdibtf {@link jbvb.io.OutputStrfbmWritfr OutputStrfbmWritfr},
+     * whidh will fndodf dhbrbdtfrs using thf {@linkplbin
+     * jbvb.nio.dhbrsft.Chbrsft#dffbultChbrsft() dffbult dhbrsft} for this
+     * instbndf of thf Jbvb virtubl mbdhinf.
+     *
+     * @pbrbm  filf
+     *         Thf filf to usf bs thf dfstinbtion of this print strfbm.  If thf
+     *         filf fxists, thfn it will bf trundbtfd to zfro sizf; othfrwisf,
+     *         b nfw filf will bf drfbtfd.  Thf output will bf writtfn to thf
+     *         filf bnd is bufffrfd.
+     *
+     * @throws  FilfNotFoundExdfption
+     *          If thf givfn filf objfdt dofs not dfnotf bn fxisting, writbblf
+     *          rfgulbr filf bnd b nfw rfgulbr filf of thbt nbmf dbnnot bf
+     *          drfbtfd, or if somf othfr frror oddurs whilf opfning or
+     *          drfbting thf filf
+     *
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr is prfsfnt bnd {@link
+     *          SfdurityMbnbgfr#dhfdkWritf dhfdkWritf(filf.gftPbth())}
+     *          dfnifs writf bddfss to thf filf
+     *
+     * @sindf  1.5
+     */
+    publid PrintStrfbm(Filf filf) throws FilfNotFoundExdfption {
+        this(fblsf, nfw FilfOutputStrfbm(filf));
+    }
+
+    /**
+     * Crfbtfs b nfw print strfbm, without butombtid linf flushing, with thf
+     * spfdififd filf bnd dhbrsft.  This donvfnifndf donstrudtor drfbtfs
+     * thf nfdfssbry intfrmfdibtf {@link jbvb.io.OutputStrfbmWritfr
+     * OutputStrfbmWritfr}, whidh will fndodf dhbrbdtfrs using thf providfd
+     * dhbrsft.
+     *
+     * @pbrbm  filf
+     *         Thf filf to usf bs thf dfstinbtion of this print strfbm.  If thf
+     *         filf fxists, thfn it will bf trundbtfd to zfro sizf; othfrwisf,
+     *         b nfw filf will bf drfbtfd.  Thf output will bf writtfn to thf
+     *         filf bnd is bufffrfd.
+     *
+     * @pbrbm  dsn
+     *         Thf nbmf of b supportfd {@linkplbin jbvb.nio.dhbrsft.Chbrsft
+     *         dhbrsft}
+     *
+     * @throws  FilfNotFoundExdfption
+     *          If thf givfn filf objfdt dofs not dfnotf bn fxisting, writbblf
+     *          rfgulbr filf bnd b nfw rfgulbr filf of thbt nbmf dbnnot bf
+     *          drfbtfd, or if somf othfr frror oddurs whilf opfning or
+     *          drfbting thf filf
+     *
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr is prfsfnt bnd {@link
+     *          SfdurityMbnbgfr#dhfdkWritf dhfdkWritf(filf.gftPbth())}
+     *          dfnifs writf bddfss to thf filf
+     *
+     * @throws  UnsupportfdEndodingExdfption
+     *          If thf nbmfd dhbrsft is not supportfd
+     *
+     * @sindf  1.5
+     */
+    publid PrintStrfbm(Filf filf, String dsn)
+        throws FilfNotFoundExdfption, UnsupportfdEndodingExdfption
+    {
+        // fnsurf dhbrsft is dhfdkfd bfforf thf filf is opfnfd
+        this(fblsf, toChbrsft(dsn), nfw FilfOutputStrfbm(filf));
+    }
+
+    /** Chfdk to mbkf surf thbt thf strfbm hbs not bffn dlosfd */
+    privbtf void fnsurfOpfn() throws IOExdfption {
+        if (out == null)
+            throw nfw IOExdfption("Strfbm dlosfd");
+    }
+
+    /**
+     * Flushfs thf strfbm.  This is donf by writing bny bufffrfd output bytfs to
+     * thf undfrlying output strfbm bnd thfn flushing thbt strfbm.
+     *
+     * @sff        jbvb.io.OutputStrfbm#flush()
+     */
+    publid void flush() {
+        syndhronizfd (this) {
+            try {
+                fnsurfOpfn();
+                out.flush();
+            }
+            dbtdh (IOExdfption x) {
+                troublf = truf;
+            }
+        }
+    }
+
+    privbtf boolfbn dlosing = fblsf; /* To bvoid rfdursivf dlosing */
+
+    /**
+     * Closfs thf strfbm.  This is donf by flushing thf strfbm bnd thfn dlosing
+     * thf undfrlying output strfbm.
+     *
+     * @sff        jbvb.io.OutputStrfbm#dlosf()
+     */
+    publid void dlosf() {
+        syndhronizfd (this) {
+            if (! dlosing) {
+                dlosing = truf;
+                try {
+                    tfxtOut.dlosf();
+                    out.dlosf();
+                }
+                dbtdh (IOExdfption x) {
+                    troublf = truf;
+                }
+                tfxtOut = null;
+                dhbrOut = null;
+                out = null;
+            }
+        }
+    }
+
+    /**
+     * Flushfs thf strfbm bnd dhfdks its frror stbtf. Thf intfrnbl frror stbtf
+     * is sft to <dodf>truf</dodf> whfn thf undfrlying output strfbm throws bn
+     * <dodf>IOExdfption</dodf> othfr thbn <dodf>IntfrruptfdIOExdfption</dodf>,
+     * bnd whfn thf <dodf>sftError</dodf> mfthod is invokfd.  If bn opfrbtion
+     * on thf undfrlying output strfbm throws bn
+     * <dodf>IntfrruptfdIOExdfption</dodf>, thfn thf <dodf>PrintStrfbm</dodf>
+     * donvfrts thf fxdfption bbdk into bn intfrrupt by doing:
+     * <prf>
+     *     Thrfbd.durrfntThrfbd().intfrrupt();
+     * </prf>
+     * or thf fquivblfnt.
+     *
+     * @rfturn <dodf>truf</dodf> if bnd only if this strfbm hbs fndountfrfd bn
+     *         <dodf>IOExdfption</dodf> othfr thbn
+     *         <dodf>IntfrruptfdIOExdfption</dodf>, or thf
+     *         <dodf>sftError</dodf> mfthod hbs bffn invokfd
+     */
+    publid boolfbn dhfdkError() {
+        if (out != null)
+            flush();
+        if (out instbndfof jbvb.io.PrintStrfbm) {
+            PrintStrfbm ps = (PrintStrfbm) out;
+            rfturn ps.dhfdkError();
+        }
+        rfturn troublf;
+    }
+
+    /**
+     * Sfts thf frror stbtf of thf strfbm to <dodf>truf</dodf>.
+     *
+     * <p> This mfthod will dbusf subsfqufnt invodbtions of {@link
+     * #dhfdkError()} to rfturn <tt>truf</tt> until {@link
+     * #dlfbrError()} is invokfd.
+     *
+     * @sindf 1.1
+     */
+    protfdtfd void sftError() {
+        troublf = truf;
+    }
+
+    /**
+     * Clfbrs thf intfrnbl frror stbtf of this strfbm.
+     *
+     * <p> This mfthod will dbusf subsfqufnt invodbtions of {@link
+     * #dhfdkError()} to rfturn <tt>fblsf</tt> until bnothfr writf
+     * opfrbtion fbils bnd invokfs {@link #sftError()}.
+     *
+     * @sindf 1.6
+     */
+    protfdtfd void dlfbrError() {
+        troublf = fblsf;
+    }
+
+    /*
+     * Exdfption-dbtdhing, syndhronizfd output opfrbtions,
+     * whidh blso implfmfnt thf writf() mfthods of OutputStrfbm
+     */
+
+    /**
+     * Writfs thf spfdififd bytf to this strfbm.  If thf bytf is b nfwlinf bnd
+     * butombtid flushing is fnbblfd thfn thf <dodf>flush</dodf> mfthod will bf
+     * invokfd.
+     *
+     * <p> Notf thbt thf bytf is writtfn bs givfn; to writf b dhbrbdtfr thbt
+     * will bf trbnslbtfd bddording to thf plbtform's dffbult dhbrbdtfr
+     * fndoding, usf thf <dodf>print(dhbr)</dodf> or <dodf>println(dhbr)</dodf>
+     * mfthods.
+     *
+     * @pbrbm  b  Thf bytf to bf writtfn
+     * @sff #print(dhbr)
+     * @sff #println(dhbr)
+     */
+    publid void writf(int b) {
+        try {
+            syndhronizfd (this) {
+                fnsurfOpfn();
+                out.writf(b);
+                if ((b == '\n') && butoFlush)
+                    out.flush();
+            }
+        }
+        dbtdh (IntfrruptfdIOExdfption x) {
+            Thrfbd.durrfntThrfbd().intfrrupt();
+        }
+        dbtdh (IOExdfption x) {
+            troublf = truf;
+        }
+    }
+
+    /**
+     * Writfs <dodf>lfn</dodf> bytfs from thf spfdififd bytf brrby stbrting bt
+     * offsft <dodf>off</dodf> to this strfbm.  If butombtid flushing is
+     * fnbblfd thfn thf <dodf>flush</dodf> mfthod will bf invokfd.
+     *
+     * <p> Notf thbt thf bytfs will bf writtfn bs givfn; to writf dhbrbdtfrs
+     * thbt will bf trbnslbtfd bddording to thf plbtform's dffbult dhbrbdtfr
+     * fndoding, usf thf <dodf>print(dhbr)</dodf> or <dodf>println(dhbr)</dodf>
+     * mfthods.
+     *
+     * @pbrbm  buf   A bytf brrby
+     * @pbrbm  off   Offsft from whidh to stbrt tbking bytfs
+     * @pbrbm  lfn   Numbfr of bytfs to writf
+     */
+    publid void writf(bytf buf[], int off, int lfn) {
+        try {
+            syndhronizfd (this) {
+                fnsurfOpfn();
+                out.writf(buf, off, lfn);
+                if (butoFlush)
+                    out.flush();
+            }
+        }
+        dbtdh (IntfrruptfdIOExdfption x) {
+            Thrfbd.durrfntThrfbd().intfrrupt();
+        }
+        dbtdh (IOExdfption x) {
+            troublf = truf;
+        }
+    }
+
+    /*
+     * Thf following privbtf mfthods on thf tfxt- bnd dhbrbdtfr-output strfbms
+     * blwbys flush thf strfbm bufffrs, so thbt writfs to thf undfrlying bytf
+     * strfbm oddur bs promptly bs with thf originbl PrintStrfbm.
+     */
+
+    privbtf void writf(dhbr buf[]) {
+        try {
+            syndhronizfd (this) {
+                fnsurfOpfn();
+                tfxtOut.writf(buf);
+                tfxtOut.flushBufffr();
+                dhbrOut.flushBufffr();
+                if (butoFlush) {
+                    for (int i = 0; i < buf.lfngth; i++)
+                        if (buf[i] == '\n')
+                            out.flush();
+                }
+            }
+        }
+        dbtdh (IntfrruptfdIOExdfption x) {
+            Thrfbd.durrfntThrfbd().intfrrupt();
+        }
+        dbtdh (IOExdfption x) {
+            troublf = truf;
+        }
+    }
+
+    privbtf void writf(String s) {
+        try {
+            syndhronizfd (this) {
+                fnsurfOpfn();
+                tfxtOut.writf(s);
+                tfxtOut.flushBufffr();
+                dhbrOut.flushBufffr();
+                if (butoFlush && (s.indfxOf('\n') >= 0))
+                    out.flush();
+            }
+        }
+        dbtdh (IntfrruptfdIOExdfption x) {
+            Thrfbd.durrfntThrfbd().intfrrupt();
+        }
+        dbtdh (IOExdfption x) {
+            troublf = truf;
+        }
+    }
+
+    privbtf void nfwLinf() {
+        try {
+            syndhronizfd (this) {
+                fnsurfOpfn();
+                tfxtOut.nfwLinf();
+                tfxtOut.flushBufffr();
+                dhbrOut.flushBufffr();
+                if (butoFlush)
+                    out.flush();
+            }
+        }
+        dbtdh (IntfrruptfdIOExdfption x) {
+            Thrfbd.durrfntThrfbd().intfrrupt();
+        }
+        dbtdh (IOExdfption x) {
+            troublf = truf;
+        }
+    }
+
+    /* Mfthods thbt do not tfrminbtf linfs */
+
+    /**
+     * Prints b boolfbn vbluf.  Thf string produdfd by <dodf>{@link
+     * jbvb.lbng.String#vblufOf(boolfbn)}</dodf> is trbnslbtfd into bytfs
+     * bddording to thf plbtform's dffbult dhbrbdtfr fndoding, bnd thfsf bytfs
+     * brf writtfn in fxbdtly thf mbnnfr of thf
+     * <dodf>{@link #writf(int)}</dodf> mfthod.
+     *
+     * @pbrbm      b   Thf <dodf>boolfbn</dodf> to bf printfd
+     */
+    publid void print(boolfbn b) {
+        writf(b ? "truf" : "fblsf");
+    }
+
+    /**
+     * Prints b dhbrbdtfr.  Thf dhbrbdtfr is trbnslbtfd into onf or morf bytfs
+     * bddording to thf plbtform's dffbult dhbrbdtfr fndoding, bnd thfsf bytfs
+     * brf writtfn in fxbdtly thf mbnnfr of thf
+     * <dodf>{@link #writf(int)}</dodf> mfthod.
+     *
+     * @pbrbm      d   Thf <dodf>dhbr</dodf> to bf printfd
+     */
+    publid void print(dhbr d) {
+        writf(String.vblufOf(d));
+    }
+
+    /**
+     * Prints bn intfgfr.  Thf string produdfd by <dodf>{@link
+     * jbvb.lbng.String#vblufOf(int)}</dodf> is trbnslbtfd into bytfs
+     * bddording to thf plbtform's dffbult dhbrbdtfr fndoding, bnd thfsf bytfs
+     * brf writtfn in fxbdtly thf mbnnfr of thf
+     * <dodf>{@link #writf(int)}</dodf> mfthod.
+     *
+     * @pbrbm      i   Thf <dodf>int</dodf> to bf printfd
+     * @sff        jbvb.lbng.Intfgfr#toString(int)
+     */
+    publid void print(int i) {
+        writf(String.vblufOf(i));
+    }
+
+    /**
+     * Prints b long intfgfr.  Thf string produdfd by <dodf>{@link
+     * jbvb.lbng.String#vblufOf(long)}</dodf> is trbnslbtfd into bytfs
+     * bddording to thf plbtform's dffbult dhbrbdtfr fndoding, bnd thfsf bytfs
+     * brf writtfn in fxbdtly thf mbnnfr of thf
+     * <dodf>{@link #writf(int)}</dodf> mfthod.
+     *
+     * @pbrbm      l   Thf <dodf>long</dodf> to bf printfd
+     * @sff        jbvb.lbng.Long#toString(long)
+     */
+    publid void print(long l) {
+        writf(String.vblufOf(l));
+    }
+
+    /**
+     * Prints b flobting-point numbfr.  Thf string produdfd by <dodf>{@link
+     * jbvb.lbng.String#vblufOf(flobt)}</dodf> is trbnslbtfd into bytfs
+     * bddording to thf plbtform's dffbult dhbrbdtfr fndoding, bnd thfsf bytfs
+     * brf writtfn in fxbdtly thf mbnnfr of thf
+     * <dodf>{@link #writf(int)}</dodf> mfthod.
+     *
+     * @pbrbm      f   Thf <dodf>flobt</dodf> to bf printfd
+     * @sff        jbvb.lbng.Flobt#toString(flobt)
+     */
+    publid void print(flobt f) {
+        writf(String.vblufOf(f));
+    }
+
+    /**
+     * Prints b doublf-prfdision flobting-point numbfr.  Thf string produdfd by
+     * <dodf>{@link jbvb.lbng.String#vblufOf(doublf)}</dodf> is trbnslbtfd into
+     * bytfs bddording to thf plbtform's dffbult dhbrbdtfr fndoding, bnd thfsf
+     * bytfs brf writtfn in fxbdtly thf mbnnfr of thf <dodf>{@link
+     * #writf(int)}</dodf> mfthod.
+     *
+     * @pbrbm      d   Thf <dodf>doublf</dodf> to bf printfd
+     * @sff        jbvb.lbng.Doublf#toString(doublf)
+     */
+    publid void print(doublf d) {
+        writf(String.vblufOf(d));
+    }
+
+    /**
+     * Prints bn brrby of dhbrbdtfrs.  Thf dhbrbdtfrs brf donvfrtfd into bytfs
+     * bddording to thf plbtform's dffbult dhbrbdtfr fndoding, bnd thfsf bytfs
+     * brf writtfn in fxbdtly thf mbnnfr of thf
+     * <dodf>{@link #writf(int)}</dodf> mfthod.
+     *
+     * @pbrbm      s   Thf brrby of dhbrs to bf printfd
+     *
+     * @throws  NullPointfrExdfption  If <dodf>s</dodf> is <dodf>null</dodf>
+     */
+    publid void print(dhbr s[]) {
+        writf(s);
+    }
+
+    /**
+     * Prints b string.  If thf brgumfnt is <dodf>null</dodf> thfn thf string
+     * <dodf>"null"</dodf> is printfd.  Othfrwisf, thf string's dhbrbdtfrs brf
+     * donvfrtfd into bytfs bddording to thf plbtform's dffbult dhbrbdtfr
+     * fndoding, bnd thfsf bytfs brf writtfn in fxbdtly thf mbnnfr of thf
+     * <dodf>{@link #writf(int)}</dodf> mfthod.
+     *
+     * @pbrbm      s   Thf <dodf>String</dodf> to bf printfd
+     */
+    publid void print(String s) {
+        if (s == null) {
+            s = "null";
+        }
+        writf(s);
+    }
+
+    /**
+     * Prints bn objfdt.  Thf string produdfd by thf <dodf>{@link
+     * jbvb.lbng.String#vblufOf(Objfdt)}</dodf> mfthod is trbnslbtfd into bytfs
+     * bddording to thf plbtform's dffbult dhbrbdtfr fndoding, bnd thfsf bytfs
+     * brf writtfn in fxbdtly thf mbnnfr of thf
+     * <dodf>{@link #writf(int)}</dodf> mfthod.
+     *
+     * @pbrbm      obj   Thf <dodf>Objfdt</dodf> to bf printfd
+     * @sff        jbvb.lbng.Objfdt#toString()
+     */
+    publid void print(Objfdt obj) {
+        writf(String.vblufOf(obj));
+    }
+
+
+    /* Mfthods thbt do tfrminbtf linfs */
+
+    /**
+     * Tfrminbtfs thf durrfnt linf by writing thf linf sfpbrbtor string.  Thf
+     * linf sfpbrbtor string is dffinfd by thf systfm propfrty
+     * <dodf>linf.sfpbrbtor</dodf>, bnd is not nfdfssbrily b singlf nfwlinf
+     * dhbrbdtfr (<dodf>'\n'</dodf>).
+     */
+    publid void println() {
+        nfwLinf();
+    }
+
+    /**
+     * Prints b boolfbn bnd thfn tfrminbtf thf linf.  This mfthod bfhbvfs bs
+     * though it invokfs <dodf>{@link #print(boolfbn)}</dodf> bnd thfn
+     * <dodf>{@link #println()}</dodf>.
+     *
+     * @pbrbm x  Thf <dodf>boolfbn</dodf> to bf printfd
+     */
+    publid void println(boolfbn x) {
+        syndhronizfd (this) {
+            print(x);
+            nfwLinf();
+        }
+    }
+
+    /**
+     * Prints b dhbrbdtfr bnd thfn tfrminbtf thf linf.  This mfthod bfhbvfs bs
+     * though it invokfs <dodf>{@link #print(dhbr)}</dodf> bnd thfn
+     * <dodf>{@link #println()}</dodf>.
+     *
+     * @pbrbm x  Thf <dodf>dhbr</dodf> to bf printfd.
+     */
+    publid void println(dhbr x) {
+        syndhronizfd (this) {
+            print(x);
+            nfwLinf();
+        }
+    }
+
+    /**
+     * Prints bn intfgfr bnd thfn tfrminbtf thf linf.  This mfthod bfhbvfs bs
+     * though it invokfs <dodf>{@link #print(int)}</dodf> bnd thfn
+     * <dodf>{@link #println()}</dodf>.
+     *
+     * @pbrbm x  Thf <dodf>int</dodf> to bf printfd.
+     */
+    publid void println(int x) {
+        syndhronizfd (this) {
+            print(x);
+            nfwLinf();
+        }
+    }
+
+    /**
+     * Prints b long bnd thfn tfrminbtf thf linf.  This mfthod bfhbvfs bs
+     * though it invokfs <dodf>{@link #print(long)}</dodf> bnd thfn
+     * <dodf>{@link #println()}</dodf>.
+     *
+     * @pbrbm x  b Thf <dodf>long</dodf> to bf printfd.
+     */
+    publid void println(long x) {
+        syndhronizfd (this) {
+            print(x);
+            nfwLinf();
+        }
+    }
+
+    /**
+     * Prints b flobt bnd thfn tfrminbtf thf linf.  This mfthod bfhbvfs bs
+     * though it invokfs <dodf>{@link #print(flobt)}</dodf> bnd thfn
+     * <dodf>{@link #println()}</dodf>.
+     *
+     * @pbrbm x  Thf <dodf>flobt</dodf> to bf printfd.
+     */
+    publid void println(flobt x) {
+        syndhronizfd (this) {
+            print(x);
+            nfwLinf();
+        }
+    }
+
+    /**
+     * Prints b doublf bnd thfn tfrminbtf thf linf.  This mfthod bfhbvfs bs
+     * though it invokfs <dodf>{@link #print(doublf)}</dodf> bnd thfn
+     * <dodf>{@link #println()}</dodf>.
+     *
+     * @pbrbm x  Thf <dodf>doublf</dodf> to bf printfd.
+     */
+    publid void println(doublf x) {
+        syndhronizfd (this) {
+            print(x);
+            nfwLinf();
+        }
+    }
+
+    /**
+     * Prints bn brrby of dhbrbdtfrs bnd thfn tfrminbtf thf linf.  This mfthod
+     * bfhbvfs bs though it invokfs <dodf>{@link #print(dhbr[])}</dodf> bnd
+     * thfn <dodf>{@link #println()}</dodf>.
+     *
+     * @pbrbm x  bn brrby of dhbrs to print.
+     */
+    publid void println(dhbr x[]) {
+        syndhronizfd (this) {
+            print(x);
+            nfwLinf();
+        }
+    }
+
+    /**
+     * Prints b String bnd thfn tfrminbtf thf linf.  This mfthod bfhbvfs bs
+     * though it invokfs <dodf>{@link #print(String)}</dodf> bnd thfn
+     * <dodf>{@link #println()}</dodf>.
+     *
+     * @pbrbm x  Thf <dodf>String</dodf> to bf printfd.
+     */
+    publid void println(String x) {
+        syndhronizfd (this) {
+            print(x);
+            nfwLinf();
+        }
+    }
+
+    /**
+     * Prints bn Objfdt bnd thfn tfrminbtf thf linf.  This mfthod dblls
+     * bt first String.vblufOf(x) to gft thf printfd objfdt's string vbluf,
+     * thfn bfhbvfs bs
+     * though it invokfs <dodf>{@link #print(String)}</dodf> bnd thfn
+     * <dodf>{@link #println()}</dodf>.
+     *
+     * @pbrbm x  Thf <dodf>Objfdt</dodf> to bf printfd.
+     */
+    publid void println(Objfdt x) {
+        String s = String.vblufOf(x);
+        syndhronizfd (this) {
+            print(s);
+            nfwLinf();
+        }
+    }
+
+
+    /**
+     * A donvfnifndf mfthod to writf b formbttfd string to this output strfbm
+     * using thf spfdififd formbt string bnd brgumfnts.
+     *
+     * <p> An invodbtion of this mfthod of thf form <tt>out.printf(formbt,
+     * brgs)</tt> bfhbvfs in fxbdtly thf sbmf wby bs thf invodbtion
+     *
+     * <prf>
+     *     out.formbt(formbt, brgs) </prf>
+     *
+     * @pbrbm  formbt
+     *         A formbt string bs dfsdribfd in <b
+     *         hrff="../util/Formbttfr.html#syntbx">Formbt string syntbx</b>
+     *
+     * @pbrbm  brgs
+     *         Argumfnts rfffrfndfd by thf formbt spfdififrs in thf formbt
+     *         string.  If thfrf brf morf brgumfnts thbn formbt spfdififrs, thf
+     *         fxtrb brgumfnts brf ignorfd.  Thf numbfr of brgumfnts is
+     *         vbribblf bnd mby bf zfro.  Thf mbximum numbfr of brgumfnts is
+     *         limitfd by thf mbximum dimfnsion of b Jbvb brrby bs dffinfd by
+     *         <ditf>Thf Jbvb&trbdf; Virtubl Mbdhinf Spfdifidbtion</ditf>.
+     *         Thf bfhbviour on b
+     *         <tt>null</tt> brgumfnt dfpfnds on thf <b
+     *         hrff="../util/Formbttfr.html#syntbx">donvfrsion</b>.
+     *
+     * @throws  jbvb.util.IllfgblFormbtExdfption
+     *          If b formbt string dontbins bn illfgbl syntbx, b formbt
+     *          spfdififr thbt is indompbtiblf with thf givfn brgumfnts,
+     *          insuffidifnt brgumfnts givfn thf formbt string, or othfr
+     *          illfgbl donditions.  For spfdifidbtion of bll possiblf
+     *          formbtting frrors, sff thf <b
+     *          hrff="../util/Formbttfr.html#dftbil">Dftbils</b> sfdtion of thf
+     *          formbttfr dlbss spfdifidbtion.
+     *
+     * @throws  NullPointfrExdfption
+     *          If thf <tt>formbt</tt> is <tt>null</tt>
+     *
+     * @rfturn  This output strfbm
+     *
+     * @sindf  1.5
+     */
+    publid PrintStrfbm printf(String formbt, Objfdt ... brgs) {
+        rfturn formbt(formbt, brgs);
+    }
+
+    /**
+     * A donvfnifndf mfthod to writf b formbttfd string to this output strfbm
+     * using thf spfdififd formbt string bnd brgumfnts.
+     *
+     * <p> An invodbtion of this mfthod of thf form <tt>out.printf(l, formbt,
+     * brgs)</tt> bfhbvfs in fxbdtly thf sbmf wby bs thf invodbtion
+     *
+     * <prf>
+     *     out.formbt(l, formbt, brgs) </prf>
+     *
+     * @pbrbm  l
+     *         Thf {@linkplbin jbvb.util.Lodblf lodblf} to bpply during
+     *         formbtting.  If <tt>l</tt> is <tt>null</tt> thfn no lodblizbtion
+     *         is bpplifd.
+     *
+     * @pbrbm  formbt
+     *         A formbt string bs dfsdribfd in <b
+     *         hrff="../util/Formbttfr.html#syntbx">Formbt string syntbx</b>
+     *
+     * @pbrbm  brgs
+     *         Argumfnts rfffrfndfd by thf formbt spfdififrs in thf formbt
+     *         string.  If thfrf brf morf brgumfnts thbn formbt spfdififrs, thf
+     *         fxtrb brgumfnts brf ignorfd.  Thf numbfr of brgumfnts is
+     *         vbribblf bnd mby bf zfro.  Thf mbximum numbfr of brgumfnts is
+     *         limitfd by thf mbximum dimfnsion of b Jbvb brrby bs dffinfd by
+     *         <ditf>Thf Jbvb&trbdf; Virtubl Mbdhinf Spfdifidbtion</ditf>.
+     *         Thf bfhbviour on b
+     *         <tt>null</tt> brgumfnt dfpfnds on thf <b
+     *         hrff="../util/Formbttfr.html#syntbx">donvfrsion</b>.
+     *
+     * @throws  jbvb.util.IllfgblFormbtExdfption
+     *          If b formbt string dontbins bn illfgbl syntbx, b formbt
+     *          spfdififr thbt is indompbtiblf with thf givfn brgumfnts,
+     *          insuffidifnt brgumfnts givfn thf formbt string, or othfr
+     *          illfgbl donditions.  For spfdifidbtion of bll possiblf
+     *          formbtting frrors, sff thf <b
+     *          hrff="../util/Formbttfr.html#dftbil">Dftbils</b> sfdtion of thf
+     *          formbttfr dlbss spfdifidbtion.
+     *
+     * @throws  NullPointfrExdfption
+     *          If thf <tt>formbt</tt> is <tt>null</tt>
+     *
+     * @rfturn  This output strfbm
+     *
+     * @sindf  1.5
+     */
+    publid PrintStrfbm printf(Lodblf l, String formbt, Objfdt ... brgs) {
+        rfturn formbt(l, formbt, brgs);
+    }
+
+    /**
+     * Writfs b formbttfd string to this output strfbm using thf spfdififd
+     * formbt string bnd brgumfnts.
+     *
+     * <p> Thf lodblf blwbys usfd is thf onf rfturnfd by {@link
+     * jbvb.util.Lodblf#gftDffbult() Lodblf.gftDffbult()}, rfgbrdlfss of bny
+     * prfvious invodbtions of othfr formbtting mfthods on this objfdt.
+     *
+     * @pbrbm  formbt
+     *         A formbt string bs dfsdribfd in <b
+     *         hrff="../util/Formbttfr.html#syntbx">Formbt string syntbx</b>
+     *
+     * @pbrbm  brgs
+     *         Argumfnts rfffrfndfd by thf formbt spfdififrs in thf formbt
+     *         string.  If thfrf brf morf brgumfnts thbn formbt spfdififrs, thf
+     *         fxtrb brgumfnts brf ignorfd.  Thf numbfr of brgumfnts is
+     *         vbribblf bnd mby bf zfro.  Thf mbximum numbfr of brgumfnts is
+     *         limitfd by thf mbximum dimfnsion of b Jbvb brrby bs dffinfd by
+     *         <ditf>Thf Jbvb&trbdf; Virtubl Mbdhinf Spfdifidbtion</ditf>.
+     *         Thf bfhbviour on b
+     *         <tt>null</tt> brgumfnt dfpfnds on thf <b
+     *         hrff="../util/Formbttfr.html#syntbx">donvfrsion</b>.
+     *
+     * @throws  jbvb.util.IllfgblFormbtExdfption
+     *          If b formbt string dontbins bn illfgbl syntbx, b formbt
+     *          spfdififr thbt is indompbtiblf with thf givfn brgumfnts,
+     *          insuffidifnt brgumfnts givfn thf formbt string, or othfr
+     *          illfgbl donditions.  For spfdifidbtion of bll possiblf
+     *          formbtting frrors, sff thf <b
+     *          hrff="../util/Formbttfr.html#dftbil">Dftbils</b> sfdtion of thf
+     *          formbttfr dlbss spfdifidbtion.
+     *
+     * @throws  NullPointfrExdfption
+     *          If thf <tt>formbt</tt> is <tt>null</tt>
+     *
+     * @rfturn  This output strfbm
+     *
+     * @sindf  1.5
+     */
+    publid PrintStrfbm formbt(String formbt, Objfdt ... brgs) {
+        try {
+            syndhronizfd (this) {
+                fnsurfOpfn();
+                if ((formbttfr == null)
+                    || (formbttfr.lodblf() != Lodblf.gftDffbult()))
+                    formbttfr = nfw Formbttfr((Appfndbblf) this);
+                formbttfr.formbt(Lodblf.gftDffbult(), formbt, brgs);
+            }
+        } dbtdh (IntfrruptfdIOExdfption x) {
+            Thrfbd.durrfntThrfbd().intfrrupt();
+        } dbtdh (IOExdfption x) {
+            troublf = truf;
+        }
+        rfturn this;
+    }
+
+    /**
+     * Writfs b formbttfd string to this output strfbm using thf spfdififd
+     * formbt string bnd brgumfnts.
+     *
+     * @pbrbm  l
+     *         Thf {@linkplbin jbvb.util.Lodblf lodblf} to bpply during
+     *         formbtting.  If <tt>l</tt> is <tt>null</tt> thfn no lodblizbtion
+     *         is bpplifd.
+     *
+     * @pbrbm  formbt
+     *         A formbt string bs dfsdribfd in <b
+     *         hrff="../util/Formbttfr.html#syntbx">Formbt string syntbx</b>
+     *
+     * @pbrbm  brgs
+     *         Argumfnts rfffrfndfd by thf formbt spfdififrs in thf formbt
+     *         string.  If thfrf brf morf brgumfnts thbn formbt spfdififrs, thf
+     *         fxtrb brgumfnts brf ignorfd.  Thf numbfr of brgumfnts is
+     *         vbribblf bnd mby bf zfro.  Thf mbximum numbfr of brgumfnts is
+     *         limitfd by thf mbximum dimfnsion of b Jbvb brrby bs dffinfd by
+     *         <ditf>Thf Jbvb&trbdf; Virtubl Mbdhinf Spfdifidbtion</ditf>.
+     *         Thf bfhbviour on b
+     *         <tt>null</tt> brgumfnt dfpfnds on thf <b
+     *         hrff="../util/Formbttfr.html#syntbx">donvfrsion</b>.
+     *
+     * @throws  jbvb.util.IllfgblFormbtExdfption
+     *          If b formbt string dontbins bn illfgbl syntbx, b formbt
+     *          spfdififr thbt is indompbtiblf with thf givfn brgumfnts,
+     *          insuffidifnt brgumfnts givfn thf formbt string, or othfr
+     *          illfgbl donditions.  For spfdifidbtion of bll possiblf
+     *          formbtting frrors, sff thf <b
+     *          hrff="../util/Formbttfr.html#dftbil">Dftbils</b> sfdtion of thf
+     *          formbttfr dlbss spfdifidbtion.
+     *
+     * @throws  NullPointfrExdfption
+     *          If thf <tt>formbt</tt> is <tt>null</tt>
+     *
+     * @rfturn  This output strfbm
+     *
+     * @sindf  1.5
+     */
+    publid PrintStrfbm formbt(Lodblf l, String formbt, Objfdt ... brgs) {
+        try {
+            syndhronizfd (this) {
+                fnsurfOpfn();
+                if ((formbttfr == null)
+                    || (formbttfr.lodblf() != l))
+                    formbttfr = nfw Formbttfr(this, l);
+                formbttfr.formbt(l, formbt, brgs);
+            }
+        } dbtdh (IntfrruptfdIOExdfption x) {
+            Thrfbd.durrfntThrfbd().intfrrupt();
+        } dbtdh (IOExdfption x) {
+            troublf = truf;
+        }
+        rfturn this;
+    }
+
+    /**
+     * Appfnds thf spfdififd dhbrbdtfr sfqufndf to this output strfbm.
+     *
+     * <p> An invodbtion of this mfthod of thf form <tt>out.bppfnd(dsq)</tt>
+     * bfhbvfs in fxbdtly thf sbmf wby bs thf invodbtion
+     *
+     * <prf>
+     *     out.print(dsq.toString()) </prf>
+     *
+     * <p> Dfpfnding on thf spfdifidbtion of <tt>toString</tt> for thf
+     * dhbrbdtfr sfqufndf <tt>dsq</tt>, thf fntirf sfqufndf mby not bf
+     * bppfndfd.  For instbndf, invoking thfn <tt>toString</tt> mfthod of b
+     * dhbrbdtfr bufffr will rfturn b subsfqufndf whosf dontfnt dfpfnds upon
+     * thf bufffr's position bnd limit.
+     *
+     * @pbrbm  dsq
+     *         Thf dhbrbdtfr sfqufndf to bppfnd.  If <tt>dsq</tt> is
+     *         <tt>null</tt>, thfn thf four dhbrbdtfrs <tt>"null"</tt> brf
+     *         bppfndfd to this output strfbm.
+     *
+     * @rfturn  This output strfbm
+     *
+     * @sindf  1.5
+     */
+    publid PrintStrfbm bppfnd(ChbrSfqufndf dsq) {
+        if (dsq == null)
+            print("null");
+        flsf
+            print(dsq.toString());
+        rfturn this;
+    }
+
+    /**
+     * Appfnds b subsfqufndf of thf spfdififd dhbrbdtfr sfqufndf to this output
+     * strfbm.
+     *
+     * <p> An invodbtion of this mfthod of thf form <tt>out.bppfnd(dsq, stbrt,
+     * fnd)</tt> whfn <tt>dsq</tt> is not <tt>null</tt>, bfhbvfs in
+     * fxbdtly thf sbmf wby bs thf invodbtion
+     *
+     * <prf>
+     *     out.print(dsq.subSfqufndf(stbrt, fnd).toString()) </prf>
+     *
+     * @pbrbm  dsq
+     *         Thf dhbrbdtfr sfqufndf from whidh b subsfqufndf will bf
+     *         bppfndfd.  If <tt>dsq</tt> is <tt>null</tt>, thfn dhbrbdtfrs
+     *         will bf bppfndfd bs if <tt>dsq</tt> dontbinfd thf four
+     *         dhbrbdtfrs <tt>"null"</tt>.
+     *
+     * @pbrbm  stbrt
+     *         Thf indfx of thf first dhbrbdtfr in thf subsfqufndf
+     *
+     * @pbrbm  fnd
+     *         Thf indfx of thf dhbrbdtfr following thf lbst dhbrbdtfr in thf
+     *         subsfqufndf
+     *
+     * @rfturn  This output strfbm
+     *
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If <tt>stbrt</tt> or <tt>fnd</tt> brf nfgbtivf, <tt>stbrt</tt>
+     *          is grfbtfr thbn <tt>fnd</tt>, or <tt>fnd</tt> is grfbtfr thbn
+     *          <tt>dsq.lfngth()</tt>
+     *
+     * @sindf  1.5
+     */
+    publid PrintStrfbm bppfnd(ChbrSfqufndf dsq, int stbrt, int fnd) {
+        ChbrSfqufndf ds = (dsq == null ? "null" : dsq);
+        writf(ds.subSfqufndf(stbrt, fnd).toString());
+        rfturn this;
+    }
+
+    /**
+     * Appfnds thf spfdififd dhbrbdtfr to this output strfbm.
+     *
+     * <p> An invodbtion of this mfthod of thf form <tt>out.bppfnd(d)</tt>
+     * bfhbvfs in fxbdtly thf sbmf wby bs thf invodbtion
+     *
+     * <prf>
+     *     out.print(d) </prf>
+     *
+     * @pbrbm  d
+     *         Thf 16-bit dhbrbdtfr to bppfnd
+     *
+     * @rfturn  This output strfbm
+     *
+     * @sindf  1.5
+     */
+    publid PrintStrfbm bppfnd(dhbr d) {
+        print(d);
+        rfturn this;
+    }
+
+}

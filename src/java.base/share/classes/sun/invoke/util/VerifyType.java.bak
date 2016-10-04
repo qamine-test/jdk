@@ -1,194 +1,194 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.invoke.util;
+pbdkbgf sun.invokf.util;
 
-import java.lang.invoke.MethodType;
-import sun.invoke.empty.Empty;
+import jbvb.lbng.invokf.MftiodTypf;
+import sun.invokf.fmpty.Empty;
 
 /**
- * This class centralizes information about the JVM verifier
- * and its requirements about type correctness.
- * @author jrose
+ * Tiis dlbss dfntrblizfs informbtion bbout tif JVM vfrififr
+ * bnd its rfquirfmfnts bbout typf dorrfdtnfss.
+ * @butior jrosf
  */
-public class VerifyType {
+publid dlbss VfrifyTypf {
 
-    private VerifyType() { }  // cannot instantiate
+    privbtf VfrifyTypf() { }  // dbnnot instbntibtf
 
     /**
-     * True if a value can be stacked as the source type and unstacked as the
-     * destination type, without violating the JVM's type consistency.
+     * Truf if b vbluf dbn bf stbdkfd bs tif sourdf typf bnd unstbdkfd bs tif
+     * dfstinbtion typf, witiout violbting tif JVM's typf donsistfndy.
      *
-     * @param src the type of a stacked value
-     * @param dst the type by which we'd like to treat it
-     * @return whether the retyping can be done without motion or reformatting
+     * @pbrbm srd tif typf of b stbdkfd vbluf
+     * @pbrbm dst tif typf by wiidi wf'd likf to trfbt it
+     * @rfturn wiftifr tif rftyping dbn bf donf witiout motion or rfformbtting
      */
-    public static boolean isNullConversion(Class<?> src, Class<?> dst) {
-        if (src == dst)            return true;
-        // Verifier allows any interface to be treated as Object:
-        if (dst.isInterface())     dst = Object.class;
-        if (src.isInterface())     src = Object.class;
-        if (src == dst)            return true;  // check again
-        if (dst == void.class)     return true;  // drop any return value
-        if (isNullType(src))       return !dst.isPrimitive();
-        if (!src.isPrimitive())    return dst.isAssignableFrom(src);
-        if (!dst.isPrimitive())    return false;
-        // Verifier allows an int to carry byte, short, char, or even boolean:
-        Wrapper sw = Wrapper.forPrimitiveType(src);
-        if (dst == int.class)      return sw.isSubwordOrInt();
-        Wrapper dw = Wrapper.forPrimitiveType(dst);
-        if (!sw.isSubwordOrInt())  return false;
-        if (!dw.isSubwordOrInt())  return false;
-        if (!dw.isSigned() && sw.isSigned())  return false;
-        return dw.bitWidth() > sw.bitWidth();
+    publid stbtid boolfbn isNullConvfrsion(Clbss<?> srd, Clbss<?> dst) {
+        if (srd == dst)            rfturn truf;
+        // Vfrififr bllows bny intfrfbdf to bf trfbtfd bs Objfdt:
+        if (dst.isIntfrfbdf())     dst = Objfdt.dlbss;
+        if (srd.isIntfrfbdf())     srd = Objfdt.dlbss;
+        if (srd == dst)            rfturn truf;  // difdk bgbin
+        if (dst == void.dlbss)     rfturn truf;  // drop bny rfturn vbluf
+        if (isNullTypf(srd))       rfturn !dst.isPrimitivf();
+        if (!srd.isPrimitivf())    rfturn dst.isAssignbblfFrom(srd);
+        if (!dst.isPrimitivf())    rfturn fblsf;
+        // Vfrififr bllows bn int to dbrry bytf, siort, dibr, or fvfn boolfbn:
+        Wrbppfr sw = Wrbppfr.forPrimitivfTypf(srd);
+        if (dst == int.dlbss)      rfturn sw.isSubwordOrInt();
+        Wrbppfr dw = Wrbppfr.forPrimitivfTypf(dst);
+        if (!sw.isSubwordOrInt())  rfturn fblsf;
+        if (!dw.isSubwordOrInt())  rfturn fblsf;
+        if (!dw.isSignfd() && sw.isSignfd())  rfturn fblsf;
+        rfturn dw.bitWidti() > sw.bitWidti();
     }
 
     /**
-     * Specialization of isNullConversion to reference types.
-     * @param src the type of a stacked value
-     * @param dst the reference type by which we'd like to treat it
-     * @return whether the retyping can be done without a cast
+     * Spfdiblizbtion of isNullConvfrsion to rfffrfndf typfs.
+     * @pbrbm srd tif typf of b stbdkfd vbluf
+     * @pbrbm dst tif rfffrfndf typf by wiidi wf'd likf to trfbt it
+     * @rfturn wiftifr tif rftyping dbn bf donf witiout b dbst
      */
-    public static boolean isNullReferenceConversion(Class<?> src, Class<?> dst) {
-        assert(!dst.isPrimitive());
-        if (dst.isInterface())  return true;   // verifier allows this
-        if (isNullType(src))    return true;
-        return dst.isAssignableFrom(src);
+    publid stbtid boolfbn isNullRfffrfndfConvfrsion(Clbss<?> srd, Clbss<?> dst) {
+        bssfrt(!dst.isPrimitivf());
+        if (dst.isIntfrfbdf())  rfturn truf;   // vfrififr bllows tiis
+        if (isNullTypf(srd))    rfturn truf;
+        rfturn dst.isAssignbblfFrom(srd);
     }
 
     /**
-     * Is the given type java.lang.Null or an equivalent null-only type?
+     * Is tif givfn typf jbvb.lbng.Null or bn fquivblfnt null-only typf?
      */
-    public static boolean isNullType(Class<?> type) {
-        if (type == null)  return false;
-        return type == NULL_CLASS
-            // This one may also be used as a null type.
-            // TO DO: Decide if we really want to legitimize it here.
-            // Probably we do, unless java.lang.Null really makes it into Java 7
-            //|| type == Void.class
-            // Locally known null-only class:
-            || type == Empty.class
+    publid stbtid boolfbn isNullTypf(Clbss<?> typf) {
+        if (typf == null)  rfturn fblsf;
+        rfturn typf == NULL_CLASS
+            // Tiis onf mby blso bf usfd bs b null typf.
+            // TO DO: Dfdidf if wf rfblly wbnt to lfgitimizf it ifrf.
+            // Probbbly wf do, unlfss jbvb.lbng.Null rfblly mbkfs it into Jbvb 7
+            //|| typf == Void.dlbss
+            // Lodblly known null-only dlbss:
+            || typf == Empty.dlbss
             ;
     }
-    private static final Class<?> NULL_CLASS;
-    static {
-        Class<?> nullClass = null;
+    privbtf stbtid finbl Clbss<?> NULL_CLASS;
+    stbtid {
+        Clbss<?> nullClbss = null;
         try {
-            nullClass = Class.forName("java.lang.Null");
-        } catch (ClassNotFoundException ex) {
-            // OK, we'll cope
+            nullClbss = Clbss.forNbmf("jbvb.lbng.Null");
+        } dbtdi (ClbssNotFoundExdfption fx) {
+            // OK, wf'll dopf
         }
-        NULL_CLASS = nullClass;
+        NULL_CLASS = nullClbss;
     }
 
     /**
-     * True if a method handle can receive a call under a slightly different
-     * method type, without moving or reformatting any stack elements.
+     * Truf if b mftiod ibndlf dbn rfdfivf b dbll undfr b sligitly difffrfnt
+     * mftiod typf, witiout moving or rfformbtting bny stbdk flfmfnts.
      *
-     * @param call the type of call being made
-     * @param recv the type of the method handle receiving the call
-     * @return whether the retyping can be done without motion or reformatting
+     * @pbrbm dbll tif typf of dbll bfing mbdf
+     * @pbrbm rfdv tif typf of tif mftiod ibndlf rfdfiving tif dbll
+     * @rfturn wiftifr tif rftyping dbn bf donf witiout motion or rfformbtting
      */
-    public static boolean isNullConversion(MethodType call, MethodType recv) {
-        if (call == recv)  return true;
-        int len = call.parameterCount();
-        if (len != recv.parameterCount())  return false;
-        for (int i = 0; i < len; i++)
-            if (!isNullConversion(call.parameterType(i), recv.parameterType(i)))
-                return false;
-        return isNullConversion(recv.returnType(), call.returnType());
+    publid stbtid boolfbn isNullConvfrsion(MftiodTypf dbll, MftiodTypf rfdv) {
+        if (dbll == rfdv)  rfturn truf;
+        int lfn = dbll.pbrbmftfrCount();
+        if (lfn != rfdv.pbrbmftfrCount())  rfturn fblsf;
+        for (int i = 0; i < lfn; i++)
+            if (!isNullConvfrsion(dbll.pbrbmftfrTypf(i), rfdv.pbrbmftfrTypf(i)))
+                rfturn fblsf;
+        rfturn isNullConvfrsion(rfdv.rfturnTypf(), dbll.rfturnTypf());
     }
 
     /**
-     * Determine if the JVM verifier allows a value of type call to be
-     * passed to a formal parameter (or return variable) of type recv.
-     * Returns 1 if the verifier allows the types to match without conversion.
-     * Returns -1 if the types can be made to match by a JVM-supported adapter.
-     * Cases supported are:
-     * <ul><li>checkcast
-     * </li><li>conversion between any two integral types (but not floats)
-     * </li><li>unboxing from a wrapper to its corresponding primitive type
-     * </li><li>conversion in either direction between float and double
+     * Dftfrminf if tif JVM vfrififr bllows b vbluf of typf dbll to bf
+     * pbssfd to b formbl pbrbmftfr (or rfturn vbribblf) of typf rfdv.
+     * Rfturns 1 if tif vfrififr bllows tif typfs to mbtdi witiout donvfrsion.
+     * Rfturns -1 if tif typfs dbn bf mbdf to mbtdi by b JVM-supportfd bdbptfr.
+     * Cbsfs supportfd brf:
+     * <ul><li>difdkdbst
+     * </li><li>donvfrsion bftwffn bny two intfgrbl typfs (but not flobts)
+     * </li><li>unboxing from b wrbppfr to its dorrfsponding primitivf typf
+     * </li><li>donvfrsion in fitifr dirfdtion bftwffn flobt bnd doublf
      * </li></ul>
-     * (Autoboxing is not supported here; it must be done via Java code.)
-     * Returns 0 otherwise.
+     * (Autoboxing is not supportfd ifrf; it must bf donf vib Jbvb dodf.)
+     * Rfturns 0 otifrwisf.
      */
-    public static int canPassUnchecked(Class<?> src, Class<?> dst) {
-        if (src == dst)
-            return 1;
+    publid stbtid int dbnPbssUndifdkfd(Clbss<?> srd, Clbss<?> dst) {
+        if (srd == dst)
+            rfturn 1;
 
-        if (dst.isPrimitive()) {
-            if (dst == void.class)
-                // Return anything to a caller expecting void.
-                // This is a property of the implementation, which links
-                // return values via a register rather than via a stack push.
-                // This makes it possible to ignore cleanly.
-                return 1;
-            if (src == void.class)
-                return 0;  // void-to-something?
-            if (!src.isPrimitive())
-                // Cannot pass a reference to any primitive type (exc. void).
-                return 0;
-            Wrapper sw = Wrapper.forPrimitiveType(src);
-            Wrapper dw = Wrapper.forPrimitiveType(dst);
+        if (dst.isPrimitivf()) {
+            if (dst == void.dlbss)
+                // Rfturn bnytiing to b dbllfr fxpfdting void.
+                // Tiis is b propfrty of tif implfmfntbtion, wiidi links
+                // rfturn vblufs vib b rfgistfr rbtifr tibn vib b stbdk pusi.
+                // Tiis mbkfs it possiblf to ignorf dlfbnly.
+                rfturn 1;
+            if (srd == void.dlbss)
+                rfturn 0;  // void-to-somftiing?
+            if (!srd.isPrimitivf())
+                // Cbnnot pbss b rfffrfndf to bny primitivf typf (fxd. void).
+                rfturn 0;
+            Wrbppfr sw = Wrbppfr.forPrimitivfTypf(srd);
+            Wrbppfr dw = Wrbppfr.forPrimitivfTypf(dst);
             if (sw.isSubwordOrInt() && dw.isSubwordOrInt()) {
-                if (sw.bitWidth() >= dw.bitWidth())
-                    return -1;   // truncation may be required
-                if (!dw.isSigned() && sw.isSigned())
-                    return -1;   // sign elimination may be required
-                return 1;
+                if (sw.bitWidti() >= dw.bitWidti())
+                    rfturn -1;   // trundbtion mby bf rfquirfd
+                if (!dw.isSignfd() && sw.isSignfd())
+                    rfturn -1;   // sign fliminbtion mby bf rfquirfd
+                rfturn 1;
             }
-            if (src == float.class || dst == float.class) {
-                if (src == double.class || dst == double.class)
-                    return -1;   // floating conversion may be required
-                else
-                    return 0;    // other primitive conversions NYI
-            } else {
-                // all fixed-point conversions are supported
-                return 0;
+            if (srd == flobt.dlbss || dst == flobt.dlbss) {
+                if (srd == doublf.dlbss || dst == doublf.dlbss)
+                    rfturn -1;   // flobting donvfrsion mby bf rfquirfd
+                flsf
+                    rfturn 0;    // otifr primitivf donvfrsions NYI
+            } flsf {
+                // bll fixfd-point donvfrsions brf supportfd
+                rfturn 0;
             }
-        } else if (src.isPrimitive()) {
-            // Cannot pass a primitive to any reference type.
-            // (Maybe allow null.class?)
-            return 0;
+        } flsf if (srd.isPrimitivf()) {
+            // Cbnnot pbss b primitivf to bny rfffrfndf typf.
+            // (Mbybf bllow null.dlbss?)
+            rfturn 0;
         }
 
-        // Handle reference types in the rest of the block:
+        // Hbndlf rfffrfndf typfs in tif rfst of tif blodk:
 
-        // The verifier treats interfaces exactly like Object.
-        if (isNullReferenceConversion(src, dst))
-            // pass any reference to object or an arb. interface
-            return 1;
-        // else it's a definite "maybe" (cast is required)
-        return -1;
+        // Tif vfrififr trfbts intfrfbdfs fxbdtly likf Objfdt.
+        if (isNullRfffrfndfConvfrsion(srd, dst))
+            // pbss bny rfffrfndf to objfdt or bn brb. intfrfbdf
+            rfturn 1;
+        // flsf it's b dffinitf "mbybf" (dbst is rfquirfd)
+        rfturn -1;
     }
 
-    public static boolean isSpreadArgType(Class<?> spreadArg) {
-        return spreadArg.isArray();
+    publid stbtid boolfbn isSprfbdArgTypf(Clbss<?> sprfbdArg) {
+        rfturn sprfbdArg.isArrby();
     }
-    public static Class<?> spreadArgElementType(Class<?> spreadArg, int i) {
-        return spreadArg.getComponentType();
+    publid stbtid Clbss<?> sprfbdArgElfmfntTypf(Clbss<?> sprfbdArg, int i) {
+        rfturn sprfbdArg.gftComponfntTypf();
     }
 }

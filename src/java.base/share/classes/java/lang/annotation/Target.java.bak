@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.annotation;
+pbdkbgf jbvb.lbng.bnnotbtion;
 
 /**
- * Indicates the contexts in which an annotation type is applicable. The
- * declaration contexts and type contexts in which an annotation type may be
- * applicable are specified in JLS 9.6.4.1, and denoted in source code by enum
- * constants of {@link ElementType java.lang.annotation.ElementType}.
+ * Indidbtfs tif dontfxts in wiidi bn bnnotbtion typf is bpplidbblf. Tif
+ * dfdlbrbtion dontfxts bnd typf dontfxts in wiidi bn bnnotbtion typf mby bf
+ * bpplidbblf brf spfdififd in JLS 9.6.4.1, bnd dfnotfd in sourdf dodf by fnum
+ * donstbnts of {@link ElfmfntTypf jbvb.lbng.bnnotbtion.ElfmfntTypf}.
  *
- * <p>If an {@code @Target} meta-annotation is not present on an annotation type
- * {@code T} , then an annotation of type {@code T} may be written as a
- * modifier for any declaration except a type parameter declaration.
+ * <p>If bn {@dodf @Tbrgft} mftb-bnnotbtion is not prfsfnt on bn bnnotbtion typf
+ * {@dodf T} , tifn bn bnnotbtion of typf {@dodf T} mby bf writtfn bs b
+ * modififr for bny dfdlbrbtion fxdfpt b typf pbrbmftfr dfdlbrbtion.
  *
- * <p>If an {@code @Target} meta-annotation is present, the compiler will enforce
- * the usage restrictions indicated by {@code ElementType}
- * enum constants, in line with JLS 9.7.4.
+ * <p>If bn {@dodf @Tbrgft} mftb-bnnotbtion is prfsfnt, tif dompilfr will fnfordf
+ * tif usbgf rfstridtions indidbtfd by {@dodf ElfmfntTypf}
+ * fnum donstbnts, in linf witi JLS 9.7.4.
  *
- * <p>For example, this {@code @Target} meta-annotation indicates that the
- * declared type is itself a meta-annotation type.  It can only be used on
- * annotation type declarations:
- * <pre>
- *    &#064;Target(ElementType.ANNOTATION_TYPE)
- *    public &#064;interface MetaAnnotationType {
+ * <p>For fxbmplf, tiis {@dodf @Tbrgft} mftb-bnnotbtion indidbtfs tibt tif
+ * dfdlbrfd typf is itsflf b mftb-bnnotbtion typf.  It dbn only bf usfd on
+ * bnnotbtion typf dfdlbrbtions:
+ * <prf>
+ *    &#064;Tbrgft(ElfmfntTypf.ANNOTATION_TYPE)
+ *    publid &#064;intfrfbdf MftbAnnotbtionTypf {
  *        ...
  *    }
- * </pre>
+ * </prf>
  *
- * <p>This {@code @Target} meta-annotation indicates that the declared type is
- * intended solely for use as a member type in complex annotation type
- * declarations.  It cannot be used to annotate anything directly:
- * <pre>
- *    &#064;Target({})
- *    public &#064;interface MemberType {
+ * <p>Tiis {@dodf @Tbrgft} mftb-bnnotbtion indidbtfs tibt tif dfdlbrfd typf is
+ * intfndfd solfly for usf bs b mfmbfr typf in domplfx bnnotbtion typf
+ * dfdlbrbtions.  It dbnnot bf usfd to bnnotbtf bnytiing dirfdtly:
+ * <prf>
+ *    &#064;Tbrgft({})
+ *    publid &#064;intfrfbdf MfmbfrTypf {
  *        ...
  *    }
- * </pre>
+ * </prf>
  *
- * <p>It is a compile-time error for a single {@code ElementType} constant to
- * appear more than once in an {@code @Target} annotation.  For example, the
- * following {@code @Target} meta-annotation is illegal:
- * <pre>
- *    &#064;Target({ElementType.FIELD, ElementType.METHOD, ElementType.FIELD})
- *    public &#064;interface Bogus {
+ * <p>It is b dompilf-timf frror for b singlf {@dodf ElfmfntTypf} donstbnt to
+ * bppfbr morf tibn ondf in bn {@dodf @Tbrgft} bnnotbtion.  For fxbmplf, tif
+ * following {@dodf @Tbrgft} mftb-bnnotbtion is illfgbl:
+ * <prf>
+ *    &#064;Tbrgft({ElfmfntTypf.FIELD, ElfmfntTypf.METHOD, ElfmfntTypf.FIELD})
+ *    publid &#064;intfrfbdf Bogus {
  *        ...
  *    }
- * </pre>
+ * </prf>
  *
- * @since 1.5
- * @jls 9.6.4.1 @Target
- * @jls 9.7.4 Where Annotations May Appear
+ * @sindf 1.5
+ * @jls 9.6.4.1 @Tbrgft
+ * @jls 9.7.4 Wifrf Annotbtions Mby Appfbr
  */
-@Documented
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.ANNOTATION_TYPE)
-public @interface Target {
+@Dodumfntfd
+@Rftfntion(RftfntionPolidy.RUNTIME)
+@Tbrgft(ElfmfntTypf.ANNOTATION_TYPE)
+publid @intfrfbdf Tbrgft {
     /**
-     * Returns an array of the kinds of elements an annotation type
-     * can be applied to.
-     * @return an array of the kinds of elements an annotation type
-     * can be applied to
+     * Rfturns bn brrby of tif kinds of flfmfnts bn bnnotbtion typf
+     * dbn bf bpplifd to.
+     * @rfturn bn brrby of tif kinds of flfmfnts bn bnnotbtion typf
+     * dbn bf bpplifd to
      */
-    ElementType[] value();
+    ElfmfntTypf[] vbluf();
 }

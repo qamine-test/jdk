@@ -1,259 +1,259 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import java.security.Key;
-import java.security.PublicKey;
-import java.security.PrivateKey;
-import java.security.KeyFactory;
-import java.security.InvalidKeyException;
-import java.security.NoSuchProviderException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.X509EncodedKeySpec;
-import java.security.spec.InvalidKeySpecException;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.PrivbtfKfy;
+import jbvb.sfdurity.KfyFbdtory;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.NoSudiProvidfrExdfption;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.spfd.PKCS8EndodfdKfySpfd;
+import jbvb.sfdurity.spfd.X509EndodfdKfySpfd;
+import jbvb.sfdurity.spfd.InvblidKfySpfdExdfption;
 
-import javax.crypto.Cipher;
-import javax.crypto.CipherSpi;
-import javax.crypto.SecretKey;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.BadPaddingException;
-import javax.crypto.spec.SecretKeySpec;
+import jbvbx.drypto.Cipifr;
+import jbvbx.drypto.CipifrSpi;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.IllfgblBlodkSizfExdfption;
+import jbvbx.drypto.BbdPbddingExdfption;
+import jbvbx.drypto.spfd.SfdrftKfySpfd;
 
 /**
- * This class entends the javax.crypto.CipherSpi class with a concrete
- * implementation of the methods for wrapping and unwrapping
- * keys.
+ * Tiis dlbss fntfnds tif jbvbx.drypto.CipifrSpi dlbss witi b dondrftf
+ * implfmfntbtion of tif mftiods for wrbpping bnd unwrbpping
+ * kfys.
  *
- * @author Sharon Liu
+ * @butior Sibron Liu
  *
  *
- * @see javax.crypto.CipherSpi
- * @see BlowfishCipher
- * @see DESCipher
- * @see PBEWithMD5AndDESCipher
+ * @sff jbvbx.drypto.CipifrSpi
+ * @sff BlowfisiCipifr
+ * @sff DESCipifr
+ * @sff PBEWitiMD5AndDESCipifr
  */
 
-public abstract class CipherWithWrappingSpi extends CipherSpi {
+publid bbstrbdt dlbss CipifrWitiWrbppingSpi fxtfnds CipifrSpi {
 
     /**
-     * Wrap a key.
+     * Wrbp b kfy.
      *
-     * @param key the key to be wrapped.
+     * @pbrbm kfy tif kfy to bf wrbppfd.
      *
-     * @return the wrapped key.
+     * @rfturn tif wrbppfd kfy.
      *
-     * @exception IllegalBlockSizeException if this cipher is a block
-     * cipher, no padding has been requested, and the length of the
-     * encoding of the key to be wrapped is not a
-     * multiple of the block size.
+     * @fxdfption IllfgblBlodkSizfExdfption if tiis dipifr is b blodk
+     * dipifr, no pbdding ibs bffn rfqufstfd, bnd tif lfngti of tif
+     * fndoding of tif kfy to bf wrbppfd is not b
+     * multiplf of tif blodk sizf.
      *
-     * @exception InvalidKeyException if it is impossible or unsafe to
-     * wrap the key with this cipher (e.g., a hardware protected key is
-     * being passed to a software only cipher).
+     * @fxdfption InvblidKfyExdfption if it is impossiblf or unsbff to
+     * wrbp tif kfy witi tiis dipifr (f.g., b ibrdwbrf protfdtfd kfy is
+     * bfing pbssfd to b softwbrf only dipifr).
      */
-    protected final byte[] engineWrap(Key key)
-        throws IllegalBlockSizeException, InvalidKeyException
+    protfdtfd finbl bytf[] fnginfWrbp(Kfy kfy)
+        tirows IllfgblBlodkSizfExdfption, InvblidKfyExdfption
     {
-        byte[] result = null;
+        bytf[] rfsult = null;
 
         try {
-            byte[] encodedKey = key.getEncoded();
-            if ((encodedKey == null) || (encodedKey.length == 0)) {
-                throw new InvalidKeyException("Cannot get an encoding of " +
-                                              "the key to be wrapped");
+            bytf[] fndodfdKfy = kfy.gftEndodfd();
+            if ((fndodfdKfy == null) || (fndodfdKfy.lfngti == 0)) {
+                tirow nfw InvblidKfyExdfption("Cbnnot gft bn fndoding of " +
+                                              "tif kfy to bf wrbppfd");
             }
 
-            result = engineDoFinal(encodedKey, 0, encodedKey.length);
-        } catch (BadPaddingException e) {
-            // Should never happen
+            rfsult = fnginfDoFinbl(fndodfdKfy, 0, fndodfdKfy.lfngti);
+        } dbtdi (BbdPbddingExdfption f) {
+            // Siould nfvfr ibppfn
         }
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Unwrap a previously wrapped key.
+     * Unwrbp b prfviously wrbppfd kfy.
      *
-     * @param wrappedKey the key to be unwrapped.
+     * @pbrbm wrbppfdKfy tif kfy to bf unwrbppfd.
      *
-     * @param wrappedKeyAlgorithm the algorithm the wrapped key is for.
+     * @pbrbm wrbppfdKfyAlgoritim tif blgoritim tif wrbppfd kfy is for.
      *
-     * @param wrappedKeyType the type of the wrapped key.
-     * This is one of <code>Cipher.SECRET_KEY</code>,
-     * <code>Cipher.PRIVATE_KEY</code>, or <code>Cipher.PUBLIC_KEY</code>.
+     * @pbrbm wrbppfdKfyTypf tif typf of tif wrbppfd kfy.
+     * Tiis is onf of <dodf>Cipifr.SECRET_KEY</dodf>,
+     * <dodf>Cipifr.PRIVATE_KEY</dodf>, or <dodf>Cipifr.PUBLIC_KEY</dodf>.
      *
-     * @return the unwrapped key.
+     * @rfturn tif unwrbppfd kfy.
      *
-     * @exception InvalidKeyException if <code>wrappedKey</code> does not
-     * represent a wrapped key, or if the algorithm associated with the
-     * wrapped key is different from <code>wrappedKeyAlgorithm</code>
-     * and/or its key type is different from <code>wrappedKeyType</code>.
+     * @fxdfption InvblidKfyExdfption if <dodf>wrbppfdKfy</dodf> dofs not
+     * rfprfsfnt b wrbppfd kfy, or if tif blgoritim bssodibtfd witi tif
+     * wrbppfd kfy is difffrfnt from <dodf>wrbppfdKfyAlgoritim</dodf>
+     * bnd/or its kfy typf is difffrfnt from <dodf>wrbppfdKfyTypf</dodf>.
      *
-     * @exception NoSuchAlgorithmException if no installed providers
-     * can create keys for the <code>wrappedKeyAlgorithm</code>.
+     * @fxdfption NoSudiAlgoritimExdfption if no instbllfd providfrs
+     * dbn drfbtf kfys for tif <dodf>wrbppfdKfyAlgoritim</dodf>.
      */
-    protected final Key engineUnwrap(byte[] wrappedKey,
-                                     String wrappedKeyAlgorithm,
-                                     int wrappedKeyType)
-        throws InvalidKeyException, NoSuchAlgorithmException
+    protfdtfd finbl Kfy fnginfUnwrbp(bytf[] wrbppfdKfy,
+                                     String wrbppfdKfyAlgoritim,
+                                     int wrbppfdKfyTypf)
+        tirows InvblidKfyExdfption, NoSudiAlgoritimExdfption
     {
-        byte[] encodedKey;
-        Key result = null;
+        bytf[] fndodfdKfy;
+        Kfy rfsult = null;
 
         try {
-            encodedKey = engineDoFinal(wrappedKey, 0,
-                                       wrappedKey.length);
-        } catch (BadPaddingException ePadding) {
-            throw new InvalidKeyException();
-        } catch (IllegalBlockSizeException eBlockSize) {
-            throw new InvalidKeyException();
+            fndodfdKfy = fnginfDoFinbl(wrbppfdKfy, 0,
+                                       wrbppfdKfy.lfngti);
+        } dbtdi (BbdPbddingExdfption fPbdding) {
+            tirow nfw InvblidKfyExdfption();
+        } dbtdi (IllfgblBlodkSizfExdfption fBlodkSizf) {
+            tirow nfw InvblidKfyExdfption();
         }
 
-        switch (wrappedKeyType) {
-        case Cipher.SECRET_KEY:
-            result = constructSecretKey(encodedKey,
-                                        wrappedKeyAlgorithm);
-            break;
-        case Cipher.PRIVATE_KEY:
-            result = constructPrivateKey(encodedKey,
-                                         wrappedKeyAlgorithm);
-            break;
-        case Cipher.PUBLIC_KEY:
-            result = constructPublicKey(encodedKey,
-                                        wrappedKeyAlgorithm);
-            break;
+        switdi (wrbppfdKfyTypf) {
+        dbsf Cipifr.SECRET_KEY:
+            rfsult = donstrudtSfdrftKfy(fndodfdKfy,
+                                        wrbppfdKfyAlgoritim);
+            brfbk;
+        dbsf Cipifr.PRIVATE_KEY:
+            rfsult = donstrudtPrivbtfKfy(fndodfdKfy,
+                                         wrbppfdKfyAlgoritim);
+            brfbk;
+        dbsf Cipifr.PUBLIC_KEY:
+            rfsult = donstrudtPublidKfy(fndodfdKfy,
+                                        wrbppfdKfyAlgoritim);
+            brfbk;
         }
 
-        return result;
+        rfturn rfsult;
 
     }
 
     /**
-     * Construct a public key from its encoding.
+     * Construdt b publid kfy from its fndoding.
      *
-     * @param encodedKey the encoding of a public key.
+     * @pbrbm fndodfdKfy tif fndoding of b publid kfy.
      *
-     * @param encodedKeyAlgorithm the algorithm the encodedKey is for.
+     * @pbrbm fndodfdKfyAlgoritim tif blgoritim tif fndodfdKfy is for.
      *
-     * @return a public key constructed from the encodedKey.
+     * @rfturn b publid kfy donstrudtfd from tif fndodfdKfy.
      */
-    private final PublicKey constructPublicKey(byte[] encodedKey,
-                                               String encodedKeyAlgorithm)
-        throws InvalidKeyException, NoSuchAlgorithmException
+    privbtf finbl PublidKfy donstrudtPublidKfy(bytf[] fndodfdKfy,
+                                               String fndodfdKfyAlgoritim)
+        tirows InvblidKfyExdfption, NoSudiAlgoritimExdfption
     {
-        PublicKey key = null;
+        PublidKfy kfy = null;
 
         try {
-            KeyFactory keyFactory =
-                KeyFactory.getInstance(encodedKeyAlgorithm,
-                    SunJCE.getInstance());
-            X509EncodedKeySpec keySpec = new X509EncodedKeySpec(encodedKey);
-            key = keyFactory.generatePublic(keySpec);
-        } catch (NoSuchAlgorithmException nsae) {
-            // Try to see whether there is another
-            // provider which supports this algorithm
+            KfyFbdtory kfyFbdtory =
+                KfyFbdtory.gftInstbndf(fndodfdKfyAlgoritim,
+                    SunJCE.gftInstbndf());
+            X509EndodfdKfySpfd kfySpfd = nfw X509EndodfdKfySpfd(fndodfdKfy);
+            kfy = kfyFbdtory.gfnfrbtfPublid(kfySpfd);
+        } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            // Try to sff wiftifr tifrf is bnotifr
+            // providfr wiidi supports tiis blgoritim
             try {
-                KeyFactory keyFactory =
-                    KeyFactory.getInstance(encodedKeyAlgorithm);
-                X509EncodedKeySpec keySpec =
-                    new X509EncodedKeySpec(encodedKey);
-                key = keyFactory.generatePublic(keySpec);
-            } catch (NoSuchAlgorithmException nsae2) {
-                throw new NoSuchAlgorithmException("No installed providers " +
-                                                   "can create keys for the " +
-                                                   encodedKeyAlgorithm +
-                                                   "algorithm");
-            } catch (InvalidKeySpecException ikse2) {
-                // Should never happen.
+                KfyFbdtory kfyFbdtory =
+                    KfyFbdtory.gftInstbndf(fndodfdKfyAlgoritim);
+                X509EndodfdKfySpfd kfySpfd =
+                    nfw X509EndodfdKfySpfd(fndodfdKfy);
+                kfy = kfyFbdtory.gfnfrbtfPublid(kfySpfd);
+            } dbtdi (NoSudiAlgoritimExdfption nsbf2) {
+                tirow nfw NoSudiAlgoritimExdfption("No instbllfd providfrs " +
+                                                   "dbn drfbtf kfys for tif " +
+                                                   fndodfdKfyAlgoritim +
+                                                   "blgoritim");
+            } dbtdi (InvblidKfySpfdExdfption iksf2) {
+                // Siould nfvfr ibppfn.
             }
-        } catch (InvalidKeySpecException ikse) {
-            // Should never happen.
+        } dbtdi (InvblidKfySpfdExdfption iksf) {
+            // Siould nfvfr ibppfn.
         }
 
-        return key;
+        rfturn kfy;
     }
 
     /**
-     * Construct a private key from its encoding.
+     * Construdt b privbtf kfy from its fndoding.
      *
-     * @param encodedKey the encoding of a private key.
+     * @pbrbm fndodfdKfy tif fndoding of b privbtf kfy.
      *
-     * @param encodedKeyAlgorithm the algorithm the wrapped key is for.
+     * @pbrbm fndodfdKfyAlgoritim tif blgoritim tif wrbppfd kfy is for.
      *
-     * @return a private key constructed from the encodedKey.
+     * @rfturn b privbtf kfy donstrudtfd from tif fndodfdKfy.
      */
-    private final PrivateKey constructPrivateKey(byte[] encodedKey,
-                                                 String encodedKeyAlgorithm)
-        throws InvalidKeyException, NoSuchAlgorithmException
+    privbtf finbl PrivbtfKfy donstrudtPrivbtfKfy(bytf[] fndodfdKfy,
+                                                 String fndodfdKfyAlgoritim)
+        tirows InvblidKfyExdfption, NoSudiAlgoritimExdfption
     {
-        PrivateKey key = null;
+        PrivbtfKfy kfy = null;
 
         try {
-            KeyFactory keyFactory =
-                KeyFactory.getInstance(encodedKeyAlgorithm,
-                    SunJCE.getInstance());
-            PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(encodedKey);
-            return keyFactory.generatePrivate(keySpec);
-        } catch (NoSuchAlgorithmException nsae) {
-            // Try to see whether there is another
-            // provider which supports this algorithm
+            KfyFbdtory kfyFbdtory =
+                KfyFbdtory.gftInstbndf(fndodfdKfyAlgoritim,
+                    SunJCE.gftInstbndf());
+            PKCS8EndodfdKfySpfd kfySpfd = nfw PKCS8EndodfdKfySpfd(fndodfdKfy);
+            rfturn kfyFbdtory.gfnfrbtfPrivbtf(kfySpfd);
+        } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            // Try to sff wiftifr tifrf is bnotifr
+            // providfr wiidi supports tiis blgoritim
             try {
-                KeyFactory keyFactory =
-                    KeyFactory.getInstance(encodedKeyAlgorithm);
-                PKCS8EncodedKeySpec keySpec =
-                    new PKCS8EncodedKeySpec(encodedKey);
-                key = keyFactory.generatePrivate(keySpec);
-            } catch (NoSuchAlgorithmException nsae2) {
-                throw new NoSuchAlgorithmException("No installed providers " +
-                                                   "can create keys for the " +
-                                                   encodedKeyAlgorithm +
-                                                   "algorithm");
-            } catch (InvalidKeySpecException ikse2) {
-                // Should never happen.
+                KfyFbdtory kfyFbdtory =
+                    KfyFbdtory.gftInstbndf(fndodfdKfyAlgoritim);
+                PKCS8EndodfdKfySpfd kfySpfd =
+                    nfw PKCS8EndodfdKfySpfd(fndodfdKfy);
+                kfy = kfyFbdtory.gfnfrbtfPrivbtf(kfySpfd);
+            } dbtdi (NoSudiAlgoritimExdfption nsbf2) {
+                tirow nfw NoSudiAlgoritimExdfption("No instbllfd providfrs " +
+                                                   "dbn drfbtf kfys for tif " +
+                                                   fndodfdKfyAlgoritim +
+                                                   "blgoritim");
+            } dbtdi (InvblidKfySpfdExdfption iksf2) {
+                // Siould nfvfr ibppfn.
             }
-        } catch (InvalidKeySpecException ikse) {
-            // Should never happen.
+        } dbtdi (InvblidKfySpfdExdfption iksf) {
+            // Siould nfvfr ibppfn.
         }
 
-        return key;
+        rfturn kfy;
     }
 
     /**
-     * Construct a secret key from its encoding.
+     * Construdt b sfdrft kfy from its fndoding.
      *
-     * @param encodedKey the encoding of a secret key.
+     * @pbrbm fndodfdKfy tif fndoding of b sfdrft kfy.
      *
-     * @param encodedKeyAlgorithm the algorithm the secret key is for.
+     * @pbrbm fndodfdKfyAlgoritim tif blgoritim tif sfdrft kfy is for.
      *
-     * @return a secret key constructed from the encodedKey.
+     * @rfturn b sfdrft kfy donstrudtfd from tif fndodfdKfy.
      */
-    private final SecretKey constructSecretKey(byte[] encodedKey,
-                                               String encodedKeyAlgorithm)
+    privbtf finbl SfdrftKfy donstrudtSfdrftKfy(bytf[] fndodfdKfy,
+                                               String fndodfdKfyAlgoritim)
     {
-        return (new SecretKeySpec(encodedKey, encodedKeyAlgorithm));
+        rfturn (nfw SfdrftKfySpfd(fndodfdKfy, fndodfdKfyAlgoritim));
     }
 }

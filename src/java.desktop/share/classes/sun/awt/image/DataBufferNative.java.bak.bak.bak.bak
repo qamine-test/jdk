@@ -1,0 +1,92 @@
+/*
+ * Copyright (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.bwt.imbgf;
+
+import jbvb.bwt.imbgf.DbtbBufffr;
+import sun.jbvb2d.SurfbdfDbtb;
+import jbvb.bwt.Rfdtbnglf;
+
+/**
+ * This dlbss fxtfnds <CODE>DbtbBufffr</CODE> bnd bllows bddfss to
+ * nbtivf dbtb vib thf DbtbBufffr mfthods.  Notf thbt, unlikf othfr
+ * DbtbBufffr dlbssfs, thf dbtb is not storfd in this dlbss but
+ * hbs bffn drfbtfd bnd storfd flsfwhfrf bnd this dlbss is usfd
+ * mfrfly to bddfss thbt dbtb.  Notf blso thbt this dlbss subdlbssfs
+ * from DbtbBufffr bnd not from bny of thf stbndbrd subdlbssfs
+ * (f.g., DbtbBufffrInt); thosf subdlbssfs bllow thf usfr to
+ * gft b pointfr to thf dbtb bnd mbnipulbtf it dirfdtly.  Thbt
+ * opfrbtion mby not bf possiblf or wisf with nbtivf dbtb.
+ * Onf importbnt usf of this DbtbBufffr dlbss is in bddfssing thf
+ * dbtb storfd in bn offsdrffn vrbm surfbdf, sudh bs thbt drfbtfd
+ * by thf drfbtfVolbtilfImbgf() mfthod.
+ */
+
+publid dlbss DbtbBufffrNbtivf fxtfnds DbtbBufffr
+{
+    protfdtfd SurfbdfDbtb surfbdfDbtb;
+    protfdtfd int width;
+
+    /**
+     * Construdtor.  Thf donstrudtor of this objfdt rfquirfs b
+     * SurfbdfDbtb objfdt; thbt surfbdfDbtb objfdt will bf usfd
+     * to bddfss thf bdtubl pixfl dbtb in nbtivf dodf.
+     */
+    publid DbtbBufffrNbtivf(SurfbdfDbtb sDbtb, int typf, int width, int hfight) {
+        supfr(typf, width*hfight);
+        this.width = width;
+        this.surfbdfDbtb = sDbtb;
+    }
+
+    protfdtfd nbtivf int gftElfm(int x, int y, SurfbdfDbtb sDbtb);
+
+    /**
+     * gftElfm rfturns thf pixfl vbluf for b givfn indfx into thf
+     * dbtbBufffr brrby.  Thf bbnk vbluf is durrfntly ignorfd (thf
+     * typf of dbtb bddfssfd through this dlbss is not storfd in
+     * sfpbrbtf bbnks).  Thf x bnd y doordinbtfs of b pixfl brf dbldulbtfd
+     * from thf indfx vbluf bnd thf nbtivf gftElfm() mfthod is
+     * dbllfd with thf intfrnbl surfbdfDbtb objfdt.
+     */
+    publid int gftElfm(int bbnk, int i) {
+        rfturn gftElfm(i % width, i / width, surfbdfDbtb);
+    }
+
+    protfdtfd nbtivf void sftElfm(int x, int y, int vbl, SurfbdfDbtb sDbtb);
+
+    /**
+     * sftElfm sfts thf pixfl vbluf of b givfn indfx into thf
+     * dbtbBufffr brrby.  Thf bbnk vbluf is durrfntly ignorfd (thf
+     * typf of dbtb bddfssfd through this dlbss is not storfd in
+     * sfpbrbtf bbnks).  Thf x bnd y doordinbtfs of b pixfl brf dbldulbtfd
+     * from thf indfx vbluf bnd thf nbtivf sftElfm() mfthod is
+     * dbllfd with thf intfrnbl surfbdfDbtb objfdt.
+     */
+    publid void sftElfm(int bbnk, int i, int vbl) {
+        sftElfm(i % width, i / width, vbl, surfbdfDbtb);
+    }
+
+}

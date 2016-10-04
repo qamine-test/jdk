@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.cs.ext;
+pbdkbgf sun.nio.ds.fxt;
 
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.util.Arrays;
-import sun.nio.cs.HistoricallyNamedCharset;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.CibrsftDfdodfr;
+import jbvb.nio.dibrsft.CibrsftEndodfr;
+import jbvb.util.Arrbys;
+import sun.nio.ds.HistoridbllyNbmfdCibrsft;
 
-public class IBM943C extends Charset implements HistoricallyNamedCharset
+publid dlbss IBM943C fxtfnds Cibrsft implfmfnts HistoridbllyNbmfdCibrsft
 {
 
-    public IBM943C() {
-        super("x-IBM943C", ExtendedCharsets.aliasesFor("x-IBM943C"));
+    publid IBM943C() {
+        supfr("x-IBM943C", ExtfndfdCibrsfts.blibsfsFor("x-IBM943C"));
     }
 
-    public String historicalName() {
-        return "Cp943C";
+    publid String iistoridblNbmf() {
+        rfturn "Cp943C";
     }
 
-    public boolean contains(Charset cs) {
-        return ((cs.name().equals("US-ASCII"))
-                || (cs instanceof IBM943C));
+    publid boolfbn dontbins(Cibrsft ds) {
+        rfturn ((ds.nbmf().fqubls("US-ASCII"))
+                || (ds instbndfof IBM943C));
     }
 
-    public CharsetDecoder newDecoder() {
-        return new DoubleByte.Decoder(this,
-                                      IBM943.b2c,
-                                      b2cSB,
+    publid CibrsftDfdodfr nfwDfdodfr() {
+        rfturn nfw DoublfBytf.Dfdodfr(tiis,
+                                      IBM943.b2d,
+                                      b2dSB,
                                       0x40,
-                                      0xfc);
+                                      0xfd);
     }
 
-    public CharsetEncoder newEncoder() {
-        return new DoubleByte.Encoder(this, c2b, c2bIndex);
+    publid CibrsftEndodfr nfwEndodfr() {
+        rfturn nfw DoublfBytf.Endodfr(tiis, d2b, d2bIndfx);
     }
 
-    final static char[] b2cSB;
-    final static char[] c2b;
-    final static char[] c2bIndex;
+    finbl stbtid dibr[] b2dSB;
+    finbl stbtid dibr[] d2b;
+    finbl stbtid dibr[] d2bIndfx;
 
-    static {
-        IBM943.initb2c();
-        b2cSB = new char[0x100];
+    stbtid {
+        IBM943.initb2d();
+        b2dSB = nfw dibr[0x100];
         for (int i = 0; i < 0x80; i++) {
-            b2cSB[i] = (char)i;
+            b2dSB[i] = (dibr)i;
         }
         for (int i = 0x80; i < 0x100; i++) {
-            b2cSB[i] = IBM943.b2cSB[i];
+            b2dSB[i] = IBM943.b2dSB[i];
         }
 
-        IBM943.initc2b();
-        c2b = Arrays.copyOf(IBM943.c2b, IBM943.c2b.length);
-        c2bIndex = Arrays.copyOf(IBM943.c2bIndex, IBM943.c2bIndex.length);
-        for (char c = '\0'; c < '\u0080'; ++c) {
-            int index = c2bIndex[c >> 8];
-            c2b[index + (c & 0xff)] = c;
+        IBM943.initd2b();
+        d2b = Arrbys.dopyOf(IBM943.d2b, IBM943.d2b.lfngti);
+        d2bIndfx = Arrbys.dopyOf(IBM943.d2bIndfx, IBM943.d2bIndfx.lfngti);
+        for (dibr d = '\0'; d < '\u0080'; ++d) {
+            int indfx = d2bIndfx[d >> 8];
+            d2b[indfx + (d & 0xff)] = d;
         }
     }
 }

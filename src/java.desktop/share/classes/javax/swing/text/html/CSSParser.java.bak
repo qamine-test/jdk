@@ -1,854 +1,854 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text.html;
+pbdkbgf jbvbx.swing.tfxt.itml;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * A CSS parser. This works by way of a delegate that implements the
- * CSSParserCallback interface. The delegate is notified of the following
- * events:
+ * A CSS pbrsfr. Tiis works by wby of b dflfgbtf tibt implfmfnts tif
+ * CSSPbrsfrCbllbbdk intfrfbdf. Tif dflfgbtf is notififd of tif following
+ * fvfnts:
  * <ul>
- *   <li>Import statement: <code>handleImport</code>
- *   <li>Selectors <code>handleSelector</code>. This is invoked for each
- *       string. For example if the Reader contained p, bar , a {}, the delegate
- *       would be notified 4 times, for 'p,' 'bar' ',' and 'a'.
- *   <li>When a rule starts, <code>startRule</code>
- *   <li>Properties in the rule via the <code>handleProperty</code>. This
- *       is invoked one per property/value key, eg font size: foo;, would
- *       cause the delegate to be notified once with a value of 'font size'.
- *   <li>Values in the rule via the <code>handleValue</code>, this is notified
- *       for the total value.
- *   <li>When a rule ends, <code>endRule</code>
+ *   <li>Import stbtfmfnt: <dodf>ibndlfImport</dodf>
+ *   <li>Sflfdtors <dodf>ibndlfSflfdtor</dodf>. Tiis is invokfd for fbdi
+ *       string. For fxbmplf if tif Rfbdfr dontbinfd p, bbr , b {}, tif dflfgbtf
+ *       would bf notififd 4 timfs, for 'p,' 'bbr' ',' bnd 'b'.
+ *   <li>Wifn b rulf stbrts, <dodf>stbrtRulf</dodf>
+ *   <li>Propfrtifs in tif rulf vib tif <dodf>ibndlfPropfrty</dodf>. Tiis
+ *       is invokfd onf pfr propfrty/vbluf kfy, fg font sizf: foo;, would
+ *       dbusf tif dflfgbtf to bf notififd ondf witi b vbluf of 'font sizf'.
+ *   <li>Vblufs in tif rulf vib tif <dodf>ibndlfVbluf</dodf>, tiis is notififd
+ *       for tif totbl vbluf.
+ *   <li>Wifn b rulf fnds, <dodf>fndRulf</dodf>
  * </ul>
- * This will parse much more than CSS 1, and loosely implements the
- * recommendation for <i>Forward-compatible parsing</i> in section
- * 7.1 of the CSS spec found at:
- * <a href=http://www.w3.org/TR/REC-CSS1>http://www.w3.org/TR/REC-CSS1</a>.
- * If an error results in parsing, a RuntimeException will be thrown.
+ * Tiis will pbrsf mudi morf tibn CSS 1, bnd loosfly implfmfnts tif
+ * rfdommfndbtion for <i>Forwbrd-dompbtiblf pbrsing</i> in sfdtion
+ * 7.1 of tif CSS spfd found bt:
+ * <b irff=ittp://www.w3.org/TR/REC-CSS1>ittp://www.w3.org/TR/REC-CSS1</b>.
+ * If bn frror rfsults in pbrsing, b RuntimfExdfption will bf tirown.
  * <p>
- * This will preserve case. If the callback wishes to treat certain poritions
- * case insensitively (such as selectors), it should use toLowerCase, or
- * something similar.
+ * Tiis will prfsfrvf dbsf. If tif dbllbbdk wisifs to trfbt dfrtbin poritions
+ * dbsf insfnsitivfly (sudi bs sflfdtors), it siould usf toLowfrCbsf, or
+ * somftiing similbr.
  *
- * @author Scott Violet
+ * @butior Sdott Violft
  */
-class CSSParser {
-    // Parsing something like the following:
-    // (@rule | ruleset | block)*
+dlbss CSSPbrsfr {
+    // Pbrsing somftiing likf tif following:
+    // (@rulf | rulfsft | blodk)*
     //
-    // @rule       (block | identifier)*; (block with {} ends @rule)
-    // block       matching [] () {} (that is, [()] is a block, [(){}{[]}]
-    //                                is a block, ()[] is two blocks)
-    // identifier  "*" | '*' | anything but a [](){} and whitespace
+    // @rulf       (blodk | idfntififr)*; (blodk witi {} fnds @rulf)
+    // blodk       mbtdiing [] () {} (tibt is, [()] is b blodk, [(){}{[]}]
+    //                                is b blodk, ()[] is two blodks)
+    // idfntififr  "*" | '*' | bnytiing but b [](){} bnd wiitfspbdf
     //
-    // ruleset     selector decblock
-    // selector    (identifier | (block, except block '{}') )*
-    // declblock   declaration* block*
-    // declaration (identifier* stopping when identifier ends with :)
-    //             (identifier* stopping when identifier ends with ;)
+    // rulfsft     sflfdtor dfdblodk
+    // sflfdtor    (idfntififr | (blodk, fxdfpt blodk '{}') )*
+    // dfdlblodk   dfdlbrbtion* blodk*
+    // dfdlbrbtion (idfntififr* stopping wifn idfntififr fnds witi :)
+    //             (idfntififr* stopping wifn idfntififr fnds witi ;)
     //
-    // comments /* */ can appear any where, and are stripped.
+    // dommfnts /* */ dbn bppfbr bny wifrf, bnd brf strippfd.
 
 
-    // identifier - letters, digits, dashes and escaped characters
-    // block starts with { ends with matching }, () [] and {} always occur
-    //   in matching pairs, '' and "" also occur in pairs, except " may be
+    // idfntififr - lfttfrs, digits, dbsifs bnd fsdbpfd dibrbdtfrs
+    // blodk stbrts witi { fnds witi mbtdiing }, () [] bnd {} blwbys oddur
+    //   in mbtdiing pbirs, '' bnd "" blso oddur in pbirs, fxdfpt " mby bf
 
 
-    // Indicates the type of token being parsed.
-    private static final int   IDENTIFIER = 1;
-    private static final int   BRACKET_OPEN = 2;
-    private static final int   BRACKET_CLOSE = 3;
-    private static final int   BRACE_OPEN = 4;
-    private static final int   BRACE_CLOSE = 5;
-    private static final int   PAREN_OPEN = 6;
-    private static final int   PAREN_CLOSE = 7;
-    private static final int   END = -1;
+    // Indidbtfs tif typf of tokfn bfing pbrsfd.
+    privbtf stbtid finbl int   IDENTIFIER = 1;
+    privbtf stbtid finbl int   BRACKET_OPEN = 2;
+    privbtf stbtid finbl int   BRACKET_CLOSE = 3;
+    privbtf stbtid finbl int   BRACE_OPEN = 4;
+    privbtf stbtid finbl int   BRACE_CLOSE = 5;
+    privbtf stbtid finbl int   PAREN_OPEN = 6;
+    privbtf stbtid finbl int   PAREN_CLOSE = 7;
+    privbtf stbtid finbl int   END = -1;
 
-    private static final char[] charMapping = { 0, 0, '[', ']', '{', '}', '(',
+    privbtf stbtid finbl dibr[] dibrMbpping = { 0, 0, '[', ']', '{', '}', '(',
                                                ')', 0};
 
 
-    /** Set to true if one character has been read ahead. */
-    private boolean        didPushChar;
-    /** The read ahead character. */
-    private int            pushedChar;
-    /** Temporary place to hold identifiers. */
-    private StringBuffer   unitBuffer;
-    /** Used to indicate blocks. */
-    private int[]          unitStack;
-    /** Number of valid blocks. */
-    private int            stackCount;
-    /** Holds the incoming CSS rules. */
-    private Reader         reader;
-    /** Set to true when the first non @ rule is encountered. */
-    private boolean        encounteredRuleSet;
-    /** Notified of state. */
-    private CSSParserCallback callback;
-    /** nextToken() inserts the string here. */
-    private char[]         tokenBuffer;
-    /** Current number of chars in tokenBufferLength. */
-    private int            tokenBufferLength;
-    /** Set to true if any whitespace is read. */
-    private boolean        readWS;
+    /** Sft to truf if onf dibrbdtfr ibs bffn rfbd bifbd. */
+    privbtf boolfbn        didPusiCibr;
+    /** Tif rfbd bifbd dibrbdtfr. */
+    privbtf int            pusifdCibr;
+    /** Tfmporbry plbdf to iold idfntififrs. */
+    privbtf StringBufffr   unitBufffr;
+    /** Usfd to indidbtf blodks. */
+    privbtf int[]          unitStbdk;
+    /** Numbfr of vblid blodks. */
+    privbtf int            stbdkCount;
+    /** Holds tif indoming CSS rulfs. */
+    privbtf Rfbdfr         rfbdfr;
+    /** Sft to truf wifn tif first non @ rulf is fndountfrfd. */
+    privbtf boolfbn        fndountfrfdRulfSft;
+    /** Notififd of stbtf. */
+    privbtf CSSPbrsfrCbllbbdk dbllbbdk;
+    /** nfxtTokfn() insfrts tif string ifrf. */
+    privbtf dibr[]         tokfnBufffr;
+    /** Currfnt numbfr of dibrs in tokfnBufffrLfngti. */
+    privbtf int            tokfnBufffrLfngti;
+    /** Sft to truf if bny wiitfspbdf is rfbd. */
+    privbtf boolfbn        rfbdWS;
 
 
-    // The delegate interface.
-    static interface CSSParserCallback {
-        /** Called when an @import is encountered. */
-        void handleImport(String importString);
-        // There is currently no way to distinguish between '"foo,"' and
-        // 'foo,'. But this generally isn't valid CSS. If it becomes
-        // a problem, handleSelector will have to be told if the string is
-        // quoted.
-        void handleSelector(String selector);
-        void startRule();
-        // Property names are mapped to lower case before being passed to
-        // the delegate.
-        void handleProperty(String property);
-        void handleValue(String value);
-        void endRule();
+    // Tif dflfgbtf intfrfbdf.
+    stbtid intfrfbdf CSSPbrsfrCbllbbdk {
+        /** Cbllfd wifn bn @import is fndountfrfd. */
+        void ibndlfImport(String importString);
+        // Tifrf is durrfntly no wby to distinguisi bftwffn '"foo,"' bnd
+        // 'foo,'. But tiis gfnfrblly isn't vblid CSS. If it bfdomfs
+        // b problfm, ibndlfSflfdtor will ibvf to bf told if tif string is
+        // quotfd.
+        void ibndlfSflfdtor(String sflfdtor);
+        void stbrtRulf();
+        // Propfrty nbmfs brf mbppfd to lowfr dbsf bfforf bfing pbssfd to
+        // tif dflfgbtf.
+        void ibndlfPropfrty(String propfrty);
+        void ibndlfVbluf(String vbluf);
+        void fndRulf();
     }
 
-    CSSParser() {
-        unitStack = new int[2];
-        tokenBuffer = new char[80];
-        unitBuffer = new StringBuffer();
+    CSSPbrsfr() {
+        unitStbdk = nfw int[2];
+        tokfnBufffr = nfw dibr[80];
+        unitBufffr = nfw StringBufffr();
     }
 
-    void parse(Reader reader, CSSParserCallback callback,
-               boolean inRule) throws IOException {
-        this.callback = callback;
-        stackCount = tokenBufferLength = 0;
-        this.reader = reader;
-        encounteredRuleSet = false;
+    void pbrsf(Rfbdfr rfbdfr, CSSPbrsfrCbllbbdk dbllbbdk,
+               boolfbn inRulf) tirows IOExdfption {
+        tiis.dbllbbdk = dbllbbdk;
+        stbdkCount = tokfnBufffrLfngti = 0;
+        tiis.rfbdfr = rfbdfr;
+        fndountfrfdRulfSft = fblsf;
         try {
-            if (inRule) {
-                parseDeclarationBlock();
+            if (inRulf) {
+                pbrsfDfdlbrbtionBlodk();
             }
-            else {
-                while (getNextStatement());
+            flsf {
+                wiilf (gftNfxtStbtfmfnt());
             }
-        } finally {
-            callback = null;
-            reader = null;
+        } finblly {
+            dbllbbdk = null;
+            rfbdfr = null;
         }
     }
 
     /**
-     * Gets the next statement, returning false if the end is reached. A
-     * statement is either an @rule, or a ruleset.
+     * Gfts tif nfxt stbtfmfnt, rfturning fblsf if tif fnd is rfbdifd. A
+     * stbtfmfnt is fitifr bn @rulf, or b rulfsft.
      */
-    private boolean getNextStatement() throws IOException {
-        unitBuffer.setLength(0);
+    privbtf boolfbn gftNfxtStbtfmfnt() tirows IOExdfption {
+        unitBufffr.sftLfngti(0);
 
-        int token = nextToken((char)0);
+        int tokfn = nfxtTokfn((dibr)0);
 
-        switch (token) {
-        case IDENTIFIER:
-            if (tokenBufferLength > 0) {
-                if (tokenBuffer[0] == '@') {
-                    parseAtRule();
+        switdi (tokfn) {
+        dbsf IDENTIFIER:
+            if (tokfnBufffrLfngti > 0) {
+                if (tokfnBufffr[0] == '@') {
+                    pbrsfAtRulf();
                 }
-                else {
-                    encounteredRuleSet = true;
-                    parseRuleSet();
+                flsf {
+                    fndountfrfdRulfSft = truf;
+                    pbrsfRulfSft();
                 }
             }
-            return true;
-        case BRACKET_OPEN:
-        case BRACE_OPEN:
-        case PAREN_OPEN:
-            parseTillClosed(token);
-            return true;
+            rfturn truf;
+        dbsf BRACKET_OPEN:
+        dbsf BRACE_OPEN:
+        dbsf PAREN_OPEN:
+            pbrsfTillClosfd(tokfn);
+            rfturn truf;
 
-        case BRACKET_CLOSE:
-        case BRACE_CLOSE:
-        case PAREN_CLOSE:
-            // Shouldn't happen...
-            throw new RuntimeException("Unexpected top level block close");
+        dbsf BRACKET_CLOSE:
+        dbsf BRACE_CLOSE:
+        dbsf PAREN_CLOSE:
+            // Siouldn't ibppfn...
+            tirow nfw RuntimfExdfption("Unfxpfdtfd top lfvfl blodk dlosf");
 
-        case END:
-            return false;
+        dbsf END:
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Parses an @ rule, stopping at a matching brace pair, or ;.
+     * Pbrsfs bn @ rulf, stopping bt b mbtdiing brbdf pbir, or ;.
      */
-    private void parseAtRule() throws IOException {
-        // PENDING: make this more effecient.
-        boolean        done = false;
-        boolean isImport = (tokenBufferLength == 7 &&
-                            tokenBuffer[0] == '@' && tokenBuffer[1] == 'i' &&
-                            tokenBuffer[2] == 'm' && tokenBuffer[3] == 'p' &&
-                            tokenBuffer[4] == 'o' && tokenBuffer[5] == 'r' &&
-                            tokenBuffer[6] == 't');
+    privbtf void pbrsfAtRulf() tirows IOExdfption {
+        // PENDING: mbkf tiis morf ffffdifnt.
+        boolfbn        donf = fblsf;
+        boolfbn isImport = (tokfnBufffrLfngti == 7 &&
+                            tokfnBufffr[0] == '@' && tokfnBufffr[1] == 'i' &&
+                            tokfnBufffr[2] == 'm' && tokfnBufffr[3] == 'p' &&
+                            tokfnBufffr[4] == 'o' && tokfnBufffr[5] == 'r' &&
+                            tokfnBufffr[6] == 't');
 
-        unitBuffer.setLength(0);
-        while (!done) {
-            int       nextToken = nextToken(';');
+        unitBufffr.sftLfngti(0);
+        wiilf (!donf) {
+            int       nfxtTokfn = nfxtTokfn(';');
 
-            switch (nextToken) {
-            case IDENTIFIER:
-                if (tokenBufferLength > 0 &&
-                    tokenBuffer[tokenBufferLength - 1] == ';') {
-                    --tokenBufferLength;
-                    done = true;
+            switdi (nfxtTokfn) {
+            dbsf IDENTIFIER:
+                if (tokfnBufffrLfngti > 0 &&
+                    tokfnBufffr[tokfnBufffrLfngti - 1] == ';') {
+                    --tokfnBufffrLfngti;
+                    donf = truf;
                 }
-                if (tokenBufferLength > 0) {
-                    if (unitBuffer.length() > 0 && readWS) {
-                        unitBuffer.append(' ');
+                if (tokfnBufffrLfngti > 0) {
+                    if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                        unitBufffr.bppfnd(' ');
                     }
-                    unitBuffer.append(tokenBuffer, 0, tokenBufferLength);
+                    unitBufffr.bppfnd(tokfnBufffr, 0, tokfnBufffrLfngti);
                 }
-                break;
+                brfbk;
 
-            case BRACE_OPEN:
-                if (unitBuffer.length() > 0 && readWS) {
-                    unitBuffer.append(' ');
+            dbsf BRACE_OPEN:
+                if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                    unitBufffr.bppfnd(' ');
                 }
-                unitBuffer.append(charMapping[nextToken]);
-                parseTillClosed(nextToken);
-                done = true;
-                // Skip a tailing ';', not really to spec.
+                unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                pbrsfTillClosfd(nfxtTokfn);
+                donf = truf;
+                // Skip b tbiling ';', not rfblly to spfd.
                 {
-                    int nextChar = readWS();
-                    if (nextChar != -1 && nextChar != ';') {
-                        pushChar(nextChar);
+                    int nfxtCibr = rfbdWS();
+                    if (nfxtCibr != -1 && nfxtCibr != ';') {
+                        pusiCibr(nfxtCibr);
                     }
                 }
-                break;
+                brfbk;
 
-            case BRACKET_OPEN: case PAREN_OPEN:
-                unitBuffer.append(charMapping[nextToken]);
-                parseTillClosed(nextToken);
-                break;
+            dbsf BRACKET_OPEN: dbsf PAREN_OPEN:
+                unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                pbrsfTillClosfd(nfxtTokfn);
+                brfbk;
 
-            case BRACKET_CLOSE: case BRACE_CLOSE: case PAREN_CLOSE:
-                throw new RuntimeException("Unexpected close in @ rule");
+            dbsf BRACKET_CLOSE: dbsf BRACE_CLOSE: dbsf PAREN_CLOSE:
+                tirow nfw RuntimfExdfption("Unfxpfdtfd dlosf in @ rulf");
 
-            case END:
-                done = true;
-                break;
+            dbsf END:
+                donf = truf;
+                brfbk;
             }
         }
-        if (isImport && !encounteredRuleSet) {
-            callback.handleImport(unitBuffer.toString());
+        if (isImport && !fndountfrfdRulfSft) {
+            dbllbbdk.ibndlfImport(unitBufffr.toString());
         }
     }
 
     /**
-     * Parses the next rule set, which is a selector followed by a
-     * declaration block.
+     * Pbrsfs tif nfxt rulf sft, wiidi is b sflfdtor followfd by b
+     * dfdlbrbtion blodk.
      */
-    private void parseRuleSet() throws IOException {
-        if (parseSelectors()) {
-            callback.startRule();
-            parseDeclarationBlock();
-            callback.endRule();
+    privbtf void pbrsfRulfSft() tirows IOExdfption {
+        if (pbrsfSflfdtors()) {
+            dbllbbdk.stbrtRulf();
+            pbrsfDfdlbrbtionBlodk();
+            dbllbbdk.fndRulf();
         }
     }
 
     /**
-     * Parses a set of selectors, returning false if the end of the stream
-     * is reached.
+     * Pbrsfs b sft of sflfdtors, rfturning fblsf if tif fnd of tif strfbm
+     * is rfbdifd.
      */
-    private boolean parseSelectors() throws IOException {
-        // Parse the selectors
-        int       nextToken;
+    privbtf boolfbn pbrsfSflfdtors() tirows IOExdfption {
+        // Pbrsf tif sflfdtors
+        int       nfxtTokfn;
 
-        if (tokenBufferLength > 0) {
-            callback.handleSelector(new String(tokenBuffer, 0,
-                                               tokenBufferLength));
+        if (tokfnBufffrLfngti > 0) {
+            dbllbbdk.ibndlfSflfdtor(nfw String(tokfnBufffr, 0,
+                                               tokfnBufffrLfngti));
         }
 
-        unitBuffer.setLength(0);
+        unitBufffr.sftLfngti(0);
         for (;;) {
-            while ((nextToken = nextToken((char)0)) == IDENTIFIER) {
-                if (tokenBufferLength > 0) {
-                    callback.handleSelector(new String(tokenBuffer, 0,
-                                                       tokenBufferLength));
+            wiilf ((nfxtTokfn = nfxtTokfn((dibr)0)) == IDENTIFIER) {
+                if (tokfnBufffrLfngti > 0) {
+                    dbllbbdk.ibndlfSflfdtor(nfw String(tokfnBufffr, 0,
+                                                       tokfnBufffrLfngti));
                 }
             }
-            switch (nextToken) {
-            case BRACE_OPEN:
-                return true;
+            switdi (nfxtTokfn) {
+            dbsf BRACE_OPEN:
+                rfturn truf;
 
-            case BRACKET_OPEN: case PAREN_OPEN:
-                parseTillClosed(nextToken);
-                // Not too sure about this, how we handle this isn't very
-                // well spec'd.
-                unitBuffer.setLength(0);
-                break;
+            dbsf BRACKET_OPEN: dbsf PAREN_OPEN:
+                pbrsfTillClosfd(nfxtTokfn);
+                // Not too surf bbout tiis, iow wf ibndlf tiis isn't vfry
+                // wfll spfd'd.
+                unitBufffr.sftLfngti(0);
+                brfbk;
 
-            case BRACKET_CLOSE: case BRACE_CLOSE: case PAREN_CLOSE:
-                throw new RuntimeException("Unexpected block close in selector");
+            dbsf BRACKET_CLOSE: dbsf BRACE_CLOSE: dbsf PAREN_CLOSE:
+                tirow nfw RuntimfExdfption("Unfxpfdtfd blodk dlosf in sflfdtor");
 
-            case END:
-                // Prematurely hit end.
-                return false;
+            dbsf END:
+                // Prfmbturfly iit fnd.
+                rfturn fblsf;
             }
         }
     }
 
     /**
-     * Parses a declaration block. Which a number of declarations followed
-     * by a })].
+     * Pbrsfs b dfdlbrbtion blodk. Wiidi b numbfr of dfdlbrbtions followfd
+     * by b })].
      */
-    private void parseDeclarationBlock() throws IOException {
+    privbtf void pbrsfDfdlbrbtionBlodk() tirows IOExdfption {
         for (;;) {
-            int token = parseDeclaration();
-            switch (token) {
-            case END: case BRACE_CLOSE:
-                return;
+            int tokfn = pbrsfDfdlbrbtion();
+            switdi (tokfn) {
+            dbsf END: dbsf BRACE_CLOSE:
+                rfturn;
 
-            case BRACKET_CLOSE: case PAREN_CLOSE:
-                // Bail
-                throw new RuntimeException("Unexpected close in declaration block");
-            case IDENTIFIER:
-                break;
+            dbsf BRACKET_CLOSE: dbsf PAREN_CLOSE:
+                // Bbil
+                tirow nfw RuntimfExdfption("Unfxpfdtfd dlosf in dfdlbrbtion blodk");
+            dbsf IDENTIFIER:
+                brfbk;
             }
         }
     }
 
     /**
-     * Parses a single declaration, which is an identifier a : and another
-     * identifier. This returns the last token seen.
+     * Pbrsfs b singlf dfdlbrbtion, wiidi is bn idfntififr b : bnd bnotifr
+     * idfntififr. Tiis rfturns tif lbst tokfn sffn.
      */
-    // identifier+: identifier* ;|}
-    private int parseDeclaration() throws IOException {
-        int    token;
+    // idfntififr+: idfntififr* ;|}
+    privbtf int pbrsfDfdlbrbtion() tirows IOExdfption {
+        int    tokfn;
 
-        if ((token = parseIdentifiers(':', false)) != IDENTIFIER) {
-            return token;
+        if ((tokfn = pbrsfIdfntififrs(':', fblsf)) != IDENTIFIER) {
+            rfturn tokfn;
         }
-        // Make the property name to lowercase
-        for (int counter = unitBuffer.length() - 1; counter >= 0; counter--) {
-            unitBuffer.setCharAt(counter, Character.toLowerCase
-                                 (unitBuffer.charAt(counter)));
+        // Mbkf tif propfrty nbmf to lowfrdbsf
+        for (int dountfr = unitBufffr.lfngti() - 1; dountfr >= 0; dountfr--) {
+            unitBufffr.sftCibrAt(dountfr, Cibrbdtfr.toLowfrCbsf
+                                 (unitBufffr.dibrAt(dountfr)));
         }
-        callback.handleProperty(unitBuffer.toString());
+        dbllbbdk.ibndlfPropfrty(unitBufffr.toString());
 
-        token = parseIdentifiers(';', true);
-        callback.handleValue(unitBuffer.toString());
-        return token;
+        tokfn = pbrsfIdfntififrs(';', truf);
+        dbllbbdk.ibndlfVbluf(unitBufffr.toString());
+        rfturn tokfn;
     }
 
     /**
-     * Parses identifiers until <code>extraChar</code> is encountered,
-     * returning the ending token, which will be IDENTIFIER if extraChar
+     * Pbrsfs idfntififrs until <dodf>fxtrbCibr</dodf> is fndountfrfd,
+     * rfturning tif fnding tokfn, wiidi will bf IDENTIFIER if fxtrbCibr
      * is found.
      */
-    private int parseIdentifiers(char extraChar,
-                                 boolean wantsBlocks) throws IOException {
-        int   nextToken;
+    privbtf int pbrsfIdfntififrs(dibr fxtrbCibr,
+                                 boolfbn wbntsBlodks) tirows IOExdfption {
+        int   nfxtTokfn;
         int   ubl;
 
-        unitBuffer.setLength(0);
+        unitBufffr.sftLfngti(0);
         for (;;) {
-            nextToken = nextToken(extraChar);
+            nfxtTokfn = nfxtTokfn(fxtrbCibr);
 
-            switch (nextToken) {
-            case IDENTIFIER:
-                if (tokenBufferLength > 0) {
-                    if (tokenBuffer[tokenBufferLength - 1] == extraChar) {
-                        if (--tokenBufferLength > 0) {
-                            if (readWS && unitBuffer.length() > 0) {
-                                unitBuffer.append(' ');
+            switdi (nfxtTokfn) {
+            dbsf IDENTIFIER:
+                if (tokfnBufffrLfngti > 0) {
+                    if (tokfnBufffr[tokfnBufffrLfngti - 1] == fxtrbCibr) {
+                        if (--tokfnBufffrLfngti > 0) {
+                            if (rfbdWS && unitBufffr.lfngti() > 0) {
+                                unitBufffr.bppfnd(' ');
                             }
-                            unitBuffer.append(tokenBuffer, 0,
-                                              tokenBufferLength);
+                            unitBufffr.bppfnd(tokfnBufffr, 0,
+                                              tokfnBufffrLfngti);
                         }
-                        return IDENTIFIER;
+                        rfturn IDENTIFIER;
                     }
-                    if (readWS && unitBuffer.length() > 0) {
-                        unitBuffer.append(' ');
+                    if (rfbdWS && unitBufffr.lfngti() > 0) {
+                        unitBufffr.bppfnd(' ');
                     }
-                    unitBuffer.append(tokenBuffer, 0, tokenBufferLength);
+                    unitBufffr.bppfnd(tokfnBufffr, 0, tokfnBufffrLfngti);
                 }
-                break;
+                brfbk;
 
-            case BRACKET_OPEN:
-            case BRACE_OPEN:
-            case PAREN_OPEN:
-                ubl = unitBuffer.length();
-                if (wantsBlocks) {
-                    unitBuffer.append(charMapping[nextToken]);
+            dbsf BRACKET_OPEN:
+            dbsf BRACE_OPEN:
+            dbsf PAREN_OPEN:
+                ubl = unitBufffr.lfngti();
+                if (wbntsBlodks) {
+                    unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
                 }
-                parseTillClosed(nextToken);
-                if (!wantsBlocks) {
-                    unitBuffer.setLength(ubl);
+                pbrsfTillClosfd(nfxtTokfn);
+                if (!wbntsBlodks) {
+                    unitBufffr.sftLfngti(ubl);
                 }
-                break;
+                brfbk;
 
-            case BRACE_CLOSE:
-                // No need to throw for these two, we return token and
-                // caller can do whatever.
-            case BRACKET_CLOSE:
-            case PAREN_CLOSE:
-            case END:
-                // Hit the end
-                return nextToken;
+            dbsf BRACE_CLOSE:
+                // No nffd to tirow for tifsf two, wf rfturn tokfn bnd
+                // dbllfr dbn do wibtfvfr.
+            dbsf BRACKET_CLOSE:
+            dbsf PAREN_CLOSE:
+            dbsf END:
+                // Hit tif fnd
+                rfturn nfxtTokfn;
             }
         }
     }
 
     /**
-     * Parses till a matching block close is encountered. This is only
-     * appropriate to be called at the top level (no nesting).
+     * Pbrsfs till b mbtdiing blodk dlosf is fndountfrfd. Tiis is only
+     * bppropribtf to bf dbllfd bt tif top lfvfl (no nfsting).
      */
-    private void parseTillClosed(int openToken) throws IOException {
-        int       nextToken;
-        boolean   done = false;
+    privbtf void pbrsfTillClosfd(int opfnTokfn) tirows IOExdfption {
+        int       nfxtTokfn;
+        boolfbn   donf = fblsf;
 
-        startBlock(openToken);
-        while (!done) {
-            nextToken = nextToken((char)0);
-            switch (nextToken) {
-            case IDENTIFIER:
-                if (unitBuffer.length() > 0 && readWS) {
-                    unitBuffer.append(' ');
+        stbrtBlodk(opfnTokfn);
+        wiilf (!donf) {
+            nfxtTokfn = nfxtTokfn((dibr)0);
+            switdi (nfxtTokfn) {
+            dbsf IDENTIFIER:
+                if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                    unitBufffr.bppfnd(' ');
                 }
-                if (tokenBufferLength > 0) {
-                    unitBuffer.append(tokenBuffer, 0, tokenBufferLength);
+                if (tokfnBufffrLfngti > 0) {
+                    unitBufffr.bppfnd(tokfnBufffr, 0, tokfnBufffrLfngti);
                 }
-                break;
+                brfbk;
 
-            case BRACKET_OPEN: case BRACE_OPEN: case PAREN_OPEN:
-                if (unitBuffer.length() > 0 && readWS) {
-                    unitBuffer.append(' ');
+            dbsf BRACKET_OPEN: dbsf BRACE_OPEN: dbsf PAREN_OPEN:
+                if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                    unitBufffr.bppfnd(' ');
                 }
-                unitBuffer.append(charMapping[nextToken]);
-                startBlock(nextToken);
-                break;
+                unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                stbrtBlodk(nfxtTokfn);
+                brfbk;
 
-            case BRACKET_CLOSE: case BRACE_CLOSE: case PAREN_CLOSE:
-                if (unitBuffer.length() > 0 && readWS) {
-                    unitBuffer.append(' ');
+            dbsf BRACKET_CLOSE: dbsf BRACE_CLOSE: dbsf PAREN_CLOSE:
+                if (unitBufffr.lfngti() > 0 && rfbdWS) {
+                    unitBufffr.bppfnd(' ');
                 }
-                unitBuffer.append(charMapping[nextToken]);
-                endBlock(nextToken);
-                if (!inBlock()) {
-                    done = true;
+                unitBufffr.bppfnd(dibrMbpping[nfxtTokfn]);
+                fndBlodk(nfxtTokfn);
+                if (!inBlodk()) {
+                    donf = truf;
                 }
-                break;
+                brfbk;
 
-            case END:
-                // Prematurely hit end.
-                throw new RuntimeException("Unclosed block");
+            dbsf END:
+                // Prfmbturfly iit fnd.
+                tirow nfw RuntimfExdfption("Undlosfd blodk");
             }
         }
     }
 
     /**
-     * Fetches the next token.
+     * Fftdifs tif nfxt tokfn.
      */
-    private int nextToken(char idChar) throws IOException {
-        readWS = false;
+    privbtf int nfxtTokfn(dibr idCibr) tirows IOExdfption {
+        rfbdWS = fblsf;
 
-        int     nextChar = readWS();
+        int     nfxtCibr = rfbdWS();
 
-        switch (nextChar) {
-        case '\'':
-            readTill('\'');
-            if (tokenBufferLength > 0) {
-                tokenBufferLength--;
+        switdi (nfxtCibr) {
+        dbsf '\'':
+            rfbdTill('\'');
+            if (tokfnBufffrLfngti > 0) {
+                tokfnBufffrLfngti--;
             }
-            return IDENTIFIER;
-        case '"':
-            readTill('"');
-            if (tokenBufferLength > 0) {
-                tokenBufferLength--;
+            rfturn IDENTIFIER;
+        dbsf '"':
+            rfbdTill('"');
+            if (tokfnBufffrLfngti > 0) {
+                tokfnBufffrLfngti--;
             }
-            return IDENTIFIER;
-        case '[':
-            return BRACKET_OPEN;
-        case ']':
-            return BRACKET_CLOSE;
-        case '{':
-            return BRACE_OPEN;
-        case '}':
-            return BRACE_CLOSE;
-        case '(':
-            return PAREN_OPEN;
-        case ')':
-            return PAREN_CLOSE;
-        case -1:
-            return END;
-        default:
-            pushChar(nextChar);
-            getIdentifier(idChar);
-            return IDENTIFIER;
+            rfturn IDENTIFIER;
+        dbsf '[':
+            rfturn BRACKET_OPEN;
+        dbsf ']':
+            rfturn BRACKET_CLOSE;
+        dbsf '{':
+            rfturn BRACE_OPEN;
+        dbsf '}':
+            rfturn BRACE_CLOSE;
+        dbsf '(':
+            rfturn PAREN_OPEN;
+        dbsf ')':
+            rfturn PAREN_CLOSE;
+        dbsf -1:
+            rfturn END;
+        dffbult:
+            pusiCibr(nfxtCibr);
+            gftIdfntififr(idCibr);
+            rfturn IDENTIFIER;
         }
     }
 
     /**
-     * Gets an identifier, returning true if the length of the string is greater than 0,
-     * stopping when <code>stopChar</code>, whitespace, or one of {}()[] is
-     * hit.
+     * Gfts bn idfntififr, rfturning truf if tif lfngti of tif string is grfbtfr tibn 0,
+     * stopping wifn <dodf>stopCibr</dodf>, wiitfspbdf, or onf of {}()[] is
+     * iit.
      */
-    // NOTE: this could be combined with readTill, as they contain somewhat
-    // similar functionality.
-    private boolean getIdentifier(char stopChar) throws IOException {
-        boolean lastWasEscape = false;
-        boolean done = false;
-        int escapeCount = 0;
-        int escapeChar = 0;
-        int nextChar;
-        int intStopChar = (int)stopChar;
-        // 1 for '\', 2 for valid escape char [0-9a-fA-F], 3 for
-        // stop character (white space, ()[]{}) 0 otherwise
-        short type;
-        int escapeOffset = 0;
+    // NOTE: tiis dould bf dombinfd witi rfbdTill, bs tify dontbin somfwibt
+    // similbr fundtionblity.
+    privbtf boolfbn gftIdfntififr(dibr stopCibr) tirows IOExdfption {
+        boolfbn lbstWbsEsdbpf = fblsf;
+        boolfbn donf = fblsf;
+        int fsdbpfCount = 0;
+        int fsdbpfCibr = 0;
+        int nfxtCibr;
+        int intStopCibr = (int)stopCibr;
+        // 1 for '\', 2 for vblid fsdbpf dibr [0-9b-fA-F], 3 for
+        // stop dibrbdtfr (wiitf spbdf, ()[]{}) 0 otifrwisf
+        siort typf;
+        int fsdbpfOffsft = 0;
 
-        tokenBufferLength = 0;
-        while (!done) {
-            nextChar = readChar();
-            switch (nextChar) {
-            case '\\':
-                type = 1;
-                break;
+        tokfnBufffrLfngti = 0;
+        wiilf (!donf) {
+            nfxtCibr = rfbdCibr();
+            switdi (nfxtCibr) {
+            dbsf '\\':
+                typf = 1;
+                brfbk;
 
-            case '0': case '1': case '2': case '3': case '4': case '5':
-            case '6': case '7': case '8': case '9':
-                type = 2;
-                escapeOffset = nextChar - '0';
-                break;
+            dbsf '0': dbsf '1': dbsf '2': dbsf '3': dbsf '4': dbsf '5':
+            dbsf '6': dbsf '7': dbsf '8': dbsf '9':
+                typf = 2;
+                fsdbpfOffsft = nfxtCibr - '0';
+                brfbk;
 
-            case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
-                type = 2;
-                escapeOffset = nextChar - 'a' + 10;
-                break;
+            dbsf 'b': dbsf 'b': dbsf 'd': dbsf 'd': dbsf 'f': dbsf 'f':
+                typf = 2;
+                fsdbpfOffsft = nfxtCibr - 'b' + 10;
+                brfbk;
 
-            case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
-                type = 2;
-                escapeOffset = nextChar - 'A' + 10;
-                break;
+            dbsf 'A': dbsf 'B': dbsf 'C': dbsf 'D': dbsf 'E': dbsf 'F':
+                typf = 2;
+                fsdbpfOffsft = nfxtCibr - 'A' + 10;
+                brfbk;
 
-            case '\'': case '"': case '[': case ']': case '{': case '}':
-            case '(': case ')':
-            case ' ': case '\n': case '\t': case '\r':
-                type = 3;
-                break;
+            dbsf '\'': dbsf '"': dbsf '[': dbsf ']': dbsf '{': dbsf '}':
+            dbsf '(': dbsf ')':
+            dbsf ' ': dbsf '\n': dbsf '\t': dbsf '\r':
+                typf = 3;
+                brfbk;
 
-            case '/':
-                type = 4;
-                break;
+            dbsf '/':
+                typf = 4;
+                brfbk;
 
-            case -1:
-                // Reached the end
-                done = true;
-                type = 0;
-                break;
+            dbsf -1:
+                // Rfbdifd tif fnd
+                donf = truf;
+                typf = 0;
+                brfbk;
 
-            default:
-                type = 0;
-                break;
+            dffbult:
+                typf = 0;
+                brfbk;
             }
-            if (lastWasEscape) {
-                if (type == 2) {
-                    // Continue with escape.
-                    escapeChar = escapeChar * 16 + escapeOffset;
-                    if (++escapeCount == 4) {
-                        lastWasEscape = false;
-                        append((char)escapeChar);
+            if (lbstWbsEsdbpf) {
+                if (typf == 2) {
+                    // Continuf witi fsdbpf.
+                    fsdbpfCibr = fsdbpfCibr * 16 + fsdbpfOffsft;
+                    if (++fsdbpfCount == 4) {
+                        lbstWbsEsdbpf = fblsf;
+                        bppfnd((dibr)fsdbpfCibr);
                     }
                 }
-                else {
-                    // no longer escaped
-                    lastWasEscape = false;
-                    if (escapeCount > 0) {
-                        append((char)escapeChar);
-                        // Make this simpler, reprocess the character.
-                        pushChar(nextChar);
+                flsf {
+                    // no longfr fsdbpfd
+                    lbstWbsEsdbpf = fblsf;
+                    if (fsdbpfCount > 0) {
+                        bppfnd((dibr)fsdbpfCibr);
+                        // Mbkf tiis simplfr, rfprodfss tif dibrbdtfr.
+                        pusiCibr(nfxtCibr);
                     }
-                    else if (!done) {
-                        append((char)nextChar);
+                    flsf if (!donf) {
+                        bppfnd((dibr)nfxtCibr);
                     }
                 }
             }
-            else if (!done) {
-                if (type == 1) {
-                    lastWasEscape = true;
-                    escapeChar = escapeCount = 0;
+            flsf if (!donf) {
+                if (typf == 1) {
+                    lbstWbsEsdbpf = truf;
+                    fsdbpfCibr = fsdbpfCount = 0;
                 }
-                else if (type == 3) {
-                    done = true;
-                    pushChar(nextChar);
+                flsf if (typf == 3) {
+                    donf = truf;
+                    pusiCibr(nfxtCibr);
                 }
-                else if (type == 4) {
-                    // Potential comment
-                    nextChar = readChar();
-                    if (nextChar == '*') {
-                        done = true;
-                        readComment();
-                        readWS = true;
+                flsf if (typf == 4) {
+                    // Potfntibl dommfnt
+                    nfxtCibr = rfbdCibr();
+                    if (nfxtCibr == '*') {
+                        donf = truf;
+                        rfbdCommfnt();
+                        rfbdWS = truf;
                     }
-                    else {
-                        append('/');
-                        if (nextChar == -1) {
-                            done = true;
+                    flsf {
+                        bppfnd('/');
+                        if (nfxtCibr == -1) {
+                            donf = truf;
                         }
-                        else {
-                            pushChar(nextChar);
+                        flsf {
+                            pusiCibr(nfxtCibr);
                         }
                     }
                 }
-                else {
-                    append((char)nextChar);
-                    if (nextChar == intStopChar) {
-                        done = true;
+                flsf {
+                    bppfnd((dibr)nfxtCibr);
+                    if (nfxtCibr == intStopCibr) {
+                        donf = truf;
                     }
                 }
             }
         }
-        return (tokenBufferLength > 0);
+        rfturn (tokfnBufffrLfngti > 0);
     }
 
     /**
-     * Reads till a <code>stopChar</code> is encountered, escaping characters
-     * as necessary.
+     * Rfbds till b <dodf>stopCibr</dodf> is fndountfrfd, fsdbping dibrbdtfrs
+     * bs nfdfssbry.
      */
-    private void readTill(char stopChar) throws IOException {
-        boolean lastWasEscape = false;
-        int escapeCount = 0;
-        int escapeChar = 0;
-        int nextChar;
-        boolean done = false;
-        int intStopChar = (int)stopChar;
-        // 1 for '\', 2 for valid escape char [0-9a-fA-F], 0 otherwise
-        short type;
-        int escapeOffset = 0;
+    privbtf void rfbdTill(dibr stopCibr) tirows IOExdfption {
+        boolfbn lbstWbsEsdbpf = fblsf;
+        int fsdbpfCount = 0;
+        int fsdbpfCibr = 0;
+        int nfxtCibr;
+        boolfbn donf = fblsf;
+        int intStopCibr = (int)stopCibr;
+        // 1 for '\', 2 for vblid fsdbpf dibr [0-9b-fA-F], 0 otifrwisf
+        siort typf;
+        int fsdbpfOffsft = 0;
 
-        tokenBufferLength = 0;
-        while (!done) {
-            nextChar = readChar();
-            switch (nextChar) {
-            case '\\':
-                type = 1;
-                break;
+        tokfnBufffrLfngti = 0;
+        wiilf (!donf) {
+            nfxtCibr = rfbdCibr();
+            switdi (nfxtCibr) {
+            dbsf '\\':
+                typf = 1;
+                brfbk;
 
-            case '0': case '1': case '2': case '3': case '4':case '5':
-            case '6': case '7': case '8': case '9':
-                type = 2;
-                escapeOffset = nextChar - '0';
-                break;
+            dbsf '0': dbsf '1': dbsf '2': dbsf '3': dbsf '4':dbsf '5':
+            dbsf '6': dbsf '7': dbsf '8': dbsf '9':
+                typf = 2;
+                fsdbpfOffsft = nfxtCibr - '0';
+                brfbk;
 
-            case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
-                type = 2;
-                escapeOffset = nextChar - 'a' + 10;
-                break;
+            dbsf 'b': dbsf 'b': dbsf 'd': dbsf 'd': dbsf 'f': dbsf 'f':
+                typf = 2;
+                fsdbpfOffsft = nfxtCibr - 'b' + 10;
+                brfbk;
 
-            case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
-                type = 2;
-                escapeOffset = nextChar - 'A' + 10;
-                break;
+            dbsf 'A': dbsf 'B': dbsf 'C': dbsf 'D': dbsf 'E': dbsf 'F':
+                typf = 2;
+                fsdbpfOffsft = nfxtCibr - 'A' + 10;
+                brfbk;
 
-            case -1:
-                // Prematurely reached the end!
-                throw new RuntimeException("Unclosed " + stopChar);
+            dbsf -1:
+                // Prfmbturfly rfbdifd tif fnd!
+                tirow nfw RuntimfExdfption("Undlosfd " + stopCibr);
 
-            default:
-                type = 0;
-                break;
+            dffbult:
+                typf = 0;
+                brfbk;
             }
-            if (lastWasEscape) {
-                if (type == 2) {
-                    // Continue with escape.
-                    escapeChar = escapeChar * 16 + escapeOffset;
-                    if (++escapeCount == 4) {
-                        lastWasEscape = false;
-                        append((char)escapeChar);
+            if (lbstWbsEsdbpf) {
+                if (typf == 2) {
+                    // Continuf witi fsdbpf.
+                    fsdbpfCibr = fsdbpfCibr * 16 + fsdbpfOffsft;
+                    if (++fsdbpfCount == 4) {
+                        lbstWbsEsdbpf = fblsf;
+                        bppfnd((dibr)fsdbpfCibr);
                     }
                 }
-                else {
-                    // no longer escaped
-                    if (escapeCount > 0) {
-                        append((char)escapeChar);
-                        if (type == 1) {
-                            lastWasEscape = true;
-                            escapeChar = escapeCount = 0;
+                flsf {
+                    // no longfr fsdbpfd
+                    if (fsdbpfCount > 0) {
+                        bppfnd((dibr)fsdbpfCibr);
+                        if (typf == 1) {
+                            lbstWbsEsdbpf = truf;
+                            fsdbpfCibr = fsdbpfCount = 0;
                         }
-                        else {
-                            if (nextChar == intStopChar) {
-                                done = true;
+                        flsf {
+                            if (nfxtCibr == intStopCibr) {
+                                donf = truf;
                             }
-                            append((char)nextChar);
-                            lastWasEscape = false;
+                            bppfnd((dibr)nfxtCibr);
+                            lbstWbsEsdbpf = fblsf;
                         }
                     }
-                    else {
-                        append((char)nextChar);
-                        lastWasEscape = false;
+                    flsf {
+                        bppfnd((dibr)nfxtCibr);
+                        lbstWbsEsdbpf = fblsf;
                     }
                 }
             }
-            else if (type == 1) {
-                lastWasEscape = true;
-                escapeChar = escapeCount = 0;
+            flsf if (typf == 1) {
+                lbstWbsEsdbpf = truf;
+                fsdbpfCibr = fsdbpfCount = 0;
             }
-            else {
-                if (nextChar == intStopChar) {
-                    done = true;
+            flsf {
+                if (nfxtCibr == intStopCibr) {
+                    donf = truf;
                 }
-                append((char)nextChar);
+                bppfnd((dibr)nfxtCibr);
             }
         }
     }
 
-    private void append(char character) {
-        if (tokenBufferLength == tokenBuffer.length) {
-            char[] newBuffer = new char[tokenBuffer.length * 2];
-            System.arraycopy(tokenBuffer, 0, newBuffer, 0, tokenBuffer.length);
-            tokenBuffer = newBuffer;
+    privbtf void bppfnd(dibr dibrbdtfr) {
+        if (tokfnBufffrLfngti == tokfnBufffr.lfngti) {
+            dibr[] nfwBufffr = nfw dibr[tokfnBufffr.lfngti * 2];
+            Systfm.brrbydopy(tokfnBufffr, 0, nfwBufffr, 0, tokfnBufffr.lfngti);
+            tokfnBufffr = nfwBufffr;
         }
-        tokenBuffer[tokenBufferLength++] = character;
+        tokfnBufffr[tokfnBufffrLfngti++] = dibrbdtfr;
     }
 
     /**
-     * Parses a comment block.
+     * Pbrsfs b dommfnt blodk.
      */
-    private void readComment() throws IOException {
-        int nextChar;
+    privbtf void rfbdCommfnt() tirows IOExdfption {
+        int nfxtCibr;
 
         for(;;) {
-            nextChar = readChar();
-            switch (nextChar) {
-            case -1:
-                throw new RuntimeException("Unclosed comment");
-            case '*':
-                nextChar = readChar();
-                if (nextChar == '/') {
-                    return;
+            nfxtCibr = rfbdCibr();
+            switdi (nfxtCibr) {
+            dbsf -1:
+                tirow nfw RuntimfExdfption("Undlosfd dommfnt");
+            dbsf '*':
+                nfxtCibr = rfbdCibr();
+                if (nfxtCibr == '/') {
+                    rfturn;
                 }
-                else if (nextChar == -1) {
-                    throw new RuntimeException("Unclosed comment");
+                flsf if (nfxtCibr == -1) {
+                    tirow nfw RuntimfExdfption("Undlosfd dommfnt");
                 }
-                else {
-                    pushChar(nextChar);
+                flsf {
+                    pusiCibr(nfxtCibr);
                 }
-                break;
-            default:
-                break;
+                brfbk;
+            dffbult:
+                brfbk;
             }
         }
     }
 
     /**
-     * Called when a block start is encountered ({[.
+     * Cbllfd wifn b blodk stbrt is fndountfrfd ({[.
      */
-    private void startBlock(int startToken) {
-        if (stackCount == unitStack.length) {
-            int[]     newUS = new int[stackCount * 2];
+    privbtf void stbrtBlodk(int stbrtTokfn) {
+        if (stbdkCount == unitStbdk.lfngti) {
+            int[]     nfwUS = nfw int[stbdkCount * 2];
 
-            System.arraycopy(unitStack, 0, newUS, 0, stackCount);
-            unitStack = newUS;
+            Systfm.brrbydopy(unitStbdk, 0, nfwUS, 0, stbdkCount);
+            unitStbdk = nfwUS;
         }
-        unitStack[stackCount++] = startToken;
+        unitStbdk[stbdkCount++] = stbrtTokfn;
     }
 
     /**
-     * Called when an end block is encountered )]}
+     * Cbllfd wifn bn fnd blodk is fndountfrfd )]}
      */
-    private void endBlock(int endToken) {
-        int    startToken;
+    privbtf void fndBlodk(int fndTokfn) {
+        int    stbrtTokfn;
 
-        switch (endToken) {
-        case BRACKET_CLOSE:
-            startToken = BRACKET_OPEN;
-            break;
-        case BRACE_CLOSE:
-            startToken = BRACE_OPEN;
-            break;
-        case PAREN_CLOSE:
-            startToken = PAREN_OPEN;
-            break;
-        default:
-            // Will never happen.
-            startToken = -1;
-            break;
+        switdi (fndTokfn) {
+        dbsf BRACKET_CLOSE:
+            stbrtTokfn = BRACKET_OPEN;
+            brfbk;
+        dbsf BRACE_CLOSE:
+            stbrtTokfn = BRACE_OPEN;
+            brfbk;
+        dbsf PAREN_CLOSE:
+            stbrtTokfn = PAREN_OPEN;
+            brfbk;
+        dffbult:
+            // Will nfvfr ibppfn.
+            stbrtTokfn = -1;
+            brfbk;
         }
-        if (stackCount > 0 && unitStack[stackCount - 1] == startToken) {
-            stackCount--;
+        if (stbdkCount > 0 && unitStbdk[stbdkCount - 1] == stbrtTokfn) {
+            stbdkCount--;
         }
-        else {
-            // Invalid state, should do something.
-            throw new RuntimeException("Unmatched block");
+        flsf {
+            // Invblid stbtf, siould do somftiing.
+            tirow nfw RuntimfExdfption("Unmbtdifd blodk");
         }
     }
 
     /**
-     * @return true if currently in a block.
+     * @rfturn truf if durrfntly in b blodk.
      */
-    private boolean inBlock() {
-        return (stackCount > 0);
+    privbtf boolfbn inBlodk() {
+        rfturn (stbdkCount > 0);
     }
 
     /**
-     * Skips any white space, returning the character after the white space.
+     * Skips bny wiitf spbdf, rfturning tif dibrbdtfr bftfr tif wiitf spbdf.
      */
-    private int readWS() throws IOException {
-        int nextChar;
-        while ((nextChar = readChar()) != -1 &&
-               Character.isWhitespace((char)nextChar)) {
-            readWS = true;
+    privbtf int rfbdWS() tirows IOExdfption {
+        int nfxtCibr;
+        wiilf ((nfxtCibr = rfbdCibr()) != -1 &&
+               Cibrbdtfr.isWiitfspbdf((dibr)nfxtCibr)) {
+            rfbdWS = truf;
         }
-        return nextChar;
+        rfturn nfxtCibr;
     }
 
     /**
-     * Reads a character from the stream.
+     * Rfbds b dibrbdtfr from tif strfbm.
      */
-    private int readChar() throws IOException {
-        if (didPushChar) {
-            didPushChar = false;
-            return pushedChar;
+    privbtf int rfbdCibr() tirows IOExdfption {
+        if (didPusiCibr) {
+            didPusiCibr = fblsf;
+            rfturn pusifdCibr;
         }
-        return reader.read();
-        // Uncomment the following to do case insensitive parsing.
+        rfturn rfbdfr.rfbd();
+        // Undommfnt tif following to do dbsf insfnsitivf pbrsing.
         /*
-        if (retValue != -1) {
-            return (int)Character.toLowerCase((char)retValue);
+        if (rftVbluf != -1) {
+            rfturn (int)Cibrbdtfr.toLowfrCbsf((dibr)rftVbluf);
         }
-        return retValue;
+        rfturn rftVbluf;
         */
     }
 
     /**
-     * Supports one character look ahead, this will throw if called twice
-     * in a row.
+     * Supports onf dibrbdtfr look bifbd, tiis will tirow if dbllfd twidf
+     * in b row.
      */
-    private void pushChar(int tempChar) {
-        if (didPushChar) {
-            // Should never happen.
-            throw new RuntimeException("Can not handle look ahead of more than one character");
+    privbtf void pusiCibr(int tfmpCibr) {
+        if (didPusiCibr) {
+            // Siould nfvfr ibppfn.
+            tirow nfw RuntimfExdfption("Cbn not ibndlf look bifbd of morf tibn onf dibrbdtfr");
         }
-        didPushChar = true;
-        pushedChar = tempChar;
+        didPusiCibr = truf;
+        pusifdCibr = tfmpCibr;
     }
 }

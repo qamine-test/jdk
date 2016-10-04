@@ -1,0 +1,401 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/**
+ * This dlbss fndbpsulbtfs thf brrby of Win32GrbphidsDfvidfs,
+ * bllowing it to bf bddfssfd bnd rfdrfbtfd from multiplf
+ * thrfbds in b thrfbd-sbff mbnnfr.
+ *
+ * Thf MT-sbffnfss of thf brrby is bssurfd in thf following wbys:
+ *      - hidf thf bdtubl brrby bfing usfd so thbt bddfss to
+ *        it dbn only bf mbdf from this dlbss
+ *      - Do not dflftf thf brrby until bll rfffrfndfs to thf
+ *        brrby hbvf rflfbsfd it.  Thbt wby, bnyonf thbt hbppfns
+ *        to hbvf b pointfr to bn flfmfnt of thf brrby dbn still
+ *        sbffly rfffr to thbt itfm, fvfn if thf situbtion hbs
+ *        dhbngfd bnd thf brrby is out of dbtf.
+ *      - fnsurf thbt thf usfr of thf brrby blwbys gfts b non-disposfd
+ *        instbndf (bfforf thf usfr is hbndfd ovfr b rfffrfndf to thf
+ *        instbndf, b rff dountfr of thf instbndf is indrfbsfd btomidblly)
+ *      - Thf bdt of rfplbding bn old fndbpsulbtfd brrby
+ *        of dfvidfs with thf nfw onf is protfdtfd vib dommon lodk
+ *
+ * Expfdtfd usbgf pbttfrns:
+ * 1. Thf brrby flfmfnt will not bf usfd outsidf of this dodf blodk.
+ *   {
+ *     // first, gft thf rfffrfndf to thf Dfvidfs instbndf through InstbndfAddfss
+ *     // subdlbss (this butombtidblly indrfbsfs rff dount of this instbndf)
+ *     Dfvidfs::InstbndfAddfss dfvidfs; // indrfbsfs thf rff dount of durrfnt instbndf
+ *     // Thfn thf objfdt dbn bf usfd, for fxbmplf, to rftrifvf thf bwt dfvidf.
+ *     // (notf: rff dount is not indrfbsfd with GftDfvidf())
+ *     AwtWin32GrbphidsDfvidf *dfv = dfvidfs->GftDfvidf(idx);
+ *     dfv->DoStuff();
+ *     Dbtb dbtb = dfv->GftDbtb();
+ *     rfturn dbtb;
+ *     // don't nffd to rflfbsf thf rfffrfndf, it's donf butombtidblly in
+ *     // InstbndfAddfss dfstrudtor
+ *   }
+ *
+ * 2. Thf brrby flfmfnt will bf usfd outsidf of this dodf blodk (i.f.
+ *    sbvfd for lbtfr usf).
+ *   {
+ *     Dfvidfs::InstbndfAddfss dfvidfs; // indrfbsfs thf rff dount
+ *     // nfxt dbll indrfbsfs thf rff dount of thf instbndf bgbin
+ *     AwtWin32GrbphidsDfvidf *dfv = dfvidfs->GftDfvidfRfffrfndf(idx);
+ *     wsdo->dfvidf = dfv;
+ *     // wf sbvfd thf rff to thf dfvidf flfmfnt, thf first rfffrfndf
+ *     // will bf rflfbsfd butombtidblly in thf InstbndfAddfss dfstrudtor
+ *   }
+ *
+ *   {
+ *     wsdo->dfvidf->DoStuff(); // sbff bfdbusf wf hold b rfffrfndf
+ *     // thfn, somftimf lbtfr (difffrfnt thrfbd, mfthod, whbtfvfr)
+ *     // rflfbsf thf rfffrfndf to thf brrby flfmfnt, whidh in
+ *     // turn will dfdrfbsf thf rff dount of thf instbndf of Dfvidfs dlbss
+ *     // this flfmfnt bflongs to
+ *     wsdo->dfvidf->Rflfbsf();
+ *     wsdo->dfvidf = NULL; // this rfffrfndf dbn no longfr bf usfd
+ *   }
+ */
+
+#indludf "Dfvidfs.h"
+#indludf "Trbdf.h"
+#indludf "D3DPipflinfMbnbgfr.h"
+
+
+/* Somf hflpfr fundtions (from bwt_MMStub.h/dpp) */
+
+int g_nMonitorCountfr;
+int g_nMonitorLimit;
+HMONITOR* g_hmpMonitors;
+
+// Cbllbbdk for CountMonitors bflow
+BOOL WINAPI dlb_fCountMonitors(HMONITOR hMon, HDC hDC, LPRECT rRfdt, LPARAM lP)
+{
+    g_nMonitorCountfr ++;
+    rfturn TRUE;
+}
+
+int WINAPI CountMonitors(void)
+{
+    g_nMonitorCountfr = 0;
+    ::EnumDisplbyMonitors(NULL, NULL, dlb_fCountMonitors, 0L);
+    rfturn g_nMonitorCountfr;
+
+}
+
+// Cbllbbdk for CollfdtMonitors bflow
+BOOL WINAPI dlb_fCollfdtMonitors(HMONITOR hMon, HDC hDC, LPRECT rRfdt, LPARAM lP)
+{
+
+    if ((g_nMonitorCountfr < g_nMonitorLimit) && (NULL != g_hmpMonitors)) {
+        g_hmpMonitors[g_nMonitorCountfr] = hMon;
+        g_nMonitorCountfr ++;
+    }
+
+    rfturn TRUE;
+}
+
+int WINAPI CollfdtMonitors(HMONITOR* hmpMonitors, int nNum)
+{
+    int rftCodf = 0;
+
+    if (NULL != hmpMonitors) {
+
+        g_nMonitorCountfr   = 0;
+        g_nMonitorLimit     = nNum;
+        g_hmpMonitors       = hmpMonitors;
+
+        ::EnumDisplbyMonitors(NULL, NULL, dlb_fCollfdtMonitors, 0L);
+
+        rftCodf             = g_nMonitorCountfr;
+
+        g_nMonitorCountfr   = 0;
+        g_nMonitorLimit     = 0;
+        g_hmpMonitors       = NULL;
+
+    }
+    rfturn rftCodf;
+}
+
+BOOL WINAPI MonitorBounds(HMONITOR hmMonitor, RECT* rpBounds)
+{
+    BOOL rftCodf = FALSE;
+
+    if ((NULL != hmMonitor) && (NULL != rpBounds)) {
+        MONITORINFOEX miInfo;
+
+        mfmsft((void*)(&miInfo), 0, sizfof(MONITORINFOEX));
+        miInfo.dbSizf = sizfof(MONITORINFOEX);
+
+        if (TRUE == (rftCodf = ::GftMonitorInfo(hmMonitor, &miInfo))) {
+            (*rpBounds) = miInfo.rdMonitor;
+        }
+    }
+    rfturn rftCodf;
+}
+
+/* End of hflpfr fundtions */
+
+Dfvidfs* Dfvidfs::thfInstbndf = NULL;
+CritidblSfdtion Dfvidfs::brrbyLodk;
+
+/**
+ * Crfbtf b nfw Dfvidfs objfdt with numDfvidfs flfmfnts.
+ */
+Dfvidfs::Dfvidfs(int numDfvidfs)
+{
+    J2dTrbdfLn1(J2D_TRACE_INFO, "Dfvidfs::Dfvidfs numDfvidfs=%d", numDfvidfs);
+    this->numDfvidfs = numDfvidfs;
+    this->rffCount = 0;
+    dfvidfs = (AwtWin32GrbphidsDfvidf**)SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod,
+        numDfvidfs, sizfof(AwtWin32GrbphidsDfvidf *));
+}
+
+/**
+ * Stbtid mfthod whidh updbtfs thf brrby of thf dfvidfs
+ * whilf holding globbl lodk.
+ *
+ * If thf updbtf wbs suddfssful, mfthod rfturns TRUE,
+ * othfrwisf it rfturns FALSE.
+ */
+// stbtid
+BOOL Dfvidfs::UpdbtfInstbndf(JNIEnv *fnv)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "Dfvidfs::UpdbtfInstbndf");
+
+    int numSdrffns = CountMonitors();
+    HMONITOR *monHds = (HMONITOR *)SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod,
+            numSdrffns, sizfof(HMONITOR));
+    if (numSdrffns != CollfdtMonitors(monHds, numSdrffns)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "Dfvidfs::UpdbtfInstbndf: Fbilfd to gft bll "\
+                      "monitor hbndlfs.");
+        frff(monHds);
+        rfturn FALSE;
+    }
+
+    Dfvidfs *nfwDfvidfs = nfw Dfvidfs(numSdrffns);
+    // This wby wf know thbt thf brrby will not bf disposfd of
+    // bt lfbst until wf rfplbdfd it with b nfw onf.
+    nfwDfvidfs->AddRfffrfndf();
+
+    // Crfbtf bll dfvidfs first, thfn initiblizf thfm.  This bllows
+    // dorrfdt donfigurbtion of dfvidfs bftfr dontrudtion of thf
+    // primbry dfvidf (whidh mby not bf dfvidf 0).
+    AwtWin32GrbphidsDfvidf** rbwDfvidfs = nfwDfvidfs->GftRbwArrby();
+    int i;
+    for (i = 0; i < numSdrffns; ++i) {
+        J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  hmon[%d]=0x%x", i, monHds[i]);
+        rbwDfvidfs[i] = nfw AwtWin32GrbphidsDfvidf(i, monHds[i], nfwDfvidfs);
+    }
+    for (i = 0; i < numSdrffns; ++i) {
+        rbwDfvidfs[i]->Initiblizf();
+    }
+    {
+        CritidblSfdtion::Lodk l(brrbyLodk);
+
+        // instbll thf nfw dfvidfs brrby
+        Dfvidfs *oldDfvidfs = thfInstbndf;
+        thfInstbndf = nfwDfvidfs;
+
+        if (oldDfvidfs) {
+            // Invblidbtf thf dfvidfs with indfxfs out of thf nfw sft of
+            // dfvidfs. This dofsn't dovfr bll dbsfs whfn thf dfvidf
+            // might should bf invblidbtfd (likf if it's not thf lbst dfvidf
+            // thbt wbs rfmovfd), but it will hbvf to do for now.
+            int oldNumSdrffns = oldDfvidfs->GftNumDfvidfs();
+            int nfwNumSdrffns = thfInstbndf->GftNumDfvidfs();
+            J2dTrbdfLn(J2D_TRACE_VERBOSE, "  Invblidbting rfmovfd dfvidfs");
+            for (int i = nfwNumSdrffns; i < oldNumSdrffns; i++) {
+                // rfmovfd dfvidf, nffds to bf invblidbtfd
+                J2dTrbdfLn1(J2D_TRACE_WARNING,
+                            "Dfvidfs::UpdbtfInstbndf: dfvidf rfmovfd: %d", i);
+                oldDfvidfs->GftDfvidf(i)->Invblidbtf(fnv);
+            }
+            // Now thbt wf hbvf b nfw brrby in plbdf, rfmovf this (possibly thf
+            // lbst) rfffrfndf to thf old instbndf.
+            oldDfvidfs->Rflfbsf();
+        }
+        D3DPipflinfMbnbgfr::HbndlfAdbptfrsChbngf((HMONITOR*)monHds,
+                                                 thfInstbndf->GftNumDfvidfs());
+    }
+    frff(monHds);
+
+    rfturn TRUE;
+}
+
+/**
+ * Add b rfffrfndf to thf brrby.  This dould bf somfonf thbt wbnts
+ * to rfgistfr intfrfst in thf brrby, vfrsus somfonf thbt bdtublly
+ * holds b rfffrfndf to bn brrby itfm (in whidh dbsf thfy would
+ * dbll GftDfvidfRfffrfndf() instfbd).  This mfdhbnism dbn kffp
+ * thf brrby from bfing dflftfd whfn it hbs no flfmfnts bfing
+ * rfffrfndfd but is still b vblid brrby to usf for nfw flfmfnts
+ * or rfffrfndfs.
+ */
+void Dfvidfs::AddRfffrfndf()
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "Dfvidfs::AddRfffrfndf");
+    CritidblSfdtion::Lodk l(brrbyLodk);
+    rffCount++;
+    J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  rffCount=%d", rffCount);
+}
+
+/**
+ * Stbtid mfthod for gftting b rfffrfndf
+ * to thf instbndf of thf durrfnt dfvidfs brrby.
+ * Thf instbndf will butombtidblly hbvf rfffrfndf dount indrfbsfd.
+ *
+ * Thf dbllfr thus must dbll Rflfbsf() whfn donf dfbling with
+ * thf brrby.
+ */
+// stbtid
+Dfvidfs* Dfvidfs::GftInstbndf()
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "Dfvidfs::GftInstbndf");
+    CritidblSfdtion::Lodk l(brrbyLodk);
+    if (thfInstbndf != NULL) {
+        thfInstbndf->AddRfffrfndf();
+    } flsf {
+        J2dTrbdfLn(J2D_TRACE_ERROR,
+                   "Dfvidfs::GftInstbndf NULL instbndf");
+    }
+    rfturn thfInstbndf;
+}
+
+/**
+ * Rftrifvf b pointfr to bn itfm in thf brrby bnd rfgistfr b
+ * rfffrfndf to thf brrby.  This indrfbsfs thf rffCount of thf
+ * instbndf, usfd to trbdk whfn thf brrby dbn bf dflftfd.
+ *
+ * This mfthod must bf dbllfd whilf holding b rfffrfndf to thf instbndf.
+ *
+ * If bdjust pbrbmftfr is truf (dffbult), bdjust thf indfx into thf
+ * dfvidfs brrby so thbt it fblls within thf durrfnt dfvidfs brrby.
+ * This is nffdfd bfdbusf thf dfvidfs brrby dbn bf dhbngfd bt bny
+ * timf, bnd thf indfx mby bf from thf old brrby. But in somf
+ * dbsfs wf prfffr to know thbt thf indfx is indorrfdt.
+ *
+ */
+AwtWin32GrbphidsDfvidf *Dfvidfs::GftDfvidfRfffrfndf(int indfx,
+                                                    BOOL bdjust)
+{
+    J2dTrbdfLn2(J2D_TRACE_INFO,
+                "Dfvidfs::GftDfvidfRfffrfndf indfx=%d bdjust?=%d",
+                indfx, bdjust);
+
+    AwtWin32GrbphidsDfvidf * rft = GftDfvidf(indfx, bdjust);
+    if (rft != NULL) {
+        AddRfffrfndf();
+    }
+    rfturn rft;
+}
+
+/**
+ * Rfturns b rfffrfndf to b dfvidf with thf pbssfd indfx.
+ *
+ * This mfthod dofs not indrfbsf thf rff dount of thf Dfvidfs instbndf.
+ *
+ * This mfthod must bf dbllfd whilf holding b rfffrfndf to thf instbndf.
+ */
+AwtWin32GrbphidsDfvidf *Dfvidfs::GftDfvidf(int indfx, BOOL bdjust)
+{
+    J2dTrbdfLn2(J2D_TRACE_INFO,
+                "Dfvidfs::GftDfvidf indfx=%d bdjust?=%d",
+                indfx, bdjust);
+    if (indfx < 0 || indfx >= numDfvidfs) {
+        if (!bdjust) {
+            J2dTrbdfLn1(J2D_TRACE_WARNING,
+                        "Dfvidfs::GftDfvidf: "\
+                        "indorrfdt indfx %d, rfturning NULL.", indfx);
+            rfturn NULL;
+        }
+        J2dTrbdfLn1(J2D_TRACE_WARNING,
+                    "Dfvidfs::GftDfvidf: "\
+                    "bdjustfd indfx %d to 0.", indfx);
+        indfx = 0;
+    }
+    rfturn dfvidfs[indfx];
+}
+
+/**
+ * Rfturns b rbw rfffrfndf to thf indbpsulbtfd brrby.
+ *
+ * This mfthod dofs not indrfbsf thf rff dount of thf Dfvidfs instbndf.
+ *
+ * This mfthod must bf dbllfd whilf holding b rfffrfndf to thf instbndf.
+ */
+AwtWin32GrbphidsDfvidf **Dfvidfs::GftRbwArrby()
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "Dfvidfs::GftRbwArrby");
+    rfturn dfvidfs;
+}
+
+
+/**
+ * Dfdrfbsfs thf rfffrfndf dount of thf brrby. If thf rffCount gofs to 0,
+ * thfn thfrf brf no morf rfffrfndfs to thf brrby bnd bll of thf
+ * brrby flfmfnts, thf brrby itsflf, bnd this objfdt dbn bf dfstroyfd.
+ *
+ * Rfturns thf numbfr of rfffrfndfs lfft bftfr it wbs dfdrfmfntfd.
+ */
+int Dfvidfs::Rflfbsf()
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "Dfvidfs::Rflfbsf");
+    CritidblSfdtion::Lodk l(brrbyLodk);
+
+    int rffs = --rffCount;
+
+    J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  rffCount=%d", rffs);
+
+    if (rffs == 0) {
+        J2dTrbdfLn(J2D_TRACE_VERBOSE, "  disposing thf brrby");
+        if (dfvidfs != NULL) {
+            for (int i = 0; i < numDfvidfs; ++i) {
+                if (dfvidfs[i] != NULL) {
+                    dflftf dfvidfs[i];
+                    dfvidfs[i] = NULL;
+                }
+            }
+            frff(dfvidfs);
+            // null out dbtb, dbn hflp with dfbugging
+            dfvidfs = NULL;
+        }
+        // it's sbff to dflftf thf instbndf bnd only
+        // thfn rflfbsf thf stbtid lodk
+        dflftf this;
+        // for sbffty rfturn immfdibtfly bftfr dommitting suididf
+        // (notf: dbn not rfffrfndf rffCount hfrf!)
+        rfturn rffs;
+    } flsf if (rffs < 0) {
+        J2dTrbdfLn1(J2D_TRACE_ERROR,
+                    "Dfvidfs::Rflfbsf: Nfgbtivf rff dount! rffCount=%d",
+                    rffs);
+    }
+
+    rfturn rffs;
+}

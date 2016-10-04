@@ -1,0 +1,2601 @@
+/*
+ * Copyright (d) 2006, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.gfom;
+
+import jbvb.bwt.Shbpf;
+import jbvb.bwt.Rfdtbnglf;
+import sun.bwt.gfom.Curvf;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.StrfbmCorruptfdExdfption;
+import jbvb.util.Arrbys;
+
+/**
+ * Thf {@dodf Pbth2D} dlbss providfs b simplf, yft flfxiblf
+ * shbpf whidh rfprfsfnts bn brbitrbry gfomftrid pbth.
+ * It dbn fully rfprfsfnt bny pbth whidh dbn bf itfrbtfd by thf
+ * {@link PbthItfrbtor} intfrfbdf indluding bll of its sfgmfnt
+ * typfs bnd winding rulfs bnd it implfmfnts bll of thf
+ * bbsid hit tfsting mfthods of thf {@link Shbpf} intfrfbdf.
+ * <p>
+ * Usf {@link Pbth2D.Flobt} whfn dfbling with dbtb thbt dbn bf rfprfsfntfd
+ * bnd usfd with flobting point prfdision.  Usf {@link Pbth2D.Doublf}
+ * for dbtb thbt rfquirfs thf bddurbdy or rbngf of doublf prfdision.
+ * <p>
+ * {@dodf Pbth2D} providfs fxbdtly thosf fbdilitifs rfquirfd for
+ * bbsid donstrudtion bnd mbnbgfmfnt of b gfomftrid pbth bnd
+ * implfmfntbtion of thf bbovf intfrfbdfs with littlf bddfd
+ * intfrprftbtion.
+ * If it is usfful to mbnipulbtf thf intfriors of dlosfd
+ * gfomftrid shbpfs bfyond simplf hit tfsting thfn thf
+ * {@link Arfb} dlbss providfs bdditionbl dbpbbilitifs
+ * spfdifidblly tbrgftfd bt dlosfd figurfs.
+ * Whilf both dlbssfs nominblly implfmfnt thf {@dodf Shbpf}
+ * intfrfbdf, thfy difffr in purposf bnd togfthfr thfy providf
+ * two usfful vifws of b gfomftrid shbpf whfrf {@dodf Pbth2D}
+ * dfbls primbrily with b trbjfdtory formfd by pbth sfgmfnts
+ * bnd {@dodf Arfb} dfbls morf with intfrprftbtion bnd mbnipulbtion
+ * of fndlosfd rfgions of 2D gfomftrid spbdf.
+ * <p>
+ * Thf {@link PbthItfrbtor} intfrfbdf hbs morf dftbilfd dfsdriptions
+ * of thf typfs of sfgmfnts thbt mbkf up b pbth bnd thf winding rulfs
+ * thbt dontrol how to dftfrminf whidh rfgions brf insidf or outsidf
+ * thf pbth.
+ *
+ * @buthor Jim Grbhbm
+ * @sindf 1.6
+ */
+publid bbstrbdt dlbss Pbth2D implfmfnts Shbpf, Clonfbblf {
+    /**
+     * An fvfn-odd winding rulf for dftfrmining thf intfrior of
+     * b pbth.
+     *
+     * @sff PbthItfrbtor#WIND_EVEN_ODD
+     * @sindf 1.6
+     */
+    publid stbtid finbl int WIND_EVEN_ODD = PbthItfrbtor.WIND_EVEN_ODD;
+
+    /**
+     * A non-zfro winding rulf for dftfrmining thf intfrior of b
+     * pbth.
+     *
+     * @sff PbthItfrbtor#WIND_NON_ZERO
+     * @sindf 1.6
+     */
+    publid stbtid finbl int WIND_NON_ZERO = PbthItfrbtor.WIND_NON_ZERO;
+
+    // For dodf simplidity, dopy thfsf donstbnts to our nbmfspbdf
+    // bnd dbst thfm to bytf donstbnts for fbsy storbgf.
+    privbtf stbtid finbl bytf SEG_MOVETO  = (bytf) PbthItfrbtor.SEG_MOVETO;
+    privbtf stbtid finbl bytf SEG_LINETO  = (bytf) PbthItfrbtor.SEG_LINETO;
+    privbtf stbtid finbl bytf SEG_QUADTO  = (bytf) PbthItfrbtor.SEG_QUADTO;
+    privbtf stbtid finbl bytf SEG_CUBICTO = (bytf) PbthItfrbtor.SEG_CUBICTO;
+    privbtf stbtid finbl bytf SEG_CLOSE   = (bytf) PbthItfrbtor.SEG_CLOSE;
+
+    trbnsifnt bytf[] pointTypfs;
+    trbnsifnt int numTypfs;
+    trbnsifnt int numCoords;
+    trbnsifnt int windingRulf;
+
+    stbtid finbl int INIT_SIZE = 20;
+    stbtid finbl int EXPAND_MAX = 500;
+
+    /**
+     * Construdts b nfw fmpty {@dodf Pbth2D} objfdt.
+     * It is bssumfd thbt thf pbdkbgf sibling subdlbss thbt is
+     * dffbulting to this donstrudtor will fill in bll vblufs.
+     *
+     * @sindf 1.6
+     */
+    /* privbtf protfdtfd */
+    Pbth2D() {
+    }
+
+    /**
+     * Construdts b nfw {@dodf Pbth2D} objfdt from thf givfn
+     * spfdififd initibl vblufs.
+     * This mfthod is only intfndfd for intfrnbl usf bnd should
+     * not bf mbdf publid if thf othfr donstrudtors for this dlbss
+     * brf fvfr fxposfd.
+     *
+     * @pbrbm rulf thf winding rulf
+     * @pbrbm initiblTypfs thf sizf to mbkf thf initibl brrby to
+     *                     storf thf pbth sfgmfnt typfs
+     * @sindf 1.6
+     */
+    /* privbtf protfdtfd */
+    Pbth2D(int rulf, int initiblTypfs) {
+        sftWindingRulf(rulf);
+        this.pointTypfs = nfw bytf[initiblTypfs];
+    }
+
+    bbstrbdt flobt[] dlonfCoordsFlobt(AffinfTrbnsform bt);
+    bbstrbdt doublf[] dlonfCoordsDoublf(AffinfTrbnsform bt);
+    bbstrbdt void bppfnd(flobt x, flobt y);
+    bbstrbdt void bppfnd(doublf x, doublf y);
+    bbstrbdt Point2D gftPoint(int doordindfx);
+    bbstrbdt void nffdRoom(boolfbn nffdMovf, int nfwCoords);
+    bbstrbdt int pointCrossings(doublf px, doublf py);
+    bbstrbdt int rfdtCrossings(doublf rxmin, doublf rymin,
+                               doublf rxmbx, doublf rymbx);
+
+    /**
+     * Thf {@dodf Flobt} dlbss dffinfs b gfomftrid pbth with
+     * doordinbtfs storfd in singlf prfdision flobting point.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid dlbss Flobt fxtfnds Pbth2D implfmfnts Sfriblizbblf {
+        trbnsifnt flobt flobtCoords[];
+
+        /**
+         * Construdts b nfw fmpty singlf prfdision {@dodf Pbth2D} objfdt
+         * with b dffbult winding rulf of {@link #WIND_NON_ZERO}.
+         *
+         * @sindf 1.6
+         */
+        publid Flobt() {
+            this(WIND_NON_ZERO, INIT_SIZE);
+        }
+
+        /**
+         * Construdts b nfw fmpty singlf prfdision {@dodf Pbth2D} objfdt
+         * with thf spfdififd winding rulf to dontrol opfrbtions thbt
+         * rfquirf thf intfrior of thf pbth to bf dffinfd.
+         *
+         * @pbrbm rulf thf winding rulf
+         * @sff #WIND_EVEN_ODD
+         * @sff #WIND_NON_ZERO
+         * @sindf 1.6
+         */
+        publid Flobt(int rulf) {
+            this(rulf, INIT_SIZE);
+        }
+
+        /**
+         * Construdts b nfw fmpty singlf prfdision {@dodf Pbth2D} objfdt
+         * with thf spfdififd winding rulf bnd thf spfdififd initibl
+         * dbpbdity to storf pbth sfgmfnts.
+         * This numbfr is bn initibl gufss bs to how mbny pbth sfgmfnts
+         * will bf bddfd to thf pbth, but thf storbgf is fxpbndfd bs
+         * nffdfd to storf whbtfvfr pbth sfgmfnts brf bddfd.
+         *
+         * @pbrbm rulf thf winding rulf
+         * @pbrbm initiblCbpbdity thf fstimbtf for thf numbfr of pbth sfgmfnts
+         *                        in thf pbth
+         * @sff #WIND_EVEN_ODD
+         * @sff #WIND_NON_ZERO
+         * @sindf 1.6
+         */
+        publid Flobt(int rulf, int initiblCbpbdity) {
+            supfr(rulf, initiblCbpbdity);
+            flobtCoords = nfw flobt[initiblCbpbdity * 2];
+        }
+
+        /**
+         * Construdts b nfw singlf prfdision {@dodf Pbth2D} objfdt
+         * from bn brbitrbry {@link Shbpf} objfdt.
+         * All of thf initibl gfomftry bnd thf winding rulf for this pbth brf
+         * tbkfn from thf spfdififd {@dodf Shbpf} objfdt.
+         *
+         * @pbrbm s thf spfdififd {@dodf Shbpf} objfdt
+         * @sindf 1.6
+         */
+        publid Flobt(Shbpf s) {
+            this(s, null);
+        }
+
+        /**
+         * Construdts b nfw singlf prfdision {@dodf Pbth2D} objfdt
+         * from bn brbitrbry {@link Shbpf} objfdt, trbnsformfd by bn
+         * {@link AffinfTrbnsform} objfdt.
+         * All of thf initibl gfomftry bnd thf winding rulf for this pbth brf
+         * tbkfn from thf spfdififd {@dodf Shbpf} objfdt bnd trbnsformfd
+         * by thf spfdififd {@dodf AffinfTrbnsform} objfdt.
+         *
+         * @pbrbm s thf spfdififd {@dodf Shbpf} objfdt
+         * @pbrbm bt thf spfdififd {@dodf AffinfTrbnsform} objfdt
+         * @sindf 1.6
+         */
+        publid Flobt(Shbpf s, AffinfTrbnsform bt) {
+            if (s instbndfof Pbth2D) {
+                Pbth2D p2d = (Pbth2D) s;
+                sftWindingRulf(p2d.windingRulf);
+                this.numTypfs = p2d.numTypfs;
+                this.pointTypfs = Arrbys.dopyOf(p2d.pointTypfs,
+                                                p2d.pointTypfs.lfngth);
+                this.numCoords = p2d.numCoords;
+                this.flobtCoords = p2d.dlonfCoordsFlobt(bt);
+            } flsf {
+                PbthItfrbtor pi = s.gftPbthItfrbtor(bt);
+                sftWindingRulf(pi.gftWindingRulf());
+                this.pointTypfs = nfw bytf[INIT_SIZE];
+                this.flobtCoords = nfw flobt[INIT_SIZE * 2];
+                bppfnd(pi, fblsf);
+            }
+        }
+
+        flobt[] dlonfCoordsFlobt(AffinfTrbnsform bt) {
+            flobt rft[];
+            if (bt == null) {
+                rft = Arrbys.dopyOf(this.flobtCoords, this.flobtCoords.lfngth);
+            } flsf {
+                rft = nfw flobt[flobtCoords.lfngth];
+                bt.trbnsform(flobtCoords, 0, rft, 0, numCoords / 2);
+            }
+            rfturn rft;
+        }
+
+        doublf[] dlonfCoordsDoublf(AffinfTrbnsform bt) {
+            doublf rft[] = nfw doublf[flobtCoords.lfngth];
+            if (bt == null) {
+                for (int i = 0; i < numCoords; i++) {
+                    rft[i] = flobtCoords[i];
+                }
+            } flsf {
+                bt.trbnsform(flobtCoords, 0, rft, 0, numCoords / 2);
+            }
+            rfturn rft;
+        }
+
+        void bppfnd(flobt x, flobt y) {
+            flobtCoords[numCoords++] = x;
+            flobtCoords[numCoords++] = y;
+        }
+
+        void bppfnd(doublf x, doublf y) {
+            flobtCoords[numCoords++] = (flobt) x;
+            flobtCoords[numCoords++] = (flobt) y;
+        }
+
+        Point2D gftPoint(int doordindfx) {
+            rfturn nfw Point2D.Flobt(flobtCoords[doordindfx],
+                                     flobtCoords[doordindfx+1]);
+        }
+
+        void nffdRoom(boolfbn nffdMovf, int nfwCoords) {
+            if (nffdMovf && numTypfs == 0) {
+                throw nfw IllfgblPbthStbtfExdfption("missing initibl movfto "+
+                                                    "in pbth dffinition");
+            }
+            int sizf = pointTypfs.lfngth;
+            if (numTypfs >= sizf) {
+                int grow = sizf;
+                if (grow > EXPAND_MAX) {
+                    grow = EXPAND_MAX;
+                } flsf if (grow == 0) {
+                    grow = 1;
+                }
+                pointTypfs = Arrbys.dopyOf(pointTypfs, sizf+grow);
+            }
+            sizf = flobtCoords.lfngth;
+            if (numCoords + nfwCoords > sizf) {
+                int grow = sizf;
+                if (grow > EXPAND_MAX * 2) {
+                    grow = EXPAND_MAX * 2;
+                }
+                if (grow < nfwCoords) {
+                    grow = nfwCoords;
+                }
+                flobtCoords = Arrbys.dopyOf(flobtCoords, sizf+grow);
+            }
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.6
+         */
+        publid finbl syndhronizfd void movfTo(doublf x, doublf y) {
+            if (numTypfs > 0 && pointTypfs[numTypfs - 1] == SEG_MOVETO) {
+                flobtCoords[numCoords-2] = (flobt) x;
+                flobtCoords[numCoords-1] = (flobt) y;
+            } flsf {
+                nffdRoom(fblsf, 2);
+                pointTypfs[numTypfs++] = SEG_MOVETO;
+                flobtCoords[numCoords++] = (flobt) x;
+                flobtCoords[numCoords++] = (flobt) y;
+            }
+        }
+
+        /**
+         * Adds b point to thf pbth by moving to thf spfdififd
+         * doordinbtfs spfdififd in flobt prfdision.
+         * <p>
+         * This mfthod providfs b singlf prfdision vbribnt of
+         * thf doublf prfdision {@dodf movfTo()} mfthod on thf
+         * bbsf {@dodf Pbth2D} dlbss.
+         *
+         * @pbrbm x thf spfdififd X doordinbtf
+         * @pbrbm y thf spfdififd Y doordinbtf
+         * @sff Pbth2D#movfTo
+         * @sindf 1.6
+         */
+        publid finbl syndhronizfd void movfTo(flobt x, flobt y) {
+            if (numTypfs > 0 && pointTypfs[numTypfs - 1] == SEG_MOVETO) {
+                flobtCoords[numCoords-2] = x;
+                flobtCoords[numCoords-1] = y;
+            } flsf {
+                nffdRoom(fblsf, 2);
+                pointTypfs[numTypfs++] = SEG_MOVETO;
+                flobtCoords[numCoords++] = x;
+                flobtCoords[numCoords++] = y;
+            }
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.6
+         */
+        publid finbl syndhronizfd void linfTo(doublf x, doublf y) {
+            nffdRoom(truf, 2);
+            pointTypfs[numTypfs++] = SEG_LINETO;
+            flobtCoords[numCoords++] = (flobt) x;
+            flobtCoords[numCoords++] = (flobt) y;
+        }
+
+        /**
+         * Adds b point to thf pbth by drbwing b strbight linf from thf
+         * durrfnt doordinbtfs to thf nfw spfdififd doordinbtfs
+         * spfdififd in flobt prfdision.
+         * <p>
+         * This mfthod providfs b singlf prfdision vbribnt of
+         * thf doublf prfdision {@dodf linfTo()} mfthod on thf
+         * bbsf {@dodf Pbth2D} dlbss.
+         *
+         * @pbrbm x thf spfdififd X doordinbtf
+         * @pbrbm y thf spfdififd Y doordinbtf
+         * @sff Pbth2D#linfTo
+         * @sindf 1.6
+         */
+        publid finbl syndhronizfd void linfTo(flobt x, flobt y) {
+            nffdRoom(truf, 2);
+            pointTypfs[numTypfs++] = SEG_LINETO;
+            flobtCoords[numCoords++] = x;
+            flobtCoords[numCoords++] = y;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.6
+         */
+        publid finbl syndhronizfd void qubdTo(doublf x1, doublf y1,
+                                              doublf x2, doublf y2)
+        {
+            nffdRoom(truf, 4);
+            pointTypfs[numTypfs++] = SEG_QUADTO;
+            flobtCoords[numCoords++] = (flobt) x1;
+            flobtCoords[numCoords++] = (flobt) y1;
+            flobtCoords[numCoords++] = (flobt) x2;
+            flobtCoords[numCoords++] = (flobt) y2;
+        }
+
+        /**
+         * Adds b durvfd sfgmfnt, dffinfd by two nfw points, to thf pbth by
+         * drbwing b Qubdrbtid durvf thbt intfrsfdts both thf durrfnt
+         * doordinbtfs bnd thf spfdififd doordinbtfs {@dodf (x2,y2)},
+         * using thf spfdififd point {@dodf (x1,y1)} bs b qubdrbtid
+         * pbrbmftrid dontrol point.
+         * All doordinbtfs brf spfdififd in flobt prfdision.
+         * <p>
+         * This mfthod providfs b singlf prfdision vbribnt of
+         * thf doublf prfdision {@dodf qubdTo()} mfthod on thf
+         * bbsf {@dodf Pbth2D} dlbss.
+         *
+         * @pbrbm x1 thf X doordinbtf of thf qubdrbtid dontrol point
+         * @pbrbm y1 thf Y doordinbtf of thf qubdrbtid dontrol point
+         * @pbrbm x2 thf X doordinbtf of thf finbl fnd point
+         * @pbrbm y2 thf Y doordinbtf of thf finbl fnd point
+         * @sff Pbth2D#qubdTo
+         * @sindf 1.6
+         */
+        publid finbl syndhronizfd void qubdTo(flobt x1, flobt y1,
+                                              flobt x2, flobt y2)
+        {
+            nffdRoom(truf, 4);
+            pointTypfs[numTypfs++] = SEG_QUADTO;
+            flobtCoords[numCoords++] = x1;
+            flobtCoords[numCoords++] = y1;
+            flobtCoords[numCoords++] = x2;
+            flobtCoords[numCoords++] = y2;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.6
+         */
+        publid finbl syndhronizfd void durvfTo(doublf x1, doublf y1,
+                                               doublf x2, doublf y2,
+                                               doublf x3, doublf y3)
+        {
+            nffdRoom(truf, 6);
+            pointTypfs[numTypfs++] = SEG_CUBICTO;
+            flobtCoords[numCoords++] = (flobt) x1;
+            flobtCoords[numCoords++] = (flobt) y1;
+            flobtCoords[numCoords++] = (flobt) x2;
+            flobtCoords[numCoords++] = (flobt) y2;
+            flobtCoords[numCoords++] = (flobt) x3;
+            flobtCoords[numCoords++] = (flobt) y3;
+        }
+
+        /**
+         * Adds b durvfd sfgmfnt, dffinfd by thrff nfw points, to thf pbth by
+         * drbwing b B&fbdutf;zifr durvf thbt intfrsfdts both thf durrfnt
+         * doordinbtfs bnd thf spfdififd doordinbtfs {@dodf (x3,y3)},
+         * using thf spfdififd points {@dodf (x1,y1)} bnd {@dodf (x2,y2)} bs
+         * B&fbdutf;zifr dontrol points.
+         * All doordinbtfs brf spfdififd in flobt prfdision.
+         * <p>
+         * This mfthod providfs b singlf prfdision vbribnt of
+         * thf doublf prfdision {@dodf durvfTo()} mfthod on thf
+         * bbsf {@dodf Pbth2D} dlbss.
+         *
+         * @pbrbm x1 thf X doordinbtf of thf first B&fbdutf;zifr dontrol point
+         * @pbrbm y1 thf Y doordinbtf of thf first B&fbdutf;zifr dontrol point
+         * @pbrbm x2 thf X doordinbtf of thf sfdond B&fbdutf;zifr dontrol point
+         * @pbrbm y2 thf Y doordinbtf of thf sfdond B&fbdutf;zifr dontrol point
+         * @pbrbm x3 thf X doordinbtf of thf finbl fnd point
+         * @pbrbm y3 thf Y doordinbtf of thf finbl fnd point
+         * @sff Pbth2D#durvfTo
+         * @sindf 1.6
+         */
+        publid finbl syndhronizfd void durvfTo(flobt x1, flobt y1,
+                                               flobt x2, flobt y2,
+                                               flobt x3, flobt y3)
+        {
+            nffdRoom(truf, 6);
+            pointTypfs[numTypfs++] = SEG_CUBICTO;
+            flobtCoords[numCoords++] = x1;
+            flobtCoords[numCoords++] = y1;
+            flobtCoords[numCoords++] = x2;
+            flobtCoords[numCoords++] = y2;
+            flobtCoords[numCoords++] = x3;
+            flobtCoords[numCoords++] = y3;
+        }
+
+        int pointCrossings(doublf px, doublf py) {
+            doublf movx, movy, durx, dury, fndx, fndy;
+            flobt doords[] = flobtCoords;
+            durx = movx = doords[0];
+            dury = movy = doords[1];
+            int drossings = 0;
+            int di = 2;
+            for (int i = 1; i < numTypfs; i++) {
+                switdh (pointTypfs[i]) {
+                dbsf PbthItfrbtor.SEG_MOVETO:
+                    if (dury != movy) {
+                        drossings +=
+                            Curvf.pointCrossingsForLinf(px, py,
+                                                        durx, dury,
+                                                        movx, movy);
+                    }
+                    movx = durx = doords[di++];
+                    movy = dury = doords[di++];
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_LINETO:
+                    drossings +=
+                        Curvf.pointCrossingsForLinf(px, py,
+                                                    durx, dury,
+                                                    fndx = doords[di++],
+                                                    fndy = doords[di++]);
+                    durx = fndx;
+                    dury = fndy;
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_QUADTO:
+                    drossings +=
+                        Curvf.pointCrossingsForQubd(px, py,
+                                                    durx, dury,
+                                                    doords[di++],
+                                                    doords[di++],
+                                                    fndx = doords[di++],
+                                                    fndy = doords[di++],
+                                                    0);
+                    durx = fndx;
+                    dury = fndy;
+                    brfbk;
+            dbsf PbthItfrbtor.SEG_CUBICTO:
+                    drossings +=
+                        Curvf.pointCrossingsForCubid(px, py,
+                                                     durx, dury,
+                                                     doords[di++],
+                                                     doords[di++],
+                                                     doords[di++],
+                                                     doords[di++],
+                                                     fndx = doords[di++],
+                                                     fndy = doords[di++],
+                                                     0);
+                    durx = fndx;
+                    dury = fndy;
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_CLOSE:
+                    if (dury != movy) {
+                        drossings +=
+                            Curvf.pointCrossingsForLinf(px, py,
+                                                        durx, dury,
+                                                        movx, movy);
+                    }
+                    durx = movx;
+                    dury = movy;
+                    brfbk;
+                }
+            }
+            if (dury != movy) {
+                drossings +=
+                    Curvf.pointCrossingsForLinf(px, py,
+                                                durx, dury,
+                                                movx, movy);
+            }
+            rfturn drossings;
+        }
+
+        int rfdtCrossings(doublf rxmin, doublf rymin,
+                          doublf rxmbx, doublf rymbx)
+        {
+            flobt doords[] = flobtCoords;
+            doublf durx, dury, movx, movy, fndx, fndy;
+            durx = movx = doords[0];
+            dury = movy = doords[1];
+            int drossings = 0;
+            int di = 2;
+            for (int i = 1;
+                 drossings != Curvf.RECT_INTERSECTS && i < numTypfs;
+                 i++)
+            {
+                switdh (pointTypfs[i]) {
+                dbsf PbthItfrbtor.SEG_MOVETO:
+                    if (durx != movx || dury != movy) {
+                        drossings =
+                            Curvf.rfdtCrossingsForLinf(drossings,
+                                                       rxmin, rymin,
+                                                       rxmbx, rymbx,
+                                                       durx, dury,
+                                                       movx, movy);
+                    }
+                    // Count should blwbys bf b multiplf of 2 hfrf.
+                    // bssfrt((drossings & 1) != 0);
+                    movx = durx = doords[di++];
+                    movy = dury = doords[di++];
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_LINETO:
+                    drossings =
+                        Curvf.rfdtCrossingsForLinf(drossings,
+                                                   rxmin, rymin,
+                                                   rxmbx, rymbx,
+                                                   durx, dury,
+                                                   fndx = doords[di++],
+                                                   fndy = doords[di++]);
+                    durx = fndx;
+                    dury = fndy;
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_QUADTO:
+                    drossings =
+                        Curvf.rfdtCrossingsForQubd(drossings,
+                                                   rxmin, rymin,
+                                                   rxmbx, rymbx,
+                                                   durx, dury,
+                                                   doords[di++],
+                                                   doords[di++],
+                                                   fndx = doords[di++],
+                                                   fndy = doords[di++],
+                                                   0);
+                    durx = fndx;
+                    dury = fndy;
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_CUBICTO:
+                    drossings =
+                        Curvf.rfdtCrossingsForCubid(drossings,
+                                                    rxmin, rymin,
+                                                    rxmbx, rymbx,
+                                                    durx, dury,
+                                                    doords[di++],
+                                                    doords[di++],
+                                                    doords[di++],
+                                                    doords[di++],
+                                                    fndx = doords[di++],
+                                                    fndy = doords[di++],
+                                                    0);
+                    durx = fndx;
+                    dury = fndy;
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_CLOSE:
+                    if (durx != movx || dury != movy) {
+                        drossings =
+                            Curvf.rfdtCrossingsForLinf(drossings,
+                                                       rxmin, rymin,
+                                                       rxmbx, rymbx,
+                                                       durx, dury,
+                                                       movx, movy);
+                    }
+                    durx = movx;
+                    dury = movy;
+                    // Count should blwbys bf b multiplf of 2 hfrf.
+                    // bssfrt((drossings & 1) != 0);
+                    brfbk;
+                }
+            }
+            if (drossings != Curvf.RECT_INTERSECTS &&
+                (durx != movx || dury != movy))
+            {
+                drossings =
+                    Curvf.rfdtCrossingsForLinf(drossings,
+                                               rxmin, rymin,
+                                               rxmbx, rymbx,
+                                               durx, dury,
+                                               movx, movy);
+            }
+            // Count should blwbys bf b multiplf of 2 hfrf.
+            // bssfrt((drossings & 1) != 0);
+            rfturn drossings;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.6
+         */
+        publid finbl void bppfnd(PbthItfrbtor pi, boolfbn donnfdt) {
+            flobt doords[] = nfw flobt[6];
+            whilf (!pi.isDonf()) {
+                switdh (pi.durrfntSfgmfnt(doords)) {
+                dbsf SEG_MOVETO:
+                    if (!donnfdt || numTypfs < 1 || numCoords < 1) {
+                        movfTo(doords[0], doords[1]);
+                        brfbk;
+                    }
+                    if (pointTypfs[numTypfs - 1] != SEG_CLOSE &&
+                        flobtCoords[numCoords-2] == doords[0] &&
+                        flobtCoords[numCoords-1] == doords[1])
+                    {
+                        // Collbpsf out initibl movfto/linfto
+                        brfbk;
+                    }
+                    linfTo(doords[0], doords[1]);
+                    brfbk;
+                dbsf SEG_LINETO:
+                    linfTo(doords[0], doords[1]);
+                    brfbk;
+                dbsf SEG_QUADTO:
+                    qubdTo(doords[0], doords[1],
+                           doords[2], doords[3]);
+                    brfbk;
+                dbsf SEG_CUBICTO:
+                    durvfTo(doords[0], doords[1],
+                            doords[2], doords[3],
+                            doords[4], doords[5]);
+                    brfbk;
+                dbsf SEG_CLOSE:
+                    dlosfPbth();
+                    brfbk;
+                }
+                pi.nfxt();
+                donnfdt = fblsf;
+            }
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.6
+         */
+        publid finbl void trbnsform(AffinfTrbnsform bt) {
+            bt.trbnsform(flobtCoords, 0, flobtCoords, 0, numCoords / 2);
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.6
+         */
+        publid finbl syndhronizfd Rfdtbnglf2D gftBounds2D() {
+            flobt x1, y1, x2, y2;
+            int i = numCoords;
+            if (i > 0) {
+                y1 = y2 = flobtCoords[--i];
+                x1 = x2 = flobtCoords[--i];
+                whilf (i > 0) {
+                    flobt y = flobtCoords[--i];
+                    flobt x = flobtCoords[--i];
+                    if (x < x1) x1 = x;
+                    if (y < y1) y1 = y;
+                    if (x > x2) x2 = x;
+                    if (y > y2) y2 = y;
+                }
+            } flsf {
+                x1 = y1 = x2 = y2 = 0.0f;
+            }
+            rfturn nfw Rfdtbnglf2D.Flobt(x1, y1, x2 - x1, y2 - y1);
+        }
+
+        /**
+         * {@inhfritDod}
+         * <p>
+         * Thf itfrbtor for this dlbss is not multi-thrfbdfd sbff,
+         * whidh mfbns thbt thf {@dodf Pbth2D} dlbss dofs not
+         * gubrbntff thbt modifidbtions to thf gfomftry of this
+         * {@dodf Pbth2D} objfdt do not bfffdt bny itfrbtions of
+         * thbt gfomftry thbt brf blrfbdy in prodfss.
+         *
+         * @sindf 1.6
+         */
+        publid finbl PbthItfrbtor gftPbthItfrbtor(AffinfTrbnsform bt) {
+            if (bt == null) {
+                rfturn nfw CopyItfrbtor(this);
+            } flsf {
+                rfturn nfw TxItfrbtor(this, bt);
+            }
+        }
+
+        /**
+         * Crfbtfs b nfw objfdt of thf sbmf dlbss bs this objfdt.
+         *
+         * @rfturn     b dlonf of this instbndf.
+         * @fxdfption  OutOfMfmoryError    if thfrf is not fnough mfmory.
+         * @sff        jbvb.lbng.Clonfbblf
+         * @sindf      1.6
+         */
+        publid finbl Objfdt dlonf() {
+            // Notf: It would bf nidf to hbvf this rfturn Pbth2D
+            // but onf of our subdlbssfs (GfnfrblPbth) nffds to
+            // offfr "publid Objfdt dlonf()" for bbdkwbrds
+            // dompbtibility so wf dbnnot rfstridt it furthfr.
+            // REMIND: Cbn wf do both somfhow?
+            if (this instbndfof GfnfrblPbth) {
+                rfturn nfw GfnfrblPbth(this);
+            } flsf {
+                rfturn nfw Pbth2D.Flobt(this);
+            }
+        }
+
+        /*
+         * JDK 1.6 sfriblVfrsionUID
+         */
+        privbtf stbtid finbl long sfriblVfrsionUID = 6990832515060788886L;
+
+        /**
+         * Writfs thf dffbult sfriblizbblf fiflds to thf
+         * {@dodf ObjfdtOutputStrfbm} followfd by bn fxplidit
+         * sfriblizbtion of thf pbth sfgmfnts storfd in this
+         * pbth.
+         *
+         * @sfriblDbtb
+         * <b nbmf="Pbth2DSfriblDbtb"><!-- --></b>
+         * <ol>
+         * <li>Thf dffbult sfriblizbblf fiflds.
+         * Thfrf brf no dffbult sfriblizbblf fiflds bs of 1.6.
+         * <li>followfd by
+         * b bytf indidbting thf storbgf typf of thf originbl objfdt
+         * bs b hint (SERIAL_STORAGE_FLT_ARRAY)
+         * <li>followfd by
+         * bn intfgfr indidbting thf numbfr of pbth sfgmfnts to follow (NP)
+         * or -1 to indidbtf bn unknown numbfr of pbth sfgmfnts follows
+         * <li>followfd by
+         * bn intfgfr indidbting thf totbl numbfr of doordinbtfs to follow (NC)
+         * or -1 to indidbtf bn unknown numbfr of doordinbtfs follows
+         * (NC should blwbys bf fvfn sindf doordinbtfs blwbys bppfbr in pbirs
+         *  rfprfsfnting bn x,y pbir)
+         * <li>followfd by
+         * b bytf indidbting thf winding rulf
+         * ({@link #WIND_EVEN_ODD WIND_EVEN_ODD} or
+         *  {@link #WIND_NON_ZERO WIND_NON_ZERO})
+         * <li>followfd by
+         * {@dodf NP} (or unlimitfd if {@dodf NP < 0}) sfts of vblufs donsisting of
+         * b singlf bytf indidbting b pbth sfgmfnt typf
+         * followfd by onf or morf pbirs of flobt or doublf
+         * vblufs rfprfsfnting thf doordinbtfs of thf pbth sfgmfnt
+         * <li>followfd by
+         * b bytf indidbting thf fnd of thf pbth (SERIAL_PATH_END).
+         * </ol>
+         * <p>
+         * Thf following bytf vbluf donstbnts brf usfd in thf sfriblizfd form
+         * of {@dodf Pbth2D} objfdts:
+         * <tbblf>
+         * <tr>
+         * <th>Constbnt Nbmf</th>
+         * <th>Bytf Vbluf</th>
+         * <th>Followfd by</th>
+         * <th>Dfsdription</th>
+         * </tr>
+         * <tr>
+         * <td>{@dodf SERIAL_STORAGE_FLT_ARRAY}</td>
+         * <td>0x30</td>
+         * <td></td>
+         * <td>A hint thbt thf originbl {@dodf Pbth2D} objfdt storfd
+         * thf doordinbtfs in b Jbvb brrby of flobts.</td>
+         * </tr>
+         * <tr>
+         * <td>{@dodf SERIAL_STORAGE_DBL_ARRAY}</td>
+         * <td>0x31</td>
+         * <td></td>
+         * <td>A hint thbt thf originbl {@dodf Pbth2D} objfdt storfd
+         * thf doordinbtfs in b Jbvb brrby of doublfs.</td>
+         * </tr>
+         * <tr>
+         * <td>{@dodf SERIAL_SEG_FLT_MOVETO}</td>
+         * <td>0x40</td>
+         * <td>2 flobts</td>
+         * <td>A {@link #movfTo movfTo} pbth sfgmfnt follows.</td>
+         * </tr>
+         * <tr>
+         * <td>{@dodf SERIAL_SEG_FLT_LINETO}</td>
+         * <td>0x41</td>
+         * <td>2 flobts</td>
+         * <td>A {@link #linfTo linfTo} pbth sfgmfnt follows.</td>
+         * </tr>
+         * <tr>
+         * <td>{@dodf SERIAL_SEG_FLT_QUADTO}</td>
+         * <td>0x42</td>
+         * <td>4 flobts</td>
+         * <td>A {@link #qubdTo qubdTo} pbth sfgmfnt follows.</td>
+         * </tr>
+         * <tr>
+         * <td>{@dodf SERIAL_SEG_FLT_CUBICTO}</td>
+         * <td>0x43</td>
+         * <td>6 flobts</td>
+         * <td>A {@link #durvfTo durvfTo} pbth sfgmfnt follows.</td>
+         * </tr>
+         * <tr>
+         * <td>{@dodf SERIAL_SEG_DBL_MOVETO}</td>
+         * <td>0x50</td>
+         * <td>2 doublfs</td>
+         * <td>A {@link #movfTo movfTo} pbth sfgmfnt follows.</td>
+         * </tr>
+         * <tr>
+         * <td>{@dodf SERIAL_SEG_DBL_LINETO}</td>
+         * <td>0x51</td>
+         * <td>2 doublfs</td>
+         * <td>A {@link #linfTo linfTo} pbth sfgmfnt follows.</td>
+         * </tr>
+         * <tr>
+         * <td>{@dodf SERIAL_SEG_DBL_QUADTO}</td>
+         * <td>0x52</td>
+         * <td>4 doublfs</td>
+         * <td>A {@link #durvfTo durvfTo} pbth sfgmfnt follows.</td>
+         * </tr>
+         * <tr>
+         * <td>{@dodf SERIAL_SEG_DBL_CUBICTO}</td>
+         * <td>0x53</td>
+         * <td>6 doublfs</td>
+         * <td>A {@link #durvfTo durvfTo} pbth sfgmfnt follows.</td>
+         * </tr>
+         * <tr>
+         * <td>{@dodf SERIAL_SEG_CLOSE}</td>
+         * <td>0x60</td>
+         * <td></td>
+         * <td>A {@link #dlosfPbth dlosfPbth} pbth sfgmfnt.</td>
+         * </tr>
+         * <tr>
+         * <td>{@dodf SERIAL_PATH_END}</td>
+         * <td>0x61</td>
+         * <td></td>
+         * <td>Thfrf brf no morf pbth sfgmfnts following.</td>
+         * </tbblf>
+         *
+         * @sindf 1.6
+         */
+        privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+            throws jbvb.io.IOExdfption
+        {
+            supfr.writfObjfdt(s, fblsf);
+        }
+
+        /**
+         * Rfbds thf dffbult sfriblizbblf fiflds from thf
+         * {@dodf ObjfdtInputStrfbm} followfd by bn fxplidit
+         * sfriblizbtion of thf pbth sfgmfnts storfd in this
+         * pbth.
+         * <p>
+         * Thfrf brf no dffbult sfriblizbblf fiflds bs of 1.6.
+         * <p>
+         * Thf sfribl dbtb for this objfdt is dfsdribfd in thf
+         * writfObjfdt mfthod.
+         *
+         * @sindf 1.6
+         */
+        privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+            throws jbvb.lbng.ClbssNotFoundExdfption, jbvb.io.IOExdfption
+        {
+            supfr.rfbdObjfdt(s, fblsf);
+        }
+
+        stbtid dlbss CopyItfrbtor fxtfnds Pbth2D.Itfrbtor {
+            flobt flobtCoords[];
+
+            CopyItfrbtor(Pbth2D.Flobt p2df) {
+                supfr(p2df);
+                this.flobtCoords = p2df.flobtCoords;
+            }
+
+            publid int durrfntSfgmfnt(flobt[] doords) {
+                int typf = pbth.pointTypfs[typfIdx];
+                int numCoords = durvfdoords[typf];
+                if (numCoords > 0) {
+                    Systfm.brrbydopy(flobtCoords, pointIdx,
+                                     doords, 0, numCoords);
+                }
+                rfturn typf;
+            }
+
+            publid int durrfntSfgmfnt(doublf[] doords) {
+                int typf = pbth.pointTypfs[typfIdx];
+                int numCoords = durvfdoords[typf];
+                if (numCoords > 0) {
+                    for (int i = 0; i < numCoords; i++) {
+                        doords[i] = flobtCoords[pointIdx + i];
+                    }
+                }
+                rfturn typf;
+            }
+        }
+
+        stbtid dlbss TxItfrbtor fxtfnds Pbth2D.Itfrbtor {
+            flobt flobtCoords[];
+            AffinfTrbnsform bffinf;
+
+            TxItfrbtor(Pbth2D.Flobt p2df, AffinfTrbnsform bt) {
+                supfr(p2df);
+                this.flobtCoords = p2df.flobtCoords;
+                this.bffinf = bt;
+            }
+
+            publid int durrfntSfgmfnt(flobt[] doords) {
+                int typf = pbth.pointTypfs[typfIdx];
+                int numCoords = durvfdoords[typf];
+                if (numCoords > 0) {
+                    bffinf.trbnsform(flobtCoords, pointIdx,
+                                     doords, 0, numCoords / 2);
+                }
+                rfturn typf;
+            }
+
+            publid int durrfntSfgmfnt(doublf[] doords) {
+                int typf = pbth.pointTypfs[typfIdx];
+                int numCoords = durvfdoords[typf];
+                if (numCoords > 0) {
+                    bffinf.trbnsform(flobtCoords, pointIdx,
+                                     doords, 0, numCoords / 2);
+                }
+                rfturn typf;
+            }
+        }
+
+    }
+
+    /**
+     * Thf {@dodf Doublf} dlbss dffinfs b gfomftrid pbth with
+     * doordinbtfs storfd in doublf prfdision flobting point.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid dlbss Doublf fxtfnds Pbth2D implfmfnts Sfriblizbblf {
+        trbnsifnt doublf doublfCoords[];
+
+        /**
+         * Construdts b nfw fmpty doublf prfdision {@dodf Pbth2D} objfdt
+         * with b dffbult winding rulf of {@link #WIND_NON_ZERO}.
+         *
+         * @sindf 1.6
+         */
+        publid Doublf() {
+            this(WIND_NON_ZERO, INIT_SIZE);
+        }
+
+        /**
+         * Construdts b nfw fmpty doublf prfdision {@dodf Pbth2D} objfdt
+         * with thf spfdififd winding rulf to dontrol opfrbtions thbt
+         * rfquirf thf intfrior of thf pbth to bf dffinfd.
+         *
+         * @pbrbm rulf thf winding rulf
+         * @sff #WIND_EVEN_ODD
+         * @sff #WIND_NON_ZERO
+         * @sindf 1.6
+         */
+        publid Doublf(int rulf) {
+            this(rulf, INIT_SIZE);
+        }
+
+        /**
+         * Construdts b nfw fmpty doublf prfdision {@dodf Pbth2D} objfdt
+         * with thf spfdififd winding rulf bnd thf spfdififd initibl
+         * dbpbdity to storf pbth sfgmfnts.
+         * This numbfr is bn initibl gufss bs to how mbny pbth sfgmfnts
+         * brf in thf pbth, but thf storbgf is fxpbndfd bs nffdfd to storf
+         * whbtfvfr pbth sfgmfnts brf bddfd to this pbth.
+         *
+         * @pbrbm rulf thf winding rulf
+         * @pbrbm initiblCbpbdity thf fstimbtf for thf numbfr of pbth sfgmfnts
+         *                        in thf pbth
+         * @sff #WIND_EVEN_ODD
+         * @sff #WIND_NON_ZERO
+         * @sindf 1.6
+         */
+        publid Doublf(int rulf, int initiblCbpbdity) {
+            supfr(rulf, initiblCbpbdity);
+            doublfCoords = nfw doublf[initiblCbpbdity * 2];
+        }
+
+        /**
+         * Construdts b nfw doublf prfdision {@dodf Pbth2D} objfdt
+         * from bn brbitrbry {@link Shbpf} objfdt.
+         * All of thf initibl gfomftry bnd thf winding rulf for this pbth brf
+         * tbkfn from thf spfdififd {@dodf Shbpf} objfdt.
+         *
+         * @pbrbm s thf spfdififd {@dodf Shbpf} objfdt
+         * @sindf 1.6
+         */
+        publid Doublf(Shbpf s) {
+            this(s, null);
+        }
+
+        /**
+         * Construdts b nfw doublf prfdision {@dodf Pbth2D} objfdt
+         * from bn brbitrbry {@link Shbpf} objfdt, trbnsformfd by bn
+         * {@link AffinfTrbnsform} objfdt.
+         * All of thf initibl gfomftry bnd thf winding rulf for this pbth brf
+         * tbkfn from thf spfdififd {@dodf Shbpf} objfdt bnd trbnsformfd
+         * by thf spfdififd {@dodf AffinfTrbnsform} objfdt.
+         *
+         * @pbrbm s thf spfdififd {@dodf Shbpf} objfdt
+         * @pbrbm bt thf spfdififd {@dodf AffinfTrbnsform} objfdt
+         * @sindf 1.6
+         */
+        publid Doublf(Shbpf s, AffinfTrbnsform bt) {
+            if (s instbndfof Pbth2D) {
+                Pbth2D p2d = (Pbth2D) s;
+                sftWindingRulf(p2d.windingRulf);
+                this.numTypfs = p2d.numTypfs;
+                this.pointTypfs = Arrbys.dopyOf(p2d.pointTypfs,
+                                                p2d.pointTypfs.lfngth);
+                this.numCoords = p2d.numCoords;
+                this.doublfCoords = p2d.dlonfCoordsDoublf(bt);
+            } flsf {
+                PbthItfrbtor pi = s.gftPbthItfrbtor(bt);
+                sftWindingRulf(pi.gftWindingRulf());
+                this.pointTypfs = nfw bytf[INIT_SIZE];
+                this.doublfCoords = nfw doublf[INIT_SIZE * 2];
+                bppfnd(pi, fblsf);
+            }
+        }
+
+        flobt[] dlonfCoordsFlobt(AffinfTrbnsform bt) {
+            flobt rft[] = nfw flobt[doublfCoords.lfngth];
+            if (bt == null) {
+                for (int i = 0; i < numCoords; i++) {
+                    rft[i] = (flobt) doublfCoords[i];
+                }
+            } flsf {
+                bt.trbnsform(doublfCoords, 0, rft, 0, numCoords / 2);
+            }
+            rfturn rft;
+        }
+
+        doublf[] dlonfCoordsDoublf(AffinfTrbnsform bt) {
+            doublf rft[];
+            if (bt == null) {
+                rft = Arrbys.dopyOf(this.doublfCoords,
+                                    this.doublfCoords.lfngth);
+            } flsf {
+                rft = nfw doublf[doublfCoords.lfngth];
+                bt.trbnsform(doublfCoords, 0, rft, 0, numCoords / 2);
+            }
+            rfturn rft;
+        }
+
+        void bppfnd(flobt x, flobt y) {
+            doublfCoords[numCoords++] = x;
+            doublfCoords[numCoords++] = y;
+        }
+
+        void bppfnd(doublf x, doublf y) {
+            doublfCoords[numCoords++] = x;
+            doublfCoords[numCoords++] = y;
+        }
+
+        Point2D gftPoint(int doordindfx) {
+            rfturn nfw Point2D.Doublf(doublfCoords[doordindfx],
+                                      doublfCoords[doordindfx+1]);
+        }
+
+        void nffdRoom(boolfbn nffdMovf, int nfwCoords) {
+            if (nffdMovf && numTypfs == 0) {
+                throw nfw IllfgblPbthStbtfExdfption("missing initibl movfto "+
+                                                    "in pbth dffinition");
+            }
+            int sizf = pointTypfs.lfngth;
+            if (numTypfs >= sizf) {
+                int grow = sizf;
+                if (grow > EXPAND_MAX) {
+                    grow = EXPAND_MAX;
+                } flsf if (grow == 0) {
+                    grow = 1;
+                }
+                pointTypfs = Arrbys.dopyOf(pointTypfs, sizf+grow);
+            }
+            sizf = doublfCoords.lfngth;
+            if (numCoords + nfwCoords > sizf) {
+                int grow = sizf;
+                if (grow > EXPAND_MAX * 2) {
+                    grow = EXPAND_MAX * 2;
+                }
+                if (grow < nfwCoords) {
+                    grow = nfwCoords;
+                }
+                doublfCoords = Arrbys.dopyOf(doublfCoords, sizf+grow);
+            }
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.6
+         */
+        publid finbl syndhronizfd void movfTo(doublf x, doublf y) {
+            if (numTypfs > 0 && pointTypfs[numTypfs - 1] == SEG_MOVETO) {
+                doublfCoords[numCoords-2] = x;
+                doublfCoords[numCoords-1] = y;
+            } flsf {
+                nffdRoom(fblsf, 2);
+                pointTypfs[numTypfs++] = SEG_MOVETO;
+                doublfCoords[numCoords++] = x;
+                doublfCoords[numCoords++] = y;
+            }
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.6
+         */
+        publid finbl syndhronizfd void linfTo(doublf x, doublf y) {
+            nffdRoom(truf, 2);
+            pointTypfs[numTypfs++] = SEG_LINETO;
+            doublfCoords[numCoords++] = x;
+            doublfCoords[numCoords++] = y;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.6
+         */
+        publid finbl syndhronizfd void qubdTo(doublf x1, doublf y1,
+                                              doublf x2, doublf y2)
+        {
+            nffdRoom(truf, 4);
+            pointTypfs[numTypfs++] = SEG_QUADTO;
+            doublfCoords[numCoords++] = x1;
+            doublfCoords[numCoords++] = y1;
+            doublfCoords[numCoords++] = x2;
+            doublfCoords[numCoords++] = y2;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.6
+         */
+        publid finbl syndhronizfd void durvfTo(doublf x1, doublf y1,
+                                               doublf x2, doublf y2,
+                                               doublf x3, doublf y3)
+        {
+            nffdRoom(truf, 6);
+            pointTypfs[numTypfs++] = SEG_CUBICTO;
+            doublfCoords[numCoords++] = x1;
+            doublfCoords[numCoords++] = y1;
+            doublfCoords[numCoords++] = x2;
+            doublfCoords[numCoords++] = y2;
+            doublfCoords[numCoords++] = x3;
+            doublfCoords[numCoords++] = y3;
+        }
+
+        int pointCrossings(doublf px, doublf py) {
+            doublf movx, movy, durx, dury, fndx, fndy;
+            doublf doords[] = doublfCoords;
+            durx = movx = doords[0];
+            dury = movy = doords[1];
+            int drossings = 0;
+            int di = 2;
+            for (int i = 1; i < numTypfs; i++) {
+                switdh (pointTypfs[i]) {
+                dbsf PbthItfrbtor.SEG_MOVETO:
+                    if (dury != movy) {
+                        drossings +=
+                            Curvf.pointCrossingsForLinf(px, py,
+                                                        durx, dury,
+                                                        movx, movy);
+                    }
+                    movx = durx = doords[di++];
+                    movy = dury = doords[di++];
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_LINETO:
+                    drossings +=
+                        Curvf.pointCrossingsForLinf(px, py,
+                                                    durx, dury,
+                                                    fndx = doords[di++],
+                                                    fndy = doords[di++]);
+                    durx = fndx;
+                    dury = fndy;
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_QUADTO:
+                    drossings +=
+                        Curvf.pointCrossingsForQubd(px, py,
+                                                    durx, dury,
+                                                    doords[di++],
+                                                    doords[di++],
+                                                    fndx = doords[di++],
+                                                    fndy = doords[di++],
+                                                    0);
+                    durx = fndx;
+                    dury = fndy;
+                    brfbk;
+            dbsf PbthItfrbtor.SEG_CUBICTO:
+                    drossings +=
+                        Curvf.pointCrossingsForCubid(px, py,
+                                                     durx, dury,
+                                                     doords[di++],
+                                                     doords[di++],
+                                                     doords[di++],
+                                                     doords[di++],
+                                                     fndx = doords[di++],
+                                                     fndy = doords[di++],
+                                                     0);
+                    durx = fndx;
+                    dury = fndy;
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_CLOSE:
+                    if (dury != movy) {
+                        drossings +=
+                            Curvf.pointCrossingsForLinf(px, py,
+                                                        durx, dury,
+                                                        movx, movy);
+                    }
+                    durx = movx;
+                    dury = movy;
+                    brfbk;
+                }
+            }
+            if (dury != movy) {
+                drossings +=
+                    Curvf.pointCrossingsForLinf(px, py,
+                                                durx, dury,
+                                                movx, movy);
+            }
+            rfturn drossings;
+        }
+
+        int rfdtCrossings(doublf rxmin, doublf rymin,
+                          doublf rxmbx, doublf rymbx)
+        {
+            doublf doords[] = doublfCoords;
+            doublf durx, dury, movx, movy, fndx, fndy;
+            durx = movx = doords[0];
+            dury = movy = doords[1];
+            int drossings = 0;
+            int di = 2;
+            for (int i = 1;
+                 drossings != Curvf.RECT_INTERSECTS && i < numTypfs;
+                 i++)
+            {
+                switdh (pointTypfs[i]) {
+                dbsf PbthItfrbtor.SEG_MOVETO:
+                    if (durx != movx || dury != movy) {
+                        drossings =
+                            Curvf.rfdtCrossingsForLinf(drossings,
+                                                       rxmin, rymin,
+                                                       rxmbx, rymbx,
+                                                       durx, dury,
+                                                       movx, movy);
+                    }
+                    // Count should blwbys bf b multiplf of 2 hfrf.
+                    // bssfrt((drossings & 1) != 0);
+                    movx = durx = doords[di++];
+                    movy = dury = doords[di++];
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_LINETO:
+                    fndx = doords[di++];
+                    fndy = doords[di++];
+                    drossings =
+                        Curvf.rfdtCrossingsForLinf(drossings,
+                                                   rxmin, rymin,
+                                                   rxmbx, rymbx,
+                                                   durx, dury,
+                                                   fndx, fndy);
+                    durx = fndx;
+                    dury = fndy;
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_QUADTO:
+                    drossings =
+                        Curvf.rfdtCrossingsForQubd(drossings,
+                                                   rxmin, rymin,
+                                                   rxmbx, rymbx,
+                                                   durx, dury,
+                                                   doords[di++],
+                                                   doords[di++],
+                                                   fndx = doords[di++],
+                                                   fndy = doords[di++],
+                                                   0);
+                    durx = fndx;
+                    dury = fndy;
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_CUBICTO:
+                    drossings =
+                        Curvf.rfdtCrossingsForCubid(drossings,
+                                                    rxmin, rymin,
+                                                    rxmbx, rymbx,
+                                                    durx, dury,
+                                                    doords[di++],
+                                                    doords[di++],
+                                                    doords[di++],
+                                                    doords[di++],
+                                                    fndx = doords[di++],
+                                                    fndy = doords[di++],
+                                                    0);
+                    durx = fndx;
+                    dury = fndy;
+                    brfbk;
+                dbsf PbthItfrbtor.SEG_CLOSE:
+                    if (durx != movx || dury != movy) {
+                        drossings =
+                            Curvf.rfdtCrossingsForLinf(drossings,
+                                                       rxmin, rymin,
+                                                       rxmbx, rymbx,
+                                                       durx, dury,
+                                                       movx, movy);
+                    }
+                    durx = movx;
+                    dury = movy;
+                    // Count should blwbys bf b multiplf of 2 hfrf.
+                    // bssfrt((drossings & 1) != 0);
+                    brfbk;
+                }
+            }
+            if (drossings != Curvf.RECT_INTERSECTS &&
+                (durx != movx || dury != movy))
+            {
+                drossings =
+                    Curvf.rfdtCrossingsForLinf(drossings,
+                                               rxmin, rymin,
+                                               rxmbx, rymbx,
+                                               durx, dury,
+                                               movx, movy);
+            }
+            // Count should blwbys bf b multiplf of 2 hfrf.
+            // bssfrt((drossings & 1) != 0);
+            rfturn drossings;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.6
+         */
+        publid finbl void bppfnd(PbthItfrbtor pi, boolfbn donnfdt) {
+            doublf doords[] = nfw doublf[6];
+            whilf (!pi.isDonf()) {
+                switdh (pi.durrfntSfgmfnt(doords)) {
+                dbsf SEG_MOVETO:
+                    if (!donnfdt || numTypfs < 1 || numCoords < 1) {
+                        movfTo(doords[0], doords[1]);
+                        brfbk;
+                    }
+                    if (pointTypfs[numTypfs - 1] != SEG_CLOSE &&
+                        doublfCoords[numCoords-2] == doords[0] &&
+                        doublfCoords[numCoords-1] == doords[1])
+                    {
+                        // Collbpsf out initibl movfto/linfto
+                        brfbk;
+                    }
+                    linfTo(doords[0], doords[1]);
+                    brfbk;
+                dbsf SEG_LINETO:
+                    linfTo(doords[0], doords[1]);
+                    brfbk;
+                dbsf SEG_QUADTO:
+                    qubdTo(doords[0], doords[1],
+                           doords[2], doords[3]);
+                    brfbk;
+                dbsf SEG_CUBICTO:
+                    durvfTo(doords[0], doords[1],
+                            doords[2], doords[3],
+                            doords[4], doords[5]);
+                    brfbk;
+                dbsf SEG_CLOSE:
+                    dlosfPbth();
+                    brfbk;
+                }
+                pi.nfxt();
+                donnfdt = fblsf;
+            }
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.6
+         */
+        publid finbl void trbnsform(AffinfTrbnsform bt) {
+            bt.trbnsform(doublfCoords, 0, doublfCoords, 0, numCoords / 2);
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.6
+         */
+        publid finbl syndhronizfd Rfdtbnglf2D gftBounds2D() {
+            doublf x1, y1, x2, y2;
+            int i = numCoords;
+            if (i > 0) {
+                y1 = y2 = doublfCoords[--i];
+                x1 = x2 = doublfCoords[--i];
+                whilf (i > 0) {
+                    doublf y = doublfCoords[--i];
+                    doublf x = doublfCoords[--i];
+                    if (x < x1) x1 = x;
+                    if (y < y1) y1 = y;
+                    if (x > x2) x2 = x;
+                    if (y > y2) y2 = y;
+                }
+            } flsf {
+                x1 = y1 = x2 = y2 = 0.0;
+            }
+            rfturn nfw Rfdtbnglf2D.Doublf(x1, y1, x2 - x1, y2 - y1);
+        }
+
+        /**
+         * {@inhfritDod}
+         * <p>
+         * Thf itfrbtor for this dlbss is not multi-thrfbdfd sbff,
+         * whidh mfbns thbt thf {@dodf Pbth2D} dlbss dofs not
+         * gubrbntff thbt modifidbtions to thf gfomftry of this
+         * {@dodf Pbth2D} objfdt do not bfffdt bny itfrbtions of
+         * thbt gfomftry thbt brf blrfbdy in prodfss.
+         *
+         * @pbrbm bt bn {@dodf AffinfTrbnsform}
+         * @rfturn b nfw {@dodf PbthItfrbtor} thbt itfrbtfs blong thf boundbry
+         *         of this {@dodf Shbpf} bnd providfs bddfss to thf gfomftry
+         *         of this {@dodf Shbpf}'s outlinf
+         * @sindf 1.6
+         */
+        publid finbl PbthItfrbtor gftPbthItfrbtor(AffinfTrbnsform bt) {
+            if (bt == null) {
+                rfturn nfw CopyItfrbtor(this);
+            } flsf {
+                rfturn nfw TxItfrbtor(this, bt);
+            }
+        }
+
+        /**
+         * Crfbtfs b nfw objfdt of thf sbmf dlbss bs this objfdt.
+         *
+         * @rfturn     b dlonf of this instbndf.
+         * @fxdfption  OutOfMfmoryError    if thfrf is not fnough mfmory.
+         * @sff        jbvb.lbng.Clonfbblf
+         * @sindf      1.6
+         */
+        publid finbl Objfdt dlonf() {
+            // Notf: It would bf nidf to hbvf this rfturn Pbth2D
+            // but onf of our subdlbssfs (GfnfrblPbth) nffds to
+            // offfr "publid Objfdt dlonf()" for bbdkwbrds
+            // dompbtibility so wf dbnnot rfstridt it furthfr.
+            // REMIND: Cbn wf do both somfhow?
+            rfturn nfw Pbth2D.Doublf(this);
+        }
+
+        /*
+         * JDK 1.6 sfriblVfrsionUID
+         */
+        privbtf stbtid finbl long sfriblVfrsionUID = 1826762518450014216L;
+
+        /**
+         * Writfs thf dffbult sfriblizbblf fiflds to thf
+         * {@dodf ObjfdtOutputStrfbm} followfd by bn fxplidit
+         * sfriblizbtion of thf pbth sfgmfnts storfd in this
+         * pbth.
+         *
+         * @sfriblDbtb
+         * <b nbmf="Pbth2DSfriblDbtb"><!-- --></b>
+         * <ol>
+         * <li>Thf dffbult sfriblizbblf fiflds.
+         * Thfrf brf no dffbult sfriblizbblf fiflds bs of 1.6.
+         * <li>followfd by
+         * b bytf indidbting thf storbgf typf of thf originbl objfdt
+         * bs b hint (SERIAL_STORAGE_DBL_ARRAY)
+         * <li>followfd by
+         * bn intfgfr indidbting thf numbfr of pbth sfgmfnts to follow (NP)
+         * or -1 to indidbtf bn unknown numbfr of pbth sfgmfnts follows
+         * <li>followfd by
+         * bn intfgfr indidbting thf totbl numbfr of doordinbtfs to follow (NC)
+         * or -1 to indidbtf bn unknown numbfr of doordinbtfs follows
+         * (NC should blwbys bf fvfn sindf doordinbtfs blwbys bppfbr in pbirs
+         *  rfprfsfnting bn x,y pbir)
+         * <li>followfd by
+         * b bytf indidbting thf winding rulf
+         * ({@link #WIND_EVEN_ODD WIND_EVEN_ODD} or
+         *  {@link #WIND_NON_ZERO WIND_NON_ZERO})
+         * <li>followfd by
+         * {@dodf NP} (or unlimitfd if {@dodf NP < 0}) sfts of vblufs donsisting of
+         * b singlf bytf indidbting b pbth sfgmfnt typf
+         * followfd by onf or morf pbirs of flobt or doublf
+         * vblufs rfprfsfnting thf doordinbtfs of thf pbth sfgmfnt
+         * <li>followfd by
+         * b bytf indidbting thf fnd of thf pbth (SERIAL_PATH_END).
+         * </ol>
+         * <p>
+         * Thf following bytf vbluf donstbnts brf usfd in thf sfriblizfd form
+         * of {@dodf Pbth2D} objfdts:
+         * <tbblf>
+         * <tr>
+         * <th>Constbnt Nbmf</th>
+         * <th>Bytf Vbluf</th>
+         * <th>Followfd by</th>
+         * <th>Dfsdription</th>
+         * </tr>
+         * <tr>
+         * <td>{@dodf SERIAL_STORAGE_FLT_ARRAY}</td>
+         * <td>0x30</td>
+         * <td></td>
+         * <td>A hint thbt thf originbl {@dodf Pbth2D} objfdt storfd
+         * thf doordinbtfs in b Jbvb brrby of flobts.</td>
+         * </tr>
+         * <tr>
+         * <td>{@dodf SERIAL_STORAGE_DBL_ARRAY}</td>
+         * <td>0x31</td>
+         * <td></td>
+         * <td>A hint thbt thf originbl {@dodf Pbth2D} objfdt storfd
+         * thf doordinbtfs in b Jbvb brrby of doublfs.</td>
+         * </tr>
+         * <tr>
+         * <td>{@dodf SERIAL_SEG_FLT_MOVETO}</td>
+         * <td>0x40</td>
+         * <td>2 flobts</td>
+         * <td>A {@link #movfTo movfTo} pbth sfgmfnt follows.</td>
+         * </tr>
+         * <tr>
+         * <td>{@dodf SERIAL_SEG_FLT_LINETO}</td>
+         * <td>0x41</td>
+         * <td>2 flobts</td>
+         * <td>A {@link #linfTo linfTo} pbth sfgmfnt follows.</td>
+         * </tr>
+         * <tr>
+         * <td>{@dodf SERIAL_SEG_FLT_QUADTO}</td>
+         * <td>0x42</td>
+         * <td>4 flobts</td>
+         * <td>A {@link #qubdTo qubdTo} pbth sfgmfnt follows.</td>
+         * </tr>
+         * <tr>
+         * <td>{@dodf SERIAL_SEG_FLT_CUBICTO}</td>
+         * <td>0x43</td>
+         * <td>6 flobts</td>
+         * <td>A {@link #durvfTo durvfTo} pbth sfgmfnt follows.</td>
+         * </tr>
+         * <tr>
+         * <td>{@dodf SERIAL_SEG_DBL_MOVETO}</td>
+         * <td>0x50</td>
+         * <td>2 doublfs</td>
+         * <td>A {@link #movfTo movfTo} pbth sfgmfnt follows.</td>
+         * </tr>
+         * <tr>
+         * <td>{@dodf SERIAL_SEG_DBL_LINETO}</td>
+         * <td>0x51</td>
+         * <td>2 doublfs</td>
+         * <td>A {@link #linfTo linfTo} pbth sfgmfnt follows.</td>
+         * </tr>
+         * <tr>
+         * <td>{@dodf SERIAL_SEG_DBL_QUADTO}</td>
+         * <td>0x52</td>
+         * <td>4 doublfs</td>
+         * <td>A {@link #durvfTo durvfTo} pbth sfgmfnt follows.</td>
+         * </tr>
+         * <tr>
+         * <td>{@dodf SERIAL_SEG_DBL_CUBICTO}</td>
+         * <td>0x53</td>
+         * <td>6 doublfs</td>
+         * <td>A {@link #durvfTo durvfTo} pbth sfgmfnt follows.</td>
+         * </tr>
+         * <tr>
+         * <td>{@dodf SERIAL_SEG_CLOSE}</td>
+         * <td>0x60</td>
+         * <td></td>
+         * <td>A {@link #dlosfPbth dlosfPbth} pbth sfgmfnt.</td>
+         * </tr>
+         * <tr>
+         * <td>{@dodf SERIAL_PATH_END}</td>
+         * <td>0x61</td>
+         * <td></td>
+         * <td>Thfrf brf no morf pbth sfgmfnts following.</td>
+         * </tbblf>
+         *
+         * @sindf 1.6
+         */
+        privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+            throws jbvb.io.IOExdfption
+        {
+            supfr.writfObjfdt(s, truf);
+        }
+
+        /**
+         * Rfbds thf dffbult sfriblizbblf fiflds from thf
+         * {@dodf ObjfdtInputStrfbm} followfd by bn fxplidit
+         * sfriblizbtion of thf pbth sfgmfnts storfd in this
+         * pbth.
+         * <p>
+         * Thfrf brf no dffbult sfriblizbblf fiflds bs of 1.6.
+         * <p>
+         * Thf sfribl dbtb for this objfdt is dfsdribfd in thf
+         * writfObjfdt mfthod.
+         *
+         * @sindf 1.6
+         */
+        privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+            throws jbvb.lbng.ClbssNotFoundExdfption, jbvb.io.IOExdfption
+        {
+            supfr.rfbdObjfdt(s, truf);
+        }
+
+        stbtid dlbss CopyItfrbtor fxtfnds Pbth2D.Itfrbtor {
+            doublf doublfCoords[];
+
+            CopyItfrbtor(Pbth2D.Doublf p2dd) {
+                supfr(p2dd);
+                this.doublfCoords = p2dd.doublfCoords;
+            }
+
+            publid int durrfntSfgmfnt(flobt[] doords) {
+                int typf = pbth.pointTypfs[typfIdx];
+                int numCoords = durvfdoords[typf];
+                if (numCoords > 0) {
+                    for (int i = 0; i < numCoords; i++) {
+                        doords[i] = (flobt) doublfCoords[pointIdx + i];
+                    }
+                }
+                rfturn typf;
+            }
+
+            publid int durrfntSfgmfnt(doublf[] doords) {
+                int typf = pbth.pointTypfs[typfIdx];
+                int numCoords = durvfdoords[typf];
+                if (numCoords > 0) {
+                    Systfm.brrbydopy(doublfCoords, pointIdx,
+                                     doords, 0, numCoords);
+                }
+                rfturn typf;
+            }
+        }
+
+        stbtid dlbss TxItfrbtor fxtfnds Pbth2D.Itfrbtor {
+            doublf doublfCoords[];
+            AffinfTrbnsform bffinf;
+
+            TxItfrbtor(Pbth2D.Doublf p2dd, AffinfTrbnsform bt) {
+                supfr(p2dd);
+                this.doublfCoords = p2dd.doublfCoords;
+                this.bffinf = bt;
+            }
+
+            publid int durrfntSfgmfnt(flobt[] doords) {
+                int typf = pbth.pointTypfs[typfIdx];
+                int numCoords = durvfdoords[typf];
+                if (numCoords > 0) {
+                    bffinf.trbnsform(doublfCoords, pointIdx,
+                                     doords, 0, numCoords / 2);
+                }
+                rfturn typf;
+            }
+
+            publid int durrfntSfgmfnt(doublf[] doords) {
+                int typf = pbth.pointTypfs[typfIdx];
+                int numCoords = durvfdoords[typf];
+                if (numCoords > 0) {
+                    bffinf.trbnsform(doublfCoords, pointIdx,
+                                     doords, 0, numCoords / 2);
+                }
+                rfturn typf;
+            }
+        }
+    }
+
+    /**
+     * Adds b point to thf pbth by moving to thf spfdififd
+     * doordinbtfs spfdififd in doublf prfdision.
+     *
+     * @pbrbm x thf spfdififd X doordinbtf
+     * @pbrbm y thf spfdififd Y doordinbtf
+     * @sindf 1.6
+     */
+    publid bbstrbdt void movfTo(doublf x, doublf y);
+
+    /**
+     * Adds b point to thf pbth by drbwing b strbight linf from thf
+     * durrfnt doordinbtfs to thf nfw spfdififd doordinbtfs
+     * spfdififd in doublf prfdision.
+     *
+     * @pbrbm x thf spfdififd X doordinbtf
+     * @pbrbm y thf spfdififd Y doordinbtf
+     * @sindf 1.6
+     */
+    publid bbstrbdt void linfTo(doublf x, doublf y);
+
+    /**
+     * Adds b durvfd sfgmfnt, dffinfd by two nfw points, to thf pbth by
+     * drbwing b Qubdrbtid durvf thbt intfrsfdts both thf durrfnt
+     * doordinbtfs bnd thf spfdififd doordinbtfs {@dodf (x2,y2)},
+     * using thf spfdififd point {@dodf (x1,y1)} bs b qubdrbtid
+     * pbrbmftrid dontrol point.
+     * All doordinbtfs brf spfdififd in doublf prfdision.
+     *
+     * @pbrbm x1 thf X doordinbtf of thf qubdrbtid dontrol point
+     * @pbrbm y1 thf Y doordinbtf of thf qubdrbtid dontrol point
+     * @pbrbm x2 thf X doordinbtf of thf finbl fnd point
+     * @pbrbm y2 thf Y doordinbtf of thf finbl fnd point
+     * @sindf 1.6
+     */
+    publid bbstrbdt void qubdTo(doublf x1, doublf y1,
+                                doublf x2, doublf y2);
+
+    /**
+     * Adds b durvfd sfgmfnt, dffinfd by thrff nfw points, to thf pbth by
+     * drbwing b B&fbdutf;zifr durvf thbt intfrsfdts both thf durrfnt
+     * doordinbtfs bnd thf spfdififd doordinbtfs {@dodf (x3,y3)},
+     * using thf spfdififd points {@dodf (x1,y1)} bnd {@dodf (x2,y2)} bs
+     * B&fbdutf;zifr dontrol points.
+     * All doordinbtfs brf spfdififd in doublf prfdision.
+     *
+     * @pbrbm x1 thf X doordinbtf of thf first B&fbdutf;zifr dontrol point
+     * @pbrbm y1 thf Y doordinbtf of thf first B&fbdutf;zifr dontrol point
+     * @pbrbm x2 thf X doordinbtf of thf sfdond B&fbdutf;zifr dontrol point
+     * @pbrbm y2 thf Y doordinbtf of thf sfdond B&fbdutf;zifr dontrol point
+     * @pbrbm x3 thf X doordinbtf of thf finbl fnd point
+     * @pbrbm y3 thf Y doordinbtf of thf finbl fnd point
+     * @sindf 1.6
+     */
+    publid bbstrbdt void durvfTo(doublf x1, doublf y1,
+                                 doublf x2, doublf y2,
+                                 doublf x3, doublf y3);
+
+    /**
+     * Closfs thf durrfnt subpbth by drbwing b strbight linf bbdk to
+     * thf doordinbtfs of thf lbst {@dodf movfTo}.  If thf pbth is blrfbdy
+     * dlosfd thfn this mfthod hbs no ffffdt.
+     *
+     * @sindf 1.6
+     */
+    publid finbl syndhronizfd void dlosfPbth() {
+        if (numTypfs == 0 || pointTypfs[numTypfs - 1] != SEG_CLOSE) {
+            nffdRoom(truf, 0);
+            pointTypfs[numTypfs++] = SEG_CLOSE;
+        }
+    }
+
+    /**
+     * Appfnds thf gfomftry of thf spfdififd {@dodf Shbpf} objfdt to thf
+     * pbth, possibly donnfdting thf nfw gfomftry to thf fxisting pbth
+     * sfgmfnts with b linf sfgmfnt.
+     * If thf {@dodf donnfdt} pbrbmftfr is {@dodf truf} bnd thf
+     * pbth is not fmpty thfn bny initibl {@dodf movfTo} in thf
+     * gfomftry of thf bppfndfd {@dodf Shbpf}
+     * is turnfd into b {@dodf linfTo} sfgmfnt.
+     * If thf dfstinbtion doordinbtfs of sudh b donnfdting {@dodf linfTo}
+     * sfgmfnt mbtdh thf fnding doordinbtfs of b durrfntly opfn
+     * subpbth thfn thf sfgmfnt is omittfd bs supfrfluous.
+     * Thf winding rulf of thf spfdififd {@dodf Shbpf} is ignorfd
+     * bnd thf bppfndfd gfomftry is govfrnfd by thf winding
+     * rulf spfdififd for this pbth.
+     *
+     * @pbrbm s thf {@dodf Shbpf} whosf gfomftry is bppfndfd
+     *          to this pbth
+     * @pbrbm donnfdt b boolfbn to dontrol whfthfr or not to turn bn initibl
+     *                {@dodf movfTo} sfgmfnt into b {@dodf linfTo} sfgmfnt
+     *                to donnfdt thf nfw gfomftry to thf fxisting pbth
+     * @sindf 1.6
+     */
+    publid finbl void bppfnd(Shbpf s, boolfbn donnfdt) {
+        bppfnd(s.gftPbthItfrbtor(null), donnfdt);
+    }
+
+    /**
+     * Appfnds thf gfomftry of thf spfdififd
+     * {@link PbthItfrbtor} objfdt
+     * to thf pbth, possibly donnfdting thf nfw gfomftry to thf fxisting
+     * pbth sfgmfnts with b linf sfgmfnt.
+     * If thf {@dodf donnfdt} pbrbmftfr is {@dodf truf} bnd thf
+     * pbth is not fmpty thfn bny initibl {@dodf movfTo} in thf
+     * gfomftry of thf bppfndfd {@dodf Shbpf} is turnfd into b
+     * {@dodf linfTo} sfgmfnt.
+     * If thf dfstinbtion doordinbtfs of sudh b donnfdting {@dodf linfTo}
+     * sfgmfnt mbtdh thf fnding doordinbtfs of b durrfntly opfn
+     * subpbth thfn thf sfgmfnt is omittfd bs supfrfluous.
+     * Thf winding rulf of thf spfdififd {@dodf Shbpf} is ignorfd
+     * bnd thf bppfndfd gfomftry is govfrnfd by thf winding
+     * rulf spfdififd for this pbth.
+     *
+     * @pbrbm pi thf {@dodf PbthItfrbtor} whosf gfomftry is bppfndfd to
+     *           this pbth
+     * @pbrbm donnfdt b boolfbn to dontrol whfthfr or not to turn bn initibl
+     *                {@dodf movfTo} sfgmfnt into b {@dodf linfTo} sfgmfnt
+     *                to donnfdt thf nfw gfomftry to thf fxisting pbth
+     * @sindf 1.6
+     */
+    publid bbstrbdt void bppfnd(PbthItfrbtor pi, boolfbn donnfdt);
+
+    /**
+     * Rfturns thf fill stylf winding rulf.
+     *
+     * @rfturn bn intfgfr rfprfsfnting thf durrfnt winding rulf.
+     * @sff #WIND_EVEN_ODD
+     * @sff #WIND_NON_ZERO
+     * @sff #sftWindingRulf
+     * @sindf 1.6
+     */
+    publid finbl syndhronizfd int gftWindingRulf() {
+        rfturn windingRulf;
+    }
+
+    /**
+     * Sfts thf winding rulf for this pbth to thf spfdififd vbluf.
+     *
+     * @pbrbm rulf bn intfgfr rfprfsfnting thf spfdififd
+     *             winding rulf
+     * @fxdfption IllfgblArgumfntExdfption if
+     *          {@dodf rulf} is not fithfr
+     *          {@link #WIND_EVEN_ODD} or
+     *          {@link #WIND_NON_ZERO}
+     * @sff #gftWindingRulf
+     * @sindf 1.6
+     */
+    publid finbl void sftWindingRulf(int rulf) {
+        if (rulf != WIND_EVEN_ODD && rulf != WIND_NON_ZERO) {
+            throw nfw IllfgblArgumfntExdfption("winding rulf must bf "+
+                                               "WIND_EVEN_ODD or "+
+                                               "WIND_NON_ZERO");
+        }
+        windingRulf = rulf;
+    }
+
+    /**
+     * Rfturns thf doordinbtfs most rfdfntly bddfd to thf fnd of thf pbth
+     * bs b {@link Point2D} objfdt.
+     *
+     * @rfturn b {@dodf Point2D} objfdt dontbining thf fnding doordinbtfs of
+     *         thf pbth or {@dodf null} if thfrf brf no points in thf pbth.
+     * @sindf 1.6
+     */
+    publid finbl syndhronizfd Point2D gftCurrfntPoint() {
+        int indfx = numCoords;
+        if (numTypfs < 1 || indfx < 1) {
+            rfturn null;
+        }
+        if (pointTypfs[numTypfs - 1] == SEG_CLOSE) {
+        loop:
+            for (int i = numTypfs - 2; i > 0; i--) {
+                switdh (pointTypfs[i]) {
+                dbsf SEG_MOVETO:
+                    brfbk loop;
+                dbsf SEG_LINETO:
+                    indfx -= 2;
+                    brfbk;
+                dbsf SEG_QUADTO:
+                    indfx -= 4;
+                    brfbk;
+                dbsf SEG_CUBICTO:
+                    indfx -= 6;
+                    brfbk;
+                dbsf SEG_CLOSE:
+                    brfbk;
+                }
+            }
+        }
+        rfturn gftPoint(indfx - 2);
+    }
+
+    /**
+     * Rfsfts thf pbth to fmpty.  Thf bppfnd position is sft bbdk to thf
+     * bfginning of thf pbth bnd bll doordinbtfs bnd point typfs brf
+     * forgottfn.
+     *
+     * @sindf 1.6
+     */
+    publid finbl syndhronizfd void rfsft() {
+        numTypfs = numCoords = 0;
+    }
+
+    /**
+     * Trbnsforms thf gfomftry of this pbth using thf spfdififd
+     * {@link AffinfTrbnsform}.
+     * Thf gfomftry is trbnsformfd in plbdf, whidh pfrmbnfntly dhbngfs thf
+     * boundbry dffinfd by this objfdt.
+     *
+     * @pbrbm bt thf {@dodf AffinfTrbnsform} usfd to trbnsform thf brfb
+     * @sindf 1.6
+     */
+    publid bbstrbdt void trbnsform(AffinfTrbnsform bt);
+
+    /**
+     * Rfturns b nfw {@dodf Shbpf} rfprfsfnting b trbnsformfd vfrsion
+     * of this {@dodf Pbth2D}.
+     * Notf thbt thf fxbdt typf bnd doordinbtf prfdision of thf rfturn
+     * vbluf is not spfdififd for this mfthod.
+     * Thf mfthod will rfturn b Shbpf thbt dontbins no lfss prfdision
+     * for thf trbnsformfd gfomftry thbn this {@dodf Pbth2D} durrfntly
+     * mbintbins, but it mby dontbin no morf prfdision fithfr.
+     * If thf trbdfoff of prfdision vs. storbgf sizf in thf rfsult is
+     * importbnt thfn thf donvfnifndf donstrudtors in thf
+     * {@link Pbth2D.Flobt#Flobt(Shbpf, AffinfTrbnsform) Pbth2D.Flobt}
+     * bnd
+     * {@link Pbth2D.Doublf#Doublf(Shbpf, AffinfTrbnsform) Pbth2D.Doublf}
+     * subdlbssfs should bf usfd to mbkf thf dhoidf fxplidit.
+     *
+     * @pbrbm bt thf {@dodf AffinfTrbnsform} usfd to trbnsform b
+     *           nfw {@dodf Shbpf}.
+     * @rfturn b nfw {@dodf Shbpf}, trbnsformfd with thf spfdififd
+     *         {@dodf AffinfTrbnsform}.
+     * @sindf 1.6
+     */
+    publid finbl syndhronizfd Shbpf drfbtfTrbnsformfdShbpf(AffinfTrbnsform bt) {
+        Pbth2D p2d = (Pbth2D) dlonf();
+        if (bt != null) {
+            p2d.trbnsform(bt);
+        }
+        rfturn p2d;
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.6
+     */
+    publid finbl Rfdtbnglf gftBounds() {
+        rfturn gftBounds2D().gftBounds();
+    }
+
+    /**
+     * Tfsts if thf spfdififd doordinbtfs brf insidf thf dlosfd
+     * boundbry of thf spfdififd {@link PbthItfrbtor}.
+     * <p>
+     * This mfthod providfs b bbsid fbdility for implfmfntors of
+     * thf {@link Shbpf} intfrfbdf to implfmfnt support for thf
+     * {@link Shbpf#dontbins(doublf, doublf)} mfthod.
+     *
+     * @pbrbm pi thf spfdififd {@dodf PbthItfrbtor}
+     * @pbrbm x thf spfdififd X doordinbtf
+     * @pbrbm y thf spfdififd Y doordinbtf
+     * @rfturn {@dodf truf} if thf spfdififd doordinbtfs brf insidf thf
+     *         spfdififd {@dodf PbthItfrbtor}; {@dodf fblsf} othfrwisf
+     * @sindf 1.6
+     */
+    publid stbtid boolfbn dontbins(PbthItfrbtor pi, doublf x, doublf y) {
+        if (x * 0.0 + y * 0.0 == 0.0) {
+            /* N * 0.0 is 0.0 only if N is finitf.
+             * Hfrf wf know thbt both x bnd y brf finitf.
+             */
+            int mbsk = (pi.gftWindingRulf() == WIND_NON_ZERO ? -1 : 1);
+            int dross = Curvf.pointCrossingsForPbth(pi, x, y);
+            rfturn ((dross & mbsk) != 0);
+        } flsf {
+            /* Eithfr x or y wbs infinitf or NbN.
+             * A NbN blwbys produdfs b nfgbtivf rfsponsf to bny tfst
+             * bnd Infinity vblufs dbnnot bf "insidf" bny pbth so
+             * thfy should rfturn fblsf bs wfll.
+             */
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Tfsts if thf spfdififd {@link Point2D} is insidf thf dlosfd
+     * boundbry of thf spfdififd {@link PbthItfrbtor}.
+     * <p>
+     * This mfthod providfs b bbsid fbdility for implfmfntors of
+     * thf {@link Shbpf} intfrfbdf to implfmfnt support for thf
+     * {@link Shbpf#dontbins(Point2D)} mfthod.
+     *
+     * @pbrbm pi thf spfdififd {@dodf PbthItfrbtor}
+     * @pbrbm p thf spfdififd {@dodf Point2D}
+     * @rfturn {@dodf truf} if thf spfdififd doordinbtfs brf insidf thf
+     *         spfdififd {@dodf PbthItfrbtor}; {@dodf fblsf} othfrwisf
+     * @sindf 1.6
+     */
+    publid stbtid boolfbn dontbins(PbthItfrbtor pi, Point2D p) {
+        rfturn dontbins(pi, p.gftX(), p.gftY());
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.6
+     */
+    publid finbl boolfbn dontbins(doublf x, doublf y) {
+        if (x * 0.0 + y * 0.0 == 0.0) {
+            /* N * 0.0 is 0.0 only if N is finitf.
+             * Hfrf wf know thbt both x bnd y brf finitf.
+             */
+            if (numTypfs < 2) {
+                rfturn fblsf;
+            }
+            int mbsk = (windingRulf == WIND_NON_ZERO ? -1 : 1);
+            rfturn ((pointCrossings(x, y) & mbsk) != 0);
+        } flsf {
+            /* Eithfr x or y wbs infinitf or NbN.
+             * A NbN blwbys produdfs b nfgbtivf rfsponsf to bny tfst
+             * bnd Infinity vblufs dbnnot bf "insidf" bny pbth so
+             * thfy should rfturn fblsf bs wfll.
+             */
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.6
+     */
+    publid finbl boolfbn dontbins(Point2D p) {
+        rfturn dontbins(p.gftX(), p.gftY());
+    }
+
+    /**
+     * Tfsts if thf spfdififd rfdtbngulbr brfb is fntirfly insidf thf
+     * dlosfd boundbry of thf spfdififd {@link PbthItfrbtor}.
+     * <p>
+     * This mfthod providfs b bbsid fbdility for implfmfntors of
+     * thf {@link Shbpf} intfrfbdf to implfmfnt support for thf
+     * {@link Shbpf#dontbins(doublf, doublf, doublf, doublf)} mfthod.
+     * <p>
+     * This mfthod objfdt mby donsfrvbtivfly rfturn fblsf in
+     * dbsfs whfrf thf spfdififd rfdtbngulbr brfb intfrsfdts b
+     * sfgmfnt of thf pbth, but thbt sfgmfnt dofs not rfprfsfnt b
+     * boundbry bftwffn thf intfrior bnd fxtfrior of thf pbth.
+     * Sudh sfgmfnts dould lif fntirfly within thf intfrior of thf
+     * pbth if thfy brf pbrt of b pbth with b {@link #WIND_NON_ZERO}
+     * winding rulf or if thf sfgmfnts brf rftrbdfd in thf rfvfrsf
+     * dirfdtion sudh thbt thf two sfts of sfgmfnts dbndfl fbdh
+     * othfr out without bny fxtfrior brfb fblling bftwffn thfm.
+     * To dftfrminf whfthfr sfgmfnts rfprfsfnt truf boundbrifs of
+     * thf intfrior of thf pbth would rfquirf fxtfnsivf dbldulbtions
+     * involving bll of thf sfgmfnts of thf pbth bnd thf winding
+     * rulf bnd brf thus bfyond thf sdopf of this implfmfntbtion.
+     *
+     * @pbrbm pi thf spfdififd {@dodf PbthItfrbtor}
+     * @pbrbm x thf spfdififd X doordinbtf
+     * @pbrbm y thf spfdififd Y doordinbtf
+     * @pbrbm w thf width of thf spfdififd rfdtbngulbr brfb
+     * @pbrbm h thf hfight of thf spfdififd rfdtbngulbr brfb
+     * @rfturn {@dodf truf} if thf spfdififd {@dodf PbthItfrbtor} dontbins
+     *         thf spfdififd rfdtbngulbr brfb; {@dodf fblsf} othfrwisf.
+     * @sindf 1.6
+     */
+    publid stbtid boolfbn dontbins(PbthItfrbtor pi,
+                                   doublf x, doublf y, doublf w, doublf h)
+    {
+        if (jbvb.lbng.Doublf.isNbN(x+w) || jbvb.lbng.Doublf.isNbN(y+h)) {
+            /* [xy]+[wh] is NbN if bny of thosf vblufs brf NbN,
+             * or if bdding thf two togfthfr would produdf NbN
+             * by virtuf of bdding opposing Infintf vblufs.
+             * Sindf wf nffd to bdd thfm bflow, thfir sum must
+             * not bf NbN.
+             * Wf rfturn fblsf bfdbusf NbN blwbys produdfs b
+             * nfgbtivf rfsponsf to tfsts
+             */
+            rfturn fblsf;
+        }
+        if (w <= 0 || h <= 0) {
+            rfturn fblsf;
+        }
+        int mbsk = (pi.gftWindingRulf() == WIND_NON_ZERO ? -1 : 2);
+        int drossings = Curvf.rfdtCrossingsForPbth(pi, x, y, x+w, y+h);
+        rfturn (drossings != Curvf.RECT_INTERSECTS &&
+                (drossings & mbsk) != 0);
+    }
+
+    /**
+     * Tfsts if thf spfdififd {@link Rfdtbnglf2D} is fntirfly insidf thf
+     * dlosfd boundbry of thf spfdififd {@link PbthItfrbtor}.
+     * <p>
+     * This mfthod providfs b bbsid fbdility for implfmfntors of
+     * thf {@link Shbpf} intfrfbdf to implfmfnt support for thf
+     * {@link Shbpf#dontbins(Rfdtbnglf2D)} mfthod.
+     * <p>
+     * This mfthod objfdt mby donsfrvbtivfly rfturn fblsf in
+     * dbsfs whfrf thf spfdififd rfdtbngulbr brfb intfrsfdts b
+     * sfgmfnt of thf pbth, but thbt sfgmfnt dofs not rfprfsfnt b
+     * boundbry bftwffn thf intfrior bnd fxtfrior of thf pbth.
+     * Sudh sfgmfnts dould lif fntirfly within thf intfrior of thf
+     * pbth if thfy brf pbrt of b pbth with b {@link #WIND_NON_ZERO}
+     * winding rulf or if thf sfgmfnts brf rftrbdfd in thf rfvfrsf
+     * dirfdtion sudh thbt thf two sfts of sfgmfnts dbndfl fbdh
+     * othfr out without bny fxtfrior brfb fblling bftwffn thfm.
+     * To dftfrminf whfthfr sfgmfnts rfprfsfnt truf boundbrifs of
+     * thf intfrior of thf pbth would rfquirf fxtfnsivf dbldulbtions
+     * involving bll of thf sfgmfnts of thf pbth bnd thf winding
+     * rulf bnd brf thus bfyond thf sdopf of this implfmfntbtion.
+     *
+     * @pbrbm pi thf spfdififd {@dodf PbthItfrbtor}
+     * @pbrbm r b spfdififd {@dodf Rfdtbnglf2D}
+     * @rfturn {@dodf truf} if thf spfdififd {@dodf PbthItfrbtor} dontbins
+     *         thf spfdififd {@dodf Rfdtbnglf2D}; {@dodf fblsf} othfrwisf.
+     * @sindf 1.6
+     */
+    publid stbtid boolfbn dontbins(PbthItfrbtor pi, Rfdtbnglf2D r) {
+        rfturn dontbins(pi, r.gftX(), r.gftY(), r.gftWidth(), r.gftHfight());
+    }
+
+    /**
+     * {@inhfritDod}
+     * <p>
+     * This mfthod objfdt mby donsfrvbtivfly rfturn fblsf in
+     * dbsfs whfrf thf spfdififd rfdtbngulbr brfb intfrsfdts b
+     * sfgmfnt of thf pbth, but thbt sfgmfnt dofs not rfprfsfnt b
+     * boundbry bftwffn thf intfrior bnd fxtfrior of thf pbth.
+     * Sudh sfgmfnts dould lif fntirfly within thf intfrior of thf
+     * pbth if thfy brf pbrt of b pbth with b {@link #WIND_NON_ZERO}
+     * winding rulf or if thf sfgmfnts brf rftrbdfd in thf rfvfrsf
+     * dirfdtion sudh thbt thf two sfts of sfgmfnts dbndfl fbdh
+     * othfr out without bny fxtfrior brfb fblling bftwffn thfm.
+     * To dftfrminf whfthfr sfgmfnts rfprfsfnt truf boundbrifs of
+     * thf intfrior of thf pbth would rfquirf fxtfnsivf dbldulbtions
+     * involving bll of thf sfgmfnts of thf pbth bnd thf winding
+     * rulf bnd brf thus bfyond thf sdopf of this implfmfntbtion.
+     *
+     * @sindf 1.6
+     */
+    publid finbl boolfbn dontbins(doublf x, doublf y, doublf w, doublf h) {
+        if (jbvb.lbng.Doublf.isNbN(x+w) || jbvb.lbng.Doublf.isNbN(y+h)) {
+            /* [xy]+[wh] is NbN if bny of thosf vblufs brf NbN,
+             * or if bdding thf two togfthfr would produdf NbN
+             * by virtuf of bdding opposing Infintf vblufs.
+             * Sindf wf nffd to bdd thfm bflow, thfir sum must
+             * not bf NbN.
+             * Wf rfturn fblsf bfdbusf NbN blwbys produdfs b
+             * nfgbtivf rfsponsf to tfsts
+             */
+            rfturn fblsf;
+        }
+        if (w <= 0 || h <= 0) {
+            rfturn fblsf;
+        }
+        int mbsk = (windingRulf == WIND_NON_ZERO ? -1 : 2);
+        int drossings = rfdtCrossings(x, y, x+w, y+h);
+        rfturn (drossings != Curvf.RECT_INTERSECTS &&
+                (drossings & mbsk) != 0);
+    }
+
+    /**
+     * {@inhfritDod}
+     * <p>
+     * This mfthod objfdt mby donsfrvbtivfly rfturn fblsf in
+     * dbsfs whfrf thf spfdififd rfdtbngulbr brfb intfrsfdts b
+     * sfgmfnt of thf pbth, but thbt sfgmfnt dofs not rfprfsfnt b
+     * boundbry bftwffn thf intfrior bnd fxtfrior of thf pbth.
+     * Sudh sfgmfnts dould lif fntirfly within thf intfrior of thf
+     * pbth if thfy brf pbrt of b pbth with b {@link #WIND_NON_ZERO}
+     * winding rulf or if thf sfgmfnts brf rftrbdfd in thf rfvfrsf
+     * dirfdtion sudh thbt thf two sfts of sfgmfnts dbndfl fbdh
+     * othfr out without bny fxtfrior brfb fblling bftwffn thfm.
+     * To dftfrminf whfthfr sfgmfnts rfprfsfnt truf boundbrifs of
+     * thf intfrior of thf pbth would rfquirf fxtfnsivf dbldulbtions
+     * involving bll of thf sfgmfnts of thf pbth bnd thf winding
+     * rulf bnd brf thus bfyond thf sdopf of this implfmfntbtion.
+     *
+     * @sindf 1.6
+     */
+    publid finbl boolfbn dontbins(Rfdtbnglf2D r) {
+        rfturn dontbins(r.gftX(), r.gftY(), r.gftWidth(), r.gftHfight());
+    }
+
+    /**
+     * Tfsts if thf intfrior of thf spfdififd {@link PbthItfrbtor}
+     * intfrsfdts thf intfrior of b spfdififd sft of rfdtbngulbr
+     * doordinbtfs.
+     * <p>
+     * This mfthod providfs b bbsid fbdility for implfmfntors of
+     * thf {@link Shbpf} intfrfbdf to implfmfnt support for thf
+     * {@link Shbpf#intfrsfdts(doublf, doublf, doublf, doublf)} mfthod.
+     * <p>
+     * This mfthod objfdt mby donsfrvbtivfly rfturn truf in
+     * dbsfs whfrf thf spfdififd rfdtbngulbr brfb intfrsfdts b
+     * sfgmfnt of thf pbth, but thbt sfgmfnt dofs not rfprfsfnt b
+     * boundbry bftwffn thf intfrior bnd fxtfrior of thf pbth.
+     * Sudh b dbsf mby oddur if somf sft of sfgmfnts of thf
+     * pbth brf rftrbdfd in thf rfvfrsf dirfdtion sudh thbt thf
+     * two sfts of sfgmfnts dbndfl fbdh othfr out without bny
+     * intfrior brfb bftwffn thfm.
+     * To dftfrminf whfthfr sfgmfnts rfprfsfnt truf boundbrifs of
+     * thf intfrior of thf pbth would rfquirf fxtfnsivf dbldulbtions
+     * involving bll of thf sfgmfnts of thf pbth bnd thf winding
+     * rulf bnd brf thus bfyond thf sdopf of this implfmfntbtion.
+     *
+     * @pbrbm pi thf spfdififd {@dodf PbthItfrbtor}
+     * @pbrbm x thf spfdififd X doordinbtf
+     * @pbrbm y thf spfdififd Y doordinbtf
+     * @pbrbm w thf width of thf spfdififd rfdtbngulbr doordinbtfs
+     * @pbrbm h thf hfight of thf spfdififd rfdtbngulbr doordinbtfs
+     * @rfturn {@dodf truf} if thf spfdififd {@dodf PbthItfrbtor} bnd
+     *         thf intfrior of thf spfdififd sft of rfdtbngulbr
+     *         doordinbtfs intfrsfdt fbdh othfr; {@dodf fblsf} othfrwisf.
+     * @sindf 1.6
+     */
+    publid stbtid boolfbn intfrsfdts(PbthItfrbtor pi,
+                                     doublf x, doublf y, doublf w, doublf h)
+    {
+        if (jbvb.lbng.Doublf.isNbN(x+w) || jbvb.lbng.Doublf.isNbN(y+h)) {
+            /* [xy]+[wh] is NbN if bny of thosf vblufs brf NbN,
+             * or if bdding thf two togfthfr would produdf NbN
+             * by virtuf of bdding opposing Infintf vblufs.
+             * Sindf wf nffd to bdd thfm bflow, thfir sum must
+             * not bf NbN.
+             * Wf rfturn fblsf bfdbusf NbN blwbys produdfs b
+             * nfgbtivf rfsponsf to tfsts
+             */
+            rfturn fblsf;
+        }
+        if (w <= 0 || h <= 0) {
+            rfturn fblsf;
+        }
+        int mbsk = (pi.gftWindingRulf() == WIND_NON_ZERO ? -1 : 2);
+        int drossings = Curvf.rfdtCrossingsForPbth(pi, x, y, x+w, y+h);
+        rfturn (drossings == Curvf.RECT_INTERSECTS ||
+                (drossings & mbsk) != 0);
+    }
+
+    /**
+     * Tfsts if thf intfrior of thf spfdififd {@link PbthItfrbtor}
+     * intfrsfdts thf intfrior of b spfdififd {@link Rfdtbnglf2D}.
+     * <p>
+     * This mfthod providfs b bbsid fbdility for implfmfntors of
+     * thf {@link Shbpf} intfrfbdf to implfmfnt support for thf
+     * {@link Shbpf#intfrsfdts(Rfdtbnglf2D)} mfthod.
+     * <p>
+     * This mfthod objfdt mby donsfrvbtivfly rfturn truf in
+     * dbsfs whfrf thf spfdififd rfdtbngulbr brfb intfrsfdts b
+     * sfgmfnt of thf pbth, but thbt sfgmfnt dofs not rfprfsfnt b
+     * boundbry bftwffn thf intfrior bnd fxtfrior of thf pbth.
+     * Sudh b dbsf mby oddur if somf sft of sfgmfnts of thf
+     * pbth brf rftrbdfd in thf rfvfrsf dirfdtion sudh thbt thf
+     * two sfts of sfgmfnts dbndfl fbdh othfr out without bny
+     * intfrior brfb bftwffn thfm.
+     * To dftfrminf whfthfr sfgmfnts rfprfsfnt truf boundbrifs of
+     * thf intfrior of thf pbth would rfquirf fxtfnsivf dbldulbtions
+     * involving bll of thf sfgmfnts of thf pbth bnd thf winding
+     * rulf bnd brf thus bfyond thf sdopf of this implfmfntbtion.
+     *
+     * @pbrbm pi thf spfdififd {@dodf PbthItfrbtor}
+     * @pbrbm r thf spfdififd {@dodf Rfdtbnglf2D}
+     * @rfturn {@dodf truf} if thf spfdififd {@dodf PbthItfrbtor} bnd
+     *         thf intfrior of thf spfdififd {@dodf Rfdtbnglf2D}
+     *         intfrsfdt fbdh othfr; {@dodf fblsf} othfrwisf.
+     * @sindf 1.6
+     */
+    publid stbtid boolfbn intfrsfdts(PbthItfrbtor pi, Rfdtbnglf2D r) {
+        rfturn intfrsfdts(pi, r.gftX(), r.gftY(), r.gftWidth(), r.gftHfight());
+    }
+
+    /**
+     * {@inhfritDod}
+     * <p>
+     * This mfthod objfdt mby donsfrvbtivfly rfturn truf in
+     * dbsfs whfrf thf spfdififd rfdtbngulbr brfb intfrsfdts b
+     * sfgmfnt of thf pbth, but thbt sfgmfnt dofs not rfprfsfnt b
+     * boundbry bftwffn thf intfrior bnd fxtfrior of thf pbth.
+     * Sudh b dbsf mby oddur if somf sft of sfgmfnts of thf
+     * pbth brf rftrbdfd in thf rfvfrsf dirfdtion sudh thbt thf
+     * two sfts of sfgmfnts dbndfl fbdh othfr out without bny
+     * intfrior brfb bftwffn thfm.
+     * To dftfrminf whfthfr sfgmfnts rfprfsfnt truf boundbrifs of
+     * thf intfrior of thf pbth would rfquirf fxtfnsivf dbldulbtions
+     * involving bll of thf sfgmfnts of thf pbth bnd thf winding
+     * rulf bnd brf thus bfyond thf sdopf of this implfmfntbtion.
+     *
+     * @sindf 1.6
+     */
+    publid finbl boolfbn intfrsfdts(doublf x, doublf y, doublf w, doublf h) {
+        if (jbvb.lbng.Doublf.isNbN(x+w) || jbvb.lbng.Doublf.isNbN(y+h)) {
+            /* [xy]+[wh] is NbN if bny of thosf vblufs brf NbN,
+             * or if bdding thf two togfthfr would produdf NbN
+             * by virtuf of bdding opposing Infintf vblufs.
+             * Sindf wf nffd to bdd thfm bflow, thfir sum must
+             * not bf NbN.
+             * Wf rfturn fblsf bfdbusf NbN blwbys produdfs b
+             * nfgbtivf rfsponsf to tfsts
+             */
+            rfturn fblsf;
+        }
+        if (w <= 0 || h <= 0) {
+            rfturn fblsf;
+        }
+        int mbsk = (windingRulf == WIND_NON_ZERO ? -1 : 2);
+        int drossings = rfdtCrossings(x, y, x+w, y+h);
+        rfturn (drossings == Curvf.RECT_INTERSECTS ||
+                (drossings & mbsk) != 0);
+    }
+
+    /**
+     * {@inhfritDod}
+     * <p>
+     * This mfthod objfdt mby donsfrvbtivfly rfturn truf in
+     * dbsfs whfrf thf spfdififd rfdtbngulbr brfb intfrsfdts b
+     * sfgmfnt of thf pbth, but thbt sfgmfnt dofs not rfprfsfnt b
+     * boundbry bftwffn thf intfrior bnd fxtfrior of thf pbth.
+     * Sudh b dbsf mby oddur if somf sft of sfgmfnts of thf
+     * pbth brf rftrbdfd in thf rfvfrsf dirfdtion sudh thbt thf
+     * two sfts of sfgmfnts dbndfl fbdh othfr out without bny
+     * intfrior brfb bftwffn thfm.
+     * To dftfrminf whfthfr sfgmfnts rfprfsfnt truf boundbrifs of
+     * thf intfrior of thf pbth would rfquirf fxtfnsivf dbldulbtions
+     * involving bll of thf sfgmfnts of thf pbth bnd thf winding
+     * rulf bnd brf thus bfyond thf sdopf of this implfmfntbtion.
+     *
+     * @sindf 1.6
+     */
+    publid finbl boolfbn intfrsfdts(Rfdtbnglf2D r) {
+        rfturn intfrsfdts(r.gftX(), r.gftY(), r.gftWidth(), r.gftHfight());
+    }
+
+    /**
+     * {@inhfritDod}
+     * <p>
+     * Thf itfrbtor for this dlbss is not multi-thrfbdfd sbff,
+     * whidh mfbns thbt this {@dodf Pbth2D} dlbss dofs not
+     * gubrbntff thbt modifidbtions to thf gfomftry of this
+     * {@dodf Pbth2D} objfdt do not bfffdt bny itfrbtions of
+     * thbt gfomftry thbt brf blrfbdy in prodfss.
+     *
+     * @sindf 1.6
+     */
+    publid finbl PbthItfrbtor gftPbthItfrbtor(AffinfTrbnsform bt,
+                                              doublf flbtnfss)
+    {
+        rfturn nfw FlbttfningPbthItfrbtor(gftPbthItfrbtor(bt), flbtnfss);
+    }
+
+    /**
+     * Crfbtfs b nfw objfdt of thf sbmf dlbss bs this objfdt.
+     *
+     * @rfturn     b dlonf of this instbndf.
+     * @fxdfption  OutOfMfmoryError            if thfrf is not fnough mfmory.
+     * @sff        jbvb.lbng.Clonfbblf
+     * @sindf      1.6
+     */
+    publid bbstrbdt Objfdt dlonf();
+        // Notf: It would bf nidf to hbvf this rfturn Pbth2D
+        // but onf of our subdlbssfs (GfnfrblPbth) nffds to
+        // offfr "publid Objfdt dlonf()" for bbdkwbrds
+        // dompbtibility so wf dbnnot rfstridt it furthfr.
+        // REMIND: Cbn wf do both somfhow?
+
+    /*
+     * Support fiflds bnd mfthods for sfriblizing thf subdlbssfs.
+     */
+    privbtf stbtid finbl bytf SERIAL_STORAGE_FLT_ARRAY = 0x30;
+    privbtf stbtid finbl bytf SERIAL_STORAGE_DBL_ARRAY = 0x31;
+
+    privbtf stbtid finbl bytf SERIAL_SEG_FLT_MOVETO    = 0x40;
+    privbtf stbtid finbl bytf SERIAL_SEG_FLT_LINETO    = 0x41;
+    privbtf stbtid finbl bytf SERIAL_SEG_FLT_QUADTO    = 0x42;
+    privbtf stbtid finbl bytf SERIAL_SEG_FLT_CUBICTO   = 0x43;
+
+    privbtf stbtid finbl bytf SERIAL_SEG_DBL_MOVETO    = 0x50;
+    privbtf stbtid finbl bytf SERIAL_SEG_DBL_LINETO    = 0x51;
+    privbtf stbtid finbl bytf SERIAL_SEG_DBL_QUADTO    = 0x52;
+    privbtf stbtid finbl bytf SERIAL_SEG_DBL_CUBICTO   = 0x53;
+
+    privbtf stbtid finbl bytf SERIAL_SEG_CLOSE         = 0x60;
+    privbtf stbtid finbl bytf SERIAL_PATH_END          = 0x61;
+
+    finbl void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s, boolfbn isdbl)
+        throws jbvb.io.IOExdfption
+    {
+        s.dffbultWritfObjfdt();
+
+        flobt fCoords[];
+        doublf dCoords[];
+
+        if (isdbl) {
+            dCoords = ((Pbth2D.Doublf) this).doublfCoords;
+            fCoords = null;
+        } flsf {
+            fCoords = ((Pbth2D.Flobt) this).flobtCoords;
+            dCoords = null;
+        }
+
+        int numTypfs = this.numTypfs;
+
+        s.writfBytf(isdbl
+                    ? SERIAL_STORAGE_DBL_ARRAY
+                    : SERIAL_STORAGE_FLT_ARRAY);
+        s.writfInt(numTypfs);
+        s.writfInt(numCoords);
+        s.writfBytf((bytf) windingRulf);
+
+        int dindfx = 0;
+        for (int i = 0; i < numTypfs; i++) {
+            int npoints;
+            bytf sfribltypf;
+            switdh (pointTypfs[i]) {
+            dbsf SEG_MOVETO:
+                npoints = 1;
+                sfribltypf = (isdbl
+                              ? SERIAL_SEG_DBL_MOVETO
+                              : SERIAL_SEG_FLT_MOVETO);
+                brfbk;
+            dbsf SEG_LINETO:
+                npoints = 1;
+                sfribltypf = (isdbl
+                              ? SERIAL_SEG_DBL_LINETO
+                              : SERIAL_SEG_FLT_LINETO);
+                brfbk;
+            dbsf SEG_QUADTO:
+                npoints = 2;
+                sfribltypf = (isdbl
+                              ? SERIAL_SEG_DBL_QUADTO
+                              : SERIAL_SEG_FLT_QUADTO);
+                brfbk;
+            dbsf SEG_CUBICTO:
+                npoints = 3;
+                sfribltypf = (isdbl
+                              ? SERIAL_SEG_DBL_CUBICTO
+                              : SERIAL_SEG_FLT_CUBICTO);
+                brfbk;
+            dbsf SEG_CLOSE:
+                npoints = 0;
+                sfribltypf = SERIAL_SEG_CLOSE;
+                brfbk;
+
+            dffbult:
+                // Should nfvfr hbppfn
+                throw nfw IntfrnblError("unrfdognizfd pbth typf");
+            }
+            s.writfBytf(sfribltypf);
+            whilf (--npoints >= 0) {
+                if (isdbl) {
+                    s.writfDoublf(dCoords[dindfx++]);
+                    s.writfDoublf(dCoords[dindfx++]);
+                } flsf {
+                    s.writfFlobt(fCoords[dindfx++]);
+                    s.writfFlobt(fCoords[dindfx++]);
+                }
+            }
+        }
+        s.writfBytf(SERIAL_PATH_END);
+    }
+
+    finbl void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s, boolfbn storfdbl)
+        throws jbvb.lbng.ClbssNotFoundExdfption, jbvb.io.IOExdfption
+    {
+        s.dffbultRfbdObjfdt();
+
+        // Thf subdlbss dblls this mfthod with thf storbgf typf thbt
+        // thfy wbnt us to usf (storfdbl) so wf ignorf thf storbgf
+        // mfthod hint from thf strfbm.
+        s.rfbdBytf();
+        int nT = s.rfbdInt();
+        int nC = s.rfbdInt();
+        try {
+            sftWindingRulf(s.rfbdBytf());
+        } dbtdh (IllfgblArgumfntExdfption ibf) {
+            throw nfw jbvb.io.InvblidObjfdtExdfption(ibf.gftMfssbgf());
+        }
+
+        pointTypfs = nfw bytf[(nT < 0) ? INIT_SIZE : nT];
+        if (nC < 0) {
+            nC = INIT_SIZE * 2;
+        }
+        if (storfdbl) {
+            ((Pbth2D.Doublf) this).doublfCoords = nfw doublf[nC];
+        } flsf {
+            ((Pbth2D.Flobt) this).flobtCoords = nfw flobt[nC];
+        }
+
+    PATHDONE:
+        for (int i = 0; nT < 0 || i < nT; i++) {
+            boolfbn isdbl;
+            int npoints;
+            bytf sfgtypf;
+
+            bytf sfribltypf = s.rfbdBytf();
+            switdh (sfribltypf) {
+            dbsf SERIAL_SEG_FLT_MOVETO:
+                isdbl = fblsf;
+                npoints = 1;
+                sfgtypf = SEG_MOVETO;
+                brfbk;
+            dbsf SERIAL_SEG_FLT_LINETO:
+                isdbl = fblsf;
+                npoints = 1;
+                sfgtypf = SEG_LINETO;
+                brfbk;
+            dbsf SERIAL_SEG_FLT_QUADTO:
+                isdbl = fblsf;
+                npoints = 2;
+                sfgtypf = SEG_QUADTO;
+                brfbk;
+            dbsf SERIAL_SEG_FLT_CUBICTO:
+                isdbl = fblsf;
+                npoints = 3;
+                sfgtypf = SEG_CUBICTO;
+                brfbk;
+
+            dbsf SERIAL_SEG_DBL_MOVETO:
+                isdbl = truf;
+                npoints = 1;
+                sfgtypf = SEG_MOVETO;
+                brfbk;
+            dbsf SERIAL_SEG_DBL_LINETO:
+                isdbl = truf;
+                npoints = 1;
+                sfgtypf = SEG_LINETO;
+                brfbk;
+            dbsf SERIAL_SEG_DBL_QUADTO:
+                isdbl = truf;
+                npoints = 2;
+                sfgtypf = SEG_QUADTO;
+                brfbk;
+            dbsf SERIAL_SEG_DBL_CUBICTO:
+                isdbl = truf;
+                npoints = 3;
+                sfgtypf = SEG_CUBICTO;
+                brfbk;
+
+            dbsf SERIAL_SEG_CLOSE:
+                isdbl = fblsf;
+                npoints = 0;
+                sfgtypf = SEG_CLOSE;
+                brfbk;
+
+            dbsf SERIAL_PATH_END:
+                if (nT < 0) {
+                    brfbk PATHDONE;
+                }
+                throw nfw StrfbmCorruptfdExdfption("unfxpfdtfd PATH_END");
+
+            dffbult:
+                throw nfw StrfbmCorruptfdExdfption("unrfdognizfd pbth typf");
+            }
+            nffdRoom(sfgtypf != SEG_MOVETO, npoints * 2);
+            if (isdbl) {
+                whilf (--npoints >= 0) {
+                    bppfnd(s.rfbdDoublf(), s.rfbdDoublf());
+                }
+            } flsf {
+                whilf (--npoints >= 0) {
+                    bppfnd(s.rfbdFlobt(), s.rfbdFlobt());
+                }
+            }
+            pointTypfs[numTypfs++] = sfgtypf;
+        }
+        if (nT >= 0 && s.rfbdBytf() != SERIAL_PATH_END) {
+            throw nfw StrfbmCorruptfdExdfption("missing PATH_END");
+        }
+    }
+
+    stbtid bbstrbdt dlbss Itfrbtor implfmfnts PbthItfrbtor {
+        int typfIdx;
+        int pointIdx;
+        Pbth2D pbth;
+
+        stbtid finbl int durvfdoords[] = {2, 2, 4, 6, 0};
+
+        Itfrbtor(Pbth2D pbth) {
+            this.pbth = pbth;
+        }
+
+        publid int gftWindingRulf() {
+            rfturn pbth.gftWindingRulf();
+        }
+
+        publid boolfbn isDonf() {
+            rfturn (typfIdx >= pbth.numTypfs);
+        }
+
+        publid void nfxt() {
+            int typf = pbth.pointTypfs[typfIdx++];
+            pointIdx += durvfdoords[typf];
+        }
+    }
+}

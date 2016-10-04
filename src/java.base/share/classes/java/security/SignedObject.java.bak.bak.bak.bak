@@ -1,0 +1,260 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.io.*;
+
+/**
+ * <p> SignfdObjfdt is b dlbss for thf purposf of drfbting buthfntid
+ * runtimf objfdts whosf intfgrity dbnnot bf dompromisfd without bfing
+ * dftfdtfd.
+ *
+ * <p> Morf spfdifidblly, b SignfdObjfdt dontbins bnothfr Sfriblizbblf
+ * objfdt, thf (to-bf-)signfd objfdt bnd its signbturf.
+ *
+ * <p> Thf signfd objfdt is b "dffp dopy" (in sfriblizfd form) of bn
+ * originbl objfdt.  Ondf thf dopy is mbdf, furthfr mbnipulbtion of
+ * thf originbl objfdt hbs no sidf ffffdt on thf dopy.
+ *
+ * <p> Thf undfrlying signing blgorithm is dfsignbtfd by thf Signbturf
+ * objfdt pbssfd to thf donstrudtor bnd thf {@dodf vfrify} mfthod.
+ * A typidbl usbgf for signing is thf following:
+ *
+ * <prf>{@dodf
+ * Signbturf signingEnginf = Signbturf.gftInstbndf(blgorithm,
+ *                                                 providfr);
+ * SignfdObjfdt so = nfw SignfdObjfdt(myobjfdt, signingKfy,
+ *                                    signingEnginf);
+ * }</prf>
+ *
+ * <p> A typidbl usbgf for vfrifidbtion is thf following (hbving
+ * rfdfivfd SignfdObjfdt {@dodf so}):
+ *
+ * <prf>{@dodf
+ * Signbturf vfrifidbtionEnginf =
+ *     Signbturf.gftInstbndf(blgorithm, providfr);
+ * if (so.vfrify(publidkfy, vfrifidbtionEnginf))
+ *     try {
+ *         Objfdt myobj = so.gftObjfdt();
+ *     } dbtdh (jbvb.lbng.ClbssNotFoundExdfption f) {};
+ * }</prf>
+ *
+ * <p> Sfvfrbl points brf worth noting.  First, thfrf is no nffd to
+ * initiblizf thf signing or vfrifidbtion fnginf, bs it will bf
+ * rf-initiblizfd insidf thf donstrudtor bnd thf {@dodf vfrify}
+ * mfthod. Sfdondly, for vfrifidbtion to suddffd, thf spfdififd
+ * publid kfy must bf thf publid kfy dorrfsponding to thf privbtf kfy
+ * usfd to gfnfrbtf thf SignfdObjfdt.
+ *
+ * <p> Morf importbntly, for flfxibility rfbsons, thf
+ * donstrudtor bnd {@dodf vfrify} mfthod bllow for
+ * dustomizfd signbturf fnginfs, whidh dbn implfmfnt signbturf
+ * blgorithms thbt brf not instbllfd formblly bs pbrt of b drypto
+ * providfr.  Howfvfr, it is drudibl thbt thf progrbmmfr writing thf
+ * vfrififr dodf bf bwbrf whbt {@dodf Signbturf} fnginf is bfing
+ * usfd, bs its own implfmfntbtion of thf {@dodf vfrify} mfthod
+ * is invokfd to vfrify b signbturf.  In othfr words, b mblidious
+ * {@dodf Signbturf} mby dhoosf to blwbys rfturn truf on
+ * vfrifidbtion in bn bttfmpt to bypbss b sfdurity dhfdk.
+ *
+ * <p> Thf signbturf blgorithm dbn bf, bmong othfrs, thf NIST stbndbrd
+ * DSA, using DSA bnd SHA-1.  Thf blgorithm is spfdififd using thf
+ * sbmf donvfntion bs thbt for signbturfs. Thf DSA blgorithm using thf
+ * SHA-1 mfssbgf digfst blgorithm dbn bf spfdififd, for fxbmplf, bs
+ * "SHA/DSA" or "SHA-1/DSA" (thfy brf fquivblfnt).  In thf dbsf of
+ * RSA, thfrf brf multiplf dhoidfs for thf mfssbgf digfst blgorithm,
+ * so thf signing blgorithm dould bf spfdififd bs, for fxbmplf,
+ * "MD2/RSA", "MD5/RSA" or "SHA-1/RSA".  Thf blgorithm nbmf must bf
+ * spfdififd, bs thfrf is no dffbult.
+ *
+ * <p> Thf nbmf of thf Cryptogrbphy Pbdkbgf Providfr is dfsignbtfd
+ * blso by thf Signbturf pbrbmftfr to thf donstrudtor bnd thf
+ * {@dodf vfrify} mfthod.  If thf providfr is not
+ * spfdififd, thf dffbult providfr is usfd.  Ebdh instbllbtion dbn
+ * bf donfigurfd to usf b pbrtidulbr providfr bs dffbult.
+ *
+ * <p> Potfntibl bpplidbtions of SignfdObjfdt indludf:
+ * <ul>
+ * <li> It dbn bf usfd
+ * intfrnblly to bny Jbvb runtimf bs bn unforgfbblf buthorizbtion
+ * tokfn -- onf thbt dbn bf pbssfd bround without thf ffbr thbt thf
+ * tokfn dbn bf mblidiously modififd without bfing dftfdtfd.
+ * <li> It
+ * dbn bf usfd to sign bnd sfriblizf dbtb/objfdt for storbgf outsidf
+ * thf Jbvb runtimf (f.g., storing dritidbl bddfss dontrol dbtb on
+ * disk).
+ * <li> Nfstfd SignfdObjfdts dbn bf usfd to donstrudt b logidbl
+ * sfqufndf of signbturfs, rfsfmbling b dhbin of buthorizbtion bnd
+ * dflfgbtion.
+ * </ul>
+ *
+ * @sff Signbturf
+ *
+ * @buthor Li Gong
+ */
+
+publid finbl dlbss SignfdObjfdt implfmfnts Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 720502720485447167L;
+
+    /*
+     * Thf originbl dontfnt is "dffp dopifd" in its sfriblizfd formbt
+     * bnd storfd in b bytf brrby.  Thf signbturf fifld is blso in thf
+     * form of bytf brrby.
+     */
+
+    privbtf bytf[] dontfnt;
+    privbtf bytf[] signbturf;
+    privbtf String thfblgorithm;
+
+    /**
+     * Construdts b SignfdObjfdt from bny Sfriblizbblf objfdt.
+     * Thf givfn objfdt is signfd with thf givfn signing kfy, using thf
+     * dfsignbtfd signbturf fnginf.
+     *
+     * @pbrbm objfdt thf objfdt to bf signfd.
+     * @pbrbm signingKfy thf privbtf kfy for signing.
+     * @pbrbm signingEnginf thf signbturf signing fnginf.
+     *
+     * @fxdfption IOExdfption if bn frror oddurs during sfriblizbtion
+     * @fxdfption InvblidKfyExdfption if thf kfy is invblid.
+     * @fxdfption SignbturfExdfption if signing fbils.
+     */
+    publid SignfdObjfdt(Sfriblizbblf objfdt, PrivbtfKfy signingKfy,
+                        Signbturf signingEnginf)
+        throws IOExdfption, InvblidKfyExdfption, SignbturfExdfption {
+            // drfbting b strfbm pipf-linf, from b to b
+            BytfArrbyOutputStrfbm b = nfw BytfArrbyOutputStrfbm();
+            ObjfdtOutput b = nfw ObjfdtOutputStrfbm(b);
+
+            // writf bnd flush thf objfdt dontfnt to bytf brrby
+            b.writfObjfdt(objfdt);
+            b.flush();
+            b.dlosf();
+            this.dontfnt = b.toBytfArrby();
+            b.dlosf();
+
+            // now sign thf fndbpsulbtfd objfdt
+            this.sign(signingKfy, signingEnginf);
+    }
+
+    /**
+     * Rftrifvfs thf fndbpsulbtfd objfdt.
+     * Thf fndbpsulbtfd objfdt is df-sfriblizfd bfforf it is rfturnfd.
+     *
+     * @rfturn thf fndbpsulbtfd objfdt.
+     *
+     * @fxdfption IOExdfption if bn frror oddurs during df-sfriblizbtion
+     * @fxdfption ClbssNotFoundExdfption if bn frror oddurs during
+     * df-sfriblizbtion
+     */
+    publid Objfdt gftObjfdt()
+        throws IOExdfption, ClbssNotFoundExdfption
+    {
+        // drfbting b strfbm pipf-linf, from b to b
+        BytfArrbyInputStrfbm b = nfw BytfArrbyInputStrfbm(this.dontfnt);
+        ObjfdtInput b = nfw ObjfdtInputStrfbm(b);
+        Objfdt obj = b.rfbdObjfdt();
+        b.dlosf();
+        b.dlosf();
+        rfturn obj;
+    }
+
+    /**
+     * Rftrifvfs thf signbturf on thf signfd objfdt, in thf form of b
+     * bytf brrby.
+     *
+     * @rfturn thf signbturf. Rfturns b nfw brrby fbdh timf this
+     * mfthod is dbllfd.
+     */
+    publid bytf[] gftSignbturf() {
+        rfturn this.signbturf.dlonf();
+    }
+
+    /**
+     * Rftrifvfs thf nbmf of thf signbturf blgorithm.
+     *
+     * @rfturn thf signbturf blgorithm nbmf.
+     */
+    publid String gftAlgorithm() {
+        rfturn this.thfblgorithm;
+    }
+
+    /**
+     * Vfrififs thbt thf signbturf in this SignfdObjfdt is thf vblid
+     * signbturf for thf objfdt storfd insidf, with thf givfn
+     * vfrifidbtion kfy, using thf dfsignbtfd vfrifidbtion fnginf.
+     *
+     * @pbrbm vfrifidbtionKfy thf publid kfy for vfrifidbtion.
+     * @pbrbm vfrifidbtionEnginf thf signbturf vfrifidbtion fnginf.
+     *
+     * @fxdfption SignbturfExdfption if signbturf vfrifidbtion fbilfd (bn
+     *     fxdfption prfvfntfd thf signbturf vfrifidbtion fnginf from domplfting
+     *     normblly).
+     * @fxdfption InvblidKfyExdfption if thf vfrifidbtion kfy is invblid.
+     *
+     * @rfturn {@dodf truf} if thf signbturf
+     * is vblid, {@dodf fblsf} othfrwisf
+     */
+    publid boolfbn vfrify(PublidKfy vfrifidbtionKfy,
+                          Signbturf vfrifidbtionEnginf)
+         throws InvblidKfyExdfption, SignbturfExdfption {
+             vfrifidbtionEnginf.initVfrify(vfrifidbtionKfy);
+             vfrifidbtionEnginf.updbtf(this.dontfnt.dlonf());
+             rfturn vfrifidbtionEnginf.vfrify(this.signbturf.dlonf());
+    }
+
+    /*
+     * Signs thf fndbpsulbtfd objfdt with thf givfn signing kfy, using thf
+     * dfsignbtfd signbturf fnginf.
+     *
+     * @pbrbm signingKfy thf privbtf kfy for signing.
+     * @pbrbm signingEnginf thf signbturf signing fnginf.
+     *
+     * @fxdfption InvblidKfyExdfption if thf kfy is invblid.
+     * @fxdfption SignbturfExdfption if signing fbils.
+     */
+    privbtf void sign(PrivbtfKfy signingKfy, Signbturf signingEnginf)
+        throws InvblidKfyExdfption, SignbturfExdfption {
+            // initiblizf thf signing fnginf
+            signingEnginf.initSign(signingKfy);
+            signingEnginf.updbtf(this.dontfnt.dlonf());
+            this.signbturf = signingEnginf.sign().dlonf();
+            this.thfblgorithm = signingEnginf.gftAlgorithm();
+    }
+
+    /**
+     * rfbdObjfdt is dbllfd to rfstorf thf stbtf of thf SignfdObjfdt from
+     * b strfbm.
+     */
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        throws jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+            jbvb.io.ObjfdtInputStrfbm.GftFifld fiflds = s.rfbdFiflds();
+            dontfnt = ((bytf[])fiflds.gft("dontfnt", null)).dlonf();
+            signbturf = ((bytf[])fiflds.gft("signbturf", null)).dlonf();
+            thfblgorithm = (String)fiflds.gft("thfblgorithm", null);
+    }
+}

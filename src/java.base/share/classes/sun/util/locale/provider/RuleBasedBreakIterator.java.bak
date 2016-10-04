@@ -1,1195 +1,1195 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - 2002 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 2002 - All Rigits Rfsfrvfd
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion
+ * is dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd
+ * subsidibry of IBM. Tifsf mbtfribls brf providfd undfr tfrms
+ * of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology
+ * is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  */
 
-package sun.util.locale.provider;
+pbdkbgf sun.util.lodblf.providfr;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.text.BreakIterator;
-import java.text.CharacterIterator;
-import java.text.StringCharacterIterator;
-import java.util.MissingResourceException;
-import sun.text.CompactByteArray;
-import sun.text.SupplementaryCharacterData;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.tfxt.BrfbkItfrbtor;
+import jbvb.tfxt.CibrbdtfrItfrbtor;
+import jbvb.tfxt.StringCibrbdtfrItfrbtor;
+import jbvb.util.MissingRfsourdfExdfption;
+import sun.tfxt.CompbdtBytfArrby;
+import sun.tfxt.SupplfmfntbryCibrbdtfrDbtb;
 
 /**
- * <p>A subclass of BreakIterator whose behavior is specified using a list of rules.</p>
+ * <p>A subdlbss of BrfbkItfrbtor wiosf bfibvior is spfdififd using b list of rulfs.</p>
  *
- * <p>There are two kinds of rules, which are separated by semicolons: <i>substitutions</i>
- * and <i>regular expressions.</i></p>
+ * <p>Tifrf brf two kinds of rulfs, wiidi brf sfpbrbtfd by sfmidolons: <i>substitutions</i>
+ * bnd <i>rfgulbr fxprfssions.</i></p>
  *
- * <p>A substitution rule defines a name that can be used in place of an expression. It
- * consists of a name, which is a string of characters contained in angle brackets, an equals
- * sign, and an expression. (There can be no whitespace on either side of the equals sign.)
- * To keep its syntactic meaning intact, the expression must be enclosed in parentheses or
- * square brackets. A substitution is visible after its definition, and is filled in using
- * simple textual substitution. Substitution definitions can contain other substitutions, as
- * long as those substitutions have been defined first. Substitutions are generally used to
- * make the regular expressions (which can get quite complex) shorted and easier to read.
- * They typically define either character categories or commonly-used subexpressions.</p>
+ * <p>A substitution rulf dffinfs b nbmf tibt dbn bf usfd in plbdf of bn fxprfssion. It
+ * donsists of b nbmf, wiidi is b string of dibrbdtfrs dontbinfd in bnglf brbdkfts, bn fqubls
+ * sign, bnd bn fxprfssion. (Tifrf dbn bf no wiitfspbdf on fitifr sidf of tif fqubls sign.)
+ * To kffp its syntbdtid mfbning intbdt, tif fxprfssion must bf fndlosfd in pbrfntifsfs or
+ * squbrf brbdkfts. A substitution is visiblf bftfr its dffinition, bnd is fillfd in using
+ * simplf tfxtubl substitution. Substitution dffinitions dbn dontbin otifr substitutions, bs
+ * long bs tiosf substitutions ibvf bffn dffinfd first. Substitutions brf gfnfrblly usfd to
+ * mbkf tif rfgulbr fxprfssions (wiidi dbn gft quitf domplfx) siortfd bnd fbsifr to rfbd.
+ * Tify typidblly dffinf fitifr dibrbdtfr dbtfgorifs or dommonly-usfd subfxprfssions.</p>
  *
- * <p>There is one special substitution.&nbsp; If the description defines a substitution
- * called &quot;&lt;ignore&gt;&quot;, the expression must be a [] expression, and the
- * expression defines a set of characters (the &quot;<em>ignore characters</em>&quot;) that
- * will be transparent to the BreakIterator.&nbsp; A sequence of characters will break the
- * same way it would if any ignore characters it contains are taken out.&nbsp; Break
- * positions never occur befoer ignore characters.</p>
+ * <p>Tifrf is onf spfdibl substitution.&nbsp; If tif dfsdription dffinfs b substitution
+ * dbllfd &quot;&lt;ignorf&gt;&quot;, tif fxprfssion must bf b [] fxprfssion, bnd tif
+ * fxprfssion dffinfs b sft of dibrbdtfrs (tif &quot;<fm>ignorf dibrbdtfrs</fm>&quot;) tibt
+ * will bf trbnspbrfnt to tif BrfbkItfrbtor.&nbsp; A sfqufndf of dibrbdtfrs will brfbk tif
+ * sbmf wby it would if bny ignorf dibrbdtfrs it dontbins brf tbkfn out.&nbsp; Brfbk
+ * positions nfvfr oddur bffofr ignorf dibrbdtfrs.</p>
  *
- * <p>A regular expression uses a subset of the normal Unix regular-expression syntax, and
- * defines a sequence of characters to be kept together. With one significant exception, the
- * iterator uses a longest-possible-match algorithm when matching text to regular
- * expressions. The iterator also treats descriptions containing multiple regular expressions
- * as if they were ORed together (i.e., as if they were separated by |).</p>
+ * <p>A rfgulbr fxprfssion usfs b subsft of tif normbl Unix rfgulbr-fxprfssion syntbx, bnd
+ * dffinfs b sfqufndf of dibrbdtfrs to bf kfpt togftifr. Witi onf signifidbnt fxdfption, tif
+ * itfrbtor usfs b longfst-possiblf-mbtdi blgoritim wifn mbtdiing tfxt to rfgulbr
+ * fxprfssions. Tif itfrbtor blso trfbts dfsdriptions dontbining multiplf rfgulbr fxprfssions
+ * bs if tify wfrf ORfd togftifr (i.f., bs if tify wfrf sfpbrbtfd by |).</p>
  *
- * <p>The special characters recognized by the regular-expression parser are as follows:</p>
+ * <p>Tif spfdibl dibrbdtfrs rfdognizfd by tif rfgulbr-fxprfssion pbrsfr brf bs follows:</p>
  *
- * <blockquote>
- *   <table border="1" width="100%">
+ * <blodkquotf>
+ *   <tbblf bordfr="1" widti="100%">
  *     <tr>
- *       <td width="6%">*</td>
- *       <td width="94%">Specifies that the expression preceding the asterisk may occur any number
- *       of times (including not at all).</td>
+ *       <td widti="6%">*</td>
+ *       <td widti="94%">Spfdififs tibt tif fxprfssion prfdfding tif bstfrisk mby oddur bny numbfr
+ *       of timfs (indluding not bt bll).</td>
  *     </tr>
  *     <tr>
- *       <td width="6%">{}</td>
- *       <td width="94%">Encloses a sequence of characters that is optional.</td>
+ *       <td widti="6%">{}</td>
+ *       <td widti="94%">Endlosfs b sfqufndf of dibrbdtfrs tibt is optionbl.</td>
  *     </tr>
  *     <tr>
- *       <td width="6%">()</td>
- *       <td width="94%">Encloses a sequence of characters.&nbsp; If followed by *, the sequence
- *       repeats.&nbsp; Otherwise, the parentheses are just a grouping device and a way to delimit
- *       the ends of expressions containing |.</td>
+ *       <td widti="6%">()</td>
+ *       <td widti="94%">Endlosfs b sfqufndf of dibrbdtfrs.&nbsp; If followfd by *, tif sfqufndf
+ *       rfpfbts.&nbsp; Otifrwisf, tif pbrfntifsfs brf just b grouping dfvidf bnd b wby to dflimit
+ *       tif fnds of fxprfssions dontbining |.</td>
  *     </tr>
  *     <tr>
- *       <td width="6%">|</td>
- *       <td width="94%">Separates two alternative sequences of characters.&nbsp; Either one
- *       sequence or the other, but not both, matches this expression.&nbsp; The | character can
- *       only occur inside ().</td>
+ *       <td widti="6%">|</td>
+ *       <td widti="94%">Sfpbrbtfs two bltfrnbtivf sfqufndfs of dibrbdtfrs.&nbsp; Eitifr onf
+ *       sfqufndf or tif otifr, but not boti, mbtdifs tiis fxprfssion.&nbsp; Tif | dibrbdtfr dbn
+ *       only oddur insidf ().</td>
  *     </tr>
  *     <tr>
- *       <td width="6%">.</td>
- *       <td width="94%">Matches any character.</td>
+ *       <td widti="6%">.</td>
+ *       <td widti="94%">Mbtdifs bny dibrbdtfr.</td>
  *     </tr>
  *     <tr>
- *       <td width="6%">*?</td>
- *       <td width="94%">Specifies a non-greedy asterisk.&nbsp; *? works the same way as *, except
- *       when there is overlap between the last group of characters in the expression preceding the
- *       * and the first group of characters following the *.&nbsp; When there is this kind of
- *       overlap, * will match the longest sequence of characters that match the expression before
- *       the *, and *? will match the shortest sequence of characters matching the expression
- *       before the *?.&nbsp; For example, if you have &quot;xxyxyyyxyxyxxyxyxyy&quot; in the text,
- *       &quot;x[xy]*x&quot; will match through to the last x (i.e., &quot;<strong>xxyxyyyxyxyxxyxyx</strong>yy&quot;,
- *       but &quot;x[xy]*?x&quot; will only match the first two xes (&quot;<strong>xx</strong>yxyyyxyxyxxyxyxyy&quot;).</td>
+ *       <td widti="6%">*?</td>
+ *       <td widti="94%">Spfdififs b non-grffdy bstfrisk.&nbsp; *? works tif sbmf wby bs *, fxdfpt
+ *       wifn tifrf is ovfrlbp bftwffn tif lbst group of dibrbdtfrs in tif fxprfssion prfdfding tif
+ *       * bnd tif first group of dibrbdtfrs following tif *.&nbsp; Wifn tifrf is tiis kind of
+ *       ovfrlbp, * will mbtdi tif longfst sfqufndf of dibrbdtfrs tibt mbtdi tif fxprfssion bfforf
+ *       tif *, bnd *? will mbtdi tif siortfst sfqufndf of dibrbdtfrs mbtdiing tif fxprfssion
+ *       bfforf tif *?.&nbsp; For fxbmplf, if you ibvf &quot;xxyxyyyxyxyxxyxyxyy&quot; in tif tfxt,
+ *       &quot;x[xy]*x&quot; will mbtdi tirougi to tif lbst x (i.f., &quot;<strong>xxyxyyyxyxyxxyxyx</strong>yy&quot;,
+ *       but &quot;x[xy]*?x&quot; will only mbtdi tif first two xfs (&quot;<strong>xx</strong>yxyyyxyxyxxyxyxyy&quot;).</td>
  *     </tr>
  *     <tr>
- *       <td width="6%">[]</td>
- *       <td width="94%">Specifies a group of alternative characters.&nbsp; A [] expression will
- *       match any single character that is specified in the [] expression.&nbsp; For more on the
- *       syntax of [] expressions, see below.</td>
+ *       <td widti="6%">[]</td>
+ *       <td widti="94%">Spfdififs b group of bltfrnbtivf dibrbdtfrs.&nbsp; A [] fxprfssion will
+ *       mbtdi bny singlf dibrbdtfr tibt is spfdififd in tif [] fxprfssion.&nbsp; For morf on tif
+ *       syntbx of [] fxprfssions, sff bflow.</td>
  *     </tr>
  *     <tr>
- *       <td width="6%">/</td>
- *       <td width="94%">Specifies where the break position should go if text matches this
- *       expression.&nbsp; (e.g., &quot;[a-z]&#42;/[:Zs:]*[1-0]&quot; will match if the iterator sees a run
- *       of letters, followed by a run of whitespace, followed by a digit, but the break position
- *       will actually go before the whitespace).&nbsp; Expressions that don't contain / put the
- *       break position at the end of the matching text.</td>
+ *       <td widti="6%">/</td>
+ *       <td widti="94%">Spfdififs wifrf tif brfbk position siould go if tfxt mbtdifs tiis
+ *       fxprfssion.&nbsp; (f.g., &quot;[b-z]&#42;/[:Zs:]*[1-0]&quot; will mbtdi if tif itfrbtor sffs b run
+ *       of lfttfrs, followfd by b run of wiitfspbdf, followfd by b digit, but tif brfbk position
+ *       will bdtublly go bfforf tif wiitfspbdf).&nbsp; Exprfssions tibt don't dontbin / put tif
+ *       brfbk position bt tif fnd of tif mbtdiing tfxt.</td>
  *     </tr>
  *     <tr>
- *       <td width="6%">\</td>
- *       <td width="94%">Escape character.&nbsp; The \ itself is ignored, but causes the next
- *       character to be treated as literal character.&nbsp; This has no effect for many
- *       characters, but for the characters listed above, this deprives them of their special
- *       meaning.&nbsp; (There are no special escape sequences for Unicode characters, or tabs and
- *       newlines; these are all handled by a higher-level protocol.&nbsp; In a Java string,
- *       &quot;\n&quot; will be converted to a literal newline character by the time the
- *       regular-expression parser sees it.&nbsp; Of course, this means that \ sequences that are
- *       visible to the regexp parser must be written as \\ when inside a Java string.)&nbsp; All
- *       characters in the ASCII range except for letters, digits, and control characters are
- *       reserved characters to the parser and must be preceded by \ even if they currently don't
- *       mean anything.</td>
+ *       <td widti="6%">\</td>
+ *       <td widti="94%">Esdbpf dibrbdtfr.&nbsp; Tif \ itsflf is ignorfd, but dbusfs tif nfxt
+ *       dibrbdtfr to bf trfbtfd bs litfrbl dibrbdtfr.&nbsp; Tiis ibs no ffffdt for mbny
+ *       dibrbdtfrs, but for tif dibrbdtfrs listfd bbovf, tiis dfprivfs tifm of tifir spfdibl
+ *       mfbning.&nbsp; (Tifrf brf no spfdibl fsdbpf sfqufndfs for Unidodf dibrbdtfrs, or tbbs bnd
+ *       nfwlinfs; tifsf brf bll ibndlfd by b iigifr-lfvfl protodol.&nbsp; In b Jbvb string,
+ *       &quot;\n&quot; will bf donvfrtfd to b litfrbl nfwlinf dibrbdtfr by tif timf tif
+ *       rfgulbr-fxprfssion pbrsfr sffs it.&nbsp; Of doursf, tiis mfbns tibt \ sfqufndfs tibt brf
+ *       visiblf to tif rfgfxp pbrsfr must bf writtfn bs \\ wifn insidf b Jbvb string.)&nbsp; All
+ *       dibrbdtfrs in tif ASCII rbngf fxdfpt for lfttfrs, digits, bnd dontrol dibrbdtfrs brf
+ *       rfsfrvfd dibrbdtfrs to tif pbrsfr bnd must bf prfdfdfd by \ fvfn if tify durrfntly don't
+ *       mfbn bnytiing.</td>
  *     </tr>
  *     <tr>
- *       <td width="6%">!</td>
- *       <td width="94%">If ! appears at the beginning of a regular expression, it tells the regexp
- *       parser that this expression specifies the backwards-iteration behavior of the iterator,
- *       and not its normal iteration behavior.&nbsp; This is generally only used in situations
- *       where the automatically-generated backwards-iteration brhavior doesn't produce
- *       satisfactory results and must be supplemented with extra client-specified rules.</td>
+ *       <td widti="6%">!</td>
+ *       <td widti="94%">If ! bppfbrs bt tif bfginning of b rfgulbr fxprfssion, it tflls tif rfgfxp
+ *       pbrsfr tibt tiis fxprfssion spfdififs tif bbdkwbrds-itfrbtion bfibvior of tif itfrbtor,
+ *       bnd not its normbl itfrbtion bfibvior.&nbsp; Tiis is gfnfrblly only usfd in situbtions
+ *       wifrf tif butombtidblly-gfnfrbtfd bbdkwbrds-itfrbtion bribvior dofsn't produdf
+ *       sbtisfbdtory rfsults bnd must bf supplfmfntfd witi fxtrb dlifnt-spfdififd rulfs.</td>
  *     </tr>
  *     <tr>
- *       <td width="6%"><em>(all others)</em></td>
- *       <td width="94%">All other characters are treated as literal characters, which must match
- *       the corresponding character(s) in the text exactly.</td>
+ *       <td widti="6%"><fm>(bll otifrs)</fm></td>
+ *       <td widti="94%">All otifr dibrbdtfrs brf trfbtfd bs litfrbl dibrbdtfrs, wiidi must mbtdi
+ *       tif dorrfsponding dibrbdtfr(s) in tif tfxt fxbdtly.</td>
  *     </tr>
- *   </table>
- * </blockquote>
+ *   </tbblf>
+ * </blodkquotf>
  *
- * <p>Within a [] expression, a number of other special characters can be used to specify
- * groups of characters:</p>
+ * <p>Witiin b [] fxprfssion, b numbfr of otifr spfdibl dibrbdtfrs dbn bf usfd to spfdify
+ * groups of dibrbdtfrs:</p>
  *
- * <blockquote>
- *   <table border="1" width="100%">
+ * <blodkquotf>
+ *   <tbblf bordfr="1" widti="100%">
  *     <tr>
- *       <td width="6%">-</td>
- *       <td width="94%">Specifies a range of matching characters.&nbsp; For example
- *       &quot;[a-p]&quot; matches all lowercase Latin letters from a to p (inclusive).&nbsp; The -
- *       sign specifies ranges of continuous Unicode numeric values, not ranges of characters in a
- *       language's alphabetical order: &quot;[a-z]&quot; doesn't include capital letters, nor does
- *       it include accented letters such as a-umlaut.</td>
+ *       <td widti="6%">-</td>
+ *       <td widti="94%">Spfdififs b rbngf of mbtdiing dibrbdtfrs.&nbsp; For fxbmplf
+ *       &quot;[b-p]&quot; mbtdifs bll lowfrdbsf Lbtin lfttfrs from b to p (indlusivf).&nbsp; Tif -
+ *       sign spfdififs rbngfs of dontinuous Unidodf numfrid vblufs, not rbngfs of dibrbdtfrs in b
+ *       lbngubgf's blpibbftidbl ordfr: &quot;[b-z]&quot; dofsn't indludf dbpitbl lfttfrs, nor dofs
+ *       it indludf bddfntfd lfttfrs sudi bs b-umlbut.</td>
  *     </tr>
  *     <tr>
- *       <td width="6%">::</td>
- *       <td width="94%">A pair of colons containing a one- or two-letter code matches all
- *       characters in the corresponding Unicode category.&nbsp; The two-letter codes are the same
- *       as the two-letter codes in the Unicode database (for example, &quot;[:Sc::Sm:]&quot;
- *       matches all currency symbols and all math symbols).&nbsp; Specifying a one-letter code is
- *       the same as specifying all two-letter codes that begin with that letter (for example,
- *       &quot;[:L:]&quot; matches all letters, and is equivalent to
- *       &quot;[:Lu::Ll::Lo::Lm::Lt:]&quot;).&nbsp; Anything other than a valid two-letter Unicode
- *       category code or a single letter that begins a Unicode category code is illegal within
- *       colons.</td>
+ *       <td widti="6%">::</td>
+ *       <td widti="94%">A pbir of dolons dontbining b onf- or two-lfttfr dodf mbtdifs bll
+ *       dibrbdtfrs in tif dorrfsponding Unidodf dbtfgory.&nbsp; Tif two-lfttfr dodfs brf tif sbmf
+ *       bs tif two-lfttfr dodfs in tif Unidodf dbtbbbsf (for fxbmplf, &quot;[:Sd::Sm:]&quot;
+ *       mbtdifs bll durrfndy symbols bnd bll mbti symbols).&nbsp; Spfdifying b onf-lfttfr dodf is
+ *       tif sbmf bs spfdifying bll two-lfttfr dodfs tibt bfgin witi tibt lfttfr (for fxbmplf,
+ *       &quot;[:L:]&quot; mbtdifs bll lfttfrs, bnd is fquivblfnt to
+ *       &quot;[:Lu::Ll::Lo::Lm::Lt:]&quot;).&nbsp; Anytiing otifr tibn b vblid two-lfttfr Unidodf
+ *       dbtfgory dodf or b singlf lfttfr tibt bfgins b Unidodf dbtfgory dodf is illfgbl witiin
+ *       dolons.</td>
  *     </tr>
  *     <tr>
- *       <td width="6%">[]</td>
- *       <td width="94%">[] expressions can nest.&nbsp; This has no effect, except when used in
- *       conjunction with the ^ token.</td>
+ *       <td widti="6%">[]</td>
+ *       <td widti="94%">[] fxprfssions dbn nfst.&nbsp; Tiis ibs no ffffdt, fxdfpt wifn usfd in
+ *       donjundtion witi tif ^ tokfn.</td>
  *     </tr>
  *     <tr>
- *       <td width="6%">^</td>
- *       <td width="94%">Excludes the character (or the characters in the [] expression) following
- *       it from the group of characters.&nbsp; For example, &quot;[a-z^p]&quot; matches all Latin
- *       lowercase letters except p.&nbsp; &quot;[:L:^[&#92;u4e00-&#92;u9fff]]&quot; matches all letters
- *       except the Han ideographs.</td>
+ *       <td widti="6%">^</td>
+ *       <td widti="94%">Exdludfs tif dibrbdtfr (or tif dibrbdtfrs in tif [] fxprfssion) following
+ *       it from tif group of dibrbdtfrs.&nbsp; For fxbmplf, &quot;[b-z^p]&quot; mbtdifs bll Lbtin
+ *       lowfrdbsf lfttfrs fxdfpt p.&nbsp; &quot;[:L:^[&#92;u4f00-&#92;u9fff]]&quot; mbtdifs bll lfttfrs
+ *       fxdfpt tif Hbn idfogrbpis.</td>
  *     </tr>
  *     <tr>
- *       <td width="6%"><em>(all others)</em></td>
- *       <td width="94%">All other characters are treated as literal characters.&nbsp; (For
- *       example, &quot;[aeiou]&quot; specifies just the letters a, e, i, o, and u.)</td>
+ *       <td widti="6%"><fm>(bll otifrs)</fm></td>
+ *       <td widti="94%">All otifr dibrbdtfrs brf trfbtfd bs litfrbl dibrbdtfrs.&nbsp; (For
+ *       fxbmplf, &quot;[bfiou]&quot; spfdififs just tif lfttfrs b, f, i, o, bnd u.)</td>
  *     </tr>
- *   </table>
- * </blockquote>
+ *   </tbblf>
+ * </blodkquotf>
  *
- * <p>For a more complete explanation, see <a
- * href="http://www.ibm.com/java/education/boundaries/boundaries.html">http://www.ibm.com/java/education/boundaries/boundaries.html</a>.
- * &nbsp; For examples, see the resource data (which is annotated).</p>
+ * <p>For b morf domplftf fxplbnbtion, sff <b
+ * irff="ittp://www.ibm.dom/jbvb/fdudbtion/boundbrifs/boundbrifs.itml">ittp://www.ibm.dom/jbvb/fdudbtion/boundbrifs/boundbrifs.itml</b>.
+ * &nbsp; For fxbmplfs, sff tif rfsourdf dbtb (wiidi is bnnotbtfd).</p>
  *
- * @author Richard Gillam
+ * @butior Ridibrd Gillbm
  */
-class RuleBasedBreakIterator extends BreakIterator {
+dlbss RulfBbsfdBrfbkItfrbtor fxtfnds BrfbkItfrbtor {
 
     /**
-     * A token used as a character-category value to identify ignore characters
+     * A tokfn usfd bs b dibrbdtfr-dbtfgory vbluf to idfntify ignorf dibrbdtfrs
      */
-    protected static final byte IGNORE = -1;
+    protfdtfd stbtid finbl bytf IGNORE = -1;
 
     /**
-     * The state number of the starting state
+     * Tif stbtf numbfr of tif stbrting stbtf
      */
-    private static final short START_STATE = 1;
+    privbtf stbtid finbl siort START_STATE = 1;
 
     /**
-     * The state-transition value indicating "stop"
+     * Tif stbtf-trbnsition vbluf indidbting "stop"
      */
-    private static final short STOP_STATE = 0;
+    privbtf stbtid finbl siort STOP_STATE = 0;
 
     /**
-     * Magic number for the BreakIterator data file format.
+     * Mbgid numbfr for tif BrfbkItfrbtor dbtb filf formbt.
      */
-    static final byte[] LABEL = {
-        (byte)'B', (byte)'I', (byte)'d', (byte)'a', (byte)'t', (byte)'a',
-        (byte)'\0'
+    stbtid finbl bytf[] LABEL = {
+        (bytf)'B', (bytf)'I', (bytf)'d', (bytf)'b', (bytf)'t', (bytf)'b',
+        (bytf)'\0'
     };
-    static final int    LABEL_LENGTH = LABEL.length;
+    stbtid finbl int    LABEL_LENGTH = LABEL.lfngti;
 
     /**
-     * Version number of the dictionary that was read in.
+     * Vfrsion numbfr of tif didtionbry tibt wbs rfbd in.
      */
-    static final byte supportedVersion = 1;
+    stbtid finbl bytf supportfdVfrsion = 1;
 
     /**
-     * Header size in byte count
+     * Hfbdfr sizf in bytf dount
      */
-    private static final int HEADER_LENGTH = 36;
+    privbtf stbtid finbl int HEADER_LENGTH = 36;
 
     /**
-     * An array length of indices for BMP characters
+     * An brrby lfngti of indidfs for BMP dibrbdtfrs
      */
-    private static final int BMP_INDICES_LENGTH = 512;
+    privbtf stbtid finbl int BMP_INDICES_LENGTH = 512;
 
     /**
-     * Tables that indexes from character values to character category numbers
+     * Tbblfs tibt indfxfs from dibrbdtfr vblufs to dibrbdtfr dbtfgory numbfrs
      */
-    private CompactByteArray charCategoryTable = null;
-    private SupplementaryCharacterData supplementaryCharCategoryTable = null;
+    privbtf CompbdtBytfArrby dibrCbtfgoryTbblf = null;
+    privbtf SupplfmfntbryCibrbdtfrDbtb supplfmfntbryCibrCbtfgoryTbblf = null;
 
     /**
-     * The table of state transitions used for forward iteration
+     * Tif tbblf of stbtf trbnsitions usfd for forwbrd itfrbtion
      */
-    private short[] stateTable = null;
+    privbtf siort[] stbtfTbblf = null;
 
     /**
-     * The table of state transitions used to sync up the iterator with the
-     * text in backwards and random-access iteration
+     * Tif tbblf of stbtf trbnsitions usfd to synd up tif itfrbtor witi tif
+     * tfxt in bbdkwbrds bnd rbndom-bddfss itfrbtion
      */
-    private short[] backwardsStateTable = null;
+    privbtf siort[] bbdkwbrdsStbtfTbblf = null;
 
     /**
-     * A list of flags indicating which states in the state table are accepting
-     * ("end") states
+     * A list of flbgs indidbting wiidi stbtfs in tif stbtf tbblf brf bddfpting
+     * ("fnd") stbtfs
      */
-    private boolean[] endStates = null;
+    privbtf boolfbn[] fndStbtfs = null;
 
     /**
-     * A list of flags indicating which states in the state table are
-     * lookahead states (states which turn lookahead on and off)
+     * A list of flbgs indidbting wiidi stbtfs in tif stbtf tbblf brf
+     * lookbifbd stbtfs (stbtfs wiidi turn lookbifbd on bnd off)
      */
-    private boolean[] lookaheadStates = null;
+    privbtf boolfbn[] lookbifbdStbtfs = null;
 
     /**
-     * A table for additional data. May be used by a subclass of
-     * RuleBasedBreakIterator.
+     * A tbblf for bdditionbl dbtb. Mby bf usfd by b subdlbss of
+     * RulfBbsfdBrfbkItfrbtor.
      */
-    private byte[] additionalData = null;
+    privbtf bytf[] bdditionblDbtb = null;
 
     /**
-     * The number of character categories (and, thus, the number of columns in
-     * the state tables)
+     * Tif numbfr of dibrbdtfr dbtfgorifs (bnd, tius, tif numbfr of dolumns in
+     * tif stbtf tbblfs)
      */
-    private int numCategories;
+    privbtf int numCbtfgorifs;
 
     /**
-     * The character iterator through which this BreakIterator accesses the text
+     * Tif dibrbdtfr itfrbtor tirougi wiidi tiis BrfbkItfrbtor bddfssfs tif tfxt
      */
-    private CharacterIterator text = null;
+    privbtf CibrbdtfrItfrbtor tfxt = null;
 
     /**
-     * A CRC32 value of all data in datafile
+     * A CRC32 vbluf of bll dbtb in dbtbfilf
      */
-    private long checksum;
+    privbtf long difdksum;
 
     //=======================================================================
-    // constructors
+    // donstrudtors
     //=======================================================================
 
     /**
-     * Constructs a RuleBasedBreakIterator according to the datafile
-     * provided.
+     * Construdts b RulfBbsfdBrfbkItfrbtor bddording to tif dbtbfilf
+     * providfd.
      */
-    RuleBasedBreakIterator(String datafile)
-        throws IOException, MissingResourceException {
-        readTables(datafile);
+    RulfBbsfdBrfbkItfrbtor(String dbtbfilf)
+        tirows IOExdfption, MissingRfsourdfExdfption {
+        rfbdTbblfs(dbtbfilf);
     }
 
     /**
-     * Read datafile. The datafile's format is as follows:
-     * <pre>
-     *   BreakIteratorData {
-     *       u1           magic[7];
-     *       u1           version;
-     *       u4           totalDataSize;
-     *       header_info  header;
-     *       body         value;
+     * Rfbd dbtbfilf. Tif dbtbfilf's formbt is bs follows:
+     * <prf>
+     *   BrfbkItfrbtorDbtb {
+     *       u1           mbgid[7];
+     *       u1           vfrsion;
+     *       u4           totblDbtbSizf;
+     *       ifbdfr_info  ifbdfr;
+     *       body         vbluf;
      *   }
-     * </pre>
-     * <code>totalDataSize</code> is the summation of the size of
-     * <code>header_info</code> and <code>body</code> in byte count.
+     * </prf>
+     * <dodf>totblDbtbSizf</dodf> is tif summbtion of tif sizf of
+     * <dodf>ifbdfr_info</dodf> bnd <dodf>body</dodf> in bytf dount.
      * <p>
-     * In <code>header</code>, each field except for checksum implies the
-     * length of each field. Since <code>BMPdataLength</code> is a fixed-length
-     *  data(512 entries), its length isn't included in <code>header</code>.
-     * <code>checksum</code> is a CRC32 value of all in <code>body</code>.
-     * <pre>
-     *   header_info {
-     *       u4           stateTableLength;
-     *       u4           backwardsStateTableLength;
-     *       u4           endStatesLength;
-     *       u4           lookaheadStatesLength;
-     *       u4           BMPdataLength;
-     *       u4           nonBMPdataLength;
-     *       u4           additionalDataLength;
-     *       u8           checksum;
+     * In <dodf>ifbdfr</dodf>, fbdi fifld fxdfpt for difdksum implifs tif
+     * lfngti of fbdi fifld. Sindf <dodf>BMPdbtbLfngti</dodf> is b fixfd-lfngti
+     *  dbtb(512 fntrifs), its lfngti isn't indludfd in <dodf>ifbdfr</dodf>.
+     * <dodf>difdksum</dodf> is b CRC32 vbluf of bll in <dodf>body</dodf>.
+     * <prf>
+     *   ifbdfr_info {
+     *       u4           stbtfTbblfLfngti;
+     *       u4           bbdkwbrdsStbtfTbblfLfngti;
+     *       u4           fndStbtfsLfngti;
+     *       u4           lookbifbdStbtfsLfngti;
+     *       u4           BMPdbtbLfngti;
+     *       u4           nonBMPdbtbLfngti;
+     *       u4           bdditionblDbtbLfngti;
+     *       u8           difdksum;
      *   }
-     * </pre>
+     * </prf>
      * <p>
      *
-     * Finally, <code>BMPindices</code> and <code>BMPdata</code> are set to
-     * <code>charCategoryTable</code>. <code>nonBMPdata</code> is set to
-     * <code>supplementaryCharCategoryTable</code>.
-     * <pre>
+     * Finblly, <dodf>BMPindidfs</dodf> bnd <dodf>BMPdbtb</dodf> brf sft to
+     * <dodf>dibrCbtfgoryTbblf</dodf>. <dodf>nonBMPdbtb</dodf> is sft to
+     * <dodf>supplfmfntbryCibrCbtfgoryTbblf</dodf>.
+     * <prf>
      *   body {
-     *       u2           stateTable[stateTableLength];
-     *       u2           backwardsStateTable[backwardsStateTableLength];
-     *       u1           endStates[endStatesLength];
-     *       u1           lookaheadStates[lookaheadStatesLength];
-     *       u2           BMPindices[512];
-     *       u1           BMPdata[BMPdataLength];
-     *       u4           nonBMPdata[numNonBMPdataLength];
-     *       u1           additionalData[additionalDataLength];
+     *       u2           stbtfTbblf[stbtfTbblfLfngti];
+     *       u2           bbdkwbrdsStbtfTbblf[bbdkwbrdsStbtfTbblfLfngti];
+     *       u1           fndStbtfs[fndStbtfsLfngti];
+     *       u1           lookbifbdStbtfs[lookbifbdStbtfsLfngti];
+     *       u2           BMPindidfs[512];
+     *       u1           BMPdbtb[BMPdbtbLfngti];
+     *       u4           nonBMPdbtb[numNonBMPdbtbLfngti];
+     *       u1           bdditionblDbtb[bdditionblDbtbLfngti];
      *   }
-     * </pre>
+     * </prf>
      */
-    protected final void readTables(String datafile)
-        throws IOException, MissingResourceException {
+    protfdtfd finbl void rfbdTbblfs(String dbtbfilf)
+        tirows IOExdfption, MissingRfsourdfExdfption {
 
-        byte[] buffer = readFile(datafile);
+        bytf[] bufffr = rfbdFilf(dbtbfilf);
 
-        /* Read header_info. */
-        int stateTableLength = getInt(buffer, 0);
-        int backwardsStateTableLength = getInt(buffer, 4);
-        int endStatesLength = getInt(buffer, 8);
-        int lookaheadStatesLength = getInt(buffer, 12);
-        int BMPdataLength = getInt(buffer, 16);
-        int nonBMPdataLength = getInt(buffer, 20);
-        int additionalDataLength = getInt(buffer, 24);
-        checksum = getLong(buffer, 28);
+        /* Rfbd ifbdfr_info. */
+        int stbtfTbblfLfngti = gftInt(bufffr, 0);
+        int bbdkwbrdsStbtfTbblfLfngti = gftInt(bufffr, 4);
+        int fndStbtfsLfngti = gftInt(bufffr, 8);
+        int lookbifbdStbtfsLfngti = gftInt(bufffr, 12);
+        int BMPdbtbLfngti = gftInt(bufffr, 16);
+        int nonBMPdbtbLfngti = gftInt(bufffr, 20);
+        int bdditionblDbtbLfngti = gftInt(bufffr, 24);
+        difdksum = gftLong(bufffr, 28);
 
-        /* Read stateTable[numCategories * numRows] */
-        stateTable = new short[stateTableLength];
-        int offset = HEADER_LENGTH;
-        for (int i = 0; i < stateTableLength; i++, offset+=2) {
-           stateTable[i] = getShort(buffer, offset);
+        /* Rfbd stbtfTbblf[numCbtfgorifs * numRows] */
+        stbtfTbblf = nfw siort[stbtfTbblfLfngti];
+        int offsft = HEADER_LENGTH;
+        for (int i = 0; i < stbtfTbblfLfngti; i++, offsft+=2) {
+           stbtfTbblf[i] = gftSiort(bufffr, offsft);
         }
 
-        /* Read backwardsStateTable[numCategories * numRows] */
-        backwardsStateTable = new short[backwardsStateTableLength];
-        for (int i = 0; i < backwardsStateTableLength; i++, offset+=2) {
-           backwardsStateTable[i] = getShort(buffer, offset);
+        /* Rfbd bbdkwbrdsStbtfTbblf[numCbtfgorifs * numRows] */
+        bbdkwbrdsStbtfTbblf = nfw siort[bbdkwbrdsStbtfTbblfLfngti];
+        for (int i = 0; i < bbdkwbrdsStbtfTbblfLfngti; i++, offsft+=2) {
+           bbdkwbrdsStbtfTbblf[i] = gftSiort(bufffr, offsft);
         }
 
-        /* Read endStates[numRows] */
-        endStates = new boolean[endStatesLength];
-        for (int i = 0; i < endStatesLength; i++, offset++) {
-           endStates[i] = buffer[offset] == 1;
+        /* Rfbd fndStbtfs[numRows] */
+        fndStbtfs = nfw boolfbn[fndStbtfsLfngti];
+        for (int i = 0; i < fndStbtfsLfngti; i++, offsft++) {
+           fndStbtfs[i] = bufffr[offsft] == 1;
         }
 
-        /* Read lookaheadStates[numRows] */
-        lookaheadStates = new boolean[lookaheadStatesLength];
-        for (int i = 0; i < lookaheadStatesLength; i++, offset++) {
-           lookaheadStates[i] = buffer[offset] == 1;
+        /* Rfbd lookbifbdStbtfs[numRows] */
+        lookbifbdStbtfs = nfw boolfbn[lookbifbdStbtfsLfngti];
+        for (int i = 0; i < lookbifbdStbtfsLfngti; i++, offsft++) {
+           lookbifbdStbtfs[i] = bufffr[offsft] == 1;
         }
 
-        /* Read a category table and indices for BMP characters. */
-        short[] temp1 = new short[BMP_INDICES_LENGTH];  // BMPindices
-        for (int i = 0; i < BMP_INDICES_LENGTH; i++, offset+=2) {
-            temp1[i] = getShort(buffer, offset);
+        /* Rfbd b dbtfgory tbblf bnd indidfs for BMP dibrbdtfrs. */
+        siort[] tfmp1 = nfw siort[BMP_INDICES_LENGTH];  // BMPindidfs
+        for (int i = 0; i < BMP_INDICES_LENGTH; i++, offsft+=2) {
+            tfmp1[i] = gftSiort(bufffr, offsft);
         }
-        byte[] temp2 = new byte[BMPdataLength];  // BMPdata
-        System.arraycopy(buffer, offset, temp2, 0, BMPdataLength);
-        offset += BMPdataLength;
-        charCategoryTable = new CompactByteArray(temp1, temp2);
+        bytf[] tfmp2 = nfw bytf[BMPdbtbLfngti];  // BMPdbtb
+        Systfm.brrbydopy(bufffr, offsft, tfmp2, 0, BMPdbtbLfngti);
+        offsft += BMPdbtbLfngti;
+        dibrCbtfgoryTbblf = nfw CompbdtBytfArrby(tfmp1, tfmp2);
 
-        /* Read a category table for non-BMP characters. */
-        int[] temp3 = new int[nonBMPdataLength];
-        for (int i = 0; i < nonBMPdataLength; i++, offset+=4) {
-            temp3[i] = getInt(buffer, offset);
+        /* Rfbd b dbtfgory tbblf for non-BMP dibrbdtfrs. */
+        int[] tfmp3 = nfw int[nonBMPdbtbLfngti];
+        for (int i = 0; i < nonBMPdbtbLfngti; i++, offsft+=4) {
+            tfmp3[i] = gftInt(bufffr, offsft);
         }
-        supplementaryCharCategoryTable = new SupplementaryCharacterData(temp3);
+        supplfmfntbryCibrCbtfgoryTbblf = nfw SupplfmfntbryCibrbdtfrDbtb(tfmp3);
 
-        /* Read additional data */
-        if (additionalDataLength > 0) {
-            additionalData = new byte[additionalDataLength];
-            System.arraycopy(buffer, offset, additionalData, 0, additionalDataLength);
+        /* Rfbd bdditionbl dbtb */
+        if (bdditionblDbtbLfngti > 0) {
+            bdditionblDbtb = nfw bytf[bdditionblDbtbLfngti];
+            Systfm.brrbydopy(bufffr, offsft, bdditionblDbtb, 0, bdditionblDbtbLfngti);
         }
 
-        /* Set numCategories */
-        numCategories = stateTable.length / endStates.length;
+        /* Sft numCbtfgorifs */
+        numCbtfgorifs = stbtfTbblf.lfngti / fndStbtfs.lfngti;
     }
 
-    protected byte[] readFile(final String datafile)
-        throws IOException, MissingResourceException {
+    protfdtfd bytf[] rfbdFilf(finbl String dbtbfilf)
+        tirows IOExdfption, MissingRfsourdfExdfption {
 
-        BufferedInputStream is;
+        BufffrfdInputStrfbm is;
         try {
-            is = AccessController.doPrivileged(
-                new PrivilegedExceptionAction<BufferedInputStream>() {
-                    @Override
-                    public BufferedInputStream run() throws Exception {
-                        return new BufferedInputStream(getClass().getResourceAsStream("/sun/text/resources/" + datafile));
+            is = AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<BufffrfdInputStrfbm>() {
+                    @Ovfrridf
+                    publid BufffrfdInputStrfbm run() tirows Exdfption {
+                        rfturn nfw BufffrfdInputStrfbm(gftClbss().gftRfsourdfAsStrfbm("/sun/tfxt/rfsourdfs/" + dbtbfilf));
                     }
                 }
             );
         }
-        catch (PrivilegedActionException e) {
-            throw new InternalError(e.toString(), e);
+        dbtdi (PrivilfgfdAdtionExdfption f) {
+            tirow nfw IntfrnblError(f.toString(), f);
         }
 
-        int offset = 0;
+        int offsft = 0;
 
-        /* First, read magic, version, and header_info. */
-        int len = LABEL_LENGTH + 5;
-        byte[] buf = new byte[len];
-        if (is.read(buf) != len) {
-            throw new MissingResourceException("Wrong header length",
-                                               datafile, "");
+        /* First, rfbd mbgid, vfrsion, bnd ifbdfr_info. */
+        int lfn = LABEL_LENGTH + 5;
+        bytf[] buf = nfw bytf[lfn];
+        if (is.rfbd(buf) != lfn) {
+            tirow nfw MissingRfsourdfExdfption("Wrong ifbdfr lfngti",
+                                               dbtbfilf, "");
         }
 
-        /* Validate the magic number. */
-        for (int i = 0; i < LABEL_LENGTH; i++, offset++) {
-            if (buf[offset] != LABEL[offset]) {
-                throw new MissingResourceException("Wrong magic number",
-                                                   datafile, "");
+        /* Vblidbtf tif mbgid numbfr. */
+        for (int i = 0; i < LABEL_LENGTH; i++, offsft++) {
+            if (buf[offsft] != LABEL[offsft]) {
+                tirow nfw MissingRfsourdfExdfption("Wrong mbgid numbfr",
+                                                   dbtbfilf, "");
             }
         }
 
-        /* Validate the version number. */
-        if (buf[offset] != supportedVersion) {
-            throw new MissingResourceException("Unsupported version(" + buf[offset] + ")",
-                                               datafile, "");
+        /* Vblidbtf tif vfrsion numbfr. */
+        if (buf[offsft] != supportfdVfrsion) {
+            tirow nfw MissingRfsourdfExdfption("Unsupportfd vfrsion(" + buf[offsft] + ")",
+                                               dbtbfilf, "");
         }
 
-        /* Read data: totalDataSize + 8(for checksum) */
-        len = getInt(buf, ++offset);
-        buf = new byte[len];
-        if (is.read(buf) != len) {
-            throw new MissingResourceException("Wrong data length",
-                                               datafile, "");
+        /* Rfbd dbtb: totblDbtbSizf + 8(for difdksum) */
+        lfn = gftInt(buf, ++offsft);
+        buf = nfw bytf[lfn];
+        if (is.rfbd(buf) != lfn) {
+            tirow nfw MissingRfsourdfExdfption("Wrong dbtb lfngti",
+                                               dbtbfilf, "");
         }
 
-        is.close();
+        is.dlosf();
 
-        return buf;
+        rfturn buf;
     }
 
-    byte[] getAdditionalData() {
-        return additionalData;
+    bytf[] gftAdditionblDbtb() {
+        rfturn bdditionblDbtb;
     }
 
-    void setAdditionalData(byte[] b) {
-        additionalData = b;
+    void sftAdditionblDbtb(bytf[] b) {
+        bdditionblDbtb = b;
     }
 
     //=======================================================================
-    // boilerplate
+    // boilfrplbtf
     //=======================================================================
     /**
-     * Clones this iterator.
-     * @return A newly-constructed RuleBasedBreakIterator with the same
-     * behavior as this one.
+     * Clonfs tiis itfrbtor.
+     * @rfturn A nfwly-donstrudtfd RulfBbsfdBrfbkItfrbtor witi tif sbmf
+     * bfibvior bs tiis onf.
      */
-    @Override
-    public Object clone() {
-        RuleBasedBreakIterator result = (RuleBasedBreakIterator) super.clone();
-        if (text != null) {
-            result.text = (CharacterIterator) text.clone();
+    @Ovfrridf
+    publid Objfdt dlonf() {
+        RulfBbsfdBrfbkItfrbtor rfsult = (RulfBbsfdBrfbkItfrbtor) supfr.dlonf();
+        if (tfxt != null) {
+            rfsult.tfxt = (CibrbdtfrItfrbtor) tfxt.dlonf();
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Returns true if both BreakIterators are of the same class, have the same
-     * rules, and iterate over the same text.
+     * Rfturns truf if boti BrfbkItfrbtors brf of tif sbmf dlbss, ibvf tif sbmf
+     * rulfs, bnd itfrbtf ovfr tif sbmf tfxt.
      */
-    @Override
-    public boolean equals(Object that) {
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt tibt) {
         try {
-            if (that == null) {
-                return false;
+            if (tibt == null) {
+                rfturn fblsf;
             }
 
-            RuleBasedBreakIterator other = (RuleBasedBreakIterator) that;
-            if (checksum != other.checksum) {
-                return false;
+            RulfBbsfdBrfbkItfrbtor otifr = (RulfBbsfdBrfbkItfrbtor) tibt;
+            if (difdksum != otifr.difdksum) {
+                rfturn fblsf;
             }
-            if (text == null) {
-                return other.text == null;
-            } else {
-                return text.equals(other.text);
+            if (tfxt == null) {
+                rfturn otifr.tfxt == null;
+            } flsf {
+                rfturn tfxt.fqubls(otifr.tfxt);
             }
         }
-        catch(ClassCastException e) {
-            return false;
+        dbtdi(ClbssCbstExdfption f) {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Returns text
+     * Rfturns tfxt
      */
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append('[');
-        sb.append("checksum=0x");
-        sb.append(Long.toHexString(checksum));
-        sb.append(']');
-        return sb.toString();
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd('[');
+        sb.bppfnd("difdksum=0x");
+        sb.bppfnd(Long.toHfxString(difdksum));
+        sb.bppfnd(']');
+        rfturn sb.toString();
     }
 
     /**
-     * Compute a hashcode for this BreakIterator
-     * @return A hash code
+     * Computf b ibsidodf for tiis BrfbkItfrbtor
+     * @rfturn A ibsi dodf
      */
-    @Override
-    public int hashCode() {
-        return (int)checksum;
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn (int)difdksum;
     }
 
     //=======================================================================
-    // BreakIterator overrides
+    // BrfbkItfrbtor ovfrridfs
     //=======================================================================
 
     /**
-     * Sets the current iteration position to the beginning of the text.
-     * (i.e., the CharacterIterator's starting offset).
-     * @return The offset of the beginning of the text.
+     * Sfts tif durrfnt itfrbtion position to tif bfginning of tif tfxt.
+     * (i.f., tif CibrbdtfrItfrbtor's stbrting offsft).
+     * @rfturn Tif offsft of tif bfginning of tif tfxt.
      */
-    @Override
-    public int first() {
-        CharacterIterator t = getText();
+    @Ovfrridf
+    publid int first() {
+        CibrbdtfrItfrbtor t = gftTfxt();
 
         t.first();
-        return t.getIndex();
+        rfturn t.gftIndfx();
     }
 
     /**
-     * Sets the current iteration position to the end of the text.
-     * (i.e., the CharacterIterator's ending offset).
-     * @return The text's past-the-end offset.
+     * Sfts tif durrfnt itfrbtion position to tif fnd of tif tfxt.
+     * (i.f., tif CibrbdtfrItfrbtor's fnding offsft).
+     * @rfturn Tif tfxt's pbst-tif-fnd offsft.
      */
-    @Override
-    public int last() {
-        CharacterIterator t = getText();
+    @Ovfrridf
+    publid int lbst() {
+        CibrbdtfrItfrbtor t = gftTfxt();
 
-        // I'm not sure why, but t.last() returns the offset of the last character,
-        // rather than the past-the-end offset
-        t.setIndex(t.getEndIndex());
-        return t.getIndex();
+        // I'm not surf wiy, but t.lbst() rfturns tif offsft of tif lbst dibrbdtfr,
+        // rbtifr tibn tif pbst-tif-fnd offsft
+        t.sftIndfx(t.gftEndIndfx());
+        rfturn t.gftIndfx();
     }
 
     /**
-     * Advances the iterator either forward or backward the specified number of steps.
-     * Negative values move backward, and positive values move forward.  This is
-     * equivalent to repeatedly calling next() or previous().
-     * @param n The number of steps to move.  The sign indicates the direction
-     * (negative is backwards, and positive is forwards).
-     * @return The character offset of the boundary position n boundaries away from
-     * the current one.
+     * Advbndfs tif itfrbtor fitifr forwbrd or bbdkwbrd tif spfdififd numbfr of stfps.
+     * Nfgbtivf vblufs movf bbdkwbrd, bnd positivf vblufs movf forwbrd.  Tiis is
+     * fquivblfnt to rfpfbtfdly dblling nfxt() or prfvious().
+     * @pbrbm n Tif numbfr of stfps to movf.  Tif sign indidbtfs tif dirfdtion
+     * (nfgbtivf is bbdkwbrds, bnd positivf is forwbrds).
+     * @rfturn Tif dibrbdtfr offsft of tif boundbry position n boundbrifs bwby from
+     * tif durrfnt onf.
      */
-    @Override
-    public int next(int n) {
-        int result = current();
-        while (n > 0) {
-            result = handleNext();
+    @Ovfrridf
+    publid int nfxt(int n) {
+        int rfsult = durrfnt();
+        wiilf (n > 0) {
+            rfsult = ibndlfNfxt();
             --n;
         }
-        while (n < 0) {
-            result = previous();
+        wiilf (n < 0) {
+            rfsult = prfvious();
             ++n;
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Advances the iterator to the next boundary position.
-     * @return The position of the first boundary after this one.
+     * Advbndfs tif itfrbtor to tif nfxt boundbry position.
+     * @rfturn Tif position of tif first boundbry bftfr tiis onf.
      */
-    @Override
-    public int next() {
-        return handleNext();
+    @Ovfrridf
+    publid int nfxt() {
+        rfturn ibndlfNfxt();
     }
 
-    private int cachedLastKnownBreak = BreakIterator.DONE;
+    privbtf int dbdifdLbstKnownBrfbk = BrfbkItfrbtor.DONE;
 
     /**
-     * Advances the iterator backwards, to the last boundary preceding this one.
-     * @return The position of the last boundary position preceding this one.
+     * Advbndfs tif itfrbtor bbdkwbrds, to tif lbst boundbry prfdfding tiis onf.
+     * @rfturn Tif position of tif lbst boundbry position prfdfding tiis onf.
      */
-    @Override
-    public int previous() {
-        // if we're already sitting at the beginning of the text, return DONE
-        CharacterIterator text = getText();
-        if (current() == text.getBeginIndex()) {
-            return BreakIterator.DONE;
+    @Ovfrridf
+    publid int prfvious() {
+        // if wf'rf blrfbdy sitting bt tif bfginning of tif tfxt, rfturn DONE
+        CibrbdtfrItfrbtor tfxt = gftTfxt();
+        if (durrfnt() == tfxt.gftBfginIndfx()) {
+            rfturn BrfbkItfrbtor.DONE;
         }
 
-        // set things up.  handlePrevious() will back us up to some valid
-        // break position before the current position (we back our internal
-        // iterator up one step to prevent handlePrevious() from returning
-        // the current position), but not necessarily the last one before
-        // where we started
-        int start = current();
-        int lastResult = cachedLastKnownBreak;
-        if (lastResult >= start || lastResult <= BreakIterator.DONE) {
-            getPrevious();
-            lastResult = handlePrevious();
-        } else {
-            //it might be better to check if handlePrevious() give us closer
-            //safe value but handlePrevious() is slow too
-            //So, this has to be done carefully
-            text.setIndex(lastResult);
+        // sft tiings up.  ibndlfPrfvious() will bbdk us up to somf vblid
+        // brfbk position bfforf tif durrfnt position (wf bbdk our intfrnbl
+        // itfrbtor up onf stfp to prfvfnt ibndlfPrfvious() from rfturning
+        // tif durrfnt position), but not nfdfssbrily tif lbst onf bfforf
+        // wifrf wf stbrtfd
+        int stbrt = durrfnt();
+        int lbstRfsult = dbdifdLbstKnownBrfbk;
+        if (lbstRfsult >= stbrt || lbstRfsult <= BrfbkItfrbtor.DONE) {
+            gftPrfvious();
+            lbstRfsult = ibndlfPrfvious();
+        } flsf {
+            //it migit bf bfttfr to difdk if ibndlfPrfvious() givf us dlosfr
+            //sbff vbluf but ibndlfPrfvious() is slow too
+            //So, tiis ibs to bf donf dbrffully
+            tfxt.sftIndfx(lbstRfsult);
         }
-        int result = lastResult;
+        int rfsult = lbstRfsult;
 
-        // iterate forward from the known break position until we pass our
-        // starting point.  The last break position before the starting
-        // point is our return value
-        while (result != BreakIterator.DONE && result < start) {
-            lastResult = result;
-            result = handleNext();
+        // itfrbtf forwbrd from tif known brfbk position until wf pbss our
+        // stbrting point.  Tif lbst brfbk position bfforf tif stbrting
+        // point is our rfturn vbluf
+        wiilf (rfsult != BrfbkItfrbtor.DONE && rfsult < stbrt) {
+            lbstRfsult = rfsult;
+            rfsult = ibndlfNfxt();
         }
 
-        // set the current iteration position to be the last break position
-        // before where we started, and then return that value
-        text.setIndex(lastResult);
-        cachedLastKnownBreak = lastResult;
-        return lastResult;
+        // sft tif durrfnt itfrbtion position to bf tif lbst brfbk position
+        // bfforf wifrf wf stbrtfd, bnd tifn rfturn tibt vbluf
+        tfxt.sftIndfx(lbstRfsult);
+        dbdifdLbstKnownBrfbk = lbstRfsult;
+        rfturn lbstRfsult;
     }
 
     /**
-     * Returns previous character
+     * Rfturns prfvious dibrbdtfr
      */
-    private int getPrevious() {
-        char c2 = text.previous();
-        if (Character.isLowSurrogate(c2) &&
-            text.getIndex() > text.getBeginIndex()) {
-            char c1 = text.previous();
-            if (Character.isHighSurrogate(c1)) {
-                return Character.toCodePoint(c1, c2);
-            } else {
-                text.next();
+    privbtf int gftPrfvious() {
+        dibr d2 = tfxt.prfvious();
+        if (Cibrbdtfr.isLowSurrogbtf(d2) &&
+            tfxt.gftIndfx() > tfxt.gftBfginIndfx()) {
+            dibr d1 = tfxt.prfvious();
+            if (Cibrbdtfr.isHigiSurrogbtf(d1)) {
+                rfturn Cibrbdtfr.toCodfPoint(d1, d2);
+            } flsf {
+                tfxt.nfxt();
             }
         }
-        return (int)c2;
+        rfturn (int)d2;
     }
 
     /**
-     * Returns current character
+     * Rfturns durrfnt dibrbdtfr
      */
-    int getCurrent() {
-        char c1 = text.current();
-        if (Character.isHighSurrogate(c1) &&
-            text.getIndex() < text.getEndIndex()) {
-            char c2 = text.next();
-            text.previous();
-            if (Character.isLowSurrogate(c2)) {
-                return Character.toCodePoint(c1, c2);
+    int gftCurrfnt() {
+        dibr d1 = tfxt.durrfnt();
+        if (Cibrbdtfr.isHigiSurrogbtf(d1) &&
+            tfxt.gftIndfx() < tfxt.gftEndIndfx()) {
+            dibr d2 = tfxt.nfxt();
+            tfxt.prfvious();
+            if (Cibrbdtfr.isLowSurrogbtf(d2)) {
+                rfturn Cibrbdtfr.toCodfPoint(d1, d2);
             }
         }
-        return (int)c1;
+        rfturn (int)d1;
     }
 
     /**
-     * Returns the count of next character.
+     * Rfturns tif dount of nfxt dibrbdtfr.
      */
-    private int getCurrentCodePointCount() {
-        char c1 = text.current();
-        if (Character.isHighSurrogate(c1) &&
-            text.getIndex() < text.getEndIndex()) {
-            char c2 = text.next();
-            text.previous();
-            if (Character.isLowSurrogate(c2)) {
-                return 2;
+    privbtf int gftCurrfntCodfPointCount() {
+        dibr d1 = tfxt.durrfnt();
+        if (Cibrbdtfr.isHigiSurrogbtf(d1) &&
+            tfxt.gftIndfx() < tfxt.gftEndIndfx()) {
+            dibr d2 = tfxt.nfxt();
+            tfxt.prfvious();
+            if (Cibrbdtfr.isLowSurrogbtf(d2)) {
+                rfturn 2;
             }
         }
-        return 1;
+        rfturn 1;
     }
 
     /**
-     * Returns next character
+     * Rfturns nfxt dibrbdtfr
      */
-    int getNext() {
-        int index = text.getIndex();
-        int endIndex = text.getEndIndex();
-        if (index == endIndex ||
-            (index += getCurrentCodePointCount()) >= endIndex) {
-            return CharacterIterator.DONE;
+    int gftNfxt() {
+        int indfx = tfxt.gftIndfx();
+        int fndIndfx = tfxt.gftEndIndfx();
+        if (indfx == fndIndfx ||
+            (indfx += gftCurrfntCodfPointCount()) >= fndIndfx) {
+            rfturn CibrbdtfrItfrbtor.DONE;
         }
-        text.setIndex(index);
-        return getCurrent();
+        tfxt.sftIndfx(indfx);
+        rfturn gftCurrfnt();
     }
 
     /**
-     * Returns the position of next character.
+     * Rfturns tif position of nfxt dibrbdtfr.
      */
-    private int getNextIndex() {
-        int index = text.getIndex() + getCurrentCodePointCount();
-        int endIndex = text.getEndIndex();
-        if (index > endIndex) {
-            return endIndex;
-        } else {
-            return index;
-        }
-    }
-
-    /**
-     * Throw IllegalArgumentException unless begin <= offset < end.
-     */
-    protected static final void checkOffset(int offset, CharacterIterator text) {
-        if (offset < text.getBeginIndex() || offset > text.getEndIndex()) {
-            throw new IllegalArgumentException("offset out of bounds");
+    privbtf int gftNfxtIndfx() {
+        int indfx = tfxt.gftIndfx() + gftCurrfntCodfPointCount();
+        int fndIndfx = tfxt.gftEndIndfx();
+        if (indfx > fndIndfx) {
+            rfturn fndIndfx;
+        } flsf {
+            rfturn indfx;
         }
     }
 
     /**
-     * Sets the iterator to refer to the first boundary position following
-     * the specified position.
-     * @offset The position from which to begin searching for a break position.
-     * @return The position of the first break after the current position.
+     * Tirow IllfgblArgumfntExdfption unlfss bfgin <= offsft < fnd.
      */
-    @Override
-    public int following(int offset) {
-
-        CharacterIterator text = getText();
-        checkOffset(offset, text);
-
-        // Set our internal iteration position (temporarily)
-        // to the position passed in.  If this is the _beginning_ position,
-        // then we can just use next() to get our return value
-        text.setIndex(offset);
-        if (offset == text.getBeginIndex()) {
-            cachedLastKnownBreak = handleNext();
-            return cachedLastKnownBreak;
-        }
-
-        // otherwise, we have to sync up first.  Use handlePrevious() to back
-        // us up to a known break position before the specified position (if
-        // we can determine that the specified position is a break position,
-        // we don't back up at all).  This may or may not be the last break
-        // position at or before our starting position.  Advance forward
-        // from here until we've passed the starting position.  The position
-        // we stop on will be the first break position after the specified one.
-        int result = cachedLastKnownBreak;
-        if (result >= offset || result <= BreakIterator.DONE) {
-            result = handlePrevious();
-        } else {
-            //it might be better to check if handlePrevious() give us closer
-            //safe value but handlePrevious() is slow too
-            //So, this has to be done carefully
-            text.setIndex(result);
-        }
-        while (result != BreakIterator.DONE && result <= offset) {
-            result = handleNext();
-        }
-        cachedLastKnownBreak = result;
-        return result;
-    }
-
-    /**
-     * Sets the iterator to refer to the last boundary position before the
-     * specified position.
-     * @offset The position to begin searching for a break from.
-     * @return The position of the last boundary before the starting position.
-     */
-    @Override
-    public int preceding(int offset) {
-        // if we start by updating the current iteration position to the
-        // position specified by the caller, we can just use previous()
-        // to carry out this operation
-        CharacterIterator text = getText();
-        checkOffset(offset, text);
-        text.setIndex(offset);
-        return previous();
-    }
-
-    /**
-     * Returns true if the specified position is a boundary position.  As a side
-     * effect, leaves the iterator pointing to the first boundary position at
-     * or after "offset".
-     * @param offset the offset to check.
-     * @return True if "offset" is a boundary position.
-     */
-    @Override
-    public boolean isBoundary(int offset) {
-        CharacterIterator text = getText();
-        checkOffset(offset, text);
-        if (offset == text.getBeginIndex()) {
-            return true;
-        }
-
-        // to check whether this is a boundary, we can use following() on the
-        // position before the specified one and return true if the position we
-        // get back is the one the user specified
-        else {
-            return following(offset - 1) == offset;
+    protfdtfd stbtid finbl void difdkOffsft(int offsft, CibrbdtfrItfrbtor tfxt) {
+        if (offsft < tfxt.gftBfginIndfx() || offsft > tfxt.gftEndIndfx()) {
+            tirow nfw IllfgblArgumfntExdfption("offsft out of bounds");
         }
     }
 
     /**
-     * Returns the current iteration position.
-     * @return The current iteration position.
+     * Sfts tif itfrbtor to rfffr to tif first boundbry position following
+     * tif spfdififd position.
+     * @offsft Tif position from wiidi to bfgin sfbrdiing for b brfbk position.
+     * @rfturn Tif position of tif first brfbk bftfr tif durrfnt position.
      */
-    @Override
-    public int current() {
-        return getText().getIndex();
-    }
+    @Ovfrridf
+    publid int following(int offsft) {
 
-    /**
-     * Return a CharacterIterator over the text being analyzed.  This version
-     * of this method returns the actual CharacterIterator we're using internally.
-     * Changing the state of this iterator can have undefined consequences.  If
-     * you need to change it, clone it first.
-     * @return An iterator over the text being analyzed.
-     */
-    @Override
-    public CharacterIterator getText() {
-        // The iterator is initialized pointing to no text at all, so if this
-        // function is called while we're in that state, we have to fudge an
-        // iterator to return.
-        if (text == null) {
-            text = new StringCharacterIterator("");
+        CibrbdtfrItfrbtor tfxt = gftTfxt();
+        difdkOffsft(offsft, tfxt);
+
+        // Sft our intfrnbl itfrbtion position (tfmporbrily)
+        // to tif position pbssfd in.  If tiis is tif _bfginning_ position,
+        // tifn wf dbn just usf nfxt() to gft our rfturn vbluf
+        tfxt.sftIndfx(offsft);
+        if (offsft == tfxt.gftBfginIndfx()) {
+            dbdifdLbstKnownBrfbk = ibndlfNfxt();
+            rfturn dbdifdLbstKnownBrfbk;
         }
-        return text;
+
+        // otifrwisf, wf ibvf to synd up first.  Usf ibndlfPrfvious() to bbdk
+        // us up to b known brfbk position bfforf tif spfdififd position (if
+        // wf dbn dftfrminf tibt tif spfdififd position is b brfbk position,
+        // wf don't bbdk up bt bll).  Tiis mby or mby not bf tif lbst brfbk
+        // position bt or bfforf our stbrting position.  Advbndf forwbrd
+        // from ifrf until wf'vf pbssfd tif stbrting position.  Tif position
+        // wf stop on will bf tif first brfbk position bftfr tif spfdififd onf.
+        int rfsult = dbdifdLbstKnownBrfbk;
+        if (rfsult >= offsft || rfsult <= BrfbkItfrbtor.DONE) {
+            rfsult = ibndlfPrfvious();
+        } flsf {
+            //it migit bf bfttfr to difdk if ibndlfPrfvious() givf us dlosfr
+            //sbff vbluf but ibndlfPrfvious() is slow too
+            //So, tiis ibs to bf donf dbrffully
+            tfxt.sftIndfx(rfsult);
+        }
+        wiilf (rfsult != BrfbkItfrbtor.DONE && rfsult <= offsft) {
+            rfsult = ibndlfNfxt();
+        }
+        dbdifdLbstKnownBrfbk = rfsult;
+        rfturn rfsult;
     }
 
     /**
-     * Set the iterator to analyze a new piece of text.  This function resets
-     * the current iteration position to the beginning of the text.
-     * @param newText An iterator over the text to analyze.
+     * Sfts tif itfrbtor to rfffr to tif lbst boundbry position bfforf tif
+     * spfdififd position.
+     * @offsft Tif position to bfgin sfbrdiing for b brfbk from.
+     * @rfturn Tif position of tif lbst boundbry bfforf tif stbrting position.
      */
-    @Override
-    public void setText(CharacterIterator newText) {
-        // Test iterator to see if we need to wrap it in a SafeCharIterator.
-        // The correct behavior for CharacterIterators is to allow the
-        // position to be set to the endpoint of the iterator.  Many
-        // CharacterIterators do not uphold this, so this is a workaround
-        // to permit them to use this class.
-        int end = newText.getEndIndex();
-        boolean goodIterator;
+    @Ovfrridf
+    publid int prfdfding(int offsft) {
+        // if wf stbrt by updbting tif durrfnt itfrbtion position to tif
+        // position spfdififd by tif dbllfr, wf dbn just usf prfvious()
+        // to dbrry out tiis opfrbtion
+        CibrbdtfrItfrbtor tfxt = gftTfxt();
+        difdkOffsft(offsft, tfxt);
+        tfxt.sftIndfx(offsft);
+        rfturn prfvious();
+    }
+
+    /**
+     * Rfturns truf if tif spfdififd position is b boundbry position.  As b sidf
+     * ffffdt, lfbvfs tif itfrbtor pointing to tif first boundbry position bt
+     * or bftfr "offsft".
+     * @pbrbm offsft tif offsft to difdk.
+     * @rfturn Truf if "offsft" is b boundbry position.
+     */
+    @Ovfrridf
+    publid boolfbn isBoundbry(int offsft) {
+        CibrbdtfrItfrbtor tfxt = gftTfxt();
+        difdkOffsft(offsft, tfxt);
+        if (offsft == tfxt.gftBfginIndfx()) {
+            rfturn truf;
+        }
+
+        // to difdk wiftifr tiis is b boundbry, wf dbn usf following() on tif
+        // position bfforf tif spfdififd onf bnd rfturn truf if tif position wf
+        // gft bbdk is tif onf tif usfr spfdififd
+        flsf {
+            rfturn following(offsft - 1) == offsft;
+        }
+    }
+
+    /**
+     * Rfturns tif durrfnt itfrbtion position.
+     * @rfturn Tif durrfnt itfrbtion position.
+     */
+    @Ovfrridf
+    publid int durrfnt() {
+        rfturn gftTfxt().gftIndfx();
+    }
+
+    /**
+     * Rfturn b CibrbdtfrItfrbtor ovfr tif tfxt bfing bnblyzfd.  Tiis vfrsion
+     * of tiis mftiod rfturns tif bdtubl CibrbdtfrItfrbtor wf'rf using intfrnblly.
+     * Cibnging tif stbtf of tiis itfrbtor dbn ibvf undffinfd donsfqufndfs.  If
+     * you nffd to dibngf it, dlonf it first.
+     * @rfturn An itfrbtor ovfr tif tfxt bfing bnblyzfd.
+     */
+    @Ovfrridf
+    publid CibrbdtfrItfrbtor gftTfxt() {
+        // Tif itfrbtor is initiblizfd pointing to no tfxt bt bll, so if tiis
+        // fundtion is dbllfd wiilf wf'rf in tibt stbtf, wf ibvf to fudgf bn
+        // itfrbtor to rfturn.
+        if (tfxt == null) {
+            tfxt = nfw StringCibrbdtfrItfrbtor("");
+        }
+        rfturn tfxt;
+    }
+
+    /**
+     * Sft tif itfrbtor to bnblyzf b nfw pifdf of tfxt.  Tiis fundtion rfsfts
+     * tif durrfnt itfrbtion position to tif bfginning of tif tfxt.
+     * @pbrbm nfwTfxt An itfrbtor ovfr tif tfxt to bnblyzf.
+     */
+    @Ovfrridf
+    publid void sftTfxt(CibrbdtfrItfrbtor nfwTfxt) {
+        // Tfst itfrbtor to sff if wf nffd to wrbp it in b SbffCibrItfrbtor.
+        // Tif dorrfdt bfibvior for CibrbdtfrItfrbtors is to bllow tif
+        // position to bf sft to tif fndpoint of tif itfrbtor.  Mbny
+        // CibrbdtfrItfrbtors do not upiold tiis, so tiis is b workbround
+        // to pfrmit tifm to usf tiis dlbss.
+        int fnd = nfwTfxt.gftEndIndfx();
+        boolfbn goodItfrbtor;
         try {
-            newText.setIndex(end);  // some buggy iterators throw an exception here
-            goodIterator = newText.getIndex() == end;
+            nfwTfxt.sftIndfx(fnd);  // somf buggy itfrbtors tirow bn fxdfption ifrf
+            goodItfrbtor = nfwTfxt.gftIndfx() == fnd;
         }
-        catch(IllegalArgumentException e) {
-            goodIterator = false;
+        dbtdi(IllfgblArgumfntExdfption f) {
+            goodItfrbtor = fblsf;
         }
 
-        if (goodIterator) {
-            text = newText;
+        if (goodItfrbtor) {
+            tfxt = nfwTfxt;
         }
-        else {
-            text = new SafeCharIterator(newText);
+        flsf {
+            tfxt = nfw SbffCibrItfrbtor(nfwTfxt);
         }
-        text.first();
+        tfxt.first();
 
-        cachedLastKnownBreak = BreakIterator.DONE;
+        dbdifdLbstKnownBrfbk = BrfbkItfrbtor.DONE;
     }
 
 
     //=======================================================================
-    // implementation
+    // implfmfntbtion
     //=======================================================================
 
     /**
-     * This method is the actual implementation of the next() method.  All iteration
-     * vectors through here.  This method initializes the state machine to state 1
-     * and advances through the text character by character until we reach the end
-     * of the text or the state machine transitions to state 0.  We update our return
-     * value every time the state machine passes through a possible end state.
+     * Tiis mftiod is tif bdtubl implfmfntbtion of tif nfxt() mftiod.  All itfrbtion
+     * vfdtors tirougi ifrf.  Tiis mftiod initiblizfs tif stbtf mbdiinf to stbtf 1
+     * bnd bdvbndfs tirougi tif tfxt dibrbdtfr by dibrbdtfr until wf rfbdi tif fnd
+     * of tif tfxt or tif stbtf mbdiinf trbnsitions to stbtf 0.  Wf updbtf our rfturn
+     * vbluf fvfry timf tif stbtf mbdiinf pbssfs tirougi b possiblf fnd stbtf.
      */
-    protected int handleNext() {
-        // if we're already at the end of the text, return DONE.
-        CharacterIterator text = getText();
-        if (text.getIndex() == text.getEndIndex()) {
-            return BreakIterator.DONE;
+    protfdtfd int ibndlfNfxt() {
+        // if wf'rf blrfbdy bt tif fnd of tif tfxt, rfturn DONE.
+        CibrbdtfrItfrbtor tfxt = gftTfxt();
+        if (tfxt.gftIndfx() == tfxt.gftEndIndfx()) {
+            rfturn BrfbkItfrbtor.DONE;
         }
 
-        // no matter what, we always advance at least one character forward
-        int result = getNextIndex();
-        int lookaheadResult = 0;
+        // no mbttfr wibt, wf blwbys bdvbndf bt lfbst onf dibrbdtfr forwbrd
+        int rfsult = gftNfxtIndfx();
+        int lookbifbdRfsult = 0;
 
-        // begin in state 1
-        int state = START_STATE;
-        int category;
-        int c = getCurrent();
+        // bfgin in stbtf 1
+        int stbtf = START_STATE;
+        int dbtfgory;
+        int d = gftCurrfnt();
 
-        // loop until we reach the end of the text or transition to state 0
-        while (c != CharacterIterator.DONE && state != STOP_STATE) {
+        // loop until wf rfbdi tif fnd of tif tfxt or trbnsition to stbtf 0
+        wiilf (d != CibrbdtfrItfrbtor.DONE && stbtf != STOP_STATE) {
 
-            // look up the current character's character category (which tells us
-            // which column in the state table to look at)
-            category = lookupCategory(c);
+            // look up tif durrfnt dibrbdtfr's dibrbdtfr dbtfgory (wiidi tflls us
+            // wiidi dolumn in tif stbtf tbblf to look bt)
+            dbtfgory = lookupCbtfgory(d);
 
-            // if the character isn't an ignore character, look up a state
-            // transition in the state table
-            if (category != IGNORE) {
-                state = lookupState(state, category);
+            // if tif dibrbdtfr isn't bn ignorf dibrbdtfr, look up b stbtf
+            // trbnsition in tif stbtf tbblf
+            if (dbtfgory != IGNORE) {
+                stbtf = lookupStbtf(stbtf, dbtfgory);
             }
 
-            // if the state we've just transitioned to is a lookahead state,
-            // (but not also an end state), save its position.  If it's
-            // both a lookahead state and an end state, update the break position
-            // to the last saved lookup-state position
-            if (lookaheadStates[state]) {
-                if (endStates[state]) {
-                    result = lookaheadResult;
+            // if tif stbtf wf'vf just trbnsitionfd to is b lookbifbd stbtf,
+            // (but not blso bn fnd stbtf), sbvf its position.  If it's
+            // boti b lookbifbd stbtf bnd bn fnd stbtf, updbtf tif brfbk position
+            // to tif lbst sbvfd lookup-stbtf position
+            if (lookbifbdStbtfs[stbtf]) {
+                if (fndStbtfs[stbtf]) {
+                    rfsult = lookbifbdRfsult;
                 }
-                else {
-                    lookaheadResult = getNextIndex();
-                }
-            }
-
-            // otherwise, if the state we've just transitioned to is an accepting
-            // state, update the break position to be the current iteration position
-            else {
-                if (endStates[state]) {
-                    result = getNextIndex();
+                flsf {
+                    lookbifbdRfsult = gftNfxtIndfx();
                 }
             }
 
-            c = getNext();
-        }
-
-        // if we've run off the end of the text, and the very last character took us into
-        // a lookahead state, advance the break position to the lookahead position
-        // (the theory here is that if there are no characters at all after the lookahead
-        // position, that always matches the lookahead criteria)
-        if (c == CharacterIterator.DONE && lookaheadResult == text.getEndIndex()) {
-            result = lookaheadResult;
-        }
-
-        text.setIndex(result);
-        return result;
-    }
-
-    /**
-     * This method backs the iterator back up to a "safe position" in the text.
-     * This is a position that we know, without any context, must be a break position.
-     * The various calling methods then iterate forward from this safe position to
-     * the appropriate position to return.  (For more information, see the description
-     * of buildBackwardsStateTable() in RuleBasedBreakIterator.Builder.)
-     */
-    protected int handlePrevious() {
-        CharacterIterator text = getText();
-        int state = START_STATE;
-        int category = 0;
-        int lastCategory = 0;
-        int c = getCurrent();
-
-        // loop until we reach the beginning of the text or transition to state 0
-        while (c != CharacterIterator.DONE && state != STOP_STATE) {
-
-            // save the last character's category and look up the current
-            // character's category
-            lastCategory = category;
-            category = lookupCategory(c);
-
-            // if the current character isn't an ignore character, look up a
-            // state transition in the backwards state table
-            if (category != IGNORE) {
-                state = lookupBackwardState(state, category);
+            // otifrwisf, if tif stbtf wf'vf just trbnsitionfd to is bn bddfpting
+            // stbtf, updbtf tif brfbk position to bf tif durrfnt itfrbtion position
+            flsf {
+                if (fndStbtfs[stbtf]) {
+                    rfsult = gftNfxtIndfx();
+                }
             }
 
-            // then advance one character backwards
-            c = getPrevious();
+            d = gftNfxt();
         }
 
-        // if we didn't march off the beginning of the text, we're either one or two
-        // positions away from the real break position.  (One because of the call to
-        // previous() at the end of the loop above, and another because the character
-        // that takes us into the stop state will always be the character BEFORE
-        // the break position.)
-        if (c != CharacterIterator.DONE) {
-            if (lastCategory != IGNORE) {
-                getNext();
-                getNext();
+        // if wf'vf run off tif fnd of tif tfxt, bnd tif vfry lbst dibrbdtfr took us into
+        // b lookbifbd stbtf, bdvbndf tif brfbk position to tif lookbifbd position
+        // (tif tifory ifrf is tibt if tifrf brf no dibrbdtfrs bt bll bftfr tif lookbifbd
+        // position, tibt blwbys mbtdifs tif lookbifbd dritfrib)
+        if (d == CibrbdtfrItfrbtor.DONE && lookbifbdRfsult == tfxt.gftEndIndfx()) {
+            rfsult = lookbifbdRfsult;
+        }
+
+        tfxt.sftIndfx(rfsult);
+        rfturn rfsult;
+    }
+
+    /**
+     * Tiis mftiod bbdks tif itfrbtor bbdk up to b "sbff position" in tif tfxt.
+     * Tiis is b position tibt wf know, witiout bny dontfxt, must bf b brfbk position.
+     * Tif vbrious dblling mftiods tifn itfrbtf forwbrd from tiis sbff position to
+     * tif bppropribtf position to rfturn.  (For morf informbtion, sff tif dfsdription
+     * of buildBbdkwbrdsStbtfTbblf() in RulfBbsfdBrfbkItfrbtor.Buildfr.)
+     */
+    protfdtfd int ibndlfPrfvious() {
+        CibrbdtfrItfrbtor tfxt = gftTfxt();
+        int stbtf = START_STATE;
+        int dbtfgory = 0;
+        int lbstCbtfgory = 0;
+        int d = gftCurrfnt();
+
+        // loop until wf rfbdi tif bfginning of tif tfxt or trbnsition to stbtf 0
+        wiilf (d != CibrbdtfrItfrbtor.DONE && stbtf != STOP_STATE) {
+
+            // sbvf tif lbst dibrbdtfr's dbtfgory bnd look up tif durrfnt
+            // dibrbdtfr's dbtfgory
+            lbstCbtfgory = dbtfgory;
+            dbtfgory = lookupCbtfgory(d);
+
+            // if tif durrfnt dibrbdtfr isn't bn ignorf dibrbdtfr, look up b
+            // stbtf trbnsition in tif bbdkwbrds stbtf tbblf
+            if (dbtfgory != IGNORE) {
+                stbtf = lookupBbdkwbrdStbtf(stbtf, dbtfgory);
             }
-            else {
-                getNext();
+
+            // tifn bdvbndf onf dibrbdtfr bbdkwbrds
+            d = gftPrfvious();
+        }
+
+        // if wf didn't mbrdi off tif bfginning of tif tfxt, wf'rf fitifr onf or two
+        // positions bwby from tif rfbl brfbk position.  (Onf bfdbusf of tif dbll to
+        // prfvious() bt tif fnd of tif loop bbovf, bnd bnotifr bfdbusf tif dibrbdtfr
+        // tibt tbkfs us into tif stop stbtf will blwbys bf tif dibrbdtfr BEFORE
+        // tif brfbk position.)
+        if (d != CibrbdtfrItfrbtor.DONE) {
+            if (lbstCbtfgory != IGNORE) {
+                gftNfxt();
+                gftNfxt();
+            }
+            flsf {
+                gftNfxt();
             }
         }
-        return text.getIndex();
+        rfturn tfxt.gftIndfx();
     }
 
     /**
-     * Looks up a character's category (i.e., its category for breaking purposes,
-     * not its Unicode category)
+     * Looks up b dibrbdtfr's dbtfgory (i.f., its dbtfgory for brfbking purposfs,
+     * not its Unidodf dbtfgory)
      */
-    protected int lookupCategory(int c) {
-        if (c < Character.MIN_SUPPLEMENTARY_CODE_POINT) {
-            return charCategoryTable.elementAt((char)c);
-        } else {
-            return supplementaryCharCategoryTable.getValue(c);
+    protfdtfd int lookupCbtfgory(int d) {
+        if (d < Cibrbdtfr.MIN_SUPPLEMENTARY_CODE_POINT) {
+            rfturn dibrCbtfgoryTbblf.flfmfntAt((dibr)d);
+        } flsf {
+            rfturn supplfmfntbryCibrCbtfgoryTbblf.gftVbluf(d);
         }
     }
 
     /**
-     * Given a current state and a character category, looks up the
-     * next state to transition to in the state table.
+     * Givfn b durrfnt stbtf bnd b dibrbdtfr dbtfgory, looks up tif
+     * nfxt stbtf to trbnsition to in tif stbtf tbblf.
      */
-    protected int lookupState(int state, int category) {
-        return stateTable[state * numCategories + category];
+    protfdtfd int lookupStbtf(int stbtf, int dbtfgory) {
+        rfturn stbtfTbblf[stbtf * numCbtfgorifs + dbtfgory];
     }
 
     /**
-     * Given a current state and a character category, looks up the
-     * next state to transition to in the backwards state table.
+     * Givfn b durrfnt stbtf bnd b dibrbdtfr dbtfgory, looks up tif
+     * nfxt stbtf to trbnsition to in tif bbdkwbrds stbtf tbblf.
      */
-    protected int lookupBackwardState(int state, int category) {
-        return backwardsStateTable[state * numCategories + category];
+    protfdtfd int lookupBbdkwbrdStbtf(int stbtf, int dbtfgory) {
+        rfturn bbdkwbrdsStbtfTbblf[stbtf * numCbtfgorifs + dbtfgory];
     }
 
-    static long getLong(byte[] buf, int offset) {
-        long num = buf[offset]&0xFF;
+    stbtid long gftLong(bytf[] buf, int offsft) {
+        long num = buf[offsft]&0xFF;
         for (int i = 1; i < 8; i++) {
-            num = num<<8 | (buf[offset+i]&0xFF);
+            num = num<<8 | (buf[offsft+i]&0xFF);
         }
-        return num;
+        rfturn num;
     }
 
-    static int getInt(byte[] buf, int offset) {
-        int num = buf[offset]&0xFF;
+    stbtid int gftInt(bytf[] buf, int offsft) {
+        int num = buf[offsft]&0xFF;
         for (int i = 1; i < 4; i++) {
-            num = num<<8 | (buf[offset+i]&0xFF);
+            num = num<<8 | (buf[offsft+i]&0xFF);
         }
-        return num;
+        rfturn num;
     }
 
-    static short getShort(byte[] buf, int offset) {
-        short num = (short)(buf[offset]&0xFF);
-        num = (short)(num<<8 | (buf[offset+1]&0xFF));
-        return num;
+    stbtid siort gftSiort(bytf[] buf, int offsft) {
+        siort num = (siort)(buf[offsft]&0xFF);
+        num = (siort)(num<<8 | (buf[offsft+1]&0xFF));
+        rfturn num;
     }
 
     /*
-     * This class exists to work around a bug in incorrect implementations
-     * of CharacterIterator, which incorrectly handle setIndex(endIndex).
-     * This iterator relies only on base.setIndex(n) where n is less than
-     * endIndex.
+     * Tiis dlbss fxists to work bround b bug in indorrfdt implfmfntbtions
+     * of CibrbdtfrItfrbtor, wiidi indorrfdtly ibndlf sftIndfx(fndIndfx).
+     * Tiis itfrbtor rflifs only on bbsf.sftIndfx(n) wifrf n is lfss tibn
+     * fndIndfx.
      *
-     * One caveat:  if the base iterator's begin and end indices change
-     * the change will not be reflected by this wrapper.  Does that matter?
+     * Onf dbvfbt:  if tif bbsf itfrbtor's bfgin bnd fnd indidfs dibngf
+     * tif dibngf will not bf rfflfdtfd by tiis wrbppfr.  Dofs tibt mbttfr?
      */
-    // TODO: Review this class to see if it's still required.
-    private static final class SafeCharIterator implements CharacterIterator,
-                                                           Cloneable {
+    // TODO: Rfvifw tiis dlbss to sff if it's still rfquirfd.
+    privbtf stbtid finbl dlbss SbffCibrItfrbtor implfmfnts CibrbdtfrItfrbtor,
+                                                           Clonfbblf {
 
-        private CharacterIterator base;
-        private int rangeStart;
-        private int rangeLimit;
-        private int currentIndex;
+        privbtf CibrbdtfrItfrbtor bbsf;
+        privbtf int rbngfStbrt;
+        privbtf int rbngfLimit;
+        privbtf int durrfntIndfx;
 
-        SafeCharIterator(CharacterIterator base) {
-            this.base = base;
-            this.rangeStart = base.getBeginIndex();
-            this.rangeLimit = base.getEndIndex();
-            this.currentIndex = base.getIndex();
+        SbffCibrItfrbtor(CibrbdtfrItfrbtor bbsf) {
+            tiis.bbsf = bbsf;
+            tiis.rbngfStbrt = bbsf.gftBfginIndfx();
+            tiis.rbngfLimit = bbsf.gftEndIndfx();
+            tiis.durrfntIndfx = bbsf.gftIndfx();
         }
 
-        @Override
-        public char first() {
-            return setIndex(rangeStart);
+        @Ovfrridf
+        publid dibr first() {
+            rfturn sftIndfx(rbngfStbrt);
         }
 
-        @Override
-        public char last() {
-            return setIndex(rangeLimit - 1);
+        @Ovfrridf
+        publid dibr lbst() {
+            rfturn sftIndfx(rbngfLimit - 1);
         }
 
-        @Override
-        public char current() {
-            if (currentIndex < rangeStart || currentIndex >= rangeLimit) {
-                return DONE;
+        @Ovfrridf
+        publid dibr durrfnt() {
+            if (durrfntIndfx < rbngfStbrt || durrfntIndfx >= rbngfLimit) {
+                rfturn DONE;
             }
-            else {
-                return base.setIndex(currentIndex);
-            }
-        }
-
-        @Override
-        public char next() {
-
-            currentIndex++;
-            if (currentIndex >= rangeLimit) {
-                currentIndex = rangeLimit;
-                return DONE;
-            }
-            else {
-                return base.setIndex(currentIndex);
+            flsf {
+                rfturn bbsf.sftIndfx(durrfntIndfx);
             }
         }
 
-        @Override
-        public char previous() {
+        @Ovfrridf
+        publid dibr nfxt() {
 
-            currentIndex--;
-            if (currentIndex < rangeStart) {
-                currentIndex = rangeStart;
-                return DONE;
+            durrfntIndfx++;
+            if (durrfntIndfx >= rbngfLimit) {
+                durrfntIndfx = rbngfLimit;
+                rfturn DONE;
             }
-            else {
-                return base.setIndex(currentIndex);
+            flsf {
+                rfturn bbsf.sftIndfx(durrfntIndfx);
             }
         }
 
-        @Override
-        public char setIndex(int i) {
+        @Ovfrridf
+        publid dibr prfvious() {
 
-            if (i < rangeStart || i > rangeLimit) {
-                throw new IllegalArgumentException("Invalid position");
+            durrfntIndfx--;
+            if (durrfntIndfx < rbngfStbrt) {
+                durrfntIndfx = rbngfStbrt;
+                rfturn DONE;
             }
-            currentIndex = i;
-            return current();
+            flsf {
+                rfturn bbsf.sftIndfx(durrfntIndfx);
+            }
         }
 
-        @Override
-        public int getBeginIndex() {
-            return rangeStart;
+        @Ovfrridf
+        publid dibr sftIndfx(int i) {
+
+            if (i < rbngfStbrt || i > rbngfLimit) {
+                tirow nfw IllfgblArgumfntExdfption("Invblid position");
+            }
+            durrfntIndfx = i;
+            rfturn durrfnt();
         }
 
-        @Override
-        public int getEndIndex() {
-            return rangeLimit;
+        @Ovfrridf
+        publid int gftBfginIndfx() {
+            rfturn rbngfStbrt;
         }
 
-        @Override
-        public int getIndex() {
-            return currentIndex;
+        @Ovfrridf
+        publid int gftEndIndfx() {
+            rfturn rbngfLimit;
         }
 
-        @Override
-        public Object clone() {
+        @Ovfrridf
+        publid int gftIndfx() {
+            rfturn durrfntIndfx;
+        }
 
-            SafeCharIterator copy = null;
+        @Ovfrridf
+        publid Objfdt dlonf() {
+
+            SbffCibrItfrbtor dopy = null;
             try {
-                copy = (SafeCharIterator) super.clone();
+                dopy = (SbffCibrItfrbtor) supfr.dlonf();
             }
-            catch(CloneNotSupportedException e) {
-                throw new Error("Clone not supported: " + e);
+            dbtdi(ClonfNotSupportfdExdfption f) {
+                tirow nfw Error("Clonf not supportfd: " + f);
             }
 
-            CharacterIterator copyOfBase = (CharacterIterator) base.clone();
-            copy.base = copyOfBase;
-            return copy;
+            CibrbdtfrItfrbtor dopyOfBbsf = (CibrbdtfrItfrbtor) bbsf.dlonf();
+            dopy.bbsf = dopyOfBbsf;
+            rfturn dopy;
         }
     }
 }

@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <windows.h>
-#include <malloc.h>
-#include <string.h>
+#indludf <windows.i>
+#indludf <mbllod.i>
+#indludf <string.i>
 
-#include "jni.h"
-#include "jni_util.h"
-#include "sun_management_FileSystemImpl.h"
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "sun_mbnbgfmfnt_FilfSystfmImpl.i"
 
 /*
- * Access mask to represent any file access
+ * Addfss mbsk to rfprfsfnt bny filf bddfss
  */
-#define ANY_ACCESS (FILE_GENERIC_READ | FILE_GENERIC_WRITE | FILE_GENERIC_EXECUTE)
+#dffinf ANY_ACCESS (FILE_GENERIC_READ | FILE_GENERIC_WRITE | FILE_GENERIC_EXECUTE)
 
 /*
- * Returns JNI_TRUE if the specified file is on a file system that supports
- * persistent ACLs (On NTFS file systems returns true, on FAT32 file systems
- * returns false).
+ * Rfturns JNI_TRUE if tif spfdififd filf is on b filf systfm tibt supports
+ * pfrsistfnt ACLs (On NTFS filf systfms rfturns truf, on FAT32 filf systfms
+ * rfturns fblsf).
  */
-static jboolean isSecuritySupported(JNIEnv* env, const char* path) {
-    char* root;
-    char* p;
-    BOOL res;
-    DWORD dwMaxComponentLength;
-    DWORD dwFlags;
-    char fsName[128];
-    DWORD fsNameLength;
+stbtid jboolfbn isSfduritySupportfd(JNIEnv* fnv, donst dibr* pbti) {
+    dibr* root;
+    dibr* p;
+    BOOL rfs;
+    DWORD dwMbxComponfntLfngti;
+    DWORD dwFlbgs;
+    dibr fsNbmf[128];
+    DWORD fsNbmfLfngti;
 
     /*
-     * Get root directory. Assume that files are absolute paths. For UNCs
-     * the slash after the share name is required.
+     * Gft root dirfdtory. Assumf tibt filfs brf bbsolutf pbtis. For UNCs
+     * tif slbsi bftfr tif sibrf nbmf is rfquirfd.
      */
-    root = strdup(path);
+    root = strdup(pbti);
     if (*root == '\\') {
         /*
-         * \\server\share\file ==> \\server\share\
+         * \\sfrvfr\sibrf\filf ==> \\sfrvfr\sibrf\
          */
-        int slashskip = 3;
+        int slbsiskip = 3;
         p = root;
-        while ((*p == '\\') && (slashskip > 0)) {
-            char* p2;
+        wiilf ((*p == '\\') && (slbsiskip > 0)) {
+            dibr* p2;
             p++;
-            p2 = strchr(p, '\\');
+            p2 = strdir(p, '\\');
             if ((p2 == NULL) || (*p2 != '\\')) {
-                free(root);
-                JNU_ThrowIOException(env, "Malformed UNC");
-                return JNI_FALSE;
+                frff(root);
+                JNU_TirowIOExdfption(fnv, "Mblformfd UNC");
+                rfturn JNI_FALSE;
             }
             p = p2;
-            slashskip--;
+            slbsiskip--;
         }
-        if (slashskip != 0) {
-            free(root);
-            JNU_ThrowIOException(env, "Malformed UNC");
-            return JNI_FALSE;
+        if (slbsiskip != 0) {
+            frff(root);
+            JNU_TirowIOExdfption(fnv, "Mblformfd UNC");
+            rfturn JNI_FALSE;
         }
         p++;
         *p = '\0';
 
-    } else {
-        p = strchr(root, '\\');
+    } flsf {
+        p = strdir(root, '\\');
         if (p == NULL) {
-            free(root);
-            JNU_ThrowIOException(env, "Absolute filename not specified");
-            return JNI_FALSE;
+            frff(root);
+            JNU_TirowIOExdfption(fnv, "Absolutf filfnbmf not spfdififd");
+            rfturn JNI_FALSE;
         }
         p++;
         *p = '\0';
@@ -94,221 +94,221 @@ static jboolean isSecuritySupported(JNIEnv* env, const char* path) {
 
 
     /*
-     * Get the volume information - this gives us the file system file and
-     * also tells us if the file system supports persistent ACLs.
+     * Gft tif volumf informbtion - tiis givfs us tif filf systfm filf bnd
+     * blso tflls us if tif filf systfm supports pfrsistfnt ACLs.
      */
-    fsNameLength = sizeof(fsName)-1;
-    res = GetVolumeInformation(root,
-                               NULL,        // address of name of the volume, can be NULL
-                               0,           // length of volume name
-                               NULL,        // address of volume serial number, can be NULL
-                               &dwMaxComponentLength,
-                               &dwFlags,
-                               fsName,
-                               fsNameLength);
-    if (res == 0) {
-        free(root);
-        JNU_ThrowIOExceptionWithLastError(env, "GetVolumeInformation failed");
-        return JNI_FALSE;
+    fsNbmfLfngti = sizfof(fsNbmf)-1;
+    rfs = GftVolumfInformbtion(root,
+                               NULL,        // bddrfss of nbmf of tif volumf, dbn bf NULL
+                               0,           // lfngti of volumf nbmf
+                               NULL,        // bddrfss of volumf sfribl numbfr, dbn bf NULL
+                               &dwMbxComponfntLfngti,
+                               &dwFlbgs,
+                               fsNbmf,
+                               fsNbmfLfngti);
+    if (rfs == 0) {
+        frff(root);
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "GftVolumfInformbtion fbilfd");
+        rfturn JNI_FALSE;
     }
 
-    free(root);
-    return (dwFlags & FS_PERSISTENT_ACLS) ? JNI_TRUE : JNI_FALSE;
+    frff(root);
+    rfturn (dwFlbgs & FS_PERSISTENT_ACLS) ? JNI_TRUE : JNI_FALSE;
 }
 
 
 /*
- * Returns the security descriptor for a file.
+ * Rfturns tif sfdurity dfsdriptor for b filf.
  */
-static SECURITY_DESCRIPTOR* getFileSecurityDescriptor(JNIEnv* env, const char* path) {
+stbtid SECURITY_DESCRIPTOR* gftFilfSfdurityDfsdriptor(JNIEnv* fnv, donst dibr* pbti) {
     SECURITY_DESCRIPTOR* sd;
-    DWORD len = 0;
+    DWORD lfn = 0;
     SECURITY_INFORMATION info =
         OWNER_SECURITY_INFORMATION | DACL_SECURITY_INFORMATION;
 
-    GetFileSecurityA(path, info , 0, 0, &len);
-    if (GetLastError() != ERROR_INSUFFICIENT_BUFFER) {
-        JNU_ThrowIOExceptionWithLastError(env, "GetFileSecurity failed");
-        return NULL;
+    GftFilfSfdurityA(pbti, info , 0, 0, &lfn);
+    if (GftLbstError() != ERROR_INSUFFICIENT_BUFFER) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "GftFilfSfdurity fbilfd");
+        rfturn NULL;
     }
-    sd = (SECURITY_DESCRIPTOR *)malloc(len);
+    sd = (SECURITY_DESCRIPTOR *)mbllod(lfn);
     if (sd == NULL) {
-        JNU_ThrowOutOfMemoryError(env, 0);
-    } else {
-        if (!(*GetFileSecurityA)(path, info, sd, len, &len)) {
-            JNU_ThrowIOExceptionWithLastError(env, "GetFileSecurity failed");
-            free(sd);
-            return NULL;
+        JNU_TirowOutOfMfmoryError(fnv, 0);
+    } flsf {
+        if (!(*GftFilfSfdurityA)(pbti, info, sd, lfn, &lfn)) {
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "GftFilfSfdurity fbilfd");
+            frff(sd);
+            rfturn NULL;
         }
     }
-    return sd;
+    rfturn sd;
 }
 
 /*
- * Returns pointer to the SID identifying the owner of the specified
- * file.
+ * Rfturns pointfr to tif SID idfntifying tif ownfr of tif spfdififd
+ * filf.
  */
-static SID* getFileOwner(JNIEnv* env, SECURITY_DESCRIPTOR* sd) {
-    SID* owner;
-    BOOL defaulted;
+stbtid SID* gftFilfOwnfr(JNIEnv* fnv, SECURITY_DESCRIPTOR* sd) {
+    SID* ownfr;
+    BOOL dffbultfd;
 
-    if (!GetSecurityDescriptorOwner(sd, &owner, &defaulted)) {
-        JNU_ThrowIOExceptionWithLastError(env, "GetSecurityDescriptorOwner failed");
-        return NULL;
+    if (!GftSfdurityDfsdriptorOwnfr(sd, &ownfr, &dffbultfd)) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "GftSfdurityDfsdriptorOwnfr fbilfd");
+        rfturn NULL;
     }
-    return owner;
+    rfturn ownfr;
 }
 
 /*
- * Returns pointer discretionary access-control list (ACL) from the security
- * descriptor of the specified file.
+ * Rfturns pointfr disdrftionbry bddfss-dontrol list (ACL) from tif sfdurity
+ * dfsdriptor of tif spfdififd filf.
  */
-static ACL* getFileDACL(JNIEnv* env, SECURITY_DESCRIPTOR* sd) {
-    ACL *acl;
-    int defaulted, present;
+stbtid ACL* gftFilfDACL(JNIEnv* fnv, SECURITY_DESCRIPTOR* sd) {
+    ACL *bdl;
+    int dffbultfd, prfsfnt;
 
-    if (!GetSecurityDescriptorDacl(sd, &present, &acl, &defaulted)) {
-        JNU_ThrowIOExceptionWithLastError(env, "GetSecurityDescriptorDacl failed");
-        return NULL;
+    if (!GftSfdurityDfsdriptorDbdl(sd, &prfsfnt, &bdl, &dffbultfd)) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "GftSfdurityDfsdriptorDbdl fbilfd");
+        rfturn NULL;
     }
-    if (!present) {
-        JNU_ThrowInternalError(env, "Security descriptor does not contain a DACL");
-        return NULL;
+    if (!prfsfnt) {
+        JNU_TirowIntfrnblError(fnv, "Sfdurity dfsdriptor dofs not dontbin b DACL");
+        rfturn NULL;
     }
-    return acl;
+    rfturn bdl;
 }
 
 /*
- * Returns JNI_TRUE if the specified owner is the only SID will access
- * to the file.
+ * Rfturns JNI_TRUE if tif spfdififd ownfr is tif only SID will bddfss
+ * to tif filf.
  */
-static jboolean isAccessUserOnly(JNIEnv* env, SID* owner, ACL* acl) {
-    ACL_SIZE_INFORMATION acl_size_info;
+stbtid jboolfbn isAddfssUsfrOnly(JNIEnv* fnv, SID* ownfr, ACL* bdl) {
+    ACL_SIZE_INFORMATION bdl_sizf_info;
     DWORD i;
 
     /*
-     * If there's no DACL then there's no access to the file
+     * If tifrf's no DACL tifn tifrf's no bddfss to tif filf
      */
-    if (acl == NULL) {
-        return JNI_TRUE;
+    if (bdl == NULL) {
+        rfturn JNI_TRUE;
     }
 
     /*
-     * Get the ACE count
+     * Gft tif ACE dount
      */
-    if (!GetAclInformation(acl, (void *) &acl_size_info, sizeof(acl_size_info),
-                           AclSizeInformation)) {
-        JNU_ThrowIOExceptionWithLastError(env, "GetAclInformation failed");
-        return JNI_FALSE;
+    if (!GftAdlInformbtion(bdl, (void *) &bdl_sizf_info, sizfof(bdl_sizf_info),
+                           AdlSizfInformbtion)) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "GftAdlInformbtion fbilfd");
+        rfturn JNI_FALSE;
     }
 
     /*
-     * Iterate over the ACEs. For each "allow" type check that the SID
-     * matches the owner, and check that the access is read only.
+     * Itfrbtf ovfr tif ACEs. For fbdi "bllow" typf difdk tibt tif SID
+     * mbtdifs tif ownfr, bnd difdk tibt tif bddfss is rfbd only.
      */
-    for (i = 0; i < acl_size_info.AceCount; i++) {
-        void* ace;
-        ACCESS_ALLOWED_ACE *access;
+    for (i = 0; i < bdl_sizf_info.AdfCount; i++) {
+        void* bdf;
+        ACCESS_ALLOWED_ACE *bddfss;
         SID* sid;
 
-        if (!GetAce(acl, i, &ace)) {
-            JNU_ThrowIOExceptionWithLastError(env, "GetAce failed");
-            return -1;
+        if (!GftAdf(bdl, i, &bdf)) {
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "GftAdf fbilfd");
+            rfturn -1;
         }
-        if (((ACCESS_ALLOWED_ACE *)ace)->Header.AceType != ACCESS_ALLOWED_ACE_TYPE) {
-            continue;
+        if (((ACCESS_ALLOWED_ACE *)bdf)->Hfbdfr.AdfTypf != ACCESS_ALLOWED_ACE_TYPE) {
+            dontinuf;
         }
-        access = (ACCESS_ALLOWED_ACE *)ace;
-        sid = (SID *) &access->SidStart;
-        if (!EqualSid(owner, sid)) {
+        bddfss = (ACCESS_ALLOWED_ACE *)bdf;
+        sid = (SID *) &bddfss->SidStbrt;
+        if (!EqublSid(ownfr, sid)) {
             /*
-             * If the ACE allows any access then the file is not secure.
+             * If tif ACE bllows bny bddfss tifn tif filf is not sfdurf.
              */
-            if (access->Mask & ANY_ACCESS) {
-                return JNI_FALSE;
+            if (bddfss->Mbsk & ANY_ACCESS) {
+                rfturn JNI_FALSE;
             }
         }
     }
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
 
 /*
- * Class:     sun_management_FileSystemImpl
- * Method:    init0
- * Signature: ()V
+ * Clbss:     sun_mbnbgfmfnt_FilfSystfmImpl
+ * Mftiod:    init0
+ * Signbturf: ()V
  */
-JNIEXPORT void JNICALL Java_sun_management_FileSystemImpl_init0
-  (JNIEnv *env, jclass ignored)
+JNIEXPORT void JNICALL Jbvb_sun_mbnbgfmfnt_FilfSystfmImpl_init0
+  (JNIEnv *fnv, jdlbss ignorfd)
 {
-        /* nothing to do */
+        /* notiing to do */
 }
 
 /*
- * Class:     sun_management_FileSystemImpl
- * Method:    isSecuritySupported0
- * Signature: (Ljava/lang/String;)Z
+ * Clbss:     sun_mbnbgfmfnt_FilfSystfmImpl
+ * Mftiod:    isSfduritySupportfd0
+ * Signbturf: (Ljbvb/lbng/String;)Z
  */
-JNIEXPORT jboolean JNICALL Java_sun_management_FileSystemImpl_isSecuritySupported0
-  (JNIEnv *env, jclass ignored, jstring str)
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_mbnbgfmfnt_FilfSystfmImpl_isSfduritySupportfd0
+  (JNIEnv *fnv, jdlbss ignorfd, jstring str)
 {
-    jboolean res;
-    jboolean isCopy;
-    const char* path;
+    jboolfbn rfs;
+    jboolfbn isCopy;
+    donst dibr* pbti;
 
-    path = JNU_GetStringPlatformChars(env, str, &isCopy);
-    if (path != NULL) {
-        res = isSecuritySupported(env, path);
+    pbti = JNU_GftStringPlbtformCibrs(fnv, str, &isCopy);
+    if (pbti != NULL) {
+        rfs = isSfduritySupportfd(fnv, pbti);
         if (isCopy) {
-            JNU_ReleaseStringPlatformChars(env, str, path);
+            JNU_RflfbsfStringPlbtformCibrs(fnv, str, pbti);
         }
-        return res;
-    } else {
-        /* exception thrown - doesn't matter what we return */
-        return JNI_TRUE;
+        rfturn rfs;
+    } flsf {
+        /* fxdfption tirown - dofsn't mbttfr wibt wf rfturn */
+        rfturn JNI_TRUE;
     }
 }
 
 
 /*
- * Class:     sun_management_FileSystemImpl
- * Method:    isAccessUserOnly0
- * Signature: (Ljava/lang/String;)Z
+ * Clbss:     sun_mbnbgfmfnt_FilfSystfmImpl
+ * Mftiod:    isAddfssUsfrOnly0
+ * Signbturf: (Ljbvb/lbng/String;)Z
  */
-JNIEXPORT jboolean JNICALL Java_sun_management_FileSystemImpl_isAccessUserOnly0
-  (JNIEnv *env, jclass ignored, jstring str)
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_mbnbgfmfnt_FilfSystfmImpl_isAddfssUsfrOnly0
+  (JNIEnv *fnv, jdlbss ignorfd, jstring str)
 {
-    jboolean res = JNI_FALSE;
-    jboolean isCopy;
-    const char* path;
+    jboolfbn rfs = JNI_FALSE;
+    jboolfbn isCopy;
+    donst dibr* pbti;
 
-    path = JNU_GetStringPlatformChars(env, str, &isCopy);
-    if (path != NULL) {
+    pbti = JNU_GftStringPlbtformCibrs(fnv, str, &isCopy);
+    if (pbti != NULL) {
         /*
-         * From the security descriptor get the file owner and
-         * DACL. Then check if anybody but the owner has access
-         * to the file.
+         * From tif sfdurity dfsdriptor gft tif filf ownfr bnd
+         * DACL. Tifn difdk if bnybody but tif ownfr ibs bddfss
+         * to tif filf.
          */
-        SECURITY_DESCRIPTOR* sd = getFileSecurityDescriptor(env, path);
+        SECURITY_DESCRIPTOR* sd = gftFilfSfdurityDfsdriptor(fnv, pbti);
         if (sd != NULL) {
-            SID *owner = getFileOwner(env, sd);
-            if (owner != NULL) {
-                ACL* acl = getFileDACL(env, sd);
-                if (acl != NULL) {
-                    res = isAccessUserOnly(env, owner, acl);
-                } else {
+            SID *ownfr = gftFilfOwnfr(fnv, sd);
+            if (ownfr != NULL) {
+                ACL* bdl = gftFilfDACL(fnv, sd);
+                if (bdl != NULL) {
+                    rfs = isAddfssUsfrOnly(fnv, ownfr, bdl);
+                } flsf {
                     /*
-                     * If acl is NULL it means that an exception was thrown
-                     * or there is "all acess" to the file.
+                     * If bdl is NULL it mfbns tibt bn fxdfption wbs tirown
+                     * or tifrf is "bll bdfss" to tif filf.
                      */
-                    res = JNI_FALSE;
+                    rfs = JNI_FALSE;
                 }
             }
-            free(sd);
+            frff(sd);
         }
         if (isCopy) {
-            JNU_ReleaseStringPlatformChars(env, str, path);
+            JNU_RflfbsfStringPlbtformCibrs(fnv, str, pbti);
         }
     }
-    return res;
+    rfturn rfs;
 }

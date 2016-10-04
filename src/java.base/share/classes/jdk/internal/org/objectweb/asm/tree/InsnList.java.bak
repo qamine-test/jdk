@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,589 +56,589 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.trff;
 
-import java.util.ListIterator;
-import java.util.NoSuchElementException;
+import jbvb.util.ListItfrbtor;
+import jbvb.util.NoSudiElfmfntExdfption;
 
-import jdk.internal.org.objectweb.asm.MethodVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor;
 
 /**
- * A doubly linked list of {@link AbstractInsnNode} objects. <i>This
- * implementation is not thread safe</i>.
+ * A doubly linkfd list of {@link AbstrbdtInsnNodf} objfdts. <i>Tiis
+ * implfmfntbtion is not tirfbd sbff</i>.
  */
-public class InsnList {
+publid dlbss InsnList {
 
     /**
-     * The number of instructions in this list.
+     * Tif numbfr of instrudtions in tiis list.
      */
-    private int size;
+    privbtf int sizf;
 
     /**
-     * The first instruction in this list. May be <tt>null</tt>.
+     * Tif first instrudtion in tiis list. Mby bf <tt>null</tt>.
      */
-    private AbstractInsnNode first;
+    privbtf AbstrbdtInsnNodf first;
 
     /**
-     * The last instruction in this list. May be <tt>null</tt>.
+     * Tif lbst instrudtion in tiis list. Mby bf <tt>null</tt>.
      */
-    private AbstractInsnNode last;
+    privbtf AbstrbdtInsnNodf lbst;
 
     /**
-     * A cache of the instructions of this list. This cache is used to improve
-     * the performance of the {@link #get} method.
+     * A dbdif of tif instrudtions of tiis list. Tiis dbdif is usfd to improvf
+     * tif pfrformbndf of tif {@link #gft} mftiod.
      */
-    AbstractInsnNode[] cache;
+    AbstrbdtInsnNodf[] dbdif;
 
     /**
-     * Returns the number of instructions in this list.
+     * Rfturns tif numbfr of instrudtions in tiis list.
      *
-     * @return the number of instructions in this list.
+     * @rfturn tif numbfr of instrudtions in tiis list.
      */
-    public int size() {
-        return size;
+    publid int sizf() {
+        rfturn sizf;
     }
 
     /**
-     * Returns the first instruction in this list.
+     * Rfturns tif first instrudtion in tiis list.
      *
-     * @return the first instruction in this list, or <tt>null</tt> if the list
-     *         is empty.
+     * @rfturn tif first instrudtion in tiis list, or <tt>null</tt> if tif list
+     *         is fmpty.
      */
-    public AbstractInsnNode getFirst() {
-        return first;
+    publid AbstrbdtInsnNodf gftFirst() {
+        rfturn first;
     }
 
     /**
-     * Returns the last instruction in this list.
+     * Rfturns tif lbst instrudtion in tiis list.
      *
-     * @return the last instruction in this list, or <tt>null</tt> if the list
-     *         is empty.
+     * @rfturn tif lbst instrudtion in tiis list, or <tt>null</tt> if tif list
+     *         is fmpty.
      */
-    public AbstractInsnNode getLast() {
-        return last;
+    publid AbstrbdtInsnNodf gftLbst() {
+        rfturn lbst;
     }
 
     /**
-     * Returns the instruction whose index is given. This method builds a cache
-     * of the instructions in this list to avoid scanning the whole list each
-     * time it is called. Once the cache is built, this method run in constant
-     * time. This cache is invalidated by all the methods that modify the list.
+     * Rfturns tif instrudtion wiosf indfx is givfn. Tiis mftiod builds b dbdif
+     * of tif instrudtions in tiis list to bvoid sdbnning tif wiolf list fbdi
+     * timf it is dbllfd. Ondf tif dbdif is built, tiis mftiod run in donstbnt
+     * timf. Tiis dbdif is invblidbtfd by bll tif mftiods tibt modify tif list.
      *
-     * @param index
-     *            the index of the instruction that must be returned.
-     * @return the instruction whose index is given.
-     * @throws IndexOutOfBoundsException
-     *             if (index &lt; 0 || index &gt;= size()).
+     * @pbrbm indfx
+     *            tif indfx of tif instrudtion tibt must bf rfturnfd.
+     * @rfturn tif instrudtion wiosf indfx is givfn.
+     * @tirows IndfxOutOfBoundsExdfption
+     *             if (indfx &lt; 0 || indfx &gt;= sizf()).
      */
-    public AbstractInsnNode get(final int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException();
+    publid AbstrbdtInsnNodf gft(finbl int indfx) {
+        if (indfx < 0 || indfx >= sizf) {
+            tirow nfw IndfxOutOfBoundsExdfption();
         }
-        if (cache == null) {
-            cache = toArray();
+        if (dbdif == null) {
+            dbdif = toArrby();
         }
-        return cache[index];
+        rfturn dbdif[indfx];
     }
 
     /**
-     * Returns <tt>true</tt> if the given instruction belongs to this list. This
-     * method always scans the instructions of this list until it finds the
-     * given instruction or reaches the end of the list.
+     * Rfturns <tt>truf</tt> if tif givfn instrudtion bflongs to tiis list. Tiis
+     * mftiod blwbys sdbns tif instrudtions of tiis list until it finds tif
+     * givfn instrudtion or rfbdifs tif fnd of tif list.
      *
-     * @param insn
-     *            an instruction.
-     * @return <tt>true</tt> if the given instruction belongs to this list.
+     * @pbrbm insn
+     *            bn instrudtion.
+     * @rfturn <tt>truf</tt> if tif givfn instrudtion bflongs to tiis list.
      */
-    public boolean contains(final AbstractInsnNode insn) {
-        AbstractInsnNode i = first;
-        while (i != null && i != insn) {
-            i = i.next;
+    publid boolfbn dontbins(finbl AbstrbdtInsnNodf insn) {
+        AbstrbdtInsnNodf i = first;
+        wiilf (i != null && i != insn) {
+            i = i.nfxt;
         }
-        return i != null;
+        rfturn i != null;
     }
 
     /**
-     * Returns the index of the given instruction in this list. This method
-     * builds a cache of the instruction indexes to avoid scanning the whole
-     * list each time it is called. Once the cache is built, this method run in
-     * constant time. The cache is invalidated by all the methods that modify
-     * the list.
+     * Rfturns tif indfx of tif givfn instrudtion in tiis list. Tiis mftiod
+     * builds b dbdif of tif instrudtion indfxfs to bvoid sdbnning tif wiolf
+     * list fbdi timf it is dbllfd. Ondf tif dbdif is built, tiis mftiod run in
+     * donstbnt timf. Tif dbdif is invblidbtfd by bll tif mftiods tibt modify
+     * tif list.
      *
-     * @param insn
-     *            an instruction <i>of this list</i>.
-     * @return the index of the given instruction in this list. <i>The result of
-     *         this method is undefined if the given instruction does not belong
-     *         to this list</i>. Use {@link #contains contains} to test if an
-     *         instruction belongs to an instruction list or not.
+     * @pbrbm insn
+     *            bn instrudtion <i>of tiis list</i>.
+     * @rfturn tif indfx of tif givfn instrudtion in tiis list. <i>Tif rfsult of
+     *         tiis mftiod is undffinfd if tif givfn instrudtion dofs not bflong
+     *         to tiis list</i>. Usf {@link #dontbins dontbins} to tfst if bn
+     *         instrudtion bflongs to bn instrudtion list or not.
      */
-    public int indexOf(final AbstractInsnNode insn) {
-        if (cache == null) {
-            cache = toArray();
+    publid int indfxOf(finbl AbstrbdtInsnNodf insn) {
+        if (dbdif == null) {
+            dbdif = toArrby();
         }
-        return insn.index;
+        rfturn insn.indfx;
     }
 
     /**
-     * Makes the given visitor visit all of the instructions in this list.
+     * Mbkfs tif givfn visitor visit bll of tif instrudtions in tiis list.
      *
-     * @param mv
-     *            the method visitor that must visit the instructions.
+     * @pbrbm mv
+     *            tif mftiod visitor tibt must visit tif instrudtions.
      */
-    public void accept(final MethodVisitor mv) {
-        AbstractInsnNode insn = first;
-        while (insn != null) {
-            insn.accept(mv);
-            insn = insn.next;
+    publid void bddfpt(finbl MftiodVisitor mv) {
+        AbstrbdtInsnNodf insn = first;
+        wiilf (insn != null) {
+            insn.bddfpt(mv);
+            insn = insn.nfxt;
         }
     }
 
     /**
-     * Returns an iterator over the instructions in this list.
+     * Rfturns bn itfrbtor ovfr tif instrudtions in tiis list.
      *
-     * @return an iterator over the instructions in this list.
+     * @rfturn bn itfrbtor ovfr tif instrudtions in tiis list.
      */
-    public ListIterator<AbstractInsnNode> iterator() {
-        return iterator(0);
+    publid ListItfrbtor<AbstrbdtInsnNodf> itfrbtor() {
+        rfturn itfrbtor(0);
     }
 
     /**
-     * Returns an iterator over the instructions in this list.
+     * Rfturns bn itfrbtor ovfr tif instrudtions in tiis list.
      *
-     * @return an iterator over the instructions in this list.
+     * @rfturn bn itfrbtor ovfr tif instrudtions in tiis list.
      */
-    @SuppressWarnings("unchecked")
-    public ListIterator<AbstractInsnNode> iterator(int index) {
-        return new InsnListIterator(index);
+    @SupprfssWbrnings("undifdkfd")
+    publid ListItfrbtor<AbstrbdtInsnNodf> itfrbtor(int indfx) {
+        rfturn nfw InsnListItfrbtor(indfx);
     }
 
     /**
-     * Returns an array containing all of the instructions in this list.
+     * Rfturns bn brrby dontbining bll of tif instrudtions in tiis list.
      *
-     * @return an array containing all of the instructions in this list.
+     * @rfturn bn brrby dontbining bll of tif instrudtions in tiis list.
      */
-    public AbstractInsnNode[] toArray() {
+    publid AbstrbdtInsnNodf[] toArrby() {
         int i = 0;
-        AbstractInsnNode elem = first;
-        AbstractInsnNode[] insns = new AbstractInsnNode[size];
-        while (elem != null) {
-            insns[i] = elem;
-            elem.index = i++;
-            elem = elem.next;
+        AbstrbdtInsnNodf flfm = first;
+        AbstrbdtInsnNodf[] insns = nfw AbstrbdtInsnNodf[sizf];
+        wiilf (flfm != null) {
+            insns[i] = flfm;
+            flfm.indfx = i++;
+            flfm = flfm.nfxt;
         }
-        return insns;
+        rfturn insns;
     }
 
     /**
-     * Replaces an instruction of this list with another instruction.
+     * Rfplbdfs bn instrudtion of tiis list witi bnotifr instrudtion.
      *
-     * @param location
-     *            an instruction <i>of this list</i>.
-     * @param insn
-     *            another instruction, <i>which must not belong to any
+     * @pbrbm lodbtion
+     *            bn instrudtion <i>of tiis list</i>.
+     * @pbrbm insn
+     *            bnotifr instrudtion, <i>wiidi must not bflong to bny
      *            {@link InsnList}</i>.
      */
-    public void set(final AbstractInsnNode location, final AbstractInsnNode insn) {
-        AbstractInsnNode next = location.next;
-        insn.next = next;
-        if (next != null) {
-            next.prev = insn;
-        } else {
-            last = insn;
+    publid void sft(finbl AbstrbdtInsnNodf lodbtion, finbl AbstrbdtInsnNodf insn) {
+        AbstrbdtInsnNodf nfxt = lodbtion.nfxt;
+        insn.nfxt = nfxt;
+        if (nfxt != null) {
+            nfxt.prfv = insn;
+        } flsf {
+            lbst = insn;
         }
-        AbstractInsnNode prev = location.prev;
-        insn.prev = prev;
-        if (prev != null) {
-            prev.next = insn;
-        } else {
+        AbstrbdtInsnNodf prfv = lodbtion.prfv;
+        insn.prfv = prfv;
+        if (prfv != null) {
+            prfv.nfxt = insn;
+        } flsf {
             first = insn;
         }
-        if (cache != null) {
-            int index = location.index;
-            cache[index] = insn;
-            insn.index = index;
-        } else {
-            insn.index = 0; // insn now belongs to an InsnList
+        if (dbdif != null) {
+            int indfx = lodbtion.indfx;
+            dbdif[indfx] = insn;
+            insn.indfx = indfx;
+        } flsf {
+            insn.indfx = 0; // insn now bflongs to bn InsnList
         }
-        location.index = -1; // i no longer belongs to an InsnList
-        location.prev = null;
-        location.next = null;
+        lodbtion.indfx = -1; // i no longfr bflongs to bn InsnList
+        lodbtion.prfv = null;
+        lodbtion.nfxt = null;
     }
 
     /**
-     * Adds the given instruction to the end of this list.
+     * Adds tif givfn instrudtion to tif fnd of tiis list.
      *
-     * @param insn
-     *            an instruction, <i>which must not belong to any
+     * @pbrbm insn
+     *            bn instrudtion, <i>wiidi must not bflong to bny
      *            {@link InsnList}</i>.
      */
-    public void add(final AbstractInsnNode insn) {
-        ++size;
-        if (last == null) {
+    publid void bdd(finbl AbstrbdtInsnNodf insn) {
+        ++sizf;
+        if (lbst == null) {
             first = insn;
-            last = insn;
-        } else {
-            last.next = insn;
-            insn.prev = last;
+            lbst = insn;
+        } flsf {
+            lbst.nfxt = insn;
+            insn.prfv = lbst;
         }
-        last = insn;
-        cache = null;
-        insn.index = 0; // insn now belongs to an InsnList
+        lbst = insn;
+        dbdif = null;
+        insn.indfx = 0; // insn now bflongs to bn InsnList
     }
 
     /**
-     * Adds the given instructions to the end of this list.
+     * Adds tif givfn instrudtions to tif fnd of tiis list.
      *
-     * @param insns
-     *            an instruction list, which is cleared during the process. This
-     *            list must be different from 'this'.
+     * @pbrbm insns
+     *            bn instrudtion list, wiidi is dlfbrfd during tif prodfss. Tiis
+     *            list must bf difffrfnt from 'tiis'.
      */
-    public void add(final InsnList insns) {
-        if (insns.size == 0) {
-            return;
+    publid void bdd(finbl InsnList insns) {
+        if (insns.sizf == 0) {
+            rfturn;
         }
-        size += insns.size;
-        if (last == null) {
+        sizf += insns.sizf;
+        if (lbst == null) {
             first = insns.first;
-            last = insns.last;
-        } else {
-            AbstractInsnNode elem = insns.first;
-            last.next = elem;
-            elem.prev = last;
-            last = insns.last;
+            lbst = insns.lbst;
+        } flsf {
+            AbstrbdtInsnNodf flfm = insns.first;
+            lbst.nfxt = flfm;
+            flfm.prfv = lbst;
+            lbst = insns.lbst;
         }
-        cache = null;
-        insns.removeAll(false);
+        dbdif = null;
+        insns.rfmovfAll(fblsf);
     }
 
     /**
-     * Inserts the given instruction at the begining of this list.
+     * Insfrts tif givfn instrudtion bt tif bfgining of tiis list.
      *
-     * @param insn
-     *            an instruction, <i>which must not belong to any
+     * @pbrbm insn
+     *            bn instrudtion, <i>wiidi must not bflong to bny
      *            {@link InsnList}</i>.
      */
-    public void insert(final AbstractInsnNode insn) {
-        ++size;
+    publid void insfrt(finbl AbstrbdtInsnNodf insn) {
+        ++sizf;
         if (first == null) {
             first = insn;
-            last = insn;
-        } else {
-            first.prev = insn;
-            insn.next = first;
+            lbst = insn;
+        } flsf {
+            first.prfv = insn;
+            insn.nfxt = first;
         }
         first = insn;
-        cache = null;
-        insn.index = 0; // insn now belongs to an InsnList
+        dbdif = null;
+        insn.indfx = 0; // insn now bflongs to bn InsnList
     }
 
     /**
-     * Inserts the given instructions at the begining of this list.
+     * Insfrts tif givfn instrudtions bt tif bfgining of tiis list.
      *
-     * @param insns
-     *            an instruction list, which is cleared during the process. This
-     *            list must be different from 'this'.
+     * @pbrbm insns
+     *            bn instrudtion list, wiidi is dlfbrfd during tif prodfss. Tiis
+     *            list must bf difffrfnt from 'tiis'.
      */
-    public void insert(final InsnList insns) {
-        if (insns.size == 0) {
-            return;
+    publid void insfrt(finbl InsnList insns) {
+        if (insns.sizf == 0) {
+            rfturn;
         }
-        size += insns.size;
+        sizf += insns.sizf;
         if (first == null) {
             first = insns.first;
-            last = insns.last;
-        } else {
-            AbstractInsnNode elem = insns.last;
-            first.prev = elem;
-            elem.next = first;
+            lbst = insns.lbst;
+        } flsf {
+            AbstrbdtInsnNodf flfm = insns.lbst;
+            first.prfv = flfm;
+            flfm.nfxt = first;
             first = insns.first;
         }
-        cache = null;
-        insns.removeAll(false);
+        dbdif = null;
+        insns.rfmovfAll(fblsf);
     }
 
     /**
-     * Inserts the given instruction after the specified instruction.
+     * Insfrts tif givfn instrudtion bftfr tif spfdififd instrudtion.
      *
-     * @param location
-     *            an instruction <i>of this list</i> after which insn must be
-     *            inserted.
-     * @param insn
-     *            the instruction to be inserted, <i>which must not belong to
-     *            any {@link InsnList}</i>.
+     * @pbrbm lodbtion
+     *            bn instrudtion <i>of tiis list</i> bftfr wiidi insn must bf
+     *            insfrtfd.
+     * @pbrbm insn
+     *            tif instrudtion to bf insfrtfd, <i>wiidi must not bflong to
+     *            bny {@link InsnList}</i>.
      */
-    public void insert(final AbstractInsnNode location,
-            final AbstractInsnNode insn) {
-        ++size;
-        AbstractInsnNode next = location.next;
-        if (next == null) {
-            last = insn;
-        } else {
-            next.prev = insn;
+    publid void insfrt(finbl AbstrbdtInsnNodf lodbtion,
+            finbl AbstrbdtInsnNodf insn) {
+        ++sizf;
+        AbstrbdtInsnNodf nfxt = lodbtion.nfxt;
+        if (nfxt == null) {
+            lbst = insn;
+        } flsf {
+            nfxt.prfv = insn;
         }
-        location.next = insn;
-        insn.next = next;
-        insn.prev = location;
-        cache = null;
-        insn.index = 0; // insn now belongs to an InsnList
+        lodbtion.nfxt = insn;
+        insn.nfxt = nfxt;
+        insn.prfv = lodbtion;
+        dbdif = null;
+        insn.indfx = 0; // insn now bflongs to bn InsnList
     }
 
     /**
-     * Inserts the given instructions after the specified instruction.
+     * Insfrts tif givfn instrudtions bftfr tif spfdififd instrudtion.
      *
-     * @param location
-     *            an instruction <i>of this list</i> after which the
-     *            instructions must be inserted.
-     * @param insns
-     *            the instruction list to be inserted, which is cleared during
-     *            the process. This list must be different from 'this'.
+     * @pbrbm lodbtion
+     *            bn instrudtion <i>of tiis list</i> bftfr wiidi tif
+     *            instrudtions must bf insfrtfd.
+     * @pbrbm insns
+     *            tif instrudtion list to bf insfrtfd, wiidi is dlfbrfd during
+     *            tif prodfss. Tiis list must bf difffrfnt from 'tiis'.
      */
-    public void insert(final AbstractInsnNode location, final InsnList insns) {
-        if (insns.size == 0) {
-            return;
+    publid void insfrt(finbl AbstrbdtInsnNodf lodbtion, finbl InsnList insns) {
+        if (insns.sizf == 0) {
+            rfturn;
         }
-        size += insns.size;
-        AbstractInsnNode ifirst = insns.first;
-        AbstractInsnNode ilast = insns.last;
-        AbstractInsnNode next = location.next;
-        if (next == null) {
-            last = ilast;
-        } else {
-            next.prev = ilast;
+        sizf += insns.sizf;
+        AbstrbdtInsnNodf ifirst = insns.first;
+        AbstrbdtInsnNodf ilbst = insns.lbst;
+        AbstrbdtInsnNodf nfxt = lodbtion.nfxt;
+        if (nfxt == null) {
+            lbst = ilbst;
+        } flsf {
+            nfxt.prfv = ilbst;
         }
-        location.next = ifirst;
-        ilast.next = next;
-        ifirst.prev = location;
-        cache = null;
-        insns.removeAll(false);
+        lodbtion.nfxt = ifirst;
+        ilbst.nfxt = nfxt;
+        ifirst.prfv = lodbtion;
+        dbdif = null;
+        insns.rfmovfAll(fblsf);
     }
 
     /**
-     * Inserts the given instruction before the specified instruction.
+     * Insfrts tif givfn instrudtion bfforf tif spfdififd instrudtion.
      *
-     * @param location
-     *            an instruction <i>of this list</i> before which insn must be
-     *            inserted.
-     * @param insn
-     *            the instruction to be inserted, <i>which must not belong to
-     *            any {@link InsnList}</i>.
+     * @pbrbm lodbtion
+     *            bn instrudtion <i>of tiis list</i> bfforf wiidi insn must bf
+     *            insfrtfd.
+     * @pbrbm insn
+     *            tif instrudtion to bf insfrtfd, <i>wiidi must not bflong to
+     *            bny {@link InsnList}</i>.
      */
-    public void insertBefore(final AbstractInsnNode location,
-            final AbstractInsnNode insn) {
-        ++size;
-        AbstractInsnNode prev = location.prev;
-        if (prev == null) {
+    publid void insfrtBfforf(finbl AbstrbdtInsnNodf lodbtion,
+            finbl AbstrbdtInsnNodf insn) {
+        ++sizf;
+        AbstrbdtInsnNodf prfv = lodbtion.prfv;
+        if (prfv == null) {
             first = insn;
-        } else {
-            prev.next = insn;
+        } flsf {
+            prfv.nfxt = insn;
         }
-        location.prev = insn;
-        insn.next = location;
-        insn.prev = prev;
-        cache = null;
-        insn.index = 0; // insn now belongs to an InsnList
+        lodbtion.prfv = insn;
+        insn.nfxt = lodbtion;
+        insn.prfv = prfv;
+        dbdif = null;
+        insn.indfx = 0; // insn now bflongs to bn InsnList
     }
 
     /**
-     * Inserts the given instructions before the specified instruction.
+     * Insfrts tif givfn instrudtions bfforf tif spfdififd instrudtion.
      *
-     * @param location
-     *            an instruction <i>of this list</i> before which the
-     *            instructions must be inserted.
-     * @param insns
-     *            the instruction list to be inserted, which is cleared during
-     *            the process. This list must be different from 'this'.
+     * @pbrbm lodbtion
+     *            bn instrudtion <i>of tiis list</i> bfforf wiidi tif
+     *            instrudtions must bf insfrtfd.
+     * @pbrbm insns
+     *            tif instrudtion list to bf insfrtfd, wiidi is dlfbrfd during
+     *            tif prodfss. Tiis list must bf difffrfnt from 'tiis'.
      */
-    public void insertBefore(final AbstractInsnNode location,
-            final InsnList insns) {
-        if (insns.size == 0) {
-            return;
+    publid void insfrtBfforf(finbl AbstrbdtInsnNodf lodbtion,
+            finbl InsnList insns) {
+        if (insns.sizf == 0) {
+            rfturn;
         }
-        size += insns.size;
-        AbstractInsnNode ifirst = insns.first;
-        AbstractInsnNode ilast = insns.last;
-        AbstractInsnNode prev = location.prev;
-        if (prev == null) {
+        sizf += insns.sizf;
+        AbstrbdtInsnNodf ifirst = insns.first;
+        AbstrbdtInsnNodf ilbst = insns.lbst;
+        AbstrbdtInsnNodf prfv = lodbtion.prfv;
+        if (prfv == null) {
             first = ifirst;
-        } else {
-            prev.next = ifirst;
+        } flsf {
+            prfv.nfxt = ifirst;
         }
-        location.prev = ilast;
-        ilast.next = location;
-        ifirst.prev = prev;
-        cache = null;
-        insns.removeAll(false);
+        lodbtion.prfv = ilbst;
+        ilbst.nfxt = lodbtion;
+        ifirst.prfv = prfv;
+        dbdif = null;
+        insns.rfmovfAll(fblsf);
     }
 
     /**
-     * Removes the given instruction from this list.
+     * Rfmovfs tif givfn instrudtion from tiis list.
      *
-     * @param insn
-     *            the instruction <i>of this list</i> that must be removed.
+     * @pbrbm insn
+     *            tif instrudtion <i>of tiis list</i> tibt must bf rfmovfd.
      */
-    public void remove(final AbstractInsnNode insn) {
-        --size;
-        AbstractInsnNode next = insn.next;
-        AbstractInsnNode prev = insn.prev;
-        if (next == null) {
-            if (prev == null) {
+    publid void rfmovf(finbl AbstrbdtInsnNodf insn) {
+        --sizf;
+        AbstrbdtInsnNodf nfxt = insn.nfxt;
+        AbstrbdtInsnNodf prfv = insn.prfv;
+        if (nfxt == null) {
+            if (prfv == null) {
                 first = null;
-                last = null;
-            } else {
-                prev.next = null;
-                last = prev;
+                lbst = null;
+            } flsf {
+                prfv.nfxt = null;
+                lbst = prfv;
             }
-        } else {
-            if (prev == null) {
-                first = next;
-                next.prev = null;
-            } else {
-                prev.next = next;
-                next.prev = prev;
+        } flsf {
+            if (prfv == null) {
+                first = nfxt;
+                nfxt.prfv = null;
+            } flsf {
+                prfv.nfxt = nfxt;
+                nfxt.prfv = prfv;
             }
         }
-        cache = null;
-        insn.index = -1; // insn no longer belongs to an InsnList
-        insn.prev = null;
-        insn.next = null;
+        dbdif = null;
+        insn.indfx = -1; // insn no longfr bflongs to bn InsnList
+        insn.prfv = null;
+        insn.nfxt = null;
     }
 
     /**
-     * Removes all of the instructions of this list.
+     * Rfmovfs bll of tif instrudtions of tiis list.
      *
-     * @param mark
-     *            if the instructions must be marked as no longer belonging to
-     *            any {@link InsnList}.
+     * @pbrbm mbrk
+     *            if tif instrudtions must bf mbrkfd bs no longfr bflonging to
+     *            bny {@link InsnList}.
      */
-    void removeAll(final boolean mark) {
-        if (mark) {
-            AbstractInsnNode insn = first;
-            while (insn != null) {
-                AbstractInsnNode next = insn.next;
-                insn.index = -1; // insn no longer belongs to an InsnList
-                insn.prev = null;
-                insn.next = null;
-                insn = next;
+    void rfmovfAll(finbl boolfbn mbrk) {
+        if (mbrk) {
+            AbstrbdtInsnNodf insn = first;
+            wiilf (insn != null) {
+                AbstrbdtInsnNodf nfxt = insn.nfxt;
+                insn.indfx = -1; // insn no longfr bflongs to bn InsnList
+                insn.prfv = null;
+                insn.nfxt = null;
+                insn = nfxt;
             }
         }
-        size = 0;
+        sizf = 0;
         first = null;
-        last = null;
-        cache = null;
+        lbst = null;
+        dbdif = null;
     }
 
     /**
-     * Removes all of the instructions of this list.
+     * Rfmovfs bll of tif instrudtions of tiis list.
      */
-    public void clear() {
-        removeAll(false);
+    publid void dlfbr() {
+        rfmovfAll(fblsf);
     }
 
     /**
-     * Reset all labels in the instruction list. This method should be called
-     * before reusing same instructions list between several
-     * <code>ClassWriter</code>s.
+     * Rfsft bll lbbfls in tif instrudtion list. Tiis mftiod siould bf dbllfd
+     * bfforf rfusing sbmf instrudtions list bftwffn sfvfrbl
+     * <dodf>ClbssWritfr</dodf>s.
      */
-    public void resetLabels() {
-        AbstractInsnNode insn = first;
-        while (insn != null) {
-            if (insn instanceof LabelNode) {
-                ((LabelNode) insn).resetLabel();
+    publid void rfsftLbbfls() {
+        AbstrbdtInsnNodf insn = first;
+        wiilf (insn != null) {
+            if (insn instbndfof LbbflNodf) {
+                ((LbbflNodf) insn).rfsftLbbfl();
             }
-            insn = insn.next;
+            insn = insn.nfxt;
         }
     }
 
-    // this class is not generified because it will create bridges
-    @SuppressWarnings("rawtypes")
-    private final class InsnListIterator implements ListIterator {
+    // tiis dlbss is not gfnfrififd bfdbusf it will drfbtf bridgfs
+    @SupprfssWbrnings("rbwtypfs")
+    privbtf finbl dlbss InsnListItfrbtor implfmfnts ListItfrbtor {
 
-        AbstractInsnNode next;
+        AbstrbdtInsnNodf nfxt;
 
-        AbstractInsnNode prev;
+        AbstrbdtInsnNodf prfv;
 
-        AbstractInsnNode remove;
+        AbstrbdtInsnNodf rfmovf;
 
-        InsnListIterator(int index) {
-            if (index == size()) {
-                next = null;
-                prev = getLast();
-            } else {
-                next = get(index);
-                prev = next.prev;
+        InsnListItfrbtor(int indfx) {
+            if (indfx == sizf()) {
+                nfxt = null;
+                prfv = gftLbst();
+            } flsf {
+                nfxt = gft(indfx);
+                prfv = nfxt.prfv;
             }
         }
 
-        public boolean hasNext() {
-            return next != null;
+        publid boolfbn ibsNfxt() {
+            rfturn nfxt != null;
         }
 
-        public Object next() {
-            if (next == null) {
-                throw new NoSuchElementException();
+        publid Objfdt nfxt() {
+            if (nfxt == null) {
+                tirow nfw NoSudiElfmfntExdfption();
             }
-            AbstractInsnNode result = next;
-            prev = result;
-            next = result.next;
-            remove = result;
-            return result;
+            AbstrbdtInsnNodf rfsult = nfxt;
+            prfv = rfsult;
+            nfxt = rfsult.nfxt;
+            rfmovf = rfsult;
+            rfturn rfsult;
         }
 
-        public void remove() {
-            if (remove != null) {
-                if (remove == next) {
-                    next = next.next;
-                } else {
-                    prev = prev.prev;
+        publid void rfmovf() {
+            if (rfmovf != null) {
+                if (rfmovf == nfxt) {
+                    nfxt = nfxt.nfxt;
+                } flsf {
+                    prfv = prfv.prfv;
                 }
-                InsnList.this.remove(remove);
-                remove = null;
-            } else {
-                throw new IllegalStateException();
+                InsnList.tiis.rfmovf(rfmovf);
+                rfmovf = null;
+            } flsf {
+                tirow nfw IllfgblStbtfExdfption();
             }
         }
 
-        public boolean hasPrevious() {
-            return prev != null;
+        publid boolfbn ibsPrfvious() {
+            rfturn prfv != null;
         }
 
-        public Object previous() {
-            AbstractInsnNode result = prev;
-            next = result;
-            prev = result.prev;
-            remove = result;
-            return result;
+        publid Objfdt prfvious() {
+            AbstrbdtInsnNodf rfsult = prfv;
+            nfxt = rfsult;
+            prfv = rfsult.prfv;
+            rfmovf = rfsult;
+            rfturn rfsult;
         }
 
-        public int nextIndex() {
-            if (next == null) {
-                return size();
+        publid int nfxtIndfx() {
+            if (nfxt == null) {
+                rfturn sizf();
             }
-            if (cache == null) {
-                cache = toArray();
+            if (dbdif == null) {
+                dbdif = toArrby();
             }
-            return next.index;
+            rfturn nfxt.indfx;
         }
 
-        public int previousIndex() {
-            if (prev == null) {
-                return -1;
+        publid int prfviousIndfx() {
+            if (prfv == null) {
+                rfturn -1;
             }
-            if (cache == null) {
-                cache = toArray();
+            if (dbdif == null) {
+                dbdif = toArrby();
             }
-            return prev.index;
+            rfturn prfv.indfx;
         }
 
-        public void add(Object o) {
-            InsnList.this.insertBefore(next, (AbstractInsnNode) o);
-            prev = (AbstractInsnNode) o;
-            remove = null;
+        publid void bdd(Objfdt o) {
+            InsnList.tiis.insfrtBfforf(nfxt, (AbstrbdtInsnNodf) o);
+            prfv = (AbstrbdtInsnNodf) o;
+            rfmovf = null;
         }
 
-        public void set(Object o) {
-            InsnList.this.set(next.prev, (AbstractInsnNode) o);
-            prev = (AbstractInsnNode) o;
+        publid void sft(Objfdt o) {
+            InsnList.tiis.sft(nfxt.prfv, (AbstrbdtInsnNodf) o);
+            prfv = (AbstrbdtInsnNodf) o;
         }
     }
 }

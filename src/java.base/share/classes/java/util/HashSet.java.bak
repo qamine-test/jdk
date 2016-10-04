@@ -1,353 +1,353 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
-import java.io.InvalidObjectException;
+import jbvb.io.InvblidObjfdtExdfption;
 
 /**
- * This class implements the <tt>Set</tt> interface, backed by a hash table
- * (actually a <tt>HashMap</tt> instance).  It makes no guarantees as to the
- * iteration order of the set; in particular, it does not guarantee that the
- * order will remain constant over time.  This class permits the <tt>null</tt>
- * element.
+ * Tiis dlbss implfmfnts tif <tt>Sft</tt> intfrfbdf, bbdkfd by b ibsi tbblf
+ * (bdtublly b <tt>HbsiMbp</tt> instbndf).  It mbkfs no gubrbntffs bs to tif
+ * itfrbtion ordfr of tif sft; in pbrtidulbr, it dofs not gubrbntff tibt tif
+ * ordfr will rfmbin donstbnt ovfr timf.  Tiis dlbss pfrmits tif <tt>null</tt>
+ * flfmfnt.
  *
- * <p>This class offers constant time performance for the basic operations
- * (<tt>add</tt>, <tt>remove</tt>, <tt>contains</tt> and <tt>size</tt>),
- * assuming the hash function disperses the elements properly among the
- * buckets.  Iterating over this set requires time proportional to the sum of
- * the <tt>HashSet</tt> instance's size (the number of elements) plus the
- * "capacity" of the backing <tt>HashMap</tt> instance (the number of
- * buckets).  Thus, it's very important not to set the initial capacity too
- * high (or the load factor too low) if iteration performance is important.
+ * <p>Tiis dlbss offfrs donstbnt timf pfrformbndf for tif bbsid opfrbtions
+ * (<tt>bdd</tt>, <tt>rfmovf</tt>, <tt>dontbins</tt> bnd <tt>sizf</tt>),
+ * bssuming tif ibsi fundtion dispfrsfs tif flfmfnts propfrly bmong tif
+ * budkfts.  Itfrbting ovfr tiis sft rfquirfs timf proportionbl to tif sum of
+ * tif <tt>HbsiSft</tt> instbndf's sizf (tif numbfr of flfmfnts) plus tif
+ * "dbpbdity" of tif bbdking <tt>HbsiMbp</tt> instbndf (tif numbfr of
+ * budkfts).  Tius, it's vfry importbnt not to sft tif initibl dbpbdity too
+ * iigi (or tif lobd fbdtor too low) if itfrbtion pfrformbndf is importbnt.
  *
- * <p><strong>Note that this implementation is not synchronized.</strong>
- * If multiple threads access a hash set concurrently, and at least one of
- * the threads modifies the set, it <i>must</i> be synchronized externally.
- * This is typically accomplished by synchronizing on some object that
- * naturally encapsulates the set.
+ * <p><strong>Notf tibt tiis implfmfntbtion is not syndironizfd.</strong>
+ * If multiplf tirfbds bddfss b ibsi sft dondurrfntly, bnd bt lfbst onf of
+ * tif tirfbds modififs tif sft, it <i>must</i> bf syndironizfd fxtfrnblly.
+ * Tiis is typidblly bddomplisifd by syndironizing on somf objfdt tibt
+ * nbturblly fndbpsulbtfs tif sft.
  *
- * If no such object exists, the set should be "wrapped" using the
- * {@link Collections#synchronizedSet Collections.synchronizedSet}
- * method.  This is best done at creation time, to prevent accidental
- * unsynchronized access to the set:<pre>
- *   Set s = Collections.synchronizedSet(new HashSet(...));</pre>
+ * If no sudi objfdt fxists, tif sft siould bf "wrbppfd" using tif
+ * {@link Collfdtions#syndironizfdSft Collfdtions.syndironizfdSft}
+ * mftiod.  Tiis is bfst donf bt drfbtion timf, to prfvfnt bddidfntbl
+ * unsyndironizfd bddfss to tif sft:<prf>
+ *   Sft s = Collfdtions.syndironizfdSft(nfw HbsiSft(...));</prf>
  *
- * <p>The iterators returned by this class's <tt>iterator</tt> method are
- * <i>fail-fast</i>: if the set is modified at any time after the iterator is
- * created, in any way except through the iterator's own <tt>remove</tt>
- * method, the Iterator throws a {@link ConcurrentModificationException}.
- * Thus, in the face of concurrent modification, the iterator fails quickly
- * and cleanly, rather than risking arbitrary, non-deterministic behavior at
- * an undetermined time in the future.
+ * <p>Tif itfrbtors rfturnfd by tiis dlbss's <tt>itfrbtor</tt> mftiod brf
+ * <i>fbil-fbst</i>: if tif sft is modififd bt bny timf bftfr tif itfrbtor is
+ * drfbtfd, in bny wby fxdfpt tirougi tif itfrbtor's own <tt>rfmovf</tt>
+ * mftiod, tif Itfrbtor tirows b {@link CondurrfntModifidbtionExdfption}.
+ * Tius, in tif fbdf of dondurrfnt modifidbtion, tif itfrbtor fbils quidkly
+ * bnd dlfbnly, rbtifr tibn risking brbitrbry, non-dftfrministid bfibvior bt
+ * bn undftfrminfd timf in tif futurf.
  *
- * <p>Note that the fail-fast behavior of an iterator cannot be guaranteed
- * as it is, generally speaking, impossible to make any hard guarantees in the
- * presence of unsynchronized concurrent modification.  Fail-fast iterators
- * throw <tt>ConcurrentModificationException</tt> on a best-effort basis.
- * Therefore, it would be wrong to write a program that depended on this
- * exception for its correctness: <i>the fail-fast behavior of iterators
- * should be used only to detect bugs.</i>
+ * <p>Notf tibt tif fbil-fbst bfibvior of bn itfrbtor dbnnot bf gubrbntffd
+ * bs it is, gfnfrblly spfbking, impossiblf to mbkf bny ibrd gubrbntffs in tif
+ * prfsfndf of unsyndironizfd dondurrfnt modifidbtion.  Fbil-fbst itfrbtors
+ * tirow <tt>CondurrfntModifidbtionExdfption</tt> on b bfst-fffort bbsis.
+ * Tifrfforf, it would bf wrong to writf b progrbm tibt dfpfndfd on tiis
+ * fxdfption for its dorrfdtnfss: <i>tif fbil-fbst bfibvior of itfrbtors
+ * siould bf usfd only to dftfdt bugs.</i>
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis dlbss is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @param <E> the type of elements maintained by this set
+ * @pbrbm <E> tif typf of flfmfnts mbintbinfd by tiis sft
  *
- * @author  Josh Bloch
- * @author  Neal Gafter
- * @see     Collection
- * @see     Set
- * @see     TreeSet
- * @see     HashMap
- * @since   1.2
+ * @butior  Josi Blodi
+ * @butior  Nfbl Gbftfr
+ * @sff     Collfdtion
+ * @sff     Sft
+ * @sff     TrffSft
+ * @sff     HbsiMbp
+ * @sindf   1.2
  */
 
-public class HashSet<E>
-    extends AbstractSet<E>
-    implements Set<E>, Cloneable, java.io.Serializable
+publid dlbss HbsiSft<E>
+    fxtfnds AbstrbdtSft<E>
+    implfmfnts Sft<E>, Clonfbblf, jbvb.io.Sfriblizbblf
 {
-    static final long serialVersionUID = -5024744406713321676L;
+    stbtid finbl long sfriblVfrsionUID = -5024744406713321676L;
 
-    private transient HashMap<E,Object> map;
+    privbtf trbnsifnt HbsiMbp<E,Objfdt> mbp;
 
-    // Dummy value to associate with an Object in the backing Map
-    private static final Object PRESENT = new Object();
+    // Dummy vbluf to bssodibtf witi bn Objfdt in tif bbdking Mbp
+    privbtf stbtid finbl Objfdt PRESENT = nfw Objfdt();
 
     /**
-     * Constructs a new, empty set; the backing <tt>HashMap</tt> instance has
-     * default initial capacity (16) and load factor (0.75).
+     * Construdts b nfw, fmpty sft; tif bbdking <tt>HbsiMbp</tt> instbndf ibs
+     * dffbult initibl dbpbdity (16) bnd lobd fbdtor (0.75).
      */
-    public HashSet() {
-        map = new HashMap<>();
+    publid HbsiSft() {
+        mbp = nfw HbsiMbp<>();
     }
 
     /**
-     * Constructs a new set containing the elements in the specified
-     * collection.  The <tt>HashMap</tt> is created with default load factor
-     * (0.75) and an initial capacity sufficient to contain the elements in
-     * the specified collection.
+     * Construdts b nfw sft dontbining tif flfmfnts in tif spfdififd
+     * dollfdtion.  Tif <tt>HbsiMbp</tt> is drfbtfd witi dffbult lobd fbdtor
+     * (0.75) bnd bn initibl dbpbdity suffidifnt to dontbin tif flfmfnts in
+     * tif spfdififd dollfdtion.
      *
-     * @param c the collection whose elements are to be placed into this set
-     * @throws NullPointerException if the specified collection is null
+     * @pbrbm d tif dollfdtion wiosf flfmfnts brf to bf plbdfd into tiis sft
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion is null
      */
-    public HashSet(Collection<? extends E> c) {
-        map = new HashMap<>(Math.max((int) (c.size()/.75f) + 1, 16));
-        addAll(c);
+    publid HbsiSft(Collfdtion<? fxtfnds E> d) {
+        mbp = nfw HbsiMbp<>(Mbti.mbx((int) (d.sizf()/.75f) + 1, 16));
+        bddAll(d);
     }
 
     /**
-     * Constructs a new, empty set; the backing <tt>HashMap</tt> instance has
-     * the specified initial capacity and the specified load factor.
+     * Construdts b nfw, fmpty sft; tif bbdking <tt>HbsiMbp</tt> instbndf ibs
+     * tif spfdififd initibl dbpbdity bnd tif spfdififd lobd fbdtor.
      *
-     * @param      initialCapacity   the initial capacity of the hash map
-     * @param      loadFactor        the load factor of the hash map
-     * @throws     IllegalArgumentException if the initial capacity is less
-     *             than zero, or if the load factor is nonpositive
+     * @pbrbm      initiblCbpbdity   tif initibl dbpbdity of tif ibsi mbp
+     * @pbrbm      lobdFbdtor        tif lobd fbdtor of tif ibsi mbp
+     * @tirows     IllfgblArgumfntExdfption if tif initibl dbpbdity is lfss
+     *             tibn zfro, or if tif lobd fbdtor is nonpositivf
      */
-    public HashSet(int initialCapacity, float loadFactor) {
-        map = new HashMap<>(initialCapacity, loadFactor);
+    publid HbsiSft(int initiblCbpbdity, flobt lobdFbdtor) {
+        mbp = nfw HbsiMbp<>(initiblCbpbdity, lobdFbdtor);
     }
 
     /**
-     * Constructs a new, empty set; the backing <tt>HashMap</tt> instance has
-     * the specified initial capacity and default load factor (0.75).
+     * Construdts b nfw, fmpty sft; tif bbdking <tt>HbsiMbp</tt> instbndf ibs
+     * tif spfdififd initibl dbpbdity bnd dffbult lobd fbdtor (0.75).
      *
-     * @param      initialCapacity   the initial capacity of the hash table
-     * @throws     IllegalArgumentException if the initial capacity is less
-     *             than zero
+     * @pbrbm      initiblCbpbdity   tif initibl dbpbdity of tif ibsi tbblf
+     * @tirows     IllfgblArgumfntExdfption if tif initibl dbpbdity is lfss
+     *             tibn zfro
      */
-    public HashSet(int initialCapacity) {
-        map = new HashMap<>(initialCapacity);
+    publid HbsiSft(int initiblCbpbdity) {
+        mbp = nfw HbsiMbp<>(initiblCbpbdity);
     }
 
     /**
-     * Constructs a new, empty linked hash set.  (This package private
-     * constructor is only used by LinkedHashSet.) The backing
-     * HashMap instance is a LinkedHashMap with the specified initial
-     * capacity and the specified load factor.
+     * Construdts b nfw, fmpty linkfd ibsi sft.  (Tiis pbdkbgf privbtf
+     * donstrudtor is only usfd by LinkfdHbsiSft.) Tif bbdking
+     * HbsiMbp instbndf is b LinkfdHbsiMbp witi tif spfdififd initibl
+     * dbpbdity bnd tif spfdififd lobd fbdtor.
      *
-     * @param      initialCapacity   the initial capacity of the hash map
-     * @param      loadFactor        the load factor of the hash map
-     * @param      dummy             ignored (distinguishes this
-     *             constructor from other int, float constructor.)
-     * @throws     IllegalArgumentException if the initial capacity is less
-     *             than zero, or if the load factor is nonpositive
+     * @pbrbm      initiblCbpbdity   tif initibl dbpbdity of tif ibsi mbp
+     * @pbrbm      lobdFbdtor        tif lobd fbdtor of tif ibsi mbp
+     * @pbrbm      dummy             ignorfd (distinguisifs tiis
+     *             donstrudtor from otifr int, flobt donstrudtor.)
+     * @tirows     IllfgblArgumfntExdfption if tif initibl dbpbdity is lfss
+     *             tibn zfro, or if tif lobd fbdtor is nonpositivf
      */
-    HashSet(int initialCapacity, float loadFactor, boolean dummy) {
-        map = new LinkedHashMap<>(initialCapacity, loadFactor);
+    HbsiSft(int initiblCbpbdity, flobt lobdFbdtor, boolfbn dummy) {
+        mbp = nfw LinkfdHbsiMbp<>(initiblCbpbdity, lobdFbdtor);
     }
 
     /**
-     * Returns an iterator over the elements in this set.  The elements
-     * are returned in no particular order.
+     * Rfturns bn itfrbtor ovfr tif flfmfnts in tiis sft.  Tif flfmfnts
+     * brf rfturnfd in no pbrtidulbr ordfr.
      *
-     * @return an Iterator over the elements in this set
-     * @see ConcurrentModificationException
+     * @rfturn bn Itfrbtor ovfr tif flfmfnts in tiis sft
+     * @sff CondurrfntModifidbtionExdfption
      */
-    public Iterator<E> iterator() {
-        return map.keySet().iterator();
+    publid Itfrbtor<E> itfrbtor() {
+        rfturn mbp.kfySft().itfrbtor();
     }
 
     /**
-     * Returns the number of elements in this set (its cardinality).
+     * Rfturns tif numbfr of flfmfnts in tiis sft (its dbrdinblity).
      *
-     * @return the number of elements in this set (its cardinality)
+     * @rfturn tif numbfr of flfmfnts in tiis sft (its dbrdinblity)
      */
-    public int size() {
-        return map.size();
+    publid int sizf() {
+        rfturn mbp.sizf();
     }
 
     /**
-     * Returns <tt>true</tt> if this set contains no elements.
+     * Rfturns <tt>truf</tt> if tiis sft dontbins no flfmfnts.
      *
-     * @return <tt>true</tt> if this set contains no elements
+     * @rfturn <tt>truf</tt> if tiis sft dontbins no flfmfnts
      */
-    public boolean isEmpty() {
-        return map.isEmpty();
+    publid boolfbn isEmpty() {
+        rfturn mbp.isEmpty();
     }
 
     /**
-     * Returns <tt>true</tt> if this set contains the specified element.
-     * More formally, returns <tt>true</tt> if and only if this set
-     * contains an element <tt>e</tt> such that
-     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>.
+     * Rfturns <tt>truf</tt> if tiis sft dontbins tif spfdififd flfmfnt.
+     * Morf formblly, rfturns <tt>truf</tt> if bnd only if tiis sft
+     * dontbins bn flfmfnt <tt>f</tt> sudi tibt
+     * <tt>(o==null&nbsp;?&nbsp;f==null&nbsp;:&nbsp;o.fqubls(f))</tt>.
      *
-     * @param o element whose presence in this set is to be tested
-     * @return <tt>true</tt> if this set contains the specified element
+     * @pbrbm o flfmfnt wiosf prfsfndf in tiis sft is to bf tfstfd
+     * @rfturn <tt>truf</tt> if tiis sft dontbins tif spfdififd flfmfnt
      */
-    public boolean contains(Object o) {
-        return map.containsKey(o);
+    publid boolfbn dontbins(Objfdt o) {
+        rfturn mbp.dontbinsKfy(o);
     }
 
     /**
-     * Adds the specified element to this set if it is not already present.
-     * More formally, adds the specified element <tt>e</tt> to this set if
-     * this set contains no element <tt>e2</tt> such that
-     * <tt>(e==null&nbsp;?&nbsp;e2==null&nbsp;:&nbsp;e.equals(e2))</tt>.
-     * If this set already contains the element, the call leaves the set
-     * unchanged and returns <tt>false</tt>.
+     * Adds tif spfdififd flfmfnt to tiis sft if it is not blrfbdy prfsfnt.
+     * Morf formblly, bdds tif spfdififd flfmfnt <tt>f</tt> to tiis sft if
+     * tiis sft dontbins no flfmfnt <tt>f2</tt> sudi tibt
+     * <tt>(f==null&nbsp;?&nbsp;f2==null&nbsp;:&nbsp;f.fqubls(f2))</tt>.
+     * If tiis sft blrfbdy dontbins tif flfmfnt, tif dbll lfbvfs tif sft
+     * undibngfd bnd rfturns <tt>fblsf</tt>.
      *
-     * @param e element to be added to this set
-     * @return <tt>true</tt> if this set did not already contain the specified
-     * element
+     * @pbrbm f flfmfnt to bf bddfd to tiis sft
+     * @rfturn <tt>truf</tt> if tiis sft did not blrfbdy dontbin tif spfdififd
+     * flfmfnt
      */
-    public boolean add(E e) {
-        return map.put(e, PRESENT)==null;
+    publid boolfbn bdd(E f) {
+        rfturn mbp.put(f, PRESENT)==null;
     }
 
     /**
-     * Removes the specified element from this set if it is present.
-     * More formally, removes an element <tt>e</tt> such that
-     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>,
-     * if this set contains such an element.  Returns <tt>true</tt> if
-     * this set contained the element (or equivalently, if this set
-     * changed as a result of the call).  (This set will not contain the
-     * element once the call returns.)
+     * Rfmovfs tif spfdififd flfmfnt from tiis sft if it is prfsfnt.
+     * Morf formblly, rfmovfs bn flfmfnt <tt>f</tt> sudi tibt
+     * <tt>(o==null&nbsp;?&nbsp;f==null&nbsp;:&nbsp;o.fqubls(f))</tt>,
+     * if tiis sft dontbins sudi bn flfmfnt.  Rfturns <tt>truf</tt> if
+     * tiis sft dontbinfd tif flfmfnt (or fquivblfntly, if tiis sft
+     * dibngfd bs b rfsult of tif dbll).  (Tiis sft will not dontbin tif
+     * flfmfnt ondf tif dbll rfturns.)
      *
-     * @param o object to be removed from this set, if present
-     * @return <tt>true</tt> if the set contained the specified element
+     * @pbrbm o objfdt to bf rfmovfd from tiis sft, if prfsfnt
+     * @rfturn <tt>truf</tt> if tif sft dontbinfd tif spfdififd flfmfnt
      */
-    public boolean remove(Object o) {
-        return map.remove(o)==PRESENT;
+    publid boolfbn rfmovf(Objfdt o) {
+        rfturn mbp.rfmovf(o)==PRESENT;
     }
 
     /**
-     * Removes all of the elements from this set.
-     * The set will be empty after this call returns.
+     * Rfmovfs bll of tif flfmfnts from tiis sft.
+     * Tif sft will bf fmpty bftfr tiis dbll rfturns.
      */
-    public void clear() {
-        map.clear();
+    publid void dlfbr() {
+        mbp.dlfbr();
     }
 
     /**
-     * Returns a shallow copy of this <tt>HashSet</tt> instance: the elements
-     * themselves are not cloned.
+     * Rfturns b sibllow dopy of tiis <tt>HbsiSft</tt> instbndf: tif flfmfnts
+     * tifmsflvfs brf not dlonfd.
      *
-     * @return a shallow copy of this set
+     * @rfturn b sibllow dopy of tiis sft
      */
-    @SuppressWarnings("unchecked")
-    public Object clone() {
+    @SupprfssWbrnings("undifdkfd")
+    publid Objfdt dlonf() {
         try {
-            HashSet<E> newSet = (HashSet<E>) super.clone();
-            newSet.map = (HashMap<E, Object>) map.clone();
-            return newSet;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e);
+            HbsiSft<E> nfwSft = (HbsiSft<E>) supfr.dlonf();
+            nfwSft.mbp = (HbsiMbp<E, Objfdt>) mbp.dlonf();
+            rfturn nfwSft;
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            tirow nfw IntfrnblError(f);
         }
     }
 
     /**
-     * Save the state of this <tt>HashSet</tt> instance to a stream (that is,
-     * serialize it).
+     * Sbvf tif stbtf of tiis <tt>HbsiSft</tt> instbndf to b strfbm (tibt is,
+     * sfriblizf it).
      *
-     * @serialData The capacity of the backing <tt>HashMap</tt> instance
-     *             (int), and its load factor (float) are emitted, followed by
-     *             the size of the set (the number of elements it contains)
-     *             (int), followed by all of its elements (each an Object) in
-     *             no particular order.
+     * @sfriblDbtb Tif dbpbdity of tif bbdking <tt>HbsiMbp</tt> instbndf
+     *             (int), bnd its lobd fbdtor (flobt) brf fmittfd, followfd by
+     *             tif sizf of tif sft (tif numbfr of flfmfnts it dontbins)
+     *             (int), followfd by bll of its flfmfnts (fbdi bn Objfdt) in
+     *             no pbrtidulbr ordfr.
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-        throws java.io.IOException {
-        // Write out any hidden serialization magic
-        s.defaultWriteObject();
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+        tirows jbvb.io.IOExdfption {
+        // Writf out bny iiddfn sfriblizbtion mbgid
+        s.dffbultWritfObjfdt();
 
-        // Write out HashMap capacity and load factor
-        s.writeInt(map.capacity());
-        s.writeFloat(map.loadFactor());
+        // Writf out HbsiMbp dbpbdity bnd lobd fbdtor
+        s.writfInt(mbp.dbpbdity());
+        s.writfFlobt(mbp.lobdFbdtor());
 
-        // Write out size
-        s.writeInt(map.size());
+        // Writf out sizf
+        s.writfInt(mbp.sizf());
 
-        // Write out all elements in the proper order.
-        for (E e : map.keySet())
-            s.writeObject(e);
+        // Writf out bll flfmfnts in tif propfr ordfr.
+        for (E f : mbp.kfySft())
+            s.writfObjfdt(f);
     }
 
     /**
-     * Reconstitute the <tt>HashSet</tt> instance from a stream (that is,
-     * deserialize it).
+     * Rfdonstitutf tif <tt>HbsiSft</tt> instbndf from b strfbm (tibt is,
+     * dfsfriblizf it).
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
-        // Read in any hidden serialization magic
-        s.defaultReadObject();
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        // Rfbd in bny iiddfn sfriblizbtion mbgid
+        s.dffbultRfbdObjfdt();
 
-        // Read capacity and verify non-negative.
-        int capacity = s.readInt();
-        if (capacity < 0) {
-            throw new InvalidObjectException("Illegal capacity: " +
-                                             capacity);
+        // Rfbd dbpbdity bnd vfrify non-nfgbtivf.
+        int dbpbdity = s.rfbdInt();
+        if (dbpbdity < 0) {
+            tirow nfw InvblidObjfdtExdfption("Illfgbl dbpbdity: " +
+                                             dbpbdity);
         }
 
-        // Read load factor and verify positive and non NaN.
-        float loadFactor = s.readFloat();
-        if (loadFactor <= 0 || Float.isNaN(loadFactor)) {
-            throw new InvalidObjectException("Illegal load factor: " +
-                                             loadFactor);
+        // Rfbd lobd fbdtor bnd vfrify positivf bnd non NbN.
+        flobt lobdFbdtor = s.rfbdFlobt();
+        if (lobdFbdtor <= 0 || Flobt.isNbN(lobdFbdtor)) {
+            tirow nfw InvblidObjfdtExdfption("Illfgbl lobd fbdtor: " +
+                                             lobdFbdtor);
         }
 
-        // Read size and verify non-negative.
-        int size = s.readInt();
-        if (size < 0) {
-            throw new InvalidObjectException("Illegal size: " +
-                                             size);
+        // Rfbd sizf bnd vfrify non-nfgbtivf.
+        int sizf = s.rfbdInt();
+        if (sizf < 0) {
+            tirow nfw InvblidObjfdtExdfption("Illfgbl sizf: " +
+                                             sizf);
         }
 
-        // Set the capacity according to the size and load factor ensuring that
-        // the HashMap is at least 25% full but clamping to maximum capacity.
-        capacity = (int) Math.min(size * Math.min(1 / loadFactor, 4.0f),
-                HashMap.MAXIMUM_CAPACITY);
+        // Sft tif dbpbdity bddording to tif sizf bnd lobd fbdtor fnsuring tibt
+        // tif HbsiMbp is bt lfbst 25% full but dlbmping to mbximum dbpbdity.
+        dbpbdity = (int) Mbti.min(sizf * Mbti.min(1 / lobdFbdtor, 4.0f),
+                HbsiMbp.MAXIMUM_CAPACITY);
 
-        // Create backing HashMap
-        map = (((HashSet<?>)this) instanceof LinkedHashSet ?
-               new LinkedHashMap<>(capacity, loadFactor) :
-               new HashMap<>(capacity, loadFactor));
+        // Crfbtf bbdking HbsiMbp
+        mbp = (((HbsiSft<?>)tiis) instbndfof LinkfdHbsiSft ?
+               nfw LinkfdHbsiMbp<>(dbpbdity, lobdFbdtor) :
+               nfw HbsiMbp<>(dbpbdity, lobdFbdtor));
 
-        // Read in all elements in the proper order.
-        for (int i=0; i<size; i++) {
-            @SuppressWarnings("unchecked")
-                E e = (E) s.readObject();
-            map.put(e, PRESENT);
+        // Rfbd in bll flfmfnts in tif propfr ordfr.
+        for (int i=0; i<sizf; i++) {
+            @SupprfssWbrnings("undifdkfd")
+                E f = (E) s.rfbdObjfdt();
+            mbp.put(f, PRESENT);
         }
     }
 
     /**
-     * Creates a <em><a href="Spliterator.html#binding">late-binding</a></em>
-     * and <em>fail-fast</em> {@link Spliterator} over the elements in this
-     * set.
+     * Crfbtfs b <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm>
+     * bnd <fm>fbil-fbst</fm> {@link Splitfrbtor} ovfr tif flfmfnts in tiis
+     * sft.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#SIZED} and
-     * {@link Spliterator#DISTINCT}.  Overriding implementations should document
-     * the reporting of additional characteristic values.
+     * <p>Tif {@dodf Splitfrbtor} rfports {@link Splitfrbtor#SIZED} bnd
+     * {@link Splitfrbtor#DISTINCT}.  Ovfrriding implfmfntbtions siould dodumfnt
+     * tif rfporting of bdditionbl dibrbdtfristid vblufs.
      *
-     * @return a {@code Spliterator} over the elements in this set
-     * @since 1.8
+     * @rfturn b {@dodf Splitfrbtor} ovfr tif flfmfnts in tiis sft
+     * @sindf 1.8
      */
-    public Spliterator<E> spliterator() {
-        return new HashMap.KeySpliterator<>(map, 0, -1, 0, 0);
+    publid Splitfrbtor<E> splitfrbtor() {
+        rfturn nfw HbsiMbp.KfySplitfrbtor<>(mbp, 0, -1, 0, 0);
     }
 }

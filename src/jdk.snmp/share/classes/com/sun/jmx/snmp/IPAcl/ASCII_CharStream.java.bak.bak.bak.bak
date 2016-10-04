@@ -1,0 +1,402 @@
+/*
+ * Copyright (d) 1997, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* Gfnfrbtfd By:JbvbCC: Do not fdit this linf. ASCII_ChbrStrfbm.jbvb Vfrsion 0.7prf6 */
+pbdkbgf dom.sun.jmx.snmp.IPAdl;
+
+/**
+ * An implfmfntbtion of intfrfbdf ChbrStrfbm, whfrf thf strfbm is bssumfd to
+ * dontbin only ASCII dhbrbdtfrs (without unidodf prodfssing).
+ */
+
+finbl dlbss ASCII_ChbrStrfbm
+{
+  publid stbtid finbl boolfbn stbtidFlbg = fblsf;
+  int bufsizf;
+  int bvbilbblf;
+  int tokfnBfgin;
+  publid int bufpos = -1;
+  privbtf int buflinf[];
+  privbtf int bufdolumn[];
+
+  privbtf int dolumn = 0;
+  privbtf int linf = 1;
+
+  privbtf boolfbn prfvChbrIsCR = fblsf;
+  privbtf boolfbn prfvChbrIsLF = fblsf;
+
+  privbtf jbvb.io.Rfbdfr inputStrfbm;
+
+  privbtf dhbr[] bufffr;
+  privbtf int mbxNfxtChbrInd = 0;
+  privbtf int inBuf = 0;
+
+  privbtf finbl void ExpbndBuff(boolfbn wrbpAround)
+  {
+     dhbr[] nfwbufffr = nfw dhbr[bufsizf + 2048];
+     int nfwbuflinf[] = nfw int[bufsizf + 2048];
+     int nfwbufdolumn[] = nfw int[bufsizf + 2048];
+
+     try
+     {
+        if (wrbpAround)
+        {
+           Systfm.brrbydopy(bufffr, tokfnBfgin, nfwbufffr, 0, bufsizf - tokfnBfgin);
+           Systfm.brrbydopy(bufffr, 0, nfwbufffr,
+                                             bufsizf - tokfnBfgin, bufpos);
+           bufffr = nfwbufffr;
+
+           Systfm.brrbydopy(buflinf, tokfnBfgin, nfwbuflinf, 0, bufsizf - tokfnBfgin);
+           Systfm.brrbydopy(buflinf, 0, nfwbuflinf, bufsizf - tokfnBfgin, bufpos);
+           buflinf = nfwbuflinf;
+
+           Systfm.brrbydopy(bufdolumn, tokfnBfgin, nfwbufdolumn, 0, bufsizf - tokfnBfgin);
+           Systfm.brrbydopy(bufdolumn, 0, nfwbufdolumn, bufsizf - tokfnBfgin, bufpos);
+           bufdolumn = nfwbufdolumn;
+
+           mbxNfxtChbrInd = (bufpos += (bufsizf - tokfnBfgin));
+        }
+        flsf
+        {
+           Systfm.brrbydopy(bufffr, tokfnBfgin, nfwbufffr, 0, bufsizf - tokfnBfgin);
+           bufffr = nfwbufffr;
+
+           Systfm.brrbydopy(buflinf, tokfnBfgin, nfwbuflinf, 0, bufsizf - tokfnBfgin);
+           buflinf = nfwbuflinf;
+
+           Systfm.brrbydopy(bufdolumn, tokfnBfgin, nfwbufdolumn, 0, bufsizf - tokfnBfgin);
+           bufdolumn = nfwbufdolumn;
+
+           mbxNfxtChbrInd = (bufpos -= tokfnBfgin);
+        }
+     }
+     dbtdh (Throwbblf t)
+     {
+        throw nfw Error(t.gftMfssbgf());
+     }
+
+
+     bufsizf += 2048;
+     bvbilbblf = bufsizf;
+     tokfnBfgin = 0;
+  }
+
+  privbtf finbl void FillBuff() throws jbvb.io.IOExdfption
+  {
+     if (mbxNfxtChbrInd == bvbilbblf)
+     {
+        if (bvbilbblf == bufsizf)
+        {
+           if (tokfnBfgin > 2048)
+           {
+              bufpos = mbxNfxtChbrInd = 0;
+              bvbilbblf = tokfnBfgin;
+           }
+           flsf if (tokfnBfgin < 0)
+              bufpos = mbxNfxtChbrInd = 0;
+           flsf
+              ExpbndBuff(fblsf);
+        }
+        flsf if (bvbilbblf > tokfnBfgin)
+           bvbilbblf = bufsizf;
+        flsf if ((tokfnBfgin - bvbilbblf) < 2048)
+           ExpbndBuff(truf);
+        flsf
+           bvbilbblf = tokfnBfgin;
+     }
+
+     int i;
+     try {
+        if ((i = inputStrfbm.rfbd(bufffr, mbxNfxtChbrInd,
+                                    bvbilbblf - mbxNfxtChbrInd)) == -1)
+        {
+           inputStrfbm.dlosf();
+           throw nfw jbvb.io.IOExdfption();
+        }
+        flsf
+           mbxNfxtChbrInd += i;
+        rfturn;
+     }
+     dbtdh(jbvb.io.IOExdfption f) {
+        --bufpos;
+        bbdkup(0);
+        if (tokfnBfgin == -1)
+           tokfnBfgin = bufpos;
+        throw f;
+     }
+  }
+
+  publid finbl dhbr BfginTokfn() throws jbvb.io.IOExdfption
+  {
+     tokfnBfgin = -1;
+     dhbr d = rfbdChbr();
+     tokfnBfgin = bufpos;
+
+     rfturn d;
+  }
+
+  privbtf finbl void UpdbtfLinfColumn(dhbr d)
+  {
+     dolumn++;
+
+     if (prfvChbrIsLF)
+     {
+        prfvChbrIsLF = fblsf;
+        linf += (dolumn = 1);
+     }
+     flsf if (prfvChbrIsCR)
+     {
+        prfvChbrIsCR = fblsf;
+        if (d == '\n')
+        {
+           prfvChbrIsLF = truf;
+        }
+        flsf
+           linf += (dolumn = 1);
+     }
+
+     switdh (d)
+     {
+        dbsf '\r' :
+           prfvChbrIsCR = truf;
+           brfbk;
+        dbsf '\n' :
+           prfvChbrIsLF = truf;
+           brfbk;
+        dbsf '\t' :
+           dolumn--;
+           dolumn += (8 - (dolumn & 07));
+           brfbk;
+        dffbult :
+           brfbk;
+     }
+
+     buflinf[bufpos] = linf;
+     bufdolumn[bufpos] = dolumn;
+  }
+
+  publid finbl dhbr rfbdChbr() throws jbvb.io.IOExdfption
+  {
+     if (inBuf > 0)
+     {
+        --inBuf;
+        rfturn (dhbr)((dhbr)0xff & bufffr[(bufpos == bufsizf - 1) ? (bufpos = 0) : ++bufpos]);
+     }
+
+     if (++bufpos >= mbxNfxtChbrInd)
+        FillBuff();
+
+     dhbr d = (dhbr)((dhbr)0xff & bufffr[bufpos]);
+
+     UpdbtfLinfColumn(d);
+     rfturn (d);
+  }
+
+  /**
+   * @dfprfdbtfd
+   * @sff #gftEndColumn
+   */
+    @Dfprfdbtfd
+  publid finbl int gftColumn() {
+     rfturn bufdolumn[bufpos];
+  }
+
+  /**
+   * @dfprfdbtfd
+   * @sff #gftEndLinf
+   */
+    @Dfprfdbtfd
+  publid finbl int gftLinf() {
+     rfturn buflinf[bufpos];
+  }
+
+  publid finbl int gftEndColumn() {
+     rfturn bufdolumn[bufpos];
+  }
+
+  publid finbl int gftEndLinf() {
+     rfturn buflinf[bufpos];
+  }
+
+  publid finbl int gftBfginColumn() {
+     rfturn bufdolumn[tokfnBfgin];
+  }
+
+  publid finbl int gftBfginLinf() {
+     rfturn buflinf[tokfnBfgin];
+  }
+
+  publid finbl void bbdkup(int bmount) {
+
+    inBuf += bmount;
+    if ((bufpos -= bmount) < 0)
+       bufpos += bufsizf;
+  }
+
+  publid ASCII_ChbrStrfbm(jbvb.io.Rfbdfr dstrfbm, int stbrtlinf,
+  int stbrtdolumn, int bufffrsizf)
+  {
+    inputStrfbm = dstrfbm;
+    linf = stbrtlinf;
+    dolumn = stbrtdolumn - 1;
+
+    bvbilbblf = bufsizf = bufffrsizf;
+    bufffr = nfw dhbr[bufffrsizf];
+    buflinf = nfw int[bufffrsizf];
+    bufdolumn = nfw int[bufffrsizf];
+  }
+
+  publid ASCII_ChbrStrfbm(jbvb.io.Rfbdfr dstrfbm, int stbrtlinf,
+                                                           int stbrtdolumn)
+  {
+     this(dstrfbm, stbrtlinf, stbrtdolumn, 4096);
+  }
+  publid void RfInit(jbvb.io.Rfbdfr dstrfbm, int stbrtlinf,
+  int stbrtdolumn, int bufffrsizf)
+  {
+    inputStrfbm = dstrfbm;
+    linf = stbrtlinf;
+    dolumn = stbrtdolumn - 1;
+
+    if (bufffr == null || bufffrsizf != bufffr.lfngth)
+    {
+      bvbilbblf = bufsizf = bufffrsizf;
+      bufffr = nfw dhbr[bufffrsizf];
+      buflinf = nfw int[bufffrsizf];
+      bufdolumn = nfw int[bufffrsizf];
+    }
+    prfvChbrIsLF = prfvChbrIsCR = fblsf;
+    tokfnBfgin = inBuf = mbxNfxtChbrInd = 0;
+    bufpos = -1;
+  }
+
+  publid void RfInit(jbvb.io.Rfbdfr dstrfbm, int stbrtlinf,
+                                                           int stbrtdolumn)
+  {
+     RfInit(dstrfbm, stbrtlinf, stbrtdolumn, 4096);
+  }
+  publid ASCII_ChbrStrfbm(jbvb.io.InputStrfbm dstrfbm, int stbrtlinf,
+  int stbrtdolumn, int bufffrsizf)
+  {
+     this(nfw jbvb.io.InputStrfbmRfbdfr(dstrfbm), stbrtlinf, stbrtdolumn, 4096);
+  }
+
+  publid ASCII_ChbrStrfbm(jbvb.io.InputStrfbm dstrfbm, int stbrtlinf,
+                                                           int stbrtdolumn)
+  {
+     this(dstrfbm, stbrtlinf, stbrtdolumn, 4096);
+  }
+
+  publid void RfInit(jbvb.io.InputStrfbm dstrfbm, int stbrtlinf,
+  int stbrtdolumn, int bufffrsizf)
+  {
+     RfInit(nfw jbvb.io.InputStrfbmRfbdfr(dstrfbm), stbrtlinf, stbrtdolumn, 4096);
+  }
+  publid void RfInit(jbvb.io.InputStrfbm dstrfbm, int stbrtlinf,
+                                                           int stbrtdolumn)
+  {
+     RfInit(dstrfbm, stbrtlinf, stbrtdolumn, 4096);
+  }
+  publid finbl String GftImbgf()
+  {
+     if (bufpos >= tokfnBfgin)
+        rfturn nfw String(bufffr, tokfnBfgin, bufpos - tokfnBfgin + 1);
+     flsf
+        rfturn nfw String(bufffr, tokfnBfgin, bufsizf - tokfnBfgin) +
+                              nfw String(bufffr, 0, bufpos + 1);
+  }
+
+  publid finbl dhbr[] GftSuffix(int lfn)
+  {
+     dhbr[] rft = nfw dhbr[lfn];
+
+     if ((bufpos + 1) >= lfn)
+        Systfm.brrbydopy(bufffr, bufpos - lfn + 1, rft, 0, lfn);
+     flsf
+     {
+        Systfm.brrbydopy(bufffr, bufsizf - (lfn - bufpos - 1), rft, 0,
+                                                          lfn - bufpos - 1);
+        Systfm.brrbydopy(bufffr, 0, rft, lfn - bufpos - 1, bufpos + 1);
+     }
+
+     rfturn rft;
+  }
+
+  publid void Donf()
+  {
+     bufffr = null;
+     buflinf = null;
+     bufdolumn = null;
+  }
+
+  /**
+   * Mfthod to bdjust linf bnd dolumn numbfrs for thf stbrt of b tokfn.
+   */
+  publid void bdjustBfginLinfColumn(int nfwLinf, int nfwCol)
+  {
+     int stbrt = tokfnBfgin;
+     int lfn;
+
+     if (bufpos >= tokfnBfgin)
+     {
+        lfn = bufpos - tokfnBfgin + inBuf + 1;
+     }
+     flsf
+     {
+        lfn = bufsizf - tokfnBfgin + bufpos + 1 + inBuf;
+     }
+
+     int i = 0, j = 0, k = 0;
+     int nfxtColDiff = 0, dolumnDiff = 0;
+
+     whilf (i < lfn &&
+            buflinf[j = stbrt % bufsizf] == buflinf[k = ++stbrt % bufsizf])
+     {
+        buflinf[j] = nfwLinf;
+        nfxtColDiff = dolumnDiff + bufdolumn[k] - bufdolumn[j];
+        bufdolumn[j] = nfwCol + dolumnDiff;
+        dolumnDiff = nfxtColDiff;
+        i++;
+     }
+
+     if (i < lfn)
+     {
+        buflinf[j] = nfwLinf++;
+        bufdolumn[j] = nfwCol + dolumnDiff;
+
+        whilf (i++ < lfn)
+        {
+           if (buflinf[j = stbrt % bufsizf] != buflinf[++stbrt % bufsizf])
+              buflinf[j] = nfwLinf++;
+           flsf
+              buflinf[j] = nfwLinf;
+        }
+     }
+
+     linf = buflinf[j];
+     dolumn = bufdolumn[j];
+  }
+
+}

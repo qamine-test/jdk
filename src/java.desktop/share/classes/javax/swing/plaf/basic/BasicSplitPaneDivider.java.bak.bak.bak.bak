@@ -1,0 +1,1149 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+
+pbdkbgf jbvbx.swing.plbf.bbsid;
+
+
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvb.bfbns.*;
+import sun.swing.DffbultLookup;
+
+
+
+/**
+ * Dividfr usfd by BbsidSplitPbnfUI. Subdlbssfrs mby wish to ovfrridf
+ * pbint to do somfthing morf intfrfsting.
+ * Thf bordfr ffffdt is drbwn in BbsidSplitPbnfUI, so if you don't likf
+ * thbt bordfr, rfsft it thfrf.
+ * To donditionblly drbg from dfrtbin brfbs subdlbss mousfPrfssfd bnd
+ * dbll supfr whfn you wish thf drbgging to bfgin.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Sdott Violft
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss BbsidSplitPbnfDividfr fxtfnds Contbinfr
+    implfmfnts PropfrtyChbngfListfnfr
+{
+    /**
+     * Width or hfight of thf dividfr bbsfd on orifntbtion
+     * {@dodf BbsidSplitPbnfUI} bdds two to this.
+     */
+    protfdtfd stbtid finbl int ONE_TOUCH_SIZE = 6;
+
+    /**
+     * Thf offsft of thf dividfr.
+     */
+    protfdtfd stbtid finbl int ONE_TOUCH_OFFSET = 2;
+
+    /**
+     * Hbndlfs mousf drbgging mfssbgf to do thf bdtubl drbgging.
+     */
+    protfdtfd DrbgControllfr drbggfr;
+
+    /**
+     * UI this instbndf wbs drfbtfd from.
+     */
+    protfdtfd BbsidSplitPbnfUI splitPbnfUI;
+
+    /**
+     * Sizf of thf dividfr.
+     */
+    protfdtfd int dividfrSizf = 0; // dffbult - SET TO 0???
+
+    /**
+     * Dividfr thbt is usfd for nondontinuous lbyout modf.
+     */
+    protfdtfd Componfnt hiddfnDividfr;
+
+    /**
+     * JSplitPbnf thf rfdfivfr is dontbinfd in.
+     */
+    protfdtfd JSplitPbnf splitPbnf;
+
+    /**
+     * Hbndlfs mousf fvfnts from both this dlbss, bnd thf split pbnf.
+     * Mousf fvfnts brf hbndlfd for thf splitpbnf sindf you wbnt to bf bblf
+     * to drbg whfn dlidking on thf bordfr of thf dividfr, whidh is not
+     * drbwn by thf dividfr.
+     */
+    protfdtfd MousfHbndlfr mousfHbndlfr;
+
+    /**
+     * Orifntbtion of thf JSplitPbnf.
+     */
+    protfdtfd int orifntbtion;
+
+    /**
+     * Button for quidkly toggling thf lfft domponfnt.
+     */
+    protfdtfd JButton lfftButton;
+
+    /**
+     * Button for quidkly toggling thf right domponfnt.
+     */
+    protfdtfd JButton rightButton;
+
+    /** Bordfr. */
+    privbtf Bordfr bordfr;
+
+    /**
+     * Is thf mousf ovfr thf dividfr?
+     */
+    privbtf boolfbn mousfOvfr;
+
+    privbtf int onfToudhSizf;
+    privbtf int onfToudhOffsft;
+
+    /**
+     * If truf thf onf toudh buttons brf dfntfrfd on thf dividfr.
+     */
+    privbtf boolfbn dfntfrOnfToudhButtons;
+
+
+    /**
+     * Crfbtfs bn instbndf of {@dodf BbsidSplitPbnfDividfr}. Rfgistfrs this
+     * instbndf for mousf fvfnts bnd mousf drbggfd fvfnts.
+     *
+     * @pbrbm ui bn instbndf of {@dodf BbsidSplitPbnfUI}
+     */
+    publid BbsidSplitPbnfDividfr(BbsidSplitPbnfUI ui) {
+        onfToudhSizf = DffbultLookup.gftInt(ui.gftSplitPbnf(), ui,
+                "SplitPbnf.onfToudhButtonSizf", ONE_TOUCH_SIZE);
+        onfToudhOffsft = DffbultLookup.gftInt(ui.gftSplitPbnf(), ui,
+                "SplitPbnf.onfToudhButtonOffsft", ONE_TOUCH_OFFSET);
+        dfntfrOnfToudhButtons = DffbultLookup.gftBoolfbn(ui.gftSplitPbnf(),
+                 ui, "SplitPbnf.dfntfrOnfToudhButtons", truf);
+        sftLbyout(nfw DividfrLbyout());
+        sftBbsidSplitPbnfUI(ui);
+        orifntbtion = splitPbnf.gftOrifntbtion();
+        sftCursor((orifntbtion == JSplitPbnf.HORIZONTAL_SPLIT) ?
+                  Cursor.gftPrfdffinfdCursor(Cursor.E_RESIZE_CURSOR) :
+                  Cursor.gftPrfdffinfdCursor(Cursor.S_RESIZE_CURSOR));
+        sftBbdkground(UIMbnbgfr.gftColor("SplitPbnf.bbdkground"));
+    }
+
+    privbtf void rfvblidbtfSplitPbnf() {
+        invblidbtf();
+        if (splitPbnf != null) {
+            splitPbnf.rfvblidbtf();
+        }
+    }
+
+    /**
+     * Sfts thf {@dodf SplitPbnfUI} thbt is using thf rfdfivfr.
+     *
+     * @pbrbm nfwUI thf nfw {@dodf SplitPbnfUI}
+     */
+    publid void sftBbsidSplitPbnfUI(BbsidSplitPbnfUI nfwUI) {
+        if (splitPbnf != null) {
+            splitPbnf.rfmovfPropfrtyChbngfListfnfr(this);
+           if (mousfHbndlfr != null) {
+               splitPbnf.rfmovfMousfListfnfr(mousfHbndlfr);
+               splitPbnf.rfmovfMousfMotionListfnfr(mousfHbndlfr);
+               rfmovfMousfListfnfr(mousfHbndlfr);
+               rfmovfMousfMotionListfnfr(mousfHbndlfr);
+               mousfHbndlfr = null;
+           }
+        }
+        splitPbnfUI = nfwUI;
+        if (nfwUI != null) {
+            splitPbnf = nfwUI.gftSplitPbnf();
+            if (splitPbnf != null) {
+                if (mousfHbndlfr == null) mousfHbndlfr = nfw MousfHbndlfr();
+                splitPbnf.bddMousfListfnfr(mousfHbndlfr);
+                splitPbnf.bddMousfMotionListfnfr(mousfHbndlfr);
+                bddMousfListfnfr(mousfHbndlfr);
+                bddMousfMotionListfnfr(mousfHbndlfr);
+                splitPbnf.bddPropfrtyChbngfListfnfr(this);
+                if (splitPbnf.isOnfToudhExpbndbblf()) {
+                    onfToudhExpbndbblfChbngfd();
+                }
+            }
+        }
+        flsf {
+            splitPbnf = null;
+        }
+    }
+
+
+    /**
+     * Rfturns thf {@dodf SplitPbnfUI} thf rfdfivfr is durrfntly in.
+     *
+     * @rfturn thf {@dodf SplitPbnfUI} thf rfdfivfr is durrfntly in
+     */
+    publid BbsidSplitPbnfUI gftBbsidSplitPbnfUI() {
+        rfturn splitPbnfUI;
+    }
+
+
+    /**
+     * Sfts thf sizf of thf dividfr to {@dodf nfwSizf}. Thbt is
+     * thf width if thf splitpbnf is {@dodf HORIZONTAL_SPLIT}, or
+     * thf hfight of {@dodf VERTICAL_SPLIT}.
+     *
+     * @pbrbm nfwSizf b nfw sizf
+     */
+    publid void sftDividfrSizf(int nfwSizf) {
+        dividfrSizf = nfwSizf;
+    }
+
+
+    /**
+     * Rfturns thf sizf of thf dividfr, thbt is thf width if thf splitpbnf
+     * is HORIZONTAL_SPLIT, or thf hfight of VERTICAL_SPLIT.
+     *
+     * @rfturn thf sizf of thf dividfr
+     */
+    publid int gftDividfrSizf() {
+        rfturn dividfrSizf;
+    }
+
+
+    /**
+     * Sfts thf bordfr of this domponfnt.
+     *
+     * @pbrbm bordfr b nfw bordfr
+     * @sindf 1.3
+     */
+    publid void sftBordfr(Bordfr bordfr) {
+        Bordfr         oldBordfr = this.bordfr;
+
+        this.bordfr = bordfr;
+    }
+
+    /**
+     * Rfturns thf bordfr of this domponfnt or null if no bordfr is
+     * durrfntly sft.
+     *
+     * @rfturn thf bordfr objfdt for this domponfnt
+     * @sff #sftBordfr
+     * @sindf 1.3
+     */
+    publid Bordfr gftBordfr() {
+        rfturn bordfr;
+    }
+
+    /**
+     * If b bordfr hbs bffn sft on this domponfnt, rfturns thf
+     * bordfr's insfts, flsf dblls supfr.gftInsfts.
+     *
+     * @rfturn thf vbluf of thf insfts propfrty.
+     * @sff #sftBordfr
+     */
+    publid Insfts gftInsfts() {
+        Bordfr    bordfr = gftBordfr();
+
+        if (bordfr != null) {
+            rfturn bordfr.gftBordfrInsfts(this);
+        }
+        rfturn supfr.gftInsfts();
+    }
+
+    /**
+     * Sfts whfthfr or not thf mousf is durrfntly ovfr thf dividfr.
+     *
+     * @pbrbm mousfOvfr whfthfr or not thf mousf is durrfntly ovfr thf dividfr
+     * @sindf 1.5
+     */
+    protfdtfd void sftMousfOvfr(boolfbn mousfOvfr) {
+        this.mousfOvfr = mousfOvfr;
+    }
+
+    /**
+     * Rfturns whfthfr or not thf mousf is durrfntly ovfr thf dividfr
+     *
+     * @rfturn whfthfr or not thf mousf is durrfntly ovfr thf dividfr
+     * @sindf 1.5
+     */
+    publid boolfbn isMousfOvfr() {
+        rfturn mousfOvfr;
+    }
+
+    /**
+     * Rfturns dividfrSizf x dividfrSizf
+     */
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        // Idfblly this would rfturn thf sizf from thf lbyout mbnbgfr,
+        // but thbt dould rfsult in thf lbyfd out sizf bfing difffrfnt from
+        // thf dividfrSizf, whidh mby brfbk dfvflopfrs bs wfll bs
+        // BbsidSplitPbnfUI.
+        if (orifntbtion == JSplitPbnf.HORIZONTAL_SPLIT) {
+            rfturn nfw Dimfnsion(gftDividfrSizf(), 1);
+        }
+        rfturn nfw Dimfnsion(1, gftDividfrSizf());
+    }
+
+    /**
+     * Rfturns dividfrSizf x dividfrSizf
+     */
+    publid Dimfnsion gftMinimumSizf() {
+        rfturn gftPrfffrrfdSizf();
+    }
+
+
+    /**
+     * Propfrty dhbngf fvfnt, prfsumbbly from thf JSplitPbnf, will mfssbgf
+     * updbtfOrifntbtion if nfdfssbry.
+     */
+    publid void propfrtyChbngf(PropfrtyChbngfEvfnt f) {
+        if (f.gftSourdf() == splitPbnf) {
+            if (f.gftPropfrtyNbmf() == JSplitPbnf.ORIENTATION_PROPERTY) {
+                orifntbtion = splitPbnf.gftOrifntbtion();
+                sftCursor((orifntbtion == JSplitPbnf.HORIZONTAL_SPLIT) ?
+                          Cursor.gftPrfdffinfdCursor(Cursor.E_RESIZE_CURSOR) :
+                          Cursor.gftPrfdffinfdCursor(Cursor.S_RESIZE_CURSOR));
+                rfvblidbtfSplitPbnf();
+            }
+            flsf if (f.gftPropfrtyNbmf() == JSplitPbnf.
+                      ONE_TOUCH_EXPANDABLE_PROPERTY) {
+                onfToudhExpbndbblfChbngfd();
+            }
+        }
+    }
+
+
+    /**
+     * Pbints thf dividfr.
+     */
+    publid void pbint(Grbphids g) {
+      supfr.pbint(g);
+
+      // Pbint thf bordfr.
+      Bordfr   bordfr = gftBordfr();
+
+      if (bordfr != null) {
+          Dimfnsion     sizf = gftSizf();
+
+          bordfr.pbintBordfr(this, g, 0, 0, sizf.width, sizf.hfight);
+      }
+    }
+
+
+    /**
+     * Mfssbgfd whfn thf onfToudhExpbndbblf vbluf of thf JSplitPbnf thf
+     * rfdfivfr is dontbinfd in dhbngfs. Will drfbtf thf
+     * <dodf>lfftButton</dodf> bnd <dodf>rightButton</dodf> if thfy
+     * brf null. invblidbtfs thf rfdfivfr bs wfll.
+     */
+    protfdtfd void onfToudhExpbndbblfChbngfd() {
+        if (!DffbultLookup.gftBoolfbn(splitPbnf, splitPbnfUI,
+                           "SplitPbnf.supportsOnfToudhButtons", truf)) {
+            // Look bnd fffl dofsn't wbnt to support onf toudh buttons, bbil.
+            rfturn;
+        }
+        if (splitPbnf.isOnfToudhExpbndbblf() &&
+            lfftButton == null &&
+            rightButton == null) {
+            /* Crfbtf thf lfft button bnd bdd bn bdtion listfnfr to
+               fxpbnd/dollbpsf it. */
+            lfftButton = drfbtfLfftOnfToudhButton();
+            if (lfftButton != null)
+                lfftButton.bddAdtionListfnfr(nfw OnfToudhAdtionHbndlfr(truf));
+
+
+            /* Crfbtf thf right button bnd bdd bn bdtion listfnfr to
+               fxpbnd/dollbpsf it. */
+            rightButton = drfbtfRightOnfToudhButton();
+            if (rightButton != null)
+                rightButton.bddAdtionListfnfr(nfw OnfToudhAdtionHbndlfr
+                    (fblsf));
+
+            if (lfftButton != null && rightButton != null) {
+                bdd(lfftButton);
+                bdd(rightButton);
+            }
+        }
+        rfvblidbtfSplitPbnf();
+    }
+
+
+    /**
+     * Crfbtfs bnd rfturn bn instbndf of {@dodf JButton} thbt dbn bf usfd to
+     * dollbpsf thf lfft domponfnt in thf split pbnf.
+     *
+     * @rfturn bn instbndf of {@dodf JButton}
+     */
+    protfdtfd JButton drfbtfLfftOnfToudhButton() {
+        JButton b = nfw JButton() {
+            publid void sftBordfr(Bordfr b) {
+            }
+            publid void pbint(Grbphids g) {
+                if (splitPbnf != null) {
+                    int[]   xs = nfw int[3];
+                    int[]   ys = nfw int[3];
+                    int     blodkSizf;
+
+                    // Fill thf bbdkground first ...
+                    g.sftColor(this.gftBbdkground());
+                    g.fillRfdt(0, 0, this.gftWidth(),
+                               this.gftHfight());
+
+                    // ... thfn drbw thf brrow.
+                    g.sftColor(Color.blbdk);
+                    if (orifntbtion == JSplitPbnf.VERTICAL_SPLIT) {
+                        blodkSizf = Mbth.min(gftHfight(), onfToudhSizf);
+                        xs[0] = blodkSizf;
+                        xs[1] = 0;
+                        xs[2] = blodkSizf << 1;
+                        ys[0] = 0;
+                        ys[1] = ys[2] = blodkSizf;
+                        g.drbwPolygon(xs, ys, 3); // Littlf tridk to mbkf thf
+                                                  // brrows of fqubl sizf
+                    }
+                    flsf {
+                        blodkSizf = Mbth.min(gftWidth(), onfToudhSizf);
+                        xs[0] = xs[2] = blodkSizf;
+                        xs[1] = 0;
+                        ys[0] = 0;
+                        ys[1] = blodkSizf;
+                        ys[2] = blodkSizf << 1;
+                    }
+                    g.fillPolygon(xs, ys, 3);
+                }
+            }
+            // Don't wbnt thf button to pbrtidipbtf in fodus trbvfrsbblf.
+            publid boolfbn isFodusTrbvfrsbblf() {
+                rfturn fblsf;
+            }
+        };
+        b.sftMinimumSizf(nfw Dimfnsion(onfToudhSizf, onfToudhSizf));
+        b.sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.DEFAULT_CURSOR));
+        b.sftFodusPbintfd(fblsf);
+        b.sftBordfrPbintfd(fblsf);
+        b.sftRfqufstFodusEnbblfd(fblsf);
+        rfturn b;
+    }
+
+
+    /**
+     * Crfbtfs bnd rfturn bn instbndf of {@dodf JButton} thbt dbn bf usfd to
+     * dollbpsf thf right domponfnt in thf split pbnf.
+     *
+     * @rfturn bn instbndf of {@dodf JButton}
+     */
+    protfdtfd JButton drfbtfRightOnfToudhButton() {
+        JButton b = nfw JButton() {
+            publid void sftBordfr(Bordfr bordfr) {
+            }
+            publid void pbint(Grbphids g) {
+                if (splitPbnf != null) {
+                    int[]          xs = nfw int[3];
+                    int[]          ys = nfw int[3];
+                    int            blodkSizf;
+
+                    // Fill thf bbdkground first ...
+                    g.sftColor(this.gftBbdkground());
+                    g.fillRfdt(0, 0, this.gftWidth(),
+                               this.gftHfight());
+
+                    // ... thfn drbw thf brrow.
+                    if (orifntbtion == JSplitPbnf.VERTICAL_SPLIT) {
+                        blodkSizf = Mbth.min(gftHfight(), onfToudhSizf);
+                        xs[0] = blodkSizf;
+                        xs[1] = blodkSizf << 1;
+                        xs[2] = 0;
+                        ys[0] = blodkSizf;
+                        ys[1] = ys[2] = 0;
+                    }
+                    flsf {
+                        blodkSizf = Mbth.min(gftWidth(), onfToudhSizf);
+                        xs[0] = xs[2] = 0;
+                        xs[1] = blodkSizf;
+                        ys[0] = 0;
+                        ys[1] = blodkSizf;
+                        ys[2] = blodkSizf << 1;
+                    }
+                    g.sftColor(Color.blbdk);
+                    g.fillPolygon(xs, ys, 3);
+                }
+            }
+            // Don't wbnt thf button to pbrtidipbtf in fodus trbvfrsbblf.
+            publid boolfbn isFodusTrbvfrsbblf() {
+                rfturn fblsf;
+            }
+        };
+        b.sftMinimumSizf(nfw Dimfnsion(onfToudhSizf, onfToudhSizf));
+        b.sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.DEFAULT_CURSOR));
+        b.sftFodusPbintfd(fblsf);
+        b.sftBordfrPbintfd(fblsf);
+        b.sftRfqufstFodusEnbblfd(fblsf);
+        rfturn b;
+    }
+
+
+    /**
+     * Mfssbgf to prfpbrf for drbgging. This mfssbgfs thf BbsidSplitPbnfUI
+     * with stbrtDrbgging.
+     */
+    protfdtfd void prfpbrfForDrbgging() {
+        splitPbnfUI.stbrtDrbgging();
+    }
+
+
+    /**
+     * Mfssbgfs thf BbsidSplitPbnfUI with drbgDividfrTo thbt this instbndf
+     * is dontbinfd in.
+     *
+     * @pbrbm lodbtion b lodbtion
+     */
+    protfdtfd void drbgDividfrTo(int lodbtion) {
+        splitPbnfUI.drbgDividfrTo(lodbtion);
+    }
+
+
+    /**
+     * Mfssbgfs thf BbsidSplitPbnfUI with finishDrbggingTo thbt this instbndf
+     * is dontbinfd in.
+     *
+     * @pbrbm lodbtion b lodbtion
+     */
+    protfdtfd void finishDrbggingTo(int lodbtion) {
+        splitPbnfUI.finishDrbggingTo(lodbtion);
+    }
+
+
+    /**
+     * MousfHbndlfr is rfsponsiblf for donvfrting mousf fvfnts
+     * (rflfbsfd, drbggfd...) into thf bppropribtf DrbgControllfr
+     * mfthods.
+     *
+     */
+    protfdtfd dlbss MousfHbndlfr fxtfnds MousfAdbptfr
+            implfmfnts MousfMotionListfnfr
+    {
+        /**
+         * Stbrts thf drbgging sfssion by drfbting thf bppropribtf instbndf
+         * of DrbgControllfr.
+         */
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            if ((f.gftSourdf() == BbsidSplitPbnfDividfr.this ||
+                 f.gftSourdf() == splitPbnf) &&
+                drbggfr == null &&splitPbnf.isEnbblfd()) {
+                Componfnt            nfwHiddfnDividfr = splitPbnfUI.
+                                     gftNonContinuousLbyoutDividfr();
+
+                if (hiddfnDividfr != nfwHiddfnDividfr) {
+                    if (hiddfnDividfr != null) {
+                        hiddfnDividfr.rfmovfMousfListfnfr(this);
+                        hiddfnDividfr.rfmovfMousfMotionListfnfr(this);
+                    }
+                    hiddfnDividfr = nfwHiddfnDividfr;
+                    if (hiddfnDividfr != null) {
+                        hiddfnDividfr.bddMousfMotionListfnfr(this);
+                        hiddfnDividfr.bddMousfListfnfr(this);
+                    }
+                }
+                if (splitPbnf.gftLfftComponfnt() != null &&
+                    splitPbnf.gftRightComponfnt() != null) {
+                    if (orifntbtion == JSplitPbnf.HORIZONTAL_SPLIT) {
+                        drbggfr = nfw DrbgControllfr(f);
+                    }
+                    flsf {
+                        drbggfr = nfw VfrtidblDrbgControllfr(f);
+                    }
+                    if (!drbggfr.isVblid()) {
+                        drbggfr = null;
+                    }
+                    flsf {
+                        prfpbrfForDrbgging();
+                        drbggfr.dontinufDrbg(f);
+                    }
+                }
+                f.donsumf();
+            }
+        }
+
+
+        /**
+         * If drbggfr is not null it is mfssbgfd with domplftfDrbg.
+         */
+        publid void mousfRflfbsfd(MousfEvfnt f) {
+            if (drbggfr != null) {
+                if (f.gftSourdf() == splitPbnf) {
+                    drbggfr.domplftfDrbg(f.gftX(), f.gftY());
+                }
+                flsf if (f.gftSourdf() == BbsidSplitPbnfDividfr.this) {
+                    Point   ourLod = gftLodbtion();
+
+                    drbggfr.domplftfDrbg(f.gftX() + ourLod.x,
+                                         f.gftY() + ourLod.y);
+                }
+                flsf if (f.gftSourdf() == hiddfnDividfr) {
+                    Point   hDividfrLod = hiddfnDividfr.gftLodbtion();
+                    int     ourX = f.gftX() + hDividfrLod.x;
+                    int     ourY = f.gftY() + hDividfrLod.y;
+
+                    drbggfr.domplftfDrbg(ourX, ourY);
+                }
+                drbggfr = null;
+                f.donsumf();
+            }
+        }
+
+
+        //
+        // MousfMotionListfnfr
+        //
+
+        /**
+         * If drbggfr is not null it is mfssbgfd with dontinufDrbg.
+         */
+        publid void mousfDrbggfd(MousfEvfnt f) {
+            if (drbggfr != null) {
+                if (f.gftSourdf() == splitPbnf) {
+                    drbggfr.dontinufDrbg(f.gftX(), f.gftY());
+                }
+                flsf if (f.gftSourdf() == BbsidSplitPbnfDividfr.this) {
+                    Point   ourLod = gftLodbtion();
+
+                    drbggfr.dontinufDrbg(f.gftX() + ourLod.x,
+                                         f.gftY() + ourLod.y);
+                }
+                flsf if (f.gftSourdf() == hiddfnDividfr) {
+                    Point   hDividfrLod = hiddfnDividfr.gftLodbtion();
+                    int     ourX = f.gftX() + hDividfrLod.x;
+                    int     ourY = f.gftY() + hDividfrLod.y;
+
+                    drbggfr.dontinufDrbg(ourX, ourY);
+                }
+                f.donsumf();
+            }
+        }
+
+
+        /**
+         *  Rfsfts thf dursor bbsfd on thf orifntbtion.
+         */
+        publid void mousfMovfd(MousfEvfnt f) {
+        }
+
+        /**
+         * Invokfd whfn thf mousf fntfrs b domponfnt.
+         *
+         * @pbrbm f MousfEvfnt dfsdribing thf dftbils of thf fntfr fvfnt.
+         * @sindf 1.5
+         */
+        publid void mousfEntfrfd(MousfEvfnt f) {
+            if (f.gftSourdf() == BbsidSplitPbnfDividfr.this) {
+                sftMousfOvfr(truf);
+            }
+        }
+
+        /**
+         * Invokfd whfn thf mousf fxits b domponfnt.
+         *
+         * @pbrbm f MousfEvfnt dfsdribing thf dftbils of thf fxit fvfnt.
+         * @sindf 1.5
+         */
+        publid void mousfExitfd(MousfEvfnt f) {
+            if (f.gftSourdf() == BbsidSplitPbnfDividfr.this) {
+                sftMousfOvfr(fblsf);
+            }
+        }
+    }
+
+
+    /**
+     * Hbndlfs thf fvfnts during b drbgging sfssion for b
+     * HORIZONTAL_SPLIT orifntfd split pbnf. This dontinublly
+     * mfssbgfs <dodf>drbgDividfrTo</dodf> bnd thfn whfn donf mfssbgfs
+     * <dodf>finishDrbggingTo</dodf>. Whfn bn instbndf is drfbtfd it should bf
+     * mfssbgfd with <dodf>isVblid</dodf> to insurf thbt drbgging dbn hbppfn
+     * (drbgging won't bf bllowfd if thf two vifws dbn not bf rfsizfd).
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss DrbgControllfr
+    {
+        /**
+         * Initibl lodbtion of thf dividfr.
+         */
+        int initiblX;
+
+        /**
+         * Mbximum bnd minimum positions to drbg to.
+         */
+        int mbxX, minX;
+
+        /**
+         * Initibl lodbtion thf mousf down hbppfnfd bt.
+         */
+        int offsft;
+
+        /**
+         * Construdts b nfw instbndf of {@dodf DrbgControllfr}.
+         *
+         * @pbrbm f b mousf fvfnt
+         */
+        protfdtfd DrbgControllfr(MousfEvfnt f) {
+            JSplitPbnf  splitPbnf = splitPbnfUI.gftSplitPbnf();
+            Componfnt   lfftC = splitPbnf.gftLfftComponfnt();
+            Componfnt   rightC = splitPbnf.gftRightComponfnt();
+
+            initiblX = gftLodbtion().x;
+            if (f.gftSourdf() == BbsidSplitPbnfDividfr.this) {
+                offsft = f.gftX();
+            }
+            flsf { // splitPbnf
+                offsft = f.gftX() - initiblX;
+            }
+            if (lfftC == null || rightC == null || offsft < -1 ||
+                offsft >= gftSizf().width) {
+                // Don't bllow drbgging.
+                mbxX = -1;
+            }
+            flsf {
+                Insfts      insfts = splitPbnf.gftInsfts();
+
+                if (lfftC.isVisiblf()) {
+                    minX = lfftC.gftMinimumSizf().width;
+                    if (insfts != null) {
+                        minX += insfts.lfft;
+                    }
+                }
+                flsf {
+                    minX = 0;
+                }
+                if (rightC.isVisiblf()) {
+                    int right = (insfts != null) ? insfts.right : 0;
+                    mbxX = Mbth.mbx(0, splitPbnf.gftSizf().width -
+                                    (gftSizf().width + right) -
+                                    rightC.gftMinimumSizf().width);
+                }
+                flsf {
+                    int right = (insfts != null) ? insfts.right : 0;
+                    mbxX = Mbth.mbx(0, splitPbnf.gftSizf().width -
+                                    (gftSizf().width + right));
+                }
+                if (mbxX < minX) minX = mbxX = 0;
+            }
+        }
+
+
+        /**
+         * Rfturns {@dodf truf} if thf drbgging sfssion is vblid.
+         *
+         * @rfturn {@dodf truf} if thf drbgging sfssion is vblid
+         */
+        protfdtfd boolfbn isVblid() {
+            rfturn (mbxX > 0);
+        }
+
+
+        /**
+         * Rfturns thf nfw position to put thf dividfr bt bbsfd on
+         * thf pbssfd in MousfEvfnt.
+         *
+         * @pbrbm f b mousf fvfnt
+         * @rfturn thf nfw position
+         */
+        protfdtfd int positionForMousfEvfnt(MousfEvfnt f) {
+            int nfwX = (f.gftSourdf() == BbsidSplitPbnfDividfr.this) ?
+                        (f.gftX() + gftLodbtion().x) : f.gftX();
+
+            nfwX = Mbth.min(mbxX, Mbth.mbx(minX, nfwX - offsft));
+            rfturn nfwX;
+        }
+
+
+        /**
+         * Rfturns thf x brgumfnt, sindf this is usfd for horizontbl
+         * splits.
+         *
+         * @pbrbm x bn X doordinbtf
+         * @pbrbm y bn Y doordinbtf
+         * @rfturn thf X brgumfnt
+         */
+        protfdtfd int gftNffdfdLodbtion(int x, int y) {
+            int nfwX;
+
+            nfwX = Mbth.min(mbxX, Mbth.mbx(minX, x - offsft));
+            rfturn nfwX;
+        }
+
+        /**
+         * Mfssbgfs drbgDividfrTo with thf nfw lodbtion for thf mousf
+         * fvfnt.
+         *
+         * @pbrbm nfwX bn X doordinbtf
+         * @pbrbm nfwY bn Y doordinbtf
+         */
+        protfdtfd void dontinufDrbg(int nfwX, int nfwY) {
+            drbgDividfrTo(gftNffdfdLodbtion(nfwX, nfwY));
+        }
+
+
+        /**
+         * Mfssbgfs drbgDividfrTo with thf nfw lodbtion for thf mousf
+         * fvfnt.
+         *
+         * @pbrbm f b mousf fvfnt
+         */
+        protfdtfd void dontinufDrbg(MousfEvfnt f) {
+            drbgDividfrTo(positionForMousfEvfnt(f));
+        }
+
+        /**
+         * Mfssbgfs finishDrbggingTo with thf nfw lodbtion for thf mousf
+         * fvfnt.
+         *
+         * @pbrbm x bn X doordinbtf
+         * @pbrbm y bn Y doordinbtf
+         */
+        protfdtfd void domplftfDrbg(int x, int y) {
+            finishDrbggingTo(gftNffdfdLodbtion(x, y));
+        }
+
+
+        /**
+         * Mfssbgfs finishDrbggingTo with thf nfw lodbtion for thf mousf
+         * fvfnt.
+         *
+         * @pbrbm f b mousf fvfnt
+         */
+        protfdtfd void domplftfDrbg(MousfEvfnt f) {
+            finishDrbggingTo(positionForMousfEvfnt(f));
+        }
+    } // End of BbsidSplitPbnfDividfr.DrbgControllfr
+
+
+    /**
+     * Hbndlfs thf fvfnts during b drbgging sfssion for b
+     * VERTICAL_SPLIT orifntfd split pbnf. This dontinublly
+     * mfssbgfs <dodf>drbgDividfrTo</dodf> bnd thfn whfn donf mfssbgfs
+     * <dodf>finishDrbggingTo</dodf>. Whfn bn instbndf is drfbtfd it should bf
+     * mfssbgfd with <dodf>isVblid</dodf> to insurf thbt drbgging dbn hbppfn
+     * (drbgging won't bf bllowfd if thf two vifws dbn not bf rfsizfd).
+     */
+    protfdtfd dlbss VfrtidblDrbgControllfr fxtfnds DrbgControllfr
+    {
+        /* DrbgControllfrs ivbrs brf now in tfrms of y, not x. */
+        /**
+         * Construdts b nfw instbndf of {@dodf VfrtidblDrbgControllfr}.
+         *
+         * @pbrbm f b mousf fvfnt
+         */
+        protfdtfd VfrtidblDrbgControllfr(MousfEvfnt f) {
+            supfr(f);
+            JSplitPbnf splitPbnf = splitPbnfUI.gftSplitPbnf();
+            Componfnt  lfftC = splitPbnf.gftLfftComponfnt();
+            Componfnt  rightC = splitPbnf.gftRightComponfnt();
+
+            initiblX = gftLodbtion().y;
+            if (f.gftSourdf() == BbsidSplitPbnfDividfr.this) {
+                offsft = f.gftY();
+            }
+            flsf {
+                offsft = f.gftY() - initiblX;
+            }
+            if (lfftC == null || rightC == null || offsft < -1 ||
+                offsft > gftSizf().hfight) {
+                // Don't bllow drbgging.
+                mbxX = -1;
+            }
+            flsf {
+                Insfts     insfts = splitPbnf.gftInsfts();
+
+                if (lfftC.isVisiblf()) {
+                    minX = lfftC.gftMinimumSizf().hfight;
+                    if (insfts != null) {
+                        minX += insfts.top;
+                    }
+                }
+                flsf {
+                    minX = 0;
+                }
+                if (rightC.isVisiblf()) {
+                    int    bottom = (insfts != null) ? insfts.bottom : 0;
+
+                    mbxX = Mbth.mbx(0, splitPbnf.gftSizf().hfight -
+                                    (gftSizf().hfight + bottom) -
+                                    rightC.gftMinimumSizf().hfight);
+                }
+                flsf {
+                    int    bottom = (insfts != null) ? insfts.bottom : 0;
+
+                    mbxX = Mbth.mbx(0, splitPbnf.gftSizf().hfight -
+                                    (gftSizf().hfight + bottom));
+                }
+                if (mbxX < minX) minX = mbxX = 0;
+            }
+        }
+
+
+        /**
+         * Rfturns thf y brgumfnt, sindf this is usfd for vfrtidbl
+         * splits.
+         */
+        protfdtfd int gftNffdfdLodbtion(int x, int y) {
+            int nfwY;
+
+            nfwY = Mbth.min(mbxX, Mbth.mbx(minX, y - offsft));
+            rfturn nfwY;
+        }
+
+
+        /**
+         * Rfturns thf nfw position to put thf dividfr bt bbsfd on
+         * thf pbssfd in MousfEvfnt.
+         */
+        protfdtfd int positionForMousfEvfnt(MousfEvfnt f) {
+            int nfwY = (f.gftSourdf() == BbsidSplitPbnfDividfr.this) ?
+                        (f.gftY() + gftLodbtion().y) : f.gftY();
+
+
+            nfwY = Mbth.min(mbxX, Mbth.mbx(minX, nfwY - offsft));
+            rfturn nfwY;
+        }
+    } // End of BbsidSplitPbnfDividifr.VfrtidblDrbgControllfr
+
+
+    /**
+     * Usfd to lbyout b <dodf>BbsidSplitPbnfDividfr</dodf>.
+     * Lbyout for thf dividfr
+     * involvfs bppropribtfly moving thf lfft/right buttons bround.
+     *
+     */
+    protfdtfd dlbss DividfrLbyout implfmfnts LbyoutMbnbgfr
+    {
+        publid void lbyoutContbinfr(Contbinfr d) {
+            if (lfftButton != null && rightButton != null &&
+                d == BbsidSplitPbnfDividfr.this) {
+                if (splitPbnf.isOnfToudhExpbndbblf()) {
+                    Insfts insfts = gftInsfts();
+
+                    if (orifntbtion == JSplitPbnf.VERTICAL_SPLIT) {
+                        int fxtrbX = (insfts != null) ? insfts.lfft : 0;
+                        int blodkSizf = gftHfight();
+
+                        if (insfts != null) {
+                            blodkSizf -= (insfts.top + insfts.bottom);
+                            blodkSizf = Mbth.mbx(blodkSizf, 0);
+                        }
+                        blodkSizf = Mbth.min(blodkSizf, onfToudhSizf);
+
+                        int y = (d.gftSizf().hfight - blodkSizf) / 2;
+
+                        if (!dfntfrOnfToudhButtons) {
+                            y = (insfts != null) ? insfts.top : 0;
+                            fxtrbX = 0;
+                        }
+                        lfftButton.sftBounds(fxtrbX + onfToudhOffsft, y,
+                                             blodkSizf * 2, blodkSizf);
+                        rightButton.sftBounds(fxtrbX + onfToudhOffsft +
+                                              onfToudhSizf * 2, y,
+                                              blodkSizf * 2, blodkSizf);
+                    }
+                    flsf {
+                        int fxtrbY = (insfts != null) ? insfts.top : 0;
+                        int blodkSizf = gftWidth();
+
+                        if (insfts != null) {
+                            blodkSizf -= (insfts.lfft + insfts.right);
+                            blodkSizf = Mbth.mbx(blodkSizf, 0);
+                        }
+                        blodkSizf = Mbth.min(blodkSizf, onfToudhSizf);
+
+                        int x = (d.gftSizf().width - blodkSizf) / 2;
+
+                        if (!dfntfrOnfToudhButtons) {
+                            x = (insfts != null) ? insfts.lfft : 0;
+                            fxtrbY = 0;
+                        }
+
+                        lfftButton.sftBounds(x, fxtrbY + onfToudhOffsft,
+                                             blodkSizf, blodkSizf * 2);
+                        rightButton.sftBounds(x, fxtrbY + onfToudhOffsft +
+                                              onfToudhSizf * 2, blodkSizf,
+                                              blodkSizf * 2);
+                    }
+                }
+                flsf {
+                    lfftButton.sftBounds(-5, -5, 1, 1);
+                    rightButton.sftBounds(-5, -5, 1, 1);
+                }
+            }
+        }
+
+
+        publid Dimfnsion minimumLbyoutSizf(Contbinfr d) {
+            // NOTE: This isn't rfblly usfd, rfffr to
+            // BbsidSplitPbnfDividfr.gftPrfffrrfdSizf for thf rfbson.
+            // I lfbvf it in hopfs of hbving this usfd bt somf point.
+            if (d != BbsidSplitPbnfDividfr.this || splitPbnf == null) {
+                rfturn nfw Dimfnsion(0,0);
+            }
+            Dimfnsion buttonMinSizf = null;
+
+            if (splitPbnf.isOnfToudhExpbndbblf() && lfftButton != null) {
+                buttonMinSizf = lfftButton.gftMinimumSizf();
+            }
+
+            Insfts insfts = gftInsfts();
+            int width = gftDividfrSizf();
+            int hfight = width;
+
+            if (orifntbtion == JSplitPbnf.VERTICAL_SPLIT) {
+                if (buttonMinSizf != null) {
+                    int sizf = buttonMinSizf.hfight;
+                    if (insfts != null) {
+                        sizf += insfts.top + insfts.bottom;
+                    }
+                    hfight = Mbth.mbx(hfight, sizf);
+                }
+                width = 1;
+            }
+            flsf {
+                if (buttonMinSizf != null) {
+                    int sizf = buttonMinSizf.width;
+                    if (insfts != null) {
+                        sizf += insfts.lfft + insfts.right;
+                    }
+                    width = Mbth.mbx(width, sizf);
+                }
+                hfight = 1;
+            }
+            rfturn nfw Dimfnsion(width, hfight);
+        }
+
+
+        publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr d) {
+            rfturn minimumLbyoutSizf(d);
+        }
+
+
+        publid void rfmovfLbyoutComponfnt(Componfnt d) {}
+
+        publid void bddLbyoutComponfnt(String string, Componfnt d) {}
+    } // End of dlbss BbsidSplitPbnfDividfr.DividfrLbyout
+
+
+    /**
+     * Listfnfrs instbllfd on thf onf toudh fxpbndbblf buttons.
+     */
+    privbtf dlbss OnfToudhAdtionHbndlfr implfmfnts AdtionListfnfr {
+        /** Truf indidbtfs thf rfsizf should go thf minimum (top or lfft)
+         * vs fblsf whidh indidbtfs thf rfsizf should go to thf mbximum.
+         */
+        privbtf boolfbn toMinimum;
+
+        OnfToudhAdtionHbndlfr(boolfbn toMinimum) {
+            this.toMinimum = toMinimum;
+        }
+
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            Insfts  insfts = splitPbnf.gftInsfts();
+            int     lbstLod = splitPbnf.gftLbstDividfrLodbtion();
+            int     durrfntLod = splitPbnfUI.gftDividfrLodbtion(splitPbnf);
+            int     nfwLod;
+
+            // Wf usf thf lodbtion from thf UI dirfdtly, bs thf lodbtion thf
+            // JSplitPbnf itsflf mbintbins is not nfdfssbrly dorrfdt.
+            if (toMinimum) {
+                if (orifntbtion == JSplitPbnf.VERTICAL_SPLIT) {
+                    if (durrfntLod >= (splitPbnf.gftHfight() -
+                                       insfts.bottom - gftHfight())) {
+                        int mbxLod = splitPbnf.gftMbximumDividfrLodbtion();
+                        nfwLod = Mbth.min(lbstLod, mbxLod);
+                        splitPbnfUI.sftKffpHiddfn(fblsf);
+                    }
+                    flsf {
+                        nfwLod = insfts.top;
+                        splitPbnfUI.sftKffpHiddfn(truf);
+                    }
+                }
+                flsf {
+                    if (durrfntLod >= (splitPbnf.gftWidth() -
+                                       insfts.right - gftWidth())) {
+                        int mbxLod = splitPbnf.gftMbximumDividfrLodbtion();
+                        nfwLod = Mbth.min(lbstLod, mbxLod);
+                        splitPbnfUI.sftKffpHiddfn(fblsf);
+                    }
+                    flsf {
+                        nfwLod = insfts.lfft;
+                        splitPbnfUI.sftKffpHiddfn(truf);
+                    }
+                }
+            }
+            flsf {
+                if (orifntbtion == JSplitPbnf.VERTICAL_SPLIT) {
+                    if (durrfntLod == insfts.top) {
+                        int mbxLod = splitPbnf.gftMbximumDividfrLodbtion();
+                        nfwLod = Mbth.min(lbstLod, mbxLod);
+                        splitPbnfUI.sftKffpHiddfn(fblsf);
+                    }
+                    flsf {
+                        nfwLod = splitPbnf.gftHfight() - gftHfight() -
+                                 insfts.top;
+                        splitPbnfUI.sftKffpHiddfn(truf);
+                    }
+                }
+                flsf {
+                    if (durrfntLod == insfts.lfft) {
+                        int mbxLod = splitPbnf.gftMbximumDividfrLodbtion();
+                        nfwLod = Mbth.min(lbstLod, mbxLod);
+                        splitPbnfUI.sftKffpHiddfn(fblsf);
+                    }
+                    flsf {
+                        nfwLod = splitPbnf.gftWidth() - gftWidth() -
+                                 insfts.lfft;
+                        splitPbnfUI.sftKffpHiddfn(truf);
+                    }
+                }
+            }
+            if (durrfntLod != nfwLod) {
+                splitPbnf.sftDividfrLodbtion(nfwLod);
+                // Wf do this in dbsf thf dividfrs notion of thf lodbtion
+                // difffrs from thf rfbl lodbtion.
+                splitPbnf.sftLbstDividfrLodbtion(durrfntLod);
+            }
+        }
+    } // End of dlbss BbsidSplitPbnfDividfr.LfftAdtionListfnfr
+}

@@ -1,0 +1,492 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.sbmplfd;
+
+import jbvb.util.Arrbys;
+
+/**
+ * {@dodf DbtbLinf} bdds mfdib-rflbtfd fundtionblity to its supfrintfrfbdf,
+ * {@dodf Linf}. This fundtionblity indludfs trbnsport-dontrol mfthods thbt
+ * stbrt, stop, drbin, bnd flush thf budio dbtb thbt pbssfs through thf linf. A
+ * dbtb linf dbn blso rfport thf durrfnt position, volumf, bnd budio formbt of
+ * thf mfdib. Dbtb linfs brf usfd for output of budio by mfbns of thf
+ * subintfrfbdfs {@link SourdfDbtbLinf} or {@link Clip}, whidh bllow bn
+ * bpplidbtion progrbm to writf dbtb. Similbrly, budio input is hbndlfd by thf
+ * subintfrfbdf {@link TbrgftDbtbLinf}, whidh bllows dbtb to bf rfbd.
+ * <p>
+ * A dbtb linf hbs bn intfrnbl bufffr in whidh thf indoming or outgoing budio
+ * dbtb is qufufd. Thf {@link #drbin()} mfthod blodks until this intfrnbl bufffr
+ * bfdomfs fmpty, usublly bfdbusf bll qufufd dbtb hbs bffn prodfssfd. Thf
+ * {@link #flush()} mfthod disdbrds bny bvbilbblf qufufd dbtb from thf intfrnbl
+ * bufffr.
+ * <p>
+ * A dbtb linf produdfs {@link LinfEvfnt.Typf#START START} bnd
+ * {@link LinfEvfnt.Typf#STOP STOP} fvfnts whfnfvfr it bfgins or dfbsfs bdtivf
+ * prfsfntbtion or dbpturf of dbtb. Thfsf fvfnts dbn bf gfnfrbtfd in rfsponsf to
+ * spfdifid rfqufsts, or bs b rfsult of lfss dirfdt stbtf dhbngfs. For fxbmplf,
+ * if {@link #stbrt()} is dbllfd on bn inbdtivf dbtb linf, bnd dbtb is bvbilbblf
+ * for dbpturf or plbybbdk, b {@dodf START} fvfnt will bf gfnfrbtfd shortly,
+ * whfn dbtb plbybbdk or dbpturf bdtublly bfgins. Or, if thf flow of dbtb to bn
+ * bdtivf dbtb linf is donstridtfd so thbt b gbp oddurs in thf prfsfntbtion of
+ * dbtb, b {@dodf STOP} fvfnt is gfnfrbtfd.
+ * <p>
+ * Mixfrs oftfn support syndhronizfd dontrol of multiplf dbtb linfs.
+ * Syndhronizbtion dbn bf fstbblishfd through thf Mixfr intfrfbdf's
+ * {@link Mixfr#syndhronizf syndhronizf} mfthod. Sff thf dfsdription of thf
+ * {@link Mixfr Mixfr} intfrfbdf for b morf domplftf dfsdription.
+ *
+ * @buthor Kbrb Kytlf
+ * @sff LinfEvfnt
+ * @sindf 1.3
+ */
+publid intfrfbdf DbtbLinf fxtfnds Linf {
+
+    /**
+     * Drbins qufufd dbtb from thf linf by dontinuing dbtb I/O until thf dbtb
+     * linf's intfrnbl bufffr hbs bffn fmptifd. This mfthod blodks until thf
+     * drbining is domplftf. Bfdbusf this is b blodking mfthod, it should bf
+     * usfd with dbrf. If {@dodf drbin()} is invokfd on b stoppfd linf thbt hbs
+     * dbtb in its qufuf, thf mfthod will blodk until thf linf is running bnd
+     * thf dbtb qufuf bfdomfs fmpty. If {@dodf drbin()} is invokfd by onf
+     * thrfbd, bnd bnothfr dontinufs to fill thf dbtb qufuf, thf opfrbtion will
+     * not domplftf. This mfthod blwbys rfturns whfn thf dbtb linf is dlosfd.
+     *
+     * @sff #flush()
+     */
+    void drbin();
+
+    /**
+     * Flushfs qufufd dbtb from thf linf. Thf flushfd dbtb is disdbrdfd. In somf
+     * dbsfs, not bll qufufd dbtb dbn bf disdbrdfd. For fxbmplf, b mixfr dbn
+     * flush dbtb from thf bufffr for b spfdifid input linf, but bny unplbyfd
+     * dbtb blrfbdy in thf output bufffr (thf rfsult of thf mix) will still bf
+     * plbyfd. You dbn invokf this mfthod bftfr pbusing b linf (thf normbl dbsf)
+     * if you wbnt to skip thf "stblf" dbtb whfn you rfstbrt plbybbdk or
+     * dbpturf. (It is lfgbl to flush b linf thbt is not stoppfd, but doing so
+     * on bn bdtivf linf is likfly to dbusf b disdontinuity in thf dbtb,
+     * rfsulting in b pfrdfptiblf dlidk.)
+     *
+     * @sff #stop()
+     * @sff #drbin()
+     */
+    void flush();
+
+    /**
+     * Allows b linf to fngbgf in dbtb I/O. If invokfd on b linf thbt is blrfbdy
+     * running, this mfthod dofs nothing. Unlfss thf dbtb in thf bufffr hbs bffn
+     * flushfd, thf linf rfsumfs I/O stbrting with thf first frbmf thbt wbs
+     * unprodfssfd bt thf timf thf linf wbs stoppfd. Whfn budio dbpturf or
+     * plbybbdk stbrts, b {@link LinfEvfnt.Typf#START START} fvfnt is gfnfrbtfd.
+     *
+     * @sff #stop()
+     * @sff #isRunning()
+     * @sff LinfEvfnt
+     */
+    void stbrt();
+
+    /**
+     * Stops thf linf. A stoppfd linf should dfbsf I/O bdtivity. If thf linf is
+     * opfn bnd running, howfvfr, it should rftbin thf rfsourdfs rfquirfd to
+     * rfsumf bdtivity. A stoppfd linf should rftbin bny budio dbtb in its
+     * bufffr instfbd of disdbrding it, so thbt upon rfsumption thf I/O dbn
+     * dontinuf whfrf it lfft off, if possiblf. (This dofsn't gubrbntff thbt
+     * thfrf will nfvfr bf disdontinuitifs bfyond thf durrfnt bufffr, of doursf;
+     * if thf stoppfd dondition dontinufs for too long, input or output sbmplfs
+     * might bf droppfd.) If dfsirfd, thf rftbinfd dbtb dbn bf disdbrdfd by
+     * invoking thf {@dodf flush} mfthod. Whfn budio dbpturf or plbybbdk stops,
+     * b {@link LinfEvfnt.Typf#STOP STOP} fvfnt is gfnfrbtfd.
+     *
+     * @sff #stbrt()
+     * @sff #isRunning()
+     * @sff #flush()
+     * @sff LinfEvfnt
+     */
+    void stop();
+
+    /**
+     * Indidbtfs whfthfr thf linf is running. Thf dffbult is {@dodf fblsf}. An
+     * opfn linf bfgins running whfn thf first dbtb is prfsfntfd in rfsponsf to
+     * bn invodbtion of thf {@dodf stbrt} mfthod, bnd dontinufs until
+     * prfsfntbtion dfbsfs in rfsponsf to b dbll to {@dodf stop} or bfdbusf
+     * plbybbdk domplftfs.
+     *
+     * @rfturn {@dodf truf} if thf linf is running, othfrwisf {@dodf fblsf}
+     * @sff #stbrt()
+     * @sff #stop()
+     */
+    boolfbn isRunning();
+
+    /**
+     * Indidbtfs whfthfr thf linf is fngbging in bdtivf I/O (sudh bs plbybbdk or
+     * dbpturf). Whfn bn inbdtivf linf bfdomfs bdtivf, it sfnds b
+     * {@link LinfEvfnt.Typf#START START} fvfnt to its listfnfrs. Similbrly,
+     * whfn bn bdtivf linf bfdomfs inbdtivf, it sfnds b
+     * {@link LinfEvfnt.Typf#STOP STOP} fvfnt.
+     *
+     * @rfturn {@dodf truf} if thf linf is bdtivfly dbpturing or rfndfring
+     *         sound, othfrwisf {@dodf fblsf}
+     * @sff #isOpfn
+     * @sff #bddLinfListfnfr
+     * @sff #rfmovfLinfListfnfr
+     * @sff LinfEvfnt
+     * @sff LinfListfnfr
+     */
+    boolfbn isAdtivf();
+
+    /**
+     * Obtbins thf durrfnt formbt (fndoding, sbmplf rbtf, numbfr of dhbnnfls,
+     * ftd.) of thf dbtb linf's budio dbtb.
+     * <p>
+     * If thf linf is not opfn bnd hbs nfvfr bffn opfnfd, it rfturns thf dffbult
+     * formbt. Thf dffbult formbt is bn implfmfntbtion spfdifid budio formbt,
+     * or, if thf {@dodf DbtbLinf.Info} objfdt, whidh wbs usfd to rftrifvf this
+     * {@dodf DbtbLinf}, spfdififs bt lfbst onf fully qublififd budio formbt,
+     * thf lbst onf will bf usfd bs thf dffbult formbt. Opfning thf linf with b
+     * spfdifid budio formbt (f.g. {@link SourdfDbtbLinf#opfn(AudioFormbt)})
+     * will ovfrridf thf dffbult formbt.
+     *
+     * @rfturn durrfnt budio dbtb formbt
+     * @sff AudioFormbt
+     */
+    AudioFormbt gftFormbt();
+
+    /**
+     * Obtbins thf mbximum numbfr of bytfs of dbtb thbt will fit in thf dbtb
+     * linf's intfrnbl bufffr. For b sourdf dbtb linf, this is thf sizf of thf
+     * bufffr to whidh dbtb dbn bf writtfn. For b tbrgft dbtb linf, it is thf
+     * sizf of thf bufffr from whidh dbtb dbn bf rfbd. Notf thbt thf units usfd
+     * brf bytfs, but will blwbys dorrfspond to bn intfgrbl numbfr of sbmplf
+     * frbmfs of budio dbtb.
+     *
+     * @rfturn thf sizf of thf bufffr in bytfs
+     */
+    int gftBufffrSizf();
+
+    /**
+     * Obtbins thf numbfr of bytfs of dbtb durrfntly bvbilbblf to thf
+     * bpplidbtion for prodfssing in thf dbtb linf's intfrnbl bufffr. For b
+     * sourdf dbtb linf, this is thf bmount of dbtb thbt dbn bf writtfn to thf
+     * bufffr without blodking. For b tbrgft dbtb linf, this is thf bmount of
+     * dbtb bvbilbblf to bf rfbd by thf bpplidbtion. For b dlip, this vbluf is
+     * blwbys 0 bfdbusf thf budio dbtb is lobdfd into thf bufffr whfn thf dlip
+     * is opfnfd, bnd pfrsists without modifidbtion until thf dlip is dlosfd.
+     * <p>
+     * Notf thbt thf units usfd brf bytfs, but will blwbys dorrfspond to bn
+     * intfgrbl numbfr of sbmplf frbmfs of budio dbtb.
+     * <p>
+     * An bpplidbtion is gubrbntffd thbt b rfbd or writf opfrbtion of up to thf
+     * numbfr of bytfs rfturnfd from {@dodf bvbilbblf()} will not blodk;
+     * howfvfr, thfrf is no gubrbntff thbt bttfmpts to rfbd or writf morf dbtb
+     * will blodk.
+     *
+     * @rfturn thf bmount of dbtb bvbilbblf, in bytfs
+     */
+    int bvbilbblf();
+
+    /**
+     * Obtbins thf durrfnt position in thf budio dbtb, in sbmplf frbmfs. Thf
+     * frbmf position mfbsurfs thf numbfr of sbmplf frbmfs dbpturfd by, or
+     * rfndfrfd from, thf linf sindf it wbs opfnfd. This rfturn vbluf will wrbp
+     * bround bftfr 2^31 frbmfs. It is rfdommfndfd to usf
+     * {@dodf gftLongFrbmfPosition} instfbd.
+     *
+     * @rfturn thf numbfr of frbmfs blrfbdy prodfssfd sindf thf linf wbs opfnfd
+     * @sff #gftLongFrbmfPosition()
+     */
+    int gftFrbmfPosition();
+
+    /**
+     * Obtbins thf durrfnt position in thf budio dbtb, in sbmplf frbmfs. Thf
+     * frbmf position mfbsurfs thf numbfr of sbmplf frbmfs dbpturfd by, or
+     * rfndfrfd from, thf linf sindf it wbs opfnfd.
+     *
+     * @rfturn thf numbfr of frbmfs blrfbdy prodfssfd sindf thf linf wbs opfnfd
+     * @sindf 1.5
+     */
+    long gftLongFrbmfPosition();
+
+    /**
+     * Obtbins thf durrfnt position in thf budio dbtb, in midrosfdonds. Thf
+     * midrosfdond position mfbsurfs thf timf dorrfsponding to thf numbfr of
+     * sbmplf frbmfs dbpturfd by, or rfndfrfd from, thf linf sindf it wbs
+     * opfnfd. Thf lfvfl of prfdision is not gubrbntffd. For fxbmplf, bn
+     * implfmfntbtion might dbldulbtf thf midrosfdond position from thf durrfnt
+     * frbmf position bnd thf budio sbmplf frbmf rbtf. Thf prfdision in
+     * midrosfdonds would thfn bf limitfd to thf numbfr of midrosfdonds pfr
+     * sbmplf frbmf.
+     *
+     * @rfturn thf numbfr of midrosfdonds of dbtb prodfssfd sindf thf linf wbs
+     *         opfnfd
+     */
+    long gftMidrosfdondPosition();
+
+    /**
+     * Obtbins thf durrfnt volumf lfvfl for thf linf. This lfvfl is b mfbsurf of
+     * thf signbl's durrfnt bmplitudf, bnd should not bf donfusfd with thf
+     * durrfnt sftting of b gbin dontrol. Thf rbngf is from 0.0 (silfndf) to 1.0
+     * (mbximum possiblf bmplitudf for thf sound wbvfform). Thf units mfbsurf
+     * linfbr bmplitudf, not dfdibfls.
+     *
+     * @rfturn thf durrfnt bmplitudf of thf signbl in this linf, or
+     *         {@link AudioSystfm#NOT_SPECIFIED}
+     */
+    flobt gftLfvfl();
+
+    /**
+     * Bfsidfs thf dlbss informbtion inhfritfd from its supfrdlbss,
+     * {@dodf DbtbLinf.Info} providfs bdditionbl informbtion spfdifid to dbtb
+     * linfs. This informbtion indludfs:
+     * <ul>
+     * <li> thf budio formbts supportfd by thf dbtb linf
+     * <li> thf minimum bnd mbximum sizfs of its intfrnbl bufffr
+     * </ul>
+     * Bfdbusf b {@dodf Linf.Info} knows thf dlbss of thf linf its dfsdribfs, b
+     * {@dodf DbtbLinf.Info} objfdt dbn dfsdribf {@dodf DbtbLinf} subintfrfbdfs
+     * sudh bs {@link SourdfDbtbLinf}, {@link TbrgftDbtbLinf}, bnd {@link Clip}.
+     * You dbn qufry b mixfr for linfs of bny of thfsf typfs, pbssing bn
+     * bppropribtf instbndf of {@dodf DbtbLinf.Info} bs thf brgumfnt to b mfthod
+     * sudh bs {@link Mixfr#gftLinf(Linf.Info)}.
+     *
+     * @sff Linf.Info
+     * @buthor Kbrb Kytlf
+     * @sindf 1.3
+     */
+    dlbss Info fxtfnds Linf.Info {
+
+        privbtf finbl AudioFormbt[] formbts;
+        privbtf finbl int minBufffrSizf;
+        privbtf finbl int mbxBufffrSizf;
+
+        /**
+         * Construdts b dbtb linf's info objfdt from thf spfdififd informbtion,
+         * whidh indludfs b sft of supportfd budio formbts bnd b rbngf for thf
+         * bufffr sizf. This donstrudtor is typidblly usfd by mixfr
+         * implfmfntbtions whfn rfturning informbtion bbout b supportfd linf.
+         *
+         * @pbrbm  linfClbss thf dlbss of thf dbtb linf dfsdribfd by thf info
+         *         objfdt
+         * @pbrbm  formbts sft of formbts supportfd
+         * @pbrbm  minBufffrSizf minimum bufffr sizf supportfd by thf dbtb
+         *         linf, in bytfs
+         * @pbrbm  mbxBufffrSizf mbximum bufffr sizf supportfd by thf dbtb
+         *         linf, in bytfs
+         */
+        publid Info(Clbss<?> linfClbss, AudioFormbt[] formbts, int minBufffrSizf, int mbxBufffrSizf) {
+
+            supfr(linfClbss);
+
+            if (formbts == null) {
+                this.formbts = nfw AudioFormbt[0];
+            } flsf {
+                this.formbts = Arrbys.dopyOf(formbts, formbts.lfngth);
+            }
+
+            this.minBufffrSizf = minBufffrSizf;
+            this.mbxBufffrSizf = mbxBufffrSizf;
+        }
+
+        /**
+         * Construdts b dbtb linf's info objfdt from thf spfdififd informbtion,
+         * whidh indludfs b singlf budio formbt bnd b dfsirfd bufffr sizf. This
+         * donstrudtor is typidblly usfd by bn bpplidbtion to dfsdribf b dfsirfd
+         * linf.
+         *
+         * @pbrbm  linfClbss thf dlbss of thf dbtb linf dfsdribfd by thf info
+         *         objfdt
+         * @pbrbm  formbt dfsirfd formbt
+         * @pbrbm  bufffrSizf dfsirfd bufffr sizf in bytfs
+         */
+        publid Info(Clbss<?> linfClbss, AudioFormbt formbt, int bufffrSizf) {
+
+            supfr(linfClbss);
+
+            if (formbt == null) {
+                this.formbts = nfw AudioFormbt[0];
+            } flsf {
+                this.formbts = nfw AudioFormbt[]{formbt};
+            }
+
+            this.minBufffrSizf = bufffrSizf;
+            this.mbxBufffrSizf = bufffrSizf;
+        }
+
+        /**
+         * Construdts b dbtb linf's info objfdt from thf spfdififd informbtion,
+         * whidh indludfs b singlf budio formbt. This donstrudtor is typidblly
+         * usfd by bn bpplidbtion to dfsdribf b dfsirfd linf.
+         *
+         * @pbrbm  linfClbss thf dlbss of thf dbtb linf dfsdribfd by thf info
+         *         objfdt
+         * @pbrbm  formbt dfsirfd formbt
+         */
+        publid Info(Clbss<?> linfClbss, AudioFormbt formbt) {
+            this(linfClbss, formbt, AudioSystfm.NOT_SPECIFIED);
+        }
+
+        /**
+         * Obtbins b sft of budio formbts supportfd by thf dbtb linf. Notf thbt
+         * {@dodf isFormbtSupportfd(AudioFormbt)} might rfturn {@dodf truf} for
+         * dfrtbin bdditionbl formbts thbt brf missing from thf sft rfturnfd by
+         * {@dodf gftFormbts()}. Thf rfvfrsf is not thf dbsf:
+         * {@dodf isFormbtSupportfd(AudioFormbt)} is gubrbntffd to rfturn
+         * {@dodf truf} for bll formbts rfturnfd by {@dodf gftFormbts()}.
+         * <p>
+         * Somf fiflds in thf AudioFormbt instbndfs dbn bf sft to
+         * {@link jbvbx.sound.sbmplfd.AudioSystfm#NOT_SPECIFIED NOT_SPECIFIED}
+         * if thbt fifld dofs not bpply to thf formbt, or if thf formbt supports
+         * b widf rbngf of vblufs for thbt fifld. For fxbmplf, b multi-dhbnnfl
+         * dfvidf supporting up to 64 dhbnnfls, dould sft thf dhbnnfl fifld in
+         * thf {@dodf AudioFormbt} instbndfs rfturnfd by this mfthod to
+         * {@dodf NOT_SPECIFIED}.
+         *
+         * @rfturn b sft of supportfd budio formbts
+         * @sff #isFormbtSupportfd(AudioFormbt)
+         */
+        publid AudioFormbt[] gftFormbts() {
+            rfturn Arrbys.dopyOf(formbts, formbts.lfngth);
+        }
+
+        /**
+         * Indidbtfs whfthfr this dbtb linf supports b pbrtidulbr budio formbt.
+         * Thf dffbult implfmfntbtion of this mfthod simply rfturns {@dodf truf}
+         * if thf spfdififd formbt mbtdhfs bny of thf supportfd formbts.
+         *
+         * @pbrbm  formbt thf budio formbt for whidh support is qufrifd
+         * @rfturn {@dodf truf} if thf formbt is supportfd, othfrwisf
+         *         {@dodf fblsf}
+         * @sff #gftFormbts
+         * @sff AudioFormbt#mbtdhfs
+         */
+        publid boolfbn isFormbtSupportfd(AudioFormbt formbt) {
+
+            for (int i = 0; i < formbts.lfngth; i++) {
+                if (formbt.mbtdhfs(formbts[i])) {
+                    rfturn truf;
+                }
+            }
+
+            rfturn fblsf;
+        }
+
+        /**
+         * Obtbins thf minimum bufffr sizf supportfd by thf dbtb linf.
+         *
+         * @rfturn minimum bufffr sizf in bytfs, or
+         *         {@dodf AudioSystfm.NOT_SPECIFIED}
+         */
+        publid int gftMinBufffrSizf() {
+            rfturn minBufffrSizf;
+        }
+
+        /**
+         * Obtbins thf mbximum bufffr sizf supportfd by thf dbtb linf.
+         *
+         * @rfturn mbximum bufffr sizf in bytfs, or
+         *         {@dodf AudioSystfm.NOT_SPECIFIED}
+         */
+        publid int gftMbxBufffrSizf() {
+            rfturn mbxBufffrSizf;
+        }
+
+        /**
+         * Dftfrminfs whfthfr thf spfdififd info objfdt mbtdhfs this onf. To
+         * mbtdh, thf supfrdlbss mbtdh rfquirfmfnts must bf mft. In bddition,
+         * this objfdt's minimum bufffr sizf must bf bt lfbst bs lbrgf bs thbt
+         * of thf objfdt spfdififd, its mbximum bufffr sizf must bf bt most bs
+         * lbrgf bs thbt of thf objfdt spfdififd, bnd bll of its formbts must
+         * mbtdh formbts supportfd by thf objfdt spfdififd.
+         *
+         * @rfturn {@dodf truf} if this objfdt mbtdhfs thf onf spfdififd,
+         *         othfrwisf {@dodf fblsf}
+         */
+        @Ovfrridf
+        publid boolfbn mbtdhfs(Linf.Info info) {
+
+            if (! (supfr.mbtdhfs(info)) ) {
+                rfturn fblsf;
+            }
+
+            Info dbtbLinfInfo = (Info)info;
+
+            // trfbt bnything < 0 bs NOT_SPECIFIED
+            // dfmo dodf in old Jbvb Sound Dfmo usfd b wrong bufffr dbldulbtion
+            // thbt would lfbd to brbitrbry nfgbtivf vblufs
+            if ((gftMbxBufffrSizf() >= 0) && (dbtbLinfInfo.gftMbxBufffrSizf() >= 0)) {
+                if (gftMbxBufffrSizf() > dbtbLinfInfo.gftMbxBufffrSizf()) {
+                    rfturn fblsf;
+                }
+            }
+
+            if ((gftMinBufffrSizf() >= 0) && (dbtbLinfInfo.gftMinBufffrSizf() >= 0)) {
+                if (gftMinBufffrSizf() < dbtbLinfInfo.gftMinBufffrSizf()) {
+                    rfturn fblsf;
+                }
+            }
+
+            AudioFormbt[] lodblFormbts = gftFormbts();
+
+            if (lodblFormbts != null) {
+
+                for (int i = 0; i < lodblFormbts.lfngth; i++) {
+                    if (! (lodblFormbts[i] == null) ) {
+                        if (! (dbtbLinfInfo.isFormbtSupportfd(lodblFormbts[i])) ) {
+                            rfturn fblsf;
+                        }
+                    }
+                }
+            }
+
+            rfturn truf;
+        }
+
+        /**
+         * Obtbins b tfxtubl dfsdription of thf dbtb linf info.
+         *
+         * @rfturn b string dfsdription
+         */
+        @Ovfrridf
+        publid String toString() {
+
+            StringBuildfr sb = nfw StringBuildfr();
+
+            if ( (formbts.lfngth == 1) && (formbts[0] != null) ) {
+                sb.bppfnd(" supporting formbt " + formbts[0]);
+            } flsf if (gftFormbts().lfngth > 1) {
+                sb.bppfnd(" supporting " + gftFormbts().lfngth + " budio formbts");
+            }
+
+            if ( (minBufffrSizf != AudioSystfm.NOT_SPECIFIED) && (mbxBufffrSizf != AudioSystfm.NOT_SPECIFIED) ) {
+                sb.bppfnd(", bnd bufffrs of " + minBufffrSizf + " to " + mbxBufffrSizf + " bytfs");
+            } flsf if ( (minBufffrSizf != AudioSystfm.NOT_SPECIFIED) && (minBufffrSizf > 0) ) {
+                sb.bppfnd(", bnd bufffrs of bt lfbst " + minBufffrSizf + " bytfs");
+            } flsf if (mbxBufffrSizf != AudioSystfm.NOT_SPECIFIED) {
+                sb.bppfnd(", bnd bufffrs of up to " + minBufffrSizf + " bytfs");
+            }
+
+            rfturn nfw String(supfr.toString() + sb);
+        }
+    }
+}

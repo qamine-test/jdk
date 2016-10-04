@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.accessibility;
+pbdkbgf jbvbx.bddfssibility;
 
 /**
- * The AccessibleAction interface should be supported by any object
- * that can perform one or more actions.  This interface
- * provides the standard mechanism for an assistive technology to determine
- * what those actions are as well as tell the object to perform them.
- * Any object that can be manipulated should support this
- * interface.  Applications can determine if an object supports the
- * AccessibleAction interface by first obtaining its AccessibleContext (see
- * {@link Accessible}) and then calling the {@link AccessibleContext#getAccessibleAction}
- * method.  If the return value is not null, the object supports this interface.
+ * Tif AddfssiblfAdtion intfrfbdf siould bf supportfd by bny objfdt
+ * tibt dbn pfrform onf or morf bdtions.  Tiis intfrfbdf
+ * providfs tif stbndbrd mfdibnism for bn bssistivf tfdinology to dftfrminf
+ * wibt tiosf bdtions brf bs wfll bs tfll tif objfdt to pfrform tifm.
+ * Any objfdt tibt dbn bf mbnipulbtfd siould support tiis
+ * intfrfbdf.  Applidbtions dbn dftfrminf if bn objfdt supports tif
+ * AddfssiblfAdtion intfrfbdf by first obtbining its AddfssiblfContfxt (sff
+ * {@link Addfssiblf}) bnd tifn dblling tif {@link AddfssiblfContfxt#gftAddfssiblfAdtion}
+ * mftiod.  If tif rfturn vbluf is not null, tif objfdt supports tiis intfrfbdf.
  *
- * @see Accessible
- * @see Accessible#getAccessibleContext
- * @see AccessibleContext
- * @see AccessibleContext#getAccessibleAction
+ * @sff Addfssiblf
+ * @sff Addfssiblf#gftAddfssiblfContfxt
+ * @sff AddfssiblfContfxt
+ * @sff AddfssiblfContfxt#gftAddfssiblfAdtion
  *
- * @author      Peter Korn
- * @author      Hans Muller
- * @author      Willie Walker
- * @author      Lynn Monsanto
+ * @butior      Pftfr Korn
+ * @butior      Hbns Mullfr
+ * @butior      Willif Wblkfr
+ * @butior      Lynn Monsbnto
  */
-public interface AccessibleAction {
+publid intfrfbdf AddfssiblfAdtion {
 
     /**
-     * An action which causes a tree node to
-     * collapse if expanded and expand if collapsed.
-     * @since 1.5
+     * An bdtion wiidi dbusfs b trff nodf to
+     * dollbpsf if fxpbndfd bnd fxpbnd if dollbpsfd.
+     * @sindf 1.5
      */
-    public static final String TOGGLE_EXPAND =
-        new String ("toggleexpand");
+    publid stbtid finbl String TOGGLE_EXPAND =
+        nfw String ("togglffxpbnd");
 
     /**
-     * An action which increments a value.
-     * @since 1.5
+     * An bdtion wiidi indrfmfnts b vbluf.
+     * @sindf 1.5
      */
-    public static final String INCREMENT =
-        new String ("increment");
+    publid stbtid finbl String INCREMENT =
+        nfw String ("indrfmfnt");
 
 
     /**
-     * An action which decrements a value.
-     * @since 1.5
+     * An bdtion wiidi dfdrfmfnts b vbluf.
+     * @sindf 1.5
      */
-    public static final String DECREMENT =
-        new String ("decrement");
+    publid stbtid finbl String DECREMENT =
+        nfw String ("dfdrfmfnt");
 
     /**
-     * An action which causes a component to execute its default action.
-     * @since 1.6
+     * An bdtion wiidi dbusfs b domponfnt to fxfdutf its dffbult bdtion.
+     * @sindf 1.6
      */
-    public static final String CLICK = new String("click");
+    publid stbtid finbl String CLICK = nfw String("dlidk");
 
     /**
-     * An action which causes a popup to become visible if it is hidden and
-     * hidden if it is visible.
-     * @since 1.6
+     * An bdtion wiidi dbusfs b popup to bfdomf visiblf if it is iiddfn bnd
+     * iiddfn if it is visiblf.
+     * @sindf 1.6
      */
-    public static final String TOGGLE_POPUP = new String("toggle popup");
+    publid stbtid finbl String TOGGLE_POPUP = nfw String("togglf popup");
 
     /**
-     * Returns the number of accessible actions available in this object
-     * If there are more than one, the first one is considered the "default"
-     * action of the object.
+     * Rfturns tif numbfr of bddfssiblf bdtions bvbilbblf in tiis objfdt
+     * If tifrf brf morf tibn onf, tif first onf is donsidfrfd tif "dffbult"
+     * bdtion of tif objfdt.
      *
-     * @return the zero-based number of Actions in this object
+     * @rfturn tif zfro-bbsfd numbfr of Adtions in tiis objfdt
      */
-    public int getAccessibleActionCount();
+    publid int gftAddfssiblfAdtionCount();
 
     /**
-     * Returns a description of the specified action of the object.
+     * Rfturns b dfsdription of tif spfdififd bdtion of tif objfdt.
      *
-     * @param i zero-based index of the actions
-     * @return a String description of the action
-     * @see #getAccessibleActionCount
+     * @pbrbm i zfro-bbsfd indfx of tif bdtions
+     * @rfturn b String dfsdription of tif bdtion
+     * @sff #gftAddfssiblfAdtionCount
      */
-    public String getAccessibleActionDescription(int i);
+    publid String gftAddfssiblfAdtionDfsdription(int i);
 
     /**
-     * Performs the specified Action on the object
+     * Pfrforms tif spfdififd Adtion on tif objfdt
      *
-     * @param i zero-based index of actions
-     * @return true if the action was performed; otherwise false.
-     * @see #getAccessibleActionCount
+     * @pbrbm i zfro-bbsfd indfx of bdtions
+     * @rfturn truf if tif bdtion wbs pfrformfd; otifrwisf fblsf.
+     * @sff #gftAddfssiblfAdtionCount
      */
-    public boolean doAccessibleAction(int i);
+    publid boolfbn doAddfssiblfAdtion(int i);
 }

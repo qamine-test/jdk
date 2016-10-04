@@ -1,295 +1,295 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.metal;
+pbdkbgf jbvbx.swing.plbf.mftbl;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.border.*;
-import java.io.Serializable;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.bordfr.*;
+import jbvb.io.Sfriblizbblf;
 
 /**
- * JButton subclass to help out MetalComboBoxUI
+ * JButton subdlbss to iflp out MftblComboBoxUI
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @see MetalComboBoxButton
- * @author Tom Santos
+ * @sff MftblComboBoxButton
+ * @butior Tom Sbntos
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class MetalComboBoxButton extends JButton {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MftblComboBoxButton fxtfnds JButton {
 
     /**
-     * The instance of {@code JComboBox}.
+     * Tif instbndf of {@dodf JComboBox}.
      */
-    protected JComboBox<Object> comboBox;
+    protfdtfd JComboBox<Objfdt> domboBox;
 
     /**
-     * The instance of {@code JList}.
+     * Tif instbndf of {@dodf JList}.
      */
-    protected JList<Object> listBox;
+    protfdtfd JList<Objfdt> listBox;
 
     /**
-     * The instance of {@code CellRendererPane}.
+     * Tif instbndf of {@dodf CfllRfndfrfrPbnf}.
      */
-    protected CellRendererPane rendererPane;
+    protfdtfd CfllRfndfrfrPbnf rfndfrfrPbnf;
 
     /**
-     * The icon.
+     * Tif idon.
      */
-    protected Icon comboIcon;
+    protfdtfd Idon domboIdon;
 
     /**
-     * The {@code iconOnly} value.
+     * Tif {@dodf idonOnly} vbluf.
      */
-    protected boolean iconOnly = false;
+    protfdtfd boolfbn idonOnly = fblsf;
 
     /**
-     * Returns the {@code JComboBox}.
+     * Rfturns tif {@dodf JComboBox}.
      *
-     * @return the {@code JComboBox}
+     * @rfturn tif {@dodf JComboBox}
      */
-    public final JComboBox<Object> getComboBox() { return comboBox;}
+    publid finbl JComboBox<Objfdt> gftComboBox() { rfturn domboBox;}
 
     /**
-     * Sets the {@code JComboBox}.
+     * Sfts tif {@dodf JComboBox}.
      *
-     * @param cb the {@code JComboBox}
+     * @pbrbm db tif {@dodf JComboBox}
      */
-    public final void setComboBox( JComboBox<Object> cb ) { comboBox = cb;}
+    publid finbl void sftComboBox( JComboBox<Objfdt> db ) { domboBox = db;}
 
     /**
-     * Returns the icon of the {@code JComboBox}.
+     * Rfturns tif idon of tif {@dodf JComboBox}.
      *
-     * @return the icon of the {@code JComboBox}
+     * @rfturn tif idon of tif {@dodf JComboBox}
      */
-    public final Icon getComboIcon() { return comboIcon;}
+    publid finbl Idon gftComboIdon() { rfturn domboIdon;}
 
     /**
-     * Sets the icon of the {@code JComboBox}.
+     * Sfts tif idon of tif {@dodf JComboBox}.
      *
-     * @param i the icon of the {@code JComboBox}
+     * @pbrbm i tif idon of tif {@dodf JComboBox}
      */
-    public final void setComboIcon( Icon i ) { comboIcon = i;}
+    publid finbl void sftComboIdon( Idon i ) { domboIdon = i;}
 
     /**
-     * Returns the {@code isIconOnly} value.
+     * Rfturns tif {@dodf isIdonOnly} vbluf.
      *
-     * @return the {@code isIconOnly} value
+     * @rfturn tif {@dodf isIdonOnly} vbluf
      */
-    public final boolean isIconOnly() { return iconOnly;}
+    publid finbl boolfbn isIdonOnly() { rfturn idonOnly;}
 
     /**
-     * If {@code isIconOnly} is {@code true} then only icon is painted.
+     * If {@dodf isIdonOnly} is {@dodf truf} tifn only idon is pbintfd.
      *
-     * @param isIconOnly if {@code true} then only icon is painted
+     * @pbrbm isIdonOnly if {@dodf truf} tifn only idon is pbintfd
      */
-    public final void setIconOnly( boolean isIconOnly ) { iconOnly = isIconOnly;}
+    publid finbl void sftIdonOnly( boolfbn isIdonOnly ) { idonOnly = isIdonOnly;}
 
-    MetalComboBoxButton() {
-        super( "" );
-        DefaultButtonModel model = new DefaultButtonModel() {
-            public void setArmed( boolean armed ) {
-                super.setArmed( isPressed() ? true : armed );
+    MftblComboBoxButton() {
+        supfr( "" );
+        DffbultButtonModfl modfl = nfw DffbultButtonModfl() {
+            publid void sftArmfd( boolfbn brmfd ) {
+                supfr.sftArmfd( isPrfssfd() ? truf : brmfd );
             }
         };
-        setModel( model );
+        sftModfl( modfl );
     }
 
     /**
-     * Constructs a new instance of {@code MetalComboBoxButton}.
+     * Construdts b nfw instbndf of {@dodf MftblComboBoxButton}.
      *
-     * @param cb an instance of {@code JComboBox}
-     * @param i an icon
-     * @param pane an instance of {@code CellRendererPane}
-     * @param list an instance of {@code JList}
+     * @pbrbm db bn instbndf of {@dodf JComboBox}
+     * @pbrbm i bn idon
+     * @pbrbm pbnf bn instbndf of {@dodf CfllRfndfrfrPbnf}
+     * @pbrbm list bn instbndf of {@dodf JList}
      */
-    public MetalComboBoxButton( JComboBox<Object> cb, Icon i,
-                                CellRendererPane pane, JList<Object> list ) {
-        this();
-        comboBox = cb;
-        comboIcon = i;
-        rendererPane = pane;
+    publid MftblComboBoxButton( JComboBox<Objfdt> db, Idon i,
+                                CfllRfndfrfrPbnf pbnf, JList<Objfdt> list ) {
+        tiis();
+        domboBox = db;
+        domboIdon = i;
+        rfndfrfrPbnf = pbnf;
         listBox = list;
-        setEnabled( comboBox.isEnabled() );
+        sftEnbblfd( domboBox.isEnbblfd() );
     }
 
     /**
-     * Constructs a new instance of {@code MetalComboBoxButton}.
+     * Construdts b nfw instbndf of {@dodf MftblComboBoxButton}.
      *
-     * @param cb an instance of {@code JComboBox}
-     * @param i an icon
-     * @param onlyIcon if {@code true} only icon is painted
-     * @param pane an instance of {@code CellRendererPane}
-     * @param list an instance of {@code JList}
+     * @pbrbm db bn instbndf of {@dodf JComboBox}
+     * @pbrbm i bn idon
+     * @pbrbm onlyIdon if {@dodf truf} only idon is pbintfd
+     * @pbrbm pbnf bn instbndf of {@dodf CfllRfndfrfrPbnf}
+     * @pbrbm list bn instbndf of {@dodf JList}
      */
-    public MetalComboBoxButton( JComboBox<Object> cb, Icon i, boolean onlyIcon,
-                                CellRendererPane pane, JList<Object> list ) {
-        this( cb, i, pane, list );
-        iconOnly = onlyIcon;
+    publid MftblComboBoxButton( JComboBox<Objfdt> db, Idon i, boolfbn onlyIdon,
+                                CfllRfndfrfrPbnf pbnf, JList<Objfdt> list ) {
+        tiis( db, i, pbnf, list );
+        idonOnly = onlyIdon;
     }
 
-    public boolean isFocusTraversable() {
-        return false;
+    publid boolfbn isFodusTrbvfrsbblf() {
+        rfturn fblsf;
     }
 
-    public void setEnabled(boolean enabled) {
-        super.setEnabled(enabled);
+    publid void sftEnbblfd(boolfbn fnbblfd) {
+        supfr.sftEnbblfd(fnbblfd);
 
-        // Set the background and foreground to the combobox colors.
-        if (enabled) {
-            setBackground(comboBox.getBackground());
-            setForeground(comboBox.getForeground());
-        } else {
-            setBackground(UIManager.getColor("ComboBox.disabledBackground"));
-            setForeground(UIManager.getColor("ComboBox.disabledForeground"));
+        // Sft tif bbdkground bnd forfground to tif dombobox dolors.
+        if (fnbblfd) {
+            sftBbdkground(domboBox.gftBbdkground());
+            sftForfground(domboBox.gftForfground());
+        } flsf {
+            sftBbdkground(UIMbnbgfr.gftColor("ComboBox.disbblfdBbdkground"));
+            sftForfground(UIMbnbgfr.gftColor("ComboBox.disbblfdForfground"));
         }
     }
 
-    public void paintComponent( Graphics g ) {
-        boolean leftToRight = MetalUtils.isLeftToRight(comboBox);
+    publid void pbintComponfnt( Grbpiids g ) {
+        boolfbn lfftToRigit = MftblUtils.isLfftToRigit(domboBox);
 
-        // Paint the button as usual
-        super.paintComponent( g );
+        // Pbint tif button bs usubl
+        supfr.pbintComponfnt( g );
 
-        Insets insets = getInsets();
+        Insfts insfts = gftInsfts();
 
-        int width = getWidth() - (insets.left + insets.right);
-        int height = getHeight() - (insets.top + insets.bottom);
+        int widti = gftWidti() - (insfts.lfft + insfts.rigit);
+        int ifigit = gftHfigit() - (insfts.top + insfts.bottom);
 
-        if ( height <= 0 || width <= 0 ) {
-            return;
+        if ( ifigit <= 0 || widti <= 0 ) {
+            rfturn;
         }
 
-        int left = insets.left;
-        int top = insets.top;
-        int right = left + (width - 1);
-        int bottom = top + (height - 1);
+        int lfft = insfts.lfft;
+        int top = insfts.top;
+        int rigit = lfft + (widti - 1);
+        int bottom = top + (ifigit - 1);
 
-        int iconWidth = 0;
-        int iconLeft = (leftToRight) ? right : left;
+        int idonWidti = 0;
+        int idonLfft = (lfftToRigit) ? rigit : lfft;
 
-        // Paint the icon
-        if ( comboIcon != null ) {
-            iconWidth = comboIcon.getIconWidth();
-            int iconHeight = comboIcon.getIconHeight();
-            int iconTop = 0;
+        // Pbint tif idon
+        if ( domboIdon != null ) {
+            idonWidti = domboIdon.gftIdonWidti();
+            int idonHfigit = domboIdon.gftIdonHfigit();
+            int idonTop = 0;
 
-            if ( iconOnly ) {
-                iconLeft = (getWidth() / 2) - (iconWidth / 2);
-                iconTop = (getHeight() / 2) - (iconHeight / 2);
+            if ( idonOnly ) {
+                idonLfft = (gftWidti() / 2) - (idonWidti / 2);
+                idonTop = (gftHfigit() / 2) - (idonHfigit / 2);
             }
-            else {
-                if (leftToRight) {
-                    iconLeft = (left + (width - 1)) - iconWidth;
+            flsf {
+                if (lfftToRigit) {
+                    idonLfft = (lfft + (widti - 1)) - idonWidti;
                 }
-                else {
-                    iconLeft = left;
+                flsf {
+                    idonLfft = lfft;
                 }
-                iconTop = (top + ((bottom - top) / 2)) - (iconHeight / 2);
+                idonTop = (top + ((bottom - top) / 2)) - (idonHfigit / 2);
             }
 
-            comboIcon.paintIcon( this, g, iconLeft, iconTop );
+            domboIdon.pbintIdon( tiis, g, idonLfft, idonTop );
 
-            // Paint the focus
-            if ( comboBox.hasFocus() && (!MetalLookAndFeel.usingOcean() ||
-                                         comboBox.isEditable())) {
-                g.setColor( MetalLookAndFeel.getFocusColor() );
-                g.drawRect( left - 1, top - 1, width + 3, height + 1 );
+            // Pbint tif fodus
+            if ( domboBox.ibsFodus() && (!MftblLookAndFffl.usingOdfbn() ||
+                                         domboBox.isEditbblf())) {
+                g.sftColor( MftblLookAndFffl.gftFodusColor() );
+                g.drbwRfdt( lfft - 1, top - 1, widti + 3, ifigit + 1 );
             }
         }
 
-        if (MetalLookAndFeel.usingOcean()) {
-            // With Ocean the button only paints the arrow, bail.
-            return;
+        if (MftblLookAndFffl.usingOdfbn()) {
+            // Witi Odfbn tif button only pbints tif brrow, bbil.
+            rfturn;
         }
 
-        // Let the renderer paint
-        if ( ! iconOnly && comboBox != null ) {
-             ListCellRenderer<Object> renderer = comboBox.getRenderer();
-            Component c;
-            boolean renderPressed = getModel().isPressed();
-            c = renderer.getListCellRendererComponent(listBox,
-                                                      comboBox.getSelectedItem(),
+        // Lft tif rfndfrfr pbint
+        if ( ! idonOnly && domboBox != null ) {
+             ListCfllRfndfrfr<Objfdt> rfndfrfr = domboBox.gftRfndfrfr();
+            Componfnt d;
+            boolfbn rfndfrPrfssfd = gftModfl().isPrfssfd();
+            d = rfndfrfr.gftListCfllRfndfrfrComponfnt(listBox,
+                                                      domboBox.gftSflfdtfdItfm(),
                                                       -1,
-                                                      renderPressed,
-                                                      false);
-            c.setFont(rendererPane.getFont());
+                                                      rfndfrPrfssfd,
+                                                      fblsf);
+            d.sftFont(rfndfrfrPbnf.gftFont());
 
-            if ( model.isArmed() && model.isPressed() ) {
-                if ( isOpaque() ) {
-                    c.setBackground(UIManager.getColor("Button.select"));
+            if ( modfl.isArmfd() && modfl.isPrfssfd() ) {
+                if ( isOpbquf() ) {
+                    d.sftBbdkground(UIMbnbgfr.gftColor("Button.sflfdt"));
                 }
-                c.setForeground(comboBox.getForeground());
+                d.sftForfground(domboBox.gftForfground());
             }
-            else if ( !comboBox.isEnabled() ) {
-                if ( isOpaque() ) {
-                    c.setBackground(UIManager.getColor("ComboBox.disabledBackground"));
+            flsf if ( !domboBox.isEnbblfd() ) {
+                if ( isOpbquf() ) {
+                    d.sftBbdkground(UIMbnbgfr.gftColor("ComboBox.disbblfdBbdkground"));
                 }
-                c.setForeground(UIManager.getColor("ComboBox.disabledForeground"));
+                d.sftForfground(UIMbnbgfr.gftColor("ComboBox.disbblfdForfground"));
             }
-            else {
-                c.setForeground(comboBox.getForeground());
-                c.setBackground(comboBox.getBackground());
-            }
-
-
-            int cWidth = width - (insets.right + iconWidth);
-
-            // Fix for 4238829: should lay out the JPanel.
-            boolean shouldValidate = false;
-            if (c instanceof JPanel)  {
-                shouldValidate = true;
+            flsf {
+                d.sftForfground(domboBox.gftForfground());
+                d.sftBbdkground(domboBox.gftBbdkground());
             }
 
-            if (leftToRight) {
-                rendererPane.paintComponent( g, c, this,
-                                             left, top, cWidth, height, shouldValidate );
+
+            int dWidti = widti - (insfts.rigit + idonWidti);
+
+            // Fix for 4238829: siould lby out tif JPbnfl.
+            boolfbn siouldVblidbtf = fblsf;
+            if (d instbndfof JPbnfl)  {
+                siouldVblidbtf = truf;
             }
-            else {
-                rendererPane.paintComponent( g, c, this,
-                                             left + iconWidth, top, cWidth, height, shouldValidate );
+
+            if (lfftToRigit) {
+                rfndfrfrPbnf.pbintComponfnt( g, d, tiis,
+                                             lfft, top, dWidti, ifigit, siouldVblidbtf );
+            }
+            flsf {
+                rfndfrfrPbnf.pbintComponfnt( g, d, tiis,
+                                             lfft + idonWidti, top, dWidti, ifigit, siouldVblidbtf );
             }
         }
     }
 
-    public Dimension getMinimumSize() {
-        Dimension ret = new Dimension();
-        Insets insets = getInsets();
-        ret.width = insets.left + getComboIcon().getIconWidth() + insets.right;
-        ret.height = insets.bottom + getComboIcon().getIconHeight() + insets.top;
-        return ret;
+    publid Dimfnsion gftMinimumSizf() {
+        Dimfnsion rft = nfw Dimfnsion();
+        Insfts insfts = gftInsfts();
+        rft.widti = insfts.lfft + gftComboIdon().gftIdonWidti() + insfts.rigit;
+        rft.ifigit = insfts.bottom + gftComboIdon().gftIdonHfigit() + insfts.top;
+        rfturn rft;
     }
 }

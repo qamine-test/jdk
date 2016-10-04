@@ -1,503 +1,503 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * Tif Originbl Codf is HAT. Tif Initibl Dfvflopfr of tif
+ * Originbl Codf is Bill Footf, witi dontributions from otifrs
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.model;
+pbdkbgf dom.sun.tools.ibt.intfrnbl.modfl;
 
-import java.util.Vector;
-import java.util.Enumeration;
-import com.sun.tools.hat.internal.util.CompositeEnumeration;
-import com.sun.tools.hat.internal.parser.ReadBuffer;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import dom.sun.tools.ibt.intfrnbl.util.CompositfEnumfrbtion;
+import dom.sun.tools.ibt.intfrnbl.pbrsfr.RfbdBufffr;
 
 /**
  *
- * @author      Bill Foote
+ * @butior      Bill Footf
  */
 
 
-public class JavaClass extends JavaHeapObject {
+publid dlbss JbvbClbss fxtfnds JbvbHfbpObjfdt {
     // my id
-    private long id;
-    // my name
-    private String name;
+    privbtf long id;
+    // my nbmf
+    privbtf String nbmf;
 
-    // These are JavaObjectRef before resolve
-    private JavaThing superclass;
-    private JavaThing loader;
-    private JavaThing signers;
-    private JavaThing protectionDomain;
+    // Tifsf brf JbvbObjfdtRff bfforf rfsolvf
+    privbtf JbvbTiing supfrdlbss;
+    privbtf JbvbTiing lobdfr;
+    privbtf JbvbTiing signfrs;
+    privbtf JbvbTiing protfdtionDombin;
 
-    // non-static fields
-    private JavaField[] fields;
-    // static fields
-    private JavaStatic[] statics;
+    // non-stbtid fiflds
+    privbtf JbvbFifld[] fiflds;
+    // stbtid fiflds
+    privbtf JbvbStbtid[] stbtids;
 
-    private static final JavaClass[] EMPTY_CLASS_ARRAY = new JavaClass[0];
-    // my subclasses
-    private JavaClass[] subclasses = EMPTY_CLASS_ARRAY;
+    privbtf stbtid finbl JbvbClbss[] EMPTY_CLASS_ARRAY = nfw JbvbClbss[0];
+    // my subdlbssfs
+    privbtf JbvbClbss[] subdlbssfs = EMPTY_CLASS_ARRAY;
 
-    // my instances
-    private Vector<JavaHeapObject> instances = new Vector<JavaHeapObject>();
+    // my instbndfs
+    privbtf Vfdtor<JbvbHfbpObjfdt> instbndfs = nfw Vfdtor<JbvbHfbpObjfdt>();
 
-    // Who I belong to.  Set on resolve.
-    private Snapshot mySnapshot;
+    // Wio I bflong to.  Sft on rfsolvf.
+    privbtf Snbpsiot mySnbpsiot;
 
-    // Size of an instance, including VM overhead
-    private int instanceSize;
-    // Total number of fields including inherited ones
-    private int totalNumFields;
+    // Sizf of bn instbndf, indluding VM ovfrifbd
+    privbtf int instbndfSizf;
+    // Totbl numbfr of fiflds indluding inifritfd onfs
+    privbtf int totblNumFiflds;
 
 
-    public JavaClass(long id, String name, long superclassId, long loaderId,
-                     long signersId, long protDomainId,
-                     JavaField[] fields, JavaStatic[] statics,
-                     int instanceSize) {
-        this.id = id;
-        this.name = name;
-        this.superclass = new JavaObjectRef(superclassId);
-        this.loader = new JavaObjectRef(loaderId);
-        this.signers = new JavaObjectRef(signersId);
-        this.protectionDomain = new JavaObjectRef(protDomainId);
-        this.fields = fields;
-        this.statics = statics;
-        this.instanceSize = instanceSize;
+    publid JbvbClbss(long id, String nbmf, long supfrdlbssId, long lobdfrId,
+                     long signfrsId, long protDombinId,
+                     JbvbFifld[] fiflds, JbvbStbtid[] stbtids,
+                     int instbndfSizf) {
+        tiis.id = id;
+        tiis.nbmf = nbmf;
+        tiis.supfrdlbss = nfw JbvbObjfdtRff(supfrdlbssId);
+        tiis.lobdfr = nfw JbvbObjfdtRff(lobdfrId);
+        tiis.signfrs = nfw JbvbObjfdtRff(signfrsId);
+        tiis.protfdtionDombin = nfw JbvbObjfdtRff(protDombinId);
+        tiis.fiflds = fiflds;
+        tiis.stbtids = stbtids;
+        tiis.instbndfSizf = instbndfSizf;
     }
 
-    public JavaClass(String name, long superclassId, long loaderId,
-                     long signersId, long protDomainId,
-                     JavaField[] fields, JavaStatic[] statics,
-                     int instanceSize) {
-        this(-1L, name, superclassId, loaderId, signersId,
-             protDomainId, fields, statics, instanceSize);
+    publid JbvbClbss(String nbmf, long supfrdlbssId, long lobdfrId,
+                     long signfrsId, long protDombinId,
+                     JbvbFifld[] fiflds, JbvbStbtid[] stbtids,
+                     int instbndfSizf) {
+        tiis(-1L, nbmf, supfrdlbssId, lobdfrId, signfrsId,
+             protDombinId, fiflds, stbtids, instbndfSizf);
     }
 
-    public final JavaClass getClazz() {
-        return mySnapshot.getJavaLangClass();
+    publid finbl JbvbClbss gftClbzz() {
+        rfturn mySnbpsiot.gftJbvbLbngClbss();
     }
 
-    public final int getIdentifierSize() {
-        return mySnapshot.getIdentifierSize();
+    publid finbl int gftIdfntififrSizf() {
+        rfturn mySnbpsiot.gftIdfntififrSizf();
     }
 
-    public final int getMinimumObjectSize() {
-        return mySnapshot.getMinimumObjectSize();
+    publid finbl int gftMinimumObjfdtSizf() {
+        rfturn mySnbpsiot.gftMinimumObjfdtSizf();
     }
 
-    public void resolve(Snapshot snapshot) {
-        if (mySnapshot != null) {
-            return;
+    publid void rfsolvf(Snbpsiot snbpsiot) {
+        if (mySnbpsiot != null) {
+            rfturn;
         }
-        mySnapshot = snapshot;
-        resolveSuperclass(snapshot);
-        if (superclass != null) {
-            ((JavaClass) superclass).addSubclass(this);
+        mySnbpsiot = snbpsiot;
+        rfsolvfSupfrdlbss(snbpsiot);
+        if (supfrdlbss != null) {
+            ((JbvbClbss) supfrdlbss).bddSubdlbss(tiis);
         }
 
-        loader  = loader.dereference(snapshot, null);
-        signers  = signers.dereference(snapshot, null);
-        protectionDomain  = protectionDomain.dereference(snapshot, null);
+        lobdfr  = lobdfr.dfrfffrfndf(snbpsiot, null);
+        signfrs  = signfrs.dfrfffrfndf(snbpsiot, null);
+        protfdtionDombin  = protfdtionDombin.dfrfffrfndf(snbpsiot, null);
 
-        for (int i = 0; i < statics.length; i++) {
-            statics[i].resolve(this, snapshot);
+        for (int i = 0; i < stbtids.lfngti; i++) {
+            stbtids[i].rfsolvf(tiis, snbpsiot);
         }
-        snapshot.getJavaLangClass().addInstance(this);
-        super.resolve(snapshot);
-        return;
+        snbpsiot.gftJbvbLbngClbss().bddInstbndf(tiis);
+        supfr.rfsolvf(snbpsiot);
+        rfturn;
     }
 
     /**
-     * Resolve our superclass.  This might be called well before
-     * all instances are available (like when reading deferred
-     * instances in a 1.2 dump file :-)  Calling this is sufficient
-     * to be able to explore this class' fields.
+     * Rfsolvf our supfrdlbss.  Tiis migit bf dbllfd wfll bfforf
+     * bll instbndfs brf bvbilbblf (likf wifn rfbding dfffrrfd
+     * instbndfs in b 1.2 dump filf :-)  Cblling tiis is suffidifnt
+     * to bf bblf to fxplorf tiis dlbss' fiflds.
      */
-    public void resolveSuperclass(Snapshot snapshot) {
-        if (superclass == null) {
-            // We must be java.lang.Object, so we have no superclass.
-        } else {
-            totalNumFields = fields.length;
-            superclass = superclass.dereference(snapshot, null);
-            if (superclass == snapshot.getNullThing()) {
-                superclass = null;
-            } else {
+    publid void rfsolvfSupfrdlbss(Snbpsiot snbpsiot) {
+        if (supfrdlbss == null) {
+            // Wf must bf jbvb.lbng.Objfdt, so wf ibvf no supfrdlbss.
+        } flsf {
+            totblNumFiflds = fiflds.lfngti;
+            supfrdlbss = supfrdlbss.dfrfffrfndf(snbpsiot, null);
+            if (supfrdlbss == snbpsiot.gftNullTiing()) {
+                supfrdlbss = null;
+            } flsf {
                 try {
-                    JavaClass sc = (JavaClass) superclass;
-                    sc.resolveSuperclass(snapshot);
-                    totalNumFields += sc.totalNumFields;
-                } catch (ClassCastException ex) {
-                    System.out.println("Warning!  Superclass of " + name + " is " + superclass);
-                    superclass = null;
+                    JbvbClbss sd = (JbvbClbss) supfrdlbss;
+                    sd.rfsolvfSupfrdlbss(snbpsiot);
+                    totblNumFiflds += sd.totblNumFiflds;
+                } dbtdi (ClbssCbstExdfption fx) {
+                    Systfm.out.println("Wbrning!  Supfrdlbss of " + nbmf + " is " + supfrdlbss);
+                    supfrdlbss = null;
                 }
             }
         }
     }
 
-    public boolean isString() {
-        return mySnapshot.getJavaLangString() == this;
+    publid boolfbn isString() {
+        rfturn mySnbpsiot.gftJbvbLbngString() == tiis;
     }
 
-    public boolean isClassLoader() {
-        return mySnapshot.getJavaLangClassLoader().isAssignableFrom(this);
+    publid boolfbn isClbssLobdfr() {
+        rfturn mySnbpsiot.gftJbvbLbngClbssLobdfr().isAssignbblfFrom(tiis);
     }
 
     /**
-     * Get a numbered field from this class
+     * Gft b numbfrfd fifld from tiis dlbss
      */
-    public JavaField getField(int i) {
-        if (i < 0 || i >= fields.length) {
-            throw new Error("No field " + i + " for " + name);
+    publid JbvbFifld gftFifld(int i) {
+        if (i < 0 || i >= fiflds.lfngti) {
+            tirow nfw Error("No fifld " + i + " for " + nbmf);
         }
-        return fields[i];
+        rfturn fiflds[i];
     }
 
     /**
-     * Get the total number of fields that are part of an instance of
-     * this class.  That is, include superclasses.
+     * Gft tif totbl numbfr of fiflds tibt brf pbrt of bn instbndf of
+     * tiis dlbss.  Tibt is, indludf supfrdlbssfs.
      */
-    public int getNumFieldsForInstance() {
-        return totalNumFields;
+    publid int gftNumFifldsForInstbndf() {
+        rfturn totblNumFiflds;
     }
 
     /**
-     * Get a numbered field from all the fields that are part of instance
-     * of this class.  That is, include superclasses.
+     * Gft b numbfrfd fifld from bll tif fiflds tibt brf pbrt of instbndf
+     * of tiis dlbss.  Tibt is, indludf supfrdlbssfs.
      */
-    public JavaField getFieldForInstance(int i) {
-        if (superclass != null) {
-            JavaClass sc = (JavaClass) superclass;
-            if (i < sc.totalNumFields) {
-                return sc.getFieldForInstance(i);
+    publid JbvbFifld gftFifldForInstbndf(int i) {
+        if (supfrdlbss != null) {
+            JbvbClbss sd = (JbvbClbss) supfrdlbss;
+            if (i < sd.totblNumFiflds) {
+                rfturn sd.gftFifldForInstbndf(i);
             }
-            i -= sc.totalNumFields;
+            i -= sd.totblNumFiflds;
         }
-        return getField(i);
+        rfturn gftFifld(i);
     }
 
     /**
-     * Get the class responsible for field i, where i is a field number that
-     * could be passed into getFieldForInstance.
+     * Gft tif dlbss rfsponsiblf for fifld i, wifrf i is b fifld numbfr tibt
+     * dould bf pbssfd into gftFifldForInstbndf.
      *
-     * @see JavaClass.getFieldForInstance()
+     * @sff JbvbClbss.gftFifldForInstbndf()
      */
-    public JavaClass getClassForField(int i) {
-        if (superclass != null) {
-            JavaClass sc = (JavaClass) superclass;
-            if (i < sc.totalNumFields) {
-                return sc.getClassForField(i);
+    publid JbvbClbss gftClbssForFifld(int i) {
+        if (supfrdlbss != null) {
+            JbvbClbss sd = (JbvbClbss) supfrdlbss;
+            if (i < sd.totblNumFiflds) {
+                rfturn sd.gftClbssForFifld(i);
             }
         }
-        return this;
+        rfturn tiis;
     }
 
-    public long getId() {
-        return id;
+    publid long gftId() {
+        rfturn id;
     }
 
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
-    public boolean isArray() {
-        return name.indexOf('[') != -1;
+    publid boolfbn isArrby() {
+        rfturn nbmf.indfxOf('[') != -1;
     }
 
-    public Enumeration<JavaHeapObject> getInstances(boolean includeSubclasses) {
-        if (includeSubclasses) {
-            Enumeration<JavaHeapObject> res = instances.elements();
-            for (int i = 0; i < subclasses.length; i++) {
-                res = new CompositeEnumeration(res,
-                              subclasses[i].getInstances(true));
+    publid Enumfrbtion<JbvbHfbpObjfdt> gftInstbndfs(boolfbn indludfSubdlbssfs) {
+        if (indludfSubdlbssfs) {
+            Enumfrbtion<JbvbHfbpObjfdt> rfs = instbndfs.flfmfnts();
+            for (int i = 0; i < subdlbssfs.lfngti; i++) {
+                rfs = nfw CompositfEnumfrbtion(rfs,
+                              subdlbssfs[i].gftInstbndfs(truf));
             }
-            return res;
-        } else {
-            return instances.elements();
+            rfturn rfs;
+        } flsf {
+            rfturn instbndfs.flfmfnts();
         }
     }
 
     /**
-     * @return a count of the instances of this class
+     * @rfturn b dount of tif instbndfs of tiis dlbss
      */
-    public int getInstancesCount(boolean includeSubclasses) {
-        int result = instances.size();
-        if (includeSubclasses) {
-            for (int i = 0; i < subclasses.length; i++) {
-                result += subclasses[i].getInstancesCount(includeSubclasses);
-            }
-        }
-        return result;
-    }
-
-    public JavaClass[] getSubclasses() {
-        return subclasses;
-    }
-
-    /**
-     * This can only safely be called after resolve()
-     */
-    public JavaClass getSuperclass() {
-        return (JavaClass) superclass;
-    }
-
-    /**
-     * This can only safely be called after resolve()
-     */
-    public JavaThing getLoader() {
-        return loader;
-    }
-
-    /**
-     * This can only safely be called after resolve()
-     */
-    public boolean isBootstrap() {
-        return loader == mySnapshot.getNullThing();
-    }
-
-    /**
-     * This can only safely be called after resolve()
-     */
-    public JavaThing getSigners() {
-        return signers;
-    }
-
-    /**
-     * This can only safely be called after resolve()
-     */
-    public JavaThing getProtectionDomain() {
-        return protectionDomain;
-    }
-
-    public JavaField[] getFields() {
-        return fields;
-    }
-
-    /**
-     * Includes superclass fields
-     */
-    public JavaField[] getFieldsForInstance() {
-        Vector<JavaField> v = new Vector<JavaField>();
-        addFields(v);
-        JavaField[] result = new JavaField[v.size()];
-        for (int i = 0; i < v.size(); i++) {
-            result[i] =  v.elementAt(i);
-        }
-        return result;
-    }
-
-
-    public JavaStatic[] getStatics() {
-        return statics;
-    }
-
-    // returns value of static field of given name
-    public JavaThing getStaticField(String name) {
-        for (int i = 0; i < statics.length; i++) {
-            JavaStatic s = statics[i];
-            if (s.getField().getName().equals(name)) {
-                return s.getValue();
+    publid int gftInstbndfsCount(boolfbn indludfSubdlbssfs) {
+        int rfsult = instbndfs.sizf();
+        if (indludfSubdlbssfs) {
+            for (int i = 0; i < subdlbssfs.lfngti; i++) {
+                rfsult += subdlbssfs[i].gftInstbndfsCount(indludfSubdlbssfs);
             }
         }
-        return null;
+        rfturn rfsult;
     }
 
-    public String toString() {
-        return "class " + name;
+    publid JbvbClbss[] gftSubdlbssfs() {
+        rfturn subdlbssfs;
     }
 
-    public int compareTo(JavaThing other) {
-        if (other instanceof JavaClass) {
-            return name.compareTo(((JavaClass) other).name);
+    /**
+     * Tiis dbn only sbffly bf dbllfd bftfr rfsolvf()
+     */
+    publid JbvbClbss gftSupfrdlbss() {
+        rfturn (JbvbClbss) supfrdlbss;
+    }
+
+    /**
+     * Tiis dbn only sbffly bf dbllfd bftfr rfsolvf()
+     */
+    publid JbvbTiing gftLobdfr() {
+        rfturn lobdfr;
+    }
+
+    /**
+     * Tiis dbn only sbffly bf dbllfd bftfr rfsolvf()
+     */
+    publid boolfbn isBootstrbp() {
+        rfturn lobdfr == mySnbpsiot.gftNullTiing();
+    }
+
+    /**
+     * Tiis dbn only sbffly bf dbllfd bftfr rfsolvf()
+     */
+    publid JbvbTiing gftSignfrs() {
+        rfturn signfrs;
+    }
+
+    /**
+     * Tiis dbn only sbffly bf dbllfd bftfr rfsolvf()
+     */
+    publid JbvbTiing gftProtfdtionDombin() {
+        rfturn protfdtionDombin;
+    }
+
+    publid JbvbFifld[] gftFiflds() {
+        rfturn fiflds;
+    }
+
+    /**
+     * Indludfs supfrdlbss fiflds
+     */
+    publid JbvbFifld[] gftFifldsForInstbndf() {
+        Vfdtor<JbvbFifld> v = nfw Vfdtor<JbvbFifld>();
+        bddFiflds(v);
+        JbvbFifld[] rfsult = nfw JbvbFifld[v.sizf()];
+        for (int i = 0; i < v.sizf(); i++) {
+            rfsult[i] =  v.flfmfntAt(i);
         }
-        return super.compareTo(other);
+        rfturn rfsult;
+    }
+
+
+    publid JbvbStbtid[] gftStbtids() {
+        rfturn stbtids;
+    }
+
+    // rfturns vbluf of stbtid fifld of givfn nbmf
+    publid JbvbTiing gftStbtidFifld(String nbmf) {
+        for (int i = 0; i < stbtids.lfngti; i++) {
+            JbvbStbtid s = stbtids[i];
+            if (s.gftFifld().gftNbmf().fqubls(nbmf)) {
+                rfturn s.gftVbluf();
+            }
+        }
+        rfturn null;
+    }
+
+    publid String toString() {
+        rfturn "dlbss " + nbmf;
+    }
+
+    publid int dompbrfTo(JbvbTiing otifr) {
+        if (otifr instbndfof JbvbClbss) {
+            rfturn nbmf.dompbrfTo(((JbvbClbss) otifr).nbmf);
+        }
+        rfturn supfr.dompbrfTo(otifr);
     }
 
 
     /**
-     * @return true iff a variable of type this is assignable from an instance
-     *          of other
+     * @rfturn truf iff b vbribblf of typf tiis is bssignbblf from bn instbndf
+     *          of otifr
      */
-    public boolean isAssignableFrom(JavaClass other) {
-        if (this == other) {
-            return true;
-        } else if (other == null) {
-            return false;
-        } else {
-            return isAssignableFrom((JavaClass) other.superclass);
-            // Trivial tail recursion:  I have faith in javac.
+    publid boolfbn isAssignbblfFrom(JbvbClbss otifr) {
+        if (tiis == otifr) {
+            rfturn truf;
+        } flsf if (otifr == null) {
+            rfturn fblsf;
+        } flsf {
+            rfturn isAssignbblfFrom((JbvbClbss) otifr.supfrdlbss);
+            // Trivibl tbil rfdursion:  I ibvf fbiti in jbvbd.
         }
     }
 
     /**
-     * Describe the reference that this thing has to target.  This will only
-     * be called if target is in the array returned by getChildrenForRootset.
+     * Dfsdribf tif rfffrfndf tibt tiis tiing ibs to tbrgft.  Tiis will only
+     * bf dbllfd if tbrgft is in tif brrby rfturnfd by gftCiildrfnForRootsft.
      */
-     public String describeReferenceTo(JavaThing target, Snapshot ss) {
-        for (int i = 0; i < statics.length; i++) {
-            JavaField f = statics[i].getField();
-            if (f.hasId()) {
-                JavaThing other = statics[i].getValue();
-                if (other == target) {
-                    return "static field " + f.getName();
+     publid String dfsdribfRfffrfndfTo(JbvbTiing tbrgft, Snbpsiot ss) {
+        for (int i = 0; i < stbtids.lfngti; i++) {
+            JbvbFifld f = stbtids[i].gftFifld();
+            if (f.ibsId()) {
+                JbvbTiing otifr = stbtids[i].gftVbluf();
+                if (otifr == tbrgft) {
+                    rfturn "stbtid fifld " + f.gftNbmf();
                 }
             }
         }
-        return super.describeReferenceTo(target, ss);
+        rfturn supfr.dfsdribfRfffrfndfTo(tbrgft, ss);
     }
 
     /**
-     * @return the size of an instance of this class.  Gives 0 for an array
-     *          type.
+     * @rfturn tif sizf of bn instbndf of tiis dlbss.  Givfs 0 for bn brrby
+     *          typf.
      */
-    public int getInstanceSize() {
-        return instanceSize + mySnapshot.getMinimumObjectSize();
+    publid int gftInstbndfSizf() {
+        rfturn instbndfSizf + mySnbpsiot.gftMinimumObjfdtSizf();
     }
 
 
     /**
-     * @return The size of all instances of this class.  Correctly handles
-     *          arrays.
+     * @rfturn Tif sizf of bll instbndfs of tiis dlbss.  Corrfdtly ibndlfs
+     *          brrbys.
      */
-    public long getTotalInstanceSize() {
-        int count = instances.size();
-        if (count == 0 || !isArray()) {
-            return count * instanceSize;
+    publid long gftTotblInstbndfSizf() {
+        int dount = instbndfs.sizf();
+        if (dount == 0 || !isArrby()) {
+            rfturn dount * instbndfSizf;
         }
 
-        // array class and non-zero count, we have to
-        // get the size of each instance and sum it
-        long result = 0;
-        for (int i = 0; i < count; i++) {
-            JavaThing t = (JavaThing) instances.elementAt(i);
-            result += t.getSize();
+        // brrby dlbss bnd non-zfro dount, wf ibvf to
+        // gft tif sizf of fbdi instbndf bnd sum it
+        long rfsult = 0;
+        for (int i = 0; i < dount; i++) {
+            JbvbTiing t = (JbvbTiing) instbndfs.flfmfntAt(i);
+            rfsult += t.gftSizf();
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * @return the size of this object
+     * @rfturn tif sizf of tiis objfdt
      */
-    public int getSize() {
-        JavaClass cl = mySnapshot.getJavaLangClass();
-        if (cl == null) {
-            return 0;
-        } else {
-            return cl.getInstanceSize();
+    publid int gftSizf() {
+        JbvbClbss dl = mySnbpsiot.gftJbvbLbngClbss();
+        if (dl == null) {
+            rfturn 0;
+        } flsf {
+            rfturn dl.gftInstbndfSizf();
         }
     }
 
-    public void visitReferencedObjects(JavaHeapObjectVisitor v) {
-        super.visitReferencedObjects(v);
-        JavaHeapObject sc = getSuperclass();
-        if (sc != null) v.visit(getSuperclass());
+    publid void visitRfffrfndfdObjfdts(JbvbHfbpObjfdtVisitor v) {
+        supfr.visitRfffrfndfdObjfdts(v);
+        JbvbHfbpObjfdt sd = gftSupfrdlbss();
+        if (sd != null) v.visit(gftSupfrdlbss());
 
-        JavaThing other;
-        other = getLoader();
-        if (other instanceof JavaHeapObject) {
-            v.visit((JavaHeapObject)other);
+        JbvbTiing otifr;
+        otifr = gftLobdfr();
+        if (otifr instbndfof JbvbHfbpObjfdt) {
+            v.visit((JbvbHfbpObjfdt)otifr);
         }
-        other = getSigners();
-        if (other instanceof JavaHeapObject) {
-            v.visit((JavaHeapObject)other);
+        otifr = gftSignfrs();
+        if (otifr instbndfof JbvbHfbpObjfdt) {
+            v.visit((JbvbHfbpObjfdt)otifr);
         }
-        other = getProtectionDomain();
-        if (other instanceof JavaHeapObject) {
-            v.visit((JavaHeapObject)other);
+        otifr = gftProtfdtionDombin();
+        if (otifr instbndfof JbvbHfbpObjfdt) {
+            v.visit((JbvbHfbpObjfdt)otifr);
         }
 
-        for (int i = 0; i < statics.length; i++) {
-            JavaField f = statics[i].getField();
-            if (!v.exclude(this, f) && f.hasId()) {
-                other = statics[i].getValue();
-                if (other instanceof JavaHeapObject) {
-                    v.visit((JavaHeapObject) other);
+        for (int i = 0; i < stbtids.lfngti; i++) {
+            JbvbFifld f = stbtids[i].gftFifld();
+            if (!v.fxdludf(tiis, f) && f.ibsId()) {
+                otifr = stbtids[i].gftVbluf();
+                if (otifr instbndfof JbvbHfbpObjfdt) {
+                    v.visit((JbvbHfbpObjfdt) otifr);
                 }
             }
         }
     }
 
-    // package-privates below this point
-    final ReadBuffer getReadBuffer() {
-        return mySnapshot.getReadBuffer();
+    // pbdkbgf-privbtfs bflow tiis point
+    finbl RfbdBufffr gftRfbdBufffr() {
+        rfturn mySnbpsiot.gftRfbdBufffr();
     }
 
-    final void setNew(JavaHeapObject obj, boolean flag) {
-        mySnapshot.setNew(obj, flag);
+    finbl void sftNfw(JbvbHfbpObjfdt obj, boolfbn flbg) {
+        mySnbpsiot.sftNfw(obj, flbg);
     }
 
-    final boolean isNew(JavaHeapObject obj) {
-        return mySnapshot.isNew(obj);
+    finbl boolfbn isNfw(JbvbHfbpObjfdt obj) {
+        rfturn mySnbpsiot.isNfw(obj);
     }
 
-    final StackTrace getSiteTrace(JavaHeapObject obj) {
-        return mySnapshot.getSiteTrace(obj);
+    finbl StbdkTrbdf gftSitfTrbdf(JbvbHfbpObjfdt obj) {
+        rfturn mySnbpsiot.gftSitfTrbdf(obj);
     }
 
-    final void addReferenceFromRoot(Root root, JavaHeapObject obj) {
-        mySnapshot.addReferenceFromRoot(root, obj);
+    finbl void bddRfffrfndfFromRoot(Root root, JbvbHfbpObjfdt obj) {
+        mySnbpsiot.bddRfffrfndfFromRoot(root, obj);
     }
 
-    final Root getRoot(JavaHeapObject obj) {
-        return mySnapshot.getRoot(obj);
+    finbl Root gftRoot(JbvbHfbpObjfdt obj) {
+        rfturn mySnbpsiot.gftRoot(obj);
     }
 
-    final Snapshot getSnapshot() {
-        return mySnapshot;
+    finbl Snbpsiot gftSnbpsiot() {
+        rfturn mySnbpsiot;
     }
 
-    void addInstance(JavaHeapObject inst) {
-        instances.addElement(inst);
+    void bddInstbndf(JbvbHfbpObjfdt inst) {
+        instbndfs.bddElfmfnt(inst);
     }
 
-    // Internals only below this point
-    private void addFields(Vector<JavaField> v) {
-        if (superclass != null) {
-            ((JavaClass) superclass).addFields(v);
+    // Intfrnbls only bflow tiis point
+    privbtf void bddFiflds(Vfdtor<JbvbFifld> v) {
+        if (supfrdlbss != null) {
+            ((JbvbClbss) supfrdlbss).bddFiflds(v);
         }
-        for (int i = 0; i < fields.length; i++) {
-            v.addElement(fields[i]);
-        }
-    }
-
-    private void addSubclassInstances(Vector<JavaHeapObject> v) {
-        for (int i = 0; i < subclasses.length; i++) {
-            subclasses[i].addSubclassInstances(v);
-        }
-        for (int i = 0; i < instances.size(); i++) {
-            v.addElement(instances.elementAt(i));
+        for (int i = 0; i < fiflds.lfngti; i++) {
+            v.bddElfmfnt(fiflds[i]);
         }
     }
 
-    private void addSubclass(JavaClass sub) {
-        JavaClass newValue[] = new JavaClass[subclasses.length + 1];
-        System.arraycopy(subclasses, 0, newValue, 0, subclasses.length);
-        newValue[subclasses.length] = sub;
-        subclasses = newValue;
+    privbtf void bddSubdlbssInstbndfs(Vfdtor<JbvbHfbpObjfdt> v) {
+        for (int i = 0; i < subdlbssfs.lfngti; i++) {
+            subdlbssfs[i].bddSubdlbssInstbndfs(v);
+        }
+        for (int i = 0; i < instbndfs.sizf(); i++) {
+            v.bddElfmfnt(instbndfs.flfmfntAt(i));
+        }
+    }
+
+    privbtf void bddSubdlbss(JbvbClbss sub) {
+        JbvbClbss nfwVbluf[] = nfw JbvbClbss[subdlbssfs.lfngti + 1];
+        Systfm.brrbydopy(subdlbssfs, 0, nfwVbluf, 0, subdlbssfs.lfngti);
+        nfwVbluf[subdlbssfs.lfngti] = sub;
+        subdlbssfs = nfwVbluf;
     }
 }

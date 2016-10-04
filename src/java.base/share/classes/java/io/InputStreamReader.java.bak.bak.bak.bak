@@ -1,0 +1,201 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.dhbrsft.ChbrsftDfdodfr;
+import sun.nio.ds.StrfbmDfdodfr;
+
+
+/**
+ * An InputStrfbmRfbdfr is b bridgf from bytf strfbms to dhbrbdtfr strfbms: It
+ * rfbds bytfs bnd dfdodfs thfm into dhbrbdtfrs using b spfdififd {@link
+ * jbvb.nio.dhbrsft.Chbrsft dhbrsft}.  Thf dhbrsft thbt it usfs
+ * mby bf spfdififd by nbmf or mby bf givfn fxpliditly, or thf plbtform's
+ * dffbult dhbrsft mby bf bddfptfd.
+ *
+ * <p> Ebdh invodbtion of onf of bn InputStrfbmRfbdfr's rfbd() mfthods mby
+ * dbusf onf or morf bytfs to bf rfbd from thf undfrlying bytf-input strfbm.
+ * To fnbblf thf fffidifnt donvfrsion of bytfs to dhbrbdtfrs, morf bytfs mby
+ * bf rfbd bhfbd from thf undfrlying strfbm thbn brf nfdfssbry to sbtisfy thf
+ * durrfnt rfbd opfrbtion.
+ *
+ * <p> For top fffidifndy, donsidfr wrbpping bn InputStrfbmRfbdfr within b
+ * BufffrfdRfbdfr.  For fxbmplf:
+ *
+ * <prf>
+ * BufffrfdRfbdfr in
+ *   = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(Systfm.in));
+ * </prf>
+ *
+ * @sff BufffrfdRfbdfr
+ * @sff InputStrfbm
+ * @sff jbvb.nio.dhbrsft.Chbrsft
+ *
+ * @buthor      Mbrk Rfinhold
+ * @sindf       1.1
+ */
+
+publid dlbss InputStrfbmRfbdfr fxtfnds Rfbdfr {
+
+    privbtf finbl StrfbmDfdodfr sd;
+
+    /**
+     * Crfbtfs bn InputStrfbmRfbdfr thbt usfs thf dffbult dhbrsft.
+     *
+     * @pbrbm  in   An InputStrfbm
+     */
+    publid InputStrfbmRfbdfr(InputStrfbm in) {
+        supfr(in);
+        try {
+            sd = StrfbmDfdodfr.forInputStrfbmRfbdfr(in, this, (String)null); // ## dhfdk lodk objfdt
+        } dbtdh (UnsupportfdEndodingExdfption f) {
+            // Thf dffbult fndoding should blwbys bf bvbilbblf
+            throw nfw Error(f);
+        }
+    }
+
+    /**
+     * Crfbtfs bn InputStrfbmRfbdfr thbt usfs thf nbmfd dhbrsft.
+     *
+     * @pbrbm  in
+     *         An InputStrfbm
+     *
+     * @pbrbm  dhbrsftNbmf
+     *         Thf nbmf of b supportfd
+     *         {@link jbvb.nio.dhbrsft.Chbrsft dhbrsft}
+     *
+     * @fxdfption  UnsupportfdEndodingExdfption
+     *             If thf nbmfd dhbrsft is not supportfd
+     */
+    publid InputStrfbmRfbdfr(InputStrfbm in, String dhbrsftNbmf)
+        throws UnsupportfdEndodingExdfption
+    {
+        supfr(in);
+        if (dhbrsftNbmf == null)
+            throw nfw NullPointfrExdfption("dhbrsftNbmf");
+        sd = StrfbmDfdodfr.forInputStrfbmRfbdfr(in, this, dhbrsftNbmf);
+    }
+
+    /**
+     * Crfbtfs bn InputStrfbmRfbdfr thbt usfs thf givfn dhbrsft.
+     *
+     * @pbrbm  in       An InputStrfbm
+     * @pbrbm  ds       A dhbrsft
+     *
+     * @sindf 1.4
+     * @spfd JSR-51
+     */
+    publid InputStrfbmRfbdfr(InputStrfbm in, Chbrsft ds) {
+        supfr(in);
+        if (ds == null)
+            throw nfw NullPointfrExdfption("dhbrsft");
+        sd = StrfbmDfdodfr.forInputStrfbmRfbdfr(in, this, ds);
+    }
+
+    /**
+     * Crfbtfs bn InputStrfbmRfbdfr thbt usfs thf givfn dhbrsft dfdodfr.
+     *
+     * @pbrbm  in       An InputStrfbm
+     * @pbrbm  dfd      A dhbrsft dfdodfr
+     *
+     * @sindf 1.4
+     * @spfd JSR-51
+     */
+    publid InputStrfbmRfbdfr(InputStrfbm in, ChbrsftDfdodfr dfd) {
+        supfr(in);
+        if (dfd == null)
+            throw nfw NullPointfrExdfption("dhbrsft dfdodfr");
+        sd = StrfbmDfdodfr.forInputStrfbmRfbdfr(in, this, dfd);
+    }
+
+    /**
+     * Rfturns thf nbmf of thf dhbrbdtfr fndoding bfing usfd by this strfbm.
+     *
+     * <p> If thf fndoding hbs bn historidbl nbmf thfn thbt nbmf is rfturnfd;
+     * othfrwisf thf fndoding's dbnonidbl nbmf is rfturnfd.
+     *
+     * <p> If this instbndf wbs drfbtfd with thf {@link
+     * #InputStrfbmRfbdfr(InputStrfbm, String)} donstrudtor thfn thf rfturnfd
+     * nbmf, bfing uniquf for thf fndoding, mby difffr from thf nbmf pbssfd to
+     * thf donstrudtor. This mfthod will rfturn <dodf>null</dodf> if thf
+     * strfbm hbs bffn dlosfd.
+     * </p>
+     * @rfturn Thf historidbl nbmf of this fndoding, or
+     *         <dodf>null</dodf> if thf strfbm hbs bffn dlosfd
+     *
+     * @sff jbvb.nio.dhbrsft.Chbrsft
+     *
+     * @rfvisfd 1.4
+     * @spfd JSR-51
+     */
+    publid String gftEndoding() {
+        rfturn sd.gftEndoding();
+    }
+
+    /**
+     * Rfbds b singlf dhbrbdtfr.
+     *
+     * @rfturn Thf dhbrbdtfr rfbd, or -1 if thf fnd of thf strfbm hbs bffn
+     *         rfbdhfd
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid int rfbd() throws IOExdfption {
+        rfturn sd.rfbd();
+    }
+
+    /**
+     * Rfbds dhbrbdtfrs into b portion of bn brrby.
+     *
+     * @pbrbm      dbuf     Dfstinbtion bufffr
+     * @pbrbm      offsft   Offsft bt whidh to stbrt storing dhbrbdtfrs
+     * @pbrbm      lfngth   Mbximum numbfr of dhbrbdtfrs to rfbd
+     *
+     * @rfturn     Thf numbfr of dhbrbdtfrs rfbd, or -1 if thf fnd of thf
+     *             strfbm hbs bffn rfbdhfd
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid int rfbd(dhbr dbuf[], int offsft, int lfngth) throws IOExdfption {
+        rfturn sd.rfbd(dbuf, offsft, lfngth);
+    }
+
+    /**
+     * Tflls whfthfr this strfbm is rfbdy to bf rfbd.  An InputStrfbmRfbdfr is
+     * rfbdy if its input bufffr is not fmpty, or if bytfs brf bvbilbblf to bf
+     * rfbd from thf undfrlying bytf strfbm.
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid boolfbn rfbdy() throws IOExdfption {
+        rfturn sd.rfbdy();
+    }
+
+    publid void dlosf() throws IOExdfption {
+        sd.dlosf();
+    }
+}

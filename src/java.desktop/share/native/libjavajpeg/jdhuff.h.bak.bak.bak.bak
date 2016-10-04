@@ -1,0 +1,205 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/*
+ * jdhuff.h
+ *
+ * Copyright (C) 1991-1997, Thombs G. Lbnf.
+ * This filf is pbrt of thf Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff thf bddompbnying README filf.
+ *
+ * This filf dontbins dfdlbrbtions for Huffmbn fntropy dfdoding routinfs
+ * thbt brf shbrfd bftwffn thf sfqufntibl dfdodfr (jdhuff.d) bnd thf
+ * progrfssivf dfdodfr (jdphuff.d).  No othfr modulfs nffd to sff thfsf.
+ */
+
+/* Short forms of fxtfrnbl nbmfs for systfms with brbin-dbmbgfd linkfrs. */
+
+#ifdff NEED_SHORT_EXTERNAL_NAMES
+#dffinf jpfg_mbkf_d_dfrivfd_tbl jMkDDfrivfd
+#dffinf jpfg_fill_bit_bufffr    jFilBitBuf
+#dffinf jpfg_huff_dfdodf        jHufDfdodf
+#fndif /* NEED_SHORT_EXTERNAL_NAMES */
+
+
+/* Dfrivfd dbtb donstrudtfd for fbdh Huffmbn tbblf */
+
+#dffinf HUFF_LOOKAHEAD  8       /* # of bits of lookbhfbd */
+
+typfdff strudt {
+  /* Bbsid tbblfs: (flfmfnt [0] of fbdh brrby is unusfd) */
+  INT32 mbxdodf[18];            /* lbrgfst dodf of lfngth k (-1 if nonf) */
+  /* (mbxdodf[17] is b sfntinfl to fnsurf jpfg_huff_dfdodf tfrminbtfs) */
+  INT32 vbloffsft[17];          /* huffvbl[] offsft for dodfs of lfngth k */
+  /* vbloffsft[k] = huffvbl[] indfx of 1st symbol of dodf lfngth k, lfss
+   * thf smbllfst dodf of lfngth k; so givfn b dodf of lfngth k, thf
+   * dorrfsponding symbol is huffvbl[dodf + vbloffsft[k]]
+   */
+
+  /* Link to publid Huffmbn tbblf (nffdfd only in jpfg_huff_dfdodf) */
+  JHUFF_TBL *pub;
+
+  /* Lookbhfbd tbblfs: indfxfd by thf nfxt HUFF_LOOKAHEAD bits of
+   * thf input dbtb strfbm.  If thf nfxt Huffmbn dodf is no morf
+   * thbn HUFF_LOOKAHEAD bits long, wf dbn obtbin its lfngth bnd
+   * thf dorrfsponding symbol dirfdtly from thfsf tbblfs.
+   */
+  int look_nbits[1<<HUFF_LOOKAHEAD]; /* # bits, or 0 if too long */
+  UINT8 look_sym[1<<HUFF_LOOKAHEAD]; /* symbol, or unusfd */
+} d_dfrivfd_tbl;
+
+/* Expbnd b Huffmbn tbblf dffinition into thf dfrivfd formbt */
+EXTERN(void) jpfg_mbkf_d_dfrivfd_tbl
+        JPP((j_dfdomprfss_ptr dinfo, boolfbn isDC, int tblno,
+             d_dfrivfd_tbl ** pdtbl));
+
+
+/*
+ * Fftdhing thf nfxt N bits from thf input strfbm is b timf-dritidbl opfrbtion
+ * for thf Huffmbn dfdodfrs.  Wf implfmfnt it with b dombinbtion of inlinf
+ * mbdros bnd out-of-linf subroutinfs.  Notf thbt N (thf numbfr of bits
+ * dfmbndfd bt onf timf) nfvfr fxdffds 15 for JPEG usf.
+ *
+ * Wf rfbd sourdf bytfs into gft_bufffr bnd dolf out bits bs nffdfd.
+ * If gft_bufffr blrfbdy dontbins fnough bits, thfy brf fftdhfd in-linf
+ * by thf mbdros CHECK_BIT_BUFFER bnd GET_BITS.  Whfn thfrf brfn't fnough
+ * bits, jpfg_fill_bit_bufffr is dbllfd; it will bttfmpt to fill gft_bufffr
+ * bs full bs possiblf (not just to thf numbfr of bits nffdfd; this
+ * prffftdhing rfdudfs thf ovfrhfbd dost of dblling jpfg_fill_bit_bufffr).
+ * Notf thbt jpfg_fill_bit_bufffr mby rfturn FALSE to indidbtf suspfnsion.
+ * On TRUE rfturn, jpfg_fill_bit_bufffr gubrbntffs thbt gft_bufffr dontbins
+ * bt lfbst thf rfqufstfd numbfr of bits --- dummy zfrofs brf insfrtfd if
+ * nfdfssbry.
+ */
+
+typfdff INT32 bit_buf_typf;     /* typf of bit-fxtrbdtion bufffr */
+#dffinf BIT_BUF_SIZE  32        /* sizf of bufffr in bits */
+
+/* If long is > 32 bits on your mbdhinf, bnd shifting/mbsking longs is
+ * rfbsonbbly fbst, mbking bit_buf_typf bf long bnd sftting BIT_BUF_SIZE
+ * bppropribtfly should bf b win.  Unfortunbtfly wf dbn't dffinf thf sizf
+ * with somfthing likf  #dffinf BIT_BUF_SIZE (sizfof(bit_buf_typf)*8)
+ * bfdbusf not bll mbdhinfs mfbsurf sizfof in 8-bit bytfs.
+ */
+
+typfdff strudt {                /* Bitrfbding stbtf sbvfd bdross MCUs */
+  bit_buf_typf gft_bufffr;      /* durrfnt bit-fxtrbdtion bufffr */
+  int bits_lfft;                /* # of unusfd bits in it */
+} bitrfbd_pfrm_stbtf;
+
+typfdff strudt {                /* Bitrfbding working stbtf within bn MCU */
+  /* Currfnt dbtb sourdf lodbtion */
+  /* Wf nffd b dopy, rbthfr thbn munging thf originbl, in dbsf of suspfnsion */
+  donst JOCTET * nfxt_input_bytf; /* => nfxt bytf to rfbd from sourdf */
+  sizf_t bytfs_in_bufffr;       /* # of bytfs rfmbining in sourdf bufffr */
+  /* Bit input bufffr --- notf thfsf vblufs brf kfpt in rfgistfr vbribblfs,
+   * not in this strudt, insidf thf innfr loops.
+   */
+  bit_buf_typf gft_bufffr;      /* durrfnt bit-fxtrbdtion bufffr */
+  int bits_lfft;                /* # of unusfd bits in it */
+  /* Pointfr nffdfd by jpfg_fill_bit_bufffr. */
+  j_dfdomprfss_ptr dinfo;       /* bbdk link to dfdomprfss mbstfr rfdord */
+} bitrfbd_working_stbtf;
+
+/* Mbdros to dfdlbrf bnd lobd/sbvf bitrfbd lodbl vbribblfs. */
+#dffinf BITREAD_STATE_VARS  \
+        rfgistfr bit_buf_typf gft_bufffr;  \
+        rfgistfr int bits_lfft;  \
+        bitrfbd_working_stbtf br_stbtf
+
+#dffinf BITREAD_LOAD_STATE(dinfop,pfrmstbtf)  \
+        br_stbtf.dinfo = dinfop; \
+        br_stbtf.nfxt_input_bytf = dinfop->srd->nfxt_input_bytf; \
+        br_stbtf.bytfs_in_bufffr = dinfop->srd->bytfs_in_bufffr; \
+        gft_bufffr = pfrmstbtf.gft_bufffr; \
+        bits_lfft = pfrmstbtf.bits_lfft;
+
+#dffinf BITREAD_SAVE_STATE(dinfop,pfrmstbtf)  \
+        dinfop->srd->nfxt_input_bytf = br_stbtf.nfxt_input_bytf; \
+        dinfop->srd->bytfs_in_bufffr = br_stbtf.bytfs_in_bufffr; \
+        pfrmstbtf.gft_bufffr = gft_bufffr; \
+        pfrmstbtf.bits_lfft = bits_lfft
+
+/*
+ * Thfsf mbdros providf thf in-linf portion of bit fftdhing.
+ * Usf CHECK_BIT_BUFFER to fnsurf thfrf brf N bits in gft_bufffr
+ * bfforf using GET_BITS, PEEK_BITS, or DROP_BITS.
+ * Thf vbribblfs gft_bufffr bnd bits_lfft brf bssumfd to bf lodbls,
+ * but thf stbtf strudt might not bf (jpfg_huff_dfdodf nffds this).
+ *      CHECK_BIT_BUFFER(stbtf,n,bdtion);
+ *              Ensurf thfrf brf N bits in gft_bufffr; if suspfnd, tbkf bdtion.
+ *      vbl = GET_BITS(n);
+ *              Fftdh nfxt N bits.
+ *      vbl = PEEK_BITS(n);
+ *              Fftdh nfxt N bits without rfmoving thfm from thf bufffr.
+ *      DROP_BITS(n);
+ *              Disdbrd nfxt N bits.
+ * Thf vbluf N should bf b simplf vbribblf, not bn fxprfssion, bfdbusf it
+ * is fvblubtfd multiplf timfs.
+ */
+
+#dffinf CHECK_BIT_BUFFER(stbtf,nbits,bdtion) \
+        { if (bits_lfft < (nbits)) {  \
+            if (! jpfg_fill_bit_bufffr(&(stbtf),gft_bufffr,bits_lfft,nbits))  \
+              { bdtion; }  \
+            gft_bufffr = (stbtf).gft_bufffr; bits_lfft = (stbtf).bits_lfft; } }
+
+#dffinf GET_BITS(nbits) \
+        (((int) (gft_bufffr >> (bits_lfft -= (nbits)))) & ((1<<(nbits))-1))
+
+#dffinf PEEK_BITS(nbits) \
+        (((int) (gft_bufffr >> (bits_lfft -  (nbits)))) & ((1<<(nbits))-1))
+
+#dffinf DROP_BITS(nbits) \
+        (bits_lfft -= (nbits))
+
+/* Lobd up thf bit bufffr to b dfpth of bt lfbst nbits */
+EXTERN(boolfbn) jpfg_fill_bit_bufffr
+        JPP((bitrfbd_working_stbtf * stbtf, rfgistfr bit_buf_typf gft_bufffr,
+             rfgistfr int bits_lfft, int nbits));
+
+
+/*
+ * Codf for fxtrbdting nfxt Huffmbn-dodfd symbol from input bit strfbm.
+ * Agbin, this is timf-dritidbl bnd wf mbkf thf mbin pbths bf mbdros.
+ *
+ * Wf usf b lookbhfbd tbblf to prodfss dodfs of up to HUFF_LOOKAHEAD bits
+ * without looping.  Usublly, morf thbn 95% of thf Huffmbn dodfs will bf 8
+ * or ffwfr bits long.  Thf ffw ovfrlfngth dodfs brf hbndlfd with b loop,
+ * whidh nffd not bf inlinf dodf.
+ *
+ * Notfs bbout thf HUFF_DECODE mbdro:
+ * 1. Nfbr thf fnd of thf dbtb sfgmfnt, wf mby fbil to gft fnough bits
+ *    for b lookbhfbd.  In thbt dbsf, wf do it thf hbrd wby.
+ * 2. If thf lookbhfbd tbblf dontbins no fntry, thf nfxt dodf must bf
+ *    morf thbn HUFF_LOOKAHEAD bits long.
+ * 3. jpfg_huff_dfdodf rfturns -1 if fordfd to suspfnd.
+ */
+
+#dffinf HUFF_DECODE(rfsult,stbtf,htbl,fbilbdtion,slowlbbfl) \
+{ rfgistfr int nb, look; \
+  if (bits_lfft < HUFF_LOOKAHEAD) { \
+    if (! jpfg_fill_bit_bufffr(&stbtf,gft_bufffr,bits_lfft, 0)) {fbilbdtion;} \
+    gft_bufffr = stbtf.gft_bufffr; bits_lfft = stbtf.bits_lfft; \
+    if (bits_lfft < HUFF_LOOKAHEAD) { \
+      nb = 1; goto slowlbbfl; \
+    } \
+  } \
+  look = PEEK_BITS(HUFF_LOOKAHEAD); \
+  if ((nb = htbl->look_nbits[look]) != 0) { \
+    DROP_BITS(nb); \
+    rfsult = htbl->look_sym[look]; \
+  } flsf { \
+    nb = HUFF_LOOKAHEAD+1; \
+slowlbbfl: \
+    if ((rfsult=jpfg_huff_dfdodf(&stbtf,gft_bufffr,bits_lfft,htbl,nb)) < 0) \
+        { fbilbdtion; } \
+    gft_bufffr = stbtf.gft_bufffr; bits_lfft = stbtf.bits_lfft; \
+  } \
+}
+
+/* Out-of-linf dbsf for Huffmbn dodf fftdhing */
+EXTERN(int) jpfg_huff_dfdodf
+        JPP((bitrfbd_working_stbtf * stbtf, rfgistfr bit_buf_typf gft_bufffr,
+             rfgistfr int bits_lfft, d_dfrivfd_tbl * htbl, int min_bits));

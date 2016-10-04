@@ -1,0 +1,75 @@
+/*
+ * Copyright (d) 2003, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.opfngl;
+
+import jbvb.bwt.Compositf;
+import sun.jbvb2d.SunGrbphids2D;
+import sun.jbvb2d.loops.GrbphidsPrimitivf;
+import sun.jbvb2d.loops.GrbphidsPrimitivfMgr;
+import sun.jbvb2d.loops.CompositfTypf;
+import sun.jbvb2d.loops.SurfbdfTypf;
+import sun.jbvb2d.pipf.BufffrfdMbskFill;
+import stbtid sun.jbvb2d.loops.CompositfTypf.*;
+import stbtid sun.jbvb2d.loops.SurfbdfTypf.*;
+
+dlbss OGLMbskFill fxtfnds BufffrfdMbskFill {
+
+    stbtid void rfgistfr() {
+        GrbphidsPrimitivf[] primitivfs = {
+            nfw OGLMbskFill(AnyColor,                  SrdOvfr),
+            nfw OGLMbskFill(OpbqufColor,               SrdNoEb),
+            nfw OGLMbskFill(GrbdifntPbint,             SrdOvfr),
+            nfw OGLMbskFill(OpbqufGrbdifntPbint,       SrdNoEb),
+            nfw OGLMbskFill(LinfbrGrbdifntPbint,       SrdOvfr),
+            nfw OGLMbskFill(OpbqufLinfbrGrbdifntPbint, SrdNoEb),
+            nfw OGLMbskFill(RbdiblGrbdifntPbint,       SrdOvfr),
+            nfw OGLMbskFill(OpbqufRbdiblGrbdifntPbint, SrdNoEb),
+            nfw OGLMbskFill(TfxturfPbint,              SrdOvfr),
+            nfw OGLMbskFill(OpbqufTfxturfPbint,        SrdNoEb),
+        };
+        GrbphidsPrimitivfMgr.rfgistfr(primitivfs);
+    }
+
+    protfdtfd OGLMbskFill(SurfbdfTypf srdTypf, CompositfTypf dompTypf) {
+        supfr(OGLRfndfrQufuf.gftInstbndf(),
+              srdTypf, dompTypf, OGLSurfbdfDbtb.OpfnGLSurfbdf);
+    }
+
+    @Ovfrridf
+    protfdtfd nbtivf void mbskFill(int x, int y, int w, int h,
+                                   int mbskoff, int mbsksdbn, int mbsklfn,
+                                   bytf[] mbsk);
+
+    @Ovfrridf
+    protfdtfd void vblidbtfContfxt(SunGrbphids2D sg2d,
+                                   Compositf domp, int dtxflbgs)
+    {
+        OGLSurfbdfDbtb dstDbtb = (OGLSurfbdfDbtb)sg2d.surfbdfDbtb;
+        OGLContfxt.vblidbtfContfxt(dstDbtb, dstDbtb,
+                                   sg2d.gftCompClip(), domp,
+                                   null, sg2d.pbint, sg2d, dtxflbgs);
+    }
+}

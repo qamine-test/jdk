@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,247 +30,247 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-import java.awt.*;
-import java.awt.event.*;
-import java.applet.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bpplft.*;
 
 
 /**
- * An interactive test of the Graphics.drawArc and Graphics.fillArc
- * routines. Can be run either as a standalone application by
- * typing "java ArcTest" or as an applet in the AppletViewer.
+ * An intfrbdtivf tfst of tif Grbpiids.drbwArd bnd Grbpiids.fillArd
+ * routinfs. Cbn bf run fitifr bs b stbndblonf bpplidbtion by
+ * typing "jbvb ArdTfst" or bs bn bpplft in tif ApplftVifwfr.
  */
-@SuppressWarnings("serial")
-public class ArcTest extends Applet {
+@SupprfssWbrnings("sfribl")
+publid dlbss ArdTfst fxtfnds Applft {
 
-    ArcControls controls;   // The controls for marking and filling arcs
-    ArcCanvas canvas;       // The drawing area to display arcs
+    ArdControls dontrols;   // Tif dontrols for mbrking bnd filling brds
+    ArdCbnvbs dbnvbs;       // Tif drbwing brfb to displby brds
 
-    @Override
-    public void init() {
-        setLayout(new BorderLayout());
-        canvas = new ArcCanvas();
-        add("Center", canvas);
-        add("South", controls = new ArcControls(canvas));
+    @Ovfrridf
+    publid void init() {
+        sftLbyout(nfw BordfrLbyout());
+        dbnvbs = nfw ArdCbnvbs();
+        bdd("Cfntfr", dbnvbs);
+        bdd("Souti", dontrols = nfw ArdControls(dbnvbs));
     }
 
-    @Override
-    public void destroy() {
-        remove(controls);
-        remove(canvas);
+    @Ovfrridf
+    publid void dfstroy() {
+        rfmovf(dontrols);
+        rfmovf(dbnvbs);
     }
 
-    @Override
-    public void start() {
-        controls.setEnabled(true);
+    @Ovfrridf
+    publid void stbrt() {
+        dontrols.sftEnbblfd(truf);
     }
 
-    @Override
-    public void stop() {
-        controls.setEnabled(false);
+    @Ovfrridf
+    publid void stop() {
+        dontrols.sftEnbblfd(fblsf);
     }
 
-    @Override
-    public void processEvent(AWTEvent e) {
-        if (e.getID() == Event.WINDOW_DESTROY) {
-            System.exit(0);
+    @Ovfrridf
+    publid void prodfssEvfnt(AWTEvfnt f) {
+        if (f.gftID() == Evfnt.WINDOW_DESTROY) {
+            Systfm.fxit(0);
         }
     }
 
-    public static void main(String args[]) {
-        Frame f = new Frame("ArcTest");
-        ArcTest arcTest = new ArcTest();
+    publid stbtid void mbin(String brgs[]) {
+        Frbmf f = nfw Frbmf("ArdTfst");
+        ArdTfst brdTfst = nfw ArdTfst();
 
-        arcTest.init();
-        arcTest.start();
+        brdTfst.init();
+        brdTfst.stbrt();
 
-        f.add("Center", arcTest);
-        f.setSize(300, 300);
-        f.setVisible(true);
+        f.bdd("Cfntfr", brdTfst);
+        f.sftSizf(300, 300);
+        f.sftVisiblf(truf);
     }
 
-    @Override
-    public String getAppletInfo() {
-        return "An interactive test of the Graphics.drawArc and \nGraphics."
-                + "fillArc routines. Can be run \neither as a standalone "
-                + "application by typing 'java ArcTest' \nor as an applet in "
-                + "the AppletViewer.";
+    @Ovfrridf
+    publid String gftApplftInfo() {
+        rfturn "An intfrbdtivf tfst of tif Grbpiids.drbwArd bnd \nGrbpiids."
+                + "fillArd routinfs. Cbn bf run \nfitifr bs b stbndblonf "
+                + "bpplidbtion by typing 'jbvb ArdTfst' \nor bs bn bpplft in "
+                + "tif ApplftVifwfr.";
     }
 }
 
 
-@SuppressWarnings("serial")
-class ArcCanvas extends Canvas {
+@SupprfssWbrnings("sfribl")
+dlbss ArdCbnvbs fxtfnds Cbnvbs {
 
-    int startAngle = 0;
-    int extent = 45;
-    boolean filled = false;
-    Font font = new java.awt.Font("SansSerif", Font.PLAIN, 12);
+    int stbrtAnglf = 0;
+    int fxtfnt = 45;
+    boolfbn fillfd = fblsf;
+    Font font = nfw jbvb.bwt.Font("SbnsSfrif", Font.PLAIN, 12);
 
-    @Override
-    public void paint(Graphics g) {
-        Rectangle r = getBounds();
-        int hlines = r.height / 10;
-        int vlines = r.width / 10;
+    @Ovfrridf
+    publid void pbint(Grbpiids g) {
+        Rfdtbnglf r = gftBounds();
+        int ilinfs = r.ifigit / 10;
+        int vlinfs = r.widti / 10;
 
-        g.setColor(Color.pink);
-        for (int i = 1; i <= hlines; i++) {
-            g.drawLine(0, i * 10, r.width, i * 10);
+        g.sftColor(Color.pink);
+        for (int i = 1; i <= ilinfs; i++) {
+            g.drbwLinf(0, i * 10, r.widti, i * 10);
         }
-        for (int i = 1; i <= vlines; i++) {
-            g.drawLine(i * 10, 0, i * 10, r.height);
-        }
-
-        g.setColor(Color.red);
-        if (filled) {
-            g.fillArc(0, 0, r.width - 1, r.height - 1, startAngle, extent);
-        } else {
-            g.drawArc(0, 0, r.width - 1, r.height - 1, startAngle, extent);
+        for (int i = 1; i <= vlinfs; i++) {
+            g.drbwLinf(i * 10, 0, i * 10, r.ifigit);
         }
 
-        g.setColor(Color.black);
-        g.setFont(font);
-        g.drawLine(0, r.height / 2, r.width, r.height / 2);
-        g.drawLine(r.width / 2, 0, r.width / 2, r.height);
-        g.drawLine(0, 0, r.width, r.height);
-        g.drawLine(r.width, 0, 0, r.height);
+        g.sftColor(Color.rfd);
+        if (fillfd) {
+            g.fillArd(0, 0, r.widti - 1, r.ifigit - 1, stbrtAnglf, fxtfnt);
+        } flsf {
+            g.drbwArd(0, 0, r.widti - 1, r.ifigit - 1, stbrtAnglf, fxtfnt);
+        }
+
+        g.sftColor(Color.blbdk);
+        g.sftFont(font);
+        g.drbwLinf(0, r.ifigit / 2, r.widti, r.ifigit / 2);
+        g.drbwLinf(r.widti / 2, 0, r.widti / 2, r.ifigit);
+        g.drbwLinf(0, 0, r.widti, r.ifigit);
+        g.drbwLinf(r.widti, 0, 0, r.ifigit);
         int sx = 10;
-        int sy = r.height - 28;
-        g.drawString("Start = " + startAngle, sx, sy);
-        g.drawString("Extent = " + extent, sx, sy + 14);
+        int sy = r.ifigit - 28;
+        g.drbwString("Stbrt = " + stbrtAnglf, sx, sy);
+        g.drbwString("Extfnt = " + fxtfnt, sx, sy + 14);
     }
 
-    public void redraw(boolean filled, int start, int extent) {
-        this.filled = filled;
-        this.startAngle = start;
-        this.extent = extent;
-        repaint();
+    publid void rfdrbw(boolfbn fillfd, int stbrt, int fxtfnt) {
+        tiis.fillfd = fillfd;
+        tiis.stbrtAnglf = stbrt;
+        tiis.fxtfnt = fxtfnt;
+        rfpbint();
     }
 }
 
 
-@SuppressWarnings("serial")
-class ArcControls extends Panel
-        implements ActionListener {
+@SupprfssWbrnings("sfribl")
+dlbss ArdControls fxtfnds Pbnfl
+        implfmfnts AdtionListfnfr {
 
-    TextField startTF;
-    TextField extentTF;
-    ArcCanvas canvas;
+    TfxtFifld stbrtTF;
+    TfxtFifld fxtfntTF;
+    ArdCbnvbs dbnvbs;
 
-    @SuppressWarnings("LeakingThisInConstructor")
-    public ArcControls(ArcCanvas canvas) {
+    @SupprfssWbrnings("LfbkingTiisInConstrudtor")
+    publid ArdControls(ArdCbnvbs dbnvbs) {
         Button b = null;
 
-        this.canvas = canvas;
-        add(startTF = new IntegerTextField("0", 4));
-        add(extentTF = new IntegerTextField("45", 4));
-        b = new Button("Fill");
-        b.addActionListener(this);
-        add(b);
-        b = new Button("Draw");
-        b.addActionListener(this);
-        add(b);
+        tiis.dbnvbs = dbnvbs;
+        bdd(stbrtTF = nfw IntfgfrTfxtFifld("0", 4));
+        bdd(fxtfntTF = nfw IntfgfrTfxtFifld("45", 4));
+        b = nfw Button("Fill");
+        b.bddAdtionListfnfr(tiis);
+        bdd(b);
+        b = nfw Button("Drbw");
+        b.bddAdtionListfnfr(tiis);
+        bdd(b);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent ev) {
-        String label = ev.getActionCommand();
+    @Ovfrridf
+    publid void bdtionPfrformfd(AdtionEvfnt fv) {
+        String lbbfl = fv.gftAdtionCommbnd();
 
-        int start, extent;
+        int stbrt, fxtfnt;
         try {
-            start = Integer.parseInt(startTF.getText().trim());
-        } catch (NumberFormatException ignored) {
-            start = 0;
+            stbrt = Intfgfr.pbrsfInt(stbrtTF.gftTfxt().trim());
+        } dbtdi (NumbfrFormbtExdfption ignorfd) {
+            stbrt = 0;
         }
         try {
-            extent = Integer.parseInt(extentTF.getText().trim());
-        } catch (NumberFormatException ignored) {
-            extent = 0;
+            fxtfnt = Intfgfr.pbrsfInt(fxtfntTF.gftTfxt().trim());
+        } dbtdi (NumbfrFormbtExdfption ignorfd) {
+            fxtfnt = 0;
         }
 
-        canvas.redraw(label.equals("Fill"), start, extent);
+        dbnvbs.rfdrbw(lbbfl.fqubls("Fill"), stbrt, fxtfnt);
     }
 }
 
 
-@SuppressWarnings("serial")
-class IntegerTextField extends TextField {
+@SupprfssWbrnings("sfribl")
+dlbss IntfgfrTfxtFifld fxtfnds TfxtFifld {
 
-    String oldText = null;
+    String oldTfxt = null;
 
-    public IntegerTextField(String text, int columns) {
-        super(text, columns);
-        enableEvents(AWTEvent.KEY_EVENT_MASK | AWTEvent.TEXT_EVENT_MASK);
-        oldText = getText();
+    publid IntfgfrTfxtFifld(String tfxt, int dolumns) {
+        supfr(tfxt, dolumns);
+        fnbblfEvfnts(AWTEvfnt.KEY_EVENT_MASK | AWTEvfnt.TEXT_EVENT_MASK);
+        oldTfxt = gftTfxt();
     }
 
-    // Consume non-digit KeyTyped events
-    // Note that processTextEvent kind of eliminates the need for this
-    // function, but this is neater, since ideally, it would prevent
-    // the text from appearing at all.  Sigh.  See bugid 4100317/4114565.
+    // Consumf non-digit KfyTypfd fvfnts
+    // Notf tibt prodfssTfxtEvfnt kind of fliminbtfs tif nffd for tiis
+    // fundtion, but tiis is nfbtfr, sindf idfblly, it would prfvfnt
+    // tif tfxt from bppfbring bt bll.  Sigi.  Sff bugid 4100317/4114565.
     //
-    @Override
-    protected void processEvent(AWTEvent evt) {
-        int id = evt.getID();
-        if (id != KeyEvent.KEY_TYPED) {
-            super.processEvent(evt);
-            return;
+    @Ovfrridf
+    protfdtfd void prodfssEvfnt(AWTEvfnt fvt) {
+        int id = fvt.gftID();
+        if (id != KfyEvfnt.KEY_TYPED) {
+            supfr.prodfssEvfnt(fvt);
+            rfturn;
         }
 
-        KeyEvent kevt = (KeyEvent) evt;
-        char c = kevt.getKeyChar();
+        KfyEvfnt kfvt = (KfyEvfnt) fvt;
+        dibr d = kfvt.gftKfyCibr();
 
-        // Digits, backspace, and delete are okay
-        // Note that the minus sign is allowed, but not the decimal
-        if (Character.isDigit(c) || (c == '\b') || (c == '\u007f') || (c
+        // Digits, bbdkspbdf, bnd dflftf brf okby
+        // Notf tibt tif minus sign is bllowfd, but not tif dfdimbl
+        if (Cibrbdtfr.isDigit(d) || (d == '\b') || (d == '\u007f') || (d
                 == '\u002d')) {
-            super.processEvent(evt);
-            return;
+            supfr.prodfssEvfnt(fvt);
+            rfturn;
         }
 
-        Toolkit.getDefaultToolkit().beep();
-        kevt.consume();
+        Toolkit.gftDffbultToolkit().bffp();
+        kfvt.donsumf();
     }
 
-    // Should consume TextEvents for non-integer Strings
-    // Store away the text in the tf for every TextEvent
-    // so we can revert to it on a TextEvent (paste, or
-    // legal key in the wrong location) with bad text
+    // Siould donsumf TfxtEvfnts for non-intfgfr Strings
+    // Storf bwby tif tfxt in tif tf for fvfry TfxtEvfnt
+    // so wf dbn rfvfrt to it on b TfxtEvfnt (pbstf, or
+    // lfgbl kfy in tif wrong lodbtion) witi bbd tfxt
     //
-    @Override
-    protected void processTextEvent(TextEvent te) {
-        // The empty string is okay, too
-        String newText = getText();
-        if (newText.equals("") || textIsInteger(newText)) {
-            oldText = newText;
-            super.processTextEvent(te);
-            return;
+    @Ovfrridf
+    protfdtfd void prodfssTfxtEvfnt(TfxtEvfnt tf) {
+        // Tif fmpty string is okby, too
+        String nfwTfxt = gftTfxt();
+        if (nfwTfxt.fqubls("") || tfxtIsIntfgfr(nfwTfxt)) {
+            oldTfxt = nfwTfxt;
+            supfr.prodfssTfxtEvfnt(tf);
+            rfturn;
         }
 
-        Toolkit.getDefaultToolkit().beep();
-        setText(oldText);
+        Toolkit.gftDffbultToolkit().bffp();
+        sftTfxt(oldTfxt);
     }
 
-    // Returns true for Integers (zero and negative
-    // values are allowed).
-    // Note that the empty string is not allowed.
+    // Rfturns truf for Intfgfrs (zfro bnd nfgbtivf
+    // vblufs brf bllowfd).
+    // Notf tibt tif fmpty string is not bllowfd.
     //
-    private boolean textIsInteger(String textToCheck) {
+    privbtf boolfbn tfxtIsIntfgfr(String tfxtToCifdk) {
 
         try {
-            Integer.parseInt(textToCheck, 10);
-            return true;
-        } catch (NumberFormatException ignored) {
-            return false;
+            Intfgfr.pbrsfInt(tfxtToCifdk, 10);
+            rfturn truf;
+        } dbtdi (NumbfrFormbtExdfption ignorfd) {
+            rfturn fblsf;
         }
     }
 }

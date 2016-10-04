@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.peer;
+pbdkbgf jbvb.bwt.pffr;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
 /**
- * RobotPeer defines an interface whereby toolkits support automated testing
- * by allowing native input events to be generated from Java code.
+ * RobotPffr dffinfs bn intfrfbdf wifrfby toolkits support butombtfd tfsting
+ * by bllowing nbtivf input fvfnts to bf gfnfrbtfd from Jbvb dodf.
  *
- * This interface should not be directly imported by code outside the
- * java.awt.* hierarchy; it is not to be considered public and is subject
- * to change.
+ * Tiis intfrfbdf siould not bf dirfdtly importfd by dodf outsidf tif
+ * jbvb.bwt.* iifrbrdiy; it is not to bf donsidfrfd publid bnd is subjfdt
+ * to dibngf.
  *
- * @author      Robi Khan
+ * @butior      Robi Kibn
  */
-public interface RobotPeer
+publid intfrfbdf RobotPffr
 {
     /**
-     * Moves the mouse pointer to the specified screen location.
+     * Movfs tif mousf pointfr to tif spfdififd sdrffn lodbtion.
      *
-     * @param x the X location on screen
-     * @param y the Y location on screen
+     * @pbrbm x tif X lodbtion on sdrffn
+     * @pbrbm y tif Y lodbtion on sdrffn
      *
-     * @see Robot#mouseMove(int, int)
+     * @sff Robot#mousfMovf(int, int)
      */
-    void mouseMove(int x, int y);
+    void mousfMovf(int x, int y);
 
     /**
-     * Simulates a mouse press with the specified button(s).
+     * Simulbtfs b mousf prfss witi tif spfdififd button(s).
      *
-     * @param buttons the button mask
+     * @pbrbm buttons tif button mbsk
      *
-     * @see Robot#mousePress(int)
+     * @sff Robot#mousfPrfss(int)
      */
-    void mousePress(int buttons);
+    void mousfPrfss(int buttons);
 
     /**
-     * Simulates a mouse release with the specified button(s).
+     * Simulbtfs b mousf rflfbsf witi tif spfdififd button(s).
      *
-     * @param buttons the button mask
+     * @pbrbm buttons tif button mbsk
      *
-     * @see Robot#mouseRelease(int)
+     * @sff Robot#mousfRflfbsf(int)
      */
-    void mouseRelease(int buttons);
+    void mousfRflfbsf(int buttons);
 
     /**
-     * Simulates mouse wheel action.
+     * Simulbtfs mousf wiffl bdtion.
      *
-     * @param wheelAmt number of notches to move the mouse wheel
+     * @pbrbm wifflAmt numbfr of notdifs to movf tif mousf wiffl
      *
-     * @see Robot#mouseWheel(int)
+     * @sff Robot#mousfWiffl(int)
      */
-    void mouseWheel(int wheelAmt);
+    void mousfWiffl(int wifflAmt);
 
     /**
-     * Simulates a key press of the specified key.
+     * Simulbtfs b kfy prfss of tif spfdififd kfy.
      *
-     * @param keycode the key code to press
+     * @pbrbm kfydodf tif kfy dodf to prfss
      *
-     * @see Robot#keyPress(int)
+     * @sff Robot#kfyPrfss(int)
      */
-    void keyPress(int keycode);
+    void kfyPrfss(int kfydodf);
 
     /**
-     * Simulates a key release of the specified key.
+     * Simulbtfs b kfy rflfbsf of tif spfdififd kfy.
      *
-     * @param keycode the key code to release
+     * @pbrbm kfydodf tif kfy dodf to rflfbsf
      *
-     * @see Robot#keyRelease(int)
+     * @sff Robot#kfyRflfbsf(int)
      */
-    void keyRelease(int keycode);
+    void kfyRflfbsf(int kfydodf);
 
     /**
-     * Gets the RGB value of the specified pixel on screen.
+     * Gfts tif RGB vbluf of tif spfdififd pixfl on sdrffn.
      *
-     * @param x the X screen coordinate
-     * @param y the Y screen coordinate
+     * @pbrbm x tif X sdrffn doordinbtf
+     * @pbrbm y tif Y sdrffn doordinbtf
      *
-     * @return the RGB value of the specified pixel on screen
+     * @rfturn tif RGB vbluf of tif spfdififd pixfl on sdrffn
      *
-     * @see Robot#getPixelColor(int, int)
+     * @sff Robot#gftPixflColor(int, int)
      */
-    int getRGBPixel(int x, int y);
+    int gftRGBPixfl(int x, int y);
 
     /**
-     * Gets the RGB values of the specified screen area as an array.
+     * Gfts tif RGB vblufs of tif spfdififd sdrffn brfb bs bn brrby.
      *
-     * @param bounds the screen area to capture the RGB values from
+     * @pbrbm bounds tif sdrffn brfb to dbpturf tif RGB vblufs from
      *
-     * @return the RGB values of the specified screen area
+     * @rfturn tif RGB vblufs of tif spfdififd sdrffn brfb
      *
-     * @see Robot#createScreenCapture(Rectangle)
+     * @sff Robot#drfbtfSdrffnCbpturf(Rfdtbnglf)
      */
-    int[] getRGBPixels(Rectangle bounds);
+    int[] gftRGBPixfls(Rfdtbnglf bounds);
 
     /**
-     * Disposes the robot peer when it is not needed anymore.
+     * Disposfs tif robot pffr wifn it is not nffdfd bnymorf.
      */
-    void dispose();
+    void disposf();
 }

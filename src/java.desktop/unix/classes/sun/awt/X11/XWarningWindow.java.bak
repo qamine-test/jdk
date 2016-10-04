@@ -1,415 +1,415 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.lang.ref.WeakReference;
+import jbvb.bwt.*;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.lbng.rff.WfbkRfffrfndf;
 
-import sun.awt.IconInfo;
-import sun.awt.AWTAccessor;
-import sun.awt.SunToolkit;
+import sun.bwt.IdonInfo;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.SunToolkit;
 
-class XWarningWindow extends XWindow {
-    private final static int SHOWING_DELAY = 330;
-    private final static int HIDING_DELAY = 2000;
+dlbss XWbrningWindow fxtfnds XWindow {
+    privbtf finbl stbtid int SHOWING_DELAY = 330;
+    privbtf finbl stbtid int HIDING_DELAY = 2000;
 
-    private final Window ownerWindow;
-    private WeakReference<XWindowPeer> ownerPeer;
-    private long parentWindow;
+    privbtf finbl Window ownfrWindow;
+    privbtf WfbkRfffrfndf<XWindowPffr> ownfrPffr;
+    privbtf long pbrfntWindow;
 
-    private final static String OWNER = "OWNER";
-    private InfoWindow.Tooltip tooltip;
+    privbtf finbl stbtid String OWNER = "OWNER";
+    privbtf InfoWindow.Tooltip tooltip;
 
     /**
-     * Animation stage.
+     * Animbtion stbgf.
      */
-    private volatile int currentIcon = 0;
+    privbtf volbtilf int durrfntIdon = 0;
 
-    /* -1 - uninitialized.
+    /* -1 - uninitiblizfd.
      * 0 - 16x16
      * 1 - 24x24
      * 2 - 32x32
      * 3 - 48x48
      */
-    private int currentSize = -1;
-    private static IconInfo[][] icons;
-    private static IconInfo getSecurityIconInfo(int size, int num) {
-        synchronized (XWarningWindow.class) {
-            if (icons == null) {
-                icons = new IconInfo[4][3];
-                if (XlibWrapper.dataModel == 32) {
-                    icons[0][0] = new IconInfo(sun.awt.AWTIcon32_security_icon_bw16_png.security_icon_bw16_png);
-                    icons[0][1] = new IconInfo(sun.awt.AWTIcon32_security_icon_interim16_png.security_icon_interim16_png);
-                    icons[0][2] = new IconInfo(sun.awt.AWTIcon32_security_icon_yellow16_png.security_icon_yellow16_png);
-                    icons[1][0] = new IconInfo(sun.awt.AWTIcon32_security_icon_bw24_png.security_icon_bw24_png);
-                    icons[1][1] = new IconInfo(sun.awt.AWTIcon32_security_icon_interim24_png.security_icon_interim24_png);
-                    icons[1][2] = new IconInfo(sun.awt.AWTIcon32_security_icon_yellow24_png.security_icon_yellow24_png);
-                    icons[2][0] = new IconInfo(sun.awt.AWTIcon32_security_icon_bw32_png.security_icon_bw32_png);
-                    icons[2][1] = new IconInfo(sun.awt.AWTIcon32_security_icon_interim32_png.security_icon_interim32_png);
-                    icons[2][2] = new IconInfo(sun.awt.AWTIcon32_security_icon_yellow32_png.security_icon_yellow32_png);
-                    icons[3][0] = new IconInfo(sun.awt.AWTIcon32_security_icon_bw48_png.security_icon_bw48_png);
-                    icons[3][1] = new IconInfo(sun.awt.AWTIcon32_security_icon_interim48_png.security_icon_interim48_png);
-                    icons[3][2] = new IconInfo(sun.awt.AWTIcon32_security_icon_yellow48_png.security_icon_yellow48_png);
-                } else {
-                    icons[0][0] = new IconInfo(sun.awt.AWTIcon64_security_icon_bw16_png.security_icon_bw16_png);
-                    icons[0][1] = new IconInfo(sun.awt.AWTIcon64_security_icon_interim16_png.security_icon_interim16_png);
-                    icons[0][2] = new IconInfo(sun.awt.AWTIcon64_security_icon_yellow16_png.security_icon_yellow16_png);
-                    icons[1][0] = new IconInfo(sun.awt.AWTIcon64_security_icon_bw24_png.security_icon_bw24_png);
-                    icons[1][1] = new IconInfo(sun.awt.AWTIcon64_security_icon_interim24_png.security_icon_interim24_png);
-                    icons[1][2] = new IconInfo(sun.awt.AWTIcon64_security_icon_yellow24_png.security_icon_yellow24_png);
-                    icons[2][0] = new IconInfo(sun.awt.AWTIcon64_security_icon_bw32_png.security_icon_bw32_png);
-                    icons[2][1] = new IconInfo(sun.awt.AWTIcon64_security_icon_interim32_png.security_icon_interim32_png);
-                    icons[2][2] = new IconInfo(sun.awt.AWTIcon64_security_icon_yellow32_png.security_icon_yellow32_png);
-                    icons[3][0] = new IconInfo(sun.awt.AWTIcon64_security_icon_bw48_png.security_icon_bw48_png);
-                    icons[3][1] = new IconInfo(sun.awt.AWTIcon64_security_icon_interim48_png.security_icon_interim48_png);
-                    icons[3][2] = new IconInfo(sun.awt.AWTIcon64_security_icon_yellow48_png.security_icon_yellow48_png);
+    privbtf int durrfntSizf = -1;
+    privbtf stbtid IdonInfo[][] idons;
+    privbtf stbtid IdonInfo gftSfdurityIdonInfo(int sizf, int num) {
+        syndironizfd (XWbrningWindow.dlbss) {
+            if (idons == null) {
+                idons = nfw IdonInfo[4][3];
+                if (XlibWrbppfr.dbtbModfl == 32) {
+                    idons[0][0] = nfw IdonInfo(sun.bwt.AWTIdon32_sfdurity_idon_bw16_png.sfdurity_idon_bw16_png);
+                    idons[0][1] = nfw IdonInfo(sun.bwt.AWTIdon32_sfdurity_idon_intfrim16_png.sfdurity_idon_intfrim16_png);
+                    idons[0][2] = nfw IdonInfo(sun.bwt.AWTIdon32_sfdurity_idon_yfllow16_png.sfdurity_idon_yfllow16_png);
+                    idons[1][0] = nfw IdonInfo(sun.bwt.AWTIdon32_sfdurity_idon_bw24_png.sfdurity_idon_bw24_png);
+                    idons[1][1] = nfw IdonInfo(sun.bwt.AWTIdon32_sfdurity_idon_intfrim24_png.sfdurity_idon_intfrim24_png);
+                    idons[1][2] = nfw IdonInfo(sun.bwt.AWTIdon32_sfdurity_idon_yfllow24_png.sfdurity_idon_yfllow24_png);
+                    idons[2][0] = nfw IdonInfo(sun.bwt.AWTIdon32_sfdurity_idon_bw32_png.sfdurity_idon_bw32_png);
+                    idons[2][1] = nfw IdonInfo(sun.bwt.AWTIdon32_sfdurity_idon_intfrim32_png.sfdurity_idon_intfrim32_png);
+                    idons[2][2] = nfw IdonInfo(sun.bwt.AWTIdon32_sfdurity_idon_yfllow32_png.sfdurity_idon_yfllow32_png);
+                    idons[3][0] = nfw IdonInfo(sun.bwt.AWTIdon32_sfdurity_idon_bw48_png.sfdurity_idon_bw48_png);
+                    idons[3][1] = nfw IdonInfo(sun.bwt.AWTIdon32_sfdurity_idon_intfrim48_png.sfdurity_idon_intfrim48_png);
+                    idons[3][2] = nfw IdonInfo(sun.bwt.AWTIdon32_sfdurity_idon_yfllow48_png.sfdurity_idon_yfllow48_png);
+                } flsf {
+                    idons[0][0] = nfw IdonInfo(sun.bwt.AWTIdon64_sfdurity_idon_bw16_png.sfdurity_idon_bw16_png);
+                    idons[0][1] = nfw IdonInfo(sun.bwt.AWTIdon64_sfdurity_idon_intfrim16_png.sfdurity_idon_intfrim16_png);
+                    idons[0][2] = nfw IdonInfo(sun.bwt.AWTIdon64_sfdurity_idon_yfllow16_png.sfdurity_idon_yfllow16_png);
+                    idons[1][0] = nfw IdonInfo(sun.bwt.AWTIdon64_sfdurity_idon_bw24_png.sfdurity_idon_bw24_png);
+                    idons[1][1] = nfw IdonInfo(sun.bwt.AWTIdon64_sfdurity_idon_intfrim24_png.sfdurity_idon_intfrim24_png);
+                    idons[1][2] = nfw IdonInfo(sun.bwt.AWTIdon64_sfdurity_idon_yfllow24_png.sfdurity_idon_yfllow24_png);
+                    idons[2][0] = nfw IdonInfo(sun.bwt.AWTIdon64_sfdurity_idon_bw32_png.sfdurity_idon_bw32_png);
+                    idons[2][1] = nfw IdonInfo(sun.bwt.AWTIdon64_sfdurity_idon_intfrim32_png.sfdurity_idon_intfrim32_png);
+                    idons[2][2] = nfw IdonInfo(sun.bwt.AWTIdon64_sfdurity_idon_yfllow32_png.sfdurity_idon_yfllow32_png);
+                    idons[3][0] = nfw IdonInfo(sun.bwt.AWTIdon64_sfdurity_idon_bw48_png.sfdurity_idon_bw48_png);
+                    idons[3][1] = nfw IdonInfo(sun.bwt.AWTIdon64_sfdurity_idon_intfrim48_png.sfdurity_idon_intfrim48_png);
+                    idons[3][2] = nfw IdonInfo(sun.bwt.AWTIdon64_sfdurity_idon_yfllow48_png.sfdurity_idon_yfllow48_png);
                 }
             }
         }
-        final int sizeIndex = size % icons.length;
-        return icons[sizeIndex][num % icons[sizeIndex].length];
+        finbl int sizfIndfx = sizf % idons.lfngti;
+        rfturn idons[sizfIndfx][num % idons[sizfIndfx].lfngti];
     }
 
-    private void updateIconSize() {
-        int newSize = -1;
+    privbtf void updbtfIdonSizf() {
+        int nfwSizf = -1;
 
-        if (ownerWindow != null) {
-            Insets insets = ownerWindow.getInsets();
-            int max = Math.max(insets.top, Math.max(insets.bottom,
-                        Math.max(insets.left, insets.right)));
-            if (max < 24) {
-                newSize = 0;
-            } else if (max < 32) {
-                newSize = 1;
-            } else if (max < 48) {
-                newSize = 2;
-            } else {
-                newSize = 3;
+        if (ownfrWindow != null) {
+            Insfts insfts = ownfrWindow.gftInsfts();
+            int mbx = Mbti.mbx(insfts.top, Mbti.mbx(insfts.bottom,
+                        Mbti.mbx(insfts.lfft, insfts.rigit)));
+            if (mbx < 24) {
+                nfwSizf = 0;
+            } flsf if (mbx < 32) {
+                nfwSizf = 1;
+            } flsf if (mbx < 48) {
+                nfwSizf = 2;
+            } flsf {
+                nfwSizf = 3;
             }
         }
-        // Make sure we have a valid size
-        if (newSize == -1) {
-            newSize = 0;
+        // Mbkf surf wf ibvf b vblid sizf
+        if (nfwSizf == -1) {
+            nfwSizf = 0;
         }
 
-        // Note: this is not the most wise solution to use awtLock here,
-        // this should have been sync'ed with the stateLock. However,
-        // the awtLock must be taken first (see XBaseWindow.getStateLock()),
-        // and we need the awtLock anyway to update the shape of the icon.
-        // So it's easier to use just one lock instead.
-        XToolkit.awtLock();
+        // Notf: tiis is not tif most wisf solution to usf bwtLodk ifrf,
+        // tiis siould ibvf bffn synd'fd witi tif stbtfLodk. Howfvfr,
+        // tif bwtLodk must bf tbkfn first (sff XBbsfWindow.gftStbtfLodk()),
+        // bnd wf nffd tif bwtLodk bnywby to updbtf tif sibpf of tif idon.
+        // So it's fbsifr to usf just onf lodk instfbd.
+        XToolkit.bwtLodk();
         try {
-            if (newSize != currentSize) {
-                currentSize = newSize;
-                IconInfo ico = getSecurityIconInfo(currentSize, 0);
-                XlibWrapper.SetBitmapShape(XToolkit.getDisplay(), getWindow(),
-                        ico.getWidth(), ico.getHeight(), ico.getIntData());
-                AWTAccessor.getWindowAccessor().setSecurityWarningSize(
-                        ownerWindow, ico.getWidth(), ico.getHeight());
+            if (nfwSizf != durrfntSizf) {
+                durrfntSizf = nfwSizf;
+                IdonInfo ido = gftSfdurityIdonInfo(durrfntSizf, 0);
+                XlibWrbppfr.SftBitmbpSibpf(XToolkit.gftDisplby(), gftWindow(),
+                        ido.gftWidti(), ido.gftHfigit(), ido.gftIntDbtb());
+                AWTAddfssor.gftWindowAddfssor().sftSfdurityWbrningSizf(
+                        ownfrWindow, ido.gftWidti(), ido.gftHfigit());
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    private IconInfo getSecurityIconInfo() {
-        updateIconSize();
-        return getSecurityIconInfo(currentSize, currentIcon);
+    privbtf IdonInfo gftSfdurityIdonInfo() {
+        updbtfIdonSizf();
+        rfturn gftSfdurityIdonInfo(durrfntSizf, durrfntIdon);
     }
 
-    XWarningWindow(final Window ownerWindow, long parentWindow, XWindowPeer ownerPeer) {
-        super(new XCreateWindowParams(new Object[] {
-                        TARGET, ownerWindow,
-                        OWNER, Long.valueOf(parentWindow)
+    XWbrningWindow(finbl Window ownfrWindow, long pbrfntWindow, XWindowPffr ownfrPffr) {
+        supfr(nfw XCrfbtfWindowPbrbms(nfw Objfdt[] {
+                        TARGET, ownfrWindow,
+                        OWNER, Long.vblufOf(pbrfntWindow)
         }));
-        this.ownerWindow = ownerWindow;
-        this.parentWindow = parentWindow;
-        this.tooltip = new InfoWindow.Tooltip(null, getTarget(),
-                new InfoWindow.Tooltip.LiveArguments() {
-                    public boolean isDisposed() {
-                        return XWarningWindow.this.isDisposed();
+        tiis.ownfrWindow = ownfrWindow;
+        tiis.pbrfntWindow = pbrfntWindow;
+        tiis.tooltip = nfw InfoWindow.Tooltip(null, gftTbrgft(),
+                nfw InfoWindow.Tooltip.LivfArgumfnts() {
+                    publid boolfbn isDisposfd() {
+                        rfturn XWbrningWindow.tiis.isDisposfd();
                     }
-                    public Rectangle getBounds() {
-                        return XWarningWindow.this.getBounds();
+                    publid Rfdtbnglf gftBounds() {
+                        rfturn XWbrningWindow.tiis.gftBounds();
                     }
-                    public String getTooltipString() {
-                        return XWarningWindow.this.ownerWindow.getWarningString();
+                    publid String gftTooltipString() {
+                        rfturn XWbrningWindow.tiis.ownfrWindow.gftWbrningString();
                     }
                 });
-        this.ownerPeer = new WeakReference<XWindowPeer>(ownerPeer);
+        tiis.ownfrPffr = nfw WfbkRfffrfndf<XWindowPffr>(ownfrPffr);
     }
 
-    private void requestNoTaskbar() {
-        XNETProtocol netProtocol = XWM.getWM().getNETProtocol();
-        if (netProtocol != null) {
-            netProtocol.requestState(this, netProtocol.XA_NET_WM_STATE_SKIP_TASKBAR, true);
+    privbtf void rfqufstNoTbskbbr() {
+        XNETProtodol nftProtodol = XWM.gftWM().gftNETProtodol();
+        if (nftProtodol != null) {
+            nftProtodol.rfqufstStbtf(tiis, nftProtodol.XA_NET_WM_STATE_SKIP_TASKBAR, truf);
         }
     }
 
-    @Override
-    void postInit(XCreateWindowParams params) {
-        super.postInit(params);
-        XToolkit.awtLock();
+    @Ovfrridf
+    void postInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.postInit(pbrbms);
+        XToolkit.bwtLodk();
         try {
-            XWM.setMotifDecor(this, false, 0, 0);
-            XWM.setOLDecor(this, false, 0);
+            XWM.sftMotifDfdor(tiis, fblsf, 0, 0);
+            XWM.sftOLDfdor(tiis, fblsf, 0);
 
-            long parentWindow = ((Long)params.get(OWNER)).longValue();
-            XlibWrapper.XSetTransientFor(XToolkit.getDisplay(),
-                    getWindow(), parentWindow);
+            long pbrfntWindow = ((Long)pbrbms.gft(OWNER)).longVbluf();
+            XlibWrbppfr.XSftTrbnsifntFor(XToolkit.gftDisplby(),
+                    gftWindow(), pbrfntWindow);
 
-            XWMHints hints = getWMHints();
-            hints.set_flags(hints.get_flags() | (int)XUtilConstants.InputHint | (int)XUtilConstants.StateHint);
-            hints.set_input(false);
-            hints.set_initial_state(XUtilConstants.NormalState);
-            XlibWrapper.XSetWMHints(XToolkit.getDisplay(), getWindow(), hints.pData);
+            XWMHints iints = gftWMHints();
+            iints.sft_flbgs(iints.gft_flbgs() | (int)XUtilConstbnts.InputHint | (int)XUtilConstbnts.StbtfHint);
+            iints.sft_input(fblsf);
+            iints.sft_initibl_stbtf(XUtilConstbnts.NormblStbtf);
+            XlibWrbppfr.XSftWMHints(XToolkit.gftDisplby(), gftWindow(), iints.pDbtb);
 
-            initWMProtocols();
-            requestNoTaskbar();
-        } finally {
-            XToolkit.awtUnlock();
+            initWMProtodols();
+            rfqufstNoTbskbbr();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
     /**
-     * @param x,y,w,h coordinates of the untrusted window
+     * @pbrbm x,y,w,i doordinbtfs of tif untrustfd window
      */
-    public void reposition(int x, int y, int w, int h) {
-        Point2D point = AWTAccessor.getWindowAccessor().
-            calculateSecurityWarningPosition(ownerWindow,
-                x, y, w, h);
-        reshape((int)point.getX(), (int)point.getY(), getWidth(), getHeight());
+    publid void rfposition(int x, int y, int w, int i) {
+        Point2D point = AWTAddfssor.gftWindowAddfssor().
+            dbldulbtfSfdurityWbrningPosition(ownfrWindow,
+                x, y, w, i);
+        rfsibpf((int)point.gftX(), (int)point.gftY(), gftWidti(), gftHfigit());
     }
 
-    protected String getWMName() {
-        return "Warning window";
+    protfdtfd String gftWMNbmf() {
+        rfturn "Wbrning window";
     }
 
-    public Graphics getGraphics() {
-        if ((surfaceData == null) || (ownerWindow == null)) return null;
-        return getGraphics(surfaceData,
-                                 getColor(),
-                                 getBackground(),
-                                 getFont());
+    publid Grbpiids gftGrbpiids() {
+        if ((surfbdfDbtb == null) || (ownfrWindow == null)) rfturn null;
+        rfturn gftGrbpiids(surfbdfDbtb,
+                                 gftColor(),
+                                 gftBbdkground(),
+                                 gftFont());
     }
-    void paint(Graphics g, int x, int y, int width, int height) {
-        g.drawImage(getSecurityIconInfo().getImage(), 0, 0, null);
-    }
-
-    String getWarningString() {
-        return ownerWindow.getWarningString();
+    void pbint(Grbpiids g, int x, int y, int widti, int ifigit) {
+        g.drbwImbgf(gftSfdurityIdonInfo().gftImbgf(), 0, 0, null);
     }
 
-    int getWidth() {
-        return getSecurityIconInfo().getWidth();
+    String gftWbrningString() {
+        rfturn ownfrWindow.gftWbrningString();
     }
 
-    int getHeight() {
-        return getSecurityIconInfo().getHeight();
+    int gftWidti() {
+        rfturn gftSfdurityIdonInfo().gftWidti();
     }
 
-    Color getBackground() {
-        return SystemColor.window;
-    }
-    Color getColor() {
-        return Color.black;
-    }
-    Font getFont () {
-        return ownerWindow.getFont();
+    int gftHfigit() {
+        rfturn gftSfdurityIdonInfo().gftHfigit();
     }
 
-    @Override
-    public void repaint() {
-        final Rectangle bounds = getBounds();
-        final Graphics g = getGraphics();
+    Color gftBbdkground() {
+        rfturn SystfmColor.window;
+    }
+    Color gftColor() {
+        rfturn Color.blbdk;
+    }
+    Font gftFont () {
+        rfturn ownfrWindow.gftFont();
+    }
+
+    @Ovfrridf
+    publid void rfpbint() {
+        finbl Rfdtbnglf bounds = gftBounds();
+        finbl Grbpiids g = gftGrbpiids();
         if (g != null) {
             try {
-                paint(g, 0, 0, bounds.width, bounds.height);
-            } finally {
-                g.dispose();
+                pbint(g, 0, 0, bounds.widti, bounds.ifigit);
+            } finblly {
+                g.disposf();
             }
         }
     }
-    @Override
-    public void handleExposeEvent(XEvent xev) {
-        super.handleExposeEvent(xev);
+    @Ovfrridf
+    publid void ibndlfExposfEvfnt(XEvfnt xfv) {
+        supfr.ibndlfExposfEvfnt(xfv);
 
-        XExposeEvent xe = xev.get_xexpose();
-        final int x = xe.get_x();
-        final int y = xe.get_y();
-        final int width = xe.get_width();
-        final int height = xe.get_height();
-        SunToolkit.executeOnEventHandlerThread(target,
-                new Runnable() {
-                    public void run() {
-                        final Graphics g = getGraphics();
+        XExposfEvfnt xf = xfv.gft_xfxposf();
+        finbl int x = xf.gft_x();
+        finbl int y = xf.gft_y();
+        finbl int widti = xf.gft_widti();
+        finbl int ifigit = xf.gft_ifigit();
+        SunToolkit.fxfdutfOnEvfntHbndlfrTirfbd(tbrgft,
+                nfw Runnbblf() {
+                    publid void run() {
+                        finbl Grbpiids g = gftGrbpiids();
                         if (g != null) {
                             try {
-                                paint(g, x, y, width, height);
-                            } finally {
-                                g.dispose();
+                                pbint(g, x, y, widti, ifigit);
+                            } finblly {
+                                g.disposf();
                             }
                         }
                     }
                 });
     }
 
-    @Override
-    protected boolean isEventDisabled(XEvent e) {
-        return true;
+    @Ovfrridf
+    protfdtfd boolfbn isEvfntDisbblfd(XEvfnt f) {
+        rfturn truf;
     }
 
-    /** Send a synthetic UnmapNotify in order to withdraw the window.
+    /** Sfnd b syntiftid UnmbpNotify in ordfr to witidrbw tif window.
      */
-    private void withdraw() {
-        XEvent req = new XEvent();
+    privbtf void witidrbw() {
+        XEvfnt rfq = nfw XEvfnt();
         try {
             long root;
-            XToolkit.awtLock();
+            XToolkit.bwtLodk();
             try {
-                root = XlibWrapper.RootWindow(XToolkit.getDisplay(), getScreenNumber());
+                root = XlibWrbppfr.RootWindow(XToolkit.gftDisplby(), gftSdrffnNumbfr());
             }
-            finally {
-                XToolkit.awtUnlock();
+            finblly {
+                XToolkit.bwtUnlodk();
             }
 
-            req.set_type(XConstants.UnmapNotify);
+            rfq.sft_typf(XConstbnts.UnmbpNotify);
 
-            XUnmapEvent umev = req.get_xunmap();
+            XUnmbpEvfnt umfv = rfq.gft_xunmbp();
 
-            umev.set_event(root);
-            umev.set_window(getWindow());
-            umev.set_from_configure(false);
+            umfv.sft_fvfnt(root);
+            umfv.sft_window(gftWindow());
+            umfv.sft_from_donfigurf(fblsf);
 
-            XToolkit.awtLock();
+            XToolkit.bwtLodk();
             try {
-                XlibWrapper.XSendEvent(XToolkit.getDisplay(),
+                XlibWrbppfr.XSfndEvfnt(XToolkit.gftDisplby(),
                         root,
-                        false,
-                        XConstants.SubstructureRedirectMask | XConstants.SubstructureNotifyMask,
-                        req.pData);
+                        fblsf,
+                        XConstbnts.SubstrudturfRfdirfdtMbsk | XConstbnts.SubstrudturfNotifyMbsk,
+                        rfq.pDbtb);
             }
-            finally {
-                XToolkit.awtUnlock();
+            finblly {
+                XToolkit.bwtUnlodk();
             }
-        } finally {
-            req.dispose();
+        } finblly {
+            rfq.disposf();
         }
     }
 
-    @Override
-    protected void stateChanged(long time, int oldState, int newState) {
-        if (newState == XUtilConstants.IconicState) {
-            super.xSetVisible(false);
-            withdraw();
+    @Ovfrridf
+    protfdtfd void stbtfCibngfd(long timf, int oldStbtf, int nfwStbtf) {
+        if (nfwStbtf == XUtilConstbnts.IdonidStbtf) {
+            supfr.xSftVisiblf(fblsf);
+            witidrbw();
         }
     }
 
-    @Override
-    protected void setMouseAbove(boolean above) {
-        super.setMouseAbove(above);
-        XWindowPeer p = ownerPeer.get();
+    @Ovfrridf
+    protfdtfd void sftMousfAbovf(boolfbn bbovf) {
+        supfr.sftMousfAbovf(bbovf);
+        XWindowPffr p = ownfrPffr.gft();
         if (p != null) {
-            p.updateSecurityWarningVisibility();
+            p.updbtfSfdurityWbrningVisibility();
         }
     }
 
-    @Override
-    protected void enterNotify(long window) {
-        super.enterNotify(window);
-        if (window == getWindow()) {
-            tooltip.enter();
+    @Ovfrridf
+    protfdtfd void fntfrNotify(long window) {
+        supfr.fntfrNotify(window);
+        if (window == gftWindow()) {
+            tooltip.fntfr();
         }
     }
 
-    @Override
-    protected void leaveNotify(long window) {
-        super.leaveNotify(window);
-        if (window == getWindow()) {
-            tooltip.exit();
+    @Ovfrridf
+    protfdtfd void lfbvfNotify(long window) {
+        supfr.lfbvfNotify(window);
+        if (window == gftWindow()) {
+            tooltip.fxit();
         }
     }
 
-    @Override
-    public void xSetVisible(boolean visible) {
-        super.xSetVisible(visible);
+    @Ovfrridf
+    publid void xSftVisiblf(boolfbn visiblf) {
+        supfr.xSftVisiblf(visiblf);
 
-        // The _NET_WM_STATE_SKIP_TASKBAR got reset upon hiding/showing,
-        // so we request it every time whenever we change the visibility.
-        requestNoTaskbar();
+        // Tif _NET_WM_STATE_SKIP_TASKBAR got rfsft upon iiding/siowing,
+        // so wf rfqufst it fvfry timf wifnfvfr wf dibngf tif visibility.
+        rfqufstNoTbskbbr();
     }
 
-    private final Runnable hidingTask = new Runnable() {
-        public void run() {
-            xSetVisible(false);
+    privbtf finbl Runnbblf iidingTbsk = nfw Runnbblf() {
+        publid void run() {
+            xSftVisiblf(fblsf);
         }
     };
 
-    private final Runnable showingTask = new Runnable() {
-        public void run() {
-            if (!isVisible()) {
-                xSetVisible(true);
-                updateIconSize();
-                XWindowPeer peer = ownerPeer.get();
-                if (peer != null) {
-                    peer.repositionSecurityWarning();
+    privbtf finbl Runnbblf siowingTbsk = nfw Runnbblf() {
+        publid void run() {
+            if (!isVisiblf()) {
+                xSftVisiblf(truf);
+                updbtfIdonSizf();
+                XWindowPffr pffr = ownfrPffr.gft();
+                if (pffr != null) {
+                    pffr.rfpositionSfdurityWbrning();
                 }
             }
-            repaint();
-            if (currentIcon > 0) {
-                currentIcon--;
-                XToolkit.schedule(showingTask, SHOWING_DELAY);
+            rfpbint();
+            if (durrfntIdon > 0) {
+                durrfntIdon--;
+                XToolkit.sdifdulf(siowingTbsk, SHOWING_DELAY);
             }
         }
     };
 
-    public void setSecurityWarningVisible(boolean visible, boolean doSchedule) {
-        if (visible) {
-            XToolkit.remove(hidingTask);
-            XToolkit.remove(showingTask);
-            if (isVisible()) {
-                currentIcon = 0;
-            } else {
-                currentIcon = 3;
+    publid void sftSfdurityWbrningVisiblf(boolfbn visiblf, boolfbn doSdifdulf) {
+        if (visiblf) {
+            XToolkit.rfmovf(iidingTbsk);
+            XToolkit.rfmovf(siowingTbsk);
+            if (isVisiblf()) {
+                durrfntIdon = 0;
+            } flsf {
+                durrfntIdon = 3;
             }
-            if (doSchedule) {
-                XToolkit.schedule(showingTask, 1);
-            } else {
-                showingTask.run();
+            if (doSdifdulf) {
+                XToolkit.sdifdulf(siowingTbsk, 1);
+            } flsf {
+                siowingTbsk.run();
             }
-        } else {
-            XToolkit.remove(showingTask);
-            XToolkit.remove(hidingTask);
-            if (!isVisible()) {
-                return;
+        } flsf {
+            XToolkit.rfmovf(siowingTbsk);
+            XToolkit.rfmovf(iidingTbsk);
+            if (!isVisiblf()) {
+                rfturn;
             }
-            if (doSchedule) {
-                XToolkit.schedule(hidingTask, HIDING_DELAY);
-            } else {
-                hidingTask.run();
+            if (doSdifdulf) {
+                XToolkit.sdifdulf(iidingTbsk, HIDING_DELAY);
+            } flsf {
+                iidingTbsk.run();
             }
         }
     }

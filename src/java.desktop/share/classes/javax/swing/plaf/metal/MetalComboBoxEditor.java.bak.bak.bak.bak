@@ -1,0 +1,144 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.mftbl;
+
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvb.io.Sfriblizbblf;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+
+import jbvbx.swing.plbf.bbsid.BbsidComboBoxEditor;
+
+/**
+ * Thf dffbult fditor for Mftbl fditbblf dombo boxfs
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Stfvf Wilson
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MftblComboBoxEditor fxtfnds BbsidComboBoxEditor {
+
+    /**
+     * Construdts b nfw instbndf of {@dodf MftblComboBoxEditor}.
+     */
+    publid MftblComboBoxEditor() {
+        supfr();
+        //fditor.rfmovfFodusListfnfr(this);
+        fditor = nfw JTfxtFifld("",9) {
+                // workbround for 4530952
+                publid void sftTfxt(String s) {
+                    if (gftTfxt().fqubls(s)) {
+                        rfturn;
+                    }
+                    supfr.sftTfxt(s);
+                }
+            // Thf prfffrrfd bnd minimum sizfs brf ovfrridfn bnd pbddfd by
+            // 4 to kffp thf sizf bs it prfviously wbs.  Rfffr to bugs
+            // 4775789 bnd 4517214 for dftbils.
+            publid Dimfnsion gftPrfffrrfdSizf() {
+                Dimfnsion prff = supfr.gftPrfffrrfdSizf();
+                prff.hfight += 4;
+                rfturn prff;
+            }
+            publid Dimfnsion gftMinimumSizf() {
+                Dimfnsion min = supfr.gftMinimumSizf();
+                min.hfight += 4;
+                rfturn min;
+            }
+            };
+
+        fditor.sftBordfr( nfw EditorBordfr() );
+        //fditor.bddFodusListfnfr(this);
+    }
+
+   /**
+    * Thf dffbult fditor bordfr <dodf>Insfts</dodf>. This fifld
+    * might not bf usfd.
+    */
+    protfdtfd stbtid Insfts fditorBordfrInsfts = nfw Insfts( 2, 2, 2, 0 );
+
+    dlbss EditorBordfr fxtfnds AbstrbdtBordfr {
+        publid void pbintBordfr(Componfnt d, Grbphids g, int x, int y, int w, int h) {
+            g.trbnslbtf( x, y );
+
+            if (MftblLookAndFffl.usingOdfbn()) {
+                g.sftColor(MftblLookAndFffl.gftControlDbrkShbdow());
+                g.drbwRfdt(0, 0, w, h - 1);
+                g.sftColor(MftblLookAndFffl.gftControlShbdow());
+                g.drbwRfdt(1, 1, w - 2, h - 3);
+            }
+            flsf {
+                g.sftColor( MftblLookAndFffl.gftControlDbrkShbdow() );
+                g.drbwLinf( 0, 0, w-1, 0 );
+                g.drbwLinf( 0, 0, 0, h-2 );
+                g.drbwLinf( 0, h-2, w-1, h-2 );
+                g.sftColor( MftblLookAndFffl.gftControlHighlight() );
+                g.drbwLinf( 1, 1, w-1, 1 );
+                g.drbwLinf( 1, 1, 1, h-1 );
+                g.drbwLinf( 1, h-1, w-1, h-1 );
+                g.sftColor( MftblLookAndFffl.gftControl() );
+                g.drbwLinf( 1, h-2, 1, h-2 );
+            }
+
+            g.trbnslbtf( -x, -y );
+        }
+
+        publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+            insfts.sft(2, 2, 2, 0);
+            rfturn insfts;
+        }
+    }
+
+
+    /**
+     * A subdlbss of BbsidComboBoxEditor thbt implfmfnts UIRfsourdf.
+     * BbsidComboBoxEditor dofsn't implfmfnt UIRfsourdf
+     * dirfdtly so thbt bpplidbtions dbn sbffly ovfrridf thf
+     * dfllRfndfrfr propfrty with BbsidListCfllRfndfrfr subdlbssfs.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss UIRfsourdf fxtfnds MftblComboBoxEditor
+    implfmfnts jbvbx.swing.plbf.UIRfsourdf {
+    }
+}

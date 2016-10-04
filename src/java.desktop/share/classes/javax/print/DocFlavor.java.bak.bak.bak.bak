@@ -1,0 +1,1421 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.print;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.Sfriblizbblf;
+
+
+/**
+ * Clbss <dodf>DodFlbvor</dodf> fndbpsulbtfs bn objfdt thbt spfdififs thf
+ * formbt in whidh print dbtb is supplifd to b {@link DodPrintJob}.
+ * "Dod" is b short, fbsy-to-pronoundf tfrm thbt mfbns "b pifdf of print dbtb."
+ * Thf print dbtb formbt, or "dod flbvor", donsists of two things:
+ * <UL>
+ * <LI>
+ * <B>MIME typf.</B> This is b Multipurposf Intfrnft Mbil Extfnsions (MIME)
+ * mfdib typf (bs dffinfd in <A HREF="http://www.iftf.org/rfd/rfd2045.txt">RFC
+ * 2045</A> bnd <A HREF="http://www.iftf.org/rfd/rfd2046.txt">RFC 2046</A>)
+ * thbt spfdififs how thf print dbtb is to bf intfrprftfd.
+ * Thf dhbrsft of tfxt dbtb should bf thf IANA MIME-prfffrrfd nbmf, or its
+ * dbnonidbl nbmf if no prfffrrfd nbmf is spfdififd. Additionblly b ffw
+ * historidbl nbmfs supportfd by fbrlifr vfrsions of thf Jbvb plbtform mby
+ * bf rfdognizfd.
+ * Sff <b hrff="../../jbvb/lbng/pbdkbgf-summbry.html#dhbrfnd">
+ * dhbrbdtfr fndodings</b> for morf informbtion on thf dhbrbdtfr fndodings
+ * supportfd on thf Jbvb plbtform.
+ *
+ * <LI>
+ * <B>Rfprfsfntbtion dlbss nbmf.</B> This spfdififs thf fully-qublififd nbmf of
+ * thf dlbss of thf objfdt from whidh thf bdtubl print dbtb domfs, bs rfturnfd
+ * by thf {@link jbvb.lbng.Clbss#gftNbmf() Clbss.gftNbmf()} mfthod.
+ * (Thus thf dlbss nbmf for <CODE>bytf[]</CODE> is <CODE>"[B"</CODE>, for
+ * <CODE>dhbr[]</CODE> it is <CODE>"[C"</CODE>.)
+ * </UL>
+ * <P>
+ * A <dodf>DodPrintJob</dodf> obtbins its print dbtb by mfbns of intfrfbdf
+ * {@link Dod Dod}. A <dodf>Dod</dodf> objfdt lfts thf <dodf>DodPrintJob</dodf>
+ * dftfrminf thf dod flbvor thf dlifnt dbn supply.  A <dodf>Dod</dodf> objfdt
+ * blso lfts thf <dodf>DodPrintJob</dodf> obtbin bn instbndf of thf dod flbvor's
+ * rfprfsfntbtion dlbss, from whidh thf <dodf>DodPrintJob</dodf> thfn obtbins
+ * thf bdtubl print dbtb.
+ *
+ * <HR>
+ * <H3>Clifnt Formbttfd Print Dbtb</H3>
+ * Thfrf brf two brobd dbtfgorifs of print dbtb, dlifnt formbttfd print dbtb
+ * bnd sfrvidf formbttfd print dbtb.
+ * <P>
+ * For <B>dlifnt formbttfd print dbtb</B>, thf dlifnt dftfrminfs or knows thf
+ * print dbtb formbt.
+ * For fxbmplf thf dlifnt mby hbvf b JPEG fndodfd imbgf, b URL for
+ * HTML dodf, or b disk filf dontbining plbin tfxt in somf fndoding,
+ * possibly obtbinfd from bn fxtfrnbl sourdf, bnd
+ * rfquirfs b wby to dfsdribf thf dbtb formbt to thf print sfrvidf.
+ * <p>
+ * Thf dod flbvor's rfprfsfntbtion dlbss is b donduit for thf JPS
+ * <dodf>DodPrintJob</dodf> to obtbin b sfqufndf of dhbrbdtfrs or
+ * bytfs from thf dlifnt. Thf
+ * dod flbvor's MIME typf is onf of thf stbndbrd mfdib typfs tflling how to
+ * intfrprft thf sfqufndf of dhbrbdtfrs or bytfs. For b list of stbndbrd mfdib
+ * typfs, sff thf Intfrnft Assignfd Numbfrs Authority's (IANA's) <A
+ * HREF="http://www.ibnb.org/bssignmfnts/mfdib-typfs/">Mfdib Typfs
+ * Dirfdtory</A>. Intfrfbdf {@link Dod Dod} providfs two utility opfrbtions,
+ * {@link Dod#gftRfbdfrForTfxt() gftRfbdfrForTfxt} bnd
+ * {@link Dod#gftStrfbmForBytfs() gftStrfbmForBytfs()}, to hflp b
+ * <dodf>Dod</dodf> objfdt's dlifnt fxtrbdt dlifnt formbttfd print dbtb.
+ * <P>
+ * For dlifnt formbttfd print dbtb, thf print dbtb rfprfsfntbtion dlbss is
+ * typidblly onf of thf following (blthough othfr rfprfsfntbtion dlbssfs brf
+ * pfrmittfd):
+ * <UL>
+ * <LI>
+ * Chbrbdtfr brrby (<CODE>dhbr[]</CODE>) -- Thf print dbtb donsists of thf
+ * Unidodf dhbrbdtfrs in thf brrby.
+ *
+ * <LI>
+ * <dodf>String</dodf>  --
+ * Thf print dbtb donsists of thf Unidodf dhbrbdtfrs in thf string.
+ *
+ * <LI>
+ * Chbrbdtfr strfbm ({@link jbvb.io.Rfbdfr jbvb.io.Rfbdfr})
+ * -- Thf print dbtb donsists of thf Unidodf dhbrbdtfrs rfbd from thf strfbm
+ * up to thf fnd-of-strfbm.
+ *
+ * <LI>
+ * Bytf brrby (<CODE>bytf[]</CODE>) -- Thf print dbtb donsists of thf bytfs in
+ * thf brrby. Thf bytfs brf fndodfd in thf dhbrbdtfr sft spfdififd by thf dod
+ * flbvor's MIME typf. If thf MIME typf dofs not spfdify b dhbrbdtfr sft, thf
+ * dffbult dhbrbdtfr sft is US-ASCII.
+ *
+ * <LI>
+ * Bytf strfbm ({@link jbvb.io.InputStrfbm jbvb.io.InputStrfbm}) --
+ * Thf print dbtb donsists of thf bytfs rfbd from thf strfbm up to thf
+ * fnd-of-strfbm. Thf bytfs brf fndodfd in thf dhbrbdtfr sft spfdififd by thf
+ * dod flbvor's MIME typf. If thf MIME typf dofs not spfdify b dhbrbdtfr sft,
+ * thf dffbult dhbrbdtfr sft is US-ASCII.
+
+ * <LI>
+ * Uniform Rfsourdf Lodbtor ({@link jbvb.nft.URL URL})
+ * -- Thf print dbtb donsists of thf bytfs rfbd from thf URL lodbtion.
+ * Thf bytfs brf fndodfd in thf dhbrbdtfr sft spfdififd by thf dod flbvor's
+ * MIME typf. If thf MIME typf dofs not spfdify b dhbrbdtfr sft, thf dffbult
+ * dhbrbdtfr sft is US-ASCII.
+ * <P>
+ * Whfn thf rfprfsfntbtion dlbss is b URL, thf print sfrvidf itsflf bddfssfs
+ * bnd downlobds thf dodumfnt dirfdtly from its URL bddrfss, without involving
+ * thf dlifnt. Thf sfrvidf mby bf somf form of nftwork print sfrvidf whidh
+ * is fxfduting in b difffrfnt fnvironmfnt.
+ * This mfbns you should not usf b URL print dbtb flbvor to print b
+ * dodumfnt bt b rfstridtfd URL thbt thf dlifnt dbn sff but thf printfr dbnnot
+ * sff. This blso mfbns you should not usf b URL print dbtb flbvor to print b
+ * dodumfnt storfd in b lodbl filf thbt is not bvbilbblf bt b URL
+ * bddfssiblf indfpfndfntly of thf dlifnt.
+ * For fxbmplf, b filf thbt is not sfrvfd up by bn HTTP sfrvfr or FTP sfrvfr.
+ * To print sudh dodumfnts, lft thf dlifnt opfn bn input strfbm on thf URL
+ * or filf bnd usf bn input strfbm dbtb flbvor.
+ * </UL>
+ *
+ * <HR>
+ * <h3>Dffbult bnd Plbtform Endodings</h3>
+ * <P>
+ * For bytf print dbtb whfrf thf dod flbvor's MIME typf dofs not indludf b
+ * <CODE>dhbrsft</CODE> pbrbmftfr, thf Jbvb Print Sfrvidf instbndf bssumfs thf
+ * US-ASCII dhbrbdtfr sft by dffbult. This is in bddordbndf with
+ * <A HREF="http://www.iftf.org/rfd/rfd2046.txt">RFC 2046</A>, whidh sbys thf
+ * dffbult dhbrbdtfr sft is US-ASCII. Notf thbt US-ASCII is b subsft of
+ * UTF-8, so in thf futurf this mby bf widfnfd if b futurf RFC fndorsfs
+ * UTF-8 bs thf dffbult in b dompbtiblf mbnnfr.
+ * <p>
+ * Also notf thbt this is difffrfnt thbn thf bfhbviour of thf Jbvb runtimf
+ * whfn intfrprfting b strfbm of bytfs bs tfxt dbtb. Thbt bssumfs thf
+ * dffbult fndoding for thf usfr's lodblf. Thus, whfn spooling b filf in lodbl
+ * fndoding to b Jbvb Print Sfrvidf it is importbnt to dorrfdtly spfdify
+ * thf fndoding. Dfvflopfrs working in thf English lodblfs should
+ * bf pbrtidulbrly donsdious of this, bs thfir plbtform fndoding dorrfsponds
+ * to thf dffbult mimf dhbrsft. By this doindidfndf thbt pbrtidulbr
+ * dbsf mby work without spfdifying thf fndoding of plbtform dbtb.
+ * <p>
+ * Evfry instbndf of thf Jbvb virtubl mbdhinf hbs b dffbult dhbrbdtfr fndoding
+ * dftfrminfd during virtubl-mbdhinf stbrtup bnd typidblly dfpfnds upon thf
+ * lodblf bnd dhbrsft bfing usfd by thf undfrlying opfrbting systfm.
+ * In b distributfd fnvironmfnt thfrf is no gubrbntff thbt two VM shbrf
+ * thf sbmf dffbult fndoding. Thus dlifnts whidh wbnt to strfbm plbtform
+ * fndodfd tfxt dbtb from thf host plbtform to b Jbvb Print Sfrvidf instbndf
+ * must fxpliditly dfdlbrf thf dhbrsft bnd not rfly on dffbults.
+ * <p>
+ * Thf prfffrrfd form is thf offidibl IANA primbry nbmf for bn fndoding.
+ * Applidbtions whidh strfbm tfxt dbtb should blwbys spfdify thf dhbrsft
+ * in thf mimf typf, whidh nfdfssitbtfs obtbining thf fndoding of thf host
+ * plbtform for dbtb (fg filfs) storfd in thbt plbtform's fndoding.
+ * A ChbrSft whidh dorrfsponds to this bnd is suitbblf for usf in b
+ * mimf-typf for b DodFlbvor dbn bf obtbinfd
+ * from {@link DodFlbvor#hostEndoding DodFlbvor.hostEndoding}
+ * This mby not blwbys bf thf primbry IANA nbmf but is gubrbntffd to bf
+ * undfrstood by this VM.
+ * For dommon flbvors, thf prf-dffinfd *HOST DodFlbvors mby bf usfd.
+ * <p>
+ * Sff <b hrff="../../jbvb/lbng/pbdkbgf-summbry.html#dhbrfnd">
+ * dhbrbdtfr fndodings</b> for morf informbtion on thf dhbrbdtfr fndodings
+ * supportfd on thf Jbvb plbtform.
+ * <HR>
+ * <h3>Rfdommfndfd DodFlbvors</h3>
+ * <P>
+ * Thf Jbvb Print Sfrvidf API dofs not dffinf bny mbndbtorily supportfd
+ * DodFlbvors.
+ * Howfvfr, hfrf brf somf fxbmplfs of MIME typfs thbt b Jbvb Print Sfrvidf
+ * instbndf might support for dlifnt formbttfd print dbtb.
+ * Nfstfd dlbssfs insidf dlbss DodFlbvor dfdlbrf prfdffinfd stbtid
+ * donstbnt DodFlbvor objfdts for thfsf fxbmplf dod flbvors; dlbss DodFlbvor's
+ * donstrudtor dbn bf usfd to drfbtf bn brbitrbry dod flbvor.
+ * <UL>
+ * <LI>Prfformbttfd tfxt
+ * <TABLE BORDER=1 CELLPADDING=0 CELLSPACING=0 SUMMARY="MIME-Typfs bnd thfir dfsdriptions">
+ * <TR>
+ *  <TH>MIME-Typf</TH><TH>Dfsdription</TH>
+ * </TR>
+ * <TR>
+ * <TD><CODE>"tfxt/plbin"</CODE></TD>
+ * <TD>Plbin tfxt in thf dffbult dhbrbdtfr sft (US-ASCII)</TD>
+ * </TR>
+ * <TR>
+ * <TD><CODE>"tfxt/plbin; dhbrsft=<I>xxx</I>"</CODE></TD>
+ * <TD>Plbin tfxt in dhbrbdtfr sft <I>xxx</I></TD>
+ * </TR>
+ * <TR>
+ * <TD><CODE>"tfxt/html"</CODE></TD>
+ * <TD>HypfrTfxt Mbrkup Lbngubgf in thf dffbult dhbrbdtfr sft (US-ASCII)</TD>
+ * </TR>
+ * <TR>
+ * <TD><CODE>"tfxt/html; dhbrsft=<I>xxx</I>"</CODE></TD>
+ * <TD>HypfrTfxt Mbrkup Lbngubgf in dhbrbdtfr sft <I>xxx</I></TD>
+ * </TR>
+ * </TABLE>
+ * <P>
+ * In gfnfrbl, prfformbttfd tfxt print dbtb is providfd fithfr in b dhbrbdtfr
+ * orifntfd rfprfsfntbtion dlbss (dhbrbdtfr brrby, String, Rfbdfr) or in b
+ * bytf orifntfd rfprfsfntbtion dlbss (bytf brrby, InputStrfbm, URL).
+ *
+ *  <LI>Prfformbttfd pbgf dfsdription lbngubgf (PDL) dodumfnts
+ *
+ * <TABLE BORDER=1 CELLPADDING=0 CELLSPACING=0 SUMMARY="MIME-Typfs bnd thfir dfsdriptions">
+ * <TR>
+ *  <TH>MIME-Typf</TH><TH>Dfsdription</TH>
+ * </TR>
+ *<TR>
+ * <TD><CODE>"bpplidbtion/pdf"</CODE></TD>
+ * <TD>Portbblf Dodumfnt Formbt dodumfnt</TD>
+ * </TR>
+ * <TR>
+ * <TD><CODE>"bpplidbtion/postsdript"</CODE></TD>
+ * <TD>PostSdript dodumfnt</TD>
+ * </TR>
+ * <TR>
+ * <TD><CODE>"bpplidbtion/vnd.hp-PCL"</CODE></TD>
+ * <TD>Printfr Control Lbngubgf dodumfnt</TD>
+ * </TR>
+ * </TABLE>
+ * <P>
+ * In gfnfrbl, prfformbttfd PDL print dbtb is providfd in b bytf orifntfd
+ * rfprfsfntbtion dlbss (bytf brrby, InputStrfbm, URL).
+ *
+ *  <LI>Prfformbttfd imbgfs
+ *
+ * <TABLE BORDER=1 CELLPADDING=0 CELLSPACING=0 SUMMARY="MIME-Typfs bnd thfir dfsdriptions">
+ * <TR>
+ *  <TH>MIME-Typf</TH><TH>Dfsdription</TH>
+ * </TR>
+ *
+ * <TR>
+ * <TD><CODE>"imbgf/gif"</CODE></TD>
+ * <TD>Grbphids Intfrdhbngf Formbt imbgf</TD>
+ * </TR>
+ * <TR>
+ * <TD><CODE>"imbgf/jpfg"</CODE></TD>
+ * <TD>Joint Photogrbphid Expfrts Group imbgf</TD>
+ * </TR>
+ * <TR>
+ * <TD><CODE>"imbgf/png"</CODE></TD>
+ * <TD>Portbblf Nftwork Grbphids imbgf</TD>
+ * </TR>
+ * </TABLE>
+ * <P>
+ * In gfnfrbl, prfformbttfd imbgf print dbtb is providfd in b bytf orifntfd
+ * rfprfsfntbtion dlbss (bytf brrby, InputStrfbm, URL).
+ *
+ *  <LI>Prfformbttfd butosfnsf print dbtb
+ *
+ * <TABLE BORDER=1 CELLPADDING=0 CELLSPACING=0 SUMMARY="MIME-Typfs bnd thfir dfsdriptions">
+ * <TR>
+ *  <TH>MIME-Typf</TH><TH>Dfsdription</TH>
+ * </TR>
+ *
+ * <TR>
+ * <TD><CODE>"bpplidbtion/odtft-strfbm"</CODE></TD>
+ * <TD>Thf print dbtb formbt is unspfdififd (just bn odtft strfbm)</TD>
+ * </TABLE>
+ * <P>
+ * Thf printfr dfdidfs how to intfrprft thf print dbtb; thf wby this
+ * "butosfnsing" works is implfmfntbtion dfpfndfnt. In gfnfrbl, prfformbttfd
+ * butosfnsf print dbtb is providfd in b bytf orifntfd rfprfsfntbtion dlbss
+ * (bytf brrby, InputStrfbm, URL).
+ * </UL>
+ *
+ * <HR>
+ * <H3>Sfrvidf Formbttfd Print Dbtb</H3>
+ * <P>
+ * For <B>sfrvidf formbttfd print dbtb</B>, thf Jbvb Print Sfrvidf instbndf
+ * dftfrminfs thf print dbtb formbt. Thf dod flbvor's rfprfsfntbtion dlbss
+ * dfnotfs bn intfrfbdf whosf mfthods thf <dodf>DodPrintJob</dodf> invokfs to
+ * dftfrminf thf dontfnt to bf printfd -- sudh bs b rfndfrbblf imbgf
+ * intfrfbdf or b Jbvb printbblf intfrfbdf.
+ * Thf dod flbvor's MIME typf is thf spfdibl vbluf
+ * <CODE>"bpplidbtion/x-jbvb-jvm-lodbl-objfdtrff"</CODE> indidbting thf dlifnt
+ * will supply b rfffrfndf to b Jbvb objfdt thbt implfmfnts thf intfrfbdf
+ * nbmfd bs thf rfprfsfntbtion dlbss.
+ * This MIME typf is just b plbdfholdfr; whbt's
+ * importbnt is thf print dbtb rfprfsfntbtion dlbss.
+ * <P>
+ * For sfrvidf formbttfd print dbtb, thf print dbtb rfprfsfntbtion dlbss is
+ * typidblly onf of thf following (blthough othfr rfprfsfntbtion dlbssfs brf
+ * pfrmittfd). Nfstfd dlbssfs insidf dlbss DodFlbvor dfdlbrf prfdffinfd stbtid
+ * donstbnt DodFlbvor objfdts for thfsf fxbmplf dod flbvors; dlbss DodFlbvor's
+ * donstrudtor dbn bf usfd to drfbtf bn brbitrbry dod flbvor.
+ * <UL>
+ * <LI>
+ * Rfndfrbblf imbgf objfdt -- Thf dlifnt supplifs bn objfdt thbt implfmfnts
+ * intfrfbdf
+ * {@link jbvb.bwt.imbgf.rfndfrbblf.RfndfrbblfImbgf RfndfrbblfImbgf}. Thf
+ * printfr dblls mfthods
+ * in thbt intfrfbdf to obtbin thf imbgf to bf printfd.
+ *
+ * <LI>
+ * Printbblf objfdt -- Thf dlifnt supplifs bn objfdt thbt implfmfnts intfrfbdf
+ * {@link jbvb.bwt.print.Printbblf Printbblf}.
+ * Thf printfr dblls mfthods in thbt intfrfbdf to obtbin thf pbgfs to bf
+ * printfd, onf by onf.
+ * For fbdh pbgf, thf printfr supplifs b grbphids dontfxt, bnd whbtfvfr thf
+ * dlifnt drbws in thbt grbphids dontfxt gfts printfd.
+ *
+ * <LI>
+ * Pbgfbblf objfdt -- Thf dlifnt supplifs bn objfdt thbt implfmfnts intfrfbdf
+ * {@link jbvb.bwt.print.Pbgfbblf Pbgfbblf}. Thf printfr dblls
+ * mfthods in thbt intfrfbdf to obtbin thf pbgfs to bf printfd, onf by onf.
+ * For fbdh pbgf, thf printfr supplifs b grbphids dontfxt, bnd whbtfvfr
+ * thf dlifnt drbws in thbt grbphids dontfxt gfts printfd.
+ * </UL>
+ *
+ * <HR>
+ *
+ * <HR>
+ * <H3>Prf-dffinfd Dod Flbvors</H3>
+ * A Jbvb Print Sfrvidf instbndf is not <B><I>rfquirfd</I></B> to support thf
+ * following print dbtb formbts bnd print dbtb rfprfsfntbtion dlbssfs.  In
+ * fbdt, b dfvflopfr using this dlbss should <b>nfvfr</b> bssumf thbt b
+ * pbrtidulbr print sfrvidf supports thf dodumfnt typfs dorrfsponding to
+ * thfsf prf-dffinfd dod flbvors.  Alwbys qufry thf print sfrvidf
+ * to dftfrminf whbt dod flbvors it supports.  Howfvfr,
+ * dfvflopfrs who hbvf print sfrvidfs thbt support thfsf dod flbvors brf
+ * fndourbgfd to rfffr to thf prfdffinfd singlfton instbndfs drfbtfd hfrf.
+ * <UL>
+ * <LI>
+ * Plbin tfxt print dbtb providfd through b bytf strfbm. Spfdifidblly, thf
+ * following dod flbvors brf rfdommfndfd to bf supportfd:
+ * <BR>&#183;&nbsp;&nbsp;
+ * <CODE>("tfxt/plbin", "jbvb.io.InputStrfbm")</CODE>
+ * <BR>&#183;&nbsp;&nbsp;
+ * <CODE>("tfxt/plbin; dhbrsft=us-bsdii", "jbvb.io.InputStrfbm")</CODE>
+ * <BR>&#183;&nbsp;&nbsp;
+ * <CODE>("tfxt/plbin; dhbrsft=utf-8", "jbvb.io.InputStrfbm")</CODE>
+ *
+ * <LI>
+ * Rfndfrbblf imbgf objfdts. Spfdifidblly, thf following dod flbvor is
+ * rfdommfndfd to bf supportfd:
+ * <BR>&#183;&nbsp;&nbsp;
+ * <CODE>("bpplidbtion/x-jbvb-jvm-lodbl-objfdtrff", "jbvb.bwt.imbgf.rfndfrbblf.RfndfrbblfImbgf")</CODE>
+ * </UL>
+ * <P>
+ * A Jbvb Print Sfrvidf instbndf is bllowfd to support bny othfr dod flbvors
+ * (or nonf) in bddition to thf bbovf mbndbtory onfs, bt thf implfmfntbtion's
+ * dhoidf.
+ * <P>
+ * Support for thf bbovf dod flbvors is dfsirbblf so b printing dlifnt dbn rfly
+ * on bfing bblf to print on bny JPS printfr, rfgbrdlfss of whidh dod flbvors
+ * thf printfr supports. If thf printfr dofsn't support thf dlifnt's prfffrrfd
+ * dod flbvor, thf dlifnt dbn bt lfbst print plbin tfxt, or thf dlifnt dbn
+ * donvfrt its dbtb to b rfndfrbblf imbgf bnd print thf imbgf.
+ * <P>
+ * Furthfrmorf, fvfry Jbvb Print Sfrvidf instbndf must fulfill thfsf
+ * rfquirfmfnts for prodfssing plbin tfxt print dbtb:
+ * <UL>
+ * <LI>
+ * Thf dhbrbdtfr pbir dbrribgf rfturn-linf fffd (CR-LF) mfbns
+ * "go to dolumn 1 of thf nfxt linf."
+ * <LI>
+ * A dbrribgf rfturn (CR) dhbrbdtfr stbnding by itsflf mfbns
+ * "go to dolumn 1 of thf nfxt linf."
+ * <LI>
+ * A linf fffd (LF) dhbrbdtfr stbnding by itsflf mfbns
+ * "go to dolumn 1 of thf nfxt linf."
+ * </UL>
+ * <P>
+ * Thf dlifnt must itsflf pfrform bll plbin tfxt print dbtb formbtting not
+ * bddrfssfd by thf bbovf rfquirfmfnts.
+ *
+ * <H3>Dfsign Rbtionblf</H3>
+ * <P>
+ * Clbss DodFlbvor in pbdkbgf jbvbx.print.dbtb is similbr to dlbss
+ * {@link jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor DbtbFlbvor}. Clbss
+ * <dodf>DbtbFlbvor</dodf>
+ * is not usfd in thf Jbvb Print Sfrvidf (JPS) API
+ * for thrff rfbsons whidh brf bll rootfd in bllowing thf JPS API to bf
+ * shbrfd by othfr print sfrvidfs APIs whidh mby nffd to run on Jbvb profilfs
+ * whidh do not indludf bll of thf Jbvb Plbtform, Stbndbrd Edition.
+ * <OL TYPE=1>
+ * <LI>
+ * Thf JPS API is dfsignfd to bf usfd in Jbvb profilfs whidh do not support
+ * AWT.
+ *
+ * <LI>
+ * Thf implfmfntbtion of dlbss <dodf>jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor</dodf>
+ * dofs not gubrbntff thbt fquivblfnt dbtb flbvors will hbvf thf sbmf
+ * sfriblizfd rfprfsfntbtion. DodFlbvor dofs, bnd dbn bf usfd in sfrvidfs
+ * whidh nffd this.
+ *
+ * <LI>
+ * Thf implfmfntbtion of dlbss <dodf>jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor</dodf>
+ * indludfs b humbn prfsfntbblf nbmf bs pbrt of thf sfriblizfd rfprfsfntbtion.
+ * This is not bppropribtf bs pbrt of b sfrvidf mbtdhing donstrbint.
+ * </OL>
+ * <P>
+ * Clbss DodFlbvor's sfriblizfd rfprfsfntbtion usfs thf following
+ * dbnonidbl form of b MIME typf string. Thus, two dod flbvors with MIME typfs
+ * thbt brf not idfntidbl but thbt brf fquivblfnt (thbt hbvf thf sbmf
+ * dbnonidbl form) mby bf donsidfrfd fqubl.
+ * <UL>
+ * <LI> Thf mfdib typf, mfdib subtypf, bnd pbrbmftfrs brf rftbinfd, but bll
+ *      dommfnts bnd whitfspbdf dhbrbdtfrs brf disdbrdfd.
+ * <LI> Thf mfdib typf, mfdib subtypf, bnd pbrbmftfr nbmfs brf donvfrtfd to
+ *      lowfrdbsf.
+ * <LI> Thf pbrbmftfr vblufs rftbin thfir originbl dbsf, fxdfpt b dhbrsft
+ *      pbrbmftfr vbluf for b tfxt mfdib typf is donvfrtfd to lowfrdbsf.
+ * <LI> Quotf dhbrbdtfrs surrounding pbrbmftfr vblufs brf rfmovfd.
+ * <LI> Quoting bbdkslbsh dhbrbdtfrs insidf pbrbmftfr vblufs brf rfmovfd.
+ * <LI> Thf pbrbmftfrs brf brrbngfd in bsdfnding ordfr of pbrbmftfr nbmf.
+ * </UL>
+ * <P>
+ * Clbss DodFlbvor's sfriblizfd rfprfsfntbtion blso dontbins thf
+ * fully-qublififd dlbss <I>nbmf</I> of thf rfprfsfntbtion dlbss
+ * (b String objfdt), rbthfr thbn thf rfprfsfntbtion dlbss itsflf
+ * (b Clbss objfdt). This bllows b dlifnt to fxbminf thf dod flbvors b
+ * Jbvb Print Sfrvidf instbndf supports without hbving
+ * to lobd thf rfprfsfntbtion dlbssfs, whidh mby bf problfmbtid for
+ * limitfd-rfsourdf dlifnts.
+ *
+ * @buthor  Albn Kbminsky
+ */
+publid dlbss DodFlbvor implfmfnts Sfriblizbblf, Clonfbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -4512080796965449721L;
+
+    /**
+     * A String rfprfsfnting thf host opfrbting systfm fndoding.
+     * This will follow thf donvfntions dodumfntfd in
+     * <b hrff="http://www.iftf.org/rfd/rfd2278.txt">
+     * <i>RFC&nbsp;2278:&nbsp;IANA Chbrsft Rfgistrbtion Prodfdurfs</i></b>
+     * fxdfpt whfrf historidbl nbmfs brf rfturnfd for dompbtibility with
+     * prfvious vfrsions of thf Jbvb plbtform.
+     * Thf vbluf rfturnfd from mfthod is vblid only for thf VM whidh
+     * rfturns it, for usf in b DodFlbvor.
+     * This is thf dhbrsft for bll thf "HOST" prf-dffinfd DodFlbvors in
+     * thf fxfduting VM.
+     */
+    publid stbtid finbl String hostEndoding;
+
+    stbtid {
+        hostEndoding =
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                  nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("filf.fndoding"));
+    }
+
+    /**
+     * MIME typf.
+     */
+    privbtf trbnsifnt MimfTypf myMimfTypf;
+
+    /**
+     * Rfprfsfntbtion dlbss nbmf.
+     * @sfribl
+     */
+    privbtf String myClbssNbmf;
+
+    /**
+     * String vbluf for this dod flbvor. Computfd whfn nffdfd bnd dbdhfd.
+     */
+    privbtf trbnsifnt String myStringVbluf = null;
+
+
+    /**
+     * Construdts b nfw dod flbvor objfdt from thf givfn MIME typf bnd
+     * rfprfsfntbtion dlbss nbmf. Thf givfn MIME typf is donvfrtfd into
+     * dbnonidbl form bnd storfd intfrnblly.
+     *
+     * @pbrbm  mimfTypf   MIME mfdib typf string.
+     * @pbrbm  dlbssNbmf  Fully-qublififd rfprfsfntbtion dlbss nbmf.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>mimfTypf</CODE> is null or
+     *     <CODE>dlbssNbmf</CODE> is null.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>mimfTypf</CODE> dofs not
+     *     obfy thf syntbx for b MIME mfdib typf string.
+     */
+    publid DodFlbvor(String mimfTypf, String dlbssNbmf) {
+        if (dlbssNbmf == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        myMimfTypf = nfw MimfTypf (mimfTypf);
+        myClbssNbmf = dlbssNbmf;
+    }
+
+    /**
+     * Rfturns this dod flbvor objfdt's MIME typf string bbsfd on thf
+     * dbnonidbl form. Ebdh pbrbmftfr vbluf is fndlosfd in quotfs.
+     * @rfturn thf mimf typf
+     */
+    publid String gftMimfTypf() {
+        rfturn myMimfTypf.gftMimfTypf();
+    }
+
+    /**
+     * Rfturns this dod flbvor objfdt's mfdib typf (from thf MIME typf).
+     * @rfturn thf mfdib typf
+     */
+    publid String gftMfdibTypf() {
+        rfturn myMimfTypf.gftMfdibTypf();
+    }
+
+    /**
+     * Rfturns this dod flbvor objfdt's mfdib subtypf (from thf MIME typf).
+     * @rfturn thf mfdib sub-typf
+     */
+    publid String gftMfdibSubtypf() {
+        rfturn myMimfTypf.gftMfdibSubtypf();
+    }
+
+    /**
+     * Rfturns b <dodf>String</dodf> rfprfsfnting b MIME
+     * pbrbmftfr.
+     * Mimf typfs mby indludf pbrbmftfrs whidh brf usublly optionbl.
+     * Thf dhbrsft for tfxt typfs is b dommonly usfful fxbmplf.
+     * This donvfnifndf mfthod will rfturn thf vbluf of thf spfdififd
+     * pbrbmftfr if onf wbs spfdififd in thf mimf typf for this flbvor.
+     *
+     * @pbrbm pbrbmNbmf thf nbmf of thf pbrbmbtfr. This nbmf is intfrnblly
+     * donvfrtfd to thf dbnonidbl lowfr dbsf formbt bfforf pfrforming
+     * thf mbtdh.
+     * @rfturn String rfprfsfnting b mimf pbrbmftfr, or
+     * null if thbt pbrbmftfr is not in thf mimf typf string.
+     * @fxdfption NullPointfrExdfption if pbrbmNbmf is null.
+     */
+    publid String gftPbrbmftfr(String pbrbmNbmf) {
+        rfturn myMimfTypf.gftPbrbmftfrMbp().gft(pbrbmNbmf.toLowfrCbsf());
+    }
+
+    /**
+     * Rfturns thf nbmf of this dod flbvor objfdt's rfprfsfntbtion dlbss.
+     * @rfturn thf nbmf of thf rfprfsfntbtion dlbss.
+     */
+    publid String gftRfprfsfntbtionClbssNbmf() {
+        rfturn myClbssNbmf;
+    }
+
+    /**
+     * Convfrts this <dodf>DodFlbvor</dodf> to b string.
+     *
+     * @rfturn  MIME typf string bbsfd on thf dbnonidbl form. Ebdh pbrbmftfr
+     *          vbluf is fndlosfd in quotfs.
+     *          A "dlbss=" pbrbmftfr is bppfndfd to thf
+     *          MIME typf string to indidbtf thf rfprfsfntbtion dlbss nbmf.
+     */
+    publid String toString() {
+        rfturn gftStringVbluf();
+    }
+
+    /**
+     * Rfturns b hbsh dodf for this dod flbvor objfdt.
+     */
+    publid int hbshCodf() {
+        rfturn gftStringVbluf().hbshCodf();
+    }
+
+    /**
+     * Dftfrminfs if this dod flbvor objfdt is fqubl to thf givfn objfdt.
+     * Thf two brf fqubl if thf givfn objfdt is not null, is bn instbndf
+     * of <dodf>DodFlbvor</dodf>, hbs b MIME typf fquivblfnt to this dod
+     * flbvor objfdt's MIME typf (thbt is, thf MIME typfs hbvf thf sbmf mfdib
+     * typf, mfdib subtypf, bnd pbrbmftfrs), bnd hbs thf sbmf rfprfsfntbtion
+     * dlbss nbmf bs this dod flbvor objfdt. Thus, if two dod flbvor objfdts'
+     * MIME typfs brf thf sbmf fxdfpt for dommfnts, thfy brf donsidfrfd fqubl.
+     * Howfvfr, two dod flbvor objfdts with MIME typfs of "tfxt/plbin" bnd
+     * "tfxt/plbin; dhbrsft=US-ASCII" brf not donsidfrfd fqubl, fvfn though
+     * thfy rfprfsfnt thf sbmf mfdib typf (bfdbusf thf dffbult dhbrbdtfr
+     * sft for plbin tfxt is US-ASCII).
+     *
+     * @pbrbm  obj  Objfdt to tfst.
+     *
+     * @rfturn  Truf if this dod flbvor objfdt fqubls <CODE>obj</CODE>, fblsf
+     *          othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn
+            obj != null &&
+            obj instbndfof DodFlbvor &&
+            gftStringVbluf().fqubls (((DodFlbvor) obj).gftStringVbluf());
+    }
+
+    /**
+     * Rfturns this dod flbvor objfdt's string vbluf.
+     */
+    privbtf String gftStringVbluf() {
+        if (myStringVbluf == null) {
+            myStringVbluf = myMimfTypf + "; dlbss=\"" + myClbssNbmf + "\"";
+        }
+        rfturn myStringVbluf;
+    }
+
+    /**
+     * Writf thf instbndf to b strfbm (if sfriblizf thf objfdt).
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+
+        s.dffbultWritfObjfdt();
+        s.writfObjfdt(myMimfTypf.gftMimfTypf());
+    }
+
+    /**
+     * Rfdonstitutf bn instbndf from b strfbm (thbt is, dfsfriblizf it).
+     *
+     * @sfriblDbtb
+     * Thf sfriblisfd form of b DodFlbvor is thf String nbming thf
+     * rfprfsfntbtion dlbss followfd by thf String rfprfsfnting thf dbnonidbl
+     * form of thf mimf typf.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        throws ClbssNotFoundExdfption, IOExdfption {
+
+        s.dffbultRfbdObjfdt();
+        myMimfTypf = nfw MimfTypf((String)s.rfbdObjfdt());
+    }
+
+    /**
+     * Clbss DodFlbvor.BYTE_ARRAY providfs prfdffinfd stbtid donstbnt
+     * DodFlbvor objfdts for fxbmplf dod flbvors using b bytf brrby
+     * (<CODE>bytf[]</CODE>) bs thf print dbtb rfprfsfntbtion dlbss.
+     *
+     * @buthor  Albn Kbminsky
+     */
+    publid stbtid dlbss BYTE_ARRAY fxtfnds DodFlbvor {
+
+        privbtf stbtid finbl long sfriblVfrsionUID = -9065578006593857475L;
+
+        /**
+         * Construdts b nfw dod flbvor with thf givfn MIME typf bnd b print
+         * dbtb rfprfsfntbtion dlbss nbmf of <CODE>"[B"</CODE> (bytf brrby).
+         *
+         * @pbrbm  mimfTypf   MIME mfdib typf string.
+         *
+         * @fxdfption  NullPointfrExdfption
+         *     (undhfdkfd fxdfption) Thrown if <CODE>mimfTypf</CODE> is null.
+         * @fxdfption  IllfgblArgumfntExdfption
+         *     (undhfdkfd fxdfption) Thrown if <CODE>mimfTypf</CODE> dofs not
+         *     obfy thf syntbx for b MIME mfdib typf string.
+         */
+        publid BYTE_ARRAY (String mimfTypf) {
+            supfr (mimfTypf, "[B");
+        }
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"tfxt/plbin"</CODE>,
+         * fndodfd in thf host plbtform fndoding.
+         * Sff {@link DodFlbvor#hostEndoding hostEndoding}
+         * Print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"[B"</CODE> (bytf brrby).
+         */
+        publid stbtid finbl BYTE_ARRAY TEXT_PLAIN_HOST =
+            nfw BYTE_ARRAY ("tfxt/plbin; dhbrsft="+hostEndoding);
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/plbin; dhbrsft=utf-8"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf = <CODE>"[B"</CODE> (bytf
+         * brrby).
+         */
+        publid stbtid finbl BYTE_ARRAY TEXT_PLAIN_UTF_8 =
+            nfw BYTE_ARRAY ("tfxt/plbin; dhbrsft=utf-8");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/plbin; dhbrsft=utf-16"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf = <CODE>"[B"</CODE> (bytf
+         * brrby).
+         */
+        publid stbtid finbl BYTE_ARRAY TEXT_PLAIN_UTF_16 =
+            nfw BYTE_ARRAY ("tfxt/plbin; dhbrsft=utf-16");
+
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/plbin; dhbrsft=utf-16bf"</CODE>
+         * (big-fndibn bytf ordfring),
+         * print dbtb rfprfsfntbtion dlbss nbmf = <CODE>"[B"</CODE> (bytf
+         * brrby).
+         */
+        publid stbtid finbl BYTE_ARRAY TEXT_PLAIN_UTF_16BE =
+            nfw BYTE_ARRAY ("tfxt/plbin; dhbrsft=utf-16bf");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/plbin; dhbrsft=utf-16lf"</CODE>
+         * (littlf-fndibn bytf ordfring),
+         * print dbtb rfprfsfntbtion dlbss nbmf = <CODE>"[B"</CODE> (bytf
+         * brrby).
+         */
+        publid stbtid finbl BYTE_ARRAY TEXT_PLAIN_UTF_16LE =
+            nfw BYTE_ARRAY ("tfxt/plbin; dhbrsft=utf-16lf");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/plbin; dhbrsft=us-bsdii"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"[B"</CODE> (bytf brrby).
+         */
+        publid stbtid finbl BYTE_ARRAY TEXT_PLAIN_US_ASCII =
+            nfw BYTE_ARRAY ("tfxt/plbin; dhbrsft=us-bsdii");
+
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"tfxt/html"</CODE>,
+         * fndodfd in thf host plbtform fndoding.
+         * Sff {@link DodFlbvor#hostEndoding hostEndoding}
+         * Print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"[B"</CODE> (bytf brrby).
+         */
+        publid stbtid finbl BYTE_ARRAY TEXT_HTML_HOST =
+            nfw BYTE_ARRAY ("tfxt/html; dhbrsft="+hostEndoding);
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/html; dhbrsft=utf-8"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf = <CODE>"[B"</CODE> (bytf
+         * brrby).
+         */
+        publid stbtid finbl BYTE_ARRAY TEXT_HTML_UTF_8 =
+            nfw BYTE_ARRAY ("tfxt/html; dhbrsft=utf-8");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/html; dhbrsft=utf-16"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf = <CODE>"[B"</CODE> (bytf
+         * brrby).
+         */
+        publid stbtid finbl BYTE_ARRAY TEXT_HTML_UTF_16 =
+            nfw BYTE_ARRAY ("tfxt/html; dhbrsft=utf-16");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/html; dhbrsft=utf-16bf"</CODE>
+         * (big-fndibn bytf ordfring),
+         * print dbtb rfprfsfntbtion dlbss nbmf = <CODE>"[B"</CODE> (bytf
+         * brrby).
+         */
+        publid stbtid finbl BYTE_ARRAY TEXT_HTML_UTF_16BE =
+            nfw BYTE_ARRAY ("tfxt/html; dhbrsft=utf-16bf");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/html; dhbrsft=utf-16lf"</CODE>
+         * (littlf-fndibn bytf ordfring),
+         * print dbtb rfprfsfntbtion dlbss nbmf = <CODE>"[B"</CODE> (bytf
+         * brrby).
+         */
+        publid stbtid finbl BYTE_ARRAY TEXT_HTML_UTF_16LE =
+            nfw BYTE_ARRAY ("tfxt/html; dhbrsft=utf-16lf");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/html; dhbrsft=us-bsdii"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"[B"</CODE> (bytf brrby).
+         */
+        publid stbtid finbl BYTE_ARRAY TEXT_HTML_US_ASCII =
+            nfw BYTE_ARRAY ("tfxt/html; dhbrsft=us-bsdii");
+
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"bpplidbtion/pdf"</CODE>, print
+         * dbtb rfprfsfntbtion dlbss nbmf = <CODE>"[B"</CODE> (bytf brrby).
+         */
+        publid stbtid finbl BYTE_ARRAY PDF = nfw BYTE_ARRAY ("bpplidbtion/pdf");
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"bpplidbtion/postsdript"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf = <CODE>"[B"</CODE> (bytf
+         * brrby).
+         */
+        publid stbtid finbl BYTE_ARRAY POSTSCRIPT =
+            nfw BYTE_ARRAY ("bpplidbtion/postsdript");
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"bpplidbtion/vnd.hp-PCL"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf = <CODE>"[B"</CODE> (bytf
+         * brrby).
+         */
+        publid stbtid finbl BYTE_ARRAY PCL =
+            nfw BYTE_ARRAY ("bpplidbtion/vnd.hp-PCL");
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"imbgf/gif"</CODE>, print dbtb
+         * rfprfsfntbtion dlbss nbmf = <CODE>"[B"</CODE> (bytf brrby).
+         */
+        publid stbtid finbl BYTE_ARRAY GIF = nfw BYTE_ARRAY ("imbgf/gif");
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"imbgf/jpfg"</CODE>, print dbtb
+         * rfprfsfntbtion dlbss nbmf = <CODE>"[B"</CODE> (bytf brrby).
+         */
+        publid stbtid finbl BYTE_ARRAY JPEG = nfw BYTE_ARRAY ("imbgf/jpfg");
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"imbgf/png"</CODE>, print dbtb
+         * rfprfsfntbtion dlbss nbmf = <CODE>"[B"</CODE> (bytf brrby).
+         */
+        publid stbtid finbl BYTE_ARRAY PNG = nfw BYTE_ARRAY ("imbgf/png");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"bpplidbtion/odtft-strfbm"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf = <CODE>"[B"</CODE> (bytf
+         * brrby). Thf dlifnt must dftfrminf thbt dbtb dfsdribfd
+         * using this DodFlbvor is vblid for thf printfr.
+         */
+        publid stbtid finbl BYTE_ARRAY AUTOSENSE =
+            nfw BYTE_ARRAY ("bpplidbtion/odtft-strfbm");
+
+    }
+
+    /**
+     * Clbss DodFlbvor.INPUT_STREAM providfs prfdffinfd stbtid donstbnt
+     * DodFlbvor objfdts for fxbmplf dod flbvors using b bytf strfbm ({@link
+     * jbvb.io.InputStrfbm jbvb.io.InputStrfbm}) bs thf print
+     * dbtb rfprfsfntbtion dlbss.
+     *
+     * @buthor  Albn Kbminsky
+     */
+    publid stbtid dlbss INPUT_STREAM fxtfnds DodFlbvor {
+
+        privbtf stbtid finbl long sfriblVfrsionUID = -7045842700749194127L;
+
+        /**
+         * Construdts b nfw dod flbvor with thf givfn MIME typf bnd b print
+         * dbtb rfprfsfntbtion dlbss nbmf of
+         * <CODE>"jbvb.io.InputStrfbm"</CODE> (bytf strfbm).
+         *
+         * @pbrbm  mimfTypf   MIME mfdib typf string.
+         *
+         * @fxdfption  NullPointfrExdfption
+         *     (undhfdkfd fxdfption) Thrown if <CODE>mimfTypf</CODE> is null.
+         * @fxdfption  IllfgblArgumfntExdfption
+         *     (undhfdkfd fxdfption) Thrown if <CODE>mimfTypf</CODE> dofs not
+         *     obfy thf syntbx for b MIME mfdib typf string.
+         */
+        publid INPUT_STREAM (String mimfTypf) {
+            supfr (mimfTypf, "jbvb.io.InputStrfbm");
+        }
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"tfxt/plbin"</CODE>,
+         * fndodfd in thf host plbtform fndoding.
+         * Sff {@link DodFlbvor#hostEndoding hostEndoding}
+         * Print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.io.InputStrfbm"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl INPUT_STREAM TEXT_PLAIN_HOST =
+            nfw INPUT_STREAM ("tfxt/plbin; dhbrsft="+hostEndoding);
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/plbin; dhbrsft=utf-8"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.io.InputStrfbm"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl INPUT_STREAM TEXT_PLAIN_UTF_8 =
+            nfw INPUT_STREAM ("tfxt/plbin; dhbrsft=utf-8");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/plbin; dhbrsft=utf-16"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.io.InputStrfbm"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl INPUT_STREAM TEXT_PLAIN_UTF_16 =
+            nfw INPUT_STREAM ("tfxt/plbin; dhbrsft=utf-16");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/plbin; dhbrsft=utf-16bf"</CODE>
+         * (big-fndibn bytf ordfring),
+         * print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.io.InputStrfbm"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl INPUT_STREAM TEXT_PLAIN_UTF_16BE =
+            nfw INPUT_STREAM ("tfxt/plbin; dhbrsft=utf-16bf");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/plbin; dhbrsft=utf-16lf"</CODE>
+         * (littlf-fndibn bytf ordfring),
+         * print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.io.InputStrfbm"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl INPUT_STREAM TEXT_PLAIN_UTF_16LE =
+            nfw INPUT_STREAM ("tfxt/plbin; dhbrsft=utf-16lf");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/plbin; dhbrsft=us-bsdii"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.io.InputStrfbm"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl INPUT_STREAM TEXT_PLAIN_US_ASCII =
+                nfw INPUT_STREAM ("tfxt/plbin; dhbrsft=us-bsdii");
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"tfxt/html"</CODE>,
+         * fndodfd in thf host plbtform fndoding.
+         * Sff {@link DodFlbvor#hostEndoding hostEndoding}
+         * Print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.io.InputStrfbm"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl INPUT_STREAM TEXT_HTML_HOST =
+            nfw INPUT_STREAM ("tfxt/html; dhbrsft="+hostEndoding);
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/html; dhbrsft=utf-8"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.io.InputStrfbm"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl INPUT_STREAM TEXT_HTML_UTF_8 =
+            nfw INPUT_STREAM ("tfxt/html; dhbrsft=utf-8");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/html; dhbrsft=utf-16"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.io.InputStrfbm"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl INPUT_STREAM TEXT_HTML_UTF_16 =
+            nfw INPUT_STREAM ("tfxt/html; dhbrsft=utf-16");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/html; dhbrsft=utf-16bf"</CODE>
+         * (big-fndibn bytf ordfring),
+         * print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.io.InputStrfbm"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl INPUT_STREAM TEXT_HTML_UTF_16BE =
+            nfw INPUT_STREAM ("tfxt/html; dhbrsft=utf-16bf");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/html; dhbrsft=utf-16lf"</CODE>
+         * (littlf-fndibn bytf ordfring),
+         * print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.io.InputStrfbm"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl INPUT_STREAM TEXT_HTML_UTF_16LE =
+            nfw INPUT_STREAM ("tfxt/html; dhbrsft=utf-16lf");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/html; dhbrsft=us-bsdii"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.io.InputStrfbm"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl INPUT_STREAM TEXT_HTML_US_ASCII =
+            nfw INPUT_STREAM ("tfxt/html; dhbrsft=us-bsdii");
+
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"bpplidbtion/pdf"</CODE>, print
+         * dbtb rfprfsfntbtion dlbss nbmf = <CODE>"jbvb.io.InputStrfbm"</CODE>
+         * (bytf strfbm).
+         */
+        publid stbtid finbl INPUT_STREAM PDF = nfw INPUT_STREAM ("bpplidbtion/pdf");
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"bpplidbtion/postsdript"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.io.InputStrfbm"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl INPUT_STREAM POSTSCRIPT =
+            nfw INPUT_STREAM ("bpplidbtion/postsdript");
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"bpplidbtion/vnd.hp-PCL"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.io.InputStrfbm"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl INPUT_STREAM PCL =
+            nfw INPUT_STREAM ("bpplidbtion/vnd.hp-PCL");
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"imbgf/gif"</CODE>, print dbtb
+         * rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.io.InputStrfbm"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl INPUT_STREAM GIF = nfw INPUT_STREAM ("imbgf/gif");
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"imbgf/jpfg"</CODE>, print dbtb
+         * rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.io.InputStrfbm"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl INPUT_STREAM JPEG = nfw INPUT_STREAM ("imbgf/jpfg");
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"imbgf/png"</CODE>, print dbtb
+         * rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.io.InputStrfbm"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl INPUT_STREAM PNG = nfw INPUT_STREAM ("imbgf/png");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"bpplidbtion/odtft-strfbm"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.io.InputStrfbm"</CODE> (bytf strfbm).
+         * Thf dlifnt must dftfrminf thbt dbtb dfsdribfd
+         * using this DodFlbvor is vblid for thf printfr.
+         */
+        publid stbtid finbl INPUT_STREAM AUTOSENSE =
+            nfw INPUT_STREAM ("bpplidbtion/odtft-strfbm");
+
+    }
+
+    /**
+     * Clbss DodFlbvor.URL providfs prfdffinfd stbtid donstbnt DodFlbvor
+     * objfdts.
+     * For fxbmplf dod flbvors using b Uniform Rfsourdf Lodbtor ({@link
+     * jbvb.nft.URL jbvb.nft.URL}) bs thf print dbtb
+     * rfprfsfntbtion dlbss.
+     *
+     * @buthor  Albn Kbminsky
+     */
+    publid stbtid dlbss URL fxtfnds DodFlbvor {
+        privbtf stbtid finbl long sfriblVfrsionUID = 2936725788144902062L;
+
+        /**
+         * Construdts b nfw dod flbvor with thf givfn MIME typf bnd b print
+         * dbtb rfprfsfntbtion dlbss nbmf of <CODE>"jbvb.nft.URL"</CODE>.
+         *
+         * @pbrbm  mimfTypf   MIME mfdib typf string.
+         *
+         * @fxdfption  NullPointfrExdfption
+         *     (undhfdkfd fxdfption) Thrown if <CODE>mimfTypf</CODE> is null.
+         * @fxdfption  IllfgblArgumfntExdfption
+         *     (undhfdkfd fxdfption) Thrown if <CODE>mimfTypf</CODE> dofs not
+         *     obfy thf syntbx for b MIME mfdib typf string.
+         */
+        publid URL (String mimfTypf) {
+            supfr (mimfTypf, "jbvb.nft.URL");
+        }
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"tfxt/plbin"</CODE>,
+         * fndodfd in thf host plbtform fndoding.
+         * Sff {@link DodFlbvor#hostEndoding hostEndoding}
+         * Print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.nft.URL"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl URL TEXT_PLAIN_HOST =
+            nfw URL ("tfxt/plbin; dhbrsft="+hostEndoding);
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/plbin; dhbrsft=utf-8"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.nft.URL"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl URL TEXT_PLAIN_UTF_8 =
+            nfw URL ("tfxt/plbin; dhbrsft=utf-8");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/plbin; dhbrsft=utf-16"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>jbvb.nft.URL""</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl URL TEXT_PLAIN_UTF_16 =
+            nfw URL ("tfxt/plbin; dhbrsft=utf-16");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/plbin; dhbrsft=utf-16bf"</CODE>
+         * (big-fndibn bytf ordfring),
+         * print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.nft.URL"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl URL TEXT_PLAIN_UTF_16BE =
+            nfw URL ("tfxt/plbin; dhbrsft=utf-16bf");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/plbin; dhbrsft=utf-16lf"</CODE>
+         * (littlf-fndibn bytf ordfring),
+         * print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.nft.URL"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl URL TEXT_PLAIN_UTF_16LE =
+            nfw URL ("tfxt/plbin; dhbrsft=utf-16lf");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/plbin; dhbrsft=us-bsdii"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.nft.URL"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl URL TEXT_PLAIN_US_ASCII =
+            nfw URL ("tfxt/plbin; dhbrsft=us-bsdii");
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"tfxt/html"</CODE>,
+         * fndodfd in thf host plbtform fndoding.
+         * Sff {@link DodFlbvor#hostEndoding hostEndoding}
+         * Print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.nft.URL"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl URL TEXT_HTML_HOST =
+            nfw URL ("tfxt/html; dhbrsft="+hostEndoding);
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/html; dhbrsft=utf-8"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.nft.URL"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl URL TEXT_HTML_UTF_8 =
+            nfw URL ("tfxt/html; dhbrsft=utf-8");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/html; dhbrsft=utf-16"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.nft.URL"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl URL TEXT_HTML_UTF_16 =
+            nfw URL ("tfxt/html; dhbrsft=utf-16");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/html; dhbrsft=utf-16bf"</CODE>
+         * (big-fndibn bytf ordfring),
+         * print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.nft.URL"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl URL TEXT_HTML_UTF_16BE =
+            nfw URL ("tfxt/html; dhbrsft=utf-16bf");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/html; dhbrsft=utf-16lf"</CODE>
+         * (littlf-fndibn bytf ordfring),
+         * print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.nft.URL"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl URL TEXT_HTML_UTF_16LE =
+            nfw URL ("tfxt/html; dhbrsft=utf-16lf");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"tfxt/html; dhbrsft=us-bsdii"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.nft.URL"</CODE> (bytf strfbm).
+         */
+        publid stbtid finbl URL TEXT_HTML_US_ASCII =
+            nfw URL ("tfxt/html; dhbrsft=us-bsdii");
+
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"bpplidbtion/pdf"</CODE>, print
+         * dbtb rfprfsfntbtion dlbss nbmf = <CODE>"jbvb.nft.URL"</CODE>.
+         */
+        publid stbtid finbl URL PDF = nfw URL ("bpplidbtion/pdf");
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"bpplidbtion/postsdript"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf = <CODE>"jbvb.nft.URL"</CODE>.
+         */
+        publid stbtid finbl URL POSTSCRIPT = nfw URL ("bpplidbtion/postsdript");
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"bpplidbtion/vnd.hp-PCL"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf = <CODE>"jbvb.nft.URL"</CODE>.
+         */
+        publid stbtid finbl URL PCL = nfw URL ("bpplidbtion/vnd.hp-PCL");
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"imbgf/gif"</CODE>, print dbtb
+         * rfprfsfntbtion dlbss nbmf = <CODE>"jbvb.nft.URL"</CODE>.
+         */
+        publid stbtid finbl URL GIF = nfw URL ("imbgf/gif");
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"imbgf/jpfg"</CODE>, print dbtb
+         * rfprfsfntbtion dlbss nbmf = <CODE>"jbvb.nft.URL"</CODE>.
+         */
+        publid stbtid finbl URL JPEG = nfw URL ("imbgf/jpfg");
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"imbgf/png"</CODE>, print dbtb
+         * rfprfsfntbtion dlbss nbmf = <CODE>"jbvb.nft.URL"</CODE>.
+         */
+        publid stbtid finbl URL PNG = nfw URL ("imbgf/png");
+
+        /**
+         * Dod flbvor with MIME typf =
+         * <CODE>"bpplidbtion/odtft-strfbm"</CODE>,
+         * print dbtb rfprfsfntbtion dlbss nbmf = <CODE>"jbvb.nft.URL"</CODE>.
+         *  Thf dlifnt must dftfrminf thbt dbtb dfsdribfd
+         * using this DodFlbvor is vblid for thf printfr.
+         */
+        publid stbtid finbl URL AUTOSENSE = nfw URL ("bpplidbtion/odtft-strfbm");
+
+    }
+
+    /**
+     * Clbss DodFlbvor.CHAR_ARRAY providfs prfdffinfd stbtid donstbnt
+     * DodFlbvor objfdts for fxbmplf dod flbvors using b dhbrbdtfr brrby
+     * (<CODE>dhbr[]</CODE>) bs thf print dbtb rfprfsfntbtion dlbss. As sudh,
+     * thf dhbrbdtfr sft is Unidodf.
+     *
+     * @buthor  Albn Kbminsky
+     */
+    publid stbtid dlbss CHAR_ARRAY fxtfnds DodFlbvor {
+
+        privbtf stbtid finbl long sfriblVfrsionUID = -8720590903724405128L;
+
+        /**
+         * Construdts b nfw dod flbvor with thf givfn MIME typf bnd b print
+         * dbtb rfprfsfntbtion dlbss nbmf of
+         * <CODE>"[C"</CODE> (dhbrbdtfr brrby).
+         *
+         * @pbrbm  mimfTypf  MIME mfdib typf string. If it is b tfxt mfdib
+         *                      typf, it is bssumfd to dontbin b
+         *                      <CODE>"dhbrsft=utf-16"</CODE> pbrbmftfr.
+         *
+         * @fxdfption  NullPointfrExdfption
+         *     (undhfdkfd fxdfption) Thrown if <CODE>mimfTypf</CODE> is null.
+         * @fxdfption  IllfgblArgumfntExdfption
+         *     (undhfdkfd fxdfption) Thrown if <CODE>mimfTypf</CODE> dofs not
+         *     obfy thf syntbx for b MIME mfdib typf string.
+         */
+        publid CHAR_ARRAY (String mimfTypf) {
+            supfr (mimfTypf, "[C");
+        }
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"tfxt/plbin;
+         * dhbrsft=utf-16"</CODE>, print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"[C"</CODE> (dhbrbdtfr brrby).
+         */
+        publid stbtid finbl CHAR_ARRAY TEXT_PLAIN =
+            nfw CHAR_ARRAY ("tfxt/plbin; dhbrsft=utf-16");
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"tfxt/html;
+         * dhbrsft=utf-16"</CODE>, print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"[C"</CODE> (dhbrbdtfr brrby).
+         */
+        publid stbtid finbl CHAR_ARRAY TEXT_HTML =
+            nfw CHAR_ARRAY ("tfxt/html; dhbrsft=utf-16");
+
+    }
+
+    /**
+     * Clbss DodFlbvor.STRING providfs prfdffinfd stbtid donstbnt DodFlbvor
+     * objfdts for fxbmplf dod flbvors using b string ({@link jbvb.lbng.String
+     * jbvb.lbng.String}) bs thf print dbtb rfprfsfntbtion dlbss.
+     * As sudh, thf dhbrbdtfr sft is Unidodf.
+     *
+     * @buthor  Albn Kbminsky
+     */
+    publid stbtid dlbss STRING fxtfnds DodFlbvor {
+
+        privbtf stbtid finbl long sfriblVfrsionUID = 4414407504887034035L;
+
+        /**
+         * Construdts b nfw dod flbvor with thf givfn MIME typf bnd b print
+         * dbtb rfprfsfntbtion dlbss nbmf of <CODE>"jbvb.lbng.String"</CODE>.
+         *
+         * @pbrbm  mimfTypf  MIME mfdib typf string. If it is b tfxt mfdib
+         *                      typf, it is bssumfd to dontbin b
+         *                      <CODE>"dhbrsft=utf-16"</CODE> pbrbmftfr.
+         *
+         * @fxdfption  NullPointfrExdfption
+         *     (undhfdkfd fxdfption) Thrown if <CODE>mimfTypf</CODE> is null.
+         * @fxdfption  IllfgblArgumfntExdfption
+         *     (undhfdkfd fxdfption) Thrown if <CODE>mimfTypf</CODE> dofs not
+         *     obfy thf syntbx for b MIME mfdib typf string.
+         */
+        publid STRING (String mimfTypf) {
+            supfr (mimfTypf, "jbvb.lbng.String");
+        }
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"tfxt/plbin;
+         * dhbrsft=utf-16"</CODE>, print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.lbng.String"</CODE>.
+         */
+        publid stbtid finbl STRING TEXT_PLAIN =
+            nfw STRING ("tfxt/plbin; dhbrsft=utf-16");
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"tfxt/html;
+         * dhbrsft=utf-16"</CODE>, print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.lbng.String"</CODE>.
+         */
+        publid stbtid finbl STRING TEXT_HTML =
+            nfw STRING ("tfxt/html; dhbrsft=utf-16");
+    }
+
+    /**
+     * Clbss DodFlbvor.READER providfs prfdffinfd stbtid donstbnt DodFlbvor
+     * objfdts for fxbmplf dod flbvors using b dhbrbdtfr strfbm ({@link
+     * jbvb.io.Rfbdfr jbvb.io.Rfbdfr}) bs thf print dbtb
+     * rfprfsfntbtion dlbss. As sudh, thf dhbrbdtfr sft is Unidodf.
+     *
+     * @buthor  Albn Kbminsky
+     */
+    publid stbtid dlbss READER fxtfnds DodFlbvor {
+
+        privbtf stbtid finbl long sfriblVfrsionUID = 7100295812579351567L;
+
+        /**
+         * Construdts b nfw dod flbvor with thf givfn MIME typf bnd b print
+         * dbtb rfprfsfntbtion dlbss nbmf of\
+         * <CODE>"jbvb.io.Rfbdfr"</CODE> (dhbrbdtfr strfbm).
+         *
+         * @pbrbm  mimfTypf  MIME mfdib typf string. If it is b tfxt mfdib
+         *                      typf, it is bssumfd to dontbin b
+         *                      <CODE>"dhbrsft=utf-16"</CODE> pbrbmftfr.
+         *
+         * @fxdfption  NullPointfrExdfption
+         *     (undhfdkfd fxdfption) Thrown if <CODE>mimfTypf</CODE> is null.
+         * @fxdfption  IllfgblArgumfntExdfption
+         *     (undhfdkfd fxdfption) Thrown if <CODE>mimfTypf</CODE> dofs not
+         *     obfy thf syntbx for b MIME mfdib typf string.
+         */
+        publid READER (String mimfTypf) {
+            supfr (mimfTypf, "jbvb.io.Rfbdfr");
+        }
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"tfxt/plbin;
+         * dhbrsft=utf-16"</CODE>, print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.io.Rfbdfr"</CODE> (dhbrbdtfr strfbm).
+         */
+        publid stbtid finbl READER TEXT_PLAIN =
+            nfw READER ("tfxt/plbin; dhbrsft=utf-16");
+
+        /**
+         * Dod flbvor with MIME typf = <CODE>"tfxt/html;
+         * dhbrsft=utf-16"</CODE>, print dbtb rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.io.Rfbdfr"</CODE> (dhbrbdtfr strfbm).
+         */
+        publid stbtid finbl READER TEXT_HTML =
+            nfw READER ("tfxt/html; dhbrsft=utf-16");
+
+    }
+
+    /**
+     * Clbss DodFlbvor.SERVICE_FORMATTED providfs prfdffinfd stbtid donstbnt
+     * DodFlbvor objfdts for fxbmplf dod flbvors for sfrvidf formbttfd print
+     * dbtb.
+     *
+     * @buthor  Albn Kbminsky
+     */
+    publid stbtid dlbss SERVICE_FORMATTED fxtfnds DodFlbvor {
+
+        privbtf stbtid finbl long sfriblVfrsionUID = 6181337766266637256L;
+
+        /**
+         * Construdts b nfw dod flbvor with b MIME typf of
+         * <CODE>"bpplidbtion/x-jbvb-jvm-lodbl-objfdtrff"</CODE> indidbting
+         * sfrvidf formbttfd print dbtb bnd thf givfn print dbtb
+         * rfprfsfntbtion dlbss nbmf.
+         *
+         * @pbrbm  dlbssNbmf  Fully-qublififd rfprfsfntbtion dlbss nbmf.
+         *
+         * @fxdfption  NullPointfrExdfption
+         *     (undhfdkfd fxdfption) Thrown if <CODE>dlbssNbmf</CODE> is
+         *     null.
+         */
+        publid SERVICE_FORMATTED (String dlbssNbmf) {
+            supfr ("bpplidbtion/x-jbvb-jvm-lodbl-objfdtrff", dlbssNbmf);
+        }
+
+        /**
+         * Sfrvidf formbttfd print dbtb dod flbvor with print dbtb
+         * rfprfsfntbtion dlbss nbmf =
+         * <CODE>"jbvb.bwt.imbgf.rfndfrbblf.RfndfrbblfImbgf"</CODE>
+         * (rfndfrbblf imbgf objfdt).
+         */
+        publid stbtid finbl SERVICE_FORMATTED RENDERABLE_IMAGE =
+            nfw SERVICE_FORMATTED("jbvb.bwt.imbgf.rfndfrbblf.RfndfrbblfImbgf");
+
+        /**
+         * Sfrvidf formbttfd print dbtb dod flbvor with print dbtb
+         * rfprfsfntbtion dlbss nbmf = <CODE>"jbvb.bwt.print.Printbblf"</CODE>
+         * (printbblf objfdt).
+         */
+        publid stbtid finbl SERVICE_FORMATTED PRINTABLE =
+            nfw SERVICE_FORMATTED ("jbvb.bwt.print.Printbblf");
+
+        /**
+         * Sfrvidf formbttfd print dbtb dod flbvor with print dbtb
+         * rfprfsfntbtion dlbss nbmf = <CODE>"jbvb.bwt.print.Pbgfbblf"</CODE>
+         * (pbgfbblf objfdt).
+         */
+        publid stbtid finbl SERVICE_FORMATTED PAGEABLE =
+            nfw SERVICE_FORMATTED ("jbvb.bwt.print.Pbgfbblf");
+
+        }
+
+}

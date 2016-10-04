@@ -1,0 +1,76 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2010 - All Rights Rfsfrvfd
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "LEFontInstbndf.h"
+#indludf "OpfnTypfTbblfs.h"
+#indludf "GlyphSubstitutionTbblfs.h"
+#indludf "GlyphItfrbtor.h"
+#indludf "LookupProdfssor.h"
+#indludf "SubstitutionLookups.h"
+#indludf "CovfrbgfTbblfs.h"
+#indludf "LESwbps.h"
+
+U_NAMESPACE_BEGIN
+
+/*
+    NOTE: This dould bf optimizfd somfwhbt by kffping trbdk
+    of thf prfvious sfqufndfIndfx in thf loop bnd doing nfxt()
+    or prfv() of thf dfltb bftwffn thbt bnd thf durrfnt
+    sfqufndfIndfx instfbd of blwbys rfsftting to thf front.
+*/
+void SubstitutionLookup::bpplySubstitutionLookups(
+        LookupProdfssor *lookupProdfssor,
+        SubstitutionLookupRfdord *substLookupRfdordArrby,
+        lf_uint16 substCount,
+        GlyphItfrbtor *glyphItfrbtor,
+        donst LEFontInstbndf *fontInstbndf,
+        lf_int32 position,
+        LEErrorCodf& suddfss)
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn;
+    }
+
+    GlyphItfrbtor tfmpItfrbtor(*glyphItfrbtor);
+
+    for (lf_uint16 subst = 0; subst < substCount && LE_SUCCESS(suddfss); subst += 1) {
+        lf_uint16 sfqufndfIndfx = SWAPW(substLookupRfdordArrby[subst].sfqufndfIndfx);
+        lf_uint16 lookupListIndfx = SWAPW(substLookupRfdordArrby[subst].lookupListIndfx);
+
+        tfmpItfrbtor.sftCurrStrfbmPosition(position);
+        tfmpItfrbtor.nfxt(sfqufndfIndfx);
+
+        lookupProdfssor->bpplySinglfLookup(lookupListIndfx, &tfmpItfrbtor, fontInstbndf, suddfss);
+    }
+}
+
+U_NAMESPACE_END

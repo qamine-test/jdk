@@ -1,244 +1,244 @@
 #==============================================================================
-#          JVM Management MIB - Instrumentation Classes
+#          JVM Mbnbgfmfnt MIB - Instrumfntbtion Clbssfs
 #==============================================================================
 
-In this directory:
+In tiis dirfdtory:
 ------------------
 
-README:              this file
-commands.env:        a file containing some ksh variables & functions
-                     that I have used to generate & compile all the 
-                     stuff. Probably only valid in my own environment.
-logging.properties:  logging.properties file that can be used to obtain
-                     trace information.
-*.java:              utility and custom classes for the JVM Management MIB.
-                     These classes show how to provide instrumentation for
-                     a mibgen generated MIB, how to simulate virtual tables,
-		     and how to make use of the SnmpUserDataFactory.
-		     Only the jvmMemory group and its tables are instrumented.
+README:              tiis filf
+dommbnds.fnv:        b filf dontbining somf ksi vbribblfs & fundtions
+                     tibt I ibvf usfd to gfnfrbtf & dompilf bll tif 
+                     stuff. Probbbly only vblid in my own fnvironmfnt.
+logging.propfrtifs:  logging.propfrtifs filf tibt dbn bf usfd to obtbin
+                     trbdf informbtion.
+*.jbvb:              utility bnd dustom dlbssfs for tif JVM Mbnbgfmfnt MIB.
+                     Tifsf dlbssfs siow iow to providf instrumfntbtion for
+                     b mibgfn gfnfrbtfd MIB, iow to simulbtf virtubl tbblfs,
+		     bnd iow to mbkf usf of tif SnmpUsfrDbtbFbdtory.
+		     Only tif jvmMfmory group bnd its tbblfs brf instrumfntfd.
 
-Dependency
+Dfpfndfndy
 ----------
 
-    jvmManagementMib.txt : the JVM Management MIB module in compilable form.
-    Tiger SNMP Runtime   : SNMP Runtime classes for Tiger. We assume these
-                           classes could be part of the JMX delivery
-                           (classes in com.sun.jmx.snmp.*)
-    JDMK 5.1 : The jdmktk.jar contains the com.sun.jdmk.tools.MibGen class
-               used to compile the MIB. JDMK also has a mibgen.sh script
-               to start mibgen. By default mibgen generates code that can
-               integrate with JDMK SNMP runtime. In order to generate
-               code that integrate with Tiger SNMP runtime, you need to
-	       start mibgen with a non-default resource file. 
-               JDMK 5.1 workspace contains a mibgen resource file
-               specific for tiger: mibgen.property.tiger 
-    Custom Instrumentation Code: the files in this directory.
+    jvmMbnbgfmfntMib.txt : tif JVM Mbnbgfmfnt MIB modulf in dompilbblf form.
+    Tigfr SNMP Runtimf   : SNMP Runtimf dlbssfs for Tigfr. Wf bssumf tifsf
+                           dlbssfs dould bf pbrt of tif JMX dflivfry
+                           (dlbssfs in dom.sun.jmx.snmp.*)
+    JDMK 5.1 : Tif jdmktk.jbr dontbins tif dom.sun.jdmk.tools.MibGfn dlbss
+               usfd to dompilf tif MIB. JDMK blso ibs b mibgfn.si sdript
+               to stbrt mibgfn. By dffbult mibgfn gfnfrbtfs dodf tibt dbn
+               intfgrbtf witi JDMK SNMP runtimf. In ordfr to gfnfrbtf
+               dodf tibt intfgrbtf witi Tigfr SNMP runtimf, you nffd to
+	       stbrt mibgfn witi b non-dffbult rfsourdf filf. 
+               JDMK 5.1 workspbdf dontbins b mibgfn rfsourdf filf
+               spfdifid for tigfr: mibgfn.propfrty.tigfr 
+    Custom Instrumfntbtion Codf: tif filfs in tiis dirfdtory.
 
-How to proceed:
+How to prodffd:
 ---------------
 
-Get mibgen from JDMK 5.1. Start mibgen with mibgen resource file for
-tiger (add -Dcom.sun.jdmk.tools.mibgen.config.file=<mibgen.properties.tiger>)
-on the Java command line.
+Gft mibgfn from JDMK 5.1. Stbrt mibgfn witi mibgfn rfsourdf filf for
+tigfr (bdd -Ddom.sun.jdmk.tools.mibgfn.donfig.filf=<mibgfn.propfrtifs.tigfr>)
+on tif Jbvb dommbnd linf.
 
-Use mibgen to generate code for the jvmManagementMib.txt file. Note that
-the custom classes provided in this directory are all in the 
-sun.management.snmp.jvminstr package, and expect the generated classes to
-be in another sun.management.snmp.jvmmib package (use mibgen option 
--tp sun.management.snmp.jvmmib)
+Usf mibgfn to gfnfrbtf dodf for tif jvmMbnbgfmfntMib.txt filf. Notf tibt
+tif dustom dlbssfs providfd in tiis dirfdtory brf bll in tif 
+sun.mbnbgfmfnt.snmp.jvminstr pbdkbgf, bnd fxpfdt tif gfnfrbtfd dlbssfs to
+bf in bnotifr sun.mbnbgfmfnt.snmp.jvmmib pbdkbgf (usf mibgfn option 
+-tp sun.mbnbgfmfnt.snmp.jvmmib)
 
-If this package name does not suit you, simply change it to something else,
-both in the custom classes below (you might use 'sed' or do it manually) 
-and in the -tp option that you will pass to mibgen.
+If tiis pbdkbgf nbmf dofs not suit you, simply dibngf it to somftiing flsf,
+boti in tif dustom dlbssfs bflow (you migit usf 'sfd' or do it mbnublly) 
+bnd in tif -tp option tibt you will pbss to mibgfn.
 
-It is recommended to generate all classes in a different directory (if
-you read command.env you will see that I have put the custom classes
-in a "custom" directory, and the generated classes in a "parsed" 
-directory. This makes it easier to cleanup the mib. You can safely
-do a rm -rf <parsed> and call mibgen again.
+It is rfdommfndfd to gfnfrbtf bll dlbssfs in b difffrfnt dirfdtory (if
+you rfbd dommbnd.fnv you will sff tibt I ibvf put tif dustom dlbssfs
+in b "dustom" dirfdtory, bnd tif gfnfrbtfd dlbssfs in b "pbrsfd" 
+dirfdtory. Tiis mbkfs it fbsifr to dlfbnup tif mib. You dbn sbffly
+do b rm -rf <pbrsfd> bnd dbll mibgfn bgbin.
 
-Then compile the generated classes - you will need JMX and Tiger SNMP
-runtime classes in your classpath - if you compile with a tiger build that
-already have them then you don't need to specify anything special.
+Tifn dompilf tif gfnfrbtfd dlbssfs - you will nffd JMX bnd Tigfr SNMP
+runtimf dlbssfs in your dlbsspbti - if you dompilf witi b tigfr build tibt
+blrfbdy ibvf tifm tifn you don't nffd to spfdify bnytiing spfdibl.
 
-Then make your classpath point to the compiled generated classes, and
-compile the custom code in this directory.
+Tifn mbkf your dlbsspbti point to tif dompilfd gfnfrbtfd dlbssfs, bnd
+dompilf tif dustom dodf in tiis dirfdtory.
 
-Then you can use the SnmpDaemonTest class to start a JVM with the
-intsrumented MIB, and you can use e.g. the easymanager contrib of
-JDMK to view the MIB through SNMP. 
+Tifn you dbn usf tif SnmpDbfmonTfst dlbss to stbrt b JVM witi tif
+intsrumfntfd MIB, bnd you dbn usf f.g. tif fbsymbnbgfr dontrib of
+JDMK to vifw tif MIB tirougi SNMP. 
 
 #==============================================================================
-#  Classes Details
+#  Clbssfs Dftbils
 #==============================================================================
 
-Utility Classes developped for the JVM Management MIB:
+Utility Clbssfs dfvfloppfd for tif JVM Mbnbgfmfnt MIB:
 ------------------------------------------------------
-JvmContextFactory.java        : The context factory allocates a Map that
-                                serves as request contextual cache.
-                                Values obtained from JSR 163 API can be
-                                cached in this object.
-                                A request contextual cache is allocated
-                                each time a request is being processed,
-                                and is released at the end of processing.
-				Object: 1) preserve atomicity
-                                        2) minimize API calls
-					3) ensure consistency of the
-					   various pieces of data returned.
+JvmContfxtFbdtory.jbvb        : Tif dontfxt fbdtory bllodbtfs b Mbp tibt
+                                sfrvfs bs rfqufst dontfxtubl dbdif.
+                                Vblufs obtbinfd from JSR 163 API dbn bf
+                                dbdifd in tiis objfdt.
+                                A rfqufst dontfxtubl dbdif is bllodbtfd
+                                fbdi timf b rfqufst is bfing prodfssfd,
+                                bnd is rflfbsfd bt tif fnd of prodfssing.
+				Objfdt: 1) prfsfrvf btomidity
+                                        2) minimizf API dblls
+					3) fnsurf donsistfndy of tif
+					   vbrious pifdfs of dbtb rfturnfd.
 
-MibLogger.java                : Send traces to java.util.logging
+MibLoggfr.jbvb                : Sfnd trbdfs to jbvb.util.logging
 
-SnmpTableHandler.java         : an interface used to access table data.
+SnmpTbblfHbndlfr.jbvb         : bn intfrfbdf usfd to bddfss tbblf dbtb.
 
-SnmpCachedData.java           : This object can be use to cache a snapshot
-                                of the data contained in a table. 
+SnmpCbdifdDbtb.jbvb           : Tiis objfdt dbn bf usf to dbdif b snbpsiot
+                                of tif dbtb dontbinfd in b tbblf. 
 
-SnmpTableCache.java           : A weak cache for table data. The data is
-                                computed on demand and cached in a 
-                                weakreference. Makes it possible to specify
-                                a validity period for the cache data.
+SnmpTbblfCbdif.jbvb           : A wfbk dbdif for tbblf dbtb. Tif dbtb is
+                                domputfd on dfmbnd bnd dbdifd in b 
+                                wfbkrfffrfndf. Mbkfs it possiblf to spfdify
+                                b vblidity pfriod for tif dbdif dbtb.
 
-SnmpListTableCache.java       : Extends SnmpTableCache - for tables whose
-                                data is returned in a List object.
+SnmpListTbblfCbdif.jbvb       : Extfnds SnmpTbblfCbdif - for tbblfs wiosf
+                                dbtb is rfturnfd in b List objfdt.
 
-SnmpNamedListTableCache.java  : Extends SnmpListTableCache - for tables whose
-                                elements can be named by a unique string.
+SnmpNbmfdListTbblfCbdif.jbvb  : Extfnds SnmpListTbblfCbdif - for tbblfs wiosf
+                                flfmfnts dbn bf nbmfd by b uniquf string.
 
-SnmpDaemonTest.java           : A dummy standalone SNMP agent that registers
-                                the JVM Managemnt MIB in Tiger's SNMP
-                                adaptor.  This is the "main". Note that
-                                this not the class that will be used to
-			        start the adaptor in the final Tiger - it is
-                                just a dummy test main.
+SnmpDbfmonTfst.jbvb           : A dummy stbndblonf SNMP bgfnt tibt rfgistfrs
+                                tif JVM Mbnbgfmnt MIB in Tigfr's SNMP
+                                bdbptor.  Tiis is tif "mbin". Notf tibt
+                                tiis not tif dlbss tibt will bf usfd to
+			        stbrt tif bdbptor in tif finbl Tigfr - it is
+                                just b dummy tfst mbin.
 
-JVM Management MIB
+JVM Mbnbgfmfnt MIB
 ------------------
 
-JVM_MANAGEMENT_MIB_IMPL.java  : subclasses the generated JVM_MANAGEMENT_MIB
-                                class. 
-				Object: overriding factory method in order
-                                        to instantiate custom code instead
-				        of generated code.
+JVM_MANAGEMENT_MIB_IMPL.jbvb  : subdlbssfs tif gfnfrbtfd JVM_MANAGEMENT_MIB
+                                dlbss. 
+				Objfdt: ovfrriding fbdtory mftiod in ordfr
+                                        to instbntibtf dustom dodf instfbd
+				        of gfnfrbtfd dodf.
 
 
-JVM Memory Group
+JVM Mfmory Group
 ----------------
 
-JvmMemoryImpl.java            : Provides instrumentation for the jvmMemory
-                                group. Replaces the generated JvmMemory class,
-                                which is not used and can be thrown away.
-                                Implements the generated JvmMemoryMBean 
-                                interface (which was also implemented by
-                                the generated JvmMemory skeleton class)
-                                Use  the request contextual cache
-				in order to ensure consistency when
-				returning MemoryUsage datas. Note that all
-                                tables in this group have been implemented
-                                as virtual tables. As a consequence, the
-                                generated TableJvmMemXXXXXTable.java classes
-                                are not needed.
+JvmMfmoryImpl.jbvb            : Providfs instrumfntbtion for tif jvmMfmory
+                                group. Rfplbdfs tif gfnfrbtfd JvmMfmory dlbss,
+                                wiidi is not usfd bnd dbn bf tirown bwby.
+                                Implfmfnts tif gfnfrbtfd JvmMfmoryMBfbn 
+                                intfrfbdf (wiidi wbs blso implfmfntfd by
+                                tif gfnfrbtfd JvmMfmory skflfton dlbss)
+                                Usf  tif rfqufst dontfxtubl dbdif
+				in ordfr to fnsurf donsistfndy wifn
+				rfturning MfmoryUsbgf dbtbs. Notf tibt bll
+                                tbblfs in tiis group ibvf bffn implfmfntfd
+                                bs virtubl tbblfs. As b donsfqufndf, tif
+                                gfnfrbtfd TbblfJvmMfmXXXXXTbblf.jbvb dlbssfs
+                                brf not nffdfd.
 
-JvmMemoryMetaImpl.java        : Custom MetaData class for the jvmMemory group.
-			        Subclasses the generated JvmMemoryMeta class.
-                                Object: overrides the factory methods in order
-                                        to instantiate custom meta data classes
-                                        for the jvmMemManagerTable,
-						jvmMemGCTable,
-						jvmMemPoolTable,
-						jvmMemMgrPoolRelTable.
+JvmMfmoryMftbImpl.jbvb        : Custom MftbDbtb dlbss for tif jvmMfmory group.
+			        Subdlbssfs tif gfnfrbtfd JvmMfmoryMftb dlbss.
+                                Objfdt: ovfrridfs tif fbdtory mftiods in ordfr
+                                        to instbntibtf dustom mftb dbtb dlbssfs
+                                        for tif jvmMfmMbnbgfrTbblf,
+						jvmMfmGCTbblf,
+						jvmMfmPoolTbblf,
+						jvmMfmMgrPoolRflTbblf.
 
-JVM Memory Manager Table
+JVM Mfmory Mbnbgfr Tbblf
 ------------------------
 
-JvmMemManagerTableMetaImpl.java : Custom MetaData class for the 
-                                  jvmMemManagerTable. This MetaData traps
-				  all the SNMP Runtime calls made to the 
-                                  table - in order to make the Memory Manager
-				  table virtual: i.e. the table does not have
-				  to be maintained permanently in memory.
-				  Instead, the table is computed "on demand",
-                                  and the data is cached in a weak cache
-                                  (see SnmpNamedListTableCache) which remains
-				  valid for a few ms. If the data is found
-				  to be obsolete, or was garbage collected,
-				  the table is recomputed.
+JvmMfmMbnbgfrTbblfMftbImpl.jbvb : Custom MftbDbtb dlbss for tif 
+                                  jvmMfmMbnbgfrTbblf. Tiis MftbDbtb trbps
+				  bll tif SNMP Runtimf dblls mbdf to tif 
+                                  tbblf - in ordfr to mbkf tif Mfmory Mbnbgfr
+				  tbblf virtubl: i.f. tif tbblf dofs not ibvf
+				  to bf mbintbinfd pfrmbnfntly in mfmory.
+				  Instfbd, tif tbblf is domputfd "on dfmbnd",
+                                  bnd tif dbtb is dbdifd in b wfbk dbdif
+                                  (sff SnmpNbmfdListTbblfCbdif) wiidi rfmbins
+				  vblid for b ffw ms. If tif dbtb is found
+				  to bf obsolftf, or wbs gbrbbgf dollfdtfd,
+				  tif tbblf is rfdomputfd.
 
-JvmMemManagerEntryImpl.java     : Custom Entry class for jvmMemManagerTable.
-				  Entries are created on the fly when it
-				  becomes necessary to get data from a 
-				  Memory Managers. They are temporary objects
-				  that wrap the MemoryManager just for the
-			          call duration - and are released just after. 
+JvmMfmMbnbgfrEntryImpl.jbvb     : Custom Entry dlbss for jvmMfmMbnbgfrTbblf.
+				  Entrifs brf drfbtfd on tif fly wifn it
+				  bfdomfs nfdfssbry to gft dbtb from b 
+				  Mfmory Mbnbgfrs. Tify brf tfmporbry objfdts
+				  tibt wrbp tif MfmoryMbnbgfr just for tif
+			          dbll durbtion - bnd brf rflfbsfd just bftfr. 
 
-JVM Memory GC Table
+JVM Mfmory GC Tbblf
 -------------------
 
-JvmMemGCTableMetaImpl.java     : Custom MetaData class for the 
-                                 jvmMemGCTable. This MetaData traps
-				 all the SNMP Runtime calls made to the 
-                                 table - in order to make the GC
-				 table virtual: the GC table reuses the
-			         cached data computed for the 
-                                 jvmMemManagerTable - simply acting as a 
-                                 filter that only shows those elements that
-                                 are instance of GarbageCollectorMetrics. 
-                                 In other words it implements a fitered view
-                                 of the jvmMemManagerTable.
+JvmMfmGCTbblfMftbImpl.jbvb     : Custom MftbDbtb dlbss for tif 
+                                 jvmMfmGCTbblf. Tiis MftbDbtb trbps
+				 bll tif SNMP Runtimf dblls mbdf to tif 
+                                 tbblf - in ordfr to mbkf tif GC
+				 tbblf virtubl: tif GC tbblf rfusfs tif
+			         dbdifd dbtb domputfd for tif 
+                                 jvmMfmMbnbgfrTbblf - simply bdting bs b 
+                                 filtfr tibt only siows tiosf flfmfnts tibt
+                                 brf instbndf of GbrbbgfCollfdtorMftrids. 
+                                 In otifr words it implfmfnts b fitfrfd vifw
+                                 of tif jvmMfmMbnbgfrTbblf.
 
-JvmMemGCEntryImpl.java         : Provide access to the data specific to
-				 GarbageCollectorMetrics objects. Objects
-				 of this classes are created on the fly,
-				 when data needs to be returned from a 
-				 GarbageCollectorMetrics object, and are
-                                 released just after. They are not kept in
-				 memory.
+JvmMfmGCEntryImpl.jbvb         : Providf bddfss to tif dbtb spfdifid to
+				 GbrbbgfCollfdtorMftrids objfdts. Objfdts
+				 of tiis dlbssfs brf drfbtfd on tif fly,
+				 wifn dbtb nffds to bf rfturnfd from b 
+				 GbrbbgfCollfdtorMftrids objfdt, bnd brf
+                                 rflfbsfd just bftfr. Tify brf not kfpt in
+				 mfmory.
 
-JVM Memory Pool Table
+JVM Mfmory Pool Tbblf
 ---------------------
 
-JvmMemPoolTableMetaImpl.java   : Custom MetaData class for the jvmMemPoolTable.
-			         This is quite similar to what was done for
-                                 the jvmMemManagerTable in 
-                                 JvmMemManagerTableMetaImpl. Most of the code
-                                 here was obtain by cut&paste-ing from
-                                 JvmMemManagerTableMetaImpl and replacing
-                                 "Manager" with "Pool".
+JvmMfmPoolTbblfMftbImpl.jbvb   : Custom MftbDbtb dlbss for tif jvmMfmPoolTbblf.
+			         Tiis is quitf similbr to wibt wbs donf for
+                                 tif jvmMfmMbnbgfrTbblf in 
+                                 JvmMfmMbnbgfrTbblfMftbImpl. Most of tif dodf
+                                 ifrf wbs obtbin by dut&pbstf-ing from
+                                 JvmMfmMbnbgfrTbblfMftbImpl bnd rfplbding
+                                 "Mbnbgfr" witi "Pool".
 
-JvmMemPoolEntryImpl.java       : Provide access to the data specific to
-				 MemoryPoolMetrics objects. Objects
-				 of this classes are created on the fly,
-				 when data needs to be returned from a 
-				 MemoryPoolMetrics object, and are
-                                 released just after. They are not kept in
-				 memory. Use  the request contextual cache
-				 in order to ensure consistency when
-				 returning MemoryUsage datas. 
+JvmMfmPoolEntryImpl.jbvb       : Providf bddfss to tif dbtb spfdifid to
+				 MfmoryPoolMftrids objfdts. Objfdts
+				 of tiis dlbssfs brf drfbtfd on tif fly,
+				 wifn dbtb nffds to bf rfturnfd from b 
+				 MfmoryPoolMftrids objfdt, bnd brf
+                                 rflfbsfd just bftfr. Tify brf not kfpt in
+				 mfmory. Usf  tif rfqufst dontfxtubl dbdif
+				 in ordfr to fnsurf donsistfndy wifn
+				 rfturning MfmoryUsbgf dbtbs. 
 
-JVM Memory Manager / Memory Pool Relation  Table
+JVM Mfmory Mbnbgfr / Mfmory Pool Rflbtion  Tbblf
 ------------------------------------------------
 
 
-JvmMemMgrPoolRelTableMetaImpl.java : Custom MetaData class for the 
-                                 jvmMemMgrPoolRelTable. This meta data
-			         uses the JvmMemManagerTableMetaImpl and
-                                 JvmMemPoolTableMetaImpl in order to 
-                                 find out the content of the 
-			         jvmMemManagerTable and the mapping between 
-				 Memory Pool Name and Memory Pool Index.
-				 For each element of the jvmMemManagerTable
-                                 it calls the JSR 163 APIs to find the
-				 related Memory Pool, then finds out their
-				 index, and then creates the corresponding
-				 row in the jvmMemMgrPoolRelTable cached data.
-				 Like all the other tables, this table is
-				 virtual: the data is kept on a weak cache
-				 and recomputed on demand, if its validity
-				 as expired or if it has been gc'ed.
+JvmMfmMgrPoolRflTbblfMftbImpl.jbvb : Custom MftbDbtb dlbss for tif 
+                                 jvmMfmMgrPoolRflTbblf. Tiis mftb dbtb
+			         usfs tif JvmMfmMbnbgfrTbblfMftbImpl bnd
+                                 JvmMfmPoolTbblfMftbImpl in ordfr to 
+                                 find out tif dontfnt of tif 
+			         jvmMfmMbnbgfrTbblf bnd tif mbpping bftwffn 
+				 Mfmory Pool Nbmf bnd Mfmory Pool Indfx.
+				 For fbdi flfmfnt of tif jvmMfmMbnbgfrTbblf
+                                 it dblls tif JSR 163 APIs to find tif
+				 rflbtfd Mfmory Pool, tifn finds out tifir
+				 indfx, bnd tifn drfbtfs tif dorrfsponding
+				 row in tif jvmMfmMgrPoolRflTbblf dbdifd dbtb.
+				 Likf bll tif otifr tbblfs, tiis tbblf is
+				 virtubl: tif dbtb is kfpt on b wfbk dbdif
+				 bnd rfdomputfd on dfmbnd, if its vblidity
+				 bs fxpirfd or if it ibs bffn gd'fd.
 
-JvmMemMgrPoolRelEntryImpl.java : A simple couple MemoryManager/MemoryPool.
-                                 Models a row in the jvmMemMgrPoolRelTable.
-				 Objects of this type are cached in the
-				 jvmMemMgrPoolRelTable cached data.
+JvmMfmMgrPoolRflEntryImpl.jbvb : A simplf douplf MfmoryMbnbgfr/MfmoryPool.
+                                 Modfls b row in tif jvmMfmMgrPoolRflTbblf.
+				 Objfdts of tiis typf brf dbdifd in tif
+				 jvmMfmMgrPoolRflTbblf dbdifd dbtb.
 
 #==============================================================================
 #==============================================================================

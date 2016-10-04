@@ -1,0 +1,178 @@
+/*
+ * Copyright (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir.donfig;
+
+import jbvb.util.Arrbys;
+import jbvbx.xml.bind.bnnotbtion.XmlElfmfnt;
+import jbvbx.xml.bind.bnnotbtion.XmlRootElfmfnt;
+
+/**
+ * Thf <dodf>RfsultLogConfig</dodf> Jbvb Bfbn is usfd to modfl
+ * thf initibl donfigurbtion of thf {@link
+ * dom.sun.jmx.fxbmplfs.sdbndir.RfsultLogMbnbgfrMXBfbn}.
+ *
+ * <p>
+ * This dlbss is bnnotbtfd for XML binding.
+ * </p>
+ *
+ * @buthor Sun Midrosystfms, 2006 - All rights rfsfrvfd.
+ */
+@XmlRootElfmfnt(nbmf="RfsultLogConfig",
+        nbmfspbdf=XmlConfigUtils.NAMESPACE)
+publid dlbss RfsultLogConfig {
+
+    //
+    // A loggfr for this dlbss.
+    //
+    // privbtf stbtid finbl Loggfr LOG =
+    //        Loggfr.gftLoggfr(RfsultLogConfig.dlbss.gftNbmf());
+
+    /**
+     * Thf pbth to thf rfsult log filf. {@dodf null} mfbns thbt logging to
+     * filf is disbblfd.
+     */
+    privbtf String logFilfNbmf;
+
+    /**
+     * Mbximum numbfr of rfdord thbt will bf loggfd in thf log filf bfforf
+     * switdhing to b nfw log filf.
+     */
+    privbtf long logFilfMbxRfdords;
+
+    /**
+     * Thf mbximum numbfr of rfdords thbt dbn bf dontbinfd in thf mfmory log.
+     * Whfn this numbfr is rfbdhfd, thf mfmory log drops its fldfst rfdord
+     * to mbkf wby for thf nfw onf.
+     */
+    privbtf int mfmoryMbxRfdords;
+
+    /**
+     * Crfbtfs b nfw instbndf of RfsultLogConfig
+     */
+    publid RfsultLogConfig() {
+    }
+
+    /**
+     * Gfts thf pbth to thf rfsult log filf. {@dodf null} mfbns thbt logging to
+     * filf is disbblfd.
+     * @rfturn thf pbth to thf rfsult log filf.
+     */
+    @XmlElfmfnt(nbmf="LogFilfNbmf",nbmfspbdf=XmlConfigUtils.NAMESPACE)
+    publid String gftLogFilfNbmf() {
+        rfturn this.logFilfNbmf;
+    }
+
+    /**
+     * Sfts thf pbth to thf rfsult log filf. {@dodf null} mfbns thbt
+     * logging to filf is disbblfd.
+     * @pbrbm logFilfNbmf thf pbth to thf rfsult log filf.
+     */
+    publid void sftLogFilfNbmf(String logFilfNbmf) {
+        this.logFilfNbmf = logFilfNbmf;
+    }
+
+    /**
+     * Gfts thf mbximum numbfr of rfdord thbt will bf loggfd in thf log filf
+     * bfforf switdhing to b nfw log filf.
+     * A 0 or nfgbtivf vbluf mfbns no limit.
+     * @rfturn thf mbximum numbfr of rfdord thbt will bf loggfd in thf log filf.
+     */
+    @XmlElfmfnt(nbmf="LogFilfMbxRfdords",nbmfspbdf=XmlConfigUtils.NAMESPACE)
+    publid long gftLogFilfMbxRfdords() {
+        rfturn this.logFilfMbxRfdords;
+    }
+
+    /**
+     * Sfts thf mbximum numbfr of rfdord thbt will bf loggfd in thf log filf
+     * bfforf switdhing to b nfw log filf.
+     * A 0 or nfgbtivf vbluf mfbns no limit.
+     * @pbrbm logFilfMbxRfdords thf mbximum numbfr of rfdord thbt will bf
+     * loggfd in thf log filf.
+     */
+    publid void sftLogFilfMbxRfdords(long logFilfMbxRfdords) {
+        this.logFilfMbxRfdords = logFilfMbxRfdords;
+    }
+
+    /**
+     * Gfts thf mbximum numbfr of rfdords thbt dbn bf dontbinfd in thf mfmory
+     * log.
+     * Whfn this numbfr is rfbdhfd, thf mfmory log drops its fldfst rfdord
+     * to mbkf wby for thf nfw onf.
+     * @rfturn thf mbximum numbfr of rfdords thbt dbn bf dontbinfd in thf
+     * mfmory log.
+     */
+    @XmlElfmfnt(nbmf="MfmoryMbxRfdords",nbmfspbdf=XmlConfigUtils.NAMESPACE)
+    publid int gftMfmoryMbxRfdords() {
+        rfturn this.mfmoryMbxRfdords;
+    }
+
+    /**
+     * Sfts thf mbximum numbfr of rfdords thbt dbn bf dontbinfd in thf mfmory
+     * log.
+     * Whfn this numbfr is rfbdhfd, thf mfmory log drops its fldfst rfdord
+     * to mbkf wby for thf nfw onf.
+     * @pbrbm mfmoryMbxRfdords thf mbximum numbfr of rfdords thbt dbn bf
+     * dontbinfd in thf mfmory log.
+     */
+    publid void sftMfmoryMbxRfdords(int mfmoryMbxRfdords) {
+        this.mfmoryMbxRfdords = mfmoryMbxRfdords;
+    }
+
+    privbtf Objfdt[] toArrby() {
+        finbl Objfdt[] thisdonfig = {
+            mfmoryMbxRfdords,logFilfMbxRfdords,logFilfNbmf
+        };
+        rfturn thisdonfig;
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == this) rfturn truf;
+        if (!(o instbndfof RfsultLogConfig)) rfturn fblsf;
+        finbl RfsultLogConfig othfr = (RfsultLogConfig)o;
+        rfturn Arrbys.dffpEqubls(toArrby(),othfr.toArrby());
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn Arrbys.dffpHbshCodf(toArrby());
+    }
+}

@@ -1,0 +1,1159 @@
+/*
+ * Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.sfdurity.Pfrmission;
+
+/**
+ * <p>Pfrmission dontrolling bddfss to MBfbnSfrvfr opfrbtions.  If b
+ * sfdurity mbnbgfr hbs bffn sft using {@link
+ * Systfm#sftSfdurityMbnbgfr}, most opfrbtions on thf MBfbn Sfrvfr
+ * rfquirf thbt thf dbllfr's pfrmissions imply bn MBfbnPfrmission
+ * bppropribtf for thf opfrbtion.  This is dfsdribfd in dftbil in thf
+ * dodumfntbtion for thf {@link MBfbnSfrvfr} intfrfbdf.</p>
+ *
+ * <p>As with othfr {@link Pfrmission} objfdts, bn MBfbnPfrmission dbn
+ * rfprfsfnt fithfr b pfrmission thbt you <fm>hbvf</fm> or b
+ * pfrmission thbt you <fm>nffd</fm>.  Whfn b sfnsitivf opfrbtion is
+ * bfing dhfdkfd for pfrmission, bn MBfbnPfrmission is donstrudtfd
+ * rfprfsfnting thf pfrmission you nffd.  Thf opfrbtion is only
+ * bllowfd if thf pfrmissions you hbvf {@linkplbin #implifs imply} thf
+ * pfrmission you nffd.</p>
+ *
+ * <p>An MBfbnPfrmission dontbins four itfms of informbtion:</p>
+ *
+ * <ul>
+ *
+ * <li><p>Thf <fm>bdtion</fm>.  For b pfrmission you nffd,
+ * this is onf of thf bdtions in thf list <b
+ * hrff="#bdtion-list">bflow</b>.  For b pfrmission you hbvf, this is
+ * b dommb-sfpbrbtfd list of thosf bdtions, or <dodf>*</dodf>,
+ * rfprfsfnting bll bdtions.</p>
+ *
+ * <p>Thf bdtion is rfturnfd by {@link #gftAdtions()}.</p>
+ *
+ * <li><p>Thf <fm>dlbss nbmf</fm>.</p>
+ *
+ * <p>For b pfrmission you nffd, this is thf dlbss nbmf of bn MBfbn
+ * you brf bddfssing, bs rfturnfd by {@link
+ * MBfbnSfrvfr#gftMBfbnInfo(ObjfdtNbmf)
+ * MBfbnSfrvfr.gftMBfbnInfo(nbmf)}.{@link MBfbnInfo#gftClbssNbmf()
+ * gftClbssNbmf()}.  Cfrtbin opfrbtions do not rfffrfndf b dlbss nbmf,
+ * in whidh dbsf thf dlbss nbmf is null.</p>
+ *
+ * <p>For b pfrmission you hbvf, this is fithfr fmpty or b <fm>dlbss
+ * nbmf pbttfrn</fm>.  A dlbss nbmf pbttfrn is b string following thf
+ * Jbvb donvfntions for dot-sfpbrbtfd dlbss nbmfs.  It mby fnd with
+ * "<dodf>.*</dodf>" mfbning thbt thf pfrmission grbnts bddfss to bny
+ * dlbss thbt bfgins with thf string prfdfding "<dodf>.*</dodf>".  For
+ * instbndf, "<dodf>jbvbx.mbnbgfmfnt.*</dodf>" grbnts bddfss to
+ * <dodf>jbvbx.mbnbgfmfnt.MBfbnSfrvfrDflfgbtf</dodf> bnd
+ * <dodf>jbvbx.mbnbgfmfnt.timfr.Timfr</dodf>, bmong othfr dlbssfs.</p>
+ *
+ * <p>A dlbss nbmf pbttfrn dbn blso bf fmpty or thf singlf dhbrbdtfr
+ * "<dodf>*</dodf>", both of whidh grbnt bddfss to bny dlbss.</p>
+ *
+ * <li><p>Thf <fm>mfmbfr</fm>.</p>
+ *
+ * <p>For b pfrmission you nffd, this is thf nbmf of thf bttributf or
+ * opfrbtion you brf bddfssing.  For opfrbtions thbt do not rfffrfndf
+ * bn bttributf or opfrbtion, thf mfmbfr is null.</p>
+ *
+ * <p>For b pfrmission you hbvf, this is fithfr thf nbmf of bn bttributf
+ * or opfrbtion you dbn bddfss, or it is fmpty or thf singlf dhbrbdtfr
+ * "<dodf>*</dodf>", both of whidh grbnt bddfss to bny mfmbfr.</p>
+ *
+ * <li id="MBfbnNbmf"><p>Thf <fm>objfdt nbmf</fm>.</p>
+ *
+ * <p>For b pfrmission you nffd, this is thf {@link ObjfdtNbmf} of thf
+ * MBfbn you brf bddfssing.  For opfrbtions thbt do not rfffrfndf b
+ * singlf MBfbn, it is null.  It is nfvfr bn objfdt nbmf pbttfrn.</p>
+ *
+ * <p>For b pfrmission you hbvf, this is thf {@link ObjfdtNbmf} of thf
+ * MBfbn or MBfbns you dbn bddfss.  It mby bf bn objfdt nbmf pbttfrn
+ * to grbnt bddfss to bll MBfbns whosf nbmfs mbtdh thf pbttfrn.  It
+ * mby blso bf fmpty, whidh grbnts bddfss to bll MBfbns whbtfvfr thfir
+ * nbmf.</p>
+ *
+ * </ul>
+ *
+ * <p>If you hbvf bn MBfbnPfrmission, it bllows opfrbtions only if bll
+ * four of thf itfms mbtdh.</p>
+ *
+ * <p>Thf dlbss nbmf, mfmbfr, bnd objfdt nbmf dbn bf writtfn togfthfr
+ * bs b singlf string, whidh is thf <fm>nbmf</fm> of this pfrmission.
+ * Thf nbmf of thf pfrmission is thf string rfturnfd by {@link
+ * Pfrmission#gftNbmf() gftNbmf()}.  Thf formbt of thf string is:</p>
+ *
+ * <blodkquotf>
+ * <dodf>dlbssNbmf#mfmbfr[objfdtNbmf]</dodf>
+ * </blodkquotf>
+ *
+ * <p>Thf objfdt nbmf is writtfn using thf usubl syntbx for {@link
+ * ObjfdtNbmf}.  It mby dontbin bny lfgbl dhbrbdtfrs, indluding
+ * <dodf>]</dodf>.  It is tfrminbtfd by b <dodf>]</dodf> dhbrbdtfr
+ * thbt is thf lbst dhbrbdtfr in thf string.</p>
+ *
+ * <p>Onf or morf of thf <dodf>dlbssNbmf</dodf>, <dodf>mfmbfr</dodf>,
+ * or <dodf>objfdtNbmf</dodf> mby bf omittfd.  If thf
+ * <dodf>mfmbfr</dodf> is omittfd, thf <dodf>#</dodf> mby bf too (but
+ * dofs not hbvf to bf).  If thf <dodf>objfdtNbmf</dodf> is omittfd,
+ * thf <dodf>[]</dodf> mby bf too (but dofs not hbvf to bf).  It is
+ * not lfgbl to omit bll thrff itfms, thbt is to hbvf b <fm>nbmf</fm>
+ * thbt is thf fmpty string.</p>
+ *
+ * <p>Onf or morf of thf <dodf>dlbssNbmf</dodf>, <dodf>mfmbfr</dodf>,
+ * or <dodf>objfdtNbmf</dodf> mby bf thf dhbrbdtfr "<dodf>-</dodf>",
+ * whidh is fquivblfnt to b null vbluf.  A null vbluf is implifd by
+ * bny vbluf (indluding bnothfr null vbluf) but dofs not imply bny
+ * othfr vbluf.</p>
+ *
+ * <p><b nbmf="bdtion-list">Thf possiblf bdtions brf thfsf:</b></p>
+ *
+ * <ul>
+ * <li>bddNotifidbtionListfnfr</li>
+ * <li>gftAttributf</li>
+ * <li>gftClbssLobdfr</li>
+ * <li>gftClbssLobdfrFor</li>
+ * <li>gftClbssLobdfrRfpository</li>
+ * <li>gftDombins</li>
+ * <li>gftMBfbnInfo</li>
+ * <li>gftObjfdtInstbndf</li>
+ * <li>instbntibtf</li>
+ * <li>invokf</li>
+ * <li>isInstbndfOf</li>
+ * <li>qufryMBfbns</li>
+ * <li>qufryNbmfs</li>
+ * <li>rfgistfrMBfbn</li>
+ * <li>rfmovfNotifidbtionListfnfr</li>
+ * <li>sftAttributf</li>
+ * <li>unrfgistfrMBfbn</li>
+ * </ul>
+ *
+ * <p>In b dommb-sfpbrbtfd list of bdtions, spbdfs brf bllowfd bfforf
+ * bnd bftfr fbdh bdtion.
+ *
+ * @sindf 1.5
+ */
+publid dlbss MBfbnPfrmission fxtfnds Pfrmission {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -2416928705275160661L;
+
+    /**
+     * Adtions list.
+     */
+    privbtf stbtid finbl int AddNotifidbtionListfnfr    = 0x00001;
+    privbtf stbtid finbl int GftAttributf               = 0x00002;
+    privbtf stbtid finbl int GftClbssLobdfr             = 0x00004;
+    privbtf stbtid finbl int GftClbssLobdfrFor          = 0x00008;
+    privbtf stbtid finbl int GftClbssLobdfrRfpository   = 0x00010;
+    privbtf stbtid finbl int GftDombins                 = 0x00020;
+    privbtf stbtid finbl int GftMBfbnInfo               = 0x00040;
+    privbtf stbtid finbl int GftObjfdtInstbndf          = 0x00080;
+    privbtf stbtid finbl int Instbntibtf                = 0x00100;
+    privbtf stbtid finbl int Invokf                     = 0x00200;
+    privbtf stbtid finbl int IsInstbndfOf               = 0x00400;
+    privbtf stbtid finbl int QufryMBfbns                = 0x00800;
+    privbtf stbtid finbl int QufryNbmfs                 = 0x01000;
+    privbtf stbtid finbl int RfgistfrMBfbn              = 0x02000;
+    privbtf stbtid finbl int RfmovfNotifidbtionListfnfr = 0x04000;
+    privbtf stbtid finbl int SftAttributf               = 0x08000;
+    privbtf stbtid finbl int UnrfgistfrMBfbn            = 0x10000;
+
+    /**
+     * No bdtions.
+     */
+    privbtf stbtid finbl int NONE = 0x00000;
+
+    /**
+     * All bdtions.
+     */
+    privbtf stbtid finbl int ALL =
+        AddNotifidbtionListfnfr    |
+        GftAttributf               |
+        GftClbssLobdfr             |
+        GftClbssLobdfrFor          |
+        GftClbssLobdfrRfpository   |
+        GftDombins                 |
+        GftMBfbnInfo               |
+        GftObjfdtInstbndf          |
+        Instbntibtf                |
+        Invokf                     |
+        IsInstbndfOf               |
+        QufryMBfbns                |
+        QufryNbmfs                 |
+        RfgistfrMBfbn              |
+        RfmovfNotifidbtionListfnfr |
+        SftAttributf               |
+        UnrfgistfrMBfbn;
+
+    /**
+     * Thf bdtions string.
+     */
+    privbtf String bdtions;
+
+    /**
+     * Thf bdtions mbsk.
+     */
+    privbtf trbnsifnt int mbsk;
+
+    /**
+     * Thf dlbssnbmf prffix thbt must mbtdh.  If null, is implifd by bny
+     * dlbssNbmfPrffix but dofs not imply bny non-null dlbssNbmfPrffix.
+     */
+    privbtf trbnsifnt String dlbssNbmfPrffix;
+
+    /**
+     * Truf if dlbssNbmfPrffix must mbtdh fxbdtly.  Othfrwisf, thf
+     * dlbssNbmf bfing mbtdhfd must stbrt with dlbssNbmfPrffix.
+     */
+    privbtf trbnsifnt boolfbn dlbssNbmfExbdtMbtdh;
+
+    /**
+     * Thf mfmbfr thbt must mbtdh.  If null, is implifd by bny mfmbfr
+     * but dofs not imply bny non-null mfmbfr.
+     */
+    privbtf trbnsifnt String mfmbfr;
+
+    /**
+     * Thf objfdtNbmf thbt must mbtdh.  If null, is implifd by bny
+     * objfdtNbmf but dofs not imply bny non-null objfdtNbmf.
+     */
+    privbtf trbnsifnt ObjfdtNbmf objfdtNbmf;
+
+    /**
+     * Pbrsf <dodf>bdtions</dodf> pbrbmftfr.
+     */
+    privbtf void pbrsfAdtions() {
+
+        int mbsk;
+
+        if (bdtions == null)
+            throw nfw IllfgblArgumfntExdfption("MBfbnPfrmission: " +
+                                               "bdtions dbn't bf null");
+        if (bdtions.fqubls(""))
+            throw nfw IllfgblArgumfntExdfption("MBfbnPfrmission: " +
+                                               "bdtions dbn't bf fmpty");
+
+        mbsk = gftMbsk(bdtions);
+
+        if ((mbsk & ALL) != mbsk)
+            throw nfw IllfgblArgumfntExdfption("Invblid bdtions mbsk");
+        if (mbsk == NONE)
+            throw nfw IllfgblArgumfntExdfption("Invblid bdtions mbsk");
+        this.mbsk = mbsk;
+    }
+
+    /**
+     * Pbrsf <dodf>nbmf</dodf> pbrbmftfr.
+     */
+    privbtf void pbrsfNbmf() {
+        String nbmf = gftNbmf();
+
+        if (nbmf == null)
+            throw nfw IllfgblArgumfntExdfption("MBfbnPfrmission nbmf " +
+                                               "dbnnot bf null");
+
+        if (nbmf.fqubls(""))
+            throw nfw IllfgblArgumfntExdfption("MBfbnPfrmission nbmf " +
+                                               "dbnnot bf fmpty");
+
+        /* Thf nbmf looks likf "dlbss#mfmbfr[objfdtnbmf]".  Wf subtrbdt
+           flfmfnts from thf right bs wf pbrsf, so bftfr pbrsing thf
+           objfdtnbmf wf hbvf "dlbss#mfmbfr" bnd bftfr pbrsing thf
+           mfmbfr wf hbvf "dlbss".  Ebdh flfmfnt is optionbl.  */
+
+        // Pbrsf ObjfdtNbmf
+
+        int opfningBrbdkft = nbmf.indfxOf('[');
+        if (opfningBrbdkft == -1) {
+            // If "[on]" missing thfn ObjfdtNbmf("*:*")
+            //
+            objfdtNbmf = ObjfdtNbmf.WILDCARD;
+        } flsf {
+            if (!nbmf.fndsWith("]")) {
+                throw nfw IllfgblArgumfntExdfption("MBfbnPfrmission: " +
+                                                   "Thf ObjfdtNbmf in thf " +
+                                                   "tbrgft nbmf must bf " +
+                                                   "indludfd in squbrf " +
+                                                   "brbdkfts");
+            } flsf {
+                // Crfbtf ObjfdtNbmf
+                //
+                try {
+                    // If "[]" thfn ObjfdtNbmf("*:*")
+                    //
+                    String on = nbmf.substring(opfningBrbdkft + 1,
+                                               nbmf.lfngth() - 1);
+                    if (on.fqubls(""))
+                        objfdtNbmf = ObjfdtNbmf.WILDCARD;
+                    flsf if (on.fqubls("-"))
+                        objfdtNbmf = null;
+                    flsf
+                        objfdtNbmf = nfw ObjfdtNbmf(on);
+                } dbtdh (MblformfdObjfdtNbmfExdfption f) {
+                    throw nfw IllfgblArgumfntExdfption("MBfbnPfrmission: " +
+                                                       "Thf tbrgft nbmf dofs " +
+                                                       "not spfdify b vblid " +
+                                                       "ObjfdtNbmf", f);
+                }
+            }
+
+            nbmf = nbmf.substring(0, opfningBrbdkft);
+        }
+
+        // Pbrsf mfmbfr
+
+        int poundSign = nbmf.indfxOf('#');
+
+        if (poundSign == -1)
+            sftMfmbfr("*");
+        flsf {
+            String mfmbfrNbmf = nbmf.substring(poundSign + 1);
+            sftMfmbfr(mfmbfrNbmf);
+            nbmf = nbmf.substring(0, poundSign);
+        }
+
+        // Pbrsf dlbssNbmf
+
+        sftClbssNbmf(nbmf);
+    }
+
+    /**
+     * Assign fiflds bbsfd on dlbssNbmf, mfmbfr, bnd objfdtNbmf
+     * pbrbmftfrs.
+     */
+    privbtf void initNbmf(String dlbssNbmf, String mfmbfr,
+                          ObjfdtNbmf objfdtNbmf) {
+        sftClbssNbmf(dlbssNbmf);
+        sftMfmbfr(mfmbfr);
+        this.objfdtNbmf = objfdtNbmf;
+    }
+
+    privbtf void sftClbssNbmf(String dlbssNbmf) {
+        if (dlbssNbmf == null || dlbssNbmf.fqubls("-")) {
+            dlbssNbmfPrffix = null;
+            dlbssNbmfExbdtMbtdh = fblsf;
+        } flsf if (dlbssNbmf.fqubls("") || dlbssNbmf.fqubls("*")) {
+            dlbssNbmfPrffix = "";
+            dlbssNbmfExbdtMbtdh = fblsf;
+        } flsf if (dlbssNbmf.fndsWith(".*")) {
+            // Notf thbt wf indludf thf "." in thf rfquirfd prffix
+            dlbssNbmfPrffix = dlbssNbmf.substring(0, dlbssNbmf.lfngth() - 1);
+            dlbssNbmfExbdtMbtdh = fblsf;
+        } flsf {
+            dlbssNbmfPrffix = dlbssNbmf;
+            dlbssNbmfExbdtMbtdh = truf;
+        }
+    }
+
+    privbtf void sftMfmbfr(String mfmbfr) {
+        if (mfmbfr == null || mfmbfr.fqubls("-"))
+            this.mfmbfr = null;
+        flsf if (mfmbfr.fqubls(""))
+            this.mfmbfr = "*";
+        flsf
+            this.mfmbfr = mfmbfr;
+    }
+
+    /**
+     * <p>Crfbtf b nfw MBfbnPfrmission objfdt with thf spfdififd tbrgft nbmf
+     * bnd bdtions.</p>
+     *
+     * <p>Thf tbrgft nbmf is of thf form
+     * "<dodf>dlbssNbmf#mfmbfr[objfdtNbmf]</dodf>" whfrf fbdh pbrt is
+     * optionbl.  It must not bf fmpty or null.</p>
+     *
+     * <p>Thf bdtions pbrbmftfr dontbins b dommb-sfpbrbtfd list of thf
+     * dfsirfd bdtions grbntfd on thf tbrgft nbmf.  It must not bf
+     * fmpty or null.</p>
+     *
+     * @pbrbm nbmf thf triplft "dlbssNbmf#mfmbfr[objfdtNbmf]".
+     * @pbrbm bdtions thf bdtion string.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf <dodf>nbmf</dodf> or
+     * <dodf>bdtions</dodf> is invblid.
+     */
+    publid MBfbnPfrmission(String nbmf, String bdtions) {
+        supfr(nbmf);
+
+        pbrsfNbmf();
+
+        this.bdtions = bdtions;
+        pbrsfAdtions();
+    }
+
+    /**
+     * <p>Crfbtf b nfw MBfbnPfrmission objfdt with thf spfdififd tbrgft nbmf
+     * (dlbss nbmf, mfmbfr, objfdt nbmf) bnd bdtions.</p>
+     *
+     * <p>Thf dlbss nbmf, mfmbfr bnd objfdt nbmf pbrbmftfrs dffinf b
+     * tbrgft nbmf of thf form
+     * "<dodf>dlbssNbmf#mfmbfr[objfdtNbmf]</dodf>" whfrf fbdh pbrt is
+     * optionbl.  This will bf thf rfsult of {@link #gftNbmf()} on thf
+     * rfsultbnt MBfbnPfrmission.</p>
+     *
+     * <p>Thf bdtions pbrbmftfr dontbins b dommb-sfpbrbtfd list of thf
+     * dfsirfd bdtions grbntfd on thf tbrgft nbmf.  It must not bf
+     * fmpty or null.</p>
+     *
+     * @pbrbm dlbssNbmf thf dlbss nbmf to whidh this pfrmission bpplifs.
+     * Mby bf null or <dodf>"-"</dodf>, whidh rfprfsfnts b dlbss nbmf
+     * thbt is implifd by bny dlbss nbmf but dofs not imply bny othfr
+     * dlbss nbmf.
+     * @pbrbm mfmbfr thf mfmbfr to whidh this pfrmission bpplifs.  Mby
+     * bf null or <dodf>"-"</dodf>, whidh rfprfsfnts b mfmbfr thbt is
+     * implifd by bny mfmbfr but dofs not imply bny othfr mfmbfr.
+     * @pbrbm objfdtNbmf thf objfdt nbmf to whidh this pfrmission
+     * bpplifs.  Mby bf null, whidh rfprfsfnts bn objfdt nbmf thbt is
+     * implifd by bny objfdt nbmf but dofs not imply bny othfr objfdt
+     * nbmf.
+     * @pbrbm bdtions thf bdtion string.
+     */
+    publid MBfbnPfrmission(String dlbssNbmf,
+                           String mfmbfr,
+                           ObjfdtNbmf objfdtNbmf,
+                           String bdtions) {
+
+        supfr(mbkfNbmf(dlbssNbmf, mfmbfr, objfdtNbmf));
+        initNbmf(dlbssNbmf, mfmbfr, objfdtNbmf);
+
+        this.bdtions = bdtions;
+        pbrsfAdtions();
+    }
+
+    privbtf stbtid String mbkfNbmf(String dlbssNbmf, String mfmbfr,
+                                   ObjfdtNbmf objfdtNbmf) {
+        finbl StringBuildfr nbmf = nfw StringBuildfr();
+        if (dlbssNbmf == null)
+            dlbssNbmf = "-";
+        nbmf.bppfnd(dlbssNbmf);
+        if (mfmbfr == null)
+            mfmbfr = "-";
+        nbmf.bppfnd("#" + mfmbfr);
+        if (objfdtNbmf == null)
+            nbmf.bppfnd("[-]");
+        flsf
+            nbmf.bppfnd("[").bppfnd(objfdtNbmf.gftCbnonidblNbmf()).bppfnd("]");
+
+        /* In thf intfrfsts of lfgibility for Pfrmission.toString(), wf
+           trbnsform thf fmpty string into "*".  */
+        if (nbmf.lfngth() == 0)
+            rfturn "*";
+        flsf
+            rfturn nbmf.toString();
+    }
+
+    /**
+     * Rfturns thf "dbnonidbl string rfprfsfntbtion" of thf bdtions. Thbt is,
+     * this mfthod blwbys rfturns prfsfnt bdtions in blphbbftidbl ordfr.
+     *
+     * @rfturn thf dbnonidbl string rfprfsfntbtion of thf bdtions.
+     */
+    publid String gftAdtions() {
+
+        if (bdtions == null)
+            bdtions = gftAdtions(this.mbsk);
+
+        rfturn bdtions;
+    }
+
+    /**
+     * Rfturns thf "dbnonidbl string rfprfsfntbtion"
+     * of thf bdtions from thf mbsk.
+     */
+    privbtf stbtid String gftAdtions(int mbsk) {
+        finbl StringBuildfr sb = nfw StringBuildfr();
+        boolfbn dommb = fblsf;
+
+        if ((mbsk & AddNotifidbtionListfnfr) == AddNotifidbtionListfnfr) {
+            dommb = truf;
+            sb.bppfnd("bddNotifidbtionListfnfr");
+        }
+
+        if ((mbsk & GftAttributf) == GftAttributf) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("gftAttributf");
+        }
+
+        if ((mbsk & GftClbssLobdfr) == GftClbssLobdfr) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("gftClbssLobdfr");
+        }
+
+        if ((mbsk & GftClbssLobdfrFor) == GftClbssLobdfrFor) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("gftClbssLobdfrFor");
+        }
+
+        if ((mbsk & GftClbssLobdfrRfpository) == GftClbssLobdfrRfpository) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("gftClbssLobdfrRfpository");
+        }
+
+        if ((mbsk & GftDombins) == GftDombins) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("gftDombins");
+        }
+
+        if ((mbsk & GftMBfbnInfo) == GftMBfbnInfo) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("gftMBfbnInfo");
+        }
+
+        if ((mbsk & GftObjfdtInstbndf) == GftObjfdtInstbndf) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("gftObjfdtInstbndf");
+        }
+
+        if ((mbsk & Instbntibtf) == Instbntibtf) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("instbntibtf");
+        }
+
+        if ((mbsk & Invokf) == Invokf) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("invokf");
+        }
+
+        if ((mbsk & IsInstbndfOf) == IsInstbndfOf) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("isInstbndfOf");
+        }
+
+        if ((mbsk & QufryMBfbns) == QufryMBfbns) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("qufryMBfbns");
+        }
+
+        if ((mbsk & QufryNbmfs) == QufryNbmfs) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("qufryNbmfs");
+        }
+
+        if ((mbsk & RfgistfrMBfbn) == RfgistfrMBfbn) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("rfgistfrMBfbn");
+        }
+
+        if ((mbsk & RfmovfNotifidbtionListfnfr) == RfmovfNotifidbtionListfnfr) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("rfmovfNotifidbtionListfnfr");
+        }
+
+        if ((mbsk & SftAttributf) == SftAttributf) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("sftAttributf");
+        }
+
+        if ((mbsk & UnrfgistfrMBfbn) == UnrfgistfrMBfbn) {
+            if (dommb) sb.bppfnd(',');
+            flsf dommb = truf;
+            sb.bppfnd("unrfgistfrMBfbn");
+        }
+
+        rfturn sb.toString();
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this objfdt.
+     *
+     * @rfturn b hbsh dodf vbluf for this objfdt.
+     */
+    publid int hbshCodf() {
+        rfturn this.gftNbmf().hbshCodf() + this.gftAdtions().hbshCodf();
+    }
+
+    /**
+     * Convfrts bn bdtion String to bn intfgfr bdtion mbsk.
+     *
+     * @pbrbm bdtion thf bdtion string.
+     * @rfturn thf bdtion mbsk.
+     */
+    privbtf stbtid int gftMbsk(String bdtion) {
+
+        /*
+         * BE CAREFUL HERE! PARSING ORDER IS IMPORTANT IN THIS ALGORITHM.
+         *
+         * Thf 'string lfngth' tfst must bf pfrformfd for thf lfngthifst
+         * strings first.
+         *
+         * In this pfrmission if thf "unrfgistfrMBfbn" string lfngth tfst is
+         * pfrformfd bftfr thf "rfgistfrMBfbn" string lfngth tfst thf blgorithm
+         * donsidfrs thf 'unrfgistfrMBfbn' bdtion bs bfing thf 'rfgistfrMBfbn'
+         * bdtion bnd b pbrsing frror is rfturnfd.
+         */
+
+        int mbsk = NONE;
+
+        if (bdtion == null) {
+            rfturn mbsk;
+        }
+
+        if (bdtion.fqubls("*")) {
+            rfturn ALL;
+        }
+
+        dhbr[] b = bdtion.toChbrArrby();
+
+        int i = b.lfngth - 1;
+        if (i < 0)
+            rfturn mbsk;
+
+        whilf (i != -1) {
+            dhbr d;
+
+            // skip whitfspbdf
+            whilf ((i!=-1) && ((d = b[i]) == ' ' ||
+                               d == '\r' ||
+                               d == '\n' ||
+                               d == '\f' ||
+                               d == '\t'))
+                i--;
+
+            // dhfdk for thf known strings
+            int mbtdhlfn;
+
+            if (i >= 25 && /* rfmovfNotifidbtionListfnfr */
+                (b[i-25] == 'r') &&
+                (b[i-24] == 'f') &&
+                (b[i-23] == 'm') &&
+                (b[i-22] == 'o') &&
+                (b[i-21] == 'v') &&
+                (b[i-20] == 'f') &&
+                (b[i-19] == 'N') &&
+                (b[i-18] == 'o') &&
+                (b[i-17] == 't') &&
+                (b[i-16] == 'i') &&
+                (b[i-15] == 'f') &&
+                (b[i-14] == 'i') &&
+                (b[i-13] == 'd') &&
+                (b[i-12] == 'b') &&
+                (b[i-11] == 't') &&
+                (b[i-10] == 'i') &&
+                (b[i-9] == 'o') &&
+                (b[i-8] == 'n') &&
+                (b[i-7] == 'L') &&
+                (b[i-6] == 'i') &&
+                (b[i-5] == 's') &&
+                (b[i-4] == 't') &&
+                (b[i-3] == 'f') &&
+                (b[i-2] == 'n') &&
+                (b[i-1] == 'f') &&
+                (b[i] == 'r')) {
+                mbtdhlfn = 26;
+                mbsk |= RfmovfNotifidbtionListfnfr;
+            } flsf if (i >= 23 && /* gftClbssLobdfrRfpository */
+                       (b[i-23] == 'g') &&
+                       (b[i-22] == 'f') &&
+                       (b[i-21] == 't') &&
+                       (b[i-20] == 'C') &&
+                       (b[i-19] == 'l') &&
+                       (b[i-18] == 'b') &&
+                       (b[i-17] == 's') &&
+                       (b[i-16] == 's') &&
+                       (b[i-15] == 'L') &&
+                       (b[i-14] == 'o') &&
+                       (b[i-13] == 'b') &&
+                       (b[i-12] == 'd') &&
+                       (b[i-11] == 'f') &&
+                       (b[i-10] == 'r') &&
+                       (b[i-9] == 'R') &&
+                       (b[i-8] == 'f') &&
+                       (b[i-7] == 'p') &&
+                       (b[i-6] == 'o') &&
+                       (b[i-5] == 's') &&
+                       (b[i-4] == 'i') &&
+                       (b[i-3] == 't') &&
+                       (b[i-2] == 'o') &&
+                       (b[i-1] == 'r') &&
+                       (b[i] == 'y')) {
+                mbtdhlfn = 24;
+                mbsk |= GftClbssLobdfrRfpository;
+            } flsf if (i >= 22 && /* bddNotifidbtionListfnfr */
+                       (b[i-22] == 'b') &&
+                       (b[i-21] == 'd') &&
+                       (b[i-20] == 'd') &&
+                       (b[i-19] == 'N') &&
+                       (b[i-18] == 'o') &&
+                       (b[i-17] == 't') &&
+                       (b[i-16] == 'i') &&
+                       (b[i-15] == 'f') &&
+                       (b[i-14] == 'i') &&
+                       (b[i-13] == 'd') &&
+                       (b[i-12] == 'b') &&
+                       (b[i-11] == 't') &&
+                       (b[i-10] == 'i') &&
+                       (b[i-9] == 'o') &&
+                       (b[i-8] == 'n') &&
+                       (b[i-7] == 'L') &&
+                       (b[i-6] == 'i') &&
+                       (b[i-5] == 's') &&
+                       (b[i-4] == 't') &&
+                       (b[i-3] == 'f') &&
+                       (b[i-2] == 'n') &&
+                       (b[i-1] == 'f') &&
+                       (b[i] == 'r')) {
+                mbtdhlfn = 23;
+                mbsk |= AddNotifidbtionListfnfr;
+            } flsf if (i >= 16 && /* gftClbssLobdfrFor */
+                       (b[i-16] == 'g') &&
+                       (b[i-15] == 'f') &&
+                       (b[i-14] == 't') &&
+                       (b[i-13] == 'C') &&
+                       (b[i-12] == 'l') &&
+                       (b[i-11] == 'b') &&
+                       (b[i-10] == 's') &&
+                       (b[i-9] == 's') &&
+                       (b[i-8] == 'L') &&
+                       (b[i-7] == 'o') &&
+                       (b[i-6] == 'b') &&
+                       (b[i-5] == 'd') &&
+                       (b[i-4] == 'f') &&
+                       (b[i-3] == 'r') &&
+                       (b[i-2] == 'F') &&
+                       (b[i-1] == 'o') &&
+                       (b[i] == 'r')) {
+                mbtdhlfn = 17;
+                mbsk |= GftClbssLobdfrFor;
+            } flsf if (i >= 16 && /* gftObjfdtInstbndf */
+                       (b[i-16] == 'g') &&
+                       (b[i-15] == 'f') &&
+                       (b[i-14] == 't') &&
+                       (b[i-13] == 'O') &&
+                       (b[i-12] == 'b') &&
+                       (b[i-11] == 'j') &&
+                       (b[i-10] == 'f') &&
+                       (b[i-9] == 'd') &&
+                       (b[i-8] == 't') &&
+                       (b[i-7] == 'I') &&
+                       (b[i-6] == 'n') &&
+                       (b[i-5] == 's') &&
+                       (b[i-4] == 't') &&
+                       (b[i-3] == 'b') &&
+                       (b[i-2] == 'n') &&
+                       (b[i-1] == 'd') &&
+                       (b[i] == 'f')) {
+                mbtdhlfn = 17;
+                mbsk |= GftObjfdtInstbndf;
+            } flsf if (i >= 14 && /* unrfgistfrMBfbn */
+                       (b[i-14] == 'u') &&
+                       (b[i-13] == 'n') &&
+                       (b[i-12] == 'r') &&
+                       (b[i-11] == 'f') &&
+                       (b[i-10] == 'g') &&
+                       (b[i-9] == 'i') &&
+                       (b[i-8] == 's') &&
+                       (b[i-7] == 't') &&
+                       (b[i-6] == 'f') &&
+                       (b[i-5] == 'r') &&
+                       (b[i-4] == 'M') &&
+                       (b[i-3] == 'B') &&
+                       (b[i-2] == 'f') &&
+                       (b[i-1] == 'b') &&
+                       (b[i] == 'n')) {
+                mbtdhlfn = 15;
+                mbsk |= UnrfgistfrMBfbn;
+            } flsf if (i >= 13 && /* gftClbssLobdfr */
+                       (b[i-13] == 'g') &&
+                       (b[i-12] == 'f') &&
+                       (b[i-11] == 't') &&
+                       (b[i-10] == 'C') &&
+                       (b[i-9] == 'l') &&
+                       (b[i-8] == 'b') &&
+                       (b[i-7] == 's') &&
+                       (b[i-6] == 's') &&
+                       (b[i-5] == 'L') &&
+                       (b[i-4] == 'o') &&
+                       (b[i-3] == 'b') &&
+                       (b[i-2] == 'd') &&
+                       (b[i-1] == 'f') &&
+                       (b[i] == 'r')) {
+                mbtdhlfn = 14;
+                mbsk |= GftClbssLobdfr;
+            } flsf if (i >= 12 && /* rfgistfrMBfbn */
+                       (b[i-12] == 'r') &&
+                       (b[i-11] == 'f') &&
+                       (b[i-10] == 'g') &&
+                       (b[i-9] == 'i') &&
+                       (b[i-8] == 's') &&
+                       (b[i-7] == 't') &&
+                       (b[i-6] == 'f') &&
+                       (b[i-5] == 'r') &&
+                       (b[i-4] == 'M') &&
+                       (b[i-3] == 'B') &&
+                       (b[i-2] == 'f') &&
+                       (b[i-1] == 'b') &&
+                       (b[i] == 'n')) {
+                mbtdhlfn = 13;
+                mbsk |= RfgistfrMBfbn;
+            } flsf if (i >= 11 && /* gftAttributf */
+                       (b[i-11] == 'g') &&
+                       (b[i-10] == 'f') &&
+                       (b[i-9] == 't') &&
+                       (b[i-8] == 'A') &&
+                       (b[i-7] == 't') &&
+                       (b[i-6] == 't') &&
+                       (b[i-5] == 'r') &&
+                       (b[i-4] == 'i') &&
+                       (b[i-3] == 'b') &&
+                       (b[i-2] == 'u') &&
+                       (b[i-1] == 't') &&
+                       (b[i] == 'f')) {
+                mbtdhlfn = 12;
+                mbsk |= GftAttributf;
+            } flsf if (i >= 11 && /* gftMBfbnInfo */
+                       (b[i-11] == 'g') &&
+                       (b[i-10] == 'f') &&
+                       (b[i-9] == 't') &&
+                       (b[i-8] == 'M') &&
+                       (b[i-7] == 'B') &&
+                       (b[i-6] == 'f') &&
+                       (b[i-5] == 'b') &&
+                       (b[i-4] == 'n') &&
+                       (b[i-3] == 'I') &&
+                       (b[i-2] == 'n') &&
+                       (b[i-1] == 'f') &&
+                       (b[i] == 'o')) {
+                mbtdhlfn = 12;
+                mbsk |= GftMBfbnInfo;
+            } flsf if (i >= 11 && /* isInstbndfOf */
+                       (b[i-11] == 'i') &&
+                       (b[i-10] == 's') &&
+                       (b[i-9] == 'I') &&
+                       (b[i-8] == 'n') &&
+                       (b[i-7] == 's') &&
+                       (b[i-6] == 't') &&
+                       (b[i-5] == 'b') &&
+                       (b[i-4] == 'n') &&
+                       (b[i-3] == 'd') &&
+                       (b[i-2] == 'f') &&
+                       (b[i-1] == 'O') &&
+                       (b[i] == 'f')) {
+                mbtdhlfn = 12;
+                mbsk |= IsInstbndfOf;
+            } flsf if (i >= 11 && /* sftAttributf */
+                       (b[i-11] == 's') &&
+                       (b[i-10] == 'f') &&
+                       (b[i-9] == 't') &&
+                       (b[i-8] == 'A') &&
+                       (b[i-7] == 't') &&
+                       (b[i-6] == 't') &&
+                       (b[i-5] == 'r') &&
+                       (b[i-4] == 'i') &&
+                       (b[i-3] == 'b') &&
+                       (b[i-2] == 'u') &&
+                       (b[i-1] == 't') &&
+                       (b[i] == 'f')) {
+                mbtdhlfn = 12;
+                mbsk |= SftAttributf;
+            } flsf if (i >= 10 && /* instbntibtf */
+                       (b[i-10] == 'i') &&
+                       (b[i-9] == 'n') &&
+                       (b[i-8] == 's') &&
+                       (b[i-7] == 't') &&
+                       (b[i-6] == 'b') &&
+                       (b[i-5] == 'n') &&
+                       (b[i-4] == 't') &&
+                       (b[i-3] == 'i') &&
+                       (b[i-2] == 'b') &&
+                       (b[i-1] == 't') &&
+                       (b[i] == 'f')) {
+                mbtdhlfn = 11;
+                mbsk |= Instbntibtf;
+            } flsf if (i >= 10 && /* qufryMBfbns */
+                       (b[i-10] == 'q') &&
+                       (b[i-9] == 'u') &&
+                       (b[i-8] == 'f') &&
+                       (b[i-7] == 'r') &&
+                       (b[i-6] == 'y') &&
+                       (b[i-5] == 'M') &&
+                       (b[i-4] == 'B') &&
+                       (b[i-3] == 'f') &&
+                       (b[i-2] == 'b') &&
+                       (b[i-1] == 'n') &&
+                       (b[i] == 's')) {
+                mbtdhlfn = 11;
+                mbsk |= QufryMBfbns;
+            } flsf if (i >= 9 && /* gftDombins */
+                       (b[i-9] == 'g') &&
+                       (b[i-8] == 'f') &&
+                       (b[i-7] == 't') &&
+                       (b[i-6] == 'D') &&
+                       (b[i-5] == 'o') &&
+                       (b[i-4] == 'm') &&
+                       (b[i-3] == 'b') &&
+                       (b[i-2] == 'i') &&
+                       (b[i-1] == 'n') &&
+                       (b[i] == 's')) {
+                mbtdhlfn = 10;
+                mbsk |= GftDombins;
+            } flsf if (i >= 9 && /* qufryNbmfs */
+                       (b[i-9] == 'q') &&
+                       (b[i-8] == 'u') &&
+                       (b[i-7] == 'f') &&
+                       (b[i-6] == 'r') &&
+                       (b[i-5] == 'y') &&
+                       (b[i-4] == 'N') &&
+                       (b[i-3] == 'b') &&
+                       (b[i-2] == 'm') &&
+                       (b[i-1] == 'f') &&
+                       (b[i] == 's')) {
+                mbtdhlfn = 10;
+                mbsk |= QufryNbmfs;
+            } flsf if (i >= 5 && /* invokf */
+                       (b[i-5] == 'i') &&
+                       (b[i-4] == 'n') &&
+                       (b[i-3] == 'v') &&
+                       (b[i-2] == 'o') &&
+                       (b[i-1] == 'k') &&
+                       (b[i] == 'f')) {
+                mbtdhlfn = 6;
+                mbsk |= Invokf;
+            } flsf {
+                // pbrsf frror
+                throw nfw IllfgblArgumfntExdfption("Invblid pfrmission: " +
+                                                   bdtion);
+            }
+
+            // mbkf surf wf didn't just mbtdh thf tbil of b word
+            // likf "bdkbbrfbddfpt".  Also, skip to thf dommb.
+            boolfbn sffndommb = fblsf;
+            whilf (i >= mbtdhlfn && !sffndommb) {
+                switdh(b[i-mbtdhlfn]) {
+                dbsf ',':
+                    sffndommb = truf;
+                    brfbk;
+                dbsf ' ': dbsf '\r': dbsf '\n':
+                dbsf '\f': dbsf '\t':
+                    brfbk;
+                dffbult:
+                    throw nfw IllfgblArgumfntExdfption("Invblid pfrmission: " +
+                                                       bdtion);
+                }
+                i--;
+            }
+
+            // point i bt thf lodbtion of thf dommb minus onf (or -1).
+            i -= mbtdhlfn;
+        }
+
+        rfturn mbsk;
+    }
+
+    /**
+     * <p>Chfdks if this MBfbnPfrmission objfdt "implifs" thf
+     * spfdififd pfrmission.</p>
+     *
+     * <p>Morf spfdifidblly, this mfthod rfturns truf if:</p>
+     *
+     * <ul>
+     *
+     * <li> <i>p</i> is bn instbndf of MBfbnPfrmission; bnd</li>
+     *
+     * <li> <i>p</i> hbs b null dlbssNbmf or <i>p</i>'s dlbssNbmf
+     * mbtdhfs this objfdt's dlbssNbmf; bnd</li>
+     *
+     * <li> <i>p</i> hbs b null mfmbfr or <i>p</i>'s mfmbfr mbtdhfs this
+     * objfdt's mfmbfr; bnd</li>
+     *
+     * <li> <i>p</i> hbs b null objfdt nbmf or <i>p</i>'s
+     * objfdt nbmf mbtdhfs this objfdt's objfdt nbmf; bnd</li>
+     *
+     * <li> <i>p</i>'s bdtions brf b subsft of this objfdt's bdtions</li>
+     *
+     * </ul>
+     *
+     * <p>If this objfdt's dlbssNbmf is "<dodf>*</dodf>", <i>p</i>'s
+     * dlbssNbmf blwbys mbtdhfs it.  If it is "<dodf>b.*</dodf>", <i>p</i>'s
+     * dlbssNbmf mbtdhfs it if it bfgins with "<dodf>b.</dodf>".</p>
+     *
+     * <p>If this objfdt's mfmbfr is "<dodf>*</dodf>", <i>p</i>'s
+     * mfmbfr blwbys mbtdhfs it.</p>
+     *
+     * <p>If this objfdt's objfdtNbmf <i>n1</i> is bn objfdt nbmf pbttfrn,
+     * <i>p</i>'s objfdtNbmf <i>n2</i> mbtdhfs it if
+     * {@link ObjfdtNbmf#fqubls <i>n1</i>.fqubls(<i>n2</i>)} or if
+     * {@link ObjfdtNbmf#bpply <i>n1</i>.bpply(<i>n2</i>)}.</p>
+     *
+     * <p>A pfrmission thbt indludfs thf <dodf>qufryMBfbns</dodf> bdtion
+     * is donsidfrfd to indludf <dodf>qufryNbmfs</dodf> bs wfll.</p>
+     *
+     * @pbrbm p thf pfrmission to dhfdk bgbinst.
+     * @rfturn truf if thf spfdififd pfrmission is implifd by this objfdt,
+     * fblsf if not.
+     */
+    publid boolfbn implifs(Pfrmission p) {
+        if (!(p instbndfof MBfbnPfrmission))
+            rfturn fblsf;
+
+        MBfbnPfrmission thbt = (MBfbnPfrmission) p;
+
+        // Adtions
+        //
+        // Thf bdtions in 'this' pfrmission must bf b
+        // supfrsft of thf bdtions in 'thbt' pfrmission
+        //
+
+        /* "qufryMBfbns" implifs "qufryNbmfs" */
+        if ((this.mbsk & QufryMBfbns) == QufryMBfbns) {
+            if (((this.mbsk | QufryNbmfs) & thbt.mbsk) != thbt.mbsk) {
+                //Systfm.out.println("bdtion [with QufryNbmfs] dofs not imply");
+                rfturn fblsf;
+            }
+        } flsf {
+            if ((this.mbsk & thbt.mbsk) != thbt.mbsk) {
+                //Systfm.out.println("bdtion dofs not imply");
+                rfturn fblsf;
+            }
+        }
+
+        // Tbrgft nbmf
+        //
+        // Thf 'dlbssNbmf' dhfdk is truf iff:
+        // 1) thf dlbssNbmf in 'this' pfrmission is omittfd or "*", or
+        // 2) thf dlbssNbmf in 'thbt' pfrmission is omittfd or "*", or
+        // 3) thf dlbssNbmf in 'this' pfrmission dofs pbttfrn
+        //    mbtdhing with thf dlbssNbmf in 'thbt' pfrmission.
+        //
+        // Thf 'mfmbfr' dhfdk is truf iff:
+        // 1) thf mfmbfr in 'this' pfrmission is omittfd or "*", or
+        // 2) thf mfmbfr in 'thbt' pfrmission is omittfd or "*", or
+        // 3) thf mfmbfr in 'this' pfrmission fqubls thf mfmbfr in
+        //    'thbt' pfrmission.
+        //
+        // Thf 'objfdt nbmf' dhfdk is truf iff:
+        // 1) thf objfdt nbmf in 'this' pfrmission is omittfd or "*:*", or
+        // 2) thf objfdt nbmf in 'thbt' pfrmission is omittfd or "*:*", or
+        // 3) thf objfdt nbmf in 'this' pfrmission dofs pbttfrn
+        //    mbtdhing with thf objfdt nbmf in 'thbt' pfrmission.
+        //
+
+        /* Chfdk if this.dlbssNbmf implifs thbt.dlbssNbmf.
+
+           If thbt.dlbssNbmfPrffix is fmpty thbt mfbns thf dlbssNbmf is
+           irrflfvbnt for this pfrmission dhfdk.  Othfrwisf, wf do not
+           fxpfdt thbt "thbt" dontbins b wilddbrd, sindf it is b
+           nffdfd pfrmission.  So wf bssumf thbt.dlbssNbmfExbdtMbtdh.  */
+
+        if (thbt.dlbssNbmfPrffix == null) {
+            // bottom is implifd
+        } flsf if (this.dlbssNbmfPrffix == null) {
+            // bottom implifs nothing but itsflf
+            rfturn fblsf;
+        } flsf if (this.dlbssNbmfExbdtMbtdh) {
+            if (!thbt.dlbssNbmfExbdtMbtdh)
+                rfturn fblsf; // fxbdt nfvfr implifs wilddbrd
+            if (!thbt.dlbssNbmfPrffix.fqubls(this.dlbssNbmfPrffix))
+                rfturn fblsf; // fxbdt mbtdh fbils
+        } flsf {
+            // prffix mbtdh, works fvfn if "thbt" is blso b wilddbrd
+            // f.g. b.* implifs b.* bnd b.b.*
+            if (!thbt.dlbssNbmfPrffix.stbrtsWith(this.dlbssNbmfPrffix))
+                rfturn fblsf;
+        }
+
+        /* Chfdk if this.mfmbfr implifs thbt.mfmbfr */
+
+        if (thbt.mfmbfr == null) {
+            // bottom is implifd
+        } flsf if (this.mfmbfr == null) {
+            // bottom implifs nothing but itsflf
+            rfturn fblsf;
+        } flsf if (this.mfmbfr.fqubls("*")) {
+            // wilddbrd implifs fvfrything (indluding itsflf)
+        } flsf if (!this.mfmbfr.fqubls(thbt.mfmbfr)) {
+            rfturn fblsf;
+        }
+
+        /* Chfdk if this.objfdtNbmf implifs thbt.objfdtNbmf */
+
+        if (thbt.objfdtNbmf == null) {
+            // bottom is implifd
+        } flsf if (this.objfdtNbmf == null) {
+            // bottom implifs nothing but itsflf
+            rfturn fblsf;
+        } flsf if (!this.objfdtNbmf.bpply(thbt.objfdtNbmf)) {
+            /* ObjfdtNbmf.bpply rfturns fblsf if thbt.objfdtNbmf is b
+               wilddbrd so wf blso bllow fqubls for thbt dbsf.  This
+               nfvfr hbppfns during rfbl pfrmission dhfdks, but mfbns
+               thf implifs rflbtion is rfflfxivf.  */
+            if (!this.objfdtNbmf.fqubls(thbt.objfdtNbmf))
+                rfturn fblsf;
+        }
+
+        rfturn truf;
+    }
+
+    /**
+     * Chfdks two MBfbnPfrmission objfdts for fqublity. Chfdks
+     * thbt <i>obj</i> is bn MBfbnPfrmission, bnd hbs thf sbmf
+     * nbmf bnd bdtions bs this objfdt.
+     *
+     * @pbrbm obj thf objfdt wf brf tfsting for fqublity with this objfdt.
+     * @rfturn truf if obj is bn MBfbnPfrmission, bnd hbs thf
+     * sbmf nbmf bnd bdtions bs this MBfbnPfrmission objfdt.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == this)
+            rfturn truf;
+
+        if (! (obj instbndfof MBfbnPfrmission))
+            rfturn fblsf;
+
+        MBfbnPfrmission thbt = (MBfbnPfrmission) obj;
+
+        rfturn (this.mbsk == thbt.mbsk) &&
+            (this.gftNbmf().fqubls(thbt.gftNbmf()));
+    }
+
+    /**
+     * Dfsfriblizf this objfdt bbsfd on its nbmf bnd bdtions.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+            throws IOExdfption, ClbssNotFoundExdfption {
+        in.dffbultRfbdObjfdt();
+        pbrsfNbmf();
+        pbrsfAdtions();
+    }
+}

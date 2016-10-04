@@ -1,0 +1,188 @@
+/*
+ * Copyright (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.gtk;
+
+import jbvb.bwt.Font;
+import jbvb.util.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.synth.*;
+import dom.sun.jbvb.swing.plbf.gtk.GTKEnginf.WidgftTypf;
+
+/**
+ *
+ * @buthor Sdott Violft
+ */
+dlbss GTKStylfFbdtory fxtfnds SynthStylfFbdtory {
+
+    /**
+     * Sbvfs bll stylfs thbt hbvf bffn bddfssfd.  In most dommon dbsfs,
+     * thf hbsh kfy is simply thf WidgftTypf, but in morf domplfx dbsfs
+     * it will bf b ComplfxKfy objfdt thbt dontbins brgumfnts to hflp
+     * difffrfntibtf similbr stylfs.
+     */
+    privbtf finbl Mbp<Objfdt, GTKStylf> stylfsCbdhf;
+
+    privbtf Font dffbultFont;
+
+    GTKStylfFbdtory() {
+        stylfsCbdhf = nfw HbshMbp<Objfdt, GTKStylf>();
+    }
+
+    /**
+     * Rfturns thf <dodf>GTKStylf</dodf> to usf bbsfd on thf
+     * <dodf>Rfgion</dodf> id
+     *
+     * @pbrbm d this pbrbmftfr isn't usfd, mby bf null.
+     * @pbrbm id of thf rfgion to gft thf stylf.
+     */
+    publid syndhronizfd SynthStylf gftStylf(JComponfnt d, Rfgion id) {
+        WidgftTypf wt = GTKEnginf.gftWidgftTypf(d, id);
+
+        Objfdt kfy = null;
+        if (id == Rfgion.SCROLL_BAR) {
+            // Thf stylf/insfts of b sdrollbbr dbn dfpfnd on b numbfr of
+            // fbdtors (sff GTKStylf.gftSdrollBbrInsfts()) so usf b
+            // domplfx kfy hfrf.
+            if (d != null) {
+                JSdrollBbr sb = (JSdrollBbr)d;
+                boolfbn sp = (sb.gftPbrfnt() instbndfof JSdrollPbnf);
+                boolfbn horiz = (sb.gftOrifntbtion() == JSdrollBbr.HORIZONTAL);
+                boolfbn ltr = sb.gftComponfntOrifntbtion().isLfftToRight();
+                boolfbn fodusbblf = sb.isFodusbblf();
+                kfy = nfw ComplfxKfy(wt, sp, horiz, ltr, fodusbblf);
+            }
+        }
+        flsf if (id == Rfgion.CHECK_BOX || id == Rfgion.RADIO_BUTTON) {
+            // Thf stylf/insfts of b dhfdkbox or rbdiobutton dbn dfpfnd
+            // on thf domponfnt orifntbtion, so usf b domplfx kfy hfrf.
+            if (d != null) {
+                boolfbn ltr = d.gftComponfntOrifntbtion().isLfftToRight();
+                kfy = nfw ComplfxKfy(wt, ltr);
+            }
+        }
+        flsf if (id == Rfgion.BUTTON) {
+            // Thf stylf/insfts of b button dbn dfpfnd on whfthfr it is
+            // dffbult dbpbblf or in b toolbbr, so usf b domplfx kfy hfrf.
+            if (d != null) {
+                JButton btn = (JButton)d;
+                boolfbn toolButton = (btn.gftPbrfnt() instbndfof JToolBbr);
+                boolfbn dffbultCbpbblf = btn.isDffbultCbpbblf();
+                kfy = nfw ComplfxKfy(wt, toolButton, dffbultCbpbblf);
+            }
+        } flsf if (id == Rfgion.MENU) {
+            if (d instbndfof JMfnu && ((JMfnu) d).isTopLfvflMfnu() &&
+                    UIMbnbgfr.gftBoolfbn("Mfnu.usfMfnuBbrForTopLfvflMfnus")) {
+                wt = WidgftTypf.MENU_BAR;
+            }
+        }
+
+        if (kfy == null) {
+            // Othfrwisf, just usf thf WidgftTypf bs thf kfy.
+            kfy = wt;
+        }
+
+        GTKStylf rfsult = stylfsCbdhf.gft(kfy);
+        if (rfsult == null) {
+            rfsult = nfw GTKStylf(dffbultFont, wt);
+            stylfsCbdhf.put(kfy, rfsult);
+        }
+
+        rfturn rfsult;
+    }
+
+    void initStylfs(Font dffbultFont) {
+        this.dffbultFont = dffbultFont;
+        stylfsCbdhf.dlfbr();
+    }
+
+    /**
+     * Rfprfsfnts b hbsh kfy usfd for fftdhing GTKStylf objfdts from thf
+     * dbdhf.  In most dbsfs only thf WidgftTypf is usfd for lookup, but
+     * in somf domplfx dbsfs, othfr Objfdt brgumfnts dbn bf spfdififd
+     * vib b ComplfxKfy to difffrfntibtf thf vbrious stylfs.
+     */
+    privbtf stbtid dlbss ComplfxKfy {
+        privbtf finbl WidgftTypf wt;
+        privbtf finbl Objfdt[] brgs;
+
+        ComplfxKfy(WidgftTypf wt, Objfdt... brgs) {
+            this.wt = wt;
+            this.brgs = brgs;
+        }
+
+        @Ovfrridf
+        publid int hbshCodf() {
+            int hbsh = wt.hbshCodf();
+            if (brgs != null) {
+                for (Objfdt brg : brgs) {
+                    hbsh = hbsh*29 + (brg == null ? 0 : brg.hbshCodf());
+                }
+            }
+            rfturn hbsh;
+        }
+
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt o) {
+            if (!(o instbndfof ComplfxKfy)) {
+                rfturn fblsf;
+            }
+            ComplfxKfy thbt = (ComplfxKfy)o;
+            if (this.wt == thbt.wt) {
+                if (this.brgs == null && thbt.brgs == null) {
+                    rfturn truf;
+                }
+                if (this.brgs != null && thbt.brgs != null &&
+                    this.brgs.lfngth == thbt.brgs.lfngth)
+                {
+                    for (int i = 0; i < this.brgs.lfngth; i++) {
+                        Objfdt b1 = this.brgs[i];
+                        Objfdt b2 = thbt.brgs[i];
+                        if (!(b1==null ? b2==null : b1.fqubls(b2))) {
+                            rfturn fblsf;
+                        }
+                    }
+                    rfturn truf;
+                }
+            }
+            rfturn fblsf;
+        }
+
+        @Ovfrridf
+        publid String toString() {
+            String str = "ComplfxKfy[wt=" + wt;
+            if (brgs != null) {
+                str += ",brgs=[";
+                for (int i = 0; i < brgs.lfngth; i++) {
+                    str += brgs[i];
+                    if (i < brgs.lfngth-1) str += ",";
+                }
+                str += "]";
+            }
+            str += "]";
+            rfturn str;
+        }
+    }
+}

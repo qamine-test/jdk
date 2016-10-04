@@ -1,0 +1,675 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="dhr"/>
+	</idfntity>
+	<fbllbbdk>fn</fbllbbdk>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="dby">ᎦᏳᎦ</lbngubgf>
+			<lbngubgf typf="dho">ᎠᏣᏗ</lbngubgf>
+			<lbngubgf typf="dhr">ᏣᎳᎩ</lbngubgf>
+			<lbngubgf typf="df">ᎠᏂᏓᏥ</lbngubgf>
+			<lbngubgf typf="fn">ᎩᎵᏏ</lbngubgf>
+			<lbngubgf typf="fs">ᏍᏆᏂ</lbngubgf>
+			<lbngubgf typf="fr">ᎦᎸᏥ</lbngubgf>
+			<lbngubgf typf="it">ᎬᏩᎵᏲᏥᎢ</lbngubgf>
+			<lbngubgf typf="jb">ᏣᏩᏂᏏ</lbngubgf>
+			<lbngubgf typf="moh">ᎼᎻᎦ</lbngubgf>
+			<lbngubgf typf="mus">ᎠᎫᏌ</lbngubgf>
+			<lbngubgf typf="pt">ᏉᏧᎦᎵ</lbngubgf>
+			<lbngubgf typf="ru">ᏲᏂᎢ</lbngubgf>
+			<lbngubgf typf="sff">ᏏᏂᎦ</lbngubgf>
+			<lbngubgf typf="und">ᏄᏬᎵᏍᏛᎾ ᎦᏬᏂᎯᏍᏗ</lbngubgf>
+			<lbngubgf typf="zh">ᏓᎶᏂᎨ</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Arbb">ᎡᎳᏈᎩ</sdript>
+			<sdript typf="Chfr">ᏣᎳᎩ</sdript>
+			<sdript typf="Cyrl">ᏲᏂᎢ ᏗᎪᏪᎵ</sdript>
+			<sdript typf="Hbns">ᎠᎯᏗᎨ ᏓᎶᏂᎨ</sdript>
+			<sdript typf="Hbnt">ᎤᏦᏍᏗ ᏓᎶᏂᎨ</sdript>
+			<sdript typf="Lbtn">ᎳᏗᎾ</sdript>
+			<sdript typf="Zzzz">ᏄᏬᎵᏍᏛᎾ ᎠᏍᏓᏩᏛᏍᏙᏗ</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="001">ᎡᎶᎯ</tfrritory>
+			<tfrritory typf="003">ᏧᏴᏢ ᎠᎺᎵᎦ</tfrritory>
+			<tfrritory typf="005">ᏧᎦᏃᏮ ᎠᎺᎵᎦ</tfrritory>
+			<tfrritory typf="019">ᎠᎺᎵᎦᎢ</tfrritory>
+			<tfrritory typf="AD">ᎠᏂᏙᎳ</tfrritory>
+			<tfrritory typf="AE">ᏌᏊ ᎢᏳᎾᎵᏍᏔᏅ ᎡᎳᏈ ᎢᎹᎵᏘᏏ</tfrritory>
+			<tfrritory typf="AF">ᎠᏫᎨᏂᏍᏖᏂ</tfrritory>
+			<tfrritory typf="AG">ᎤᏪᏘ ᎠᎴ ᏆᏊᏓ</tfrritory>
+			<tfrritory typf="AI">ᎠᏂᎩᎳ</tfrritory>
+			<tfrritory typf="AL">ᎠᎵᏇᏂᏯ</tfrritory>
+			<tfrritory typf="AM">ᎠᎵᎻᏂᎠ</tfrritory>
+			<tfrritory typf="AO">ᎠᏂᎪᎳ</tfrritory>
+			<tfrritory typf="AQ">ᏧᏁᏍᏓᎸ</tfrritory>
+			<tfrritory typf="AR">ᎠᏥᏂᏘᏂᎠ</tfrritory>
+			<tfrritory typf="AS">ᎠᎺᎵᎧ ᏌᎼᎠ</tfrritory>
+			<tfrritory typf="AT">ᎠᏍᏟᏯ</tfrritory>
+			<tfrritory typf="AU">ᎡᎳᏗᏜ</tfrritory>
+			<tfrritory typf="AW">ᎠᎷᏆ</tfrritory>
+			<tfrritory typf="AX">ᎣᎴᏅᏓ ᏚᎦᏚᏛ</tfrritory>
+			<tfrritory typf="AZ">ᎠᏏᎵᏆᏌᏂ</tfrritory>
+			<tfrritory typf="BA">ᏉᏏᏂᎠ ᎠᎴ ᎲᏤᎪᏫ</tfrritory>
+			<tfrritory typf="BB">ᏆᏇᏙᏍ</tfrritory>
+			<tfrritory typf="BD">ᏆᏂᎦᎵᏕᏍ</tfrritory>
+			<tfrritory typf="BE">ᏇᎵᏥᎥᎻ</tfrritory>
+			<tfrritory typf="BF">ᏋᎩᎾ ᏩᏐ</tfrritory>
+			<tfrritory typf="BG">ᏊᎵᎨᎵᎠ</tfrritory>
+			<tfrritory typf="BH">ᏆᎭᎴᎢᏂ</tfrritory>
+			<tfrritory typf="BI">ᏋᎷᏂᏗ</tfrritory>
+			<tfrritory typf="BJ">ᏆᏂᎢᏂ</tfrritory>
+			<tfrritory typf="BL">ᎠᏥᎸᏉᏗ ᏆᏕᎳᎻ</tfrritory>
+			<tfrritory typf="BM">ᏆᏊᏓ</tfrritory>
+			<tfrritory typf="BN">ᏊᎾᎢ</tfrritory>
+			<tfrritory typf="BO">ᏉᎵᏫᎠ</tfrritory>
+			<tfrritory typf="BR">ᏆᏏᎵᎢ</tfrritory>
+			<tfrritory typf="BS">ᎾᏍᎩ ᏆᎭᎹᏍ</tfrritory>
+			<tfrritory typf="BT">ᏊᏔᏂ</tfrritory>
+			<tfrritory typf="BV">ᏊᏪ ᎤᎦᏚᏛ</tfrritory>
+			<tfrritory typf="BW">ᏆᏣᏩᎾ</tfrritory>
+			<tfrritory typf="BY">ᏇᎳᎷᏍ</tfrritory>
+			<tfrritory typf="BZ">ᏇᎵᏍ</tfrritory>
+			<tfrritory typf="CA">ᎨᎾᏓ</tfrritory>
+			<tfrritory typf="CC">ᎪᎪᏍ [ᎩᎵᏂ] ᏚᎦᏚᏛ</tfrritory>
+			<tfrritory typf="CD">ᎧᏂᎪ</tfrritory>
+			<tfrritory typf="CF">ᎬᎿᎨᏍᏛ ᎠᏰᏟ ᏍᎦᏚᎩ</tfrritory>
+			<tfrritory typf="CG">ᎧᏂᎪ [ᏍᎦᏚᎩ]</tfrritory>
+			<tfrritory typf="CH">ᏍᏫᏍ</tfrritory>
+			<tfrritory typf="CI">ᎢᏬᎵ ᎾᎿ ᎠᎹᏳᎶᏗ</tfrritory>
+			<tfrritory typf="CK">ᎠᏓᏍᏓᏴᎲᏍᎩ ᎤᎦᏚᏛ</tfrritory>
+			<tfrritory typf="CL">ᏥᎵ</tfrritory>
+			<tfrritory typf="CM">ᎧᎹᎷᏂ</tfrritory>
+			<tfrritory typf="CN">ᏓᎶᏂᎨᏍᏛ</tfrritory>
+			<tfrritory typf="CO">ᎪᎸᎻᏈᎢᎠ</tfrritory>
+			<tfrritory typf="CR">ᎪᏍᏓ ᎵᎧ</tfrritory>
+			<tfrritory typf="CU">ᎫᏆ</tfrritory>
+			<tfrritory typf="CV">ᎢᎬᎾᏕᎾ ᎢᏤᏳᏍᏗ</tfrritory>
+			<tfrritory typf="CW">ᏂᎦᏓ ᎤᏂᎲ ᎾᎿ ᎫᎳᎨᎣ</tfrritory>
+			<tfrritory typf="CX">ᏓᏂᏍᏓᏲᎯᎲ ᎤᎦᏚᏛ</tfrritory>
+			<tfrritory typf="CY">ᏌᎢᏆᏍ</tfrritory>
+			<tfrritory typf="CZ">ᏤᎩ ᏍᎦᏚᎩ</tfrritory>
+			<tfrritory typf="DE">ᎠᏂᏛᏥ</tfrritory>
+			<tfrritory typf="DJ">ᏥᏊᏗ</tfrritory>
+			<tfrritory typf="DK">ᏗᏂᎹᎦ</tfrritory>
+			<tfrritory typf="DM">ᏙᎻᏂᎧ</tfrritory>
+			<tfrritory typf="DO">ᏙᎻᏂᎧᏂ ᏍᎦᏚᎩ</tfrritory>
+			<tfrritory typf="DZ">ᎠᎵᏥᎵᏯ</tfrritory>
+			<tfrritory typf="EC">ᎡᏆᏙᎵ</tfrritory>
+			<tfrritory typf="EE">ᎡᏍᏙᏂᏯ</tfrritory>
+			<tfrritory typf="EG">ᎢᏥᏈᎢ</tfrritory>
+			<tfrritory typf="ER">ᎡᎵᏟᏯ</tfrritory>
+			<tfrritory typf="ES">ᎠᏂᏍᏆᏂᏱ</tfrritory>
+			<tfrritory typf="FI">ᏫᏂᎦᏙᎯ</tfrritory>
+			<tfrritory typf="FJ">ᏫᏥ</tfrritory>
+			<tfrritory typf="FK">ᏩᎩ ᎤᎦᏚᏛ</tfrritory>
+			<tfrritory typf="FK" blt="vbribnt">ᏩᎩ ᎤᎦᏚᏛ [ᎢᏍᎳᏍ ᎹᎸᏫᎾᏍ]</tfrritory>
+			<tfrritory typf="FM">ᎠᏰᏟ ᏧᎾᎵᎪᎯ ᎾᎿ ᎹᎢᏉᏂᏏᏯ</tfrritory>
+			<tfrritory typf="FO">ᏪᎶ ᏚᎦᏚᏛ</tfrritory>
+			<tfrritory typf="FR">ᎦᎸᏥᏱ</tfrritory>
+			<tfrritory typf="GA">ᎦᏉᏂ</tfrritory>
+			<tfrritory typf="GB">ᎩᎵᏏᏲ</tfrritory>
+			<tfrritory typf="GD">ᏋᎾᏓ</tfrritory>
+			<tfrritory typf="GE">ᏣᎠᏥᎢ</tfrritory>
+			<tfrritory typf="GF">ᎠᏂᎦᎸᏥ ᎩᎠ</tfrritory>
+			<tfrritory typf="GG">ᎬᏂᏏ</tfrritory>
+			<tfrritory typf="GH">ᎦᎠᎾ</tfrritory>
+			<tfrritory typf="GI">ᏥᏆᎵᏓ</tfrritory>
+			<tfrritory typf="GL">ᎢᏤᏍᏛᏱ</tfrritory>
+			<tfrritory typf="GM">ᎦᎹᏈᎢᎠ</tfrritory>
+			<tfrritory typf="GN">ᎫᏇ</tfrritory>
+			<tfrritory typf="GP">ᏩᏓᎷᏇ</tfrritory>
+			<tfrritory typf="GQ">ᎡᏆᏙᎵᎠᎵ ᎩᎢᏂ</tfrritory>
+			<tfrritory typf="GR">ᎪᎢᎯ</tfrritory>
+			<tfrritory typf="GS">ᏧᎦᏃᏮ ᏣᏥᏱ ᎠᎴ ᎾᏍᎩ ᏧᎦᏃᏮ ᎠᏍᏛᎭᏟ ᏚᎦᏚᏛ</tfrritory>
+			<tfrritory typf="GT">ᏩᏔᎹᎳ</tfrritory>
+			<tfrritory typf="GU">ᏆᎻ</tfrritory>
+			<tfrritory typf="GW">ᎫᏇ-ᏈᏌᎤᏫ</tfrritory>
+			<tfrritory typf="GY">ᎦᏯᎾ</tfrritory>
+			<tfrritory typf="HK">ᎰᏂᎩ ᎪᏂᎩ</tfrritory>
+			<tfrritory typf="HM">ᎲᏗ ᎤᎦᏚᏛ ᎠᎴ ᎺᎩᏓᎾᎵᏗ ᏚᎦᏚᏛ</tfrritory>
+			<tfrritory typf="HR">ᎧᎶᎡᏏᎠ</tfrritory>
+			<tfrritory typf="HT">ᎮᎢᏘ</tfrritory>
+			<tfrritory typf="HU">ᎲᏂᎦᎵ</tfrritory>
+			<tfrritory typf="ID">ᎢᏂᏙᏂᏍᏯ</tfrritory>
+			<tfrritory typf="IE">ᎠᎢᎴᏂᏗ</tfrritory>
+			<tfrritory typf="IL">ᎢᏏᎵᏱ</tfrritory>
+			<tfrritory typf="IM">ᎤᏍᏗ ᎤᎦᏚᏛ ᎾᎿ ᎠᏍᎦᏯ</tfrritory>
+			<tfrritory typf="IN">ᎢᏅᏗᎾ</tfrritory>
+			<tfrritory typf="IO">ᏈᏗᏏ ᏴᏫᏯ ᎠᎺᏉ ᎢᎬᎾᏕᏅ</tfrritory>
+			<tfrritory typf="IQ">ᎢᎳᎩ</tfrritory>
+			<tfrritory typf="IR">ᎢᎴᏂ</tfrritory>
+			<tfrritory typf="IS">ᏧᏁᏍᏓᎸᎯ</tfrritory>
+			<tfrritory typf="IT">ᏲᎶ</tfrritory>
+			<tfrritory typf="JE">ᏨᎵᏏ</tfrritory>
+			<tfrritory typf="JM">ᏣᎺᎢᎧ</tfrritory>
+			<tfrritory typf="JO">ᏦᏓᏂ</tfrritory>
+			<tfrritory typf="JP">ᏣᏩᏂᏏ</tfrritory>
+			<tfrritory typf="KE">ᎨᏂᏯ</tfrritory>
+			<tfrritory typf="KG">ᎩᎵᏣᎢᏍ</tfrritory>
+			<tfrritory typf="KH">ᎧᎹᏉᏗᎠᏂ</tfrritory>
+			<tfrritory typf="KI">ᎧᎵᏆᏘ</tfrritory>
+			<tfrritory typf="KM">ᎪᎼᎳᏍ</tfrritory>
+			<tfrritory typf="KN">ᎠᏰᏟ ᎾᎿ ᎨᏥᎸᏉᏗ ᎠᏂᏪᏌ ᎠᎴ ᎠᏂᏁᏫᏍ</tfrritory>
+			<tfrritory typf="KP">ᏧᏴᏢ ᎪᎵᎠ</tfrritory>
+			<tfrritory typf="KR">ᏧᎦᏃᏮ ᎪᎵᎠ</tfrritory>
+			<tfrritory typf="KW">ᎫᏪᎢᏘ</tfrritory>
+			<tfrritory typf="KY">ᎨᎢᎹᏂ ᏚᎦᏚᏛᎢ</tfrritory>
+			<tfrritory typf="KZ">ᎧᏎᎧᏍᏕᏂ</tfrritory>
+			<tfrritory typf="LA">ᎴᎣᏍ</tfrritory>
+			<tfrritory typf="LB">ᎴᏆᎾᏂ</tfrritory>
+			<tfrritory typf="LI">ᎵᎦᏗᏂᏍᏓᏂ</tfrritory>
+			<tfrritory typf="LK">ᏍᎵ ᎳᏂᎧ</tfrritory>
+			<tfrritory typf="LR">ᎳᏈᎵᏯ</tfrritory>
+			<tfrritory typf="LS">ᎴᏐᏙ</tfrritory>
+			<tfrritory typf="LT">ᎵᏗᏪᏂᎠ</tfrritory>
+			<tfrritory typf="LU">ᎸᎧᏎᏋᎩ</tfrritory>
+			<tfrritory typf="LV">ᎳᏘᏫᎠ</tfrritory>
+			<tfrritory typf="LY">ᎵᏈᏯ</tfrritory>
+			<tfrritory typf="MA">ᎼᎶᎪ</tfrritory>
+			<tfrritory typf="MC">ᎹᎾᎪ</tfrritory>
+			<tfrritory typf="MD">ᎹᎵᏙᏫᎠ</tfrritory>
+			<tfrritory typf="ME">ᎼᏂᏔᏁᎦᎶ</tfrritory>
+			<tfrritory typf="MF">ᎠᏥᎸᏉᏗ ᏡᏡ</tfrritory>
+			<tfrritory typf="MG">ᎹᏓᎦᏍᎧᎵ</tfrritory>
+			<tfrritory typf="MH">ᎹᏌᎵ ᏚᎪᏚᏛ</tfrritory>
+			<tfrritory typf="MK">ᎹᏏᏙᏂᎢᎠ</tfrritory>
+			<tfrritory typf="ML">ᎹᎵ</tfrritory>
+			<tfrritory typf="MM">ᎹᏯᎹᎵ</tfrritory>
+			<tfrritory typf="MN">ᎹᏂᎪᎵᎠ</tfrritory>
+			<tfrritory typf="MO">ᎹᎧᎣ [ᎤᏓᏤᎵᏓ ᏧᏂᎸᏫᏍᏓᏁᏗ ᎢᎬᎾᏕᎾ] ᏣᎢ</tfrritory>
+			<tfrritory typf="MO" blt="short">ᎹᎧᎣ</tfrritory>
+			<tfrritory typf="MP">ᎾᏍᎩ ᎤᏴᏢ ᏗᏜ ᎹᎵᎠᎾ ᏚᎦᏚᏛ</tfrritory>
+			<tfrritory typf="MQ">ᎹᏘᏂᎨ</tfrritory>
+			<tfrritory typf="MR">ᎹᏘᎢᏯ</tfrritory>
+			<tfrritory typf="MS">ᎹᏂᏘᏌᎳᏗ</tfrritory>
+			<tfrritory typf="MT">ᎹᎵᏔ</tfrritory>
+			<tfrritory typf="MU">ᎼᎵᏏᎥᏍ</tfrritory>
+			<tfrritory typf="MV">ᎹᎵᏗᏫᏍ</tfrritory>
+			<tfrritory typf="MW">ᎹᎳᏫ</tfrritory>
+			<tfrritory typf="MX">ᏍᏆᏂᏱ</tfrritory>
+			<tfrritory typf="MY">ᎹᎴᏏᎢᎠ</tfrritory>
+			<tfrritory typf="MZ">ᎼᏎᎻᏇᎩ</tfrritory>
+			<tfrritory typf="NA">ᎾᎻᏈᎢᏯ</tfrritory>
+			<tfrritory typf="NC">ᎢᏤ ᎧᎵᏙᏂᎠᏂ</tfrritory>
+			<tfrritory typf="NF">ᏃᎵᏬᎵᎩ ᎤᎦᏚᏛ</tfrritory>
+			<tfrritory typf="NG">ᏂᏥᎵᏯ</tfrritory>
+			<tfrritory typf="NI">ᏂᎧᎳᏆ</tfrritory>
+			<tfrritory typf="NL">ᏁᏛᎳᏂ</tfrritory>
+			<tfrritory typf="NO">ᏃᏪ</tfrritory>
+			<tfrritory typf="NP">ᏁᏆᎵ</tfrritory>
+			<tfrritory typf="NR">ᏃᎤᎷ</tfrritory>
+			<tfrritory typf="NU">ᏂᏳ</tfrritory>
+			<tfrritory typf="NZ">ᎢᏤ ᏏᎢᎴᏂᏗ</tfrritory>
+			<tfrritory typf="OM">ᎣᎺᏂ</tfrritory>
+			<tfrritory typf="PA">ᏆᎾᎹ</tfrritory>
+			<tfrritory typf="PE">ᏇᎷ</tfrritory>
+			<tfrritory typf="PF">ᎠᏂᎦᎸᏣ ᏆᎵᏂᏏᎠ</tfrritory>
+			<tfrritory typf="PG">ᏆᏇ ᎢᏤ ᎩᏂ</tfrritory>
+			<tfrritory typf="PH">ᎠᏂᏈᎵᎩᏃ</tfrritory>
+			<tfrritory typf="PK">ᏆᎩᏍᏖᏂ</tfrritory>
+			<tfrritory typf="PL">ᏉᎳᏂ</tfrritory>
+			<tfrritory typf="PM">ᏎᏂᏘ ᏈᏓ ᎠᎴ ᎻᏇᎶᏂ</tfrritory>
+			<tfrritory typf="PN">ᏈᎧᎵᏂ ᎤᎦᏚᏛᎢ</tfrritory>
+			<tfrritory typf="PR">ᏇᎡᏙ ᎵᎢᎪ</tfrritory>
+			<tfrritory typf="PS">ᏆᎴᏍᏗᏂᎠᏂ ᏄᎬᏫᏳᏌᏕᎩ</tfrritory>
+			<tfrritory typf="PT">ᏉᏥᎦᎳ</tfrritory>
+			<tfrritory typf="PW">ᏆᎴᎠᏫ</tfrritory>
+			<tfrritory typf="PY">ᏆᎳᏇᎢᏯ</tfrritory>
+			<tfrritory typf="QA">ᎧᏔᎵ</tfrritory>
+			<tfrritory typf="RO">ᎶᎹᏂᏯ</tfrritory>
+			<tfrritory typf="RS">ᏒᏈᏯ</tfrritory>
+			<tfrritory typf="RU">ᏲᏂᎢ</tfrritory>
+			<tfrritory typf="RW">ᎶᏩᏂᏓ</tfrritory>
+			<tfrritory typf="SA">ᏌᎤᏗ ᎡᎴᏈᎠ</tfrritory>
+			<tfrritory typf="SB">ᏐᎶᎹᏂ ᏚᎦᏚᏛ</tfrritory>
+			<tfrritory typf="SC">ᏏᎡᏥᎵᏍ</tfrritory>
+			<tfrritory typf="SD">ᏑᏕᏂ</tfrritory>
+			<tfrritory typf="SE">ᏍᏫᏕᏂ</tfrritory>
+			<tfrritory typf="SG">ᏏᏂᎦᏉᎵ</tfrritory>
+			<tfrritory typf="SH">ᎠᏥᎸᏉᏗ ᎮᎵᎾ</tfrritory>
+			<tfrritory typf="SI">ᏍᎶᏫᏂᎠ</tfrritory>
+			<tfrritory typf="SK">ᏍᎶᏩᎩᎠ</tfrritory>
+			<tfrritory typf="SL">ᏏᎡᎳ ᎴᎣᏂ</tfrritory>
+			<tfrritory typf="US">ᎠᎹᏰᏟ</tfrritory>
+			<tfrritory typf="ZZ">ᏄᏬᎵᏍᏛᎾ ᎤᏔᏂᏗᎦᏙᎯ</tfrritory>
+		</tfrritorifs>
+		<kfys>
+			<kfy typf="dblfndbr">ᏅᏙ ᏗᏎᏗ</kfy>
+			<kfy typf="durrfndy">ᎠᏕᎳ</kfy>
+		</kfys>
+		<typfs>
+			<typf typf="grfgoribn" kfy="dblfndbr">ᏅᏙ ᏗᏎᏗ</typf>
+		</typfs>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="mftrid">ᎺᏘᎩ</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="US">ᎣᏂᏏ</mfbsurfmfntSystfmNbmf>
+		</mfbsurfmfntSystfmNbmfs>
+	</lodblfDisplbyNbmfs>
+	<dhbrbdtfrs>
+		<fxfmplbrChbrbdtfrs>[Ꭰ Ꭱ Ꭲ Ꭳ Ꭴ Ꭵ Ꭶ Ꭷ Ꭸ Ꭹ Ꭺ Ꭻ Ꭼ Ꭽ Ꭾ Ꭿ Ꮀ Ꮁ Ꮂ Ꮃ Ꮄ Ꮅ Ꮆ Ꮇ Ꮈ Ꮉ Ꮊ Ꮋ Ꮌ Ꮍ Ꮎ Ꮏ Ꮐ Ꮑ Ꮒ Ꮓ Ꮔ Ꮕ Ꮖ Ꮗ Ꮘ Ꮙ Ꮚ Ꮛ Ꮜ Ꮝ Ꮞ Ꮟ Ꮠ Ꮡ Ꮢ Ꮣ Ꮤ Ꮥ Ꮦ Ꮧ Ꮨ Ꮩ Ꮪ Ꮫ Ꮬ Ꮭ Ꮮ Ꮯ Ꮰ Ꮱ Ꮲ Ꮳ Ꮴ Ꮵ Ꮶ Ꮷ Ꮸ Ꮹ Ꮺ Ꮻ Ꮼ Ꮽ Ꮾ Ꮿ Ᏸ Ᏹ Ᏺ Ᏻ Ᏼ]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="buxilibry">[]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="indfx">[Ꭰ Ꭶ Ꭽ Ꮃ Ꮉ Ꮎ Ꮖ Ꮜ Ꮣ Ꮬ Ꮳ Ꮹ Ꮿ]</fxfmplbrChbrbdtfrs>
+	</dhbrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt>“</quotbtionStbrt>
+		<quotbtionEnd>”</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt>‘</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd>’</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<months>
+					<monthContfxt typf="formbt">
+						<monthWidth typf="bbbrfvibtfd">
+							<month typf="1">ᎤᏃ</month>
+							<month typf="2">ᎧᎦ</month>
+							<month typf="3">ᎠᏅ</month>
+							<month typf="4">ᎧᏬ</month>
+							<month typf="5">ᎠᏂ</month>
+							<month typf="6">ᏕᎭ</month>
+							<month typf="7">ᎫᏰ</month>
+							<month typf="8">ᎦᎶ</month>
+							<month typf="9">ᏚᎵ</month>
+							<month typf="10">ᏚᏂ</month>
+							<month typf="11">ᏅᏓ</month>
+							<month typf="12">ᎤᏍ</month>
+						</monthWidth>
+						<monthWidth typf="widf">
+							<month typf="1">ᎤᏃᎸᏔᏅ</month>
+							<month typf="2">ᎧᎦᎵ</month>
+							<month typf="3">ᎠᏅᏱ</month>
+							<month typf="4">ᎧᏬᏂ</month>
+							<month typf="5">ᎠᏂᏍᎬᏘ</month>
+							<month typf="6">ᏕᎭᎷᏱ</month>
+							<month typf="7">ᎫᏰᏉᏂ</month>
+							<month typf="8">ᎦᎶᏂ</month>
+							<month typf="9">ᏚᎵᏍᏗ</month>
+							<month typf="10">ᏚᏂᏅᏗ</month>
+							<month typf="11">ᏅᏓᏕᏆ</month>
+							<month typf="12">ᎤᏍᎩᏱ</month>
+						</monthWidth>
+					</monthContfxt>
+					<monthContfxt typf="stbnd-blonf">
+						<monthWidth typf="nbrrow">
+							<month typf="1">Ꭴ</month>
+							<month typf="2">Ꭷ</month>
+							<month typf="3">Ꭰ</month>
+							<month typf="4">Ꭷ</month>
+							<month typf="5">Ꭰ</month>
+							<month typf="6">Ꮥ</month>
+							<month typf="7">Ꭻ</month>
+							<month typf="8">Ꭶ</month>
+							<month typf="9">Ꮪ</month>
+							<month typf="10">Ꮪ</month>
+							<month typf="11">Ꮕ</month>
+							<month typf="12">Ꭴ</month>
+						</monthWidth>
+					</monthContfxt>
+				</months>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidth typf="bbbrfvibtfd">
+							<dby typf="sun">ᏆᏍᎬ</dby>
+							<dby typf="mon">ᏉᏅᎯ</dby>
+							<dby typf="tuf">ᏔᎵᏁ</dby>
+							<dby typf="wfd">ᏦᎢᏁ</dby>
+							<dby typf="thu">ᏅᎩᏁ</dby>
+							<dby typf="fri">ᏧᎾᎩ</dby>
+							<dby typf="sbt">ᏈᏕᎾ</dby>
+						</dbyWidth>
+						<dbyWidth typf="widf">
+							<dby typf="sun">ᎤᎾᏙᏓᏆᏍᎬ</dby>
+							<dby typf="mon">ᎤᎾᏙᏓᏉᏅᎯ</dby>
+							<dby typf="tuf">ᏔᎵᏁᎢᎦ</dby>
+							<dby typf="wfd">ᏦᎢᏁᎢᎦ</dby>
+							<dby typf="thu">ᏅᎩᏁᎢᎦ</dby>
+							<dby typf="fri">ᏧᎾᎩᎶᏍᏗ</dby>
+							<dby typf="sbt">ᎤᎾᏙᏓᏈᏕᎾ</dby>
+						</dbyWidth>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidth typf="nbrrow">
+							<dby typf="sun">Ꮖ</dby>
+							<dby typf="mon">Ꮙ</dby>
+							<dby typf="tuf">Ꮤ</dby>
+							<dby typf="wfd">Ꮶ</dby>
+							<dby typf="thu">Ꮕ</dby>
+							<dby typf="fri">Ꮷ</dby>
+							<dby typf="sbt">Ꭴ</dby>
+						</dbyWidth>
+					</dbyContfxt>
+				</dbys>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidth typf="widf">
+							<dbyPfriod typf="bm">ᏌᎾᎴ</dbyPfriod>
+							<dbyPfriod typf="noon">ᎢᎦ</dbyPfriod>
+							<dbyPfriod typf="pm">ᏒᎯᏱᎢᏗᏢ</dbyPfriod>
+						</dbyPfriodWidth>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				<frbs>
+					<frbNbmfs>
+						<frb typf="0">Ꮟ ᏥᏌ ᎾᏕᎲᏍᎬᎾ</frb>
+						<frb typf="1">ᎠᎩᏃᎮᎵᏓᏍᏗᏱ ᎠᏕᏘᏱᏍᎬ ᏱᎰᏩ ᏧᏓᏂᎸᎢᏍᏗ</frb>
+					</frbNbmfs>
+					<frbAbbr>
+						<frb typf="0">ᎤᏓᎷᎸ</frb>
+						<frb typf="1">ᎤᎶᏐᏅ</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngth typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, MMMM d, y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="long">
+						<dbtfFormbt>
+							<pbttfrn>MMMM d, y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>MMM d, y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="short">
+						<dbtfFormbt>
+							<pbttfrn>M/d/yy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngth typf="full">
+						<timfFormbt>
+							<pbttfrn>h:mm:ss b zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="long">
+						<timfFormbt>
+							<pbttfrn>h:mm:ss b z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="mfdium">
+						<timfFormbt>
+							<pbttfrn>h:mm:ss b</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="short">
+						<timfFormbt>
+							<pbttfrn>h:mm b</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="hm">h:mm b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm">H:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="hms">h:mm:ss b</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms">H:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, M/d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">MMM d</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMd">M/d/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E, M/d/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMd">MMM d, y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E, MMM d, y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMM">MMMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ">Q y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">QQQ y</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+					<intfrvblFormbts>
+						<intfrvblFormbtItfm id="Md">
+							<grfbtfstDifffrfndf id="d">M/d – M/d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">M/d – M/d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MEd">
+							<grfbtfstDifffrfndf id="d">E, M/d – E, M/d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, M/d – E, M/d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMd">
+							<grfbtfstDifffrfndf id="d">MMM d–d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">MMM d – MMM d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMEd">
+							<grfbtfstDifffrfndf id="d">E, MMM d – E, MMM d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, MMM d – E, MMM d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yM">
+							<grfbtfstDifffrfndf id="M">M/yy – M/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">M/yy – M/yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMd">
+							<grfbtfstDifffrfndf id="d">M/d/yy – M/d/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">M/d/yy – M/d/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">M/d/yy – M/d/yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMEd">
+							<grfbtfstDifffrfndf id="d">E, M/d/yy – E, M/d/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, M/d/yy – E, M/d/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">E, M/d/yy – E, M/d/yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMM">
+							<grfbtfstDifffrfndf id="M">MMM–MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">MMM y – MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMd">
+							<grfbtfstDifffrfndf id="d">MMM d–d, y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">MMM d – MMM d, y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">MMM d, y – MMM d, y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMEd">
+							<grfbtfstDifffrfndf id="d">E, MMM d – E, MMM d, y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, MMM d – E, MMM d, y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">E, MMM d, y – E, MMM d, y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMM">
+							<grfbtfstDifffrfndf id="M">MMMM–MMMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">MMMM y – MMMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf>ᎡᎶᎯ ᎠᏣᎢᎵᏒᎢ</displbyNbmf>
+					</fifld>
+					<fifld typf="yfbr">
+						<displbyNbmf>ᏑᏕᏘᏴᏓ</displbyNbmf>
+					</fifld>
+					<fifld typf="month">
+						<displbyNbmf>ᏏᏅᏓ</displbyNbmf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf>ᏒᎾᏙᏓᏆᏍᏗ</displbyNbmf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf>ᏏᎦ</displbyNbmf>
+						<rflbtivf typf="-1">ᏒᎯ</rflbtivf>
+						<rflbtivf typf="0">ᎪᎯ ᎢᎦ</rflbtivf>
+						<rflbtivf typf="1">ᏌᎾᎴᎢ</rflbtivf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf>ᏒᎾᏙᏓᏆᏍᏗ ᎠᏣᎢᎵᏒ</displbyNbmf>
+					</fifld>
+					<fifld typf="hour">
+						<displbyNbmf>ᏑᏣᎶᏓ</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf>ᎢᏯᏔᏬᏍᏔᏅ</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf>ᎠᏎᏢ</displbyNbmf>
+					</fifld>
+					<fifld typf="zonf">
+						<displbyNbmf>ᎡᎶᎯ ᎠᏍᏓᏅᏅ</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<hourFormbt>+HH:mm;-HH:mm</hourFormbt>
+			<gmtFormbt>GMT{0}</gmtFormbt>
+			<gmtZfroFormbt>ᎢᎢᎢ</gmtZfroFormbt>
+			<mftbzonf typf="Amfridb_Cfntrbl">
+				<long>
+					<gfnfrid>ᎠᏰᎵ ᎢᏳᏩᎪᏗ</gfnfrid>
+					<stbndbrd>ᎠᏰᎵ ᏰᎵᏊ ᏗᏙᎳᎩ ᎢᏳᏩᎪᏗ</stbndbrd>
+					<dbylight>ᎠᏰᎵ ᎢᎦ ᎢᏳᏩᎪᏗ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Ebstfrn">
+				<long>
+					<gfnfrid>ᎧᎸᎬᎢᏗᏢ ᎢᏳᏩᎪᏗ</gfnfrid>
+					<stbndbrd>ᎧᎸᎬᎢᏗᏢ ᏰᎵᏊ ᏗᏙᎳᎩ ᎢᏳᏩᎪᏗ</stbndbrd>
+					<dbylight>ᎧᎸᎬᎢᏗᏢ ᎢᎦ ᎢᏳᏩᎪᏗ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Mountbin">
+				<long>
+					<gfnfrid>ᎣᏓᎸ ᎢᏳᏩᎪᏗ</gfnfrid>
+					<stbndbrd>ᎣᏓᎸ ᏰᎵᏊ ᏗᏙᎳᎩ ᎢᏳᏩᎪᏗ</stbndbrd>
+					<dbylight>ᎣᏓᎸ ᎢᎦ ᎢᏳᏩᎪᏗ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Pbdifid">
+				<long>
+					<gfnfrid>ᏭᏕᎵᎬ ᎢᏳᏩᎪᏗ</gfnfrid>
+					<stbndbrd>ᏭᏕᎵᎬ ᏰᎵᏊ ᏗᏙᎳᎩ ᎢᏳᏩᎪᏗ</stbndbrd>
+					<dbylight>ᏭᏕᎵᎬ ᎢᎦ ᎢᏳᏩᎪᏗ</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="GMT">
+				<long>
+					<stbndbrd>ᎢᏤ ᎢᏳᏍᏗ ᎢᏳᏩᎪᏗ</stbndbrd>
+				</long>
+			</mftbzonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>.</dfdimbl>
+			<group>,</group>
+			<list>;</list>
+			<pfrdfntSign>%</pfrdfntSign>
+			<plusSign>+</plusSign>
+			<minusSign>-</minusSign>
+			<fxponfntibl>E</fxponfntibl>
+			<pfrMillf>‰</pfrMillf>
+			<infinity>∞</infinity>
+			<nbn>NbN</nbn>
+		</symbols>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngth>
+				<dfdimblFormbt>
+					<pbttfrn>#,##0.###</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngth>
+		</dfdimblFormbts>
+		<sdifntifidFormbts numbfrSystfm="lbtn">
+			<sdifntifidFormbtLfngth>
+				<sdifntifidFormbt>
+					<pbttfrn>#E0</pbttfrn>
+				</sdifntifidFormbt>
+			</sdifntifidFormbtLfngth>
+		</sdifntifidFormbts>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngth>
+				<pfrdfntFormbt>
+					<pbttfrn>#,##0%</pbttfrn>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngth>
+		</pfrdfntFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngth>
+				<durrfndyFormbt>
+					<pbttfrn>¤#,##0.00;(¤#,##0.00)</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngth>
+			<unitPbttfrn dount="onf">{0} {1}</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} {1}</unitPbttfrn>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="BRL">
+				<displbyNbmf>ᏆᏏᎵᎢ ᎠᏕᎳ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CAD">
+				<displbyNbmf>ᎧᎾᏓ ᎠᏕᎳ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CNY">
+				<displbyNbmf>ᏓᎶᏂᎨ ᎠᏕᎳ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EUR">
+				<displbyNbmf>ᏳᎳᏛ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GBP">
+				<displbyNbmf>ᎩᎵᏏᏲ ᎠᏕᎳ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="INR">
+				<displbyNbmf>ᎢᏅᏗᎾ ᎠᏕᎳ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JPY">
+				<displbyNbmf>ᏣᏩᏂᏏ ᎠᏕᎳ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MXN">
+				<displbyNbmf>ᏍᏆᏂ ᎠᏕᎳ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RUB">
+				<displbyNbmf>ᏲᏂᎢ ᎠᏕᎳ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USD">
+				<displbyNbmf>ᎤᏃᏍᏗ</displbyNbmf>
+				<displbyNbmf dount="onf">ᎤᏃᏍᏗ</displbyNbmf>
+				<displbyNbmf dount="othfr">ᏧᏃᏍᏗ</displbyNbmf>
+				<symbol>$</symbol>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
+	<units>
+		<unit typf="dby">
+			<unitPbttfrn dount="onf">{0} ᏏᎦ</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ᏧᏒᎯᏓ</unitPbttfrn>
+		</unit>
+		<unit typf="hour">
+			<unitPbttfrn dount="onf">{0} ᏑᏣᎶᏓ</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ᎢᏧᏣᎶᏓ</unitPbttfrn>
+		</unit>
+		<unit typf="minutf">
+			<unitPbttfrn dount="onf">{0} ᎢᏯᏔᏬᏍᏔᏅ</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ᎢᏧᏔᏬᏍᏔᏅ</unitPbttfrn>
+		</unit>
+		<unit typf="month">
+			<unitPbttfrn dount="onf">{0} ᏏᏅᏓ</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ᎢᏯᏅᏓ</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond">
+			<unitPbttfrn dount="onf">{0} ᎠᏎᏢ</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ᏗᏎᏢ</unitPbttfrn>
+		</unit>
+		<unit typf="wffk">
+			<unitPbttfrn dount="onf">{0} ᏒᎾᏙᏓᏆᏍᏗ</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ᎢᏳᎾᏙᏓᏆᏍᏗ</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr">
+			<unitPbttfrn dount="onf">{0} ᏑᏕᏘᏴᏓ</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} ᏧᏕᏘᏴᏓ</unitPbttfrn>
+		</unit>
+	</units>
+	<posix>
+		<mfssbgfs>
+			<yfsstr>ᎥᎥ</yfsstr>
+			<nostr>ᎥᏝ</nostr>
+		</mfssbgfs>
+	</posix>
+</ldml>
+

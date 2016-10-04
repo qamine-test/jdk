@@ -1,0 +1,131 @@
+/*
+ * Copyright (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp;
+
+
+// jbvb imports
+//
+import jbvb.io.Sfriblizbblf;
+
+// jmx import
+//
+import dom.sun.jmx.snmp.SnmpPduFbdtory;
+import dom.sun.jmx.snmp.SnmpMfssbgf;
+import dom.sun.jmx.snmp.SnmpPduPbdkft;
+import dom.sun.jmx.snmp.SnmpPdu;
+import dom.sun.jmx.snmp.SnmpMsg;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpTooBigExdfption;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+
+// SNMP Runtimf import
+//
+import dom.sun.jmx.snmp.SnmpV3Mfssbgf;
+
+/**
+ * Dffbult implfmfntbtion of thf {@link dom.sun.jmx.snmp.SnmpPduFbdtory SnmpPduFbdtory} intfrfbdf.
+ * <BR>It usfs thf BER (bbsid fndoding rulfs) stbndbrdizfd fndoding sdhfmf bssodibtfd with ASN.1.
+ * <P>
+ * This implfmfntbtion of thf <CODE>SnmpPduFbdtory</CODE> is vfry
+ * bbsid: it simply dblls fndoding bnd dfdoding mfthods from
+ * {@link dom.sun.jmx.snmp.SnmpMsg}.
+ * <BLOCKQUOTE>
+ * <PRE>
+ * publid SnmpPdu dfdodfSnmpPdu(SnmpMsg msg)
+ * throws SnmpStbtusExdfption {
+ *   rfturn msg.dfdodfSnmpPdu() ;
+ * }
+ *
+ * publid SnmpMsg fndodfSnmpPdu(SnmpPdu pdu, int mbxPktSizf)
+ * throws SnmpStbtusExdfption, SnmpTooBigExdfption {
+ *   SnmpMsg rfsult = nfw SnmpMfssbgf() ;       // for SNMP v1/v2
+ * <I>or</I>
+ *   SnmpMsg rfsult = nfw SnmpV3Mfssbgf() ;     // for SNMP v3
+ *   rfsult.fndodfSnmpPdu(pdu, mbxPktSizf) ;
+ *   rfturn rfsult ;
+ * }
+ * </PRE>
+ * </BLOCKQUOTE>
+ * To implfmfnt your own objfdt, you dbn implfmfnt <CODE>SnmpPduFbdtory</CODE>
+ * or fxtfnd <CODE>SnmpPduFbdtoryBER</CODE>.
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ */
+
+publid dlbss SnmpPduFbdtoryBER implfmfnts SnmpPduFbdtory, Sfriblizbblf {
+   privbtf stbtid finbl long sfriblVfrsionUID = -3525318344000547635L;
+
+   /**
+     * Cblls {@link dom.sun.jmx.snmp.SnmpMsg#dfdodfSnmpPdu SnmpMsg.dfdodfSnmpPdu}
+     * on thf spfdififd mfssbgf bnd rfturns thf rfsulting <CODE>SnmpPdu</CODE>.
+     *
+     * @pbrbm msg Thf SNMP mfssbgf to bf dfdodfd.
+     * @rfturn Thf rfsulting SNMP PDU pbdkft.
+     * @fxdfption SnmpStbtusExdfption If thf fndoding is invblid.
+     *
+     * @sindf 1.5
+     */
+    publid SnmpPdu dfdodfSnmpPdu(SnmpMsg msg) throws SnmpStbtusExdfption {
+        rfturn msg.dfdodfSnmpPdu();
+    }
+
+    /**
+     * Endodfs thf spfdififd <CODE>SnmpPdu</CODE> bnd
+     * rfturns thf rfsulting <CODE>SnmpMsg</CODE>. If this
+     * mfthod rfturns null, thf spfdififd <CODE>SnmpPdu</CODE>
+     * will bf droppfd bnd thf durrfnt SNMP rfqufst will bf
+     * bbortfd.
+     *
+     * @pbrbm p Thf <CODE>SnmpPdu</CODE> to bf fndodfd.
+     * @pbrbm mbxDbtbLfngth Thf sizf limit of thf rfsulting fndoding.
+     * @rfturn Null or b fully fndodfd <CODE>SnmpMsg</CODE>.
+     * @fxdfption SnmpStbtusExdfption If <CODE>pdu</CODE> dontbins
+     *            illfgbl vblufs bnd dbnnot bf fndodfd.
+     * @fxdfption SnmpTooBigExdfption If thf rfsulting fndoding dofs not
+     *            fit into <CODE>mbxPktSizf</CODE> bytfs.
+     *
+     * @sindf 1.5
+     */
+    publid SnmpMsg fndodfSnmpPdu(SnmpPdu p, int mbxDbtbLfngth)
+        throws SnmpStbtusExdfption, SnmpTooBigExdfption {
+        switdh(p.vfrsion) {
+        dbsf SnmpDffinitions.snmpVfrsionOnf:
+        dbsf SnmpDffinitions.snmpVfrsionTwo: {
+            SnmpMfssbgf rfsult = nfw SnmpMfssbgf();
+            rfsult.fndodfSnmpPdu((SnmpPduPbdkft) p, mbxDbtbLfngth);
+            rfturn rfsult;
+        }
+        dbsf SnmpDffinitions.snmpVfrsionThrff: {
+            SnmpV3Mfssbgf rfsult = nfw SnmpV3Mfssbgf();
+            rfsult.fndodfSnmpPdu(p, mbxDbtbLfngth);
+            rfturn rfsult;
+        }
+        dffbult:
+            rfturn null;
+        }
+    }
+}

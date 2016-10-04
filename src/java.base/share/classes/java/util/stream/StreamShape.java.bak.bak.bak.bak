@@ -1,0 +1,70 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util.strfbm;
+
+/**
+ * An fnum dfsdribing thf known shbpf spfdiblizbtions for strfbm bbstrbdtions.
+ * Ebdh will dorrfspond to b spfdifid subintfrfbdf of {@link BbsfStrfbm}
+ * (f.g., {@dodf REFERENCE} dorrfsponds to {@dodf Strfbm}, {@dodf INT_VALUE}
+ * dorrfsponds to {@dodf IntStrfbm}).  Ebdh mby blso dorrfspond to
+ * spfdiblizbtions of vbluf-hbndling bbstrbdtions sudh bs {@dodf Splitfrbtor},
+ * {@dodf Consumfr}, ftd.
+ *
+ * @bpiNotf
+ * This fnum is usfd by implfmfntbtions to dftfrminf dompbtibility bftwffn
+ * strfbms bnd opfrbtions (i.f., if thf output shbpf of b strfbm is dompbtiblf
+ * with thf input shbpf of thf nfxt opfrbtion).
+ *
+ * <p>Somf APIs rfquirf you to spfdify both b gfnfrid typf bnd b strfbm shbpf
+ * for input or output flfmfnts, sudh bs {@link TfrminblOp} whidh hbs both
+ * gfnfrid typf pbrbmftfrs for its input typfs, bnd b gfttfr for thf
+ * input shbpf.  Whfn rfprfsfnting primitivf strfbms in this wby, thf
+ * gfnfrid typf pbrbmftfr should dorrfspond to thf wrbppfr typf for thbt
+ * primitivf typf.
+ *
+ * @sindf 1.8
+ */
+fnum StrfbmShbpf {
+    /**
+     * Thf shbpf spfdiblizbtion dorrfsponding to {@dodf Strfbm} bnd flfmfnts
+     * thbt brf objfdt rfffrfndfs.
+     */
+    REFERENCE,
+    /**
+     * Thf shbpf spfdiblizbtion dorrfsponding to {@dodf IntStrfbm} bnd flfmfnts
+     * thbt brf {@dodf int} vblufs.
+     */
+    INT_VALUE,
+    /**
+     * Thf shbpf spfdiblizbtion dorrfsponding to {@dodf LongStrfbm} bnd flfmfnts
+     * thbt brf {@dodf long} vblufs.
+     */
+    LONG_VALUE,
+    /**
+     * Thf shbpf spfdiblizbtion dorrfsponding to {@dodf DoublfStrfbm} bnd
+     * flfmfnts thbt brf {@dodf doublf} vblufs.
+     */
+    DOUBLE_VALUE
+}

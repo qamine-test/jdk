@@ -1,0 +1,335 @@
+/*
+ * Copyright (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+/**
+ * Thf Boolfbn dlbss wrbps b vbluf of thf primitivf typf
+ * {@dodf boolfbn} in bn objfdt. An objfdt of typf
+ * {@dodf Boolfbn} dontbins b singlf fifld whosf typf is
+ * {@dodf boolfbn}.
+ * <p>
+ * In bddition, this dlbss providfs mbny mfthods for
+ * donvfrting b {@dodf boolfbn} to b {@dodf String} bnd b
+ * {@dodf String} to b {@dodf boolfbn}, bs wfll bs othfr
+ * donstbnts bnd mfthods usfful whfn dfbling with b
+ * {@dodf boolfbn}.
+ *
+ * @buthor  Arthur vbn Hoff
+ * @sindf   1.0
+ */
+publid finbl dlbss Boolfbn implfmfnts jbvb.io.Sfriblizbblf,
+                                      Compbrbblf<Boolfbn>
+{
+    /**
+     * Thf {@dodf Boolfbn} objfdt dorrfsponding to thf primitivf
+     * vbluf {@dodf truf}.
+     */
+    publid stbtid finbl Boolfbn TRUE = nfw Boolfbn(truf);
+
+    /**
+     * Thf {@dodf Boolfbn} objfdt dorrfsponding to thf primitivf
+     * vbluf {@dodf fblsf}.
+     */
+    publid stbtid finbl Boolfbn FALSE = nfw Boolfbn(fblsf);
+
+    /**
+     * Thf Clbss objfdt rfprfsfnting thf primitivf typf boolfbn.
+     *
+     * @sindf   1.1
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid stbtid finbl Clbss<Boolfbn> TYPE = (Clbss<Boolfbn>) Clbss.gftPrimitivfClbss("boolfbn");
+
+    /**
+     * Thf vbluf of thf Boolfbn.
+     *
+     * @sfribl
+     */
+    privbtf finbl boolfbn vbluf;
+
+    /** usf sfriblVfrsionUID from JDK 1.0.2 for intfropfrbbility */
+    privbtf stbtid finbl long sfriblVfrsionUID = -3665804199014368530L;
+
+    /**
+     * Allodbtfs b {@dodf Boolfbn} objfdt rfprfsfnting thf
+     * {@dodf vbluf} brgumfnt.
+     *
+     * <p><b>Notf: It is rbrfly bppropribtf to usf this donstrudtor.
+     * Unlfss b <i>nfw</i> instbndf is rfquirfd, thf stbtid fbdtory
+     * {@link #vblufOf(boolfbn)} is gfnfrblly b bfttfr dhoidf. It is
+     * likfly to yifld signifidbntly bfttfr spbdf bnd timf pfrformbndf.</b>
+     *
+     * @pbrbm   vbluf   thf vbluf of thf {@dodf Boolfbn}.
+     */
+    publid Boolfbn(boolfbn vbluf) {
+        this.vbluf = vbluf;
+    }
+
+    /**
+     * Allodbtfs b {@dodf Boolfbn} objfdt rfprfsfnting thf vbluf
+     * {@dodf truf} if thf string brgumfnt is not {@dodf null}
+     * bnd is fqubl, ignoring dbsf, to thf string {@dodf "truf"}.
+     * Othfrwisf, bllodbtf b {@dodf Boolfbn} objfdt rfprfsfnting thf
+     * vbluf {@dodf fblsf}. Exbmplfs:<p>
+     * {@dodf nfw Boolfbn("Truf")} produdfs b {@dodf Boolfbn} objfdt
+     * thbt rfprfsfnts {@dodf truf}.<br>
+     * {@dodf nfw Boolfbn("yfs")} produdfs b {@dodf Boolfbn} objfdt
+     * thbt rfprfsfnts {@dodf fblsf}.
+     *
+     * @pbrbm   s   thf string to bf donvfrtfd to b {@dodf Boolfbn}.
+     */
+    publid Boolfbn(String s) {
+        this(pbrsfBoolfbn(s));
+    }
+
+    /**
+     * Pbrsfs thf string brgumfnt bs b boolfbn.  Thf {@dodf boolfbn}
+     * rfturnfd rfprfsfnts thf vbluf {@dodf truf} if thf string brgumfnt
+     * is not {@dodf null} bnd is fqubl, ignoring dbsf, to thf string
+     * {@dodf "truf"}. <p>
+     * Exbmplf: {@dodf Boolfbn.pbrsfBoolfbn("Truf")} rfturns {@dodf truf}.<br>
+     * Exbmplf: {@dodf Boolfbn.pbrsfBoolfbn("yfs")} rfturns {@dodf fblsf}.
+     *
+     * @pbrbm      s   thf {@dodf String} dontbining thf boolfbn
+     *                 rfprfsfntbtion to bf pbrsfd
+     * @rfturn     thf boolfbn rfprfsfntfd by thf string brgumfnt
+     * @sindf 1.5
+     */
+    publid stbtid boolfbn pbrsfBoolfbn(String s) {
+        rfturn ((s != null) && s.fqublsIgnorfCbsf("truf"));
+    }
+
+    /**
+     * Rfturns thf vbluf of this {@dodf Boolfbn} objfdt bs b boolfbn
+     * primitivf.
+     *
+     * @rfturn  thf primitivf {@dodf boolfbn} vbluf of this objfdt.
+     */
+    publid boolfbn boolfbnVbluf() {
+        rfturn vbluf;
+    }
+
+    /**
+     * Rfturns b {@dodf Boolfbn} instbndf rfprfsfnting thf spfdififd
+     * {@dodf boolfbn} vbluf.  If thf spfdififd {@dodf boolfbn} vbluf
+     * is {@dodf truf}, this mfthod rfturns {@dodf Boolfbn.TRUE};
+     * if it is {@dodf fblsf}, this mfthod rfturns {@dodf Boolfbn.FALSE}.
+     * If b nfw {@dodf Boolfbn} instbndf is not rfquirfd, this mfthod
+     * should gfnfrblly bf usfd in prfffrfndf to thf donstrudtor
+     * {@link #Boolfbn(boolfbn)}, bs this mfthod is likfly to yifld
+     * signifidbntly bfttfr spbdf bnd timf pfrformbndf.
+     *
+     * @pbrbm  b b boolfbn vbluf.
+     * @rfturn b {@dodf Boolfbn} instbndf rfprfsfnting {@dodf b}.
+     * @sindf  1.4
+     */
+    publid stbtid Boolfbn vblufOf(boolfbn b) {
+        rfturn (b ? TRUE : FALSE);
+    }
+
+    /**
+     * Rfturns b {@dodf Boolfbn} with b vbluf rfprfsfntfd by thf
+     * spfdififd string.  Thf {@dodf Boolfbn} rfturnfd rfprfsfnts b
+     * truf vbluf if thf string brgumfnt is not {@dodf null}
+     * bnd is fqubl, ignoring dbsf, to thf string {@dodf "truf"}.
+     *
+     * @pbrbm   s   b string.
+     * @rfturn  thf {@dodf Boolfbn} vbluf rfprfsfntfd by thf string.
+     */
+    publid stbtid Boolfbn vblufOf(String s) {
+        rfturn pbrsfBoolfbn(s) ? TRUE : FALSE;
+    }
+
+    /**
+     * Rfturns b {@dodf String} objfdt rfprfsfnting thf spfdififd
+     * boolfbn.  If thf spfdififd boolfbn is {@dodf truf}, thfn
+     * thf string {@dodf "truf"} will bf rfturnfd, othfrwisf thf
+     * string {@dodf "fblsf"} will bf rfturnfd.
+     *
+     * @pbrbm b thf boolfbn to bf donvfrtfd
+     * @rfturn thf string rfprfsfntbtion of thf spfdififd {@dodf boolfbn}
+     * @sindf 1.4
+     */
+    publid stbtid String toString(boolfbn b) {
+        rfturn b ? "truf" : "fblsf";
+    }
+
+    /**
+     * Rfturns b {@dodf String} objfdt rfprfsfnting this Boolfbn's
+     * vbluf.  If this objfdt rfprfsfnts thf vbluf {@dodf truf},
+     * b string fqubl to {@dodf "truf"} is rfturnfd. Othfrwisf, b
+     * string fqubl to {@dodf "fblsf"} is rfturnfd.
+     *
+     * @rfturn  b string rfprfsfntbtion of this objfdt.
+     */
+    publid String toString() {
+        rfturn vbluf ? "truf" : "fblsf";
+    }
+
+    /**
+     * Rfturns b hbsh dodf for this {@dodf Boolfbn} objfdt.
+     *
+     * @rfturn  thf intfgfr {@dodf 1231} if this objfdt rfprfsfnts
+     * {@dodf truf}; rfturns thf intfgfr {@dodf 1237} if this
+     * objfdt rfprfsfnts {@dodf fblsf}.
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn Boolfbn.hbshCodf(vbluf);
+    }
+
+    /**
+     * Rfturns b hbsh dodf for b {@dodf boolfbn} vbluf; dompbtiblf with
+     * {@dodf Boolfbn.hbshCodf()}.
+     *
+     * @pbrbm vbluf thf vbluf to hbsh
+     * @rfturn b hbsh dodf vbluf for b {@dodf boolfbn} vbluf.
+     * @sindf 1.8
+     */
+    publid stbtid int hbshCodf(boolfbn vbluf) {
+        rfturn vbluf ? 1231 : 1237;
+    }
+
+   /**
+     * Rfturns {@dodf truf} if bnd only if thf brgumfnt is not
+     * {@dodf null} bnd is b {@dodf Boolfbn} objfdt thbt
+     * rfprfsfnts thf sbmf {@dodf boolfbn} vbluf bs this objfdt.
+     *
+     * @pbrbm   obj   thf objfdt to dompbrf with.
+     * @rfturn  {@dodf truf} if thf Boolfbn objfdts rfprfsfnt thf
+     *          sbmf vbluf; {@dodf fblsf} othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof Boolfbn) {
+            rfturn vbluf == ((Boolfbn)obj).boolfbnVbluf();
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns {@dodf truf} if bnd only if thf systfm propfrty
+     * nbmfd by thf brgumfnt fxists bnd is fqubl to thf string
+     * {@dodf "truf"}. (Bfginning with vfrsion 1.0.2 of thf
+     * Jbvb<smbll><sup>TM</sup></smbll> plbtform, thf tfst of
+     * this string is dbsf insfnsitivf.) A systfm propfrty is bddfssiblf
+     * through {@dodf gftPropfrty}, b mfthod dffinfd by thf
+     * {@dodf Systfm} dlbss.
+     * <p>
+     * If thfrf is no propfrty with thf spfdififd nbmf, or if thf spfdififd
+     * nbmf is fmpty or null, thfn {@dodf fblsf} is rfturnfd.
+     *
+     * @pbrbm   nbmf   thf systfm propfrty nbmf.
+     * @rfturn  thf {@dodf boolfbn} vbluf of thf systfm propfrty.
+     * @throws  SfdurityExdfption for thf sbmf rfbsons bs
+     *          {@link Systfm#gftPropfrty(String) Systfm.gftPropfrty}
+     * @sff     jbvb.lbng.Systfm#gftPropfrty(jbvb.lbng.String)
+     * @sff     jbvb.lbng.Systfm#gftPropfrty(jbvb.lbng.String, jbvb.lbng.String)
+     */
+    publid stbtid boolfbn gftBoolfbn(String nbmf) {
+        boolfbn rfsult = fblsf;
+        try {
+            rfsult = pbrsfBoolfbn(Systfm.gftPropfrty(nbmf));
+        } dbtdh (IllfgblArgumfntExdfption | NullPointfrExdfption f) {
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Compbrfs this {@dodf Boolfbn} instbndf with bnothfr.
+     *
+     * @pbrbm   b thf {@dodf Boolfbn} instbndf to bf dompbrfd
+     * @rfturn  zfro if this objfdt rfprfsfnts thf sbmf boolfbn vbluf bs thf
+     *          brgumfnt; b positivf vbluf if this objfdt rfprfsfnts truf
+     *          bnd thf brgumfnt rfprfsfnts fblsf; bnd b nfgbtivf vbluf if
+     *          this objfdt rfprfsfnts fblsf bnd thf brgumfnt rfprfsfnts truf
+     * @throws  NullPointfrExdfption if thf brgumfnt is {@dodf null}
+     * @sff     Compbrbblf
+     * @sindf  1.5
+     */
+    publid int dompbrfTo(Boolfbn b) {
+        rfturn dompbrf(this.vbluf, b.vbluf);
+    }
+
+    /**
+     * Compbrfs two {@dodf boolfbn} vblufs.
+     * Thf vbluf rfturnfd is idfntidbl to whbt would bf rfturnfd by:
+     * <prf>
+     *    Boolfbn.vblufOf(x).dompbrfTo(Boolfbn.vblufOf(y))
+     * </prf>
+     *
+     * @pbrbm  x thf first {@dodf boolfbn} to dompbrf
+     * @pbrbm  y thf sfdond {@dodf boolfbn} to dompbrf
+     * @rfturn thf vbluf {@dodf 0} if {@dodf x == y};
+     *         b vbluf lfss thbn {@dodf 0} if {@dodf !x && y}; bnd
+     *         b vbluf grfbtfr thbn {@dodf 0} if {@dodf x && !y}
+     * @sindf 1.7
+     */
+    publid stbtid int dompbrf(boolfbn x, boolfbn y) {
+        rfturn (x == y) ? 0 : (x ? 1 : -1);
+    }
+
+    /**
+     * Rfturns thf rfsult of bpplying thf logidbl AND opfrbtor to thf
+     * spfdififd {@dodf boolfbn} opfrbnds.
+     *
+     * @pbrbm b thf first opfrbnd
+     * @pbrbm b thf sfdond opfrbnd
+     * @rfturn thf logidbl AND of {@dodf b} bnd {@dodf b}
+     * @sff jbvb.util.fundtion.BinbryOpfrbtor
+     * @sindf 1.8
+     */
+    publid stbtid boolfbn logidblAnd(boolfbn b, boolfbn b) {
+        rfturn b && b;
+    }
+
+    /**
+     * Rfturns thf rfsult of bpplying thf logidbl OR opfrbtor to thf
+     * spfdififd {@dodf boolfbn} opfrbnds.
+     *
+     * @pbrbm b thf first opfrbnd
+     * @pbrbm b thf sfdond opfrbnd
+     * @rfturn thf logidbl OR of {@dodf b} bnd {@dodf b}
+     * @sff jbvb.util.fundtion.BinbryOpfrbtor
+     * @sindf 1.8
+     */
+    publid stbtid boolfbn logidblOr(boolfbn b, boolfbn b) {
+        rfturn b || b;
+    }
+
+    /**
+     * Rfturns thf rfsult of bpplying thf logidbl XOR opfrbtor to thf
+     * spfdififd {@dodf boolfbn} opfrbnds.
+     *
+     * @pbrbm b thf first opfrbnd
+     * @pbrbm b thf sfdond opfrbnd
+     * @rfturn  thf logidbl XOR of {@dodf b} bnd {@dodf b}
+     * @sff jbvb.util.fundtion.BinbryOpfrbtor
+     * @sindf 1.8
+     */
+    publid stbtid boolfbn logidblXor(boolfbn b, boolfbn b) {
+        rfturn b ^ b;
+    }
+}

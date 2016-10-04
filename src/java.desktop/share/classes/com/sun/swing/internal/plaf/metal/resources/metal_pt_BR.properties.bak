@@ -1,53 +1,53 @@
-# This properties file is used to create a PropertyResourceBundle
-# It contains Locale specific strings used be the Metal Look and Feel.
-# Currently, the following components need this for support:
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf tif Mftbl Look bnd Fffl.
+# Currfntly, tif following domponfnts nffd tiis for support:
 #
-#    FileChooser
+#    FilfCioosfr
 #
-# When this file is read in, the strings are put into the
-# defaults table.  This is an implementation detail of the current
+# Wifn tiis filf is rfbd in, tif strings brf put into tif
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
 # workings of Swing.  DO NOT DEPEND ON THIS.
-# This may change in future versions of Swing as we improve localization
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
 # support.
 #
-# Refer to the note in basic.properties for a description as to what
-# the mnemonics correspond to and how to calculate them.
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
 #
-# @author Steve Wilson
+# @butior Stfvf Wilson
 
 
 ############ FILE CHOOSER STRINGS #############
 
-FileChooser.lookInLabel.textAndMnemonic=Pesquisar &em:
-FileChooser.saveInLabel.textAndMnemonic=Salvar Em:
-FileChooser.fileNameLabel.textAndMnemonic=&Nome do Arquivo:
-FileChooser.folderNameLabel.textAndMnemonic=&Nome da pasta:
-FileChooser.filesOfTypeLabel.textAndMnemonic=Arquivos do &Tipo:
-FileChooser.upFolderToolTip.textAndMnemonic=Um N\u00EDvel Acima
-FileChooser.upFolderAccessibleName=Acima
-FileChooser.homeFolderToolTip.textAndMnemonic=In\u00EDcio
-FileChooser.homeFolderAccessibleName=In\u00EDcio
-FileChooser.newFolderToolTip.textAndMnemonic=Criar Nova Pasta
-FileChooser.newFolderAccessibleName=Nova Pasta
-FileChooser.newFolderActionLabel.textAndMnemonic=Nova Pasta
-FileChooser.listViewButtonToolTip.textAndMnemonic=Lista
-FileChooser.listViewButtonAccessibleName=Lista
-FileChooser.listViewActionLabel.textAndMnemonic=Lista
-FileChooser.detailsViewButtonToolTip.textAndMnemonic=Detalhes
-FileChooser.detailsViewButtonAccessibleName=Detalhes
-FileChooser.detailsViewActionLabel.textAndMnemonic=Detalhes
-FileChooser.refreshActionLabel.textAndMnemonic=Atualizar
-FileChooser.viewMenuLabel.textAndMnemonic=Exibir
-FileChooser.fileNameHeader.textAndMnemonic=Nome
-FileChooser.fileSizeHeader.textAndMnemonic=Tamanho
-FileChooser.fileTypeHeader.textAndMnemonic=Tipo
-FileChooser.fileDateHeader.textAndMnemonic=Modificado
-FileChooser.fileAttrHeader.textAndMnemonic=Atributos
-FileChooser.saveButton.textAndMnemonic=Salvar
-FileChooser.openButton.textAndMnemonic=Abrir
+FilfCioosfr.lookInLbbfl.tfxtAndMnfmonid=Pfsquisbr &fm:
+FilfCioosfr.sbvfInLbbfl.tfxtAndMnfmonid=Sblvbr Em:
+FilfCioosfr.filfNbmfLbbfl.tfxtAndMnfmonid=&Nomf do Arquivo:
+FilfCioosfr.foldfrNbmfLbbfl.tfxtAndMnfmonid=&Nomf db pbstb:
+FilfCioosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=Arquivos do &Tipo:
+FilfCioosfr.upFoldfrToolTip.tfxtAndMnfmonid=Um N\u00EDvfl Adimb
+FilfCioosfr.upFoldfrAddfssiblfNbmf=Adimb
+FilfCioosfr.iomfFoldfrToolTip.tfxtAndMnfmonid=In\u00EDdio
+FilfCioosfr.iomfFoldfrAddfssiblfNbmf=In\u00EDdio
+FilfCioosfr.nfwFoldfrToolTip.tfxtAndMnfmonid=Cribr Novb Pbstb
+FilfCioosfr.nfwFoldfrAddfssiblfNbmf=Novb Pbstb
+FilfCioosfr.nfwFoldfrAdtionLbbfl.tfxtAndMnfmonid=Novb Pbstb
+FilfCioosfr.listVifwButtonToolTip.tfxtAndMnfmonid=Listb
+FilfCioosfr.listVifwButtonAddfssiblfNbmf=Listb
+FilfCioosfr.listVifwAdtionLbbfl.tfxtAndMnfmonid=Listb
+FilfCioosfr.dftbilsVifwButtonToolTip.tfxtAndMnfmonid=Dftblifs
+FilfCioosfr.dftbilsVifwButtonAddfssiblfNbmf=Dftblifs
+FilfCioosfr.dftbilsVifwAdtionLbbfl.tfxtAndMnfmonid=Dftblifs
+FilfCioosfr.rffrfsiAdtionLbbfl.tfxtAndMnfmonid=Atublizbr
+FilfCioosfr.vifwMfnuLbbfl.tfxtAndMnfmonid=Exibir
+FilfCioosfr.filfNbmfHfbdfr.tfxtAndMnfmonid=Nomf
+FilfCioosfr.filfSizfHfbdfr.tfxtAndMnfmonid=Tbmbnio
+FilfCioosfr.filfTypfHfbdfr.tfxtAndMnfmonid=Tipo
+FilfCioosfr.filfDbtfHfbdfr.tfxtAndMnfmonid=Modifidbdo
+FilfCioosfr.filfAttrHfbdfr.tfxtAndMnfmonid=Atributos
+FilfCioosfr.sbvfButton.tfxtAndMnfmonid=Sblvbr
+FilfCioosfr.opfnButton.tfxtAndMnfmonid=Abrir
 
-############ Used by MetalTitlePane if rendering window decorations############
-MetalTitlePane.restore.titleAndMnemonic=&Restaurar
-MetalTitlePane.iconify.titleAndMnemonic=&Minimizar
-MetalTitlePane.maximize.titleAndMnemonic=Ma&ximizar
-MetalTitlePane.close.titleAndMnemonic=&Fechar
+############ Usfd by MftblTitlfPbnf if rfndfring window dfdorbtions############
+MftblTitlfPbnf.rfstorf.titlfAndMnfmonid=&Rfstburbr
+MftblTitlfPbnf.idonify.titlfAndMnfmonid=&Minimizbr
+MftblTitlfPbnf.mbximizf.titlfAndMnfmonid=Mb&ximizbr
+MftblTitlfPbnf.dlosf.titlfAndMnfmonid=&Ffdibr

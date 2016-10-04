@@ -1,83 +1,83 @@
 <!--
- Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
- This code is free software; you can redistribute it and/or modify it
- under the terms of the GNU General Public License version 2 only, as
- published by the Free Software Foundation.  Oracle designates this
- particular file as subject to the "Classpath" exception as provided
- by Oracle in the LICENSE file that accompanied this code.
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
- This code is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- version 2 for more details (a copy is included in the LICENSE file that
- accompanied this code).
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ bddompbnifd tiis dodf).
 
- You should have received a copy of the GNU General Public License version
- 2 along with this work; if not, write to the Free Software Foundation,
- Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
- Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- or visit www.oracle.com if you need additional information or have any
- questions.
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ qufstions.
 -->
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<html>
-<head><title></title></head>
-<body bgcolor="white">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<ifbd><titlf></titlf></ifbd>
+<body bgdolor="wiitf">
 
-Contains all of the classes for creating user
-interfaces and for painting graphics and images. A user interface object such as a button or a
-scrollbar is called, in AWT terminology, a component. The Component class is the root of all
-AWT components. See Component for a detailed description of properties that all AWT 
-components share.
+Contbins bll of tif dlbssfs for drfbting usfr
+intfrfbdfs bnd for pbinting grbpiids bnd imbgfs. A usfr intfrfbdf objfdt sudi bs b button or b
+sdrollbbr is dbllfd, in AWT tfrminology, b domponfnt. Tif Componfnt dlbss is tif root of bll
+AWT domponfnts. Sff Componfnt for b dftbilfd dfsdription of propfrtifs tibt bll AWT 
+domponfnts sibrf.
 <p>
-Some components fire events when a user interacts with the components. The AWTEvent
-class and its subclasses are used to represent the events that AWT components can fire. See
-AWTEvent for a description of the AWT event model.
+Somf domponfnts firf fvfnts wifn b usfr intfrbdts witi tif domponfnts. Tif AWTEvfnt
+dlbss bnd its subdlbssfs brf usfd to rfprfsfnt tif fvfnts tibt AWT domponfnts dbn firf. Sff
+AWTEvfnt for b dfsdription of tif AWT fvfnt modfl.
 <p>
-A container is a component that can contain components and other containers. A con
-tainer can also have a layout manager that controls the visual placement of components in the
-container. The AWT package contains several layout manager classes and an interface for
-building your own layout manager. See Container and LayoutManager for more information.
+A dontbinfr is b domponfnt tibt dbn dontbin domponfnts bnd otifr dontbinfrs. A don
+tbinfr dbn blso ibvf b lbyout mbnbgfr tibt dontrols tif visubl plbdfmfnt of domponfnts in tif
+dontbinfr. Tif AWT pbdkbgf dontbins sfvfrbl lbyout mbnbgfr dlbssfs bnd bn intfrfbdf for
+building your own lbyout mbnbgfr. Sff Contbinfr bnd LbyoutMbnbgfr for morf informbtion.
 <p>
-Each {@code Component} object is limited in its maximum size and
-its location because the values are stored as an integer.
-Also, a platform may further restrict maximum size and location
-coordinates. The exact maximum values are dependent on the platform.
-There is no way to change these maximum values, either in Java
-code or in native code.
-These limitations also impose restrictions on component layout.
-If the bounds of a Component object exceed a platform limit,
-there is no way to properly arrange them within a Container object.
-The object's bounds are defined by any object's coordinate
-in combination with its size on a respective axis. 
+Ebdi {@dodf Componfnt} objfdt is limitfd in its mbximum sizf bnd
+its lodbtion bfdbusf tif vblufs brf storfd bs bn intfgfr.
+Also, b plbtform mby furtifr rfstridt mbximum sizf bnd lodbtion
+doordinbtfs. Tif fxbdt mbximum vblufs brf dfpfndfnt on tif plbtform.
+Tifrf is no wby to dibngf tifsf mbximum vblufs, fitifr in Jbvb
+dodf or in nbtivf dodf.
+Tifsf limitbtions blso imposf rfstridtions on domponfnt lbyout.
+If tif bounds of b Componfnt objfdt fxdffd b plbtform limit,
+tifrf is no wby to propfrly brrbngf tifm witiin b Contbinfr objfdt.
+Tif objfdt's bounds brf dffinfd by bny objfdt's doordinbtf
+in dombinbtion witi its sizf on b rfspfdtivf bxis. 
 
 
-<h2>Additional Specification</h2>
+<i2>Additionbl Spfdifidbtion</i2>
 <ul>
-<li><a href="doc-files/FocusSpec.html">The AWT Focus Subsystem</a>
-<li><a href="doc-files/Modality.html">The AWT Modality</a>
+<li><b irff="dod-filfs/FodusSpfd.itml">Tif AWT Fodus Subsystfm</b>
+<li><b irff="dod-filfs/Modblity.itml">Tif AWT Modblity</b>
 </ul>
 
 <!--
-<h2>Package Specification</h2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
 
 ##### FILL IN ANY SPECS NEEDED BY JAVA COMPATIBILITY KIT #####
 <ul>
-  <li><a href="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</a>
+  <li><b irff="">##### REFER TO ANY FRAMEMAKER SPECIFICATION HERE #####</b>
 </ul>
 
-<h2>Related Documentation</h2>
+<i2>Rflbtfd Dodumfntbtion</i2>
 
-For overviews, tutorials, examples, guides, and tool documentation, please see:
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf sff:
 <ul>
-  <li><a href="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</a>
+  <li><b irff="">##### REFER TO NON-SPEC DOCUMENTATION HERE #####</b>
 </ul>
 -->
 
-@since 1.0
+@sindf 1.0
 </body>
-</html>
+</itml>

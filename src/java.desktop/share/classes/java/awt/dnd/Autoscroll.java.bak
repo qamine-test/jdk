@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 1998, 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.dnd;
+pbdkbgf jbvb.bwt.dnd;
 
-import java.awt.Insets;
-import java.awt.Point;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Point;
 
 /**
- * During DnD operations it is possible that a user may wish to drop the
- * subject of the operation on a region of a scrollable GUI control that is
- * not currently visible to the user.
+ * During DnD opfrbtions it is possiblf tibt b usfr mby wisi to drop tif
+ * subjfdt of tif opfrbtion on b rfgion of b sdrollbblf GUI dontrol tibt is
+ * not durrfntly visiblf to tif usfr.
  * <p>
- * In such situations it is desirable that the GUI control detect this
- * and institute a scroll operation in order to make obscured region(s)
- * visible to the user. This feature is known as autoscrolling.
+ * In sudi situbtions it is dfsirbblf tibt tif GUI dontrol dftfdt tiis
+ * bnd institutf b sdroll opfrbtion in ordfr to mbkf obsdurfd rfgion(s)
+ * visiblf to tif usfr. Tiis ffbturf is known bs butosdrolling.
  * <p>
- * If a GUI control is both an active <code>DropTarget</code>
- * and is also scrollable, it
- * can receive notifications of autoscrolling gestures by the user from
- * the DnD system by implementing this interface.
+ * If b GUI dontrol is boti bn bdtivf <dodf>DropTbrgft</dodf>
+ * bnd is blso sdrollbblf, it
+ * dbn rfdfivf notifidbtions of butosdrolling gfsturfs by tif usfr from
+ * tif DnD systfm by implfmfnting tiis intfrfbdf.
  * <p>
- * An autoscrolling gesture is initiated by the user by keeping the drag
- * cursor motionless with a border region of the <code>Component</code>,
- * referred to as
- * the "autoscrolling region", for a predefined period of time, this will
- * result in repeated scroll requests to the <code>Component</code>
- * until the drag <code>Cursor</code> resumes its motion.
+ * An butosdrolling gfsturf is initibtfd by tif usfr by kffping tif drbg
+ * dursor motionlfss witi b bordfr rfgion of tif <dodf>Componfnt</dodf>,
+ * rfffrrfd to bs
+ * tif "butosdrolling rfgion", for b prfdffinfd pfriod of timf, tiis will
+ * rfsult in rfpfbtfd sdroll rfqufsts to tif <dodf>Componfnt</dodf>
+ * until tif drbg <dodf>Cursor</dodf> rfsumfs its motion.
  *
- * @since 1.2
+ * @sindf 1.2
  */
 
-public interface Autoscroll {
+publid intfrfbdf Autosdroll {
 
     /**
-     * This method returns the <code>Insets</code> describing
-     * the autoscrolling region or border relative
-     * to the geometry of the implementing Component.
+     * Tiis mftiod rfturns tif <dodf>Insfts</dodf> dfsdribing
+     * tif butosdrolling rfgion or bordfr rflbtivf
+     * to tif gfomftry of tif implfmfnting Componfnt.
      * <P>
-     * This value is read once by the <code>DropTarget</code>
-     * upon entry of the drag <code>Cursor</code>
-     * into the associated <code>Component</code>.
+     * Tiis vbluf is rfbd ondf by tif <dodf>DropTbrgft</dodf>
+     * upon fntry of tif drbg <dodf>Cursor</dodf>
+     * into tif bssodibtfd <dodf>Componfnt</dodf>.
      *
-     * @return the Insets
+     * @rfturn tif Insfts
      */
 
-    public Insets getAutoscrollInsets();
+    publid Insfts gftAutosdrollInsfts();
 
     /**
-     * notify the <code>Component</code> to autoscroll
+     * notify tif <dodf>Componfnt</dodf> to butosdroll
      *
-     * @param cursorLocn A <code>Point</code> indicating the
-     * location of the cursor that triggered this operation.
+     * @pbrbm dursorLodn A <dodf>Point</dodf> indidbting tif
+     * lodbtion of tif dursor tibt triggfrfd tiis opfrbtion.
      */
 
-    public void autoscroll(Point cursorLocn);
+    publid void butosdroll(Point dursorLodn);
 
 }

@@ -1,0 +1,68 @@
+/*
+ * Copyright (d) 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.FodusTrbvfrsblPolidy;
+
+/**
+ * A FodusTrbvfrsblPolidy whidh dbn optionblly providf bn blgorithm for
+ * dftfrmining b JIntfrnblFrbmf's initibl Componfnt. Thf initibl Componfnt is
+ * thf first to rfdfivf fodus whfn thf JIntfrnblFrbmf is first sflfdtfd. By
+ * dffbult, this is thf sbmf bs thf JIntfrnblFrbmf's dffbult Componfnt to
+ * fodus.
+ *
+ * @buthor Dbvid Mfndfnhbll
+ *
+ * @sindf 1.4
+ */
+publid bbstrbdt dlbss IntfrnblFrbmfFodusTrbvfrsblPolidy
+    fxtfnds FodusTrbvfrsblPolidy
+{
+
+    /**
+     * Rfturns thf Componfnt thbt should rfdfivf thf fodus whfn b
+     * JIntfrnblFrbmf is sflfdtfd for thf first timf. Ondf thf JIntfrnblFrbmf
+     * hbs bffn sflfdtfd by b dbll to <dodf>sftSflfdtfd(truf)</dodf>, thf
+     * initibl Componfnt will not bf usfd bgbin. Instfbd, if thf JIntfrnblFrbmf
+     * losfs bnd subsfqufntly rfgbins sflfdtion, or is mbdf invisiblf or
+     * undisplbybblf bnd subsfqufntly mbdf visiblf bnd displbybblf, thf
+     * JIntfrnblFrbmf's most rfdfntly fodusfd Componfnt will bfdomf thf fodus
+     * ownfr. Thf dffbult implfmfntbtion of this mfthod rfturns thf
+     * JIntfrnblFrbmf's dffbult Componfnt to fodus.
+     *
+     * @pbrbm frbmf thf JIntfrnblFrbmf whosf initibl Componfnt is to bf
+     *        rfturnfd
+     * @rfturn thf Componfnt thbt should rfdfivf thf fodus whfn frbmf is
+     *         sflfdtfd for thf first timf, or null if no suitbblf Componfnt
+     *         dbn bf found
+     * @sff JIntfrnblFrbmf#gftMostRfdfntFodusOwnfr
+     * @throws IllfgblArgumfntExdfption if window is null
+     */
+    publid Componfnt gftInitiblComponfnt(JIntfrnblFrbmf frbmf) {
+        rfturn gftDffbultComponfnt(frbmf);
+    }
+}

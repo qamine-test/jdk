@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,31 +30,31 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 /*
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- * -Redistribution of source code must retain the above copyright notice, this
- *  list of conditions and the following disclaimer.
+ * -Rfdistribution of sourdf dodf must rftbin tif bbovf dopyrigit notidf, tiis
+ *  list of donditions bnd tif following disdlbimfr.
  *
- * -Redistribution in binary form must reproduce the above copyright notice,
- *  this list of conditions and the following disclaimer in the documentation
- *  and/or other materials provided with the distribution.
+ * -Rfdistribution in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *  tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *  bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- * Neither the name of Oracle nor the names of contributors may
- * be used to endorse or promote products derived from this software without
- * specific prior written permission.
+ * Nfitifr tif nbmf of Orbdlf nor tif nbmfs of dontributors mby
+ * bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf witiout
+ * spfdifid prior writtfn pfrmission.
  *
- * This software is provided "AS IS," without a warranty of any kind. ALL
+ * Tiis softwbrf is providfd "AS IS," witiout b wbrrbnty of bny kind. ALL
  * EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND WARRANTIES, INCLUDING
  * ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE
  * OR NON-INFRINGEMENT, ARE HEREBY EXCLUDED. SUN MIDROSYSTEMS, INC. ("SUN")
@@ -66,826 +66,826 @@
  * OF LIABILITY, ARISING OUT OF THE USE OF OR INABILITY TO USE THIS SOFTWARE,
  * EVEN IF SUN HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
  *
- * You acknowledge that this software is not designed, licensed or intended
- * for use in the design, construction, operation or maintenance of any
- * nuclear facility.
+ * You bdknowlfdgf tibt tiis softwbrf is not dfsignfd, lidfnsfd or intfndfd
+ * for usf in tif dfsign, donstrudtion, opfrbtion or mbintfnbndf of bny
+ * nudlfbr fbdility.
  */
 
-// This function depends on the pre-defined variable
-// "plugin" of type com.sun.tools.jconsole.JConsolePlugin
+// Tiis fundtion dfpfnds on tif prf-dffinfd vbribblf
+// "plugin" of typf dom.sun.tools.jdonsolf.JConsolfPlugin
 
-function jcontext() {
-    return plugin.getContext();
+fundtion jdontfxt() {
+    rfturn plugin.gftContfxt();
 }
-jcontext.docString = "returns JConsoleContext for the current jconsole plugin";
+jdontfxt.dodString = "rfturns JConsolfContfxt for tif durrfnt jdonsolf plugin";
 
-function mbeanConnection() {
-    return jcontext().getMBeanServerConnection();
+fundtion mbfbnConnfdtion() {
+    rfturn jdontfxt().gftMBfbnSfrvfrConnfdtion();
 }
-mbeanConnection.docString = "returns current MBeanServer connection";
+mbfbnConnfdtion.dodString = "rfturns durrfnt MBfbnSfrvfr donnfdtion";
 
-// check if there is a build in sync function, define one if missing
-if (typeof sync === "undefined") {
-    var sync = function(func, obj) {
-        if (arguments.length < 1 || arguments.length > 2 ) {
-            throw "sync(function [,object]) parameter count mismatch";
+// difdk if tifrf is b build in synd fundtion, dffinf onf if missing
+if (typfof synd === "undffinfd") {
+    vbr synd = fundtion(fund, obj) {
+        if (brgumfnts.lfngti < 1 || brgumfnts.lfngti > 2 ) {
+            tirow "synd(fundtion [,objfdt]) pbrbmftfr dount mismbtdi";
         }
 
-        var syncobj = (arguments.length == 2 ? obj : this);
+        vbr syndobj = (brgumfnts.lfngti == 2 ? obj : tiis);
 
-        if (!syncobj._syncLock) {
-            syncobj._syncLock = new Lock();
+        if (!syndobj._syndLodk) {
+            syndobj._syndLodk = nfw Lodk();
         }
 
-        return function() {
-            syncobj._syncLock.lock();
+        rfturn fundtion() {
+            syndobj._syndLodk.lodk();
             try {
-                func.apply(null, arguments);
-            } finally {
-                syncobj._syncLock.unlock();
+                fund.bpply(null, brgumfnts);
+            } finblly {
+                syndobj._syndLodk.unlodk();
             }
         };
     };
-    sync.docString = "synchronize a function, optionally on an object";
+    synd.dodString = "syndironizf b fundtion, optionblly on bn objfdt";
 }
 
 /**
- * Prints one liner help message for each function exposed here
- * Note that this function depends on docString meta-data for
- * each function
+ * Prints onf linfr iflp mfssbgf for fbdi fundtion fxposfd ifrf
+ * Notf tibt tiis fundtion dfpfnds on dodString mftb-dbtb for
+ * fbdi fundtion
  */
-function help() {
-    var i;
-    for (i in this) {
-        var func = this[i];
-        if (typeof(func) == "function" &&
-           ("docString" in func)) {
-            echo(i + " - " + func["docString"]);
+fundtion iflp() {
+    vbr i;
+    for (i in tiis) {
+        vbr fund = tiis[i];
+        if (typfof(fund) == "fundtion" &&
+           ("dodString" in fund)) {
+            fdio(i + " - " + fund["dodString"]);
         }
     }
 }
-help.docString = "prints help message for global functions";
+iflp.dodString = "prints iflp mfssbgf for globbl fundtions";
 
-function connectionState() {
-    return jcontext().connectionState;
+fundtion donnfdtionStbtf() {
+    rfturn jdontfxt().donnfdtionStbtf;
 }
-connectionState.docString = "return connection state of the current jcontext";
+donnfdtionStbtf.dodString = "rfturn donnfdtion stbtf of tif durrfnt jdontfxt";
 
 /**
- * Returns a platform MXBean proxy for given MXBean name and interface class
+ * Rfturns b plbtform MXBfbn proxy for givfn MXBfbn nbmf bnd intfrfbdf dlbss
  */
-function newPlatformMXBeanProxy(name, intf) {
-    var factory = java.lang.management.ManagementFactory;
-    return factory.newPlatformMXBeanProxy(mbeanConnection(), name, intf);
+fundtion nfwPlbtformMXBfbnProxy(nbmf, intf) {
+    vbr fbdtory = jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+    rfturn fbdtory.nfwPlbtformMXBfbnProxy(mbfbnConnfdtion(), nbmf, intf);
 }
-newPlatformMXBeanProxy.docString = "returns a proxy for a platform MXBean";
+nfwPlbtformMXBfbnProxy.dodString = "rfturns b proxy for b plbtform MXBfbn";
 
 /**
- * Wraps a string to ObjectName if needed.
+ * Wrbps b string to ObjfdtNbmf if nffdfd.
  */
-function objectName(objName) {
-    var ObjectName = Packages.javax.management.ObjectName;
-    if (objName instanceof ObjectName) {
-        return objName;
-    } else {
-        return new ObjectName(objName);
+fundtion objfdtNbmf(objNbmf) {
+    vbr ObjfdtNbmf = Pbdkbgfs.jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+    if (objNbmf instbndfof ObjfdtNbmf) {
+        rfturn objNbmf;
+    } flsf {
+        rfturn nfw ObjfdtNbmf(objNbmf);
     }
 }
-objectName.docString = "creates JMX ObjectName for a given String";
+objfdtNbmf.dodString = "drfbtfs JMX ObjfdtNbmf for b givfn String";
 
 
 /**
- * Creates a new (M&M) Attribute object
+ * Crfbtfs b nfw (M&M) Attributf objfdt
  *
- * @param name name of the attribute
- * @param value value of the attribute
+ * @pbrbm nbmf nbmf of tif bttributf
+ * @pbrbm vbluf vbluf of tif bttributf
  */
-function attribute(name, value) {
-    var Attribute = Packages.javax.management.Attribute;
-    return new Attribute(name, value);
+fundtion bttributf(nbmf, vbluf) {
+    vbr Attributf = Pbdkbgfs.jbvbx.mbnbgfmfnt.Attributf;
+    rfturn nfw Attributf(nbmf, vbluf);
 }
-attribute.docString = "returns a new JMX Attribute using name and value given";
+bttributf.dodString = "rfturns b nfw JMX Attributf using nbmf bnd vbluf givfn";
 
 /**
- * Returns MBeanInfo for given ObjectName. Strings are accepted.
+ * Rfturns MBfbnInfo for givfn ObjfdtNbmf. Strings brf bddfptfd.
  */
-function mbeanInfo(objName) {
-    objName = objectName(objName);
-    return mbeanConnection().getMBeanInfo(objName);
+fundtion mbfbnInfo(objNbmf) {
+    objNbmf = objfdtNbmf(objNbmf);
+    rfturn mbfbnConnfdtion().gftMBfbnInfo(objNbmf);
 }
-mbeanInfo.docString = "returns MBeanInfo of a given ObjectName";
+mbfbnInfo.dodString = "rfturns MBfbnInfo of b givfn ObjfdtNbmf";
 
 /**
- * Returns ObjectInstance for a given ObjectName.
+ * Rfturns ObjfdtInstbndf for b givfn ObjfdtNbmf.
  */
-function objectInstance(objName) {
-    objName = objectName(objName);
-    return mbeanConnection().objectInstance(objectName);
+fundtion objfdtInstbndf(objNbmf) {
+    objNbmf = objfdtNbmf(objNbmf);
+    rfturn mbfbnConnfdtion().objfdtInstbndf(objfdtNbmf);
 }
-objectInstance.docString = "returns ObjectInstance for a given ObjectName";
+objfdtInstbndf.dodString = "rfturns ObjfdtInstbndf for b givfn ObjfdtNbmf";
 
 /**
- * Queries with given ObjectName and QueryExp.
- * QueryExp may be null.
+ * Qufrifs witi givfn ObjfdtNbmf bnd QufryExp.
+ * QufryExp mby bf null.
  *
- * @return set of ObjectNames.
+ * @rfturn sft of ObjfdtNbmfs.
  */
-function queryNames(objName, query) {
-    objName = objectName(objName);
-    if (query == undefined) query = null;
-    return mbeanConnection().queryNames(objName, query);
+fundtion qufryNbmfs(objNbmf, qufry) {
+    objNbmf = objfdtNbmf(objNbmf);
+    if (qufry == undffinfd) qufry = null;
+    rfturn mbfbnConnfdtion().qufryNbmfs(objNbmf, qufry);
 }
-queryNames.docString = "returns QueryNames using given ObjectName and optional query";
+qufryNbmfs.dodString = "rfturns QufryNbmfs using givfn ObjfdtNbmf bnd optionbl qufry";
 
 
 /**
- * Queries with given ObjectName and QueryExp.
- * QueryExp may be null.
+ * Qufrifs witi givfn ObjfdtNbmf bnd QufryExp.
+ * QufryExp mby bf null.
  *
- * @return set of ObjectInstances.
+ * @rfturn sft of ObjfdtInstbndfs.
  */
-function queryMBeans(objName, query) {
-    objName = objectName(objName);
-    if (query == undefined) query = null;
-    return mbeanConnection().queryMBeans(objName, query);
+fundtion qufryMBfbns(objNbmf, qufry) {
+    objNbmf = objfdtNbmf(objNbmf);
+    if (qufry == undffinfd) qufry = null;
+    rfturn mbfbnConnfdtion().qufryMBfbns(objNbmf, qufry);
 }
-queryMBeans.docString = "return MBeans using given ObjectName and optional query";
+qufryMBfbns.dodString = "rfturn MBfbns using givfn ObjfdtNbmf bnd optionbl qufry";
 
-// wraps a script array as java.lang.Object[]
-function objectArray(array) {
-    return Java.to(array, "java.lang.Object[]");
-}
-
-// wraps a script (string) array as java.lang.String[]
-function stringArray(array) {
-    return Java.to(array, "java.lang.String[]");
+// wrbps b sdript brrby bs jbvb.lbng.Objfdt[]
+fundtion objfdtArrby(brrby) {
+    rfturn Jbvb.to(brrby, "jbvb.lbng.Objfdt[]");
 }
 
-// script array to Java List
-function toAttrList(array) {
-    var AttributeList = Packages.javax.management.AttributeList;
-    if (array instanceof AttributeList) {
-        return array;
+// wrbps b sdript (string) brrby bs jbvb.lbng.String[]
+fundtion stringArrby(brrby) {
+    rfturn Jbvb.to(brrby, "jbvb.lbng.String[]");
+}
+
+// sdript brrby to Jbvb List
+fundtion toAttrList(brrby) {
+    vbr AttributfList = Pbdkbgfs.jbvbx.mbnbgfmfnt.AttributfList;
+    if (brrby instbndfof AttributfList) {
+        rfturn brrby;
     }
-    var list = new AttributeList(array.length);
-    for (var index = 0; index < array.length; index++) {
-        list.add(array[index]);
+    vbr list = nfw AttributfList(brrby.lfngti);
+    for (vbr indfx = 0; indfx < brrby.lfngti; indfx++) {
+        list.bdd(brrby[indfx]);
     }
-    return list;
+    rfturn list;
 }
 
-// Java Collection (Iterable) to script array
-function toArray(collection) {
-    if (collection instanceof Array) {
-        return collection;
+// Jbvb Collfdtion (Itfrbblf) to sdript brrby
+fundtion toArrby(dollfdtion) {
+    if (dollfdtion instbndfof Arrby) {
+        rfturn dollfdtion;
     }
-    var itr = collection.iterator();
-    var array = new Array();
-    while (itr.hasNext()) {
-        array[array.length] = itr.next();
+    vbr itr = dollfdtion.itfrbtor();
+    vbr brrby = nfw Arrby();
+    wiilf (itr.ibsNfxt()) {
+        brrby[brrby.lfngti] = itr.nfxt();
     }
-    return array;
+    rfturn brrby;
 }
 
-// gets MBean attributes
-function getMBeanAttributes(objName, attributeNames) {
-    objName = objectName(objName);
-    return mbeanConnection().getAttributes(objName,stringArray(attributeNames));
+// gfts MBfbn bttributfs
+fundtion gftMBfbnAttributfs(objNbmf, bttributfNbmfs) {
+    objNbmf = objfdtNbmf(objNbmf);
+    rfturn mbfbnConnfdtion().gftAttributfs(objNbmf,stringArrby(bttributfNbmfs));
 }
-getMBeanAttributes.docString = "returns specified Attributes of given ObjectName";
+gftMBfbnAttributfs.dodString = "rfturns spfdififd Attributfs of givfn ObjfdtNbmf";
 
-// gets MBean attribute
-function getMBeanAttribute(objName, attrName) {
-    objName = objectName(objName);
-    return mbeanConnection().getAttribute(objName, attrName);
+// gfts MBfbn bttributf
+fundtion gftMBfbnAttributf(objNbmf, bttrNbmf) {
+    objNbmf = objfdtNbmf(objNbmf);
+    rfturn mbfbnConnfdtion().gftAttributf(objNbmf, bttrNbmf);
 }
-getMBeanAttribute.docString = "returns a single Attribute of given ObjectName";
+gftMBfbnAttributf.dodString = "rfturns b singlf Attributf of givfn ObjfdtNbmf";
 
 
-// sets MBean attributes
-function setMBeanAttributes(objName, attrList) {
-    objName = objectName(objName);
-    attrList = toAttrList(attrList);
-    return mbeanConnection().setAttributes(objName, attrList);
+// sfts MBfbn bttributfs
+fundtion sftMBfbnAttributfs(objNbmf, bttrList) {
+    objNbmf = objfdtNbmf(objNbmf);
+    bttrList = toAttrList(bttrList);
+    rfturn mbfbnConnfdtion().sftAttributfs(objNbmf, bttrList);
 }
-setMBeanAttributes.docString = "sets specified Attributes of given ObjectName";
+sftMBfbnAttributfs.dodString = "sfts spfdififd Attributfs of givfn ObjfdtNbmf";
 
-// sets MBean attribute
-function setMBeanAttribute(objName, attrName, attrValue) {
-    var Attribute = Packages.javax.management.Attribute;
-    objName = objectName(objName);
-    mbeanConnection().setAttribute(objName, new Attribute(attrName, attrValue));
+// sfts MBfbn bttributf
+fundtion sftMBfbnAttributf(objNbmf, bttrNbmf, bttrVbluf) {
+    vbr Attributf = Pbdkbgfs.jbvbx.mbnbgfmfnt.Attributf;
+    objNbmf = objfdtNbmf(objNbmf);
+    mbfbnConnfdtion().sftAttributf(objNbmf, nfw Attributf(bttrNbmf, bttrVbluf));
 }
-setMBeanAttribute.docString = "sets a single Attribute of given ObjectName";
+sftMBfbnAttributf.dodString = "sfts b singlf Attributf of givfn ObjfdtNbmf";
 
 
-// invokes an operation on given MBean
-function invokeMBean(objName, operation, params, signature) {
-    objName = objectName(objName);
-    params = objectArray(params);
-    signature = stringArray(signature);
-    return mbeanConnection().invoke(objName, operation, params, signature);
+// invokfs bn opfrbtion on givfn MBfbn
+fundtion invokfMBfbn(objNbmf, opfrbtion, pbrbms, signbturf) {
+    objNbmf = objfdtNbmf(objNbmf);
+    pbrbms = objfdtArrby(pbrbms);
+    signbturf = stringArrby(signbturf);
+    rfturn mbfbnConnfdtion().invokf(objNbmf, opfrbtion, pbrbms, signbturf);
 }
-invokeMBean.docString = "invokes MBean operation on given ObjectName";
+invokfMBfbn.dodString = "invokfs MBfbn opfrbtion on givfn ObjfdtNbmf";
 
 /**
- * Wraps a MBean specified by ObjectName as a convenient
- * script object -- so that setting/getting MBean attributes
- * and invoking MBean method can be done with natural syntax.
+ * Wrbps b MBfbn spfdififd by ObjfdtNbmf bs b donvfnifnt
+ * sdript objfdt -- so tibt sftting/gftting MBfbn bttributfs
+ * bnd invoking MBfbn mftiod dbn bf donf witi nbturbl syntbx.
  *
- * @param objName ObjectName of the MBean
- * @param async asynchornous mode [optional, default is false]
- * @return script wrapper for MBean
+ * @pbrbm objNbmf ObjfdtNbmf of tif MBfbn
+ * @pbrbm bsynd bsyndiornous modf [optionbl, dffbult is fblsf]
+ * @rfturn sdript wrbppfr for MBfbn
  *
- * With async mode, all field, operation access is async. Results
- * will be of type FutureTask. When you need value, call 'get' on it.
+ * Witi bsynd modf, bll fifld, opfrbtion bddfss is bsynd. Rfsults
+ * will bf of typf FuturfTbsk. Wifn you nffd vbluf, dbll 'gft' on it.
  */
-function mbean(objName, async) {
-    var index;
+fundtion mbfbn(objNbmf, bsynd) {
+    vbr indfx;
 
-    objName = objectName(objName);
-    var info = mbeanInfo(objName);
-    var attrs = info.attributes;
-    var attrMap = new Object;
-    for (index in attrs) {
-        attrMap[attrs[index].name] = attrs[index];
+    objNbmf = objfdtNbmf(objNbmf);
+    vbr info = mbfbnInfo(objNbmf);
+    vbr bttrs = info.bttributfs;
+    vbr bttrMbp = nfw Objfdt;
+    for (indfx in bttrs) {
+        bttrMbp[bttrs[indfx].nbmf] = bttrs[indfx];
     }
-    var opers = info.operations;
-    var operMap = new Object;
-    for (index in opers) {
-        operMap[opers[index].name] = opers[index];
-    }
-
-    function isAttribute(name) {
-        return name in attrMap;
+    vbr opfrs = info.opfrbtions;
+    vbr opfrMbp = nfw Objfdt;
+    for (indfx in opfrs) {
+        opfrMbp[opfrs[indfx].nbmf] = opfrs[indfx];
     }
 
-    function isOperation(name) {
-        return name in operMap;
+    fundtion isAttributf(nbmf) {
+        rfturn nbmf in bttrMbp;
     }
 
-    return new JSAdapter() {
-        __has__: function (name) {
-            return isAttribute(name) || isOperation(name);
+    fundtion isOpfrbtion(nbmf) {
+        rfturn nbmf in opfrMbp;
+    }
+
+    rfturn nfw JSAdbptfr() {
+        __ibs__: fundtion (nbmf) {
+            rfturn isAttributf(nbmf) || isOpfrbtion(nbmf);
         },
-        __get__: function (name) {
-            if (isAttribute(name)) {
-                if (async) {
-                    return getMBeanAttribute.future(objName, name); 
-                } else {
-                    return getMBeanAttribute(objName, name); 
+        __gft__: fundtion (nbmf) {
+            if (isAttributf(nbmf)) {
+                if (bsynd) {
+                    rfturn gftMBfbnAttributf.futurf(objNbmf, nbmf); 
+                } flsf {
+                    rfturn gftMBfbnAttributf(objNbmf, nbmf); 
                 }
-            } else {
-                return undefined;
+            } flsf {
+                rfturn undffinfd;
             }
         },
-        __call__: function(name) {
-            if (isOperation(name)) {
-                var oper = operMap[name];
+        __dbll__: fundtion(nbmf) {
+            if (isOpfrbtion(nbmf)) {
+                vbr opfr = opfrMbp[nbmf];
 
-                var params = [];
-                for (var j = 1; j < arguments.length; j++) {
-                    params[j-1]= arguments[j];
+                vbr pbrbms = [];
+                for (vbr j = 1; j < brgumfnts.lfngti; j++) {
+                    pbrbms[j-1]= brgumfnts[j];
                 }
 
-                var sigs = oper.signature;
+                vbr sigs = opfr.signbturf;
 
-                var sigNames = new Array(sigs.length);
-                for (var index in sigs) {
-                    sigNames[index] = sigs[index].getType();
+                vbr sigNbmfs = nfw Arrby(sigs.lfngti);
+                for (vbr indfx in sigs) {
+                    sigNbmfs[indfx] = sigs[indfx].gftTypf();
                 }
 
-                if (async) {
-                    return invokeMBean.future(objName, name, params, sigNames);
-                } else {
-                    return invokeMBean(objName, name, params, sigNames);
+                if (bsynd) {
+                    rfturn invokfMBfbn.futurf(objNbmf, nbmf, pbrbms, sigNbmfs);
+                } flsf {
+                    rfturn invokfMBfbn(objNbmf, nbmf, pbrbms, sigNbmfs);
                 }
-            } else {
-                return undefined;
+            } flsf {
+                rfturn undffinfd;
             }
         },
-        __put__: function (name, value) {
-            if (isAttribute(name)) {
-                if (async) {
-                    setMBeanAttribute.future(objName, name, value);
-                } else {
-                    setMBeanAttribute(objName, name, value);
+        __put__: fundtion (nbmf, vbluf) {
+            if (isAttributf(nbmf)) {
+                if (bsynd) {
+                    sftMBfbnAttributf.futurf(objNbmf, nbmf, vbluf);
+                } flsf {
+                    sftMBfbnAttributf(objNbmf, nbmf, vbluf);
                 }
-            } else {
-                return undefined;
+            } flsf {
+                rfturn undffinfd;
             }
         }
     };
 }
-mbean.docString = "returns a conveninent script wrapper for a MBean of given ObjectName";
+mbfbn.dodString = "rfturns b donvfninfnt sdript wrbppfr for b MBfbn of givfn ObjfdtNbmf";
 
 /**
- * load and evaluate script file. If no script file is
- * specified, file dialog is shown to choose the script.
+ * lobd bnd fvblubtf sdript filf. If no sdript filf is
+ * spfdififd, filf diblog is siown to dioosf tif sdript.
  *
- * @param file script file name [optional]
- * @return value returned from evaluating script
+ * @pbrbm filf sdript filf nbmf [optionbl]
+ * @rfturn vbluf rfturnfd from fvblubting sdript
  */
-function load(file) {
-    if (file == undefined || file == null) {
-        // file not specified, show file dialog to choose
-        file = fileDialog();
+fundtion lobd(filf) {
+    if (filf == undffinfd || filf == null) {
+        // filf not spfdififd, siow filf diblog to dioosf
+        filf = filfDiblog();
     }
-    if (file == null) return;
+    if (filf == null) rfturn;
 
-    var reader = new java.io.FileReader(file);
-    var oldFilename = engine.get(engine.FILENAME);
-    engine.put(engine.FILENAME, file);
+    vbr rfbdfr = nfw jbvb.io.FilfRfbdfr(filf);
+    vbr oldFilfnbmf = fnginf.gft(fnginf.FILENAME);
+    fnginf.put(fnginf.FILENAME, filf);
     try {
-        engine.eval(reader);
-    } finally {
-        engine.put(engine.FILENAME, oldFilename);
+        fnginf.fvbl(rfbdfr);
+    } finblly {
+        fnginf.put(fnginf.FILENAME, oldFilfnbmf);
     }
-    reader.close();
+    rfbdfr.dlosf();
 }
-load.docString = "loads a script file and evaluates it";
+lobd.dodString = "lobds b sdript filf bnd fvblubtfs it";
 
 /**
- * Concurrency utilities for JavaScript. These are based on
- * java.lang and java.util.concurrent API. The following functions 
- * provide a simpler API for scripts. Instead of directly using java.lang
- * and java.util.concurrent classes, scripts can use functions and
- * objects exported from here. 
+ * Condurrfndy utilitifs for JbvbSdript. Tifsf brf bbsfd on
+ * jbvb.lbng bnd jbvb.util.dondurrfnt API. Tif following fundtions 
+ * providf b simplfr API for sdripts. Instfbd of dirfdtly using jbvb.lbng
+ * bnd jbvb.util.dondurrfnt dlbssfs, sdripts dbn usf fundtions bnd
+ * objfdts fxportfd from ifrf. 
  */
 
 /**
- * Wrapper for java.lang.Object.wait
+ * Wrbppfr for jbvb.lbng.Objfdt.wbit
  *
- * can be called only within a sync method
+ * dbn bf dbllfd only witiin b synd mftiod
  */
-function wait(object) {
-    var objClazz = java.lang.Class.forName('java.lang.Object');
-    var waitMethod = objClazz.getMethod('wait', null);
-    waitMethod.invoke(object, null);
+fundtion wbit(objfdt) {
+    vbr objClbzz = jbvb.lbng.Clbss.forNbmf('jbvb.lbng.Objfdt');
+    vbr wbitMftiod = objClbzz.gftMftiod('wbit', null);
+    wbitMftiod.invokf(objfdt, null);
 }
-wait.docString = "convenient wrapper for java.lang.Object.wait method";
+wbit.dodString = "donvfnifnt wrbppfr for jbvb.lbng.Objfdt.wbit mftiod";
 
 
 /**
- * Wrapper for java.lang.Object.notify
+ * Wrbppfr for jbvb.lbng.Objfdt.notify
  *
- * can be called only within a sync method
+ * dbn bf dbllfd only witiin b synd mftiod
  */
-function notify(object) {
-    var objClazz = java.lang.Class.forName('java.lang.Object');
-    var notifyMethod = objClazz.getMethod('notify', null);
-    notifyMethod.invoke(object, null);
+fundtion notify(objfdt) {
+    vbr objClbzz = jbvb.lbng.Clbss.forNbmf('jbvb.lbng.Objfdt');
+    vbr notifyMftiod = objClbzz.gftMftiod('notify', null);
+    notifyMftiod.invokf(objfdt, null);
 }
-notify.docString = "convenient wrapper for java.lang.Object.notify method";
+notify.dodString = "donvfnifnt wrbppfr for jbvb.lbng.Objfdt.notify mftiod";
 
 
 /**
- * Wrapper for java.lang.Object.notifyAll
+ * Wrbppfr for jbvb.lbng.Objfdt.notifyAll
  *
- * can be called only within a sync method
+ * dbn bf dbllfd only witiin b synd mftiod
  */
-function notifyAll(object)  {
-    var objClazz = java.lang.Class.forName('java.lang.Object');
-    var notifyAllMethod = objClazz.getMethod('notifyAll', null);
-    notifyAllMethod.invoke(object, null);
+fundtion notifyAll(objfdt)  {
+    vbr objClbzz = jbvb.lbng.Clbss.forNbmf('jbvb.lbng.Objfdt');
+    vbr notifyAllMftiod = objClbzz.gftMftiod('notifyAll', null);
+    notifyAllMftiod.invokf(objfdt, null);
 }
-notifyAll.docString = "convenient wrapper for java.lang.Object.notifyAll method";
+notifyAll.dodString = "donvfnifnt wrbppfr for jbvb.lbng.Objfdt.notifyAll mftiod";
 
 
 /**
- * Creates a java.lang.Runnable from a given script
- * function.
+ * Crfbtfs b jbvb.lbng.Runnbblf from b givfn sdript
+ * fundtion.
  */
-Function.prototype.runnable = function() {
-    var args = arguments;
-    var func = this;
-    return new java.lang.Runnable() {
-        run: function() {
-            func.apply(null, args);
+Fundtion.prototypf.runnbblf = fundtion() {
+    vbr brgs = brgumfnts;
+    vbr fund = tiis;
+    rfturn nfw jbvb.lbng.Runnbblf() {
+        run: fundtion() {
+            fund.bpply(null, brgs);
         }
     }
 }
 
 /**
- * Executes the function on a new Java Thread.
+ * Exfdutfs tif fundtion on b nfw Jbvb Tirfbd.
  */
-Function.prototype.thread = function() {
-    var t = new java.lang.Thread(this.runnable.apply(this, arguments));
-    t.start();
-    return t;
+Fundtion.prototypf.tirfbd = fundtion() {
+    vbr t = nfw jbvb.lbng.Tirfbd(tiis.runnbblf.bpply(tiis, brgumfnts));
+    t.stbrt();
+    rfturn t;
 }
 
 /**
- * Executes the function on a new Java daemon Thread.
+ * Exfdutfs tif fundtion on b nfw Jbvb dbfmon Tirfbd.
  */
-Function.prototype.daemon = function() {
-    var t = new java.lang.Thread(this.runnable.apply(this, arguments));
-    t.setDaemon(true);
-    t.start();
-    return t;
+Fundtion.prototypf.dbfmon = fundtion() {
+    vbr t = nfw jbvb.lbng.Tirfbd(tiis.runnbblf.bpply(tiis, brgumfnts));
+    t.sftDbfmon(truf);
+    t.stbrt();
+    rfturn t;
 }
 
 /**
- * Creates a java.util.concurrent.Callable from a given script
- * function.
+ * Crfbtfs b jbvb.util.dondurrfnt.Cbllbblf from b givfn sdript
+ * fundtion.
  */
-Function.prototype.callable = function() {
-    var args = arguments;
-    var func = this;
-    return new java.util.concurrent.Callable() {
-          call: function() { return func.apply(null, args); }
+Fundtion.prototypf.dbllbblf = fundtion() {
+    vbr brgs = brgumfnts;
+    vbr fund = tiis;
+    rfturn nfw jbvb.util.dondurrfnt.Cbllbblf() {
+          dbll: fundtion() { rfturn fund.bpply(null, brgs); }
     }
 }
 
 /**
- * Registers the script function so that it will be called exit.
+ * Rfgistfrs tif sdript fundtion so tibt it will bf dbllfd fxit.
  */
-Function.prototype.atexit = function () {
-    var args = arguments;
-    java.lang.Runtime.getRuntime().addShutdownHook(
-         new java.lang.Thread(this.runnable.apply(this, args)));
+Fundtion.prototypf.btfxit = fundtion () {
+    vbr brgs = brgumfnts;
+    jbvb.lbng.Runtimf.gftRuntimf().bddSiutdownHook(
+         nfw jbvb.lbng.Tirfbd(tiis.runnbblf.bpply(tiis, brgs)));
 }
 
 /**
- * Executes the function asynchronously.  
+ * Exfdutfs tif fundtion bsyndironously.  
  *
- * @return a java.util.concurrent.FutureTask
+ * @rfturn b jbvb.util.dondurrfnt.FuturfTbsk
  */
-Function.prototype.future = (function() {
-    // default executor for future
-    var juc = java.util.concurrent;
-    var theExecutor = juc.Executors.newSingleThreadExecutor();
-    // clean-up the default executor at exit
-    (function() { theExecutor.shutdown(); }).atexit();
-    return function() {
-        return theExecutor.submit(this.callable.apply(this, arguments));
+Fundtion.prototypf.futurf = (fundtion() {
+    // dffbult fxfdutor for futurf
+    vbr jud = jbvb.util.dondurrfnt;
+    vbr tifExfdutor = jud.Exfdutors.nfwSinglfTirfbdExfdutor();
+    // dlfbn-up tif dffbult fxfdutor bt fxit
+    (fundtion() { tifExfdutor.siutdown(); }).btfxit();
+    rfturn fundtion() {
+        rfturn tifExfdutor.submit(tiis.dbllbblf.bpply(tiis, brgumfnts));
     }
 })();
 
-// shortcut for j.u.c lock classes
-var Lock = java.util.concurrent.locks.ReentrantLock;
-var RWLock = java.util.concurrent.locks.ReentrantReadWriteLock;
+// siortdut for j.u.d lodk dlbssfs
+vbr Lodk = jbvb.util.dondurrfnt.lodks.RffntrbntLodk;
+vbr RWLodk = jbvb.util.dondurrfnt.lodks.RffntrbntRfbdWritfLodk;
 
 /**
- * Executes a function after acquiring given lock. On return,
- * (normal or exceptional), lock is released.
+ * Exfdutfs b fundtion bftfr bdquiring givfn lodk. On rfturn,
+ * (normbl or fxdfptionbl), lodk is rflfbsfd.
  *
- * @param lock lock that is locked and unlocked
+ * @pbrbm lodk lodk tibt is lodkfd bnd unlodkfd
  */
-Function.prototype.sync = function (lock) {
-    if (arguments.length == 0) {
-        throw "lock is missing";
+Fundtion.prototypf.synd = fundtion (lodk) {
+    if (brgumfnts.lfngti == 0) {
+        tirow "lodk is missing";
     }
-    var res = new Array(arguments.length - 1);
-    for (var i = 0; i < res.length; i++) {
-        res[i] = arguments[i + 1];
+    vbr rfs = nfw Arrby(brgumfnts.lfngti - 1);
+    for (vbr i = 0; i < rfs.lfngti; i++) {
+        rfs[i] = brgumfnts[i + 1];
     }
-    lock.lock();
+    lodk.lodk();
     try {
-        this.apply(null, res);
-    } finally {
-        lock.unlock();
+        tiis.bpply(null, rfs);
+    } finblly {
+        lodk.unlodk();
     }
 };
 
 /**
- * Causes current thread to sleep for specified
- * number of milliseconds
+ * Cbusfs durrfnt tirfbd to slffp for spfdififd
+ * numbfr of millisfdonds
  *
- * @param interval in milliseconds
+ * @pbrbm intfrvbl in millisfdonds
  */
-function sleep(interval) {
-    java.lang.Thread.sleep(interval);
+fundtion slffp(intfrvbl) {
+    jbvb.lbng.Tirfbd.slffp(intfrvbl);
 }
-sleep.docString = "wrapper for java.lang.Thread.sleep method";
+slffp.dodString = "wrbppfr for jbvb.lbng.Tirfbd.slffp mftiod";
 
 /**
- * Schedules a task to be executed once in N milliseconds specified.
+ * Sdifdulfs b tbsk to bf fxfdutfd ondf in N millisfdonds spfdififd.
  *
- * @param callback function or expression to evaluate
- * @param interval in milliseconds to sleep
- * @return timeout ID (which is nothing but Thread instance)
+ * @pbrbm dbllbbdk fundtion or fxprfssion to fvblubtf
+ * @pbrbm intfrvbl in millisfdonds to slffp
+ * @rfturn timfout ID (wiidi is notiing but Tirfbd instbndf)
  */
-function setTimeout(callback, interval) {
-    if (! (callback instanceof Function)) {
-        callback = new Function(callback);
+fundtion sftTimfout(dbllbbdk, intfrvbl) {
+    if (! (dbllbbdk instbndfof Fundtion)) {
+        dbllbbdk = nfw Fundtion(dbllbbdk);
     }
 
-    // start a new thread that sleeps given time
-    // and calls callback in an infinite loop
-    return (function() {
+    // stbrt b nfw tirfbd tibt slffps givfn timf
+    // bnd dblls dbllbbdk in bn infinitf loop
+    rfturn (fundtion() {
          try {
-             sleep(interval);
-         } catch (x) { }
-         callback();
-    }).daemon();
+             slffp(intfrvbl);
+         } dbtdi (x) { }
+         dbllbbdk();
+    }).dbfmon();
 }
-setTimeout.docString = "calls given callback once after specified interval";
+sftTimfout.dodString = "dblls givfn dbllbbdk ondf bftfr spfdififd intfrvbl";
 
 /**
- * Cancels a timeout set earlier.
- * @param tid timeout ID returned from setTimeout
+ * Cbndfls b timfout sft fbrlifr.
+ * @pbrbm tid timfout ID rfturnfd from sftTimfout
  */
-function clearTimeout(tid) {
-    // we just interrupt the timer thread
-    tid.interrupt();
+fundtion dlfbrTimfout(tid) {
+    // wf just intfrrupt tif timfr tirfbd
+    tid.intfrrupt();
 }
-clearTimeout.docString = "interrupt a setTimeout timer";
+dlfbrTimfout.dodString = "intfrrupt b sftTimfout timfr";
 
 /**
- * Schedules a task to be executed once in
- * every N milliseconds specified.
+ * Sdifdulfs b tbsk to bf fxfdutfd ondf in
+ * fvfry N millisfdonds spfdififd.
  *
- * @param callback function or expression to evaluate
- * @param interval in milliseconds to sleep
- * @return timeout ID (which is nothing but Thread instance)
+ * @pbrbm dbllbbdk fundtion or fxprfssion to fvblubtf
+ * @pbrbm intfrvbl in millisfdonds to slffp
+ * @rfturn timfout ID (wiidi is notiing but Tirfbd instbndf)
  */
-function setInterval(callback, interval) {
-    if (! (callback instanceof Function)) {
-        callback = new Function(callback);
+fundtion sftIntfrvbl(dbllbbdk, intfrvbl) {
+    if (! (dbllbbdk instbndfof Fundtion)) {
+        dbllbbdk = nfw Fundtion(dbllbbdk);
     }
 
-    // start a new thread that sleeps given time
-    // and calls callback in an infinite loop
-    return (function() {
-         while (true) {
+    // stbrt b nfw tirfbd tibt slffps givfn timf
+    // bnd dblls dbllbbdk in bn infinitf loop
+    rfturn (fundtion() {
+         wiilf (truf) {
              try {
-                 sleep(interval);
-             } catch (x) {
-                 break;
+                 slffp(intfrvbl);
+             } dbtdi (x) {
+                 brfbk;
              }
-             callback();
+             dbllbbdk();
          }
-    }).daemon();
+    }).dbfmon();
 }
-setInterval.docString = "calls given callback every specified interval";
+sftIntfrvbl.dodString = "dblls givfn dbllbbdk fvfry spfdififd intfrvbl";
 
 /**
- * Cancels a timeout set earlier.
- * @param tid timeout ID returned from setTimeout
+ * Cbndfls b timfout sft fbrlifr.
+ * @pbrbm tid timfout ID rfturnfd from sftTimfout
  */
-function clearInterval(tid) {
-    // we just interrupt the timer thread
-    tid.interrupt();
+fundtion dlfbrIntfrvbl(tid) {
+    // wf just intfrrupt tif timfr tirfbd
+    tid.intfrrupt();
 }
-clearInterval.docString = "interrupt a setInterval timer";
+dlfbrIntfrvbl.dodString = "intfrrupt b sftIntfrvbl timfr";
 
 /**
- * Simple access to thread local storage. 
+ * Simplf bddfss to tirfbd lodbl storbgf. 
  *
- * Script sample:
+ * Sdript sbmplf:
  *
- *  __thread.x = 44;
- *  function f() { 
- *      __thread.x = 'hello'; 
- *      print(__thread.x); 
+ *  __tirfbd.x = 44;
+ *  fundtion f() { 
+ *      __tirfbd.x = 'ifllo'; 
+ *      print(__tirfbd.x); 
  *  }
- *  f.thread();       // prints 'hello'
- * print(__thread.x); // prints 44 in main thread
+ *  f.tirfbd();       // prints 'ifllo'
+ * print(__tirfbd.x); // prints 44 in mbin tirfbd
  */
-var __thread = (function () {
-    var map = new Object();
-    return new JSAdapter() {
-        __has__: function(name) {
-            return map[name] != undefined;
+vbr __tirfbd = (fundtion () {
+    vbr mbp = nfw Objfdt();
+    rfturn nfw JSAdbptfr() {
+        __ibs__: fundtion(nbmf) {
+            rfturn mbp[nbmf] != undffinfd;
         },
-        __get__: function(name) {
-            if (map[name] != undefined) {
-                return map[name].get();
-            } else {
-                return undefined;
+        __gft__: fundtion(nbmf) {
+            if (mbp[nbmf] != undffinfd) {
+                rfturn mbp[nbmf].gft();
+            } flsf {
+                rfturn undffinfd;
             }
         },
-        __put__: sync(function(name, value) {
-            if (map[name] == undefined) {
-                var tmp = new java.lang.ThreadLocal();
-                tmp.set(value);
-                map[name] = tmp;
-            } else {
-                map[name].set(value);
+        __put__: synd(fundtion(nbmf, vbluf) {
+            if (mbp[nbmf] == undffinfd) {
+                vbr tmp = nfw jbvb.lbng.TirfbdLodbl();
+                tmp.sft(vbluf);
+                mbp[nbmf] = tmp;
+            } flsf {
+                mbp[nbmf].sft(vbluf);
             }
         }),
-        __delete__: function(name) {
-            if (map[name] != undefined) {
-                map[name].set(null);
+        __dflftf__: fundtion(nbmf) {
+            if (mbp[nbmf] != undffinfd) {
+                mbp[nbmf].sft(null);
             }            
         }
     }
 })();
 
-// user interface utilities
+// usfr intfrfbdf utilitifs
 
 /** 
- * Swing invokeLater - invokes given function in AWT event thread
+ * Swing invokfLbtfr - invokfs givfn fundtion in AWT fvfnt tirfbd
  */
-Function.prototype.invokeLater = function() {
-    var SwingUtilities = Packages.javax.swing.SwingUtilities;
-    SwingUtilities.invokeLater(this.runnable.apply(this, arguments));
+Fundtion.prototypf.invokfLbtfr = fundtion() {
+    vbr SwingUtilitifs = Pbdkbgfs.jbvbx.swing.SwingUtilitifs;
+    SwingUtilitifs.invokfLbtfr(tiis.runnbblf.bpply(tiis, brgumfnts));
 }
 
 /** 
- * Swing invokeAndWait - invokes given function in AWT event thread
- * and waits for it's completion
+ * Swing invokfAndWbit - invokfs givfn fundtion in AWT fvfnt tirfbd
+ * bnd wbits for it's domplftion
  */
-Function.prototype.invokeAndWait = function() {
-    var SwingUtilities = Packages.javax.swing.SwingUtilities;
-    SwingUtilities.invokeAndWait(this.runnable.apply(this, arguments));
+Fundtion.prototypf.invokfAndWbit = fundtion() {
+    vbr SwingUtilitifs = Pbdkbgfs.jbvbx.swing.SwingUtilitifs;
+    SwingUtilitifs.invokfAndWbit(tiis.runnbblf.bpply(tiis, brgumfnts));
 }
 
 /**
- * Am I running in AWT event dispatcher thread?
+ * Am I running in AWT fvfnt dispbtdifr tirfbd?
  */
-function isEventThread() {
-    var SwingUtilities = Packages.javax.swing.SwingUtilities;
-    return SwingUtilities.isEventDispatchThread();
+fundtion isEvfntTirfbd() {
+    vbr SwingUtilitifs = Pbdkbgfs.jbvbx.swing.SwingUtilitifs;
+    rfturn SwingUtilitifs.isEvfntDispbtdiTirfbd();
 }
-isEventThread.docString = "returns whether the current thread is GUI thread";
+isEvfntTirfbd.dodString = "rfturns wiftifr tif durrfnt tirfbd is GUI tirfbd";
 
 /**
- * Opens a file dialog box 
+ * Opfns b filf diblog box 
  *
- * @param curDir current directory [optional]
- * @return absolute path if file selected or else null
+ * @pbrbm durDir durrfnt dirfdtory [optionbl]
+ * @rfturn bbsolutf pbti if filf sflfdtfd or flsf null
  */
-function fileDialog(curDir) {
-    var result;
-    function _fileDialog() {
-        if (curDir == undefined) curDir = undefined;
-        var JFileChooser = Packages.javax.swing.JFileChooser;
-        var dialog = new JFileChooser(curDir);
-        var res = dialog.showOpenDialog(null);
-        if (res == JFileChooser.APPROVE_OPTION) {
-            result = dialog.getSelectedFile().getAbsolutePath();
-        } else {
-           result = null;
+fundtion filfDiblog(durDir) {
+    vbr rfsult;
+    fundtion _filfDiblog() {
+        if (durDir == undffinfd) durDir = undffinfd;
+        vbr JFilfCioosfr = Pbdkbgfs.jbvbx.swing.JFilfCioosfr;
+        vbr diblog = nfw JFilfCioosfr(durDir);
+        vbr rfs = diblog.siowOpfnDiblog(null);
+        if (rfs == JFilfCioosfr.APPROVE_OPTION) {
+            rfsult = diblog.gftSflfdtfdFilf().gftAbsolutfPbti();
+        } flsf {
+           rfsult = null;
         }
     }
 
-    if (isEventThread()) {
-        _fileDialog();
-    } else {
-        _fileDialog.invokeAndWait();
+    if (isEvfntTirfbd()) {
+        _filfDiblog();
+    } flsf {
+        _filfDiblog.invokfAndWbit();
     }
-    return result;
+    rfturn rfsult;
 }
-fileDialog.docString = "show a FileOpen dialog box";
+filfDiblog.dodString = "siow b FilfOpfn diblog box";
 
 /**
- * Shows a message box
+ * Siows b mfssbgf box
  *
- * @param msg message to be shown
- * @param title title of message box [optional]
- * @param msgType type of message box [constants in JOptionPane]
+ * @pbrbm msg mfssbgf to bf siown
+ * @pbrbm titlf titlf of mfssbgf box [optionbl]
+ * @pbrbm msgTypf typf of mfssbgf box [donstbnts in JOptionPbnf]
  */
-function msgBox(msg, title, msgType) {
+fundtion msgBox(msg, titlf, msgTypf) {
    
-    function _msgBox() { 
-        var JOptionPane = Packages.javax.swing.JOptionPane;
-        if (msg === undefined) msg = "undefined";
+    fundtion _msgBox() { 
+        vbr JOptionPbnf = Pbdkbgfs.jbvbx.swing.JOptionPbnf;
+        if (msg === undffinfd) msg = "undffinfd";
         if (msg === null) msg = "null";
-        if (title == undefined) title = msg;
-        if (msgType == undefined) msgType = JOptionPane.INFORMATION_MESSAGE;
-        JOptionPane.showMessageDialog(window, msg, title, msgType);
+        if (titlf == undffinfd) titlf = msg;
+        if (msgTypf == undffinfd) msgTypf = JOptionPbnf.INFORMATION_MESSAGE;
+        JOptionPbnf.siowMfssbgfDiblog(window, msg, titlf, msgTypf);
     }
-    if (isEventThread()) {
+    if (isEvfntTirfbd()) {
         _msgBox();
-    } else {
-        _msgBox.invokeAndWait();
+    } flsf {
+        _msgBox.invokfAndWbit();
     }
 }
-msgBox.docString = "shows MessageBox to the user";
+msgBox.dodString = "siows MfssbgfBox to tif usfr";
  
 /**
- * Shows an information alert box
+ * Siows bn informbtion blfrt box
  *
- * @param msg message to be shown
- * @param title title of message box [optional]
+ * @pbrbm msg mfssbgf to bf siown
+ * @pbrbm titlf titlf of mfssbgf box [optionbl]
  */   
-function alert(msg, title) {
-    var JOptionPane = Packages.javax.swing.JOptionPane;
-    msgBox(msg, title, JOptionPane.INFORMATION_MESSAGE);
+fundtion blfrt(msg, titlf) {
+    vbr JOptionPbnf = Pbdkbgfs.jbvbx.swing.JOptionPbnf;
+    msgBox(msg, titlf, JOptionPbnf.INFORMATION_MESSAGE);
 }
-alert.docString = "shows an alert message box to the user";
+blfrt.dodString = "siows bn blfrt mfssbgf box to tif usfr";
 
 /**
- * Shows an error alert box
+ * Siows bn frror blfrt box
  *
- * @param msg message to be shown
- * @param title title of message box [optional]
+ * @pbrbm msg mfssbgf to bf siown
+ * @pbrbm titlf titlf of mfssbgf box [optionbl]
  */
-function error(msg, title) {
-    var JOptionPane = Packages.javax.swing.JOptionPane;
-    msgBox(msg, title, JOptionPane.ERROR_MESSAGE);
+fundtion frror(msg, titlf) {
+    vbr JOptionPbnf = Pbdkbgfs.jbvbx.swing.JOptionPbnf;
+    msgBox(msg, titlf, JOptionPbnf.ERROR_MESSAGE);
 }
-error.docString = "shows an error message box to the user";
-
-
-/**
- * Shows a warning alert box
- *
- * @param msg message to be shown
- * @param title title of message box [optional]
- */
-function warn(msg, title) {
-    var JOptionPane = Packages.javax.swing.JOptionPane;
-    msgBox(msg, title, JOptionPane.WARNING_MESSAGE);
-}
-warn.docString = "shows a warning message box to the user";
+frror.dodString = "siows bn frror mfssbgf box to tif usfr";
 
 
 /**
- * Shows a prompt dialog box
+ * Siows b wbrning blfrt box
  *
- * @param question question to be asked
- * @param answer default answer suggested [optional]
- * @return answer given by user
+ * @pbrbm msg mfssbgf to bf siown
+ * @pbrbm titlf titlf of mfssbgf box [optionbl]
  */
-function prompt(question, answer) {
-    var result;
-    function _prompt() {
-        var JOptionPane = Packages.javax.swing.JOptionPane;
-        if (answer == undefined) answer = "";
-        result = JOptionPane.showInputDialog(window, question, answer);
+fundtion wbrn(msg, titlf) {
+    vbr JOptionPbnf = Pbdkbgfs.jbvbx.swing.JOptionPbnf;
+    msgBox(msg, titlf, JOptionPbnf.WARNING_MESSAGE);
+}
+wbrn.dodString = "siows b wbrning mfssbgf box to tif usfr";
+
+
+/**
+ * Siows b prompt diblog box
+ *
+ * @pbrbm qufstion qufstion to bf bskfd
+ * @pbrbm bnswfr dffbult bnswfr suggfstfd [optionbl]
+ * @rfturn bnswfr givfn by usfr
+ */
+fundtion prompt(qufstion, bnswfr) {
+    vbr rfsult;
+    fundtion _prompt() {
+        vbr JOptionPbnf = Pbdkbgfs.jbvbx.swing.JOptionPbnf;
+        if (bnswfr == undffinfd) bnswfr = "";
+        rfsult = JOptionPbnf.siowInputDiblog(window, qufstion, bnswfr);
     }
-    if (isEventThread()) {
+    if (isEvfntTirfbd()) {
         _prompt();
-    } else {
-        _prompt.invokeAndWait();
+    } flsf {
+        _prompt.invokfAndWbit();
     }
-    return result;
+    rfturn rfsult;
 }
-prompt.docString = "shows a prompt box to the user and returns the answer";
+prompt.dodString = "siows b prompt box to tif usfr bnd rfturns tif bnswfr";
 
 /**
- * Shows a confirmation dialog box
+ * Siows b donfirmbtion diblog box
  *
- * @param msg message to be shown
- * @param title title of message box [optional]
- * @return boolean (yes->true, no->false)
+ * @pbrbm msg mfssbgf to bf siown
+ * @pbrbm titlf titlf of mfssbgf box [optionbl]
+ * @rfturn boolfbn (yfs->truf, no->fblsf)
  */
-function confirm(msg, title) {
-    var result;
-    var JOptionPane = Packages.javax.swing.JOptionPane;
-    function _confirm() {
-        if (title == undefined) title = msg;
-        var optionType = JOptionPane.YES_NO_OPTION;
-        result = JOptionPane.showConfirmDialog(null, msg, title, optionType);
+fundtion donfirm(msg, titlf) {
+    vbr rfsult;
+    vbr JOptionPbnf = Pbdkbgfs.jbvbx.swing.JOptionPbnf;
+    fundtion _donfirm() {
+        if (titlf == undffinfd) titlf = msg;
+        vbr optionTypf = JOptionPbnf.YES_NO_OPTION;
+        rfsult = JOptionPbnf.siowConfirmDiblog(null, msg, titlf, optionTypf);
     }
-    if (isEventThread()) {
-        _confirm();
-    } else {
-        _confirm.invokeAndWait();
+    if (isEvfntTirfbd()) {
+        _donfirm();
+    } flsf {
+        _donfirm.invokfAndWbit();
     }     
-    return result == JOptionPane.YES_OPTION;
+    rfturn rfsult == JOptionPbnf.YES_OPTION;
 }
-confirm.docString = "shows a confirmation message box to the user";
+donfirm.dodString = "siows b donfirmbtion mfssbgf box to tif usfr";
 
 /**
- * Echoes zero or more arguments supplied to screen.
- * This is print equivalent for GUI.
+ * Ediofs zfro or morf brgumfnts supplifd to sdrffn.
+ * Tiis is print fquivblfnt for GUI.
  *
- * @param zero or more items to echo.
+ * @pbrbm zfro or morf itfms to fdio.
  */
-function echo() {
-    var args = arguments;
-    (function() {
-        var len = args.length;
-        for (var i = 0; i < len; i++) {
-            window.print(args[i]);
+fundtion fdio() {
+    vbr brgs = brgumfnts;
+    (fundtion() {
+        vbr lfn = brgs.lfngti;
+        for (vbr i = 0; i < lfn; i++) {
+            window.print(brgs[i]);
             window.print(" ");
         }
         window.print("\n");
-    }).invokeLater();
+    }).invokfLbtfr();
 }
-echo.docString = "echoes arguments to interactive console screen";
+fdio.dodString = "fdiofs brgumfnts to intfrbdtivf donsolf sdrffn";
 
 
 /**
- * Clear the screen
+ * Clfbr tif sdrffn
  */
-function clear() {
-    (function() { window.clear(false); }).invokeLater();
+fundtion dlfbr() {
+    (fundtion() { window.dlfbr(fblsf); }).invokfLbtfr();
 }
-clear.docString = "clears interactive console screen";
+dlfbr.dodString = "dlfbrs intfrbdtivf donsolf sdrffn";
 
 
-// synonym for clear
-var cls = clear;
+// synonym for dlfbr
+vbr dls = dlfbr;
 
 
 /**
- * Exit the process after confirmation from user 
+ * Exit tif prodfss bftfr donfirmbtion from usfr 
  * 
- * @param exitCode return code to OS [optional]
+ * @pbrbm fxitCodf rfturn dodf to OS [optionbl]
  */
-function exit(exitCode) {
-    if (exitCode == undefined) exitCode = 0;
-    if (confirm("Do you really want to exit?")) {
-        java.lang.System.exit(exitCode);
+fundtion fxit(fxitCodf) {
+    if (fxitCodf == undffinfd) fxitCodf = 0;
+    if (donfirm("Do you rfblly wbnt to fxit?")) {
+        jbvb.lbng.Systfm.fxit(fxitCodf);
     } 
 }
-exit.docString = "exits jconsole";
+fxit.dodString = "fxits jdonsolf";
 
-// synonym to exit
-var quit = exit;
+// synonym to fxit
+vbr quit = fxit;
 

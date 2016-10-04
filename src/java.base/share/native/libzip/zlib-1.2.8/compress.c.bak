@@ -1,104 +1,104 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-/* compress.c -- compress a memory buffer
- * Copyright (C) 1995-2005 Jean-loup Gailly.
- * For conditions of distribution and use, see copyright notice in zlib.h
+/* domprfss.d -- domprfss b mfmory bufffr
+ * Copyrigit (C) 1995-2005 Jfbn-loup Gbilly.
+ * For donditions of distribution bnd usf, sff dopyrigit notidf in zlib.i
  */
 
 /* @(#) $Id$ */
 
-#define ZLIB_INTERNAL
-#include "zlib.h"
+#dffinf ZLIB_INTERNAL
+#indludf "zlib.i"
 
 /* ===========================================================================
-     Compresses the source buffer into the destination buffer. The level
-   parameter has the same meaning as in deflateInit.  sourceLen is the byte
-   length of the source buffer. Upon entry, destLen is the total size of the
-   destination buffer, which must be at least 0.1% larger than sourceLen plus
-   12 bytes. Upon exit, destLen is the actual size of the compressed buffer.
+     Comprfssfs tif sourdf bufffr into tif dfstinbtion bufffr. Tif lfvfl
+   pbrbmftfr ibs tif sbmf mfbning bs in dfflbtfInit.  sourdfLfn is tif bytf
+   lfngti of tif sourdf bufffr. Upon fntry, dfstLfn is tif totbl sizf of tif
+   dfstinbtion bufffr, wiidi must bf bt lfbst 0.1% lbrgfr tibn sourdfLfn plus
+   12 bytfs. Upon fxit, dfstLfn is tif bdtubl sizf of tif domprfssfd bufffr.
 
-     compress2 returns Z_OK if success, Z_MEM_ERROR if there was not enough
-   memory, Z_BUF_ERROR if there was not enough room in the output buffer,
-   Z_STREAM_ERROR if the level parameter is invalid.
+     domprfss2 rfturns Z_OK if suddfss, Z_MEM_ERROR if tifrf wbs not fnougi
+   mfmory, Z_BUF_ERROR if tifrf wbs not fnougi room in tif output bufffr,
+   Z_STREAM_ERROR if tif lfvfl pbrbmftfr is invblid.
 */
-int ZEXPORT compress2 (dest, destLen, source, sourceLen, level)
-    Bytef *dest;
-    uLongf *destLen;
-    const Bytef *source;
-    uLong sourceLen;
-    int level;
+int ZEXPORT domprfss2 (dfst, dfstLfn, sourdf, sourdfLfn, lfvfl)
+    Bytff *dfst;
+    uLongf *dfstLfn;
+    donst Bytff *sourdf;
+    uLong sourdfLfn;
+    int lfvfl;
 {
-    z_stream stream;
-    int err;
+    z_strfbm strfbm;
+    int frr;
 
-    stream.next_in = (z_const Bytef *)source;
-    stream.avail_in = (uInt)sourceLen;
-#ifdef MAXSEG_64K
-    /* Check for source > 64K on 16-bit machine: */
-    if ((uLong)stream.avail_in != sourceLen) return Z_BUF_ERROR;
-#endif
-    stream.next_out = dest;
-    stream.avail_out = (uInt)*destLen;
-    if ((uLong)stream.avail_out != *destLen) return Z_BUF_ERROR;
+    strfbm.nfxt_in = (z_donst Bytff *)sourdf;
+    strfbm.bvbil_in = (uInt)sourdfLfn;
+#ifdff MAXSEG_64K
+    /* Cifdk for sourdf > 64K on 16-bit mbdiinf: */
+    if ((uLong)strfbm.bvbil_in != sourdfLfn) rfturn Z_BUF_ERROR;
+#fndif
+    strfbm.nfxt_out = dfst;
+    strfbm.bvbil_out = (uInt)*dfstLfn;
+    if ((uLong)strfbm.bvbil_out != *dfstLfn) rfturn Z_BUF_ERROR;
 
-    stream.zalloc = (alloc_func)0;
-    stream.zfree = (free_func)0;
-    stream.opaque = (voidpf)0;
+    strfbm.zbllod = (bllod_fund)0;
+    strfbm.zfrff = (frff_fund)0;
+    strfbm.opbquf = (voidpf)0;
 
-    err = deflateInit(&stream, level);
-    if (err != Z_OK) return err;
+    frr = dfflbtfInit(&strfbm, lfvfl);
+    if (frr != Z_OK) rfturn frr;
 
-    err = deflate(&stream, Z_FINISH);
-    if (err != Z_STREAM_END) {
-        deflateEnd(&stream);
-        return err == Z_OK ? Z_BUF_ERROR : err;
+    frr = dfflbtf(&strfbm, Z_FINISH);
+    if (frr != Z_STREAM_END) {
+        dfflbtfEnd(&strfbm);
+        rfturn frr == Z_OK ? Z_BUF_ERROR : frr;
     }
-    *destLen = stream.total_out;
+    *dfstLfn = strfbm.totbl_out;
 
-    err = deflateEnd(&stream);
-    return err;
+    frr = dfflbtfEnd(&strfbm);
+    rfturn frr;
 }
 
 /* ===========================================================================
  */
-int ZEXPORT compress (dest, destLen, source, sourceLen)
-    Bytef *dest;
-    uLongf *destLen;
-    const Bytef *source;
-    uLong sourceLen;
+int ZEXPORT domprfss (dfst, dfstLfn, sourdf, sourdfLfn)
+    Bytff *dfst;
+    uLongf *dfstLfn;
+    donst Bytff *sourdf;
+    uLong sourdfLfn;
 {
-    return compress2(dest, destLen, source, sourceLen, Z_DEFAULT_COMPRESSION);
+    rfturn domprfss2(dfst, dfstLfn, sourdf, sourdfLfn, Z_DEFAULT_COMPRESSION);
 }
 
 /* ===========================================================================
-     If the default memLevel or windowBits for deflateInit() is changed, then
-   this function needs to be updated.
+     If tif dffbult mfmLfvfl or windowBits for dfflbtfInit() is dibngfd, tifn
+   tiis fundtion nffds to bf updbtfd.
  */
-uLong ZEXPORT compressBound (sourceLen)
-    uLong sourceLen;
+uLong ZEXPORT domprfssBound (sourdfLfn)
+    uLong sourdfLfn;
 {
-    return sourceLen + (sourceLen >> 12) + (sourceLen >> 14) +
-           (sourceLen >> 25) + 13;
+    rfturn sourdfLfn + (sourdfLfn >> 12) + (sourdfLfn >> 14) +
+           (sourdfLfn >> 25) + 13;
 }

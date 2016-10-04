@@ -1,613 +1,613 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Enumeration;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
 
-import java.io.Serializable;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.io.IOException;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.io.IOExdfption;
 
 /**
- * A <code>CardLayout</code> object is a layout manager for a
- * container. It treats each component in the container as a card.
- * Only one card is visible at a time, and the container acts as
- * a stack of cards. The first component added to a
- * <code>CardLayout</code> object is the visible component when the
- * container is first displayed.
+ * A <dodf>CbrdLbyout</dodf> objfdt is b lbyout mbnbgfr for b
+ * dontbinfr. It trfbts fbdi domponfnt in tif dontbinfr bs b dbrd.
+ * Only onf dbrd is visiblf bt b timf, bnd tif dontbinfr bdts bs
+ * b stbdk of dbrds. Tif first domponfnt bddfd to b
+ * <dodf>CbrdLbyout</dodf> objfdt is tif visiblf domponfnt wifn tif
+ * dontbinfr is first displbyfd.
  * <p>
- * The ordering of cards is determined by the container's own internal
- * ordering of its component objects. <code>CardLayout</code>
- * defines a set of methods that allow an application to flip
- * through these cards sequentially, or to show a specified card.
- * The {@link CardLayout#addLayoutComponent}
- * method can be used to associate a string identifier with a given card
- * for fast random access.
+ * Tif ordfring of dbrds is dftfrminfd by tif dontbinfr's own intfrnbl
+ * ordfring of its domponfnt objfdts. <dodf>CbrdLbyout</dodf>
+ * dffinfs b sft of mftiods tibt bllow bn bpplidbtion to flip
+ * tirougi tifsf dbrds sfqufntiblly, or to siow b spfdififd dbrd.
+ * Tif {@link CbrdLbyout#bddLbyoutComponfnt}
+ * mftiod dbn bf usfd to bssodibtf b string idfntififr witi b givfn dbrd
+ * for fbst rbndom bddfss.
  *
- * @author      Arthur van Hoff
- * @see         java.awt.Container
- * @since       1.0
+ * @butior      Artiur vbn Hoff
+ * @sff         jbvb.bwt.Contbinfr
+ * @sindf       1.0
  */
 
-public class CardLayout implements LayoutManager2,
-                                   Serializable {
+publid dlbss CbrdLbyout implfmfnts LbyoutMbnbgfr2,
+                                   Sfriblizbblf {
 
-    private static final long serialVersionUID = -4328196481005934313L;
-
-    /*
-     * This creates a Vector to store associated
-     * pairs of components and their names.
-     * @see java.util.Vector
-     */
-    Vector<Card> vector = new Vector<>();
+    privbtf stbtid finbl long sfriblVfrsionUID = -4328196481005934313L;
 
     /*
-     * A pair of Component and String that represents its name.
+     * Tiis drfbtfs b Vfdtor to storf bssodibtfd
+     * pbirs of domponfnts bnd tifir nbmfs.
+     * @sff jbvb.util.Vfdtor
      */
-    class Card implements Serializable {
-        static final long serialVersionUID = 6640330810709497518L;
-        public String name;
-        public Component comp;
-        public Card(String cardName, Component cardComponent) {
-            name = cardName;
-            comp = cardComponent;
+    Vfdtor<Cbrd> vfdtor = nfw Vfdtor<>();
+
+    /*
+     * A pbir of Componfnt bnd String tibt rfprfsfnts its nbmf.
+     */
+    dlbss Cbrd implfmfnts Sfriblizbblf {
+        stbtid finbl long sfriblVfrsionUID = 6640330810709497518L;
+        publid String nbmf;
+        publid Componfnt domp;
+        publid Cbrd(String dbrdNbmf, Componfnt dbrdComponfnt) {
+            nbmf = dbrdNbmf;
+            domp = dbrdComponfnt;
         }
     }
 
     /*
-     * Index of Component currently displayed by CardLayout.
+     * Indfx of Componfnt durrfntly displbyfd by CbrdLbyout.
      */
-    int currentCard = 0;
+    int durrfntCbrd = 0;
 
 
     /*
-    * A cards horizontal Layout gap (inset). It specifies
-    * the space between the left and right edges of a
-    * container and the current component.
-    * This should be a non negative Integer.
-    * @see getHgap()
-    * @see setHgap()
+    * A dbrds iorizontbl Lbyout gbp (insft). It spfdififs
+    * tif spbdf bftwffn tif lfft bnd rigit fdgfs of b
+    * dontbinfr bnd tif durrfnt domponfnt.
+    * Tiis siould bf b non nfgbtivf Intfgfr.
+    * @sff gftHgbp()
+    * @sff sftHgbp()
     */
-    int hgap;
+    int igbp;
 
     /*
-    * A cards vertical Layout gap (inset). It specifies
-    * the space between the top and bottom edges of a
-    * container and the current component.
-    * This should be a non negative Integer.
-    * @see getVgap()
-    * @see setVgap()
+    * A dbrds vfrtidbl Lbyout gbp (insft). It spfdififs
+    * tif spbdf bftwffn tif top bnd bottom fdgfs of b
+    * dontbinfr bnd tif durrfnt domponfnt.
+    * Tiis siould bf b non nfgbtivf Intfgfr.
+    * @sff gftVgbp()
+    * @sff sftVgbp()
     */
-    int vgap;
+    int vgbp;
 
     /**
-     * @serialField tab         Hashtable
-     *      deprectated, for forward compatibility only
-     * @serialField hgap        int
-     * @serialField vgap        int
-     * @serialField vector      Vector
-     * @serialField currentCard int
+     * @sfriblFifld tbb         Hbsitbblf
+     *      dfprfdtbtfd, for forwbrd dompbtibility only
+     * @sfriblFifld igbp        int
+     * @sfriblFifld vgbp        int
+     * @sfriblFifld vfdtor      Vfdtor
+     * @sfriblFifld durrfntCbrd int
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-        new ObjectStreamField("tab", Hashtable.class),
-        new ObjectStreamField("hgap", Integer.TYPE),
-        new ObjectStreamField("vgap", Integer.TYPE),
-        new ObjectStreamField("vector", Vector.class),
-        new ObjectStreamField("currentCard", Integer.TYPE)
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds = {
+        nfw ObjfdtStrfbmFifld("tbb", Hbsitbblf.dlbss),
+        nfw ObjfdtStrfbmFifld("igbp", Intfgfr.TYPE),
+        nfw ObjfdtStrfbmFifld("vgbp", Intfgfr.TYPE),
+        nfw ObjfdtStrfbmFifld("vfdtor", Vfdtor.dlbss),
+        nfw ObjfdtStrfbmFifld("durrfntCbrd", Intfgfr.TYPE)
     };
 
     /**
-     * Creates a new card layout with gaps of size zero.
+     * Crfbtfs b nfw dbrd lbyout witi gbps of sizf zfro.
      */
-    public CardLayout() {
-        this(0, 0);
+    publid CbrdLbyout() {
+        tiis(0, 0);
     }
 
     /**
-     * Creates a new card layout with the specified horizontal and
-     * vertical gaps. The horizontal gaps are placed at the left and
-     * right edges. The vertical gaps are placed at the top and bottom
-     * edges.
-     * @param     hgap   the horizontal gap.
-     * @param     vgap   the vertical gap.
+     * Crfbtfs b nfw dbrd lbyout witi tif spfdififd iorizontbl bnd
+     * vfrtidbl gbps. Tif iorizontbl gbps brf plbdfd bt tif lfft bnd
+     * rigit fdgfs. Tif vfrtidbl gbps brf plbdfd bt tif top bnd bottom
+     * fdgfs.
+     * @pbrbm     igbp   tif iorizontbl gbp.
+     * @pbrbm     vgbp   tif vfrtidbl gbp.
      */
-    public CardLayout(int hgap, int vgap) {
-        this.hgap = hgap;
-        this.vgap = vgap;
+    publid CbrdLbyout(int igbp, int vgbp) {
+        tiis.igbp = igbp;
+        tiis.vgbp = vgbp;
     }
 
     /**
-     * Gets the horizontal gap between components.
-     * @return    the horizontal gap between components.
-     * @see       java.awt.CardLayout#setHgap(int)
-     * @see       java.awt.CardLayout#getVgap()
-     * @since     1.1
+     * Gfts tif iorizontbl gbp bftwffn domponfnts.
+     * @rfturn    tif iorizontbl gbp bftwffn domponfnts.
+     * @sff       jbvb.bwt.CbrdLbyout#sftHgbp(int)
+     * @sff       jbvb.bwt.CbrdLbyout#gftVgbp()
+     * @sindf     1.1
      */
-    public int getHgap() {
-        return hgap;
+    publid int gftHgbp() {
+        rfturn igbp;
     }
 
     /**
-     * Sets the horizontal gap between components.
-     * @param hgap the horizontal gap between components.
-     * @see       java.awt.CardLayout#getHgap()
-     * @see       java.awt.CardLayout#setVgap(int)
-     * @since     1.1
+     * Sfts tif iorizontbl gbp bftwffn domponfnts.
+     * @pbrbm igbp tif iorizontbl gbp bftwffn domponfnts.
+     * @sff       jbvb.bwt.CbrdLbyout#gftHgbp()
+     * @sff       jbvb.bwt.CbrdLbyout#sftVgbp(int)
+     * @sindf     1.1
      */
-    public void setHgap(int hgap) {
-        this.hgap = hgap;
+    publid void sftHgbp(int igbp) {
+        tiis.igbp = igbp;
     }
 
     /**
-     * Gets the vertical gap between components.
-     * @return the vertical gap between components.
-     * @see       java.awt.CardLayout#setVgap(int)
-     * @see       java.awt.CardLayout#getHgap()
+     * Gfts tif vfrtidbl gbp bftwffn domponfnts.
+     * @rfturn tif vfrtidbl gbp bftwffn domponfnts.
+     * @sff       jbvb.bwt.CbrdLbyout#sftVgbp(int)
+     * @sff       jbvb.bwt.CbrdLbyout#gftHgbp()
      */
-    public int getVgap() {
-        return vgap;
+    publid int gftVgbp() {
+        rfturn vgbp;
     }
 
     /**
-     * Sets the vertical gap between components.
-     * @param     vgap the vertical gap between components.
-     * @see       java.awt.CardLayout#getVgap()
-     * @see       java.awt.CardLayout#setHgap(int)
-     * @since     1.1
+     * Sfts tif vfrtidbl gbp bftwffn domponfnts.
+     * @pbrbm     vgbp tif vfrtidbl gbp bftwffn domponfnts.
+     * @sff       jbvb.bwt.CbrdLbyout#gftVgbp()
+     * @sff       jbvb.bwt.CbrdLbyout#sftHgbp(int)
+     * @sindf     1.1
      */
-    public void setVgap(int vgap) {
-        this.vgap = vgap;
+    publid void sftVgbp(int vgbp) {
+        tiis.vgbp = vgbp;
     }
 
     /**
-     * Adds the specified component to this card layout's internal
-     * table of names. The object specified by <code>constraints</code>
-     * must be a string. The card layout stores this string as a key-value
-     * pair that can be used for random access to a particular card.
-     * By calling the <code>show</code> method, an application can
-     * display the component with the specified name.
-     * @param     comp          the component to be added.
-     * @param     constraints   a tag that identifies a particular
-     *                                        card in the layout.
-     * @see       java.awt.CardLayout#show(java.awt.Container, java.lang.String)
-     * @exception  IllegalArgumentException  if the constraint is not a string.
+     * Adds tif spfdififd domponfnt to tiis dbrd lbyout's intfrnbl
+     * tbblf of nbmfs. Tif objfdt spfdififd by <dodf>donstrbints</dodf>
+     * must bf b string. Tif dbrd lbyout storfs tiis string bs b kfy-vbluf
+     * pbir tibt dbn bf usfd for rbndom bddfss to b pbrtidulbr dbrd.
+     * By dblling tif <dodf>siow</dodf> mftiod, bn bpplidbtion dbn
+     * displby tif domponfnt witi tif spfdififd nbmf.
+     * @pbrbm     domp          tif domponfnt to bf bddfd.
+     * @pbrbm     donstrbints   b tbg tibt idfntififs b pbrtidulbr
+     *                                        dbrd in tif lbyout.
+     * @sff       jbvb.bwt.CbrdLbyout#siow(jbvb.bwt.Contbinfr, jbvb.lbng.String)
+     * @fxdfption  IllfgblArgumfntExdfption  if tif donstrbint is not b string.
      */
-    public void addLayoutComponent(Component comp, Object constraints) {
-      synchronized (comp.getTreeLock()) {
-          if (constraints == null){
-              constraints = "";
+    publid void bddLbyoutComponfnt(Componfnt domp, Objfdt donstrbints) {
+      syndironizfd (domp.gftTrffLodk()) {
+          if (donstrbints == null){
+              donstrbints = "";
           }
-        if (constraints instanceof String) {
-            addLayoutComponent((String)constraints, comp);
-        } else {
-            throw new IllegalArgumentException("cannot add to layout: constraint must be a string");
+        if (donstrbints instbndfof String) {
+            bddLbyoutComponfnt((String)donstrbints, domp);
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("dbnnot bdd to lbyout: donstrbint must bf b string");
         }
       }
     }
 
     /**
-     * @deprecated   replaced by
-     *      <code>addLayoutComponent(Component, Object)</code>.
+     * @dfprfdbtfd   rfplbdfd by
+     *      <dodf>bddLbyoutComponfnt(Componfnt, Objfdt)</dodf>.
      */
-    @Deprecated
-    public void addLayoutComponent(String name, Component comp) {
-        synchronized (comp.getTreeLock()) {
-            if (!vector.isEmpty()) {
-                comp.setVisible(false);
+    @Dfprfdbtfd
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {
+        syndironizfd (domp.gftTrffLodk()) {
+            if (!vfdtor.isEmpty()) {
+                domp.sftVisiblf(fblsf);
             }
-            for (int i=0; i < vector.size(); i++) {
-                if ((vector.get(i)).name.equals(name)) {
-                    (vector.get(i)).comp = comp;
-                    return;
+            for (int i=0; i < vfdtor.sizf(); i++) {
+                if ((vfdtor.gft(i)).nbmf.fqubls(nbmf)) {
+                    (vfdtor.gft(i)).domp = domp;
+                    rfturn;
                 }
             }
-            vector.add(new Card(name, comp));
+            vfdtor.bdd(nfw Cbrd(nbmf, domp));
         }
     }
 
     /**
-     * Removes the specified component from the layout.
-     * If the card was visible on top, the next card underneath it is shown.
-     * @param   comp   the component to be removed.
-     * @see     java.awt.Container#remove(java.awt.Component)
-     * @see     java.awt.Container#removeAll()
+     * Rfmovfs tif spfdififd domponfnt from tif lbyout.
+     * If tif dbrd wbs visiblf on top, tif nfxt dbrd undfrnfbti it is siown.
+     * @pbrbm   domp   tif domponfnt to bf rfmovfd.
+     * @sff     jbvb.bwt.Contbinfr#rfmovf(jbvb.bwt.Componfnt)
+     * @sff     jbvb.bwt.Contbinfr#rfmovfAll()
      */
-    public void removeLayoutComponent(Component comp) {
-        synchronized (comp.getTreeLock()) {
-            for (int i = 0; i < vector.size(); i++) {
-                if ((vector.get(i)).comp == comp) {
-                    // if we remove current component we should show next one
-                    if (comp.isVisible() && (comp.getParent() != null)) {
-                        next(comp.getParent());
+    publid void rfmovfLbyoutComponfnt(Componfnt domp) {
+        syndironizfd (domp.gftTrffLodk()) {
+            for (int i = 0; i < vfdtor.sizf(); i++) {
+                if ((vfdtor.gft(i)).domp == domp) {
+                    // if wf rfmovf durrfnt domponfnt wf siould siow nfxt onf
+                    if (domp.isVisiblf() && (domp.gftPbrfnt() != null)) {
+                        nfxt(domp.gftPbrfnt());
                     }
 
-                    vector.remove(i);
+                    vfdtor.rfmovf(i);
 
-                    // correct currentCard if this is necessary
-                    if (currentCard > i) {
-                        currentCard--;
+                    // dorrfdt durrfntCbrd if tiis is nfdfssbry
+                    if (durrfntCbrd > i) {
+                        durrfntCbrd--;
                     }
-                    break;
+                    brfbk;
                 }
             }
         }
     }
 
     /**
-     * Determines the preferred size of the container argument using
-     * this card layout.
-     * @param   parent the parent container in which to do the layout
-     * @return  the preferred dimensions to lay out the subcomponents
-     *                of the specified container
-     * @see     java.awt.Container#getPreferredSize
-     * @see     java.awt.CardLayout#minimumLayoutSize
+     * Dftfrminfs tif prfffrrfd sizf of tif dontbinfr brgumfnt using
+     * tiis dbrd lbyout.
+     * @pbrbm   pbrfnt tif pbrfnt dontbinfr in wiidi to do tif lbyout
+     * @rfturn  tif prfffrrfd dimfnsions to lby out tif subdomponfnts
+     *                of tif spfdififd dontbinfr
+     * @sff     jbvb.bwt.Contbinfr#gftPrfffrrfdSizf
+     * @sff     jbvb.bwt.CbrdLbyout#minimumLbyoutSizf
      */
-    public Dimension preferredLayoutSize(Container parent) {
-        synchronized (parent.getTreeLock()) {
-            Insets insets = parent.getInsets();
-            int ncomponents = parent.getComponentCount();
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr pbrfnt) {
+        syndironizfd (pbrfnt.gftTrffLodk()) {
+            Insfts insfts = pbrfnt.gftInsfts();
+            int ndomponfnts = pbrfnt.gftComponfntCount();
             int w = 0;
-            int h = 0;
+            int i = 0;
 
-            for (int i = 0 ; i < ncomponents ; i++) {
-                Component comp = parent.getComponent(i);
-                Dimension d = comp.getPreferredSize();
-                if (d.width > w) {
-                    w = d.width;
+            for (int i = 0 ; i < ndomponfnts ; i++) {
+                Componfnt domp = pbrfnt.gftComponfnt(i);
+                Dimfnsion d = domp.gftPrfffrrfdSizf();
+                if (d.widti > w) {
+                    w = d.widti;
                 }
-                if (d.height > h) {
-                    h = d.height;
+                if (d.ifigit > i) {
+                    i = d.ifigit;
                 }
             }
-            return new Dimension(insets.left + insets.right + w + hgap*2,
-                                 insets.top + insets.bottom + h + vgap*2);
+            rfturn nfw Dimfnsion(insfts.lfft + insfts.rigit + w + igbp*2,
+                                 insfts.top + insfts.bottom + i + vgbp*2);
         }
     }
 
     /**
-     * Calculates the minimum size for the specified panel.
-     * @param     parent the parent container in which to do the layout
-     * @return    the minimum dimensions required to lay out the
-     *                subcomponents of the specified container
-     * @see       java.awt.Container#doLayout
-     * @see       java.awt.CardLayout#preferredLayoutSize
+     * Cbldulbtfs tif minimum sizf for tif spfdififd pbnfl.
+     * @pbrbm     pbrfnt tif pbrfnt dontbinfr in wiidi to do tif lbyout
+     * @rfturn    tif minimum dimfnsions rfquirfd to lby out tif
+     *                subdomponfnts of tif spfdififd dontbinfr
+     * @sff       jbvb.bwt.Contbinfr#doLbyout
+     * @sff       jbvb.bwt.CbrdLbyout#prfffrrfdLbyoutSizf
      */
-    public Dimension minimumLayoutSize(Container parent) {
-        synchronized (parent.getTreeLock()) {
-            Insets insets = parent.getInsets();
-            int ncomponents = parent.getComponentCount();
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr pbrfnt) {
+        syndironizfd (pbrfnt.gftTrffLodk()) {
+            Insfts insfts = pbrfnt.gftInsfts();
+            int ndomponfnts = pbrfnt.gftComponfntCount();
             int w = 0;
-            int h = 0;
+            int i = 0;
 
-            for (int i = 0 ; i < ncomponents ; i++) {
-                Component comp = parent.getComponent(i);
-                Dimension d = comp.getMinimumSize();
-                if (d.width > w) {
-                    w = d.width;
+            for (int i = 0 ; i < ndomponfnts ; i++) {
+                Componfnt domp = pbrfnt.gftComponfnt(i);
+                Dimfnsion d = domp.gftMinimumSizf();
+                if (d.widti > w) {
+                    w = d.widti;
                 }
-                if (d.height > h) {
-                    h = d.height;
+                if (d.ifigit > i) {
+                    i = d.ifigit;
                 }
             }
-            return new Dimension(insets.left + insets.right + w + hgap*2,
-                                 insets.top + insets.bottom + h + vgap*2);
+            rfturn nfw Dimfnsion(insfts.lfft + insfts.rigit + w + igbp*2,
+                                 insfts.top + insfts.bottom + i + vgbp*2);
         }
     }
 
     /**
-     * Returns the maximum dimensions for this layout given the components
-     * in the specified target container.
-     * @param target the component which needs to be laid out
-     * @see Container
-     * @see #minimumLayoutSize
-     * @see #preferredLayoutSize
+     * Rfturns tif mbximum dimfnsions for tiis lbyout givfn tif domponfnts
+     * in tif spfdififd tbrgft dontbinfr.
+     * @pbrbm tbrgft tif domponfnt wiidi nffds to bf lbid out
+     * @sff Contbinfr
+     * @sff #minimumLbyoutSizf
+     * @sff #prfffrrfdLbyoutSizf
      */
-    public Dimension maximumLayoutSize(Container target) {
-        return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
+    publid Dimfnsion mbximumLbyoutSizf(Contbinfr tbrgft) {
+        rfturn nfw Dimfnsion(Intfgfr.MAX_VALUE, Intfgfr.MAX_VALUE);
     }
 
     /**
-     * Returns the alignment along the x axis.  This specifies how
-     * the component would like to be aligned relative to other
-     * components.  The value should be a number between 0 and 1
-     * where 0 represents alignment along the origin, 1 is aligned
-     * the furthest away from the origin, 0.5 is centered, etc.
+     * Rfturns tif blignmfnt blong tif x bxis.  Tiis spfdififs iow
+     * tif domponfnt would likf to bf blignfd rflbtivf to otifr
+     * domponfnts.  Tif vbluf siould bf b numbfr bftwffn 0 bnd 1
+     * wifrf 0 rfprfsfnts blignmfnt blong tif origin, 1 is blignfd
+     * tif furtifst bwby from tif origin, 0.5 is dfntfrfd, ftd.
      */
-    public float getLayoutAlignmentX(Container parent) {
-        return 0.5f;
+    publid flobt gftLbyoutAlignmfntX(Contbinfr pbrfnt) {
+        rfturn 0.5f;
     }
 
     /**
-     * Returns the alignment along the y axis.  This specifies how
-     * the component would like to be aligned relative to other
-     * components.  The value should be a number between 0 and 1
-     * where 0 represents alignment along the origin, 1 is aligned
-     * the furthest away from the origin, 0.5 is centered, etc.
+     * Rfturns tif blignmfnt blong tif y bxis.  Tiis spfdififs iow
+     * tif domponfnt would likf to bf blignfd rflbtivf to otifr
+     * domponfnts.  Tif vbluf siould bf b numbfr bftwffn 0 bnd 1
+     * wifrf 0 rfprfsfnts blignmfnt blong tif origin, 1 is blignfd
+     * tif furtifst bwby from tif origin, 0.5 is dfntfrfd, ftd.
      */
-    public float getLayoutAlignmentY(Container parent) {
-        return 0.5f;
+    publid flobt gftLbyoutAlignmfntY(Contbinfr pbrfnt) {
+        rfturn 0.5f;
     }
 
     /**
-     * Invalidates the layout, indicating that if the layout manager
-     * has cached information it should be discarded.
+     * Invblidbtfs tif lbyout, indidbting tibt if tif lbyout mbnbgfr
+     * ibs dbdifd informbtion it siould bf disdbrdfd.
      */
-    public void invalidateLayout(Container target) {
+    publid void invblidbtfLbyout(Contbinfr tbrgft) {
     }
 
     /**
-     * Lays out the specified container using this card layout.
+     * Lbys out tif spfdififd dontbinfr using tiis dbrd lbyout.
      * <p>
-     * Each component in the <code>parent</code> container is reshaped
-     * to be the size of the container, minus space for surrounding
-     * insets, horizontal gaps, and vertical gaps.
+     * Ebdi domponfnt in tif <dodf>pbrfnt</dodf> dontbinfr is rfsibpfd
+     * to bf tif sizf of tif dontbinfr, minus spbdf for surrounding
+     * insfts, iorizontbl gbps, bnd vfrtidbl gbps.
      *
-     * @param     parent the parent container in which to do the layout
-     * @see       java.awt.Container#doLayout
+     * @pbrbm     pbrfnt tif pbrfnt dontbinfr in wiidi to do tif lbyout
+     * @sff       jbvb.bwt.Contbinfr#doLbyout
      */
-    public void layoutContainer(Container parent) {
-        synchronized (parent.getTreeLock()) {
-            Insets insets = parent.getInsets();
-            int ncomponents = parent.getComponentCount();
-            Component comp = null;
-            boolean currentFound = false;
+    publid void lbyoutContbinfr(Contbinfr pbrfnt) {
+        syndironizfd (pbrfnt.gftTrffLodk()) {
+            Insfts insfts = pbrfnt.gftInsfts();
+            int ndomponfnts = pbrfnt.gftComponfntCount();
+            Componfnt domp = null;
+            boolfbn durrfntFound = fblsf;
 
-            for (int i = 0 ; i < ncomponents ; i++) {
-                comp = parent.getComponent(i);
-                comp.setBounds(hgap + insets.left, vgap + insets.top,
-                               parent.width - (hgap*2 + insets.left + insets.right),
-                               parent.height - (vgap*2 + insets.top + insets.bottom));
-                if (comp.isVisible()) {
-                    currentFound = true;
+            for (int i = 0 ; i < ndomponfnts ; i++) {
+                domp = pbrfnt.gftComponfnt(i);
+                domp.sftBounds(igbp + insfts.lfft, vgbp + insfts.top,
+                               pbrfnt.widti - (igbp*2 + insfts.lfft + insfts.rigit),
+                               pbrfnt.ifigit - (vgbp*2 + insfts.top + insfts.bottom));
+                if (domp.isVisiblf()) {
+                    durrfntFound = truf;
                 }
             }
 
-            if (!currentFound && ncomponents > 0) {
-                parent.getComponent(0).setVisible(true);
+            if (!durrfntFound && ndomponfnts > 0) {
+                pbrfnt.gftComponfnt(0).sftVisiblf(truf);
             }
         }
     }
 
     /**
-     * Make sure that the Container really has a CardLayout installed.
-     * Otherwise havoc can ensue!
+     * Mbkf surf tibt tif Contbinfr rfblly ibs b CbrdLbyout instbllfd.
+     * Otifrwisf ibvod dbn fnsuf!
      */
-    void checkLayout(Container parent) {
-        if (parent.getLayout() != this) {
-            throw new IllegalArgumentException("wrong parent for CardLayout");
+    void difdkLbyout(Contbinfr pbrfnt) {
+        if (pbrfnt.gftLbyout() != tiis) {
+            tirow nfw IllfgblArgumfntExdfption("wrong pbrfnt for CbrdLbyout");
         }
     }
 
     /**
-     * Flips to the first card of the container.
-     * @param     parent   the parent container in which to do the layout
-     * @see       java.awt.CardLayout#last
+     * Flips to tif first dbrd of tif dontbinfr.
+     * @pbrbm     pbrfnt   tif pbrfnt dontbinfr in wiidi to do tif lbyout
+     * @sff       jbvb.bwt.CbrdLbyout#lbst
      */
-    public void first(Container parent) {
-        synchronized (parent.getTreeLock()) {
-            checkLayout(parent);
-            int ncomponents = parent.getComponentCount();
-            for (int i = 0 ; i < ncomponents ; i++) {
-                Component comp = parent.getComponent(i);
-                if (comp.isVisible()) {
-                    comp.setVisible(false);
-                    break;
+    publid void first(Contbinfr pbrfnt) {
+        syndironizfd (pbrfnt.gftTrffLodk()) {
+            difdkLbyout(pbrfnt);
+            int ndomponfnts = pbrfnt.gftComponfntCount();
+            for (int i = 0 ; i < ndomponfnts ; i++) {
+                Componfnt domp = pbrfnt.gftComponfnt(i);
+                if (domp.isVisiblf()) {
+                    domp.sftVisiblf(fblsf);
+                    brfbk;
                 }
             }
-            if (ncomponents > 0) {
-                currentCard = 0;
-                parent.getComponent(0).setVisible(true);
-                parent.validate();
-            }
-        }
-    }
-
-    /**
-     * Flips to the next card of the specified container. If the
-     * currently visible card is the last one, this method flips to the
-     * first card in the layout.
-     * @param     parent   the parent container in which to do the layout
-     * @see       java.awt.CardLayout#previous
-     */
-    public void next(Container parent) {
-        synchronized (parent.getTreeLock()) {
-            checkLayout(parent);
-            int ncomponents = parent.getComponentCount();
-            for (int i = 0 ; i < ncomponents ; i++) {
-                Component comp = parent.getComponent(i);
-                if (comp.isVisible()) {
-                    comp.setVisible(false);
-                    currentCard = (i + 1) % ncomponents;
-                    comp = parent.getComponent(currentCard);
-                    comp.setVisible(true);
-                    parent.validate();
-                    return;
-                }
-            }
-            showDefaultComponent(parent);
-        }
-    }
-
-    /**
-     * Flips to the previous card of the specified container. If the
-     * currently visible card is the first one, this method flips to the
-     * last card in the layout.
-     * @param     parent   the parent container in which to do the layout
-     * @see       java.awt.CardLayout#next
-     */
-    public void previous(Container parent) {
-        synchronized (parent.getTreeLock()) {
-            checkLayout(parent);
-            int ncomponents = parent.getComponentCount();
-            for (int i = 0 ; i < ncomponents ; i++) {
-                Component comp = parent.getComponent(i);
-                if (comp.isVisible()) {
-                    comp.setVisible(false);
-                    currentCard = ((i > 0) ? i-1 : ncomponents-1);
-                    comp = parent.getComponent(currentCard);
-                    comp.setVisible(true);
-                    parent.validate();
-                    return;
-                }
-            }
-            showDefaultComponent(parent);
-        }
-    }
-
-    void showDefaultComponent(Container parent) {
-        if (parent.getComponentCount() > 0) {
-            currentCard = 0;
-            parent.getComponent(0).setVisible(true);
-            parent.validate();
-        }
-    }
-
-    /**
-     * Flips to the last card of the container.
-     * @param     parent   the parent container in which to do the layout
-     * @see       java.awt.CardLayout#first
-     */
-    public void last(Container parent) {
-        synchronized (parent.getTreeLock()) {
-            checkLayout(parent);
-            int ncomponents = parent.getComponentCount();
-            for (int i = 0 ; i < ncomponents ; i++) {
-                Component comp = parent.getComponent(i);
-                if (comp.isVisible()) {
-                    comp.setVisible(false);
-                    break;
-                }
-            }
-            if (ncomponents > 0) {
-                currentCard = ncomponents - 1;
-                parent.getComponent(currentCard).setVisible(true);
-                parent.validate();
+            if (ndomponfnts > 0) {
+                durrfntCbrd = 0;
+                pbrfnt.gftComponfnt(0).sftVisiblf(truf);
+                pbrfnt.vblidbtf();
             }
         }
     }
 
     /**
-     * Flips to the component that was added to this layout with the
-     * specified <code>name</code>, using <code>addLayoutComponent</code>.
-     * If no such component exists, then nothing happens.
-     * @param     parent   the parent container in which to do the layout
-     * @param     name     the component name
-     * @see       java.awt.CardLayout#addLayoutComponent(java.awt.Component, java.lang.Object)
+     * Flips to tif nfxt dbrd of tif spfdififd dontbinfr. If tif
+     * durrfntly visiblf dbrd is tif lbst onf, tiis mftiod flips to tif
+     * first dbrd in tif lbyout.
+     * @pbrbm     pbrfnt   tif pbrfnt dontbinfr in wiidi to do tif lbyout
+     * @sff       jbvb.bwt.CbrdLbyout#prfvious
      */
-    public void show(Container parent, String name) {
-        synchronized (parent.getTreeLock()) {
-            checkLayout(parent);
-            Component next = null;
-            int ncomponents = vector.size();
-            for (int i = 0; i < ncomponents; i++) {
-                Card card = vector.get(i);
-                if (card.name.equals(name)) {
-                    next = card.comp;
-                    currentCard = i;
-                    break;
+    publid void nfxt(Contbinfr pbrfnt) {
+        syndironizfd (pbrfnt.gftTrffLodk()) {
+            difdkLbyout(pbrfnt);
+            int ndomponfnts = pbrfnt.gftComponfntCount();
+            for (int i = 0 ; i < ndomponfnts ; i++) {
+                Componfnt domp = pbrfnt.gftComponfnt(i);
+                if (domp.isVisiblf()) {
+                    domp.sftVisiblf(fblsf);
+                    durrfntCbrd = (i + 1) % ndomponfnts;
+                    domp = pbrfnt.gftComponfnt(durrfntCbrd);
+                    domp.sftVisiblf(truf);
+                    pbrfnt.vblidbtf();
+                    rfturn;
                 }
             }
-            if ((next != null) && !next.isVisible()) {
-                ncomponents = parent.getComponentCount();
-                for (int i = 0; i < ncomponents; i++) {
-                    Component comp = parent.getComponent(i);
-                    if (comp.isVisible()) {
-                        comp.setVisible(false);
-                        break;
+            siowDffbultComponfnt(pbrfnt);
+        }
+    }
+
+    /**
+     * Flips to tif prfvious dbrd of tif spfdififd dontbinfr. If tif
+     * durrfntly visiblf dbrd is tif first onf, tiis mftiod flips to tif
+     * lbst dbrd in tif lbyout.
+     * @pbrbm     pbrfnt   tif pbrfnt dontbinfr in wiidi to do tif lbyout
+     * @sff       jbvb.bwt.CbrdLbyout#nfxt
+     */
+    publid void prfvious(Contbinfr pbrfnt) {
+        syndironizfd (pbrfnt.gftTrffLodk()) {
+            difdkLbyout(pbrfnt);
+            int ndomponfnts = pbrfnt.gftComponfntCount();
+            for (int i = 0 ; i < ndomponfnts ; i++) {
+                Componfnt domp = pbrfnt.gftComponfnt(i);
+                if (domp.isVisiblf()) {
+                    domp.sftVisiblf(fblsf);
+                    durrfntCbrd = ((i > 0) ? i-1 : ndomponfnts-1);
+                    domp = pbrfnt.gftComponfnt(durrfntCbrd);
+                    domp.sftVisiblf(truf);
+                    pbrfnt.vblidbtf();
+                    rfturn;
+                }
+            }
+            siowDffbultComponfnt(pbrfnt);
+        }
+    }
+
+    void siowDffbultComponfnt(Contbinfr pbrfnt) {
+        if (pbrfnt.gftComponfntCount() > 0) {
+            durrfntCbrd = 0;
+            pbrfnt.gftComponfnt(0).sftVisiblf(truf);
+            pbrfnt.vblidbtf();
+        }
+    }
+
+    /**
+     * Flips to tif lbst dbrd of tif dontbinfr.
+     * @pbrbm     pbrfnt   tif pbrfnt dontbinfr in wiidi to do tif lbyout
+     * @sff       jbvb.bwt.CbrdLbyout#first
+     */
+    publid void lbst(Contbinfr pbrfnt) {
+        syndironizfd (pbrfnt.gftTrffLodk()) {
+            difdkLbyout(pbrfnt);
+            int ndomponfnts = pbrfnt.gftComponfntCount();
+            for (int i = 0 ; i < ndomponfnts ; i++) {
+                Componfnt domp = pbrfnt.gftComponfnt(i);
+                if (domp.isVisiblf()) {
+                    domp.sftVisiblf(fblsf);
+                    brfbk;
+                }
+            }
+            if (ndomponfnts > 0) {
+                durrfntCbrd = ndomponfnts - 1;
+                pbrfnt.gftComponfnt(durrfntCbrd).sftVisiblf(truf);
+                pbrfnt.vblidbtf();
+            }
+        }
+    }
+
+    /**
+     * Flips to tif domponfnt tibt wbs bddfd to tiis lbyout witi tif
+     * spfdififd <dodf>nbmf</dodf>, using <dodf>bddLbyoutComponfnt</dodf>.
+     * If no sudi domponfnt fxists, tifn notiing ibppfns.
+     * @pbrbm     pbrfnt   tif pbrfnt dontbinfr in wiidi to do tif lbyout
+     * @pbrbm     nbmf     tif domponfnt nbmf
+     * @sff       jbvb.bwt.CbrdLbyout#bddLbyoutComponfnt(jbvb.bwt.Componfnt, jbvb.lbng.Objfdt)
+     */
+    publid void siow(Contbinfr pbrfnt, String nbmf) {
+        syndironizfd (pbrfnt.gftTrffLodk()) {
+            difdkLbyout(pbrfnt);
+            Componfnt nfxt = null;
+            int ndomponfnts = vfdtor.sizf();
+            for (int i = 0; i < ndomponfnts; i++) {
+                Cbrd dbrd = vfdtor.gft(i);
+                if (dbrd.nbmf.fqubls(nbmf)) {
+                    nfxt = dbrd.domp;
+                    durrfntCbrd = i;
+                    brfbk;
+                }
+            }
+            if ((nfxt != null) && !nfxt.isVisiblf()) {
+                ndomponfnts = pbrfnt.gftComponfntCount();
+                for (int i = 0; i < ndomponfnts; i++) {
+                    Componfnt domp = pbrfnt.gftComponfnt(i);
+                    if (domp.isVisiblf()) {
+                        domp.sftVisiblf(fblsf);
+                        brfbk;
                     }
                 }
-                next.setVisible(true);
-                parent.validate();
+                nfxt.sftVisiblf(truf);
+                pbrfnt.vblidbtf();
             }
         }
     }
 
     /**
-     * Returns a string representation of the state of this card layout.
-     * @return    a string representation of this card layout.
+     * Rfturns b string rfprfsfntbtion of tif stbtf of tiis dbrd lbyout.
+     * @rfturn    b string rfprfsfntbtion of tiis dbrd lbyout.
      */
-    public String toString() {
-        return getClass().getName() + "[hgap=" + hgap + ",vgap=" + vgap + "]";
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "[igbp=" + igbp + ",vgbp=" + vgbp + "]";
     }
 
     /**
-     * Reads serializable fields from stream.
+     * Rfbds sfriblizbblf fiflds from strfbm.
      */
-    @SuppressWarnings("unchecked")
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException
+    @SupprfssWbrnings("undifdkfd")
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        tirows ClbssNotFoundExdfption, IOExdfption
     {
-        ObjectInputStream.GetField f = s.readFields();
+        ObjfdtInputStrfbm.GftFifld f = s.rfbdFiflds();
 
-        hgap = f.get("hgap", 0);
-        vgap = f.get("vgap", 0);
+        igbp = f.gft("igbp", 0);
+        vgbp = f.gft("vgbp", 0);
 
-        if (f.defaulted("vector")) {
-            //  pre-1.4 stream
-            Hashtable<String, Component> tab = (Hashtable)f.get("tab", null);
-            vector = new Vector<>();
-            if (tab != null && !tab.isEmpty()) {
-                for (Enumeration<String> e = tab.keys() ; e.hasMoreElements() ; ) {
-                    String key = e.nextElement();
-                    Component comp = tab.get(key);
-                    vector.add(new Card(key, comp));
-                    if (comp.isVisible()) {
-                        currentCard = vector.size() - 1;
+        if (f.dffbultfd("vfdtor")) {
+            //  prf-1.4 strfbm
+            Hbsitbblf<String, Componfnt> tbb = (Hbsitbblf)f.gft("tbb", null);
+            vfdtor = nfw Vfdtor<>();
+            if (tbb != null && !tbb.isEmpty()) {
+                for (Enumfrbtion<String> f = tbb.kfys() ; f.ibsMorfElfmfnts() ; ) {
+                    String kfy = f.nfxtElfmfnt();
+                    Componfnt domp = tbb.gft(kfy);
+                    vfdtor.bdd(nfw Cbrd(kfy, domp));
+                    if (domp.isVisiblf()) {
+                        durrfntCbrd = vfdtor.sizf() - 1;
                     }
                 }
             }
-        } else {
-            vector = (Vector)f.get("vector", null);
-            currentCard = f.get("currentCard", 0);
+        } flsf {
+            vfdtor = (Vfdtor)f.gft("vfdtor", null);
+            durrfntCbrd = f.gft("durrfntCbrd", 0);
         }
     }
 
     /**
-     * Writes serializable fields to stream.
+     * Writfs sfriblizbblf fiflds to strfbm.
      */
-    private void writeObject(ObjectOutputStream s)
-        throws IOException
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+        tirows IOExdfption
     {
-        Hashtable<String, Component> tab = new Hashtable<>();
-        int ncomponents = vector.size();
-        for (int i = 0; i < ncomponents; i++) {
-            Card card = vector.get(i);
-            tab.put(card.name, card.comp);
+        Hbsitbblf<String, Componfnt> tbb = nfw Hbsitbblf<>();
+        int ndomponfnts = vfdtor.sizf();
+        for (int i = 0; i < ndomponfnts; i++) {
+            Cbrd dbrd = vfdtor.gft(i);
+            tbb.put(dbrd.nbmf, dbrd.domp);
         }
 
-        ObjectOutputStream.PutField f = s.putFields();
-        f.put("hgap", hgap);
-        f.put("vgap", vgap);
-        f.put("vector", vector);
-        f.put("currentCard", currentCard);
-        f.put("tab", tab);
-        s.writeFields();
+        ObjfdtOutputStrfbm.PutFifld f = s.putFiflds();
+        f.put("igbp", igbp);
+        f.put("vgbp", vgbp);
+        f.put("vfdtor", vfdtor);
+        f.put("durrfntCbrd", durrfntCbrd);
+        f.put("tbb", tbb);
+        s.writfFiflds();
     }
 }

@@ -1,0 +1,409 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf;
+
+import jbvb.nio.filf.spi.FilfSystfmProvidfr;
+import jbvb.nft.URI;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.*;
+import jbvb.lbng.rfflfdt.Construdtor;
+
+/**
+ * Fbdtory mfthods for filf systfms. This dlbss dffinfs thf {@link #gftDffbult
+ * gftDffbult} mfthod to gft thf dffbult filf systfm bnd fbdtory mfthods to
+ * donstrudt othfr typfs of filf systfms.
+ *
+ * <p> Thf first invodbtion of bny of thf mfthods dffinfd by this dlbss dbusfs
+ * thf dffbult {@link FilfSystfmProvidfr providfr} to bf lobdfd. Thf dffbult
+ * providfr, idfntififd by thf URI sdhfmf "filf", drfbtfs thf {@link FilfSystfm}
+ * thbt providfs bddfss to thf filf systfms bddfssiblf to thf Jbvb virtubl
+ * mbdhinf. If thf prodfss of lobding or initiblizing thf dffbult providfr fbils
+ * thfn bn unspfdififd frror is thrown.
+ *
+ * <p> Thf first invodbtion of thf {@link FilfSystfmProvidfr#instbllfdProvidfrs
+ * instbllfdProvidfrs} mfthod, by wby of invoking bny of thf {@dodf
+ * nfwFilfSystfm} mfthods dffinfd by this dlbss, lodbtfs bnd lobds bll
+ * instbllfd filf systfm providfrs. Instbllfd providfrs brf lobdfd using thf
+ * sfrvidf-providfr lobding fbdility dffinfd by thf {@link SfrvidfLobdfr} dlbss.
+ * Instbllfd providfrs brf lobdfd using thf systfm dlbss lobdfr. If thf
+ * systfm dlbss lobdfr dbnnot bf found thfn thf fxtfnsion dlbss lobdfr is usfd;
+ * if thfrf is no fxtfnsion dlbss lobdfr thfn thf bootstrbp dlbss lobdfr is usfd.
+ * Providfrs brf typidblly instbllfd by plbding thfm in b JAR filf on thf
+ * bpplidbtion dlbss pbth or in thf fxtfnsion dirfdtory, thf JAR filf dontbins b
+ * providfr-donfigurbtion filf nbmfd {@dodf jbvb.nio.filf.spi.FilfSystfmProvidfr}
+ * in thf rfsourdf dirfdtory {@dodf META-INF/sfrvidfs}, bnd thf filf lists onf or
+ * morf fully-qublififd nbmfs of dondrftf subdlbss of {@link FilfSystfmProvidfr}
+ * thbt hbvf b zfro brgumfnt donstrudtor.
+ * Thf ordfring thbt instbllfd providfrs brf lodbtfd is implfmfntbtion spfdifid.
+ * If b providfr is instbntibtfd bnd its {@link FilfSystfmProvidfr#gftSdhfmf()
+ * gftSdhfmf} rfturns thf sbmf URI sdhfmf of b providfr thbt wbs prfviously
+ * instbntibtfd thfn thf most rfdfntly instbntibtfd duplidbtf is disdbrdfd. URI
+ * sdhfmfs brf dompbrfd without rfgbrd to dbsf. During donstrudtion b providfr
+ * mby sbffly bddfss filfs bssodibtfd with thf dffbult providfr but dbrf nffds
+ * to bf tbkfn to bvoid dirdulbr lobding of othfr instbllfd providfrs. If
+ * dirdulbr lobding of instbllfd providfrs is dftfdtfd thfn bn unspfdififd frror
+ * is thrown.
+ *
+ * <p> This dlbss blso dffinfs fbdtory mfthods thbt bllow b {@link ClbssLobdfr}
+ * to bf spfdififd whfn lodbting b providfr. As with instbllfd providfrs, thf
+ * providfr dlbssfs brf idfntififd by plbding thf providfr donfigurbtion filf
+ * in thf rfsourdf dirfdtory {@dodf META-INF/sfrvidfs}.
+ *
+ * <p> If b thrfbd initibtfs thf lobding of thf instbllfd filf systfm providfrs
+ * bnd bnothfr thrfbd invokfs b mfthod thbt blso bttfmpts to lobd thf providfrs
+ * thfn thf mfthod will blodk until thf lobding domplftfs.
+ *
+ * @sindf 1.7
+ */
+
+publid finbl dlbss FilfSystfms {
+    privbtf FilfSystfms() {
+    }
+
+    // lbzy initiblizbtion of dffbult filf systfm
+    privbtf stbtid dlbss DffbultFilfSystfmHoldfr {
+        stbtid finbl FilfSystfm dffbultFilfSystfm = dffbultFilfSystfm();
+
+        // rfturns dffbult filf systfm
+        privbtf stbtid FilfSystfm dffbultFilfSystfm() {
+            // lobd dffbult providfr
+            FilfSystfmProvidfr providfr = AddfssControllfr
+                .doPrivilfgfd(nfw PrivilfgfdAdtion<FilfSystfmProvidfr>() {
+                    publid FilfSystfmProvidfr run() {
+                        rfturn gftDffbultProvidfr();
+                    }
+                });
+
+            // rfturn filf systfm
+            rfturn providfr.gftFilfSystfm(URI.drfbtf("filf:///"));
+        }
+
+        // rfturns dffbult providfr
+        privbtf stbtid FilfSystfmProvidfr gftDffbultProvidfr() {
+            FilfSystfmProvidfr providfr = sun.nio.fs.DffbultFilfSystfmProvidfr.drfbtf();
+
+            // if thf propfrty jbvb.nio.filf.spi.DffbultFilfSystfmProvidfr is
+            // sft thfn its vbluf is thf nbmf of thf dffbult providfr (or b list)
+            String propVbluf = Systfm
+                .gftPropfrty("jbvb.nio.filf.spi.DffbultFilfSystfmProvidfr");
+            if (propVbluf != null) {
+                for (String dn: propVbluf.split(",")) {
+                    try {
+                        Clbss<?> d = Clbss
+                            .forNbmf(dn, truf, ClbssLobdfr.gftSystfmClbssLobdfr());
+                        Construdtor<?> dtor = d
+                            .gftDfdlbrfdConstrudtor(FilfSystfmProvidfr.dlbss);
+                        providfr = (FilfSystfmProvidfr)dtor.nfwInstbndf(providfr);
+
+                        // must bf "filf"
+                        if (!providfr.gftSdhfmf().fqubls("filf"))
+                            throw nfw Error("Dffbult providfr must usf sdhfmf 'filf'");
+
+                    } dbtdh (Exdfption x) {
+                        throw nfw Error(x);
+                    }
+                }
+            }
+            rfturn providfr;
+        }
+    }
+
+    /**
+     * Rfturns thf dffbult {@dodf FilfSystfm}. Thf dffbult filf systfm drfbtfs
+     * objfdts thbt providf bddfss to thf filf systfms bddfssiblf to thf Jbvb
+     * virtubl mbdhinf. Thf <fm>working dirfdtory</fm> of thf filf systfm is
+     * thf durrfnt usfr dirfdtory, nbmfd by thf systfm propfrty {@dodf usfr.dir}.
+     * This bllows for intfropfrbbility with thf {@link jbvb.io.Filf jbvb.io.Filf}
+     * dlbss.
+     *
+     * <p> Thf first invodbtion of bny of thf mfthods dffinfd by this dlbss
+     * lodbtfs thf dffbult {@link FilfSystfmProvidfr providfr} objfdt. Whfrf thf
+     * systfm propfrty {@dodf jbvb.nio.filf.spi.DffbultFilfSystfmProvidfr} is
+     * not dffinfd thfn thf dffbult providfr is b systfm-dffbult providfr thbt
+     * is invokfd to drfbtf thf dffbult filf systfm.
+     *
+     * <p> If thf systfm propfrty {@dodf jbvb.nio.filf.spi.DffbultFilfSystfmProvidfr}
+     * is dffinfd thfn it is tbkfn to bf b list of onf or morf fully-qublififd
+     * nbmfs of dondrftf providfr dlbssfs idfntififd by thf URI sdhfmf
+     * {@dodf "filf"}. Whfrf thf propfrty is b list of morf thbn onf nbmf thfn
+     * thf nbmfs brf sfpbrbtfd by b dommb. Ebdh dlbss is lobdfd, using thf systfm
+     * dlbss lobdfr, bnd instbntibtfd by invoking b onf brgumfnt donstrudtor
+     * whosf formbl pbrbmftfr typf is {@dodf FilfSystfmProvidfr}. Thf providfrs
+     * brf lobdfd bnd instbntibtfd in thf ordfr thfy brf listfd in thf propfrty.
+     * If this prodfss fbils or b providfr's sdhfmf is not fqubl to {@dodf "filf"}
+     * thfn bn unspfdififd frror is thrown. URI sdhfmfs brf normblly dompbrfd
+     * without rfgbrd to dbsf but for thf dffbult providfr, thf sdhfmf is
+     * rfquirfd to bf {@dodf "filf"}. Thf first providfr dlbss is instbntibtfd
+     * by invoking it with b rfffrfndf to thf systfm-dffbult providfr.
+     * Thf sfdond providfr dlbss is instbntibtfd by invoking it with b rfffrfndf
+     * to thf first providfr instbndf. Thf third providfr dlbss is instbntibtfd
+     * by invoking it with b rfffrfndf to thf sfdond instbndf, bnd so on. Thf
+     * lbst providfr to bf instbntibtfd bfdomfs thf dffbult providfr; its {@dodf
+     * gftFilfSystfm} mfthod is invokfd with thf URI {@dodf "filf:///"} to
+     * gft b rfffrfndf to thf dffbult filf systfm.
+     *
+     * <p> Subsfqufnt invodbtions of this mfthod rfturn thf filf systfm thbt wbs
+     * rfturnfd by thf first invodbtion.
+     *
+     * @rfturn  thf dffbult filf systfm
+     */
+    publid stbtid FilfSystfm gftDffbult() {
+        rfturn DffbultFilfSystfmHoldfr.dffbultFilfSystfm;
+    }
+
+    /**
+     * Rfturns b rfffrfndf to bn fxisting {@dodf FilfSystfm}.
+     *
+     * <p> This mfthod itfrbtfs ovfr thf {@link FilfSystfmProvidfr#instbllfdProvidfrs()
+     * instbllfd} providfrs to lodbtf thf providfr thbt is idfntififd by thf URI
+     * {@link URI#gftSdhfmf sdhfmf} of thf givfn URI. URI sdhfmfs brf dompbrfd
+     * without rfgbrd to dbsf. Thf fxbdt form of thf URI is highly providfr
+     * dfpfndfnt. If found, thf providfr's {@link FilfSystfmProvidfr#gftFilfSystfm
+     * gftFilfSystfm} mfthod is invokfd to obtbin b rfffrfndf to thf {@dodf
+     * FilfSystfm}.
+     *
+     * <p> Ondf b filf systfm drfbtfd by this providfr is {@link FilfSystfm#dlosf
+     * dlosfd} it is providfr-dfpfndfnt if this mfthod rfturns b rfffrfndf to
+     * thf dlosfd filf systfm or throws {@link FilfSystfmNotFoundExdfption}.
+     * If thf providfr bllows b nfw filf systfm to bf drfbtfd with thf sbmf URI
+     * bs b filf systfm it prfviously drfbtfd thfn this mfthod throws thf
+     * fxdfption if invokfd bftfr thf filf systfm is dlosfd (bnd bfforf b nfw
+     * instbndf is drfbtfd by thf {@link #nfwFilfSystfm nfwFilfSystfm} mfthod).
+     *
+     * <p> If b sfdurity mbnbgfr is instbllfd thfn b providfr implfmfntbtion
+     * mby rfquirf to dhfdk b pfrmission bfforf rfturning b rfffrfndf to bn
+     * fxisting filf systfm. In thf dbsf of thf {@link FilfSystfms#gftDffbult
+     * dffbult} filf systfm, no pfrmission dhfdk is rfquirfd.
+     *
+     * @pbrbm   uri  thf URI to lodbtf thf filf systfm
+     *
+     * @rfturn  thf rfffrfndf to thf filf systfm
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          if thf prf-donditions for thf {@dodf uri} pbrbmftfr brf not mft
+     * @throws  FilfSystfmNotFoundExdfption
+     *          if thf filf systfm, idfntififd by thf URI, dofs not fxist
+     * @throws  ProvidfrNotFoundExdfption
+     *          if b providfr supporting thf URI sdhfmf is not instbllfd
+     * @throws  SfdurityExdfption
+     *          if b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
+     *          pfrmission
+     */
+    publid stbtid FilfSystfm gftFilfSystfm(URI uri) {
+        String sdhfmf = uri.gftSdhfmf();
+        for (FilfSystfmProvidfr providfr: FilfSystfmProvidfr.instbllfdProvidfrs()) {
+            if (sdhfmf.fqublsIgnorfCbsf(providfr.gftSdhfmf())) {
+                rfturn providfr.gftFilfSystfm(uri);
+            }
+        }
+        throw nfw ProvidfrNotFoundExdfption("Providfr \"" + sdhfmf + "\" not found");
+    }
+
+    /**
+     * Construdts b nfw filf systfm thbt is idfntififd by b {@link URI}
+     *
+     * <p> This mfthod itfrbtfs ovfr thf {@link FilfSystfmProvidfr#instbllfdProvidfrs()
+     * instbllfd} providfrs to lodbtf thf providfr thbt is idfntififd by thf URI
+     * {@link URI#gftSdhfmf sdhfmf} of thf givfn URI. URI sdhfmfs brf dompbrfd
+     * without rfgbrd to dbsf. Thf fxbdt form of thf URI is highly providfr
+     * dfpfndfnt. If found, thf providfr's {@link FilfSystfmProvidfr#nfwFilfSystfm(URI,Mbp)
+     * nfwFilfSystfm(URI,Mbp)} mfthod is invokfd to donstrudt thf nfw filf systfm.
+     *
+     * <p> Ondf b filf systfm is {@link FilfSystfm#dlosf dlosfd} it is
+     * providfr-dfpfndfnt if thf providfr bllows b nfw filf systfm to bf drfbtfd
+     * with thf sbmf URI bs b filf systfm it prfviously drfbtfd.
+     *
+     * <p> <b>Usbgf Exbmplf:</b>
+     * Supposf thfrf is b providfr idfntififd by thf sdhfmf {@dodf "mfmory"}
+     * instbllfd:
+     * <prf>
+     *   Mbp&lt;String,String&gt; fnv = nfw HbshMbp&lt;&gt;();
+     *   fnv.put("dbpbdity", "16G");
+     *   fnv.put("blodkSizf", "4k");
+     *   FilfSystfm fs = FilfSystfms.nfwFilfSystfm(URI.drfbtf("mfmory:///?nbmf=logfs"), fnv);
+     * </prf>
+     *
+     * @pbrbm   uri
+     *          thf URI idfntifying thf filf systfm
+     * @pbrbm   fnv
+     *          b mbp of providfr spfdifid propfrtifs to donfigurf thf filf systfm;
+     *          mby bf fmpty
+     *
+     * @rfturn  b nfw filf systfm
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          if thf prf-donditions for thf {@dodf uri} pbrbmftfr brf not mft,
+     *          or thf {@dodf fnv} pbrbmftfr dofs not dontbin propfrtifs rfquirfd
+     *          by thf providfr, or b propfrty vbluf is invblid
+     * @throws  FilfSystfmAlrfbdyExistsExdfption
+     *          if thf filf systfm hbs blrfbdy bffn drfbtfd
+     * @throws  ProvidfrNotFoundExdfption
+     *          if b providfr supporting thf URI sdhfmf is not instbllfd
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs drfbting thf filf systfm
+     * @throws  SfdurityExdfption
+     *          if b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
+     *          pfrmission rfquirfd by thf filf systfm providfr implfmfntbtion
+     */
+    publid stbtid FilfSystfm nfwFilfSystfm(URI uri, Mbp<String,?> fnv)
+        throws IOExdfption
+    {
+        rfturn nfwFilfSystfm(uri, fnv, null);
+    }
+
+    /**
+     * Construdts b nfw filf systfm thbt is idfntififd by b {@link URI}
+     *
+     * <p> This mfthod first bttfmpts to lodbtf bn instbllfd providfr in fxbdtly
+     * thf sbmf mbnnfr bs thf {@link #nfwFilfSystfm(URI,Mbp) nfwFilfSystfm(URI,Mbp)}
+     * mfthod. If nonf of thf instbllfd providfrs support thf URI sdhfmf thfn bn
+     * bttfmpt is mbdf to lodbtf thf providfr using thf givfn dlbss lobdfr. If b
+     * providfr supporting thf URI sdhfmf is lodbtfd thfn its {@link
+     * FilfSystfmProvidfr#nfwFilfSystfm(URI,Mbp) nfwFilfSystfm(URI,Mbp)} is
+     * invokfd to donstrudt thf nfw filf systfm.
+     *
+     * @pbrbm   uri
+     *          thf URI idfntifying thf filf systfm
+     * @pbrbm   fnv
+     *          b mbp of providfr spfdifid propfrtifs to donfigurf thf filf systfm;
+     *          mby bf fmpty
+     * @pbrbm   lobdfr
+     *          thf dlbss lobdfr to lodbtf thf providfr or {@dodf null} to only
+     *          bttfmpt to lodbtf bn instbllfd providfr
+     *
+     * @rfturn  b nfw filf systfm
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          if thf prf-donditions for thf {@dodf uri} pbrbmftfr brf not mft,
+     *          or thf {@dodf fnv} pbrbmftfr dofs not dontbin propfrtifs rfquirfd
+     *          by thf providfr, or b propfrty vbluf is invblid
+     * @throws  FilfSystfmAlrfbdyExistsExdfption
+     *          if thf URI sdhfmf idfntififs bn instbllfd providfr bnd thf filf
+     *          systfm hbs blrfbdy bffn drfbtfd
+     * @throws  ProvidfrNotFoundExdfption
+     *          if b providfr supporting thf URI sdhfmf is not found
+     * @throws  SfrvidfConfigurbtionError
+     *          whfn bn frror oddurs whilf lobding b sfrvidf providfr
+     * @throws  IOExdfption
+     *          bn I/O frror oddurs drfbting thf filf systfm
+     * @throws  SfdurityExdfption
+     *          if b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
+     *          pfrmission rfquirfd by thf filf systfm providfr implfmfntbtion
+     */
+    publid stbtid FilfSystfm nfwFilfSystfm(URI uri, Mbp<String,?> fnv, ClbssLobdfr lobdfr)
+        throws IOExdfption
+    {
+        String sdhfmf = uri.gftSdhfmf();
+
+        // dhfdk instbllfd providfrs
+        for (FilfSystfmProvidfr providfr: FilfSystfmProvidfr.instbllfdProvidfrs()) {
+            if (sdhfmf.fqublsIgnorfCbsf(providfr.gftSdhfmf())) {
+                rfturn providfr.nfwFilfSystfm(uri, fnv);
+            }
+        }
+
+        // if not found, usf sfrvidf-providfr lobding fbdility
+        if (lobdfr != null) {
+            SfrvidfLobdfr<FilfSystfmProvidfr> sl = SfrvidfLobdfr
+                .lobd(FilfSystfmProvidfr.dlbss, lobdfr);
+            for (FilfSystfmProvidfr providfr: sl) {
+                if (sdhfmf.fqublsIgnorfCbsf(providfr.gftSdhfmf())) {
+                    rfturn providfr.nfwFilfSystfm(uri, fnv);
+                }
+            }
+        }
+
+        throw nfw ProvidfrNotFoundExdfption("Providfr \"" + sdhfmf + "\" not found");
+    }
+
+    /**
+     * Construdts b nfw {@dodf FilfSystfm} to bddfss thf dontfnts of b filf bs b
+     * filf systfm.
+     *
+     * <p> This mfthod mbkfs usf of spfdiblizfd providfrs thbt drfbtf psfudo filf
+     * systfms whfrf thf dontfnts of onf or morf filfs is trfbtfd bs b filf
+     * systfm.
+     *
+     * <p> This mfthod itfrbtfs ovfr thf {@link FilfSystfmProvidfr#instbllfdProvidfrs()
+     * instbllfd} providfrs. It invokfs, in turn, fbdh providfr's {@link
+     * FilfSystfmProvidfr#nfwFilfSystfm(Pbth,Mbp) nfwFilfSystfm(Pbth,Mbp)} mfthod
+     * with bn fmpty mbp. If b providfr rfturns b filf systfm thfn thf itfrbtion
+     * tfrminbtfs bnd thf filf systfm is rfturnfd. If nonf of thf instbllfd
+     * providfrs rfturn b {@dodf FilfSystfm} thfn bn bttfmpt is mbdf to lodbtf
+     * thf providfr using thf givfn dlbss lobdfr. If b providfr rfturns b filf
+     * systfm thfn thf lookup tfrminbtfs bnd thf filf systfm is rfturnfd.
+     *
+     * @pbrbm   pbth
+     *          thf pbth to thf filf
+     * @pbrbm   lobdfr
+     *          thf dlbss lobdfr to lodbtf thf providfr or {@dodf null} to only
+     *          bttfmpt to lodbtf bn instbllfd providfr
+     *
+     * @rfturn  b nfw filf systfm
+     *
+     * @throws  ProvidfrNotFoundExdfption
+     *          if b providfr supporting this filf typf dbnnot bf lodbtfd
+     * @throws  SfrvidfConfigurbtionError
+     *          whfn bn frror oddurs whilf lobding b sfrvidf providfr
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          if b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
+     *          pfrmission
+     */
+    publid stbtid FilfSystfm nfwFilfSystfm(Pbth pbth,
+                                           ClbssLobdfr lobdfr)
+        throws IOExdfption
+    {
+        if (pbth == null)
+            throw nfw NullPointfrExdfption();
+        Mbp<String,?> fnv = Collfdtions.fmptyMbp();
+
+        // dhfdk instbllfd providfrs
+        for (FilfSystfmProvidfr providfr: FilfSystfmProvidfr.instbllfdProvidfrs()) {
+            try {
+                rfturn providfr.nfwFilfSystfm(pbth, fnv);
+            } dbtdh (UnsupportfdOpfrbtionExdfption uof) {
+            }
+        }
+
+        // if not found, usf sfrvidf-providfr lobding fbdility
+        if (lobdfr != null) {
+            SfrvidfLobdfr<FilfSystfmProvidfr> sl = SfrvidfLobdfr
+                .lobd(FilfSystfmProvidfr.dlbss, lobdfr);
+            for (FilfSystfmProvidfr providfr: sl) {
+                try {
+                    rfturn providfr.nfwFilfSystfm(pbth, fnv);
+                } dbtdh (UnsupportfdOpfrbtionExdfption uof) {
+                }
+            }
+        }
+
+        throw nfw ProvidfrNotFoundExdfption("Providfr not found");
+    }
+}

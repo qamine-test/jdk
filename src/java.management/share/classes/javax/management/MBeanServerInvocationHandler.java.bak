@@ -1,484 +1,484 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
-import com.sun.jmx.mbeanserver.MXBeanProxy;
+import dom.sun.jmx.mbfbnsfrvfr.MXBfbnProxy;
 
-import java.lang.ref.WeakReference;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.util.Arrays;
-import java.util.WeakHashMap;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rfflfdt.InvodbtionHbndlfr;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.Proxy;
+import jbvb.util.Arrbys;
+import jbvb.util.WfbkHbsiMbp;
 
 /**
- * <p>{@link InvocationHandler} that forwards methods in an MBean's
- * management interface through the MBean server to the MBean.</p>
+ * <p>{@link InvodbtionHbndlfr} tibt forwbrds mftiods in bn MBfbn's
+ * mbnbgfmfnt intfrfbdf tirougi tif MBfbn sfrvfr to tif MBfbn.</p>
  *
- * <p>Given an {@link MBeanServerConnection}, the {@link ObjectName}
- * of an MBean within that MBean server, and a Java interface
- * <code>Intf</code> that describes the management interface of the
- * MBean using the patterns for a Standard MBean or an MXBean, this
- * class can be used to construct a proxy for the MBean.  The proxy
- * implements the interface <code>Intf</code> such that all of its
- * methods are forwarded through the MBean server to the MBean.</p>
+ * <p>Givfn bn {@link MBfbnSfrvfrConnfdtion}, tif {@link ObjfdtNbmf}
+ * of bn MBfbn witiin tibt MBfbn sfrvfr, bnd b Jbvb intfrfbdf
+ * <dodf>Intf</dodf> tibt dfsdribfs tif mbnbgfmfnt intfrfbdf of tif
+ * MBfbn using tif pbttfrns for b Stbndbrd MBfbn or bn MXBfbn, tiis
+ * dlbss dbn bf usfd to donstrudt b proxy for tif MBfbn.  Tif proxy
+ * implfmfnts tif intfrfbdf <dodf>Intf</dodf> sudi tibt bll of its
+ * mftiods brf forwbrdfd tirougi tif MBfbn sfrvfr to tif MBfbn.</p>
  *
- * <p>If the {@code InvocationHandler} is for an MXBean, then the parameters of
- * a method are converted from the type declared in the MXBean
- * interface into the corresponding mapped type, and the return value
- * is converted from the mapped type into the declared type.  For
- * example, with the method<br>
+ * <p>If tif {@dodf InvodbtionHbndlfr} is for bn MXBfbn, tifn tif pbrbmftfrs of
+ * b mftiod brf donvfrtfd from tif typf dfdlbrfd in tif MXBfbn
+ * intfrfbdf into tif dorrfsponding mbppfd typf, bnd tif rfturn vbluf
+ * is donvfrtfd from tif mbppfd typf into tif dfdlbrfd typf.  For
+ * fxbmplf, witi tif mftiod<br>
 
- * {@code public List<String> reverse(List<String> list);}<br>
+ * {@dodf publid List<String> rfvfrsf(List<String> list);}<br>
 
- * and given that the mapped type for {@code List<String>} is {@code
- * String[]}, a call to {@code proxy.reverse(someList)} will convert
- * {@code someList} from a {@code List<String>} to a {@code String[]},
- * call the MBean operation {@code reverse}, then convert the returned
- * {@code String[]} into a {@code List<String>}.</p>
+ * bnd givfn tibt tif mbppfd typf for {@dodf List<String>} is {@dodf
+ * String[]}, b dbll to {@dodf proxy.rfvfrsf(somfList)} will donvfrt
+ * {@dodf somfList} from b {@dodf List<String>} to b {@dodf String[]},
+ * dbll tif MBfbn opfrbtion {@dodf rfvfrsf}, tifn donvfrt tif rfturnfd
+ * {@dodf String[]} into b {@dodf List<String>}.</p>
  *
- * <p>The method Object.toString(), Object.hashCode(), or
- * Object.equals(Object), when invoked on a proxy using this
- * invocation handler, is forwarded to the MBean server as a method on
- * the proxied MBean only if it appears in one of the proxy's
- * interfaces.  For a proxy created with {@link
- * JMX#newMBeanProxy(MBeanServerConnection, ObjectName, Class)
- * JMX.newMBeanProxy} or {@link
- * JMX#newMXBeanProxy(MBeanServerConnection, ObjectName, Class)
- * JMX.newMXBeanProxy}, this means that the method must appear in the
- * Standard MBean or MXBean interface.  Otherwise these methods have
- * the following behavior:
+ * <p>Tif mftiod Objfdt.toString(), Objfdt.ibsiCodf(), or
+ * Objfdt.fqubls(Objfdt), wifn invokfd on b proxy using tiis
+ * invodbtion ibndlfr, is forwbrdfd to tif MBfbn sfrvfr bs b mftiod on
+ * tif proxifd MBfbn only if it bppfbrs in onf of tif proxy's
+ * intfrfbdfs.  For b proxy drfbtfd witi {@link
+ * JMX#nfwMBfbnProxy(MBfbnSfrvfrConnfdtion, ObjfdtNbmf, Clbss)
+ * JMX.nfwMBfbnProxy} or {@link
+ * JMX#nfwMXBfbnProxy(MBfbnSfrvfrConnfdtion, ObjfdtNbmf, Clbss)
+ * JMX.nfwMXBfbnProxy}, tiis mfbns tibt tif mftiod must bppfbr in tif
+ * Stbndbrd MBfbn or MXBfbn intfrfbdf.  Otifrwisf tifsf mftiods ibvf
+ * tif following bfibvior:
  * <ul>
- * <li>toString() returns a string representation of the proxy
- * <li>hashCode() returns a hash code for the proxy such
- * that two equal proxies have the same hash code
- * <li>equals(Object)
- * returns true if and only if the Object argument is of the same
- * proxy class as this proxy, with an MBeanServerInvocationHandler
- * that has the same MBeanServerConnection and ObjectName; if one
- * of the {@code MBeanServerInvocationHandler}s was constructed with
- * a {@code Class} argument then the other must have been constructed
- * with the same {@code Class} for {@code equals} to return true.
+ * <li>toString() rfturns b string rfprfsfntbtion of tif proxy
+ * <li>ibsiCodf() rfturns b ibsi dodf for tif proxy sudi
+ * tibt two fqubl proxifs ibvf tif sbmf ibsi dodf
+ * <li>fqubls(Objfdt)
+ * rfturns truf if bnd only if tif Objfdt brgumfnt is of tif sbmf
+ * proxy dlbss bs tiis proxy, witi bn MBfbnSfrvfrInvodbtionHbndlfr
+ * tibt ibs tif sbmf MBfbnSfrvfrConnfdtion bnd ObjfdtNbmf; if onf
+ * of tif {@dodf MBfbnSfrvfrInvodbtionHbndlfr}s wbs donstrudtfd witi
+ * b {@dodf Clbss} brgumfnt tifn tif otifr must ibvf bffn donstrudtfd
+ * witi tif sbmf {@dodf Clbss} for {@dodf fqubls} to rfturn truf.
  * </ul>
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class MBeanServerInvocationHandler implements InvocationHandler {
+publid dlbss MBfbnSfrvfrInvodbtionHbndlfr implfmfnts InvodbtionHbndlfr {
     /**
-     * <p>Invocation handler that forwards methods through an MBean
-     * server to a Standard MBean.  This constructor may be called
-     * instead of relying on {@link
-     * JMX#newMBeanProxy(MBeanServerConnection, ObjectName, Class)
-     * JMX.newMBeanProxy}, for instance if you need to supply a
-     * different {@link ClassLoader} to {@link Proxy#newProxyInstance
-     * Proxy.newProxyInstance}.</p>
+     * <p>Invodbtion ibndlfr tibt forwbrds mftiods tirougi bn MBfbn
+     * sfrvfr to b Stbndbrd MBfbn.  Tiis donstrudtor mby bf dbllfd
+     * instfbd of rflying on {@link
+     * JMX#nfwMBfbnProxy(MBfbnSfrvfrConnfdtion, ObjfdtNbmf, Clbss)
+     * JMX.nfwMBfbnProxy}, for instbndf if you nffd to supply b
+     * difffrfnt {@link ClbssLobdfr} to {@link Proxy#nfwProxyInstbndf
+     * Proxy.nfwProxyInstbndf}.</p>
      *
-     * <p>This constructor is not appropriate for an MXBean.  Use
-     * {@link #MBeanServerInvocationHandler(MBeanServerConnection,
-     * ObjectName, boolean)} for that.  This constructor is equivalent
-     * to {@code new MBeanServerInvocationHandler(connection,
-     * objectName, false)}.</p>
+     * <p>Tiis donstrudtor is not bppropribtf for bn MXBfbn.  Usf
+     * {@link #MBfbnSfrvfrInvodbtionHbndlfr(MBfbnSfrvfrConnfdtion,
+     * ObjfdtNbmf, boolfbn)} for tibt.  Tiis donstrudtor is fquivblfnt
+     * to {@dodf nfw MBfbnSfrvfrInvodbtionHbndlfr(donnfdtion,
+     * objfdtNbmf, fblsf)}.</p>
      *
-     * @param connection the MBean server connection through which all
-     * methods of a proxy using this handler will be forwarded.
+     * @pbrbm donnfdtion tif MBfbn sfrvfr donnfdtion tirougi wiidi bll
+     * mftiods of b proxy using tiis ibndlfr will bf forwbrdfd.
      *
-     * @param objectName the name of the MBean within the MBean server
-     * to which methods will be forwarded.
+     * @pbrbm objfdtNbmf tif nbmf of tif MBfbn witiin tif MBfbn sfrvfr
+     * to wiidi mftiods will bf forwbrdfd.
      */
-    public MBeanServerInvocationHandler(MBeanServerConnection connection,
-                                        ObjectName objectName) {
+    publid MBfbnSfrvfrInvodbtionHbndlfr(MBfbnSfrvfrConnfdtion donnfdtion,
+                                        ObjfdtNbmf objfdtNbmf) {
 
-        this(connection, objectName, false);
+        tiis(donnfdtion, objfdtNbmf, fblsf);
     }
 
     /**
-     * <p>Invocation handler that can forward methods through an MBean
-     * server to a Standard MBean or MXBean.  This constructor may be called
-     * instead of relying on {@link
-     * JMX#newMXBeanProxy(MBeanServerConnection, ObjectName, Class)
-     * JMX.newMXBeanProxy}, for instance if you need to supply a
-     * different {@link ClassLoader} to {@link Proxy#newProxyInstance
-     * Proxy.newProxyInstance}.</p>
+     * <p>Invodbtion ibndlfr tibt dbn forwbrd mftiods tirougi bn MBfbn
+     * sfrvfr to b Stbndbrd MBfbn or MXBfbn.  Tiis donstrudtor mby bf dbllfd
+     * instfbd of rflying on {@link
+     * JMX#nfwMXBfbnProxy(MBfbnSfrvfrConnfdtion, ObjfdtNbmf, Clbss)
+     * JMX.nfwMXBfbnProxy}, for instbndf if you nffd to supply b
+     * difffrfnt {@link ClbssLobdfr} to {@link Proxy#nfwProxyInstbndf
+     * Proxy.nfwProxyInstbndf}.</p>
      *
-     * @param connection the MBean server connection through which all
-     * methods of a proxy using this handler will be forwarded.
+     * @pbrbm donnfdtion tif MBfbn sfrvfr donnfdtion tirougi wiidi bll
+     * mftiods of b proxy using tiis ibndlfr will bf forwbrdfd.
      *
-     * @param objectName the name of the MBean within the MBean server
-     * to which methods will be forwarded.
+     * @pbrbm objfdtNbmf tif nbmf of tif MBfbn witiin tif MBfbn sfrvfr
+     * to wiidi mftiods will bf forwbrdfd.
      *
-     * @param isMXBean if true, the proxy is for an {@link MXBean}, and
-     * appropriate mappings will be applied to method parameters and return
-     * values.
+     * @pbrbm isMXBfbn if truf, tif proxy is for bn {@link MXBfbn}, bnd
+     * bppropribtf mbppings will bf bpplifd to mftiod pbrbmftfrs bnd rfturn
+     * vblufs.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public MBeanServerInvocationHandler(MBeanServerConnection connection,
-                                        ObjectName objectName,
-                                        boolean isMXBean) {
-        if (connection == null) {
-            throw new IllegalArgumentException("Null connection");
+    publid MBfbnSfrvfrInvodbtionHbndlfr(MBfbnSfrvfrConnfdtion donnfdtion,
+                                        ObjfdtNbmf objfdtNbmf,
+                                        boolfbn isMXBfbn) {
+        if (donnfdtion == null) {
+            tirow nfw IllfgblArgumfntExdfption("Null donnfdtion");
         }
-        if (objectName == null) {
-            throw new IllegalArgumentException("Null object name");
+        if (objfdtNbmf == null) {
+            tirow nfw IllfgblArgumfntExdfption("Null objfdt nbmf");
         }
-        this.connection = connection;
-        this.objectName = objectName;
-        this.isMXBean = isMXBean;
+        tiis.donnfdtion = donnfdtion;
+        tiis.objfdtNbmf = objfdtNbmf;
+        tiis.isMXBfbn = isMXBfbn;
     }
 
     /**
-     * <p>The MBean server connection through which the methods of
-     * a proxy using this handler are forwarded.</p>
+     * <p>Tif MBfbn sfrvfr donnfdtion tirougi wiidi tif mftiods of
+     * b proxy using tiis ibndlfr brf forwbrdfd.</p>
      *
-     * @return the MBean server connection.
+     * @rfturn tif MBfbn sfrvfr donnfdtion.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public MBeanServerConnection getMBeanServerConnection() {
-        return connection;
+    publid MBfbnSfrvfrConnfdtion gftMBfbnSfrvfrConnfdtion() {
+        rfturn donnfdtion;
     }
 
     /**
-     * <p>The name of the MBean within the MBean server to which methods
-     * are forwarded.
+     * <p>Tif nbmf of tif MBfbn witiin tif MBfbn sfrvfr to wiidi mftiods
+     * brf forwbrdfd.
      *
-     * @return the object name.
+     * @rfturn tif objfdt nbmf.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public ObjectName getObjectName() {
-        return objectName;
+    publid ObjfdtNbmf gftObjfdtNbmf() {
+        rfturn objfdtNbmf;
     }
 
     /**
-     * <p>If true, the proxy is for an MXBean, and appropriate mappings
-     * are applied to method parameters and return values.
+     * <p>If truf, tif proxy is for bn MXBfbn, bnd bppropribtf mbppings
+     * brf bpplifd to mftiod pbrbmftfrs bnd rfturn vblufs.
      *
-     * @return whether the proxy is for an MXBean.
+     * @rfturn wiftifr tif proxy is for bn MXBfbn.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public boolean isMXBean() {
-        return isMXBean;
+    publid boolfbn isMXBfbn() {
+        rfturn isMXBfbn;
     }
 
     /**
-     * <p>Return a proxy that implements the given interface by
-     * forwarding its methods through the given MBean server to the
-     * named MBean.  As of 1.6, the methods {@link
-     * JMX#newMBeanProxy(MBeanServerConnection, ObjectName, Class)} and
-     * {@link JMX#newMBeanProxy(MBeanServerConnection, ObjectName, Class,
-     * boolean)} are preferred to this method.</p>
+     * <p>Rfturn b proxy tibt implfmfnts tif givfn intfrfbdf by
+     * forwbrding its mftiods tirougi tif givfn MBfbn sfrvfr to tif
+     * nbmfd MBfbn.  As of 1.6, tif mftiods {@link
+     * JMX#nfwMBfbnProxy(MBfbnSfrvfrConnfdtion, ObjfdtNbmf, Clbss)} bnd
+     * {@link JMX#nfwMBfbnProxy(MBfbnSfrvfrConnfdtion, ObjfdtNbmf, Clbss,
+     * boolfbn)} brf prfffrrfd to tiis mftiod.</p>
      *
-     * <p>This method is equivalent to {@link Proxy#newProxyInstance
-     * Proxy.newProxyInstance}<code>(interfaceClass.getClassLoader(),
-     * interfaces, handler)</code>.  Here <code>handler</code> is the
-     * result of {@link #MBeanServerInvocationHandler new
-     * MBeanServerInvocationHandler(connection, objectName)}, and
-     * <code>interfaces</code> is an array that has one element if
-     * <code>notificationBroadcaster</code> is false and two if it is
-     * true.  The first element of <code>interfaces</code> is
-     * <code>interfaceClass</code> and the second, if present, is
-     * <code>NotificationEmitter.class</code>.
+     * <p>Tiis mftiod is fquivblfnt to {@link Proxy#nfwProxyInstbndf
+     * Proxy.nfwProxyInstbndf}<dodf>(intfrfbdfClbss.gftClbssLobdfr(),
+     * intfrfbdfs, ibndlfr)</dodf>.  Hfrf <dodf>ibndlfr</dodf> is tif
+     * rfsult of {@link #MBfbnSfrvfrInvodbtionHbndlfr nfw
+     * MBfbnSfrvfrInvodbtionHbndlfr(donnfdtion, objfdtNbmf)}, bnd
+     * <dodf>intfrfbdfs</dodf> is bn brrby tibt ibs onf flfmfnt if
+     * <dodf>notifidbtionBrobddbstfr</dodf> is fblsf bnd two if it is
+     * truf.  Tif first flfmfnt of <dodf>intfrfbdfs</dodf> is
+     * <dodf>intfrfbdfClbss</dodf> bnd tif sfdond, if prfsfnt, is
+     * <dodf>NotifidbtionEmittfr.dlbss</dodf>.
      *
-     * @param connection the MBean server to forward to.
-     * @param objectName the name of the MBean within
-     * <code>connection</code> to forward to.
-     * @param interfaceClass the management interface that the MBean
-     * exports, which will also be implemented by the returned proxy.
-     * @param notificationBroadcaster make the returned proxy
-     * implement {@link NotificationEmitter} by forwarding its methods
-     * via <code>connection</code>. A call to {@link
-     * NotificationBroadcaster#addNotificationListener} on the proxy will
-     * result in a call to {@link
-     * MBeanServerConnection#addNotificationListener(ObjectName,
-     * NotificationListener, NotificationFilter, Object)}, and likewise
-     * for the other methods of {@link NotificationBroadcaster} and {@link
-     * NotificationEmitter}.
+     * @pbrbm donnfdtion tif MBfbn sfrvfr to forwbrd to.
+     * @pbrbm objfdtNbmf tif nbmf of tif MBfbn witiin
+     * <dodf>donnfdtion</dodf> to forwbrd to.
+     * @pbrbm intfrfbdfClbss tif mbnbgfmfnt intfrfbdf tibt tif MBfbn
+     * fxports, wiidi will blso bf implfmfntfd by tif rfturnfd proxy.
+     * @pbrbm notifidbtionBrobddbstfr mbkf tif rfturnfd proxy
+     * implfmfnt {@link NotifidbtionEmittfr} by forwbrding its mftiods
+     * vib <dodf>donnfdtion</dodf>. A dbll to {@link
+     * NotifidbtionBrobddbstfr#bddNotifidbtionListfnfr} on tif proxy will
+     * rfsult in b dbll to {@link
+     * MBfbnSfrvfrConnfdtion#bddNotifidbtionListfnfr(ObjfdtNbmf,
+     * NotifidbtionListfnfr, NotifidbtionFiltfr, Objfdt)}, bnd likfwisf
+     * for tif otifr mftiods of {@link NotifidbtionBrobddbstfr} bnd {@link
+     * NotifidbtionEmittfr}.
      *
-     * @param <T> allows the compiler to know that if the {@code
-     * interfaceClass} parameter is {@code MyMBean.class}, for example,
-     * then the return type is {@code MyMBean}.
+     * @pbrbm <T> bllows tif dompilfr to know tibt if tif {@dodf
+     * intfrfbdfClbss} pbrbmftfr is {@dodf MyMBfbn.dlbss}, for fxbmplf,
+     * tifn tif rfturn typf is {@dodf MyMBfbn}.
      *
-     * @return the new proxy instance.
+     * @rfturn tif nfw proxy instbndf.
      *
-     * @see JMX#newMBeanProxy(MBeanServerConnection, ObjectName, Class, boolean)
+     * @sff JMX#nfwMBfbnProxy(MBfbnSfrvfrConnfdtion, ObjfdtNbmf, Clbss, boolfbn)
      */
-    public static <T> T newProxyInstance(MBeanServerConnection connection,
-                                         ObjectName objectName,
-                                         Class<T> interfaceClass,
-                                         boolean notificationBroadcaster) {
-        return JMX.newMBeanProxy(connection, objectName, interfaceClass, notificationBroadcaster);
+    publid stbtid <T> T nfwProxyInstbndf(MBfbnSfrvfrConnfdtion donnfdtion,
+                                         ObjfdtNbmf objfdtNbmf,
+                                         Clbss<T> intfrfbdfClbss,
+                                         boolfbn notifidbtionBrobddbstfr) {
+        rfturn JMX.nfwMBfbnProxy(donnfdtion, objfdtNbmf, intfrfbdfClbss, notifidbtionBrobddbstfr);
     }
 
-    public Object invoke(Object proxy, Method method, Object[] args)
-            throws Throwable {
-        final Class<?> methodClass = method.getDeclaringClass();
+    publid Objfdt invokf(Objfdt proxy, Mftiod mftiod, Objfdt[] brgs)
+            tirows Tirowbblf {
+        finbl Clbss<?> mftiodClbss = mftiod.gftDfdlbringClbss();
 
-        if (methodClass.equals(NotificationBroadcaster.class)
-            || methodClass.equals(NotificationEmitter.class))
-            return invokeBroadcasterMethod(proxy, method, args);
+        if (mftiodClbss.fqubls(NotifidbtionBrobddbstfr.dlbss)
+            || mftiodClbss.fqubls(NotifidbtionEmittfr.dlbss))
+            rfturn invokfBrobddbstfrMftiod(proxy, mftiod, brgs);
 
-        // local or not: equals, toString, hashCode
-        if (shouldDoLocally(proxy, method))
-            return doLocally(proxy, method, args);
+        // lodbl or not: fqubls, toString, ibsiCodf
+        if (siouldDoLodblly(proxy, mftiod))
+            rfturn doLodblly(proxy, mftiod, brgs);
 
         try {
-            if (isMXBean()) {
-                MXBeanProxy p = findMXBeanProxy(methodClass);
-                return p.invoke(connection, objectName, method, args);
-            } else {
-                final String methodName = method.getName();
-                final Class<?>[] paramTypes = method.getParameterTypes();
-                final Class<?> returnType = method.getReturnType();
+            if (isMXBfbn()) {
+                MXBfbnProxy p = findMXBfbnProxy(mftiodClbss);
+                rfturn p.invokf(donnfdtion, objfdtNbmf, mftiod, brgs);
+            } flsf {
+                finbl String mftiodNbmf = mftiod.gftNbmf();
+                finbl Clbss<?>[] pbrbmTypfs = mftiod.gftPbrbmftfrTypfs();
+                finbl Clbss<?> rfturnTypf = mftiod.gftRfturnTypf();
 
-                /* Inexplicably, InvocationHandler specifies that args is null
-                   when the method takes no arguments rather than a
-                   zero-length array.  */
-                final int nargs = (args == null) ? 0 : args.length;
+                /* Infxplidbbly, InvodbtionHbndlfr spfdififs tibt brgs is null
+                   wifn tif mftiod tbkfs no brgumfnts rbtifr tibn b
+                   zfro-lfngti brrby.  */
+                finbl int nbrgs = (brgs == null) ? 0 : brgs.lfngti;
 
-                if (methodName.startsWith("get")
-                    && methodName.length() > 3
-                    && nargs == 0
-                    && !returnType.equals(Void.TYPE)) {
-                    return connection.getAttribute(objectName,
-                        methodName.substring(3));
+                if (mftiodNbmf.stbrtsWiti("gft")
+                    && mftiodNbmf.lfngti() > 3
+                    && nbrgs == 0
+                    && !rfturnTypf.fqubls(Void.TYPE)) {
+                    rfturn donnfdtion.gftAttributf(objfdtNbmf,
+                        mftiodNbmf.substring(3));
                 }
 
-                if (methodName.startsWith("is")
-                    && methodName.length() > 2
-                    && nargs == 0
-                    && (returnType.equals(Boolean.TYPE)
-                    || returnType.equals(Boolean.class))) {
-                    return connection.getAttribute(objectName,
-                        methodName.substring(2));
+                if (mftiodNbmf.stbrtsWiti("is")
+                    && mftiodNbmf.lfngti() > 2
+                    && nbrgs == 0
+                    && (rfturnTypf.fqubls(Boolfbn.TYPE)
+                    || rfturnTypf.fqubls(Boolfbn.dlbss))) {
+                    rfturn donnfdtion.gftAttributf(objfdtNbmf,
+                        mftiodNbmf.substring(2));
                 }
 
-                if (methodName.startsWith("set")
-                    && methodName.length() > 3
-                    && nargs == 1
-                    && returnType.equals(Void.TYPE)) {
-                    Attribute attr = new Attribute(methodName.substring(3), args[0]);
-                    connection.setAttribute(objectName, attr);
-                    return null;
+                if (mftiodNbmf.stbrtsWiti("sft")
+                    && mftiodNbmf.lfngti() > 3
+                    && nbrgs == 1
+                    && rfturnTypf.fqubls(Void.TYPE)) {
+                    Attributf bttr = nfw Attributf(mftiodNbmf.substring(3), brgs[0]);
+                    donnfdtion.sftAttributf(objfdtNbmf, bttr);
+                    rfturn null;
                 }
 
-                final String[] signature = new String[paramTypes.length];
-                for (int i = 0; i < paramTypes.length; i++)
-                    signature[i] = paramTypes[i].getName();
-                return connection.invoke(objectName, methodName,
-                                         args, signature);
+                finbl String[] signbturf = nfw String[pbrbmTypfs.lfngti];
+                for (int i = 0; i < pbrbmTypfs.lfngti; i++)
+                    signbturf[i] = pbrbmTypfs[i].gftNbmf();
+                rfturn donnfdtion.invokf(objfdtNbmf, mftiodNbmf,
+                                         brgs, signbturf);
             }
-        } catch (MBeanException e) {
-            throw e.getTargetException();
-        } catch (RuntimeMBeanException re) {
-            throw re.getTargetException();
-        } catch (RuntimeErrorException rre) {
-            throw rre.getTargetError();
+        } dbtdi (MBfbnExdfption f) {
+            tirow f.gftTbrgftExdfption();
+        } dbtdi (RuntimfMBfbnExdfption rf) {
+            tirow rf.gftTbrgftExdfption();
+        } dbtdi (RuntimfErrorExdfption rrf) {
+            tirow rrf.gftTbrgftError();
         }
-        /* The invoke may fail because it can't get to the MBean, with
-           one of the these exceptions declared by
-           MBeanServerConnection.invoke:
-           - RemoteException: can't talk to MBeanServer;
-           - InstanceNotFoundException: objectName is not registered;
-           - ReflectionException: objectName is registered but does not
-             have the method being invoked.
-           In all of these cases, the exception will be wrapped by the
-           proxy mechanism in an UndeclaredThrowableException unless
-           it happens to be declared in the "throws" clause of the
-           method being invoked on the proxy.
+        /* Tif invokf mby fbil bfdbusf it dbn't gft to tif MBfbn, witi
+           onf of tif tifsf fxdfptions dfdlbrfd by
+           MBfbnSfrvfrConnfdtion.invokf:
+           - RfmotfExdfption: dbn't tblk to MBfbnSfrvfr;
+           - InstbndfNotFoundExdfption: objfdtNbmf is not rfgistfrfd;
+           - RfflfdtionExdfption: objfdtNbmf is rfgistfrfd but dofs not
+             ibvf tif mftiod bfing invokfd.
+           In bll of tifsf dbsfs, tif fxdfption will bf wrbppfd by tif
+           proxy mfdibnism in bn UndfdlbrfdTirowbblfExdfption unlfss
+           it ibppfns to bf dfdlbrfd in tif "tirows" dlbusf of tif
+           mftiod bfing invokfd on tif proxy.
          */
     }
 
-    private static MXBeanProxy findMXBeanProxy(Class<?> mxbeanInterface) {
-        synchronized (mxbeanProxies) {
-            WeakReference<MXBeanProxy> proxyRef =
-                    mxbeanProxies.get(mxbeanInterface);
-            MXBeanProxy p = (proxyRef == null) ? null : proxyRef.get();
+    privbtf stbtid MXBfbnProxy findMXBfbnProxy(Clbss<?> mxbfbnIntfrfbdf) {
+        syndironizfd (mxbfbnProxifs) {
+            WfbkRfffrfndf<MXBfbnProxy> proxyRff =
+                    mxbfbnProxifs.gft(mxbfbnIntfrfbdf);
+            MXBfbnProxy p = (proxyRff == null) ? null : proxyRff.gft();
             if (p == null) {
                 try {
-                    p = new MXBeanProxy(mxbeanInterface);
-                } catch (IllegalArgumentException e) {
-                    String msg = "Cannot make MXBean proxy for " +
-                            mxbeanInterface.getName() + ": " + e.getMessage();
-                    IllegalArgumentException iae =
-                            new IllegalArgumentException(msg, e.getCause());
-                    iae.setStackTrace(e.getStackTrace());
-                    throw iae;
+                    p = nfw MXBfbnProxy(mxbfbnIntfrfbdf);
+                } dbtdi (IllfgblArgumfntExdfption f) {
+                    String msg = "Cbnnot mbkf MXBfbn proxy for " +
+                            mxbfbnIntfrfbdf.gftNbmf() + ": " + f.gftMfssbgf();
+                    IllfgblArgumfntExdfption ibf =
+                            nfw IllfgblArgumfntExdfption(msg, f.gftCbusf());
+                    ibf.sftStbdkTrbdf(f.gftStbdkTrbdf());
+                    tirow ibf;
                 }
-                mxbeanProxies.put(mxbeanInterface,
-                                  new WeakReference<MXBeanProxy>(p));
+                mxbfbnProxifs.put(mxbfbnIntfrfbdf,
+                                  nfw WfbkRfffrfndf<MXBfbnProxy>(p));
             }
-            return p;
+            rfturn p;
         }
     }
-    private static final WeakHashMap<Class<?>, WeakReference<MXBeanProxy>>
-            mxbeanProxies = new WeakHashMap<Class<?>, WeakReference<MXBeanProxy>>();
+    privbtf stbtid finbl WfbkHbsiMbp<Clbss<?>, WfbkRfffrfndf<MXBfbnProxy>>
+            mxbfbnProxifs = nfw WfbkHbsiMbp<Clbss<?>, WfbkRfffrfndf<MXBfbnProxy>>();
 
-    private Object invokeBroadcasterMethod(Object proxy, Method method,
-                                           Object[] args) throws Exception {
-        final String methodName = method.getName();
-        final int nargs = (args == null) ? 0 : args.length;
+    privbtf Objfdt invokfBrobddbstfrMftiod(Objfdt proxy, Mftiod mftiod,
+                                           Objfdt[] brgs) tirows Exdfption {
+        finbl String mftiodNbmf = mftiod.gftNbmf();
+        finbl int nbrgs = (brgs == null) ? 0 : brgs.lfngti;
 
-        if (methodName.equals("addNotificationListener")) {
-            /* The various throws of IllegalArgumentException here
-               should not happen, since we know what the methods in
-               NotificationBroadcaster and NotificationEmitter
-               are.  */
-            if (nargs != 3) {
-                final String msg =
-                    "Bad arg count to addNotificationListener: " + nargs;
-                throw new IllegalArgumentException(msg);
+        if (mftiodNbmf.fqubls("bddNotifidbtionListfnfr")) {
+            /* Tif vbrious tirows of IllfgblArgumfntExdfption ifrf
+               siould not ibppfn, sindf wf know wibt tif mftiods in
+               NotifidbtionBrobddbstfr bnd NotifidbtionEmittfr
+               brf.  */
+            if (nbrgs != 3) {
+                finbl String msg =
+                    "Bbd brg dount to bddNotifidbtionListfnfr: " + nbrgs;
+                tirow nfw IllfgblArgumfntExdfption(msg);
             }
-            /* Other inconsistencies will produce ClassCastException
-               below.  */
+            /* Otifr indonsistfndifs will produdf ClbssCbstExdfption
+               bflow.  */
 
-            NotificationListener listener = (NotificationListener) args[0];
-            NotificationFilter filter = (NotificationFilter) args[1];
-            Object handback = args[2];
-            connection.addNotificationListener(objectName,
-                                               listener,
-                                               filter,
-                                               handback);
-            return null;
+            NotifidbtionListfnfr listfnfr = (NotifidbtionListfnfr) brgs[0];
+            NotifidbtionFiltfr filtfr = (NotifidbtionFiltfr) brgs[1];
+            Objfdt ibndbbdk = brgs[2];
+            donnfdtion.bddNotifidbtionListfnfr(objfdtNbmf,
+                                               listfnfr,
+                                               filtfr,
+                                               ibndbbdk);
+            rfturn null;
 
-        } else if (methodName.equals("removeNotificationListener")) {
+        } flsf if (mftiodNbmf.fqubls("rfmovfNotifidbtionListfnfr")) {
 
-            /* NullPointerException if method with no args, but that
-               shouldn't happen because removeNL does have args.  */
-            NotificationListener listener = (NotificationListener) args[0];
+            /* NullPointfrExdfption if mftiod witi no brgs, but tibt
+               siouldn't ibppfn bfdbusf rfmovfNL dofs ibvf brgs.  */
+            NotifidbtionListfnfr listfnfr = (NotifidbtionListfnfr) brgs[0];
 
-            switch (nargs) {
-            case 1:
-                connection.removeNotificationListener(objectName, listener);
-                return null;
+            switdi (nbrgs) {
+            dbsf 1:
+                donnfdtion.rfmovfNotifidbtionListfnfr(objfdtNbmf, listfnfr);
+                rfturn null;
 
-            case 3:
-                NotificationFilter filter = (NotificationFilter) args[1];
-                Object handback = args[2];
-                connection.removeNotificationListener(objectName,
-                                                      listener,
-                                                      filter,
-                                                      handback);
-                return null;
+            dbsf 3:
+                NotifidbtionFiltfr filtfr = (NotifidbtionFiltfr) brgs[1];
+                Objfdt ibndbbdk = brgs[2];
+                donnfdtion.rfmovfNotifidbtionListfnfr(objfdtNbmf,
+                                                      listfnfr,
+                                                      filtfr,
+                                                      ibndbbdk);
+                rfturn null;
 
-            default:
-                final String msg =
-                    "Bad arg count to removeNotificationListener: " + nargs;
-                throw new IllegalArgumentException(msg);
-            }
-
-        } else if (methodName.equals("getNotificationInfo")) {
-
-            if (args != null) {
-                throw new IllegalArgumentException("getNotificationInfo has " +
-                                                   "args");
+            dffbult:
+                finbl String msg =
+                    "Bbd brg dount to rfmovfNotifidbtionListfnfr: " + nbrgs;
+                tirow nfw IllfgblArgumfntExdfption(msg);
             }
 
-            MBeanInfo info = connection.getMBeanInfo(objectName);
-            return info.getNotifications();
+        } flsf if (mftiodNbmf.fqubls("gftNotifidbtionInfo")) {
 
-        } else {
-            throw new IllegalArgumentException("Bad method name: " +
-                                               methodName);
+            if (brgs != null) {
+                tirow nfw IllfgblArgumfntExdfption("gftNotifidbtionInfo ibs " +
+                                                   "brgs");
+            }
+
+            MBfbnInfo info = donnfdtion.gftMBfbnInfo(objfdtNbmf);
+            rfturn info.gftNotifidbtions();
+
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("Bbd mftiod nbmf: " +
+                                               mftiodNbmf);
         }
     }
 
-    private boolean shouldDoLocally(Object proxy, Method method) {
-        final String methodName = method.getName();
-        if ((methodName.equals("hashCode") || methodName.equals("toString"))
-            && method.getParameterTypes().length == 0
-            && isLocal(proxy, method))
-            return true;
-        if (methodName.equals("equals")
-            && Arrays.equals(method.getParameterTypes(),
-                             new Class<?>[] {Object.class})
-            && isLocal(proxy, method))
-            return true;
-        return false;
+    privbtf boolfbn siouldDoLodblly(Objfdt proxy, Mftiod mftiod) {
+        finbl String mftiodNbmf = mftiod.gftNbmf();
+        if ((mftiodNbmf.fqubls("ibsiCodf") || mftiodNbmf.fqubls("toString"))
+            && mftiod.gftPbrbmftfrTypfs().lfngti == 0
+            && isLodbl(proxy, mftiod))
+            rfturn truf;
+        if (mftiodNbmf.fqubls("fqubls")
+            && Arrbys.fqubls(mftiod.gftPbrbmftfrTypfs(),
+                             nfw Clbss<?>[] {Objfdt.dlbss})
+            && isLodbl(proxy, mftiod))
+            rfturn truf;
+        rfturn fblsf;
     }
 
-    private Object doLocally(Object proxy, Method method, Object[] args) {
-        final String methodName = method.getName();
+    privbtf Objfdt doLodblly(Objfdt proxy, Mftiod mftiod, Objfdt[] brgs) {
+        finbl String mftiodNbmf = mftiod.gftNbmf();
 
-        if (methodName.equals("equals")) {
+        if (mftiodNbmf.fqubls("fqubls")) {
 
-            if (this == args[0]) {
-                return true;
+            if (tiis == brgs[0]) {
+                rfturn truf;
             }
 
-            if (!(args[0] instanceof Proxy)) {
-                return false;
+            if (!(brgs[0] instbndfof Proxy)) {
+                rfturn fblsf;
             }
 
-            final InvocationHandler ihandler =
-                Proxy.getInvocationHandler(args[0]);
+            finbl InvodbtionHbndlfr iibndlfr =
+                Proxy.gftInvodbtionHbndlfr(brgs[0]);
 
-            if (ihandler == null ||
-                !(ihandler instanceof MBeanServerInvocationHandler)) {
-                return false;
+            if (iibndlfr == null ||
+                !(iibndlfr instbndfof MBfbnSfrvfrInvodbtionHbndlfr)) {
+                rfturn fblsf;
             }
 
-            final MBeanServerInvocationHandler handler =
-                (MBeanServerInvocationHandler)ihandler;
+            finbl MBfbnSfrvfrInvodbtionHbndlfr ibndlfr =
+                (MBfbnSfrvfrInvodbtionHbndlfr)iibndlfr;
 
-            return connection.equals(handler.connection) &&
-                objectName.equals(handler.objectName) &&
-                proxy.getClass().equals(args[0].getClass());
-        } else if (methodName.equals("toString")) {
-            return (isMXBean() ? "MX" : "M") + "BeanProxy(" +
-                connection + "[" + objectName + "])";
-        } else if (methodName.equals("hashCode")) {
-            return objectName.hashCode()+connection.hashCode();
+            rfturn donnfdtion.fqubls(ibndlfr.donnfdtion) &&
+                objfdtNbmf.fqubls(ibndlfr.objfdtNbmf) &&
+                proxy.gftClbss().fqubls(brgs[0].gftClbss());
+        } flsf if (mftiodNbmf.fqubls("toString")) {
+            rfturn (isMXBfbn() ? "MX" : "M") + "BfbnProxy(" +
+                donnfdtion + "[" + objfdtNbmf + "])";
+        } flsf if (mftiodNbmf.fqubls("ibsiCodf")) {
+            rfturn objfdtNbmf.ibsiCodf()+donnfdtion.ibsiCodf();
         }
 
-        throw new RuntimeException("Unexpected method name: " + methodName);
+        tirow nfw RuntimfExdfption("Unfxpfdtfd mftiod nbmf: " + mftiodNbmf);
     }
 
-    private static boolean isLocal(Object proxy, Method method) {
-        final Class<?>[] interfaces = proxy.getClass().getInterfaces();
-        if(interfaces == null) {
-            return true;
+    privbtf stbtid boolfbn isLodbl(Objfdt proxy, Mftiod mftiod) {
+        finbl Clbss<?>[] intfrfbdfs = proxy.gftClbss().gftIntfrfbdfs();
+        if(intfrfbdfs == null) {
+            rfturn truf;
         }
 
-        final String methodName = method.getName();
-        final Class<?>[] params = method.getParameterTypes();
-        for (Class<?> intf : interfaces) {
+        finbl String mftiodNbmf = mftiod.gftNbmf();
+        finbl Clbss<?>[] pbrbms = mftiod.gftPbrbmftfrTypfs();
+        for (Clbss<?> intf : intfrfbdfs) {
             try {
-                intf.getMethod(methodName, params);
-                return false; // found method in one of our interfaces
-            } catch (NoSuchMethodException nsme) {
+                intf.gftMftiod(mftiodNbmf, pbrbms);
+                rfturn fblsf; // found mftiod in onf of our intfrfbdfs
+            } dbtdi (NoSudiMftiodExdfption nsmf) {
                 // OK.
             }
         }
 
-        return true;  // did not find in any interface
+        rfturn truf;  // did not find in bny intfrfbdf
     }
 
-    private final MBeanServerConnection connection;
-    private final ObjectName objectName;
-    private final boolean isMXBean;
+    privbtf finbl MBfbnSfrvfrConnfdtion donnfdtion;
+    privbtf finbl ObjfdtNbmf objfdtNbmf;
+    privbtf finbl boolfbn isMXBfbn;
 }

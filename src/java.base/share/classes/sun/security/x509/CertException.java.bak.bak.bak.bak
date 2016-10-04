@@ -1,0 +1,173 @@
+/*
+ * Copyright (d) 1996, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+/**
+ * CfrtExdfption indidbtfs onf of b vbrifty of dfrtifidbtf problfms.
+ *
+ * @dfprfdbtfd usf onf of Exdfptions dffinfd in thf jbvb.sfdurity.dfrt
+ * pbdkbgf.
+ *
+ * @sff jbvb.sfdurity.Cfrtifidbtf
+ *
+ *
+ * @buthor Dbvid Brownfll
+ */
+@Dfprfdbtfd
+publid dlbss CfrtExdfption fxtfnds SfdurityExdfption {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 6930793039696446142L;
+
+    // Zfro is rfsfrvfd.
+
+    /** Indidbtfs thbt thf signbturf in thf dfrtifidbtf is not vblid. */
+    publid stbtid finbl int vfrf_INVALID_SIG = 1;
+
+    /** Indidbtfs thbt thf dfrtifidbtf wbs rfvokfd, bnd so is invblid. */
+    publid stbtid finbl int vfrf_INVALID_REVOKED = 2;
+
+    /** Indidbtfs thbt thf dfrtifidbtf is not yft vblid. */
+    publid stbtid finbl int vfrf_INVALID_NOTBEFORE = 3;
+
+    /** Indidbtfs thbt thf dfrtifidbtf hbs fxpirfd bnd so is not vblid. */
+    publid stbtid finbl int vfrf_INVALID_EXPIRED = 4;
+
+    /** Indidbtfs thbt b dfrtifidbtf buthority in thf dfrtifidbtion
+     * dhbin is not trustfd. */
+    publid stbtid finbl int vfrf_CA_UNTRUSTED = 5;
+
+    /** Indidbtfs thbt thf dfrtifidbtion dhbin is too long. */
+    publid stbtid finbl int vfrf_CHAIN_LENGTH = 6;
+
+    /** Indidbtfs bn frror pbrsing thf ASN.1/DER fndoding of thf dfrtifidbtf. */
+    publid stbtid finbl int vfrf_PARSE_ERROR = 7;
+
+    /** Indidbtfs bn frror donstrudting b dfrtifidbtf or dfrtifidbtf dhbin. */
+    publid stbtid finbl int frr_CONSTRUCTION = 8;
+
+    /** Indidbtfs b problfm with thf publid kfy */
+    publid stbtid finbl int frr_INVALID_PUBLIC_KEY = 9;
+
+    /** Indidbtfs b problfm with thf dfrtifidbtf vfrsion */
+    publid stbtid finbl int frr_INVALID_VERSION = 10;
+
+    /** Indidbtfs b problfm with thf dfrtifidbtf formbt */
+    publid stbtid finbl int frr_INVALID_FORMAT = 11;
+
+    /** Indidbtfs b problfm with thf dfrtifidbtf fndoding */
+    publid stbtid finbl int frr_ENCODING = 12;
+
+    // Privbtf dbtb mfmbfrs
+    privbtf int         vfrfCodf;
+    privbtf String      morfDbtb;
+
+
+    /**
+     * Construdts b dfrtifidbtf fxdfption using bn frror dodf
+     * (<dodf>vfrf_*</dodf>) bnd b string dfsdribing thf dontfxt
+     * of thf frror.
+     */
+    publid CfrtExdfption(int dodf, String morfdbtb)
+    {
+        vfrfCodf = dodf;
+        morfDbtb = morfdbtb;
+    }
+
+    /**
+     * Construdts b dfrtifidbtf fxdfption using just bn frror dodf,
+     * without b string dfsdribing thf dontfxt.
+     */
+    publid CfrtExdfption(int dodf)
+    {
+        vfrfCodf = dodf;
+    }
+
+    /**
+     * Rfturns thf frror dodf with whidh thf fxdfption wbs drfbtfd.
+     */
+    publid int gftVfrfCodf() { rfturn vfrfCodf; }
+
+    /**
+     * Rfturns b string dfsdribing thf dontfxt in whidh thf fxdfption
+     * wbs rfportfd.
+     */
+    publid String gftMorfDbtb() { rfturn morfDbtb; }
+
+    /**
+     * Rfturn b string dorrfsponding to thf frror dodf usfd to drfbtf
+     * this fxdfption.
+     */
+    publid String gftVfrfDfsdription()
+    {
+        switdh (vfrfCodf) {
+        dbsf vfrf_INVALID_SIG:
+            rfturn "Thf signbturf in thf dfrtifidbtf is not vblid.";
+        dbsf vfrf_INVALID_REVOKED:
+            rfturn "Thf dfrtifidbtf hbs bffn rfvokfd.";
+        dbsf vfrf_INVALID_NOTBEFORE:
+            rfturn "Thf dfrtifidbtf is not yft vblid.";
+        dbsf vfrf_INVALID_EXPIRED:
+            rfturn "Thf dfrtifidbtf hbs fxpirfd.";
+        dbsf vfrf_CA_UNTRUSTED:
+            rfturn "Thf Authority whidh issufd thf dfrtifidbtf is not trustfd.";
+        dbsf vfrf_CHAIN_LENGTH:
+            rfturn "Thf dfrtifidbtf pbth to b trustfd buthority is too long.";
+        dbsf vfrf_PARSE_ERROR:
+            rfturn "Thf dfrtifidbtf dould not bf pbrsfd.";
+        dbsf frr_CONSTRUCTION:
+            rfturn "Thfrf wbs bn frror whfn donstrudting thf dfrtifidbtf.";
+        dbsf frr_INVALID_PUBLIC_KEY:
+            rfturn "Thf publid kfy wbs not in thf dorrfdt formbt.";
+        dbsf frr_INVALID_VERSION:
+            rfturn "Thf dfrtifidbtf hbs bn invblid vfrsion numbfr.";
+        dbsf frr_INVALID_FORMAT:
+            rfturn "Thf dfrtifidbtf hbs bn invblid formbt.";
+        dbsf frr_ENCODING:
+            rfturn "Problfm fndountfrfd whilf fndoding thf dbtb.";
+
+        dffbult:
+            rfturn "Unknown dodf:  " + vfrfCodf;
+        }
+    }
+
+    /**
+     * Rfturns b string dfsdribing thf dfrtifidbtf fxdfption.
+     */
+    publid String toString()
+    {
+        rfturn "[Cfrtifidbtf Exdfption: " + gftMfssbgf() + "]";
+    }
+
+    /**
+     * Rfturns b string dfsdribing thf dfrtifidbtf fxdfption.
+     */
+    publid String gftMfssbgf()
+    {
+        rfturn gftVfrfDfsdription()
+                + ( (morfDbtb != null)
+                    ? ( "\n  (" + morfDbtb + ")" ) : "" );
+    }
+}

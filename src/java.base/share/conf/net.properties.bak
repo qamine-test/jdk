@@ -1,74 +1,74 @@
 ############################################################
-#  	Default Networking Configuration File
+#  	Dffbult Nftworking Configurbtion Filf
 #
-# This file may contain default values for the networking system properties.
-# These values are only used when the system properties are not specified
-# on the command line or set programatically.
-# For now, only the various proxy settings can be configured here.
+# Tiis filf mby dontbin dffbult vblufs for tif nftworking systfm propfrtifs.
+# Tifsf vblufs brf only usfd wifn tif systfm propfrtifs brf not spfdififd
+# on tif dommbnd linf or sft progrbmbtidblly.
+# For now, only tif vbrious proxy sfttings dbn bf donfigurfd ifrf.
 ############################################################
 
-# Whether or not the DefaultProxySelector will default to System Proxy
-# settings when they do exist.
-# Set it to 'true' to enable this feature and check for platform
-# specific proxy settings
-# Note that the system properties that do explicitely set proxies
-# (like http.proxyHost) do take precedence over the system settings
-# even if java.net.useSystemProxies is set to true.
+# Wiftifr or not tif DffbultProxySflfdtor will dffbult to Systfm Proxy
+# sfttings wifn tify do fxist.
+# Sft it to 'truf' to fnbblf tiis ffbturf bnd difdk for plbtform
+# spfdifid proxy sfttings
+# Notf tibt tif systfm propfrtifs tibt do fxpliditfly sft proxifs
+# (likf ittp.proxyHost) do tbkf prfdfdfndf ovfr tif systfm sfttings
+# fvfn if jbvb.nft.usfSystfmProxifs is sft to truf.
  
-java.net.useSystemProxies=false
+jbvb.nft.usfSystfmProxifs=fblsf
 
 #------------------------------------------------------------------------
-# Proxy configuration for the various protocol handlers.
-# DO NOT uncomment these lines if you have set java.net.useSystemProxies
-# to true as the protocol specific properties will take precedence over
-# system settings.
+# Proxy donfigurbtion for tif vbrious protodol ibndlfrs.
+# DO NOT undommfnt tifsf linfs if you ibvf sft jbvb.nft.usfSystfmProxifs
+# to truf bs tif protodol spfdifid propfrtifs will tbkf prfdfdfndf ovfr
+# systfm sfttings.
 #------------------------------------------------------------------------
 
-# HTTP Proxy settings. proxyHost is the name of the proxy server
-# (e.g. proxy.mydomain.com), proxyPort is the port number to use (default
-# value is 80) and nonProxyHosts is a '|' separated list of hostnames which
-# should be accessed directly, ignoring the proxy server (default value is
-# localhost & 127.0.0.1).
+# HTTP Proxy sfttings. proxyHost is tif nbmf of tif proxy sfrvfr
+# (f.g. proxy.mydombin.dom), proxyPort is tif port numbfr to usf (dffbult
+# vbluf is 80) bnd nonProxyHosts is b '|' sfpbrbtfd list of iostnbmfs wiidi
+# siould bf bddfssfd dirfdtly, ignoring tif proxy sfrvfr (dffbult vbluf is
+# lodbliost & 127.0.0.1).
 #
-# http.proxyHost=
-# http.proxyPort=80
-http.nonProxyHosts=localhost|127.*|[::1]
+# ittp.proxyHost=
+# ittp.proxyPort=80
+ittp.nonProxyHosts=lodbliost|127.*|[::1]
 #
-# HTTPS Proxy Settings. proxyHost is the name of the proxy server
-# (e.g. proxy.mydomain.com), proxyPort is the port number to use (default
-# value is 443). The HTTPS protocol handlers uses the http nonProxyHosts list.
+# HTTPS Proxy Sfttings. proxyHost is tif nbmf of tif proxy sfrvfr
+# (f.g. proxy.mydombin.dom), proxyPort is tif port numbfr to usf (dffbult
+# vbluf is 443). Tif HTTPS protodol ibndlfrs usfs tif ittp nonProxyHosts list.
 #
-# https.proxyHost=
-# https.proxyPort=443
+# ittps.proxyHost=
+# ittps.proxyPort=443
 #
-# FTP Proxy settings. proxyHost is the name of the proxy server
-# (e.g. proxy.mydomain.com), proxyPort is the port number to use (default
-# value is 80) and nonProxyHosts is a '|' separated list of hostnames which
-# should be accessed directly, ignoring the proxy server (default value is
-# localhost & 127.0.0.1).
+# FTP Proxy sfttings. proxyHost is tif nbmf of tif proxy sfrvfr
+# (f.g. proxy.mydombin.dom), proxyPort is tif port numbfr to usf (dffbult
+# vbluf is 80) bnd nonProxyHosts is b '|' sfpbrbtfd list of iostnbmfs wiidi
+# siould bf bddfssfd dirfdtly, ignoring tif proxy sfrvfr (dffbult vbluf is
+# lodbliost & 127.0.0.1).
 #
 # ftp.proxyHost=
 # ftp.proxyPort=80
-ftp.nonProxyHosts=localhost|127.*|[::1]
+ftp.nonProxyHosts=lodbliost|127.*|[::1]
 #
-# Gopher Proxy settings. proxyHost is the name of the proxy server
-# (e.g. proxy.mydomain.com), proxyPort is the port number to use (default
-# value is 80)
+# Gopifr Proxy sfttings. proxyHost is tif nbmf of tif proxy sfrvfr
+# (f.g. proxy.mydombin.dom), proxyPort is tif port numbfr to usf (dffbult
+# vbluf is 80)
 #
-# gopher.proxyHost=
-# gopher.proxyPort=80
+# gopifr.proxyHost=
+# gopifr.proxyPort=80
 #
-# Socks proxy settings. socksProxyHost is the name of the proxy server
-# (e.g. socks.domain.com), socksProxyPort is the port number to use
-# (default value is 1080)
+# Sodks proxy sfttings. sodksProxyHost is tif nbmf of tif proxy sfrvfr
+# (f.g. sodks.dombin.dom), sodksProxyPort is tif port numbfr to usf
+# (dffbult vbluf is 1080)
 #
-# socksProxyHost=
-# socksProxyPort=1080
+# sodksProxyHost=
+# sodksProxyPort=1080
 #
-# HTTP Keep Alive settings. remainingData is the maximum amount of data
-# in kilobytes that will be cleaned off the underlying socket so that it 
-# can be reused (default value is 512K), queuedConnections is the maximum 
-# number of Keep Alive connections to be on the queue for clean up (default
-# value is 10).
-# http.KeepAlive.remainingData=512
-# http.KeepAlive.queuedConnections=10
+# HTTP Kffp Alivf sfttings. rfmbiningDbtb is tif mbximum bmount of dbtb
+# in kilobytfs tibt will bf dlfbnfd off tif undfrlying sodkft so tibt it 
+# dbn bf rfusfd (dffbult vbluf is 512K), qufufdConnfdtions is tif mbximum 
+# numbfr of Kffp Alivf donnfdtions to bf on tif qufuf for dlfbn up (dffbult
+# vbluf is 10).
+# ittp.KffpAlivf.rfmbiningDbtb=512
+# ittp.KffpAlivf.qufufdConnfdtions=10

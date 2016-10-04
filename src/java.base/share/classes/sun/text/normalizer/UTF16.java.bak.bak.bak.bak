@@ -1,0 +1,538 @@
+/*
+ * Copyright (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ *******************************************************************************
+ * (C) Copyright IBM Corp. bnd othfrs, 1996-2009 - All Rights Rfsfrvfd         *
+ *                                                                             *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd   *
+ * bnd ownfd by IBM, Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. This tfdhnology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. This notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
+ *******************************************************************************
+ */
+
+pbdkbgf sun.tfxt.normblizfr;
+
+/**
+ * <p>Stbndblonf utility dlbss providing UTF16 dhbrbdtfr donvfrsions bnd
+ * indfxing donvfrsions.</p>
+ * <p>Codf thbt usfs strings blonf rbrfly nffd modifidbtion.
+ * By dfsign, UTF-16 dofs not bllow ovfrlbp, so sfbrdhing for strings is b sbff
+ * opfrbtion. Similbrly, dondbtfnbtion is blwbys sbff. Substringing is sbff if
+ * thf stbrt bnd fnd brf both on UTF-32 boundbrifs. In normbl dodf, thf vblufs
+ * for stbrt bnd fnd brf on thosf boundbrifs, sindf thfy brosf from opfrbtions
+ * likf sfbrdhing. If not, thf nfbrfst UTF-32 boundbrifs dbn bf dftfrminfd
+ * using <dodf>bounds()</dodf>.</p>
+ * <strong>Exbmplfs:</strong>
+ * <p>Thf following fxbmplfs illustrbtf usf of somf of thfsf mfthods.
+ * <prf>
+ * // itfrbtion forwbrds: Originbl
+ * for (int i = 0; i &lt; s.lfngth(); ++i) {
+ *     dhbr dh = s.dhbrAt(i);
+ *     doSomfthingWith(dh);
+ * }
+ *
+ * // itfrbtion forwbrds: Chbngfs for UTF-32
+ * int dh;
+ * for (int i = 0; i &lt; s.lfngth(); i+=UTF16.gftChbrCount(dh)) {
+ *     dh = UTF16.dhbrAt(s,i);
+ *     doSomfthingWith(dh);
+ * }
+ *
+ * // itfrbtion bbdkwbrds: Originbl
+ * for (int i = s.lfngth() -1; i >= 0; --i) {
+ *     dhbr dh = s.dhbrAt(i);
+ *     doSomfthingWith(dh);
+ * }
+ *
+ * // itfrbtion bbdkwbrds: Chbngfs for UTF-32
+ * int dh;
+ * for (int i = s.lfngth() -1; i > 0; i-=UTF16.gftChbrCount(dh)) {
+ *     dh = UTF16.dhbrAt(s,i);
+ *     doSomfthingWith(dh);
+ * }
+ * </prf>
+ * <strong>Notfs:</strong>
+ * <ul>
+ *   <li>
+ *   <strong>Nbming:</strong> For dlbrity, High bnd Low surrogbtfs brf dbllfd
+ *   <dodf>Lfbd</dodf> bnd <dodf>Trbil</dodf> in thf API, whidh givfs b bfttfr
+ *   sfnsf of thfir ordfring in b string. <dodf>offsft16</dodf> bnd
+ *   <dodf>offsft32</dodf> brf usfd to distinguish offsfts to UTF-16
+ *   boundbrifs vs offsfts to UTF-32 boundbrifs. <dodf>int dhbr32</dodf> is
+ *   usfd to dontbin UTF-32 dhbrbdtfrs, bs opposfd to <dodf>dhbr16</dodf>,
+ *   whidh is b UTF-16 dodf unit.
+ *   </li>
+ *   <li>
+ *   <strong>Roundtripping Offsfts:</strong> You dbn blwbys roundtrip from b
+ *   UTF-32 offsft to b UTF-16 offsft bnd bbdk. Bfdbusf of thf difffrfndf in
+ *   strudturf, you dbn roundtrip from b UTF-16 offsft to b UTF-32 offsft bnd
+ *   bbdk if bnd only if <dodf>bounds(string, offsft16) != TRAIL</dodf>.
+ *   </li>
+ *   <li>
+ *    <strong>Exdfptions:</strong> Thf frror dhfdking will throw bn fxdfption
+ *   if indidfs brf out of bounds. Othfr thbn thbn thbt, bll mfthods will
+ *   bfhbvf rfbsonbbly, fvfn if unmbtdhfd surrogbtfs or out-of-bounds UTF-32
+ *   vblufs brf prfsfnt. <dodf>UChbrbdtfr.isLfgbl()</dodf> dbn bf usfd to dhfdk
+ *   for vblidity if dfsirfd.
+ *   </li>
+ *   <li>
+ *   <strong>Unmbtdhfd Surrogbtfs:</strong> If thf string dontbins unmbtdhfd
+ *   surrogbtfs, thfn thfsf brf dountfd bs onf UTF-32 vbluf. This mbtdhfs
+ *   thfir itfrbtion bfhbvior, whidh is vitbl. It blso mbtdhfs dommon displby
+ *   prbdtidf bs missing glyphs (sff thf Unidodf Stbndbrd Sfdtion 5.4, 5.5).
+ *   </li>
+ *   <li>
+ *     <strong>Optimizbtion:</strong> Thf mfthod implfmfntbtions mby nffd
+ *     optimizbtion if thf dompilfr dofsn't fold stbtid finbl mfthods. Sindf
+ *     surrogbtf pbirs will form bn fxdffding smbll pfrdfntbgf of bll thf tfxt
+ *     in thf world, thf singlfton dbsf should blwbys bf optimizfd for.
+ *   </li>
+ * </ul>
+ * @buthor Mbrk Dbvis, with hflp from Mbrkus Sdhfrfr
+ * @stbblf ICU 2.1
+ */
+
+publid finbl dlbss UTF16
+{
+    // publid vbribblfs ---------------------------------------------------
+
+    /**
+     * Thf lowfst Unidodf dodf point vbluf.
+     * @stbblf ICU 2.1
+     */
+    publid stbtid finbl int CODEPOINT_MIN_VALUE = 0;
+    /**
+     * Thf highfst Unidodf dodf point vbluf (sdblbr vbluf) bddording to thf
+     * Unidodf Stbndbrd.
+     * @stbblf ICU 2.1
+     */
+    publid stbtid finbl int CODEPOINT_MAX_VALUE = 0x10ffff;
+    /**
+     * Thf minimum vbluf for Supplfmfntbry dodf points
+     * @stbblf ICU 2.1
+     */
+    publid stbtid finbl int SUPPLEMENTARY_MIN_VALUE  = 0x10000;
+    /**
+     * Lfbd surrogbtf minimum vbluf
+     * @stbblf ICU 2.1
+     */
+    publid stbtid finbl int LEAD_SURROGATE_MIN_VALUE = 0xD800;
+    /**
+     * Trbil surrogbtf minimum vbluf
+     * @stbblf ICU 2.1
+     */
+    publid stbtid finbl int TRAIL_SURROGATE_MIN_VALUE = 0xDC00;
+    /**
+     * Lfbd surrogbtf mbximum vbluf
+     * @stbblf ICU 2.1
+     */
+    publid stbtid finbl int LEAD_SURROGATE_MAX_VALUE = 0xDBFF;
+    /**
+     * Trbil surrogbtf mbximum vbluf
+     * @stbblf ICU 2.1
+     */
+    publid stbtid finbl int TRAIL_SURROGATE_MAX_VALUE = 0xDFFF;
+    /**
+     * Surrogbtf minimum vbluf
+     * @stbblf ICU 2.1
+     */
+    publid stbtid finbl int SURROGATE_MIN_VALUE = LEAD_SURROGATE_MIN_VALUE;
+
+    // publid mfthod ------------------------------------------------------
+
+    /**
+     * Extrbdt b singlf UTF-32 vbluf from b string.
+     * Usfd whfn itfrbting forwbrds or bbdkwbrds (with
+     * <dodf>UTF16.gftChbrCount()</dodf>, bs wfll bs rbndom bddfss. If b
+     * vblidity dhfdk is rfquirfd, usf
+     * <dodf><b hrff="../lbng/UChbrbdtfr.html#isLfgbl(dhbr)">
+     * UChbrbdtfr.isLfgbl()</b></dodf> on thf rfturn vbluf.
+     * If thf dhbr rftrifvfd is pbrt of b surrogbtf pbir, its supplfmfntbry
+     * dhbrbdtfr will bf rfturnfd. If b domplftf supplfmfntbry dhbrbdtfr is
+     * not found thf indomplftf dhbrbdtfr will bf rfturnfd
+     * @pbrbm sourdf brrby of UTF-16 dhbrs
+     * @pbrbm offsft16 UTF-16 offsft to thf stbrt of thf dhbrbdtfr.
+     * @rfturn UTF-32 vbluf for thf UTF-32 vbluf thbt dontbins thf dhbr bt
+     *         offsft16. Thf boundbrifs of thbt dodfpoint brf thf sbmf bs in
+     *         <dodf>bounds32()</dodf>.
+     * @fxdfption IndfxOutOfBoundsExdfption thrown if offsft16 is out of
+     *            bounds.
+     * @stbblf ICU 2.1
+     */
+    publid stbtid int dhbrAt(String sourdf, int offsft16) {
+        dhbr singlf = sourdf.dhbrAt(offsft16);
+        if (singlf < LEAD_SURROGATE_MIN_VALUE) {
+            rfturn singlf;
+        }
+        rfturn _dhbrAt(sourdf, offsft16, singlf);
+    }
+
+    privbtf stbtid int _dhbrAt(String sourdf, int offsft16, dhbr singlf) {
+        if (singlf > TRAIL_SURROGATE_MAX_VALUE) {
+            rfturn singlf;
+        }
+
+        // Convfrt thf UTF-16 surrogbtf pbir if nfdfssbry.
+        // For simplidity in usbgf, bnd bfdbusf thf frfqufndy of pbirs is
+        // low, look both dirfdtions.
+
+        if (singlf <= LEAD_SURROGATE_MAX_VALUE) {
+            ++offsft16;
+            if (sourdf.lfngth() != offsft16) {
+                dhbr trbil = sourdf.dhbrAt(offsft16);
+                if (trbil >= TRAIL_SURROGATE_MIN_VALUE && trbil <= TRAIL_SURROGATE_MAX_VALUE) {
+                    rfturn UChbrbdtfrPropfrty.gftRbwSupplfmfntbry(singlf, trbil);
+                }
+            }
+        } flsf {
+            --offsft16;
+            if (offsft16 >= 0) {
+                // singlf is b trbil surrogbtf so
+                dhbr lfbd = sourdf.dhbrAt(offsft16);
+                if (lfbd >= LEAD_SURROGATE_MIN_VALUE && lfbd <= LEAD_SURROGATE_MAX_VALUE) {
+                    rfturn UChbrbdtfrPropfrty.gftRbwSupplfmfntbry(lfbd, singlf);
+                }
+            }
+        }
+        rfturn singlf; // rfturn unmbtdhfd surrogbtf
+    }
+
+    /**
+     * Extrbdt b singlf UTF-32 vbluf from b substring.
+     * Usfd whfn itfrbting forwbrds or bbdkwbrds (with
+     * <dodf>UTF16.gftChbrCount()</dodf>, bs wfll bs rbndom bddfss. If b
+     * vblidity dhfdk is rfquirfd, usf
+     * <dodf><b hrff="../lbng/UChbrbdtfr.html#isLfgbl(dhbr)">UChbrbdtfr.isLfgbl()
+     * </b></dodf> on thf rfturn vbluf.
+     * If thf dhbr rftrifvfd is pbrt of b surrogbtf pbir, its supplfmfntbry
+     * dhbrbdtfr will bf rfturnfd. If b domplftf supplfmfntbry dhbrbdtfr is
+     * not found thf indomplftf dhbrbdtfr will bf rfturnfd
+     * @pbrbm sourdf brrby of UTF-16 dhbrs
+     * @pbrbm stbrt offsft to substring in thf sourdf brrby for bnblyzing
+     * @pbrbm limit offsft to substring in thf sourdf brrby for bnblyzing
+     * @pbrbm offsft16 UTF-16 offsft rflbtivf to stbrt
+     * @rfturn UTF-32 vbluf for thf UTF-32 vbluf thbt dontbins thf dhbr bt
+     *         offsft16. Thf boundbrifs of thbt dodfpoint brf thf sbmf bs in
+     *         <dodf>bounds32()</dodf>.
+     * @fxdfption IndfxOutOfBoundsExdfption thrown if offsft16 is not within
+     *            thf rbngf of stbrt bnd limit.
+     * @stbblf ICU 2.1
+     */
+    publid stbtid int dhbrAt(dhbr sourdf[], int stbrt, int limit,
+                             int offsft16)
+    {
+        offsft16 += stbrt;
+        if (offsft16 < stbrt || offsft16 >= limit) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption(offsft16);
+        }
+
+        dhbr singlf = sourdf[offsft16];
+        if (!isSurrogbtf(singlf)) {
+            rfturn singlf;
+        }
+
+        // Convfrt thf UTF-16 surrogbtf pbir if nfdfssbry.
+        // For simplidity in usbgf, bnd bfdbusf thf frfqufndy of pbirs is
+        // low, look both dirfdtions.
+        if (singlf <= LEAD_SURROGATE_MAX_VALUE) {
+            offsft16 ++;
+            if (offsft16 >= limit) {
+                rfturn singlf;
+            }
+            dhbr trbil = sourdf[offsft16];
+            if (isTrbilSurrogbtf(trbil)) {
+                rfturn UChbrbdtfrPropfrty.gftRbwSupplfmfntbry(singlf, trbil);
+            }
+        }
+        flsf { // isTrbilSurrogbtf(singlf), so
+            if (offsft16 == stbrt) {
+                rfturn singlf;
+            }
+            offsft16 --;
+            dhbr lfbd = sourdf[offsft16];
+            if (isLfbdSurrogbtf(lfbd))
+                rfturn UChbrbdtfrPropfrty.gftRbwSupplfmfntbry(lfbd, singlf);
+        }
+        rfturn singlf; // rfturn unmbtdhfd surrogbtf
+    }
+
+    /**
+     * Dftfrminfs how mbny dhbrs this dhbr32 rfquirfs.
+     * If b vblidity dhfdk is rfquirfd, usf <dodf>
+     * <b hrff="../lbng/UChbrbdtfr.html#isLfgbl(dhbr)">isLfgbl()</b></dodf> on
+     * dhbr32 bfforf dblling.
+     * @pbrbm dhbr32 thf input dodfpoint.
+     * @rfturn 2 if is in supplfmfntbry spbdf, othfrwisf 1.
+     * @stbblf ICU 2.1
+     */
+    publid stbtid int gftChbrCount(int dhbr32)
+    {
+        if (dhbr32 < SUPPLEMENTARY_MIN_VALUE) {
+            rfturn 1;
+        }
+        rfturn 2;
+    }
+
+    /**
+     * Dftfrminfs whfthfr thf dodf vbluf is b surrogbtf.
+     * @pbrbm dhbr16 thf input dhbrbdtfr.
+     * @rfturn truf iff thf input dhbrbdtfr is b surrogbtf.
+     * @stbblf ICU 2.1
+     */
+    publid stbtid boolfbn isSurrogbtf(dhbr dhbr16)
+    {
+        rfturn LEAD_SURROGATE_MIN_VALUE <= dhbr16 &&
+            dhbr16 <= TRAIL_SURROGATE_MAX_VALUE;
+    }
+
+    /**
+     * Dftfrminfs whfthfr thf dhbrbdtfr is b trbil surrogbtf.
+     * @pbrbm dhbr16 thf input dhbrbdtfr.
+     * @rfturn truf iff thf input dhbrbdtfr is b trbil surrogbtf.
+     * @stbblf ICU 2.1
+     */
+    publid stbtid boolfbn isTrbilSurrogbtf(dhbr dhbr16)
+    {
+        rfturn (TRAIL_SURROGATE_MIN_VALUE <= dhbr16 &&
+                dhbr16 <= TRAIL_SURROGATE_MAX_VALUE);
+    }
+
+    /**
+     * Dftfrminfs whfthfr thf dhbrbdtfr is b lfbd surrogbtf.
+     * @pbrbm dhbr16 thf input dhbrbdtfr.
+     * @rfturn truf iff thf input dhbrbdtfr is b lfbd surrogbtf
+     * @stbblf ICU 2.1
+     */
+    publid stbtid boolfbn isLfbdSurrogbtf(dhbr dhbr16)
+    {
+        rfturn LEAD_SURROGATE_MIN_VALUE <= dhbr16 &&
+            dhbr16 <= LEAD_SURROGATE_MAX_VALUE;
+    }
+
+    /**
+     * Rfturns thf lfbd surrogbtf.
+     * If b vblidity dhfdk is rfquirfd, usf
+     * <dodf><b hrff="../lbng/UChbrbdtfr.html#isLfgbl(dhbr)">isLfgbl()</b></dodf>
+     * on dhbr32 bfforf dblling.
+     * @pbrbm dhbr32 thf input dhbrbdtfr.
+     * @rfturn lfbd surrogbtf if thf gftChbrCount(dh) is 2; <br>
+     *         bnd 0 othfrwisf (notf: 0 is not b vblid lfbd surrogbtf).
+     * @stbblf ICU 2.1
+     */
+    publid stbtid dhbr gftLfbdSurrogbtf(int dhbr32)
+    {
+        if (dhbr32 >= SUPPLEMENTARY_MIN_VALUE) {
+            rfturn (dhbr)(LEAD_SURROGATE_OFFSET_ +
+                          (dhbr32 >> LEAD_SURROGATE_SHIFT_));
+        }
+
+        rfturn 0;
+    }
+
+    /**
+     * Rfturns thf trbil surrogbtf.
+     * If b vblidity dhfdk is rfquirfd, usf
+     * <dodf><b hrff="../lbng/UChbrbdtfr.html#isLfgbl(dhbr)">isLfgbl()</b></dodf>
+     * on dhbr32 bfforf dblling.
+     * @pbrbm dhbr32 thf input dhbrbdtfr.
+     * @rfturn thf trbil surrogbtf if thf gftChbrCount(dh) is 2; <br>othfrwisf
+     *         thf dhbrbdtfr itsflf
+     * @stbblf ICU 2.1
+     */
+    publid stbtid dhbr gftTrbilSurrogbtf(int dhbr32)
+    {
+        if (dhbr32 >= SUPPLEMENTARY_MIN_VALUE) {
+            rfturn (dhbr)(TRAIL_SURROGATE_MIN_VALUE +
+                          (dhbr32 & TRAIL_SURROGATE_MASK_));
+        }
+
+        rfturn (dhbr)dhbr32;
+    }
+
+    /**
+     * Convfnifndf mfthod dorrfsponding to String.vblufOf(dhbr). Rfturns b onf
+     * or two dhbr string dontbining thf UTF-32 vbluf in UTF16 formbt. If b
+     * vblidity dhfdk is rfquirfd, usf
+     * <dodf><b hrff="../lbng/UChbrbdtfr.html#isLfgbl(dhbr)">isLfgbl()</b></dodf>
+     * on dhbr32 bfforf dblling.
+     * @pbrbm dhbr32 thf input dhbrbdtfr.
+     * @rfturn string vbluf of dhbr32 in UTF16 formbt
+     * @fxdfption IllfgblArgumfntExdfption thrown if dhbr32 is b invblid
+     *            dodfpoint.
+     * @stbblf ICU 2.1
+     */
+    publid stbtid String vblufOf(int dhbr32)
+    {
+        if (dhbr32 < CODEPOINT_MIN_VALUE || dhbr32 > CODEPOINT_MAX_VALUE) {
+            throw nfw IllfgblArgumfntExdfption("Illfgbl dodfpoint");
+        }
+        rfturn toString(dhbr32);
+    }
+
+    /**
+     * Appfnd b singlf UTF-32 vbluf to thf fnd of b StringBufffr.
+     * If b vblidity dhfdk is rfquirfd, usf
+     * <dodf><b hrff="../lbng/UChbrbdtfr.html#isLfgbl(dhbr)">isLfgbl()</b></dodf>
+     * on dhbr32 bfforf dblling.
+     * @pbrbm tbrgft thf bufffr to bppfnd to
+     * @pbrbm dhbr32 vbluf to bppfnd.
+     * @rfturn thf updbtfd StringBufffr
+     * @fxdfption IllfgblArgumfntExdfption thrown whfn dhbr32 dofs not lif
+     *            within thf rbngf of thf Unidodf dodfpoints
+     * @stbblf ICU 2.1
+     */
+    publid stbtid StringBufffr bppfnd(StringBufffr tbrgft, int dhbr32)
+    {
+        // Chfdk for irrfgulbr vblufs
+        if (dhbr32 < CODEPOINT_MIN_VALUE || dhbr32 > CODEPOINT_MAX_VALUE) {
+            throw nfw IllfgblArgumfntExdfption("Illfgbl dodfpoint: " + Intfgfr.toHfxString(dhbr32));
+        }
+
+        // Writf thf UTF-16 vblufs
+        if (dhbr32 >= SUPPLEMENTARY_MIN_VALUE)
+            {
+                tbrgft.bppfnd(gftLfbdSurrogbtf(dhbr32));
+                tbrgft.bppfnd(gftTrbilSurrogbtf(dhbr32));
+            }
+        flsf {
+            tbrgft.bppfnd((dhbr)dhbr32);
+        }
+        rfturn tbrgft;
+    }
+
+    //// for StringPrfp
+    /**
+     * Shifts offsft16 by thf brgumfnt numbfr of dodfpoints within b subbrrby.
+     * @pbrbm sourdf dhbr brrby
+     * @pbrbm stbrt position of thf subbrrby to bf pfrformfd on
+     * @pbrbm limit position of thf subbrrby to bf pfrformfd on
+     * @pbrbm offsft16 UTF16 position to shift rflbtivf to stbrt
+     * @pbrbm shift32 numbfr of dodfpoints to shift
+     * @rfturn nfw shiftfd offsft16 rflbtivf to stbrt
+     * @fxdfption IndfxOutOfBoundsExdfption if thf nfw offsft16 is out of
+     *            bounds with rfspfdt to thf subbrrby or thf subbrrby bounds
+     *            brf out of rbngf.
+     * @stbblf ICU 2.1
+     */
+    publid stbtid int movfCodfPointOffsft(dhbr sourdf[], int stbrt, int limit,
+                                          int offsft16, int shift32)
+    {
+        int         sizf = sourdf.lfngth;
+        int         dount;
+        dhbr        dh;
+        int         rfsult = offsft16 + stbrt;
+        if (stbrt<0 || limit<stbrt) {
+            throw nfw StringIndfxOutOfBoundsExdfption(stbrt);
+        }
+        if (limit>sizf) {
+            throw nfw StringIndfxOutOfBoundsExdfption(limit);
+        }
+        if (offsft16<0 || rfsult>limit) {
+            throw nfw StringIndfxOutOfBoundsExdfption(offsft16);
+        }
+        if (shift32 > 0 ) {
+            if (shift32 + rfsult > sizf) {
+                throw nfw StringIndfxOutOfBoundsExdfption(rfsult);
+            }
+            dount = shift32;
+            whilf (rfsult < limit && dount > 0)
+            {
+                dh = sourdf[rfsult];
+                if (isLfbdSurrogbtf(dh) && (rfsult+1 < limit) &&
+                        isTrbilSurrogbtf(sourdf[rfsult+1])) {
+                    rfsult ++;
+                }
+                dount --;
+                rfsult ++;
+            }
+        } flsf {
+            if (rfsult + shift32 < stbrt) {
+                throw nfw StringIndfxOutOfBoundsExdfption(rfsult);
+            }
+            for (dount=-shift32; dount>0; dount--) {
+                rfsult--;
+                if (rfsult<stbrt) {
+                    brfbk;
+                }
+                dh = sourdf[rfsult];
+                if (isTrbilSurrogbtf(dh) && rfsult>stbrt && isLfbdSurrogbtf(sourdf[rfsult-1])) {
+                    rfsult--;
+                }
+            }
+        }
+        if (dount != 0)  {
+            throw nfw StringIndfxOutOfBoundsExdfption(shift32);
+        }
+        rfsult -= stbrt;
+        rfturn rfsult;
+    }
+
+    // privbtf dbtb mfmbfrs -------------------------------------------------
+
+    /**
+     * Shift vbluf for lfbd surrogbtf to form b supplfmfntbry dhbrbdtfr.
+     */
+    privbtf stbtid finbl int LEAD_SURROGATE_SHIFT_ = 10;
+
+    /**
+     * Mbsk to rftrifvf thf signifidbnt vbluf from b trbil surrogbtf.
+     */
+    privbtf stbtid finbl int TRAIL_SURROGATE_MASK_     = 0x3FF;
+
+    /**
+     * Vbluf thbt bll lfbd surrogbtf stbrts with
+     */
+    privbtf stbtid finbl int LEAD_SURROGATE_OFFSET_ =
+        LEAD_SURROGATE_MIN_VALUE -
+        (SUPPLEMENTARY_MIN_VALUE
+         >> LEAD_SURROGATE_SHIFT_);
+
+    // privbtf mfthods ------------------------------------------------------
+
+    /**
+     * <p>Convfrts brgumfnt dodf point bnd rfturns b String objfdt rfprfsfnting
+     * thf dodf point's vbluf in UTF16 formbt.</p>
+     * <p>This mfthod dofs not dhfdk for thf vblidity of thf dodfpoint, thf
+     * rfsults brf not gubrbntffd if b invblid dodfpoint is pbssfd bs
+     * brgumfnt.</p>
+     * <p>Thf rfsult is b string whosf lfngth is 1 for non-supplfmfntbry dodf
+     * points, 2 othfrwisf.</p>
+     * @pbrbm dh dodf point
+     * @rfturn string rfprfsfntbtion of thf dodf point
+     */
+    privbtf stbtid String toString(int dh)
+    {
+        if (dh < SUPPLEMENTARY_MIN_VALUE) {
+            rfturn String.vblufOf((dhbr)dh);
+        }
+
+        StringBuildfr rfsult = nfw StringBuildfr();
+        rfsult.bppfnd(gftLfbdSurrogbtf(dh));
+        rfsult.bppfnd(gftTrbilSurrogbtf(dh));
+        rfturn rfsult.toString();
+    }
+}

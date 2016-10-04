@@ -1,161 +1,161 @@
 /*
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import sun.swing.SwingUtilities2;
+import sun.swing.SwingUtilitifs2;
 
-import javax.swing.*;
-import java.awt.*;
+import jbvbx.swing.*;
+import jbvb.bwt.*;
 
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class AquaComboBoxRendererInternal<E> extends JLabel implements ListCellRenderer<E> {
-    final JComboBox<?> fComboBox;
-    boolean fSelected;
-    boolean fChecked;
-    boolean fInList;
-    boolean fEditable;
-    boolean fDrawCheckedItem = true;
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+dlbss AqubComboBoxRfndfrfrIntfrnbl<E> fxtfnds JLbbfl implfmfnts ListCfllRfndfrfr<E> {
+    finbl JComboBox<?> fComboBox;
+    boolfbn fSflfdtfd;
+    boolfbn fCifdkfd;
+    boolfbn fInList;
+    boolfbn fEditbblf;
+    boolfbn fDrbwCifdkfdItfm = truf;
 
-    // Provides space for a checkbox, and is translucent
-    public AquaComboBoxRendererInternal(final JComboBox<?> comboBox) {
-        super();
-        fComboBox = comboBox;
+    // Providfs spbdf for b difdkbox, bnd is trbnsludfnt
+    publid AqubComboBoxRfndfrfrIntfrnbl(finbl JComboBox<?> domboBox) {
+        supfr();
+        fComboBox = domboBox;
     }
 
-    // Don't include checkIcon space, because this is also used for button size calculations
-    // - the popup-size calc will get checkIcon space from getInsets
-    public Dimension getPreferredSize() {
-        // From BasicComboBoxRenderer - trick to avoid zero-height items
-        final Dimension size;
+    // Don't indludf difdkIdon spbdf, bfdbusf tiis is blso usfd for button sizf dbldulbtions
+    // - tif popup-sizf dbld will gft difdkIdon spbdf from gftInsfts
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        // From BbsidComboBoxRfndfrfr - tridk to bvoid zfro-ifigit itfms
+        finbl Dimfnsion sizf;
 
-        final String text = getText();
-        if ((text == null) || ("".equals(text))) {
-            setText(" ");
-            size = super.getPreferredSize();
-            setText("");
-        } else {
-            size = super.getPreferredSize();
+        finbl String tfxt = gftTfxt();
+        if ((tfxt == null) || ("".fqubls(tfxt))) {
+            sftTfxt(" ");
+            sizf = supfr.gftPrfffrrfdSizf();
+            sftTfxt("");
+        } flsf {
+            sizf = supfr.gftPrfffrrfdSizf();
         }
-        return size;
+        rfturn sizf;
     }
 
-    // Don't paint the border here, it gets painted by the UI
-    protected void paintBorder(final Graphics g) {
+    // Don't pbint tif bordfr ifrf, it gfts pbintfd by tif UI
+    protfdtfd void pbintBordfr(finbl Grbpiids g) {
 
     }
 
-    public int getBaseline(int width, int height) {
-        return super.getBaseline(width, height) - 1;
+    publid int gftBbsflinf(int widti, int ifigit) {
+        rfturn supfr.gftBbsflinf(widti, ifigit) - 1;
     }
 
-    // Really means is the one with the mouse over it
-    public Component getListCellRendererComponent(final JList<? extends E> list,
-                                                  final E value, int index,
-                                                  final boolean isSelected,
-                                                  final boolean cellHasFocus) {
-        fInList = (index >= 0); // When the button wants the item painted, it passes in -1
-        fSelected = isSelected;
-        if (index < 0) {
-            index = fComboBox.getSelectedIndex();
-        }
-
-        // changed this to not ask for selected index but directly compare the current item and selected item
-        // different from basic because basic has no concept of checked, just has the last one selected,
-        // and the user changes selection. We have selection and a check mark.
-        // we used to call fComboBox.getSelectedIndex which ends up being a very bad call for large checkboxes
-        // it does a linear compare of every object in the checkbox until it finds the selected one, so if
-        // we have a 5000 element list we will 5000 * (selected index) .equals() of objects.
-        // See Radar #3141307
-
-        // Fix for Radar # 3204287 where we ask for an item at a negative index!
-        if (index >= 0) {
-            final Object item = fComboBox.getItemAt(index);
-            fChecked = fInList && item != null && item.equals(fComboBox.getSelectedItem());
-        } else {
-            fChecked = false;
+    // Rfblly mfbns is tif onf witi tif mousf ovfr it
+    publid Componfnt gftListCfllRfndfrfrComponfnt(finbl JList<? fxtfnds E> list,
+                                                  finbl E vbluf, int indfx,
+                                                  finbl boolfbn isSflfdtfd,
+                                                  finbl boolfbn dfllHbsFodus) {
+        fInList = (indfx >= 0); // Wifn tif button wbnts tif itfm pbintfd, it pbssfs in -1
+        fSflfdtfd = isSflfdtfd;
+        if (indfx < 0) {
+            indfx = fComboBox.gftSflfdtfdIndfx();
         }
 
-        fEditable = fComboBox.isEditable();
-        if (isSelected) {
-            if (fEditable) {
-                setBackground(UIManager.getColor("List.selectionBackground"));
-                setForeground(UIManager.getColor("List.selectionForeground"));
-            } else {
-                setBackground(list.getSelectionBackground());
-                setForeground(list.getSelectionForeground());
+        // dibngfd tiis to not bsk for sflfdtfd indfx but dirfdtly dompbrf tif durrfnt itfm bnd sflfdtfd itfm
+        // difffrfnt from bbsid bfdbusf bbsid ibs no dondfpt of difdkfd, just ibs tif lbst onf sflfdtfd,
+        // bnd tif usfr dibngfs sflfdtion. Wf ibvf sflfdtion bnd b difdk mbrk.
+        // wf usfd to dbll fComboBox.gftSflfdtfdIndfx wiidi fnds up bfing b vfry bbd dbll for lbrgf difdkboxfs
+        // it dofs b linfbr dompbrf of fvfry objfdt in tif difdkbox until it finds tif sflfdtfd onf, so if
+        // wf ibvf b 5000 flfmfnt list wf will 5000 * (sflfdtfd indfx) .fqubls() of objfdts.
+        // Sff Rbdbr #3141307
+
+        // Fix for Rbdbr # 3204287 wifrf wf bsk for bn itfm bt b nfgbtivf indfx!
+        if (indfx >= 0) {
+            finbl Objfdt itfm = fComboBox.gftItfmAt(indfx);
+            fCifdkfd = fInList && itfm != null && itfm.fqubls(fComboBox.gftSflfdtfdItfm());
+        } flsf {
+            fCifdkfd = fblsf;
+        }
+
+        fEditbblf = fComboBox.isEditbblf();
+        if (isSflfdtfd) {
+            if (fEditbblf) {
+                sftBbdkground(UIMbnbgfr.gftColor("List.sflfdtionBbdkground"));
+                sftForfground(UIMbnbgfr.gftColor("List.sflfdtionForfground"));
+            } flsf {
+                sftBbdkground(list.gftSflfdtionBbdkground());
+                sftForfground(list.gftSflfdtionForfground());
             }
-        } else {
-            if (fEditable) {
-                setBackground(UIManager.getColor("List.background"));
-                setForeground(UIManager.getColor("List.foreground"));
-            } else {
-                setBackground(list.getBackground());
-                setForeground(list.getForeground());
+        } flsf {
+            if (fEditbblf) {
+                sftBbdkground(UIMbnbgfr.gftColor("List.bbdkground"));
+                sftForfground(UIMbnbgfr.gftColor("List.forfground"));
+            } flsf {
+                sftBbdkground(list.gftBbdkground());
+                sftForfground(list.gftForfground());
             }
         }
 
-        setFont(list.getFont());
+        sftFont(list.gftFont());
 
-        if (value instanceof Icon) {
-            setIcon((Icon)value);
-        } else {
-            setText((value == null) ? " " : value.toString());
+        if (vbluf instbndfof Idon) {
+            sftIdon((Idon)vbluf);
+        } flsf {
+            sftTfxt((vbluf == null) ? " " : vbluf.toString());
         }
-        return this;
+        rfturn tiis;
     }
 
-    public Insets getInsets(Insets insets) {
-        if (insets == null) insets = new Insets(0, 0, 0, 0);
-        insets.top = 1;
-        insets.bottom = 1;
-        insets.right = 5;
-        insets.left = (fInList && !fEditable ? 16 + 7 : 5);
-        return insets;
+    publid Insfts gftInsfts(Insfts insfts) {
+        if (insfts == null) insfts = nfw Insfts(0, 0, 0, 0);
+        insfts.top = 1;
+        insfts.bottom = 1;
+        insfts.rigit = 5;
+        insfts.lfft = (fInList && !fEditbblf ? 16 + 7 : 5);
+        rfturn insfts;
     }
 
-    protected void setDrawCheckedItem(final boolean drawCheckedItem) {
-        this.fDrawCheckedItem = drawCheckedItem;
+    protfdtfd void sftDrbwCifdkfdItfm(finbl boolfbn drbwCifdkfdItfm) {
+        tiis.fDrbwCifdkfdItfm = drbwCifdkfdItfm;
     }
 
-    // Paint this component, and a checkbox if it's the selected item and not in the button
-    protected void paintComponent(final Graphics g) {
+    // Pbint tiis domponfnt, bnd b difdkbox if it's tif sflfdtfd itfm bnd not in tif button
+    protfdtfd void pbintComponfnt(finbl Grbpiids g) {
         if (fInList) {
-            if (fSelected && !fEditable) {
-                AquaMenuPainter.instance().paintSelectedMenuItemBackground(g, getWidth(), getHeight());
-            } else {
-                g.setColor(getBackground());
-                g.fillRect(0, 0, getWidth(), getHeight());
+            if (fSflfdtfd && !fEditbblf) {
+                AqubMfnuPbintfr.instbndf().pbintSflfdtfdMfnuItfmBbdkground(g, gftWidti(), gftHfigit());
+            } flsf {
+                g.sftColor(gftBbdkground());
+                g.fillRfdt(0, 0, gftWidti(), gftHfigit());
             }
 
-            if (fChecked && !fEditable && fDrawCheckedItem) {
-                final int y = getHeight() - 4;
-                g.setColor(getForeground());
-                SwingUtilities2.drawString(fComboBox, g, "\u2713", 6, y);
+            if (fCifdkfd && !fEditbblf && fDrbwCifdkfdItfm) {
+                finbl int y = gftHfigit() - 4;
+                g.sftColor(gftForfground());
+                SwingUtilitifs2.drbwString(fComboBox, g, "\u2713", 6, y);
             }
         }
-        super.paintComponent(g);
+        supfr.pbintComponfnt(g);
     }
 }

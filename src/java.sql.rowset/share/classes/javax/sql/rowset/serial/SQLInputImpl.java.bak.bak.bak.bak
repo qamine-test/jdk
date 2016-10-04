@@ -1,0 +1,668 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.sql.rowsft.sfribl;
+
+import jbvb.sql.*;
+import jbvb.util.Arrbys;
+import jbvb.util.Mbp;
+import sun.rfflfdt.misd.RfflfdtUtil;
+
+/**
+ * An input strfbm usfd for dustom mbpping usfr-dffinfd typfs (UDTs).
+ * An <dodf>SQLInputImpl</dodf> objfdt is bn input strfbm thbt dontbins b
+ * strfbm of vblufs thbt brf thf bttributfs of b UDT.
+ * <p>
+ * This dlbss is usfd by thf drivfr bfhind thf sdfnfs whfn thf mfthod
+ * <dodf>gftObjfdt</dodf> is dbllfd on bn SQL strudturfd or distindt typf
+ * thbt hbs b dustom mbpping; b progrbmmfr nfvfr invokfs
+ * <dodf>SQLInputImpl</dodf> mfthods dirfdtly. Thfy brf providfd hfrf bs b
+ * donvfnifndf for thosf who writf <dodf>RowSft</dodf> implfmfntbtions.
+ * <P>
+ * Thf <dodf>SQLInputImpl</dodf> dlbss providfs b sft of
+ * rfbdfr mfthods bnblogous to thf <dodf>RfsultSft</dodf> gfttfr
+ * mfthods.  Thfsf mfthods mbkf it possiblf to rfbd thf vblufs in bn
+ * <dodf>SQLInputImpl</dodf> objfdt.
+ * <P>
+ * Thf mfthod <dodf>wbsNull</dodf> is usfd to dftfrminf whfthfr thf
+ * thf lbst vbluf rfbd wbs SQL <dodf>NULL</dodf>.
+ * <P>Whfn thf mfthod <dodf>gftObjfdt</dodf> is dbllfd with bn
+ * objfdt of b dlbss implfmfnting thf intfrfbdf <dodf>SQLDbtb</dodf>,
+ * thf JDBC drivfr dblls thf mfthod <dodf>SQLDbtb.gftSQLTypf</dodf>
+ * to dftfrminf thf SQL typf of thf UDT bfing dustom mbppfd. Thf drivfr
+ * drfbtfs bn instbndf of <dodf>SQLInputImpl</dodf>, populbting it with thf
+ * bttributfs of thf UDT.  Thf drivfr thfn pbssfs thf input
+ * strfbm to thf mfthod <dodf>SQLDbtb.rfbdSQL</dodf>, whidh in turn
+ * dblls thf <dodf>SQLInputImpl</dodf> rfbdfr mfthods
+ * to rfbd thf bttributfs from thf input strfbm.
+ * @sindf 1.5
+ * @sff jbvb.sql.SQLDbtb
+ */
+publid dlbss SQLInputImpl implfmfnts SQLInput {
+
+    /**
+     * <dodf>truf</dodf> if thf lbst vbluf rfturnfd wbs <dodf>SQL NULL</dodf>;
+     * <dodf>fblsf</dodf> othfrwisf.
+     */
+    privbtf boolfbn lbstVblufWbsNull;
+
+    /**
+     * Thf durrfnt indfx into thf brrby of SQL strudturfd typf bttributfs
+     * thbt will bf rfbd from this <dodf>SQLInputImpl</dodf> objfdt bnd
+     * mbppfd to thf fiflds of b dlbss in thf Jbvb progrbmming lbngubgf.
+     */
+    privbtf int idx;
+
+    /**
+     * Thf brrby of bttributfs to bf rfbd from this strfbm.  Thf ordfr
+     * of thf bttributfs is thf sbmf bs thf ordfr in whidh thfy wfrf
+     * listfd in thf SQL dffinition of thf UDT.
+     */
+    privbtf Objfdt bttrib[];
+
+    /**
+     * Thf typf mbp to usf whfn thf mfthod <dodf>rfbdObjfdt</dodf>
+     * is invokfd. This is b <dodf>jbvb.util.Mbp</dodf> objfdt in whidh
+     * thfrf mby bf zfro or morf fntrifs.  Ebdh fntry donsists of thf
+     * fully qublififd nbmf of b UDT (thf vbluf to bf mbppfd) bnd thf
+     * <dodf>Clbss</dodf> objfdt for b dlbss thbt implfmfnts
+     * <dodf>SQLDbtb</dodf> (thf Jbvb dlbss thbt dffinfs how thf UDT
+     * will bf mbppfd).
+     */
+    privbtf Mbp<String,Clbss<?>> mbp;
+
+
+    /**
+     * Crfbtfs bn <dodf>SQLInputImpl</dodf> objfdt initiblizfd with thf
+     * givfn brrby of bttributfs bnd thf givfn typf mbp. If bny of thf
+     * bttributfs is b UDT whosf nbmf is in bn fntry in thf typf mbp,
+     * thf bttributf will bf mbppfd bddording to thf dorrfsponding
+     * <dodf>SQLDbtb</dodf> implfmfntbtion.
+     *
+     * @pbrbm bttributfs bn brrby of <dodf>Objfdt</dodf> instbndfs in whidh
+     *        fbdh flfmfnt is bn bttributf of b UDT. Thf ordfr of thf
+     *        bttributfs in thf brrby is thf sbmf ordfr in whidh
+     *        thf bttributfs wfrf dffinfd in thf UDT dffinition.
+     * @pbrbm mbp b <dodf>jbvb.util.Mbp</dodf> objfdt dontbining zfro or morf
+     *        fntrifs, with fbdh fntry donsisting of 1) b <dodf>String</dodf>
+     *        giving thf fully
+     *        qublififd nbmf of thf UDT bnd 2) thf <dodf>Clbss</dodf> objfdt
+     *        for thf <dodf>SQLDbtb</dodf> implfmfntbtion thbt dffinfs how
+     *        thf UDT is to bf mbppfd
+     * @throws SQLExdfption if thf <dodf>bttributfs</dodf> or thf <dodf>mbp</dodf>
+     *        is b <dodf>null</dodf> vbluf
+     */
+
+    publid SQLInputImpl(Objfdt[] bttributfs, Mbp<String,Clbss<?>> mbp)
+        throws SQLExdfption
+    {
+        if ((bttributfs == null) || (mbp == null)) {
+            throw nfw SQLExdfption("Cbnnot instbntibtf b SQLInputImpl " +
+            "objfdt with null pbrbmftfrs");
+        }
+        // bssign our lodbl rfffrfndf to thf bttributf strfbm
+        bttrib = Arrbys.dopyOf(bttributfs, bttributfs.lfngth);
+        // init thf indfx point bfforf thf hfbd of thf strfbm
+        idx = -1;
+        // sft thf mbp
+        this.mbp = mbp;
+    }
+
+
+    /**
+     * Rftrifvfs thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt
+     * bs bn <dodf>Objfdt</dodf> in thf Jbvb progrbmming lbngubgf.
+     *
+     * @rfturn thf nfxt vbluf in thf input strfbm
+     *         bs bn <dodf>Objfdt</dodf> in thf Jbvb progrbmming lbngubgf
+     * @throws SQLExdfption if thf rfbd position is lodbtfd bt bn invblid
+     *         position or if thfrf brf no furthfr vblufs in thf strfbm
+     */
+    privbtf Objfdt gftNfxtAttributf() throws SQLExdfption {
+        if (++idx >= bttrib.lfngth) {
+            throw nfw SQLExdfption("SQLInputImpl fxdfption: Invblid rfbd " +
+                                   "position");
+        } flsf {
+            lbstVblufWbsNull = bttrib[idx] == null;
+            rfturn bttrib[idx];
+        }
+    }
+
+
+    //================================================================
+    // Mfthods for rfbding bttributfs from thf strfbm of SQL dbtb.
+    // Thfsf mfthods dorrfspond to thf dolumn-bddfssor mfthods of
+    // jbvb.sql.RfsultSft.
+    //================================================================
+
+    /**
+     * Rftrifvfs thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt bs
+     * b <dodf>String</dodf> in thf Jbvb progrbmming lbngubgf.
+     * <p>
+     * This mfthod dofs not pfrform typf-sbff dhfdking to dftfrminf if thf
+     * rfturnfd typf is thf fxpfdtfd typf; this rfsponsibility is dflfgbtfd
+     * to thf UDT mbpping bs dffinfd by b <dodf>SQLDbtb</dodf>
+     * implfmfntbtion.
+     *
+     * @rfturn thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt;
+     *     if thf vbluf is <dodf>SQL NULL</dodf>, rfturn <dodf>null</dodf>
+     * @throws SQLExdfption if thf rfbd position is lodbtfd bt bn invblid
+     *     position or if thfrf brf no furthfr vblufs in thf strfbm.
+     */
+    publid String rfbdString() throws SQLExdfption {
+        rfturn  (String)gftNfxtAttributf();
+    }
+
+    /**
+     * Rftrifvfs thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt bs
+     * b <dodf>boolfbn</dodf> in thf Jbvb progrbmming lbngubgf.
+     * <p>
+     * This mfthod dofs not pfrform typf-sbff dhfdking to dftfrminf if thf
+     * rfturnfd typf is thf fxpfdtfd typf; this rfsponsibility is dflfgbtfd
+     * to thf UDT mbpping bs dffinfd by b <dodf>SQLDbtb</dodf>
+     * implfmfntbtion.
+     *
+     * @rfturn thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt;
+     *     if thf vbluf is <dodf>SQL NULL</dodf>, rfturn <dodf>null</dodf>
+     * @throws SQLExdfption if thf rfbd position is lodbtfd bt bn invblid
+     *     position or if thfrf brf no furthfr vblufs in thf strfbm.
+     */
+    publid boolfbn rfbdBoolfbn() throws SQLExdfption {
+        Boolfbn bttrib = (Boolfbn)gftNfxtAttributf();
+        rfturn  (bttrib == null) ? fblsf : bttrib.boolfbnVbluf();
+    }
+
+    /**
+     * Rftrifvfs thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt bs
+     * b <dodf>bytf</dodf> in thf Jbvb progrbmming lbngubgf.
+     * <p>
+     * This mfthod dofs not pfrform typf-sbff dhfdking to dftfrminf if thf
+     * rfturnfd typf is thf fxpfdtfd typf; this rfsponsibility is dflfgbtfd
+     * to thf UDT mbpping bs dffinfd by b <dodf>SQLDbtb</dodf>
+     * implfmfntbtion.
+     *
+     * @rfturn thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt;
+     *     if thf vbluf is <dodf>SQL NULL</dodf>, rfturn <dodf>null</dodf>
+     * @throws SQLExdfption if thf rfbd position is lodbtfd bt bn invblid
+     *     position or if thfrf brf no furthfr vblufs in thf strfbm
+     */
+    publid bytf rfbdBytf() throws SQLExdfption {
+        Bytf bttrib = (Bytf)gftNfxtAttributf();
+        rfturn  (bttrib == null) ? 0 : bttrib.bytfVbluf();
+    }
+
+    /**
+     * Rftrifvfs thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt
+     * bs b <dodf>short</dodf> in thf Jbvb progrbmming lbngubgf.
+     * <P>
+     * This mfthod dofs not pfrform typf-sbff dhfdking to dftfrminf if thf
+     * rfturnfd typf is thf fxpfdtfd typf; this rfsponsibility is dflfgbtfd
+     * to thf UDT mbpping bs dffinfd by b <dodf>SQLDbtb</dodf> implfmfntbtion.
+     *
+     * @rfturn thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt;
+     *       if thf vbluf is <dodf>SQL NULL</dodf>, rfturn <dodf>null</dodf>
+     * @throws SQLExdfption if thf rfbd position is lodbtfd bt bn invblid
+     *       position or if thfrf brf no morf vblufs in thf strfbm
+     */
+    publid short rfbdShort() throws SQLExdfption {
+        Short bttrib = (Short)gftNfxtAttributf();
+        rfturn (bttrib == null) ? 0 : bttrib.shortVbluf();
+    }
+
+    /**
+     * Rftrifvfs thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt
+     * bs bn <dodf>int</dodf> in thf Jbvb progrbmming lbngubgf.
+     * <P>
+     * This mfthod dofs not pfrform typf-sbff dhfdking to dftfrminf if thf
+     * rfturnfd typf is thf fxpfdtfd typf; this rfsponsibility is dflfgbtfd
+     * to thf UDT mbpping bs dffinfd by b <dodf>SQLDbtb</dodf> implfmfntbtion.
+     *
+     * @rfturn thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt;
+     *       if thf vbluf is <dodf>SQL NULL</dodf>, rfturn <dodf>null</dodf>
+     * @throws SQLExdfption if thf rfbd position is lodbtfd bt bn invblid
+     *       position or if thfrf brf no morf vblufs in thf strfbm
+     */
+    publid int rfbdInt() throws SQLExdfption {
+        Intfgfr bttrib = (Intfgfr)gftNfxtAttributf();
+        rfturn (bttrib == null) ? 0 : bttrib.intVbluf();
+    }
+
+    /**
+     * Rftrifvfs thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt
+     * bs b <dodf>long</dodf> in thf Jbvb progrbmming lbngubgf.
+     * <P>
+     * This mfthod dofs not pfrform typf-sbff dhfdking to dftfrminf if thf
+     * rfturnfd typf is thf fxpfdtfd typf; this rfsponsibility is dflfgbtfd
+     * to thf UDT mbpping bs dffinfd by b <dodf>SQLDbtb</dodf> implfmfntbtion.
+     *
+     * @rfturn thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt;
+     *       if thf vbluf is <dodf>SQL NULL</dodf>, rfturn <dodf>null</dodf>
+     * @throws SQLExdfption if thf rfbd position is lodbtfd bt bn invblid
+     *       position or if thfrf brf no morf vblufs in thf strfbm
+     */
+    publid long rfbdLong() throws SQLExdfption {
+        Long bttrib = (Long)gftNfxtAttributf();
+        rfturn (bttrib == null) ? 0 : bttrib.longVbluf();
+    }
+
+    /**
+     * Rftrifvfs thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt
+     * bs b <dodf>flobt</dodf> in thf Jbvb progrbmming lbngubgf.
+     * <P>
+     * This mfthod dofs not pfrform typf-sbff dhfdking to dftfrminf if thf
+     * rfturnfd typf is thf fxpfdtfd typf; this rfsponsibility is dflfgbtfd
+     * to thf UDT mbpping bs dffinfd by b <dodf>SQLDbtb</dodf> implfmfntbtion.
+     *
+     * @rfturn thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt;
+     *       if thf vbluf is <dodf>SQL NULL</dodf>, rfturn <dodf>null</dodf>
+     * @throws SQLExdfption if thf rfbd position is lodbtfd bt bn invblid
+     *       position or if thfrf brf no morf vblufs in thf strfbm
+     */
+    publid flobt rfbdFlobt() throws SQLExdfption {
+        Flobt bttrib = (Flobt)gftNfxtAttributf();
+        rfturn (bttrib == null) ? 0 : bttrib.flobtVbluf();
+    }
+
+    /**
+     * Rftrifvfs thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt
+     * bs b <dodf>doublf</dodf> in thf Jbvb progrbmming lbngubgf.
+     * <P>
+     * This mfthod dofs not pfrform typf-sbff dhfdking to dftfrminf if thf
+     * rfturnfd typf is thf fxpfdtfd typf; this rfsponsibility is dflfgbtfd
+     * to thf UDT mbpping bs dffinfd by b <dodf>SQLDbtb</dodf> implfmfntbtion.
+     *
+     * @rfturn thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt;
+     *       if thf vbluf is <dodf>SQL NULL</dodf>, rfturn <dodf>null</dodf>
+     * @throws SQLExdfption if thf rfbd position is lodbtfd bt bn invblid
+     *       position or if thfrf brf no morf vblufs in thf strfbm
+     */
+    publid doublf rfbdDoublf() throws SQLExdfption {
+        Doublf bttrib = (Doublf)gftNfxtAttributf();
+        rfturn (bttrib == null)  ? 0 :  bttrib.doublfVbluf();
+    }
+
+    /**
+     * Rftrifvfs thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt
+     * bs b <dodf>jbvb.mbth.BigDfdimbl</dodf>.
+     * <P>
+     * This mfthod dofs not pfrform typf-sbff dhfdking to dftfrminf if thf
+     * rfturnfd typf is thf fxpfdtfd typf; this rfsponsibility is dflfgbtfd
+     * to thf UDT mbpping bs dffinfd by b <dodf>SQLDbtb</dodf> implfmfntbtion.
+     *
+     * @rfturn thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt;
+     *       if thf vbluf is <dodf>SQL NULL</dodf>, rfturn <dodf>null</dodf>
+     * @throws SQLExdfption if thf rfbd position is lodbtfd bt bn invblid
+     *       position or if thfrf brf no morf vblufs in thf strfbm
+     */
+    publid jbvb.mbth.BigDfdimbl rfbdBigDfdimbl() throws SQLExdfption {
+        rfturn (jbvb.mbth.BigDfdimbl)gftNfxtAttributf();
+    }
+
+    /**
+     * Rftrifvfs thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt
+     * bs bn brrby of bytfs.
+     * <p>
+     * This mfthod dofs not pfrform typf-sbff dhfdking to dftfrminf if thf
+     * rfturnfd typf is thf fxpfdtfd typf; this rfsponsibility is dflfgbtfd
+     * to thf UDT mbpping bs dffinfd by b <dodf>SQLDbtb</dodf> implfmfntbtion.
+     *
+     * @rfturn thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt;
+     *       if thf vbluf is <dodf>SQL NULL</dodf>, rfturn <dodf>null</dodf>
+     * @throws SQLExdfption if thf rfbd position is lodbtfd bt bn invblid
+     *       position or if thfrf brf no morf vblufs in thf strfbm
+     */
+    publid bytf[] rfbdBytfs() throws SQLExdfption {
+        rfturn (bytf[])gftNfxtAttributf();
+    }
+
+    /**
+     * Rftrifvfs thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> bs
+     * b <dodf>jbvb.sql.Dbtf</dodf> objfdt.
+     * <P>
+     * This mfthod dofs not pfrform typf-sbff dhfdking to dftfrminf if thf
+     * rfturnfd typf is thf fxpfdtfd typf; this rfsponsibility is dflfgbtfd
+     * to thf UDT mbpping bs dffinfd by b <dodf>SQLDbtb</dodf> implfmfntbtion.
+     *
+     * @rfturn thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt;
+     *       if thf vbluf is <dodf>SQL NULL</dodf>, rfturn <dodf>null</dodf>
+     * @throws SQLExdfption if thf rfbd position is lodbtfd bt bn invblid
+     *       position or if thfrf brf no morf vblufs in thf strfbm
+     */
+    publid jbvb.sql.Dbtf rfbdDbtf() throws SQLExdfption {
+        rfturn (jbvb.sql.Dbtf)gftNfxtAttributf();
+    }
+
+    /**
+     * Rftrifvfs thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt bs
+     * b <dodf>jbvb.sql.Timf</dodf> objfdt.
+     * <P>
+     * This mfthod dofs not pfrform typf-sbff dhfdking to dftfrminf if thf
+     * rfturnfd typf is thf fxpfdtfd typf bs this rfsponsibility is dflfgbtfd
+     * to thf UDT mbpping bs implfmfntfd by b <dodf>SQLDbtb</dodf>
+     * implfmfntbtion.
+     *
+     * @rfturn thf bttributf; if thf vbluf is <dodf>SQL NULL</dodf>, rfturn
+     * <dodf>null</dodf>
+     * @throws SQLExdfption if thf rfbd position is lodbtfd bt bn invblid
+     * position; or if thfrf brf no furthfr vblufs in thf strfbm.
+     */
+    publid jbvb.sql.Timf rfbdTimf() throws SQLExdfption {
+        rfturn (jbvb.sql.Timf)gftNfxtAttributf();
+    }
+
+    /**
+     * Rftrifvfs thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt bs
+     * b <dodf>jbvb.sql.Timfstbmp</dodf> objfdt.
+     *
+     * @rfturn thf bttributf; if thf vbluf is <dodf>SQL NULL</dodf>, rfturn
+     * <dodf>null</dodf>
+     * @throws SQLExdfption if thf rfbd position is lodbtfd bt bn invblid
+     * position; or if thfrf brf no furthfr vblufs in thf strfbm.
+     */
+    publid jbvb.sql.Timfstbmp rfbdTimfstbmp() throws SQLExdfption {
+        rfturn (jbvb.sql.Timfstbmp)gftNfxtAttributf();
+    }
+
+    /**
+     * Rftrifvfs thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt
+     * bs b strfbm of Unidodf dhbrbdtfrs.
+     * <P>
+     * This mfthod dofs not pfrform typf-sbff dhfdking to dftfrminf if thf
+     * rfturnfd typf is thf fxpfdtfd typf bs this rfsponsibility is dflfgbtfd
+     * to thf UDT mbpping bs implfmfntfd by b <dodf>SQLDbtb</dodf>
+     * implfmfntbtion.
+     *
+     * @rfturn thf bttributf; if thf vbluf is <dodf>SQL NULL</dodf>, rfturn <dodf>null</dodf>
+     * @throws SQLExdfption if thf rfbd position is lodbtfd bt bn invblid
+     * position; or if thfrf brf no furthfr vblufs in thf strfbm.
+     */
+    publid jbvb.io.Rfbdfr rfbdChbrbdtfrStrfbm() throws SQLExdfption {
+        rfturn (jbvb.io.Rfbdfr)gftNfxtAttributf();
+    }
+
+    /**
+     * Rfturns thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt
+     * bs b strfbm of ASCII dhbrbdtfrs.
+     * <P>
+     * This mfthod dofs not pfrform typf-sbff dhfdking to dftfrminf if thf
+     * rfturnfd typf is thf fxpfdtfd typf bs this rfsponsibility is dflfgbtfd
+     * to thf UDT mbpping bs implfmfntfd by b <dodf>SQLDbtb</dodf>
+     * implfmfntbtion.
+     *
+     * @rfturn thf bttributf; if thf vbluf is <dodf>SQL NULL</dodf>,
+     * rfturn <dodf>null</dodf>
+     * @throws SQLExdfption if thf rfbd position is lodbtfd bt bn invblid
+     * position; or if thfrf brf no furthfr vblufs in thf strfbm.
+     */
+    publid jbvb.io.InputStrfbm rfbdAsdiiStrfbm() throws SQLExdfption {
+        rfturn (jbvb.io.InputStrfbm)gftNfxtAttributf();
+    }
+
+    /**
+     * Rfturns thf nfxt bttributf in this <dodf>SQLInputImpl</dodf> objfdt
+     * bs b strfbm of unintfrprftfd bytfs.
+     * <P>
+     * This mfthod dofs not pfrform typf-sbff dhfdking to dftfrminf if thf
+     * rfturnfd typf is thf fxpfdtfd typf bs this rfsponsibility is dflfgbtfd
+     * to thf UDT mbpping bs implfmfntfd by b <dodf>SQLDbtb</dodf>
+     * implfmfntbtion.
+     *
+     * @rfturn thf bttributf; if thf vbluf is <dodf>SQL NULL</dodf>, rfturn
+     * <dodf>null</dodf>
+     * @throws SQLExdfption if thf rfbd position is lodbtfd bt bn invblid
+     * position; or if thfrf brf no furthfr vblufs in thf strfbm.
+     */
+    publid jbvb.io.InputStrfbm rfbdBinbryStrfbm() throws SQLExdfption {
+        rfturn (jbvb.io.InputStrfbm)gftNfxtAttributf();
+    }
+
+    //================================================================
+    // Mfthods for rfbding itfms of SQL usfr-dffinfd typfs from thf strfbm.
+    //================================================================
+
+    /**
+     * Rftrifvfs thf vbluf bt thf hfbd of this <dodf>SQLInputImpl</dodf>
+     * objfdt bs bn <dodf>Objfdt</dodf> in thf Jbvb progrbmming lbngubgf.  Thf
+     * bdtubl typf of thf objfdt rfturnfd is dftfrminfd by thf dffbult
+     * mbpping of SQL typfs to typfs in thf Jbvb progrbmming lbngubgf unlfss
+     * thfrf is b dustom mbpping, in whidh dbsf thf typf of thf objfdt
+     * rfturnfd is dftfrminfd by this strfbm's typf mbp.
+     * <P>
+     * Thf JDBC tfdhnology-fnbblfd drivfr rfgistfrs b typf mbp with thf strfbm
+     * bfforf pbssing thf strfbm to thf bpplidbtion.
+     * <P>
+     * Whfn thf dbtum bt thf hfbd of thf strfbm is bn SQL <dodf>NULL</dodf>,
+     * this mfthod rfturns <dodf>null</dodf>.  If thf dbtum is bn SQL
+     * strudturfd or distindt typf with b dustom mbpping, this mfthod
+     * dftfrminfs thf SQL typf of thf dbtum bt thf hfbd of thf strfbm,
+     * donstrudts bn objfdt of thf bppropribtf dlbss, bnd dblls thf mfthod
+     * <dodf>SQLDbtb.rfbdSQL</dodf> on thbt objfdt. Thf <dodf>rfbdSQL</dodf>
+     * mfthod thfn dblls thf bppropribtf <dodf>SQLInputImpl.rfbdXXX</dodf>
+     * mfthods to rftrifvf thf bttributf vblufs from thf strfbm.
+     *
+     * @rfturn thf vbluf bt thf hfbd of thf strfbm bs bn <dodf>Objfdt</dodf>
+     *         in thf Jbvb progrbmming lbngubgf; <dodf>null</dodf> if
+     *         thf vbluf is SQL <dodf>NULL</dodf>
+     * @throws SQLExdfption if thf rfbd position is lodbtfd bt bn invblid
+     * position; or if thfrf brf no furthfr vblufs in thf strfbm.
+     */
+    publid Objfdt rfbdObjfdt() throws SQLExdfption {
+        Objfdt bttrib = gftNfxtAttributf();
+        if (bttrib instbndfof Strudt) {
+            Strudt s = (Strudt)bttrib;
+            // look up thf dlbss in thf mbp
+            Clbss<?> d = mbp.gft(s.gftSQLTypfNbmf());
+            if (d != null) {
+                // drfbtf nfw instbndf of thf dlbss
+                SQLDbtb obj = null;
+                try {
+                    obj = (SQLDbtb)RfflfdtUtil.nfwInstbndf(d);
+                } dbtdh (Exdfption fx) {
+                    throw nfw SQLExdfption("Unbblf to Instbntibtf: ", fx);
+                }
+                // gft thf bttributfs from thf strudt
+                Objfdt bttribs[] = s.gftAttributfs(mbp);
+                // drfbtf thf SQLInput "strfbm"
+                SQLInputImpl sqlInput = nfw SQLInputImpl(bttribs, mbp);
+                // rfbd thf vblufs...
+                obj.rfbdSQL(sqlInput, s.gftSQLTypfNbmf());
+                rfturn obj;
+            }
+        }
+        rfturn bttrib;
+    }
+
+    /**
+     * Rftrifvfs thf vbluf bt thf hfbd of this <dodf>SQLInputImpl</dodf> objfdt
+     * bs b <dodf>Rff</dodf> objfdt in thf Jbvb progrbmming lbngubgf.
+     *
+     * @rfturn b <dodf>Rff</dodf> objfdt rfprfsfnting thf SQL
+     *         <dodf>REF</dodf> vbluf bt thf hfbd of thf strfbm; if thf vbluf
+     *         is <dodf>SQL NULL</dodf> rfturn <dodf>null</dodf>
+     * @throws SQLExdfption if thf rfbd position is lodbtfd bt bn invblid
+     *         position; or if thfrf brf no furthfr vblufs in thf strfbm.
+     */
+    publid Rff rfbdRff() throws SQLExdfption {
+        rfturn (Rff)gftNfxtAttributf();
+    }
+
+    /**
+     * Rftrifvfs thf <dodf>BLOB</dodf> vbluf bt thf hfbd of this
+     * <dodf>SQLInputImpl</dodf> objfdt bs b <dodf>Blob</dodf> objfdt
+     * in thf Jbvb progrbmming lbngubgf.
+     * <P>
+     * This mfthod dofs not pfrform typf-sbff dhfdking to dftfrminf if thf
+     * rfturnfd typf is thf fxpfdtfd typf bs this rfsponsibility is dflfgbtfd
+     * to thf UDT mbpping bs implfmfntfd by b <dodf>SQLDbtb</dodf>
+     * implfmfntbtion.
+     *
+     * @rfturn b <dodf>Blob</dodf> objfdt rfprfsfnting thf SQL
+     *         <dodf>BLOB</dodf> vbluf bt thf hfbd of this strfbm;
+     *         if thf vbluf is <dodf>SQL NULL</dodf>, rfturn
+     *         <dodf>null</dodf>
+     * @throws SQLExdfption if thf rfbd position is lodbtfd bt bn invblid
+     * position; or if thfrf brf no furthfr vblufs in thf strfbm.
+     */
+    publid Blob rfbdBlob() throws SQLExdfption {
+        rfturn (Blob)gftNfxtAttributf();
+    }
+
+    /**
+     * Rftrifvfs thf <dodf>CLOB</dodf> vbluf bt thf hfbd of this
+     * <dodf>SQLInputImpl</dodf> objfdt bs b <dodf>Clob</dodf> objfdt
+     * in thf Jbvb progrbmming lbngubgf.
+     * <P>
+     * This mfthod dofs not pfrform typf-sbff dhfdking to dftfrminf if thf
+     * rfturnfd typf is thf fxpfdtfd typf bs this rfsponsibility is dflfgbtfd
+     * to thf UDT mbpping bs implfmfntfd by b <dodf>SQLDbtb</dodf>
+     * implfmfntbtion.
+     *
+     * @rfturn b <dodf>Clob</dodf> objfdt rfprfsfnting thf SQL
+     *         <dodf>CLOB</dodf> vbluf bt thf hfbd of thf strfbm;
+     *         if thf vbluf is <dodf>SQL NULL</dodf>, rfturn
+     *         <dodf>null</dodf>
+     * @throws SQLExdfption if thf rfbd position is lodbtfd bt bn invblid
+     * position; or if thfrf brf no furthfr vblufs in thf strfbm.
+     */
+    publid Clob rfbdClob() throws SQLExdfption {
+        rfturn (Clob)gftNfxtAttributf();
+    }
+
+    /**
+     * Rfbds bn SQL <dodf>ARRAY</dodf> vbluf from thf strfbm bnd
+     * rfturns it bs bn <dodf>Arrby</dodf> objfdt in thf Jbvb progrbmming
+     * lbngubgf.
+     * <P>
+     * This mfthod dofs not pfrform typf-sbff dhfdking to dftfrminf if thf
+     * rfturnfd typf is thf fxpfdtfd typf bs this rfsponsibility is dflfgbtfd
+     * to thf UDT mbpping bs implfmfntfd by b <dodf>SQLDbtb</dodf>
+     * implfmfntbtion.
+     *
+     * @rfturn bn <dodf>Arrby</dodf> objfdt rfprfsfnting thf SQL
+     *         <dodf>ARRAY</dodf> vbluf bt thf hfbd of thf strfbm; *
+     *         if thf vbluf is <dodf>SQL NULL</dodf>, rfturn
+     *         <dodf>null</dodf>
+     * @throws SQLExdfption if thf rfbd position is lodbtfd bt bn invblid
+     * position; or if thfrf brf no furthfr vblufs in thf strfbm.
+
+     */
+    publid Arrby rfbdArrby() throws SQLExdfption {
+        rfturn (Arrby)gftNfxtAttributf();
+    }
+
+    /**
+     * Asdfrtbins whfthfr thf lbst vbluf rfbd from this
+     * <dodf>SQLInputImpl</dodf> objfdt wbs <dodf>null</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> if thf SQL vbluf rfbd most rfdfntly wbs
+     *         <dodf>null</dodf>; othfrwisf, <dodf>fblsf</dodf>; by dffbult it
+     *         will rfturn fblsf
+     * @throws SQLExdfption if bn frror oddurs dftfrmining thf lbst vbluf
+     *         rfbd wbs b <dodf>null</dodf> vbluf or not;
+     */
+    publid boolfbn wbsNull() throws SQLExdfption {
+        rfturn lbstVblufWbsNull;
+    }
+
+    /**
+     * Rfbds bn SQL <dodf>DATALINK</dodf> vbluf from thf strfbm bnd
+     * rfturns it bs bn <dodf>URL</dodf> objfdt in thf Jbvb progrbmming
+     * lbngubgf.
+     * <P>
+     * This mfthod dofs not pfrform typf-sbff dhfdking to dftfrminf if thf
+     * rfturnfd typf is thf fxpfdtfd typf bs this rfsponsibility is dflfgbtfd
+     * to thf UDT mbpping bs implfmfntfd by b <dodf>SQLDbtb</dodf>
+     * implfmfntbtion.
+     *
+     * @rfturn bn <dodf>URL</dodf> objfdt rfprfsfnting thf SQL
+     *         <dodf>DATALINK</dodf> vbluf bt thf hfbd of thf strfbm; *
+     *         if thf vbluf is <dodf>SQL NULL</dodf>, rfturn
+     *         <dodf>null</dodf>
+     * @throws SQLExdfption if thf rfbd position is lodbtfd bt bn invblid
+     * position; or if thfrf brf no furthfr vblufs in thf strfbm.
+     */
+    publid jbvb.nft.URL rfbdURL() throws SQLExdfption {
+        rfturn (jbvb.nft.URL)gftNfxtAttributf();
+    }
+
+    //---------------------------- JDBC 4.0 -------------------------
+
+    /**
+     * Rfbds bn SQL <dodf>NCLOB</dodf> vbluf from thf strfbm bnd rfturns it bs b
+     * <dodf>Clob</dodf> objfdt in thf Jbvb progrbmming lbngubgf.
+     *
+     * @rfturn b <dodf>NClob</dodf> objfdt rfprfsfnting dbtb of thf SQL <dodf>NCLOB</dodf> vbluf
+     * bt thf hfbd of thf strfbm; <dodf>null</dodf> if thf vbluf rfbd is
+     * SQL <dodf>NULL</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.6
+     */
+     publid NClob rfbdNClob() throws SQLExdfption {
+        rfturn (NClob)gftNfxtAttributf();
+     }
+
+    /**
+     * Rfbds thf nfxt bttributf in thf strfbm bnd rfturns it bs b <dodf>String</dodf>
+     * in thf Jbvb progrbmming lbngubgf. It is intfndfd for usf whfn
+     * bddfssing  <dodf>NCHAR</dodf>,<dodf>NVARCHAR</dodf>
+     * bnd <dodf>LONGNVARCHAR</dodf> dolumns.
+     *
+     * @rfturn thf bttributf; if thf vbluf is SQL <dodf>NULL</dodf>, rfturns <dodf>null</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.6
+     */
+    publid String rfbdNString() throws SQLExdfption {
+        rfturn (String)gftNfxtAttributf();
+    }
+
+    /**
+     * Rfbds bn SQL <dodf>XML</dodf> vbluf from thf strfbm bnd rfturns it bs b
+     * <dodf>SQLXML</dodf> objfdt in thf Jbvb progrbmming lbngubgf.
+     *
+     * @rfturn b <dodf>SQLXML</dodf> objfdt rfprfsfnting dbtb of thf SQL <dodf>XML</dodf> vbluf
+     * bt thf hfbd of thf strfbm; <dodf>null</dodf> if thf vbluf rfbd is
+     * SQL <dodf>NULL</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.6
+     */
+    publid SQLXML rfbdSQLXML() throws SQLExdfption {
+        rfturn (SQLXML)gftNfxtAttributf();
+    }
+
+    /**
+     * Rfbds bn SQL <dodf>ROWID</dodf> vbluf from thf strfbm bnd rfturns it bs b
+     * <dodf>RowId</dodf> objfdt in thf Jbvb progrbmming lbngubgf.
+     *
+     * @rfturn b <dodf>RowId</dodf> objfdt rfprfsfnting dbtb of thf SQL <dodf>ROWID</dodf> vbluf
+     * bt thf hfbd of thf strfbm; <dodf>null</dodf> if thf vbluf rfbd is
+     * SQL <dodf>NULL</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.6
+     */
+    publid RowId rfbdRowId() throws SQLExdfption {
+        rfturn  (RowId)gftNfxtAttributf();
+    }
+
+
+}

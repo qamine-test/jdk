@@ -1,477 +1,477 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import javax.swing.plaf.basic.BasicGraphicsUtils;
-import java.awt.geom.AffineTransform;
-import java.util.Objects;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvbx.swing.plbf.bbsid.BbsidGrbpiidsUtils;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.util.Objfdts;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLoggfr;
 
-class XCheckboxPeer extends XComponentPeer implements CheckboxPeer {
+dlbss XCifdkboxPffr fxtfnds XComponfntPffr implfmfnts CifdkboxPffr {
 
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XCheckboxPeer");
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XCifdkboxPffr");
 
-    private static final Insets focusInsets = new Insets(0,0,0,0);
-    private static final Insets borderInsets = new Insets(2,2,2,2);
-    private static final int checkBoxInsetFromText = 2;
+    privbtf stbtid finbl Insfts fodusInsfts = nfw Insfts(0,0,0,0);
+    privbtf stbtid finbl Insfts bordfrInsfts = nfw Insfts(2,2,2,2);
+    privbtf stbtid finbl int difdkBoxInsftFromTfxt = 2;
 
-    //The check mark is less common than a plain "depressed" button,
-    //so don't use the checkmark.
-    // The checkmark shape:
-    private static final double MASTER_SIZE = 128.0;
-    private static final Polygon MASTER_CHECKMARK = new Polygon(
-        new int[] {1, 25,56,124,124,85, 64},  // X-coords
-        new int[] {59,35,67,  0, 12,66,123},  // Y-coords
+    //Tif difdk mbrk is lfss dommon tibn b plbin "dfprfssfd" button,
+    //so don't usf tif difdkmbrk.
+    // Tif difdkmbrk sibpf:
+    privbtf stbtid finbl doublf MASTER_SIZE = 128.0;
+    privbtf stbtid finbl Polygon MASTER_CHECKMARK = nfw Polygon(
+        nfw int[] {1, 25,56,124,124,85, 64},  // X-doords
+        nfw int[] {59,35,67,  0, 12,66,123},  // Y-doords
       7);
 
-    private Shape myCheckMark;
+    privbtf Sibpf myCifdkMbrk;
 
-    private Color focusColor = SystemColor.windowText;
+    privbtf Color fodusColor = SystfmColor.windowTfxt;
 
-    private boolean pressed;
-    private boolean armed;
-    private boolean selected;
+    privbtf boolfbn prfssfd;
+    privbtf boolfbn brmfd;
+    privbtf boolfbn sflfdtfd;
 
-    private Rectangle textRect;
-    private Rectangle focusRect;
-    private int checkBoxSize;
-    private int cbX;
-    private int cbY;
+    privbtf Rfdtbnglf tfxtRfdt;
+    privbtf Rfdtbnglf fodusRfdt;
+    privbtf int difdkBoxSizf;
+    privbtf int dbX;
+    privbtf int dbY;
 
-    String label;
-    CheckboxGroup checkBoxGroup;
+    String lbbfl;
+    CifdkboxGroup difdkBoxGroup;
 
-    XCheckboxPeer(Checkbox target) {
-        super(target);
-        pressed = false;
-        armed = false;
-        selected = target.getState();
-        label = target.getLabel();
-        if ( label == null ) {
-            label = "";
+    XCifdkboxPffr(Cifdkbox tbrgft) {
+        supfr(tbrgft);
+        prfssfd = fblsf;
+        brmfd = fblsf;
+        sflfdtfd = tbrgft.gftStbtf();
+        lbbfl = tbrgft.gftLbbfl();
+        if ( lbbfl == null ) {
+            lbbfl = "";
         }
-        checkBoxGroup = target.getCheckboxGroup();
-        updateMotifColors(getPeerBackground());
+        difdkBoxGroup = tbrgft.gftCifdkboxGroup();
+        updbtfMotifColors(gftPffrBbdkground());
     }
 
-    public void preInit(XCreateWindowParams params) {
-        // Put this here so it is executed before layout() is called from
-        // setFont() in XComponent.postInit()
-        textRect = new Rectangle();
-        focusRect = new Rectangle();
-        super.preInit(params);
+    publid void prfInit(XCrfbtfWindowPbrbms pbrbms) {
+        // Put tiis ifrf so it is fxfdutfd bfforf lbyout() is dbllfd from
+        // sftFont() in XComponfnt.postInit()
+        tfxtRfdt = nfw Rfdtbnglf();
+        fodusRfdt = nfw Rfdtbnglf();
+        supfr.prfInit(pbrbms);
     }
 
-    public boolean isFocusable() { return true; }
+    publid boolfbn isFodusbblf() { rfturn truf; }
 
-    public void focusGained(FocusEvent e) {
-        // TODO: only need to paint the focus bit
-        super.focusGained(e);
-        repaint();
+    publid void fodusGbinfd(FodusEvfnt f) {
+        // TODO: only nffd to pbint tif fodus bit
+        supfr.fodusGbinfd(f);
+        rfpbint();
     }
 
-    public void focusLost(FocusEvent e) {
-        // TODO: only need to paint the focus bit?
-        super.focusLost(e);
-        repaint();
+    publid void fodusLost(FodusEvfnt f) {
+        // TODO: only nffd to pbint tif fodus bit?
+        supfr.fodusLost(f);
+        rfpbint();
     }
 
 
-    void handleJavaKeyEvent(KeyEvent e) {
-        int i = e.getID();
-        switch (i) {
-          case KeyEvent.KEY_PRESSED:
-              keyPressed(e);
-              break;
-          case KeyEvent.KEY_RELEASED:
-              keyReleased(e);
-              break;
-          case KeyEvent.KEY_TYPED:
-              keyTyped(e);
-              break;
+    void ibndlfJbvbKfyEvfnt(KfyEvfnt f) {
+        int i = f.gftID();
+        switdi (i) {
+          dbsf KfyEvfnt.KEY_PRESSED:
+              kfyPrfssfd(f);
+              brfbk;
+          dbsf KfyEvfnt.KEY_RELEASED:
+              kfyRflfbsfd(f);
+              brfbk;
+          dbsf KfyEvfnt.KEY_TYPED:
+              kfyTypfd(f);
+              brfbk;
         }
     }
 
-    public void keyTyped(KeyEvent e) {}
+    publid void kfyTypfd(KfyEvfnt f) {}
 
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_SPACE)
+    publid void kfyPrfssfd(KfyEvfnt f) {
+        if (f.gftKfyCodf() == KfyEvfnt.VK_SPACE)
         {
-            //pressed=true;
-            //armed=true;
-            //selected=!selected;
-            action(!selected);
-            //repaint();  // Gets the repaint from action()
+            //prfssfd=truf;
+            //brmfd=truf;
+            //sflfdtfd=!sflfdtfd;
+            bdtion(!sflfdtfd);
+            //rfpbint();  // Gfts tif rfpbint from bdtion()
         }
 
     }
 
-    public void keyReleased(KeyEvent e) {}
+    publid void kfyRflfbsfd(KfyEvfnt f) {}
 
-    @Override
-    public void setLabel(String label) {
-        if (label == null) {
-            label = "";
+    @Ovfrridf
+    publid void sftLbbfl(String lbbfl) {
+        if (lbbfl == null) {
+            lbbfl = "";
         }
-        if (!label.equals(this.label)) {
-            this.label = label;
-            layout();
-            repaint();
-        }
-    }
-
-    void handleJavaMouseEvent(MouseEvent e) {
-        super.handleJavaMouseEvent(e);
-        int i = e.getID();
-        switch (i) {
-          case MouseEvent.MOUSE_PRESSED:
-              mousePressed(e);
-              break;
-          case MouseEvent.MOUSE_RELEASED:
-              mouseReleased(e);
-              break;
-          case MouseEvent.MOUSE_ENTERED:
-              mouseEntered(e);
-              break;
-          case MouseEvent.MOUSE_EXITED:
-              mouseExited(e);
-              break;
-          case MouseEvent.MOUSE_CLICKED:
-              mouseClicked(e);
-              break;
+        if (!lbbfl.fqubls(tiis.lbbfl)) {
+            tiis.lbbfl = lbbfl;
+            lbyout();
+            rfpbint();
         }
     }
 
-    public void mousePressed(MouseEvent e) {
-        if (XToolkit.isLeftMouseButton(e)) {
-            Checkbox cb = (Checkbox) e.getSource();
+    void ibndlfJbvbMousfEvfnt(MousfEvfnt f) {
+        supfr.ibndlfJbvbMousfEvfnt(f);
+        int i = f.gftID();
+        switdi (i) {
+          dbsf MousfEvfnt.MOUSE_PRESSED:
+              mousfPrfssfd(f);
+              brfbk;
+          dbsf MousfEvfnt.MOUSE_RELEASED:
+              mousfRflfbsfd(f);
+              brfbk;
+          dbsf MousfEvfnt.MOUSE_ENTERED:
+              mousfEntfrfd(f);
+              brfbk;
+          dbsf MousfEvfnt.MOUSE_EXITED:
+              mousfExitfd(f);
+              brfbk;
+          dbsf MousfEvfnt.MOUSE_CLICKED:
+              mousfClidkfd(f);
+              brfbk;
+        }
+    }
 
-            if (cb.contains(e.getX(), e.getY())) {
-                if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                    log.finer("mousePressed() on " + target.getName() + " : armed = " + armed + ", pressed = " + pressed
-                              + ", selected = " + selected + ", enabled = " + isEnabled());
+    publid void mousfPrfssfd(MousfEvfnt f) {
+        if (XToolkit.isLfftMousfButton(f)) {
+            Cifdkbox db = (Cifdkbox) f.gftSourdf();
+
+            if (db.dontbins(f.gftX(), f.gftY())) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    log.finfr("mousfPrfssfd() on " + tbrgft.gftNbmf() + " : brmfd = " + brmfd + ", prfssfd = " + prfssfd
+                              + ", sflfdtfd = " + sflfdtfd + ", fnbblfd = " + isEnbblfd());
                 }
-                if (!isEnabled()) {
-                    // Disabled buttons ignore all input...
-                    return;
+                if (!isEnbblfd()) {
+                    // Disbblfd buttons ignorf bll input...
+                    rfturn;
                 }
-                if (!armed) {
-                    armed = true;
+                if (!brmfd) {
+                    brmfd = truf;
                 }
-                pressed = true;
-                repaint();
+                prfssfd = truf;
+                rfpbint();
             }
         }
     }
 
-    public void mouseReleased(MouseEvent e) {
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("mouseReleased() on " + target.getName() + ": armed = " + armed + ", pressed = " + pressed
-                      + ", selected = " + selected + ", enabled = " + isEnabled());
+    publid void mousfRflfbsfd(MousfEvfnt f) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr("mousfRflfbsfd() on " + tbrgft.gftNbmf() + ": brmfd = " + brmfd + ", prfssfd = " + prfssfd
+                      + ", sflfdtfd = " + sflfdtfd + ", fnbblfd = " + isEnbblfd());
         }
-        boolean sendEvent = false;
-        if (XToolkit.isLeftMouseButton(e)) {
-            // TODO: Multiclick Threshold? - see BasicButtonListener.java
-            if (armed) {
-                //selected = !selected;
-                // send action event
-                //action(e.getWhen(),e.getModifiers());
-                sendEvent = true;
+        boolfbn sfndEvfnt = fblsf;
+        if (XToolkit.isLfftMousfButton(f)) {
+            // TODO: Multidlidk Tirfsiold? - sff BbsidButtonListfnfr.jbvb
+            if (brmfd) {
+                //sflfdtfd = !sflfdtfd;
+                // sfnd bdtion fvfnt
+                //bdtion(f.gftWifn(),f.gftModififrs());
+                sfndEvfnt = truf;
             }
-            pressed = false;
-            armed = false;
-            if (sendEvent) {
-                action(!selected);  // Also gets repaint in action()
+            prfssfd = fblsf;
+            brmfd = fblsf;
+            if (sfndEvfnt) {
+                bdtion(!sflfdtfd);  // Also gfts rfpbint in bdtion()
             }
-            else {
-                repaint();
+            flsf {
+                rfpbint();
             }
         }
     }
 
-    public void mouseEntered(MouseEvent e) {
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("mouseEntered() on " + target.getName() + ": armed = " + armed + ", pressed = " + pressed
-                      + ", selected = " + selected + ", enabled = " + isEnabled());
+    publid void mousfEntfrfd(MousfEvfnt f) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr("mousfEntfrfd() on " + tbrgft.gftNbmf() + ": brmfd = " + brmfd + ", prfssfd = " + prfssfd
+                      + ", sflfdtfd = " + sflfdtfd + ", fnbblfd = " + isEnbblfd());
         }
-        if (pressed) {
-            armed = true;
-            repaint();
-        }
-    }
-
-    public void mouseExited(MouseEvent e) {
-        if (log.isLoggable(PlatformLogger.Level.FINER)) {
-            log.finer("mouseExited() on " + target.getName() + ": armed = " + armed + ", pressed = " + pressed
-                      + ", selected = " + selected + ", enabled = " + isEnabled());
-        }
-        if (armed) {
-            armed = false;
-            repaint();
+        if (prfssfd) {
+            brmfd = truf;
+            rfpbint();
         }
     }
 
-    public void mouseClicked(MouseEvent e) {}
+    publid void mousfExitfd(MousfEvfnt f) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            log.finfr("mousfExitfd() on " + tbrgft.gftNbmf() + ": brmfd = " + brmfd + ", prfssfd = " + prfssfd
+                      + ", sflfdtfd = " + sflfdtfd + ", fnbblfd = " + isEnbblfd());
+        }
+        if (brmfd) {
+            brmfd = fblsf;
+            rfpbint();
+        }
+    }
 
-    public Dimension getMinimumSize() {
+    publid void mousfClidkfd(MousfEvfnt f) {}
+
+    publid Dimfnsion gftMinimumSizf() {
         /*
-         * Spacing (number of pixels between check mark and label text) is
-         * currently set to 0, but in case it ever changes we have to add
-         * it. 8 is a heuristic number. Indicator size depends on font
-         * height, so we don't need to include it in checkbox's height
-         * calculation.
+         * Spbding (numbfr of pixfls bftwffn difdk mbrk bnd lbbfl tfxt) is
+         * durrfntly sft to 0, but in dbsf it fvfr dibngfs wf ibvf to bdd
+         * it. 8 is b ifuristid numbfr. Indidbtor sizf dfpfnds on font
+         * ifigit, so wf don't nffd to indludf it in difdkbox's ifigit
+         * dbldulbtion.
          */
-        FontMetrics fm = getFontMetrics(getPeerFont());
+        FontMftrids fm = gftFontMftrids(gftPffrFont());
 
-        int wdth = fm.stringWidth(label) + getCheckboxSize(fm) + (2 * checkBoxInsetFromText) + 8;
-        int hght = Math.max(fm.getHeight() + 8, 15);
+        int wdti = fm.stringWidti(lbbfl) + gftCifdkboxSizf(fm) + (2 * difdkBoxInsftFromTfxt) + 8;
+        int igit = Mbti.mbx(fm.gftHfigit() + 8, 15);
 
-        return new Dimension(wdth, hght);
+        rfturn nfw Dimfnsion(wdti, igit);
     }
 
-    private int getCheckboxSize(FontMetrics fm) {
-        // the motif way of sizing is a bit inscutible, but this
-        // is a fair approximation
-        return (fm.getHeight() * 76 / 100) - 1;
+    privbtf int gftCifdkboxSizf(FontMftrids fm) {
+        // tif motif wby of sizing is b bit insdutiblf, but tiis
+        // is b fbir bpproximbtion
+        rfturn (fm.gftHfigit() * 76 / 100) - 1;
     }
 
-    public void setBackground(Color c) {
-        updateMotifColors(c);
-        super.setBackground(c);
+    publid void sftBbdkground(Color d) {
+        updbtfMotifColors(d);
+        supfr.sftBbdkground(d);
     }
 
     /*
-     * Layout the checkbox/radio button and text label
+     * Lbyout tif difdkbox/rbdio button bnd tfxt lbbfl
      */
-    public void layout() {
-        Dimension size = getPeerSize();
-        Font f = getPeerFont();
-        FontMetrics fm = getFontMetrics(f);
-        String text = label;
+    publid void lbyout() {
+        Dimfnsion sizf = gftPffrSizf();
+        Font f = gftPffrFont();
+        FontMftrids fm = gftFontMftrids(f);
+        String tfxt = lbbfl;
 
-        checkBoxSize = getCheckboxSize(fm);
+        difdkBoxSizf = gftCifdkboxSizf(fm);
 
-        // Note - Motif appears to use an left inset that is slightly
-        // scaled to the checkbox/font size.
-        cbX = borderInsets.left + checkBoxInsetFromText;
-        cbY = size.height / 2 - checkBoxSize / 2;
-        int minTextX = borderInsets.left + 2 * checkBoxInsetFromText + checkBoxSize;
-        // FIXME: will need to account for alignment?
-        // FIXME: call layout() on alignment changes
-        //textRect.width = fm.stringWidth(text);
-        textRect.width = fm.stringWidth(text == null ? "" : text);
-        textRect.height = fm.getHeight();
+        // Notf - Motif bppfbrs to usf bn lfft insft tibt is sligitly
+        // sdblfd to tif difdkbox/font sizf.
+        dbX = bordfrInsfts.lfft + difdkBoxInsftFromTfxt;
+        dbY = sizf.ifigit / 2 - difdkBoxSizf / 2;
+        int minTfxtX = bordfrInsfts.lfft + 2 * difdkBoxInsftFromTfxt + difdkBoxSizf;
+        // FIXME: will nffd to bddount for blignmfnt?
+        // FIXME: dbll lbyout() on blignmfnt dibngfs
+        //tfxtRfdt.widti = fm.stringWidti(tfxt);
+        tfxtRfdt.widti = fm.stringWidti(tfxt == null ? "" : tfxt);
+        tfxtRfdt.ifigit = fm.gftHfigit();
 
-        textRect.x = Math.max(minTextX, size.width / 2 - textRect.width / 2);
-        textRect.y = (size.height - textRect.height) / 2;
+        tfxtRfdt.x = Mbti.mbx(minTfxtX, sizf.widti / 2 - tfxtRfdt.widti / 2);
+        tfxtRfdt.y = (sizf.ifigit - tfxtRfdt.ifigit) / 2;
 
-        focusRect.x = focusInsets.left;
-        focusRect.y = focusInsets.top;
-        focusRect.width = size.width-(focusInsets.left+focusInsets.right)-1;
-        focusRect.height = size.height-(focusInsets.top+focusInsets.bottom)-1;
+        fodusRfdt.x = fodusInsfts.lfft;
+        fodusRfdt.y = fodusInsfts.top;
+        fodusRfdt.widti = sizf.widti-(fodusInsfts.lfft+fodusInsfts.rigit)-1;
+        fodusRfdt.ifigit = sizf.ifigit-(fodusInsfts.top+fodusInsfts.bottom)-1;
 
-        double fsize = (double) checkBoxSize;
-        myCheckMark = AffineTransform.getScaleInstance(fsize / MASTER_SIZE, fsize / MASTER_SIZE).createTransformedShape(MASTER_CHECKMARK);
+        doublf fsizf = (doublf) difdkBoxSizf;
+        myCifdkMbrk = AffinfTrbnsform.gftSdblfInstbndf(fsizf / MASTER_SIZE, fsizf / MASTER_SIZE).drfbtfTrbnsformfdSibpf(MASTER_CHECKMARK);
     }
-    @Override
-    void paintPeer(final Graphics g) {
-        //layout();
-        Dimension size = getPeerSize();
-        Font f = getPeerFont();
-        flush();
-        g.setColor(getPeerBackground());   // erase the existing button
-        g.fillRect(0,0, size.width, size.height);
-        if (label != null) {
-            g.setFont(f);
-            paintText(g, textRect, label);
+    @Ovfrridf
+    void pbintPffr(finbl Grbpiids g) {
+        //lbyout();
+        Dimfnsion sizf = gftPffrSizf();
+        Font f = gftPffrFont();
+        flusi();
+        g.sftColor(gftPffrBbdkground());   // frbsf tif fxisting button
+        g.fillRfdt(0,0, sizf.widti, sizf.ifigit);
+        if (lbbfl != null) {
+            g.sftFont(f);
+            pbintTfxt(g, tfxtRfdt, lbbfl);
         }
 
-        if (hasFocus()) {
-            paintFocus(g,
-                       focusRect.x,
-                       focusRect.y,
-                       focusRect.width,
-                       focusRect.height);
+        if (ibsFodus()) {
+            pbintFodus(g,
+                       fodusRfdt.x,
+                       fodusRfdt.y,
+                       fodusRfdt.widti,
+                       fodusRfdt.ifigit);
         }
-        // Paint the checkbox or radio button
-        if (checkBoxGroup == null) {
-            paintCheckbox(g, cbX, cbY, checkBoxSize, checkBoxSize);
+        // Pbint tif difdkbox or rbdio button
+        if (difdkBoxGroup == null) {
+            pbintCifdkbox(g, dbX, dbY, difdkBoxSizf, difdkBoxSizf);
         }
-        else {
-            paintRadioButton(g, cbX, cbY, checkBoxSize, checkBoxSize);
+        flsf {
+            pbintRbdioButton(g, dbX, dbY, difdkBoxSizf, difdkBoxSizf);
         }
-        flush();
+        flusi();
     }
 
-    // You'll note this looks suspiciously like paintBorder
-    public void paintCheckbox(Graphics g,
-                              int x, int y, int w, int h) {
-        boolean useBufferedImage = false;
-        BufferedImage buffer = null;
-        Graphics2D g2 = null;
+    // You'll notf tiis looks suspidiously likf pbintBordfr
+    publid void pbintCifdkbox(Grbpiids g,
+                              int x, int y, int w, int i) {
+        boolfbn usfBufffrfdImbgf = fblsf;
+        BufffrfdImbgf bufffr = null;
+        Grbpiids2D g2 = null;
         int rx = x;
         int ry = y;
-        if (!(g instanceof Graphics2D)) {
-            // Fix for 5045936. While printing, g is an instance of
-            //   sun.print.ProxyPrintGraphics which extends Graphics. So
-            //   we use a separate buffered image and its graphics is
-            //   always Graphics2D instance
-            buffer = graphicsConfig.createCompatibleImage(w, h);
-            g2 = buffer.createGraphics();
-            useBufferedImage = true;
+        if (!(g instbndfof Grbpiids2D)) {
+            // Fix for 5045936. Wiilf printing, g is bn instbndf of
+            //   sun.print.ProxyPrintGrbpiids wiidi fxtfnds Grbpiids. So
+            //   wf usf b sfpbrbtf bufffrfd imbgf bnd its grbpiids is
+            //   blwbys Grbpiids2D instbndf
+            bufffr = grbpiidsConfig.drfbtfCompbtiblfImbgf(w, i);
+            g2 = bufffr.drfbtfGrbpiids();
+            usfBufffrfdImbgf = truf;
             rx = 0;
             ry = 0;
         }
-        else {
-            g2 = (Graphics2D)g;
+        flsf {
+            g2 = (Grbpiids2D)g;
         }
         try {
-            drawMotif3DRect(g2, rx, ry, w-1, h-1, armed | selected);
+            drbwMotif3DRfdt(g2, rx, ry, w-1, i-1, brmfd | sflfdtfd);
 
-            // then paint the check
-            g2.setColor((armed | selected) ? selectColor : getPeerBackground());
-            g2.fillRect(rx+1, ry+1, w-2, h-2);
+            // tifn pbint tif difdk
+            g2.sftColor((brmfd | sflfdtfd) ? sflfdtColor : gftPffrBbdkground());
+            g2.fillRfdt(rx+1, ry+1, w-2, i-2);
 
-            if (armed | selected) {
-                //Paint the check
+            if (brmfd | sflfdtfd) {
+                //Pbint tif difdk
 
-                // FIXME: is this the right color?
-                g2.setColor(getPeerForeground());
+                // FIXME: is tiis tif rigit dolor?
+                g2.sftColor(gftPffrForfground());
 
-                AffineTransform af = g2.getTransform();
-                g2.setTransform(AffineTransform.getTranslateInstance(rx,ry));
-                g2.fill(myCheckMark);
-                g2.setTransform(af);
+                AffinfTrbnsform bf = g2.gftTrbnsform();
+                g2.sftTrbnsform(AffinfTrbnsform.gftTrbnslbtfInstbndf(rx,ry));
+                g2.fill(myCifdkMbrk);
+                g2.sftTrbnsform(bf);
             }
-        } finally {
-            if (useBufferedImage) {
-                g2.dispose();
+        } finblly {
+            if (usfBufffrfdImbgf) {
+                g2.disposf();
             }
         }
-        if (useBufferedImage) {
-            g.drawImage(buffer, x, y, null);
+        if (usfBufffrfdImbgf) {
+            g.drbwImbgf(bufffr, x, y, null);
         }
     }
 
-    public void paintRadioButton(Graphics g, int x, int y, int w, int h) {
+    publid void pbintRbdioButton(Grbpiids g, int x, int y, int w, int i) {
 
-        g.setColor((armed | selected) ? darkShadow : lightShadow);
-        g.drawArc(x-1, y-1, w+2, h+2, 45, 180);
+        g.sftColor((brmfd | sflfdtfd) ? dbrkSibdow : ligitSibdow);
+        g.drbwArd(x-1, y-1, w+2, i+2, 45, 180);
 
-        g.setColor((armed | selected) ? lightShadow : darkShadow);
-        g.drawArc(x-1, y-1, w+2, h+2, 45, -180);
+        g.sftColor((brmfd | sflfdtfd) ? ligitSibdow : dbrkSibdow);
+        g.drbwArd(x-1, y-1, w+2, i+2, 45, -180);
 
-        if (armed | selected) {
-            g.setColor(selectColor);
-            g.fillArc(x+1, y+1, w-1, h-1, 0, 360);
+        if (brmfd | sflfdtfd) {
+            g.sftColor(sflfdtColor);
+            g.fillArd(x+1, y+1, w-1, i-1, 0, 360);
         }
     }
 
-    protected void paintText(Graphics g, Rectangle textRect, String text) {
-        FontMetrics fm = g.getFontMetrics();
+    protfdtfd void pbintTfxt(Grbpiids g, Rfdtbnglf tfxtRfdt, String tfxt) {
+        FontMftrids fm = g.gftFontMftrids();
 
-        int mnemonicIndex = -1;
+        int mnfmonidIndfx = -1;
 
-        if(isEnabled()) {
-            /*** paint the text normally */
-            g.setColor(getPeerForeground());
-            BasicGraphicsUtils.drawStringUnderlineCharAt(g,text,mnemonicIndex , textRect.x , textRect.y + fm.getAscent() );
+        if(isEnbblfd()) {
+            /*** pbint tif tfxt normblly */
+            g.sftColor(gftPffrForfground());
+            BbsidGrbpiidsUtils.drbwStringUndfrlinfCibrAt(g,tfxt,mnfmonidIndfx , tfxtRfdt.x , tfxtRfdt.y + fm.gftAsdfnt() );
         }
-        else {
-            /*** paint the text disabled ***/
-            g.setColor(getPeerBackground().brighter());
+        flsf {
+            /*** pbint tif tfxt disbblfd ***/
+            g.sftColor(gftPffrBbdkground().brigitfr());
 
-            BasicGraphicsUtils.drawStringUnderlineCharAt(g,text, mnemonicIndex,
-                                                         textRect.x, textRect.y + fm.getAscent());
-            g.setColor(getPeerBackground().darker());
-            BasicGraphicsUtils.drawStringUnderlineCharAt(g,text, mnemonicIndex,
-                                                         textRect.x - 1, textRect.y + fm.getAscent() - 1);
-        }
-    }
-
-    // TODO: copied directly from XButtonPeer.  Should probabaly be shared
-    protected void paintFocus(Graphics g, int x, int y, int w, int h) {
-        g.setColor(focusColor);
-        g.drawRect(x,y,w,h);
-    }
-
-    @Override
-    public void setState(boolean state) {
-        if (selected != state) {
-            selected = state;
-            repaint();
+            BbsidGrbpiidsUtils.drbwStringUndfrlinfCibrAt(g,tfxt, mnfmonidIndfx,
+                                                         tfxtRfdt.x, tfxtRfdt.y + fm.gftAsdfnt());
+            g.sftColor(gftPffrBbdkground().dbrkfr());
+            BbsidGrbpiidsUtils.drbwStringUndfrlinfCibrAt(g,tfxt, mnfmonidIndfx,
+                                                         tfxtRfdt.x - 1, tfxtRfdt.y + fm.gftAsdfnt() - 1);
         }
     }
 
-    @Override
-    public void setCheckboxGroup(final CheckboxGroup g) {
-        if (!Objects.equals(g, checkBoxGroup)) {
-            // If changed from grouped/ungrouped, need to repaint()
-            checkBoxGroup = g;
-            repaint();
+    // TODO: dopifd dirfdtly from XButtonPffr.  Siould probbbbly bf sibrfd
+    protfdtfd void pbintFodus(Grbpiids g, int x, int y, int w, int i) {
+        g.sftColor(fodusColor);
+        g.drbwRfdt(x,y,w,i);
+    }
+
+    @Ovfrridf
+    publid void sftStbtf(boolfbn stbtf) {
+        if (sflfdtfd != stbtf) {
+            sflfdtfd = stbtf;
+            rfpbint();
         }
     }
 
-    // NOTE: This method is called by privileged threads.
+    @Ovfrridf
+    publid void sftCifdkboxGroup(finbl CifdkboxGroup g) {
+        if (!Objfdts.fqubls(g, difdkBoxGroup)) {
+            // If dibngfd from groupfd/ungroupfd, nffd to rfpbint()
+            difdkBoxGroup = g;
+            rfpbint();
+        }
+    }
+
+    // NOTE: Tiis mftiod is dbllfd by privilfgfd tirfbds.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    // From MCheckboxPeer
-    void action(boolean state) {
-        final Checkbox cb = (Checkbox)target;
-        final boolean newState = state;
-        XToolkit.executeOnEventHandlerThread(cb, new Runnable() {
-                public void run() {
-                    CheckboxGroup cbg = checkBoxGroup;
-                    // Bugid 4039594. If this is the current Checkbox in
-                    // a CheckboxGroup, then return to prevent deselection.
-                    // Otherwise, it's logical state will be turned off,
-                    // but it will appear on.
-                    if ((cbg != null) && (cbg.getSelectedCheckbox() == cb) &&
-                        cb.getState()) {
-                        //inUpCall = false;
-                        cb.setState(true);
-                        return;
+    // From MCifdkboxPffr
+    void bdtion(boolfbn stbtf) {
+        finbl Cifdkbox db = (Cifdkbox)tbrgft;
+        finbl boolfbn nfwStbtf = stbtf;
+        XToolkit.fxfdutfOnEvfntHbndlfrTirfbd(db, nfw Runnbblf() {
+                publid void run() {
+                    CifdkboxGroup dbg = difdkBoxGroup;
+                    // Bugid 4039594. If tiis is tif durrfnt Cifdkbox in
+                    // b CifdkboxGroup, tifn rfturn to prfvfnt dfsflfdtion.
+                    // Otifrwisf, it's logidbl stbtf will bf turnfd off,
+                    // but it will bppfbr on.
+                    if ((dbg != null) && (dbg.gftSflfdtfdCifdkbox() == db) &&
+                        db.gftStbtf()) {
+                        //inUpCbll = fblsf;
+                        db.sftStbtf(truf);
+                        rfturn;
                     }
-                    // All clear - set the new state
-                    cb.setState(newState);
-                    notifyStateChanged(newState);
+                    // All dlfbr - sft tif nfw stbtf
+                    db.sftStbtf(nfwStbtf);
+                    notifyStbtfCibngfd(nfwStbtf);
                 }
             });
     }
 
-    void notifyStateChanged(boolean state) {
-        Checkbox cb = (Checkbox) target;
-        ItemEvent e = new ItemEvent(cb,
-                                    ItemEvent.ITEM_STATE_CHANGED,
-                                    cb.getLabel(),
-                                    state ? ItemEvent.SELECTED : ItemEvent.DESELECTED);
-        postEvent(e);
+    void notifyStbtfCibngfd(boolfbn stbtf) {
+        Cifdkbox db = (Cifdkbox) tbrgft;
+        ItfmEvfnt f = nfw ItfmEvfnt(db,
+                                    ItfmEvfnt.ITEM_STATE_CHANGED,
+                                    db.gftLbbfl(),
+                                    stbtf ? ItfmEvfnt.SELECTED : ItfmEvfnt.DESELECTED);
+        postEvfnt(f);
     }
 }

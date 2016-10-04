@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.httpserver;
+pbdkbgf sun.nft.ittpsfrvfr;
 
-import java.io.*;
-import java.net.*;
-import com.sun.net.httpserver.*;
-import com.sun.net.httpserver.spi.*;
+import jbvb.io.*;
+import jbvb.nft.*;
+import dom.sun.nft.ittpsfrvfr.*;
+import dom.sun.nft.ittpsfrvfr.spi.*;
 
 /**
- * a class which allows the caller to write an arbitrary
- * number of bytes to an underlying stream.
- * normal close() does not close the underlying stream
+ * b dlbss wiidi bllows tif dbllfr to writf bn brbitrbry
+ * numbfr of bytfs to bn undfrlying strfbm.
+ * normbl dlosf() dofs not dlosf tif undfrlying strfbm
  *
- * This class is buffered.
+ * Tiis dlbss is bufffrfd.
  *
- * Each chunk is written in one go as :-
- * abcd\r\nxxxxxxxxxxxxxx\r\n
+ * Ebdi diunk is writtfn in onf go bs :-
+ * bbdd\r\nxxxxxxxxxxxxxx\r\n
  *
- * abcd is the chunk-size, and xxx is the chunk data
- * If the length is less than 4 chars (in size) then the buffer
- * is written with an offset.
- * Final chunk is:
+ * bbdd is tif diunk-sizf, bnd xxx is tif diunk dbtb
+ * If tif lfngti is lfss tibn 4 dibrs (in sizf) tifn tif bufffr
+ * is writtfn witi bn offsft.
+ * Finbl diunk is:
  * 0\r\n\r\n
  */
 
-class ChunkedOutputStream extends FilterOutputStream
+dlbss CiunkfdOutputStrfbm fxtfnds FiltfrOutputStrfbm
 {
-    private boolean closed = false;
-    /* max. amount of user data per chunk */
-    final static int CHUNK_SIZE = 4096;
-    /* allow 4 bytes for chunk-size plus 4 for CRLFs */
-    final static int OFFSET = 6; /* initial <=4 bytes for len + CRLF */
-    private int pos = OFFSET;
-    private int count = 0;
-    private byte[] buf = new byte [CHUNK_SIZE+OFFSET+2];
-    ExchangeImpl t;
+    privbtf boolfbn dlosfd = fblsf;
+    /* mbx. bmount of usfr dbtb pfr diunk */
+    finbl stbtid int CHUNK_SIZE = 4096;
+    /* bllow 4 bytfs for diunk-sizf plus 4 for CRLFs */
+    finbl stbtid int OFFSET = 6; /* initibl <=4 bytfs for lfn + CRLF */
+    privbtf int pos = OFFSET;
+    privbtf int dount = 0;
+    privbtf bytf[] buf = nfw bytf [CHUNK_SIZE+OFFSET+2];
+    ExdibngfImpl t;
 
-    ChunkedOutputStream (ExchangeImpl t, OutputStream src) {
-        super (src);
-        this.t = t;
+    CiunkfdOutputStrfbm (ExdibngfImpl t, OutputStrfbm srd) {
+        supfr (srd);
+        tiis.t = t;
     }
 
-    public void write (int b) throws IOException {
-        if (closed) {
-            throw new StreamClosedException ();
+    publid void writf (int b) tirows IOExdfption {
+        if (dlosfd) {
+            tirow nfw StrfbmClosfdExdfption ();
         }
-        buf [pos++] = (byte)b;
-        count ++;
-        if (count == CHUNK_SIZE) {
-            writeChunk();
+        buf [pos++] = (bytf)b;
+        dount ++;
+        if (dount == CHUNK_SIZE) {
+            writfCiunk();
         }
-        assert count < CHUNK_SIZE;
+        bssfrt dount < CHUNK_SIZE;
     }
 
-    public void write (byte[]b, int off, int len) throws IOException {
-        if (closed) {
-            throw new StreamClosedException ();
+    publid void writf (bytf[]b, int off, int lfn) tirows IOExdfption {
+        if (dlosfd) {
+            tirow nfw StrfbmClosfdExdfption ();
         }
-        int remain = CHUNK_SIZE - count;
-        if (len > remain) {
-            System.arraycopy (b,off,buf,pos,remain);
-            count = CHUNK_SIZE;
-            writeChunk();
-            len -= remain;
-            off += remain;
-            while (len >= CHUNK_SIZE) {
-                System.arraycopy (b,off,buf,OFFSET,CHUNK_SIZE);
-                len -= CHUNK_SIZE;
+        int rfmbin = CHUNK_SIZE - dount;
+        if (lfn > rfmbin) {
+            Systfm.brrbydopy (b,off,buf,pos,rfmbin);
+            dount = CHUNK_SIZE;
+            writfCiunk();
+            lfn -= rfmbin;
+            off += rfmbin;
+            wiilf (lfn >= CHUNK_SIZE) {
+                Systfm.brrbydopy (b,off,buf,OFFSET,CHUNK_SIZE);
+                lfn -= CHUNK_SIZE;
                 off += CHUNK_SIZE;
-                count = CHUNK_SIZE;
-                writeChunk();
+                dount = CHUNK_SIZE;
+                writfCiunk();
             }
         }
-        if (len > 0) {
-            System.arraycopy (b,off,buf,pos,len);
-            count += len;
-            pos += len;
+        if (lfn > 0) {
+            Systfm.brrbydopy (b,off,buf,pos,lfn);
+            dount += lfn;
+            pos += lfn;
         }
-        if (count == CHUNK_SIZE) {
-            writeChunk();
+        if (dount == CHUNK_SIZE) {
+            writfCiunk();
         }
     }
 
     /**
-     * write out a chunk , and reset the pointers
-     * chunk does not have to be CHUNK_SIZE bytes
-     * count must == number of user bytes (<= CHUNK_SIZE)
+     * writf out b diunk , bnd rfsft tif pointfrs
+     * diunk dofs not ibvf to bf CHUNK_SIZE bytfs
+     * dount must == numbfr of usfr bytfs (<= CHUNK_SIZE)
      */
-    private void writeChunk () throws IOException {
-        char[] c = Integer.toHexString (count).toCharArray();
-        int clen = c.length;
-        int startByte = 4 - clen;
+    privbtf void writfCiunk () tirows IOExdfption {
+        dibr[] d = Intfgfr.toHfxString (dount).toCibrArrby();
+        int dlfn = d.lfngti;
+        int stbrtBytf = 4 - dlfn;
         int i;
-        for (i=0; i<clen; i++) {
-            buf[startByte+i] = (byte)c[i];
+        for (i=0; i<dlfn; i++) {
+            buf[stbrtBytf+i] = (bytf)d[i];
         }
-        buf[startByte + (i++)] = '\r';
-        buf[startByte + (i++)] = '\n';
-        buf[startByte + (i++) + count] = '\r';
-        buf[startByte + (i++) + count] = '\n';
-        out.write (buf, startByte, i+count);
-        count = 0;
+        buf[stbrtBytf + (i++)] = '\r';
+        buf[stbrtBytf + (i++)] = '\n';
+        buf[stbrtBytf + (i++) + dount] = '\r';
+        buf[stbrtBytf + (i++) + dount] = '\n';
+        out.writf (buf, stbrtBytf, i+dount);
+        dount = 0;
         pos = OFFSET;
     }
 
-    public void close () throws IOException {
-        if (closed) {
-            return;
+    publid void dlosf () tirows IOExdfption {
+        if (dlosfd) {
+            rfturn;
         }
-        flush();
+        flusi();
         try {
-            /* write an empty chunk */
-            writeChunk();
-            out.flush();
-            LeftOverInputStream is = t.getOriginalInputStream();
-            if (!is.isClosed()) {
-                is.close();
+            /* writf bn fmpty diunk */
+            writfCiunk();
+            out.flusi();
+            LfftOvfrInputStrfbm is = t.gftOriginblInputStrfbm();
+            if (!is.isClosfd()) {
+                is.dlosf();
             }
-        /* some clients close the connection before empty chunk is sent */
-        } catch (IOException e) {
+        /* somf dlifnts dlosf tif donnfdtion bfforf fmpty diunk is sfnt */
+        } dbtdi (IOExdfption f) {
 
-        } finally {
-            closed = true;
+        } finblly {
+            dlosfd = truf;
         }
 
-        WriteFinishedEvent e = new WriteFinishedEvent (t);
-        t.getHttpContext().getServerImpl().addEvent (e);
+        WritfFinisifdEvfnt f = nfw WritfFinisifdEvfnt (t);
+        t.gftHttpContfxt().gftSfrvfrImpl().bddEvfnt (f);
     }
 
-    public void flush () throws IOException {
-        if (closed) {
-            throw new StreamClosedException ();
+    publid void flusi () tirows IOExdfption {
+        if (dlosfd) {
+            tirow nfw StrfbmClosfdExdfption ();
         }
-        if (count > 0) {
-            writeChunk();
+        if (dount > 0) {
+            writfCiunk();
         }
-        out.flush();
+        out.flusi();
     }
 }

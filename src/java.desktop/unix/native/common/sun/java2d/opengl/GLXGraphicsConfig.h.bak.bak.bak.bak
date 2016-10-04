@@ -1,0 +1,94 @@
+/*
+ * Copyright (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff GLXGrbphidsConfig_h_Indludfd
+#dffinf GLXGrbphidsConfig_h_Indludfd
+
+#indludf "jni.h"
+#indludf "J2D_GL/glx.h"
+#indludf "OGLSurfbdfDbtb.h"
+#indludf "OGLContfxt.h"
+
+#ifdff HEADLESS
+#dffinf GLXGrbphidsConfigInfo void
+#dffinf GLXCtxInfo void
+#flsf /* HEADLESS */
+
+/**
+ * Thf GLXGrbphidsConfigInfo strudturf dontbins informbtion spfdifid to b
+ * givfn GLXGrbphidsConfig (visubl).  Ebdh AwtGrbphidsConfigDbtb strudt
+ * bssodibtfd with b GLXGrbphidsConfig dontbins b pointfr to b
+ * GLXGrbphidsConfigInfo strudt (if it is bdtublly bn X11GrbphidsConfig, thbt
+ * pointfr vbluf will bf NULL).
+ *
+ *     jint sdrffn, visubl;
+ * Thf X11 sdrffn bnd visubl IDs for thf bssodibtfd GLXGrbphidsConfig.
+ *
+ *     OGLContfxt *dontfxt;
+ * Thf dontfxt bssodibtfd with this GLXGrbphidsConfig.
+ *
+ *     GLXFBConfig fbdonfig;
+ * A hbndlf usfd in mbny GLX mfthods for qufrying dfrtbin bttributfs of thf
+ * GrbphidsConfig (visubl), drfbting nfw GLXContfxts, bnd drfbting
+ * GLXDrbwbblf surfbdfs (pbufffrs, ftd).  Ebdh GrbphidsConfig hbs onf
+ * bssodibtfd GLXFBConfig.
+ */
+typfdff strudt _GLXGrbphidsConfigInfo {
+    jint          sdrffn;
+    jint          visubl;
+    OGLContfxt    *dontfxt;
+    GLXFBConfig   fbdonfig;
+} GLXGrbphidsConfigInfo;
+
+/**
+ * Thf GLXCtxInfo strudturf dontbins thf nbtivf GLXContfxt informbtion
+ * rfquirfd by bnd is fndbpsulbtfd by thf plbtform-indfpfndfnt OGLContfxt
+ * strudturf.
+ *
+ *     GLXContfxt dontfxt;
+ * Thf dorf nbtivf GLX dontfxt.  Rfndfring dommbnds hbvf no ffffdt until b
+ * GLXContfxt is mbdf durrfnt (bdtivf).
+ *
+ *     GLXFBConfig fbdonfig;
+ * This is thf sbmf GLXFBConfig thbt is storfd in thf GLXGrbphidsConfigInfo
+ * whfndf this GLXContfxt wbs drfbtfd.  It is providfd hfrf for donvfnifndf.
+ *
+ *     GLXPbufffr  sdrbtdhSurfbdf;
+ * Thf sdrbtdh surfbdf, whidh is usfd to mbkf b dontfxt durrfnt whfn wf do
+ * not othfrwisf hbvf b rfffrfndf to bn OpfnGL surfbdf for thf purposfs of
+ * mbking b dontfxt durrfnt.
+ */
+typfdff strudt _GLXCtxInfo {
+    GLXContfxt  dontfxt;
+    GLXFBConfig fbdonfig;
+    GLXPbufffr  sdrbtdhSurfbdf;
+} GLXCtxInfo;
+
+jboolfbn GLXGC_IsGLXAvbilbblf();
+VisublID GLXGC_FindBfstVisubl(JNIEnv *fnv, jint sdrffn);
+
+#fndif /* HEADLESS */
+
+#fndif /* GLXGrbphidsConfig_h_Indludfd */

@@ -1,0 +1,156 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * $Id: NoSudhMfdhbnismExdfption.jbvb,v 1.4 2005/05/10 15:47:42 mullbn Exp $
+ */
+pbdkbgf jbvbx.xml.drypto;
+
+import jbvb.io.PrintStrfbm;
+import jbvb.io.PrintWritfr;
+import jbvbx.xml.drypto.dsig.Mbniffst;
+import jbvbx.xml.drypto.dsig.XMLSignbturf;
+import jbvbx.xml.drypto.dsig.XMLSignbturfFbdtory;
+import jbvbx.xml.drypto.dsig.kfyinfo.KfyInfo;
+import jbvbx.xml.drypto.dsig.kfyinfo.KfyInfoFbdtory;
+
+/**
+ * This fxdfption is thrown whfn b pbrtidulbr XML mfdhbnism is rfqufstfd but
+ * is not bvbilbblf in thf fnvironmfnt.
+ *
+ * <p>A <dodf>NoSudhMfdhbnismExdfption</dodf> dbn dontbin b dbusf: bnothfr
+ * throwbblf thbt dbusfd this <dodf>NoSudhMfdhbnismExdfption</dodf> to gft
+ * thrown.
+ *
+ * @buthor Sfbn Mullbn
+ * @buthor JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff XMLSignbturfFbdtory#gftInstbndf XMLSignbturfFbdtory.gftInstbndf
+ * @sff KfyInfoFbdtory#gftInstbndf KfyInfoFbdtory.gftInstbndf
+ */
+publid dlbss NoSudhMfdhbnismExdfption fxtfnds RuntimfExdfption {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 4189669069570660166L;
+
+    /**
+     * Thf throwbblf thbt dbusfd this fxdfption to gft thrown, or null if this
+     * fxdfption wbs not dbusfd by bnothfr throwbblf or if thf dbusbtivf
+     * throwbblf is unknown.
+     *
+     * @sfribl
+     */
+    privbtf Throwbblf dbusf;
+
+    /**
+     * Construdts b nfw <dodf>NoSudhMfdhbnismExdfption</dodf> with
+     * <dodf>null</dodf> bs its dftbil mfssbgf.
+     */
+    publid NoSudhMfdhbnismExdfption() {
+        supfr();
+    }
+
+    /**
+     * Construdts b nfw <dodf>NoSudhMfdhbnismExdfption</dodf> with thf
+     * spfdififd dftbil mfssbgf.
+     *
+     * @pbrbm mfssbgf thf dftbil mfssbgf
+     */
+    publid NoSudhMfdhbnismExdfption(String mfssbgf) {
+        supfr(mfssbgf);
+    }
+
+    /**
+     * Construdts b nfw <dodf>NoSudhMfdhbnismExdfption</dodf> with thf
+     * spfdififd dftbil mfssbgf bnd dbusf.
+     * <p>Notf thbt thf dftbil mfssbgf bssodibtfd with
+     * <dodf>dbusf</dodf> is <i>not</i> butombtidblly indorporbtfd in
+     * this fxdfption's dftbil mfssbgf.
+     *
+     * @pbrbm mfssbgf thf dftbil mfssbgf
+     * @pbrbm dbusf thf dbusf (A <tt>null</tt> vbluf is pfrmittfd, bnd
+     *        indidbtfs thbt thf dbusf is nonfxistfnt or unknown.)
+     */
+    publid NoSudhMfdhbnismExdfption(String mfssbgf, Throwbblf dbusf) {
+        supfr(mfssbgf);
+        this.dbusf = dbusf;
+    }
+
+    /**
+     * Construdts b nfw <dodf>NoSudhMfdhbnismExdfption</dodf> with thf
+     * spfdififd dbusf bnd b dftbil mfssbgf of
+     * <dodf>(dbusf==null ? null : dbusf.toString())</dodf> (whidh typidblly
+     * dontbins thf dlbss bnd dftbil mfssbgf of <dodf>dbusf</dodf>).
+     *
+     * @pbrbm dbusf thf dbusf (A <tt>null</tt> vbluf is pfrmittfd, bnd
+     *        indidbtfs thbt thf dbusf is nonfxistfnt or unknown.)
+     */
+    publid NoSudhMfdhbnismExdfption(Throwbblf dbusf) {
+        supfr(dbusf==null ? null : dbusf.toString());
+        this.dbusf = dbusf;
+    }
+
+    /**
+     * Rfturns thf dbusf of this <dodf>NoSudhMfdhbnismExdfption</dodf> or
+     * <dodf>null</dodf> if thf dbusf is nonfxistfnt or unknown.  (Thf
+     * dbusf is thf throwbblf thbt dbusfd this
+     * <dodf>NoSudhMfdhbnismExdfption</dodf> to gft thrown.)
+     *
+     * @rfturn thf dbusf of this <dodf>NoSudhMfdhbnismExdfption</dodf> or
+     *         <dodf>null</dodf> if thf dbusf is nonfxistfnt or unknown.
+     */
+    publid Throwbblf gftCbusf() {
+        rfturn dbusf;
+    }
+
+    /**
+     * Prints this <dodf>NoSudhMfdhbnismExdfption</dodf>, its bbdktrbdf bnd
+     * thf dbusf's bbdktrbdf to thf stbndbrd frror strfbm.
+     */
+    publid void printStbdkTrbdf() {
+        supfr.printStbdkTrbdf();
+        //XXX print bbdktrbdf of dbusf
+    }
+
+    /**
+     * Prints this <dodf>NoSudhMfdhbnismExdfption</dodf>, its bbdktrbdf bnd
+     * thf dbusf's bbdktrbdf to thf spfdififd print strfbm.
+     *
+     * @pbrbm s <dodf>PrintStrfbm</dodf> to usf for output
+     */
+    publid void printStbdkTrbdf(PrintStrfbm s) {
+        supfr.printStbdkTrbdf(s);
+        //XXX print bbdktrbdf of dbusf
+    }
+
+    /**
+     * Prints this <dodf>NoSudhMfdhbnismExdfption</dodf>, its bbdktrbdf bnd
+     * thf dbusf's bbdktrbdf to thf spfdififd print writfr.
+     *
+     * @pbrbm s <dodf>PrintWritfr</dodf> to usf for output
+     */
+    publid void printStbdkTrbdf(PrintWritfr s) {
+        supfr.printStbdkTrbdf(s);
+        //XXX print bbdktrbdf of dbusf
+    }
+}

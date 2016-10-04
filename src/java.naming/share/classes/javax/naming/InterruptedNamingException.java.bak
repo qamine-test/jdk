@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 1999, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming;
+pbdkbgf jbvbx.nbming;
 
 /**
-  * This exception is thrown when the naming operation
-  * being invoked has been interrupted. For example, an application
-  * might interrupt a thread that is performing a search. If the
-  * search supports being interrupted, it will throw
-  * InterruptedNamingException. Whether an operation is interruptible
-  * and when depends on its implementation (as provided by the
-  * service providers). Different implementations have different ways
-  * of protecting their resources and objects from being damaged
-  * due to unexpected interrupts.
+  * Tiis fxdfption is tirown wifn tif nbming opfrbtion
+  * bfing invokfd ibs bffn intfrruptfd. For fxbmplf, bn bpplidbtion
+  * migit intfrrupt b tirfbd tibt is pfrforming b sfbrdi. If tif
+  * sfbrdi supports bfing intfrruptfd, it will tirow
+  * IntfrruptfdNbmingExdfption. Wiftifr bn opfrbtion is intfrruptiblf
+  * bnd wifn dfpfnds on its implfmfntbtion (bs providfd by tif
+  * sfrvidf providfrs). Difffrfnt implfmfntbtions ibvf difffrfnt wbys
+  * of protfdting tifir rfsourdfs bnd objfdts from bfing dbmbgfd
+  * duf to unfxpfdtfd intfrrupts.
   * <p>
-  * Synchronization and serialization issues that apply to NamingException
-  * apply directly here.
+  * Syndironizbtion bnd sfriblizbtion issufs tibt bpply to NbmingExdfption
+  * bpply dirfdtly ifrf.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
   *
-  * @see Context
-  * @see javax.naming.directory.DirContext
-  * @see java.lang.Thread#interrupt
-  * @see java.lang.InterruptedException
-  * @since 1.3
+  * @sff Contfxt
+  * @sff jbvbx.nbming.dirfdtory.DirContfxt
+  * @sff jbvb.lbng.Tirfbd#intfrrupt
+  * @sff jbvb.lbng.IntfrruptfdExdfption
+  * @sindf 1.3
   */
 
-public class InterruptedNamingException extends NamingException {
+publid dlbss IntfrruptfdNbmingExdfption fxtfnds NbmingExdfption {
     /**
-      * Constructs an instance of InterruptedNamingException using an
-      * explanation of the problem.
-      * All name resolution-related fields are initialized to null.
-      * @param explanation      A possibly null message explaining the problem.
-      * @see java.lang.Throwable#getMessage
+      * Construdts bn instbndf of IntfrruptfdNbmingExdfption using bn
+      * fxplbnbtion of tif problfm.
+      * All nbmf rfsolution-rflbtfd fiflds brf initiblizfd to null.
+      * @pbrbm fxplbnbtion      A possibly null mfssbgf fxplbining tif problfm.
+      * @sff jbvb.lbng.Tirowbblf#gftMfssbgf
       */
-    public InterruptedNamingException(String explanation) {
-        super(explanation);
+    publid IntfrruptfdNbmingExdfption(String fxplbnbtion) {
+        supfr(fxplbnbtion);
     }
 
     /**
-      * Constructs an instance of InterruptedNamingException with
-      * all name resolution fields and explanation initialized to null.
+      * Construdts bn instbndf of IntfrruptfdNbmingExdfption witi
+      * bll nbmf rfsolution fiflds bnd fxplbnbtion initiblizfd to null.
       */
-    public InterruptedNamingException() {
-        super();
+    publid IntfrruptfdNbmingExdfption() {
+        supfr();
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
      */
-    private static final long serialVersionUID = 6404516648893194728L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 6404516648893194728L;
 }

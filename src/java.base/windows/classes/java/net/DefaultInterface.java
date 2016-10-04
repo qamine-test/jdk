@@ -1,41 +1,41 @@
 /*
- * Copyright (c) 2011, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free softwbre; you cbn redistribute it bnd/or modify it
- * under the terms of the GNU Generbl Public License version 2 only, bs
- * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
- * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
- * by Orbcle in the LICENSE file thbt bccompbnied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope thbt it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
- * version 2 for more detbils (b copy is included in the LICENSE file thbt
- * bccompbnied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should hbve received b copy of the GNU Generbl Public License version
- * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
- * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
- * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-pbckbge jbvb.net;
+pbdkbgf jbvb.nft;
 
 /**
- * Choose b network interfbce to be the defbult for
- * outgoing IPv6 trbffic thbt does not specify b scope_id (bnd which needs one).
+ * Cioosf b nftwork intfrfbdf to bf tif dffbult for
+ * outgoing IPv6 trbffid tibt dofs not spfdify b sdopf_id (bnd wiidi nffds onf).
  *
- * Plbtforms thbt do not require b defbult interfbce mby return null
- * which is whbt this implementbtion does.
+ * Plbtforms tibt do not rfquirf b dffbult intfrfbdf mby rfturn null
+ * wiidi is wibt tiis implfmfntbtion dofs.
  */
 
-clbss DefbultInterfbce {
+dlbss DffbultIntfrfbdf {
 
-    stbtic NetworkInterfbce getDefbult() {
-        return null;
+    stbtid NftworkIntfrfbdf gftDffbult() {
+        rfturn null;
     }
 }

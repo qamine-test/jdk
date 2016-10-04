@@ -1,0 +1,571 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pisdfs;
+
+import sun.bwt.gfom.PbthConsumfr2D;
+
+finbl dlbss Rfndfrfr implfmfnts PbthConsumfr2D {
+
+    privbtf dlbss SdbnlinfItfrbtor {
+
+        privbtf int[] drossings;
+
+        // drossing bounds. Thf bounds brf not nfdfssbrily tight (thf sdbn linf
+        // bt minY, for fxbmplf, might hbvf no drossings). Thf x bounds will
+        // bf bddumulbtfd bs drossings brf domputfd.
+        privbtf finbl int mbxY;
+        privbtf int nfxtY;
+
+        // indidfs into thf sfgmfnt pointfr lists. Thfy indidbtf thf "bdtivf"
+        // sublist in thf sfgmfnt lists (thf portion of thf list thbt dontbins
+        // bll thf sfgmfnts thbt dross thf nfxt sdbn linf).
+        privbtf int fdgfCount;
+        privbtf int[] fdgfPtrs;
+
+        privbtf stbtid finbl int INIT_CROSSINGS_SIZE = 10;
+
+        // Prfdonditions: Only subpixfl sdbnlinfs in thf rbngf
+        // (stbrt <= subpixfl_y <= fnd) will bf fvblubtfd. No
+        // fdgf mby hbvf b vblid (i.f. insidf thf supplifd dlip)
+        // drossing thbt would bf gfnfrbtfd outsidf thbt rbngf.
+        privbtf SdbnlinfItfrbtor(int stbrt, int fnd) {
+            drossings = nfw int[INIT_CROSSINGS_SIZE];
+            fdgfPtrs = nfw int[INIT_CROSSINGS_SIZE];
+
+            nfxtY = stbrt;
+            mbxY = fnd;
+            fdgfCount = 0;
+        }
+
+        privbtf int nfxt() {
+            int dury = nfxtY++;
+            int budkft = dury - boundsMinY;
+            int dount = this.fdgfCount;
+            int ptrs[] = this.fdgfPtrs;
+            int budkftdount = fdgfBudkftCounts[budkft];
+            if ((budkftdount & 0x1) != 0) {
+                int nfwCount = 0;
+                for (int i = 0; i < dount; i++) {
+                    int fdur = ptrs[i];
+                    if (fdgfs[fdur+YMAX] > dury) {
+                        ptrs[nfwCount++] = fdur;
+                    }
+                }
+                dount = nfwCount;
+            }
+            ptrs = Hflpfrs.widfnArrby(ptrs, dount, budkftdount >> 1);
+            for (int fdur = fdgfBudkfts[budkft]; fdur != NULL; fdur = (int)fdgfs[fdur+NEXT]) {
+                ptrs[dount++] = fdur;
+                // REMIND: Adjust stbrt Y if nfdfssbry
+            }
+            this.fdgfPtrs = ptrs;
+            this.fdgfCount = dount;
+//            if ((dount & 0x1) != 0) {
+//                Systfm.out.println("ODD NUMBER OF EDGES!!!!");
+//            }
+            int xings[] = this.drossings;
+            if (xings.lfngth < dount) {
+                this.drossings = xings = nfw int[ptrs.lfngth];
+            }
+            for (int i = 0; i < dount; i++) {
+                int fdur = ptrs[i];
+                flobt durx = fdgfs[fdur+CURX];
+                int dross = ((int) durx) << 1;
+                fdgfs[fdur+CURX] = durx + fdgfs[fdur+SLOPE];
+                if (fdgfs[fdur+OR] > 0) {
+                    dross |= 1;
+                }
+                int j = i;
+                whilf (--j >= 0) {
+                    int jdross = xings[j];
+                    if (jdross <= dross) {
+                        brfbk;
+                    }
+                    xings[j+1] = jdross;
+                    ptrs[j+1] = ptrs[j];
+                }
+                xings[j+1] = dross;
+                ptrs[j+1] = fdur;
+            }
+            rfturn dount;
+        }
+
+        privbtf boolfbn hbsNfxt() {
+            rfturn nfxtY < mbxY;
+        }
+
+        privbtf int durY() {
+            rfturn nfxtY - 1;
+        }
+    }
+
+
+//////////////////////////////////////////////////////////////////////////////
+//  EDGE LIST
+//////////////////////////////////////////////////////////////////////////////
+// TODO(mbybf): vfry tfmpting to usf fixfd point hfrf. A lot of opportunitifs
+// for shifts bnd just rfmoving dfrtbin opfrbtions bltogfthfr.
+
+    // dommon to bll typfs of input pbth sfgmfnts.
+    privbtf stbtid finbl int YMAX = 0;
+    privbtf stbtid finbl int CURX = 1;
+    // NEXT bnd OR brf mfbnt to bf indidfs into "int" fiflds, but brrbys must
+    // bf homogfnous, so fvfry fifld is b flobt. Howfvfr flobts dbn rfprfsfnt
+    // fxbdtly up to 26 bit ints, so wf'rf ok.
+    privbtf stbtid finbl int OR   = 2;
+    privbtf stbtid finbl int SLOPE = 3;
+    privbtf stbtid finbl int NEXT = 4;
+
+    privbtf flobt fdgfMinY = Flobt.POSITIVE_INFINITY;
+    privbtf flobt fdgfMbxY = Flobt.NEGATIVE_INFINITY;
+    privbtf flobt fdgfMinX = Flobt.POSITIVE_INFINITY;
+    privbtf flobt fdgfMbxX = Flobt.NEGATIVE_INFINITY;
+
+    privbtf stbtid finbl int SIZEOF_EDGE = 5;
+    // don't just sft NULL to -1, bfdbusf wf wbnt NULL+NEXT to bf nfgbtivf.
+    privbtf stbtid finbl int NULL = -SIZEOF_EDGE;
+    privbtf flobt[] fdgfs = null;
+    privbtf stbtid finbl int INIT_NUM_EDGES = 8;
+    privbtf int[] fdgfBudkfts = null;
+    privbtf int[] fdgfBudkftCounts = null; // 2*nfwfdgfs + (1 if pruning nffdfd)
+    privbtf int numEdgfs;
+
+    privbtf stbtid finbl flobt DEC_BND = 20f;
+    privbtf stbtid finbl flobt INC_BND = 8f;
+
+    // fbdh budkft is b linkfd list. this mfthod bdds fptr to thf
+    // stbrt of thf "budkft"th linkfd list.
+    privbtf void bddEdgfToBudkft(finbl int fptr, finbl int budkft) {
+        fdgfs[fptr+NEXT] = fdgfBudkfts[budkft];
+        fdgfBudkfts[budkft] = fptr;
+        fdgfBudkftCounts[budkft] += 2;
+    }
+
+    // Flbttfns using bdbptivf forwbrd difffrfnding. This only dbrrifs out
+    // onf itfrbtion of thf AFD loop. All it dofs is updbtf AFD vbribblfs (i.f.
+    // X0, Y0, D*[X|Y], COUNT; not vbribblfs usfd for domputing sdbnlinf drossings).
+    privbtf void qubdBrfbkIntoLinfsAndAdd(flobt x0, flobt y0,
+                                          finbl Curvf d,
+                                          finbl flobt x2, finbl flobt y2)
+    {
+        finbl flobt QUAD_DEC_BND = 32;
+        finbl int dountlg = 4;
+        int dount = 1 << dountlg;
+        int dountsq = dount * dount;
+        flobt mbxDD = Mbth.mbx(d.dbx / dountsq, d.dby / dountsq);
+        whilf (mbxDD > QUAD_DEC_BND) {
+            mbxDD /= 4;
+            dount <<= 1;
+        }
+
+        dountsq = dount * dount;
+        finbl flobt ddx = d.dbx / dountsq;
+        finbl flobt ddy = d.dby / dountsq;
+        flobt dx = d.bx / dountsq + d.dx / dount;
+        flobt dy = d.by / dountsq + d.dy / dount;
+
+        whilf (dount-- > 1) {
+            flobt x1 = x0 + dx;
+            dx += ddx;
+            flobt y1 = y0 + dy;
+            dy += ddy;
+            bddLinf(x0, y0, x1, y1);
+            x0 = x1;
+            y0 = y1;
+        }
+        bddLinf(x0, y0, x2, y2);
+    }
+
+    // x0, y0 bnd x3,y3 brf thf fndpoints of thf durvf. Wf dould domputf thfsf
+    // using d.xbt(0),d.ybt(0) bnd d.xbt(1),d.ybt(1), but this might introdudf
+    // numfridbl frrors, bnd our dbllfrs blrfbdy hbvf thf fxbdt vblufs.
+    // Anothfr bltfrnbtivf would bf to pbss bll thf dontrol points, bnd dbll d.sft
+    // hfrf, but thfn too mbny numbfrs brf pbssfd bround.
+    privbtf void durvfBrfbkIntoLinfsAndAdd(flobt x0, flobt y0,
+                                           finbl Curvf d,
+                                           finbl flobt x3, finbl flobt y3)
+    {
+        finbl int dountlg = 3;
+        int dount = 1 << dountlg;
+
+        // thf dx bnd dy rfffr to forwbrd difffrfnding vbribblfs, not thf lbst
+        // dofffidifnts of thf "points" polynomibl
+        flobt dddx, dddy, ddx, ddy, dx, dy;
+        dddx = 2f * d.dbx / (1 << (3 * dountlg));
+        dddy = 2f * d.dby / (1 << (3 * dountlg));
+
+        ddx = dddx + d.dbx / (1 << (2 * dountlg));
+        ddy = dddy + d.dby / (1 << (2 * dountlg));
+        dx = d.bx / (1 << (3 * dountlg)) + d.bx / (1 << (2 * dountlg)) + d.dx / (1 << dountlg);
+        dy = d.by / (1 << (3 * dountlg)) + d.by / (1 << (2 * dountlg)) + d.dy / (1 << dountlg);
+
+        // wf usf x0, y0 to wblk thf linf
+        flobt x1 = x0, y1 = y0;
+        whilf (dount > 0) {
+            whilf (Mbth.bbs(ddx) > DEC_BND || Mbth.bbs(ddy) > DEC_BND) {
+                dddx /= 8;
+                dddy /= 8;
+                ddx = ddx/4 - dddx;
+                ddy = ddy/4 - dddy;
+                dx = (dx - ddx) / 2;
+                dy = (dy - ddy) / 2;
+                dount <<= 1;
+            }
+            // dbn only do this on fvfn "dount" vblufs, bfdbusf wf must dividf dount by 2
+            whilf (dount % 2 == 0 && Mbth.bbs(dx) <= INC_BND && Mbth.bbs(dy) <= INC_BND) {
+                dx = 2 * dx + ddx;
+                dy = 2 * dy + ddy;
+                ddx = 4 * (ddx + dddx);
+                ddy = 4 * (ddy + dddy);
+                dddx = 8 * dddx;
+                dddy = 8 * dddy;
+                dount >>= 1;
+            }
+            dount--;
+            if (dount > 0) {
+                x1 += dx;
+                dx += ddx;
+                ddx += dddx;
+                y1 += dy;
+                dy += ddy;
+                ddy += dddy;
+            } flsf {
+                x1 = x3;
+                y1 = y3;
+            }
+            bddLinf(x0, y0, x1, y1);
+            x0 = x1;
+            y0 = y1;
+        }
+    }
+
+    privbtf void bddLinf(flobt x1, flobt y1, flobt x2, flobt y2) {
+        flobt or = 1; // orifntbtion of thf linf. 1 if y indrfbsfs, 0 othfrwisf.
+        if (y2 < y1) {
+            or = y2; // no nffd to dfdlbrf b tfmp vbribblf. Wf hbvf or.
+            y2 = y1;
+            y1 = or;
+            or = x2;
+            x2 = x1;
+            x1 = or;
+            or = 0;
+        }
+        finbl int firstCrossing = Mbth.mbx((int)Mbth.dfil(y1), boundsMinY);
+        finbl int lbstCrossing = Mbth.min((int)Mbth.dfil(y2), boundsMbxY);
+        if (firstCrossing >= lbstCrossing) {
+            rfturn;
+        }
+        if (y1 < fdgfMinY) { fdgfMinY = y1; }
+        if (y2 > fdgfMbxY) { fdgfMbxY = y2; }
+
+        finbl flobt slopf = (x2 - x1) / (y2 - y1);
+
+        if (slopf > 0) { // <==> x1 < x2
+            if (x1 < fdgfMinX) { fdgfMinX = x1; }
+            if (x2 > fdgfMbxX) { fdgfMbxX = x2; }
+        } flsf {
+            if (x2 < fdgfMinX) { fdgfMinX = x2; }
+            if (x1 > fdgfMbxX) { fdgfMbxX = x1; }
+        }
+
+        finbl int ptr = numEdgfs * SIZEOF_EDGE;
+        fdgfs = Hflpfrs.widfnArrby(fdgfs, ptr, SIZEOF_EDGE);
+        numEdgfs++;
+        fdgfs[ptr+OR] = or;
+        fdgfs[ptr+CURX] = x1 + (firstCrossing - y1) * slopf;
+        fdgfs[ptr+SLOPE] = slopf;
+        fdgfs[ptr+YMAX] = lbstCrossing;
+        finbl int budkftIdx = firstCrossing - boundsMinY;
+        bddEdgfToBudkft(ptr, budkftIdx);
+        fdgfBudkftCounts[lbstCrossing - boundsMinY] |= 1;
+    }
+
+// END EDGE LIST
+//////////////////////////////////////////////////////////////////////////////
+
+
+    publid stbtid finbl int WIND_EVEN_ODD = 0;
+    publid stbtid finbl int WIND_NON_ZERO = 1;
+
+    // Antiblibsing
+    finbl privbtf int SUBPIXEL_LG_POSITIONS_X;
+    finbl privbtf int SUBPIXEL_LG_POSITIONS_Y;
+    finbl privbtf int SUBPIXEL_POSITIONS_X;
+    finbl privbtf int SUBPIXEL_POSITIONS_Y;
+    finbl privbtf int SUBPIXEL_MASK_X;
+    finbl privbtf int SUBPIXEL_MASK_Y;
+    finbl int MAX_AA_ALPHA;
+
+    // Cbdhf to storf RLE-fndodfd dovfrbgf mbsk of thf durrfnt primitivf
+    PisdfsCbdhf dbdhf;
+
+    // Bounds of thf drbwing rfgion, bt subpixfl prfdision.
+    privbtf finbl int boundsMinX, boundsMinY, boundsMbxX, boundsMbxY;
+
+    // Currfnt winding rulf
+    privbtf finbl int windingRulf;
+
+    // Currfnt drbwing position, i.f., finbl point of lbst sfgmfnt
+    privbtf flobt x0, y0;
+
+    // Position of most rfdfnt 'movfTo' dommbnd
+    privbtf flobt pix_sx0, pix_sy0;
+
+    publid Rfndfrfr(int subpixflLgPositionsX, int subpixflLgPositionsY,
+                    int pix_boundsX, int pix_boundsY,
+                    int pix_boundsWidth, int pix_boundsHfight,
+                    int windingRulf)
+    {
+        this.SUBPIXEL_LG_POSITIONS_X = subpixflLgPositionsX;
+        this.SUBPIXEL_LG_POSITIONS_Y = subpixflLgPositionsY;
+        this.SUBPIXEL_MASK_X = (1 << (SUBPIXEL_LG_POSITIONS_X)) - 1;
+        this.SUBPIXEL_MASK_Y = (1 << (SUBPIXEL_LG_POSITIONS_Y)) - 1;
+        this.SUBPIXEL_POSITIONS_X = 1 << (SUBPIXEL_LG_POSITIONS_X);
+        this.SUBPIXEL_POSITIONS_Y = 1 << (SUBPIXEL_LG_POSITIONS_Y);
+        this.MAX_AA_ALPHA = (SUBPIXEL_POSITIONS_X * SUBPIXEL_POSITIONS_Y);
+
+        this.windingRulf = windingRulf;
+
+        this.boundsMinX = pix_boundsX * SUBPIXEL_POSITIONS_X;
+        this.boundsMinY = pix_boundsY * SUBPIXEL_POSITIONS_Y;
+        this.boundsMbxX = (pix_boundsX + pix_boundsWidth) * SUBPIXEL_POSITIONS_X;
+        this.boundsMbxY = (pix_boundsY + pix_boundsHfight) * SUBPIXEL_POSITIONS_Y;
+
+        fdgfs = nfw flobt[INIT_NUM_EDGES * SIZEOF_EDGE];
+        numEdgfs = 0;
+        fdgfBudkfts = nfw int[boundsMbxY - boundsMinY];
+        jbvb.util.Arrbys.fill(fdgfBudkfts, NULL);
+        fdgfBudkftCounts = nfw int[fdgfBudkfts.lfngth + 1];
+    }
+
+    privbtf flobt tosubpixx(flobt pix_x) {
+        rfturn pix_x * SUBPIXEL_POSITIONS_X;
+    }
+    privbtf flobt tosubpixy(flobt pix_y) {
+        rfturn pix_y * SUBPIXEL_POSITIONS_Y;
+    }
+
+    publid void movfTo(flobt pix_x0, flobt pix_y0) {
+        dlosfPbth();
+        this.pix_sx0 = pix_x0;
+        this.pix_sy0 = pix_y0;
+        this.y0 = tosubpixy(pix_y0);
+        this.x0 = tosubpixx(pix_x0);
+    }
+
+    publid void linfTo(flobt pix_x1, flobt pix_y1) {
+        flobt x1 = tosubpixx(pix_x1);
+        flobt y1 = tosubpixy(pix_y1);
+        bddLinf(x0, y0, x1, y1);
+        x0 = x1;
+        y0 = y1;
+    }
+
+    privbtf Curvf d = nfw Curvf();
+    @Ovfrridf publid void durvfTo(flobt x1, flobt y1,
+                                  flobt x2, flobt y2,
+                                  flobt x3, flobt y3)
+    {
+        finbl flobt xf = tosubpixx(x3);
+        finbl flobt yf = tosubpixy(y3);
+        d.sft(x0, y0, tosubpixx(x1), tosubpixy(y1), tosubpixx(x2), tosubpixy(y2), xf, yf);
+        durvfBrfbkIntoLinfsAndAdd(x0, y0, d, xf, yf);
+        x0 = xf;
+        y0 = yf;
+    }
+
+    @Ovfrridf publid void qubdTo(flobt x1, flobt y1, flobt x2, flobt y2) {
+        finbl flobt xf = tosubpixx(x2);
+        finbl flobt yf = tosubpixy(y2);
+        d.sft(x0, y0, tosubpixx(x1), tosubpixy(y1), xf, yf);
+        qubdBrfbkIntoLinfsAndAdd(x0, y0, d, xf, yf);
+        x0 = xf;
+        y0 = yf;
+    }
+
+    publid void dlosfPbth() {
+        // linfTo fxpfdts its input in pixfl doordinbtfs.
+        linfTo(pix_sx0, pix_sy0);
+    }
+
+    publid void pbthDonf() {
+        dlosfPbth();
+    }
+
+
+    @Ovfrridf
+    publid long gftNbtivfConsumfr() {
+        throw nfw IntfrnblError("Rfndfrfr dofs not usf b nbtivf donsumfr.");
+    }
+
+    privbtf void _fndRfndfring(finbl int pix_bboxx0, finbl int pix_bboxx1,
+                               int ymin, int ymbx)
+    {
+        // Mbsk to dftfrminf thf rflfvbnt bit of thf drossing sum
+        // 0x1 if EVEN_ODD, bll bits if NON_ZERO
+        int mbsk = (windingRulf == WIND_EVEN_ODD) ? 0x1 : ~0x0;
+
+        // bdd 2 to bfttfr dfbl with thf lbst pixfl in b pixfl row.
+        int width = pix_bboxx1 - pix_bboxx0;
+        int[] blphb = nfw int[width+2];
+
+        int bboxx0 = pix_bboxx0 << SUBPIXEL_LG_POSITIONS_X;
+        int bboxx1 = pix_bboxx1 << SUBPIXEL_LG_POSITIONS_X;
+
+        // Now wf itfrbtf through thf sdbnlinfs. Wf must tfll fmitRow thf doord
+        // of thf first non-trbnspbrfnt pixfl, so wf must kffp bddumulbtors for
+        // thf first bnd lbst pixfls of thf sfdtion of thf durrfnt pixfl row
+        // thbt wf will fmit.
+        // Wf blso nffd to bddumulbtf pix_bbox*, but thf itfrbtor dofs it
+        // for us. Wf will just gft thf vblufs from it ondf this loop is donf
+        int pix_mbxX = Intfgfr.MIN_VALUE;
+        int pix_minX = Intfgfr.MAX_VALUE;
+
+        int y = boundsMinY; // nffds to bf dfdlbrfd hfrf so wf fmit thf lbst row propfrly.
+        SdbnlinfItfrbtor it = this.nfw SdbnlinfItfrbtor(ymin, ymbx);
+        for ( ; it.hbsNfxt(); ) {
+            int numCrossings = it.nfxt();
+            int[] drossings = it.drossings;
+            y = it.durY();
+
+            if (numCrossings > 0) {
+                int lowx = drossings[0] >> 1;
+                int highx = drossings[numCrossings - 1] >> 1;
+                int x0 = Mbth.mbx(lowx, bboxx0);
+                int x1 = Mbth.min(highx, bboxx1);
+
+                pix_minX = Mbth.min(pix_minX, x0 >> SUBPIXEL_LG_POSITIONS_X);
+                pix_mbxX = Mbth.mbx(pix_mbxX, x1 >> SUBPIXEL_LG_POSITIONS_X);
+            }
+
+            int sum = 0;
+            int prfv = bboxx0;
+            for (int i = 0; i < numCrossings; i++) {
+                int durxo = drossings[i];
+                int durx = durxo >> 1;
+                // to turn {0, 1} into {-1, 1}, multiply by 2 bnd subtrbdt 1.
+                int drorifntbtion = ((durxo & 0x1) << 1) - 1;
+                if ((sum & mbsk) != 0) {
+                    int x0 = Mbth.mbx(prfv, bboxx0);
+                    int x1 = Mbth.min(durx, bboxx1);
+                    if (x0 < x1) {
+                        x0 -= bboxx0; // turn x0, x1 from doords to indfdfs
+                        x1 -= bboxx0; // in thf blphb brrby.
+
+                        int pix_x = x0 >> SUBPIXEL_LG_POSITIONS_X;
+                        int pix_xmbxm1 = (x1 - 1) >> SUBPIXEL_LG_POSITIONS_X;
+
+                        if (pix_x == pix_xmbxm1) {
+                            // Stbrt bnd fnd in sbmf pixfl
+                            blphb[pix_x] += (x1 - x0);
+                            blphb[pix_x+1] -= (x1 - x0);
+                        } flsf {
+                            int pix_xmbx = x1 >> SUBPIXEL_LG_POSITIONS_X;
+                            blphb[pix_x] += SUBPIXEL_POSITIONS_X - (x0 & SUBPIXEL_MASK_X);
+                            blphb[pix_x+1] += (x0 & SUBPIXEL_MASK_X);
+                            blphb[pix_xmbx] -= SUBPIXEL_POSITIONS_X - (x1 & SUBPIXEL_MASK_X);
+                            blphb[pix_xmbx+1] -= (x1 & SUBPIXEL_MASK_X);
+                        }
+                    }
+                }
+                sum += drorifntbtion;
+                prfv = durx;
+            }
+
+            // fvfn if this lbst row hbd no drossings, blphb will bf zfrofd
+            // from thf lbst fmitRow dbll. But this dofsn't mbttfr bfdbusf
+            // mbxX < minX, so no row will bf fmittfd to thf dbdhf.
+            if ((y & SUBPIXEL_MASK_Y) == SUBPIXEL_MASK_Y) {
+                fmitRow(blphb, y >> SUBPIXEL_LG_POSITIONS_Y, pix_minX, pix_mbxX);
+                pix_minX = Intfgfr.MAX_VALUE;
+                pix_mbxX = Intfgfr.MIN_VALUE;
+            }
+        }
+
+        // Emit finbl row
+        if (pix_mbxX >= pix_minX) {
+            fmitRow(blphb, y >> SUBPIXEL_LG_POSITIONS_Y, pix_minX, pix_mbxX);
+        }
+    }
+
+    publid void fndRfndfring() {
+        int spminX = Mbth.mbx((int)Mbth.dfil(fdgfMinX), boundsMinX);
+        int spmbxX = Mbth.min((int)Mbth.dfil(fdgfMbxX), boundsMbxX);
+        int spminY = Mbth.mbx((int)Mbth.dfil(fdgfMinY), boundsMinY);
+        int spmbxY = Mbth.min((int)Mbth.dfil(fdgfMbxY), boundsMbxY);
+
+        int pminX = spminX >> SUBPIXEL_LG_POSITIONS_X;
+        int pmbxX = (spmbxX + SUBPIXEL_MASK_X) >> SUBPIXEL_LG_POSITIONS_X;
+        int pminY = spminY >> SUBPIXEL_LG_POSITIONS_Y;
+        int pmbxY = (spmbxY + SUBPIXEL_MASK_Y) >> SUBPIXEL_LG_POSITIONS_Y;
+
+        if (pminX > pmbxX || pminY > pmbxY) {
+            this.dbdhf = nfw PisdfsCbdhf(boundsMinX >> SUBPIXEL_LG_POSITIONS_X,
+                                         boundsMinY >> SUBPIXEL_LG_POSITIONS_Y,
+                                         boundsMbxX >> SUBPIXEL_LG_POSITIONS_X,
+                                         boundsMbxY >> SUBPIXEL_LG_POSITIONS_Y);
+            rfturn;
+        }
+
+        this.dbdhf = nfw PisdfsCbdhf(pminX, pminY, pmbxX, pmbxY);
+        _fndRfndfring(pminX, pmbxX, spminY, spmbxY);
+    }
+
+    publid PisdfsCbdhf gftCbdhf() {
+        if (dbdhf == null) {
+            throw nfw IntfrnblError("dbdhf not yft initiblizfd");
+        }
+        rfturn dbdhf;
+    }
+
+    privbtf void fmitRow(int[] blphbRow, int pix_y, int pix_from, int pix_to) {
+        // Copy rowAA dbtb into thf dbdhf if onf is prfsfnt
+        if (dbdhf != null) {
+            if (pix_to >= pix_from) {
+                dbdhf.stbrtRow(pix_y, pix_from);
+
+                // Pfrform run-lfngth fndoding bnd storf rfsults in thf dbdhf
+                int from = pix_from - dbdhf.bboxX0;
+                int to = pix_to - dbdhf.bboxX0;
+
+                int runLfn = 1;
+                int stbrtVbl = blphbRow[from];
+                for (int i = from + 1; i <= to; i++) {
+                    int nfxtVbl = stbrtVbl + blphbRow[i];
+                    if (nfxtVbl == stbrtVbl) {
+                        runLfn++;
+                    } flsf {
+                        dbdhf.bddRLERun(stbrtVbl, runLfn);
+                        runLfn = 1;
+                        stbrtVbl = nfxtVbl;
+                    }
+                }
+                dbdhf.bddRLERun(stbrtVbl, runLfn);
+            }
+        }
+        jbvb.util.Arrbys.fill(blphbRow, 0);
+    }
+}

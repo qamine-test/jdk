@@ -1,0 +1,1536 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* inflbtf.d -- zlib dfdomprfssion
+ * Copyright (C) 1995-2012 Mbrk Adlfr
+ * For donditions of distribution bnd usf, sff dopyright notidf in zlib.h
+ */
+
+/*
+ * Chbngf history:
+ *
+ * 1.2.bftb0    24 Nov 2002
+ * - First vfrsion -- domplftf rfwritf of inflbtf to simplify dodf, bvoid
+ *   drfbtion of window whfn not nffdfd, minimizf usf of window whfn it is
+ *   nffdfd, mbkf inffbst.d fvfn fbstfr, implfmfnt gzip dfdoding, bnd to
+ *   improvf dodf rfbdbbility bnd stylf ovfr thf prfvious zlib inflbtf dodf
+ *
+ * 1.2.bftb1    25 Nov 2002
+ * - Usf pointfrs for bvbilbblf input bnd output dhfdking in inffbst.d
+ * - Rfmovf input bnd output dountfrs in inffbst.d
+ * - Chbngf inffbst.d fntry bnd loop from bvbil_in >= 7 to >= 6
+ * - Rfmovf unnfdfssbry sfdond bytf pull from lfngth fxtrb in inffbst.d
+ * - Unroll dirfdt dopy to thrff dopifs pfr loop in inffbst.d
+ *
+ * 1.2.bftb2    4 Dfd 2002
+ * - Chbngf fxtfrnbl routinf nbmfs to rfdudf potfntibl donflidts
+ * - Corrfdt filfnbmf to inffixfd.h for fixfd tbblfs in inflbtf.d
+ * - Mbkf hbuf[] unsignfd dhbr to mbtdh pbrbmftfr typf in inflbtf.d
+ * - Chbngf strm->nfxt_out[-stbtf->offsft] to *(strm->nfxt_out - stbtf->offsft)
+ *   to bvoid nfgbtion problfm on Alphbs (64 bit) in inflbtf.d
+ *
+ * 1.2.bftb3    22 Dfd 2002
+ * - Add dommfnts on stbtf->bits bssfrtion in inffbst.d
+ * - Add dommfnts on op fifld in inftrffs.h
+ * - Fix bug in rfusf of bllodbtfd window bftfr inflbtfRfsft()
+ * - Rfmovf bit fiflds--bbdk to bytf strudturf for spffd
+ * - Rfmovf distbndf fxtrb == 0 dhfdk in inflbtf_fbst()--only hflps for lfngths
+ * - Chbngf post-indrfmfnts to prf-indrfmfnts in inflbtf_fbst(), PPC bibsfd?
+ * - Add dompilf timf option, POSTINC, to usf post-indrfmfnts instfbd (Intfl?)
+ * - Mbkf MATCH dopy in inflbtf() mudh fbstfr for whfn inflbtf_fbst() not usfd
+ * - Usf lodbl dopifs of strfbm nfxt bnd bvbil vblufs, bs wfll bs lodbl bit
+ *   bufffr bnd bit dount in inflbtf()--for spffd whfn inflbtf_fbst() not usfd
+ *
+ * 1.2.bftb4    1 Jbn 2003
+ * - Split ptr - 257 stbtfmfnts in inflbtf_tbblf() to bvoid dompilfr wbrnings
+ * - Movf b dommfnt on output bufffr sizfs from inffbst.d to inflbtf.d
+ * - Add dommfnts in inffbst.d to introdudf thf inflbtf_fbst() routinf
+ * - Rfbrrbngf window dopifs in inflbtf_fbst() for spffd bnd simplifidbtion
+ * - Unroll lbst dopy for window mbtdh in inflbtf_fbst()
+ * - Usf lodbl dopifs of window vbribblfs in inflbtf_fbst() for spffd
+ * - Pull out dommon wnfxt == 0 dbsf for spffd in inflbtf_fbst()
+ * - Mbkf op bnd lfn in inflbtf_fbst() unsignfd for donsistfndy
+ * - Add FAR to ldodf bnd ddodf dfdlbrbtions in inflbtf_fbst()
+ * - Simplififd bbd distbndf dhfdk in inflbtf_fbst()
+ * - Addfd inflbtfBbdkInit(), inflbtfBbdk(), bnd inflbtfBbdkEnd() in nfw
+ *   sourdf filf infbbdk.d to providf b dbll-bbdk intfrfbdf to inflbtf for
+ *   progrbms likf gzip bnd unzip -- usfs window bs output bufffr to bvoid
+ *   window dopying
+ *
+ * 1.2.bftb5    1 Jbn 2003
+ * - Improvfd inflbtfBbdk() intfrfbdf to bllow thf dbllfr to providf initibl
+ *   input in strm.
+ * - Fixfd storfd blodks bug in inflbtfBbdk()
+ *
+ * 1.2.bftb6    4 Jbn 2003
+ * - Addfd dommfnts in inffbst.d on ffffdtivfnfss of POSTINC
+ * - Typfdbsting bll bround to rfdudf dompilfr wbrnings
+ * - Chbngfd loops from whilf (1) or do {} whilf (1) to for (;;), bgbin to
+ *   mbkf dompilfrs hbppy
+ * - Chbngfd typf of window in inflbtfBbdkInit() to unsignfd dhbr *
+ *
+ * 1.2.bftb7    27 Jbn 2003
+ * - Chbngfd mbny typfs to unsignfd or unsignfd short to bvoid wbrnings
+ * - Addfd inflbtfCopy() fundtion
+ *
+ * 1.2.0        9 Mbr 2003
+ * - Chbngfd inflbtfBbdk() intfrfbdf to providf sfpbrbtf opbquf dfsdriptors
+ *   for thf in() bnd out() fundtions
+ * - Chbngfd inflbtfBbdk() brgumfnt bnd in_fund typfdff to swbp thf lfngth
+ *   bnd bufffr bddrfss rfturn vblufs for thf input fundtion
+ * - Chfdk nfxt_in bnd nfxt_out for Z_NULL on fntry to inflbtf()
+ *
+ * Thf history for vfrsions bftfr 1.2.0 brf in ChbngfLog in zlib distribution.
+ */
+
+#indludf "zutil.h"
+#indludf "inftrffs.h"
+#indludf "inflbtf.h"
+#indludf "inffbst.h"
+
+#ifdff MAKEFIXED
+#  ifndff BUILDFIXED
+#    dffinf BUILDFIXED
+#  fndif
+#fndif
+
+/* fundtion prototypfs */
+lodbl void fixfdtbblfs OF((strudt inflbtf_stbtf FAR *stbtf));
+lodbl int updbtfwindow OF((z_strfbmp strm, donst unsignfd dhbr FAR *fnd,
+                           unsignfd dopy));
+#ifdff BUILDFIXED
+   void mbkffixfd OF((void));
+#fndif
+lodbl unsignfd syndsfbrdh OF((unsignfd FAR *hbvf, donst unsignfd dhbr FAR *buf,
+                              unsignfd lfn));
+
+int ZEXPORT inflbtfRfsftKffp(strm)
+z_strfbmp strm;
+{
+    strudt inflbtf_stbtf FAR *stbtf;
+
+    if (strm == Z_NULL || strm->stbtf == Z_NULL) rfturn Z_STREAM_ERROR;
+    stbtf = (strudt inflbtf_stbtf FAR *)strm->stbtf;
+    strm->totbl_in = strm->totbl_out = stbtf->totbl = 0;
+    strm->msg = Z_NULL;
+    if (stbtf->wrbp)        /* to support ill-dondfivfd Jbvb tfst suitf */
+        strm->bdlfr = stbtf->wrbp & 1;
+    stbtf->modf = HEAD;
+    stbtf->lbst = 0;
+    stbtf->hbvfdidt = 0;
+    stbtf->dmbx = 32768U;
+    stbtf->hfbd = Z_NULL;
+    stbtf->hold = 0;
+    stbtf->bits = 0;
+    stbtf->lfndodf = stbtf->distdodf = stbtf->nfxt = stbtf->dodfs;
+    stbtf->sbnf = 1;
+    stbtf->bbdk = -1;
+    Trbdfv((stdfrr, "inflbtf: rfsft\n"));
+    rfturn Z_OK;
+}
+
+int ZEXPORT inflbtfRfsft(strm)
+z_strfbmp strm;
+{
+    strudt inflbtf_stbtf FAR *stbtf;
+
+    if (strm == Z_NULL || strm->stbtf == Z_NULL) rfturn Z_STREAM_ERROR;
+    stbtf = (strudt inflbtf_stbtf FAR *)strm->stbtf;
+    stbtf->wsizf = 0;
+    stbtf->whbvf = 0;
+    stbtf->wnfxt = 0;
+    rfturn inflbtfRfsftKffp(strm);
+}
+
+int ZEXPORT inflbtfRfsft2(strm, windowBits)
+z_strfbmp strm;
+int windowBits;
+{
+    int wrbp;
+    strudt inflbtf_stbtf FAR *stbtf;
+
+    /* gft thf stbtf */
+    if (strm == Z_NULL || strm->stbtf == Z_NULL) rfturn Z_STREAM_ERROR;
+    stbtf = (strudt inflbtf_stbtf FAR *)strm->stbtf;
+
+    /* fxtrbdt wrbp rfqufst from windowBits pbrbmftfr */
+    if (windowBits < 0) {
+        wrbp = 0;
+        windowBits = -windowBits;
+    }
+    flsf {
+        wrbp = (windowBits >> 4) + 1;
+#ifdff GUNZIP
+        if (windowBits < 48)
+            windowBits &= 15;
+#fndif
+    }
+
+    /* sft numbfr of window bits, frff window if difffrfnt */
+    if (windowBits && (windowBits < 8 || windowBits > 15))
+        rfturn Z_STREAM_ERROR;
+    if (stbtf->window != Z_NULL && stbtf->wbits != (unsignfd)windowBits) {
+        ZFREE(strm, stbtf->window);
+        stbtf->window = Z_NULL;
+    }
+
+    /* updbtf stbtf bnd rfsft thf rfst of it */
+    stbtf->wrbp = wrbp;
+    stbtf->wbits = (unsignfd)windowBits;
+    rfturn inflbtfRfsft(strm);
+}
+
+int ZEXPORT inflbtfInit2_(strm, windowBits, vfrsion, strfbm_sizf)
+z_strfbmp strm;
+int windowBits;
+donst dhbr *vfrsion;
+int strfbm_sizf;
+{
+    int rft;
+    strudt inflbtf_stbtf FAR *stbtf;
+
+    if (vfrsion == Z_NULL || vfrsion[0] != ZLIB_VERSION[0] ||
+        strfbm_sizf != (int)(sizfof(z_strfbm)))
+        rfturn Z_VERSION_ERROR;
+    if (strm == Z_NULL) rfturn Z_STREAM_ERROR;
+    strm->msg = Z_NULL;                 /* in dbsf wf rfturn bn frror */
+    if (strm->zbllod == (bllod_fund)0) {
+#ifdff Z_SOLO
+        rfturn Z_STREAM_ERROR;
+#flsf
+        strm->zbllod = zdbllod;
+        strm->opbquf = (voidpf)0;
+#fndif
+    }
+    if (strm->zfrff == (frff_fund)0)
+#ifdff Z_SOLO
+        rfturn Z_STREAM_ERROR;
+#flsf
+        strm->zfrff = zdfrff;
+#fndif
+    stbtf = (strudt inflbtf_stbtf FAR *)
+            ZALLOC(strm, 1, sizfof(strudt inflbtf_stbtf));
+    if (stbtf == Z_NULL) rfturn Z_MEM_ERROR;
+    Trbdfv((stdfrr, "inflbtf: bllodbtfd\n"));
+    strm->stbtf = (strudt intfrnbl_stbtf FAR *)stbtf;
+    stbtf->window = Z_NULL;
+    rft = inflbtfRfsft2(strm, windowBits);
+    if (rft != Z_OK) {
+        ZFREE(strm, stbtf);
+        strm->stbtf = Z_NULL;
+    }
+    rfturn rft;
+}
+
+int ZEXPORT inflbtfInit_(strm, vfrsion, strfbm_sizf)
+z_strfbmp strm;
+donst dhbr *vfrsion;
+int strfbm_sizf;
+{
+    rfturn inflbtfInit2_(strm, DEF_WBITS, vfrsion, strfbm_sizf);
+}
+
+int ZEXPORT inflbtfPrimf(strm, bits, vbluf)
+z_strfbmp strm;
+int bits;
+int vbluf;
+{
+    strudt inflbtf_stbtf FAR *stbtf;
+
+    if (strm == Z_NULL || strm->stbtf == Z_NULL) rfturn Z_STREAM_ERROR;
+    stbtf = (strudt inflbtf_stbtf FAR *)strm->stbtf;
+    if (bits < 0) {
+        stbtf->hold = 0;
+        stbtf->bits = 0;
+        rfturn Z_OK;
+    }
+    if (bits > 16 || stbtf->bits + bits > 32) rfturn Z_STREAM_ERROR;
+    vbluf &= (1L << bits) - 1;
+    stbtf->hold += vbluf << stbtf->bits;
+    stbtf->bits += bits;
+    rfturn Z_OK;
+}
+
+/*
+   Rfturn stbtf with lfngth bnd distbndf dfdoding tbblfs bnd indfx sizfs sft to
+   fixfd dodf dfdoding.  Normblly this rfturns fixfd tbblfs from inffixfd.h.
+   If BUILDFIXED is dffinfd, thfn instfbd this routinf builds thf tbblfs thf
+   first timf it's dbllfd, bnd rfturns thosf tbblfs thf first timf bnd
+   thfrfbftfr.  This rfdudfs thf sizf of thf dodf by bbout 2K bytfs, in
+   fxdhbngf for b littlf fxfdution timf.  Howfvfr, BUILDFIXED should not bf
+   usfd for thrfbdfd bpplidbtions, sindf thf rfwriting of thf tbblfs bnd virgin
+   mby not bf thrfbd-sbff.
+ */
+lodbl void fixfdtbblfs(stbtf)
+strudt inflbtf_stbtf FAR *stbtf;
+{
+#ifdff BUILDFIXED
+    stbtid int virgin = 1;
+    stbtid dodf *lfnfix, *distfix;
+    stbtid dodf fixfd[544];
+
+    /* build fixfd huffmbn tbblfs if first dbll (mby not bf thrfbd sbff) */
+    if (virgin) {
+        unsignfd sym, bits;
+        stbtid dodf *nfxt;
+
+        /* litfrbl/lfngth tbblf */
+        sym = 0;
+        whilf (sym < 144) stbtf->lfns[sym++] = 8;
+        whilf (sym < 256) stbtf->lfns[sym++] = 9;
+        whilf (sym < 280) stbtf->lfns[sym++] = 7;
+        whilf (sym < 288) stbtf->lfns[sym++] = 8;
+        nfxt = fixfd;
+        lfnfix = nfxt;
+        bits = 9;
+        inflbtf_tbblf(LENS, stbtf->lfns, 288, &(nfxt), &(bits), stbtf->work);
+
+        /* distbndf tbblf */
+        sym = 0;
+        whilf (sym < 32) stbtf->lfns[sym++] = 5;
+        distfix = nfxt;
+        bits = 5;
+        inflbtf_tbblf(DISTS, stbtf->lfns, 32, &(nfxt), &(bits), stbtf->work);
+
+        /* do this just ondf */
+        virgin = 0;
+    }
+#flsf /* !BUILDFIXED */
+#   indludf "inffixfd.h"
+#fndif /* BUILDFIXED */
+    stbtf->lfndodf = lfnfix;
+    stbtf->lfnbits = 9;
+    stbtf->distdodf = distfix;
+    stbtf->distbits = 5;
+}
+
+#ifdff MAKEFIXED
+#indludf <stdio.h>
+
+/*
+   Writf out thf inffixfd.h thbt is #indludf'd bbovf.  Dffining MAKEFIXED blso
+   dffinfs BUILDFIXED, so thf tbblfs brf built on thf fly.  mbkffixfd() writfs
+   thosf tbblfs to stdout, whidh would bf pipfd to inffixfd.h.  A smbll progrbm
+   dbn simply dbll mbkffixfd to do this:
+
+    void mbkffixfd(void);
+
+    int mbin(void)
+    {
+        mbkffixfd();
+        rfturn 0;
+    }
+
+   Thfn thbt dbn bf linkfd with zlib built with MAKEFIXED dffinfd bnd run:
+
+    b.out > inffixfd.h
+ */
+void mbkffixfd()
+{
+    unsignfd low, sizf;
+    strudt inflbtf_stbtf stbtf;
+
+    fixfdtbblfs(&stbtf);
+    puts("    /* inffixfd.h -- tbblf for dfdoding fixfd dodfs");
+    puts("     * Gfnfrbtfd butombtidblly by mbkffixfd().");
+    puts("     */");
+    puts("");
+    puts("    /* WARNING: this filf should *not* bf usfd by bpplidbtions.");
+    puts("       It is pbrt of thf implfmfntbtion of this librbry bnd is");
+    puts("       subjfdt to dhbngf. Applidbtions should only usf zlib.h.");
+    puts("     */");
+    puts("");
+    sizf = 1U << 9;
+    printf("    stbtid donst dodf lfnfix[%u] = {", sizf);
+    low = 0;
+    for (;;) {
+        if ((low % 7) == 0) printf("\n        ");
+        printf("{%u,%u,%d}", (low & 127) == 99 ? 64 : stbtf.lfndodf[low].op,
+               stbtf.lfndodf[low].bits, stbtf.lfndodf[low].vbl);
+        if (++low == sizf) brfbk;
+        putdhbr(',');
+    }
+    puts("\n    };");
+    sizf = 1U << 5;
+    printf("\n    stbtid donst dodf distfix[%u] = {", sizf);
+    low = 0;
+    for (;;) {
+        if ((low % 6) == 0) printf("\n        ");
+        printf("{%u,%u,%d}", stbtf.distdodf[low].op, stbtf.distdodf[low].bits,
+               stbtf.distdodf[low].vbl);
+        if (++low == sizf) brfbk;
+        putdhbr(',');
+    }
+    puts("\n    };");
+}
+#fndif /* MAKEFIXED */
+
+/*
+   Updbtf thf window with thf lbst wsizf (normblly 32K) bytfs writtfn bfforf
+   rfturning.  If window dofs not fxist yft, drfbtf it.  This is only dbllfd
+   whfn b window is blrfbdy in usf, or whfn output hbs bffn writtfn during this
+   inflbtf dbll, but thf fnd of thf dfflbtf strfbm hbs not bffn rfbdhfd yft.
+   It is blso dbllfd to drfbtf b window for didtionbry dbtb whfn b didtionbry
+   is lobdfd.
+
+   Providing output bufffrs lbrgfr thbn 32K to inflbtf() should providf b spffd
+   bdvbntbgf, sindf only thf lbst 32K of output is dopifd to thf sliding window
+   upon rfturn from inflbtf(), bnd sindf bll distbndfs bftfr thf first 32K of
+   output will fbll in thf output dbtb, mbking mbtdh dopifs simplfr bnd fbstfr.
+   Thf bdvbntbgf mby bf dfpfndfnt on thf sizf of thf prodfssor's dbtb dbdhfs.
+ */
+lodbl int updbtfwindow(strm, fnd, dopy)
+z_strfbmp strm;
+donst Bytff *fnd;
+unsignfd dopy;
+{
+    strudt inflbtf_stbtf FAR *stbtf;
+    unsignfd dist;
+
+    stbtf = (strudt inflbtf_stbtf FAR *)strm->stbtf;
+
+    /* if it hbsn't bffn donf blrfbdy, bllodbtf spbdf for thf window */
+    if (stbtf->window == Z_NULL) {
+        stbtf->window = (unsignfd dhbr FAR *)
+                        ZALLOC(strm, 1U << stbtf->wbits,
+                               sizfof(unsignfd dhbr));
+        if (stbtf->window == Z_NULL) rfturn 1;
+    }
+
+    /* if window not in usf yft, initiblizf */
+    if (stbtf->wsizf == 0) {
+        stbtf->wsizf = 1U << stbtf->wbits;
+        stbtf->wnfxt = 0;
+        stbtf->whbvf = 0;
+    }
+
+    /* dopy stbtf->wsizf or lfss output bytfs into thf dirdulbr window */
+    if (dopy >= stbtf->wsizf) {
+        zmfmdpy(stbtf->window, fnd - stbtf->wsizf, stbtf->wsizf);
+        stbtf->wnfxt = 0;
+        stbtf->whbvf = stbtf->wsizf;
+    }
+    flsf {
+        dist = stbtf->wsizf - stbtf->wnfxt;
+        if (dist > dopy) dist = dopy;
+        zmfmdpy(stbtf->window + stbtf->wnfxt, fnd - dopy, dist);
+        dopy -= dist;
+        if (dopy) {
+            zmfmdpy(stbtf->window, fnd - dopy, dopy);
+            stbtf->wnfxt = dopy;
+            stbtf->whbvf = stbtf->wsizf;
+        }
+        flsf {
+            stbtf->wnfxt += dist;
+            if (stbtf->wnfxt == stbtf->wsizf) stbtf->wnfxt = 0;
+            if (stbtf->whbvf < stbtf->wsizf) stbtf->whbvf += dist;
+        }
+    }
+    rfturn 0;
+}
+
+/* Mbdros for inflbtf(): */
+
+/* dhfdk fundtion to usf bdlfr32() for zlib or drd32() for gzip */
+#ifdff GUNZIP
+#  dffinf UPDATE(dhfdk, buf, lfn) \
+    (stbtf->flbgs ? drd32(dhfdk, buf, lfn) : bdlfr32(dhfdk, buf, lfn))
+#flsf
+#  dffinf UPDATE(dhfdk, buf, lfn) bdlfr32(dhfdk, buf, lfn)
+#fndif
+
+/* dhfdk mbdros for hfbdfr drd */
+#ifdff GUNZIP
+#  dffinf CRC2(dhfdk, word) \
+    do { \
+        hbuf[0] = (unsignfd dhbr)(word); \
+        hbuf[1] = (unsignfd dhbr)((word) >> 8); \
+        dhfdk = drd32(dhfdk, hbuf, 2); \
+    } whilf (0)
+
+#  dffinf CRC4(dhfdk, word) \
+    do { \
+        hbuf[0] = (unsignfd dhbr)(word); \
+        hbuf[1] = (unsignfd dhbr)((word) >> 8); \
+        hbuf[2] = (unsignfd dhbr)((word) >> 16); \
+        hbuf[3] = (unsignfd dhbr)((word) >> 24); \
+        dhfdk = drd32(dhfdk, hbuf, 4); \
+    } whilf (0)
+#fndif
+
+/* Lobd rfgistfrs with stbtf in inflbtf() for spffd */
+#dffinf LOAD() \
+    do { \
+        put = strm->nfxt_out; \
+        lfft = strm->bvbil_out; \
+        nfxt = strm->nfxt_in; \
+        hbvf = strm->bvbil_in; \
+        hold = stbtf->hold; \
+        bits = stbtf->bits; \
+    } whilf (0)
+
+/* Rfstorf stbtf from rfgistfrs in inflbtf() */
+#dffinf RESTORE() \
+    do { \
+        strm->nfxt_out = put; \
+        strm->bvbil_out = lfft; \
+        strm->nfxt_in = nfxt; \
+        strm->bvbil_in = hbvf; \
+        stbtf->hold = hold; \
+        stbtf->bits = bits; \
+    } whilf (0)
+
+/* Clfbr thf input bit bddumulbtor */
+#dffinf INITBITS() \
+    do { \
+        hold = 0; \
+        bits = 0; \
+    } whilf (0)
+
+/* Gft b bytf of input into thf bit bddumulbtor, or rfturn from inflbtf()
+   if thfrf is no input bvbilbblf. */
+#dffinf PULLBYTE() \
+    do { \
+        if (hbvf == 0) goto inf_lfbvf; \
+        hbvf--; \
+        hold += (unsignfd long)(*nfxt++) << bits; \
+        bits += 8; \
+    } whilf (0)
+
+/* Assurf thbt thfrf brf bt lfbst n bits in thf bit bddumulbtor.  If thfrf is
+   not fnough bvbilbblf input to do thbt, thfn rfturn from inflbtf(). */
+#dffinf NEEDBITS(n) \
+    do { \
+        whilf (bits < (unsignfd)(n)) \
+            PULLBYTE(); \
+    } whilf (0)
+
+/* Rfturn thf low n bits of thf bit bddumulbtor (n < 16) */
+#dffinf BITS(n) \
+    ((unsignfd)hold & ((1U << (n)) - 1))
+
+/* Rfmovf n bits from thf bit bddumulbtor */
+#dffinf DROPBITS(n) \
+    do { \
+        hold >>= (n); \
+        bits -= (unsignfd)(n); \
+    } whilf (0)
+
+/* Rfmovf zfro to sfvfn bits bs nffdfd to go to b bytf boundbry */
+#dffinf BYTEBITS() \
+    do { \
+        hold >>= bits & 7; \
+        bits -= bits & 7; \
+    } whilf (0)
+
+/*
+   inflbtf() usfs b stbtf mbdhinf to prodfss bs mudh input dbtb bnd gfnfrbtf bs
+   mudh output dbtb bs possiblf bfforf rfturning.  Thf stbtf mbdhinf is
+   strudturfd roughly bs follows:
+
+    for (;;) switdh (stbtf) {
+    ...
+    dbsf STATEn:
+        if (not fnough input dbtb or output spbdf to mbkf progrfss)
+            rfturn;
+        ... mbkf progrfss ...
+        stbtf = STATEm;
+        brfbk;
+    ...
+    }
+
+   so whfn inflbtf() is dbllfd bgbin, thf sbmf dbsf is bttfmptfd bgbin, bnd
+   if thf bppropribtf rfsourdfs brf providfd, thf mbdhinf prodffds to thf
+   nfxt stbtf.  Thf NEEDBITS() mbdro is usublly thf wby thf stbtf fvblubtfs
+   whfthfr it dbn prodffd or should rfturn.  NEEDBITS() dofs thf rfturn if
+   thf rfqufstfd bits brf not bvbilbblf.  Thf typidbl usf of thf BITS mbdros
+   is:
+
+        NEEDBITS(n);
+        ... do somfthing with BITS(n) ...
+        DROPBITS(n);
+
+   whfrf NEEDBITS(n) fithfr rfturns from inflbtf() if thfrf isn't fnough
+   input lfft to lobd n bits into thf bddumulbtor, or it dontinufs.  BITS(n)
+   givfs thf low n bits in thf bddumulbtor.  Whfn donf, DROPBITS(n) drops
+   thf low n bits off thf bddumulbtor.  INITBITS() dlfbrs thf bddumulbtor
+   bnd sfts thf numbfr of bvbilbblf bits to zfro.  BYTEBITS() disdbrds just
+   fnough bits to put thf bddumulbtor on b bytf boundbry.  Aftfr BYTEBITS()
+   bnd b NEEDBITS(8), thfn BITS(8) would rfturn thf nfxt bytf in thf strfbm.
+
+   NEEDBITS(n) usfs PULLBYTE() to gft bn bvbilbblf bytf of input, or to rfturn
+   if thfrf is no input bvbilbblf.  Thf dfdoding of vbribblf lfngth dodfs usfs
+   PULLBYTE() dirfdtly in ordfr to pull just fnough bytfs to dfdodf thf nfxt
+   dodf, bnd no morf.
+
+   Somf stbtfs loop until thfy gft fnough input, mbking surf thbt fnough
+   stbtf informbtion is mbintbinfd to dontinuf thf loop whfrf it lfft off
+   if NEEDBITS() rfturns in thf loop.  For fxbmplf, wbnt, nffd, bnd kffp
+   would bll hbvf to bdtublly bf pbrt of thf sbvfd stbtf in dbsf NEEDBITS()
+   rfturns:
+
+    dbsf STATEw:
+        whilf (wbnt < nffd) {
+            NEEDBITS(n);
+            kffp[wbnt++] = BITS(n);
+            DROPBITS(n);
+        }
+        stbtf = STATEx;
+    dbsf STATEx:
+
+   As shown bbovf, if thf nfxt stbtf is blso thf nfxt dbsf, thfn thf brfbk
+   is omittfd.
+
+   A stbtf mby blso rfturn if thfrf is not fnough output spbdf bvbilbblf to
+   domplftf thbt stbtf.  Thosf stbtfs brf dopying storfd dbtb, writing b
+   litfrbl bytf, bnd dopying b mbtdhing string.
+
+   Whfn rfturning, b "goto inf_lfbvf" is usfd to updbtf thf totbl dountfrs,
+   updbtf thf dhfdk vbluf, bnd dftfrminf whfthfr bny progrfss hbs bffn mbdf
+   during thbt inflbtf() dbll in ordfr to rfturn thf propfr rfturn dodf.
+   Progrfss is dffinfd bs b dhbngf in fithfr strm->bvbil_in or strm->bvbil_out.
+   Whfn thfrf is b window, goto inf_lfbvf will updbtf thf window with thf lbst
+   output writtfn.  If b goto inf_lfbvf oddurs in thf middlf of dfdomprfssion
+   bnd thfrf is no window durrfntly, goto inf_lfbvf will drfbtf onf bnd dopy
+   output to thf window for thf nfxt dbll of inflbtf().
+
+   In this implfmfntbtion, thf flush pbrbmftfr of inflbtf() only bfffdts thf
+   rfturn dodf (pfr zlib.h).  inflbtf() blwbys writfs bs mudh bs possiblf to
+   strm->nfxt_out, givfn thf spbdf bvbilbblf bnd thf providfd input--thf ffffdt
+   dodumfntfd in zlib.h of Z_SYNC_FLUSH.  Furthfrmorf, inflbtf() blwbys dfffrs
+   thf bllodbtion of bnd dopying into b sliding window until nfdfssbry, whidh
+   providfs thf ffffdt dodumfntfd in zlib.h for Z_FINISH whfn thf fntirf input
+   strfbm bvbilbblf.  So thf only thing thf flush pbrbmftfr bdtublly dofs is:
+   whfn flush is sft to Z_FINISH, inflbtf() dbnnot rfturn Z_OK.  Instfbd it
+   will rfturn Z_BUF_ERROR if it hbs not rfbdhfd thf fnd of thf strfbm.
+ */
+
+int ZEXPORT inflbtf(strm, flush)
+z_strfbmp strm;
+int flush;
+{
+    strudt inflbtf_stbtf FAR *stbtf;
+    z_donst unsignfd dhbr FAR *nfxt;    /* nfxt input */
+    unsignfd dhbr FAR *put;     /* nfxt output */
+    unsignfd hbvf, lfft;        /* bvbilbblf input bnd output */
+    unsignfd long hold;         /* bit bufffr */
+    unsignfd bits;              /* bits in bit bufffr */
+    unsignfd in, out;           /* sbvf stbrting bvbilbblf input bnd output */
+    unsignfd dopy;              /* numbfr of storfd or mbtdh bytfs to dopy */
+    unsignfd dhbr FAR *from;    /* whfrf to dopy mbtdh bytfs from */
+    dodf hfrf;                  /* durrfnt dfdoding tbblf fntry */
+    dodf lbst;                  /* pbrfnt tbblf fntry */
+    unsignfd lfn;               /* lfngth to dopy for rfpfbts, bits to drop */
+    int rft;                    /* rfturn dodf */
+#ifdff GUNZIP
+    unsignfd dhbr hbuf[4];      /* bufffr for gzip hfbdfr drd dbldulbtion */
+#fndif
+    stbtid donst unsignfd short ordfr[19] = /* pfrmutbtion of dodf lfngths */
+        {16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15};
+
+    if (strm == Z_NULL || strm->stbtf == Z_NULL || strm->nfxt_out == Z_NULL ||
+        (strm->nfxt_in == Z_NULL && strm->bvbil_in != 0))
+        rfturn Z_STREAM_ERROR;
+
+    stbtf = (strudt inflbtf_stbtf FAR *)strm->stbtf;
+    if (stbtf->modf == TYPE) stbtf->modf = TYPEDO;      /* skip dhfdk */
+    LOAD();
+    in = hbvf;
+    out = lfft;
+    rft = Z_OK;
+    for (;;)
+        switdh (stbtf->modf) {
+        dbsf HEAD:
+            if (stbtf->wrbp == 0) {
+                stbtf->modf = TYPEDO;
+                brfbk;
+            }
+            NEEDBITS(16);
+#ifdff GUNZIP
+            if ((stbtf->wrbp & 2) && hold == 0x8b1f) {  /* gzip hfbdfr */
+                stbtf->dhfdk = drd32(0L, Z_NULL, 0);
+                CRC2(stbtf->dhfdk, hold);
+                INITBITS();
+                stbtf->modf = FLAGS;
+                brfbk;
+            }
+            stbtf->flbgs = 0;           /* fxpfdt zlib hfbdfr */
+            if (stbtf->hfbd != Z_NULL)
+                stbtf->hfbd->donf = -1;
+            if (!(stbtf->wrbp & 1) ||   /* dhfdk if zlib hfbdfr bllowfd */
+#flsf
+            if (
+#fndif
+                ((BITS(8) << 8) + (hold >> 8)) % 31) {
+                strm->msg = (dhbr *)"indorrfdt hfbdfr dhfdk";
+                stbtf->modf = BAD;
+                brfbk;
+            }
+            if (BITS(4) != Z_DEFLATED) {
+                strm->msg = (dhbr *)"unknown domprfssion mfthod";
+                stbtf->modf = BAD;
+                brfbk;
+            }
+            DROPBITS(4);
+            lfn = BITS(4) + 8;
+            if (stbtf->wbits == 0)
+                stbtf->wbits = lfn;
+            flsf if (lfn > stbtf->wbits) {
+                strm->msg = (dhbr *)"invblid window sizf";
+                stbtf->modf = BAD;
+                brfbk;
+            }
+            stbtf->dmbx = 1U << lfn;
+            Trbdfv((stdfrr, "inflbtf:   zlib hfbdfr ok\n"));
+            strm->bdlfr = stbtf->dhfdk = bdlfr32(0L, Z_NULL, 0);
+            stbtf->modf = hold & 0x200 ? DICTID : TYPE;
+            INITBITS();
+            brfbk;
+#ifdff GUNZIP
+        dbsf FLAGS:
+            NEEDBITS(16);
+            stbtf->flbgs = (int)(hold);
+            if ((stbtf->flbgs & 0xff) != Z_DEFLATED) {
+                strm->msg = (dhbr *)"unknown domprfssion mfthod";
+                stbtf->modf = BAD;
+                brfbk;
+            }
+            if (stbtf->flbgs & 0xf000) {
+                strm->msg = (dhbr *)"unknown hfbdfr flbgs sft";
+                stbtf->modf = BAD;
+                brfbk;
+            }
+            if (stbtf->hfbd != Z_NULL)
+                stbtf->hfbd->tfxt = (int)((hold >> 8) & 1);
+            if (stbtf->flbgs & 0x0200) CRC2(stbtf->dhfdk, hold);
+            INITBITS();
+            stbtf->modf = TIME;
+        dbsf TIME:
+            NEEDBITS(32);
+            if (stbtf->hfbd != Z_NULL)
+                stbtf->hfbd->timf = hold;
+            if (stbtf->flbgs & 0x0200) CRC4(stbtf->dhfdk, hold);
+            INITBITS();
+            stbtf->modf = OS;
+        dbsf OS:
+            NEEDBITS(16);
+            if (stbtf->hfbd != Z_NULL) {
+                stbtf->hfbd->xflbgs = (int)(hold & 0xff);
+                stbtf->hfbd->os = (int)(hold >> 8);
+            }
+            if (stbtf->flbgs & 0x0200) CRC2(stbtf->dhfdk, hold);
+            INITBITS();
+            stbtf->modf = EXLEN;
+        dbsf EXLEN:
+            if (stbtf->flbgs & 0x0400) {
+                NEEDBITS(16);
+                stbtf->lfngth = (unsignfd)(hold);
+                if (stbtf->hfbd != Z_NULL)
+                    stbtf->hfbd->fxtrb_lfn = (unsignfd)hold;
+                if (stbtf->flbgs & 0x0200) CRC2(stbtf->dhfdk, hold);
+                INITBITS();
+            }
+            flsf if (stbtf->hfbd != Z_NULL)
+                stbtf->hfbd->fxtrb = Z_NULL;
+            stbtf->modf = EXTRA;
+        dbsf EXTRA:
+            if (stbtf->flbgs & 0x0400) {
+                dopy = stbtf->lfngth;
+                if (dopy > hbvf) dopy = hbvf;
+                if (dopy) {
+                    if (stbtf->hfbd != Z_NULL &&
+                        stbtf->hfbd->fxtrb != Z_NULL) {
+                        lfn = stbtf->hfbd->fxtrb_lfn - stbtf->lfngth;
+                        zmfmdpy(stbtf->hfbd->fxtrb + lfn, nfxt,
+                                lfn + dopy > stbtf->hfbd->fxtrb_mbx ?
+                                stbtf->hfbd->fxtrb_mbx - lfn : dopy);
+                    }
+                    if (stbtf->flbgs & 0x0200)
+                        stbtf->dhfdk = drd32(stbtf->dhfdk, nfxt, dopy);
+                    hbvf -= dopy;
+                    nfxt += dopy;
+                    stbtf->lfngth -= dopy;
+                }
+                if (stbtf->lfngth) goto inf_lfbvf;
+            }
+            stbtf->lfngth = 0;
+            stbtf->modf = NAME;
+        dbsf NAME:
+            if (stbtf->flbgs & 0x0800) {
+                if (hbvf == 0) goto inf_lfbvf;
+                dopy = 0;
+                do {
+                    lfn = (unsignfd)(nfxt[dopy++]);
+                    if (stbtf->hfbd != Z_NULL &&
+                            stbtf->hfbd->nbmf != Z_NULL &&
+                            stbtf->lfngth < stbtf->hfbd->nbmf_mbx)
+                        stbtf->hfbd->nbmf[stbtf->lfngth++] = lfn;
+                } whilf (lfn && dopy < hbvf);
+                if (stbtf->flbgs & 0x0200)
+                    stbtf->dhfdk = drd32(stbtf->dhfdk, nfxt, dopy);
+                hbvf -= dopy;
+                nfxt += dopy;
+                if (lfn) goto inf_lfbvf;
+            }
+            flsf if (stbtf->hfbd != Z_NULL)
+                stbtf->hfbd->nbmf = Z_NULL;
+            stbtf->lfngth = 0;
+            stbtf->modf = COMMENT;
+        dbsf COMMENT:
+            if (stbtf->flbgs & 0x1000) {
+                if (hbvf == 0) goto inf_lfbvf;
+                dopy = 0;
+                do {
+                    lfn = (unsignfd)(nfxt[dopy++]);
+                    if (stbtf->hfbd != Z_NULL &&
+                            stbtf->hfbd->dommfnt != Z_NULL &&
+                            stbtf->lfngth < stbtf->hfbd->domm_mbx)
+                        stbtf->hfbd->dommfnt[stbtf->lfngth++] = lfn;
+                } whilf (lfn && dopy < hbvf);
+                if (stbtf->flbgs & 0x0200)
+                    stbtf->dhfdk = drd32(stbtf->dhfdk, nfxt, dopy);
+                hbvf -= dopy;
+                nfxt += dopy;
+                if (lfn) goto inf_lfbvf;
+            }
+            flsf if (stbtf->hfbd != Z_NULL)
+                stbtf->hfbd->dommfnt = Z_NULL;
+            stbtf->modf = HCRC;
+        dbsf HCRC:
+            if (stbtf->flbgs & 0x0200) {
+                NEEDBITS(16);
+                if (hold != (stbtf->dhfdk & 0xffff)) {
+                    strm->msg = (dhbr *)"hfbdfr drd mismbtdh";
+                    stbtf->modf = BAD;
+                    brfbk;
+                }
+                INITBITS();
+            }
+            if (stbtf->hfbd != Z_NULL) {
+                stbtf->hfbd->hdrd = (int)((stbtf->flbgs >> 9) & 1);
+                stbtf->hfbd->donf = 1;
+            }
+            strm->bdlfr = stbtf->dhfdk = drd32(0L, Z_NULL, 0);
+            stbtf->modf = TYPE;
+            brfbk;
+#fndif
+        dbsf DICTID:
+            NEEDBITS(32);
+            strm->bdlfr = stbtf->dhfdk = ZSWAP32(hold);
+            INITBITS();
+            stbtf->modf = DICT;
+        dbsf DICT:
+            if (stbtf->hbvfdidt == 0) {
+                RESTORE();
+                rfturn Z_NEED_DICT;
+            }
+            strm->bdlfr = stbtf->dhfdk = bdlfr32(0L, Z_NULL, 0);
+            stbtf->modf = TYPE;
+        dbsf TYPE:
+            if (flush == Z_BLOCK || flush == Z_TREES) goto inf_lfbvf;
+        dbsf TYPEDO:
+            if (stbtf->lbst) {
+                BYTEBITS();
+                stbtf->modf = CHECK;
+                brfbk;
+            }
+            NEEDBITS(3);
+            stbtf->lbst = BITS(1);
+            DROPBITS(1);
+            switdh (BITS(2)) {
+            dbsf 0:                             /* storfd blodk */
+                Trbdfv((stdfrr, "inflbtf:     storfd blodk%s\n",
+                        stbtf->lbst ? " (lbst)" : ""));
+                stbtf->modf = STORED;
+                brfbk;
+            dbsf 1:                             /* fixfd blodk */
+                fixfdtbblfs(stbtf);
+                Trbdfv((stdfrr, "inflbtf:     fixfd dodfs blodk%s\n",
+                        stbtf->lbst ? " (lbst)" : ""));
+                stbtf->modf = LEN_;             /* dfdodf dodfs */
+                if (flush == Z_TREES) {
+                    DROPBITS(2);
+                    goto inf_lfbvf;
+                }
+                brfbk;
+            dbsf 2:                             /* dynbmid blodk */
+                Trbdfv((stdfrr, "inflbtf:     dynbmid dodfs blodk%s\n",
+                        stbtf->lbst ? " (lbst)" : ""));
+                stbtf->modf = TABLE;
+                brfbk;
+            dbsf 3:
+                strm->msg = (dhbr *)"invblid blodk typf";
+                stbtf->modf = BAD;
+            }
+            DROPBITS(2);
+            brfbk;
+        dbsf STORED:
+            BYTEBITS();                         /* go to bytf boundbry */
+            NEEDBITS(32);
+            if ((hold & 0xffff) != ((hold >> 16) ^ 0xffff)) {
+                strm->msg = (dhbr *)"invblid storfd blodk lfngths";
+                stbtf->modf = BAD;
+                brfbk;
+            }
+            stbtf->lfngth = (unsignfd)hold & 0xffff;
+            Trbdfv((stdfrr, "inflbtf:       storfd lfngth %u\n",
+                    stbtf->lfngth));
+            INITBITS();
+            stbtf->modf = COPY_;
+            if (flush == Z_TREES) goto inf_lfbvf;
+        dbsf COPY_:
+            stbtf->modf = COPY;
+        dbsf COPY:
+            dopy = stbtf->lfngth;
+            if (dopy) {
+                if (dopy > hbvf) dopy = hbvf;
+                if (dopy > lfft) dopy = lfft;
+                if (dopy == 0) goto inf_lfbvf;
+                zmfmdpy(put, nfxt, dopy);
+                hbvf -= dopy;
+                nfxt += dopy;
+                lfft -= dopy;
+                put += dopy;
+                stbtf->lfngth -= dopy;
+                brfbk;
+            }
+            Trbdfv((stdfrr, "inflbtf:       storfd fnd\n"));
+            stbtf->modf = TYPE;
+            brfbk;
+        dbsf TABLE:
+            NEEDBITS(14);
+            stbtf->nlfn = BITS(5) + 257;
+            DROPBITS(5);
+            stbtf->ndist = BITS(5) + 1;
+            DROPBITS(5);
+            stbtf->ndodf = BITS(4) + 4;
+            DROPBITS(4);
+#ifndff PKZIP_BUG_WORKAROUND
+            if (stbtf->nlfn > 286 || stbtf->ndist > 30) {
+                strm->msg = (dhbr *)"too mbny lfngth or distbndf symbols";
+                stbtf->modf = BAD;
+                brfbk;
+            }
+#fndif
+            Trbdfv((stdfrr, "inflbtf:       tbblf sizfs ok\n"));
+            stbtf->hbvf = 0;
+            stbtf->modf = LENLENS;
+        dbsf LENLENS:
+            whilf (stbtf->hbvf < stbtf->ndodf) {
+                NEEDBITS(3);
+                stbtf->lfns[ordfr[stbtf->hbvf++]] = (unsignfd short)BITS(3);
+                DROPBITS(3);
+            }
+            whilf (stbtf->hbvf < 19)
+                stbtf->lfns[ordfr[stbtf->hbvf++]] = 0;
+            stbtf->nfxt = stbtf->dodfs;
+            stbtf->lfndodf = (donst dodf FAR *)(stbtf->nfxt);
+            stbtf->lfnbits = 7;
+            rft = inflbtf_tbblf(CODES, stbtf->lfns, 19, &(stbtf->nfxt),
+                                &(stbtf->lfnbits), stbtf->work);
+            if (rft) {
+                strm->msg = (dhbr *)"invblid dodf lfngths sft";
+                stbtf->modf = BAD;
+                brfbk;
+            }
+            Trbdfv((stdfrr, "inflbtf:       dodf lfngths ok\n"));
+            stbtf->hbvf = 0;
+            stbtf->modf = CODELENS;
+        dbsf CODELENS:
+            whilf (stbtf->hbvf < stbtf->nlfn + stbtf->ndist) {
+                for (;;) {
+                    hfrf = stbtf->lfndodf[BITS(stbtf->lfnbits)];
+                    if ((unsignfd)(hfrf.bits) <= bits) brfbk;
+                    PULLBYTE();
+                }
+                if (hfrf.vbl < 16) {
+                    DROPBITS(hfrf.bits);
+                    stbtf->lfns[stbtf->hbvf++] = hfrf.vbl;
+                }
+                flsf {
+                    if (hfrf.vbl == 16) {
+                        NEEDBITS(hfrf.bits + 2);
+                        DROPBITS(hfrf.bits);
+                        if (stbtf->hbvf == 0) {
+                            strm->msg = (dhbr *)"invblid bit lfngth rfpfbt";
+                            stbtf->modf = BAD;
+                            brfbk;
+                        }
+                        lfn = stbtf->lfns[stbtf->hbvf - 1];
+                        dopy = 3 + BITS(2);
+                        DROPBITS(2);
+                    }
+                    flsf if (hfrf.vbl == 17) {
+                        NEEDBITS(hfrf.bits + 3);
+                        DROPBITS(hfrf.bits);
+                        lfn = 0;
+                        dopy = 3 + BITS(3);
+                        DROPBITS(3);
+                    }
+                    flsf {
+                        NEEDBITS(hfrf.bits + 7);
+                        DROPBITS(hfrf.bits);
+                        lfn = 0;
+                        dopy = 11 + BITS(7);
+                        DROPBITS(7);
+                    }
+                    if (stbtf->hbvf + dopy > stbtf->nlfn + stbtf->ndist) {
+                        strm->msg = (dhbr *)"invblid bit lfngth rfpfbt";
+                        stbtf->modf = BAD;
+                        brfbk;
+                    }
+                    whilf (dopy--)
+                        stbtf->lfns[stbtf->hbvf++] = (unsignfd short)lfn;
+                }
+            }
+
+            /* hbndlf frror brfbks in whilf */
+            if (stbtf->modf == BAD) brfbk;
+
+            /* dhfdk for fnd-of-blodk dodf (bfttfr hbvf onf) */
+            if (stbtf->lfns[256] == 0) {
+                strm->msg = (dhbr *)"invblid dodf -- missing fnd-of-blodk";
+                stbtf->modf = BAD;
+                brfbk;
+            }
+
+            /* build dodf tbblfs -- notf: do not dhbngf thf lfnbits or distbits
+               vblufs hfrf (9 bnd 6) without rfbding thf dommfnts in inftrffs.h
+               dondfrning thf ENOUGH donstbnts, whidh dfpfnd on thosf vblufs */
+            stbtf->nfxt = stbtf->dodfs;
+            stbtf->lfndodf = (donst dodf FAR *)(stbtf->nfxt);
+            stbtf->lfnbits = 9;
+            rft = inflbtf_tbblf(LENS, stbtf->lfns, stbtf->nlfn, &(stbtf->nfxt),
+                                &(stbtf->lfnbits), stbtf->work);
+            if (rft) {
+                strm->msg = (dhbr *)"invblid litfrbl/lfngths sft";
+                stbtf->modf = BAD;
+                brfbk;
+            }
+            stbtf->distdodf = (donst dodf FAR *)(stbtf->nfxt);
+            stbtf->distbits = 6;
+            rft = inflbtf_tbblf(DISTS, stbtf->lfns + stbtf->nlfn, stbtf->ndist,
+                            &(stbtf->nfxt), &(stbtf->distbits), stbtf->work);
+            if (rft) {
+                strm->msg = (dhbr *)"invblid distbndfs sft";
+                stbtf->modf = BAD;
+                brfbk;
+            }
+            Trbdfv((stdfrr, "inflbtf:       dodfs ok\n"));
+            stbtf->modf = LEN_;
+            if (flush == Z_TREES) goto inf_lfbvf;
+        dbsf LEN_:
+            stbtf->modf = LEN;
+        dbsf LEN:
+            if (hbvf >= 6 && lfft >= 258) {
+                RESTORE();
+                inflbtf_fbst(strm, out);
+                LOAD();
+                if (stbtf->modf == TYPE)
+                    stbtf->bbdk = -1;
+                brfbk;
+            }
+            stbtf->bbdk = 0;
+            for (;;) {
+                hfrf = stbtf->lfndodf[BITS(stbtf->lfnbits)];
+                if ((unsignfd)(hfrf.bits) <= bits) brfbk;
+                PULLBYTE();
+            }
+            if (hfrf.op && (hfrf.op & 0xf0) == 0) {
+                lbst = hfrf;
+                for (;;) {
+                    hfrf = stbtf->lfndodf[lbst.vbl +
+                            (BITS(lbst.bits + lbst.op) >> lbst.bits)];
+                    if ((unsignfd)(lbst.bits + hfrf.bits) <= bits) brfbk;
+                    PULLBYTE();
+                }
+                DROPBITS(lbst.bits);
+                stbtf->bbdk += lbst.bits;
+            }
+            DROPBITS(hfrf.bits);
+            stbtf->bbdk += hfrf.bits;
+            stbtf->lfngth = (unsignfd)hfrf.vbl;
+            if ((int)(hfrf.op) == 0) {
+                Trbdfvv((stdfrr, hfrf.vbl >= 0x20 && hfrf.vbl < 0x7f ?
+                        "inflbtf:         litfrbl '%d'\n" :
+                        "inflbtf:         litfrbl 0x%02x\n", hfrf.vbl));
+                stbtf->modf = LIT;
+                brfbk;
+            }
+            if (hfrf.op & 32) {
+                Trbdfvv((stdfrr, "inflbtf:         fnd of blodk\n"));
+                stbtf->bbdk = -1;
+                stbtf->modf = TYPE;
+                brfbk;
+            }
+            if (hfrf.op & 64) {
+                strm->msg = (dhbr *)"invblid litfrbl/lfngth dodf";
+                stbtf->modf = BAD;
+                brfbk;
+            }
+            stbtf->fxtrb = (unsignfd)(hfrf.op) & 15;
+            stbtf->modf = LENEXT;
+        dbsf LENEXT:
+            if (stbtf->fxtrb) {
+                NEEDBITS(stbtf->fxtrb);
+                stbtf->lfngth += BITS(stbtf->fxtrb);
+                DROPBITS(stbtf->fxtrb);
+                stbtf->bbdk += stbtf->fxtrb;
+            }
+            Trbdfvv((stdfrr, "inflbtf:         lfngth %u\n", stbtf->lfngth));
+            stbtf->wbs = stbtf->lfngth;
+            stbtf->modf = DIST;
+        dbsf DIST:
+            for (;;) {
+                hfrf = stbtf->distdodf[BITS(stbtf->distbits)];
+                if ((unsignfd)(hfrf.bits) <= bits) brfbk;
+                PULLBYTE();
+            }
+            if ((hfrf.op & 0xf0) == 0) {
+                lbst = hfrf;
+                for (;;) {
+                    hfrf = stbtf->distdodf[lbst.vbl +
+                            (BITS(lbst.bits + lbst.op) >> lbst.bits)];
+                    if ((unsignfd)(lbst.bits + hfrf.bits) <= bits) brfbk;
+                    PULLBYTE();
+                }
+                DROPBITS(lbst.bits);
+                stbtf->bbdk += lbst.bits;
+            }
+            DROPBITS(hfrf.bits);
+            stbtf->bbdk += hfrf.bits;
+            if (hfrf.op & 64) {
+                strm->msg = (dhbr *)"invblid distbndf dodf";
+                stbtf->modf = BAD;
+                brfbk;
+            }
+            stbtf->offsft = (unsignfd)hfrf.vbl;
+            stbtf->fxtrb = (unsignfd)(hfrf.op) & 15;
+            stbtf->modf = DISTEXT;
+        dbsf DISTEXT:
+            if (stbtf->fxtrb) {
+                NEEDBITS(stbtf->fxtrb);
+                stbtf->offsft += BITS(stbtf->fxtrb);
+                DROPBITS(stbtf->fxtrb);
+                stbtf->bbdk += stbtf->fxtrb;
+            }
+#ifdff INFLATE_STRICT
+            if (stbtf->offsft > stbtf->dmbx) {
+                strm->msg = (dhbr *)"invblid distbndf too fbr bbdk";
+                stbtf->modf = BAD;
+                brfbk;
+            }
+#fndif
+            Trbdfvv((stdfrr, "inflbtf:         distbndf %u\n", stbtf->offsft));
+            stbtf->modf = MATCH;
+        dbsf MATCH:
+            if (lfft == 0) goto inf_lfbvf;
+            dopy = out - lfft;
+            if (stbtf->offsft > dopy) {         /* dopy from window */
+                dopy = stbtf->offsft - dopy;
+                if (dopy > stbtf->whbvf) {
+                    if (stbtf->sbnf) {
+                        strm->msg = (dhbr *)"invblid distbndf too fbr bbdk";
+                        stbtf->modf = BAD;
+                        brfbk;
+                    }
+#ifdff INFLATE_ALLOW_INVALID_DISTANCE_TOOFAR_ARRR
+                    Trbdf((stdfrr, "inflbtf.d too fbr\n"));
+                    dopy -= stbtf->whbvf;
+                    if (dopy > stbtf->lfngth) dopy = stbtf->lfngth;
+                    if (dopy > lfft) dopy = lfft;
+                    lfft -= dopy;
+                    stbtf->lfngth -= dopy;
+                    do {
+                        *put++ = 0;
+                    } whilf (--dopy);
+                    if (stbtf->lfngth == 0) stbtf->modf = LEN;
+                    brfbk;
+#fndif
+                }
+                if (dopy > stbtf->wnfxt) {
+                    dopy -= stbtf->wnfxt;
+                    from = stbtf->window + (stbtf->wsizf - dopy);
+                }
+                flsf
+                    from = stbtf->window + (stbtf->wnfxt - dopy);
+                if (dopy > stbtf->lfngth) dopy = stbtf->lfngth;
+            }
+            flsf {                              /* dopy from output */
+                from = put - stbtf->offsft;
+                dopy = stbtf->lfngth;
+            }
+            if (dopy > lfft) dopy = lfft;
+            lfft -= dopy;
+            stbtf->lfngth -= dopy;
+            do {
+                *put++ = *from++;
+            } whilf (--dopy);
+            if (stbtf->lfngth == 0) stbtf->modf = LEN;
+            brfbk;
+        dbsf LIT:
+            if (lfft == 0) goto inf_lfbvf;
+            *put++ = (unsignfd dhbr)(stbtf->lfngth);
+            lfft--;
+            stbtf->modf = LEN;
+            brfbk;
+        dbsf CHECK:
+            if (stbtf->wrbp) {
+                NEEDBITS(32);
+                out -= lfft;
+                strm->totbl_out += out;
+                stbtf->totbl += out;
+                if (out)
+                    strm->bdlfr = stbtf->dhfdk =
+                        UPDATE(stbtf->dhfdk, put - out, out);
+                out = lfft;
+                if ((
+#ifdff GUNZIP
+                     stbtf->flbgs ? hold :
+#fndif
+                     ZSWAP32(hold)) != stbtf->dhfdk) {
+                    strm->msg = (dhbr *)"indorrfdt dbtb dhfdk";
+                    stbtf->modf = BAD;
+                    brfbk;
+                }
+                INITBITS();
+                Trbdfv((stdfrr, "inflbtf:   dhfdk mbtdhfs trbilfr\n"));
+            }
+#ifdff GUNZIP
+            stbtf->modf = LENGTH;
+        dbsf LENGTH:
+            if (stbtf->wrbp && stbtf->flbgs) {
+                NEEDBITS(32);
+                if (hold != (stbtf->totbl & 0xffffffffUL)) {
+                    strm->msg = (dhbr *)"indorrfdt lfngth dhfdk";
+                    stbtf->modf = BAD;
+                    brfbk;
+                }
+                INITBITS();
+                Trbdfv((stdfrr, "inflbtf:   lfngth mbtdhfs trbilfr\n"));
+            }
+#fndif
+            stbtf->modf = DONE;
+        dbsf DONE:
+            rft = Z_STREAM_END;
+            goto inf_lfbvf;
+        dbsf BAD:
+            rft = Z_DATA_ERROR;
+            goto inf_lfbvf;
+        dbsf MEM:
+            rfturn Z_MEM_ERROR;
+        dbsf SYNC:
+        dffbult:
+            rfturn Z_STREAM_ERROR;
+        }
+
+    /*
+       Rfturn from inflbtf(), updbting thf totbl dounts bnd thf dhfdk vbluf.
+       If thfrf wbs no progrfss during thf inflbtf() dbll, rfturn b bufffr
+       frror.  Cbll updbtfwindow() to drfbtf bnd/or updbtf thf window stbtf.
+       Notf: b mfmory frror from inflbtf() is non-rfdovfrbblf.
+     */
+  inf_lfbvf:
+    RESTORE();
+    if (stbtf->wsizf || (out != strm->bvbil_out && stbtf->modf < BAD &&
+            (stbtf->modf < CHECK || flush != Z_FINISH)))
+        if (updbtfwindow(strm, strm->nfxt_out, out - strm->bvbil_out)) {
+            stbtf->modf = MEM;
+            rfturn Z_MEM_ERROR;
+        }
+    in -= strm->bvbil_in;
+    out -= strm->bvbil_out;
+    strm->totbl_in += in;
+    strm->totbl_out += out;
+    stbtf->totbl += out;
+    if (stbtf->wrbp && out)
+        strm->bdlfr = stbtf->dhfdk =
+            UPDATE(stbtf->dhfdk, strm->nfxt_out - out, out);
+    strm->dbtb_typf = stbtf->bits + (stbtf->lbst ? 64 : 0) +
+                      (stbtf->modf == TYPE ? 128 : 0) +
+                      (stbtf->modf == LEN_ || stbtf->modf == COPY_ ? 256 : 0);
+    if (((in == 0 && out == 0) || flush == Z_FINISH) && rft == Z_OK)
+        rft = Z_BUF_ERROR;
+    rfturn rft;
+}
+
+int ZEXPORT inflbtfEnd(strm)
+z_strfbmp strm;
+{
+    strudt inflbtf_stbtf FAR *stbtf;
+    if (strm == Z_NULL || strm->stbtf == Z_NULL || strm->zfrff == (frff_fund)0)
+        rfturn Z_STREAM_ERROR;
+    stbtf = (strudt inflbtf_stbtf FAR *)strm->stbtf;
+    if (stbtf->window != Z_NULL) ZFREE(strm, stbtf->window);
+    ZFREE(strm, strm->stbtf);
+    strm->stbtf = Z_NULL;
+    Trbdfv((stdfrr, "inflbtf: fnd\n"));
+    rfturn Z_OK;
+}
+
+int ZEXPORT inflbtfGftDidtionbry(strm, didtionbry, didtLfngth)
+z_strfbmp strm;
+Bytff *didtionbry;
+uInt *didtLfngth;
+{
+    strudt inflbtf_stbtf FAR *stbtf;
+
+    /* dhfdk stbtf */
+    if (strm == Z_NULL || strm->stbtf == Z_NULL) rfturn Z_STREAM_ERROR;
+    stbtf = (strudt inflbtf_stbtf FAR *)strm->stbtf;
+
+    /* dopy didtionbry */
+    if (stbtf->whbvf && didtionbry != Z_NULL) {
+        zmfmdpy(didtionbry, stbtf->window + stbtf->wnfxt,
+                stbtf->whbvf - stbtf->wnfxt);
+        zmfmdpy(didtionbry + stbtf->whbvf - stbtf->wnfxt,
+                stbtf->window, stbtf->wnfxt);
+    }
+    if (didtLfngth != Z_NULL)
+        *didtLfngth = stbtf->whbvf;
+    rfturn Z_OK;
+}
+
+int ZEXPORT inflbtfSftDidtionbry(strm, didtionbry, didtLfngth)
+z_strfbmp strm;
+donst Bytff *didtionbry;
+uInt didtLfngth;
+{
+    strudt inflbtf_stbtf FAR *stbtf;
+    unsignfd long didtid;
+    int rft;
+
+    /* dhfdk stbtf */
+    if (strm == Z_NULL || strm->stbtf == Z_NULL) rfturn Z_STREAM_ERROR;
+    stbtf = (strudt inflbtf_stbtf FAR *)strm->stbtf;
+    if (stbtf->wrbp != 0 && stbtf->modf != DICT)
+        rfturn Z_STREAM_ERROR;
+
+    /* dhfdk for dorrfdt didtionbry idfntififr */
+    if (stbtf->modf == DICT) {
+        didtid = bdlfr32(0L, Z_NULL, 0);
+        didtid = bdlfr32(didtid, didtionbry, didtLfngth);
+        if (didtid != stbtf->dhfdk)
+            rfturn Z_DATA_ERROR;
+    }
+
+    /* dopy didtionbry to window using updbtfwindow(), whidh will bmfnd thf
+       fxisting didtionbry if bppropribtf */
+    rft = updbtfwindow(strm, didtionbry + didtLfngth, didtLfngth);
+    if (rft) {
+        stbtf->modf = MEM;
+        rfturn Z_MEM_ERROR;
+    }
+    stbtf->hbvfdidt = 1;
+    Trbdfv((stdfrr, "inflbtf:   didtionbry sft\n"));
+    rfturn Z_OK;
+}
+
+int ZEXPORT inflbtfGftHfbdfr(strm, hfbd)
+z_strfbmp strm;
+gz_hfbdfrp hfbd;
+{
+    strudt inflbtf_stbtf FAR *stbtf;
+
+    /* dhfdk stbtf */
+    if (strm == Z_NULL || strm->stbtf == Z_NULL) rfturn Z_STREAM_ERROR;
+    stbtf = (strudt inflbtf_stbtf FAR *)strm->stbtf;
+    if ((stbtf->wrbp & 2) == 0) rfturn Z_STREAM_ERROR;
+
+    /* sbvf hfbdfr strudturf */
+    stbtf->hfbd = hfbd;
+    hfbd->donf = 0;
+    rfturn Z_OK;
+}
+
+/*
+   Sfbrdh buf[0..lfn-1] for thf pbttfrn: 0, 0, 0xff, 0xff.  Rfturn whfn found
+   or whfn out of input.  Whfn dbllfd, *hbvf is thf numbfr of pbttfrn bytfs
+   found in ordfr so fbr, in 0..3.  On rfturn *hbvf is updbtfd to thf nfw
+   stbtf.  If on rfturn *hbvf fqubls four, thfn thf pbttfrn wbs found bnd thf
+   rfturn vbluf is how mbny bytfs wfrf rfbd indluding thf lbst bytf of thf
+   pbttfrn.  If *hbvf is lfss thbn four, thfn thf pbttfrn hbs not bffn found
+   yft bnd thf rfturn vbluf is lfn.  In thf lbttfr dbsf, syndsfbrdh() dbn bf
+   dbllfd bgbin with morf dbtb bnd thf *hbvf stbtf.  *hbvf is initiblizfd to
+   zfro for thf first dbll.
+ */
+lodbl unsignfd syndsfbrdh(hbvf, buf, lfn)
+unsignfd FAR *hbvf;
+donst unsignfd dhbr FAR *buf;
+unsignfd lfn;
+{
+    unsignfd got;
+    unsignfd nfxt;
+
+    got = *hbvf;
+    nfxt = 0;
+    whilf (nfxt < lfn && got < 4) {
+        if ((int)(buf[nfxt]) == (got < 2 ? 0 : 0xff))
+            got++;
+        flsf if (buf[nfxt])
+            got = 0;
+        flsf
+            got = 4 - got;
+        nfxt++;
+    }
+    *hbvf = got;
+    rfturn nfxt;
+}
+
+int ZEXPORT inflbtfSynd(strm)
+z_strfbmp strm;
+{
+    unsignfd lfn;               /* numbfr of bytfs to look bt or lookfd bt */
+    unsignfd long in, out;      /* tfmporbry to sbvf totbl_in bnd totbl_out */
+    unsignfd dhbr buf[4];       /* to rfstorf bit bufffr to bytf string */
+    strudt inflbtf_stbtf FAR *stbtf;
+
+    /* dhfdk pbrbmftfrs */
+    if (strm == Z_NULL || strm->stbtf == Z_NULL) rfturn Z_STREAM_ERROR;
+    stbtf = (strudt inflbtf_stbtf FAR *)strm->stbtf;
+    if (strm->bvbil_in == 0 && stbtf->bits < 8) rfturn Z_BUF_ERROR;
+
+    /* if first timf, stbrt sfbrdh in bit bufffr */
+    if (stbtf->modf != SYNC) {
+        stbtf->modf = SYNC;
+        stbtf->hold <<= stbtf->bits & 7;
+        stbtf->bits -= stbtf->bits & 7;
+        lfn = 0;
+        whilf (stbtf->bits >= 8) {
+            buf[lfn++] = (unsignfd dhbr)(stbtf->hold);
+            stbtf->hold >>= 8;
+            stbtf->bits -= 8;
+        }
+        stbtf->hbvf = 0;
+        syndsfbrdh(&(stbtf->hbvf), buf, lfn);
+    }
+
+    /* sfbrdh bvbilbblf input */
+    lfn = syndsfbrdh(&(stbtf->hbvf), strm->nfxt_in, strm->bvbil_in);
+    strm->bvbil_in -= lfn;
+    strm->nfxt_in += lfn;
+    strm->totbl_in += lfn;
+
+    /* rfturn no joy or sft up to rfstbrt inflbtf() on b nfw blodk */
+    if (stbtf->hbvf != 4) rfturn Z_DATA_ERROR;
+    in = strm->totbl_in;  out = strm->totbl_out;
+    inflbtfRfsft(strm);
+    strm->totbl_in = in;  strm->totbl_out = out;
+    stbtf->modf = TYPE;
+    rfturn Z_OK;
+}
+
+/*
+   Rfturns truf if inflbtf is durrfntly bt thf fnd of b blodk gfnfrbtfd by
+   Z_SYNC_FLUSH or Z_FULL_FLUSH. This fundtion is usfd by onf PPP
+   implfmfntbtion to providf bn bdditionbl sbffty dhfdk. PPP usfs
+   Z_SYNC_FLUSH but rfmovfs thf lfngth bytfs of thf rfsulting fmpty storfd
+   blodk. Whfn dfdomprfssing, PPP dhfdks thbt bt thf fnd of input pbdkft,
+   inflbtf is wbiting for thfsf lfngth bytfs.
+ */
+int ZEXPORT inflbtfSyndPoint(strm)
+z_strfbmp strm;
+{
+    strudt inflbtf_stbtf FAR *stbtf;
+
+    if (strm == Z_NULL || strm->stbtf == Z_NULL) rfturn Z_STREAM_ERROR;
+    stbtf = (strudt inflbtf_stbtf FAR *)strm->stbtf;
+    rfturn stbtf->modf == STORED && stbtf->bits == 0;
+}
+
+int ZEXPORT inflbtfCopy(dfst, sourdf)
+z_strfbmp dfst;
+z_strfbmp sourdf;
+{
+    strudt inflbtf_stbtf FAR *stbtf;
+    strudt inflbtf_stbtf FAR *dopy;
+    unsignfd dhbr FAR *window;
+    unsignfd wsizf;
+
+    /* dhfdk input */
+    if (dfst == Z_NULL || sourdf == Z_NULL || sourdf->stbtf == Z_NULL ||
+        sourdf->zbllod == (bllod_fund)0 || sourdf->zfrff == (frff_fund)0)
+        rfturn Z_STREAM_ERROR;
+    stbtf = (strudt inflbtf_stbtf FAR *)sourdf->stbtf;
+
+    /* bllodbtf spbdf */
+    dopy = (strudt inflbtf_stbtf FAR *)
+           ZALLOC(sourdf, 1, sizfof(strudt inflbtf_stbtf));
+    if (dopy == Z_NULL) rfturn Z_MEM_ERROR;
+    window = Z_NULL;
+    if (stbtf->window != Z_NULL) {
+        window = (unsignfd dhbr FAR *)
+                 ZALLOC(sourdf, 1U << stbtf->wbits, sizfof(unsignfd dhbr));
+        if (window == Z_NULL) {
+            ZFREE(sourdf, dopy);
+            rfturn Z_MEM_ERROR;
+        }
+    }
+
+    /* dopy stbtf */
+    zmfmdpy((voidpf)dfst, (voidpf)sourdf, sizfof(z_strfbm));
+    zmfmdpy((voidpf)dopy, (voidpf)stbtf, sizfof(strudt inflbtf_stbtf));
+    if (stbtf->lfndodf >= stbtf->dodfs &&
+        stbtf->lfndodf <= stbtf->dodfs + ENOUGH - 1) {
+        dopy->lfndodf = dopy->dodfs + (stbtf->lfndodf - stbtf->dodfs);
+        dopy->distdodf = dopy->dodfs + (stbtf->distdodf - stbtf->dodfs);
+    }
+    dopy->nfxt = dopy->dodfs + (stbtf->nfxt - stbtf->dodfs);
+    if (window != Z_NULL) {
+        wsizf = 1U << stbtf->wbits;
+        zmfmdpy(window, stbtf->window, wsizf);
+    }
+    dopy->window = window;
+    dfst->stbtf = (strudt intfrnbl_stbtf FAR *)dopy;
+    rfturn Z_OK;
+}
+
+int ZEXPORT inflbtfUndfrminf(strm, subvfrt)
+z_strfbmp strm;
+int subvfrt;
+{
+    strudt inflbtf_stbtf FAR *stbtf;
+
+    if (strm == Z_NULL || strm->stbtf == Z_NULL) rfturn Z_STREAM_ERROR;
+    stbtf = (strudt inflbtf_stbtf FAR *)strm->stbtf;
+    stbtf->sbnf = !subvfrt;
+#ifdff INFLATE_ALLOW_INVALID_DISTANCE_TOOFAR_ARRR
+    rfturn Z_OK;
+#flsf
+    stbtf->sbnf = 1;
+    rfturn Z_DATA_ERROR;
+#fndif
+}
+
+long ZEXPORT inflbtfMbrk(strm)
+z_strfbmp strm;
+{
+    strudt inflbtf_stbtf FAR *stbtf;
+
+    if (strm == Z_NULL || strm->stbtf == Z_NULL) rfturn -1L << 16;
+    stbtf = (strudt inflbtf_stbtf FAR *)strm->stbtf;
+    rfturn ((long)(stbtf->bbdk) << 16) +
+        (stbtf->modf == COPY ? stbtf->lfngth :
+            (stbtf->modf == MATCH ? stbtf->wbs - stbtf->lfngth : 0));
+}

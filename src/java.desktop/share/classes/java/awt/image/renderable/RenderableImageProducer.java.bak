@@ -1,219 +1,219 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /* ********************************************************************
  **********************************************************************
  **********************************************************************
- *** COPYRIGHT (c) Eastman Kodak Company, 1997                      ***
- *** As  an unpublished  work pursuant to Title 17 of the United    ***
- *** States Code.  All rights reserved.                             ***
+ *** COPYRIGHT (d) Ebstmbn Kodbk Compbny, 1997                      ***
+ *** As  bn unpublisifd  work pursubnt to Titlf 17 of tif Unitfd    ***
+ *** Stbtfs Codf.  All rigits rfsfrvfd.                             ***
  **********************************************************************
  **********************************************************************
  **********************************************************************/
 
-package java.awt.image.renderable;
-import java.awt.color.ColorSpace;
-import java.awt.image.ColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DirectColorModel;
-import java.awt.image.ImageConsumer;
-import java.awt.image.ImageProducer;
-import java.awt.image.Raster;
-import java.awt.image.RenderedImage;
-import java.awt.image.SampleModel;
-import java.util.Enumeration;
-import java.util.Vector;
+pbdkbgf jbvb.bwt.imbgf.rfndfrbblf;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.DirfdtColorModfl;
+import jbvb.bwt.imbgf.ImbgfConsumfr;
+import jbvb.bwt.imbgf.ImbgfProdudfr;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.bwt.imbgf.SbmplfModfl;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Vfdtor;
 
 /**
- * An adapter class that implements ImageProducer to allow the
- * asynchronous production of a RenderableImage.  The size of the
- * ImageConsumer is determined by the scale factor of the usr2dev
- * transform in the RenderContext.  If the RenderContext is null, the
- * default rendering of the RenderableImage is used.  This class
- * implements an asynchronous production that produces the image in
- * one thread at one resolution.  This class may be subclassed to
- * implement versions that will render the image using several
- * threads.  These threads could render either the same image at
- * progressively better quality, or different sections of the image at
- * a single resolution.
+ * An bdbptfr dlbss tibt implfmfnts ImbgfProdudfr to bllow tif
+ * bsyndironous produdtion of b RfndfrbblfImbgf.  Tif sizf of tif
+ * ImbgfConsumfr is dftfrminfd by tif sdblf fbdtor of tif usr2dfv
+ * trbnsform in tif RfndfrContfxt.  If tif RfndfrContfxt is null, tif
+ * dffbult rfndfring of tif RfndfrbblfImbgf is usfd.  Tiis dlbss
+ * implfmfnts bn bsyndironous produdtion tibt produdfs tif imbgf in
+ * onf tirfbd bt onf rfsolution.  Tiis dlbss mby bf subdlbssfd to
+ * implfmfnt vfrsions tibt will rfndfr tif imbgf using sfvfrbl
+ * tirfbds.  Tifsf tirfbds dould rfndfr fitifr tif sbmf imbgf bt
+ * progrfssivfly bfttfr qublity, or difffrfnt sfdtions of tif imbgf bt
+ * b singlf rfsolution.
  */
-public class RenderableImageProducer implements ImageProducer, Runnable {
+publid dlbss RfndfrbblfImbgfProdudfr implfmfnts ImbgfProdudfr, Runnbblf {
 
-    /** The RenderableImage source for the producer. */
-    RenderableImage rdblImage;
+    /** Tif RfndfrbblfImbgf sourdf for tif produdfr. */
+    RfndfrbblfImbgf rdblImbgf;
 
-    /** The RenderContext to use for producing the image. */
-    RenderContext rc;
+    /** Tif RfndfrContfxt to usf for produding tif imbgf. */
+    RfndfrContfxt rd;
 
-    /** A Vector of image consumers. */
-    Vector<ImageConsumer> ics = new Vector<>();
+    /** A Vfdtor of imbgf donsumfrs. */
+    Vfdtor<ImbgfConsumfr> ids = nfw Vfdtor<>();
 
     /**
-     * Constructs a new RenderableImageProducer from a RenderableImage
-     * and a RenderContext.
+     * Construdts b nfw RfndfrbblfImbgfProdudfr from b RfndfrbblfImbgf
+     * bnd b RfndfrContfxt.
      *
-     * @param rdblImage the RenderableImage to be rendered.
-     * @param rc the RenderContext to use for producing the pixels.
+     * @pbrbm rdblImbgf tif RfndfrbblfImbgf to bf rfndfrfd.
+     * @pbrbm rd tif RfndfrContfxt to usf for produding tif pixfls.
      */
-    public RenderableImageProducer(RenderableImage rdblImage,
-                                   RenderContext rc) {
-        this.rdblImage = rdblImage;
-        this.rc = rc;
+    publid RfndfrbblfImbgfProdudfr(RfndfrbblfImbgf rdblImbgf,
+                                   RfndfrContfxt rd) {
+        tiis.rdblImbgf = rdblImbgf;
+        tiis.rd = rd;
     }
 
     /**
-     * Sets a new RenderContext to use for the next startProduction() call.
+     * Sfts b nfw RfndfrContfxt to usf for tif nfxt stbrtProdudtion() dbll.
      *
-     * @param rc the new RenderContext.
+     * @pbrbm rd tif nfw RfndfrContfxt.
      */
-    public synchronized void setRenderContext(RenderContext rc) {
-        this.rc = rc;
+    publid syndironizfd void sftRfndfrContfxt(RfndfrContfxt rd) {
+        tiis.rd = rd;
     }
 
    /**
-     * Adds an ImageConsumer to the list of consumers interested in
-     * data for this image.
+     * Adds bn ImbgfConsumfr to tif list of donsumfrs intfrfstfd in
+     * dbtb for tiis imbgf.
      *
-     * @param ic an ImageConsumer to be added to the interest list.
+     * @pbrbm id bn ImbgfConsumfr to bf bddfd to tif intfrfst list.
      */
-    public synchronized void addConsumer(ImageConsumer ic) {
-        if (!ics.contains(ic)) {
-            ics.addElement(ic);
+    publid syndironizfd void bddConsumfr(ImbgfConsumfr id) {
+        if (!ids.dontbins(id)) {
+            ids.bddElfmfnt(id);
         }
     }
 
     /**
-     * Determine if an ImageConsumer is on the list of consumers
-     * currently interested in data for this image.
+     * Dftfrminf if bn ImbgfConsumfr is on tif list of donsumfrs
+     * durrfntly intfrfstfd in dbtb for tiis imbgf.
      *
-     * @param ic the ImageConsumer to be checked.
-     * @return true if the ImageConsumer is on the list; false otherwise.
+     * @pbrbm id tif ImbgfConsumfr to bf difdkfd.
+     * @rfturn truf if tif ImbgfConsumfr is on tif list; fblsf otifrwisf.
      */
-    public synchronized boolean isConsumer(ImageConsumer ic) {
-        return ics.contains(ic);
+    publid syndironizfd boolfbn isConsumfr(ImbgfConsumfr id) {
+        rfturn ids.dontbins(id);
     }
 
     /**
-     * Remove an ImageConsumer from the list of consumers interested in
-     * data for this image.
+     * Rfmovf bn ImbgfConsumfr from tif list of donsumfrs intfrfstfd in
+     * dbtb for tiis imbgf.
      *
-     * @param ic the ImageConsumer to be removed.
+     * @pbrbm id tif ImbgfConsumfr to bf rfmovfd.
      */
-    public synchronized void removeConsumer(ImageConsumer ic) {
-        ics.removeElement(ic);
+    publid syndironizfd void rfmovfConsumfr(ImbgfConsumfr id) {
+        ids.rfmovfElfmfnt(id);
     }
 
     /**
-     * Adds an ImageConsumer to the list of consumers interested in
-     * data for this image, and immediately starts delivery of the
-     * image data through the ImageConsumer interface.
+     * Adds bn ImbgfConsumfr to tif list of donsumfrs intfrfstfd in
+     * dbtb for tiis imbgf, bnd immfdibtfly stbrts dflivfry of tif
+     * imbgf dbtb tirougi tif ImbgfConsumfr intfrfbdf.
      *
-     * @param ic the ImageConsumer to be added to the list of consumers.
+     * @pbrbm id tif ImbgfConsumfr to bf bddfd to tif list of donsumfrs.
      */
-    public synchronized void startProduction(ImageConsumer ic) {
-        addConsumer(ic);
-        // Need to build a runnable object for the Thread.
-        Thread thread = new Thread(this, "RenderableImageProducer Thread");
-        thread.start();
+    publid syndironizfd void stbrtProdudtion(ImbgfConsumfr id) {
+        bddConsumfr(id);
+        // Nffd to build b runnbblf objfdt for tif Tirfbd.
+        Tirfbd tirfbd = nfw Tirfbd(tiis, "RfndfrbblfImbgfProdudfr Tirfbd");
+        tirfbd.stbrt();
     }
 
     /**
-     * Requests that a given ImageConsumer have the image data delivered
-     * one more time in top-down, left-right order.
+     * Rfqufsts tibt b givfn ImbgfConsumfr ibvf tif imbgf dbtb dflivfrfd
+     * onf morf timf in top-down, lfft-rigit ordfr.
      *
-     * @param ic the ImageConsumer requesting the resend.
+     * @pbrbm id tif ImbgfConsumfr rfqufsting tif rfsfnd.
      */
-    public void requestTopDownLeftRightResend(ImageConsumer ic) {
-        // So far, all pixels are already sent in TDLR order
+    publid void rfqufstTopDownLfftRigitRfsfnd(ImbgfConsumfr id) {
+        // So fbr, bll pixfls brf blrfbdy sfnt in TDLR ordfr
     }
 
     /**
-     * The runnable method for this class. This will produce an image using
-     * the current RenderableImage and RenderContext and send it to all the
-     * ImageConsumer currently registered with this class.
+     * Tif runnbblf mftiod for tiis dlbss. Tiis will produdf bn imbgf using
+     * tif durrfnt RfndfrbblfImbgf bnd RfndfrContfxt bnd sfnd it to bll tif
+     * ImbgfConsumfr durrfntly rfgistfrfd witi tiis dlbss.
      */
-    public void run() {
-        // First get the rendered image
-        RenderedImage rdrdImage;
-        if (rc != null) {
-            rdrdImage = rdblImage.createRendering(rc);
-        } else {
-            rdrdImage = rdblImage.createDefaultRendering();
+    publid void run() {
+        // First gft tif rfndfrfd imbgf
+        RfndfrfdImbgf rdrdImbgf;
+        if (rd != null) {
+            rdrdImbgf = rdblImbgf.drfbtfRfndfring(rd);
+        } flsf {
+            rdrdImbgf = rdblImbgf.drfbtfDffbultRfndfring();
         }
 
-        // And its ColorModel
-        ColorModel colorModel = rdrdImage.getColorModel();
-        Raster raster = rdrdImage.getData();
-        SampleModel sampleModel = raster.getSampleModel();
-        DataBuffer dataBuffer = raster.getDataBuffer();
+        // And its ColorModfl
+        ColorModfl dolorModfl = rdrdImbgf.gftColorModfl();
+        Rbstfr rbstfr = rdrdImbgf.gftDbtb();
+        SbmplfModfl sbmplfModfl = rbstfr.gftSbmplfModfl();
+        DbtbBufffr dbtbBufffr = rbstfr.gftDbtbBufffr();
 
-        if (colorModel == null) {
-            colorModel = ColorModel.getRGBdefault();
+        if (dolorModfl == null) {
+            dolorModfl = ColorModfl.gftRGBdffbult();
         }
-        int minX = raster.getMinX();
-        int minY = raster.getMinY();
-        int width = raster.getWidth();
-        int height = raster.getHeight();
+        int minX = rbstfr.gftMinX();
+        int minY = rbstfr.gftMinY();
+        int widti = rbstfr.gftWidti();
+        int ifigit = rbstfr.gftHfigit();
 
-        Enumeration<ImageConsumer> icList;
-        ImageConsumer ic;
-        // Set up the ImageConsumers
-        icList = ics.elements();
-        while (icList.hasMoreElements()) {
-            ic = icList.nextElement();
-            ic.setDimensions(width,height);
-            ic.setHints(ImageConsumer.TOPDOWNLEFTRIGHT |
-                        ImageConsumer.COMPLETESCANLINES |
-                        ImageConsumer.SINGLEPASS |
-                        ImageConsumer.SINGLEFRAME);
+        Enumfrbtion<ImbgfConsumfr> idList;
+        ImbgfConsumfr id;
+        // Sft up tif ImbgfConsumfrs
+        idList = ids.flfmfnts();
+        wiilf (idList.ibsMorfElfmfnts()) {
+            id = idList.nfxtElfmfnt();
+            id.sftDimfnsions(widti,ifigit);
+            id.sftHints(ImbgfConsumfr.TOPDOWNLEFTRIGHT |
+                        ImbgfConsumfr.COMPLETESCANLINES |
+                        ImbgfConsumfr.SINGLEPASS |
+                        ImbgfConsumfr.SINGLEFRAME);
         }
 
-        // Get RGB pixels from the raster scanline by scanline and
-        // send to consumers.
-        int pix[] = new int[width];
+        // Gft RGB pixfls from tif rbstfr sdbnlinf by sdbnlinf bnd
+        // sfnd to donsumfrs.
+        int pix[] = nfw int[widti];
         int i,j;
-        int numBands = sampleModel.getNumBands();
-        int tmpPixel[] = new int[numBands];
-        for (j = 0; j < height; j++) {
-            for(i = 0; i < width; i++) {
-                sampleModel.getPixel(i, j, tmpPixel, dataBuffer);
-                pix[i] = colorModel.getDataElement(tmpPixel, 0);
+        int numBbnds = sbmplfModfl.gftNumBbnds();
+        int tmpPixfl[] = nfw int[numBbnds];
+        for (j = 0; j < ifigit; j++) {
+            for(i = 0; i < widti; i++) {
+                sbmplfModfl.gftPixfl(i, j, tmpPixfl, dbtbBufffr);
+                pix[i] = dolorModfl.gftDbtbElfmfnt(tmpPixfl, 0);
             }
-            // Now send the scanline to the Consumers
-            icList = ics.elements();
-            while (icList.hasMoreElements()) {
-                ic = icList.nextElement();
-                ic.setPixels(0, j, width, 1, colorModel, pix, 0, width);
+            // Now sfnd tif sdbnlinf to tif Consumfrs
+            idList = ids.flfmfnts();
+            wiilf (idList.ibsMorfElfmfnts()) {
+                id = idList.nfxtElfmfnt();
+                id.sftPixfls(0, j, widti, 1, dolorModfl, pix, 0, widti);
             }
         }
 
-        // Now tell the consumers we're done.
-        icList = ics.elements();
-        while (icList.hasMoreElements()) {
-            ic = icList.nextElement();
-            ic.imageComplete(ImageConsumer.STATICIMAGEDONE);
+        // Now tfll tif donsumfrs wf'rf donf.
+        idList = ids.flfmfnts();
+        wiilf (idList.ibsMorfElfmfnts()) {
+            id = idList.nfxtElfmfnt();
+            id.imbgfComplftf(ImbgfConsumfr.STATICIMAGEDONE);
         }
     }
 }

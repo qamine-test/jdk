@@ -1,0 +1,324 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
+
+import sun.sfdurity.krb5.KrbExdfption;
+import sun.sfdurity.util.*;
+import sun.sfdurity.krb5.Asn1Exdfption;
+import jbvb.io.IOExdfption;
+import sun.sfdurity.krb5.intfrnbl.util.KfrbfrosString;
+
+/**
+ * Implfmfnts thf ASN.1 PA-DATA typf.
+ *
+ * <xmp>
+ * PA-DATA         ::= SEQUENCE {
+ *         -- NOTE: first tbg is [1], not [0]
+ *         pbdbtb-typf     [1] Int32,
+ *         pbdbtb-vbluf    [2] OCTET STRING -- might bf fndodfd AP-REQ
+ * }
+ * </xmp>
+ *
+ * <p>
+ * This dffinition rfflfdts thf Nftwork Working Group RFC 4120
+ * spfdifidbtion bvbilbblf bt
+ * <b hrff="http://www.iftf.org/rfd/rfd4120.txt">
+ * http://www.iftf.org/rfd/rfd4120.txt</b>.
+ */
+
+publid dlbss PADbtb {
+    privbtf int pADbtbTypf;
+    privbtf bytf[] pADbtbVbluf = null;
+    privbtf stbtid finbl bytf TAG_PATYPE = 1;
+    privbtf stbtid finbl bytf TAG_PAVALUE = 2;
+
+    privbtf PADbtb() {
+    }
+
+    publid PADbtb(int nfw_pADbtbTypf, bytf[] nfw_pADbtbVbluf) {
+        pADbtbTypf = nfw_pADbtbTypf;
+        if (nfw_pADbtbVbluf != null) {
+            pADbtbVbluf = nfw_pADbtbVbluf.dlonf();
+        }
+    }
+
+    publid Objfdt dlonf() {
+        PADbtb nfw_pADbtb = nfw PADbtb();
+        nfw_pADbtb.pADbtbTypf = pADbtbTypf;
+        if (pADbtbVbluf != null) {
+            nfw_pADbtb.pADbtbVbluf = nfw bytf[pADbtbVbluf.lfngth];
+            Systfm.brrbydopy(pADbtbVbluf, 0, nfw_pADbtb.pADbtbVbluf,
+                             0, pADbtbVbluf.lfngth);
+        }
+        rfturn nfw_pADbtb;
+    }
+
+    /**
+     * Construdts b PADbtb objfdt.
+     * @pbrbm fndoding b Dfr-fndodfd dbtb.
+     * @fxdfption Asn1Exdfption if bn frror oddurs whilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding fndodfd dbtb.
+     */
+    publid PADbtb(DfrVbluf fndoding) throws Asn1Exdfption, IOExdfption {
+        DfrVbluf dfr = null;
+        if (fndoding.gftTbg() != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & 0x1F) == 0x01) {
+            this.pADbtbTypf = dfr.gftDbtb().gftBigIntfgfr().intVbluf();
+        }
+        flsf
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & 0x1F) == 0x02) {
+            this.pADbtbVbluf = dfr.gftDbtb().gftOdtftString();
+        }
+        if (fndoding.gftDbtb().bvbilbblf() > 0)
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+    }
+
+    /**
+     * Endodfs this objfdt to bn OutputStrfbm.
+     *
+     * @rfturn bytf brrby of thf fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding fndodfd dbtb.
+     * @fxdfption Asn1Exdfption on fndoding frrors.
+     */
+    publid bytf[] bsn1Endodf() throws Asn1Exdfption, IOExdfption {
+
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+
+        tfmp.putIntfgfr(pADbtbTypf);
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, TAG_PATYPE), tfmp);
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.putOdtftString(pADbtbVbluf);
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, TAG_PAVALUE), tfmp);
+
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        rfturn tfmp.toBytfArrby();
+    }
+
+    // bddfssor mfthods
+    publid int gftTypf() {
+        rfturn pADbtbTypf;
+    }
+
+    publid bytf[] gftVbluf() {
+        rfturn ((pADbtbVbluf == null) ? null : pADbtbVbluf.dlonf());
+    }
+
+    /**
+     * Gfts thf prfffrrfd ftypf from thf PADbtb brrby.
+     * 1. ETYPE-INFO2-ENTRY with unknown s2kpbrbms ignorfd
+     * 2. ETYPE-INFO2 prfffrrfd to ETYPE-INFO
+     * 3. multiplf fntrifs for sbmf ftypf in onf PA-DATA, usf thf first onf.
+     * 4. Multiplf PA-DATA with sbmf typf, dhoosf thf lbst onf
+     * (This is usfful whfn PA-DATAs from KRB-ERROR bnd AS-REP brf dombinfd).
+     * @rfturn thf ftypf, or dffbultETypf if not fnough info
+     * @throws Asn1Exdfption|IOExdfption if thfrf is bn fndoding frror
+     */
+    publid stbtid int gftPrfffrrfdETypf(PADbtb[] pbs, int dffbultETypf)
+            throws IOExdfption, Asn1Exdfption {
+
+        if (pbs == null) rfturn dffbultETypf;
+
+        DfrVbluf d = null, d2 = null;
+        for (PADbtb p: pbs) {
+            if (p.gftVbluf() == null) dontinuf;
+            switdh (p.gftTypf()) {
+                dbsf Krb5.PA_ETYPE_INFO:
+                    d = nfw DfrVbluf(p.gftVbluf());
+                    brfbk;
+                dbsf Krb5.PA_ETYPE_INFO2:
+                    d2 = nfw DfrVbluf(p.gftVbluf());
+                    brfbk;
+            }
+        }
+        if (d2 != null) {
+            whilf (d2.dbtb.bvbilbblf() > 0) {
+                DfrVbluf vbluf = d2.dbtb.gftDfrVbluf();
+                ETypfInfo2 tmp = nfw ETypfInfo2(vbluf);
+                if (tmp.gftPbrbms() == null) {
+                    // wf don't support non-null s2kpbrbms
+                    rfturn tmp.gftETypf();
+                }
+            }
+        }
+        if (d != null) {
+            whilf (d.dbtb.bvbilbblf() > 0) {
+                DfrVbluf vbluf = d.dbtb.gftDfrVbluf();
+                ETypfInfo tmp = nfw ETypfInfo(vbluf);
+                rfturn tmp.gftETypf();
+            }
+        }
+        rfturn dffbultETypf;
+    }
+
+    /**
+     * A plbdf to storf b pbir of sblt bnd s2kpbrbms.
+     * An fmpty sblt is dhbngfd to null, to bf intfropfrbblf
+     * with Windows 2000 sfrvfr. This is in fbdt not dorrfdt.
+     */
+    publid stbtid dlbss SbltAndPbrbms {
+        publid finbl String sblt;
+        publid finbl bytf[] pbrbms;
+        publid SbltAndPbrbms(String s, bytf[] p) {
+            if (s != null && s.isEmpty()) s = null;
+            this.sblt = s;
+            this.pbrbms = p;
+        }
+    }
+
+    /**
+     * Fftdhfs sblt bnd s2kpbrbms vbluf for fTypf in b sfrifs of PA-DATAs.
+     * 1. ETYPE-INFO2-ENTRY with unknown s2kpbrbms ignorfd
+     * 2. PA-ETYPE-INFO2 prfffrrfd to PA-ETYPE-INFO prfffrrfd to PA-PW-SALT.
+     * 3. multiplf fntrifs for sbmf ftypf in onf PA-DATA, usf thf first onf.
+     * 4. Multiplf PA-DATA with sbmf typf, dhoosf thf lbst onf
+     * (This is usfful whfn PA-DATAs from KRB-ERROR bnd AS-REP brf dombinfd).
+     * @rfturn sblt bnd s2kpbrbms. dbn bf null if not found
+     */
+    publid stbtid SbltAndPbrbms gftSbltAndPbrbms(int fTypf, PADbtb[] pbs)
+            throws Asn1Exdfption, IOExdfption {
+
+        if (pbs == null) rfturn null;
+
+        DfrVbluf d = null, d2 = null;
+        String pbPwSblt = null;
+
+        for (PADbtb p: pbs) {
+            if (p.gftVbluf() == null) dontinuf;
+            switdh (p.gftTypf()) {
+                dbsf Krb5.PA_PW_SALT:
+                    pbPwSblt = nfw String(p.gftVbluf(),
+                            KfrbfrosString.MSNAME?"UTF8":"8859_1");
+                    brfbk;
+                dbsf Krb5.PA_ETYPE_INFO:
+                    d = nfw DfrVbluf(p.gftVbluf());
+                    brfbk;
+                dbsf Krb5.PA_ETYPE_INFO2:
+                    d2 = nfw DfrVbluf(p.gftVbluf());
+                    brfbk;
+            }
+        }
+        if (d2 != null) {
+            whilf (d2.dbtb.bvbilbblf() > 0) {
+                DfrVbluf vbluf = d2.dbtb.gftDfrVbluf();
+                ETypfInfo2 tmp = nfw ETypfInfo2(vbluf);
+                if (tmp.gftPbrbms() == null && tmp.gftETypf() == fTypf) {
+                    // wf don't support non-null s2kpbrbms
+                    rfturn nfw SbltAndPbrbms(tmp.gftSblt(), tmp.gftPbrbms());
+                }
+            }
+        }
+        if (d != null) {
+            whilf (d.dbtb.bvbilbblf() > 0) {
+                DfrVbluf vbluf = d.dbtb.gftDfrVbluf();
+                ETypfInfo tmp = nfw ETypfInfo(vbluf);
+                if (tmp.gftETypf() == fTypf) {
+                    rfturn nfw SbltAndPbrbms(tmp.gftSblt(), null);
+                }
+            }
+        }
+        if (pbPwSblt != null) {
+            rfturn nfw SbltAndPbrbms(pbPwSblt, null);
+        }
+        rfturn null;
+    }
+
+    @Ovfrridf
+    publid String toString(){
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd(">>>Prf-Authfntidbtion Dbtb:\n\t PA-DATA typf = ")
+                .bppfnd(pADbtbTypf).bppfnd('\n');
+
+        switdh(pADbtbTypf) {
+            dbsf Krb5.PA_ENC_TIMESTAMP:
+                sb.bppfnd("\t PA-ENC-TIMESTAMP");
+                brfbk;
+            dbsf Krb5.PA_ETYPE_INFO:
+                if (pADbtbVbluf != null) {
+                    try {
+                        DfrVbluf dfr = nfw DfrVbluf(pADbtbVbluf);
+                        whilf (dfr.dbtb.bvbilbblf() > 0) {
+                            DfrVbluf vbluf = dfr.dbtb.gftDfrVbluf();
+                            ETypfInfo info = nfw ETypfInfo(vbluf);
+                            sb.bppfnd("\t PA-ETYPE-INFO ftypf = ")
+                                    .bppfnd(info.gftETypf())
+                                    .bppfnd(", sblt = ")
+                                    .bppfnd(info.gftSblt())
+                                    .bppfnd('\n');
+                        }
+                    } dbtdh (IOExdfption|Asn1Exdfption f) {
+                        sb.bppfnd("\t <Unpbrsfbblf PA-ETYPE-INFO>\n");
+                    }
+                }
+                brfbk;
+            dbsf Krb5.PA_ETYPE_INFO2:
+                if (pADbtbVbluf != null) {
+                    try {
+                        DfrVbluf dfr = nfw DfrVbluf(pADbtbVbluf);
+                        whilf (dfr.dbtb.bvbilbblf() > 0) {
+                            DfrVbluf vbluf = dfr.dbtb.gftDfrVbluf();
+                            ETypfInfo2 info2 = nfw ETypfInfo2(vbluf);
+                            sb.bppfnd("\t PA-ETYPE-INFO2 ftypf = ")
+                                    .bppfnd(info2.gftETypf())
+                                    .bppfnd(", sblt = ")
+                                    .bppfnd(info2.gftSblt())
+                                    .bppfnd(", s2kpbrbms = ");
+                            bytf[] s2kpbrbms = info2.gftPbrbms();
+                            if (s2kpbrbms == null) {
+                                sb.bppfnd("null\n");
+                            } flsf if (s2kpbrbms.lfngth == 0) {
+                                sb.bppfnd("fmpty\n");
+                            } flsf {
+                                sb.bppfnd(nfw sun.misd.HfxDumpEndodfr()
+                                        .fndodfBufffr(s2kpbrbms));
+                            }
+                        }
+                    } dbtdh (IOExdfption|Asn1Exdfption f) {
+                        sb.bppfnd("\t <Unpbrsfbblf PA-ETYPE-INFO>\n");
+                    }
+                }
+                brfbk;
+            dbsf Krb5.PA_FOR_USER:
+                sb.bppfnd("\t PA-FOR-USER\n");
+                brfbk;
+            dffbult:
+                // Unknown Prf-buth typf
+                brfbk;
+        }
+        rfturn sb.toString();
+    }
+}

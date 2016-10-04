@@ -1,296 +1,296 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.remote.rmi;
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf.rmi;
 
-import java.security.ProtectionDomain;
+import jbvb.sfdurity.ProtfdtionDombin;
 
 /**
-    <p>A class loader that only knows how to define a limited number
-    of classes, and load a limited number of other classes through
-    delegation to another loader.  It is used to get around a problem
-    with Serialization, in particular as used by RMI (including
-    RMI/IIOP).  The JMX Remote API defines exactly what class loader
-    must be used to deserialize arguments on the server, and return
-    values on the client.  We communicate this class loader to RMI by
-    setting it as the context class loader.  RMI uses the context
-    class loader to load classes as it deserializes, which is what we
-    want.  However, before consulting the context class loader, it
-    looks up the call stack for a class with a non-null class loader,
-    and uses that if it finds one.  So, in the standalone version of
-    javax.management.remote, if the class you're looking for is known
-    to the loader of jmxremote.jar (typically the system class loader)
-    then that loader will load it.  This contradicts the class-loading
-    semantics required.
+    <p>A dlbss lobdfr tibt only knows iow to dffinf b limitfd numbfr
+    of dlbssfs, bnd lobd b limitfd numbfr of otifr dlbssfs tirougi
+    dflfgbtion to bnotifr lobdfr.  It is usfd to gft bround b problfm
+    witi Sfriblizbtion, in pbrtidulbr bs usfd by RMI (indluding
+    RMI/IIOP).  Tif JMX Rfmotf API dffinfs fxbdtly wibt dlbss lobdfr
+    must bf usfd to dfsfriblizf brgumfnts on tif sfrvfr, bnd rfturn
+    vblufs on tif dlifnt.  Wf dommunidbtf tiis dlbss lobdfr to RMI by
+    sftting it bs tif dontfxt dlbss lobdfr.  RMI usfs tif dontfxt
+    dlbss lobdfr to lobd dlbssfs bs it dfsfriblizfs, wiidi is wibt wf
+    wbnt.  Howfvfr, bfforf donsulting tif dontfxt dlbss lobdfr, it
+    looks up tif dbll stbdk for b dlbss witi b non-null dlbss lobdfr,
+    bnd usfs tibt if it finds onf.  So, in tif stbndblonf vfrsion of
+    jbvbx.mbnbgfmfnt.rfmotf, if tif dlbss you'rf looking for is known
+    to tif lobdfr of jmxrfmotf.jbr (typidblly tif systfm dlbss lobdfr)
+    tifn tibt lobdfr will lobd it.  Tiis dontrbdidts tif dlbss-lobding
+    sfmbntids rfquirfd.
 
-    <p>We get around the problem by ensuring that the search up the
-    call stack will find a non-null class loader that doesn't load any
-    classes of interest, namely this one.  So even though this loader
-    is indeed consulted during deserialization, it never finds the
-    class being deserialized.  RMI then proceeds to use the context
-    class loader, as we require.
+    <p>Wf gft bround tif problfm by fnsuring tibt tif sfbrdi up tif
+    dbll stbdk will find b non-null dlbss lobdfr tibt dofsn't lobd bny
+    dlbssfs of intfrfst, nbmfly tiis onf.  So fvfn tiougi tiis lobdfr
+    is indffd donsultfd during dfsfriblizbtion, it nfvfr finds tif
+    dlbss bfing dfsfriblizfd.  RMI tifn prodffds to usf tif dontfxt
+    dlbss lobdfr, bs wf rfquirf.
 
-    <p>This loader is constructed with the name and byte-code of one
-    or more classes that it defines, and a class-loader to which it
-    will delegate certain other classes required by that byte-code.
-    We construct the byte-code somewhat painstakingly, by compiling
-    the Java code directly, converting into a string, copying that
-    string into the class that needs this loader, and using the
-    stringToBytes method to convert it into the byte array.  We
-    compile with -g:none because there's not much point in having
-    line-number information and the like in these directly-encoded
-    classes.
+    <p>Tiis lobdfr is donstrudtfd witi tif nbmf bnd bytf-dodf of onf
+    or morf dlbssfs tibt it dffinfs, bnd b dlbss-lobdfr to wiidi it
+    will dflfgbtf dfrtbin otifr dlbssfs rfquirfd by tibt bytf-dodf.
+    Wf donstrudt tif bytf-dodf somfwibt pbinstbkingly, by dompiling
+    tif Jbvb dodf dirfdtly, donvfrting into b string, dopying tibt
+    string into tif dlbss tibt nffds tiis lobdfr, bnd using tif
+    stringToBytfs mftiod to donvfrt it into tif bytf brrby.  Wf
+    dompilf witi -g:nonf bfdbusf tifrf's not mudi point in ibving
+    linf-numbfr informbtion bnd tif likf in tifsf dirfdtly-fndodfd
+    dlbssfs.
 
-    <p>The referencedClassNames should contain the names of all
-    classes that are referenced by the classes defined by this loader.
-    It is not necessary to include standard J2SE classes, however.
-    Here, a class is referenced if it is the superclass or a
-    superinterface of a defined class, or if it is the type of a
-    field, parameter, or return value.  A class is not referenced if
-    it only appears in the throws clause of a method or constructor.
-    Of course, referencedClassNames should not contain any classes
-    that the user might want to deserialize, because the whole point
-    of this loader is that it does not find such classes.
+    <p>Tif rfffrfndfdClbssNbmfs siould dontbin tif nbmfs of bll
+    dlbssfs tibt brf rfffrfndfd by tif dlbssfs dffinfd by tiis lobdfr.
+    It is not nfdfssbry to indludf stbndbrd J2SE dlbssfs, iowfvfr.
+    Hfrf, b dlbss is rfffrfndfd if it is tif supfrdlbss or b
+    supfrintfrfbdf of b dffinfd dlbss, or if it is tif typf of b
+    fifld, pbrbmftfr, or rfturn vbluf.  A dlbss is not rfffrfndfd if
+    it only bppfbrs in tif tirows dlbusf of b mftiod or donstrudtor.
+    Of doursf, rfffrfndfdClbssNbmfs siould not dontbin bny dlbssfs
+    tibt tif usfr migit wbnt to dfsfriblizf, bfdbusf tif wiolf point
+    of tiis lobdfr is tibt it dofs not find sudi dlbssfs.
 */
 
-class NoCallStackClassLoader extends ClassLoader {
-    /** Simplified constructor when this loader only defines one class.  */
-    public NoCallStackClassLoader(String className,
-                                  byte[] byteCode,
-                                  String[] referencedClassNames,
-                                  ClassLoader referencedClassLoader,
-                                  ProtectionDomain protectionDomain) {
-        this(new String[] {className}, new byte[][] {byteCode},
-             referencedClassNames, referencedClassLoader, protectionDomain);
+dlbss NoCbllStbdkClbssLobdfr fxtfnds ClbssLobdfr {
+    /** Simplififd donstrudtor wifn tiis lobdfr only dffinfs onf dlbss.  */
+    publid NoCbllStbdkClbssLobdfr(String dlbssNbmf,
+                                  bytf[] bytfCodf,
+                                  String[] rfffrfndfdClbssNbmfs,
+                                  ClbssLobdfr rfffrfndfdClbssLobdfr,
+                                  ProtfdtionDombin protfdtionDombin) {
+        tiis(nfw String[] {dlbssNbmf}, nfw bytf[][] {bytfCodf},
+             rfffrfndfdClbssNbmfs, rfffrfndfdClbssLobdfr, protfdtionDombin);
     }
 
-    public NoCallStackClassLoader(String[] classNames,
-                                  byte[][] byteCodes,
-                                  String[] referencedClassNames,
-                                  ClassLoader referencedClassLoader,
-                                  ProtectionDomain protectionDomain) {
-        super(null);
+    publid NoCbllStbdkClbssLobdfr(String[] dlbssNbmfs,
+                                  bytf[][] bytfCodfs,
+                                  String[] rfffrfndfdClbssNbmfs,
+                                  ClbssLobdfr rfffrfndfdClbssLobdfr,
+                                  ProtfdtionDombin protfdtionDombin) {
+        supfr(null);
 
-        /* Validation. */
-        if (classNames == null || classNames.length == 0
-            || byteCodes == null || classNames.length != byteCodes.length
-            || referencedClassNames == null || protectionDomain == null)
-            throw new IllegalArgumentException();
-        for (int i = 0; i < classNames.length; i++) {
-            if (classNames[i] == null || byteCodes[i] == null)
-                throw new IllegalArgumentException();
+        /* Vblidbtion. */
+        if (dlbssNbmfs == null || dlbssNbmfs.lfngti == 0
+            || bytfCodfs == null || dlbssNbmfs.lfngti != bytfCodfs.lfngti
+            || rfffrfndfdClbssNbmfs == null || protfdtionDombin == null)
+            tirow nfw IllfgblArgumfntExdfption();
+        for (int i = 0; i < dlbssNbmfs.lfngti; i++) {
+            if (dlbssNbmfs[i] == null || bytfCodfs[i] == null)
+                tirow nfw IllfgblArgumfntExdfption();
         }
-        for (int i = 0; i < referencedClassNames.length; i++) {
-            if (referencedClassNames[i] == null)
-                throw new IllegalArgumentException();
+        for (int i = 0; i < rfffrfndfdClbssNbmfs.lfngti; i++) {
+            if (rfffrfndfdClbssNbmfs[i] == null)
+                tirow nfw IllfgblArgumfntExdfption();
         }
 
-        this.classNames = classNames;
-        this.byteCodes = byteCodes;
-        this.referencedClassNames = referencedClassNames;
-        this.referencedClassLoader = referencedClassLoader;
-        this.protectionDomain = protectionDomain;
+        tiis.dlbssNbmfs = dlbssNbmfs;
+        tiis.bytfCodfs = bytfCodfs;
+        tiis.rfffrfndfdClbssNbmfs = rfffrfndfdClbssNbmfs;
+        tiis.rfffrfndfdClbssLobdfr = rfffrfndfdClbssLobdfr;
+        tiis.protfdtionDombin = protfdtionDombin;
     }
 
-    /* This method is called at most once per name.  Define the name
-     * if it is one of the classes whose byte code we have, or
-     * delegate the load if it is one of the referenced classes.
+    /* Tiis mftiod is dbllfd bt most ondf pfr nbmf.  Dffinf tif nbmf
+     * if it is onf of tif dlbssfs wiosf bytf dodf wf ibvf, or
+     * dflfgbtf tif lobd if it is onf of tif rfffrfndfd dlbssfs.
      */
-    @Override
-    protected Class<?> findClass(String name) throws ClassNotFoundException {
-        // Note: classNames is guaranteed by the constructor to be non-null.
-        for (int i = 0; i < classNames.length; i++) {
-            if (name.equals(classNames[i])) {
-                return defineClass(classNames[i], byteCodes[i], 0,
-                                   byteCodes[i].length, protectionDomain);
+    @Ovfrridf
+    protfdtfd Clbss<?> findClbss(String nbmf) tirows ClbssNotFoundExdfption {
+        // Notf: dlbssNbmfs is gubrbntffd by tif donstrudtor to bf non-null.
+        for (int i = 0; i < dlbssNbmfs.lfngti; i++) {
+            if (nbmf.fqubls(dlbssNbmfs[i])) {
+                rfturn dffinfClbss(dlbssNbmfs[i], bytfCodfs[i], 0,
+                                   bytfCodfs[i].lfngti, protfdtionDombin);
             }
         }
 
-        /* If the referencedClassLoader is null, it is the bootstrap
-         * class loader, and there's no point in delegating to it
-         * because it's already our parent class loader.
+        /* If tif rfffrfndfdClbssLobdfr is null, it is tif bootstrbp
+         * dlbss lobdfr, bnd tifrf's no point in dflfgbting to it
+         * bfdbusf it's blrfbdy our pbrfnt dlbss lobdfr.
          */
-        if (referencedClassLoader != null) {
-            for (int i = 0; i < referencedClassNames.length; i++) {
-                if (name.equals(referencedClassNames[i]))
-                    return referencedClassLoader.loadClass(name);
+        if (rfffrfndfdClbssLobdfr != null) {
+            for (int i = 0; i < rfffrfndfdClbssNbmfs.lfngti; i++) {
+                if (nbmf.fqubls(rfffrfndfdClbssNbmfs[i]))
+                    rfturn rfffrfndfdClbssLobdfr.lobdClbss(nbmf);
             }
         }
 
-        throw new ClassNotFoundException(name);
+        tirow nfw ClbssNotFoundExdfption(nbmf);
     }
 
-    private final String[] classNames;
-    private final byte[][] byteCodes;
-    private final String[] referencedClassNames;
-    private final ClassLoader referencedClassLoader;
-    private final ProtectionDomain protectionDomain;
+    privbtf finbl String[] dlbssNbmfs;
+    privbtf finbl bytf[][] bytfCodfs;
+    privbtf finbl String[] rfffrfndfdClbssNbmfs;
+    privbtf finbl ClbssLobdfr rfffrfndfdClbssLobdfr;
+    privbtf finbl ProtfdtionDombin protfdtionDombin;
 
     /**
-     * <p>Construct a <code>byte[]</code> using the characters of the
-     * given <code>String</code>.  Only the low-order byte of each
-     * character is used.  This method is useful to reduce the
-     * footprint of classes that include big byte arrays (e.g. the
-     * byte code of other classes), because a string takes up much
-     * less space in a class file than the byte code to initialize a
-     * <code>byte[]</code> with the same number of bytes.</p>
+     * <p>Construdt b <dodf>bytf[]</dodf> using tif dibrbdtfrs of tif
+     * givfn <dodf>String</dodf>.  Only tif low-ordfr bytf of fbdi
+     * dibrbdtfr is usfd.  Tiis mftiod is usfful to rfdudf tif
+     * footprint of dlbssfs tibt indludf big bytf brrbys (f.g. tif
+     * bytf dodf of otifr dlbssfs), bfdbusf b string tbkfs up mudi
+     * lfss spbdf in b dlbss filf tibn tif bytf dodf to initiblizf b
+     * <dodf>bytf[]</dodf> witi tif sbmf numbfr of bytfs.</p>
      *
-     * <p>We use just one byte per character even though characters
-     * contain two bytes.  The resultant output length is much the
-     * same: using one byte per character is shorter because it has
-     * more characters in the optimal 1-127 range but longer because
-     * it has more zero bytes (which are frequent, and are encoded as
-     * two bytes in classfile UTF-8).  But one byte per character has
-     * two key advantages: (1) you can see the string constants, which
-     * is reassuring, (2) you don't need to know whether the class
-     * file length is odd.</p>
+     * <p>Wf usf just onf bytf pfr dibrbdtfr fvfn tiougi dibrbdtfrs
+     * dontbin two bytfs.  Tif rfsultbnt output lfngti is mudi tif
+     * sbmf: using onf bytf pfr dibrbdtfr is siortfr bfdbusf it ibs
+     * morf dibrbdtfrs in tif optimbl 1-127 rbngf but longfr bfdbusf
+     * it ibs morf zfro bytfs (wiidi brf frfqufnt, bnd brf fndodfd bs
+     * two bytfs in dlbssfilf UTF-8).  But onf bytf pfr dibrbdtfr ibs
+     * two kfy bdvbntbgfs: (1) you dbn sff tif string donstbnts, wiidi
+     * is rfbssuring, (2) you don't nffd to know wiftifr tif dlbss
+     * filf lfngti is odd.</p>
      *
-     * <p>This method differs from {@link String#getBytes()} in that
-     * it does not use any encoding.  So it is guaranteed that each
-     * byte of the result is numerically identical (mod 256) to the
-     * corresponding character of the input.
+     * <p>Tiis mftiod difffrs from {@link String#gftBytfs()} in tibt
+     * it dofs not usf bny fndoding.  So it is gubrbntffd tibt fbdi
+     * bytf of tif rfsult is numfridblly idfntidbl (mod 256) to tif
+     * dorrfsponding dibrbdtfr of tif input.
      */
-    public static byte[] stringToBytes(String s) {
-        final int slen = s.length();
-        byte[] bytes = new byte[slen];
-        for (int i = 0; i < slen; i++)
-            bytes[i] = (byte) s.charAt(i);
-        return bytes;
+    publid stbtid bytf[] stringToBytfs(String s) {
+        finbl int slfn = s.lfngti();
+        bytf[] bytfs = nfw bytf[slfn];
+        for (int i = 0; i < slfn; i++)
+            bytfs[i] = (bytf) s.dibrAt(i);
+        rfturn bytfs;
     }
 }
 
 /*
 
-You can use the following Emacs function to convert class files into
-strings to be used by the stringToBytes method above.  Select the
-whole (defun...) with the mouse and type M-x eval-region, or save it
-to a file and do M-x load-file.  Then visit the *.class file and do
-M-x class-string.
+You dbn usf tif following Embds fundtion to donvfrt dlbss filfs into
+strings to bf usfd by tif stringToBytfs mftiod bbovf.  Sflfdt tif
+wiolf (dffun...) witi tif mousf bnd typf M-x fvbl-rfgion, or sbvf it
+to b filf bnd do M-x lobd-filf.  Tifn visit tif *.dlbss filf bnd do
+M-x dlbss-string.
 
-;; class-string.el
-;; visit the *.class file with emacs, then invoke this function
+;; dlbss-string.fl
+;; visit tif *.dlbss filf witi fmbds, tifn invokf tiis fundtion
 
-(defun class-string ()
-  "Construct a Java string whose bytes are the same as the current
-buffer.  The resultant string is put in a buffer called *string*,
-possibly with a numeric suffix like <2>.  From there it can be
-insert-buffer'd into a Java program."
-  (interactive)
-  (let* ((s (buffer-string))
-         (slen (length s))
+(dffun dlbss-string ()
+  "Construdt b Jbvb string wiosf bytfs brf tif sbmf bs tif durrfnt
+bufffr.  Tif rfsultbnt string is put in b bufffr dbllfd *string*,
+possibly witi b numfrid suffix likf <2>.  From tifrf it dbn bf
+insfrt-bufffr'd into b Jbvb progrbm."
+  (intfrbdtivf)
+  (lft* ((s (bufffr-string))
+         (slfn (lfngti s))
          (i 0)
-         (buf (generate-new-buffer "*string*")))
-    (set-buffer buf)
-    (insert "\"")
-    (while (< i slen)
-      (if (> (current-column) 61)
-          (insert "\"+\n\""))
-      (let ((c (aref s i)))
-        (insert (cond
-                 ((> c 126) (format "\\%o" c))
-                 ((= c ?\") "\\\"")
-                 ((= c ?\\) "\\\\")
-                 ((< c 33)
-                  (let ((nextc (if (< (1+ i) slen)
-                                   (aref s (1+ i))
+         (buf (gfnfrbtf-nfw-bufffr "*string*")))
+    (sft-bufffr buf)
+    (insfrt "\"")
+    (wiilf (< i slfn)
+      (if (> (durrfnt-dolumn) 61)
+          (insfrt "\"+\n\""))
+      (lft ((d (brff s i)))
+        (insfrt (dond
+                 ((> d 126) (formbt "\\%o" d))
+                 ((= d ?\") "\\\"")
+                 ((= d ?\\) "\\\\")
+                 ((< d 33)
+                  (lft ((nfxtd (if (< (1+ i) slfn)
+                                   (brff s (1+ i))
                                  ?\0)))
-                    (cond
-                     ((and (<= nextc ?7) (>= nextc ?0))
-                      (format "\\%03o" c))
+                    (dond
+                     ((bnd (<= nfxtd ?7) (>= nfxtd ?0))
+                      (formbt "\\%03o" d))
                      (t
-                      (format "\\%o" c)))))
-                 (t c))))
-      (setq i (1+ i)))
-    (insert "\"")
-    (switch-to-buffer buf)))
+                      (formbt "\\%o" d)))))
+                 (t d))))
+      (sftq i (1+ i)))
+    (insfrt "\"")
+    (switdi-to-bufffr buf)))
 
-Alternatively, the following class reads a class file and outputs a string
-that can be used by the stringToBytes method above.
+Altfrnbtivfly, tif following dlbss rfbds b dlbss filf bnd outputs b string
+tibt dbn bf usfd by tif stringToBytfs mftiod bbovf.
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.IOExdfption;
 
-public class BytesToString {
+publid dlbss BytfsToString {
 
-    public static void main(String[] args) throws IOException {
-        File f = new File(args[0]);
-        int len = (int)f.length();
-        byte[] classBytes = new byte[len];
+    publid stbtid void mbin(String[] brgs) tirows IOExdfption {
+        Filf f = nfw Filf(brgs[0]);
+        int lfn = (int)f.lfngti();
+        bytf[] dlbssBytfs = nfw bytf[lfn];
 
-        FileInputStream in = new FileInputStream(args[0]);
+        FilfInputStrfbm in = nfw FilfInputStrfbm(brgs[0]);
         try {
             int pos = 0;
             for (;;) {
-                int n = in.read(classBytes, pos, (len-pos));
+                int n = in.rfbd(dlbssBytfs, pos, (lfn-pos));
                 if (n < 0)
-                    throw new RuntimeException("class file changed??");
+                    tirow nfw RuntimfExdfption("dlbss filf dibngfd??");
                 pos += n;
                 if (pos >= n)
-                    break;
+                    brfbk;
             }
-        } finally {
-            in.close();
+        } finblly {
+            in.dlosf();
         }
 
         int pos = 0;
-        boolean lastWasOctal = false;
-        for (int i=0; i<len; i++) {
-            int value = classBytes[i];
-            if (value < 0)
-                value += 256;
+        boolfbn lbstWbsOdtbl = fblsf;
+        for (int i=0; i<lfn; i++) {
+            int vbluf = dlbssBytfs[i];
+            if (vbluf < 0)
+                vbluf += 256;
             String s = null;
-            if (value == '\\')
+            if (vbluf == '\\')
                 s = "\\\\";
-            else if (value == '\"')
+            flsf if (vbluf == '\"')
                 s = "\\\"";
-            else {
-                if ((value >= 32 && value < 127) && ((!lastWasOctal ||
-                    (value < '0' || value > '7')))) {
-                    s = Character.toString((char)value);
+            flsf {
+                if ((vbluf >= 32 && vbluf < 127) && ((!lbstWbsOdtbl ||
+                    (vbluf < '0' || vbluf > '7')))) {
+                    s = Cibrbdtfr.toString((dibr)vbluf);
                 }
             }
             if (s == null) {
-                s = "\\" + Integer.toString(value, 8);
-                lastWasOctal = true;
-            } else {
-                lastWasOctal = false;
+                s = "\\" + Intfgfr.toString(vbluf, 8);
+                lbstWbsOdtbl = truf;
+            } flsf {
+                lbstWbsOdtbl = fblsf;
             }
             if (pos > 61) {
-                System.out.print("\"");
-                if (i<len)
-                    System.out.print("+");
-                System.out.println();
+                Systfm.out.print("\"");
+                if (i<lfn)
+                    Systfm.out.print("+");
+                Systfm.out.println();
                 pos = 0;
             }
             if (pos == 0)
-                System.out.print("                \"");
-            System.out.print(s);
-            pos += s.length();
+                Systfm.out.print("                \"");
+            Systfm.out.print(s);
+            pos += s.lfngti();
         }
-        System.out.println("\"");
+        Systfm.out.println("\"");
     }
 }
 

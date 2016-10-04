@@ -1,290 +1,290 @@
 /*
- * Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ec;
+pbdkbgf sun.sfdurity.fd;
 
-import java.security.*;
-import java.security.interfaces.*;
-import java.security.spec.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.intfrfbdfs.*;
+import jbvb.sfdurity.spfd.*;
 
 /**
- * KeyFactory for EC keys. Keys must be instances of PublicKey or PrivateKey
- * and getAlgorithm() must return "EC". For such keys, it supports conversion
- * between the following:
+ * KfyFbdtory for EC kfys. Kfys must bf instbndfs of PublidKfy or PrivbtfKfy
+ * bnd gftAlgoritim() must rfturn "EC". For sudi kfys, it supports donvfrsion
+ * bftwffn tif following:
  *
- * For public keys:
- *  . PublicKey with an X.509 encoding
- *  . ECPublicKey
- *  . ECPublicKeySpec
- *  . X509EncodedKeySpec
+ * For publid kfys:
+ *  . PublidKfy witi bn X.509 fndoding
+ *  . ECPublidKfy
+ *  . ECPublidKfySpfd
+ *  . X509EndodfdKfySpfd
  *
- * For private keys:
- *  . PrivateKey with a PKCS#8 encoding
- *  . ECPrivateKey
- *  . ECPrivateKeySpec
- *  . PKCS8EncodedKeySpec
+ * For privbtf kfys:
+ *  . PrivbtfKfy witi b PKCS#8 fndoding
+ *  . ECPrivbtfKfy
+ *  . ECPrivbtfKfySpfd
+ *  . PKCS8EndodfdKfySpfd
  *
- * @since   1.6
- * @author  Andreas Sterbenz
+ * @sindf   1.6
+ * @butior  Andrfbs Stfrbfnz
  */
-public final class ECKeyFactory extends KeyFactorySpi {
+publid finbl dlbss ECKfyFbdtory fxtfnds KfyFbdtorySpi {
 
-    // Used by translateKey()
-    private static KeyFactory instance;
+    // Usfd by trbnslbtfKfy()
+    privbtf stbtid KfyFbdtory instbndf;
 
-    private static KeyFactory getInstance() {
-        if (instance == null) {
+    privbtf stbtid KfyFbdtory gftInstbndf() {
+        if (instbndf == null) {
             try {
-                instance = KeyFactory.getInstance("EC", "SunEC");
-            } catch (NoSuchProviderException e) {
-                throw new RuntimeException(e);
-            } catch (NoSuchAlgorithmException e) {
-                throw new RuntimeException(e);
+                instbndf = KfyFbdtory.gftInstbndf("EC", "SunEC");
+            } dbtdi (NoSudiProvidfrExdfption f) {
+                tirow nfw RuntimfExdfption(f);
+            } dbtdi (NoSudiAlgoritimExdfption f) {
+                tirow nfw RuntimfExdfption(f);
             }
         }
 
-        return instance;
+        rfturn instbndf;
     }
 
-    public ECKeyFactory() {
-        // empty
+    publid ECKfyFbdtory() {
+        // fmpty
     }
 
     /**
-     * Static method to convert Key into a useable instance of
-     * ECPublicKey or ECPrivateKey. Check the key and convert it
-     * to a Sun key if necessary. If the key is not an EC key
-     * or cannot be used, throw an InvalidKeyException.
+     * Stbtid mftiod to donvfrt Kfy into b usfbblf instbndf of
+     * ECPublidKfy or ECPrivbtfKfy. Cifdk tif kfy bnd donvfrt it
+     * to b Sun kfy if nfdfssbry. If tif kfy is not bn EC kfy
+     * or dbnnot bf usfd, tirow bn InvblidKfyExdfption.
      *
-     * The difference between this method and engineTranslateKey() is that
-     * we do not convert keys of other providers that are already an
-     * instance of ECPublicKey or ECPrivateKey.
+     * Tif difffrfndf bftwffn tiis mftiod bnd fnginfTrbnslbtfKfy() is tibt
+     * wf do not donvfrt kfys of otifr providfrs tibt brf blrfbdy bn
+     * instbndf of ECPublidKfy or ECPrivbtfKfy.
      *
-     * To be used by future Java ECDSA and ECDH implementations.
+     * To bf usfd by futurf Jbvb ECDSA bnd ECDH implfmfntbtions.
      */
-    public static ECKey toECKey(Key key) throws InvalidKeyException {
-        if (key instanceof ECKey) {
-            ECKey ecKey = (ECKey)key;
-            checkKey(ecKey);
-            return ecKey;
-        } else {
+    publid stbtid ECKfy toECKfy(Kfy kfy) tirows InvblidKfyExdfption {
+        if (kfy instbndfof ECKfy) {
+            ECKfy fdKfy = (ECKfy)kfy;
+            difdkKfy(fdKfy);
+            rfturn fdKfy;
+        } flsf {
             /*
-             * We don't call the engineTranslateKey method directly
-             * because KeyFactory.translateKey adds code to loop through
-             * all key factories.
+             * Wf don't dbll tif fnginfTrbnslbtfKfy mftiod dirfdtly
+             * bfdbusf KfyFbdtory.trbnslbtfKfy bdds dodf to loop tirougi
+             * bll kfy fbdtorifs.
              */
-            return (ECKey)getInstance().translateKey(key);
+            rfturn (ECKfy)gftInstbndf().trbnslbtfKfy(kfy);
         }
     }
 
     /**
-     * Check that the given EC key is valid.
+     * Cifdk tibt tif givfn EC kfy is vblid.
      */
-    private static void checkKey(ECKey key) throws InvalidKeyException {
-        // check for subinterfaces, omit additional checks for our keys
-        if (key instanceof ECPublicKey) {
-            if (key instanceof ECPublicKeyImpl) {
-                return;
+    privbtf stbtid void difdkKfy(ECKfy kfy) tirows InvblidKfyExdfption {
+        // difdk for subintfrfbdfs, omit bdditionbl difdks for our kfys
+        if (kfy instbndfof ECPublidKfy) {
+            if (kfy instbndfof ECPublidKfyImpl) {
+                rfturn;
             }
-        } else if (key instanceof ECPrivateKey) {
-            if (key instanceof ECPrivateKeyImpl) {
-                return;
+        } flsf if (kfy instbndfof ECPrivbtfKfy) {
+            if (kfy instbndfof ECPrivbtfKfyImpl) {
+                rfturn;
             }
-        } else {
-            throw new InvalidKeyException("Neither a public nor a private key");
+        } flsf {
+            tirow nfw InvblidKfyExdfption("Nfitifr b publid nor b privbtf kfy");
         }
-        // ECKey does not extend Key, so we need to do a cast
-        String keyAlg = ((Key)key).getAlgorithm();
-        if (keyAlg.equals("EC") == false) {
-            throw new InvalidKeyException("Not an EC key: " + keyAlg);
+        // ECKfy dofs not fxtfnd Kfy, so wf nffd to do b dbst
+        String kfyAlg = ((Kfy)kfy).gftAlgoritim();
+        if (kfyAlg.fqubls("EC") == fblsf) {
+            tirow nfw InvblidKfyExdfption("Not bn EC kfy: " + kfyAlg);
         }
-        // XXX further sanity checks about whether this key uses supported
-        // fields, point formats, etc. would go here
+        // XXX furtifr sbnity difdks bbout wiftifr tiis kfy usfs supportfd
+        // fiflds, point formbts, ftd. would go ifrf
     }
 
     /**
-     * Translate an EC key into a Sun EC key. If conversion is
-     * not possible, throw an InvalidKeyException.
-     * See also JCA doc.
+     * Trbnslbtf bn EC kfy into b Sun EC kfy. If donvfrsion is
+     * not possiblf, tirow bn InvblidKfyExdfption.
+     * Sff blso JCA dod.
      */
-    protected Key engineTranslateKey(Key key) throws InvalidKeyException {
-        if (key == null) {
-            throw new InvalidKeyException("Key must not be null");
+    protfdtfd Kfy fnginfTrbnslbtfKfy(Kfy kfy) tirows InvblidKfyExdfption {
+        if (kfy == null) {
+            tirow nfw InvblidKfyExdfption("Kfy must not bf null");
         }
-        String keyAlg = key.getAlgorithm();
-        if (keyAlg.equals("EC") == false) {
-            throw new InvalidKeyException("Not an EC key: " + keyAlg);
+        String kfyAlg = kfy.gftAlgoritim();
+        if (kfyAlg.fqubls("EC") == fblsf) {
+            tirow nfw InvblidKfyExdfption("Not bn EC kfy: " + kfyAlg);
         }
-        if (key instanceof PublicKey) {
-            return implTranslatePublicKey((PublicKey)key);
-        } else if (key instanceof PrivateKey) {
-            return implTranslatePrivateKey((PrivateKey)key);
-        } else {
-            throw new InvalidKeyException("Neither a public nor a private key");
+        if (kfy instbndfof PublidKfy) {
+            rfturn implTrbnslbtfPublidKfy((PublidKfy)kfy);
+        } flsf if (kfy instbndfof PrivbtfKfy) {
+            rfturn implTrbnslbtfPrivbtfKfy((PrivbtfKfy)kfy);
+        } flsf {
+            tirow nfw InvblidKfyExdfption("Nfitifr b publid nor b privbtf kfy");
         }
     }
 
-    // see JCA doc
-    protected PublicKey engineGeneratePublic(KeySpec keySpec)
-            throws InvalidKeySpecException {
+    // sff JCA dod
+    protfdtfd PublidKfy fnginfGfnfrbtfPublid(KfySpfd kfySpfd)
+            tirows InvblidKfySpfdExdfption {
         try {
-            return implGeneratePublic(keySpec);
-        } catch (InvalidKeySpecException e) {
-            throw e;
-        } catch (GeneralSecurityException e) {
-            throw new InvalidKeySpecException(e);
+            rfturn implGfnfrbtfPublid(kfySpfd);
+        } dbtdi (InvblidKfySpfdExdfption f) {
+            tirow f;
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            tirow nfw InvblidKfySpfdExdfption(f);
         }
     }
 
-    // see JCA doc
-    protected PrivateKey engineGeneratePrivate(KeySpec keySpec)
-            throws InvalidKeySpecException {
+    // sff JCA dod
+    protfdtfd PrivbtfKfy fnginfGfnfrbtfPrivbtf(KfySpfd kfySpfd)
+            tirows InvblidKfySpfdExdfption {
         try {
-            return implGeneratePrivate(keySpec);
-        } catch (InvalidKeySpecException e) {
-            throw e;
-        } catch (GeneralSecurityException e) {
-            throw new InvalidKeySpecException(e);
+            rfturn implGfnfrbtfPrivbtf(kfySpfd);
+        } dbtdi (InvblidKfySpfdExdfption f) {
+            tirow f;
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            tirow nfw InvblidKfySpfdExdfption(f);
         }
     }
 
-    // internal implementation of translateKey() for public keys. See JCA doc
-    private PublicKey implTranslatePublicKey(PublicKey key)
-            throws InvalidKeyException {
-        if (key instanceof ECPublicKey) {
-            if (key instanceof ECPublicKeyImpl) {
-                return key;
+    // intfrnbl implfmfntbtion of trbnslbtfKfy() for publid kfys. Sff JCA dod
+    privbtf PublidKfy implTrbnslbtfPublidKfy(PublidKfy kfy)
+            tirows InvblidKfyExdfption {
+        if (kfy instbndfof ECPublidKfy) {
+            if (kfy instbndfof ECPublidKfyImpl) {
+                rfturn kfy;
             }
-            ECPublicKey ecKey = (ECPublicKey)key;
-            return new ECPublicKeyImpl(
-                ecKey.getW(),
-                ecKey.getParams()
+            ECPublidKfy fdKfy = (ECPublidKfy)kfy;
+            rfturn nfw ECPublidKfyImpl(
+                fdKfy.gftW(),
+                fdKfy.gftPbrbms()
             );
-        } else if ("X.509".equals(key.getFormat())) {
-            byte[] encoded = key.getEncoded();
-            return new ECPublicKeyImpl(encoded);
-        } else {
-            throw new InvalidKeyException("Public keys must be instance "
-                + "of ECPublicKey or have X.509 encoding");
+        } flsf if ("X.509".fqubls(kfy.gftFormbt())) {
+            bytf[] fndodfd = kfy.gftEndodfd();
+            rfturn nfw ECPublidKfyImpl(fndodfd);
+        } flsf {
+            tirow nfw InvblidKfyExdfption("Publid kfys must bf instbndf "
+                + "of ECPublidKfy or ibvf X.509 fndoding");
         }
     }
 
-    // internal implementation of translateKey() for private keys. See JCA doc
-    private PrivateKey implTranslatePrivateKey(PrivateKey key)
-            throws InvalidKeyException {
-        if (key instanceof ECPrivateKey) {
-            if (key instanceof ECPrivateKeyImpl) {
-                return key;
+    // intfrnbl implfmfntbtion of trbnslbtfKfy() for privbtf kfys. Sff JCA dod
+    privbtf PrivbtfKfy implTrbnslbtfPrivbtfKfy(PrivbtfKfy kfy)
+            tirows InvblidKfyExdfption {
+        if (kfy instbndfof ECPrivbtfKfy) {
+            if (kfy instbndfof ECPrivbtfKfyImpl) {
+                rfturn kfy;
             }
-            ECPrivateKey ecKey = (ECPrivateKey)key;
-            return new ECPrivateKeyImpl(
-                ecKey.getS(),
-                ecKey.getParams()
+            ECPrivbtfKfy fdKfy = (ECPrivbtfKfy)kfy;
+            rfturn nfw ECPrivbtfKfyImpl(
+                fdKfy.gftS(),
+                fdKfy.gftPbrbms()
             );
-        } else if ("PKCS#8".equals(key.getFormat())) {
-            return new ECPrivateKeyImpl(key.getEncoded());
-        } else {
-            throw new InvalidKeyException("Private keys must be instance "
-                + "of ECPrivateKey or have PKCS#8 encoding");
+        } flsf if ("PKCS#8".fqubls(kfy.gftFormbt())) {
+            rfturn nfw ECPrivbtfKfyImpl(kfy.gftEndodfd());
+        } flsf {
+            tirow nfw InvblidKfyExdfption("Privbtf kfys must bf instbndf "
+                + "of ECPrivbtfKfy or ibvf PKCS#8 fndoding");
         }
     }
 
-    // internal implementation of generatePublic. See JCA doc
-    private PublicKey implGeneratePublic(KeySpec keySpec)
-            throws GeneralSecurityException {
-        if (keySpec instanceof X509EncodedKeySpec) {
-            X509EncodedKeySpec x509Spec = (X509EncodedKeySpec)keySpec;
-            return new ECPublicKeyImpl(x509Spec.getEncoded());
-        } else if (keySpec instanceof ECPublicKeySpec) {
-            ECPublicKeySpec ecSpec = (ECPublicKeySpec)keySpec;
-            return new ECPublicKeyImpl(
-                ecSpec.getW(),
-                ecSpec.getParams()
+    // intfrnbl implfmfntbtion of gfnfrbtfPublid. Sff JCA dod
+    privbtf PublidKfy implGfnfrbtfPublid(KfySpfd kfySpfd)
+            tirows GfnfrblSfdurityExdfption {
+        if (kfySpfd instbndfof X509EndodfdKfySpfd) {
+            X509EndodfdKfySpfd x509Spfd = (X509EndodfdKfySpfd)kfySpfd;
+            rfturn nfw ECPublidKfyImpl(x509Spfd.gftEndodfd());
+        } flsf if (kfySpfd instbndfof ECPublidKfySpfd) {
+            ECPublidKfySpfd fdSpfd = (ECPublidKfySpfd)kfySpfd;
+            rfturn nfw ECPublidKfyImpl(
+                fdSpfd.gftW(),
+                fdSpfd.gftPbrbms()
             );
-        } else {
-            throw new InvalidKeySpecException("Only ECPublicKeySpec "
-                + "and X509EncodedKeySpec supported for EC public keys");
+        } flsf {
+            tirow nfw InvblidKfySpfdExdfption("Only ECPublidKfySpfd "
+                + "bnd X509EndodfdKfySpfd supportfd for EC publid kfys");
         }
     }
 
-    // internal implementation of generatePrivate. See JCA doc
-    private PrivateKey implGeneratePrivate(KeySpec keySpec)
-            throws GeneralSecurityException {
-        if (keySpec instanceof PKCS8EncodedKeySpec) {
-            PKCS8EncodedKeySpec pkcsSpec = (PKCS8EncodedKeySpec)keySpec;
-            return new ECPrivateKeyImpl(pkcsSpec.getEncoded());
-        } else if (keySpec instanceof ECPrivateKeySpec) {
-            ECPrivateKeySpec ecSpec = (ECPrivateKeySpec)keySpec;
-            return new ECPrivateKeyImpl(ecSpec.getS(), ecSpec.getParams());
-        } else {
-            throw new InvalidKeySpecException("Only ECPrivateKeySpec "
-                + "and PKCS8EncodedKeySpec supported for EC private keys");
+    // intfrnbl implfmfntbtion of gfnfrbtfPrivbtf. Sff JCA dod
+    privbtf PrivbtfKfy implGfnfrbtfPrivbtf(KfySpfd kfySpfd)
+            tirows GfnfrblSfdurityExdfption {
+        if (kfySpfd instbndfof PKCS8EndodfdKfySpfd) {
+            PKCS8EndodfdKfySpfd pkdsSpfd = (PKCS8EndodfdKfySpfd)kfySpfd;
+            rfturn nfw ECPrivbtfKfyImpl(pkdsSpfd.gftEndodfd());
+        } flsf if (kfySpfd instbndfof ECPrivbtfKfySpfd) {
+            ECPrivbtfKfySpfd fdSpfd = (ECPrivbtfKfySpfd)kfySpfd;
+            rfturn nfw ECPrivbtfKfyImpl(fdSpfd.gftS(), fdSpfd.gftPbrbms());
+        } flsf {
+            tirow nfw InvblidKfySpfdExdfption("Only ECPrivbtfKfySpfd "
+                + "bnd PKCS8EndodfdKfySpfd supportfd for EC privbtf kfys");
         }
     }
 
-    protected <T extends KeySpec> T engineGetKeySpec(Key key, Class<T> keySpec)
-            throws InvalidKeySpecException {
+    protfdtfd <T fxtfnds KfySpfd> T fnginfGftKfySpfd(Kfy kfy, Clbss<T> kfySpfd)
+            tirows InvblidKfySpfdExdfption {
         try {
-            // convert key to one of our keys
-            // this also verifies that the key is a valid EC key and ensures
-            // that the encoding is X.509/PKCS#8 for public/private keys
-            key = engineTranslateKey(key);
-        } catch (InvalidKeyException e) {
-            throw new InvalidKeySpecException(e);
+            // donvfrt kfy to onf of our kfys
+            // tiis blso vfrififs tibt tif kfy is b vblid EC kfy bnd fnsurfs
+            // tibt tif fndoding is X.509/PKCS#8 for publid/privbtf kfys
+            kfy = fnginfTrbnslbtfKfy(kfy);
+        } dbtdi (InvblidKfyExdfption f) {
+            tirow nfw InvblidKfySpfdExdfption(f);
         }
-        if (key instanceof ECPublicKey) {
-            ECPublicKey ecKey = (ECPublicKey)key;
-            if (ECPublicKeySpec.class.isAssignableFrom(keySpec)) {
-                return keySpec.cast(new ECPublicKeySpec(
-                    ecKey.getW(),
-                    ecKey.getParams()
+        if (kfy instbndfof ECPublidKfy) {
+            ECPublidKfy fdKfy = (ECPublidKfy)kfy;
+            if (ECPublidKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)) {
+                rfturn kfySpfd.dbst(nfw ECPublidKfySpfd(
+                    fdKfy.gftW(),
+                    fdKfy.gftPbrbms()
                 ));
-            } else if (X509EncodedKeySpec.class.isAssignableFrom(keySpec)) {
-                return keySpec.cast(new X509EncodedKeySpec(key.getEncoded()));
-            } else {
-                throw new InvalidKeySpecException
-                        ("KeySpec must be ECPublicKeySpec or "
-                        + "X509EncodedKeySpec for EC public keys");
+            } flsf if (X509EndodfdKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)) {
+                rfturn kfySpfd.dbst(nfw X509EndodfdKfySpfd(kfy.gftEndodfd()));
+            } flsf {
+                tirow nfw InvblidKfySpfdExdfption
+                        ("KfySpfd must bf ECPublidKfySpfd or "
+                        + "X509EndodfdKfySpfd for EC publid kfys");
             }
-        } else if (key instanceof ECPrivateKey) {
-            if (PKCS8EncodedKeySpec.class.isAssignableFrom(keySpec)) {
-                return keySpec.cast(new PKCS8EncodedKeySpec(key.getEncoded()));
-            } else if (ECPrivateKeySpec.class.isAssignableFrom(keySpec)) {
-                ECPrivateKey ecKey = (ECPrivateKey)key;
-                return keySpec.cast(new ECPrivateKeySpec(
-                    ecKey.getS(),
-                    ecKey.getParams()
+        } flsf if (kfy instbndfof ECPrivbtfKfy) {
+            if (PKCS8EndodfdKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)) {
+                rfturn kfySpfd.dbst(nfw PKCS8EndodfdKfySpfd(kfy.gftEndodfd()));
+            } flsf if (ECPrivbtfKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)) {
+                ECPrivbtfKfy fdKfy = (ECPrivbtfKfy)kfy;
+                rfturn kfySpfd.dbst(nfw ECPrivbtfKfySpfd(
+                    fdKfy.gftS(),
+                    fdKfy.gftPbrbms()
                 ));
-            } else {
-                throw new InvalidKeySpecException
-                        ("KeySpec must be ECPrivateKeySpec or "
-                        + "PKCS8EncodedKeySpec for EC private keys");
+            } flsf {
+                tirow nfw InvblidKfySpfdExdfption
+                        ("KfySpfd must bf ECPrivbtfKfySpfd or "
+                        + "PKCS8EndodfdKfySpfd for EC privbtf kfys");
             }
-        } else {
-            // should not occur, caught in engineTranslateKey()
-            throw new InvalidKeySpecException("Neither public nor private key");
+        } flsf {
+            // siould not oddur, dbugit in fnginfTrbnslbtfKfy()
+            tirow nfw InvblidKfySpfdExdfption("Nfitifr publid nor privbtf kfy");
         }
     }
 }

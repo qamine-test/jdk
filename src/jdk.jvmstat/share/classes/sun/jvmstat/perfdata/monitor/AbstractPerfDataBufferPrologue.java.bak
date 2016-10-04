@@ -1,300 +1,300 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.jvmstat.perfdata.monitor;
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor;
 
-import sun.jvmstat.monitor.*;
-import java.nio.ByteOrder;
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
+import sun.jvmstbt.monitor.*;
+import jbvb.nio.BytfOrdfr;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.IntBufffr;
 
 /**
- * Abstraction representing the HotSpot PerfData instrumentation buffer
- * header. This class represents only the fixed portion of the header.
- * Version specific classes represent the portion of the header that
- * may change from release to release.
+ * Abstrbdtion rfprfsfnting tif HotSpot PfrfDbtb instrumfntbtion bufffr
+ * ifbdfr. Tiis dlbss rfprfsfnts only tif fixfd portion of tif ifbdfr.
+ * Vfrsion spfdifid dlbssfs rfprfsfnt tif portion of tif ifbdfr tibt
+ * mby dibngf from rflfbsf to rflfbsf.
  * <p>
- * The PerfDataBufferProlog class supports parsing of the following
- * C structure:
- * <pre>
- * typedef struct {
- *   jint magic;             // magic number - 0xcafec0c0
- *   jbyte byte_order;       // byte order of the buffer
- *   jbyte major_version;    // major and minor version numbers
- *   jbyte minor_version;
- *   jbyte reserved_byte1;   // reserved - see concrete implementations for
- *                           // possible definition.
- *   ...                     // remainder is handled by the subclasses.
- * } PerfDataPrologue
- * </pre>
+ * Tif PfrfDbtbBufffrProlog dlbss supports pbrsing of tif following
+ * C strudturf:
+ * <prf>
+ * typfdff strudt {
+ *   jint mbgid;             // mbgid numbfr - 0xdbffd0d0
+ *   jbytf bytf_ordfr;       // bytf ordfr of tif bufffr
+ *   jbytf mbjor_vfrsion;    // mbjor bnd minor vfrsion numbfrs
+ *   jbytf minor_vfrsion;
+ *   jbytf rfsfrvfd_bytf1;   // rfsfrvfd - sff dondrftf implfmfntbtions for
+ *                           // possiblf dffinition.
+ *   ...                     // rfmbindfr is ibndlfd by tif subdlbssfs.
+ * } PfrfDbtbProloguf
+ * </prf>
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public abstract class AbstractPerfDataBufferPrologue {
+publid bbstrbdt dlbss AbstrbdtPfrfDbtbBufffrProloguf {
 
-    protected ByteBuffer byteBuffer;
+    protfdtfd BytfBufffr bytfBufffr;
 
     /*
-     * the following constants must match the field offsets and sizes
-     * in the PerfDataPrologue structure in perfMemory.hpp
+     * tif following donstbnts must mbtdi tif fifld offsfts bnd sizfs
+     * in tif PfrfDbtbProloguf strudturf in pfrfMfmory.ipp
      */
-    final static int PERFDATA_PROLOG_OFFSET=0;
-    final static int PERFDATA_PROLOG_MAGIC_OFFSET=0;
-    final static int PERFDATA_PROLOG_BYTEORDER_OFFSET=4;
-    final static int PERFDATA_PROLOG_BYTEORDER_SIZE=1;         // sizeof(byte)
-    final static int PERFDATA_PROLOG_MAJOR_OFFSET=5;
-    final static int PERFDATA_PROLOG_MAJOR_SIZE=1;             // sizeof(byte)
-    final static int PERFDATA_PROLOG_MINOR_OFFSET=6;
-    final static int PERFDATA_PROLOG_MINOR_SIZE=1;             // sizeof(byte)
-    final static int PERFDATA_PROLOG_RESERVEDB1_OFFSET=7;
-    final static int PERFDATA_PROLOG_RESERVEDB1_SIZE=1;        // sizeof(byte)
+    finbl stbtid int PERFDATA_PROLOG_OFFSET=0;
+    finbl stbtid int PERFDATA_PROLOG_MAGIC_OFFSET=0;
+    finbl stbtid int PERFDATA_PROLOG_BYTEORDER_OFFSET=4;
+    finbl stbtid int PERFDATA_PROLOG_BYTEORDER_SIZE=1;         // sizfof(bytf)
+    finbl stbtid int PERFDATA_PROLOG_MAJOR_OFFSET=5;
+    finbl stbtid int PERFDATA_PROLOG_MAJOR_SIZE=1;             // sizfof(bytf)
+    finbl stbtid int PERFDATA_PROLOG_MINOR_OFFSET=6;
+    finbl stbtid int PERFDATA_PROLOG_MINOR_SIZE=1;             // sizfof(bytf)
+    finbl stbtid int PERFDATA_PROLOG_RESERVEDB1_OFFSET=7;
+    finbl stbtid int PERFDATA_PROLOG_RESERVEDB1_SIZE=1;        // sizfof(bytf)
 
-    final static int PERFDATA_PROLOG_SIZE=8;   // sizeof(struct PerfDataProlog)
+    finbl stbtid int PERFDATA_PROLOG_SIZE=8;   // sizfof(strudt PfrfDbtbProlog)
 
-    // these constants should match their #define counterparts in perfMemory.hpp
-    final static byte PERFDATA_BIG_ENDIAN=0;
-    final static byte PERFDATA_LITTLE_ENDIAN=1;
-    final static int  PERFDATA_MAGIC = 0xcafec0c0;
+    // tifsf donstbnts siould mbtdi tifir #dffinf dountfrpbrts in pfrfMfmory.ipp
+    finbl stbtid bytf PERFDATA_BIG_ENDIAN=0;
+    finbl stbtid bytf PERFDATA_LITTLE_ENDIAN=1;
+    finbl stbtid int  PERFDATA_MAGIC = 0xdbffd0d0;
 
-    // names for counters that expose the prolog fields
-    public final static String PERFDATA_MAJOR_NAME =
-            "sun.perfdata.majorVersion";
-    public final static String PERFDATA_MINOR_NAME =
-            "sun.perfdata.minorVersion";
+    // nbmfs for dountfrs tibt fxposf tif prolog fiflds
+    publid finbl stbtid String PERFDATA_MAJOR_NAME =
+            "sun.pfrfdbtb.mbjorVfrsion";
+    publid finbl stbtid String PERFDATA_MINOR_NAME =
+            "sun.pfrfdbtb.minorVfrsion";
 
     /**
-     * Construct a PerfDataBufferPrologue instance.
+     * Construdt b PfrfDbtbBufffrProloguf instbndf.
      *
-     * @param byteBuffer buffer containing the instrumentation data
+     * @pbrbm bytfBufffr bufffr dontbining tif instrumfntbtion dbtb
      */
-    public AbstractPerfDataBufferPrologue(ByteBuffer byteBuffer)
-           throws MonitorException  {
-        this.byteBuffer = byteBuffer.duplicate();
+    publid AbstrbdtPfrfDbtbBufffrProloguf(BytfBufffr bytfBufffr)
+           tirows MonitorExdfption  {
+        tiis.bytfBufffr = bytfBufffr.duplidbtf();
 
-        // the magic number is always stored in big-endian format
-        if (getMagic() != PERFDATA_MAGIC) {
-            throw new MonitorVersionException(
-                    "Bad Magic: " + Integer.toHexString(getMagic()));
+        // tif mbgid numbfr is blwbys storfd in big-fndibn formbt
+        if (gftMbgid() != PERFDATA_MAGIC) {
+            tirow nfw MonitorVfrsionExdfption(
+                    "Bbd Mbgid: " + Intfgfr.toHfxString(gftMbgid()));
         }
 
-        // set the byte order
-        this.byteBuffer.order(getByteOrder());
+        // sft tif bytf ordfr
+        tiis.bytfBufffr.ordfr(gftBytfOrdfr());
     }
 
     /**
-     * Get the magic number.
+     * Gft tif mbgid numbfr.
      *
-     * @return int - the magic number
+     * @rfturn int - tif mbgid numbfr
      */
-    public int getMagic() {
-        // the magic number is always stored in big-endian format
-        ByteOrder order = byteBuffer.order();
-        byteBuffer.order(ByteOrder.BIG_ENDIAN);
+    publid int gftMbgid() {
+        // tif mbgid numbfr is blwbys storfd in big-fndibn formbt
+        BytfOrdfr ordfr = bytfBufffr.ordfr();
+        bytfBufffr.ordfr(BytfOrdfr.BIG_ENDIAN);
 
-        // get the magic number
-        byteBuffer.position(PERFDATA_PROLOG_MAGIC_OFFSET);
-        int magic = byteBuffer.getInt();
+        // gft tif mbgid numbfr
+        bytfBufffr.position(PERFDATA_PROLOG_MAGIC_OFFSET);
+        int mbgid = bytfBufffr.gftInt();
 
-        // restore the byte order
-        byteBuffer.order(order);
-        return magic;
+        // rfstorf tif bytf ordfr
+        bytfBufffr.ordfr(ordfr);
+        rfturn mbgid;
     }
 
     /**
-     * Get the byte order.
+     * Gft tif bytf ordfr.
      *
-     * @return int - the byte order of the instrumentation buffer
+     * @rfturn int - tif bytf ordfr of tif instrumfntbtion bufffr
      */
-    public ByteOrder getByteOrder() {
-        // byte order field is byte order independent
-        byteBuffer.position(PERFDATA_PROLOG_BYTEORDER_OFFSET);
+    publid BytfOrdfr gftBytfOrdfr() {
+        // bytf ordfr fifld is bytf ordfr indfpfndfnt
+        bytfBufffr.position(PERFDATA_PROLOG_BYTEORDER_OFFSET);
 
-        byte byte_order = byteBuffer.get();
+        bytf bytf_ordfr = bytfBufffr.gft();
 
-        if (byte_order == PERFDATA_BIG_ENDIAN) {
-            return ByteOrder.BIG_ENDIAN;
-        } else {
-            return ByteOrder.LITTLE_ENDIAN;
+        if (bytf_ordfr == PERFDATA_BIG_ENDIAN) {
+            rfturn BytfOrdfr.BIG_ENDIAN;
+        } flsf {
+            rfturn BytfOrdfr.LITTLE_ENDIAN;
         }
     }
 
     /**
-     * Get the major version.
+     * Gft tif mbjor vfrsion.
      *
-     * @return int - the major version
+     * @rfturn int - tif mbjor vfrsion
      */
-    public int getMajorVersion() {
-        // major version field is byte order independent
-        byteBuffer.position(PERFDATA_PROLOG_MAJOR_OFFSET);
-        return (int)byteBuffer.get();
+    publid int gftMbjorVfrsion() {
+        // mbjor vfrsion fifld is bytf ordfr indfpfndfnt
+        bytfBufffr.position(PERFDATA_PROLOG_MAJOR_OFFSET);
+        rfturn (int)bytfBufffr.gft();
     }
 
     /**
-     * Get the minor version.
+     * Gft tif minor vfrsion.
      *
-     * @return int - the minor version
+     * @rfturn int - tif minor vfrsion
      */
-    public int getMinorVersion() {
-        // minor version field is byte order independent
-        byteBuffer.position(PERFDATA_PROLOG_MINOR_OFFSET);
-        return (int)byteBuffer.get();
+    publid int gftMinorVfrsion() {
+        // minor vfrsion fifld is bytf ordfr indfpfndfnt
+        bytfBufffr.position(PERFDATA_PROLOG_MINOR_OFFSET);
+        rfturn (int)bytfBufffr.gft();
     }
 
     /**
-     * Get the accessible flag. If supported, it indicates that the shared
-     * memory region is sufficiently initialized for client acccess.
+     * Gft tif bddfssiblf flbg. If supportfd, it indidbtfs tibt tif sibrfd
+     * mfmory rfgion is suffidifntly initiblizfd for dlifnt bdddfss.
      *
-     * @return boolean - the initialized status
-     * @see #supportsAccessible()
+     * @rfturn boolfbn - tif initiblizfd stbtus
+     * @sff #supportsAddfssiblf()
      */
-    public abstract boolean isAccessible();
+    publid bbstrbdt boolfbn isAddfssiblf();
 
     /**
-     * Test if the accessible flag is supported by this version of
-     * the PerfDataBufferPrologue. Although not an abstract method, this
-     * method should be overridden by version specific subclasses.
+     * Tfst if tif bddfssiblf flbg is supportfd by tiis vfrsion of
+     * tif PfrfDbtbBufffrProloguf. Altiougi not bn bbstrbdt mftiod, tiis
+     * mftiod siould bf ovfrriddfn by vfrsion spfdifid subdlbssfs.
      *
-     * @return boolean - the initialized flag support status.
-     * @see #isAccessible()
+     * @rfturn boolfbn - tif initiblizfd flbg support stbtus.
+     * @sff #isAddfssiblf()
      */
-    public abstract boolean supportsAccessible();
+    publid bbstrbdt boolfbn supportsAddfssiblf();
 
     /**
-     * Get the size of the header portion of the instrumentation buffer.
+     * Gft tif sizf of tif ifbdfr portion of tif instrumfntbtion bufffr.
      *
-     * @return int - the size of the header
+     * @rfturn int - tif sizf of tif ifbdfr
      */
-    public int getSize() {
-        return PERFDATA_PROLOG_SIZE;  // sizeof(struct PerfDataProlog)
+    publid int gftSizf() {
+        rfturn PERFDATA_PROLOG_SIZE;  // sizfof(strudt PfrfDbtbProlog)
     }
 
     /**
-     * Return an IntBuffer that accesses the major version number.
-     * This is used to create a Monitor object for this value.
+     * Rfturn bn IntBufffr tibt bddfssfs tif mbjor vfrsion numbfr.
+     * Tiis is usfd to drfbtf b Monitor objfdt for tiis vbluf.
      *
-     * @return IntBuffer - a ByteBuffer that accesses the major version number
-     *                     in the instrumentation buffer header.
+     * @rfturn IntBufffr - b BytfBufffr tibt bddfssfs tif mbjor vfrsion numbfr
+     *                     in tif instrumfntbtion bufffr ifbdfr.
      */
-    public IntBuffer majorVersionBuffer() {
-        int[] holder = new int[1];
-        holder[0] = getMajorVersion();
-        IntBuffer ib = IntBuffer.wrap(holder);
+    publid IntBufffr mbjorVfrsionBufffr() {
+        int[] ioldfr = nfw int[1];
+        ioldfr[0] = gftMbjorVfrsion();
+        IntBufffr ib = IntBufffr.wrbp(ioldfr);
         ib.limit(1);
-        return ib;
+        rfturn ib;
       }
 
     /**
-     * Return an IntBuffer that accesses the minor version number.
-     * This is used to create a Monitor object for this value.
+     * Rfturn bn IntBufffr tibt bddfssfs tif minor vfrsion numbfr.
+     * Tiis is usfd to drfbtf b Monitor objfdt for tiis vbluf.
      *
-     * @return IntBuffer - a ByteBuffer that accesses the minor version number
-     *                     in the instrumentation buffer header.
+     * @rfturn IntBufffr - b BytfBufffr tibt bddfssfs tif minor vfrsion numbfr
+     *                     in tif instrumfntbtion bufffr ifbdfr.
      */
-    public IntBuffer minorVersionBuffer() {
-        int[] holder = new int[1];
-        holder[0] = getMinorVersion();
-        IntBuffer ib = IntBuffer.wrap(holder);
+    publid IntBufffr minorVfrsionBufffr() {
+        int[] ioldfr = nfw int[1];
+        ioldfr[0] = gftMinorVfrsion();
+        IntBufffr ib = IntBufffr.wrbp(ioldfr);
         ib.limit(1);
-        return ib;
+        rfturn ib;
     }
 
     /**
-     * Get the magic number from the given byteBuffer.
+     * Gft tif mbgid numbfr from tif givfn bytfBufffr.
      *
-     * @return int - the magic number
+     * @rfturn int - tif mbgid numbfr
      */
-    public static int getMagic(ByteBuffer bb) {
-        // save buffer state
+    publid stbtid int gftMbgid(BytfBufffr bb) {
+        // sbvf bufffr stbtf
         int position = bb.position();
-        ByteOrder order = bb.order();
+        BytfOrdfr ordfr = bb.ordfr();
 
-        // the magic number is always stored in big-endian format
-        bb.order(ByteOrder.BIG_ENDIAN);
+        // tif mbgid numbfr is blwbys storfd in big-fndibn formbt
+        bb.ordfr(BytfOrdfr.BIG_ENDIAN);
         bb.position(PERFDATA_PROLOG_MAGIC_OFFSET);
-        int magic = bb.getInt();
+        int mbgid = bb.gftInt();
 
-        // restore buffer state.
-        bb.order(order);
+        // rfstorf bufffr stbtf.
+        bb.ordfr(ordfr);
         bb.position(position);
 
-        return magic;
+        rfturn mbgid;
     }
 
     /**
-     * Get the major version number from the given ByteBuffer.
+     * Gft tif mbjor vfrsion numbfr from tif givfn BytfBufffr.
      *
-     * @return int - the major version
+     * @rfturn int - tif mbjor vfrsion
      */
-    public static int getMajorVersion(ByteBuffer bb) {
-        // save buffer state
+    publid stbtid int gftMbjorVfrsion(BytfBufffr bb) {
+        // sbvf bufffr stbtf
         int position = bb.position();
 
         bb.position(PERFDATA_PROLOG_MAJOR_OFFSET);
-        int major = (int) bb.get();
+        int mbjor = (int) bb.gft();
 
-        // restore buffer state.
+        // rfstorf bufffr stbtf.
         bb.position(position);
 
-        return major;
+        rfturn mbjor;
     }
 
     /**
-     * Get the minor version number from the given ByteBuffer.
+     * Gft tif minor vfrsion numbfr from tif givfn BytfBufffr.
      *
-     * @return int - the minor version
+     * @rfturn int - tif minor vfrsion
      */
-    public static int getMinorVersion(ByteBuffer bb) {
-        // save buffer state
+    publid stbtid int gftMinorVfrsion(BytfBufffr bb) {
+        // sbvf bufffr stbtf
         int position = bb.position();
 
         bb.position(PERFDATA_PROLOG_MINOR_OFFSET);
-        int minor = (int)bb.get();
+        int minor = (int)bb.gft();
 
-        // restore buffer state.
+        // rfstorf bufffr stbtf.
         bb.position(position);
 
-        return minor;
+        rfturn minor;
     }
 
     /**
-     * Get the byte order for the given ByteBuffer.
+     * Gft tif bytf ordfr for tif givfn BytfBufffr.
      *
-     * @return int - the byte order of the instrumentation buffer
+     * @rfturn int - tif bytf ordfr of tif instrumfntbtion bufffr
      */
-    public static ByteOrder getByteOrder(ByteBuffer bb) {
-        // save buffer state
+    publid stbtid BytfOrdfr gftBytfOrdfr(BytfBufffr bb) {
+        // sbvf bufffr stbtf
         int position = bb.position();
 
         bb.position(PERFDATA_PROLOG_BYTEORDER_OFFSET);
-        ByteOrder order = (bb.get() == PERFDATA_BIG_ENDIAN)
-                          ? ByteOrder.BIG_ENDIAN
-                          : ByteOrder.LITTLE_ENDIAN;
+        BytfOrdfr ordfr = (bb.gft() == PERFDATA_BIG_ENDIAN)
+                          ? BytfOrdfr.BIG_ENDIAN
+                          : BytfOrdfr.LITTLE_ENDIAN;
 
-        // restore buffer state.
+        // rfstorf bufffr stbtf.
         bb.position(position);
-        return order;
+        rfturn ordfr;
     }
 }

@@ -1,747 +1,747 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
-import java.util.function.Consumer;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.io.IOException;
+import jbvb.util.fundtion.Consumfr;
+import jbvb.util.fundtion.BiConsumfr;
+import jbvb.util.fundtion.BiFundtion;
+import jbvb.io.IOExdfption;
 
 /**
- * <p>Hash table and linked list implementation of the <tt>Map</tt> interface,
- * with predictable iteration order.  This implementation differs from
- * <tt>HashMap</tt> in that it maintains a doubly-linked list running through
- * all of its entries.  This linked list defines the iteration ordering,
- * which is normally the order in which keys were inserted into the map
- * (<i>insertion-order</i>).  Note that insertion order is not affected
- * if a key is <i>re-inserted</i> into the map.  (A key <tt>k</tt> is
- * reinserted into a map <tt>m</tt> if <tt>m.put(k, v)</tt> is invoked when
- * <tt>m.containsKey(k)</tt> would return <tt>true</tt> immediately prior to
- * the invocation.)
+ * <p>Hbsi tbblf bnd linkfd list implfmfntbtion of tif <tt>Mbp</tt> intfrfbdf,
+ * witi prfdidtbblf itfrbtion ordfr.  Tiis implfmfntbtion difffrs from
+ * <tt>HbsiMbp</tt> in tibt it mbintbins b doubly-linkfd list running tirougi
+ * bll of its fntrifs.  Tiis linkfd list dffinfs tif itfrbtion ordfring,
+ * wiidi is normblly tif ordfr in wiidi kfys wfrf insfrtfd into tif mbp
+ * (<i>insfrtion-ordfr</i>).  Notf tibt insfrtion ordfr is not bfffdtfd
+ * if b kfy is <i>rf-insfrtfd</i> into tif mbp.  (A kfy <tt>k</tt> is
+ * rfinsfrtfd into b mbp <tt>m</tt> if <tt>m.put(k, v)</tt> is invokfd wifn
+ * <tt>m.dontbinsKfy(k)</tt> would rfturn <tt>truf</tt> immfdibtfly prior to
+ * tif invodbtion.)
  *
- * <p>This implementation spares its clients from the unspecified, generally
- * chaotic ordering provided by {@link HashMap} (and {@link Hashtable}),
- * without incurring the increased cost associated with {@link TreeMap}.  It
- * can be used to produce a copy of a map that has the same order as the
- * original, regardless of the original map's implementation:
- * <pre>
- *     void foo(Map m) {
- *         Map copy = new LinkedHashMap(m);
+ * <p>Tiis implfmfntbtion spbrfs its dlifnts from tif unspfdififd, gfnfrblly
+ * dibotid ordfring providfd by {@link HbsiMbp} (bnd {@link Hbsitbblf}),
+ * witiout indurring tif indrfbsfd dost bssodibtfd witi {@link TrffMbp}.  It
+ * dbn bf usfd to produdf b dopy of b mbp tibt ibs tif sbmf ordfr bs tif
+ * originbl, rfgbrdlfss of tif originbl mbp's implfmfntbtion:
+ * <prf>
+ *     void foo(Mbp m) {
+ *         Mbp dopy = nfw LinkfdHbsiMbp(m);
  *         ...
  *     }
- * </pre>
- * This technique is particularly useful if a module takes a map on input,
- * copies it, and later returns results whose order is determined by that of
- * the copy.  (Clients generally appreciate having things returned in the same
- * order they were presented.)
+ * </prf>
+ * Tiis tfdiniquf is pbrtidulbrly usfful if b modulf tbkfs b mbp on input,
+ * dopifs it, bnd lbtfr rfturns rfsults wiosf ordfr is dftfrminfd by tibt of
+ * tif dopy.  (Clifnts gfnfrblly bpprfdibtf ibving tiings rfturnfd in tif sbmf
+ * ordfr tify wfrf prfsfntfd.)
  *
- * <p>A special {@link #LinkedHashMap(int,float,boolean) constructor} is
- * provided to create a linked hash map whose order of iteration is the order
- * in which its entries were last accessed, from least-recently accessed to
- * most-recently (<i>access-order</i>).  This kind of map is well-suited to
- * building LRU caches.  Invoking the {@code put}, {@code putIfAbsent},
- * {@code get}, {@code getOrDefault}, {@code compute}, {@code computeIfAbsent},
- * {@code computeIfPresent}, or {@code merge} methods results
- * in an access to the corresponding entry (assuming it exists after the
- * invocation completes). The {@code replace} methods only result in an access
- * of the entry if the value is replaced.  The {@code putAll} method generates one
- * entry access for each mapping in the specified map, in the order that
- * key-value mappings are provided by the specified map's entry set iterator.
- * <i>No other methods generate entry accesses.</i>  In particular, operations
- * on collection-views do <i>not</i> affect the order of iteration of the
- * backing map.
+ * <p>A spfdibl {@link #LinkfdHbsiMbp(int,flobt,boolfbn) donstrudtor} is
+ * providfd to drfbtf b linkfd ibsi mbp wiosf ordfr of itfrbtion is tif ordfr
+ * in wiidi its fntrifs wfrf lbst bddfssfd, from lfbst-rfdfntly bddfssfd to
+ * most-rfdfntly (<i>bddfss-ordfr</i>).  Tiis kind of mbp is wfll-suitfd to
+ * building LRU dbdifs.  Invoking tif {@dodf put}, {@dodf putIfAbsfnt},
+ * {@dodf gft}, {@dodf gftOrDffbult}, {@dodf domputf}, {@dodf domputfIfAbsfnt},
+ * {@dodf domputfIfPrfsfnt}, or {@dodf mfrgf} mftiods rfsults
+ * in bn bddfss to tif dorrfsponding fntry (bssuming it fxists bftfr tif
+ * invodbtion domplftfs). Tif {@dodf rfplbdf} mftiods only rfsult in bn bddfss
+ * of tif fntry if tif vbluf is rfplbdfd.  Tif {@dodf putAll} mftiod gfnfrbtfs onf
+ * fntry bddfss for fbdi mbpping in tif spfdififd mbp, in tif ordfr tibt
+ * kfy-vbluf mbppings brf providfd by tif spfdififd mbp's fntry sft itfrbtor.
+ * <i>No otifr mftiods gfnfrbtf fntry bddfssfs.</i>  In pbrtidulbr, opfrbtions
+ * on dollfdtion-vifws do <i>not</i> bfffdt tif ordfr of itfrbtion of tif
+ * bbdking mbp.
  *
- * <p>The {@link #removeEldestEntry(Map.Entry)} method may be overridden to
- * impose a policy for removing stale mappings automatically when new mappings
- * are added to the map.
+ * <p>Tif {@link #rfmovfEldfstEntry(Mbp.Entry)} mftiod mby bf ovfrriddfn to
+ * imposf b polidy for rfmoving stblf mbppings butombtidblly wifn nfw mbppings
+ * brf bddfd to tif mbp.
  *
- * <p>This class provides all of the optional <tt>Map</tt> operations, and
- * permits null elements.  Like <tt>HashMap</tt>, it provides constant-time
- * performance for the basic operations (<tt>add</tt>, <tt>contains</tt> and
- * <tt>remove</tt>), assuming the hash function disperses elements
- * properly among the buckets.  Performance is likely to be just slightly
- * below that of <tt>HashMap</tt>, due to the added expense of maintaining the
- * linked list, with one exception: Iteration over the collection-views
- * of a <tt>LinkedHashMap</tt> requires time proportional to the <i>size</i>
- * of the map, regardless of its capacity.  Iteration over a <tt>HashMap</tt>
- * is likely to be more expensive, requiring time proportional to its
- * <i>capacity</i>.
+ * <p>Tiis dlbss providfs bll of tif optionbl <tt>Mbp</tt> opfrbtions, bnd
+ * pfrmits null flfmfnts.  Likf <tt>HbsiMbp</tt>, it providfs donstbnt-timf
+ * pfrformbndf for tif bbsid opfrbtions (<tt>bdd</tt>, <tt>dontbins</tt> bnd
+ * <tt>rfmovf</tt>), bssuming tif ibsi fundtion dispfrsfs flfmfnts
+ * propfrly bmong tif budkfts.  Pfrformbndf is likfly to bf just sligitly
+ * bflow tibt of <tt>HbsiMbp</tt>, duf to tif bddfd fxpfnsf of mbintbining tif
+ * linkfd list, witi onf fxdfption: Itfrbtion ovfr tif dollfdtion-vifws
+ * of b <tt>LinkfdHbsiMbp</tt> rfquirfs timf proportionbl to tif <i>sizf</i>
+ * of tif mbp, rfgbrdlfss of its dbpbdity.  Itfrbtion ovfr b <tt>HbsiMbp</tt>
+ * is likfly to bf morf fxpfnsivf, rfquiring timf proportionbl to its
+ * <i>dbpbdity</i>.
  *
- * <p>A linked hash map has two parameters that affect its performance:
- * <i>initial capacity</i> and <i>load factor</i>.  They are defined precisely
- * as for <tt>HashMap</tt>.  Note, however, that the penalty for choosing an
- * excessively high value for initial capacity is less severe for this class
- * than for <tt>HashMap</tt>, as iteration times for this class are unaffected
- * by capacity.
+ * <p>A linkfd ibsi mbp ibs two pbrbmftfrs tibt bfffdt its pfrformbndf:
+ * <i>initibl dbpbdity</i> bnd <i>lobd fbdtor</i>.  Tify brf dffinfd prfdisfly
+ * bs for <tt>HbsiMbp</tt>.  Notf, iowfvfr, tibt tif pfnblty for dioosing bn
+ * fxdfssivfly iigi vbluf for initibl dbpbdity is lfss sfvfrf for tiis dlbss
+ * tibn for <tt>HbsiMbp</tt>, bs itfrbtion timfs for tiis dlbss brf unbfffdtfd
+ * by dbpbdity.
  *
- * <p><strong>Note that this implementation is not synchronized.</strong>
- * If multiple threads access a linked hash map concurrently, and at least
- * one of the threads modifies the map structurally, it <em>must</em> be
- * synchronized externally.  This is typically accomplished by
- * synchronizing on some object that naturally encapsulates the map.
+ * <p><strong>Notf tibt tiis implfmfntbtion is not syndironizfd.</strong>
+ * If multiplf tirfbds bddfss b linkfd ibsi mbp dondurrfntly, bnd bt lfbst
+ * onf of tif tirfbds modififs tif mbp strudturblly, it <fm>must</fm> bf
+ * syndironizfd fxtfrnblly.  Tiis is typidblly bddomplisifd by
+ * syndironizing on somf objfdt tibt nbturblly fndbpsulbtfs tif mbp.
  *
- * If no such object exists, the map should be "wrapped" using the
- * {@link Collections#synchronizedMap Collections.synchronizedMap}
- * method.  This is best done at creation time, to prevent accidental
- * unsynchronized access to the map:<pre>
- *   Map m = Collections.synchronizedMap(new LinkedHashMap(...));</pre>
+ * If no sudi objfdt fxists, tif mbp siould bf "wrbppfd" using tif
+ * {@link Collfdtions#syndironizfdMbp Collfdtions.syndironizfdMbp}
+ * mftiod.  Tiis is bfst donf bt drfbtion timf, to prfvfnt bddidfntbl
+ * unsyndironizfd bddfss to tif mbp:<prf>
+ *   Mbp m = Collfdtions.syndironizfdMbp(nfw LinkfdHbsiMbp(...));</prf>
  *
- * A structural modification is any operation that adds or deletes one or more
- * mappings or, in the case of access-ordered linked hash maps, affects
- * iteration order.  In insertion-ordered linked hash maps, merely changing
- * the value associated with a key that is already contained in the map is not
- * a structural modification.  <strong>In access-ordered linked hash maps,
- * merely querying the map with <tt>get</tt> is a structural modification.
+ * A strudturbl modifidbtion is bny opfrbtion tibt bdds or dflftfs onf or morf
+ * mbppings or, in tif dbsf of bddfss-ordfrfd linkfd ibsi mbps, bfffdts
+ * itfrbtion ordfr.  In insfrtion-ordfrfd linkfd ibsi mbps, mfrfly dibnging
+ * tif vbluf bssodibtfd witi b kfy tibt is blrfbdy dontbinfd in tif mbp is not
+ * b strudturbl modifidbtion.  <strong>In bddfss-ordfrfd linkfd ibsi mbps,
+ * mfrfly qufrying tif mbp witi <tt>gft</tt> is b strudturbl modifidbtion.
  * </strong>)
  *
- * <p>The iterators returned by the <tt>iterator</tt> method of the collections
- * returned by all of this class's collection view methods are
- * <em>fail-fast</em>: if the map is structurally modified at any time after
- * the iterator is created, in any way except through the iterator's own
- * <tt>remove</tt> method, the iterator will throw a {@link
- * ConcurrentModificationException}.  Thus, in the face of concurrent
- * modification, the iterator fails quickly and cleanly, rather than risking
- * arbitrary, non-deterministic behavior at an undetermined time in the future.
+ * <p>Tif itfrbtors rfturnfd by tif <tt>itfrbtor</tt> mftiod of tif dollfdtions
+ * rfturnfd by bll of tiis dlbss's dollfdtion vifw mftiods brf
+ * <fm>fbil-fbst</fm>: if tif mbp is strudturblly modififd bt bny timf bftfr
+ * tif itfrbtor is drfbtfd, in bny wby fxdfpt tirougi tif itfrbtor's own
+ * <tt>rfmovf</tt> mftiod, tif itfrbtor will tirow b {@link
+ * CondurrfntModifidbtionExdfption}.  Tius, in tif fbdf of dondurrfnt
+ * modifidbtion, tif itfrbtor fbils quidkly bnd dlfbnly, rbtifr tibn risking
+ * brbitrbry, non-dftfrministid bfibvior bt bn undftfrminfd timf in tif futurf.
  *
- * <p>Note that the fail-fast behavior of an iterator cannot be guaranteed
- * as it is, generally speaking, impossible to make any hard guarantees in the
- * presence of unsynchronized concurrent modification.  Fail-fast iterators
- * throw <tt>ConcurrentModificationException</tt> on a best-effort basis.
- * Therefore, it would be wrong to write a program that depended on this
- * exception for its correctness:   <i>the fail-fast behavior of iterators
- * should be used only to detect bugs.</i>
+ * <p>Notf tibt tif fbil-fbst bfibvior of bn itfrbtor dbnnot bf gubrbntffd
+ * bs it is, gfnfrblly spfbking, impossiblf to mbkf bny ibrd gubrbntffs in tif
+ * prfsfndf of unsyndironizfd dondurrfnt modifidbtion.  Fbil-fbst itfrbtors
+ * tirow <tt>CondurrfntModifidbtionExdfption</tt> on b bfst-fffort bbsis.
+ * Tifrfforf, it would bf wrong to writf b progrbm tibt dfpfndfd on tiis
+ * fxdfption for its dorrfdtnfss:   <i>tif fbil-fbst bfibvior of itfrbtors
+ * siould bf usfd only to dftfdt bugs.</i>
  *
- * <p>The spliterators returned by the spliterator method of the collections
- * returned by all of this class's collection view methods are
- * <em><a href="Spliterator.html#binding">late-binding</a></em>,
- * <em>fail-fast</em>, and additionally report {@link Spliterator#ORDERED}.
+ * <p>Tif splitfrbtors rfturnfd by tif splitfrbtor mftiod of tif dollfdtions
+ * rfturnfd by bll of tiis dlbss's dollfdtion vifw mftiods brf
+ * <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm>,
+ * <fm>fbil-fbst</fm>, bnd bdditionblly rfport {@link Splitfrbtor#ORDERED}.
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis dlbss is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @implNote
- * The spliterators returned by the spliterator method of the collections
- * returned by all of this class's collection view methods are created from
- * the iterators of the corresponding collections.
+ * @implNotf
+ * Tif splitfrbtors rfturnfd by tif splitfrbtor mftiod of tif dollfdtions
+ * rfturnfd by bll of tiis dlbss's dollfdtion vifw mftiods brf drfbtfd from
+ * tif itfrbtors of tif dorrfsponding dollfdtions.
  *
- * @param <K> the type of keys maintained by this map
- * @param <V> the type of mapped values
+ * @pbrbm <K> tif typf of kfys mbintbinfd by tiis mbp
+ * @pbrbm <V> tif typf of mbppfd vblufs
  *
- * @author  Josh Bloch
- * @see     Object#hashCode()
- * @see     Collection
- * @see     Map
- * @see     HashMap
- * @see     TreeMap
- * @see     Hashtable
- * @since   1.4
+ * @butior  Josi Blodi
+ * @sff     Objfdt#ibsiCodf()
+ * @sff     Collfdtion
+ * @sff     Mbp
+ * @sff     HbsiMbp
+ * @sff     TrffMbp
+ * @sff     Hbsitbblf
+ * @sindf   1.4
  */
-public class LinkedHashMap<K,V>
-    extends HashMap<K,V>
-    implements Map<K,V>
+publid dlbss LinkfdHbsiMbp<K,V>
+    fxtfnds HbsiMbp<K,V>
+    implfmfnts Mbp<K,V>
 {
 
     /*
-     * Implementation note.  A previous version of this class was
-     * internally structured a little differently. Because superclass
-     * HashMap now uses trees for some of its nodes, class
-     * LinkedHashMap.Entry is now treated as intermediary node class
-     * that can also be converted to tree form. The name of this
-     * class, LinkedHashMap.Entry, is confusing in several ways in its
-     * current context, but cannot be changed.  Otherwise, even though
-     * it is not exported outside this package, some existing source
-     * code is known to have relied on a symbol resolution corner case
-     * rule in calls to removeEldestEntry that suppressed compilation
-     * errors due to ambiguous usages. So, we keep the name to
-     * preserve unmodified compilability.
+     * Implfmfntbtion notf.  A prfvious vfrsion of tiis dlbss wbs
+     * intfrnblly strudturfd b littlf difffrfntly. Bfdbusf supfrdlbss
+     * HbsiMbp now usfs trffs for somf of its nodfs, dlbss
+     * LinkfdHbsiMbp.Entry is now trfbtfd bs intfrmfdibry nodf dlbss
+     * tibt dbn blso bf donvfrtfd to trff form. Tif nbmf of tiis
+     * dlbss, LinkfdHbsiMbp.Entry, is donfusing in sfvfrbl wbys in its
+     * durrfnt dontfxt, but dbnnot bf dibngfd.  Otifrwisf, fvfn tiougi
+     * it is not fxportfd outsidf tiis pbdkbgf, somf fxisting sourdf
+     * dodf is known to ibvf rflifd on b symbol rfsolution dornfr dbsf
+     * rulf in dblls to rfmovfEldfstEntry tibt supprfssfd dompilbtion
+     * frrors duf to bmbiguous usbgfs. So, wf kffp tif nbmf to
+     * prfsfrvf unmodififd dompilbbility.
      *
-     * The changes in node classes also require using two fields
-     * (head, tail) rather than a pointer to a header node to maintain
-     * the doubly-linked before/after list. This class also
-     * previously used a different style of callback methods upon
-     * access, insertion, and removal.
+     * Tif dibngfs in nodf dlbssfs blso rfquirf using two fiflds
+     * (ifbd, tbil) rbtifr tibn b pointfr to b ifbdfr nodf to mbintbin
+     * tif doubly-linkfd bfforf/bftfr list. Tiis dlbss blso
+     * prfviously usfd b difffrfnt stylf of dbllbbdk mftiods upon
+     * bddfss, insfrtion, bnd rfmovbl.
      */
 
     /**
-     * HashMap.Node subclass for normal LinkedHashMap entries.
+     * HbsiMbp.Nodf subdlbss for normbl LinkfdHbsiMbp fntrifs.
      */
-    static class Entry<K,V> extends HashMap.Node<K,V> {
-        Entry<K,V> before, after;
-        Entry(int hash, K key, V value, Node<K,V> next) {
-            super(hash, key, value, next);
+    stbtid dlbss Entry<K,V> fxtfnds HbsiMbp.Nodf<K,V> {
+        Entry<K,V> bfforf, bftfr;
+        Entry(int ibsi, K kfy, V vbluf, Nodf<K,V> nfxt) {
+            supfr(ibsi, kfy, vbluf, nfxt);
         }
     }
 
-    private static final long serialVersionUID = 3801124242820219131L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 3801124242820219131L;
 
     /**
-     * The head (eldest) of the doubly linked list.
+     * Tif ifbd (fldfst) of tif doubly linkfd list.
      */
-    transient LinkedHashMap.Entry<K,V> head;
+    trbnsifnt LinkfdHbsiMbp.Entry<K,V> ifbd;
 
     /**
-     * The tail (youngest) of the doubly linked list.
+     * Tif tbil (youngfst) of tif doubly linkfd list.
      */
-    transient LinkedHashMap.Entry<K,V> tail;
+    trbnsifnt LinkfdHbsiMbp.Entry<K,V> tbil;
 
     /**
-     * The iteration ordering method for this linked hash map: <tt>true</tt>
-     * for access-order, <tt>false</tt> for insertion-order.
+     * Tif itfrbtion ordfring mftiod for tiis linkfd ibsi mbp: <tt>truf</tt>
+     * for bddfss-ordfr, <tt>fblsf</tt> for insfrtion-ordfr.
      *
-     * @serial
+     * @sfribl
      */
-    final boolean accessOrder;
+    finbl boolfbn bddfssOrdfr;
 
-    // internal utilities
+    // intfrnbl utilitifs
 
-    // link at the end of list
-    private void linkNodeLast(LinkedHashMap.Entry<K,V> p) {
-        LinkedHashMap.Entry<K,V> last = tail;
-        tail = p;
-        if (last == null)
-            head = p;
-        else {
-            p.before = last;
-            last.after = p;
+    // link bt tif fnd of list
+    privbtf void linkNodfLbst(LinkfdHbsiMbp.Entry<K,V> p) {
+        LinkfdHbsiMbp.Entry<K,V> lbst = tbil;
+        tbil = p;
+        if (lbst == null)
+            ifbd = p;
+        flsf {
+            p.bfforf = lbst;
+            lbst.bftfr = p;
         }
     }
 
-    // apply src's links to dst
-    private void transferLinks(LinkedHashMap.Entry<K,V> src,
-                               LinkedHashMap.Entry<K,V> dst) {
-        LinkedHashMap.Entry<K,V> b = dst.before = src.before;
-        LinkedHashMap.Entry<K,V> a = dst.after = src.after;
+    // bpply srd's links to dst
+    privbtf void trbnsffrLinks(LinkfdHbsiMbp.Entry<K,V> srd,
+                               LinkfdHbsiMbp.Entry<K,V> dst) {
+        LinkfdHbsiMbp.Entry<K,V> b = dst.bfforf = srd.bfforf;
+        LinkfdHbsiMbp.Entry<K,V> b = dst.bftfr = srd.bftfr;
         if (b == null)
-            head = dst;
-        else
-            b.after = dst;
-        if (a == null)
-            tail = dst;
-        else
-            a.before = dst;
-    }
-
-    // overrides of HashMap hook methods
-
-    void reinitialize() {
-        super.reinitialize();
-        head = tail = null;
-    }
-
-    Node<K,V> newNode(int hash, K key, V value, Node<K,V> e) {
-        LinkedHashMap.Entry<K,V> p =
-            new LinkedHashMap.Entry<>(hash, key, value, e);
-        linkNodeLast(p);
-        return p;
-    }
-
-    Node<K,V> replacementNode(Node<K,V> p, Node<K,V> next) {
-        LinkedHashMap.Entry<K,V> q = (LinkedHashMap.Entry<K,V>)p;
-        LinkedHashMap.Entry<K,V> t =
-            new LinkedHashMap.Entry<>(q.hash, q.key, q.value, next);
-        transferLinks(q, t);
-        return t;
-    }
-
-    TreeNode<K,V> newTreeNode(int hash, K key, V value, Node<K,V> next) {
-        TreeNode<K,V> p = new TreeNode<>(hash, key, value, next);
-        linkNodeLast(p);
-        return p;
-    }
-
-    TreeNode<K,V> replacementTreeNode(Node<K,V> p, Node<K,V> next) {
-        LinkedHashMap.Entry<K,V> q = (LinkedHashMap.Entry<K,V>)p;
-        TreeNode<K,V> t = new TreeNode<>(q.hash, q.key, q.value, next);
-        transferLinks(q, t);
-        return t;
-    }
-
-    void afterNodeRemoval(Node<K,V> e) { // unlink
-        LinkedHashMap.Entry<K,V> p =
-            (LinkedHashMap.Entry<K,V>)e, b = p.before, a = p.after;
-        p.before = p.after = null;
+            ifbd = dst;
+        flsf
+            b.bftfr = dst;
         if (b == null)
-            head = a;
-        else
-            b.after = a;
-        if (a == null)
-            tail = b;
-        else
-            a.before = b;
+            tbil = dst;
+        flsf
+            b.bfforf = dst;
     }
 
-    void afterNodeInsertion(boolean evict) { // possibly remove eldest
-        LinkedHashMap.Entry<K,V> first;
-        if (evict && (first = head) != null && removeEldestEntry(first)) {
-            K key = first.key;
-            removeNode(hash(key), key, null, false, true);
+    // ovfrridfs of HbsiMbp iook mftiods
+
+    void rfinitiblizf() {
+        supfr.rfinitiblizf();
+        ifbd = tbil = null;
+    }
+
+    Nodf<K,V> nfwNodf(int ibsi, K kfy, V vbluf, Nodf<K,V> f) {
+        LinkfdHbsiMbp.Entry<K,V> p =
+            nfw LinkfdHbsiMbp.Entry<>(ibsi, kfy, vbluf, f);
+        linkNodfLbst(p);
+        rfturn p;
+    }
+
+    Nodf<K,V> rfplbdfmfntNodf(Nodf<K,V> p, Nodf<K,V> nfxt) {
+        LinkfdHbsiMbp.Entry<K,V> q = (LinkfdHbsiMbp.Entry<K,V>)p;
+        LinkfdHbsiMbp.Entry<K,V> t =
+            nfw LinkfdHbsiMbp.Entry<>(q.ibsi, q.kfy, q.vbluf, nfxt);
+        trbnsffrLinks(q, t);
+        rfturn t;
+    }
+
+    TrffNodf<K,V> nfwTrffNodf(int ibsi, K kfy, V vbluf, Nodf<K,V> nfxt) {
+        TrffNodf<K,V> p = nfw TrffNodf<>(ibsi, kfy, vbluf, nfxt);
+        linkNodfLbst(p);
+        rfturn p;
+    }
+
+    TrffNodf<K,V> rfplbdfmfntTrffNodf(Nodf<K,V> p, Nodf<K,V> nfxt) {
+        LinkfdHbsiMbp.Entry<K,V> q = (LinkfdHbsiMbp.Entry<K,V>)p;
+        TrffNodf<K,V> t = nfw TrffNodf<>(q.ibsi, q.kfy, q.vbluf, nfxt);
+        trbnsffrLinks(q, t);
+        rfturn t;
+    }
+
+    void bftfrNodfRfmovbl(Nodf<K,V> f) { // unlink
+        LinkfdHbsiMbp.Entry<K,V> p =
+            (LinkfdHbsiMbp.Entry<K,V>)f, b = p.bfforf, b = p.bftfr;
+        p.bfforf = p.bftfr = null;
+        if (b == null)
+            ifbd = b;
+        flsf
+            b.bftfr = b;
+        if (b == null)
+            tbil = b;
+        flsf
+            b.bfforf = b;
+    }
+
+    void bftfrNodfInsfrtion(boolfbn fvidt) { // possibly rfmovf fldfst
+        LinkfdHbsiMbp.Entry<K,V> first;
+        if (fvidt && (first = ifbd) != null && rfmovfEldfstEntry(first)) {
+            K kfy = first.kfy;
+            rfmovfNodf(ibsi(kfy), kfy, null, fblsf, truf);
         }
     }
 
-    void afterNodeAccess(Node<K,V> e) { // move node to last
-        LinkedHashMap.Entry<K,V> last;
-        if (accessOrder && (last = tail) != e) {
-            LinkedHashMap.Entry<K,V> p =
-                (LinkedHashMap.Entry<K,V>)e, b = p.before, a = p.after;
-            p.after = null;
+    void bftfrNodfAddfss(Nodf<K,V> f) { // movf nodf to lbst
+        LinkfdHbsiMbp.Entry<K,V> lbst;
+        if (bddfssOrdfr && (lbst = tbil) != f) {
+            LinkfdHbsiMbp.Entry<K,V> p =
+                (LinkfdHbsiMbp.Entry<K,V>)f, b = p.bfforf, b = p.bftfr;
+            p.bftfr = null;
             if (b == null)
-                head = a;
-            else
-                b.after = a;
-            if (a != null)
-                a.before = b;
-            else
-                last = b;
-            if (last == null)
-                head = p;
-            else {
-                p.before = last;
-                last.after = p;
+                ifbd = b;
+            flsf
+                b.bftfr = b;
+            if (b != null)
+                b.bfforf = b;
+            flsf
+                lbst = b;
+            if (lbst == null)
+                ifbd = p;
+            flsf {
+                p.bfforf = lbst;
+                lbst.bftfr = p;
             }
-            tail = p;
+            tbil = p;
             ++modCount;
         }
     }
 
-    void internalWriteEntries(java.io.ObjectOutputStream s) throws IOException {
-        for (LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after) {
-            s.writeObject(e.key);
-            s.writeObject(e.value);
+    void intfrnblWritfEntrifs(jbvb.io.ObjfdtOutputStrfbm s) tirows IOExdfption {
+        for (LinkfdHbsiMbp.Entry<K,V> f = ifbd; f != null; f = f.bftfr) {
+            s.writfObjfdt(f.kfy);
+            s.writfObjfdt(f.vbluf);
         }
     }
 
     /**
-     * Constructs an empty insertion-ordered <tt>LinkedHashMap</tt> instance
-     * with the specified initial capacity and load factor.
+     * Construdts bn fmpty insfrtion-ordfrfd <tt>LinkfdHbsiMbp</tt> instbndf
+     * witi tif spfdififd initibl dbpbdity bnd lobd fbdtor.
      *
-     * @param  initialCapacity the initial capacity
-     * @param  loadFactor      the load factor
-     * @throws IllegalArgumentException if the initial capacity is negative
-     *         or the load factor is nonpositive
+     * @pbrbm  initiblCbpbdity tif initibl dbpbdity
+     * @pbrbm  lobdFbdtor      tif lobd fbdtor
+     * @tirows IllfgblArgumfntExdfption if tif initibl dbpbdity is nfgbtivf
+     *         or tif lobd fbdtor is nonpositivf
      */
-    public LinkedHashMap(int initialCapacity, float loadFactor) {
-        super(initialCapacity, loadFactor);
-        accessOrder = false;
+    publid LinkfdHbsiMbp(int initiblCbpbdity, flobt lobdFbdtor) {
+        supfr(initiblCbpbdity, lobdFbdtor);
+        bddfssOrdfr = fblsf;
     }
 
     /**
-     * Constructs an empty insertion-ordered <tt>LinkedHashMap</tt> instance
-     * with the specified initial capacity and a default load factor (0.75).
+     * Construdts bn fmpty insfrtion-ordfrfd <tt>LinkfdHbsiMbp</tt> instbndf
+     * witi tif spfdififd initibl dbpbdity bnd b dffbult lobd fbdtor (0.75).
      *
-     * @param  initialCapacity the initial capacity
-     * @throws IllegalArgumentException if the initial capacity is negative
+     * @pbrbm  initiblCbpbdity tif initibl dbpbdity
+     * @tirows IllfgblArgumfntExdfption if tif initibl dbpbdity is nfgbtivf
      */
-    public LinkedHashMap(int initialCapacity) {
-        super(initialCapacity);
-        accessOrder = false;
+    publid LinkfdHbsiMbp(int initiblCbpbdity) {
+        supfr(initiblCbpbdity);
+        bddfssOrdfr = fblsf;
     }
 
     /**
-     * Constructs an empty insertion-ordered <tt>LinkedHashMap</tt> instance
-     * with the default initial capacity (16) and load factor (0.75).
+     * Construdts bn fmpty insfrtion-ordfrfd <tt>LinkfdHbsiMbp</tt> instbndf
+     * witi tif dffbult initibl dbpbdity (16) bnd lobd fbdtor (0.75).
      */
-    public LinkedHashMap() {
-        super();
-        accessOrder = false;
+    publid LinkfdHbsiMbp() {
+        supfr();
+        bddfssOrdfr = fblsf;
     }
 
     /**
-     * Constructs an insertion-ordered <tt>LinkedHashMap</tt> instance with
-     * the same mappings as the specified map.  The <tt>LinkedHashMap</tt>
-     * instance is created with a default load factor (0.75) and an initial
-     * capacity sufficient to hold the mappings in the specified map.
+     * Construdts bn insfrtion-ordfrfd <tt>LinkfdHbsiMbp</tt> instbndf witi
+     * tif sbmf mbppings bs tif spfdififd mbp.  Tif <tt>LinkfdHbsiMbp</tt>
+     * instbndf is drfbtfd witi b dffbult lobd fbdtor (0.75) bnd bn initibl
+     * dbpbdity suffidifnt to iold tif mbppings in tif spfdififd mbp.
      *
-     * @param  m the map whose mappings are to be placed in this map
-     * @throws NullPointerException if the specified map is null
+     * @pbrbm  m tif mbp wiosf mbppings brf to bf plbdfd in tiis mbp
+     * @tirows NullPointfrExdfption if tif spfdififd mbp is null
      */
-    public LinkedHashMap(Map<? extends K, ? extends V> m) {
-        super();
-        accessOrder = false;
-        putMapEntries(m, false);
+    publid LinkfdHbsiMbp(Mbp<? fxtfnds K, ? fxtfnds V> m) {
+        supfr();
+        bddfssOrdfr = fblsf;
+        putMbpEntrifs(m, fblsf);
     }
 
     /**
-     * Constructs an empty <tt>LinkedHashMap</tt> instance with the
-     * specified initial capacity, load factor and ordering mode.
+     * Construdts bn fmpty <tt>LinkfdHbsiMbp</tt> instbndf witi tif
+     * spfdififd initibl dbpbdity, lobd fbdtor bnd ordfring modf.
      *
-     * @param  initialCapacity the initial capacity
-     * @param  loadFactor      the load factor
-     * @param  accessOrder     the ordering mode - <tt>true</tt> for
-     *         access-order, <tt>false</tt> for insertion-order
-     * @throws IllegalArgumentException if the initial capacity is negative
-     *         or the load factor is nonpositive
+     * @pbrbm  initiblCbpbdity tif initibl dbpbdity
+     * @pbrbm  lobdFbdtor      tif lobd fbdtor
+     * @pbrbm  bddfssOrdfr     tif ordfring modf - <tt>truf</tt> for
+     *         bddfss-ordfr, <tt>fblsf</tt> for insfrtion-ordfr
+     * @tirows IllfgblArgumfntExdfption if tif initibl dbpbdity is nfgbtivf
+     *         or tif lobd fbdtor is nonpositivf
      */
-    public LinkedHashMap(int initialCapacity,
-                         float loadFactor,
-                         boolean accessOrder) {
-        super(initialCapacity, loadFactor);
-        this.accessOrder = accessOrder;
+    publid LinkfdHbsiMbp(int initiblCbpbdity,
+                         flobt lobdFbdtor,
+                         boolfbn bddfssOrdfr) {
+        supfr(initiblCbpbdity, lobdFbdtor);
+        tiis.bddfssOrdfr = bddfssOrdfr;
     }
 
 
     /**
-     * Returns <tt>true</tt> if this map maps one or more keys to the
-     * specified value.
+     * Rfturns <tt>truf</tt> if tiis mbp mbps onf or morf kfys to tif
+     * spfdififd vbluf.
      *
-     * @param value value whose presence in this map is to be tested
-     * @return <tt>true</tt> if this map maps one or more keys to the
-     *         specified value
+     * @pbrbm vbluf vbluf wiosf prfsfndf in tiis mbp is to bf tfstfd
+     * @rfturn <tt>truf</tt> if tiis mbp mbps onf or morf kfys to tif
+     *         spfdififd vbluf
      */
-    public boolean containsValue(Object value) {
-        for (LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after) {
-            V v = e.value;
-            if (v == value || (value != null && value.equals(v)))
-                return true;
+    publid boolfbn dontbinsVbluf(Objfdt vbluf) {
+        for (LinkfdHbsiMbp.Entry<K,V> f = ifbd; f != null; f = f.bftfr) {
+            V v = f.vbluf;
+            if (v == vbluf || (vbluf != null && vbluf.fqubls(v)))
+                rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns the value to which the specified key is mapped,
-     * or {@code null} if this map contains no mapping for the key.
+     * Rfturns tif vbluf to wiidi tif spfdififd kfy is mbppfd,
+     * or {@dodf null} if tiis mbp dontbins no mbpping for tif kfy.
      *
-     * <p>More formally, if this map contains a mapping from a key
-     * {@code k} to a value {@code v} such that {@code (key==null ? k==null :
-     * key.equals(k))}, then this method returns {@code v}; otherwise
-     * it returns {@code null}.  (There can be at most one such mapping.)
+     * <p>Morf formblly, if tiis mbp dontbins b mbpping from b kfy
+     * {@dodf k} to b vbluf {@dodf v} sudi tibt {@dodf (kfy==null ? k==null :
+     * kfy.fqubls(k))}, tifn tiis mftiod rfturns {@dodf v}; otifrwisf
+     * it rfturns {@dodf null}.  (Tifrf dbn bf bt most onf sudi mbpping.)
      *
-     * <p>A return value of {@code null} does not <i>necessarily</i>
-     * indicate that the map contains no mapping for the key; it's also
-     * possible that the map explicitly maps the key to {@code null}.
-     * The {@link #containsKey containsKey} operation may be used to
-     * distinguish these two cases.
+     * <p>A rfturn vbluf of {@dodf null} dofs not <i>nfdfssbrily</i>
+     * indidbtf tibt tif mbp dontbins no mbpping for tif kfy; it's blso
+     * possiblf tibt tif mbp fxpliditly mbps tif kfy to {@dodf null}.
+     * Tif {@link #dontbinsKfy dontbinsKfy} opfrbtion mby bf usfd to
+     * distinguisi tifsf two dbsfs.
      */
-    public V get(Object key) {
-        Node<K,V> e;
-        if ((e = getNode(hash(key), key)) == null)
-            return null;
-        if (accessOrder)
-            afterNodeAccess(e);
-        return e.value;
+    publid V gft(Objfdt kfy) {
+        Nodf<K,V> f;
+        if ((f = gftNodf(ibsi(kfy), kfy)) == null)
+            rfturn null;
+        if (bddfssOrdfr)
+            bftfrNodfAddfss(f);
+        rfturn f.vbluf;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public V getOrDefault(Object key, V defaultValue) {
-       Node<K,V> e;
-       if ((e = getNode(hash(key), key)) == null)
-           return defaultValue;
-       if (accessOrder)
-           afterNodeAccess(e);
-       return e.value;
+    publid V gftOrDffbult(Objfdt kfy, V dffbultVbluf) {
+       Nodf<K,V> f;
+       if ((f = gftNodf(ibsi(kfy), kfy)) == null)
+           rfturn dffbultVbluf;
+       if (bddfssOrdfr)
+           bftfrNodfAddfss(f);
+       rfturn f.vbluf;
    }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void clear() {
-        super.clear();
-        head = tail = null;
+    publid void dlfbr() {
+        supfr.dlfbr();
+        ifbd = tbil = null;
     }
 
     /**
-     * Returns <tt>true</tt> if this map should remove its eldest entry.
-     * This method is invoked by <tt>put</tt> and <tt>putAll</tt> after
-     * inserting a new entry into the map.  It provides the implementor
-     * with the opportunity to remove the eldest entry each time a new one
-     * is added.  This is useful if the map represents a cache: it allows
-     * the map to reduce memory consumption by deleting stale entries.
+     * Rfturns <tt>truf</tt> if tiis mbp siould rfmovf its fldfst fntry.
+     * Tiis mftiod is invokfd by <tt>put</tt> bnd <tt>putAll</tt> bftfr
+     * insfrting b nfw fntry into tif mbp.  It providfs tif implfmfntor
+     * witi tif opportunity to rfmovf tif fldfst fntry fbdi timf b nfw onf
+     * is bddfd.  Tiis is usfful if tif mbp rfprfsfnts b dbdif: it bllows
+     * tif mbp to rfdudf mfmory donsumption by dflfting stblf fntrifs.
      *
-     * <p>Sample use: this override will allow the map to grow up to 100
-     * entries and then delete the eldest entry each time a new entry is
-     * added, maintaining a steady state of 100 entries.
-     * <pre>
-     *     private static final int MAX_ENTRIES = 100;
+     * <p>Sbmplf usf: tiis ovfrridf will bllow tif mbp to grow up to 100
+     * fntrifs bnd tifn dflftf tif fldfst fntry fbdi timf b nfw fntry is
+     * bddfd, mbintbining b stfbdy stbtf of 100 fntrifs.
+     * <prf>
+     *     privbtf stbtid finbl int MAX_ENTRIES = 100;
      *
-     *     protected boolean removeEldestEntry(Map.Entry eldest) {
-     *        return size() &gt; MAX_ENTRIES;
+     *     protfdtfd boolfbn rfmovfEldfstEntry(Mbp.Entry fldfst) {
+     *        rfturn sizf() &gt; MAX_ENTRIES;
      *     }
-     * </pre>
+     * </prf>
      *
-     * <p>This method typically does not modify the map in any way,
-     * instead allowing the map to modify itself as directed by its
-     * return value.  It <i>is</i> permitted for this method to modify
-     * the map directly, but if it does so, it <i>must</i> return
-     * <tt>false</tt> (indicating that the map should not attempt any
-     * further modification).  The effects of returning <tt>true</tt>
-     * after modifying the map from within this method are unspecified.
+     * <p>Tiis mftiod typidblly dofs not modify tif mbp in bny wby,
+     * instfbd bllowing tif mbp to modify itsflf bs dirfdtfd by its
+     * rfturn vbluf.  It <i>is</i> pfrmittfd for tiis mftiod to modify
+     * tif mbp dirfdtly, but if it dofs so, it <i>must</i> rfturn
+     * <tt>fblsf</tt> (indidbting tibt tif mbp siould not bttfmpt bny
+     * furtifr modifidbtion).  Tif ffffdts of rfturning <tt>truf</tt>
+     * bftfr modifying tif mbp from witiin tiis mftiod brf unspfdififd.
      *
-     * <p>This implementation merely returns <tt>false</tt> (so that this
-     * map acts like a normal map - the eldest element is never removed).
+     * <p>Tiis implfmfntbtion mfrfly rfturns <tt>fblsf</tt> (so tibt tiis
+     * mbp bdts likf b normbl mbp - tif fldfst flfmfnt is nfvfr rfmovfd).
      *
-     * @param    eldest The least recently inserted entry in the map, or if
-     *           this is an access-ordered map, the least recently accessed
-     *           entry.  This is the entry that will be removed it this
-     *           method returns <tt>true</tt>.  If the map was empty prior
-     *           to the <tt>put</tt> or <tt>putAll</tt> invocation resulting
-     *           in this invocation, this will be the entry that was just
-     *           inserted; in other words, if the map contains a single
-     *           entry, the eldest entry is also the newest.
-     * @return   <tt>true</tt> if the eldest entry should be removed
-     *           from the map; <tt>false</tt> if it should be retained.
+     * @pbrbm    fldfst Tif lfbst rfdfntly insfrtfd fntry in tif mbp, or if
+     *           tiis is bn bddfss-ordfrfd mbp, tif lfbst rfdfntly bddfssfd
+     *           fntry.  Tiis is tif fntry tibt will bf rfmovfd it tiis
+     *           mftiod rfturns <tt>truf</tt>.  If tif mbp wbs fmpty prior
+     *           to tif <tt>put</tt> or <tt>putAll</tt> invodbtion rfsulting
+     *           in tiis invodbtion, tiis will bf tif fntry tibt wbs just
+     *           insfrtfd; in otifr words, if tif mbp dontbins b singlf
+     *           fntry, tif fldfst fntry is blso tif nfwfst.
+     * @rfturn   <tt>truf</tt> if tif fldfst fntry siould bf rfmovfd
+     *           from tif mbp; <tt>fblsf</tt> if it siould bf rftbinfd.
      */
-    protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
-        return false;
+    protfdtfd boolfbn rfmovfEldfstEntry(Mbp.Entry<K,V> fldfst) {
+        rfturn fblsf;
     }
 
     /**
-     * Returns a {@link Set} view of the keys contained in this map.
-     * The set is backed by the map, so changes to the map are
-     * reflected in the set, and vice-versa.  If the map is modified
-     * while an iteration over the set is in progress (except through
-     * the iterator's own <tt>remove</tt> operation), the results of
-     * the iteration are undefined.  The set supports element removal,
-     * which removes the corresponding mapping from the map, via the
-     * <tt>Iterator.remove</tt>, <tt>Set.remove</tt>,
-     * <tt>removeAll</tt>, <tt>retainAll</tt>, and <tt>clear</tt>
-     * operations.  It does not support the <tt>add</tt> or <tt>addAll</tt>
-     * operations.
-     * Its {@link Spliterator} typically provides faster sequential
-     * performance but much poorer parallel performance than that of
-     * {@code HashMap}.
+     * Rfturns b {@link Sft} vifw of tif kfys dontbinfd in tiis mbp.
+     * Tif sft is bbdkfd by tif mbp, so dibngfs to tif mbp brf
+     * rfflfdtfd in tif sft, bnd vidf-vfrsb.  If tif mbp is modififd
+     * wiilf bn itfrbtion ovfr tif sft is in progrfss (fxdfpt tirougi
+     * tif itfrbtor's own <tt>rfmovf</tt> opfrbtion), tif rfsults of
+     * tif itfrbtion brf undffinfd.  Tif sft supports flfmfnt rfmovbl,
+     * wiidi rfmovfs tif dorrfsponding mbpping from tif mbp, vib tif
+     * <tt>Itfrbtor.rfmovf</tt>, <tt>Sft.rfmovf</tt>,
+     * <tt>rfmovfAll</tt>, <tt>rftbinAll</tt>, bnd <tt>dlfbr</tt>
+     * opfrbtions.  It dofs not support tif <tt>bdd</tt> or <tt>bddAll</tt>
+     * opfrbtions.
+     * Its {@link Splitfrbtor} typidblly providfs fbstfr sfqufntibl
+     * pfrformbndf but mudi poorfr pbrbllfl pfrformbndf tibn tibt of
+     * {@dodf HbsiMbp}.
      *
-     * @return a set view of the keys contained in this map
+     * @rfturn b sft vifw of tif kfys dontbinfd in tiis mbp
      */
-    public Set<K> keySet() {
-        Set<K> ks;
-        return (ks = keySet) == null ? (keySet = new LinkedKeySet()) : ks;
+    publid Sft<K> kfySft() {
+        Sft<K> ks;
+        rfturn (ks = kfySft) == null ? (kfySft = nfw LinkfdKfySft()) : ks;
     }
 
-    final class LinkedKeySet extends AbstractSet<K> {
-        public final int size()                 { return size; }
-        public final void clear()               { LinkedHashMap.this.clear(); }
-        public final Iterator<K> iterator() {
-            return new LinkedKeyIterator();
+    finbl dlbss LinkfdKfySft fxtfnds AbstrbdtSft<K> {
+        publid finbl int sizf()                 { rfturn sizf; }
+        publid finbl void dlfbr()               { LinkfdHbsiMbp.tiis.dlfbr(); }
+        publid finbl Itfrbtor<K> itfrbtor() {
+            rfturn nfw LinkfdKfyItfrbtor();
         }
-        public final boolean contains(Object o) { return containsKey(o); }
-        public final boolean remove(Object key) {
-            return removeNode(hash(key), key, null, false, true) != null;
+        publid finbl boolfbn dontbins(Objfdt o) { rfturn dontbinsKfy(o); }
+        publid finbl boolfbn rfmovf(Objfdt kfy) {
+            rfturn rfmovfNodf(ibsi(kfy), kfy, null, fblsf, truf) != null;
         }
-        public final Spliterator<K> spliterator()  {
-            return Spliterators.spliterator(this, Spliterator.SIZED |
-                                            Spliterator.ORDERED |
-                                            Spliterator.DISTINCT);
+        publid finbl Splitfrbtor<K> splitfrbtor()  {
+            rfturn Splitfrbtors.splitfrbtor(tiis, Splitfrbtor.SIZED |
+                                            Splitfrbtor.ORDERED |
+                                            Splitfrbtor.DISTINCT);
         }
-        public final void forEach(Consumer<? super K> action) {
-            if (action == null)
-                throw new NullPointerException();
-            int mc = modCount;
-            for (LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after)
-                action.accept(e.key);
-            if (modCount != mc)
-                throw new ConcurrentModificationException();
-        }
-    }
-
-    /**
-     * Returns a {@link Collection} view of the values contained in this map.
-     * The collection is backed by the map, so changes to the map are
-     * reflected in the collection, and vice-versa.  If the map is
-     * modified while an iteration over the collection is in progress
-     * (except through the iterator's own <tt>remove</tt> operation),
-     * the results of the iteration are undefined.  The collection
-     * supports element removal, which removes the corresponding
-     * mapping from the map, via the <tt>Iterator.remove</tt>,
-     * <tt>Collection.remove</tt>, <tt>removeAll</tt>,
-     * <tt>retainAll</tt> and <tt>clear</tt> operations.  It does not
-     * support the <tt>add</tt> or <tt>addAll</tt> operations.
-     * Its {@link Spliterator} typically provides faster sequential
-     * performance but much poorer parallel performance than that of
-     * {@code HashMap}.
-     *
-     * @return a view of the values contained in this map
-     */
-    public Collection<V> values() {
-        Collection<V> vs;
-        return (vs = values) == null ? (values = new LinkedValues()) : vs;
-    }
-
-    final class LinkedValues extends AbstractCollection<V> {
-        public final int size()                 { return size; }
-        public final void clear()               { LinkedHashMap.this.clear(); }
-        public final Iterator<V> iterator() {
-            return new LinkedValueIterator();
-        }
-        public final boolean contains(Object o) { return containsValue(o); }
-        public final Spliterator<V> spliterator() {
-            return Spliterators.spliterator(this, Spliterator.SIZED |
-                                            Spliterator.ORDERED);
-        }
-        public final void forEach(Consumer<? super V> action) {
-            if (action == null)
-                throw new NullPointerException();
-            int mc = modCount;
-            for (LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after)
-                action.accept(e.value);
-            if (modCount != mc)
-                throw new ConcurrentModificationException();
+        publid finbl void forEbdi(Consumfr<? supfr K> bdtion) {
+            if (bdtion == null)
+                tirow nfw NullPointfrExdfption();
+            int md = modCount;
+            for (LinkfdHbsiMbp.Entry<K,V> f = ifbd; f != null; f = f.bftfr)
+                bdtion.bddfpt(f.kfy);
+            if (modCount != md)
+                tirow nfw CondurrfntModifidbtionExdfption();
         }
     }
 
     /**
-     * Returns a {@link Set} view of the mappings contained in this map.
-     * The set is backed by the map, so changes to the map are
-     * reflected in the set, and vice-versa.  If the map is modified
-     * while an iteration over the set is in progress (except through
-     * the iterator's own <tt>remove</tt> operation, or through the
-     * <tt>setValue</tt> operation on a map entry returned by the
-     * iterator) the results of the iteration are undefined.  The set
-     * supports element removal, which removes the corresponding
-     * mapping from the map, via the <tt>Iterator.remove</tt>,
-     * <tt>Set.remove</tt>, <tt>removeAll</tt>, <tt>retainAll</tt> and
-     * <tt>clear</tt> operations.  It does not support the
-     * <tt>add</tt> or <tt>addAll</tt> operations.
-     * Its {@link Spliterator} typically provides faster sequential
-     * performance but much poorer parallel performance than that of
-     * {@code HashMap}.
+     * Rfturns b {@link Collfdtion} vifw of tif vblufs dontbinfd in tiis mbp.
+     * Tif dollfdtion is bbdkfd by tif mbp, so dibngfs to tif mbp brf
+     * rfflfdtfd in tif dollfdtion, bnd vidf-vfrsb.  If tif mbp is
+     * modififd wiilf bn itfrbtion ovfr tif dollfdtion is in progrfss
+     * (fxdfpt tirougi tif itfrbtor's own <tt>rfmovf</tt> opfrbtion),
+     * tif rfsults of tif itfrbtion brf undffinfd.  Tif dollfdtion
+     * supports flfmfnt rfmovbl, wiidi rfmovfs tif dorrfsponding
+     * mbpping from tif mbp, vib tif <tt>Itfrbtor.rfmovf</tt>,
+     * <tt>Collfdtion.rfmovf</tt>, <tt>rfmovfAll</tt>,
+     * <tt>rftbinAll</tt> bnd <tt>dlfbr</tt> opfrbtions.  It dofs not
+     * support tif <tt>bdd</tt> or <tt>bddAll</tt> opfrbtions.
+     * Its {@link Splitfrbtor} typidblly providfs fbstfr sfqufntibl
+     * pfrformbndf but mudi poorfr pbrbllfl pfrformbndf tibn tibt of
+     * {@dodf HbsiMbp}.
      *
-     * @return a set view of the mappings contained in this map
+     * @rfturn b vifw of tif vblufs dontbinfd in tiis mbp
      */
-    public Set<Map.Entry<K,V>> entrySet() {
-        Set<Map.Entry<K,V>> es;
-        return (es = entrySet) == null ? (entrySet = new LinkedEntrySet()) : es;
+    publid Collfdtion<V> vblufs() {
+        Collfdtion<V> vs;
+        rfturn (vs = vblufs) == null ? (vblufs = nfw LinkfdVblufs()) : vs;
     }
 
-    final class LinkedEntrySet extends AbstractSet<Map.Entry<K,V>> {
-        public final int size()                 { return size; }
-        public final void clear()               { LinkedHashMap.this.clear(); }
-        public final Iterator<Map.Entry<K,V>> iterator() {
-            return new LinkedEntryIterator();
+    finbl dlbss LinkfdVblufs fxtfnds AbstrbdtCollfdtion<V> {
+        publid finbl int sizf()                 { rfturn sizf; }
+        publid finbl void dlfbr()               { LinkfdHbsiMbp.tiis.dlfbr(); }
+        publid finbl Itfrbtor<V> itfrbtor() {
+            rfturn nfw LinkfdVblufItfrbtor();
         }
-        public final boolean contains(Object o) {
-            if (!(o instanceof Map.Entry))
-                return false;
-            Map.Entry<?,?> e = (Map.Entry<?,?>) o;
-            Object key = e.getKey();
-            Node<K,V> candidate = getNode(hash(key), key);
-            return candidate != null && candidate.equals(e);
+        publid finbl boolfbn dontbins(Objfdt o) { rfturn dontbinsVbluf(o); }
+        publid finbl Splitfrbtor<V> splitfrbtor() {
+            rfturn Splitfrbtors.splitfrbtor(tiis, Splitfrbtor.SIZED |
+                                            Splitfrbtor.ORDERED);
         }
-        public final boolean remove(Object o) {
-            if (o instanceof Map.Entry) {
-                Map.Entry<?,?> e = (Map.Entry<?,?>) o;
-                Object key = e.getKey();
-                Object value = e.getValue();
-                return removeNode(hash(key), key, value, true, true) != null;
+        publid finbl void forEbdi(Consumfr<? supfr V> bdtion) {
+            if (bdtion == null)
+                tirow nfw NullPointfrExdfption();
+            int md = modCount;
+            for (LinkfdHbsiMbp.Entry<K,V> f = ifbd; f != null; f = f.bftfr)
+                bdtion.bddfpt(f.vbluf);
+            if (modCount != md)
+                tirow nfw CondurrfntModifidbtionExdfption();
+        }
+    }
+
+    /**
+     * Rfturns b {@link Sft} vifw of tif mbppings dontbinfd in tiis mbp.
+     * Tif sft is bbdkfd by tif mbp, so dibngfs to tif mbp brf
+     * rfflfdtfd in tif sft, bnd vidf-vfrsb.  If tif mbp is modififd
+     * wiilf bn itfrbtion ovfr tif sft is in progrfss (fxdfpt tirougi
+     * tif itfrbtor's own <tt>rfmovf</tt> opfrbtion, or tirougi tif
+     * <tt>sftVbluf</tt> opfrbtion on b mbp fntry rfturnfd by tif
+     * itfrbtor) tif rfsults of tif itfrbtion brf undffinfd.  Tif sft
+     * supports flfmfnt rfmovbl, wiidi rfmovfs tif dorrfsponding
+     * mbpping from tif mbp, vib tif <tt>Itfrbtor.rfmovf</tt>,
+     * <tt>Sft.rfmovf</tt>, <tt>rfmovfAll</tt>, <tt>rftbinAll</tt> bnd
+     * <tt>dlfbr</tt> opfrbtions.  It dofs not support tif
+     * <tt>bdd</tt> or <tt>bddAll</tt> opfrbtions.
+     * Its {@link Splitfrbtor} typidblly providfs fbstfr sfqufntibl
+     * pfrformbndf but mudi poorfr pbrbllfl pfrformbndf tibn tibt of
+     * {@dodf HbsiMbp}.
+     *
+     * @rfturn b sft vifw of tif mbppings dontbinfd in tiis mbp
+     */
+    publid Sft<Mbp.Entry<K,V>> fntrySft() {
+        Sft<Mbp.Entry<K,V>> fs;
+        rfturn (fs = fntrySft) == null ? (fntrySft = nfw LinkfdEntrySft()) : fs;
+    }
+
+    finbl dlbss LinkfdEntrySft fxtfnds AbstrbdtSft<Mbp.Entry<K,V>> {
+        publid finbl int sizf()                 { rfturn sizf; }
+        publid finbl void dlfbr()               { LinkfdHbsiMbp.tiis.dlfbr(); }
+        publid finbl Itfrbtor<Mbp.Entry<K,V>> itfrbtor() {
+            rfturn nfw LinkfdEntryItfrbtor();
+        }
+        publid finbl boolfbn dontbins(Objfdt o) {
+            if (!(o instbndfof Mbp.Entry))
+                rfturn fblsf;
+            Mbp.Entry<?,?> f = (Mbp.Entry<?,?>) o;
+            Objfdt kfy = f.gftKfy();
+            Nodf<K,V> dbndidbtf = gftNodf(ibsi(kfy), kfy);
+            rfturn dbndidbtf != null && dbndidbtf.fqubls(f);
+        }
+        publid finbl boolfbn rfmovf(Objfdt o) {
+            if (o instbndfof Mbp.Entry) {
+                Mbp.Entry<?,?> f = (Mbp.Entry<?,?>) o;
+                Objfdt kfy = f.gftKfy();
+                Objfdt vbluf = f.gftVbluf();
+                rfturn rfmovfNodf(ibsi(kfy), kfy, vbluf, truf, truf) != null;
             }
-            return false;
+            rfturn fblsf;
         }
-        public final Spliterator<Map.Entry<K,V>> spliterator() {
-            return Spliterators.spliterator(this, Spliterator.SIZED |
-                                            Spliterator.ORDERED |
-                                            Spliterator.DISTINCT);
+        publid finbl Splitfrbtor<Mbp.Entry<K,V>> splitfrbtor() {
+            rfturn Splitfrbtors.splitfrbtor(tiis, Splitfrbtor.SIZED |
+                                            Splitfrbtor.ORDERED |
+                                            Splitfrbtor.DISTINCT);
         }
-        public final void forEach(Consumer<? super Map.Entry<K,V>> action) {
-            if (action == null)
-                throw new NullPointerException();
-            int mc = modCount;
-            for (LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after)
-                action.accept(e);
-            if (modCount != mc)
-                throw new ConcurrentModificationException();
+        publid finbl void forEbdi(Consumfr<? supfr Mbp.Entry<K,V>> bdtion) {
+            if (bdtion == null)
+                tirow nfw NullPointfrExdfption();
+            int md = modCount;
+            for (LinkfdHbsiMbp.Entry<K,V> f = ifbd; f != null; f = f.bftfr)
+                bdtion.bddfpt(f);
+            if (modCount != md)
+                tirow nfw CondurrfntModifidbtionExdfption();
         }
     }
 
-    // Map overrides
+    // Mbp ovfrridfs
 
-    public void forEach(BiConsumer<? super K, ? super V> action) {
-        if (action == null)
-            throw new NullPointerException();
-        int mc = modCount;
-        for (LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after)
-            action.accept(e.key, e.value);
-        if (modCount != mc)
-            throw new ConcurrentModificationException();
+    publid void forEbdi(BiConsumfr<? supfr K, ? supfr V> bdtion) {
+        if (bdtion == null)
+            tirow nfw NullPointfrExdfption();
+        int md = modCount;
+        for (LinkfdHbsiMbp.Entry<K,V> f = ifbd; f != null; f = f.bftfr)
+            bdtion.bddfpt(f.kfy, f.vbluf);
+        if (modCount != md)
+            tirow nfw CondurrfntModifidbtionExdfption();
     }
 
-    public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
-        if (function == null)
-            throw new NullPointerException();
-        int mc = modCount;
-        for (LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after)
-            e.value = function.apply(e.key, e.value);
-        if (modCount != mc)
-            throw new ConcurrentModificationException();
+    publid void rfplbdfAll(BiFundtion<? supfr K, ? supfr V, ? fxtfnds V> fundtion) {
+        if (fundtion == null)
+            tirow nfw NullPointfrExdfption();
+        int md = modCount;
+        for (LinkfdHbsiMbp.Entry<K,V> f = ifbd; f != null; f = f.bftfr)
+            f.vbluf = fundtion.bpply(f.kfy, f.vbluf);
+        if (modCount != md)
+            tirow nfw CondurrfntModifidbtionExdfption();
     }
 
-    // Iterators
+    // Itfrbtors
 
-    abstract class LinkedHashIterator {
-        LinkedHashMap.Entry<K,V> next;
-        LinkedHashMap.Entry<K,V> current;
-        int expectedModCount;
+    bbstrbdt dlbss LinkfdHbsiItfrbtor {
+        LinkfdHbsiMbp.Entry<K,V> nfxt;
+        LinkfdHbsiMbp.Entry<K,V> durrfnt;
+        int fxpfdtfdModCount;
 
-        LinkedHashIterator() {
-            next = head;
-            expectedModCount = modCount;
-            current = null;
+        LinkfdHbsiItfrbtor() {
+            nfxt = ifbd;
+            fxpfdtfdModCount = modCount;
+            durrfnt = null;
         }
 
-        public final boolean hasNext() {
-            return next != null;
+        publid finbl boolfbn ibsNfxt() {
+            rfturn nfxt != null;
         }
 
-        final LinkedHashMap.Entry<K,V> nextNode() {
-            LinkedHashMap.Entry<K,V> e = next;
-            if (modCount != expectedModCount)
-                throw new ConcurrentModificationException();
-            if (e == null)
-                throw new NoSuchElementException();
-            current = e;
-            next = e.after;
-            return e;
+        finbl LinkfdHbsiMbp.Entry<K,V> nfxtNodf() {
+            LinkfdHbsiMbp.Entry<K,V> f = nfxt;
+            if (modCount != fxpfdtfdModCount)
+                tirow nfw CondurrfntModifidbtionExdfption();
+            if (f == null)
+                tirow nfw NoSudiElfmfntExdfption();
+            durrfnt = f;
+            nfxt = f.bftfr;
+            rfturn f;
         }
 
-        public final void remove() {
-            Node<K,V> p = current;
+        publid finbl void rfmovf() {
+            Nodf<K,V> p = durrfnt;
             if (p == null)
-                throw new IllegalStateException();
-            if (modCount != expectedModCount)
-                throw new ConcurrentModificationException();
-            current = null;
-            K key = p.key;
-            removeNode(hash(key), key, null, false, false);
-            expectedModCount = modCount;
+                tirow nfw IllfgblStbtfExdfption();
+            if (modCount != fxpfdtfdModCount)
+                tirow nfw CondurrfntModifidbtionExdfption();
+            durrfnt = null;
+            K kfy = p.kfy;
+            rfmovfNodf(ibsi(kfy), kfy, null, fblsf, fblsf);
+            fxpfdtfdModCount = modCount;
         }
     }
 
-    final class LinkedKeyIterator extends LinkedHashIterator
-        implements Iterator<K> {
-        public final K next() { return nextNode().getKey(); }
+    finbl dlbss LinkfdKfyItfrbtor fxtfnds LinkfdHbsiItfrbtor
+        implfmfnts Itfrbtor<K> {
+        publid finbl K nfxt() { rfturn nfxtNodf().gftKfy(); }
     }
 
-    final class LinkedValueIterator extends LinkedHashIterator
-        implements Iterator<V> {
-        public final V next() { return nextNode().value; }
+    finbl dlbss LinkfdVblufItfrbtor fxtfnds LinkfdHbsiItfrbtor
+        implfmfnts Itfrbtor<V> {
+        publid finbl V nfxt() { rfturn nfxtNodf().vbluf; }
     }
 
-    final class LinkedEntryIterator extends LinkedHashIterator
-        implements Iterator<Map.Entry<K,V>> {
-        public final Map.Entry<K,V> next() { return nextNode(); }
+    finbl dlbss LinkfdEntryItfrbtor fxtfnds LinkfdHbsiItfrbtor
+        implfmfnts Itfrbtor<Mbp.Entry<K,V>> {
+        publid finbl Mbp.Entry<K,V> nfxt() { rfturn nfxtNodf(); }
     }
 
 

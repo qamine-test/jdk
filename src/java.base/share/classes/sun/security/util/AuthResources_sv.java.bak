@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.util;
+pbdkbgf sun.sfdurity.util;
 
 /**
- * <p> This class represents the <code>ResourceBundle</code>
- * for the following packages:
+ * <p> Tiis dlbss rfprfsfnts tif <dodf>RfsourdfBundlf</dodf>
+ * for tif following pbdkbgfs:
  *
  * <ol>
- * <li> com.sun.security.auth
- * <li> com.sun.security.auth.login
+ * <li> dom.sun.sfdurity.buti
+ * <li> dom.sun.sfdurity.buti.login
  * </ol>
  *
  */
-public class AuthResources_sv extends java.util.ListResourceBundle {
+publid dlbss AutiRfsourdfs_sv fxtfnds jbvb.util.ListRfsourdfBundlf {
 
-    private static final Object[][] contents = {
+    privbtf stbtid finbl Objfdt[][] dontfnts = {
 
-        // NT principals
-        {"invalid.null.input.value", "ogiltiga null-indata: {0}"},
-        {"NTDomainPrincipal.name", "NTDomainPrincipal: {0}"},
-        {"NTNumericCredential.name", "NTNumericCredential: {0}"},
-        {"Invalid.NTSid.value", "Ogiltigt NTSid-v\u00E4rde"},
-        {"NTSid.name", "NTSid: {0}"},
-        {"NTSidDomainPrincipal.name", "NTSidDomainPrincipal: {0}"},
-        {"NTSidGroupPrincipal.name", "NTSidGroupPrincipal: {0}"},
-        {"NTSidPrimaryGroupPrincipal.name", "NTSidPrimaryGroupPrincipal: {0}"},
-        {"NTSidUserPrincipal.name", "NTSidUserPrincipal: {0}"},
-        {"NTUserPrincipal.name", "NTUserPrincipal: {0}"},
+        // NT prindipbls
+        {"invblid.null.input.vbluf", "ogiltigb null-indbtb: {0}"},
+        {"NTDombinPrindipbl.nbmf", "NTDombinPrindipbl: {0}"},
+        {"NTNumfridCrfdfntibl.nbmf", "NTNumfridCrfdfntibl: {0}"},
+        {"Invblid.NTSid.vbluf", "Ogiltigt NTSid-v\u00E4rdf"},
+        {"NTSid.nbmf", "NTSid: {0}"},
+        {"NTSidDombinPrindipbl.nbmf", "NTSidDombinPrindipbl: {0}"},
+        {"NTSidGroupPrindipbl.nbmf", "NTSidGroupPrindipbl: {0}"},
+        {"NTSidPrimbryGroupPrindipbl.nbmf", "NTSidPrimbryGroupPrindipbl: {0}"},
+        {"NTSidUsfrPrindipbl.nbmf", "NTSidUsfrPrindipbl: {0}"},
+        {"NTUsfrPrindipbl.nbmf", "NTUsfrPrindipbl: {0}"},
 
-        // UnixPrincipals
-        {"UnixNumericGroupPrincipal.Primary.Group.name",
-                "UnixNumericGroupPrincipal [prim\u00E4r grupp]: {0}"},
-        {"UnixNumericGroupPrincipal.Supplementary.Group.name",
-                "UnixNumericGroupPrincipal [till\u00E4ggsgrupp]: {0}"},
-        {"UnixNumericUserPrincipal.name", "UnixNumericUserPrincipal: {0}"},
-        {"UnixPrincipal.name", "UnixPrincipal: {0}"},
+        // UnixPrindipbls
+        {"UnixNumfridGroupPrindipbl.Primbry.Group.nbmf",
+                "UnixNumfridGroupPrindipbl [prim\u00E4r grupp]: {0}"},
+        {"UnixNumfridGroupPrindipbl.Supplfmfntbry.Group.nbmf",
+                "UnixNumfridGroupPrindipbl [till\u00E4ggsgrupp]: {0}"},
+        {"UnixNumfridUsfrPrindipbl.nbmf", "UnixNumfridUsfrPrindipbl: {0}"},
+        {"UnixPrindipbl.nbmf", "UnixPrindipbl: {0}"},
 
-        // com.sun.security.auth.login.ConfigFile
-        {"Unable.to.properly.expand.config", "Kan inte ut\u00F6ka korrekt {0}"},
-        {"extra.config.No.such.file.or.directory.",
-                "{0} (det finns ingen s\u00E5dan fil eller katalog)"},
-        {"Configuration.Error.No.such.file.or.directory",
-                "Konfigurationsfel:\n\tFilen eller katalogen finns inte"},
-        {"Configuration.Error.Invalid.control.flag.flag",
-                "Konfigurationsfel:\n\tOgiltig kontrollflagga, {0}"},
-        {"Configuration.Error.Can.not.specify.multiple.entries.for.appName",
-            "Konfigurationsfel:\n\tKan inte ange flera poster f\u00F6r {0}"},
-        {"Configuration.Error.expected.expect.read.end.of.file.",
-                "Konfigurationsfel:\n\tf\u00F6rv\u00E4ntade [{0}], l\u00E4ste [filslut]"},
-        {"Configuration.Error.Line.line.expected.expect.found.value.",
-            "Konfigurationsfel:\n\tRad {0}: f\u00F6rv\u00E4ntade [{1}], hittade [{2}]"},
-        {"Configuration.Error.Line.line.expected.expect.",
-            "Konfigurationsfel:\n\tRad {0}: f\u00F6rv\u00E4ntade [{1}]"},
-        {"Configuration.Error.Line.line.system.property.value.expanded.to.empty.value",
-            "Konfigurationsfel:\n\tRad {0}: systemegenskapen [{1}] ut\u00F6kad till tomt v\u00E4rde"},
+        // dom.sun.sfdurity.buti.login.ConfigFilf
+        {"Unbblf.to.propfrly.fxpbnd.donfig", "Kbn intf ut\u00F6kb korrfkt {0}"},
+        {"fxtrb.donfig.No.sudi.filf.or.dirfdtory.",
+                "{0} (dft finns ingfn s\u00E5dbn fil fllfr kbtblog)"},
+        {"Configurbtion.Error.No.sudi.filf.or.dirfdtory",
+                "Konfigurbtionsffl:\n\tFilfn fllfr kbtblogfn finns intf"},
+        {"Configurbtion.Error.Invblid.dontrol.flbg.flbg",
+                "Konfigurbtionsffl:\n\tOgiltig kontrollflbggb, {0}"},
+        {"Configurbtion.Error.Cbn.not.spfdify.multiplf.fntrifs.for.bppNbmf",
+            "Konfigurbtionsffl:\n\tKbn intf bngf flfrb postfr f\u00F6r {0}"},
+        {"Configurbtion.Error.fxpfdtfd.fxpfdt.rfbd.fnd.of.filf.",
+                "Konfigurbtionsffl:\n\tf\u00F6rv\u00E4ntbdf [{0}], l\u00E4stf [filslut]"},
+        {"Configurbtion.Error.Linf.linf.fxpfdtfd.fxpfdt.found.vbluf.",
+            "Konfigurbtionsffl:\n\tRbd {0}: f\u00F6rv\u00E4ntbdf [{1}], iittbdf [{2}]"},
+        {"Configurbtion.Error.Linf.linf.fxpfdtfd.fxpfdt.",
+            "Konfigurbtionsffl:\n\tRbd {0}: f\u00F6rv\u00E4ntbdf [{1}]"},
+        {"Configurbtion.Error.Linf.linf.systfm.propfrty.vbluf.fxpbndfd.to.fmpty.vbluf",
+            "Konfigurbtionsffl:\n\tRbd {0}: systfmfgfnskbpfn [{1}] ut\u00F6kbd till tomt v\u00E4rdf"},
 
-        // com.sun.security.auth.module.JndiLoginModule
-        {"username.","anv\u00E4ndarnamn: "},
-        {"password.","l\u00F6senord: "},
+        // dom.sun.sfdurity.buti.modulf.JndiLoginModulf
+        {"usfrnbmf.","bnv\u00E4ndbrnbmn: "},
+        {"pbssword.","l\u00F6sfnord: "},
 
-        // com.sun.security.auth.module.KeyStoreLoginModule
-        {"Please.enter.keystore.information",
-                "Ange nyckellagerinformation"},
-        {"Keystore.alias.","Nyckellageralias: "},
-        {"Keystore.password.","Nyckellagerl\u00F6senord: "},
-        {"Private.key.password.optional.",
-            "L\u00F6senord f\u00F6r personlig nyckel (valfritt): "},
+        // dom.sun.sfdurity.buti.modulf.KfyStorfLoginModulf
+        {"Plfbsf.fntfr.kfystorf.informbtion",
+                "Angf nydkfllbgfrinformbtion"},
+        {"Kfystorf.blibs.","Nydkfllbgfrblibs: "},
+        {"Kfystorf.pbssword.","Nydkfllbgfrl\u00F6sfnord: "},
+        {"Privbtf.kfy.pbssword.optionbl.",
+            "L\u00F6sfnord f\u00F6r pfrsonlig nydkfl (vblfritt): "},
 
-        // com.sun.security.auth.module.Krb5LoginModule
-        {"Kerberos.username.defUsername.",
-                "Kerberos-anv\u00E4ndarnamn [{0}]: "},
-        {"Kerberos.password.for.username.",
-                "Kerberos-l\u00F6senord f\u00F6r {0}: "},
+        // dom.sun.sfdurity.buti.modulf.Krb5LoginModulf
+        {"Kfrbfros.usfrnbmf.dffUsfrnbmf.",
+                "Kfrbfros-bnv\u00E4ndbrnbmn [{0}]: "},
+        {"Kfrbfros.pbssword.for.usfrnbmf.",
+                "Kfrbfros-l\u00F6sfnord f\u00F6r {0}: "},
 
         /***    EVERYTHING BELOW IS DEPRECATED  ***/
 
-        // com.sun.security.auth.PolicyFile
-        {".error.parsing.", ": tolkningsfel "},
+        // dom.sun.sfdurity.buti.PolidyFilf
+        {".frror.pbrsing.", ": tolkningsffl "},
         {"COLON", ": "},
-        {".error.adding.Permission.", ": fel vid till\u00E4gg av beh\u00F6righet "},
+        {".frror.bdding.Pfrmission.", ": ffl vid till\u00E4gg bv bfi\u00F6rigift "},
         {"SPACE", " "},
-        {".error.adding.Entry.", ": fel vid till\u00E4gg av post "},
+        {".frror.bdding.Entry.", ": ffl vid till\u00E4gg bv post "},
         {"LPARAM", "("},
         {"RPARAM", ")"},
-        {"attempt.to.add.a.Permission.to.a.readonly.PermissionCollection",
-            "f\u00F6rs\u00F6k att l\u00E4gga till beh\u00F6righet till skrivskyddad PermissionCollection"},
+        {"bttfmpt.to.bdd.b.Pfrmission.to.b.rfbdonly.PfrmissionCollfdtion",
+            "f\u00F6rs\u00F6k btt l\u00E4ggb till bfi\u00F6rigift till skrivskyddbd PfrmissionCollfdtion"},
 
-        // com.sun.security.auth.PolicyParser
-        {"expected.keystore.type", "f\u00F6rv\u00E4ntad nyckellagertyp"},
-        {"can.not.specify.Principal.with.a.wildcard.class.without.a.wildcard.name",
-                "kan inte ange identitetshavare med en jokerteckenklass utan ett jokerteckennamn"},
-        {"expected.codeBase.or.SignedBy", "f\u00F6rv\u00E4ntade codeBase eller SignedBy"},
-        {"only.Principal.based.grant.entries.permitted",
-                "endast identitetshavarbaserade poster till\u00E5ts"},
-        {"expected.permission.entry", "f\u00F6rv\u00E4ntade beh\u00F6righetspost"},
-        {"number.", "antal "},
-        {"expected.expect.read.end.of.file.",
-                "f\u00F6rv\u00E4ntade {0}, l\u00E4ste filslut"},
-        {"expected.read.end.of.file", "f\u00F6rv\u00E4ntade ';', l\u00E4ste filslut"},
-        {"line.", "rad "},
-        {".expected.", ": f\u00F6rv\u00E4ntade '"},
-        {".found.", "', hittade '"},
+        // dom.sun.sfdurity.buti.PolidyPbrsfr
+        {"fxpfdtfd.kfystorf.typf", "f\u00F6rv\u00E4ntbd nydkfllbgfrtyp"},
+        {"dbn.not.spfdify.Prindipbl.witi.b.wilddbrd.dlbss.witiout.b.wilddbrd.nbmf",
+                "kbn intf bngf idfntitftsibvbrf mfd fn jokfrtfdkfnklbss utbn ftt jokfrtfdkfnnbmn"},
+        {"fxpfdtfd.dodfBbsf.or.SignfdBy", "f\u00F6rv\u00E4ntbdf dodfBbsf fllfr SignfdBy"},
+        {"only.Prindipbl.bbsfd.grbnt.fntrifs.pfrmittfd",
+                "fndbst idfntitftsibvbrbbsfrbdf postfr till\u00E5ts"},
+        {"fxpfdtfd.pfrmission.fntry", "f\u00F6rv\u00E4ntbdf bfi\u00F6rigiftspost"},
+        {"numbfr.", "bntbl "},
+        {"fxpfdtfd.fxpfdt.rfbd.fnd.of.filf.",
+                "f\u00F6rv\u00E4ntbdf {0}, l\u00E4stf filslut"},
+        {"fxpfdtfd.rfbd.fnd.of.filf", "f\u00F6rv\u00E4ntbdf ';', l\u00E4stf filslut"},
+        {"linf.", "rbd "},
+        {".fxpfdtfd.", ": f\u00F6rv\u00E4ntbdf '"},
+        {".found.", "', iittbdf '"},
         {"QUOTE", "'"},
 
-        // SolarisPrincipals
-        {"SolarisNumericGroupPrincipal.Primary.Group.",
-                "SolarisNumericGroupPrincipal [prim\u00E4r grupp]: "},
-        {"SolarisNumericGroupPrincipal.Supplementary.Group.",
-                "SolarisNumericGroupPrincipal [till\u00E4ggsgrupp]: "},
-        {"SolarisNumericUserPrincipal.",
-                "SolarisNumericUserPrincipal: "},
-        {"SolarisPrincipal.", "SolarisPrincipal: "},
-        // provided.null.name is the NullPointerException message when a
-        // developer incorrectly passes a null name to the constructor of
-        // subclasses of java.security.Principal
-        {"provided.null.name", "angav null-namn"}
+        // SolbrisPrindipbls
+        {"SolbrisNumfridGroupPrindipbl.Primbry.Group.",
+                "SolbrisNumfridGroupPrindipbl [prim\u00E4r grupp]: "},
+        {"SolbrisNumfridGroupPrindipbl.Supplfmfntbry.Group.",
+                "SolbrisNumfridGroupPrindipbl [till\u00E4ggsgrupp]: "},
+        {"SolbrisNumfridUsfrPrindipbl.",
+                "SolbrisNumfridUsfrPrindipbl: "},
+        {"SolbrisPrindipbl.", "SolbrisPrindipbl: "},
+        // providfd.null.nbmf is tif NullPointfrExdfption mfssbgf wifn b
+        // dfvflopfr indorrfdtly pbssfs b null nbmf to tif donstrudtor of
+        // subdlbssfs of jbvb.sfdurity.Prindipbl
+        {"providfd.null.nbmf", "bngbv null-nbmn"}
 
     };
 
     /**
-     * Returns the contents of this <code>ResourceBundle</code>.
+     * Rfturns tif dontfnts of tiis <dodf>RfsourdfBundlf</dodf>.
      *
      * <p>
      *
-     * @return the contents of this <code>ResourceBundle</code>.
+     * @rfturn tif dontfnts of tiis <dodf>RfsourdfBundlf</dodf>.
      */
-    public Object[][] getContents() {
-        return contents;
+    publid Objfdt[][] gftContfnts() {
+        rfturn dontfnts;
     }
 }

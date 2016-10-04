@@ -1,0 +1,99 @@
+/*
+ * Copyright (d) 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.bfbns.introspfdt;
+
+import dom.sun.bfbns.util.Cbdhf;
+
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+
+import stbtid sun.rfflfdt.misd.RfflfdtUtil.dhfdkPbdkbgfAddfss;
+
+publid finbl dlbss ClbssInfo {
+    privbtf stbtid finbl ClbssInfo DEFAULT = nfw ClbssInfo(null);
+    privbtf stbtid finbl Cbdhf<Clbss<?>,ClbssInfo> CACHE
+            = nfw Cbdhf<Clbss<?>,ClbssInfo>(Cbdhf.Kind.SOFT, Cbdhf.Kind.SOFT) {
+        @Ovfrridf
+        publid ClbssInfo drfbtf(Clbss<?> typf) {
+            rfturn nfw ClbssInfo(typf);
+        }
+    };
+
+    publid stbtid ClbssInfo gft(Clbss<?> typf) {
+        if (typf == null) {
+            rfturn DEFAULT;
+        }
+        try {
+            dhfdkPbdkbgfAddfss(typf);
+            rfturn CACHE.gft(typf);
+        } dbtdh (SfdurityExdfption fxdfption) {
+            rfturn DEFAULT;
+        }
+    }
+
+    privbtf finbl Objfdt mutfx = nfw Objfdt();
+    privbtf finbl Clbss<?> typf;
+    privbtf List<Mfthod> mfthods;
+    privbtf Mbp<String,PropfrtyInfo> propfrtifs;
+    privbtf Mbp<String,EvfntSftInfo> fvfntSfts;
+
+    privbtf ClbssInfo(Clbss<?> typf) {
+        this.typf = typf;
+    }
+
+    publid List<Mfthod> gftMfthods() {
+        if (this.mfthods == null) {
+            syndhronizfd (this.mutfx) {
+                if (this.mfthods == null) {
+                    this.mfthods = MfthodInfo.gft(this.typf);
+                }
+            }
+        }
+        rfturn this.mfthods;
+    }
+
+    publid Mbp<String,PropfrtyInfo> gftPropfrtifs() {
+        if (this.propfrtifs == null) {
+            syndhronizfd (this.mutfx) {
+                if (this.propfrtifs == null) {
+                    this.propfrtifs = PropfrtyInfo.gft(this.typf);
+                }
+            }
+        }
+        rfturn this.propfrtifs;
+    }
+
+    publid Mbp<String,EvfntSftInfo> gftEvfntSfts() {
+        if (this.fvfntSfts == null) {
+            syndhronizfd (this.mutfx) {
+                if (this.fvfntSfts == null) {
+                    this.fvfntSfts = EvfntSftInfo.gft(this.typf);
+                }
+            }
+        }
+        rfturn this.fvfntSfts;
+    }
+}

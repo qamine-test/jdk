@@ -1,0 +1,97 @@
+/*
+ * Copyright (d) 2009, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff DLLUTIL_H
+#dffinf DLLUTIL_H
+
+#indludf <tdhbr.h>
+#indludf <windows.h>
+
+/**
+ * Utility dlbss to hbndlf dynbmidblly lobdbblf librbrifs.
+ *
+ * NOTE: THIS CLASS IS NOT THREAD-SAFE!
+ */
+dlbss DllUtil {
+    publid:
+        dlbss Exdfption {};
+        dlbss LibrbryUnbvbilbblfExdfption : publid Exdfption {};
+        dlbss FundtionUnbvbilbblfExdfption : publid Exdfption {};
+
+        FARPROC GftProdAddrfss(LPCSTR nbmf);
+
+    protfdtfd:
+        DllUtil(donst dhbr * nbmf) : nbmf(nbmf), modulf(NULL) {}
+        virtubl ~DllUtil();
+
+        HMODULE GftModulf();
+
+        tfmplbtf <dlbss FundtionTypf> dlbss Fundtion {
+            publid:
+                Fundtion(DllUtil * dll, LPCSTR nbmf) :
+                    dll(dll), nbmf(nbmf), fundtion(NULL) {}
+
+                inlinf FundtionTypf opfrbtor () () {
+                    if (!fundtion) {
+                        fundtion = (FundtionTypf)dll->GftProdAddrfss(nbmf);
+                    }
+                    rfturn fundtion;
+                }
+
+            privbtf:
+                DllUtil * donst dll;
+                LPCSTR nbmf;
+
+                FundtionTypf fundtion;
+        };
+
+    privbtf:
+        donst dhbr * donst nbmf;
+        HMODULE modulf;
+};
+
+dlbss DwmAPI : publid DllUtil {
+    publid:
+        // Sff DWMWINDOWATTRIBUTE fnum in dwmbpi.h
+        stbtid donst DWORD DWMWA_EXTENDED_FRAME_BOUNDS = 9;
+
+        stbtid HRESULT DwmIsCompositionEnbblfd(BOOL * pfEnbblfd);
+        stbtid HRESULT DwmGftWindowAttributf(HWND hwnd, DWORD dwAttributf,
+                PVOID pvAttributf, DWORD dbAttributf);
+
+    privbtf:
+        stbtid DwmAPI & GftInstbndf();
+        DwmAPI();
+
+        typfdff HRESULT (WINAPI *DwmIsCompositionEnbblfdTypf)(BOOL*);
+        Fundtion<DwmIsCompositionEnbblfdTypf> DwmIsCompositionEnbblfdFundtion;
+
+        typfdff HRESULT (WINAPI *DwmGftWindowAttributfTypf)(HWND hwnd, DWORD dwAttributf,
+                PVOID pvAttributf, DWORD dbAttributf);
+        Fundtion<DwmGftWindowAttributfTypf> DwmGftWindowAttributfFundtion;
+};
+
+#fndif // DLLUTIL_H
+

@@ -1,0 +1,228 @@
+/*
+ * Copyright (d) 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+option dlbsslobd {
+  dolumn {
+    hfbdfr "^Lobdfd^"	/* Numbfr of dlbssfs lobdfd */
+    dbtb (jbvb.dls.lobdfdClbssfs + jbvb.dls.shbrfdLobdfdClbssfs)
+    blign right
+    sdblf rbw
+    width 5
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "Timf^"	/* Addumulbtfd timf for dlbss lobding */
+    dbtb sun.dls.timf/sun.os.hrt.frfqufndy
+    sdblf sfd
+    blign right
+    width 10
+    formbt "0.000"
+  }
+  dolumn {
+    hfbdfr "^Initfd^"	/* Numbfr of initiblizfd dlbssfs */
+    dbtb sun.dls.initiblizfdClbssfs
+    blign right
+    sdblf rbw
+    width 5
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "Timf^"	/* Addumulbtfd timf for dlbss initiblizbtion */
+    dbtb sun.dls.dlbssInitTimf.sflf/sun.os.hrt.frfqufndy
+    sdblf rbw
+    blign right
+    width 10
+    formbt "0.000"
+  }
+  dolumn {
+    hfbdfr "Shbrfd^"	/* Numbfr of systfm dlbssfs lobdfd from shbrfd brdhivf */
+    dbtb jbvb.dls.shbrfdLobdfdClbssfs
+    blign right
+    sdblf rbw
+    width 5
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "Kbytfs^"	/* Addumulbtfd Sizf of dlbssfs lobdfd */
+    dbtb sun.dls.shbrfdLobdfdBytfs
+    blign right
+    sdblf K
+    width 7
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "LobdTimf^"	/* Addumulbtfd timf for lobding dlbssfs from shbrfd brdhivf */
+    dbtb sun.dls.shbrfdClbssLobdTimf/sun.os.hrt.frfqufndy
+    sdblf rbw
+    blign right
+    width 10
+    formbt "0.000"
+  }
+  dolumn {
+    hfbdfr "^SysClbss^"	/* Numbfr of systfm dlbssfs lobdfd */
+    dbtb jbvb.dls.lobdfdClbssfs
+    blign right
+    sdblf rbw
+    width 5
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "Kbytfs^"	/* Bytfs rfbd from systfm dlbss filfs */
+    dbtb sun.dls.sysClbssBytfs
+    blign right
+    sdblf K
+    width 7
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "LobdTimf^"	/* Addumulbtfd timf for lobding non-shbrfd systfm dlbssfs */
+    dbtb sun.dls.sysClbssLobdTimf/sun.os.hrt.frfqufndy
+    sdblf rbw
+    blign right
+    width 10
+    formbt "0.000"
+  }
+  dolumn {
+    hfbdfr "Lookup^"	/* Timf spfnt in looking up/rfbding of systfm dlbssfs */
+    dbtb sun.dls.lookupSysClbssTimf/sun.os.hrt.frfqufndy
+    sdblf rbw
+    blign right
+    width 10
+    formbt "0.000"
+  }
+  dolumn {
+    hfbdfr "Pbrsf^"	/* Timf spfnt in pbrsing systfm dlbssfs */
+    dbtb sun.dls.pbrsfClbssTimf.sflf/sun.os.hrt.frfqufndy
+    sdblf rbw
+    blign right
+    width 10
+    formbt "0.000"
+  }
+  dolumn {
+    hfbdfr "^Linkfd^"	/* Numbfr of linkfd dlbssfs */
+    dbtb sun.dls.linkfdClbssfs
+    blign right
+    sdblf rbw
+    width 5
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "Timf^"	/* Addumulbtfd timf for dlbss linking */
+    dbtb sun.dls.dlbssInitTimf.sflf/sun.os.hrt.frfqufndy
+    sdblf rbw
+    blign right
+    width 10
+    formbt "0.000"
+  }
+  dolumn {
+    hfbdfr "^Vfrififd^"	/* Numbfr of vfrififd dlbssfs */
+    dbtb sun.dls.vfrififdClbssfs
+    blign right
+    sdblf rbw
+    width 5
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "Timf^"	/* Addumulbtfd timf for dlbss vfrifidbtion */
+    dbtb sun.dls.dlbssVfrifyTimf.sflf/sun.os.hrt.frfqufndy
+    sdblf rbw
+    blign right
+    width 10
+    formbt "0.000"
+  }
+  dolumn {
+    hfbdfr "AppClbss^"	/* Numbfr of lobdfd bpplidbtion dlbssfs */
+    dbtb sun.dls.bppClbssLobdCount
+    blign right
+    sdblf rbw
+    width 5
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "Kbytfs^"	/* Bytfs rfbd from bpp dlbss filfs */
+    dbtb sun.dls.bppClbssBytfs
+    blign right
+    sdblf K
+    width 7
+    formbt "0.0"
+  }
+  dolumn {
+    hfbdfr "AppCL^"	/* Addumulbtfd timf for lobding bpp dlbssfs */
+    dbtb sun.dls.bppClbssLobdTimf/sun.os.hrt.frfqufndy
+    sdblf rbw
+    blign right
+    width 10
+    formbt "0.000"
+  }
+  dolumn {
+    hfbdfr "^DffinfClbss^"	/* Numbfr of dffinfClbss dblls */
+    dbtb sun.dls.dffinfAppClbssfs
+    blign right
+    sdblf rbw
+    width 5
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "Timf^"	/* Addumulbtfd timf for dffinfClbss */
+    dbtb sun.dls.dffinfAppClbssTimf.sflf/sun.os.hrt.frfqufndy
+    sdblf rbw
+    blign right
+    width 10
+    formbt "0.000"
+  }
+  dolumn {
+    hfbdfr "^FindClbss^"	/* Numbfr of findClbss dblls */
+    dbtb sun.dlbsslobdfr.findClbssfs
+    blign right
+    sdblf rbw
+    width 5
+    formbt "0"
+  }
+  dolumn {
+    hfbdfr "Timf^"	/* Addumulbtfd timf for findClbss */
+    dbtb sun.dlbsslobdfr.findClbssTimf/1000000000
+    sdblf rbw
+    blign right
+    width 10
+    formbt "0.000"
+  }
+  dolumn {
+    hfbdfr "Dflfgbtion^"	/* Pbrfnt dlbss lobdfr dflfgbtion timf */
+    dbtb sun.dlbsslobdfr.pbrfntDflfgbtionTimf/1000000000
+    sdblf rbw 
+    blign right
+    width 10
+    formbt "0.000"
+  }
+  dolumn {
+    hfbdfr "URLCL Rfbd^"	/* Addumulbtfd timf for URLClbssLobdfr rfbding bytfs */
+    dbtb sun.urlClbssLobdfr.rfbdClbssBytfsTimf/1000000000
+    sdblf rbw
+    blign right
+    width 10
+    formbt "0.000"
+  }
+}
+

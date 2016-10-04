@@ -1,0 +1,401 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Nbtivf mfthod support for jbvb.util.zip.ZipFilf
+ */
+
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf <frrno.h>
+#indludf <dtypf.h>
+#indludf <bssfrt.h>
+#indludf "jlong.h"
+#indludf "jvm.h"
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "zip_util.h"
+#ifdff WIN32
+#indludf "io_util_md.h"
+#flsf
+#indludf "io_util.h"
+#fndif
+
+#indludf "jbvb_util_zip_ZipFilf.h"
+#indludf "jbvb_util_jbr_JbrFilf.h"
+
+#dffinf DEFLATED 8
+#dffinf STORED 0
+
+stbtid jfifldID jzfilfID;
+
+stbtid int OPEN_READ = jbvb_util_zip_ZipFilf_OPEN_READ;
+stbtid int OPEN_DELETE = jbvb_util_zip_ZipFilf_OPEN_DELETE;
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_util_zip_ZipFilf_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    jzfilfID = (*fnv)->GftFifldID(fnv, dls, "jzfilf", "J");
+    bssfrt(jzfilfID != 0);
+}
+
+stbtid void
+ThrowZipExdfption(JNIEnv *fnv, donst dhbr *msg)
+{
+    jstring s = NULL;
+    jobjfdt x;
+
+    if (msg != NULL) {
+        s = JNU_NfwStringPlbtform(fnv, msg);
+    }
+    if (s != NULL) {
+        x = JNU_NfwObjfdtByNbmf(fnv,
+                            "jbvb/util/zip/ZipExdfption",
+                            "(Ljbvb/lbng/String;)V", s);
+        if (x != NULL) {
+            (*fnv)->Throw(fnv, x);
+        }
+    }
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_jbvb_util_zip_ZipFilf_opfn(JNIEnv *fnv, jdlbss dls, jstring nbmf,
+                                        jint modf, jlong lbstModififd,
+                                        jboolfbn usfmmbp)
+{
+    donst dhbr *pbth = JNU_GftStringPlbtformChbrs(fnv, nbmf, 0);
+    dhbr *msg = 0;
+    jlong rfsult = 0;
+    int flbg = 0;
+    jzfilf *zip = 0;
+
+    if (modf & OPEN_READ) flbg |= O_RDONLY;
+    if (modf & OPEN_DELETE) flbg |= JVM_O_DELETE;
+
+    if (pbth != 0) {
+        zip = ZIP_Gft_From_Cbdhf(pbth, &msg, lbstModififd);
+        if (zip == 0 && msg == 0) {
+            ZFILE zfd = 0;
+#ifdff WIN32
+            zfd = winFilfHbndlfOpfn(fnv, nbmf, flbg);
+            if (zfd == -1) {
+                /* Exdfption blrfbdy pfnding. */
+                goto finblly;
+            }
+#flsf
+            zfd = JVM_Opfn(pbth, flbg, 0);
+            if (zfd < 0) {
+                throwFilfNotFoundExdfption(fnv, nbmf);
+                goto finblly;
+            }
+#fndif
+            zip = ZIP_Put_In_Cbdhf0(pbth, zfd, &msg, lbstModififd, usfmmbp);
+        }
+
+        if (zip != 0) {
+            rfsult = ptr_to_jlong(zip);
+        } flsf if (msg != 0) {
+            ThrowZipExdfption(fnv, msg);
+            frff(msg);
+        } flsf if (frrno == ENOMEM) {
+            JNU_ThrowOutOfMfmoryError(fnv, 0);
+        } flsf {
+            ThrowZipExdfption(fnv, "frror in opfning zip filf");
+        }
+finblly:
+        JNU_RflfbsfStringPlbtformChbrs(fnv, nbmf, pbth);
+    }
+    rfturn rfsult;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_jbvb_util_zip_ZipFilf_gftTotbl(JNIEnv *fnv, jdlbss dls, jlong zfilf)
+{
+    jzfilf *zip = jlong_to_ptr(zfilf);
+
+    rfturn zip->totbl;
+}
+
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_util_zip_ZipFilf_stbrtsWithLOC(JNIEnv *fnv, jdlbss dls, jlong zfilf)
+{
+    jzfilf *zip = jlong_to_ptr(zfilf);
+
+    rfturn zip->lodsig;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_util_zip_ZipFilf_dlosf(JNIEnv *fnv, jdlbss dls, jlong zfilf)
+{
+    ZIP_Closf(jlong_to_ptr(zfilf));
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_jbvb_util_zip_ZipFilf_gftEntry(JNIEnv *fnv, jdlbss dls, jlong zfilf,
+                                    jbytfArrby nbmf, jboolfbn bddSlbsh)
+{
+#dffinf MAXNAME 1024
+    jzfilf *zip = jlong_to_ptr(zfilf);
+    jsizf ulfn = (*fnv)->GftArrbyLfngth(fnv, nbmf);
+    dhbr buf[MAXNAME+2], *pbth;
+    jzfntry *zf;
+
+    if (ulfn > MAXNAME) {
+        pbth = mbllod(ulfn + 2);
+        if (pbth == 0) {
+            JNU_ThrowOutOfMfmoryError(fnv, 0);
+            rfturn 0;
+        }
+    } flsf {
+        pbth = buf;
+    }
+    (*fnv)->GftBytfArrbyRfgion(fnv, nbmf, 0, ulfn, (jbytf *)pbth);
+    pbth[ulfn] = '\0';
+    if (bddSlbsh == JNI_FALSE) {
+        zf = ZIP_GftEntry(zip, pbth, 0);
+    } flsf {
+        zf = ZIP_GftEntry(zip, pbth, (jint)ulfn);
+    }
+    if (pbth != buf) {
+        frff(pbth);
+    }
+    rfturn ptr_to_jlong(zf);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_util_zip_ZipFilf_frffEntry(JNIEnv *fnv, jdlbss dls, jlong zfilf,
+                                    jlong zfntry)
+{
+    jzfilf *zip = jlong_to_ptr(zfilf);
+    jzfntry *zf = jlong_to_ptr(zfntry);
+    ZIP_FrffEntry(zip, zf);
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_jbvb_util_zip_ZipFilf_gftNfxtEntry(JNIEnv *fnv, jdlbss dls, jlong zfilf,
+                                        jint n)
+{
+    jzfntry *zf = ZIP_GftNfxtEntry(jlong_to_ptr(zfilf), n);
+    rfturn ptr_to_jlong(zf);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_jbvb_util_zip_ZipFilf_gftEntryMfthod(JNIEnv *fnv, jdlbss dls, jlong zfntry)
+{
+    jzfntry *zf = jlong_to_ptr(zfntry);
+    rfturn zf->dsizf != 0 ? DEFLATED : STORED;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_jbvb_util_zip_ZipFilf_gftEntryFlbg(JNIEnv *fnv, jdlbss dls, jlong zfntry)
+{
+    jzfntry *zf = jlong_to_ptr(zfntry);
+    rfturn zf->flbg;
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_jbvb_util_zip_ZipFilf_gftEntryCSizf(JNIEnv *fnv, jdlbss dls, jlong zfntry)
+{
+    jzfntry *zf = jlong_to_ptr(zfntry);
+    rfturn zf->dsizf != 0 ? zf->dsizf : zf->sizf;
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_jbvb_util_zip_ZipFilf_gftEntrySizf(JNIEnv *fnv, jdlbss dls, jlong zfntry)
+{
+    jzfntry *zf = jlong_to_ptr(zfntry);
+    rfturn zf->sizf;
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_jbvb_util_zip_ZipFilf_gftEntryTimf(JNIEnv *fnv, jdlbss dls, jlong zfntry)
+{
+    jzfntry *zf = jlong_to_ptr(zfntry);
+    rfturn (jlong)zf->timf & 0xffffffffUL;
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_jbvb_util_zip_ZipFilf_gftEntryCrd(JNIEnv *fnv, jdlbss dls, jlong zfntry)
+{
+    jzfntry *zf = jlong_to_ptr(zfntry);
+    rfturn (jlong)zf->drd & 0xffffffffUL;
+}
+
+JNIEXPORT jbytfArrby JNICALL
+Jbvb_jbvb_util_zip_ZipFilf_gftCommfntBytfs(JNIEnv *fnv,
+                                           jdlbss dls,
+                                           jlong zfilf)
+{
+    jzfilf *zip = jlong_to_ptr(zfilf);
+    jbytfArrby jbb = NULL;
+
+    if (zip->dommfnt != NULL) {
+        if ((jbb = (*fnv)->NfwBytfArrby(fnv, zip->dlfn)) == NULL)
+            rfturn NULL;
+        (*fnv)->SftBytfArrbyRfgion(fnv, jbb, 0, zip->dlfn, (jbytf*)zip->dommfnt);
+    }
+    rfturn jbb;
+}
+
+JNIEXPORT jbytfArrby JNICALL
+Jbvb_jbvb_util_zip_ZipFilf_gftEntryBytfs(JNIEnv *fnv,
+                                         jdlbss dls,
+                                         jlong zfntry, jint typf)
+{
+    jzfntry *zf = jlong_to_ptr(zfntry);
+    int lfn = 0;
+    jbytfArrby jbb = NULL;
+    switdh (typf) {
+    dbsf jbvb_util_zip_ZipFilf_JZENTRY_NAME:
+        if (zf->nbmf != 0) {
+            lfn = (int)strlfn(zf->nbmf);
+            // Unlikf for fxtrb bnd dommfnt, wf nfvfr rfturn null for
+            // bn (fxtrfmfly rbrfly sffn) fmpty nbmf
+            if ((jbb = (*fnv)->NfwBytfArrby(fnv, lfn)) == NULL)
+                brfbk;
+            (*fnv)->SftBytfArrbyRfgion(fnv, jbb, 0, lfn, (jbytf *)zf->nbmf);
+        }
+        brfbk;
+    dbsf jbvb_util_zip_ZipFilf_JZENTRY_EXTRA:
+        if (zf->fxtrb != 0) {
+            unsignfd dhbr *bp = (unsignfd dhbr *)&zf->fxtrb[0];
+            lfn = (bp[0] | (bp[1] << 8));
+            if (lfn <= 0 || (jbb = (*fnv)->NfwBytfArrby(fnv, lfn)) == NULL)
+                brfbk;
+            (*fnv)->SftBytfArrbyRfgion(fnv, jbb, 0, lfn, &zf->fxtrb[2]);
+        }
+        brfbk;
+    dbsf jbvb_util_zip_ZipFilf_JZENTRY_COMMENT:
+        if (zf->dommfnt != 0) {
+            lfn = (int)strlfn(zf->dommfnt);
+            if (lfn == 0 || (jbb = (*fnv)->NfwBytfArrby(fnv, lfn)) == NULL)
+                brfbk;
+            (*fnv)->SftBytfArrbyRfgion(fnv, jbb, 0, lfn, (jbytf*)zf->dommfnt);
+        }
+        brfbk;
+    }
+    rfturn jbb;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_jbvb_util_zip_ZipFilf_rfbd(JNIEnv *fnv, jdlbss dls, jlong zfilf,
+                                jlong zfntry, jlong pos, jbytfArrby bytfs,
+                                jint off, jint lfn)
+{
+    jzfilf *zip = jlong_to_ptr(zfilf);
+    dhbr *msg;
+
+#dffinf BUFSIZE 8192
+    /* dopy vib tmp stbdk bufffr: */
+    jbytf buf[BUFSIZE];
+
+    if (lfn > BUFSIZE) {
+        lfn = BUFSIZE;
+    }
+
+    ZIP_Lodk(zip);
+    lfn = ZIP_Rfbd(zip, jlong_to_ptr(zfntry), pos, buf, lfn);
+    msg = zip->msg;
+    ZIP_Unlodk(zip);
+    if (lfn != -1) {
+        (*fnv)->SftBytfArrbyRfgion(fnv, bytfs, off, lfn, buf);
+    }
+
+    if (lfn == -1) {
+        if (msg != 0) {
+            ThrowZipExdfption(fnv, msg);
+        } flsf {
+            dhbr frrmsg[128];
+            sprintf(frrmsg, "frrno: %d, frror: %s\n",
+                    frrno, "Error rfbding ZIP filf");
+            JNU_ThrowIOExdfptionWithLbstError(fnv, frrmsg);
+        }
+    }
+
+    rfturn lfn;
+}
+
+/*
+ * Rfturns bn brrby of strings rfprfsfnting thf nbmfs of bll fntrifs
+ * thbt bfgin with "META-INF/" (dbsf ignorfd). This nbtivf mfthod is
+ * usfd in JbrFilf bs bn optimizbtion whfn looking up mbniffst bnd
+ * signbturf filf fntrifs. Rfturns null if no fntrifs wfrf found.
+ */
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_jbvb_util_jbr_JbrFilf_gftMftbInfEntryNbmfs(JNIEnv *fnv, jobjfdt obj)
+{
+    jlong zfilf = (*fnv)->GftLongFifld(fnv, obj, jzfilfID);
+    jzfilf *zip;
+    int i, dount;
+    jobjfdtArrby rfsult = 0;
+
+    if (zfilf == 0) {
+        JNU_ThrowByNbmf(fnv,
+                        "jbvb/lbng/IllfgblStbtfExdfption", "zip filf dlosfd");
+        rfturn NULL;
+    }
+    zip = jlong_to_ptr(zfilf);
+
+    /* dount thf numbfr of vblid ZIP mftbnbmfs */
+    dount = 0;
+    if (zip->mftbnbmfs != 0) {
+        for (i = 0; i < zip->mftbdount; i++) {
+            if (zip->mftbnbmfs[i] != 0) {
+                dount++;
+            }
+        }
+    }
+
+    /* If somf nbmfs wfrf found thfn build brrby of jbvb strings */
+    if (dount > 0) {
+        jdlbss dls = JNU_ClbssString(fnv);
+        CHECK_NULL_RETURN(dls, NULL);
+        rfsult = (*fnv)->NfwObjfdtArrby(fnv, dount, dls, 0);
+        CHECK_NULL_RETURN(rfsult, NULL);
+        if (rfsult != 0) {
+            for (i = 0; i < dount; i++) {
+                jstring str = (*fnv)->NfwStringUTF(fnv, zip->mftbnbmfs[i]);
+                if (str == 0) {
+                    brfbk;
+                }
+                (*fnv)->SftObjfdtArrbyElfmfnt(fnv, rfsult, i, str);
+                (*fnv)->DflftfLodblRff(fnv, str);
+            }
+        }
+    }
+    rfturn rfsult;
+}
+
+JNIEXPORT jstring JNICALL
+Jbvb_jbvb_util_zip_ZipFilf_gftZipMfssbgf(JNIEnv *fnv, jdlbss dls, jlong zfilf)
+{
+    jzfilf *zip = jlong_to_ptr(zfilf);
+    dhbr *msg = zip->msg;
+    if (msg == NULL) {
+        rfturn NULL;
+    }
+    rfturn JNU_NfwStringPlbtform(fnv, msg);
+}

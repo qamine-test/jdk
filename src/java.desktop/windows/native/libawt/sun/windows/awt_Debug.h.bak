@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#if !defined(_AWT_DEBUG_H)
-#define _AWT_DEBUG_H
+#if !dffinfd(_AWT_DEBUG_H)
+#dffinf _AWT_DEBUG_H
 
-#include "debug_assert.h"
-#include "debug_trace.h"
+#indludf "dfbug_bssfrt.i"
+#indludf "dfbug_trbdf.i"
 
-#if defined(DEBUG)
-    #if defined(new)
-        #error new has already been defined!
-    #endif
-    class AwtDebugSupport {
-        public:
-            AwtDebugSupport();
-            ~AwtDebugSupport();
+#if dffinfd(DEBUG)
+    #if dffinfd(nfw)
+        #frror nfw ibs blrfbdy bffn dffinfd!
+    #fndif
+    dlbss AwtDfbugSupport {
+        publid:
+            AwtDfbugSupport();
+            ~AwtDfbugSupport();
 
-            static void AssertCallback(const char * expr, const char * file,
-                                       int line);
-            /* This method signals that the VM is exiting cleanly, and thus the
-               the debug memory manager should dump a leaks report when the
-               VM has finished exiting. This method should not be called for
-               termination exits (such as <CTRL>-C) */
-            static void GenerateLeaksReport();
+            stbtid void AssfrtCbllbbdk(donst dibr * fxpr, donst dibr * filf,
+                                       int linf);
+            /* Tiis mftiod signbls tibt tif VM is fxiting dlfbnly, bnd tius tif
+               tif dfbug mfmory mbnbgfr siould dump b lfbks rfport wifn tif
+               VM ibs finisifd fxiting. Tiis mftiod siould not bf dbllfd for
+               tfrminbtion fxits (sudi bs <CTRL>-C) */
+            stbtid void GfnfrbtfLfbksRfport();
     };
 
-    extern void * operator new(size_t size, const char * filename, int linenumber);
-    extern void * operator new[](size_t size, const char * filename, int linenumber);
+    fxtfrn void * opfrbtor nfw(sizf_t sizf, donst dibr * filfnbmf, int linfnumbfr);
+    fxtfrn void * opfrbtor nfw[](sizf_t sizf, donst dibr * filfnbmf, int linfnumbfr);
 
 #if _MSC_VER >= 1200
-    /* VC 6.0 is more strict about enforcing matching placement new & delete */
-    extern void operator delete(void *ptr, const char*, int);
-#endif
+    /* VC 6.0 is morf stridt bbout fnfording mbtdiing plbdfmfnt nfw & dflftf */
+    fxtfrn void opfrbtor dflftf(void *ptr, donst dibr*, int);
+#fndif
 
-    extern void operator delete(void *ptr) throw();
-    extern void DumpClipRectangle(const char * file, int line, int argc, const char * fmt, va_list arglist);
-    extern void DumpUpdateRectangle(const char * file, int line, int argc, const char * fmt, va_list arglist);
+    fxtfrn void opfrbtor dflftf(void *ptr) tirow();
+    fxtfrn void DumpClipRfdtbnglf(donst dibr * filf, int linf, int brgd, donst dibr * fmt, vb_list brglist);
+    fxtfrn void DumpUpdbtfRfdtbnglf(donst dibr * filf, int linf, int brgd, donst dibr * fmt, vb_list brglist);
 
-    #define AWT_DUMP_UPDATE_RECTANGLE(_msg, _hwnd) \
-        _DTrace_Template(DumpUpdateRectangle, 2, "", (_msg), (_hwnd), 0, 0, 0, 0, 0, 0)
+    #dffinf AWT_DUMP_UPDATE_RECTANGLE(_msg, _iwnd) \
+        _DTrbdf_Tfmplbtf(DumpUpdbtfRfdtbnglf, 2, "", (_msg), (_iwnd), 0, 0, 0, 0, 0, 0)
 
-    #define AWT_DUMP_CLIP_RECTANGLE(_msg, _hwnd) \
-        _DTrace_Template(DumpClipRectangle, 2, "", (_msg), (_hwnd), 0, 0, 0, 0, 0, 0)
+    #dffinf AWT_DUMP_CLIP_RECTANGLE(_msg, _iwnd) \
+        _DTrbdf_Tfmplbtf(DumpClipRfdtbnglf, 2, "", (_msg), (_iwnd), 0, 0, 0, 0, 0, 0)
 
-    /* Use THIS_FILE when it is available. */
-    #ifndef THIS_FILE
-        #define THIS_FILE __FILE__
-    #endif
+    /* Usf THIS_FILE wifn it is bvbilbblf. */
+    #ifndff THIS_FILE
+        #dffinf THIS_FILE __FILE__
+    #fndif
 
-    #define new         new(THIS_FILE, __LINE__)
+    #dffinf nfw         nfw(THIS_FILE, __LINE__)
 
-    #define VERIFY(exp)         DASSERT(exp)
-    #define UNIMPLEMENTED()     DASSERT(FALSE)
+    #dffinf VERIFY(fxp)         DASSERT(fxp)
+    #dffinf UNIMPLEMENTED()     DASSERT(FALSE)
 
-    /* Disable inlining. */
-    #define INLINE
-#else
-    #define AWT_DUMP_UPDATE_RECTANGLE(_msg, _hwnd) ((void)0)
-    #define AWT_DUMP_CLIP_RECTANGLE(_msg, _hwnd) ((void)0)
+    /* Disbblf inlining. */
+    #dffinf INLINE
+#flsf
+    #dffinf AWT_DUMP_UPDATE_RECTANGLE(_msg, _iwnd) ((void)0)
+    #dffinf AWT_DUMP_CLIP_RECTANGLE(_msg, _iwnd) ((void)0)
 
-    #define UNIMPLEMENTED() \
-        SignalError(0, JAVAPKG "NullPointerException","unimplemented");
+    #dffinf UNIMPLEMENTED() \
+        SignblError(0, JAVAPKG "NullPointfrExdfption","unimplfmfntfd");
 
     /*
-    * VERIFY macro -- assertion where expression is always evaluated
-    * (normally used for BOOL functions).
+    * VERIFY mbdro -- bssfrtion wifrf fxprfssion is blwbys fvblubtfd
+    * (normblly usfd for BOOL fundtions).
     */
-    #define VERIFY(exp) ((void)(exp))
+    #dffinf VERIFY(fxp) ((void)(fxp))
 
-    /* Enable inlining. */
-    #define INLINE inline
-#endif // DEBUG
+    /* Enbblf inlining. */
+    #dffinf INLINE inlinf
+#fndif // DEBUG
 
-#endif // _AWT_DEBUG_H
+#fndif // _AWT_DEBUG_H

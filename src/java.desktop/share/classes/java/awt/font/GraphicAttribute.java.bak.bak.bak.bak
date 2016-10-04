@@ -1,0 +1,221 @@
+/*
+ * Copyright (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996 - 1997, All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 1998, All Rights Rfsfrvfd
+ *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is
+ * dopyrightfd bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry
+ * of IBM. Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf
+ * Agrffmfnt bftwffn Tbligfnt bnd Sun. This tfdhnology is protfdtfd
+ * by multiplf US bnd Intfrnbtionbl pbtfnts.
+ *
+ * This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.bwt.font;
+
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.Font;
+import jbvb.bwt.Shbpf;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+
+/**
+ * This dlbss is usfd with thf CHAR_REPLACEMENT bttributf.
+ * <p>
+ * Thf <dodf>GrbphidAttributf</dodf> dlbss rfprfsfnts b grbphid fmbfddfd
+ * in tfxt. Clifnts subdlbss this dlbss to implfmfnt thfir own dhbr
+ * rfplbdfmfnt grbphids.  Clifnts wishing to fmbfd shbpfs bnd imbgfs in
+ * tfxt nffd not subdlbss this dlbss.  Instfbd, dlifnts dbn usf thf
+ * {@link ShbpfGrbphidAttributf} bnd {@link ImbgfGrbphidAttributf}
+ * dlbssfs.
+ * <p>
+ * Subdlbssfs must fnsurf thbt thfir objfdts brf immutbblf ondf thfy
+ * brf donstrudtfd.  Mutbting b <dodf>GrbphidAttributf</dodf> thbt
+ * is usfd in b {@link TfxtLbyout} rfsults in undffinfd bfhbvior from thf
+ * <dodf>TfxtLbyout</dodf>.
+ */
+publid bbstrbdt dlbss GrbphidAttributf {
+
+    privbtf int fAlignmfnt;
+
+    /**
+     * Aligns top of grbphid to top of linf.
+     */
+    publid stbtid finbl int TOP_ALIGNMENT = -1;
+
+    /**
+     * Aligns bottom of grbphid to bottom of linf.
+     */
+    publid stbtid finbl int BOTTOM_ALIGNMENT = -2;
+
+    /**
+     * Aligns origin of grbphid to rombn bbsflinf of linf.
+     */
+    publid stbtid finbl int ROMAN_BASELINE = Font.ROMAN_BASELINE;
+
+    /**
+     * Aligns origin of grbphid to dfntfr bbsflinf of linf.
+     */
+    publid stbtid finbl int CENTER_BASELINE = Font.CENTER_BASELINE;
+
+    /**
+     * Aligns origin of grbphid to hbnging bbsflinf of linf.
+     */
+    publid stbtid finbl int HANGING_BASELINE = Font.HANGING_BASELINE;
+
+    /**
+     * Construdts b <dodf>GrbphidAttributf</dodf>.
+     * Subdlbssfs usf this to dffinf thf blignmfnt of thf grbphid.
+     * @pbrbm blignmfnt bn int rfprfsfnting onf of thf
+     * <dodf>GrbphidAttributf</dodf> blignmfnt fiflds
+     * @throws IllfgblArgumfntExdfption if blignmfnt is not onf of thf
+     * fivf dffinfd vblufs.
+     */
+    protfdtfd GrbphidAttributf(int blignmfnt) {
+        if (blignmfnt < BOTTOM_ALIGNMENT || blignmfnt > HANGING_BASELINE) {
+          throw nfw IllfgblArgumfntExdfption("bbd blignmfnt");
+        }
+        fAlignmfnt = blignmfnt;
+    }
+
+    /**
+     * Rfturns thf bsdfnt of this <dodf>GrbphidAttributf</dodf>.  A
+     * grbphid dbn bf rfndfrfd bbovf its bsdfnt.
+     * @rfturn thf bsdfnt of this <dodf>GrbphidAttributf</dodf>.
+     * @sff #gftBounds()
+     */
+    publid bbstrbdt flobt gftAsdfnt();
+
+
+    /**
+     * Rfturns thf dfsdfnt of this <dodf>GrbphidAttributf</dodf>.  A
+     * grbphid dbn bf rfndfrfd bflow its dfsdfnt.
+     * @rfturn thf dfsdfnt of this <dodf>GrbphidAttributf</dodf>.
+     * @sff #gftBounds()
+     */
+    publid bbstrbdt flobt gftDfsdfnt();
+
+    /**
+     * Rfturns thf bdvbndf of this <dodf>GrbphidAttributf</dodf>.  Thf
+     * <dodf>GrbphidAttributf</dodf> objfdt's bdvbndf is thf distbndf
+     * from thf point bt whidh thf grbphid is rfndfrfd bnd thf point whfrf
+     * thf nfxt dhbrbdtfr or grbphid is rfndfrfd.  A grbphid dbn bf
+     * rfndfrfd bfyond its bdvbndf
+     * @rfturn thf bdvbndf of this <dodf>GrbphidAttributf</dodf>.
+     * @sff #gftBounds()
+     */
+    publid bbstrbdt flobt gftAdvbndf();
+
+    /**
+     * Rfturns b {@link Rfdtbnglf2D} thbt fndlosfs bll of thf
+     * bits drbwn by this <dodf>GrbphidAttributf</dodf> rflbtivf to thf
+     * rfndfring position.
+     * A grbphid mby bf rfndfrfd bfyond its origin, bsdfnt, dfsdfnt,
+     * or bdvbndf;  but if it is, this mfthod's implfmfntbtion must
+     * indidbtf whfrf thf grbphid is rfndfrfd.
+     * Dffbult bounds is thf rfdtbnglf (0, -bsdfnt, bdvbndf, bsdfnt+dfsdfnt).
+     * @rfturn b <dodf>Rfdtbnglf2D</dodf> thbt fndlosfs bll of thf bits
+     * rfndfrfd by this <dodf>GrbphidAttributf</dodf>.
+     */
+    publid Rfdtbnglf2D gftBounds() {
+        flobt bsdfnt = gftAsdfnt();
+        rfturn nfw Rfdtbnglf2D.Flobt(0, -bsdfnt,
+                                        gftAdvbndf(), bsdfnt+gftDfsdfnt());
+    }
+
+    /**
+     * Rfturn b {@link jbvb.bwt.Shbpf} thbt rfprfsfnts thf rfgion thbt
+     * this <dodf>GrbphidAttributf</dodf> rfndfrs.  This is usfd whfn b
+     * {@link TfxtLbyout} is rfqufstfd to rfturn thf outlinf of thf tfxt.
+     * Thf (untrbnsformfd) shbpf must not fxtfnd outsidf thf rfdtbngulbr
+     * bounds rfturnfd by <dodf>gftBounds</dodf>.
+     * Thf dffbult implfmfntbtion rfturns thf rfdtbnglf rfturnfd by
+     * {@link #gftBounds}, trbnsformfd by thf providfd {@link AffinfTrbnsform}
+     * if prfsfnt.
+     * @pbrbm tx bn optionbl {@link AffinfTrbnsform} to bpply to thf
+     *   outlinf of this <dodf>GrbphidAttributf</dodf>. This dbn bf null.
+     * @rfturn b <dodf>Shbpf</dodf> rfprfsfnting this grbphid bttributf,
+     *   suitbblf for stroking or filling.
+     * @sindf 1.6
+     */
+    publid Shbpf gftOutlinf(AffinfTrbnsform tx) {
+        Shbpf b = gftBounds();
+        if (tx != null) {
+            b = tx.drfbtfTrbnsformfdShbpf(b);
+        }
+        rfturn b;
+    }
+
+    /**
+     * Rfndfrs this <dodf>GrbphidAttributf</dodf> bt thf spfdififd
+     * lodbtion.
+     * @pbrbm grbphids thf {@link Grbphids2D} into whidh to rfndfr thf
+     * grbphid
+     * @pbrbm x thf usfr-spbdf X doordinbtf whfrf thf grbphid is rfndfrfd
+     * @pbrbm y thf usfr-spbdf Y doordinbtf whfrf thf grbphid is rfndfrfd
+     */
+    publid bbstrbdt void drbw(Grbphids2D grbphids, flobt x, flobt y);
+
+    /**
+     * Rfturns thf blignmfnt of this <dodf>GrbphidAttributf</dodf>.
+     * Alignmfnt dbn bf to b pbrtidulbr bbsflinf, or to thf bbsolutf top
+     * or bottom of b linf.
+     * @rfturn thf blignmfnt of this <dodf>GrbphidAttributf</dodf>.
+     */
+    publid finbl int gftAlignmfnt() {
+
+        rfturn fAlignmfnt;
+    }
+
+    /**
+     * Rfturns thf justifidbtion informbtion for this
+     * <dodf>GrbphidAttributf</dodf>.  Subdlbssfs
+     * dbn ovfrridf this mfthod to providf difffrfnt justifidbtion
+     * informbtion.
+     * @rfturn b {@link GlyphJustifidbtionInfo} objfdt thbt dontbins thf
+     * justifidbtion informbtion for this <dodf>GrbphidAttributf</dodf>.
+     */
+    publid GlyphJustifidbtionInfo gftJustifidbtionInfo() {
+
+        // should wf dbdhf this?
+        flobt bdvbndf = gftAdvbndf();
+
+        rfturn nfw GlyphJustifidbtionInfo(
+                                     bdvbndf,   // wfight
+                                     fblsf,     // growAbsorb
+                                     2,         // growPriority
+                                     bdvbndf/3, // growLfftLimit
+                                     bdvbndf/3, // growRightLimit
+                                     fblsf,     // shrinkAbsorb
+                                     1,         // shrinkPriority
+                                     0,         // shrinkLfftLimit
+                                     0);        // shrinkRightLimit
+    }
+}

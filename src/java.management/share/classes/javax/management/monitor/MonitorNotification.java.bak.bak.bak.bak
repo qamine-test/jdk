@@ -1,0 +1,259 @@
+/*
+ * Copyright (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.monitor;
+
+
+// jmx imports
+//
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+
+/**
+ * Providfs dffinitions of thf notifidbtions sfnt by monitor MBfbns.
+ * <P>
+ * Thf notifidbtion sourdf bnd b sft of pbrbmftfrs dondfrning thf monitor MBfbn's stbtf
+ * nffd to bf spfdififd whfn drfbting b nfw objfdt of this dlbss.
+ *
+ * Thf list of notifidbtions firfd by thf monitor MBfbns is thf following:
+ *
+ * <UL>
+ * <LI>Common to bll kind of monitors:
+ *     <UL>
+ *     <LI>Thf obsfrvfd objfdt is not rfgistfrfd in thf MBfbn sfrvfr.
+ *     <LI>Thf obsfrvfd bttributf is not dontbinfd in thf obsfrvfd objfdt.
+ *     <LI>Thf typf of thf obsfrvfd bttributf is not dorrfdt.
+ *     <LI>Any fxdfption (fxdfpt thf dbsfs dfsdribfd bbovf) oddurs whfn trying to gft thf vbluf of thf obsfrvfd bttributf.
+ *     </UL>
+ * <LI>Common to thf dountfr bnd thf gbugf monitors:
+ *     <UL>
+ *     <LI>Thf thrfshold high or thrfshold low brf not of thf sbmf typf bs thf gbugf (gbugf monitors).
+ *     <LI>Thf thrfshold or thf offsft or thf modulus brf not of thf sbmf typf bs thf dountfr (dountfr monitors).
+ *     </UL>
+ * <LI>Countfr monitors only:
+ *     <UL>
+ *     <LI>Thf obsfrvfd bttributf hbs rfbdhfd thf thrfshold vbluf.
+ *     </UL>
+ * <LI>Gbugf monitors only:
+ *     <UL>
+ *     <LI>Thf obsfrvfd bttributf hbs fxdffdfd thf thrfshold high vbluf.
+ *     <LI>Thf obsfrvfd bttributf hbs fxdffdfd thf thrfshold low vbluf.
+ *     </UL>
+ * <LI>String monitors only:
+ *     <UL>
+ *     <LI>Thf obsfrvfd bttributf hbs mbtdhfd thf "string to dompbrf" vbluf.
+ *     <LI>Thf obsfrvfd bttributf hbs difffrfd from thf "string to dompbrf" vbluf.
+ *     </UL>
+ * </UL>
+ *
+ *
+ * @sindf 1.5
+ */
+publid dlbss MonitorNotifidbtion fxtfnds jbvbx.mbnbgfmfnt.Notifidbtion {
+
+
+    /*
+     * ------------------------------------------
+     *  PUBLIC VARIABLES
+     * ------------------------------------------
+     */
+
+    /**
+     * Notifidbtion typf dfnoting thbt thf obsfrvfd objfdt is not rfgistfrfd in thf MBfbn sfrvfr.
+     * This notifidbtion is firfd by bll kinds of monitors.
+     * <BR>Thf vbluf of this notifidbtion typf is <CODE>jmx.monitor.frror.mbfbn</CODE>.
+     */
+    publid stbtid finbl String OBSERVED_OBJECT_ERROR = "jmx.monitor.frror.mbfbn";
+
+    /**
+     * Notifidbtion typf dfnoting thbt thf obsfrvfd bttributf is not dontbinfd in thf obsfrvfd objfdt.
+     * This notifidbtion is firfd by bll kinds of monitors.
+     * <BR>Thf vbluf of this notifidbtion typf is <CODE>jmx.monitor.frror.bttributf</CODE>.
+     */
+    publid stbtid finbl String OBSERVED_ATTRIBUTE_ERROR = "jmx.monitor.frror.bttributf";
+
+    /**
+     * Notifidbtion typf dfnoting thbt thf typf of thf obsfrvfd bttributf is not dorrfdt.
+     * This notifidbtion is firfd by bll kinds of monitors.
+     * <BR>Thf vbluf of this notifidbtion typf is <CODE>jmx.monitor.frror.typf</CODE>.
+     */
+    publid stbtid finbl String OBSERVED_ATTRIBUTE_TYPE_ERROR = "jmx.monitor.frror.typf";
+
+    /**
+     * Notifidbtion typf dfnoting thbt thf typf of thf thrfsholds, offsft or modulus is not dorrfdt.
+     * This notifidbtion is firfd by dountfr bnd gbugf monitors.
+     * <BR>Thf vbluf of this notifidbtion typf is <CODE>jmx.monitor.frror.thrfshold</CODE>.
+     */
+    publid stbtid finbl String THRESHOLD_ERROR = "jmx.monitor.frror.thrfshold";
+
+    /**
+     * Notifidbtion typf dfnoting thbt b non-prfdffinfd frror typf hbs oddurrfd whfn trying to gft thf vbluf of thf obsfrvfd bttributf.
+     * This notifidbtion is firfd by bll kinds of monitors.
+     * <BR>Thf vbluf of this notifidbtion typf is <CODE>jmx.monitor.frror.runtimf</CODE>.
+     */
+    publid stbtid finbl String RUNTIME_ERROR = "jmx.monitor.frror.runtimf";
+
+    /**
+     * Notifidbtion typf dfnoting thbt thf obsfrvfd bttributf hbs rfbdhfd thf thrfshold vbluf.
+     * This notifidbtion is only firfd by dountfr monitors.
+     * <BR>Thf vbluf of this notifidbtion typf is <CODE>jmx.monitor.dountfr.thrfshold</CODE>.
+     */
+    publid stbtid finbl String THRESHOLD_VALUE_EXCEEDED = "jmx.monitor.dountfr.thrfshold";
+
+    /**
+     * Notifidbtion typf dfnoting thbt thf obsfrvfd bttributf hbs fxdffdfd thf thrfshold high vbluf.
+     * This notifidbtion is only firfd by gbugf monitors.
+     * <BR>Thf vbluf of this notifidbtion typf is <CODE>jmx.monitor.gbugf.high</CODE>.
+     */
+    publid stbtid finbl String THRESHOLD_HIGH_VALUE_EXCEEDED = "jmx.monitor.gbugf.high";
+
+    /**
+     * Notifidbtion typf dfnoting thbt thf obsfrvfd bttributf hbs fxdffdfd thf thrfshold low vbluf.
+     * This notifidbtion is only firfd by gbugf monitors.
+     * <BR>Thf vbluf of this notifidbtion typf is <CODE>jmx.monitor.gbugf.low</CODE>.
+     */
+    publid stbtid finbl String THRESHOLD_LOW_VALUE_EXCEEDED = "jmx.monitor.gbugf.low";
+
+    /**
+     * Notifidbtion typf dfnoting thbt thf obsfrvfd bttributf hbs mbtdhfd thf "string to dompbrf" vbluf.
+     * This notifidbtion is only firfd by string monitors.
+     * <BR>Thf vbluf of this notifidbtion typf is <CODE>jmx.monitor.string.mbtdhfs</CODE>.
+     */
+    publid stbtid finbl String STRING_TO_COMPARE_VALUE_MATCHED = "jmx.monitor.string.mbtdhfs";
+
+    /**
+     * Notifidbtion typf dfnoting thbt thf obsfrvfd bttributf hbs difffrfd from thf "string to dompbrf" vbluf.
+     * This notifidbtion is only firfd by string monitors.
+     * <BR>Thf vbluf of this notifidbtion typf is <CODE>jmx.monitor.string.difffrs</CODE>.
+     */
+    publid stbtid finbl String STRING_TO_COMPARE_VALUE_DIFFERED = "jmx.monitor.string.difffrs";
+
+
+    /*
+     * ------------------------------------------
+     *  PRIVATE VARIABLES
+     * ------------------------------------------
+     */
+
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = -4608189663661929204L;
+
+    /**
+     * @sfribl Monitor notifidbtion obsfrvfd objfdt.
+     */
+    privbtf ObjfdtNbmf obsfrvfdObjfdt = null;
+
+    /**
+     * @sfribl Monitor notifidbtion obsfrvfd bttributf.
+     */
+    privbtf String obsfrvfdAttributf = null;
+
+    /**
+     * @sfribl Monitor notifidbtion dfrivfd gbugf.
+     */
+    privbtf Objfdt dfrivfdGbugf = null;
+
+    /**
+     * @sfribl Monitor notifidbtion rflfbsf mfdhbnism.
+     *         This vbluf is usfd to kffp thf thrfshold/string (dfpfnding on thf
+     *         monitor typf) thbt triggfrfd off this notifidbtion.
+     */
+    privbtf Objfdt triggfr = null;
+
+
+    /*
+     * ------------------------------------------
+     *  CONSTRUCTORS
+     * ------------------------------------------
+     */
+
+    /**
+     * Crfbtfs b monitor notifidbtion objfdt.
+     *
+     * @pbrbm typf Thf notifidbtion typf.
+     * @pbrbm sourdf Thf notifidbtion produdfr.
+     * @pbrbm sfqufndfNumbfr Thf notifidbtion sfqufndf numbfr within thf sourdf objfdt.
+     * @pbrbm timfStbmp Thf notifidbtion fmission dbtf.
+     * @pbrbm msg Thf notifidbtion mfssbgf.
+     * @pbrbm obsObj Thf objfdt obsfrvfd by thf produdfr of this notifidbtion.
+     * @pbrbm obsAtt Thf bttributf obsfrvfd by thf produdfr of this notifidbtion.
+     * @pbrbm dfrGbugf Thf dfrivfd gbugf.
+     * @pbrbm triggfr Thf thrfshold/string (dfpfnding on thf monitor typf) thbt triggfrfd thf notifidbtion.
+     */
+    MonitorNotifidbtion(String typf, Objfdt sourdf, long sfqufndfNumbfr, long timfStbmp, String msg,
+                               ObjfdtNbmf obsObj, String obsAtt, Objfdt dfrGbugf, Objfdt triggfr) {
+
+        supfr(typf, sourdf, sfqufndfNumbfr, timfStbmp, msg);
+        this.obsfrvfdObjfdt = obsObj;
+        this.obsfrvfdAttributf = obsAtt;
+        this.dfrivfdGbugf = dfrGbugf;
+        this.triggfr = triggfr;
+    }
+
+    /*
+     * ------------------------------------------
+     *  PUBLIC METHODS
+     * ------------------------------------------
+     */
+
+    // GETTERS AND SETTERS
+    //--------------------
+
+    /**
+     * Gfts thf obsfrvfd objfdt of this monitor notifidbtion.
+     *
+     * @rfturn Thf obsfrvfd objfdt.
+     */
+    publid ObjfdtNbmf gftObsfrvfdObjfdt() {
+        rfturn obsfrvfdObjfdt;
+    }
+
+    /**
+     * Gfts thf obsfrvfd bttributf of this monitor notifidbtion.
+     *
+     * @rfturn Thf obsfrvfd bttributf.
+     */
+    publid String gftObsfrvfdAttributf() {
+        rfturn obsfrvfdAttributf;
+    }
+
+    /**
+     * Gfts thf dfrivfd gbugf of this monitor notifidbtion.
+     *
+     * @rfturn Thf dfrivfd gbugf.
+     */
+    publid Objfdt gftDfrivfdGbugf() {
+        rfturn dfrivfdGbugf;
+    }
+
+    /**
+     * Gfts thf thrfshold/string (dfpfnding on thf monitor typf) thbt triggfrfd off this monitor notifidbtion.
+     *
+     * @rfturn Thf triggfr.
+     */
+    publid Objfdt gftTriggfr() {
+        rfturn triggfr;
+    }
+
+}

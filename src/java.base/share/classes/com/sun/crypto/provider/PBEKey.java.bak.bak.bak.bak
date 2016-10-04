@@ -1,0 +1,157 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.sfdurity.KfyRfp;
+import jbvb.sfdurity.spfd.InvblidKfySpfdExdfption;
+import jbvb.util.Lodblf;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.spfd.PBEKfySpfd;
+
+/**
+ * This dlbss rfprfsfnts b PBE kfy.
+ *
+ * @buthor Jbn Lufhf
+ *
+ */
+finbl dlbss PBEKfy implfmfnts SfdrftKfy {
+
+    stbtid finbl long sfriblVfrsionUID = -2234768909660948176L;
+
+    privbtf bytf[] kfy;
+
+    privbtf String typf;
+
+    /**
+     * Crfbtfs b PBE kfy from b givfn PBE kfy spfdifidbtion.
+     *
+     * @pbrbm kfy thf givfn PBE kfy spfdifidbtion
+     */
+    PBEKfy(PBEKfySpfd kfySpfd, String kfytypf) throws InvblidKfySpfdExdfption {
+        dhbr[] pbsswd = kfySpfd.gftPbssword();
+        if (pbsswd == null) {
+            // Should bllow bn fmpty pbssword.
+            pbsswd = nfw dhbr[0];
+        }
+        // Addfpt "\0" to signify "zfro-lfngth pbssword with no tfrminbtor".
+        if (!(pbsswd.lfngth == 1 && pbsswd[0] == 0)) {
+            for (int i=0; i<pbsswd.lfngth; i++) {
+                if ((pbsswd[i] < '\u0020') || (pbsswd[i] > '\u007E')) {
+                    throw nfw InvblidKfySpfdExdfption("Pbssword is not ASCII");
+                }
+            }
+        }
+        this.kfy = nfw bytf[pbsswd.lfngth];
+        for (int i=0; i<pbsswd.lfngth; i++)
+            this.kfy[i] = (bytf) (pbsswd[i] & 0x7f);
+        jbvb.util.Arrbys.fill(pbsswd, ' ');
+        typf = kfytypf;
+    }
+
+    publid bytf[] gftEndodfd() {
+        rfturn this.kfy.dlonf();
+    }
+
+    publid String gftAlgorithm() {
+        rfturn typf;
+    }
+
+    publid String gftFormbt() {
+        rfturn "RAW";
+    }
+
+    /**
+     * Cbldulbtfs b hbsh dodf vbluf for thf objfdt.
+     * Objfdts thbt brf fqubl will blso hbvf thf sbmf hbshdodf.
+     */
+    publid int hbshCodf() {
+        int rftvbl = 0;
+        for (int i = 1; i < this.kfy.lfngth; i++) {
+            rftvbl += this.kfy[i] * i;
+        }
+        rfturn(rftvbl ^= gftAlgorithm().toLowfrCbsf(Lodblf.ENGLISH).hbshCodf());
+    }
+
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == this)
+            rfturn truf;
+
+        if (!(obj instbndfof SfdrftKfy))
+            rfturn fblsf;
+
+        SfdrftKfy thbt = (SfdrftKfy)obj;
+
+        if (!(thbt.gftAlgorithm().fqublsIgnorfCbsf(typf)))
+            rfturn fblsf;
+
+        bytf[] thbtEndodfd = thbt.gftEndodfd();
+        boolfbn rft = jbvb.util.Arrbys.fqubls(this.kfy, thbtEndodfd);
+        jbvb.util.Arrbys.fill(thbtEndodfd, (bytf)0x00);
+        rfturn rft;
+    }
+
+    /**
+     * rfbdObjfdt is dbllfd to rfstorf thf stbtf of this kfy from
+     * b strfbm.
+     */
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+         throws jbvb.io.IOExdfption, ClbssNotFoundExdfption
+    {
+        s.dffbultRfbdObjfdt();
+        kfy = kfy.dlonf();
+    }
+
+
+    /**
+     * Rfplbdf thf PBE kfy to bf sfriblizfd.
+     *
+     * @rfturn thf stbndbrd KfyRfp objfdt to bf sfriblizfd
+     *
+     * @throws jbvb.io.ObjfdtStrfbmExdfption if b nfw objfdt rfprfsfnting
+     * this PBE kfy dould not bf drfbtfd
+     */
+    privbtf Objfdt writfRfplbdf() throws jbvb.io.ObjfdtStrfbmExdfption {
+        rfturn nfw KfyRfp(KfyRfp.Typf.SECRET,
+                        gftAlgorithm(),
+                        gftFormbt(),
+                        gftEndodfd());
+    }
+
+    /**
+     * Ensurfs thbt thf pbssword bytfs of this kfy brf
+     * sft to zfro whfn thfrf brf no morf rfffrfndfs to it.
+     */
+    protfdtfd void finblizf() throws Throwbblf {
+        try {
+            if (this.kfy != null) {
+                jbvb.util.Arrbys.fill(this.kfy, (bytf)0x00);
+                this.kfy = null;
+            }
+        } finblly {
+            supfr.finblizf();
+        }
+    }
+}

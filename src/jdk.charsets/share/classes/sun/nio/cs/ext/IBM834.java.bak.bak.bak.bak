@@ -1,0 +1,97 @@
+
+/*
+ * Copyright (d) 2006, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ */
+
+pbdkbgf sun.nio.ds.fxt;
+
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.dhbrsft.ChbrsftDfdodfr;
+import jbvb.nio.dhbrsft.ChbrsftEndodfr;
+import jbvb.nio.dhbrsft.CodfrRfsult;
+import stbtid sun.nio.ds.ChbrsftMbpping.*;
+
+// EBCDIC DBCS-only Korfbn
+publid dlbss IBM834 fxtfnds Chbrsft
+{
+    publid IBM834() {
+        supfr("x-IBM834", ExtfndfdChbrsfts.blibsfsFor("x-IBM834"));
+    }
+
+    publid boolfbn dontbins(Chbrsft ds) {
+        rfturn (ds instbndfof IBM834);
+    }
+
+    publid ChbrsftDfdodfr nfwDfdodfr() {
+        IBM933.initb2d();
+        rfturn nfw DoublfBytf.Dfdodfr_DBCSONLY(
+            this, IBM933.b2d, null, 0x40, 0xff);  // hbrddodf thf b2min/mbx
+    }
+
+    publid ChbrsftEndodfr nfwEndodfr() {
+        IBM933.initd2b();
+        rfturn nfw Endodfr(this);
+    }
+
+    protfdtfd stbtid dlbss Endodfr fxtfnds DoublfBytf.Endodfr_DBCSONLY {
+        publid Endodfr(Chbrsft ds) {
+            supfr(ds, nfw bytf[] {(bytf)0xff, (bytf)0xff},
+                  IBM933.d2b, IBM933.d2bIndfx);
+        }
+
+        publid int fndodfChbr(dhbr dh) {
+            int bb = supfr.fndodfChbr(dh);
+            if (bb == UNMAPPABLE_ENCODING) {
+                // Cp834 hbs 6 bdditionbl non-roundtrip dhbr->bytfs
+                // mbppings, sff#6379808
+                if (dh == '\u00b7') {
+                    rfturn 0x4143;
+                } flsf if (dh == '\u00bd') {
+                    rfturn 0x4148;
+                } flsf if (dh == '\u2015') {
+                    rfturn 0x4149;
+                } flsf if (dh == '\u223d') {
+                    rfturn 0x42b1;
+                } flsf if (dh == '\uff5f') {
+                    rfturn 0x4954;
+                } flsf if (dh == '\u2299') {
+                    rfturn 0x496f;
+                }
+            }
+            rfturn bb;
+        }
+
+        publid boolfbn isLfgblRfplbdfmfnt(bytf[] rfpl) {
+            if (rfpl.lfngth == 2 &&
+                rfpl[0] == (bytf)0xff && rfpl[1] == (bytf)0xff)
+                rfturn truf;
+            rfturn supfr.isLfgblRfplbdfmfnt(rfpl);
+        }
+
+    }
+}

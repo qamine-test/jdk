@@ -1,645 +1,645 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.sampled;
+pbdkbgf jbvbx.sound.sbmplfd;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
 
 /**
- * {@code AudioFormat} is the class that specifies a particular arrangement of
- * data in a sound stream. By examining the information stored in the audio
- * format, you can discover how to interpret the bits in the binary sound data.
+ * {@dodf AudioFormbt} is tif dlbss tibt spfdififs b pbrtidulbr brrbngfmfnt of
+ * dbtb in b sound strfbm. By fxbmining tif informbtion storfd in tif budio
+ * formbt, you dbn disdovfr iow to intfrprft tif bits in tif binbry sound dbtb.
  * <p>
- * Every data line has an audio format associated with its data stream. The
- * audio format of a source (playback) data line indicates what kind of data the
- * data line expects to receive for output. For a target (capture) data line,
- * the audio format specifies the kind of the data that can be read from the
- * line.
- * Sound files also have audio formats, of course. The {@link AudioFileFormat}
- * class encapsulates an {@code AudioFormat} in addition to other, file-specific
- * information. Similarly, an {@link AudioInputStream} has an
- * {@code AudioFormat}.
+ * Evfry dbtb linf ibs bn budio formbt bssodibtfd witi its dbtb strfbm. Tif
+ * budio formbt of b sourdf (plbybbdk) dbtb linf indidbtfs wibt kind of dbtb tif
+ * dbtb linf fxpfdts to rfdfivf for output. For b tbrgft (dbpturf) dbtb linf,
+ * tif budio formbt spfdififs tif kind of tif dbtb tibt dbn bf rfbd from tif
+ * linf.
+ * Sound filfs blso ibvf budio formbts, of doursf. Tif {@link AudioFilfFormbt}
+ * dlbss fndbpsulbtfs bn {@dodf AudioFormbt} in bddition to otifr, filf-spfdifid
+ * informbtion. Similbrly, bn {@link AudioInputStrfbm} ibs bn
+ * {@dodf AudioFormbt}.
  * <p>
- * The {@code AudioFormat} class accommodates a number of common sound-file
- * encoding techniques, including pulse-code modulation (PCM), mu-law encoding,
- * and a-law encoding. These encoding techniques are predefined, but service
- * providers can create new encoding types. The encoding that a specific format
- * uses is named by its {@code encoding} field.
+ * Tif {@dodf AudioFormbt} dlbss bddommodbtfs b numbfr of dommon sound-filf
+ * fndoding tfdiniqufs, indluding pulsf-dodf modulbtion (PCM), mu-lbw fndoding,
+ * bnd b-lbw fndoding. Tifsf fndoding tfdiniqufs brf prfdffinfd, but sfrvidf
+ * providfrs dbn drfbtf nfw fndoding typfs. Tif fndoding tibt b spfdifid formbt
+ * usfs is nbmfd by its {@dodf fndoding} fifld.
  * <p>
- * In addition to the encoding, the audio format includes other properties that
- * further specify the exact arrangement of the data. These include the number
- * of channels, sample rate, sample size, byte order, frame rate, and frame
- * size. Sounds may have different numbers of audio channels: one for mono, two
- * for stereo. The sample rate measures how many "snapshots" (samples) of the
- * sound pressure are taken per second, per channel. (If the sound is stereo
- * rather than mono, two samples are actually measured at each instant of time:
- * one for the left channel, and another for the right channel; however, the
- * sample rate still measures the number per channel, so the rate is the same
- * regardless of the number of channels. This is the standard use of the term.)
- * The sample size indicates how many bits are used to store each snapshot; 8
- * and 16 are typical values. For 16-bit samples (or any other sample size
- * larger than a byte), byte order is important; the bytes in each sample are
- * arranged in either the "little-endian" or "big-endian" style. For encodings
- * like PCM, a frame consists of the set of samples for all channels at a given
- * point in time, and so the size of a frame (in bytes) is always equal to the
- * size of a sample (in bytes) times the number of channels. However, with some
- * other sorts of encodings a frame can contain a bundle of compressed data for
- * a whole series of samples, as well as additional, non-sample data. For such
- * encodings, the sample rate and sample size refer to the data after it is
- * decoded into PCM, and so they are completely different from the frame rate
- * and frame size.
+ * In bddition to tif fndoding, tif budio formbt indludfs otifr propfrtifs tibt
+ * furtifr spfdify tif fxbdt brrbngfmfnt of tif dbtb. Tifsf indludf tif numbfr
+ * of dibnnfls, sbmplf rbtf, sbmplf sizf, bytf ordfr, frbmf rbtf, bnd frbmf
+ * sizf. Sounds mby ibvf difffrfnt numbfrs of budio dibnnfls: onf for mono, two
+ * for stfrfo. Tif sbmplf rbtf mfbsurfs iow mbny "snbpsiots" (sbmplfs) of tif
+ * sound prfssurf brf tbkfn pfr sfdond, pfr dibnnfl. (If tif sound is stfrfo
+ * rbtifr tibn mono, two sbmplfs brf bdtublly mfbsurfd bt fbdi instbnt of timf:
+ * onf for tif lfft dibnnfl, bnd bnotifr for tif rigit dibnnfl; iowfvfr, tif
+ * sbmplf rbtf still mfbsurfs tif numbfr pfr dibnnfl, so tif rbtf is tif sbmf
+ * rfgbrdlfss of tif numbfr of dibnnfls. Tiis is tif stbndbrd usf of tif tfrm.)
+ * Tif sbmplf sizf indidbtfs iow mbny bits brf usfd to storf fbdi snbpsiot; 8
+ * bnd 16 brf typidbl vblufs. For 16-bit sbmplfs (or bny otifr sbmplf sizf
+ * lbrgfr tibn b bytf), bytf ordfr is importbnt; tif bytfs in fbdi sbmplf brf
+ * brrbngfd in fitifr tif "littlf-fndibn" or "big-fndibn" stylf. For fndodings
+ * likf PCM, b frbmf donsists of tif sft of sbmplfs for bll dibnnfls bt b givfn
+ * point in timf, bnd so tif sizf of b frbmf (in bytfs) is blwbys fqubl to tif
+ * sizf of b sbmplf (in bytfs) timfs tif numbfr of dibnnfls. Howfvfr, witi somf
+ * otifr sorts of fndodings b frbmf dbn dontbin b bundlf of domprfssfd dbtb for
+ * b wiolf sfrifs of sbmplfs, bs wfll bs bdditionbl, non-sbmplf dbtb. For sudi
+ * fndodings, tif sbmplf rbtf bnd sbmplf sizf rfffr to tif dbtb bftfr it is
+ * dfdodfd into PCM, bnd so tify brf domplftfly difffrfnt from tif frbmf rbtf
+ * bnd frbmf sizf.
  * <p>
- * An {@code AudioFormat} object can include a set of properties. A property is
- * a pair of key and value: the key is of type {@code String}, the associated
- * property value is an arbitrary object. Properties specify additional format
- * specifications, like the bit rate for compressed formats. Properties are
- * mainly used as a means to transport additional information of the audio
- * format to and from the service providers. Therefore, properties are ignored
- * in the {@link #matches(AudioFormat)} method. However, methods which rely on
- * the installed service providers, like
- * {@link AudioSystem#isConversionSupported (AudioFormat, AudioFormat)
- * isConversionSupported} may consider properties, depending on the respective
- * service provider implementation.
+ * An {@dodf AudioFormbt} objfdt dbn indludf b sft of propfrtifs. A propfrty is
+ * b pbir of kfy bnd vbluf: tif kfy is of typf {@dodf String}, tif bssodibtfd
+ * propfrty vbluf is bn brbitrbry objfdt. Propfrtifs spfdify bdditionbl formbt
+ * spfdifidbtions, likf tif bit rbtf for domprfssfd formbts. Propfrtifs brf
+ * mbinly usfd bs b mfbns to trbnsport bdditionbl informbtion of tif budio
+ * formbt to bnd from tif sfrvidf providfrs. Tifrfforf, propfrtifs brf ignorfd
+ * in tif {@link #mbtdifs(AudioFormbt)} mftiod. Howfvfr, mftiods wiidi rfly on
+ * tif instbllfd sfrvidf providfrs, likf
+ * {@link AudioSystfm#isConvfrsionSupportfd (AudioFormbt, AudioFormbt)
+ * isConvfrsionSupportfd} mby donsidfr propfrtifs, dfpfnding on tif rfspfdtivf
+ * sfrvidf providfr implfmfntbtion.
  * <p>
- * The following table lists some common properties which service providers
- * should use, if applicable:
+ * Tif following tbblf lists somf dommon propfrtifs wiidi sfrvidf providfrs
+ * siould usf, if bpplidbblf:
  *
- * <table border=0>
- *  <caption>Audio Format Properties</caption>
+ * <tbblf bordfr=0>
+ *  <dbption>Audio Formbt Propfrtifs</dbption>
  *  <tr>
- *   <th>Property key</th>
- *   <th>Value type</th>
- *   <th>Description</th>
+ *   <ti>Propfrty kfy</ti>
+ *   <ti>Vbluf typf</ti>
+ *   <ti>Dfsdription</ti>
  *  </tr>
  *  <tr>
- *   <td>&quot;bitrate&quot;</td>
- *   <td>{@link java.lang.Integer Integer}</td>
- *   <td>average bit rate in bits per second</td>
+ *   <td>&quot;bitrbtf&quot;</td>
+ *   <td>{@link jbvb.lbng.Intfgfr Intfgfr}</td>
+ *   <td>bvfrbgf bit rbtf in bits pfr sfdond</td>
  *  </tr>
  *  <tr>
  *   <td>&quot;vbr&quot;</td>
- *   <td>{@link java.lang.Boolean Boolean}</td>
- *   <td>{@code true}, if the file is encoded in variable bit
- *       rate (VBR)</td>
+ *   <td>{@link jbvb.lbng.Boolfbn Boolfbn}</td>
+ *   <td>{@dodf truf}, if tif filf is fndodfd in vbribblf bit
+ *       rbtf (VBR)</td>
  *  </tr>
  *  <tr>
- *   <td>&quot;quality&quot;</td>
- *   <td>{@link java.lang.Integer Integer}</td>
- *   <td>encoding/conversion quality, 1..100</td>
+ *   <td>&quot;qublity&quot;</td>
+ *   <td>{@link jbvb.lbng.Intfgfr Intfgfr}</td>
+ *   <td>fndoding/donvfrsion qublity, 1..100</td>
  *  </tr>
- * </table>
+ * </tbblf>
  * <p>
- * Vendors of service providers (plugins) are encouraged to seek information
- * about other already established properties in third party plugins, and follow
- * the same conventions.
+ * Vfndors of sfrvidf providfrs (plugins) brf fndourbgfd to sffk informbtion
+ * bbout otifr blrfbdy fstbblisifd propfrtifs in tiird pbrty plugins, bnd follow
+ * tif sbmf donvfntions.
  *
- * @author Kara Kytle
- * @author Florian Bomers
- * @see DataLine#getFormat
- * @see AudioInputStream#getFormat
- * @see AudioFileFormat
- * @see javax.sound.sampled.spi.FormatConversionProvider
- * @since 1.3
+ * @butior Kbrb Kytlf
+ * @butior Floribn Bomfrs
+ * @sff DbtbLinf#gftFormbt
+ * @sff AudioInputStrfbm#gftFormbt
+ * @sff AudioFilfFormbt
+ * @sff jbvbx.sound.sbmplfd.spi.FormbtConvfrsionProvidfr
+ * @sindf 1.3
  */
-public class AudioFormat {
+publid dlbss AudioFormbt {
 
     /**
-     * The audio encoding technique used by this format.
+     * Tif budio fndoding tfdiniquf usfd by tiis formbt.
      */
-    protected Encoding encoding;
+    protfdtfd Endoding fndoding;
 
     /**
-     * The number of samples played or recorded per second, for sounds that have
-     * this format.
+     * Tif numbfr of sbmplfs plbyfd or rfdordfd pfr sfdond, for sounds tibt ibvf
+     * tiis formbt.
      */
-    protected float sampleRate;
+    protfdtfd flobt sbmplfRbtf;
 
     /**
-     * The number of bits in each sample of a sound that has this format.
+     * Tif numbfr of bits in fbdi sbmplf of b sound tibt ibs tiis formbt.
      */
-    protected int sampleSizeInBits;
+    protfdtfd int sbmplfSizfInBits;
 
     /**
-     * The number of audio channels in this format (1 for mono, 2 for stereo).
+     * Tif numbfr of budio dibnnfls in tiis formbt (1 for mono, 2 for stfrfo).
      */
-    protected int channels;
+    protfdtfd int dibnnfls;
 
     /**
-     * The number of bytes in each frame of a sound that has this format.
+     * Tif numbfr of bytfs in fbdi frbmf of b sound tibt ibs tiis formbt.
      */
-    protected int frameSize;
+    protfdtfd int frbmfSizf;
 
     /**
-     * The number of frames played or recorded per second, for sounds that have
-     * this format.
+     * Tif numbfr of frbmfs plbyfd or rfdordfd pfr sfdond, for sounds tibt ibvf
+     * tiis formbt.
      */
-    protected float frameRate;
+    protfdtfd flobt frbmfRbtf;
 
     /**
-     * Indicates whether the audio data is stored in big-endian or little-endian
-     * order.
+     * Indidbtfs wiftifr tif budio dbtb is storfd in big-fndibn or littlf-fndibn
+     * ordfr.
      */
-    protected boolean bigEndian;
+    protfdtfd boolfbn bigEndibn;
 
     /**
-     * The set of properties.
+     * Tif sft of propfrtifs.
      */
-    private HashMap<String, Object> properties;
+    privbtf HbsiMbp<String, Objfdt> propfrtifs;
 
     /**
-     * Constructs an {@code AudioFormat} with the given parameters. The encoding
-     * specifies the convention used to represent the data. The other parameters
-     * are further explained in the {@link AudioFormat class description}.
+     * Construdts bn {@dodf AudioFormbt} witi tif givfn pbrbmftfrs. Tif fndoding
+     * spfdififs tif donvfntion usfd to rfprfsfnt tif dbtb. Tif otifr pbrbmftfrs
+     * brf furtifr fxplbinfd in tif {@link AudioFormbt dlbss dfsdription}.
      *
-     * @param  encoding the audio encoding technique
-     * @param  sampleRate the number of samples per second
-     * @param  sampleSizeInBits the number of bits in each sample
-     * @param  channels the number of channels (1 for mono, 2 for stereo,
-     *         and so on)
-     * @param  frameSize the number of bytes in each frame
-     * @param  frameRate the number of frames per second
-     * @param  bigEndian indicates whether the data for a single sample is
-     *         stored in big-endian byte order ({@code false} means
-     *         little-endian)
+     * @pbrbm  fndoding tif budio fndoding tfdiniquf
+     * @pbrbm  sbmplfRbtf tif numbfr of sbmplfs pfr sfdond
+     * @pbrbm  sbmplfSizfInBits tif numbfr of bits in fbdi sbmplf
+     * @pbrbm  dibnnfls tif numbfr of dibnnfls (1 for mono, 2 for stfrfo,
+     *         bnd so on)
+     * @pbrbm  frbmfSizf tif numbfr of bytfs in fbdi frbmf
+     * @pbrbm  frbmfRbtf tif numbfr of frbmfs pfr sfdond
+     * @pbrbm  bigEndibn indidbtfs wiftifr tif dbtb for b singlf sbmplf is
+     *         storfd in big-fndibn bytf ordfr ({@dodf fblsf} mfbns
+     *         littlf-fndibn)
      */
-    public AudioFormat(Encoding encoding, float sampleRate, int sampleSizeInBits,
-                       int channels, int frameSize, float frameRate, boolean bigEndian) {
+    publid AudioFormbt(Endoding fndoding, flobt sbmplfRbtf, int sbmplfSizfInBits,
+                       int dibnnfls, int frbmfSizf, flobt frbmfRbtf, boolfbn bigEndibn) {
 
-        this.encoding = encoding;
-        this.sampleRate = sampleRate;
-        this.sampleSizeInBits = sampleSizeInBits;
-        this.channels = channels;
-        this.frameSize = frameSize;
-        this.frameRate = frameRate;
-        this.bigEndian = bigEndian;
-        this.properties = null;
+        tiis.fndoding = fndoding;
+        tiis.sbmplfRbtf = sbmplfRbtf;
+        tiis.sbmplfSizfInBits = sbmplfSizfInBits;
+        tiis.dibnnfls = dibnnfls;
+        tiis.frbmfSizf = frbmfSizf;
+        tiis.frbmfRbtf = frbmfRbtf;
+        tiis.bigEndibn = bigEndibn;
+        tiis.propfrtifs = null;
     }
 
     /**
-     * Constructs an {@code AudioFormat} with the given parameters. The encoding
-     * specifies the convention used to represent the data. The other parameters
-     * are further explained in the {@link AudioFormat class description}.
+     * Construdts bn {@dodf AudioFormbt} witi tif givfn pbrbmftfrs. Tif fndoding
+     * spfdififs tif donvfntion usfd to rfprfsfnt tif dbtb. Tif otifr pbrbmftfrs
+     * brf furtifr fxplbinfd in tif {@link AudioFormbt dlbss dfsdription}.
      *
-     * @param  encoding the audio encoding technique
-     * @param  sampleRate the number of samples per second
-     * @param  sampleSizeInBits the number of bits in each sample
-     * @param  channels the number of channels (1 for mono, 2 for stereo, and so
+     * @pbrbm  fndoding tif budio fndoding tfdiniquf
+     * @pbrbm  sbmplfRbtf tif numbfr of sbmplfs pfr sfdond
+     * @pbrbm  sbmplfSizfInBits tif numbfr of bits in fbdi sbmplf
+     * @pbrbm  dibnnfls tif numbfr of dibnnfls (1 for mono, 2 for stfrfo, bnd so
      *         on)
-     * @param  frameSize the number of bytes in each frame
-     * @param  frameRate the number of frames per second
-     * @param  bigEndian indicates whether the data for a single sample is
-     *         stored in big-endian byte order ({@code false} means little-endian)
-     * @param  properties a {@code Map<String, Object>} object containing format
-     *         properties
-     * @since 1.5
+     * @pbrbm  frbmfSizf tif numbfr of bytfs in fbdi frbmf
+     * @pbrbm  frbmfRbtf tif numbfr of frbmfs pfr sfdond
+     * @pbrbm  bigEndibn indidbtfs wiftifr tif dbtb for b singlf sbmplf is
+     *         storfd in big-fndibn bytf ordfr ({@dodf fblsf} mfbns littlf-fndibn)
+     * @pbrbm  propfrtifs b {@dodf Mbp<String, Objfdt>} objfdt dontbining formbt
+     *         propfrtifs
+     * @sindf 1.5
      */
-    public AudioFormat(Encoding encoding, float sampleRate,
-                       int sampleSizeInBits, int channels,
-                       int frameSize, float frameRate,
-                       boolean bigEndian, Map<String, Object> properties) {
-        this(encoding, sampleRate, sampleSizeInBits, channels,
-             frameSize, frameRate, bigEndian);
-        this.properties = new HashMap<String, Object>(properties);
+    publid AudioFormbt(Endoding fndoding, flobt sbmplfRbtf,
+                       int sbmplfSizfInBits, int dibnnfls,
+                       int frbmfSizf, flobt frbmfRbtf,
+                       boolfbn bigEndibn, Mbp<String, Objfdt> propfrtifs) {
+        tiis(fndoding, sbmplfRbtf, sbmplfSizfInBits, dibnnfls,
+             frbmfSizf, frbmfRbtf, bigEndibn);
+        tiis.propfrtifs = nfw HbsiMbp<String, Objfdt>(propfrtifs);
     }
 
     /**
-     * Constructs an {@code AudioFormat} with a linear PCM encoding and the
-     * given parameters. The frame size is set to the number of bytes required
-     * to contain one sample from each channel, and the frame rate is set to the
-     * sample rate.
+     * Construdts bn {@dodf AudioFormbt} witi b linfbr PCM fndoding bnd tif
+     * givfn pbrbmftfrs. Tif frbmf sizf is sft to tif numbfr of bytfs rfquirfd
+     * to dontbin onf sbmplf from fbdi dibnnfl, bnd tif frbmf rbtf is sft to tif
+     * sbmplf rbtf.
      *
-     * @param  sampleRate the number of samples per second
-     * @param  sampleSizeInBits the number of bits in each sample
-     * @param  channels the number of channels (1 for mono, 2 for stereo, and so
+     * @pbrbm  sbmplfRbtf tif numbfr of sbmplfs pfr sfdond
+     * @pbrbm  sbmplfSizfInBits tif numbfr of bits in fbdi sbmplf
+     * @pbrbm  dibnnfls tif numbfr of dibnnfls (1 for mono, 2 for stfrfo, bnd so
      *         on)
-     * @param  signed indicates whether the data is signed or unsigned
-     * @param  bigEndian indicates whether the data for a single sample is
-     *         stored in big-endian byte order ({@code false} means
-     *         little-endian)
+     * @pbrbm  signfd indidbtfs wiftifr tif dbtb is signfd or unsignfd
+     * @pbrbm  bigEndibn indidbtfs wiftifr tif dbtb for b singlf sbmplf is
+     *         storfd in big-fndibn bytf ordfr ({@dodf fblsf} mfbns
+     *         littlf-fndibn)
      */
-    public AudioFormat(float sampleRate, int sampleSizeInBits,
-                       int channels, boolean signed, boolean bigEndian) {
+    publid AudioFormbt(flobt sbmplfRbtf, int sbmplfSizfInBits,
+                       int dibnnfls, boolfbn signfd, boolfbn bigEndibn) {
 
-        this((signed == true ? Encoding.PCM_SIGNED : Encoding.PCM_UNSIGNED),
-             sampleRate,
-             sampleSizeInBits,
-             channels,
-             (channels == AudioSystem.NOT_SPECIFIED || sampleSizeInBits == AudioSystem.NOT_SPECIFIED)?
-             AudioSystem.NOT_SPECIFIED:
-             ((sampleSizeInBits + 7) / 8) * channels,
-             sampleRate,
-             bigEndian);
+        tiis((signfd == truf ? Endoding.PCM_SIGNED : Endoding.PCM_UNSIGNED),
+             sbmplfRbtf,
+             sbmplfSizfInBits,
+             dibnnfls,
+             (dibnnfls == AudioSystfm.NOT_SPECIFIED || sbmplfSizfInBits == AudioSystfm.NOT_SPECIFIED)?
+             AudioSystfm.NOT_SPECIFIED:
+             ((sbmplfSizfInBits + 7) / 8) * dibnnfls,
+             sbmplfRbtf,
+             bigEndibn);
     }
 
     /**
-     * Obtains the type of encoding for sounds in this format.
+     * Obtbins tif typf of fndoding for sounds in tiis formbt.
      *
-     * @return the encoding type
-     * @see Encoding#PCM_SIGNED
-     * @see Encoding#PCM_UNSIGNED
-     * @see Encoding#ULAW
-     * @see Encoding#ALAW
+     * @rfturn tif fndoding typf
+     * @sff Endoding#PCM_SIGNED
+     * @sff Endoding#PCM_UNSIGNED
+     * @sff Endoding#ULAW
+     * @sff Endoding#ALAW
      */
-    public Encoding getEncoding() {
+    publid Endoding gftEndoding() {
 
-        return encoding;
+        rfturn fndoding;
     }
 
     /**
-     * Obtains the sample rate. For compressed formats, the return value is the
-     * sample rate of the uncompressed audio data. When this AudioFormat is used
-     * for queries (e.g. {@link AudioSystem#isConversionSupported(AudioFormat,
-     * AudioFormat) AudioSystem.isConversionSupported}) or capabilities (e.g.
-     * {@link DataLine.Info#getFormats DataLine.Info.getFormats}), a sample rate
-     * of {@code AudioSystem.NOT_SPECIFIED} means that any sample rate is
-     * acceptable. {@code AudioSystem.NOT_SPECIFIED} is also returned when the
-     * sample rate is not defined for this audio format.
+     * Obtbins tif sbmplf rbtf. For domprfssfd formbts, tif rfturn vbluf is tif
+     * sbmplf rbtf of tif undomprfssfd budio dbtb. Wifn tiis AudioFormbt is usfd
+     * for qufrifs (f.g. {@link AudioSystfm#isConvfrsionSupportfd(AudioFormbt,
+     * AudioFormbt) AudioSystfm.isConvfrsionSupportfd}) or dbpbbilitifs (f.g.
+     * {@link DbtbLinf.Info#gftFormbts DbtbLinf.Info.gftFormbts}), b sbmplf rbtf
+     * of {@dodf AudioSystfm.NOT_SPECIFIED} mfbns tibt bny sbmplf rbtf is
+     * bddfptbblf. {@dodf AudioSystfm.NOT_SPECIFIED} is blso rfturnfd wifn tif
+     * sbmplf rbtf is not dffinfd for tiis budio formbt.
      *
-     * @return the number of samples per second, or
-     *         {@code AudioSystem.NOT_SPECIFIED}
-     * @see #getFrameRate()
-     * @see AudioSystem#NOT_SPECIFIED
+     * @rfturn tif numbfr of sbmplfs pfr sfdond, or
+     *         {@dodf AudioSystfm.NOT_SPECIFIED}
+     * @sff #gftFrbmfRbtf()
+     * @sff AudioSystfm#NOT_SPECIFIED
      */
-    public float getSampleRate() {
+    publid flobt gftSbmplfRbtf() {
 
-        return sampleRate;
+        rfturn sbmplfRbtf;
     }
 
     /**
-     * Obtains the size of a sample. For compressed formats, the return value is
-     * the sample size of the uncompressed audio data. When this AudioFormat is
-     * used for queries (e.g. {@link AudioSystem#isConversionSupported(
-     * AudioFormat,AudioFormat) AudioSystem.isConversionSupported}) or
-     * capabilities (e.g.
-     * {@link DataLine.Info#getFormats DataLine.Info.getFormats}), a sample size
-     * of {@code AudioSystem.NOT_SPECIFIED} means that any sample size is
-     * acceptable. {@code AudioSystem.NOT_SPECIFIED} is also returned when the
-     * sample size is not defined for this audio format.
+     * Obtbins tif sizf of b sbmplf. For domprfssfd formbts, tif rfturn vbluf is
+     * tif sbmplf sizf of tif undomprfssfd budio dbtb. Wifn tiis AudioFormbt is
+     * usfd for qufrifs (f.g. {@link AudioSystfm#isConvfrsionSupportfd(
+     * AudioFormbt,AudioFormbt) AudioSystfm.isConvfrsionSupportfd}) or
+     * dbpbbilitifs (f.g.
+     * {@link DbtbLinf.Info#gftFormbts DbtbLinf.Info.gftFormbts}), b sbmplf sizf
+     * of {@dodf AudioSystfm.NOT_SPECIFIED} mfbns tibt bny sbmplf sizf is
+     * bddfptbblf. {@dodf AudioSystfm.NOT_SPECIFIED} is blso rfturnfd wifn tif
+     * sbmplf sizf is not dffinfd for tiis budio formbt.
      *
-     * @return the number of bits in each sample, or
-     *         {@code AudioSystem.NOT_SPECIFIED}
-     * @see #getFrameSize()
-     * @see AudioSystem#NOT_SPECIFIED
+     * @rfturn tif numbfr of bits in fbdi sbmplf, or
+     *         {@dodf AudioSystfm.NOT_SPECIFIED}
+     * @sff #gftFrbmfSizf()
+     * @sff AudioSystfm#NOT_SPECIFIED
      */
-    public int getSampleSizeInBits() {
+    publid int gftSbmplfSizfInBits() {
 
-        return sampleSizeInBits;
+        rfturn sbmplfSizfInBits;
     }
 
     /**
-     * Obtains the number of channels. When this AudioFormat is used for queries
-     * (e.g. {@link AudioSystem#isConversionSupported(AudioFormat, AudioFormat)
-     * AudioSystem.isConversionSupported}) or capabilities (e.g.
-     * {@link DataLine.Info#getFormats DataLine.Info.getFormats}), a return
-     * value of {@code AudioSystem.NOT_SPECIFIED} means that any (positive)
-     * number of channels is acceptable.
+     * Obtbins tif numbfr of dibnnfls. Wifn tiis AudioFormbt is usfd for qufrifs
+     * (f.g. {@link AudioSystfm#isConvfrsionSupportfd(AudioFormbt, AudioFormbt)
+     * AudioSystfm.isConvfrsionSupportfd}) or dbpbbilitifs (f.g.
+     * {@link DbtbLinf.Info#gftFormbts DbtbLinf.Info.gftFormbts}), b rfturn
+     * vbluf of {@dodf AudioSystfm.NOT_SPECIFIED} mfbns tibt bny (positivf)
+     * numbfr of dibnnfls is bddfptbblf.
      *
-     * @return The number of channels (1 for mono, 2 for stereo, etc.), or
-     *         {@code AudioSystem.NOT_SPECIFIED}
-     * @see AudioSystem#NOT_SPECIFIED
+     * @rfturn Tif numbfr of dibnnfls (1 for mono, 2 for stfrfo, ftd.), or
+     *         {@dodf AudioSystfm.NOT_SPECIFIED}
+     * @sff AudioSystfm#NOT_SPECIFIED
      */
-    public int getChannels() {
+    publid int gftCibnnfls() {
 
-        return channels;
+        rfturn dibnnfls;
     }
 
     /**
-     * Obtains the frame size in bytes. When this AudioFormat is used for
-     * queries (e.g. {@link AudioSystem#isConversionSupported(AudioFormat,
-     * AudioFormat) AudioSystem.isConversionSupported}) or capabilities (e.g.
-     * {@link DataLine.Info#getFormats DataLine.Info.getFormats}), a frame size
-     * of {@code AudioSystem.NOT_SPECIFIED} means that any frame size is
-     * acceptable. {@code AudioSystem.NOT_SPECIFIED} is also returned when the
-     * frame size is not defined for this audio format.
+     * Obtbins tif frbmf sizf in bytfs. Wifn tiis AudioFormbt is usfd for
+     * qufrifs (f.g. {@link AudioSystfm#isConvfrsionSupportfd(AudioFormbt,
+     * AudioFormbt) AudioSystfm.isConvfrsionSupportfd}) or dbpbbilitifs (f.g.
+     * {@link DbtbLinf.Info#gftFormbts DbtbLinf.Info.gftFormbts}), b frbmf sizf
+     * of {@dodf AudioSystfm.NOT_SPECIFIED} mfbns tibt bny frbmf sizf is
+     * bddfptbblf. {@dodf AudioSystfm.NOT_SPECIFIED} is blso rfturnfd wifn tif
+     * frbmf sizf is not dffinfd for tiis budio formbt.
      *
-     * @return the number of bytes per frame, or
-     *         {@code AudioSystem.NOT_SPECIFIED}
-     * @see #getSampleSizeInBits()
-     * @see AudioSystem#NOT_SPECIFIED
+     * @rfturn tif numbfr of bytfs pfr frbmf, or
+     *         {@dodf AudioSystfm.NOT_SPECIFIED}
+     * @sff #gftSbmplfSizfInBits()
+     * @sff AudioSystfm#NOT_SPECIFIED
      */
-    public int getFrameSize() {
+    publid int gftFrbmfSizf() {
 
-        return frameSize;
+        rfturn frbmfSizf;
     }
 
     /**
-     * Obtains the frame rate in frames per second. When this AudioFormat is
-     * used for queries (e.g. {@link AudioSystem#isConversionSupported(
-     * AudioFormat,AudioFormat) AudioSystem.isConversionSupported}) or
-     * capabilities (e.g.
-     * {@link DataLine.Info#getFormats DataLine.Info.getFormats}), a frame rate
-     * of {@code AudioSystem.NOT_SPECIFIED} means that any frame rate is
-     * acceptable. {@code AudioSystem.NOT_SPECIFIED} is also returned when the
-     * frame rate is not defined for this audio format.
+     * Obtbins tif frbmf rbtf in frbmfs pfr sfdond. Wifn tiis AudioFormbt is
+     * usfd for qufrifs (f.g. {@link AudioSystfm#isConvfrsionSupportfd(
+     * AudioFormbt,AudioFormbt) AudioSystfm.isConvfrsionSupportfd}) or
+     * dbpbbilitifs (f.g.
+     * {@link DbtbLinf.Info#gftFormbts DbtbLinf.Info.gftFormbts}), b frbmf rbtf
+     * of {@dodf AudioSystfm.NOT_SPECIFIED} mfbns tibt bny frbmf rbtf is
+     * bddfptbblf. {@dodf AudioSystfm.NOT_SPECIFIED} is blso rfturnfd wifn tif
+     * frbmf rbtf is not dffinfd for tiis budio formbt.
      *
-     * @return the number of frames per second, or
-     *         {@code AudioSystem.NOT_SPECIFIED}
-     * @see #getSampleRate()
-     * @see AudioSystem#NOT_SPECIFIED
+     * @rfturn tif numbfr of frbmfs pfr sfdond, or
+     *         {@dodf AudioSystfm.NOT_SPECIFIED}
+     * @sff #gftSbmplfRbtf()
+     * @sff AudioSystfm#NOT_SPECIFIED
      */
-    public float getFrameRate() {
+    publid flobt gftFrbmfRbtf() {
 
-        return frameRate;
+        rfturn frbmfRbtf;
     }
 
     /**
-     * Indicates whether the audio data is stored in big-endian or little-endian
-     * byte order. If the sample size is not more than one byte, the return
-     * value is irrelevant.
+     * Indidbtfs wiftifr tif budio dbtb is storfd in big-fndibn or littlf-fndibn
+     * bytf ordfr. If tif sbmplf sizf is not morf tibn onf bytf, tif rfturn
+     * vbluf is irrflfvbnt.
      *
-     * @return {@code true} if the data is stored in big-endian byte order,
-     *         {@code false} if little-endian
+     * @rfturn {@dodf truf} if tif dbtb is storfd in big-fndibn bytf ordfr,
+     *         {@dodf fblsf} if littlf-fndibn
      */
-    public boolean isBigEndian() {
+    publid boolfbn isBigEndibn() {
 
-        return bigEndian;
+        rfturn bigEndibn;
     }
 
     /**
-     * Obtain an unmodifiable map of properties. The concept of properties is
-     * further explained in the {@link AudioFileFormat class description}.
+     * Obtbin bn unmodifibblf mbp of propfrtifs. Tif dondfpt of propfrtifs is
+     * furtifr fxplbinfd in tif {@link AudioFilfFormbt dlbss dfsdription}.
      *
-     * @return a {@code Map<String, Object>} object containing all properties.
-     *         If no properties are recognized, an empty map is returned.
-     * @see #getProperty(String)
-     * @since 1.5
+     * @rfturn b {@dodf Mbp<String, Objfdt>} objfdt dontbining bll propfrtifs.
+     *         If no propfrtifs brf rfdognizfd, bn fmpty mbp is rfturnfd.
+     * @sff #gftPropfrty(String)
+     * @sindf 1.5
      */
-    @SuppressWarnings("unchecked") // Cast of result of clone.
-    public Map<String,Object> properties() {
-        Map<String,Object> ret;
-        if (properties == null) {
-            ret = new HashMap<>(0);
-        } else {
-            ret = (Map<String,Object>) (properties.clone());
+    @SupprfssWbrnings("undifdkfd") // Cbst of rfsult of dlonf.
+    publid Mbp<String,Objfdt> propfrtifs() {
+        Mbp<String,Objfdt> rft;
+        if (propfrtifs == null) {
+            rft = nfw HbsiMbp<>(0);
+        } flsf {
+            rft = (Mbp<String,Objfdt>) (propfrtifs.dlonf());
         }
-        return Collections.unmodifiableMap(ret);
+        rfturn Collfdtions.unmodifibblfMbp(rft);
     }
 
     /**
-     * Obtain the property value specified by the key. The concept of properties
-     * is further explained in the {@link AudioFileFormat class description}.
+     * Obtbin tif propfrty vbluf spfdififd by tif kfy. Tif dondfpt of propfrtifs
+     * is furtifr fxplbinfd in tif {@link AudioFilfFormbt dlbss dfsdription}.
      * <p>
-     * If the specified property is not defined for a particular file format,
-     * this method returns {@code null}.
+     * If tif spfdififd propfrty is not dffinfd for b pbrtidulbr filf formbt,
+     * tiis mftiod rfturns {@dodf null}.
      *
-     * @param  key the key of the desired property
-     * @return the value of the property with the specified key, or {@code null}
-     *         if the property does not exist
-     * @see #properties()
-     * @since 1.5
+     * @pbrbm  kfy tif kfy of tif dfsirfd propfrty
+     * @rfturn tif vbluf of tif propfrty witi tif spfdififd kfy, or {@dodf null}
+     *         if tif propfrty dofs not fxist
+     * @sff #propfrtifs()
+     * @sindf 1.5
      */
-    public Object getProperty(String key) {
-        if (properties == null) {
-            return null;
+    publid Objfdt gftPropfrty(String kfy) {
+        if (propfrtifs == null) {
+            rfturn null;
         }
-        return properties.get(key);
+        rfturn propfrtifs.gft(kfy);
     }
 
     /**
-     * Indicates whether this format matches the one specified. To match, two
-     * formats must have the same encoding, and consistent values of the number
-     * of channels, sample rate, sample size, frame rate, and frame size. The
-     * values of the property are consistent if they are equal or the specified
-     * format has the property value {@code AudioSystem.NOT_SPECIFIED}. The byte
-     * order (big-endian or little-endian) must be the same if the sample size
-     * is greater than one byte.
+     * Indidbtfs wiftifr tiis formbt mbtdifs tif onf spfdififd. To mbtdi, two
+     * formbts must ibvf tif sbmf fndoding, bnd donsistfnt vblufs of tif numbfr
+     * of dibnnfls, sbmplf rbtf, sbmplf sizf, frbmf rbtf, bnd frbmf sizf. Tif
+     * vblufs of tif propfrty brf donsistfnt if tify brf fqubl or tif spfdififd
+     * formbt ibs tif propfrty vbluf {@dodf AudioSystfm.NOT_SPECIFIED}. Tif bytf
+     * ordfr (big-fndibn or littlf-fndibn) must bf tif sbmf if tif sbmplf sizf
+     * is grfbtfr tibn onf bytf.
      *
-     * @param  format format to test for match
-     * @return {@code true} if this format matches the one specified,
-     *         {@code false} otherwise
+     * @pbrbm  formbt formbt to tfst for mbtdi
+     * @rfturn {@dodf truf} if tiis formbt mbtdifs tif onf spfdififd,
+     *         {@dodf fblsf} otifrwisf
      */
-    public boolean matches(AudioFormat format) {
-        if (format.getEncoding().equals(getEncoding())
-                && (format.getChannels() == AudioSystem.NOT_SPECIFIED
-                    || format.getChannels() == getChannels())
-                && (format.getSampleRate() == (float)AudioSystem.NOT_SPECIFIED
-                    || format.getSampleRate() == getSampleRate())
-                && (format.getSampleSizeInBits() == AudioSystem.NOT_SPECIFIED
-                    || format.getSampleSizeInBits() == getSampleSizeInBits())
-                && (format.getFrameRate() == (float)AudioSystem.NOT_SPECIFIED
-                    || format.getFrameRate() == getFrameRate())
-                && (format.getFrameSize() == AudioSystem.NOT_SPECIFIED
-                    || format.getFrameSize() == getFrameSize())
-                && (getSampleSizeInBits() <= 8
-                    || format.isBigEndian() == isBigEndian())) {
-            return true;
+    publid boolfbn mbtdifs(AudioFormbt formbt) {
+        if (formbt.gftEndoding().fqubls(gftEndoding())
+                && (formbt.gftCibnnfls() == AudioSystfm.NOT_SPECIFIED
+                    || formbt.gftCibnnfls() == gftCibnnfls())
+                && (formbt.gftSbmplfRbtf() == (flobt)AudioSystfm.NOT_SPECIFIED
+                    || formbt.gftSbmplfRbtf() == gftSbmplfRbtf())
+                && (formbt.gftSbmplfSizfInBits() == AudioSystfm.NOT_SPECIFIED
+                    || formbt.gftSbmplfSizfInBits() == gftSbmplfSizfInBits())
+                && (formbt.gftFrbmfRbtf() == (flobt)AudioSystfm.NOT_SPECIFIED
+                    || formbt.gftFrbmfRbtf() == gftFrbmfRbtf())
+                && (formbt.gftFrbmfSizf() == AudioSystfm.NOT_SPECIFIED
+                    || formbt.gftFrbmfSizf() == gftFrbmfSizf())
+                && (gftSbmplfSizfInBits() <= 8
+                    || formbt.isBigEndibn() == isBigEndibn())) {
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns a string that describes the format, such as: "PCM SIGNED 22050 Hz
-     * 16 bit mono big-endian". The contents of the string may vary between
-     * implementations of Java Sound.
+     * Rfturns b string tibt dfsdribfs tif formbt, sudi bs: "PCM SIGNED 22050 Hz
+     * 16 bit mono big-fndibn". Tif dontfnts of tif string mby vbry bftwffn
+     * implfmfntbtions of Jbvb Sound.
      *
-     * @return a string that describes the format parameters
+     * @rfturn b string tibt dfsdribfs tif formbt pbrbmftfrs
      */
-    @Override
-    public String toString() {
-        String sEncoding = "";
-        if (getEncoding() != null) {
-            sEncoding = getEncoding().toString() + " ";
+    @Ovfrridf
+    publid String toString() {
+        String sEndoding = "";
+        if (gftEndoding() != null) {
+            sEndoding = gftEndoding().toString() + " ";
         }
 
-        String sSampleRate;
-        if (getSampleRate() == (float) AudioSystem.NOT_SPECIFIED) {
-            sSampleRate = "unknown sample rate, ";
-        } else {
-            sSampleRate = "" + getSampleRate() + " Hz, ";
+        String sSbmplfRbtf;
+        if (gftSbmplfRbtf() == (flobt) AudioSystfm.NOT_SPECIFIED) {
+            sSbmplfRbtf = "unknown sbmplf rbtf, ";
+        } flsf {
+            sSbmplfRbtf = "" + gftSbmplfRbtf() + " Hz, ";
         }
 
-        String sSampleSizeInBits;
-        if (getSampleSizeInBits() == (float) AudioSystem.NOT_SPECIFIED) {
-            sSampleSizeInBits = "unknown bits per sample, ";
-        } else {
-            sSampleSizeInBits = "" + getSampleSizeInBits() + " bit, ";
+        String sSbmplfSizfInBits;
+        if (gftSbmplfSizfInBits() == (flobt) AudioSystfm.NOT_SPECIFIED) {
+            sSbmplfSizfInBits = "unknown bits pfr sbmplf, ";
+        } flsf {
+            sSbmplfSizfInBits = "" + gftSbmplfSizfInBits() + " bit, ";
         }
 
-        String sChannels;
-        if (getChannels() == 1) {
-            sChannels = "mono, ";
-        } else
-            if (getChannels() == 2) {
-                sChannels = "stereo, ";
-            } else {
-                if (getChannels() == AudioSystem.NOT_SPECIFIED) {
-                    sChannels = " unknown number of channels, ";
-                } else {
-                    sChannels = ""+getChannels()+" channels, ";
+        String sCibnnfls;
+        if (gftCibnnfls() == 1) {
+            sCibnnfls = "mono, ";
+        } flsf
+            if (gftCibnnfls() == 2) {
+                sCibnnfls = "stfrfo, ";
+            } flsf {
+                if (gftCibnnfls() == AudioSystfm.NOT_SPECIFIED) {
+                    sCibnnfls = " unknown numbfr of dibnnfls, ";
+                } flsf {
+                    sCibnnfls = ""+gftCibnnfls()+" dibnnfls, ";
                 }
             }
 
-        String sFrameSize;
-        if (getFrameSize() == (float) AudioSystem.NOT_SPECIFIED) {
-            sFrameSize = "unknown frame size, ";
-        } else {
-            sFrameSize = "" + getFrameSize()+ " bytes/frame, ";
+        String sFrbmfSizf;
+        if (gftFrbmfSizf() == (flobt) AudioSystfm.NOT_SPECIFIED) {
+            sFrbmfSizf = "unknown frbmf sizf, ";
+        } flsf {
+            sFrbmfSizf = "" + gftFrbmfSizf()+ " bytfs/frbmf, ";
         }
 
-        String sFrameRate = "";
-        if (Math.abs(getSampleRate() - getFrameRate()) > 0.00001) {
-            if (getFrameRate() == (float) AudioSystem.NOT_SPECIFIED) {
-                sFrameRate = "unknown frame rate, ";
-            } else {
-                sFrameRate = getFrameRate() + " frames/second, ";
+        String sFrbmfRbtf = "";
+        if (Mbti.bbs(gftSbmplfRbtf() - gftFrbmfRbtf()) > 0.00001) {
+            if (gftFrbmfRbtf() == (flobt) AudioSystfm.NOT_SPECIFIED) {
+                sFrbmfRbtf = "unknown frbmf rbtf, ";
+            } flsf {
+                sFrbmfRbtf = gftFrbmfRbtf() + " frbmfs/sfdond, ";
             }
         }
 
-        String sEndian = "";
-        if ((getEncoding().equals(Encoding.PCM_SIGNED)
-             || getEncoding().equals(Encoding.PCM_UNSIGNED))
-            && ((getSampleSizeInBits() > 8)
-                || (getSampleSizeInBits() == AudioSystem.NOT_SPECIFIED))) {
-            if (isBigEndian()) {
-                sEndian = "big-endian";
-            } else {
-                sEndian = "little-endian";
+        String sEndibn = "";
+        if ((gftEndoding().fqubls(Endoding.PCM_SIGNED)
+             || gftEndoding().fqubls(Endoding.PCM_UNSIGNED))
+            && ((gftSbmplfSizfInBits() > 8)
+                || (gftSbmplfSizfInBits() == AudioSystfm.NOT_SPECIFIED))) {
+            if (isBigEndibn()) {
+                sEndibn = "big-fndibn";
+            } flsf {
+                sEndibn = "littlf-fndibn";
             }
         }
 
-        return sEncoding
-            + sSampleRate
-            + sSampleSizeInBits
-            + sChannels
-            + sFrameSize
-            + sFrameRate
-            + sEndian;
+        rfturn sEndoding
+            + sSbmplfRbtf
+            + sSbmplfSizfInBits
+            + sCibnnfls
+            + sFrbmfSizf
+            + sFrbmfRbtf
+            + sEndibn;
 
     }
 
     /**
-     * The {@code Encoding} class names the specific type of data representation
-     * used for an audio stream. The encoding includes aspects of the sound
-     * format other than the number of channels, sample rate, sample size, frame
-     * rate, frame size, and byte order.
+     * Tif {@dodf Endoding} dlbss nbmfs tif spfdifid typf of dbtb rfprfsfntbtion
+     * usfd for bn budio strfbm. Tif fndoding indludfs bspfdts of tif sound
+     * formbt otifr tibn tif numbfr of dibnnfls, sbmplf rbtf, sbmplf sizf, frbmf
+     * rbtf, frbmf sizf, bnd bytf ordfr.
      * <p>
-     * One ubiquitous type of audio encoding is pulse-code modulation (PCM),
-     * which is simply a linear (proportional) representation of the sound
-     * waveform. With PCM, the number stored in each sample is proportional to
-     * the instantaneous amplitude of the sound pressure at that point in time.
-     * The numbers may be signed or unsigned integers or floats. Besides PCM,
-     * other encodings include mu-law and a-law, which are nonlinear mappings of
-     * the sound amplitude that are often used for recording speech.
+     * Onf ubiquitous typf of budio fndoding is pulsf-dodf modulbtion (PCM),
+     * wiidi is simply b linfbr (proportionbl) rfprfsfntbtion of tif sound
+     * wbvfform. Witi PCM, tif numbfr storfd in fbdi sbmplf is proportionbl to
+     * tif instbntbnfous bmplitudf of tif sound prfssurf bt tibt point in timf.
+     * Tif numbfrs mby bf signfd or unsignfd intfgfrs or flobts. Bfsidfs PCM,
+     * otifr fndodings indludf mu-lbw bnd b-lbw, wiidi brf nonlinfbr mbppings of
+     * tif sound bmplitudf tibt brf oftfn usfd for rfdording spffdi.
      * <p>
-     * You can use a predefined encoding by referring to one of the static
-     * objects created by this class, such as PCM_SIGNED or PCM_UNSIGNED.
-     * Service providers can create new encodings, such as compressed audio
-     * formats, and make these available through the {@link AudioSystem} class.
+     * You dbn usf b prfdffinfd fndoding by rfffrring to onf of tif stbtid
+     * objfdts drfbtfd by tiis dlbss, sudi bs PCM_SIGNED or PCM_UNSIGNED.
+     * Sfrvidf providfrs dbn drfbtf nfw fndodings, sudi bs domprfssfd budio
+     * formbts, bnd mbkf tifsf bvbilbblf tirougi tif {@link AudioSystfm} dlbss.
      * <p>
-     * The {@code Encoding} class is static, so that all {@code AudioFormat}
-     * objects that have the same encoding will refer to the same object (rather
-     * than different instances of the same class). This allows matches to be
-     * made by checking that two format's encodings are equal.
+     * Tif {@dodf Endoding} dlbss is stbtid, so tibt bll {@dodf AudioFormbt}
+     * objfdts tibt ibvf tif sbmf fndoding will rfffr to tif sbmf objfdt (rbtifr
+     * tibn difffrfnt instbndfs of tif sbmf dlbss). Tiis bllows mbtdifs to bf
+     * mbdf by difdking tibt two formbt's fndodings brf fqubl.
      *
-     * @author Kara Kytle
-     * @see AudioFormat
-     * @see javax.sound.sampled.spi.FormatConversionProvider
-     * @since 1.3
+     * @butior Kbrb Kytlf
+     * @sff AudioFormbt
+     * @sff jbvbx.sound.sbmplfd.spi.FormbtConvfrsionProvidfr
+     * @sindf 1.3
      */
-    public static class Encoding {
+    publid stbtid dlbss Endoding {
 
         /**
-         * Specifies signed, linear PCM data.
+         * Spfdififs signfd, linfbr PCM dbtb.
          */
-        public static final Encoding PCM_SIGNED = new Encoding("PCM_SIGNED");
+        publid stbtid finbl Endoding PCM_SIGNED = nfw Endoding("PCM_SIGNED");
 
         /**
-         * Specifies unsigned, linear PCM data.
+         * Spfdififs unsignfd, linfbr PCM dbtb.
          */
-        public static final Encoding PCM_UNSIGNED = new Encoding("PCM_UNSIGNED");
+        publid stbtid finbl Endoding PCM_UNSIGNED = nfw Endoding("PCM_UNSIGNED");
 
         /**
-         * Specifies floating-point PCM data.
+         * Spfdififs flobting-point PCM dbtb.
          *
-         * @since 1.7
+         * @sindf 1.7
          */
-        public static final Encoding PCM_FLOAT = new Encoding("PCM_FLOAT");
+        publid stbtid finbl Endoding PCM_FLOAT = nfw Endoding("PCM_FLOAT");
 
         /**
-         * Specifies u-law encoded data.
+         * Spfdififs u-lbw fndodfd dbtb.
          */
-        public static final Encoding ULAW = new Encoding("ULAW");
+        publid stbtid finbl Endoding ULAW = nfw Endoding("ULAW");
 
         /**
-         * Specifies a-law encoded data.
+         * Spfdififs b-lbw fndodfd dbtb.
          */
-        public static final Encoding ALAW = new Encoding("ALAW");
+        publid stbtid finbl Endoding ALAW = nfw Endoding("ALAW");
 
         /**
-         * Encoding name.
+         * Endoding nbmf.
          */
-        private String name;
+        privbtf String nbmf;
 
         /**
-         * Constructs a new encoding.
+         * Construdts b nfw fndoding.
          *
-         * @param  name the name of the new type of encoding
+         * @pbrbm  nbmf tif nbmf of tif nfw typf of fndoding
          */
-        public Encoding(String name) {
-            this.name = name;
+        publid Endoding(String nbmf) {
+            tiis.nbmf = nbmf;
         }
 
         /**
-         * Finalizes the equals method.
+         * Finblizfs tif fqubls mftiod.
          */
-        @Override
-        public final boolean equals(Object obj) {
+        @Ovfrridf
+        publid finbl boolfbn fqubls(Objfdt obj) {
             if (toString() == null) {
-                return (obj != null) && (obj.toString() == null);
+                rfturn (obj != null) && (obj.toString() == null);
             }
-            if (obj instanceof Encoding) {
-                return toString().equals(obj.toString());
+            if (obj instbndfof Endoding) {
+                rfturn toString().fqubls(obj.toString());
             }
-            return false;
+            rfturn fblsf;
         }
 
         /**
-         * Finalizes the hashCode method.
+         * Finblizfs tif ibsiCodf mftiod.
          */
-        @Override
-        public final int hashCode() {
+        @Ovfrridf
+        publid finbl int ibsiCodf() {
             if (toString() == null) {
-                return 0;
+                rfturn 0;
             }
-            return toString().hashCode();
+            rfturn toString().ibsiCodf();
         }
 
         /**
-         * Provides the {@code String} representation of the encoding. This
-         * {@code String} is the same name that was passed to the constructor.
-         * For the predefined encodings, the name is similar to the encoding's
-         * variable (field) name. For example, {@code PCM_SIGNED.toString()}
-         * returns the name "pcm_signed".
+         * Providfs tif {@dodf String} rfprfsfntbtion of tif fndoding. Tiis
+         * {@dodf String} is tif sbmf nbmf tibt wbs pbssfd to tif donstrudtor.
+         * For tif prfdffinfd fndodings, tif nbmf is similbr to tif fndoding's
+         * vbribblf (fifld) nbmf. For fxbmplf, {@dodf PCM_SIGNED.toString()}
+         * rfturns tif nbmf "pdm_signfd".
          *
-         * @return the encoding name
+         * @rfturn tif fndoding nbmf
          */
-        @Override
-        public final String toString() {
-            return name;
+        @Ovfrridf
+        publid finbl String toString() {
+            rfturn nbmf;
         }
     }
 }

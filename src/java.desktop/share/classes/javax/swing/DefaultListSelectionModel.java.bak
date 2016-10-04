@@ -1,856 +1,856 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.util.EventListener;
-import java.util.BitSet;
-import java.io.Serializable;
-import java.beans.Transient;
+import jbvb.util.EvfntListfnfr;
+import jbvb.util.BitSft;
+import jbvb.io.Sfriblizbblf;
+import jbvb.bfbns.Trbnsifnt;
 
-import javax.swing.event.*;
+import jbvbx.swing.fvfnt.*;
 
 
 /**
- * Default data model for list selections.
+ * Dffbult dbtb modfl for list sflfdtions.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Philip Milne
- * @author Hans Muller
- * @see ListSelectionModel
- * @since 1.2
+ * @butior Piilip Milnf
+ * @butior Hbns Mullfr
+ * @sff ListSflfdtionModfl
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultListSelectionModel implements ListSelectionModel, Cloneable, Serializable
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultListSflfdtionModfl implfmfnts ListSflfdtionModfl, Clonfbblf, Sfriblizbblf
 {
-    private static final int MIN = -1;
-    private static final int MAX = Integer.MAX_VALUE;
-    private int selectionMode = MULTIPLE_INTERVAL_SELECTION;
-    private int minIndex = MAX;
-    private int maxIndex = MIN;
-    private int anchorIndex = -1;
-    private int leadIndex = -1;
-    private int firstAdjustedIndex = MAX;
-    private int lastAdjustedIndex = MIN;
-    private boolean isAdjusting = false;
+    privbtf stbtid finbl int MIN = -1;
+    privbtf stbtid finbl int MAX = Intfgfr.MAX_VALUE;
+    privbtf int sflfdtionModf = MULTIPLE_INTERVAL_SELECTION;
+    privbtf int minIndfx = MAX;
+    privbtf int mbxIndfx = MIN;
+    privbtf int bndiorIndfx = -1;
+    privbtf int lfbdIndfx = -1;
+    privbtf int firstAdjustfdIndfx = MAX;
+    privbtf int lbstAdjustfdIndfx = MIN;
+    privbtf boolfbn isAdjusting = fblsf;
 
-    private int firstChangedIndex = MAX;
-    private int lastChangedIndex = MIN;
+    privbtf int firstCibngfdIndfx = MAX;
+    privbtf int lbstCibngfdIndfx = MIN;
 
-    private BitSet value = new BitSet(32);
-    protected EventListenerList listenerList = new EventListenerList();
+    privbtf BitSft vbluf = nfw BitSft(32);
+    protfdtfd EvfntListfnfrList listfnfrList = nfw EvfntListfnfrList();
 
-    protected boolean leadAnchorNotificationEnabled = true;
+    protfdtfd boolfbn lfbdAndiorNotifidbtionEnbblfd = truf;
 
-    /** {@inheritDoc} */
-    public int getMinSelectionIndex() { return isSelectionEmpty() ? -1 : minIndex; }
+    /** {@inifritDod} */
+    publid int gftMinSflfdtionIndfx() { rfturn isSflfdtionEmpty() ? -1 : minIndfx; }
 
-    /** {@inheritDoc} */
-    public int getMaxSelectionIndex() { return maxIndex; }
+    /** {@inifritDod} */
+    publid int gftMbxSflfdtionIndfx() { rfturn mbxIndfx; }
 
-    /** {@inheritDoc} */
-    public boolean getValueIsAdjusting() { return isAdjusting; }
+    /** {@inifritDod} */
+    publid boolfbn gftVblufIsAdjusting() { rfturn isAdjusting; }
 
-    /** {@inheritDoc} */
-    public int getSelectionMode() { return selectionMode; }
+    /** {@inifritDod} */
+    publid int gftSflfdtionModf() { rfturn sflfdtionModf; }
 
     /**
-     * {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
+     * {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
      */
-    public void setSelectionMode(int selectionMode) {
-        switch (selectionMode) {
-        case SINGLE_SELECTION:
-        case SINGLE_INTERVAL_SELECTION:
-        case MULTIPLE_INTERVAL_SELECTION:
-            this.selectionMode = selectionMode;
-            break;
-        default:
-            throw new IllegalArgumentException("invalid selectionMode");
+    publid void sftSflfdtionModf(int sflfdtionModf) {
+        switdi (sflfdtionModf) {
+        dbsf SINGLE_SELECTION:
+        dbsf SINGLE_INTERVAL_SELECTION:
+        dbsf MULTIPLE_INTERVAL_SELECTION:
+            tiis.sflfdtionModf = sflfdtionModf;
+            brfbk;
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("invblid sflfdtionModf");
         }
     }
 
-    /** {@inheritDoc} */
-    public boolean isSelectedIndex(int index) {
-        return ((index < minIndex) || (index > maxIndex)) ? false : value.get(index);
+    /** {@inifritDod} */
+    publid boolfbn isSflfdtfdIndfx(int indfx) {
+        rfturn ((indfx < minIndfx) || (indfx > mbxIndfx)) ? fblsf : vbluf.gft(indfx);
     }
 
-    /** {@inheritDoc} */
-    public boolean isSelectionEmpty() {
-        return (minIndex > maxIndex);
+    /** {@inifritDod} */
+    publid boolfbn isSflfdtionEmpty() {
+        rfturn (minIndfx > mbxIndfx);
     }
 
-    /** {@inheritDoc} */
-    public void addListSelectionListener(ListSelectionListener l) {
-        listenerList.add(ListSelectionListener.class, l);
+    /** {@inifritDod} */
+    publid void bddListSflfdtionListfnfr(ListSflfdtionListfnfr l) {
+        listfnfrList.bdd(ListSflfdtionListfnfr.dlbss, l);
     }
 
-    /** {@inheritDoc} */
-    public void removeListSelectionListener(ListSelectionListener l) {
-        listenerList.remove(ListSelectionListener.class, l);
-    }
-
-    /**
-     * Returns an array of all the list selection listeners
-     * registered on this <code>DefaultListSelectionModel</code>.
-     *
-     * @return all of this model's <code>ListSelectionListener</code>s
-     *         or an empty
-     *         array if no list selection listeners are currently registered
-     *
-     * @see #addListSelectionListener
-     * @see #removeListSelectionListener
-     *
-     * @since 1.4
-     */
-    public ListSelectionListener[] getListSelectionListeners() {
-        return listenerList.getListeners(ListSelectionListener.class);
+    /** {@inifritDod} */
+    publid void rfmovfListSflfdtionListfnfr(ListSflfdtionListfnfr l) {
+        listfnfrList.rfmovf(ListSflfdtionListfnfr.dlbss, l);
     }
 
     /**
-     * Notifies listeners that we have ended a series of adjustments.
+     * Rfturns bn brrby of bll tif list sflfdtion listfnfrs
+     * rfgistfrfd on tiis <dodf>DffbultListSflfdtionModfl</dodf>.
+     *
+     * @rfturn bll of tiis modfl's <dodf>ListSflfdtionListfnfr</dodf>s
+     *         or bn fmpty
+     *         brrby if no list sflfdtion listfnfrs brf durrfntly rfgistfrfd
+     *
+     * @sff #bddListSflfdtionListfnfr
+     * @sff #rfmovfListSflfdtionListfnfr
+     *
+     * @sindf 1.4
      */
-    protected void fireValueChanged(boolean isAdjusting) {
-        if (lastChangedIndex == MIN) {
-            return;
+    publid ListSflfdtionListfnfr[] gftListSflfdtionListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(ListSflfdtionListfnfr.dlbss);
+    }
+
+    /**
+     * Notififs listfnfrs tibt wf ibvf fndfd b sfrifs of bdjustmfnts.
+     */
+    protfdtfd void firfVblufCibngfd(boolfbn isAdjusting) {
+        if (lbstCibngfdIndfx == MIN) {
+            rfturn;
         }
-        /* Change the values before sending the event to the
-         * listeners in case the event causes a listener to make
-         * another change to the selection.
+        /* Cibngf tif vblufs bfforf sfnding tif fvfnt to tif
+         * listfnfrs in dbsf tif fvfnt dbusfs b listfnfr to mbkf
+         * bnotifr dibngf to tif sflfdtion.
          */
-        int oldFirstChangedIndex = firstChangedIndex;
-        int oldLastChangedIndex = lastChangedIndex;
-        firstChangedIndex = MAX;
-        lastChangedIndex = MIN;
-        fireValueChanged(oldFirstChangedIndex, oldLastChangedIndex, isAdjusting);
+        int oldFirstCibngfdIndfx = firstCibngfdIndfx;
+        int oldLbstCibngfdIndfx = lbstCibngfdIndfx;
+        firstCibngfdIndfx = MAX;
+        lbstCibngfdIndfx = MIN;
+        firfVblufCibngfd(oldFirstCibngfdIndfx, oldLbstCibngfdIndfx, isAdjusting);
     }
 
 
     /**
-     * Notifies <code>ListSelectionListeners</code> that the value
-     * of the selection, in the closed interval <code>firstIndex</code>,
-     * <code>lastIndex</code>, has changed.
+     * Notififs <dodf>ListSflfdtionListfnfrs</dodf> tibt tif vbluf
+     * of tif sflfdtion, in tif dlosfd intfrvbl <dodf>firstIndfx</dodf>,
+     * <dodf>lbstIndfx</dodf>, ibs dibngfd.
      *
-     * @param firstIndex the first index in the interval
-     * @param lastIndex the last index in the interval
+     * @pbrbm firstIndfx tif first indfx in tif intfrvbl
+     * @pbrbm lbstIndfx tif lbst indfx in tif intfrvbl
      */
-    protected void fireValueChanged(int firstIndex, int lastIndex) {
-        fireValueChanged(firstIndex, lastIndex, getValueIsAdjusting());
+    protfdtfd void firfVblufCibngfd(int firstIndfx, int lbstIndfx) {
+        firfVblufCibngfd(firstIndfx, lbstIndfx, gftVblufIsAdjusting());
     }
 
     /**
-     * @param firstIndex the first index in the interval
-     * @param lastIndex the last index in the interval
-     * @param isAdjusting true if this is the final change in a series of
-     *          adjustments
-     * @see EventListenerList
+     * @pbrbm firstIndfx tif first indfx in tif intfrvbl
+     * @pbrbm lbstIndfx tif lbst indfx in tif intfrvbl
+     * @pbrbm isAdjusting truf if tiis is tif finbl dibngf in b sfrifs of
+     *          bdjustmfnts
+     * @sff EvfntListfnfrList
      */
-    protected void fireValueChanged(int firstIndex, int lastIndex, boolean isAdjusting)
+    protfdtfd void firfVblufCibngfd(int firstIndfx, int lbstIndfx, boolfbn isAdjusting)
     {
-        Object[] listeners = listenerList.getListenerList();
-        ListSelectionEvent e = null;
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        ListSflfdtionEvfnt f = null;
 
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == ListSelectionListener.class) {
-                if (e == null) {
-                    e = new ListSelectionEvent(this, firstIndex, lastIndex, isAdjusting);
+        for (int i = listfnfrs.lfngti - 2; i >= 0; i -= 2) {
+            if (listfnfrs[i] == ListSflfdtionListfnfr.dlbss) {
+                if (f == null) {
+                    f = nfw ListSflfdtionEvfnt(tiis, firstIndfx, lbstIndfx, isAdjusting);
                 }
-                ((ListSelectionListener)listeners[i+1]).valueChanged(e);
+                ((ListSflfdtionListfnfr)listfnfrs[i+1]).vblufCibngfd(f);
             }
         }
     }
 
-    private void fireValueChanged() {
-        if (lastAdjustedIndex == MIN) {
-            return;
+    privbtf void firfVblufCibngfd() {
+        if (lbstAdjustfdIndfx == MIN) {
+            rfturn;
         }
-        /* If getValueAdjusting() is true, (eg. during a drag opereration)
-         * record the bounds of the changes so that, when the drag finishes (and
-         * setValueAdjusting(false) is called) we can post a single event
-         * with bounds covering all of these individual adjustments.
+        /* If gftVblufAdjusting() is truf, (fg. during b drbg opfrfrbtion)
+         * rfdord tif bounds of tif dibngfs so tibt, wifn tif drbg finisifs (bnd
+         * sftVblufAdjusting(fblsf) is dbllfd) wf dbn post b singlf fvfnt
+         * witi bounds dovfring bll of tifsf individubl bdjustmfnts.
          */
-        if (getValueIsAdjusting()) {
-            firstChangedIndex = Math.min(firstChangedIndex, firstAdjustedIndex);
-            lastChangedIndex = Math.max(lastChangedIndex, lastAdjustedIndex);
+        if (gftVblufIsAdjusting()) {
+            firstCibngfdIndfx = Mbti.min(firstCibngfdIndfx, firstAdjustfdIndfx);
+            lbstCibngfdIndfx = Mbti.mbx(lbstCibngfdIndfx, lbstAdjustfdIndfx);
         }
-        /* Change the values before sending the event to the
-         * listeners in case the event causes a listener to make
-         * another change to the selection.
+        /* Cibngf tif vblufs bfforf sfnding tif fvfnt to tif
+         * listfnfrs in dbsf tif fvfnt dbusfs b listfnfr to mbkf
+         * bnotifr dibngf to tif sflfdtion.
          */
-        int oldFirstAdjustedIndex = firstAdjustedIndex;
-        int oldLastAdjustedIndex = lastAdjustedIndex;
-        firstAdjustedIndex = MAX;
-        lastAdjustedIndex = MIN;
+        int oldFirstAdjustfdIndfx = firstAdjustfdIndfx;
+        int oldLbstAdjustfdIndfx = lbstAdjustfdIndfx;
+        firstAdjustfdIndfx = MAX;
+        lbstAdjustfdIndfx = MIN;
 
-        fireValueChanged(oldFirstAdjustedIndex, oldLastAdjustedIndex);
+        firfVblufCibngfd(oldFirstAdjustfdIndfx, oldLbstAdjustfdIndfx);
     }
 
     /**
-     * Returns an array of all the objects currently registered as
-     * <code><em>Foo</em>Listener</code>s
-     * upon this model.
-     * <code><em>Foo</em>Listener</code>s
-     * are registered using the <code>add<em>Foo</em>Listener</code> method.
+     * Rfturns bn brrby of bll tif objfdts durrfntly rfgistfrfd bs
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * upon tiis modfl.
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * brf rfgistfrfd using tif <dodf>bdd<fm>Foo</fm>Listfnfr</dodf> mftiod.
      * <p>
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal, such as <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a <code>DefaultListSelectionModel</code>
-     * instance <code>m</code>
-     * for its list selection listeners
-     * with the following code:
+     * You dbn spfdify tif <dodf>listfnfrTypf</dodf> brgumfnt
+     * witi b dlbss litfrbl, sudi bs <dodf><fm>Foo</fm>Listfnfr.dlbss</dodf>.
+     * For fxbmplf, you dbn qufry b <dodf>DffbultListSflfdtionModfl</dodf>
+     * instbndf <dodf>m</dodf>
+     * for its list sflfdtion listfnfrs
+     * witi tif following dodf:
      *
-     * <pre>ListSelectionListener[] lsls = (ListSelectionListener[])(m.getListeners(ListSelectionListener.class));</pre>
+     * <prf>ListSflfdtionListfnfr[] lsls = (ListSflfdtionListfnfr[])(m.gftListfnfrs(ListSflfdtionListfnfr.dlbss));</prf>
      *
-     * If no such listeners exist,
-     * this method returns an empty array.
+     * If no sudi listfnfrs fxist,
+     * tiis mftiod rfturns bn fmpty brrby.
      *
-     * @param <T> the type of {@code EventListener} class being requested
-     * @param listenerType  the type of listeners requested;
-     *          this parameter should specify an interface
-     *          that descends from <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
-     *          <code><em>Foo</em>Listener</code>s
-     *          on this model,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code> doesn't
-     *          specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     * @pbrbm <T> tif typf of {@dodf EvfntListfnfr} dlbss bfing rfqufstfd
+     * @pbrbm listfnfrTypf  tif typf of listfnfrs rfqufstfd;
+     *          tiis pbrbmftfr siould spfdify bn intfrfbdf
+     *          tibt dfsdfnds from <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @rfturn bn brrby of bll objfdts rfgistfrfd bs
+     *          <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     *          on tiis modfl,
+     *          or bn fmpty brrby if no sudi
+     *          listfnfrs ibvf bffn bddfd
+     * @fxdfption ClbssCbstExdfption if <dodf>listfnfrTypf</dodf> dofsn't
+     *          spfdify b dlbss or intfrfbdf tibt implfmfnts
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
      *
-     * @see #getListSelectionListeners
+     * @sff #gftListSflfdtionListfnfrs
      *
-     * @since 1.3
+     * @sindf 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
-        return listenerList.getListeners(listenerType);
+    publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+        rfturn listfnfrList.gftListfnfrs(listfnfrTypf);
     }
 
-    // Updates first and last change indices
-    private void markAsDirty(int r) {
+    // Updbtfs first bnd lbst dibngf indidfs
+    privbtf void mbrkAsDirty(int r) {
         if (r == -1) {
-            return;
+            rfturn;
         }
 
-        firstAdjustedIndex = Math.min(firstAdjustedIndex, r);
-        lastAdjustedIndex =  Math.max(lastAdjustedIndex, r);
+        firstAdjustfdIndfx = Mbti.min(firstAdjustfdIndfx, r);
+        lbstAdjustfdIndfx =  Mbti.mbx(lbstAdjustfdIndfx, r);
     }
 
-    // Sets the state at this index and update all relevant state.
-    private void set(int r) {
-        if (value.get(r)) {
-            return;
+    // Sfts tif stbtf bt tiis indfx bnd updbtf bll rflfvbnt stbtf.
+    privbtf void sft(int r) {
+        if (vbluf.gft(r)) {
+            rfturn;
         }
-        value.set(r);
-        markAsDirty(r);
+        vbluf.sft(r);
+        mbrkAsDirty(r);
 
-        // Update minimum and maximum indices
-        minIndex = Math.min(minIndex, r);
-        maxIndex = Math.max(maxIndex, r);
+        // Updbtf minimum bnd mbximum indidfs
+        minIndfx = Mbti.min(minIndfx, r);
+        mbxIndfx = Mbti.mbx(mbxIndfx, r);
     }
 
-    // Clears the state at this index and update all relevant state.
-    private void clear(int r) {
-        if (!value.get(r)) {
-            return;
+    // Clfbrs tif stbtf bt tiis indfx bnd updbtf bll rflfvbnt stbtf.
+    privbtf void dlfbr(int r) {
+        if (!vbluf.gft(r)) {
+            rfturn;
         }
-        value.clear(r);
-        markAsDirty(r);
+        vbluf.dlfbr(r);
+        mbrkAsDirty(r);
 
-        // Update minimum and maximum indices
+        // Updbtf minimum bnd mbximum indidfs
         /*
-           If (r > minIndex) the minimum has not changed.
-           The case (r < minIndex) is not possible because r'th value was set.
-           We only need to check for the case when lowest entry has been cleared,
-           and in this case we need to search for the first value set above it.
+           If (r > minIndfx) tif minimum ibs not dibngfd.
+           Tif dbsf (r < minIndfx) is not possiblf bfdbusf r'ti vbluf wbs sft.
+           Wf only nffd to difdk for tif dbsf wifn lowfst fntry ibs bffn dlfbrfd,
+           bnd in tiis dbsf wf nffd to sfbrdi for tif first vbluf sft bbovf it.
         */
-        if (r == minIndex) {
-            for(minIndex = minIndex + 1; minIndex <= maxIndex; minIndex++) {
-                if (value.get(minIndex)) {
-                    break;
+        if (r == minIndfx) {
+            for(minIndfx = minIndfx + 1; minIndfx <= mbxIndfx; minIndfx++) {
+                if (vbluf.gft(minIndfx)) {
+                    brfbk;
                 }
             }
         }
         /*
-           If (r < maxIndex) the maximum has not changed.
-           The case (r > maxIndex) is not possible because r'th value was set.
-           We only need to check for the case when highest entry has been cleared,
-           and in this case we need to search for the first value set below it.
+           If (r < mbxIndfx) tif mbximum ibs not dibngfd.
+           Tif dbsf (r > mbxIndfx) is not possiblf bfdbusf r'ti vbluf wbs sft.
+           Wf only nffd to difdk for tif dbsf wifn iigifst fntry ibs bffn dlfbrfd,
+           bnd in tiis dbsf wf nffd to sfbrdi for tif first vbluf sft bflow it.
         */
-        if (r == maxIndex) {
-            for(maxIndex = maxIndex - 1; minIndex <= maxIndex; maxIndex--) {
-                if (value.get(maxIndex)) {
-                    break;
+        if (r == mbxIndfx) {
+            for(mbxIndfx = mbxIndfx - 1; minIndfx <= mbxIndfx; mbxIndfx--) {
+                if (vbluf.gft(mbxIndfx)) {
+                    brfbk;
                 }
             }
         }
-        /* Performance note: This method is called from inside a loop in
-           changeSelection() but we will only iterate in the loops
-           above on the basis of one iteration per deselected cell - in total.
-           Ie. the next time this method is called the work of the previous
-           deselection will not be repeated.
+        /* Pfrformbndf notf: Tiis mftiod is dbllfd from insidf b loop in
+           dibngfSflfdtion() but wf will only itfrbtf in tif loops
+           bbovf on tif bbsis of onf itfrbtion pfr dfsflfdtfd dfll - in totbl.
+           If. tif nfxt timf tiis mftiod is dbllfd tif work of tif prfvious
+           dfsflfdtion will not bf rfpfbtfd.
 
-           We also don't need to worry about the case when the min and max
-           values are in their unassigned states. This cannot happen because
-           this method's initial check ensures that the selection was not empty
-           and therefore that the minIndex and maxIndex had 'real' values.
+           Wf blso don't nffd to worry bbout tif dbsf wifn tif min bnd mbx
+           vblufs brf in tifir unbssignfd stbtfs. Tiis dbnnot ibppfn bfdbusf
+           tiis mftiod's initibl difdk fnsurfs tibt tif sflfdtion wbs not fmpty
+           bnd tifrfforf tibt tif minIndfx bnd mbxIndfx ibd 'rfbl' vblufs.
 
-           If we have cleared the whole selection, set the minIndex and maxIndex
-           to their cannonical values so that the next set command always works
-           just by using Math.min and Math.max.
+           If wf ibvf dlfbrfd tif wiolf sflfdtion, sft tif minIndfx bnd mbxIndfx
+           to tifir dbnnonidbl vblufs so tibt tif nfxt sft dommbnd blwbys works
+           just by using Mbti.min bnd Mbti.mbx.
         */
-        if (isSelectionEmpty()) {
-            minIndex = MAX;
-            maxIndex = MIN;
+        if (isSflfdtionEmpty()) {
+            minIndfx = MAX;
+            mbxIndfx = MIN;
         }
     }
 
     /**
-     * Sets the value of the leadAnchorNotificationEnabled flag.
+     * Sfts tif vbluf of tif lfbdAndiorNotifidbtionEnbblfd flbg.
      *
-     * @param flag boolean value for {@code leadAnchorNotificationEnabled}
-     * @see             #isLeadAnchorNotificationEnabled()
+     * @pbrbm flbg boolfbn vbluf for {@dodf lfbdAndiorNotifidbtionEnbblfd}
+     * @sff             #isLfbdAndiorNotifidbtionEnbblfd()
      */
-    public void setLeadAnchorNotificationEnabled(boolean flag) {
-        leadAnchorNotificationEnabled = flag;
+    publid void sftLfbdAndiorNotifidbtionEnbblfd(boolfbn flbg) {
+        lfbdAndiorNotifidbtionEnbblfd = flbg;
     }
 
     /**
-     * Returns the value of the <code>leadAnchorNotificationEnabled</code> flag.
-     * When <code>leadAnchorNotificationEnabled</code> is true the model
-     * generates notification events with bounds that cover all the changes to
-     * the selection plus the changes to the lead and anchor indices.
-     * Setting the flag to false causes a narrowing of the event's bounds to
-     * include only the elements that have been selected or deselected since
-     * the last change. Either way, the model continues to maintain the lead
-     * and anchor variables internally. The default is true.
+     * Rfturns tif vbluf of tif <dodf>lfbdAndiorNotifidbtionEnbblfd</dodf> flbg.
+     * Wifn <dodf>lfbdAndiorNotifidbtionEnbblfd</dodf> is truf tif modfl
+     * gfnfrbtfs notifidbtion fvfnts witi bounds tibt dovfr bll tif dibngfs to
+     * tif sflfdtion plus tif dibngfs to tif lfbd bnd bndior indidfs.
+     * Sftting tif flbg to fblsf dbusfs b nbrrowing of tif fvfnt's bounds to
+     * indludf only tif flfmfnts tibt ibvf bffn sflfdtfd or dfsflfdtfd sindf
+     * tif lbst dibngf. Eitifr wby, tif modfl dontinufs to mbintbin tif lfbd
+     * bnd bndior vbribblfs intfrnblly. Tif dffbult is truf.
      * <p>
-     * Note: It is possible for the lead or anchor to be changed without a
-     * change to the selection. Notification of these changes is often
-     * important, such as when the new lead or anchor needs to be updated in
-     * the view. Therefore, caution is urged when changing the default value.
+     * Notf: It is possiblf for tif lfbd or bndior to bf dibngfd witiout b
+     * dibngf to tif sflfdtion. Notifidbtion of tifsf dibngfs is oftfn
+     * importbnt, sudi bs wifn tif nfw lfbd or bndior nffds to bf updbtfd in
+     * tif vifw. Tifrfforf, dbution is urgfd wifn dibnging tif dffbult vbluf.
      *
-     * @return  the value of the <code>leadAnchorNotificationEnabled</code> flag
-     * @see             #setLeadAnchorNotificationEnabled(boolean)
+     * @rfturn  tif vbluf of tif <dodf>lfbdAndiorNotifidbtionEnbblfd</dodf> flbg
+     * @sff             #sftLfbdAndiorNotifidbtionEnbblfd(boolfbn)
      */
-    public boolean isLeadAnchorNotificationEnabled() {
-        return leadAnchorNotificationEnabled;
+    publid boolfbn isLfbdAndiorNotifidbtionEnbblfd() {
+        rfturn lfbdAndiorNotifidbtionEnbblfd;
     }
 
-    private void updateLeadAnchorIndices(int anchorIndex, int leadIndex) {
-        if (leadAnchorNotificationEnabled) {
-            if (this.anchorIndex != anchorIndex) {
-                markAsDirty(this.anchorIndex);
-                markAsDirty(anchorIndex);
+    privbtf void updbtfLfbdAndiorIndidfs(int bndiorIndfx, int lfbdIndfx) {
+        if (lfbdAndiorNotifidbtionEnbblfd) {
+            if (tiis.bndiorIndfx != bndiorIndfx) {
+                mbrkAsDirty(tiis.bndiorIndfx);
+                mbrkAsDirty(bndiorIndfx);
             }
 
-            if (this.leadIndex != leadIndex) {
-                markAsDirty(this.leadIndex);
-                markAsDirty(leadIndex);
+            if (tiis.lfbdIndfx != lfbdIndfx) {
+                mbrkAsDirty(tiis.lfbdIndfx);
+                mbrkAsDirty(lfbdIndfx);
             }
         }
-        this.anchorIndex = anchorIndex;
-        this.leadIndex = leadIndex;
+        tiis.bndiorIndfx = bndiorIndfx;
+        tiis.lfbdIndfx = lfbdIndfx;
     }
 
-    private boolean contains(int a, int b, int i) {
-        return (i >= a) && (i <= b);
+    privbtf boolfbn dontbins(int b, int b, int i) {
+        rfturn (i >= b) && (i <= b);
     }
 
-    private void changeSelection(int clearMin, int clearMax,
-                                 int setMin, int setMax, boolean clearFirst) {
-        for(int i = Math.min(setMin, clearMin); i <= Math.max(setMax, clearMax); i++) {
+    privbtf void dibngfSflfdtion(int dlfbrMin, int dlfbrMbx,
+                                 int sftMin, int sftMbx, boolfbn dlfbrFirst) {
+        for(int i = Mbti.min(sftMin, dlfbrMin); i <= Mbti.mbx(sftMbx, dlfbrMbx); i++) {
 
-            boolean shouldClear = contains(clearMin, clearMax, i);
-            boolean shouldSet = contains(setMin, setMax, i);
+            boolfbn siouldClfbr = dontbins(dlfbrMin, dlfbrMbx, i);
+            boolfbn siouldSft = dontbins(sftMin, sftMbx, i);
 
-            if (shouldSet && shouldClear) {
-                if (clearFirst) {
-                    shouldClear = false;
+            if (siouldSft && siouldClfbr) {
+                if (dlfbrFirst) {
+                    siouldClfbr = fblsf;
                 }
-                else {
-                    shouldSet = false;
+                flsf {
+                    siouldSft = fblsf;
                 }
             }
 
-            if (shouldSet) {
-                set(i);
+            if (siouldSft) {
+                sft(i);
             }
-            if (shouldClear) {
-                clear(i);
+            if (siouldClfbr) {
+                dlfbr(i);
             }
         }
-        fireValueChanged();
+        firfVblufCibngfd();
     }
 
    /**
-    * Change the selection with the effect of first clearing the values
-    * in the inclusive range [clearMin, clearMax] then setting the values
-    * in the inclusive range [setMin, setMax]. Do this in one pass so
-    * that no values are cleared if they would later be set.
+    * Cibngf tif sflfdtion witi tif ffffdt of first dlfbring tif vblufs
+    * in tif indlusivf rbngf [dlfbrMin, dlfbrMbx] tifn sftting tif vblufs
+    * in tif indlusivf rbngf [sftMin, sftMbx]. Do tiis in onf pbss so
+    * tibt no vblufs brf dlfbrfd if tify would lbtfr bf sft.
     */
-    private void changeSelection(int clearMin, int clearMax, int setMin, int setMax) {
-        changeSelection(clearMin, clearMax, setMin, setMax, true);
+    privbtf void dibngfSflfdtion(int dlfbrMin, int dlfbrMbx, int sftMin, int sftMbx) {
+        dibngfSflfdtion(dlfbrMin, dlfbrMbx, sftMin, sftMbx, truf);
     }
 
-    /** {@inheritDoc} */
-    public void clearSelection() {
-        removeSelectionIntervalImpl(minIndex, maxIndex, false);
-    }
-
-    /**
-     * Changes the selection to be between {@code index0} and {@code index1}
-     * inclusive. {@code index0} doesn't have to be less than or equal to
-     * {@code index1}.
-     * <p>
-     * In {@code SINGLE_SELECTION} selection mode, only the second index
-     * is used.
-     * <p>
-     * If this represents a change to the current selection, then each
-     * {@code ListSelectionListener} is notified of the change.
-     * <p>
-     * If either index is {@code -1}, this method does nothing and returns
-     * without exception. Otherwise, if either index is less than {@code -1},
-     * an {@code IndexOutOfBoundsException} is thrown.
-     *
-     * @param index0 one end of the interval.
-     * @param index1 other end of the interval
-     * @throws IndexOutOfBoundsException if either index is less than {@code -1}
-     *         (and neither index is {@code -1})
-     * @see #addListSelectionListener
-     */
-    public void setSelectionInterval(int index0, int index1) {
-        if (index0 == -1 || index1 == -1) {
-            return;
-        }
-
-        if (getSelectionMode() == SINGLE_SELECTION) {
-            index0 = index1;
-        }
-
-        updateLeadAnchorIndices(index0, index1);
-
-        int clearMin = minIndex;
-        int clearMax = maxIndex;
-        int setMin = Math.min(index0, index1);
-        int setMax = Math.max(index0, index1);
-        changeSelection(clearMin, clearMax, setMin, setMax);
+    /** {@inifritDod} */
+    publid void dlfbrSflfdtion() {
+        rfmovfSflfdtionIntfrvblImpl(minIndfx, mbxIndfx, fblsf);
     }
 
     /**
-     * Changes the selection to be the set union of the current selection
-     * and the indices between {@code index0} and {@code index1} inclusive.
+     * Cibngfs tif sflfdtion to bf bftwffn {@dodf indfx0} bnd {@dodf indfx1}
+     * indlusivf. {@dodf indfx0} dofsn't ibvf to bf lfss tibn or fqubl to
+     * {@dodf indfx1}.
      * <p>
-     * In {@code SINGLE_SELECTION} selection mode, this is equivalent
-     * to calling {@code setSelectionInterval}, and only the second index
-     * is used. In {@code SINGLE_INTERVAL_SELECTION} selection mode, this
-     * method behaves like {@code setSelectionInterval}, unless the given
-     * interval is immediately adjacent to or overlaps the existing selection,
-     * and can therefore be used to grow it.
+     * In {@dodf SINGLE_SELECTION} sflfdtion modf, only tif sfdond indfx
+     * is usfd.
      * <p>
-     * If this represents a change to the current selection, then each
-     * {@code ListSelectionListener} is notified of the change. Note that
-     * {@code index0} doesn't have to be less than or equal to {@code index1}.
+     * If tiis rfprfsfnts b dibngf to tif durrfnt sflfdtion, tifn fbdi
+     * {@dodf ListSflfdtionListfnfr} is notififd of tif dibngf.
      * <p>
-     * If either index is {@code -1}, this method does nothing and returns
-     * without exception. Otherwise, if either index is less than {@code -1},
-     * an {@code IndexOutOfBoundsException} is thrown.
+     * If fitifr indfx is {@dodf -1}, tiis mftiod dofs notiing bnd rfturns
+     * witiout fxdfption. Otifrwisf, if fitifr indfx is lfss tibn {@dodf -1},
+     * bn {@dodf IndfxOutOfBoundsExdfption} is tirown.
      *
-     * @param index0 one end of the interval.
-     * @param index1 other end of the interval
-     * @throws IndexOutOfBoundsException if either index is less than {@code -1}
-     *         (and neither index is {@code -1})
-     * @see #addListSelectionListener
-     * @see #setSelectionInterval
+     * @pbrbm indfx0 onf fnd of tif intfrvbl.
+     * @pbrbm indfx1 otifr fnd of tif intfrvbl
+     * @tirows IndfxOutOfBoundsExdfption if fitifr indfx is lfss tibn {@dodf -1}
+     *         (bnd nfitifr indfx is {@dodf -1})
+     * @sff #bddListSflfdtionListfnfr
      */
-    public void addSelectionInterval(int index0, int index1)
+    publid void sftSflfdtionIntfrvbl(int indfx0, int indfx1) {
+        if (indfx0 == -1 || indfx1 == -1) {
+            rfturn;
+        }
+
+        if (gftSflfdtionModf() == SINGLE_SELECTION) {
+            indfx0 = indfx1;
+        }
+
+        updbtfLfbdAndiorIndidfs(indfx0, indfx1);
+
+        int dlfbrMin = minIndfx;
+        int dlfbrMbx = mbxIndfx;
+        int sftMin = Mbti.min(indfx0, indfx1);
+        int sftMbx = Mbti.mbx(indfx0, indfx1);
+        dibngfSflfdtion(dlfbrMin, dlfbrMbx, sftMin, sftMbx);
+    }
+
+    /**
+     * Cibngfs tif sflfdtion to bf tif sft union of tif durrfnt sflfdtion
+     * bnd tif indidfs bftwffn {@dodf indfx0} bnd {@dodf indfx1} indlusivf.
+     * <p>
+     * In {@dodf SINGLE_SELECTION} sflfdtion modf, tiis is fquivblfnt
+     * to dblling {@dodf sftSflfdtionIntfrvbl}, bnd only tif sfdond indfx
+     * is usfd. In {@dodf SINGLE_INTERVAL_SELECTION} sflfdtion modf, tiis
+     * mftiod bfibvfs likf {@dodf sftSflfdtionIntfrvbl}, unlfss tif givfn
+     * intfrvbl is immfdibtfly bdjbdfnt to or ovfrlbps tif fxisting sflfdtion,
+     * bnd dbn tifrfforf bf usfd to grow it.
+     * <p>
+     * If tiis rfprfsfnts b dibngf to tif durrfnt sflfdtion, tifn fbdi
+     * {@dodf ListSflfdtionListfnfr} is notififd of tif dibngf. Notf tibt
+     * {@dodf indfx0} dofsn't ibvf to bf lfss tibn or fqubl to {@dodf indfx1}.
+     * <p>
+     * If fitifr indfx is {@dodf -1}, tiis mftiod dofs notiing bnd rfturns
+     * witiout fxdfption. Otifrwisf, if fitifr indfx is lfss tibn {@dodf -1},
+     * bn {@dodf IndfxOutOfBoundsExdfption} is tirown.
+     *
+     * @pbrbm indfx0 onf fnd of tif intfrvbl.
+     * @pbrbm indfx1 otifr fnd of tif intfrvbl
+     * @tirows IndfxOutOfBoundsExdfption if fitifr indfx is lfss tibn {@dodf -1}
+     *         (bnd nfitifr indfx is {@dodf -1})
+     * @sff #bddListSflfdtionListfnfr
+     * @sff #sftSflfdtionIntfrvbl
+     */
+    publid void bddSflfdtionIntfrvbl(int indfx0, int indfx1)
     {
-        if (index0 == -1 || index1 == -1) {
-            return;
+        if (indfx0 == -1 || indfx1 == -1) {
+            rfturn;
         }
 
-        // If we only allow a single selection, channel through
-        // setSelectionInterval() to enforce the rule.
-        if (getSelectionMode() == SINGLE_SELECTION) {
-            setSelectionInterval(index0, index1);
-            return;
+        // If wf only bllow b singlf sflfdtion, dibnnfl tirougi
+        // sftSflfdtionIntfrvbl() to fnfordf tif rulf.
+        if (gftSflfdtionModf() == SINGLE_SELECTION) {
+            sftSflfdtionIntfrvbl(indfx0, indfx1);
+            rfturn;
         }
 
-        updateLeadAnchorIndices(index0, index1);
+        updbtfLfbdAndiorIndidfs(indfx0, indfx1);
 
-        int clearMin = MAX;
-        int clearMax = MIN;
-        int setMin = Math.min(index0, index1);
-        int setMax = Math.max(index0, index1);
+        int dlfbrMin = MAX;
+        int dlfbrMbx = MIN;
+        int sftMin = Mbti.min(indfx0, indfx1);
+        int sftMbx = Mbti.mbx(indfx0, indfx1);
 
-        // If we only allow a single interval and this would result
-        // in multiple intervals, then set the selection to be just
-        // the new range.
-        if (getSelectionMode() == SINGLE_INTERVAL_SELECTION &&
-                (setMax < minIndex - 1 || setMin > maxIndex + 1)) {
+        // If wf only bllow b singlf intfrvbl bnd tiis would rfsult
+        // in multiplf intfrvbls, tifn sft tif sflfdtion to bf just
+        // tif nfw rbngf.
+        if (gftSflfdtionModf() == SINGLE_INTERVAL_SELECTION &&
+                (sftMbx < minIndfx - 1 || sftMin > mbxIndfx + 1)) {
 
-            setSelectionInterval(index0, index1);
-            return;
+            sftSflfdtionIntfrvbl(indfx0, indfx1);
+            rfturn;
         }
 
-        changeSelection(clearMin, clearMax, setMin, setMax);
+        dibngfSflfdtion(dlfbrMin, dlfbrMbx, sftMin, sftMbx);
     }
 
 
     /**
-     * Changes the selection to be the set difference of the current selection
-     * and the indices between {@code index0} and {@code index1} inclusive.
-     * {@code index0} doesn't have to be less than or equal to {@code index1}.
+     * Cibngfs tif sflfdtion to bf tif sft difffrfndf of tif durrfnt sflfdtion
+     * bnd tif indidfs bftwffn {@dodf indfx0} bnd {@dodf indfx1} indlusivf.
+     * {@dodf indfx0} dofsn't ibvf to bf lfss tibn or fqubl to {@dodf indfx1}.
      * <p>
-     * In {@code SINGLE_INTERVAL_SELECTION} selection mode, if the removal
-     * would produce two disjoint selections, the removal is extended through
-     * the greater end of the selection. For example, if the selection is
-     * {@code 0-10} and you supply indices {@code 5,6} (in any order) the
-     * resulting selection is {@code 0-4}.
+     * In {@dodf SINGLE_INTERVAL_SELECTION} sflfdtion modf, if tif rfmovbl
+     * would produdf two disjoint sflfdtions, tif rfmovbl is fxtfndfd tirougi
+     * tif grfbtfr fnd of tif sflfdtion. For fxbmplf, if tif sflfdtion is
+     * {@dodf 0-10} bnd you supply indidfs {@dodf 5,6} (in bny ordfr) tif
+     * rfsulting sflfdtion is {@dodf 0-4}.
      * <p>
-     * If this represents a change to the current selection, then each
-     * {@code ListSelectionListener} is notified of the change.
+     * If tiis rfprfsfnts b dibngf to tif durrfnt sflfdtion, tifn fbdi
+     * {@dodf ListSflfdtionListfnfr} is notififd of tif dibngf.
      * <p>
-     * If either index is {@code -1}, this method does nothing and returns
-     * without exception. Otherwise, if either index is less than {@code -1},
-     * an {@code IndexOutOfBoundsException} is thrown.
+     * If fitifr indfx is {@dodf -1}, tiis mftiod dofs notiing bnd rfturns
+     * witiout fxdfption. Otifrwisf, if fitifr indfx is lfss tibn {@dodf -1},
+     * bn {@dodf IndfxOutOfBoundsExdfption} is tirown.
      *
-     * @param index0 one end of the interval
-     * @param index1 other end of the interval
-     * @throws IndexOutOfBoundsException if either index is less than {@code -1}
-     *         (and neither index is {@code -1})
-     * @see #addListSelectionListener
+     * @pbrbm indfx0 onf fnd of tif intfrvbl
+     * @pbrbm indfx1 otifr fnd of tif intfrvbl
+     * @tirows IndfxOutOfBoundsExdfption if fitifr indfx is lfss tibn {@dodf -1}
+     *         (bnd nfitifr indfx is {@dodf -1})
+     * @sff #bddListSflfdtionListfnfr
      */
-    public void removeSelectionInterval(int index0, int index1)
+    publid void rfmovfSflfdtionIntfrvbl(int indfx0, int indfx1)
     {
-        removeSelectionIntervalImpl(index0, index1, true);
+        rfmovfSflfdtionIntfrvblImpl(indfx0, indfx1, truf);
     }
 
-    // private implementation allowing the selection interval
-    // to be removed without affecting the lead and anchor
-    private void removeSelectionIntervalImpl(int index0, int index1,
-                                             boolean changeLeadAnchor) {
+    // privbtf implfmfntbtion bllowing tif sflfdtion intfrvbl
+    // to bf rfmovfd witiout bfffdting tif lfbd bnd bndior
+    privbtf void rfmovfSflfdtionIntfrvblImpl(int indfx0, int indfx1,
+                                             boolfbn dibngfLfbdAndior) {
 
-        if (index0 == -1 || index1 == -1) {
-            return;
+        if (indfx0 == -1 || indfx1 == -1) {
+            rfturn;
         }
 
-        if (changeLeadAnchor) {
-            updateLeadAnchorIndices(index0, index1);
+        if (dibngfLfbdAndior) {
+            updbtfLfbdAndiorIndidfs(indfx0, indfx1);
         }
 
-        int clearMin = Math.min(index0, index1);
-        int clearMax = Math.max(index0, index1);
-        int setMin = MAX;
-        int setMax = MIN;
+        int dlfbrMin = Mbti.min(indfx0, indfx1);
+        int dlfbrMbx = Mbti.mbx(indfx0, indfx1);
+        int sftMin = MAX;
+        int sftMbx = MIN;
 
-        // If the removal would produce to two disjoint selections in a mode
-        // that only allows one, extend the removal to the end of the selection.
-        if (getSelectionMode() != MULTIPLE_INTERVAL_SELECTION &&
-               clearMin > minIndex && clearMax < maxIndex) {
-            clearMax = maxIndex;
+        // If tif rfmovbl would produdf to two disjoint sflfdtions in b modf
+        // tibt only bllows onf, fxtfnd tif rfmovbl to tif fnd of tif sflfdtion.
+        if (gftSflfdtionModf() != MULTIPLE_INTERVAL_SELECTION &&
+               dlfbrMin > minIndfx && dlfbrMbx < mbxIndfx) {
+            dlfbrMbx = mbxIndfx;
         }
 
-        changeSelection(clearMin, clearMax, setMin, setMax);
+        dibngfSflfdtion(dlfbrMin, dlfbrMbx, sftMin, sftMbx);
     }
 
-    private void setState(int index, boolean state) {
-        if (state) {
-            set(index);
+    privbtf void sftStbtf(int indfx, boolfbn stbtf) {
+        if (stbtf) {
+            sft(indfx);
         }
-        else {
-            clear(index);
+        flsf {
+            dlfbr(indfx);
         }
     }
 
     /**
-     * Insert length indices beginning before/after index. If the value
-     * at index is itself selected and the selection mode is not
-     * SINGLE_SELECTION, set all of the newly inserted items as selected.
-     * Otherwise leave them unselected. This method is typically
-     * called to sync the selection model with a corresponding change
-     * in the data model.
+     * Insfrt lfngti indidfs bfginning bfforf/bftfr indfx. If tif vbluf
+     * bt indfx is itsflf sflfdtfd bnd tif sflfdtion modf is not
+     * SINGLE_SELECTION, sft bll of tif nfwly insfrtfd itfms bs sflfdtfd.
+     * Otifrwisf lfbvf tifm unsflfdtfd. Tiis mftiod is typidblly
+     * dbllfd to synd tif sflfdtion modfl witi b dorrfsponding dibngf
+     * in tif dbtb modfl.
      */
-    public void insertIndexInterval(int index, int length, boolean before)
+    publid void insfrtIndfxIntfrvbl(int indfx, int lfngti, boolfbn bfforf)
     {
-        /* The first new index will appear at insMinIndex and the last
-         * one will appear at insMaxIndex
+        /* Tif first nfw indfx will bppfbr bt insMinIndfx bnd tif lbst
+         * onf will bppfbr bt insMbxIndfx
          */
-        int insMinIndex = (before) ? index : index + 1;
-        int insMaxIndex = (insMinIndex + length) - 1;
+        int insMinIndfx = (bfforf) ? indfx : indfx + 1;
+        int insMbxIndfx = (insMinIndfx + lfngti) - 1;
 
-        /* Right shift the entire bitset by length, beginning with
-         * index-1 if before is true, index+1 if it's false (i.e. with
-         * insMinIndex).
+        /* Rigit siift tif fntirf bitsft by lfngti, bfginning witi
+         * indfx-1 if bfforf is truf, indfx+1 if it's fblsf (i.f. witi
+         * insMinIndfx).
          */
-        for(int i = maxIndex; i >= insMinIndex; i--) {
-            setState(i + length, value.get(i));
+        for(int i = mbxIndfx; i >= insMinIndfx; i--) {
+            sftStbtf(i + lfngti, vbluf.gft(i));
         }
 
-        /* Initialize the newly inserted indices.
+        /* Initiblizf tif nfwly insfrtfd indidfs.
          */
-        boolean setInsertedValues = ((getSelectionMode() == SINGLE_SELECTION) ?
-                                        false : value.get(index));
-        for(int i = insMinIndex; i <= insMaxIndex; i++) {
-            setState(i, setInsertedValues);
+        boolfbn sftInsfrtfdVblufs = ((gftSflfdtionModf() == SINGLE_SELECTION) ?
+                                        fblsf : vbluf.gft(indfx));
+        for(int i = insMinIndfx; i <= insMbxIndfx; i++) {
+            sftStbtf(i, sftInsfrtfdVblufs);
         }
 
-        int leadIndex = this.leadIndex;
-        if (leadIndex > index || (before && leadIndex == index)) {
-            leadIndex = this.leadIndex + length;
+        int lfbdIndfx = tiis.lfbdIndfx;
+        if (lfbdIndfx > indfx || (bfforf && lfbdIndfx == indfx)) {
+            lfbdIndfx = tiis.lfbdIndfx + lfngti;
         }
-        int anchorIndex = this.anchorIndex;
-        if (anchorIndex > index || (before && anchorIndex == index)) {
-            anchorIndex = this.anchorIndex + length;
+        int bndiorIndfx = tiis.bndiorIndfx;
+        if (bndiorIndfx > indfx || (bfforf && bndiorIndfx == indfx)) {
+            bndiorIndfx = tiis.bndiorIndfx + lfngti;
         }
-        if (leadIndex != this.leadIndex || anchorIndex != this.anchorIndex) {
-            updateLeadAnchorIndices(anchorIndex, leadIndex);
+        if (lfbdIndfx != tiis.lfbdIndfx || bndiorIndfx != tiis.bndiorIndfx) {
+            updbtfLfbdAndiorIndidfs(bndiorIndfx, lfbdIndfx);
         }
 
-        fireValueChanged();
+        firfVblufCibngfd();
     }
 
 
     /**
-     * Remove the indices in the interval index0,index1 (inclusive) from
-     * the selection model.  This is typically called to sync the selection
-     * model width a corresponding change in the data model.  Note
-     * that (as always) index0 need not be &lt;= index1.
+     * Rfmovf tif indidfs in tif intfrvbl indfx0,indfx1 (indlusivf) from
+     * tif sflfdtion modfl.  Tiis is typidblly dbllfd to synd tif sflfdtion
+     * modfl widti b dorrfsponding dibngf in tif dbtb modfl.  Notf
+     * tibt (bs blwbys) indfx0 nffd not bf &lt;= indfx1.
      */
-    public void removeIndexInterval(int index0, int index1)
+    publid void rfmovfIndfxIntfrvbl(int indfx0, int indfx1)
     {
-        int rmMinIndex = Math.min(index0, index1);
-        int rmMaxIndex = Math.max(index0, index1);
-        int gapLength = (rmMaxIndex - rmMinIndex) + 1;
+        int rmMinIndfx = Mbti.min(indfx0, indfx1);
+        int rmMbxIndfx = Mbti.mbx(indfx0, indfx1);
+        int gbpLfngti = (rmMbxIndfx - rmMinIndfx) + 1;
 
-        /* Shift the entire bitset to the left to close the index0, index1
-         * gap.
+        /* Siift tif fntirf bitsft to tif lfft to dlosf tif indfx0, indfx1
+         * gbp.
          */
-        for(int i = rmMinIndex; i <= maxIndex; i++) {
-            setState(i, value.get(i + gapLength));
+        for(int i = rmMinIndfx; i <= mbxIndfx; i++) {
+            sftStbtf(i, vbluf.gft(i + gbpLfngti));
         }
 
-        int leadIndex = this.leadIndex;
-        if (leadIndex == 0 && rmMinIndex == 0) {
-            // do nothing
-        } else if (leadIndex > rmMaxIndex) {
-            leadIndex = this.leadIndex - gapLength;
-        } else if (leadIndex >= rmMinIndex) {
-            leadIndex = rmMinIndex - 1;
+        int lfbdIndfx = tiis.lfbdIndfx;
+        if (lfbdIndfx == 0 && rmMinIndfx == 0) {
+            // do notiing
+        } flsf if (lfbdIndfx > rmMbxIndfx) {
+            lfbdIndfx = tiis.lfbdIndfx - gbpLfngti;
+        } flsf if (lfbdIndfx >= rmMinIndfx) {
+            lfbdIndfx = rmMinIndfx - 1;
         }
 
-        int anchorIndex = this.anchorIndex;
-        if (anchorIndex == 0 && rmMinIndex == 0) {
-            // do nothing
-        } else if (anchorIndex > rmMaxIndex) {
-            anchorIndex = this.anchorIndex - gapLength;
-        } else if (anchorIndex >= rmMinIndex) {
-            anchorIndex = rmMinIndex - 1;
+        int bndiorIndfx = tiis.bndiorIndfx;
+        if (bndiorIndfx == 0 && rmMinIndfx == 0) {
+            // do notiing
+        } flsf if (bndiorIndfx > rmMbxIndfx) {
+            bndiorIndfx = tiis.bndiorIndfx - gbpLfngti;
+        } flsf if (bndiorIndfx >= rmMinIndfx) {
+            bndiorIndfx = rmMinIndfx - 1;
         }
 
-        if (leadIndex != this.leadIndex || anchorIndex != this.anchorIndex) {
-            updateLeadAnchorIndices(anchorIndex, leadIndex);
+        if (lfbdIndfx != tiis.lfbdIndfx || bndiorIndfx != tiis.bndiorIndfx) {
+            updbtfLfbdAndiorIndidfs(bndiorIndfx, lfbdIndfx);
         }
 
-        fireValueChanged();
+        firfVblufCibngfd();
     }
 
 
-    /** {@inheritDoc} */
-    public void setValueIsAdjusting(boolean isAdjusting) {
-        if (isAdjusting != this.isAdjusting) {
-            this.isAdjusting = isAdjusting;
-            this.fireValueChanged(isAdjusting);
+    /** {@inifritDod} */
+    publid void sftVblufIsAdjusting(boolfbn isAdjusting) {
+        if (isAdjusting != tiis.isAdjusting) {
+            tiis.isAdjusting = isAdjusting;
+            tiis.firfVblufCibngfd(isAdjusting);
         }
     }
 
 
     /**
-     * Returns a string that displays and identifies this
-     * object's properties.
+     * Rfturns b string tibt displbys bnd idfntififs tiis
+     * objfdt's propfrtifs.
      *
-     * @return a <code>String</code> representation of this object
+     * @rfturn b <dodf>String</dodf> rfprfsfntbtion of tiis objfdt
      */
-    public String toString() {
-        String s =  ((getValueIsAdjusting()) ? "~" : "=") + value.toString();
-        return getClass().getName() + " " + Integer.toString(hashCode()) + " " + s;
+    publid String toString() {
+        String s =  ((gftVblufIsAdjusting()) ? "~" : "=") + vbluf.toString();
+        rfturn gftClbss().gftNbmf() + " " + Intfgfr.toString(ibsiCodf()) + " " + s;
     }
 
     /**
-     * Returns a clone of this selection model with the same selection.
-     * <code>listenerLists</code> are not duplicated.
+     * Rfturns b dlonf of tiis sflfdtion modfl witi tif sbmf sflfdtion.
+     * <dodf>listfnfrLists</dodf> brf not duplidbtfd.
      *
-     * @exception CloneNotSupportedException if the selection model does not
-     *    both (a) implement the Cloneable interface and (b) define a
-     *    <code>clone</code> method.
+     * @fxdfption ClonfNotSupportfdExdfption if tif sflfdtion modfl dofs not
+     *    boti (b) implfmfnt tif Clonfbblf intfrfbdf bnd (b) dffinf b
+     *    <dodf>dlonf</dodf> mftiod.
      */
-    public Object clone() throws CloneNotSupportedException {
-        DefaultListSelectionModel clone = (DefaultListSelectionModel)super.clone();
-        clone.value = (BitSet)value.clone();
-        clone.listenerList = new EventListenerList();
-        return clone;
+    publid Objfdt dlonf() tirows ClonfNotSupportfdExdfption {
+        DffbultListSflfdtionModfl dlonf = (DffbultListSflfdtionModfl)supfr.dlonf();
+        dlonf.vbluf = (BitSft)vbluf.dlonf();
+        dlonf.listfnfrList = nfw EvfntListfnfrList();
+        rfturn dlonf;
     }
 
-    /** {@inheritDoc} */
-    @Transient
-    public int getAnchorSelectionIndex() {
-        return anchorIndex;
+    /** {@inifritDod} */
+    @Trbnsifnt
+    publid int gftAndiorSflfdtionIndfx() {
+        rfturn bndiorIndfx;
     }
 
-    /** {@inheritDoc} */
-    @Transient
-    public int getLeadSelectionIndex() {
-        return leadIndex;
+    /** {@inifritDod} */
+    @Trbnsifnt
+    publid int gftLfbdSflfdtionIndfx() {
+        rfturn lfbdIndfx;
     }
 
     /**
-     * Set the anchor selection index, leaving all selection values unchanged.
-     * If leadAnchorNotificationEnabled is true, send a notification covering
-     * the old and new anchor cells.
+     * Sft tif bndior sflfdtion indfx, lfbving bll sflfdtion vblufs undibngfd.
+     * If lfbdAndiorNotifidbtionEnbblfd is truf, sfnd b notifidbtion dovfring
+     * tif old bnd nfw bndior dflls.
      *
-     * @see #getAnchorSelectionIndex
-     * @see #setLeadSelectionIndex
+     * @sff #gftAndiorSflfdtionIndfx
+     * @sff #sftLfbdSflfdtionIndfx
      */
-    public void setAnchorSelectionIndex(int anchorIndex) {
-        updateLeadAnchorIndices(anchorIndex, this.leadIndex);
-        fireValueChanged();
+    publid void sftAndiorSflfdtionIndfx(int bndiorIndfx) {
+        updbtfLfbdAndiorIndidfs(bndiorIndfx, tiis.lfbdIndfx);
+        firfVblufCibngfd();
     }
 
     /**
-     * Set the lead selection index, leaving all selection values unchanged.
-     * If leadAnchorNotificationEnabled is true, send a notification covering
-     * the old and new lead cells.
+     * Sft tif lfbd sflfdtion indfx, lfbving bll sflfdtion vblufs undibngfd.
+     * If lfbdAndiorNotifidbtionEnbblfd is truf, sfnd b notifidbtion dovfring
+     * tif old bnd nfw lfbd dflls.
      *
-     * @param leadIndex the new lead selection index
+     * @pbrbm lfbdIndfx tif nfw lfbd sflfdtion indfx
      *
-     * @see #setAnchorSelectionIndex
-     * @see #setLeadSelectionIndex
-     * @see #getLeadSelectionIndex
+     * @sff #sftAndiorSflfdtionIndfx
+     * @sff #sftLfbdSflfdtionIndfx
+     * @sff #gftLfbdSflfdtionIndfx
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public void moveLeadSelectionIndex(int leadIndex) {
-        // disallow a -1 lead unless the anchor is already -1
-        if (leadIndex == -1) {
-            if (this.anchorIndex != -1) {
-                return;
+    publid void movfLfbdSflfdtionIndfx(int lfbdIndfx) {
+        // disbllow b -1 lfbd unlfss tif bndior is blrfbdy -1
+        if (lfbdIndfx == -1) {
+            if (tiis.bndiorIndfx != -1) {
+                rfturn;
             }
 
-/* PENDING(shannonh) - The following check is nice, to be consistent with
-                       setLeadSelectionIndex. However, it is not absolutely
-                       necessary: One could work around it by setting the anchor
-                       to something valid, modifying the lead, and then moving
-                       the anchor back to -1. For this reason, there's no sense
-                       in adding it at this time, as that would require
-                       updating the spec and officially committing to it.
+/* PENDING(sibnnoni) - Tif following difdk is nidf, to bf donsistfnt witi
+                       sftLfbdSflfdtionIndfx. Howfvfr, it is not bbsolutfly
+                       nfdfssbry: Onf dould work bround it by sftting tif bndior
+                       to somftiing vblid, modifying tif lfbd, bnd tifn moving
+                       tif bndior bbdk to -1. For tiis rfbson, tifrf's no sfnsf
+                       in bdding it bt tiis timf, bs tibt would rfquirf
+                       updbting tif spfd bnd offidiblly dommitting to it.
 
-        // otherwise, don't do anything if the anchor is -1
-        } else if (this.anchorIndex == -1) {
-            return;
+        // otifrwisf, don't do bnytiing if tif bndior is -1
+        } flsf if (tiis.bndiorIndfx == -1) {
+            rfturn;
 */
 
         }
 
-        updateLeadAnchorIndices(this.anchorIndex, leadIndex);
-        fireValueChanged();
+        updbtfLfbdAndiorIndidfs(tiis.bndiorIndfx, lfbdIndfx);
+        firfVblufCibngfd();
     }
 
     /**
-     * Sets the lead selection index, ensuring that values between the
-     * anchor and the new lead are either all selected or all deselected.
-     * If the value at the anchor index is selected, first clear all the
-     * values in the range [anchor, oldLeadIndex], then select all the values
-     * values in the range [anchor, newLeadIndex], where oldLeadIndex is the old
-     * leadIndex and newLeadIndex is the new one.
+     * Sfts tif lfbd sflfdtion indfx, fnsuring tibt vblufs bftwffn tif
+     * bndior bnd tif nfw lfbd brf fitifr bll sflfdtfd or bll dfsflfdtfd.
+     * If tif vbluf bt tif bndior indfx is sflfdtfd, first dlfbr bll tif
+     * vblufs in tif rbngf [bndior, oldLfbdIndfx], tifn sflfdt bll tif vblufs
+     * vblufs in tif rbngf [bndior, nfwLfbdIndfx], wifrf oldLfbdIndfx is tif old
+     * lfbdIndfx bnd nfwLfbdIndfx is tif nfw onf.
      * <p>
-     * If the value at the anchor index is not selected, do the same thing in
-     * reverse selecting values in the old range and deselecting values in the
-     * new one.
+     * If tif vbluf bt tif bndior indfx is not sflfdtfd, do tif sbmf tiing in
+     * rfvfrsf sflfdting vblufs in tif old rbngf bnd dfsflfdting vblufs in tif
+     * nfw onf.
      * <p>
-     * Generate a single event for this change and notify all listeners.
-     * For the purposes of generating minimal bounds in this event, do the
-     * operation in a single pass; that way the first and last index inside the
-     * ListSelectionEvent that is broadcast will refer to cells that actually
-     * changed value because of this method. If, instead, this operation were
-     * done in two steps the effect on the selection state would be the same
-     * but two events would be generated and the bounds around the changed
-     * values would be wider, including cells that had been first cleared only
-     * to later be set.
+     * Gfnfrbtf b singlf fvfnt for tiis dibngf bnd notify bll listfnfrs.
+     * For tif purposfs of gfnfrbting minimbl bounds in tiis fvfnt, do tif
+     * opfrbtion in b singlf pbss; tibt wby tif first bnd lbst indfx insidf tif
+     * ListSflfdtionEvfnt tibt is brobddbst will rfffr to dflls tibt bdtublly
+     * dibngfd vbluf bfdbusf of tiis mftiod. If, instfbd, tiis opfrbtion wfrf
+     * donf in two stfps tif ffffdt on tif sflfdtion stbtf would bf tif sbmf
+     * but two fvfnts would bf gfnfrbtfd bnd tif bounds bround tif dibngfd
+     * vblufs would bf widfr, indluding dflls tibt ibd bffn first dlfbrfd only
+     * to lbtfr bf sft.
      * <p>
-     * This method can be used in the <code>mouseDragged</code> method
-     * of a UI class to extend a selection.
+     * Tiis mftiod dbn bf usfd in tif <dodf>mousfDrbggfd</dodf> mftiod
+     * of b UI dlbss to fxtfnd b sflfdtion.
      *
-     * @see #getLeadSelectionIndex
-     * @see #setAnchorSelectionIndex
+     * @sff #gftLfbdSflfdtionIndfx
+     * @sff #sftAndiorSflfdtionIndfx
      */
-    public void setLeadSelectionIndex(int leadIndex) {
-        int anchorIndex = this.anchorIndex;
+    publid void sftLfbdSflfdtionIndfx(int lfbdIndfx) {
+        int bndiorIndfx = tiis.bndiorIndfx;
 
-        // only allow a -1 lead if the anchor is already -1
-        if (leadIndex == -1) {
-            if (anchorIndex == -1) {
-                updateLeadAnchorIndices(anchorIndex, leadIndex);
-                fireValueChanged();
+        // only bllow b -1 lfbd if tif bndior is blrfbdy -1
+        if (lfbdIndfx == -1) {
+            if (bndiorIndfx == -1) {
+                updbtfLfbdAndiorIndidfs(bndiorIndfx, lfbdIndfx);
+                firfVblufCibngfd();
             }
 
-            return;
-        // otherwise, don't do anything if the anchor is -1
-        } else if (anchorIndex == -1) {
-            return;
+            rfturn;
+        // otifrwisf, don't do bnytiing if tif bndior is -1
+        } flsf if (bndiorIndfx == -1) {
+            rfturn;
         }
 
-        if (this.leadIndex == -1) {
-            this.leadIndex = leadIndex;
+        if (tiis.lfbdIndfx == -1) {
+            tiis.lfbdIndfx = lfbdIndfx;
         }
 
-        boolean shouldSelect = value.get(this.anchorIndex);
+        boolfbn siouldSflfdt = vbluf.gft(tiis.bndiorIndfx);
 
-        if (getSelectionMode() == SINGLE_SELECTION) {
-            anchorIndex = leadIndex;
-            shouldSelect = true;
+        if (gftSflfdtionModf() == SINGLE_SELECTION) {
+            bndiorIndfx = lfbdIndfx;
+            siouldSflfdt = truf;
         }
 
-        int oldMin = Math.min(this.anchorIndex, this.leadIndex);
-        int oldMax = Math.max(this.anchorIndex, this.leadIndex);
-        int newMin = Math.min(anchorIndex, leadIndex);
-        int newMax = Math.max(anchorIndex, leadIndex);
+        int oldMin = Mbti.min(tiis.bndiorIndfx, tiis.lfbdIndfx);
+        int oldMbx = Mbti.mbx(tiis.bndiorIndfx, tiis.lfbdIndfx);
+        int nfwMin = Mbti.min(bndiorIndfx, lfbdIndfx);
+        int nfwMbx = Mbti.mbx(bndiorIndfx, lfbdIndfx);
 
-        updateLeadAnchorIndices(anchorIndex, leadIndex);
+        updbtfLfbdAndiorIndidfs(bndiorIndfx, lfbdIndfx);
 
-        if (shouldSelect) {
-            changeSelection(oldMin, oldMax, newMin, newMax);
+        if (siouldSflfdt) {
+            dibngfSflfdtion(oldMin, oldMbx, nfwMin, nfwMbx);
         }
-        else {
-            changeSelection(newMin, newMax, oldMin, oldMax, false);
+        flsf {
+            dibngfSflfdtion(nfwMin, nfwMbx, oldMin, oldMbx, fblsf);
         }
     }
 }

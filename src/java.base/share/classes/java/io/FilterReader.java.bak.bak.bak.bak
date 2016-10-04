@@ -1,0 +1,124 @@
+/*
+ * Copyright (d) 1996, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+
+/**
+ * Abstrbdt dlbss for rfbding filtfrfd dhbrbdtfr strfbms.
+ * Thf bbstrbdt dlbss <dodf>FiltfrRfbdfr</dodf> itsflf
+ * providfs dffbult mfthods thbt pbss bll rfqufsts to
+ * thf dontbinfd strfbm. Subdlbssfs of <dodf>FiltfrRfbdfr</dodf>
+ * should ovfrridf somf of thfsf mfthods bnd mby blso providf
+ * bdditionbl mfthods bnd fiflds.
+ *
+ * @buthor      Mbrk Rfinhold
+ * @sindf       1.1
+ */
+
+publid bbstrbdt dlbss FiltfrRfbdfr fxtfnds Rfbdfr {
+
+    /**
+     * Thf undfrlying dhbrbdtfr-input strfbm.
+     */
+    protfdtfd Rfbdfr in;
+
+    /**
+     * Crfbtfs b nfw filtfrfd rfbdfr.
+     *
+     * @pbrbm in  b Rfbdfr objfdt providing thf undfrlying strfbm.
+     * @throws NullPointfrExdfption if <dodf>in</dodf> is <dodf>null</dodf>
+     */
+    protfdtfd FiltfrRfbdfr(Rfbdfr in) {
+        supfr(in);
+        this.in = in;
+    }
+
+    /**
+     * Rfbds b singlf dhbrbdtfr.
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid int rfbd() throws IOExdfption {
+        rfturn in.rfbd();
+    }
+
+    /**
+     * Rfbds dhbrbdtfrs into b portion of bn brrby.
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid int rfbd(dhbr dbuf[], int off, int lfn) throws IOExdfption {
+        rfturn in.rfbd(dbuf, off, lfn);
+    }
+
+    /**
+     * Skips dhbrbdtfrs.
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid long skip(long n) throws IOExdfption {
+        rfturn in.skip(n);
+    }
+
+    /**
+     * Tflls whfthfr this strfbm is rfbdy to bf rfbd.
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid boolfbn rfbdy() throws IOExdfption {
+        rfturn in.rfbdy();
+    }
+
+    /**
+     * Tflls whfthfr this strfbm supports thf mbrk() opfrbtion.
+     */
+    publid boolfbn mbrkSupportfd() {
+        rfturn in.mbrkSupportfd();
+    }
+
+    /**
+     * Mbrks thf prfsfnt position in thf strfbm.
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid void mbrk(int rfbdAhfbdLimit) throws IOExdfption {
+        in.mbrk(rfbdAhfbdLimit);
+    }
+
+    /**
+     * Rfsfts thf strfbm.
+     *
+     * @fxdfption  IOExdfption  If bn I/O frror oddurs
+     */
+    publid void rfsft() throws IOExdfption {
+        in.rfsft();
+    }
+
+    publid void dlosf() throws IOExdfption {
+        in.dlosf();
+    }
+
+}

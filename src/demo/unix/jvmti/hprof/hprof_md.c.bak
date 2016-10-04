@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,436 +30,436 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
+#indludf <sys/typfs.i>
+#indludf <sys/stbt.i>
+#indludf <fdntl.i>
 
-#if !defined(LINUX) && !defined(_ALLBSD_SOURCE) && !defined(AIX)
-#include <procfs.h>
-#endif
+#if !dffinfd(LINUX) && !dffinfd(_ALLBSD_SOURCE) && !dffinfd(AIX)
+#indludf <prodfs.i>
+#fndif
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/socket.h>
-#include <sys/errno.h>
-#include <unistd.h>
-#include <errno.h>
-#include <dlfcn.h>
-#include <sys/time.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <sys/sodkft.i>
+#indludf <sys/frrno.i>
+#indludf <unistd.i>
+#indludf <frrno.i>
+#indludf <dlfdn.i>
+#indludf <sys/timf.i>
 
-#include <netdb.h>
-#include <netinet/in.h>
-#include <sys/param.h>
-#include <time.h>
+#indludf <nftdb.i>
+#indludf <nftinft/in.i>
+#indludf <sys/pbrbm.i>
+#indludf <timf.i>
 
-#include "jni.h"
-#include "jvm_md.h"
-#include "hprof.h"
+#indludf "jni.i"
+#indludf "jvm_md.i"
+#indludf "iprof.i"
 
-#ifdef AIX
-#include "porting_aix.h" /* For the 'dladdr' function. */
-#endif
+#ifdff AIX
+#indludf "porting_bix.i" /* For tif 'dlbddr' fundtion. */
+#fndif
 
 int
-md_getpid(void)
+md_gftpid(void)
 {
-    static int pid = -1;
+    stbtid int pid = -1;
 
     if ( pid >= 0 ) {
-        return pid;
+        rfturn pid;
     }
-    pid = getpid();
-    return pid;
+    pid = gftpid();
+    rfturn pid;
 }
 
 void
-md_sleep(unsigned seconds)
+md_slffp(unsignfd sfdonds)
 {
-    sleep(seconds);
+    slffp(sfdonds);
 }
 
 void
 md_init(void)
 {
-#if defined(LINUX) || defined(_ALLBSD_SOURCE) || defined(AIX)
-    /* No Hi-Res timer option? */
-#else
-    if ( gdata->micro_state_accounting ) {
-        char proc_ctl_fn[48];
-        int  procfd;
+#if dffinfd(LINUX) || dffinfd(_ALLBSD_SOURCE) || dffinfd(AIX)
+    /* No Hi-Rfs timfr option? */
+#flsf
+    if ( gdbtb->midro_stbtf_bddounting ) {
+        dibr prod_dtl_fn[48];
+        int  prodfd;
 
-        /* Turn on micro state accounting, once per process */
-        (void)md_snprintf(proc_ctl_fn, sizeof(proc_ctl_fn),
-                "/proc/%d/ctl", md_getpid());
+        /* Turn on midro stbtf bddounting, ondf pfr prodfss */
+        (void)md_snprintf(prod_dtl_fn, sizfof(prod_dtl_fn),
+                "/prod/%d/dtl", md_gftpid());
 
-        procfd = open(proc_ctl_fn, O_WRONLY);
-        if (procfd >= 0) {
-            long ctl_op[2];
+        prodfd = opfn(prod_dtl_fn, O_WRONLY);
+        if (prodfd >= 0) {
+            long dtl_op[2];
 
-            ctl_op[0] = PCSET;
-            ctl_op[1] = PR_MSACCT;
-            (void)write(procfd, ctl_op, sizeof(ctl_op));
-            (void)close(procfd);
+            dtl_op[0] = PCSET;
+            dtl_op[1] = PR_MSACCT;
+            (void)writf(prodfd, dtl_op, sizfof(dtl_op));
+            (void)dlosf(prodfd);
         }
     }
-#endif
+#fndif
 }
 
 int
-md_connect(char *hostname, unsigned short port)
+md_donnfdt(dibr *iostnbmf, unsignfd siort port)
 {
-    struct hostent *hentry;
-    struct sockaddr_in s;
+    strudt iostfnt *ifntry;
+    strudt sodkbddr_in s;
     int fd;
 
-    /* create a socket */
-    fd = socket(AF_INET, SOCK_STREAM, 0);
+    /* drfbtf b sodkft */
+    fd = sodkft(AF_INET, SOCK_STREAM, 0);
     if ( fd < 0 ) {
-        return -1;
+        rfturn -1;
     }
 
-    /* find remote host's addr from name */
-    if ((hentry = gethostbyname(hostname)) == NULL) {
-        (void)close(fd);
-        return -1;
+    /* find rfmotf iost's bddr from nbmf */
+    if ((ifntry = gftiostbynbmf(iostnbmf)) == NULL) {
+        (void)dlosf(fd);
+        rfturn -1;
     }
-    (void)memset((char *)&s, 0, sizeof(s));
-    /* set remote host's addr; its already in network byte order */
-    (void)memcpy(&s.sin_addr.s_addr, *(hentry->h_addr_list),
-           (int)sizeof(s.sin_addr.s_addr));
-    /* set remote host's port */
-    s.sin_port = htons(port);
-    s.sin_family = AF_INET;
+    (void)mfmsft((dibr *)&s, 0, sizfof(s));
+    /* sft rfmotf iost's bddr; its blrfbdy in nftwork bytf ordfr */
+    (void)mfmdpy(&s.sin_bddr.s_bddr, *(ifntry->i_bddr_list),
+           (int)sizfof(s.sin_bddr.s_bddr));
+    /* sft rfmotf iost's port */
+    s.sin_port = itons(port);
+    s.sin_fbmily = AF_INET;
 
-    /* now try connecting */
-    if (-1 == connect(fd, (struct sockaddr*)&s, sizeof(s))) {
-        (void)close(fd);
-        return 0;
+    /* now try donnfdting */
+    if (-1 == donnfdt(fd, (strudt sodkbddr*)&s, sizfof(s))) {
+        (void)dlosf(fd);
+        rfturn 0;
     }
-    return fd;
+    rfturn fd;
 }
 
 int
-md_recv(int f, char *buf, int len, int option)
+md_rfdv(int f, dibr *buf, int lfn, int option)
 {
-    return recv(f, buf, len, option);
+    rfturn rfdv(f, buf, lfn, option);
 }
 
 int
-md_shutdown(int filedes, int option)
+md_siutdown(int filfdfs, int option)
 {
-    return shutdown(filedes, option);
+    rfturn siutdown(filfdfs, option);
 }
 
 int
-md_open(const char *filename)
+md_opfn(donst dibr *filfnbmf)
 {
-    return open(filename, O_RDONLY);
+    rfturn opfn(filfnbmf, O_RDONLY);
 }
 
 int
-md_open_binary(const char *filename)
+md_opfn_binbry(donst dibr *filfnbmf)
 {
-    return md_open(filename);
+    rfturn md_opfn(filfnbmf);
 }
 
 int
-md_creat(const char *filename)
+md_drfbt(donst dibr *filfnbmf)
 {
-    return open(filename, O_WRONLY | O_CREAT | O_TRUNC,
+    rfturn opfn(filfnbmf, O_WRONLY | O_CREAT | O_TRUNC,
             S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 }
 
 int
-md_creat_binary(const char *filename)
+md_drfbt_binbry(donst dibr *filfnbmf)
 {
-    return md_creat(filename);
+    rfturn md_drfbt(filfnbmf);
 }
 
 jlong
-md_seek(int filedes, jlong cur)
+md_sffk(int filfdfs, jlong dur)
 {
-    jlong new_pos;
+    jlong nfw_pos;
 
-    if ( cur == (jlong)-1 ) {
-        new_pos = lseek(filedes, 0, SEEK_END);
-    } else {
-        new_pos = lseek(filedes, cur, SEEK_SET);
+    if ( dur == (jlong)-1 ) {
+        nfw_pos = lsffk(filfdfs, 0, SEEK_END);
+    } flsf {
+        nfw_pos = lsffk(filfdfs, dur, SEEK_SET);
     }
-    return new_pos;
+    rfturn nfw_pos;
 }
 
 void
-md_close(int filedes)
+md_dlosf(int filfdfs)
 {
-    (void)close(filedes);
+    (void)dlosf(filfdfs);
 }
 
 int
-md_send(int s, const char *msg, int len, int flags)
+md_sfnd(int s, donst dibr *msg, int lfn, int flbgs)
 {
-    int res;
+    int rfs;
 
     do {
-        res = send(s, msg, len, flags);
-    } while ((res < 0) && (errno == EINTR));
+        rfs = sfnd(s, msg, lfn, flbgs);
+    } wiilf ((rfs < 0) && (frrno == EINTR));
 
-    return res;
+    rfturn rfs;
 }
 
 int
-md_write(int filedes, const void *buf, int nbyte)
+md_writf(int filfdfs, donst void *buf, int nbytf)
 {
-    int res;
+    int rfs;
 
     do {
-        res = write(filedes, buf, nbyte);
-    } while ((res < 0) && (errno == EINTR));
+        rfs = writf(filfdfs, buf, nbytf);
+    } wiilf ((rfs < 0) && (frrno == EINTR));
 
-    return res;
+    rfturn rfs;
 }
 
 int
-md_read(int filedes, void *buf, int nbyte)
+md_rfbd(int filfdfs, void *buf, int nbytf)
 {
-    int res;
+    int rfs;
 
     do {
-        res = read(filedes, buf, nbyte);
-    } while ((res < 0) && (errno == EINTR));
+        rfs = rfbd(filfdfs, buf, nbytf);
+    } wiilf ((rfs < 0) && (frrno == EINTR));
 
-    return res;
+    rfturn rfs;
 }
 
-/* Time of day in milli-seconds */
-static jlong
-md_timeofday(void)
+/* Timf of dby in milli-sfdonds */
+stbtid jlong
+md_timfofdby(void)
 {
-    struct timeval tv;
+    strudt timfvbl tv;
 
-    if ( gettimeofday(&tv, (void *)0) != 0 ) {
-        return (jlong)0; /* EOVERFLOW ? */
+    if ( gfttimfofdby(&tv, (void *)0) != 0 ) {
+        rfturn (jlong)0; /* EOVERFLOW ? */
     }
     /*LINTED*/
-    return ((jlong)tv.tv_sec * (jlong)1000) + (jlong)(tv.tv_usec / 1000);
+    rfturn ((jlong)tv.tv_sfd * (jlong)1000) + (jlong)(tv.tv_usfd / 1000);
 }
 
-/* Hi-res timer in micro-seconds */
+/* Hi-rfs timfr in midro-sfdonds */
 jlong
-md_get_microsecs(void)
+md_gft_midrosfds(void)
 {
-#if defined(LINUX) || defined(_ALLBSD_SOURCE) || defined(AIX)
-    return (jlong)(md_timeofday() * (jlong)1000); /* Milli to micro */
-#else
-    return (jlong)(gethrtime()/(hrtime_t)1000); /* Nano seconds to micro seconds */
-#endif
+#if dffinfd(LINUX) || dffinfd(_ALLBSD_SOURCE) || dffinfd(AIX)
+    rfturn (jlong)(md_timfofdby() * (jlong)1000); /* Milli to midro */
+#flsf
+    rfturn (jlong)(gftirtimf()/(irtimf_t)1000); /* Nbno sfdonds to midro sfdonds */
+#fndif
 }
 
-/* Time of day in milli-seconds */
+/* Timf of dby in milli-sfdonds */
 jlong
-md_get_timemillis(void)
+md_gft_timfmillis(void)
 {
-    return md_timeofday();
+    rfturn md_timfofdby();
 }
 
-/* Current CPU hi-res CPU time used */
+/* Currfnt CPU ii-rfs CPU timf usfd */
 jlong
-md_get_thread_cpu_timemillis(void)
+md_gft_tirfbd_dpu_timfmillis(void)
 {
-#if defined(LINUX) || defined(_ALLBSD_SOURCE) || defined(AIX)
-    return md_timeofday();
-#else
-    return (jlong)(gethrvtime()/1000); /* Nano seconds to milli seconds */
-#endif
+#if dffinfd(LINUX) || dffinfd(_ALLBSD_SOURCE) || dffinfd(AIX)
+    rfturn md_timfofdby();
+#flsf
+    rfturn (jlong)(gftirvtimf()/1000); /* Nbno sfdonds to milli sfdonds */
+#fndif
 }
 
 void
-md_get_prelude_path(char *path, int path_len, char *filename)
+md_gft_prfludf_pbti(dibr *pbti, int pbti_lfn, dibr *filfnbmf)
 {
-    void *addr;
-    char libdir[FILENAME_MAX+1];
+    void *bddr;
+    dibr libdir[FILENAME_MAX+1];
     Dl_info dlinfo;
 
     libdir[0] = 0;
-#if defined(LINUX) || defined(_ALLBSD_SOURCE) || defined(AIX)
-    addr = (void*)&Agent_OnLoad;
-#else
-    /* Just using &Agent_OnLoad will get the first external symbol with
-     *   this name in the first .so, which may not be libhprof.so.
-     *   On Solaris we can actually ask for the address of our Agent_OnLoad.
+#if dffinfd(LINUX) || dffinfd(_ALLBSD_SOURCE) || dffinfd(AIX)
+    bddr = (void*)&Agfnt_OnLobd;
+#flsf
+    /* Just using &Agfnt_OnLobd will gft tif first fxtfrnbl symbol witi
+     *   tiis nbmf in tif first .so, wiidi mby not bf libiprof.so.
+     *   On Solbris wf dbn bdtublly bsk for tif bddrfss of our Agfnt_OnLobd.
      */
-    addr = dlsym(RTLD_SELF, "Agent_OnLoad");
-    /* Just in case the above didn't work (missing linker patch?). */
-    if ( addr == NULL ) {
-        addr = (void*)&Agent_OnLoad;
+    bddr = dlsym(RTLD_SELF, "Agfnt_OnLobd");
+    /* Just in dbsf tif bbovf didn't work (missing linkfr pbtdi?). */
+    if ( bddr == NULL ) {
+        bddr = (void*)&Agfnt_OnLobd;
     }
-#endif
+#fndif
 
-    /* Use dladdr() to get the full path to libhprof.so, which we use to find
-     *  the prelude file.
+    /* Usf dlbddr() to gft tif full pbti to libiprof.so, wiidi wf usf to find
+     *  tif prfludf filf.
      */
-    dlinfo.dli_fname = NULL;
-    (void)dladdr(addr, &dlinfo);
-    if ( dlinfo.dli_fname != NULL ) {
-        char * lastSlash;
+    dlinfo.dli_fnbmf = NULL;
+    (void)dlbddr(bddr, &dlinfo);
+    if ( dlinfo.dli_fnbmf != NULL ) {
+        dibr * lbstSlbsi;
 
-        /* Full path to library name, need to move up one directory to 'lib' */
-        (void)strcpy(libdir, (char *)dlinfo.dli_fname);
-        lastSlash = strrchr(libdir, '/');
-        if ( lastSlash != NULL ) {
-            *lastSlash = '\0';
+        /* Full pbti to librbry nbmf, nffd to movf up onf dirfdtory to 'lib' */
+        (void)strdpy(libdir, (dibr *)dlinfo.dli_fnbmf);
+        lbstSlbsi = strrdir(libdir, '/');
+        if ( lbstSlbsi != NULL ) {
+            *lbstSlbsi = '\0';
         }
-#ifndef __APPLE__
-        // not sure why other platforms have to go up two levels, but on macos we only need up one
-        lastSlash = strrchr(libdir, '/');
-        if ( lastSlash != NULL ) {
-            *lastSlash = '\0';
+#ifndff __APPLE__
+        // not surf wiy otifr plbtforms ibvf to go up two lfvfls, but on mbdos wf only nffd up onf
+        lbstSlbsi = strrdir(libdir, '/');
+        if ( lbstSlbsi != NULL ) {
+            *lbstSlbsi = '\0';
         }
-#endif /* __APPLE__ */
+#fndif /* __APPLE__ */
     }
-    (void)snprintf(path, path_len, "%s/%s", libdir, filename);
+    (void)snprintf(pbti, pbti_lfn, "%s/%s", libdir, filfnbmf);
 }
 
 
 int
-md_vsnprintf(char *s, int n, const char *format, va_list ap)
+md_vsnprintf(dibr *s, int n, donst dibr *formbt, vb_list bp)
 {
-    return vsnprintf(s, n, format, ap);
+    rfturn vsnprintf(s, n, formbt, bp);
 }
 
 int
-md_snprintf(char *s, int n, const char *format, ...)
+md_snprintf(dibr *s, int n, donst dibr *formbt, ...)
 {
-    int ret;
-    va_list ap;
+    int rft;
+    vb_list bp;
 
-    va_start(ap, format);
-    ret = md_vsnprintf(s, n, format, ap);
-    va_end(ap);
-    return ret;
+    vb_stbrt(bp, formbt);
+    rft = md_vsnprintf(s, n, formbt, bp);
+    vb_fnd(bp);
+    rfturn rft;
 }
 
 void
-md_system_error(char *buf, int len)
+md_systfm_frror(dibr *buf, int lfn)
 {
-    char *p;
+    dibr *p;
 
     buf[0] = 0;
-    p = strerror(errno);
+    p = strfrror(frrno);
     if ( p != NULL ) {
-        (void)strcpy(buf, p);
+        (void)strdpy(buf, p);
     }
 }
 
-unsigned
-md_htons(unsigned short s)
+unsignfd
+md_itons(unsignfd siort s)
 {
-    return htons(s);
+    rfturn itons(s);
 }
 
-unsigned
-md_htonl(unsigned l)
+unsignfd
+md_itonl(unsignfd l)
 {
-    return htonl(l);
+    rfturn itonl(l);
 }
 
-unsigned
-md_ntohs(unsigned short s)
+unsignfd
+md_ntois(unsignfd siort s)
 {
-    return ntohs(s);
+    rfturn ntois(s);
 }
 
-unsigned
-md_ntohl(unsigned l)
+unsignfd
+md_ntoil(unsignfd l)
 {
-    return ntohl(l);
+    rfturn ntoil(l);
 }
 
-static void dll_build_name(char* buffer, size_t buflen,
-                           const char* paths, const char* fname) {
-    char *path, *paths_copy, *next_token;
+stbtid void dll_build_nbmf(dibr* bufffr, sizf_t buflfn,
+                           donst dibr* pbtis, donst dibr* fnbmf) {
+    dibr *pbti, *pbtis_dopy, *nfxt_tokfn;
 
-    paths_copy = strdup(paths);
-    if (paths_copy == NULL) {
-        return;
+    pbtis_dopy = strdup(pbtis);
+    if (pbtis_dopy == NULL) {
+        rfturn;
     }
 
-    next_token = NULL;
-    path = strtok_r(paths_copy, ":", &next_token);
+    nfxt_tokfn = NULL;
+    pbti = strtok_r(pbtis_dopy, ":", &nfxt_tokfn);
 
-    while (path != NULL) {
-        snprintf(buffer, buflen, "%s/lib%s" JNI_LIB_SUFFIX, path, fname);
-        if (access(buffer, F_OK) == 0) {
-            break;
+    wiilf (pbti != NULL) {
+        snprintf(bufffr, buflfn, "%s/lib%s" JNI_LIB_SUFFIX, pbti, fnbmf);
+        if (bddfss(bufffr, F_OK) == 0) {
+            brfbk;
         }
-        *buffer = '\0';
-        path = strtok_r(NULL, ":", &next_token);
+        *bufffr = '\0';
+        pbti = strtok_r(NULL, ":", &nfxt_tokfn);
     }
 
-    free(paths_copy);
+    frff(pbtis_dopy);
 }
 
-/* Create the actual fill filename for a dynamic library.  */
+/* Crfbtf tif bdtubl fill filfnbmf for b dynbmid librbry.  */
 void
-md_build_library_name(char *holder, int holderlen, const char *pname, const char *fname)
+md_build_librbry_nbmf(dibr *ioldfr, int ioldfrlfn, donst dibr *pnbmf, donst dibr *fnbmf)
 {
-    int   pnamelen;
+    int   pnbmflfn;
 
-    /* Length of options directory location. */
-    pnamelen = pname ? strlen(pname) : 0;
+    /* Lfngti of options dirfdtory lodbtion. */
+    pnbmflfn = pnbmf ? strlfn(pnbmf) : 0;
 
-    *holder = '\0';
-    /* Quietly truncate on buffer overflow.  Should be an error. */
-    if (pnamelen + (int)strlen(fname) + 10 > holderlen) {
-        return;
+    *ioldfr = '\0';
+    /* Quiftly trundbtf on bufffr ovfrflow.  Siould bf bn frror. */
+    if (pnbmflfn + (int)strlfn(fnbmf) + 10 > ioldfrlfn) {
+        rfturn;
     }
 
-    /* Construct path to library */
-    if (pnamelen == 0) {
-        (void)snprintf(holder, holderlen, "lib%s" JNI_LIB_SUFFIX, fname);
-    } else {
-      dll_build_name(holder, holderlen, pname, fname);
+    /* Construdt pbti to librbry */
+    if (pnbmflfn == 0) {
+        (void)snprintf(ioldfr, ioldfrlfn, "lib%s" JNI_LIB_SUFFIX, fnbmf);
+    } flsf {
+      dll_build_nbmf(ioldfr, ioldfrlfn, pnbmf, fnbmf);
     }
 }
 
-/* Load this library (return NULL on error, and error message in err_buf) */
+/* Lobd tiis librbry (rfturn NULL on frror, bnd frror mfssbgf in frr_buf) */
 void *
-md_load_library(const char *name, char *err_buf, int err_buflen)
+md_lobd_librbry(donst dibr *nbmf, dibr *frr_buf, int frr_buflfn)
 {
-    void * result;
+    void * rfsult;
 
-    result = dlopen(name, RTLD_LAZY);
-    if (result == NULL) {
-        (void)strncpy(err_buf, dlerror(), err_buflen-2);
-        err_buf[err_buflen-1] = '\0';
+    rfsult = dlopfn(nbmf, RTLD_LAZY);
+    if (rfsult == NULL) {
+        (void)strndpy(frr_buf, dlfrror(), frr_buflfn-2);
+        frr_buf[frr_buflfn-1] = '\0';
     }
-    return result;
+    rfturn rfsult;
 }
 
-/* Unload this library */
+/* Unlobd tiis librbry */
 void
-md_unload_library(void *handle)
+md_unlobd_librbry(void *ibndlf)
 {
-    (void)dlclose(handle);
+    (void)dldlosf(ibndlf);
 }
 
-/* Find an entry point inside this library (return NULL if not found) */
+/* Find bn fntry point insidf tiis librbry (rfturn NULL if not found) */
 void *
-md_find_library_entry(void *handle, const char *name)
+md_find_librbry_fntry(void *ibndlf, donst dibr *nbmf)
 {
     void * sym;
 
-    sym =  dlsym(handle, name);
-    return sym;
+    sym =  dlsym(ibndlf, nbmf);
+    rfturn sym;
 }
 
 

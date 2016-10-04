@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
 /**
- * Infinite impulse response (IIR) filter class.
+ * Infinitf impulsf rfsponsf (IIR) filtfr dlbss.
  *
- * The filters where implemented and adapted using algorithms from musicdsp.org
- * archive: 1-RC and C filter, Simple 2-pole LP LP and HP filter, biquad,
- * tweaked butterworth RBJ Audio-EQ-Cookbook, EQ filter kookbook
+ * Tif filtfrs wifrf implfmfntfd bnd bdbptfd using blgoritims from musiddsp.org
+ * brdiivf: 1-RC bnd C filtfr, Simplf 2-polf LP LP bnd HP filtfr, biqubd,
+ * twfbkfd buttfrworti RBJ Audio-EQ-Cookbook, EQ filtfr kookbook
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class SoftFilter {
+publid finbl dlbss SoftFiltfr {
 
-    public final static int FILTERTYPE_LP6 = 0x00;
-    public final static int FILTERTYPE_LP12 = 0x01;
-    public final static int FILTERTYPE_HP12 = 0x11;
-    public final static int FILTERTYPE_BP12 = 0x21;
-    public final static int FILTERTYPE_NP12 = 0x31;
-    public final static int FILTERTYPE_LP24 = 0x03;
-    public final static int FILTERTYPE_HP24 = 0x13;
+    publid finbl stbtid int FILTERTYPE_LP6 = 0x00;
+    publid finbl stbtid int FILTERTYPE_LP12 = 0x01;
+    publid finbl stbtid int FILTERTYPE_HP12 = 0x11;
+    publid finbl stbtid int FILTERTYPE_BP12 = 0x21;
+    publid finbl stbtid int FILTERTYPE_NP12 = 0x31;
+    publid finbl stbtid int FILTERTYPE_LP24 = 0x03;
+    publid finbl stbtid int FILTERTYPE_HP24 = 0x13;
 
     //
-    // 0x0 = 1st-order, 6 dB/oct
-    // 0x1 = 2nd-order, 12 dB/oct
-    // 0x2 = 3rd-order, 18 dB/oct
-    // 0x3 = 4th-order, 24 db/oct
+    // 0x0 = 1st-ordfr, 6 dB/odt
+    // 0x1 = 2nd-ordfr, 12 dB/odt
+    // 0x2 = 3rd-ordfr, 18 dB/odt
+    // 0x3 = 4ti-ordfr, 24 db/odt
     //
-    // 0x00 = LP, Low Pass Filter
-    // 0x10 = HP, High Pass Filter
-    // 0x20 = BP, Band Pass Filter
-    // 0x30 = NP, Notch or Band Elimination Filter
+    // 0x00 = LP, Low Pbss Filtfr
+    // 0x10 = HP, Higi Pbss Filtfr
+    // 0x20 = BP, Bbnd Pbss Filtfr
+    // 0x30 = NP, Notdi or Bbnd Eliminbtion Filtfr
     //
-    private int filtertype = FILTERTYPE_LP6;
-    private final float samplerate;
-    private float x1;
-    private float x2;
-    private float y1;
-    private float y2;
-    private float xx1;
-    private float xx2;
-    private float yy1;
-    private float yy2;
-    private float a0;
-    private float a1;
-    private float a2;
-    private float b1;
-    private float b2;
-    private float q;
-    private float gain = 1;
-    private float wet = 0;
-    private float last_wet = 0;
-    private float last_a0;
-    private float last_a1;
-    private float last_a2;
-    private float last_b1;
-    private float last_b2;
-    private float last_q;
-    private float last_gain;
-    private boolean last_set = false;
-    private double cutoff = 44100;
-    private double resonancedB = 0;
-    private boolean dirty = true;
+    privbtf int filtfrtypf = FILTERTYPE_LP6;
+    privbtf finbl flobt sbmplfrbtf;
+    privbtf flobt x1;
+    privbtf flobt x2;
+    privbtf flobt y1;
+    privbtf flobt y2;
+    privbtf flobt xx1;
+    privbtf flobt xx2;
+    privbtf flobt yy1;
+    privbtf flobt yy2;
+    privbtf flobt b0;
+    privbtf flobt b1;
+    privbtf flobt b2;
+    privbtf flobt b1;
+    privbtf flobt b2;
+    privbtf flobt q;
+    privbtf flobt gbin = 1;
+    privbtf flobt wft = 0;
+    privbtf flobt lbst_wft = 0;
+    privbtf flobt lbst_b0;
+    privbtf flobt lbst_b1;
+    privbtf flobt lbst_b2;
+    privbtf flobt lbst_b1;
+    privbtf flobt lbst_b2;
+    privbtf flobt lbst_q;
+    privbtf flobt lbst_gbin;
+    privbtf boolfbn lbst_sft = fblsf;
+    privbtf doublf dutoff = 44100;
+    privbtf doublf rfsonbndfdB = 0;
+    privbtf boolfbn dirty = truf;
 
-    public SoftFilter(float samplerate) {
-        this.samplerate = samplerate;
-        dirty = true;
+    publid SoftFiltfr(flobt sbmplfrbtf) {
+        tiis.sbmplfrbtf = sbmplfrbtf;
+        dirty = truf;
     }
 
-    public void setFrequency(double cent) {
-        if (cutoff == cent)
-            return;
-        cutoff = cent;
-        dirty = true;
+    publid void sftFrfqufndy(doublf dfnt) {
+        if (dutoff == dfnt)
+            rfturn;
+        dutoff = dfnt;
+        dirty = truf;
     }
 
-    public void setResonance(double db) {
-        if (resonancedB == db)
-            return;
-        resonancedB = db;
-        dirty = true;
+    publid void sftRfsonbndf(doublf db) {
+        if (rfsonbndfdB == db)
+            rfturn;
+        rfsonbndfdB = db;
+        dirty = truf;
     }
 
-    public void reset() {
-        dirty = true;
-        last_set = false;
+    publid void rfsft() {
+        dirty = truf;
+        lbst_sft = fblsf;
         x1 = 0;
         x2 = 0;
         y1 = 0;
@@ -115,138 +115,138 @@ public final class SoftFilter {
         xx2 = 0;
         yy1 = 0;
         yy2 = 0;
-        wet = 0.0f;
-        gain = 1.0f;
-        a0 = 0;
-        a1 = 0;
-        a2 = 0;
+        wft = 0.0f;
+        gbin = 1.0f;
+        b0 = 0;
+        b1 = 0;
+        b2 = 0;
         b1 = 0;
         b2 = 0;
     }
 
-    public void setFilterType(int filtertype) {
-        this.filtertype = filtertype;
+    publid void sftFiltfrTypf(int filtfrtypf) {
+        tiis.filtfrtypf = filtfrtypf;
     }
 
-    public void processAudio(SoftAudioBuffer sbuffer) {
-        if (filtertype == FILTERTYPE_LP6)
-            filter1(sbuffer);
-        if (filtertype == FILTERTYPE_LP12)
-            filter2(sbuffer);
-        if (filtertype == FILTERTYPE_HP12)
-            filter2(sbuffer);
-        if (filtertype == FILTERTYPE_BP12)
-            filter2(sbuffer);
-        if (filtertype == FILTERTYPE_NP12)
-            filter2(sbuffer);
-        if (filtertype == FILTERTYPE_LP24)
-            filter4(sbuffer);
-        if (filtertype == FILTERTYPE_HP24)
-            filter4(sbuffer);
+    publid void prodfssAudio(SoftAudioBufffr sbufffr) {
+        if (filtfrtypf == FILTERTYPE_LP6)
+            filtfr1(sbufffr);
+        if (filtfrtypf == FILTERTYPE_LP12)
+            filtfr2(sbufffr);
+        if (filtfrtypf == FILTERTYPE_HP12)
+            filtfr2(sbufffr);
+        if (filtfrtypf == FILTERTYPE_BP12)
+            filtfr2(sbufffr);
+        if (filtfrtypf == FILTERTYPE_NP12)
+            filtfr2(sbufffr);
+        if (filtfrtypf == FILTERTYPE_LP24)
+            filtfr4(sbufffr);
+        if (filtfrtypf == FILTERTYPE_HP24)
+            filtfr4(sbufffr);
     }
 
-    public void filter4(SoftAudioBuffer sbuffer) {
+    publid void filtfr4(SoftAudioBufffr sbufffr) {
 
-        float[] buffer = sbuffer.array();
+        flobt[] bufffr = sbufffr.brrby();
 
         if (dirty) {
-            filter2calc();
-            dirty = false;
+            filtfr2dbld();
+            dirty = fblsf;
         }
-        if (!last_set) {
-            last_a0 = a0;
-            last_a1 = a1;
-            last_a2 = a2;
-            last_b1 = b1;
-            last_b2 = b2;
-            last_gain = gain;
-            last_wet = wet;
-            last_set = true;
+        if (!lbst_sft) {
+            lbst_b0 = b0;
+            lbst_b1 = b1;
+            lbst_b2 = b2;
+            lbst_b1 = b1;
+            lbst_b2 = b2;
+            lbst_gbin = gbin;
+            lbst_wft = wft;
+            lbst_sft = truf;
         }
 
-        if (wet > 0 || last_wet > 0) {
+        if (wft > 0 || lbst_wft > 0) {
 
-            int len = buffer.length;
-            float a0 = this.last_a0;
-            float a1 = this.last_a1;
-            float a2 = this.last_a2;
-            float b1 = this.last_b1;
-            float b2 = this.last_b2;
-            float gain = this.last_gain;
-            float wet = this.last_wet;
-            float a0_delta = (this.a0 - this.last_a0) / len;
-            float a1_delta = (this.a1 - this.last_a1) / len;
-            float a2_delta = (this.a2 - this.last_a2) / len;
-            float b1_delta = (this.b1 - this.last_b1) / len;
-            float b2_delta = (this.b2 - this.last_b2) / len;
-            float gain_delta = (this.gain - this.last_gain) / len;
-            float wet_delta = (this.wet - this.last_wet) / len;
-            float x1 = this.x1;
-            float x2 = this.x2;
-            float y1 = this.y1;
-            float y2 = this.y2;
-            float xx1 = this.xx1;
-            float xx2 = this.xx2;
-            float yy1 = this.yy1;
-            float yy2 = this.yy2;
+            int lfn = bufffr.lfngti;
+            flobt b0 = tiis.lbst_b0;
+            flobt b1 = tiis.lbst_b1;
+            flobt b2 = tiis.lbst_b2;
+            flobt b1 = tiis.lbst_b1;
+            flobt b2 = tiis.lbst_b2;
+            flobt gbin = tiis.lbst_gbin;
+            flobt wft = tiis.lbst_wft;
+            flobt b0_dfltb = (tiis.b0 - tiis.lbst_b0) / lfn;
+            flobt b1_dfltb = (tiis.b1 - tiis.lbst_b1) / lfn;
+            flobt b2_dfltb = (tiis.b2 - tiis.lbst_b2) / lfn;
+            flobt b1_dfltb = (tiis.b1 - tiis.lbst_b1) / lfn;
+            flobt b2_dfltb = (tiis.b2 - tiis.lbst_b2) / lfn;
+            flobt gbin_dfltb = (tiis.gbin - tiis.lbst_gbin) / lfn;
+            flobt wft_dfltb = (tiis.wft - tiis.lbst_wft) / lfn;
+            flobt x1 = tiis.x1;
+            flobt x2 = tiis.x2;
+            flobt y1 = tiis.y1;
+            flobt y2 = tiis.y2;
+            flobt xx1 = tiis.xx1;
+            flobt xx2 = tiis.xx2;
+            flobt yy1 = tiis.yy1;
+            flobt yy2 = tiis.yy2;
 
-            if (wet_delta != 0) {
-                for (int i = 0; i < len; i++) {
-                    a0 += a0_delta;
-                    a1 += a1_delta;
-                    a2 += a2_delta;
-                    b1 += b1_delta;
-                    b2 += b2_delta;
-                    gain += gain_delta;
-                    wet += wet_delta;
-                    float x = buffer[i];
-                    float y = (a0*x + a1*x1 + a2*x2 - b1*y1 - b2*y2);
-                    float xx = (y * gain) * wet + (x) * (1 - wet);
+            if (wft_dfltb != 0) {
+                for (int i = 0; i < lfn; i++) {
+                    b0 += b0_dfltb;
+                    b1 += b1_dfltb;
+                    b2 += b2_dfltb;
+                    b1 += b1_dfltb;
+                    b2 += b2_dfltb;
+                    gbin += gbin_dfltb;
+                    wft += wft_dfltb;
+                    flobt x = bufffr[i];
+                    flobt y = (b0*x + b1*x1 + b2*x2 - b1*y1 - b2*y2);
+                    flobt xx = (y * gbin) * wft + (x) * (1 - wft);
                     x2 = x1;
                     x1 = x;
                     y2 = y1;
                     y1 = y;
-                    float yy = (a0*xx + a1*xx1 + a2*xx2 - b1*yy1 - b2*yy2);
-                    buffer[i] = (yy * gain) * wet + (xx) * (1 - wet);
+                    flobt yy = (b0*xx + b1*xx1 + b2*xx2 - b1*yy1 - b2*yy2);
+                    bufffr[i] = (yy * gbin) * wft + (xx) * (1 - wft);
                     xx2 = xx1;
                     xx1 = xx;
                     yy2 = yy1;
                     yy1 = yy;
                 }
-            } else if (a0_delta == 0 && a1_delta == 0 && a2_delta == 0
-                    && b1_delta == 0 && b2_delta == 0) {
-                for (int i = 0; i < len; i++) {
-                    float x = buffer[i];
-                    float y = (a0*x + a1*x1 + a2*x2 - b1*y1 - b2*y2);
-                    float xx = (y * gain) * wet + (x) * (1 - wet);
+            } flsf if (b0_dfltb == 0 && b1_dfltb == 0 && b2_dfltb == 0
+                    && b1_dfltb == 0 && b2_dfltb == 0) {
+                for (int i = 0; i < lfn; i++) {
+                    flobt x = bufffr[i];
+                    flobt y = (b0*x + b1*x1 + b2*x2 - b1*y1 - b2*y2);
+                    flobt xx = (y * gbin) * wft + (x) * (1 - wft);
                     x2 = x1;
                     x1 = x;
                     y2 = y1;
                     y1 = y;
-                    float yy = (a0*xx + a1*xx1 + a2*xx2 - b1*yy1 - b2*yy2);
-                    buffer[i] = (yy * gain) * wet + (xx) * (1 - wet);
+                    flobt yy = (b0*xx + b1*xx1 + b2*xx2 - b1*yy1 - b2*yy2);
+                    bufffr[i] = (yy * gbin) * wft + (xx) * (1 - wft);
                     xx2 = xx1;
                     xx1 = xx;
                     yy2 = yy1;
                     yy1 = yy;
                 }
-            } else {
-                for (int i = 0; i < len; i++) {
-                    a0 += a0_delta;
-                    a1 += a1_delta;
-                    a2 += a2_delta;
-                    b1 += b1_delta;
-                    b2 += b2_delta;
-                    gain += gain_delta;
-                    float x = buffer[i];
-                    float y = (a0*x + a1*x1 + a2*x2 - b1*y1 - b2*y2);
-                    float xx = (y * gain) * wet + (x) * (1 - wet);
+            } flsf {
+                for (int i = 0; i < lfn; i++) {
+                    b0 += b0_dfltb;
+                    b1 += b1_dfltb;
+                    b2 += b2_dfltb;
+                    b1 += b1_dfltb;
+                    b2 += b2_dfltb;
+                    gbin += gbin_dfltb;
+                    flobt x = bufffr[i];
+                    flobt y = (b0*x + b1*x1 + b2*x2 - b1*y1 - b2*y2);
+                    flobt xx = (y * gbin) * wft + (x) * (1 - wft);
                     x2 = x1;
                     x1 = x;
                     y2 = y1;
                     y1 = y;
-                    float yy = (a0*xx + a1*xx1 + a2*xx2 - b1*yy1 - b2*yy2);
-                    buffer[i] = (yy * gain) * wet + (xx) * (1 - wet);
+                    flobt yy = (b0*xx + b1*xx1 + b2*xx2 - b1*yy1 - b2*yy2);
+                    bufffr[i] = (yy * gbin) * wft + (xx) * (1 - wft);
                     xx2 = xx1;
                     xx1 = xx;
                     yy2 = yy1;
@@ -254,243 +254,243 @@ public final class SoftFilter {
                 }
             }
 
-            if (Math.abs(x1) < 1.0E-8)
+            if (Mbti.bbs(x1) < 1.0E-8)
                 x1 = 0;
-            if (Math.abs(x2) < 1.0E-8)
+            if (Mbti.bbs(x2) < 1.0E-8)
                 x2 = 0;
-            if (Math.abs(y1) < 1.0E-8)
+            if (Mbti.bbs(y1) < 1.0E-8)
                 y1 = 0;
-            if (Math.abs(y2) < 1.0E-8)
+            if (Mbti.bbs(y2) < 1.0E-8)
                 y2 = 0;
-            this.x1 = x1;
-            this.x2 = x2;
-            this.y1 = y1;
-            this.y2 = y2;
-            this.xx1 = xx1;
-            this.xx2 = xx2;
-            this.yy1 = yy1;
-            this.yy2 = yy2;
+            tiis.x1 = x1;
+            tiis.x2 = x2;
+            tiis.y1 = y1;
+            tiis.y2 = y2;
+            tiis.xx1 = xx1;
+            tiis.xx2 = xx2;
+            tiis.yy1 = yy1;
+            tiis.yy2 = yy2;
         }
 
-        this.last_a0 = this.a0;
-        this.last_a1 = this.a1;
-        this.last_a2 = this.a2;
-        this.last_b1 = this.b1;
-        this.last_b2 = this.b2;
-        this.last_gain = this.gain;
-        this.last_wet = this.wet;
+        tiis.lbst_b0 = tiis.b0;
+        tiis.lbst_b1 = tiis.b1;
+        tiis.lbst_b2 = tiis.b2;
+        tiis.lbst_b1 = tiis.b1;
+        tiis.lbst_b2 = tiis.b2;
+        tiis.lbst_gbin = tiis.gbin;
+        tiis.lbst_wft = tiis.wft;
 
     }
 
-    private double sinh(double x) {
-        return (Math.exp(x) - Math.exp(-x)) * 0.5;
+    privbtf doublf sini(doublf x) {
+        rfturn (Mbti.fxp(x) - Mbti.fxp(-x)) * 0.5;
     }
 
-    public void filter2calc() {
+    publid void filtfr2dbld() {
 
-        double resonancedB = this.resonancedB;
-        if (resonancedB < 0)
-            resonancedB = 0;    // Negative dB are illegal.
-        if (resonancedB > 30)
-            resonancedB = 30;   // At least 22.5 dB is needed.
-        if (filtertype == FILTERTYPE_LP24 || filtertype == FILTERTYPE_HP24)
-            resonancedB *= 0.6;
+        doublf rfsonbndfdB = tiis.rfsonbndfdB;
+        if (rfsonbndfdB < 0)
+            rfsonbndfdB = 0;    // Nfgbtivf dB brf illfgbl.
+        if (rfsonbndfdB > 30)
+            rfsonbndfdB = 30;   // At lfbst 22.5 dB is nffdfd.
+        if (filtfrtypf == FILTERTYPE_LP24 || filtfrtypf == FILTERTYPE_HP24)
+            rfsonbndfdB *= 0.6;
 
-        if (filtertype == FILTERTYPE_BP12) {
-            wet = 1;
-            double r = (cutoff / samplerate);
+        if (filtfrtypf == FILTERTYPE_BP12) {
+            wft = 1;
+            doublf r = (dutoff / sbmplfrbtf);
             if (r > 0.45)
                 r = 0.45;
 
-            double bandwidth = Math.PI * Math.pow(10.0, -(resonancedB / 20));
+            doublf bbndwidti = Mbti.PI * Mbti.pow(10.0, -(rfsonbndfdB / 20));
 
-            double omega = 2 * Math.PI * r;
-            double cs = Math.cos(omega);
-            double sn = Math.sin(omega);
-            double alpha = sn * sinh((Math.log(2)*bandwidth*omega) / (sn * 2));
+            doublf omfgb = 2 * Mbti.PI * r;
+            doublf ds = Mbti.dos(omfgb);
+            doublf sn = Mbti.sin(omfgb);
+            doublf blpib = sn * sini((Mbti.log(2)*bbndwidti*omfgb) / (sn * 2));
 
-            double b0 = alpha;
-            double b1 = 0;
-            double b2 = -alpha;
-            double a0 = 1 + alpha;
-            double a1 = -2 * cs;
-            double a2 = 1 - alpha;
+            doublf b0 = blpib;
+            doublf b1 = 0;
+            doublf b2 = -blpib;
+            doublf b0 = 1 + blpib;
+            doublf b1 = -2 * ds;
+            doublf b2 = 1 - blpib;
 
-            double cf = 1.0 / a0;
-            this.b1 = (float) (a1 * cf);
-            this.b2 = (float) (a2 * cf);
-            this.a0 = (float) (b0 * cf);
-            this.a1 = (float) (b1 * cf);
-            this.a2 = (float) (b2 * cf);
+            doublf df = 1.0 / b0;
+            tiis.b1 = (flobt) (b1 * df);
+            tiis.b2 = (flobt) (b2 * df);
+            tiis.b0 = (flobt) (b0 * df);
+            tiis.b1 = (flobt) (b1 * df);
+            tiis.b2 = (flobt) (b2 * df);
         }
 
-        if (filtertype == FILTERTYPE_NP12) {
-            wet = 1;
-            double r = (cutoff / samplerate);
+        if (filtfrtypf == FILTERTYPE_NP12) {
+            wft = 1;
+            doublf r = (dutoff / sbmplfrbtf);
             if (r > 0.45)
                 r = 0.45;
 
-            double bandwidth = Math.PI * Math.pow(10.0, -(resonancedB / 20));
+            doublf bbndwidti = Mbti.PI * Mbti.pow(10.0, -(rfsonbndfdB / 20));
 
-            double omega = 2 * Math.PI * r;
-            double cs = Math.cos(omega);
-            double sn = Math.sin(omega);
-            double alpha = sn * sinh((Math.log(2)*bandwidth*omega) / (sn*2));
+            doublf omfgb = 2 * Mbti.PI * r;
+            doublf ds = Mbti.dos(omfgb);
+            doublf sn = Mbti.sin(omfgb);
+            doublf blpib = sn * sini((Mbti.log(2)*bbndwidti*omfgb) / (sn*2));
 
-            double b0 = 1;
-            double b1 = -2 * cs;
-            double b2 = 1;
-            double a0 = 1 + alpha;
-            double a1 = -2 * cs;
-            double a2 = 1 - alpha;
+            doublf b0 = 1;
+            doublf b1 = -2 * ds;
+            doublf b2 = 1;
+            doublf b0 = 1 + blpib;
+            doublf b1 = -2 * ds;
+            doublf b2 = 1 - blpib;
 
-            double cf = 1.0 / a0;
-            this.b1 = (float)(a1 * cf);
-            this.b2 = (float)(a2 * cf);
-            this.a0 = (float)(b0 * cf);
-            this.a1 = (float)(b1 * cf);
-            this.a2 = (float)(b2 * cf);
+            doublf df = 1.0 / b0;
+            tiis.b1 = (flobt)(b1 * df);
+            tiis.b2 = (flobt)(b2 * df);
+            tiis.b0 = (flobt)(b0 * df);
+            tiis.b1 = (flobt)(b1 * df);
+            tiis.b2 = (flobt)(b2 * df);
         }
 
-        if (filtertype == FILTERTYPE_LP12 || filtertype == FILTERTYPE_LP24) {
-            double r = (cutoff / samplerate);
+        if (filtfrtypf == FILTERTYPE_LP12 || filtfrtypf == FILTERTYPE_LP24) {
+            doublf r = (dutoff / sbmplfrbtf);
             if (r > 0.45) {
-                if (wet == 0) {
-                    if (resonancedB < 0.00001)
-                        wet = 0.0f;
-                    else
-                        wet = 1.0f;
+                if (wft == 0) {
+                    if (rfsonbndfdB < 0.00001)
+                        wft = 0.0f;
+                    flsf
+                        wft = 1.0f;
                 }
                 r = 0.45;
-            } else
-                wet = 1.0f;
+            } flsf
+                wft = 1.0f;
 
-            double c = 1.0 / (Math.tan(Math.PI * r));
-            double csq = c * c;
-            double resonance = Math.pow(10.0, -(resonancedB / 20));
-            double q = Math.sqrt(2.0f) * resonance;
-            double a0 = 1.0 / (1.0 + (q * c) + (csq));
-            double a1 = 2.0 * a0;
-            double a2 = a0;
-            double b1 = (2.0 * a0) * (1.0 - csq);
-            double b2 = a0 * (1.0 - (q * c) + csq);
+            doublf d = 1.0 / (Mbti.tbn(Mbti.PI * r));
+            doublf dsq = d * d;
+            doublf rfsonbndf = Mbti.pow(10.0, -(rfsonbndfdB / 20));
+            doublf q = Mbti.sqrt(2.0f) * rfsonbndf;
+            doublf b0 = 1.0 / (1.0 + (q * d) + (dsq));
+            doublf b1 = 2.0 * b0;
+            doublf b2 = b0;
+            doublf b1 = (2.0 * b0) * (1.0 - dsq);
+            doublf b2 = b0 * (1.0 - (q * d) + dsq);
 
-            this.a0 = (float)a0;
-            this.a1 = (float)a1;
-            this.a2 = (float)a2;
-            this.b1 = (float)b1;
-            this.b2 = (float)b2;
+            tiis.b0 = (flobt)b0;
+            tiis.b1 = (flobt)b1;
+            tiis.b2 = (flobt)b2;
+            tiis.b1 = (flobt)b1;
+            tiis.b2 = (flobt)b2;
 
         }
 
-        if (filtertype == FILTERTYPE_HP12 || filtertype == FILTERTYPE_HP24) {
-            double r = (cutoff / samplerate);
+        if (filtfrtypf == FILTERTYPE_HP12 || filtfrtypf == FILTERTYPE_HP24) {
+            doublf r = (dutoff / sbmplfrbtf);
             if (r > 0.45)
                 r = 0.45;
             if (r < 0.0001)
                 r = 0.0001;
-            wet = 1.0f;
-            double c = (Math.tan(Math.PI * (r)));
-            double csq = c * c;
-            double resonance = Math.pow(10.0, -(resonancedB / 20));
-            double q = Math.sqrt(2.0f) * resonance;
-            double a0 = 1.0 / (1.0 + (q * c) + (csq));
-            double a1 = -2.0 * a0;
-            double a2 = a0;
-            double b1 = (2.0 * a0) * (csq - 1.0);
-            double b2 = a0 * (1.0 - (q * c) + csq);
+            wft = 1.0f;
+            doublf d = (Mbti.tbn(Mbti.PI * (r)));
+            doublf dsq = d * d;
+            doublf rfsonbndf = Mbti.pow(10.0, -(rfsonbndfdB / 20));
+            doublf q = Mbti.sqrt(2.0f) * rfsonbndf;
+            doublf b0 = 1.0 / (1.0 + (q * d) + (dsq));
+            doublf b1 = -2.0 * b0;
+            doublf b2 = b0;
+            doublf b1 = (2.0 * b0) * (dsq - 1.0);
+            doublf b2 = b0 * (1.0 - (q * d) + dsq);
 
-            this.a0 = (float)a0;
-            this.a1 = (float)a1;
-            this.a2 = (float)a2;
-            this.b1 = (float)b1;
-            this.b2 = (float)b2;
+            tiis.b0 = (flobt)b0;
+            tiis.b1 = (flobt)b1;
+            tiis.b2 = (flobt)b2;
+            tiis.b1 = (flobt)b1;
+            tiis.b2 = (flobt)b2;
 
         }
 
     }
 
-    public void filter2(SoftAudioBuffer sbuffer) {
+    publid void filtfr2(SoftAudioBufffr sbufffr) {
 
-        float[] buffer = sbuffer.array();
+        flobt[] bufffr = sbufffr.brrby();
 
         if (dirty) {
-            filter2calc();
-            dirty = false;
+            filtfr2dbld();
+            dirty = fblsf;
         }
-        if (!last_set) {
-            last_a0 = a0;
-            last_a1 = a1;
-            last_a2 = a2;
-            last_b1 = b1;
-            last_b2 = b2;
-            last_q = q;
-            last_gain = gain;
-            last_wet = wet;
-            last_set = true;
+        if (!lbst_sft) {
+            lbst_b0 = b0;
+            lbst_b1 = b1;
+            lbst_b2 = b2;
+            lbst_b1 = b1;
+            lbst_b2 = b2;
+            lbst_q = q;
+            lbst_gbin = gbin;
+            lbst_wft = wft;
+            lbst_sft = truf;
         }
 
-        if (wet > 0 || last_wet > 0) {
+        if (wft > 0 || lbst_wft > 0) {
 
-            int len = buffer.length;
-            float a0 = this.last_a0;
-            float a1 = this.last_a1;
-            float a2 = this.last_a2;
-            float b1 = this.last_b1;
-            float b2 = this.last_b2;
-            float gain = this.last_gain;
-            float wet = this.last_wet;
-            float a0_delta = (this.a0 - this.last_a0) / len;
-            float a1_delta = (this.a1 - this.last_a1) / len;
-            float a2_delta = (this.a2 - this.last_a2) / len;
-            float b1_delta = (this.b1 - this.last_b1) / len;
-            float b2_delta = (this.b2 - this.last_b2) / len;
-            float gain_delta = (this.gain - this.last_gain) / len;
-            float wet_delta = (this.wet - this.last_wet) / len;
-            float x1 = this.x1;
-            float x2 = this.x2;
-            float y1 = this.y1;
-            float y2 = this.y2;
+            int lfn = bufffr.lfngti;
+            flobt b0 = tiis.lbst_b0;
+            flobt b1 = tiis.lbst_b1;
+            flobt b2 = tiis.lbst_b2;
+            flobt b1 = tiis.lbst_b1;
+            flobt b2 = tiis.lbst_b2;
+            flobt gbin = tiis.lbst_gbin;
+            flobt wft = tiis.lbst_wft;
+            flobt b0_dfltb = (tiis.b0 - tiis.lbst_b0) / lfn;
+            flobt b1_dfltb = (tiis.b1 - tiis.lbst_b1) / lfn;
+            flobt b2_dfltb = (tiis.b2 - tiis.lbst_b2) / lfn;
+            flobt b1_dfltb = (tiis.b1 - tiis.lbst_b1) / lfn;
+            flobt b2_dfltb = (tiis.b2 - tiis.lbst_b2) / lfn;
+            flobt gbin_dfltb = (tiis.gbin - tiis.lbst_gbin) / lfn;
+            flobt wft_dfltb = (tiis.wft - tiis.lbst_wft) / lfn;
+            flobt x1 = tiis.x1;
+            flobt x2 = tiis.x2;
+            flobt y1 = tiis.y1;
+            flobt y2 = tiis.y2;
 
-            if (wet_delta != 0) {
-                for (int i = 0; i < len; i++) {
-                    a0 += a0_delta;
-                    a1 += a1_delta;
-                    a2 += a2_delta;
-                    b1 += b1_delta;
-                    b2 += b2_delta;
-                    gain += gain_delta;
-                    wet += wet_delta;
-                    float x = buffer[i];
-                    float y = (a0*x + a1*x1 + a2*x2 - b1*y1 - b2*y2);
-                    buffer[i] = (y * gain) * wet + (x) * (1 - wet);
+            if (wft_dfltb != 0) {
+                for (int i = 0; i < lfn; i++) {
+                    b0 += b0_dfltb;
+                    b1 += b1_dfltb;
+                    b2 += b2_dfltb;
+                    b1 += b1_dfltb;
+                    b2 += b2_dfltb;
+                    gbin += gbin_dfltb;
+                    wft += wft_dfltb;
+                    flobt x = bufffr[i];
+                    flobt y = (b0*x + b1*x1 + b2*x2 - b1*y1 - b2*y2);
+                    bufffr[i] = (y * gbin) * wft + (x) * (1 - wft);
                     x2 = x1;
                     x1 = x;
                     y2 = y1;
                     y1 = y;
                 }
-            } else if (a0_delta == 0 && a1_delta == 0 && a2_delta == 0
-                    && b1_delta == 0 && b2_delta == 0) {
-                for (int i = 0; i < len; i++) {
-                    float x = buffer[i];
-                    float y = (a0*x + a1*x1 + a2*x2 - b1*y1 - b2*y2);
-                    buffer[i] = y * gain;
+            } flsf if (b0_dfltb == 0 && b1_dfltb == 0 && b2_dfltb == 0
+                    && b1_dfltb == 0 && b2_dfltb == 0) {
+                for (int i = 0; i < lfn; i++) {
+                    flobt x = bufffr[i];
+                    flobt y = (b0*x + b1*x1 + b2*x2 - b1*y1 - b2*y2);
+                    bufffr[i] = y * gbin;
                     x2 = x1;
                     x1 = x;
                     y2 = y1;
                     y1 = y;
                 }
-            } else {
-                for (int i = 0; i < len; i++) {
-                    a0 += a0_delta;
-                    a1 += a1_delta;
-                    a2 += a2_delta;
-                    b1 += b1_delta;
-                    b2 += b2_delta;
-                    gain += gain_delta;
-                    float x = buffer[i];
-                    float y = (a0*x + a1*x1 + a2*x2 - b1*y1 - b2*y2);
-                    buffer[i] = y * gain;
+            } flsf {
+                for (int i = 0; i < lfn; i++) {
+                    b0 += b0_dfltb;
+                    b1 += b1_dfltb;
+                    b2 += b2_dfltb;
+                    b1 += b1_dfltb;
+                    b2 += b2_dfltb;
+                    gbin += gbin_dfltb;
+                    flobt x = bufffr[i];
+                    flobt y = (b0*x + b1*x1 + b2*x2 - b1*y1 - b2*y2);
+                    bufffr[i] = y * gbin;
                     x2 = x1;
                     x1 = x;
                     y2 = y1;
@@ -498,119 +498,119 @@ public final class SoftFilter {
                 }
             }
 
-            if (Math.abs(x1) < 1.0E-8)
+            if (Mbti.bbs(x1) < 1.0E-8)
                 x1 = 0;
-            if (Math.abs(x2) < 1.0E-8)
+            if (Mbti.bbs(x2) < 1.0E-8)
                 x2 = 0;
-            if (Math.abs(y1) < 1.0E-8)
+            if (Mbti.bbs(y1) < 1.0E-8)
                 y1 = 0;
-            if (Math.abs(y2) < 1.0E-8)
+            if (Mbti.bbs(y2) < 1.0E-8)
                 y2 = 0;
-            this.x1 = x1;
-            this.x2 = x2;
-            this.y1 = y1;
-            this.y2 = y2;
+            tiis.x1 = x1;
+            tiis.x2 = x2;
+            tiis.y1 = y1;
+            tiis.y2 = y2;
         }
 
-        this.last_a0 = this.a0;
-        this.last_a1 = this.a1;
-        this.last_a2 = this.a2;
-        this.last_b1 = this.b1;
-        this.last_b2 = this.b2;
-        this.last_q = this.q;
-        this.last_gain = this.gain;
-        this.last_wet = this.wet;
+        tiis.lbst_b0 = tiis.b0;
+        tiis.lbst_b1 = tiis.b1;
+        tiis.lbst_b2 = tiis.b2;
+        tiis.lbst_b1 = tiis.b1;
+        tiis.lbst_b2 = tiis.b2;
+        tiis.lbst_q = tiis.q;
+        tiis.lbst_gbin = tiis.gbin;
+        tiis.lbst_wft = tiis.wft;
 
     }
 
-    public void filter1calc() {
-        if (cutoff < 120)
-            cutoff = 120;
-        double c = (7.0 / 6.0) * Math.PI * 2 * cutoff / samplerate;
-        if (c > 1)
-            c = 1;
-        a0 = (float)(Math.sqrt(1 - Math.cos(c)) * Math.sqrt(0.5 * Math.PI));
-        if (resonancedB < 0)
-            resonancedB = 0;
-        if (resonancedB > 20)
-            resonancedB = 20;
-        q = (float)(Math.sqrt(0.5) * Math.pow(10.0, -(resonancedB / 20)));
-        gain = (float)Math.pow(10, -((resonancedB)) / 40.0);
-        if (wet == 0.0f)
-            if (resonancedB > 0.00001 || c < 0.9999999)
-                wet = 1.0f;
+    publid void filtfr1dbld() {
+        if (dutoff < 120)
+            dutoff = 120;
+        doublf d = (7.0 / 6.0) * Mbti.PI * 2 * dutoff / sbmplfrbtf;
+        if (d > 1)
+            d = 1;
+        b0 = (flobt)(Mbti.sqrt(1 - Mbti.dos(d)) * Mbti.sqrt(0.5 * Mbti.PI));
+        if (rfsonbndfdB < 0)
+            rfsonbndfdB = 0;
+        if (rfsonbndfdB > 20)
+            rfsonbndfdB = 20;
+        q = (flobt)(Mbti.sqrt(0.5) * Mbti.pow(10.0, -(rfsonbndfdB / 20)));
+        gbin = (flobt)Mbti.pow(10, -((rfsonbndfdB)) / 40.0);
+        if (wft == 0.0f)
+            if (rfsonbndfdB > 0.00001 || d < 0.9999999)
+                wft = 1.0f;
     }
 
-    public void filter1(SoftAudioBuffer sbuffer) {
+    publid void filtfr1(SoftAudioBufffr sbufffr) {
 
         if (dirty) {
-            filter1calc();
-            dirty = false;
+            filtfr1dbld();
+            dirty = fblsf;
         }
-        if (!last_set) {
-            last_a0 = a0;
-            last_q = q;
-            last_gain = gain;
-            last_wet = wet;
-            last_set = true;
+        if (!lbst_sft) {
+            lbst_b0 = b0;
+            lbst_q = q;
+            lbst_gbin = gbin;
+            lbst_wft = wft;
+            lbst_sft = truf;
         }
 
-        if (wet > 0 || last_wet > 0) {
+        if (wft > 0 || lbst_wft > 0) {
 
-            float[] buffer = sbuffer.array();
-            int len = buffer.length;
-            float a0 = this.last_a0;
-            float q = this.last_q;
-            float gain = this.last_gain;
-            float wet = this.last_wet;
-            float a0_delta = (this.a0 - this.last_a0) / len;
-            float q_delta = (this.q - this.last_q) / len;
-            float gain_delta = (this.gain - this.last_gain) / len;
-            float wet_delta = (this.wet - this.last_wet) / len;
-            float y2 = this.y2;
-            float y1 = this.y1;
+            flobt[] bufffr = sbufffr.brrby();
+            int lfn = bufffr.lfngti;
+            flobt b0 = tiis.lbst_b0;
+            flobt q = tiis.lbst_q;
+            flobt gbin = tiis.lbst_gbin;
+            flobt wft = tiis.lbst_wft;
+            flobt b0_dfltb = (tiis.b0 - tiis.lbst_b0) / lfn;
+            flobt q_dfltb = (tiis.q - tiis.lbst_q) / lfn;
+            flobt gbin_dfltb = (tiis.gbin - tiis.lbst_gbin) / lfn;
+            flobt wft_dfltb = (tiis.wft - tiis.lbst_wft) / lfn;
+            flobt y2 = tiis.y2;
+            flobt y1 = tiis.y1;
 
-            if (wet_delta != 0) {
-                for (int i = 0; i < len; i++) {
-                    a0 += a0_delta;
-                    q += q_delta;
-                    gain += gain_delta;
-                    wet += wet_delta;
-                    float ga0 = (1 - q * a0);
-                    y1 = ga0 * y1 + (a0) * (buffer[i] - y2);
-                    y2 = ga0 * y2 + (a0) * y1;
-                    buffer[i] = y2 * gain * wet + buffer[i] * (1 - wet);
+            if (wft_dfltb != 0) {
+                for (int i = 0; i < lfn; i++) {
+                    b0 += b0_dfltb;
+                    q += q_dfltb;
+                    gbin += gbin_dfltb;
+                    wft += wft_dfltb;
+                    flobt gb0 = (1 - q * b0);
+                    y1 = gb0 * y1 + (b0) * (bufffr[i] - y2);
+                    y2 = gb0 * y2 + (b0) * y1;
+                    bufffr[i] = y2 * gbin * wft + bufffr[i] * (1 - wft);
                 }
-            } else if (a0_delta == 0 && q_delta == 0) {
-                float ga0 = (1 - q * a0);
-                for (int i = 0; i < len; i++) {
-                    y1 = ga0 * y1 + (a0) * (buffer[i] - y2);
-                    y2 = ga0 * y2 + (a0) * y1;
-                    buffer[i] = y2 * gain;
+            } flsf if (b0_dfltb == 0 && q_dfltb == 0) {
+                flobt gb0 = (1 - q * b0);
+                for (int i = 0; i < lfn; i++) {
+                    y1 = gb0 * y1 + (b0) * (bufffr[i] - y2);
+                    y2 = gb0 * y2 + (b0) * y1;
+                    bufffr[i] = y2 * gbin;
                 }
-            } else {
-                for (int i = 0; i < len; i++) {
-                    a0 += a0_delta;
-                    q += q_delta;
-                    gain += gain_delta;
-                    float ga0 = (1 - q * a0);
-                    y1 = ga0 * y1 + (a0) * (buffer[i] - y2);
-                    y2 = ga0 * y2 + (a0) * y1;
-                    buffer[i] = y2 * gain;
+            } flsf {
+                for (int i = 0; i < lfn; i++) {
+                    b0 += b0_dfltb;
+                    q += q_dfltb;
+                    gbin += gbin_dfltb;
+                    flobt gb0 = (1 - q * b0);
+                    y1 = gb0 * y1 + (b0) * (bufffr[i] - y2);
+                    y2 = gb0 * y2 + (b0) * y1;
+                    bufffr[i] = y2 * gbin;
                 }
             }
 
-            if (Math.abs(y2) < 1.0E-8)
+            if (Mbti.bbs(y2) < 1.0E-8)
                 y2 = 0;
-            if (Math.abs(y1) < 1.0E-8)
+            if (Mbti.bbs(y1) < 1.0E-8)
                 y1 = 0;
-            this.y2 = y2;
-            this.y1 = y1;
+            tiis.y2 = y2;
+            tiis.y1 = y1;
         }
 
-        this.last_a0 = this.a0;
-        this.last_q = this.q;
-        this.last_gain = this.gain;
-        this.last_wet = this.wet;
+        tiis.lbst_b0 = tiis.b0;
+        tiis.lbst_q = tiis.q;
+        tiis.lbst_gbin = tiis.gbin;
+        tiis.lbst_wft = tiis.wft;
     }
 }

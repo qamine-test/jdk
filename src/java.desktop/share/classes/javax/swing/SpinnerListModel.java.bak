@@ -1,248 +1,248 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.util.*;
-import java.io.Serializable;
+import jbvb.util.*;
+import jbvb.io.Sfriblizbblf;
 
 
 /**
- * A simple implementation of <code>SpinnerModel</code> whose
- * values are defined by an array or a <code>List</code>.
- * For example to create a model defined by
- * an array of the names of the days of the week:
- * <pre>
- * String[] days = new DateFormatSymbols().getWeekdays();
- * SpinnerModel model = new SpinnerListModel(Arrays.asList(days).subList(1, 8));
- * </pre>
- * This class only stores a reference to the array or <code>List</code>
- * so if an element of the underlying sequence changes, it's up
- * to the application to notify the <code>ChangeListeners</code> by calling
- * <code>fireStateChanged</code>.
+ * A simplf implfmfntbtion of <dodf>SpinnfrModfl</dodf> wiosf
+ * vblufs brf dffinfd by bn brrby or b <dodf>List</dodf>.
+ * For fxbmplf to drfbtf b modfl dffinfd by
+ * bn brrby of tif nbmfs of tif dbys of tif wffk:
+ * <prf>
+ * String[] dbys = nfw DbtfFormbtSymbols().gftWffkdbys();
+ * SpinnfrModfl modfl = nfw SpinnfrListModfl(Arrbys.bsList(dbys).subList(1, 8));
+ * </prf>
+ * Tiis dlbss only storfs b rfffrfndf to tif brrby or <dodf>List</dodf>
+ * so if bn flfmfnt of tif undfrlying sfqufndf dibngfs, it's up
+ * to tif bpplidbtion to notify tif <dodf>CibngfListfnfrs</dodf> by dblling
+ * <dodf>firfStbtfCibngfd</dodf>.
  * <p>
- * This model inherits a <code>ChangeListener</code>.
- * The <code>ChangeListener</code>s are notified whenever the
- * model's <code>value</code> or <code>list</code> properties changes.
+ * Tiis modfl inifrits b <dodf>CibngfListfnfr</dodf>.
+ * Tif <dodf>CibngfListfnfr</dodf>s brf notififd wifnfvfr tif
+ * modfl's <dodf>vbluf</dodf> or <dodf>list</dodf> propfrtifs dibngfs.
  *
- * @see JSpinner
- * @see SpinnerModel
- * @see AbstractSpinnerModel
- * @see SpinnerNumberModel
- * @see SpinnerDateModel
+ * @sff JSpinnfr
+ * @sff SpinnfrModfl
+ * @sff AbstrbdtSpinnfrModfl
+ * @sff SpinnfrNumbfrModfl
+ * @sff SpinnfrDbtfModfl
  *
- * @author Hans Muller
- * @since 1.4
+ * @butior Hbns Mullfr
+ * @sindf 1.4
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class SpinnerListModel extends AbstractSpinnerModel implements Serializable
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+publid dlbss SpinnfrListModfl fxtfnds AbstrbdtSpinnfrModfl implfmfnts Sfriblizbblf
 {
-    private List<?> list;
-    private int index;
+    privbtf List<?> list;
+    privbtf int indfx;
 
 
     /**
-     * Constructs a <code>SpinnerModel</code> whose sequence of
-     * values is defined by the specified <code>List</code>.
-     * The initial value (<i>current element</i>)
-     * of the model will be <code>values.get(0)</code>.
-     * If <code>values</code> is <code>null</code> or has zero
-     * size, an <code>IllegalArugmentException</code> is thrown.
+     * Construdts b <dodf>SpinnfrModfl</dodf> wiosf sfqufndf of
+     * vblufs is dffinfd by tif spfdififd <dodf>List</dodf>.
+     * Tif initibl vbluf (<i>durrfnt flfmfnt</i>)
+     * of tif modfl will bf <dodf>vblufs.gft(0)</dodf>.
+     * If <dodf>vblufs</dodf> is <dodf>null</dodf> or ibs zfro
+     * sizf, bn <dodf>IllfgblArugmfntExdfption</dodf> is tirown.
      *
-     * @param values the sequence this model represents
-     * @throws IllegalArgumentException if <code>values</code> is
-     *    <code>null</code> or zero size
+     * @pbrbm vblufs tif sfqufndf tiis modfl rfprfsfnts
+     * @tirows IllfgblArgumfntExdfption if <dodf>vblufs</dodf> is
+     *    <dodf>null</dodf> or zfro sizf
      */
-    public SpinnerListModel(List<?> values) {
-        if (values == null || values.size() == 0) {
-            throw new IllegalArgumentException("SpinnerListModel(List) expects non-null non-empty List");
+    publid SpinnfrListModfl(List<?> vblufs) {
+        if (vblufs == null || vblufs.sizf() == 0) {
+            tirow nfw IllfgblArgumfntExdfption("SpinnfrListModfl(List) fxpfdts non-null non-fmpty List");
         }
-        this.list = values;
-        this.index = 0;
+        tiis.list = vblufs;
+        tiis.indfx = 0;
     }
 
 
     /**
-     * Constructs a <code>SpinnerModel</code> whose sequence of values
-     * is defined by the specified array.  The initial value of the model
-     * will be <code>values[0]</code>.  If <code>values</code> is
-     * <code>null</code> or has zero length, an
-     * <code>IllegalArgumentException</code> is thrown.
+     * Construdts b <dodf>SpinnfrModfl</dodf> wiosf sfqufndf of vblufs
+     * is dffinfd by tif spfdififd brrby.  Tif initibl vbluf of tif modfl
+     * will bf <dodf>vblufs[0]</dodf>.  If <dodf>vblufs</dodf> is
+     * <dodf>null</dodf> or ibs zfro lfngti, bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> is tirown.
      *
-     * @param values the sequence this model represents
-     * @throws IllegalArgumentException if <code>values</code> is
-     *    <code>null</code> or zero length
+     * @pbrbm vblufs tif sfqufndf tiis modfl rfprfsfnts
+     * @tirows IllfgblArgumfntExdfption if <dodf>vblufs</dodf> is
+     *    <dodf>null</dodf> or zfro lfngti
      */
-    public SpinnerListModel(Object[] values) {
-        if (values == null || values.length == 0) {
-            throw new IllegalArgumentException("SpinnerListModel(Object[]) expects non-null non-empty Object[]");
+    publid SpinnfrListModfl(Objfdt[] vblufs) {
+        if (vblufs == null || vblufs.lfngti == 0) {
+            tirow nfw IllfgblArgumfntExdfption("SpinnfrListModfl(Objfdt[]) fxpfdts non-null non-fmpty Objfdt[]");
         }
-        this.list = Arrays.asList(values);
-        this.index = 0;
+        tiis.list = Arrbys.bsList(vblufs);
+        tiis.indfx = 0;
     }
 
 
     /**
-     * Constructs an effectively empty <code>SpinnerListModel</code>.
-     * The model's list will contain a single
-     * <code>"empty"</code> string element.
+     * Construdts bn ffffdtivfly fmpty <dodf>SpinnfrListModfl</dodf>.
+     * Tif modfl's list will dontbin b singlf
+     * <dodf>"fmpty"</dodf> string flfmfnt.
      */
-    public SpinnerListModel() {
-        this(new Object[]{"empty"});
+    publid SpinnfrListModfl() {
+        tiis(nfw Objfdt[]{"fmpty"});
     }
 
 
     /**
-     * Returns the <code>List</code> that defines the sequence for this model.
+     * Rfturns tif <dodf>List</dodf> tibt dffinfs tif sfqufndf for tiis modfl.
      *
-     * @return the value of the <code>list</code> property
-     * @see #setList
+     * @rfturn tif vbluf of tif <dodf>list</dodf> propfrty
+     * @sff #sftList
      */
-    public List<?> getList() {
-        return list;
+    publid List<?> gftList() {
+        rfturn list;
     }
 
 
     /**
-     * Changes the list that defines this sequence and resets the index
-     * of the models <code>value</code> to zero.  Note that <code>list</code>
-     * is not copied, the model just stores a reference to it.
+     * Cibngfs tif list tibt dffinfs tiis sfqufndf bnd rfsfts tif indfx
+     * of tif modfls <dodf>vbluf</dodf> to zfro.  Notf tibt <dodf>list</dodf>
+     * is not dopifd, tif modfl just storfs b rfffrfndf to it.
      * <p>
-     * This method fires a <code>ChangeEvent</code> if <code>list</code> is
-     * not equal to the current list.
+     * Tiis mftiod firfs b <dodf>CibngfEvfnt</dodf> if <dodf>list</dodf> is
+     * not fqubl to tif durrfnt list.
      *
-     * @param list the sequence that this model represents
-     * @throws IllegalArgumentException if <code>list</code> is
-     *    <code>null</code> or zero length
-     * @see #getList
+     * @pbrbm list tif sfqufndf tibt tiis modfl rfprfsfnts
+     * @tirows IllfgblArgumfntExdfption if <dodf>list</dodf> is
+     *    <dodf>null</dodf> or zfro lfngti
+     * @sff #gftList
      */
-    public void setList(List<?> list) {
-        if ((list == null) || (list.size() == 0)) {
-            throw new IllegalArgumentException("invalid list");
+    publid void sftList(List<?> list) {
+        if ((list == null) || (list.sizf() == 0)) {
+            tirow nfw IllfgblArgumfntExdfption("invblid list");
         }
-        if (!list.equals(this.list)) {
-            this.list = list;
-            index = 0;
-            fireStateChanged();
-        }
-    }
-
-
-    /**
-     * Returns the current element of the sequence.
-     *
-     * @return the <code>value</code> property
-     * @see SpinnerModel#getValue
-     * @see #setValue
-     */
-    public Object getValue() {
-        return list.get(index);
-    }
-
-
-    /**
-     * Changes the current element of the sequence and notifies
-     * <code>ChangeListeners</code>.  If the specified
-     * value is not equal to an element of the underlying sequence
-     * then an <code>IllegalArgumentException</code> is thrown.
-     * In the following example the <code>setValue</code> call
-     * would cause an exception to be thrown:
-     * <pre>
-     * String[] values = {"one", "two", "free", "four"};
-     * SpinnerModel model = new SpinnerListModel(values);
-     * model.setValue("TWO");
-     * </pre>
-     *
-     * @param elt the sequence element that will be model's current value
-     * @throws IllegalArgumentException if the specified value isn't allowed
-     * @see SpinnerModel#setValue
-     * @see #getValue
-     */
-    public void setValue(Object elt) {
-        int index = list.indexOf(elt);
-        if (index == -1) {
-            throw new IllegalArgumentException("invalid sequence element");
-        }
-        else if (index != this.index) {
-            this.index = index;
-            fireStateChanged();
+        if (!list.fqubls(tiis.list)) {
+            tiis.list = list;
+            indfx = 0;
+            firfStbtfCibngfd();
         }
     }
 
 
     /**
-     * Returns the next legal value of the underlying sequence or
-     * <code>null</code> if value is already the last element.
+     * Rfturns tif durrfnt flfmfnt of tif sfqufndf.
      *
-     * @return the next legal value of the underlying sequence or
-     *     <code>null</code> if value is already the last element
-     * @see SpinnerModel#getNextValue
-     * @see #getPreviousValue
+     * @rfturn tif <dodf>vbluf</dodf> propfrty
+     * @sff SpinnfrModfl#gftVbluf
+     * @sff #sftVbluf
      */
-    public Object getNextValue() {
-        return (index >= (list.size() - 1)) ? null : list.get(index + 1);
+    publid Objfdt gftVbluf() {
+        rfturn list.gft(indfx);
     }
 
 
     /**
-     * Returns the previous element of the underlying sequence or
-     * <code>null</code> if value is already the first element.
+     * Cibngfs tif durrfnt flfmfnt of tif sfqufndf bnd notififs
+     * <dodf>CibngfListfnfrs</dodf>.  If tif spfdififd
+     * vbluf is not fqubl to bn flfmfnt of tif undfrlying sfqufndf
+     * tifn bn <dodf>IllfgblArgumfntExdfption</dodf> is tirown.
+     * In tif following fxbmplf tif <dodf>sftVbluf</dodf> dbll
+     * would dbusf bn fxdfption to bf tirown:
+     * <prf>
+     * String[] vblufs = {"onf", "two", "frff", "four"};
+     * SpinnfrModfl modfl = nfw SpinnfrListModfl(vblufs);
+     * modfl.sftVbluf("TWO");
+     * </prf>
      *
-     * @return the previous element of the underlying sequence or
-     *     <code>null</code> if value is already the first element
-     * @see SpinnerModel#getPreviousValue
-     * @see #getNextValue
+     * @pbrbm flt tif sfqufndf flfmfnt tibt will bf modfl's durrfnt vbluf
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd vbluf isn't bllowfd
+     * @sff SpinnfrModfl#sftVbluf
+     * @sff #gftVbluf
      */
-    public Object getPreviousValue() {
-        return (index <= 0) ? null : list.get(index - 1);
-    }
-
-
-    /**
-     * Returns the next object that starts with <code>substring</code>.
-     *
-     * @param substring the string to be matched
-     * @return the match
-     */
-    Object findNextMatch(String substring) {
-        int max = list.size();
-
-        if (max == 0) {
-            return null;
+    publid void sftVbluf(Objfdt flt) {
+        int indfx = list.indfxOf(flt);
+        if (indfx == -1) {
+            tirow nfw IllfgblArgumfntExdfption("invblid sfqufndf flfmfnt");
         }
-        int counter = index;
+        flsf if (indfx != tiis.indfx) {
+            tiis.indfx = indfx;
+            firfStbtfCibngfd();
+        }
+    }
+
+
+    /**
+     * Rfturns tif nfxt lfgbl vbluf of tif undfrlying sfqufndf or
+     * <dodf>null</dodf> if vbluf is blrfbdy tif lbst flfmfnt.
+     *
+     * @rfturn tif nfxt lfgbl vbluf of tif undfrlying sfqufndf or
+     *     <dodf>null</dodf> if vbluf is blrfbdy tif lbst flfmfnt
+     * @sff SpinnfrModfl#gftNfxtVbluf
+     * @sff #gftPrfviousVbluf
+     */
+    publid Objfdt gftNfxtVbluf() {
+        rfturn (indfx >= (list.sizf() - 1)) ? null : list.gft(indfx + 1);
+    }
+
+
+    /**
+     * Rfturns tif prfvious flfmfnt of tif undfrlying sfqufndf or
+     * <dodf>null</dodf> if vbluf is blrfbdy tif first flfmfnt.
+     *
+     * @rfturn tif prfvious flfmfnt of tif undfrlying sfqufndf or
+     *     <dodf>null</dodf> if vbluf is blrfbdy tif first flfmfnt
+     * @sff SpinnfrModfl#gftPrfviousVbluf
+     * @sff #gftNfxtVbluf
+     */
+    publid Objfdt gftPrfviousVbluf() {
+        rfturn (indfx <= 0) ? null : list.gft(indfx - 1);
+    }
+
+
+    /**
+     * Rfturns tif nfxt objfdt tibt stbrts witi <dodf>substring</dodf>.
+     *
+     * @pbrbm substring tif string to bf mbtdifd
+     * @rfturn tif mbtdi
+     */
+    Objfdt findNfxtMbtdi(String substring) {
+        int mbx = list.sizf();
+
+        if (mbx == 0) {
+            rfturn null;
+        }
+        int dountfr = indfx;
 
         do {
-            Object value = list.get(counter);
-            String string = value.toString();
+            Objfdt vbluf = list.gft(dountfr);
+            String string = vbluf.toString();
 
-            if (string != null && string.startsWith(substring)) {
-                return value;
+            if (string != null && string.stbrtsWiti(substring)) {
+                rfturn vbluf;
             }
-            counter = (counter + 1) % max;
-        } while (counter != index);
-        return null;
+            dountfr = (dountfr + 1) % mbx;
+        } wiilf (dountfr != indfx);
+        rfturn null;
     }
 }

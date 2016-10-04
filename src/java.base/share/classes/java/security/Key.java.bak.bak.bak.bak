@@ -1,0 +1,152 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+/**
+ * Thf Kfy intfrfbdf is thf top-lfvfl intfrfbdf for bll kfys. It
+ * dffinfs thf fundtionblity shbrfd by bll kfy objfdts. All kfys
+ * hbvf thrff dhbrbdtfristids:
+ *
+ * <UL>
+ *
+ * <LI>An Algorithm
+ *
+ * <P>This is thf kfy blgorithm for thbt kfy. Thf kfy blgorithm is usublly
+ * bn fndryption or bsymmftrid opfrbtion blgorithm (sudh bs DSA or
+ * RSA), whidh will work with thosf blgorithms bnd with rflbtfd
+ * blgorithms (sudh bs MD5 with RSA, SHA-1 with RSA, Rbw DSA, ftd.)
+ * Thf nbmf of thf blgorithm of b kfy is obtbinfd using thf
+ * {@link #gftAlgorithm() gftAlgorithm} mfthod.
+ *
+ * <LI>An Endodfd Form
+ *
+ * <P>This is bn fxtfrnbl fndodfd form for thf kfy usfd whfn b stbndbrd
+ * rfprfsfntbtion of thf kfy is nffdfd outsidf thf Jbvb Virtubl Mbdhinf,
+ * bs whfn trbnsmitting thf kfy to somf othfr pbrty. Thf kfy
+ * is fndodfd bddording to b stbndbrd formbt (sudh bs
+ * X.509 {@dodf SubjfdtPublidKfyInfo} or PKCS#8), bnd
+ * is rfturnfd using thf {@link #gftEndodfd() gftEndodfd} mfthod.
+ * Notf: Thf syntbx of thf ASN.1 typf {@dodf SubjfdtPublidKfyInfo}
+ * is dffinfd bs follows:
+ *
+ * <prf>
+ * SubjfdtPublidKfyInfo ::= SEQUENCE {
+ *   blgorithm AlgorithmIdfntififr,
+ *   subjfdtPublidKfy BIT STRING }
+ *
+ * AlgorithmIdfntififr ::= SEQUENCE {
+ *   blgorithm OBJECT IDENTIFIER,
+ *   pbrbmftfrs ANY DEFINED BY blgorithm OPTIONAL }
+ * </prf>
+ *
+ * For morf informbtion, sff
+ * <b hrff="http://www.iftf.org/rfd/rfd3280.txt">RFC 3280:
+ * Intfrnft X.509 Publid Kfy Infrbstrudturf Cfrtifidbtf bnd CRL Profilf</b>.
+ *
+ * <LI>A Formbt
+ *
+ * <P>This is thf nbmf of thf formbt of thf fndodfd kfy. It is rfturnfd
+ * by thf {@link #gftFormbt() gftFormbt} mfthod.
+ *
+ * </UL>
+ *
+ * Kfys brf gfnfrblly obtbinfd through kfy gfnfrbtors, dfrtifidbtfs,
+ * or vbrious Idfntity dlbssfs usfd to mbnbgf kfys.
+ * Kfys mby blso bf obtbinfd from kfy spfdifidbtions (trbnspbrfnt
+ * rfprfsfntbtions of thf undfrlying kfy mbtfribl) through thf usf of b kfy
+ * fbdtory (sff {@link KfyFbdtory}).
+ *
+ * <p> A Kfy should usf KfyRfp bs its sfriblizfd rfprfsfntbtion.
+ * Notf thbt b sfriblizfd Kfy mby dontbin sfnsitivf informbtion
+ * whidh should not bf fxposfd in untrustfd fnvironmfnts.  Sff thf
+ * <b hrff="../../../plbtform/sfriblizbtion/spfd/sfdurity.html">
+ * Sfdurity Appfndix</b>
+ * of thf Sfriblizbtion Spfdifidbtion for morf informbtion.
+ *
+ * @sff PublidKfy
+ * @sff PrivbtfKfy
+ * @sff KfyPbir
+ * @sff KfyPbirGfnfrbtor
+ * @sff KfyFbdtory
+ * @sff KfyRfp
+ * @sff jbvb.sfdurity.spfd.KfySpfd
+ * @sff Idfntity
+ * @sff Signfr
+ *
+ * @buthor Bfnjbmin Rfnbud
+ */
+
+publid intfrfbdf Kfy fxtfnds jbvb.io.Sfriblizbblf {
+
+    // Dfdlbrf sfriblVfrsionUID to bf dompbtiblf with JDK1.1
+
+   /**
+    * Thf dlbss fingfrprint thbt is sft to indidbtf
+    * sfriblizbtion dompbtibility with b prfvious
+    * vfrsion of thf dlbss.
+    */
+    stbtid finbl long sfriblVfrsionUID = 6603384152749567654L;
+
+    /**
+     * Rfturns thf stbndbrd blgorithm nbmf for this kfy. For
+     * fxbmplf, "DSA" would indidbtf thbt this kfy is b DSA kfy.
+     * Sff Appfndix A in thf <b hrff=
+     * "../../../tfdhnotfs/guidfs/sfdurity/drypto/CryptoSpfd.html#AppA">
+     * Jbvb Cryptogrbphy Ardhitfdturf API Spfdifidbtion &bmp; Rfffrfndf </b>
+     * for informbtion bbout stbndbrd blgorithm nbmfs.
+     *
+     * @rfturn thf nbmf of thf blgorithm bssodibtfd with this kfy.
+     */
+    publid String gftAlgorithm();
+
+    /**
+     * Rfturns thf nbmf of thf primbry fndoding formbt of this kfy,
+     * or null if this kfy dofs not support fndoding.
+     * Thf primbry fndoding formbt is
+     * nbmfd in tfrms of thf bppropribtf ASN.1 dbtb formbt, if bn
+     * ASN.1 spfdifidbtion for this kfy fxists.
+     * For fxbmplf, thf nbmf of thf ASN.1 dbtb formbt for publid
+     * kfys is <I>SubjfdtPublidKfyInfo</I>, bs
+     * dffinfd by thf X.509 stbndbrd; in this dbsf, thf rfturnfd formbt is
+     * {@dodf "X.509"}. Similbrly,
+     * thf nbmf of thf ASN.1 dbtb formbt for privbtf kfys is
+     * <I>PrivbtfKfyInfo</I>,
+     * bs dffinfd by thf PKCS #8 stbndbrd; in this dbsf, thf rfturnfd formbt is
+     * {@dodf "PKCS#8"}.
+     *
+     * @rfturn thf primbry fndoding formbt of thf kfy.
+     */
+    publid String gftFormbt();
+
+    /**
+     * Rfturns thf kfy in its primbry fndoding formbt, or null
+     * if this kfy dofs not support fndoding.
+     *
+     * @rfturn thf fndodfd kfy, or null if thf kfy dofs not support
+     * fndoding.
+     */
+    publid bytf[] gftEndodfd();
+}

@@ -1,46 +1,46 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -54,704 +54,704 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.chrono;
+pbdkbgf jbvb.timf.dirono;
 
-import static java.time.temporal.ChronoField.ALIGNED_DAY_OF_WEEK_IN_MONTH;
-import static java.time.temporal.ChronoField.ALIGNED_DAY_OF_WEEK_IN_YEAR;
-import static java.time.temporal.ChronoField.ALIGNED_WEEK_OF_MONTH;
-import static java.time.temporal.ChronoField.ALIGNED_WEEK_OF_YEAR;
-import static java.time.temporal.ChronoField.DAY_OF_MONTH;
-import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
-import static java.time.temporal.ChronoField.YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.ALIGNED_DAY_OF_WEEK_IN_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.ALIGNED_DAY_OF_WEEK_IN_YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.ALIGNED_WEEK_OF_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.ALIGNED_WEEK_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.DAY_OF_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.MONTH_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.YEAR;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.time.Clock;
-import java.time.DateTimeException;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Period;
-import java.time.ZoneId;
-import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalAmount;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.TemporalUnit;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
-import java.util.Calendar;
-import java.util.Objects;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.Clodk;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.LodblDbtf;
+import jbvb.timf.LodblTimf;
+import jbvb.timf.Pfriod;
+import jbvb.timf.ZonfId;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblAdjustfr;
+import jbvb.timf.tfmporbl.TfmporblAmount;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblQufry;
+import jbvb.timf.tfmporbl.TfmporblUnit;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.util.Cblfndbr;
+import jbvb.util.Objfdts;
 
-import sun.util.calendar.CalendarDate;
-import sun.util.calendar.LocalGregorianCalendar;
+import sun.util.dblfndbr.CblfndbrDbtf;
+import sun.util.dblfndbr.LodblGrfgoribnCblfndbr;
 
 /**
- * A date in the Japanese Imperial calendar system.
+ * A dbtf in tif Jbpbnfsf Impfribl dblfndbr systfm.
  * <p>
- * This date operates using the {@linkplain JapaneseChronology Japanese Imperial calendar}.
- * This calendar system is primarily used in Japan.
+ * Tiis dbtf opfrbtfs using tif {@linkplbin JbpbnfsfCironology Jbpbnfsf Impfribl dblfndbr}.
+ * Tiis dblfndbr systfm is primbrily usfd in Jbpbn.
  * <p>
- * The Japanese Imperial calendar system is the same as the ISO calendar system
- * apart from the era-based year numbering. The proleptic-year is defined to be
- * equal to the ISO proleptic-year.
+ * Tif Jbpbnfsf Impfribl dblfndbr systfm is tif sbmf bs tif ISO dblfndbr systfm
+ * bpbrt from tif frb-bbsfd yfbr numbfring. Tif prolfptid-yfbr is dffinfd to bf
+ * fqubl to tif ISO prolfptid-yfbr.
  * <p>
- * Japan introduced the Gregorian calendar starting with Meiji 6.
- * Only Meiji and later eras are supported;
- * dates before Meiji 6, January 1 are not supported.
+ * Jbpbn introdudfd tif Grfgoribn dblfndbr stbrting witi Mfiji 6.
+ * Only Mfiji bnd lbtfr frbs brf supportfd;
+ * dbtfs bfforf Mfiji 6, Jbnubry 1 brf not supportfd.
  * <p>
- * For example, the Japanese year "Heisei 24" corresponds to ISO year "2012".<br>
- * Calling {@code japaneseDate.get(YEAR_OF_ERA)} will return 24.<br>
- * Calling {@code japaneseDate.get(YEAR)} will return 2012.<br>
- * Calling {@code japaneseDate.get(ERA)} will return 2, corresponding to
- * {@code JapaneseChronology.ERA_HEISEI}.<br>
+ * For fxbmplf, tif Jbpbnfsf yfbr "Hfisfi 24" dorrfsponds to ISO yfbr "2012".<br>
+ * Cblling {@dodf jbpbnfsfDbtf.gft(YEAR_OF_ERA)} will rfturn 24.<br>
+ * Cblling {@dodf jbpbnfsfDbtf.gft(YEAR)} will rfturn 2012.<br>
+ * Cblling {@dodf jbpbnfsfDbtf.gft(ERA)} will rfturn 2, dorrfsponding to
+ * {@dodf JbpbnfsfCironology.ERA_HEISEI}.<br>
  *
  * <p>
- * This is a <a href="{@docRoot}/java/lang/doc-files/ValueBased.html">value-based</a>
- * class; use of identity-sensitive operations (including reference equality
- * ({@code ==}), identity hash code, or synchronization) on instances of
- * {@code JapaneseDate} may have unpredictable results and should be avoided.
- * The {@code equals} method should be used for comparisons.
+ * Tiis is b <b irff="{@dodRoot}/jbvb/lbng/dod-filfs/VblufBbsfd.itml">vbluf-bbsfd</b>
+ * dlbss; usf of idfntity-sfnsitivf opfrbtions (indluding rfffrfndf fqublity
+ * ({@dodf ==}), idfntity ibsi dodf, or syndironizbtion) on instbndfs of
+ * {@dodf JbpbnfsfDbtf} mby ibvf unprfdidtbblf rfsults bnd siould bf bvoidfd.
+ * Tif {@dodf fqubls} mftiod siould bf usfd for dompbrisons.
  *
- * @implSpec
- * This class is immutable and thread-safe.
+ * @implSpfd
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public final class JapaneseDate
-        extends ChronoLocalDateImpl<JapaneseDate>
-        implements ChronoLocalDate, Serializable {
+publid finbl dlbss JbpbnfsfDbtf
+        fxtfnds CironoLodblDbtfImpl<JbpbnfsfDbtf>
+        implfmfnts CironoLodblDbtf, Sfriblizbblf {
 
     /**
-     * Serialization version.
+     * Sfriblizbtion vfrsion.
      */
-    private static final long serialVersionUID = -305327627230580483L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -305327627230580483L;
 
     /**
-     * The underlying ISO local date.
+     * Tif undfrlying ISO lodbl dbtf.
      */
-    private final transient LocalDate isoDate;
+    privbtf finbl trbnsifnt LodblDbtf isoDbtf;
     /**
-     * The JapaneseEra of this date.
+     * Tif JbpbnfsfErb of tiis dbtf.
      */
-    private transient JapaneseEra era;
+    privbtf trbnsifnt JbpbnfsfErb frb;
     /**
-     * The Japanese imperial calendar year of this date.
+     * Tif Jbpbnfsf impfribl dblfndbr yfbr of tiis dbtf.
      */
-    private transient int yearOfEra;
+    privbtf trbnsifnt int yfbrOfErb;
 
     /**
-     * The first day supported by the JapaneseChronology is Meiji 6, January 1st.
+     * Tif first dby supportfd by tif JbpbnfsfCironology is Mfiji 6, Jbnubry 1st.
      */
-    static final LocalDate MEIJI_6_ISODATE = LocalDate.of(1873, 1, 1);
-
-    //-----------------------------------------------------------------------
-    /**
-     * Obtains the current {@code JapaneseDate} from the system clock in the default time-zone.
-     * <p>
-     * This will query the {@link Clock#systemDefaultZone() system clock} in the default
-     * time-zone to obtain the current date.
-     * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
-     *
-     * @return the current date using the system clock and default time-zone, not null
-     */
-    public static JapaneseDate now() {
-        return now(Clock.systemDefaultZone());
-    }
-
-    /**
-     * Obtains the current {@code JapaneseDate} from the system clock in the specified time-zone.
-     * <p>
-     * This will query the {@link Clock#system(ZoneId) system clock} to obtain the current date.
-     * Specifying the time-zone avoids dependence on the default time-zone.
-     * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
-     *
-     * @param zone  the zone ID to use, not null
-     * @return the current date using the system clock, not null
-     */
-    public static JapaneseDate now(ZoneId zone) {
-        return now(Clock.system(zone));
-    }
-
-    /**
-     * Obtains the current {@code JapaneseDate} from the specified clock.
-     * <p>
-     * This will query the specified clock to obtain the current date - today.
-     * Using this method allows the use of an alternate clock for testing.
-     * The alternate clock may be introduced using {@linkplain Clock dependency injection}.
-     *
-     * @param clock  the clock to use, not null
-     * @return the current date, not null
-     * @throws DateTimeException if the current date cannot be obtained
-     */
-    public static JapaneseDate now(Clock clock) {
-        return new JapaneseDate(LocalDate.now(clock));
-    }
-
-    /**
-     * Obtains a {@code JapaneseDate} representing a date in the Japanese calendar
-     * system from the era, year-of-era, month-of-year and day-of-month fields.
-     * <p>
-     * This returns a {@code JapaneseDate} with the specified fields.
-     * The day must be valid for the year and month, otherwise an exception will be thrown.
-     * <p>
-     * The Japanese month and day-of-month are the same as those in the
-     * ISO calendar system. They are not reset when the era changes.
-     * For example:
-     * <pre>
-     *  6th Jan Showa 64 = ISO 1989-01-06
-     *  7th Jan Showa 64 = ISO 1989-01-07
-     *  8th Jan Heisei 1 = ISO 1989-01-08
-     *  9th Jan Heisei 1 = ISO 1989-01-09
-     * </pre>
-     *
-     * @param era  the Japanese era, not null
-     * @param yearOfEra  the Japanese year-of-era
-     * @param month  the Japanese month-of-year, from 1 to 12
-     * @param dayOfMonth  the Japanese day-of-month, from 1 to 31
-     * @return the date in Japanese calendar system, not null
-     * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-month is invalid for the month-year,
-     *  or if the date is not a Japanese era
-     */
-    public static JapaneseDate of(JapaneseEra era, int yearOfEra, int month, int dayOfMonth) {
-        Objects.requireNonNull(era, "era");
-        LocalGregorianCalendar.Date jdate = JapaneseChronology.JCAL.newCalendarDate(null);
-        jdate.setEra(era.getPrivateEra()).setDate(yearOfEra, month, dayOfMonth);
-        if (!JapaneseChronology.JCAL.validate(jdate)) {
-            throw new DateTimeException("year, month, and day not valid for Era");
-        }
-        LocalDate date = LocalDate.of(jdate.getNormalizedYear(), month, dayOfMonth);
-        return new JapaneseDate(era, yearOfEra, date);
-    }
-
-    /**
-     * Obtains a {@code JapaneseDate} representing a date in the Japanese calendar
-     * system from the proleptic-year, month-of-year and day-of-month fields.
-     * <p>
-     * This returns a {@code JapaneseDate} with the specified fields.
-     * The day must be valid for the year and month, otherwise an exception will be thrown.
-     * <p>
-     * The Japanese proleptic year, month and day-of-month are the same as those
-     * in the ISO calendar system. They are not reset when the era changes.
-     *
-     * @param prolepticYear  the Japanese proleptic-year
-     * @param month  the Japanese month-of-year, from 1 to 12
-     * @param dayOfMonth  the Japanese day-of-month, from 1 to 31
-     * @return the date in Japanese calendar system, not null
-     * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-month is invalid for the month-year
-     */
-    public static JapaneseDate of(int prolepticYear, int month, int dayOfMonth) {
-        return new JapaneseDate(LocalDate.of(prolepticYear, month, dayOfMonth));
-    }
-
-    /**
-     * Obtains a {@code JapaneseDate} representing a date in the Japanese calendar
-     * system from the era, year-of-era and day-of-year fields.
-     * <p>
-     * This returns a {@code JapaneseDate} with the specified fields.
-     * The day must be valid for the year, otherwise an exception will be thrown.
-     * <p>
-     * The day-of-year in this factory is expressed relative to the start of the year-of-era.
-     * This definition changes the normal meaning of day-of-year only in those years
-     * where the year-of-era is reset to one due to a change in the era.
-     * For example:
-     * <pre>
-     *  6th Jan Showa 64 = day-of-year 6
-     *  7th Jan Showa 64 = day-of-year 7
-     *  8th Jan Heisei 1 = day-of-year 1
-     *  9th Jan Heisei 1 = day-of-year 2
-     * </pre>
-     *
-     * @param era  the Japanese era, not null
-     * @param yearOfEra  the Japanese year-of-era
-     * @param dayOfYear  the chronology day-of-year, from 1 to 366
-     * @return the date in Japanese calendar system, not null
-     * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-year is invalid for the year
-     */
-    static JapaneseDate ofYearDay(JapaneseEra era, int yearOfEra, int dayOfYear) {
-        Objects.requireNonNull(era, "era");
-        CalendarDate firstDay = era.getPrivateEra().getSinceDate();
-        LocalGregorianCalendar.Date jdate = JapaneseChronology.JCAL.newCalendarDate(null);
-        jdate.setEra(era.getPrivateEra());
-        if (yearOfEra == 1) {
-            jdate.setDate(yearOfEra, firstDay.getMonth(), firstDay.getDayOfMonth() + dayOfYear - 1);
-        } else {
-            jdate.setDate(yearOfEra, 1, dayOfYear);
-        }
-        JapaneseChronology.JCAL.normalize(jdate);
-        if (era.getPrivateEra() != jdate.getEra() || yearOfEra != jdate.getYear()) {
-            throw new DateTimeException("Invalid parameters");
-        }
-        LocalDate localdate = LocalDate.of(jdate.getNormalizedYear(),
-                                      jdate.getMonth(), jdate.getDayOfMonth());
-        return new JapaneseDate(era, yearOfEra, localdate);
-    }
-
-    /**
-     * Obtains a {@code JapaneseDate} from a temporal object.
-     * <p>
-     * This obtains a date in the Japanese calendar system based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code JapaneseDate}.
-     * <p>
-     * The conversion typically uses the {@link ChronoField#EPOCH_DAY EPOCH_DAY}
-     * field, which is standardized across calendar systems.
-     * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code JapaneseDate::from}.
-     *
-     * @param temporal  the temporal object to convert, not null
-     * @return the date in Japanese calendar system, not null
-     * @throws DateTimeException if unable to convert to a {@code JapaneseDate}
-     */
-    public static JapaneseDate from(TemporalAccessor temporal) {
-        return JapaneseChronology.INSTANCE.date(temporal);
-    }
+    stbtid finbl LodblDbtf MEIJI_6_ISODATE = LodblDbtf.of(1873, 1, 1);
 
     //-----------------------------------------------------------------------
     /**
-     * Creates an instance from an ISO date.
+     * Obtbins tif durrfnt {@dodf JbpbnfsfDbtf} from tif systfm dlodk in tif dffbult timf-zonf.
+     * <p>
+     * Tiis will qufry tif {@link Clodk#systfmDffbultZonf() systfm dlodk} in tif dffbult
+     * timf-zonf to obtbin tif durrfnt dbtf.
+     * <p>
+     * Using tiis mftiod will prfvfnt tif bbility to usf bn bltfrnbtf dlodk for tfsting
+     * bfdbusf tif dlodk is ibrd-dodfd.
      *
-     * @param isoDate  the standard local date, validated not null
+     * @rfturn tif durrfnt dbtf using tif systfm dlodk bnd dffbult timf-zonf, not null
      */
-    JapaneseDate(LocalDate isoDate) {
-        if (isoDate.isBefore(MEIJI_6_ISODATE)) {
-            throw new DateTimeException("JapaneseDate before Meiji 6 is not supported");
-        }
-        LocalGregorianCalendar.Date jdate = toPrivateJapaneseDate(isoDate);
-        this.era = JapaneseEra.toJapaneseEra(jdate.getEra());
-        this.yearOfEra = jdate.getYear();
-        this.isoDate = isoDate;
+    publid stbtid JbpbnfsfDbtf now() {
+        rfturn now(Clodk.systfmDffbultZonf());
     }
 
     /**
-     * Constructs a {@code JapaneseDate}. This constructor does NOT validate the given parameters,
-     * and {@code era} and {@code year} must agree with {@code isoDate}.
+     * Obtbins tif durrfnt {@dodf JbpbnfsfDbtf} from tif systfm dlodk in tif spfdififd timf-zonf.
+     * <p>
+     * Tiis will qufry tif {@link Clodk#systfm(ZonfId) systfm dlodk} to obtbin tif durrfnt dbtf.
+     * Spfdifying tif timf-zonf bvoids dfpfndfndf on tif dffbult timf-zonf.
+     * <p>
+     * Using tiis mftiod will prfvfnt tif bbility to usf bn bltfrnbtf dlodk for tfsting
+     * bfdbusf tif dlodk is ibrd-dodfd.
      *
-     * @param era  the era, validated not null
-     * @param year  the year-of-era, validated
-     * @param isoDate  the standard local date, validated not null
+     * @pbrbm zonf  tif zonf ID to usf, not null
+     * @rfturn tif durrfnt dbtf using tif systfm dlodk, not null
      */
-    JapaneseDate(JapaneseEra era, int year, LocalDate isoDate) {
-        if (isoDate.isBefore(MEIJI_6_ISODATE)) {
-            throw new DateTimeException("JapaneseDate before Meiji 6 is not supported");
+    publid stbtid JbpbnfsfDbtf now(ZonfId zonf) {
+        rfturn now(Clodk.systfm(zonf));
+    }
+
+    /**
+     * Obtbins tif durrfnt {@dodf JbpbnfsfDbtf} from tif spfdififd dlodk.
+     * <p>
+     * Tiis will qufry tif spfdififd dlodk to obtbin tif durrfnt dbtf - todby.
+     * Using tiis mftiod bllows tif usf of bn bltfrnbtf dlodk for tfsting.
+     * Tif bltfrnbtf dlodk mby bf introdudfd using {@linkplbin Clodk dfpfndfndy injfdtion}.
+     *
+     * @pbrbm dlodk  tif dlodk to usf, not null
+     * @rfturn tif durrfnt dbtf, not null
+     * @tirows DbtfTimfExdfption if tif durrfnt dbtf dbnnot bf obtbinfd
+     */
+    publid stbtid JbpbnfsfDbtf now(Clodk dlodk) {
+        rfturn nfw JbpbnfsfDbtf(LodblDbtf.now(dlodk));
+    }
+
+    /**
+     * Obtbins b {@dodf JbpbnfsfDbtf} rfprfsfnting b dbtf in tif Jbpbnfsf dblfndbr
+     * systfm from tif frb, yfbr-of-frb, monti-of-yfbr bnd dby-of-monti fiflds.
+     * <p>
+     * Tiis rfturns b {@dodf JbpbnfsfDbtf} witi tif spfdififd fiflds.
+     * Tif dby must bf vblid for tif yfbr bnd monti, otifrwisf bn fxdfption will bf tirown.
+     * <p>
+     * Tif Jbpbnfsf monti bnd dby-of-monti brf tif sbmf bs tiosf in tif
+     * ISO dblfndbr systfm. Tify brf not rfsft wifn tif frb dibngfs.
+     * For fxbmplf:
+     * <prf>
+     *  6ti Jbn Siowb 64 = ISO 1989-01-06
+     *  7ti Jbn Siowb 64 = ISO 1989-01-07
+     *  8ti Jbn Hfisfi 1 = ISO 1989-01-08
+     *  9ti Jbn Hfisfi 1 = ISO 1989-01-09
+     * </prf>
+     *
+     * @pbrbm frb  tif Jbpbnfsf frb, not null
+     * @pbrbm yfbrOfErb  tif Jbpbnfsf yfbr-of-frb
+     * @pbrbm monti  tif Jbpbnfsf monti-of-yfbr, from 1 to 12
+     * @pbrbm dbyOfMonti  tif Jbpbnfsf dby-of-monti, from 1 to 31
+     * @rfturn tif dbtf in Jbpbnfsf dblfndbr systfm, not null
+     * @tirows DbtfTimfExdfption if tif vbluf of bny fifld is out of rbngf,
+     *  or if tif dby-of-monti is invblid for tif monti-yfbr,
+     *  or if tif dbtf is not b Jbpbnfsf frb
+     */
+    publid stbtid JbpbnfsfDbtf of(JbpbnfsfErb frb, int yfbrOfErb, int monti, int dbyOfMonti) {
+        Objfdts.rfquirfNonNull(frb, "frb");
+        LodblGrfgoribnCblfndbr.Dbtf jdbtf = JbpbnfsfCironology.JCAL.nfwCblfndbrDbtf(null);
+        jdbtf.sftErb(frb.gftPrivbtfErb()).sftDbtf(yfbrOfErb, monti, dbyOfMonti);
+        if (!JbpbnfsfCironology.JCAL.vblidbtf(jdbtf)) {
+            tirow nfw DbtfTimfExdfption("yfbr, monti, bnd dby not vblid for Erb");
         }
-        this.era = era;
-        this.yearOfEra = year;
-        this.isoDate = isoDate;
+        LodblDbtf dbtf = LodblDbtf.of(jdbtf.gftNormblizfdYfbr(), monti, dbyOfMonti);
+        rfturn nfw JbpbnfsfDbtf(frb, yfbrOfErb, dbtf);
+    }
+
+    /**
+     * Obtbins b {@dodf JbpbnfsfDbtf} rfprfsfnting b dbtf in tif Jbpbnfsf dblfndbr
+     * systfm from tif prolfptid-yfbr, monti-of-yfbr bnd dby-of-monti fiflds.
+     * <p>
+     * Tiis rfturns b {@dodf JbpbnfsfDbtf} witi tif spfdififd fiflds.
+     * Tif dby must bf vblid for tif yfbr bnd monti, otifrwisf bn fxdfption will bf tirown.
+     * <p>
+     * Tif Jbpbnfsf prolfptid yfbr, monti bnd dby-of-monti brf tif sbmf bs tiosf
+     * in tif ISO dblfndbr systfm. Tify brf not rfsft wifn tif frb dibngfs.
+     *
+     * @pbrbm prolfptidYfbr  tif Jbpbnfsf prolfptid-yfbr
+     * @pbrbm monti  tif Jbpbnfsf monti-of-yfbr, from 1 to 12
+     * @pbrbm dbyOfMonti  tif Jbpbnfsf dby-of-monti, from 1 to 31
+     * @rfturn tif dbtf in Jbpbnfsf dblfndbr systfm, not null
+     * @tirows DbtfTimfExdfption if tif vbluf of bny fifld is out of rbngf,
+     *  or if tif dby-of-monti is invblid for tif monti-yfbr
+     */
+    publid stbtid JbpbnfsfDbtf of(int prolfptidYfbr, int monti, int dbyOfMonti) {
+        rfturn nfw JbpbnfsfDbtf(LodblDbtf.of(prolfptidYfbr, monti, dbyOfMonti));
+    }
+
+    /**
+     * Obtbins b {@dodf JbpbnfsfDbtf} rfprfsfnting b dbtf in tif Jbpbnfsf dblfndbr
+     * systfm from tif frb, yfbr-of-frb bnd dby-of-yfbr fiflds.
+     * <p>
+     * Tiis rfturns b {@dodf JbpbnfsfDbtf} witi tif spfdififd fiflds.
+     * Tif dby must bf vblid for tif yfbr, otifrwisf bn fxdfption will bf tirown.
+     * <p>
+     * Tif dby-of-yfbr in tiis fbdtory is fxprfssfd rflbtivf to tif stbrt of tif yfbr-of-frb.
+     * Tiis dffinition dibngfs tif normbl mfbning of dby-of-yfbr only in tiosf yfbrs
+     * wifrf tif yfbr-of-frb is rfsft to onf duf to b dibngf in tif frb.
+     * For fxbmplf:
+     * <prf>
+     *  6ti Jbn Siowb 64 = dby-of-yfbr 6
+     *  7ti Jbn Siowb 64 = dby-of-yfbr 7
+     *  8ti Jbn Hfisfi 1 = dby-of-yfbr 1
+     *  9ti Jbn Hfisfi 1 = dby-of-yfbr 2
+     * </prf>
+     *
+     * @pbrbm frb  tif Jbpbnfsf frb, not null
+     * @pbrbm yfbrOfErb  tif Jbpbnfsf yfbr-of-frb
+     * @pbrbm dbyOfYfbr  tif dironology dby-of-yfbr, from 1 to 366
+     * @rfturn tif dbtf in Jbpbnfsf dblfndbr systfm, not null
+     * @tirows DbtfTimfExdfption if tif vbluf of bny fifld is out of rbngf,
+     *  or if tif dby-of-yfbr is invblid for tif yfbr
+     */
+    stbtid JbpbnfsfDbtf ofYfbrDby(JbpbnfsfErb frb, int yfbrOfErb, int dbyOfYfbr) {
+        Objfdts.rfquirfNonNull(frb, "frb");
+        CblfndbrDbtf firstDby = frb.gftPrivbtfErb().gftSindfDbtf();
+        LodblGrfgoribnCblfndbr.Dbtf jdbtf = JbpbnfsfCironology.JCAL.nfwCblfndbrDbtf(null);
+        jdbtf.sftErb(frb.gftPrivbtfErb());
+        if (yfbrOfErb == 1) {
+            jdbtf.sftDbtf(yfbrOfErb, firstDby.gftMonti(), firstDby.gftDbyOfMonti() + dbyOfYfbr - 1);
+        } flsf {
+            jdbtf.sftDbtf(yfbrOfErb, 1, dbyOfYfbr);
+        }
+        JbpbnfsfCironology.JCAL.normblizf(jdbtf);
+        if (frb.gftPrivbtfErb() != jdbtf.gftErb() || yfbrOfErb != jdbtf.gftYfbr()) {
+            tirow nfw DbtfTimfExdfption("Invblid pbrbmftfrs");
+        }
+        LodblDbtf lodbldbtf = LodblDbtf.of(jdbtf.gftNormblizfdYfbr(),
+                                      jdbtf.gftMonti(), jdbtf.gftDbyOfMonti());
+        rfturn nfw JbpbnfsfDbtf(frb, yfbrOfErb, lodbldbtf);
+    }
+
+    /**
+     * Obtbins b {@dodf JbpbnfsfDbtf} from b tfmporbl objfdt.
+     * <p>
+     * Tiis obtbins b dbtf in tif Jbpbnfsf dblfndbr systfm bbsfd on tif spfdififd tfmporbl.
+     * A {@dodf TfmporblAddfssor} rfprfsfnts bn brbitrbry sft of dbtf bnd timf informbtion,
+     * wiidi tiis fbdtory donvfrts to bn instbndf of {@dodf JbpbnfsfDbtf}.
+     * <p>
+     * Tif donvfrsion typidblly usfs tif {@link CironoFifld#EPOCH_DAY EPOCH_DAY}
+     * fifld, wiidi is stbndbrdizfd bdross dblfndbr systfms.
+     * <p>
+     * Tiis mftiod mbtdifs tif signbturf of tif fundtionbl intfrfbdf {@link TfmporblQufry}
+     * bllowing it to bf usfd bs b qufry vib mftiod rfffrfndf, {@dodf JbpbnfsfDbtf::from}.
+     *
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to donvfrt, not null
+     * @rfturn tif dbtf in Jbpbnfsf dblfndbr systfm, not null
+     * @tirows DbtfTimfExdfption if unbblf to donvfrt to b {@dodf JbpbnfsfDbtf}
+     */
+    publid stbtid JbpbnfsfDbtf from(TfmporblAddfssor tfmporbl) {
+        rfturn JbpbnfsfCironology.INSTANCE.dbtf(tfmporbl);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the chronology of this date, which is the Japanese calendar system.
-     * <p>
-     * The {@code Chronology} represents the calendar system in use.
-     * The era and other fields in {@link ChronoField} are defined by the chronology.
+     * Crfbtfs bn instbndf from bn ISO dbtf.
      *
-     * @return the Japanese chronology, not null
+     * @pbrbm isoDbtf  tif stbndbrd lodbl dbtf, vblidbtfd not null
      */
-    @Override
-    public JapaneseChronology getChronology() {
-        return JapaneseChronology.INSTANCE;
+    JbpbnfsfDbtf(LodblDbtf isoDbtf) {
+        if (isoDbtf.isBfforf(MEIJI_6_ISODATE)) {
+            tirow nfw DbtfTimfExdfption("JbpbnfsfDbtf bfforf Mfiji 6 is not supportfd");
+        }
+        LodblGrfgoribnCblfndbr.Dbtf jdbtf = toPrivbtfJbpbnfsfDbtf(isoDbtf);
+        tiis.frb = JbpbnfsfErb.toJbpbnfsfErb(jdbtf.gftErb());
+        tiis.yfbrOfErb = jdbtf.gftYfbr();
+        tiis.isoDbtf = isoDbtf;
     }
 
     /**
-     * Gets the era applicable at this date.
-     * <p>
-     * The Japanese calendar system has multiple eras defined by {@link JapaneseEra}.
+     * Construdts b {@dodf JbpbnfsfDbtf}. Tiis donstrudtor dofs NOT vblidbtf tif givfn pbrbmftfrs,
+     * bnd {@dodf frb} bnd {@dodf yfbr} must bgrff witi {@dodf isoDbtf}.
      *
-     * @return the era applicable at this date, not null
+     * @pbrbm frb  tif frb, vblidbtfd not null
+     * @pbrbm yfbr  tif yfbr-of-frb, vblidbtfd
+     * @pbrbm isoDbtf  tif stbndbrd lodbl dbtf, vblidbtfd not null
      */
-    @Override
-    public JapaneseEra getEra() {
-        return era;
-    }
-
-    /**
-     * Returns the length of the month represented by this date.
-     * <p>
-     * This returns the length of the month in days.
-     * Month lengths match those of the ISO calendar system.
-     *
-     * @return the length of the month in days
-     */
-    @Override
-    public int lengthOfMonth() {
-        return isoDate.lengthOfMonth();
-    }
-
-    @Override
-    public int lengthOfYear() {
-        Calendar jcal = Calendar.getInstance(JapaneseChronology.LOCALE);
-        jcal.set(Calendar.ERA, era.getValue() + JapaneseEra.ERA_OFFSET);
-        jcal.set(yearOfEra, isoDate.getMonthValue() - 1, isoDate.getDayOfMonth());
-        return  jcal.getActualMaximum(Calendar.DAY_OF_YEAR);
+    JbpbnfsfDbtf(JbpbnfsfErb frb, int yfbr, LodblDbtf isoDbtf) {
+        if (isoDbtf.isBfforf(MEIJI_6_ISODATE)) {
+            tirow nfw DbtfTimfExdfption("JbpbnfsfDbtf bfforf Mfiji 6 is not supportfd");
+        }
+        tiis.frb = frb;
+        tiis.yfbrOfErb = yfbr;
+        tiis.isoDbtf = isoDbtf;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if the specified field is supported.
+     * Gfts tif dironology of tiis dbtf, wiidi is tif Jbpbnfsf dblfndbr systfm.
      * <p>
-     * This checks if this date can be queried for the specified field.
-     * If false, then calling the {@link #range(TemporalField) range} and
-     * {@link #get(TemporalField) get} methods will throw an exception.
+     * Tif {@dodf Cironology} rfprfsfnts tif dblfndbr systfm in usf.
+     * Tif frb bnd otifr fiflds in {@link CironoFifld} brf dffinfd by tif dironology.
+     *
+     * @rfturn tif Jbpbnfsf dironology, not null
+     */
+    @Ovfrridf
+    publid JbpbnfsfCironology gftCironology() {
+        rfturn JbpbnfsfCironology.INSTANCE;
+    }
+
+    /**
+     * Gfts tif frb bpplidbblf bt tiis dbtf.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The supported fields are:
+     * Tif Jbpbnfsf dblfndbr systfm ibs multiplf frbs dffinfd by {@link JbpbnfsfErb}.
+     *
+     * @rfturn tif frb bpplidbblf bt tiis dbtf, not null
+     */
+    @Ovfrridf
+    publid JbpbnfsfErb gftErb() {
+        rfturn frb;
+    }
+
+    /**
+     * Rfturns tif lfngti of tif monti rfprfsfntfd by tiis dbtf.
+     * <p>
+     * Tiis rfturns tif lfngti of tif monti in dbys.
+     * Monti lfngtis mbtdi tiosf of tif ISO dblfndbr systfm.
+     *
+     * @rfturn tif lfngti of tif monti in dbys
+     */
+    @Ovfrridf
+    publid int lfngtiOfMonti() {
+        rfturn isoDbtf.lfngtiOfMonti();
+    }
+
+    @Ovfrridf
+    publid int lfngtiOfYfbr() {
+        Cblfndbr jdbl = Cblfndbr.gftInstbndf(JbpbnfsfCironology.LOCALE);
+        jdbl.sft(Cblfndbr.ERA, frb.gftVbluf() + JbpbnfsfErb.ERA_OFFSET);
+        jdbl.sft(yfbrOfErb, isoDbtf.gftMontiVbluf() - 1, isoDbtf.gftDbyOfMonti());
+        rfturn  jdbl.gftAdtublMbximum(Cblfndbr.DAY_OF_YEAR);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Cifdks if tif spfdififd fifld is supportfd.
+     * <p>
+     * Tiis difdks if tiis dbtf dbn bf qufrifd for tif spfdififd fifld.
+     * If fblsf, tifn dblling tif {@link #rbngf(TfmporblFifld) rbngf} bnd
+     * {@link #gft(TfmporblFifld) gft} mftiods will tirow bn fxdfption.
+     * <p>
+     * If tif fifld is b {@link CironoFifld} tifn tif qufry is implfmfntfd ifrf.
+     * Tif supportfd fiflds brf:
      * <ul>
-     * <li>{@code DAY_OF_WEEK}
-     * <li>{@code DAY_OF_MONTH}
-     * <li>{@code DAY_OF_YEAR}
-     * <li>{@code EPOCH_DAY}
-     * <li>{@code MONTH_OF_YEAR}
-     * <li>{@code PROLEPTIC_MONTH}
-     * <li>{@code YEAR_OF_ERA}
-     * <li>{@code YEAR}
-     * <li>{@code ERA}
+     * <li>{@dodf DAY_OF_WEEK}
+     * <li>{@dodf DAY_OF_MONTH}
+     * <li>{@dodf DAY_OF_YEAR}
+     * <li>{@dodf EPOCH_DAY}
+     * <li>{@dodf MONTH_OF_YEAR}
+     * <li>{@dodf PROLEPTIC_MONTH}
+     * <li>{@dodf YEAR_OF_ERA}
+     * <li>{@dodf YEAR}
+     * <li>{@dodf ERA}
      * </ul>
-     * All other {@code ChronoField} instances will return false.
+     * All otifr {@dodf CironoFifld} instbndfs will rfturn fblsf.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.isSupportedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
-     * Whether the field is supported is determined by the field.
+     * If tif fifld is not b {@dodf CironoFifld}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.isSupportfdBy(TfmporblAddfssor)}
+     * pbssing {@dodf tiis} bs tif brgumfnt.
+     * Wiftifr tif fifld is supportfd is dftfrminfd by tif fifld.
      *
-     * @param field  the field to check, null returns false
-     * @return true if the field is supported on this date, false if not
+     * @pbrbm fifld  tif fifld to difdk, null rfturns fblsf
+     * @rfturn truf if tif fifld is supportfd on tiis dbtf, fblsf if not
      */
-    @Override
-    public boolean isSupported(TemporalField field) {
-        if (field == ALIGNED_DAY_OF_WEEK_IN_MONTH || field == ALIGNED_DAY_OF_WEEK_IN_YEAR ||
-                field == ALIGNED_WEEK_OF_MONTH || field == ALIGNED_WEEK_OF_YEAR) {
-            return false;
+    @Ovfrridf
+    publid boolfbn isSupportfd(TfmporblFifld fifld) {
+        if (fifld == ALIGNED_DAY_OF_WEEK_IN_MONTH || fifld == ALIGNED_DAY_OF_WEEK_IN_YEAR ||
+                fifld == ALIGNED_WEEK_OF_MONTH || fifld == ALIGNED_WEEK_OF_YEAR) {
+            rfturn fblsf;
         }
-        return ChronoLocalDate.super.isSupported(field);
+        rfturn CironoLodblDbtf.supfr.isSupportfd(fifld);
     }
 
-    @Override
-    public ValueRange range(TemporalField field) {
-        if (field instanceof ChronoField) {
-            if (isSupported(field)) {
-                ChronoField f = (ChronoField) field;
-                switch (f) {
-                    case DAY_OF_MONTH: return ValueRange.of(1, lengthOfMonth());
-                    case DAY_OF_YEAR: return ValueRange.of(1, lengthOfYear());
-                    case YEAR_OF_ERA: {
-                        Calendar jcal = Calendar.getInstance(JapaneseChronology.LOCALE);
-                        jcal.set(Calendar.ERA, era.getValue() + JapaneseEra.ERA_OFFSET);
-                        jcal.set(yearOfEra, isoDate.getMonthValue() - 1, isoDate.getDayOfMonth());
-                        return ValueRange.of(1, jcal.getActualMaximum(Calendar.YEAR));
+    @Ovfrridf
+    publid VblufRbngf rbngf(TfmporblFifld fifld) {
+        if (fifld instbndfof CironoFifld) {
+            if (isSupportfd(fifld)) {
+                CironoFifld f = (CironoFifld) fifld;
+                switdi (f) {
+                    dbsf DAY_OF_MONTH: rfturn VblufRbngf.of(1, lfngtiOfMonti());
+                    dbsf DAY_OF_YEAR: rfturn VblufRbngf.of(1, lfngtiOfYfbr());
+                    dbsf YEAR_OF_ERA: {
+                        Cblfndbr jdbl = Cblfndbr.gftInstbndf(JbpbnfsfCironology.LOCALE);
+                        jdbl.sft(Cblfndbr.ERA, frb.gftVbluf() + JbpbnfsfErb.ERA_OFFSET);
+                        jdbl.sft(yfbrOfErb, isoDbtf.gftMontiVbluf() - 1, isoDbtf.gftDbyOfMonti());
+                        rfturn VblufRbngf.of(1, jdbl.gftAdtublMbximum(Cblfndbr.YEAR));
                     }
                 }
-                return getChronology().range(f);
+                rfturn gftCironology().rbngf(f);
             }
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+            tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
         }
-        return field.rangeRefinedBy(this);
+        rfturn fifld.rbngfRffinfdBy(tiis);
     }
 
-    @Override
-    public long getLong(TemporalField field) {
-        if (field instanceof ChronoField) {
-            // same as ISO:
+    @Ovfrridf
+    publid long gftLong(TfmporblFifld fifld) {
+        if (fifld instbndfof CironoFifld) {
+            // sbmf bs ISO:
             // DAY_OF_WEEK, DAY_OF_MONTH, EPOCH_DAY, MONTH_OF_YEAR, PROLEPTIC_MONTH, YEAR
             //
-            // calendar specific fields
+            // dblfndbr spfdifid fiflds
             // DAY_OF_YEAR, YEAR_OF_ERA, ERA
-            switch ((ChronoField) field) {
-                case ALIGNED_DAY_OF_WEEK_IN_MONTH:
-                case ALIGNED_DAY_OF_WEEK_IN_YEAR:
-                case ALIGNED_WEEK_OF_MONTH:
-                case ALIGNED_WEEK_OF_YEAR:
-                    throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
-                case YEAR_OF_ERA:
-                    return yearOfEra;
-                case ERA:
-                    return era.getValue();
-                case DAY_OF_YEAR:
-                    Calendar jcal = Calendar.getInstance(JapaneseChronology.LOCALE);
-                    jcal.set(Calendar.ERA, era.getValue() + JapaneseEra.ERA_OFFSET);
-                    jcal.set(yearOfEra, isoDate.getMonthValue() - 1, isoDate.getDayOfMonth());
-                    return jcal.get(Calendar.DAY_OF_YEAR);
+            switdi ((CironoFifld) fifld) {
+                dbsf ALIGNED_DAY_OF_WEEK_IN_MONTH:
+                dbsf ALIGNED_DAY_OF_WEEK_IN_YEAR:
+                dbsf ALIGNED_WEEK_OF_MONTH:
+                dbsf ALIGNED_WEEK_OF_YEAR:
+                    tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
+                dbsf YEAR_OF_ERA:
+                    rfturn yfbrOfErb;
+                dbsf ERA:
+                    rfturn frb.gftVbluf();
+                dbsf DAY_OF_YEAR:
+                    Cblfndbr jdbl = Cblfndbr.gftInstbndf(JbpbnfsfCironology.LOCALE);
+                    jdbl.sft(Cblfndbr.ERA, frb.gftVbluf() + JbpbnfsfErb.ERA_OFFSET);
+                    jdbl.sft(yfbrOfErb, isoDbtf.gftMontiVbluf() - 1, isoDbtf.gftDbyOfMonti());
+                    rfturn jdbl.gft(Cblfndbr.DAY_OF_YEAR);
             }
-            return isoDate.getLong(field);
+            rfturn isoDbtf.gftLong(fifld);
         }
-        return field.getFrom(this);
+        rfturn fifld.gftFrom(tiis);
     }
 
     /**
-     * Returns a {@code LocalGregorianCalendar.Date} converted from the given {@code isoDate}.
+     * Rfturns b {@dodf LodblGrfgoribnCblfndbr.Dbtf} donvfrtfd from tif givfn {@dodf isoDbtf}.
      *
-     * @param isoDate  the local date, not null
-     * @return a {@code LocalGregorianCalendar.Date}, not null
+     * @pbrbm isoDbtf  tif lodbl dbtf, not null
+     * @rfturn b {@dodf LodblGrfgoribnCblfndbr.Dbtf}, not null
      */
-    private static LocalGregorianCalendar.Date toPrivateJapaneseDate(LocalDate isoDate) {
-        LocalGregorianCalendar.Date jdate = JapaneseChronology.JCAL.newCalendarDate(null);
-        sun.util.calendar.Era sunEra = JapaneseEra.privateEraFrom(isoDate);
-        int year = isoDate.getYear();
-        if (sunEra != null) {
-            year -= sunEra.getSinceDate().getYear() - 1;
+    privbtf stbtid LodblGrfgoribnCblfndbr.Dbtf toPrivbtfJbpbnfsfDbtf(LodblDbtf isoDbtf) {
+        LodblGrfgoribnCblfndbr.Dbtf jdbtf = JbpbnfsfCironology.JCAL.nfwCblfndbrDbtf(null);
+        sun.util.dblfndbr.Erb sunErb = JbpbnfsfErb.privbtfErbFrom(isoDbtf);
+        int yfbr = isoDbtf.gftYfbr();
+        if (sunErb != null) {
+            yfbr -= sunErb.gftSindfDbtf().gftYfbr() - 1;
         }
-        jdate.setEra(sunEra).setYear(year).setMonth(isoDate.getMonthValue()).setDayOfMonth(isoDate.getDayOfMonth());
-        JapaneseChronology.JCAL.normalize(jdate);
-        return jdate;
+        jdbtf.sftErb(sunErb).sftYfbr(yfbr).sftMonti(isoDbtf.gftMontiVbluf()).sftDbyOfMonti(isoDbtf.gftDbyOfMonti());
+        JbpbnfsfCironology.JCAL.normblizf(jdbtf);
+        rfturn jdbtf;
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    public JapaneseDate with(TemporalField field, long newValue) {
-        if (field instanceof ChronoField) {
-            ChronoField f = (ChronoField) field;
-            if (getLong(f) == newValue) {  // getLong() validates for supported fields
-                return this;
+    @Ovfrridf
+    publid JbpbnfsfDbtf witi(TfmporblFifld fifld, long nfwVbluf) {
+        if (fifld instbndfof CironoFifld) {
+            CironoFifld f = (CironoFifld) fifld;
+            if (gftLong(f) == nfwVbluf) {  // gftLong() vblidbtfs for supportfd fiflds
+                rfturn tiis;
             }
-            switch (f) {
-                case YEAR_OF_ERA:
-                case YEAR:
-                case ERA: {
-                    int nvalue = getChronology().range(f).checkValidIntValue(newValue, f);
-                    switch (f) {
-                        case YEAR_OF_ERA:
-                            return this.withYear(nvalue);
-                        case YEAR:
-                            return with(isoDate.withYear(nvalue));
-                        case ERA: {
-                            return this.withYear(JapaneseEra.of(nvalue), yearOfEra);
+            switdi (f) {
+                dbsf YEAR_OF_ERA:
+                dbsf YEAR:
+                dbsf ERA: {
+                    int nvbluf = gftCironology().rbngf(f).difdkVblidIntVbluf(nfwVbluf, f);
+                    switdi (f) {
+                        dbsf YEAR_OF_ERA:
+                            rfturn tiis.witiYfbr(nvbluf);
+                        dbsf YEAR:
+                            rfturn witi(isoDbtf.witiYfbr(nvbluf));
+                        dbsf ERA: {
+                            rfturn tiis.witiYfbr(JbpbnfsfErb.of(nvbluf), yfbrOfErb);
                         }
                     }
                 }
             }
-            // YEAR, PROLEPTIC_MONTH and others are same as ISO
-            return with(isoDate.with(field, newValue));
+            // YEAR, PROLEPTIC_MONTH bnd otifrs brf sbmf bs ISO
+            rfturn witi(isoDbtf.witi(fifld, nfwVbluf));
         }
-        return super.with(field, newValue);
+        rfturn supfr.witi(fifld, nfwVbluf);
     }
 
     /**
-     * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
-     * @throws ArithmeticException {@inheritDoc}
+     * {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
      */
-    @Override
-    public  JapaneseDate with(TemporalAdjuster adjuster) {
-        return super.with(adjuster);
+    @Ovfrridf
+    publid  JbpbnfsfDbtf witi(TfmporblAdjustfr bdjustfr) {
+        rfturn supfr.witi(bdjustfr);
     }
 
     /**
-     * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
-     * @throws ArithmeticException {@inheritDoc}
+     * {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
      */
-    @Override
-    public JapaneseDate plus(TemporalAmount amount) {
-        return super.plus(amount);
+    @Ovfrridf
+    publid JbpbnfsfDbtf plus(TfmporblAmount bmount) {
+        rfturn supfr.plus(bmount);
     }
 
     /**
-     * {@inheritDoc}
-     * @throws DateTimeException {@inheritDoc}
-     * @throws ArithmeticException {@inheritDoc}
+     * {@inifritDod}
+     * @tirows DbtfTimfExdfption {@inifritDod}
+     * @tirows AritimftidExdfption {@inifritDod}
      */
-    @Override
-    public JapaneseDate minus(TemporalAmount amount) {
-        return super.minus(amount);
+    @Ovfrridf
+    publid JbpbnfsfDbtf minus(TfmporblAmount bmount) {
+        rfturn supfr.minus(bmount);
     }
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this date with the year altered.
+     * Rfturns b dopy of tiis dbtf witi tif yfbr bltfrfd.
      * <p>
-     * This method changes the year of the date.
-     * If the month-day is invalid for the year, then the previous valid day
-     * will be selected instead.
+     * Tiis mftiod dibngfs tif yfbr of tif dbtf.
+     * If tif monti-dby is invblid for tif yfbr, tifn tif prfvious vblid dby
+     * will bf sflfdtfd instfbd.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param era  the era to set in the result, not null
-     * @param yearOfEra  the year-of-era to set in the returned date
-     * @return a {@code JapaneseDate} based on this date with the requested year, never null
-     * @throws DateTimeException if {@code year} is invalid
+     * @pbrbm frb  tif frb to sft in tif rfsult, not null
+     * @pbrbm yfbrOfErb  tif yfbr-of-frb to sft in tif rfturnfd dbtf
+     * @rfturn b {@dodf JbpbnfsfDbtf} bbsfd on tiis dbtf witi tif rfqufstfd yfbr, nfvfr null
+     * @tirows DbtfTimfExdfption if {@dodf yfbr} is invblid
      */
-    private JapaneseDate withYear(JapaneseEra era, int yearOfEra) {
-        int year = JapaneseChronology.INSTANCE.prolepticYear(era, yearOfEra);
-        return with(isoDate.withYear(year));
+    privbtf JbpbnfsfDbtf witiYfbr(JbpbnfsfErb frb, int yfbrOfErb) {
+        int yfbr = JbpbnfsfCironology.INSTANCE.prolfptidYfbr(frb, yfbrOfErb);
+        rfturn witi(isoDbtf.witiYfbr(yfbr));
     }
 
     /**
-     * Returns a copy of this date with the year-of-era altered.
+     * Rfturns b dopy of tiis dbtf witi tif yfbr-of-frb bltfrfd.
      * <p>
-     * This method changes the year-of-era of the date.
-     * If the month-day is invalid for the year, then the previous valid day
-     * will be selected instead.
+     * Tiis mftiod dibngfs tif yfbr-of-frb of tif dbtf.
+     * If tif monti-dby is invblid for tif yfbr, tifn tif prfvious vblid dby
+     * will bf sflfdtfd instfbd.
      * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param year  the year to set in the returned date
-     * @return a {@code JapaneseDate} based on this date with the requested year-of-era, never null
-     * @throws DateTimeException if {@code year} is invalid
+     * @pbrbm yfbr  tif yfbr to sft in tif rfturnfd dbtf
+     * @rfturn b {@dodf JbpbnfsfDbtf} bbsfd on tiis dbtf witi tif rfqufstfd yfbr-of-frb, nfvfr null
+     * @tirows DbtfTimfExdfption if {@dodf yfbr} is invblid
      */
-    private JapaneseDate withYear(int year) {
-        return withYear(getEra(), year);
+    privbtf JbpbnfsfDbtf witiYfbr(int yfbr) {
+        rfturn witiYfbr(gftErb(), yfbr);
     }
 
     //-----------------------------------------------------------------------
-    @Override
-    JapaneseDate plusYears(long years) {
-        return with(isoDate.plusYears(years));
+    @Ovfrridf
+    JbpbnfsfDbtf plusYfbrs(long yfbrs) {
+        rfturn witi(isoDbtf.plusYfbrs(yfbrs));
     }
 
-    @Override
-    JapaneseDate plusMonths(long months) {
-        return with(isoDate.plusMonths(months));
+    @Ovfrridf
+    JbpbnfsfDbtf plusMontis(long montis) {
+        rfturn witi(isoDbtf.plusMontis(montis));
     }
 
-    @Override
-    JapaneseDate plusWeeks(long weeksToAdd) {
-        return with(isoDate.plusWeeks(weeksToAdd));
+    @Ovfrridf
+    JbpbnfsfDbtf plusWffks(long wffksToAdd) {
+        rfturn witi(isoDbtf.plusWffks(wffksToAdd));
     }
 
-    @Override
-    JapaneseDate plusDays(long days) {
-        return with(isoDate.plusDays(days));
+    @Ovfrridf
+    JbpbnfsfDbtf plusDbys(long dbys) {
+        rfturn witi(isoDbtf.plusDbys(dbys));
     }
 
-    @Override
-    public JapaneseDate plus(long amountToAdd, TemporalUnit unit) {
-        return super.plus(amountToAdd, unit);
+    @Ovfrridf
+    publid JbpbnfsfDbtf plus(long bmountToAdd, TfmporblUnit unit) {
+        rfturn supfr.plus(bmountToAdd, unit);
     }
 
-    @Override
-    public JapaneseDate minus(long amountToAdd, TemporalUnit unit) {
-        return super.minus(amountToAdd, unit);
+    @Ovfrridf
+    publid JbpbnfsfDbtf minus(long bmountToAdd, TfmporblUnit unit) {
+        rfturn supfr.minus(bmountToAdd, unit);
     }
 
-    @Override
-    JapaneseDate minusYears(long yearsToSubtract) {
-        return super.minusYears(yearsToSubtract);
+    @Ovfrridf
+    JbpbnfsfDbtf minusYfbrs(long yfbrsToSubtrbdt) {
+        rfturn supfr.minusYfbrs(yfbrsToSubtrbdt);
     }
 
-    @Override
-    JapaneseDate minusMonths(long monthsToSubtract) {
-        return super.minusMonths(monthsToSubtract);
+    @Ovfrridf
+    JbpbnfsfDbtf minusMontis(long montisToSubtrbdt) {
+        rfturn supfr.minusMontis(montisToSubtrbdt);
     }
 
-    @Override
-    JapaneseDate minusWeeks(long weeksToSubtract) {
-        return super.minusWeeks(weeksToSubtract);
+    @Ovfrridf
+    JbpbnfsfDbtf minusWffks(long wffksToSubtrbdt) {
+        rfturn supfr.minusWffks(wffksToSubtrbdt);
     }
 
-    @Override
-    JapaneseDate minusDays(long daysToSubtract) {
-        return super.minusDays(daysToSubtract);
+    @Ovfrridf
+    JbpbnfsfDbtf minusDbys(long dbysToSubtrbdt) {
+        rfturn supfr.minusDbys(dbysToSubtrbdt);
     }
 
-    private JapaneseDate with(LocalDate newDate) {
-        return (newDate.equals(isoDate) ? this : new JapaneseDate(newDate));
+    privbtf JbpbnfsfDbtf witi(LodblDbtf nfwDbtf) {
+        rfturn (nfwDbtf.fqubls(isoDbtf) ? tiis : nfw JbpbnfsfDbtf(nfwDbtf));
     }
 
-    @Override        // for javadoc and covariant return type
-    @SuppressWarnings("unchecked")
-    public final ChronoLocalDateTime<JapaneseDate> atTime(LocalTime localTime) {
-        return (ChronoLocalDateTime<JapaneseDate>)super.atTime(localTime);
+    @Ovfrridf        // for jbvbdod bnd dovbribnt rfturn typf
+    @SupprfssWbrnings("undifdkfd")
+    publid finbl CironoLodblDbtfTimf<JbpbnfsfDbtf> btTimf(LodblTimf lodblTimf) {
+        rfturn (CironoLodblDbtfTimf<JbpbnfsfDbtf>)supfr.btTimf(lodblTimf);
     }
 
-    @Override
-    public ChronoPeriod until(ChronoLocalDate endDate) {
-        Period period = isoDate.until(endDate);
-        return getChronology().period(period.getYears(), period.getMonths(), period.getDays());
+    @Ovfrridf
+    publid CironoPfriod until(CironoLodblDbtf fndDbtf) {
+        Pfriod pfriod = isoDbtf.until(fndDbtf);
+        rfturn gftCironology().pfriod(pfriod.gftYfbrs(), pfriod.gftMontis(), pfriod.gftDbys());
     }
 
-    @Override  // override for performance
-    public long toEpochDay() {
-        return isoDate.toEpochDay();
+    @Ovfrridf  // ovfrridf for pfrformbndf
+    publid long toEpodiDby() {
+        rfturn isoDbtf.toEpodiDby();
     }
 
     //-------------------------------------------------------------------------
     /**
-     * Compares this date to another date, including the chronology.
+     * Compbrfs tiis dbtf to bnotifr dbtf, indluding tif dironology.
      * <p>
-     * Compares this {@code JapaneseDate} with another ensuring that the date is the same.
+     * Compbrfs tiis {@dodf JbpbnfsfDbtf} witi bnotifr fnsuring tibt tif dbtf is tif sbmf.
      * <p>
-     * Only objects of type {@code JapaneseDate} are compared, other types return false.
-     * To compare the dates of two {@code TemporalAccessor} instances, including dates
-     * in two different chronologies, use {@link ChronoField#EPOCH_DAY} as a comparator.
+     * Only objfdts of typf {@dodf JbpbnfsfDbtf} brf dompbrfd, otifr typfs rfturn fblsf.
+     * To dompbrf tif dbtfs of two {@dodf TfmporblAddfssor} instbndfs, indluding dbtfs
+     * in two difffrfnt dironologifs, usf {@link CironoFifld#EPOCH_DAY} bs b dompbrbtor.
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other date
+     * @pbrbm obj  tif objfdt to difdk, null rfturns fblsf
+     * @rfturn truf if tiis is fqubl to tif otifr dbtf
      */
-    @Override  // override for performance
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    @Ovfrridf  // ovfrridf for pfrformbndf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (obj instanceof JapaneseDate) {
-            JapaneseDate otherDate = (JapaneseDate) obj;
-            return this.isoDate.equals(otherDate.isoDate);
+        if (obj instbndfof JbpbnfsfDbtf) {
+            JbpbnfsfDbtf otifrDbtf = (JbpbnfsfDbtf) obj;
+            rfturn tiis.isoDbtf.fqubls(otifrDbtf.isoDbtf);
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * A hash code for this date.
+     * A ibsi dodf for tiis dbtf.
      *
-     * @return a suitable hash code based only on the Chronology and the date
+     * @rfturn b suitbblf ibsi dodf bbsfd only on tif Cironology bnd tif dbtf
      */
-    @Override  // override for performance
-    public int hashCode() {
-        return getChronology().getId().hashCode() ^ isoDate.hashCode();
+    @Ovfrridf  // ovfrridf for pfrformbndf
+    publid int ibsiCodf() {
+        rfturn gftCironology().gftId().ibsiCodf() ^ isoDbtf.ibsiCodf();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Defend against malicious streams.
+     * Dfffnd bgbinst mblidious strfbms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s tif strfbm to rfbd
+     * @tirows InvblidObjfdtExdfption blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
     }
 
     /**
-     * Writes the object using a
-     * <a href="../../../serialized-form.html#java.time.chrono.Ser">dedicated serialized form</a>.
-     * @serialData
-     * <pre>
-     *  out.writeByte(4);                 // identifies a JapaneseDate
-     *  out.writeInt(get(YEAR));
-     *  out.writeByte(get(MONTH_OF_YEAR));
-     *  out.writeByte(get(DAY_OF_MONTH));
-     * </pre>
+     * Writfs tif objfdt using b
+     * <b irff="../../../sfriblizfd-form.itml#jbvb.timf.dirono.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * <prf>
+     *  out.writfBytf(4);                 // idfntififs b JbpbnfsfDbtf
+     *  out.writfInt(gft(YEAR));
+     *  out.writfBytf(gft(MONTH_OF_YEAR));
+     *  out.writfBytf(gft(DAY_OF_MONTH));
+     * </prf>
      *
-     * @return the instance of {@code Ser}, not null
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
      */
-    private Object writeReplace() {
-        return new Ser(Ser.JAPANESE_DATE_TYPE, this);
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw Sfr(Sfr.JAPANESE_DATE_TYPE, tiis);
     }
 
-    void writeExternal(DataOutput out) throws IOException {
-        // JapaneseChronology is implicit in the JAPANESE_DATE_TYPE
-        out.writeInt(get(YEAR));
-        out.writeByte(get(MONTH_OF_YEAR));
-        out.writeByte(get(DAY_OF_MONTH));
+    void writfExtfrnbl(DbtbOutput out) tirows IOExdfption {
+        // JbpbnfsfCironology is implidit in tif JAPANESE_DATE_TYPE
+        out.writfInt(gft(YEAR));
+        out.writfBytf(gft(MONTH_OF_YEAR));
+        out.writfBytf(gft(DAY_OF_MONTH));
     }
 
-    static JapaneseDate readExternal(DataInput in) throws IOException {
-        int year = in.readInt();
-        int month = in.readByte();
-        int dayOfMonth = in.readByte();
-        return JapaneseChronology.INSTANCE.date(year, month, dayOfMonth);
+    stbtid JbpbnfsfDbtf rfbdExtfrnbl(DbtbInput in) tirows IOExdfption {
+        int yfbr = in.rfbdInt();
+        int monti = in.rfbdBytf();
+        int dbyOfMonti = in.rfbdBytf();
+        rfturn JbpbnfsfCironology.INSTANCE.dbtf(yfbr, monti, dbyOfMonti);
     }
 
 }

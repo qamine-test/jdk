@@ -1,0 +1,224 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ */
+/*
+ * $Id: DOMTrbnsform.jbvb 1333415 2012-05-03 12:03:51Z dohfigfb $
+ */
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dsig.*;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dsig.dom.DOMSignContfxt;
+
+/**
+ * DOM-bbsfd bbstrbdt implfmfntbtion of Trbnsform.
+ *
+ * @buthor Sfbn Mullbn
+ */
+publid dlbss DOMTrbnsform fxtfnds DOMStrudturf implfmfnts Trbnsform {
+
+    protfdtfd TrbnsformSfrvidf spi;
+
+    /**
+     * Crfbtfs b <dodf>DOMTrbnsform</dodf>.
+     *
+     * @pbrbm spi thf TrbnsformSfrvidf
+     */
+    publid DOMTrbnsform(TrbnsformSfrvidf spi) {
+        this.spi = spi;
+    }
+
+    /**
+     * Crfbtfs b <dodf>DOMTrbnsform</dodf> from bn flfmfnt. This donstrudtor
+     * invokfs thf bbstrbdt {@link #unmbrshblPbrbms unmbrshblPbrbms} mfthod to
+     * unmbrshbl bny blgorithm-spfdifid input pbrbmftfrs.
+     *
+     * @pbrbm trbnsElfm b Trbnsform flfmfnt
+     */
+    publid DOMTrbnsform(Elfmfnt trbnsElfm, XMLCryptoContfxt dontfxt,
+                        Providfr providfr)
+        throws MbrshblExdfption
+    {
+        String blgorithm = DOMUtils.gftAttributfVbluf(trbnsElfm, "Algorithm");
+
+        if (providfr == null) {
+            try {
+                spi = TrbnsformSfrvidf.gftInstbndf(blgorithm, "DOM");
+            } dbtdh (NoSudhAlgorithmExdfption f1) {
+                throw nfw MbrshblExdfption(f1);
+            }
+        } flsf {
+            try {
+                spi = TrbnsformSfrvidf.gftInstbndf(blgorithm, "DOM", providfr);
+            } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+                try {
+                    spi = TrbnsformSfrvidf.gftInstbndf(blgorithm, "DOM");
+                } dbtdh (NoSudhAlgorithmExdfption f2) {
+                    throw nfw MbrshblExdfption(f2);
+                }
+            }
+        }
+        try {
+            spi.init(nfw jbvbx.xml.drypto.dom.DOMStrudturf(trbnsElfm), dontfxt);
+        } dbtdh (InvblidAlgorithmPbrbmftfrExdfption ibpf) {
+            throw nfw MbrshblExdfption(ibpf);
+        }
+    }
+
+    publid finbl AlgorithmPbrbmftfrSpfd gftPbrbmftfrSpfd() {
+        rfturn spi.gftPbrbmftfrSpfd();
+    }
+
+    publid finbl String gftAlgorithm() {
+        rfturn spi.gftAlgorithm();
+    }
+
+    /**
+     * This mfthod invokfs thf bbstrbdt {@link #mbrshblPbrbms mbrshblPbrbms}
+     * mfthod to mbrshbl bny blgorithm-spfdifid pbrbmftfrs.
+     */
+    publid void mbrshbl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+        throws MbrshblExdfption
+    {
+        Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
+
+        Elfmfnt trbnsformElfm = null;
+        if (pbrfnt.gftLodblNbmf().fqubls("Trbnsforms")) {
+            trbnsformElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "Trbnsform",
+                                                   XMLSignbturf.XMLNS,
+                                                   dsPrffix);
+        } flsf {
+            trbnsformElfm = DOMUtils.drfbtfElfmfnt(ownfrDod,
+                                                   "CbnonidblizbtionMfthod",
+                                                   XMLSignbturf.XMLNS,
+                                                   dsPrffix);
+        }
+        DOMUtils.sftAttributf(trbnsformElfm, "Algorithm", gftAlgorithm());
+
+        spi.mbrshblPbrbms(nfw jbvbx.xml.drypto.dom.DOMStrudturf(trbnsformElfm),
+                          dontfxt);
+
+        pbrfnt.bppfndChild(trbnsformElfm);
+    }
+
+    /**
+     * Trbnsforms thf spfdififd dbtb using thf undfrlying trbnsform blgorithm.
+     *
+     * @pbrbm dbtb thf dbtb to bf trbnsformfd
+     * @pbrbm sd thf <dodf>XMLCryptoContfxt</dodf> dontbining
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     * @rfturn thf trbnsformfd dbtb
+     * @throws NullPointfrExdfption if <dodf>dbtb</dodf> is <dodf>null</dodf>
+     * @throws XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs whilf
+     *    fxfduting thf trbnsform
+     */
+    publid Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt xd)
+        throws TrbnsformExdfption
+    {
+        rfturn spi.trbnsform(dbtb, xd);
+    }
+
+    /**
+     * Trbnsforms thf spfdififd dbtb using thf undfrlying trbnsform blgorithm.
+     *
+     * @pbrbm dbtb thf dbtb to bf trbnsformfd
+     * @pbrbm sd thf <dodf>XMLCryptoContfxt</dodf> dontbining
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     * @pbrbm os thf <dodf>OutputStrfbm</dodf> thbt should bf usfd to writf
+     *    thf trbnsformfd dbtb to
+     * @rfturn thf trbnsformfd dbtb
+     * @throws NullPointfrExdfption if <dodf>dbtb</dodf> is <dodf>null</dodf>
+     * @throws XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs whilf
+     *    fxfduting thf trbnsform
+     */
+    publid Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt xd, OutputStrfbm os)
+        throws TrbnsformExdfption
+    {
+        rfturn spi.trbnsform(dbtb, xd, os);
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (this == o) {
+            rfturn truf;
+        }
+
+        if (!(o instbndfof Trbnsform)) {
+            rfturn fblsf;
+        }
+        Trbnsform otrbnsform = (Trbnsform)o;
+
+        rfturn (gftAlgorithm().fqubls(otrbnsform.gftAlgorithm()) &&
+                DOMUtils.pbrbmsEqubl(gftPbrbmftfrSpfd(),
+                                     otrbnsform.gftPbrbmftfrSpfd()));
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        int rfsult = 17;
+        rfsult = 31 * rfsult + gftAlgorithm().hbshCodf();
+        AlgorithmPbrbmftfrSpfd spfd = gftPbrbmftfrSpfd();
+        if (spfd != null) {
+            rfsult = 31 * rfsult + spfd.hbshCodf();
+        }
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Trbnsforms thf spfdififd dbtb using thf undfrlying trbnsform blgorithm.
+     * This mfthod invokfs thf {@link #mbrshbl mbrshbl} mfthod bnd pbssfs it
+     * thf spfdififd <dodf>DOMSignContfxt</dodf> bfforf trbnsforming thf dbtb.
+     *
+     * @pbrbm dbtb thf dbtb to bf trbnsformfd
+     * @pbrbm sd thf <dodf>XMLCryptoContfxt</dodf> dontbining
+     *    bdditionbl dontfxt (mby bf <dodf>null</dodf> if not bpplidbblf)
+     * @pbrbm dontfxt thf mbrshblling dontfxt
+     * @rfturn thf trbnsformfd dbtb
+     * @throws MbrshblExdfption if bn fxdfption oddurs whilf mbrshblling
+     * @throws NullPointfrExdfption if <dodf>dbtb</dodf> or <dodf>dontfxt</dodf>
+     *    is <dodf>null</dodf>
+     * @throws XMLSignbturfExdfption if bn unfxpfdtfd frror oddurs whilf
+     *    fxfduting thf trbnsform
+     */
+    Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt xd, DOMSignContfxt dontfxt)
+        throws MbrshblExdfption, TrbnsformExdfption
+    {
+        mbrshbl(dontfxt.gftPbrfnt(),
+                DOMUtils.gftSignbturfPrffix(dontfxt), dontfxt);
+        rfturn trbnsform(dbtb, xd);
+    }
+}

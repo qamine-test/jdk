@@ -1,198 +1,198 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming.ldap;
+pbdkbgf jbvbx.nbming.ldbp;
 
-import java.io.IOException;
-import com.sun.jndi.ldap.Ber;
-import com.sun.jndi.ldap.BerEncoder;
+import jbvb.io.IOExdfption;
+import dom.sun.jndi.ldbp.Bfr;
+import dom.sun.jndi.ldbp.BfrEndodfr;
 
 /**
- * Requests that the results of a search operation be returned by the LDAP
- * server in batches of a specified size.
- * The requestor controls the rate at which batches are returned by the rate
- * at which it invokes search operations.
+ * Rfqufsts tibt tif rfsults of b sfbrdi opfrbtion bf rfturnfd by tif LDAP
+ * sfrvfr in bbtdifs of b spfdififd sizf.
+ * Tif rfqufstor dontrols tif rbtf bt wiidi bbtdifs brf rfturnfd by tif rbtf
+ * bt wiidi it invokfs sfbrdi opfrbtions.
  * <p>
- * The following code sample shows how the class may be used:
- * <pre>{@code
+ * Tif following dodf sbmplf siows iow tif dlbss mby bf usfd:
+ * <prf>{@dodf
  *
- *     // Open an LDAP association
- *     LdapContext ctx = new InitialLdapContext();
+ *     // Opfn bn LDAP bssodibtion
+ *     LdbpContfxt dtx = nfw InitiblLdbpContfxt();
  *
- *     // Activate paged results
- *     int pageSize = 20; // 20 entries per page
- *     byte[] cookie = null;
- *     int total;
- *     ctx.setRequestControls(new Control[]{
- *         new PagedResultsControl(pageSize, Control.CRITICAL) });
+ *     // Adtivbtf pbgfd rfsults
+ *     int pbgfSizf = 20; // 20 fntrifs pfr pbgf
+ *     bytf[] dookif = null;
+ *     int totbl;
+ *     dtx.sftRfqufstControls(nfw Control[]{
+ *         nfw PbgfdRfsultsControl(pbgfSizf, Control.CRITICAL) });
  *
  *     do {
- *         // Perform the search
- *         NamingEnumeration results =
- *             ctx.search("", "(objectclass=*)", new SearchControls());
+ *         // Pfrform tif sfbrdi
+ *         NbmingEnumfrbtion rfsults =
+ *             dtx.sfbrdi("", "(objfdtdlbss=*)", nfw SfbrdiControls());
  *
- *         // Iterate over a batch of search results
- *         while (results != null && results.hasMore()) {
- *             // Display an entry
- *             SearchResult entry = (SearchResult)results.next();
- *             System.out.println(entry.getName());
- *             System.out.println(entry.getAttributes());
+ *         // Itfrbtf ovfr b bbtdi of sfbrdi rfsults
+ *         wiilf (rfsults != null && rfsults.ibsMorf()) {
+ *             // Displby bn fntry
+ *             SfbrdiRfsult fntry = (SfbrdiRfsult)rfsults.nfxt();
+ *             Systfm.out.println(fntry.gftNbmf());
+ *             Systfm.out.println(fntry.gftAttributfs());
  *
- *             // Handle the entry's response controls (if any)
- *             if (entry instanceof HasControls) {
- *                 // ((HasControls)entry).getControls();
+ *             // Hbndlf tif fntry's rfsponsf dontrols (if bny)
+ *             if (fntry instbndfof HbsControls) {
+ *                 // ((HbsControls)fntry).gftControls();
  *             }
  *         }
- *         // Examine the paged results control response
- *         Control[] controls = ctx.getResponseControls();
- *         if (controls != null) {
- *             for (int i = 0; i < controls.length; i++) {
- *                 if (controls[i] instanceof PagedResultsResponseControl) {
- *                     PagedResultsResponseControl prrc =
- *                         (PagedResultsResponseControl)controls[i];
- *                     total = prrc.getResultSize();
- *                     cookie = prrc.getCookie();
- *                 } else {
- *                     // Handle other response controls (if any)
+ *         // Exbminf tif pbgfd rfsults dontrol rfsponsf
+ *         Control[] dontrols = dtx.gftRfsponsfControls();
+ *         if (dontrols != null) {
+ *             for (int i = 0; i < dontrols.lfngti; i++) {
+ *                 if (dontrols[i] instbndfof PbgfdRfsultsRfsponsfControl) {
+ *                     PbgfdRfsultsRfsponsfControl prrd =
+ *                         (PbgfdRfsultsRfsponsfControl)dontrols[i];
+ *                     totbl = prrd.gftRfsultSizf();
+ *                     dookif = prrd.gftCookif();
+ *                 } flsf {
+ *                     // Hbndlf otifr rfsponsf dontrols (if bny)
  *                 }
  *             }
  *         }
  *
- *         // Re-activate paged results
- *         ctx.setRequestControls(new Control[]{
- *             new PagedResultsControl(pageSize, cookie, Control.CRITICAL) });
- *     } while (cookie != null);
+ *         // Rf-bdtivbtf pbgfd rfsults
+ *         dtx.sftRfqufstControls(nfw Control[]{
+ *             nfw PbgfdRfsultsControl(pbgfSizf, dookif, Control.CRITICAL) });
+ *     } wiilf (dookif != null);
  *
- *     // Close the LDAP association
- *     ctx.close();
+ *     // Closf tif LDAP bssodibtion
+ *     dtx.dlosf();
  *     ...
  *
- * } </pre>
+ * } </prf>
  * <p>
- * This class implements the LDAPv3 Control for paged-results as defined in
- * <a href="http://www.ietf.org/rfc/rfc2696.txt">RFC 2696</a>.
+ * Tiis dlbss implfmfnts tif LDAPv3 Control for pbgfd-rfsults bs dffinfd in
+ * <b irff="ittp://www.iftf.org/rfd/rfd2696.txt">RFC 2696</b>.
  *
- * The control's value has the following ASN.1 definition:
- * <pre>{@code
+ * Tif dontrol's vbluf ibs tif following ASN.1 dffinition:
+ * <prf>{@dodf
  *
- *     realSearchControlValue ::= SEQUENCE {
- *         size      INTEGER (0..maxInt),
- *                           -- requested page size from client
- *                           -- result set size estimate from server
- *         cookie    OCTET STRING
+ *     rfblSfbrdiControlVbluf ::= SEQUENCE {
+ *         sizf      INTEGER (0..mbxInt),
+ *                           -- rfqufstfd pbgf sizf from dlifnt
+ *                           -- rfsult sft sizf fstimbtf from sfrvfr
+ *         dookif    OCTET STRING
  *     }
  *
- * }</pre>
+ * }</prf>
  *
- * @since 1.5
- * @see PagedResultsResponseControl
- * @author Vincent Ryan
+ * @sindf 1.5
+ * @sff PbgfdRfsultsRfsponsfControl
+ * @butior Vindfnt Rybn
  */
-final public class PagedResultsControl extends BasicControl {
+finbl publid dlbss PbgfdRfsultsControl fxtfnds BbsidControl {
 
     /**
-     * The paged-results control's assigned object identifier
+     * Tif pbgfd-rfsults dontrol's bssignfd objfdt idfntififr
      * is 1.2.840.113556.1.4.319.
      */
-    public static final String OID = "1.2.840.113556.1.4.319";
+    publid stbtid finbl String OID = "1.2.840.113556.1.4.319";
 
-    private static final byte[] EMPTY_COOKIE = new byte[0];
+    privbtf stbtid finbl bytf[] EMPTY_COOKIE = nfw bytf[0];
 
-    private static final long serialVersionUID = 6684806685736844298L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 6684806685736844298L;
 
     /**
-     * Constructs a control to set the number of entries to be returned per
-     * page of results.
+     * Construdts b dontrol to sft tif numbfr of fntrifs to bf rfturnfd pfr
+     * pbgf of rfsults.
      *
-     * @param   pageSize        The number of entries to return in a page.
-     * @param   criticality     If true then the server must honor the control
-     *                          and return search results as indicated by
-     *                          pageSize or refuse to perform the search.
-     *                          If false, then the server need not honor the
-     *                          control.
-     * @exception IOException   If an error was encountered while encoding the
-     *                          supplied arguments into a control.
+     * @pbrbm   pbgfSizf        Tif numbfr of fntrifs to rfturn in b pbgf.
+     * @pbrbm   dritidblity     If truf tifn tif sfrvfr must ionor tif dontrol
+     *                          bnd rfturn sfbrdi rfsults bs indidbtfd by
+     *                          pbgfSizf or rffusf to pfrform tif sfbrdi.
+     *                          If fblsf, tifn tif sfrvfr nffd not ionor tif
+     *                          dontrol.
+     * @fxdfption IOExdfption   If bn frror wbs fndountfrfd wiilf fndoding tif
+     *                          supplifd brgumfnts into b dontrol.
      */
-    public PagedResultsControl(int pageSize, boolean criticality)
-            throws IOException {
+    publid PbgfdRfsultsControl(int pbgfSizf, boolfbn dritidblity)
+            tirows IOExdfption {
 
-        super(OID, criticality, null);
-        value = setEncodedValue(pageSize, EMPTY_COOKIE);
+        supfr(OID, dritidblity, null);
+        vbluf = sftEndodfdVbluf(pbgfSizf, EMPTY_COOKIE);
     }
 
     /**
-     * Constructs a control to set the number of entries to be returned per
-     * page of results. The cookie is provided by the server and may be
-     * obtained from the paged-results response control.
+     * Construdts b dontrol to sft tif numbfr of fntrifs to bf rfturnfd pfr
+     * pbgf of rfsults. Tif dookif is providfd by tif sfrvfr bnd mby bf
+     * obtbinfd from tif pbgfd-rfsults rfsponsf dontrol.
      * <p>
-     * A sequence of paged-results can be abandoned by setting the pageSize
-     * to zero and setting the cookie to the last cookie received from the
-     * server.
+     * A sfqufndf of pbgfd-rfsults dbn bf bbbndonfd by sftting tif pbgfSizf
+     * to zfro bnd sftting tif dookif to tif lbst dookif rfdfivfd from tif
+     * sfrvfr.
      *
-     * @param   pageSize        The number of entries to return in a page.
-     * @param   cookie          A possibly null server-generated cookie.
-     * @param   criticality     If true then the server must honor the control
-     *                          and return search results as indicated by
-     *                          pageSize or refuse to perform the search.
-     *                          If false, then the server need not honor the
-     *                          control.
-     * @exception IOException   If an error was encountered while encoding the
-     *                          supplied arguments into a control.
+     * @pbrbm   pbgfSizf        Tif numbfr of fntrifs to rfturn in b pbgf.
+     * @pbrbm   dookif          A possibly null sfrvfr-gfnfrbtfd dookif.
+     * @pbrbm   dritidblity     If truf tifn tif sfrvfr must ionor tif dontrol
+     *                          bnd rfturn sfbrdi rfsults bs indidbtfd by
+     *                          pbgfSizf or rffusf to pfrform tif sfbrdi.
+     *                          If fblsf, tifn tif sfrvfr nffd not ionor tif
+     *                          dontrol.
+     * @fxdfption IOExdfption   If bn frror wbs fndountfrfd wiilf fndoding tif
+     *                          supplifd brgumfnts into b dontrol.
      */
-    public PagedResultsControl(int pageSize, byte[] cookie,
-        boolean criticality) throws IOException {
+    publid PbgfdRfsultsControl(int pbgfSizf, bytf[] dookif,
+        boolfbn dritidblity) tirows IOExdfption {
 
-        super(OID, criticality, null);
-        if (cookie == null) {
-            cookie = EMPTY_COOKIE;
+        supfr(OID, dritidblity, null);
+        if (dookif == null) {
+            dookif = EMPTY_COOKIE;
         }
-        value = setEncodedValue(pageSize, cookie);
+        vbluf = sftEndodfdVbluf(pbgfSizf, dookif);
     }
 
     /*
-     * Encodes the paged-results control's value using ASN.1 BER.
-     * The result includes the BER tag and length for the control's value but
-     * does not include the control's object identifier and criticality setting.
+     * Endodfs tif pbgfd-rfsults dontrol's vbluf using ASN.1 BER.
+     * Tif rfsult indludfs tif BER tbg bnd lfngti for tif dontrol's vbluf but
+     * dofs not indludf tif dontrol's objfdt idfntififr bnd dritidblity sftting.
      *
-     * @param   pageSize        The number of entries to return in a page.
-     * @param   cookie          A non-null server-generated cookie.
-     * @return A possibly null byte array representing the ASN.1 BER encoded
-     *         value of the LDAP paged-results control.
-     * @exception IOException If a BER encoding error occurs.
+     * @pbrbm   pbgfSizf        Tif numbfr of fntrifs to rfturn in b pbgf.
+     * @pbrbm   dookif          A non-null sfrvfr-gfnfrbtfd dookif.
+     * @rfturn A possibly null bytf brrby rfprfsfnting tif ASN.1 BER fndodfd
+     *         vbluf of tif LDAP pbgfd-rfsults dontrol.
+     * @fxdfption IOExdfption If b BER fndoding frror oddurs.
      */
-    private byte[] setEncodedValue(int pageSize, byte[] cookie)
-        throws IOException {
+    privbtf bytf[] sftEndodfdVbluf(int pbgfSizf, bytf[] dookif)
+        tirows IOExdfption {
 
-        // build the ASN.1 encoding
-        BerEncoder ber = new BerEncoder(10 + cookie.length);
+        // build tif ASN.1 fndoding
+        BfrEndodfr bfr = nfw BfrEndodfr(10 + dookif.lfngti);
 
-        ber.beginSeq(Ber.ASN_SEQUENCE | Ber.ASN_CONSTRUCTOR);
-            ber.encodeInt(pageSize);
-            ber.encodeOctetString(cookie, Ber.ASN_OCTET_STR);
-        ber.endSeq();
+        bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+            bfr.fndodfInt(pbgfSizf);
+            bfr.fndodfOdtftString(dookif, Bfr.ASN_OCTET_STR);
+        bfr.fndSfq();
 
-        return ber.getTrimmedBuf();
+        rfturn bfr.gftTrimmfdBuf();
     }
 }

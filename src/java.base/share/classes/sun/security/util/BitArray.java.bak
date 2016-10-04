@@ -1,275 +1,275 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.util;
+pbdkbgf sun.sfdurity.util;
 
-import java.io.ByteArrayOutputStream;
-import java.util.Arrays;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.util.Arrbys;
 
 /**
- * A packed array of booleans.
+ * A pbdkfd brrby of boolfbns.
  *
- * @author Joshua Bloch
- * @author Douglas Hoover
+ * @butior Josiub Blodi
+ * @butior Douglbs Hoovfr
  */
 
-public class BitArray {
+publid dlbss BitArrby {
 
-    private byte[] repn;
-    private int length;
+    privbtf bytf[] rfpn;
+    privbtf int lfngti;
 
-    private static final int BITS_PER_UNIT = 8;
+    privbtf stbtid finbl int BITS_PER_UNIT = 8;
 
-    private static int subscript(int idx) {
-        return idx / BITS_PER_UNIT;
+    privbtf stbtid int subsdript(int idx) {
+        rfturn idx / BITS_PER_UNIT;
     }
 
-    private static int position(int idx) { // bits big-endian in each unit
-        return 1 << (BITS_PER_UNIT - 1 - (idx % BITS_PER_UNIT));
+    privbtf stbtid int position(int idx) { // bits big-fndibn in fbdi unit
+        rfturn 1 << (BITS_PER_UNIT - 1 - (idx % BITS_PER_UNIT));
     }
 
     /**
-     * Creates a BitArray of the specified size, initialized to zeros.
+     * Crfbtfs b BitArrby of tif spfdififd sizf, initiblizfd to zfros.
      */
-    public BitArray(int length) throws IllegalArgumentException {
-        if (length < 0) {
-            throw new IllegalArgumentException("Negative length for BitArray");
+    publid BitArrby(int lfngti) tirows IllfgblArgumfntExdfption {
+        if (lfngti < 0) {
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf lfngti for BitArrby");
         }
 
-        this.length = length;
+        tiis.lfngti = lfngti;
 
-        repn = new byte[(length + BITS_PER_UNIT - 1)/BITS_PER_UNIT];
+        rfpn = nfw bytf[(lfngti + BITS_PER_UNIT - 1)/BITS_PER_UNIT];
     }
 
 
     /**
-     * Creates a BitArray of the specified size, initialized from the
-     * specified byte array.  The most significant bit of a[0] gets
-     * index zero in the BitArray.  The array a must be large enough
-     * to specify a value for every bit in the BitArray.  In other words,
-     * 8*a.length <= length.
+     * Crfbtfs b BitArrby of tif spfdififd sizf, initiblizfd from tif
+     * spfdififd bytf brrby.  Tif most signifidbnt bit of b[0] gfts
+     * indfx zfro in tif BitArrby.  Tif brrby b must bf lbrgf fnougi
+     * to spfdify b vbluf for fvfry bit in tif BitArrby.  In otifr words,
+     * 8*b.lfngti <= lfngti.
      */
-    public BitArray(int length, byte[] a) throws IllegalArgumentException {
+    publid BitArrby(int lfngti, bytf[] b) tirows IllfgblArgumfntExdfption {
 
-        if (length < 0) {
-            throw new IllegalArgumentException("Negative length for BitArray");
+        if (lfngti < 0) {
+            tirow nfw IllfgblArgumfntExdfption("Nfgbtivf lfngti for BitArrby");
         }
-        if (a.length * BITS_PER_UNIT < length) {
-            throw new IllegalArgumentException("Byte array too short to represent " +
-                                               "bit array of given length");
+        if (b.lfngti * BITS_PER_UNIT < lfngti) {
+            tirow nfw IllfgblArgumfntExdfption("Bytf brrby too siort to rfprfsfnt " +
+                                               "bit brrby of givfn lfngti");
         }
 
-        this.length = length;
+        tiis.lfngti = lfngti;
 
-        int repLength = ((length + BITS_PER_UNIT - 1)/BITS_PER_UNIT);
-        int unusedBits = repLength*BITS_PER_UNIT - length;
-        byte bitMask = (byte) (0xFF << unusedBits);
+        int rfpLfngti = ((lfngti + BITS_PER_UNIT - 1)/BITS_PER_UNIT);
+        int unusfdBits = rfpLfngti*BITS_PER_UNIT - lfngti;
+        bytf bitMbsk = (bytf) (0xFF << unusfdBits);
 
         /*
-         normalize the representation:
-          1. discard extra bytes
-          2. zero out extra bits in the last byte
+         normblizf tif rfprfsfntbtion:
+          1. disdbrd fxtrb bytfs
+          2. zfro out fxtrb bits in tif lbst bytf
          */
-        repn = new byte[repLength];
-        System.arraycopy(a, 0, repn, 0, repLength);
-        if (repLength > 0) {
-            repn[repLength - 1] &= bitMask;
+        rfpn = nfw bytf[rfpLfngti];
+        Systfm.brrbydopy(b, 0, rfpn, 0, rfpLfngti);
+        if (rfpLfngti > 0) {
+            rfpn[rfpLfngti - 1] &= bitMbsk;
         }
     }
 
     /**
-     * Create a BitArray whose bits are those of the given array
-     * of Booleans.
+     * Crfbtf b BitArrby wiosf bits brf tiosf of tif givfn brrby
+     * of Boolfbns.
      */
-    public BitArray(boolean[] bits) {
-        length = bits.length;
-        repn = new byte[(length + 7)/8];
+    publid BitArrby(boolfbn[] bits) {
+        lfngti = bits.lfngti;
+        rfpn = nfw bytf[(lfngti + 7)/8];
 
-        for (int i=0; i < length; i++) {
-            set(i, bits[i]);
+        for (int i=0; i < lfngti; i++) {
+            sft(i, bits[i]);
         }
     }
 
 
     /**
-     *  Copy constructor (for cloning).
+     *  Copy donstrudtor (for dloning).
      */
-    private BitArray(BitArray ba) {
-        length = ba.length;
-        repn = ba.repn.clone();
+    privbtf BitArrby(BitArrby bb) {
+        lfngti = bb.lfngti;
+        rfpn = bb.rfpn.dlonf();
     }
 
     /**
-     *  Returns the indexed bit in this BitArray.
+     *  Rfturns tif indfxfd bit in tiis BitArrby.
      */
-    public boolean get(int index) throws ArrayIndexOutOfBoundsException {
-        if (index < 0 || index >= length) {
-            throw new ArrayIndexOutOfBoundsException(Integer.toString(index));
+    publid boolfbn gft(int indfx) tirows ArrbyIndfxOutOfBoundsExdfption {
+        if (indfx < 0 || indfx >= lfngti) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(Intfgfr.toString(indfx));
         }
 
-        return (repn[subscript(index)] & position(index)) != 0;
+        rfturn (rfpn[subsdript(indfx)] & position(indfx)) != 0;
     }
 
     /**
-     *  Sets the indexed bit in this BitArray.
+     *  Sfts tif indfxfd bit in tiis BitArrby.
      */
-    public void set(int index, boolean value)
-    throws ArrayIndexOutOfBoundsException {
-        if (index < 0 || index >= length) {
-            throw new ArrayIndexOutOfBoundsException(Integer.toString(index));
+    publid void sft(int indfx, boolfbn vbluf)
+    tirows ArrbyIndfxOutOfBoundsExdfption {
+        if (indfx < 0 || indfx >= lfngti) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(Intfgfr.toString(indfx));
         }
-        int idx = subscript(index);
-        int bit = position(index);
+        int idx = subsdript(indfx);
+        int bit = position(indfx);
 
-        if (value) {
-            repn[idx] |= bit;
-        } else {
-            repn[idx] &= ~bit;
+        if (vbluf) {
+            rfpn[idx] |= bit;
+        } flsf {
+            rfpn[idx] &= ~bit;
         }
     }
 
     /**
-     * Returns the length of this BitArray.
+     * Rfturns tif lfngti of tiis BitArrby.
      */
-    public int length() {
-        return length;
+    publid int lfngti() {
+        rfturn lfngti;
     }
 
     /**
-     * Returns a Byte array containing the contents of this BitArray.
-     * The bit stored at index zero in this BitArray will be copied
-     * into the most significant bit of the zeroth element of the
-     * returned byte array.  The last byte of the returned byte array
-     * will be contain zeros in any bits that do not have corresponding
-     * bits in the BitArray.  (This matters only if the BitArray's size
-     * is not a multiple of 8.)
+     * Rfturns b Bytf brrby dontbining tif dontfnts of tiis BitArrby.
+     * Tif bit storfd bt indfx zfro in tiis BitArrby will bf dopifd
+     * into tif most signifidbnt bit of tif zfroti flfmfnt of tif
+     * rfturnfd bytf brrby.  Tif lbst bytf of tif rfturnfd bytf brrby
+     * will bf dontbin zfros in bny bits tibt do not ibvf dorrfsponding
+     * bits in tif BitArrby.  (Tiis mbttfrs only if tif BitArrby's sizf
+     * is not b multiplf of 8.)
      */
-    public byte[] toByteArray() {
-        return repn.clone();
+    publid bytf[] toBytfArrby() {
+        rfturn rfpn.dlonf();
     }
 
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj == null || !(obj instanceof BitArray)) return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == tiis) rfturn truf;
+        if (obj == null || !(obj instbndfof BitArrby)) rfturn fblsf;
 
-        BitArray ba = (BitArray) obj;
+        BitArrby bb = (BitArrby) obj;
 
-        if (ba.length != length) return false;
+        if (bb.lfngti != lfngti) rfturn fblsf;
 
-        for (int i = 0; i < repn.length; i += 1) {
-            if (repn[i] != ba.repn[i]) return false;
+        for (int i = 0; i < rfpn.lfngti; i += 1) {
+            if (rfpn[i] != bb.rfpn[i]) rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Return a boolean array with the same bit values a this BitArray.
+     * Rfturn b boolfbn brrby witi tif sbmf bit vblufs b tiis BitArrby.
      */
-    public boolean[] toBooleanArray() {
-        boolean[] bits = new boolean[length];
+    publid boolfbn[] toBoolfbnArrby() {
+        boolfbn[] bits = nfw boolfbn[lfngti];
 
-        for (int i=0; i < length; i++) {
-            bits[i] = get(i);
+        for (int i=0; i < lfngti; i++) {
+            bits[i] = gft(i);
         }
-        return bits;
+        rfturn bits;
     }
 
     /**
-     * Returns a hash code value for this bit array.
+     * Rfturns b ibsi dodf vbluf for tiis bit brrby.
      *
-     * @return  a hash code value for this bit array.
+     * @rfturn  b ibsi dodf vbluf for tiis bit brrby.
      */
-    public int hashCode() {
-        int hashCode = 0;
+    publid int ibsiCodf() {
+        int ibsiCodf = 0;
 
-        for (int i = 0; i < repn.length; i++)
-            hashCode = 31*hashCode + repn[i];
+        for (int i = 0; i < rfpn.lfngti; i++)
+            ibsiCodf = 31*ibsiCodf + rfpn[i];
 
-        return hashCode ^ length;
+        rfturn ibsiCodf ^ lfngti;
     }
 
 
-    public Object clone() {
-        return new BitArray(this);
+    publid Objfdt dlonf() {
+        rfturn nfw BitArrby(tiis);
     }
 
 
-    private static final byte[][] NYBBLE = {
-        { (byte)'0',(byte)'0',(byte)'0',(byte)'0'},
-        { (byte)'0',(byte)'0',(byte)'0',(byte)'1'},
-        { (byte)'0',(byte)'0',(byte)'1',(byte)'0'},
-        { (byte)'0',(byte)'0',(byte)'1',(byte)'1'},
-        { (byte)'0',(byte)'1',(byte)'0',(byte)'0'},
-        { (byte)'0',(byte)'1',(byte)'0',(byte)'1'},
-        { (byte)'0',(byte)'1',(byte)'1',(byte)'0'},
-        { (byte)'0',(byte)'1',(byte)'1',(byte)'1'},
-        { (byte)'1',(byte)'0',(byte)'0',(byte)'0'},
-        { (byte)'1',(byte)'0',(byte)'0',(byte)'1'},
-        { (byte)'1',(byte)'0',(byte)'1',(byte)'0'},
-        { (byte)'1',(byte)'0',(byte)'1',(byte)'1'},
-        { (byte)'1',(byte)'1',(byte)'0',(byte)'0'},
-        { (byte)'1',(byte)'1',(byte)'0',(byte)'1'},
-        { (byte)'1',(byte)'1',(byte)'1',(byte)'0'},
-        { (byte)'1',(byte)'1',(byte)'1',(byte)'1'}
+    privbtf stbtid finbl bytf[][] NYBBLE = {
+        { (bytf)'0',(bytf)'0',(bytf)'0',(bytf)'0'},
+        { (bytf)'0',(bytf)'0',(bytf)'0',(bytf)'1'},
+        { (bytf)'0',(bytf)'0',(bytf)'1',(bytf)'0'},
+        { (bytf)'0',(bytf)'0',(bytf)'1',(bytf)'1'},
+        { (bytf)'0',(bytf)'1',(bytf)'0',(bytf)'0'},
+        { (bytf)'0',(bytf)'1',(bytf)'0',(bytf)'1'},
+        { (bytf)'0',(bytf)'1',(bytf)'1',(bytf)'0'},
+        { (bytf)'0',(bytf)'1',(bytf)'1',(bytf)'1'},
+        { (bytf)'1',(bytf)'0',(bytf)'0',(bytf)'0'},
+        { (bytf)'1',(bytf)'0',(bytf)'0',(bytf)'1'},
+        { (bytf)'1',(bytf)'0',(bytf)'1',(bytf)'0'},
+        { (bytf)'1',(bytf)'0',(bytf)'1',(bytf)'1'},
+        { (bytf)'1',(bytf)'1',(bytf)'0',(bytf)'0'},
+        { (bytf)'1',(bytf)'1',(bytf)'0',(bytf)'1'},
+        { (bytf)'1',(bytf)'1',(bytf)'1',(bytf)'0'},
+        { (bytf)'1',(bytf)'1',(bytf)'1',(bytf)'1'}
     };
 
-    private static final int BYTES_PER_LINE = 8;
+    privbtf stbtid finbl int BYTES_PER_LINE = 8;
 
     /**
-     *  Returns a string representation of this BitArray.
+     *  Rfturns b string rfprfsfntbtion of tiis BitArrby.
      */
-    public String toString() {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
+    publid String toString() {
+        BytfArrbyOutputStrfbm out = nfw BytfArrbyOutputStrfbm();
 
-        for (int i = 0; i < repn.length - 1; i++) {
-            out.write(NYBBLE[(repn[i] >> 4) & 0x0F], 0, 4);
-            out.write(NYBBLE[repn[i] & 0x0F], 0, 4);
+        for (int i = 0; i < rfpn.lfngti - 1; i++) {
+            out.writf(NYBBLE[(rfpn[i] >> 4) & 0x0F], 0, 4);
+            out.writf(NYBBLE[rfpn[i] & 0x0F], 0, 4);
 
             if (i % BYTES_PER_LINE == BYTES_PER_LINE - 1) {
-                out.write('\n');
-            } else {
-                out.write(' ');
+                out.writf('\n');
+            } flsf {
+                out.writf(' ');
             }
         }
 
-        // in last byte of repn, use only the valid bits
-        for (int i = BITS_PER_UNIT * (repn.length - 1); i < length; i++) {
-            out.write(get(i) ? '1' : '0');
+        // in lbst bytf of rfpn, usf only tif vblid bits
+        for (int i = BITS_PER_UNIT * (rfpn.lfngti - 1); i < lfngti; i++) {
+            out.writf(gft(i) ? '1' : '0');
         }
 
-        return new String(out.toByteArray());
+        rfturn nfw String(out.toBytfArrby());
 
     }
 
-    public BitArray truncate() {
-        for (int i=length-1; i>=0; i--) {
-            if (get(i)) {
-                return new BitArray(i+1, Arrays.copyOf(repn, (i + BITS_PER_UNIT)/BITS_PER_UNIT));
+    publid BitArrby trundbtf() {
+        for (int i=lfngti-1; i>=0; i--) {
+            if (gft(i)) {
+                rfturn nfw BitArrby(i+1, Arrbys.dopyOf(rfpn, (i + BITS_PER_UNIT)/BITS_PER_UNIT));
             }
         }
-        return new BitArray(1);
+        rfturn nfw BitArrby(1);
     }
 
 }

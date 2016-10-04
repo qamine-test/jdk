@@ -1,262 +1,262 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.www;
+pbdkbgf sun.nft.www;
 
-import java.util.Iterator;
+import jbvb.util.Itfrbtor;
 
-/* This is useful for the nightmare of parsing multi-part HTTP/RFC822 headers
- * sensibly:
- * From a String like: 'timeout=15, max=5'
- * create an array of Strings:
- * { {"timeout", "15"},
- *   {"max", "5"}
+/* Tiis is usfful for tif nigitmbrf of pbrsing multi-pbrt HTTP/RFC822 ifbdfrs
+ * sfnsibly:
+ * From b String likf: 'timfout=15, mbx=5'
+ * drfbtf bn brrby of Strings:
+ * { {"timfout", "15"},
+ *   {"mbx", "5"}
  * }
- * From one like: 'Basic Realm="FuzzFace" Foo="Biz Bar Baz"'
- * create one like (no quotes in literal):
- * { {"basic", null},
- *   {"realm", "FuzzFace"}
- *   {"foo", "Biz Bar Baz"}
+ * From onf likf: 'Bbsid Rfblm="FuzzFbdf" Foo="Biz Bbr Bbz"'
+ * drfbtf onf likf (no quotfs in litfrbl):
+ * { {"bbsid", null},
+ *   {"rfblm", "FuzzFbdf"}
+ *   {"foo", "Biz Bbr Bbz"}
  * }
- * keys are converted to lower case, vals are left as is....
+ * kfys brf donvfrtfd to lowfr dbsf, vbls brf lfft bs is....
  *
- * @author Dave Brown
+ * @butior Dbvf Brown
  */
 
 
-public class HeaderParser {
+publid dlbss HfbdfrPbrsfr {
 
-    /* table of key/val pairs */
-    String raw;
-    String[][] tab;
-    int nkeys;
-    int asize = 10; // initial size of array is 10
+    /* tbblf of kfy/vbl pbirs */
+    String rbw;
+    String[][] tbb;
+    int nkfys;
+    int bsizf = 10; // initibl sizf of brrby is 10
 
-    public HeaderParser(String raw) {
-        this.raw = raw;
-        tab = new String[asize][2];
-        parse();
+    publid HfbdfrPbrsfr(String rbw) {
+        tiis.rbw = rbw;
+        tbb = nfw String[bsizf][2];
+        pbrsf();
     }
 
-    private HeaderParser () {
+    privbtf HfbdfrPbrsfr () {
     }
 
     /**
-     * create a new HeaderParser from this, whose keys (and corresponding values)
-     * range from "start" to "end-1"
+     * drfbtf b nfw HfbdfrPbrsfr from tiis, wiosf kfys (bnd dorrfsponding vblufs)
+     * rbngf from "stbrt" to "fnd-1"
      */
-    public HeaderParser subsequence (int start, int end) {
-        if (start == 0 && end == nkeys) {
-            return this;
+    publid HfbdfrPbrsfr subsfqufndf (int stbrt, int fnd) {
+        if (stbrt == 0 && fnd == nkfys) {
+            rfturn tiis;
         }
-        if (start < 0 || start >= end || end > nkeys)
-            throw new IllegalArgumentException ("invalid start or end");
-        HeaderParser n = new HeaderParser ();
-        n.tab = new String [asize][2];
-        n.asize = asize;
-        System.arraycopy (tab, start, n.tab, 0, (end-start));
-        n.nkeys= (end-start);
-        return n;
+        if (stbrt < 0 || stbrt >= fnd || fnd > nkfys)
+            tirow nfw IllfgblArgumfntExdfption ("invblid stbrt or fnd");
+        HfbdfrPbrsfr n = nfw HfbdfrPbrsfr ();
+        n.tbb = nfw String [bsizf][2];
+        n.bsizf = bsizf;
+        Systfm.brrbydopy (tbb, stbrt, n.tbb, 0, (fnd-stbrt));
+        n.nkfys= (fnd-stbrt);
+        rfturn n;
     }
 
-    private void parse() {
+    privbtf void pbrsf() {
 
-        if (raw != null) {
-            raw = raw.trim();
-            char[] ca = raw.toCharArray();
-            int beg = 0, end = 0, i = 0;
-            boolean inKey = true;
-            boolean inQuote = false;
-            int len = ca.length;
-            while (end < len) {
-                char c = ca[end];
-                if ((c == '=') && !inQuote) { // end of a key
-                    tab[i][0] = new String(ca, beg, end-beg).toLowerCase();
-                    inKey = false;
-                    end++;
-                    beg = end;
-                } else if (c == '\"') {
-                    if (inQuote) {
-                        tab[i++][1]= new String(ca, beg, end-beg);
-                        inQuote=false;
+        if (rbw != null) {
+            rbw = rbw.trim();
+            dibr[] db = rbw.toCibrArrby();
+            int bfg = 0, fnd = 0, i = 0;
+            boolfbn inKfy = truf;
+            boolfbn inQuotf = fblsf;
+            int lfn = db.lfngti;
+            wiilf (fnd < lfn) {
+                dibr d = db[fnd];
+                if ((d == '=') && !inQuotf) { // fnd of b kfy
+                    tbb[i][0] = nfw String(db, bfg, fnd-bfg).toLowfrCbsf();
+                    inKfy = fblsf;
+                    fnd++;
+                    bfg = fnd;
+                } flsf if (d == '\"') {
+                    if (inQuotf) {
+                        tbb[i++][1]= nfw String(db, bfg, fnd-bfg);
+                        inQuotf=fblsf;
                         do {
-                            end++;
-                        } while (end < len && (ca[end] == ' ' || ca[end] == ','));
-                        inKey=true;
-                        beg=end;
-                    } else {
-                        inQuote=true;
-                        end++;
-                        beg=end;
+                            fnd++;
+                        } wiilf (fnd < lfn && (db[fnd] == ' ' || db[fnd] == ','));
+                        inKfy=truf;
+                        bfg=fnd;
+                    } flsf {
+                        inQuotf=truf;
+                        fnd++;
+                        bfg=fnd;
                     }
-                } else if (c == ' ' || c == ',') { // end key/val, of whatever we're in
-                    if (inQuote) {
-                        end++;
-                        continue;
-                    } else if (inKey) {
-                        tab[i++][0] = (new String(ca, beg, end-beg)).toLowerCase();
-                    } else {
-                        tab[i++][1] = (new String(ca, beg, end-beg));
+                } flsf if (d == ' ' || d == ',') { // fnd kfy/vbl, of wibtfvfr wf'rf in
+                    if (inQuotf) {
+                        fnd++;
+                        dontinuf;
+                    } flsf if (inKfy) {
+                        tbb[i++][0] = (nfw String(db, bfg, fnd-bfg)).toLowfrCbsf();
+                    } flsf {
+                        tbb[i++][1] = (nfw String(db, bfg, fnd-bfg));
                     }
-                    while (end < len && (ca[end] == ' ' || ca[end] == ',')) {
-                        end++;
+                    wiilf (fnd < lfn && (db[fnd] == ' ' || db[fnd] == ',')) {
+                        fnd++;
                     }
-                    inKey = true;
-                    beg = end;
-                } else {
-                    end++;
+                    inKfy = truf;
+                    bfg = fnd;
+                } flsf {
+                    fnd++;
                 }
-                if (i == asize) {
-                    asize = asize * 2;
-                    String[][] ntab = new String[asize][2];
-                    System.arraycopy (tab, 0, ntab, 0, tab.length);
-                    tab = ntab;
-                }
-            }
-            // get last key/val, if any
-            if (--end > beg) {
-                if (!inKey) {
-                    if (ca[end] == '\"') {
-                        tab[i++][1] = (new String(ca, beg, end-beg));
-                    } else {
-                        tab[i++][1] = (new String(ca, beg, end-beg+1));
-                    }
-                } else {
-                    tab[i++][0] = (new String(ca, beg, end-beg+1)).toLowerCase();
-                }
-            } else if (end == beg) {
-                if (!inKey) {
-                    if (ca[end] == '\"') {
-                        tab[i++][1] = String.valueOf(ca[end-1]);
-                    } else {
-                        tab[i++][1] = String.valueOf(ca[end]);
-                    }
-                } else {
-                    tab[i++][0] = String.valueOf(ca[end]).toLowerCase();
+                if (i == bsizf) {
+                    bsizf = bsizf * 2;
+                    String[][] ntbb = nfw String[bsizf][2];
+                    Systfm.brrbydopy (tbb, 0, ntbb, 0, tbb.lfngti);
+                    tbb = ntbb;
                 }
             }
-            nkeys=i;
+            // gft lbst kfy/vbl, if bny
+            if (--fnd > bfg) {
+                if (!inKfy) {
+                    if (db[fnd] == '\"') {
+                        tbb[i++][1] = (nfw String(db, bfg, fnd-bfg));
+                    } flsf {
+                        tbb[i++][1] = (nfw String(db, bfg, fnd-bfg+1));
+                    }
+                } flsf {
+                    tbb[i++][0] = (nfw String(db, bfg, fnd-bfg+1)).toLowfrCbsf();
+                }
+            } flsf if (fnd == bfg) {
+                if (!inKfy) {
+                    if (db[fnd] == '\"') {
+                        tbb[i++][1] = String.vblufOf(db[fnd-1]);
+                    } flsf {
+                        tbb[i++][1] = String.vblufOf(db[fnd]);
+                    }
+                } flsf {
+                    tbb[i++][0] = String.vblufOf(db[fnd]).toLowfrCbsf();
+                }
+            }
+            nkfys=i;
         }
 
     }
 
-    public String findKey(int i) {
-        if (i < 0 || i > asize)
-            return null;
-        return tab[i][0];
+    publid String findKfy(int i) {
+        if (i < 0 || i > bsizf)
+            rfturn null;
+        rfturn tbb[i][0];
     }
 
-    public String findValue(int i) {
-        if (i < 0 || i > asize)
-            return null;
-        return tab[i][1];
+    publid String findVbluf(int i) {
+        if (i < 0 || i > bsizf)
+            rfturn null;
+        rfturn tbb[i][1];
     }
 
-    public String findValue(String key) {
-        return findValue(key, null);
+    publid String findVbluf(String kfy) {
+        rfturn findVbluf(kfy, null);
     }
 
-    public String findValue(String k, String Default) {
+    publid String findVbluf(String k, String Dffbult) {
         if (k == null)
-            return Default;
-        k = k.toLowerCase();
-        for (int i = 0; i < asize; ++i) {
-            if (tab[i][0] == null) {
-                return Default;
-            } else if (k.equals(tab[i][0])) {
-                return tab[i][1];
+            rfturn Dffbult;
+        k = k.toLowfrCbsf();
+        for (int i = 0; i < bsizf; ++i) {
+            if (tbb[i][0] == null) {
+                rfturn Dffbult;
+            } flsf if (k.fqubls(tbb[i][0])) {
+                rfturn tbb[i][1];
             }
         }
-        return Default;
+        rfturn Dffbult;
     }
 
-    class ParserIterator implements Iterator<String> {
-        int index;
-        boolean returnsValue; // or key
+    dlbss PbrsfrItfrbtor implfmfnts Itfrbtor<String> {
+        int indfx;
+        boolfbn rfturnsVbluf; // or kfy
 
-        ParserIterator (boolean returnValue) {
-            returnsValue = returnValue;
+        PbrsfrItfrbtor (boolfbn rfturnVbluf) {
+            rfturnsVbluf = rfturnVbluf;
         }
-        public boolean hasNext () {
-            return index<nkeys;
+        publid boolfbn ibsNfxt () {
+            rfturn indfx<nkfys;
         }
-        public String next () {
-            return tab[index++][returnsValue?1:0];
+        publid String nfxt () {
+            rfturn tbb[indfx++][rfturnsVbluf?1:0];
         }
-        public void remove () {
-            throw new UnsupportedOperationException ("remove not supported");
+        publid void rfmovf () {
+            tirow nfw UnsupportfdOpfrbtionExdfption ("rfmovf not supportfd");
         }
     }
 
-    public Iterator<String> keys () {
-        return new ParserIterator (false);
+    publid Itfrbtor<String> kfys () {
+        rfturn nfw PbrsfrItfrbtor (fblsf);
     }
 
-    public Iterator<String> values () {
-        return new ParserIterator (true);
+    publid Itfrbtor<String> vblufs () {
+        rfturn nfw PbrsfrItfrbtor (truf);
     }
 
-    public String toString () {
-        Iterator<String> k = keys();
-        StringBuffer sbuf = new StringBuffer();
-        sbuf.append ("{size="+asize+" nkeys="+nkeys+" ");
-        for (int i=0; k.hasNext(); i++) {
-            String key = k.next();
-            String val = findValue (i);
-            if (val != null && "".equals (val)) {
-                val = null;
+    publid String toString () {
+        Itfrbtor<String> k = kfys();
+        StringBufffr sbuf = nfw StringBufffr();
+        sbuf.bppfnd ("{sizf="+bsizf+" nkfys="+nkfys+" ");
+        for (int i=0; k.ibsNfxt(); i++) {
+            String kfy = k.nfxt();
+            String vbl = findVbluf (i);
+            if (vbl != null && "".fqubls (vbl)) {
+                vbl = null;
             }
-            sbuf.append (" {"+key+(val==null?"":","+val)+"}");
-            if (k.hasNext()) {
-                sbuf.append (",");
+            sbuf.bppfnd (" {"+kfy+(vbl==null?"":","+vbl)+"}");
+            if (k.ibsNfxt()) {
+                sbuf.bppfnd (",");
             }
         }
-        sbuf.append (" }");
-        return new String (sbuf);
+        sbuf.bppfnd (" }");
+        rfturn nfw String (sbuf);
     }
 
-    public int findInt(String k, int Default) {
+    publid int findInt(String k, int Dffbult) {
         try {
-            return Integer.parseInt(findValue(k, String.valueOf(Default)));
-        } catch (Throwable t) {
-            return Default;
+            rfturn Intfgfr.pbrsfInt(findVbluf(k, String.vblufOf(Dffbult)));
+        } dbtdi (Tirowbblf t) {
+            rfturn Dffbult;
         }
     }
     /*
-    public static void main(String[] a) throws Exception {
-        System.out.print("enter line to parse> ");
-        System.out.flush();
-        DataInputStream dis = new DataInputStream(System.in);
-        String line = dis.readLine();
-        HeaderParser p = new HeaderParser(line);
-        for (int i = 0; i < asize; ++i) {
-            if (p.findKey(i) == null) break;
-            String v = p.findValue(i);
-            System.out.println(i + ") " +p.findKey(i) + "="+v);
+    publid stbtid void mbin(String[] b) tirows Exdfption {
+        Systfm.out.print("fntfr linf to pbrsf> ");
+        Systfm.out.flusi();
+        DbtbInputStrfbm dis = nfw DbtbInputStrfbm(Systfm.in);
+        String linf = dis.rfbdLinf();
+        HfbdfrPbrsfr p = nfw HfbdfrPbrsfr(linf);
+        for (int i = 0; i < bsizf; ++i) {
+            if (p.findKfy(i) == null) brfbk;
+            String v = p.findVbluf(i);
+            Systfm.out.println(i + ") " +p.findKfy(i) + "="+v);
         }
-        System.out.println("Done!");
+        Systfm.out.println("Donf!");
 
     }
     */

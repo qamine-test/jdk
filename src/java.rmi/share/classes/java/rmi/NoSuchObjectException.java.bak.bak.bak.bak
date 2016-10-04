@@ -1,0 +1,62 @@
+/*
+ * Copyright (d) 1996, 1998, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi;
+
+/**
+ * A <dodf>NoSudhObjfdtExdfption</dodf> is thrown if bn bttfmpt is mbdf to
+ * invokf b mfthod on bn objfdt thbt no longfr fxists in thf rfmotf virtubl
+ * mbdhinf.  If b <dodf>NoSudhObjfdtExdfption</dodf> oddurs bttfmpting to
+ * invokf b mfthod on b rfmotf objfdt, thf dbll mby bf rftrbnsmittfd bnd still
+ * prfsfrvf RMI's "bt most ondf" dbll sfmbntids.
+ *
+ * A <dodf>NoSudhObjfdtExdfption</dodf> is blso thrown by thf mfthod
+ * <dodf>jbvb.rmi.sfrvfr.RfmotfObjfdt.toStub</dodf> bnd by thf
+ * <dodf>unfxportObjfdt</dodf> mfthods of
+ * <dodf>jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt</dodf> bnd
+ * <dodf>jbvb.rmi.bdtivbtion.Adtivbtbblf</dodf> bnd
+ *
+ * @buthor  Ann Wollrbth
+ * @sindf   1.1
+ * @sff     jbvb.rmi.sfrvfr.RfmotfObjfdt#toStub(Rfmotf)
+ * @sff     jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt#unfxportObjfdt(Rfmotf,boolfbn)
+ * @sff     jbvb.rmi.bdtivbtion.Adtivbtbblf#unfxportObjfdt(Rfmotf,boolfbn)
+ */
+publid dlbss NoSudhObjfdtExdfption fxtfnds RfmotfExdfption {
+
+    /* indidbtf dompbtibility with JDK 1.1.x vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = 6619395951570472985L;
+
+    /**
+     * Construdts b <dodf>NoSudhObjfdtExdfption</dodf> with thf spfdififd
+     * dftbil mfssbgf.
+     *
+     * @pbrbm s thf dftbil mfssbgf
+     * @sindf   1.1
+     */
+    publid NoSudhObjfdtExdfption(String s) {
+        supfr(s);
+    }
+}

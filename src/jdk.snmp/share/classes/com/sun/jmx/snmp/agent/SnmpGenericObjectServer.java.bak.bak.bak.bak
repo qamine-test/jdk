@@ -1,0 +1,572 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
+
+
+// jbvb imports
+//
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Itfrbtor;
+
+// jmx imports
+//
+import jbvbx.mbnbgfmfnt.AttributfList;
+import jbvbx.mbnbgfmfnt.Attributf;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.RfflfdtionExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.InvblidAttributfVblufExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfAlrfbdyExistsExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtionExdfption;
+import jbvbx.mbnbgfmfnt.NotComplibntMBfbnExdfption;
+import jbvbx.mbnbgfmfnt.RuntimfOpfrbtionsExdfption;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpVbluf;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+
+
+/**
+ * <p>
+ * This dlbss is b utility dlbss thbt trbnsforms SNMP GET / SET rfqufsts
+ * into stbndbrd JMX gftAttributfs() sftAttributfs() rfqufsts.
+ * </p>
+ *
+ * <p>
+ * Thf trbnsformbtion rflifs on thf mftbdbtb informbtion providfd by thf
+ * {@link dom.sun.jmx.snmp.bgfnt.SnmpGfnfridMftbSfrvfr} objfdt whidh is
+ * pbssfd bs thf first pbrbmftfr to fvfry mfthod. This SnmpGfnfridMftbSfrvfr
+ * objfdt is usublly b Mftbdbtb objfdt gfnfrbtfd by <dodf>mibgfn</dodf>.
+ * </p>
+ *
+ * <p><b><i>
+ * This dlbss is usfd intfrnblly by mibgfn gfnfrbtfd mftbdbtb objfdts bnd
+ * you should nfvfr nffd to usf it dirfdtly.
+ * </b></i></p>
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ **/
+
+publid dlbss SnmpGfnfridObjfdtSfrvfr {
+
+    // ----------------------------------------------------------------------
+    //
+    //    Protfdtfd vbribblfs
+    //
+    // ----------------------------------------------------------------------
+
+    /**
+     * Thf MBfbn sfrvfr through whidh thf MBfbns will bf bddfssfd.
+     **/
+    protfdtfd finbl MBfbnSfrvfr sfrvfr;
+
+    // ----------------------------------------------------------------------
+    //
+    // Construdtors
+    //
+    // ----------------------------------------------------------------------
+
+    /**
+     * Builds b nfw SnmpGfnfridObjfdtSfrvfr. Usublly thfrf will bf b singlf
+     * objfdt of this typf pfr MIB.
+     *
+     * @pbrbm sfrvfr Thf MBfbnSfrvfr in whidh thf MBfbn bddfssfd by this
+     *               MIB brf rfgistfrfd.
+     **/
+    publid SnmpGfnfridObjfdtSfrvfr(MBfbnSfrvfr sfrvfr) {
+        this.sfrvfr = sfrvfr;
+    }
+
+    /**
+     * Exfdutf bn SNMP GET rfqufst.
+     *
+     * <p>
+     * This mfthod first builds thf list of bttributfs thbt nffd to bf
+     * rftrifvfd from thf MBfbn bnd thfn dblls gftAttributfs() on thf
+     * MBfbn sfrvfr. Thfn it updbtfs thf SnmpMibSubRfqufst with thf vblufs
+     * rftrifvfd from thf MBfbn.
+     * </p>
+     *
+     * <p>
+     * Thf SNMP mftbdbtb informbtion is obtbinfd through thf givfn
+     * <dodf>mftb</dodf> objfdt, whidh usublly is bn instbndf of b
+     * <dodf>mibgfn</dodf> gfnfrbtfd dlbss.
+     * </p>
+     *
+     * <p><b><i>
+     * This mfthod is dbllfd intfrnblly by <dodf>mibgfn</dodf> gfnfrbtfd
+     * objfdts bnd you should nfvfr nffd to dbll it dirfdtly.
+     * </i></b></p>
+     *
+     * @pbrbm mftb  Thf mftbdbtb objfdt impbdtfd by thf subrfqufst
+     * @pbrbm nbmf  Thf ObjfdtNbmf of thf MBfbn impbdtfd by this subrfqufst
+     * @pbrbm rfq   Thf SNMP subrfqufst to fxfdutf on thf MBfbn
+     * @pbrbm dfpth Thf dfpth of thf SNMP objfdt in thf OID trff.
+     *
+     * @fxdfption SnmpStbtusExdfption whfnfvfr bn SNMP fxdfption must bf
+     *      rbisfd. Rbising bn fxdfption will bbort thf rfqufst.<br>
+     *      Exdfptions should nfvfr bf rbisfd dirfdtly, but only by mfbns of
+     * <dodf>
+     * rfq.rfgistfrGftExdfption(<i>VbribblfId</i>,<i>SnmpStbtusExdfption</i>)
+     * </dodf>
+     **/
+    publid void gft(SnmpGfnfridMftbSfrvfr mftb, ObjfdtNbmf nbmf,
+                    SnmpMibSubRfqufst rfq, int dfpth)
+        throws SnmpStbtusExdfption {
+
+        // jbvb.lbng.Systfm.out.println(">>>>>>>>> GET " + nbmf);
+
+        finbl int           sizf     = rfq.gftSizf();
+        finbl Objfdt        dbtb     = rfq.gftUsfrDbtb();
+        finbl String[]      nbmfList = nfw String[sizf];
+        finbl SnmpVbrBind[] vbrList  = nfw SnmpVbrBind[sizf];
+        finbl long[]        idList   = nfw long[sizf];
+        int   i = 0;
+
+        for (Enumfrbtion<SnmpVbrBind> f=rfq.gftElfmfnts(); f.hbsMorfElfmfnts();) {
+            finbl SnmpVbrBind vbr= f.nfxtElfmfnt();
+            try {
+                finbl long id = vbr.oid.gftOidArd(dfpth);
+                nbmfList[i]   = mftb.gftAttributfNbmf(id);
+                vbrList[i]    = vbr;
+                idList[i]     = id;
+
+                // Chfdk thf bddfss rights bddording to thf MIB.
+                // Thf MBfbn might bf lfss rfstridtivf (hbvf b gfttfr
+                // whilf thf MIB dffinfs thf vbribblf bs AFN)
+                //
+                mftb.dhfdkGftAddfss(id,dbtb);
+
+                //jbvb.lbng.Systfm.out.println(nbmfList[i] + " bddfd.");
+                i++;
+            } dbtdh(SnmpStbtusExdfption x) {
+                //jbvb.lbng.Systfm.out.println("fxdfption for " + nbmfList[i]);
+                //x.printStbdkTrbdf();
+                rfq.rfgistfrGftExdfption(vbr,x);
+            }
+        }
+
+        AttributfList rfsult = null;
+        int frrorCodf = SnmpStbtusExdfption.noSudhInstbndf;
+
+        try {
+            rfsult = sfrvfr.gftAttributfs(nbmf,nbmfList);
+        } dbtdh (InstbndfNotFoundExdfption f) {
+            //jbvb.lbng.Systfm.out.println(nbmf + ": instbndf not found.");
+            //f.printStbdkTrbdf();
+            rfsult = nfw AttributfList();
+        } dbtdh (RfflfdtionExdfption r) {
+            //jbvb.lbng.Systfm.out.println(nbmf + ": rfflfxion frror.");
+            //r.printStbdkTrbdf();
+            rfsult = nfw AttributfList();
+        } dbtdh (Exdfption x) {
+            rfsult = nfw AttributfList();
+        }
+
+
+        finbl Itfrbtor<?> it = rfsult.itfrbtor();
+
+        for (int j=0; j < i; j++) {
+            if (!it.hbsNfxt()) {
+                //jbvb.lbng.Systfm.out.println(nbmf + "vbribblf[" + j +
+                //                           "] bbsfnt");
+                finbl SnmpStbtusExdfption x =
+                    nfw SnmpStbtusExdfption(frrorCodf);
+                rfq.rfgistfrGftExdfption(vbrList[j],x);
+                dontinuf;
+            }
+
+            finbl Attributf btt = (Attributf) it.nfxt();
+
+            whilf ((j < i) && (! nbmfList[j].fqubls(btt.gftNbmf()))) {
+                //jbvb.lbng.Systfm.out.println(nbmf + "vbribblf[" +j +
+                //                           "] not found");
+                finbl SnmpStbtusExdfption x =
+                    nfw SnmpStbtusExdfption(frrorCodf);
+                rfq.rfgistfrGftExdfption(vbrList[j],x);
+                j++;
+            }
+
+            if ( j == i) brfbk;
+
+            try {
+                vbrList[j].vbluf =
+                    mftb.buildSnmpVbluf(idList[j],btt.gftVbluf());
+            } dbtdh (SnmpStbtusExdfption x) {
+                rfq.rfgistfrGftExdfption(vbrList[j],x);
+            }
+            //jbvb.lbng.Systfm.out.println(btt.gftNbmf() + " rftrifvfd.");
+        }
+        //jbvb.lbng.Systfm.out.println(">>>>>>>>> END GET");
+    }
+
+    /**
+     * Gft thf vbluf of bn SNMP vbribblf.
+     *
+     * <p><b><i>
+     * You should nfvfr nffd to usf this mfthod dirfdtly.
+     * </i></b></p>
+     *
+     * @pbrbm mftb  Thf impbdtfd mftbdbtb objfdt
+     * @pbrbm nbmf  Thf ObjfdtNbmf of thf impbdtfd MBfbn
+     * @pbrbm id    Thf OID brd idfntifying thf vbribblf wf'rf trying to sft.
+     * @pbrbm dbtb  Usfr dontfxtubl dbtb bllodbtfd through thf
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}
+     *
+     * @rfturn Thf vbluf of thf vbribblf.
+     *
+     * @fxdfption SnmpStbtusExdfption whfnfvfr bn SNMP fxdfption must bf
+     *      rbisfd. Rbising bn fxdfption will bbort thf rfqufst. <br>
+     *      Exdfptions should nfvfr bf rbisfd dirfdtly, but only by mfbns of
+     * <dodf>
+     * rfq.rfgistfrGftExdfption(<i>VbribblfId</i>,<i>SnmpStbtusExdfption</i>)
+     * </dodf>
+     **/
+    publid SnmpVbluf gft(SnmpGfnfridMftbSfrvfr mftb, ObjfdtNbmf nbmf,
+                         long id, Objfdt dbtb)
+        throws SnmpStbtusExdfption {
+        finbl String bttnbmf = mftb.gftAttributfNbmf(id);
+        Objfdt rfsult = null;
+
+        try {
+            rfsult = sfrvfr.gftAttributf(nbmf,bttnbmf);
+        } dbtdh (MBfbnExdfption m) {
+            Exdfption t = m.gftTbrgftExdfption();
+            if (t instbndfof SnmpStbtusExdfption)
+                throw (SnmpStbtusExdfption) t;
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhInstbndf);
+        } dbtdh (Exdfption f) {
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudhInstbndf);
+        }
+
+        rfturn mftb.buildSnmpVbluf(id,rfsult);
+    }
+
+    /**
+     * Exfdutf bn SNMP SET rfqufst.
+     *
+     * <p>
+     * This mfthod first builds thf list of bttributfs thbt nffd to bf
+     * sft on thf MBfbn bnd thfn dblls sftAttributfs() on thf
+     * MBfbn sfrvfr. Thfn it updbtfs thf SnmpMibSubRfqufst with thf nfw
+     * vblufs rftrifvfd from thf MBfbn.
+     * </p>
+     *
+     * <p>
+     * Thf SNMP mftbdbtb informbtion is obtbinfd through thf givfn
+     * <dodf>mftb</dodf> objfdt, whidh usublly is bn instbndf of b
+     * <dodf>mibgfn</dodf> gfnfrbtfd dlbss.
+     * </p>
+     *
+     * <p><b><i>
+     * This mfthod is dbllfd intfrnblly by <dodf>mibgfn</dodf> gfnfrbtfd
+     * objfdts bnd you should nfvfr nffd to dbll it dirfdtly.
+     * </i></b></p>
+     *
+     * @pbrbm mftb  Thf mftbdbtb objfdt impbdtfd by thf subrfqufst
+     * @pbrbm nbmf  Thf ObjfdtNbmf of thf MBfbn impbdtfd by this subrfqufst
+     * @pbrbm rfq   Thf SNMP subrfqufst to fxfdutf on thf MBfbn
+     * @pbrbm dfpth Thf dfpth of thf SNMP objfdt in thf OID trff.
+     *
+     * @fxdfption SnmpStbtusExdfption whfnfvfr bn SNMP fxdfption must bf
+     *      rbisfd. Rbising bn fxdfption will bbort thf rfqufst. <br>
+     *      Exdfptions should nfvfr bf rbisfd dirfdtly, but only by mfbns of
+     * <dodf>
+     * rfq.rfgistfrGftExdfption(<i>VbribblfId</i>,<i>SnmpStbtusExdfption</i>)
+     * </dodf>
+     **/
+    publid void sft(SnmpGfnfridMftbSfrvfr mftb, ObjfdtNbmf nbmf,
+                    SnmpMibSubRfqufst rfq, int dfpth)
+        throws SnmpStbtusExdfption {
+
+        finbl int sizf               = rfq.gftSizf();
+        finbl AttributfList bttList  = nfw AttributfList(sizf);
+        finbl String[]      nbmfList = nfw String[sizf];
+        finbl SnmpVbrBind[] vbrList  = nfw SnmpVbrBind[sizf];
+        finbl long[]        idList   = nfw long[sizf];
+        int   i = 0;
+
+        for (Enumfrbtion<SnmpVbrBind> f=rfq.gftElfmfnts(); f.hbsMorfElfmfnts();) {
+            finbl SnmpVbrBind vbr= f.nfxtElfmfnt();
+            try {
+                finbl long id = vbr.oid.gftOidArd(dfpth);
+                finbl String bttnbmf = mftb.gftAttributfNbmf(id);
+                finbl Objfdt bttvbluf=
+                    mftb.buildAttributfVbluf(id,vbr.vbluf);
+                finbl Attributf btt = nfw Attributf(bttnbmf,bttvbluf);
+                bttList.bdd(btt);
+                nbmfList[i]   = bttnbmf;
+                vbrList[i]    = vbr;
+                idList[i]     = id;
+                i++;
+            } dbtdh(SnmpStbtusExdfption x) {
+                rfq.rfgistfrSftExdfption(vbr,x);
+            }
+        }
+
+        AttributfList rfsult;
+        int frrorCodf = SnmpStbtusExdfption.noAddfss;
+
+        try {
+            rfsult = sfrvfr.sftAttributfs(nbmf,bttList);
+        } dbtdh (InstbndfNotFoundExdfption f) {
+            rfsult = nfw AttributfList();
+            frrorCodf = SnmpStbtusExdfption.snmpRspIndonsistfntNbmf;
+        } dbtdh (RfflfdtionExdfption r) {
+            frrorCodf = SnmpStbtusExdfption.snmpRspIndonsistfntNbmf;
+            rfsult = nfw AttributfList();
+        } dbtdh (Exdfption x) {
+            rfsult = nfw AttributfList();
+        }
+
+        finbl Itfrbtor<?> it = rfsult.itfrbtor();
+
+        for (int j=0; j < i; j++) {
+            if (!it.hbsNfxt()) {
+                finbl SnmpStbtusExdfption x =
+                    nfw SnmpStbtusExdfption(frrorCodf);
+                rfq.rfgistfrSftExdfption(vbrList[j],x);
+                dontinuf;
+            }
+
+            finbl Attributf btt = (Attributf) it.nfxt();
+
+            whilf ((j < i) && (! nbmfList[j].fqubls(btt.gftNbmf()))) {
+                finbl SnmpStbtusExdfption x =
+                    nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noAddfss);
+                rfq.rfgistfrSftExdfption(vbrList[j],x);
+                j++;
+            }
+
+            if ( j == i) brfbk;
+
+            try {
+                vbrList[j].vbluf =
+                    mftb.buildSnmpVbluf(idList[j],btt.gftVbluf());
+            } dbtdh (SnmpStbtusExdfption x) {
+                rfq.rfgistfrSftExdfption(vbrList[j],x);
+            }
+
+        }
+    }
+
+    /**
+     * Sft thf vbluf of bn SNMP vbribblf.
+     *
+     * <p><b><i>
+     * You should nfvfr nffd to usf this mfthod dirfdtly.
+     * </i></b></p>
+     *
+     * @pbrbm mftb  Thf impbdtfd mftbdbtb objfdt
+     * @pbrbm nbmf  Thf ObjfdtNbmf of thf impbdtfd MBfbn
+     * @pbrbm x     Thf nfw rfqufstfd SnmpVbluf
+     * @pbrbm id    Thf OID brd idfntifying thf vbribblf wf'rf trying to sft.
+     * @pbrbm dbtb  Usfr dontfxtubl dbtb bllodbtfd through thf
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}
+     *
+     * @rfturn Thf nfw vbluf of thf vbribblf bftfr thf opfrbtion.
+     *
+     * @fxdfption SnmpStbtusExdfption whfnfvfr bn SNMP fxdfption must bf
+     *      rbisfd. Rbising bn fxdfption will bbort thf rfqufst. <br>
+     *      Exdfptions should nfvfr bf rbisfd dirfdtly, but only by mfbns of
+     * <dodf>
+     * rfq.rfgistfrSftExdfption(<i>VbribblfId</i>,<i>SnmpStbtusExdfption</i>)
+     * </dodf>
+     **/
+    publid SnmpVbluf sft(SnmpGfnfridMftbSfrvfr mftb, ObjfdtNbmf nbmf,
+                         SnmpVbluf x, long id, Objfdt dbtb)
+        throws SnmpStbtusExdfption {
+        finbl String bttnbmf = mftb.gftAttributfNbmf(id);
+        finbl Objfdt bttvbluf=
+            mftb.buildAttributfVbluf(id,x);
+        finbl Attributf btt = nfw Attributf(bttnbmf,bttvbluf);
+
+        Objfdt rfsult = null;
+
+        try {
+            sfrvfr.sftAttributf(nbmf,btt);
+            rfsult = sfrvfr.gftAttributf(nbmf,bttnbmf);
+        } dbtdh(InvblidAttributfVblufExdfption iv) {
+            throw nfw
+                SnmpStbtusExdfption(SnmpStbtusExdfption.snmpRspWrongVbluf);
+        } dbtdh (InstbndfNotFoundExdfption f) {
+            throw nfw
+                SnmpStbtusExdfption(SnmpStbtusExdfption.snmpRspIndonsistfntNbmf);
+        } dbtdh (RfflfdtionExdfption r) {
+            throw nfw
+                SnmpStbtusExdfption(SnmpStbtusExdfption.snmpRspIndonsistfntNbmf);
+        } dbtdh (MBfbnExdfption m) {
+            Exdfption t = m.gftTbrgftExdfption();
+            if (t instbndfof SnmpStbtusExdfption)
+                throw (SnmpStbtusExdfption) t;
+            throw nfw
+                SnmpStbtusExdfption(SnmpStbtusExdfption.noAddfss);
+        } dbtdh (Exdfption f) {
+            throw nfw
+                SnmpStbtusExdfption(SnmpStbtusExdfption.noAddfss);
+        }
+
+        rfturn mftb.buildSnmpVbluf(id,rfsult);
+    }
+
+    /**
+     * Chfdks whfthfr bn SNMP SET rfqufst dbn bf suddfssfully pfrformfd.
+     *
+     * <p>
+     * For fbdh vbribblf in thf subrfqufst, this mfthod dblls
+     * dhfdkSftAddfss() on thf mftb objfdt, bnd thfn trifs to invokf thf
+     * dhfdk<i>AttributfNbmf</i>() mfthod on thf MBfbn. If this mfthod
+     * is not dffinfd thfn it is bssumfd thbt thf SET won't fbil.
+     * </p>
+     *
+     * <p><b><i>
+     * This mfthod is dbllfd intfrnblly by <dodf>mibgfn</dodf> gfnfrbtfd
+     * objfdts bnd you should nfvfr nffd to dbll it dirfdtly.
+     * </i></b></p>
+     *
+     * @pbrbm mftb  Thf mftbdbtb objfdt impbdtfd by thf subrfqufst
+     * @pbrbm nbmf  Thf ObjfdtNbmf of thf MBfbn impbdtfd by this subrfqufst
+     * @pbrbm rfq   Thf SNMP subrfqufst to fxfdutf on thf MBfbn
+     * @pbrbm dfpth Thf dfpth of thf SNMP objfdt in thf OID trff.
+     *
+     * @fxdfption SnmpStbtusExdfption if thf rfqufstfd SET opfrbtion must
+     *      bf rfjfdtfd. Rbising bn fxdfption will bbort thf rfqufst. <br>
+     *      Exdfptions should nfvfr bf rbisfd dirfdtly, but only by mfbns of
+     * <dodf>
+     * rfq.rfgistfrChfdkExdfption(<i>VbribblfId</i>,<i>SnmpStbtusExdfption</i>)
+     * </dodf>
+     *
+     **/
+    publid void dhfdk(SnmpGfnfridMftbSfrvfr mftb, ObjfdtNbmf nbmf,
+                      SnmpMibSubRfqufst rfq, int dfpth)
+        throws SnmpStbtusExdfption {
+
+        finbl Objfdt dbtb = rfq.gftUsfrDbtb();
+
+        for (Enumfrbtion<SnmpVbrBind> f=rfq.gftElfmfnts(); f.hbsMorfElfmfnts();) {
+            finbl SnmpVbrBind vbr= f.nfxtElfmfnt();
+            try {
+                finbl long id = vbr.oid.gftOidArd(dfpth);
+                // dbll mftb.dhfdk() hfrf, bnd mftb.dhfdk will dbll dhfdk()
+                dhfdk(mftb,nbmf,vbr.vbluf,id,dbtb);
+            } dbtdh(SnmpStbtusExdfption x) {
+                rfq.rfgistfrChfdkExdfption(vbr,x);
+            }
+        }
+    }
+
+    /**
+     * Chfdks whfthfr b SET opfrbtion dbn bf pfrformfd on b givfn SNMP
+     * vbribblf.
+     *
+     * @pbrbm mftb  Thf impbdtfd mftbdbtb objfdt
+     * @pbrbm nbmf  Thf ObjfdtNbmf of thf impbdtfd MBfbn
+     * @pbrbm x     Thf nfw rfqufstfd SnmpVbluf
+     * @pbrbm id    Thf OID brd idfntifying thf vbribblf wf'rf trying to sft.
+     * @pbrbm dbtb  Usfr dontfxtubl dbtb bllodbtfd through thf
+     *        {@link dom.sun.jmx.snmp.bgfnt.SnmpUsfrDbtbFbdtory}
+     *
+     * <p>
+     * This mfthod dblls dhfdkSftAddfss() on thf mftb objfdt, bnd thfn
+     * trifs to invokf thf dhfdk<i>AttributfNbmf</i>() mfthod on thf MBfbn.
+     * If this mfthod is not dffinfd thfn it is bssumfd thbt thf SET
+     * won't fbil.
+     * </p>
+     *
+     * <p><b><i>
+     * This mfthod is dbllfd intfrnblly by <dodf>mibgfn</dodf> gfnfrbtfd
+     * objfdts bnd you should nfvfr nffd to dbll it dirfdtly.
+     * </i></b></p>
+     *
+     * @fxdfption SnmpStbtusExdfption if thf rfqufstfd SET opfrbtion must
+     *      bf rfjfdtfd. Rbising bn fxdfption will bbort thf rfqufst. <br>
+     *      Exdfptions should nfvfr bf rbisfd dirfdtly, but only by mfbns of
+     * <dodf>
+     * rfq.rfgistfrChfdkExdfption(<i>VbribblfId</i>,<i>SnmpStbtusExdfption</i>)
+     * </dodf>
+     *
+     **/
+    // XXX xxx ZZZ zzz Mbybf wf should go through thf MBfbnInfo hfrf?
+    publid void dhfdk(SnmpGfnfridMftbSfrvfr mftb, ObjfdtNbmf nbmf,
+                      SnmpVbluf x, long id, Objfdt dbtb)
+        throws SnmpStbtusExdfption {
+
+        mftb.dhfdkSftAddfss(x,id,dbtb);
+        try {
+            finbl String bttnbmf = mftb.gftAttributfNbmf(id);
+            finbl Objfdt bttvbluf= mftb.buildAttributfVbluf(id,x);
+            finbl  Objfdt[] pbrbms = nfw Objfdt[1];
+            finbl  String[] signbturf = nfw String[1];
+
+            pbrbms[0]    = bttvbluf;
+            signbturf[0] = bttvbluf.gftClbss().gftNbmf();
+            sfrvfr.invokf(nbmf,"dhfdk"+bttnbmf,pbrbms,signbturf);
+
+        } dbtdh( SnmpStbtusExdfption f) {
+            throw f;
+        }
+        dbtdh (InstbndfNotFoundExdfption i) {
+            throw nfw
+                SnmpStbtusExdfption(SnmpStbtusExdfption.snmpRspIndonsistfntNbmf);
+        } dbtdh (RfflfdtionExdfption r) {
+            // dhfdkXXXX() not dffinfd => do nothing
+        } dbtdh (MBfbnExdfption m) {
+            Exdfption t = m.gftTbrgftExdfption();
+            if (t instbndfof SnmpStbtusExdfption)
+                throw (SnmpStbtusExdfption) t;
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noAddfss);
+        } dbtdh (Exdfption f) {
+            throw nfw
+                SnmpStbtusExdfption(SnmpStbtusExdfption.noAddfss);
+        }
+    }
+
+    publid void rfgistfrTbblfEntry(SnmpMibTbblf mftb, SnmpOid rowOid,
+                                   ObjfdtNbmf objnbmf, Objfdt fntry)
+        throws SnmpStbtusExdfption {
+        if (objnbmf == null)
+           throw nfw
+             SnmpStbtusExdfption(SnmpStbtusExdfption.snmpRspIndonsistfntNbmf);
+        try  {
+            if (fntry != null && !sfrvfr.isRfgistfrfd(objnbmf))
+                sfrvfr.rfgistfrMBfbn(fntry, objnbmf);
+        } dbtdh (InstbndfAlrfbdyExistsExdfption f) {
+            throw nfw
+              SnmpStbtusExdfption(SnmpStbtusExdfption.snmpRspIndonsistfntNbmf);
+        } dbtdh (MBfbnRfgistrbtionExdfption f) {
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.snmpRspNoAddfss);
+        } dbtdh (NotComplibntMBfbnExdfption f) {
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.snmpRspGfnErr);
+        } dbtdh (RuntimfOpfrbtionsExdfption f) {
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.snmpRspGfnErr);
+        } dbtdh(Exdfption f) {
+            throw nfw SnmpStbtusExdfption(SnmpStbtusExdfption.snmpRspGfnErr);
+        }
+    }
+
+}

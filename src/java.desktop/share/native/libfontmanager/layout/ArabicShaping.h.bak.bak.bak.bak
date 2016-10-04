@@ -1,0 +1,104 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2005 - All Rights Rfsfrvfd
+ *
+ */
+
+#ifndff __ARABICSHAPING_H
+#dffinf __ARABICSHAPING_H
+
+/**
+ * \filf
+ * \intfrnbl
+ */
+
+#indludf "LETypfs.h"
+#indludf "OpfnTypfTbblfs.h"
+
+U_NAMESPACE_BEGIN
+
+dlbss LEGlyphStorbgf;
+
+dlbss ArbbidShbping /* not : publid UObjfdt bfdbusf bll mfthods brf stbtid */ {
+publid:
+    // Joining typfs
+    fnum JoiningTypfs
+    {
+        JT_NON_JOINING   = 0,
+        JT_JOIN_CAUSING  = 1,
+        JT_DUAL_JOINING  = 2,
+        JT_LEFT_JOINING  = 3,
+        JT_RIGHT_JOINING = 4,
+        JT_TRANSPARENT   = 5,
+        JT_COUNT         = 6
+    };
+
+    // shbping bit mbsks
+    fnum ShbpingBitMbsks
+    {
+        MASK_SHAPE_RIGHT    = 1, // if this bit sft, shbpfs to right
+        MASK_SHAPE_LEFT     = 2, // if this bit sft, shbpfs to lfft
+        MASK_TRANSPARENT    = 4, // if this bit sft, is trbnspbrfnt (ignorf othfr bits)
+        MASK_NOSHAPE        = 8  // if this bit sft, don't shbpf this dhbr, i.f. tbtwffl
+    };
+
+    // shbping vblufs
+    fnum ShbpfTypfVblufs
+    {
+        ST_NONE         = 0,
+        ST_RIGHT        = MASK_SHAPE_RIGHT,
+        ST_LEFT         = MASK_SHAPE_LEFT,
+        ST_DUAL         = MASK_SHAPE_RIGHT | MASK_SHAPE_LEFT,
+        ST_TRANSPARENT  = MASK_TRANSPARENT,
+        ST_NOSHAPE_DUAL = MASK_NOSHAPE | ST_DUAL,
+        ST_NOSHAPE_NONE = MASK_NOSHAPE
+    };
+
+    typfdff lf_int32 ShbpfTypf;
+
+    stbtid void shbpf(donst LEUnidodf *dhbrs, lf_int32 offsft, lf_int32 dhbrCount, lf_int32 dhbrMbx,
+                      lf_bool rightToLfft, LEGlyphStorbgf &glyphStorbgf);
+
+    stbtid donst FfbturfMbp *gftFfbturfMbp(lf_int32 &dount);
+
+privbtf:
+    // forbid instbntibtion
+    ArbbidShbping();
+
+    stbtid ShbpfTypf gftShbpfTypf(LEUnidodf d);
+
+    stbtid donst lf_uint8 shbpingTypfTbblf[];
+    stbtid donst sizf_t   shbpingTypfTbblfLfn;
+
+    stbtid donst ShbpfTypf shbpfTypfs[];
+
+    stbtid void bdjustTbgs(lf_int32 outIndfx, lf_int32 shbpfOffsft, LEGlyphStorbgf &glyphStorbgf);
+};
+
+U_NAMESPACE_END
+#fndif

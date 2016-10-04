@@ -1,984 +1,984 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.plaf.synth;
+pbdkbgf jbvbx.swing.plbf.synti;
 
-import java.awt.*;
-import java.beans.*;
-import java.io.*;
-import java.lang.ref.*;
-import java.net.*;
-import java.security.*;
-import java.text.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
+import jbvb.bwt.*;
+import jbvb.bfbns.*;
+import jbvb.io.*;
+import jbvb.lbng.rff.*;
+import jbvb.nft.*;
+import jbvb.sfdurity.*;
+import jbvb.tfxt.*;
+import jbvb.util.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
 
-import sun.awt.*;
-import sun.security.action.*;
+import sun.bwt.*;
+import sun.sfdurity.bdtion.*;
 import sun.swing.*;
-import sun.swing.plaf.synth.*;
+import sun.swing.plbf.synti.*;
 
 /**
- * SynthLookAndFeel provides the basis for creating a customized look and
- * feel. SynthLookAndFeel does not directly provide a look, all painting is
- * delegated.
- * You need to either provide a configuration file, by way of the
- * {@link #load} method, or provide your own {@link SynthStyleFactory}
- * to {@link #setStyleFactory}. Refer to the
- * <a href="package-summary.html">package summary</a> for an example of
- * loading a file, and {@link javax.swing.plaf.synth.SynthStyleFactory} for
- * an example of providing your own <code>SynthStyleFactory</code> to
- * <code>setStyleFactory</code>.
+ * SyntiLookAndFffl providfs tif bbsis for drfbting b dustomizfd look bnd
+ * fffl. SyntiLookAndFffl dofs not dirfdtly providf b look, bll pbinting is
+ * dflfgbtfd.
+ * You nffd to fitifr providf b donfigurbtion filf, by wby of tif
+ * {@link #lobd} mftiod, or providf your own {@link SyntiStylfFbdtory}
+ * to {@link #sftStylfFbdtory}. Rfffr to tif
+ * <b irff="pbdkbgf-summbry.itml">pbdkbgf summbry</b> for bn fxbmplf of
+ * lobding b filf, bnd {@link jbvbx.swing.plbf.synti.SyntiStylfFbdtory} for
+ * bn fxbmplf of providing your own <dodf>SyntiStylfFbdtory</dodf> to
+ * <dodf>sftStylfFbdtory</dodf>.
  * <p>
- * <strong>Warning:</strong>
- * This class implements {@link Serializable} as a side effect of it
- * extending {@link BasicLookAndFeel}. It is not intended to be serialized.
- * An attempt to serialize it will
- * result in {@link NotSerializableException}.
+ * <strong>Wbrning:</strong>
+ * Tiis dlbss implfmfnts {@link Sfriblizbblf} bs b sidf ffffdt of it
+ * fxtfnding {@link BbsidLookAndFffl}. It is not intfndfd to bf sfriblizfd.
+ * An bttfmpt to sfriblizf it will
+ * rfsult in {@link NotSfriblizbblfExdfption}.
  *
- * @serial exclude
- * @since 1.5
- * @author Scott Violet
+ * @sfribl fxdludf
+ * @sindf 1.5
+ * @butior Sdott Violft
  */
-@SuppressWarnings("serial") // Per above comment, not actually serializable
-public class SynthLookAndFeel extends BasicLookAndFeel {
+@SupprfssWbrnings("sfribl") // Pfr bbovf dommfnt, not bdtublly sfriblizbblf
+publid dlbss SyntiLookAndFffl fxtfnds BbsidLookAndFffl {
     /**
-     * Used in a handful of places where we need an empty Insets.
+     * Usfd in b ibndful of plbdfs wifrf wf nffd bn fmpty Insfts.
      */
-    static final Insets EMPTY_UIRESOURCE_INSETS = new InsetsUIResource(
+    stbtid finbl Insfts EMPTY_UIRESOURCE_INSETS = nfw InsftsUIRfsourdf(
                                                             0, 0, 0, 0);
 
     /**
-     * AppContext key to get the current SynthStyleFactory.
+     * AppContfxt kfy to gft tif durrfnt SyntiStylfFbdtory.
      */
-    private static final Object STYLE_FACTORY_KEY =
-                  new StringBuffer("com.sun.java.swing.plaf.gtk.StyleCache");
+    privbtf stbtid finbl Objfdt STYLE_FACTORY_KEY =
+                  nfw StringBufffr("dom.sun.jbvb.swing.plbf.gtk.StylfCbdif");
 
     /**
-     * AppContext key to get selectedUI.
+     * AppContfxt kfy to gft sflfdtfdUI.
      */
-    private static final Object SELECTED_UI_KEY = new StringBuilder("selectedUI");
+    privbtf stbtid finbl Objfdt SELECTED_UI_KEY = nfw StringBuildfr("sflfdtfdUI");
 
     /**
-     * AppContext key to get selectedUIState.
+     * AppContfxt kfy to gft sflfdtfdUIStbtf.
      */
-    private static final Object SELECTED_UI_STATE_KEY = new StringBuilder("selectedUIState");
+    privbtf stbtid finbl Objfdt SELECTED_UI_STATE_KEY = nfw StringBuildfr("sflfdtfdUIStbtf");
 
     /**
-     * The last SynthStyleFactory that was asked for from AppContext
-     * <code>lastContext</code>.
+     * Tif lbst SyntiStylfFbdtory tibt wbs bskfd for from AppContfxt
+     * <dodf>lbstContfxt</dodf>.
      */
-    private static SynthStyleFactory lastFactory;
+    privbtf stbtid SyntiStylfFbdtory lbstFbdtory;
     /**
-     * AppContext lastLAF came from.
+     * AppContfxt lbstLAF dbmf from.
      */
-    private static AppContext lastContext;
-
-    /**
-     * SynthStyleFactory for the this SynthLookAndFeel.
-     */
-    private SynthStyleFactory factory;
+    privbtf stbtid AppContfxt lbstContfxt;
 
     /**
-     * Map of defaults table entries. This is populated via the load
-     * method.
+     * SyntiStylfFbdtory for tif tiis SyntiLookAndFffl.
      */
-    private Map<String, Object> defaultsMap;
+    privbtf SyntiStylfFbdtory fbdtory;
 
-    private Handler _handler;
+    /**
+     * Mbp of dffbults tbblf fntrifs. Tiis is populbtfd vib tif lobd
+     * mftiod.
+     */
+    privbtf Mbp<String, Objfdt> dffbultsMbp;
 
-    static ComponentUI getSelectedUI() {
-        return (ComponentUI) AppContext.getAppContext().get(SELECTED_UI_KEY);
+    privbtf Hbndlfr _ibndlfr;
+
+    stbtid ComponfntUI gftSflfdtfdUI() {
+        rfturn (ComponfntUI) AppContfxt.gftAppContfxt().gft(SELECTED_UI_KEY);
     }
 
     /**
-     * Used by the renderers. For the most part the renderers are implemented
-     * as Labels, which is problematic in so far as they are never selected.
-     * To accommodate this SynthLabelUI checks if the current
-     * UI matches that of <code>selectedUI</code> (which this methods sets), if
-     * it does, then a state as set by this method is returned. This provides
-     * a way for labels to have a state other than selected.
+     * Usfd by tif rfndfrfrs. For tif most pbrt tif rfndfrfrs brf implfmfntfd
+     * bs Lbbfls, wiidi is problfmbtid in so fbr bs tify brf nfvfr sflfdtfd.
+     * To bddommodbtf tiis SyntiLbbflUI difdks if tif durrfnt
+     * UI mbtdifs tibt of <dodf>sflfdtfdUI</dodf> (wiidi tiis mftiods sfts), if
+     * it dofs, tifn b stbtf bs sft by tiis mftiod is rfturnfd. Tiis providfs
+     * b wby for lbbfls to ibvf b stbtf otifr tibn sflfdtfd.
      */
-    static void setSelectedUI(ComponentUI uix, boolean selected,
-                              boolean focused, boolean enabled,
-                              boolean rollover) {
-        int selectedUIState = 0;
+    stbtid void sftSflfdtfdUI(ComponfntUI uix, boolfbn sflfdtfd,
+                              boolfbn fodusfd, boolfbn fnbblfd,
+                              boolfbn rollovfr) {
+        int sflfdtfdUIStbtf = 0;
 
-        if (selected) {
-            selectedUIState = SynthConstants.SELECTED;
-            if (focused) {
-                selectedUIState |= SynthConstants.FOCUSED;
+        if (sflfdtfd) {
+            sflfdtfdUIStbtf = SyntiConstbnts.SELECTED;
+            if (fodusfd) {
+                sflfdtfdUIStbtf |= SyntiConstbnts.FOCUSED;
             }
         }
-        else if (rollover && enabled) {
-            selectedUIState |=
-                    SynthConstants.MOUSE_OVER | SynthConstants.ENABLED;
-            if (focused) {
-                selectedUIState |= SynthConstants.FOCUSED;
+        flsf if (rollovfr && fnbblfd) {
+            sflfdtfdUIStbtf |=
+                    SyntiConstbnts.MOUSE_OVER | SyntiConstbnts.ENABLED;
+            if (fodusfd) {
+                sflfdtfdUIStbtf |= SyntiConstbnts.FOCUSED;
             }
         }
-        else {
-            if (enabled) {
-                selectedUIState |= SynthConstants.ENABLED;
-                if (focused) {
-                    selectedUIState |= SynthConstants.FOCUSED;
+        flsf {
+            if (fnbblfd) {
+                sflfdtfdUIStbtf |= SyntiConstbnts.ENABLED;
+                if (fodusfd) {
+                    sflfdtfdUIStbtf |= SyntiConstbnts.FOCUSED;
                 }
             }
-            else {
-                selectedUIState |= SynthConstants.DISABLED;
+            flsf {
+                sflfdtfdUIStbtf |= SyntiConstbnts.DISABLED;
             }
         }
 
-        AppContext context = AppContext.getAppContext();
+        AppContfxt dontfxt = AppContfxt.gftAppContfxt();
 
-        context.put(SELECTED_UI_KEY, uix);
-        context.put(SELECTED_UI_STATE_KEY, Integer.valueOf(selectedUIState));
+        dontfxt.put(SELECTED_UI_KEY, uix);
+        dontfxt.put(SELECTED_UI_STATE_KEY, Intfgfr.vblufOf(sflfdtfdUIStbtf));
     }
 
-    static int getSelectedUIState() {
-        Integer result = (Integer) AppContext.getAppContext().get(SELECTED_UI_STATE_KEY);
+    stbtid int gftSflfdtfdUIStbtf() {
+        Intfgfr rfsult = (Intfgfr) AppContfxt.gftAppContfxt().gft(SELECTED_UI_STATE_KEY);
 
-        return result == null ? 0 : result.intValue();
+        rfturn rfsult == null ? 0 : rfsult.intVbluf();
     }
 
     /**
-     * Clears out the selected UI that was last set in setSelectedUI.
+     * Clfbrs out tif sflfdtfd UI tibt wbs lbst sft in sftSflfdtfdUI.
      */
-    static void resetSelectedUI() {
-        AppContext.getAppContext().remove(SELECTED_UI_KEY);
+    stbtid void rfsftSflfdtfdUI() {
+        AppContfxt.gftAppContfxt().rfmovf(SELECTED_UI_KEY);
     }
 
 
     /**
-     * Sets the SynthStyleFactory that the UI classes provided by
-     * synth will use to obtain a SynthStyle.
+     * Sfts tif SyntiStylfFbdtory tibt tif UI dlbssfs providfd by
+     * synti will usf to obtbin b SyntiStylf.
      *
-     * @param cache SynthStyleFactory the UIs should use.
+     * @pbrbm dbdif SyntiStylfFbdtory tif UIs siould usf.
      */
-    public static void setStyleFactory(SynthStyleFactory cache) {
-        // We assume the setter is called BEFORE the getter has been invoked
-        // for a particular AppContext.
-        synchronized(SynthLookAndFeel.class) {
-            AppContext context = AppContext.getAppContext();
-            lastFactory = cache;
-            lastContext = context;
-            context.put(STYLE_FACTORY_KEY, cache);
+    publid stbtid void sftStylfFbdtory(SyntiStylfFbdtory dbdif) {
+        // Wf bssumf tif sfttfr is dbllfd BEFORE tif gfttfr ibs bffn invokfd
+        // for b pbrtidulbr AppContfxt.
+        syndironizfd(SyntiLookAndFffl.dlbss) {
+            AppContfxt dontfxt = AppContfxt.gftAppContfxt();
+            lbstFbdtory = dbdif;
+            lbstContfxt = dontfxt;
+            dontfxt.put(STYLE_FACTORY_KEY, dbdif);
         }
     }
 
     /**
-     * Returns the current SynthStyleFactory.
+     * Rfturns tif durrfnt SyntiStylfFbdtory.
      *
-     * @return SynthStyleFactory
+     * @rfturn SyntiStylfFbdtory
      */
-    public static SynthStyleFactory getStyleFactory() {
-        synchronized(SynthLookAndFeel.class) {
-            AppContext context = AppContext.getAppContext();
+    publid stbtid SyntiStylfFbdtory gftStylfFbdtory() {
+        syndironizfd(SyntiLookAndFffl.dlbss) {
+            AppContfxt dontfxt = AppContfxt.gftAppContfxt();
 
-            if (lastContext == context) {
-                return lastFactory;
+            if (lbstContfxt == dontfxt) {
+                rfturn lbstFbdtory;
             }
-            lastContext = context;
-            lastFactory = (SynthStyleFactory) context.get(STYLE_FACTORY_KEY);
-            return lastFactory;
+            lbstContfxt = dontfxt;
+            lbstFbdtory = (SyntiStylfFbdtory) dontfxt.gft(STYLE_FACTORY_KEY);
+            rfturn lbstFbdtory;
         }
     }
 
     /**
-     * Returns the component state for the specified component. This should
-     * only be used for Components that don't have any special state beyond
-     * that of ENABLED, DISABLED or FOCUSED. For example, buttons shouldn't
-     * call into this method.
+     * Rfturns tif domponfnt stbtf for tif spfdififd domponfnt. Tiis siould
+     * only bf usfd for Componfnts tibt don't ibvf bny spfdibl stbtf bfyond
+     * tibt of ENABLED, DISABLED or FOCUSED. For fxbmplf, buttons siouldn't
+     * dbll into tiis mftiod.
      */
-    static int getComponentState(Component c) {
-        if (c.isEnabled()) {
-            if (c.isFocusOwner()) {
-                return SynthUI.ENABLED | SynthUI.FOCUSED;
+    stbtid int gftComponfntStbtf(Componfnt d) {
+        if (d.isEnbblfd()) {
+            if (d.isFodusOwnfr()) {
+                rfturn SyntiUI.ENABLED | SyntiUI.FOCUSED;
             }
-            return SynthUI.ENABLED;
+            rfturn SyntiUI.ENABLED;
         }
-        return SynthUI.DISABLED;
+        rfturn SyntiUI.DISABLED;
     }
 
     /**
-     * Gets a SynthStyle for the specified region of the specified component.
-     * This is not for general consumption, only custom UIs should call this
-     * method.
+     * Gfts b SyntiStylf for tif spfdififd rfgion of tif spfdififd domponfnt.
+     * Tiis is not for gfnfrbl donsumption, only dustom UIs siould dbll tiis
+     * mftiod.
      *
-     * @param c JComponent to get the SynthStyle for
-     * @param region Identifies the region of the specified component
-     * @return SynthStyle to use.
+     * @pbrbm d JComponfnt to gft tif SyntiStylf for
+     * @pbrbm rfgion Idfntififs tif rfgion of tif spfdififd domponfnt
+     * @rfturn SyntiStylf to usf.
      */
-    public static SynthStyle getStyle(JComponent c, Region region) {
-        return getStyleFactory().getStyle(c, region);
+    publid stbtid SyntiStylf gftStylf(JComponfnt d, Rfgion rfgion) {
+        rfturn gftStylfFbdtory().gftStylf(d, rfgion);
     }
 
     /**
-     * Returns true if the Style should be updated in response to the
-     * specified PropertyChangeEvent. This forwards to
-     * <code>shouldUpdateStyleOnAncestorChanged</code> as necessary.
+     * Rfturns truf if tif Stylf siould bf updbtfd in rfsponsf to tif
+     * spfdififd PropfrtyCibngfEvfnt. Tiis forwbrds to
+     * <dodf>siouldUpdbtfStylfOnAndfstorCibngfd</dodf> bs nfdfssbry.
      */
-    static boolean shouldUpdateStyle(PropertyChangeEvent event) {
-        LookAndFeel laf = UIManager.getLookAndFeel();
-        return (laf instanceof SynthLookAndFeel &&
-                ((SynthLookAndFeel) laf).shouldUpdateStyleOnEvent(event));
+    stbtid boolfbn siouldUpdbtfStylf(PropfrtyCibngfEvfnt fvfnt) {
+        LookAndFffl lbf = UIMbnbgfr.gftLookAndFffl();
+        rfturn (lbf instbndfof SyntiLookAndFffl &&
+                ((SyntiLookAndFffl) lbf).siouldUpdbtfStylfOnEvfnt(fvfnt));
     }
 
     /**
-     * A convience method that will reset the Style of StyleContext if
-     * necessary.
+     * A donvifndf mftiod tibt will rfsft tif Stylf of StylfContfxt if
+     * nfdfssbry.
      *
-     * @return newStyle
+     * @rfturn nfwStylf
      */
-    static SynthStyle updateStyle(SynthContext context, SynthUI ui) {
-        SynthStyle newStyle = getStyle(context.getComponent(),
-                                       context.getRegion());
-        SynthStyle oldStyle = context.getStyle();
+    stbtid SyntiStylf updbtfStylf(SyntiContfxt dontfxt, SyntiUI ui) {
+        SyntiStylf nfwStylf = gftStylf(dontfxt.gftComponfnt(),
+                                       dontfxt.gftRfgion());
+        SyntiStylf oldStylf = dontfxt.gftStylf();
 
-        if (newStyle != oldStyle) {
-            if (oldStyle != null) {
-                oldStyle.uninstallDefaults(context);
+        if (nfwStylf != oldStylf) {
+            if (oldStylf != null) {
+                oldStylf.uninstbllDffbults(dontfxt);
             }
-            context.setStyle(newStyle);
-            newStyle.installDefaults(context, ui);
+            dontfxt.sftStylf(nfwStylf);
+            nfwStylf.instbllDffbults(dontfxt, ui);
         }
-        return newStyle;
+        rfturn nfwStylf;
     }
 
     /**
-     * Updates the style associated with <code>c</code>, and all its children.
-     * This is a lighter version of
-     * <code>SwingUtilities.updateComponentTreeUI</code>.
+     * Updbtfs tif stylf bssodibtfd witi <dodf>d</dodf>, bnd bll its diildrfn.
+     * Tiis is b ligitfr vfrsion of
+     * <dodf>SwingUtilitifs.updbtfComponfntTrffUI</dodf>.
      *
-     * @param c Component to update style for.
+     * @pbrbm d Componfnt to updbtf stylf for.
      */
-    public static void updateStyles(Component c) {
-        if (c instanceof JComponent) {
-            // Yes, this is hacky. A better solution is to get the UI
-            // and cast, but JComponent doesn't expose a getter for the UI
-            // (each of the UIs do), making that approach impractical.
-            String name = c.getName();
-            c.setName(null);
-            if (name != null) {
-                c.setName(name);
+    publid stbtid void updbtfStylfs(Componfnt d) {
+        if (d instbndfof JComponfnt) {
+            // Yfs, tiis is ibdky. A bfttfr solution is to gft tif UI
+            // bnd dbst, but JComponfnt dofsn't fxposf b gfttfr for tif UI
+            // (fbdi of tif UIs do), mbking tibt bpprobdi imprbdtidbl.
+            String nbmf = d.gftNbmf();
+            d.sftNbmf(null);
+            if (nbmf != null) {
+                d.sftNbmf(nbmf);
             }
-            ((JComponent)c).revalidate();
+            ((JComponfnt)d).rfvblidbtf();
         }
-        Component[] children = null;
-        if (c instanceof JMenu) {
-            children = ((JMenu)c).getMenuComponents();
+        Componfnt[] diildrfn = null;
+        if (d instbndfof JMfnu) {
+            diildrfn = ((JMfnu)d).gftMfnuComponfnts();
         }
-        else if (c instanceof Container) {
-            children = ((Container)c).getComponents();
+        flsf if (d instbndfof Contbinfr) {
+            diildrfn = ((Contbinfr)d).gftComponfnts();
         }
-        if (children != null) {
-            for (Component child : children) {
-                updateStyles(child);
+        if (diildrfn != null) {
+            for (Componfnt diild : diildrfn) {
+                updbtfStylfs(diild);
             }
         }
-        c.repaint();
+        d.rfpbint();
     }
 
     /**
-     * Returns the Region for the JComponent <code>c</code>.
+     * Rfturns tif Rfgion for tif JComponfnt <dodf>d</dodf>.
      *
-     * @param c JComponent to fetch the Region for
-     * @return Region corresponding to <code>c</code>
+     * @pbrbm d JComponfnt to fftdi tif Rfgion for
+     * @rfturn Rfgion dorrfsponding to <dodf>d</dodf>
      */
-    public static Region getRegion(JComponent c) {
-        return Region.getRegion(c);
+    publid stbtid Rfgion gftRfgion(JComponfnt d) {
+        rfturn Rfgion.gftRfgion(d);
     }
 
     /**
-     * A convenience method to return where the foreground should be
-     * painted for the Component identified by the passed in
-     * AbstractSynthContext.
+     * A donvfnifndf mftiod to rfturn wifrf tif forfground siould bf
+     * pbintfd for tif Componfnt idfntififd by tif pbssfd in
+     * AbstrbdtSyntiContfxt.
      */
-    static Insets getPaintingInsets(SynthContext state, Insets insets) {
-        if (state.isSubregion()) {
-            insets = state.getStyle().getInsets(state, insets);
+    stbtid Insfts gftPbintingInsfts(SyntiContfxt stbtf, Insfts insfts) {
+        if (stbtf.isSubrfgion()) {
+            insfts = stbtf.gftStylf().gftInsfts(stbtf, insfts);
         }
-        else {
-            insets = state.getComponent().getInsets(insets);
+        flsf {
+            insfts = stbtf.gftComponfnt().gftInsfts(insfts);
         }
-        return insets;
+        rfturn insfts;
     }
 
     /**
-     * A convenience method that handles painting of the background.
-     * All SynthUI implementations should override update and invoke
-     * this method.
+     * A donvfnifndf mftiod tibt ibndlfs pbinting of tif bbdkground.
+     * All SyntiUI implfmfntbtions siould ovfrridf updbtf bnd invokf
+     * tiis mftiod.
      */
-    static void update(SynthContext state, Graphics g) {
-        paintRegion(state, g, null);
+    stbtid void updbtf(SyntiContfxt stbtf, Grbpiids g) {
+        pbintRfgion(stbtf, g, null);
     }
 
     /**
-     * A convenience method that handles painting of the background for
-     * subregions. All SynthUI's that have subregions should invoke
-     * this method, than paint the foreground.
+     * A donvfnifndf mftiod tibt ibndlfs pbinting of tif bbdkground for
+     * subrfgions. All SyntiUI's tibt ibvf subrfgions siould invokf
+     * tiis mftiod, tibn pbint tif forfground.
      */
-    static void updateSubregion(SynthContext state, Graphics g,
-                                Rectangle bounds) {
-        paintRegion(state, g, bounds);
+    stbtid void updbtfSubrfgion(SyntiContfxt stbtf, Grbpiids g,
+                                Rfdtbnglf bounds) {
+        pbintRfgion(stbtf, g, bounds);
     }
 
-    private static void paintRegion(SynthContext state, Graphics g,
-                                    Rectangle bounds) {
-        JComponent c = state.getComponent();
-        SynthStyle style = state.getStyle();
-        int x, y, width, height;
+    privbtf stbtid void pbintRfgion(SyntiContfxt stbtf, Grbpiids g,
+                                    Rfdtbnglf bounds) {
+        JComponfnt d = stbtf.gftComponfnt();
+        SyntiStylf stylf = stbtf.gftStylf();
+        int x, y, widti, ifigit;
 
         if (bounds == null) {
             x = 0;
             y = 0;
-            width = c.getWidth();
-            height = c.getHeight();
+            widti = d.gftWidti();
+            ifigit = d.gftHfigit();
         }
-        else {
+        flsf {
             x = bounds.x;
             y = bounds.y;
-            width = bounds.width;
-            height = bounds.height;
+            widti = bounds.widti;
+            ifigit = bounds.ifigit;
         }
 
-        // Fill in the background, if necessary.
-        boolean subregion = state.isSubregion();
-        if ((subregion && style.isOpaque(state)) ||
-                          (!subregion && c.isOpaque())) {
-            g.setColor(style.getColor(state, ColorType.BACKGROUND));
-            g.fillRect(x, y, width, height);
+        // Fill in tif bbdkground, if nfdfssbry.
+        boolfbn subrfgion = stbtf.isSubrfgion();
+        if ((subrfgion && stylf.isOpbquf(stbtf)) ||
+                          (!subrfgion && d.isOpbquf())) {
+            g.sftColor(stylf.gftColor(stbtf, ColorTypf.BACKGROUND));
+            g.fillRfdt(x, y, widti, ifigit);
         }
     }
 
-    static boolean isLeftToRight(Component c) {
-        return c.getComponentOrientation().isLeftToRight();
+    stbtid boolfbn isLfftToRigit(Componfnt d) {
+        rfturn d.gftComponfntOrifntbtion().isLfftToRigit();
     }
 
     /**
-     * Returns the ui that is of type <code>klass</code>, or null if
-     * one can not be found.
+     * Rfturns tif ui tibt is of typf <dodf>klbss</dodf>, or null if
+     * onf dbn not bf found.
      */
-    static Object getUIOfType(ComponentUI ui, Class<?> klass) {
-        if (klass.isInstance(ui)) {
-            return ui;
+    stbtid Objfdt gftUIOfTypf(ComponfntUI ui, Clbss<?> klbss) {
+        if (klbss.isInstbndf(ui)) {
+            rfturn ui;
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Creates the Synth look and feel <code>ComponentUI</code> for
-     * the passed in <code>JComponent</code>.
+     * Crfbtfs tif Synti look bnd fffl <dodf>ComponfntUI</dodf> for
+     * tif pbssfd in <dodf>JComponfnt</dodf>.
      *
-     * @param c JComponent to create the <code>ComponentUI</code> for
-     * @return ComponentUI to use for <code>c</code>
+     * @pbrbm d JComponfnt to drfbtf tif <dodf>ComponfntUI</dodf> for
+     * @rfturn ComponfntUI to usf for <dodf>d</dodf>
      */
-    public static ComponentUI createUI(JComponent c) {
-        String key = c.getUIClassID().intern();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        String kfy = d.gftUIClbssID().intfrn();
 
-        if (key == "ButtonUI") {
-            return SynthButtonUI.createUI(c);
+        if (kfy == "ButtonUI") {
+            rfturn SyntiButtonUI.drfbtfUI(d);
         }
-        else if (key == "CheckBoxUI") {
-            return SynthCheckBoxUI.createUI(c);
+        flsf if (kfy == "CifdkBoxUI") {
+            rfturn SyntiCifdkBoxUI.drfbtfUI(d);
         }
-        else if (key == "CheckBoxMenuItemUI") {
-            return SynthCheckBoxMenuItemUI.createUI(c);
+        flsf if (kfy == "CifdkBoxMfnuItfmUI") {
+            rfturn SyntiCifdkBoxMfnuItfmUI.drfbtfUI(d);
         }
-        else if (key == "ColorChooserUI") {
-            return SynthColorChooserUI.createUI(c);
+        flsf if (kfy == "ColorCioosfrUI") {
+            rfturn SyntiColorCioosfrUI.drfbtfUI(d);
         }
-        else if (key == "ComboBoxUI") {
-            return SynthComboBoxUI.createUI(c);
+        flsf if (kfy == "ComboBoxUI") {
+            rfturn SyntiComboBoxUI.drfbtfUI(d);
         }
-        else if (key == "DesktopPaneUI") {
-            return SynthDesktopPaneUI.createUI(c);
+        flsf if (kfy == "DfsktopPbnfUI") {
+            rfturn SyntiDfsktopPbnfUI.drfbtfUI(d);
         }
-        else if (key == "DesktopIconUI") {
-            return SynthDesktopIconUI.createUI(c);
+        flsf if (kfy == "DfsktopIdonUI") {
+            rfturn SyntiDfsktopIdonUI.drfbtfUI(d);
         }
-        else if (key == "EditorPaneUI") {
-            return SynthEditorPaneUI.createUI(c);
+        flsf if (kfy == "EditorPbnfUI") {
+            rfturn SyntiEditorPbnfUI.drfbtfUI(d);
         }
-        else if (key == "FileChooserUI") {
-            return SynthFileChooserUI.createUI(c);
+        flsf if (kfy == "FilfCioosfrUI") {
+            rfturn SyntiFilfCioosfrUI.drfbtfUI(d);
         }
-        else if (key == "FormattedTextFieldUI") {
-            return SynthFormattedTextFieldUI.createUI(c);
+        flsf if (kfy == "FormbttfdTfxtFifldUI") {
+            rfturn SyntiFormbttfdTfxtFifldUI.drfbtfUI(d);
         }
-        else if (key == "InternalFrameUI") {
-            return SynthInternalFrameUI.createUI(c);
+        flsf if (kfy == "IntfrnblFrbmfUI") {
+            rfturn SyntiIntfrnblFrbmfUI.drfbtfUI(d);
         }
-        else if (key == "LabelUI") {
-            return SynthLabelUI.createUI(c);
+        flsf if (kfy == "LbbflUI") {
+            rfturn SyntiLbbflUI.drfbtfUI(d);
         }
-        else if (key == "ListUI") {
-            return SynthListUI.createUI(c);
+        flsf if (kfy == "ListUI") {
+            rfturn SyntiListUI.drfbtfUI(d);
         }
-        else if (key == "MenuBarUI") {
-            return SynthMenuBarUI.createUI(c);
+        flsf if (kfy == "MfnuBbrUI") {
+            rfturn SyntiMfnuBbrUI.drfbtfUI(d);
         }
-        else if (key == "MenuUI") {
-            return SynthMenuUI.createUI(c);
+        flsf if (kfy == "MfnuUI") {
+            rfturn SyntiMfnuUI.drfbtfUI(d);
         }
-        else if (key == "MenuItemUI") {
-            return SynthMenuItemUI.createUI(c);
+        flsf if (kfy == "MfnuItfmUI") {
+            rfturn SyntiMfnuItfmUI.drfbtfUI(d);
         }
-        else if (key == "OptionPaneUI") {
-            return SynthOptionPaneUI.createUI(c);
+        flsf if (kfy == "OptionPbnfUI") {
+            rfturn SyntiOptionPbnfUI.drfbtfUI(d);
         }
-        else if (key == "PanelUI") {
-            return SynthPanelUI.createUI(c);
+        flsf if (kfy == "PbnflUI") {
+            rfturn SyntiPbnflUI.drfbtfUI(d);
         }
-        else if (key == "PasswordFieldUI") {
-            return SynthPasswordFieldUI.createUI(c);
+        flsf if (kfy == "PbsswordFifldUI") {
+            rfturn SyntiPbsswordFifldUI.drfbtfUI(d);
         }
-        else if (key == "PopupMenuSeparatorUI") {
-            return SynthSeparatorUI.createUI(c);
+        flsf if (kfy == "PopupMfnuSfpbrbtorUI") {
+            rfturn SyntiSfpbrbtorUI.drfbtfUI(d);
         }
-        else if (key == "PopupMenuUI") {
-            return SynthPopupMenuUI.createUI(c);
+        flsf if (kfy == "PopupMfnuUI") {
+            rfturn SyntiPopupMfnuUI.drfbtfUI(d);
         }
-        else if (key == "ProgressBarUI") {
-            return SynthProgressBarUI.createUI(c);
+        flsf if (kfy == "ProgrfssBbrUI") {
+            rfturn SyntiProgrfssBbrUI.drfbtfUI(d);
         }
-        else if (key == "RadioButtonUI") {
-            return SynthRadioButtonUI.createUI(c);
+        flsf if (kfy == "RbdioButtonUI") {
+            rfturn SyntiRbdioButtonUI.drfbtfUI(d);
         }
-        else if (key == "RadioButtonMenuItemUI") {
-            return SynthRadioButtonMenuItemUI.createUI(c);
+        flsf if (kfy == "RbdioButtonMfnuItfmUI") {
+            rfturn SyntiRbdioButtonMfnuItfmUI.drfbtfUI(d);
         }
-        else if (key == "RootPaneUI") {
-            return SynthRootPaneUI.createUI(c);
+        flsf if (kfy == "RootPbnfUI") {
+            rfturn SyntiRootPbnfUI.drfbtfUI(d);
         }
-        else if (key == "ScrollBarUI") {
-            return SynthScrollBarUI.createUI(c);
+        flsf if (kfy == "SdrollBbrUI") {
+            rfturn SyntiSdrollBbrUI.drfbtfUI(d);
         }
-        else if (key == "ScrollPaneUI") {
-            return SynthScrollPaneUI.createUI(c);
+        flsf if (kfy == "SdrollPbnfUI") {
+            rfturn SyntiSdrollPbnfUI.drfbtfUI(d);
         }
-        else if (key == "SeparatorUI") {
-            return SynthSeparatorUI.createUI(c);
+        flsf if (kfy == "SfpbrbtorUI") {
+            rfturn SyntiSfpbrbtorUI.drfbtfUI(d);
         }
-        else if (key == "SliderUI") {
-            return SynthSliderUI.createUI(c);
+        flsf if (kfy == "SlidfrUI") {
+            rfturn SyntiSlidfrUI.drfbtfUI(d);
         }
-        else if (key == "SpinnerUI") {
-            return SynthSpinnerUI.createUI(c);
+        flsf if (kfy == "SpinnfrUI") {
+            rfturn SyntiSpinnfrUI.drfbtfUI(d);
         }
-        else if (key == "SplitPaneUI") {
-            return SynthSplitPaneUI.createUI(c);
+        flsf if (kfy == "SplitPbnfUI") {
+            rfturn SyntiSplitPbnfUI.drfbtfUI(d);
         }
-        else if (key == "TabbedPaneUI") {
-            return SynthTabbedPaneUI.createUI(c);
+        flsf if (kfy == "TbbbfdPbnfUI") {
+            rfturn SyntiTbbbfdPbnfUI.drfbtfUI(d);
         }
-        else if (key == "TableUI") {
-            return SynthTableUI.createUI(c);
+        flsf if (kfy == "TbblfUI") {
+            rfturn SyntiTbblfUI.drfbtfUI(d);
         }
-        else if (key == "TableHeaderUI") {
-            return SynthTableHeaderUI.createUI(c);
+        flsf if (kfy == "TbblfHfbdfrUI") {
+            rfturn SyntiTbblfHfbdfrUI.drfbtfUI(d);
         }
-        else if (key == "TextAreaUI") {
-            return SynthTextAreaUI.createUI(c);
+        flsf if (kfy == "TfxtArfbUI") {
+            rfturn SyntiTfxtArfbUI.drfbtfUI(d);
         }
-        else if (key == "TextFieldUI") {
-            return SynthTextFieldUI.createUI(c);
+        flsf if (kfy == "TfxtFifldUI") {
+            rfturn SyntiTfxtFifldUI.drfbtfUI(d);
         }
-        else if (key == "TextPaneUI") {
-            return SynthTextPaneUI.createUI(c);
+        flsf if (kfy == "TfxtPbnfUI") {
+            rfturn SyntiTfxtPbnfUI.drfbtfUI(d);
         }
-        else if (key == "ToggleButtonUI") {
-            return SynthToggleButtonUI.createUI(c);
+        flsf if (kfy == "TogglfButtonUI") {
+            rfturn SyntiTogglfButtonUI.drfbtfUI(d);
         }
-        else if (key == "ToolBarSeparatorUI") {
-            return SynthSeparatorUI.createUI(c);
+        flsf if (kfy == "ToolBbrSfpbrbtorUI") {
+            rfturn SyntiSfpbrbtorUI.drfbtfUI(d);
         }
-        else if (key == "ToolBarUI") {
-            return SynthToolBarUI.createUI(c);
+        flsf if (kfy == "ToolBbrUI") {
+            rfturn SyntiToolBbrUI.drfbtfUI(d);
         }
-        else if (key == "ToolTipUI") {
-            return SynthToolTipUI.createUI(c);
+        flsf if (kfy == "ToolTipUI") {
+            rfturn SyntiToolTipUI.drfbtfUI(d);
         }
-        else if (key == "TreeUI") {
-            return SynthTreeUI.createUI(c);
+        flsf if (kfy == "TrffUI") {
+            rfturn SyntiTrffUI.drfbtfUI(d);
         }
-        else if (key == "ViewportUI") {
-            return SynthViewportUI.createUI(c);
+        flsf if (kfy == "VifwportUI") {
+            rfturn SyntiVifwportUI.drfbtfUI(d);
         }
-        return null;
+        rfturn null;
     }
 
 
     /**
-     * Creates a SynthLookAndFeel.
+     * Crfbtfs b SyntiLookAndFffl.
      * <p>
-     * For the returned <code>SynthLookAndFeel</code> to be useful you need to
-     * invoke <code>load</code> to specify the set of
-     * <code>SynthStyle</code>s, or invoke <code>setStyleFactory</code>.
+     * For tif rfturnfd <dodf>SyntiLookAndFffl</dodf> to bf usfful you nffd to
+     * invokf <dodf>lobd</dodf> to spfdify tif sft of
+     * <dodf>SyntiStylf</dodf>s, or invokf <dodf>sftStylfFbdtory</dodf>.
      *
-     * @see #load
-     * @see #setStyleFactory
+     * @sff #lobd
+     * @sff #sftStylfFbdtory
      */
-    public SynthLookAndFeel() {
-        factory = new DefaultSynthStyleFactory();
-        _handler = new Handler();
+    publid SyntiLookAndFffl() {
+        fbdtory = nfw DffbultSyntiStylfFbdtory();
+        _ibndlfr = nfw Hbndlfr();
     }
 
     /**
-     * Loads the set of <code>SynthStyle</code>s that will be used by
-     * this <code>SynthLookAndFeel</code>. <code>resourceBase</code> is
-     * used to resolve any path based resources, for example an
-     * <code>Image</code> would be resolved by
-     * <code>resourceBase.getResource(path)</code>. Refer to
-     * <a href="doc-files/synthFileFormat.html">Synth File Format</a>
-     * for more information.
+     * Lobds tif sft of <dodf>SyntiStylf</dodf>s tibt will bf usfd by
+     * tiis <dodf>SyntiLookAndFffl</dodf>. <dodf>rfsourdfBbsf</dodf> is
+     * usfd to rfsolvf bny pbti bbsfd rfsourdfs, for fxbmplf bn
+     * <dodf>Imbgf</dodf> would bf rfsolvfd by
+     * <dodf>rfsourdfBbsf.gftRfsourdf(pbti)</dodf>. Rfffr to
+     * <b irff="dod-filfs/syntiFilfFormbt.itml">Synti Filf Formbt</b>
+     * for morf informbtion.
      *
-     * @param input InputStream to load from
-     * @param resourceBase used to resolve any images or other resources
-     * @throws ParseException if there is an error in parsing
-     * @throws IllegalArgumentException if input or resourceBase is <code>null</code>
+     * @pbrbm input InputStrfbm to lobd from
+     * @pbrbm rfsourdfBbsf usfd to rfsolvf bny imbgfs or otifr rfsourdfs
+     * @tirows PbrsfExdfption if tifrf is bn frror in pbrsing
+     * @tirows IllfgblArgumfntExdfption if input or rfsourdfBbsf is <dodf>null</dodf>
      */
-    public void load(InputStream input, Class<?> resourceBase) throws
-                       ParseException {
-        if (resourceBase == null) {
-            throw new IllegalArgumentException(
-                "You must supply a valid resource base Class");
+    publid void lobd(InputStrfbm input, Clbss<?> rfsourdfBbsf) tirows
+                       PbrsfExdfption {
+        if (rfsourdfBbsf == null) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "You must supply b vblid rfsourdf bbsf Clbss");
         }
 
-        if (defaultsMap == null) {
-            defaultsMap = new HashMap<String, Object>();
+        if (dffbultsMbp == null) {
+            dffbultsMbp = nfw HbsiMbp<String, Objfdt>();
         }
 
-        new SynthParser().parse(input, (DefaultSynthStyleFactory) factory,
-                                null, resourceBase, defaultsMap);
+        nfw SyntiPbrsfr().pbrsf(input, (DffbultSyntiStylfFbdtory) fbdtory,
+                                null, rfsourdfBbsf, dffbultsMbp);
     }
 
     /**
-     * Loads the set of <code>SynthStyle</code>s that will be used by
-     * this <code>SynthLookAndFeel</code>. Path based resources are resolved
-     * relatively to the specified <code>URL</code> of the style. For example
-     * an <code>Image</code> would be resolved by
-     * <code>new URL(synthFile, path)</code>. Refer to
-     * <a href="doc-files/synthFileFormat.html">Synth File Format</a> for more
-     * information.
+     * Lobds tif sft of <dodf>SyntiStylf</dodf>s tibt will bf usfd by
+     * tiis <dodf>SyntiLookAndFffl</dodf>. Pbti bbsfd rfsourdfs brf rfsolvfd
+     * rflbtivfly to tif spfdififd <dodf>URL</dodf> of tif stylf. For fxbmplf
+     * bn <dodf>Imbgf</dodf> would bf rfsolvfd by
+     * <dodf>nfw URL(syntiFilf, pbti)</dodf>. Rfffr to
+     * <b irff="dod-filfs/syntiFilfFormbt.itml">Synti Filf Formbt</b> for morf
+     * informbtion.
      *
-     * @param url the <code>URL</code> to load the set of
-     *     <code>SynthStyle</code> from
-     * @throws ParseException if there is an error in parsing
-     * @throws IllegalArgumentException if synthSet is <code>null</code>
-     * @throws IOException if synthSet cannot be opened as an <code>InputStream</code>
-     * @since 1.6
+     * @pbrbm url tif <dodf>URL</dodf> to lobd tif sft of
+     *     <dodf>SyntiStylf</dodf> from
+     * @tirows PbrsfExdfption if tifrf is bn frror in pbrsing
+     * @tirows IllfgblArgumfntExdfption if syntiSft is <dodf>null</dodf>
+     * @tirows IOExdfption if syntiSft dbnnot bf opfnfd bs bn <dodf>InputStrfbm</dodf>
+     * @sindf 1.6
      */
-    public void load(URL url) throws ParseException, IOException {
+    publid void lobd(URL url) tirows PbrsfExdfption, IOExdfption {
         if (url == null) {
-            throw new IllegalArgumentException(
-                "You must supply a valid Synth set URL");
+            tirow nfw IllfgblArgumfntExdfption(
+                "You must supply b vblid Synti sft URL");
         }
 
-        if (defaultsMap == null) {
-            defaultsMap = new HashMap<String, Object>();
+        if (dffbultsMbp == null) {
+            dffbultsMbp = nfw HbsiMbp<String, Objfdt>();
         }
 
-        InputStream input = url.openStream();
-        new SynthParser().parse(input, (DefaultSynthStyleFactory) factory,
-                                url, null, defaultsMap);
+        InputStrfbm input = url.opfnStrfbm();
+        nfw SyntiPbrsfr().pbrsf(input, (DffbultSyntiStylfFbdtory) fbdtory,
+                                url, null, dffbultsMbp);
     }
 
     /**
-     * Called by UIManager when this look and feel is installed.
+     * Cbllfd by UIMbnbgfr wifn tiis look bnd fffl is instbllfd.
      */
-    @Override
-    public void initialize() {
-        super.initialize();
-        DefaultLookup.setDefaultLookup(new SynthDefaultLookup());
-        setStyleFactory(factory);
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().
-            addPropertyChangeListener(_handler);
+    @Ovfrridf
+    publid void initiblizf() {
+        supfr.initiblizf();
+        DffbultLookup.sftDffbultLookup(nfw SyntiDffbultLookup());
+        sftStylfFbdtory(fbdtory);
+        KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().
+            bddPropfrtyCibngfListfnfr(_ibndlfr);
     }
 
     /**
-     * Called by UIManager when this look and feel is uninstalled.
+     * Cbllfd by UIMbnbgfr wifn tiis look bnd fffl is uninstbllfd.
      */
-    @Override
-    public void uninitialize() {
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().
-            removePropertyChangeListener(_handler);
-        // We should uninstall the StyleFactory here, but unfortunately
-        // there are a handful of things that retain references to the
-        // LookAndFeel and expect things to work
-        super.uninitialize();
+    @Ovfrridf
+    publid void uninitiblizf() {
+        KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().
+            rfmovfPropfrtyCibngfListfnfr(_ibndlfr);
+        // Wf siould uninstbll tif StylfFbdtory ifrf, but unfortunbtfly
+        // tifrf brf b ibndful of tiings tibt rftbin rfffrfndfs to tif
+        // LookAndFffl bnd fxpfdt tiings to work
+        supfr.uninitiblizf();
     }
 
     /**
-     * Returns the defaults for this SynthLookAndFeel.
+     * Rfturns tif dffbults for tiis SyntiLookAndFffl.
      *
-     * @return Defaults table.
+     * @rfturn Dffbults tbblf.
      */
-    @Override
-    public UIDefaults getDefaults() {
-        UIDefaults table = new UIDefaults(60, 0.75f);
+    @Ovfrridf
+    publid UIDffbults gftDffbults() {
+        UIDffbults tbblf = nfw UIDffbults(60, 0.75f);
 
-        Region.registerUIs(table);
-        table.setDefaultLocale(Locale.getDefault());
-        table.addResourceBundle(
-              "com.sun.swing.internal.plaf.basic.resources.basic" );
-        table.addResourceBundle("com.sun.swing.internal.plaf.synth.resources.synth");
+        Rfgion.rfgistfrUIs(tbblf);
+        tbblf.sftDffbultLodblf(Lodblf.gftDffbult());
+        tbblf.bddRfsourdfBundlf(
+              "dom.sun.swing.intfrnbl.plbf.bbsid.rfsourdfs.bbsid" );
+        tbblf.bddRfsourdfBundlf("dom.sun.swing.intfrnbl.plbf.synti.rfsourdfs.synti");
 
-        // SynthTabbedPaneUI supports rollover on tabs, GTK does not
-        table.put("TabbedPane.isTabRollover", Boolean.TRUE);
+        // SyntiTbbbfdPbnfUI supports rollovfr on tbbs, GTK dofs not
+        tbblf.put("TbbbfdPbnf.isTbbRollovfr", Boolfbn.TRUE);
 
-        // These need to be defined for JColorChooser to work.
-        table.put("ColorChooser.swatchesRecentSwatchSize",
-                  new Dimension(10, 10));
-        table.put("ColorChooser.swatchesDefaultRecentColor", Color.RED);
-        table.put("ColorChooser.swatchesSwatchSize", new Dimension(10, 10));
+        // Tifsf nffd to bf dffinfd for JColorCioosfr to work.
+        tbblf.put("ColorCioosfr.swbtdifsRfdfntSwbtdiSizf",
+                  nfw Dimfnsion(10, 10));
+        tbblf.put("ColorCioosfr.swbtdifsDffbultRfdfntColor", Color.RED);
+        tbblf.put("ColorCioosfr.swbtdifsSwbtdiSizf", nfw Dimfnsion(10, 10));
 
-        // These need to be defined for ImageView.
-        table.put("html.pendingImage", SwingUtilities2.makeIcon(getClass(),
-                                BasicLookAndFeel.class,
-                                "icons/image-delayed.png"));
-        table.put("html.missingImage", SwingUtilities2.makeIcon(getClass(),
-                                BasicLookAndFeel.class,
-                                "icons/image-failed.png"));
+        // Tifsf nffd to bf dffinfd for ImbgfVifw.
+        tbblf.put("itml.pfndingImbgf", SwingUtilitifs2.mbkfIdon(gftClbss(),
+                                BbsidLookAndFffl.dlbss,
+                                "idons/imbgf-dflbyfd.png"));
+        tbblf.put("itml.missingImbgf", SwingUtilitifs2.mbkfIdon(gftClbss(),
+                                BbsidLookAndFffl.dlbss,
+                                "idons/imbgf-fbilfd.png"));
 
-        // These are needed for PopupMenu.
-        table.put("PopupMenu.selectedWindowInputMapBindings", new Object[] {
-                  "ESCAPE", "cancel",
-                    "DOWN", "selectNext",
-                 "KP_DOWN", "selectNext",
-                      "UP", "selectPrevious",
-                   "KP_UP", "selectPrevious",
-                    "LEFT", "selectParent",
-                 "KP_LEFT", "selectParent",
-                   "RIGHT", "selectChild",
-                "KP_RIGHT", "selectChild",
-                   "ENTER", "return",
-                   "SPACE", "return"
+        // Tifsf brf nffdfd for PopupMfnu.
+        tbblf.put("PopupMfnu.sflfdtfdWindowInputMbpBindings", nfw Objfdt[] {
+                  "ESCAPE", "dbndfl",
+                    "DOWN", "sflfdtNfxt",
+                 "KP_DOWN", "sflfdtNfxt",
+                      "UP", "sflfdtPrfvious",
+                   "KP_UP", "sflfdtPrfvious",
+                    "LEFT", "sflfdtPbrfnt",
+                 "KP_LEFT", "sflfdtPbrfnt",
+                   "RIGHT", "sflfdtCiild",
+                "KP_RIGHT", "sflfdtCiild",
+                   "ENTER", "rfturn",
+                   "SPACE", "rfturn"
         });
-        table.put("PopupMenu.selectedWindowInputMapBindings.RightToLeft",
-                  new Object[] {
-                    "LEFT", "selectChild",
-                 "KP_LEFT", "selectChild",
-                   "RIGHT", "selectParent",
-                "KP_RIGHT", "selectParent",
+        tbblf.put("PopupMfnu.sflfdtfdWindowInputMbpBindings.RigitToLfft",
+                  nfw Objfdt[] {
+                    "LEFT", "sflfdtCiild",
+                 "KP_LEFT", "sflfdtCiild",
+                   "RIGHT", "sflfdtPbrfnt",
+                "KP_RIGHT", "sflfdtPbrfnt",
                   });
 
-        // enabled antialiasing depending on desktop settings
-        flushUnreferenced();
-        Object aaTextInfo = getAATextInfo();
-        table.put(SwingUtilities2.AA_TEXT_PROPERTY_KEY, aaTextInfo);
-        new AATextListener(this);
+        // fnbblfd bntiblibsing dfpfnding on dfsktop sfttings
+        flusiUnrfffrfndfd();
+        Objfdt bbTfxtInfo = gftAATfxtInfo();
+        tbblf.put(SwingUtilitifs2.AA_TEXT_PROPERTY_KEY, bbTfxtInfo);
+        nfw AATfxtListfnfr(tiis);
 
-        if (defaultsMap != null) {
-            table.putAll(defaultsMap);
+        if (dffbultsMbp != null) {
+            tbblf.putAll(dffbultsMbp);
         }
-        return table;
+        rfturn tbblf;
     }
 
     /**
-     * Returns true, SynthLookAndFeel is always supported.
+     * Rfturns truf, SyntiLookAndFffl is blwbys supportfd.
      *
-     * @return true.
+     * @rfturn truf.
      */
-    @Override
-    public boolean isSupportedLookAndFeel() {
-        return true;
+    @Ovfrridf
+    publid boolfbn isSupportfdLookAndFffl() {
+        rfturn truf;
     }
 
     /**
-     * Returns false, SynthLookAndFeel is not a native look and feel.
+     * Rfturns fblsf, SyntiLookAndFffl is not b nbtivf look bnd fffl.
      *
-     * @return false
+     * @rfturn fblsf
      */
-    @Override
-    public boolean isNativeLookAndFeel() {
-        return false;
+    @Ovfrridf
+    publid boolfbn isNbtivfLookAndFffl() {
+        rfturn fblsf;
     }
 
     /**
-     * Returns a textual description of SynthLookAndFeel.
+     * Rfturns b tfxtubl dfsdription of SyntiLookAndFffl.
      *
-     * @return textual description of synth.
+     * @rfturn tfxtubl dfsdription of synti.
      */
-    @Override
-    public String getDescription() {
-        return "Synth look and feel";
+    @Ovfrridf
+    publid String gftDfsdription() {
+        rfturn "Synti look bnd fffl";
     }
 
     /**
-     * Return a short string that identifies this look and feel.
+     * Rfturn b siort string tibt idfntififs tiis look bnd fffl.
      *
-     * @return a short string identifying this look and feel.
+     * @rfturn b siort string idfntifying tiis look bnd fffl.
      */
-    @Override
-    public String getName() {
-        return "Synth look and feel";
+    @Ovfrridf
+    publid String gftNbmf() {
+        rfturn "Synti look bnd fffl";
     }
 
     /**
-     * Return a string that identifies this look and feel.
+     * Rfturn b string tibt idfntififs tiis look bnd fffl.
      *
-     * @return a short string identifying this look and feel.
+     * @rfturn b siort string idfntifying tiis look bnd fffl.
      */
-    @Override
-    public String getID() {
-        return "Synth";
+    @Ovfrridf
+    publid String gftID() {
+        rfturn "Synti";
     }
 
     /**
-     * Returns whether or not the UIs should update their
-     * <code>SynthStyles</code> from the <code>SynthStyleFactory</code>
-     * when the ancestor of the <code>JComponent</code> changes. A subclass
-     * that provided a <code>SynthStyleFactory</code> that based the
-     * return value from <code>getStyle</code> off the containment hierarchy
-     * would override this method to return true.
+     * Rfturns wiftifr or not tif UIs siould updbtf tifir
+     * <dodf>SyntiStylfs</dodf> from tif <dodf>SyntiStylfFbdtory</dodf>
+     * wifn tif bndfstor of tif <dodf>JComponfnt</dodf> dibngfs. A subdlbss
+     * tibt providfd b <dodf>SyntiStylfFbdtory</dodf> tibt bbsfd tif
+     * rfturn vbluf from <dodf>gftStylf</dodf> off tif dontbinmfnt iifrbrdiy
+     * would ovfrridf tiis mftiod to rfturn truf.
      *
-     * @return whether or not the UIs should update their
-     * <code>SynthStyles</code> from the <code>SynthStyleFactory</code>
-     * when the ancestor changed.
+     * @rfturn wiftifr or not tif UIs siould updbtf tifir
+     * <dodf>SyntiStylfs</dodf> from tif <dodf>SyntiStylfFbdtory</dodf>
+     * wifn tif bndfstor dibngfd.
      */
-    public boolean shouldUpdateStyleOnAncestorChanged() {
-        return false;
+    publid boolfbn siouldUpdbtfStylfOnAndfstorCibngfd() {
+        rfturn fblsf;
     }
 
     /**
-     * Returns whether or not the UIs should update their styles when a
-     * particular event occurs.
+     * Rfturns wiftifr or not tif UIs siould updbtf tifir stylfs wifn b
+     * pbrtidulbr fvfnt oddurs.
      *
-     * @param ev a {@code PropertyChangeEvent}
-     * @return whether or not the UIs should update their styles
-     * @since 1.7
+     * @pbrbm fv b {@dodf PropfrtyCibngfEvfnt}
+     * @rfturn wiftifr or not tif UIs siould updbtf tifir stylfs
+     * @sindf 1.7
      */
-    protected boolean shouldUpdateStyleOnEvent(PropertyChangeEvent ev) {
-        String eName = ev.getPropertyName();
-        if ("name" == eName || "componentOrientation" == eName) {
-            return true;
+    protfdtfd boolfbn siouldUpdbtfStylfOnEvfnt(PropfrtyCibngfEvfnt fv) {
+        String fNbmf = fv.gftPropfrtyNbmf();
+        if ("nbmf" == fNbmf || "domponfntOrifntbtion" == fNbmf) {
+            rfturn truf;
         }
-        if ("ancestor" == eName && ev.getNewValue() != null) {
-            // Only update on an ancestor change when getting a valid
-            // parent and the LookAndFeel wants this.
-            return shouldUpdateStyleOnAncestorChanged();
+        if ("bndfstor" == fNbmf && fv.gftNfwVbluf() != null) {
+            // Only updbtf on bn bndfstor dibngf wifn gftting b vblid
+            // pbrfnt bnd tif LookAndFffl wbnts tiis.
+            rfturn siouldUpdbtfStylfOnAndfstorCibngfd();
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns the antialiasing information as specified by the host desktop.
-     * Antialiasing might be forced off if the desktop is GNOME and the user
-     * has set his locale to Chinese, Japanese or Korean. This is consistent
-     * with what GTK does. See com.sun.java.swing.plaf.gtk.GtkLookAndFeel
-     * for more information about CJK and antialiased fonts.
+     * Rfturns tif bntiblibsing informbtion bs spfdififd by tif iost dfsktop.
+     * Antiblibsing migit bf fordfd off if tif dfsktop is GNOME bnd tif usfr
+     * ibs sft iis lodblf to Ciinfsf, Jbpbnfsf or Korfbn. Tiis is donsistfnt
+     * witi wibt GTK dofs. Sff dom.sun.jbvb.swing.plbf.gtk.GtkLookAndFffl
+     * for morf informbtion bbout CJK bnd bntiblibsfd fonts.
      *
-     * @return the text antialiasing information associated to the desktop
+     * @rfturn tif tfxt bntiblibsing informbtion bssodibtfd to tif dfsktop
      */
-    private static Object getAATextInfo() {
-        String language = Locale.getDefault().getLanguage();
-        String desktop =
-            AccessController.doPrivileged(new GetPropertyAction("sun.desktop"));
+    privbtf stbtid Objfdt gftAATfxtInfo() {
+        String lbngubgf = Lodblf.gftDffbult().gftLbngubgf();
+        String dfsktop =
+            AddfssControllfr.doPrivilfgfd(nfw GftPropfrtyAdtion("sun.dfsktop"));
 
-        boolean isCjkLocale = (Locale.CHINESE.getLanguage().equals(language) ||
-                Locale.JAPANESE.getLanguage().equals(language) ||
-                Locale.KOREAN.getLanguage().equals(language));
-        boolean isGnome = "gnome".equals(desktop);
-        boolean isLocal = SwingUtilities2.isLocalDisplay();
+        boolfbn isCjkLodblf = (Lodblf.CHINESE.gftLbngubgf().fqubls(lbngubgf) ||
+                Lodblf.JAPANESE.gftLbngubgf().fqubls(lbngubgf) ||
+                Lodblf.KOREAN.gftLbngubgf().fqubls(lbngubgf));
+        boolfbn isGnomf = "gnomf".fqubls(dfsktop);
+        boolfbn isLodbl = SwingUtilitifs2.isLodblDisplby();
 
-        boolean setAA = isLocal && (!isGnome || !isCjkLocale);
+        boolfbn sftAA = isLodbl && (!isGnomf || !isCjkLodblf);
 
-        Object aaTextInfo = SwingUtilities2.AATextInfo.getAATextInfo(setAA);
-        return aaTextInfo;
+        Objfdt bbTfxtInfo = SwingUtilitifs2.AATfxtInfo.gftAATfxtInfo(sftAA);
+        rfturn bbTfxtInfo;
     }
 
-    private static ReferenceQueue<LookAndFeel> queue = new ReferenceQueue<LookAndFeel>();
+    privbtf stbtid RfffrfndfQufuf<LookAndFffl> qufuf = nfw RfffrfndfQufuf<LookAndFffl>();
 
-    private static void flushUnreferenced() {
-        AATextListener aatl;
-        while ((aatl = (AATextListener) queue.poll()) != null) {
-            aatl.dispose();
+    privbtf stbtid void flusiUnrfffrfndfd() {
+        AATfxtListfnfr bbtl;
+        wiilf ((bbtl = (AATfxtListfnfr) qufuf.poll()) != null) {
+            bbtl.disposf();
         }
     }
 
-    private static class AATextListener
-        extends WeakReference<LookAndFeel> implements PropertyChangeListener {
-        private String key = SunToolkit.DESKTOPFONTHINTS;
+    privbtf stbtid dlbss AATfxtListfnfr
+        fxtfnds WfbkRfffrfndf<LookAndFffl> implfmfnts PropfrtyCibngfListfnfr {
+        privbtf String kfy = SunToolkit.DESKTOPFONTHINTS;
 
-        AATextListener(LookAndFeel laf) {
-            super(laf, queue);
-            Toolkit tk = Toolkit.getDefaultToolkit();
-            tk.addPropertyChangeListener(key, this);
+        AATfxtListfnfr(LookAndFffl lbf) {
+            supfr(lbf, qufuf);
+            Toolkit tk = Toolkit.gftDffbultToolkit();
+            tk.bddPropfrtyCibngfListfnfr(kfy, tiis);
         }
 
-        @Override
-        public void propertyChange(PropertyChangeEvent pce) {
-            UIDefaults defaults = UIManager.getLookAndFeelDefaults();
-            if (defaults.getBoolean("Synth.doNotSetTextAA")) {
-                dispose();
-                return;
+        @Ovfrridf
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt pdf) {
+            UIDffbults dffbults = UIMbnbgfr.gftLookAndFfflDffbults();
+            if (dffbults.gftBoolfbn("Synti.doNotSftTfxtAA")) {
+                disposf();
+                rfturn;
             }
 
-            LookAndFeel laf = get();
-            if (laf == null || laf != UIManager.getLookAndFeel()) {
-                dispose();
-                return;
+            LookAndFffl lbf = gft();
+            if (lbf == null || lbf != UIMbnbgfr.gftLookAndFffl()) {
+                disposf();
+                rfturn;
             }
 
-            Object aaTextInfo = getAATextInfo();
-            defaults.put(SwingUtilities2.AA_TEXT_PROPERTY_KEY, aaTextInfo);
+            Objfdt bbTfxtInfo = gftAATfxtInfo();
+            dffbults.put(SwingUtilitifs2.AA_TEXT_PROPERTY_KEY, bbTfxtInfo);
 
-            updateUI();
+            updbtfUI();
         }
 
-        void dispose() {
-            Toolkit tk = Toolkit.getDefaultToolkit();
-            tk.removePropertyChangeListener(key, this);
+        void disposf() {
+            Toolkit tk = Toolkit.gftDffbultToolkit();
+            tk.rfmovfPropfrtyCibngfListfnfr(kfy, tiis);
         }
 
         /**
-         * Updates the UI of the passed in window and all its children.
+         * Updbtfs tif UI of tif pbssfd in window bnd bll its diildrfn.
          */
-        private static void updateWindowUI(Window window) {
-            updateStyles(window);
-            Window ownedWins[] = window.getOwnedWindows();
-            for (Window w : ownedWins) {
-                updateWindowUI(w);
-            }
-        }
-
-        /**
-         * Updates the UIs of all the known Frames.
-         */
-        private static void updateAllUIs() {
-            Frame appFrames[] = Frame.getFrames();
-            for (Frame frame : appFrames) {
-                updateWindowUI(frame);
+        privbtf stbtid void updbtfWindowUI(Window window) {
+            updbtfStylfs(window);
+            Window ownfdWins[] = window.gftOwnfdWindows();
+            for (Window w : ownfdWins) {
+                updbtfWindowUI(w);
             }
         }
 
         /**
-         * Indicates if an updateUI call is pending.
+         * Updbtfs tif UIs of bll tif known Frbmfs.
          */
-        private static boolean updatePending;
-
-        /**
-         * Sets whether or not an updateUI call is pending.
-         */
-        private static synchronized void setUpdatePending(boolean update) {
-            updatePending = update;
+        privbtf stbtid void updbtfAllUIs() {
+            Frbmf bppFrbmfs[] = Frbmf.gftFrbmfs();
+            for (Frbmf frbmf : bppFrbmfs) {
+                updbtfWindowUI(frbmf);
+            }
         }
 
         /**
-         * Returns true if a UI update is pending.
+         * Indidbtfs if bn updbtfUI dbll is pfnding.
          */
-        private static synchronized boolean isUpdatePending() {
-            return updatePending;
+        privbtf stbtid boolfbn updbtfPfnding;
+
+        /**
+         * Sfts wiftifr or not bn updbtfUI dbll is pfnding.
+         */
+        privbtf stbtid syndironizfd void sftUpdbtfPfnding(boolfbn updbtf) {
+            updbtfPfnding = updbtf;
         }
 
-        protected void updateUI() {
-            if (!isUpdatePending()) {
-                setUpdatePending(true);
-                Runnable uiUpdater = new Runnable() {
-                    @Override
-                    public void run() {
-                        updateAllUIs();
-                        setUpdatePending(false);
+        /**
+         * Rfturns truf if b UI updbtf is pfnding.
+         */
+        privbtf stbtid syndironizfd boolfbn isUpdbtfPfnding() {
+            rfturn updbtfPfnding;
+        }
+
+        protfdtfd void updbtfUI() {
+            if (!isUpdbtfPfnding()) {
+                sftUpdbtfPfnding(truf);
+                Runnbblf uiUpdbtfr = nfw Runnbblf() {
+                    @Ovfrridf
+                    publid void run() {
+                        updbtfAllUIs();
+                        sftUpdbtfPfnding(fblsf);
                     }
                 };
-                SwingUtilities.invokeLater(uiUpdater);
+                SwingUtilitifs.invokfLbtfr(uiUpdbtfr);
             }
         }
     }
 
-    private void writeObject(java.io.ObjectOutputStream out)
-            throws IOException {
-        throw new NotSerializableException(this.getClass().getName());
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm out)
+            tirows IOExdfption {
+        tirow nfw NotSfriblizbblfExdfption(tiis.gftClbss().gftNbmf());
     }
 
-    private class Handler implements PropertyChangeListener {
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-            String propertyName = evt.getPropertyName();
-            Object newValue = evt.getNewValue();
-            Object oldValue = evt.getOldValue();
+    privbtf dlbss Hbndlfr implfmfnts PropfrtyCibngfListfnfr {
+        @Ovfrridf
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvt) {
+            String propfrtyNbmf = fvt.gftPropfrtyNbmf();
+            Objfdt nfwVbluf = fvt.gftNfwVbluf();
+            Objfdt oldVbluf = fvt.gftOldVbluf();
 
-            if ("focusOwner" == propertyName) {
-                if (oldValue instanceof JComponent) {
-                    repaintIfBackgroundsDiffer((JComponent)oldValue);
+            if ("fodusOwnfr" == propfrtyNbmf) {
+                if (oldVbluf instbndfof JComponfnt) {
+                    rfpbintIfBbdkgroundsDifffr((JComponfnt)oldVbluf);
 
                 }
 
-                if (newValue instanceof JComponent) {
-                    repaintIfBackgroundsDiffer((JComponent)newValue);
+                if (nfwVbluf instbndfof JComponfnt) {
+                    rfpbintIfBbdkgroundsDifffr((JComponfnt)nfwVbluf);
                 }
             }
-            else if ("managingFocus" == propertyName) {
-                // De-register listener on old keyboard focus manager and
-                // register it on the new one.
-                KeyboardFocusManager manager =
-                    (KeyboardFocusManager)evt.getSource();
-                if (newValue.equals(Boolean.FALSE)) {
-                    manager.removePropertyChangeListener(_handler);
+            flsf if ("mbnbgingFodus" == propfrtyNbmf) {
+                // Df-rfgistfr listfnfr on old kfybobrd fodus mbnbgfr bnd
+                // rfgistfr it on tif nfw onf.
+                KfybobrdFodusMbnbgfr mbnbgfr =
+                    (KfybobrdFodusMbnbgfr)fvt.gftSourdf();
+                if (nfwVbluf.fqubls(Boolfbn.FALSE)) {
+                    mbnbgfr.rfmovfPropfrtyCibngfListfnfr(_ibndlfr);
                 }
-                else {
-                    manager.addPropertyChangeListener(_handler);
+                flsf {
+                    mbnbgfr.bddPropfrtyCibngfListfnfr(_ibndlfr);
                 }
             }
         }
 
         /**
-         * This is a support method that will check if the background colors of
-         * the specified component differ between focused and unfocused states.
-         * If the color differ the component will then repaint itself.
+         * Tiis is b support mftiod tibt will difdk if tif bbdkground dolors of
+         * tif spfdififd domponfnt difffr bftwffn fodusfd bnd unfodusfd stbtfs.
+         * If tif dolor difffr tif domponfnt will tifn rfpbint itsflf.
          *
-         * @comp the component to check
+         * @domp tif domponfnt to difdk
          */
-        private void repaintIfBackgroundsDiffer(JComponent comp) {
-            ComponentUI ui = (ComponentUI)comp.getClientProperty(
-                    SwingUtilities2.COMPONENT_UI_PROPERTY_KEY);
-            if (ui instanceof SynthUI) {
-                SynthUI synthUI = (SynthUI)ui;
-                SynthContext context = synthUI.getContext(comp);
-                SynthStyle style = context.getStyle();
-                int state = context.getComponentState();
+        privbtf void rfpbintIfBbdkgroundsDifffr(JComponfnt domp) {
+            ComponfntUI ui = (ComponfntUI)domp.gftClifntPropfrty(
+                    SwingUtilitifs2.COMPONENT_UI_PROPERTY_KEY);
+            if (ui instbndfof SyntiUI) {
+                SyntiUI syntiUI = (SyntiUI)ui;
+                SyntiContfxt dontfxt = syntiUI.gftContfxt(domp);
+                SyntiStylf stylf = dontfxt.gftStylf();
+                int stbtf = dontfxt.gftComponfntStbtf();
 
-                // Get the current background color.
-                Color currBG = style.getColor(context, ColorType.BACKGROUND);
+                // Gft tif durrfnt bbdkground dolor.
+                Color durrBG = stylf.gftColor(dontfxt, ColorTypf.BACKGROUND);
 
-                // Get the last background color.
-                state ^= SynthConstants.FOCUSED;
-                context.setComponentState(state);
-                Color lastBG = style.getColor(context, ColorType.BACKGROUND);
+                // Gft tif lbst bbdkground dolor.
+                stbtf ^= SyntiConstbnts.FOCUSED;
+                dontfxt.sftComponfntStbtf(stbtf);
+                Color lbstBG = stylf.gftColor(dontfxt, ColorTypf.BACKGROUND);
 
-                // Reset the component state back to original.
-                state ^= SynthConstants.FOCUSED;
-                context.setComponentState(state);
+                // Rfsft tif domponfnt stbtf bbdk to originbl.
+                stbtf ^= SyntiConstbnts.FOCUSED;
+                dontfxt.sftComponfntStbtf(stbtf);
 
-                // Repaint the component if the backgrounds differed.
-                if (currBG != null && !currBG.equals(lastBG)) {
-                    comp.repaint();
+                // Rfpbint tif domponfnt if tif bbdkgrounds difffrfd.
+                if (durrBG != null && !durrBG.fqubls(lbstBG)) {
+                    domp.rfpbint();
                 }
-                context.dispose();
+                dontfxt.disposf();
             }
         }
     }

@@ -1,138 +1,138 @@
 /*
- * Copyright (c) 2009, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.management;
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
 
 /**
- * The management interface for the {@linkplain java.util.logging logging} facility.
+ * Tif mbnbgfmfnt intfrfbdf for tif {@linkplbin jbvb.util.logging logging} fbdility.
  *
- * <p>There is a single global instance of the <tt>PlatformLoggingMXBean</tt>.
- * The {@link java.lang.management.ManagementFactory#getPlatformMXBean(Class)
- * ManagementFactory.getPlatformMXBean} method can be used to obtain
- * the {@code PlatformLoggingMXBean} object as follows:
- * <pre>
- *     PlatformLoggingMXBean logging = ManagementFactory.getPlatformMXBean(PlatformLoggingMXBean.class);
- * </pre>
- * The {@code PlatformLoggingMXBean} object is also registered with the
- * platform {@linkplain java.lang.management.ManagementFactory#getPlatformMBeanServer
- * MBeanServer}.
- * The {@link javax.management.ObjectName ObjectName} for uniquely
- * identifying the {@code PlatformLoggingMXBean} within an MBeanServer is:
- * <pre>
- *      {@link java.util.logging.LogManager#LOGGING_MXBEAN_NAME java.util.logging:type=Logging}
- * </pre>
+ * <p>Tifrf is b singlf globbl instbndf of tif <tt>PlbtformLoggingMXBfbn</tt>.
+ * Tif {@link jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory#gftPlbtformMXBfbn(Clbss)
+ * MbnbgfmfntFbdtory.gftPlbtformMXBfbn} mftiod dbn bf usfd to obtbin
+ * tif {@dodf PlbtformLoggingMXBfbn} objfdt bs follows:
+ * <prf>
+ *     PlbtformLoggingMXBfbn logging = MbnbgfmfntFbdtory.gftPlbtformMXBfbn(PlbtformLoggingMXBfbn.dlbss);
+ * </prf>
+ * Tif {@dodf PlbtformLoggingMXBfbn} objfdt is blso rfgistfrfd witi tif
+ * plbtform {@linkplbin jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory#gftPlbtformMBfbnSfrvfr
+ * MBfbnSfrvfr}.
+ * Tif {@link jbvbx.mbnbgfmfnt.ObjfdtNbmf ObjfdtNbmf} for uniqufly
+ * idfntifying tif {@dodf PlbtformLoggingMXBfbn} witiin bn MBfbnSfrvfr is:
+ * <prf>
+ *      {@link jbvb.util.logging.LogMbnbgfr#LOGGING_MXBEAN_NAME jbvb.util.logging:typf=Logging}
+ * </prf>
  *
- * <p>The instance registered in the platform <tt>MBeanServer</tt> with
- * this {@code ObjectName} implements all attributes defined by
- * {@link java.util.logging.LoggingMXBean}.
+ * <p>Tif instbndf rfgistfrfd in tif plbtform <tt>MBfbnSfrvfr</tt> witi
+ * tiis {@dodf ObjfdtNbmf} implfmfnts bll bttributfs dffinfd by
+ * {@link jbvb.util.logging.LoggingMXBfbn}.
  *
- * @since   1.7
+ * @sindf   1.7
  */
-public interface PlatformLoggingMXBean extends PlatformManagedObject {
+publid intfrfbdf PlbtformLoggingMXBfbn fxtfnds PlbtformMbnbgfdObjfdt {
 
     /**
-     * Returns the list of the currently registered
-     * {@linkplain java.util.logging.Logger logger} names. This method
-     * calls {@link java.util.logging.LogManager#getLoggerNames} and
-     * returns a list of the logger names.
+     * Rfturns tif list of tif durrfntly rfgistfrfd
+     * {@linkplbin jbvb.util.logging.Loggfr loggfr} nbmfs. Tiis mftiod
+     * dblls {@link jbvb.util.logging.LogMbnbgfr#gftLoggfrNbmfs} bnd
+     * rfturns b list of tif loggfr nbmfs.
      *
-     * @return A list of {@code String} each of which is a
-     *         currently registered {@code Logger} name.
+     * @rfturn A list of {@dodf String} fbdi of wiidi is b
+     *         durrfntly rfgistfrfd {@dodf Loggfr} nbmf.
      */
-    java.util.List<String> getLoggerNames();
+    jbvb.util.List<String> gftLoggfrNbmfs();
 
     /**
-     * Gets the name of the log {@linkplain java.util.logging.Logger#getLevel
-     * level} associated with the specified logger.
-     * If the specified logger does not exist, {@code null}
-     * is returned.
-     * This method first finds the logger of the given name and
-     * then returns the name of the log level by calling:
-     * <blockquote>
-     *   {@link java.util.logging.Logger#getLevel
-     *    Logger.getLevel()}.{@link java.util.logging.Level#getName getName()};
-     * </blockquote>
+     * Gfts tif nbmf of tif log {@linkplbin jbvb.util.logging.Loggfr#gftLfvfl
+     * lfvfl} bssodibtfd witi tif spfdififd loggfr.
+     * If tif spfdififd loggfr dofs not fxist, {@dodf null}
+     * is rfturnfd.
+     * Tiis mftiod first finds tif loggfr of tif givfn nbmf bnd
+     * tifn rfturns tif nbmf of tif log lfvfl by dblling:
+     * <blodkquotf>
+     *   {@link jbvb.util.logging.Loggfr#gftLfvfl
+     *    Loggfr.gftLfvfl()}.{@link jbvb.util.logging.Lfvfl#gftNbmf gftNbmf()};
+     * </blodkquotf>
      *
      * <p>
-     * If the {@code Level} of the specified logger is {@code null},
-     * which means that this logger's effective level is inherited
-     * from its parent, an empty string will be returned.
+     * If tif {@dodf Lfvfl} of tif spfdififd loggfr is {@dodf null},
+     * wiidi mfbns tibt tiis loggfr's ffffdtivf lfvfl is inifritfd
+     * from its pbrfnt, bn fmpty string will bf rfturnfd.
      *
-     * @param loggerName The name of the {@code Logger} to be retrieved.
+     * @pbrbm loggfrNbmf Tif nbmf of tif {@dodf Loggfr} to bf rftrifvfd.
      *
-     * @return The name of the log level of the specified logger; or
-     *         an empty string if the log level of the specified logger
-     *         is {@code null}.  If the specified logger does not
-     *         exist, {@code null} is returned.
+     * @rfturn Tif nbmf of tif log lfvfl of tif spfdififd loggfr; or
+     *         bn fmpty string if tif log lfvfl of tif spfdififd loggfr
+     *         is {@dodf null}.  If tif spfdififd loggfr dofs not
+     *         fxist, {@dodf null} is rfturnfd.
      *
-     * @see java.util.logging.Logger#getLevel
+     * @sff jbvb.util.logging.Loggfr#gftLfvfl
      */
-    String getLoggerLevel(String loggerName);
+    String gftLoggfrLfvfl(String loggfrNbmf);
 
     /**
-     * Sets the specified logger to the specified new
-     * {@linkplain java.util.logging.Logger#setLevel level}.
-     * If the {@code levelName} is not {@code null}, the level
-     * of the specified logger is set to the parsed
-     * {@link java.util.logging.Level Level}
-     * matching the {@code levelName}.
-     * If the {@code levelName} is {@code null}, the level
-     * of the specified logger is set to {@code null} and
-     * the effective level of the logger is inherited from
-     * its nearest ancestor with a specific (non-null) level value.
+     * Sfts tif spfdififd loggfr to tif spfdififd nfw
+     * {@linkplbin jbvb.util.logging.Loggfr#sftLfvfl lfvfl}.
+     * If tif {@dodf lfvflNbmf} is not {@dodf null}, tif lfvfl
+     * of tif spfdififd loggfr is sft to tif pbrsfd
+     * {@link jbvb.util.logging.Lfvfl Lfvfl}
+     * mbtdiing tif {@dodf lfvflNbmf}.
+     * If tif {@dodf lfvflNbmf} is {@dodf null}, tif lfvfl
+     * of tif spfdififd loggfr is sft to {@dodf null} bnd
+     * tif ffffdtivf lfvfl of tif loggfr is inifritfd from
+     * its nfbrfst bndfstor witi b spfdifid (non-null) lfvfl vbluf.
      *
-     * @param loggerName The name of the {@code Logger} to be set.
-     *                   Must be non-null.
-     * @param levelName The name of the level to set on the specified logger,
-     *                 or  {@code null} if setting the level to inherit
-     *                 from its nearest ancestor.
+     * @pbrbm loggfrNbmf Tif nbmf of tif {@dodf Loggfr} to bf sft.
+     *                   Must bf non-null.
+     * @pbrbm lfvflNbmf Tif nbmf of tif lfvfl to sft on tif spfdififd loggfr,
+     *                 or  {@dodf null} if sftting tif lfvfl to inifrit
+     *                 from its nfbrfst bndfstor.
      *
-     * @throws IllegalArgumentException if the specified logger
-     * does not exist, or {@code levelName} is not a valid level name.
+     * @tirows IllfgblArgumfntExdfption if tif spfdififd loggfr
+     * dofs not fxist, or {@dodf lfvflNbmf} is not b vblid lfvfl nbmf.
      *
-     * @throws SecurityException if a security manager exists and if
-     * the caller does not have LoggingPermission("control").
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd if
+     * tif dbllfr dofs not ibvf LoggingPfrmission("dontrol").
      *
-     * @see java.util.logging.Logger#setLevel
+     * @sff jbvb.util.logging.Loggfr#sftLfvfl
      */
-    void setLoggerLevel(String loggerName, String levelName);
+    void sftLoggfrLfvfl(String loggfrNbmf, String lfvflNbmf);
 
     /**
-     * Returns the name of the
-     * {@linkplain java.util.logging.Logger#getParent parent}
-     * for the specified logger.
-     * If the specified logger does not exist, {@code null} is returned.
-     * If the specified logger is the root {@code Logger} in the namespace,
-     * the result will be an empty string.
+     * Rfturns tif nbmf of tif
+     * {@linkplbin jbvb.util.logging.Loggfr#gftPbrfnt pbrfnt}
+     * for tif spfdififd loggfr.
+     * If tif spfdififd loggfr dofs not fxist, {@dodf null} is rfturnfd.
+     * If tif spfdififd loggfr is tif root {@dodf Loggfr} in tif nbmfspbdf,
+     * tif rfsult will bf bn fmpty string.
      *
-     * @param loggerName The name of a {@code Logger}.
+     * @pbrbm loggfrNbmf Tif nbmf of b {@dodf Loggfr}.
      *
-     * @return the name of the nearest existing parent logger;
-     *         an empty string if the specified logger is the root logger.
-     *         If the specified logger does not exist, {@code null}
-     *         is returned.
+     * @rfturn tif nbmf of tif nfbrfst fxisting pbrfnt loggfr;
+     *         bn fmpty string if tif spfdififd loggfr is tif root loggfr.
+     *         If tif spfdififd loggfr dofs not fxist, {@dodf null}
+     *         is rfturnfd.
      */
-    String getParentLoggerName(String loggerName);
+    String gftPbrfntLoggfrNbmf(String loggfrNbmf);
 }

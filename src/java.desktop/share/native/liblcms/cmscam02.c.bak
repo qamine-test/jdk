@@ -1,46 +1,46 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
-// file:
+// Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+// Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+// Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+// filf:
 //
 //---------------------------------------------------------------------------------
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2012 Marti Maria Saguer
+//  Littlf Color Mbnbgfmfnt Systfm
+//  Copyrigit (d) 1998-2012 Mbrti Mbrib Sbgufr
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
-// the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
-// is furnished to do so, subject to the following conditions:
+// Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining
+// b dopy of tiis softwbrf bnd bssodibtfd dodumfntbtion filfs (tif "Softwbrf"),
+// to dfbl in tif Softwbrf witiout rfstridtion, indluding witiout limitbtion
+// tif rigits to usf, dopy, modify, mfrgf, publisi, distributf, sublidfnsf,
+// bnd/or sfll dopifs of tif Softwbrf, bnd to pfrmit pfrsons to wiom tif Softwbrf
+// is furnisifd to do so, subjfdt to tif following donditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// Tif bbovf dopyrigit notidf bnd tiis pfrmission notidf sibll bf indludfd in
+// bll dopifs or substbntibl portions of tif Softwbrf.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -53,110 +53,110 @@
 //---------------------------------------------------------------------------------
 //
 
-#include "lcms2_internal.h"
+#indludf "ldms2_intfrnbl.i"
 
-// CIECAM 02 appearance model. Many thanks to Jordi Vilar for the debugging.
+// CIECAM 02 bppfbrbndf modfl. Mbny tibnks to Jordi Vilbr for tif dfbugging.
 
-// ---------- Implementation --------------------------------------------
+// ---------- Implfmfntbtion --------------------------------------------
 
-typedef struct  {
+typfdff strudt  {
 
-    cmsFloat64Number XYZ[3];
-    cmsFloat64Number RGB[3];
-    cmsFloat64Number RGBc[3];
-    cmsFloat64Number RGBp[3];
-    cmsFloat64Number RGBpa[3];
-    cmsFloat64Number a, b, h, e, H, A, J, Q, s, t, C, M;
-    cmsFloat64Number abC[2];
-    cmsFloat64Number abs[2];
-    cmsFloat64Number abM[2];
+    dmsFlobt64Numbfr XYZ[3];
+    dmsFlobt64Numbfr RGB[3];
+    dmsFlobt64Numbfr RGBd[3];
+    dmsFlobt64Numbfr RGBp[3];
+    dmsFlobt64Numbfr RGBpb[3];
+    dmsFlobt64Numbfr b, b, i, f, H, A, J, Q, s, t, C, M;
+    dmsFlobt64Numbfr bbC[2];
+    dmsFlobt64Numbfr bbs[2];
+    dmsFlobt64Numbfr bbM[2];
 
 } CAM02COLOR;
 
-typedef struct  {
+typfdff strudt  {
 
-    CAM02COLOR adoptedWhite;
-    cmsFloat64Number LA, Yb;
-    cmsFloat64Number F, c, Nc;
-    cmsUInt32Number surround;
-    cmsFloat64Number n, Nbb, Ncb, z, FL, D;
+    CAM02COLOR bdoptfdWiitf;
+    dmsFlobt64Numbfr LA, Yb;
+    dmsFlobt64Numbfr F, d, Nd;
+    dmsUInt32Numbfr surround;
+    dmsFlobt64Numbfr n, Nbb, Ndb, z, FL, D;
 
-    cmsContext ContextID;
+    dmsContfxt ContfxtID;
 
-} cmsCIECAM02;
+} dmsCIECAM02;
 
 
-static
-cmsFloat64Number compute_n(cmsCIECAM02* pMod)
+stbtid
+dmsFlobt64Numbfr domputf_n(dmsCIECAM02* pMod)
 {
-    return (pMod -> Yb / pMod -> adoptedWhite.XYZ[1]);
+    rfturn (pMod -> Yb / pMod -> bdoptfdWiitf.XYZ[1]);
 }
 
-static
-cmsFloat64Number compute_z(cmsCIECAM02* pMod)
+stbtid
+dmsFlobt64Numbfr domputf_z(dmsCIECAM02* pMod)
 {
-    return (1.48 + pow(pMod -> n, 0.5));
+    rfturn (1.48 + pow(pMod -> n, 0.5));
 }
 
-static
-cmsFloat64Number computeNbb(cmsCIECAM02* pMod)
+stbtid
+dmsFlobt64Numbfr domputfNbb(dmsCIECAM02* pMod)
 {
-    return (0.725 * pow((1.0 / pMod -> n), 0.2));
+    rfturn (0.725 * pow((1.0 / pMod -> n), 0.2));
 }
 
-static
-cmsFloat64Number computeFL(cmsCIECAM02* pMod)
+stbtid
+dmsFlobt64Numbfr domputfFL(dmsCIECAM02* pMod)
 {
-    cmsFloat64Number k, FL;
+    dmsFlobt64Numbfr k, FL;
 
     k = 1.0 / ((5.0 * pMod->LA) + 1.0);
     FL = 0.2 * pow(k, 4.0) * (5.0 * pMod->LA) + 0.1 *
         (pow((1.0 - pow(k, 4.0)), 2.0)) *
         (pow((5.0 * pMod->LA), (1.0 / 3.0)));
 
-    return FL;
+    rfturn FL;
 }
 
-static
-cmsFloat64Number computeD(cmsCIECAM02* pMod)
+stbtid
+dmsFlobt64Numbfr domputfD(dmsCIECAM02* pMod)
 {
-    cmsFloat64Number D;
+    dmsFlobt64Numbfr D;
 
-    D = pMod->F - (1.0/3.6)*(exp(((-pMod ->LA-42) / 92.0)));
+    D = pMod->F - (1.0/3.6)*(fxp(((-pMod ->LA-42) / 92.0)));
 
-    return D;
+    rfturn D;
 }
 
 
-static
-CAM02COLOR XYZtoCAT02(CAM02COLOR clr)
+stbtid
+CAM02COLOR XYZtoCAT02(CAM02COLOR dlr)
 {
-    clr.RGB[0] = (clr.XYZ[0] *  0.7328) + (clr.XYZ[1] *  0.4296) + (clr.XYZ[2] * -0.1624);
-    clr.RGB[1] = (clr.XYZ[0] * -0.7036) + (clr.XYZ[1] *  1.6975) + (clr.XYZ[2] *  0.0061);
-    clr.RGB[2] = (clr.XYZ[0] *  0.0030) + (clr.XYZ[1] *  0.0136) + (clr.XYZ[2] *  0.9834);
+    dlr.RGB[0] = (dlr.XYZ[0] *  0.7328) + (dlr.XYZ[1] *  0.4296) + (dlr.XYZ[2] * -0.1624);
+    dlr.RGB[1] = (dlr.XYZ[0] * -0.7036) + (dlr.XYZ[1] *  1.6975) + (dlr.XYZ[2] *  0.0061);
+    dlr.RGB[2] = (dlr.XYZ[0] *  0.0030) + (dlr.XYZ[1] *  0.0136) + (dlr.XYZ[2] *  0.9834);
 
-    return clr;
+    rfturn dlr;
 }
 
-static
-CAM02COLOR ChromaticAdaptation(CAM02COLOR clr, cmsCIECAM02* pMod)
+stbtid
+CAM02COLOR CirombtidAdbptbtion(CAM02COLOR dlr, dmsCIECAM02* pMod)
 {
-    cmsUInt32Number i;
+    dmsUInt32Numbfr i;
 
     for (i = 0; i < 3; i++) {
-        clr.RGBc[i] = ((pMod -> adoptedWhite.XYZ[1] *
-            (pMod->D / pMod -> adoptedWhite.RGB[i])) +
-            (1.0 - pMod->D)) * clr.RGB[i];
+        dlr.RGBd[i] = ((pMod -> bdoptfdWiitf.XYZ[1] *
+            (pMod->D / pMod -> bdoptfdWiitf.RGB[i])) +
+            (1.0 - pMod->D)) * dlr.RGB[i];
     }
 
-    return clr;
+    rfturn dlr;
 }
 
 
-static
-CAM02COLOR CAT02toHPE(CAM02COLOR clr)
+stbtid
+CAM02COLOR CAT02toHPE(CAM02COLOR dlr)
 {
-    cmsFloat64Number M[9];
+    dmsFlobt64Numbfr M[9];
 
     M[0] =(( 0.38971 *  1.096124) + (0.68898 * 0.454369) + (-0.07868 * -0.009628));
     M[1] =(( 0.38971 * -0.278869) + (0.68898 * 0.473533) + (-0.07868 * -0.005698));
@@ -168,182 +168,182 @@ CAM02COLOR CAT02toHPE(CAM02COLOR clr)
     M[7] =(-0.005698);
     M[8] =( 1.015326);
 
-    clr.RGBp[0] = (clr.RGBc[0] * M[0]) +  (clr.RGBc[1] * M[1]) + (clr.RGBc[2] * M[2]);
-    clr.RGBp[1] = (clr.RGBc[0] * M[3]) +  (clr.RGBc[1] * M[4]) + (clr.RGBc[2] * M[5]);
-    clr.RGBp[2] = (clr.RGBc[0] * M[6]) +  (clr.RGBc[1] * M[7]) + (clr.RGBc[2] * M[8]);
+    dlr.RGBp[0] = (dlr.RGBd[0] * M[0]) +  (dlr.RGBd[1] * M[1]) + (dlr.RGBd[2] * M[2]);
+    dlr.RGBp[1] = (dlr.RGBd[0] * M[3]) +  (dlr.RGBd[1] * M[4]) + (dlr.RGBd[2] * M[5]);
+    dlr.RGBp[2] = (dlr.RGBd[0] * M[6]) +  (dlr.RGBd[1] * M[7]) + (dlr.RGBd[2] * M[8]);
 
-    return  clr;
+    rfturn  dlr;
 }
 
-static
-CAM02COLOR NonlinearCompression(CAM02COLOR clr, cmsCIECAM02* pMod)
+stbtid
+CAM02COLOR NonlinfbrComprfssion(CAM02COLOR dlr, dmsCIECAM02* pMod)
 {
-    cmsUInt32Number i;
-    cmsFloat64Number temp;
+    dmsUInt32Numbfr i;
+    dmsFlobt64Numbfr tfmp;
 
     for (i = 0; i < 3; i++) {
-        if (clr.RGBp[i] < 0) {
+        if (dlr.RGBp[i] < 0) {
 
-            temp = pow((-1.0 * pMod->FL * clr.RGBp[i] / 100.0), 0.42);
-            clr.RGBpa[i] = (-1.0 * 400.0 * temp) / (temp + 27.13) + 0.1;
+            tfmp = pow((-1.0 * pMod->FL * dlr.RGBp[i] / 100.0), 0.42);
+            dlr.RGBpb[i] = (-1.0 * 400.0 * tfmp) / (tfmp + 27.13) + 0.1;
         }
-        else {
-            temp = pow((pMod->FL * clr.RGBp[i] / 100.0), 0.42);
-            clr.RGBpa[i] = (400.0 * temp) / (temp + 27.13) + 0.1;
+        flsf {
+            tfmp = pow((pMod->FL * dlr.RGBp[i] / 100.0), 0.42);
+            dlr.RGBpb[i] = (400.0 * tfmp) / (tfmp + 27.13) + 0.1;
         }
     }
 
-    clr.A = (((2.0 * clr.RGBpa[0]) + clr.RGBpa[1] +
-        (clr.RGBpa[2] / 20.0)) - 0.305) * pMod->Nbb;
+    dlr.A = (((2.0 * dlr.RGBpb[0]) + dlr.RGBpb[1] +
+        (dlr.RGBpb[2] / 20.0)) - 0.305) * pMod->Nbb;
 
-    return clr;
+    rfturn dlr;
 }
 
-static
-CAM02COLOR ComputeCorrelates(CAM02COLOR clr, cmsCIECAM02* pMod)
+stbtid
+CAM02COLOR ComputfCorrflbtfs(CAM02COLOR dlr, dmsCIECAM02* pMod)
 {
-    cmsFloat64Number a, b, temp, e, t, r2d, d2r;
+    dmsFlobt64Numbfr b, b, tfmp, f, t, r2d, d2r;
 
-    a = clr.RGBpa[0] - (12.0 * clr.RGBpa[1] / 11.0) + (clr.RGBpa[2] / 11.0);
-    b = (clr.RGBpa[0] + clr.RGBpa[1] - (2.0 * clr.RGBpa[2])) / 9.0;
+    b = dlr.RGBpb[0] - (12.0 * dlr.RGBpb[1] / 11.0) + (dlr.RGBpb[2] / 11.0);
+    b = (dlr.RGBpb[0] + dlr.RGBpb[1] - (2.0 * dlr.RGBpb[2])) / 9.0;
 
     r2d = (180.0 / 3.141592654);
-    if (a == 0) {
-        if (b == 0)     clr.h = 0;
-        else if (b > 0) clr.h = 90;
-        else            clr.h = 270;
+    if (b == 0) {
+        if (b == 0)     dlr.i = 0;
+        flsf if (b > 0) dlr.i = 90;
+        flsf            dlr.i = 270;
     }
-    else if (a > 0) {
-        temp = b / a;
-        if (b > 0)       clr.h = (r2d * atan(temp));
-        else if (b == 0) clr.h = 0;
-        else             clr.h = (r2d * atan(temp)) + 360;
+    flsf if (b > 0) {
+        tfmp = b / b;
+        if (b > 0)       dlr.i = (r2d * btbn(tfmp));
+        flsf if (b == 0) dlr.i = 0;
+        flsf             dlr.i = (r2d * btbn(tfmp)) + 360;
     }
-    else {
-        temp = b / a;
-        clr.h = (r2d * atan(temp)) + 180;
+    flsf {
+        tfmp = b / b;
+        dlr.i = (r2d * btbn(tfmp)) + 180;
     }
 
     d2r = (3.141592654 / 180.0);
-    e = ((12500.0 / 13.0) * pMod->Nc * pMod->Ncb) *
-        (cos((clr.h * d2r + 2.0)) + 3.8);
+    f = ((12500.0 / 13.0) * pMod->Nd * pMod->Ndb) *
+        (dos((dlr.i * d2r + 2.0)) + 3.8);
 
-    if (clr.h < 20.14) {
-        temp = ((clr.h + 122.47)/1.2) + ((20.14 - clr.h)/0.8);
-        clr.H = 300 + (100*((clr.h + 122.47)/1.2)) / temp;
+    if (dlr.i < 20.14) {
+        tfmp = ((dlr.i + 122.47)/1.2) + ((20.14 - dlr.i)/0.8);
+        dlr.H = 300 + (100*((dlr.i + 122.47)/1.2)) / tfmp;
     }
-    else if (clr.h < 90.0) {
-        temp = ((clr.h - 20.14)/0.8) + ((90.00 - clr.h)/0.7);
-        clr.H = (100*((clr.h - 20.14)/0.8)) / temp;
+    flsf if (dlr.i < 90.0) {
+        tfmp = ((dlr.i - 20.14)/0.8) + ((90.00 - dlr.i)/0.7);
+        dlr.H = (100*((dlr.i - 20.14)/0.8)) / tfmp;
     }
-    else if (clr.h < 164.25) {
-        temp = ((clr.h - 90.00)/0.7) + ((164.25 - clr.h)/1.0);
-        clr.H = 100 + ((100*((clr.h - 90.00)/0.7)) / temp);
+    flsf if (dlr.i < 164.25) {
+        tfmp = ((dlr.i - 90.00)/0.7) + ((164.25 - dlr.i)/1.0);
+        dlr.H = 100 + ((100*((dlr.i - 90.00)/0.7)) / tfmp);
     }
-    else if (clr.h < 237.53) {
-        temp = ((clr.h - 164.25)/1.0) + ((237.53 - clr.h)/1.2);
-        clr.H = 200 + ((100*((clr.h - 164.25)/1.0)) / temp);
+    flsf if (dlr.i < 237.53) {
+        tfmp = ((dlr.i - 164.25)/1.0) + ((237.53 - dlr.i)/1.2);
+        dlr.H = 200 + ((100*((dlr.i - 164.25)/1.0)) / tfmp);
     }
-    else {
-        temp = ((clr.h - 237.53)/1.2) + ((360 - clr.h + 20.14)/0.8);
-        clr.H = 300 + ((100*((clr.h - 237.53)/1.2)) / temp);
+    flsf {
+        tfmp = ((dlr.i - 237.53)/1.2) + ((360 - dlr.i + 20.14)/0.8);
+        dlr.H = 300 + ((100*((dlr.i - 237.53)/1.2)) / tfmp);
     }
 
-    clr.J = 100.0 * pow((clr.A / pMod->adoptedWhite.A),
-        (pMod->c * pMod->z));
+    dlr.J = 100.0 * pow((dlr.A / pMod->bdoptfdWiitf.A),
+        (pMod->d * pMod->z));
 
-    clr.Q = (4.0 / pMod->c) * pow((clr.J / 100.0), 0.5) *
-        (pMod->adoptedWhite.A + 4.0) * pow(pMod->FL, 0.25);
+    dlr.Q = (4.0 / pMod->d) * pow((dlr.J / 100.0), 0.5) *
+        (pMod->bdoptfdWiitf.A + 4.0) * pow(pMod->FL, 0.25);
 
-    t = (e * pow(((a * a) + (b * b)), 0.5)) /
-        (clr.RGBpa[0] + clr.RGBpa[1] +
-        ((21.0 / 20.0) * clr.RGBpa[2]));
+    t = (f * pow(((b * b) + (b * b)), 0.5)) /
+        (dlr.RGBpb[0] + dlr.RGBpb[1] +
+        ((21.0 / 20.0) * dlr.RGBpb[2]));
 
-    clr.C = pow(t, 0.9) * pow((clr.J / 100.0), 0.5) *
+    dlr.C = pow(t, 0.9) * pow((dlr.J / 100.0), 0.5) *
         pow((1.64 - pow(0.29, pMod->n)), 0.73);
 
-    clr.M = clr.C * pow(pMod->FL, 0.25);
-    clr.s = 100.0 * pow((clr.M / clr.Q), 0.5);
+    dlr.M = dlr.C * pow(pMod->FL, 0.25);
+    dlr.s = 100.0 * pow((dlr.M / dlr.Q), 0.5);
 
-    return clr;
+    rfturn dlr;
 }
 
 
-static
-CAM02COLOR InverseCorrelates(CAM02COLOR clr, cmsCIECAM02* pMod)
+stbtid
+CAM02COLOR InvfrsfCorrflbtfs(CAM02COLOR dlr, dmsCIECAM02* pMod)
 {
 
-    cmsFloat64Number t, e, p1, p2, p3, p4, p5, hr, d2r;
+    dmsFlobt64Numbfr t, f, p1, p2, p3, p4, p5, ir, d2r;
     d2r = 3.141592654 / 180.0;
 
-    t = pow( (clr.C / (pow((clr.J / 100.0), 0.5) *
+    t = pow( (dlr.C / (pow((dlr.J / 100.0), 0.5) *
         (pow((1.64 - pow(0.29, pMod->n)), 0.73)))),
         (1.0 / 0.9) );
-    e = ((12500.0 / 13.0) * pMod->Nc * pMod->Ncb) *
-        (cos((clr.h * d2r + 2.0)) + 3.8);
+    f = ((12500.0 / 13.0) * pMod->Nd * pMod->Ndb) *
+        (dos((dlr.i * d2r + 2.0)) + 3.8);
 
-    clr.A = pMod->adoptedWhite.A * pow(
-           (clr.J / 100.0),
-           (1.0 / (pMod->c * pMod->z)));
+    dlr.A = pMod->bdoptfdWiitf.A * pow(
+           (dlr.J / 100.0),
+           (1.0 / (pMod->d * pMod->z)));
 
-    p1 = e / t;
-    p2 = (clr.A / pMod->Nbb) + 0.305;
+    p1 = f / t;
+    p2 = (dlr.A / pMod->Nbb) + 0.305;
     p3 = 21.0 / 20.0;
 
-    hr = clr.h * d2r;
+    ir = dlr.i * d2r;
 
-    if (fabs(sin(hr)) >= fabs(cos(hr))) {
-        p4 = p1 / sin(hr);
-        clr.b = (p2 * (2.0 + p3) * (460.0 / 1403.0)) /
+    if (fbbs(sin(ir)) >= fbbs(dos(ir))) {
+        p4 = p1 / sin(ir);
+        dlr.b = (p2 * (2.0 + p3) * (460.0 / 1403.0)) /
             (p4 + (2.0 + p3) * (220.0 / 1403.0) *
-            (cos(hr) / sin(hr)) - (27.0 / 1403.0) +
+            (dos(ir) / sin(ir)) - (27.0 / 1403.0) +
             p3 * (6300.0 / 1403.0));
-        clr.a = clr.b * (cos(hr) / sin(hr));
+        dlr.b = dlr.b * (dos(ir) / sin(ir));
     }
-    else {
-        p5 = p1 / cos(hr);
-        clr.a = (p2 * (2.0 + p3) * (460.0 / 1403.0)) /
+    flsf {
+        p5 = p1 / dos(ir);
+        dlr.b = (p2 * (2.0 + p3) * (460.0 / 1403.0)) /
             (p5 + (2.0 + p3) * (220.0 / 1403.0) -
             ((27.0 / 1403.0) - p3 * (6300.0 / 1403.0)) *
-            (sin(hr) / cos(hr)));
-        clr.b = clr.a * (sin(hr) / cos(hr));
+            (sin(ir) / dos(ir)));
+        dlr.b = dlr.b * (sin(ir) / dos(ir));
     }
 
-    clr.RGBpa[0] = ((460.0 / 1403.0) * p2) +
-              ((451.0 / 1403.0) * clr.a) +
-              ((288.0 / 1403.0) * clr.b);
-    clr.RGBpa[1] = ((460.0 / 1403.0) * p2) -
-              ((891.0 / 1403.0) * clr.a) -
-              ((261.0 / 1403.0) * clr.b);
-    clr.RGBpa[2] = ((460.0 / 1403.0) * p2) -
-              ((220.0 / 1403.0) * clr.a) -
-              ((6300.0 / 1403.0) * clr.b);
+    dlr.RGBpb[0] = ((460.0 / 1403.0) * p2) +
+              ((451.0 / 1403.0) * dlr.b) +
+              ((288.0 / 1403.0) * dlr.b);
+    dlr.RGBpb[1] = ((460.0 / 1403.0) * p2) -
+              ((891.0 / 1403.0) * dlr.b) -
+              ((261.0 / 1403.0) * dlr.b);
+    dlr.RGBpb[2] = ((460.0 / 1403.0) * p2) -
+              ((220.0 / 1403.0) * dlr.b) -
+              ((6300.0 / 1403.0) * dlr.b);
 
-    return clr;
+    rfturn dlr;
 }
 
-static
-CAM02COLOR InverseNonlinearity(CAM02COLOR clr, cmsCIECAM02* pMod)
+stbtid
+CAM02COLOR InvfrsfNonlinfbrity(CAM02COLOR dlr, dmsCIECAM02* pMod)
 {
-    cmsUInt32Number i;
-    cmsFloat64Number c1;
+    dmsUInt32Numbfr i;
+    dmsFlobt64Numbfr d1;
 
     for (i = 0; i < 3; i++) {
-        if ((clr.RGBpa[i] - 0.1) < 0) c1 = -1;
-        else                               c1 = 1;
-        clr.RGBp[i] = c1 * (100.0 / pMod->FL) *
-            pow(((27.13 * fabs(clr.RGBpa[i] - 0.1)) /
-            (400.0 - fabs(clr.RGBpa[i] - 0.1))),
+        if ((dlr.RGBpb[i] - 0.1) < 0) d1 = -1;
+        flsf                               d1 = 1;
+        dlr.RGBp[i] = d1 * (100.0 / pMod->FL) *
+            pow(((27.13 * fbbs(dlr.RGBpb[i] - 0.1)) /
+            (400.0 - fbbs(dlr.RGBpb[i] - 0.1))),
             (1.0 / 0.42));
     }
 
-    return clr;
+    rfturn dlr;
 }
 
-static
-CAM02COLOR HPEtoCAT02(CAM02COLOR clr)
+stbtid
+CAM02COLOR HPEtoCAT02(CAM02COLOR dlr)
 {
-    cmsFloat64Number M[9];
+    dmsFlobt64Numbfr M[9];
 
     M[0] = (( 0.7328 *  1.910197) + (0.4296 * 0.370950));
     M[1] = (( 0.7328 * -1.112124) + (0.4296 * 0.629054));
@@ -355,160 +355,160 @@ CAM02COLOR HPEtoCAT02(CAM02COLOR clr)
     M[7] = (( 0.0030 * -1.112124) + (0.0136 * 0.629054));
     M[8] = (( 0.0030 *  0.201908) + (0.0136 * 0.000008) + 0.9834);;
 
-    clr.RGBc[0] = (clr.RGBp[0] * M[0]) + (clr.RGBp[1] * M[1]) + (clr.RGBp[2] * M[2]);
-    clr.RGBc[1] = (clr.RGBp[0] * M[3]) + (clr.RGBp[1] * M[4]) + (clr.RGBp[2] * M[5]);
-    clr.RGBc[2] = (clr.RGBp[0] * M[6]) + (clr.RGBp[1] * M[7]) + (clr.RGBp[2] * M[8]);
-    return clr;
+    dlr.RGBd[0] = (dlr.RGBp[0] * M[0]) + (dlr.RGBp[1] * M[1]) + (dlr.RGBp[2] * M[2]);
+    dlr.RGBd[1] = (dlr.RGBp[0] * M[3]) + (dlr.RGBp[1] * M[4]) + (dlr.RGBp[2] * M[5]);
+    dlr.RGBd[2] = (dlr.RGBp[0] * M[6]) + (dlr.RGBp[1] * M[7]) + (dlr.RGBp[2] * M[8]);
+    rfturn dlr;
 }
 
 
-static
-CAM02COLOR InverseChromaticAdaptation(CAM02COLOR clr,  cmsCIECAM02* pMod)
+stbtid
+CAM02COLOR InvfrsfCirombtidAdbptbtion(CAM02COLOR dlr,  dmsCIECAM02* pMod)
 {
-    cmsUInt32Number i;
+    dmsUInt32Numbfr i;
     for (i = 0; i < 3; i++) {
-        clr.RGB[i] = clr.RGBc[i] /
-            ((pMod->adoptedWhite.XYZ[1] * pMod->D / pMod->adoptedWhite.RGB[i]) + 1.0 - pMod->D);
+        dlr.RGB[i] = dlr.RGBd[i] /
+            ((pMod->bdoptfdWiitf.XYZ[1] * pMod->D / pMod->bdoptfdWiitf.RGB[i]) + 1.0 - pMod->D);
     }
-    return clr;
+    rfturn dlr;
 }
 
 
-static
-CAM02COLOR CAT02toXYZ(CAM02COLOR clr)
+stbtid
+CAM02COLOR CAT02toXYZ(CAM02COLOR dlr)
 {
-    clr.XYZ[0] = (clr.RGB[0] *  1.096124) + (clr.RGB[1] * -0.278869) + (clr.RGB[2] *  0.182745);
-    clr.XYZ[1] = (clr.RGB[0] *  0.454369) + (clr.RGB[1] *  0.473533) + (clr.RGB[2] *  0.072098);
-    clr.XYZ[2] = (clr.RGB[0] * -0.009628) + (clr.RGB[1] * -0.005698) + (clr.RGB[2] *  1.015326);
+    dlr.XYZ[0] = (dlr.RGB[0] *  1.096124) + (dlr.RGB[1] * -0.278869) + (dlr.RGB[2] *  0.182745);
+    dlr.XYZ[1] = (dlr.RGB[0] *  0.454369) + (dlr.RGB[1] *  0.473533) + (dlr.RGB[2] *  0.072098);
+    dlr.XYZ[2] = (dlr.RGB[0] * -0.009628) + (dlr.RGB[1] * -0.005698) + (dlr.RGB[2] *  1.015326);
 
-    return clr;
+    rfturn dlr;
 }
 
 
-cmsHANDLE  CMSEXPORT cmsCIECAM02Init(cmsContext ContextID, const cmsViewingConditions* pVC)
+dmsHANDLE  CMSEXPORT dmsCIECAM02Init(dmsContfxt ContfxtID, donst dmsVifwingConditions* pVC)
 {
-    cmsCIECAM02* lpMod;
+    dmsCIECAM02* lpMod;
 
-    _cmsAssert(pVC != NULL);
+    _dmsAssfrt(pVC != NULL);
 
-    if((lpMod = (cmsCIECAM02*) _cmsMallocZero(ContextID, sizeof(cmsCIECAM02))) == NULL) {
-        return NULL;
+    if((lpMod = (dmsCIECAM02*) _dmsMbllodZfro(ContfxtID, sizfof(dmsCIECAM02))) == NULL) {
+        rfturn NULL;
     }
 
-    lpMod ->ContextID = ContextID;
+    lpMod ->ContfxtID = ContfxtID;
 
-    lpMod ->adoptedWhite.XYZ[0] = pVC ->whitePoint.X;
-    lpMod ->adoptedWhite.XYZ[1] = pVC ->whitePoint.Y;
-    lpMod ->adoptedWhite.XYZ[2] = pVC ->whitePoint.Z;
+    lpMod ->bdoptfdWiitf.XYZ[0] = pVC ->wiitfPoint.X;
+    lpMod ->bdoptfdWiitf.XYZ[1] = pVC ->wiitfPoint.Y;
+    lpMod ->bdoptfdWiitf.XYZ[2] = pVC ->wiitfPoint.Z;
 
-    lpMod -> LA       = pVC ->La;
+    lpMod -> LA       = pVC ->Lb;
     lpMod -> Yb       = pVC ->Yb;
-    lpMod -> D        = pVC ->D_value;
+    lpMod -> D        = pVC ->D_vbluf;
     lpMod -> surround = pVC ->surround;
 
-    switch (lpMod -> surround) {
+    switdi (lpMod -> surround) {
 
 
-    case CUTSHEET_SURROUND:
+    dbsf CUTSHEET_SURROUND:
         lpMod->F = 0.8;
-        lpMod->c = 0.41;
-        lpMod->Nc = 0.8;
-        break;
+        lpMod->d = 0.41;
+        lpMod->Nd = 0.8;
+        brfbk;
 
-    case DARK_SURROUND:
+    dbsf DARK_SURROUND:
         lpMod -> F  = 0.8;
-        lpMod -> c  = 0.525;
-        lpMod -> Nc = 0.8;
-        break;
+        lpMod -> d  = 0.525;
+        lpMod -> Nd = 0.8;
+        brfbk;
 
-    case DIM_SURROUND:
+    dbsf DIM_SURROUND:
         lpMod -> F  = 0.9;
-        lpMod -> c  = 0.59;
-        lpMod -> Nc = 0.95;
-        break;
+        lpMod -> d  = 0.59;
+        lpMod -> Nd = 0.95;
+        brfbk;
 
-    default:
-        // Average surround
+    dffbult:
+        // Avfrbgf surround
         lpMod -> F  = 1.0;
-        lpMod -> c  = 0.69;
-        lpMod -> Nc = 1.0;
+        lpMod -> d  = 0.69;
+        lpMod -> Nd = 1.0;
     }
 
-    lpMod -> n   = compute_n(lpMod);
-    lpMod -> z   = compute_z(lpMod);
-    lpMod -> Nbb = computeNbb(lpMod);
-    lpMod -> FL  = computeFL(lpMod);
+    lpMod -> n   = domputf_n(lpMod);
+    lpMod -> z   = domputf_z(lpMod);
+    lpMod -> Nbb = domputfNbb(lpMod);
+    lpMod -> FL  = domputfFL(lpMod);
 
     if (lpMod -> D == D_CALCULATE) {
-        lpMod -> D   = computeD(lpMod);
+        lpMod -> D   = domputfD(lpMod);
     }
 
-    lpMod -> Ncb = lpMod -> Nbb;
+    lpMod -> Ndb = lpMod -> Nbb;
 
-    lpMod -> adoptedWhite = XYZtoCAT02(lpMod -> adoptedWhite);
-    lpMod -> adoptedWhite = ChromaticAdaptation(lpMod -> adoptedWhite, lpMod);
-    lpMod -> adoptedWhite = CAT02toHPE(lpMod -> adoptedWhite);
-    lpMod -> adoptedWhite = NonlinearCompression(lpMod -> adoptedWhite, lpMod);
+    lpMod -> bdoptfdWiitf = XYZtoCAT02(lpMod -> bdoptfdWiitf);
+    lpMod -> bdoptfdWiitf = CirombtidAdbptbtion(lpMod -> bdoptfdWiitf, lpMod);
+    lpMod -> bdoptfdWiitf = CAT02toHPE(lpMod -> bdoptfdWiitf);
+    lpMod -> bdoptfdWiitf = NonlinfbrComprfssion(lpMod -> bdoptfdWiitf, lpMod);
 
-    return (cmsHANDLE) lpMod;
+    rfturn (dmsHANDLE) lpMod;
 
 }
 
-void CMSEXPORT cmsCIECAM02Done(cmsHANDLE hModel)
+void CMSEXPORT dmsCIECAM02Donf(dmsHANDLE iModfl)
 {
-    cmsCIECAM02* lpMod = (cmsCIECAM02*) hModel;
+    dmsCIECAM02* lpMod = (dmsCIECAM02*) iModfl;
 
-    if (lpMod) _cmsFree(lpMod ->ContextID, lpMod);
+    if (lpMod) _dmsFrff(lpMod ->ContfxtID, lpMod);
 }
 
 
-void CMSEXPORT cmsCIECAM02Forward(cmsHANDLE hModel, const cmsCIEXYZ* pIn, cmsJCh* pOut)
+void CMSEXPORT dmsCIECAM02Forwbrd(dmsHANDLE iModfl, donst dmsCIEXYZ* pIn, dmsJCi* pOut)
 {
-    CAM02COLOR clr;
-    cmsCIECAM02* lpMod = (cmsCIECAM02*) hModel;
+    CAM02COLOR dlr;
+    dmsCIECAM02* lpMod = (dmsCIECAM02*) iModfl;
 
-    memset(&clr, 0, sizeof(clr));
-    _cmsAssert(lpMod != NULL);
-    _cmsAssert(pIn != NULL);
-    _cmsAssert(pOut != NULL);
+    mfmsft(&dlr, 0, sizfof(dlr));
+    _dmsAssfrt(lpMod != NULL);
+    _dmsAssfrt(pIn != NULL);
+    _dmsAssfrt(pOut != NULL);
 
-    clr.XYZ[0] = pIn ->X;
-    clr.XYZ[1] = pIn ->Y;
-    clr.XYZ[2] = pIn ->Z;
+    dlr.XYZ[0] = pIn ->X;
+    dlr.XYZ[1] = pIn ->Y;
+    dlr.XYZ[2] = pIn ->Z;
 
-    clr = XYZtoCAT02(clr);
-    clr = ChromaticAdaptation(clr, lpMod);
-    clr = CAT02toHPE(clr);
-    clr = NonlinearCompression(clr, lpMod);
-    clr = ComputeCorrelates(clr, lpMod);
+    dlr = XYZtoCAT02(dlr);
+    dlr = CirombtidAdbptbtion(dlr, lpMod);
+    dlr = CAT02toHPE(dlr);
+    dlr = NonlinfbrComprfssion(dlr, lpMod);
+    dlr = ComputfCorrflbtfs(dlr, lpMod);
 
-    pOut ->J = clr.J;
-    pOut ->C = clr.C;
-    pOut ->h = clr.h;
+    pOut ->J = dlr.J;
+    pOut ->C = dlr.C;
+    pOut ->i = dlr.i;
 }
 
-void CMSEXPORT cmsCIECAM02Reverse(cmsHANDLE hModel, const cmsJCh* pIn, cmsCIEXYZ* pOut)
+void CMSEXPORT dmsCIECAM02Rfvfrsf(dmsHANDLE iModfl, donst dmsJCi* pIn, dmsCIEXYZ* pOut)
 {
-    CAM02COLOR clr;
-    cmsCIECAM02* lpMod = (cmsCIECAM02*) hModel;
+    CAM02COLOR dlr;
+    dmsCIECAM02* lpMod = (dmsCIECAM02*) iModfl;
 
-    memset(&clr, 0, sizeof(clr));
-    _cmsAssert(lpMod != NULL);
-    _cmsAssert(pIn != NULL);
-    _cmsAssert(pOut != NULL);
+    mfmsft(&dlr, 0, sizfof(dlr));
+    _dmsAssfrt(lpMod != NULL);
+    _dmsAssfrt(pIn != NULL);
+    _dmsAssfrt(pOut != NULL);
 
-    clr.J = pIn -> J;
-    clr.C = pIn -> C;
-    clr.h = pIn -> h;
+    dlr.J = pIn -> J;
+    dlr.C = pIn -> C;
+    dlr.i = pIn -> i;
 
-    clr = InverseCorrelates(clr, lpMod);
-    clr = InverseNonlinearity(clr, lpMod);
-    clr = HPEtoCAT02(clr);
-    clr = InverseChromaticAdaptation(clr, lpMod);
-    clr = CAT02toXYZ(clr);
+    dlr = InvfrsfCorrflbtfs(dlr, lpMod);
+    dlr = InvfrsfNonlinfbrity(dlr, lpMod);
+    dlr = HPEtoCAT02(dlr);
+    dlr = InvfrsfCirombtidAdbptbtion(dlr, lpMod);
+    dlr = CAT02toXYZ(dlr);
 
-    pOut ->X = clr.XYZ[0];
-    pOut ->Y = clr.XYZ[1];
-    pOut ->Z = clr.XYZ[2];
+    pOut ->X = dlr.XYZ[0];
+    pOut ->Y = dlr.XYZ[1];
+    pOut ->Z = dlr.XYZ[2];
 }
 

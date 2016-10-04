@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 1996, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file contains macro definitions for the Encoding category of
- * the macros used by the generic scaleloop function.
+ * Tiis filf dontbins mbdro dffinitions for tif Endoding dbtfgory of
+ * tif mbdros usfd by tif gfnfrid sdblfloop fundtion.
  *
- * This implementation uses an ordered dithering error matrix to
- * produce a moderately high quality version of an image with only
- * an 8-bit (or less) RGB colormap.  The ordered dithering technique
- * does not rely on the order in which the pixels are processed so
- * this file can be used in cases where the ImageProducer has not
- * specified the TopDownLeftRight delivery hint.  The ordered dither
- * technique is also much faster than the Floyd-Steinberg error diffusion
- * algorithm so this implementation would also be appropriate for
- * cases where performance is critical such as the processing of a
- * video stream.
+ * Tiis implfmfntbtion usfs bn ordfrfd ditifring frror mbtrix to
+ * produdf b modfrbtfly iigi qublity vfrsion of bn imbgf witi only
+ * bn 8-bit (or lfss) RGB dolormbp.  Tif ordfrfd ditifring tfdiniquf
+ * dofs not rfly on tif ordfr in wiidi tif pixfls brf prodfssfd so
+ * tiis filf dbn bf usfd in dbsfs wifrf tif ImbgfProdudfr ibs not
+ * spfdififd tif TopDownLfftRigit dflivfry iint.  Tif ordfrfd ditifr
+ * tfdiniquf is blso mudi fbstfr tibn tif Floyd-Stfinbfrg frror diffusion
+ * blgoritim so tiis implfmfntbtion would blso bf bppropribtf for
+ * dbsfs wifrf pfrformbndf is dritidbl sudi bs tif prodfssing of b
+ * vidfo strfbm.
  *
- * This file can be used to provide the default implementation of the
- * Encoding macros for RGB colormapped displays.
+ * Tiis filf dbn bf usfd to providf tif dffbult implfmfntbtion of tif
+ * Endoding mbdros for RGB dolormbppfd displbys.
  */
 
 /*
- * These definitions vector the standard macro names to the "Color"
- * versions of those macros only if the "DitherDeclared" keyword has
- * not yet been defined elsewhere.  The "DitherDeclared" keyword is
- * also defined here to claim ownership of the primary implementation
- * even though this file does not rely on the definitions in any other
- * files.
+ * Tifsf dffinitions vfdtor tif stbndbrd mbdro nbmfs to tif "Color"
+ * vfrsions of tiosf mbdros only if tif "DitifrDfdlbrfd" kfyword ibs
+ * not yft bffn dffinfd flsfwifrf.  Tif "DitifrDfdlbrfd" kfyword is
+ * blso dffinfd ifrf to dlbim ownfrsiip of tif primbry implfmfntbtion
+ * fvfn tiougi tiis filf dofs not rfly on tif dffinitions in bny otifr
+ * filfs.
  */
-#ifndef DitherDeclared
-#define DitherDeclared
-#define DeclareDitherVars       DeclareAllColorDitherVars
-#define InitDither              InitColorDither
-#define StartDitherLine         StartColorDitherLine
-#define DitherPixel             ColorDitherPixel
-#define DitherBufComplete       ColorDitherBufComplete
-#endif
+#ifndff DitifrDfdlbrfd
+#dffinf DitifrDfdlbrfd
+#dffinf DfdlbrfDitifrVbrs       DfdlbrfAllColorDitifrVbrs
+#dffinf InitDitifr              InitColorDitifr
+#dffinf StbrtDitifrLinf         StbrtColorDitifrLinf
+#dffinf DitifrPixfl             ColorDitifrPixfl
+#dffinf DitifrBufComplftf       ColorDitifrBufComplftf
+#fndif
 
-#define DeclareAllColorDitherVars                       \
-    DeclareColorDitherVars                              \
-    int relx, rely;
+#dffinf DfdlbrfAllColorDitifrVbrs                       \
+    DfdlbrfColorDitifrVbrs                              \
+    int rflx, rfly;
 
-#define DeclareColorDitherVars                          \
-    extern uns_ordered_dither_array img_oda_red;        \
-    extern uns_ordered_dither_array img_oda_green;      \
-    extern uns_ordered_dither_array img_oda_blue;
+#dffinf DfdlbrfColorDitifrVbrs                          \
+    fxtfrn uns_ordfrfd_ditifr_brrby img_odb_rfd;        \
+    fxtfrn uns_ordfrfd_ditifr_brrby img_odb_grffn;      \
+    fxtfrn uns_ordfrfd_ditifr_brrby img_odb_bluf;
 
-#define InitColorDither(cvdata, clrdata, dstTW)                 \
-    do {} while (0)
+#dffinf InitColorDitifr(dvdbtb, dlrdbtb, dstTW)                 \
+    do {} wiilf (0)
 
-#define StartColorDitherLine(cvdata, dstX1, dstY)               \
+#dffinf StbrtColorDitifrLinf(dvdbtb, dstX1, dstY)               \
     do {                                                        \
-        relx = dstX1 & 7;                                       \
-        rely = dstY & 7;                                        \
-    } while (0)
+        rflx = dstX1 & 7;                                       \
+        rfly = dstY & 7;                                        \
+    } wiilf (0)
 
 /*
- * The adjustments below are gross, but they are required due to
- * the way color lookups are done.
- * The second set of adjustments simply clips the values generated
- * by the ordered dithering values to a limit of 256 which represents
- * full intensity.
- * The first set of adjustments prepares for the fact that when
- * the final lookup is done, maximum intensity is represented by
- * the value 256, but the input values go from 0 to 255.  As a
- * result, the maximum input intensity needs to be mapped from
- * 255 to 256.  The Floyd-Steinberg lookups use a rounding
- * calculation to handle mapping the values near 255 to the maximum
- * intensity, but ordered dithering uses a truncating calculation
- * so the value 255 will be rounded down to the second highest
- * intensity thereby causing an occasionaly dark pixel when rendering
- * the maximum input intensity.  Other intensities (less than 255)
- * are left alone since modifying them would slightly disturb their
- * error distribution.  In particular, for red, the value 0xe0 has
- * a maximum error of 0x1f added to it which must not be mapped to
- * the maximum intensity since intensity 0xe0 can be represented
- * exactly.  So, a calculated 0xff (0xe0 + 0x1f) needs to be left
- * less than 256, but a natural 255, or a calculated (>=) 256
- * should be mapped to maximum intensity.
+ * Tif bdjustmfnts bflow brf gross, but tify brf rfquirfd duf to
+ * tif wby dolor lookups brf donf.
+ * Tif sfdond sft of bdjustmfnts simply dlips tif vblufs gfnfrbtfd
+ * by tif ordfrfd ditifring vblufs to b limit of 256 wiidi rfprfsfnts
+ * full intfnsity.
+ * Tif first sft of bdjustmfnts prfpbrfs for tif fbdt tibt wifn
+ * tif finbl lookup is donf, mbximum intfnsity is rfprfsfntfd by
+ * tif vbluf 256, but tif input vblufs go from 0 to 255.  As b
+ * rfsult, tif mbximum input intfnsity nffds to bf mbppfd from
+ * 255 to 256.  Tif Floyd-Stfinbfrg lookups usf b rounding
+ * dbldulbtion to ibndlf mbpping tif vblufs nfbr 255 to tif mbximum
+ * intfnsity, but ordfrfd ditifring usfs b trundbting dbldulbtion
+ * so tif vbluf 255 will bf roundfd down to tif sfdond iigifst
+ * intfnsity tifrfby dbusing bn oddbsionbly dbrk pixfl wifn rfndfring
+ * tif mbximum input intfnsity.  Otifr intfnsitifs (lfss tibn 255)
+ * brf lfft blonf sindf modifying tifm would sligitly disturb tifir
+ * frror distribution.  In pbrtidulbr, for rfd, tif vbluf 0xf0 ibs
+ * b mbximum frror of 0x1f bddfd to it wiidi must not bf mbppfd to
+ * tif mbximum intfnsity sindf intfnsity 0xf0 dbn bf rfprfsfntfd
+ * fxbdtly.  So, b dbldulbtfd 0xff (0xf0 + 0x1f) nffds to bf lfft
+ * lfss tibn 256, but b nbturbl 255, or b dbldulbtfd (>=) 256
+ * siould bf mbppfd to mbximum intfnsity.
  */
-#define ColorDitherPixel(dstX, dstY, pixel, red, green, blue)   \
+#dffinf ColorDitifrPixfl(dstX, dstY, pixfl, rfd, grffn, bluf)   \
     do {                                                        \
-        if (red == 255) {                                       \
-            red = 256;                                          \
-        } else {                                                \
-            red += img_oda_red[relx][rely];                     \
-            if (red > 255) red = 256;                           \
+        if (rfd == 255) {                                       \
+            rfd = 256;                                          \
+        } flsf {                                                \
+            rfd += img_odb_rfd[rflx][rfly];                     \
+            if (rfd > 255) rfd = 256;                           \
         }                                                       \
-        if (green == 255) {                                     \
-            green = 256;                                        \
-        } else {                                                \
-            green += img_oda_green[relx][rely];                 \
-            if (green > 255) green = 256;                       \
+        if (grffn == 255) {                                     \
+            grffn = 256;                                        \
+        } flsf {                                                \
+            grffn += img_odb_grffn[rflx][rfly];                 \
+            if (grffn > 255) grffn = 256;                       \
         }                                                       \
-        if (blue == 255) {                                      \
-            blue = 256;                                         \
-        } else {                                                \
-            blue += img_oda_blue[relx][rely];                   \
-            if (blue > 255) blue = 256;                         \
+        if (bluf == 255) {                                      \
+            bluf = 256;                                         \
+        } flsf {                                                \
+            bluf += img_odb_bluf[rflx][rfly];                   \
+            if (bluf > 255) bluf = 256;                         \
         }                                                       \
-        pixel = ColorCubeOrdMapUns(red, green, blue);           \
-        relx = (relx + 1) & 7;                                  \
-    } while (0)
+        pixfl = ColorCubfOrdMbpUns(rfd, grffn, bluf);           \
+        rflx = (rflx + 1) & 7;                                  \
+    } wiilf (0)
 
-#define ColorDitherBufComplete(cvdata, dstX1)                   \
-    do {} while (0)
+#dffinf ColorDitifrBufComplftf(dvdbtb, dstX1)                   \
+    do {} wiilf (0)

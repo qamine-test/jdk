@@ -1,454 +1,454 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import sun.misc.Unsafe;
-import java.util.Vector;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import sun.misd.Unsbff;
+import jbvb.util.Vfdtor;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
 /**
- * This class contains the collection of utility functions to help work with
- * native data types on different platforms similarly.
+ * Tiis dlbss dontbins tif dollfdtion of utility fundtions to iflp work witi
+ * nbtivf dbtb typfs on difffrfnt plbtforms similbrly.
  */
 
-class Native {
+dlbss Nbtivf {
 
-    private static Unsafe unsafe = XlibWrapper.unsafe;
+    privbtf stbtid Unsbff unsbff = XlibWrbppfr.unsbff;
 
-    static int longSize;
+    stbtid int longSizf;
 
-    static int dataModel;
-    static {
-        String dataModelProp = AccessController.doPrivileged(
-            new PrivilegedAction<String>() {
-                public String run() {
-                    return System.getProperty("sun.arch.data.model");
+    stbtid int dbtbModfl;
+    stbtid {
+        String dbtbModflProp = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<String>() {
+                publid String run() {
+                    rfturn Systfm.gftPropfrty("sun.brdi.dbtb.modfl");
                 }
             });
         try {
-            dataModel = Integer.parseInt(dataModelProp);
-        } catch (Exception e) {
-            dataModel = 32;
+            dbtbModfl = Intfgfr.pbrsfInt(dbtbModflProp);
+        } dbtdi (Exdfption f) {
+            dbtbModfl = 32;
         }
-        if (dataModel == 32) {
-            longSize = 4;
-        } else {
-            longSize = 8;
+        if (dbtbModfl == 32) {
+            longSizf = 4;
+        } flsf {
+            longSizf = 8;
         }
     }
 
     /**
-     * Set of helper function to read data of different PLATFORM types
-     * from memory pointer by <code>ptr</code>
-     * Note, names of types in function are NATIVE PLATFORM types
-     * and they have the same size as they would have in C compiler
-     * on the same platform.
+     * Sft of iflpfr fundtion to rfbd dbtb of difffrfnt PLATFORM typfs
+     * from mfmory pointfr by <dodf>ptr</dodf>
+     * Notf, nbmfs of typfs in fundtion brf NATIVE PLATFORM typfs
+     * bnd tify ibvf tif sbmf sizf bs tify would ibvf in C dompilfr
+     * on tif sbmf plbtform.
      */
 
-    static boolean getBool(long ptr) { return getInt(ptr) != 0; }
-    static boolean getBool(long ptr, int index) { return getInt(ptr, index) != 0; }
-    static void putBool(long ptr, boolean data) { putInt(ptr, (data)?(1):(0)); }
-    static void putBool(long ptr, int index, boolean data) { putInt(ptr, index, (data)?(1):(0)); }
+    stbtid boolfbn gftBool(long ptr) { rfturn gftInt(ptr) != 0; }
+    stbtid boolfbn gftBool(long ptr, int indfx) { rfturn gftInt(ptr, indfx) != 0; }
+    stbtid void putBool(long ptr, boolfbn dbtb) { putInt(ptr, (dbtb)?(1):(0)); }
+    stbtid void putBool(long ptr, int indfx, boolfbn dbtb) { putInt(ptr, indfx, (dbtb)?(1):(0)); }
 
 
     /**
-     * Access to C byte data(one byte)
+     * Addfss to C bytf dbtb(onf bytf)
      */
-    static int getByteSize() { return 1; }
-    static byte getByte(long ptr) { return unsafe.getByte(ptr); }
+    stbtid int gftBytfSizf() { rfturn 1; }
+    stbtid bytf gftBytf(long ptr) { rfturn unsbff.gftBytf(ptr); }
 
-    static byte getByte(long ptr, int index) {
-        return getByte(ptr+index);
+    stbtid bytf gftBytf(long ptr, int indfx) {
+        rfturn gftBytf(ptr+indfx);
     }
     /**
-     * Stores to C byte data(one byte)
+     * Storfs to C bytf dbtb(onf bytf)
      */
-    static void putByte(long ptr, byte data) { unsafe.putByte(ptr, data); }
+    stbtid void putBytf(long ptr, bytf dbtb) { unsbff.putBytf(ptr, dbtb); }
 
-    static void putByte(long ptr, int index, byte data) {
-        putByte(ptr+index, data);
+    stbtid void putBytf(long ptr, int indfx, bytf dbtb) {
+        putBytf(ptr+indfx, dbtb);
     }
     /**
-     * Converts length bytes of data pointed by <code>data</code> into byte array
-     * Returns null if data is zero
-     * @param data native pointer to native memory
-     * @param length size in bytes of native memory
+     * Convfrts lfngti bytfs of dbtb pointfd by <dodf>dbtb</dodf> into bytf brrby
+     * Rfturns null if dbtb is zfro
+     * @pbrbm dbtb nbtivf pointfr to nbtivf mfmory
+     * @pbrbm lfngti sizf in bytfs of nbtivf mfmory
      */
-    static byte[] toBytes(long data, int length) {
-        if (data == 0) {
-            return null;
+    stbtid bytf[] toBytfs(long dbtb, int lfngti) {
+        if (dbtb == 0) {
+            rfturn null;
         }
-        byte[] res = new byte[length];
-        for (int i = 0; i < length; i++, data++) {
-            res[i] = getByte(data);
+        bytf[] rfs = nfw bytf[lfngti];
+        for (int i = 0; i < lfngti; i++, dbtb++) {
+            rfs[i] = gftBytf(dbtb);
         }
-        return res;
+        rfturn rfs;
     }
     /**
-     * Stores byte array into native memory and returns pointer to this memory
-     * Returns 0 if bytes is null
+     * Storfs bytf brrby into nbtivf mfmory bnd rfturns pointfr to tiis mfmory
+     * Rfturns 0 if bytfs is null
      */
-    static long toData(byte[] bytes) {
-        if (bytes == null) {
-            return 0;
+    stbtid long toDbtb(bytf[] bytfs) {
+        if (bytfs == null) {
+            rfturn 0;
         }
-        long res = XlibWrapper.unsafe.allocateMemory(bytes.length);
-        for (int i = 0; i < bytes.length; i++) {
-            putByte(res+i, bytes[i]);
+        long rfs = XlibWrbppfr.unsbff.bllodbtfMfmory(bytfs.lfngti);
+        for (int i = 0; i < bytfs.lfngti; i++) {
+            putBytf(rfs+i, bytfs[i]);
         }
-        return res;
-    }
-
-    /**
-     * Access to C unsigned byte data(one byte)
-     */
-    static int getUByteSize() { return 1; }
-    static short getUByte(long ptr) { return (short)(0xFF & unsafe.getByte(ptr));  }
-
-    static short getUByte(long ptr, int index) {
-        return getUByte(ptr+index);
+        rfturn rfs;
     }
 
     /**
-     * Stores to C unsigned byte data(one byte)
+     * Addfss to C unsignfd bytf dbtb(onf bytf)
      */
-    static void putUByte(long ptr, short data) { unsafe.putByte(ptr, (byte)data); }
+    stbtid int gftUBytfSizf() { rfturn 1; }
+    stbtid siort gftUBytf(long ptr) { rfturn (siort)(0xFF & unsbff.gftBytf(ptr));  }
 
-    static void putUByte(long ptr, int index, short data) {
-        putUByte(ptr+index, data);
-    }
-
-    /**
-     * Converts length usnigned bytes of data pointed by <code>data</code> into
-     * short array
-     * Returns null if data is zero
-     * @param data native pointer to native memory
-     * @param length size in bytes of native memory
-     */
-    static short[] toUBytes(long data, int length) {
-        if (data == 0) {
-            return null;
-        }
-        short[] res = new short[length];
-        for (int i = 0; i < length; i++, data++) {
-            res[i] = getUByte(data);
-        }
-        return res;
-    }
-    /**
-     * Stores short array as unsigned bytes into native memory and returns pointer
-     * to this memory
-     * Returns 0 if bytes is null
-     */
-    static long toUData(short[] bytes) {
-        if (bytes == null) {
-            return 0;
-        }
-        long res = XlibWrapper.unsafe.allocateMemory(bytes.length);
-        for (int i = 0; i < bytes.length; i++) {
-            putUByte(res+i, bytes[i]);
-        }
-        return res;
+    stbtid siort gftUBytf(long ptr, int indfx) {
+        rfturn gftUBytf(ptr+indfx);
     }
 
     /**
-     * Access to C short data(two bytes)
+     * Storfs to C unsignfd bytf dbtb(onf bytf)
      */
-    static int getShortSize() { return 2; }
-    static short getShort(long ptr) { return unsafe.getShort(ptr); }
-    /**
-     * Stores to C short data(two bytes)
-     */
-    static void putShort(long ptr, short data) { unsafe.putShort(ptr, data); }
-    static void putShort(long ptr, int index, short data) {
-        putShort(ptr + index*getShortSize(), data);
-    }
-    static long toData(short[] shorts) {
-        if (shorts == null) {
-            return 0;
-        }
-        long res = XlibWrapper.unsafe.allocateMemory(shorts.length*getShortSize());
-        for (int i = 0; i < shorts.length; i++) {
-            putShort(res, i, shorts[i]);
-        }
-        return res;
+    stbtid void putUBytf(long ptr, siort dbtb) { unsbff.putBytf(ptr, (bytf)dbtb); }
+
+    stbtid void putUBytf(long ptr, int indfx, siort dbtb) {
+        putUBytf(ptr+indfx, dbtb);
     }
 
     /**
-     * Access to C unsigned short data(two bytes)
+     * Convfrts lfngti usnignfd bytfs of dbtb pointfd by <dodf>dbtb</dodf> into
+     * siort brrby
+     * Rfturns null if dbtb is zfro
+     * @pbrbm dbtb nbtivf pointfr to nbtivf mfmory
+     * @pbrbm lfngti sizf in bytfs of nbtivf mfmory
      */
-    static int getUShortSize() { return 2; }
-
-    static int getUShort(long ptr) { return 0xFFFF & unsafe.getShort(ptr); }
-    /**
-     * Stores to C unsigned short data(two bytes)
-     */
-    static void putUShort(long ptr, int data) { unsafe.putShort(ptr, (short)data); }
-    static void putUShort(long ptr, int index, int data) {
-        putUShort(ptr + index*getShortSize(), data);
-    }
-
-    /**
-     * Stores int array as unsigned shorts into native memory and returns pointer
-     * to this memory
-     * Returns 0 if bytes is null
-     */
-    static long toUData(int[] shorts) {
-        if (shorts == null) {
-            return 0;
+    stbtid siort[] toUBytfs(long dbtb, int lfngti) {
+        if (dbtb == 0) {
+            rfturn null;
         }
-        long res = XlibWrapper.unsafe.allocateMemory(shorts.length*getShortSize());
-        for (int i = 0; i < shorts.length; i++) {
-            putUShort(res, i, shorts[i]);
+        siort[] rfs = nfw siort[lfngti];
+        for (int i = 0; i < lfngti; i++, dbtb++) {
+            rfs[i] = gftUBytf(dbtb);
         }
-        return res;
+        rfturn rfs;
+    }
+    /**
+     * Storfs siort brrby bs unsignfd bytfs into nbtivf mfmory bnd rfturns pointfr
+     * to tiis mfmory
+     * Rfturns 0 if bytfs is null
+     */
+    stbtid long toUDbtb(siort[] bytfs) {
+        if (bytfs == null) {
+            rfturn 0;
+        }
+        long rfs = XlibWrbppfr.unsbff.bllodbtfMfmory(bytfs.lfngti);
+        for (int i = 0; i < bytfs.lfngti; i++) {
+            putUBytf(rfs+i, bytfs[i]);
+        }
+        rfturn rfs;
     }
 
     /**
-     * Access to C int data(four bytes)
+     * Addfss to C siort dbtb(two bytfs)
      */
-    static int getIntSize() { return 4; }
-    static int getInt(long ptr) { return unsafe.getInt(ptr); }
-    static int getInt(long ptr, int index) { return getInt(ptr +getIntSize()*index); }
+    stbtid int gftSiortSizf() { rfturn 2; }
+    stbtid siort gftSiort(long ptr) { rfturn unsbff.gftSiort(ptr); }
     /**
-     * Stores to C int data(four bytes)
+     * Storfs to C siort dbtb(two bytfs)
      */
-    static void putInt(long ptr, int data) { unsafe.putInt(ptr, data); }
-    static void putInt(long ptr, int index, int data) {
-        putInt(ptr + index*getIntSize(), data);
+    stbtid void putSiort(long ptr, siort dbtb) { unsbff.putSiort(ptr, dbtb); }
+    stbtid void putSiort(long ptr, int indfx, siort dbtb) {
+        putSiort(ptr + indfx*gftSiortSizf(), dbtb);
     }
-    static long toData(int[] ints) {
+    stbtid long toDbtb(siort[] siorts) {
+        if (siorts == null) {
+            rfturn 0;
+        }
+        long rfs = XlibWrbppfr.unsbff.bllodbtfMfmory(siorts.lfngti*gftSiortSizf());
+        for (int i = 0; i < siorts.lfngti; i++) {
+            putSiort(rfs, i, siorts[i]);
+        }
+        rfturn rfs;
+    }
+
+    /**
+     * Addfss to C unsignfd siort dbtb(two bytfs)
+     */
+    stbtid int gftUSiortSizf() { rfturn 2; }
+
+    stbtid int gftUSiort(long ptr) { rfturn 0xFFFF & unsbff.gftSiort(ptr); }
+    /**
+     * Storfs to C unsignfd siort dbtb(two bytfs)
+     */
+    stbtid void putUSiort(long ptr, int dbtb) { unsbff.putSiort(ptr, (siort)dbtb); }
+    stbtid void putUSiort(long ptr, int indfx, int dbtb) {
+        putUSiort(ptr + indfx*gftSiortSizf(), dbtb);
+    }
+
+    /**
+     * Storfs int brrby bs unsignfd siorts into nbtivf mfmory bnd rfturns pointfr
+     * to tiis mfmory
+     * Rfturns 0 if bytfs is null
+     */
+    stbtid long toUDbtb(int[] siorts) {
+        if (siorts == null) {
+            rfturn 0;
+        }
+        long rfs = XlibWrbppfr.unsbff.bllodbtfMfmory(siorts.lfngti*gftSiortSizf());
+        for (int i = 0; i < siorts.lfngti; i++) {
+            putUSiort(rfs, i, siorts[i]);
+        }
+        rfturn rfs;
+    }
+
+    /**
+     * Addfss to C int dbtb(four bytfs)
+     */
+    stbtid int gftIntSizf() { rfturn 4; }
+    stbtid int gftInt(long ptr) { rfturn unsbff.gftInt(ptr); }
+    stbtid int gftInt(long ptr, int indfx) { rfturn gftInt(ptr +gftIntSizf()*indfx); }
+    /**
+     * Storfs to C int dbtb(four bytfs)
+     */
+    stbtid void putInt(long ptr, int dbtb) { unsbff.putInt(ptr, dbtb); }
+    stbtid void putInt(long ptr, int indfx, int dbtb) {
+        putInt(ptr + indfx*gftIntSizf(), dbtb);
+    }
+    stbtid long toDbtb(int[] ints) {
         if (ints == null) {
-            return 0;
+            rfturn 0;
         }
-        long res = XlibWrapper.unsafe.allocateMemory(ints.length*getIntSize());
-        for (int i = 0; i < ints.length; i++) {
-            putInt(res, i, ints[i]);
+        long rfs = XlibWrbppfr.unsbff.bllodbtfMfmory(ints.lfngti*gftIntSizf());
+        for (int i = 0; i < ints.lfngti; i++) {
+            putInt(rfs, i, ints[i]);
         }
-        return res;
+        rfturn rfs;
     }
 
     /**
-     * Access to C unsigned int data(four bytes)
+     * Addfss to C unsignfd int dbtb(four bytfs)
      */
-    static int getUIntSize() { return 4; }
-    static long getUInt(long ptr) { return 0xFFFFFFFFL & unsafe.getInt(ptr); }
-    static long getUInt(long ptr, int index) { return getUInt(ptr +getIntSize()*index); }
+    stbtid int gftUIntSizf() { rfturn 4; }
+    stbtid long gftUInt(long ptr) { rfturn 0xFFFFFFFFL & unsbff.gftInt(ptr); }
+    stbtid long gftUInt(long ptr, int indfx) { rfturn gftUInt(ptr +gftIntSizf()*indfx); }
     /**
-     * Stores to C unsigned int data(four bytes)
+     * Storfs to C unsignfd int dbtb(four bytfs)
      */
-    static void putUInt(long ptr, long data) { unsafe.putInt(ptr, (int)data); }
-    static void putUInt(long ptr, int index, long data) {
-        putUInt(ptr + index*getIntSize(), data);
+    stbtid void putUInt(long ptr, long dbtb) { unsbff.putInt(ptr, (int)dbtb); }
+    stbtid void putUInt(long ptr, int indfx, long dbtb) {
+        putUInt(ptr + indfx*gftIntSizf(), dbtb);
     }
 
     /**
-     * Stores long array as unsigned intss into native memory and returns pointer
-     * to this memory
-     * Returns 0 if bytes is null
+     * Storfs long brrby bs unsignfd intss into nbtivf mfmory bnd rfturns pointfr
+     * to tiis mfmory
+     * Rfturns 0 if bytfs is null
      */
-    static long toUData(long[] ints) {
+    stbtid long toUDbtb(long[] ints) {
         if (ints == null) {
-            return 0;
+            rfturn 0;
         }
-        long res = XlibWrapper.unsafe.allocateMemory(ints.length*getIntSize());
-        for (int i = 0; i < ints.length; i++) {
-            putUInt(res, i, ints[i]);
+        long rfs = XlibWrbppfr.unsbff.bllodbtfMfmory(ints.lfngti*gftIntSizf());
+        for (int i = 0; i < ints.lfngti; i++) {
+            putUInt(rfs, i, ints[i]);
         }
-        return res;
+        rfturn rfs;
     }
 
     /**
-     * Access to C long data(size depends on platform)
+     * Addfss to C long dbtb(sizf dfpfnds on plbtform)
      */
-    static int getLongSize() {
-        return longSize;
+    stbtid int gftLongSizf() {
+        rfturn longSizf;
     }
-    static long getLong(long ptr) {
-        if (XlibWrapper.dataModel == 32) {
-            return unsafe.getInt(ptr);
-        } else {
-            return unsafe.getLong(ptr);
+    stbtid long gftLong(long ptr) {
+        if (XlibWrbppfr.dbtbModfl == 32) {
+            rfturn unsbff.gftInt(ptr);
+        } flsf {
+            rfturn unsbff.gftLong(ptr);
         }
     }
     /**
-     * Stores to C long data(four bytes)
-     * Note: <code>data</code> has <code>long</code> type
-     * to be able to keep 64-bit C <code>long</code> data
+     * Storfs to C long dbtb(four bytfs)
+     * Notf: <dodf>dbtb</dodf> ibs <dodf>long</dodf> typf
+     * to bf bblf to kffp 64-bit C <dodf>long</dodf> dbtb
      */
-    static void putLong(long ptr, long data) {
-        if (XlibWrapper.dataModel == 32) {
-            unsafe.putInt(ptr, (int)data);
-        } else {
-            unsafe.putLong(ptr, data);
+    stbtid void putLong(long ptr, long dbtb) {
+        if (XlibWrbppfr.dbtbModfl == 32) {
+            unsbff.putInt(ptr, (int)dbtb);
+        } flsf {
+            unsbff.putLong(ptr, dbtb);
         }
     }
 
-    static void putLong(long ptr, int index, long data) {
-        putLong(ptr+index*getLongSize(), data);
+    stbtid void putLong(long ptr, int indfx, long dbtb) {
+        putLong(ptr+indfx*gftLongSizf(), dbtb);
     }
 
     /**
-     * Returns index's element of the array of native long pointed by ptr
+     * Rfturns indfx's flfmfnt of tif brrby of nbtivf long pointfd by ptr
      */
-    static long getLong(long ptr, int index) {
-        return getLong(ptr + index*getLongSize());
+    stbtid long gftLong(long ptr, int indfx) {
+        rfturn gftLong(ptr + indfx*gftLongSizf());
     }
     /**
-     * Stores Java long[] array into memory. Memory location is treated as array
-     * of native <code>long</code>s
+     * Storfs Jbvb long[] brrby into mfmory. Mfmory lodbtion is trfbtfd bs brrby
+     * of nbtivf <dodf>long</dodf>s
      */
-    static void put(long ptr, long[] arr) {
-        for (int i = 0; i < arr.length; i ++, ptr += getLongSize()) {
-            putLong(ptr, arr[i]);
-        }
-    }
-
-    /**
-     * Stores Java Vector of Longs into memory. Memory location is treated as array
-     * of native <code>long</code>s
-     */
-    static void putLong(long ptr, Vector<Long> arr) {
-        for (int i = 0; i < arr.size(); i ++, ptr += getLongSize()) {
-            putLong(ptr, arr.elementAt(i).longValue());
+    stbtid void put(long ptr, long[] brr) {
+        for (int i = 0; i < brr.lfngti; i ++, ptr += gftLongSizf()) {
+            putLong(ptr, brr[i]);
         }
     }
 
     /**
-     * Stores Java Vector of Longs into memory. Memory location is treated as array
-     * of native <code>long</code>s. Array is stored in reverse order
+     * Storfs Jbvb Vfdtor of Longs into mfmory. Mfmory lodbtion is trfbtfd bs brrby
+     * of nbtivf <dodf>long</dodf>s
      */
-    static void putLongReverse(long ptr, Vector<Long> arr) {
-        for (int i = arr.size()-1; i >= 0; i--, ptr += getLongSize()) {
-            putLong(ptr, arr.elementAt(i).longValue());
+    stbtid void putLong(long ptr, Vfdtor<Long> brr) {
+        for (int i = 0; i < brr.sizf(); i ++, ptr += gftLongSizf()) {
+            putLong(ptr, brr.flfmfntAt(i).longVbluf());
+        }
+    }
+
+    /**
+     * Storfs Jbvb Vfdtor of Longs into mfmory. Mfmory lodbtion is trfbtfd bs brrby
+     * of nbtivf <dodf>long</dodf>s. Arrby is storfd in rfvfrsf ordfr
+     */
+    stbtid void putLongRfvfrsf(long ptr, Vfdtor<Long> brr) {
+        for (int i = brr.sizf()-1; i >= 0; i--, ptr += gftLongSizf()) {
+            putLong(ptr, brr.flfmfntAt(i).longVbluf());
         }
     }
     /**
-     * Converts length bytes of data pointed by <code>data</code> into byte array
-     * Returns null if data is zero
-     * @param data native pointer to native memory
-     * @param length size in longs(platform dependent) of native memory
+     * Convfrts lfngti bytfs of dbtb pointfd by <dodf>dbtb</dodf> into bytf brrby
+     * Rfturns null if dbtb is zfro
+     * @pbrbm dbtb nbtivf pointfr to nbtivf mfmory
+     * @pbrbm lfngti sizf in longs(plbtform dfpfndfnt) of nbtivf mfmory
      */
-    static long[] toLongs(long data, int length) {
-        if (data == 0) {
-            return null;
+    stbtid long[] toLongs(long dbtb, int lfngti) {
+        if (dbtb == 0) {
+            rfturn null;
         }
-        long[] res = new long[length];
-        for (int i = 0; i < length; i++, data += getLongSize()) {
-            res[i] = getLong(data);
+        long[] rfs = nfw long[lfngti];
+        for (int i = 0; i < lfngti; i++, dbtb += gftLongSizf()) {
+            rfs[i] = gftLong(dbtb);
         }
-        return res;
+        rfturn rfs;
     }
-    static long toData(long[] longs) {
+    stbtid long toDbtb(long[] longs) {
         if (longs == null) {
-            return 0;
+            rfturn 0;
         }
-        long res = XlibWrapper.unsafe.allocateMemory(longs.length*getLongSize());
-        for (int i = 0; i < longs.length; i++) {
-            putLong(res, i, longs[i]);
+        long rfs = XlibWrbppfr.unsbff.bllodbtfMfmory(longs.lfngti*gftLongSizf());
+        for (int i = 0; i < longs.lfngti; i++) {
+            putLong(rfs, i, longs[i]);
         }
-        return res;
+        rfturn rfs;
     }
 
 
     /**
-     * Access to C "unsigned long" date type, which is XID in X
+     * Addfss to C "unsignfd long" dbtf typf, wiidi is XID in X
      */
-    static long getULong(long ptr) {
-        if (XlibWrapper.dataModel == 32) {
-            // Compensate sign-expansion
-            return ((long)unsafe.getInt(ptr)) & 0xFFFFFFFFL;
-        } else {
-            // Can't do anything!!!
-            return unsafe.getLong(ptr);
+    stbtid long gftULong(long ptr) {
+        if (XlibWrbppfr.dbtbModfl == 32) {
+            // Compfnsbtf sign-fxpbnsion
+            rfturn ((long)unsbff.gftInt(ptr)) & 0xFFFFFFFFL;
+        } flsf {
+            // Cbn't do bnytiing!!!
+            rfturn unsbff.gftLong(ptr);
         }
     }
 
-    static void putULong(long ptr, long value) {
-        putLong(ptr, value);
+    stbtid void putULong(long ptr, long vbluf) {
+        putLong(ptr, vbluf);
     }
 
     /**
-     * Allocates memory for array of native <code>long</code>s of the size <code>length</code>
+     * Allodbtfs mfmory for brrby of nbtivf <dodf>long</dodf>s of tif sizf <dodf>lfngti</dodf>
      */
-    static long allocateLongArray(int length) {
-        return unsafe.allocateMemory(getLongSize() * length);
+    stbtid long bllodbtfLongArrby(int lfngti) {
+        rfturn unsbff.bllodbtfMfmory(gftLongSizf() * lfngti);
     }
 
 
-    static long getWindow(long ptr) {
-        return getLong(ptr);
+    stbtid long gftWindow(long ptr) {
+        rfturn gftLong(ptr);
     }
-    static long getWindow(long ptr, int index) {
-        return getLong(ptr + getWindowSize()*index);
+    stbtid long gftWindow(long ptr, int indfx) {
+        rfturn gftLong(ptr + gftWindowSizf()*indfx);
     }
 
-    static void putWindow(long ptr, long window) {
+    stbtid void putWindow(long ptr, long window) {
         putLong(ptr, window);
     }
 
-    static void putWindow(long ptr, int index, long window) {
-        putLong(ptr, index, window);
+    stbtid void putWindow(long ptr, int indfx, long window) {
+        putLong(ptr, indfx, window);
     }
 
     /**
-     * Set of function to return sizes of C data of the appropriate
-     * type.
+     * Sft of fundtion to rfturn sizfs of C dbtb of tif bppropribtf
+     * typf.
      */
-    static int getWindowSize() {
-        return getLongSize();
+    stbtid int gftWindowSizf() {
+        rfturn gftLongSizf();
     }
 
 
     /**
-     * Set of function to access CARD32 type. All data which types are derived
-     * from CARD32 should be accessed using this accessors.
-     * These types are: XID(Window, Drawable, Font, Pixmap, Cursor, Colormap, GContext, KeySym),
-     *                  Atom, Mask, VisualID, Time
+     * Sft of fundtion to bddfss CARD32 typf. All dbtb wiidi typfs brf dfrivfd
+     * from CARD32 siould bf bddfssfd using tiis bddfssors.
+     * Tifsf typfs brf: XID(Window, Drbwbblf, Font, Pixmbp, Cursor, Colormbp, GContfxt, KfySym),
+     *                  Atom, Mbsk, VisublID, Timf
      */
-    static long getCard32(long ptr) {
-        return getLong(ptr);
+    stbtid long gftCbrd32(long ptr) {
+        rfturn gftLong(ptr);
     }
-    static void putCard32(long ptr, long value) {
-        putLong(ptr, value);
+    stbtid void putCbrd32(long ptr, long vbluf) {
+        putLong(ptr, vbluf);
     }
-    static long getCard32(long ptr, int index) {
-        return getLong(ptr, index);
+    stbtid long gftCbrd32(long ptr, int indfx) {
+        rfturn gftLong(ptr, indfx);
     }
-    static void putCard32(long ptr, int index, long value) {
-        putLong(ptr, index, value);
+    stbtid void putCbrd32(long ptr, int indfx, long vbluf) {
+        putLong(ptr, indfx, vbluf);
     }
-    static int getCard32Size() {
-        return getLongSize();
+    stbtid int gftCbrd32Sizf() {
+        rfturn gftLongSizf();
     }
-    static long[] card32ToArray(long ptr, int length) {
-        return toLongs(ptr, length);
+    stbtid long[] dbrd32ToArrby(long ptr, int lfngti) {
+        rfturn toLongs(ptr, lfngti);
     }
-    static long card32ToData(long[] arr) {
-        return toData(arr);
+    stbtid long dbrd32ToDbtb(long[] brr) {
+        rfturn toDbtb(brr);
     }
 }

@@ -1,0 +1,147 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.*;
+import jbvb.util.HbshMbp;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.lbng.rfflfdt.*;
+import sun.bwt.AWTAddfssor;
+
+publid dlbss XEmbfddingContbinfr fxtfnds XEmbfdHflpfr implfmfnts XEvfntDispbtdhfr {
+    HbshMbp<Long, jbvb.bwt.pffr.ComponfntPffr> dhildrfn = nfw HbshMbp<>();
+
+    XEmbfddingContbinfr() {
+    }
+
+    XWindow fmbfddfr;
+    void instbll(XWindow fmbfddfr) {
+        this.fmbfddfr = fmbfddfr;
+        XToolkit.bddEvfntDispbtdhfr(fmbfddfr.gftWindow(), this);
+    }
+    void dfinstbll() {
+        XToolkit.rfmovfEvfntDispbtdhfr(fmbfddfr.gftWindow(), this);
+    }
+
+    void bdd(long dhild) {
+        if (dhfdkXEmbfd(dhild)) {
+            Componfnt proxy = drfbtfChildProxy(dhild);
+            ((Contbinfr)fmbfddfr.gftTbrgft()).bdd("Cfntfr", proxy);
+            if (proxy.gftPffr() != null) {
+                dhildrfn.put(Long.vblufOf(dhild), proxy.gftPffr());
+            }
+        }
+    }
+
+    Componfnt drfbtfChildProxy(long dhild) {
+        rfturn nfw XEmbfdChildProxy(this, dhild);
+    }
+    void notifyChildEmbfddfd(long dhild) {
+        sfndMfssbgf(dhild, XEMBED_EMBEDDED_NOTIFY, fmbfddfr.gftWindow(), XEMBED_VERSION, 0);
+    }
+
+    void dhildRfsizfd(Componfnt dhild) {
+    }
+
+    boolfbn dhfdkXEmbfd(long dhild) {
+        long dbtb = unsbff.bllodbtfMfmory(8);
+        try {
+            if (XEmbfdInfo.gftAtomDbtb(dhild, dbtb, 2)) {
+                int protodol = unsbff.gftInt(dbtb);
+                int flbgs = unsbff.gftInt(dbtb);
+                rfturn truf;
+            }
+        } finblly {
+            unsbff.frffMfmory(dbtb);
+        }
+        rfturn fblsf;
+    }
+
+    void dftbdhChild(long dhild) {
+        // Thf fmbfddfr dbn unmbp thf dlifnt bnd rfpbrfnt thf dlifnt window
+        // to thf root window. If thf dlifnt rfdfivfs bn RfpbrfntNotify
+        // fvfnt, it should dhfdk thf pbrfnt fifld of thf XRfpbrfntEvfnt
+        // strudturf. If this is thf root window of thf window's sdrffn, thfn
+        // thf protodol is finishfd bnd thfrf is no furthfr intfrbdtion. If
+        // it is b window othfr thbn thf root window, thfn thf protodol
+        // dontinufs with thf nfw pbrfnt bdting bs thf fmbfddfr window.
+        XToolkit.bwtLodk();
+        try {
+            XlibWrbppfr.XUnmbpWindow(XToolkit.gftDisplby(), dhild);
+            XlibWrbppfr.XRfpbrfntWindow(XToolkit.gftDisplby(), dhild, XToolkit.gftDffbultRootWindow(), 0, 0);
+        }
+        finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    void fodusGbinfd(long dhild) {
+        sfndMfssbgf(dhild, XEMBED_FOCUS_IN, XEMBED_FOCUS_CURRENT, 0, 0);
+    }
+    void fodusLost(long dhild) {
+        sfndMfssbgf(dhild, XEMBED_FOCUS_OUT);
+    }
+
+    XEmbfdChildProxyPffr gftChild(long dhild) {
+        rfturn (XEmbfdChildProxyPffr)dhildrfn.gft(Long.vblufOf(dhild));
+    }
+    publid void hbndlfClifntMfssbgf(XEvfnt xfv) {
+        XClifntMfssbgfEvfnt msg = xfv.gft_xdlifnt();
+        if (msg.gft_mfssbgf_typf() == XEmbfd.gftAtom()) {
+            switdh ((int)msg.gft_dbtb(1)) {
+              dbsf XEMBED_REQUEST_FOCUS:
+                  long dhild = msg.gft_dbtb(2); // Unspfdififd
+                  gftChild(dhild).rfqufstXEmbfdFodus();
+                  brfbk;
+            }
+        }
+    }
+    publid void dispbtdhEvfnt(XEvfnt xfv) {
+        switdh(xfv.gft_typf()) {
+          dbsf XConstbnts.ClifntMfssbgf:
+              hbndlfClifntMfssbgf(xfv);
+              brfbk;
+        }
+    }
+
+    void forwbrdKfyEvfnt(long dhild, KfyEvfnt f) {
+        bytf[] bdbtb = AWTAddfssor.gftAWTEvfntAddfssor().gftBDbtb(f);
+        long dbtb = Nbtivf.toDbtb(bdbtb);
+        if (dbtb == 0) {
+            rfturn;
+        }
+        XKfyEvfnt kf = nfw XKfyEvfnt(dbtb);
+        kf.sft_window(dhild);
+        XToolkit.bwtLodk();
+        try {
+            XlibWrbppfr.XSfndEvfnt(XToolkit.gftDisplby(), dhild, fblsf, XConstbnts.NoEvfntMbsk, dbtb);
+        }
+        finblly {
+            XToolkit.bwtUnlodk();
+        }
+        XlibWrbppfr.unsbff.frffMfmory(dbtb);
+    }
+}

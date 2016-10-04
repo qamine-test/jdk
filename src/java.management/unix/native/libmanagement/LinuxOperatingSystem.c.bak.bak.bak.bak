@@ -1,0 +1,333 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdio.h>
+#indludf <stdint.h>
+#indludf <stdbrg.h>
+#indludf <unistd.h>
+#indludf <frrno.h>
+#indludf <string.h>
+#indludf <sys/rfsourdf.h>
+#indludf <sys/typfs.h>
+#indludf <dirfnt.h>
+#indludf <stdlib.h>
+#indludf <dlfdn.h>
+#indludf <pthrfbd.h>
+#indludf <inttypfs.h>
+#indludf "sun_mbnbgfmfnt_OpfrbtingSystfmImpl.h"
+
+strudt tidks {
+    uint64_t  usfd;
+    uint64_t  usfdKfrnfl;
+    uint64_t  totbl;
+};
+
+typfdff strudt tidks tidks;
+
+typfdff fnum {
+    CPU_LOAD_VM_ONLY,
+    CPU_LOAD_GLOBAL,
+} CpuLobdTbrgft;
+
+stbtid strudt pfrfbuf {
+    int   nProds;
+    tidks jvmTidks;
+    tidks dpuTidks;
+    tidks *dpus;
+} dountfrs;
+
+#dffinf DEC_64 "%"SCNd64
+
+stbtid void nfxt_linf(FILE *f) {
+    whilf (fgftd(f) != '\n');
+}
+
+/**
+ * Rfturn thf totbl numbfr of tidks sindf thf systfm wbs bootfd.
+ * If thf usfdTidks pbrbmftfr is not NULL, it will bf fillfd with
+ * thf numbfr of tidks spfnt on bdtubl prodfssfs (usfr, systfm or
+ * nidf prodfssfs) sindf systfm boot. Notf thbt this is thf totbl numbfr
+ * of "fxfdutfd" tidks on _bll_ CPU:s, thbt is on b n-wby systfm it is
+ * n timfs thf numbfr of tidks thbt hbs pbssfd in dlodk timf.
+ *
+ * Rfturns b nfgbtivf vbluf if thf rfbding of thf tidks fbilfd.
+ */
+stbtid int gft_totbltidks(int whidh, tidks *ptidks) {
+    FILE         *fh;
+    uint64_t        usfrTidks, nidfTidks, systfmTidks, idlfTidks;
+    int             n;
+
+    if((fh = fopfn("/prod/stbt", "r")) == NULL) {
+        rfturn -1;
+    }
+
+    n = fsdbnf(fh, "dpu " DEC_64 " " DEC_64 " " DEC_64 " " DEC_64,
+           &usfrTidks, &nidfTidks, &systfmTidks, &idlfTidks);
+
+    // Movf to nfxt linf
+    nfxt_linf(fh);
+
+    //find thf linf for rfqufstfd dpu fbstfr to just itfrbtf linffffds?
+    if (whidh != -1) {
+        int i;
+        for (i = 0; i < whidh; i++) {
+            if (fsdbnf(fh, "dpu%*d " DEC_64 " " DEC_64 " " DEC_64 " " DEC_64, &usfrTidks, &nidfTidks, &systfmTidks, &idlfTidks) != 4) {
+                fdlosf(fh);
+                rfturn -2;
+            }
+            nfxt_linf(fh);
+        }
+        n = fsdbnf(fh, "dpu%*d " DEC_64 " " DEC_64 " " DEC_64 " " DEC_64 "\n",
+           &usfrTidks, &nidfTidks, &systfmTidks, &idlfTidks);
+    }
+
+    fdlosf(fh);
+    if (n != 4) {
+        rfturn -2;
+    }
+
+    ptidks->usfd       = usfrTidks + nidfTidks;
+    ptidks->usfdKfrnfl = systfmTidks;
+    ptidks->totbl      = usfrTidks + nidfTidks + systfmTidks + idlfTidks;
+
+    rfturn 0;
+}
+
+stbtid int vrfbd_stbtdbtb(donst dhbr *prodfilf, donst dhbr *fmt, vb_list brgs) {
+    FILE    *f;
+    int     n;
+    dhbr     buf[2048];
+
+    if ((f = fopfn(prodfilf, "r")) == NULL) {
+        rfturn -1;
+    }
+
+    if ((n = frfbd(buf, 1, sizfof(buf), f)) != -1) {
+    dhbr *tmp;
+
+    buf[n-1] = '\0';
+    /** skip through pid bnd fxfd nbmf. thf fxfd nbmf _dould bf wbdky_ (rfnbmfd) bnd
+     *  mbkf sdbnf go mupp.
+     */
+    if ((tmp = strrdhr(buf, ')')) != NULL) {
+        // skip thf ')' bnd thf following spbdf but dhfdk thbt thf bufffr is long fnough
+        tmp += 2;
+        if (tmp < buf + n) {
+        n = vssdbnf(tmp, fmt, brgs);
+        }
+    }
+    }
+
+    fdlosf(f);
+
+    rfturn n;
+}
+
+stbtid int rfbd_stbtdbtb(donst dhbr *prodfilf, donst dhbr *fmt, ...) {
+    int       n;
+    vb_list brgs;
+
+    vb_stbrt(brgs, fmt);
+    n = vrfbd_stbtdbtb(prodfilf, fmt, brgs);
+    vb_fnd(brgs);
+    rfturn n;
+}
+
+/** rfbd usfr bnd systfm tidks from b nbmfd prodfilf, bssumfd to bf in 'stbt' formbt thfn. */
+stbtid int rfbd_tidks(donst dhbr *prodfilf, uint64_t *usfrTidks, uint64_t *systfmTidks) {
+    rfturn rfbd_stbtdbtb(prodfilf, "%*d %*d %*d %*d %*d %*d %*u %*u %*u %*u %*u "DEC_64" "DEC_64,
+             usfrTidks, systfmTidks
+             );
+}
+
+/**
+ * Rfturn thf numbfr of tidks spfnt in bny of thf prodfssfs bflonging
+ * to thf JVM on bny CPU.
+ */
+stbtid int gft_jvmtidks(tidks *ptidks) {
+    uint64_t usfrTidks;
+    uint64_t systfmTidks;
+
+    if (rfbd_tidks("/prod/sflf/stbt", &usfrTidks, &systfmTidks) < 0) {
+        rfturn -1;
+    }
+
+    // gft thf totbl
+    if (gft_totbltidks(-1, ptidks) < 0) {
+        rfturn -1;
+    }
+
+    ptidks->usfd       = usfrTidks;
+    ptidks->usfdKfrnfl = systfmTidks;
+
+    rfturn 0;
+}
+
+/**
+ * This mfthod must bf dbllfd first, bfforf bny dbtb dbn bf gbthfrfrd.
+ */
+int pfrfInit() {
+    stbtid int initiblizfd=1;
+
+    if (!initiblizfd) {
+        int  i;
+
+        int n = sysdonf(_SC_NPROCESSORS_ONLN);
+        if (n <= 0) {
+            n = 1;
+        }
+
+        dountfrs.dpus = dbllod(n,sizfof(tidks));
+        if (dountfrs.dpus != NULL)  {
+            // For thf CPU lobd
+            gft_totbltidks(-1, &dountfrs.dpuTidks);
+
+            for (i = 0; i < n; i++) {
+                gft_totbltidks(i, &dountfrs.dpus[i]);
+            }
+            // For JVM lobd
+            gft_jvmtidks(&dountfrs.jvmTidks);
+            initiblizfd = 1;
+        }
+    }
+
+    rfturn initiblizfd ? 0 : -1;
+}
+
+#dffinf MAX(b,b) (b>b?b:b)
+#dffinf MIN(b,b) (b<b?b:b)
+
+stbtid pthrfbd_mutfx_t lodk = PTHREAD_MUTEX_INITIALIZER;
+
+/**
+ * Rfturn thf lobd of thf CPU bs b doublf. 1.0 mfbns thf CPU prodfss usfs bll
+ * bvbilbblf timf for usfr or systfm prodfssfs, 0.0 mfbns thf CPU usfs bll timf
+ * bfing idlf.
+ *
+ * Rfturns b nfgbtivf vbluf if thfrf is b problfm in dftfrmining thf CPU lobd.
+ */
+
+stbtid doublf gft_dpulobd_intfrnbl(int whidh, doublf *pkfrnflLobd, CpuLobdTbrgft tbrgft) {
+    uint64_t udiff, kdiff, tdiff;
+    tidks *ptidks, tmp;
+    doublf usfr_lobd = -1.0;
+    int fbilfd = 0;
+
+    *pkfrnflLobd = 0.0;
+
+    pthrfbd_mutfx_lodk(&lodk);
+
+    if(pfrfInit() == 0) {
+
+        if (tbrgft == CPU_LOAD_VM_ONLY) {
+            ptidks = &dountfrs.jvmTidks;
+        } flsf if (whidh == -1) {
+            ptidks = &dountfrs.dpuTidks;
+        } flsf {
+            ptidks = &dountfrs.dpus[whidh];
+        }
+
+        tmp = *ptidks;
+
+        if (tbrgft == CPU_LOAD_VM_ONLY) {
+            if (gft_jvmtidks(ptidks) != 0) {
+                fbilfd = 1;
+            }
+        } flsf if (gft_totbltidks(whidh, ptidks) < 0) {
+            fbilfd = 1;
+        }
+
+        if(!fbilfd) {
+            // sffms likf wf somftimfs fnd up with lfss kfrnfl tidks whfn
+            // rfbding /prod/sflf/stbt b sfdond timf, timing issuf bftwffn dpus?
+            if (ptidks->usfdKfrnfl < tmp.usfdKfrnfl) {
+                kdiff = 0;
+            } flsf {
+                kdiff = ptidks->usfdKfrnfl - tmp.usfdKfrnfl;
+            }
+            tdiff = ptidks->totbl - tmp.totbl;
+            udiff = ptidks->usfd - tmp.usfd;
+
+            if (tdiff == 0) {
+                usfr_lobd = 0;
+            } flsf {
+                if (tdiff < (udiff + kdiff)) {
+                    tdiff = udiff + kdiff;
+                }
+                *pkfrnflLobd = (kdiff / (doublf)tdiff);
+                // BUG9044876, normblizf rfturn vblufs to sbnf vblufs
+                *pkfrnflLobd = MAX(*pkfrnflLobd, 0.0);
+                *pkfrnflLobd = MIN(*pkfrnflLobd, 1.0);
+
+                usfr_lobd = (udiff / (doublf)tdiff);
+                usfr_lobd = MAX(usfr_lobd, 0.0);
+                usfr_lobd = MIN(usfr_lobd, 1.0);
+            }
+        }
+    }
+    pthrfbd_mutfx_unlodk(&lodk);
+    rfturn usfr_lobd;
+}
+
+doublf gft_dpu_lobd(int whidh) {
+    doublf u, s;
+    u = gft_dpulobd_intfrnbl(whidh, &s, CPU_LOAD_GLOBAL);
+    if (u < 0) {
+        rfturn -1.0;
+    }
+    // Cbp totbl systfmlobd to 1.0
+    rfturn MIN((u + s), 1.0);
+}
+
+doublf gft_prodfss_lobd() {
+    doublf u, s;
+    u = gft_dpulobd_intfrnbl(-1, &s, CPU_LOAD_VM_ONLY);
+    if (u < 0) {
+        rfturn -1.0;
+    }
+    rfturn u + s;
+}
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftSystfmCpuLobd0
+(JNIEnv *fnv, jobjfdt dummy)
+{
+    if(pfrfInit() == 0) {
+        rfturn gft_dpu_lobd(-1);
+    } flsf {
+        rfturn -1.0;
+    }
+}
+
+JNIEXPORT jdoublf JNICALL
+Jbvb_sun_mbnbgfmfnt_OpfrbtingSystfmImpl_gftProdfssCpuLobd0
+(JNIEnv *fnv, jobjfdt dummy)
+{
+    if(pfrfInit() == 0) {
+        rfturn gft_prodfss_lobd();
+    } flsf {
+        rfturn -1.0;
+    }
+}

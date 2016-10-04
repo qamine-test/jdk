@@ -1,166 +1,166 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<html>
-<head>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<ifbd>
 <!--
-Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
-questions.
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
 -->
 
-<title>BMP Metadata Format Specification</title>
-</head>
+<titlf>BMP Mftbdbtb Formbt Spfdifidbtion</titlf>
+</ifbd>
 
 <body>
-<center><h1>
-BMP Metadata Format Specification
-</h1></center>
+<dfntfr><i1>
+BMP Mftbdbtb Formbt Spfdifidbtion
+</i1></dfntfr>
 
-The XML schema for the native image metadata format is as follows:
+Tif XML sdifmb for tif nbtivf imbgf mftbdbtb formbt is bs follows:
 
-<pre>
-&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+<prf>
+&lt;?xml vfrsion="1.0" fndoding="UTF-8"?&gt;
 
-&lt;!-- Schema for BMP native image metadata format. --&gt;
+&lt;!-- Sdifmb for BMP nbtivf imbgf mftbdbtb formbt. --&gt;
 
-&lt;xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-            xmlns="http://javax.imageio.plugins"
-            targetNamespace="http://javax.imageio.plugins"&gt;
+&lt;xsd:sdifmb xmlns:xsd="ittp://www.w3.org/2001/XMLSdifmb"
+            xmlns="ittp://jbvbx.imbgfio.plugins"
+            tbrgftNbmfspbdf="ittp://jbvbx.imbgfio.plugins"&gt;
 
-  &lt;!-- Coordinates of a point in the CIE XYZ color space. --&gt;
-  &lt;xsd:complexType name="XYZPoint"&gt;
-    &lt;xsd:sequence&gt;
-      &lt;xsd:element name="X" type="xsd:double"/&gt;
-      &lt;xsd:element name="Y" type="xsd:double"/&gt;
-      &lt;xsd:element name="Z" type="xsd:double"/&gt;
-    &lt;/xsd:sequence&gt;
-  &lt;/xsd:complexType&gt;
+  &lt;!-- Coordinbtfs of b point in tif CIE XYZ dolor spbdf. --&gt;
+  &lt;xsd:domplfxTypf nbmf="XYZPoint"&gt;
+    &lt;xsd:sfqufndf&gt;
+      &lt;xsd:flfmfnt nbmf="X" typf="xsd:doublf"/&gt;
+      &lt;xsd:flfmfnt nbmf="Y" typf="xsd:doublf"/&gt;
+      &lt;xsd:flfmfnt nbmf="Z" typf="xsd:doublf"/&gt;
+    &lt;/xsd:sfqufndf&gt;
+  &lt;/xsd:domplfxTypf&gt;
 
-  &lt;!-- BMP Schema 1.0 root element. --&gt;
-  &lt;xsd:element name="javax_imageio_bmp_1.0"&gt;
-    &lt;xsd:complexType&gt;
-      &lt;xsd:sequence&gt;
+  &lt;!-- BMP Sdifmb 1.0 root flfmfnt. --&gt;
+  &lt;xsd:flfmfnt nbmf="jbvbx_imbgfio_bmp_1.0"&gt;
+    &lt;xsd:domplfxTypf&gt;
+      &lt;xsd:sfqufndf&gt;
 
-        &lt;!-- BMP version string --&gt;
-        &lt;xsd:element name="BMPVersion" type="xsd:string"/&gt;
+        &lt;!-- BMP vfrsion string --&gt;
+        &lt;xsd:flfmfnt nbmf="BMPVfrsion" typf="xsd:string"/&gt;
 
-        &lt;!-- Bitmap width --&gt;
-        &lt;xsd:element name="Width" type="xsd:unsignedInt"/&gt;
+        &lt;!-- Bitmbp widti --&gt;
+        &lt;xsd:flfmfnt nbmf="Widti" typf="xsd:unsignfdInt"/&gt;
 
-        &lt;!-- Bitmap height --&gt;
-        &lt;xsd:element name="Height" type="xsd:unsignedInt"/&gt;
+        &lt;!-- Bitmbp ifigit --&gt;
+        &lt;xsd:flfmfnt nbmf="Hfigit" typf="xsd:unsignfdInt"/&gt;
 
-        &lt;!-- Number of bits per pixel --&gt;
-        &lt;xsd:element name="BitsPerPixel" type="xsd:unsignedShort"/&gt;
+        &lt;!-- Numbfr of bits pfr pixfl --&gt;
+        &lt;xsd:flfmfnt nbmf="BitsPfrPixfl" typf="xsd:unsignfdSiort"/&gt;
 
-        &lt;!-- Compression type --&gt;
-        &lt;xsd:element name="Compression" type="xsd:unsignedInt" minOccurs="0"/&gt;
+        &lt;!-- Comprfssion typf --&gt;
+        &lt;xsd:flfmfnt nbmf="Comprfssion" typf="xsd:unsignfdInt" minOddurs="0"/&gt;
 
-        &lt;!-- Image size in bytes --&gt;
-        &lt;xsd:element name="ImageSize" type="xsd:unsignedInt" minOccurs="0"/&gt;
+        &lt;!-- Imbgf sizf in bytfs --&gt;
+        &lt;xsd:flfmfnt nbmf="ImbgfSizf" typf="xsd:unsignfdInt" minOddurs="0"/&gt;
 
-	&lt;!-- Resolution in pixels per unit distance --&gt;
-        &lt;xsd:element name="PixelsPerMeter" minOccurs="0"&gt;
-	  &lt;xsd:complexType&gt;
-            &lt;xsd:sequence&gt;
-              &lt;xsd:element name="X" type="xsd:unsignedInt"/&gt;
-              &lt;xsd:element name="Y" type="xsd:unsignedInt"/&gt;
-            &lt;/xsd:sequence&gt;
-	  &lt;/xsd:complexType&gt;
-        &lt;/xsd:element&gt; &lt;!-- PixelsPerMeter --&gt;
+	&lt;!-- Rfsolution in pixfls pfr unit distbndf --&gt;
+        &lt;xsd:flfmfnt nbmf="PixflsPfrMftfr" minOddurs="0"&gt;
+	  &lt;xsd:domplfxTypf&gt;
+            &lt;xsd:sfqufndf&gt;
+              &lt;xsd:flfmfnt nbmf="X" typf="xsd:unsignfdInt"/&gt;
+              &lt;xsd:flfmfnt nbmf="Y" typf="xsd:unsignfdInt"/&gt;
+            &lt;/xsd:sfqufndf&gt;
+	  &lt;/xsd:domplfxTypf&gt;
+        &lt;/xsd:flfmfnt&gt; &lt;!-- PixflsPfrMftfr --&gt;
 
 
-	&lt;!-- Number of color indexes in the color table actually used --&gt;
-        &lt;xsd:element name="ColorsUsed" type="xsd:unsignedInt" minOccurs="0"/&gt;
+	&lt;!-- Numbfr of dolor indfxfs in tif dolor tbblf bdtublly usfd --&gt;
+        &lt;xsd:flfmfnt nbmf="ColorsUsfd" typf="xsd:unsignfdInt" minOddurs="0"/&gt;
 
-	&lt;!-- Number of color indexes considered important for display --&gt;
-        &lt;xsd:element name="ColorsImportant" type="xsd:unsignedInt"
-		     minOccurs="0"/&gt;
+	&lt;!-- Numbfr of dolor indfxfs donsidfrfd importbnt for displby --&gt;
+        &lt;xsd:flfmfnt nbmf="ColorsImportbnt" typf="xsd:unsignfdInt"
+		     minOddurs="0"/&gt;
 
-	&lt;!-- Color masks; present for BI_BITFIELDS compression only --&gt;
-        &lt;xsd:element name="Mask" minOccurs="0"&gt;
-	  &lt;xsd:complexType&gt;
-            &lt;xsd:sequence&gt;
-              &lt;xsd:element name="Red" type="xsd:unsignedInt"/&gt;
-              &lt;xsd:element name="Green" type="xsd:unsignedInt"/&gt;
-              &lt;xsd:element name="Blue" type="xsd:unsignedInt"/&gt;
-              &lt;xsd:element name="Alpha" type="xsd:unsignedInt" minOccurs="0"/&gt;
-            &lt;/xsd:sequence&gt;
-	  &lt;/xsd:complexType&gt;
-	&lt;/xsd:element&gt;
+	&lt;!-- Color mbsks; prfsfnt for BI_BITFIELDS domprfssion only --&gt;
+        &lt;xsd:flfmfnt nbmf="Mbsk" minOddurs="0"&gt;
+	  &lt;xsd:domplfxTypf&gt;
+            &lt;xsd:sfqufndf&gt;
+              &lt;xsd:flfmfnt nbmf="Rfd" typf="xsd:unsignfdInt"/&gt;
+              &lt;xsd:flfmfnt nbmf="Grffn" typf="xsd:unsignfdInt"/&gt;
+              &lt;xsd:flfmfnt nbmf="Bluf" typf="xsd:unsignfdInt"/&gt;
+              &lt;xsd:flfmfnt nbmf="Alpib" typf="xsd:unsignfdInt" minOddurs="0"/&gt;
+            &lt;/xsd:sfqufndf&gt;
+	  &lt;/xsd:domplfxTypf&gt;
+	&lt;/xsd:flfmfnt&gt;
 
-        &lt;!-- Color space  --&gt;
-        &lt;xsd:element name="ColorSpaceType" type="xsd:unsignedInt" 
-		     minOccurs="0"/&gt;
+        &lt;!-- Color spbdf  --&gt;
+        &lt;xsd:flfmfnt nbmf="ColorSpbdfTypf" typf="xsd:unsignfdInt" 
+		     minOddurs="0"/&gt;
 
-	&lt;!-- CIE XYZ for the LCS_CALIBRATED_RGB color space --&gt;
-        &lt;xsd:element name="CIEXYZEndpoints" minOccurs="0"&gt;
-	  &lt;xsd:complexType&gt;
-            &lt;xsd:sequence&gt;
-              &lt;xsd:element name="Red" type="XYZPoint"/&gt;
-              &lt;xsd:element name="Green" type="XYZPoint"/&gt;
-              &lt;xsd:element name="Blue" type="XYZPoint"/&gt;
-            &lt;/xsd:sequence&gt;
-	  &lt;/xsd:complexType&gt;
-        &lt;/xsd:element&gt;
+	&lt;!-- CIE XYZ for tif LCS_CALIBRATED_RGB dolor spbdf --&gt;
+        &lt;xsd:flfmfnt nbmf="CIEXYZEndpoints" minOddurs="0"&gt;
+	  &lt;xsd:domplfxTypf&gt;
+            &lt;xsd:sfqufndf&gt;
+              &lt;xsd:flfmfnt nbmf="Rfd" typf="XYZPoint"/&gt;
+              &lt;xsd:flfmfnt nbmf="Grffn" typf="XYZPoint"/&gt;
+              &lt;xsd:flfmfnt nbmf="Bluf" typf="XYZPoint"/&gt;
+            &lt;/xsd:sfqufndf&gt;
+	  &lt;/xsd:domplfxTypf&gt;
+        &lt;/xsd:flfmfnt&gt;
 
-	&lt;!-- Gamma values for the LCS_CALIBRATED_RGB color space --&gt;
-        &lt;xsd:element name="Gamma" minOccurs="0"&gt;
-	  &lt;xsd:complexType&gt;
-            &lt;xsd:sequence&gt;
-              &lt;xsd:element name="Red" type="xsd:unsignedInt"/&gt;
-              &lt;xsd:element name="Green" type="xsd:unsignedInt"/&gt;
-              &lt;xsd:element name="Blue" type="xsd:unsignedInt"/&gt;
-            &lt;/xsd:sequence&gt;
-	  &lt;/xsd:complexType&gt;
-	&lt;/xsd:element&gt;
+	&lt;!-- Gbmmb vblufs for tif LCS_CALIBRATED_RGB dolor spbdf --&gt;
+        &lt;xsd:flfmfnt nbmf="Gbmmb" minOddurs="0"&gt;
+	  &lt;xsd:domplfxTypf&gt;
+            &lt;xsd:sfqufndf&gt;
+              &lt;xsd:flfmfnt nbmf="Rfd" typf="xsd:unsignfdInt"/&gt;
+              &lt;xsd:flfmfnt nbmf="Grffn" typf="xsd:unsignfdInt"/&gt;
+              &lt;xsd:flfmfnt nbmf="Bluf" typf="xsd:unsignfdInt"/&gt;
+            &lt;/xsd:sfqufndf&gt;
+	  &lt;/xsd:domplfxTypf&gt;
+	&lt;/xsd:flfmfnt&gt;
 
-	&lt;!-- Rendering intent --&gt;
-        &lt;xsd:element name="Intent" type="xsd:unsignedInt" minOccurs="0"/&gt;
+	&lt;!-- Rfndfring intfnt --&gt;
+        &lt;xsd:flfmfnt nbmf="Intfnt" typf="xsd:unsignfdInt" minOddurs="0"/&gt;
 
-	&lt;!-- The image colormap --&gt;
-        &lt;xsd:element name="Palette" minOccurs="0"&gt;
-	  &lt;xsd:complexType&gt;
-            &lt;xsd:sequence&gt;
-              &lt;xsd:element name="PaletteEntry"&gt;
-	        &lt;xsd:complexType&gt;
-                  &lt;xsd:sequence&gt;
-                    &lt;xsd:element name="Red" type="xsd:unsignedByte"/&gt;
-                    &lt;xsd:element name="Green" type="xsd:unsignedByte"/&gt;
-                    &lt;xsd:element name="Blue" type="xsd:unsignedByte"/&gt;
-                    &lt;xsd:element name="Alpha" type="xsd:unsignedByte" minOccurs="0"/&gt;
-                  &lt;/xsd:sequence&gt;
-	        &lt;/xsd:complexType&gt;
-              &lt;/xsd:element&gt;
-            &lt;/xsd:sequence&gt;
-	  &lt;/xsd:complexType&gt;
-	&lt;/xsd:element&gt;
+	&lt;!-- Tif imbgf dolormbp --&gt;
+        &lt;xsd:flfmfnt nbmf="Pblfttf" minOddurs="0"&gt;
+	  &lt;xsd:domplfxTypf&gt;
+            &lt;xsd:sfqufndf&gt;
+              &lt;xsd:flfmfnt nbmf="PblfttfEntry"&gt;
+	        &lt;xsd:domplfxTypf&gt;
+                  &lt;xsd:sfqufndf&gt;
+                    &lt;xsd:flfmfnt nbmf="Rfd" typf="xsd:unsignfdBytf"/&gt;
+                    &lt;xsd:flfmfnt nbmf="Grffn" typf="xsd:unsignfdBytf"/&gt;
+                    &lt;xsd:flfmfnt nbmf="Bluf" typf="xsd:unsignfdBytf"/&gt;
+                    &lt;xsd:flfmfnt nbmf="Alpib" typf="xsd:unsignfdBytf" minOddurs="0"/&gt;
+                  &lt;/xsd:sfqufndf&gt;
+	        &lt;/xsd:domplfxTypf&gt;
+              &lt;/xsd:flfmfnt&gt;
+            &lt;/xsd:sfqufndf&gt;
+	  &lt;/xsd:domplfxTypf&gt;
+	&lt;/xsd:flfmfnt&gt;
 
-      &lt;/xsd:sequence&gt;
-    &lt;/xsd:complexType&gt;
-  &lt;/xsd:element&gt; &lt;!-- bmp_image_1.0 --&gt;
+      &lt;/xsd:sfqufndf&gt;
+    &lt;/xsd:domplfxTypf&gt;
+  &lt;/xsd:flfmfnt&gt; &lt;!-- bmp_imbgf_1.0 --&gt;
 
-&lt;/xsd:schema&gt;
-</pre>
+&lt;/xsd:sdifmb&gt;
+</prf>
 
-@since 1.5
+@sindf 1.5
 
 </body>

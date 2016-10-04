@@ -1,615 +1,615 @@
 /*
- * Copyright (c) 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.util.locale.provider;
+pbdkbgf sun.util.lodblf.providfr;
 
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.text.BreakIterator;
-import java.text.Collator;
-import java.text.DateFormat;
-import java.text.DateFormatSymbols;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
-import java.text.spi.BreakIteratorProvider;
-import java.text.spi.CollatorProvider;
-import java.text.spi.DateFormatProvider;
-import java.text.spi.DateFormatSymbolsProvider;
-import java.text.spi.DecimalFormatSymbolsProvider;
-import java.text.spi.NumberFormatProvider;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ServiceLoader;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.spi.CalendarDataProvider;
-import java.util.spi.CalendarNameProvider;
-import java.util.spi.CurrencyNameProvider;
-import java.util.spi.LocaleNameProvider;
-import java.util.spi.LocaleServiceProvider;
-import java.util.spi.TimeZoneNameProvider;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.tfxt.BrfbkItfrbtor;
+import jbvb.tfxt.Collbtor;
+import jbvb.tfxt.DbtfFormbt;
+import jbvb.tfxt.DbtfFormbtSymbols;
+import jbvb.tfxt.DfdimblFormbtSymbols;
+import jbvb.tfxt.NumbfrFormbt;
+import jbvb.tfxt.spi.BrfbkItfrbtorProvidfr;
+import jbvb.tfxt.spi.CollbtorProvidfr;
+import jbvb.tfxt.spi.DbtfFormbtProvidfr;
+import jbvb.tfxt.spi.DbtfFormbtSymbolsProvidfr;
+import jbvb.tfxt.spi.DfdimblFormbtSymbolsProvidfr;
+import jbvb.tfxt.spi.NumbfrFormbtProvidfr;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+import jbvb.util.spi.CblfndbrDbtbProvidfr;
+import jbvb.util.spi.CblfndbrNbmfProvidfr;
+import jbvb.util.spi.CurrfndyNbmfProvidfr;
+import jbvb.util.spi.LodblfNbmfProvidfr;
+import jbvb.util.spi.LodblfSfrvidfProvidfr;
+import jbvb.util.spi.TimfZonfNbmfProvidfr;
 
 /**
- * LocaleProviderAdapter implementation for the installed SPI implementations.
+ * LodblfProvidfrAdbptfr implfmfntbtion for tif instbllfd SPI implfmfntbtions.
  *
- * @author Naoto Sato
- * @author Masayoshi Okutsu
+ * @butior Nboto Sbto
+ * @butior Mbsbyosii Okutsu
  */
-public class SPILocaleProviderAdapter extends AuxLocaleProviderAdapter {
+publid dlbss SPILodblfProvidfrAdbptfr fxtfnds AuxLodblfProvidfrAdbptfr {
 
     /**
-     * Returns the type of this LocaleProviderAdapter
+     * Rfturns tif typf of tiis LodblfProvidfrAdbptfr
      */
-    @Override
-    public LocaleProviderAdapter.Type getAdapterType() {
-        return LocaleProviderAdapter.Type.SPI;
+    @Ovfrridf
+    publid LodblfProvidfrAdbptfr.Typf gftAdbptfrTypf() {
+        rfturn LodblfProvidfrAdbptfr.Typf.SPI;
     }
 
-    @Override
-    protected <P extends LocaleServiceProvider> P findInstalledProvider(final Class<P> c) {
+    @Ovfrridf
+    protfdtfd <P fxtfnds LodblfSfrvidfProvidfr> P findInstbllfdProvidfr(finbl Clbss<P> d) {
         try {
-            return AccessController.doPrivileged(new PrivilegedExceptionAction<P>() {
-                @Override
-                @SuppressWarnings("unchecked")
-                public P run() {
-                    P delegate = null;
+            rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdExdfptionAdtion<P>() {
+                @Ovfrridf
+                @SupprfssWbrnings("undifdkfd")
+                publid P run() {
+                    P dflfgbtf = null;
 
-                    for (LocaleServiceProvider provider : ServiceLoader.loadInstalled(c)) {
-                        if (delegate == null) {
+                    for (LodblfSfrvidfProvidfr providfr : SfrvidfLobdfr.lobdInstbllfd(d)) {
+                        if (dflfgbtf == null) {
                             try {
-                                delegate =
-                                    (P) Class.forName(SPILocaleProviderAdapter.class.getCanonicalName() +
+                                dflfgbtf =
+                                    (P) Clbss.forNbmf(SPILodblfProvidfrAdbptfr.dlbss.gftCbnonidblNbmf() +
                                               "$" +
-                                              c.getSimpleName() +
-                                              "Delegate")
-                                              .newInstance();
-                            }  catch (ClassNotFoundException |
-                                      InstantiationException |
-                                      IllegalAccessException e) {
-                                LocaleServiceProviderPool.config(SPILocaleProviderAdapter.class, e.toString());
-                                return null;
+                                              d.gftSimplfNbmf() +
+                                              "Dflfgbtf")
+                                              .nfwInstbndf();
+                            }  dbtdi (ClbssNotFoundExdfption |
+                                      InstbntibtionExdfption |
+                                      IllfgblAddfssExdfption f) {
+                                LodblfSfrvidfProvidfrPool.donfig(SPILodblfProvidfrAdbptfr.dlbss, f.toString());
+                                rfturn null;
                             }
                         }
 
-                        ((Delegate)delegate).addImpl(provider);
+                        ((Dflfgbtf)dflfgbtf).bddImpl(providfr);
                     }
-                    return delegate;
+                    rfturn dflfgbtf;
                 }
             });
-        }  catch (PrivilegedActionException e) {
-            LocaleServiceProviderPool.config(SPILocaleProviderAdapter.class, e.toString());
+        }  dbtdi (PrivilfgfdAdtionExdfption f) {
+            LodblfSfrvidfProvidfrPool.donfig(SPILodblfProvidfrAdbptfr.dlbss, f.toString());
         }
-        return null;
+        rfturn null;
     }
 
     /*
-     * Delegate interface. All the implementations have to have the class name
-     * following "<provider class name>Delegate" convention.
+     * Dflfgbtf intfrfbdf. All tif implfmfntbtions ibvf to ibvf tif dlbss nbmf
+     * following "<providfr dlbss nbmf>Dflfgbtf" donvfntion.
      */
-    interface Delegate<P extends LocaleServiceProvider> {
-        public void addImpl(P impl);
-        public P getImpl(Locale locale);
+    intfrfbdf Dflfgbtf<P fxtfnds LodblfSfrvidfProvidfr> {
+        publid void bddImpl(P impl);
+        publid P gftImpl(Lodblf lodblf);
     }
 
     /*
-     * Obtain the real SPI implementation, using locale fallback
+     * Obtbin tif rfbl SPI implfmfntbtion, using lodblf fbllbbdk
      */
-    private static <P extends LocaleServiceProvider> P getImpl(Map<Locale, P> map, Locale locale) {
-        for (Locale l : LocaleServiceProviderPool.getLookupLocales(locale)) {
-            P ret = map.get(l);
-            if (ret != null) {
-                return ret;
+    privbtf stbtid <P fxtfnds LodblfSfrvidfProvidfr> P gftImpl(Mbp<Lodblf, P> mbp, Lodblf lodblf) {
+        for (Lodblf l : LodblfSfrvidfProvidfrPool.gftLookupLodblfs(lodblf)) {
+            P rft = mbp.gft(l);
+            if (rft != null) {
+                rfturn rft;
             }
         }
-        return null;
+        rfturn null;
     }
 
     /*
-     * Delegates for the actual SPI implementations.
+     * Dflfgbtfs for tif bdtubl SPI implfmfntbtions.
      */
-    static class BreakIteratorProviderDelegate extends BreakIteratorProvider
-                                        implements Delegate<BreakIteratorProvider> {
-        private ConcurrentMap<Locale, BreakIteratorProvider> map = new ConcurrentHashMap<>();
+    stbtid dlbss BrfbkItfrbtorProvidfrDflfgbtf fxtfnds BrfbkItfrbtorProvidfr
+                                        implfmfnts Dflfgbtf<BrfbkItfrbtorProvidfr> {
+        privbtf CondurrfntMbp<Lodblf, BrfbkItfrbtorProvidfr> mbp = nfw CondurrfntHbsiMbp<>();
 
-        @Override
-        public void addImpl(BreakIteratorProvider impl) {
-            for (Locale l : impl.getAvailableLocales()) {
-                map.putIfAbsent(l, impl);
+        @Ovfrridf
+        publid void bddImpl(BrfbkItfrbtorProvidfr impl) {
+            for (Lodblf l : impl.gftAvbilbblfLodblfs()) {
+                mbp.putIfAbsfnt(l, impl);
             }
         }
 
-        @Override
-        public BreakIteratorProvider getImpl(Locale locale) {
-            return SPILocaleProviderAdapter.getImpl(map, locale);
+        @Ovfrridf
+        publid BrfbkItfrbtorProvidfr gftImpl(Lodblf lodblf) {
+            rfturn SPILodblfProvidfrAdbptfr.gftImpl(mbp, lodblf);
         }
 
-        @Override
-        public Locale[] getAvailableLocales() {
-            return map.keySet().toArray(new Locale[0]);
+        @Ovfrridf
+        publid Lodblf[] gftAvbilbblfLodblfs() {
+            rfturn mbp.kfySft().toArrby(nfw Lodblf[0]);
         }
 
-        @Override
-        public boolean isSupportedLocale(Locale locale) {
-            return map.containsKey(locale);
+        @Ovfrridf
+        publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+            rfturn mbp.dontbinsKfy(lodblf);
         }
 
-        @Override
-        public BreakIterator getWordInstance(Locale locale) {
-            BreakIteratorProvider bip = getImpl(locale);
-            assert bip != null;
-            return bip.getWordInstance(locale);
+        @Ovfrridf
+        publid BrfbkItfrbtor gftWordInstbndf(Lodblf lodblf) {
+            BrfbkItfrbtorProvidfr bip = gftImpl(lodblf);
+            bssfrt bip != null;
+            rfturn bip.gftWordInstbndf(lodblf);
         }
 
-        @Override
-        public BreakIterator getLineInstance(Locale locale) {
-            BreakIteratorProvider bip = getImpl(locale);
-            assert bip != null;
-            return bip.getLineInstance(locale);
+        @Ovfrridf
+        publid BrfbkItfrbtor gftLinfInstbndf(Lodblf lodblf) {
+            BrfbkItfrbtorProvidfr bip = gftImpl(lodblf);
+            bssfrt bip != null;
+            rfturn bip.gftLinfInstbndf(lodblf);
         }
 
-        @Override
-        public BreakIterator getCharacterInstance(Locale locale) {
-            BreakIteratorProvider bip = getImpl(locale);
-            assert bip != null;
-            return bip.getCharacterInstance(locale);
+        @Ovfrridf
+        publid BrfbkItfrbtor gftCibrbdtfrInstbndf(Lodblf lodblf) {
+            BrfbkItfrbtorProvidfr bip = gftImpl(lodblf);
+            bssfrt bip != null;
+            rfturn bip.gftCibrbdtfrInstbndf(lodblf);
         }
 
-        @Override
-        public BreakIterator getSentenceInstance(Locale locale) {
-            BreakIteratorProvider bip = getImpl(locale);
-            assert bip != null;
-            return bip.getSentenceInstance(locale);
+        @Ovfrridf
+        publid BrfbkItfrbtor gftSfntfndfInstbndf(Lodblf lodblf) {
+            BrfbkItfrbtorProvidfr bip = gftImpl(lodblf);
+            bssfrt bip != null;
+            rfturn bip.gftSfntfndfInstbndf(lodblf);
         }
 
     }
 
-    static class CollatorProviderDelegate extends CollatorProvider implements Delegate<CollatorProvider> {
-        private ConcurrentMap<Locale, CollatorProvider> map = new ConcurrentHashMap<>();
+    stbtid dlbss CollbtorProvidfrDflfgbtf fxtfnds CollbtorProvidfr implfmfnts Dflfgbtf<CollbtorProvidfr> {
+        privbtf CondurrfntMbp<Lodblf, CollbtorProvidfr> mbp = nfw CondurrfntHbsiMbp<>();
 
-        @Override
-        public void addImpl(CollatorProvider impl) {
-            for (Locale l : impl.getAvailableLocales()) {
-                map.putIfAbsent(l, impl);
+        @Ovfrridf
+        publid void bddImpl(CollbtorProvidfr impl) {
+            for (Lodblf l : impl.gftAvbilbblfLodblfs()) {
+                mbp.putIfAbsfnt(l, impl);
             }
         }
 
-        @Override
-        public CollatorProvider getImpl(Locale locale) {
-            return SPILocaleProviderAdapter.getImpl(map, locale);
+        @Ovfrridf
+        publid CollbtorProvidfr gftImpl(Lodblf lodblf) {
+            rfturn SPILodblfProvidfrAdbptfr.gftImpl(mbp, lodblf);
         }
 
-        @Override
-        public Locale[] getAvailableLocales() {
-            return map.keySet().toArray(new Locale[0]);
+        @Ovfrridf
+        publid Lodblf[] gftAvbilbblfLodblfs() {
+            rfturn mbp.kfySft().toArrby(nfw Lodblf[0]);
         }
 
-        @Override
-        public boolean isSupportedLocale(Locale locale) {
-            return map.containsKey(locale);
+        @Ovfrridf
+        publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+            rfturn mbp.dontbinsKfy(lodblf);
         }
 
-        @Override
-        public Collator getInstance(Locale locale) {
-            CollatorProvider cp = getImpl(locale);
-            assert cp != null;
-            return cp.getInstance(locale);
+        @Ovfrridf
+        publid Collbtor gftInstbndf(Lodblf lodblf) {
+            CollbtorProvidfr dp = gftImpl(lodblf);
+            bssfrt dp != null;
+            rfturn dp.gftInstbndf(lodblf);
         }
     }
 
-    static class DateFormatProviderDelegate extends DateFormatProvider
-                                     implements Delegate<DateFormatProvider> {
-        private ConcurrentMap<Locale, DateFormatProvider> map = new ConcurrentHashMap<>();
+    stbtid dlbss DbtfFormbtProvidfrDflfgbtf fxtfnds DbtfFormbtProvidfr
+                                     implfmfnts Dflfgbtf<DbtfFormbtProvidfr> {
+        privbtf CondurrfntMbp<Lodblf, DbtfFormbtProvidfr> mbp = nfw CondurrfntHbsiMbp<>();
 
-        @Override
-        public void addImpl(DateFormatProvider impl) {
-            for (Locale l : impl.getAvailableLocales()) {
-                map.putIfAbsent(l, impl);
+        @Ovfrridf
+        publid void bddImpl(DbtfFormbtProvidfr impl) {
+            for (Lodblf l : impl.gftAvbilbblfLodblfs()) {
+                mbp.putIfAbsfnt(l, impl);
             }
         }
 
-        @Override
-        public DateFormatProvider getImpl(Locale locale) {
-            return SPILocaleProviderAdapter.getImpl(map, locale);
+        @Ovfrridf
+        publid DbtfFormbtProvidfr gftImpl(Lodblf lodblf) {
+            rfturn SPILodblfProvidfrAdbptfr.gftImpl(mbp, lodblf);
         }
 
-        @Override
-        public Locale[] getAvailableLocales() {
-            return map.keySet().toArray(new Locale[0]);
+        @Ovfrridf
+        publid Lodblf[] gftAvbilbblfLodblfs() {
+            rfturn mbp.kfySft().toArrby(nfw Lodblf[0]);
         }
 
-        @Override
-        public boolean isSupportedLocale(Locale locale) {
-            return map.containsKey(locale);
+        @Ovfrridf
+        publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+            rfturn mbp.dontbinsKfy(lodblf);
         }
 
-        @Override
-        public DateFormat getTimeInstance(int style, Locale locale) {
-            DateFormatProvider dfp = getImpl(locale);
-            assert dfp != null;
-            return dfp.getTimeInstance(style, locale);
+        @Ovfrridf
+        publid DbtfFormbt gftTimfInstbndf(int stylf, Lodblf lodblf) {
+            DbtfFormbtProvidfr dfp = gftImpl(lodblf);
+            bssfrt dfp != null;
+            rfturn dfp.gftTimfInstbndf(stylf, lodblf);
         }
 
-        @Override
-        public DateFormat getDateInstance(int style, Locale locale) {
-            DateFormatProvider dfp = getImpl(locale);
-            assert dfp != null;
-            return dfp.getDateInstance(style, locale);
+        @Ovfrridf
+        publid DbtfFormbt gftDbtfInstbndf(int stylf, Lodblf lodblf) {
+            DbtfFormbtProvidfr dfp = gftImpl(lodblf);
+            bssfrt dfp != null;
+            rfturn dfp.gftDbtfInstbndf(stylf, lodblf);
         }
 
-        @Override
-        public DateFormat getDateTimeInstance(int dateStyle, int timeStyle, Locale locale) {
-            DateFormatProvider dfp = getImpl(locale);
-            assert dfp != null;
-            return dfp.getDateTimeInstance(dateStyle, timeStyle, locale);
+        @Ovfrridf
+        publid DbtfFormbt gftDbtfTimfInstbndf(int dbtfStylf, int timfStylf, Lodblf lodblf) {
+            DbtfFormbtProvidfr dfp = gftImpl(lodblf);
+            bssfrt dfp != null;
+            rfturn dfp.gftDbtfTimfInstbndf(dbtfStylf, timfStylf, lodblf);
         }
     }
 
-    static class DateFormatSymbolsProviderDelegate extends DateFormatSymbolsProvider
-                                            implements Delegate<DateFormatSymbolsProvider> {
-        private ConcurrentMap<Locale, DateFormatSymbolsProvider> map = new ConcurrentHashMap<>();
+    stbtid dlbss DbtfFormbtSymbolsProvidfrDflfgbtf fxtfnds DbtfFormbtSymbolsProvidfr
+                                            implfmfnts Dflfgbtf<DbtfFormbtSymbolsProvidfr> {
+        privbtf CondurrfntMbp<Lodblf, DbtfFormbtSymbolsProvidfr> mbp = nfw CondurrfntHbsiMbp<>();
 
-        @Override
-        public void addImpl(DateFormatSymbolsProvider impl) {
-            for (Locale l : impl.getAvailableLocales()) {
-                map.putIfAbsent(l, impl);
+        @Ovfrridf
+        publid void bddImpl(DbtfFormbtSymbolsProvidfr impl) {
+            for (Lodblf l : impl.gftAvbilbblfLodblfs()) {
+                mbp.putIfAbsfnt(l, impl);
             }
         }
 
-        @Override
-        public DateFormatSymbolsProvider getImpl(Locale locale) {
-            return SPILocaleProviderAdapter.getImpl(map, locale);
+        @Ovfrridf
+        publid DbtfFormbtSymbolsProvidfr gftImpl(Lodblf lodblf) {
+            rfturn SPILodblfProvidfrAdbptfr.gftImpl(mbp, lodblf);
         }
 
-        @Override
-        public Locale[] getAvailableLocales() {
-            return map.keySet().toArray(new Locale[0]);
+        @Ovfrridf
+        publid Lodblf[] gftAvbilbblfLodblfs() {
+            rfturn mbp.kfySft().toArrby(nfw Lodblf[0]);
         }
 
-        @Override
-        public boolean isSupportedLocale(Locale locale) {
-            return map.containsKey(locale);
+        @Ovfrridf
+        publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+            rfturn mbp.dontbinsKfy(lodblf);
         }
 
-        @Override
-        public DateFormatSymbols getInstance(Locale locale) {
-            DateFormatSymbolsProvider dfsp = getImpl(locale);
-            assert dfsp != null;
-            return dfsp.getInstance(locale);
+        @Ovfrridf
+        publid DbtfFormbtSymbols gftInstbndf(Lodblf lodblf) {
+            DbtfFormbtSymbolsProvidfr dfsp = gftImpl(lodblf);
+            bssfrt dfsp != null;
+            rfturn dfsp.gftInstbndf(lodblf);
         }
     }
 
-    static class DecimalFormatSymbolsProviderDelegate extends DecimalFormatSymbolsProvider
-                                               implements Delegate<DecimalFormatSymbolsProvider> {
-        private ConcurrentMap<Locale, DecimalFormatSymbolsProvider> map = new ConcurrentHashMap<>();
+    stbtid dlbss DfdimblFormbtSymbolsProvidfrDflfgbtf fxtfnds DfdimblFormbtSymbolsProvidfr
+                                               implfmfnts Dflfgbtf<DfdimblFormbtSymbolsProvidfr> {
+        privbtf CondurrfntMbp<Lodblf, DfdimblFormbtSymbolsProvidfr> mbp = nfw CondurrfntHbsiMbp<>();
 
-        @Override
-        public void addImpl(DecimalFormatSymbolsProvider impl) {
-            for (Locale l : impl.getAvailableLocales()) {
-                map.putIfAbsent(l, impl);
+        @Ovfrridf
+        publid void bddImpl(DfdimblFormbtSymbolsProvidfr impl) {
+            for (Lodblf l : impl.gftAvbilbblfLodblfs()) {
+                mbp.putIfAbsfnt(l, impl);
             }
         }
 
-        @Override
-        public DecimalFormatSymbolsProvider getImpl(Locale locale) {
-            return SPILocaleProviderAdapter.getImpl(map, locale);
+        @Ovfrridf
+        publid DfdimblFormbtSymbolsProvidfr gftImpl(Lodblf lodblf) {
+            rfturn SPILodblfProvidfrAdbptfr.gftImpl(mbp, lodblf);
         }
 
-        @Override
-        public Locale[] getAvailableLocales() {
-            return map.keySet().toArray(new Locale[0]);
+        @Ovfrridf
+        publid Lodblf[] gftAvbilbblfLodblfs() {
+            rfturn mbp.kfySft().toArrby(nfw Lodblf[0]);
         }
 
-        @Override
-        public boolean isSupportedLocale(Locale locale) {
-            return map.containsKey(locale);
+        @Ovfrridf
+        publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+            rfturn mbp.dontbinsKfy(lodblf);
         }
 
-        @Override
-        public DecimalFormatSymbols getInstance(Locale locale) {
-            DecimalFormatSymbolsProvider dfsp = getImpl(locale);
-            assert dfsp != null;
-            return dfsp.getInstance(locale);
+        @Ovfrridf
+        publid DfdimblFormbtSymbols gftInstbndf(Lodblf lodblf) {
+            DfdimblFormbtSymbolsProvidfr dfsp = gftImpl(lodblf);
+            bssfrt dfsp != null;
+            rfturn dfsp.gftInstbndf(lodblf);
         }
     }
 
-    static class NumberFormatProviderDelegate extends NumberFormatProvider
-                                       implements Delegate<NumberFormatProvider> {
-        private ConcurrentMap<Locale, NumberFormatProvider> map = new ConcurrentHashMap<>();
+    stbtid dlbss NumbfrFormbtProvidfrDflfgbtf fxtfnds NumbfrFormbtProvidfr
+                                       implfmfnts Dflfgbtf<NumbfrFormbtProvidfr> {
+        privbtf CondurrfntMbp<Lodblf, NumbfrFormbtProvidfr> mbp = nfw CondurrfntHbsiMbp<>();
 
-        @Override
-        public void addImpl(NumberFormatProvider impl) {
-            for (Locale l : impl.getAvailableLocales()) {
-                map.putIfAbsent(l, impl);
+        @Ovfrridf
+        publid void bddImpl(NumbfrFormbtProvidfr impl) {
+            for (Lodblf l : impl.gftAvbilbblfLodblfs()) {
+                mbp.putIfAbsfnt(l, impl);
             }
         }
 
-        @Override
-        public NumberFormatProvider getImpl(Locale locale) {
-            return SPILocaleProviderAdapter.getImpl(map, locale);
+        @Ovfrridf
+        publid NumbfrFormbtProvidfr gftImpl(Lodblf lodblf) {
+            rfturn SPILodblfProvidfrAdbptfr.gftImpl(mbp, lodblf);
         }
 
-        @Override
-        public Locale[] getAvailableLocales() {
-            return map.keySet().toArray(new Locale[0]);
+        @Ovfrridf
+        publid Lodblf[] gftAvbilbblfLodblfs() {
+            rfturn mbp.kfySft().toArrby(nfw Lodblf[0]);
         }
 
-        @Override
-        public boolean isSupportedLocale(Locale locale) {
-            return map.containsKey(locale);
+        @Ovfrridf
+        publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+            rfturn mbp.dontbinsKfy(lodblf);
         }
 
-        @Override
-        public NumberFormat getCurrencyInstance(Locale locale) {
-            NumberFormatProvider nfp = getImpl(locale);
-            assert nfp != null;
-            return nfp.getCurrencyInstance(locale);
+        @Ovfrridf
+        publid NumbfrFormbt gftCurrfndyInstbndf(Lodblf lodblf) {
+            NumbfrFormbtProvidfr nfp = gftImpl(lodblf);
+            bssfrt nfp != null;
+            rfturn nfp.gftCurrfndyInstbndf(lodblf);
         }
 
-        @Override
-        public NumberFormat getIntegerInstance(Locale locale) {
-            NumberFormatProvider nfp = getImpl(locale);
-            assert nfp != null;
-            return nfp.getIntegerInstance(locale);
+        @Ovfrridf
+        publid NumbfrFormbt gftIntfgfrInstbndf(Lodblf lodblf) {
+            NumbfrFormbtProvidfr nfp = gftImpl(lodblf);
+            bssfrt nfp != null;
+            rfturn nfp.gftIntfgfrInstbndf(lodblf);
         }
 
-        @Override
-        public NumberFormat getNumberInstance(Locale locale) {
-            NumberFormatProvider nfp = getImpl(locale);
-            assert nfp != null;
-            return nfp.getNumberInstance(locale);
+        @Ovfrridf
+        publid NumbfrFormbt gftNumbfrInstbndf(Lodblf lodblf) {
+            NumbfrFormbtProvidfr nfp = gftImpl(lodblf);
+            bssfrt nfp != null;
+            rfturn nfp.gftNumbfrInstbndf(lodblf);
         }
 
-        @Override
-        public NumberFormat getPercentInstance(Locale locale) {
-            NumberFormatProvider nfp = getImpl(locale);
-            assert nfp != null;
-            return nfp.getPercentInstance(locale);
+        @Ovfrridf
+        publid NumbfrFormbt gftPfrdfntInstbndf(Lodblf lodblf) {
+            NumbfrFormbtProvidfr nfp = gftImpl(lodblf);
+            bssfrt nfp != null;
+            rfturn nfp.gftPfrdfntInstbndf(lodblf);
         }
     }
 
-    static class CalendarDataProviderDelegate extends CalendarDataProvider
-                                       implements Delegate<CalendarDataProvider> {
-        private ConcurrentMap<Locale, CalendarDataProvider> map = new ConcurrentHashMap<>();
+    stbtid dlbss CblfndbrDbtbProvidfrDflfgbtf fxtfnds CblfndbrDbtbProvidfr
+                                       implfmfnts Dflfgbtf<CblfndbrDbtbProvidfr> {
+        privbtf CondurrfntMbp<Lodblf, CblfndbrDbtbProvidfr> mbp = nfw CondurrfntHbsiMbp<>();
 
-        @Override
-        public void addImpl(CalendarDataProvider impl) {
-            for (Locale l : impl.getAvailableLocales()) {
-                map.putIfAbsent(l, impl);
+        @Ovfrridf
+        publid void bddImpl(CblfndbrDbtbProvidfr impl) {
+            for (Lodblf l : impl.gftAvbilbblfLodblfs()) {
+                mbp.putIfAbsfnt(l, impl);
             }
         }
 
-        @Override
-        public CalendarDataProvider getImpl(Locale locale) {
-            return SPILocaleProviderAdapter.getImpl(map, locale);
+        @Ovfrridf
+        publid CblfndbrDbtbProvidfr gftImpl(Lodblf lodblf) {
+            rfturn SPILodblfProvidfrAdbptfr.gftImpl(mbp, lodblf);
         }
 
-        @Override
-        public Locale[] getAvailableLocales() {
-            return map.keySet().toArray(new Locale[0]);
+        @Ovfrridf
+        publid Lodblf[] gftAvbilbblfLodblfs() {
+            rfturn mbp.kfySft().toArrby(nfw Lodblf[0]);
         }
 
-        @Override
-        public boolean isSupportedLocale(Locale locale) {
-            return map.containsKey(locale);
+        @Ovfrridf
+        publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+            rfturn mbp.dontbinsKfy(lodblf);
         }
 
-        @Override
-        public int getFirstDayOfWeek(Locale locale) {
-            CalendarDataProvider cdp = getImpl(locale);
-            assert cdp != null;
-            return cdp.getFirstDayOfWeek(locale);
+        @Ovfrridf
+        publid int gftFirstDbyOfWffk(Lodblf lodblf) {
+            CblfndbrDbtbProvidfr ddp = gftImpl(lodblf);
+            bssfrt ddp != null;
+            rfturn ddp.gftFirstDbyOfWffk(lodblf);
         }
 
-        @Override
-        public int getMinimalDaysInFirstWeek(Locale locale) {
-            CalendarDataProvider cdp = getImpl(locale);
-            assert cdp != null;
-            return cdp.getMinimalDaysInFirstWeek(locale);
+        @Ovfrridf
+        publid int gftMinimblDbysInFirstWffk(Lodblf lodblf) {
+            CblfndbrDbtbProvidfr ddp = gftImpl(lodblf);
+            bssfrt ddp != null;
+            rfturn ddp.gftMinimblDbysInFirstWffk(lodblf);
         }
     }
 
-    static class CalendarNameProviderDelegate extends CalendarNameProvider
-                                       implements Delegate<CalendarNameProvider> {
-        private ConcurrentMap<Locale, CalendarNameProvider> map = new ConcurrentHashMap<>();
+    stbtid dlbss CblfndbrNbmfProvidfrDflfgbtf fxtfnds CblfndbrNbmfProvidfr
+                                       implfmfnts Dflfgbtf<CblfndbrNbmfProvidfr> {
+        privbtf CondurrfntMbp<Lodblf, CblfndbrNbmfProvidfr> mbp = nfw CondurrfntHbsiMbp<>();
 
-        @Override
-        public void addImpl(CalendarNameProvider impl) {
-            for (Locale l : impl.getAvailableLocales()) {
-                map.putIfAbsent(l, impl);
+        @Ovfrridf
+        publid void bddImpl(CblfndbrNbmfProvidfr impl) {
+            for (Lodblf l : impl.gftAvbilbblfLodblfs()) {
+                mbp.putIfAbsfnt(l, impl);
             }
         }
 
-        @Override
-        public CalendarNameProvider getImpl(Locale locale) {
-            return SPILocaleProviderAdapter.getImpl(map, locale);
+        @Ovfrridf
+        publid CblfndbrNbmfProvidfr gftImpl(Lodblf lodblf) {
+            rfturn SPILodblfProvidfrAdbptfr.gftImpl(mbp, lodblf);
         }
 
-        @Override
-        public Locale[] getAvailableLocales() {
-            return map.keySet().toArray(new Locale[0]);
+        @Ovfrridf
+        publid Lodblf[] gftAvbilbblfLodblfs() {
+            rfturn mbp.kfySft().toArrby(nfw Lodblf[0]);
         }
 
-        @Override
-        public boolean isSupportedLocale(Locale locale) {
-            return map.containsKey(locale);
+        @Ovfrridf
+        publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+            rfturn mbp.dontbinsKfy(lodblf);
         }
 
-        @Override
-        public String getDisplayName(String calendarType,
-                                              int field, int value,
-                                              int style, Locale locale) {
-            CalendarNameProvider cdp = getImpl(locale);
-            assert cdp != null;
-            return cdp.getDisplayName(calendarType, field, value, style, locale);
+        @Ovfrridf
+        publid String gftDisplbyNbmf(String dblfndbrTypf,
+                                              int fifld, int vbluf,
+                                              int stylf, Lodblf lodblf) {
+            CblfndbrNbmfProvidfr ddp = gftImpl(lodblf);
+            bssfrt ddp != null;
+            rfturn ddp.gftDisplbyNbmf(dblfndbrTypf, fifld, vbluf, stylf, lodblf);
         }
 
-        @Override
-        public Map<String, Integer> getDisplayNames(String calendarType,
-                                                             int field, int style,
-                                                             Locale locale) {
-            CalendarNameProvider cdp = getImpl(locale);
-            assert cdp != null;
-            return cdp.getDisplayNames(calendarType, field, style, locale);
+        @Ovfrridf
+        publid Mbp<String, Intfgfr> gftDisplbyNbmfs(String dblfndbrTypf,
+                                                             int fifld, int stylf,
+                                                             Lodblf lodblf) {
+            CblfndbrNbmfProvidfr ddp = gftImpl(lodblf);
+            bssfrt ddp != null;
+            rfturn ddp.gftDisplbyNbmfs(dblfndbrTypf, fifld, stylf, lodblf);
         }
     }
 
-    static class CurrencyNameProviderDelegate extends CurrencyNameProvider
-                                       implements Delegate<CurrencyNameProvider> {
-        private ConcurrentMap<Locale, CurrencyNameProvider> map = new ConcurrentHashMap<>();
+    stbtid dlbss CurrfndyNbmfProvidfrDflfgbtf fxtfnds CurrfndyNbmfProvidfr
+                                       implfmfnts Dflfgbtf<CurrfndyNbmfProvidfr> {
+        privbtf CondurrfntMbp<Lodblf, CurrfndyNbmfProvidfr> mbp = nfw CondurrfntHbsiMbp<>();
 
-        @Override
-        public void addImpl(CurrencyNameProvider impl) {
-            for (Locale l : impl.getAvailableLocales()) {
-                map.putIfAbsent(l, impl);
+        @Ovfrridf
+        publid void bddImpl(CurrfndyNbmfProvidfr impl) {
+            for (Lodblf l : impl.gftAvbilbblfLodblfs()) {
+                mbp.putIfAbsfnt(l, impl);
             }
         }
 
-        @Override
-        public CurrencyNameProvider getImpl(Locale locale) {
-            return SPILocaleProviderAdapter.getImpl(map, locale);
+        @Ovfrridf
+        publid CurrfndyNbmfProvidfr gftImpl(Lodblf lodblf) {
+            rfturn SPILodblfProvidfrAdbptfr.gftImpl(mbp, lodblf);
         }
 
-        @Override
-        public Locale[] getAvailableLocales() {
-            return map.keySet().toArray(new Locale[0]);
+        @Ovfrridf
+        publid Lodblf[] gftAvbilbblfLodblfs() {
+            rfturn mbp.kfySft().toArrby(nfw Lodblf[0]);
         }
 
-        @Override
-        public boolean isSupportedLocale(Locale locale) {
-            return map.containsKey(locale);
+        @Ovfrridf
+        publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+            rfturn mbp.dontbinsKfy(lodblf);
         }
 
-        @Override
-        public String getSymbol(String currencyCode, Locale locale) {
-            CurrencyNameProvider cnp = getImpl(locale);
-            assert cnp != null;
-            return cnp.getSymbol(currencyCode, locale);
+        @Ovfrridf
+        publid String gftSymbol(String durrfndyCodf, Lodblf lodblf) {
+            CurrfndyNbmfProvidfr dnp = gftImpl(lodblf);
+            bssfrt dnp != null;
+            rfturn dnp.gftSymbol(durrfndyCodf, lodblf);
         }
 
-        @Override
-        public String getDisplayName(String currencyCode, Locale locale) {
-            CurrencyNameProvider cnp = getImpl(locale);
-            assert cnp != null;
-            return cnp.getDisplayName(currencyCode, locale);
+        @Ovfrridf
+        publid String gftDisplbyNbmf(String durrfndyCodf, Lodblf lodblf) {
+            CurrfndyNbmfProvidfr dnp = gftImpl(lodblf);
+            bssfrt dnp != null;
+            rfturn dnp.gftDisplbyNbmf(durrfndyCodf, lodblf);
         }
     }
 
-    static class LocaleNameProviderDelegate extends LocaleNameProvider
-                                     implements Delegate<LocaleNameProvider> {
-        private ConcurrentMap<Locale, LocaleNameProvider> map = new ConcurrentHashMap<>();
+    stbtid dlbss LodblfNbmfProvidfrDflfgbtf fxtfnds LodblfNbmfProvidfr
+                                     implfmfnts Dflfgbtf<LodblfNbmfProvidfr> {
+        privbtf CondurrfntMbp<Lodblf, LodblfNbmfProvidfr> mbp = nfw CondurrfntHbsiMbp<>();
 
-        @Override
-        public void addImpl(LocaleNameProvider impl) {
-            for (Locale l : impl.getAvailableLocales()) {
-                map.putIfAbsent(l, impl);
+        @Ovfrridf
+        publid void bddImpl(LodblfNbmfProvidfr impl) {
+            for (Lodblf l : impl.gftAvbilbblfLodblfs()) {
+                mbp.putIfAbsfnt(l, impl);
             }
         }
 
-        @Override
-        public LocaleNameProvider getImpl(Locale locale) {
-            return SPILocaleProviderAdapter.getImpl(map, locale);
+        @Ovfrridf
+        publid LodblfNbmfProvidfr gftImpl(Lodblf lodblf) {
+            rfturn SPILodblfProvidfrAdbptfr.gftImpl(mbp, lodblf);
         }
 
-        @Override
-        public Locale[] getAvailableLocales() {
-            return map.keySet().toArray(new Locale[0]);
+        @Ovfrridf
+        publid Lodblf[] gftAvbilbblfLodblfs() {
+            rfturn mbp.kfySft().toArrby(nfw Lodblf[0]);
         }
 
-        @Override
-        public boolean isSupportedLocale(Locale locale) {
-            return map.containsKey(locale);
+        @Ovfrridf
+        publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+            rfturn mbp.dontbinsKfy(lodblf);
         }
 
-        @Override
-        public String getDisplayLanguage(String languageCode, Locale locale) {
-            LocaleNameProvider lnp = getImpl(locale);
-            assert lnp != null;
-            return lnp.getDisplayLanguage(languageCode, locale);
+        @Ovfrridf
+        publid String gftDisplbyLbngubgf(String lbngubgfCodf, Lodblf lodblf) {
+            LodblfNbmfProvidfr lnp = gftImpl(lodblf);
+            bssfrt lnp != null;
+            rfturn lnp.gftDisplbyLbngubgf(lbngubgfCodf, lodblf);
         }
 
-        @Override
-        public String getDisplayScript(String scriptCode, Locale locale) {
-            LocaleNameProvider lnp = getImpl(locale);
-            assert lnp != null;
-            return lnp.getDisplayScript(scriptCode, locale);
+        @Ovfrridf
+        publid String gftDisplbySdript(String sdriptCodf, Lodblf lodblf) {
+            LodblfNbmfProvidfr lnp = gftImpl(lodblf);
+            bssfrt lnp != null;
+            rfturn lnp.gftDisplbySdript(sdriptCodf, lodblf);
         }
 
-        @Override
-        public String getDisplayCountry(String countryCode, Locale locale) {
-            LocaleNameProvider lnp = getImpl(locale);
-            assert lnp != null;
-            return lnp.getDisplayCountry(countryCode, locale);
+        @Ovfrridf
+        publid String gftDisplbyCountry(String dountryCodf, Lodblf lodblf) {
+            LodblfNbmfProvidfr lnp = gftImpl(lodblf);
+            bssfrt lnp != null;
+            rfturn lnp.gftDisplbyCountry(dountryCodf, lodblf);
         }
 
-        @Override
-        public String getDisplayVariant(String variant, Locale locale) {
-            LocaleNameProvider lnp = getImpl(locale);
-            assert lnp != null;
-            return lnp.getDisplayVariant(variant, locale);
+        @Ovfrridf
+        publid String gftDisplbyVbribnt(String vbribnt, Lodblf lodblf) {
+            LodblfNbmfProvidfr lnp = gftImpl(lodblf);
+            bssfrt lnp != null;
+            rfturn lnp.gftDisplbyVbribnt(vbribnt, lodblf);
         }
     }
 
-    static class TimeZoneNameProviderDelegate extends TimeZoneNameProvider
-                                     implements Delegate<TimeZoneNameProvider> {
-        private ConcurrentMap<Locale, TimeZoneNameProvider> map = new ConcurrentHashMap<>();
+    stbtid dlbss TimfZonfNbmfProvidfrDflfgbtf fxtfnds TimfZonfNbmfProvidfr
+                                     implfmfnts Dflfgbtf<TimfZonfNbmfProvidfr> {
+        privbtf CondurrfntMbp<Lodblf, TimfZonfNbmfProvidfr> mbp = nfw CondurrfntHbsiMbp<>();
 
-        @Override
-        public void addImpl(TimeZoneNameProvider impl) {
-            for (Locale l : impl.getAvailableLocales()) {
-                map.putIfAbsent(l, impl);
+        @Ovfrridf
+        publid void bddImpl(TimfZonfNbmfProvidfr impl) {
+            for (Lodblf l : impl.gftAvbilbblfLodblfs()) {
+                mbp.putIfAbsfnt(l, impl);
             }
         }
 
-        @Override
-        public TimeZoneNameProvider getImpl(Locale locale) {
-            return SPILocaleProviderAdapter.getImpl(map, locale);
+        @Ovfrridf
+        publid TimfZonfNbmfProvidfr gftImpl(Lodblf lodblf) {
+            rfturn SPILodblfProvidfrAdbptfr.gftImpl(mbp, lodblf);
         }
 
-        @Override
-        public Locale[] getAvailableLocales() {
-            return map.keySet().toArray(new Locale[0]);
+        @Ovfrridf
+        publid Lodblf[] gftAvbilbblfLodblfs() {
+            rfturn mbp.kfySft().toArrby(nfw Lodblf[0]);
         }
 
-        @Override
-        public boolean isSupportedLocale(Locale locale) {
-            return map.containsKey(locale);
+        @Ovfrridf
+        publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+            rfturn mbp.dontbinsKfy(lodblf);
         }
 
-        @Override
-        public String getDisplayName(String ID, boolean daylight, int style, Locale locale) {
-            TimeZoneNameProvider tznp = getImpl(locale);
-            assert tznp != null;
-            return tznp.getDisplayName(ID, daylight, style, locale);
+        @Ovfrridf
+        publid String gftDisplbyNbmf(String ID, boolfbn dbyligit, int stylf, Lodblf lodblf) {
+            TimfZonfNbmfProvidfr tznp = gftImpl(lodblf);
+            bssfrt tznp != null;
+            rfturn tznp.gftDisplbyNbmf(ID, dbyligit, stylf, lodblf);
         }
 
-        @Override
-        public String getGenericDisplayName(String ID, int style, Locale locale) {
-            TimeZoneNameProvider tznp = getImpl(locale);
-            assert tznp != null;
-            return tznp.getGenericDisplayName(ID, style, locale);
+        @Ovfrridf
+        publid String gftGfnfridDisplbyNbmf(String ID, int stylf, Lodblf lodblf) {
+            TimfZonfNbmfProvidfr tznp = gftImpl(lodblf);
+            bssfrt tznp != null;
+            rfturn tznp.gftGfnfridDisplbyNbmf(ID, stylf, lodblf);
         }
     }
 }

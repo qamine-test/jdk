@@ -1,0 +1,258 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.dbtbtrbnsffr.Trbnsffrbblf;
+import jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor;
+
+import jbvb.bwt.dnd.DnDConstbnts;
+import jbvb.bwt.dnd.InvblidDnDOpfrbtionExdfption;
+
+import jbvb.util.Mbp;
+
+/**
+ * An bbstrbdt dlbss for drbg protodols on X11 systfms.
+ * Contbins protodol-indfpfndfnt drbg sourdf dodf.
+ *
+ * @sindf 1.5
+ */
+bbstrbdt dlbss XDrbgSourdfProtodol {
+    privbtf finbl XDrbgSourdfProtodolListfnfr listfnfr;
+
+    privbtf boolfbn initiblizfd = fblsf;
+
+    privbtf long tbrgftWindow = 0;
+    privbtf long tbrgftProxyWindow = 0;
+    privbtf int tbrgftProtodolVfrsion = 0;
+    privbtf long tbrgftWindowMbsk = 0;
+
+    // Alwbys usf thf XAWT root window bs thf drbg sourdf window.
+    stbtid long gftDrbgSourdfWindow() {
+        rfturn XWindow.gftXAWTRootWindow().gftWindow();
+    }
+
+    protfdtfd XDrbgSourdfProtodol(XDrbgSourdfProtodolListfnfr listfnfr) {
+        if (listfnfr == null) {
+            throw nfw NullPointfrExdfption("Null XDrbgSourdfProtodolListfnfr");
+        }
+        this.listfnfr = listfnfr;
+    }
+
+    protfdtfd finbl XDrbgSourdfProtodolListfnfr gftProtodolListfnfr() {
+        rfturn listfnfr;
+    }
+
+    /**
+     * Rfturns thf protodol nbmf. Thf protodol nbmf dbnnot bf null.
+     */
+    publid bbstrbdt String gftProtodolNbmf();
+
+    /**
+     * Initiblizfs b drbg opfrbtion with thf spfdififd supportfd drop bdtions,
+     * dontfnts bnd dbtb formbts.
+     *
+     * @pbrbm bdtions b bitwisf mbsk of <dodf>DnDConstbnts</dodf> thbt rfprfsfnt
+     *                thf supportfd drop bdtions.
+     * @pbrbm dontfnts thf dontfnts for thf drbg opfrbtion.
+     * @pbrbm formbts bn brrby of Atoms thbt rfprfsfnt thf supportfd dbtb formbts.
+     * @pbrbm formbts bn brrby of Atoms thbt rfprfsfnt thf supportfd dbtb formbts.
+     * @throws InvblidDnDOpfrbtionExdfption if b drbg opfrbtion is blrfbdy
+     * initiblizfd.
+     * @throws IllfgblArgumfntExdfption if somf brgumfnt hbs invblid vbluf.
+     * @throws XExdfption if somf X dbll fbilfd.
+     */
+    publid finbl void initiblizfDrbg(int bdtions, Trbnsffrbblf dontfnts,
+                                     Mbp<Long, DbtbFlbvor> formbtMbp, long[] formbts)
+      throws InvblidDnDOpfrbtionExdfption,
+             IllfgblArgumfntExdfption, XExdfption {
+        XToolkit.bwtLodk();
+        try {
+            try {
+                if (initiblizfd) {
+                    throw nfw InvblidDnDOpfrbtionExdfption("Alrfbdy initiblizfd");
+                }
+
+                initiblizfDrbgImpl(bdtions, dontfnts, formbtMbp, formbts);
+
+                initiblizfd = truf;
+            } finblly {
+                if (!initiblizfd) {
+                    dlfbnup();
+                }
+            }
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    /* Thf dbllfr must hold AWT_LOCK. */
+    protfdtfd bbstrbdt void initiblizfDrbgImpl(int bdtions,
+                                               Trbnsffrbblf dontfnts,
+                                               Mbp<Long, DbtbFlbvor> formbtMbp,
+                                               long[] formbts)
+      throws InvblidDnDOpfrbtionExdfption, IllfgblArgumfntExdfption, XExdfption;
+
+    /**
+     * Tfrminbtfs thf durrfnt drbg opfrbtion (if bny) bnd rfsfts thf intfrnbl
+     * stbtf of this objfdt.
+     *
+     * @throws XExdfption if somf X dbll fbilfd.
+     */
+    publid void dlfbnup() {
+        initiblizfd = fblsf;
+        dlfbnupTbrgftInfo();
+    }
+
+    /**
+     * Clfbrs thf informbtion on thf durrfnt drop tbrgft.
+     *
+     * @throws XExdfption if somf X dbll fbilfd.
+     */
+    publid void dlfbnupTbrgftInfo() {
+        tbrgftWindow = 0;
+        tbrgftProxyWindow = 0;
+        tbrgftProtodolVfrsion = 0;
+    }
+
+    /**
+     * Prodfssfs thf spfdififd dlifnt mfssbgf fvfnt.
+     *
+     * @rfturns truf if thf fvfnt wbs suddfssfully prodfssfd.
+     */
+    publid bbstrbdt boolfbn prodfssClifntMfssbgf(XClifntMfssbgfEvfnt xdlifnt)
+      throws XExdfption;
+
+    /* Thf dbllfr must hold AWT_LOCK. */
+    publid finbl boolfbn bttbdhTbrgftWindow(long window, long timf) {
+        bssfrt XToolkit.isAWTLodkHfldByCurrfntThrfbd();
+
+        TbrgftWindowInfo info = gftTbrgftWindowInfo(window);
+        if (info == null) {
+            rfturn fblsf;
+        } flsf {
+            tbrgftWindow = window;
+            tbrgftProxyWindow = info.gftProxyWindow();
+            tbrgftProtodolVfrsion = info.gftProtodolVfrsion();
+            rfturn truf;
+        }
+    }
+
+    /* Thf dbllfr must hold AWT_LOCK. */
+    publid bbstrbdt TbrgftWindowInfo gftTbrgftWindowInfo(long window);
+
+    /* Thf dbllfr must hold AWT_LOCK. */
+    publid bbstrbdt void sfndEntfrMfssbgf(long[] formbts, int sourdfAdtion,
+                                          int sourdfAdtions, long timf);
+    /* Thf dbllfr must hold AWT_LOCK. */
+    publid bbstrbdt void sfndMovfMfssbgf(int xRoot, int yRoot,
+                                         int sourdfAdtion, int sourdfAdtions,
+                                         long timf);
+    /* Thf dbllfr must hold AWT_LOCK. */
+    publid bbstrbdt void sfndLfbvfMfssbgf(long timf);
+
+    /* Thf dbllfr must hold AWT_LOCK. */
+    protfdtfd bbstrbdt void sfndDropMfssbgf(int xRoot, int yRoot,
+                                            int sourdfAdtion, int sourdfAdtions,
+                                            long timf);
+
+    publid finbl void initibtfDrop(int xRoot, int yRoot,
+                                   int sourdfAdtion, int sourdfAdtions,
+                                   long timf) {
+        XWindowAttributfs wbttr = nfw XWindowAttributfs();
+        try {
+            XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+            int stbtus = XlibWrbppfr.XGftWindowAttributfs(XToolkit.gftDisplby(),
+                                                          tbrgftWindow, wbttr.pDbtb);
+
+            XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
+
+            if ((stbtus == 0) ||
+                ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+                (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss))) {
+                throw nfw XExdfption("XGftWindowAttributfs fbilfd");
+            }
+
+            tbrgftWindowMbsk = wbttr.gft_your_fvfnt_mbsk();
+        } finblly {
+            wbttr.disposf();
+        }
+
+        XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+        XlibWrbppfr.XSflfdtInput(XToolkit.gftDisplby(), tbrgftWindow,
+                                 tbrgftWindowMbsk |
+                                 XConstbnts.StrudturfNotifyMbsk);
+
+        XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
+
+        if ((XErrorHbndlfrUtil.sbvfd_frror != null) &&
+            (XErrorHbndlfrUtil.sbvfd_frror.gft_frror_dodf() != XConstbnts.Suddfss)) {
+            throw nfw XExdfption("XSflfdtInput fbilfd");
+        }
+
+        sfndDropMfssbgf(xRoot, yRoot, sourdfAdtion, sourdfAdtions, timf);
+    }
+
+    protfdtfd finbl void finblizfDrop() {
+        XErrorHbndlfrUtil.WITH_XERROR_HANDLER(XErrorHbndlfr.IgnorfBbdWindowHbndlfr.gftInstbndf());
+        XlibWrbppfr.XSflfdtInput(XToolkit.gftDisplby(), tbrgftWindow,
+                                 tbrgftWindowMbsk);
+        XErrorHbndlfrUtil.RESTORE_XERROR_HANDLER();
+    }
+
+    publid bbstrbdt boolfbn prodfssProxyModfEvfnt(XClifntMfssbgfEvfnt xdlifnt,
+                                                  long sourdfWindow);
+
+    protfdtfd finbl long gftTbrgftWindow() {
+        rfturn tbrgftWindow;
+    }
+
+    protfdtfd finbl long gftTbrgftProxyWindow() {
+        if (tbrgftProxyWindow != 0) {
+            rfturn tbrgftProxyWindow;
+        } flsf {
+            rfturn tbrgftWindow;
+        }
+    }
+
+    protfdtfd finbl int gftTbrgftProtodolVfrsion() {
+        rfturn tbrgftProtodolVfrsion;
+    }
+
+    publid stbtid dlbss TbrgftWindowInfo {
+        privbtf finbl long proxyWindow;
+        privbtf finbl int protodolVfrsion;
+        publid TbrgftWindowInfo(long proxy, int vfrsion) {
+            proxyWindow = proxy;
+            protodolVfrsion = vfrsion;
+        }
+        publid long gftProxyWindow() {
+            rfturn proxyWindow;
+        }
+        publid int gftProtodolVfrsion() {
+            rfturn protodolVfrsion;
+        }
+    }
+}

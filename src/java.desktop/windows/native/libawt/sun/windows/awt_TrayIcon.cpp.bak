@@ -1,1087 +1,1087 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "awt.h"
-#include <windowsx.h>
-#include <shellapi.h>
-#include <shlwapi.h>
+#indludf "bwt.i"
+#indludf <windowsx.i>
+#indludf <sifllbpi.i>
+#indludf <silwbpi.i>
 
-#include "awt_Toolkit.h"
-#include "awt_TrayIcon.h"
-#include "awt_AWTEvent.h"
+#indludf "bwt_Toolkit.i"
+#indludf "bwt_TrbyIdon.i"
+#indludf "bwt_AWTEvfnt.i"
 
-#include <java_awt_event_InputEvent.h>
+#indludf <jbvb_bwt_fvfnt_InputEvfnt.i>
 
 /***********************************************************************/
-// Struct for _SetToolTip() method
-struct SetToolTipStruct {
-    jobject trayIcon;
+// Strudt for _SftToolTip() mftiod
+strudt SftToolTipStrudt {
+    jobjfdt trbyIdon;
     jstring tooltip;
 };
-// Struct for _SetIcon() method
-struct SetIconStruct {
-    jobject trayIcon;
-    HICON hIcon;
+// Strudt for _SftIdon() mftiod
+strudt SftIdonStrudt {
+    jobjfdt trbyIdon;
+    HICON iIdon;
 };
-// Struct for _UpdateIcon() method
-struct UpdateIconStruct {
-    jobject trayIcon;
-    jboolean update;
+// Strudt for _UpdbtfIdon() mftiod
+strudt UpdbtfIdonStrudt {
+    jobjfdt trbyIdon;
+    jboolfbn updbtf;
 };
-// Struct for _DisplayMessage() method
-struct DisplayMessageStruct {
-    jobject trayIcon;
-    jstring caption;
-    jstring text;
-    jstring msgType;
+// Strudt for _DisplbyMfssbgf() mftiod
+strudt DisplbyMfssbgfStrudt {
+    jobjfdt trbyIdon;
+    jstring dbption;
+    jstring tfxt;
+    jstring msgTypf;
 };
 
-typedef struct tagBitmapheader  {
-    BITMAPV5HEADER bmiHeader;
-    DWORD            dwMasks[256];
-} Bitmapheader, *LPBITMAPHEADER;
+typfdff strudt tbgBitmbpifbdfr  {
+    BITMAPV5HEADER bmiHfbdfr;
+    DWORD            dwMbsks[256];
+} Bitmbpifbdfr, *LPBITMAPHEADER;
 
 
 /************************************************************************
- * AwtTrayIcon fields
+ * AwtTrbyIdon fiflds
  */
 
-jfieldID AwtTrayIcon::idID;
-jfieldID AwtTrayIcon::actionCommandID;
+jfifldID AwtTrbyIdon::idID;
+jfifldID AwtTrbyIdon::bdtionCommbndID;
 
-HWND AwtTrayIcon::sm_msgWindow = NULL;
-AwtTrayIcon::TrayIconListItem* AwtTrayIcon::sm_trayIconList = NULL;
-int AwtTrayIcon::sm_instCount = 0;
+HWND AwtTrbyIdon::sm_msgWindow = NULL;
+AwtTrbyIdon::TrbyIdonListItfm* AwtTrbyIdon::sm_trbyIdonList = NULL;
+int AwtTrbyIdon::sm_instCount = 0;
 
 /************************************************************************
- * AwtTrayIcon methods
+ * AwtTrbyIdon mftiods
  */
 
-AwtTrayIcon::AwtTrayIcon() {
-    ::ZeroMemory(&m_nid, sizeof(m_nid));
+AwtTrbyIdon::AwtTrbyIdon() {
+    ::ZfroMfmory(&m_nid, sizfof(m_nid));
 
-    if (sm_instCount++ == 0 && AwtTrayIcon::sm_msgWindow == NULL) {
-        sm_msgWindow = AwtTrayIcon::CreateMessageWindow();
+    if (sm_instCount++ == 0 && AwtTrbyIdon::sm_msgWindow == NULL) {
+        sm_msgWindow = AwtTrbyIdon::CrfbtfMfssbgfWindow();
     }
-    m_mouseButtonClickAllowed = 0;
+    m_mousfButtonClidkAllowfd = 0;
 }
 
-AwtTrayIcon::~AwtTrayIcon() {
+AwtTrbyIdon::~AwtTrbyIdon() {
 }
 
-void AwtTrayIcon::Dispose() {
-    SendTrayMessage(NIM_DELETE);
-    UnlinkObjects();
+void AwtTrbyIdon::Disposf() {
+    SfndTrbyMfssbgf(NIM_DELETE);
+    UnlinkObjfdts();
 
     if (--sm_instCount == 0) {
-        AwtTrayIcon::DestroyMessageWindow();
+        AwtTrbyIdon::DfstroyMfssbgfWindow();
     }
 
-    AwtObject::Dispose();
+    AwtObjfdt::Disposf();
 }
 
-LPCTSTR AwtTrayIcon::GetClassName() {
-    return TEXT("SunAwtTrayIcon");
+LPCTSTR AwtTrbyIdon::GftClbssNbmf() {
+    rfturn TEXT("SunAwtTrbyIdon");
 }
 
-void AwtTrayIcon::FillClassInfo(WNDCLASS *lpwc)
+void AwtTrbyIdon::FillClbssInfo(WNDCLASS *lpwd)
 {
-    lpwc->style         = 0L;
-    lpwc->lpfnWndProc   = (WNDPROC)TrayWindowProc;
-    lpwc->cbClsExtra    = 0;
-    lpwc->cbWndExtra    = 0;
-    lpwc->hInstance     = AwtToolkit::GetInstance().GetModuleHandle(),
-    lpwc->hIcon         = AwtToolkit::GetInstance().GetAwtIcon();
-    lpwc->hCursor       = NULL;
-    lpwc->hbrBackground = NULL;
-    lpwc->lpszMenuName  = NULL;
-    lpwc->lpszClassName = AwtTrayIcon::GetClassName();
+    lpwd->stylf         = 0L;
+    lpwd->lpfnWndProd   = (WNDPROC)TrbyWindowProd;
+    lpwd->dbClsExtrb    = 0;
+    lpwd->dbWndExtrb    = 0;
+    lpwd->iInstbndf     = AwtToolkit::GftInstbndf().GftModulfHbndlf(),
+    lpwd->iIdon         = AwtToolkit::GftInstbndf().GftAwtIdon();
+    lpwd->iCursor       = NULL;
+    lpwd->ibrBbdkground = NULL;
+    lpwd->lpszMfnuNbmf  = NULL;
+    lpwd->lpszClbssNbmf = AwtTrbyIdon::GftClbssNbmf();
 }
 
-void AwtTrayIcon::RegisterClass()
+void AwtTrbyIdon::RfgistfrClbss()
 {
-    WNDCLASS  wc;
+    WNDCLASS  wd;
 
-    ::ZeroMemory(&wc, sizeof(wc));
+    ::ZfroMfmory(&wd, sizfof(wd));
 
-    if (!::GetClassInfo(AwtToolkit::GetInstance().GetModuleHandle(),
-                        AwtTrayIcon::GetClassName(), &wc))
+    if (!::GftClbssInfo(AwtToolkit::GftInstbndf().GftModulfHbndlf(),
+                        AwtTrbyIdon::GftClbssNbmf(), &wd))
     {
-        AwtTrayIcon::FillClassInfo(&wc);
-        ATOM atom = ::RegisterClass(&wc);
-        DASSERT(atom != 0);
+        AwtTrbyIdon::FillClbssInfo(&wd);
+        ATOM btom = ::RfgistfrClbss(&wd);
+        DASSERT(btom != 0);
     }
 }
 
-void AwtTrayIcon::UnregisterClass()
+void AwtTrbyIdon::UnrfgistfrClbss()
 {
-    ::UnregisterClass(AwtTrayIcon::GetClassName(), AwtToolkit::GetInstance().GetModuleHandle());
+    ::UnrfgistfrClbss(AwtTrbyIdon::GftClbssNbmf(), AwtToolkit::GftInstbndf().GftModulfHbndlf());
 }
 
-HWND AwtTrayIcon::CreateMessageWindow()
+HWND AwtTrbyIdon::CrfbtfMfssbgfWindow()
 {
-    AwtTrayIcon::RegisterClass();
+    AwtTrbyIdon::RfgistfrClbss();
 
-    HWND hWnd = ::CreateWindow(AwtTrayIcon::GetClassName(), TEXT("TrayMessageWindow"),
+    HWND iWnd = ::CrfbtfWindow(AwtTrbyIdon::GftClbssNbmf(), TEXT("TrbyMfssbgfWindow"),
                                0, 0, 0, 0, 0, NULL, NULL,
-                               AwtToolkit::GetInstance().GetModuleHandle(), NULL);
-    return hWnd;
+                               AwtToolkit::GftInstbndf().GftModulfHbndlf(), NULL);
+    rfturn iWnd;
 }
 
-void AwtTrayIcon::DestroyMessageWindow()
+void AwtTrbyIdon::DfstroyMfssbgfWindow()
 {
-    ::DestroyWindow(AwtTrayIcon::sm_msgWindow);
-    AwtTrayIcon::sm_msgWindow = NULL;
-    AwtTrayIcon::UnregisterClass();
+    ::DfstroyWindow(AwtTrbyIdon::sm_msgWindow);
+    AwtTrbyIdon::sm_msgWindow = NULL;
+    AwtTrbyIdon::UnrfgistfrClbss();
 }
 
-AwtTrayIcon* AwtTrayIcon::Create(jobject self, jobject parent)
+AwtTrbyIdon* AwtTrbyIdon::Crfbtf(jobjfdt sflf, jobjfdt pbrfnt)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    jobject target = NULL;
-    AwtTrayIcon* awtTrayIcon = NULL;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jobjfdt tbrgft = NULL;
+    AwtTrbyIdon* bwtTrbyIdon = NULL;
 
-    target  = env->GetObjectField(self, AwtObject::targetID);
-    DASSERT(target);
+    tbrgft  = fnv->GftObjfdtFifld(sflf, AwtObjfdt::tbrgftID);
+    DASSERT(tbrgft);
 
-    awtTrayIcon = new AwtTrayIcon();
-    awtTrayIcon->LinkObjects(env, self);
-    awtTrayIcon->InitNID(env->GetIntField(target, AwtTrayIcon::idID));
-    awtTrayIcon->AddTrayIconItem(awtTrayIcon->GetID());
+    bwtTrbyIdon = nfw AwtTrbyIdon();
+    bwtTrbyIdon->LinkObjfdts(fnv, sflf);
+    bwtTrbyIdon->InitNID(fnv->GftIntFifld(tbrgft, AwtTrbyIdon::idID));
+    bwtTrbyIdon->AddTrbyIdonItfm(bwtTrbyIdon->GftID());
 
-    env->DeleteLocalRef(target);
-    return awtTrayIcon;
+    fnv->DflftfLodblRff(tbrgft);
+    rfturn bwtTrbyIdon;
 }
 
-void AwtTrayIcon::InitNID(UINT uID)
+void AwtTrbyIdon::InitNID(UINT uID)
 {
-    // fix for 6271589: we MUST set the size of the structure to match
-    // the shell version, otherwise some errors may occur (like missing
-    // balloon messages on win2k)
-    DLLVERSIONINFO dllVersionInfo;
-    dllVersionInfo.cbSize = sizeof(DLLVERSIONINFO);
-    int shellVersion = 5; // WIN_2000
-    // MSDN: DllGetVersion should not be implicitly called, but rather
-    // loaded using GetProcAddress
-    HMODULE hShell = JDK_LoadSystemLibrary("Shell32.dll");
-    if (hShell != NULL) {
-        DLLGETVERSIONPROC proc = (DLLGETVERSIONPROC)GetProcAddress(hShell, "DllGetVersion");
-        if (proc != NULL) {
-            if (proc(&dllVersionInfo) == NOERROR) {
-                shellVersion = dllVersionInfo.dwMajorVersion;
+    // fix for 6271589: wf MUST sft tif sizf of tif strudturf to mbtdi
+    // tif sifll vfrsion, otifrwisf somf frrors mby oddur (likf missing
+    // bblloon mfssbgfs on win2k)
+    DLLVERSIONINFO dllVfrsionInfo;
+    dllVfrsionInfo.dbSizf = sizfof(DLLVERSIONINFO);
+    int sifllVfrsion = 5; // WIN_2000
+    // MSDN: DllGftVfrsion siould not bf impliditly dbllfd, but rbtifr
+    // lobdfd using GftProdAddrfss
+    HMODULE iSifll = JDK_LobdSystfmLibrbry("Sifll32.dll");
+    if (iSifll != NULL) {
+        DLLGETVERSIONPROC prod = (DLLGETVERSIONPROC)GftProdAddrfss(iSifll, "DllGftVfrsion");
+        if (prod != NULL) {
+            if (prod(&dllVfrsionInfo) == NOERROR) {
+                sifllVfrsion = dllVfrsionInfo.dwMbjorVfrsion;
             }
         }
     }
-    FreeLibrary(hShell);
-    switch (shellVersion) {
-        case 5: // WIN_2000
-            m_nid.cbSize = (BYTE *)(&m_nid.guidItem) - (BYTE *)(&m_nid.cbSize);
-            break;
-        case 6: // WIN_XP
-            m_nid.cbSize = (BYTE *)(&m_nid.hBalloonIcon) - (BYTE *)(&m_nid.cbSize);
-            break;
-        default: // WIN_VISTA
-            m_nid.cbSize = sizeof(m_nid);
-            break;
+    FrffLibrbry(iSifll);
+    switdi (sifllVfrsion) {
+        dbsf 5: // WIN_2000
+            m_nid.dbSizf = (BYTE *)(&m_nid.guidItfm) - (BYTE *)(&m_nid.dbSizf);
+            brfbk;
+        dbsf 6: // WIN_XP
+            m_nid.dbSizf = (BYTE *)(&m_nid.iBblloonIdon) - (BYTE *)(&m_nid.dbSizf);
+            brfbk;
+        dffbult: // WIN_VISTA
+            m_nid.dbSizf = sizfof(m_nid);
+            brfbk;
     }
-    m_nid.hWnd = AwtTrayIcon::sm_msgWindow;
+    m_nid.iWnd = AwtTrbyIdon::sm_msgWindow;
     m_nid.uID = uID;
-    m_nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
-    m_nid.uCallbackMessage = WM_AWT_TRAY_NOTIFY;
-    m_nid.hIcon = AwtToolkit::GetInstance().GetAwtIcon();
+    m_nid.uFlbgs = NIF_ICON | NIF_MESSAGE | NIF_TIP;
+    m_nid.uCbllbbdkMfssbgf = WM_AWT_TRAY_NOTIFY;
+    m_nid.iIdon = AwtToolkit::GftInstbndf().GftAwtIdon();
     m_nid.szTip[0] = '\0';
-    m_nid.uVersion = NOTIFYICON_VERSION;
+    m_nid.uVfrsion = NOTIFYICON_VERSION;
 }
 
-BOOL AwtTrayIcon::SendTrayMessage(DWORD dwMessage)
+BOOL AwtTrbyIdon::SfndTrbyMfssbgf(DWORD dwMfssbgf)
 {
-    return Shell_NotifyIcon(dwMessage, (PNOTIFYICONDATA)&m_nid);
+    rfturn Sifll_NotifyIdon(dwMfssbgf, (PNOTIFYICONDATA)&m_nid);
 }
 
-static UINT lastMessage = WM_NULL;
+stbtid UINT lbstMfssbgf = WM_NULL;
 
-LRESULT CALLBACK AwtTrayIcon::TrayWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK AwtTrbyIdon::TrbyWindowProd(HWND iwnd, UINT uMsg, WPARAM wPbrbm, LPARAM lPbrbm)
 {
-    LRESULT retValue = 0;
-    MsgRouting mr = mrDoDefault;
-    static UINT s_msgTaskbarCreated;
+    LRESULT rftVbluf = 0;
+    MsgRouting mr = mrDoDffbult;
+    stbtid UINT s_msgTbskbbrCrfbtfd;
 
-    switch(uMsg)
+    switdi(uMsg)
     {
-        case WM_CREATE:
+        dbsf WM_CREATE:
             // Fix for CR#6369062
-            s_msgTaskbarCreated = ::RegisterWindowMessage(TEXT("TaskbarCreated"));
-            break;
-        case WM_AWT_TRAY_NOTIFY:
-            if (hwnd == AwtTrayIcon::sm_msgWindow) {
-                AwtTrayIcon* trayIcon = AwtTrayIcon::SearchTrayIconItem((UINT)wParam);
-                if (trayIcon != NULL) {
-                    mr = trayIcon->WmAwtTrayNotify(wParam, lParam);
+            s_msgTbskbbrCrfbtfd = ::RfgistfrWindowMfssbgf(TEXT("TbskbbrCrfbtfd"));
+            brfbk;
+        dbsf WM_AWT_TRAY_NOTIFY:
+            if (iwnd == AwtTrbyIdon::sm_msgWindow) {
+                AwtTrbyIdon* trbyIdon = AwtTrbyIdon::SfbrdiTrbyIdonItfm((UINT)wPbrbm);
+                if (trbyIdon != NULL) {
+                    mr = trbyIdon->WmAwtTrbyNotify(wPbrbm, lPbrbm);
                 }
             }
-            break;
-        default:
-            if(uMsg == s_msgTaskbarCreated) {
-                if (hwnd == AwtTrayIcon::sm_msgWindow) {
-                    mr = WmTaskbarCreated();
+            brfbk;
+        dffbult:
+            if(uMsg == s_msgTbskbbrCrfbtfd) {
+                if (iwnd == AwtTrbyIdon::sm_msgWindow) {
+                    mr = WmTbskbbrCrfbtfd();
                 }
             }
-            break;
+            brfbk;
     }
 
-    if (mr != mrConsume) {
-        retValue = ::DefWindowProc(hwnd, uMsg, wParam, lParam);
+    if (mr != mrConsumf) {
+        rftVbluf = ::DffWindowProd(iwnd, uMsg, wPbrbm, lPbrbm);
     }
-    return retValue;
+    rfturn rftVbluf;
 }
 
 /*
- * This function processes callback messages for taskbar icons.
+ * Tiis fundtion prodfssfs dbllbbdk mfssbgfs for tbskbbr idons.
  */
-MsgRouting AwtTrayIcon::WmAwtTrayNotify(WPARAM wParam, LPARAM lParam)
+MsgRouting AwtTrbyIdon::WmAwtTrbyNotify(WPARAM wPbrbm, LPARAM lPbrbm)
 {
-    MsgRouting mr = mrDoDefault;
+    MsgRouting mr = mrDoDffbult;
 
     POINT pos = {0, 0};
-    ::GetCursorPos(&pos);
+    ::GftCursorPos(&pos);
 
-    lastMessage = (UINT)lParam;
-    UINT flags = AwtToolkit::GetInstance().GetMouseKeyState();
+    lbstMfssbgf = (UINT)lPbrbm;
+    UINT flbgs = AwtToolkit::GftInstbndf().GftMousfKfyStbtf();
 
-    switch((UINT)lParam)
+    switdi((UINT)lPbrbm)
     {
-        case WM_MOUSEMOVE:
-            mr = WmMouseMove(flags, pos.x, pos.y);
-            break;
-        case WM_LBUTTONDBLCLK:
-        case WM_LBUTTONDOWN:
-            mr = WmMouseDown(flags, pos.x, pos.y, LEFT_BUTTON);
-            break;
-        case WM_LBUTTONUP:
-            mr = WmMouseUp(flags, pos.x, pos.y, LEFT_BUTTON);
-            break;
-        case WM_RBUTTONDBLCLK:
-        case WM_RBUTTONDOWN:
-            mr = WmMouseDown(flags, pos.x, pos.y, RIGHT_BUTTON);
-            break;
-        case WM_RBUTTONUP:
-            mr = WmMouseUp(flags, pos.x, pos.y, RIGHT_BUTTON);
-            break;
-        case WM_MBUTTONDBLCLK:
-        case WM_MBUTTONDOWN:
-            mr = WmMouseDown(flags, pos.x, pos.y, MIDDLE_BUTTON);
-            break;
-        case WM_MBUTTONUP:
-            mr = WmMouseUp(flags, pos.x, pos.y, MIDDLE_BUTTON);
-            break;
-        case WM_CONTEXTMENU:
-            mr = WmContextMenu(0, pos.x, pos.y);
-            break;
-        case NIN_KEYSELECT:
-            mr = WmKeySelect(0, pos.x, pos.y);
-            break;
-        case NIN_SELECT:
-            mr = WmSelect(0, pos.x, pos.y);
-            break;
-        case NIN_BALLOONUSERCLICK:
-            mr = WmBalloonUserClick(0, pos.x, pos.y);
-            break;
+        dbsf WM_MOUSEMOVE:
+            mr = WmMousfMovf(flbgs, pos.x, pos.y);
+            brfbk;
+        dbsf WM_LBUTTONDBLCLK:
+        dbsf WM_LBUTTONDOWN:
+            mr = WmMousfDown(flbgs, pos.x, pos.y, LEFT_BUTTON);
+            brfbk;
+        dbsf WM_LBUTTONUP:
+            mr = WmMousfUp(flbgs, pos.x, pos.y, LEFT_BUTTON);
+            brfbk;
+        dbsf WM_RBUTTONDBLCLK:
+        dbsf WM_RBUTTONDOWN:
+            mr = WmMousfDown(flbgs, pos.x, pos.y, RIGHT_BUTTON);
+            brfbk;
+        dbsf WM_RBUTTONUP:
+            mr = WmMousfUp(flbgs, pos.x, pos.y, RIGHT_BUTTON);
+            brfbk;
+        dbsf WM_MBUTTONDBLCLK:
+        dbsf WM_MBUTTONDOWN:
+            mr = WmMousfDown(flbgs, pos.x, pos.y, MIDDLE_BUTTON);
+            brfbk;
+        dbsf WM_MBUTTONUP:
+            mr = WmMousfUp(flbgs, pos.x, pos.y, MIDDLE_BUTTON);
+            brfbk;
+        dbsf WM_CONTEXTMENU:
+            mr = WmContfxtMfnu(0, pos.x, pos.y);
+            brfbk;
+        dbsf NIN_KEYSELECT:
+            mr = WmKfySflfdt(0, pos.x, pos.y);
+            brfbk;
+        dbsf NIN_SELECT:
+            mr = WmSflfdt(0, pos.x, pos.y);
+            brfbk;
+        dbsf NIN_BALLOONUSERCLICK:
+            mr = WmBblloonUsfrClidk(0, pos.x, pos.y);
+            brfbk;
     }
-    return mr;
+    rfturn mr;
 }
 
-/* Double-click variables. */
-static jlong multiClickTime = ::GetDoubleClickTime();
-static int multiClickMaxX = ::GetSystemMetrics(SM_CXDOUBLECLK);
-static int multiClickMaxY = ::GetSystemMetrics(SM_CYDOUBLECLK);
-static AwtTrayIcon* lastClickTrIc = NULL;
-static jlong lastTime = 0;
-static int lastClickX = 0;
-static int lastClickY = 0;
-static int lastButton = 0;
-static int clickCount = 0;
+/* Doublf-dlidk vbribblfs. */
+stbtid jlong multiClidkTimf = ::GftDoublfClidkTimf();
+stbtid int multiClidkMbxX = ::GftSystfmMftrids(SM_CXDOUBLECLK);
+stbtid int multiClidkMbxY = ::GftSystfmMftrids(SM_CYDOUBLECLK);
+stbtid AwtTrbyIdon* lbstClidkTrId = NULL;
+stbtid jlong lbstTimf = 0;
+stbtid int lbstClidkX = 0;
+stbtid int lbstClidkY = 0;
+stbtid int lbstButton = 0;
+stbtid int dlidkCount = 0;
 
-MsgRouting AwtTrayIcon::WmMouseDown(UINT flags, int x, int y, int button)
+MsgRouting AwtTrbyIdon::WmMousfDown(UINT flbgs, int x, int y, int button)
 {
-    jlong now = TimeHelper::windowsToUTC(::GetTickCount());
-    jint javaModif = AwtComponent::GetJavaModifiers();
+    jlong now = TimfHflpfr::windowsToUTC(::GftTidkCount());
+    jint jbvbModif = AwtComponfnt::GftJbvbModififrs();
 
-    if (lastClickTrIc == this &&
-        lastButton == button &&
-        (now - lastTime) <= multiClickTime &&
-        abs(x - lastClickX) <= multiClickMaxX &&
-        abs(y - lastClickY) <= multiClickMaxY)
+    if (lbstClidkTrId == tiis &&
+        lbstButton == button &&
+        (now - lbstTimf) <= multiClidkTimf &&
+        bbs(x - lbstClidkX) <= multiClidkMbxX &&
+        bbs(y - lbstClidkY) <= multiClidkMbxY)
     {
-        clickCount++;
-    } else {
-        clickCount = 1;
-        lastClickTrIc = this;
-        lastButton = button;
-        lastClickX = x;
-        lastClickY = y;
+        dlidkCount++;
+    } flsf {
+        dlidkCount = 1;
+        lbstClidkTrId = tiis;
+        lbstButton = button;
+        lbstClidkX = x;
+        lbstClidkY = y;
     }
-    lastTime = now;
-    // it's needed only if WM_LBUTTONUP doesn't come for some reason
-    m_mouseButtonClickAllowed |= AwtComponent::GetButtonMK(button);
+    lbstTimf = now;
+    // it's nffdfd only if WM_LBUTTONUP dofsn't domf for somf rfbson
+    m_mousfButtonClidkAllowfd |= AwtComponfnt::GftButtonMK(button);
 
     MSG msg;
-    AwtComponent::InitMessage(&msg, lastMessage, flags, MAKELPARAM(x, y), x, y);
+    AwtComponfnt::InitMfssbgf(&msg, lbstMfssbgf, flbgs, MAKELPARAM(x, y), x, y);
 
-    SendMouseEvent(java_awt_event_MouseEvent_MOUSE_PRESSED, now, x, y,
-                   javaModif, clickCount, JNI_FALSE,
-                   AwtComponent::GetButton(button), &msg);
+    SfndMousfEvfnt(jbvb_bwt_fvfnt_MousfEvfnt_MOUSE_PRESSED, now, x, y,
+                   jbvbModif, dlidkCount, JNI_FALSE,
+                   AwtComponfnt::GftButton(button), &msg);
 
-    return mrConsume;
+    rfturn mrConsumf;
 }
 
-MsgRouting AwtTrayIcon::WmMouseUp(UINT flags, int x, int y, int button)
+MsgRouting AwtTrbyIdon::WmMousfUp(UINT flbgs, int x, int y, int button)
 {
     MSG msg;
-    AwtComponent::InitMessage(&msg, lastMessage, flags, MAKELPARAM(x, y), x, y);
+    AwtComponfnt::InitMfssbgf(&msg, lbstMfssbgf, flbgs, MAKELPARAM(x, y), x, y);
 
-    SendMouseEvent(java_awt_event_MouseEvent_MOUSE_RELEASED, TimeHelper::windowsToUTC(::GetTickCount()),
-                   x, y, AwtComponent::GetJavaModifiers(), clickCount,
-                   (AwtComponent::GetButton(button) == java_awt_event_MouseEvent_BUTTON3 ?
-                    TRUE : FALSE), AwtComponent::GetButton(button), &msg);
+    SfndMousfEvfnt(jbvb_bwt_fvfnt_MousfEvfnt_MOUSE_RELEASED, TimfHflpfr::windowsToUTC(::GftTidkCount()),
+                   x, y, AwtComponfnt::GftJbvbModififrs(), dlidkCount,
+                   (AwtComponfnt::GftButton(button) == jbvb_bwt_fvfnt_MousfEvfnt_BUTTON3 ?
+                    TRUE : FALSE), AwtComponfnt::GftButton(button), &msg);
 
-    if ((m_mouseButtonClickAllowed & AwtComponent::GetButtonMK(button)) != 0) { // No up-button in the drag-state
-        SendMouseEvent(java_awt_event_MouseEvent_MOUSE_CLICKED,
-                       TimeHelper::windowsToUTC(::GetTickCount()), x, y, AwtComponent::GetJavaModifiers(),
-                       clickCount, JNI_FALSE, AwtComponent::GetButton(button));
+    if ((m_mousfButtonClidkAllowfd & AwtComponfnt::GftButtonMK(button)) != 0) { // No up-button in tif drbg-stbtf
+        SfndMousfEvfnt(jbvb_bwt_fvfnt_MousfEvfnt_MOUSE_CLICKED,
+                       TimfHflpfr::windowsToUTC(::GftTidkCount()), x, y, AwtComponfnt::GftJbvbModififrs(),
+                       dlidkCount, JNI_FALSE, AwtComponfnt::GftButton(button));
     }
-    m_mouseButtonClickAllowed &= ~AwtComponent::GetButtonMK(button); // Exclude the up-button from the drag-state
+    m_mousfButtonClidkAllowfd &= ~AwtComponfnt::GftButtonMK(button); // Exdludf tif up-button from tif drbg-stbtf
 
-    return mrConsume;
+    rfturn mrConsumf;
 }
 
-MsgRouting AwtTrayIcon::WmMouseMove(UINT flags, int x, int y)
+MsgRouting AwtTrbyIdon::WmMousfMovf(UINT flbgs, int x, int y)
 {
     MSG msg;
-    static AwtTrayIcon* lastComp = NULL;
-    static int lastX = 0;
-    static int lastY = 0;
+    stbtid AwtTrbyIdon* lbstComp = NULL;
+    stbtid int lbstX = 0;
+    stbtid int lbstY = 0;
 
     /*
-     * Workaround for CR#6267980
-     * Windows sends WM_MOUSEMOVE if mouse is motionless
+     * Workbround for CR#6267980
+     * Windows sfnds WM_MOUSEMOVE if mousf is motionlfss
      */
-    if (lastComp != this || x != lastX || y != lastY) {
-        lastComp = this;
-        lastX = x;
-        lastY = y;
-        AwtComponent::InitMessage(&msg, lastMessage, flags, MAKELPARAM(x, y), x, y);
-        if ((flags & ALL_MK_BUTTONS) != 0) {
-            m_mouseButtonClickAllowed = 0;
-        } else {
-            SendMouseEvent(java_awt_event_MouseEvent_MOUSE_MOVED, TimeHelper::windowsToUTC(::GetTickCount()), x, y,
-                           AwtComponent::GetJavaModifiers(), 0, JNI_FALSE,
-                           java_awt_event_MouseEvent_NOBUTTON, &msg);
+    if (lbstComp != tiis || x != lbstX || y != lbstY) {
+        lbstComp = tiis;
+        lbstX = x;
+        lbstY = y;
+        AwtComponfnt::InitMfssbgf(&msg, lbstMfssbgf, flbgs, MAKELPARAM(x, y), x, y);
+        if ((flbgs & ALL_MK_BUTTONS) != 0) {
+            m_mousfButtonClidkAllowfd = 0;
+        } flsf {
+            SfndMousfEvfnt(jbvb_bwt_fvfnt_MousfEvfnt_MOUSE_MOVED, TimfHflpfr::windowsToUTC(::GftTidkCount()), x, y,
+                           AwtComponfnt::GftJbvbModififrs(), 0, JNI_FALSE,
+                           jbvb_bwt_fvfnt_MousfEvfnt_NOBUTTON, &msg);
         }
     }
-    return mrConsume;
+    rfturn mrConsumf;
 }
 
-MsgRouting AwtTrayIcon::WmBalloonUserClick(UINT flags, int x, int y)
+MsgRouting AwtTrbyIdon::WmBblloonUsfrClidk(UINT flbgs, int x, int y)
 {
-    if (AwtComponent::GetJavaModifiers() & java_awt_event_InputEvent_BUTTON1_DOWN_MASK) {
+    if (AwtComponfnt::GftJbvbModififrs() & jbvb_bwt_fvfnt_InputEvfnt_BUTTON1_DOWN_MASK) {
         MSG msg;
-        AwtComponent::InitMessage(&msg, lastMessage, flags, MAKELPARAM(x, y), x, y);
-        SendActionEvent(java_awt_event_ActionEvent_ACTION_PERFORMED, TimeHelper::windowsToUTC(::GetTickCount()),
-                        AwtComponent::GetJavaModifiers(), &msg);
+        AwtComponfnt::InitMfssbgf(&msg, lbstMfssbgf, flbgs, MAKELPARAM(x, y), x, y);
+        SfndAdtionEvfnt(jbvb_bwt_fvfnt_AdtionEvfnt_ACTION_PERFORMED, TimfHflpfr::windowsToUTC(::GftTidkCount()),
+                        AwtComponfnt::GftJbvbModififrs(), &msg);
     }
-    return mrConsume;
+    rfturn mrConsumf;
 }
 
-MsgRouting AwtTrayIcon::WmKeySelect(UINT flags, int x, int y)
+MsgRouting AwtTrbyIdon::WmKfySflfdt(UINT flbgs, int x, int y)
 {
-    static jlong lastKeySelectTime = 0;
-    jlong now = TimeHelper::windowsToUTC(::GetTickCount());
+    stbtid jlong lbstKfySflfdtTimf = 0;
+    jlong now = TimfHflpfr::windowsToUTC(::GftTidkCount());
 
-    // If a user selects a notify icon with the ENTER key,
-    // Shell 5.0 sends double NIN_KEYSELECT notification.
-    if (lastKeySelectTime != now) {
+    // If b usfr sflfdts b notify idon witi tif ENTER kfy,
+    // Sifll 5.0 sfnds doublf NIN_KEYSELECT notifidbtion.
+    if (lbstKfySflfdtTimf != now) {
         MSG msg;
-        AwtComponent::InitMessage(&msg, lastMessage, flags, MAKELPARAM(x, y), x, y);
-        SendActionEvent(java_awt_event_ActionEvent_ACTION_PERFORMED, TimeHelper::windowsToUTC(::GetTickCount()),
-                        AwtComponent::GetJavaModifiers(), &msg);
+        AwtComponfnt::InitMfssbgf(&msg, lbstMfssbgf, flbgs, MAKELPARAM(x, y), x, y);
+        SfndAdtionEvfnt(jbvb_bwt_fvfnt_AdtionEvfnt_ACTION_PERFORMED, TimfHflpfr::windowsToUTC(::GftTidkCount()),
+                        AwtComponfnt::GftJbvbModififrs(), &msg);
     }
-    lastKeySelectTime = now;
+    lbstKfySflfdtTimf = now;
 
-    return mrConsume;
+    rfturn mrConsumf;
 }
 
-MsgRouting AwtTrayIcon::WmSelect(UINT flags, int x, int y)
+MsgRouting AwtTrbyIdon::WmSflfdt(UINT flbgs, int x, int y)
 {
 
-    // If a user click on a notify icon with the mouse,
-    // Shell 5.0 sends NIN_SELECT notification on every click.
-    // To be compatible with JDK6.0 only second click is important.
-    if (clickCount == 2) {
+    // If b usfr dlidk on b notify idon witi tif mousf,
+    // Sifll 5.0 sfnds NIN_SELECT notifidbtion on fvfry dlidk.
+    // To bf dompbtiblf witi JDK6.0 only sfdond dlidk is importbnt.
+    if (dlidkCount == 2) {
         MSG msg;
-        AwtComponent::InitMessage(&msg, lastMessage, flags, MAKELPARAM(x, y), x, y);
-        SendActionEvent(java_awt_event_ActionEvent_ACTION_PERFORMED, TimeHelper::windowsToUTC(::GetTickCount()),
-                        AwtComponent::GetJavaModifiers(), &msg);
+        AwtComponfnt::InitMfssbgf(&msg, lbstMfssbgf, flbgs, MAKELPARAM(x, y), x, y);
+        SfndAdtionEvfnt(jbvb_bwt_fvfnt_AdtionEvfnt_ACTION_PERFORMED, TimfHflpfr::windowsToUTC(::GftTidkCount()),
+                        AwtComponfnt::GftJbvbModififrs(), &msg);
     }
-    return mrConsume;
+    rfturn mrConsumf;
 }
 
-MsgRouting AwtTrayIcon::WmContextMenu(UINT flags, int x, int y)
+MsgRouting AwtTrbyIdon::WmContfxtMfnu(UINT flbgs, int x, int y)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    jobject peer = GetPeer(env);
-    if (peer != NULL) {
-        JNU_CallMethodByName(env, NULL, peer, "showPopupMenu",
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jobjfdt pffr = GftPffr(fnv);
+    if (pffr != NULL) {
+        JNU_CbllMftiodByNbmf(fnv, NULL, pffr, "siowPopupMfnu",
                              "(II)V", x, y);
     }
-    return mrConsume;
+    rfturn mrConsumf;
 }
 
 /*
- * Adds all icons we already have to taskbar.
- * We use this method on taskbar recreation (see 6369062).
+ * Adds bll idons wf blrfbdy ibvf to tbskbbr.
+ * Wf usf tiis mftiod on tbskbbr rfdrfbtion (sff 6369062).
  */
-MsgRouting AwtTrayIcon::WmTaskbarCreated() {
-    TrayIconListItem* item;
-    for (item = sm_trayIconList; item != NULL; item = item->m_next) {
-        BOOL result = item->m_trayIcon->SendTrayMessage(NIM_ADD);
-        // 6270114: Instructs the taskbar to behave according to the Shell version 5.0
-        if (result) {
-            item->m_trayIcon->SendTrayMessage(NIM_SETVERSION);
+MsgRouting AwtTrbyIdon::WmTbskbbrCrfbtfd() {
+    TrbyIdonListItfm* itfm;
+    for (itfm = sm_trbyIdonList; itfm != NULL; itfm = itfm->m_nfxt) {
+        BOOL rfsult = itfm->m_trbyIdon->SfndTrbyMfssbgf(NIM_ADD);
+        // 6270114: Instrudts tif tbskbbr to bfibvf bddording to tif Sifll vfrsion 5.0
+        if (rfsult) {
+            itfm->m_trbyIdon->SfndTrbyMfssbgf(NIM_SETVERSION);
         }
     }
-    return mrDoDefault;
+    rfturn mrDoDffbult;
 }
 
-void AwtTrayIcon::SendMouseEvent(jint id, jlong when, jint x, jint y,
-                                 jint modifiers, jint clickCount,
-                                 jboolean popupTrigger, jint button,
+void AwtTrbyIdon::SfndMousfEvfnt(jint id, jlong wifn, jint x, jint y,
+                                 jint modififrs, jint dlidkCount,
+                                 jboolfbn popupTriggfr, jint button,
                                  MSG *pMsg)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (GetPeer(env) == NULL) {
-        /* event received during termination. */
-        return;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    if (GftPffr(fnv) == NULL) {
+        /* fvfnt rfdfivfd during tfrminbtion. */
+        rfturn;
     }
 
-    static jclass mouseEventCls;
-    if (mouseEventCls == NULL) {
-        jclass mouseEventClsLocal =
-            env->FindClass("java/awt/event/MouseEvent");
-        if (!mouseEventClsLocal) {
-            /* exception already thrown */
-            return;
+    stbtid jdlbss mousfEvfntCls;
+    if (mousfEvfntCls == NULL) {
+        jdlbss mousfEvfntClsLodbl =
+            fnv->FindClbss("jbvb/bwt/fvfnt/MousfEvfnt");
+        if (!mousfEvfntClsLodbl) {
+            /* fxdfption blrfbdy tirown */
+            rfturn;
         }
-        mouseEventCls = (jclass)env->NewGlobalRef(mouseEventClsLocal);
-        env->DeleteLocalRef(mouseEventClsLocal);
+        mousfEvfntCls = (jdlbss)fnv->NfwGlobblRff(mousfEvfntClsLodbl);
+        fnv->DflftfLodblRff(mousfEvfntClsLodbl);
     }
 
-    static jmethodID mouseEventConst;
-    if (mouseEventConst == NULL) {
-        mouseEventConst =
-            env->GetMethodID(mouseEventCls, "<init>",
-                             "(Ljava/awt/Component;IJIIIIIIZI)V");
-        DASSERT(mouseEventConst);
-        CHECK_NULL(mouseEventConst);
+    stbtid jmftiodID mousfEvfntConst;
+    if (mousfEvfntConst == NULL) {
+        mousfEvfntConst =
+            fnv->GftMftiodID(mousfEvfntCls, "<init>",
+                             "(Ljbvb/bwt/Componfnt;IJIIIIIIZI)V");
+        DASSERT(mousfEvfntConst);
+        CHECK_NULL(mousfEvfntConst);
     }
-    if (env->EnsureLocalCapacity(2) < 0) {
-        return;
+    if (fnv->EnsurfLodblCbpbdity(2) < 0) {
+        rfturn;
     }
-    jobject target = GetTarget(env);
-    jobject mouseEvent = env->NewObject(mouseEventCls, mouseEventConst,
-                                        target,
-                                        id, when, modifiers,
-                                        x, y, // no client area coordinates
+    jobjfdt tbrgft = GftTbrgft(fnv);
+    jobjfdt mousfEvfnt = fnv->NfwObjfdt(mousfEvfntCls, mousfEvfntConst,
+                                        tbrgft,
+                                        id, wifn, modififrs,
+                                        x, y, // no dlifnt brfb doordinbtfs
                                         x, y,
-                                        clickCount, popupTrigger, button);
+                                        dlidkCount, popupTriggfr, button);
 
-    if (safe_ExceptionOccurred(env)) {
-        env->ExceptionDescribe();
-        env->ExceptionClear();
+    if (sbff_ExdfptionOddurrfd(fnv)) {
+        fnv->ExdfptionDfsdribf();
+        fnv->ExdfptionClfbr();
     }
 
-    DASSERT(mouseEvent != NULL);
+    DASSERT(mousfEvfnt != NULL);
     if (pMsg != 0) {
-        AwtAWTEvent::saveMSG(env, pMsg, mouseEvent);
+        AwtAWTEvfnt::sbvfMSG(fnv, pMsg, mousfEvfnt);
     }
-    SendEvent(mouseEvent);
+    SfndEvfnt(mousfEvfnt);
 
-    env->DeleteLocalRef(mouseEvent);
-    env->DeleteLocalRef(target);
+    fnv->DflftfLodblRff(mousfEvfnt);
+    fnv->DflftfLodblRff(tbrgft);
 }
 
-void AwtTrayIcon::SendActionEvent(jint id, jlong when, jint modifiers, MSG *pMsg)
+void AwtTrbyIdon::SfndAdtionEvfnt(jint id, jlong wifn, jint modififrs, MSG *pMsg)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (GetPeer(env) == NULL) {
-        /* event received during termination. */
-        return;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    if (GftPffr(fnv) == NULL) {
+        /* fvfnt rfdfivfd during tfrminbtion. */
+        rfturn;
     }
 
-    static jclass actionEventCls;
-    if (actionEventCls == NULL) {
-        jclass actionEventClsLocal =
-            env->FindClass("java/awt/event/ActionEvent");
-        if (!actionEventClsLocal) {
-            /* exception already thrown */
-            return;
+    stbtid jdlbss bdtionEvfntCls;
+    if (bdtionEvfntCls == NULL) {
+        jdlbss bdtionEvfntClsLodbl =
+            fnv->FindClbss("jbvb/bwt/fvfnt/AdtionEvfnt");
+        if (!bdtionEvfntClsLodbl) {
+            /* fxdfption blrfbdy tirown */
+            rfturn;
         }
-        actionEventCls = (jclass)env->NewGlobalRef(actionEventClsLocal);
-        env->DeleteLocalRef(actionEventClsLocal);
+        bdtionEvfntCls = (jdlbss)fnv->NfwGlobblRff(bdtionEvfntClsLodbl);
+        fnv->DflftfLodblRff(bdtionEvfntClsLodbl);
     }
 
-    static jmethodID actionEventConst;
-    if (actionEventConst == NULL) {
-        actionEventConst =
-            env->GetMethodID(actionEventCls, "<init>",
-                             "(Ljava/lang/Object;ILjava/lang/String;JI)V");
-        DASSERT(actionEventConst);
-        CHECK_NULL(actionEventConst);
+    stbtid jmftiodID bdtionEvfntConst;
+    if (bdtionEvfntConst == NULL) {
+        bdtionEvfntConst =
+            fnv->GftMftiodID(bdtionEvfntCls, "<init>",
+                             "(Ljbvb/lbng/Objfdt;ILjbvb/lbng/String;JI)V");
+        DASSERT(bdtionEvfntConst);
+        CHECK_NULL(bdtionEvfntConst);
     }
-    if (env->EnsureLocalCapacity(2) < 0) {
-        return;
+    if (fnv->EnsurfLodblCbpbdity(2) < 0) {
+        rfturn;
     }
-    jobject target = GetTarget(env);
-    jstring actionCommand = (jstring)env->GetObjectField(target, AwtTrayIcon::actionCommandID);
-    jobject actionEvent = env->NewObject(actionEventCls, actionEventConst,
-                                         target, id, actionCommand, when, modifiers);
+    jobjfdt tbrgft = GftTbrgft(fnv);
+    jstring bdtionCommbnd = (jstring)fnv->GftObjfdtFifld(tbrgft, AwtTrbyIdon::bdtionCommbndID);
+    jobjfdt bdtionEvfnt = fnv->NfwObjfdt(bdtionEvfntCls, bdtionEvfntConst,
+                                         tbrgft, id, bdtionCommbnd, wifn, modififrs);
 
-    if (safe_ExceptionOccurred(env)) {
-        env->ExceptionDescribe();
-        env->ExceptionClear();
+    if (sbff_ExdfptionOddurrfd(fnv)) {
+        fnv->ExdfptionDfsdribf();
+        fnv->ExdfptionClfbr();
     }
 
-    DASSERT(actionEvent != NULL);
+    DASSERT(bdtionEvfnt != NULL);
     if (pMsg != 0) {
-        AwtAWTEvent::saveMSG(env, pMsg, actionEvent);
+        AwtAWTEvfnt::sbvfMSG(fnv, pMsg, bdtionEvfnt);
     }
-    SendEvent(actionEvent);
+    SfndEvfnt(bdtionEvfnt);
 
-    env->DeleteLocalRef(actionEvent);
-    env->DeleteLocalRef(target);
-    env->DeleteLocalRef(actionCommand);
+    fnv->DflftfLodblRff(bdtionEvfnt);
+    fnv->DflftfLodblRff(tbrgft);
+    fnv->DflftfLodblRff(bdtionCommbnd);
 }
 
-AwtTrayIcon* AwtTrayIcon::SearchTrayIconItem(UINT id) {
-    TrayIconListItem* item;
-    for (item = sm_trayIconList; item != NULL; item = item->m_next) {
-        if (item->m_ID == id) {
-            return item->m_trayIcon;
+AwtTrbyIdon* AwtTrbyIdon::SfbrdiTrbyIdonItfm(UINT id) {
+    TrbyIdonListItfm* itfm;
+    for (itfm = sm_trbyIdonList; itfm != NULL; itfm = itfm->m_nfxt) {
+        if (itfm->m_ID == id) {
+            rfturn itfm->m_trbyIdon;
         }
     }
     /*
      * DASSERT(FALSE);
-     * This should not be happend if all tray icons are recorded
+     * Tiis siould not bf ibppfnd if bll trby idons brf rfdordfd
      */
-    return NULL;
+    rfturn NULL;
 }
 
-void AwtTrayIcon::RemoveTrayIconItem(UINT id) {
-    TrayIconListItem* item = sm_trayIconList;
-    TrayIconListItem* lastItem = NULL;
-    while (item != NULL) {
-        if (item->m_ID == id) {
-            if (lastItem == NULL) {
-                sm_trayIconList = item->m_next;
-            } else {
-                lastItem->m_next = item->m_next;
+void AwtTrbyIdon::RfmovfTrbyIdonItfm(UINT id) {
+    TrbyIdonListItfm* itfm = sm_trbyIdonList;
+    TrbyIdonListItfm* lbstItfm = NULL;
+    wiilf (itfm != NULL) {
+        if (itfm->m_ID == id) {
+            if (lbstItfm == NULL) {
+                sm_trbyIdonList = itfm->m_nfxt;
+            } flsf {
+                lbstItfm->m_nfxt = itfm->m_nfxt;
             }
-            item->m_next = NULL;
-            DASSERT(item != NULL);
-            delete item;
-            return;
+            itfm->m_nfxt = NULL;
+            DASSERT(itfm != NULL);
+            dflftf itfm;
+            rfturn;
         }
-        lastItem = item;
-        item = item->m_next;
+        lbstItfm = itfm;
+        itfm = itfm->m_nfxt;
     }
 }
 
-void AwtTrayIcon::LinkObjects(JNIEnv *env, jobject peer)
+void AwtTrbyIdon::LinkObjfdts(JNIEnv *fnv, jobjfdt pffr)
 {
-    if (m_peerObject == NULL) {
-        m_peerObject = env->NewGlobalRef(peer);
+    if (m_pffrObjfdt == NULL) {
+        m_pffrObjfdt = fnv->NfwGlobblRff(pffr);
     }
 
-    /* Bind JavaPeer -> C++*/
-    JNI_SET_PDATA(peer, this);
+    /* Bind JbvbPffr -> C++*/
+    JNI_SET_PDATA(pffr, tiis);
 }
 
-void AwtTrayIcon::UnlinkObjects()
+void AwtTrbyIdon::UnlinkObjfdts()
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    if (m_peerObject) {
-        JNI_SET_PDATA(m_peerObject, static_cast<PDATA>(NULL));
-        env->DeleteGlobalRef(m_peerObject);
-        m_peerObject = NULL;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    if (m_pffrObjfdt) {
+        JNI_SET_PDATA(m_pffrObjfdt, stbtid_dbst<PDATA>(NULL));
+        fnv->DflftfGlobblRff(m_pffrObjfdt);
+        m_pffrObjfdt = NULL;
     }
 }
 
-HBITMAP AwtTrayIcon::CreateBMP(HWND hW,int* imageData,int nSS, int nW, int nH)
+HBITMAP AwtTrbyIdon::CrfbtfBMP(HWND iW,int* imbgfDbtb,int nSS, int nW, int nH)
 {
-    Bitmapheader    bmhHeader = {0};
-    HDC             hDC;
-    char            *ptrImageData;
-    HBITMAP         hbmpBitmap;
-    HBITMAP         hBitmap;
-    int             nNumChannels    = 4;
+    Bitmbpifbdfr    bmiHfbdfr = {0};
+    HDC             iDC;
+    dibr            *ptrImbgfDbtb;
+    HBITMAP         ibmpBitmbp;
+    HBITMAP         iBitmbp;
+    int             nNumCibnnfls    = 4;
 
-    if (!hW) {
-        hW = ::GetDesktopWindow();
+    if (!iW) {
+        iW = ::GftDfsktopWindow();
     }
-    hDC = ::GetDC(hW);
-    if (!hDC) {
-        return NULL;
+    iDC = ::GftDC(iW);
+    if (!iDC) {
+        rfturn NULL;
     }
 
-    bmhHeader.bmiHeader.bV5Size              = sizeof(BITMAPV5HEADER);
-    bmhHeader.bmiHeader.bV5Width             = nW;
-    bmhHeader.bmiHeader.bV5Height            = -nH;
-    bmhHeader.bmiHeader.bV5Planes            = 1;
+    bmiHfbdfr.bmiHfbdfr.bV5Sizf              = sizfof(BITMAPV5HEADER);
+    bmiHfbdfr.bmiHfbdfr.bV5Widti             = nW;
+    bmiHfbdfr.bmiHfbdfr.bV5Hfigit            = -nH;
+    bmiHfbdfr.bmiHfbdfr.bV5Plbnfs            = 1;
 
-    bmhHeader.bmiHeader.bV5BitCount          = 32;
-    bmhHeader.bmiHeader.bV5Compression       = BI_BITFIELDS;
+    bmiHfbdfr.bmiHfbdfr.bV5BitCount          = 32;
+    bmiHfbdfr.bmiHfbdfr.bV5Comprfssion       = BI_BITFIELDS;
 
-    // The following mask specification specifies a supported 32 BPP
-    // alpha format for Windows XP.
-    bmhHeader.bmiHeader.bV5RedMask   =  0x00FF0000;
-    bmhHeader.bmiHeader.bV5GreenMask =  0x0000FF00;
-    bmhHeader.bmiHeader.bV5BlueMask  =  0x000000FF;
-    bmhHeader.bmiHeader.bV5AlphaMask =  0xFF000000;
+    // Tif following mbsk spfdifidbtion spfdififs b supportfd 32 BPP
+    // blpib formbt for Windows XP.
+    bmiHfbdfr.bmiHfbdfr.bV5RfdMbsk   =  0x00FF0000;
+    bmiHfbdfr.bmiHfbdfr.bV5GrffnMbsk =  0x0000FF00;
+    bmiHfbdfr.bmiHfbdfr.bV5BlufMbsk  =  0x000000FF;
+    bmiHfbdfr.bmiHfbdfr.bV5AlpibMbsk =  0xFF000000;
 
-    hbmpBitmap = ::CreateDIBSection(hDC, (BITMAPINFO*)&(bmhHeader),
+    ibmpBitmbp = ::CrfbtfDIBSfdtion(iDC, (BITMAPINFO*)&(bmiHfbdfr),
                                     DIB_RGB_COLORS,
-                                    (void**)&(ptrImageData),
+                                    (void**)&(ptrImbgfDbtb),
                                     NULL, 0);
-    int  *srcPtr = imageData;
-    char *dstPtr = ptrImageData;
+    int  *srdPtr = imbgfDbtb;
+    dibr *dstPtr = ptrImbgfDbtb;
     if (!dstPtr) {
-        ReleaseDC(hW, hDC);
-        return NULL;
+        RflfbsfDC(iW, iDC);
+        rfturn NULL;
     }
-    for (int nOutern = 0; nOutern < nH; nOutern++) {
-        for (int nInner = 0; nInner < nSS; nInner++) {
-            dstPtr[3] = (*srcPtr >> 0x18) & 0xFF;
-            dstPtr[2] = (*srcPtr >> 0x10) & 0xFF;
-            dstPtr[1] = (*srcPtr >> 0x08) & 0xFF;
-            dstPtr[0] = *srcPtr & 0xFF;
+    for (int nOutfrn = 0; nOutfrn < nH; nOutfrn++) {
+        for (int nInnfr = 0; nInnfr < nSS; nInnfr++) {
+            dstPtr[3] = (*srdPtr >> 0x18) & 0xFF;
+            dstPtr[2] = (*srdPtr >> 0x10) & 0xFF;
+            dstPtr[1] = (*srdPtr >> 0x08) & 0xFF;
+            dstPtr[0] = *srdPtr & 0xFF;
 
-            srcPtr++;
-            dstPtr += nNumChannels;
+            srdPtr++;
+            dstPtr += nNumCibnnfls;
         }
     }
 
-    // convert it into DDB to make CustomCursor work on WIN95
-    hBitmap = CreateDIBitmap(hDC,
-                             (BITMAPINFOHEADER*)&bmhHeader,
+    // donvfrt it into DDB to mbkf CustomCursor work on WIN95
+    iBitmbp = CrfbtfDIBitmbp(iDC,
+                             (BITMAPINFOHEADER*)&bmiHfbdfr,
                              CBM_INIT,
-                             (void *)ptrImageData,
-                             (BITMAPINFO*)&bmhHeader,
+                             (void *)ptrImbgfDbtb,
+                             (BITMAPINFO*)&bmiHfbdfr,
                              DIB_RGB_COLORS);
 
-    ::DeleteObject(hbmpBitmap);
-    ::ReleaseDC(hW, hDC);
-//  ::GdiFlush();
-    return hBitmap;
+    ::DflftfObjfdt(ibmpBitmbp);
+    ::RflfbsfDC(iW, iDC);
+//  ::GdiFlusi();
+    rfturn iBitmbp;
 }
 
-void AwtTrayIcon::SetToolTip(LPCTSTR tooltip)
+void AwtTrbyIdon::SftToolTip(LPCTSTR tooltip)
 {
     if (tooltip == NULL) {
         m_nid.szTip[0] = '\0';
-    } else if (lstrlen(tooltip) > TRAY_ICON_TOOLTIP_MAX_SIZE) {
-        _tcsncpy(m_nid.szTip, tooltip, TRAY_ICON_TOOLTIP_MAX_SIZE);
+    } flsf if (lstrlfn(tooltip) > TRAY_ICON_TOOLTIP_MAX_SIZE) {
+        _tdsndpy(m_nid.szTip, tooltip, TRAY_ICON_TOOLTIP_MAX_SIZE);
         m_nid.szTip[TRAY_ICON_TOOLTIP_MAX_SIZE - 1] = '\0';
-    } else {
-        _tcscpy_s(m_nid.szTip, TRAY_ICON_TOOLTIP_MAX_SIZE, tooltip);
+    } flsf {
+        _tdsdpy_s(m_nid.szTip, TRAY_ICON_TOOLTIP_MAX_SIZE, tooltip);
     }
 
-    SendTrayMessage(NIM_MODIFY);
+    SfndTrbyMfssbgf(NIM_MODIFY);
 }
 
-void AwtTrayIcon::_SetToolTip(void *param)
+void AwtTrbyIdon::_SftToolTip(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    SetToolTipStruct *sts = (SetToolTipStruct *)param;
-    jobject self = sts->trayIcon;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    SftToolTipStrudt *sts = (SftToolTipStrudt *)pbrbm;
+    jobjfdt sflf = sts->trbyIdon;
     jstring jtooltip = sts->tooltip;
-    AwtTrayIcon *trayIcon = NULL;
+    AwtTrbyIdon *trbyIdon = NULL;
     LPCTSTR tooltipStr = NULL;
 
-    PDATA pData;
-    JNI_CHECK_PEER_GOTO(self, ret);
-    trayIcon = (AwtTrayIcon *)pData;
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    trbyIdon = (AwtTrbyIdon *)pDbtb;
 
     if (jtooltip == NULL) {
-        trayIcon->SetToolTip(NULL);
-        goto ret;
+        trbyIdon->SftToolTip(NULL);
+        goto rft;
     }
 
-    tooltipStr = JNU_GetStringPlatformChars(env, jtooltip, (jboolean *)NULL);
-    if (env->ExceptionCheck()) goto ret;
-    trayIcon->SetToolTip(tooltipStr);
-    JNU_ReleaseStringPlatformChars(env, jtooltip, tooltipStr);
-ret:
-    env->DeleteGlobalRef(self);
-    env->DeleteGlobalRef(jtooltip);
-    delete sts;
+    tooltipStr = JNU_GftStringPlbtformCibrs(fnv, jtooltip, (jboolfbn *)NULL);
+    if (fnv->ExdfptionCifdk()) goto rft;
+    trbyIdon->SftToolTip(tooltipStr);
+    JNU_RflfbsfStringPlbtformCibrs(fnv, jtooltip, tooltipStr);
+rft:
+    fnv->DflftfGlobblRff(sflf);
+    fnv->DflftfGlobblRff(jtooltip);
+    dflftf sts;
 }
 
-void AwtTrayIcon::SetIcon(HICON hIcon)
+void AwtTrbyIdon::SftIdon(HICON iIdon)
 {
-    ::DestroyIcon(m_nid.hIcon);
-    m_nid.hIcon = hIcon;
+    ::DfstroyIdon(m_nid.iIdon);
+    m_nid.iIdon = iIdon;
 }
 
-void AwtTrayIcon::_SetIcon(void *param)
+void AwtTrbyIdon::_SftIdon(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    SetIconStruct *sis = (SetIconStruct *)param;
-    jobject self = sis->trayIcon;
-    HICON hIcon = sis->hIcon;
-    AwtTrayIcon *trayIcon = NULL;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    SftIdonStrudt *sis = (SftIdonStrudt *)pbrbm;
+    jobjfdt sflf = sis->trbyIdon;
+    HICON iIdon = sis->iIdon;
+    AwtTrbyIdon *trbyIdon = NULL;
 
-    PDATA pData;
-    JNI_CHECK_PEER_GOTO(self, ret);
-    trayIcon = (AwtTrayIcon *)pData;
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    trbyIdon = (AwtTrbyIdon *)pDbtb;
 
-    trayIcon->SetIcon(hIcon);
+    trbyIdon->SftIdon(iIdon);
 
-ret:
-    env->DeleteGlobalRef(self);
-    delete sis;
+rft:
+    fnv->DflftfGlobblRff(sflf);
+    dflftf sis;
 }
 
-void AwtTrayIcon::_UpdateIcon(void *param)
+void AwtTrbyIdon::_UpdbtfIdon(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    UpdateIconStruct *uis = (UpdateIconStruct *)param;
-    jobject self = uis->trayIcon;
-    jboolean jupdate = uis->update;
-    AwtTrayIcon *trayIcon = NULL;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    UpdbtfIdonStrudt *uis = (UpdbtfIdonStrudt *)pbrbm;
+    jobjfdt sflf = uis->trbyIdon;
+    jboolfbn jupdbtf = uis->updbtf;
+    AwtTrbyIdon *trbyIdon = NULL;
 
-    PDATA pData;
-    JNI_CHECK_PEER_GOTO(self, ret);
-    trayIcon = (AwtTrayIcon *)pData;
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    trbyIdon = (AwtTrbyIdon *)pDbtb;
 
-    BOOL result = trayIcon->SendTrayMessage(jupdate == JNI_TRUE ? NIM_MODIFY : NIM_ADD);
-    // 6270114: Instructs the taskbar to behave according to the Shell version 5.0
-    if (result && jupdate == JNI_FALSE) {
-        trayIcon->SendTrayMessage(NIM_SETVERSION);
+    BOOL rfsult = trbyIdon->SfndTrbyMfssbgf(jupdbtf == JNI_TRUE ? NIM_MODIFY : NIM_ADD);
+    // 6270114: Instrudts tif tbskbbr to bfibvf bddording to tif Sifll vfrsion 5.0
+    if (rfsult && jupdbtf == JNI_FALSE) {
+        trbyIdon->SfndTrbyMfssbgf(NIM_SETVERSION);
     }
-ret:
-    env->DeleteGlobalRef(self);
-    delete uis;
+rft:
+    fnv->DflftfGlobblRff(sflf);
+    dflftf uis;
 }
 
-void AwtTrayIcon::DisplayMessage(LPCTSTR caption, LPCTSTR text, LPCTSTR msgType)
+void AwtTrbyIdon::DisplbyMfssbgf(LPCTSTR dbption, LPCTSTR tfxt, LPCTSTR msgTypf)
 {
-    m_nid.uFlags |= NIF_INFO;
-    m_nid.uTimeout = 10000;
+    m_nid.uFlbgs |= NIF_INFO;
+    m_nid.uTimfout = 10000;
 
-    if (lstrcmp(msgType, TEXT("ERROR")) == 0) {
-        m_nid.dwInfoFlags = NIIF_ERROR;
-    } else if (lstrcmp(msgType, TEXT("WARNING")) == 0) {
-        m_nid.dwInfoFlags = NIIF_WARNING;
-    } else if (lstrcmp(msgType, TEXT("INFO")) == 0) {
-        m_nid.dwInfoFlags = NIIF_INFO;
-    } else if (lstrcmp(msgType, TEXT("NONE")) == 0) {
-        m_nid.dwInfoFlags = NIIF_NONE;
-    } else {
-        m_nid.dwInfoFlags = NIIF_NONE;
-    }
-
-    if (caption[0] == '\0') {
-        m_nid.szInfoTitle[0] = '\0';
-
-    } else if (lstrlen(caption) > TRAY_ICON_BALLOON_TITLE_MAX_SIZE) {
-
-        _tcsncpy(m_nid.szInfoTitle, caption, TRAY_ICON_BALLOON_TITLE_MAX_SIZE);
-        m_nid.szInfoTitle[TRAY_ICON_BALLOON_TITLE_MAX_SIZE - 1] = '\0';
-
-    } else {
-        _tcscpy_s(m_nid.szInfoTitle, TRAY_ICON_BALLOON_TITLE_MAX_SIZE, caption);
+    if (lstrdmp(msgTypf, TEXT("ERROR")) == 0) {
+        m_nid.dwInfoFlbgs = NIIF_ERROR;
+    } flsf if (lstrdmp(msgTypf, TEXT("WARNING")) == 0) {
+        m_nid.dwInfoFlbgs = NIIF_WARNING;
+    } flsf if (lstrdmp(msgTypf, TEXT("INFO")) == 0) {
+        m_nid.dwInfoFlbgs = NIIF_INFO;
+    } flsf if (lstrdmp(msgTypf, TEXT("NONE")) == 0) {
+        m_nid.dwInfoFlbgs = NIIF_NONE;
+    } flsf {
+        m_nid.dwInfoFlbgs = NIIF_NONE;
     }
 
-    if (text[0] == '\0') {
+    if (dbption[0] == '\0') {
+        m_nid.szInfoTitlf[0] = '\0';
+
+    } flsf if (lstrlfn(dbption) > TRAY_ICON_BALLOON_TITLE_MAX_SIZE) {
+
+        _tdsndpy(m_nid.szInfoTitlf, dbption, TRAY_ICON_BALLOON_TITLE_MAX_SIZE);
+        m_nid.szInfoTitlf[TRAY_ICON_BALLOON_TITLE_MAX_SIZE - 1] = '\0';
+
+    } flsf {
+        _tdsdpy_s(m_nid.szInfoTitlf, TRAY_ICON_BALLOON_TITLE_MAX_SIZE, dbption);
+    }
+
+    if (tfxt[0] == '\0') {
         m_nid.szInfo[0] = ' ';
         m_nid.szInfo[1] = '\0';
 
-    } else if (lstrlen(text) > TRAY_ICON_BALLOON_INFO_MAX_SIZE) {
+    } flsf if (lstrlfn(tfxt) > TRAY_ICON_BALLOON_INFO_MAX_SIZE) {
 
-        _tcsncpy(m_nid.szInfo, text, TRAY_ICON_BALLOON_INFO_MAX_SIZE);
+        _tdsndpy(m_nid.szInfo, tfxt, TRAY_ICON_BALLOON_INFO_MAX_SIZE);
         m_nid.szInfo[TRAY_ICON_BALLOON_INFO_MAX_SIZE - 1] = '\0';
 
-    } else {
-        _tcscpy_s(m_nid.szInfo, TRAY_ICON_BALLOON_INFO_MAX_SIZE, text);
+    } flsf {
+        _tdsdpy_s(m_nid.szInfo, TRAY_ICON_BALLOON_INFO_MAX_SIZE, tfxt);
     }
 
-    SendTrayMessage(NIM_MODIFY);
-    m_nid.uFlags &= ~NIF_INFO;
+    SfndTrbyMfssbgf(NIM_MODIFY);
+    m_nid.uFlbgs &= ~NIF_INFO;
 }
 
-void AwtTrayIcon::_DisplayMessage(void *param)
+void AwtTrbyIdon::_DisplbyMfssbgf(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    DisplayMessageStruct *dms = (DisplayMessageStruct *)param;
-    jobject self = dms->trayIcon;
-    jstring jcaption = dms->caption;
-    jstring jtext = dms-> text;
-    jstring jmsgType = dms->msgType;
-    AwtTrayIcon *trayIcon = NULL;
-    LPCTSTR captionStr = NULL;
-    LPCTSTR textStr = NULL;
-    LPCTSTR msgTypeStr = NULL;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    DisplbyMfssbgfStrudt *dms = (DisplbyMfssbgfStrudt *)pbrbm;
+    jobjfdt sflf = dms->trbyIdon;
+    jstring jdbption = dms->dbption;
+    jstring jtfxt = dms-> tfxt;
+    jstring jmsgTypf = dms->msgTypf;
+    AwtTrbyIdon *trbyIdon = NULL;
+    LPCTSTR dbptionStr = NULL;
+    LPCTSTR tfxtStr = NULL;
+    LPCTSTR msgTypfStr = NULL;
 
-    PDATA pData;
-    JNI_CHECK_PEER_GOTO(self, ret);
-    trayIcon = (AwtTrayIcon *)pData;
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    trbyIdon = (AwtTrbyIdon *)pDbtb;
 
-    captionStr = JNU_GetStringPlatformChars(env, jcaption, (jboolean *)NULL);
-    if (env->ExceptionCheck()) goto ret;
-    textStr = JNU_GetStringPlatformChars(env, jtext, (jboolean *)NULL);
-    if (env->ExceptionCheck()) {
-        JNU_ReleaseStringPlatformChars(env, jcaption, captionStr);
-        goto ret;
+    dbptionStr = JNU_GftStringPlbtformCibrs(fnv, jdbption, (jboolfbn *)NULL);
+    if (fnv->ExdfptionCifdk()) goto rft;
+    tfxtStr = JNU_GftStringPlbtformCibrs(fnv, jtfxt, (jboolfbn *)NULL);
+    if (fnv->ExdfptionCifdk()) {
+        JNU_RflfbsfStringPlbtformCibrs(fnv, jdbption, dbptionStr);
+        goto rft;
     }
-    msgTypeStr = JNU_GetStringPlatformChars(env, jmsgType, (jboolean *)NULL);
-    if (env->ExceptionCheck()) {
-        JNU_ReleaseStringPlatformChars(env, jcaption, captionStr);
-        JNU_ReleaseStringPlatformChars(env, jtext, textStr);
-        goto ret;
+    msgTypfStr = JNU_GftStringPlbtformCibrs(fnv, jmsgTypf, (jboolfbn *)NULL);
+    if (fnv->ExdfptionCifdk()) {
+        JNU_RflfbsfStringPlbtformCibrs(fnv, jdbption, dbptionStr);
+        JNU_RflfbsfStringPlbtformCibrs(fnv, jtfxt, tfxtStr);
+        goto rft;
     }
-    trayIcon->DisplayMessage(captionStr, textStr, msgTypeStr);
+    trbyIdon->DisplbyMfssbgf(dbptionStr, tfxtStr, msgTypfStr);
 
-    JNU_ReleaseStringPlatformChars(env, jcaption, captionStr);
-    JNU_ReleaseStringPlatformChars(env, jtext, textStr);
-    JNU_ReleaseStringPlatformChars(env, jmsgType, msgTypeStr);
-ret:
-    env->DeleteGlobalRef(self);
-    env->DeleteGlobalRef(jcaption);
-    env->DeleteGlobalRef(jtext);
-    env->DeleteGlobalRef(jmsgType);
-    delete dms;
+    JNU_RflfbsfStringPlbtformCibrs(fnv, jdbption, dbptionStr);
+    JNU_RflfbsfStringPlbtformCibrs(fnv, jtfxt, tfxtStr);
+    JNU_RflfbsfStringPlbtformCibrs(fnv, jmsgTypf, msgTypfStr);
+rft:
+    fnv->DflftfGlobblRff(sflf);
+    fnv->DflftfGlobblRff(jdbption);
+    fnv->DflftfGlobblRff(jtfxt);
+    fnv->DflftfGlobblRff(jmsgTypf);
+    dflftf dms;
 }
 
 /************************************************************************
- * TrayIcon native methods
+ * TrbyIdon nbtivf mftiods
  */
 
-extern "C" {
+fxtfrn "C" {
 
 /*
- * Class:     java_awt_TrayIcon
- * Method:    initIDs
- * Signature: ()V
+ * Clbss:     jbvb_bwt_TrbyIdon
+ * Mftiod:    initIDs
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_java_awt_TrayIcon_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_bwt_TrbyIdon_initIDs(JNIEnv *fnv, jdlbss dls)
 {
     TRY;
 
-    /* init field ids */
-    AwtTrayIcon::idID = env->GetFieldID(cls, "id", "I");
-    DASSERT(AwtTrayIcon::idID != NULL);
-    CHECK_NULL(AwtTrayIcon::idID);
+    /* init fifld ids */
+    AwtTrbyIdon::idID = fnv->GftFifldID(dls, "id", "I");
+    DASSERT(AwtTrbyIdon::idID != NULL);
+    CHECK_NULL(AwtTrbyIdon::idID);
 
-    AwtTrayIcon::actionCommandID = env->GetFieldID(cls, "actionCommand", "Ljava/lang/String;");
-    DASSERT(AwtTrayIcon::actionCommandID != NULL);
-    CHECK_NULL( AwtTrayIcon::actionCommandID);
+    AwtTrbyIdon::bdtionCommbndID = fnv->GftFifldID(dls, "bdtionCommbnd", "Ljbvb/lbng/String;");
+    DASSERT(AwtTrbyIdon::bdtionCommbndID != NULL);
+    CHECK_NULL( AwtTrbyIdon::bdtionCommbndID);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WTrayIconPeer
- * Method:    create
- * Signature: ()V
+ * Clbss:     sun_bwt_windows_WTrbyIdonPffr
+ * Mftiod:    drfbtf
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WTrayIconPeer_create(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WTrbyIdonPffr_drfbtf(JNIEnv *fnv, jobjfdt sflf)
 {
     TRY;
 
-    AwtToolkit::CreateComponent(self, NULL,
-                                (AwtToolkit::ComponentFactory)
-                                AwtTrayIcon::Create);
-    PDATA pData;
-    JNI_CHECK_PEER_CREATION_RETURN(self);
+    AwtToolkit::CrfbtfComponfnt(sflf, NULL,
+                                (AwtToolkit::ComponfntFbdtory)
+                                AwtTrbyIdon::Crfbtf);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_CREATION_RETURN(sflf);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WTrayIconPeer
- * Method:    _dispose
- * Signature: ()V
+ * Clbss:     sun_bwt_windows_WTrbyIdonPffr
+ * Mftiod:    _disposf
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WTrayIconPeer__1dispose(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WTrbyIdonPffr__1disposf(JNIEnv *fnv, jobjfdt sflf)
 {
     TRY;
 
-    AwtObject::_Dispose(self);
+    AwtObjfdt::_Disposf(sflf);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WTrayIconPeer
- * Method:    _setToolTip
- * Signature: ()V
+ * Clbss:     sun_bwt_windows_WTrbyIdonPffr
+ * Mftiod:    _sftToolTip
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WTrayIconPeer_setToolTip(JNIEnv *env, jobject self,
+Jbvb_sun_bwt_windows_WTrbyIdonPffr_sftToolTip(JNIEnv *fnv, jobjfdt sflf,
                                               jstring tooltip)
 {
     TRY;
 
-    SetToolTipStruct *sts = new SetToolTipStruct;
-    sts->trayIcon = env->NewGlobalRef(self);
+    SftToolTipStrudt *sts = nfw SftToolTipStrudt;
+    sts->trbyIdon = fnv->NfwGlobblRff(sflf);
     if (tooltip != NULL) {
-        sts->tooltip = (jstring)env->NewGlobalRef(tooltip);
-    } else {
+        sts->tooltip = (jstring)fnv->NfwGlobblRff(tooltip);
+    } flsf {
         sts->tooltip = NULL;
     }
 
-    AwtToolkit::GetInstance().SyncCall(AwtTrayIcon::_SetToolTip, sts);
-    // global ref and sts are deleted in _SetToolTip
+    AwtToolkit::GftInstbndf().SyndCbll(AwtTrbyIdon::_SftToolTip, sts);
+    // globbl rff bnd sts brf dflftfd in _SftToolTip
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WTrayIconPeer
- * Method:    setNativeIcon
- * Signature: (I[B[IIIII)V
+ * Clbss:     sun_bwt_windows_WTrbyIdonPffr
+ * Mftiod:    sftNbtivfIdon
+ * Signbturf: (I[B[IIIII)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WTrayIconPeer_setNativeIcon(JNIEnv *env, jobject self,
-                                                 jintArray intRasterData, jbyteArray andMask,
+Jbvb_sun_bwt_windows_WTrbyIdonPffr_sftNbtivfIdon(JNIEnv *fnv, jobjfdt sflf,
+                                                 jintArrby intRbstfrDbtb, jbytfArrby bndMbsk,
                                                  jint nSS, jint nW, jint nH)
 {
     TRY;
 
-    int length = env->GetArrayLength(andMask);
-    jbyte *andMaskPtr = new jbyte[length];
+    int lfngti = fnv->GftArrbyLfngti(bndMbsk);
+    jbytf *bndMbskPtr = nfw jbytf[lfngti];
 
-    env->GetByteArrayRegion(andMask, 0, length, andMaskPtr);
+    fnv->GftBytfArrbyRfgion(bndMbsk, 0, lfngti, bndMbskPtr);
 
-    HBITMAP hMask = ::CreateBitmap(nW, nH, 1, 1, (BYTE *)andMaskPtr);
-//    ::GdiFlush();
+    HBITMAP iMbsk = ::CrfbtfBitmbp(nW, nH, 1, 1, (BYTE *)bndMbskPtr);
+//    ::GdiFlusi();
 
-    delete[] andMaskPtr;
+    dflftf[] bndMbskPtr;
 
-    jint *intRasterDataPtr = NULL;
-    HBITMAP hColor = NULL;
+    jint *intRbstfrDbtbPtr = NULL;
+    HBITMAP iColor = NULL;
     try {
-        intRasterDataPtr = (jint *)env->GetPrimitiveArrayCritical(intRasterData, 0);
-        if (intRasterDataPtr == NULL) {
-            ::DeleteObject(hMask);
-            return;
+        intRbstfrDbtbPtr = (jint *)fnv->GftPrimitivfArrbyCritidbl(intRbstfrDbtb, 0);
+        if (intRbstfrDbtbPtr == NULL) {
+            ::DflftfObjfdt(iMbsk);
+            rfturn;
         }
-        hColor = AwtTrayIcon::CreateBMP(NULL, (int *)intRasterDataPtr, nSS, nW, nH);
-    } catch (...) {
-        if (intRasterDataPtr != NULL) {
-            env->ReleasePrimitiveArrayCritical(intRasterData, intRasterDataPtr, 0);
+        iColor = AwtTrbyIdon::CrfbtfBMP(NULL, (int *)intRbstfrDbtbPtr, nSS, nW, nH);
+    } dbtdi (...) {
+        if (intRbstfrDbtbPtr != NULL) {
+            fnv->RflfbsfPrimitivfArrbyCritidbl(intRbstfrDbtb, intRbstfrDbtbPtr, 0);
         }
-        ::DeleteObject(hMask);
-        throw;
+        ::DflftfObjfdt(iMbsk);
+        tirow;
     }
 
-    env->ReleasePrimitiveArrayCritical(intRasterData, intRasterDataPtr, 0);
-    intRasterDataPtr = NULL;
+    fnv->RflfbsfPrimitivfArrbyCritidbl(intRbstfrDbtb, intRbstfrDbtbPtr, 0);
+    intRbstfrDbtbPtr = NULL;
 
-    HICON hIcon = NULL;
+    HICON iIdon = NULL;
 
-    if (hMask && hColor) {
-        ICONINFO icnInfo;
-        memset(&icnInfo, 0, sizeof(ICONINFO));
-        icnInfo.hbmMask = hMask;
-        icnInfo.hbmColor = hColor;
-        icnInfo.fIcon = TRUE;
-        icnInfo.xHotspot = TRAY_ICON_X_HOTSPOT;
-        icnInfo.yHotspot = TRAY_ICON_Y_HOTSPOT;
+    if (iMbsk && iColor) {
+        ICONINFO idnInfo;
+        mfmsft(&idnInfo, 0, sizfof(ICONINFO));
+        idnInfo.ibmMbsk = iMbsk;
+        idnInfo.ibmColor = iColor;
+        idnInfo.fIdon = TRUE;
+        idnInfo.xHotspot = TRAY_ICON_X_HOTSPOT;
+        idnInfo.yHotspot = TRAY_ICON_Y_HOTSPOT;
 
-        hIcon = ::CreateIconIndirect(&icnInfo);
+        iIdon = ::CrfbtfIdonIndirfdt(&idnInfo);
     }
-    ::DeleteObject(hColor);
-    ::DeleteObject(hMask);
+    ::DflftfObjfdt(iColor);
+    ::DflftfObjfdt(iMbsk);
 
     //////////////////////////////////////////
 
-    SetIconStruct *sis = new SetIconStruct;
-    sis->trayIcon = env->NewGlobalRef(self);
-    sis->hIcon = hIcon;
+    SftIdonStrudt *sis = nfw SftIdonStrudt;
+    sis->trbyIdon = fnv->NfwGlobblRff(sflf);
+    sis->iIdon = iIdon;
 
-    AwtToolkit::GetInstance().SyncCall(AwtTrayIcon::_SetIcon, sis);
-    // global ref is deleted in _SetIcon
-
-    CATCH_BAD_ALLOC;
-}
-
-/*
- * Class:     sun_awt_windows_WTrayIconPeer
- * Method:    updateNativeIcon
- * Signature: (Z)V
- */
-JNIEXPORT void JNICALL
-Java_sun_awt_windows_WTrayIconPeer_updateNativeIcon(JNIEnv *env, jobject self,
-                                                    jboolean doUpdate)
-{
-    TRY;
-
-    UpdateIconStruct *uis = new UpdateIconStruct;
-    uis->trayIcon = env->NewGlobalRef(self);
-    uis->update = doUpdate;
-
-    AwtToolkit::GetInstance().SyncCall(AwtTrayIcon::_UpdateIcon, uis);
-    // global ref is deleted in _UpdateIcon
+    AwtToolkit::GftInstbndf().SyndCbll(AwtTrbyIdon::_SftIdon, sis);
+    // globbl rff is dflftfd in _SftIdon
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WTrayIconPeer
- * Method:    displayMessage
- * Signature: ()V;
+ * Clbss:     sun_bwt_windows_WTrbyIdonPffr
+ * Mftiod:    updbtfNbtivfIdon
+ * Signbturf: (Z)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WTrayIconPeer__1displayMessage(JNIEnv *env, jobject self,
-    jstring caption, jstring text, jstring msgType)
+Jbvb_sun_bwt_windows_WTrbyIdonPffr_updbtfNbtivfIdon(JNIEnv *fnv, jobjfdt sflf,
+                                                    jboolfbn doUpdbtf)
 {
     TRY;
 
-    DisplayMessageStruct *dms = new DisplayMessageStruct;
-    dms->trayIcon = env->NewGlobalRef(self);
-    dms->caption = (jstring)env->NewGlobalRef(caption);
-    dms->text = (jstring)env->NewGlobalRef(text);
-    dms->msgType = (jstring)env->NewGlobalRef(msgType);
+    UpdbtfIdonStrudt *uis = nfw UpdbtfIdonStrudt;
+    uis->trbyIdon = fnv->NfwGlobblRff(sflf);
+    uis->updbtf = doUpdbtf;
 
-    AwtToolkit::GetInstance().SyncCall(AwtTrayIcon::_DisplayMessage, dms);
-    // global ref is deleted in _DisplayMessage
+    AwtToolkit::GftInstbndf().SyndCbll(AwtTrbyIdon::_UpdbtfIdon, uis);
+    // globbl rff is dflftfd in _UpdbtfIdon
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WTrbyIdonPffr
+ * Mftiod:    displbyMfssbgf
+ * Signbturf: ()V;
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WTrbyIdonPffr__1displbyMfssbgf(JNIEnv *fnv, jobjfdt sflf,
+    jstring dbption, jstring tfxt, jstring msgTypf)
+{
+    TRY;
+
+    DisplbyMfssbgfStrudt *dms = nfw DisplbyMfssbgfStrudt;
+    dms->trbyIdon = fnv->NfwGlobblRff(sflf);
+    dms->dbption = (jstring)fnv->NfwGlobblRff(dbption);
+    dms->tfxt = (jstring)fnv->NfwGlobblRff(tfxt);
+    dms->msgTypf = (jstring)fnv->NfwGlobblRff(msgTypf);
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtTrbyIdon::_DisplbyMfssbgf, dms);
+    // globbl rff is dflftfd in _DisplbyMfssbgf
 
     CATCH_BAD_ALLOC(NULL);
 }
 
-} /* extern "C" */
+} /* fxtfrn "C" */

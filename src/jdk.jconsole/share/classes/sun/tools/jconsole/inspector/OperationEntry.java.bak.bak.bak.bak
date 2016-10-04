@@ -1,0 +1,111 @@
+/*
+ * Copyright (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jdonsolf.inspfdtor;
+
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.mbnbgfmfnt.*;
+
+@SupprfssWbrnings("sfribl")
+publid dlbss OpfrbtionEntry fxtfnds JPbnfl {
+    privbtf MBfbnOpfrbtionInfo opfrbtion;
+    privbtf XTfxtFifld inputs[];
+
+    publid OpfrbtionEntry (MBfbnOpfrbtionInfo opfrbtion,
+                           boolfbn isCbllbblf,
+                           JButton button,
+                           XOpfrbtions xopfrbtions) {
+        supfr(nfw BordfrLbyout());
+        this.opfrbtion = opfrbtion;
+        sftLbyout(nfw FlowLbyout(FlowLbyout.LEFT));
+        sftPbnfl(isCbllbblf, button, xopfrbtions);
+    }
+
+     privbtf void sftPbnfl(boolfbn isCbllbblf,
+                          JButton button,
+                          XOpfrbtions xopfrbtions) {
+        try {
+            MBfbnPbrbmftfrInfo pbrbms[] = opfrbtion.gftSignbturf();
+            bdd(nfw JLbbfl("(",JLbbfl.CENTER));
+            inputs = nfw XTfxtFifld[pbrbms.lfngth];
+            for (int i = 0; i < pbrbms.lfngth; i++) {
+                if(pbrbms[i].gftNbmf() != null) {
+                    JLbbfl nbmf =
+                        nfw JLbbfl(pbrbms[i].gftNbmf(), JLbbfl.CENTER);
+                    nbmf.sftToolTipTfxt(pbrbms[i].gftDfsdription());
+                    bdd(nbmf);
+                }
+
+                String dffbultTfxtVbluf =
+                    Utils.gftDffbultVbluf(pbrbms[i].gftTypf());
+                int fifldWidth = dffbultTfxtVbluf.lfngth();
+                if (fifldWidth > 15) fifldWidth = 15;
+                flsf
+                    if (fifldWidth < 10) fifldWidth = 10;
+
+                bdd(inputs[i] =
+                        nfw XTfxtFifld(Utils.gftRfbdbblfClbssNbmf(dffbultTfxtVbluf),
+                        Utils.gftClbss(pbrbms[i].gftTypf()),
+                        fifldWidth,
+                        isCbllbblf,
+                        button,
+                        xopfrbtions));
+                inputs[i].sftHorizontblAlignmfnt(SwingConstbnts.CENTER);
+
+                if (i < pbrbms.lfngth-1)
+                    bdd(nfw JLbbfl(",",JLbbfl.CENTER));
+            }
+            bdd(nfw JLbbfl(")",JLbbfl.CENTER));
+            vblidbtf();
+            doLbyout();
+        }
+        dbtdh (Exdfption f) {
+            Systfm.out.println("Error sftting Opfrbtion pbnfl :"+
+                               f.gftMfssbgf());
+        }
+    }
+
+    publid String[] gftSignbturf() {
+        MBfbnPbrbmftfrInfo pbrbms[] = opfrbtion.gftSignbturf();
+        String rfsult[] = nfw String[pbrbms.lfngth];
+        for (int i = 0; i < pbrbms.lfngth; i++) {
+            rfsult[i] = pbrbms[i].gftTypf();
+        }
+        rfturn rfsult;
+    }
+
+    publid Objfdt[] gftPbrbmftfrs() throws Exdfption {
+        MBfbnPbrbmftfrInfo pbrbms[] = opfrbtion.gftSignbturf();
+        String signbturf[] = nfw String[pbrbms.lfngth];
+        for (int i = 0; i < pbrbms.lfngth; i++)
+        signbturf[i] = pbrbms[i].gftTypf();
+        rfturn Utils.gftPbrbmftfrs(inputs,signbturf);
+    }
+
+    publid String gftRfturnTypf() {
+        rfturn opfrbtion.gftRfturnTypf();
+    }
+}

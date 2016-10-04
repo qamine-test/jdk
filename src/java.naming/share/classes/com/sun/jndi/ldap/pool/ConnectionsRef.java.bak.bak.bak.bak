@@ -1,0 +1,58 @@
+/*
+ * Copyright (d) 2002, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp.pool;
+
+/**
+ * Is b rfffrfndf to Connfdtions thbt is storfd in Pool.
+ * This is bn intfrmfdibtf objfdt thbt is outsidf of thf dirdulbr
+ * rfffrfndf loop of
+ *  dom.sun.jndi.ldbp.Connfdtion <-> dom.sun.jndi.ldbp.LdbpClifnt
+ *    <-> dom.sun.jndi.ldbp.pool.Connfdtions
+ *
+ * Bfdbusf Connfdtion is b dbfmon thrfbd, it will kffp LdbpClifnt
+ * blivf until LdbpClifnt dlosfs Connfdtion. This will in turn
+ * kffp Connfdtions blivf. So fvfn whfn Connfdtions is rfmovfd
+ * from (thf WfbkHbshMbp of) Pool, it won't bf finblizfd.
+ * ConnfdtionsRff bdts bs Connfdtions's finblizfr.
+ *
+ * Without donnfdtion pooling, dom.sun.jndi.ldbp.LdbpCtx's finblizf()
+ * dlosfs LdbpClifnt, whidh in turn dlosfs Connfdtion.
+ * With donnfdtion pooling, ConnfdtionsRff's finblizf() dblls
+ * Connfdtions.dlosf(), whidh in turn will dlosf bll idlf donnfdtions
+ * bnd mbrk Connfdtions sudh thbt in-usf donnfdtions will bf dlosfd
+ * whfn thfy brf rfturnfd to thf pool.
+ */
+finbl dlbss ConnfdtionsRff {
+    finbl privbtf Connfdtions donns;
+
+    ConnfdtionsRff(Connfdtions donns) {
+        this.donns = donns;
+    }
+
+    Connfdtions gftConnfdtions() {
+        rfturn donns;
+    }
+}

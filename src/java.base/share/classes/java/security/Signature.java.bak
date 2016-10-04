@@ -1,1294 +1,1294 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.security.spec.AlgorithmParameterSpec;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.io.*;
-import java.security.cert.Certificate;
-import java.security.cert.X509Certificate;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.io.*;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
 
-import java.nio.ByteBuffer;
+import jbvb.nio.BytfBufffr;
 
-import java.security.Provider.Service;
+import jbvb.sfdurity.Providfr.Sfrvidf;
 
-import javax.crypto.Cipher;
-import javax.crypto.CipherSpi;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.BadPaddingException;
-import javax.crypto.NoSuchPaddingException;
+import jbvbx.drypto.Cipifr;
+import jbvbx.drypto.CipifrSpi;
+import jbvbx.drypto.IllfgblBlodkSizfExdfption;
+import jbvbx.drypto.BbdPbddingExdfption;
+import jbvbx.drypto.NoSudiPbddingExdfption;
 
-import sun.security.util.Debug;
-import sun.security.jca.*;
-import sun.security.jca.GetInstance.Instance;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.jdb.*;
+import sun.sfdurity.jdb.GftInstbndf.Instbndf;
 
 /**
- * The Signature class is used to provide applications the functionality
- * of a digital signature algorithm. Digital signatures are used for
- * authentication and integrity assurance of digital data.
+ * Tif Signbturf dlbss is usfd to providf bpplidbtions tif fundtionblity
+ * of b digitbl signbturf blgoritim. Digitbl signbturfs brf usfd for
+ * butifntidbtion bnd intfgrity bssurbndf of digitbl dbtb.
  *
- * <p> The signature algorithm can be, among others, the NIST standard
- * DSA, using DSA and SHA-1. The DSA algorithm using the
- * SHA-1 message digest algorithm can be specified as {@code SHA1withDSA}.
- * In the case of RSA, there are multiple choices for the message digest
- * algorithm, so the signing algorithm could be specified as, for example,
- * {@code MD2withRSA}, {@code MD5withRSA}, or {@code SHA1withRSA}.
- * The algorithm name must be specified, as there is no default.
+ * <p> Tif signbturf blgoritim dbn bf, bmong otifrs, tif NIST stbndbrd
+ * DSA, using DSA bnd SHA-1. Tif DSA blgoritim using tif
+ * SHA-1 mfssbgf digfst blgoritim dbn bf spfdififd bs {@dodf SHA1witiDSA}.
+ * In tif dbsf of RSA, tifrf brf multiplf dioidfs for tif mfssbgf digfst
+ * blgoritim, so tif signing blgoritim dould bf spfdififd bs, for fxbmplf,
+ * {@dodf MD2witiRSA}, {@dodf MD5witiRSA}, or {@dodf SHA1witiRSA}.
+ * Tif blgoritim nbmf must bf spfdififd, bs tifrf is no dffbult.
  *
- * <p> A Signature object can be used to generate and verify digital
- * signatures.
+ * <p> A Signbturf objfdt dbn bf usfd to gfnfrbtf bnd vfrify digitbl
+ * signbturfs.
  *
- * <p> There are three phases to the use of a Signature object for
- * either signing data or verifying a signature:<ol>
+ * <p> Tifrf brf tirff pibsfs to tif usf of b Signbturf objfdt for
+ * fitifr signing dbtb or vfrifying b signbturf:<ol>
  *
- * <li>Initialization, with either
+ * <li>Initiblizbtion, witi fitifr
  *
  *     <ul>
  *
- *     <li>a public key, which initializes the signature for
- *     verification (see {@link #initVerify(PublicKey) initVerify}), or
+ *     <li>b publid kfy, wiidi initiblizfs tif signbturf for
+ *     vfrifidbtion (sff {@link #initVfrify(PublidKfy) initVfrify}), or
  *
- *     <li>a private key (and optionally a Secure Random Number Generator),
- *     which initializes the signature for signing
- *     (see {@link #initSign(PrivateKey)}
- *     and {@link #initSign(PrivateKey, SecureRandom)}).
+ *     <li>b privbtf kfy (bnd optionblly b Sfdurf Rbndom Numbfr Gfnfrbtor),
+ *     wiidi initiblizfs tif signbturf for signing
+ *     (sff {@link #initSign(PrivbtfKfy)}
+ *     bnd {@link #initSign(PrivbtfKfy, SfdurfRbndom)}).
  *
  *     </ul>
  *
- * <li>Updating
+ * <li>Updbting
  *
- * <p>Depending on the type of initialization, this will update the
- * bytes to be signed or verified. See the
- * {@link #update(byte) update} methods.
+ * <p>Dfpfnding on tif typf of initiblizbtion, tiis will updbtf tif
+ * bytfs to bf signfd or vfrififd. Sff tif
+ * {@link #updbtf(bytf) updbtf} mftiods.
  *
- * <li>Signing or Verifying a signature on all updated bytes. See the
- * {@link #sign() sign} methods and the {@link #verify(byte[]) verify}
- * method.
+ * <li>Signing or Vfrifying b signbturf on bll updbtfd bytfs. Sff tif
+ * {@link #sign() sign} mftiods bnd tif {@link #vfrify(bytf[]) vfrify}
+ * mftiod.
  *
  * </ol>
  *
- * <p>Note that this class is abstract and extends from
- * {@code SignatureSpi} for historical reasons.
- * Application developers should only take notice of the methods defined in
- * this {@code Signature} class; all the methods in
- * the superclass are intended for cryptographic service providers who wish to
- * supply their own implementations of digital signature algorithms.
+ * <p>Notf tibt tiis dlbss is bbstrbdt bnd fxtfnds from
+ * {@dodf SignbturfSpi} for iistoridbl rfbsons.
+ * Applidbtion dfvflopfrs siould only tbkf notidf of tif mftiods dffinfd in
+ * tiis {@dodf Signbturf} dlbss; bll tif mftiods in
+ * tif supfrdlbss brf intfndfd for dryptogrbpiid sfrvidf providfrs wio wisi to
+ * supply tifir own implfmfntbtions of digitbl signbturf blgoritims.
  *
- * <p> Every implementation of the Java platform is required to support the
- * following standard {@code Signature} algorithms:
+ * <p> Evfry implfmfntbtion of tif Jbvb plbtform is rfquirfd to support tif
+ * following stbndbrd {@dodf Signbturf} blgoritims:
  * <ul>
- * <li>{@code SHA1withDSA}</li>
- * <li>{@code SHA1withRSA}</li>
- * <li>{@code SHA256withRSA}</li>
+ * <li>{@dodf SHA1witiDSA}</li>
+ * <li>{@dodf SHA1witiRSA}</li>
+ * <li>{@dodf SHA256witiRSA}</li>
  * </ul>
- * These algorithms are described in the <a href=
- * "{@docRoot}/../technotes/guides/security/StandardNames.html#Signature">
- * Signature section</a> of the
- * Java Cryptography Architecture Standard Algorithm Name Documentation.
- * Consult the release documentation for your implementation to see if any
- * other algorithms are supported.
+ * Tifsf blgoritims brf dfsdribfd in tif <b irff=
+ * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#Signbturf">
+ * Signbturf sfdtion</b> of tif
+ * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion.
+ * Consult tif rflfbsf dodumfntbtion for your implfmfntbtion to sff if bny
+ * otifr blgoritims brf supportfd.
  *
- * @author Benjamin Renaud
+ * @butior Bfnjbmin Rfnbud
  *
  */
 
-public abstract class Signature extends SignatureSpi {
+publid bbstrbdt dlbss Signbturf fxtfnds SignbturfSpi {
 
-    private static final Debug debug =
-                        Debug.getInstance("jca", "Signature");
+    privbtf stbtid finbl Dfbug dfbug =
+                        Dfbug.gftInstbndf("jdb", "Signbturf");
 
     /*
-     * The algorithm for this signature object.
-     * This value is used to map an OID to the particular algorithm.
-     * The mapping is done in AlgorithmObject.algOID(String algorithm)
+     * Tif blgoritim for tiis signbturf objfdt.
+     * Tiis vbluf is usfd to mbp bn OID to tif pbrtidulbr blgoritim.
+     * Tif mbpping is donf in AlgoritimObjfdt.blgOID(String blgoritim)
      */
-    private String algorithm;
+    privbtf String blgoritim;
 
-    // The provider
-    Provider provider;
+    // Tif providfr
+    Providfr providfr;
 
     /**
-     * Possible {@link #state} value, signifying that
-     * this signature object has not yet been initialized.
+     * Possiblf {@link #stbtf} vbluf, signifying tibt
+     * tiis signbturf objfdt ibs not yft bffn initiblizfd.
      */
-    protected final static int UNINITIALIZED = 0;
+    protfdtfd finbl stbtid int UNINITIALIZED = 0;
 
     /**
-     * Possible {@link #state} value, signifying that
-     * this signature object has been initialized for signing.
+     * Possiblf {@link #stbtf} vbluf, signifying tibt
+     * tiis signbturf objfdt ibs bffn initiblizfd for signing.
      */
-    protected final static int SIGN = 2;
+    protfdtfd finbl stbtid int SIGN = 2;
 
     /**
-     * Possible {@link #state} value, signifying that
-     * this signature object has been initialized for verification.
+     * Possiblf {@link #stbtf} vbluf, signifying tibt
+     * tiis signbturf objfdt ibs bffn initiblizfd for vfrifidbtion.
      */
-    protected final static int VERIFY = 3;
+    protfdtfd finbl stbtid int VERIFY = 3;
 
     /**
-     * Current state of this signature object.
+     * Currfnt stbtf of tiis signbturf objfdt.
      */
-    protected int state = UNINITIALIZED;
+    protfdtfd int stbtf = UNINITIALIZED;
 
     /**
-     * Creates a Signature object for the specified algorithm.
+     * Crfbtfs b Signbturf objfdt for tif spfdififd blgoritim.
      *
-     * @param algorithm the standard string name of the algorithm.
-     * See the Signature section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#Signature">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgoritim tif stbndbrd string nbmf of tif blgoritim.
+     * Sff tif Signbturf sfdtion in tif <b irff=
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#Signbturf">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgoritim nbmfs.
      */
-    protected Signature(String algorithm) {
-        this.algorithm = algorithm;
+    protfdtfd Signbturf(String blgoritim) {
+        tiis.blgoritim = blgoritim;
     }
 
-    // name of the special signature alg
-    private final static String RSA_SIGNATURE = "NONEwithRSA";
+    // nbmf of tif spfdibl signbturf blg
+    privbtf finbl stbtid String RSA_SIGNATURE = "NONEwitiRSA";
 
-    // name of the equivalent cipher alg
-    private final static String RSA_CIPHER = "RSA/ECB/PKCS1Padding";
+    // nbmf of tif fquivblfnt dipifr blg
+    privbtf finbl stbtid String RSA_CIPHER = "RSA/ECB/PKCS1Pbdding";
 
-    // all the services we need to lookup for compatibility with Cipher
-    private final static List<ServiceId> rsaIds = Arrays.asList(
-        new ServiceId[] {
-            new ServiceId("Signature", "NONEwithRSA"),
-            new ServiceId("Cipher", "RSA/ECB/PKCS1Padding"),
-            new ServiceId("Cipher", "RSA/ECB"),
-            new ServiceId("Cipher", "RSA//PKCS1Padding"),
-            new ServiceId("Cipher", "RSA"),
+    // bll tif sfrvidfs wf nffd to lookup for dompbtibility witi Cipifr
+    privbtf finbl stbtid List<SfrvidfId> rsbIds = Arrbys.bsList(
+        nfw SfrvidfId[] {
+            nfw SfrvidfId("Signbturf", "NONEwitiRSA"),
+            nfw SfrvidfId("Cipifr", "RSA/ECB/PKCS1Pbdding"),
+            nfw SfrvidfId("Cipifr", "RSA/ECB"),
+            nfw SfrvidfId("Cipifr", "RSA//PKCS1Pbdding"),
+            nfw SfrvidfId("Cipifr", "RSA"),
         }
     );
 
     /**
-     * Returns a Signature object that implements the specified signature
-     * algorithm.
+     * Rfturns b Signbturf objfdt tibt implfmfnts tif spfdififd signbturf
+     * blgoritim.
      *
-     * <p> This method traverses the list of registered security Providers,
-     * starting with the most preferred Provider.
-     * A new Signature object encapsulating the
-     * SignatureSpi implementation from the first
-     * Provider that supports the specified algorithm is returned.
+     * <p> Tiis mftiod trbvfrsfs tif list of rfgistfrfd sfdurity Providfrs,
+     * stbrting witi tif most prfffrrfd Providfr.
+     * A nfw Signbturf objfdt fndbpsulbting tif
+     * SignbturfSpi implfmfntbtion from tif first
+     * Providfr tibt supports tif spfdififd blgoritim is rfturnfd.
      *
-     * <p> Note that the list of registered providers may be retrieved via
-     * the {@link Security#getProviders() Security.getProviders()} method.
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
      *
-     * @param algorithm the standard name of the algorithm requested.
-     * See the Signature section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#Signature">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgoritim tif stbndbrd nbmf of tif blgoritim rfqufstfd.
+     * Sff tif Signbturf sfdtion in tif <b irff=
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#Signbturf">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgoritim nbmfs.
      *
-     * @return the new Signature object.
+     * @rfturn tif nfw Signbturf objfdt.
      *
-     * @exception NoSuchAlgorithmException if no Provider supports a
-     *          Signature implementation for the
-     *          specified algorithm.
+     * @fxdfption NoSudiAlgoritimExdfption if no Providfr supports b
+     *          Signbturf implfmfntbtion for tif
+     *          spfdififd blgoritim.
      *
-     * @see Provider
+     * @sff Providfr
      */
-    public static Signature getInstance(String algorithm)
-            throws NoSuchAlgorithmException {
-        List<Service> list;
-        if (algorithm.equalsIgnoreCase(RSA_SIGNATURE)) {
-            list = GetInstance.getServices(rsaIds);
-        } else {
-            list = GetInstance.getServices("Signature", algorithm);
+    publid stbtid Signbturf gftInstbndf(String blgoritim)
+            tirows NoSudiAlgoritimExdfption {
+        List<Sfrvidf> list;
+        if (blgoritim.fqublsIgnorfCbsf(RSA_SIGNATURE)) {
+            list = GftInstbndf.gftSfrvidfs(rsbIds);
+        } flsf {
+            list = GftInstbndf.gftSfrvidfs("Signbturf", blgoritim);
         }
-        Iterator<Service> t = list.iterator();
-        if (t.hasNext() == false) {
-            throw new NoSuchAlgorithmException
-                (algorithm + " Signature not available");
+        Itfrbtor<Sfrvidf> t = list.itfrbtor();
+        if (t.ibsNfxt() == fblsf) {
+            tirow nfw NoSudiAlgoritimExdfption
+                (blgoritim + " Signbturf not bvbilbblf");
         }
-        // try services until we find an Spi or a working Signature subclass
-        NoSuchAlgorithmException failure;
+        // try sfrvidfs until wf find bn Spi or b working Signbturf subdlbss
+        NoSudiAlgoritimExdfption fbilurf;
         do {
-            Service s = t.next();
+            Sfrvidf s = t.nfxt();
             if (isSpi(s)) {
-                return new Delegate(s, t, algorithm);
-            } else {
-                // must be a subclass of Signature, disable dynamic selection
+                rfturn nfw Dflfgbtf(s, t, blgoritim);
+            } flsf {
+                // must bf b subdlbss of Signbturf, disbblf dynbmid sflfdtion
                 try {
-                    Instance instance =
-                        GetInstance.getInstance(s, SignatureSpi.class);
-                    return getInstance(instance, algorithm);
-                } catch (NoSuchAlgorithmException e) {
-                    failure = e;
+                    Instbndf instbndf =
+                        GftInstbndf.gftInstbndf(s, SignbturfSpi.dlbss);
+                    rfturn gftInstbndf(instbndf, blgoritim);
+                } dbtdi (NoSudiAlgoritimExdfption f) {
+                    fbilurf = f;
                 }
             }
-        } while (t.hasNext());
-        throw failure;
+        } wiilf (t.ibsNfxt());
+        tirow fbilurf;
     }
 
-    private static Signature getInstance(Instance instance, String algorithm) {
-        Signature sig;
-        if (instance.impl instanceof Signature) {
-            sig = (Signature)instance.impl;
-            sig.algorithm = algorithm;
-        } else {
-            SignatureSpi spi = (SignatureSpi)instance.impl;
-            sig = new Delegate(spi, algorithm);
+    privbtf stbtid Signbturf gftInstbndf(Instbndf instbndf, String blgoritim) {
+        Signbturf sig;
+        if (instbndf.impl instbndfof Signbturf) {
+            sig = (Signbturf)instbndf.impl;
+            sig.blgoritim = blgoritim;
+        } flsf {
+            SignbturfSpi spi = (SignbturfSpi)instbndf.impl;
+            sig = nfw Dflfgbtf(spi, blgoritim);
         }
-        sig.provider = instance.provider;
-        return sig;
+        sig.providfr = instbndf.providfr;
+        rfturn sig;
     }
 
-    private final static Map<String,Boolean> signatureInfo;
+    privbtf finbl stbtid Mbp<String,Boolfbn> signbturfInfo;
 
-    static {
-        signatureInfo = new ConcurrentHashMap<String,Boolean>();
-        Boolean TRUE = Boolean.TRUE;
-        // pre-initialize with values for our SignatureSpi implementations
-        signatureInfo.put("sun.security.provider.DSA$RawDSA", TRUE);
-        signatureInfo.put("sun.security.provider.DSA$SHA1withDSA", TRUE);
-        signatureInfo.put("sun.security.rsa.RSASignature$MD2withRSA", TRUE);
-        signatureInfo.put("sun.security.rsa.RSASignature$MD5withRSA", TRUE);
-        signatureInfo.put("sun.security.rsa.RSASignature$SHA1withRSA", TRUE);
-        signatureInfo.put("sun.security.rsa.RSASignature$SHA256withRSA", TRUE);
-        signatureInfo.put("sun.security.rsa.RSASignature$SHA384withRSA", TRUE);
-        signatureInfo.put("sun.security.rsa.RSASignature$SHA512withRSA", TRUE);
-        signatureInfo.put("com.sun.net.ssl.internal.ssl.RSASignature", TRUE);
-        signatureInfo.put("sun.security.pkcs11.P11Signature", TRUE);
+    stbtid {
+        signbturfInfo = nfw CondurrfntHbsiMbp<String,Boolfbn>();
+        Boolfbn TRUE = Boolfbn.TRUE;
+        // prf-initiblizf witi vblufs for our SignbturfSpi implfmfntbtions
+        signbturfInfo.put("sun.sfdurity.providfr.DSA$RbwDSA", TRUE);
+        signbturfInfo.put("sun.sfdurity.providfr.DSA$SHA1witiDSA", TRUE);
+        signbturfInfo.put("sun.sfdurity.rsb.RSASignbturf$MD2witiRSA", TRUE);
+        signbturfInfo.put("sun.sfdurity.rsb.RSASignbturf$MD5witiRSA", TRUE);
+        signbturfInfo.put("sun.sfdurity.rsb.RSASignbturf$SHA1witiRSA", TRUE);
+        signbturfInfo.put("sun.sfdurity.rsb.RSASignbturf$SHA256witiRSA", TRUE);
+        signbturfInfo.put("sun.sfdurity.rsb.RSASignbturf$SHA384witiRSA", TRUE);
+        signbturfInfo.put("sun.sfdurity.rsb.RSASignbturf$SHA512witiRSA", TRUE);
+        signbturfInfo.put("dom.sun.nft.ssl.intfrnbl.ssl.RSASignbturf", TRUE);
+        signbturfInfo.put("sun.sfdurity.pkds11.P11Signbturf", TRUE);
     }
 
-    private static boolean isSpi(Service s) {
-        if (s.getType().equals("Cipher")) {
-            // must be a CipherSpi, which we can wrap with the CipherAdapter
-            return true;
+    privbtf stbtid boolfbn isSpi(Sfrvidf s) {
+        if (s.gftTypf().fqubls("Cipifr")) {
+            // must bf b CipifrSpi, wiidi wf dbn wrbp witi tif CipifrAdbptfr
+            rfturn truf;
         }
-        String className = s.getClassName();
-        Boolean result = signatureInfo.get(className);
-        if (result == null) {
+        String dlbssNbmf = s.gftClbssNbmf();
+        Boolfbn rfsult = signbturfInfo.gft(dlbssNbmf);
+        if (rfsult == null) {
             try {
-                Object instance = s.newInstance(null);
-                // Signature extends SignatureSpi
-                // so it is a "real" Spi if it is an
-                // instance of SignatureSpi but not Signature
-                boolean r = (instance instanceof SignatureSpi)
-                                && (instance instanceof Signature == false);
-                if ((debug != null) && (r == false)) {
-                    debug.println("Not a SignatureSpi " + className);
-                    debug.println("Delayed provider selection may not be "
-                        + "available for algorithm " + s.getAlgorithm());
+                Objfdt instbndf = s.nfwInstbndf(null);
+                // Signbturf fxtfnds SignbturfSpi
+                // so it is b "rfbl" Spi if it is bn
+                // instbndf of SignbturfSpi but not Signbturf
+                boolfbn r = (instbndf instbndfof SignbturfSpi)
+                                && (instbndf instbndfof Signbturf == fblsf);
+                if ((dfbug != null) && (r == fblsf)) {
+                    dfbug.println("Not b SignbturfSpi " + dlbssNbmf);
+                    dfbug.println("Dflbyfd providfr sflfdtion mby not bf "
+                        + "bvbilbblf for blgoritim " + s.gftAlgoritim());
                 }
-                result = Boolean.valueOf(r);
-                signatureInfo.put(className, result);
-            } catch (Exception e) {
-                // something is wrong, assume not an SPI
-                return false;
+                rfsult = Boolfbn.vblufOf(r);
+                signbturfInfo.put(dlbssNbmf, rfsult);
+            } dbtdi (Exdfption f) {
+                // somftiing is wrong, bssumf not bn SPI
+                rfturn fblsf;
             }
         }
-        return result.booleanValue();
+        rfturn rfsult.boolfbnVbluf();
     }
 
     /**
-     * Returns a Signature object that implements the specified signature
-     * algorithm.
+     * Rfturns b Signbturf objfdt tibt implfmfnts tif spfdififd signbturf
+     * blgoritim.
      *
-     * <p> A new Signature object encapsulating the
-     * SignatureSpi implementation from the specified provider
-     * is returned.  The specified provider must be registered
-     * in the security provider list.
+     * <p> A nfw Signbturf objfdt fndbpsulbting tif
+     * SignbturfSpi implfmfntbtion from tif spfdififd providfr
+     * is rfturnfd.  Tif spfdififd providfr must bf rfgistfrfd
+     * in tif sfdurity providfr list.
      *
-     * <p> Note that the list of registered providers may be retrieved via
-     * the {@link Security#getProviders() Security.getProviders()} method.
+     * <p> Notf tibt tif list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * tif {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mftiod.
      *
-     * @param algorithm the name of the algorithm requested.
-     * See the Signature section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#Signature">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgoritim tif nbmf of tif blgoritim rfqufstfd.
+     * Sff tif Signbturf sfdtion in tif <b irff=
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#Signbturf">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgoritim nbmfs.
      *
-     * @param provider the name of the provider.
+     * @pbrbm providfr tif nbmf of tif providfr.
      *
-     * @return the new Signature object.
+     * @rfturn tif nfw Signbturf objfdt.
      *
-     * @exception NoSuchAlgorithmException if a SignatureSpi
-     *          implementation for the specified algorithm is not
-     *          available from the specified provider.
+     * @fxdfption NoSudiAlgoritimExdfption if b SignbturfSpi
+     *          implfmfntbtion for tif spfdififd blgoritim is not
+     *          bvbilbblf from tif spfdififd providfr.
      *
-     * @exception NoSuchProviderException if the specified provider is not
-     *          registered in the security provider list.
+     * @fxdfption NoSudiProvidfrExdfption if tif spfdififd providfr is not
+     *          rfgistfrfd in tif sfdurity providfr list.
      *
-     * @exception IllegalArgumentException if the provider name is null
-     *          or empty.
+     * @fxdfption IllfgblArgumfntExdfption if tif providfr nbmf is null
+     *          or fmpty.
      *
-     * @see Provider
+     * @sff Providfr
      */
-    public static Signature getInstance(String algorithm, String provider)
-            throws NoSuchAlgorithmException, NoSuchProviderException {
-        if (algorithm.equalsIgnoreCase(RSA_SIGNATURE)) {
-            // exception compatibility with existing code
-            if ((provider == null) || (provider.length() == 0)) {
-                throw new IllegalArgumentException("missing provider");
+    publid stbtid Signbturf gftInstbndf(String blgoritim, String providfr)
+            tirows NoSudiAlgoritimExdfption, NoSudiProvidfrExdfption {
+        if (blgoritim.fqublsIgnorfCbsf(RSA_SIGNATURE)) {
+            // fxdfption dompbtibility witi fxisting dodf
+            if ((providfr == null) || (providfr.lfngti() == 0)) {
+                tirow nfw IllfgblArgumfntExdfption("missing providfr");
             }
-            Provider p = Security.getProvider(provider);
+            Providfr p = Sfdurity.gftProvidfr(providfr);
             if (p == null) {
-                throw new NoSuchProviderException
-                    ("no such provider: " + provider);
+                tirow nfw NoSudiProvidfrExdfption
+                    ("no sudi providfr: " + providfr);
             }
-            return getInstanceRSA(p);
+            rfturn gftInstbndfRSA(p);
         }
-        Instance instance = GetInstance.getInstance
-                ("Signature", SignatureSpi.class, algorithm, provider);
-        return getInstance(instance, algorithm);
+        Instbndf instbndf = GftInstbndf.gftInstbndf
+                ("Signbturf", SignbturfSpi.dlbss, blgoritim, providfr);
+        rfturn gftInstbndf(instbndf, blgoritim);
     }
 
     /**
-     * Returns a Signature object that implements the specified
-     * signature algorithm.
+     * Rfturns b Signbturf objfdt tibt implfmfnts tif spfdififd
+     * signbturf blgoritim.
      *
-     * <p> A new Signature object encapsulating the
-     * SignatureSpi implementation from the specified Provider
-     * object is returned.  Note that the specified Provider object
-     * does not have to be registered in the provider list.
+     * <p> A nfw Signbturf objfdt fndbpsulbting tif
+     * SignbturfSpi implfmfntbtion from tif spfdififd Providfr
+     * objfdt is rfturnfd.  Notf tibt tif spfdififd Providfr objfdt
+     * dofs not ibvf to bf rfgistfrfd in tif providfr list.
      *
-     * @param algorithm the name of the algorithm requested.
-     * See the Signature section in the <a href=
-     * "{@docRoot}/../technotes/guides/security/StandardNames.html#Signature">
-     * Java Cryptography Architecture Standard Algorithm Name Documentation</a>
-     * for information about standard algorithm names.
+     * @pbrbm blgoritim tif nbmf of tif blgoritim rfqufstfd.
+     * Sff tif Signbturf sfdtion in tif <b irff=
+     * "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml#Signbturf">
+     * Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf Dodumfntbtion</b>
+     * for informbtion bbout stbndbrd blgoritim nbmfs.
      *
-     * @param provider the provider.
+     * @pbrbm providfr tif providfr.
      *
-     * @return the new Signature object.
+     * @rfturn tif nfw Signbturf objfdt.
      *
-     * @exception NoSuchAlgorithmException if a SignatureSpi
-     *          implementation for the specified algorithm is not available
-     *          from the specified Provider object.
+     * @fxdfption NoSudiAlgoritimExdfption if b SignbturfSpi
+     *          implfmfntbtion for tif spfdififd blgoritim is not bvbilbblf
+     *          from tif spfdififd Providfr objfdt.
      *
-     * @exception IllegalArgumentException if the provider is null.
+     * @fxdfption IllfgblArgumfntExdfption if tif providfr is null.
      *
-     * @see Provider
+     * @sff Providfr
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public static Signature getInstance(String algorithm, Provider provider)
-            throws NoSuchAlgorithmException {
-        if (algorithm.equalsIgnoreCase(RSA_SIGNATURE)) {
-            // exception compatibility with existing code
-            if (provider == null) {
-                throw new IllegalArgumentException("missing provider");
+    publid stbtid Signbturf gftInstbndf(String blgoritim, Providfr providfr)
+            tirows NoSudiAlgoritimExdfption {
+        if (blgoritim.fqublsIgnorfCbsf(RSA_SIGNATURE)) {
+            // fxdfption dompbtibility witi fxisting dodf
+            if (providfr == null) {
+                tirow nfw IllfgblArgumfntExdfption("missing providfr");
             }
-            return getInstanceRSA(provider);
+            rfturn gftInstbndfRSA(providfr);
         }
-        Instance instance = GetInstance.getInstance
-                ("Signature", SignatureSpi.class, algorithm, provider);
-        return getInstance(instance, algorithm);
+        Instbndf instbndf = GftInstbndf.gftInstbndf
+                ("Signbturf", SignbturfSpi.dlbss, blgoritim, providfr);
+        rfturn gftInstbndf(instbndf, blgoritim);
     }
 
-    // return an implementation for NONEwithRSA, which is a special case
-    // because of the Cipher.RSA/ECB/PKCS1Padding compatibility wrapper
-    private static Signature getInstanceRSA(Provider p)
-            throws NoSuchAlgorithmException {
-        // try Signature first
-        Service s = p.getService("Signature", RSA_SIGNATURE);
+    // rfturn bn implfmfntbtion for NONEwitiRSA, wiidi is b spfdibl dbsf
+    // bfdbusf of tif Cipifr.RSA/ECB/PKCS1Pbdding dompbtibility wrbppfr
+    privbtf stbtid Signbturf gftInstbndfRSA(Providfr p)
+            tirows NoSudiAlgoritimExdfption {
+        // try Signbturf first
+        Sfrvidf s = p.gftSfrvidf("Signbturf", RSA_SIGNATURE);
         if (s != null) {
-            Instance instance = GetInstance.getInstance(s, SignatureSpi.class);
-            return getInstance(instance, RSA_SIGNATURE);
+            Instbndf instbndf = GftInstbndf.gftInstbndf(s, SignbturfSpi.dlbss);
+            rfturn gftInstbndf(instbndf, RSA_SIGNATURE);
         }
-        // check Cipher
+        // difdk Cipifr
         try {
-            Cipher c = Cipher.getInstance(RSA_CIPHER, p);
-            return new Delegate(new CipherAdapter(c), RSA_SIGNATURE);
-        } catch (GeneralSecurityException e) {
-            // throw Signature style exception message to avoid confusion,
-            // but append Cipher exception as cause
-            throw new NoSuchAlgorithmException("no such algorithm: "
-                + RSA_SIGNATURE + " for provider " + p.getName(), e);
+            Cipifr d = Cipifr.gftInstbndf(RSA_CIPHER, p);
+            rfturn nfw Dflfgbtf(nfw CipifrAdbptfr(d), RSA_SIGNATURE);
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            // tirow Signbturf stylf fxdfption mfssbgf to bvoid donfusion,
+            // but bppfnd Cipifr fxdfption bs dbusf
+            tirow nfw NoSudiAlgoritimExdfption("no sudi blgoritim: "
+                + RSA_SIGNATURE + " for providfr " + p.gftNbmf(), f);
         }
     }
 
     /**
-     * Returns the provider of this signature object.
+     * Rfturns tif providfr of tiis signbturf objfdt.
      *
-     * @return the provider of this signature object
+     * @rfturn tif providfr of tiis signbturf objfdt
      */
-    public final Provider getProvider() {
-        chooseFirstProvider();
-        return this.provider;
+    publid finbl Providfr gftProvidfr() {
+        dioosfFirstProvidfr();
+        rfturn tiis.providfr;
     }
 
-    void chooseFirstProvider() {
-        // empty, overridden in Delegate
-    }
-
-    /**
-     * Initializes this object for verification. If this method is called
-     * again with a different argument, it negates the effect
-     * of this call.
-     *
-     * @param publicKey the public key of the identity whose signature is
-     * going to be verified.
-     *
-     * @exception InvalidKeyException if the key is invalid.
-     */
-    public final void initVerify(PublicKey publicKey)
-            throws InvalidKeyException {
-        engineInitVerify(publicKey);
-        state = VERIFY;
+    void dioosfFirstProvidfr() {
+        // fmpty, ovfrriddfn in Dflfgbtf
     }
 
     /**
-     * Initializes this object for verification, using the public key from
-     * the given certificate.
-     * <p>If the certificate is of type X.509 and has a <i>key usage</i>
-     * extension field marked as critical, and the value of the <i>key usage</i>
-     * extension field implies that the public key in
-     * the certificate and its corresponding private key are not
-     * supposed to be used for digital signatures, an
-     * {@code InvalidKeyException} is thrown.
+     * Initiblizfs tiis objfdt for vfrifidbtion. If tiis mftiod is dbllfd
+     * bgbin witi b difffrfnt brgumfnt, it nfgbtfs tif ffffdt
+     * of tiis dbll.
      *
-     * @param certificate the certificate of the identity whose signature is
-     * going to be verified.
+     * @pbrbm publidKfy tif publid kfy of tif idfntity wiosf signbturf is
+     * going to bf vfrififd.
      *
-     * @exception InvalidKeyException  if the public key in the certificate
-     * is not encoded properly or does not include required  parameter
-     * information or cannot be used for digital signature purposes.
-     * @since 1.3
+     * @fxdfption InvblidKfyExdfption if tif kfy is invblid.
      */
-    public final void initVerify(Certificate certificate)
-            throws InvalidKeyException {
-        // If the certificate is of type X509Certificate,
-        // we should check whether it has a Key Usage
-        // extension marked as critical.
-        if (certificate instanceof java.security.cert.X509Certificate) {
-            // Check whether the cert has a key usage extension
-            // marked as a critical extension.
-            // The OID for KeyUsage extension is 2.5.29.15.
-            X509Certificate cert = (X509Certificate)certificate;
-            Set<String> critSet = cert.getCriticalExtensionOIDs();
+    publid finbl void initVfrify(PublidKfy publidKfy)
+            tirows InvblidKfyExdfption {
+        fnginfInitVfrify(publidKfy);
+        stbtf = VERIFY;
+    }
 
-            if (critSet != null && !critSet.isEmpty()
-                && critSet.contains("2.5.29.15")) {
-                boolean[] keyUsageInfo = cert.getKeyUsage();
-                // keyUsageInfo[0] is for digitalSignature.
-                if ((keyUsageInfo != null) && (keyUsageInfo[0] == false))
-                    throw new InvalidKeyException("Wrong key usage");
+    /**
+     * Initiblizfs tiis objfdt for vfrifidbtion, using tif publid kfy from
+     * tif givfn dfrtifidbtf.
+     * <p>If tif dfrtifidbtf is of typf X.509 bnd ibs b <i>kfy usbgf</i>
+     * fxtfnsion fifld mbrkfd bs dritidbl, bnd tif vbluf of tif <i>kfy usbgf</i>
+     * fxtfnsion fifld implifs tibt tif publid kfy in
+     * tif dfrtifidbtf bnd its dorrfsponding privbtf kfy brf not
+     * supposfd to bf usfd for digitbl signbturfs, bn
+     * {@dodf InvblidKfyExdfption} is tirown.
+     *
+     * @pbrbm dfrtifidbtf tif dfrtifidbtf of tif idfntity wiosf signbturf is
+     * going to bf vfrififd.
+     *
+     * @fxdfption InvblidKfyExdfption  if tif publid kfy in tif dfrtifidbtf
+     * is not fndodfd propfrly or dofs not indludf rfquirfd  pbrbmftfr
+     * informbtion or dbnnot bf usfd for digitbl signbturf purposfs.
+     * @sindf 1.3
+     */
+    publid finbl void initVfrify(Cfrtifidbtf dfrtifidbtf)
+            tirows InvblidKfyExdfption {
+        // If tif dfrtifidbtf is of typf X509Cfrtifidbtf,
+        // wf siould difdk wiftifr it ibs b Kfy Usbgf
+        // fxtfnsion mbrkfd bs dritidbl.
+        if (dfrtifidbtf instbndfof jbvb.sfdurity.dfrt.X509Cfrtifidbtf) {
+            // Cifdk wiftifr tif dfrt ibs b kfy usbgf fxtfnsion
+            // mbrkfd bs b dritidbl fxtfnsion.
+            // Tif OID for KfyUsbgf fxtfnsion is 2.5.29.15.
+            X509Cfrtifidbtf dfrt = (X509Cfrtifidbtf)dfrtifidbtf;
+            Sft<String> dritSft = dfrt.gftCritidblExtfnsionOIDs();
+
+            if (dritSft != null && !dritSft.isEmpty()
+                && dritSft.dontbins("2.5.29.15")) {
+                boolfbn[] kfyUsbgfInfo = dfrt.gftKfyUsbgf();
+                // kfyUsbgfInfo[0] is for digitblSignbturf.
+                if ((kfyUsbgfInfo != null) && (kfyUsbgfInfo[0] == fblsf))
+                    tirow nfw InvblidKfyExdfption("Wrong kfy usbgf");
             }
         }
 
-        PublicKey publicKey = certificate.getPublicKey();
-        engineInitVerify(publicKey);
-        state = VERIFY;
+        PublidKfy publidKfy = dfrtifidbtf.gftPublidKfy();
+        fnginfInitVfrify(publidKfy);
+        stbtf = VERIFY;
     }
 
     /**
-     * Initialize this object for signing. If this method is called
-     * again with a different argument, it negates the effect
-     * of this call.
+     * Initiblizf tiis objfdt for signing. If tiis mftiod is dbllfd
+     * bgbin witi b difffrfnt brgumfnt, it nfgbtfs tif ffffdt
+     * of tiis dbll.
      *
-     * @param privateKey the private key of the identity whose signature
-     * is going to be generated.
+     * @pbrbm privbtfKfy tif privbtf kfy of tif idfntity wiosf signbturf
+     * is going to bf gfnfrbtfd.
      *
-     * @exception InvalidKeyException if the key is invalid.
+     * @fxdfption InvblidKfyExdfption if tif kfy is invblid.
      */
-    public final void initSign(PrivateKey privateKey)
-            throws InvalidKeyException {
-        engineInitSign(privateKey);
-        state = SIGN;
+    publid finbl void initSign(PrivbtfKfy privbtfKfy)
+            tirows InvblidKfyExdfption {
+        fnginfInitSign(privbtfKfy);
+        stbtf = SIGN;
     }
 
     /**
-     * Initialize this object for signing. If this method is called
-     * again with a different argument, it negates the effect
-     * of this call.
+     * Initiblizf tiis objfdt for signing. If tiis mftiod is dbllfd
+     * bgbin witi b difffrfnt brgumfnt, it nfgbtfs tif ffffdt
+     * of tiis dbll.
      *
-     * @param privateKey the private key of the identity whose signature
-     * is going to be generated.
+     * @pbrbm privbtfKfy tif privbtf kfy of tif idfntity wiosf signbturf
+     * is going to bf gfnfrbtfd.
      *
-     * @param random the source of randomness for this signature.
+     * @pbrbm rbndom tif sourdf of rbndomnfss for tiis signbturf.
      *
-     * @exception InvalidKeyException if the key is invalid.
+     * @fxdfption InvblidKfyExdfption if tif kfy is invblid.
      */
-    public final void initSign(PrivateKey privateKey, SecureRandom random)
-            throws InvalidKeyException {
-        engineInitSign(privateKey, random);
-        state = SIGN;
+    publid finbl void initSign(PrivbtfKfy privbtfKfy, SfdurfRbndom rbndom)
+            tirows InvblidKfyExdfption {
+        fnginfInitSign(privbtfKfy, rbndom);
+        stbtf = SIGN;
     }
 
     /**
-     * Returns the signature bytes of all the data updated.
-     * The format of the signature depends on the underlying
-     * signature scheme.
+     * Rfturns tif signbturf bytfs of bll tif dbtb updbtfd.
+     * Tif formbt of tif signbturf dfpfnds on tif undfrlying
+     * signbturf sdifmf.
      *
-     * <p>A call to this method resets this signature object to the state
-     * it was in when previously initialized for signing via a
-     * call to {@code initSign(PrivateKey)}. That is, the object is
-     * reset and available to generate another signature from the same
-     * signer, if desired, via new calls to {@code update} and
-     * {@code sign}.
+     * <p>A dbll to tiis mftiod rfsfts tiis signbturf objfdt to tif stbtf
+     * it wbs in wifn prfviously initiblizfd for signing vib b
+     * dbll to {@dodf initSign(PrivbtfKfy)}. Tibt is, tif objfdt is
+     * rfsft bnd bvbilbblf to gfnfrbtf bnotifr signbturf from tif sbmf
+     * signfr, if dfsirfd, vib nfw dblls to {@dodf updbtf} bnd
+     * {@dodf sign}.
      *
-     * @return the signature bytes of the signing operation's result.
+     * @rfturn tif signbturf bytfs of tif signing opfrbtion's rfsult.
      *
-     * @exception SignatureException if this signature object is not
-     * initialized properly or if this signature algorithm is unable to
-     * process the input data provided.
+     * @fxdfption SignbturfExdfption if tiis signbturf objfdt is not
+     * initiblizfd propfrly or if tiis signbturf blgoritim is unbblf to
+     * prodfss tif input dbtb providfd.
      */
-    public final byte[] sign() throws SignatureException {
-        if (state == SIGN) {
-            return engineSign();
+    publid finbl bytf[] sign() tirows SignbturfExdfption {
+        if (stbtf == SIGN) {
+            rfturn fnginfSign();
         }
-        throw new SignatureException("object not initialized for " +
+        tirow nfw SignbturfExdfption("objfdt not initiblizfd for " +
                                      "signing");
     }
 
     /**
-     * Finishes the signature operation and stores the resulting signature
-     * bytes in the provided buffer {@code outbuf}, starting at
-     * {@code offset}.
-     * The format of the signature depends on the underlying
-     * signature scheme.
+     * Finisifs tif signbturf opfrbtion bnd storfs tif rfsulting signbturf
+     * bytfs in tif providfd bufffr {@dodf outbuf}, stbrting bt
+     * {@dodf offsft}.
+     * Tif formbt of tif signbturf dfpfnds on tif undfrlying
+     * signbturf sdifmf.
      *
-     * <p>This signature object is reset to its initial state (the state it
-     * was in after a call to one of the {@code initSign} methods) and
-     * can be reused to generate further signatures with the same private key.
+     * <p>Tiis signbturf objfdt is rfsft to its initibl stbtf (tif stbtf it
+     * wbs in bftfr b dbll to onf of tif {@dodf initSign} mftiods) bnd
+     * dbn bf rfusfd to gfnfrbtf furtifr signbturfs witi tif sbmf privbtf kfy.
      *
-     * @param outbuf buffer for the signature result.
+     * @pbrbm outbuf bufffr for tif signbturf rfsult.
      *
-     * @param offset offset into {@code outbuf} where the signature is
-     * stored.
+     * @pbrbm offsft offsft into {@dodf outbuf} wifrf tif signbturf is
+     * storfd.
      *
-     * @param len number of bytes within {@code outbuf} allotted for the
-     * signature.
+     * @pbrbm lfn numbfr of bytfs witiin {@dodf outbuf} bllottfd for tif
+     * signbturf.
      *
-     * @return the number of bytes placed into {@code outbuf}.
+     * @rfturn tif numbfr of bytfs plbdfd into {@dodf outbuf}.
      *
-     * @exception SignatureException if this signature object is not
-     * initialized properly, if this signature algorithm is unable to
-     * process the input data provided, or if {@code len} is less
-     * than the actual signature length.
+     * @fxdfption SignbturfExdfption if tiis signbturf objfdt is not
+     * initiblizfd propfrly, if tiis signbturf blgoritim is unbblf to
+     * prodfss tif input dbtb providfd, or if {@dodf lfn} is lfss
+     * tibn tif bdtubl signbturf lfngti.
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-    public final int sign(byte[] outbuf, int offset, int len)
-        throws SignatureException {
+    publid finbl int sign(bytf[] outbuf, int offsft, int lfn)
+        tirows SignbturfExdfption {
         if (outbuf == null) {
-            throw new IllegalArgumentException("No output buffer given");
+            tirow nfw IllfgblArgumfntExdfption("No output bufffr givfn");
         }
-        if (outbuf.length - offset < len) {
-            throw new IllegalArgumentException
-                ("Output buffer too small for specified offset and length");
+        if (outbuf.lfngti - offsft < lfn) {
+            tirow nfw IllfgblArgumfntExdfption
+                ("Output bufffr too smbll for spfdififd offsft bnd lfngti");
         }
-        if (state != SIGN) {
-            throw new SignatureException("object not initialized for " +
+        if (stbtf != SIGN) {
+            tirow nfw SignbturfExdfption("objfdt not initiblizfd for " +
                                          "signing");
         }
-        return engineSign(outbuf, offset, len);
+        rfturn fnginfSign(outbuf, offsft, lfn);
     }
 
     /**
-     * Verifies the passed-in signature.
+     * Vfrififs tif pbssfd-in signbturf.
      *
-     * <p>A call to this method resets this signature object to the state
-     * it was in when previously initialized for verification via a
-     * call to {@code initVerify(PublicKey)}. That is, the object is
-     * reset and available to verify another signature from the identity
-     * whose public key was specified in the call to {@code initVerify}.
+     * <p>A dbll to tiis mftiod rfsfts tiis signbturf objfdt to tif stbtf
+     * it wbs in wifn prfviously initiblizfd for vfrifidbtion vib b
+     * dbll to {@dodf initVfrify(PublidKfy)}. Tibt is, tif objfdt is
+     * rfsft bnd bvbilbblf to vfrify bnotifr signbturf from tif idfntity
+     * wiosf publid kfy wbs spfdififd in tif dbll to {@dodf initVfrify}.
      *
-     * @param signature the signature bytes to be verified.
+     * @pbrbm signbturf tif signbturf bytfs to bf vfrififd.
      *
-     * @return true if the signature was verified, false if not.
+     * @rfturn truf if tif signbturf wbs vfrififd, fblsf if not.
      *
-     * @exception SignatureException if this signature object is not
-     * initialized properly, the passed-in signature is improperly
-     * encoded or of the wrong type, if this signature algorithm is unable to
-     * process the input data provided, etc.
+     * @fxdfption SignbturfExdfption if tiis signbturf objfdt is not
+     * initiblizfd propfrly, tif pbssfd-in signbturf is impropfrly
+     * fndodfd or of tif wrong typf, if tiis signbturf blgoritim is unbblf to
+     * prodfss tif input dbtb providfd, ftd.
      */
-    public final boolean verify(byte[] signature) throws SignatureException {
-        if (state == VERIFY) {
-            return engineVerify(signature);
+    publid finbl boolfbn vfrify(bytf[] signbturf) tirows SignbturfExdfption {
+        if (stbtf == VERIFY) {
+            rfturn fnginfVfrify(signbturf);
         }
-        throw new SignatureException("object not initialized for " +
-                                     "verification");
+        tirow nfw SignbturfExdfption("objfdt not initiblizfd for " +
+                                     "vfrifidbtion");
     }
 
     /**
-     * Verifies the passed-in signature in the specified array
-     * of bytes, starting at the specified offset.
+     * Vfrififs tif pbssfd-in signbturf in tif spfdififd brrby
+     * of bytfs, stbrting bt tif spfdififd offsft.
      *
-     * <p>A call to this method resets this signature object to the state
-     * it was in when previously initialized for verification via a
-     * call to {@code initVerify(PublicKey)}. That is, the object is
-     * reset and available to verify another signature from the identity
-     * whose public key was specified in the call to {@code initVerify}.
+     * <p>A dbll to tiis mftiod rfsfts tiis signbturf objfdt to tif stbtf
+     * it wbs in wifn prfviously initiblizfd for vfrifidbtion vib b
+     * dbll to {@dodf initVfrify(PublidKfy)}. Tibt is, tif objfdt is
+     * rfsft bnd bvbilbblf to vfrify bnotifr signbturf from tif idfntity
+     * wiosf publid kfy wbs spfdififd in tif dbll to {@dodf initVfrify}.
      *
      *
-     * @param signature the signature bytes to be verified.
-     * @param offset the offset to start from in the array of bytes.
-     * @param length the number of bytes to use, starting at offset.
+     * @pbrbm signbturf tif signbturf bytfs to bf vfrififd.
+     * @pbrbm offsft tif offsft to stbrt from in tif brrby of bytfs.
+     * @pbrbm lfngti tif numbfr of bytfs to usf, stbrting bt offsft.
      *
-     * @return true if the signature was verified, false if not.
+     * @rfturn truf if tif signbturf wbs vfrififd, fblsf if not.
      *
-     * @exception SignatureException if this signature object is not
-     * initialized properly, the passed-in signature is improperly
-     * encoded or of the wrong type, if this signature algorithm is unable to
-     * process the input data provided, etc.
-     * @exception IllegalArgumentException if the {@code signature}
-     * byte array is null, or the {@code offset} or {@code length}
-     * is less than 0, or the sum of the {@code offset} and
-     * {@code length} is greater than the length of the
-     * {@code signature} byte array.
-     * @since 1.4
+     * @fxdfption SignbturfExdfption if tiis signbturf objfdt is not
+     * initiblizfd propfrly, tif pbssfd-in signbturf is impropfrly
+     * fndodfd or of tif wrong typf, if tiis signbturf blgoritim is unbblf to
+     * prodfss tif input dbtb providfd, ftd.
+     * @fxdfption IllfgblArgumfntExdfption if tif {@dodf signbturf}
+     * bytf brrby is null, or tif {@dodf offsft} or {@dodf lfngti}
+     * is lfss tibn 0, or tif sum of tif {@dodf offsft} bnd
+     * {@dodf lfngti} is grfbtfr tibn tif lfngti of tif
+     * {@dodf signbturf} bytf brrby.
+     * @sindf 1.4
      */
-    public final boolean verify(byte[] signature, int offset, int length)
-        throws SignatureException {
-        if (state == VERIFY) {
-            if ((signature == null) || (offset < 0) || (length < 0) ||
-                (length > signature.length - offset)) {
-                throw new IllegalArgumentException("Bad arguments");
+    publid finbl boolfbn vfrify(bytf[] signbturf, int offsft, int lfngti)
+        tirows SignbturfExdfption {
+        if (stbtf == VERIFY) {
+            if ((signbturf == null) || (offsft < 0) || (lfngti < 0) ||
+                (lfngti > signbturf.lfngti - offsft)) {
+                tirow nfw IllfgblArgumfntExdfption("Bbd brgumfnts");
             }
 
-            return engineVerify(signature, offset, length);
+            rfturn fnginfVfrify(signbturf, offsft, lfngti);
         }
-        throw new SignatureException("object not initialized for " +
-                                     "verification");
+        tirow nfw SignbturfExdfption("objfdt not initiblizfd for " +
+                                     "vfrifidbtion");
     }
 
     /**
-     * Updates the data to be signed or verified by a byte.
+     * Updbtfs tif dbtb to bf signfd or vfrififd by b bytf.
      *
-     * @param b the byte to use for the update.
+     * @pbrbm b tif bytf to usf for tif updbtf.
      *
-     * @exception SignatureException if this signature object is not
-     * initialized properly.
+     * @fxdfption SignbturfExdfption if tiis signbturf objfdt is not
+     * initiblizfd propfrly.
      */
-    public final void update(byte b) throws SignatureException {
-        if (state == VERIFY || state == SIGN) {
-            engineUpdate(b);
-        } else {
-            throw new SignatureException("object not initialized for "
-                                         + "signature or verification");
-        }
-    }
-
-    /**
-     * Updates the data to be signed or verified, using the specified
-     * array of bytes.
-     *
-     * @param data the byte array to use for the update.
-     *
-     * @exception SignatureException if this signature object is not
-     * initialized properly.
-     */
-    public final void update(byte[] data) throws SignatureException {
-        update(data, 0, data.length);
-    }
-
-    /**
-     * Updates the data to be signed or verified, using the specified
-     * array of bytes, starting at the specified offset.
-     *
-     * @param data the array of bytes.
-     * @param off the offset to start from in the array of bytes.
-     * @param len the number of bytes to use, starting at offset.
-     *
-     * @exception SignatureException if this signature object is not
-     * initialized properly.
-     */
-    public final void update(byte[] data, int off, int len)
-            throws SignatureException {
-        if (state == SIGN || state == VERIFY) {
-            engineUpdate(data, off, len);
-        } else {
-            throw new SignatureException("object not initialized for "
-                                         + "signature or verification");
+    publid finbl void updbtf(bytf b) tirows SignbturfExdfption {
+        if (stbtf == VERIFY || stbtf == SIGN) {
+            fnginfUpdbtf(b);
+        } flsf {
+            tirow nfw SignbturfExdfption("objfdt not initiblizfd for "
+                                         + "signbturf or vfrifidbtion");
         }
     }
 
     /**
-     * Updates the data to be signed or verified using the specified
-     * ByteBuffer. Processes the {@code data.remaining()} bytes
-     * starting at at {@code data.position()}.
-     * Upon return, the buffer's position will be equal to its limit;
-     * its limit will not have changed.
+     * Updbtfs tif dbtb to bf signfd or vfrififd, using tif spfdififd
+     * brrby of bytfs.
      *
-     * @param data the ByteBuffer
+     * @pbrbm dbtb tif bytf brrby to usf for tif updbtf.
      *
-     * @exception SignatureException if this signature object is not
-     * initialized properly.
-     * @since 1.5
+     * @fxdfption SignbturfExdfption if tiis signbturf objfdt is not
+     * initiblizfd propfrly.
      */
-    public final void update(ByteBuffer data) throws SignatureException {
-        if ((state != SIGN) && (state != VERIFY)) {
-            throw new SignatureException("object not initialized for "
-                                         + "signature or verification");
+    publid finbl void updbtf(bytf[] dbtb) tirows SignbturfExdfption {
+        updbtf(dbtb, 0, dbtb.lfngti);
+    }
+
+    /**
+     * Updbtfs tif dbtb to bf signfd or vfrififd, using tif spfdififd
+     * brrby of bytfs, stbrting bt tif spfdififd offsft.
+     *
+     * @pbrbm dbtb tif brrby of bytfs.
+     * @pbrbm off tif offsft to stbrt from in tif brrby of bytfs.
+     * @pbrbm lfn tif numbfr of bytfs to usf, stbrting bt offsft.
+     *
+     * @fxdfption SignbturfExdfption if tiis signbturf objfdt is not
+     * initiblizfd propfrly.
+     */
+    publid finbl void updbtf(bytf[] dbtb, int off, int lfn)
+            tirows SignbturfExdfption {
+        if (stbtf == SIGN || stbtf == VERIFY) {
+            fnginfUpdbtf(dbtb, off, lfn);
+        } flsf {
+            tirow nfw SignbturfExdfption("objfdt not initiblizfd for "
+                                         + "signbturf or vfrifidbtion");
         }
-        if (data == null) {
-            throw new NullPointerException();
+    }
+
+    /**
+     * Updbtfs tif dbtb to bf signfd or vfrififd using tif spfdififd
+     * BytfBufffr. Prodfssfs tif {@dodf dbtb.rfmbining()} bytfs
+     * stbrting bt bt {@dodf dbtb.position()}.
+     * Upon rfturn, tif bufffr's position will bf fqubl to its limit;
+     * its limit will not ibvf dibngfd.
+     *
+     * @pbrbm dbtb tif BytfBufffr
+     *
+     * @fxdfption SignbturfExdfption if tiis signbturf objfdt is not
+     * initiblizfd propfrly.
+     * @sindf 1.5
+     */
+    publid finbl void updbtf(BytfBufffr dbtb) tirows SignbturfExdfption {
+        if ((stbtf != SIGN) && (stbtf != VERIFY)) {
+            tirow nfw SignbturfExdfption("objfdt not initiblizfd for "
+                                         + "signbturf or vfrifidbtion");
         }
-        engineUpdate(data);
-    }
-
-    /**
-     * Returns the name of the algorithm for this signature object.
-     *
-     * @return the name of the algorithm for this signature object.
-     */
-    public final String getAlgorithm() {
-        return this.algorithm;
-    }
-
-    /**
-     * Returns a string representation of this signature object,
-     * providing information that includes the state of the object
-     * and the name of the algorithm used.
-     *
-     * @return a string representation of this signature object.
-     */
-    public String toString() {
-        String initState = "";
-        switch (state) {
-        case UNINITIALIZED:
-            initState = "<not initialized>";
-            break;
-        case VERIFY:
-            initState = "<initialized for verifying>";
-            break;
-        case SIGN:
-            initState = "<initialized for signing>";
-            break;
+        if (dbtb == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        return "Signature object: " + getAlgorithm() + initState;
+        fnginfUpdbtf(dbtb);
     }
 
     /**
-     * Sets the specified algorithm parameter to the specified value.
-     * This method supplies a general-purpose mechanism through
-     * which it is possible to set the various parameters of this object.
-     * A parameter may be any settable parameter for the algorithm, such as
-     * a parameter size, or a source of random bits for signature generation
-     * (if appropriate), or an indication of whether or not to perform
-     * a specific but optional computation. A uniform algorithm-specific
-     * naming scheme for each parameter is desirable but left unspecified
-     * at this time.
+     * Rfturns tif nbmf of tif blgoritim for tiis signbturf objfdt.
      *
-     * @param param the string identifier of the parameter.
-     * @param value the parameter value.
-     *
-     * @exception InvalidParameterException if {@code param} is an
-     * invalid parameter for this signature algorithm engine,
-     * the parameter is already set
-     * and cannot be set again, a security exception occurs, and so on.
-     *
-     * @see #getParameter
-     *
-     * @deprecated Use
-     * {@link #setParameter(java.security.spec.AlgorithmParameterSpec)
-     * setParameter}.
+     * @rfturn tif nbmf of tif blgoritim for tiis signbturf objfdt.
      */
-    @Deprecated
-    public final void setParameter(String param, Object value)
-            throws InvalidParameterException {
-        engineSetParameter(param, value);
+    publid finbl String gftAlgoritim() {
+        rfturn tiis.blgoritim;
     }
 
     /**
-     * Initializes this signature engine with the specified parameter set.
+     * Rfturns b string rfprfsfntbtion of tiis signbturf objfdt,
+     * providing informbtion tibt indludfs tif stbtf of tif objfdt
+     * bnd tif nbmf of tif blgoritim usfd.
      *
-     * @param params the parameters
-     *
-     * @exception InvalidAlgorithmParameterException if the given parameters
-     * are inappropriate for this signature engine
-     *
-     * @see #getParameters
+     * @rfturn b string rfprfsfntbtion of tiis signbturf objfdt.
      */
-    public final void setParameter(AlgorithmParameterSpec params)
-            throws InvalidAlgorithmParameterException {
-        engineSetParameter(params);
+    publid String toString() {
+        String initStbtf = "";
+        switdi (stbtf) {
+        dbsf UNINITIALIZED:
+            initStbtf = "<not initiblizfd>";
+            brfbk;
+        dbsf VERIFY:
+            initStbtf = "<initiblizfd for vfrifying>";
+            brfbk;
+        dbsf SIGN:
+            initStbtf = "<initiblizfd for signing>";
+            brfbk;
+        }
+        rfturn "Signbturf objfdt: " + gftAlgoritim() + initStbtf;
     }
 
     /**
-     * Returns the parameters used with this signature object.
+     * Sfts tif spfdififd blgoritim pbrbmftfr to tif spfdififd vbluf.
+     * Tiis mftiod supplifs b gfnfrbl-purposf mfdibnism tirougi
+     * wiidi it is possiblf to sft tif vbrious pbrbmftfrs of tiis objfdt.
+     * A pbrbmftfr mby bf bny sfttbblf pbrbmftfr for tif blgoritim, sudi bs
+     * b pbrbmftfr sizf, or b sourdf of rbndom bits for signbturf gfnfrbtion
+     * (if bppropribtf), or bn indidbtion of wiftifr or not to pfrform
+     * b spfdifid but optionbl domputbtion. A uniform blgoritim-spfdifid
+     * nbming sdifmf for fbdi pbrbmftfr is dfsirbblf but lfft unspfdififd
+     * bt tiis timf.
      *
-     * <p>The returned parameters may be the same that were used to initialize
-     * this signature, or may contain a combination of default and randomly
-     * generated parameter values used by the underlying signature
-     * implementation if this signature requires algorithm parameters but
-     * was not initialized with any.
+     * @pbrbm pbrbm tif string idfntififr of tif pbrbmftfr.
+     * @pbrbm vbluf tif pbrbmftfr vbluf.
      *
-     * @return the parameters used with this signature, or null if this
-     * signature does not use any parameters.
+     * @fxdfption InvblidPbrbmftfrExdfption if {@dodf pbrbm} is bn
+     * invblid pbrbmftfr for tiis signbturf blgoritim fnginf,
+     * tif pbrbmftfr is blrfbdy sft
+     * bnd dbnnot bf sft bgbin, b sfdurity fxdfption oddurs, bnd so on.
      *
-     * @see #setParameter(AlgorithmParameterSpec)
-     * @since 1.4
+     * @sff #gftPbrbmftfr
+     *
+     * @dfprfdbtfd Usf
+     * {@link #sftPbrbmftfr(jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd)
+     * sftPbrbmftfr}.
      */
-    public final AlgorithmParameters getParameters() {
-        return engineGetParameters();
+    @Dfprfdbtfd
+    publid finbl void sftPbrbmftfr(String pbrbm, Objfdt vbluf)
+            tirows InvblidPbrbmftfrExdfption {
+        fnginfSftPbrbmftfr(pbrbm, vbluf);
     }
 
     /**
-     * Gets the value of the specified algorithm parameter. This method
-     * supplies a general-purpose mechanism through which it is possible to
-     * get the various parameters of this object. A parameter may be any
-     * settable parameter for the algorithm, such as a parameter size, or
-     * a source of random bits for signature generation (if appropriate),
-     * or an indication of whether or not to perform a specific but optional
-     * computation. A uniform algorithm-specific naming scheme for each
-     * parameter is desirable but left unspecified at this time.
+     * Initiblizfs tiis signbturf fnginf witi tif spfdififd pbrbmftfr sft.
      *
-     * @param param the string name of the parameter.
+     * @pbrbm pbrbms tif pbrbmftfrs
      *
-     * @return the object that represents the parameter value, or null if
-     * there is none.
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn pbrbmftfrs
+     * brf inbppropribtf for tiis signbturf fnginf
      *
-     * @exception InvalidParameterException if {@code param} is an invalid
-     * parameter for this engine, or another exception occurs while
-     * trying to get this parameter.
-     *
-     * @see #setParameter(String, Object)
-     *
-     * @deprecated
+     * @sff #gftPbrbmftfrs
      */
-    @Deprecated
-    public final Object getParameter(String param)
-            throws InvalidParameterException {
-        return engineGetParameter(param);
+    publid finbl void sftPbrbmftfr(AlgoritimPbrbmftfrSpfd pbrbms)
+            tirows InvblidAlgoritimPbrbmftfrExdfption {
+        fnginfSftPbrbmftfr(pbrbms);
     }
 
     /**
-     * Returns a clone if the implementation is cloneable.
+     * Rfturns tif pbrbmftfrs usfd witi tiis signbturf objfdt.
      *
-     * @return a clone if the implementation is cloneable.
+     * <p>Tif rfturnfd pbrbmftfrs mby bf tif sbmf tibt wfrf usfd to initiblizf
+     * tiis signbturf, or mby dontbin b dombinbtion of dffbult bnd rbndomly
+     * gfnfrbtfd pbrbmftfr vblufs usfd by tif undfrlying signbturf
+     * implfmfntbtion if tiis signbturf rfquirfs blgoritim pbrbmftfrs but
+     * wbs not initiblizfd witi bny.
      *
-     * @exception CloneNotSupportedException if this is called
-     * on an implementation that does not support {@code Cloneable}.
+     * @rfturn tif pbrbmftfrs usfd witi tiis signbturf, or null if tiis
+     * signbturf dofs not usf bny pbrbmftfrs.
+     *
+     * @sff #sftPbrbmftfr(AlgoritimPbrbmftfrSpfd)
+     * @sindf 1.4
      */
-    public Object clone() throws CloneNotSupportedException {
-        if (this instanceof Cloneable) {
-            return super.clone();
-        } else {
-            throw new CloneNotSupportedException();
+    publid finbl AlgoritimPbrbmftfrs gftPbrbmftfrs() {
+        rfturn fnginfGftPbrbmftfrs();
+    }
+
+    /**
+     * Gfts tif vbluf of tif spfdififd blgoritim pbrbmftfr. Tiis mftiod
+     * supplifs b gfnfrbl-purposf mfdibnism tirougi wiidi it is possiblf to
+     * gft tif vbrious pbrbmftfrs of tiis objfdt. A pbrbmftfr mby bf bny
+     * sfttbblf pbrbmftfr for tif blgoritim, sudi bs b pbrbmftfr sizf, or
+     * b sourdf of rbndom bits for signbturf gfnfrbtion (if bppropribtf),
+     * or bn indidbtion of wiftifr or not to pfrform b spfdifid but optionbl
+     * domputbtion. A uniform blgoritim-spfdifid nbming sdifmf for fbdi
+     * pbrbmftfr is dfsirbblf but lfft unspfdififd bt tiis timf.
+     *
+     * @pbrbm pbrbm tif string nbmf of tif pbrbmftfr.
+     *
+     * @rfturn tif objfdt tibt rfprfsfnts tif pbrbmftfr vbluf, or null if
+     * tifrf is nonf.
+     *
+     * @fxdfption InvblidPbrbmftfrExdfption if {@dodf pbrbm} is bn invblid
+     * pbrbmftfr for tiis fnginf, or bnotifr fxdfption oddurs wiilf
+     * trying to gft tiis pbrbmftfr.
+     *
+     * @sff #sftPbrbmftfr(String, Objfdt)
+     *
+     * @dfprfdbtfd
+     */
+    @Dfprfdbtfd
+    publid finbl Objfdt gftPbrbmftfr(String pbrbm)
+            tirows InvblidPbrbmftfrExdfption {
+        rfturn fnginfGftPbrbmftfr(pbrbm);
+    }
+
+    /**
+     * Rfturns b dlonf if tif implfmfntbtion is dlonfbblf.
+     *
+     * @rfturn b dlonf if tif implfmfntbtion is dlonfbblf.
+     *
+     * @fxdfption ClonfNotSupportfdExdfption if tiis is dbllfd
+     * on bn implfmfntbtion tibt dofs not support {@dodf Clonfbblf}.
+     */
+    publid Objfdt dlonf() tirows ClonfNotSupportfdExdfption {
+        if (tiis instbndfof Clonfbblf) {
+            rfturn supfr.dlonf();
+        } flsf {
+            tirow nfw ClonfNotSupportfdExdfption();
         }
     }
 
     /*
-     * The following class allows providers to extend from SignatureSpi
-     * rather than from Signature. It represents a Signature with an
-     * encapsulated, provider-supplied SPI object (of type SignatureSpi).
-     * If the provider implementation is an instance of SignatureSpi, the
-     * getInstance() methods above return an instance of this class, with
-     * the SPI object encapsulated.
+     * Tif following dlbss bllows providfrs to fxtfnd from SignbturfSpi
+     * rbtifr tibn from Signbturf. It rfprfsfnts b Signbturf witi bn
+     * fndbpsulbtfd, providfr-supplifd SPI objfdt (of typf SignbturfSpi).
+     * If tif providfr implfmfntbtion is bn instbndf of SignbturfSpi, tif
+     * gftInstbndf() mftiods bbovf rfturn bn instbndf of tiis dlbss, witi
+     * tif SPI objfdt fndbpsulbtfd.
      *
-     * Note: All SPI methods from the original Signature class have been
-     * moved up the hierarchy into a new class (SignatureSpi), which has
-     * been interposed in the hierarchy between the API (Signature)
-     * and its original parent (Object).
+     * Notf: All SPI mftiods from tif originbl Signbturf dlbss ibvf bffn
+     * movfd up tif iifrbrdiy into b nfw dlbss (SignbturfSpi), wiidi ibs
+     * bffn intfrposfd in tif iifrbrdiy bftwffn tif API (Signbturf)
+     * bnd its originbl pbrfnt (Objfdt).
      */
 
-    @SuppressWarnings("deprecation")
-    private static class Delegate extends Signature {
+    @SupprfssWbrnings("dfprfdbtion")
+    privbtf stbtid dlbss Dflfgbtf fxtfnds Signbturf {
 
-        // The provider implementation (delegate)
-        // filled in once the provider is selected
-        private SignatureSpi sigSpi;
+        // Tif providfr implfmfntbtion (dflfgbtf)
+        // fillfd in ondf tif providfr is sflfdtfd
+        privbtf SignbturfSpi sigSpi;
 
-        // lock for mutex during provider selection
-        private final Object lock;
+        // lodk for mutfx during providfr sflfdtion
+        privbtf finbl Objfdt lodk;
 
-        // next service to try in provider selection
-        // null once provider is selected
-        private Service firstService;
+        // nfxt sfrvidf to try in providfr sflfdtion
+        // null ondf providfr is sflfdtfd
+        privbtf Sfrvidf firstSfrvidf;
 
-        // remaining services to try in provider selection
-        // null once provider is selected
-        private Iterator<Service> serviceIterator;
+        // rfmbining sfrvidfs to try in providfr sflfdtion
+        // null ondf providfr is sflfdtfd
+        privbtf Itfrbtor<Sfrvidf> sfrvidfItfrbtor;
 
-        // constructor
-        Delegate(SignatureSpi sigSpi, String algorithm) {
-            super(algorithm);
-            this.sigSpi = sigSpi;
-            this.lock = null; // no lock needed
+        // donstrudtor
+        Dflfgbtf(SignbturfSpi sigSpi, String blgoritim) {
+            supfr(blgoritim);
+            tiis.sigSpi = sigSpi;
+            tiis.lodk = null; // no lodk nffdfd
         }
 
-        // used with delayed provider selection
-        Delegate(Service service,
-                        Iterator<Service> iterator, String algorithm) {
-            super(algorithm);
-            this.firstService = service;
-            this.serviceIterator = iterator;
-            this.lock = new Object();
+        // usfd witi dflbyfd providfr sflfdtion
+        Dflfgbtf(Sfrvidf sfrvidf,
+                        Itfrbtor<Sfrvidf> itfrbtor, String blgoritim) {
+            supfr(blgoritim);
+            tiis.firstSfrvidf = sfrvidf;
+            tiis.sfrvidfItfrbtor = itfrbtor;
+            tiis.lodk = nfw Objfdt();
         }
 
         /**
-         * Returns a clone if the delegate is cloneable.
+         * Rfturns b dlonf if tif dflfgbtf is dlonfbblf.
          *
-         * @return a clone if the delegate is cloneable.
+         * @rfturn b dlonf if tif dflfgbtf is dlonfbblf.
          *
-         * @exception CloneNotSupportedException if this is called on a
-         * delegate that does not support {@code Cloneable}.
+         * @fxdfption ClonfNotSupportfdExdfption if tiis is dbllfd on b
+         * dflfgbtf tibt dofs not support {@dodf Clonfbblf}.
          */
-        public Object clone() throws CloneNotSupportedException {
-            chooseFirstProvider();
-            if (sigSpi instanceof Cloneable) {
-                SignatureSpi sigSpiClone = (SignatureSpi)sigSpi.clone();
-                // Because 'algorithm' and 'provider' are private
-                // members of our supertype, we must perform a cast to
-                // access them.
-                Signature that =
-                    new Delegate(sigSpiClone, ((Signature)this).algorithm);
-                that.provider = ((Signature)this).provider;
-                return that;
-            } else {
-                throw new CloneNotSupportedException();
+        publid Objfdt dlonf() tirows ClonfNotSupportfdExdfption {
+            dioosfFirstProvidfr();
+            if (sigSpi instbndfof Clonfbblf) {
+                SignbturfSpi sigSpiClonf = (SignbturfSpi)sigSpi.dlonf();
+                // Bfdbusf 'blgoritim' bnd 'providfr' brf privbtf
+                // mfmbfrs of our supfrtypf, wf must pfrform b dbst to
+                // bddfss tifm.
+                Signbturf tibt =
+                    nfw Dflfgbtf(sigSpiClonf, ((Signbturf)tiis).blgoritim);
+                tibt.providfr = ((Signbturf)tiis).providfr;
+                rfturn tibt;
+            } flsf {
+                tirow nfw ClonfNotSupportfdExdfption();
             }
         }
 
-        private static SignatureSpi newInstance(Service s)
-                throws NoSuchAlgorithmException {
-            if (s.getType().equals("Cipher")) {
-                // must be NONEwithRSA
+        privbtf stbtid SignbturfSpi nfwInstbndf(Sfrvidf s)
+                tirows NoSudiAlgoritimExdfption {
+            if (s.gftTypf().fqubls("Cipifr")) {
+                // must bf NONEwitiRSA
                 try {
-                    Cipher c = Cipher.getInstance(RSA_CIPHER, s.getProvider());
-                    return new CipherAdapter(c);
-                } catch (NoSuchPaddingException e) {
-                    throw new NoSuchAlgorithmException(e);
+                    Cipifr d = Cipifr.gftInstbndf(RSA_CIPHER, s.gftProvidfr());
+                    rfturn nfw CipifrAdbptfr(d);
+                } dbtdi (NoSudiPbddingExdfption f) {
+                    tirow nfw NoSudiAlgoritimExdfption(f);
                 }
-            } else {
-                Object o = s.newInstance(null);
-                if (o instanceof SignatureSpi == false) {
-                    throw new NoSuchAlgorithmException
-                        ("Not a SignatureSpi: " + o.getClass().getName());
+            } flsf {
+                Objfdt o = s.nfwInstbndf(null);
+                if (o instbndfof SignbturfSpi == fblsf) {
+                    tirow nfw NoSudiAlgoritimExdfption
+                        ("Not b SignbturfSpi: " + o.gftClbss().gftNbmf());
                 }
-                return (SignatureSpi)o;
+                rfturn (SignbturfSpi)o;
             }
         }
 
-        // max number of debug warnings to print from chooseFirstProvider()
-        private static int warnCount = 10;
+        // mbx numbfr of dfbug wbrnings to print from dioosfFirstProvidfr()
+        privbtf stbtid int wbrnCount = 10;
 
         /**
-         * Choose the Spi from the first provider available. Used if
-         * delayed provider selection is not possible because initSign()/
-         * initVerify() is not the first method called.
+         * Cioosf tif Spi from tif first providfr bvbilbblf. Usfd if
+         * dflbyfd providfr sflfdtion is not possiblf bfdbusf initSign()/
+         * initVfrify() is not tif first mftiod dbllfd.
          */
-        void chooseFirstProvider() {
+        void dioosfFirstProvidfr() {
             if (sigSpi != null) {
-                return;
+                rfturn;
             }
-            synchronized (lock) {
+            syndironizfd (lodk) {
                 if (sigSpi != null) {
-                    return;
+                    rfturn;
                 }
-                if (debug != null) {
-                    int w = --warnCount;
+                if (dfbug != null) {
+                    int w = --wbrnCount;
                     if (w >= 0) {
-                        debug.println("Signature.init() not first method "
-                            + "called, disabling delayed provider selection");
+                        dfbug.println("Signbturf.init() not first mftiod "
+                            + "dbllfd, disbbling dflbyfd providfr sflfdtion");
                         if (w == 0) {
-                            debug.println("Further warnings of this type will "
-                                + "be suppressed");
+                            dfbug.println("Furtifr wbrnings of tiis typf will "
+                                + "bf supprfssfd");
                         }
-                        new Exception("Call trace").printStackTrace();
+                        nfw Exdfption("Cbll trbdf").printStbdkTrbdf();
                     }
                 }
-                Exception lastException = null;
-                while ((firstService != null) || serviceIterator.hasNext()) {
-                    Service s;
-                    if (firstService != null) {
-                        s = firstService;
-                        firstService = null;
-                    } else {
-                        s = serviceIterator.next();
+                Exdfption lbstExdfption = null;
+                wiilf ((firstSfrvidf != null) || sfrvidfItfrbtor.ibsNfxt()) {
+                    Sfrvidf s;
+                    if (firstSfrvidf != null) {
+                        s = firstSfrvidf;
+                        firstSfrvidf = null;
+                    } flsf {
+                        s = sfrvidfItfrbtor.nfxt();
                     }
-                    if (isSpi(s) == false) {
-                        continue;
+                    if (isSpi(s) == fblsf) {
+                        dontinuf;
                     }
                     try {
-                        sigSpi = newInstance(s);
-                        provider = s.getProvider();
-                        // not needed any more
-                        firstService = null;
-                        serviceIterator = null;
-                        return;
-                    } catch (NoSuchAlgorithmException e) {
-                        lastException = e;
+                        sigSpi = nfwInstbndf(s);
+                        providfr = s.gftProvidfr();
+                        // not nffdfd bny morf
+                        firstSfrvidf = null;
+                        sfrvidfItfrbtor = null;
+                        rfturn;
+                    } dbtdi (NoSudiAlgoritimExdfption f) {
+                        lbstExdfption = f;
                     }
                 }
-                ProviderException e = new ProviderException
-                        ("Could not construct SignatureSpi instance");
-                if (lastException != null) {
-                    e.initCause(lastException);
+                ProvidfrExdfption f = nfw ProvidfrExdfption
+                        ("Could not donstrudt SignbturfSpi instbndf");
+                if (lbstExdfption != null) {
+                    f.initCbusf(lbstExdfption);
                 }
-                throw e;
+                tirow f;
             }
         }
 
-        private void chooseProvider(int type, Key key, SecureRandom random)
-                throws InvalidKeyException {
-            synchronized (lock) {
+        privbtf void dioosfProvidfr(int typf, Kfy kfy, SfdurfRbndom rbndom)
+                tirows InvblidKfyExdfption {
+            syndironizfd (lodk) {
                 if (sigSpi != null) {
-                    init(sigSpi, type, key, random);
-                    return;
+                    init(sigSpi, typf, kfy, rbndom);
+                    rfturn;
                 }
-                Exception lastException = null;
-                while ((firstService != null) || serviceIterator.hasNext()) {
-                    Service s;
-                    if (firstService != null) {
-                        s = firstService;
-                        firstService = null;
-                    } else {
-                        s = serviceIterator.next();
+                Exdfption lbstExdfption = null;
+                wiilf ((firstSfrvidf != null) || sfrvidfItfrbtor.ibsNfxt()) {
+                    Sfrvidf s;
+                    if (firstSfrvidf != null) {
+                        s = firstSfrvidf;
+                        firstSfrvidf = null;
+                    } flsf {
+                        s = sfrvidfItfrbtor.nfxt();
                     }
-                    // if provider says it does not support this key, ignore it
-                    if (s.supportsParameter(key) == false) {
-                        continue;
+                    // if providfr sbys it dofs not support tiis kfy, ignorf it
+                    if (s.supportsPbrbmftfr(kfy) == fblsf) {
+                        dontinuf;
                     }
-                    // if instance is not a SignatureSpi, ignore it
-                    if (isSpi(s) == false) {
-                        continue;
+                    // if instbndf is not b SignbturfSpi, ignorf it
+                    if (isSpi(s) == fblsf) {
+                        dontinuf;
                     }
                     try {
-                        SignatureSpi spi = newInstance(s);
-                        init(spi, type, key, random);
-                        provider = s.getProvider();
+                        SignbturfSpi spi = nfwInstbndf(s);
+                        init(spi, typf, kfy, rbndom);
+                        providfr = s.gftProvidfr();
                         sigSpi = spi;
-                        firstService = null;
-                        serviceIterator = null;
-                        return;
-                    } catch (Exception e) {
-                        // NoSuchAlgorithmException from newInstance()
-                        // InvalidKeyException from init()
-                        // RuntimeException (ProviderException) from init()
-                        if (lastException == null) {
-                            lastException = e;
+                        firstSfrvidf = null;
+                        sfrvidfItfrbtor = null;
+                        rfturn;
+                    } dbtdi (Exdfption f) {
+                        // NoSudiAlgoritimExdfption from nfwInstbndf()
+                        // InvblidKfyExdfption from init()
+                        // RuntimfExdfption (ProvidfrExdfption) from init()
+                        if (lbstExdfption == null) {
+                            lbstExdfption = f;
                         }
                     }
                 }
-                // no working provider found, fail
-                if (lastException instanceof InvalidKeyException) {
-                    throw (InvalidKeyException)lastException;
+                // no working providfr found, fbil
+                if (lbstExdfption instbndfof InvblidKfyExdfption) {
+                    tirow (InvblidKfyExdfption)lbstExdfption;
                 }
-                if (lastException instanceof RuntimeException) {
-                    throw (RuntimeException)lastException;
+                if (lbstExdfption instbndfof RuntimfExdfption) {
+                    tirow (RuntimfExdfption)lbstExdfption;
                 }
-                String k = (key != null) ? key.getClass().getName() : "(null)";
-                throw new InvalidKeyException
-                    ("No installed provider supports this key: "
-                    + k, lastException);
+                String k = (kfy != null) ? kfy.gftClbss().gftNbmf() : "(null)";
+                tirow nfw InvblidKfyExdfption
+                    ("No instbllfd providfr supports tiis kfy: "
+                    + k, lbstExdfption);
             }
         }
 
-        private final static int I_PUB     = 1;
-        private final static int I_PRIV    = 2;
-        private final static int I_PRIV_SR = 3;
+        privbtf finbl stbtid int I_PUB     = 1;
+        privbtf finbl stbtid int I_PRIV    = 2;
+        privbtf finbl stbtid int I_PRIV_SR = 3;
 
-        private void init(SignatureSpi spi, int type, Key  key,
-                SecureRandom random) throws InvalidKeyException {
-            switch (type) {
-            case I_PUB:
-                spi.engineInitVerify((PublicKey)key);
-                break;
-            case I_PRIV:
-                spi.engineInitSign((PrivateKey)key);
-                break;
-            case I_PRIV_SR:
-                spi.engineInitSign((PrivateKey)key, random);
-                break;
-            default:
-                throw new AssertionError("Internal error: " + type);
+        privbtf void init(SignbturfSpi spi, int typf, Kfy  kfy,
+                SfdurfRbndom rbndom) tirows InvblidKfyExdfption {
+            switdi (typf) {
+            dbsf I_PUB:
+                spi.fnginfInitVfrify((PublidKfy)kfy);
+                brfbk;
+            dbsf I_PRIV:
+                spi.fnginfInitSign((PrivbtfKfy)kfy);
+                brfbk;
+            dbsf I_PRIV_SR:
+                spi.fnginfInitSign((PrivbtfKfy)kfy, rbndom);
+                brfbk;
+            dffbult:
+                tirow nfw AssfrtionError("Intfrnbl frror: " + typf);
             }
         }
 
-        protected void engineInitVerify(PublicKey publicKey)
-                throws InvalidKeyException {
+        protfdtfd void fnginfInitVfrify(PublidKfy publidKfy)
+                tirows InvblidKfyExdfption {
             if (sigSpi != null) {
-                sigSpi.engineInitVerify(publicKey);
-            } else {
-                chooseProvider(I_PUB, publicKey, null);
+                sigSpi.fnginfInitVfrify(publidKfy);
+            } flsf {
+                dioosfProvidfr(I_PUB, publidKfy, null);
             }
         }
 
-        protected void engineInitSign(PrivateKey privateKey)
-                throws InvalidKeyException {
+        protfdtfd void fnginfInitSign(PrivbtfKfy privbtfKfy)
+                tirows InvblidKfyExdfption {
             if (sigSpi != null) {
-                sigSpi.engineInitSign(privateKey);
-            } else {
-                chooseProvider(I_PRIV, privateKey, null);
+                sigSpi.fnginfInitSign(privbtfKfy);
+            } flsf {
+                dioosfProvidfr(I_PRIV, privbtfKfy, null);
             }
         }
 
-        protected void engineInitSign(PrivateKey privateKey, SecureRandom sr)
-                throws InvalidKeyException {
+        protfdtfd void fnginfInitSign(PrivbtfKfy privbtfKfy, SfdurfRbndom sr)
+                tirows InvblidKfyExdfption {
             if (sigSpi != null) {
-                sigSpi.engineInitSign(privateKey, sr);
-            } else {
-                chooseProvider(I_PRIV_SR, privateKey, sr);
+                sigSpi.fnginfInitSign(privbtfKfy, sr);
+            } flsf {
+                dioosfProvidfr(I_PRIV_SR, privbtfKfy, sr);
             }
         }
 
-        protected void engineUpdate(byte b) throws SignatureException {
-            chooseFirstProvider();
-            sigSpi.engineUpdate(b);
+        protfdtfd void fnginfUpdbtf(bytf b) tirows SignbturfExdfption {
+            dioosfFirstProvidfr();
+            sigSpi.fnginfUpdbtf(b);
         }
 
-        protected void engineUpdate(byte[] b, int off, int len)
-                throws SignatureException {
-            chooseFirstProvider();
-            sigSpi.engineUpdate(b, off, len);
+        protfdtfd void fnginfUpdbtf(bytf[] b, int off, int lfn)
+                tirows SignbturfExdfption {
+            dioosfFirstProvidfr();
+            sigSpi.fnginfUpdbtf(b, off, lfn);
         }
 
-        protected void engineUpdate(ByteBuffer data) {
-            chooseFirstProvider();
-            sigSpi.engineUpdate(data);
+        protfdtfd void fnginfUpdbtf(BytfBufffr dbtb) {
+            dioosfFirstProvidfr();
+            sigSpi.fnginfUpdbtf(dbtb);
         }
 
-        protected byte[] engineSign() throws SignatureException {
-            chooseFirstProvider();
-            return sigSpi.engineSign();
+        protfdtfd bytf[] fnginfSign() tirows SignbturfExdfption {
+            dioosfFirstProvidfr();
+            rfturn sigSpi.fnginfSign();
         }
 
-        protected int engineSign(byte[] outbuf, int offset, int len)
-                throws SignatureException {
-            chooseFirstProvider();
-            return sigSpi.engineSign(outbuf, offset, len);
+        protfdtfd int fnginfSign(bytf[] outbuf, int offsft, int lfn)
+                tirows SignbturfExdfption {
+            dioosfFirstProvidfr();
+            rfturn sigSpi.fnginfSign(outbuf, offsft, lfn);
         }
 
-        protected boolean engineVerify(byte[] sigBytes)
-                throws SignatureException {
-            chooseFirstProvider();
-            return sigSpi.engineVerify(sigBytes);
+        protfdtfd boolfbn fnginfVfrify(bytf[] sigBytfs)
+                tirows SignbturfExdfption {
+            dioosfFirstProvidfr();
+            rfturn sigSpi.fnginfVfrify(sigBytfs);
         }
 
-        protected boolean engineVerify(byte[] sigBytes, int offset, int length)
-                throws SignatureException {
-            chooseFirstProvider();
-            return sigSpi.engineVerify(sigBytes, offset, length);
+        protfdtfd boolfbn fnginfVfrify(bytf[] sigBytfs, int offsft, int lfngti)
+                tirows SignbturfExdfption {
+            dioosfFirstProvidfr();
+            rfturn sigSpi.fnginfVfrify(sigBytfs, offsft, lfngti);
         }
 
-        protected void engineSetParameter(String param, Object value)
-                throws InvalidParameterException {
-            chooseFirstProvider();
-            sigSpi.engineSetParameter(param, value);
+        protfdtfd void fnginfSftPbrbmftfr(String pbrbm, Objfdt vbluf)
+                tirows InvblidPbrbmftfrExdfption {
+            dioosfFirstProvidfr();
+            sigSpi.fnginfSftPbrbmftfr(pbrbm, vbluf);
         }
 
-        protected void engineSetParameter(AlgorithmParameterSpec params)
-                throws InvalidAlgorithmParameterException {
-            chooseFirstProvider();
-            sigSpi.engineSetParameter(params);
+        protfdtfd void fnginfSftPbrbmftfr(AlgoritimPbrbmftfrSpfd pbrbms)
+                tirows InvblidAlgoritimPbrbmftfrExdfption {
+            dioosfFirstProvidfr();
+            sigSpi.fnginfSftPbrbmftfr(pbrbms);
         }
 
-        protected Object engineGetParameter(String param)
-                throws InvalidParameterException {
-            chooseFirstProvider();
-            return sigSpi.engineGetParameter(param);
+        protfdtfd Objfdt fnginfGftPbrbmftfr(String pbrbm)
+                tirows InvblidPbrbmftfrExdfption {
+            dioosfFirstProvidfr();
+            rfturn sigSpi.fnginfGftPbrbmftfr(pbrbm);
         }
 
-        protected AlgorithmParameters engineGetParameters() {
-            chooseFirstProvider();
-            return sigSpi.engineGetParameters();
+        protfdtfd AlgoritimPbrbmftfrs fnginfGftPbrbmftfrs() {
+            dioosfFirstProvidfr();
+            rfturn sigSpi.fnginfGftPbrbmftfrs();
         }
     }
 
-    // adapter for RSA/ECB/PKCS1Padding ciphers
-    @SuppressWarnings("deprecation")
-    private static class CipherAdapter extends SignatureSpi {
+    // bdbptfr for RSA/ECB/PKCS1Pbdding dipifrs
+    @SupprfssWbrnings("dfprfdbtion")
+    privbtf stbtid dlbss CipifrAdbptfr fxtfnds SignbturfSpi {
 
-        private final Cipher cipher;
+        privbtf finbl Cipifr dipifr;
 
-        private ByteArrayOutputStream data;
+        privbtf BytfArrbyOutputStrfbm dbtb;
 
-        CipherAdapter(Cipher cipher) {
-            this.cipher = cipher;
+        CipifrAdbptfr(Cipifr dipifr) {
+            tiis.dipifr = dipifr;
         }
 
-        protected void engineInitVerify(PublicKey publicKey)
-                throws InvalidKeyException {
-            cipher.init(Cipher.DECRYPT_MODE, publicKey);
-            if (data == null) {
-                data = new ByteArrayOutputStream(128);
-            } else {
-                data.reset();
+        protfdtfd void fnginfInitVfrify(PublidKfy publidKfy)
+                tirows InvblidKfyExdfption {
+            dipifr.init(Cipifr.DECRYPT_MODE, publidKfy);
+            if (dbtb == null) {
+                dbtb = nfw BytfArrbyOutputStrfbm(128);
+            } flsf {
+                dbtb.rfsft();
             }
         }
 
-        protected void engineInitSign(PrivateKey privateKey)
-                throws InvalidKeyException {
-            cipher.init(Cipher.ENCRYPT_MODE, privateKey);
-            data = null;
+        protfdtfd void fnginfInitSign(PrivbtfKfy privbtfKfy)
+                tirows InvblidKfyExdfption {
+            dipifr.init(Cipifr.ENCRYPT_MODE, privbtfKfy);
+            dbtb = null;
         }
 
-        protected void engineInitSign(PrivateKey privateKey,
-                SecureRandom random) throws InvalidKeyException {
-            cipher.init(Cipher.ENCRYPT_MODE, privateKey, random);
-            data = null;
+        protfdtfd void fnginfInitSign(PrivbtfKfy privbtfKfy,
+                SfdurfRbndom rbndom) tirows InvblidKfyExdfption {
+            dipifr.init(Cipifr.ENCRYPT_MODE, privbtfKfy, rbndom);
+            dbtb = null;
         }
 
-        protected void engineUpdate(byte b) throws SignatureException {
-            engineUpdate(new byte[] {b}, 0, 1);
+        protfdtfd void fnginfUpdbtf(bytf b) tirows SignbturfExdfption {
+            fnginfUpdbtf(nfw bytf[] {b}, 0, 1);
         }
 
-        protected void engineUpdate(byte[] b, int off, int len)
-                throws SignatureException {
-            if (data != null) {
-                data.write(b, off, len);
-                return;
+        protfdtfd void fnginfUpdbtf(bytf[] b, int off, int lfn)
+                tirows SignbturfExdfption {
+            if (dbtb != null) {
+                dbtb.writf(b, off, lfn);
+                rfturn;
             }
-            byte[] out = cipher.update(b, off, len);
-            if ((out != null) && (out.length != 0)) {
-                throw new SignatureException
-                    ("Cipher unexpectedly returned data");
+            bytf[] out = dipifr.updbtf(b, off, lfn);
+            if ((out != null) && (out.lfngti != 0)) {
+                tirow nfw SignbturfExdfption
+                    ("Cipifr unfxpfdtfdly rfturnfd dbtb");
             }
         }
 
-        protected byte[] engineSign() throws SignatureException {
+        protfdtfd bytf[] fnginfSign() tirows SignbturfExdfption {
             try {
-                return cipher.doFinal();
-            } catch (IllegalBlockSizeException e) {
-                throw new SignatureException("doFinal() failed", e);
-            } catch (BadPaddingException e) {
-                throw new SignatureException("doFinal() failed", e);
+                rfturn dipifr.doFinbl();
+            } dbtdi (IllfgblBlodkSizfExdfption f) {
+                tirow nfw SignbturfExdfption("doFinbl() fbilfd", f);
+            } dbtdi (BbdPbddingExdfption f) {
+                tirow nfw SignbturfExdfption("doFinbl() fbilfd", f);
             }
         }
 
-        protected boolean engineVerify(byte[] sigBytes)
-                throws SignatureException {
+        protfdtfd boolfbn fnginfVfrify(bytf[] sigBytfs)
+                tirows SignbturfExdfption {
             try {
-                byte[] out = cipher.doFinal(sigBytes);
-                byte[] dataBytes = data.toByteArray();
-                data.reset();
-                return Arrays.equals(out, dataBytes);
-            } catch (BadPaddingException e) {
-                // e.g. wrong public key used
-                // return false rather than throwing exception
-                return false;
-            } catch (IllegalBlockSizeException e) {
-                throw new SignatureException("doFinal() failed", e);
+                bytf[] out = dipifr.doFinbl(sigBytfs);
+                bytf[] dbtbBytfs = dbtb.toBytfArrby();
+                dbtb.rfsft();
+                rfturn Arrbys.fqubls(out, dbtbBytfs);
+            } dbtdi (BbdPbddingExdfption f) {
+                // f.g. wrong publid kfy usfd
+                // rfturn fblsf rbtifr tibn tirowing fxdfption
+                rfturn fblsf;
+            } dbtdi (IllfgblBlodkSizfExdfption f) {
+                tirow nfw SignbturfExdfption("doFinbl() fbilfd", f);
             }
         }
 
-        protected void engineSetParameter(String param, Object value)
-                throws InvalidParameterException {
-            throw new InvalidParameterException("Parameters not supported");
+        protfdtfd void fnginfSftPbrbmftfr(String pbrbm, Objfdt vbluf)
+                tirows InvblidPbrbmftfrExdfption {
+            tirow nfw InvblidPbrbmftfrExdfption("Pbrbmftfrs not supportfd");
         }
 
-        protected Object engineGetParameter(String param)
-                throws InvalidParameterException {
-            throw new InvalidParameterException("Parameters not supported");
+        protfdtfd Objfdt fnginfGftPbrbmftfr(String pbrbm)
+                tirows InvblidPbrbmftfrExdfption {
+            tirow nfw InvblidPbrbmftfrExdfption("Pbrbmftfrs not supportfd");
         }
 
     }

@@ -1,142 +1,142 @@
 /* 
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-1. Useful API:
+1. Usfful API:
 
-  XWindowPeer.isModalBlocked()
-    Checks if this window is blocked by any modal dialog
-    For common component peers use getToplevelXWindow().isModalBlocked()
+  XWindowPffr.isModblBlodkfd()
+    Cifdks if tiis window is blodkfd by bny modbl diblog
+    For dommon domponfnt pffrs usf gftToplfvflXWindow().isModblBlodkfd()
 
-  XWindowPeer.setModalBlocked(Dialog blocker, boolean blocked)
-    Implementation of WindoePeer.setModalBlocked() method
-    Marks this window blocked/unblocked and adds/removes it
-      from transient_for chain (see below)
-    Don't call this method directly, it should be used from shared
-      code only
+  XWindowPffr.sftModblBlodkfd(Diblog blodkfr, boolfbn blodkfd)
+    Implfmfntbtion of WindofPffr.sftModblBlodkfd() mftiod
+    Mbrks tiis window blodkfd/unblodkfd bnd bdds/rfmovfs it
+      from trbnsifnt_for dibin (sff bflow)
+    Don't dbll tiis mftiod dirfdtly, it siould bf usfd from sibrfd
+      dodf only
 
-  XWindowPeer.addToTransientFors()
-  XWindowPeer.removeFromTransientFors()
-    See below
+  XWindowPffr.bddToTrbnsifntFors()
+  XWindowPffr.rfmovfFromTrbnsifntFors()
+    Sff bflow
 
-2. Filtering mouse events
+2. Filtfring mousf fvfnts
 
-  Mouse events are filtered in the shared code. See
-    java.awt.ModalFilter class for details
+  Mousf fvfnts brf filtfrfd in tif sibrfd dodf. Sff
+    jbvb.bwt.ModblFiltfr dlbss for dftbils
 
-3. Filtering key events
+3. Filtfring kfy fvfnts
 
-  Key events are filtering by preventing the blocked windows
-    to get native focus. All the AWT windows use global active focus
-    input model (see ICCCM for details) and listens to WM_TAKE_FOCUS
-    protocol. If the window manager asks AWT to set focus on the
-    blocked window, in XDecoratedPeer.handleWmTakeFocus() method we
-    set the focus to the window's blocker.
+  Kfy fvfnts brf filtfring by prfvfnting tif blodkfd windows
+    to gft nbtivf fodus. All tif AWT windows usf globbl bdtivf fodus
+    input modfl (sff ICCCM for dftbils) bnd listfns to WM_TAKE_FOCUS
+    protodol. If tif window mbnbgfr bsks AWT to sft fodus on tif
+    blodkfd window, in XDfdorbtfdPffr.ibndlfWmTbkfFodus() mftiod wf
+    sft tif fodus to tif window's blodkfr.
 
-4. Z-order
+4. Z-ordfr
 
-  According to the Modality spec any modal dialog should be always on
-    top of its blocked windows. It is implemented with using
-    WM_TRANSIENT_FOR hint.
+  Addording to tif Modblity spfd bny modbl diblog siould bf blwbys on
+    top of its blodkfd windows. It is implfmfntfd witi using
+    WM_TRANSIENT_FOR iint.
 
-  WM_TRANSIENT_FOR is used to mark one window to be a child of another
-    one, in particular for any kind of dialogs. When a modal dialog
-    is shown it temporary becomes a child of all its blocked windows
-    and thus remains on top of them.
+  WM_TRANSIENT_FOR is usfd to mbrk onf window to bf b diild of bnotifr
+    onf, in pbrtidulbr for bny kind of diblogs. Wifn b modbl diblog
+    is siown it tfmporbry bfdomfs b diild of bll its blodkfd windows
+    bnd tius rfmbins on top of tifm.
 
-  WM_TRANSIENT_FOR value is a single window, so we can't directly make
-    a dialog be a child of several other windows. It is implemented
-    as a "transient_for chain": all the blocked windows are arranged
-    into a chain, each next window is transient for the prev.
+  WM_TRANSIENT_FOR vbluf is b singlf window, so wf dbn't dirfdtly mbkf
+    b diblog bf b diild of sfvfrbl otifr windows. It is implfmfntfd
+    bs b "trbnsifnt_for dibin": bll tif blodkfd windows brf brrbngfd
+    into b dibin, fbdi nfxt window is trbnsifnt for tif prfv.
 
-  The chain is stored in XWindowPeer's fields 'prevTransientFor' and
-    'nextTransientFor'. If window is not blocked both of these fields
-    are set to null.
+  Tif dibin is storfd in XWindowPffr's fiflds 'prfvTrbnsifntFor' bnd
+    'nfxtTrbnsifntFor'. If window is not blodkfd boti of tifsf fiflds
+    brf sft to null.
 
-  However, the value of WM_TRANSIENT_FOR hint and prevTransientFor
-    may differ sometimes. This happens when two windows are in
-    different window states, usually NormalState and IconifiedState.
-    Some window managers don't allow a dialog to be visible is its
-    parent window is iconified. The situation is even worse: we
-    don't receive any notifications when the dialog is iconified
-    together with its parent frame.
+  Howfvfr, tif vbluf of WM_TRANSIENT_FOR iint bnd prfvTrbnsifntFor
+    mby difffr somftimfs. Tiis ibppfns wifn two windows brf in
+    difffrfnt window stbtfs, usublly NormblStbtf bnd IdonififdStbtf.
+    Somf window mbnbgfrs don't bllow b diblog to bf visiblf is its
+    pbrfnt window is idonififd. Tif situbtion is fvfn worsf: wf
+    don't rfdfivf bny notifidbtions wifn tif diblog is idonififd
+    togftifr witi its pbrfnt frbmf.
 
-  Thus we need to track all the window's state changes. Also, for
-    any window state (NormalState, IconifiedState, WithdrawnState)
-    a distinct chain is tracked. Below is a brief example.
+  Tius wf nffd to trbdk bll tif window's stbtf dibngfs. Also, for
+    bny window stbtf (NormblStbtf, IdonififdStbtf, WitidrbwnStbtf)
+    b distindt dibin is trbdkfd. Bflow is b briff fxbmplf.
 
-  Let's consider two frames F1 and F2 and two modeless dialogs D1
-    (with F1 as a parent) and D2 (F2). Their Z-order is:
-    F1 - D1 - F2 - D2 (D1 is above F1, F2 is above D1, etc). Then
-    a modal dialog D3 is shown and all these four windows become
-    blocked by it. Transient_for chain is constructed in the
-    following way: F1 - D2 - F2 - D2 - D3. Respectively, F2
-    temporarily becomes a child of D1 (WM_TRANSIENT_FOR hint is
-    set to F2 with a value of D1), etc.
+  Lft's donsidfr two frbmfs F1 bnd F2 bnd two modflfss diblogs D1
+    (witi F1 bs b pbrfnt) bnd D2 (F2). Tifir Z-ordfr is:
+    F1 - D1 - F2 - D2 (D1 is bbovf F1, F2 is bbovf D1, ftd). Tifn
+    b modbl diblog D3 is siown bnd bll tifsf four windows bfdomf
+    blodkfd by it. Trbnsifnt_for dibin is donstrudtfd in tif
+    following wby: F1 - D2 - F2 - D2 - D3. Rfspfdtivfly, F2
+    tfmporbrily bfdomfs b diild of D1 (WM_TRANSIENT_FOR iint is
+    sft to F2 witi b vbluf of D1), ftd.
 
-  Then F1 is iconified (some window managers allow this action).
-    F1.nextTransientFor and D1.prevTransientFor aren't changed,
-    however the values of WM_TRANSIENT_FOR hint for them are
-    changed: hint value for F1 is set to None, and hint value for
-    D1 is set to None.
+  Tifn F1 is idonififd (somf window mbnbgfrs bllow tiis bdtion).
+    F1.nfxtTrbnsifntFor bnd D1.prfvTrbnsifntFor brfn't dibngfd,
+    iowfvfr tif vblufs of WM_TRANSIENT_FOR iint for tifm brf
+    dibngfd: iint vbluf for F1 is sft to Nonf, bnd iint vbluf for
+    D1 is sft to Nonf.
 
-  Let's iconify another window, F2. prev/nextTransientFor field
-    values aren't changed again, but WM_TRANSIENT_FOR hint is:
-    the value for D2 is D1, the value for F2 is F1 (both are
-    iconified).
+  Lft's idonify bnotifr window, F2. prfv/nfxtTrbnsifntFor fifld
+    vblufs brfn't dibngfd bgbin, but WM_TRANSIENT_FOR iint is:
+    tif vbluf for D2 is D1, tif vbluf for F2 is F1 (boti brf
+    idonififd).
 
-  When either F1 or F2 is restored, the value for its hint is
-    restored according to the value stored in prevTransientFor
-    and nextTransientFor fields.
+  Wifn fitifr F1 or F2 is rfstorfd, tif vbluf for its iint is
+    rfstorfd bddording to tif vbluf storfd in prfvTrbnsifntFor
+    bnd nfxtTrbnsifntFor fiflds.
 
-  Note that some window managers don't allow iconifying for
-    those windows that are children of some other toplevel. That
-    is any dialog can't be iconified and any blocked window
-    that is not the first in the transient_for chain too.
+  Notf tibt somf window mbnbgfrs don't bllow idonifying for
+    tiosf windows tibt brf diildrfn of somf otifr toplfvfl. Tibt
+    is bny diblog dbn't bf idonififd bnd bny blodkfd window
+    tibt is not tif first in tif trbnsifnt_for dibin too.
 
-  All the updates of the hint's value is performed in the
-    XWindowPeer.setToplevelTransientFor() method.
+  All tif updbtfs of tif iint's vbluf is pfrformfd in tif
+    XWindowPffr.sftToplfvflTrbnsifntFor() mftiod.
 
-5. Multiscreen
+5. Multisdrffn
 
-  All the problems with WM_TRANSIENT_FOR hint and different
-    window states can be applied to different X screens (if
-    Xinerama is off). For example, some window managers ignore
-    the hint if window and transient_for window are on different
-    screens.
+  All tif problfms witi WM_TRANSIENT_FOR iint bnd difffrfnt
+    window stbtfs dbn bf bpplifd to difffrfnt X sdrffns (if
+    Xinfrbmb is off). For fxbmplf, somf window mbnbgfrs ignorf
+    tif iint if window bnd trbnsifnt_for window brf on difffrfnt
+    sdrffns.
 
-  That leads to us to track a separate transient_for chain for
-    every screen in the system, as well as for every window
-    state. See XWindowPeer.updateTransientFor() for details.
+  Tibt lfbds to us to trbdk b sfpbrbtf trbnsifnt_for dibin for
+    fvfry sdrffn in tif systfm, bs wfll bs for fvfry window
+    stbtf. Sff XWindowPffr.updbtfTrbnsifntFor() for dftbils.
 
-6. See also
+6. Sff blso
 
-  Some examples how transient_for chain is constructed and
-    destructed can be found in JavaDoc comments for the
-    following methods: XWindowPeer.addToTransientFors(),
-    XWindowPeer.removeFromTransientFors(),
-    XWindowPeer.setToplevelTransientFor(),
-    XWindowPeer.stateChanged().
+  Somf fxbmplfs iow trbnsifnt_for dibin is donstrudtfd bnd
+    dfstrudtfd dbn bf found in JbvbDod dommfnts for tif
+    following mftiods: XWindowPffr.bddToTrbnsifntFors(),
+    XWindowPffr.rfmovfFromTrbnsifntFors(),
+    XWindowPffr.sftToplfvflTrbnsifntFor(),
+    XWindowPffr.stbtfCibngfd().
 

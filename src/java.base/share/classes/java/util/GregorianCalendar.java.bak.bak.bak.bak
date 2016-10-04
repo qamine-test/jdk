@@ -1,0 +1,3301 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996-1998 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996-1998 - All Rights Rfsfrvfd
+ *
+ *   Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd
+ * bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry of IBM. Thfsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. This tfdhnology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.util;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.timf.Instbnt;
+import jbvb.timf.ZonfdDbtfTimf;
+import jbvb.timf.tfmporbl.ChronoFifld;
+import sun.util.dblfndbr.BbsfCblfndbr;
+import sun.util.dblfndbr.CblfndbrDbtf;
+import sun.util.dblfndbr.CblfndbrSystfm;
+import sun.util.dblfndbr.CblfndbrUtils;
+import sun.util.dblfndbr.Erb;
+import sun.util.dblfndbr.Grfgoribn;
+import sun.util.dblfndbr.JulibnCblfndbr;
+import sun.util.dblfndbr.ZonfInfo;
+
+/**
+ * <dodf>GrfgoribnCblfndbr</dodf> is b dondrftf subdlbss of
+ * <dodf>Cblfndbr</dodf> bnd providfs thf stbndbrd dblfndbr systfm
+ * usfd by most of thf world.
+ *
+ * <p> <dodf>GrfgoribnCblfndbr</dodf> is b hybrid dblfndbr thbt
+ * supports both thf Julibn bnd Grfgoribn dblfndbr systfms with thf
+ * support of b singlf disdontinuity, whidh dorrfsponds by dffbult to
+ * thf Grfgoribn dbtf whfn thf Grfgoribn dblfndbr wbs institutfd
+ * (Odtobfr 15, 1582 in somf dountrifs, lbtfr in othfrs).  Thf dutovfr
+ * dbtf mby bf dhbngfd by thf dbllfr by dblling {@link
+ * #sftGrfgoribnChbngf(Dbtf) sftGrfgoribnChbngf()}.
+ *
+ * <p>
+ * Historidblly, in thosf dountrifs whidh bdoptfd thf Grfgoribn dblfndbr first,
+ * Odtobfr 4, 1582 (Julibn) wbs thus followfd by Odtobfr 15, 1582 (Grfgoribn). This dblfndbr modfls
+ * this dorrfdtly.  Bfforf thf Grfgoribn dutovfr, <dodf>GrfgoribnCblfndbr</dodf>
+ * implfmfnts thf Julibn dblfndbr.  Thf only difffrfndf bftwffn thf Grfgoribn
+ * bnd thf Julibn dblfndbr is thf lfbp yfbr rulf. Thf Julibn dblfndbr spfdififs
+ * lfbp yfbrs fvfry four yfbrs, whfrfbs thf Grfgoribn dblfndbr omits dfntury
+ * yfbrs whidh brf not divisiblf by 400.
+ *
+ * <p>
+ * <dodf>GrfgoribnCblfndbr</dodf> implfmfnts <fm>prolfptid</fm> Grfgoribn bnd
+ * Julibn dblfndbrs. Thbt is, dbtfs brf domputfd by fxtrbpolbting thf durrfnt
+ * rulfs indffinitfly fbr bbdkwbrd bnd forwbrd in timf. As b rfsult,
+ * <dodf>GrfgoribnCblfndbr</dodf> mby bf usfd for bll yfbrs to gfnfrbtf
+ * mfbningful bnd donsistfnt rfsults. Howfvfr, dbtfs obtbinfd using
+ * <dodf>GrfgoribnCblfndbr</dodf> brf historidblly bddurbtf only from Mbrdh 1, 4
+ * AD onwbrd, whfn modfrn Julibn dblfndbr rulfs wfrf bdoptfd.  Bfforf this dbtf,
+ * lfbp yfbr rulfs wfrf bpplifd irrfgulbrly, bnd bfforf 45 BC thf Julibn
+ * dblfndbr did not fvfn fxist.
+ *
+ * <p>
+ * Prior to thf institution of thf Grfgoribn dblfndbr, Nfw Yfbr's Dby wbs
+ * Mbrdh 25. To bvoid donfusion, this dblfndbr blwbys usfs Jbnubry 1. A mbnubl
+ * bdjustmfnt mby bf mbdf if dfsirfd for dbtfs thbt brf prior to thf Grfgoribn
+ * dhbngfovfr bnd whidh fbll bftwffn Jbnubry 1 bnd Mbrdh 24.
+ *
+ * <h3><b nbmf="wffk_bnd_yfbr">Wffk Of Yfbr bnd Wffk Yfbr</b></h3>
+ *
+ * <p>Vblufs dbldulbtfd for thf {@link Cblfndbr#WEEK_OF_YEAR
+ * WEEK_OF_YEAR} fifld rbngf from 1 to 53. Thf first wffk of b
+ * dblfndbr yfbr is thf fbrlifst sfvfn dby pfriod stbrting on {@link
+ * Cblfndbr#gftFirstDbyOfWffk() gftFirstDbyOfWffk()} thbt dontbins bt
+ * lfbst {@link Cblfndbr#gftMinimblDbysInFirstWffk()
+ * gftMinimblDbysInFirstWffk()} dbys from thbt yfbr. It thus dfpfnds
+ * on thf vblufs of {@dodf gftMinimblDbysInFirstWffk()}, {@dodf
+ * gftFirstDbyOfWffk()}, bnd thf dby of thf wffk of Jbnubry 1. Wffks
+ * bftwffn wffk 1 of onf yfbr bnd wffk 1 of thf following yfbr
+ * (fxdlusivf) brf numbfrfd sfqufntiblly from 2 to 52 or 53 (fxdfpt
+ * for yfbr(s) involvfd in thf Julibn-Grfgoribn trbnsition).
+ *
+ * <p>Thf {@dodf gftFirstDbyOfWffk()} bnd {@dodf
+ * gftMinimblDbysInFirstWffk()} vblufs brf initiblizfd using
+ * lodblf-dfpfndfnt rfsourdfs whfn donstrudting b {@dodf
+ * GrfgoribnCblfndbr}. <b nbmf="iso8601_dompbtiblf_sftting">Thf wffk
+ * dftfrminbtion is dompbtiblf</b> with thf ISO 8601 stbndbrd whfn {@dodf
+ * gftFirstDbyOfWffk()} is {@dodf MONDAY} bnd {@dodf
+ * gftMinimblDbysInFirstWffk()} is 4, whidh vblufs brf usfd in lodblfs
+ * whfrf thf stbndbrd is prfffrrfd. Thfsf vblufs dbn fxpliditly bf sft by
+ * dblling {@link Cblfndbr#sftFirstDbyOfWffk(int) sftFirstDbyOfWffk()} bnd
+ * {@link Cblfndbr#sftMinimblDbysInFirstWffk(int)
+ * sftMinimblDbysInFirstWffk()}.
+ *
+ * <p>A <b nbmf="wffk_yfbr"><fm>wffk yfbr</fm></b> is in synd with b
+ * {@dodf WEEK_OF_YEAR} dydlf. All wffks bftwffn thf first bnd lbst
+ * wffks (indlusivf) hbvf thf sbmf <fm>wffk yfbr</fm> vbluf.
+ * Thfrfforf, thf first bnd lbst dbys of b wffk yfbr mby hbvf
+ * difffrfnt dblfndbr yfbr vblufs.
+ *
+ * <p>For fxbmplf, Jbnubry 1, 1998 is b Thursdby. If {@dodf
+ * gftFirstDbyOfWffk()} is {@dodf MONDAY} bnd {@dodf
+ * gftMinimblDbysInFirstWffk()} is 4 (ISO 8601 stbndbrd dompbtiblf
+ * sftting), thfn wffk 1 of 1998 stbrts on Dfdfmbfr 29, 1997, bnd fnds
+ * on Jbnubry 4, 1998. Thf wffk yfbr is 1998 for thf lbst thrff dbys
+ * of dblfndbr yfbr 1997. If, howfvfr, {@dodf gftFirstDbyOfWffk()} is
+ * {@dodf SUNDAY}, thfn wffk 1 of 1998 stbrts on Jbnubry 4, 1998, bnd
+ * fnds on Jbnubry 10, 1998; thf first thrff dbys of 1998 thfn brf
+ * pbrt of wffk 53 of 1997 bnd thfir wffk yfbr is 1997.
+ *
+ * <h4>Wffk Of Month</h4>
+ *
+ * <p>Vblufs dbldulbtfd for thf <dodf>WEEK_OF_MONTH</dodf> fifld rbngf from 0
+ * to 6.  Wffk 1 of b month (thf dbys with <dodf>WEEK_OF_MONTH =
+ * 1</dodf>) is thf fbrlifst sft of bt lfbst
+ * <dodf>gftMinimblDbysInFirstWffk()</dodf> dontiguous dbys in thbt month,
+ * fnding on thf dby bfforf <dodf>gftFirstDbyOfWffk()</dodf>.  Unlikf
+ * wffk 1 of b yfbr, wffk 1 of b month mby bf shortfr thbn 7 dbys, nffd
+ * not stbrt on <dodf>gftFirstDbyOfWffk()</dodf>, bnd will not indludf dbys of
+ * thf prfvious month.  Dbys of b month bfforf wffk 1 hbvf b
+ * <dodf>WEEK_OF_MONTH</dodf> of 0.
+ *
+ * <p>For fxbmplf, if <dodf>gftFirstDbyOfWffk()</dodf> is <dodf>SUNDAY</dodf>
+ * bnd <dodf>gftMinimblDbysInFirstWffk()</dodf> is 4, thfn thf first wffk of
+ * Jbnubry 1998 is Sundby, Jbnubry 4 through Sbturdby, Jbnubry 10.  Thfsf dbys
+ * hbvf b <dodf>WEEK_OF_MONTH</dodf> of 1.  Thursdby, Jbnubry 1 through
+ * Sbturdby, Jbnubry 3 hbvf b <dodf>WEEK_OF_MONTH</dodf> of 0.  If
+ * <dodf>gftMinimblDbysInFirstWffk()</dodf> is dhbngfd to 3, thfn Jbnubry 1
+ * through Jbnubry 3 hbvf b <dodf>WEEK_OF_MONTH</dodf> of 1.
+ *
+ * <h4>Dffbult Fiflds Vblufs</h4>
+ *
+ * <p>Thf <dodf>dlfbr</dodf> mfthod sfts dblfndbr fifld(s)
+ * undffinfd. <dodf>GrfgoribnCblfndbr</dodf> usfs thf following
+ * dffbult vbluf for fbdh dblfndbr fifld if its vbluf is undffinfd.
+ *
+ * <tbblf dfllpbdding="0" dfllspbding="3" bordfr="0"
+ *        summbry="GrfgoribnCblfndbr dffbult fifld vblufs"
+ *        stylf="tfxt-blign: lfft; width: 66%;">
+ *   <tbody>
+ *     <tr>
+ *       <th stylf="vfrtidbl-blign: top; bbdkground-dolor: rgb(204, 204, 255);
+ *           tfxt-blign: dfntfr;">Fifld<br>
+ *       </th>
+ *       <th stylf="vfrtidbl-blign: top; bbdkground-dolor: rgb(204, 204, 255);
+ *           tfxt-blign: dfntfr;">Dffbult Vbluf<br>
+ *       </th>
+ *     </tr>
+ *     <tr>
+ *       <td stylf="vfrtidbl-blign: middlf;">
+ *              <dodf>ERA<br></dodf>
+ *       </td>
+ *       <td stylf="vfrtidbl-blign: middlf;">
+ *              <dodf>AD<br></dodf>
+ *       </td>
+ *     </tr>
+ *     <tr>
+ *       <td stylf="vfrtidbl-blign: middlf; bbdkground-dolor: rgb(238, 238, 255);">
+ *              <dodf>YEAR<br></dodf>
+ *       </td>
+ *       <td stylf="vfrtidbl-blign: middlf; bbdkground-dolor: rgb(238, 238, 255);">
+ *              <dodf>1970<br></dodf>
+ *       </td>
+ *     </tr>
+ *     <tr>
+ *       <td stylf="vfrtidbl-blign: middlf;">
+ *              <dodf>MONTH<br></dodf>
+ *       </td>
+ *       <td stylf="vfrtidbl-blign: middlf;">
+ *              <dodf>JANUARY<br></dodf>
+ *       </td>
+ *     </tr>
+ *     <tr>
+ *       <td stylf="vfrtidbl-blign: top; bbdkground-dolor: rgb(238, 238, 255);">
+ *              <dodf>DAY_OF_MONTH<br></dodf>
+ *       </td>
+ *       <td stylf="vfrtidbl-blign: top; bbdkground-dolor: rgb(238, 238, 255);">
+ *              <dodf>1<br></dodf>
+ *       </td>
+ *     </tr>
+ *     <tr>
+ *       <td stylf="vfrtidbl-blign: middlf;">
+ *              <dodf>DAY_OF_WEEK<br></dodf>
+ *       </td>
+ *       <td stylf="vfrtidbl-blign: middlf;">
+ *              <dodf>thf first dby of wffk<br></dodf>
+ *       </td>
+ *     </tr>
+ *     <tr>
+ *       <td stylf="vfrtidbl-blign: top; bbdkground-dolor: rgb(238, 238, 255);">
+ *              <dodf>WEEK_OF_MONTH<br></dodf>
+ *       </td>
+ *       <td stylf="vfrtidbl-blign: top; bbdkground-dolor: rgb(238, 238, 255);">
+ *              <dodf>0<br></dodf>
+ *       </td>
+ *     </tr>
+ *     <tr>
+ *       <td stylf="vfrtidbl-blign: top;">
+ *              <dodf>DAY_OF_WEEK_IN_MONTH<br></dodf>
+ *       </td>
+ *       <td stylf="vfrtidbl-blign: top;">
+ *              <dodf>1<br></dodf>
+ *       </td>
+ *     </tr>
+ *     <tr>
+ *       <td stylf="vfrtidbl-blign: middlf; bbdkground-dolor: rgb(238, 238, 255);">
+ *              <dodf>AM_PM<br></dodf>
+ *       </td>
+ *       <td stylf="vfrtidbl-blign: middlf; bbdkground-dolor: rgb(238, 238, 255);">
+ *              <dodf>AM<br></dodf>
+ *       </td>
+ *     </tr>
+ *     <tr>
+ *       <td stylf="vfrtidbl-blign: middlf;">
+ *              <dodf>HOUR, HOUR_OF_DAY, MINUTE, SECOND, MILLISECOND<br></dodf>
+ *       </td>
+ *       <td stylf="vfrtidbl-blign: middlf;">
+ *              <dodf>0<br></dodf>
+ *       </td>
+ *     </tr>
+ *   </tbody>
+ * </tbblf>
+ * <br>Dffbult vblufs brf not bpplidbblf for thf fiflds not listfd bbovf.
+ *
+ * <p>
+ * <strong>Exbmplf:</strong>
+ * <blodkquotf>
+ * <prf>
+ * // gft thf supportfd ids for GMT-08:00 (Pbdifid Stbndbrd Timf)
+ * String[] ids = TimfZonf.gftAvbilbblfIDs(-8 * 60 * 60 * 1000);
+ * // if no ids wfrf rfturnfd, somfthing is wrong. gft out.
+ * if (ids.lfngth == 0)
+ *     Systfm.fxit(0);
+ *
+ *  // bfgin output
+ * Systfm.out.println("Currfnt Timf");
+ *
+ * // drfbtf b Pbdifid Stbndbrd Timf timf zonf
+ * SimplfTimfZonf pdt = nfw SimplfTimfZonf(-8 * 60 * 60 * 1000, ids[0]);
+ *
+ * // sft up rulfs for Dbylight Sbving Timf
+ * pdt.sftStbrtRulf(Cblfndbr.APRIL, 1, Cblfndbr.SUNDAY, 2 * 60 * 60 * 1000);
+ * pdt.sftEndRulf(Cblfndbr.OCTOBER, -1, Cblfndbr.SUNDAY, 2 * 60 * 60 * 1000);
+ *
+ * // drfbtf b GrfgoribnCblfndbr with thf Pbdifid Dbylight timf zonf
+ * // bnd thf durrfnt dbtf bnd timf
+ * Cblfndbr dblfndbr = nfw GrfgoribnCblfndbr(pdt);
+ * Dbtf triblTimf = nfw Dbtf();
+ * dblfndbr.sftTimf(triblTimf);
+ *
+ * // print out b bundh of intfrfsting things
+ * Systfm.out.println("ERA: " + dblfndbr.gft(Cblfndbr.ERA));
+ * Systfm.out.println("YEAR: " + dblfndbr.gft(Cblfndbr.YEAR));
+ * Systfm.out.println("MONTH: " + dblfndbr.gft(Cblfndbr.MONTH));
+ * Systfm.out.println("WEEK_OF_YEAR: " + dblfndbr.gft(Cblfndbr.WEEK_OF_YEAR));
+ * Systfm.out.println("WEEK_OF_MONTH: " + dblfndbr.gft(Cblfndbr.WEEK_OF_MONTH));
+ * Systfm.out.println("DATE: " + dblfndbr.gft(Cblfndbr.DATE));
+ * Systfm.out.println("DAY_OF_MONTH: " + dblfndbr.gft(Cblfndbr.DAY_OF_MONTH));
+ * Systfm.out.println("DAY_OF_YEAR: " + dblfndbr.gft(Cblfndbr.DAY_OF_YEAR));
+ * Systfm.out.println("DAY_OF_WEEK: " + dblfndbr.gft(Cblfndbr.DAY_OF_WEEK));
+ * Systfm.out.println("DAY_OF_WEEK_IN_MONTH: "
+ *                    + dblfndbr.gft(Cblfndbr.DAY_OF_WEEK_IN_MONTH));
+ * Systfm.out.println("AM_PM: " + dblfndbr.gft(Cblfndbr.AM_PM));
+ * Systfm.out.println("HOUR: " + dblfndbr.gft(Cblfndbr.HOUR));
+ * Systfm.out.println("HOUR_OF_DAY: " + dblfndbr.gft(Cblfndbr.HOUR_OF_DAY));
+ * Systfm.out.println("MINUTE: " + dblfndbr.gft(Cblfndbr.MINUTE));
+ * Systfm.out.println("SECOND: " + dblfndbr.gft(Cblfndbr.SECOND));
+ * Systfm.out.println("MILLISECOND: " + dblfndbr.gft(Cblfndbr.MILLISECOND));
+ * Systfm.out.println("ZONE_OFFSET: "
+ *                    + (dblfndbr.gft(Cblfndbr.ZONE_OFFSET)/(60*60*1000)));
+ * Systfm.out.println("DST_OFFSET: "
+ *                    + (dblfndbr.gft(Cblfndbr.DST_OFFSET)/(60*60*1000)));
+
+ * Systfm.out.println("Currfnt Timf, with hour rfsft to 3");
+ * dblfndbr.dlfbr(Cblfndbr.HOUR_OF_DAY); // so dofsn't ovfrridf
+ * dblfndbr.sft(Cblfndbr.HOUR, 3);
+ * Systfm.out.println("ERA: " + dblfndbr.gft(Cblfndbr.ERA));
+ * Systfm.out.println("YEAR: " + dblfndbr.gft(Cblfndbr.YEAR));
+ * Systfm.out.println("MONTH: " + dblfndbr.gft(Cblfndbr.MONTH));
+ * Systfm.out.println("WEEK_OF_YEAR: " + dblfndbr.gft(Cblfndbr.WEEK_OF_YEAR));
+ * Systfm.out.println("WEEK_OF_MONTH: " + dblfndbr.gft(Cblfndbr.WEEK_OF_MONTH));
+ * Systfm.out.println("DATE: " + dblfndbr.gft(Cblfndbr.DATE));
+ * Systfm.out.println("DAY_OF_MONTH: " + dblfndbr.gft(Cblfndbr.DAY_OF_MONTH));
+ * Systfm.out.println("DAY_OF_YEAR: " + dblfndbr.gft(Cblfndbr.DAY_OF_YEAR));
+ * Systfm.out.println("DAY_OF_WEEK: " + dblfndbr.gft(Cblfndbr.DAY_OF_WEEK));
+ * Systfm.out.println("DAY_OF_WEEK_IN_MONTH: "
+ *                    + dblfndbr.gft(Cblfndbr.DAY_OF_WEEK_IN_MONTH));
+ * Systfm.out.println("AM_PM: " + dblfndbr.gft(Cblfndbr.AM_PM));
+ * Systfm.out.println("HOUR: " + dblfndbr.gft(Cblfndbr.HOUR));
+ * Systfm.out.println("HOUR_OF_DAY: " + dblfndbr.gft(Cblfndbr.HOUR_OF_DAY));
+ * Systfm.out.println("MINUTE: " + dblfndbr.gft(Cblfndbr.MINUTE));
+ * Systfm.out.println("SECOND: " + dblfndbr.gft(Cblfndbr.SECOND));
+ * Systfm.out.println("MILLISECOND: " + dblfndbr.gft(Cblfndbr.MILLISECOND));
+ * Systfm.out.println("ZONE_OFFSET: "
+ *        + (dblfndbr.gft(Cblfndbr.ZONE_OFFSET)/(60*60*1000))); // in hours
+ * Systfm.out.println("DST_OFFSET: "
+ *        + (dblfndbr.gft(Cblfndbr.DST_OFFSET)/(60*60*1000))); // in hours
+ * </prf>
+ * </blodkquotf>
+ *
+ * @sff          TimfZonf
+ * @buthor Dbvid Goldsmith, Mbrk Dbvis, Chfn-Lifh Hubng, Albn Liu
+ * @sindf 1.1
+ */
+publid dlbss GrfgoribnCblfndbr fxtfnds Cblfndbr {
+    /*
+     * Implfmfntbtion Notfs
+     *
+     * Thf fpodh is thf numbfr of dbys or millisfdonds from somf dffinfd
+     * stbrting point. Thf fpodh for jbvb.util.Dbtf is usfd hfrf; thbt is,
+     * millisfdonds from Jbnubry 1, 1970 (Grfgoribn), midnight UTC.  Othfr
+     * fpodhs whidh brf usfd brf Jbnubry 1, yfbr 1 (Grfgoribn), whidh is dby 1
+     * of thf Grfgoribn dblfndbr, bnd Dfdfmbfr 30, yfbr 0 (Grfgoribn), whidh is
+     * dby 1 of thf Julibn dblfndbr.
+     *
+     * Wf implfmfnt thf prolfptid Julibn bnd Grfgoribn dblfndbrs.  This mfbns wf
+     * implfmfnt thf modfrn dffinition of thf dblfndbr fvfn though thf
+     * historidbl usbgf difffrs.  For fxbmplf, if thf Grfgoribn dhbngf is sft
+     * to nfw Dbtf(Long.MIN_VALUE), wf hbvf b purf Grfgoribn dblfndbr whidh
+     * lbbfls dbtfs prfdfding thf invfntion of thf Grfgoribn dblfndbr in 1582 bs
+     * if thf dblfndbr fxistfd thfn.
+     *
+     * Likfwisf, with thf Julibn dblfndbr, wf bssumf b donsistfnt
+     * 4-yfbr lfbp yfbr rulf, fvfn though thf historidbl pbttfrn of
+     * lfbp yfbrs is irrfgulbr, bfing fvfry 3 yfbrs from 45 BCE
+     * through 9 BCE, thfn fvfry 4 yfbrs from 8 CE onwbrds, with no
+     * lfbp yfbrs in-bftwffn.  Thus dbtf domputbtions bnd fundtions
+     * sudh bs isLfbpYfbr() brf not intfndfd to bf historidblly
+     * bddurbtf.
+     */
+
+//////////////////
+// Clbss Vbribblfs
+//////////////////
+
+    /**
+     * Vbluf of thf <dodf>ERA</dodf> fifld indidbting
+     * thf pfriod bfforf thf dommon frb (bfforf Christ), blso known bs BCE.
+     * Thf sfqufndf of yfbrs bt thf trbnsition from <dodf>BC</dodf> to <dodf>AD</dodf> is
+     * ..., 2 BC, 1 BC, 1 AD, 2 AD,...
+     *
+     * @sff #ERA
+     */
+    publid stbtid finbl int BC = 0;
+
+    /**
+     * Vbluf of thf {@link #ERA} fifld indidbting
+     * thf pfriod bfforf thf dommon frb, thf sbmf vbluf bs {@link #BC}.
+     *
+     * @sff #CE
+     */
+    stbtid finbl int BCE = 0;
+
+    /**
+     * Vbluf of thf <dodf>ERA</dodf> fifld indidbting
+     * thf dommon frb (Anno Domini), blso known bs CE.
+     * Thf sfqufndf of yfbrs bt thf trbnsition from <dodf>BC</dodf> to <dodf>AD</dodf> is
+     * ..., 2 BC, 1 BC, 1 AD, 2 AD,...
+     *
+     * @sff #ERA
+     */
+    publid stbtid finbl int AD = 1;
+
+    /**
+     * Vbluf of thf {@link #ERA} fifld indidbting
+     * thf dommon frb, thf sbmf vbluf bs {@link #AD}.
+     *
+     * @sff #BCE
+     */
+    stbtid finbl int CE = 1;
+
+    privbtf stbtid finbl int EPOCH_OFFSET   = 719163; // Fixfd dbtf of Jbnubry 1, 1970 (Grfgoribn)
+    privbtf stbtid finbl int EPOCH_YEAR     = 1970;
+
+    stbtid finbl int MONTH_LENGTH[]
+        = {31,28,31,30,31,30,31,31,30,31,30,31}; // 0-bbsfd
+    stbtid finbl int LEAP_MONTH_LENGTH[]
+        = {31,29,31,30,31,30,31,31,30,31,30,31}; // 0-bbsfd
+
+    // Usfful millisfdond donstbnts.  Although ONE_DAY bnd ONE_WEEK dbn fit
+    // into ints, thfy must bf longs in ordfr to prfvfnt brithmftid ovfrflow
+    // whfn pfrforming (bug 4173516).
+    privbtf stbtid finbl int  ONE_SECOND = 1000;
+    privbtf stbtid finbl int  ONE_MINUTE = 60*ONE_SECOND;
+    privbtf stbtid finbl int  ONE_HOUR   = 60*ONE_MINUTE;
+    privbtf stbtid finbl long ONE_DAY    = 24*ONE_HOUR;
+    privbtf stbtid finbl long ONE_WEEK   = 7*ONE_DAY;
+
+    /*
+     * <prf>
+     *                            Grfbtfst       Lfbst
+     * Fifld nbmf        Minimum   Minimum     Mbximum     Mbximum
+     * ----------        -------   -------     -------     -------
+     * ERA                     0         0           1           1
+     * YEAR                    1         1   292269054   292278994
+     * MONTH                   0         0          11          11
+     * WEEK_OF_YEAR            1         1          52*         53
+     * WEEK_OF_MONTH           0         0           4*          6
+     * DAY_OF_MONTH            1         1          28*         31
+     * DAY_OF_YEAR             1         1         365*        366
+     * DAY_OF_WEEK             1         1           7           7
+     * DAY_OF_WEEK_IN_MONTH   -1        -1           4*          6
+     * AM_PM                   0         0           1           1
+     * HOUR                    0         0          11          11
+     * HOUR_OF_DAY             0         0          23          23
+     * MINUTE                  0         0          59          59
+     * SECOND                  0         0          59          59
+     * MILLISECOND             0         0         999         999
+     * ZONE_OFFSET        -13:00    -13:00       14:00       14:00
+     * DST_OFFSET           0:00      0:00        0:20        2:00
+     * </prf>
+     * *: dfpfnds on thf Grfgoribn dhbngf dbtf
+     */
+    stbtid finbl int MIN_VALUES[] = {
+        BCE,            // ERA
+        1,              // YEAR
+        JANUARY,        // MONTH
+        1,              // WEEK_OF_YEAR
+        0,              // WEEK_OF_MONTH
+        1,              // DAY_OF_MONTH
+        1,              // DAY_OF_YEAR
+        SUNDAY,         // DAY_OF_WEEK
+        1,              // DAY_OF_WEEK_IN_MONTH
+        AM,             // AM_PM
+        0,              // HOUR
+        0,              // HOUR_OF_DAY
+        0,              // MINUTE
+        0,              // SECOND
+        0,              // MILLISECOND
+        -13*ONE_HOUR,   // ZONE_OFFSET (UNIX dompbtibility)
+        0               // DST_OFFSET
+    };
+    stbtid finbl int LEAST_MAX_VALUES[] = {
+        CE,             // ERA
+        292269054,      // YEAR
+        DECEMBER,       // MONTH
+        52,             // WEEK_OF_YEAR
+        4,              // WEEK_OF_MONTH
+        28,             // DAY_OF_MONTH
+        365,            // DAY_OF_YEAR
+        SATURDAY,       // DAY_OF_WEEK
+        4,              // DAY_OF_WEEK_IN
+        PM,             // AM_PM
+        11,             // HOUR
+        23,             // HOUR_OF_DAY
+        59,             // MINUTE
+        59,             // SECOND
+        999,            // MILLISECOND
+        14*ONE_HOUR,    // ZONE_OFFSET
+        20*ONE_MINUTE   // DST_OFFSET (historidbl lfbst mbximum)
+    };
+    stbtid finbl int MAX_VALUES[] = {
+        CE,             // ERA
+        292278994,      // YEAR
+        DECEMBER,       // MONTH
+        53,             // WEEK_OF_YEAR
+        6,              // WEEK_OF_MONTH
+        31,             // DAY_OF_MONTH
+        366,            // DAY_OF_YEAR
+        SATURDAY,       // DAY_OF_WEEK
+        6,              // DAY_OF_WEEK_IN
+        PM,             // AM_PM
+        11,             // HOUR
+        23,             // HOUR_OF_DAY
+        59,             // MINUTE
+        59,             // SECOND
+        999,            // MILLISECOND
+        14*ONE_HOUR,    // ZONE_OFFSET
+        2*ONE_HOUR      // DST_OFFSET (doublf summfr timf)
+    };
+
+    // Prodlbim sfriblizbtion dompbtibility with JDK 1.1
+    @SupprfssWbrnings("FifldNbmfHidfsFifldInSupfrdlbss")
+    stbtid finbl long sfriblVfrsionUID = -8125100834729963327L;
+
+    // Rfffrfndf to thf sun.util.dblfndbr.Grfgoribn instbndf (singlfton).
+    privbtf stbtid finbl Grfgoribn gdbl =
+                                CblfndbrSystfm.gftGrfgoribnCblfndbr();
+
+    // Rfffrfndf to thf JulibnCblfndbr instbndf (singlfton), sft bs nffdfd. Sff
+    // gftJulibnCblfndbrSystfm().
+    privbtf stbtid JulibnCblfndbr jdbl;
+
+    // JulibnCblfndbr frbs. Sff gftJulibnCblfndbrSystfm().
+    privbtf stbtid Erb[] jfrbs;
+
+    // Thf dffbult vbluf of grfgoribnCutovfr.
+    stbtid finbl long DEFAULT_GREGORIAN_CUTOVER = -12219292800000L;
+
+/////////////////////
+// Instbndf Vbribblfs
+/////////////////////
+
+    /**
+     * Thf point bt whidh thf Grfgoribn dblfndbr rulfs brf usfd, mfbsurfd in
+     * millisfdonds from thf stbndbrd fpodh.  Dffbult is Odtobfr 15, 1582
+     * (Grfgoribn) 00:00:00 UTC or -12219292800000L.  For this vbluf, Odtobfr 4,
+     * 1582 (Julibn) is followfd by Odtobfr 15, 1582 (Grfgoribn).  This
+     * dorrfsponds to Julibn dby numbfr 2299161.
+     * @sfribl
+     */
+    privbtf long grfgoribnCutovfr = DEFAULT_GREGORIAN_CUTOVER;
+
+    /**
+     * Thf fixfd dbtf of thf grfgoribnCutovfr.
+     */
+    privbtf trbnsifnt long grfgoribnCutovfrDbtf =
+        (((DEFAULT_GREGORIAN_CUTOVER + 1)/ONE_DAY) - 1) + EPOCH_OFFSET; // == 577736
+
+    /**
+     * Thf normblizfd yfbr of thf grfgoribnCutovfr in Grfgoribn, with
+     * 0 rfprfsfnting 1 BCE, -1 rfprfsfnting 2 BCE, ftd.
+     */
+    privbtf trbnsifnt int grfgoribnCutovfrYfbr = 1582;
+
+    /**
+     * Thf normblizfd yfbr of thf grfgoribnCutovfr in Julibn, with 0
+     * rfprfsfnting 1 BCE, -1 rfprfsfnting 2 BCE, ftd.
+     */
+    privbtf trbnsifnt int grfgoribnCutovfrYfbrJulibn = 1582;
+
+    /**
+     * gdbtf blwbys hbs b sun.util.dblfndbr.Grfgoribn.Dbtf instbndf to
+     * bvoid ovfrhfbd of drfbting it. Thf bssumption is thbt most
+     * bpplidbtions will nffd only Grfgoribn dblfndbr dbldulbtions.
+     */
+    privbtf trbnsifnt BbsfCblfndbr.Dbtf gdbtf;
+
+    /**
+     * Rfffrfndf to fithfr gdbtf or b JulibnCblfndbr.Dbtf
+     * instbndf. Aftfr dblling domplftf(), this vbluf is gubrbntffd to
+     * bf sft.
+     */
+    privbtf trbnsifnt BbsfCblfndbr.Dbtf ddbtf;
+
+    /**
+     * Thf CblfndbrSystfm usfd to dbldulbtf thf dbtf in ddbtf. Aftfr
+     * dblling domplftf(), this vbluf is gubrbntffd to bf sft bnd
+     * donsistfnt with thf ddbtf vbluf.
+     */
+    privbtf trbnsifnt BbsfCblfndbr dblsys;
+
+    /**
+     * Tfmporbry int[2] to gft timf zonf offsfts. zonfOffsfts[0] gfts
+     * thf GMT offsft vbluf bnd zonfOffsfts[1] gfts thf DST sbving
+     * vbluf.
+     */
+    privbtf trbnsifnt int[] zonfOffsfts;
+
+    /**
+     * Tfmporbry storbgf for sbving originbl fiflds[] vblufs in
+     * non-lfnifnt modf.
+     */
+    privbtf trbnsifnt int[] originblFiflds;
+
+///////////////
+// Construdtors
+///////////////
+
+    /**
+     * Construdts b dffbult <dodf>GrfgoribnCblfndbr</dodf> using thf durrfnt timf
+     * in thf dffbult timf zonf with thf dffbult
+     * {@link Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     */
+    publid GrfgoribnCblfndbr() {
+        this(TimfZonf.gftDffbultRff(), Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
+        sftZonfShbrfd(truf);
+    }
+
+    /**
+     * Construdts b <dodf>GrfgoribnCblfndbr</dodf> bbsfd on thf durrfnt timf
+     * in thf givfn timf zonf with thf dffbult
+     * {@link Lodblf.Cbtfgory#FORMAT FORMAT} lodblf.
+     *
+     * @pbrbm zonf thf givfn timf zonf.
+     */
+    publid GrfgoribnCblfndbr(TimfZonf zonf) {
+        this(zonf, Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
+    }
+
+    /**
+     * Construdts b <dodf>GrfgoribnCblfndbr</dodf> bbsfd on thf durrfnt timf
+     * in thf dffbult timf zonf with thf givfn lodblf.
+     *
+     * @pbrbm bLodblf thf givfn lodblf.
+     */
+    publid GrfgoribnCblfndbr(Lodblf bLodblf) {
+        this(TimfZonf.gftDffbultRff(), bLodblf);
+        sftZonfShbrfd(truf);
+    }
+
+    /**
+     * Construdts b <dodf>GrfgoribnCblfndbr</dodf> bbsfd on thf durrfnt timf
+     * in thf givfn timf zonf with thf givfn lodblf.
+     *
+     * @pbrbm zonf thf givfn timf zonf.
+     * @pbrbm bLodblf thf givfn lodblf.
+     */
+    publid GrfgoribnCblfndbr(TimfZonf zonf, Lodblf bLodblf) {
+        supfr(zonf, bLodblf);
+        gdbtf = (BbsfCblfndbr.Dbtf) gdbl.nfwCblfndbrDbtf(zonf);
+        sftTimfInMillis(Systfm.durrfntTimfMillis());
+    }
+
+    /**
+     * Construdts b <dodf>GrfgoribnCblfndbr</dodf> with thf givfn dbtf sft
+     * in thf dffbult timf zonf with thf dffbult lodblf.
+     *
+     * @pbrbm yfbr thf vbluf usfd to sft thf <dodf>YEAR</dodf> dblfndbr fifld in thf dblfndbr.
+     * @pbrbm month thf vbluf usfd to sft thf <dodf>MONTH</dodf> dblfndbr fifld in thf dblfndbr.
+     * Month vbluf is 0-bbsfd. f.g., 0 for Jbnubry.
+     * @pbrbm dbyOfMonth thf vbluf usfd to sft thf <dodf>DAY_OF_MONTH</dodf> dblfndbr fifld in thf dblfndbr.
+     */
+    publid GrfgoribnCblfndbr(int yfbr, int month, int dbyOfMonth) {
+        this(yfbr, month, dbyOfMonth, 0, 0, 0, 0);
+    }
+
+    /**
+     * Construdts b <dodf>GrfgoribnCblfndbr</dodf> with thf givfn dbtf
+     * bnd timf sft for thf dffbult timf zonf with thf dffbult lodblf.
+     *
+     * @pbrbm yfbr thf vbluf usfd to sft thf <dodf>YEAR</dodf> dblfndbr fifld in thf dblfndbr.
+     * @pbrbm month thf vbluf usfd to sft thf <dodf>MONTH</dodf> dblfndbr fifld in thf dblfndbr.
+     * Month vbluf is 0-bbsfd. f.g., 0 for Jbnubry.
+     * @pbrbm dbyOfMonth thf vbluf usfd to sft thf <dodf>DAY_OF_MONTH</dodf> dblfndbr fifld in thf dblfndbr.
+     * @pbrbm hourOfDby thf vbluf usfd to sft thf <dodf>HOUR_OF_DAY</dodf> dblfndbr fifld
+     * in thf dblfndbr.
+     * @pbrbm minutf thf vbluf usfd to sft thf <dodf>MINUTE</dodf> dblfndbr fifld
+     * in thf dblfndbr.
+     */
+    publid GrfgoribnCblfndbr(int yfbr, int month, int dbyOfMonth, int hourOfDby,
+                             int minutf) {
+        this(yfbr, month, dbyOfMonth, hourOfDby, minutf, 0, 0);
+    }
+
+    /**
+     * Construdts b GrfgoribnCblfndbr with thf givfn dbtf
+     * bnd timf sft for thf dffbult timf zonf with thf dffbult lodblf.
+     *
+     * @pbrbm yfbr thf vbluf usfd to sft thf <dodf>YEAR</dodf> dblfndbr fifld in thf dblfndbr.
+     * @pbrbm month thf vbluf usfd to sft thf <dodf>MONTH</dodf> dblfndbr fifld in thf dblfndbr.
+     * Month vbluf is 0-bbsfd. f.g., 0 for Jbnubry.
+     * @pbrbm dbyOfMonth thf vbluf usfd to sft thf <dodf>DAY_OF_MONTH</dodf> dblfndbr fifld in thf dblfndbr.
+     * @pbrbm hourOfDby thf vbluf usfd to sft thf <dodf>HOUR_OF_DAY</dodf> dblfndbr fifld
+     * in thf dblfndbr.
+     * @pbrbm minutf thf vbluf usfd to sft thf <dodf>MINUTE</dodf> dblfndbr fifld
+     * in thf dblfndbr.
+     * @pbrbm sfdond thf vbluf usfd to sft thf <dodf>SECOND</dodf> dblfndbr fifld
+     * in thf dblfndbr.
+     */
+    publid GrfgoribnCblfndbr(int yfbr, int month, int dbyOfMonth, int hourOfDby,
+                             int minutf, int sfdond) {
+        this(yfbr, month, dbyOfMonth, hourOfDby, minutf, sfdond, 0);
+    }
+
+    /**
+     * Construdts b <dodf>GrfgoribnCblfndbr</dodf> with thf givfn dbtf
+     * bnd timf sft for thf dffbult timf zonf with thf dffbult lodblf.
+     *
+     * @pbrbm yfbr thf vbluf usfd to sft thf <dodf>YEAR</dodf> dblfndbr fifld in thf dblfndbr.
+     * @pbrbm month thf vbluf usfd to sft thf <dodf>MONTH</dodf> dblfndbr fifld in thf dblfndbr.
+     * Month vbluf is 0-bbsfd. f.g., 0 for Jbnubry.
+     * @pbrbm dbyOfMonth thf vbluf usfd to sft thf <dodf>DAY_OF_MONTH</dodf> dblfndbr fifld in thf dblfndbr.
+     * @pbrbm hourOfDby thf vbluf usfd to sft thf <dodf>HOUR_OF_DAY</dodf> dblfndbr fifld
+     * in thf dblfndbr.
+     * @pbrbm minutf thf vbluf usfd to sft thf <dodf>MINUTE</dodf> dblfndbr fifld
+     * in thf dblfndbr.
+     * @pbrbm sfdond thf vbluf usfd to sft thf <dodf>SECOND</dodf> dblfndbr fifld
+     * in thf dblfndbr.
+     * @pbrbm millis thf vbluf usfd to sft thf <dodf>MILLISECOND</dodf> dblfndbr fifld
+     */
+    GrfgoribnCblfndbr(int yfbr, int month, int dbyOfMonth,
+                      int hourOfDby, int minutf, int sfdond, int millis) {
+        supfr();
+        gdbtf = (BbsfCblfndbr.Dbtf) gdbl.nfwCblfndbrDbtf(gftZonf());
+        this.sft(YEAR, yfbr);
+        this.sft(MONTH, month);
+        this.sft(DAY_OF_MONTH, dbyOfMonth);
+
+        // Sft AM_PM bnd HOUR hfrf to sft thfir stbmp vblufs bfforf
+        // sftting HOUR_OF_DAY (6178071).
+        if (hourOfDby >= 12 && hourOfDby <= 23) {
+            // If hourOfDby is b vblid PM hour, sft thf dorrfdt PM vblufs
+            // so thbt it won't throw bn fxdfption in dbsf it's sft to
+            // non-lfnifnt lbtfr.
+            this.intfrnblSft(AM_PM, PM);
+            this.intfrnblSft(HOUR, hourOfDby - 12);
+        } flsf {
+            // Thf dffbult vbluf for AM_PM is AM.
+            // Wf don't dbrf bny out of rbngf vbluf hfrf for lfnifndy.
+            this.intfrnblSft(HOUR, hourOfDby);
+        }
+        // Thf stbmp vblufs of AM_PM bnd HOUR must bf COMPUTED. (6440854)
+        sftFifldsComputfd(HOUR_MASK|AM_PM_MASK);
+
+        this.sft(HOUR_OF_DAY, hourOfDby);
+        this.sft(MINUTE, minutf);
+        this.sft(SECOND, sfdond);
+        // should bf dhbngfd to sft() whfn this donstrudtor is mbdf
+        // publid.
+        this.intfrnblSft(MILLISECOND, millis);
+    }
+
+    /**
+     * Construdts bn fmpty GrfgoribnCblfndbr.
+     *
+     * @pbrbm zonf    thf givfn timf zonf
+     * @pbrbm bLodblf thf givfn lodblf
+     * @pbrbm flbg    thf flbg rfqufsting bn fmpty instbndf
+     */
+    GrfgoribnCblfndbr(TimfZonf zonf, Lodblf lodblf, boolfbn flbg) {
+        supfr(zonf, lodblf);
+        gdbtf = (BbsfCblfndbr.Dbtf) gdbl.nfwCblfndbrDbtf(gftZonf());
+    }
+
+/////////////////
+// Publid mfthods
+/////////////////
+
+    /**
+     * Sfts thf <dodf>GrfgoribnCblfndbr</dodf> dhbngf dbtf. This is thf point whfn thf switdh
+     * from Julibn dbtfs to Grfgoribn dbtfs oddurrfd. Dffbult is Odtobfr 15,
+     * 1582 (Grfgoribn). Prfvious to this, dbtfs will bf in thf Julibn dblfndbr.
+     * <p>
+     * To obtbin b purf Julibn dblfndbr, sft thf dhbngf dbtf to
+     * <dodf>Dbtf(Long.MAX_VALUE)</dodf>.  To obtbin b purf Grfgoribn dblfndbr,
+     * sft thf dhbngf dbtf to <dodf>Dbtf(Long.MIN_VALUE)</dodf>.
+     *
+     * @pbrbm dbtf thf givfn Grfgoribn dutovfr dbtf.
+     */
+    publid void sftGrfgoribnChbngf(Dbtf dbtf) {
+        long dutovfrTimf = dbtf.gftTimf();
+        if (dutovfrTimf == grfgoribnCutovfr) {
+            rfturn;
+        }
+        // Bfforf dhbnging thf dutovfr dbtf, mbkf surf to hbvf thf
+        // timf of this dblfndbr.
+        domplftf();
+        sftGrfgoribnChbngf(dutovfrTimf);
+    }
+
+    privbtf void sftGrfgoribnChbngf(long dutovfrTimf) {
+        grfgoribnCutovfr = dutovfrTimf;
+        grfgoribnCutovfrDbtf = CblfndbrUtils.floorDividf(dutovfrTimf, ONE_DAY)
+                                + EPOCH_OFFSET;
+
+        // To providf thf "purf" Julibn dblfndbr bs bdvfrtisfd.
+        // Stridtly spfbking, thf lbst millisfdond should bf b
+        // Grfgoribn dbtf. Howfvfr, thf API dod spfdififs thbt sftting
+        // thf dutovfr dbtf to Long.MAX_VALUE will mbkf this dblfndbr
+        // b purf Julibn dblfndbr. (Sff 4167995)
+        if (dutovfrTimf == Long.MAX_VALUE) {
+            grfgoribnCutovfrDbtf++;
+        }
+
+        BbsfCblfndbr.Dbtf d = gftGrfgoribnCutovfrDbtf();
+
+        // Sft thf dutovfr yfbr (in thf Grfgoribn yfbr numbfring)
+        grfgoribnCutovfrYfbr = d.gftYfbr();
+
+        BbsfCblfndbr julibnCbl = gftJulibnCblfndbrSystfm();
+        d = (BbsfCblfndbr.Dbtf) julibnCbl.nfwCblfndbrDbtf(TimfZonf.NO_TIMEZONE);
+        julibnCbl.gftCblfndbrDbtfFromFixfdDbtf(d, grfgoribnCutovfrDbtf - 1);
+        grfgoribnCutovfrYfbrJulibn = d.gftNormblizfdYfbr();
+
+        if (timf < grfgoribnCutovfr) {
+            // Thf fifld vblufs brf no longfr vblid undfr thf nfw
+            // dutovfr dbtf.
+            sftUnnormblizfd();
+        }
+    }
+
+    /**
+     * Gfts thf Grfgoribn Cblfndbr dhbngf dbtf.  This is thf point whfn thf
+     * switdh from Julibn dbtfs to Grfgoribn dbtfs oddurrfd. Dffbult is
+     * Odtobfr 15, 1582 (Grfgoribn). Prfvious to this, dbtfs will bf in thf Julibn
+     * dblfndbr.
+     *
+     * @rfturn thf Grfgoribn dutovfr dbtf for this <dodf>GrfgoribnCblfndbr</dodf> objfdt.
+     */
+    publid finbl Dbtf gftGrfgoribnChbngf() {
+        rfturn nfw Dbtf(grfgoribnCutovfr);
+    }
+
+    /**
+     * Dftfrminfs if thf givfn yfbr is b lfbp yfbr. Rfturns <dodf>truf</dodf> if
+     * thf givfn yfbr is b lfbp yfbr. To spfdify BC yfbr numbfrs,
+     * <dodf>1 - yfbr numbfr</dodf> must bf givfn. For fxbmplf, yfbr BC 4 is
+     * spfdififd bs -3.
+     *
+     * @pbrbm yfbr thf givfn yfbr.
+     * @rfturn <dodf>truf</dodf> if thf givfn yfbr is b lfbp yfbr; <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn isLfbpYfbr(int yfbr) {
+        if ((yfbr & 3) != 0) {
+            rfturn fblsf;
+        }
+
+        if (yfbr > grfgoribnCutovfrYfbr) {
+            rfturn (yfbr%100 != 0) || (yfbr%400 == 0); // Grfgoribn
+        }
+        if (yfbr < grfgoribnCutovfrYfbrJulibn) {
+            rfturn truf; // Julibn
+        }
+        boolfbn grfgoribn;
+        // If thf givfn yfbr is thf Grfgoribn dutovfr yfbr, wf nffd to
+        // dftfrminf whidh dblfndbr systfm to bf bpplifd to Ffbrubry in thf yfbr.
+        if (grfgoribnCutovfrYfbr == grfgoribnCutovfrYfbrJulibn) {
+            BbsfCblfndbr.Dbtf d = gftCblfndbrDbtf(grfgoribnCutovfrDbtf); // Grfgoribn
+            grfgoribn = d.gftMonth() < BbsfCblfndbr.MARCH;
+        } flsf {
+            grfgoribn = yfbr == grfgoribnCutovfrYfbr;
+        }
+        rfturn grfgoribn ? (yfbr%100 != 0) || (yfbr%400 == 0) : truf;
+    }
+
+    /**
+     * Rfturns {@dodf "grfgory"} bs thf dblfndbr typf.
+     *
+     * @rfturn {@dodf "grfgory"}
+     * @sindf 1.8
+     */
+    @Ovfrridf
+    publid String gftCblfndbrTypf() {
+        rfturn "grfgory";
+    }
+
+    /**
+     * Compbrfs this <dodf>GrfgoribnCblfndbr</dodf> to thf spfdififd
+     * <dodf>Objfdt</dodf>. Thf rfsult is <dodf>truf</dodf> if bnd
+     * only if thf brgumfnt is b <dodf>GrfgoribnCblfndbr</dodf> objfdt
+     * thbt rfprfsfnts thf sbmf timf vbluf (millisfdond offsft from
+     * thf <b hrff="Cblfndbr.html#Epodh">Epodh</b>) undfr thf sbmf
+     * <dodf>Cblfndbr</dodf> pbrbmftfrs bnd Grfgoribn dhbngf dbtf bs
+     * this objfdt.
+     *
+     * @pbrbm obj thf objfdt to dompbrf with.
+     * @rfturn <dodf>truf</dodf> if this objfdt is fqubl to <dodf>obj</dodf>;
+     * <dodf>fblsf</dodf> othfrwisf.
+     * @sff Cblfndbr#dompbrfTo(Cblfndbr)
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn obj instbndfof GrfgoribnCblfndbr &&
+            supfr.fqubls(obj) &&
+            grfgoribnCutovfr == ((GrfgoribnCblfndbr)obj).grfgoribnCutovfr;
+    }
+
+    /**
+     * Gfnfrbtfs thf hbsh dodf for this <dodf>GrfgoribnCblfndbr</dodf> objfdt.
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn supfr.hbshCodf() ^ (int)grfgoribnCutovfrDbtf;
+    }
+
+    /**
+     * Adds thf spfdififd (signfd) bmount of timf to thf givfn dblfndbr fifld,
+     * bbsfd on thf dblfndbr's rulfs.
+     *
+     * <p><fm>Add rulf 1</fm>. Thf vbluf of <dodf>fifld</dodf>
+     * bftfr thf dbll minus thf vbluf of <dodf>fifld</dodf> bfforf thf
+     * dbll is <dodf>bmount</dodf>, modulo bny ovfrflow thbt hbs oddurrfd in
+     * <dodf>fifld</dodf>. Ovfrflow oddurs whfn b fifld vbluf fxdffds its
+     * rbngf bnd, bs b rfsult, thf nfxt lbrgfr fifld is indrfmfntfd or
+     * dfdrfmfntfd bnd thf fifld vbluf is bdjustfd bbdk into its rbngf.</p>
+     *
+     * <p><fm>Add rulf 2</fm>. If b smbllfr fifld is fxpfdtfd to bf
+     * invbribnt, but it is impossiblf for it to bf fqubl to its
+     * prior vbluf bfdbusf of dhbngfs in its minimum or mbximum bftfr
+     * <dodf>fifld</dodf> is dhbngfd, thfn its vbluf is bdjustfd to bf bs dlosf
+     * bs possiblf to its fxpfdtfd vbluf. A smbllfr fifld rfprfsfnts b
+     * smbllfr unit of timf. <dodf>HOUR</dodf> is b smbllfr fifld thbn
+     * <dodf>DAY_OF_MONTH</dodf>. No bdjustmfnt is mbdf to smbllfr fiflds
+     * thbt brf not fxpfdtfd to bf invbribnt. Thf dblfndbr systfm
+     * dftfrminfs whbt fiflds brf fxpfdtfd to bf invbribnt.</p>
+     *
+     * @pbrbm fifld thf dblfndbr fifld.
+     * @pbrbm bmount thf bmount of dbtf or timf to bf bddfd to thf fifld.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>fifld</dodf> is
+     * <dodf>ZONE_OFFSET</dodf>, <dodf>DST_OFFSET</dodf>, or unknown,
+     * or if bny dblfndbr fiflds hbvf out-of-rbngf vblufs in
+     * non-lfnifnt modf.
+     */
+    @Ovfrridf
+    publid void bdd(int fifld, int bmount) {
+        // If bmount == 0, do nothing fvfn thf givfn fifld is out of
+        // rbngf. This is tfstfd by JCK.
+        if (bmount == 0) {
+            rfturn;   // Do nothing!
+        }
+
+        if (fifld < 0 || fifld >= ZONE_OFFSET) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+
+        // Synd thf timf bnd dblfndbr fiflds.
+        domplftf();
+
+        if (fifld == YEAR) {
+            int yfbr = intfrnblGft(YEAR);
+            if (intfrnblGftErb() == CE) {
+                yfbr += bmount;
+                if (yfbr > 0) {
+                    sft(YEAR, yfbr);
+                } flsf { // yfbr <= 0
+                    sft(YEAR, 1 - yfbr);
+                    // if yfbr == 0, you gft 1 BCE.
+                    sft(ERA, BCE);
+                }
+            }
+            flsf { // frb == BCE
+                yfbr -= bmount;
+                if (yfbr > 0) {
+                    sft(YEAR, yfbr);
+                } flsf { // yfbr <= 0
+                    sft(YEAR, 1 - yfbr);
+                    // if yfbr == 0, you gft 1 CE
+                    sft(ERA, CE);
+                }
+            }
+            pinDbyOfMonth();
+        } flsf if (fifld == MONTH) {
+            int month = intfrnblGft(MONTH) + bmount;
+            int yfbr = intfrnblGft(YEAR);
+            int y_bmount;
+
+            if (month >= 0) {
+                y_bmount = month/12;
+            } flsf {
+                y_bmount = (month+1)/12 - 1;
+            }
+            if (y_bmount != 0) {
+                if (intfrnblGftErb() == CE) {
+                    yfbr += y_bmount;
+                    if (yfbr > 0) {
+                        sft(YEAR, yfbr);
+                    } flsf { // yfbr <= 0
+                        sft(YEAR, 1 - yfbr);
+                        // if yfbr == 0, you gft 1 BCE
+                        sft(ERA, BCE);
+                    }
+                }
+                flsf { // frb == BCE
+                    yfbr -= y_bmount;
+                    if (yfbr > 0) {
+                        sft(YEAR, yfbr);
+                    } flsf { // yfbr <= 0
+                        sft(YEAR, 1 - yfbr);
+                        // if yfbr == 0, you gft 1 CE
+                        sft(ERA, CE);
+                    }
+                }
+            }
+
+            if (month >= 0) {
+                sft(MONTH,  month % 12);
+            } flsf {
+                // month < 0
+                month %= 12;
+                if (month < 0) {
+                    month += 12;
+                }
+                sft(MONTH, JANUARY + month);
+            }
+            pinDbyOfMonth();
+        } flsf if (fifld == ERA) {
+            int frb = intfrnblGft(ERA) + bmount;
+            if (frb < 0) {
+                frb = 0;
+            }
+            if (frb > 1) {
+                frb = 1;
+            }
+            sft(ERA, frb);
+        } flsf {
+            long dfltb = bmount;
+            long timfOfDby = 0;
+            switdh (fifld) {
+            // Hbndlf thf timf fiflds hfrf. Convfrt thf givfn
+            // bmount to millisfdonds bnd dbll sftTimfInMillis.
+            dbsf HOUR:
+            dbsf HOUR_OF_DAY:
+                dfltb *= 60 * 60 * 1000;        // hours to minutfs
+                brfbk;
+
+            dbsf MINUTE:
+                dfltb *= 60 * 1000;             // minutfs to sfdonds
+                brfbk;
+
+            dbsf SECOND:
+                dfltb *= 1000;                  // sfdonds to millisfdonds
+                brfbk;
+
+            dbsf MILLISECOND:
+                brfbk;
+
+            // Hbndlf wffk, dby bnd AM_PM fiflds whidh involvfs
+            // timf zonf offsft dhbngf bdjustmfnt. Convfrt thf
+            // givfn bmount to thf numbfr of dbys.
+            dbsf WEEK_OF_YEAR:
+            dbsf WEEK_OF_MONTH:
+            dbsf DAY_OF_WEEK_IN_MONTH:
+                dfltb *= 7;
+                brfbk;
+
+            dbsf DAY_OF_MONTH: // synonym of DATE
+            dbsf DAY_OF_YEAR:
+            dbsf DAY_OF_WEEK:
+                brfbk;
+
+            dbsf AM_PM:
+                // Convfrt thf bmount to thf numbfr of dbys (dfltb)
+                // bnd +12 or -12 hours (timfOfDby).
+                dfltb = bmount / 2;
+                timfOfDby = 12 * (bmount % 2);
+                brfbk;
+            }
+
+            // Thf timf fiflds don't rfquirf timf zonf offsft dhbngf
+            // bdjustmfnt.
+            if (fifld >= HOUR) {
+                sftTimfInMillis(timf + dfltb);
+                rfturn;
+            }
+
+            // Thf rfst of thf fiflds (wffk, dby or AM_PM fiflds)
+            // rfquirf timf zonf offsft (both GMT bnd DST) dhbngf
+            // bdjustmfnt.
+
+            // Trbnslbtf thf durrfnt timf to thf fixfd dbtf bnd timf
+            // of thf dby.
+            long fd = gftCurrfntFixfdDbtf();
+            timfOfDby += intfrnblGft(HOUR_OF_DAY);
+            timfOfDby *= 60;
+            timfOfDby += intfrnblGft(MINUTE);
+            timfOfDby *= 60;
+            timfOfDby += intfrnblGft(SECOND);
+            timfOfDby *= 1000;
+            timfOfDby += intfrnblGft(MILLISECOND);
+            if (timfOfDby >= ONE_DAY) {
+                fd++;
+                timfOfDby -= ONE_DAY;
+            } flsf if (timfOfDby < 0) {
+                fd--;
+                timfOfDby += ONE_DAY;
+            }
+
+            fd += dfltb; // fd is thf fxpfdtfd fixfd dbtf bftfr thf dbldulbtion
+            int zonfOffsft = intfrnblGft(ZONE_OFFSET) + intfrnblGft(DST_OFFSET);
+            sftTimfInMillis((fd - EPOCH_OFFSET) * ONE_DAY + timfOfDby - zonfOffsft);
+            zonfOffsft -= intfrnblGft(ZONE_OFFSET) + intfrnblGft(DST_OFFSET);
+            // If thf timf zonf offsft hbs dhbngfd, thfn bdjust thf difffrfndf.
+            if (zonfOffsft != 0) {
+                sftTimfInMillis(timf + zonfOffsft);
+                long fd2 = gftCurrfntFixfdDbtf();
+                // If thf bdjustmfnt hbs dhbngfd thf dbtf, thfn tbkf
+                // thf prfvious onf.
+                if (fd2 != fd) {
+                    sftTimfInMillis(timf - zonfOffsft);
+                }
+            }
+        }
+    }
+
+    /**
+     * Adds or subtrbdts (up/down) b singlf unit of timf on thf givfn timf
+     * fifld without dhbnging lbrgfr fiflds.
+     * <p>
+     * <fm>Exbmplf</fm>: Considfr b <dodf>GrfgoribnCblfndbr</dodf>
+     * originblly sft to Dfdfmbfr 31, 1999. Cblling {@link #roll(int,boolfbn) roll(Cblfndbr.MONTH, truf)}
+     * sfts thf dblfndbr to Jbnubry 31, 1999.  Thf <dodf>YEAR</dodf> fifld is undhbngfd
+     * bfdbusf it is b lbrgfr fifld thbn <dodf>MONTH</dodf>.</p>
+     *
+     * @pbrbm up indidbtfs if thf vbluf of thf spfdififd dblfndbr fifld is to bf
+     * rollfd up or rollfd down. Usf <dodf>truf</dodf> if rolling up, <dodf>fblsf</dodf> othfrwisf.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>fifld</dodf> is
+     * <dodf>ZONE_OFFSET</dodf>, <dodf>DST_OFFSET</dodf>, or unknown,
+     * or if bny dblfndbr fiflds hbvf out-of-rbngf vblufs in
+     * non-lfnifnt modf.
+     * @sff #bdd(int,int)
+     * @sff #sft(int,int)
+     */
+    @Ovfrridf
+    publid void roll(int fifld, boolfbn up) {
+        roll(fifld, up ? +1 : -1);
+    }
+
+    /**
+     * Adds b signfd bmount to thf spfdififd dblfndbr fifld without dhbnging lbrgfr fiflds.
+     * A nfgbtivf roll bmount mfbns to subtrbdt from fifld without dhbnging
+     * lbrgfr fiflds. If thf spfdififd bmount is 0, this mfthod pfrforms nothing.
+     *
+     * <p>This mfthod dblls {@link #domplftf()} bfforf bdding thf
+     * bmount so thbt bll thf dblfndbr fiflds brf normblizfd. If thfrf
+     * is bny dblfndbr fifld hbving bn out-of-rbngf vbluf in non-lfnifnt modf, thfn bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> is thrown.
+     *
+     * <p>
+     * <fm>Exbmplf</fm>: Considfr b <dodf>GrfgoribnCblfndbr</dodf>
+     * originblly sft to August 31, 1999. Cblling <dodf>roll(Cblfndbr.MONTH,
+     * 8)</dodf> sfts thf dblfndbr to April 30, <strong>1999</strong>. Using b
+     * <dodf>GrfgoribnCblfndbr</dodf>, thf <dodf>DAY_OF_MONTH</dodf> fifld dbnnot
+     * bf 31 in thf month April. <dodf>DAY_OF_MONTH</dodf> is sft to thf dlosfst possiblf
+     * vbluf, 30. Thf <dodf>YEAR</dodf> fifld mbintbins thf vbluf of 1999 bfdbusf it
+     * is b lbrgfr fifld thbn <dodf>MONTH</dodf>.
+     * <p>
+     * <fm>Exbmplf</fm>: Considfr b <dodf>GrfgoribnCblfndbr</dodf>
+     * originblly sft to Sundby Junf 6, 1999. Cblling
+     * <dodf>roll(Cblfndbr.WEEK_OF_MONTH, -1)</dodf> sfts thf dblfndbr to
+     * Tufsdby Junf 1, 1999, whfrfbs dblling
+     * <dodf>bdd(Cblfndbr.WEEK_OF_MONTH, -1)</dodf> sfts thf dblfndbr to
+     * Sundby Mby 30, 1999. This is bfdbusf thf roll rulf imposfs bn
+     * bdditionbl donstrbint: Thf <dodf>MONTH</dodf> must not dhbngf whfn thf
+     * <dodf>WEEK_OF_MONTH</dodf> is rollfd. Tbkfn togfthfr with bdd rulf 1,
+     * thf rfsultbnt dbtf must bf bftwffn Tufsdby Junf 1 bnd Sbturdby Junf
+     * 5. Addording to bdd rulf 2, thf <dodf>DAY_OF_WEEK</dodf>, bn invbribnt
+     * whfn dhbnging thf <dodf>WEEK_OF_MONTH</dodf>, is sft to Tufsdby, thf
+     * dlosfst possiblf vbluf to Sundby (whfrf Sundby is thf first dby of thf
+     * wffk).</p>
+     *
+     * @pbrbm fifld thf dblfndbr fifld.
+     * @pbrbm bmount thf signfd bmount to bdd to <dodf>fifld</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>fifld</dodf> is
+     * <dodf>ZONE_OFFSET</dodf>, <dodf>DST_OFFSET</dodf>, or unknown,
+     * or if bny dblfndbr fiflds hbvf out-of-rbngf vblufs in
+     * non-lfnifnt modf.
+     * @sff #roll(int,boolfbn)
+     * @sff #bdd(int,int)
+     * @sff #sft(int,int)
+     * @sindf 1.2
+     */
+    @Ovfrridf
+    publid void roll(int fifld, int bmount) {
+        // If bmount == 0, do nothing fvfn thf givfn fifld is out of
+        // rbngf. This is tfstfd by JCK.
+        if (bmount == 0) {
+            rfturn;
+        }
+
+        if (fifld < 0 || fifld >= ZONE_OFFSET) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+
+        // Synd thf timf bnd dblfndbr fiflds.
+        domplftf();
+
+        int min = gftMinimum(fifld);
+        int mbx = gftMbximum(fifld);
+
+        switdh (fifld) {
+        dbsf AM_PM:
+        dbsf ERA:
+        dbsf YEAR:
+        dbsf MINUTE:
+        dbsf SECOND:
+        dbsf MILLISECOND:
+            // Thfsf fiflds brf hbndlfd simply, sindf thfy hbvf fixfd minimb
+            // bnd mbximb.  Thf fifld DAY_OF_MONTH is blmost bs simplf.  Othfr
+            // fiflds brf domplidbtfd, sindf thf rbngf within thfy must roll
+            // vbrifs dfpfnding on thf dbtf.
+            brfbk;
+
+        dbsf HOUR:
+        dbsf HOUR_OF_DAY:
+            {
+                int unit = mbx + 1; // 12 or 24 hours
+                int h = intfrnblGft(fifld);
+                int nh = (h + bmount) % unit;
+                if (nh < 0) {
+                    nh += unit;
+                }
+                timf += ONE_HOUR * (nh - h);
+
+                // Thf dby might hbvf dhbngfd, whidh dould hbppfn if
+                // thf dbylight sbving timf trbnsition brings it to
+                // thf nfxt dby, blthough it's vfry unlikfly. But wf
+                // hbvf to mbkf surf not to dhbngf thf lbrgfr fiflds.
+                CblfndbrDbtf d = dblsys.gftCblfndbrDbtf(timf, gftZonf());
+                if (intfrnblGft(DAY_OF_MONTH) != d.gftDbyOfMonth()) {
+                    d.sftDbtf(intfrnblGft(YEAR),
+                              intfrnblGft(MONTH) + 1,
+                              intfrnblGft(DAY_OF_MONTH));
+                    if (fifld == HOUR) {
+                        bssfrt (intfrnblGft(AM_PM) == PM);
+                        d.bddHours(+12); // rfstorf PM
+                    }
+                    timf = dblsys.gftTimf(d);
+                }
+                int hourOfDby = d.gftHours();
+                intfrnblSft(fifld, hourOfDby % unit);
+                if (fifld == HOUR) {
+                    intfrnblSft(HOUR_OF_DAY, hourOfDby);
+                } flsf {
+                    intfrnblSft(AM_PM, hourOfDby / 12);
+                    intfrnblSft(HOUR, hourOfDby % 12);
+                }
+
+                // Timf zonf offsft bnd/or dbylight sbving might hbvf dhbngfd.
+                int zonfOffsft = d.gftZonfOffsft();
+                int sbving = d.gftDbylightSbving();
+                intfrnblSft(ZONE_OFFSET, zonfOffsft - sbving);
+                intfrnblSft(DST_OFFSET, sbving);
+                rfturn;
+            }
+
+        dbsf MONTH:
+            // Rolling thf month involvfs both pinning thf finbl vbluf to [0, 11]
+            // bnd bdjusting thf DAY_OF_MONTH if nfdfssbry.  Wf only bdjust thf
+            // DAY_OF_MONTH if, bftfr updbting thf MONTH fifld, it is illfgbl.
+            // E.g., <jbn31>.roll(MONTH, 1) -> <ffb28> or <ffb29>.
+            {
+                if (!isCutovfrYfbr(ddbtf.gftNormblizfdYfbr())) {
+                    int mon = (intfrnblGft(MONTH) + bmount) % 12;
+                    if (mon < 0) {
+                        mon += 12;
+                    }
+                    sft(MONTH, mon);
+
+                    // Kffp thf dby of month in thf rbngf.  Wf don't wbnt to spill ovfr
+                    // into thf nfxt month; f.g., wf don't wbnt jbn31 + 1 mo -> ffb31 ->
+                    // mbr3.
+                    int monthLfn = monthLfngth(mon);
+                    if (intfrnblGft(DAY_OF_MONTH) > monthLfn) {
+                        sft(DAY_OF_MONTH, monthLfn);
+                    }
+                } flsf {
+                    // Wf nffd to tbkf dbrf of difffrfnt lfngths in
+                    // yfbr bnd month duf to thf dutovfr.
+                    int yfbrLfngth = gftAdtublMbximum(MONTH) + 1;
+                    int mon = (intfrnblGft(MONTH) + bmount) % yfbrLfngth;
+                    if (mon < 0) {
+                        mon += yfbrLfngth;
+                    }
+                    sft(MONTH, mon);
+                    int monthLfn = gftAdtublMbximum(DAY_OF_MONTH);
+                    if (intfrnblGft(DAY_OF_MONTH) > monthLfn) {
+                        sft(DAY_OF_MONTH, monthLfn);
+                    }
+                }
+                rfturn;
+            }
+
+        dbsf WEEK_OF_YEAR:
+            {
+                int y = ddbtf.gftNormblizfdYfbr();
+                mbx = gftAdtublMbximum(WEEK_OF_YEAR);
+                sft(DAY_OF_WEEK, intfrnblGft(DAY_OF_WEEK));
+                int woy = intfrnblGft(WEEK_OF_YEAR);
+                int vbluf = woy + bmount;
+                if (!isCutovfrYfbr(y)) {
+                    int wffkYfbr = gftWffkYfbr();
+                    if (wffkYfbr == y) {
+                        // If thf nfw vbluf is in bftwffn min bnd mbx
+                        // (fxdlusivf), thfn wf dbn usf thf vbluf.
+                        if (vbluf > min && vbluf < mbx) {
+                            sft(WEEK_OF_YEAR, vbluf);
+                            rfturn;
+                        }
+                        long fd = gftCurrfntFixfdDbtf();
+                        // Mbkf surf thbt thf min wffk hbs thf durrfnt DAY_OF_WEEK
+                        // in thf dblfndbr yfbr
+                        long dby1 = fd - (7 * (woy - min));
+                        if (dblsys.gftYfbrFromFixfdDbtf(dby1) != y) {
+                            min++;
+                        }
+
+                        // Mbkf surf thf sbmf thing for thf mbx wffk
+                        fd += 7 * (mbx - intfrnblGft(WEEK_OF_YEAR));
+                        if (dblsys.gftYfbrFromFixfdDbtf(fd) != y) {
+                            mbx--;
+                        }
+                    } flsf {
+                        // Whfn WEEK_OF_YEAR bnd YEAR brf out of synd,
+                        // bdjust woy bnd bmount to stby in thf dblfndbr yfbr.
+                        if (wffkYfbr > y) {
+                            if (bmount < 0) {
+                                bmount++;
+                            }
+                            woy = mbx;
+                        } flsf {
+                            if (bmount > 0) {
+                                bmount -= woy - mbx;
+                            }
+                            woy = min;
+                        }
+                    }
+                    sft(fifld, gftRollfdVbluf(woy, bmount, min, mbx));
+                    rfturn;
+                }
+
+                // Hbndlf dutovfr hfrf.
+                long fd = gftCurrfntFixfdDbtf();
+                BbsfCblfndbr dbl;
+                if (grfgoribnCutovfrYfbr == grfgoribnCutovfrYfbrJulibn) {
+                    dbl = gftCutovfrCblfndbrSystfm();
+                } flsf if (y == grfgoribnCutovfrYfbr) {
+                    dbl = gdbl;
+                } flsf {
+                    dbl = gftJulibnCblfndbrSystfm();
+                }
+                long dby1 = fd - (7 * (woy - min));
+                // Mbkf surf thbt thf min wffk hbs thf durrfnt DAY_OF_WEEK
+                if (dbl.gftYfbrFromFixfdDbtf(dby1) != y) {
+                    min++;
+                }
+
+                // Mbkf surf thf sbmf thing for thf mbx wffk
+                fd += 7 * (mbx - woy);
+                dbl = (fd >= grfgoribnCutovfrDbtf) ? gdbl : gftJulibnCblfndbrSystfm();
+                if (dbl.gftYfbrFromFixfdDbtf(fd) != y) {
+                    mbx--;
+                }
+                // vbluf: thf nfw WEEK_OF_YEAR whidh must bf donvfrtfd
+                // to month bnd dby of month.
+                vbluf = gftRollfdVbluf(woy, bmount, min, mbx) - 1;
+                BbsfCblfndbr.Dbtf d = gftCblfndbrDbtf(dby1 + vbluf * 7);
+                sft(MONTH, d.gftMonth() - 1);
+                sft(DAY_OF_MONTH, d.gftDbyOfMonth());
+                rfturn;
+            }
+
+        dbsf WEEK_OF_MONTH:
+            {
+                boolfbn isCutovfrYfbr = isCutovfrYfbr(ddbtf.gftNormblizfdYfbr());
+                // dow: rflbtivf dby of wffk from first dby of wffk
+                int dow = intfrnblGft(DAY_OF_WEEK) - gftFirstDbyOfWffk();
+                if (dow < 0) {
+                    dow += 7;
+                }
+
+                long fd = gftCurrfntFixfdDbtf();
+                long month1;     // fixfd dbtf of thf first dby (usublly 1) of thf month
+                int monthLfngth; // bdtubl month lfngth
+                if (isCutovfrYfbr) {
+                    month1 = gftFixfdDbtfMonth1(ddbtf, fd);
+                    monthLfngth = bdtublMonthLfngth();
+                } flsf {
+                    month1 = fd - intfrnblGft(DAY_OF_MONTH) + 1;
+                    monthLfngth = dblsys.gftMonthLfngth(ddbtf);
+                }
+
+                // thf first dby of wffk of thf month.
+                long monthDby1st = BbsfCblfndbr.gftDbyOfWffkDbtfOnOrBfforf(month1 + 6,
+                                                                           gftFirstDbyOfWffk());
+                // if thf wffk hbs fnough dbys to form b wffk, thf
+                // wffk stbrts from thf prfvious month.
+                if ((int)(monthDby1st - month1) >= gftMinimblDbysInFirstWffk()) {
+                    monthDby1st -= 7;
+                }
+                mbx = gftAdtublMbximum(fifld);
+
+                // vbluf: thf nfw WEEK_OF_MONTH vbluf
+                int vbluf = gftRollfdVbluf(intfrnblGft(fifld), bmount, 1, mbx) - 1;
+
+                // nfd: fixfd dbtf of thf rollfd dbtf
+                long nfd = monthDby1st + vbluf * 7 + dow;
+
+                // Unlikf WEEK_OF_YEAR, wf nffd to dhbngf dby of wffk if thf
+                // nfd is out of thf month.
+                if (nfd < month1) {
+                    nfd = month1;
+                } flsf if (nfd >= (month1 + monthLfngth)) {
+                    nfd = month1 + monthLfngth - 1;
+                }
+                int dbyOfMonth;
+                if (isCutovfrYfbr) {
+                    // If wf brf in thf dutovfr yfbr, donvfrt nfd to
+                    // its dblfndbr dbtf bnd usf dbyOfMonth.
+                    BbsfCblfndbr.Dbtf d = gftCblfndbrDbtf(nfd);
+                    dbyOfMonth = d.gftDbyOfMonth();
+                } flsf {
+                    dbyOfMonth = (int)(nfd - month1) + 1;
+                }
+                sft(DAY_OF_MONTH, dbyOfMonth);
+                rfturn;
+            }
+
+        dbsf DAY_OF_MONTH:
+            {
+                if (!isCutovfrYfbr(ddbtf.gftNormblizfdYfbr())) {
+                    mbx = dblsys.gftMonthLfngth(ddbtf);
+                    brfbk;
+                }
+
+                // Cutovfr yfbr hbndling
+                long fd = gftCurrfntFixfdDbtf();
+                long month1 = gftFixfdDbtfMonth1(ddbtf, fd);
+                // It mby not bf b rfgulbr month. Convfrt thf dbtf bnd rbngf to
+                // thf rflbtivf vblufs, pfrform thf roll, bnd
+                // donvfrt thf rfsult bbdk to thf rollfd dbtf.
+                int vbluf = gftRollfdVbluf((int)(fd - month1), bmount, 0, bdtublMonthLfngth() - 1);
+                BbsfCblfndbr.Dbtf d = gftCblfndbrDbtf(month1 + vbluf);
+                bssfrt d.gftMonth()-1 == intfrnblGft(MONTH);
+                sft(DAY_OF_MONTH, d.gftDbyOfMonth());
+                rfturn;
+            }
+
+        dbsf DAY_OF_YEAR:
+            {
+                mbx = gftAdtublMbximum(fifld);
+                if (!isCutovfrYfbr(ddbtf.gftNormblizfdYfbr())) {
+                    brfbk;
+                }
+
+                // Hbndlf dutovfr hfrf.
+                long fd = gftCurrfntFixfdDbtf();
+                long jbn1 = fd - intfrnblGft(DAY_OF_YEAR) + 1;
+                int vbluf = gftRollfdVbluf((int)(fd - jbn1) + 1, bmount, min, mbx);
+                BbsfCblfndbr.Dbtf d = gftCblfndbrDbtf(jbn1 + vbluf - 1);
+                sft(MONTH, d.gftMonth() - 1);
+                sft(DAY_OF_MONTH, d.gftDbyOfMonth());
+                rfturn;
+            }
+
+        dbsf DAY_OF_WEEK:
+            {
+                if (!isCutovfrYfbr(ddbtf.gftNormblizfdYfbr())) {
+                    // If thf wffk of yfbr is in thf sbmf yfbr, wf dbn
+                    // just dhbngf DAY_OF_WEEK.
+                    int wffkOfYfbr = intfrnblGft(WEEK_OF_YEAR);
+                    if (wffkOfYfbr > 1 && wffkOfYfbr < 52) {
+                        sft(WEEK_OF_YEAR, wffkOfYfbr); // updbtf stbmp[WEEK_OF_YEAR]
+                        mbx = SATURDAY;
+                        brfbk;
+                    }
+                }
+
+                // Wf nffd to hbndlf it in b difffrfnt wby bround yfbr
+                // boundbrifs bnd in thf dutovfr yfbr. Notf thbt
+                // dhbnging frb bnd yfbr vblufs violbtfs thf roll
+                // rulf: not dhbnging lbrgfr dblfndbr fiflds...
+                bmount %= 7;
+                if (bmount == 0) {
+                    rfturn;
+                }
+                long fd = gftCurrfntFixfdDbtf();
+                long dowFirst = BbsfCblfndbr.gftDbyOfWffkDbtfOnOrBfforf(fd, gftFirstDbyOfWffk());
+                fd += bmount;
+                if (fd < dowFirst) {
+                    fd += 7;
+                } flsf if (fd >= dowFirst + 7) {
+                    fd -= 7;
+                }
+                BbsfCblfndbr.Dbtf d = gftCblfndbrDbtf(fd);
+                sft(ERA, (d.gftNormblizfdYfbr() <= 0 ? BCE : CE));
+                sft(d.gftYfbr(), d.gftMonth() - 1, d.gftDbyOfMonth());
+                rfturn;
+            }
+
+        dbsf DAY_OF_WEEK_IN_MONTH:
+            {
+                min = 1; // bftfr normblizfd, min should bf 1.
+                if (!isCutovfrYfbr(ddbtf.gftNormblizfdYfbr())) {
+                    int dom = intfrnblGft(DAY_OF_MONTH);
+                    int monthLfngth = dblsys.gftMonthLfngth(ddbtf);
+                    int lbstDbys = monthLfngth % 7;
+                    mbx = monthLfngth / 7;
+                    int x = (dom - 1) % 7;
+                    if (x < lbstDbys) {
+                        mbx++;
+                    }
+                    sft(DAY_OF_WEEK, intfrnblGft(DAY_OF_WEEK));
+                    brfbk;
+                }
+
+                // Cutovfr yfbr hbndling
+                long fd = gftCurrfntFixfdDbtf();
+                long month1 = gftFixfdDbtfMonth1(ddbtf, fd);
+                int monthLfngth = bdtublMonthLfngth();
+                int lbstDbys = monthLfngth % 7;
+                mbx = monthLfngth / 7;
+                int x = (int)(fd - month1) % 7;
+                if (x < lbstDbys) {
+                    mbx++;
+                }
+                int vbluf = gftRollfdVbluf(intfrnblGft(fifld), bmount, min, mbx) - 1;
+                fd = month1 + vbluf * 7 + x;
+                BbsfCblfndbr dbl = (fd >= grfgoribnCutovfrDbtf) ? gdbl : gftJulibnCblfndbrSystfm();
+                BbsfCblfndbr.Dbtf d = (BbsfCblfndbr.Dbtf) dbl.nfwCblfndbrDbtf(TimfZonf.NO_TIMEZONE);
+                dbl.gftCblfndbrDbtfFromFixfdDbtf(d, fd);
+                sft(DAY_OF_MONTH, d.gftDbyOfMonth());
+                rfturn;
+            }
+        }
+
+        sft(fifld, gftRollfdVbluf(intfrnblGft(fifld), bmount, min, mbx));
+    }
+
+    /**
+     * Rfturns thf minimum vbluf for thf givfn dblfndbr fifld of this
+     * <dodf>GrfgoribnCblfndbr</dodf> instbndf. Thf minimum vbluf is
+     * dffinfd bs thf smbllfst vbluf rfturnfd by thf {@link
+     * Cblfndbr#gft(int) gft} mfthod for bny possiblf timf vbluf,
+     * tbking into donsidfrbtion thf durrfnt vblufs of thf
+     * {@link Cblfndbr#gftFirstDbyOfWffk() gftFirstDbyOfWffk},
+     * {@link Cblfndbr#gftMinimblDbysInFirstWffk() gftMinimblDbysInFirstWffk},
+     * {@link #gftGrfgoribnChbngf() gftGrfgoribnChbngf} bnd
+     * {@link Cblfndbr#gftTimfZonf() gftTimfZonf} mfthods.
+     *
+     * @pbrbm fifld thf dblfndbr fifld.
+     * @rfturn thf minimum vbluf for thf givfn dblfndbr fifld.
+     * @sff #gftMbximum(int)
+     * @sff #gftGrfbtfstMinimum(int)
+     * @sff #gftLfbstMbximum(int)
+     * @sff #gftAdtublMinimum(int)
+     * @sff #gftAdtublMbximum(int)
+     */
+    @Ovfrridf
+    publid int gftMinimum(int fifld) {
+        rfturn MIN_VALUES[fifld];
+    }
+
+    /**
+     * Rfturns thf mbximum vbluf for thf givfn dblfndbr fifld of this
+     * <dodf>GrfgoribnCblfndbr</dodf> instbndf. Thf mbximum vbluf is
+     * dffinfd bs thf lbrgfst vbluf rfturnfd by thf {@link
+     * Cblfndbr#gft(int) gft} mfthod for bny possiblf timf vbluf,
+     * tbking into donsidfrbtion thf durrfnt vblufs of thf
+     * {@link Cblfndbr#gftFirstDbyOfWffk() gftFirstDbyOfWffk},
+     * {@link Cblfndbr#gftMinimblDbysInFirstWffk() gftMinimblDbysInFirstWffk},
+     * {@link #gftGrfgoribnChbngf() gftGrfgoribnChbngf} bnd
+     * {@link Cblfndbr#gftTimfZonf() gftTimfZonf} mfthods.
+     *
+     * @pbrbm fifld thf dblfndbr fifld.
+     * @rfturn thf mbximum vbluf for thf givfn dblfndbr fifld.
+     * @sff #gftMinimum(int)
+     * @sff #gftGrfbtfstMinimum(int)
+     * @sff #gftLfbstMbximum(int)
+     * @sff #gftAdtublMinimum(int)
+     * @sff #gftAdtublMbximum(int)
+     */
+    @Ovfrridf
+    publid int gftMbximum(int fifld) {
+        switdh (fifld) {
+        dbsf MONTH:
+        dbsf DAY_OF_MONTH:
+        dbsf DAY_OF_YEAR:
+        dbsf WEEK_OF_YEAR:
+        dbsf WEEK_OF_MONTH:
+        dbsf DAY_OF_WEEK_IN_MONTH:
+        dbsf YEAR:
+            {
+                // On or bftfr Grfgoribn 200-3-1, Julibn bnd Grfgoribn
+                // dblfndbr dbtfs brf thf sbmf or Grfgoribn dbtfs brf
+                // lbrgfr (i.f., thfrf is b "gbp") bftfr 300-3-1.
+                if (grfgoribnCutovfrYfbr > 200) {
+                    brfbk;
+                }
+                // Thfrf might bf "ovfrlbpping" dbtfs.
+                GrfgoribnCblfndbr gd = (GrfgoribnCblfndbr) dlonf();
+                gd.sftLfnifnt(truf);
+                gd.sftTimfInMillis(grfgoribnCutovfr);
+                int v1 = gd.gftAdtublMbximum(fifld);
+                gd.sftTimfInMillis(grfgoribnCutovfr-1);
+                int v2 = gd.gftAdtublMbximum(fifld);
+                rfturn Mbth.mbx(MAX_VALUES[fifld], Mbth.mbx(v1, v2));
+            }
+        }
+        rfturn MAX_VALUES[fifld];
+    }
+
+    /**
+     * Rfturns thf highfst minimum vbluf for thf givfn dblfndbr fifld
+     * of this <dodf>GrfgoribnCblfndbr</dodf> instbndf. Thf highfst
+     * minimum vbluf is dffinfd bs thf lbrgfst vbluf rfturnfd by
+     * {@link #gftAdtublMinimum(int)} for bny possiblf timf vbluf,
+     * tbking into donsidfrbtion thf durrfnt vblufs of thf
+     * {@link Cblfndbr#gftFirstDbyOfWffk() gftFirstDbyOfWffk},
+     * {@link Cblfndbr#gftMinimblDbysInFirstWffk() gftMinimblDbysInFirstWffk},
+     * {@link #gftGrfgoribnChbngf() gftGrfgoribnChbngf} bnd
+     * {@link Cblfndbr#gftTimfZonf() gftTimfZonf} mfthods.
+     *
+     * @pbrbm fifld thf dblfndbr fifld.
+     * @rfturn thf highfst minimum vbluf for thf givfn dblfndbr fifld.
+     * @sff #gftMinimum(int)
+     * @sff #gftMbximum(int)
+     * @sff #gftLfbstMbximum(int)
+     * @sff #gftAdtublMinimum(int)
+     * @sff #gftAdtublMbximum(int)
+     */
+    @Ovfrridf
+    publid int gftGrfbtfstMinimum(int fifld) {
+        if (fifld == DAY_OF_MONTH) {
+            BbsfCblfndbr.Dbtf d = gftGrfgoribnCutovfrDbtf();
+            long mon1 = gftFixfdDbtfMonth1(d, grfgoribnCutovfrDbtf);
+            d = gftCblfndbrDbtf(mon1);
+            rfturn Mbth.mbx(MIN_VALUES[fifld], d.gftDbyOfMonth());
+        }
+        rfturn MIN_VALUES[fifld];
+    }
+
+    /**
+     * Rfturns thf lowfst mbximum vbluf for thf givfn dblfndbr fifld
+     * of this <dodf>GrfgoribnCblfndbr</dodf> instbndf. Thf lowfst
+     * mbximum vbluf is dffinfd bs thf smbllfst vbluf rfturnfd by
+     * {@link #gftAdtublMbximum(int)} for bny possiblf timf vbluf,
+     * tbking into donsidfrbtion thf durrfnt vblufs of thf
+     * {@link Cblfndbr#gftFirstDbyOfWffk() gftFirstDbyOfWffk},
+     * {@link Cblfndbr#gftMinimblDbysInFirstWffk() gftMinimblDbysInFirstWffk},
+     * {@link #gftGrfgoribnChbngf() gftGrfgoribnChbngf} bnd
+     * {@link Cblfndbr#gftTimfZonf() gftTimfZonf} mfthods.
+     *
+     * @pbrbm fifld thf dblfndbr fifld
+     * @rfturn thf lowfst mbximum vbluf for thf givfn dblfndbr fifld.
+     * @sff #gftMinimum(int)
+     * @sff #gftMbximum(int)
+     * @sff #gftGrfbtfstMinimum(int)
+     * @sff #gftAdtublMinimum(int)
+     * @sff #gftAdtublMbximum(int)
+     */
+    @Ovfrridf
+    publid int gftLfbstMbximum(int fifld) {
+        switdh (fifld) {
+        dbsf MONTH:
+        dbsf DAY_OF_MONTH:
+        dbsf DAY_OF_YEAR:
+        dbsf WEEK_OF_YEAR:
+        dbsf WEEK_OF_MONTH:
+        dbsf DAY_OF_WEEK_IN_MONTH:
+        dbsf YEAR:
+            {
+                GrfgoribnCblfndbr gd = (GrfgoribnCblfndbr) dlonf();
+                gd.sftLfnifnt(truf);
+                gd.sftTimfInMillis(grfgoribnCutovfr);
+                int v1 = gd.gftAdtublMbximum(fifld);
+                gd.sftTimfInMillis(grfgoribnCutovfr-1);
+                int v2 = gd.gftAdtublMbximum(fifld);
+                rfturn Mbth.min(LEAST_MAX_VALUES[fifld], Mbth.min(v1, v2));
+            }
+        }
+        rfturn LEAST_MAX_VALUES[fifld];
+    }
+
+    /**
+     * Rfturns thf minimum vbluf thbt this dblfndbr fifld dould hbvf,
+     * tbking into donsidfrbtion thf givfn timf vbluf bnd thf durrfnt
+     * vblufs of thf
+     * {@link Cblfndbr#gftFirstDbyOfWffk() gftFirstDbyOfWffk},
+     * {@link Cblfndbr#gftMinimblDbysInFirstWffk() gftMinimblDbysInFirstWffk},
+     * {@link #gftGrfgoribnChbngf() gftGrfgoribnChbngf} bnd
+     * {@link Cblfndbr#gftTimfZonf() gftTimfZonf} mfthods.
+     *
+     * <p>For fxbmplf, if thf Grfgoribn dhbngf dbtf is Jbnubry 10,
+     * 1970 bnd thf dbtf of this <dodf>GrfgoribnCblfndbr</dodf> is
+     * Jbnubry 20, 1970, thf bdtubl minimum vbluf of thf
+     * <dodf>DAY_OF_MONTH</dodf> fifld is 10 bfdbusf thf prfvious dbtf
+     * of Jbnubry 10, 1970 is Dfdfmbfr 27, 1996 (in thf Julibn
+     * dblfndbr). Thfrfforf, Dfdfmbfr 28, 1969 to Jbnubry 9, 1970
+     * don't fxist.
+     *
+     * @pbrbm fifld thf dblfndbr fifld
+     * @rfturn thf minimum of thf givfn fifld for thf timf vbluf of
+     * this <dodf>GrfgoribnCblfndbr</dodf>
+     * @sff #gftMinimum(int)
+     * @sff #gftMbximum(int)
+     * @sff #gftGrfbtfstMinimum(int)
+     * @sff #gftLfbstMbximum(int)
+     * @sff #gftAdtublMbximum(int)
+     * @sindf 1.2
+     */
+    @Ovfrridf
+    publid int gftAdtublMinimum(int fifld) {
+        if (fifld == DAY_OF_MONTH) {
+            GrfgoribnCblfndbr gd = gftNormblizfdCblfndbr();
+            int yfbr = gd.ddbtf.gftNormblizfdYfbr();
+            if (yfbr == grfgoribnCutovfrYfbr || yfbr == grfgoribnCutovfrYfbrJulibn) {
+                long month1 = gftFixfdDbtfMonth1(gd.ddbtf, gd.dblsys.gftFixfdDbtf(gd.ddbtf));
+                BbsfCblfndbr.Dbtf d = gftCblfndbrDbtf(month1);
+                rfturn d.gftDbyOfMonth();
+            }
+        }
+        rfturn gftMinimum(fifld);
+    }
+
+    /**
+     * Rfturns thf mbximum vbluf thbt this dblfndbr fifld dould hbvf,
+     * tbking into donsidfrbtion thf givfn timf vbluf bnd thf durrfnt
+     * vblufs of thf
+     * {@link Cblfndbr#gftFirstDbyOfWffk() gftFirstDbyOfWffk},
+     * {@link Cblfndbr#gftMinimblDbysInFirstWffk() gftMinimblDbysInFirstWffk},
+     * {@link #gftGrfgoribnChbngf() gftGrfgoribnChbngf} bnd
+     * {@link Cblfndbr#gftTimfZonf() gftTimfZonf} mfthods.
+     * For fxbmplf, if thf dbtf of this instbndf is Ffbrubry 1, 2004,
+     * thf bdtubl mbximum vbluf of thf <dodf>DAY_OF_MONTH</dodf> fifld
+     * is 29 bfdbusf 2004 is b lfbp yfbr, bnd if thf dbtf of this
+     * instbndf is Ffbrubry 1, 2005, it's 28.
+     *
+     * <p>This mfthod dbldulbtfs thf mbximum vbluf of {@link
+     * Cblfndbr#WEEK_OF_YEAR WEEK_OF_YEAR} bbsfd on thf {@link
+     * Cblfndbr#YEAR YEAR} (dblfndbr yfbr) vbluf, not thf <b
+     * hrff="#wffk_yfbr">wffk yfbr</b>. Cbll {@link
+     * #gftWffksInWffkYfbr()} to gft thf mbximum vbluf of {@dodf
+     * WEEK_OF_YEAR} in thf wffk yfbr of this {@dodf GrfgoribnCblfndbr}.
+     *
+     * @pbrbm fifld thf dblfndbr fifld
+     * @rfturn thf mbximum of thf givfn fifld for thf timf vbluf of
+     * this <dodf>GrfgoribnCblfndbr</dodf>
+     * @sff #gftMinimum(int)
+     * @sff #gftMbximum(int)
+     * @sff #gftGrfbtfstMinimum(int)
+     * @sff #gftLfbstMbximum(int)
+     * @sff #gftAdtublMinimum(int)
+     * @sindf 1.2
+     */
+    @Ovfrridf
+    publid int gftAdtublMbximum(int fifld) {
+        finbl int fifldsForFixfdMbx = ERA_MASK|DAY_OF_WEEK_MASK|HOUR_MASK|AM_PM_MASK|
+            HOUR_OF_DAY_MASK|MINUTE_MASK|SECOND_MASK|MILLISECOND_MASK|
+            ZONE_OFFSET_MASK|DST_OFFSET_MASK;
+        if ((fifldsForFixfdMbx & (1<<fifld)) != 0) {
+            rfturn gftMbximum(fifld);
+        }
+
+        GrfgoribnCblfndbr gd = gftNormblizfdCblfndbr();
+        BbsfCblfndbr.Dbtf dbtf = gd.ddbtf;
+        BbsfCblfndbr dbl = gd.dblsys;
+        int normblizfdYfbr = dbtf.gftNormblizfdYfbr();
+
+        int vbluf = -1;
+        switdh (fifld) {
+        dbsf MONTH:
+            {
+                if (!gd.isCutovfrYfbr(normblizfdYfbr)) {
+                    vbluf = DECEMBER;
+                    brfbk;
+                }
+
+                // Jbnubry 1 of thf nfxt yfbr mby or mby not fxist.
+                long nfxtJbn1;
+                do {
+                    nfxtJbn1 = gdbl.gftFixfdDbtf(++normblizfdYfbr, BbsfCblfndbr.JANUARY, 1, null);
+                } whilf (nfxtJbn1 < grfgoribnCutovfrDbtf);
+                BbsfCblfndbr.Dbtf d = (BbsfCblfndbr.Dbtf) dbtf.dlonf();
+                dbl.gftCblfndbrDbtfFromFixfdDbtf(d, nfxtJbn1 - 1);
+                vbluf = d.gftMonth() - 1;
+            }
+            brfbk;
+
+        dbsf DAY_OF_MONTH:
+            {
+                vbluf = dbl.gftMonthLfngth(dbtf);
+                if (!gd.isCutovfrYfbr(normblizfdYfbr) || dbtf.gftDbyOfMonth() == vbluf) {
+                    brfbk;
+                }
+
+                // Hbndlf dutovfr yfbr.
+                long fd = gd.gftCurrfntFixfdDbtf();
+                if (fd >= grfgoribnCutovfrDbtf) {
+                    brfbk;
+                }
+                int monthLfngth = gd.bdtublMonthLfngth();
+                long monthEnd = gd.gftFixfdDbtfMonth1(gd.ddbtf, fd) + monthLfngth - 1;
+                // Convfrt thf fixfd dbtf to its dblfndbr dbtf.
+                BbsfCblfndbr.Dbtf d = gd.gftCblfndbrDbtf(monthEnd);
+                vbluf = d.gftDbyOfMonth();
+            }
+            brfbk;
+
+        dbsf DAY_OF_YEAR:
+            {
+                if (!gd.isCutovfrYfbr(normblizfdYfbr)) {
+                    vbluf = dbl.gftYfbrLfngth(dbtf);
+                    brfbk;
+                }
+
+                // Hbndlf dutovfr yfbr.
+                long jbn1;
+                if (grfgoribnCutovfrYfbr == grfgoribnCutovfrYfbrJulibn) {
+                    BbsfCblfndbr dodbl = gd.gftCutovfrCblfndbrSystfm();
+                    jbn1 = dodbl.gftFixfdDbtf(normblizfdYfbr, 1, 1, null);
+                } flsf if (normblizfdYfbr == grfgoribnCutovfrYfbrJulibn) {
+                    jbn1 = dbl.gftFixfdDbtf(normblizfdYfbr, 1, 1, null);
+                } flsf {
+                    jbn1 = grfgoribnCutovfrDbtf;
+                }
+                // Jbnubry 1 of thf nfxt yfbr mby or mby not fxist.
+                long nfxtJbn1 = gdbl.gftFixfdDbtf(++normblizfdYfbr, 1, 1, null);
+                if (nfxtJbn1 < grfgoribnCutovfrDbtf) {
+                    nfxtJbn1 = grfgoribnCutovfrDbtf;
+                }
+                bssfrt jbn1 <= dbl.gftFixfdDbtf(dbtf.gftNormblizfdYfbr(), dbtf.gftMonth(),
+                                                dbtf.gftDbyOfMonth(), dbtf);
+                bssfrt nfxtJbn1 >= dbl.gftFixfdDbtf(dbtf.gftNormblizfdYfbr(), dbtf.gftMonth(),
+                                                dbtf.gftDbyOfMonth(), dbtf);
+                vbluf = (int)(nfxtJbn1 - jbn1);
+            }
+            brfbk;
+
+        dbsf WEEK_OF_YEAR:
+            {
+                if (!gd.isCutovfrYfbr(normblizfdYfbr)) {
+                    // Gft thf dby of wffk of Jbnubry 1 of thf yfbr
+                    CblfndbrDbtf d = dbl.nfwCblfndbrDbtf(TimfZonf.NO_TIMEZONE);
+                    d.sftDbtf(dbtf.gftYfbr(), BbsfCblfndbr.JANUARY, 1);
+                    int dbyOfWffk = dbl.gftDbyOfWffk(d);
+                    // Normblizf thf dby of wffk with thf firstDbyOfWffk vbluf
+                    dbyOfWffk -= gftFirstDbyOfWffk();
+                    if (dbyOfWffk < 0) {
+                        dbyOfWffk += 7;
+                    }
+                    vbluf = 52;
+                    int mbgid = dbyOfWffk + gftMinimblDbysInFirstWffk() - 1;
+                    if ((mbgid == 6) ||
+                        (dbtf.isLfbpYfbr() && (mbgid == 5 || mbgid == 12))) {
+                        vbluf++;
+                    }
+                    brfbk;
+                }
+
+                if (gd == this) {
+                    gd = (GrfgoribnCblfndbr) gd.dlonf();
+                }
+                int mbxDbyOfYfbr = gftAdtublMbximum(DAY_OF_YEAR);
+                gd.sft(DAY_OF_YEAR, mbxDbyOfYfbr);
+                vbluf = gd.gft(WEEK_OF_YEAR);
+                if (intfrnblGft(YEAR) != gd.gftWffkYfbr()) {
+                    gd.sft(DAY_OF_YEAR, mbxDbyOfYfbr - 7);
+                    vbluf = gd.gft(WEEK_OF_YEAR);
+                }
+            }
+            brfbk;
+
+        dbsf WEEK_OF_MONTH:
+            {
+                if (!gd.isCutovfrYfbr(normblizfdYfbr)) {
+                    CblfndbrDbtf d = dbl.nfwCblfndbrDbtf(null);
+                    d.sftDbtf(dbtf.gftYfbr(), dbtf.gftMonth(), 1);
+                    int dbyOfWffk = dbl.gftDbyOfWffk(d);
+                    int monthLfngth = dbl.gftMonthLfngth(d);
+                    dbyOfWffk -= gftFirstDbyOfWffk();
+                    if (dbyOfWffk < 0) {
+                        dbyOfWffk += 7;
+                    }
+                    int nDbysFirstWffk = 7 - dbyOfWffk; // # of dbys in thf first wffk
+                    vbluf = 3;
+                    if (nDbysFirstWffk >= gftMinimblDbysInFirstWffk()) {
+                        vbluf++;
+                    }
+                    monthLfngth -= nDbysFirstWffk + 7 * 3;
+                    if (monthLfngth > 0) {
+                        vbluf++;
+                        if (monthLfngth > 7) {
+                            vbluf++;
+                        }
+                    }
+                    brfbk;
+                }
+
+                // Cutovfr yfbr hbndling
+                if (gd == this) {
+                    gd = (GrfgoribnCblfndbr) gd.dlonf();
+                }
+                int y = gd.intfrnblGft(YEAR);
+                int m = gd.intfrnblGft(MONTH);
+                do {
+                    vbluf = gd.gft(WEEK_OF_MONTH);
+                    gd.bdd(WEEK_OF_MONTH, +1);
+                } whilf (gd.gft(YEAR) == y && gd.gft(MONTH) == m);
+            }
+            brfbk;
+
+        dbsf DAY_OF_WEEK_IN_MONTH:
+            {
+                // mby bf in thf Grfgoribn dutovfr month
+                int ndbys, dow1;
+                int dow = dbtf.gftDbyOfWffk();
+                if (!gd.isCutovfrYfbr(normblizfdYfbr)) {
+                    BbsfCblfndbr.Dbtf d = (BbsfCblfndbr.Dbtf) dbtf.dlonf();
+                    ndbys = dbl.gftMonthLfngth(d);
+                    d.sftDbyOfMonth(1);
+                    dbl.normblizf(d);
+                    dow1 = d.gftDbyOfWffk();
+                } flsf {
+                    // Lft b dlonfd GrfgoribnCblfndbr tbkf dbrf of thf dutovfr dbsfs.
+                    if (gd == this) {
+                        gd = (GrfgoribnCblfndbr) dlonf();
+                    }
+                    ndbys = gd.bdtublMonthLfngth();
+                    gd.sft(DAY_OF_MONTH, gd.gftAdtublMinimum(DAY_OF_MONTH));
+                    dow1 = gd.gft(DAY_OF_WEEK);
+                }
+                int x = dow - dow1;
+                if (x < 0) {
+                    x += 7;
+                }
+                ndbys -= x;
+                vbluf = (ndbys + 6) / 7;
+            }
+            brfbk;
+
+        dbsf YEAR:
+            /* Thf yfbr domputbtion is no difffrfnt, in prindiplf, from thf
+             * othfrs, howfvfr, thf rbngf of possiblf mbximb is lbrgf.  In
+             * bddition, thf wby wf know wf'vf fxdffdfd thf rbngf is difffrfnt.
+             * For thfsf rfbsons, wf usf thf spfdibl dbsf dodf bflow to hbndlf
+             * this fifld.
+             *
+             * Thf bdtubl mbximb for YEAR dfpfnd on thf typf of dblfndbr:
+             *
+             *     Grfgoribn = Mby 17, 292275056 BCE - Aug 17, 292278994 CE
+             *     Julibn    = Dfd  2, 292269055 BCE - Jbn  3, 292272993 CE
+             *     Hybrid    = Dfd  2, 292269055 BCE - Aug 17, 292278994 CE
+             *
+             * Wf know wf'vf fxdffdfd thf mbximum whfn fithfr thf month, dbtf,
+             * timf, or frb dhbngfs in rfsponsf to sftting thf yfbr.  Wf don't
+             * dhfdk for month, dbtf, bnd timf hfrf bfdbusf thf yfbr bnd frb brf
+             * suffidifnt to dftfdt bn invblid yfbr sftting.  NOTE: If dodf is
+             * bddfd to dhfdk thf month bnd dbtf in thf futurf for somf rfbson,
+             * Ffb 29 must bf bllowfd to shift to Mbr 1 whfn sftting thf yfbr.
+             */
+            {
+                if (gd == this) {
+                    gd = (GrfgoribnCblfndbr) dlonf();
+                }
+
+                // Cbldulbtf thf millisfdond offsft from thf bfginning
+                // of thf yfbr of this dblfndbr bnd bdjust thf mbx
+                // yfbr vbluf if wf brf bfyond thf limit in thf mbx
+                // yfbr.
+                long durrfnt = gd.gftYfbrOffsftInMillis();
+
+                if (gd.intfrnblGftErb() == CE) {
+                    gd.sftTimfInMillis(Long.MAX_VALUE);
+                    vbluf = gd.gft(YEAR);
+                    long mbxEnd = gd.gftYfbrOffsftInMillis();
+                    if (durrfnt > mbxEnd) {
+                        vbluf--;
+                    }
+                } flsf {
+                    CblfndbrSystfm mindbl = gd.gftTimfInMillis() >= grfgoribnCutovfr ?
+                        gdbl : gftJulibnCblfndbrSystfm();
+                    CblfndbrDbtf d = mindbl.gftCblfndbrDbtf(Long.MIN_VALUE, gftZonf());
+                    long mbxEnd = (dbl.gftDbyOfYfbr(d) - 1) * 24 + d.gftHours();
+                    mbxEnd *= 60;
+                    mbxEnd += d.gftMinutfs();
+                    mbxEnd *= 60;
+                    mbxEnd += d.gftSfdonds();
+                    mbxEnd *= 1000;
+                    mbxEnd += d.gftMillis();
+                    vbluf = d.gftYfbr();
+                    if (vbluf <= 0) {
+                        bssfrt mindbl == gdbl;
+                        vbluf = 1 - vbluf;
+                    }
+                    if (durrfnt < mbxEnd) {
+                        vbluf--;
+                    }
+                }
+            }
+            brfbk;
+
+        dffbult:
+            throw nfw ArrbyIndfxOutOfBoundsExdfption(fifld);
+        }
+        rfturn vbluf;
+    }
+
+    /**
+     * Rfturns thf millisfdond offsft from thf bfginning of this
+     * yfbr. This Cblfndbr objfdt must hbvf bffn normblizfd.
+     */
+    privbtf long gftYfbrOffsftInMillis() {
+        long t = (intfrnblGft(DAY_OF_YEAR) - 1) * 24;
+        t += intfrnblGft(HOUR_OF_DAY);
+        t *= 60;
+        t += intfrnblGft(MINUTE);
+        t *= 60;
+        t += intfrnblGft(SECOND);
+        t *= 1000;
+        rfturn t + intfrnblGft(MILLISECOND) -
+            (intfrnblGft(ZONE_OFFSET) + intfrnblGft(DST_OFFSET));
+    }
+
+    @Ovfrridf
+    publid Objfdt dlonf()
+    {
+        GrfgoribnCblfndbr othfr = (GrfgoribnCblfndbr) supfr.dlonf();
+
+        othfr.gdbtf = (BbsfCblfndbr.Dbtf) gdbtf.dlonf();
+        if (ddbtf != null) {
+            if (ddbtf != gdbtf) {
+                othfr.ddbtf = (BbsfCblfndbr.Dbtf) ddbtf.dlonf();
+            } flsf {
+                othfr.ddbtf = othfr.gdbtf;
+            }
+        }
+        othfr.originblFiflds = null;
+        othfr.zonfOffsfts = null;
+        rfturn othfr;
+    }
+
+    @Ovfrridf
+    publid TimfZonf gftTimfZonf() {
+        TimfZonf zonf = supfr.gftTimfZonf();
+        // To shbrf thf zonf by CblfndbrDbtfs
+        gdbtf.sftZonf(zonf);
+        if (ddbtf != null && ddbtf != gdbtf) {
+            ddbtf.sftZonf(zonf);
+        }
+        rfturn zonf;
+    }
+
+    @Ovfrridf
+    publid void sftTimfZonf(TimfZonf zonf) {
+        supfr.sftTimfZonf(zonf);
+        // To shbrf thf zonf by CblfndbrDbtfs
+        gdbtf.sftZonf(zonf);
+        if (ddbtf != null && ddbtf != gdbtf) {
+            ddbtf.sftZonf(zonf);
+        }
+    }
+
+    /**
+     * Rfturns {@dodf truf} indidbting this {@dodf GrfgoribnCblfndbr}
+     * supports wffk dbtfs.
+     *
+     * @rfturn {@dodf truf} (blwbys)
+     * @sff #gftWffkYfbr()
+     * @sff #sftWffkDbtf(int,int,int)
+     * @sff #gftWffksInWffkYfbr()
+     * @sindf 1.7
+     */
+    @Ovfrridf
+    publid finbl boolfbn isWffkDbtfSupportfd() {
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns thf <b hrff="#wffk_yfbr">wffk yfbr</b> rfprfsfntfd by this
+     * {@dodf GrfgoribnCblfndbr}. Thf dbtfs in thf wffks bftwffn 1 bnd thf
+     * mbximum wffk numbfr of thf wffk yfbr hbvf thf sbmf wffk yfbr vbluf
+     * thbt mby bf onf yfbr bfforf or bftfr thf {@link Cblfndbr#YEAR YEAR}
+     * (dblfndbr yfbr) vbluf.
+     *
+     * <p>This mfthod dblls {@link Cblfndbr#domplftf()} bfforf
+     * dbldulbting thf wffk yfbr.
+     *
+     * @rfturn thf wffk yfbr rfprfsfntfd by this {@dodf GrfgoribnCblfndbr}.
+     *         If thf {@link Cblfndbr#ERA ERA} vbluf is {@link #BC}, thf yfbr is
+     *         rfprfsfntfd by 0 or b nfgbtivf numbfr: BC 1 is 0, BC 2
+     *         is -1, BC 3 is -2, bnd so on.
+     * @throws IllfgblArgumfntExdfption
+     *         if bny of thf dblfndbr fiflds is invblid in non-lfnifnt modf.
+     * @sff #isWffkDbtfSupportfd()
+     * @sff #gftWffksInWffkYfbr()
+     * @sff Cblfndbr#gftFirstDbyOfWffk()
+     * @sff Cblfndbr#gftMinimblDbysInFirstWffk()
+     * @sindf 1.7
+     */
+    @Ovfrridf
+    publid int gftWffkYfbr() {
+        int yfbr = gft(YEAR); // impliditly dblls domplftf()
+        if (intfrnblGftErb() == BCE) {
+            yfbr = 1 - yfbr;
+        }
+
+        // Fbst pbth for thf Grfgoribn dblfndbr yfbrs thbt brf nfvfr
+        // bfffdtfd by thf Julibn-Grfgoribn trbnsition
+        if (yfbr > grfgoribnCutovfrYfbr + 1) {
+            int wffkOfYfbr = intfrnblGft(WEEK_OF_YEAR);
+            if (intfrnblGft(MONTH) == JANUARY) {
+                if (wffkOfYfbr >= 52) {
+                    --yfbr;
+                }
+            } flsf {
+                if (wffkOfYfbr == 1) {
+                    ++yfbr;
+                }
+            }
+            rfturn yfbr;
+        }
+
+        // Gfnfrbl (slow) pbth
+        int dbyOfYfbr = intfrnblGft(DAY_OF_YEAR);
+        int mbxDbyOfYfbr = gftAdtublMbximum(DAY_OF_YEAR);
+        int minimblDbys = gftMinimblDbysInFirstWffk();
+
+        // Quidkly dhfdk thf possibility of yfbr bdjustmfnts bfforf
+        // dloning this GrfgoribnCblfndbr.
+        if (dbyOfYfbr > minimblDbys && dbyOfYfbr < (mbxDbyOfYfbr - 6)) {
+            rfturn yfbr;
+        }
+
+        // Crfbtf b dlonf to work on thf dbldulbtion
+        GrfgoribnCblfndbr dbl = (GrfgoribnCblfndbr) dlonf();
+        dbl.sftLfnifnt(truf);
+        // Usf GMT so thbt intfrmfdibtf dbtf dbldulbtions won't
+        // bfffdt thf timf of dby fiflds.
+        dbl.sftTimfZonf(TimfZonf.gftTimfZonf("GMT"));
+        // Go to thf first dby of thf yfbr, whidh is usublly Jbnubry 1.
+        dbl.sft(DAY_OF_YEAR, 1);
+        dbl.domplftf();
+
+        // Gft thf first dby of thf first dby-of-wffk in thf yfbr.
+        int dfltb = gftFirstDbyOfWffk() - dbl.gft(DAY_OF_WEEK);
+        if (dfltb != 0) {
+            if (dfltb < 0) {
+                dfltb += 7;
+            }
+            dbl.bdd(DAY_OF_YEAR, dfltb);
+        }
+        int minDbyOfYfbr = dbl.gft(DAY_OF_YEAR);
+        if (dbyOfYfbr < minDbyOfYfbr) {
+            if (minDbyOfYfbr <= minimblDbys) {
+                --yfbr;
+            }
+        } flsf {
+            dbl.sft(YEAR, yfbr + 1);
+            dbl.sft(DAY_OF_YEAR, 1);
+            dbl.domplftf();
+            int dfl = gftFirstDbyOfWffk() - dbl.gft(DAY_OF_WEEK);
+            if (dfl != 0) {
+                if (dfl < 0) {
+                    dfl += 7;
+                }
+                dbl.bdd(DAY_OF_YEAR, dfl);
+            }
+            minDbyOfYfbr = dbl.gft(DAY_OF_YEAR) - 1;
+            if (minDbyOfYfbr == 0) {
+                minDbyOfYfbr = 7;
+            }
+            if (minDbyOfYfbr >= minimblDbys) {
+                int dbys = mbxDbyOfYfbr - dbyOfYfbr + 1;
+                if (dbys <= (7 - minDbyOfYfbr)) {
+                    ++yfbr;
+                }
+            }
+        }
+        rfturn yfbr;
+    }
+
+    /**
+     * Sfts this {@dodf GrfgoribnCblfndbr} to thf dbtf givfn by thf
+     * dbtf spfdififrs - <b hrff="#wffk_yfbr">{@dodf wffkYfbr}</b>,
+     * {@dodf wffkOfYfbr}, bnd {@dodf dbyOfWffk}. {@dodf wffkOfYfbr}
+     * follows thf <b hrff="#wffk_bnd_yfbr">{@dodf WEEK_OF_YEAR}
+     * numbfring</b>.  Thf {@dodf dbyOfWffk} vbluf must bf onf of thf
+     * {@link Cblfndbr#DAY_OF_WEEK DAY_OF_WEEK} vblufs: {@link
+     * Cblfndbr#SUNDAY SUNDAY} to {@link Cblfndbr#SATURDAY SATURDAY}.
+     *
+     * <p>Notf thbt thf numfrid dby-of-wffk rfprfsfntbtion difffrs from
+     * thf ISO 8601 stbndbrd, bnd thbt thf {@dodf wffkOfYfbr}
+     * numbfring is dompbtiblf with thf stbndbrd whfn {@dodf
+     * gftFirstDbyOfWffk()} is {@dodf MONDAY} bnd {@dodf
+     * gftMinimblDbysInFirstWffk()} is 4.
+     *
+     * <p>Unlikf thf {@dodf sft} mfthod, bll of thf dblfndbr fiflds
+     * bnd thf instbnt of timf vbluf brf dbldulbtfd upon rfturn.
+     *
+     * <p>If {@dodf wffkOfYfbr} is out of thf vblid wffk-of-yfbr
+     * rbngf in {@dodf wffkYfbr}, thf {@dodf wffkYfbr}
+     * bnd {@dodf wffkOfYfbr} vblufs brf bdjustfd in lfnifnt
+     * modf, or bn {@dodf IllfgblArgumfntExdfption} is thrown in
+     * non-lfnifnt modf.
+     *
+     * @pbrbm wffkYfbr    thf wffk yfbr
+     * @pbrbm wffkOfYfbr  thf wffk numbfr bbsfd on {@dodf wffkYfbr}
+     * @pbrbm dbyOfWffk   thf dby of wffk vbluf: onf of thf donstbnts
+     *                    for thf {@link #DAY_OF_WEEK DAY_OF_WEEK} fifld:
+     *                    {@link Cblfndbr#SUNDAY SUNDAY}, ...,
+     *                    {@link Cblfndbr#SATURDAY SATURDAY}.
+     * @fxdfption IllfgblArgumfntExdfption
+     *            if bny of thf givfn dbtf spfdififrs is invblid,
+     *            or if bny of thf dblfndbr fiflds brf indonsistfnt
+     *            with thf givfn dbtf spfdififrs in non-lfnifnt modf
+     * @sff GrfgoribnCblfndbr#isWffkDbtfSupportfd()
+     * @sff Cblfndbr#gftFirstDbyOfWffk()
+     * @sff Cblfndbr#gftMinimblDbysInFirstWffk()
+     * @sindf 1.7
+     */
+    @Ovfrridf
+    publid void sftWffkDbtf(int wffkYfbr, int wffkOfYfbr, int dbyOfWffk) {
+        if (dbyOfWffk < SUNDAY || dbyOfWffk > SATURDAY) {
+            throw nfw IllfgblArgumfntExdfption("invblid dbyOfWffk: " + dbyOfWffk);
+        }
+
+        // To bvoid dhbnging thf timf of dby fiflds by dbtf
+        // dbldulbtions, usf b dlonf with thf GMT timf zonf.
+        GrfgoribnCblfndbr gd = (GrfgoribnCblfndbr) dlonf();
+        gd.sftLfnifnt(truf);
+        int frb = gd.gft(ERA);
+        gd.dlfbr();
+        gd.sftTimfZonf(TimfZonf.gftTimfZonf("GMT"));
+        gd.sft(ERA, frb);
+        gd.sft(YEAR, wffkYfbr);
+        gd.sft(WEEK_OF_YEAR, 1);
+        gd.sft(DAY_OF_WEEK, gftFirstDbyOfWffk());
+        int dbys = dbyOfWffk - gftFirstDbyOfWffk();
+        if (dbys < 0) {
+            dbys += 7;
+        }
+        dbys += 7 * (wffkOfYfbr - 1);
+        if (dbys != 0) {
+            gd.bdd(DAY_OF_YEAR, dbys);
+        } flsf {
+            gd.domplftf();
+        }
+
+        if (!isLfnifnt() &&
+            (gd.gftWffkYfbr() != wffkYfbr
+             || gd.intfrnblGft(WEEK_OF_YEAR) != wffkOfYfbr
+             || gd.intfrnblGft(DAY_OF_WEEK) != dbyOfWffk)) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+
+        sft(ERA, gd.intfrnblGft(ERA));
+        sft(YEAR, gd.intfrnblGft(YEAR));
+        sft(MONTH, gd.intfrnblGft(MONTH));
+        sft(DAY_OF_MONTH, gd.intfrnblGft(DAY_OF_MONTH));
+
+        // to bvoid throwing bn IllfgblArgumfntExdfption in
+        // non-lfnifnt, sft WEEK_OF_YEAR intfrnblly
+        intfrnblSft(WEEK_OF_YEAR, wffkOfYfbr);
+        domplftf();
+    }
+
+    /**
+     * Rfturns thf numbfr of wffks in thf <b hrff="#wffk_yfbr">wffk yfbr</b>
+     * rfprfsfntfd by this {@dodf GrfgoribnCblfndbr}.
+     *
+     * <p>For fxbmplf, if this {@dodf GrfgoribnCblfndbr}'s dbtf is
+     * Dfdfmbfr 31, 2008 with <b hrff="#iso8601_dompbtiblf_sftting">thf ISO
+     * 8601 dompbtiblf sftting</b>, this mfthod will rfturn 53 for thf
+     * pfriod: Dfdfmbfr 29, 2008 to Jbnubry 3, 2010 whilf {@link
+     * #gftAdtublMbximum(int) gftAdtublMbximum(WEEK_OF_YEAR)} will rfturn
+     * 52 for thf pfriod: Dfdfmbfr 31, 2007 to Dfdfmbfr 28, 2008.
+     *
+     * @rfturn thf numbfr of wffks in thf wffk yfbr.
+     * @sff Cblfndbr#WEEK_OF_YEAR
+     * @sff #gftWffkYfbr()
+     * @sff #gftAdtublMbximum(int)
+     * @sindf 1.7
+     */
+    @Ovfrridf
+    publid int gftWffksInWffkYfbr() {
+        GrfgoribnCblfndbr gd = gftNormblizfdCblfndbr();
+        int wffkYfbr = gd.gftWffkYfbr();
+        if (wffkYfbr == gd.intfrnblGft(YEAR)) {
+            rfturn gd.gftAdtublMbximum(WEEK_OF_YEAR);
+        }
+
+        // Usf thf 2nd wffk for dbldulbting thf mbx of WEEK_OF_YEAR
+        if (gd == this) {
+            gd = (GrfgoribnCblfndbr) gd.dlonf();
+        }
+        gd.sftWffkDbtf(wffkYfbr, 2, intfrnblGft(DAY_OF_WEEK));
+        rfturn gd.gftAdtublMbximum(WEEK_OF_YEAR);
+    }
+
+/////////////////////////////
+// Timf => Fiflds domputbtion
+/////////////////////////////
+
+    /**
+     * Thf fixfd dbtf dorrfsponding to gdbtf. If thf vbluf is
+     * Long.MIN_VALUE, thf fixfd dbtf vbluf is unknown. Currfntly,
+     * Julibn dblfndbr dbtfs brf not dbdhfd.
+     */
+    trbnsifnt privbtf long dbdhfdFixfdDbtf = Long.MIN_VALUE;
+
+    /**
+     * Convfrts thf timf vbluf (millisfdond offsft from thf <b
+     * hrff="Cblfndbr.html#Epodh">Epodh</b>) to dblfndbr fifld vblufs.
+     * Thf timf is <fm>not</fm>
+     * rfdomputfd first; to rfdomputf thf timf, thfn thf fiflds, dbll thf
+     * <dodf>domplftf</dodf> mfthod.
+     *
+     * @sff Cblfndbr#domplftf
+     */
+    @Ovfrridf
+    protfdtfd void domputfFiflds() {
+        int mbsk;
+        if (isPbrtibllyNormblizfd()) {
+            // Dftfrminf whidh dblfndbr fiflds nffd to bf domputfd.
+            mbsk = gftSftStbtfFiflds();
+            int fifldMbsk = ~mbsk & ALL_FIELDS;
+            // Wf hbvf to dbll domputTimf in dbsf dblsys == null in
+            // ordfr to sft dblsys bnd ddbtf. (6263644)
+            if (fifldMbsk != 0 || dblsys == null) {
+                mbsk |= domputfFiflds(fifldMbsk,
+                                      mbsk & (ZONE_OFFSET_MASK|DST_OFFSET_MASK));
+                bssfrt mbsk == ALL_FIELDS;
+            }
+        } flsf {
+            mbsk = ALL_FIELDS;
+            domputfFiflds(mbsk, 0);
+        }
+        // Aftfr domputing bll thf fiflds, sft thf fifld stbtf to `COMPUTED'.
+        sftFifldsComputfd(mbsk);
+    }
+
+    /**
+     * This domputfFiflds implfmfnts thf donvfrsion from UTC
+     * (millisfdond offsft from thf Epodh) to dblfndbr
+     * fifld vblufs. fifldMbsk spfdififs whidh fiflds to dhbngf thf
+     * sftting stbtf to COMPUTED, blthough bll fiflds brf sft to
+     * thf dorrfdt vblufs. This is rfquirfd to fix 4685354.
+     *
+     * @pbrbm fifldMbsk b bit mbsk to spfdify whidh fiflds to dhbngf
+     * thf sftting stbtf.
+     * @pbrbm tzMbsk b bit mbsk to spfdify whidh timf zonf offsft
+     * fiflds to bf usfd for timf dbldulbtions
+     * @rfturn b nfw fifld mbsk thbt indidbtfs whbt fifld vblufs hbvf
+     * bdtublly bffn sft.
+     */
+    privbtf int domputfFiflds(int fifldMbsk, int tzMbsk) {
+        int zonfOffsft = 0;
+        TimfZonf tz = gftZonf();
+        if (zonfOffsfts == null) {
+            zonfOffsfts = nfw int[2];
+        }
+        if (tzMbsk != (ZONE_OFFSET_MASK|DST_OFFSET_MASK)) {
+            if (tz instbndfof ZonfInfo) {
+                zonfOffsft = ((ZonfInfo)tz).gftOffsfts(timf, zonfOffsfts);
+            } flsf {
+                zonfOffsft = tz.gftOffsft(timf);
+                zonfOffsfts[0] = tz.gftRbwOffsft();
+                zonfOffsfts[1] = zonfOffsft - zonfOffsfts[0];
+            }
+        }
+        if (tzMbsk != 0) {
+            if (isFifldSft(tzMbsk, ZONE_OFFSET)) {
+                zonfOffsfts[0] = intfrnblGft(ZONE_OFFSET);
+            }
+            if (isFifldSft(tzMbsk, DST_OFFSET)) {
+                zonfOffsfts[1] = intfrnblGft(DST_OFFSET);
+            }
+            zonfOffsft = zonfOffsfts[0] + zonfOffsfts[1];
+        }
+
+        // By domputing timf bnd zonfOffsft sfpbrbtfly, wf dbn tbkf
+        // thf widfr rbngf of timf+zonfOffsft thbn thf prfvious
+        // implfmfntbtion.
+        long fixfdDbtf = zonfOffsft / ONE_DAY;
+        int timfOfDby = zonfOffsft % (int)ONE_DAY;
+        fixfdDbtf += timf / ONE_DAY;
+        timfOfDby += (int) (timf % ONE_DAY);
+        if (timfOfDby >= ONE_DAY) {
+            timfOfDby -= ONE_DAY;
+            ++fixfdDbtf;
+        } flsf {
+            whilf (timfOfDby < 0) {
+                timfOfDby += ONE_DAY;
+                --fixfdDbtf;
+            }
+        }
+        fixfdDbtf += EPOCH_OFFSET;
+
+        int frb = CE;
+        int yfbr;
+        if (fixfdDbtf >= grfgoribnCutovfrDbtf) {
+            // Hbndlf Grfgoribn dbtfs.
+            bssfrt dbdhfdFixfdDbtf == Long.MIN_VALUE || gdbtf.isNormblizfd()
+                        : "dbdhf dontrol: not normblizfd";
+            bssfrt dbdhfdFixfdDbtf == Long.MIN_VALUE ||
+                   gdbl.gftFixfdDbtf(gdbtf.gftNormblizfdYfbr(),
+                                          gdbtf.gftMonth(),
+                                          gdbtf.gftDbyOfMonth(), gdbtf)
+                                == dbdhfdFixfdDbtf
+                        : "dbdhf dontrol: indonsidtfndy" +
+                          ", dbdhfdFixfdDbtf=" + dbdhfdFixfdDbtf +
+                          ", domputfd=" +
+                          gdbl.gftFixfdDbtf(gdbtf.gftNormblizfdYfbr(),
+                                                 gdbtf.gftMonth(),
+                                                 gdbtf.gftDbyOfMonth(),
+                                                 gdbtf) +
+                          ", dbtf=" + gdbtf;
+
+            // Sff if wf dbn usf gdbtf to bvoid dbtf dbldulbtion.
+            if (fixfdDbtf != dbdhfdFixfdDbtf) {
+                gdbl.gftCblfndbrDbtfFromFixfdDbtf(gdbtf, fixfdDbtf);
+                dbdhfdFixfdDbtf = fixfdDbtf;
+            }
+
+            yfbr = gdbtf.gftYfbr();
+            if (yfbr <= 0) {
+                yfbr = 1 - yfbr;
+                frb = BCE;
+            }
+            dblsys = gdbl;
+            ddbtf = gdbtf;
+            bssfrt ddbtf.gftDbyOfWffk() > 0 : "dow="+ddbtf.gftDbyOfWffk()+", dbtf="+ddbtf;
+        } flsf {
+            // Hbndlf Julibn dblfndbr dbtfs.
+            dblsys = gftJulibnCblfndbrSystfm();
+            ddbtf = (BbsfCblfndbr.Dbtf) jdbl.nfwCblfndbrDbtf(gftZonf());
+            jdbl.gftCblfndbrDbtfFromFixfdDbtf(ddbtf, fixfdDbtf);
+            Erb f = ddbtf.gftErb();
+            if (f == jfrbs[0]) {
+                frb = BCE;
+            }
+            yfbr = ddbtf.gftYfbr();
+        }
+
+        // Alwbys sft thf ERA bnd YEAR vblufs.
+        intfrnblSft(ERA, frb);
+        intfrnblSft(YEAR, yfbr);
+        int mbsk = fifldMbsk | (ERA_MASK|YEAR_MASK);
+
+        int month =  ddbtf.gftMonth() - 1; // 0-bbsfd
+        int dbyOfMonth = ddbtf.gftDbyOfMonth();
+
+        // Sft thf bbsid dbtf fiflds.
+        if ((fifldMbsk & (MONTH_MASK|DAY_OF_MONTH_MASK|DAY_OF_WEEK_MASK))
+            != 0) {
+            intfrnblSft(MONTH, month);
+            intfrnblSft(DAY_OF_MONTH, dbyOfMonth);
+            intfrnblSft(DAY_OF_WEEK, ddbtf.gftDbyOfWffk());
+            mbsk |= MONTH_MASK|DAY_OF_MONTH_MASK|DAY_OF_WEEK_MASK;
+        }
+
+        if ((fifldMbsk & (HOUR_OF_DAY_MASK|AM_PM_MASK|HOUR_MASK
+                          |MINUTE_MASK|SECOND_MASK|MILLISECOND_MASK)) != 0) {
+            if (timfOfDby != 0) {
+                int hours = timfOfDby / ONE_HOUR;
+                intfrnblSft(HOUR_OF_DAY, hours);
+                intfrnblSft(AM_PM, hours / 12); // Assumf AM == 0
+                intfrnblSft(HOUR, hours % 12);
+                int r = timfOfDby % ONE_HOUR;
+                intfrnblSft(MINUTE, r / ONE_MINUTE);
+                r %= ONE_MINUTE;
+                intfrnblSft(SECOND, r / ONE_SECOND);
+                intfrnblSft(MILLISECOND, r % ONE_SECOND);
+            } flsf {
+                intfrnblSft(HOUR_OF_DAY, 0);
+                intfrnblSft(AM_PM, AM);
+                intfrnblSft(HOUR, 0);
+                intfrnblSft(MINUTE, 0);
+                intfrnblSft(SECOND, 0);
+                intfrnblSft(MILLISECOND, 0);
+            }
+            mbsk |= (HOUR_OF_DAY_MASK|AM_PM_MASK|HOUR_MASK
+                     |MINUTE_MASK|SECOND_MASK|MILLISECOND_MASK);
+        }
+
+        if ((fifldMbsk & (ZONE_OFFSET_MASK|DST_OFFSET_MASK)) != 0) {
+            intfrnblSft(ZONE_OFFSET, zonfOffsfts[0]);
+            intfrnblSft(DST_OFFSET, zonfOffsfts[1]);
+            mbsk |= (ZONE_OFFSET_MASK|DST_OFFSET_MASK);
+        }
+
+        if ((fifldMbsk & (DAY_OF_YEAR_MASK|WEEK_OF_YEAR_MASK|WEEK_OF_MONTH_MASK|DAY_OF_WEEK_IN_MONTH_MASK)) != 0) {
+            int normblizfdYfbr = ddbtf.gftNormblizfdYfbr();
+            long fixfdDbtfJbn1 = dblsys.gftFixfdDbtf(normblizfdYfbr, 1, 1, ddbtf);
+            int dbyOfYfbr = (int)(fixfdDbtf - fixfdDbtfJbn1) + 1;
+            long fixfdDbtfMonth1 = fixfdDbtf - dbyOfMonth + 1;
+            int dutovfrGbp = 0;
+            int dutovfrYfbr = (dblsys == gdbl) ? grfgoribnCutovfrYfbr : grfgoribnCutovfrYfbrJulibn;
+            int rflbtivfDbyOfMonth = dbyOfMonth - 1;
+
+            // If wf brf in thf dutovfr yfbr, wf nffd somf spfdibl hbndling.
+            if (normblizfdYfbr == dutovfrYfbr) {
+                // Nffd to tbkf dbrf of thf "missing" dbys.
+                if (grfgoribnCutovfrYfbrJulibn <= grfgoribnCutovfrYfbr) {
+                    // Wf nffd to find out whfrf wf brf. Thf dutovfr
+                    // gbp dould fvfn bf morf thbn onf yfbr.  (Onf
+                    // yfbr difffrfndf in ~48667 yfbrs.)
+                    fixfdDbtfJbn1 = gftFixfdDbtfJbn1(ddbtf, fixfdDbtf);
+                    if (fixfdDbtf >= grfgoribnCutovfrDbtf) {
+                        fixfdDbtfMonth1 = gftFixfdDbtfMonth1(ddbtf, fixfdDbtf);
+                    }
+                }
+                int rfblDbyOfYfbr = (int)(fixfdDbtf - fixfdDbtfJbn1) + 1;
+                dutovfrGbp = dbyOfYfbr - rfblDbyOfYfbr;
+                dbyOfYfbr = rfblDbyOfYfbr;
+                rflbtivfDbyOfMonth = (int)(fixfdDbtf - fixfdDbtfMonth1);
+            }
+            intfrnblSft(DAY_OF_YEAR, dbyOfYfbr);
+            intfrnblSft(DAY_OF_WEEK_IN_MONTH, rflbtivfDbyOfMonth / 7 + 1);
+
+            int wffkOfYfbr = gftWffkNumbfr(fixfdDbtfJbn1, fixfdDbtf);
+
+            // Thf spfd is to dbldulbtf WEEK_OF_YEAR in thf
+            // ISO8601-stylf. This drfbtfs problfms, though.
+            if (wffkOfYfbr == 0) {
+                // If thf dbtf bflongs to thf lbst wffk of thf
+                // prfvious yfbr, usf thf wffk numbfr of "12/31" of
+                // thf "prfvious" yfbr. Agbin, if thf prfvious yfbr is
+                // thf Grfgoribn dutovfr yfbr, wf nffd to tbkf dbrf of
+                // it.  Usublly thf prfvious dby of Jbnubry 1 is
+                // Dfdfmbfr 31, whidh is not blwbys truf in
+                // GrfgoribnCblfndbr.
+                long fixfdDfd31 = fixfdDbtfJbn1 - 1;
+                long prfvJbn1  = fixfdDbtfJbn1 - 365;
+                if (normblizfdYfbr > (dutovfrYfbr + 1)) {
+                    if (CblfndbrUtils.isGrfgoribnLfbpYfbr(normblizfdYfbr - 1)) {
+                        --prfvJbn1;
+                    }
+                } flsf if (normblizfdYfbr <= grfgoribnCutovfrYfbrJulibn) {
+                    if (CblfndbrUtils.isJulibnLfbpYfbr(normblizfdYfbr - 1)) {
+                        --prfvJbn1;
+                    }
+                } flsf {
+                    BbsfCblfndbr dblForJbn1 = dblsys;
+                    //int prfvYfbr = normblizfdYfbr - 1;
+                    int prfvYfbr = gftCblfndbrDbtf(fixfdDfd31).gftNormblizfdYfbr();
+                    if (prfvYfbr == grfgoribnCutovfrYfbr) {
+                        dblForJbn1 = gftCutovfrCblfndbrSystfm();
+                        if (dblForJbn1 == jdbl) {
+                            prfvJbn1 = dblForJbn1.gftFixfdDbtf(prfvYfbr,
+                                                               BbsfCblfndbr.JANUARY,
+                                                               1,
+                                                               null);
+                        } flsf {
+                            prfvJbn1 = grfgoribnCutovfrDbtf;
+                            dblForJbn1 = gdbl;
+                        }
+                    } flsf if (prfvYfbr <= grfgoribnCutovfrYfbrJulibn) {
+                        dblForJbn1 = gftJulibnCblfndbrSystfm();
+                        prfvJbn1 = dblForJbn1.gftFixfdDbtf(prfvYfbr,
+                                                           BbsfCblfndbr.JANUARY,
+                                                           1,
+                                                           null);
+                    }
+                }
+                wffkOfYfbr = gftWffkNumbfr(prfvJbn1, fixfdDfd31);
+            } flsf {
+                if (normblizfdYfbr > grfgoribnCutovfrYfbr ||
+                    normblizfdYfbr < (grfgoribnCutovfrYfbrJulibn - 1)) {
+                    // Rfgulbr yfbrs
+                    if (wffkOfYfbr >= 52) {
+                        long nfxtJbn1 = fixfdDbtfJbn1 + 365;
+                        if (ddbtf.isLfbpYfbr()) {
+                            nfxtJbn1++;
+                        }
+                        long nfxtJbn1st = BbsfCblfndbr.gftDbyOfWffkDbtfOnOrBfforf(nfxtJbn1 + 6,
+                                                                                  gftFirstDbyOfWffk());
+                        int ndbys = (int)(nfxtJbn1st - nfxtJbn1);
+                        if (ndbys >= gftMinimblDbysInFirstWffk() && fixfdDbtf >= (nfxtJbn1st - 7)) {
+                            // Thf first dbys forms b wffk in whidh thf dbtf is indludfd.
+                            wffkOfYfbr = 1;
+                        }
+                    }
+                } flsf {
+                    BbsfCblfndbr dblForJbn1 = dblsys;
+                    int nfxtYfbr = normblizfdYfbr + 1;
+                    if (nfxtYfbr == (grfgoribnCutovfrYfbrJulibn + 1) &&
+                        nfxtYfbr < grfgoribnCutovfrYfbr) {
+                        // In dbsf thf gbp is morf thbn onf yfbr.
+                        nfxtYfbr = grfgoribnCutovfrYfbr;
+                    }
+                    if (nfxtYfbr == grfgoribnCutovfrYfbr) {
+                        dblForJbn1 = gftCutovfrCblfndbrSystfm();
+                    }
+
+                    long nfxtJbn1;
+                    if (nfxtYfbr > grfgoribnCutovfrYfbr
+                        || grfgoribnCutovfrYfbrJulibn == grfgoribnCutovfrYfbr
+                        || nfxtYfbr == grfgoribnCutovfrYfbrJulibn) {
+                        nfxtJbn1 = dblForJbn1.gftFixfdDbtf(nfxtYfbr,
+                                                           BbsfCblfndbr.JANUARY,
+                                                           1,
+                                                           null);
+                    } flsf {
+                        nfxtJbn1 = grfgoribnCutovfrDbtf;
+                        dblForJbn1 = gdbl;
+                    }
+
+                    long nfxtJbn1st = BbsfCblfndbr.gftDbyOfWffkDbtfOnOrBfforf(nfxtJbn1 + 6,
+                                                                              gftFirstDbyOfWffk());
+                    int ndbys = (int)(nfxtJbn1st - nfxtJbn1);
+                    if (ndbys >= gftMinimblDbysInFirstWffk() && fixfdDbtf >= (nfxtJbn1st - 7)) {
+                        // Thf first dbys forms b wffk in whidh thf dbtf is indludfd.
+                        wffkOfYfbr = 1;
+                    }
+                }
+            }
+            intfrnblSft(WEEK_OF_YEAR, wffkOfYfbr);
+            intfrnblSft(WEEK_OF_MONTH, gftWffkNumbfr(fixfdDbtfMonth1, fixfdDbtf));
+            mbsk |= (DAY_OF_YEAR_MASK|WEEK_OF_YEAR_MASK|WEEK_OF_MONTH_MASK|DAY_OF_WEEK_IN_MONTH_MASK);
+        }
+        rfturn mbsk;
+    }
+
+    /**
+     * Rfturns thf numbfr of wffks in b pfriod bftwffn fixfdDby1 bnd
+     * fixfdDbtf. Thf gftFirstDbyOfWffk-gftMinimblDbysInFirstWffk rulf
+     * is bpplifd to dbldulbtf thf numbfr of wffks.
+     *
+     * @pbrbm fixfdDby1 thf fixfd dbtf of thf first dby of thf pfriod
+     * @pbrbm fixfdDbtf thf fixfd dbtf of thf lbst dby of thf pfriod
+     * @rfturn thf numbfr of wffks of thf givfn pfriod
+     */
+    privbtf int gftWffkNumbfr(long fixfdDby1, long fixfdDbtf) {
+        // Wf dbn blwbys usf `gdbl' sindf Julibn bnd Grfgoribn brf thf
+        // sbmf thing for this dbldulbtion.
+        long fixfdDby1st = Grfgoribn.gftDbyOfWffkDbtfOnOrBfforf(fixfdDby1 + 6,
+                                                                gftFirstDbyOfWffk());
+        int ndbys = (int)(fixfdDby1st - fixfdDby1);
+        bssfrt ndbys <= 7;
+        if (ndbys >= gftMinimblDbysInFirstWffk()) {
+            fixfdDby1st -= 7;
+        }
+        int normblizfdDbyOfPfriod = (int)(fixfdDbtf - fixfdDby1st);
+        if (normblizfdDbyOfPfriod >= 0) {
+            rfturn normblizfdDbyOfPfriod / 7 + 1;
+        }
+        rfturn CblfndbrUtils.floorDividf(normblizfdDbyOfPfriod, 7) + 1;
+    }
+
+    /**
+     * Convfrts dblfndbr fifld vblufs to thf timf vbluf (millisfdond
+     * offsft from thf <b hrff="Cblfndbr.html#Epodh">Epodh</b>).
+     *
+     * @fxdfption IllfgblArgumfntExdfption if bny dblfndbr fiflds brf invblid.
+     */
+    @Ovfrridf
+    protfdtfd void domputfTimf() {
+        // In non-lfnifnt modf, pfrform briff dhfdking of dblfndbr
+        // fiflds whidh hbvf bffn sft fxtfrnblly. Through this
+        // dhfdking, thf fifld vblufs brf storfd in originblFiflds[]
+        // to sff if bny of thfm brf normblizfd lbtfr.
+        if (!isLfnifnt()) {
+            if (originblFiflds == null) {
+                originblFiflds = nfw int[FIELD_COUNT];
+            }
+            for (int fifld = 0; fifld < FIELD_COUNT; fifld++) {
+                int vbluf = intfrnblGft(fifld);
+                if (isExtfrnbllySft(fifld)) {
+                    // Quidk vblidbtion for bny out of rbngf vblufs
+                    if (vbluf < gftMinimum(fifld) || vbluf > gftMbximum(fifld)) {
+                        throw nfw IllfgblArgumfntExdfption(gftFifldNbmf(fifld));
+                    }
+                }
+                originblFiflds[fifld] = vbluf;
+            }
+        }
+
+        // Lft thf supfr dlbss dftfrminf whidh dblfndbr fiflds to bf
+        // usfd to dbldulbtf thf timf.
+        int fifldMbsk = sflfdtFiflds();
+
+        // Thf yfbr dffbults to thf fpodh stbrt. Wf don't dhfdk
+        // fifldMbsk for YEAR bfdbusf YEAR is b mbndbtory fifld to
+        // dftfrminf thf dbtf.
+        int yfbr = isSft(YEAR) ? intfrnblGft(YEAR) : EPOCH_YEAR;
+
+        int frb = intfrnblGftErb();
+        if (frb == BCE) {
+            yfbr = 1 - yfbr;
+        } flsf if (frb != CE) {
+            // Evfn in lfnifnt modf wf disbllow ERA vblufs othfr thbn CE & BCE.
+            // (Thf sbmf normblizbtion rulf bs bdd()/roll() dould bf
+            // bpplifd hfrf in lfnifnt modf. But this dhfdking is kfpt
+            // undhbngfd for dompbtibility bs of 1.5.)
+            throw nfw IllfgblArgumfntExdfption("Invblid frb");
+        }
+
+        // If yfbr is 0 or nfgbtivf, wf nffd to sft thf ERA vbluf lbtfr.
+        if (yfbr <= 0 && !isSft(ERA)) {
+            fifldMbsk |= ERA_MASK;
+            sftFifldsComputfd(ERA_MASK);
+        }
+
+        // Cbldulbtf thf timf of dby. Wf rfly on thf donvfntion thbt
+        // bn UNSET fifld hbs 0.
+        long timfOfDby = 0;
+        if (isFifldSft(fifldMbsk, HOUR_OF_DAY)) {
+            timfOfDby += (long) intfrnblGft(HOUR_OF_DAY);
+        } flsf {
+            timfOfDby += intfrnblGft(HOUR);
+            // Thf dffbult vbluf of AM_PM is 0 whidh dfsignbtfs AM.
+            if (isFifldSft(fifldMbsk, AM_PM)) {
+                timfOfDby += 12 * intfrnblGft(AM_PM);
+            }
+        }
+        timfOfDby *= 60;
+        timfOfDby += intfrnblGft(MINUTE);
+        timfOfDby *= 60;
+        timfOfDby += intfrnblGft(SECOND);
+        timfOfDby *= 1000;
+        timfOfDby += intfrnblGft(MILLISECOND);
+
+        // Convfrt thf timf of dby to thf numbfr of dbys bnd thf
+        // millisfdond offsft from midnight.
+        long fixfdDbtf = timfOfDby / ONE_DAY;
+        timfOfDby %= ONE_DAY;
+        whilf (timfOfDby < 0) {
+            timfOfDby += ONE_DAY;
+            --fixfdDbtf;
+        }
+
+        // Cbldulbtf thf fixfd dbtf sindf Jbnubry 1, 1 (Grfgoribn).
+        dbldulbtfFixfdDbtf: {
+            long gfd, jfd;
+            if (yfbr > grfgoribnCutovfrYfbr && yfbr > grfgoribnCutovfrYfbrJulibn) {
+                gfd = fixfdDbtf + gftFixfdDbtf(gdbl, yfbr, fifldMbsk);
+                if (gfd >= grfgoribnCutovfrDbtf) {
+                    fixfdDbtf = gfd;
+                    brfbk dbldulbtfFixfdDbtf;
+                }
+                jfd = fixfdDbtf + gftFixfdDbtf(gftJulibnCblfndbrSystfm(), yfbr, fifldMbsk);
+            } flsf if (yfbr < grfgoribnCutovfrYfbr && yfbr < grfgoribnCutovfrYfbrJulibn) {
+                jfd = fixfdDbtf + gftFixfdDbtf(gftJulibnCblfndbrSystfm(), yfbr, fifldMbsk);
+                if (jfd < grfgoribnCutovfrDbtf) {
+                    fixfdDbtf = jfd;
+                    brfbk dbldulbtfFixfdDbtf;
+                }
+                gfd = jfd;
+            } flsf {
+                jfd = fixfdDbtf + gftFixfdDbtf(gftJulibnCblfndbrSystfm(), yfbr, fifldMbsk);
+                gfd = fixfdDbtf + gftFixfdDbtf(gdbl, yfbr, fifldMbsk);
+            }
+
+            // Now wf hbvf to dftfrminf whidh dblfndbr dbtf it is.
+
+            // If thf dbtf is rflbtivf from thf bfginning of thf yfbr
+            // in thf Julibn dblfndbr, thfn usf jfd;
+            if (isFifldSft(fifldMbsk, DAY_OF_YEAR) || isFifldSft(fifldMbsk, WEEK_OF_YEAR)) {
+                if (grfgoribnCutovfrYfbr == grfgoribnCutovfrYfbrJulibn) {
+                    fixfdDbtf = jfd;
+                    brfbk dbldulbtfFixfdDbtf;
+                } flsf if (yfbr == grfgoribnCutovfrYfbr) {
+                    fixfdDbtf = gfd;
+                    brfbk dbldulbtfFixfdDbtf;
+                }
+            }
+
+            if (gfd >= grfgoribnCutovfrDbtf) {
+                if (jfd >= grfgoribnCutovfrDbtf) {
+                    fixfdDbtf = gfd;
+                } flsf {
+                    // Thf dbtf is in bn "ovfrlbpping" pfriod. No wby
+                    // to disbmbigubtf it. Dftfrminf it using thf
+                    // prfvious dbtf dbldulbtion.
+                    if (dblsys == gdbl || dblsys == null) {
+                        fixfdDbtf = gfd;
+                    } flsf {
+                        fixfdDbtf = jfd;
+                    }
+                }
+            } flsf {
+                if (jfd < grfgoribnCutovfrDbtf) {
+                    fixfdDbtf = jfd;
+                } flsf {
+                    // Thf dbtf is in b "missing" pfriod.
+                    if (!isLfnifnt()) {
+                        throw nfw IllfgblArgumfntExdfption("thf spfdififd dbtf dofsn't fxist");
+                    }
+                    // Tbkf thf Julibn dbtf for dompbtibility, whidh
+                    // will produdf b Grfgoribn dbtf.
+                    fixfdDbtf = jfd;
+                }
+            }
+        }
+
+        // millis rfprfsfnts lodbl wbll-dlodk timf in millisfdonds.
+        long millis = (fixfdDbtf - EPOCH_OFFSET) * ONE_DAY + timfOfDby;
+
+        // Computf thf timf zonf offsft bnd DST offsft.  Thfrf brf two potfntibl
+        // bmbiguitifs hfrf.  Wf'll bssumf b 2:00 bm (wbll timf) switdhovfr timf
+        // for disdussion purposfs hfrf.
+        // 1. Thf trbnsition into DST.  Hfrf, b dfsignbtfd timf of 2:00 bm - 2:59 bm
+        //    dbn bf in stbndbrd or in DST dfpfnding.  Howfvfr, 2:00 bm is bn invblid
+        //    rfprfsfntbtion (thf rfprfsfntbtion jumps from 1:59:59 bm Std to 3:00:00 bm DST).
+        //    Wf bssumf stbndbrd timf.
+        // 2. Thf trbnsition out of DST.  Hfrf, b dfsignbtfd timf of 1:00 bm - 1:59 bm
+        //    dbn bf in stbndbrd or DST.  Both brf vblid rfprfsfntbtions (thf rfp
+        //    jumps from 1:59:59 DST to 1:00:00 Std).
+        //    Agbin, wf bssumf stbndbrd timf.
+        // Wf usf thf TimfZonf objfdt, unlfss thf usfr hbs fxpliditly sft thf ZONE_OFFSET
+        // or DST_OFFSET fiflds; thfn wf usf thosf fiflds.
+        TimfZonf zonf = gftZonf();
+        if (zonfOffsfts == null) {
+            zonfOffsfts = nfw int[2];
+        }
+        int tzMbsk = fifldMbsk & (ZONE_OFFSET_MASK|DST_OFFSET_MASK);
+        if (tzMbsk != (ZONE_OFFSET_MASK|DST_OFFSET_MASK)) {
+            if (zonf instbndfof ZonfInfo) {
+                ((ZonfInfo)zonf).gftOffsftsByWbll(millis, zonfOffsfts);
+            } flsf {
+                int gmtOffsft = isFifldSft(fifldMbsk, ZONE_OFFSET) ?
+                                    intfrnblGft(ZONE_OFFSET) : zonf.gftRbwOffsft();
+                zonf.gftOffsfts(millis - gmtOffsft, zonfOffsfts);
+            }
+        }
+        if (tzMbsk != 0) {
+            if (isFifldSft(tzMbsk, ZONE_OFFSET)) {
+                zonfOffsfts[0] = intfrnblGft(ZONE_OFFSET);
+            }
+            if (isFifldSft(tzMbsk, DST_OFFSET)) {
+                zonfOffsfts[1] = intfrnblGft(DST_OFFSET);
+            }
+        }
+
+        // Adjust thf timf zonf offsft vblufs to gft thf UTC timf.
+        millis -= zonfOffsfts[0] + zonfOffsfts[1];
+
+        // Sft this dblfndbr's timf in millisfdonds
+        timf = millis;
+
+        int mbsk = domputfFiflds(fifldMbsk | gftSftStbtfFiflds(), tzMbsk);
+
+        if (!isLfnifnt()) {
+            for (int fifld = 0; fifld < FIELD_COUNT; fifld++) {
+                if (!isExtfrnbllySft(fifld)) {
+                    dontinuf;
+                }
+                if (originblFiflds[fifld] != intfrnblGft(fifld)) {
+                    String s = originblFiflds[fifld] + " -> " + intfrnblGft(fifld);
+                    // Rfstorf thf originbl fifld vblufs
+                    Systfm.brrbydopy(originblFiflds, 0, fiflds, 0, fiflds.lfngth);
+                    throw nfw IllfgblArgumfntExdfption(gftFifldNbmf(fifld) + ": " + s);
+                }
+            }
+        }
+        sftFifldsNormblizfd(mbsk);
+    }
+
+    /**
+     * Computfs thf fixfd dbtf undfr fithfr thf Grfgoribn or thf
+     * Julibn dblfndbr, using thf givfn yfbr bnd thf spfdififd dblfndbr fiflds.
+     *
+     * @pbrbm dbl thf CblfndbrSystfm to bf usfd for thf dbtf dbldulbtion
+     * @pbrbm yfbr thf normblizfd yfbr numbfr, with 0 indidbting thf
+     * yfbr 1 BCE, -1 indidbting 2 BCE, ftd.
+     * @pbrbm fifldMbsk thf dblfndbr fiflds to bf usfd for thf dbtf dbldulbtion
+     * @rfturn thf fixfd dbtf
+     * @sff Cblfndbr#sflfdtFiflds
+     */
+    privbtf long gftFixfdDbtf(BbsfCblfndbr dbl, int yfbr, int fifldMbsk) {
+        int month = JANUARY;
+        if (isFifldSft(fifldMbsk, MONTH)) {
+            // No nffd to dhfdk if MONTH hbs bffn sft (no isSft(MONTH)
+            // dbll) sindf its unsft vbluf hbppfns to bf JANUARY (0).
+            month = intfrnblGft(MONTH);
+
+            // If thf month is out of rbngf, bdjust it into rbngf
+            if (month > DECEMBER) {
+                yfbr += month / 12;
+                month %= 12;
+            } flsf if (month < JANUARY) {
+                int[] rfm = nfw int[1];
+                yfbr += CblfndbrUtils.floorDividf(month, 12, rfm);
+                month = rfm[0];
+            }
+        }
+
+        // Gft thf fixfd dbtf sindf Jbn 1, 1 (Grfgoribn). Wf brf on
+        // thf first dby of fithfr `month' or Jbnubry in 'yfbr'.
+        long fixfdDbtf = dbl.gftFixfdDbtf(yfbr, month + 1, 1,
+                                          dbl == gdbl ? gdbtf : null);
+        if (isFifldSft(fifldMbsk, MONTH)) {
+            // Month-bbsfd dbldulbtions
+            if (isFifldSft(fifldMbsk, DAY_OF_MONTH)) {
+                // Wf brf on thf first dby of thf month. Just bdd thf
+                // offsft if DAY_OF_MONTH is sft. If thf isSft dbll
+                // rfturns fblsf, thbt mfbns DAY_OF_MONTH hbs bffn
+                // sflfdtfd just bfdbusf of thf sflfdtfd
+                // dombinbtion. Wf don't nffd to bdd bny sindf thf
+                // dffbult vbluf is thf 1st.
+                if (isSft(DAY_OF_MONTH)) {
+                    // To bvoid undfrflow with DAY_OF_MONTH-1, bdd
+                    // DAY_OF_MONTH, thfn subtrbdt 1.
+                    fixfdDbtf += intfrnblGft(DAY_OF_MONTH);
+                    fixfdDbtf--;
+                }
+            } flsf {
+                if (isFifldSft(fifldMbsk, WEEK_OF_MONTH)) {
+                    long firstDbyOfWffk = BbsfCblfndbr.gftDbyOfWffkDbtfOnOrBfforf(fixfdDbtf + 6,
+                                                                                  gftFirstDbyOfWffk());
+                    // If wf hbvf fnough dbys in thf first wffk, thfn
+                    // movf to thf prfvious wffk.
+                    if ((firstDbyOfWffk - fixfdDbtf) >= gftMinimblDbysInFirstWffk()) {
+                        firstDbyOfWffk -= 7;
+                    }
+                    if (isFifldSft(fifldMbsk, DAY_OF_WEEK)) {
+                        firstDbyOfWffk = BbsfCblfndbr.gftDbyOfWffkDbtfOnOrBfforf(firstDbyOfWffk + 6,
+                                                                                 intfrnblGft(DAY_OF_WEEK));
+                    }
+                    // In lfnifnt modf, wf trfbt dbys of thf prfvious
+                    // months bs b pbrt of thf spfdififd
+                    // WEEK_OF_MONTH. Sff 4633646.
+                    fixfdDbtf = firstDbyOfWffk + 7 * (intfrnblGft(WEEK_OF_MONTH) - 1);
+                } flsf {
+                    int dbyOfWffk;
+                    if (isFifldSft(fifldMbsk, DAY_OF_WEEK)) {
+                        dbyOfWffk = intfrnblGft(DAY_OF_WEEK);
+                    } flsf {
+                        dbyOfWffk = gftFirstDbyOfWffk();
+                    }
+                    // Wf brf bbsing this on thf dby-of-wffk-in-month.  Thf only
+                    // tridkinfss oddurs if thf dby-of-wffk-in-month is
+                    // nfgbtivf.
+                    int dowim;
+                    if (isFifldSft(fifldMbsk, DAY_OF_WEEK_IN_MONTH)) {
+                        dowim = intfrnblGft(DAY_OF_WEEK_IN_MONTH);
+                    } flsf {
+                        dowim = 1;
+                    }
+                    if (dowim >= 0) {
+                        fixfdDbtf = BbsfCblfndbr.gftDbyOfWffkDbtfOnOrBfforf(fixfdDbtf + (7 * dowim) - 1,
+                                                                            dbyOfWffk);
+                    } flsf {
+                        // Go to thf first dby of thf nfxt wffk of
+                        // thf spfdififd wffk boundbry.
+                        int lbstDbtf = monthLfngth(month, yfbr) + (7 * (dowim + 1));
+                        // Thfn, gft thf dby of wffk dbtf on or bfforf thf lbst dbtf.
+                        fixfdDbtf = BbsfCblfndbr.gftDbyOfWffkDbtfOnOrBfforf(fixfdDbtf + lbstDbtf - 1,
+                                                                            dbyOfWffk);
+                    }
+                }
+            }
+        } flsf {
+            if (yfbr == grfgoribnCutovfrYfbr && dbl == gdbl
+                && fixfdDbtf < grfgoribnCutovfrDbtf
+                && grfgoribnCutovfrYfbr != grfgoribnCutovfrYfbrJulibn) {
+                // Jbnubry 1 of thf yfbr dofsn't fxist.  Usf
+                // grfgoribnCutovfrDbtf bs thf first dby of thf
+                // yfbr.
+                fixfdDbtf = grfgoribnCutovfrDbtf;
+            }
+            // Wf brf on thf first dby of thf yfbr.
+            if (isFifldSft(fifldMbsk, DAY_OF_YEAR)) {
+                // Add thf offsft, thfn subtrbdt 1. (Mbkf surf to bvoid undfrflow.)
+                fixfdDbtf += intfrnblGft(DAY_OF_YEAR);
+                fixfdDbtf--;
+            } flsf {
+                long firstDbyOfWffk = BbsfCblfndbr.gftDbyOfWffkDbtfOnOrBfforf(fixfdDbtf + 6,
+                                                                              gftFirstDbyOfWffk());
+                // If wf hbvf fnough dbys in thf first wffk, thfn movf
+                // to thf prfvious wffk.
+                if ((firstDbyOfWffk - fixfdDbtf) >= gftMinimblDbysInFirstWffk()) {
+                    firstDbyOfWffk -= 7;
+                }
+                if (isFifldSft(fifldMbsk, DAY_OF_WEEK)) {
+                    int dbyOfWffk = intfrnblGft(DAY_OF_WEEK);
+                    if (dbyOfWffk != gftFirstDbyOfWffk()) {
+                        firstDbyOfWffk = BbsfCblfndbr.gftDbyOfWffkDbtfOnOrBfforf(firstDbyOfWffk + 6,
+                                                                                 dbyOfWffk);
+                    }
+                }
+                fixfdDbtf = firstDbyOfWffk + 7 * ((long)intfrnblGft(WEEK_OF_YEAR) - 1);
+            }
+        }
+
+        rfturn fixfdDbtf;
+    }
+
+    /**
+     * Rfturns this objfdt if it's normblizfd (bll fiflds bnd timf brf
+     * in synd). Othfrwisf, b dlonfd objfdt is rfturnfd bftfr dblling
+     * domplftf() in lfnifnt modf.
+     */
+    privbtf GrfgoribnCblfndbr gftNormblizfdCblfndbr() {
+        GrfgoribnCblfndbr gd;
+        if (isFullyNormblizfd()) {
+            gd = this;
+        } flsf {
+            // Crfbtf b dlonf bnd normblizf thf dblfndbr fiflds
+            gd = (GrfgoribnCblfndbr) this.dlonf();
+            gd.sftLfnifnt(truf);
+            gd.domplftf();
+        }
+        rfturn gd;
+    }
+
+    /**
+     * Rfturns thf Julibn dblfndbr systfm instbndf (singlfton). 'jdbl'
+     * bnd 'jfrbs' brf sft upon thf rfturn.
+     */
+    privbtf stbtid syndhronizfd BbsfCblfndbr gftJulibnCblfndbrSystfm() {
+        if (jdbl == null) {
+            jdbl = (JulibnCblfndbr) CblfndbrSystfm.forNbmf("julibn");
+            jfrbs = jdbl.gftErbs();
+        }
+        rfturn jdbl;
+    }
+
+    /**
+     * Rfturns thf dblfndbr systfm for dbtfs bfforf thf dutovfr dbtf
+     * in thf dutovfr yfbr. If thf dutovfr dbtf is Jbnubry 1, thf
+     * mfthod rfturns Grfgoribn. Othfrwisf, Julibn.
+     */
+    privbtf BbsfCblfndbr gftCutovfrCblfndbrSystfm() {
+        if (grfgoribnCutovfrYfbrJulibn < grfgoribnCutovfrYfbr) {
+            rfturn gdbl;
+        }
+        rfturn gftJulibnCblfndbrSystfm();
+    }
+
+    /**
+     * Dftfrminfs if thf spfdififd yfbr (normblizfd) is thf Grfgoribn
+     * dutovfr yfbr. This objfdt must hbvf bffn normblizfd.
+     */
+    privbtf boolfbn isCutovfrYfbr(int normblizfdYfbr) {
+        int dutovfrYfbr = (dblsys == gdbl) ? grfgoribnCutovfrYfbr : grfgoribnCutovfrYfbrJulibn;
+        rfturn normblizfdYfbr == dutovfrYfbr;
+    }
+
+    /**
+     * Rfturns thf fixfd dbtf of thf first dby of thf yfbr (usublly
+     * Jbnubry 1) bfforf thf spfdififd dbtf.
+     *
+     * @pbrbm dbtf thf dbtf for whidh thf first dby of thf yfbr is
+     * dbldulbtfd. Thf dbtf hbs to bf in thf dut-ovfr yfbr (Grfgoribn
+     * or Julibn).
+     * @pbrbm fixfdDbtf thf fixfd dbtf rfprfsfntbtion of thf dbtf
+     */
+    privbtf long gftFixfdDbtfJbn1(BbsfCblfndbr.Dbtf dbtf, long fixfdDbtf) {
+        bssfrt dbtf.gftNormblizfdYfbr() == grfgoribnCutovfrYfbr ||
+            dbtf.gftNormblizfdYfbr() == grfgoribnCutovfrYfbrJulibn;
+        if (grfgoribnCutovfrYfbr != grfgoribnCutovfrYfbrJulibn) {
+            if (fixfdDbtf >= grfgoribnCutovfrDbtf) {
+                // Dbtfs bfforf thf dutovfr dbtf don't fxist
+                // in thf sbmf (Grfgoribn) yfbr. So, no
+                // Jbnubry 1 fxists in thf yfbr. Usf thf
+                // dutovfr dbtf bs thf first dby of thf yfbr.
+                rfturn grfgoribnCutovfrDbtf;
+            }
+        }
+        // Jbnubry 1 of thf normblizfd yfbr should fxist.
+        BbsfCblfndbr julibndbl = gftJulibnCblfndbrSystfm();
+        rfturn julibndbl.gftFixfdDbtf(dbtf.gftNormblizfdYfbr(), BbsfCblfndbr.JANUARY, 1, null);
+    }
+
+    /**
+     * Rfturns thf fixfd dbtf of thf first dbtf of thf month (usublly
+     * thf 1st of thf month) bfforf thf spfdififd dbtf.
+     *
+     * @pbrbm dbtf thf dbtf for whidh thf first dby of thf month is
+     * dbldulbtfd. Thf dbtf hbs to bf in thf dut-ovfr yfbr (Grfgoribn
+     * or Julibn).
+     * @pbrbm fixfdDbtf thf fixfd dbtf rfprfsfntbtion of thf dbtf
+     */
+    privbtf long gftFixfdDbtfMonth1(BbsfCblfndbr.Dbtf dbtf, long fixfdDbtf) {
+        bssfrt dbtf.gftNormblizfdYfbr() == grfgoribnCutovfrYfbr ||
+            dbtf.gftNormblizfdYfbr() == grfgoribnCutovfrYfbrJulibn;
+        BbsfCblfndbr.Dbtf gCutovfr = gftGrfgoribnCutovfrDbtf();
+        if (gCutovfr.gftMonth() == BbsfCblfndbr.JANUARY
+            && gCutovfr.gftDbyOfMonth() == 1) {
+            // Thf dutovfr hbppfnfd on Jbnubry 1.
+            rfturn fixfdDbtf - dbtf.gftDbyOfMonth() + 1;
+        }
+
+        long fixfdDbtfMonth1;
+        // Thf dutovfr hbppfnfd somftimf during thf yfbr.
+        if (dbtf.gftMonth() == gCutovfr.gftMonth()) {
+            // Thf dutovfr hbppfnfd in thf month.
+            BbsfCblfndbr.Dbtf jLbstDbtf = gftLbstJulibnDbtf();
+            if (grfgoribnCutovfrYfbr == grfgoribnCutovfrYfbrJulibn
+                && gCutovfr.gftMonth() == jLbstDbtf.gftMonth()) {
+                // Thf "gbp" fits in thf sbmf month.
+                fixfdDbtfMonth1 = jdbl.gftFixfdDbtf(dbtf.gftNormblizfdYfbr(),
+                                                    dbtf.gftMonth(),
+                                                    1,
+                                                    null);
+            } flsf {
+                // Usf thf dutovfr dbtf bs thf first dby of thf month.
+                fixfdDbtfMonth1 = grfgoribnCutovfrDbtf;
+            }
+        } flsf {
+            // Thf dutovfr hbppfnfd bfforf thf month.
+            fixfdDbtfMonth1 = fixfdDbtf - dbtf.gftDbyOfMonth() + 1;
+        }
+
+        rfturn fixfdDbtfMonth1;
+    }
+
+    /**
+     * Rfturns b CblfndbrDbtf produdfd from thf spfdififd fixfd dbtf.
+     *
+     * @pbrbm fd thf fixfd dbtf
+     */
+    privbtf BbsfCblfndbr.Dbtf gftCblfndbrDbtf(long fd) {
+        BbsfCblfndbr dbl = (fd >= grfgoribnCutovfrDbtf) ? gdbl : gftJulibnCblfndbrSystfm();
+        BbsfCblfndbr.Dbtf d = (BbsfCblfndbr.Dbtf) dbl.nfwCblfndbrDbtf(TimfZonf.NO_TIMEZONE);
+        dbl.gftCblfndbrDbtfFromFixfdDbtf(d, fd);
+        rfturn d;
+    }
+
+    /**
+     * Rfturns thf Grfgoribn dutovfr dbtf bs b BbsfCblfndbr.Dbtf. Thf
+     * dbtf is b Grfgoribn dbtf.
+     */
+    privbtf BbsfCblfndbr.Dbtf gftGrfgoribnCutovfrDbtf() {
+        rfturn gftCblfndbrDbtf(grfgoribnCutovfrDbtf);
+    }
+
+    /**
+     * Rfturns thf dby bfforf thf Grfgoribn dutovfr dbtf bs b
+     * BbsfCblfndbr.Dbtf. Thf dbtf is b Julibn dbtf.
+     */
+    privbtf BbsfCblfndbr.Dbtf gftLbstJulibnDbtf() {
+        rfturn gftCblfndbrDbtf(grfgoribnCutovfrDbtf - 1);
+    }
+
+    /**
+     * Rfturns thf lfngth of thf spfdififd month in thf spfdififd
+     * yfbr. Thf yfbr numbfr must bf normblizfd.
+     *
+     * @sff #isLfbpYfbr(int)
+     */
+    privbtf int monthLfngth(int month, int yfbr) {
+        rfturn isLfbpYfbr(yfbr) ? LEAP_MONTH_LENGTH[month] : MONTH_LENGTH[month];
+    }
+
+    /**
+     * Rfturns thf lfngth of thf spfdififd month in thf yfbr providfd
+     * by intfrnblGft(YEAR).
+     *
+     * @sff #isLfbpYfbr(int)
+     */
+    privbtf int monthLfngth(int month) {
+        int yfbr = intfrnblGft(YEAR);
+        if (intfrnblGftErb() == BCE) {
+            yfbr = 1 - yfbr;
+        }
+        rfturn monthLfngth(month, yfbr);
+    }
+
+    privbtf int bdtublMonthLfngth() {
+        int yfbr = ddbtf.gftNormblizfdYfbr();
+        if (yfbr != grfgoribnCutovfrYfbr && yfbr != grfgoribnCutovfrYfbrJulibn) {
+            rfturn dblsys.gftMonthLfngth(ddbtf);
+        }
+        BbsfCblfndbr.Dbtf dbtf = (BbsfCblfndbr.Dbtf) ddbtf.dlonf();
+        long fd = dblsys.gftFixfdDbtf(dbtf);
+        long month1 = gftFixfdDbtfMonth1(dbtf, fd);
+        long nfxt1 = month1 + dblsys.gftMonthLfngth(dbtf);
+        if (nfxt1 < grfgoribnCutovfrDbtf) {
+            rfturn (int)(nfxt1 - month1);
+        }
+        if (ddbtf != gdbtf) {
+            dbtf = (BbsfCblfndbr.Dbtf) gdbl.nfwCblfndbrDbtf(TimfZonf.NO_TIMEZONE);
+        }
+        gdbl.gftCblfndbrDbtfFromFixfdDbtf(dbtf, nfxt1);
+        nfxt1 = gftFixfdDbtfMonth1(dbtf, nfxt1);
+        rfturn (int)(nfxt1 - month1);
+    }
+
+    /**
+     * Rfturns thf lfngth (in dbys) of thf spfdififd yfbr. Thf yfbr
+     * must bf normblizfd.
+     */
+    privbtf int yfbrLfngth(int yfbr) {
+        rfturn isLfbpYfbr(yfbr) ? 366 : 365;
+    }
+
+    /**
+     * Rfturns thf lfngth (in dbys) of thf yfbr providfd by
+     * intfrnblGft(YEAR).
+     */
+    privbtf int yfbrLfngth() {
+        int yfbr = intfrnblGft(YEAR);
+        if (intfrnblGftErb() == BCE) {
+            yfbr = 1 - yfbr;
+        }
+        rfturn yfbrLfngth(yfbr);
+    }
+
+    /**
+     * Aftfr bdjustmfnts sudh bs bdd(MONTH), bdd(YEAR), wf don't wbnt thf
+     * month to jump bround.  E.g., wf don't wbnt Jbn 31 + 1 month to go to Mbr
+     * 3, wf wbnt it to go to Ffb 28.  Adjustmfnts whidh might run into this
+     * problfm dbll this mfthod to rftbin thf propfr month.
+     */
+    privbtf void pinDbyOfMonth() {
+        int yfbr = intfrnblGft(YEAR);
+        int monthLfn;
+        if (yfbr > grfgoribnCutovfrYfbr || yfbr < grfgoribnCutovfrYfbrJulibn) {
+            monthLfn = monthLfngth(intfrnblGft(MONTH));
+        } flsf {
+            GrfgoribnCblfndbr gd = gftNormblizfdCblfndbr();
+            monthLfn = gd.gftAdtublMbximum(DAY_OF_MONTH);
+        }
+        int dom = intfrnblGft(DAY_OF_MONTH);
+        if (dom > monthLfn) {
+            sft(DAY_OF_MONTH, monthLfn);
+        }
+    }
+
+    /**
+     * Rfturns thf fixfd dbtf vbluf of this objfdt. Thf timf vbluf bnd
+     * dblfndbr fiflds must bf in syndh.
+     */
+    privbtf long gftCurrfntFixfdDbtf() {
+        rfturn (dblsys == gdbl) ? dbdhfdFixfdDbtf : dblsys.gftFixfdDbtf(ddbtf);
+    }
+
+    /**
+     * Rfturns thf nfw vbluf bftfr 'roll'ing thf spfdififd vbluf bnd bmount.
+     */
+    privbtf stbtid int gftRollfdVbluf(int vbluf, int bmount, int min, int mbx) {
+        bssfrt vbluf >= min && vbluf <= mbx;
+        int rbngf = mbx - min + 1;
+        bmount %= rbngf;
+        int n = vbluf + bmount;
+        if (n > mbx) {
+            n -= rbngf;
+        } flsf if (n < min) {
+            n += rbngf;
+        }
+        bssfrt n >= min && n <= mbx;
+        rfturn n;
+    }
+
+    /**
+     * Rfturns thf ERA.  Wf nffd b spfdibl mfthod for this bfdbusf thf
+     * dffbult ERA is CE, but b zfro (unsft) ERA is BCE.
+     */
+    privbtf int intfrnblGftErb() {
+        rfturn isSft(ERA) ? intfrnblGft(ERA) : CE;
+    }
+
+    /**
+     * Updbtfs intfrnbl stbtf.
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm strfbm)
+            throws IOExdfption, ClbssNotFoundExdfption {
+        strfbm.dffbultRfbdObjfdt();
+        if (gdbtf == null) {
+            gdbtf = (BbsfCblfndbr.Dbtf) gdbl.nfwCblfndbrDbtf(gftZonf());
+            dbdhfdFixfdDbtf = Long.MIN_VALUE;
+        }
+        sftGrfgoribnChbngf(grfgoribnCutovfr);
+    }
+
+    /**
+     * Convfrts this objfdt to b {@dodf ZonfdDbtfTimf} thbt rfprfsfnts
+     * thf sbmf point on thf timf-linf bs this {@dodf GrfgoribnCblfndbr}.
+     * <p>
+     * Sindf this objfdt supports b Julibn-Grfgoribn dutovfr dbtf bnd
+     * {@dodf ZonfdDbtfTimf} dofs not, it is possiblf thbt thf rfsulting yfbr,
+     * month bnd dby will hbvf difffrfnt vblufs.  Thf rfsult will rfprfsfnt thf
+     * dorrfdt dbtf in thf ISO dblfndbr systfm, whidh will blso bf thf sbmf vbluf
+     * for Modififd Julibn Dbys.
+     *
+     * @rfturn b zonfd dbtf-timf rfprfsfnting thf sbmf point on thf timf-linf
+     *  bs this grfgoribn dblfndbr
+     * @sindf 1.8
+     */
+    publid ZonfdDbtfTimf toZonfdDbtfTimf() {
+        rfturn ZonfdDbtfTimf.ofInstbnt(Instbnt.ofEpodhMilli(gftTimfInMillis()),
+                                       gftTimfZonf().toZonfId());
+    }
+
+    /**
+     * Obtbins bn instbndf of {@dodf GrfgoribnCblfndbr} with thf dffbult lodblf
+     * from b {@dodf ZonfdDbtfTimf} objfdt.
+     * <p>
+     * Sindf {@dodf ZonfdDbtfTimf} dofs not support b Julibn-Grfgoribn dutovfr
+     * dbtf bnd usfs ISO dblfndbr systfm, thf rfturn GrfgoribnCblfndbr is b purf
+     * Grfgoribn dblfndbr bnd usfs ISO 8601 stbndbrd for wffk dffinitions,
+     * whidh hbs {@dodf MONDAY} bs thf {@link Cblfndbr#gftFirstDbyOfWffk()
+     * FirstDbyOfWffk} bnd {@dodf 4} bs thf vbluf of thf
+     * {@link Cblfndbr#gftMinimblDbysInFirstWffk() MinimblDbysInFirstWffk}.
+     * <p>
+     * {@dodf ZonfDbtfTimf} dbn storf points on thf timf-linf furthfr in thf
+     * futurf bnd furthfr in thf pbst thbn {@dodf GrfgoribnCblfndbr}. In this
+     * sdfnbrio, this mfthod will throw bn {@dodf IllfgblArgumfntExdfption}
+     * fxdfption.
+     *
+     * @pbrbm zdt  thf zonfd dbtf-timf objfdt to donvfrt
+     * @rfturn  thf grfgoribn dblfndbr rfprfsfnting thf sbmf point on thf
+     *  timf-linf bs thf zonfd dbtf-timf providfd
+     * @fxdfption NullPointfrExdfption if {@dodf zdt} is null
+     * @fxdfption IllfgblArgumfntExdfption if thf zonfd dbtf-timf is too
+     * lbrgf to rfprfsfnt bs b {@dodf GrfgoribnCblfndbr}
+     * @sindf 1.8
+     */
+    publid stbtid GrfgoribnCblfndbr from(ZonfdDbtfTimf zdt) {
+        GrfgoribnCblfndbr dbl = nfw GrfgoribnCblfndbr(TimfZonf.gftTimfZonf(zdt.gftZonf()));
+        dbl.sftGrfgoribnChbngf(nfw Dbtf(Long.MIN_VALUE));
+        dbl.sftFirstDbyOfWffk(MONDAY);
+        dbl.sftMinimblDbysInFirstWffk(4);
+        try {
+            dbl.sftTimfInMillis(Mbth.bddExbdt(Mbth.multiplyExbdt(zdt.toEpodhSfdond(), 1000),
+                                              zdt.gft(ChronoFifld.MILLI_OF_SECOND)));
+        } dbtdh (ArithmftidExdfption fx) {
+            throw nfw IllfgblArgumfntExdfption(fx);
+        }
+        rfturn dbl;
+    }
+}

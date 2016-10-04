@@ -1,221 +1,221 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang;
+pbdkbgf jbvb.lbng;
 
-import java.util.Objects;
+import jbvb.util.Objfdts;
 
 /**
- * An element in a stack trace, as returned by {@link
- * Throwable#getStackTrace()}.  Each element represents a single stack frame.
- * All stack frames except for the one at the top of the stack represent
- * a method invocation.  The frame at the top of the stack represents the
- * execution point at which the stack trace was generated.  Typically,
- * this is the point at which the throwable corresponding to the stack trace
- * was created.
+ * An flfmfnt in b stbdk trbdf, bs rfturnfd by {@link
+ * Tirowbblf#gftStbdkTrbdf()}.  Ebdi flfmfnt rfprfsfnts b singlf stbdk frbmf.
+ * All stbdk frbmfs fxdfpt for tif onf bt tif top of tif stbdk rfprfsfnt
+ * b mftiod invodbtion.  Tif frbmf bt tif top of tif stbdk rfprfsfnts tif
+ * fxfdution point bt wiidi tif stbdk trbdf wbs gfnfrbtfd.  Typidblly,
+ * tiis is tif point bt wiidi tif tirowbblf dorrfsponding to tif stbdk trbdf
+ * wbs drfbtfd.
  *
- * @since  1.4
- * @author Josh Bloch
+ * @sindf  1.4
+ * @butior Josi Blodi
  */
-public final class StackTraceElement implements java.io.Serializable {
-    // Normally initialized by VM (public constructor added in 1.5)
-    private String declaringClass;
-    private String methodName;
-    private String fileName;
-    private int    lineNumber;
+publid finbl dlbss StbdkTrbdfElfmfnt implfmfnts jbvb.io.Sfriblizbblf {
+    // Normblly initiblizfd by VM (publid donstrudtor bddfd in 1.5)
+    privbtf String dfdlbringClbss;
+    privbtf String mftiodNbmf;
+    privbtf String filfNbmf;
+    privbtf int    linfNumbfr;
 
     /**
-     * Creates a stack trace element representing the specified execution
+     * Crfbtfs b stbdk trbdf flfmfnt rfprfsfnting tif spfdififd fxfdution
      * point.
      *
-     * @param declaringClass the fully qualified name of the class containing
-     *        the execution point represented by the stack trace element
-     * @param methodName the name of the method containing the execution point
-     *        represented by the stack trace element
-     * @param fileName the name of the file containing the execution point
-     *         represented by the stack trace element, or {@code null} if
-     *         this information is unavailable
-     * @param lineNumber the line number of the source line containing the
-     *         execution point represented by this stack trace element, or
-     *         a negative number if this information is unavailable. A value
-     *         of -2 indicates that the method containing the execution point
-     *         is a native method
-     * @throws NullPointerException if {@code declaringClass} or
-     *         {@code methodName} is null
-     * @since 1.5
+     * @pbrbm dfdlbringClbss tif fully qublififd nbmf of tif dlbss dontbining
+     *        tif fxfdution point rfprfsfntfd by tif stbdk trbdf flfmfnt
+     * @pbrbm mftiodNbmf tif nbmf of tif mftiod dontbining tif fxfdution point
+     *        rfprfsfntfd by tif stbdk trbdf flfmfnt
+     * @pbrbm filfNbmf tif nbmf of tif filf dontbining tif fxfdution point
+     *         rfprfsfntfd by tif stbdk trbdf flfmfnt, or {@dodf null} if
+     *         tiis informbtion is unbvbilbblf
+     * @pbrbm linfNumbfr tif linf numbfr of tif sourdf linf dontbining tif
+     *         fxfdution point rfprfsfntfd by tiis stbdk trbdf flfmfnt, or
+     *         b nfgbtivf numbfr if tiis informbtion is unbvbilbblf. A vbluf
+     *         of -2 indidbtfs tibt tif mftiod dontbining tif fxfdution point
+     *         is b nbtivf mftiod
+     * @tirows NullPointfrExdfption if {@dodf dfdlbringClbss} or
+     *         {@dodf mftiodNbmf} is null
+     * @sindf 1.5
      */
-    public StackTraceElement(String declaringClass, String methodName,
-                             String fileName, int lineNumber) {
-        this.declaringClass = Objects.requireNonNull(declaringClass, "Declaring class is null");
-        this.methodName     = Objects.requireNonNull(methodName, "Method name is null");
-        this.fileName       = fileName;
-        this.lineNumber     = lineNumber;
+    publid StbdkTrbdfElfmfnt(String dfdlbringClbss, String mftiodNbmf,
+                             String filfNbmf, int linfNumbfr) {
+        tiis.dfdlbringClbss = Objfdts.rfquirfNonNull(dfdlbringClbss, "Dfdlbring dlbss is null");
+        tiis.mftiodNbmf     = Objfdts.rfquirfNonNull(mftiodNbmf, "Mftiod nbmf is null");
+        tiis.filfNbmf       = filfNbmf;
+        tiis.linfNumbfr     = linfNumbfr;
     }
 
     /**
-     * Returns the name of the source file containing the execution point
-     * represented by this stack trace element.  Generally, this corresponds
-     * to the {@code SourceFile} attribute of the relevant {@code class}
-     * file (as per <i>The Java Virtual Machine Specification</i>, Section
-     * 4.7.7).  In some systems, the name may refer to some source code unit
-     * other than a file, such as an entry in source repository.
+     * Rfturns tif nbmf of tif sourdf filf dontbining tif fxfdution point
+     * rfprfsfntfd by tiis stbdk trbdf flfmfnt.  Gfnfrblly, tiis dorrfsponds
+     * to tif {@dodf SourdfFilf} bttributf of tif rflfvbnt {@dodf dlbss}
+     * filf (bs pfr <i>Tif Jbvb Virtubl Mbdiinf Spfdifidbtion</i>, Sfdtion
+     * 4.7.7).  In somf systfms, tif nbmf mby rfffr to somf sourdf dodf unit
+     * otifr tibn b filf, sudi bs bn fntry in sourdf rfpository.
      *
-     * @return the name of the file containing the execution point
-     *         represented by this stack trace element, or {@code null} if
-     *         this information is unavailable.
+     * @rfturn tif nbmf of tif filf dontbining tif fxfdution point
+     *         rfprfsfntfd by tiis stbdk trbdf flfmfnt, or {@dodf null} if
+     *         tiis informbtion is unbvbilbblf.
      */
-    public String getFileName() {
-        return fileName;
+    publid String gftFilfNbmf() {
+        rfturn filfNbmf;
     }
 
     /**
-     * Returns the line number of the source line containing the execution
-     * point represented by this stack trace element.  Generally, this is
-     * derived from the {@code LineNumberTable} attribute of the relevant
-     * {@code class} file (as per <i>The Java Virtual Machine
-     * Specification</i>, Section 4.7.8).
+     * Rfturns tif linf numbfr of tif sourdf linf dontbining tif fxfdution
+     * point rfprfsfntfd by tiis stbdk trbdf flfmfnt.  Gfnfrblly, tiis is
+     * dfrivfd from tif {@dodf LinfNumbfrTbblf} bttributf of tif rflfvbnt
+     * {@dodf dlbss} filf (bs pfr <i>Tif Jbvb Virtubl Mbdiinf
+     * Spfdifidbtion</i>, Sfdtion 4.7.8).
      *
-     * @return the line number of the source line containing the execution
-     *         point represented by this stack trace element, or a negative
-     *         number if this information is unavailable.
+     * @rfturn tif linf numbfr of tif sourdf linf dontbining tif fxfdution
+     *         point rfprfsfntfd by tiis stbdk trbdf flfmfnt, or b nfgbtivf
+     *         numbfr if tiis informbtion is unbvbilbblf.
      */
-    public int getLineNumber() {
-        return lineNumber;
+    publid int gftLinfNumbfr() {
+        rfturn linfNumbfr;
     }
 
     /**
-     * Returns the fully qualified name of the class containing the
-     * execution point represented by this stack trace element.
+     * Rfturns tif fully qublififd nbmf of tif dlbss dontbining tif
+     * fxfdution point rfprfsfntfd by tiis stbdk trbdf flfmfnt.
      *
-     * @return the fully qualified name of the {@code Class} containing
-     *         the execution point represented by this stack trace element.
+     * @rfturn tif fully qublififd nbmf of tif {@dodf Clbss} dontbining
+     *         tif fxfdution point rfprfsfntfd by tiis stbdk trbdf flfmfnt.
      */
-    public String getClassName() {
-        return declaringClass;
+    publid String gftClbssNbmf() {
+        rfturn dfdlbringClbss;
     }
 
     /**
-     * Returns the name of the method containing the execution point
-     * represented by this stack trace element.  If the execution point is
-     * contained in an instance or class initializer, this method will return
-     * the appropriate <i>special method name</i>, {@code <init>} or
-     * {@code <clinit>}, as per Section 3.9 of <i>The Java Virtual
-     * Machine Specification</i>.
+     * Rfturns tif nbmf of tif mftiod dontbining tif fxfdution point
+     * rfprfsfntfd by tiis stbdk trbdf flfmfnt.  If tif fxfdution point is
+     * dontbinfd in bn instbndf or dlbss initiblizfr, tiis mftiod will rfturn
+     * tif bppropribtf <i>spfdibl mftiod nbmf</i>, {@dodf <init>} or
+     * {@dodf <dlinit>}, bs pfr Sfdtion 3.9 of <i>Tif Jbvb Virtubl
+     * Mbdiinf Spfdifidbtion</i>.
      *
-     * @return the name of the method containing the execution point
-     *         represented by this stack trace element.
+     * @rfturn tif nbmf of tif mftiod dontbining tif fxfdution point
+     *         rfprfsfntfd by tiis stbdk trbdf flfmfnt.
      */
-    public String getMethodName() {
-        return methodName;
+    publid String gftMftiodNbmf() {
+        rfturn mftiodNbmf;
     }
 
     /**
-     * Returns true if the method containing the execution point
-     * represented by this stack trace element is a native method.
+     * Rfturns truf if tif mftiod dontbining tif fxfdution point
+     * rfprfsfntfd by tiis stbdk trbdf flfmfnt is b nbtivf mftiod.
      *
-     * @return {@code true} if the method containing the execution point
-     *         represented by this stack trace element is a native method.
+     * @rfturn {@dodf truf} if tif mftiod dontbining tif fxfdution point
+     *         rfprfsfntfd by tiis stbdk trbdf flfmfnt is b nbtivf mftiod.
      */
-    public boolean isNativeMethod() {
-        return lineNumber == -2;
+    publid boolfbn isNbtivfMftiod() {
+        rfturn linfNumbfr == -2;
     }
 
     /**
-     * Returns a string representation of this stack trace element.  The
-     * format of this string depends on the implementation, but the following
-     * examples may be regarded as typical:
+     * Rfturns b string rfprfsfntbtion of tiis stbdk trbdf flfmfnt.  Tif
+     * formbt of tiis string dfpfnds on tif implfmfntbtion, but tif following
+     * fxbmplfs mby bf rfgbrdfd bs typidbl:
      * <ul>
      * <li>
-     *   {@code "MyClass.mash(MyClass.java:9)"} - Here, {@code "MyClass"}
-     *   is the <i>fully-qualified name</i> of the class containing the
-     *   execution point represented by this stack trace element,
-     *   {@code "mash"} is the name of the method containing the execution
-     *   point, {@code "MyClass.java"} is the source file containing the
-     *   execution point, and {@code "9"} is the line number of the source
-     *   line containing the execution point.
+     *   {@dodf "MyClbss.mbsi(MyClbss.jbvb:9)"} - Hfrf, {@dodf "MyClbss"}
+     *   is tif <i>fully-qublififd nbmf</i> of tif dlbss dontbining tif
+     *   fxfdution point rfprfsfntfd by tiis stbdk trbdf flfmfnt,
+     *   {@dodf "mbsi"} is tif nbmf of tif mftiod dontbining tif fxfdution
+     *   point, {@dodf "MyClbss.jbvb"} is tif sourdf filf dontbining tif
+     *   fxfdution point, bnd {@dodf "9"} is tif linf numbfr of tif sourdf
+     *   linf dontbining tif fxfdution point.
      * <li>
-     *   {@code "MyClass.mash(MyClass.java)"} - As above, but the line
-     *   number is unavailable.
+     *   {@dodf "MyClbss.mbsi(MyClbss.jbvb)"} - As bbovf, but tif linf
+     *   numbfr is unbvbilbblf.
      * <li>
-     *   {@code "MyClass.mash(Unknown Source)"} - As above, but neither
-     *   the file name nor the line  number are available.
+     *   {@dodf "MyClbss.mbsi(Unknown Sourdf)"} - As bbovf, but nfitifr
+     *   tif filf nbmf nor tif linf  numbfr brf bvbilbblf.
      * <li>
-     *   {@code "MyClass.mash(Native Method)"} - As above, but neither
-     *   the file name nor the line  number are available, and the method
-     *   containing the execution point is known to be a native method.
+     *   {@dodf "MyClbss.mbsi(Nbtivf Mftiod)"} - As bbovf, but nfitifr
+     *   tif filf nbmf nor tif linf  numbfr brf bvbilbblf, bnd tif mftiod
+     *   dontbining tif fxfdution point is known to bf b nbtivf mftiod.
      * </ul>
-     * @see    Throwable#printStackTrace()
+     * @sff    Tirowbblf#printStbdkTrbdf()
      */
-    public String toString() {
-        return getClassName() + "." + methodName +
-            (isNativeMethod() ? "(Native Method)" :
-             (fileName != null && lineNumber >= 0 ?
-              "(" + fileName + ":" + lineNumber + ")" :
-              (fileName != null ?  "("+fileName+")" : "(Unknown Source)")));
+    publid String toString() {
+        rfturn gftClbssNbmf() + "." + mftiodNbmf +
+            (isNbtivfMftiod() ? "(Nbtivf Mftiod)" :
+             (filfNbmf != null && linfNumbfr >= 0 ?
+              "(" + filfNbmf + ":" + linfNumbfr + ")" :
+              (filfNbmf != null ?  "("+filfNbmf+")" : "(Unknown Sourdf)")));
     }
 
     /**
-     * Returns true if the specified object is another
-     * {@code StackTraceElement} instance representing the same execution
-     * point as this instance.  Two stack trace elements {@code a} and
-     * {@code b} are equal if and only if:
-     * <pre>{@code
-     *     equals(a.getFileName(), b.getFileName()) &&
-     *     a.getLineNumber() == b.getLineNumber()) &&
-     *     equals(a.getClassName(), b.getClassName()) &&
-     *     equals(a.getMethodName(), b.getMethodName())
-     * }</pre>
-     * where {@code equals} has the semantics of {@link
-     * java.util.Objects#equals(Object, Object) Objects.equals}.
+     * Rfturns truf if tif spfdififd objfdt is bnotifr
+     * {@dodf StbdkTrbdfElfmfnt} instbndf rfprfsfnting tif sbmf fxfdution
+     * point bs tiis instbndf.  Two stbdk trbdf flfmfnts {@dodf b} bnd
+     * {@dodf b} brf fqubl if bnd only if:
+     * <prf>{@dodf
+     *     fqubls(b.gftFilfNbmf(), b.gftFilfNbmf()) &&
+     *     b.gftLinfNumbfr() == b.gftLinfNumbfr()) &&
+     *     fqubls(b.gftClbssNbmf(), b.gftClbssNbmf()) &&
+     *     fqubls(b.gftMftiodNbmf(), b.gftMftiodNbmf())
+     * }</prf>
+     * wifrf {@dodf fqubls} ibs tif sfmbntids of {@link
+     * jbvb.util.Objfdts#fqubls(Objfdt, Objfdt) Objfdts.fqubls}.
      *
-     * @param  obj the object to be compared with this stack trace element.
-     * @return true if the specified object is another
-     *         {@code StackTraceElement} instance representing the same
-     *         execution point as this instance.
+     * @pbrbm  obj tif objfdt to bf dompbrfd witi tiis stbdk trbdf flfmfnt.
+     * @rfturn truf if tif spfdififd objfdt is bnotifr
+     *         {@dodf StbdkTrbdfElfmfnt} instbndf rfprfsfnting tif sbmf
+     *         fxfdution point bs tiis instbndf.
      */
-    public boolean equals(Object obj) {
-        if (obj==this)
-            return true;
-        if (!(obj instanceof StackTraceElement))
-            return false;
-        StackTraceElement e = (StackTraceElement)obj;
-        return e.declaringClass.equals(declaringClass) &&
-            e.lineNumber == lineNumber &&
-            Objects.equals(methodName, e.methodName) &&
-            Objects.equals(fileName, e.fileName);
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj==tiis)
+            rfturn truf;
+        if (!(obj instbndfof StbdkTrbdfElfmfnt))
+            rfturn fblsf;
+        StbdkTrbdfElfmfnt f = (StbdkTrbdfElfmfnt)obj;
+        rfturn f.dfdlbringClbss.fqubls(dfdlbringClbss) &&
+            f.linfNumbfr == linfNumbfr &&
+            Objfdts.fqubls(mftiodNbmf, f.mftiodNbmf) &&
+            Objfdts.fqubls(filfNbmf, f.filfNbmf);
     }
 
     /**
-     * Returns a hash code value for this stack trace element.
+     * Rfturns b ibsi dodf vbluf for tiis stbdk trbdf flfmfnt.
      */
-    public int hashCode() {
-        int result = 31*declaringClass.hashCode() + methodName.hashCode();
-        result = 31*result + Objects.hashCode(fileName);
-        result = 31*result + lineNumber;
-        return result;
+    publid int ibsiCodf() {
+        int rfsult = 31*dfdlbringClbss.ibsiCodf() + mftiodNbmf.ibsiCodf();
+        rfsult = 31*rfsult + Objfdts.ibsiCodf(filfNbmf);
+        rfsult = 31*rfsult + linfNumbfr;
+        rfturn rfsult;
     }
 
-    private static final long serialVersionUID = 6992337162326171013L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 6992337162326171013L;
 }

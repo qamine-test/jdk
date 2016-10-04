@@ -1,107 +1,107 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal.util;
+pbdkbgf sun.sfdurity.krb5.intfrnbl.util;
 
-import java.io.IOException;
-import java.util.Arrays;
-import sun.security.krb5.internal.Krb5;
-import sun.security.util.BitArray;
-import sun.security.util.DerOutputStream;
+import jbvb.io.IOExdfption;
+import jbvb.util.Arrbys;
+import sun.sfdurity.krb5.intfrnbl.Krb5;
+import sun.sfdurity.util.BitArrby;
+import sun.sfdurity.util.DfrOutputStrfbm;
 
 /**
- * A wrapper class around sun.security.util.BitArray, so that KDCOptions,
- * TicketFlags and ApOptions in krb5 classes can utilize some functions
- * in BitArray classes.
+ * A wrbppfr dlbss bround sun.sfdurity.util.BitArrby, so tibt KDCOptions,
+ * TidkftFlbgs bnd ApOptions in krb5 dlbssfs dbn utilizf somf fundtions
+ * in BitArrby dlbssfs.
  *
- * The data type is defined in RFC 4120 as:
+ * Tif dbtb typf is dffinfd in RFC 4120 bs:
  *
- * 5.2.8.  KerberosFlags
+ * 5.2.8.  KfrbfrosFlbgs
  *
- *  For several message types, a specific constrained bit string type,
- *  KerberosFlags, is used.
+ *  For sfvfrbl mfssbgf typfs, b spfdifid donstrbinfd bit string typf,
+ *  KfrbfrosFlbgs, is usfd.
  *
- *  KerberosFlags   ::= BIT STRING (SIZE (32..MAX))
- *                      -- minimum number of bits shall be sent,
- *                      -- but no fewer than 32
+ *  KfrbfrosFlbgs   ::= BIT STRING (SIZE (32..MAX))
+ *                      -- minimum numbfr of bits sibll bf sfnt,
+ *                      -- but no ffwfr tibn 32
  *
- * @author Yanni Zhang
+ * @butior Ybnni Zibng
  */
-public class KerberosFlags {
-    BitArray bits;
+publid dlbss KfrbfrosFlbgs {
+    BitArrby bits;
 
-    // This constant is used by child classes.
-    protected static final int BITS_PER_UNIT = 8;
+    // Tiis donstbnt is usfd by diild dlbssfs.
+    protfdtfd stbtid finbl int BITS_PER_UNIT = 8;
 
-    public KerberosFlags(int length) throws IllegalArgumentException {
-        bits = new BitArray(length);
+    publid KfrbfrosFlbgs(int lfngti) tirows IllfgblArgumfntExdfption {
+        bits = nfw BitArrby(lfngti);
     }
 
-    public KerberosFlags(int length, byte[] a) throws IllegalArgumentException {
-        bits = new BitArray(length, a);
-        if (length != Krb5.KRB_FLAGS_MAX+1) {
-            bits = new BitArray(Arrays.copyOf(bits.toBooleanArray(), Krb5.KRB_FLAGS_MAX+1));
+    publid KfrbfrosFlbgs(int lfngti, bytf[] b) tirows IllfgblArgumfntExdfption {
+        bits = nfw BitArrby(lfngti, b);
+        if (lfngti != Krb5.KRB_FLAGS_MAX+1) {
+            bits = nfw BitArrby(Arrbys.dopyOf(bits.toBoolfbnArrby(), Krb5.KRB_FLAGS_MAX+1));
         }
     }
 
-    public KerberosFlags(boolean[] bools) {
-        bits = new BitArray((bools.length==Krb5.KRB_FLAGS_MAX+1)?
+    publid KfrbfrosFlbgs(boolfbn[] bools) {
+        bits = nfw BitArrby((bools.lfngti==Krb5.KRB_FLAGS_MAX+1)?
             bools:
-            Arrays.copyOf(bools, Krb5.KRB_FLAGS_MAX+1));
+            Arrbys.dopyOf(bools, Krb5.KRB_FLAGS_MAX+1));
     }
 
-    public void set(int index, boolean value) {
-        bits.set(index, value);
+    publid void sft(int indfx, boolfbn vbluf) {
+        bits.sft(indfx, vbluf);
     }
 
-    public boolean get(int index) {
-        return bits.get(index);
+    publid boolfbn gft(int indfx) {
+        rfturn bits.gft(indfx);
     }
 
-    public boolean[] toBooleanArray() {
-        return bits.toBooleanArray();
+    publid boolfbn[] toBoolfbnArrby() {
+        rfturn bits.toBoolfbnArrby();
     }
 
     /**
-     * Writes the encoded data.
+     * Writfs tif fndodfd dbtb.
      *
-     * @exception IOException if an I/O error occurs while reading encoded data.
-     * @return an byte array of encoded KDCOptions.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding fndodfd dbtb.
+     * @rfturn bn bytf brrby of fndodfd KDCOptions.
      */
-    public byte[] asn1Encode() throws IOException {
-        DerOutputStream out = new DerOutputStream();
-        out.putUnalignedBitString(bits);
-        return out.toByteArray();
+    publid bytf[] bsn1Endodf() tirows IOExdfption {
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        out.putUnblignfdBitString(bits);
+        rfturn out.toBytfArrby();
     }
 
-    public String toString() {
-        return bits.toString();
+    publid String toString() {
+        rfturn bits.toString();
     }
 }

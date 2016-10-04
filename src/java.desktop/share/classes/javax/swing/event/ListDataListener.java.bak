@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 1997, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.event;
+pbdkbgf jbvbx.swing.fvfnt;
 
-import java.util.EventListener;
+import jbvb.util.EvfntListfnfr;
 
 /**
- * ListDataListener
+ * ListDbtbListfnfr
  *
- * @author Hans Muller
+ * @butior Hbns Mullfr
  */
-public interface ListDataListener extends EventListener {
+publid intfrfbdf ListDbtbListfnfr fxtfnds EvfntListfnfr {
 
     /**
-     * Sent after the indices in the index0,index1
-     * interval have been inserted in the data model.
-     * The new interval includes both index0 and index1.
+     * Sfnt bftfr tif indidfs in tif indfx0,indfx1
+     * intfrvbl ibvf bffn insfrtfd in tif dbtb modfl.
+     * Tif nfw intfrvbl indludfs boti indfx0 bnd indfx1.
      *
-     * @param e  a <code>ListDataEvent</code> encapsulating the
-     *    event information
+     * @pbrbm f  b <dodf>ListDbtbEvfnt</dodf> fndbpsulbting tif
+     *    fvfnt informbtion
      */
-    void intervalAdded(ListDataEvent e);
-
-
-    /**
-     * Sent after the indices in the index0,index1 interval
-     * have been removed from the data model.  The interval
-     * includes both index0 and index1.
-     *
-     * @param e  a <code>ListDataEvent</code> encapsulating the
-     *    event information
-     */
-    void intervalRemoved(ListDataEvent e);
+    void intfrvblAddfd(ListDbtbEvfnt f);
 
 
     /**
-     * Sent when the contents of the list has changed in a way
-     * that's too complex to characterize with the previous
-     * methods. For example, this is sent when an item has been
-     * replaced. Index0 and index1 bracket the change.
+     * Sfnt bftfr tif indidfs in tif indfx0,indfx1 intfrvbl
+     * ibvf bffn rfmovfd from tif dbtb modfl.  Tif intfrvbl
+     * indludfs boti indfx0 bnd indfx1.
      *
-     * @param e  a <code>ListDataEvent</code> encapsulating the
-     *    event information
+     * @pbrbm f  b <dodf>ListDbtbEvfnt</dodf> fndbpsulbting tif
+     *    fvfnt informbtion
      */
-    void contentsChanged(ListDataEvent e);
+    void intfrvblRfmovfd(ListDbtbEvfnt f);
+
+
+    /**
+     * Sfnt wifn tif dontfnts of tif list ibs dibngfd in b wby
+     * tibt's too domplfx to dibrbdtfrizf witi tif prfvious
+     * mftiods. For fxbmplf, tiis is sfnt wifn bn itfm ibs bffn
+     * rfplbdfd. Indfx0 bnd indfx1 brbdkft tif dibngf.
+     *
+     * @pbrbm f  b <dodf>ListDbtbEvfnt</dodf> fndbpsulbting tif
+     *    fvfnt informbtion
+     */
+    void dontfntsCibngfd(ListDbtbEvfnt f);
 }

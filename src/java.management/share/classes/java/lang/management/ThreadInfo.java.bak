@@ -1,834 +1,834 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.management;
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
 
-import javax.management.openmbean.CompositeData;
-import sun.management.ManagementFactoryHelper;
-import sun.management.ThreadInfoCompositeData;
-import static java.lang.Thread.State.*;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import sun.mbnbgfmfnt.MbnbgfmfntFbdtoryHflpfr;
+import sun.mbnbgfmfnt.TirfbdInfoCompositfDbtb;
+import stbtid jbvb.lbng.Tirfbd.Stbtf.*;
 
 /**
- * Thread information. <tt>ThreadInfo</tt> contains the information
- * about a thread including:
- * <h3>General thread information</h3>
+ * Tirfbd informbtion. <tt>TirfbdInfo</tt> dontbins tif informbtion
+ * bbout b tirfbd indluding:
+ * <i3>Gfnfrbl tirfbd informbtion</i3>
  * <ul>
- *   <li>Thread ID.</li>
- *   <li>Name of the thread.</li>
+ *   <li>Tirfbd ID.</li>
+ *   <li>Nbmf of tif tirfbd.</li>
  * </ul>
  *
- * <h3>Execution information</h3>
+ * <i3>Exfdution informbtion</i3>
  * <ul>
- *   <li>Thread state.</li>
- *   <li>The object upon which the thread is blocked due to:
+ *   <li>Tirfbd stbtf.</li>
+ *   <li>Tif objfdt upon wiidi tif tirfbd is blodkfd duf to:
  *       <ul>
- *       <li>waiting to enter a synchronization block/method, or</li>
- *       <li>waiting to be notified in a {@link Object#wait Object.wait} method,
+ *       <li>wbiting to fntfr b syndironizbtion blodk/mftiod, or</li>
+ *       <li>wbiting to bf notififd in b {@link Objfdt#wbit Objfdt.wbit} mftiod,
  *           or</li>
- *       <li>parking due to a {@link java.util.concurrent.locks.LockSupport#park
- *           LockSupport.park} call.</li>
+ *       <li>pbrking duf to b {@link jbvb.util.dondurrfnt.lodks.LodkSupport#pbrk
+ *           LodkSupport.pbrk} dbll.</li>
  *       </ul>
  *   </li>
- *   <li>The ID of the thread that owns the object
- *       that the thread is blocked.</li>
- *   <li>Stack trace of the thread.</li>
- *   <li>List of object monitors locked by the thread.</li>
- *   <li>List of <a href="LockInfo.html#OwnableSynchronizer">
- *       ownable synchronizers</a> locked by the thread.</li>
+ *   <li>Tif ID of tif tirfbd tibt owns tif objfdt
+ *       tibt tif tirfbd is blodkfd.</li>
+ *   <li>Stbdk trbdf of tif tirfbd.</li>
+ *   <li>List of objfdt monitors lodkfd by tif tirfbd.</li>
+ *   <li>List of <b irff="LodkInfo.itml#OwnbblfSyndironizfr">
+ *       ownbblf syndironizfrs</b> lodkfd by tif tirfbd.</li>
  * </ul>
  *
- * <h4><a name="SyncStats">Synchronization Statistics</a></h4>
+ * <i4><b nbmf="SyndStbts">Syndironizbtion Stbtistids</b></i4>
  * <ul>
- *   <li>The number of times that the thread has blocked for
- *       synchronization or waited for notification.</li>
- *   <li>The accumulated elapsed time that the thread has blocked
- *       for synchronization or waited for notification
- *       since {@link ThreadMXBean#setThreadContentionMonitoringEnabled
- *       thread contention monitoring}
- *       was enabled. Some Java virtual machine implementation
- *       may not support this.  The
- *       {@link ThreadMXBean#isThreadContentionMonitoringSupported()}
- *       method can be used to determine if a Java virtual machine
- *       supports this.</li>
+ *   <li>Tif numbfr of timfs tibt tif tirfbd ibs blodkfd for
+ *       syndironizbtion or wbitfd for notifidbtion.</li>
+ *   <li>Tif bddumulbtfd flbpsfd timf tibt tif tirfbd ibs blodkfd
+ *       for syndironizbtion or wbitfd for notifidbtion
+ *       sindf {@link TirfbdMXBfbn#sftTirfbdContfntionMonitoringEnbblfd
+ *       tirfbd dontfntion monitoring}
+ *       wbs fnbblfd. Somf Jbvb virtubl mbdiinf implfmfntbtion
+ *       mby not support tiis.  Tif
+ *       {@link TirfbdMXBfbn#isTirfbdContfntionMonitoringSupportfd()}
+ *       mftiod dbn bf usfd to dftfrminf if b Jbvb virtubl mbdiinf
+ *       supports tiis.</li>
  * </ul>
  *
- * <p>This thread information class is designed for use in monitoring of
- * the system, not for synchronization control.
+ * <p>Tiis tirfbd informbtion dlbss is dfsignfd for usf in monitoring of
+ * tif systfm, not for syndironizbtion dontrol.
  *
- * <h4>MXBean Mapping</h4>
- * <tt>ThreadInfo</tt> is mapped to a {@link CompositeData CompositeData}
- * with attributes as specified in
- * the {@link #from from} method.
+ * <i4>MXBfbn Mbpping</i4>
+ * <tt>TirfbdInfo</tt> is mbppfd to b {@link CompositfDbtb CompositfDbtb}
+ * witi bttributfs bs spfdififd in
+ * tif {@link #from from} mftiod.
  *
- * @see ThreadMXBean#getThreadInfo
- * @see ThreadMXBean#dumpAllThreads
+ * @sff TirfbdMXBfbn#gftTirfbdInfo
+ * @sff TirfbdMXBfbn#dumpAllTirfbds
  *
- * @author  Mandy Chung
- * @since   1.5
+ * @butior  Mbndy Ciung
+ * @sindf   1.5
  */
 
-public class ThreadInfo {
-    private String       threadName;
-    private long         threadId;
-    private long         blockedTime;
-    private long         blockedCount;
-    private long         waitedTime;
-    private long         waitedCount;
-    private LockInfo     lock;
-    private String       lockName;
-    private long         lockOwnerId;
-    private String       lockOwnerName;
-    private boolean      inNative;
-    private boolean      suspended;
-    private Thread.State threadState;
-    private StackTraceElement[] stackTrace;
-    private MonitorInfo[]       lockedMonitors;
-    private LockInfo[]          lockedSynchronizers;
+publid dlbss TirfbdInfo {
+    privbtf String       tirfbdNbmf;
+    privbtf long         tirfbdId;
+    privbtf long         blodkfdTimf;
+    privbtf long         blodkfdCount;
+    privbtf long         wbitfdTimf;
+    privbtf long         wbitfdCount;
+    privbtf LodkInfo     lodk;
+    privbtf String       lodkNbmf;
+    privbtf long         lodkOwnfrId;
+    privbtf String       lodkOwnfrNbmf;
+    privbtf boolfbn      inNbtivf;
+    privbtf boolfbn      suspfndfd;
+    privbtf Tirfbd.Stbtf tirfbdStbtf;
+    privbtf StbdkTrbdfElfmfnt[] stbdkTrbdf;
+    privbtf MonitorInfo[]       lodkfdMonitors;
+    privbtf LodkInfo[]          lodkfdSyndironizfrs;
 
-    private static MonitorInfo[] EMPTY_MONITORS = new MonitorInfo[0];
-    private static LockInfo[] EMPTY_SYNCS = new LockInfo[0];
+    privbtf stbtid MonitorInfo[] EMPTY_MONITORS = nfw MonitorInfo[0];
+    privbtf stbtid LodkInfo[] EMPTY_SYNCS = nfw LodkInfo[0];
 
     /**
-     * Constructor of ThreadInfo created by the JVM
+     * Construdtor of TirfbdInfo drfbtfd by tif JVM
      *
-     * @param t             Thread
-     * @param state         Thread state
-     * @param lockObj       Object on which the thread is blocked
-     * @param lockOwner     the thread holding the lock
-     * @param blockedCount  Number of times blocked to enter a lock
-     * @param blockedTime   Approx time blocked to enter a lock
-     * @param waitedCount   Number of times waited on a lock
-     * @param waitedTime    Approx time waited on a lock
-     * @param stackTrace    Thread stack trace
+     * @pbrbm t             Tirfbd
+     * @pbrbm stbtf         Tirfbd stbtf
+     * @pbrbm lodkObj       Objfdt on wiidi tif tirfbd is blodkfd
+     * @pbrbm lodkOwnfr     tif tirfbd iolding tif lodk
+     * @pbrbm blodkfdCount  Numbfr of timfs blodkfd to fntfr b lodk
+     * @pbrbm blodkfdTimf   Approx timf blodkfd to fntfr b lodk
+     * @pbrbm wbitfdCount   Numbfr of timfs wbitfd on b lodk
+     * @pbrbm wbitfdTimf    Approx timf wbitfd on b lodk
+     * @pbrbm stbdkTrbdf    Tirfbd stbdk trbdf
      */
-    private ThreadInfo(Thread t, int state, Object lockObj, Thread lockOwner,
-                       long blockedCount, long blockedTime,
-                       long waitedCount, long waitedTime,
-                       StackTraceElement[] stackTrace) {
-        initialize(t, state, lockObj, lockOwner,
-                   blockedCount, blockedTime,
-                   waitedCount, waitedTime, stackTrace,
+    privbtf TirfbdInfo(Tirfbd t, int stbtf, Objfdt lodkObj, Tirfbd lodkOwnfr,
+                       long blodkfdCount, long blodkfdTimf,
+                       long wbitfdCount, long wbitfdTimf,
+                       StbdkTrbdfElfmfnt[] stbdkTrbdf) {
+        initiblizf(t, stbtf, lodkObj, lodkOwnfr,
+                   blodkfdCount, blodkfdTimf,
+                   wbitfdCount, wbitfdTimf, stbdkTrbdf,
                    EMPTY_MONITORS, EMPTY_SYNCS);
     }
 
     /**
-     * Constructor of ThreadInfo created by the JVM
-     * for {@link ThreadMXBean#getThreadInfo(long[],boolean,boolean)}
-     * and {@link ThreadMXBean#dumpAllThreads}
+     * Construdtor of TirfbdInfo drfbtfd by tif JVM
+     * for {@link TirfbdMXBfbn#gftTirfbdInfo(long[],boolfbn,boolfbn)}
+     * bnd {@link TirfbdMXBfbn#dumpAllTirfbds}
      *
-     * @param t             Thread
-     * @param state         Thread state
-     * @param lockObj       Object on which the thread is blocked
-     * @param lockOwner     the thread holding the lock
-     * @param blockedCount  Number of times blocked to enter a lock
-     * @param blockedTime   Approx time blocked to enter a lock
-     * @param waitedCount   Number of times waited on a lock
-     * @param waitedTime    Approx time waited on a lock
-     * @param stackTrace    Thread stack trace
-     * @param monitors      List of locked monitors
-     * @param stackDepths   List of stack depths
-     * @param synchronizers List of locked synchronizers
+     * @pbrbm t             Tirfbd
+     * @pbrbm stbtf         Tirfbd stbtf
+     * @pbrbm lodkObj       Objfdt on wiidi tif tirfbd is blodkfd
+     * @pbrbm lodkOwnfr     tif tirfbd iolding tif lodk
+     * @pbrbm blodkfdCount  Numbfr of timfs blodkfd to fntfr b lodk
+     * @pbrbm blodkfdTimf   Approx timf blodkfd to fntfr b lodk
+     * @pbrbm wbitfdCount   Numbfr of timfs wbitfd on b lodk
+     * @pbrbm wbitfdTimf    Approx timf wbitfd on b lodk
+     * @pbrbm stbdkTrbdf    Tirfbd stbdk trbdf
+     * @pbrbm monitors      List of lodkfd monitors
+     * @pbrbm stbdkDfptis   List of stbdk dfptis
+     * @pbrbm syndironizfrs List of lodkfd syndironizfrs
      */
-    private ThreadInfo(Thread t, int state, Object lockObj, Thread lockOwner,
-                       long blockedCount, long blockedTime,
-                       long waitedCount, long waitedTime,
-                       StackTraceElement[] stackTrace,
-                       Object[] monitors,
-                       int[] stackDepths,
-                       Object[] synchronizers) {
-        int numMonitors = (monitors == null ? 0 : monitors.length);
-        MonitorInfo[] lockedMonitors;
+    privbtf TirfbdInfo(Tirfbd t, int stbtf, Objfdt lodkObj, Tirfbd lodkOwnfr,
+                       long blodkfdCount, long blodkfdTimf,
+                       long wbitfdCount, long wbitfdTimf,
+                       StbdkTrbdfElfmfnt[] stbdkTrbdf,
+                       Objfdt[] monitors,
+                       int[] stbdkDfptis,
+                       Objfdt[] syndironizfrs) {
+        int numMonitors = (monitors == null ? 0 : monitors.lfngti);
+        MonitorInfo[] lodkfdMonitors;
         if (numMonitors == 0) {
-            lockedMonitors = EMPTY_MONITORS;
-        } else {
-            lockedMonitors = new MonitorInfo[numMonitors];
+            lodkfdMonitors = EMPTY_MONITORS;
+        } flsf {
+            lodkfdMonitors = nfw MonitorInfo[numMonitors];
             for (int i = 0; i < numMonitors; i++) {
-                Object lock = monitors[i];
-                String className = lock.getClass().getName();
-                int identityHashCode = System.identityHashCode(lock);
-                int depth = stackDepths[i];
-                StackTraceElement ste = (depth >= 0 ? stackTrace[depth]
+                Objfdt lodk = monitors[i];
+                String dlbssNbmf = lodk.gftClbss().gftNbmf();
+                int idfntityHbsiCodf = Systfm.idfntityHbsiCodf(lodk);
+                int dfpti = stbdkDfptis[i];
+                StbdkTrbdfElfmfnt stf = (dfpti >= 0 ? stbdkTrbdf[dfpti]
                                                     : null);
-                lockedMonitors[i] = new MonitorInfo(className,
-                                                    identityHashCode,
-                                                    depth,
-                                                    ste);
+                lodkfdMonitors[i] = nfw MonitorInfo(dlbssNbmf,
+                                                    idfntityHbsiCodf,
+                                                    dfpti,
+                                                    stf);
             }
         }
 
-        int numSyncs = (synchronizers == null ? 0 : synchronizers.length);
-        LockInfo[] lockedSynchronizers;
-        if (numSyncs == 0) {
-            lockedSynchronizers = EMPTY_SYNCS;
-        } else {
-            lockedSynchronizers = new LockInfo[numSyncs];
-            for (int i = 0; i < numSyncs; i++) {
-                Object lock = synchronizers[i];
-                String className = lock.getClass().getName();
-                int identityHashCode = System.identityHashCode(lock);
-                lockedSynchronizers[i] = new LockInfo(className,
-                                                      identityHashCode);
+        int numSynds = (syndironizfrs == null ? 0 : syndironizfrs.lfngti);
+        LodkInfo[] lodkfdSyndironizfrs;
+        if (numSynds == 0) {
+            lodkfdSyndironizfrs = EMPTY_SYNCS;
+        } flsf {
+            lodkfdSyndironizfrs = nfw LodkInfo[numSynds];
+            for (int i = 0; i < numSynds; i++) {
+                Objfdt lodk = syndironizfrs[i];
+                String dlbssNbmf = lodk.gftClbss().gftNbmf();
+                int idfntityHbsiCodf = Systfm.idfntityHbsiCodf(lodk);
+                lodkfdSyndironizfrs[i] = nfw LodkInfo(dlbssNbmf,
+                                                      idfntityHbsiCodf);
             }
         }
 
-        initialize(t, state, lockObj, lockOwner,
-                   blockedCount, blockedTime,
-                   waitedCount, waitedTime, stackTrace,
-                   lockedMonitors, lockedSynchronizers);
+        initiblizf(t, stbtf, lodkObj, lodkOwnfr,
+                   blodkfdCount, blodkfdTimf,
+                   wbitfdCount, wbitfdTimf, stbdkTrbdf,
+                   lodkfdMonitors, lodkfdSyndironizfrs);
     }
 
     /**
-     * Initialize ThreadInfo object
+     * Initiblizf TirfbdInfo objfdt
      *
-     * @param t             Thread
-     * @param state         Thread state
-     * @param lockObj       Object on which the thread is blocked
-     * @param lockOwner     the thread holding the lock
-     * @param blockedCount  Number of times blocked to enter a lock
-     * @param blockedTime   Approx time blocked to enter a lock
-     * @param waitedCount   Number of times waited on a lock
-     * @param waitedTime    Approx time waited on a lock
-     * @param stackTrace    Thread stack trace
-     * @param lockedMonitors List of locked monitors
-     * @param lockedSynchronizers List of locked synchronizers
+     * @pbrbm t             Tirfbd
+     * @pbrbm stbtf         Tirfbd stbtf
+     * @pbrbm lodkObj       Objfdt on wiidi tif tirfbd is blodkfd
+     * @pbrbm lodkOwnfr     tif tirfbd iolding tif lodk
+     * @pbrbm blodkfdCount  Numbfr of timfs blodkfd to fntfr b lodk
+     * @pbrbm blodkfdTimf   Approx timf blodkfd to fntfr b lodk
+     * @pbrbm wbitfdCount   Numbfr of timfs wbitfd on b lodk
+     * @pbrbm wbitfdTimf    Approx timf wbitfd on b lodk
+     * @pbrbm stbdkTrbdf    Tirfbd stbdk trbdf
+     * @pbrbm lodkfdMonitors List of lodkfd monitors
+     * @pbrbm lodkfdSyndironizfrs List of lodkfd syndironizfrs
      */
-    private void initialize(Thread t, int state, Object lockObj, Thread lockOwner,
-                            long blockedCount, long blockedTime,
-                            long waitedCount, long waitedTime,
-                            StackTraceElement[] stackTrace,
-                            MonitorInfo[] lockedMonitors,
-                            LockInfo[] lockedSynchronizers) {
-        this.threadId = t.getId();
-        this.threadName = t.getName();
-        this.threadState = ManagementFactoryHelper.toThreadState(state);
-        this.suspended = ManagementFactoryHelper.isThreadSuspended(state);
-        this.inNative = ManagementFactoryHelper.isThreadRunningNative(state);
-        this.blockedCount = blockedCount;
-        this.blockedTime = blockedTime;
-        this.waitedCount = waitedCount;
-        this.waitedTime = waitedTime;
+    privbtf void initiblizf(Tirfbd t, int stbtf, Objfdt lodkObj, Tirfbd lodkOwnfr,
+                            long blodkfdCount, long blodkfdTimf,
+                            long wbitfdCount, long wbitfdTimf,
+                            StbdkTrbdfElfmfnt[] stbdkTrbdf,
+                            MonitorInfo[] lodkfdMonitors,
+                            LodkInfo[] lodkfdSyndironizfrs) {
+        tiis.tirfbdId = t.gftId();
+        tiis.tirfbdNbmf = t.gftNbmf();
+        tiis.tirfbdStbtf = MbnbgfmfntFbdtoryHflpfr.toTirfbdStbtf(stbtf);
+        tiis.suspfndfd = MbnbgfmfntFbdtoryHflpfr.isTirfbdSuspfndfd(stbtf);
+        tiis.inNbtivf = MbnbgfmfntFbdtoryHflpfr.isTirfbdRunningNbtivf(stbtf);
+        tiis.blodkfdCount = blodkfdCount;
+        tiis.blodkfdTimf = blodkfdTimf;
+        tiis.wbitfdCount = wbitfdCount;
+        tiis.wbitfdTimf = wbitfdTimf;
 
-        if (lockObj == null) {
-            this.lock = null;
-            this.lockName = null;
-        } else {
-            this.lock = new LockInfo(lockObj);
-            this.lockName =
-                lock.getClassName() + '@' +
-                    Integer.toHexString(lock.getIdentityHashCode());
+        if (lodkObj == null) {
+            tiis.lodk = null;
+            tiis.lodkNbmf = null;
+        } flsf {
+            tiis.lodk = nfw LodkInfo(lodkObj);
+            tiis.lodkNbmf =
+                lodk.gftClbssNbmf() + '@' +
+                    Intfgfr.toHfxString(lodk.gftIdfntityHbsiCodf());
         }
-        if (lockOwner == null) {
-            this.lockOwnerId = -1;
-            this.lockOwnerName = null;
-        } else {
-            this.lockOwnerId = lockOwner.getId();
-            this.lockOwnerName = lockOwner.getName();
+        if (lodkOwnfr == null) {
+            tiis.lodkOwnfrId = -1;
+            tiis.lodkOwnfrNbmf = null;
+        } flsf {
+            tiis.lodkOwnfrId = lodkOwnfr.gftId();
+            tiis.lodkOwnfrNbmf = lodkOwnfr.gftNbmf();
         }
-        if (stackTrace == null) {
-            this.stackTrace = NO_STACK_TRACE;
-        } else {
-            this.stackTrace = stackTrace;
+        if (stbdkTrbdf == null) {
+            tiis.stbdkTrbdf = NO_STACK_TRACE;
+        } flsf {
+            tiis.stbdkTrbdf = stbdkTrbdf;
         }
-        this.lockedMonitors = lockedMonitors;
-        this.lockedSynchronizers = lockedSynchronizers;
+        tiis.lodkfdMonitors = lodkfdMonitors;
+        tiis.lodkfdSyndironizfrs = lodkfdSyndironizfrs;
     }
 
     /*
-     * Constructs a <tt>ThreadInfo</tt> object from a
-     * {@link CompositeData CompositeData}.
+     * Construdts b <tt>TirfbdInfo</tt> objfdt from b
+     * {@link CompositfDbtb CompositfDbtb}.
      */
-    private ThreadInfo(CompositeData cd) {
-        ThreadInfoCompositeData ticd = ThreadInfoCompositeData.getInstance(cd);
+    privbtf TirfbdInfo(CompositfDbtb dd) {
+        TirfbdInfoCompositfDbtb tidd = TirfbdInfoCompositfDbtb.gftInstbndf(dd);
 
-        threadId = ticd.threadId();
-        threadName = ticd.threadName();
-        blockedTime = ticd.blockedTime();
-        blockedCount = ticd.blockedCount();
-        waitedTime = ticd.waitedTime();
-        waitedCount = ticd.waitedCount();
-        lockName = ticd.lockName();
-        lockOwnerId = ticd.lockOwnerId();
-        lockOwnerName = ticd.lockOwnerName();
-        threadState = ticd.threadState();
-        suspended = ticd.suspended();
-        inNative = ticd.inNative();
-        stackTrace = ticd.stackTrace();
+        tirfbdId = tidd.tirfbdId();
+        tirfbdNbmf = tidd.tirfbdNbmf();
+        blodkfdTimf = tidd.blodkfdTimf();
+        blodkfdCount = tidd.blodkfdCount();
+        wbitfdTimf = tidd.wbitfdTimf();
+        wbitfdCount = tidd.wbitfdCount();
+        lodkNbmf = tidd.lodkNbmf();
+        lodkOwnfrId = tidd.lodkOwnfrId();
+        lodkOwnfrNbmf = tidd.lodkOwnfrNbmf();
+        tirfbdStbtf = tidd.tirfbdStbtf();
+        suspfndfd = tidd.suspfndfd();
+        inNbtivf = tidd.inNbtivf();
+        stbdkTrbdf = tidd.stbdkTrbdf();
 
-        // 6.0 attributes
-        if (ticd.isCurrentVersion()) {
-            lock = ticd.lockInfo();
-            lockedMonitors = ticd.lockedMonitors();
-            lockedSynchronizers = ticd.lockedSynchronizers();
-        } else {
-            // lockInfo is a new attribute added in 1.6 ThreadInfo
-            // If cd is a 5.0 version, construct the LockInfo object
-            //  from the lockName value.
-            if (lockName != null) {
-                String result[] = lockName.split("@");
-                if (result.length == 2) {
-                    int identityHashCode = Integer.parseInt(result[1], 16);
-                    lock = new LockInfo(result[0], identityHashCode);
-                } else {
-                    assert result.length == 2;
-                    lock = null;
+        // 6.0 bttributfs
+        if (tidd.isCurrfntVfrsion()) {
+            lodk = tidd.lodkInfo();
+            lodkfdMonitors = tidd.lodkfdMonitors();
+            lodkfdSyndironizfrs = tidd.lodkfdSyndironizfrs();
+        } flsf {
+            // lodkInfo is b nfw bttributf bddfd in 1.6 TirfbdInfo
+            // If dd is b 5.0 vfrsion, donstrudt tif LodkInfo objfdt
+            //  from tif lodkNbmf vbluf.
+            if (lodkNbmf != null) {
+                String rfsult[] = lodkNbmf.split("@");
+                if (rfsult.lfngti == 2) {
+                    int idfntityHbsiCodf = Intfgfr.pbrsfInt(rfsult[1], 16);
+                    lodk = nfw LodkInfo(rfsult[0], idfntityHbsiCodf);
+                } flsf {
+                    bssfrt rfsult.lfngti == 2;
+                    lodk = null;
                 }
-            } else {
-                lock = null;
+            } flsf {
+                lodk = null;
             }
-            lockedMonitors = EMPTY_MONITORS;
-            lockedSynchronizers = EMPTY_SYNCS;
+            lodkfdMonitors = EMPTY_MONITORS;
+            lodkfdSyndironizfrs = EMPTY_SYNCS;
         }
     }
 
     /**
-     * Returns the ID of the thread associated with this <tt>ThreadInfo</tt>.
+     * Rfturns tif ID of tif tirfbd bssodibtfd witi tiis <tt>TirfbdInfo</tt>.
      *
-     * @return the ID of the associated thread.
+     * @rfturn tif ID of tif bssodibtfd tirfbd.
      */
-    public long getThreadId() {
-        return threadId;
+    publid long gftTirfbdId() {
+        rfturn tirfbdId;
     }
 
     /**
-     * Returns the name of the thread associated with this <tt>ThreadInfo</tt>.
+     * Rfturns tif nbmf of tif tirfbd bssodibtfd witi tiis <tt>TirfbdInfo</tt>.
      *
-     * @return the name of the associated thread.
+     * @rfturn tif nbmf of tif bssodibtfd tirfbd.
      */
-    public String getThreadName() {
-        return threadName;
+    publid String gftTirfbdNbmf() {
+        rfturn tirfbdNbmf;
     }
 
     /**
-     * Returns the state of the thread associated with this <tt>ThreadInfo</tt>.
+     * Rfturns tif stbtf of tif tirfbd bssodibtfd witi tiis <tt>TirfbdInfo</tt>.
      *
-     * @return <tt>Thread.State</tt> of the associated thread.
+     * @rfturn <tt>Tirfbd.Stbtf</tt> of tif bssodibtfd tirfbd.
      */
-    public Thread.State getThreadState() {
-         return threadState;
+    publid Tirfbd.Stbtf gftTirfbdStbtf() {
+         rfturn tirfbdStbtf;
     }
 
     /**
-     * Returns the approximate accumulated elapsed time (in milliseconds)
-     * that the thread associated with this <tt>ThreadInfo</tt>
-     * has blocked to enter or reenter a monitor
-     * since thread contention monitoring is enabled.
-     * I.e. the total accumulated time the thread has been in the
-     * {@link java.lang.Thread.State#BLOCKED BLOCKED} state since thread
-     * contention monitoring was last enabled.
-     * This method returns <tt>-1</tt> if thread contention monitoring
-     * is disabled.
+     * Rfturns tif bpproximbtf bddumulbtfd flbpsfd timf (in millisfdonds)
+     * tibt tif tirfbd bssodibtfd witi tiis <tt>TirfbdInfo</tt>
+     * ibs blodkfd to fntfr or rffntfr b monitor
+     * sindf tirfbd dontfntion monitoring is fnbblfd.
+     * I.f. tif totbl bddumulbtfd timf tif tirfbd ibs bffn in tif
+     * {@link jbvb.lbng.Tirfbd.Stbtf#BLOCKED BLOCKED} stbtf sindf tirfbd
+     * dontfntion monitoring wbs lbst fnbblfd.
+     * Tiis mftiod rfturns <tt>-1</tt> if tirfbd dontfntion monitoring
+     * is disbblfd.
      *
-     * <p>The Java virtual machine may measure the time with a high
-     * resolution timer.  This statistic is reset when
-     * the thread contention monitoring is reenabled.
+     * <p>Tif Jbvb virtubl mbdiinf mby mfbsurf tif timf witi b iigi
+     * rfsolution timfr.  Tiis stbtistid is rfsft wifn
+     * tif tirfbd dontfntion monitoring is rffnbblfd.
      *
-     * @return the approximate accumulated elapsed time in milliseconds
-     * that a thread entered the <tt>BLOCKED</tt> state;
-     * <tt>-1</tt> if thread contention monitoring is disabled.
+     * @rfturn tif bpproximbtf bddumulbtfd flbpsfd timf in millisfdonds
+     * tibt b tirfbd fntfrfd tif <tt>BLOCKED</tt> stbtf;
+     * <tt>-1</tt> if tirfbd dontfntion monitoring is disbblfd.
      *
-     * @throws java.lang.UnsupportedOperationException if the Java
-     * virtual machine does not support this operation.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb
+     * virtubl mbdiinf dofs not support tiis opfrbtion.
      *
-     * @see ThreadMXBean#isThreadContentionMonitoringSupported
-     * @see ThreadMXBean#setThreadContentionMonitoringEnabled
+     * @sff TirfbdMXBfbn#isTirfbdContfntionMonitoringSupportfd
+     * @sff TirfbdMXBfbn#sftTirfbdContfntionMonitoringEnbblfd
      */
-    public long getBlockedTime() {
-        return blockedTime;
+    publid long gftBlodkfdTimf() {
+        rfturn blodkfdTimf;
     }
 
     /**
-     * Returns the total number of times that
-     * the thread associated with this <tt>ThreadInfo</tt>
-     * blocked to enter or reenter a monitor.
-     * I.e. the number of times a thread has been in the
-     * {@link java.lang.Thread.State#BLOCKED BLOCKED} state.
+     * Rfturns tif totbl numbfr of timfs tibt
+     * tif tirfbd bssodibtfd witi tiis <tt>TirfbdInfo</tt>
+     * blodkfd to fntfr or rffntfr b monitor.
+     * I.f. tif numbfr of timfs b tirfbd ibs bffn in tif
+     * {@link jbvb.lbng.Tirfbd.Stbtf#BLOCKED BLOCKED} stbtf.
      *
-     * @return the total number of times that the thread
-     * entered the <tt>BLOCKED</tt> state.
+     * @rfturn tif totbl numbfr of timfs tibt tif tirfbd
+     * fntfrfd tif <tt>BLOCKED</tt> stbtf.
      */
-    public long getBlockedCount() {
-        return blockedCount;
+    publid long gftBlodkfdCount() {
+        rfturn blodkfdCount;
     }
 
     /**
-     * Returns the approximate accumulated elapsed time (in milliseconds)
-     * that the thread associated with this <tt>ThreadInfo</tt>
-     * has waited for notification
-     * since thread contention monitoring is enabled.
-     * I.e. the total accumulated time the thread has been in the
-     * {@link java.lang.Thread.State#WAITING WAITING}
-     * or {@link java.lang.Thread.State#TIMED_WAITING TIMED_WAITING} state
-     * since thread contention monitoring is enabled.
-     * This method returns <tt>-1</tt> if thread contention monitoring
-     * is disabled.
+     * Rfturns tif bpproximbtf bddumulbtfd flbpsfd timf (in millisfdonds)
+     * tibt tif tirfbd bssodibtfd witi tiis <tt>TirfbdInfo</tt>
+     * ibs wbitfd for notifidbtion
+     * sindf tirfbd dontfntion monitoring is fnbblfd.
+     * I.f. tif totbl bddumulbtfd timf tif tirfbd ibs bffn in tif
+     * {@link jbvb.lbng.Tirfbd.Stbtf#WAITING WAITING}
+     * or {@link jbvb.lbng.Tirfbd.Stbtf#TIMED_WAITING TIMED_WAITING} stbtf
+     * sindf tirfbd dontfntion monitoring is fnbblfd.
+     * Tiis mftiod rfturns <tt>-1</tt> if tirfbd dontfntion monitoring
+     * is disbblfd.
      *
-     * <p>The Java virtual machine may measure the time with a high
-     * resolution timer.  This statistic is reset when
-     * the thread contention monitoring is reenabled.
+     * <p>Tif Jbvb virtubl mbdiinf mby mfbsurf tif timf witi b iigi
+     * rfsolution timfr.  Tiis stbtistid is rfsft wifn
+     * tif tirfbd dontfntion monitoring is rffnbblfd.
      *
-     * @return the approximate accumulated elapsed time in milliseconds
-     * that a thread has been in the <tt>WAITING</tt> or
-     * <tt>TIMED_WAITING</tt> state;
-     * <tt>-1</tt> if thread contention monitoring is disabled.
+     * @rfturn tif bpproximbtf bddumulbtfd flbpsfd timf in millisfdonds
+     * tibt b tirfbd ibs bffn in tif <tt>WAITING</tt> or
+     * <tt>TIMED_WAITING</tt> stbtf;
+     * <tt>-1</tt> if tirfbd dontfntion monitoring is disbblfd.
      *
-     * @throws java.lang.UnsupportedOperationException if the Java
-     * virtual machine does not support this operation.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if tif Jbvb
+     * virtubl mbdiinf dofs not support tiis opfrbtion.
      *
-     * @see ThreadMXBean#isThreadContentionMonitoringSupported
-     * @see ThreadMXBean#setThreadContentionMonitoringEnabled
+     * @sff TirfbdMXBfbn#isTirfbdContfntionMonitoringSupportfd
+     * @sff TirfbdMXBfbn#sftTirfbdContfntionMonitoringEnbblfd
      */
-    public long getWaitedTime() {
-        return waitedTime;
+    publid long gftWbitfdTimf() {
+        rfturn wbitfdTimf;
     }
 
     /**
-     * Returns the total number of times that
-     * the thread associated with this <tt>ThreadInfo</tt>
-     * waited for notification.
-     * I.e. the number of times that a thread has been
-     * in the {@link java.lang.Thread.State#WAITING WAITING}
-     * or {@link java.lang.Thread.State#TIMED_WAITING TIMED_WAITING} state.
+     * Rfturns tif totbl numbfr of timfs tibt
+     * tif tirfbd bssodibtfd witi tiis <tt>TirfbdInfo</tt>
+     * wbitfd for notifidbtion.
+     * I.f. tif numbfr of timfs tibt b tirfbd ibs bffn
+     * in tif {@link jbvb.lbng.Tirfbd.Stbtf#WAITING WAITING}
+     * or {@link jbvb.lbng.Tirfbd.Stbtf#TIMED_WAITING TIMED_WAITING} stbtf.
      *
-     * @return the total number of times that the thread
-     * was in the <tt>WAITING</tt> or <tt>TIMED_WAITING</tt> state.
+     * @rfturn tif totbl numbfr of timfs tibt tif tirfbd
+     * wbs in tif <tt>WAITING</tt> or <tt>TIMED_WAITING</tt> stbtf.
      */
-    public long getWaitedCount() {
-        return waitedCount;
+    publid long gftWbitfdCount() {
+        rfturn wbitfdCount;
     }
 
     /**
-     * Returns the <tt>LockInfo</tt> of an object for which
-     * the thread associated with this <tt>ThreadInfo</tt>
-     * is blocked waiting.
-     * A thread can be blocked waiting for one of the following:
+     * Rfturns tif <tt>LodkInfo</tt> of bn objfdt for wiidi
+     * tif tirfbd bssodibtfd witi tiis <tt>TirfbdInfo</tt>
+     * is blodkfd wbiting.
+     * A tirfbd dbn bf blodkfd wbiting for onf of tif following:
      * <ul>
-     * <li>an object monitor to be acquired for entering or reentering
-     *     a synchronization block/method.
-     *     <br>The thread is in the {@link java.lang.Thread.State#BLOCKED BLOCKED}
-     *     state waiting to enter the <tt>synchronized</tt> statement
-     *     or method.
+     * <li>bn objfdt monitor to bf bdquirfd for fntfring or rffntfring
+     *     b syndironizbtion blodk/mftiod.
+     *     <br>Tif tirfbd is in tif {@link jbvb.lbng.Tirfbd.Stbtf#BLOCKED BLOCKED}
+     *     stbtf wbiting to fntfr tif <tt>syndironizfd</tt> stbtfmfnt
+     *     or mftiod.
      *     </li>
-     * <li>an object monitor to be notified by another thread.
-     *     <br>The thread is in the {@link java.lang.Thread.State#WAITING WAITING}
-     *     or {@link java.lang.Thread.State#TIMED_WAITING TIMED_WAITING} state
-     *     due to a call to the {@link Object#wait Object.wait} method.
+     * <li>bn objfdt monitor to bf notififd by bnotifr tirfbd.
+     *     <br>Tif tirfbd is in tif {@link jbvb.lbng.Tirfbd.Stbtf#WAITING WAITING}
+     *     or {@link jbvb.lbng.Tirfbd.Stbtf#TIMED_WAITING TIMED_WAITING} stbtf
+     *     duf to b dbll to tif {@link Objfdt#wbit Objfdt.wbit} mftiod.
      *     </li>
-     * <li>a synchronization object responsible for the thread parking.
-     *     <br>The thread is in the {@link java.lang.Thread.State#WAITING WAITING}
-     *     or {@link java.lang.Thread.State#TIMED_WAITING TIMED_WAITING} state
-     *     due to a call to the
-     *     {@link java.util.concurrent.locks.LockSupport#park(Object)
-     *     LockSupport.park} method.  The synchronization object
-     *     is the object returned from
-     *     {@link java.util.concurrent.locks.LockSupport#getBlocker
-     *     LockSupport.getBlocker} method. Typically it is an
-     *     <a href="LockInfo.html#OwnableSynchronizer"> ownable synchronizer</a>
-     *     or a {@link java.util.concurrent.locks.Condition Condition}.</li>
+     * <li>b syndironizbtion objfdt rfsponsiblf for tif tirfbd pbrking.
+     *     <br>Tif tirfbd is in tif {@link jbvb.lbng.Tirfbd.Stbtf#WAITING WAITING}
+     *     or {@link jbvb.lbng.Tirfbd.Stbtf#TIMED_WAITING TIMED_WAITING} stbtf
+     *     duf to b dbll to tif
+     *     {@link jbvb.util.dondurrfnt.lodks.LodkSupport#pbrk(Objfdt)
+     *     LodkSupport.pbrk} mftiod.  Tif syndironizbtion objfdt
+     *     is tif objfdt rfturnfd from
+     *     {@link jbvb.util.dondurrfnt.lodks.LodkSupport#gftBlodkfr
+     *     LodkSupport.gftBlodkfr} mftiod. Typidblly it is bn
+     *     <b irff="LodkInfo.itml#OwnbblfSyndironizfr"> ownbblf syndironizfr</b>
+     *     or b {@link jbvb.util.dondurrfnt.lodks.Condition Condition}.</li>
      * </ul>
      *
-     * <p>This method returns <tt>null</tt> if the thread is not in any of
-     * the above conditions.
+     * <p>Tiis mftiod rfturns <tt>null</tt> if tif tirfbd is not in bny of
+     * tif bbovf donditions.
      *
-     * @return <tt>LockInfo</tt> of an object for which the thread
-     *         is blocked waiting if any; <tt>null</tt> otherwise.
-     * @since 1.6
+     * @rfturn <tt>LodkInfo</tt> of bn objfdt for wiidi tif tirfbd
+     *         is blodkfd wbiting if bny; <tt>null</tt> otifrwisf.
+     * @sindf 1.6
      */
-    public LockInfo getLockInfo() {
-        return lock;
+    publid LodkInfo gftLodkInfo() {
+        rfturn lodk;
     }
 
     /**
-     * Returns the {@link LockInfo#toString string representation}
-     * of an object for which the thread associated with this
-     * <tt>ThreadInfo</tt> is blocked waiting.
-     * This method is equivalent to calling:
-     * <blockquote>
-     * <pre>
-     * getLockInfo().toString()
-     * </pre></blockquote>
+     * Rfturns tif {@link LodkInfo#toString string rfprfsfntbtion}
+     * of bn objfdt for wiidi tif tirfbd bssodibtfd witi tiis
+     * <tt>TirfbdInfo</tt> is blodkfd wbiting.
+     * Tiis mftiod is fquivblfnt to dblling:
+     * <blodkquotf>
+     * <prf>
+     * gftLodkInfo().toString()
+     * </prf></blodkquotf>
      *
-     * <p>This method will return <tt>null</tt> if this thread is not blocked
-     * waiting for any object or if the object is not owned by any thread.
+     * <p>Tiis mftiod will rfturn <tt>null</tt> if tiis tirfbd is not blodkfd
+     * wbiting for bny objfdt or if tif objfdt is not ownfd by bny tirfbd.
      *
-     * @return the string representation of the object on which
-     * the thread is blocked if any;
-     * <tt>null</tt> otherwise.
+     * @rfturn tif string rfprfsfntbtion of tif objfdt on wiidi
+     * tif tirfbd is blodkfd if bny;
+     * <tt>null</tt> otifrwisf.
      *
-     * @see #getLockInfo
+     * @sff #gftLodkInfo
      */
-    public String getLockName() {
-        return lockName;
+    publid String gftLodkNbmf() {
+        rfturn lodkNbmf;
     }
 
     /**
-     * Returns the ID of the thread which owns the object
-     * for which the thread associated with this <tt>ThreadInfo</tt>
-     * is blocked waiting.
-     * This method will return <tt>-1</tt> if this thread is not blocked
-     * waiting for any object or if the object is not owned by any thread.
+     * Rfturns tif ID of tif tirfbd wiidi owns tif objfdt
+     * for wiidi tif tirfbd bssodibtfd witi tiis <tt>TirfbdInfo</tt>
+     * is blodkfd wbiting.
+     * Tiis mftiod will rfturn <tt>-1</tt> if tiis tirfbd is not blodkfd
+     * wbiting for bny objfdt or if tif objfdt is not ownfd by bny tirfbd.
      *
-     * @return the thread ID of the owner thread of the object
-     * this thread is blocked on;
-     * <tt>-1</tt> if this thread is not blocked
-     * or if the object is not owned by any thread.
+     * @rfturn tif tirfbd ID of tif ownfr tirfbd of tif objfdt
+     * tiis tirfbd is blodkfd on;
+     * <tt>-1</tt> if tiis tirfbd is not blodkfd
+     * or if tif objfdt is not ownfd by bny tirfbd.
      *
-     * @see #getLockInfo
+     * @sff #gftLodkInfo
      */
-    public long getLockOwnerId() {
-        return lockOwnerId;
+    publid long gftLodkOwnfrId() {
+        rfturn lodkOwnfrId;
     }
 
     /**
-     * Returns the name of the thread which owns the object
-     * for which the thread associated with this <tt>ThreadInfo</tt>
-     * is blocked waiting.
-     * This method will return <tt>null</tt> if this thread is not blocked
-     * waiting for any object or if the object is not owned by any thread.
+     * Rfturns tif nbmf of tif tirfbd wiidi owns tif objfdt
+     * for wiidi tif tirfbd bssodibtfd witi tiis <tt>TirfbdInfo</tt>
+     * is blodkfd wbiting.
+     * Tiis mftiod will rfturn <tt>null</tt> if tiis tirfbd is not blodkfd
+     * wbiting for bny objfdt or if tif objfdt is not ownfd by bny tirfbd.
      *
-     * @return the name of the thread that owns the object
-     * this thread is blocked on;
-     * <tt>null</tt> if this thread is not blocked
-     * or if the object is not owned by any thread.
+     * @rfturn tif nbmf of tif tirfbd tibt owns tif objfdt
+     * tiis tirfbd is blodkfd on;
+     * <tt>null</tt> if tiis tirfbd is not blodkfd
+     * or if tif objfdt is not ownfd by bny tirfbd.
      *
-     * @see #getLockInfo
+     * @sff #gftLodkInfo
      */
-    public String getLockOwnerName() {
-        return lockOwnerName;
+    publid String gftLodkOwnfrNbmf() {
+        rfturn lodkOwnfrNbmf;
     }
 
     /**
-     * Returns the stack trace of the thread
-     * associated with this <tt>ThreadInfo</tt>.
-     * If no stack trace was requested for this thread info, this method
-     * will return a zero-length array.
-     * If the returned array is of non-zero length then the first element of
-     * the array represents the top of the stack, which is the most recent
-     * method invocation in the sequence.  The last element of the array
-     * represents the bottom of the stack, which is the least recent method
-     * invocation in the sequence.
+     * Rfturns tif stbdk trbdf of tif tirfbd
+     * bssodibtfd witi tiis <tt>TirfbdInfo</tt>.
+     * If no stbdk trbdf wbs rfqufstfd for tiis tirfbd info, tiis mftiod
+     * will rfturn b zfro-lfngti brrby.
+     * If tif rfturnfd brrby is of non-zfro lfngti tifn tif first flfmfnt of
+     * tif brrby rfprfsfnts tif top of tif stbdk, wiidi is tif most rfdfnt
+     * mftiod invodbtion in tif sfqufndf.  Tif lbst flfmfnt of tif brrby
+     * rfprfsfnts tif bottom of tif stbdk, wiidi is tif lfbst rfdfnt mftiod
+     * invodbtion in tif sfqufndf.
      *
-     * <p>Some Java virtual machines may, under some circumstances, omit one
-     * or more stack frames from the stack trace.  In the extreme case,
-     * a virtual machine that has no stack trace information concerning
-     * the thread associated with this <tt>ThreadInfo</tt>
-     * is permitted to return a zero-length array from this method.
+     * <p>Somf Jbvb virtubl mbdiinfs mby, undfr somf dirdumstbndfs, omit onf
+     * or morf stbdk frbmfs from tif stbdk trbdf.  In tif fxtrfmf dbsf,
+     * b virtubl mbdiinf tibt ibs no stbdk trbdf informbtion dondfrning
+     * tif tirfbd bssodibtfd witi tiis <tt>TirfbdInfo</tt>
+     * is pfrmittfd to rfturn b zfro-lfngti brrby from tiis mftiod.
      *
-     * @return an array of <tt>StackTraceElement</tt> objects of the thread.
+     * @rfturn bn brrby of <tt>StbdkTrbdfElfmfnt</tt> objfdts of tif tirfbd.
      */
-    public StackTraceElement[] getStackTrace() {
-        return stackTrace;
+    publid StbdkTrbdfElfmfnt[] gftStbdkTrbdf() {
+        rfturn stbdkTrbdf;
     }
 
     /**
-     * Tests if the thread associated with this <tt>ThreadInfo</tt>
-     * is suspended.  This method returns <tt>true</tt> if
-     * {@link Thread#suspend} has been called.
+     * Tfsts if tif tirfbd bssodibtfd witi tiis <tt>TirfbdInfo</tt>
+     * is suspfndfd.  Tiis mftiod rfturns <tt>truf</tt> if
+     * {@link Tirfbd#suspfnd} ibs bffn dbllfd.
      *
-     * @return <tt>true</tt> if the thread is suspended;
-     *         <tt>false</tt> otherwise.
+     * @rfturn <tt>truf</tt> if tif tirfbd is suspfndfd;
+     *         <tt>fblsf</tt> otifrwisf.
      */
-    public boolean isSuspended() {
-         return suspended;
+    publid boolfbn isSuspfndfd() {
+         rfturn suspfndfd;
     }
 
     /**
-     * Tests if the thread associated with this <tt>ThreadInfo</tt>
-     * is executing native code via the Java Native Interface (JNI).
-     * The JNI native code does not include
-     * the virtual machine support code or the compiled native
-     * code generated by the virtual machine.
+     * Tfsts if tif tirfbd bssodibtfd witi tiis <tt>TirfbdInfo</tt>
+     * is fxfduting nbtivf dodf vib tif Jbvb Nbtivf Intfrfbdf (JNI).
+     * Tif JNI nbtivf dodf dofs not indludf
+     * tif virtubl mbdiinf support dodf or tif dompilfd nbtivf
+     * dodf gfnfrbtfd by tif virtubl mbdiinf.
      *
-     * @return <tt>true</tt> if the thread is executing native code;
-     *         <tt>false</tt> otherwise.
+     * @rfturn <tt>truf</tt> if tif tirfbd is fxfduting nbtivf dodf;
+     *         <tt>fblsf</tt> otifrwisf.
      */
-    public boolean isInNative() {
-         return inNative;
+    publid boolfbn isInNbtivf() {
+         rfturn inNbtivf;
     }
 
     /**
-     * Returns a string representation of this thread info.
-     * The format of this string depends on the implementation.
-     * The returned string will typically include
-     * the {@linkplain #getThreadName thread name},
-     * the {@linkplain #getThreadId thread ID},
-     * its {@linkplain #getThreadState state},
-     * and a {@linkplain #getStackTrace stack trace} if any.
+     * Rfturns b string rfprfsfntbtion of tiis tirfbd info.
+     * Tif formbt of tiis string dfpfnds on tif implfmfntbtion.
+     * Tif rfturnfd string will typidblly indludf
+     * tif {@linkplbin #gftTirfbdNbmf tirfbd nbmf},
+     * tif {@linkplbin #gftTirfbdId tirfbd ID},
+     * its {@linkplbin #gftTirfbdStbtf stbtf},
+     * bnd b {@linkplbin #gftStbdkTrbdf stbdk trbdf} if bny.
      *
-     * @return a string representation of this thread info.
+     * @rfturn b string rfprfsfntbtion of tiis tirfbd info.
      */
-    public String toString() {
-        StringBuilder sb = new StringBuilder("\"" + getThreadName() + "\"" +
-                                             " Id=" + getThreadId() + " " +
-                                             getThreadState());
-        if (getLockName() != null) {
-            sb.append(" on " + getLockName());
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr("\"" + gftTirfbdNbmf() + "\"" +
+                                             " Id=" + gftTirfbdId() + " " +
+                                             gftTirfbdStbtf());
+        if (gftLodkNbmf() != null) {
+            sb.bppfnd(" on " + gftLodkNbmf());
         }
-        if (getLockOwnerName() != null) {
-            sb.append(" owned by \"" + getLockOwnerName() +
-                      "\" Id=" + getLockOwnerId());
+        if (gftLodkOwnfrNbmf() != null) {
+            sb.bppfnd(" ownfd by \"" + gftLodkOwnfrNbmf() +
+                      "\" Id=" + gftLodkOwnfrId());
         }
-        if (isSuspended()) {
-            sb.append(" (suspended)");
+        if (isSuspfndfd()) {
+            sb.bppfnd(" (suspfndfd)");
         }
-        if (isInNative()) {
-            sb.append(" (in native)");
+        if (isInNbtivf()) {
+            sb.bppfnd(" (in nbtivf)");
         }
-        sb.append('\n');
+        sb.bppfnd('\n');
         int i = 0;
-        for (; i < stackTrace.length && i < MAX_FRAMES; i++) {
-            StackTraceElement ste = stackTrace[i];
-            sb.append("\tat " + ste.toString());
-            sb.append('\n');
-            if (i == 0 && getLockInfo() != null) {
-                Thread.State ts = getThreadState();
-                switch (ts) {
-                    case BLOCKED:
-                        sb.append("\t-  blocked on " + getLockInfo());
-                        sb.append('\n');
-                        break;
-                    case WAITING:
-                        sb.append("\t-  waiting on " + getLockInfo());
-                        sb.append('\n');
-                        break;
-                    case TIMED_WAITING:
-                        sb.append("\t-  waiting on " + getLockInfo());
-                        sb.append('\n');
-                        break;
-                    default:
+        for (; i < stbdkTrbdf.lfngti && i < MAX_FRAMES; i++) {
+            StbdkTrbdfElfmfnt stf = stbdkTrbdf[i];
+            sb.bppfnd("\tbt " + stf.toString());
+            sb.bppfnd('\n');
+            if (i == 0 && gftLodkInfo() != null) {
+                Tirfbd.Stbtf ts = gftTirfbdStbtf();
+                switdi (ts) {
+                    dbsf BLOCKED:
+                        sb.bppfnd("\t-  blodkfd on " + gftLodkInfo());
+                        sb.bppfnd('\n');
+                        brfbk;
+                    dbsf WAITING:
+                        sb.bppfnd("\t-  wbiting on " + gftLodkInfo());
+                        sb.bppfnd('\n');
+                        brfbk;
+                    dbsf TIMED_WAITING:
+                        sb.bppfnd("\t-  wbiting on " + gftLodkInfo());
+                        sb.bppfnd('\n');
+                        brfbk;
+                    dffbult:
                 }
             }
 
-            for (MonitorInfo mi : lockedMonitors) {
-                if (mi.getLockedStackDepth() == i) {
-                    sb.append("\t-  locked " + mi);
-                    sb.append('\n');
+            for (MonitorInfo mi : lodkfdMonitors) {
+                if (mi.gftLodkfdStbdkDfpti() == i) {
+                    sb.bppfnd("\t-  lodkfd " + mi);
+                    sb.bppfnd('\n');
                 }
             }
        }
-       if (i < stackTrace.length) {
-           sb.append("\t...");
-           sb.append('\n');
+       if (i < stbdkTrbdf.lfngti) {
+           sb.bppfnd("\t...");
+           sb.bppfnd('\n');
        }
 
-       LockInfo[] locks = getLockedSynchronizers();
-       if (locks.length > 0) {
-           sb.append("\n\tNumber of locked synchronizers = " + locks.length);
-           sb.append('\n');
-           for (LockInfo li : locks) {
-               sb.append("\t- " + li);
-               sb.append('\n');
+       LodkInfo[] lodks = gftLodkfdSyndironizfrs();
+       if (lodks.lfngti > 0) {
+           sb.bppfnd("\n\tNumbfr of lodkfd syndironizfrs = " + lodks.lfngti);
+           sb.bppfnd('\n');
+           for (LodkInfo li : lodks) {
+               sb.bppfnd("\t- " + li);
+               sb.bppfnd('\n');
            }
        }
-       sb.append('\n');
-       return sb.toString();
+       sb.bppfnd('\n');
+       rfturn sb.toString();
     }
-    private static final int MAX_FRAMES = 8;
+    privbtf stbtid finbl int MAX_FRAMES = 8;
 
     /**
-     * Returns a <tt>ThreadInfo</tt> object represented by the
-     * given <tt>CompositeData</tt>.
-     * The given <tt>CompositeData</tt> must contain the following attributes
-     * unless otherwise specified below:
-     * <blockquote>
-     * <table border summary="The attributes and their types the given CompositeData contains">
+     * Rfturns b <tt>TirfbdInfo</tt> objfdt rfprfsfntfd by tif
+     * givfn <tt>CompositfDbtb</tt>.
+     * Tif givfn <tt>CompositfDbtb</tt> must dontbin tif following bttributfs
+     * unlfss otifrwisf spfdififd bflow:
+     * <blodkquotf>
+     * <tbblf bordfr summbry="Tif bttributfs bnd tifir typfs tif givfn CompositfDbtb dontbins">
      * <tr>
-     *   <th align=left>Attribute Name</th>
-     *   <th align=left>Type</th>
+     *   <ti blign=lfft>Attributf Nbmf</ti>
+     *   <ti blign=lfft>Typf</ti>
      * </tr>
      * <tr>
-     *   <td>threadId</td>
-     *   <td><tt>java.lang.Long</tt></td>
+     *   <td>tirfbdId</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
      * </tr>
      * <tr>
-     *   <td>threadName</td>
-     *   <td><tt>java.lang.String</tt></td>
+     *   <td>tirfbdNbmf</td>
+     *   <td><tt>jbvb.lbng.String</tt></td>
      * </tr>
      * <tr>
-     *   <td>threadState</td>
-     *   <td><tt>java.lang.String</tt></td>
+     *   <td>tirfbdStbtf</td>
+     *   <td><tt>jbvb.lbng.String</tt></td>
      * </tr>
      * <tr>
-     *   <td>suspended</td>
-     *   <td><tt>java.lang.Boolean</tt></td>
+     *   <td>suspfndfd</td>
+     *   <td><tt>jbvb.lbng.Boolfbn</tt></td>
      * </tr>
      * <tr>
-     *   <td>inNative</td>
-     *   <td><tt>java.lang.Boolean</tt></td>
+     *   <td>inNbtivf</td>
+     *   <td><tt>jbvb.lbng.Boolfbn</tt></td>
      * </tr>
      * <tr>
-     *   <td>blockedCount</td>
-     *   <td><tt>java.lang.Long</tt></td>
+     *   <td>blodkfdCount</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
      * </tr>
      * <tr>
-     *   <td>blockedTime</td>
-     *   <td><tt>java.lang.Long</tt></td>
+     *   <td>blodkfdTimf</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
      * </tr>
      * <tr>
-     *   <td>waitedCount</td>
-     *   <td><tt>java.lang.Long</tt></td>
+     *   <td>wbitfdCount</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
      * </tr>
      * <tr>
-     *   <td>waitedTime</td>
-     *   <td><tt>java.lang.Long</tt></td>
+     *   <td>wbitfdTimf</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
      * </tr>
      * <tr>
-     *   <td>lockInfo</td>
-     *   <td><tt>javax.management.openmbean.CompositeData</tt>
-     *       - the mapped type for {@link LockInfo} as specified in the
-     *         {@link LockInfo#from} method.
+     *   <td>lodkInfo</td>
+     *   <td><tt>jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb</tt>
+     *       - tif mbppfd typf for {@link LodkInfo} bs spfdififd in tif
+     *         {@link LodkInfo#from} mftiod.
      *       <p>
-     *       If <tt>cd</tt> does not contain this attribute,
-     *       the <tt>LockInfo</tt> object will be constructed from
-     *       the value of the <tt>lockName</tt> attribute. </td>
+     *       If <tt>dd</tt> dofs not dontbin tiis bttributf,
+     *       tif <tt>LodkInfo</tt> objfdt will bf donstrudtfd from
+     *       tif vbluf of tif <tt>lodkNbmf</tt> bttributf. </td>
      * </tr>
      * <tr>
-     *   <td>lockName</td>
-     *   <td><tt>java.lang.String</tt></td>
+     *   <td>lodkNbmf</td>
+     *   <td><tt>jbvb.lbng.String</tt></td>
      * </tr>
      * <tr>
-     *   <td>lockOwnerId</td>
-     *   <td><tt>java.lang.Long</tt></td>
+     *   <td>lodkOwnfrId</td>
+     *   <td><tt>jbvb.lbng.Long</tt></td>
      * </tr>
      * <tr>
-     *   <td>lockOwnerName</td>
-     *   <td><tt>java.lang.String</tt></td>
+     *   <td>lodkOwnfrNbmf</td>
+     *   <td><tt>jbvb.lbng.String</tt></td>
      * </tr>
      * <tr>
-     *   <td><a name="StackTrace">stackTrace</a></td>
-     *   <td><tt>javax.management.openmbean.CompositeData[]</tt>
+     *   <td><b nbmf="StbdkTrbdf">stbdkTrbdf</b></td>
+     *   <td><tt>jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb[]</tt>
      *       <p>
-     *       Each element is a <tt>CompositeData</tt> representing
-     *       StackTraceElement containing the following attributes:
-     *       <blockquote>
-     *       <table cellspacing=1 cellpadding=0 summary="The attributes and their types the given CompositeData contains">
+     *       Ebdi flfmfnt is b <tt>CompositfDbtb</tt> rfprfsfnting
+     *       StbdkTrbdfElfmfnt dontbining tif following bttributfs:
+     *       <blodkquotf>
+     *       <tbblf dfllspbding=1 dfllpbdding=0 summbry="Tif bttributfs bnd tifir typfs tif givfn CompositfDbtb dontbins">
      *       <tr>
-     *         <th align=left>Attribute Name</th>
-     *         <th align=left>Type</th>
+     *         <ti blign=lfft>Attributf Nbmf</ti>
+     *         <ti blign=lfft>Typf</ti>
      *       </tr>
      *       <tr>
-     *         <td>className</td>
-     *         <td><tt>java.lang.String</tt></td>
+     *         <td>dlbssNbmf</td>
+     *         <td><tt>jbvb.lbng.String</tt></td>
      *       </tr>
      *       <tr>
-     *         <td>methodName</td>
-     *         <td><tt>java.lang.String</tt></td>
+     *         <td>mftiodNbmf</td>
+     *         <td><tt>jbvb.lbng.String</tt></td>
      *       </tr>
      *       <tr>
-     *         <td>fileName</td>
-     *         <td><tt>java.lang.String</tt></td>
+     *         <td>filfNbmf</td>
+     *         <td><tt>jbvb.lbng.String</tt></td>
      *       </tr>
      *       <tr>
-     *         <td>lineNumber</td>
-     *         <td><tt>java.lang.Integer</tt></td>
+     *         <td>linfNumbfr</td>
+     *         <td><tt>jbvb.lbng.Intfgfr</tt></td>
      *       </tr>
      *       <tr>
-     *         <td>nativeMethod</td>
-     *         <td><tt>java.lang.Boolean</tt></td>
+     *         <td>nbtivfMftiod</td>
+     *         <td><tt>jbvb.lbng.Boolfbn</tt></td>
      *       </tr>
-     *       </table>
-     *       </blockquote>
+     *       </tbblf>
+     *       </blodkquotf>
      *   </td>
      * </tr>
      * <tr>
-     *   <td>lockedMonitors</td>
-     *   <td><tt>javax.management.openmbean.CompositeData[]</tt>
-     *       whose element type is the mapped type for
-     *       {@link MonitorInfo} as specified in the
-     *       {@link MonitorInfo#from Monitor.from} method.
+     *   <td>lodkfdMonitors</td>
+     *   <td><tt>jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb[]</tt>
+     *       wiosf flfmfnt typf is tif mbppfd typf for
+     *       {@link MonitorInfo} bs spfdififd in tif
+     *       {@link MonitorInfo#from Monitor.from} mftiod.
      *       <p>
-     *       If <tt>cd</tt> does not contain this attribute,
-     *       this attribute will be set to an empty array. </td>
+     *       If <tt>dd</tt> dofs not dontbin tiis bttributf,
+     *       tiis bttributf will bf sft to bn fmpty brrby. </td>
      * </tr>
      * <tr>
-     *   <td>lockedSynchronizers</td>
-     *   <td><tt>javax.management.openmbean.CompositeData[]</tt>
-     *       whose element type is the mapped type for
-     *       {@link LockInfo} as specified in the {@link LockInfo#from} method.
+     *   <td>lodkfdSyndironizfrs</td>
+     *   <td><tt>jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb[]</tt>
+     *       wiosf flfmfnt typf is tif mbppfd typf for
+     *       {@link LodkInfo} bs spfdififd in tif {@link LodkInfo#from} mftiod.
      *       <p>
-     *       If <tt>cd</tt> does not contain this attribute,
-     *       this attribute will be set to an empty array. </td>
+     *       If <tt>dd</tt> dofs not dontbin tiis bttributf,
+     *       tiis bttributf will bf sft to bn fmpty brrby. </td>
      * </tr>
-     * </table>
-     * </blockquote>
+     * </tbblf>
+     * </blodkquotf>
      *
-     * @param cd <tt>CompositeData</tt> representing a <tt>ThreadInfo</tt>
+     * @pbrbm dd <tt>CompositfDbtb</tt> rfprfsfnting b <tt>TirfbdInfo</tt>
      *
-     * @throws IllegalArgumentException if <tt>cd</tt> does not
-     *   represent a <tt>ThreadInfo</tt> with the attributes described
-     *   above.
+     * @tirows IllfgblArgumfntExdfption if <tt>dd</tt> dofs not
+     *   rfprfsfnt b <tt>TirfbdInfo</tt> witi tif bttributfs dfsdribfd
+     *   bbovf.
      *
-     * @return a <tt>ThreadInfo</tt> object represented
-     *         by <tt>cd</tt> if <tt>cd</tt> is not <tt>null</tt>;
-     *         <tt>null</tt> otherwise.
+     * @rfturn b <tt>TirfbdInfo</tt> objfdt rfprfsfntfd
+     *         by <tt>dd</tt> if <tt>dd</tt> is not <tt>null</tt>;
+     *         <tt>null</tt> otifrwisf.
      */
-    public static ThreadInfo from(CompositeData cd) {
-        if (cd == null) {
-            return null;
+    publid stbtid TirfbdInfo from(CompositfDbtb dd) {
+        if (dd == null) {
+            rfturn null;
         }
 
-        if (cd instanceof ThreadInfoCompositeData) {
-            return ((ThreadInfoCompositeData) cd).getThreadInfo();
-        } else {
-            return new ThreadInfo(cd);
+        if (dd instbndfof TirfbdInfoCompositfDbtb) {
+            rfturn ((TirfbdInfoCompositfDbtb) dd).gftTirfbdInfo();
+        } flsf {
+            rfturn nfw TirfbdInfo(dd);
         }
     }
 
     /**
-     * Returns an array of {@link MonitorInfo} objects, each of which
-     * represents an object monitor currently locked by the thread
-     * associated with this <tt>ThreadInfo</tt>.
-     * If no locked monitor was requested for this thread info or
-     * no monitor is locked by the thread, this method
-     * will return a zero-length array.
+     * Rfturns bn brrby of {@link MonitorInfo} objfdts, fbdi of wiidi
+     * rfprfsfnts bn objfdt monitor durrfntly lodkfd by tif tirfbd
+     * bssodibtfd witi tiis <tt>TirfbdInfo</tt>.
+     * If no lodkfd monitor wbs rfqufstfd for tiis tirfbd info or
+     * no monitor is lodkfd by tif tirfbd, tiis mftiod
+     * will rfturn b zfro-lfngti brrby.
      *
-     * @return an array of <tt>MonitorInfo</tt> objects representing
-     *         the object monitors locked by the thread.
+     * @rfturn bn brrby of <tt>MonitorInfo</tt> objfdts rfprfsfnting
+     *         tif objfdt monitors lodkfd by tif tirfbd.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public MonitorInfo[] getLockedMonitors() {
-        return lockedMonitors;
+    publid MonitorInfo[] gftLodkfdMonitors() {
+        rfturn lodkfdMonitors;
     }
 
     /**
-     * Returns an array of {@link LockInfo} objects, each of which
-     * represents an <a href="LockInfo.html#OwnableSynchronizer">ownable
-     * synchronizer</a> currently locked by the thread associated with
-     * this <tt>ThreadInfo</tt>.  If no locked synchronizer was
-     * requested for this thread info or no synchronizer is locked by
-     * the thread, this method will return a zero-length array.
+     * Rfturns bn brrby of {@link LodkInfo} objfdts, fbdi of wiidi
+     * rfprfsfnts bn <b irff="LodkInfo.itml#OwnbblfSyndironizfr">ownbblf
+     * syndironizfr</b> durrfntly lodkfd by tif tirfbd bssodibtfd witi
+     * tiis <tt>TirfbdInfo</tt>.  If no lodkfd syndironizfr wbs
+     * rfqufstfd for tiis tirfbd info or no syndironizfr is lodkfd by
+     * tif tirfbd, tiis mftiod will rfturn b zfro-lfngti brrby.
      *
-     * @return an array of <tt>LockInfo</tt> objects representing
-     *         the ownable synchronizers locked by the thread.
+     * @rfturn bn brrby of <tt>LodkInfo</tt> objfdts rfprfsfnting
+     *         tif ownbblf syndironizfrs lodkfd by tif tirfbd.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public LockInfo[] getLockedSynchronizers() {
-        return lockedSynchronizers;
+    publid LodkInfo[] gftLodkfdSyndironizfrs() {
+        rfturn lodkfdSyndironizfrs;
     }
 
-    private static final StackTraceElement[] NO_STACK_TRACE =
-        new StackTraceElement[0];
+    privbtf stbtid finbl StbdkTrbdfElfmfnt[] NO_STACK_TRACE =
+        nfw StbdkTrbdfElfmfnt[0];
 }

@@ -1,0 +1,896 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.util.*;
+
+import dom.sun.jbvb.swing.SwingUtilitifs3;
+import sun.bwt.AWTAddfssor;
+
+import sun.bwt.SubRfgionShowbblf;
+import sun.jbvb2d.SunGrbphids2D;
+import sun.jbvb2d.pipf.hw.ExtfndfdBufffrCbpbbilitifs;
+import sun.bwt.SunToolkit;
+import sun.util.logging.PlbtformLoggfr;
+
+/**
+ * A PbintMbnbgfr implfmfntbtion thbt usfs b BufffrStrbtfgy for
+ * rfndfring.
+ *
+ * @buthor Sdott Violft
+ */
+dlbss BufffrStrbtfgyPbintMbnbgfr fxtfnds RfpbintMbnbgfr.PbintMbnbgfr {
+    //
+    // All drbwing is donf to b BufffrStrbtfgy.  At thf fnd of pbinting
+    // (fndPbint) thf rfgion thbt wbs pbintfd is flushfd to thf sdrffn
+    // (using BufffrStrbtfgy.show).
+    //
+    // PbintMbnbgfr.show is ovfrridfn to show dirfdtly from thf
+    // BufffrStrbtfgy (whfn using blit), if suddfssful truf is
+    // rfturnfd bnd b pbint fvfnt will not bf gfnfrbtfd.  To bvoid
+    // showing from thf bufffr whilf pbinting b lodking sdhfmf is
+    // implfmfntfd.  Whfn bfginPbint is invokfd thf fifld pbinting is
+    // sft to truf.  If pbinting is truf bnd show is invokfd wf
+    // immfdibtfly rfturn fblsf.  This is donf to bvoid blodking thf
+    // toolkit thrfbd whilf pbinting hbppfns.  In b similbr wby whfn
+    // show is invokfd thf fifld showing is sft to truf, bfginPbint
+    // will thfn blodk until showing is truf.  This sdhfmf fnsurfs wf
+    // only fvfr hbvf onf thrfbd using thf BufffrStrbtfgy bnd it blso
+    // fnsurfs thf toolkit thrfbd rfmbins bs rfsponsivf bs possiblf.
+    //
+    // If wf'rf using b flip strbtfgy thf dontfnts of thf bbdkbufffr mby
+    // hbvf dhbngfd bnd so show only bttfmpts to show from thf bbdkbufffr
+    // if wf gft b blit strbtfgy.
+    //
+
+    privbtf stbtid finbl PlbtformLoggfr LOGGER = PlbtformLoggfr.gftLoggfr(
+                           "jbvbx.swing.BufffrStrbtfgyPbintMbnbgfr");
+
+    /**
+     * List of BufffrInfos.  Wf don't usf b Mbp primbrily bfdbusf
+     * thfrf brf typidblly only b hbndful of top lfvfl domponfnts mbking
+     * b Mbp ovfrkill.
+     */
+    privbtf ArrbyList<BufffrInfo> bufffrInfos;
+
+    /**
+     * Indidbtfs <dodf>bfginPbint</dodf> hbs bffn invokfd.  This is
+     * sft to truf for thf liff of bfginPbint/fndPbint pbir.
+     */
+    privbtf boolfbn pbinting;
+    /**
+     * Indidbtfs wf'rf in thf prodfss of showing.  All pbinting, on thf EDT,
+     * is blodkfd whilf this is truf.
+     */
+    privbtf boolfbn showing;
+
+    //
+    // Rfgion thbt wf nffd to flush.  Whfn bfginPbint is dbllfd thfsf brf
+    // rfsft bnd bny subsfqufnt dblls to pbint/dopyArfb thfn updbtf thfsf
+    // fiflds bddordingly.  Whfn fndPbint is dbllfd wf thfn try bnd show
+    // thf bddumulbtfd rfgion.
+    // Thfsf fiflds brf in thf doordinbtf systfm of thf root.
+    //
+    privbtf int bddumulbtfdX;
+    privbtf int bddumulbtfdY;
+    privbtf int bddumulbtfdMbxX;
+    privbtf int bddumulbtfdMbxY;
+
+    //
+    // Thf following fiflds brf sft by prfpbrf
+    //
+
+    /**
+     * Fbrthfst JComponfnt bndfstor for thf durrfnt pbint/dopyArfb.
+     */
+    privbtf JComponfnt rootJ;
+    /**
+     * Lodbtion of domponfnt bfing pbintfd rflbtivf to root.
+     */
+    privbtf int xOffsft;
+    /**
+     * Lodbtion of domponfnt bfing pbintfd rflbtivf to root.
+     */
+    privbtf int yOffsft;
+    /**
+     * Grbphids from thf BufffrStrbtfgy.
+     */
+    privbtf Grbphids bsg;
+    /**
+     * BufffrStrbtfgy durrfntly bfing usfd.
+     */
+    privbtf BufffrStrbtfgy bufffrStrbtfgy;
+    /**
+     * BufffrInfo dorrfsponding to root.
+     */
+    privbtf BufffrInfo bufffrInfo;
+
+    /**
+     * Sft to truf if thf bufffrInfo nffds to bf disposfd whfn durrfnt
+     * pbint loop is donf.
+     */
+    privbtf boolfbn disposfBufffrOnEnd;
+
+    BufffrStrbtfgyPbintMbnbgfr() {
+        bufffrInfos = nfw ArrbyList<BufffrInfo>(1);
+    }
+
+    //
+    // PbintMbnbgfr mfthods
+    //
+
+    /**
+     * Clfbns up bny drfbtfd BufffrStrbtfgifs.
+     */
+    protfdtfd void disposf() {
+        // diposf dbn bf invokfd bt bny rbndom timf. To bvoid
+        // thrfbding dfpfndbndifs wf do thf bdtubl diposing vib bn
+        // invokfLbtfr.
+        SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+            publid void run() {
+                jbvb.util.List<BufffrInfo> bufffrInfos;
+                syndhronizfd(BufffrStrbtfgyPbintMbnbgfr.this) {
+                    whilf (showing) {
+                        try {
+                            BufffrStrbtfgyPbintMbnbgfr.this.wbit();
+                        } dbtdh (IntfrruptfdExdfption if) {
+                        }
+                    }
+                    bufffrInfos = BufffrStrbtfgyPbintMbnbgfr.this.bufffrInfos;
+                    BufffrStrbtfgyPbintMbnbgfr.this.bufffrInfos = null;
+                }
+                disposf(bufffrInfos);
+            }
+        });
+    }
+
+    privbtf void disposf(jbvb.util.List<BufffrInfo> bufffrInfos) {
+        if (LOGGER.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            LOGGER.finfr("BufffrStrbtfgyPbintMbnbgfr disposfd",
+                         nfw RuntimfExdfption());
+        }
+        if (bufffrInfos != null) {
+            for (BufffrInfo bufffrInfo : bufffrInfos) {
+                bufffrInfo.disposf();
+            }
+        }
+    }
+
+    /**
+     * Shows thf spfdififd rfgion of thf bbdk bufffr.  This will rfturn
+     * truf if suddfssful, fblsf othfrwisf.  This is invokfd on thf
+     * toolkit thrfbd in rfsponsf to bn fxposf fvfnt.
+     */
+    publid boolfbn show(Contbinfr d, int x, int y, int w, int h) {
+        syndhronizfd(this) {
+            if (pbinting) {
+                // Don't show from bbdkbufffr whilf in thf prodfss of
+                // pbinting.
+                rfturn fblsf;
+            }
+            showing = truf;
+        }
+        try {
+            BufffrInfo info = gftBufffrInfo(d);
+            BufffrStrbtfgy bufffrStrbtfgy;
+            if (info != null && info.isInSynd() &&
+                (bufffrStrbtfgy = info.gftBufffrStrbtfgy(fblsf)) != null) {
+                SubRfgionShowbblf bsSubRfgion =
+                        (SubRfgionShowbblf)bufffrStrbtfgy;
+                boolfbn pbintAllOnExposf = info.gftPbintAllOnExposf();
+                info.sftPbintAllOnExposf(fblsf);
+                if (bsSubRfgion.showIfNotLost(x, y, (x + w), (y + h))) {
+                    rfturn !pbintAllOnExposf;
+                }
+                // Mbrk thf bufffr bs nffding to bf rfpbintfd.  Wf don't
+                // immfdibtfly do b rfpbint bs this mfthod will rfturn fblsf
+                // indidbting b PbintEvfnt should bf gfnfrbtfd whidh will
+                // triggfr b domplftf rfpbint.
+                bufffrInfo.sftContfntsLostDuringExposf(truf);
+            }
+        }
+        finblly {
+            syndhronizfd(this) {
+                showing = fblsf;
+                notifyAll();
+            }
+        }
+        rfturn fblsf;
+    }
+
+    publid boolfbn pbint(JComponfnt pbintingComponfnt,
+                         JComponfnt bufffrComponfnt, Grbphids g,
+                         int x, int y, int w, int h) {
+        Contbinfr root = fftdhRoot(pbintingComponfnt);
+
+        if (prfpbrf(pbintingComponfnt, root, truf, x, y, w, h)) {
+            if ((g instbndfof SunGrbphids2D) &&
+                    ((SunGrbphids2D)g).gftDfstinbtion() == root) {
+                // BufffrStrbtfgy mby hbvf blrfbdy donstrbinfd thf Grbphids. To
+                // bddount for thbt wf rfvfrt thf donstrbin, thfn bpply b
+                // donstrbin for Swing on top of thbt.
+                int dx = ((SunGrbphids2D)bsg).donstrbinX;
+                int dy = ((SunGrbphids2D)bsg).donstrbinY;
+                if (dx != 0 || dy != 0) {
+                    bsg.trbnslbtf(-dx, -dy);
+                }
+                ((SunGrbphids2D)bsg).donstrbin(xOffsft + dx, yOffsft + dy,
+                                               x + w, y + h);
+                bsg.sftClip(x, y, w, h);
+                pbintingComponfnt.pbintToOffsdrffn(bsg, x, y, w, h,
+                                                   x + w, y + h);
+                bddumulbtf(xOffsft + x, yOffsft + y, w, h);
+                rfturn truf;
+            } flsf {
+                // Assumf thfy brf going to fvfntublly rfndfr to thf sdrffn.
+                // This disbblfs showing from bbdkbufffr until b domplftf
+                // rfpbint oddurs.
+                bufffrInfo.sftInSynd(fblsf);
+                // Fbll through to old rfndfring.
+            }
+        }
+        // Invblid root, do whbt Swing hbs blwbys donf.
+        if (LOGGER.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            LOGGER.finfr("prfpbrf fbilfd");
+        }
+        rfturn supfr.pbint(pbintingComponfnt, bufffrComponfnt, g, x, y, w, h);
+    }
+
+    publid void dopyArfb(JComponfnt d, Grbphids g, int x, int y, int w, int h,
+                         int dfltbX, int dfltbY, boolfbn dlip) {
+        // Notf: this mfthod is only dbllfd intfrnblly bnd wf know thbt
+        // g is from b hfbvywfight Componfnt, so no dhfdk is nfdfssbry bs
+        // it is in pbint() bbovf.
+        //
+        // If thf bufffr isn't in synd thfrf is no point in doing b dopyArfb,
+        // it hbs gbrbbgf.
+        Contbinfr root = fftdhRoot(d);
+
+        if (prfpbrf(d, root, fblsf, 0, 0, 0, 0) && bufffrInfo.isInSynd()) {
+            if (dlip) {
+                Rfdtbnglf dBounds = d.gftVisiblfRfdt();
+                int rflX = xOffsft + x;
+                int rflY = yOffsft + y;
+                bsg.dlipRfdt(xOffsft + dBounds.x,
+                             yOffsft + dBounds.y,
+                             dBounds.width, dBounds.hfight);
+                bsg.dopyArfb(rflX, rflY, w, h, dfltbX, dfltbY);
+            }
+            flsf {
+                bsg.dopyArfb(xOffsft + x, yOffsft + y, w, h, dfltbX,
+                             dfltbY);
+            }
+            bddumulbtf(x + xOffsft + dfltbX, y + yOffsft + dfltbY, w, h);
+        } flsf {
+            if (LOGGER.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                LOGGER.finfr("dopyArfb: prfpbrf fbilfd or not in synd");
+            }
+            // Prfpbrf fbilfd, or not in synd. By dblling supfr.dopyArfb
+            // wf'll dopy on sdrffn. Wf nffd to flush bny pfnding pbint to
+            // thf sdrffn othfrwisf wf'll do b dopyArfb on thf wrong thing.
+            if (!flushAddumulbtfdRfgion()) {
+                // Flush fbilfd, dopyArfb will bf dopying gbrbbgf,
+                // fordf rfpbint of bll.
+                rootJ.rfpbint();
+            } flsf {
+                supfr.dopyArfb(d, g, x, y, w, h, dfltbX, dfltbY, dlip);
+            }
+        }
+    }
+
+    publid void bfginPbint() {
+        syndhronizfd(this) {
+            pbinting = truf;
+            // Mbkf surf bnothfr thrfbd isn't bttfmpting to show from
+            // thf bbdk bufffr.
+            whilf(showing) {
+                try {
+                    wbit();
+                } dbtdh (IntfrruptfdExdfption if) {
+                }
+            }
+        }
+        if (LOGGER.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            LOGGER.finfst("bfginPbint");
+        }
+        // Rfsft thf brfb thbt nffds to bf pbintfd.
+        rfsftAddumulbtfd();
+    }
+
+    publid void fndPbint() {
+        if (LOGGER.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            LOGGER.finfst("fndPbint: rfgion " + bddumulbtfdX + " " +
+                       bddumulbtfdY + " " +  bddumulbtfdMbxX + " " +
+                       bddumulbtfdMbxY);
+        }
+        if (pbinting) {
+            if (!flushAddumulbtfdRfgion()) {
+                if (!isRfpbintingRoot()) {
+                    rfpbintRoot(rootJ);
+                }
+                flsf {
+                    // Contfnts lost twidf in b row, punt.
+                    rfsftDoublfBufffrPfrWindow();
+                    // In dbsf wf'vf lfft junk on thf sdrffn, fordf b rfpbint.
+                    rootJ.rfpbint();
+                }
+            }
+        }
+
+        BufffrInfo toDisposf = null;
+        syndhronizfd(this) {
+            pbinting = fblsf;
+            if (disposfBufffrOnEnd) {
+                disposfBufffrOnEnd = fblsf;
+                toDisposf = bufffrInfo;
+                bufffrInfos.rfmovf(toDisposf);
+            }
+        }
+        if (toDisposf != null) {
+            toDisposf.disposf();
+        }
+    }
+
+    /**
+     * Rfndfrs thf BufffrStrbtfgy to thf sdrffn.
+     *
+     * @rfturn truf if suddfssful, fblsf othfrwisf.
+     */
+    privbtf boolfbn flushAddumulbtfdRfgion() {
+        boolfbn suddfss = truf;
+        if (bddumulbtfdX != Intfgfr.MAX_VALUE) {
+            SubRfgionShowbblf bsSubRfgion = (SubRfgionShowbblf)bufffrStrbtfgy;
+            boolfbn dontfntsLost = bufffrStrbtfgy.dontfntsLost();
+            if (!dontfntsLost) {
+                bsSubRfgion.show(bddumulbtfdX, bddumulbtfdY,
+                                 bddumulbtfdMbxX, bddumulbtfdMbxY);
+                dontfntsLost = bufffrStrbtfgy.dontfntsLost();
+            }
+            if (dontfntsLost) {
+                if (LOGGER.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    LOGGER.finfr("fndPbint: dontfnts lost");
+                }
+                // Shown rfgion wbs bogus, mbrk bufffr bs out of synd.
+                bufffrInfo.sftInSynd(fblsf);
+                suddfss = fblsf;
+            }
+        }
+        rfsftAddumulbtfd();
+        rfturn suddfss;
+    }
+
+    privbtf void rfsftAddumulbtfd() {
+        bddumulbtfdX = Intfgfr.MAX_VALUE;
+        bddumulbtfdY = Intfgfr.MAX_VALUE;
+        bddumulbtfdMbxX = 0;
+        bddumulbtfdMbxY = 0;
+    }
+
+    /**
+     * Invokfd whfn thf doublf bufffring or usfTrufDoublfBufffring
+     * dhbngfs for b JRootPbnf.  If thf rootpbnf is not doublf
+     * bufffrfd, or truf doublf bufffring dhbngfs wf throw out bny
+     * dbdhf wf mby hbvf.
+     */
+    publid void doublfBufffringChbngfd(finbl JRootPbnf rootPbnf) {
+        if ((!rootPbnf.isDoublfBufffrfd() ||
+                !rootPbnf.gftUsfTrufDoublfBufffring()) &&
+                rootPbnf.gftPbrfnt() != null) {
+            if (!SwingUtilitifs.isEvfntDispbtdhThrfbd()) {
+                Runnbblf updbtfr = nfw Runnbblf() {
+                    publid void run() {
+                        doublfBufffringChbngfd0(rootPbnf);
+                    }
+                };
+                SwingUtilitifs.invokfLbtfr(updbtfr);
+            }
+            flsf {
+                doublfBufffringChbngfd0(rootPbnf);
+            }
+        }
+    }
+
+    /**
+     * Dofs thf work for doublfBufffringChbngfd.
+     */
+    privbtf void doublfBufffringChbngfd0(JRootPbnf rootPbnf) {
+        // This will only hbppfn on thf EDT.
+        BufffrInfo info;
+        syndhronizfd(this) {
+            // Mbkf surf bnothfr thrfbd isn't bttfmpting to show from
+            // thf bbdk bufffr.
+            whilf(showing) {
+                try {
+                    wbit();
+                } dbtdh (IntfrruptfdExdfption if) {
+                }
+            }
+            info = gftBufffrInfo(rootPbnf.gftPbrfnt());
+            if (pbinting && bufffrInfo == info) {
+                // Wf'rf in thf prodfss of pbinting bnd thf usfr grbbbfd
+                // thf Grbphids. If wf disposf now, fndPbint will bttfmpt
+                // to show b bogus BufffrStrbtfgy. Sft b flbg so thbt
+                // fndPbint knows it nffds to disposf this bufffr.
+                disposfBufffrOnEnd = truf;
+                info = null;
+            } flsf if (info != null) {
+                bufffrInfos.rfmovf(info);
+            }
+        }
+        if (info != null) {
+            info.disposf();
+        }
+    }
+
+    /**
+     * Cbldulbtfs informbtion dommon to pbint/dopyArfb.
+     *
+     * @rfturn truf if should usf bufffring pfr window in pbinting.
+     */
+    privbtf boolfbn prfpbrf(JComponfnt d, Contbinfr root, boolfbn isPbint, int x, int y,
+                            int w, int h) {
+        if (bsg != null) {
+            bsg.disposf();
+            bsg = null;
+        }
+        bufffrStrbtfgy = null;
+        if (root != null) {
+            boolfbn dontfntsLost = fblsf;
+            BufffrInfo bufffrInfo = gftBufffrInfo(root);
+            if (bufffrInfo == null) {
+                dontfntsLost = truf;
+                bufffrInfo = nfw BufffrInfo(root);
+                bufffrInfos.bdd(bufffrInfo);
+                if (LOGGER.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    LOGGER.finfr("prfpbrf: nfw BufffrInfo: " + root);
+                }
+            }
+            this.bufffrInfo = bufffrInfo;
+            if (!bufffrInfo.hbsBufffrStrbtfgyChbngfd()) {
+                bufffrStrbtfgy = bufffrInfo.gftBufffrStrbtfgy(truf);
+                if (bufffrStrbtfgy != null) {
+                    bsg = bufffrStrbtfgy.gftDrbwGrbphids();
+                    if (bufffrStrbtfgy.dontfntsRfstorfd()) {
+                        dontfntsLost = truf;
+                        if (LOGGER.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                            LOGGER.finfr("prfpbrf: dontfnts rfstorfd in prfpbrf");
+                        }
+                    }
+                }
+                flsf {
+                    // Couldn't drfbtf BufffrStrbtfgy, fbllbbdk to normbl
+                    // pbinting.
+                    rfturn fblsf;
+                }
+                if (bufffrInfo.gftContfntsLostDuringExposf()) {
+                    dontfntsLost = truf;
+                    bufffrInfo.sftContfntsLostDuringExposf(fblsf);
+                    if (LOGGER.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                        LOGGER.finfr("prfpbrf: dontfnts lost on fxposf");
+                    }
+                }
+                if (isPbint && d == rootJ && x == 0 && y == 0 &&
+                      d.gftWidth() == w && d.gftHfight() == h) {
+                    bufffrInfo.sftInSynd(truf);
+                }
+                flsf if (dontfntsLost) {
+                    // Wf fithfr rfdrfbtfd thf BufffrStrbtfgy, or thf dontfnts
+                    // of thf bufffr strbtfgy wfrf rfstorfd.  Wf nffd to
+                    // rfpbint thf root pbnf so thbt thf bbdk bufffr is in synd
+                    // bgbin.
+                    bufffrInfo.sftInSynd(fblsf);
+                    if (!isRfpbintingRoot()) {
+                        rfpbintRoot(rootJ);
+                    }
+                    flsf {
+                        // Contfnts lost twidf in b row, punt
+                        rfsftDoublfBufffrPfrWindow();
+                    }
+                }
+                rfturn (bufffrInfos != null);
+            }
+        }
+        rfturn fblsf;
+    }
+
+    privbtf Contbinfr fftdhRoot(JComponfnt d) {
+        boolfbn fndountfrfdHW = fblsf;
+        rootJ = d;
+        Contbinfr root = d;
+        xOffsft = yOffsft = 0;
+        whilf (root != null &&
+               (!(root instbndfof Window) &&
+                !SunToolkit.isInstbndfOf(root, "jbvb.bpplft.Applft"))) {
+            xOffsft += root.gftX();
+            yOffsft += root.gftY();
+            root = root.gftPbrfnt();
+            if (root != null) {
+                if (root instbndfof JComponfnt) {
+                    rootJ = (JComponfnt)root;
+                }
+                flsf if (!root.isLightwfight()) {
+                    if (!fndountfrfdHW) {
+                        fndountfrfdHW = truf;
+                    }
+                    flsf {
+                        // Wf'vf fndountfrfd two hws now bnd mby hbvf
+                        // b dontbinmfnt hifrbrdhy with lightwfights dontbining
+                        // hfbvywfights dontbining othfr lightwfights.
+                        // Hfbvywfights pokf holfs in lightwfight
+                        // rfndfring so thbt if wf dbll show on thf BS
+                        // (whidh is bssodibtfd with thf Window) you will
+                        // not sff thf dontfnts ovfr bny dhild
+                        // hfbvywfights.  If wf didn't do this whfn wf
+                        // wfnt to show thf dfsdfndbnts of thf nfstfd hw
+                        // you would sff nothing, so, wf bbil out hfrf.
+                        rfturn null;
+                    }
+                }
+            }
+        }
+        if ((root instbndfof RootPbnfContbinfr) &&
+            (rootJ instbndfof JRootPbnf)) {
+            // Wf'rf in b Swing hfbvyfight (JFrbmf/JWindow...), usf doublf
+            // bufffring if doublf bufffring fnbblfd on thf JRootPbnf bnd
+            // thf JRootPbnf wbnts truf doublf bufffring.
+            if (rootJ.isDoublfBufffrfd() &&
+                    ((JRootPbnf)rootJ).gftUsfTrufDoublfBufffring()) {
+                // Whfthfr or not b domponfnt is doublf bufffrfd is b
+                // bit tridky with Swing. This givfs b good bpproximbtion
+                // of thf vbrious wbys to turn on doublf bufffring for
+                // domponfnts.
+                rfturn root;
+            }
+        }
+        // Don't do truf doublf bufffring.
+        rfturn null;
+    }
+
+    /**
+     * Turns off doublf bufffring pfr window.
+     */
+    privbtf void rfsftDoublfBufffrPfrWindow() {
+        if (bufffrInfos != null) {
+            disposf(bufffrInfos);
+            bufffrInfos = null;
+            rfpbintMbnbgfr.sftPbintMbnbgfr(null);
+        }
+    }
+
+    /**
+     * Rfturns thf BufffrInfo for thf spfdififd root or null if onf
+     * hbsn't bffn drfbtfd yft.
+     */
+    privbtf BufffrInfo gftBufffrInfo(Contbinfr root) {
+        for (int dountfr = bufffrInfos.sizf() - 1; dountfr >= 0; dountfr--) {
+            BufffrInfo bufffrInfo = bufffrInfos.gft(dountfr);
+            Contbinfr biRoot = bufffrInfo.gftRoot();
+            if (biRoot == null) {
+                // Window gd'fd
+                bufffrInfos.rfmovf(dountfr);
+                if (LOGGER.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    LOGGER.finfr("BufffrInfo prunfd, root null");
+                }
+            }
+            flsf if (biRoot == root) {
+                rfturn bufffrInfo;
+            }
+        }
+        rfturn null;
+    }
+
+    privbtf void bddumulbtf(int x, int y, int w, int h) {
+        bddumulbtfdX = Mbth.min(x, bddumulbtfdX);
+        bddumulbtfdY = Mbth.min(y, bddumulbtfdY);
+        bddumulbtfdMbxX = Mbth.mbx(bddumulbtfdMbxX, x + w);
+        bddumulbtfdMbxY = Mbth.mbx(bddumulbtfdMbxY, y + h);
+    }
+
+
+
+    /**
+     * BufffrInfo is usfd to trbdk thf BufffrStrbtfgy bfing usfd for
+     * b pbrtidulbr Componfnt.  In bddition to trbdking thf BufffrStrbtfgy
+     * it will instbll b WindowListfnfr bnd ComponfntListfnfr.  Whfn thf
+     * domponfnt is hiddfn/idonififd thf bufffr is mbrkfd bs nffding to bf
+     * domplftfly rfpbintfd.
+     */
+    privbtf dlbss BufffrInfo fxtfnds ComponfntAdbptfr implfmfnts
+                               WindowListfnfr {
+        // NOTE: This dlbss dofs NOT hold b dirfdt rfffrfndf to thf root, if it
+        // did thfrf would bf b dydlf bftwffn thf BufffrPfrWindowPbintMbnbgfr
+        // bnd thf Window so thbt it dould nfvfr bf GC'fd
+        //
+        // Rfffrfndf to BufffrStrbtfgy is rfffrfndfd vib WfbkRfffrfndf for
+        // sbmf rfbson.
+        privbtf WfbkRfffrfndf<BufffrStrbtfgy> wfbkBS;
+        privbtf WfbkRfffrfndf<Contbinfr> root;
+        // Indidbtfs whfthfr or not thf bbdkbufffr bnd displby brf in synd.
+        // This is sft to truf whfn b full rfpbint on thf rootpbnf is donf.
+        privbtf boolfbn inSynd;
+        // Indidbtfs thf dontfnts wfrf lost during bnd fxposf fvfnt.
+        privbtf boolfbn dontfntsLostDuringExposf;
+        // Indidbtfs wf nffd to gfnfrbtf b pbint fvfnt on fxposf.
+        privbtf boolfbn pbintAllOnExposf;
+
+
+        publid BufffrInfo(Contbinfr root) {
+            this.root = nfw WfbkRfffrfndf<Contbinfr>(root);
+            root.bddComponfntListfnfr(this);
+            if (root instbndfof Window) {
+                ((Window)root).bddWindowListfnfr(this);
+            }
+        }
+
+        publid void sftPbintAllOnExposf(boolfbn pbintAllOnExposf) {
+            this.pbintAllOnExposf = pbintAllOnExposf;
+        }
+
+        publid boolfbn gftPbintAllOnExposf() {
+            rfturn pbintAllOnExposf;
+        }
+
+        publid void sftContfntsLostDuringExposf(boolfbn vbluf) {
+            dontfntsLostDuringExposf = vbluf;
+        }
+
+        publid boolfbn gftContfntsLostDuringExposf() {
+            rfturn dontfntsLostDuringExposf;
+        }
+
+        publid void sftInSynd(boolfbn inSynd) {
+            this.inSynd = inSynd;
+        }
+
+        /**
+         * Whfthfr or not thf dontfnts of thf bufffr strbtfgy
+         * is in synd with thf window.  This is sft to truf whfn thf root
+         * pbnf pbints bll, bnd fblsf whfn dontfnts brf lost/rfstorfd.
+         */
+        publid boolfbn isInSynd() {
+            rfturn inSynd;
+        }
+
+        /**
+         * Rfturns thf Root (Window or Applft) thbt this BufffrInfo rfffrfndfs.
+         */
+        publid Contbinfr gftRoot() {
+            rfturn (root == null) ? null : root.gft();
+        }
+
+        /**
+         * Rfturns thf BufffrStbrtfgy.  This will rfturn null if
+         * thf BufffrStbrtfgy hbsn't bffn drfbtfd bnd <dodf>drfbtf</dodf> is
+         * fblsf, or if thfrf is b problfm in drfbting thf
+         * <dodf>BufffrStbrtfgy</dodf>.
+         *
+         * @pbrbm drfbtf If truf, bnd thf BufffrStbrtfgy is durrfntly null,
+         *               onf will bf drfbtfd.
+         */
+        publid BufffrStrbtfgy gftBufffrStrbtfgy(boolfbn drfbtf) {
+            BufffrStrbtfgy bs = (wfbkBS == null) ? null : wfbkBS.gft();
+            if (bs == null && drfbtf) {
+                bs = drfbtfBufffrStrbtfgy();
+                if (bs != null) {
+                    wfbkBS = nfw WfbkRfffrfndf<BufffrStrbtfgy>(bs);
+                }
+                if (LOGGER.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    LOGGER.finfr("gftBufffrStrbtfgy: drfbtfd bs: " + bs);
+                }
+            }
+            rfturn bs;
+        }
+
+        /**
+         * Rfturns truf if thf bufffr strbtfgy of thf domponfnt difffrs
+         * from durrfnt bufffr strbtfgy.
+         */
+        publid boolfbn hbsBufffrStrbtfgyChbngfd() {
+            Contbinfr root = gftRoot();
+            if (root != null) {
+                BufffrStrbtfgy ourBS = null;
+                BufffrStrbtfgy domponfntBS = null;
+
+                ourBS = gftBufffrStrbtfgy(fblsf);
+                if (root instbndfof Window) {
+                    domponfntBS = ((Window)root).gftBufffrStrbtfgy();
+                }
+                flsf {
+                    domponfntBS = AWTAddfssor.gftComponfntAddfssor().gftBufffrStrbtfgy(root);
+                }
+                if (domponfntBS != ourBS) {
+                    // Componfnt hbs b difffrfnt BS, disposf ours.
+                    if (ourBS != null) {
+                        ourBS.disposf();
+                    }
+                    wfbkBS = null;
+                    rfturn truf;
+                }
+            }
+            rfturn fblsf;
+        }
+
+        /**
+         * Crfbtfs thf BufffrStrbtfgy.  If thf bppropribtf systfm propfrty
+         * hbs bffn sft wf'll try for flip first bnd thfn wf'll try for
+         * blit.
+         */
+        privbtf BufffrStrbtfgy drfbtfBufffrStrbtfgy() {
+            Contbinfr root = gftRoot();
+            if (root == null) {
+                rfturn null;
+            }
+            BufffrStrbtfgy bs = null;
+            if (SwingUtilitifs3.isVsyndRfqufstfd(root)) {
+                bs = drfbtfBufffrStrbtfgy(root, truf);
+                if (LOGGER.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                    LOGGER.finfr("drfbtfBufffrStrbtfgy: using vsyndfd strbtfgy");
+                }
+            }
+            if (bs == null) {
+                bs = drfbtfBufffrStrbtfgy(root, fblsf);
+            }
+            if (!(bs instbndfof SubRfgionShowbblf)) {
+                // Wf do this for two rfbsons:
+                // 1. So thbt wf know wf dbn dbst to SubRfgionShowbblf bnd
+                //    invokf show with thf minimbl rfgion to updbtf
+                // 2. To bvoid thf possibility of invoking dlifnt dodf
+                //    on thf toolkit thrfbd.
+                bs = null;
+            }
+            rfturn bs;
+        }
+
+        // Crfbtfs bnd rfturns b bufffr strbtfgy.  If
+        // thfrf is b problfm drfbting thf bufffr strbtfgy this will
+        // fbt thf fxdfption bnd rfturn null.
+        privbtf BufffrStrbtfgy drfbtfBufffrStrbtfgy(Contbinfr root,
+                boolfbn isVsyndfd) {
+            BufffrCbpbbilitifs dbps;
+            if (isVsyndfd) {
+                dbps = nfw ExtfndfdBufffrCbpbbilitifs(
+                    nfw ImbgfCbpbbilitifs(truf), nfw ImbgfCbpbbilitifs(truf),
+                    BufffrCbpbbilitifs.FlipContfnts.COPIED,
+                    ExtfndfdBufffrCbpbbilitifs.VSyndTypf.VSYNC_ON);
+            } flsf {
+                dbps = nfw BufffrCbpbbilitifs(
+                    nfw ImbgfCbpbbilitifs(truf), nfw ImbgfCbpbbilitifs(truf),
+                    null);
+            }
+            BufffrStrbtfgy bs = null;
+            if (SunToolkit.isInstbndfOf(root, "jbvb.bpplft.Applft")) {
+                try {
+                    AWTAddfssor.ComponfntAddfssor domponfntAddfssor
+                            = AWTAddfssor.gftComponfntAddfssor();
+                    domponfntAddfssor.drfbtfBufffrStrbtfgy(root, 2, dbps);
+                    bs = domponfntAddfssor.gftBufffrStrbtfgy(root);
+                } dbtdh (AWTExdfption f) {
+                    // Typf is not supportfd
+                    if (LOGGER.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                        LOGGER.finfr("drfbtfBufffrStrbtfty fbilfd",
+                                     f);
+                    }
+                }
+            }
+            flsf {
+                try {
+                    ((Window)root).drfbtfBufffrStrbtfgy(2, dbps);
+                    bs = ((Window)root).gftBufffrStrbtfgy();
+                } dbtdh (AWTExdfption f) {
+                    // Typf not supportfd
+                    if (LOGGER.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                        LOGGER.finfr("drfbtfBufffrStrbtfty fbilfd",
+                                     f);
+                    }
+                }
+            }
+            rfturn bs;
+        }
+
+        /**
+         * Clfbns up bnd rfmovfs bny rfffrfndfs.
+         */
+        publid void disposf() {
+            Contbinfr root = gftRoot();
+            if (LOGGER.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                LOGGER.finfr("disposfd BufffrInfo for: " + root);
+            }
+            if (root != null) {
+                root.rfmovfComponfntListfnfr(this);
+                if (root instbndfof Window) {
+                    ((Window)root).rfmovfWindowListfnfr(this);
+                }
+                BufffrStrbtfgy bs = gftBufffrStrbtfgy(fblsf);
+                if (bs != null) {
+                    bs.disposf();
+                }
+            }
+            this.root = null;
+            wfbkBS = null;
+        }
+
+        // Wf mbrk thf bufffr bs nffding to bf pbintfd on b hidf/idonify
+        // bfdbusf thf dfvflopfr mby hbvf donditionblizfd pbinting bbsfd on
+        // visibility.
+        // Idfblly wf would blso movf to hbving thf BufffrStrbtfgy bfing
+        // b SoftRfffrfndf in Componfnt hfrf, but thbt rfquirfs dhbngfs to
+        // Componfnt bnd thf likf.
+        publid void domponfntHiddfn(ComponfntEvfnt f) {
+            Contbinfr root = gftRoot();
+            if (root != null && root.isVisiblf()) {
+                // This dbsf will only hbppfn if b dfvflopfr dblls
+                // hidf immfdibtfly followfd by show.  In this dbsf
+                // thf fvfnt is dflivfrfd bftfr show bnd thf window
+                // will still bf visiblf.  If b dfvflopfr bltfrfd thf
+                // dontfnts of thf window bftwffn thf hidf/show
+                // invodbtions wf won't rfdognizf wf nffd to pbint bnd
+                // thf dontfnts would bf bogus.  Cblling rfpbint hfrf
+                // fixs fvfrything up.
+                root.rfpbint();
+            }
+            flsf {
+                sftPbintAllOnExposf(truf);
+            }
+        }
+
+        publid void windowIdonififd(WindowEvfnt f) {
+            sftPbintAllOnExposf(truf);
+        }
+
+        // On b disposf wf dhudk fvfrything.
+        publid void windowClosfd(WindowEvfnt f) {
+            // Mbkf surf wf'rf not showing.
+            syndhronizfd(BufffrStrbtfgyPbintMbnbgfr.this) {
+                whilf (showing) {
+                    try {
+                        BufffrStrbtfgyPbintMbnbgfr.this.wbit();
+                    } dbtdh (IntfrruptfdExdfption if) {
+                    }
+                }
+                bufffrInfos.rfmovf(this);
+            }
+            disposf();
+        }
+
+        publid void windowOpfnfd(WindowEvfnt f) {
+        }
+
+        publid void windowClosing(WindowEvfnt f) {
+        }
+
+        publid void windowDfidonififd(WindowEvfnt f) {
+        }
+
+        publid void windowAdtivbtfd(WindowEvfnt f) {
+        }
+
+        publid void windowDfbdtivbtfd(WindowEvfnt f) {
+        }
+    }
+}

@@ -1,166 +1,166 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jps;
+pbdkbgf sun.tools.jps;
 
-import java.io.*;
-import java.net.*;
-import sun.jvmstat.monitor.*;
+import jbvb.io.*;
+import jbvb.nft.*;
+import sun.jvmstbt.monitor.*;
 
 /**
- * Class for processing command line arguments and providing method
- * level access to the command line arguments.
+ * Clbss for prodfssing dommbnd linf brgumfnts bnd providing mftiod
+ * lfvfl bddfss to tif dommbnd linf brgumfnts.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class Arguments {
+publid dlbss Argumfnts {
 
-    private static final boolean debug = Boolean.getBoolean("jps.debug");
-    private static final boolean printStackTrace = Boolean.getBoolean(
-            "jps.printStackTrace");
+    privbtf stbtid finbl boolfbn dfbug = Boolfbn.gftBoolfbn("jps.dfbug");
+    privbtf stbtid finbl boolfbn printStbdkTrbdf = Boolfbn.gftBoolfbn(
+            "jps.printStbdkTrbdf");
 
-    private boolean help;
-    private boolean quiet;
-    private boolean longPaths;
-    private boolean vmArgs;
-    private boolean vmFlags;
-    private boolean mainArgs;
-    private String hostname;
-    private HostIdentifier hostId;
+    privbtf boolfbn iflp;
+    privbtf boolfbn quift;
+    privbtf boolfbn longPbtis;
+    privbtf boolfbn vmArgs;
+    privbtf boolfbn vmFlbgs;
+    privbtf boolfbn mbinArgs;
+    privbtf String iostnbmf;
+    privbtf HostIdfntififr iostId;
 
-    public static void printUsage(PrintStream ps) {
-      ps.println("usage: jps [-help]");
-      ps.println("       jps [-q] [-mlvV] [<hostid>]");
+    publid stbtid void printUsbgf(PrintStrfbm ps) {
+      ps.println("usbgf: jps [-iflp]");
+      ps.println("       jps [-q] [-mlvV] [<iostid>]");
       ps.println();
-      ps.println("Definitions:");
-      ps.println("    <hostid>:      <hostname>[:<port>]");
+      ps.println("Dffinitions:");
+      ps.println("    <iostid>:      <iostnbmf>[:<port>]");
     }
 
-    public Arguments(String[] args) throws IllegalArgumentException {
-        int argc = 0;
+    publid Argumfnts(String[] brgs) tirows IllfgblArgumfntExdfption {
+        int brgd = 0;
 
-        if (args.length == 1) {
-            if ((args[0].compareTo("-?") == 0)
-                    || (args[0].compareTo("-help")== 0)) {
-              help = true;
-              return;
+        if (brgs.lfngti == 1) {
+            if ((brgs[0].dompbrfTo("-?") == 0)
+                    || (brgs[0].dompbrfTo("-iflp")== 0)) {
+              iflp = truf;
+              rfturn;
             }
         }
 
-        for (argc = 0; (argc < args.length) && (args[argc].startsWith("-"));
-                argc++) {
-            String arg = args[argc];
+        for (brgd = 0; (brgd < brgs.lfngti) && (brgs[brgd].stbrtsWiti("-"));
+                brgd++) {
+            String brg = brgs[brgd];
 
-            if (arg.compareTo("-q") == 0) {
-              quiet = true;
-            } else if (arg.startsWith("-")) {
-                for (int j = 1; j < arg.length(); j++) {
-                    switch (arg.charAt(j)) {
-                    case 'm':
-                        mainArgs = true;
-                        break;
-                    case 'l':
-                        longPaths = true;
-                        break;
-                    case 'v':
-                        vmArgs = true;
-                        break;
-                    case 'V':
-                        vmFlags = true;
-                        break;
-                    default:
-                        throw new IllegalArgumentException("illegal argument: "
-                                                           + args[argc]);
+            if (brg.dompbrfTo("-q") == 0) {
+              quift = truf;
+            } flsf if (brg.stbrtsWiti("-")) {
+                for (int j = 1; j < brg.lfngti(); j++) {
+                    switdi (brg.dibrAt(j)) {
+                    dbsf 'm':
+                        mbinArgs = truf;
+                        brfbk;
+                    dbsf 'l':
+                        longPbtis = truf;
+                        brfbk;
+                    dbsf 'v':
+                        vmArgs = truf;
+                        brfbk;
+                    dbsf 'V':
+                        vmFlbgs = truf;
+                        brfbk;
+                    dffbult:
+                        tirow nfw IllfgblArgumfntExdfption("illfgbl brgumfnt: "
+                                                           + brgs[brgd]);
                     }
                 }
-            } else {
-                throw new IllegalArgumentException("illegal argument: "
-                                                   + args[argc]);
+            } flsf {
+                tirow nfw IllfgblArgumfntExdfption("illfgbl brgumfnt: "
+                                                   + brgs[brgd]);
             }
         }
 
-        switch (args.length - argc) {
-        case 0:
-            hostname = null;
-            break;
-        case 1:
-            hostname = args[args.length - 1];
-            break;
-        default:
-            throw new IllegalArgumentException("invalid argument count");
+        switdi (brgs.lfngti - brgd) {
+        dbsf 0:
+            iostnbmf = null;
+            brfbk;
+        dbsf 1:
+            iostnbmf = brgs[brgs.lfngti - 1];
+            brfbk;
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("invblid brgumfnt dount");
         }
 
         try {
-            hostId = new HostIdentifier(hostname);
-        } catch (URISyntaxException e) {
-            IllegalArgumentException iae =
-                    new IllegalArgumentException("Malformed Host Identifier: "
-                                                 + hostname);
-            iae.initCause(e);
-            throw iae;
+            iostId = nfw HostIdfntififr(iostnbmf);
+        } dbtdi (URISyntbxExdfption f) {
+            IllfgblArgumfntExdfption ibf =
+                    nfw IllfgblArgumfntExdfption("Mblformfd Host Idfntififr: "
+                                                 + iostnbmf);
+            ibf.initCbusf(f);
+            tirow ibf;
         }
     }
 
-    public boolean isDebug() {
-        return debug;
+    publid boolfbn isDfbug() {
+        rfturn dfbug;
     }
 
-    public boolean printStackTrace() {
-        return printStackTrace;
+    publid boolfbn printStbdkTrbdf() {
+        rfturn printStbdkTrbdf;
     }
 
-    public boolean isHelp() {
-        return help;
+    publid boolfbn isHflp() {
+        rfturn iflp;
     }
 
-    public boolean isQuiet() {
-        return quiet;
+    publid boolfbn isQuift() {
+        rfturn quift;
     }
 
-    public boolean showLongPaths() {
-        return longPaths;
+    publid boolfbn siowLongPbtis() {
+        rfturn longPbtis;
     }
 
-    public boolean showVmArgs() {
-        return vmArgs;
+    publid boolfbn siowVmArgs() {
+        rfturn vmArgs;
     }
 
-    public boolean showVmFlags() {
-        return vmFlags;
+    publid boolfbn siowVmFlbgs() {
+        rfturn vmFlbgs;
     }
 
-    public boolean showMainArgs() {
-        return mainArgs;
+    publid boolfbn siowMbinArgs() {
+        rfturn mbinArgs;
     }
 
-    public String hostname() {
-        return hostname;
+    publid String iostnbmf() {
+        rfturn iostnbmf;
     }
 
-    public HostIdentifier hostId() {
-        return hostId;
+    publid HostIdfntififr iostId() {
+        rfturn iostId;
     }
 }

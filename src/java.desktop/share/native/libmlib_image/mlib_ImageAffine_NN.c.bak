@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 2000, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /*
  * FUNCTION
- *      Internal functions for mlib_ImageAffine with Nearest Neighbor filtering.
+ *      Intfrnbl fundtions for mlib_ImbgfAffinf witi Nfbrfst Nfigibor filtfring.
  */
 
-#include "mlib_ImageAffine.h"
+#indludf "mlib_ImbgfAffinf.i"
 
 /***************************************************************/
-#define sp  srcPixelPtr
-#define dp  dstPixelPtr
+#dffinf sp  srdPixflPtr
+#dffinf dp  dstPixflPtr
 
 /***************************************************************/
-#undef  DTYPE
-#define DTYPE mlib_s32
+#undff  DTYPE
+#dffinf DTYPE mlib_s32
 
-#ifdef _MSC_VER
-/* Workaround for MSC optimizer bug (known affected versions
-   12.00.8168-12.00.8804). See bug 4893435 for details. */
-#pragma optimize("gs", off)
-#endif /* _MSC_VER */
-#ifdef i386 /* do not perform the coping by mlib_d64 data type for x86 */
+#ifdff _MSC_VER
+/* Workbround for MSC optimizfr bug (known bfffdtfd vfrsions
+   12.00.8168-12.00.8804). Sff bug 4893435 for dftbils. */
+#prbgmb optimizf("gs", off)
+#fndif /* _MSC_VER */
+#ifdff i386 /* do not pfrform tif doping by mlib_d64 dbtb typf for x86 */
 
-mlib_status mlib_ImageAffine_s32_1ch_nn(mlib_affine_param *param)
+mlib_stbtus mlib_ImbgfAffinf_s32_1di_nn(mlib_bffinf_pbrbm *pbrbm)
 {
   DECLAREVAR();
-  DTYPE *srcPixelPtr;
-  DTYPE *dstLineEnd;
+  DTYPE *srdPixflPtr;
+  DTYPE *dstLinfEnd;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinisi; j++) {
     CLIP(1);
-    dstLineEnd = (DTYPE *) dstData + xRight;
+    dstLinfEnd = (DTYPE *) dstDbtb + xRigit;
 
-#ifdef __SUNPRO_C
-#pragma pipeloop(0)
-#endif /* __SUNPRO_C */
-    for (; dp <= dstLineEnd; dp++) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (; dp <= dstLinfEnd; dp++) {
       sp = S_PTR(Y) + (X >> MLIB_SHIFT);
       dp[0] = sp[0];
 
@@ -68,35 +68,35 @@ mlib_status mlib_ImageAffine_s32_1ch_nn(mlib_affine_param *param)
     }
   }
 
-  return MLIB_SUCCESS;
+  rfturn MLIB_SUCCESS;
 }
 
-#else
+#flsf
 
-mlib_status mlib_ImageAffine_s32_1ch_nn(mlib_affine_param *param)
+mlib_stbtus mlib_ImbgfAffinf_s32_1di_nn(mlib_bffinf_pbrbm *pbrbm)
 {
   DECLAREVAR();
-  DTYPE *srcPixelPtr;
-  mlib_s32 i, size;
+  DTYPE *srdPixflPtr;
+  mlib_s32 i, sizf;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinisi; j++) {
     d64_2x32 dd;
 
     CLIP(1);
-    size = xRight - xLeft + 1;
+    sizf = xRigit - xLfft + 1;
 
-    if ((mlib_addr) dp & 7) {
+    if ((mlib_bddr) dp & 7) {
       sp = S_PTR(Y);
       *dp++ = sp[X >> MLIB_SHIFT];
       X += dX;
       Y += dY;
-      size--;
+      sizf--;
     }
 
-#ifdef __SUNPRO_C
-#pragma pipeloop(0)
-#endif /* __SUNPRO_C */
-    for (i = 0; i <= (size - 2); i += 2) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (i = 0; i <= (sizf - 2); i += 2) {
       mlib_f32 *sp0, *sp1;
 
       sp0 = (mlib_f32 *) S_PTR(Y);
@@ -112,32 +112,32 @@ mlib_status mlib_ImageAffine_s32_1ch_nn(mlib_affine_param *param)
       Y += 2 * dY;
     }
 
-    if (size & 1) {
+    if (sizf & 1) {
       sp = S_PTR(Y);
       *dp = sp[X >> MLIB_SHIFT];
     }
   }
 
-  return MLIB_SUCCESS;
+  rfturn MLIB_SUCCESS;
 }
 
-#endif /* i386 ( do not perform the coping by mlib_d64 data type for x86 ) */
+#fndif /* i386 ( do not pfrform tif doping by mlib_d64 dbtb typf for x86 ) */
 
 /***************************************************************/
-mlib_status mlib_ImageAffine_s32_2ch_nn(mlib_affine_param *param)
+mlib_stbtus mlib_ImbgfAffinf_s32_2di_nn(mlib_bffinf_pbrbm *pbrbm)
 {
   DECLAREVAR();
-  DTYPE *srcPixelPtr;
-  DTYPE *dstLineEnd;
+  DTYPE *srdPixflPtr;
+  DTYPE *dstLinfEnd;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinisi; j++) {
     CLIP(2);
-    dstLineEnd = (DTYPE *) dstData + 2 * xRight;
+    dstLinfEnd = (DTYPE *) dstDbtb + 2 * xRigit;
 
-#ifdef __SUNPRO_C
-#pragma pipeloop(0)
-#endif /* __SUNPRO_C */
-    for (; dp <= dstLineEnd; dp += 2) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (; dp <= dstLinfEnd; dp += 2) {
       sp = S_PTR(Y) + 2 * (X >> MLIB_SHIFT);
       dp[0] = sp[0];
       dp[1] = sp[1];
@@ -147,24 +147,24 @@ mlib_status mlib_ImageAffine_s32_2ch_nn(mlib_affine_param *param)
     }
   }
 
-  return MLIB_SUCCESS;
+  rfturn MLIB_SUCCESS;
 }
 
 /***************************************************************/
-mlib_status mlib_ImageAffine_s32_3ch_nn(mlib_affine_param *param)
+mlib_stbtus mlib_ImbgfAffinf_s32_3di_nn(mlib_bffinf_pbrbm *pbrbm)
 {
   DECLAREVAR();
-  DTYPE *srcPixelPtr;
-  DTYPE *dstLineEnd;
+  DTYPE *srdPixflPtr;
+  DTYPE *dstLinfEnd;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinisi; j++) {
     CLIP(3);
-    dstLineEnd = (DTYPE *) dstData + 3 * xRight;
+    dstLinfEnd = (DTYPE *) dstDbtb + 3 * xRigit;
 
-#ifdef __SUNPRO_C
-#pragma pipeloop(0)
-#endif /* __SUNPRO_C */
-    for (; dp <= dstLineEnd; dp += 3) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (; dp <= dstLinfEnd; dp += 3) {
       sp = S_PTR(Y) + 3 * (X >> MLIB_SHIFT);
       dp[0] = sp[0];
       dp[1] = sp[1];
@@ -175,24 +175,24 @@ mlib_status mlib_ImageAffine_s32_3ch_nn(mlib_affine_param *param)
     }
   }
 
-  return MLIB_SUCCESS;
+  rfturn MLIB_SUCCESS;
 }
 
 /***************************************************************/
-mlib_status mlib_ImageAffine_s32_4ch_nn(mlib_affine_param *param)
+mlib_stbtus mlib_ImbgfAffinf_s32_4di_nn(mlib_bffinf_pbrbm *pbrbm)
 {
   DECLAREVAR();
-  DTYPE *srcPixelPtr;
-  DTYPE *dstLineEnd;
+  DTYPE *srdPixflPtr;
+  DTYPE *dstLinfEnd;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinisi; j++) {
     CLIP(4);
-    dstLineEnd = (DTYPE *) dstData + 4 * xRight;
+    dstLinfEnd = (DTYPE *) dstDbtb + 4 * xRigit;
 
-#ifdef __SUNPRO_C
-#pragma pipeloop(0)
-#endif /* __SUNPRO_C */
-    for (; dp <= dstLineEnd; dp += 4) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (; dp <= dstLinfEnd; dp += 4) {
       sp = S_PTR(Y) + 4 * (X >> MLIB_SHIFT);
       dp[0] = sp[0];
       dp[1] = sp[1];
@@ -204,27 +204,27 @@ mlib_status mlib_ImageAffine_s32_4ch_nn(mlib_affine_param *param)
     }
   }
 
-  return MLIB_SUCCESS;
+  rfturn MLIB_SUCCESS;
 }
 
 /***************************************************************/
-#undef  DTYPE
-#define DTYPE mlib_d64
+#undff  DTYPE
+#dffinf DTYPE mlib_d64
 
-mlib_status mlib_ImageAffine_d64_1ch_nn(mlib_affine_param *param)
+mlib_stbtus mlib_ImbgfAffinf_d64_1di_nn(mlib_bffinf_pbrbm *pbrbm)
 {
   DECLAREVAR();
-  DTYPE *srcPixelPtr;
-  DTYPE *dstLineEnd;
+  DTYPE *srdPixflPtr;
+  DTYPE *dstLinfEnd;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinisi; j++) {
     CLIP(1);
-    dstLineEnd = (DTYPE *) dstData + xRight;
+    dstLinfEnd = (DTYPE *) dstDbtb + xRigit;
 
-#ifdef __SUNPRO_C
-#pragma pipeloop(0)
-#endif /* __SUNPRO_C */
-    for (; dp <= dstLineEnd; dp++) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (; dp <= dstLinfEnd; dp++) {
       sp = S_PTR(Y);
       dp[0] = sp[X >> MLIB_SHIFT];
 
@@ -233,24 +233,24 @@ mlib_status mlib_ImageAffine_d64_1ch_nn(mlib_affine_param *param)
     }
   }
 
-  return MLIB_SUCCESS;
+  rfturn MLIB_SUCCESS;
 }
 
 /***************************************************************/
-mlib_status mlib_ImageAffine_d64_2ch_nn(mlib_affine_param *param)
+mlib_stbtus mlib_ImbgfAffinf_d64_2di_nn(mlib_bffinf_pbrbm *pbrbm)
 {
   DECLAREVAR();
-  DTYPE *srcPixelPtr;
-  DTYPE *dstLineEnd;
+  DTYPE *srdPixflPtr;
+  DTYPE *dstLinfEnd;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinisi; j++) {
     CLIP(2);
-    dstLineEnd = (DTYPE *) dstData + 2 * xRight;
+    dstLinfEnd = (DTYPE *) dstDbtb + 2 * xRigit;
 
-#ifdef __SUNPRO_C
-#pragma pipeloop(0)
-#endif /* __SUNPRO_C */
-    for (; dp <= dstLineEnd; dp += 2) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (; dp <= dstLinfEnd; dp += 2) {
       sp = S_PTR(Y) + 2 * (X >> MLIB_SHIFT);
       dp[0] = sp[0];
       dp[1] = sp[1];
@@ -260,24 +260,24 @@ mlib_status mlib_ImageAffine_d64_2ch_nn(mlib_affine_param *param)
     }
   }
 
-  return MLIB_SUCCESS;
+  rfturn MLIB_SUCCESS;
 }
 
 /***************************************************************/
-mlib_status mlib_ImageAffine_d64_3ch_nn(mlib_affine_param *param)
+mlib_stbtus mlib_ImbgfAffinf_d64_3di_nn(mlib_bffinf_pbrbm *pbrbm)
 {
   DECLAREVAR();
-  DTYPE *srcPixelPtr;
-  DTYPE *dstLineEnd;
+  DTYPE *srdPixflPtr;
+  DTYPE *dstLinfEnd;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinisi; j++) {
     CLIP(3);
-    dstLineEnd = (DTYPE *) dstData + 3 * xRight;
+    dstLinfEnd = (DTYPE *) dstDbtb + 3 * xRigit;
 
-#ifdef __SUNPRO_C
-#pragma pipeloop(0)
-#endif /* __SUNPRO_C */
-    for (; dp <= dstLineEnd; dp += 3) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (; dp <= dstLinfEnd; dp += 3) {
       sp = S_PTR(Y) + 3 * (X >> MLIB_SHIFT);
       dp[0] = sp[0];
       dp[1] = sp[1];
@@ -288,24 +288,24 @@ mlib_status mlib_ImageAffine_d64_3ch_nn(mlib_affine_param *param)
     }
   }
 
-  return MLIB_SUCCESS;
+  rfturn MLIB_SUCCESS;
 }
 
 /***************************************************************/
-mlib_status mlib_ImageAffine_d64_4ch_nn(mlib_affine_param *param)
+mlib_stbtus mlib_ImbgfAffinf_d64_4di_nn(mlib_bffinf_pbrbm *pbrbm)
 {
   DECLAREVAR();
-  DTYPE *srcPixelPtr;
-  DTYPE *dstLineEnd;
+  DTYPE *srdPixflPtr;
+  DTYPE *dstLinfEnd;
 
-  for (j = yStart; j <= yFinish; j++) {
+  for (j = yStbrt; j <= yFinisi; j++) {
     CLIP(4);
-    dstLineEnd = (DTYPE *) dstData + 4 * xRight;
+    dstLinfEnd = (DTYPE *) dstDbtb + 4 * xRigit;
 
-#ifdef __SUNPRO_C
-#pragma pipeloop(0)
-#endif /* __SUNPRO_C */
-    for (; dp <= dstLineEnd; dp += 4) {
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (; dp <= dstLinfEnd; dp += 4) {
       sp = S_PTR(Y) + 4 * (X >> MLIB_SHIFT);
       dp[0] = sp[0];
       dp[1] = sp[1];
@@ -317,12 +317,12 @@ mlib_status mlib_ImageAffine_d64_4ch_nn(mlib_affine_param *param)
     }
   }
 
-  return MLIB_SUCCESS;
+  rfturn MLIB_SUCCESS;
 }
 
 /***************************************************************/
-#ifdef _MSC_VER
-/* Workaround for MSC optimizer bug (known affected versions
-   12.00.8168-12.00.8804). See bug 4893435 for details. */
-#pragma optimize("gs", on)
-#endif /* _MSC_VER */
+#ifdff _MSC_VER
+/* Workbround for MSC optimizfr bug (known bfffdtfd vfrsions
+   12.00.8168-12.00.8804). Sff bug 4893435 for dftbils. */
+#prbgmb optimizf("gs", on)
+#fndif /* _MSC_VER */

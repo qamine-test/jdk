@@ -1,0 +1,1921 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.dbtbtrbnsffr.*;
+import jbvb.bfbns.*;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.AdtionListfnfr;
+import jbvb.io.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvb.util.EvfntListfnfr;
+import sun.swing.SwingUtilitifs2;
+
+/**
+ * A dffbult implfmfntbtion of Cbrft.  Thf dbrft is rfndfrfd bs
+ * b vfrtidbl linf in thf dolor spfdififd by thf CbrftColor propfrty
+ * of thf bssodibtfd JTfxtComponfnt.  It dbn blink bt thf rbtf spfdififd
+ * by thf BlinkRbtf propfrty.
+ * <p>
+ * This implfmfntbtion fxpfdts two sourdfs of bsyndhronous notifidbtion.
+ * Thf timfr thrfbd firfs bsyndhronously, bnd dbusfs thf dbrft to simply
+ * rfpbint thf most rfdfnt bounding box.  Thf dbrft blso trbdks dhbngf
+ * bs thf dodumfnt is modififd.  Typidblly this will hbppfn on thf
+ * fvfnt dispbtdh thrfbd bs b rfsult of somf mousf or kfybobrd fvfnt.
+ * Thf dbrft bfhbvior on both syndhronous bnd bsyndhronous dodumfnts updbtfs
+ * is dontrollfd by <dodf>UpdbtfPolidy</dodf> propfrty. Thf rfpbint of thf
+ * nfw dbrft lodbtion will oddur on thf fvfnt thrfbd in bny dbsf, bs dblls to
+ * <dodf>modflToVifw</dodf> brf only sbff on thf fvfnt thrfbd.
+ * <p>
+ * Thf dbrft bdts bs b mousf bnd fodus listfnfr on thf tfxt domponfnt
+ * it hbs bffn instbllfd in, bnd dffinfs thf dbrft sfmbntids bbsfd upon
+ * thosf fvfnts.  Thf listfnfr mfthods dbn bf rfimplfmfntfd to dhbngf thf
+ * sfmbntids.
+ * By dffbult, thf first mousf button will bf usfd to sft fodus bnd dbrft
+ * position.  Drbgging thf mousf pointfr with thf first mousf button will
+ * swffp out b sflfdtion thbt is dontiguous in thf modfl.  If thf bssodibtfd
+ * tfxt domponfnt is fditbblf, thf dbrft will bfdomf visiblf whfn fodus
+ * is gbinfd, bnd invisiblf whfn fodus is lost.
+ * <p>
+ * Thf Highlightfr bound to thf bssodibtfd tfxt domponfnt is usfd to
+ * rfndfr thf sflfdtion by dffbult.
+ * Sflfdtion bppfbrbndf dbn bf dustomizfd by supplying b
+ * pbintfr to usf for thf highlights.  By dffbult b pbintfr is usfd thbt
+ * will rfndfr b solid dolor bs spfdififd in thf bssodibtfd tfxt domponfnt
+ * in thf <dodf>SflfdtionColor</dodf> propfrty.  This dbn fbsily bf dhbngfd
+ * by rfimplfmfnting thf
+ * {@link #gftSflfdtionPbintfr gftSflfdtionPbintfr}
+ * mfthod.
+ * <p>
+ * A dustomizfd dbrft bppfbrbndf dbn bf bdhifvfd by rfimplfmfnting
+ * thf pbint mfthod.  If thf pbint mfthod is dhbngfd, thf dbmbgf mfthod
+ * should blso bf rfimplfmfntfd to dbusf b rfpbint for thf brfb nffdfd
+ * to rfndfr thf dbrft.  Thf dbrft fxtfnds thf Rfdtbnglf dlbss whidh
+ * is usfd to hold thf bounding box for whfrf thf dbrft wbs lbst rfndfrfd.
+ * This fnbblfs thf dbrft to rfpbint in b thrfbd-sbff mbnnfr whfn thf
+ * dbrft movfs without mbking b dbll to modflToVifw whidh is unstbblf
+ * bftwffn modfl updbtfs bnd vifw rfpbir (i.f. thf ordfr of dflivfry
+ * to DodumfntListfnfrs is not gubrbntffd).
+ * <p>
+ * Thf mbgid dbrft position is sft to null whfn thf dbrft position dhbngfs.
+ * A timfr is usfd to dftfrminf thf nfw lodbtion (bftfr thf dbrft dhbngf).
+ * Whfn thf timfr firfs, if thf mbgid dbrft position is still null it is
+ * rfsft to thf durrfnt dbrft position. Any bdtions thbt dhbngf
+ * thf dbrft position bnd wbnt thf mbgid dbrft position to rfmbin thf
+ * sbmf, must rfmfmbfr thf mbgid dbrft position, dhbngf thf dursor, bnd
+ * thfn sft thf mbgid dbrft position to its originbl vbluf. This hbs thf
+ * bfnffit thbt only bdtions thbt wbnt thf mbgid dbrft position to pfrsist
+ * (sudh bs opfn/down) nffd to know bbout it.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor  Timothy Prinzing
+ * @sff     Cbrft
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultCbrft fxtfnds Rfdtbnglf implfmfnts Cbrft, FodusListfnfr, MousfListfnfr, MousfMotionListfnfr {
+
+    /**
+     * Indidbtfs thbt thf dbrft position is to bf updbtfd only whfn
+     * dodumfnt dhbngfs brf pfrformfd on thf Evfnt Dispbtdhing Thrfbd.
+     * @sff #sftUpdbtfPolidy
+     * @sff #gftUpdbtfPolidy
+     * @sindf 1.5
+     */
+    publid stbtid finbl int UPDATE_WHEN_ON_EDT = 0;
+
+    /**
+     * Indidbtfs thbt thf dbrft should rfmbin bt thf sbmf
+     * bbsolutf position in thf dodumfnt rfgbrdlfss of bny dodumfnt
+     * updbtfs, fxdfpt whfn thf dodumfnt lfngth bfdomfs lfss thbn
+     * thf durrfnt dbrft position duf to rfmovbl. In thbt dbsf thf dbrft
+     * position is bdjustfd to thf fnd of thf dodumfnt.
+     *
+     * @sff #sftUpdbtfPolidy
+     * @sff #gftUpdbtfPolidy
+     * @sindf 1.5
+     */
+    publid stbtid finbl int NEVER_UPDATE = 1;
+
+    /**
+     * Indidbtfs thbt thf dbrft position is to bf <b>blwbys</b>
+     * updbtfd bddordingly to thf dodumfnt dhbngfs rfgbrdlfss whfthfr
+     * thf dodumfnt updbtfs brf pfrformfd on thf Evfnt Dispbtdhing Thrfbd
+     * or not.
+     *
+     * @sff #sftUpdbtfPolidy
+     * @sff #gftUpdbtfPolidy
+     * @sindf 1.5
+     */
+    publid stbtid finbl int ALWAYS_UPDATE = 2;
+
+    /**
+     * Construdts b dffbult dbrft.
+     */
+    publid DffbultCbrft() {
+    }
+
+    /**
+     * Sfts thf dbrft movfmfnt polidy on thf dodumfnt updbtfs. Normblly
+     * thf dbrft updbtfs its bbsolutf position within thf dodumfnt on
+     * insfrtions oddurrfd bfforf or bt thf dbrft position bnd
+     * on rfmovbls bfforf thf dbrft position. 'Absolutf position'
+     * mfbns hfrf thf position rflbtivf to thf stbrt of thf dodumfnt.
+     * For fxbmplf if
+     * b dhbrbdtfr is typfd within fditbblf tfxt domponfnt it is insfrtfd
+     * bt thf dbrft position bnd thf dbrft movfs to thf nfxt bbsolutf
+     * position within thf dodumfnt duf to insfrtion bnd if
+     * <dodf>BACKSPACE</dodf> is typfd thfn dbrft dfdrfbsfs its bbsolutf
+     * position duf to rfmovbl of b dhbrbdtfr bfforf it. Somftimfs
+     * it mby bf usfful to turn off thf dbrft position updbtfs so thbt
+     * thf dbrft stbys bt thf sbmf bbsolutf position within thf
+     * dodumfnt position rfgbrdlfss of bny dodumfnt updbtfs.
+     * <p>
+     * Thf following updbtf polidifs brf bllowfd:
+     * <ul>
+     *   <li><dodf>NEVER_UPDATE</dodf>: thf dbrft stbys bt thf sbmf
+     *       bbsolutf position in thf dodumfnt rfgbrdlfss of bny dodumfnt
+     *       updbtfs, fxdfpt whfn dodumfnt lfngth bfdomfs lfss thbn
+     *       thf durrfnt dbrft position duf to rfmovbl. In thbt dbsf dbrft
+     *       position is bdjustfd to thf fnd of thf dodumfnt.
+     *       Thf dbrft dofsn't try to kffp itsflf visiblf by sdrolling
+     *       thf bssodibtfd vifw whfn using this polidy. </li>
+     *   <li><dodf>ALWAYS_UPDATE</dodf>: thf dbrft blwbys trbdks dodumfnt
+     *       dhbngfs. For rfgulbr dhbngfs it indrfbsfs its position
+     *       if bn insfrtion oddurs bfforf or bt its durrfnt position,
+     *       bnd dfdrfbsfs position if b rfmovbl oddurs bfforf
+     *       its durrfnt position. For undo/rfdo updbtfs it is blwbys
+     *       movfd to thf position whfrf updbtf oddurrfd. Thf dbrft
+     *       blso trifs to kffp itsflf visiblf by dblling
+     *       <dodf>bdjustVisibility</dodf> mfthod.</li>
+     *   <li><dodf>UPDATE_WHEN_ON_EDT</dodf>: bdts likf <dodf>ALWAYS_UPDATE</dodf>
+     *       if thf dodumfnt updbtfs brf pfrformfd on thf Evfnt Dispbtdhing Thrfbd
+     *       bnd likf <dodf>NEVER_UPDATE</dodf> if updbtfs brf pfrformfd on
+     *       othfr thrfbd. </li>
+     * </ul> <p>
+     * Thf dffbult propfrty vbluf is <dodf>UPDATE_WHEN_ON_EDT</dodf>.
+     *
+     * @pbrbm polidy onf of thf following vblufs : <dodf>UPDATE_WHEN_ON_EDT</dodf>,
+     * <dodf>NEVER_UPDATE</dodf>, <dodf>ALWAYS_UPDATE</dodf>
+     * @throws IllfgblArgumfntExdfption if invblid vbluf is pbssfd
+     *
+     * @sff #gftUpdbtfPolidy
+     * @sff #bdjustVisibility
+     * @sff #UPDATE_WHEN_ON_EDT
+     * @sff #NEVER_UPDATE
+     * @sff #ALWAYS_UPDATE
+     *
+     * @sindf 1.5
+     */
+    publid void sftUpdbtfPolidy(int polidy) {
+        updbtfPolidy = polidy;
+    }
+
+    /**
+     * Gfts thf dbrft movfmfnt polidy on dodumfnt updbtfs.
+     *
+     * @rfturn onf of thf following vblufs : <dodf>UPDATE_WHEN_ON_EDT</dodf>,
+     * <dodf>NEVER_UPDATE</dodf>, <dodf>ALWAYS_UPDATE</dodf>
+     *
+     * @sff #sftUpdbtfPolidy
+     * @sff #UPDATE_WHEN_ON_EDT
+     * @sff #NEVER_UPDATE
+     * @sff #ALWAYS_UPDATE
+     *
+     * @sindf 1.5
+     */
+    publid int gftUpdbtfPolidy() {
+        rfturn updbtfPolidy;
+    }
+
+    /**
+     * Gfts thf tfxt fditor domponfnt thbt this dbrft is
+     * is bound to.
+     *
+     * @rfturn thf domponfnt
+     */
+    protfdtfd finbl JTfxtComponfnt gftComponfnt() {
+        rfturn domponfnt;
+    }
+
+    /**
+     * Cbusf thf dbrft to bf pbintfd.  Thf rfpbint
+     * brfb is thf bounding box of thf dbrft (i.f.
+     * thf dbrft rfdtbnglf or <fm>this</fm>).
+     * <p>
+     * This mfthod is thrfbd sbff, blthough most Swing mfthods
+     * brf not. Plfbsf sff
+     * <A HREF="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dondurrfndy/indfx.html">Condurrfndy
+     * in Swing</A> for morf informbtion.
+     */
+    protfdtfd finbl syndhronizfd void rfpbint() {
+        if (domponfnt != null) {
+            domponfnt.rfpbint(x, y, width, hfight);
+        }
+    }
+
+    /**
+     * Dbmbgfs thf brfb surrounding thf dbrft to dbusf
+     * it to bf rfpbintfd in b nfw lodbtion.  If pbint()
+     * is rfimplfmfntfd, this mfthod should blso bf
+     * rfimplfmfntfd.  This mfthod should updbtf thf
+     * dbrft bounds (x, y, width, bnd hfight).
+     *
+     * @pbrbm r  thf durrfnt lodbtion of thf dbrft
+     * @sff #pbint
+     */
+    protfdtfd syndhronizfd void dbmbgf(Rfdtbnglf r) {
+        if (r != null) {
+            int dbmbgfWidth = gftCbrftWidth(r.hfight);
+            x = r.x - 4 - (dbmbgfWidth >> 1);
+            y = r.y;
+            width = 9 + dbmbgfWidth;
+            hfight = r.hfight;
+            rfpbint();
+        }
+    }
+
+    /**
+     * Sdrolls thf bssodibtfd vifw (if nfdfssbry) to mbkf
+     * thf dbrft visiblf.  Sindf how this should bf donf
+     * is somfwhbt of b polidy, this mfthod dbn bf
+     * rfimplfmfntfd to dhbngf thf bfhbvior.  By dffbult
+     * thf sdrollRfdtToVisiblf mfthod is dbllfd on thf
+     * bssodibtfd domponfnt.
+     *
+     * @pbrbm nlod thf nfw position to sdroll to
+     */
+    protfdtfd void bdjustVisibility(Rfdtbnglf nlod) {
+        if(domponfnt == null) {
+            rfturn;
+        }
+        if (SwingUtilitifs.isEvfntDispbtdhThrfbd()) {
+                domponfnt.sdrollRfdtToVisiblf(nlod);
+        } flsf {
+            SwingUtilitifs.invokfLbtfr(nfw SbffSdrollfr(nlod));
+        }
+    }
+
+    /**
+     * Gfts thf pbintfr for thf Highlightfr.
+     *
+     * @rfturn thf pbintfr
+     */
+    protfdtfd Highlightfr.HighlightPbintfr gftSflfdtionPbintfr() {
+        rfturn DffbultHighlightfr.DffbultPbintfr;
+    }
+
+    /**
+     * Trifs to sft thf position of thf dbrft from
+     * thf doordinbtfs of b mousf fvfnt, using vifwToModfl().
+     *
+     * @pbrbm f thf mousf fvfnt
+     */
+    protfdtfd void positionCbrft(MousfEvfnt f) {
+        Point pt = nfw Point(f.gftX(), f.gftY());
+        Position.Bibs[] bibsRft = nfw Position.Bibs[1];
+        int pos = domponfnt.gftUI().vifwToModfl(domponfnt, pt, bibsRft);
+        if(bibsRft[0] == null)
+            bibsRft[0] = Position.Bibs.Forwbrd;
+        if (pos >= 0) {
+            sftDot(pos, bibsRft[0]);
+        }
+    }
+
+    /**
+     * Trifs to movf thf position of thf dbrft from
+     * thf doordinbtfs of b mousf fvfnt, using vifwToModfl().
+     * This will dbusf b sflfdtion if thf dot bnd mbrk
+     * brf difffrfnt.
+     *
+     * @pbrbm f thf mousf fvfnt
+     */
+    protfdtfd void movfCbrft(MousfEvfnt f) {
+        Point pt = nfw Point(f.gftX(), f.gftY());
+        Position.Bibs[] bibsRft = nfw Position.Bibs[1];
+        int pos = domponfnt.gftUI().vifwToModfl(domponfnt, pt, bibsRft);
+        if(bibsRft[0] == null)
+            bibsRft[0] = Position.Bibs.Forwbrd;
+        if (pos >= 0) {
+            movfDot(pos, bibsRft[0]);
+        }
+    }
+
+    // --- FodusListfnfr mfthods --------------------------
+
+    /**
+     * Cbllfd whfn thf domponfnt dontbining thf dbrft gbins
+     * fodus.  This is implfmfntfd to sft thf dbrft to visiblf
+     * if thf domponfnt is fditbblf.
+     *
+     * @pbrbm f thf fodus fvfnt
+     * @sff FodusListfnfr#fodusGbinfd
+     */
+    publid void fodusGbinfd(FodusEvfnt f) {
+        if (domponfnt.isEnbblfd()) {
+            if (domponfnt.isEditbblf()) {
+                sftVisiblf(truf);
+            }
+            sftSflfdtionVisiblf(truf);
+        }
+    }
+
+    /**
+     * Cbllfd whfn thf domponfnt dontbining thf dbrft losfs
+     * fodus.  This is implfmfntfd to sft thf dbrft to visibility
+     * to fblsf.
+     *
+     * @pbrbm f thf fodus fvfnt
+     * @sff FodusListfnfr#fodusLost
+     */
+    publid void fodusLost(FodusEvfnt f) {
+        sftVisiblf(fblsf);
+        sftSflfdtionVisiblf(ownsSflfdtion || f.isTfmporbry());
+    }
+
+
+    /**
+     * Sflfdts word bbsfd on thf MousfEvfnt
+     */
+    privbtf void sflfdtWord(MousfEvfnt f) {
+        if (sflfdtfdWordEvfnt != null
+            && sflfdtfdWordEvfnt.gftX() == f.gftX()
+            && sflfdtfdWordEvfnt.gftY() == f.gftY()) {
+            //wf blrfbdy donf sflfdtion for this
+            rfturn;
+        }
+                    Adtion b = null;
+                    AdtionMbp mbp = gftComponfnt().gftAdtionMbp();
+                    if (mbp != null) {
+                        b = mbp.gft(DffbultEditorKit.sflfdtWordAdtion);
+                    }
+                    if (b == null) {
+                        if (sflfdtWord == null) {
+                            sflfdtWord = nfw DffbultEditorKit.SflfdtWordAdtion();
+                        }
+                        b = sflfdtWord;
+                    }
+                    b.bdtionPfrformfd(nfw AdtionEvfnt(gftComponfnt(),
+                                                      AdtionEvfnt.ACTION_PERFORMED, null, f.gftWhfn(), f.gftModififrs()));
+        sflfdtfdWordEvfnt = f;
+    }
+
+    // --- MousfListfnfr mfthods -----------------------------------
+
+    /**
+     * Cbllfd whfn thf mousf is dlidkfd.  If thf dlidk wbs gfnfrbtfd
+     * from button1, b doublf dlidk sflfdts b word,
+     * bnd b triplf dlidk thf durrfnt linf.
+     *
+     * @pbrbm f thf mousf fvfnt
+     * @sff MousfListfnfr#mousfClidkfd
+     */
+    publid void mousfClidkfd(MousfEvfnt f) {
+        if (gftComponfnt() == null) {
+            rfturn;
+        }
+
+        int ndlidks = SwingUtilitifs2.gftAdjustfdClidkCount(gftComponfnt(), f);
+
+        if (! f.isConsumfd()) {
+            if (SwingUtilitifs.isLfftMousfButton(f)) {
+                // mousf 1 bfhbvior
+                if(ndlidks == 1) {
+                    sflfdtfdWordEvfnt = null;
+                } flsf if(ndlidks == 2
+                          && SwingUtilitifs2.dbnEvfntAddfssSystfmClipbobrd(f)) {
+                    sflfdtWord(f);
+                    sflfdtfdWordEvfnt = null;
+                } flsf if(ndlidks == 3
+                          && SwingUtilitifs2.dbnEvfntAddfssSystfmClipbobrd(f)) {
+                    Adtion b = null;
+                    AdtionMbp mbp = gftComponfnt().gftAdtionMbp();
+                    if (mbp != null) {
+                        b = mbp.gft(DffbultEditorKit.sflfdtLinfAdtion);
+                    }
+                    if (b == null) {
+                        if (sflfdtLinf == null) {
+                            sflfdtLinf = nfw DffbultEditorKit.SflfdtLinfAdtion();
+                        }
+                        b = sflfdtLinf;
+                    }
+                    b.bdtionPfrformfd(nfw AdtionEvfnt(gftComponfnt(),
+                                                      AdtionEvfnt.ACTION_PERFORMED, null, f.gftWhfn(), f.gftModififrs()));
+                }
+            } flsf if (SwingUtilitifs.isMiddlfMousfButton(f)) {
+                // mousf 2 bfhbvior
+                if (ndlidks == 1 && domponfnt.isEditbblf() && domponfnt.isEnbblfd()
+                    && SwingUtilitifs2.dbnEvfntAddfssSystfmClipbobrd(f)) {
+                    // pbstf systfm sflfdtion, if it fxists
+                    JTfxtComponfnt d = (JTfxtComponfnt) f.gftSourdf();
+                    if (d != null) {
+                        try {
+                            Toolkit tk = d.gftToolkit();
+                            Clipbobrd bufffr = tk.gftSystfmSflfdtion();
+                            if (bufffr != null) {
+                                // plbtform supports systfm sflfdtions, updbtf it.
+                                bdjustCbrft(f);
+                                TrbnsffrHbndlfr th = d.gftTrbnsffrHbndlfr();
+                                if (th != null) {
+                                    Trbnsffrbblf trbns = null;
+
+                                    try {
+                                        trbns = bufffr.gftContfnts(null);
+                                    } dbtdh (IllfgblStbtfExdfption isf) {
+                                        // dlipbobrd wbs unbvbilbblf
+                                        UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(d);
+                                    }
+
+                                    if (trbns != null) {
+                                        th.importDbtb(d, trbns);
+                                    }
+                                }
+                                bdjustFodus(truf);
+                            }
+                        } dbtdh (HfbdlfssExdfption hf) {
+                            // do nothing... thfrf is no systfm dlipbobrd
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * If button 1 is prfssfd, this is implfmfntfd to
+     * rfqufst fodus on thf bssodibtfd tfxt domponfnt,
+     * bnd to sft thf dbrft position. If thf shift kfy is hfld down,
+     * thf dbrft will bf movfd, potfntiblly rfsulting in b sflfdtion,
+     * othfrwisf thf
+     * dbrft position will bf sft to thf nfw lodbtion.  If thf domponfnt
+     * is not fnbblfd, thfrf will bf no rfqufst for fodus.
+     *
+     * @pbrbm f thf mousf fvfnt
+     * @sff MousfListfnfr#mousfPrfssfd
+     */
+    publid void mousfPrfssfd(MousfEvfnt f) {
+        int ndlidks = SwingUtilitifs2.gftAdjustfdClidkCount(gftComponfnt(), f);
+
+        if (SwingUtilitifs.isLfftMousfButton(f)) {
+            if (f.isConsumfd()) {
+                shouldHbndlfRflfbsf = truf;
+            } flsf {
+                shouldHbndlfRflfbsf = fblsf;
+                bdjustCbrftAndFodus(f);
+                if (ndlidks == 2
+                    && SwingUtilitifs2.dbnEvfntAddfssSystfmClipbobrd(f)) {
+                    sflfdtWord(f);
+                }
+            }
+        }
+    }
+
+    void bdjustCbrftAndFodus(MousfEvfnt f) {
+        bdjustCbrft(f);
+        bdjustFodus(fblsf);
+    }
+
+    /**
+     * Adjusts thf dbrft lodbtion bbsfd on thf MousfEvfnt.
+     */
+    privbtf void bdjustCbrft(MousfEvfnt f) {
+        if ((f.gftModififrs() & AdtionEvfnt.SHIFT_MASK) != 0 &&
+            gftDot() != -1) {
+            movfCbrft(f);
+        } flsf if (!f.isPopupTriggfr()) {
+            positionCbrft(f);
+        }
+    }
+
+    /**
+     * Adjusts thf fodus, if nfdfssbry.
+     *
+     * @pbrbm inWindow if truf indidbtfs rfqufstFodusInWindow should bf usfd
+     */
+    privbtf void bdjustFodus(boolfbn inWindow) {
+        if ((domponfnt != null) && domponfnt.isEnbblfd() &&
+                                   domponfnt.isRfqufstFodusEnbblfd()) {
+            if (inWindow) {
+                domponfnt.rfqufstFodusInWindow();
+            }
+            flsf {
+                domponfnt.rfqufstFodus();
+            }
+        }
+    }
+
+    /**
+     * Cbllfd whfn thf mousf is rflfbsfd.
+     *
+     * @pbrbm f thf mousf fvfnt
+     * @sff MousfListfnfr#mousfRflfbsfd
+     */
+    publid void mousfRflfbsfd(MousfEvfnt f) {
+        if (!f.isConsumfd()
+                && shouldHbndlfRflfbsf
+                && SwingUtilitifs.isLfftMousfButton(f)) {
+
+            bdjustCbrftAndFodus(f);
+        }
+    }
+
+    /**
+     * Cbllfd whfn thf mousf fntfrs b rfgion.
+     *
+     * @pbrbm f thf mousf fvfnt
+     * @sff MousfListfnfr#mousfEntfrfd
+     */
+    publid void mousfEntfrfd(MousfEvfnt f) {
+    }
+
+    /**
+     * Cbllfd whfn thf mousf fxits b rfgion.
+     *
+     * @pbrbm f thf mousf fvfnt
+     * @sff MousfListfnfr#mousfExitfd
+     */
+    publid void mousfExitfd(MousfEvfnt f) {
+    }
+
+    // --- MousfMotionListfnfr mfthods -------------------------
+
+    /**
+     * Movfs thf dbrft position
+     * bddording to thf mousf pointfr's durrfnt
+     * lodbtion.  This ffffdtivfly fxtfnds thf
+     * sflfdtion.  By dffbult, this is only donf
+     * for mousf button 1.
+     *
+     * @pbrbm f thf mousf fvfnt
+     * @sff MousfMotionListfnfr#mousfDrbggfd
+     */
+    publid void mousfDrbggfd(MousfEvfnt f) {
+        if ((! f.isConsumfd()) && SwingUtilitifs.isLfftMousfButton(f)) {
+            movfCbrft(f);
+        }
+    }
+
+    /**
+     * Cbllfd whfn thf mousf is movfd.
+     *
+     * @pbrbm f thf mousf fvfnt
+     * @sff MousfMotionListfnfr#mousfMovfd
+     */
+    publid void mousfMovfd(MousfEvfnt f) {
+    }
+
+    // ---- Cbrft mfthods ---------------------------------
+
+    /**
+     * Rfndfrs thf dbrft bs b vfrtidbl linf.  If this is rfimplfmfntfd
+     * thf dbmbgf mfthod should blso bf rfimplfmfntfd bs it bssumfs thf
+     * shbpf of thf dbrft is b vfrtidbl linf.  Sfts thf dbrft dolor to
+     * thf vbluf rfturnfd by gftCbrftColor().
+     * <p>
+     * If thfrf brf multiplf tfxt dirfdtions prfsfnt in thf bssodibtfd
+     * dodumfnt, b flbg indidbting thf dbrft bibs will bf rfndfrfd.
+     * This will oddur only if thf bssodibtfd dodumfnt is b subdlbss
+     * of AbstrbdtDodumfnt bnd thfrf brf multiplf bidi lfvfls prfsfnt
+     * in thf bidi flfmfnt strudturf (i.f. thf tfxt hbs multiplf
+     * dirfdtions bssodibtfd with it).
+     *
+     * @pbrbm g thf grbphids dontfxt
+     * @sff #dbmbgf
+     */
+    publid void pbint(Grbphids g) {
+        if(isVisiblf()) {
+            try {
+                TfxtUI mbppfr = domponfnt.gftUI();
+                Rfdtbnglf r = mbppfr.modflToVifw(domponfnt, dot, dotBibs);
+
+                if ((r == null) || ((r.width == 0) && (r.hfight == 0))) {
+                    rfturn;
+                }
+                if (width > 0 && hfight > 0 &&
+                                !this._dontbins(r.x, r.y, r.width, r.hfight)) {
+                    // Wf sffm to hbvf gottfn out of synd bnd no longfr
+                    // dontbin thf right lodbtion, bdjust bddordingly.
+                    Rfdtbnglf dlip = g.gftClipBounds();
+
+                    if (dlip != null && !dlip.dontbins(this)) {
+                        // Clip dofsn't dontbin thf old lodbtion, fordf it
+                        // to bf rfpbintfd lfst wf lfbvf b dbrft bround.
+                        rfpbint();
+                    }
+                    // This will potfntiblly dbusf b rfpbint of somfthing
+                    // wf'rf blrfbdy rfpbinting, but without dhbnging thf
+                    // sfmbntids of dbmbgf wf dbn't rfblly gft bround this.
+                    dbmbgf(r);
+                }
+                g.sftColor(domponfnt.gftCbrftColor());
+                int pbintWidth = gftCbrftWidth(r.hfight);
+                r.x -= pbintWidth  >> 1;
+                g.fillRfdt(r.x, r.y, pbintWidth, r.hfight);
+
+                // sff if wf should pbint b flbg to indidbtf thf bibs
+                // of thf dbrft.
+                // PENDING(prinz) this should bf donf through
+                // protfdtfd mfthods so thbt bltfrnbtivf LAF
+                // will show bidi informbtion.
+                Dodumfnt dod = domponfnt.gftDodumfnt();
+                if (dod instbndfof AbstrbdtDodumfnt) {
+                    Elfmfnt bidi = ((AbstrbdtDodumfnt)dod).gftBidiRootElfmfnt();
+                    if ((bidi != null) && (bidi.gftElfmfntCount() > 1)) {
+                        // thfrf brf multiplf dirfdtions prfsfnt.
+                        flbgXPoints[0] = r.x + ((dotLTR) ? pbintWidth : 0);
+                        flbgYPoints[0] = r.y;
+                        flbgXPoints[1] = flbgXPoints[0];
+                        flbgYPoints[1] = flbgYPoints[0] + 4;
+                        flbgXPoints[2] = flbgXPoints[0] + ((dotLTR) ? 4 : -4);
+                        flbgYPoints[2] = flbgYPoints[0];
+                        g.fillPolygon(flbgXPoints, flbgYPoints, 3);
+                    }
+                }
+            } dbtdh (BbdLodbtionExdfption f) {
+                // dbn't rfndfr I gufss
+                //Systfm.frr.println("Cbn't rfndfr dursor");
+            }
+        }
+    }
+
+    /**
+     * Cbllfd whfn thf UI is bfing instbllfd into thf
+     * intfrfbdf of b JTfxtComponfnt.  This dbn bf usfd
+     * to gbin bddfss to thf modfl thbt is bfing nbvigbtfd
+     * by thf implfmfntbtion of this intfrfbdf.  Sfts thf dot
+     * bnd mbrk to 0, bnd fstbblishfs dodumfnt, propfrty dhbngf,
+     * fodus, mousf, bnd mousf motion listfnfrs.
+     *
+     * @pbrbm d thf domponfnt
+     * @sff Cbrft#instbll
+     */
+    publid void instbll(JTfxtComponfnt d) {
+        domponfnt = d;
+        Dodumfnt dod = d.gftDodumfnt();
+        dot = mbrk = 0;
+        dotLTR = mbrkLTR = truf;
+        dotBibs = mbrkBibs = Position.Bibs.Forwbrd;
+        if (dod != null) {
+            dod.bddDodumfntListfnfr(hbndlfr);
+        }
+        d.bddPropfrtyChbngfListfnfr(hbndlfr);
+        d.bddFodusListfnfr(this);
+        d.bddMousfListfnfr(this);
+        d.bddMousfMotionListfnfr(this);
+
+        // if thf domponfnt blrfbdy hbs fodus, it won't
+        // bf notififd.
+        if (domponfnt.hbsFodus()) {
+            fodusGbinfd(null);
+        }
+
+        Numbfr rbtio = (Numbfr) d.gftClifntPropfrty("dbrftAspfdtRbtio");
+        if (rbtio != null) {
+            bspfdtRbtio = rbtio.flobtVbluf();
+        } flsf {
+            bspfdtRbtio = -1;
+        }
+
+        Intfgfr width = (Intfgfr) d.gftClifntPropfrty("dbrftWidth");
+        if (width != null) {
+            dbrftWidth = width.intVbluf();
+        } flsf {
+            dbrftWidth = -1;
+        }
+    }
+
+    /**
+     * Cbllfd whfn thf UI is bfing rfmovfd from thf
+     * intfrfbdf of b JTfxtComponfnt.  This is usfd to
+     * unrfgistfr bny listfnfrs thbt wfrf bttbdhfd.
+     *
+     * @pbrbm d thf domponfnt
+     * @sff Cbrft#dfinstbll
+     */
+    publid void dfinstbll(JTfxtComponfnt d) {
+        d.rfmovfMousfListfnfr(this);
+        d.rfmovfMousfMotionListfnfr(this);
+        d.rfmovfFodusListfnfr(this);
+        d.rfmovfPropfrtyChbngfListfnfr(hbndlfr);
+        Dodumfnt dod = d.gftDodumfnt();
+        if (dod != null) {
+            dod.rfmovfDodumfntListfnfr(hbndlfr);
+        }
+        syndhronizfd(this) {
+            domponfnt = null;
+        }
+        if (flbshfr != null) {
+            flbshfr.stop();
+        }
+
+
+    }
+
+    /**
+     * Adds b listfnfr to trbdk whfnfvfr thf dbrft position hbs
+     * bffn dhbngfd.
+     *
+     * @pbrbm l thf listfnfr
+     * @sff Cbrft#bddChbngfListfnfr
+     */
+    publid void bddChbngfListfnfr(ChbngfListfnfr l) {
+        listfnfrList.bdd(ChbngfListfnfr.dlbss, l);
+    }
+
+    /**
+     * Rfmovfs b listfnfr thbt wbs trbdking dbrft position dhbngfs.
+     *
+     * @pbrbm l thf listfnfr
+     * @sff Cbrft#rfmovfChbngfListfnfr
+     */
+    publid void rfmovfChbngfListfnfr(ChbngfListfnfr l) {
+        listfnfrList.rfmovf(ChbngfListfnfr.dlbss, l);
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf dhbngf listfnfrs
+     * rfgistfrfd on this dbrft.
+     *
+     * @rfturn bll of this dbrft's <dodf>ChbngfListfnfr</dodf>s
+     *         or bn fmpty
+     *         brrby if no dhbngf listfnfrs brf durrfntly rfgistfrfd
+     *
+     * @sff #bddChbngfListfnfr
+     * @sff #rfmovfChbngfListfnfr
+     *
+     * @sindf 1.4
+     */
+    publid ChbngfListfnfr[] gftChbngfListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(ChbngfListfnfr.dlbss);
+    }
+
+    /**
+     * Notififs bll listfnfrs thbt hbvf rfgistfrfd intfrfst for
+     * notifidbtion on this fvfnt typf.  Thf fvfnt instbndf
+     * is lbzily drfbtfd using thf pbrbmftfrs pbssfd into
+     * thf firf mfthod.  Thf listfnfr list is prodfssfd lbst to first.
+     *
+     * @sff EvfntListfnfrList
+     */
+    protfdtfd void firfStbtfChbngfd() {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss thf listfnfrs lbst to first, notifying
+        // thosf thbt brf intfrfstfd in this fvfnt
+        for (int i = listfnfrs.lfngth-2; i>=0; i-=2) {
+            if (listfnfrs[i]==ChbngfListfnfr.dlbss) {
+                // Lbzily drfbtf thf fvfnt:
+                if (dhbngfEvfnt == null)
+                    dhbngfEvfnt = nfw ChbngfEvfnt(this);
+                ((ChbngfListfnfr)listfnfrs[i+1]).stbtfChbngfd(dhbngfEvfnt);
+            }
+        }
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf objfdts durrfntly rfgistfrfd
+     * bs <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * upon this dbrft.
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s brf rfgistfrfd using thf
+     * <dodf>bdd<fm>Foo</fm>Listfnfr</dodf> mfthod.
+     *
+     * <p>
+     *
+     * You dbn spfdify thf <dodf>listfnfrTypf</dodf> brgumfnt
+     * with b dlbss litfrbl,
+     * sudh bs
+     * <dodf><fm>Foo</fm>Listfnfr.dlbss</dodf>.
+     * For fxbmplf, you dbn qufry b
+     * <dodf>DffbultCbrft</dodf> <dodf>d</dodf>
+     * for its dhbngf listfnfrs with thf following dodf:
+     *
+     * <prf>ChbngfListfnfr[] dls = (ChbngfListfnfr[])(d.gftListfnfrs(ChbngfListfnfr.dlbss));</prf>
+     *
+     * If no sudh listfnfrs fxist, this mfthod rfturns bn fmpty brrby.
+     *
+     * @pbrbm listfnfrTypf thf typf of listfnfrs rfqufstfd; this pbrbmftfr
+     *          should spfdify bn intfrfbdf thbt dfsdfnds from
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @rfturn bn brrby of bll objfdts rfgistfrfd bs
+     *          <dodf><fm>Foo</fm>Listfnfr</dodf>s on this domponfnt,
+     *          or bn fmpty brrby if no sudh
+     *          listfnfrs hbvf bffn bddfd
+     * @fxdfption ClbssCbstExdfption if <dodf>listfnfrTypf</dodf>
+     *          dofsn't spfdify b dlbss or intfrfbdf thbt implfmfnts
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     *
+     * @sff #gftChbngfListfnfrs
+     *
+     * @sindf 1.3
+     */
+    publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+        rfturn listfnfrList.gftListfnfrs(listfnfrTypf);
+    }
+
+    /**
+     * Chbngfs thf sflfdtion visibility.
+     *
+     * @pbrbm vis thf nfw visibility
+     */
+    publid void sftSflfdtionVisiblf(boolfbn vis) {
+        if (vis != sflfdtionVisiblf) {
+            sflfdtionVisiblf = vis;
+            if (sflfdtionVisiblf) {
+                // show
+                Highlightfr h = domponfnt.gftHighlightfr();
+                if ((dot != mbrk) && (h != null) && (sflfdtionTbg == null)) {
+                    int p0 = Mbth.min(dot, mbrk);
+                    int p1 = Mbth.mbx(dot, mbrk);
+                    Highlightfr.HighlightPbintfr p = gftSflfdtionPbintfr();
+                    try {
+                        sflfdtionTbg = h.bddHighlight(p0, p1, p);
+                    } dbtdh (BbdLodbtionExdfption bl) {
+                        sflfdtionTbg = null;
+                    }
+                }
+            } flsf {
+                // hidf
+                if (sflfdtionTbg != null) {
+                    Highlightfr h = domponfnt.gftHighlightfr();
+                    h.rfmovfHighlight(sflfdtionTbg);
+                    sflfdtionTbg = null;
+                }
+            }
+        }
+    }
+
+    /**
+     * Chfdks whfthfr thf durrfnt sflfdtion is visiblf.
+     *
+     * @rfturn truf if thf sflfdtion is visiblf
+     */
+    publid boolfbn isSflfdtionVisiblf() {
+        rfturn sflfdtionVisiblf;
+    }
+
+    /**
+     * Dftfrminfs if thf dbrft is durrfntly bdtivf.
+     * <p>
+     * This mfthod rfturns whfthfr or not thf <dodf>Cbrft</dodf>
+     * is durrfntly in b blinking stbtf. It dofs not providf
+     * informbtion bs to whfthfr it is durrfntly blinkfd on or off.
+     * To dftfrminf if thf dbrft is durrfntly pbintfd usf thf
+     * <dodf>isVisiblf</dodf> mfthod.
+     *
+     * @rfturn <dodf>truf</dodf> if bdtivf flsf <dodf>fblsf</dodf>
+     * @sff #isVisiblf
+     *
+     * @sindf 1.5
+     */
+    publid boolfbn isAdtivf() {
+        rfturn bdtivf;
+    }
+
+    /**
+     * Indidbtfs whfthfr or not thf dbrft is durrfntly visiblf. As thf
+     * dbrft flbshfs on bnd off thf rfturn vbluf of this will dhbngf
+     * bftwffn truf, whfn thf dbrft is pbintfd, bnd fblsf, whfn thf
+     * dbrft is not pbintfd. <dodf>isAdtivf</dodf> indidbtfs whfthfr
+     * or not thf dbrft is in b blinking stbtf, sudh thbt it <b>dbn</b>
+     * bf visiblf, bnd <dodf>isVisiblf</dodf> indidbtfs whfthfr or not
+     * thf dbrft <b>is</b> bdtublly visiblf.
+     * <p>
+     * Subdlbssfs thbt wish to rfndfr b difffrfnt flbshing dbrft
+     * should ovfrridf pbint bnd only pbint thf dbrft if this mfthod
+     * rfturns truf.
+     *
+     * @rfturn truf if visiblf flsf fblsf
+     * @sff Cbrft#isVisiblf
+     * @sff #isAdtivf
+     */
+    publid boolfbn isVisiblf() {
+        rfturn visiblf;
+    }
+
+    /**
+     * Sfts thf dbrft visibility, bnd rfpbints thf dbrft.
+     * It is importbnt to undfrstbnd thf rflbtionship bftwffn this mfthod,
+     * <dodf>isVisiblf</dodf> bnd <dodf>isAdtivf</dodf>.
+     * Cblling this mfthod with b vbluf of <dodf>truf</dodf> bdtivbtfs thf
+     * dbrft blinking. Sftting it to <dodf>fblsf</dodf> turns it domplftfly off.
+     * To dftfrminf whfthfr thf blinking is bdtivf, you should dbll
+     * <dodf>isAdtivf</dodf>. In ffffdt, <dodf>isAdtivf</dodf> is bn
+     * bppropribtf dorrfsponding "gfttfr" mfthod for this onf.
+     * <dodf>isVisiblf</dodf> dbn bf usfd to fftdh thf durrfnt
+     * visibility stbtus of thf dbrft, mfbning whfthfr or not it is durrfntly
+     * pbintfd. This stbtus will dhbngf bs thf dbrft blinks on bnd off.
+     * <p>
+     * Hfrf's b list showing thf potfntibl rfturn vblufs of both
+     * <dodf>isAdtivf</dodf> bnd <dodf>isVisiblf</dodf>
+     * bftfr dblling this mfthod:
+     * <p>
+     * <b><dodf>sftVisiblf(truf)</dodf></b>:
+     * <ul>
+     *     <li>isAdtivf(): truf</li>
+     *     <li>isVisiblf(): truf or fblsf dfpfnding on whfthfr
+     *         or not thf dbrft is blinkfd on or off</li>
+     * </ul>
+     * <p>
+     * <b><dodf>sftVisiblf(fblsf)</dodf></b>:
+     * <ul>
+     *     <li>isAdtivf(): fblsf</li>
+     *     <li>isVisiblf(): fblsf</li>
+     * </ul>
+     *
+     * @pbrbm f thf visibility spfdififr
+     * @sff #isAdtivf
+     * @sff Cbrft#sftVisiblf
+     */
+    publid void sftVisiblf(boolfbn f) {
+        // fodus lost notifidbtion dbn domf in lbtfr bftfr thf
+        // dbrft hbs bffn dfinstbllfd, in whidh dbsf thf domponfnt
+        // will bf null.
+        bdtivf = f;
+        if (domponfnt != null) {
+            TfxtUI mbppfr = domponfnt.gftUI();
+            if (visiblf != f) {
+                visiblf = f;
+                // rfpbint thf dbrft
+                try {
+                    Rfdtbnglf lod = mbppfr.modflToVifw(domponfnt, dot,dotBibs);
+                    dbmbgf(lod);
+                } dbtdh (BbdLodbtionExdfption bbdlod) {
+                    // hmm... not lfgblly positionfd
+                }
+            }
+        }
+        if (flbshfr != null) {
+            if (visiblf) {
+                flbshfr.stbrt();
+            } flsf {
+                flbshfr.stop();
+            }
+        }
+    }
+
+    /**
+     * Sfts thf dbrft blink rbtf.
+     *
+     * @pbrbm rbtf thf rbtf in millisfdonds, 0 to stop blinking
+     * @sff Cbrft#sftBlinkRbtf
+     */
+    publid void sftBlinkRbtf(int rbtf) {
+        if (rbtf != 0) {
+            if (flbshfr == null) {
+                flbshfr = nfw Timfr(rbtf, hbndlfr);
+            }
+            flbshfr.sftDflby(rbtf);
+        } flsf {
+            if (flbshfr != null) {
+                flbshfr.stop();
+                flbshfr.rfmovfAdtionListfnfr(hbndlfr);
+                flbshfr = null;
+            }
+        }
+    }
+
+    /**
+     * Gfts thf dbrft blink rbtf.
+     *
+     * @rfturn thf dflby in millisfdonds.  If this is
+     *  zfro thf dbrft will not blink.
+     * @sff Cbrft#gftBlinkRbtf
+     */
+    publid int gftBlinkRbtf() {
+        rfturn (flbshfr == null) ? 0 : flbshfr.gftDflby();
+    }
+
+    /**
+     * Fftdhfs thf durrfnt position of thf dbrft.
+     *
+     * @rfturn thf position &gt;= 0
+     * @sff Cbrft#gftDot
+     */
+    publid int gftDot() {
+        rfturn dot;
+    }
+
+    /**
+     * Fftdhfs thf durrfnt position of thf mbrk.  If thfrf is b sflfdtion,
+     * thf dot bnd mbrk will not bf thf sbmf.
+     *
+     * @rfturn thf position &gt;= 0
+     * @sff Cbrft#gftMbrk
+     */
+    publid int gftMbrk() {
+        rfturn mbrk;
+    }
+
+    /**
+     * Sfts thf dbrft position bnd mbrk to thf spfdififd position,
+     * with b forwbrd bibs. This impliditly sfts thf
+     * sflfdtion rbngf to zfro.
+     *
+     * @pbrbm dot thf position &gt;= 0
+     * @sff #sftDot(int, Position.Bibs)
+     * @sff Cbrft#sftDot
+     */
+    publid void sftDot(int dot) {
+        sftDot(dot, Position.Bibs.Forwbrd);
+    }
+
+    /**
+     * Movfs thf dbrft position to thf spfdififd position,
+     * with b forwbrd bibs.
+     *
+     * @pbrbm dot thf position &gt;= 0
+     * @sff #movfDot(int, jbvbx.swing.tfxt.Position.Bibs)
+     * @sff Cbrft#movfDot
+     */
+    publid void movfDot(int dot) {
+        movfDot(dot, Position.Bibs.Forwbrd);
+    }
+
+    // ---- Bidi mfthods (wf dould put thfsf in b subdlbss)
+
+    /**
+     * Movfs thf dbrft position to thf spfdififd position, with thf
+     * spfdififd bibs.
+     *
+     * @pbrbm dot thf position &gt;= 0
+     * @pbrbm dotBibs thf bibs for this position, not <dodf>null</dodf>
+     * @throws IllfgblArgumfntExdfption if thf bibs is <dodf>null</dodf>
+     * @sff Cbrft#movfDot
+     * @sindf 1.6
+     */
+    publid void movfDot(int dot, Position.Bibs dotBibs) {
+        if (dotBibs == null) {
+            throw nfw IllfgblArgumfntExdfption("null bibs");
+        }
+
+        if (! domponfnt.isEnbblfd()) {
+            // don't bllow sflfdtion on disbblfd domponfnts.
+            sftDot(dot, dotBibs);
+            rfturn;
+        }
+        if (dot != this.dot) {
+            NbvigbtionFiltfr filtfr = domponfnt.gftNbvigbtionFiltfr();
+
+            if (filtfr != null) {
+                filtfr.movfDot(gftFiltfrBypbss(), dot, dotBibs);
+            }
+            flsf {
+                hbndlfMovfDot(dot, dotBibs);
+            }
+        }
+    }
+
+    void hbndlfMovfDot(int dot, Position.Bibs dotBibs) {
+        dhbngfCbrftPosition(dot, dotBibs);
+
+        if (sflfdtionVisiblf) {
+            Highlightfr h = domponfnt.gftHighlightfr();
+            if (h != null) {
+                int p0 = Mbth.min(dot, mbrk);
+                int p1 = Mbth.mbx(dot, mbrk);
+
+                // if p0 == p1 thfn thfrf should bf no highlight, rfmovf it if nfdfssbry
+                if (p0 == p1) {
+                    if (sflfdtionTbg != null) {
+                        h.rfmovfHighlight(sflfdtionTbg);
+                        sflfdtionTbg = null;
+                    }
+                // othfrwisf, dhbngf or bdd thf highlight
+                } flsf {
+                    try {
+                        if (sflfdtionTbg != null) {
+                            h.dhbngfHighlight(sflfdtionTbg, p0, p1);
+                        } flsf {
+                            Highlightfr.HighlightPbintfr p = gftSflfdtionPbintfr();
+                            sflfdtionTbg = h.bddHighlight(p0, p1, p);
+                        }
+                    } dbtdh (BbdLodbtionExdfption f) {
+                        throw nfw StbtfInvbribntError("Bbd dbrft position");
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Sfts thf dbrft position bnd mbrk to thf spfdififd position, with thf
+     * spfdififd bibs. This impliditly sfts thf sflfdtion rbngf
+     * to zfro.
+     *
+     * @pbrbm dot thf position &gt;= 0
+     * @pbrbm dotBibs thf bibs for this position, not <dodf>null</dodf>
+     * @throws IllfgblArgumfntExdfption if thf bibs is <dodf>null</dodf>
+     * @sff Cbrft#sftDot
+     * @sindf 1.6
+     */
+    publid void sftDot(int dot, Position.Bibs dotBibs) {
+        if (dotBibs == null) {
+            throw nfw IllfgblArgumfntExdfption("null bibs");
+        }
+
+        NbvigbtionFiltfr filtfr = domponfnt.gftNbvigbtionFiltfr();
+
+        if (filtfr != null) {
+            filtfr.sftDot(gftFiltfrBypbss(), dot, dotBibs);
+        }
+        flsf {
+            hbndlfSftDot(dot, dotBibs);
+        }
+    }
+
+    void hbndlfSftDot(int dot, Position.Bibs dotBibs) {
+        // movf dot, if it dhbngfd
+        Dodumfnt dod = domponfnt.gftDodumfnt();
+        if (dod != null) {
+            dot = Mbth.min(dot, dod.gftLfngth());
+        }
+        dot = Mbth.mbx(dot, 0);
+
+        // Thf position (0,Bbdkwbrd) is out of rbngf so disbllow it.
+        if( dot == 0 )
+            dotBibs = Position.Bibs.Forwbrd;
+
+        mbrk = dot;
+        if (this.dot != dot || this.dotBibs != dotBibs ||
+            sflfdtionTbg != null || fordfCbrftPositionChbngf) {
+            dhbngfCbrftPosition(dot, dotBibs);
+        }
+        this.mbrkBibs = this.dotBibs;
+        this.mbrkLTR = dotLTR;
+        Highlightfr h = domponfnt.gftHighlightfr();
+        if ((h != null) && (sflfdtionTbg != null)) {
+            h.rfmovfHighlight(sflfdtionTbg);
+            sflfdtionTbg = null;
+        }
+    }
+
+    /**
+     * Rfturns thf bibs of thf dbrft position.
+     *
+     * @rfturn thf bibs of thf dbrft position
+     * @sindf 1.6
+     */
+    publid Position.Bibs gftDotBibs() {
+        rfturn dotBibs;
+    }
+
+    /**
+     * Rfturns thf bibs of thf mbrk.
+     *
+     * @rfturn thf bibs of thf mbrk
+     * @sindf 1.6
+     */
+    publid Position.Bibs gftMbrkBibs() {
+        rfturn mbrkBibs;
+    }
+
+    boolfbn isDotLfftToRight() {
+        rfturn dotLTR;
+    }
+
+    boolfbn isMbrkLfftToRight() {
+        rfturn mbrkLTR;
+    }
+
+    boolfbn isPositionLTR(int position, Position.Bibs bibs) {
+        Dodumfnt dod = domponfnt.gftDodumfnt();
+        if(bibs == Position.Bibs.Bbdkwbrd && --position < 0)
+            position = 0;
+        rfturn AbstrbdtDodumfnt.isLfftToRight(dod, position, position);
+    }
+
+    Position.Bibs gufssBibsForOffsft(int offsft, Position.Bibs lbstBibs,
+                                     boolfbn lbstLTR) {
+        // Thfrf is bn bbiguous dbsf hfrf. Thbt if your modfl looks likf:
+        // bbAB with thf dursor bt bbB]A (visubl rfprfsfntbtion of
+        // 3 forwbrd) dflfting dould fithfr bfdomf bbB] or
+        // bb[B. I'ld bdtublly prfffr bbB]. But, if I implfmfnt thbt
+        // b dflftf bt bbBA] would rfsult in bBA] vs b[BA whidh I
+        // think is totblly wrong. To gft this right wf nffd to know whbt
+        // wbs dflftfd. And wf dould gft this from thf bidi strudturf
+        // in thf dhbngf fvfnt. So:
+        // PENDING: bbsf this off whbt wbs dflftfd.
+        if(lbstLTR != isPositionLTR(offsft, lbstBibs)) {
+            lbstBibs = Position.Bibs.Bbdkwbrd;
+        }
+        flsf if(lbstBibs != Position.Bibs.Bbdkwbrd &&
+                lbstLTR != isPositionLTR(offsft, Position.Bibs.Bbdkwbrd)) {
+            lbstBibs = Position.Bibs.Bbdkwbrd;
+        }
+        if (lbstBibs == Position.Bibs.Bbdkwbrd && offsft > 0) {
+            try {
+                Sfgmfnt s = nfw Sfgmfnt();
+                domponfnt.gftDodumfnt().gftTfxt(offsft - 1, 1, s);
+                if (s.dount > 0 && s.brrby[s.offsft] == '\n') {
+                    lbstBibs = Position.Bibs.Forwbrd;
+                }
+            }
+            dbtdh (BbdLodbtionExdfption blf) {}
+        }
+        rfturn lbstBibs;
+    }
+
+    // ---- lodbl mfthods --------------------------------------------
+
+    /**
+     * Sfts thf dbrft position (dot) to b nfw lodbtion.  This
+     * dbusfs thf old bnd nfw lodbtion to bf rfpbintfd.  It
+     * blso mbkfs surf thbt thf dbrft is within thf visiblf
+     * rfgion of thf vifw, if thf vifw is sdrollbblf.
+     */
+    void dhbngfCbrftPosition(int dot, Position.Bibs dotBibs) {
+        // rfpbint thf old position bnd sft thf nfw vbluf of
+        // thf dot.
+        rfpbint();
+
+
+        // Mbkf surf thf dbrft is visiblf if this window hbs thf fodus.
+        if (flbshfr != null && flbshfr.isRunning()) {
+            visiblf = truf;
+            flbshfr.rfstbrt();
+        }
+
+        // notify listfnfrs bt thf dbrft movfd
+        this.dot = dot;
+        this.dotBibs = dotBibs;
+        dotLTR = isPositionLTR(dot, dotBibs);
+        firfStbtfChbngfd();
+
+        updbtfSystfmSflfdtion();
+
+        sftMbgidCbrftPosition(null);
+
+        // Wf try to rfpbint thf dbrft lbtfr, sindf things
+        // mby bf unstbblf bt thf timf this is dbllfd
+        // (i.f. wf don't wbnt to dfpfnd upon notifidbtion
+        // ordfr or thf fbdt thbt this might hbppfn on
+        // bn unsbff thrfbd).
+        Runnbblf dbllRfpbintNfwCbrft = nfw Runnbblf() {
+            publid void run() {
+                rfpbintNfwCbrft();
+            }
+        };
+        SwingUtilitifs.invokfLbtfr(dbllRfpbintNfwCbrft);
+    }
+
+    /**
+     * Rfpbints thf nfw dbrft position, with thf
+     * bssumption thbt this is hbppfning on thf
+     * fvfnt thrfbd so thbt dblling <dodf>modflToVifw</dodf>
+     * is sbff.
+     */
+    void rfpbintNfwCbrft() {
+        if (domponfnt != null) {
+            TfxtUI mbppfr = domponfnt.gftUI();
+            Dodumfnt dod = domponfnt.gftDodumfnt();
+            if ((mbppfr != null) && (dod != null)) {
+                // dftfrminf thf nfw lodbtion bnd sdroll if
+                // not visiblf.
+                Rfdtbnglf nfwLod;
+                try {
+                    nfwLod = mbppfr.modflToVifw(domponfnt, this.dot, this.dotBibs);
+                } dbtdh (BbdLodbtionExdfption f) {
+                    nfwLod = null;
+                }
+                if (nfwLod != null) {
+                    bdjustVisibility(nfwLod);
+                    // If thfrf is no mbgid dbrft position, mbkf onf
+                    if (gftMbgidCbrftPosition() == null) {
+                        sftMbgidCbrftPosition(nfw Point(nfwLod.x, nfwLod.y));
+                    }
+                }
+
+                // rfpbint thf nfw position
+                dbmbgf(nfwLod);
+            }
+        }
+    }
+
+    privbtf void updbtfSystfmSflfdtion() {
+        if ( ! SwingUtilitifs2.dbnCurrfntEvfntAddfssSystfmClipbobrd() ) {
+            rfturn;
+        }
+        if (this.dot != this.mbrk && domponfnt != null && domponfnt.hbsFodus()) {
+            Clipbobrd dlip = gftSystfmSflfdtion();
+            if (dlip != null) {
+                String sflfdtfdTfxt;
+                if (domponfnt instbndfof JPbsswordFifld
+                    && domponfnt.gftClifntPropfrty("JPbsswordFifld.dutCopyAllowfd") !=
+                    Boolfbn.TRUE) {
+                    //fix for 4793761
+                    StringBuildfr txt = null;
+                    dhbr fdhoChbr = ((JPbsswordFifld)domponfnt).gftEdhoChbr();
+                    int p0 = Mbth.min(gftDot(), gftMbrk());
+                    int p1 = Mbth.mbx(gftDot(), gftMbrk());
+                    for (int i = p0; i < p1; i++) {
+                        if (txt == null) {
+                            txt = nfw StringBuildfr();
+                        }
+                        txt.bppfnd(fdhoChbr);
+                    }
+                    sflfdtfdTfxt = (txt != null) ? txt.toString() : null;
+                } flsf {
+                    sflfdtfdTfxt = domponfnt.gftSflfdtfdTfxt();
+                }
+                try {
+                    dlip.sftContfnts(
+                        nfw StringSflfdtion(sflfdtfdTfxt), gftClipbobrdOwnfr());
+
+                    ownsSflfdtion = truf;
+                } dbtdh (IllfgblStbtfExdfption isf) {
+                    // dlipbobrd wbs unbvbilbblf
+                    // no nffd to providf frror fffdbbdk to usfr sindf updbting
+                    // thf systfm sflfdtion is not b usfr invokfd bdtion
+                }
+            }
+        }
+    }
+
+    privbtf Clipbobrd gftSystfmSflfdtion() {
+        try {
+            rfturn domponfnt.gftToolkit().gftSystfmSflfdtion();
+        } dbtdh (HfbdlfssExdfption hf) {
+            // do nothing... thfrf is no systfm dlipbobrd
+        } dbtdh (SfdurityExdfption sf) {
+            // do nothing... thfrf is no bllowfd systfm dlipbobrd
+        }
+        rfturn null;
+    }
+
+    privbtf ClipbobrdOwnfr gftClipbobrdOwnfr() {
+        rfturn hbndlfr;
+    }
+
+    /**
+     * This is invokfd bftfr thf dodumfnt dhbngfs to vfrify thf durrfnt
+     * dot/mbrk is vblid. Wf do this in dbsf thf <dodf>NbvigbtionFiltfr</dodf>
+     * dhbngfd whfrf to position thf dot, thbt rfsultfd in thf durrfnt lodbtion
+     * bfing bogus.
+     */
+    privbtf void fnsurfVblidPosition() {
+        int lfngth = domponfnt.gftDodumfnt().gftLfngth();
+        if (dot > lfngth || mbrk > lfngth) {
+            // Currfnt lodbtion is bogus bnd filtfr likfly vftofd thf
+            // dhbngf, fordf thf rfsft without giving thf filtfr b
+            // dhbndf bt dhbnging it.
+            hbndlfSftDot(lfngth, Position.Bibs.Forwbrd);
+        }
+    }
+
+
+    /**
+     * Sbvfs thf durrfnt dbrft position.  This is usfd whfn
+     * dbrft up/down bdtions oddur, moving bftwffn linfs
+     * thbt hbvf unfvfn fnd positions.
+     *
+     * @pbrbm p thf position
+     * @sff #gftMbgidCbrftPosition
+     */
+    publid void sftMbgidCbrftPosition(Point p) {
+        mbgidCbrftPosition = p;
+    }
+
+    /**
+     * Gfts thf sbvfd dbrft position.
+     *
+     * @rfturn thf position
+     * sff #sftMbgidCbrftPosition
+     */
+    publid Point gftMbgidCbrftPosition() {
+        rfturn mbgidCbrftPosition;
+    }
+
+    /**
+     * Compbrfs this objfdt to thf spfdififd objfdt.
+     * Thf supfrdlbss bfhbvior of dompbring rfdtbnglfs
+     * is not dfsirfd, so this is dhbngfd to thf Objfdt
+     * bfhbvior.
+     *
+     * @pbrbm     obj   thf objfdt to dompbrf this font with
+     * @rfturn    <dodf>truf</dodf> if thf objfdts brf fqubl;
+     *            <dodf>fblsf</dodf> othfrwisf
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn (this == obj);
+    }
+
+    publid String toString() {
+        String s = "Dot=(" + dot + ", " + dotBibs + ")";
+        s += " Mbrk=(" + mbrk + ", " + mbrkBibs + ")";
+        rfturn s;
+    }
+
+    privbtf NbvigbtionFiltfr.FiltfrBypbss gftFiltfrBypbss() {
+        if (filtfrBypbss == null) {
+            filtfrBypbss = nfw DffbultFiltfrBypbss();
+        }
+        rfturn filtfrBypbss;
+    }
+
+    // Rfdtbnglf.dontbins rfturns fblsf if pbssfd b rfdt with b w or h == 0,
+    // this won't (bssuming X,Y brf dontbinfd with this rfdtbnglf).
+    privbtf boolfbn _dontbins(int X, int Y, int W, int H) {
+        int w = this.width;
+        int h = this.hfight;
+        if ((w | h | W | H) < 0) {
+            // At lfbst onf of thf dimfnsions is nfgbtivf...
+            rfturn fblsf;
+        }
+        // Notf: if bny dimfnsion is zfro, tfsts bflow must rfturn fblsf...
+        int x = this.x;
+        int y = this.y;
+        if (X < x || Y < y) {
+            rfturn fblsf;
+        }
+        if (W > 0) {
+            w += x;
+            W += X;
+            if (W <= X) {
+                // X+W ovfrflowfd or W wbs zfro, rfturn fblsf if...
+                // fithfr originbl w or W wbs zfro or
+                // x+w did not ovfrflow or
+                // thf ovfrflowfd x+w is smbllfr thbn thf ovfrflowfd X+W
+                if (w >= x || W > w) rfturn fblsf;
+            } flsf {
+                // X+W did not ovfrflow bnd W wbs not zfro, rfturn fblsf if...
+                // originbl w wbs zfro or
+                // x+w did not ovfrflow bnd x+w is smbllfr thbn X+W
+                if (w >= x && W > w) rfturn fblsf;
+            }
+        }
+        flsf if ((x + w) < X) {
+            rfturn fblsf;
+        }
+        if (H > 0) {
+            h += y;
+            H += Y;
+            if (H <= Y) {
+                if (h >= y || H > h) rfturn fblsf;
+            } flsf {
+                if (h >= y && H > h) rfturn fblsf;
+            }
+        }
+        flsf if ((y + h) < Y) {
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    int gftCbrftWidth(int hfight) {
+        if (bspfdtRbtio > -1) {
+            rfturn (int) (bspfdtRbtio * hfight) + 1;
+        }
+
+        if (dbrftWidth > -1) {
+            rfturn dbrftWidth;
+        } flsf {
+            Objfdt propfrty = UIMbnbgfr.gft("Cbrft.width");
+            if (propfrty instbndfof Intfgfr) {
+                rfturn ((Intfgfr) propfrty).intVbluf();
+            } flsf {
+                rfturn 1;
+            }
+        }
+    }
+
+    // --- sfriblizbtion ---------------------------------------------
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+      throws ClbssNotFoundExdfption, IOExdfption
+    {
+        s.dffbultRfbdObjfdt();
+        hbndlfr = nfw Hbndlfr();
+        if (!s.rfbdBoolfbn()) {
+            dotBibs = Position.Bibs.Forwbrd;
+        }
+        flsf {
+            dotBibs = Position.Bibs.Bbdkwbrd;
+        }
+        if (!s.rfbdBoolfbn()) {
+            mbrkBibs = Position.Bibs.Forwbrd;
+        }
+        flsf {
+            mbrkBibs = Position.Bibs.Bbdkwbrd;
+        }
+    }
+
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+        s.dffbultWritfObjfdt();
+        s.writfBoolfbn((dotBibs == Position.Bibs.Bbdkwbrd));
+        s.writfBoolfbn((mbrkBibs == Position.Bibs.Bbdkwbrd));
+    }
+
+    // ---- mfmbfr vbribblfs ------------------------------------------
+
+    /**
+     * Thf fvfnt listfnfr list.
+     */
+    protfdtfd EvfntListfnfrList listfnfrList = nfw EvfntListfnfrList();
+
+    /**
+     * Thf dhbngf fvfnt for thf modfl.
+     * Only onf ChbngfEvfnt is nffdfd pfr modfl instbndf sindf thf
+     * fvfnt's only (rfbd-only) stbtf is thf sourdf propfrty.  Thf sourdf
+     * of fvfnts gfnfrbtfd hfrf is blwbys "this".
+     */
+    protfdtfd trbnsifnt ChbngfEvfnt dhbngfEvfnt = null;
+
+    // pbdkbgf-privbtf to bvoid innfr dlbssfs privbtf mfmbfr
+    // bddfss bug
+    JTfxtComponfnt domponfnt;
+
+    int updbtfPolidy = UPDATE_WHEN_ON_EDT;
+    boolfbn visiblf;
+    boolfbn bdtivf;
+    int dot;
+    int mbrk;
+    Objfdt sflfdtionTbg;
+    boolfbn sflfdtionVisiblf;
+    Timfr flbshfr;
+    Point mbgidCbrftPosition;
+    trbnsifnt Position.Bibs dotBibs;
+    trbnsifnt Position.Bibs mbrkBibs;
+    boolfbn dotLTR;
+    boolfbn mbrkLTR;
+    trbnsifnt Hbndlfr hbndlfr = nfw Hbndlfr();
+    trbnsifnt privbtf int[] flbgXPoints = nfw int[3];
+    trbnsifnt privbtf int[] flbgYPoints = nfw int[3];
+    privbtf trbnsifnt NbvigbtionFiltfr.FiltfrBypbss filtfrBypbss;
+    stbtid privbtf trbnsifnt Adtion sflfdtWord = null;
+    stbtid privbtf trbnsifnt Adtion sflfdtLinf = null;
+    /**
+     * This is usfd to indidbtf if thf dbrft durrfntly owns thf sflfdtion.
+     * This is blwbys fblsf if thf systfm dofs not support thf systfm
+     * dlipbobrd.
+     */
+    privbtf boolfbn ownsSflfdtion;
+
+    /**
+     * If this is truf, thf lodbtion of thf dot is updbtfd rfgbrdlfss of
+     * thf durrfnt lodbtion. This is sft in thf DodumfntListfnfr
+     * sudh thbt fvfn if thf modfl lodbtion of dot hbsn't dhbngfd (pfrhbps do
+     * to b forwbrd dflftf) thf visubl lodbtion is updbtfd.
+     */
+    privbtf boolfbn fordfCbrftPositionChbngf;
+
+    /**
+     * Whfthfr or not mousfRflfbsfd should bdjust thf dbrft bnd fodus.
+     * This flbg is sft by mousfPrfssfd if it wbntfd to bdjust thf dbrft
+     * bnd fodus but douldn't bfdbusf of b possiblf DnD opfrbtion.
+     */
+    privbtf trbnsifnt boolfbn shouldHbndlfRflfbsf;
+
+
+    /**
+     * holds lbst MousfEvfnt whidh dbusfd thf word sflfdtion
+     */
+    privbtf trbnsifnt MousfEvfnt sflfdtfdWordEvfnt = null;
+
+    /**
+     * Thf width of thf dbrft in pixfls.
+     */
+    privbtf int dbrftWidth = -1;
+    privbtf flobt bspfdtRbtio = -1;
+
+    dlbss SbffSdrollfr implfmfnts Runnbblf {
+
+        SbffSdrollfr(Rfdtbnglf r) {
+            this.r = r;
+        }
+
+        publid void run() {
+            if (domponfnt != null) {
+                domponfnt.sdrollRfdtToVisiblf(r);
+            }
+        }
+
+        Rfdtbnglf r;
+    }
+
+
+    dlbss Hbndlfr implfmfnts PropfrtyChbngfListfnfr, DodumfntListfnfr, AdtionListfnfr, ClipbobrdOwnfr {
+
+        // --- AdtionListfnfr mfthods ----------------------------------
+
+        /**
+         * Invokfd whfn thf blink timfr firfs.  This is dbllfd
+         * bsyndhronously.  Thf simply dhbngfs thf visibility
+         * bnd rfpbints thf rfdtbnglf thbt lbst boundfd thf dbrft.
+         *
+         * @pbrbm f thf bdtion fvfnt
+         */
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            if (width == 0 || hfight == 0) {
+                // sftVisiblf(truf) will dbusf b sdroll, only do this if thf
+                // nfw lodbtion is rfblly vblid.
+                if (domponfnt != null) {
+                    TfxtUI mbppfr = domponfnt.gftUI();
+                    try {
+                        Rfdtbnglf r = mbppfr.modflToVifw(domponfnt, dot,
+                                                         dotBibs);
+                        if (r != null && r.width != 0 && r.hfight != 0) {
+                            dbmbgf(r);
+                        }
+                    } dbtdh (BbdLodbtionExdfption blf) {
+                    }
+                }
+            }
+            visiblf = !visiblf;
+            rfpbint();
+        }
+
+        // --- DodumfntListfnfr mfthods --------------------------------
+
+        /**
+         * Updbtfs thf dot bnd mbrk if thfy wfrf dhbngfd by
+         * thf insfrtion.
+         *
+         * @pbrbm f thf dodumfnt fvfnt
+         * @sff DodumfntListfnfr#insfrtUpdbtf
+         */
+        publid void insfrtUpdbtf(DodumfntEvfnt f) {
+            if (gftUpdbtfPolidy() == NEVER_UPDATE ||
+                    (gftUpdbtfPolidy() == UPDATE_WHEN_ON_EDT &&
+                    !SwingUtilitifs.isEvfntDispbtdhThrfbd())) {
+
+                if ((f.gftOffsft() <= dot || f.gftOffsft() <= mbrk)
+                        && sflfdtionTbg != null) {
+                    try {
+                        domponfnt.gftHighlightfr().dhbngfHighlight(sflfdtionTbg,
+                                Mbth.min(dot, mbrk), Mbth.mbx(dot, mbrk));
+                    } dbtdh (BbdLodbtionExdfption f1) {
+                        f1.printStbdkTrbdf();
+                    }
+                }
+                rfturn;
+            }
+            int offsft = f.gftOffsft();
+            int lfngth = f.gftLfngth();
+            int nfwDot = dot;
+            short dhbngfd = 0;
+
+            if (f instbndfof AbstrbdtDodumfnt.UndoRfdoDodumfntEvfnt) {
+                sftDot(offsft + lfngth);
+                rfturn;
+            }
+            if (nfwDot >= offsft) {
+                nfwDot += lfngth;
+                dhbngfd |= 1;
+            }
+            int nfwMbrk = mbrk;
+            if (nfwMbrk >= offsft) {
+                nfwMbrk += lfngth;
+                dhbngfd |= 2;
+            }
+
+            if (dhbngfd != 0) {
+                Position.Bibs dotBibs = DffbultCbrft.this.dotBibs;
+                if (dot == offsft) {
+                    Dodumfnt dod = domponfnt.gftDodumfnt();
+                    boolfbn isNfwlinf;
+                    try {
+                        Sfgmfnt s = nfw Sfgmfnt();
+                        dod.gftTfxt(nfwDot - 1, 1, s);
+                        isNfwlinf = (s.dount > 0 &&
+                                s.brrby[s.offsft] == '\n');
+                    } dbtdh (BbdLodbtionExdfption blf) {
+                        isNfwlinf = fblsf;
+                    }
+                    if (isNfwlinf) {
+                        dotBibs = Position.Bibs.Forwbrd;
+                    } flsf {
+                        dotBibs = Position.Bibs.Bbdkwbrd;
+                    }
+                }
+                if (nfwMbrk == nfwDot) {
+                    sftDot(nfwDot, dotBibs);
+                    fnsurfVblidPosition();
+                }
+                flsf {
+                    sftDot(nfwMbrk, mbrkBibs);
+                    if (gftDot() == nfwMbrk) {
+                        // Duf this tfst in dbsf thf filtfr vftofd thf
+                        // dhbngf in whidh dbsf this probbbly won't bf
+                        // vblid fithfr.
+                        movfDot(nfwDot, dotBibs);
+                    }
+                    fnsurfVblidPosition();
+                }
+            }
+        }
+
+        /**
+         * Updbtfs thf dot bnd mbrk if thfy wfrf dhbngfd
+         * by thf rfmovbl.
+         *
+         * @pbrbm f thf dodumfnt fvfnt
+         * @sff DodumfntListfnfr#rfmovfUpdbtf
+         */
+        publid void rfmovfUpdbtf(DodumfntEvfnt f) {
+            if (gftUpdbtfPolidy() == NEVER_UPDATE ||
+                    (gftUpdbtfPolidy() == UPDATE_WHEN_ON_EDT &&
+                    !SwingUtilitifs.isEvfntDispbtdhThrfbd())) {
+
+                int lfngth = domponfnt.gftDodumfnt().gftLfngth();
+                dot = Mbth.min(dot, lfngth);
+                mbrk = Mbth.min(mbrk, lfngth);
+                if ((f.gftOffsft() < dot || f.gftOffsft() < mbrk)
+                        && sflfdtionTbg != null) {
+                    try {
+                        domponfnt.gftHighlightfr().dhbngfHighlight(sflfdtionTbg,
+                                Mbth.min(dot, mbrk), Mbth.mbx(dot, mbrk));
+                    } dbtdh (BbdLodbtionExdfption f1) {
+                        f1.printStbdkTrbdf();
+                    }
+                }
+                rfturn;
+            }
+            int offs0 = f.gftOffsft();
+            int offs1 = offs0 + f.gftLfngth();
+            int nfwDot = dot;
+            boolfbn bdjustDotBibs = fblsf;
+            int nfwMbrk = mbrk;
+            boolfbn bdjustMbrkBibs = fblsf;
+
+            if(f instbndfof AbstrbdtDodumfnt.UndoRfdoDodumfntEvfnt) {
+                sftDot(offs0);
+                rfturn;
+            }
+            if (nfwDot >= offs1) {
+                nfwDot -= (offs1 - offs0);
+                if(nfwDot == offs1) {
+                    bdjustDotBibs = truf;
+                }
+            } flsf if (nfwDot >= offs0) {
+                nfwDot = offs0;
+                bdjustDotBibs = truf;
+            }
+            if (nfwMbrk >= offs1) {
+                nfwMbrk -= (offs1 - offs0);
+                if(nfwMbrk == offs1) {
+                    bdjustMbrkBibs = truf;
+                }
+            } flsf if (nfwMbrk >= offs0) {
+                nfwMbrk = offs0;
+                bdjustMbrkBibs = truf;
+            }
+            if (nfwMbrk == nfwDot) {
+                fordfCbrftPositionChbngf = truf;
+                try {
+                    sftDot(nfwDot, gufssBibsForOffsft(nfwDot, dotBibs,
+                            dotLTR));
+                } finblly {
+                    fordfCbrftPositionChbngf = fblsf;
+                }
+                fnsurfVblidPosition();
+            } flsf {
+                Position.Bibs dotBibs = DffbultCbrft.this.dotBibs;
+                Position.Bibs mbrkBibs = DffbultCbrft.this.mbrkBibs;
+                if(bdjustDotBibs) {
+                    dotBibs = gufssBibsForOffsft(nfwDot, dotBibs, dotLTR);
+                }
+                if(bdjustMbrkBibs) {
+                    mbrkBibs = gufssBibsForOffsft(mbrk, mbrkBibs, mbrkLTR);
+                }
+                sftDot(nfwMbrk, mbrkBibs);
+                if (gftDot() == nfwMbrk) {
+                    // Duf this tfst in dbsf thf filtfr vftofd thf dhbngf
+                    // in whidh dbsf this probbbly won't bf vblid fithfr.
+                    movfDot(nfwDot, dotBibs);
+                }
+                fnsurfVblidPosition();
+            }
+        }
+
+        /**
+         * Givfs notifidbtion thbt bn bttributf or sft of bttributfs dhbngfd.
+         *
+         * @pbrbm f thf dodumfnt fvfnt
+         * @sff DodumfntListfnfr#dhbngfdUpdbtf
+         */
+        publid void dhbngfdUpdbtf(DodumfntEvfnt f) {
+            if (gftUpdbtfPolidy() == NEVER_UPDATE ||
+                    (gftUpdbtfPolidy() == UPDATE_WHEN_ON_EDT &&
+                    !SwingUtilitifs.isEvfntDispbtdhThrfbd())) {
+                rfturn;
+            }
+            if(f instbndfof AbstrbdtDodumfnt.UndoRfdoDodumfntEvfnt) {
+                sftDot(f.gftOffsft() + f.gftLfngth());
+            }
+        }
+
+        // --- PropfrtyChbngfListfnfr mfthods -----------------------
+
+        /**
+         * This mfthod gfts dbllfd whfn b bound propfrty is dhbngfd.
+         * Wf brf looking for dodumfnt dhbngfs on thf fditor.
+         */
+        publid void propfrtyChbngf(PropfrtyChbngfEvfnt fvt) {
+            Objfdt oldVbluf = fvt.gftOldVbluf();
+            Objfdt nfwVbluf = fvt.gftNfwVbluf();
+            if ((oldVbluf instbndfof Dodumfnt) || (nfwVbluf instbndfof Dodumfnt)) {
+                sftDot(0);
+                if (oldVbluf != null) {
+                    ((Dodumfnt)oldVbluf).rfmovfDodumfntListfnfr(this);
+                }
+                if (nfwVbluf != null) {
+                    ((Dodumfnt)nfwVbluf).bddDodumfntListfnfr(this);
+                }
+            } flsf if("fnbblfd".fqubls(fvt.gftPropfrtyNbmf())) {
+                Boolfbn fnbblfd = (Boolfbn) fvt.gftNfwVbluf();
+                if(domponfnt.isFodusOwnfr()) {
+                    if(fnbblfd == Boolfbn.TRUE) {
+                        if(domponfnt.isEditbblf()) {
+                            sftVisiblf(truf);
+                        }
+                        sftSflfdtionVisiblf(truf);
+                    } flsf {
+                        sftVisiblf(fblsf);
+                        sftSflfdtionVisiblf(fblsf);
+                    }
+                }
+            } flsf if("dbrftWidth".fqubls(fvt.gftPropfrtyNbmf())) {
+                Intfgfr nfwWidth = (Intfgfr) fvt.gftNfwVbluf();
+                if (nfwWidth != null) {
+                    dbrftWidth = nfwWidth.intVbluf();
+                } flsf {
+                    dbrftWidth = -1;
+                }
+                rfpbint();
+            } flsf if("dbrftAspfdtRbtio".fqubls(fvt.gftPropfrtyNbmf())) {
+                Numbfr nfwRbtio = (Numbfr) fvt.gftNfwVbluf();
+                if (nfwRbtio != null) {
+                    bspfdtRbtio = nfwRbtio.flobtVbluf();
+                } flsf {
+                    bspfdtRbtio = -1;
+                }
+                rfpbint();
+            }
+        }
+
+
+        //
+        // ClipbobrdOwnfr
+        //
+        /**
+         * Togglfs thf visibility of thf sflfdtion whfn ownfrship is lost.
+         */
+        publid void lostOwnfrship(Clipbobrd dlipbobrd,
+                                      Trbnsffrbblf dontfnts) {
+            if (ownsSflfdtion) {
+                ownsSflfdtion = fblsf;
+                if (domponfnt != null && !domponfnt.hbsFodus()) {
+                    sftSflfdtionVisiblf(fblsf);
+                }
+            }
+        }
+    }
+
+
+    privbtf dlbss DffbultFiltfrBypbss fxtfnds NbvigbtionFiltfr.FiltfrBypbss {
+        publid Cbrft gftCbrft() {
+            rfturn DffbultCbrft.this;
+        }
+
+        publid void sftDot(int dot, Position.Bibs bibs) {
+            hbndlfSftDot(dot, bibs);
+        }
+
+        publid void movfDot(int dot, Position.Bibs bibs) {
+            hbndlfMovfDot(dot, bibs);
+        }
+    }
+}

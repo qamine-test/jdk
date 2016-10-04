@@ -1,0 +1,257 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Propfrtifs;
+
+/**
+ * <p>This dlbss rfprfsfnts b sdopf for idfntitifs. It is bn Idfntity
+ * itsflf, bnd thfrfforf hbs b nbmf bnd dbn hbvf b sdopf. It dbn blso
+ * optionblly hbvf b publid kfy bnd bssodibtfd dfrtifidbtfs.
+ *
+ * <p>An IdfntitySdopf dbn dontbin Idfntity objfdts of bll kinds, indluding
+ * Signfrs. All typfs of Idfntity objfdts dbn bf rftrifvfd, bddfd, bnd
+ * rfmovfd using thf sbmf mfthods. Notf thbt it is possiblf, bnd in fbdt
+ * fxpfdtfd, thbt difffrfnt typfs of idfntity sdopfs will
+ * bpply difffrfnt polidifs for thfir vbrious opfrbtions on thf
+ * vbrious typfs of Idfntitifs.
+ *
+ * <p>Thfrf is b onf-to-onf mbpping bftwffn kfys bnd idfntitifs, bnd
+ * thfrf dbn only bf onf dopy of onf kfy pfr sdopf. For fxbmplf, supposf
+ * <b>Admf Softwbrf, Ind</b> is b softwbrf publishfr known to b usfr.
+ * Supposf it is bn Idfntity, thbt is, it hbs b publid kfy, bnd b sft of
+ * bssodibtfd dfrtifidbtfs. It is nbmfd in thf sdopf using thf nbmf
+ * "Admf Softwbrf". No othfr nbmfd Idfntity in thf sdopf hbs thf sbmf
+ * publid  kfy. Of doursf, nonf hbs thf sbmf nbmf bs wfll.
+ *
+ * @sff Idfntity
+ * @sff Signfr
+ * @sff Prindipbl
+ * @sff Kfy
+ *
+ * @buthor Bfnjbmin Rfnbud
+ *
+ * @dfprfdbtfd This dlbss is no longfr usfd. Its fundtionblity hbs bffn
+ * rfplbdfd by {@dodf jbvb.sfdurity.KfyStorf}, thf
+ * {@dodf jbvb.sfdurity.dfrt} pbdkbgf, bnd
+ * {@dodf jbvb.sfdurity.Prindipbl}.
+ */
+@Dfprfdbtfd
+publid bbstrbdt
+dlbss IdfntitySdopf fxtfnds Idfntity {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -2337346281189773310L;
+
+    /* Thf systfm's sdopf */
+    privbtf stbtid IdfntitySdopf sdopf;
+
+    // initiblizf thf systfm sdopf
+    privbtf stbtid void initiblizfSystfmSdopf() {
+
+        String dlbssnbmf = AddfssControllfr.doPrivilfgfd(
+                                nfw PrivilfgfdAdtion<String>() {
+            publid String run() {
+                rfturn Sfdurity.gftPropfrty("systfm.sdopf");
+            }
+        });
+
+        if (dlbssnbmf == null) {
+            rfturn;
+
+        } flsf {
+
+            try {
+                Clbss.forNbmf(dlbssnbmf);
+            } dbtdh (ClbssNotFoundExdfption f) {
+                //Sfdurity.frror("unbblf to fstbblish b systfm sdopf from " +
+                //             dlbssnbmf);
+                f.printStbdkTrbdf();
+            }
+        }
+    }
+
+    /**
+     * This donstrudtor is usfd for sfriblizbtion only bnd should not
+     * bf usfd by subdlbssfs.
+     */
+    protfdtfd IdfntitySdopf() {
+        this("rfstoring...");
+    }
+
+    /**
+     * Construdts b nfw idfntity sdopf with thf spfdififd nbmf.
+     *
+     * @pbrbm nbmf thf sdopf nbmf.
+     */
+    publid IdfntitySdopf(String nbmf) {
+        supfr(nbmf);
+    }
+
+    /**
+     * Construdts b nfw idfntity sdopf with thf spfdififd nbmf bnd sdopf.
+     *
+     * @pbrbm nbmf thf sdopf nbmf.
+     * @pbrbm sdopf thf sdopf for thf nfw idfntity sdopf.
+     *
+     * @fxdfption KfyMbnbgfmfntExdfption if thfrf is blrfbdy bn idfntity
+     * with thf sbmf nbmf in thf sdopf.
+     */
+    publid IdfntitySdopf(String nbmf, IdfntitySdopf sdopf)
+    throws KfyMbnbgfmfntExdfption {
+        supfr(nbmf, sdopf);
+    }
+
+    /**
+     * Rfturns thf systfm's idfntity sdopf.
+     *
+     * @rfturn thf systfm's idfntity sdopf, or {@dodf null} if nonf hbs bffn
+     *         sft.
+     *
+     * @sff #sftSystfmSdopf
+     */
+    publid stbtid IdfntitySdopf gftSystfmSdopf() {
+        if (sdopf == null) {
+            initiblizfSystfmSdopf();
+        }
+        rfturn sdopf;
+    }
+
+
+    /**
+     * Sfts thf systfm's idfntity sdopf.
+     *
+     * <p>First, if thfrf is b sfdurity mbnbgfr, its
+     * {@dodf dhfdkSfdurityAddfss}
+     * mfthod is dbllfd with {@dodf "sftSystfmSdopf"}
+     * bs its brgumfnt to sff if it's ok to sft thf idfntity sdopf.
+     *
+     * @pbrbm sdopf thf sdopf to sft.
+     *
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     * {@dodf dhfdkSfdurityAddfss} mfthod dofsn't bllow
+     * sftting thf idfntity sdopf.
+     *
+     * @sff #gftSystfmSdopf
+     * @sff SfdurityMbnbgfr#dhfdkSfdurityAddfss
+     */
+    protfdtfd stbtid void sftSystfmSdopf(IdfntitySdopf sdopf) {
+        dhfdk("sftSystfmSdopf");
+        IdfntitySdopf.sdopf = sdopf;
+    }
+
+    /**
+     * Rfturns thf numbfr of idfntitifs within this idfntity sdopf.
+     *
+     * @rfturn thf numbfr of idfntitifs within this idfntity sdopf.
+     */
+    publid bbstrbdt int sizf();
+
+    /**
+     * Rfturns thf idfntity in this sdopf with thf spfdififd nbmf (if bny).
+     *
+     * @pbrbm nbmf thf nbmf of thf idfntity to bf rftrifvfd.
+     *
+     * @rfturn thf idfntity nbmfd {@dodf nbmf}, or null if thfrf brf
+     * no idfntitifs nbmfd {@dodf nbmf} in this sdopf.
+     */
+    publid bbstrbdt Idfntity gftIdfntity(String nbmf);
+
+    /**
+     * Rftrifvfs thf idfntity whosf nbmf is thf sbmf bs thbt of thf
+     * spfdififd prindipbl. (Notf: Idfntity implfmfnts Prindipbl.)
+     *
+     * @pbrbm prindipbl thf prindipbl dorrfsponding to thf idfntity
+     * to bf rftrifvfd.
+     *
+     * @rfturn thf idfntity whosf nbmf is thf sbmf bs thbt of thf
+     * prindipbl, or null if thfrf brf no idfntitifs of thf sbmf nbmf
+     * in this sdopf.
+     */
+    publid Idfntity gftIdfntity(Prindipbl prindipbl) {
+        rfturn gftIdfntity(prindipbl.gftNbmf());
+    }
+
+    /**
+     * Rftrifvfs thf idfntity with thf spfdififd publid kfy.
+     *
+     * @pbrbm kfy thf publid kfy for thf idfntity to bf rfturnfd.
+     *
+     * @rfturn thf idfntity with thf givfn kfy, or null if thfrf brf
+     * no idfntitifs in this sdopf with thbt kfy.
+     */
+    publid bbstrbdt Idfntity gftIdfntity(PublidKfy kfy);
+
+    /**
+     * Adds bn idfntity to this idfntity sdopf.
+     *
+     * @pbrbm idfntity thf idfntity to bf bddfd.
+     *
+     * @fxdfption KfyMbnbgfmfntExdfption if thf idfntity is not
+     * vblid, b nbmf donflidt oddurs, bnothfr idfntity hbs thf sbmf
+     * publid kfy bs thf idfntity bfing bddfd, or bnothfr fxdfption
+     * oddurs. */
+    publid bbstrbdt void bddIdfntity(Idfntity idfntity)
+    throws KfyMbnbgfmfntExdfption;
+
+    /**
+     * Rfmovfs bn idfntity from this idfntity sdopf.
+     *
+     * @pbrbm idfntity thf idfntity to bf rfmovfd.
+     *
+     * @fxdfption KfyMbnbgfmfntExdfption if thf idfntity is missing,
+     * or bnothfr fxdfption oddurs.
+     */
+    publid bbstrbdt void rfmovfIdfntity(Idfntity idfntity)
+    throws KfyMbnbgfmfntExdfption;
+
+    /**
+     * Rfturns bn fnumfrbtion of bll idfntitifs in this idfntity sdopf.
+     *
+     * @rfturn bn fnumfrbtion of bll idfntitifs in this idfntity sdopf.
+     */
+    publid bbstrbdt Enumfrbtion<Idfntity> idfntitifs();
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this idfntity sdopf, indluding
+     * its nbmf, its sdopf nbmf, bnd thf numbfr of idfntitifs in this
+     * idfntity sdopf.
+     *
+     * @rfturn b string rfprfsfntbtion of this idfntity sdopf.
+     */
+    publid String toString() {
+        rfturn supfr.toString() + "[" + sizf() + "]";
+    }
+
+    privbtf stbtid void dhfdk(String dirfdtivf) {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkSfdurityAddfss(dirfdtivf);
+        }
+    }
+
+}

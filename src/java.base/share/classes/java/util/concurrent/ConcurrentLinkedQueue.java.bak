@@ -1,942 +1,942 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea and Martin Buchholz with assistance from members of
- * JCP JSR-166 Expert Group and released to the public domain, as explained
- * at http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb bnd Mbrtin Budiiolz witi bssistbndf from mfmbfrs of
+ * JCP JSR-166 Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd
+ * bt ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent;
+pbdkbgf jbvb.util.dondurrfnt;
 
-import java.util.AbstractQueue;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Queue;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.function.Consumer;
+import jbvb.util.AbstrbdtQufuf;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.util.Qufuf;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.Splitfrbtors;
+import jbvb.util.fundtion.Consumfr;
 
 /**
- * An unbounded thread-safe {@linkplain Queue queue} based on linked nodes.
- * This queue orders elements FIFO (first-in-first-out).
- * The <em>head</em> of the queue is that element that has been on the
- * queue the longest time.
- * The <em>tail</em> of the queue is that element that has been on the
- * queue the shortest time. New elements
- * are inserted at the tail of the queue, and the queue retrieval
- * operations obtain elements at the head of the queue.
- * A {@code ConcurrentLinkedQueue} is an appropriate choice when
- * many threads will share access to a common collection.
- * Like most other concurrent collection implementations, this class
- * does not permit the use of {@code null} elements.
+ * An unboundfd tirfbd-sbff {@linkplbin Qufuf qufuf} bbsfd on linkfd nodfs.
+ * Tiis qufuf ordfrs flfmfnts FIFO (first-in-first-out).
+ * Tif <fm>ifbd</fm> of tif qufuf is tibt flfmfnt tibt ibs bffn on tif
+ * qufuf tif longfst timf.
+ * Tif <fm>tbil</fm> of tif qufuf is tibt flfmfnt tibt ibs bffn on tif
+ * qufuf tif siortfst timf. Nfw flfmfnts
+ * brf insfrtfd bt tif tbil of tif qufuf, bnd tif qufuf rftrifvbl
+ * opfrbtions obtbin flfmfnts bt tif ifbd of tif qufuf.
+ * A {@dodf CondurrfntLinkfdQufuf} is bn bppropribtf dioidf wifn
+ * mbny tirfbds will sibrf bddfss to b dommon dollfdtion.
+ * Likf most otifr dondurrfnt dollfdtion implfmfntbtions, tiis dlbss
+ * dofs not pfrmit tif usf of {@dodf null} flfmfnts.
  *
- * <p>This implementation employs an efficient <em>non-blocking</em>
- * algorithm based on one described in <a
- * href="http://www.cs.rochester.edu/u/michael/PODC96.html"> Simple,
- * Fast, and Practical Non-Blocking and Blocking Concurrent Queue
- * Algorithms</a> by Maged M. Michael and Michael L. Scott.
+ * <p>Tiis implfmfntbtion fmploys bn fffidifnt <fm>non-blodking</fm>
+ * blgoritim bbsfd on onf dfsdribfd in <b
+ * irff="ittp://www.ds.rodifstfr.fdu/u/midibfl/PODC96.itml"> Simplf,
+ * Fbst, bnd Prbdtidbl Non-Blodking bnd Blodking Condurrfnt Qufuf
+ * Algoritims</b> by Mbgfd M. Midibfl bnd Midibfl L. Sdott.
  *
- * <p>Iterators are <i>weakly consistent</i>, returning elements
- * reflecting the state of the queue at some point at or since the
- * creation of the iterator.  They do <em>not</em> throw {@link
- * java.util.ConcurrentModificationException}, and may proceed concurrently
- * with other operations.  Elements contained in the queue since the creation
- * of the iterator will be returned exactly once.
+ * <p>Itfrbtors brf <i>wfbkly donsistfnt</i>, rfturning flfmfnts
+ * rfflfdting tif stbtf of tif qufuf bt somf point bt or sindf tif
+ * drfbtion of tif itfrbtor.  Tify do <fm>not</fm> tirow {@link
+ * jbvb.util.CondurrfntModifidbtionExdfption}, bnd mby prodffd dondurrfntly
+ * witi otifr opfrbtions.  Elfmfnts dontbinfd in tif qufuf sindf tif drfbtion
+ * of tif itfrbtor will bf rfturnfd fxbdtly ondf.
  *
- * <p>Beware that, unlike in most collections, the {@code size} method
- * is <em>NOT</em> a constant-time operation. Because of the
- * asynchronous nature of these queues, determining the current number
- * of elements requires a traversal of the elements, and so may report
- * inaccurate results if this collection is modified during traversal.
- * Additionally, the bulk operations {@code addAll},
- * {@code removeAll}, {@code retainAll}, {@code containsAll},
- * {@code equals}, and {@code toArray} are <em>not</em> guaranteed
- * to be performed atomically. For example, an iterator operating
- * concurrently with an {@code addAll} operation might view only some
- * of the added elements.
+ * <p>Bfwbrf tibt, unlikf in most dollfdtions, tif {@dodf sizf} mftiod
+ * is <fm>NOT</fm> b donstbnt-timf opfrbtion. Bfdbusf of tif
+ * bsyndironous nbturf of tifsf qufufs, dftfrmining tif durrfnt numbfr
+ * of flfmfnts rfquirfs b trbvfrsbl of tif flfmfnts, bnd so mby rfport
+ * inbddurbtf rfsults if tiis dollfdtion is modififd during trbvfrsbl.
+ * Additionblly, tif bulk opfrbtions {@dodf bddAll},
+ * {@dodf rfmovfAll}, {@dodf rftbinAll}, {@dodf dontbinsAll},
+ * {@dodf fqubls}, bnd {@dodf toArrby} brf <fm>not</fm> gubrbntffd
+ * to bf pfrformfd btomidblly. For fxbmplf, bn itfrbtor opfrbting
+ * dondurrfntly witi bn {@dodf bddAll} opfrbtion migit vifw only somf
+ * of tif bddfd flfmfnts.
  *
- * <p>This class and its iterator implement all of the <em>optional</em>
- * methods of the {@link Queue} and {@link Iterator} interfaces.
+ * <p>Tiis dlbss bnd its itfrbtor implfmfnt bll of tif <fm>optionbl</fm>
+ * mftiods of tif {@link Qufuf} bnd {@link Itfrbtor} intfrfbdfs.
  *
- * <p>Memory consistency effects: As with other concurrent
- * collections, actions in a thread prior to placing an object into a
- * {@code ConcurrentLinkedQueue}
- * <a href="package-summary.html#MemoryVisibility"><i>happen-before</i></a>
- * actions subsequent to the access or removal of that element from
- * the {@code ConcurrentLinkedQueue} in another thread.
+ * <p>Mfmory donsistfndy ffffdts: As witi otifr dondurrfnt
+ * dollfdtions, bdtions in b tirfbd prior to plbding bn objfdt into b
+ * {@dodf CondurrfntLinkfdQufuf}
+ * <b irff="pbdkbgf-summbry.itml#MfmoryVisibility"><i>ibppfn-bfforf</i></b>
+ * bdtions subsfqufnt to tif bddfss or rfmovbl of tibt flfmfnt from
+ * tif {@dodf CondurrfntLinkfdQufuf} in bnotifr tirfbd.
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis dlbss is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @since 1.5
- * @author Doug Lea
- * @param <E> the type of elements held in this collection
+ * @sindf 1.5
+ * @butior Doug Lfb
+ * @pbrbm <E> tif typf of flfmfnts ifld in tiis dollfdtion
  */
-public class ConcurrentLinkedQueue<E> extends AbstractQueue<E>
-        implements Queue<E>, java.io.Serializable {
-    private static final long serialVersionUID = 196745693267521676L;
+publid dlbss CondurrfntLinkfdQufuf<E> fxtfnds AbstrbdtQufuf<E>
+        implfmfnts Qufuf<E>, jbvb.io.Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = 196745693267521676L;
 
     /*
-     * This is a modification of the Michael & Scott algorithm,
-     * adapted for a garbage-collected environment, with support for
-     * interior node deletion (to support remove(Object)).  For
-     * explanation, read the paper.
+     * Tiis is b modifidbtion of tif Midibfl & Sdott blgoritim,
+     * bdbptfd for b gbrbbgf-dollfdtfd fnvironmfnt, witi support for
+     * intfrior nodf dflftion (to support rfmovf(Objfdt)).  For
+     * fxplbnbtion, rfbd tif pbpfr.
      *
-     * Note that like most non-blocking algorithms in this package,
-     * this implementation relies on the fact that in garbage
-     * collected systems, there is no possibility of ABA problems due
-     * to recycled nodes, so there is no need to use "counted
-     * pointers" or related techniques seen in versions used in
-     * non-GC'ed settings.
+     * Notf tibt likf most non-blodking blgoritims in tiis pbdkbgf,
+     * tiis implfmfntbtion rflifs on tif fbdt tibt in gbrbbgf
+     * dollfdtfd systfms, tifrf is no possibility of ABA problfms duf
+     * to rfdydlfd nodfs, so tifrf is no nffd to usf "dountfd
+     * pointfrs" or rflbtfd tfdiniqufs sffn in vfrsions usfd in
+     * non-GC'fd sfttings.
      *
-     * The fundamental invariants are:
-     * - There is exactly one (last) Node with a null next reference,
-     *   which is CASed when enqueueing.  This last Node can be
-     *   reached in O(1) time from tail, but tail is merely an
-     *   optimization - it can always be reached in O(N) time from
-     *   head as well.
-     * - The elements contained in the queue are the non-null items in
-     *   Nodes that are reachable from head.  CASing the item
-     *   reference of a Node to null atomically removes it from the
-     *   queue.  Reachability of all elements from head must remain
-     *   true even in the case of concurrent modifications that cause
-     *   head to advance.  A dequeued Node may remain in use
-     *   indefinitely due to creation of an Iterator or simply a
-     *   poll() that has lost its time slice.
+     * Tif fundbmfntbl invbribnts brf:
+     * - Tifrf is fxbdtly onf (lbst) Nodf witi b null nfxt rfffrfndf,
+     *   wiidi is CASfd wifn fnqufufing.  Tiis lbst Nodf dbn bf
+     *   rfbdifd in O(1) timf from tbil, but tbil is mfrfly bn
+     *   optimizbtion - it dbn blwbys bf rfbdifd in O(N) timf from
+     *   ifbd bs wfll.
+     * - Tif flfmfnts dontbinfd in tif qufuf brf tif non-null itfms in
+     *   Nodfs tibt brf rfbdibblf from ifbd.  CASing tif itfm
+     *   rfffrfndf of b Nodf to null btomidblly rfmovfs it from tif
+     *   qufuf.  Rfbdibbility of bll flfmfnts from ifbd must rfmbin
+     *   truf fvfn in tif dbsf of dondurrfnt modifidbtions tibt dbusf
+     *   ifbd to bdvbndf.  A dfqufufd Nodf mby rfmbin in usf
+     *   indffinitfly duf to drfbtion of bn Itfrbtor or simply b
+     *   poll() tibt ibs lost its timf slidf.
      *
-     * The above might appear to imply that all Nodes are GC-reachable
-     * from a predecessor dequeued Node.  That would cause two problems:
-     * - allow a rogue Iterator to cause unbounded memory retention
-     * - cause cross-generational linking of old Nodes to new Nodes if
-     *   a Node was tenured while live, which generational GCs have a
-     *   hard time dealing with, causing repeated major collections.
-     * However, only non-deleted Nodes need to be reachable from
-     * dequeued Nodes, and reachability does not necessarily have to
-     * be of the kind understood by the GC.  We use the trick of
-     * linking a Node that has just been dequeued to itself.  Such a
-     * self-link implicitly means to advance to head.
+     * Tif bbovf migit bppfbr to imply tibt bll Nodfs brf GC-rfbdibblf
+     * from b prfdfdfssor dfqufufd Nodf.  Tibt would dbusf two problfms:
+     * - bllow b roguf Itfrbtor to dbusf unboundfd mfmory rftfntion
+     * - dbusf dross-gfnfrbtionbl linking of old Nodfs to nfw Nodfs if
+     *   b Nodf wbs tfnurfd wiilf livf, wiidi gfnfrbtionbl GCs ibvf b
+     *   ibrd timf dfbling witi, dbusing rfpfbtfd mbjor dollfdtions.
+     * Howfvfr, only non-dflftfd Nodfs nffd to bf rfbdibblf from
+     * dfqufufd Nodfs, bnd rfbdibbility dofs not nfdfssbrily ibvf to
+     * bf of tif kind undfrstood by tif GC.  Wf usf tif tridk of
+     * linking b Nodf tibt ibs just bffn dfqufufd to itsflf.  Sudi b
+     * sflf-link impliditly mfbns to bdvbndf to ifbd.
      *
-     * Both head and tail are permitted to lag.  In fact, failing to
-     * update them every time one could is a significant optimization
-     * (fewer CASes). As with LinkedTransferQueue (see the internal
-     * documentation for that class), we use a slack threshold of two;
-     * that is, we update head/tail when the current pointer appears
-     * to be two or more steps away from the first/last node.
+     * Boti ifbd bnd tbil brf pfrmittfd to lbg.  In fbdt, fbiling to
+     * updbtf tifm fvfry timf onf dould is b signifidbnt optimizbtion
+     * (ffwfr CASfs). As witi LinkfdTrbnsffrQufuf (sff tif intfrnbl
+     * dodumfntbtion for tibt dlbss), wf usf b slbdk tirfsiold of two;
+     * tibt is, wf updbtf ifbd/tbil wifn tif durrfnt pointfr bppfbrs
+     * to bf two or morf stfps bwby from tif first/lbst nodf.
      *
-     * Since head and tail are updated concurrently and independently,
-     * it is possible for tail to lag behind head (why not)?
+     * Sindf ifbd bnd tbil brf updbtfd dondurrfntly bnd indfpfndfntly,
+     * it is possiblf for tbil to lbg bfiind ifbd (wiy not)?
      *
-     * CASing a Node's item reference to null atomically removes the
-     * element from the queue.  Iterators skip over Nodes with null
-     * items.  Prior implementations of this class had a race between
-     * poll() and remove(Object) where the same element would appear
-     * to be successfully removed by two concurrent operations.  The
-     * method remove(Object) also lazily unlinks deleted Nodes, but
-     * this is merely an optimization.
+     * CASing b Nodf's itfm rfffrfndf to null btomidblly rfmovfs tif
+     * flfmfnt from tif qufuf.  Itfrbtors skip ovfr Nodfs witi null
+     * itfms.  Prior implfmfntbtions of tiis dlbss ibd b rbdf bftwffn
+     * poll() bnd rfmovf(Objfdt) wifrf tif sbmf flfmfnt would bppfbr
+     * to bf suddfssfully rfmovfd by two dondurrfnt opfrbtions.  Tif
+     * mftiod rfmovf(Objfdt) blso lbzily unlinks dflftfd Nodfs, but
+     * tiis is mfrfly bn optimizbtion.
      *
-     * When constructing a Node (before enqueuing it) we avoid paying
-     * for a volatile write to item by using Unsafe.putObject instead
-     * of a normal write.  This allows the cost of enqueue to be
-     * "one-and-a-half" CASes.
+     * Wifn donstrudting b Nodf (bfforf fnqufuing it) wf bvoid pbying
+     * for b volbtilf writf to itfm by using Unsbff.putObjfdt instfbd
+     * of b normbl writf.  Tiis bllows tif dost of fnqufuf to bf
+     * "onf-bnd-b-iblf" CASfs.
      *
-     * Both head and tail may or may not point to a Node with a
-     * non-null item.  If the queue is empty, all items must of course
-     * be null.  Upon creation, both head and tail refer to a dummy
-     * Node with null item.  Both head and tail are only updated using
-     * CAS, so they never regress, although again this is merely an
-     * optimization.
+     * Boti ifbd bnd tbil mby or mby not point to b Nodf witi b
+     * non-null itfm.  If tif qufuf is fmpty, bll itfms must of doursf
+     * bf null.  Upon drfbtion, boti ifbd bnd tbil rfffr to b dummy
+     * Nodf witi null itfm.  Boti ifbd bnd tbil brf only updbtfd using
+     * CAS, so tify nfvfr rfgrfss, bltiougi bgbin tiis is mfrfly bn
+     * optimizbtion.
      */
 
-    private static class Node<E> {
-        volatile E item;
-        volatile Node<E> next;
+    privbtf stbtid dlbss Nodf<E> {
+        volbtilf E itfm;
+        volbtilf Nodf<E> nfxt;
 
         /**
-         * Constructs a new node.  Uses relaxed write because item can
-         * only be seen after publication via casNext.
+         * Construdts b nfw nodf.  Usfs rflbxfd writf bfdbusf itfm dbn
+         * only bf sffn bftfr publidbtion vib dbsNfxt.
          */
-        Node(E item) {
-            UNSAFE.putObject(this, itemOffset, item);
+        Nodf(E itfm) {
+            UNSAFE.putObjfdt(tiis, itfmOffsft, itfm);
         }
 
-        boolean casItem(E cmp, E val) {
-            return UNSAFE.compareAndSwapObject(this, itemOffset, cmp, val);
+        boolfbn dbsItfm(E dmp, E vbl) {
+            rfturn UNSAFE.dompbrfAndSwbpObjfdt(tiis, itfmOffsft, dmp, vbl);
         }
 
-        void lazySetNext(Node<E> val) {
-            UNSAFE.putOrderedObject(this, nextOffset, val);
+        void lbzySftNfxt(Nodf<E> vbl) {
+            UNSAFE.putOrdfrfdObjfdt(tiis, nfxtOffsft, vbl);
         }
 
-        boolean casNext(Node<E> cmp, Node<E> val) {
-            return UNSAFE.compareAndSwapObject(this, nextOffset, cmp, val);
+        boolfbn dbsNfxt(Nodf<E> dmp, Nodf<E> vbl) {
+            rfturn UNSAFE.dompbrfAndSwbpObjfdt(tiis, nfxtOffsft, dmp, vbl);
         }
 
-        // Unsafe mechanics
+        // Unsbff mfdibnids
 
-        private static final sun.misc.Unsafe UNSAFE;
-        private static final long itemOffset;
-        private static final long nextOffset;
+        privbtf stbtid finbl sun.misd.Unsbff UNSAFE;
+        privbtf stbtid finbl long itfmOffsft;
+        privbtf stbtid finbl long nfxtOffsft;
 
-        static {
+        stbtid {
             try {
-                UNSAFE = sun.misc.Unsafe.getUnsafe();
-                Class<?> k = Node.class;
-                itemOffset = UNSAFE.objectFieldOffset
-                    (k.getDeclaredField("item"));
-                nextOffset = UNSAFE.objectFieldOffset
-                    (k.getDeclaredField("next"));
-            } catch (Exception e) {
-                throw new Error(e);
+                UNSAFE = sun.misd.Unsbff.gftUnsbff();
+                Clbss<?> k = Nodf.dlbss;
+                itfmOffsft = UNSAFE.objfdtFifldOffsft
+                    (k.gftDfdlbrfdFifld("itfm"));
+                nfxtOffsft = UNSAFE.objfdtFifldOffsft
+                    (k.gftDfdlbrfdFifld("nfxt"));
+            } dbtdi (Exdfption f) {
+                tirow nfw Error(f);
             }
         }
     }
 
     /**
-     * A node from which the first live (non-deleted) node (if any)
-     * can be reached in O(1) time.
-     * Invariants:
-     * - all live nodes are reachable from head via succ()
-     * - head != null
-     * - (tmp = head).next != tmp || tmp != head
-     * Non-invariants:
-     * - head.item may or may not be null.
-     * - it is permitted for tail to lag behind head, that is, for tail
-     *   to not be reachable from head!
+     * A nodf from wiidi tif first livf (non-dflftfd) nodf (if bny)
+     * dbn bf rfbdifd in O(1) timf.
+     * Invbribnts:
+     * - bll livf nodfs brf rfbdibblf from ifbd vib sudd()
+     * - ifbd != null
+     * - (tmp = ifbd).nfxt != tmp || tmp != ifbd
+     * Non-invbribnts:
+     * - ifbd.itfm mby or mby not bf null.
+     * - it is pfrmittfd for tbil to lbg bfiind ifbd, tibt is, for tbil
+     *   to not bf rfbdibblf from ifbd!
      */
-    private transient volatile Node<E> head;
+    privbtf trbnsifnt volbtilf Nodf<E> ifbd;
 
     /**
-     * A node from which the last node on list (that is, the unique
-     * node with node.next == null) can be reached in O(1) time.
-     * Invariants:
-     * - the last node is always reachable from tail via succ()
-     * - tail != null
-     * Non-invariants:
-     * - tail.item may or may not be null.
-     * - it is permitted for tail to lag behind head, that is, for tail
-     *   to not be reachable from head!
-     * - tail.next may or may not be self-pointing to tail.
+     * A nodf from wiidi tif lbst nodf on list (tibt is, tif uniquf
+     * nodf witi nodf.nfxt == null) dbn bf rfbdifd in O(1) timf.
+     * Invbribnts:
+     * - tif lbst nodf is blwbys rfbdibblf from tbil vib sudd()
+     * - tbil != null
+     * Non-invbribnts:
+     * - tbil.itfm mby or mby not bf null.
+     * - it is pfrmittfd for tbil to lbg bfiind ifbd, tibt is, for tbil
+     *   to not bf rfbdibblf from ifbd!
+     * - tbil.nfxt mby or mby not bf sflf-pointing to tbil.
      */
-    private transient volatile Node<E> tail;
+    privbtf trbnsifnt volbtilf Nodf<E> tbil;
 
     /**
-     * Creates a {@code ConcurrentLinkedQueue} that is initially empty.
+     * Crfbtfs b {@dodf CondurrfntLinkfdQufuf} tibt is initiblly fmpty.
      */
-    public ConcurrentLinkedQueue() {
-        head = tail = new Node<E>(null);
+    publid CondurrfntLinkfdQufuf() {
+        ifbd = tbil = nfw Nodf<E>(null);
     }
 
     /**
-     * Creates a {@code ConcurrentLinkedQueue}
-     * initially containing the elements of the given collection,
-     * added in traversal order of the collection's iterator.
+     * Crfbtfs b {@dodf CondurrfntLinkfdQufuf}
+     * initiblly dontbining tif flfmfnts of tif givfn dollfdtion,
+     * bddfd in trbvfrsbl ordfr of tif dollfdtion's itfrbtor.
      *
-     * @param c the collection of elements to initially contain
-     * @throws NullPointerException if the specified collection or any
-     *         of its elements are null
+     * @pbrbm d tif dollfdtion of flfmfnts to initiblly dontbin
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion or bny
+     *         of its flfmfnts brf null
      */
-    public ConcurrentLinkedQueue(Collection<? extends E> c) {
-        Node<E> h = null, t = null;
-        for (E e : c) {
-            checkNotNull(e);
-            Node<E> newNode = new Node<E>(e);
-            if (h == null)
-                h = t = newNode;
-            else {
-                t.lazySetNext(newNode);
-                t = newNode;
+    publid CondurrfntLinkfdQufuf(Collfdtion<? fxtfnds E> d) {
+        Nodf<E> i = null, t = null;
+        for (E f : d) {
+            difdkNotNull(f);
+            Nodf<E> nfwNodf = nfw Nodf<E>(f);
+            if (i == null)
+                i = t = nfwNodf;
+            flsf {
+                t.lbzySftNfxt(nfwNodf);
+                t = nfwNodf;
             }
         }
-        if (h == null)
-            h = t = new Node<E>(null);
-        head = h;
-        tail = t;
+        if (i == null)
+            i = t = nfw Nodf<E>(null);
+        ifbd = i;
+        tbil = t;
     }
 
-    // Have to override just to update the javadoc
+    // Hbvf to ovfrridf just to updbtf tif jbvbdod
 
     /**
-     * Inserts the specified element at the tail of this queue.
-     * As the queue is unbounded, this method will never throw
-     * {@link IllegalStateException} or return {@code false}.
+     * Insfrts tif spfdififd flfmfnt bt tif tbil of tiis qufuf.
+     * As tif qufuf is unboundfd, tiis mftiod will nfvfr tirow
+     * {@link IllfgblStbtfExdfption} or rfturn {@dodf fblsf}.
      *
-     * @return {@code true} (as specified by {@link Collection#add})
-     * @throws NullPointerException if the specified element is null
+     * @rfturn {@dodf truf} (bs spfdififd by {@link Collfdtion#bdd})
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
      */
-    public boolean add(E e) {
-        return offer(e);
+    publid boolfbn bdd(E f) {
+        rfturn offfr(f);
     }
 
     /**
-     * Tries to CAS head to p. If successful, repoint old head to itself
-     * as sentinel for succ(), below.
+     * Trifs to CAS ifbd to p. If suddfssful, rfpoint old ifbd to itsflf
+     * bs sfntinfl for sudd(), bflow.
      */
-    final void updateHead(Node<E> h, Node<E> p) {
-        if (h != p && casHead(h, p))
-            h.lazySetNext(h);
+    finbl void updbtfHfbd(Nodf<E> i, Nodf<E> p) {
+        if (i != p && dbsHfbd(i, p))
+            i.lbzySftNfxt(i);
     }
 
     /**
-     * Returns the successor of p, or the head node if p.next has been
-     * linked to self, which will only be true if traversing with a
-     * stale pointer that is now off the list.
+     * Rfturns tif suddfssor of p, or tif ifbd nodf if p.nfxt ibs bffn
+     * linkfd to sflf, wiidi will only bf truf if trbvfrsing witi b
+     * stblf pointfr tibt is now off tif list.
      */
-    final Node<E> succ(Node<E> p) {
-        Node<E> next = p.next;
-        return (p == next) ? head : next;
+    finbl Nodf<E> sudd(Nodf<E> p) {
+        Nodf<E> nfxt = p.nfxt;
+        rfturn (p == nfxt) ? ifbd : nfxt;
     }
 
     /**
-     * Inserts the specified element at the tail of this queue.
-     * As the queue is unbounded, this method will never return {@code false}.
+     * Insfrts tif spfdififd flfmfnt bt tif tbil of tiis qufuf.
+     * As tif qufuf is unboundfd, tiis mftiod will nfvfr rfturn {@dodf fblsf}.
      *
-     * @return {@code true} (as specified by {@link Queue#offer})
-     * @throws NullPointerException if the specified element is null
+     * @rfturn {@dodf truf} (bs spfdififd by {@link Qufuf#offfr})
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
      */
-    public boolean offer(E e) {
-        checkNotNull(e);
-        final Node<E> newNode = new Node<E>(e);
+    publid boolfbn offfr(E f) {
+        difdkNotNull(f);
+        finbl Nodf<E> nfwNodf = nfw Nodf<E>(f);
 
-        for (Node<E> t = tail, p = t;;) {
-            Node<E> q = p.next;
+        for (Nodf<E> t = tbil, p = t;;) {
+            Nodf<E> q = p.nfxt;
             if (q == null) {
-                // p is last node
-                if (p.casNext(null, newNode)) {
-                    // Successful CAS is the linearization point
-                    // for e to become an element of this queue,
-                    // and for newNode to become "live".
-                    if (p != t) // hop two nodes at a time
-                        casTail(t, newNode);  // Failure is OK.
-                    return true;
+                // p is lbst nodf
+                if (p.dbsNfxt(null, nfwNodf)) {
+                    // Suddfssful CAS is tif linfbrizbtion point
+                    // for f to bfdomf bn flfmfnt of tiis qufuf,
+                    // bnd for nfwNodf to bfdomf "livf".
+                    if (p != t) // iop two nodfs bt b timf
+                        dbsTbil(t, nfwNodf);  // Fbilurf is OK.
+                    rfturn truf;
                 }
-                // Lost CAS race to another thread; re-read next
+                // Lost CAS rbdf to bnotifr tirfbd; rf-rfbd nfxt
             }
-            else if (p == q)
-                // We have fallen off list.  If tail is unchanged, it
-                // will also be off-list, in which case we need to
-                // jump to head, from which all live nodes are always
-                // reachable.  Else the new tail is a better bet.
-                p = (t != (t = tail)) ? t : head;
-            else
-                // Check for tail updates after two hops.
-                p = (p != t && t != (t = tail)) ? t : q;
+            flsf if (p == q)
+                // Wf ibvf fbllfn off list.  If tbil is undibngfd, it
+                // will blso bf off-list, in wiidi dbsf wf nffd to
+                // jump to ifbd, from wiidi bll livf nodfs brf blwbys
+                // rfbdibblf.  Elsf tif nfw tbil is b bfttfr bft.
+                p = (t != (t = tbil)) ? t : ifbd;
+            flsf
+                // Cifdk for tbil updbtfs bftfr two iops.
+                p = (p != t && t != (t = tbil)) ? t : q;
         }
     }
 
-    public E poll() {
-        restartFromHead:
+    publid E poll() {
+        rfstbrtFromHfbd:
         for (;;) {
-            for (Node<E> h = head, p = h, q;;) {
-                E item = p.item;
+            for (Nodf<E> i = ifbd, p = i, q;;) {
+                E itfm = p.itfm;
 
-                if (item != null && p.casItem(item, null)) {
-                    // Successful CAS is the linearization point
-                    // for item to be removed from this queue.
-                    if (p != h) // hop two nodes at a time
-                        updateHead(h, ((q = p.next) != null) ? q : p);
-                    return item;
+                if (itfm != null && p.dbsItfm(itfm, null)) {
+                    // Suddfssful CAS is tif linfbrizbtion point
+                    // for itfm to bf rfmovfd from tiis qufuf.
+                    if (p != i) // iop two nodfs bt b timf
+                        updbtfHfbd(i, ((q = p.nfxt) != null) ? q : p);
+                    rfturn itfm;
                 }
-                else if ((q = p.next) == null) {
-                    updateHead(h, p);
-                    return null;
+                flsf if ((q = p.nfxt) == null) {
+                    updbtfHfbd(i, p);
+                    rfturn null;
                 }
-                else if (p == q)
-                    continue restartFromHead;
-                else
+                flsf if (p == q)
+                    dontinuf rfstbrtFromHfbd;
+                flsf
                     p = q;
             }
         }
     }
 
-    public E peek() {
-        restartFromHead:
+    publid E pffk() {
+        rfstbrtFromHfbd:
         for (;;) {
-            for (Node<E> h = head, p = h, q;;) {
-                E item = p.item;
-                if (item != null || (q = p.next) == null) {
-                    updateHead(h, p);
-                    return item;
+            for (Nodf<E> i = ifbd, p = i, q;;) {
+                E itfm = p.itfm;
+                if (itfm != null || (q = p.nfxt) == null) {
+                    updbtfHfbd(i, p);
+                    rfturn itfm;
                 }
-                else if (p == q)
-                    continue restartFromHead;
-                else
-                    p = q;
-            }
-        }
-    }
-
-    /**
-     * Returns the first live (non-deleted) node on list, or null if none.
-     * This is yet another variant of poll/peek; here returning the
-     * first node, not element.  We could make peek() a wrapper around
-     * first(), but that would cost an extra volatile read of item,
-     * and the need to add a retry loop to deal with the possibility
-     * of losing a race to a concurrent poll().
-     */
-    Node<E> first() {
-        restartFromHead:
-        for (;;) {
-            for (Node<E> h = head, p = h, q;;) {
-                boolean hasItem = (p.item != null);
-                if (hasItem || (q = p.next) == null) {
-                    updateHead(h, p);
-                    return hasItem ? p : null;
-                }
-                else if (p == q)
-                    continue restartFromHead;
-                else
+                flsf if (p == q)
+                    dontinuf rfstbrtFromHfbd;
+                flsf
                     p = q;
             }
         }
     }
 
     /**
-     * Returns {@code true} if this queue contains no elements.
-     *
-     * @return {@code true} if this queue contains no elements
+     * Rfturns tif first livf (non-dflftfd) nodf on list, or null if nonf.
+     * Tiis is yft bnotifr vbribnt of poll/pffk; ifrf rfturning tif
+     * first nodf, not flfmfnt.  Wf dould mbkf pffk() b wrbppfr bround
+     * first(), but tibt would dost bn fxtrb volbtilf rfbd of itfm,
+     * bnd tif nffd to bdd b rftry loop to dfbl witi tif possibility
+     * of losing b rbdf to b dondurrfnt poll().
      */
-    public boolean isEmpty() {
-        return first() == null;
-    }
-
-    /**
-     * Returns the number of elements in this queue.  If this queue
-     * contains more than {@code Integer.MAX_VALUE} elements, returns
-     * {@code Integer.MAX_VALUE}.
-     *
-     * <p>Beware that, unlike in most collections, this method is
-     * <em>NOT</em> a constant-time operation. Because of the
-     * asynchronous nature of these queues, determining the current
-     * number of elements requires an O(n) traversal.
-     * Additionally, if elements are added or removed during execution
-     * of this method, the returned result may be inaccurate.  Thus,
-     * this method is typically not very useful in concurrent
-     * applications.
-     *
-     * @return the number of elements in this queue
-     */
-    public int size() {
-        int count = 0;
-        for (Node<E> p = first(); p != null; p = succ(p))
-            if (p.item != null)
-                // Collection.size() spec says to max out
-                if (++count == Integer.MAX_VALUE)
-                    break;
-        return count;
-    }
-
-    /**
-     * Returns {@code true} if this queue contains the specified element.
-     * More formally, returns {@code true} if and only if this queue contains
-     * at least one element {@code e} such that {@code o.equals(e)}.
-     *
-     * @param o object to be checked for containment in this queue
-     * @return {@code true} if this queue contains the specified element
-     */
-    public boolean contains(Object o) {
-        if (o == null) return false;
-        for (Node<E> p = first(); p != null; p = succ(p)) {
-            E item = p.item;
-            if (item != null && o.equals(item))
-                return true;
-        }
-        return false;
-    }
-
-    /**
-     * Removes a single instance of the specified element from this queue,
-     * if it is present.  More formally, removes an element {@code e} such
-     * that {@code o.equals(e)}, if this queue contains one or more such
-     * elements.
-     * Returns {@code true} if this queue contained the specified element
-     * (or equivalently, if this queue changed as a result of the call).
-     *
-     * @param o element to be removed from this queue, if present
-     * @return {@code true} if this queue changed as a result of the call
-     */
-    public boolean remove(Object o) {
-        if (o == null) return false;
-        Node<E> pred = null;
-        for (Node<E> p = first(); p != null; p = succ(p)) {
-            E item = p.item;
-            if (item != null &&
-                o.equals(item) &&
-                p.casItem(item, null)) {
-                Node<E> next = succ(p);
-                if (pred != null && next != null)
-                    pred.casNext(p, next);
-                return true;
-            }
-            pred = p;
-        }
-        return false;
-    }
-
-    /**
-     * Appends all of the elements in the specified collection to the end of
-     * this queue, in the order that they are returned by the specified
-     * collection's iterator.  Attempts to {@code addAll} of a queue to
-     * itself result in {@code IllegalArgumentException}.
-     *
-     * @param c the elements to be inserted into this queue
-     * @return {@code true} if this queue changed as a result of the call
-     * @throws NullPointerException if the specified collection or any
-     *         of its elements are null
-     * @throws IllegalArgumentException if the collection is this queue
-     */
-    public boolean addAll(Collection<? extends E> c) {
-        if (c == this)
-            // As historically specified in AbstractQueue#addAll
-            throw new IllegalArgumentException();
-
-        // Copy c into a private chain of Nodes
-        Node<E> beginningOfTheEnd = null, last = null;
-        for (E e : c) {
-            checkNotNull(e);
-            Node<E> newNode = new Node<E>(e);
-            if (beginningOfTheEnd == null)
-                beginningOfTheEnd = last = newNode;
-            else {
-                last.lazySetNext(newNode);
-                last = newNode;
+    Nodf<E> first() {
+        rfstbrtFromHfbd:
+        for (;;) {
+            for (Nodf<E> i = ifbd, p = i, q;;) {
+                boolfbn ibsItfm = (p.itfm != null);
+                if (ibsItfm || (q = p.nfxt) == null) {
+                    updbtfHfbd(i, p);
+                    rfturn ibsItfm ? p : null;
+                }
+                flsf if (p == q)
+                    dontinuf rfstbrtFromHfbd;
+                flsf
+                    p = q;
             }
         }
-        if (beginningOfTheEnd == null)
-            return false;
+    }
 
-        // Atomically append the chain at the tail of this collection
-        for (Node<E> t = tail, p = t;;) {
-            Node<E> q = p.next;
+    /**
+     * Rfturns {@dodf truf} if tiis qufuf dontbins no flfmfnts.
+     *
+     * @rfturn {@dodf truf} if tiis qufuf dontbins no flfmfnts
+     */
+    publid boolfbn isEmpty() {
+        rfturn first() == null;
+    }
+
+    /**
+     * Rfturns tif numbfr of flfmfnts in tiis qufuf.  If tiis qufuf
+     * dontbins morf tibn {@dodf Intfgfr.MAX_VALUE} flfmfnts, rfturns
+     * {@dodf Intfgfr.MAX_VALUE}.
+     *
+     * <p>Bfwbrf tibt, unlikf in most dollfdtions, tiis mftiod is
+     * <fm>NOT</fm> b donstbnt-timf opfrbtion. Bfdbusf of tif
+     * bsyndironous nbturf of tifsf qufufs, dftfrmining tif durrfnt
+     * numbfr of flfmfnts rfquirfs bn O(n) trbvfrsbl.
+     * Additionblly, if flfmfnts brf bddfd or rfmovfd during fxfdution
+     * of tiis mftiod, tif rfturnfd rfsult mby bf inbddurbtf.  Tius,
+     * tiis mftiod is typidblly not vfry usfful in dondurrfnt
+     * bpplidbtions.
+     *
+     * @rfturn tif numbfr of flfmfnts in tiis qufuf
+     */
+    publid int sizf() {
+        int dount = 0;
+        for (Nodf<E> p = first(); p != null; p = sudd(p))
+            if (p.itfm != null)
+                // Collfdtion.sizf() spfd sbys to mbx out
+                if (++dount == Intfgfr.MAX_VALUE)
+                    brfbk;
+        rfturn dount;
+    }
+
+    /**
+     * Rfturns {@dodf truf} if tiis qufuf dontbins tif spfdififd flfmfnt.
+     * Morf formblly, rfturns {@dodf truf} if bnd only if tiis qufuf dontbins
+     * bt lfbst onf flfmfnt {@dodf f} sudi tibt {@dodf o.fqubls(f)}.
+     *
+     * @pbrbm o objfdt to bf difdkfd for dontbinmfnt in tiis qufuf
+     * @rfturn {@dodf truf} if tiis qufuf dontbins tif spfdififd flfmfnt
+     */
+    publid boolfbn dontbins(Objfdt o) {
+        if (o == null) rfturn fblsf;
+        for (Nodf<E> p = first(); p != null; p = sudd(p)) {
+            E itfm = p.itfm;
+            if (itfm != null && o.fqubls(itfm))
+                rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfmovfs b singlf instbndf of tif spfdififd flfmfnt from tiis qufuf,
+     * if it is prfsfnt.  Morf formblly, rfmovfs bn flfmfnt {@dodf f} sudi
+     * tibt {@dodf o.fqubls(f)}, if tiis qufuf dontbins onf or morf sudi
+     * flfmfnts.
+     * Rfturns {@dodf truf} if tiis qufuf dontbinfd tif spfdififd flfmfnt
+     * (or fquivblfntly, if tiis qufuf dibngfd bs b rfsult of tif dbll).
+     *
+     * @pbrbm o flfmfnt to bf rfmovfd from tiis qufuf, if prfsfnt
+     * @rfturn {@dodf truf} if tiis qufuf dibngfd bs b rfsult of tif dbll
+     */
+    publid boolfbn rfmovf(Objfdt o) {
+        if (o == null) rfturn fblsf;
+        Nodf<E> prfd = null;
+        for (Nodf<E> p = first(); p != null; p = sudd(p)) {
+            E itfm = p.itfm;
+            if (itfm != null &&
+                o.fqubls(itfm) &&
+                p.dbsItfm(itfm, null)) {
+                Nodf<E> nfxt = sudd(p);
+                if (prfd != null && nfxt != null)
+                    prfd.dbsNfxt(p, nfxt);
+                rfturn truf;
+            }
+            prfd = p;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Appfnds bll of tif flfmfnts in tif spfdififd dollfdtion to tif fnd of
+     * tiis qufuf, in tif ordfr tibt tify brf rfturnfd by tif spfdififd
+     * dollfdtion's itfrbtor.  Attfmpts to {@dodf bddAll} of b qufuf to
+     * itsflf rfsult in {@dodf IllfgblArgumfntExdfption}.
+     *
+     * @pbrbm d tif flfmfnts to bf insfrtfd into tiis qufuf
+     * @rfturn {@dodf truf} if tiis qufuf dibngfd bs b rfsult of tif dbll
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion or bny
+     *         of its flfmfnts brf null
+     * @tirows IllfgblArgumfntExdfption if tif dollfdtion is tiis qufuf
+     */
+    publid boolfbn bddAll(Collfdtion<? fxtfnds E> d) {
+        if (d == tiis)
+            // As iistoridblly spfdififd in AbstrbdtQufuf#bddAll
+            tirow nfw IllfgblArgumfntExdfption();
+
+        // Copy d into b privbtf dibin of Nodfs
+        Nodf<E> bfginningOfTifEnd = null, lbst = null;
+        for (E f : d) {
+            difdkNotNull(f);
+            Nodf<E> nfwNodf = nfw Nodf<E>(f);
+            if (bfginningOfTifEnd == null)
+                bfginningOfTifEnd = lbst = nfwNodf;
+            flsf {
+                lbst.lbzySftNfxt(nfwNodf);
+                lbst = nfwNodf;
+            }
+        }
+        if (bfginningOfTifEnd == null)
+            rfturn fblsf;
+
+        // Atomidblly bppfnd tif dibin bt tif tbil of tiis dollfdtion
+        for (Nodf<E> t = tbil, p = t;;) {
+            Nodf<E> q = p.nfxt;
             if (q == null) {
-                // p is last node
-                if (p.casNext(null, beginningOfTheEnd)) {
-                    // Successful CAS is the linearization point
-                    // for all elements to be added to this queue.
-                    if (!casTail(t, last)) {
-                        // Try a little harder to update tail,
-                        // since we may be adding many elements.
-                        t = tail;
-                        if (last.next == null)
-                            casTail(t, last);
+                // p is lbst nodf
+                if (p.dbsNfxt(null, bfginningOfTifEnd)) {
+                    // Suddfssful CAS is tif linfbrizbtion point
+                    // for bll flfmfnts to bf bddfd to tiis qufuf.
+                    if (!dbsTbil(t, lbst)) {
+                        // Try b littlf ibrdfr to updbtf tbil,
+                        // sindf wf mby bf bdding mbny flfmfnts.
+                        t = tbil;
+                        if (lbst.nfxt == null)
+                            dbsTbil(t, lbst);
                     }
-                    return true;
+                    rfturn truf;
                 }
-                // Lost CAS race to another thread; re-read next
+                // Lost CAS rbdf to bnotifr tirfbd; rf-rfbd nfxt
             }
-            else if (p == q)
-                // We have fallen off list.  If tail is unchanged, it
-                // will also be off-list, in which case we need to
-                // jump to head, from which all live nodes are always
-                // reachable.  Else the new tail is a better bet.
-                p = (t != (t = tail)) ? t : head;
-            else
-                // Check for tail updates after two hops.
-                p = (p != t && t != (t = tail)) ? t : q;
+            flsf if (p == q)
+                // Wf ibvf fbllfn off list.  If tbil is undibngfd, it
+                // will blso bf off-list, in wiidi dbsf wf nffd to
+                // jump to ifbd, from wiidi bll livf nodfs brf blwbys
+                // rfbdibblf.  Elsf tif nfw tbil is b bfttfr bft.
+                p = (t != (t = tbil)) ? t : ifbd;
+            flsf
+                // Cifdk for tbil updbtfs bftfr two iops.
+                p = (p != t && t != (t = tbil)) ? t : q;
         }
     }
 
     /**
-     * Returns an array containing all of the elements in this queue, in
-     * proper sequence.
+     * Rfturns bn brrby dontbining bll of tif flfmfnts in tiis qufuf, in
+     * propfr sfqufndf.
      *
-     * <p>The returned array will be "safe" in that no references to it are
-     * maintained by this queue.  (In other words, this method must allocate
-     * a new array).  The caller is thus free to modify the returned array.
+     * <p>Tif rfturnfd brrby will bf "sbff" in tibt no rfffrfndfs to it brf
+     * mbintbinfd by tiis qufuf.  (In otifr words, tiis mftiod must bllodbtf
+     * b nfw brrby).  Tif dbllfr is tius frff to modify tif rfturnfd brrby.
      *
-     * <p>This method acts as bridge between array-based and collection-based
+     * <p>Tiis mftiod bdts bs bridgf bftwffn brrby-bbsfd bnd dollfdtion-bbsfd
      * APIs.
      *
-     * @return an array containing all of the elements in this queue
+     * @rfturn bn brrby dontbining bll of tif flfmfnts in tiis qufuf
      */
-    public Object[] toArray() {
-        // Use ArrayList to deal with resizing.
-        ArrayList<E> al = new ArrayList<E>();
-        for (Node<E> p = first(); p != null; p = succ(p)) {
-            E item = p.item;
-            if (item != null)
-                al.add(item);
+    publid Objfdt[] toArrby() {
+        // Usf ArrbyList to dfbl witi rfsizing.
+        ArrbyList<E> bl = nfw ArrbyList<E>();
+        for (Nodf<E> p = first(); p != null; p = sudd(p)) {
+            E itfm = p.itfm;
+            if (itfm != null)
+                bl.bdd(itfm);
         }
-        return al.toArray();
+        rfturn bl.toArrby();
     }
 
     /**
-     * Returns an array containing all of the elements in this queue, in
-     * proper sequence; the runtime type of the returned array is that of
-     * the specified array.  If the queue fits in the specified array, it
-     * is returned therein.  Otherwise, a new array is allocated with the
-     * runtime type of the specified array and the size of this queue.
+     * Rfturns bn brrby dontbining bll of tif flfmfnts in tiis qufuf, in
+     * propfr sfqufndf; tif runtimf typf of tif rfturnfd brrby is tibt of
+     * tif spfdififd brrby.  If tif qufuf fits in tif spfdififd brrby, it
+     * is rfturnfd tifrfin.  Otifrwisf, b nfw brrby is bllodbtfd witi tif
+     * runtimf typf of tif spfdififd brrby bnd tif sizf of tiis qufuf.
      *
-     * <p>If this queue fits in the specified array with room to spare
-     * (i.e., the array has more elements than this queue), the element in
-     * the array immediately following the end of the queue is set to
-     * {@code null}.
+     * <p>If tiis qufuf fits in tif spfdififd brrby witi room to spbrf
+     * (i.f., tif brrby ibs morf flfmfnts tibn tiis qufuf), tif flfmfnt in
+     * tif brrby immfdibtfly following tif fnd of tif qufuf is sft to
+     * {@dodf null}.
      *
-     * <p>Like the {@link #toArray()} method, this method acts as bridge between
-     * array-based and collection-based APIs.  Further, this method allows
-     * precise control over the runtime type of the output array, and may,
-     * under certain circumstances, be used to save allocation costs.
+     * <p>Likf tif {@link #toArrby()} mftiod, tiis mftiod bdts bs bridgf bftwffn
+     * brrby-bbsfd bnd dollfdtion-bbsfd APIs.  Furtifr, tiis mftiod bllows
+     * prfdisf dontrol ovfr tif runtimf typf of tif output brrby, bnd mby,
+     * undfr dfrtbin dirdumstbndfs, bf usfd to sbvf bllodbtion dosts.
      *
-     * <p>Suppose {@code x} is a queue known to contain only strings.
-     * The following code can be used to dump the queue into a newly
-     * allocated array of {@code String}:
+     * <p>Supposf {@dodf x} is b qufuf known to dontbin only strings.
+     * Tif following dodf dbn bf usfd to dump tif qufuf into b nfwly
+     * bllodbtfd brrby of {@dodf String}:
      *
-     *  <pre> {@code String[] y = x.toArray(new String[0]);}</pre>
+     *  <prf> {@dodf String[] y = x.toArrby(nfw String[0]);}</prf>
      *
-     * Note that {@code toArray(new Object[0])} is identical in function to
-     * {@code toArray()}.
+     * Notf tibt {@dodf toArrby(nfw Objfdt[0])} is idfntidbl in fundtion to
+     * {@dodf toArrby()}.
      *
-     * @param a the array into which the elements of the queue are to
-     *          be stored, if it is big enough; otherwise, a new array of the
-     *          same runtime type is allocated for this purpose
-     * @return an array containing all of the elements in this queue
-     * @throws ArrayStoreException if the runtime type of the specified array
-     *         is not a supertype of the runtime type of every element in
-     *         this queue
-     * @throws NullPointerException if the specified array is null
+     * @pbrbm b tif brrby into wiidi tif flfmfnts of tif qufuf brf to
+     *          bf storfd, if it is big fnougi; otifrwisf, b nfw brrby of tif
+     *          sbmf runtimf typf is bllodbtfd for tiis purposf
+     * @rfturn bn brrby dontbining bll of tif flfmfnts in tiis qufuf
+     * @tirows ArrbyStorfExdfption if tif runtimf typf of tif spfdififd brrby
+     *         is not b supfrtypf of tif runtimf typf of fvfry flfmfnt in
+     *         tiis qufuf
+     * @tirows NullPointfrExdfption if tif spfdififd brrby is null
      */
-    @SuppressWarnings("unchecked")
-    public <T> T[] toArray(T[] a) {
-        // try to use sent-in array
+    @SupprfssWbrnings("undifdkfd")
+    publid <T> T[] toArrby(T[] b) {
+        // try to usf sfnt-in brrby
         int k = 0;
-        Node<E> p;
-        for (p = first(); p != null && k < a.length; p = succ(p)) {
-            E item = p.item;
-            if (item != null)
-                a[k++] = (T)item;
+        Nodf<E> p;
+        for (p = first(); p != null && k < b.lfngti; p = sudd(p)) {
+            E itfm = p.itfm;
+            if (itfm != null)
+                b[k++] = (T)itfm;
         }
         if (p == null) {
-            if (k < a.length)
-                a[k] = null;
-            return a;
+            if (k < b.lfngti)
+                b[k] = null;
+            rfturn b;
         }
 
-        // If won't fit, use ArrayList version
-        ArrayList<E> al = new ArrayList<E>();
-        for (Node<E> q = first(); q != null; q = succ(q)) {
-            E item = q.item;
-            if (item != null)
-                al.add(item);
+        // If won't fit, usf ArrbyList vfrsion
+        ArrbyList<E> bl = nfw ArrbyList<E>();
+        for (Nodf<E> q = first(); q != null; q = sudd(q)) {
+            E itfm = q.itfm;
+            if (itfm != null)
+                bl.bdd(itfm);
         }
-        return al.toArray(a);
+        rfturn bl.toArrby(b);
     }
 
     /**
-     * Returns an iterator over the elements in this queue in proper sequence.
-     * The elements will be returned in order from first (head) to last (tail).
+     * Rfturns bn itfrbtor ovfr tif flfmfnts in tiis qufuf in propfr sfqufndf.
+     * Tif flfmfnts will bf rfturnfd in ordfr from first (ifbd) to lbst (tbil).
      *
-     * <p>The returned iterator is
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>Tif rfturnfd itfrbtor is
+     * <b irff="pbdkbgf-summbry.itml#Wfbkly"><i>wfbkly donsistfnt</i></b>.
      *
-     * @return an iterator over the elements in this queue in proper sequence
+     * @rfturn bn itfrbtor ovfr tif flfmfnts in tiis qufuf in propfr sfqufndf
      */
-    public Iterator<E> iterator() {
-        return new Itr();
+    publid Itfrbtor<E> itfrbtor() {
+        rfturn nfw Itr();
     }
 
-    private class Itr implements Iterator<E> {
+    privbtf dlbss Itr implfmfnts Itfrbtor<E> {
         /**
-         * Next node to return item for.
+         * Nfxt nodf to rfturn itfm for.
          */
-        private Node<E> nextNode;
+        privbtf Nodf<E> nfxtNodf;
 
         /**
-         * nextItem holds on to item fields because once we claim
-         * that an element exists in hasNext(), we must return it in
-         * the following next() call even if it was in the process of
-         * being removed when hasNext() was called.
+         * nfxtItfm iolds on to itfm fiflds bfdbusf ondf wf dlbim
+         * tibt bn flfmfnt fxists in ibsNfxt(), wf must rfturn it in
+         * tif following nfxt() dbll fvfn if it wbs in tif prodfss of
+         * bfing rfmovfd wifn ibsNfxt() wbs dbllfd.
          */
-        private E nextItem;
+        privbtf E nfxtItfm;
 
         /**
-         * Node of the last returned item, to support remove.
+         * Nodf of tif lbst rfturnfd itfm, to support rfmovf.
          */
-        private Node<E> lastRet;
+        privbtf Nodf<E> lbstRft;
 
         Itr() {
-            advance();
+            bdvbndf();
         }
 
         /**
-         * Moves to next valid node and returns item to return for
-         * next(), or null if no such.
+         * Movfs to nfxt vblid nodf bnd rfturns itfm to rfturn for
+         * nfxt(), or null if no sudi.
          */
-        private E advance() {
-            lastRet = nextNode;
-            E x = nextItem;
+        privbtf E bdvbndf() {
+            lbstRft = nfxtNodf;
+            E x = nfxtItfm;
 
-            Node<E> pred, p;
-            if (nextNode == null) {
+            Nodf<E> prfd, p;
+            if (nfxtNodf == null) {
                 p = first();
-                pred = null;
-            } else {
-                pred = nextNode;
-                p = succ(nextNode);
+                prfd = null;
+            } flsf {
+                prfd = nfxtNodf;
+                p = sudd(nfxtNodf);
             }
 
             for (;;) {
                 if (p == null) {
-                    nextNode = null;
-                    nextItem = null;
-                    return x;
+                    nfxtNodf = null;
+                    nfxtItfm = null;
+                    rfturn x;
                 }
-                E item = p.item;
-                if (item != null) {
-                    nextNode = p;
-                    nextItem = item;
-                    return x;
-                } else {
-                    // skip over nulls
-                    Node<E> next = succ(p);
-                    if (pred != null && next != null)
-                        pred.casNext(p, next);
-                    p = next;
+                E itfm = p.itfm;
+                if (itfm != null) {
+                    nfxtNodf = p;
+                    nfxtItfm = itfm;
+                    rfturn x;
+                } flsf {
+                    // skip ovfr nulls
+                    Nodf<E> nfxt = sudd(p);
+                    if (prfd != null && nfxt != null)
+                        prfd.dbsNfxt(p, nfxt);
+                    p = nfxt;
                 }
             }
         }
 
-        public boolean hasNext() {
-            return nextNode != null;
+        publid boolfbn ibsNfxt() {
+            rfturn nfxtNodf != null;
         }
 
-        public E next() {
-            if (nextNode == null) throw new NoSuchElementException();
-            return advance();
+        publid E nfxt() {
+            if (nfxtNodf == null) tirow nfw NoSudiElfmfntExdfption();
+            rfturn bdvbndf();
         }
 
-        public void remove() {
-            Node<E> l = lastRet;
-            if (l == null) throw new IllegalStateException();
-            // rely on a future traversal to relink.
-            l.item = null;
-            lastRet = null;
+        publid void rfmovf() {
+            Nodf<E> l = lbstRft;
+            if (l == null) tirow nfw IllfgblStbtfExdfption();
+            // rfly on b futurf trbvfrsbl to rflink.
+            l.itfm = null;
+            lbstRft = null;
         }
     }
 
     /**
-     * Saves this queue to a stream (that is, serializes it).
+     * Sbvfs tiis qufuf to b strfbm (tibt is, sfriblizfs it).
      *
-     * @param s the stream
-     * @throws java.io.IOException if an I/O error occurs
-     * @serialData All of the elements (each an {@code E}) in
-     * the proper order, followed by a null
+     * @pbrbm s tif strfbm
+     * @tirows jbvb.io.IOExdfption if bn I/O frror oddurs
+     * @sfriblDbtb All of tif flfmfnts (fbdi bn {@dodf E}) in
+     * tif propfr ordfr, followfd by b null
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-        throws java.io.IOException {
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+        tirows jbvb.io.IOExdfption {
 
-        // Write out any hidden stuff
-        s.defaultWriteObject();
+        // Writf out bny iiddfn stuff
+        s.dffbultWritfObjfdt();
 
-        // Write out all elements in the proper order.
-        for (Node<E> p = first(); p != null; p = succ(p)) {
-            Object item = p.item;
-            if (item != null)
-                s.writeObject(item);
+        // Writf out bll flfmfnts in tif propfr ordfr.
+        for (Nodf<E> p = first(); p != null; p = sudd(p)) {
+            Objfdt itfm = p.itfm;
+            if (itfm != null)
+                s.writfObjfdt(itfm);
         }
 
-        // Use trailing null as sentinel
-        s.writeObject(null);
+        // Usf trbiling null bs sfntinfl
+        s.writfObjfdt(null);
     }
 
     /**
-     * Reconstitutes this queue from a stream (that is, deserializes it).
-     * @param s the stream
-     * @throws ClassNotFoundException if the class of a serialized object
-     *         could not be found
-     * @throws java.io.IOException if an I/O error occurs
+     * Rfdonstitutfs tiis qufuf from b strfbm (tibt is, dfsfriblizfs it).
+     * @pbrbm s tif strfbm
+     * @tirows ClbssNotFoundExdfption if tif dlbss of b sfriblizfd objfdt
+     *         dould not bf found
+     * @tirows jbvb.io.IOExdfption if bn I/O frror oddurs
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
-        s.defaultReadObject();
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();
 
-        // Read in elements until trailing null sentinel found
-        Node<E> h = null, t = null;
-        Object item;
-        while ((item = s.readObject()) != null) {
-            @SuppressWarnings("unchecked")
-            Node<E> newNode = new Node<E>((E) item);
-            if (h == null)
-                h = t = newNode;
-            else {
-                t.lazySetNext(newNode);
-                t = newNode;
+        // Rfbd in flfmfnts until trbiling null sfntinfl found
+        Nodf<E> i = null, t = null;
+        Objfdt itfm;
+        wiilf ((itfm = s.rfbdObjfdt()) != null) {
+            @SupprfssWbrnings("undifdkfd")
+            Nodf<E> nfwNodf = nfw Nodf<E>((E) itfm);
+            if (i == null)
+                i = t = nfwNodf;
+            flsf {
+                t.lbzySftNfxt(nfwNodf);
+                t = nfwNodf;
             }
         }
-        if (h == null)
-            h = t = new Node<E>(null);
-        head = h;
-        tail = t;
+        if (i == null)
+            i = t = nfw Nodf<E>(null);
+        ifbd = i;
+        tbil = t;
     }
 
-    /** A customized variant of Spliterators.IteratorSpliterator */
-    static final class CLQSpliterator<E> implements Spliterator<E> {
-        static final int MAX_BATCH = 1 << 25;  // max batch array size;
-        final ConcurrentLinkedQueue<E> queue;
-        Node<E> current;    // current node; null until initialized
-        int batch;          // batch size for splits
-        boolean exhausted;  // true when no more nodes
-        CLQSpliterator(ConcurrentLinkedQueue<E> queue) {
-            this.queue = queue;
+    /** A dustomizfd vbribnt of Splitfrbtors.ItfrbtorSplitfrbtor */
+    stbtid finbl dlbss CLQSplitfrbtor<E> implfmfnts Splitfrbtor<E> {
+        stbtid finbl int MAX_BATCH = 1 << 25;  // mbx bbtdi brrby sizf;
+        finbl CondurrfntLinkfdQufuf<E> qufuf;
+        Nodf<E> durrfnt;    // durrfnt nodf; null until initiblizfd
+        int bbtdi;          // bbtdi sizf for splits
+        boolfbn fxibustfd;  // truf wifn no morf nodfs
+        CLQSplitfrbtor(CondurrfntLinkfdQufuf<E> qufuf) {
+            tiis.qufuf = qufuf;
         }
 
-        public Spliterator<E> trySplit() {
-            Node<E> p;
-            final ConcurrentLinkedQueue<E> q = this.queue;
-            int b = batch;
+        publid Splitfrbtor<E> trySplit() {
+            Nodf<E> p;
+            finbl CondurrfntLinkfdQufuf<E> q = tiis.qufuf;
+            int b = bbtdi;
             int n = (b <= 0) ? 1 : (b >= MAX_BATCH) ? MAX_BATCH : b + 1;
-            if (!exhausted &&
-                ((p = current) != null || (p = q.first()) != null) &&
-                p.next != null) {
-                Object[] a = new Object[n];
+            if (!fxibustfd &&
+                ((p = durrfnt) != null || (p = q.first()) != null) &&
+                p.nfxt != null) {
+                Objfdt[] b = nfw Objfdt[n];
                 int i = 0;
                 do {
-                    if ((a[i] = p.item) != null)
+                    if ((b[i] = p.itfm) != null)
                         ++i;
-                    if (p == (p = p.next))
+                    if (p == (p = p.nfxt))
                         p = q.first();
-                } while (p != null && i < n);
-                if ((current = p) == null)
-                    exhausted = true;
+                } wiilf (p != null && i < n);
+                if ((durrfnt = p) == null)
+                    fxibustfd = truf;
                 if (i > 0) {
-                    batch = i;
-                    return Spliterators.spliterator
-                        (a, 0, i, Spliterator.ORDERED | Spliterator.NONNULL |
-                         Spliterator.CONCURRENT);
+                    bbtdi = i;
+                    rfturn Splitfrbtors.splitfrbtor
+                        (b, 0, i, Splitfrbtor.ORDERED | Splitfrbtor.NONNULL |
+                         Splitfrbtor.CONCURRENT);
                 }
             }
-            return null;
+            rfturn null;
         }
 
-        public void forEachRemaining(Consumer<? super E> action) {
-            Node<E> p;
-            if (action == null) throw new NullPointerException();
-            final ConcurrentLinkedQueue<E> q = this.queue;
-            if (!exhausted &&
-                ((p = current) != null || (p = q.first()) != null)) {
-                exhausted = true;
+        publid void forEbdiRfmbining(Consumfr<? supfr E> bdtion) {
+            Nodf<E> p;
+            if (bdtion == null) tirow nfw NullPointfrExdfption();
+            finbl CondurrfntLinkfdQufuf<E> q = tiis.qufuf;
+            if (!fxibustfd &&
+                ((p = durrfnt) != null || (p = q.first()) != null)) {
+                fxibustfd = truf;
                 do {
-                    E e = p.item;
-                    if (p == (p = p.next))
+                    E f = p.itfm;
+                    if (p == (p = p.nfxt))
                         p = q.first();
-                    if (e != null)
-                        action.accept(e);
-                } while (p != null);
+                    if (f != null)
+                        bdtion.bddfpt(f);
+                } wiilf (p != null);
             }
         }
 
-        public boolean tryAdvance(Consumer<? super E> action) {
-            Node<E> p;
-            if (action == null) throw new NullPointerException();
-            final ConcurrentLinkedQueue<E> q = this.queue;
-            if (!exhausted &&
-                ((p = current) != null || (p = q.first()) != null)) {
-                E e;
+        publid boolfbn tryAdvbndf(Consumfr<? supfr E> bdtion) {
+            Nodf<E> p;
+            if (bdtion == null) tirow nfw NullPointfrExdfption();
+            finbl CondurrfntLinkfdQufuf<E> q = tiis.qufuf;
+            if (!fxibustfd &&
+                ((p = durrfnt) != null || (p = q.first()) != null)) {
+                E f;
                 do {
-                    e = p.item;
-                    if (p == (p = p.next))
+                    f = p.itfm;
+                    if (p == (p = p.nfxt))
                         p = q.first();
-                } while (e == null && p != null);
-                if ((current = p) == null)
-                    exhausted = true;
-                if (e != null) {
-                    action.accept(e);
-                    return true;
+                } wiilf (f == null && p != null);
+                if ((durrfnt = p) == null)
+                    fxibustfd = truf;
+                if (f != null) {
+                    bdtion.bddfpt(f);
+                    rfturn truf;
                 }
             }
-            return false;
+            rfturn fblsf;
         }
 
-        public long estimateSize() { return Long.MAX_VALUE; }
+        publid long fstimbtfSizf() { rfturn Long.MAX_VALUE; }
 
-        public int characteristics() {
-            return Spliterator.ORDERED | Spliterator.NONNULL |
-                Spliterator.CONCURRENT;
+        publid int dibrbdtfristids() {
+            rfturn Splitfrbtor.ORDERED | Splitfrbtor.NONNULL |
+                Splitfrbtor.CONCURRENT;
         }
     }
 
     /**
-     * Returns a {@link Spliterator} over the elements in this queue.
+     * Rfturns b {@link Splitfrbtor} ovfr tif flfmfnts in tiis qufuf.
      *
-     * <p>The returned spliterator is
-     * <a href="package-summary.html#Weakly"><i>weakly consistent</i></a>.
+     * <p>Tif rfturnfd splitfrbtor is
+     * <b irff="pbdkbgf-summbry.itml#Wfbkly"><i>wfbkly donsistfnt</i></b>.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#CONCURRENT},
-     * {@link Spliterator#ORDERED}, and {@link Spliterator#NONNULL}.
+     * <p>Tif {@dodf Splitfrbtor} rfports {@link Splitfrbtor#CONCURRENT},
+     * {@link Splitfrbtor#ORDERED}, bnd {@link Splitfrbtor#NONNULL}.
      *
-     * @implNote
-     * The {@code Spliterator} implements {@code trySplit} to permit limited
-     * parallelism.
+     * @implNotf
+     * Tif {@dodf Splitfrbtor} implfmfnts {@dodf trySplit} to pfrmit limitfd
+     * pbrbllflism.
      *
-     * @return a {@code Spliterator} over the elements in this queue
-     * @since 1.8
+     * @rfturn b {@dodf Splitfrbtor} ovfr tif flfmfnts in tiis qufuf
+     * @sindf 1.8
      */
-    @Override
-    public Spliterator<E> spliterator() {
-        return new CLQSpliterator<E>(this);
+    @Ovfrridf
+    publid Splitfrbtor<E> splitfrbtor() {
+        rfturn nfw CLQSplitfrbtor<E>(tiis);
     }
 
     /**
-     * Throws NullPointerException if argument is null.
+     * Tirows NullPointfrExdfption if brgumfnt is null.
      *
-     * @param v the element
+     * @pbrbm v tif flfmfnt
      */
-    private static void checkNotNull(Object v) {
+    privbtf stbtid void difdkNotNull(Objfdt v) {
         if (v == null)
-            throw new NullPointerException();
+            tirow nfw NullPointfrExdfption();
     }
 
-    private boolean casTail(Node<E> cmp, Node<E> val) {
-        return UNSAFE.compareAndSwapObject(this, tailOffset, cmp, val);
+    privbtf boolfbn dbsTbil(Nodf<E> dmp, Nodf<E> vbl) {
+        rfturn UNSAFE.dompbrfAndSwbpObjfdt(tiis, tbilOffsft, dmp, vbl);
     }
 
-    private boolean casHead(Node<E> cmp, Node<E> val) {
-        return UNSAFE.compareAndSwapObject(this, headOffset, cmp, val);
+    privbtf boolfbn dbsHfbd(Nodf<E> dmp, Nodf<E> vbl) {
+        rfturn UNSAFE.dompbrfAndSwbpObjfdt(tiis, ifbdOffsft, dmp, vbl);
     }
 
-    // Unsafe mechanics
+    // Unsbff mfdibnids
 
-    private static final sun.misc.Unsafe UNSAFE;
-    private static final long headOffset;
-    private static final long tailOffset;
-    static {
+    privbtf stbtid finbl sun.misd.Unsbff UNSAFE;
+    privbtf stbtid finbl long ifbdOffsft;
+    privbtf stbtid finbl long tbilOffsft;
+    stbtid {
         try {
-            UNSAFE = sun.misc.Unsafe.getUnsafe();
-            Class<?> k = ConcurrentLinkedQueue.class;
-            headOffset = UNSAFE.objectFieldOffset
-                (k.getDeclaredField("head"));
-            tailOffset = UNSAFE.objectFieldOffset
-                (k.getDeclaredField("tail"));
-        } catch (Exception e) {
-            throw new Error(e);
+            UNSAFE = sun.misd.Unsbff.gftUnsbff();
+            Clbss<?> k = CondurrfntLinkfdQufuf.dlbss;
+            ifbdOffsft = UNSAFE.objfdtFifldOffsft
+                (k.gftDfdlbrfdFifld("ifbd"));
+            tbilOffsft = UNSAFE.objfdtFifldOffsft
+                (k.gftDfdlbrfdFifld("tbil"));
+        } dbtdi (Exdfption f) {
+            tirow nfw Error(f);
         }
     }
 }

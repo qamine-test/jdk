@@ -1,1092 +1,1092 @@
 /*
- * Copyright (c) 2002, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.remote.rmi;
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf.rmi;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.rmi.MarshalledObject;
-import java.rmi.Remote;
-import java.util.Set;
+import jbvb.io.Closfbblf;
+import jbvb.io.IOExdfption;
+import jbvb.rmi.MbrsibllfdObjfdt;
+import jbvb.rmi.Rfmotf;
+import jbvb.util.Sft;
 
-import javax.management.AttributeList;
-import javax.management.AttributeNotFoundException;
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.InstanceNotFoundException;
-import javax.management.IntrospectionException;
-import javax.management.InvalidAttributeValueException;
-import javax.management.ListenerNotFoundException;
-import javax.management.MBeanException;
-import javax.management.MBeanInfo;
-import javax.management.MBeanRegistrationException;
-import javax.management.MBeanServerConnection;
-import javax.management.NotCompliantMBeanException;
+import jbvbx.mbnbgfmfnt.AttributfList;
+import jbvbx.mbnbgfmfnt.AttributfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfAlrfbdyExistsExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.IntrospfdtionExdfption;
+import jbvbx.mbnbgfmfnt.InvblidAttributfVblufExdfption;
+import jbvbx.mbnbgfmfnt.ListfnfrNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnInfo;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtionExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion;
+import jbvbx.mbnbgfmfnt.NotComplibntMBfbnExdfption;
 
-import javax.management.ObjectInstance;
-import javax.management.ObjectName;
-import javax.management.ReflectionException;
-import javax.management.RuntimeMBeanException;
-import javax.management.RuntimeOperationsException;
-import javax.management.remote.NotificationResult;
-import javax.security.auth.Subject;
+import jbvbx.mbnbgfmfnt.ObjfdtInstbndf;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.RfflfdtionExdfption;
+import jbvbx.mbnbgfmfnt.RuntimfMBfbnExdfption;
+import jbvbx.mbnbgfmfnt.RuntimfOpfrbtionsExdfption;
+import jbvbx.mbnbgfmfnt.rfmotf.NotifidbtionRfsult;
+import jbvbx.sfdurity.buti.Subjfdt;
 
 /**
- * <p>RMI object used to forward an MBeanServer request from a client
- * to its MBeanServer implementation on the server side.  There is one
- * Remote object implementing this interface for each remote client
- * connected to an RMI connector.</p>
+ * <p>RMI objfdt usfd to forwbrd bn MBfbnSfrvfr rfqufst from b dlifnt
+ * to its MBfbnSfrvfr implfmfntbtion on tif sfrvfr sidf.  Tifrf is onf
+ * Rfmotf objfdt implfmfnting tiis intfrfbdf for fbdi rfmotf dlifnt
+ * donnfdtfd to bn RMI donnfdtor.</p>
  *
- * <p>User code does not usually refer to this interface.  It is
- * specified as part of the public API so that different
- * implementations of that API will interoperate.</p>
+ * <p>Usfr dodf dofs not usublly rfffr to tiis intfrfbdf.  It is
+ * spfdififd bs pbrt of tif publid API so tibt difffrfnt
+ * implfmfntbtions of tibt API will intfropfrbtf.</p>
  *
- * <p>To ensure that client parameters will be deserialized at the
- * server side with the correct classloader, client parameters such as
- * parameters used to invoke a method are wrapped in a {@link
- * MarshalledObject}.  An implementation of this interface must first
- * get the appropriate class loader for the operation and its target,
- * then deserialize the marshalled parameters with this classloader.
- * Except as noted, a parameter that is a
- * <code>MarshalledObject</code> or <code>MarshalledObject[]</code>
- * must not be null; the behavior is unspecified if it is.</p>
+ * <p>To fnsurf tibt dlifnt pbrbmftfrs will bf dfsfriblizfd bt tif
+ * sfrvfr sidf witi tif dorrfdt dlbsslobdfr, dlifnt pbrbmftfrs sudi bs
+ * pbrbmftfrs usfd to invokf b mftiod brf wrbppfd in b {@link
+ * MbrsibllfdObjfdt}.  An implfmfntbtion of tiis intfrfbdf must first
+ * gft tif bppropribtf dlbss lobdfr for tif opfrbtion bnd its tbrgft,
+ * tifn dfsfriblizf tif mbrsibllfd pbrbmftfrs witi tiis dlbsslobdfr.
+ * Exdfpt bs notfd, b pbrbmftfr tibt is b
+ * <dodf>MbrsibllfdObjfdt</dodf> or <dodf>MbrsibllfdObjfdt[]</dodf>
+ * must not bf null; tif bfibvior is unspfdififd if it is.</p>
  *
- * <p>Class loading aspects are detailed in the
- * <a href="{@docRoot}/../technotes/guides/jmx/JMX_1_4_specification.pdf">
- * JMX Specification, version 1.4</a> PDF document.</p>
+ * <p>Clbss lobding bspfdts brf dftbilfd in tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/JMX_1_4_spfdifidbtion.pdf">
+ * JMX Spfdifidbtion, vfrsion 1.4</b> PDF dodumfnt.</p>
  *
- * <p>Most methods in this interface parallel methods in the {@link
- * MBeanServerConnection} interface.  Where an aspect of the behavior
- * of a method is not specified here, it is the same as in the
- * corresponding <code>MBeanServerConnection</code> method.
+ * <p>Most mftiods in tiis intfrfbdf pbrbllfl mftiods in tif {@link
+ * MBfbnSfrvfrConnfdtion} intfrfbdf.  Wifrf bn bspfdt of tif bfibvior
+ * of b mftiod is not spfdififd ifrf, it is tif sbmf bs in tif
+ * dorrfsponding <dodf>MBfbnSfrvfrConnfdtion</dodf> mftiod.
  *
- * @since 1.5
+ * @sindf 1.5
  */
 /*
- * Notice that we omit the type parameter from MarshalledObject everywhere,
- * even though it would add useful information to the documentation.  The
- * reason is that it was only added in Mustang (Java SE 6), whereas versions
- * 1.4 and 2.0 of the JMX API must be implementable on Tiger per our
- * commitments for JSR 255.  This is also why we suppress rawtypes warnings.
+ * Notidf tibt wf omit tif typf pbrbmftfr from MbrsibllfdObjfdt fvfrywifrf,
+ * fvfn tiougi it would bdd usfful informbtion to tif dodumfntbtion.  Tif
+ * rfbson is tibt it wbs only bddfd in Mustbng (Jbvb SE 6), wifrfbs vfrsions
+ * 1.4 bnd 2.0 of tif JMX API must bf implfmfntbblf on Tigfr pfr our
+ * dommitmfnts for JSR 255.  Tiis is blso wiy wf supprfss rbwtypfs wbrnings.
  */
-@SuppressWarnings("rawtypes")
-public interface RMIConnection extends Closeable, Remote {
+@SupprfssWbrnings("rbwtypfs")
+publid intfrfbdf RMIConnfdtion fxtfnds Closfbblf, Rfmotf {
     /**
-     * <p>Returns the connection ID.  This string is different for
-     * every open connection to a given RMI connector server.</p>
+     * <p>Rfturns tif donnfdtion ID.  Tiis string is difffrfnt for
+     * fvfry opfn donnfdtion to b givfn RMI donnfdtor sfrvfr.</p>
      *
-     * @return the connection ID
+     * @rfturn tif donnfdtion ID
      *
-     * @see RMIConnector#connect RMIConnector.connect
+     * @sff RMIConnfdtor#donnfdt RMIConnfdtor.donnfdt
      *
-     * @throws IOException if a general communication exception occurred.
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
      */
-    public String getConnectionId() throws IOException;
+    publid String gftConnfdtionId() tirows IOExdfption;
 
     /**
-     * <p>Closes this connection.  On return from this method, the RMI
-     * object implementing this interface is unexported, so further
-     * remote calls to it will fail.</p>
+     * <p>Closfs tiis donnfdtion.  On rfturn from tiis mftiod, tif RMI
+     * objfdt implfmfnting tiis intfrfbdf is unfxportfd, so furtifr
+     * rfmotf dblls to it will fbil.</p>
      *
-     * @throws IOException if the connection could not be closed,
-     * or the Remote object could not be unexported, or there was a
-     * communication failure when transmitting the remote close
-     * request.
+     * @tirows IOExdfption if tif donnfdtion dould not bf dlosfd,
+     * or tif Rfmotf objfdt dould not bf unfxportfd, or tifrf wbs b
+     * dommunidbtion fbilurf wifn trbnsmitting tif rfmotf dlosf
+     * rfqufst.
      */
-    public void close() throws IOException;
+    publid void dlosf() tirows IOExdfption;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#createMBean(String,
-     * ObjectName)}.
+     * Hbndlfs tif mftiod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#drfbtfMBfbn(String,
+     * ObjfdtNbmf)}.
      *
-     * @param className The class name of the MBean to be instantiated.
-     * @param name The object name of the MBean. May be null.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm dlbssNbmf Tif dlbss nbmf of tif MBfbn to bf instbntibtfd.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn. Mby bf null.
+     * @pbrbm dflfgbtionSubjfdt Tif <dodf>Subjfdt</dodf> dontbining tif
+     * dflfgbtion prindipbls or <dodf>null</dodf> if tif butifntidbtion
+     * prindipbl is usfd instfbd.
      *
-     * @return An <code>ObjectInstance</code>, containing the
-     * <code>ObjectName</code> and the Java class name of the newly
-     * instantiated MBean.  If the contained <code>ObjectName</code>
-     * is <code>n</code>, the contained Java class name is
-     * <code>{@link #getMBeanInfo getMBeanInfo(n)}.getClassName()</code>.
+     * @rfturn An <dodf>ObjfdtInstbndf</dodf>, dontbining tif
+     * <dodf>ObjfdtNbmf</dodf> bnd tif Jbvb dlbss nbmf of tif nfwly
+     * instbntibtfd MBfbn.  If tif dontbinfd <dodf>ObjfdtNbmf</dodf>
+     * is <dodf>n</dodf>, tif dontbinfd Jbvb dlbss nbmf is
+     * <dodf>{@link #gftMBfbnInfo gftMBfbnInfo(n)}.gftClbssNbmf()</dodf>.
      *
-     * @throws ReflectionException Wraps a
-     * <code>java.lang.ClassNotFoundException</code> or a
-     * <code>java.lang.Exception</code> that occurred
-     * when trying to invoke the MBean's constructor.
-     * @throws InstanceAlreadyExistsException The MBean is already
-     * under the control of the MBean server.
-     * @throws MBeanRegistrationException The
-     * <code>preRegister</code> (<code>MBeanRegistration</code>
-     * interface) method of the MBean has thrown an exception. The
-     * MBean will not be registered.
-     * @throws MBeanException The constructor of the MBean has
-     * thrown an exception.
-     * @throws NotCompliantMBeanException This class is not a JMX
-     * compliant MBean.
-     * @throws RuntimeOperationsException Wraps a
-     * <code>java.lang.IllegalArgumentException</code>: The className
-     * passed in parameter is null, the <code>ObjectName</code> passed
-     * in parameter contains a pattern or no <code>ObjectName</code>
-     * is specified for the MBean.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @tirows RfflfdtionExdfption Wrbps b
+     * <dodf>jbvb.lbng.ClbssNotFoundExdfption</dodf> or b
+     * <dodf>jbvb.lbng.Exdfption</dodf> tibt oddurrfd
+     * wifn trying to invokf tif MBfbn's donstrudtor.
+     * @tirows InstbndfAlrfbdyExistsExdfption Tif MBfbn is blrfbdy
+     * undfr tif dontrol of tif MBfbn sfrvfr.
+     * @tirows MBfbnRfgistrbtionExdfption Tif
+     * <dodf>prfRfgistfr</dodf> (<dodf>MBfbnRfgistrbtion</dodf>
+     * intfrfbdf) mftiod of tif MBfbn ibs tirown bn fxdfption. Tif
+     * MBfbn will not bf rfgistfrfd.
+     * @tirows MBfbnExdfption Tif donstrudtor of tif MBfbn ibs
+     * tirown bn fxdfption.
+     * @tirows NotComplibntMBfbnExdfption Tiis dlbss is not b JMX
+     * domplibnt MBfbn.
+     * @tirows RuntimfOpfrbtionsExdfption Wrbps b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Tif dlbssNbmf
+     * pbssfd in pbrbmftfr is null, tif <dodf>ObjfdtNbmf</dodf> pbssfd
+     * in pbrbmftfr dontbins b pbttfrn or no <dodf>ObjfdtNbmf</dodf>
+     * is spfdififd for tif MBfbn.
+     * @tirows SfdurityExdfption if tif dlifnt, or tif dflfgbtfd Subjfdt
+     * if bny, dofs not ibvf pfrmission to pfrform tiis opfrbtion.
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
      */
-    public ObjectInstance createMBean(String className,
-                                      ObjectName name,
-                                      Subject delegationSubject)
-        throws
-        ReflectionException,
-        InstanceAlreadyExistsException,
-        MBeanRegistrationException,
-        MBeanException,
-        NotCompliantMBeanException,
-        IOException;
+    publid ObjfdtInstbndf drfbtfMBfbn(String dlbssNbmf,
+                                      ObjfdtNbmf nbmf,
+                                      Subjfdt dflfgbtionSubjfdt)
+        tirows
+        RfflfdtionExdfption,
+        InstbndfAlrfbdyExistsExdfption,
+        MBfbnRfgistrbtionExdfption,
+        MBfbnExdfption,
+        NotComplibntMBfbnExdfption,
+        IOExdfption;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#createMBean(String,
-     * ObjectName, ObjectName)}.
+     * Hbndlfs tif mftiod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#drfbtfMBfbn(String,
+     * ObjfdtNbmf, ObjfdtNbmf)}.
      *
-     * @param className The class name of the MBean to be instantiated.
-     * @param name The object name of the MBean. May be null.
-     * @param loaderName The object name of the class loader to be used.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm dlbssNbmf Tif dlbss nbmf of tif MBfbn to bf instbntibtfd.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn. Mby bf null.
+     * @pbrbm lobdfrNbmf Tif objfdt nbmf of tif dlbss lobdfr to bf usfd.
+     * @pbrbm dflfgbtionSubjfdt Tif <dodf>Subjfdt</dodf> dontbining tif
+     * dflfgbtion prindipbls or <dodf>null</dodf> if tif butifntidbtion
+     * prindipbl is usfd instfbd.
      *
-     * @return An <code>ObjectInstance</code>, containing the
-     * <code>ObjectName</code> and the Java class name of the newly
-     * instantiated MBean.  If the contained <code>ObjectName</code>
-     * is <code>n</code>, the contained Java class name is
-     * <code>{@link #getMBeanInfo getMBeanInfo(n)}.getClassName()</code>.
+     * @rfturn An <dodf>ObjfdtInstbndf</dodf>, dontbining tif
+     * <dodf>ObjfdtNbmf</dodf> bnd tif Jbvb dlbss nbmf of tif nfwly
+     * instbntibtfd MBfbn.  If tif dontbinfd <dodf>ObjfdtNbmf</dodf>
+     * is <dodf>n</dodf>, tif dontbinfd Jbvb dlbss nbmf is
+     * <dodf>{@link #gftMBfbnInfo gftMBfbnInfo(n)}.gftClbssNbmf()</dodf>.
      *
-     * @throws ReflectionException Wraps a
-     * <code>java.lang.ClassNotFoundException</code> or a
-     * <code>java.lang.Exception</code> that occurred when trying to
-     * invoke the MBean's constructor.
-     * @throws InstanceAlreadyExistsException The MBean is already
-     * under the control of the MBean server.
-     * @throws MBeanRegistrationException The
-     * <code>preRegister</code> (<code>MBeanRegistration</code>
-     * interface) method of the MBean has thrown an exception. The
-     * MBean will not be registered.
-     * @throws MBeanException The constructor of the MBean has
-     * thrown an exception.
-     * @throws NotCompliantMBeanException This class is not a JMX
-     * compliant MBean.
-     * @throws InstanceNotFoundException The specified class loader
-     * is not registered in the MBean server.
-     * @throws RuntimeOperationsException Wraps a
-     * <code>java.lang.IllegalArgumentException</code>: The className
-     * passed in parameter is null, the <code>ObjectName</code> passed
-     * in parameter contains a pattern or no <code>ObjectName</code>
-     * is specified for the MBean.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @tirows RfflfdtionExdfption Wrbps b
+     * <dodf>jbvb.lbng.ClbssNotFoundExdfption</dodf> or b
+     * <dodf>jbvb.lbng.Exdfption</dodf> tibt oddurrfd wifn trying to
+     * invokf tif MBfbn's donstrudtor.
+     * @tirows InstbndfAlrfbdyExistsExdfption Tif MBfbn is blrfbdy
+     * undfr tif dontrol of tif MBfbn sfrvfr.
+     * @tirows MBfbnRfgistrbtionExdfption Tif
+     * <dodf>prfRfgistfr</dodf> (<dodf>MBfbnRfgistrbtion</dodf>
+     * intfrfbdf) mftiod of tif MBfbn ibs tirown bn fxdfption. Tif
+     * MBfbn will not bf rfgistfrfd.
+     * @tirows MBfbnExdfption Tif donstrudtor of tif MBfbn ibs
+     * tirown bn fxdfption.
+     * @tirows NotComplibntMBfbnExdfption Tiis dlbss is not b JMX
+     * domplibnt MBfbn.
+     * @tirows InstbndfNotFoundExdfption Tif spfdififd dlbss lobdfr
+     * is not rfgistfrfd in tif MBfbn sfrvfr.
+     * @tirows RuntimfOpfrbtionsExdfption Wrbps b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Tif dlbssNbmf
+     * pbssfd in pbrbmftfr is null, tif <dodf>ObjfdtNbmf</dodf> pbssfd
+     * in pbrbmftfr dontbins b pbttfrn or no <dodf>ObjfdtNbmf</dodf>
+     * is spfdififd for tif MBfbn.
+     * @tirows SfdurityExdfption if tif dlifnt, or tif dflfgbtfd Subjfdt
+     * if bny, dofs not ibvf pfrmission to pfrform tiis opfrbtion.
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
      */
-    public ObjectInstance createMBean(String className,
-                                      ObjectName name,
-                                      ObjectName loaderName,
-                                      Subject delegationSubject)
-        throws
-        ReflectionException,
-        InstanceAlreadyExistsException,
-        MBeanRegistrationException,
-        MBeanException,
-        NotCompliantMBeanException,
-        InstanceNotFoundException,
-        IOException;
+    publid ObjfdtInstbndf drfbtfMBfbn(String dlbssNbmf,
+                                      ObjfdtNbmf nbmf,
+                                      ObjfdtNbmf lobdfrNbmf,
+                                      Subjfdt dflfgbtionSubjfdt)
+        tirows
+        RfflfdtionExdfption,
+        InstbndfAlrfbdyExistsExdfption,
+        MBfbnRfgistrbtionExdfption,
+        MBfbnExdfption,
+        NotComplibntMBfbnExdfption,
+        InstbndfNotFoundExdfption,
+        IOExdfption;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#createMBean(String,
-     * ObjectName, Object[], String[])}.  The <code>Object[]</code>
-     * parameter is wrapped in a <code>MarshalledObject</code>.
+     * Hbndlfs tif mftiod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#drfbtfMBfbn(String,
+     * ObjfdtNbmf, Objfdt[], String[])}.  Tif <dodf>Objfdt[]</dodf>
+     * pbrbmftfr is wrbppfd in b <dodf>MbrsibllfdObjfdt</dodf>.
      *
-     * @param className The class name of the MBean to be instantiated.
-     * @param name The object name of the MBean. May be null.
-     * @param params An array containing the parameters of the
-     * constructor to be invoked, encapsulated into a
-     * <code>MarshalledObject</code>.  The encapsulated array can be
-     * null, equivalent to an empty array.
-     * @param signature An array containing the signature of the
-     * constructor to be invoked.  Can be null, equivalent to an empty
-     * array.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm dlbssNbmf Tif dlbss nbmf of tif MBfbn to bf instbntibtfd.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn. Mby bf null.
+     * @pbrbm pbrbms An brrby dontbining tif pbrbmftfrs of tif
+     * donstrudtor to bf invokfd, fndbpsulbtfd into b
+     * <dodf>MbrsibllfdObjfdt</dodf>.  Tif fndbpsulbtfd brrby dbn bf
+     * null, fquivblfnt to bn fmpty brrby.
+     * @pbrbm signbturf An brrby dontbining tif signbturf of tif
+     * donstrudtor to bf invokfd.  Cbn bf null, fquivblfnt to bn fmpty
+     * brrby.
+     * @pbrbm dflfgbtionSubjfdt Tif <dodf>Subjfdt</dodf> dontbining tif
+     * dflfgbtion prindipbls or <dodf>null</dodf> if tif butifntidbtion
+     * prindipbl is usfd instfbd.
      *
-     * @return An <code>ObjectInstance</code>, containing the
-     * <code>ObjectName</code> and the Java class name of the newly
-     * instantiated MBean.  If the contained <code>ObjectName</code>
-     * is <code>n</code>, the contained Java class name is
-     * <code>{@link #getMBeanInfo getMBeanInfo(n)}.getClassName()</code>.
+     * @rfturn An <dodf>ObjfdtInstbndf</dodf>, dontbining tif
+     * <dodf>ObjfdtNbmf</dodf> bnd tif Jbvb dlbss nbmf of tif nfwly
+     * instbntibtfd MBfbn.  If tif dontbinfd <dodf>ObjfdtNbmf</dodf>
+     * is <dodf>n</dodf>, tif dontbinfd Jbvb dlbss nbmf is
+     * <dodf>{@link #gftMBfbnInfo gftMBfbnInfo(n)}.gftClbssNbmf()</dodf>.
      *
-     * @throws ReflectionException Wraps a
-     * <code>java.lang.ClassNotFoundException</code> or a
-     * <code>java.lang.Exception</code> that occurred when trying to
-     * invoke the MBean's constructor.
-     * @throws InstanceAlreadyExistsException The MBean is already
-     * under the control of the MBean server.
-     * @throws MBeanRegistrationException The
-     * <code>preRegister</code> (<code>MBeanRegistration</code>
-     * interface) method of the MBean has thrown an exception. The
-     * MBean will not be registered.
-     * @throws MBeanException The constructor of the MBean has
-     * thrown an exception.
-     * @throws NotCompliantMBeanException This class is not a JMX
-     * compliant MBean.
-     * @throws RuntimeOperationsException Wraps a
-     * <code>java.lang.IllegalArgumentException</code>: The className
-     * passed in parameter is null, the <code>ObjectName</code> passed
-     * in parameter contains a pattern, or no <code>ObjectName</code>
-     * is specified for the MBean.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @tirows RfflfdtionExdfption Wrbps b
+     * <dodf>jbvb.lbng.ClbssNotFoundExdfption</dodf> or b
+     * <dodf>jbvb.lbng.Exdfption</dodf> tibt oddurrfd wifn trying to
+     * invokf tif MBfbn's donstrudtor.
+     * @tirows InstbndfAlrfbdyExistsExdfption Tif MBfbn is blrfbdy
+     * undfr tif dontrol of tif MBfbn sfrvfr.
+     * @tirows MBfbnRfgistrbtionExdfption Tif
+     * <dodf>prfRfgistfr</dodf> (<dodf>MBfbnRfgistrbtion</dodf>
+     * intfrfbdf) mftiod of tif MBfbn ibs tirown bn fxdfption. Tif
+     * MBfbn will not bf rfgistfrfd.
+     * @tirows MBfbnExdfption Tif donstrudtor of tif MBfbn ibs
+     * tirown bn fxdfption.
+     * @tirows NotComplibntMBfbnExdfption Tiis dlbss is not b JMX
+     * domplibnt MBfbn.
+     * @tirows RuntimfOpfrbtionsExdfption Wrbps b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Tif dlbssNbmf
+     * pbssfd in pbrbmftfr is null, tif <dodf>ObjfdtNbmf</dodf> pbssfd
+     * in pbrbmftfr dontbins b pbttfrn, or no <dodf>ObjfdtNbmf</dodf>
+     * is spfdififd for tif MBfbn.
+     * @tirows SfdurityExdfption if tif dlifnt, or tif dflfgbtfd Subjfdt
+     * if bny, dofs not ibvf pfrmission to pfrform tiis opfrbtion.
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
      */
-    public ObjectInstance createMBean(String className,
-                                ObjectName name,
-                                MarshalledObject params,
-                                String signature[],
-                                Subject delegationSubject)
-        throws
-        ReflectionException,
-        InstanceAlreadyExistsException,
-        MBeanRegistrationException,
-        MBeanException,
-        NotCompliantMBeanException,
-        IOException;
+    publid ObjfdtInstbndf drfbtfMBfbn(String dlbssNbmf,
+                                ObjfdtNbmf nbmf,
+                                MbrsibllfdObjfdt pbrbms,
+                                String signbturf[],
+                                Subjfdt dflfgbtionSubjfdt)
+        tirows
+        RfflfdtionExdfption,
+        InstbndfAlrfbdyExistsExdfption,
+        MBfbnRfgistrbtionExdfption,
+        MBfbnExdfption,
+        NotComplibntMBfbnExdfption,
+        IOExdfption;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#createMBean(String,
-     * ObjectName, ObjectName, Object[], String[])}.  The
-     * <code>Object[]</code> parameter is wrapped in a
-     * <code>MarshalledObject</code>.
+     * Hbndlfs tif mftiod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#drfbtfMBfbn(String,
+     * ObjfdtNbmf, ObjfdtNbmf, Objfdt[], String[])}.  Tif
+     * <dodf>Objfdt[]</dodf> pbrbmftfr is wrbppfd in b
+     * <dodf>MbrsibllfdObjfdt</dodf>.
      *
-     * @param className The class name of the MBean to be instantiated.
-     * @param name The object name of the MBean. May be null.
-     * @param loaderName The object name of the class loader to be used.
-     * @param params An array containing the parameters of the
-     * constructor to be invoked, encapsulated into a
-     * <code>MarshalledObject</code>.  The encapsulated array can be
-     * null, equivalent to an empty array.
-     * @param signature An array containing the signature of the
-     * constructor to be invoked.  Can be null, equivalent to an empty
-     * array.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm dlbssNbmf Tif dlbss nbmf of tif MBfbn to bf instbntibtfd.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn. Mby bf null.
+     * @pbrbm lobdfrNbmf Tif objfdt nbmf of tif dlbss lobdfr to bf usfd.
+     * @pbrbm pbrbms An brrby dontbining tif pbrbmftfrs of tif
+     * donstrudtor to bf invokfd, fndbpsulbtfd into b
+     * <dodf>MbrsibllfdObjfdt</dodf>.  Tif fndbpsulbtfd brrby dbn bf
+     * null, fquivblfnt to bn fmpty brrby.
+     * @pbrbm signbturf An brrby dontbining tif signbturf of tif
+     * donstrudtor to bf invokfd.  Cbn bf null, fquivblfnt to bn fmpty
+     * brrby.
+     * @pbrbm dflfgbtionSubjfdt Tif <dodf>Subjfdt</dodf> dontbining tif
+     * dflfgbtion prindipbls or <dodf>null</dodf> if tif butifntidbtion
+     * prindipbl is usfd instfbd.
      *
-     * @return An <code>ObjectInstance</code>, containing the
-     * <code>ObjectName</code> and the Java class name of the newly
-     * instantiated MBean.  If the contained <code>ObjectName</code>
-     * is <code>n</code>, the contained Java class name is
-     * <code>{@link #getMBeanInfo getMBeanInfo(n)}.getClassName()</code>.
+     * @rfturn An <dodf>ObjfdtInstbndf</dodf>, dontbining tif
+     * <dodf>ObjfdtNbmf</dodf> bnd tif Jbvb dlbss nbmf of tif nfwly
+     * instbntibtfd MBfbn.  If tif dontbinfd <dodf>ObjfdtNbmf</dodf>
+     * is <dodf>n</dodf>, tif dontbinfd Jbvb dlbss nbmf is
+     * <dodf>{@link #gftMBfbnInfo gftMBfbnInfo(n)}.gftClbssNbmf()</dodf>.
      *
-     * @throws ReflectionException Wraps a
-     * <code>java.lang.ClassNotFoundException</code> or a
-     * <code>java.lang.Exception</code> that occurred when trying to
-     * invoke the MBean's constructor.
-     * @throws InstanceAlreadyExistsException The MBean is already
-     * under the control of the MBean server.
-     * @throws MBeanRegistrationException The
-     * <code>preRegister</code> (<code>MBeanRegistration</code>
-     * interface) method of the MBean has thrown an exception. The
-     * MBean will not be registered.
-     * @throws MBeanException The constructor of the MBean has
-     * thrown an exception.
-     * @throws NotCompliantMBeanException This class is not a JMX
-     * compliant MBean.
-     * @throws InstanceNotFoundException The specified class loader
-     * is not registered in the MBean server.
-     * @throws RuntimeOperationsException Wraps a
-     * <code>java.lang.IllegalArgumentException</code>: The className
-     * passed in parameter is null, the <code>ObjectName</code> passed
-     * in parameter contains a pattern, or no <code>ObjectName</code>
-     * is specified for the MBean.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @tirows RfflfdtionExdfption Wrbps b
+     * <dodf>jbvb.lbng.ClbssNotFoundExdfption</dodf> or b
+     * <dodf>jbvb.lbng.Exdfption</dodf> tibt oddurrfd wifn trying to
+     * invokf tif MBfbn's donstrudtor.
+     * @tirows InstbndfAlrfbdyExistsExdfption Tif MBfbn is blrfbdy
+     * undfr tif dontrol of tif MBfbn sfrvfr.
+     * @tirows MBfbnRfgistrbtionExdfption Tif
+     * <dodf>prfRfgistfr</dodf> (<dodf>MBfbnRfgistrbtion</dodf>
+     * intfrfbdf) mftiod of tif MBfbn ibs tirown bn fxdfption. Tif
+     * MBfbn will not bf rfgistfrfd.
+     * @tirows MBfbnExdfption Tif donstrudtor of tif MBfbn ibs
+     * tirown bn fxdfption.
+     * @tirows NotComplibntMBfbnExdfption Tiis dlbss is not b JMX
+     * domplibnt MBfbn.
+     * @tirows InstbndfNotFoundExdfption Tif spfdififd dlbss lobdfr
+     * is not rfgistfrfd in tif MBfbn sfrvfr.
+     * @tirows RuntimfOpfrbtionsExdfption Wrbps b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Tif dlbssNbmf
+     * pbssfd in pbrbmftfr is null, tif <dodf>ObjfdtNbmf</dodf> pbssfd
+     * in pbrbmftfr dontbins b pbttfrn, or no <dodf>ObjfdtNbmf</dodf>
+     * is spfdififd for tif MBfbn.
+     * @tirows SfdurityExdfption if tif dlifnt, or tif dflfgbtfd Subjfdt
+     * if bny, dofs not ibvf pfrmission to pfrform tiis opfrbtion.
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
      */
-    public ObjectInstance createMBean(String className,
-                                ObjectName name,
-                                ObjectName loaderName,
-                                MarshalledObject params,
-                                String signature[],
-                                Subject delegationSubject)
-        throws
-        ReflectionException,
-        InstanceAlreadyExistsException,
-        MBeanRegistrationException,
-        MBeanException,
-        NotCompliantMBeanException,
-        InstanceNotFoundException,
-        IOException;
+    publid ObjfdtInstbndf drfbtfMBfbn(String dlbssNbmf,
+                                ObjfdtNbmf nbmf,
+                                ObjfdtNbmf lobdfrNbmf,
+                                MbrsibllfdObjfdt pbrbms,
+                                String signbturf[],
+                                Subjfdt dflfgbtionSubjfdt)
+        tirows
+        RfflfdtionExdfption,
+        InstbndfAlrfbdyExistsExdfption,
+        MBfbnRfgistrbtionExdfption,
+        MBfbnExdfption,
+        NotComplibntMBfbnExdfption,
+        InstbndfNotFoundExdfption,
+        IOExdfption;
 
     /**
-     * Handles the method
-     * {@link javax.management.MBeanServerConnection#unregisterMBean(ObjectName)}.
+     * Hbndlfs tif mftiod
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#unrfgistfrMBfbn(ObjfdtNbmf)}.
      *
-     * @param name The object name of the MBean to be unregistered.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn to bf unrfgistfrfd.
+     * @pbrbm dflfgbtionSubjfdt Tif <dodf>Subjfdt</dodf> dontbining tif
+     * dflfgbtion prindipbls or <dodf>null</dodf> if tif butifntidbtion
+     * prindipbl is usfd instfbd.
      *
-     * @throws InstanceNotFoundException The MBean specified is not
-     * registered in the MBean server.
-     * @throws MBeanRegistrationException The preDeregister
-     * ((<code>MBeanRegistration</code> interface) method of the MBean
-     * has thrown an exception.
-     * @throws RuntimeOperationsException Wraps a
-     * <code>java.lang.IllegalArgumentException</code>: The object
-     * name in parameter is null or the MBean you are when trying to
-     * unregister is the {@link javax.management.MBeanServerDelegate
-     * MBeanServerDelegate} MBean.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @tirows InstbndfNotFoundExdfption Tif MBfbn spfdififd is not
+     * rfgistfrfd in tif MBfbn sfrvfr.
+     * @tirows MBfbnRfgistrbtionExdfption Tif prfDfrfgistfr
+     * ((<dodf>MBfbnRfgistrbtion</dodf> intfrfbdf) mftiod of tif MBfbn
+     * ibs tirown bn fxdfption.
+     * @tirows RuntimfOpfrbtionsExdfption Wrbps b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Tif objfdt
+     * nbmf in pbrbmftfr is null or tif MBfbn you brf wifn trying to
+     * unrfgistfr is tif {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrDflfgbtf
+     * MBfbnSfrvfrDflfgbtf} MBfbn.
+     * @tirows SfdurityExdfption if tif dlifnt, or tif dflfgbtfd Subjfdt
+     * if bny, dofs not ibvf pfrmission to pfrform tiis opfrbtion.
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
      */
-    public void unregisterMBean(ObjectName name, Subject delegationSubject)
-        throws
-        InstanceNotFoundException,
-        MBeanRegistrationException,
-        IOException;
+    publid void unrfgistfrMBfbn(ObjfdtNbmf nbmf, Subjfdt dflfgbtionSubjfdt)
+        tirows
+        InstbndfNotFoundExdfption,
+        MBfbnRfgistrbtionExdfption,
+        IOExdfption;
 
     /**
-     * Handles the method
-     * {@link javax.management.MBeanServerConnection#getObjectInstance(ObjectName)}.
+     * Hbndlfs tif mftiod
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#gftObjfdtInstbndf(ObjfdtNbmf)}.
      *
-     * @param name The object name of the MBean.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn.
+     * @pbrbm dflfgbtionSubjfdt Tif <dodf>Subjfdt</dodf> dontbining tif
+     * dflfgbtion prindipbls or <dodf>null</dodf> if tif butifntidbtion
+     * prindipbl is usfd instfbd.
      *
-     * @return The <code>ObjectInstance</code> associated with the MBean
-     * specified by <var>name</var>.  The contained <code>ObjectName</code>
-     * is <code>name</code> and the contained class name is
-     * <code>{@link #getMBeanInfo getMBeanInfo(name)}.getClassName()</code>.
+     * @rfturn Tif <dodf>ObjfdtInstbndf</dodf> bssodibtfd witi tif MBfbn
+     * spfdififd by <vbr>nbmf</vbr>.  Tif dontbinfd <dodf>ObjfdtNbmf</dodf>
+     * is <dodf>nbmf</dodf> bnd tif dontbinfd dlbss nbmf is
+     * <dodf>{@link #gftMBfbnInfo gftMBfbnInfo(nbmf)}.gftClbssNbmf()</dodf>.
      *
-     * @throws InstanceNotFoundException The MBean specified is not
-     * registered in the MBean server.
-     * @throws RuntimeOperationsException Wraps a
-     * <code>java.lang.IllegalArgumentException</code>: The object
-     * name in parameter is null.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @tirows InstbndfNotFoundExdfption Tif MBfbn spfdififd is not
+     * rfgistfrfd in tif MBfbn sfrvfr.
+     * @tirows RuntimfOpfrbtionsExdfption Wrbps b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Tif objfdt
+     * nbmf in pbrbmftfr is null.
+     * @tirows SfdurityExdfption if tif dlifnt, or tif dflfgbtfd Subjfdt
+     * if bny, dofs not ibvf pfrmission to pfrform tiis opfrbtion.
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
      */
-    public ObjectInstance getObjectInstance(ObjectName name,
-                                            Subject delegationSubject)
-        throws InstanceNotFoundException, IOException;
+    publid ObjfdtInstbndf gftObjfdtInstbndf(ObjfdtNbmf nbmf,
+                                            Subjfdt dflfgbtionSubjfdt)
+        tirows InstbndfNotFoundExdfption, IOExdfption;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#queryMBeans(ObjectName,
-     * QueryExp)}.  The <code>QueryExp</code> is wrapped in a
-     * <code>MarshalledObject</code>.
+     * Hbndlfs tif mftiod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#qufryMBfbns(ObjfdtNbmf,
+     * QufryExp)}.  Tif <dodf>QufryExp</dodf> is wrbppfd in b
+     * <dodf>MbrsibllfdObjfdt</dodf>.
      *
-     * @param name The object name pattern identifying the MBeans to
-     * be retrieved. If null or no domain and key properties are
-     * specified, all the MBeans registered will be retrieved.
-     * @param query The query expression to be applied for selecting
-     * MBeans, encapsulated into a <code>MarshalledObject</code>. If
-     * the <code>MarshalledObject</code> encapsulates a null value no
-     * query expression will be applied for selecting MBeans.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm nbmf Tif objfdt nbmf pbttfrn idfntifying tif MBfbns to
+     * bf rftrifvfd. If null or no dombin bnd kfy propfrtifs brf
+     * spfdififd, bll tif MBfbns rfgistfrfd will bf rftrifvfd.
+     * @pbrbm qufry Tif qufry fxprfssion to bf bpplifd for sflfdting
+     * MBfbns, fndbpsulbtfd into b <dodf>MbrsibllfdObjfdt</dodf>. If
+     * tif <dodf>MbrsibllfdObjfdt</dodf> fndbpsulbtfs b null vbluf no
+     * qufry fxprfssion will bf bpplifd for sflfdting MBfbns.
+     * @pbrbm dflfgbtionSubjfdt Tif <dodf>Subjfdt</dodf> dontbining tif
+     * dflfgbtion prindipbls or <dodf>null</dodf> if tif butifntidbtion
+     * prindipbl is usfd instfbd.
      *
-     * @return A set containing the <code>ObjectInstance</code>
-     * objects for the selected MBeans.  If no MBean satisfies the
-     * query an empty list is returned.
+     * @rfturn A sft dontbining tif <dodf>ObjfdtInstbndf</dodf>
+     * objfdts for tif sflfdtfd MBfbns.  If no MBfbn sbtisfifs tif
+     * qufry bn fmpty list is rfturnfd.
      *
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @tirows SfdurityExdfption if tif dlifnt, or tif dflfgbtfd Subjfdt
+     * if bny, dofs not ibvf pfrmission to pfrform tiis opfrbtion.
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
      */
-    public Set<ObjectInstance>
-        queryMBeans(ObjectName name,
-                    MarshalledObject query,
-                    Subject delegationSubject)
-        throws IOException;
+    publid Sft<ObjfdtInstbndf>
+        qufryMBfbns(ObjfdtNbmf nbmf,
+                    MbrsibllfdObjfdt qufry,
+                    Subjfdt dflfgbtionSubjfdt)
+        tirows IOExdfption;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#queryNames(ObjectName,
-     * QueryExp)}.  The <code>QueryExp</code> is wrapped in a
-     * <code>MarshalledObject</code>.
+     * Hbndlfs tif mftiod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#qufryNbmfs(ObjfdtNbmf,
+     * QufryExp)}.  Tif <dodf>QufryExp</dodf> is wrbppfd in b
+     * <dodf>MbrsibllfdObjfdt</dodf>.
      *
-     * @param name The object name pattern identifying the MBean names
-     * to be retrieved. If null or no domain and key properties are
-     * specified, the name of all registered MBeans will be retrieved.
-     * @param query The query expression to be applied for selecting
-     * MBeans, encapsulated into a <code>MarshalledObject</code>. If
-     * the <code>MarshalledObject</code> encapsulates a null value no
-     * query expression will be applied for selecting MBeans.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm nbmf Tif objfdt nbmf pbttfrn idfntifying tif MBfbn nbmfs
+     * to bf rftrifvfd. If null or no dombin bnd kfy propfrtifs brf
+     * spfdififd, tif nbmf of bll rfgistfrfd MBfbns will bf rftrifvfd.
+     * @pbrbm qufry Tif qufry fxprfssion to bf bpplifd for sflfdting
+     * MBfbns, fndbpsulbtfd into b <dodf>MbrsibllfdObjfdt</dodf>. If
+     * tif <dodf>MbrsibllfdObjfdt</dodf> fndbpsulbtfs b null vbluf no
+     * qufry fxprfssion will bf bpplifd for sflfdting MBfbns.
+     * @pbrbm dflfgbtionSubjfdt Tif <dodf>Subjfdt</dodf> dontbining tif
+     * dflfgbtion prindipbls or <dodf>null</dodf> if tif butifntidbtion
+     * prindipbl is usfd instfbd.
      *
-     * @return A set containing the ObjectNames for the MBeans
-     * selected.  If no MBean satisfies the query, an empty list is
-     * returned.
+     * @rfturn A sft dontbining tif ObjfdtNbmfs for tif MBfbns
+     * sflfdtfd.  If no MBfbn sbtisfifs tif qufry, bn fmpty list is
+     * rfturnfd.
      *
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @tirows SfdurityExdfption if tif dlifnt, or tif dflfgbtfd Subjfdt
+     * if bny, dofs not ibvf pfrmission to pfrform tiis opfrbtion.
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
      */
-    public Set<ObjectName>
-        queryNames(ObjectName name,
-                   MarshalledObject query,
-                   Subject delegationSubject)
-        throws IOException;
+    publid Sft<ObjfdtNbmf>
+        qufryNbmfs(ObjfdtNbmf nbmf,
+                   MbrsibllfdObjfdt qufry,
+                   Subjfdt dflfgbtionSubjfdt)
+        tirows IOExdfption;
 
     /**
-     * Handles the method
-     * {@link javax.management.MBeanServerConnection#isRegistered(ObjectName)}.
+     * Hbndlfs tif mftiod
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#isRfgistfrfd(ObjfdtNbmf)}.
      *
-     * @param name The object name of the MBean to be checked.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn to bf difdkfd.
+     * @pbrbm dflfgbtionSubjfdt Tif <dodf>Subjfdt</dodf> dontbining tif
+     * dflfgbtion prindipbls or <dodf>null</dodf> if tif butifntidbtion
+     * prindipbl is usfd instfbd.
      *
-     * @return True if the MBean is already registered in the MBean
-     * server, false otherwise.
+     * @rfturn Truf if tif MBfbn is blrfbdy rfgistfrfd in tif MBfbn
+     * sfrvfr, fblsf otifrwisf.
      *
-     * @throws RuntimeOperationsException Wraps a
-     * <code>java.lang.IllegalArgumentException</code>: The object
-     * name in parameter is null.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @tirows RuntimfOpfrbtionsExdfption Wrbps b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Tif objfdt
+     * nbmf in pbrbmftfr is null.
+     * @tirows SfdurityExdfption if tif dlifnt, or tif dflfgbtfd Subjfdt
+     * if bny, dofs not ibvf pfrmission to pfrform tiis opfrbtion.
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
      */
-    public boolean isRegistered(ObjectName name, Subject delegationSubject)
-        throws IOException;
+    publid boolfbn isRfgistfrfd(ObjfdtNbmf nbmf, Subjfdt dflfgbtionSubjfdt)
+        tirows IOExdfption;
 
     /**
-     * Handles the method
-     * {@link javax.management.MBeanServerConnection#getMBeanCount()}.
+     * Hbndlfs tif mftiod
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#gftMBfbnCount()}.
      *
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm dflfgbtionSubjfdt Tif <dodf>Subjfdt</dodf> dontbining tif
+     * dflfgbtion prindipbls or <dodf>null</dodf> if tif butifntidbtion
+     * prindipbl is usfd instfbd.
      *
-     * @return the number of MBeans registered.
+     * @rfturn tif numbfr of MBfbns rfgistfrfd.
      *
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @tirows SfdurityExdfption if tif dlifnt, or tif dflfgbtfd Subjfdt
+     * if bny, dofs not ibvf pfrmission to pfrform tiis opfrbtion.
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
      */
-    public Integer getMBeanCount(Subject delegationSubject)
-        throws IOException;
+    publid Intfgfr gftMBfbnCount(Subjfdt dflfgbtionSubjfdt)
+        tirows IOExdfption;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#getAttribute(ObjectName,
+     * Hbndlfs tif mftiod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#gftAttributf(ObjfdtNbmf,
      * String)}.
      *
-     * @param name The object name of the MBean from which the
-     * attribute is to be retrieved.
-     * @param attribute A String specifying the name of the attribute
-     * to be retrieved.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn from wiidi tif
+     * bttributf is to bf rftrifvfd.
+     * @pbrbm bttributf A String spfdifying tif nbmf of tif bttributf
+     * to bf rftrifvfd.
+     * @pbrbm dflfgbtionSubjfdt Tif <dodf>Subjfdt</dodf> dontbining tif
+     * dflfgbtion prindipbls or <dodf>null</dodf> if tif butifntidbtion
+     * prindipbl is usfd instfbd.
      *
-     * @return  The value of the retrieved attribute.
+     * @rfturn  Tif vbluf of tif rftrifvfd bttributf.
      *
-     * @throws AttributeNotFoundException The attribute specified
-     * is not accessible in the MBean.
-     * @throws MBeanException Wraps an exception thrown by the
-     * MBean's getter.
-     * @throws InstanceNotFoundException The MBean specified is not
-     * registered in the MBean server.
-     * @throws ReflectionException Wraps a
-     * <code>java.lang.Exception</code> thrown when trying to invoke
-     * the getter.
-     * @throws RuntimeOperationsException Wraps a
-     * <code>java.lang.IllegalArgumentException</code>: The object
-     * name in parameter is null or the attribute in parameter is
+     * @tirows AttributfNotFoundExdfption Tif bttributf spfdififd
+     * is not bddfssiblf in tif MBfbn.
+     * @tirows MBfbnExdfption Wrbps bn fxdfption tirown by tif
+     * MBfbn's gfttfr.
+     * @tirows InstbndfNotFoundExdfption Tif MBfbn spfdififd is not
+     * rfgistfrfd in tif MBfbn sfrvfr.
+     * @tirows RfflfdtionExdfption Wrbps b
+     * <dodf>jbvb.lbng.Exdfption</dodf> tirown wifn trying to invokf
+     * tif gfttfr.
+     * @tirows RuntimfOpfrbtionsExdfption Wrbps b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Tif objfdt
+     * nbmf in pbrbmftfr is null or tif bttributf in pbrbmftfr is
      * null.
-     * @throws RuntimeMBeanException Wraps a runtime exception thrown
-     * by the MBean's getter.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @tirows RuntimfMBfbnExdfption Wrbps b runtimf fxdfption tirown
+     * by tif MBfbn's gfttfr.
+     * @tirows SfdurityExdfption if tif dlifnt, or tif dflfgbtfd Subjfdt
+     * if bny, dofs not ibvf pfrmission to pfrform tiis opfrbtion.
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
      *
-     * @see #setAttribute
+     * @sff #sftAttributf
      */
-    public Object getAttribute(ObjectName name,
-                               String attribute,
-                               Subject delegationSubject)
-        throws
-        MBeanException,
-        AttributeNotFoundException,
-        InstanceNotFoundException,
-        ReflectionException,
-        IOException;
+    publid Objfdt gftAttributf(ObjfdtNbmf nbmf,
+                               String bttributf,
+                               Subjfdt dflfgbtionSubjfdt)
+        tirows
+        MBfbnExdfption,
+        AttributfNotFoundExdfption,
+        InstbndfNotFoundExdfption,
+        RfflfdtionExdfption,
+        IOExdfption;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#getAttributes(ObjectName,
+     * Hbndlfs tif mftiod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#gftAttributfs(ObjfdtNbmf,
      * String[])}.
      *
-     * @param name The object name of the MBean from which the
-     * attributes are retrieved.
-     * @param attributes A list of the attributes to be retrieved.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn from wiidi tif
+     * bttributfs brf rftrifvfd.
+     * @pbrbm bttributfs A list of tif bttributfs to bf rftrifvfd.
+     * @pbrbm dflfgbtionSubjfdt Tif <dodf>Subjfdt</dodf> dontbining tif
+     * dflfgbtion prindipbls or <dodf>null</dodf> if tif butifntidbtion
+     * prindipbl is usfd instfbd.
      *
-     * @return The list of the retrieved attributes.
+     * @rfturn Tif list of tif rftrifvfd bttributfs.
      *
-     * @throws InstanceNotFoundException The MBean specified is not
-     * registered in the MBean server.
-     * @throws ReflectionException An exception occurred when
-     * trying to invoke the getAttributes method of a Dynamic MBean.
-     * @throws RuntimeOperationsException Wrap a
-     * <code>java.lang.IllegalArgumentException</code>: The object
-     * name in parameter is null or attributes in parameter is null.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @tirows InstbndfNotFoundExdfption Tif MBfbn spfdififd is not
+     * rfgistfrfd in tif MBfbn sfrvfr.
+     * @tirows RfflfdtionExdfption An fxdfption oddurrfd wifn
+     * trying to invokf tif gftAttributfs mftiod of b Dynbmid MBfbn.
+     * @tirows RuntimfOpfrbtionsExdfption Wrbp b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Tif objfdt
+     * nbmf in pbrbmftfr is null or bttributfs in pbrbmftfr is null.
+     * @tirows SfdurityExdfption if tif dlifnt, or tif dflfgbtfd Subjfdt
+     * if bny, dofs not ibvf pfrmission to pfrform tiis opfrbtion.
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
      *
-     * @see #setAttributes
+     * @sff #sftAttributfs
      */
-    public AttributeList getAttributes(ObjectName name,
-                                       String[] attributes,
-                                       Subject delegationSubject)
-        throws
-        InstanceNotFoundException,
-        ReflectionException,
-        IOException;
+    publid AttributfList gftAttributfs(ObjfdtNbmf nbmf,
+                                       String[] bttributfs,
+                                       Subjfdt dflfgbtionSubjfdt)
+        tirows
+        InstbndfNotFoundExdfption,
+        RfflfdtionExdfption,
+        IOExdfption;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#setAttribute(ObjectName,
-     * Attribute)}.  The <code>Attribute</code> parameter is wrapped
-     * in a <code>MarshalledObject</code>.
+     * Hbndlfs tif mftiod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#sftAttributf(ObjfdtNbmf,
+     * Attributf)}.  Tif <dodf>Attributf</dodf> pbrbmftfr is wrbppfd
+     * in b <dodf>MbrsibllfdObjfdt</dodf>.
      *
-     * @param name The name of the MBean within which the attribute is
-     * to be set.
-     * @param attribute The identification of the attribute to be set
-     * and the value it is to be set to, encapsulated into a
-     * <code>MarshalledObject</code>.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm nbmf Tif nbmf of tif MBfbn witiin wiidi tif bttributf is
+     * to bf sft.
+     * @pbrbm bttributf Tif idfntifidbtion of tif bttributf to bf sft
+     * bnd tif vbluf it is to bf sft to, fndbpsulbtfd into b
+     * <dodf>MbrsibllfdObjfdt</dodf>.
+     * @pbrbm dflfgbtionSubjfdt Tif <dodf>Subjfdt</dodf> dontbining tif
+     * dflfgbtion prindipbls or <dodf>null</dodf> if tif butifntidbtion
+     * prindipbl is usfd instfbd.
      *
-     * @throws InstanceNotFoundException The MBean specified is not
-     * registered in the MBean server.
-     * @throws AttributeNotFoundException The attribute specified
-     * is not accessible in the MBean.
-     * @throws InvalidAttributeValueException The value specified
-     * for the attribute is not valid.
-     * @throws MBeanException Wraps an exception thrown by the
-     * MBean's setter.
-     * @throws ReflectionException Wraps a
-     * <code>java.lang.Exception</code> thrown when trying to invoke
-     * the setter.
-     * @throws RuntimeOperationsException Wraps a
-     * <code>java.lang.IllegalArgumentException</code>: The object
-     * name in parameter is null or the attribute in parameter is
+     * @tirows InstbndfNotFoundExdfption Tif MBfbn spfdififd is not
+     * rfgistfrfd in tif MBfbn sfrvfr.
+     * @tirows AttributfNotFoundExdfption Tif bttributf spfdififd
+     * is not bddfssiblf in tif MBfbn.
+     * @tirows InvblidAttributfVblufExdfption Tif vbluf spfdififd
+     * for tif bttributf is not vblid.
+     * @tirows MBfbnExdfption Wrbps bn fxdfption tirown by tif
+     * MBfbn's sfttfr.
+     * @tirows RfflfdtionExdfption Wrbps b
+     * <dodf>jbvb.lbng.Exdfption</dodf> tirown wifn trying to invokf
+     * tif sfttfr.
+     * @tirows RuntimfOpfrbtionsExdfption Wrbps b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Tif objfdt
+     * nbmf in pbrbmftfr is null or tif bttributf in pbrbmftfr is
      * null.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @tirows SfdurityExdfption if tif dlifnt, or tif dflfgbtfd Subjfdt
+     * if bny, dofs not ibvf pfrmission to pfrform tiis opfrbtion.
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
      *
-     * @see #getAttribute
+     * @sff #gftAttributf
      */
-    public void setAttribute(ObjectName name,
-                             MarshalledObject attribute,
-                             Subject delegationSubject)
-        throws
-        InstanceNotFoundException,
-        AttributeNotFoundException,
-        InvalidAttributeValueException,
-        MBeanException,
-        ReflectionException,
-        IOException;
+    publid void sftAttributf(ObjfdtNbmf nbmf,
+                             MbrsibllfdObjfdt bttributf,
+                             Subjfdt dflfgbtionSubjfdt)
+        tirows
+        InstbndfNotFoundExdfption,
+        AttributfNotFoundExdfption,
+        InvblidAttributfVblufExdfption,
+        MBfbnExdfption,
+        RfflfdtionExdfption,
+        IOExdfption;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#setAttributes(ObjectName,
-     * AttributeList)}.  The <code>AttributeList</code> parameter is
-     * wrapped in a <code>MarshalledObject</code>.
+     * Hbndlfs tif mftiod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#sftAttributfs(ObjfdtNbmf,
+     * AttributfList)}.  Tif <dodf>AttributfList</dodf> pbrbmftfr is
+     * wrbppfd in b <dodf>MbrsibllfdObjfdt</dodf>.
      *
-     * @param name The object name of the MBean within which the
-     * attributes are to be set.
-     * @param attributes A list of attributes: The identification of
-     * the attributes to be set and the values they are to be set to,
-     * encapsulated into a <code>MarshalledObject</code>.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn witiin wiidi tif
+     * bttributfs brf to bf sft.
+     * @pbrbm bttributfs A list of bttributfs: Tif idfntifidbtion of
+     * tif bttributfs to bf sft bnd tif vblufs tify brf to bf sft to,
+     * fndbpsulbtfd into b <dodf>MbrsibllfdObjfdt</dodf>.
+     * @pbrbm dflfgbtionSubjfdt Tif <dodf>Subjfdt</dodf> dontbining tif
+     * dflfgbtion prindipbls or <dodf>null</dodf> if tif butifntidbtion
+     * prindipbl is usfd instfbd.
      *
-     * @return The list of attributes that were set, with their new
-     * values.
+     * @rfturn Tif list of bttributfs tibt wfrf sft, witi tifir nfw
+     * vblufs.
      *
-     * @throws InstanceNotFoundException The MBean specified is not
-     * registered in the MBean server.
-     * @throws ReflectionException An exception occurred when
-     * trying to invoke the getAttributes method of a Dynamic MBean.
-     * @throws RuntimeOperationsException Wraps a
-     * <code>java.lang.IllegalArgumentException</code>: The object
-     * name in parameter is null or attributes in parameter is null.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @tirows InstbndfNotFoundExdfption Tif MBfbn spfdififd is not
+     * rfgistfrfd in tif MBfbn sfrvfr.
+     * @tirows RfflfdtionExdfption An fxdfption oddurrfd wifn
+     * trying to invokf tif gftAttributfs mftiod of b Dynbmid MBfbn.
+     * @tirows RuntimfOpfrbtionsExdfption Wrbps b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Tif objfdt
+     * nbmf in pbrbmftfr is null or bttributfs in pbrbmftfr is null.
+     * @tirows SfdurityExdfption if tif dlifnt, or tif dflfgbtfd Subjfdt
+     * if bny, dofs not ibvf pfrmission to pfrform tiis opfrbtion.
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
      *
-     * @see #getAttributes
+     * @sff #gftAttributfs
      */
-    public AttributeList setAttributes(ObjectName name,
-                          MarshalledObject attributes,
-                          Subject delegationSubject)
-        throws
-        InstanceNotFoundException,
-        ReflectionException,
-        IOException;
+    publid AttributfList sftAttributfs(ObjfdtNbmf nbmf,
+                          MbrsibllfdObjfdt bttributfs,
+                          Subjfdt dflfgbtionSubjfdt)
+        tirows
+        InstbndfNotFoundExdfption,
+        RfflfdtionExdfption,
+        IOExdfption;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#invoke(ObjectName,
-     * String, Object[], String[])}.  The <code>Object[]</code>
-     * parameter is wrapped in a <code>MarshalledObject</code>.
+     * Hbndlfs tif mftiod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#invokf(ObjfdtNbmf,
+     * String, Objfdt[], String[])}.  Tif <dodf>Objfdt[]</dodf>
+     * pbrbmftfr is wrbppfd in b <dodf>MbrsibllfdObjfdt</dodf>.
      *
-     * @param name The object name of the MBean on which the method is
-     * to be invoked.
-     * @param operationName The name of the operation to be invoked.
-     * @param params An array containing the parameters to be set when
-     * the operation is invoked, encapsulated into a
-     * <code>MarshalledObject</code>.  The encapsulated array can be
-     * null, equivalent to an empty array.
-     * @param signature An array containing the signature of the
-     * operation. The class objects will be loaded using the same
-     * class loader as the one used for loading the MBean on which the
-     * operation was invoked.  Can be null, equivalent to an empty
-     * array.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn on wiidi tif mftiod is
+     * to bf invokfd.
+     * @pbrbm opfrbtionNbmf Tif nbmf of tif opfrbtion to bf invokfd.
+     * @pbrbm pbrbms An brrby dontbining tif pbrbmftfrs to bf sft wifn
+     * tif opfrbtion is invokfd, fndbpsulbtfd into b
+     * <dodf>MbrsibllfdObjfdt</dodf>.  Tif fndbpsulbtfd brrby dbn bf
+     * null, fquivblfnt to bn fmpty brrby.
+     * @pbrbm signbturf An brrby dontbining tif signbturf of tif
+     * opfrbtion. Tif dlbss objfdts will bf lobdfd using tif sbmf
+     * dlbss lobdfr bs tif onf usfd for lobding tif MBfbn on wiidi tif
+     * opfrbtion wbs invokfd.  Cbn bf null, fquivblfnt to bn fmpty
+     * brrby.
+     * @pbrbm dflfgbtionSubjfdt Tif <dodf>Subjfdt</dodf> dontbining tif
+     * dflfgbtion prindipbls or <dodf>null</dodf> if tif butifntidbtion
+     * prindipbl is usfd instfbd.
      *
-     * @return The object returned by the operation, which represents
-     * the result of invoking the operation on the MBean specified.
+     * @rfturn Tif objfdt rfturnfd by tif opfrbtion, wiidi rfprfsfnts
+     * tif rfsult of invoking tif opfrbtion on tif MBfbn spfdififd.
      *
-     * @throws InstanceNotFoundException The MBean specified is not
-     * registered in the MBean server.
-     * @throws MBeanException Wraps an exception thrown by the
-     * MBean's invoked method.
-     * @throws ReflectionException Wraps a
-     * <code>java.lang.Exception</code> thrown while trying to invoke
-     * the method.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
-     * @throws RuntimeOperationsException Wraps an {@link
-     * IllegalArgumentException} when <code>name</code> or
-     * <code>operationName</code> is null.
+     * @tirows InstbndfNotFoundExdfption Tif MBfbn spfdififd is not
+     * rfgistfrfd in tif MBfbn sfrvfr.
+     * @tirows MBfbnExdfption Wrbps bn fxdfption tirown by tif
+     * MBfbn's invokfd mftiod.
+     * @tirows RfflfdtionExdfption Wrbps b
+     * <dodf>jbvb.lbng.Exdfption</dodf> tirown wiilf trying to invokf
+     * tif mftiod.
+     * @tirows SfdurityExdfption if tif dlifnt, or tif dflfgbtfd Subjfdt
+     * if bny, dofs not ibvf pfrmission to pfrform tiis opfrbtion.
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     * @tirows RuntimfOpfrbtionsExdfption Wrbps bn {@link
+     * IllfgblArgumfntExdfption} wifn <dodf>nbmf</dodf> or
+     * <dodf>opfrbtionNbmf</dodf> is null.
      */
-    public Object invoke(ObjectName name,
-                         String operationName,
-                         MarshalledObject params,
-                         String signature[],
-                         Subject delegationSubject)
-        throws
-        InstanceNotFoundException,
-        MBeanException,
-        ReflectionException,
-        IOException;
+    publid Objfdt invokf(ObjfdtNbmf nbmf,
+                         String opfrbtionNbmf,
+                         MbrsibllfdObjfdt pbrbms,
+                         String signbturf[],
+                         Subjfdt dflfgbtionSubjfdt)
+        tirows
+        InstbndfNotFoundExdfption,
+        MBfbnExdfption,
+        RfflfdtionExdfption,
+        IOExdfption;
 
     /**
-     * Handles the method
-     * {@link javax.management.MBeanServerConnection#getDefaultDomain()}.
+     * Hbndlfs tif mftiod
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#gftDffbultDombin()}.
      *
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm dflfgbtionSubjfdt Tif <dodf>Subjfdt</dodf> dontbining tif
+     * dflfgbtion prindipbls or <dodf>null</dodf> if tif butifntidbtion
+     * prindipbl is usfd instfbd.
      *
-     * @return the default domain.
+     * @rfturn tif dffbult dombin.
      *
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @tirows SfdurityExdfption if tif dlifnt, or tif dflfgbtfd Subjfdt
+     * if bny, dofs not ibvf pfrmission to pfrform tiis opfrbtion.
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
      */
-    public String getDefaultDomain(Subject delegationSubject)
-        throws IOException;
+    publid String gftDffbultDombin(Subjfdt dflfgbtionSubjfdt)
+        tirows IOExdfption;
 
     /**
-     * Handles the method
-     * {@link javax.management.MBeanServerConnection#getDomains()}.
+     * Hbndlfs tif mftiod
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#gftDombins()}.
      *
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm dflfgbtionSubjfdt Tif <dodf>Subjfdt</dodf> dontbining tif
+     * dflfgbtion prindipbls or <dodf>null</dodf> if tif butifntidbtion
+     * prindipbl is usfd instfbd.
      *
-     * @return the list of domains.
+     * @rfturn tif list of dombins.
      *
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @tirows SfdurityExdfption if tif dlifnt, or tif dflfgbtfd Subjfdt
+     * if bny, dofs not ibvf pfrmission to pfrform tiis opfrbtion.
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
      */
-    public String[] getDomains(Subject delegationSubject)
-        throws IOException;
+    publid String[] gftDombins(Subjfdt dflfgbtionSubjfdt)
+        tirows IOExdfption;
 
     /**
-     * Handles the method
-     * {@link javax.management.MBeanServerConnection#getMBeanInfo(ObjectName)}.
+     * Hbndlfs tif mftiod
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#gftMBfbnInfo(ObjfdtNbmf)}.
      *
-     * @param name The name of the MBean to analyze
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm nbmf Tif nbmf of tif MBfbn to bnblyzf
+     * @pbrbm dflfgbtionSubjfdt Tif <dodf>Subjfdt</dodf> dontbining tif
+     * dflfgbtion prindipbls or <dodf>null</dodf> if tif butifntidbtion
+     * prindipbl is usfd instfbd.
      *
-     * @return An instance of <code>MBeanInfo</code> allowing the
-     * retrieval of all attributes and operations of this MBean.
+     * @rfturn An instbndf of <dodf>MBfbnInfo</dodf> bllowing tif
+     * rftrifvbl of bll bttributfs bnd opfrbtions of tiis MBfbn.
      *
-     * @throws IntrospectionException An exception occurred during
-     * introspection.
-     * @throws InstanceNotFoundException The MBean specified was
+     * @tirows IntrospfdtionExdfption An fxdfption oddurrfd during
+     * introspfdtion.
+     * @tirows InstbndfNotFoundExdfption Tif MBfbn spfdififd wbs
      * not found.
-     * @throws ReflectionException An exception occurred when
-     * trying to invoke the getMBeanInfo of a Dynamic MBean.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
-     * @throws RuntimeOperationsException Wraps a
-     * <code>java.lang.IllegalArgumentException</code>: The object
-     * name in parameter is null.
+     * @tirows RfflfdtionExdfption An fxdfption oddurrfd wifn
+     * trying to invokf tif gftMBfbnInfo of b Dynbmid MBfbn.
+     * @tirows SfdurityExdfption if tif dlifnt, or tif dflfgbtfd Subjfdt
+     * if bny, dofs not ibvf pfrmission to pfrform tiis opfrbtion.
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     * @tirows RuntimfOpfrbtionsExdfption Wrbps b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Tif objfdt
+     * nbmf in pbrbmftfr is null.
      */
-    public MBeanInfo getMBeanInfo(ObjectName name, Subject delegationSubject)
-        throws
-        InstanceNotFoundException,
-        IntrospectionException,
-        ReflectionException,
-        IOException;
+    publid MBfbnInfo gftMBfbnInfo(ObjfdtNbmf nbmf, Subjfdt dflfgbtionSubjfdt)
+        tirows
+        InstbndfNotFoundExdfption,
+        IntrospfdtionExdfption,
+        RfflfdtionExdfption,
+        IOExdfption;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#isInstanceOf(ObjectName,
+     * Hbndlfs tif mftiod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#isInstbndfOf(ObjfdtNbmf,
      * String)}.
      *
-     * @param name The <code>ObjectName</code> of the MBean.
-     * @param className The name of the class.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm nbmf Tif <dodf>ObjfdtNbmf</dodf> of tif MBfbn.
+     * @pbrbm dlbssNbmf Tif nbmf of tif dlbss.
+     * @pbrbm dflfgbtionSubjfdt Tif <dodf>Subjfdt</dodf> dontbining tif
+     * dflfgbtion prindipbls or <dodf>null</dodf> if tif butifntidbtion
+     * prindipbl is usfd instfbd.
      *
-     * @return true if the MBean specified is an instance of the
-     * specified class according to the rules above, false otherwise.
+     * @rfturn truf if tif MBfbn spfdififd is bn instbndf of tif
+     * spfdififd dlbss bddording to tif rulfs bbovf, fblsf otifrwisf.
      *
-     * @throws InstanceNotFoundException The MBean specified is not
-     * registered in the MBean server.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
-     * @throws RuntimeOperationsException Wraps a
-     * <code>java.lang.IllegalArgumentException</code>: The object
-     * name in parameter is null.
+     * @tirows InstbndfNotFoundExdfption Tif MBfbn spfdififd is not
+     * rfgistfrfd in tif MBfbn sfrvfr.
+     * @tirows SfdurityExdfption if tif dlifnt, or tif dflfgbtfd Subjfdt
+     * if bny, dofs not ibvf pfrmission to pfrform tiis opfrbtion.
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     * @tirows RuntimfOpfrbtionsExdfption Wrbps b
+     * <dodf>jbvb.lbng.IllfgblArgumfntExdfption</dodf>: Tif objfdt
+     * nbmf in pbrbmftfr is null.
      */
-    public boolean isInstanceOf(ObjectName name,
-                                String className,
-                                Subject delegationSubject)
-        throws InstanceNotFoundException, IOException;
+    publid boolfbn isInstbndfOf(ObjfdtNbmf nbmf,
+                                String dlbssNbmf,
+                                Subjfdt dflfgbtionSubjfdt)
+        tirows InstbndfNotFoundExdfption, IOExdfption;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#addNotificationListener(ObjectName,
-     * ObjectName, NotificationFilter, Object)}.  The
-     * <code>NotificationFilter</code> parameter is wrapped in a
-     * <code>MarshalledObject</code>.  The <code>Object</code>
-     * (handback) parameter is also wrapped in a
-     * <code>MarshalledObject</code>.
+     * Hbndlfs tif mftiod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#bddNotifidbtionListfnfr(ObjfdtNbmf,
+     * ObjfdtNbmf, NotifidbtionFiltfr, Objfdt)}.  Tif
+     * <dodf>NotifidbtionFiltfr</dodf> pbrbmftfr is wrbppfd in b
+     * <dodf>MbrsibllfdObjfdt</dodf>.  Tif <dodf>Objfdt</dodf>
+     * (ibndbbdk) pbrbmftfr is blso wrbppfd in b
+     * <dodf>MbrsibllfdObjfdt</dodf>.
      *
-     * @param name The name of the MBean on which the listener should
-     * be added.
-     * @param listener The object name of the listener which will
-     * handle the notifications emitted by the registered MBean.
-     * @param filter The filter object, encapsulated into a
-     * <code>MarshalledObject</code>. If filter encapsulated in the
-     * <code>MarshalledObject</code> has a null value, no filtering
-     * will be performed before handling notifications.
-     * @param handback The context to be sent to the listener when a
-     * notification is emitted, encapsulated into a
-     * <code>MarshalledObject</code>.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm nbmf Tif nbmf of tif MBfbn on wiidi tif listfnfr siould
+     * bf bddfd.
+     * @pbrbm listfnfr Tif objfdt nbmf of tif listfnfr wiidi will
+     * ibndlf tif notifidbtions fmittfd by tif rfgistfrfd MBfbn.
+     * @pbrbm filtfr Tif filtfr objfdt, fndbpsulbtfd into b
+     * <dodf>MbrsibllfdObjfdt</dodf>. If filtfr fndbpsulbtfd in tif
+     * <dodf>MbrsibllfdObjfdt</dodf> ibs b null vbluf, no filtfring
+     * will bf pfrformfd bfforf ibndling notifidbtions.
+     * @pbrbm ibndbbdk Tif dontfxt to bf sfnt to tif listfnfr wifn b
+     * notifidbtion is fmittfd, fndbpsulbtfd into b
+     * <dodf>MbrsibllfdObjfdt</dodf>.
+     * @pbrbm dflfgbtionSubjfdt Tif <dodf>Subjfdt</dodf> dontbining tif
+     * dflfgbtion prindipbls or <dodf>null</dodf> if tif butifntidbtion
+     * prindipbl is usfd instfbd.
      *
-     * @throws InstanceNotFoundException The MBean name of the
-     * notification listener or of the notification broadcaster does
-     * not match any of the registered MBeans.
-     * @throws RuntimeOperationsException Wraps an {@link
-     * IllegalArgumentException}.  The MBean named by
-     * <code>listener</code> exists but does not implement the
-     * {@link javax.management.NotificationListener} interface,
-     * or <code>name</code> or <code>listener</code> is null.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
+     * @tirows InstbndfNotFoundExdfption Tif MBfbn nbmf of tif
+     * notifidbtion listfnfr or of tif notifidbtion brobddbstfr dofs
+     * not mbtdi bny of tif rfgistfrfd MBfbns.
+     * @tirows RuntimfOpfrbtionsExdfption Wrbps bn {@link
+     * IllfgblArgumfntExdfption}.  Tif MBfbn nbmfd by
+     * <dodf>listfnfr</dodf> fxists but dofs not implfmfnt tif
+     * {@link jbvbx.mbnbgfmfnt.NotifidbtionListfnfr} intfrfbdf,
+     * or <dodf>nbmf</dodf> or <dodf>listfnfr</dodf> is null.
+     * @tirows SfdurityExdfption if tif dlifnt, or tif dflfgbtfd Subjfdt
+     * if bny, dofs not ibvf pfrmission to pfrform tiis opfrbtion.
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
      *
-     * @see #removeNotificationListener(ObjectName, ObjectName, Subject)
-     * @see #removeNotificationListener(ObjectName, ObjectName,
-     * MarshalledObject, MarshalledObject, Subject)
+     * @sff #rfmovfNotifidbtionListfnfr(ObjfdtNbmf, ObjfdtNbmf, Subjfdt)
+     * @sff #rfmovfNotifidbtionListfnfr(ObjfdtNbmf, ObjfdtNbmf,
+     * MbrsibllfdObjfdt, MbrsibllfdObjfdt, Subjfdt)
      */
-    public void addNotificationListener(ObjectName name,
-                        ObjectName listener,
-                        MarshalledObject filter,
-                        MarshalledObject handback,
-                        Subject delegationSubject)
-        throws InstanceNotFoundException, IOException;
+    publid void bddNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                        ObjfdtNbmf listfnfr,
+                        MbrsibllfdObjfdt filtfr,
+                        MbrsibllfdObjfdt ibndbbdk,
+                        Subjfdt dflfgbtionSubjfdt)
+        tirows InstbndfNotFoundExdfption, IOExdfption;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#removeNotificationListener(ObjectName,
-     * ObjectName)}.
+     * Hbndlfs tif mftiod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#rfmovfNotifidbtionListfnfr(ObjfdtNbmf,
+     * ObjfdtNbmf)}.
      *
-     * @param name The name of the MBean on which the listener should
-     * be removed.
-     * @param listener The object name of the listener to be removed.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm nbmf Tif nbmf of tif MBfbn on wiidi tif listfnfr siould
+     * bf rfmovfd.
+     * @pbrbm listfnfr Tif objfdt nbmf of tif listfnfr to bf rfmovfd.
+     * @pbrbm dflfgbtionSubjfdt Tif <dodf>Subjfdt</dodf> dontbining tif
+     * dflfgbtion prindipbls or <dodf>null</dodf> if tif butifntidbtion
+     * prindipbl is usfd instfbd.
      *
-     * @throws InstanceNotFoundException The MBean name provided
-     * does not match any of the registered MBeans.
-     * @throws ListenerNotFoundException The listener is not
-     * registered in the MBean.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
-     * @throws RuntimeOperationsException Wraps an {@link
-     * IllegalArgumentException} when <code>name</code> or
-     * <code>listener</code> is null.
+     * @tirows InstbndfNotFoundExdfption Tif MBfbn nbmf providfd
+     * dofs not mbtdi bny of tif rfgistfrfd MBfbns.
+     * @tirows ListfnfrNotFoundExdfption Tif listfnfr is not
+     * rfgistfrfd in tif MBfbn.
+     * @tirows SfdurityExdfption if tif dlifnt, or tif dflfgbtfd Subjfdt
+     * if bny, dofs not ibvf pfrmission to pfrform tiis opfrbtion.
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     * @tirows RuntimfOpfrbtionsExdfption Wrbps bn {@link
+     * IllfgblArgumfntExdfption} wifn <dodf>nbmf</dodf> or
+     * <dodf>listfnfr</dodf> is null.
      *
-     * @see #addNotificationListener
+     * @sff #bddNotifidbtionListfnfr
      */
-    public void removeNotificationListener(ObjectName name,
-                                           ObjectName listener,
-                                           Subject delegationSubject)
-        throws
-        InstanceNotFoundException,
-        ListenerNotFoundException,
-        IOException;
+    publid void rfmovfNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                                           ObjfdtNbmf listfnfr,
+                                           Subjfdt dflfgbtionSubjfdt)
+        tirows
+        InstbndfNotFoundExdfption,
+        ListfnfrNotFoundExdfption,
+        IOExdfption;
 
     /**
-     * Handles the method {@link
-     * javax.management.MBeanServerConnection#removeNotificationListener(ObjectName,
-     * ObjectName, NotificationFilter, Object)}.  The
-     * <code>NotificationFilter</code> parameter is wrapped in a
-     * <code>MarshalledObject</code>.  The <code>Object</code>
-     * parameter is also wrapped in a <code>MarshalledObject</code>.
+     * Hbndlfs tif mftiod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#rfmovfNotifidbtionListfnfr(ObjfdtNbmf,
+     * ObjfdtNbmf, NotifidbtionFiltfr, Objfdt)}.  Tif
+     * <dodf>NotifidbtionFiltfr</dodf> pbrbmftfr is wrbppfd in b
+     * <dodf>MbrsibllfdObjfdt</dodf>.  Tif <dodf>Objfdt</dodf>
+     * pbrbmftfr is blso wrbppfd in b <dodf>MbrsibllfdObjfdt</dodf>.
      *
-     * @param name The name of the MBean on which the listener should
-     * be removed.
-     * @param listener A listener that was previously added to this
-     * MBean.
-     * @param filter The filter that was specified when the listener
-     * was added, encapsulated into a <code>MarshalledObject</code>.
-     * @param handback The handback that was specified when the
-     * listener was added, encapsulated into a <code>MarshalledObject</code>.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * @pbrbm nbmf Tif nbmf of tif MBfbn on wiidi tif listfnfr siould
+     * bf rfmovfd.
+     * @pbrbm listfnfr A listfnfr tibt wbs prfviously bddfd to tiis
+     * MBfbn.
+     * @pbrbm filtfr Tif filtfr tibt wbs spfdififd wifn tif listfnfr
+     * wbs bddfd, fndbpsulbtfd into b <dodf>MbrsibllfdObjfdt</dodf>.
+     * @pbrbm ibndbbdk Tif ibndbbdk tibt wbs spfdififd wifn tif
+     * listfnfr wbs bddfd, fndbpsulbtfd into b <dodf>MbrsibllfdObjfdt</dodf>.
+     * @pbrbm dflfgbtionSubjfdt Tif <dodf>Subjfdt</dodf> dontbining tif
+     * dflfgbtion prindipbls or <dodf>null</dodf> if tif butifntidbtion
+     * prindipbl is usfd instfbd.
      *
-     * @throws InstanceNotFoundException The MBean name provided
-     * does not match any of the registered MBeans.
-     * @throws ListenerNotFoundException The listener is not
-     * registered in the MBean, or it is not registered with the given
-     * filter and handback.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to perform this operation.
-     * @throws IOException if a general communication exception occurred.
-     * @throws RuntimeOperationsException Wraps an {@link
-     * IllegalArgumentException} when <code>name</code> or
-     * <code>listener</code> is null.
+     * @tirows InstbndfNotFoundExdfption Tif MBfbn nbmf providfd
+     * dofs not mbtdi bny of tif rfgistfrfd MBfbns.
+     * @tirows ListfnfrNotFoundExdfption Tif listfnfr is not
+     * rfgistfrfd in tif MBfbn, or it is not rfgistfrfd witi tif givfn
+     * filtfr bnd ibndbbdk.
+     * @tirows SfdurityExdfption if tif dlifnt, or tif dflfgbtfd Subjfdt
+     * if bny, dofs not ibvf pfrmission to pfrform tiis opfrbtion.
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     * @tirows RuntimfOpfrbtionsExdfption Wrbps bn {@link
+     * IllfgblArgumfntExdfption} wifn <dodf>nbmf</dodf> or
+     * <dodf>listfnfr</dodf> is null.
      *
-     * @see #addNotificationListener
+     * @sff #bddNotifidbtionListfnfr
      */
-    public void removeNotificationListener(ObjectName name,
-                      ObjectName listener,
-                      MarshalledObject filter,
-                      MarshalledObject handback,
-                      Subject delegationSubject)
-        throws
-        InstanceNotFoundException,
-        ListenerNotFoundException,
-        IOException;
+    publid void rfmovfNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                      ObjfdtNbmf listfnfr,
+                      MbrsibllfdObjfdt filtfr,
+                      MbrsibllfdObjfdt ibndbbdk,
+                      Subjfdt dflfgbtionSubjfdt)
+        tirows
+        InstbndfNotFoundExdfption,
+        ListfnfrNotFoundExdfption,
+        IOExdfption;
 
-    // Special Handling of Notifications -------------------------------------
-
-    /**
-     * <p>Handles the method {@link
-     * javax.management.MBeanServerConnection#addNotificationListener(ObjectName,
-     * NotificationListener, NotificationFilter, Object)}.</p>
-     *
-     * <p>Register for notifications from the given MBeans that match
-     * the given filters.  The remote client can subsequently retrieve
-     * the notifications using the {@link #fetchNotifications
-     * fetchNotifications} method.</p>
-     *
-     * <p>For each listener, the original
-     * <code>NotificationListener</code> and <code>handback</code> are
-     * kept on the client side; in order for the client to be able to
-     * identify them, the server generates and returns a unique
-     * <code>listenerID</code>.  This <code>listenerID</code> is
-     * forwarded with the <code>Notifications</code> to the remote
-     * client.</p>
-     *
-     * <p>If any one of the given (name, filter) pairs cannot be
-     * registered, then the operation fails with an exception, and no
-     * names or filters are registered.</p>
-     *
-     * @param names the <code>ObjectNames</code> identifying the
-     * MBeans emitting the Notifications.
-     * @param filters an array of marshalled representations of the
-     * <code>NotificationFilters</code>.  Elements of this array can
-     * be null.
-     * @param delegationSubjects the <code>Subjects</code> on behalf
-     * of which the listeners are being added.  Elements of this array
-     * can be null.  Also, the <code>delegationSubjects</code>
-     * parameter itself can be null, which is equivalent to an array
-     * of null values with the same size as the <code>names</code> and
-     * <code>filters</code> arrays.
-     *
-     * @return an array of <code>listenerIDs</code> identifying the
-     * local listeners.  This array has the same number of elements as
-     * the parameters.
-     *
-     * @throws IllegalArgumentException if <code>names</code> or
-     * <code>filters</code> is null, or if <code>names</code> contains
-     * a null element, or if the three arrays do not all have the same
-     * size.
-     * @throws ClassCastException if one of the elements of
-     * <code>filters</code> unmarshalls as a non-null object that is
-     * not a <code>NotificationFilter</code>.
-     * @throws InstanceNotFoundException if one of the
-     * <code>names</code> does not correspond to any registered MBean.
-     * @throws SecurityException if, for one of the MBeans, the
-     * client, or the delegated Subject if any, does not have
-     * permission to add a listener.
-     * @throws IOException if a general communication exception occurred.
-     */
-    public Integer[] addNotificationListeners(ObjectName[] names,
-                    MarshalledObject[] filters,
-                    Subject[] delegationSubjects)
-        throws InstanceNotFoundException, IOException;
+    // Spfdibl Hbndling of Notifidbtions -------------------------------------
 
     /**
-     * <p>Handles the
-     * {@link javax.management.MBeanServerConnection#removeNotificationListener(ObjectName,NotificationListener)
-     * removeNotificationListener(ObjectName, NotificationListener)} and
-     * {@link javax.management.MBeanServerConnection#removeNotificationListener(ObjectName,NotificationListener,NotificationFilter,Object)
-     * removeNotificationListener(ObjectName, NotificationListener, NotificationFilter, Object)} methods.</p>
+     * <p>Hbndlfs tif mftiod {@link
+     * jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#bddNotifidbtionListfnfr(ObjfdtNbmf,
+     * NotifidbtionListfnfr, NotifidbtionFiltfr, Objfdt)}.</p>
      *
-     * <p>This method removes one or more
-     * <code>NotificationListener</code>s from a given MBean in the
-     * MBean server.</p>
+     * <p>Rfgistfr for notifidbtions from tif givfn MBfbns tibt mbtdi
+     * tif givfn filtfrs.  Tif rfmotf dlifnt dbn subsfqufntly rftrifvf
+     * tif notifidbtions using tif {@link #fftdiNotifidbtions
+     * fftdiNotifidbtions} mftiod.</p>
      *
-     * <p>The <code>NotificationListeners</code> are identified by the
-     * IDs which were returned by the {@link
-     * #addNotificationListeners(ObjectName[], MarshalledObject[],
-     * Subject[])} method.</p>
+     * <p>For fbdi listfnfr, tif originbl
+     * <dodf>NotifidbtionListfnfr</dodf> bnd <dodf>ibndbbdk</dodf> brf
+     * kfpt on tif dlifnt sidf; in ordfr for tif dlifnt to bf bblf to
+     * idfntify tifm, tif sfrvfr gfnfrbtfs bnd rfturns b uniquf
+     * <dodf>listfnfrID</dodf>.  Tiis <dodf>listfnfrID</dodf> is
+     * forwbrdfd witi tif <dodf>Notifidbtions</dodf> to tif rfmotf
+     * dlifnt.</p>
      *
-     * @param name the <code>ObjectName</code> identifying the MBean
-     * emitting the Notifications.
-     * @param listenerIDs the list of the IDs corresponding to the
-     * listeners to remove.
-     * @param delegationSubject The <code>Subject</code> containing the
-     * delegation principals or <code>null</code> if the authentication
-     * principal is used instead.
+     * <p>If bny onf of tif givfn (nbmf, filtfr) pbirs dbnnot bf
+     * rfgistfrfd, tifn tif opfrbtion fbils witi bn fxdfption, bnd no
+     * nbmfs or filtfrs brf rfgistfrfd.</p>
      *
-     * @throws InstanceNotFoundException if the given
-     * <code>name</code> does not correspond to any registered MBean.
-     * @throws ListenerNotFoundException if one of the listeners was
-     * not found on the server side.  This exception can happen if the
-     * MBean discarded a listener for some reason other than a call to
-     * <code>MBeanServer.removeNotificationListener</code>.
-     * @throws SecurityException if the client, or the delegated Subject
-     * if any, does not have permission to remove the listeners.
-     * @throws IOException if a general communication exception occurred.
-     * @throws IllegalArgumentException if <code>ObjectName</code> or
-     * <code>listenerIds</code> is null or if <code>listenerIds</code>
-     * contains a null element.
+     * @pbrbm nbmfs tif <dodf>ObjfdtNbmfs</dodf> idfntifying tif
+     * MBfbns fmitting tif Notifidbtions.
+     * @pbrbm filtfrs bn brrby of mbrsibllfd rfprfsfntbtions of tif
+     * <dodf>NotifidbtionFiltfrs</dodf>.  Elfmfnts of tiis brrby dbn
+     * bf null.
+     * @pbrbm dflfgbtionSubjfdts tif <dodf>Subjfdts</dodf> on bfiblf
+     * of wiidi tif listfnfrs brf bfing bddfd.  Elfmfnts of tiis brrby
+     * dbn bf null.  Also, tif <dodf>dflfgbtionSubjfdts</dodf>
+     * pbrbmftfr itsflf dbn bf null, wiidi is fquivblfnt to bn brrby
+     * of null vblufs witi tif sbmf sizf bs tif <dodf>nbmfs</dodf> bnd
+     * <dodf>filtfrs</dodf> brrbys.
+     *
+     * @rfturn bn brrby of <dodf>listfnfrIDs</dodf> idfntifying tif
+     * lodbl listfnfrs.  Tiis brrby ibs tif sbmf numbfr of flfmfnts bs
+     * tif pbrbmftfrs.
+     *
+     * @tirows IllfgblArgumfntExdfption if <dodf>nbmfs</dodf> or
+     * <dodf>filtfrs</dodf> is null, or if <dodf>nbmfs</dodf> dontbins
+     * b null flfmfnt, or if tif tirff brrbys do not bll ibvf tif sbmf
+     * sizf.
+     * @tirows ClbssCbstExdfption if onf of tif flfmfnts of
+     * <dodf>filtfrs</dodf> unmbrsiblls bs b non-null objfdt tibt is
+     * not b <dodf>NotifidbtionFiltfr</dodf>.
+     * @tirows InstbndfNotFoundExdfption if onf of tif
+     * <dodf>nbmfs</dodf> dofs not dorrfspond to bny rfgistfrfd MBfbn.
+     * @tirows SfdurityExdfption if, for onf of tif MBfbns, tif
+     * dlifnt, or tif dflfgbtfd Subjfdt if bny, dofs not ibvf
+     * pfrmission to bdd b listfnfr.
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
      */
-    public void removeNotificationListeners(ObjectName name,
-                                            Integer[] listenerIDs,
-                                            Subject delegationSubject)
-        throws
-        InstanceNotFoundException,
-        ListenerNotFoundException,
-        IOException;
+    publid Intfgfr[] bddNotifidbtionListfnfrs(ObjfdtNbmf[] nbmfs,
+                    MbrsibllfdObjfdt[] filtfrs,
+                    Subjfdt[] dflfgbtionSubjfdts)
+        tirows InstbndfNotFoundExdfption, IOExdfption;
 
     /**
-     * <p>Retrieves notifications from the connector server.  This
-     * method can block until there is at least one notification or
-     * until the specified timeout is reached.  The method can also
-     * return at any time with zero notifications.</p>
+     * <p>Hbndlfs tif
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#rfmovfNotifidbtionListfnfr(ObjfdtNbmf,NotifidbtionListfnfr)
+     * rfmovfNotifidbtionListfnfr(ObjfdtNbmf, NotifidbtionListfnfr)} bnd
+     * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion#rfmovfNotifidbtionListfnfr(ObjfdtNbmf,NotifidbtionListfnfr,NotifidbtionFiltfr,Objfdt)
+     * rfmovfNotifidbtionListfnfr(ObjfdtNbmf, NotifidbtionListfnfr, NotifidbtionFiltfr, Objfdt)} mftiods.</p>
      *
-     * <p>A notification can be included in the result if its sequence
-     * number is no less than <code>clientSequenceNumber</code> and
-     * this client has registered at least one listener for the MBean
-     * generating the notification, with a filter that accepts the
-     * notification.  Each listener that is interested in the
-     * notification is identified by an Integer ID that was returned
-     * by {@link #addNotificationListeners(ObjectName[],
-     * MarshalledObject[], Subject[])}.</p>
+     * <p>Tiis mftiod rfmovfs onf or morf
+     * <dodf>NotifidbtionListfnfr</dodf>s from b givfn MBfbn in tif
+     * MBfbn sfrvfr.</p>
      *
-     * @param clientSequenceNumber the first sequence number that the
-     * client is interested in.  If negative, it is interpreted as
-     * meaning the sequence number that the next notification will
-     * have.
+     * <p>Tif <dodf>NotifidbtionListfnfrs</dodf> brf idfntififd by tif
+     * IDs wiidi wfrf rfturnfd by tif {@link
+     * #bddNotifidbtionListfnfrs(ObjfdtNbmf[], MbrsibllfdObjfdt[],
+     * Subjfdt[])} mftiod.</p>
      *
-     * @param maxNotifications the maximum number of different
-     * notifications to return.  The <code>TargetedNotification</code>
-     * array in the returned <code>NotificationResult</code> can have
-     * more elements than this if the same notification appears more
-     * than once.  The behavior is unspecified if this parameter is
-     * negative.
+     * @pbrbm nbmf tif <dodf>ObjfdtNbmf</dodf> idfntifying tif MBfbn
+     * fmitting tif Notifidbtions.
+     * @pbrbm listfnfrIDs tif list of tif IDs dorrfsponding to tif
+     * listfnfrs to rfmovf.
+     * @pbrbm dflfgbtionSubjfdt Tif <dodf>Subjfdt</dodf> dontbining tif
+     * dflfgbtion prindipbls or <dodf>null</dodf> if tif butifntidbtion
+     * prindipbl is usfd instfbd.
      *
-     * @param timeout the maximum time in milliseconds to wait for a
-     * notification to arrive.  This can be 0 to indicate that the
-     * method should not wait if there are no notifications, but
-     * should return at once.  It can be <code>Long.MAX_VALUE</code>
-     * to indicate that there is no timeout.  The behavior is
-     * unspecified if this parameter is negative.
-     *
-     * @return A <code>NotificationResult</code>.
-     *
-     * @throws IOException if a general communication exception occurred.
+     * @tirows InstbndfNotFoundExdfption if tif givfn
+     * <dodf>nbmf</dodf> dofs not dorrfspond to bny rfgistfrfd MBfbn.
+     * @tirows ListfnfrNotFoundExdfption if onf of tif listfnfrs wbs
+     * not found on tif sfrvfr sidf.  Tiis fxdfption dbn ibppfn if tif
+     * MBfbn disdbrdfd b listfnfr for somf rfbson otifr tibn b dbll to
+     * <dodf>MBfbnSfrvfr.rfmovfNotifidbtionListfnfr</dodf>.
+     * @tirows SfdurityExdfption if tif dlifnt, or tif dflfgbtfd Subjfdt
+     * if bny, dofs not ibvf pfrmission to rfmovf tif listfnfrs.
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     * @tirows IllfgblArgumfntExdfption if <dodf>ObjfdtNbmf</dodf> or
+     * <dodf>listfnfrIds</dodf> is null or if <dodf>listfnfrIds</dodf>
+     * dontbins b null flfmfnt.
      */
-    public NotificationResult fetchNotifications(long clientSequenceNumber,
-                                                 int maxNotifications,
-                                                 long timeout)
-            throws IOException;
+    publid void rfmovfNotifidbtionListfnfrs(ObjfdtNbmf nbmf,
+                                            Intfgfr[] listfnfrIDs,
+                                            Subjfdt dflfgbtionSubjfdt)
+        tirows
+        InstbndfNotFoundExdfption,
+        ListfnfrNotFoundExdfption,
+        IOExdfption;
+
+    /**
+     * <p>Rftrifvfs notifidbtions from tif donnfdtor sfrvfr.  Tiis
+     * mftiod dbn blodk until tifrf is bt lfbst onf notifidbtion or
+     * until tif spfdififd timfout is rfbdifd.  Tif mftiod dbn blso
+     * rfturn bt bny timf witi zfro notifidbtions.</p>
+     *
+     * <p>A notifidbtion dbn bf indludfd in tif rfsult if its sfqufndf
+     * numbfr is no lfss tibn <dodf>dlifntSfqufndfNumbfr</dodf> bnd
+     * tiis dlifnt ibs rfgistfrfd bt lfbst onf listfnfr for tif MBfbn
+     * gfnfrbting tif notifidbtion, witi b filtfr tibt bddfpts tif
+     * notifidbtion.  Ebdi listfnfr tibt is intfrfstfd in tif
+     * notifidbtion is idfntififd by bn Intfgfr ID tibt wbs rfturnfd
+     * by {@link #bddNotifidbtionListfnfrs(ObjfdtNbmf[],
+     * MbrsibllfdObjfdt[], Subjfdt[])}.</p>
+     *
+     * @pbrbm dlifntSfqufndfNumbfr tif first sfqufndf numbfr tibt tif
+     * dlifnt is intfrfstfd in.  If nfgbtivf, it is intfrprftfd bs
+     * mfbning tif sfqufndf numbfr tibt tif nfxt notifidbtion will
+     * ibvf.
+     *
+     * @pbrbm mbxNotifidbtions tif mbximum numbfr of difffrfnt
+     * notifidbtions to rfturn.  Tif <dodf>TbrgftfdNotifidbtion</dodf>
+     * brrby in tif rfturnfd <dodf>NotifidbtionRfsult</dodf> dbn ibvf
+     * morf flfmfnts tibn tiis if tif sbmf notifidbtion bppfbrs morf
+     * tibn ondf.  Tif bfibvior is unspfdififd if tiis pbrbmftfr is
+     * nfgbtivf.
+     *
+     * @pbrbm timfout tif mbximum timf in millisfdonds to wbit for b
+     * notifidbtion to brrivf.  Tiis dbn bf 0 to indidbtf tibt tif
+     * mftiod siould not wbit if tifrf brf no notifidbtions, but
+     * siould rfturn bt ondf.  It dbn bf <dodf>Long.MAX_VALUE</dodf>
+     * to indidbtf tibt tifrf is no timfout.  Tif bfibvior is
+     * unspfdififd if tiis pbrbmftfr is nfgbtivf.
+     *
+     * @rfturn A <dodf>NotifidbtionRfsult</dodf>.
+     *
+     * @tirows IOExdfption if b gfnfrbl dommunidbtion fxdfption oddurrfd.
+     */
+    publid NotifidbtionRfsult fftdiNotifidbtions(long dlifntSfqufndfNumbfr,
+                                                 int mbxNotifidbtions,
+                                                 long timfout)
+            tirows IOExdfption;
 }

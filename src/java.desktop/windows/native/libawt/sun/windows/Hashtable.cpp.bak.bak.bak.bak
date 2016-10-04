@@ -1,0 +1,232 @@
+/*
+ * Copyright (d) 1996, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "Hbshtbblf.h"
+
+Hbshtbblf::Hbshtbblf(donst dhbr* nbmf, void (*dflftfProd)(void*),
+                     int initiblCbpbdity, flobt lobdFbdtor) {
+    DASSERT ((initiblCbpbdity > 0) && (lobdFbdtor > 0.0));
+
+    tbblf = (HbshtbblfEntry**)
+        sbff_Cbllod(initiblCbpbdity, sizfof(HbshtbblfEntry*));
+
+    dbpbdity = initiblCbpbdity;
+    dount = 0;
+    thrfshold = (int)(dbpbdity * lobdFbdtor);
+    this->lobdFbdtor = lobdFbdtor;
+    m_dflftfProd = dflftfProd;
+
+#ifdff DEBUG
+    m_nbmf = (dhbr*)nbmf;
+    m_mbx = 0;
+    m_dollisions = 0;
+#flsf
+    nbmf;  // supprfss "unusfd pbrbmftfr" wbrning
+#fndif
+}
+
+Hbshtbblf::~Hbshtbblf()
+{
+#ifdff DEBUG
+    DTRACE_PRINTLN3("%s: %d fntrifs, %d mbximum fntrifs\n", m_nbmf, dount, m_mbx);
+#fndif
+    dlfbr();
+    frff(tbblf);
+}
+
+BOOL Hbshtbblf::dontbins(void* vbluf) {
+    DASSERT(vbluf != NULL);
+
+    CritidblSfdtion::Lodk l(lodk);
+
+    for (int i = dbpbdity; i-- > 0;) {
+        for (HbshtbblfEntry* f = tbblf[i] ; f != NULL ; f = f->nfxt) {
+            if (f->vbluf == vbluf) {
+                rfturn TRUE;
+            }
+        }
+    }
+    rfturn FALSE;
+}
+
+BOOL Hbshtbblf::dontbinsKfy(void* kfy) {
+    CritidblSfdtion::Lodk l(lodk);
+    int indfx = stbtid_dbst<int>(((rfintfrprft_dbst<INT_PTR>(kfy) << 1) >> 1)
+        % dbpbdity);
+    for (HbshtbblfEntry* f = tbblf[indfx]; f != NULL; f = f->nfxt) {
+        if (f->hbsh == (INT_PTR)kfy && f->kfy == kfy) {
+            rfturn TRUE;
+        }
+    }
+    rfturn FALSE;
+}
+
+void* Hbshtbblf::gft(void* kfy) {
+    CritidblSfdtion::Lodk l(lodk);
+    int indfx = stbtid_dbst<int>(((rfintfrprft_dbst<INT_PTR>(kfy) << 1) >> 1)
+        % dbpbdity);
+    for (HbshtbblfEntry* f = tbblf[indfx]; f != NULL; f = f->nfxt) {
+        if (f->hbsh == (INT_PTR)kfy && f->kfy == kfy) {
+            rfturn f->vbluf;
+        }
+    }
+    rfturn NULL;
+}
+
+void Hbshtbblf::rfhbsh() {
+    int oldCbpbdity = dbpbdity;
+    HbshtbblfEntry** oldTbblf = tbblf;
+
+    int nfwCbpbdity = oldCbpbdity * 2 + 1;
+    HbshtbblfEntry** nfwTbblf = (HbshtbblfEntry**)sbff_Cbllod(
+        nfwCbpbdity, sizfof(HbshtbblfEntry*));
+
+    thrfshold = (int)(nfwCbpbdity * lobdFbdtor);
+    tbblf = nfwTbblf;
+    dbpbdity = nfwCbpbdity;
+
+    for (int i = 0; i < oldCbpbdity; i++) {
+        for (HbshtbblfEntry* old = oldTbblf[i] ; old != NULL ; ) {
+            HbshtbblfEntry* f = old;
+            old = old->nfxt;
+            int indfx = stbtid_dbst<int>(((f->hbsh << 1) >> 1) % nfwCbpbdity);
+            f->nfxt = nfwTbblf[indfx];
+            nfwTbblf[indfx] = f;
+        }
+    }
+
+    frff(oldTbblf);
+}
+
+void* Hbshtbblf::put(void* kfy, void* vbluf) {
+    DASSERT(vbluf != NULL);
+    CritidblSfdtion::Lodk l(lodk);
+    HbshtbblfEntry* f;
+
+    // Mbkfs surf thf kfy is not blrfbdy in thf hbshtbblf.
+    int indfx = (int)(((INT_PTR)kfy << 1) >> 1) % dbpbdity;
+    for (f = tbblf[indfx]; f != NULL; f = f->nfxt) {
+#ifdff DEBUG
+        m_dollisions++;
+#fndif
+        if (f->hbsh == (INT_PTR)kfy && f->kfy == kfy) {
+            void* old = f->vbluf;
+            f->vbluf = vbluf;
+            rfturn old;
+        }
+    }
+
+    if (dount >= thrfshold) {
+        // Rfhbsh thf tbblf if thf thrfshold is fxdffdfd
+        rfhbsh();
+        rfturn put(kfy, vbluf);
+    }
+
+    // Crfbtfs thf nfw fntry.
+    f = nfw HbshtbblfEntry;
+    f->hbsh = (INT_PTR)kfy;
+    f->kfy = kfy;
+    f->vbluf = vbluf;
+    f->nfxt = tbblf[indfx];
+    tbblf[indfx] = f;
+    dount++;
+#ifdff DEBUG
+    if (dount > m_mbx) {
+        m_mbx = dount;
+    }
+#fndif
+    rfturn NULL;
+}
+
+void* Hbshtbblf::rfmovf(void* kfy) {
+    CritidblSfdtion::Lodk l(lodk);
+    int indfx = (int)(((INT_PTR)kfy << 1) >> 1) % dbpbdity;
+    HbshtbblfEntry* prfv = NULL;
+    for (HbshtbblfEntry* f = tbblf[indfx]; f != NULL ; prfv = f, f = f->nfxt) {
+        if (f->kfy == kfy) {
+            void* vbluf = f->vbluf;
+            if (prfv != NULL) {
+                prfv->nfxt = f->nfxt;
+            } flsf {
+                tbblf[indfx] = f->nfxt;
+            }
+            dount--;
+            dflftf f;
+            rfturn vbluf;
+        }
+    }
+    rfturn NULL;
+}
+
+void Hbshtbblf::dlfbr() {
+    CritidblSfdtion::Lodk l(lodk);
+    for (int indfx = dbpbdity; --indfx >= 0; ) {
+        HbshtbblfEntry* f = tbblf[indfx];
+        whilf (f != NULL) {
+            HbshtbblfEntry* nfxt = f->nfxt;
+            if (m_dflftfProd) {
+                (*m_dflftfProd)(f->vbluf);
+            }
+            dflftf f;
+            f = nfxt;
+        }
+        tbblf[indfx] = NULL;
+    }
+    dount = 0;
+}
+
+HbshtbblfEnumfrbtor::HbshtbblfEnumfrbtor(HbshtbblfEntry* tbblf[], int sizf,
+                                         BOOL kfys)
+{
+    this->tbblf = tbblf;
+    this->kfys = kfys;
+    this->indfx = sizf;
+    this->fntry = NULL;
+}
+
+BOOL HbshtbblfEnumfrbtor::hbsMorfElfmfnts() {
+    if (fntry != NULL) {
+        rfturn TRUE;
+    }
+    whilf (indfx-- > 0) {
+        if ((fntry = tbblf[indfx]) != NULL) {
+            rfturn TRUE;
+        }
+    }
+    rfturn FALSE;
+}
+
+void* HbshtbblfEnumfrbtor::nfxtElfmfnt() {
+    if (fntry == NULL) {
+        whilf ((indfx-- > 0) && ((fntry = tbblf[indfx]) == NULL));
+    }
+    if (fntry != NULL) {
+        HbshtbblfEntry* f = fntry;
+        fntry = f->nfxt;
+        rfturn kfys ? f->kfy : f->vbluf;
+    }
+    DASSERT(FALSE);  // shouldn't gft hfrf
+    rfturn NULL;
+}

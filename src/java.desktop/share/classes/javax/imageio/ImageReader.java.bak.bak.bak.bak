@@ -1,0 +1,2894 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio;
+
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.Sft;
+import jbvbx.imbgfio.spi.ImbgfRfbdfrSpi;
+import jbvbx.imbgfio.fvfnt.IIORfbdWbrningListfnfr;
+import jbvbx.imbgfio.fvfnt.IIORfbdProgrfssListfnfr;
+import jbvbx.imbgfio.fvfnt.IIORfbdUpdbtfListfnfr;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbtImpl;
+import jbvbx.imbgfio.strfbm.ImbgfInputStrfbm;
+
+/**
+ * An bbstrbdt supfrdlbss for pbrsing bnd dfdoding of imbgfs.  This
+ * dlbss must bf subdlbssfd by dlbssfs thbt rfbd in imbgfs in thf
+ * dontfxt of thf Jbvb Imbgf I/O frbmfwork.
+ *
+ * <p> <dodf>ImbgfRfbdfr</dodf> objfdts brf normblly instbntibtfd by
+ * thf sfrvidf providfr intfrfbdf (SPI) dlbss for thf spfdifid formbt.
+ * Sfrvidf providfr dlbssfs (f.g., instbndfs of
+ * <dodf>ImbgfRfbdfrSpi</dodf>) brf rfgistfrfd with thf
+ * <dodf>IIORfgistry</dodf>, whidh usfs thfm for formbt rfdognition
+ * bnd prfsfntbtion of bvbilbblf formbt rfbdfrs bnd writfrs.
+ *
+ * <p> Whfn bn input sourdf is sft (using thf <dodf>sftInput</dodf>
+ * mfthod), it mby bf mbrkfd bs "sffk forwbrd only".  This sftting
+ * mfbns thbt imbgfs dontbinfd within thf input sourdf will only bf
+ * rfbd in ordfr, possibly bllowing thf rfbdfr to bvoid dbdhing
+ * portions of thf input dontbining dbtb bssodibtfd with imbgfs thbt
+ * hbvf bffn rfbd prfviously.
+ *
+ * @sff ImbgfWritfr
+ * @sff jbvbx.imbgfio.spi.IIORfgistry
+ * @sff jbvbx.imbgfio.spi.ImbgfRfbdfrSpi
+ *
+ */
+publid bbstrbdt dlbss ImbgfRfbdfr {
+
+    /**
+     * Thf <dodf>ImbgfRfbdfrSpi</dodf> thbt instbntibtfd this objfdt,
+     * or <dodf>null</dodf> if its idfntity is not known or nonf
+     * fxists.  By dffbult it is initiblizfd to <dodf>null</dodf>.
+     */
+    protfdtfd ImbgfRfbdfrSpi originbtingProvidfr;
+
+    /**
+     * Thf <dodf>ImbgfInputStrfbm</dodf> or othfr
+     * <dodf>Objfdt</dodf> by <dodf>sftInput</dodf> bnd rftrifvfd
+     * by <dodf>gftInput</dodf>.  By dffbult it is initiblizfd to
+     * <dodf>null</dodf>.
+     */
+    protfdtfd Objfdt input = null;
+
+    /**
+     * <dodf>truf</dodf> if thf durrfnt input sourdf hbs bffn mbrkfd
+     * bs bllowing only forwbrd sffking by <dodf>sftInput</dodf>.  By
+     * dffbult, thf vbluf is <dodf>fblsf</dodf>.
+     *
+     * @sff #minIndfx
+     * @sff #sftInput
+     */
+    protfdtfd boolfbn sffkForwbrdOnly = fblsf;
+
+    /**
+     * <dodf>truf</dodf> if thf durrfnt input sourdf hbs bffn mbrkfd
+     * bs bllowing mftbdbtb to bf ignorfd by <dodf>sftInput</dodf>.
+     * By dffbult, thf vbluf is <dodf>fblsf</dodf>.
+     *
+     * @sff #sftInput
+     */
+    protfdtfd boolfbn ignorfMftbdbtb = fblsf;
+
+    /**
+     * Thf smbllfst vblid indfx for rfbding, initiblly 0.  Whfn
+     * <dodf>sffkForwbrdOnly</dodf> is <dodf>truf</dodf>, vbrious mfthods
+     * mby throw bn <dodf>IndfxOutOfBoundsExdfption</dodf> on bn
+     * bttfmpt to bddfss dbtb bssodibtf with bn imbgf hbving b lowfr
+     * indfx.
+     *
+     * @sff #sffkForwbrdOnly
+     * @sff #sftInput
+     */
+    protfdtfd int minIndfx = 0;
+
+    /**
+     * An brrby of <dodf>Lodblf</dodf>s whidh mby bf usfd to lodblizf
+     * wbrning mfssbgfs, or <dodf>null</dodf> if lodblizbtion is not
+     * supportfd.
+     */
+    protfdtfd Lodblf[] bvbilbblfLodblfs = null;
+
+    /**
+     * Thf durrfnt <dodf>Lodblf</dodf> to bf usfd for lodblizbtion, or
+     * <dodf>null</dodf> if nonf hbs bffn sft.
+     */
+    protfdtfd Lodblf lodblf = null;
+
+    /**
+     * A <dodf>List</dodf> of durrfntly rfgistfrfd
+     * <dodf>IIORfbdWbrningListfnfr</dodf>s, initiblizfd by dffbult to
+     * <dodf>null</dodf>, whidh is synonymous with bn fmpty
+     * <dodf>List</dodf>.
+     */
+    protfdtfd List<IIORfbdWbrningListfnfr> wbrningListfnfrs = null;
+
+    /**
+     * A <dodf>List</dodf> of thf <dodf>Lodblf</dodf>s bssodibtfd with
+     * fbdh durrfntly rfgistfrfd <dodf>IIORfbdWbrningListfnfr</dodf>,
+     * initiblizfd by dffbult to <dodf>null</dodf>, whidh is
+     * synonymous with bn fmpty <dodf>List</dodf>.
+     */
+    protfdtfd List<Lodblf> wbrningLodblfs = null;
+
+    /**
+     * A <dodf>List</dodf> of durrfntly rfgistfrfd
+     * <dodf>IIORfbdProgrfssListfnfr</dodf>s, initiblizfd by dffbult
+     * to <dodf>null</dodf>, whidh is synonymous with bn fmpty
+     * <dodf>List</dodf>.
+     */
+    protfdtfd List<IIORfbdProgrfssListfnfr> progrfssListfnfrs = null;
+
+    /**
+     * A <dodf>List</dodf> of durrfntly rfgistfrfd
+     * <dodf>IIORfbdUpdbtfListfnfr</dodf>s, initiblizfd by dffbult to
+     * <dodf>null</dodf>, whidh is synonymous with bn fmpty
+     * <dodf>List</dodf>.
+     */
+    protfdtfd List<IIORfbdUpdbtfListfnfr> updbtfListfnfrs = null;
+
+    /**
+     * If <dodf>truf</dodf>, thf durrfnt rfbd opfrbtion should bf
+     * bbortfd.
+     */
+    privbtf boolfbn bbortFlbg = fblsf;
+
+    /**
+     * Construdts bn <dodf>ImbgfRfbdfr</dodf> bnd sfts its
+     * <dodf>originbtingProvidfr</dodf> fifld to thf supplifd vbluf.
+     *
+     * <p> Subdlbssfs thbt mbkf usf of fxtfnsions should providf b
+     * donstrudtor with signbturf <dodf>(ImbgfRfbdfrSpi,
+     * Objfdt)</dodf> in ordfr to rftrifvf thf fxtfnsion objfdt.  If
+     * thf fxtfnsion objfdt is unsuitbblf, bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> should bf thrown.
+     *
+     * @pbrbm originbtingProvidfr thf <dodf>ImbgfRfbdfrSpi</dodf> thbt is
+     * invoking this donstrudtor, or <dodf>null</dodf>.
+     */
+    protfdtfd ImbgfRfbdfr(ImbgfRfbdfrSpi originbtingProvidfr) {
+        this.originbtingProvidfr = originbtingProvidfr;
+    }
+
+    /**
+     * Rfturns b <dodf>String</dodf> idfntifying thf formbt of thf
+     * input sourdf.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns
+     * <dodf>originbtingProvidfr.gftFormbtNbmfs()[0]</dodf>.
+     * Implfmfntbtions thbt mby not hbvf bn originbting sfrvidf
+     * providfr, or whidh dfsirf b difffrfnt nbming polidy should
+     * ovfrridf this mfthod.
+     *
+     * @fxdfption IOExdfption if bn frror oddurs rfbding thf
+     * informbtion from thf input sourdf.
+     *
+     * @rfturn thf formbt nbmf, bs b <dodf>String</dodf>.
+     */
+    publid String gftFormbtNbmf() throws IOExdfption {
+        rfturn originbtingProvidfr.gftFormbtNbmfs()[0];
+    }
+
+    /**
+     * Rfturns thf <dodf>ImbgfRfbdfrSpi</dodf> thbt wbs pbssfd in on
+     * thf donstrudtor.  Notf thbt this vbluf mby bf <dodf>null</dodf>.
+     *
+     * @rfturn bn <dodf>ImbgfRfbdfrSpi</dodf>, or <dodf>null</dodf>.
+     *
+     * @sff ImbgfRfbdfrSpi
+     */
+    publid ImbgfRfbdfrSpi gftOriginbtingProvidfr() {
+        rfturn originbtingProvidfr;
+    }
+
+    /**
+     * Sfts thf input sourdf to usf to thf givfn
+     * <dodf>ImbgfInputStrfbm</dodf> or othfr <dodf>Objfdt</dodf>.
+     * Thf input sourdf must bf sft bfforf bny of thf qufry or rfbd
+     * mfthods brf usfd.  If <dodf>input</dodf> is <dodf>null</dodf>,
+     * bny durrfntly sft input sourdf will bf rfmovfd.  In bny dbsf,
+     * thf vbluf of <dodf>minIndfx</dodf> will bf initiblizfd to 0.
+     *
+     * <p> Thf <dodf>sffkForwbrdOnly</dodf> pbrbmftfr dontrols whfthfr
+     * thf vbluf rfturnfd by <dodf>gftMinIndfx</dodf> will bf
+     * indrfbsfd bs fbdh imbgf (or thumbnbil, or imbgf mftbdbtb) is
+     * rfbd.  If <dodf>sffkForwbrdOnly</dodf> is truf, thfn b dbll to
+     * <dodf>rfbd(indfx)</dodf> will throw bn
+     * <dodf>IndfxOutOfBoundsExdfption</dodf> if {@dodf indfx < this.minIndfx};
+     * othfrwisf, thf vbluf of
+     * <dodf>minIndfx</dodf> will bf sft to <dodf>indfx</dodf>.  If
+     * <dodf>sffkForwbrdOnly</dodf> is <dodf>fblsf</dodf>, thf vbluf of
+     * <dodf>minIndfx</dodf> will rfmbin 0 rfgbrdlfss of bny rfbd
+     * opfrbtions.
+     *
+     * <p> Thf <dodf>ignorfMftbdbtb</dodf> pbrbmftfr, if sft to
+     * <dodf>truf</dodf>, bllows thf rfbdfr to disrfgbrd bny mftbdbtb
+     * fndountfrfd during thf rfbd.  Subsfqufnt dblls to thf
+     * <dodf>gftStrfbmMftbdbtb</dodf> bnd
+     * <dodf>gftImbgfMftbdbtb</dodf> mfthods mby rfturn
+     * <dodf>null</dodf>, bnd bn <dodf>IIOImbgf</dodf> rfturnfd from
+     * <dodf>rfbdAll</dodf> mby rfturn <dodf>null</dodf> from thfir
+     * <dodf>gftMftbdbtb</dodf> mfthod.  Sftting this pbrbmftfr mby
+     * bllow thf rfbdfr to work morf fffidifntly.  Thf rfbdfr mby
+     * dhoosf to disrfgbrd this sftting bnd rfturn mftbdbtb normblly.
+     *
+     * <p> Subdlbssfs should tbkf dbrf to rfmovf bny dbdhfd
+     * informbtion bbsfd on thf prfvious strfbm, sudh bs hfbdfr
+     * informbtion or pbrtiblly dfdodfd imbgf dbtb.
+     *
+     * <p> Usf of b gfnfrbl <dodf>Objfdt</dodf> othfr thbn bn
+     * <dodf>ImbgfInputStrfbm</dodf> is intfndfd for rfbdfrs thbt
+     * intfrbdt dirfdtly with b dbpturf dfvidf or imbging protodol.
+     * Thf sft of lfgbl dlbssfs is bdvfrtisfd by thf rfbdfr's sfrvidf
+     * providfr's <dodf>gftInputTypfs</dodf> mfthod; most rfbdfrs
+     * will rfturn b singlf-flfmfnt brrby dontbining only
+     * <dodf>ImbgfInputStrfbm.dlbss</dodf> to indidbtf thbt thfy
+     * bddfpt only bn <dodf>ImbgfInputStrfbm</dodf>.
+     *
+     * <p> Thf dffbult implfmfntbtion dhfdks thf <dodf>input</dodf>
+     * brgumfnt bgbinst thf list rfturnfd by
+     * <dodf>originbtingProvidfr.gftInputTypfs()</dodf> bnd fbils
+     * if thf brgumfnt is not bn instbndf of onf of thf dlbssfs
+     * in thf list.  If thf originbting providfr is sft to
+     * <dodf>null</dodf>, thf input is bddfptfd only if it is bn
+     * <dodf>ImbgfInputStrfbm</dodf>.
+     *
+     * @pbrbm input thf <dodf>ImbgfInputStrfbm</dodf> or othfr
+     * <dodf>Objfdt</dodf> to usf for futurf dfdoding.
+     * @pbrbm sffkForwbrdOnly if <dodf>truf</dodf>, imbgfs bnd mftbdbtb
+     * mby only bf rfbd in bsdfnding ordfr from this input sourdf.
+     * @pbrbm ignorfMftbdbtb if <dodf>truf</dodf>, mftbdbtb
+     * mby bf ignorfd during rfbds.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>input</dodf> is
+     * not bn instbndf of onf of thf dlbssfs rfturnfd by thf
+     * originbting sfrvidf providfr's <dodf>gftInputTypfs</dodf>
+     * mfthod, or is not bn <dodf>ImbgfInputStrfbm</dodf>.
+     *
+     * @sff ImbgfInputStrfbm
+     * @sff #gftInput
+     * @sff jbvbx.imbgfio.spi.ImbgfRfbdfrSpi#gftInputTypfs
+     */
+    publid void sftInput(Objfdt input,
+                         boolfbn sffkForwbrdOnly,
+                         boolfbn ignorfMftbdbtb) {
+        if (input != null) {
+            boolfbn found = fblsf;
+            if (originbtingProvidfr != null) {
+                Clbss<?>[] dlbssfs = originbtingProvidfr.gftInputTypfs();
+                for (int i = 0; i < dlbssfs.lfngth; i++) {
+                    if (dlbssfs[i].isInstbndf(input)) {
+                        found = truf;
+                        brfbk;
+                    }
+                }
+            } flsf {
+                if (input instbndfof ImbgfInputStrfbm) {
+                    found = truf;
+                }
+            }
+            if (!found) {
+                throw nfw IllfgblArgumfntExdfption("Indorrfdt input typf!");
+            }
+
+            this.sffkForwbrdOnly = sffkForwbrdOnly;
+            this.ignorfMftbdbtb = ignorfMftbdbtb;
+            this.minIndfx = 0;
+        }
+
+        this.input = input;
+    }
+
+    /**
+     * Sfts thf input sourdf to usf to thf givfn
+     * <dodf>ImbgfInputStrfbm</dodf> or othfr <dodf>Objfdt</dodf>.
+     * Thf input sourdf must bf sft bfforf bny of thf qufry or rfbd
+     * mfthods brf usfd.  If <dodf>input</dodf> is <dodf>null</dodf>,
+     * bny durrfntly sft input sourdf will bf rfmovfd.  In bny dbsf,
+     * thf vbluf of <dodf>minIndfx</dodf> will bf initiblizfd to 0.
+     *
+     * <p> Thf <dodf>sffkForwbrdOnly</dodf> pbrbmftfr dontrols whfthfr
+     * thf vbluf rfturnfd by <dodf>gftMinIndfx</dodf> will bf
+     * indrfbsfd bs fbdh imbgf (or thumbnbil, or imbgf mftbdbtb) is
+     * rfbd.  If <dodf>sffkForwbrdOnly</dodf> is truf, thfn b dbll to
+     * <dodf>rfbd(indfx)</dodf> will throw bn
+     * <dodf>IndfxOutOfBoundsExdfption</dodf> if {@dodf indfx < this.minIndfx};
+     * othfrwisf, thf vbluf of
+     * <dodf>minIndfx</dodf> will bf sft to <dodf>indfx</dodf>.  If
+     * <dodf>sffkForwbrdOnly</dodf> is <dodf>fblsf</dodf>, thf vbluf of
+     * <dodf>minIndfx</dodf> will rfmbin 0 rfgbrdlfss of bny rfbd
+     * opfrbtions.
+     *
+     * <p> This mfthod is fquivblfnt to <dodf>sftInput(input,
+     * sffkForwbrdOnly, fblsf)</dodf>.
+     *
+     * @pbrbm input thf <dodf>ImbgfInputStrfbm</dodf> or othfr
+     * <dodf>Objfdt</dodf> to usf for futurf dfdoding.
+     * @pbrbm sffkForwbrdOnly if <dodf>truf</dodf>, imbgfs bnd mftbdbtb
+     * mby only bf rfbd in bsdfnding ordfr from this input sourdf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>input</dodf> is
+     * not bn instbndf of onf of thf dlbssfs rfturnfd by thf
+     * originbting sfrvidf providfr's <dodf>gftInputTypfs</dodf>
+     * mfthod, or is not bn <dodf>ImbgfInputStrfbm</dodf>.
+     *
+     * @sff #gftInput
+     */
+    publid void sftInput(Objfdt input,
+                         boolfbn sffkForwbrdOnly) {
+        sftInput(input, sffkForwbrdOnly, fblsf);
+    }
+
+    /**
+     * Sfts thf input sourdf to usf to thf givfn
+     * <dodf>ImbgfInputStrfbm</dodf> or othfr <dodf>Objfdt</dodf>.
+     * Thf input sourdf must bf sft bfforf bny of thf qufry or rfbd
+     * mfthods brf usfd.  If <dodf>input</dodf> is <dodf>null</dodf>,
+     * bny durrfntly sft input sourdf will bf rfmovfd.  In bny dbsf,
+     * thf vbluf of <dodf>minIndfx</dodf> will bf initiblizfd to 0.
+     *
+     * <p> This mfthod is fquivblfnt to <dodf>sftInput(input, fblsf,
+     * fblsf)</dodf>.
+     *
+     * @pbrbm input thf <dodf>ImbgfInputStrfbm</dodf> or othfr
+     * <dodf>Objfdt</dodf> to usf for futurf dfdoding.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>input</dodf> is
+     * not bn instbndf of onf of thf dlbssfs rfturnfd by thf
+     * originbting sfrvidf providfr's <dodf>gftInputTypfs</dodf>
+     * mfthod, or is not bn <dodf>ImbgfInputStrfbm</dodf>.
+     *
+     * @sff #gftInput
+     */
+    publid void sftInput(Objfdt input) {
+        sftInput(input, fblsf, fblsf);
+    }
+
+    /**
+     * Rfturns thf <dodf>ImbgfInputStrfbm</dodf> or othfr
+     * <dodf>Objfdt</dodf> prfviously sft bs thf input sourdf.  If thf
+     * input sourdf hbs not bffn sft, <dodf>null</dodf> is rfturnfd.
+     *
+     * @rfturn thf <dodf>Objfdt</dodf> thbt will bf usfd for futurf
+     * dfdoding, or <dodf>null</dodf>.
+     *
+     * @sff ImbgfInputStrfbm
+     * @sff #sftInput
+     */
+    publid Objfdt gftInput() {
+        rfturn input;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf durrfnt input sourdf hbs bffn
+     * mbrkfd bs sffk forwbrd only by pbssing <dodf>truf</dodf> bs thf
+     * <dodf>sffkForwbrdOnly</dodf> brgumfnt to thf
+     * <dodf>sftInput</dodf> mfthod.
+     *
+     * @rfturn <dodf>truf</dodf> if thf input sourdf is sffk forwbrd
+     * only.
+     *
+     * @sff #sftInput
+     */
+    publid boolfbn isSffkForwbrdOnly() {
+        rfturn sffkForwbrdOnly;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf durrfnt input sourdf hbs bffn
+     * mbrkfd bs bllowing mftbdbtb to bf ignorfd by pbssing
+     * <dodf>truf</dodf> bs thf <dodf>ignorfMftbdbtb</dodf> brgumfnt
+     * to thf <dodf>sftInput</dodf> mfthod.
+     *
+     * @rfturn <dodf>truf</dodf> if thf mftbdbtb mby bf ignorfd.
+     *
+     * @sff #sftInput
+     */
+    publid boolfbn isIgnoringMftbdbtb() {
+        rfturn ignorfMftbdbtb;
+    }
+
+    /**
+     * Rfturns thf lowfst vblid indfx for rfbding bn imbgf, thumbnbil,
+     * or imbgf mftbdbtb.  If <dodf>sffkForwbrdOnly()</dodf> is
+     * <dodf>fblsf</dodf>, this vbluf will typidblly rfmbin 0,
+     * indidbting thbt rbndom bddfss is possiblf.  Othfrwisf, it will
+     * dontbin thf vbluf of thf most rfdfntly bddfssfd indfx, bnd
+     * indrfbsf in b monotonid fbshion.
+     *
+     * @rfturn thf minimum lfgbl indfx for rfbding.
+     */
+    publid int gftMinIndfx() {
+        rfturn minIndfx;
+    }
+
+    // Lodblizbtion
+
+    /**
+     * Rfturns bn brrby of <dodf>Lodblf</dodf>s thbt mby bf usfd to
+     * lodblizf wbrning listfnfrs bnd domprfssion sfttings.  A rfturn
+     * vbluf of <dodf>null</dodf> indidbtfs thbt lodblizbtion is not
+     * supportfd.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns b dlonf of thf
+     * <dodf>bvbilbblfLodblfs</dodf> instbndf vbribblf if it is
+     * non-<dodf>null</dodf>, or flsf rfturns <dodf>null</dodf>.
+     *
+     * @rfturn bn brrby of <dodf>Lodblf</dodf>s thbt mby bf usfd bs
+     * brgumfnts to <dodf>sftLodblf</dodf>, or <dodf>null</dodf>.
+     */
+    publid Lodblf[] gftAvbilbblfLodblfs() {
+        if (bvbilbblfLodblfs == null) {
+            rfturn null;
+        } flsf {
+            rfturn bvbilbblfLodblfs.dlonf();
+        }
+    }
+
+    /**
+     * Sfts thf durrfnt <dodf>Lodblf</dodf> of this
+     * <dodf>ImbgfRfbdfr</dodf> to thf givfn vbluf.  A vbluf of
+     * <dodf>null</dodf> rfmovfs bny prfvious sftting, bnd indidbtfs
+     * thbt thf rfbdfr should lodblizf bs it sffs fit.
+     *
+     * @pbrbm lodblf thf dfsirfd <dodf>Lodblf</dodf>, or
+     * <dodf>null</dodf>.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>lodblf</dodf> is
+     * non-<dodf>null</dodf> but is not onf of thf vblufs rfturnfd by
+     * <dodf>gftAvbilbblfLodblfs</dodf>.
+     *
+     * @sff #gftLodblf
+     */
+    publid void sftLodblf(Lodblf lodblf) {
+        if (lodblf != null) {
+            Lodblf[] lodblfs = gftAvbilbblfLodblfs();
+            boolfbn found = fblsf;
+            if (lodblfs != null) {
+                for (int i = 0; i < lodblfs.lfngth; i++) {
+                    if (lodblf.fqubls(lodblfs[i])) {
+                        found = truf;
+                        brfbk;
+                    }
+                }
+            }
+            if (!found) {
+                throw nfw IllfgblArgumfntExdfption("Invblid lodblf!");
+            }
+        }
+        this.lodblf = lodblf;
+    }
+
+    /**
+     * Rfturns thf durrfntly sft <dodf>Lodblf</dodf>, or
+     * <dodf>null</dodf> if nonf hbs bffn sft.
+     *
+     * @rfturn thf durrfnt <dodf>Lodblf</dodf>, or <dodf>null</dodf>.
+     *
+     * @sff #sftLodblf
+     */
+    publid Lodblf gftLodblf() {
+        rfturn lodblf;
+    }
+
+    // Imbgf qufrifs
+
+    /**
+     * Rfturns thf numbfr of imbgfs, not indluding thumbnbils, bvbilbblf
+     * from thf durrfnt input sourdf.
+     *
+     * <p> Notf thbt somf imbgf formbts (sudh bs bnimbtfd GIF) do not
+     * spfdify how mbny imbgfs brf prfsfnt in thf strfbm.  Thus
+     * dftfrmining thf numbfr of imbgfs will rfquirf thf fntirf strfbm
+     * to bf sdbnnfd bnd mby rfquirf mfmory for bufffring.  If imbgfs
+     * brf to bf prodfssfd in ordfr, it mby bf morf fffidifnt to
+     * simply dbll <dodf>rfbd</dodf> with indrfbsing indidfs until bn
+     * <dodf>IndfxOutOfBoundsExdfption</dodf> is thrown to indidbtf
+     * thbt no morf imbgfs brf bvbilbblf.  Thf
+     * <dodf>bllowSfbrdh</dodf> pbrbmftfr mby bf sft to
+     * <dodf>fblsf</dodf> to indidbtf thbt bn fxhbustivf sfbrdh is not
+     * dfsirfd; thf rfturn vbluf will bf <dodf>-1</dodf> to indidbtf
+     * thbt b sfbrdh is nfdfssbry.  If thf input hbs bffn spfdififd
+     * with <dodf>sffkForwbrdOnly</dodf> sft to <dodf>truf</dodf>,
+     * this mfthod throws bn <dodf>IllfgblStbtfExdfption</dodf> if
+     * <dodf>bllowSfbrdh</dodf> is sft to <dodf>truf</dodf>.
+     *
+     * @pbrbm bllowSfbrdh if <dodf>truf</dodf>, thf truf numbfr of
+     * imbgfs will bf rfturnfd fvfn if b sfbrdh is rfquirfd.  If
+     * <dodf>fblsf</dodf>, thf rfbdfr mby rfturn <dodf>-1</dodf>
+     * without pfrforming thf sfbrdh.
+     *
+     * @rfturn thf numbfr of imbgfs, bs bn <dodf>int</dodf>, or
+     * <dodf>-1</dodf> if <dodf>bllowSfbrdh</dodf> is
+     * <dodf>fblsf</dodf> bnd b sfbrdh would bf rfquirfd.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf input sourdf hbs not bffn sft,
+     * or if thf input hbs bffn spfdififd with <dodf>sffkForwbrdOnly</dodf>
+     * sft to <dodf>truf</dodf>.
+     * @fxdfption IOExdfption if bn frror oddurs rfbding thf
+     * informbtion from thf input sourdf.
+     *
+     * @sff #sftInput
+     */
+    publid bbstrbdt int gftNumImbgfs(boolfbn bllowSfbrdh) throws IOExdfption;
+
+    /**
+     * Rfturns thf width in pixfls of thf givfn imbgf within thf input
+     * sourdf.
+     *
+     * <p> If thf imbgf dbn bf rfndfrfd to b usfr-spfdififd sizf, thfn
+     * this mfthod rfturns thf dffbult width.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf to bf qufrifd.
+     *
+     * @rfturn thf width of thf imbgf, bs bn <dodf>int</dodf>.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf input sourdf hbs not bffn sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if thf supplifd indfx is
+     * out of bounds.
+     * @fxdfption IOExdfption if bn frror oddurs rfbding thf width
+     * informbtion from thf input sourdf.
+     */
+    publid bbstrbdt int gftWidth(int imbgfIndfx) throws IOExdfption;
+
+    /**
+     * Rfturns thf hfight in pixfls of thf givfn imbgf within thf
+     * input sourdf.
+     *
+     * <p> If thf imbgf dbn bf rfndfrfd to b usfr-spfdififd sizf, thfn
+     * this mfthod rfturns thf dffbult hfight.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf to bf qufrifd.
+     *
+     * @rfturn thf hfight of thf imbgf, bs bn <dodf>int</dodf>.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf input sourdf hbs not bffn sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if thf supplifd indfx is
+     * out of bounds.
+     * @fxdfption IOExdfption if bn frror oddurs rfbding thf hfight
+     * informbtion from thf input sourdf.
+     */
+    publid bbstrbdt int gftHfight(int imbgfIndfx) throws IOExdfption;
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf storbgf formbt of thf givfn
+     * imbgf plbdfs no inhfrfnt impfdimfnt on rbndom bddfss to pixfls.
+     * For most domprfssfd formbts, sudh bs JPEG, this mfthod should
+     * rfturn <dodf>fblsf</dodf>, bs b lbrgf sfdtion of thf imbgf in
+     * bddition to thf rfgion of intfrfst mby nffd to bf dfdodfd.
+     *
+     * <p> This is mfrfly b hint for progrbms thbt wish to bf
+     * fffidifnt; bll rfbdfrs must bf bblf to rfbd brbitrbry rfgions
+     * bs spfdififd in bn <dodf>ImbgfRfbdPbrbm</dodf>.
+     *
+     * <p> Notf thbt formbts thbt rfturn <dodf>fblsf</dodf> from
+     * this mfthod mby nonfthflfss bllow tiling (<i>f.g.</i> Rfstbrt
+     * Mbrkfrs in JPEG), bnd rbndom bddfss will likfly bf rfbsonbbly
+     * fffidifnt on tilfs.  Sff {@link #isImbgfTilfd isImbgfTilfd}.
+     *
+     * <p> A rfbdfr for whidh bll imbgfs brf gubrbntffd to support
+     * fbsy rbndom bddfss, or brf gubrbntffd not to support fbsy
+     * rbndom bddfss, mby rfturn <dodf>truf</dodf> or
+     * <dodf>fblsf</dodf> rfspfdtivfly without bddfssing bny imbgf
+     * dbtb.  In sudh dbsfs, it is not nfdfssbry to throw bn fxdfption
+     * fvfn if no input sourdf hbs bffn sft or thf imbgf indfx is out
+     * of bounds.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns <dodf>fblsf</dodf>.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf to bf qufrifd.
+     *
+     * @rfturn <dodf>truf</dodf> if rfbding b rfgion of intfrfst of
+     * thf givfn imbgf is likfly to bf fffidifnt.
+     *
+     * @fxdfption IllfgblStbtfExdfption if bn input sourdf is rfquirfd
+     * to dftfrminf thf rfturn vbluf, but nonf hbs bffn sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if bn imbgf must bf
+     * bddfssfd to dftfrminf thf rfturn vbluf, but thf supplifd indfx
+     * is out of bounds.
+     * @fxdfption IOExdfption if bn frror oddurs during rfbding.
+     */
+    publid boolfbn isRbndomAddfssEbsy(int imbgfIndfx) throws IOExdfption {
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns thf bspfdt rbtio of thf givfn imbgf (thbt is, its width
+     * dividfd by its hfight) bs b <dodf>flobt</dodf>.  For imbgfs
+     * thbt brf inhfrfntly rfsizbblf, this mfthod providfs b wby to
+     * dftfrminf thf bppropribtf width givfn b dfsirfd hfight, or vidf
+     * vfrsb.  For non-rfsizbblf imbgfs, thf truf width bnd hfight
+     * brf usfd.
+     *
+     * <p> Thf dffbult implfmfntbtion simply rfturns
+     * <dodf>(flobt)gftWidth(imbgfIndfx)/gftHfight(imbgfIndfx)</dodf>.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf to bf qufrifd.
+     *
+     * @rfturn b <dodf>flobt</dodf> indidbting thf bspfdt rbtio of thf
+     * givfn imbgf.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf input sourdf hbs not bffn sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if thf supplifd indfx is
+     * out of bounds.
+     * @fxdfption IOExdfption if bn frror oddurs during rfbding.
+     */
+    publid flobt gftAspfdtRbtio(int imbgfIndfx) throws IOExdfption {
+        rfturn (flobt)gftWidth(imbgfIndfx)/gftHfight(imbgfIndfx);
+    }
+
+    /**
+     * Rfturns bn <dodf>ImbgfTypfSpfdififr</dodf> indidbting thf
+     * <dodf>SbmplfModfl</dodf> bnd <dodf>ColorModfl</dodf> whidh most
+     * dlosfly rfprfsfnts thf "rbw" intfrnbl formbt of thf imbgf.  For
+     * fxbmplf, for b JPEG imbgf thf rbw typf might hbvf b YCbCr dolor
+     * spbdf fvfn though thf imbgf would donvfntionblly bf trbnsformfd
+     * into bn RGB dolor spbdf prior to displby.  Thf rfturnfd vbluf
+     * should blso bf indludfd in thf list of vblufs rfturnfd by
+     * <dodf>gftImbgfTypfs</dodf>.
+     *
+     * <p> Thf dffbult implfmfntbtion simply rfturns thf first fntry
+     * from thf list providfd by <dodf>gftImbgfTypf</dodf>.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf to bf qufrifd.
+     *
+     * @rfturn bn <dodf>ImbgfTypfSpfdififr</dodf>.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf input sourdf hbs not bffn sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if thf supplifd indfx is
+     * out of bounds.
+     * @fxdfption IOExdfption if bn frror oddurs rfbding thf formbt
+     * informbtion from thf input sourdf.
+     */
+    publid ImbgfTypfSpfdififr gftRbwImbgfTypf(int imbgfIndfx)
+        throws IOExdfption {
+        rfturn gftImbgfTypfs(imbgfIndfx).nfxt();
+    }
+
+    /**
+     * Rfturns bn <dodf>Itfrbtor</dodf> dontbining possiblf imbgf
+     * typfs to whidh thf givfn imbgf mby bf dfdodfd, in thf form of
+     * <dodf>ImbgfTypfSpfdififrs</dodf>s.  At lfbst onf lfgbl imbgf
+     * typf will bf rfturnfd.
+     *
+     * <p> Thf first flfmfnt of thf itfrbtor should bf thf most
+     * "nbturbl" typf for dfdoding thf imbgf with bs littlf loss bs
+     * possiblf.  For fxbmplf, for b JPEG imbgf thf first fntry should
+     * bf bn RGB imbgf, fvfn though thf imbgf dbtb is storfd
+     * intfrnblly in b YCbCr dolor spbdf.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf to bf
+     * <dodf>rftrifvfd</dodf>.
+     *
+     * @rfturn bn <dodf>Itfrbtor</dodf> dontbining bt lfbst onf
+     * <dodf>ImbgfTypfSpfdififr</dodf> rfprfsfnting suggfstfd imbgf
+     * typfs for dfdoding thf durrfnt givfn imbgf.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf input sourdf hbs not bffn sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if thf supplifd indfx is
+     * out of bounds.
+     * @fxdfption IOExdfption if bn frror oddurs rfbding thf formbt
+     * informbtion from thf input sourdf.
+     *
+     * @sff ImbgfRfbdPbrbm#sftDfstinbtion(BufffrfdImbgf)
+     * @sff ImbgfRfbdPbrbm#sftDfstinbtionTypf(ImbgfTypfSpfdififr)
+     */
+    publid bbstrbdt Itfrbtor<ImbgfTypfSpfdififr>
+        gftImbgfTypfs(int imbgfIndfx) throws IOExdfption;
+
+    /**
+     * Rfturns b dffbult <dodf>ImbgfRfbdPbrbm</dodf> objfdt
+     * bppropribtf for this formbt.  All subdlbssfs should dffinf b
+     * sft of dffbult vblufs for bll pbrbmftfrs bnd rfturn thfm with
+     * this dbll.  This mfthod mby bf dbllfd bfforf thf input sourdf
+     * is sft.
+     *
+     * <p> Thf dffbult implfmfntbtion donstrudts bnd rfturns b nfw
+     * <dodf>ImbgfRfbdPbrbm</dodf> objfdt thbt dofs not bllow sourdf
+     * sdbling (<i>i.f.</i>, it rfturns <dodf>nfw
+     * ImbgfRfbdPbrbm()</dodf>.
+     *
+     * @rfturn bn <dodf>ImbgfRfbdPbrbm</dodf> objfdt whidh mby bf usfd
+     * to dontrol thf dfdoding prodfss using b sft of dffbult sfttings.
+     */
+    publid ImbgfRfbdPbrbm gftDffbultRfbdPbrbm() {
+        rfturn nfw ImbgfRfbdPbrbm();
+    }
+
+    /**
+     * Rfturns bn <dodf>IIOMftbdbtb</dodf> objfdt rfprfsfnting thf
+     * mftbdbtb bssodibtfd with thf input sourdf bs b wholf (i.f., not
+     * bssodibtfd with bny pbrtidulbr imbgf), or <dodf>null</dodf> if
+     * thf rfbdfr dofs not support rfbding mftbdbtb, is sft to ignorf
+     * mftbdbtb, or if no mftbdbtb is bvbilbblf.
+     *
+     * @rfturn bn <dodf>IIOMftbdbtb</dodf> objfdt, or <dodf>null</dodf>.
+     *
+     * @fxdfption IOExdfption if bn frror oddurs during rfbding.
+     */
+    publid bbstrbdt IIOMftbdbtb gftStrfbmMftbdbtb() throws IOExdfption;
+
+    /**
+     * Rfturns bn <dodf>IIOMftbdbtb</dodf> objfdt rfprfsfnting thf
+     * mftbdbtb bssodibtfd with thf input sourdf bs b wholf (i.f.,
+     * not bssodibtfd with bny pbrtidulbr imbgf).  If no sudh dbtb
+     * fxists, <dodf>null</dodf> is rfturnfd.
+     *
+     * <p> Thf rfsulting mftbdbtb objfdt is only rfsponsiblf for
+     * rfturning dodumfnts in thf formbt nbmfd by
+     * <dodf>formbtNbmf</dodf>.  Within bny dodumfnts thbt brf
+     * rfturnfd, only nodfs whosf nbmfs brf mfmbfrs of
+     * <dodf>nodfNbmfs</dodf> brf rfquirfd to bf rfturnfd.  In this
+     * wby, thf bmount of mftbdbtb prodfssing donf by thf rfbdfr mby
+     * bf kfpt to b minimum, bbsfd on whbt informbtion is bdtublly
+     * nffdfd.
+     *
+     * <p> If <dodf>formbtNbmf</dodf> is not thf nbmf of b supportfd
+     * mftbdbtb formbt, <dodf>null</dodf> is rfturnfd.
+     *
+     * <p> In bll dbsfs, it is lfgbl to rfturn b morf dbpbblf mftbdbtb
+     * objfdt thbn stridtly nfdfssbry.  Thf formbt nbmf bnd nodf nbmfs
+     * brf mfrfly hints thbt mby bf usfd to rfdudf thf rfbdfr's
+     * worklobd.
+     *
+     * <p> Thf dffbult implfmfntbtion simply rfturns thf rfsult of
+     * dblling <dodf>gftStrfbmMftbdbtb()</dodf>, bftfr dhfdking thbt
+     * thf formbt nbmf is supportfd.  If it is not,
+     * <dodf>null</dodf> is rfturnfd.
+     *
+     * @pbrbm formbtNbmf b mftbdbtb formbt nbmf thbt mby bf usfd to rftrifvf
+     * b dodumfnt from thf rfturnfd <dodf>IIOMftbdbtb</dodf> objfdt.
+     * @pbrbm nodfNbmfs b <dodf>Sft</dodf> dontbining thf nbmfs of
+     * nodfs thbt mby bf dontbinfd in b rftrifvfd dodumfnt.
+     *
+     * @rfturn bn <dodf>IIOMftbdbtb</dodf> objfdt, or <dodf>null</dodf>.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>formbtNbmf</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>nodfNbmfs</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IOExdfption if bn frror oddurs during rfbding.
+     */
+    publid IIOMftbdbtb gftStrfbmMftbdbtb(String formbtNbmf,
+                                         Sft<String> nodfNbmfs)
+        throws IOExdfption
+    {
+        rfturn gftMftbdbtb(formbtNbmf, nodfNbmfs, truf, 0);
+    }
+
+    privbtf IIOMftbdbtb gftMftbdbtb(String formbtNbmf,
+                                    Sft<String> nodfNbmfs,
+                                    boolfbn wbntStrfbm,
+                                    int imbgfIndfx) throws IOExdfption {
+        if (formbtNbmf == null) {
+            throw nfw IllfgblArgumfntExdfption("formbtNbmf == null!");
+        }
+        if (nodfNbmfs == null) {
+            throw nfw IllfgblArgumfntExdfption("nodfNbmfs == null!");
+        }
+        IIOMftbdbtb mftbdbtb =
+            wbntStrfbm
+            ? gftStrfbmMftbdbtb()
+            : gftImbgfMftbdbtb(imbgfIndfx);
+        if (mftbdbtb != null) {
+            if (mftbdbtb.isStbndbrdMftbdbtbFormbtSupportfd() &&
+                formbtNbmf.fqubls
+                (IIOMftbdbtbFormbtImpl.stbndbrdMftbdbtbFormbtNbmf)) {
+                rfturn mftbdbtb;
+            }
+            String nbtivfNbmf = mftbdbtb.gftNbtivfMftbdbtbFormbtNbmf();
+            if (nbtivfNbmf != null && formbtNbmf.fqubls(nbtivfNbmf)) {
+                rfturn mftbdbtb;
+            }
+            String[] fxtrbNbmfs = mftbdbtb.gftExtrbMftbdbtbFormbtNbmfs();
+            if (fxtrbNbmfs != null) {
+                for (int i = 0; i < fxtrbNbmfs.lfngth; i++) {
+                    if (formbtNbmf.fqubls(fxtrbNbmfs[i])) {
+                        rfturn mftbdbtb;
+                    }
+                }
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns bn <dodf>IIOMftbdbtb</dodf> objfdt dontbining mftbdbtb
+     * bssodibtfd with thf givfn imbgf, or <dodf>null</dodf> if thf
+     * rfbdfr dofs not support rfbding mftbdbtb, is sft to ignorf
+     * mftbdbtb, or if no mftbdbtb is bvbilbblf.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf whosf mftbdbtb is to
+     * bf rftrifvfd.
+     *
+     * @rfturn bn <dodf>IIOMftbdbtb</dodf> objfdt, or
+     * <dodf>null</dodf>.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf input sourdf hbs not bffn
+     * sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if thf supplifd indfx is
+     * out of bounds.
+     * @fxdfption IOExdfption if bn frror oddurs during rfbding.
+     */
+    publid bbstrbdt IIOMftbdbtb gftImbgfMftbdbtb(int imbgfIndfx)
+        throws IOExdfption;
+
+    /**
+     * Rfturns bn <dodf>IIOMftbdbtb</dodf> objfdt rfprfsfnting thf
+     * mftbdbtb bssodibtfd with thf givfn imbgf, or <dodf>null</dodf>
+     * if thf rfbdfr dofs not support rfbding mftbdbtb or nonf
+     * is bvbilbblf.
+     *
+     * <p> Thf rfsulting mftbdbtb objfdt is only rfsponsiblf for
+     * rfturning dodumfnts in thf formbt nbmfd by
+     * <dodf>formbtNbmf</dodf>.  Within bny dodumfnts thbt brf
+     * rfturnfd, only nodfs whosf nbmfs brf mfmbfrs of
+     * <dodf>nodfNbmfs</dodf> brf rfquirfd to bf rfturnfd.  In this
+     * wby, thf bmount of mftbdbtb prodfssing donf by thf rfbdfr mby
+     * bf kfpt to b minimum, bbsfd on whbt informbtion is bdtublly
+     * nffdfd.
+     *
+     * <p> If <dodf>formbtNbmf</dodf> is not thf nbmf of b supportfd
+     * mftbdbtb formbt, <dodf>null</dodf> mby bf rfturnfd.
+     *
+     * <p> In bll dbsfs, it is lfgbl to rfturn b morf dbpbblf mftbdbtb
+     * objfdt thbn stridtly nfdfssbry.  Thf formbt nbmf bnd nodf nbmfs
+     * brf mfrfly hints thbt mby bf usfd to rfdudf thf rfbdfr's
+     * worklobd.
+     *
+     * <p> Thf dffbult implfmfntbtion simply rfturns thf rfsult of
+     * dblling <dodf>gftImbgfMftbdbtb(imbgfIndfx)</dodf>, bftfr
+     * dhfdking thbt thf formbt nbmf is supportfd.  If it is not,
+     * <dodf>null</dodf> is rfturnfd.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf whosf mftbdbtb is to
+     * bf rftrifvfd.
+     * @pbrbm formbtNbmf b mftbdbtb formbt nbmf thbt mby bf usfd to rftrifvf
+     * b dodumfnt from thf rfturnfd <dodf>IIOMftbdbtb</dodf> objfdt.
+     * @pbrbm nodfNbmfs b <dodf>Sft</dodf> dontbining thf nbmfs of
+     * nodfs thbt mby bf dontbinfd in b rftrifvfd dodumfnt.
+     *
+     * @rfturn bn <dodf>IIOMftbdbtb</dodf> objfdt, or <dodf>null</dodf>.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf input sourdf hbs not bffn
+     * sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if thf supplifd indfx is
+     * out of bounds.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>formbtNbmf</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>nodfNbmfs</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IOExdfption if bn frror oddurs during rfbding.
+     */
+    publid IIOMftbdbtb gftImbgfMftbdbtb(int imbgfIndfx,
+                                        String formbtNbmf,
+                                        Sft<String> nodfNbmfs)
+        throws IOExdfption {
+        rfturn gftMftbdbtb(formbtNbmf, nodfNbmfs, fblsf, imbgfIndfx);
+    }
+
+    /**
+     * Rfbds thf imbgf indfxfd by <dodf>imbgfIndfx</dodf> bnd rfturns
+     * it bs b domplftf <dodf>BufffrfdImbgf</dodf>, using b dffbult
+     * <dodf>ImbgfRfbdPbrbm</dodf>.  This is b donvfnifndf mfthod
+     * thbt dblls <dodf>rfbd(imbgfIndfx, null)</dodf>.
+     *
+     * <p> Thf imbgf rfturnfd will bf formbttfd bddording to thf first
+     * <dodf>ImbgfTypfSpfdififr</dodf> rfturnfd from
+     * <dodf>gftImbgfTypfs</dodf>.
+     *
+     * <p> Any rfgistfrfd <dodf>IIORfbdProgrfssListfnfr</dodf> objfdts
+     * will bf notififd by dblling thfir <dodf>imbgfStbrtfd</dodf>
+     * mfthod, followfd by dblls to thfir <dodf>imbgfProgrfss</dodf>
+     * mfthod bs thf rfbd progrfssfs.  Finblly thfir
+     * <dodf>imbgfComplftf</dodf> mfthod will bf dbllfd.
+     * <dodf>IIORfbdUpdbtfListfnfr</dodf> objfdts mby bf updbtfd bt
+     * othfr timfs during thf rfbd bs pixfls brf dfdodfd.  Finblly,
+     * <dodf>IIORfbdWbrningListfnfr</dodf> objfdts will rfdfivf
+     * notifidbtion of bny non-fbtbl wbrnings thbt oddur during
+     * dfdoding.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf to bf rftrifvfd.
+     *
+     * @rfturn thf dfsirfd portion of thf imbgf bs b
+     * <dodf>BufffrfdImbgf</dodf>.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf input sourdf hbs not bffn
+     * sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if thf supplifd indfx is
+     * out of bounds.
+     * @fxdfption IOExdfption if bn frror oddurs during rfbding.
+     */
+    publid BufffrfdImbgf rfbd(int imbgfIndfx) throws IOExdfption {
+        rfturn rfbd(imbgfIndfx, null);
+    }
+
+    /**
+     * Rfbds thf imbgf indfxfd by <dodf>imbgfIndfx</dodf> bnd rfturns
+     * it bs b domplftf <dodf>BufffrfdImbgf</dodf>, using b supplifd
+     * <dodf>ImbgfRfbdPbrbm</dodf>.
+     *
+     * <p> Thf bdtubl <dodf>BufffrfdImbgf</dodf> rfturnfd will bf
+     * dhosfn using thf blgorithm dffinfd by thf
+     * <dodf>gftDfstinbtion</dodf> mfthod.
+     *
+     * <p> Any rfgistfrfd <dodf>IIORfbdProgrfssListfnfr</dodf> objfdts
+     * will bf notififd by dblling thfir <dodf>imbgfStbrtfd</dodf>
+     * mfthod, followfd by dblls to thfir <dodf>imbgfProgrfss</dodf>
+     * mfthod bs thf rfbd progrfssfs.  Finblly thfir
+     * <dodf>imbgfComplftf</dodf> mfthod will bf dbllfd.
+     * <dodf>IIORfbdUpdbtfListfnfr</dodf> objfdts mby bf updbtfd bt
+     * othfr timfs during thf rfbd bs pixfls brf dfdodfd.  Finblly,
+     * <dodf>IIORfbdWbrningListfnfr</dodf> objfdts will rfdfivf
+     * notifidbtion of bny non-fbtbl wbrnings thbt oddur during
+     * dfdoding.
+     *
+     * <p> Thf sft of sourdf bbnds to bf rfbd bnd dfstinbtion bbnds to
+     * bf writtfn is dftfrminfd by dblling <dodf>gftSourdfBbnds</dodf>
+     * bnd <dodf>gftDfstinbtionBbnds</dodf> on thf supplifd
+     * <dodf>ImbgfRfbdPbrbm</dodf>.  If thf lfngths of thf brrbys
+     * rfturnfd by thfsf mfthods difffr, thf sft of sourdf bbnds
+     * dontbins bn indfx lbrgfr thbt thf lbrgfst bvbilbblf sourdf
+     * indfx, or thf sft of dfstinbtion bbnds dontbins bn indfx lbrgfr
+     * thbn thf lbrgfst lfgbl dfstinbtion indfx, bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> is thrown.
+     *
+     * <p> If thf supplifd <dodf>ImbgfRfbdPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by this rfbdfr (<i>f.g.</i>
+     * sourdf rfndfr sizf or bny formbt-spfdifid sfttings), thfy will
+     * bf ignorfd.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf to bf rftrifvfd.
+     * @pbrbm pbrbm bn <dodf>ImbgfRfbdPbrbm</dodf> usfd to dontrol
+     * thf rfbding prodfss, or <dodf>null</dodf>.
+     *
+     * @rfturn thf dfsirfd portion of thf imbgf bs b
+     * <dodf>BufffrfdImbgf</dodf>.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf input sourdf hbs not bffn
+     * sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if thf supplifd indfx is
+     * out of bounds.
+     * @fxdfption IllfgblArgumfntExdfption if thf sft of sourdf bnd
+     * dfstinbtion bbnds spfdififd by
+     * <dodf>pbrbm.gftSourdfBbnds</dodf> bnd
+     * <dodf>pbrbm.gftDfstinbtionBbnds</dodf> difffr in lfngth or
+     * indludf indidfs thbt brf out of bounds.
+     * @fxdfption IllfgblArgumfntExdfption if thf rfsulting imbgf would
+     * hbvf b width or hfight lfss thbn 1.
+     * @fxdfption IOExdfption if bn frror oddurs during rfbding.
+     */
+    publid bbstrbdt BufffrfdImbgf rfbd(int imbgfIndfx, ImbgfRfbdPbrbm pbrbm)
+        throws IOExdfption;
+
+    /**
+     * Rfbds thf imbgf indfxfd by <dodf>imbgfIndfx</dodf> bnd rfturns
+     * bn <dodf>IIOImbgf</dodf> dontbining thf imbgf, thumbnbils, bnd
+     * bssodibtfd imbgf mftbdbtb, using b supplifd
+     * <dodf>ImbgfRfbdPbrbm</dodf>.
+     *
+     * <p> Thf bdtubl <dodf>BufffrfdImbgf</dodf> rfffrfndfd by thf
+     * rfturnfd <dodf>IIOImbgf</dodf> will bf dhosfn using thf
+     * blgorithm dffinfd by thf <dodf>gftDfstinbtion</dodf> mfthod.
+     *
+     * <p> Any rfgistfrfd <dodf>IIORfbdProgrfssListfnfr</dodf> objfdts
+     * will bf notififd by dblling thfir <dodf>imbgfStbrtfd</dodf>
+     * mfthod, followfd by dblls to thfir <dodf>imbgfProgrfss</dodf>
+     * mfthod bs thf rfbd progrfssfs.  Finblly thfir
+     * <dodf>imbgfComplftf</dodf> mfthod will bf dbllfd.
+     * <dodf>IIORfbdUpdbtfListfnfr</dodf> objfdts mby bf updbtfd bt
+     * othfr timfs during thf rfbd bs pixfls brf dfdodfd.  Finblly,
+     * <dodf>IIORfbdWbrningListfnfr</dodf> objfdts will rfdfivf
+     * notifidbtion of bny non-fbtbl wbrnings thbt oddur during
+     * dfdoding.
+     *
+     * <p> Thf sft of sourdf bbnds to bf rfbd bnd dfstinbtion bbnds to
+     * bf writtfn is dftfrminfd by dblling <dodf>gftSourdfBbnds</dodf>
+     * bnd <dodf>gftDfstinbtionBbnds</dodf> on thf supplifd
+     * <dodf>ImbgfRfbdPbrbm</dodf>.  If thf lfngths of thf brrbys
+     * rfturnfd by thfsf mfthods difffr, thf sft of sourdf bbnds
+     * dontbins bn indfx lbrgfr thbt thf lbrgfst bvbilbblf sourdf
+     * indfx, or thf sft of dfstinbtion bbnds dontbins bn indfx lbrgfr
+     * thbn thf lbrgfst lfgbl dfstinbtion indfx, bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> is thrown.
+     *
+     * <p> Thumbnbils will bf rfturnfd in thfir fntirfty rfgbrdlfss of
+     * thf rfgion sfttings.
+     *
+     * <p> If thf supplifd <dodf>ImbgfRfbdPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by this rfbdfr (<i>f.g.</i>
+     * sourdf rfndfr sizf or bny formbt-spfdifid sfttings), thosf
+     * vblufs will bf ignorfd.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf to bf rftrifvfd.
+     * @pbrbm pbrbm bn <dodf>ImbgfRfbdPbrbm</dodf> usfd to dontrol
+     * thf rfbding prodfss, or <dodf>null</dodf>.
+     *
+     * @rfturn bn <dodf>IIOImbgf</dodf> dontbining thf dfsirfd portion
+     * of thf imbgf, b sft of thumbnbils, bnd bssodibtfd imbgf
+     * mftbdbtb.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf input sourdf hbs not bffn
+     * sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if thf supplifd indfx is
+     * out of bounds.
+     * @fxdfption IllfgblArgumfntExdfption if thf sft of sourdf bnd
+     * dfstinbtion bbnds spfdififd by
+     * <dodf>pbrbm.gftSourdfBbnds</dodf> bnd
+     * <dodf>pbrbm.gftDfstinbtionBbnds</dodf> difffr in lfngth or
+     * indludf indidfs thbt brf out of bounds.
+     * @fxdfption IllfgblArgumfntExdfption if thf rfsulting imbgf
+     * would hbvf b width or hfight lfss thbn 1.
+     * @fxdfption IOExdfption if bn frror oddurs during rfbding.
+     */
+    publid IIOImbgf rfbdAll(int imbgfIndfx, ImbgfRfbdPbrbm pbrbm)
+        throws IOExdfption {
+        if (imbgfIndfx < gftMinIndfx()) {
+            throw nfw IndfxOutOfBoundsExdfption("imbgfIndfx < gftMinIndfx()!");
+        }
+
+        BufffrfdImbgf im = rfbd(imbgfIndfx, pbrbm);
+
+        ArrbyList<BufffrfdImbgf> thumbnbils = null;
+        int numThumbnbils = gftNumThumbnbils(imbgfIndfx);
+        if (numThumbnbils > 0) {
+            thumbnbils = nfw ArrbyList<>();
+            for (int j = 0; j < numThumbnbils; j++) {
+                thumbnbils.bdd(rfbdThumbnbil(imbgfIndfx, j));
+            }
+        }
+
+        IIOMftbdbtb mftbdbtb = gftImbgfMftbdbtb(imbgfIndfx);
+        rfturn nfw IIOImbgf(im, thumbnbils, mftbdbtb);
+    }
+
+    /**
+     * Rfturns bn <dodf>Itfrbtor</dodf> dontbining bll thf imbgfs,
+     * thumbnbils, bnd mftbdbtb, stbrting bt thf indfx givfn by
+     * <dodf>gftMinIndfx</dodf>, from thf input sourdf in thf form of
+     * <dodf>IIOImbgf</dodf> objfdts.  An <dodf>Itfrbtor</dodf>
+     * dontbining <dodf>ImbgfRfbdPbrbm</dodf> objfdts is supplifd; onf
+     * flfmfnt is donsumfd for fbdh imbgf rfbd from thf input sourdf
+     * until no morf imbgfs brf bvbilbblf.  If thf rfbd pbrbm
+     * <dodf>Itfrbtor</dodf> runs out of flfmfnts, but thfrf brf still
+     * morf imbgfs bvbilbblf from thf input sourdf, dffbult rfbd
+     * pbrbms brf usfd for thf rfmbining imbgfs.
+     *
+     * <p> If <dodf>pbrbms</dodf> is <dodf>null</dodf>, b dffbult rfbd
+     * pbrbm will bf usfd for bll imbgfs.
+     *
+     * <p> Thf bdtubl <dodf>BufffrfdImbgf</dodf> rfffrfndfd by thf
+     * rfturnfd <dodf>IIOImbgf</dodf> will bf dhosfn using thf
+     * blgorithm dffinfd by thf <dodf>gftDfstinbtion</dodf> mfthod.
+     *
+     * <p> Any rfgistfrfd <dodf>IIORfbdProgrfssListfnfr</dodf> objfdts
+     * will bf notififd by dblling thfir <dodf>sfqufndfStbrtfd</dodf>
+     * mfthod ondf.  Thfn, for fbdh imbgf dfdodfd, thfrf will bf b
+     * dbll to <dodf>imbgfStbrtfd</dodf>, followfd by dblls to
+     * <dodf>imbgfProgrfss</dodf> bs thf rfbd progrfssfs, bnd finblly
+     * to <dodf>imbgfComplftf</dodf>.  Thf
+     * <dodf>sfqufndfComplftf</dodf> mfthod will bf dbllfd bftfr thf
+     * lbst imbgf hbs bffn dfdodfd.
+     * <dodf>IIORfbdUpdbtfListfnfr</dodf> objfdts mby bf updbtfd bt
+     * othfr timfs during thf rfbd bs pixfls brf dfdodfd.  Finblly,
+     * <dodf>IIORfbdWbrningListfnfr</dodf> objfdts will rfdfivf
+     * notifidbtion of bny non-fbtbl wbrnings thbt oddur during
+     * dfdoding.
+     *
+     * <p> Thf sft of sourdf bbnds to bf rfbd bnd dfstinbtion bbnds to
+     * bf writtfn is dftfrminfd by dblling <dodf>gftSourdfBbnds</dodf>
+     * bnd <dodf>gftDfstinbtionBbnds</dodf> on thf supplifd
+     * <dodf>ImbgfRfbdPbrbm</dodf>.  If thf lfngths of thf brrbys
+     * rfturnfd by thfsf mfthods difffr, thf sft of sourdf bbnds
+     * dontbins bn indfx lbrgfr thbt thf lbrgfst bvbilbblf sourdf
+     * indfx, or thf sft of dfstinbtion bbnds dontbins bn indfx lbrgfr
+     * thbn thf lbrgfst lfgbl dfstinbtion indfx, bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> is thrown.
+     *
+     * <p> Thumbnbils will bf rfturnfd in thfir fntirfty rfgbrdlfss of thf
+     * rfgion sfttings.
+     *
+     * <p> If bny of thf supplifd <dodf>ImbgfRfbdPbrbm</dodf>s dontbin
+     * optionbl sftting vblufs not supportfd by this rfbdfr (<i>f.g.</i>
+     * sourdf rfndfr sizf or bny formbt-spfdifid sfttings), thfy will
+     * bf ignorfd.
+     *
+     * @pbrbm pbrbms bn <dodf>Itfrbtor</dodf> dontbining
+     * <dodf>ImbgfRfbdPbrbm</dodf> objfdts.
+     *
+     * @rfturn bn <dodf>Itfrbtor</dodf> rfprfsfnting thf
+     * dontfnts of thf input sourdf bs <dodf>IIOImbgf</dodf>s.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf input sourdf hbs not bffn
+     * sft.
+     * @fxdfption IllfgblArgumfntExdfption if bny
+     * non-<dodf>null</dodf> flfmfnt of <dodf>pbrbms</dodf> is not bn
+     * <dodf>ImbgfRfbdPbrbm</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if thf sft of sourdf bnd
+     * dfstinbtion bbnds spfdififd by
+     * <dodf>pbrbm.gftSourdfBbnds</dodf> bnd
+     * <dodf>pbrbm.gftDfstinbtionBbnds</dodf> difffr in lfngth or
+     * indludf indidfs thbt brf out of bounds.
+     * @fxdfption IllfgblArgumfntExdfption if b rfsulting imbgf would
+     * hbvf b width or hfight lfss thbn 1.
+     * @fxdfption IOExdfption if bn frror oddurs during rfbding.
+     *
+     * @sff ImbgfRfbdPbrbm
+     * @sff IIOImbgf
+     */
+    publid Itfrbtor<IIOImbgf>
+        rfbdAll(Itfrbtor<? fxtfnds ImbgfRfbdPbrbm> pbrbms)
+        throws IOExdfption
+    {
+        List<IIOImbgf> output = nfw ArrbyList<>();
+
+        int imbgfIndfx = gftMinIndfx();
+
+        // Inform IIORfbdProgrfssListfnfrs wf'rf stbrting b sfqufndf
+        prodfssSfqufndfStbrtfd(imbgfIndfx);
+
+        whilf (truf) {
+            // Inform IIORfbdProgrfssListfnfrs bnd IIORfbdUpdbtfListfnfrs
+            // thbt wf'rf stbrting b nfw imbgf
+
+            ImbgfRfbdPbrbm pbrbm = null;
+            if (pbrbms != null && pbrbms.hbsNfxt()) {
+                Objfdt o = pbrbms.nfxt();
+                if (o != null) {
+                    if (o instbndfof ImbgfRfbdPbrbm) {
+                        pbrbm = (ImbgfRfbdPbrbm)o;
+                    } flsf {
+                        throw nfw IllfgblArgumfntExdfption
+                            ("Non-ImbgfRfbdPbrbm supplifd bs pbrt of pbrbms!");
+                    }
+                }
+            }
+
+            BufffrfdImbgf bi = null;
+            try {
+                bi = rfbd(imbgfIndfx, pbrbm);
+            } dbtdh (IndfxOutOfBoundsExdfption f) {
+                brfbk;
+            }
+
+            ArrbyList<BufffrfdImbgf> thumbnbils = null;
+            int numThumbnbils = gftNumThumbnbils(imbgfIndfx);
+            if (numThumbnbils > 0) {
+                thumbnbils = nfw ArrbyList<>();
+                for (int j = 0; j < numThumbnbils; j++) {
+                    thumbnbils.bdd(rfbdThumbnbil(imbgfIndfx, j));
+                }
+            }
+
+            IIOMftbdbtb mftbdbtb = gftImbgfMftbdbtb(imbgfIndfx);
+            IIOImbgf im = nfw IIOImbgf(bi, thumbnbils, mftbdbtb);
+            output.bdd(im);
+
+            ++imbgfIndfx;
+        }
+
+        // Inform IIORfbdProgrfssListfnfrs wf'rf fnding b sfqufndf
+        prodfssSfqufndfComplftf();
+
+        rfturn output.itfrbtor();
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if this plug-in supports rfbding
+     * just b {@link jbvb.bwt.imbgf.Rbstfr Rbstfr} of pixfl dbtb.
+     * If this mfthod rfturns <dodf>fblsf</dodf>, dblls to
+     * {@link #rfbdRbstfr rfbdRbstfr} or {@link #rfbdTilfRbstfr rfbdTilfRbstfr}
+     * will throw bn <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns <dodf>fblsf</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> if this plug-in supports rfbding rbw
+     * <dodf>Rbstfr</dodf>s.
+     *
+     * @sff #rfbdRbstfr
+     * @sff #rfbdTilfRbstfr
+     */
+    publid boolfbn dbnRfbdRbstfr() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b nfw <dodf>Rbstfr</dodf> objfdt dontbining thf rbw pixfl dbtb
+     * from thf imbgf strfbm, without bny dolor donvfrsion bpplifd.  Thf
+     * bpplidbtion must dftfrminf how to intfrprft thf pixfl dbtb by othfr
+     * mfbns.  Any dfstinbtion or imbgf-typf pbrbmftfrs in thf supplifd
+     * <dodf>ImbgfRfbdPbrbm</dodf> objfdt brf ignorfd, but bll othfr
+     * pbrbmftfrs brf usfd fxbdtly bs in thf {@link #rfbd rfbd}
+     * mfthod, fxdfpt thbt bny dfstinbtion offsft is usfd bs b logidbl rbthfr
+     * thbn b physidbl offsft.  Thf sizf of thf rfturnfd <dodf>Rbstfr</dodf>
+     * will blwbys bf thbt of thf sourdf rfgion dlippfd to thf bdtubl imbgf.
+     * Logidbl offsfts in thf strfbm itsflf brf ignorfd.
+     *
+     * <p> This mfthod bllows formbts thbt normblly bpply b dolor
+     * donvfrsion, sudh bs JPEG, bnd formbts thbt do not normblly hbvf bn
+     * bssodibtfd dolorspbdf, sudh bs rfmotf sfnsing or mfdidbl imbging dbtb,
+     * to providf bddfss to rbw pixfl dbtb.
+     *
+     * <p> Any rfgistfrfd <dodf>rfbdUpdbtfListfnfr</dodf>s brf ignorfd, bs
+     * thfrf is no <dodf>BufffrfdImbgf</dodf>, but bll othfr listfnfrs brf
+     * dbllfd fxbdtly bs thfy brf for thf {@link #rfbd rfbd} mfthod.
+     *
+     * <p> If {@link #dbnRfbdRbstfr dbnRfbdRbstfr()} rfturns
+     * <dodf>fblsf</dodf>, this mfthod throws bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * <p> If thf supplifd <dodf>ImbgfRfbdPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by this rfbdfr (<i>f.g.</i>
+     * sourdf rfndfr sizf or bny formbt-spfdifid sfttings), thfy will
+     * bf ignorfd.
+     *
+     * <p> Thf dffbult implfmfntbtion throws bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf to bf rfbd.
+     * @pbrbm pbrbm bn <dodf>ImbgfRfbdPbrbm</dodf> usfd to dontrol
+     * thf rfbding prodfss, or <dodf>null</dodf>.
+     *
+     * @rfturn thf dfsirfd portion of thf imbgf bs b
+     * <dodf>Rbstfr</dodf>.
+     *
+     * @fxdfption UnsupportfdOpfrbtionExdfption if this plug-in dofs not
+     * support rfbding rbw <dodf>Rbstfr</dodf>s.
+     * @fxdfption IllfgblStbtfExdfption if thf input sourdf hbs not bffn
+     * sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if thf supplifd indfx is
+     * out of bounds.
+     * @fxdfption IOExdfption if bn frror oddurs during rfbding.
+     *
+     * @sff #dbnRfbdRbstfr
+     * @sff #rfbd
+     * @sff jbvb.bwt.imbgf.Rbstfr
+     */
+    publid Rbstfr rfbdRbstfr(int imbgfIndfx, ImbgfRfbdPbrbm pbrbm)
+        throws IOExdfption {
+        throw nfw UnsupportfdOpfrbtionExdfption("rfbdRbstfr not supportfd!");
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf imbgf is orgbnizfd into
+     * <i>tilfs</i>, thbt is, fqubl-sizfd non-ovfrlbpping rfdtbnglfs.
+     *
+     * <p> A rfbdfr plug-in mby dhoosf whfthfr or not to fxposf tiling
+     * thbt is prfsfnt in thf imbgf bs it is storfd.  It mby fvfn
+     * dhoosf to bdvfrtisf tiling whfn nonf is fxpliditly prfsfnt.  In
+     * gfnfrbl, tiling should only bf bdvfrtisfd if thfrf is somf
+     * bdvbntbgf (in spffd or spbdf) to bddfssing individubl tilfs.
+     * Rfgbrdlfss of whfthfr thf rfbdfr bdvfrtisfs tiling, it must bf
+     * dbpbblf of rfbding bn brbitrbry rfdtbngulbr rfgion spfdififd in
+     * bn <dodf>ImbgfRfbdPbrbm</dodf>.
+     *
+     * <p> A rfbdfr for whidh bll imbgfs brf gubrbntffd to bf tilfd,
+     * or brf gubrbntffd not to bf tilfd, mby rfturn <dodf>truf</dodf>
+     * or <dodf>fblsf</dodf> rfspfdtivfly without bddfssing bny imbgf
+     * dbtb.  In sudh dbsfs, it is not nfdfssbry to throw bn fxdfption
+     * fvfn if no input sourdf hbs bffn sft or thf imbgf indfx is out
+     * of bounds.
+     *
+     * <p> Thf dffbult implfmfntbtion just rfturns <dodf>fblsf</dodf>.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf to bf qufrifd.
+     *
+     * @rfturn <dodf>truf</dodf> if thf imbgf is tilfd.
+     *
+     * @fxdfption IllfgblStbtfExdfption if bn input sourdf is rfquirfd
+     * to dftfrminf thf rfturn vbluf, but nonf hbs bffn sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if bn imbgf must bf
+     * bddfssfd to dftfrminf thf rfturn vbluf, but thf supplifd indfx
+     * is out of bounds.
+     * @fxdfption IOExdfption if bn frror oddurs during rfbding.
+     */
+    publid boolfbn isImbgfTilfd(int imbgfIndfx) throws IOExdfption {
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns thf width of b tilf in thf givfn imbgf.
+     *
+     * <p> Thf dffbult implfmfntbtion simply rfturns
+     * <dodf>gftWidth(imbgfIndfx)</dodf>, whidh is dorrfdt for
+     * non-tilfd imbgfs.  Rfbdfrs thbt support tiling should ovfrridf
+     * this mfthod.
+     *
+     * @rfturn thf width of b tilf.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf to bf qufrifd.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf input sourdf hbs not bffn sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if thf supplifd indfx is
+     * out of bounds.
+     * @fxdfption IOExdfption if bn frror oddurs during rfbding.
+     */
+    publid int gftTilfWidth(int imbgfIndfx) throws IOExdfption {
+        rfturn gftWidth(imbgfIndfx);
+    }
+
+    /**
+     * Rfturns thf hfight of b tilf in thf givfn imbgf.
+     *
+     * <p> Thf dffbult implfmfntbtion simply rfturns
+     * <dodf>gftHfight(imbgfIndfx)</dodf>, whidh is dorrfdt for
+     * non-tilfd imbgfs.  Rfbdfrs thbt support tiling should ovfrridf
+     * this mfthod.
+     *
+     * @rfturn thf hfight of b tilf.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf to bf qufrifd.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf input sourdf hbs not bffn sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if thf supplifd indfx is
+     * out of bounds.
+     * @fxdfption IOExdfption if bn frror oddurs during rfbding.
+     */
+    publid int gftTilfHfight(int imbgfIndfx) throws IOExdfption {
+        rfturn gftHfight(imbgfIndfx);
+    }
+
+    /**
+     * Rfturns thf X doordinbtf of thf uppfr-lfft dornfr of tilf (0,
+     * 0) in thf givfn imbgf.
+     *
+     * <p> A rfbdfr for whidh thf tilf grid X offsft blwbys hbs thf
+     * sbmf vbluf (usublly 0), mby rfturn thf vbluf without bddfssing
+     * bny imbgf dbtb.  In sudh dbsfs, it is not nfdfssbry to throw bn
+     * fxdfption fvfn if no input sourdf hbs bffn sft or thf imbgf
+     * indfx is out of bounds.
+     *
+     * <p> Thf dffbult implfmfntbtion simply rfturns 0, whidh is
+     * dorrfdt for non-tilfd imbgfs bnd tilfd imbgfs in most formbts.
+     * Rfbdfrs thbt support tiling with non-(0, 0) offsfts should
+     * ovfrridf this mfthod.
+     *
+     * @rfturn thf X offsft of thf tilf grid.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf to bf qufrifd.
+     *
+     * @fxdfption IllfgblStbtfExdfption if bn input sourdf is rfquirfd
+     * to dftfrminf thf rfturn vbluf, but nonf hbs bffn sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if bn imbgf must bf
+     * bddfssfd to dftfrminf thf rfturn vbluf, but thf supplifd indfx
+     * is out of bounds.
+     * @fxdfption IOExdfption if bn frror oddurs during rfbding.
+     */
+    publid int gftTilfGridXOffsft(int imbgfIndfx) throws IOExdfption {
+        rfturn 0;
+    }
+
+    /**
+     * Rfturns thf Y doordinbtf of thf uppfr-lfft dornfr of tilf (0,
+     * 0) in thf givfn imbgf.
+     *
+     * <p> A rfbdfr for whidh thf tilf grid Y offsft blwbys hbs thf
+     * sbmf vbluf (usublly 0), mby rfturn thf vbluf without bddfssing
+     * bny imbgf dbtb.  In sudh dbsfs, it is not nfdfssbry to throw bn
+     * fxdfption fvfn if no input sourdf hbs bffn sft or thf imbgf
+     * indfx is out of bounds.
+     *
+     * <p> Thf dffbult implfmfntbtion simply rfturns 0, whidh is
+     * dorrfdt for non-tilfd imbgfs bnd tilfd imbgfs in most formbts.
+     * Rfbdfrs thbt support tiling with non-(0, 0) offsfts should
+     * ovfrridf this mfthod.
+     *
+     * @rfturn thf Y offsft of thf tilf grid.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf to bf qufrifd.
+     *
+     * @fxdfption IllfgblStbtfExdfption if bn input sourdf is rfquirfd
+     * to dftfrminf thf rfturn vbluf, but nonf hbs bffn sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if bn imbgf must bf
+     * bddfssfd to dftfrminf thf rfturn vbluf, but thf supplifd indfx
+     * is out of bounds.
+     * @fxdfption IOExdfption if bn frror oddurs during rfbding.
+     */
+    publid int gftTilfGridYOffsft(int imbgfIndfx) throws IOExdfption {
+        rfturn 0;
+    }
+
+    /**
+     * Rfbds thf tilf indidbtfd by thf <dodf>tilfX</dodf> bnd
+     * <dodf>tilfY</dodf> brgumfnts, rfturning it bs b
+     * <dodf>BufffrfdImbgf</dodf>.  If thf brgumfnts brf out of rbngf,
+     * bn <dodf>IllfgblArgumfntExdfption</dodf> is thrown.  If thf
+     * imbgf is not tilfd, thf vblufs 0, 0 will rfturn thf fntirf
+     * imbgf; bny othfr vblufs will dbusf bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> to bf thrown.
+     *
+     * <p> This mfthod is mfrfly b donvfnifndf fquivblfnt to dblling
+     * <dodf>rfbd(int, ImbgfRfbdPbrbm)</dodf> with b rfbd pbrbm
+     * spfdifying b sourdf rfgion hbving offsfts of
+     * <dodf>tilfX*gftTilfWidth(imbgfIndfx)</dodf>,
+     * <dodf>tilfY*gftTilfHfight(imbgfIndfx)</dodf> bnd width bnd
+     * hfight of <dodf>gftTilfWidth(imbgfIndfx)</dodf>,
+     * <dodf>gftTilfHfight(imbgfIndfx)</dodf>; bnd subsbmpling
+     * fbdtors of 1 bnd offsfts of 0.  To subsbmplf b tilf, dbll
+     * <dodf>rfbd</dodf> with b rfbd pbrbm spfdifying this rfgion
+     * bnd difffrfnt subsbmpling pbrbmftfrs.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns thf fntirf imbgf if
+     * <dodf>tilfX</dodf> bnd <dodf>tilfY</dodf> brf 0, or throws
+     * bn <dodf>IllfgblArgumfntExdfption</dodf> othfrwisf.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf to bf rftrifvfd.
+     * @pbrbm tilfX thf dolumn indfx (stbrting with 0) of thf tilf
+     * to bf rftrifvfd.
+     * @pbrbm tilfY thf row indfx (stbrting with 0) of thf tilf
+     * to bf rftrifvfd.
+     *
+     * @rfturn thf tilf bs b <dodf>BufffrfdImbgf</dodf>.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf input sourdf hbs not bffn
+     * sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>imbgfIndfx</dodf>
+     * is out of bounds.
+     * @fxdfption IllfgblArgumfntExdfption if thf tilf indidfs brf
+     * out of bounds.
+     * @fxdfption IOExdfption if bn frror oddurs during rfbding.
+     */
+    publid BufffrfdImbgf rfbdTilf(int imbgfIndfx,
+                                  int tilfX, int tilfY) throws IOExdfption {
+        if ((tilfX != 0) || (tilfY != 0)) {
+            throw nfw IllfgblArgumfntExdfption("Invblid tilf indidfs");
+        }
+        rfturn rfbd(imbgfIndfx);
+    }
+
+    /**
+     * Rfturns b nfw <dodf>Rbstfr</dodf> objfdt dontbining thf rbw
+     * pixfl dbtb from thf tilf, without bny dolor donvfrsion bpplifd.
+     * Thf bpplidbtion must dftfrminf how to intfrprft thf pixfl dbtb by othfr
+     * mfbns.
+     *
+     * <p> If {@link #dbnRfbdRbstfr dbnRfbdRbstfr()} rfturns
+     * <dodf>fblsf</dodf>, this mfthod throws bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * <p> Thf dffbult implfmfntbtion dhfdks if rfbding
+     * <dodf>Rbstfr</dodf>s is supportfd, bnd if so dblls {@link
+     * #rfbdRbstfr rfbdRbstfr(imbgfIndfx, null)} if
+     * <dodf>tilfX</dodf> bnd <dodf>tilfY</dodf> brf 0, or throws bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> othfrwisf.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf to bf rftrifvfd.
+     * @pbrbm tilfX thf dolumn indfx (stbrting with 0) of thf tilf
+     * to bf rftrifvfd.
+     * @pbrbm tilfY thf row indfx (stbrting with 0) of thf tilf
+     * to bf rftrifvfd.
+     *
+     * @rfturn thf tilf bs b <dodf>Rbstfr</dodf>.
+     *
+     * @fxdfption UnsupportfdOpfrbtionExdfption if this plug-in dofs not
+     * support rfbding rbw <dodf>Rbstfr</dodf>s.
+     * @fxdfption IllfgblArgumfntExdfption if thf tilf indidfs brf
+     * out of bounds.
+     * @fxdfption IllfgblStbtfExdfption if thf input sourdf hbs not bffn
+     * sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>imbgfIndfx</dodf>
+     * is out of bounds.
+     * @fxdfption IOExdfption if bn frror oddurs during rfbding.
+     *
+     * @sff #rfbdTilf
+     * @sff #rfbdRbstfr
+     * @sff jbvb.bwt.imbgf.Rbstfr
+     */
+    publid Rbstfr rfbdTilfRbstfr(int imbgfIndfx,
+                                 int tilfX, int tilfY) throws IOExdfption {
+        if (!dbnRfbdRbstfr()) {
+            throw nfw UnsupportfdOpfrbtionExdfption
+                ("rfbdTilfRbstfr not supportfd!");
+        }
+        if ((tilfX != 0) || (tilfY != 0)) {
+            throw nfw IllfgblArgumfntExdfption("Invblid tilf indidfs");
+        }
+        rfturn rfbdRbstfr(imbgfIndfx, null);
+    }
+
+    // RfndfrfdImbgfs
+
+    /**
+     * Rfturns b <dodf>RfndfrfdImbgf</dodf> objfdt thbt dontbins thf
+     * dontfnts of thf imbgf indfxfd by <dodf>imbgfIndfx</dodf>.  By
+     * dffbult, thf rfturnfd imbgf is simply thf
+     * <dodf>BufffrfdImbgf</dodf> rfturnfd by <dodf>rfbd(imbgfIndfx,
+     * pbrbm)</dodf>.
+     *
+     * <p> Thf sfmbntids of this mfthod mby difffr from thosf of thf
+     * othfr <dodf>rfbd</dodf> mfthods in sfvfrbl wbys.  First, bny
+     * dfstinbtion imbgf bnd/or imbgf typf sft in thf
+     * <dodf>ImbgfRfbdPbrbm</dodf> mby bf ignorfd.  Sfdond, thf usubl
+     * listfnfr dblls brf not gubrbntffd to bf mbdf, or to bf
+     * mfbningful if thfy brf.  This is bfdbusf thf rfturnfd imbgf mby
+     * not bf fully populbtfd with pixfl dbtb bt thf timf it is
+     * rfturnfd, or indffd bt bny timf.
+     *
+     * <p> If thf supplifd <dodf>ImbgfRfbdPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by this rfbdfr (<i>f.g.</i>
+     * sourdf rfndfr sizf or bny formbt-spfdifid sfttings), thfy will
+     * bf ignorfd.
+     *
+     * <p> Thf dffbult implfmfntbtion just dblls
+     * {@link #rfbd rfbd(imbgfIndfx, pbrbm)}.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf to bf rftrifvfd.
+     * @pbrbm pbrbm bn <dodf>ImbgfRfbdPbrbm</dodf> usfd to dontrol
+     * thf rfbding prodfss, or <dodf>null</dodf>.
+     *
+     * @rfturn b <dodf>RfndfrfdImbgf</dodf> objfdt providing b vifw of
+     * thf imbgf.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf input sourdf hbs not bffn
+     * sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if thf supplifd indfx is
+     * out of bounds.
+     * @fxdfption IllfgblArgumfntExdfption if thf sft of sourdf bnd
+     * dfstinbtion bbnds spfdififd by
+     * <dodf>pbrbm.gftSourdfBbnds</dodf> bnd
+     * <dodf>pbrbm.gftDfstinbtionBbnds</dodf> difffr in lfngth or
+     * indludf indidfs thbt brf out of bounds.
+     * @fxdfption IllfgblArgumfntExdfption if thf rfsulting imbgf
+     * would hbvf b width or hfight lfss thbn 1.
+     * @fxdfption IOExdfption if bn frror oddurs during rfbding.
+     */
+    publid RfndfrfdImbgf rfbdAsRfndfrfdImbgf(int imbgfIndfx,
+                                             ImbgfRfbdPbrbm pbrbm)
+        throws IOExdfption {
+        rfturn rfbd(imbgfIndfx, pbrbm);
+    }
+
+    // Thumbnbils
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf imbgf formbt undfrstood by
+     * this rfbdfr supports thumbnbil prfvifw imbgfs bssodibtfd with
+     * it.  Thf dffbult implfmfntbtion rfturns <dodf>fblsf</dodf>.
+     *
+     * <p> If this mfthod rfturns <dodf>fblsf</dodf>,
+     * <dodf>hbsThumbnbils</dodf> bnd <dodf>gftNumThumbnbils</dodf>
+     * will rfturn <dodf>fblsf</dodf> bnd <dodf>0</dodf>,
+     * rfspfdtivfly, bnd <dodf>rfbdThumbnbil</dodf> will throw bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>, rfgbrdlfss of thfir
+     * brgumfnts.
+     *
+     * <p> A rfbdfr thbt dofs not support thumbnbils nffd not
+     * implfmfnt bny of thf thumbnbil-rflbtfd mfthods.
+     *
+     * @rfturn <dodf>truf</dodf> if thumbnbils brf supportfd.
+     */
+    publid boolfbn rfbdfrSupportsThumbnbils() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf givfn imbgf hbs thumbnbil
+     * prfvifw imbgfs bssodibtfd with it.  If thf formbt dofs not
+     * support thumbnbils (<dodf>rfbdfrSupportsThumbnbils</dodf>
+     * rfturns <dodf>fblsf</dodf>), <dodf>fblsf</dodf> will bf
+     * rfturnfd rfgbrdlfss of whfthfr bn input sourdf hbs bffn sft or
+     * whfthfr <dodf>imbgfIndfx</dodf> is in bounds.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns <dodf>truf</dodf> if
+     * <dodf>gftNumThumbnbils</dodf> rfturns b vbluf grfbtfr thbn 0.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf bfing qufrifd.
+     *
+     * @rfturn <dodf>truf</dodf> if thf givfn imbgf hbs thumbnbils.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf rfbdfr supports
+     * thumbnbils but thf input sourdf hbs not bffn sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if thf rfbdfr supports
+     * thumbnbils but <dodf>imbgfIndfx</dodf> is out of bounds.
+     * @fxdfption IOExdfption if bn frror oddurs during rfbding.
+     */
+    publid boolfbn hbsThumbnbils(int imbgfIndfx) throws IOExdfption {
+        rfturn gftNumThumbnbils(imbgfIndfx) > 0;
+    }
+
+    /**
+     * Rfturns thf numbfr of thumbnbil prfvifw imbgfs bssodibtfd with
+     * thf givfn imbgf.  If thf formbt dofs not support thumbnbils,
+     * (<dodf>rfbdfrSupportsThumbnbils</dodf> rfturns
+     * <dodf>fblsf</dodf>), <dodf>0</dodf> will bf rfturnfd rfgbrdlfss
+     * of whfthfr bn input sourdf hbs bffn sft or whfthfr
+     * <dodf>imbgfIndfx</dodf> is in bounds.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns 0 without dhfdking its
+     * brgumfnt.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf bfing qufrifd.
+     *
+     * @rfturn thf numbfr of thumbnbils bssodibtfd with thf givfn
+     * imbgf.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thf rfbdfr supports
+     * thumbnbils but thf input sourdf hbs not bffn sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if thf rfbdfr supports
+     * thumbnbils but <dodf>imbgfIndfx</dodf> is out of bounds.
+     * @fxdfption IOExdfption if bn frror oddurs during rfbding.
+     */
+    publid int gftNumThumbnbils(int imbgfIndfx)
+        throws IOExdfption {
+        rfturn 0;
+    }
+
+    /**
+     * Rfturns thf width of thf thumbnbil prfvifw imbgf indfxfd by
+     * <dodf>thumbnbilIndfx</dodf>, bssodibtfd with thf imbgf indfxfd
+     * by <dodf>ImbgfIndfx</dodf>.
+     *
+     * <p> If thf rfbdfr dofs not support thumbnbils,
+     * (<dodf>rfbdfrSupportsThumbnbils</dodf> rfturns
+     * <dodf>fblsf</dodf>), bn <dodf>UnsupportfdOpfrbtionExdfption</dodf>
+     * will bf thrown.
+     *
+     * <p> Thf dffbult implfmfntbtion simply rfturns
+     * <dodf>rfbdThumbnbil(imbgfindfx,
+     * thumbnbilIndfx).gftWidth()</dodf>.  Subdlbssfs should thfrfforf
+     * ovfrridf this mfthod if possiblf in ordfr to bvoid fording thf
+     * thumbnbil to bf rfbd.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf to bf rftrifvfd.
+     * @pbrbm thumbnbilIndfx thf indfx of thf thumbnbil to bf rftrifvfd.
+     *
+     * @rfturn thf width of thf dfsirfd thumbnbil bs bn <dodf>int</dodf>.
+     *
+     * @fxdfption UnsupportfdOpfrbtionExdfption if thumbnbils brf not
+     * supportfd.
+     * @fxdfption IllfgblStbtfExdfption if thf input sourdf hbs not bffn sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if fithfr of thf supplifd
+     * indidfs brf out of bounds.
+     * @fxdfption IOExdfption if bn frror oddurs during rfbding.
+     */
+    publid int gftThumbnbilWidth(int imbgfIndfx, int thumbnbilIndfx)
+        throws IOExdfption {
+        rfturn rfbdThumbnbil(imbgfIndfx, thumbnbilIndfx).gftWidth();
+    }
+
+    /**
+     * Rfturns thf hfight of thf thumbnbil prfvifw imbgf indfxfd by
+     * <dodf>thumbnbilIndfx</dodf>, bssodibtfd with thf imbgf indfxfd
+     * by <dodf>ImbgfIndfx</dodf>.
+     *
+     * <p> If thf rfbdfr dofs not support thumbnbils,
+     * (<dodf>rfbdfrSupportsThumbnbils</dodf> rfturns
+     * <dodf>fblsf</dodf>), bn <dodf>UnsupportfdOpfrbtionExdfption</dodf>
+     * will bf thrown.
+     *
+     * <p> Thf dffbult implfmfntbtion simply rfturns
+     * <dodf>rfbdThumbnbil(imbgfindfx,
+     * thumbnbilIndfx).gftHfight()</dodf>.  Subdlbssfs should
+     * thfrfforf ovfrridf this mfthod if possiblf in ordfr to bvoid
+     * fording thf thumbnbil to bf rfbd.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf to bf rftrifvfd.
+     * @pbrbm thumbnbilIndfx thf indfx of thf thumbnbil to bf rftrifvfd.
+     *
+     * @rfturn thf hfight of thf dfsirfd thumbnbil bs bn <dodf>int</dodf>.
+     *
+     * @fxdfption UnsupportfdOpfrbtionExdfption if thumbnbils brf not
+     * supportfd.
+     * @fxdfption IllfgblStbtfExdfption if thf input sourdf hbs not bffn sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if fithfr of thf supplifd
+     * indidfs brf out of bounds.
+     * @fxdfption IOExdfption if bn frror oddurs during rfbding.
+     */
+    publid int gftThumbnbilHfight(int imbgfIndfx, int thumbnbilIndfx)
+        throws IOExdfption {
+        rfturn rfbdThumbnbil(imbgfIndfx, thumbnbilIndfx).gftHfight();
+    }
+
+    /**
+     * Rfturns thf thumbnbil prfvifw imbgf indfxfd by
+     * <dodf>thumbnbilIndfx</dodf>, bssodibtfd with thf imbgf indfxfd
+     * by <dodf>ImbgfIndfx</dodf> bs b <dodf>BufffrfdImbgf</dodf>.
+     *
+     * <p> Any rfgistfrfd <dodf>IIORfbdProgrfssListfnfr</dodf> objfdts
+     * will bf notififd by dblling thfir
+     * <dodf>thumbnbilStbrtfd</dodf>, <dodf>thumbnbilProgrfss</dodf>,
+     * bnd <dodf>thumbnbilComplftf</dodf> mfthods.
+     *
+     * <p> If thf rfbdfr dofs not support thumbnbils,
+     * (<dodf>rfbdfrSupportsThumbnbils</dodf> rfturns
+     * <dodf>fblsf</dodf>), bn <dodf>UnsupportfdOpfrbtionExdfption</dodf>
+     * will bf thrown rfgbrdlfss of whfthfr bn input sourdf hbs bffn
+     * sft or whfthfr thf indidfs brf in bounds.
+     *
+     * <p> Thf dffbult implfmfntbtion throws bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf to bf rftrifvfd.
+     * @pbrbm thumbnbilIndfx thf indfx of thf thumbnbil to bf rftrifvfd.
+     *
+     * @rfturn thf dfsirfd thumbnbil bs b <dodf>BufffrfdImbgf</dodf>.
+     *
+     * @fxdfption UnsupportfdOpfrbtionExdfption if thumbnbils brf not
+     * supportfd.
+     * @fxdfption IllfgblStbtfExdfption if thf input sourdf hbs not bffn sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if fithfr of thf supplifd
+     * indidfs brf out of bounds.
+     * @fxdfption IOExdfption if bn frror oddurs during rfbding.
+     */
+    publid BufffrfdImbgf rfbdThumbnbil(int imbgfIndfx,
+                                       int thumbnbilIndfx)
+        throws IOExdfption {
+        throw nfw UnsupportfdOpfrbtionExdfption("Thumbnbils not supportfd!");
+    }
+
+    // Abort
+
+    /**
+     * Rfqufsts thbt bny durrfnt rfbd opfrbtion bf bbortfd.  Thf
+     * dontfnts of thf imbgf following thf bbort will bf undffinfd.
+     *
+     * <p> Rfbdfrs should dbll <dodf>dlfbrAbortRfqufst</dodf> bt thf
+     * bfginning of fbdh rfbd opfrbtion, bnd poll thf vbluf of
+     * <dodf>bbortRfqufstfd</dodf> rfgulbrly during thf rfbd.
+     */
+    publid syndhronizfd void bbort() {
+        this.bbortFlbg = truf;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if b rfqufst to bbort thf durrfnt
+     * rfbd opfrbtion hbs bffn mbdf sindf thf rfbdfr wbs instbntibtfd or
+     * <dodf>dlfbrAbortRfqufst</dodf> wbs dbllfd.
+     *
+     * @rfturn <dodf>truf</dodf> if thf durrfnt rfbd opfrbtion should
+     * bf bbortfd.
+     *
+     * @sff #bbort
+     * @sff #dlfbrAbortRfqufst
+     */
+    protfdtfd syndhronizfd boolfbn bbortRfqufstfd() {
+        rfturn this.bbortFlbg;
+    }
+
+    /**
+     * Clfbrs bny prfvious bbort rfqufst.  Aftfr this mfthod hbs bffn
+     * dbllfd, <dodf>bbortRfqufstfd</dodf> will rfturn
+     * <dodf>fblsf</dodf>.
+     *
+     * @sff #bbort
+     * @sff #bbortRfqufstfd
+     */
+    protfdtfd syndhronizfd void dlfbrAbortRfqufst() {
+        this.bbortFlbg = fblsf;
+    }
+
+    // Listfnfrs
+
+    // Add bn flfmfnt to b list, drfbting b nfw list if thf
+    // fxisting list is null, bnd rfturn thf list.
+    stbtid <T> List<T> bddToList(List<T> l, T flt) {
+        if (l == null) {
+            l = nfw ArrbyList<>();
+        }
+        l.bdd(flt);
+        rfturn l;
+    }
+
+
+    // Rfmovf bn flfmfnt from b list, disdbrding thf list if thf
+    // rfsulting list is fmpty, bnd rfturn thf list or null.
+    stbtid <T> List<T> rfmovfFromList(List<T> l, T flt) {
+        if (l == null) {
+            rfturn l;
+        }
+        l.rfmovf(flt);
+        if (l.sizf() == 0) {
+            l = null;
+        }
+        rfturn l;
+    }
+
+    /**
+     * Adds bn <dodf>IIORfbdWbrningListfnfr</dodf> to thf list of
+     * rfgistfrfd wbrning listfnfrs.  If <dodf>listfnfr</dodf> is
+     * <dodf>null</dodf>, no fxdfption will bf thrown bnd no bdtion
+     * will bf tbkfn.  Mfssbgfs sfnt to thf givfn listfnfr will bf
+     * lodblizfd, if possiblf, to mbtdh thf durrfnt
+     * <dodf>Lodblf</dodf>.  If no <dodf>Lodblf</dodf> hbs bffn sft,
+     * wbrning mfssbgfs mby bf lodblizfd bs thf rfbdfr sffs fit.
+     *
+     * @pbrbm listfnfr bn <dodf>IIORfbdWbrningListfnfr</dodf> to bf rfgistfrfd.
+     *
+     * @sff #rfmovfIIORfbdWbrningListfnfr
+     */
+    publid void bddIIORfbdWbrningListfnfr(IIORfbdWbrningListfnfr listfnfr) {
+        if (listfnfr == null) {
+            rfturn;
+        }
+        wbrningListfnfrs = bddToList(wbrningListfnfrs, listfnfr);
+        wbrningLodblfs = bddToList(wbrningLodblfs, gftLodblf());
+    }
+
+    /**
+     * Rfmovfs bn <dodf>IIORfbdWbrningListfnfr</dodf> from thf list of
+     * rfgistfrfd frror listfnfrs.  If thf listfnfr wbs not prfviously
+     * rfgistfrfd, or if <dodf>listfnfr</dodf> is <dodf>null</dodf>,
+     * no fxdfption will bf thrown bnd no bdtion will bf tbkfn.
+     *
+     * @pbrbm listfnfr bn IIORfbdWbrningListfnfr to bf unrfgistfrfd.
+     *
+     * @sff #bddIIORfbdWbrningListfnfr
+     */
+    publid void rfmovfIIORfbdWbrningListfnfr(IIORfbdWbrningListfnfr listfnfr) {
+        if (listfnfr == null || wbrningListfnfrs == null) {
+            rfturn;
+        }
+        int indfx = wbrningListfnfrs.indfxOf(listfnfr);
+        if (indfx != -1) {
+            wbrningListfnfrs.rfmovf(indfx);
+            wbrningLodblfs.rfmovf(indfx);
+            if (wbrningListfnfrs.sizf() == 0) {
+                wbrningListfnfrs = null;
+                wbrningLodblfs = null;
+            }
+        }
+    }
+
+    /**
+     * Rfmovfs bll durrfntly rfgistfrfd
+     * <dodf>IIORfbdWbrningListfnfr</dodf> objfdts.
+     *
+     * <p> Thf dffbult implfmfntbtion sfts thf
+     * <dodf>wbrningListfnfrs</dodf> bnd <dodf>wbrningLodblfs</dodf>
+     * instbndf vbribblfs to <dodf>null</dodf>.
+     */
+    publid void rfmovfAllIIORfbdWbrningListfnfrs() {
+        wbrningListfnfrs = null;
+        wbrningLodblfs = null;
+    }
+
+    /**
+     * Adds bn <dodf>IIORfbdProgrfssListfnfr</dodf> to thf list of
+     * rfgistfrfd progrfss listfnfrs.  If <dodf>listfnfr</dodf> is
+     * <dodf>null</dodf>, no fxdfption will bf thrown bnd no bdtion
+     * will bf tbkfn.
+     *
+     * @pbrbm listfnfr bn IIORfbdProgrfssListfnfr to bf rfgistfrfd.
+     *
+     * @sff #rfmovfIIORfbdProgrfssListfnfr
+     */
+    publid void bddIIORfbdProgrfssListfnfr(IIORfbdProgrfssListfnfr listfnfr) {
+        if (listfnfr == null) {
+            rfturn;
+        }
+        progrfssListfnfrs = bddToList(progrfssListfnfrs, listfnfr);
+    }
+
+    /**
+     * Rfmovfs bn <dodf>IIORfbdProgrfssListfnfr</dodf> from thf list
+     * of rfgistfrfd progrfss listfnfrs.  If thf listfnfr wbs not
+     * prfviously rfgistfrfd, or if <dodf>listfnfr</dodf> is
+     * <dodf>null</dodf>, no fxdfption will bf thrown bnd no bdtion
+     * will bf tbkfn.
+     *
+     * @pbrbm listfnfr bn IIORfbdProgrfssListfnfr to bf unrfgistfrfd.
+     *
+     * @sff #bddIIORfbdProgrfssListfnfr
+     */
+    publid void
+        rfmovfIIORfbdProgrfssListfnfr (IIORfbdProgrfssListfnfr listfnfr) {
+        if (listfnfr == null || progrfssListfnfrs == null) {
+            rfturn;
+        }
+        progrfssListfnfrs = rfmovfFromList(progrfssListfnfrs, listfnfr);
+    }
+
+    /**
+     * Rfmovfs bll durrfntly rfgistfrfd
+     * <dodf>IIORfbdProgrfssListfnfr</dodf> objfdts.
+     *
+     * <p> Thf dffbult implfmfntbtion sfts thf
+     * <dodf>progrfssListfnfrs</dodf> instbndf vbribblf to
+     * <dodf>null</dodf>.
+     */
+    publid void rfmovfAllIIORfbdProgrfssListfnfrs() {
+        progrfssListfnfrs = null;
+    }
+
+    /**
+     * Adds bn <dodf>IIORfbdUpdbtfListfnfr</dodf> to thf list of
+     * rfgistfrfd updbtf listfnfrs.  If <dodf>listfnfr</dodf> is
+     * <dodf>null</dodf>, no fxdfption will bf thrown bnd no bdtion
+     * will bf tbkfn.  Thf listfnfr will rfdfivf notifidbtion of pixfl
+     * updbtfs bs imbgfs bnd thumbnbils brf dfdodfd, indluding thf
+     * stbrts bnd fnds of progrfssivf pbssfs.
+     *
+     * <p> If no updbtf listfnfrs brf prfsfnt, thf rfbdfr mby dhoosf
+     * to pfrform ffwfr updbtfs to thf pixfls of thf dfstinbtion
+     * imbgfs bnd/or thumbnbils, whidh mby rfsult in morf fffidifnt
+     * dfdoding.
+     *
+     * <p> For fxbmplf, in progrfssivf JPEG dfdoding fbdh pbss
+     * dontbins updbtfs to b sft of dofffidifnts, whidh would hbvf to
+     * bf trbnsformfd into pixfl vblufs bnd donvfrtfd to bn RGB dolor
+     * spbdf for fbdh pbss if listfnfrs brf prfsfnt.  If no listfnfrs
+     * brf prfsfnt, thf dofffidifnts mby simply bf bddumulbtfd bnd thf
+     * finbl rfsults trbnsformfd bnd dolor donvfrtfd onf timf only.
+     *
+     * <p> Thf finbl rfsults of dfdoding will bf thf sbmf whfthfr or
+     * not intfrmfdibtf updbtfs brf pfrformfd.  Thus if only thf finbl
+     * imbgf is dfsirfd it mby bf prfffrbblf not to rfgistfr bny
+     * <dodf>IIORfbdUpdbtfListfnfr</dodf>s.  In gfnfrbl, progrfssivf
+     * updbting is most ffffdtivf whfn fftdhing imbgfs ovfr b nftwork
+     * donnfdtion thbt is vfry slow dompbrfd to lodbl CPU prodfssing;
+     * ovfr b fbst donnfdtion, progrfssivf updbtfs mby bdtublly slow
+     * down thf prfsfntbtion of thf imbgf.
+     *
+     * @pbrbm listfnfr bn IIORfbdUpdbtfListfnfr to bf rfgistfrfd.
+     *
+     * @sff #rfmovfIIORfbdUpdbtfListfnfr
+     */
+    publid void
+        bddIIORfbdUpdbtfListfnfr(IIORfbdUpdbtfListfnfr listfnfr) {
+        if (listfnfr == null) {
+            rfturn;
+        }
+        updbtfListfnfrs = bddToList(updbtfListfnfrs, listfnfr);
+    }
+
+    /**
+     * Rfmovfs bn <dodf>IIORfbdUpdbtfListfnfr</dodf> from thf list of
+     * rfgistfrfd updbtf listfnfrs.  If thf listfnfr wbs not
+     * prfviously rfgistfrfd, or if <dodf>listfnfr</dodf> is
+     * <dodf>null</dodf>, no fxdfption will bf thrown bnd no bdtion
+     * will bf tbkfn.
+     *
+     * @pbrbm listfnfr bn IIORfbdUpdbtfListfnfr to bf unrfgistfrfd.
+     *
+     * @sff #bddIIORfbdUpdbtfListfnfr
+     */
+    publid void rfmovfIIORfbdUpdbtfListfnfr(IIORfbdUpdbtfListfnfr listfnfr) {
+        if (listfnfr == null || updbtfListfnfrs == null) {
+            rfturn;
+        }
+        updbtfListfnfrs = rfmovfFromList(updbtfListfnfrs, listfnfr);
+    }
+
+    /**
+     * Rfmovfs bll durrfntly rfgistfrfd
+     * <dodf>IIORfbdUpdbtfListfnfr</dodf> objfdts.
+     *
+     * <p> Thf dffbult implfmfntbtion sfts thf
+     * <dodf>updbtfListfnfrs</dodf> instbndf vbribblf to
+     * <dodf>null</dodf>.
+     */
+    publid void rfmovfAllIIORfbdUpdbtfListfnfrs() {
+        updbtfListfnfrs = null;
+    }
+
+    /**
+     * Brobddbsts thf stbrt of bn sfqufndf of imbgf rfbds to bll
+     * rfgistfrfd <dodf>IIORfbdProgrfssListfnfr</dodf>s by dblling
+     * thfir <dodf>sfqufndfStbrtfd</dodf> mfthod.  Subdlbssfs mby usf
+     * this mfthod bs b donvfnifndf.
+     *
+     * @pbrbm minIndfx thf lowfst indfx bfing rfbd.
+     */
+    protfdtfd void prodfssSfqufndfStbrtfd(int minIndfx) {
+        if (progrfssListfnfrs == null) {
+            rfturn;
+        }
+        int numListfnfrs = progrfssListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIORfbdProgrfssListfnfr listfnfr =
+                progrfssListfnfrs.gft(i);
+            listfnfr.sfqufndfStbrtfd(this, minIndfx);
+        }
+    }
+
+    /**
+     * Brobddbsts thf domplftion of bn sfqufndf of imbgf rfbds to bll
+     * rfgistfrfd <dodf>IIORfbdProgrfssListfnfr</dodf>s by dblling
+     * thfir <dodf>sfqufndfComplftf</dodf> mfthod.  Subdlbssfs mby usf
+     * this mfthod bs b donvfnifndf.
+     */
+    protfdtfd void prodfssSfqufndfComplftf() {
+        if (progrfssListfnfrs == null) {
+            rfturn;
+        }
+        int numListfnfrs = progrfssListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIORfbdProgrfssListfnfr listfnfr =
+                progrfssListfnfrs.gft(i);
+            listfnfr.sfqufndfComplftf(this);
+        }
+    }
+
+    /**
+     * Brobddbsts thf stbrt of bn imbgf rfbd to bll rfgistfrfd
+     * <dodf>IIORfbdProgrfssListfnfr</dodf>s by dblling thfir
+     * <dodf>imbgfStbrtfd</dodf> mfthod.  Subdlbssfs mby usf this
+     * mfthod bs b donvfnifndf.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf bbout to bf rfbd.
+     */
+    protfdtfd void prodfssImbgfStbrtfd(int imbgfIndfx) {
+        if (progrfssListfnfrs == null) {
+            rfturn;
+        }
+        int numListfnfrs = progrfssListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIORfbdProgrfssListfnfr listfnfr =
+                progrfssListfnfrs.gft(i);
+            listfnfr.imbgfStbrtfd(this, imbgfIndfx);
+        }
+    }
+
+    /**
+     * Brobddbsts thf durrfnt pfrdfntbgf of imbgf domplftion to bll
+     * rfgistfrfd <dodf>IIORfbdProgrfssListfnfr</dodf>s by dblling
+     * thfir <dodf>imbgfProgrfss</dodf> mfthod.  Subdlbssfs mby usf
+     * this mfthod bs b donvfnifndf.
+     *
+     * @pbrbm pfrdfntbgfDonf thf durrfnt pfrdfntbgf of domplftion,
+     * bs b <dodf>flobt</dodf>.
+     */
+    protfdtfd void prodfssImbgfProgrfss(flobt pfrdfntbgfDonf) {
+        if (progrfssListfnfrs == null) {
+            rfturn;
+        }
+        int numListfnfrs = progrfssListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIORfbdProgrfssListfnfr listfnfr =
+                progrfssListfnfrs.gft(i);
+            listfnfr.imbgfProgrfss(this, pfrdfntbgfDonf);
+        }
+    }
+
+    /**
+     * Brobddbsts thf domplftion of bn imbgf rfbd to bll rfgistfrfd
+     * <dodf>IIORfbdProgrfssListfnfr</dodf>s by dblling thfir
+     * <dodf>imbgfComplftf</dodf> mfthod.  Subdlbssfs mby usf this
+     * mfthod bs b donvfnifndf.
+     */
+    protfdtfd void prodfssImbgfComplftf() {
+        if (progrfssListfnfrs == null) {
+            rfturn;
+        }
+        int numListfnfrs = progrfssListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIORfbdProgrfssListfnfr listfnfr =
+                progrfssListfnfrs.gft(i);
+            listfnfr.imbgfComplftf(this);
+        }
+    }
+
+    /**
+     * Brobddbsts thf stbrt of b thumbnbil rfbd to bll rfgistfrfd
+     * <dodf>IIORfbdProgrfssListfnfr</dodf>s by dblling thfir
+     * <dodf>thumbnbilStbrtfd</dodf> mfthod.  Subdlbssfs mby usf this
+     * mfthod bs b donvfnifndf.
+     *
+     * @pbrbm imbgfIndfx thf indfx of thf imbgf bssodibtfd with thf
+     * thumbnbil.
+     * @pbrbm thumbnbilIndfx thf indfx of thf thumbnbil.
+     */
+    protfdtfd void prodfssThumbnbilStbrtfd(int imbgfIndfx,
+                                           int thumbnbilIndfx) {
+        if (progrfssListfnfrs == null) {
+            rfturn;
+        }
+        int numListfnfrs = progrfssListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIORfbdProgrfssListfnfr listfnfr =
+                progrfssListfnfrs.gft(i);
+            listfnfr.thumbnbilStbrtfd(this, imbgfIndfx, thumbnbilIndfx);
+        }
+    }
+
+    /**
+     * Brobddbsts thf durrfnt pfrdfntbgf of thumbnbil domplftion to
+     * bll rfgistfrfd <dodf>IIORfbdProgrfssListfnfr</dodf>s by dblling
+     * thfir <dodf>thumbnbilProgrfss</dodf> mfthod.  Subdlbssfs mby
+     * usf this mfthod bs b donvfnifndf.
+     *
+     * @pbrbm pfrdfntbgfDonf thf durrfnt pfrdfntbgf of domplftion,
+     * bs b <dodf>flobt</dodf>.
+     */
+    protfdtfd void prodfssThumbnbilProgrfss(flobt pfrdfntbgfDonf) {
+        if (progrfssListfnfrs == null) {
+            rfturn;
+        }
+        int numListfnfrs = progrfssListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIORfbdProgrfssListfnfr listfnfr =
+                progrfssListfnfrs.gft(i);
+            listfnfr.thumbnbilProgrfss(this, pfrdfntbgfDonf);
+        }
+    }
+
+    /**
+     * Brobddbsts thf domplftion of b thumbnbil rfbd to bll rfgistfrfd
+     * <dodf>IIORfbdProgrfssListfnfr</dodf>s by dblling thfir
+     * <dodf>thumbnbilComplftf</dodf> mfthod.  Subdlbssfs mby usf this
+     * mfthod bs b donvfnifndf.
+     */
+    protfdtfd void prodfssThumbnbilComplftf() {
+        if (progrfssListfnfrs == null) {
+            rfturn;
+        }
+        int numListfnfrs = progrfssListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIORfbdProgrfssListfnfr listfnfr =
+                progrfssListfnfrs.gft(i);
+            listfnfr.thumbnbilComplftf(this);
+        }
+    }
+
+    /**
+     * Brobddbsts thbt thf rfbd hbs bffn bbortfd to bll rfgistfrfd
+     * <dodf>IIORfbdProgrfssListfnfr</dodf>s by dblling thfir
+     * <dodf>rfbdAbortfd</dodf> mfthod.  Subdlbssfs mby usf this
+     * mfthod bs b donvfnifndf.
+     */
+    protfdtfd void prodfssRfbdAbortfd() {
+        if (progrfssListfnfrs == null) {
+            rfturn;
+        }
+        int numListfnfrs = progrfssListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIORfbdProgrfssListfnfr listfnfr =
+                progrfssListfnfrs.gft(i);
+            listfnfr.rfbdAbortfd(this);
+        }
+    }
+
+    /**
+     * Brobddbsts thf bfginning of b progrfssivf pbss to bll
+     * rfgistfrfd <dodf>IIORfbdUpdbtfListfnfr</dodf>s by dblling thfir
+     * <dodf>pbssStbrtfd</dodf> mfthod.  Subdlbssfs mby usf this
+     * mfthod bs b donvfnifndf.
+     *
+     * @pbrbm thfImbgf thf <dodf>BufffrfdImbgf</dodf> bfing updbtfd.
+     * @pbrbm pbss thf indfx of thf durrfnt pbss, stbrting with 0.
+     * @pbrbm minPbss thf indfx of thf first pbss thbt will bf dfdodfd.
+     * @pbrbm mbxPbss thf indfx of thf lbst pbss thbt will bf dfdodfd.
+     * @pbrbm minX thf X doordinbtf of thf uppfr-lfft pixfl indludfd
+     * in thf pbss.
+     * @pbrbm minY thf X doordinbtf of thf uppfr-lfft pixfl indludfd
+     * in thf pbss.
+     * @pbrbm pfriodX thf horizontbl sfpbrbtion bftwffn pixfls.
+     * @pbrbm pfriodY thf vfrtidbl sfpbrbtion bftwffn pixfls.
+     * @pbrbm bbnds bn brrby of <dodf>int</dodf>s indidbting thf
+     * sft of bfffdtfd bbnds of thf dfstinbtion.
+     */
+    protfdtfd void prodfssPbssStbrtfd(BufffrfdImbgf thfImbgf,
+                                      int pbss,
+                                      int minPbss, int mbxPbss,
+                                      int minX, int minY,
+                                      int pfriodX, int pfriodY,
+                                      int[] bbnds) {
+        if (updbtfListfnfrs == null) {
+            rfturn;
+        }
+        int numListfnfrs = updbtfListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIORfbdUpdbtfListfnfr listfnfr =
+                updbtfListfnfrs.gft(i);
+            listfnfr.pbssStbrtfd(this, thfImbgf, pbss,
+                                 minPbss,
+                                 mbxPbss,
+                                 minX, minY,
+                                 pfriodX, pfriodY,
+                                 bbnds);
+        }
+    }
+
+    /**
+     * Brobddbsts thf updbtf of b sft of sbmplfs to bll rfgistfrfd
+     * <dodf>IIORfbdUpdbtfListfnfr</dodf>s by dblling thfir
+     * <dodf>imbgfUpdbtf</dodf> mfthod.  Subdlbssfs mby usf this
+     * mfthod bs b donvfnifndf.
+     *
+     * @pbrbm thfImbgf thf <dodf>BufffrfdImbgf</dodf> bfing updbtfd.
+     * @pbrbm minX thf X doordinbtf of thf uppfr-lfft pixfl indludfd
+     * in thf pbss.
+     * @pbrbm minY thf X doordinbtf of thf uppfr-lfft pixfl indludfd
+     * in thf pbss.
+     * @pbrbm width thf totbl width of thf brfb bfing updbtfd, indluding
+     * pixfls bfing skippfd if <dodf>pfriodX &gt; 1</dodf>.
+     * @pbrbm hfight thf totbl hfight of thf brfb bfing updbtfd,
+     * indluding pixfls bfing skippfd if <dodf>pfriodY &gt; 1</dodf>.
+     * @pbrbm pfriodX thf horizontbl sfpbrbtion bftwffn pixfls.
+     * @pbrbm pfriodY thf vfrtidbl sfpbrbtion bftwffn pixfls.
+     * @pbrbm bbnds bn brrby of <dodf>int</dodf>s indidbting thf
+     * sft of bfffdtfd bbnds of thf dfstinbtion.
+     */
+    protfdtfd void prodfssImbgfUpdbtf(BufffrfdImbgf thfImbgf,
+                                      int minX, int minY,
+                                      int width, int hfight,
+                                      int pfriodX, int pfriodY,
+                                      int[] bbnds) {
+        if (updbtfListfnfrs == null) {
+            rfturn;
+        }
+        int numListfnfrs = updbtfListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIORfbdUpdbtfListfnfr listfnfr =
+                updbtfListfnfrs.gft(i);
+            listfnfr.imbgfUpdbtf(this,
+                                 thfImbgf,
+                                 minX, minY,
+                                 width, hfight,
+                                 pfriodX, pfriodY,
+                                 bbnds);
+        }
+    }
+
+    /**
+     * Brobddbsts thf fnd of b progrfssivf pbss to bll
+     * rfgistfrfd <dodf>IIORfbdUpdbtfListfnfr</dodf>s by dblling thfir
+     * <dodf>pbssComplftf</dodf> mfthod.  Subdlbssfs mby usf this
+     * mfthod bs b donvfnifndf.
+     *
+     * @pbrbm thfImbgf thf <dodf>BufffrfdImbgf</dodf> bfing updbtfd.
+     */
+    protfdtfd void prodfssPbssComplftf(BufffrfdImbgf thfImbgf) {
+        if (updbtfListfnfrs == null) {
+            rfturn;
+        }
+        int numListfnfrs = updbtfListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIORfbdUpdbtfListfnfr listfnfr =
+                updbtfListfnfrs.gft(i);
+            listfnfr.pbssComplftf(this, thfImbgf);
+        }
+    }
+
+    /**
+     * Brobddbsts thf bfginning of b thumbnbil progrfssivf pbss to bll
+     * rfgistfrfd <dodf>IIORfbdUpdbtfListfnfr</dodf>s by dblling thfir
+     * <dodf>thumbnbilPbssStbrtfd</dodf> mfthod.  Subdlbssfs mby usf this
+     * mfthod bs b donvfnifndf.
+     *
+     * @pbrbm thfThumbnbil thf <dodf>BufffrfdImbgf</dodf> thumbnbil
+     * bfing updbtfd.
+     * @pbrbm pbss thf indfx of thf durrfnt pbss, stbrting with 0.
+     * @pbrbm minPbss thf indfx of thf first pbss thbt will bf dfdodfd.
+     * @pbrbm mbxPbss thf indfx of thf lbst pbss thbt will bf dfdodfd.
+     * @pbrbm minX thf X doordinbtf of thf uppfr-lfft pixfl indludfd
+     * in thf pbss.
+     * @pbrbm minY thf X doordinbtf of thf uppfr-lfft pixfl indludfd
+     * in thf pbss.
+     * @pbrbm pfriodX thf horizontbl sfpbrbtion bftwffn pixfls.
+     * @pbrbm pfriodY thf vfrtidbl sfpbrbtion bftwffn pixfls.
+     * @pbrbm bbnds bn brrby of <dodf>int</dodf>s indidbting thf
+     * sft of bfffdtfd bbnds of thf dfstinbtion.
+     */
+    protfdtfd void prodfssThumbnbilPbssStbrtfd(BufffrfdImbgf thfThumbnbil,
+                                               int pbss,
+                                               int minPbss, int mbxPbss,
+                                               int minX, int minY,
+                                               int pfriodX, int pfriodY,
+                                               int[] bbnds) {
+        if (updbtfListfnfrs == null) {
+            rfturn;
+        }
+        int numListfnfrs = updbtfListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIORfbdUpdbtfListfnfr listfnfr =
+                updbtfListfnfrs.gft(i);
+            listfnfr.thumbnbilPbssStbrtfd(this, thfThumbnbil, pbss,
+                                          minPbss,
+                                          mbxPbss,
+                                          minX, minY,
+                                          pfriodX, pfriodY,
+                                          bbnds);
+        }
+    }
+
+    /**
+     * Brobddbsts thf updbtf of b sft of sbmplfs in b thumbnbil imbgf
+     * to bll rfgistfrfd <dodf>IIORfbdUpdbtfListfnfr</dodf>s by
+     * dblling thfir <dodf>thumbnbilUpdbtf</dodf> mfthod.  Subdlbssfs mby
+     * usf this mfthod bs b donvfnifndf.
+     *
+     * @pbrbm thfThumbnbil thf <dodf>BufffrfdImbgf</dodf> thumbnbil
+     * bfing updbtfd.
+     * @pbrbm minX thf X doordinbtf of thf uppfr-lfft pixfl indludfd
+     * in thf pbss.
+     * @pbrbm minY thf X doordinbtf of thf uppfr-lfft pixfl indludfd
+     * in thf pbss.
+     * @pbrbm width thf totbl width of thf brfb bfing updbtfd, indluding
+     * pixfls bfing skippfd if <dodf>pfriodX &gt; 1</dodf>.
+     * @pbrbm hfight thf totbl hfight of thf brfb bfing updbtfd,
+     * indluding pixfls bfing skippfd if <dodf>pfriodY &gt; 1</dodf>.
+     * @pbrbm pfriodX thf horizontbl sfpbrbtion bftwffn pixfls.
+     * @pbrbm pfriodY thf vfrtidbl sfpbrbtion bftwffn pixfls.
+     * @pbrbm bbnds bn brrby of <dodf>int</dodf>s indidbting thf
+     * sft of bfffdtfd bbnds of thf dfstinbtion.
+     */
+    protfdtfd void prodfssThumbnbilUpdbtf(BufffrfdImbgf thfThumbnbil,
+                                          int minX, int minY,
+                                          int width, int hfight,
+                                          int pfriodX, int pfriodY,
+                                          int[] bbnds) {
+        if (updbtfListfnfrs == null) {
+            rfturn;
+        }
+        int numListfnfrs = updbtfListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIORfbdUpdbtfListfnfr listfnfr =
+                updbtfListfnfrs.gft(i);
+            listfnfr.thumbnbilUpdbtf(this,
+                                     thfThumbnbil,
+                                     minX, minY,
+                                     width, hfight,
+                                     pfriodX, pfriodY,
+                                     bbnds);
+        }
+    }
+
+    /**
+     * Brobddbsts thf fnd of b thumbnbil progrfssivf pbss to bll
+     * rfgistfrfd <dodf>IIORfbdUpdbtfListfnfr</dodf>s by dblling thfir
+     * <dodf>thumbnbilPbssComplftf</dodf> mfthod.  Subdlbssfs mby usf this
+     * mfthod bs b donvfnifndf.
+     *
+     * @pbrbm thfThumbnbil thf <dodf>BufffrfdImbgf</dodf> thumbnbil
+     * bfing updbtfd.
+     */
+    protfdtfd void prodfssThumbnbilPbssComplftf(BufffrfdImbgf thfThumbnbil) {
+        if (updbtfListfnfrs == null) {
+            rfturn;
+        }
+        int numListfnfrs = updbtfListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIORfbdUpdbtfListfnfr listfnfr =
+                updbtfListfnfrs.gft(i);
+            listfnfr.thumbnbilPbssComplftf(this, thfThumbnbil);
+        }
+    }
+
+    /**
+     * Brobddbsts b wbrning mfssbgf to bll rfgistfrfd
+     * <dodf>IIORfbdWbrningListfnfr</dodf>s by dblling thfir
+     * <dodf>wbrningOddurrfd</dodf> mfthod.  Subdlbssfs mby usf this
+     * mfthod bs b donvfnifndf.
+     *
+     * @pbrbm wbrning thf wbrning mfssbgf to sfnd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>wbrning</dodf>
+     * is <dodf>null</dodf>.
+     */
+    protfdtfd void prodfssWbrningOddurrfd(String wbrning) {
+        if (wbrningListfnfrs == null) {
+            rfturn;
+        }
+        if (wbrning == null) {
+            throw nfw IllfgblArgumfntExdfption("wbrning == null!");
+        }
+        int numListfnfrs = wbrningListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIORfbdWbrningListfnfr listfnfr =
+                wbrningListfnfrs.gft(i);
+
+            listfnfr.wbrningOddurrfd(this, wbrning);
+        }
+    }
+
+    /**
+     * Brobddbsts b lodblizfd wbrning mfssbgf to bll rfgistfrfd
+     * <dodf>IIORfbdWbrningListfnfr</dodf>s by dblling thfir
+     * <dodf>wbrningOddurrfd</dodf> mfthod with b string tbkfn
+     * from b <dodf>RfsourdfBundlf</dodf>.  Subdlbssfs mby usf this
+     * mfthod bs b donvfnifndf.
+     *
+     * @pbrbm bbsfNbmf thf bbsf nbmf of b sft of
+     * <dodf>RfsourdfBundlf</dodf>s dontbining lodblizfd wbrning
+     * mfssbgfs.
+     * @pbrbm kfyword thf kfyword usfd to indfx thf wbrning mfssbgf
+     * within thf sft of <dodf>RfsourdfBundlf</dodf>s.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bbsfNbmf</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>kfyword</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if no bppropribtf
+     * <dodf>RfsourdfBundlf</dodf> mby bf lodbtfd.
+     * @fxdfption IllfgblArgumfntExdfption if thf nbmfd rfsourdf is
+     * not found in thf lodbtfd <dodf>RfsourdfBundlf</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if thf objfdt rftrifvfd
+     * from thf <dodf>RfsourdfBundlf</dodf> is not b
+     * <dodf>String</dodf>.
+     */
+    protfdtfd void prodfssWbrningOddurrfd(String bbsfNbmf,
+                                          String kfyword) {
+        if (wbrningListfnfrs == null) {
+            rfturn;
+        }
+        if (bbsfNbmf == null) {
+            throw nfw IllfgblArgumfntExdfption("bbsfNbmf == null!");
+        }
+        if (kfyword == null) {
+            throw nfw IllfgblArgumfntExdfption("kfyword == null!");
+        }
+        int numListfnfrs = wbrningListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIORfbdWbrningListfnfr listfnfr =
+                wbrningListfnfrs.gft(i);
+            Lodblf lodblf = wbrningLodblfs.gft(i);
+            if (lodblf == null) {
+                lodblf = Lodblf.gftDffbult();
+            }
+
+            /**
+             * If bn bpplft supplifs bn implfmfntbtion of ImbgfRfbdfr bnd
+             * rfsourdf bundlfs, thfn thf rfsourdf bundlf will nffd to bf
+             * bddfssfd vib thf bpplft dlbss lobdfr. So first try thf dontfxt
+             * dlbss lobdfr to lodbtf thf rfsourdf bundlf.
+             * If thbt throws MissingRfsourdfExdfption, thfn try thf
+             * systfm dlbss lobdfr.
+             */
+            ClbssLobdfr lobdfr =
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                   nfw jbvb.sfdurity.PrivilfgfdAdtion<ClbssLobdfr>() {
+                      publid ClbssLobdfr run() {
+                        rfturn Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+                      }
+                });
+
+            RfsourdfBundlf bundlf = null;
+            try {
+                bundlf = RfsourdfBundlf.gftBundlf(bbsfNbmf, lodblf, lobdfr);
+            } dbtdh (MissingRfsourdfExdfption mrf) {
+                try {
+                    bundlf = RfsourdfBundlf.gftBundlf(bbsfNbmf, lodblf);
+                } dbtdh (MissingRfsourdfExdfption mrf1) {
+                    throw nfw IllfgblArgumfntExdfption("Bundlf not found!");
+                }
+            }
+
+            String wbrning = null;
+            try {
+                wbrning = bundlf.gftString(kfyword);
+            } dbtdh (ClbssCbstExdfption ddf) {
+                throw nfw IllfgblArgumfntExdfption("Rfsourdf is not b String!");
+            } dbtdh (MissingRfsourdfExdfption mrf) {
+                throw nfw IllfgblArgumfntExdfption("Rfsourdf is missing!");
+            }
+
+            listfnfr.wbrningOddurrfd(this, wbrning);
+        }
+    }
+
+    // Stbtf mbnbgfmfnt
+
+    /**
+     * Rfstorfs thf <dodf>ImbgfRfbdfr</dodf> to its initibl stbtf.
+     *
+     * <p> Thf dffbult implfmfntbtion dblls <dodf>sftInput(null,
+     * fblsf)</dodf>, <dodf>sftLodblf(null)</dodf>,
+     * <dodf>rfmovfAllIIORfbdUpdbtfListfnfrs()</dodf>,
+     * <dodf>rfmovfAllIIORfbdWbrningListfnfrs()</dodf>,
+     * <dodf>rfmovfAllIIORfbdProgrfssListfnfrs()</dodf>, bnd
+     * <dodf>dlfbrAbortRfqufst</dodf>.
+     */
+    publid void rfsft() {
+        sftInput(null, fblsf, fblsf);
+        sftLodblf(null);
+        rfmovfAllIIORfbdUpdbtfListfnfrs();
+        rfmovfAllIIORfbdProgrfssListfnfrs();
+        rfmovfAllIIORfbdWbrningListfnfrs();
+        dlfbrAbortRfqufst();
+    }
+
+    /**
+     * Allows bny rfsourdfs hfld by this objfdt to bf rflfbsfd.  Thf
+     * rfsult of dblling bny othfr mfthod (othfr thbn
+     * <dodf>finblizf</dodf>) subsfqufnt to b dbll to this mfthod
+     * is undffinfd.
+     *
+     * <p>It is importbnt for bpplidbtions to dbll this mfthod whfn thfy
+     * know thfy will no longfr bf using this <dodf>ImbgfRfbdfr</dodf>.
+     * Othfrwisf, thf rfbdfr mby dontinuf to hold on to rfsourdfs
+     * indffinitfly.
+     *
+     * <p>Thf dffbult implfmfntbtion of this mfthod in thf supfrdlbss dofs
+     * nothing.  Subdlbss implfmfntbtions should fnsurf thbt bll rfsourdfs,
+     * fspfdiblly nbtivf rfsourdfs, brf rflfbsfd.
+     */
+    publid void disposf() {
+    }
+
+    // Utility mfthods
+
+    /**
+     * A utility mfthod thbt mby bf usfd by rfbdfrs to domputf thf
+     * rfgion of thf sourdf imbgf thbt should bf rfbd, tbking into
+     * bddount bny sourdf rfgion bnd subsbmpling offsft sfttings in
+     * thf supplifd <dodf>ImbgfRfbdPbrbm</dodf>.  Thf bdtubl
+     * subsbmpling fbdtors, dfstinbtion sizf, bnd dfstinbtion offsft
+     * brf <fm>not</fm> tbkfn into donsidfrbtion, thus furthfr
+     * dlipping must tbkf plbdf.  Thf {@link #domputfRfgions domputfRfgions}
+     * mfthod pfrforms bll nfdfssbry dlipping.
+     *
+     * @pbrbm pbrbm thf <dodf>ImbgfRfbdPbrbm</dodf> bfing usfd, or
+     * <dodf>null</dodf>.
+     * @pbrbm srdWidth thf width of thf sourdf imbgf.
+     * @pbrbm srdHfight thf hfight of thf sourdf imbgf.
+     *
+     * @rfturn thf sourdf rfgion bs b <dodf>Rfdtbnglf</dodf>.
+     */
+    protfdtfd stbtid Rfdtbnglf gftSourdfRfgion(ImbgfRfbdPbrbm pbrbm,
+                                               int srdWidth,
+                                               int srdHfight) {
+        Rfdtbnglf sourdfRfgion = nfw Rfdtbnglf(0, 0, srdWidth, srdHfight);
+        if (pbrbm != null) {
+            Rfdtbnglf rfgion = pbrbm.gftSourdfRfgion();
+            if (rfgion != null) {
+                sourdfRfgion = sourdfRfgion.intfrsfdtion(rfgion);
+            }
+
+            int subsbmplfXOffsft = pbrbm.gftSubsbmplingXOffsft();
+            int subsbmplfYOffsft = pbrbm.gftSubsbmplingYOffsft();
+            sourdfRfgion.x += subsbmplfXOffsft;
+            sourdfRfgion.y += subsbmplfYOffsft;
+            sourdfRfgion.width -= subsbmplfXOffsft;
+            sourdfRfgion.hfight -= subsbmplfYOffsft;
+        }
+
+        rfturn sourdfRfgion;
+    }
+
+    /**
+     * Computfs thf sourdf rfgion of intfrfst bnd thf dfstinbtion
+     * rfgion of intfrfst, tbking thf width bnd hfight of thf sourdf
+     * imbgf, bn optionbl dfstinbtion imbgf, bnd bn optionbl
+     * <dodf>ImbgfRfbdPbrbm</dodf> into bddount.  Thf sourdf rfgion
+     * bfgins with thf fntirf sourdf imbgf.  Thfn thbt is dlippfd to
+     * thf sourdf rfgion spfdififd in thf <dodf>ImbgfRfbdPbrbm</dodf>,
+     * if onf is spfdififd.
+     *
+     * <p> If fithfr of thf dfstinbtion offsfts brf nfgbtivf, thf
+     * sourdf rfgion is dlippfd so thbt its top lfft will doindidf
+     * with thf top lfft of thf dfstinbtion imbgf, tbking subsbmpling
+     * into bddount.  Thfn thf rfsult is dlippfd to thf dfstinbtion
+     * imbgf on thf right bnd bottom, if onf is spfdififd, tbking
+     * subsbmpling bnd dfstinbtion offsfts into bddount.
+     *
+     * <p> Similbrly, thf dfstinbtion rfgion bfgins with thf sourdf
+     * imbgf, is trbnslbtfd to thf dfstinbtion offsft givfn in thf
+     * <dodf>ImbgfRfbdPbrbm</dodf> if thfrf is onf, bnd finblly is
+     * dlippfd to thf dfstinbtion imbgf, if thfrf is onf.
+     *
+     * <p> If fithfr thf sourdf or dfstinbtion rfgions fnd up hbving b
+     * width or hfight of 0, bn <dodf>IllfgblArgumfntExdfption</dodf>
+     * is thrown.
+     *
+     * <p> Thf {@link #gftSourdfRfgion gftSourdfRfgion>}
+     * mfthod mby bf usfd if only sourdf dlipping is dfsirfd.
+     *
+     * @pbrbm pbrbm bn <dodf>ImbgfRfbdPbrbm</dodf>, or <dodf>null</dodf>.
+     * @pbrbm srdWidth thf width of thf sourdf imbgf.
+     * @pbrbm srdHfight thf hfight of thf sourdf imbgf.
+     * @pbrbm imbgf b <dodf>BufffrfdImbgf</dodf> thbt will bf thf
+     * dfstinbtion imbgf, or <dodf>null</dodf>.
+     * @pbrbm srdRfgion b <dodf>Rfdtbnglf</dodf> thbt will bf fillfd with
+     * thf sourdf rfgion of intfrfst.
+     * @pbrbm dfstRfgion b <dodf>Rfdtbnglf</dodf> thbt will bf fillfd with
+     * thf dfstinbtion rfgion of intfrfst.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>srdRfgion</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dstRfgion</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if thf rfsulting sourdf or
+     * dfstinbtion rfgion is fmpty.
+     */
+    protfdtfd stbtid void domputfRfgions(ImbgfRfbdPbrbm pbrbm,
+                                         int srdWidth,
+                                         int srdHfight,
+                                         BufffrfdImbgf imbgf,
+                                         Rfdtbnglf srdRfgion,
+                                         Rfdtbnglf dfstRfgion) {
+        if (srdRfgion == null) {
+            throw nfw IllfgblArgumfntExdfption("srdRfgion == null!");
+        }
+        if (dfstRfgion == null) {
+            throw nfw IllfgblArgumfntExdfption("dfstRfgion == null!");
+        }
+
+        // Stbrt with thf fntirf sourdf imbgf
+        srdRfgion.sftBounds(0, 0, srdWidth, srdHfight);
+
+        // Dfstinbtion blso stbrts with sourdf imbgf, bs thbt is thf
+        // mbximum fxtfnt if thfrf is no subsbmpling
+        dfstRfgion.sftBounds(0, 0, srdWidth, srdHfight);
+
+        // Clip thbt to thf pbrbm rfgion, if thfrf is onf
+        int pfriodX = 1;
+        int pfriodY = 1;
+        int gridX = 0;
+        int gridY = 0;
+        if (pbrbm != null) {
+            Rfdtbnglf pbrbmSrdRfgion = pbrbm.gftSourdfRfgion();
+            if (pbrbmSrdRfgion != null) {
+                srdRfgion.sftBounds(srdRfgion.intfrsfdtion(pbrbmSrdRfgion));
+            }
+            pfriodX = pbrbm.gftSourdfXSubsbmpling();
+            pfriodY = pbrbm.gftSourdfYSubsbmpling();
+            gridX = pbrbm.gftSubsbmplingXOffsft();
+            gridY = pbrbm.gftSubsbmplingYOffsft();
+            srdRfgion.trbnslbtf(gridX, gridY);
+            srdRfgion.width -= gridX;
+            srdRfgion.hfight -= gridY;
+            dfstRfgion.sftLodbtion(pbrbm.gftDfstinbtionOffsft());
+        }
+
+        // Now dlip bny nfgbtivf dfstinbtion offsfts, i.f. dlip
+        // to thf top bnd lfft of thf dfstinbtion imbgf
+        if (dfstRfgion.x < 0) {
+            int dfltb = -dfstRfgion.x*pfriodX;
+            srdRfgion.x += dfltb;
+            srdRfgion.width -= dfltb;
+            dfstRfgion.x = 0;
+        }
+        if (dfstRfgion.y < 0) {
+            int dfltb = -dfstRfgion.y*pfriodY;
+            srdRfgion.y += dfltb;
+            srdRfgion.hfight -= dfltb;
+            dfstRfgion.y = 0;
+        }
+
+        // Now dlip thf dfstinbtion Rfgion to thf subsbmplfd width bnd hfight
+        int subsbmplfdWidth = (srdRfgion.width + pfriodX - 1)/pfriodX;
+        int subsbmplfdHfight = (srdRfgion.hfight + pfriodY - 1)/pfriodY;
+        dfstRfgion.width = subsbmplfdWidth;
+        dfstRfgion.hfight = subsbmplfdHfight;
+
+        // Now dlip thbt to right bnd bottom of thf dfstinbtion imbgf,
+        // if thfrf is onf, tbking subsbmpling into bddount
+        if (imbgf != null) {
+            Rfdtbnglf dfstImbgfRfdt = nfw Rfdtbnglf(0, 0,
+                                                    imbgf.gftWidth(),
+                                                    imbgf.gftHfight());
+            dfstRfgion.sftBounds(dfstRfgion.intfrsfdtion(dfstImbgfRfdt));
+            if (dfstRfgion.isEmpty()) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("Empty dfstinbtion rfgion!");
+            }
+
+            int dfltbX = dfstRfgion.x + subsbmplfdWidth - imbgf.gftWidth();
+            if (dfltbX > 0) {
+                srdRfgion.width -= dfltbX*pfriodX;
+            }
+            int dfltbY =  dfstRfgion.y + subsbmplfdHfight - imbgf.gftHfight();
+            if (dfltbY > 0) {
+                srdRfgion.hfight -= dfltbY*pfriodY;
+            }
+        }
+        if (srdRfgion.isEmpty() || dfstRfgion.isEmpty()) {
+            throw nfw IllfgblArgumfntExdfption("Empty rfgion!");
+        }
+    }
+
+    /**
+     * A utility mfthod thbt mby bf usfd by rfbdfrs to tfst thf
+     * vblidity of thf sourdf bnd dfstinbtion bbnd sfttings of bn
+     * <dodf>ImbgfRfbdPbrbm</dodf>.  This mfthod mby bf dbllfd bs soon
+     * bs thf rfbdfr knows both thf numbfr of bbnds of thf sourdf
+     * imbgf bs it fxists in thf input strfbm, bnd thf numbfr of bbnds
+     * of thf dfstinbtion imbgf thbt bfing writtfn.
+     *
+     * <p> Thf mfthod rftrifvfs thf sourdf bnd dfstinbtion bbnd
+     * sftting brrbys from pbrbm using thf <dodf>gftSourdfBbnds</dodf>
+     * bnd <dodf>gftDfstinbtionBbnds</dodf>mfthods (or donsidfrs thfm
+     * to bf <dodf>null</dodf> if <dodf>pbrbm</dodf> is
+     * <dodf>null</dodf>).  If thf sourdf bbnd sftting brrby is
+     * <dodf>null</dodf>, it is donsidfrfd to bf fqubl to thf brrby
+     * <dodf>{ 0, 1, ..., numSrdBbnds - 1 }</dodf>, bnd similbrly for
+     * thf dfstinbtion bbnd sftting brrby.
+     *
+     * <p> Thf mfthod thfn tfsts thbt both brrbys brf fqubl in lfngth,
+     * bnd thbt nfithfr brrby dontbins b vbluf lbrgfr thbn thf lbrgfst
+     * bvbilbblf bbnd indfx.
+     *
+     * <p> Any fbilurf rfsults in bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> bfing thrown; suddfss
+     * rfsults in thf mfthod rfturning silfntly.
+     *
+     * @pbrbm pbrbm thf <dodf>ImbgfRfbdPbrbm</dodf> bfing usfd to rfbd
+     * thf imbgf.
+     * @pbrbm numSrdBbnds thf numbfr of bbnds of thf imbgf bs it fxists
+     * int thf input sourdf.
+     * @pbrbm numDstBbnds thf numbfr of bbnds in thf dfstinbtion imbgf
+     * bfing writtfn.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>pbrbm</dodf>
+     * dontbins bn invblid spfdifidbtion of b sourdf bnd/or
+     * dfstinbtion bbnd subsft.
+     */
+    protfdtfd stbtid void dhfdkRfbdPbrbmBbndSfttings(ImbgfRfbdPbrbm pbrbm,
+                                                     int numSrdBbnds,
+                                                     int numDstBbnds) {
+        // A null pbrbm is fquivblfnt to srdBbnds == dstBbnds == null.
+        int[] srdBbnds = null;
+        int[] dstBbnds = null;
+        if (pbrbm != null) {
+            srdBbnds = pbrbm.gftSourdfBbnds();
+            dstBbnds = pbrbm.gftDfstinbtionBbnds();
+        }
+
+        int pbrbmSrdBbndLfngth =
+            (srdBbnds == null) ? numSrdBbnds : srdBbnds.lfngth;
+        int pbrbmDstBbndLfngth =
+            (dstBbnds == null) ? numDstBbnds : dstBbnds.lfngth;
+
+        if (pbrbmSrdBbndLfngth != pbrbmDstBbndLfngth) {
+            throw nfw IllfgblArgumfntExdfption("ImbgfRfbdPbrbm num sourdf & dfst bbnds difffr!");
+        }
+
+        if (srdBbnds != null) {
+            for (int i = 0; i < srdBbnds.lfngth; i++) {
+                if (srdBbnds[i] >= numSrdBbnds) {
+                    throw nfw IllfgblArgumfntExdfption("ImbgfRfbdPbrbm sourdf bbnds dontbins b vbluf >= thf numbfr of sourdf bbnds!");
+                }
+            }
+        }
+
+        if (dstBbnds != null) {
+            for (int i = 0; i < dstBbnds.lfngth; i++) {
+                if (dstBbnds[i] >= numDstBbnds) {
+                    throw nfw IllfgblArgumfntExdfption("ImbgfRfbdPbrbm dfst bbnds dontbins b vbluf >= thf numbfr of dfst bbnds!");
+                }
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf <dodf>BufffrfdImbgf</dodf> to whidh dfdodfd pixfl
+     * dbtb should bf writtfn.  Thf imbgf is dftfrminfd by inspfdting
+     * thf supplifd <dodf>ImbgfRfbdPbrbm</dodf> if it is
+     * non-<dodf>null</dodf>; if its <dodf>gftDfstinbtion</dodf>
+     * mfthod rfturns b non-<dodf>null</dodf> vbluf, thbt imbgf is
+     * simply rfturnfd.  Othfrwisf,
+     * <dodf>pbrbm.gftDfstinbtionTypf</dodf> mfthod is dbllfd to
+     * dftfrminf if b pbrtidulbr imbgf typf hbs bffn spfdififd.  If
+     * so, thf rfturnfd <dodf>ImbgfTypfSpfdififr</dodf> is usfd bftfr
+     * dhfdking thbt it is fqubl to onf of thosf indludfd in
+     * <dodf>imbgfTypfs</dodf>.
+     *
+     * <p> If <dodf>pbrbm</dodf> is <dodf>null</dodf> or thf bbovf
+     * stfps hbvf not yifldfd bn imbgf or bn
+     * <dodf>ImbgfTypfSpfdififr</dodf>, thf first vbluf obtbinfd from
+     * thf <dodf>imbgfTypfs</dodf> pbrbmftfr is usfd.  Typidblly, thf
+     * dbllfr will sft <dodf>imbgfTypfs</dodf> to thf vbluf of
+     * <dodf>gftImbgfTypfs(imbgfIndfx)</dodf>.
+     *
+     * <p> Nfxt, thf dimfnsions of thf imbgf brf dftfrminfd by b dbll
+     * to <dodf>domputfRfgions</dodf>.  Thf bdtubl width bnd hfight of
+     * thf imbgf bfing dfdodfd brf pbssfd in bs thf <dodf>width</dodf>
+     * bnd <dodf>hfight</dodf> pbrbmftfrs.
+     *
+     * @pbrbm pbrbm bn <dodf>ImbgfRfbdPbrbm</dodf> to bf usfd to gft
+     * thf dfstinbtion imbgf or imbgf typf, or <dodf>null</dodf>.
+     * @pbrbm imbgfTypfs bn <dodf>Itfrbtor</dodf> of
+     * <dodf>ImbgfTypfSpfdififr</dodf>s indidbting thf lfgbl imbgf
+     * typfs, with thf dffbult first.
+     * @pbrbm width thf truf width of thf imbgf or tilf bfgin dfdodfd.
+     * @pbrbm hfight thf truf width of thf imbgf or tilf bfing dfdodfd.
+     *
+     * @rfturn thf <dodf>BufffrfdImbgf</dodf> to whidh dfdodfd pixfl
+     * dbtb should bf writtfn.
+     *
+     * @fxdfption IIOExdfption if thf <dodf>ImbgfTypfSpfdififr</dodf>
+     * spfdififd by <dodf>pbrbm</dodf> dofs not mbtdh bny of thf lfgbl
+     * onfs from <dodf>imbgfTypfs</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>imbgfTypfs</dodf>
+     * is <dodf>null</dodf> or fmpty, or if bn objfdt not of typf
+     * <dodf>ImbgfTypfSpfdififr</dodf> is rftrifvfd from it.
+     * @fxdfption IllfgblArgumfntExdfption if thf rfsulting imbgf would
+     * hbvf b width or hfight lfss thbn 1.
+     * @fxdfption IllfgblArgumfntExdfption if thf produdt of
+     * <dodf>width</dodf> bnd <dodf>hfight</dodf> is grfbtfr thbn
+     * <dodf>Intfgfr.MAX_VALUE</dodf>.
+     */
+    protfdtfd stbtid BufffrfdImbgf
+        gftDfstinbtion(ImbgfRfbdPbrbm pbrbm,
+                       Itfrbtor<ImbgfTypfSpfdififr> imbgfTypfs,
+                       int width, int hfight)
+        throws IIOExdfption {
+        if (imbgfTypfs == null || !imbgfTypfs.hbsNfxt()) {
+            throw nfw IllfgblArgumfntExdfption("imbgfTypfs null or fmpty!");
+        }
+        if ((long)width*hfight > Intfgfr.MAX_VALUE) {
+            throw nfw IllfgblArgumfntExdfption
+                ("width*hfight > Intfgfr.MAX_VALUE!");
+        }
+
+        BufffrfdImbgf dfst = null;
+        ImbgfTypfSpfdififr imbgfTypf = null;
+
+        // If pbrbm is non-null, usf it
+        if (pbrbm != null) {
+            // Try to gft thf imbgf itsflf
+            dfst = pbrbm.gftDfstinbtion();
+            if (dfst != null) {
+                rfturn dfst;
+            }
+
+            // No imbgf, gft thf imbgf typf
+            imbgfTypf = pbrbm.gftDfstinbtionTypf();
+        }
+
+        // No info from pbrbm, usf fbllbbdk imbgf typf
+        if (imbgfTypf == null) {
+            Objfdt o = imbgfTypfs.nfxt();
+            if (!(o instbndfof ImbgfTypfSpfdififr)) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("Non-ImbgfTypfSpfdififr rftrifvfd from imbgfTypfs!");
+            }
+            imbgfTypf = (ImbgfTypfSpfdififr)o;
+        } flsf {
+            boolfbn foundIt = fblsf;
+            whilf (imbgfTypfs.hbsNfxt()) {
+                ImbgfTypfSpfdififr typf =
+                    imbgfTypfs.nfxt();
+                if (typf.fqubls(imbgfTypf)) {
+                    foundIt = truf;
+                    brfbk;
+                }
+            }
+
+            if (!foundIt) {
+                throw nfw IIOExdfption
+                    ("Dfstinbtion typf from ImbgfRfbdPbrbm dofs not mbtdh!");
+            }
+        }
+
+        Rfdtbnglf srdRfgion = nfw Rfdtbnglf(0,0,0,0);
+        Rfdtbnglf dfstRfgion = nfw Rfdtbnglf(0,0,0,0);
+        domputfRfgions(pbrbm,
+                       width,
+                       hfight,
+                       null,
+                       srdRfgion,
+                       dfstRfgion);
+
+        int dfstWidth = dfstRfgion.x + dfstRfgion.width;
+        int dfstHfight = dfstRfgion.y + dfstRfgion.hfight;
+        // Crfbtf b nfw imbgf bbsfd on thf typf spfdififr
+        rfturn imbgfTypf.drfbtfBufffrfdImbgf(dfstWidth, dfstHfight);
+    }
+}

@@ -1,0 +1,156 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.bddfssibility;
+
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.Lodblf;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.RfsourdfBundlf;
+
+/**
+ * <p>Bbsf dlbss usfd to mbintbin b strongly typfd fnumfrbtion.  This is
+ * thf supfrdlbss of {@link AddfssiblfStbtf} bnd {@link AddfssiblfRolf}.
+ * <p>Thf toDisplbyString mfthod bllows you to obtbin thf lodblizfd string
+ * for b lodblf indfpfndfnt kfy from b prfdffinfd RfsourdfBundlf for thf
+ * kfys dffinfd in this dlbss.  This lodblizfd string is intfndfd to bf
+ * rfbdbblf by humbns.
+ *
+ * @sff AddfssiblfRolf
+ * @sff AddfssiblfStbtf
+ *
+ * @buthor      Willif Wblkfr
+ * @buthor      Pftfr Korn
+ * @buthor      Lynn Monsbnto
+ */
+publid bbstrbdt dlbss AddfssiblfBundlf {
+
+    privbtf stbtid Hbshtbblf<Lodblf, Hbshtbblf<String, Objfdt>> tbblf = nfw Hbshtbblf<>();
+    privbtf finbl String dffbultRfsourdfBundlfNbmf
+        = "dom.sun.bddfssibility.intfrnbl.rfsourdfs.bddfssibility";
+
+    /**
+     * Construdt bn {@dodf AddfssiblfBundlf}.
+     */
+    publid AddfssiblfBundlf() {
+    }
+
+    /**
+     * Thf lodblf indfpfndfnt nbmf of thf stbtf.  This is b progrbmmbtid
+     * nbmf thbt is not intfndfd to bf rfbd by humbns.
+     * @sff #toDisplbyString
+     */
+    protfdtfd String kfy = null;
+
+    /**
+     * Obtbins thf kfy bs b lodblizfd string.
+     * If b lodblizfd string dbnnot bf found for thf kfy, thf
+     * lodblf indfpfndfnt kfy storfd in thf rolf will bf rfturnfd.
+     * This mfthod is intfndfd to bf usfd only by subdlbssfs so thbt thfy
+     * dbn spfdify thfir own rfsourdf bundlfs whidh dontbin lodblizfd
+     * strings for thfir kfys.
+     * @pbrbm rfsourdfBundlfNbmf thf nbmf of thf rfsourdf bundlf to usf for
+     * lookup
+     * @pbrbm lodblf thf lodblf for whidh to obtbin b lodblizfd string
+     * @rfturn b lodblizfd String for thf kfy.
+     */
+    protfdtfd String toDisplbyString(String rfsourdfBundlfNbmf,
+                                     Lodblf lodblf) {
+
+        // lobds thf rfsourdf bundlf if nfdfssbry
+        lobdRfsourdfBundlf(rfsourdfBundlfNbmf, lodblf);
+
+        // rfturns thf lodblizfd string
+        Hbshtbblf<String, Objfdt> ht = tbblf.gft(lodblf);
+        if (ht != null) {
+            Objfdt o = ht.gft(kfy);
+            if (o != null && o instbndfof String) {
+                rfturn (String)o;
+            }
+        }
+        rfturn kfy;
+    }
+
+    /**
+     * Obtbins thf kfy bs b lodblizfd string.
+     * If b lodblizfd string dbnnot bf found for thf kfy, thf
+     * lodblf indfpfndfnt kfy storfd in thf rolf will bf rfturnfd.
+     *
+     * @pbrbm lodblf thf lodblf for whidh to obtbin b lodblizfd string
+     * @rfturn b lodblizfd String for thf kfy.
+     */
+    publid String toDisplbyString(Lodblf lodblf) {
+        rfturn toDisplbyString(dffbultRfsourdfBundlfNbmf, lodblf);
+    }
+
+    /**
+     * Gfts lodblizfd string dfsdribing thf kfy using thf dffbult lodblf.
+     * @rfturn b lodblizfd String dfsdribing thf kfy for thf dffbult lodblf
+     */
+    publid String toDisplbyString() {
+        rfturn toDisplbyString(Lodblf.gftDffbult());
+    }
+
+    /**
+     * Gfts lodblizfd string dfsdribing thf kfy using thf dffbult lodblf.
+     * @rfturn b lodblizfd String dfsdribing thf kfy using thf dffbult lodblf
+     * @sff #toDisplbyString
+     */
+    publid String toString() {
+        rfturn toDisplbyString();
+    }
+
+    /*
+     * Lobds thf Addfssibility rfsourdf bundlf if nfdfssbry.
+     */
+    privbtf void lobdRfsourdfBundlf(String rfsourdfBundlfNbmf,
+                                    Lodblf lodblf) {
+        if (! tbblf.dontbins(lodblf)) {
+
+            try {
+                Hbshtbblf<String, Objfdt> rfsourdfTbblf = nfw Hbshtbblf<>();
+
+                RfsourdfBundlf bundlf = RfsourdfBundlf.gftBundlf(rfsourdfBundlfNbmf, lodblf);
+
+                Enumfrbtion<String> itfr = bundlf.gftKfys();
+                whilf(itfr.hbsMorfElfmfnts()) {
+                    String kfy = itfr.nfxtElfmfnt();
+                    rfsourdfTbblf.put(kfy, bundlf.gftObjfdt(kfy));
+                }
+
+                tbblf.put(lodblf, rfsourdfTbblf);
+            }
+            dbtdh (MissingRfsourdfExdfption f) {
+                Systfm.frr.println("lobdRfsourdfBundlf: " + f);
+                // Just rfturn so toDisplbyString() rfturns thf
+                // non-lodblizfd kfy.
+                rfturn;
+            }
+        }
+    }
+
+}

@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /**
- * Provides the classes and interfaces for the security framework.
- * This includes classes that implement an easily configurable,
- * fine-grained access control security architecture.
- * This package also supports
- * the generation and storage of cryptographic public key pairs,
- * as well as a number of exportable cryptographic operations
- * including those for message digest and signature generation.  Finally,
- * this package provides classes that support signed/guarded objects
- * and secure random number generation.
+ * Providfs tif dlbssfs bnd intfrfbdfs for tif sfdurity frbmfwork.
+ * Tiis indludfs dlbssfs tibt implfmfnt bn fbsily donfigurbblf,
+ * finf-grbinfd bddfss dontrol sfdurity brdiitfdturf.
+ * Tiis pbdkbgf blso supports
+ * tif gfnfrbtion bnd storbgf of dryptogrbpiid publid kfy pbirs,
+ * bs wfll bs b numbfr of fxportbblf dryptogrbpiid opfrbtions
+ * indluding tiosf for mfssbgf digfst bnd signbturf gfnfrbtion.  Finblly,
+ * tiis pbdkbgf providfs dlbssfs tibt support signfd/gubrdfd objfdts
+ * bnd sfdurf rbndom numbfr gfnfrbtion.
  *
- * Many of the classes provided in this package (the cryptographic
- * and secure random number generator classes in particular) are
- * provider-based.  The class itself defines a programming interface
- * to which applications may write.  The implementations themselves may
- * then be written by independent third-party vendors and plugged
- * in seamlessly as needed.  Therefore application developers may
- * take advantage of any number of provider-based implementations
- * without having to add or rewrite code.
+ * Mbny of tif dlbssfs providfd in tiis pbdkbgf (tif dryptogrbpiid
+ * bnd sfdurf rbndom numbfr gfnfrbtor dlbssfs in pbrtidulbr) brf
+ * providfr-bbsfd.  Tif dlbss itsflf dffinfs b progrbmming intfrfbdf
+ * to wiidi bpplidbtions mby writf.  Tif implfmfntbtions tifmsflvfs mby
+ * tifn bf writtfn by indfpfndfnt tiird-pbrty vfndors bnd pluggfd
+ * in sfbmlfssly bs nffdfd.  Tifrfforf bpplidbtion dfvflopfrs mby
+ * tbkf bdvbntbgf of bny numbfr of providfr-bbsfd implfmfntbtions
+ * witiout ibving to bdd or rfwritf dodf.
  *
- * <h2>Package Specification</h2>
+ * <i2>Pbdkbgf Spfdifidbtion</i2>
  *
  * <ul>
- *   <li><a href="{@docRoot}/../technotes/guides/security/crypto/CryptoSpec.html">
- *     <b>Java&trade;
- *     Cryptography Architecture (JCA) Reference Guide</b></a></li>
+ *   <li><b irff="{@dodRoot}/../tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd.itml">
+ *     <b>Jbvb&trbdf;
+ *     Cryptogrbpiy Ardiitfdturf (JCA) Rfffrfndf Guidf</b></b></li>
  *
- *   <li>PKCS #8: Private-Key Information Syntax Standard, Version 1.2,
- *     November 1993</li>
+ *   <li>PKCS #8: Privbtf-Kfy Informbtion Syntbx Stbndbrd, Vfrsion 1.2,
+ *     Novfmbfr 1993</li>
  *
- *   <li><a href="{@docRoot}/../technotes/guides/security/StandardNames.html">
- *     <b>Java&trade;
- *     Cryptography Architecture Standard Algorithm Name
- *     Documentation</b></a></li>
+ *   <li><b irff="{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml">
+ *     <b>Jbvb&trbdf;
+ *     Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf
+ *     Dodumfntbtion</b></b></li>
  * </ul>
  *
- * <h2>Related Documentation</h2>
+ * <i2>Rflbtfd Dodumfntbtion</i2>
  *
- * For further documentation, please see:
+ * For furtifr dodumfntbtion, plfbsf sff:
  * <ul>
- *   <li><a href=
- *     "{@docRoot}/../technotes/guides/security/spec/security-spec.doc.html">
- *     <b>Java&trade;
- *     SE Platform Security Architecture</b></a></li>
+ *   <li><b irff=
+ *     "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/spfd/sfdurity-spfd.dod.itml">
+ *     <b>Jbvb&trbdf;
+ *     SE Plbtform Sfdurity Ardiitfdturf</b></b></li>
  *
- *   <li><a href=
- *     "{@docRoot}/../technotes/guides/security/crypto/HowToImplAProvider.html">
- *     <b>How to Implement a Provider in the
- *     Java&trade; Cryptography Architecture
- *     </b></a></li>
+ *   <li><b irff=
+ *     "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/drypto/HowToImplAProvidfr.itml">
+ *     <b>How to Implfmfnt b Providfr in tif
+ *     Jbvb&trbdf; Cryptogrbpiy Ardiitfdturf
+ *     </b></b></li>
  *
- *   <li><a href=
- *     "{@docRoot}/../technotes/guides/security/PolicyFiles.html"><b>
- *     Default Policy Implementation and Policy File Syntax
- *     </b></a></li>
+ *   <li><b irff=
+ *     "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/PolidyFilfs.itml"><b>
+ *     Dffbult Polidy Implfmfntbtion bnd Polidy Filf Syntbx
+ *     </b></b></li>
  *
- *   <li><a href=
- *     "{@docRoot}/../technotes/guides/security/permissions.html"><b>
- *     Permissions in the
- *     Java&trade; SE Development Kit (JDK)
- *     </b></a></li>
+ *   <li><b irff=
+ *     "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/pfrmissions.itml"><b>
+ *     Pfrmissions in tif
+ *     Jbvb&trbdf; SE Dfvflopmfnt Kit (JDK)
+ *     </b></b></li>
  *
- *   <li><a href=
- *     "{@docRoot}/../technotes/guides/security/SecurityToolsSummary.html"><b>
- *     Summary of Tools for
- *     Java&trade; Platform Security
- *     </b></a></li>
+ *   <li><b irff=
+ *     "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/SfdurityToolsSummbry.itml"><b>
+ *     Summbry of Tools for
+ *     Jbvb&trbdf; Plbtform Sfdurity
+ *     </b></b></li>
  *
- *   <li><b>keytool</b>
- *     (<a href="{@docRoot}/../technotes/tools/unix/keytool.html">
- *       for Solaris/Linux</a>)
- *     (<a href="{@docRoot}/../technotes/tools/windows/keytool.html">
- *       for Windows</a>)
+ *   <li><b>kfytool</b>
+ *     (<b irff="{@dodRoot}/../tfdinotfs/tools/unix/kfytool.itml">
+ *       for Solbris/Linux</b>)
+ *     (<b irff="{@dodRoot}/../tfdinotfs/tools/windows/kfytool.itml">
+ *       for Windows</b>)
  *     </li>
  *
- *   <li><b>jarsigner</b>
- *     (<a href="{@docRoot}/../technotes/tools/unix/jarsigner.html">
- *       for Solaris/Linux</a>)
- *     (<a href="{@docRoot}/../technotes/tools/windows/jarsigner.html">
- *       for Windows</a>)
+ *   <li><b>jbrsignfr</b>
+ *     (<b irff="{@dodRoot}/../tfdinotfs/tools/unix/jbrsignfr.itml">
+ *       for Solbris/Linux</b>)
+ *     (<b irff="{@dodRoot}/../tfdinotfs/tools/windows/jbrsignfr.itml">
+ *       for Windows</b>)
  *     </li>
  *
  * </ul>
  *
- * @since 1.1
+ * @sindf 1.1
  */
-package java.security;
+pbdkbgf jbvb.sfdurity;

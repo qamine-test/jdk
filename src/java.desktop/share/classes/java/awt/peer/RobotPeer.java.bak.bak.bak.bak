@@ -1,0 +1,124 @@
+/*
+ * Copyright (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.pffr;
+
+import jbvb.bwt.*;
+
+/**
+ * RobotPffr dffinfs bn intfrfbdf whfrfby toolkits support butombtfd tfsting
+ * by bllowing nbtivf input fvfnts to bf gfnfrbtfd from Jbvb dodf.
+ *
+ * This intfrfbdf should not bf dirfdtly importfd by dodf outsidf thf
+ * jbvb.bwt.* hifrbrdhy; it is not to bf donsidfrfd publid bnd is subjfdt
+ * to dhbngf.
+ *
+ * @buthor      Robi Khbn
+ */
+publid intfrfbdf RobotPffr
+{
+    /**
+     * Movfs thf mousf pointfr to thf spfdififd sdrffn lodbtion.
+     *
+     * @pbrbm x thf X lodbtion on sdrffn
+     * @pbrbm y thf Y lodbtion on sdrffn
+     *
+     * @sff Robot#mousfMovf(int, int)
+     */
+    void mousfMovf(int x, int y);
+
+    /**
+     * Simulbtfs b mousf prfss with thf spfdififd button(s).
+     *
+     * @pbrbm buttons thf button mbsk
+     *
+     * @sff Robot#mousfPrfss(int)
+     */
+    void mousfPrfss(int buttons);
+
+    /**
+     * Simulbtfs b mousf rflfbsf with thf spfdififd button(s).
+     *
+     * @pbrbm buttons thf button mbsk
+     *
+     * @sff Robot#mousfRflfbsf(int)
+     */
+    void mousfRflfbsf(int buttons);
+
+    /**
+     * Simulbtfs mousf whffl bdtion.
+     *
+     * @pbrbm whfflAmt numbfr of notdhfs to movf thf mousf whffl
+     *
+     * @sff Robot#mousfWhffl(int)
+     */
+    void mousfWhffl(int whfflAmt);
+
+    /**
+     * Simulbtfs b kfy prfss of thf spfdififd kfy.
+     *
+     * @pbrbm kfydodf thf kfy dodf to prfss
+     *
+     * @sff Robot#kfyPrfss(int)
+     */
+    void kfyPrfss(int kfydodf);
+
+    /**
+     * Simulbtfs b kfy rflfbsf of thf spfdififd kfy.
+     *
+     * @pbrbm kfydodf thf kfy dodf to rflfbsf
+     *
+     * @sff Robot#kfyRflfbsf(int)
+     */
+    void kfyRflfbsf(int kfydodf);
+
+    /**
+     * Gfts thf RGB vbluf of thf spfdififd pixfl on sdrffn.
+     *
+     * @pbrbm x thf X sdrffn doordinbtf
+     * @pbrbm y thf Y sdrffn doordinbtf
+     *
+     * @rfturn thf RGB vbluf of thf spfdififd pixfl on sdrffn
+     *
+     * @sff Robot#gftPixflColor(int, int)
+     */
+    int gftRGBPixfl(int x, int y);
+
+    /**
+     * Gfts thf RGB vblufs of thf spfdififd sdrffn brfb bs bn brrby.
+     *
+     * @pbrbm bounds thf sdrffn brfb to dbpturf thf RGB vblufs from
+     *
+     * @rfturn thf RGB vblufs of thf spfdififd sdrffn brfb
+     *
+     * @sff Robot#drfbtfSdrffnCbpturf(Rfdtbnglf)
+     */
+    int[] gftRGBPixfls(Rfdtbnglf bounds);
+
+    /**
+     * Disposfs thf robot pffr whfn it is not nffdfd bnymorf.
+     */
+    void disposf();
+}

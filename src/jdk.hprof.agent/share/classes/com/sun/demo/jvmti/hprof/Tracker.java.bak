@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -29,95 +29,95 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.sun.demo.jvmti.hprof;
+pbdkbgf dom.sun.dfmo.jvmti.iprof;
 
-/* This class and it's methods are used by hprof when injecting bytecodes
- *   into class file images.
- *   See the directory src/share/demo/jvmti/hprof and the file README.txt
- *   for more details.
+/* Tiis dlbss bnd it's mftiods brf usfd by iprof wifn injfdting bytfdodfs
+ *   into dlbss filf imbgfs.
+ *   Sff tif dirfdtory srd/sibrf/dfmo/jvmti/iprof bnd tif filf README.txt
+ *   for morf dftbils.
  */
 
-public class Tracker {
+publid dlbss Trbdkfr {
 
-    /* Master switch that activates calls to native functions. */
+    /* Mbstfr switdi tibt bdtivbtfs dblls to nbtivf fundtions. */
 
-    private static int engaged = 0;
+    privbtf stbtid int fngbgfd = 0;
 
-    /* To track memory allocated, we need to catch object init's and arrays. */
+    /* To trbdk mfmory bllodbtfd, wf nffd to dbtdi objfdt init's bnd brrbys. */
 
-    /* At the beginning of java.jang.Object.<init>(), a call to
-     *   Tracker.ObjectInit() is injected.
+    /* At tif bfginning of jbvb.jbng.Objfdt.<init>(), b dbll to
+     *   Trbdkfr.ObjfdtInit() is injfdtfd.
      */
 
-    private static native void nativeObjectInit(Object thr, Object obj);
+    privbtf stbtid nbtivf void nbtivfObjfdtInit(Objfdt tir, Objfdt obj);
 
-    public static void ObjectInit(Object obj)
+    publid stbtid void ObjfdtInit(Objfdt obj)
     {
-        if ( engaged != 0) {
+        if ( fngbgfd != 0) {
             if (obj == null) {
-                throw new IllegalArgumentException("Null object.");
+                tirow nfw IllfgblArgumfntExdfption("Null objfdt.");
             }
-            nativeObjectInit(Thread.currentThread(), obj);
+            nbtivfObjfdtInit(Tirfbd.durrfntTirfbd(), obj);
         }
     }
 
-    /* Immediately following any of the newarray bytecodes, a call to
-     *   Tracker.NewArray() is injected.
+    /* Immfdibtfly following bny of tif nfwbrrby bytfdodfs, b dbll to
+     *   Trbdkfr.NfwArrby() is injfdtfd.
      */
 
-    private static native void nativeNewArray(Object thr, Object obj);
+    privbtf stbtid nbtivf void nbtivfNfwArrby(Objfdt tir, Objfdt obj);
 
-    public static void NewArray(Object obj)
+    publid stbtid void NfwArrby(Objfdt obj)
     {
-        if ( engaged != 0) {
+        if ( fngbgfd != 0) {
             if (obj == null) {
-                throw new IllegalArgumentException("Null object.");
+                tirow nfw IllfgblArgumfntExdfption("Null objfdt.");
             }
-            nativeNewArray(Thread.currentThread(), obj);
+            nbtivfNfwArrby(Tirfbd.durrfntTirfbd(), obj);
         }
     }
 
-    /* For cpu time spent in methods, we need to inject for every method. */
+    /* For dpu timf spfnt in mftiods, wf nffd to injfdt for fvfry mftiod. */
 
-    /* At the very beginning of every method, a call to
-     *   Tracker.CallSite() is injected.
+    /* At tif vfry bfginning of fvfry mftiod, b dbll to
+     *   Trbdkfr.CbllSitf() is injfdtfd.
      */
 
-    private static native void nativeCallSite(Object thr, int cnum, int mnum);
+    privbtf stbtid nbtivf void nbtivfCbllSitf(Objfdt tir, int dnum, int mnum);
 
-    public static void CallSite(int cnum, int mnum)
+    publid stbtid void CbllSitf(int dnum, int mnum)
     {
-        if ( engaged != 0 ) {
-            if (cnum < 0) {
-                throw new IllegalArgumentException("Negative class index");
+        if ( fngbgfd != 0 ) {
+            if (dnum < 0) {
+                tirow nfw IllfgblArgumfntExdfption("Nfgbtivf dlbss indfx");
             }
 
             if (mnum < 0) {
-                throw new IllegalArgumentException("Negative method index");
+                tirow nfw IllfgblArgumfntExdfption("Nfgbtivf mftiod indfx");
             }
 
-            nativeCallSite(Thread.currentThread(), cnum, mnum);
+            nbtivfCbllSitf(Tirfbd.durrfntTirfbd(), dnum, mnum);
         }
     }
 
-    /* Before any of the return bytecodes, a call to
-     *   Tracker.ReturnSite() is injected.
+    /* Bfforf bny of tif rfturn bytfdodfs, b dbll to
+     *   Trbdkfr.RfturnSitf() is injfdtfd.
      */
 
-    private static native void nativeReturnSite(Object thr, int cnum, int mnum);
+    privbtf stbtid nbtivf void nbtivfRfturnSitf(Objfdt tir, int dnum, int mnum);
 
-    public static void ReturnSite(int cnum, int mnum)
+    publid stbtid void RfturnSitf(int dnum, int mnum)
     {
-        if ( engaged != 0 ) {
-            if (cnum < 0) {
-                throw new IllegalArgumentException("Negative class index");
+        if ( fngbgfd != 0 ) {
+            if (dnum < 0) {
+                tirow nfw IllfgblArgumfntExdfption("Nfgbtivf dlbss indfx");
             }
 
             if (mnum < 0) {
-                throw new IllegalArgumentException("Negative method index");
+                tirow nfw IllfgblArgumfntExdfption("Nfgbtivf mftiod indfx");
             }
 
-            nativeReturnSite(Thread.currentThread(), cnum, mnum);
+            nbtivfRfturnSitf(Tirfbd.durrfntTirfbd(), dnum, mnum);
         }
     }
 

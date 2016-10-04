@@ -1,46 +1,46 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
-// file:
+// Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+// Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+// Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+// filf:
 //
 //---------------------------------------------------------------------------------
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2011 Marti Maria Saguer
+//  Littlf Color Mbnbgfmfnt Systfm
+//  Copyrigit (d) 1998-2011 Mbrti Mbrib Sbgufr
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
-// the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
-// is furnished to do so, subject to the following conditions:
+// Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining
+// b dopy of tiis softwbrf bnd bssodibtfd dodumfntbtion filfs (tif "Softwbrf"),
+// to dfbl in tif Softwbrf witiout rfstridtion, indluding witiout limitbtion
+// tif rigits to usf, dopy, modify, mfrgf, publisi, distributf, sublidfnsf,
+// bnd/or sfll dopifs of tif Softwbrf, bnd to pfrmit pfrsons to wiom tif Softwbrf
+// is furnisifd to do so, subjfdt to tif following donditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// Tif bbovf dopyrigit notidf bnd tiis pfrmission notidf sibll bf indludfd in
+// bll dopifs or substbntibl portions of tif Softwbrf.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -53,390 +53,390 @@
 //---------------------------------------------------------------------------------
 //
 
-#include "lcms2_internal.h"
+#indludf "ldms2_intfrnbl.i"
 
 
 // ------------------------------------------------------------------------
 
-// Gamut boundary description by using Jan Morovic's Segment maxima method
-// Many thanks to Jan for allowing me to use his algorithm.
+// Gbmut boundbry dfsdription by using Jbn Morovid's Sfgmfnt mbximb mftiod
+// Mbny tibnks to Jbn for bllowing mf to usf iis blgoritim.
 
 // r = C*
-// alpha = Hab
-// theta = L*
+// blpib = Hbb
+// tiftb = L*
 
-#define SECTORS 16      // number of divisions in alpha and theta
+#dffinf SECTORS 16      // numbfr of divisions in blpib bnd tiftb
 
-// Spherical coordinates
-typedef struct {
+// Spifridbl doordinbtfs
+typfdff strudt {
 
-    cmsFloat64Number r;
-    cmsFloat64Number alpha;
-    cmsFloat64Number theta;
+    dmsFlobt64Numbfr r;
+    dmsFlobt64Numbfr blpib;
+    dmsFlobt64Numbfr tiftb;
 
-} cmsSpherical;
+} dmsSpifridbl;
 
-typedef  enum {
+typfdff  fnum {
         GP_EMPTY,
         GP_SPECIFIED,
         GP_MODELED
 
-    } GDBPointType;
+    } GDBPointTypf;
 
 
-typedef struct {
+typfdff strudt {
 
-    GDBPointType Type;
-    cmsSpherical p;         // Keep also alpha & theta of maximum
+    GDBPointTypf Typf;
+    dmsSpifridbl p;         // Kffp blso blpib & tiftb of mbximum
 
-} cmsGDBPoint;
-
-
-typedef struct {
-
-    cmsContext ContextID;
-    cmsGDBPoint Gamut[SECTORS][SECTORS];
-
-} cmsGDB;
+} dmsGDBPoint;
 
 
-// A line using the parametric form
-// P = a + t*u
-typedef struct {
+typfdff strudt {
 
-    cmsVEC3 a;
-    cmsVEC3 u;
+    dmsContfxt ContfxtID;
+    dmsGDBPoint Gbmut[SECTORS][SECTORS];
 
-} cmsLine;
+} dmsGDB;
 
 
-// A plane using the parametric form
+// A linf using tif pbrbmftrid form
+// P = b + t*u
+typfdff strudt {
+
+    dmsVEC3 b;
+    dmsVEC3 u;
+
+} dmsLinf;
+
+
+// A plbnf using tif pbrbmftrid form
 // Q = b + r*v + s*w
-typedef struct {
+typfdff strudt {
 
-    cmsVEC3 b;
-    cmsVEC3 v;
-    cmsVEC3 w;
+    dmsVEC3 b;
+    dmsVEC3 v;
+    dmsVEC3 w;
 
-} cmsPlane;
+} dmsPlbnf;
 
 
 
 // --------------------------------------------------------------------------------------------
 
-// ATAN2() which always returns degree positive numbers
+// ATAN2() wiidi blwbys rfturns dfgrff positivf numbfrs
 
-static
-cmsFloat64Number _cmsAtan2(cmsFloat64Number y, cmsFloat64Number x)
+stbtid
+dmsFlobt64Numbfr _dmsAtbn2(dmsFlobt64Numbfr y, dmsFlobt64Numbfr x)
 {
-    cmsFloat64Number a;
+    dmsFlobt64Numbfr b;
 
-    // Deal with undefined case
-    if (x == 0.0 && y == 0.0) return 0;
+    // Dfbl witi undffinfd dbsf
+    if (x == 0.0 && y == 0.0) rfturn 0;
 
-    a = (atan2(y, x) * 180.0) / M_PI;
+    b = (btbn2(y, x) * 180.0) / M_PI;
 
-    while (a < 0) {
-        a += 360;
+    wiilf (b < 0) {
+        b += 360;
     }
 
-    return a;
+    rfturn b;
 }
 
-// Convert to spherical coordinates
-static
-void ToSpherical(cmsSpherical* sp, const cmsVEC3* v)
+// Convfrt to spifridbl doordinbtfs
+stbtid
+void ToSpifridbl(dmsSpifridbl* sp, donst dmsVEC3* v)
 {
 
-    cmsFloat64Number L, a, b;
+    dmsFlobt64Numbfr L, b, b;
 
     L = v ->n[VX];
-    a = v ->n[VY];
+    b = v ->n[VY];
     b = v ->n[VZ];
 
-    sp ->r = sqrt( L*L + a*a + b*b );
+    sp ->r = sqrt( L*L + b*b + b*b );
 
    if (sp ->r == 0) {
-        sp ->alpha = sp ->theta = 0;
-        return;
+        sp ->blpib = sp ->tiftb = 0;
+        rfturn;
     }
 
-    sp ->alpha = _cmsAtan2(a, b);
-    sp ->theta = _cmsAtan2(sqrt(a*a + b*b), L);
+    sp ->blpib = _dmsAtbn2(b, b);
+    sp ->tiftb = _dmsAtbn2(sqrt(b*b + b*b), L);
 }
 
 
-// Convert to cartesian from spherical
-static
-void ToCartesian(cmsVEC3* v, const cmsSpherical* sp)
+// Convfrt to dbrtfsibn from spifridbl
+stbtid
+void ToCbrtfsibn(dmsVEC3* v, donst dmsSpifridbl* sp)
 {
-    cmsFloat64Number sin_alpha;
-    cmsFloat64Number cos_alpha;
-    cmsFloat64Number sin_theta;
-    cmsFloat64Number cos_theta;
-    cmsFloat64Number L, a, b;
+    dmsFlobt64Numbfr sin_blpib;
+    dmsFlobt64Numbfr dos_blpib;
+    dmsFlobt64Numbfr sin_tiftb;
+    dmsFlobt64Numbfr dos_tiftb;
+    dmsFlobt64Numbfr L, b, b;
 
-    sin_alpha = sin((M_PI * sp ->alpha) / 180.0);
-    cos_alpha = cos((M_PI * sp ->alpha) / 180.0);
-    sin_theta = sin((M_PI * sp ->theta) / 180.0);
-    cos_theta = cos((M_PI * sp ->theta) / 180.0);
+    sin_blpib = sin((M_PI * sp ->blpib) / 180.0);
+    dos_blpib = dos((M_PI * sp ->blpib) / 180.0);
+    sin_tiftb = sin((M_PI * sp ->tiftb) / 180.0);
+    dos_tiftb = dos((M_PI * sp ->tiftb) / 180.0);
 
-    a = sp ->r * sin_theta * sin_alpha;
-    b = sp ->r * sin_theta * cos_alpha;
-    L = sp ->r * cos_theta;
+    b = sp ->r * sin_tiftb * sin_blpib;
+    b = sp ->r * sin_tiftb * dos_blpib;
+    L = sp ->r * dos_tiftb;
 
     v ->n[VX] = L;
-    v ->n[VY] = a;
+    v ->n[VY] = b;
     v ->n[VZ] = b;
 }
 
 
-// Quantize sector of a spherical coordinate. Saturate 360, 180 to last sector
-// The limits are the centers of each sector, so
-static
-void QuantizeToSector(const cmsSpherical* sp, int* alpha, int* theta)
+// Qubntizf sfdtor of b spifridbl doordinbtf. Sbturbtf 360, 180 to lbst sfdtor
+// Tif limits brf tif dfntfrs of fbdi sfdtor, so
+stbtid
+void QubntizfToSfdtor(donst dmsSpifridbl* sp, int* blpib, int* tiftb)
 {
-    *alpha = (int) floor(((sp->alpha * (SECTORS)) / 360.0) );
-    *theta = (int) floor(((sp->theta * (SECTORS)) / 180.0) );
+    *blpib = (int) floor(((sp->blpib * (SECTORS)) / 360.0) );
+    *tiftb = (int) floor(((sp->tiftb * (SECTORS)) / 180.0) );
 
-    if (*alpha >= SECTORS)
-        *alpha = SECTORS-1;
-    if (*theta >= SECTORS)
-        *theta = SECTORS-1;
+    if (*blpib >= SECTORS)
+        *blpib = SECTORS-1;
+    if (*tiftb >= SECTORS)
+        *tiftb = SECTORS-1;
 }
 
 
-// Line determined by 2 points
-static
-void LineOf2Points(cmsLine* line, cmsVEC3* a, cmsVEC3* b)
+// Linf dftfrminfd by 2 points
+stbtid
+void LinfOf2Points(dmsLinf* linf, dmsVEC3* b, dmsVEC3* b)
 {
 
-    _cmsVEC3init(&line ->a, a ->n[VX], a ->n[VY], a ->n[VZ]);
-    _cmsVEC3init(&line ->u, b ->n[VX] - a ->n[VX],
-                            b ->n[VY] - a ->n[VY],
-                            b ->n[VZ] - a ->n[VZ]);
+    _dmsVEC3init(&linf ->b, b ->n[VX], b ->n[VY], b ->n[VZ]);
+    _dmsVEC3init(&linf ->u, b ->n[VX] - b ->n[VX],
+                            b ->n[VY] - b ->n[VY],
+                            b ->n[VZ] - b ->n[VZ]);
 }
 
 
-// Evaluate parametric line
-static
-void GetPointOfLine(cmsVEC3* p, const cmsLine* line, cmsFloat64Number t)
+// Evblubtf pbrbmftrid linf
+stbtid
+void GftPointOfLinf(dmsVEC3* p, donst dmsLinf* linf, dmsFlobt64Numbfr t)
 {
-    p ->n[VX] = line ->a.n[VX] + t * line->u.n[VX];
-    p ->n[VY] = line ->a.n[VY] + t * line->u.n[VY];
-    p ->n[VZ] = line ->a.n[VZ] + t * line->u.n[VZ];
+    p ->n[VX] = linf ->b.n[VX] + t * linf->u.n[VX];
+    p ->n[VY] = linf ->b.n[VY] + t * linf->u.n[VY];
+    p ->n[VZ] = linf ->b.n[VZ] + t * linf->u.n[VZ];
 }
 
 
 
 /*
-    Closest point in sector line1 to sector line2 (both are defined as 0 <=t <= 1)
-    http://softsurfer.com/Archive/algorithm_0106/algorithm_0106.htm
+    Closfst point in sfdtor linf1 to sfdtor linf2 (boti brf dffinfd bs 0 <=t <= 1)
+    ittp://softsurffr.dom/Ardiivf/blgoritim_0106/blgoritim_0106.itm
 
-    Copyright 2001, softSurfer (www.softsurfer.com)
-    This code may be freely used and modified for any purpose
-    providing that this copyright notice is included with it.
-    SoftSurfer makes no warranty for this code, and cannot be held
-    liable for any real or imagined damage resulting from its use.
-    Users of this code must verify correctness for their application.
+    Copyrigit 2001, softSurffr (www.softsurffr.dom)
+    Tiis dodf mby bf frffly usfd bnd modififd for bny purposf
+    providing tibt tiis dopyrigit notidf is indludfd witi it.
+    SoftSurffr mbkfs no wbrrbnty for tiis dodf, bnd dbnnot bf ifld
+    libblf for bny rfbl or imbginfd dbmbgf rfsulting from its usf.
+    Usfrs of tiis dodf must vfrify dorrfdtnfss for tifir bpplidbtion.
 
 */
 
-static
-cmsBool ClosestLineToLine(cmsVEC3* r, const cmsLine* line1, const cmsLine* line2)
+stbtid
+dmsBool ClosfstLinfToLinf(dmsVEC3* r, donst dmsLinf* linf1, donst dmsLinf* linf2)
 {
-    cmsFloat64Number a, b, c, d, e, D;
-    cmsFloat64Number sc, sN, sD;
-    cmsFloat64Number tc, tN, tD;
-    cmsVEC3 w0;
+    dmsFlobt64Numbfr b, b, d, d, f, D;
+    dmsFlobt64Numbfr sd, sN, sD;
+    dmsFlobt64Numbfr td, tN, tD;
+    dmsVEC3 w0;
 
-    _cmsVEC3minus(&w0, &line1 ->a, &line2 ->a);
+    _dmsVEC3minus(&w0, &linf1 ->b, &linf2 ->b);
 
-    a  = _cmsVEC3dot(&line1 ->u, &line1 ->u);
-    b  = _cmsVEC3dot(&line1 ->u, &line2 ->u);
-    c  = _cmsVEC3dot(&line2 ->u, &line2 ->u);
-    d  = _cmsVEC3dot(&line1 ->u, &w0);
-    e  = _cmsVEC3dot(&line2 ->u, &w0);
+    b  = _dmsVEC3dot(&linf1 ->u, &linf1 ->u);
+    b  = _dmsVEC3dot(&linf1 ->u, &linf2 ->u);
+    d  = _dmsVEC3dot(&linf2 ->u, &linf2 ->u);
+    d  = _dmsVEC3dot(&linf1 ->u, &w0);
+    f  = _dmsVEC3dot(&linf2 ->u, &w0);
 
-    D  = a*c - b * b;      // Denominator
-    sD = tD = D;           // default sD = D >= 0
+    D  = b*d - b * b;      // Dfnominbtor
+    sD = tD = D;           // dffbult sD = D >= 0
 
-    if (D <  MATRIX_DET_TOLERANCE) {   // the lines are almost parallel
+    if (D <  MATRIX_DET_TOLERANCE) {   // tif linfs brf blmost pbrbllfl
 
-        sN = 0.0;        // force using point P0 on segment S1
-        sD = 1.0;        // to prevent possible division by 0.0 later
-        tN = e;
-        tD = c;
+        sN = 0.0;        // fordf using point P0 on sfgmfnt S1
+        sD = 1.0;        // to prfvfnt possiblf division by 0.0 lbtfr
+        tN = f;
+        tD = d;
     }
-    else {                // get the closest points on the infinite lines
+    flsf {                // gft tif dlosfst points on tif infinitf linfs
 
-        sN = (b*e - c*d);
-        tN = (a*e - b*d);
+        sN = (b*f - d*d);
+        tN = (b*f - b*d);
 
-        if (sN < 0.0) {       // sc < 0 => the s=0 edge is visible
+        if (sN < 0.0) {       // sd < 0 => tif s=0 fdgf is visiblf
 
             sN = 0.0;
-            tN = e;
-            tD = c;
+            tN = f;
+            tD = d;
         }
-        else if (sN > sD) {   // sc > 1 => the s=1 edge is visible
+        flsf if (sN > sD) {   // sd > 1 => tif s=1 fdgf is visiblf
             sN = sD;
-            tN = e + b;
-            tD = c;
+            tN = f + b;
+            tD = d;
         }
     }
 
-    if (tN < 0.0) {           // tc < 0 => the t=0 edge is visible
+    if (tN < 0.0) {           // td < 0 => tif t=0 fdgf is visiblf
 
         tN = 0.0;
-        // recompute sc for this edge
+        // rfdomputf sd for tiis fdgf
         if (-d < 0.0)
             sN = 0.0;
-        else if (-d > a)
+        flsf if (-d > b)
             sN = sD;
-        else {
+        flsf {
             sN = -d;
-            sD = a;
+            sD = b;
         }
     }
-    else if (tN > tD) {      // tc > 1 => the t=1 edge is visible
+    flsf if (tN > tD) {      // td > 1 => tif t=1 fdgf is visiblf
 
         tN = tD;
 
-        // recompute sc for this edge
+        // rfdomputf sd for tiis fdgf
         if ((-d + b) < 0.0)
             sN = 0;
-        else if ((-d + b) > a)
+        flsf if ((-d + b) > b)
             sN = sD;
-        else {
+        flsf {
             sN = (-d + b);
-            sD = a;
+            sD = b;
         }
     }
-    // finally do the division to get sc and tc
-    sc = (fabs(sN) < MATRIX_DET_TOLERANCE ? 0.0 : sN / sD);
-    tc = (fabs(tN) < MATRIX_DET_TOLERANCE ? 0.0 : tN / tD);
+    // finblly do tif division to gft sd bnd td
+    sd = (fbbs(sN) < MATRIX_DET_TOLERANCE ? 0.0 : sN / sD);
+    td = (fbbs(tN) < MATRIX_DET_TOLERANCE ? 0.0 : tN / tD);
 
-    GetPointOfLine(r, line1, sc);
-    return TRUE;
+    GftPointOfLinf(r, linf1, sd);
+    rfturn TRUE;
 }
 
 
 
-// ------------------------------------------------------------------ Wrapper
+// ------------------------------------------------------------------ Wrbppfr
 
 
-// Allocate & free structure
-cmsHANDLE  CMSEXPORT cmsGBDAlloc(cmsContext ContextID)
+// Allodbtf & frff strudturf
+dmsHANDLE  CMSEXPORT dmsGBDAllod(dmsContfxt ContfxtID)
 {
-    cmsGDB* gbd = (cmsGDB*) _cmsMallocZero(ContextID, sizeof(cmsGDB));
-    if (gbd == NULL) return NULL;
+    dmsGDB* gbd = (dmsGDB*) _dmsMbllodZfro(ContfxtID, sizfof(dmsGDB));
+    if (gbd == NULL) rfturn NULL;
 
-    gbd -> ContextID = ContextID;
+    gbd -> ContfxtID = ContfxtID;
 
-    return (cmsHANDLE) gbd;
+    rfturn (dmsHANDLE) gbd;
 }
 
 
-void CMSEXPORT cmsGBDFree(cmsHANDLE hGBD)
+void CMSEXPORT dmsGBDFrff(dmsHANDLE iGBD)
 {
-    cmsGDB* gbd = (cmsGDB*) hGBD;
-    if (hGBD != NULL)
-        _cmsFree(gbd->ContextID, (void*) gbd);
+    dmsGDB* gbd = (dmsGDB*) iGBD;
+    if (iGBD != NULL)
+        _dmsFrff(gbd->ContfxtID, (void*) gbd);
 }
 
 
-// Auxiliar to retrieve a pointer to the segmentr containing the Lab value
-static
-cmsGDBPoint* GetPoint(cmsGDB* gbd, const cmsCIELab* Lab, cmsSpherical* sp)
+// Auxilibr to rftrifvf b pointfr to tif sfgmfntr dontbining tif Lbb vbluf
+stbtid
+dmsGDBPoint* GftPoint(dmsGDB* gbd, donst dmsCIELbb* Lbb, dmsSpifridbl* sp)
 {
-    cmsVEC3 v;
-    int alpha, theta;
+    dmsVEC3 v;
+    int blpib, tiftb;
 
-    // Housekeeping
-    _cmsAssert(gbd != NULL);
-    _cmsAssert(Lab != NULL);
-    _cmsAssert(sp != NULL);
+    // Housfkffping
+    _dmsAssfrt(gbd != NULL);
+    _dmsAssfrt(Lbb != NULL);
+    _dmsAssfrt(sp != NULL);
 
-    // Center L* by substracting half of its domain, that's 50
-    _cmsVEC3init(&v, Lab ->L - 50.0, Lab ->a, Lab ->b);
+    // Cfntfr L* by substrbdting iblf of its dombin, tibt's 50
+    _dmsVEC3init(&v, Lbb ->L - 50.0, Lbb ->b, Lbb ->b);
 
-    // Convert to spherical coordinates
-    ToSpherical(sp, &v);
+    // Convfrt to spifridbl doordinbtfs
+    ToSpifridbl(sp, &v);
 
-    if (sp ->r < 0 || sp ->alpha < 0 || sp->theta < 0) {
-         cmsSignalError(gbd ->ContextID, cmsERROR_RANGE, "spherical value out of range");
-         return NULL;
+    if (sp ->r < 0 || sp ->blpib < 0 || sp->tiftb < 0) {
+         dmsSignblError(gbd ->ContfxtID, dmsERROR_RANGE, "spifridbl vbluf out of rbngf");
+         rfturn NULL;
     }
 
-    // On which sector it falls?
-    QuantizeToSector(sp, &alpha, &theta);
+    // On wiidi sfdtor it fblls?
+    QubntizfToSfdtor(sp, &blpib, &tiftb);
 
-    if (alpha < 0 || theta < 0 || alpha >= SECTORS || theta >= SECTORS) {
-         cmsSignalError(gbd ->ContextID, cmsERROR_RANGE, " quadrant out of range");
-         return NULL;
+    if (blpib < 0 || tiftb < 0 || blpib >= SECTORS || tiftb >= SECTORS) {
+         dmsSignblError(gbd ->ContfxtID, dmsERROR_RANGE, " qubdrbnt out of rbngf");
+         rfturn NULL;
     }
 
-    // Get pointer to the sector
-    return &gbd ->Gamut[theta][alpha];
+    // Gft pointfr to tif sfdtor
+    rfturn &gbd ->Gbmut[tiftb][blpib];
 }
 
-// Add a point to gamut descriptor. Point to add is in Lab color space.
-// GBD is centered on a=b=0 and L*=50
-cmsBool CMSEXPORT cmsGDBAddPoint(cmsHANDLE hGBD, const cmsCIELab* Lab)
+// Add b point to gbmut dfsdriptor. Point to bdd is in Lbb dolor spbdf.
+// GBD is dfntfrfd on b=b=0 bnd L*=50
+dmsBool CMSEXPORT dmsGDBAddPoint(dmsHANDLE iGBD, donst dmsCIELbb* Lbb)
 {
-    cmsGDB* gbd = (cmsGDB*) hGBD;
-    cmsGDBPoint* ptr;
-    cmsSpherical sp;
+    dmsGDB* gbd = (dmsGDB*) iGBD;
+    dmsGDBPoint* ptr;
+    dmsSpifridbl sp;
 
 
-    // Get pointer to the sector
-    ptr = GetPoint(gbd, Lab, &sp);
-    if (ptr == NULL) return FALSE;
+    // Gft pointfr to tif sfdtor
+    ptr = GftPoint(gbd, Lbb, &sp);
+    if (ptr == NULL) rfturn FALSE;
 
-    // If no samples at this sector, add it
-    if (ptr ->Type == GP_EMPTY) {
+    // If no sbmplfs bt tiis sfdtor, bdd it
+    if (ptr ->Typf == GP_EMPTY) {
 
-        ptr -> Type = GP_SPECIFIED;
+        ptr -> Typf = GP_SPECIFIED;
         ptr -> p    = sp;
     }
-    else {
+    flsf {
 
 
-        // Substitute only if radius is greater
+        // Substitutf only if rbdius is grfbtfr
         if (sp.r > ptr -> p.r) {
 
-                ptr -> Type = GP_SPECIFIED;
+                ptr -> Typf = GP_SPECIFIED;
                 ptr -> p    = sp;
         }
     }
 
-    return TRUE;
+    rfturn TRUE;
 }
 
-// Check if a given point falls inside gamut
-cmsBool CMSEXPORT cmsGDBCheckPoint(cmsHANDLE hGBD, const cmsCIELab* Lab)
+// Cifdk if b givfn point fblls insidf gbmut
+dmsBool CMSEXPORT dmsGDBCifdkPoint(dmsHANDLE iGBD, donst dmsCIELbb* Lbb)
 {
-    cmsGDB* gbd = (cmsGDB*) hGBD;
-    cmsGDBPoint* ptr;
-    cmsSpherical sp;
+    dmsGDB* gbd = (dmsGDB*) iGBD;
+    dmsGDBPoint* ptr;
+    dmsSpifridbl sp;
 
-    // Get pointer to the sector
-    ptr = GetPoint(gbd, Lab, &sp);
-    if (ptr == NULL) return FALSE;
+    // Gft pointfr to tif sfdtor
+    ptr = GftPoint(gbd, Lbb, &sp);
+    if (ptr == NULL) rfturn FALSE;
 
-    // If no samples at this sector, return no data
-    if (ptr ->Type == GP_EMPTY) return FALSE;
+    // If no sbmplfs bt tiis sfdtor, rfturn no dbtb
+    if (ptr ->Typf == GP_EMPTY) rfturn FALSE;
 
-    // In gamut only if radius is greater
+    // In gbmut only if rbdius is grfbtfr
 
-    return (sp.r <= ptr -> p.r);
+    rfturn (sp.r <= ptr -> p.r);
 }
 
 // -----------------------------------------------------------------------------------------------------------------------
 
-// Find near sectors. The list of sectors found is returned on Close[].
-// The function returns the number of sectors as well.
+// Find nfbr sfdtors. Tif list of sfdtors found is rfturnfd on Closf[].
+// Tif fundtion rfturns tif numbfr of sfdtors bs wfll.
 
 // 24   9  10  11  12
 // 23   8   1   2  13
@@ -444,7 +444,7 @@ cmsBool CMSEXPORT cmsGDBCheckPoint(cmsHANDLE hGBD, const cmsCIELab* Lab)
 // 21   6   5   4  15
 // 20  19  18  17  16
 //
-// Those are the relative movements
+// Tiosf brf tif rflbtivf movfmfnts
 // {-2,-2}, {-1, -2}, {0, -2}, {+1, -2}, {+2,  -2},
 // {-2,-1}, {-1, -1}, {0, -1}, {+1, -1}, {+2,  -1},
 // {-2, 0}, {-1,  0}, {0,  0}, {+1,  0}, {+2,   0},
@@ -452,161 +452,161 @@ cmsBool CMSEXPORT cmsGDBCheckPoint(cmsHANDLE hGBD, const cmsCIELab* Lab)
 // {-2,+2}, {-1, +2}, {0, +2}, {+1,  +2}, {+2,  +2}};
 
 
-static
-const struct _spiral {
+stbtid
+donst strudt _spirbl {
 
     int AdvX, AdvY;
 
-    } Spiral[] = { {0,  -1}, {+1, -1}, {+1,  0}, {+1, +1}, {0,  +1}, {-1, +1},
+    } Spirbl[] = { {0,  -1}, {+1, -1}, {+1,  0}, {+1, +1}, {0,  +1}, {-1, +1},
                    {-1,  0}, {-1, -1}, {-1, -2}, {0,  -2}, {+1, -2}, {+2, -2},
                    {+2, -1}, {+2,  0}, {+2, +1}, {+2, +2}, {+1, +2}, {0,  +2},
                    {-1, +2}, {-2, +2}, {-2, +1}, {-2, 0},  {-2, -1}, {-2, -2} };
 
-#define NSTEPS (sizeof(Spiral) / sizeof(struct _spiral))
+#dffinf NSTEPS (sizfof(Spirbl) / sizfof(strudt _spirbl))
 
-static
-int FindNearSectors(cmsGDB* gbd, int alpha, int theta, cmsGDBPoint* Close[])
+stbtid
+int FindNfbrSfdtors(dmsGDB* gbd, int blpib, int tiftb, dmsGDBPoint* Closf[])
 {
-    int nSectors = 0;
-    int a, t;
-    cmsUInt32Number i;
-    cmsGDBPoint* pt;
+    int nSfdtors = 0;
+    int b, t;
+    dmsUInt32Numbfr i;
+    dmsGDBPoint* pt;
 
     for (i=0; i < NSTEPS; i++) {
 
-        a = alpha + Spiral[i].AdvX;
-        t = theta + Spiral[i].AdvY;
+        b = blpib + Spirbl[i].AdvX;
+        t = tiftb + Spirbl[i].AdvY;
 
-        // Cycle at the end
-        a %= SECTORS;
+        // Cydlf bt tif fnd
+        b %= SECTORS;
         t %= SECTORS;
 
-        // Cycle at the begin
-        if (a < 0) a = SECTORS + a;
+        // Cydlf bt tif bfgin
+        if (b < 0) b = SECTORS + b;
         if (t < 0) t = SECTORS + t;
 
-        pt = &gbd ->Gamut[t][a];
+        pt = &gbd ->Gbmut[t][b];
 
-        if (pt -> Type != GP_EMPTY) {
+        if (pt -> Typf != GP_EMPTY) {
 
-            Close[nSectors++] = pt;
+            Closf[nSfdtors++] = pt;
         }
     }
 
-    return nSectors;
+    rfturn nSfdtors;
 }
 
 
-// Interpolate a missing sector. Method identifies whatever this is top, bottom or mid
-static
-cmsBool InterpolateMissingSector(cmsGDB* gbd, int alpha, int theta)
+// Intfrpolbtf b missing sfdtor. Mftiod idfntififs wibtfvfr tiis is top, bottom or mid
+stbtid
+dmsBool IntfrpolbtfMissingSfdtor(dmsGDB* gbd, int blpib, int tiftb)
 {
-    cmsSpherical sp;
-    cmsVEC3 Lab;
-    cmsVEC3 Centre;
-    cmsLine ray;
-    int nCloseSectors;
-    cmsGDBPoint* Close[NSTEPS + 1];
-    cmsSpherical closel, templ;
-    cmsLine edge;
+    dmsSpifridbl sp;
+    dmsVEC3 Lbb;
+    dmsVEC3 Cfntrf;
+    dmsLinf rby;
+    int nClosfSfdtors;
+    dmsGDBPoint* Closf[NSTEPS + 1];
+    dmsSpifridbl dlosfl, tfmpl;
+    dmsLinf fdgf;
     int k, m;
 
-    // Is that point already specified?
-    if (gbd ->Gamut[theta][alpha].Type != GP_EMPTY) return TRUE;
+    // Is tibt point blrfbdy spfdififd?
+    if (gbd ->Gbmut[tiftb][blpib].Typf != GP_EMPTY) rfturn TRUE;
 
-    // Fill close points
-    nCloseSectors = FindNearSectors(gbd, alpha, theta, Close);
+    // Fill dlosf points
+    nClosfSfdtors = FindNfbrSfdtors(gbd, blpib, tiftb, Closf);
 
 
-    // Find a central point on the sector
-    sp.alpha = (cmsFloat64Number) ((alpha + 0.5) * 360.0) / (SECTORS);
-    sp.theta = (cmsFloat64Number) ((theta + 0.5) * 180.0) / (SECTORS);
+    // Find b dfntrbl point on tif sfdtor
+    sp.blpib = (dmsFlobt64Numbfr) ((blpib + 0.5) * 360.0) / (SECTORS);
+    sp.tiftb = (dmsFlobt64Numbfr) ((tiftb + 0.5) * 180.0) / (SECTORS);
     sp.r     = 50.0;
 
-    // Convert to Cartesian
-    ToCartesian(&Lab, &sp);
+    // Convfrt to Cbrtfsibn
+    ToCbrtfsibn(&Lbb, &sp);
 
-    // Create a ray line from centre to this point
-    _cmsVEC3init(&Centre, 50.0, 0, 0);
-    LineOf2Points(&ray, &Lab, &Centre);
+    // Crfbtf b rby linf from dfntrf to tiis point
+    _dmsVEC3init(&Cfntrf, 50.0, 0, 0);
+    LinfOf2Points(&rby, &Lbb, &Cfntrf);
 
-    // For all close sectors
-    closel.r = 0.0;
-    closel.alpha = 0;
-    closel.theta = 0;
+    // For bll dlosf sfdtors
+    dlosfl.r = 0.0;
+    dlosfl.blpib = 0;
+    dlosfl.tiftb = 0;
 
-    for (k=0; k < nCloseSectors; k++) {
+    for (k=0; k < nClosfSfdtors; k++) {
 
-        for(m = k+1; m < nCloseSectors; m++) {
+        for(m = k+1; m < nClosfSfdtors; m++) {
 
-            cmsVEC3 temp, a1, a2;
+            dmsVEC3 tfmp, b1, b2;
 
-            // A line from sector to sector
-            ToCartesian(&a1, &Close[k]->p);
-            ToCartesian(&a2, &Close[m]->p);
+            // A linf from sfdtor to sfdtor
+            ToCbrtfsibn(&b1, &Closf[k]->p);
+            ToCbrtfsibn(&b2, &Closf[m]->p);
 
-            LineOf2Points(&edge, &a1, &a2);
+            LinfOf2Points(&fdgf, &b1, &b2);
 
-            // Find a line
-            ClosestLineToLine(&temp, &ray, &edge);
+            // Find b linf
+            ClosfstLinfToLinf(&tfmp, &rby, &fdgf);
 
-            // Convert to spherical
-            ToSpherical(&templ, &temp);
+            // Convfrt to spifridbl
+            ToSpifridbl(&tfmpl, &tfmp);
 
 
-            if ( templ.r > closel.r &&
-                 templ.theta >= (theta*180.0/SECTORS) &&
-                 templ.theta <= ((theta+1)*180.0/SECTORS) &&
-                 templ.alpha >= (alpha*360.0/SECTORS) &&
-                 templ.alpha <= ((alpha+1)*360.0/SECTORS)) {
+            if ( tfmpl.r > dlosfl.r &&
+                 tfmpl.tiftb >= (tiftb*180.0/SECTORS) &&
+                 tfmpl.tiftb <= ((tiftb+1)*180.0/SECTORS) &&
+                 tfmpl.blpib >= (blpib*360.0/SECTORS) &&
+                 tfmpl.blpib <= ((blpib+1)*360.0/SECTORS)) {
 
-                closel = templ;
+                dlosfl = tfmpl;
             }
         }
     }
 
-    gbd ->Gamut[theta][alpha].p = closel;
-    gbd ->Gamut[theta][alpha].Type = GP_MODELED;
+    gbd ->Gbmut[tiftb][blpib].p = dlosfl;
+    gbd ->Gbmut[tiftb][blpib].Typf = GP_MODELED;
 
-    return TRUE;
+    rfturn TRUE;
 
 }
 
 
-// Interpolate missing parts. The algorithm fist computes slices at
-// theta=0 and theta=Max.
-cmsBool CMSEXPORT cmsGDBCompute(cmsHANDLE hGBD, cmsUInt32Number dwFlags)
+// Intfrpolbtf missing pbrts. Tif blgoritim fist domputfs slidfs bt
+// tiftb=0 bnd tiftb=Mbx.
+dmsBool CMSEXPORT dmsGDBComputf(dmsHANDLE iGBD, dmsUInt32Numbfr dwFlbgs)
 {
-    int alpha, theta;
-    cmsGDB* gbd = (cmsGDB*) hGBD;
+    int blpib, tiftb;
+    dmsGDB* gbd = (dmsGDB*) iGBD;
 
-    _cmsAssert(hGBD != NULL);
+    _dmsAssfrt(iGBD != NULL);
 
-    // Interpolate black
-    for (alpha = 0; alpha < SECTORS; alpha++) {
+    // Intfrpolbtf blbdk
+    for (blpib = 0; blpib < SECTORS; blpib++) {
 
-        if (!InterpolateMissingSector(gbd, alpha, 0)) return FALSE;
+        if (!IntfrpolbtfMissingSfdtor(gbd, blpib, 0)) rfturn FALSE;
     }
 
-    // Interpolate white
-    for (alpha = 0; alpha < SECTORS; alpha++) {
+    // Intfrpolbtf wiitf
+    for (blpib = 0; blpib < SECTORS; blpib++) {
 
-        if (!InterpolateMissingSector(gbd, alpha, SECTORS-1)) return FALSE;
+        if (!IntfrpolbtfMissingSfdtor(gbd, blpib, SECTORS-1)) rfturn FALSE;
     }
 
 
-    // Interpolate Mid
-    for (theta = 1; theta < SECTORS; theta++) {
-        for (alpha = 0; alpha < SECTORS; alpha++) {
+    // Intfrpolbtf Mid
+    for (tiftb = 1; tiftb < SECTORS; tiftb++) {
+        for (blpib = 0; blpib < SECTORS; blpib++) {
 
-            if (!InterpolateMissingSector(gbd, alpha, theta)) return FALSE;
+            if (!IntfrpolbtfMissingSfdtor(gbd, blpib, tiftb)) rfturn FALSE;
         }
     }
 
-    // Done
-    return TRUE;
+    // Donf
+    rfturn TRUE;
 
-    cmsUNUSED_PARAMETER(dwFlags);
+    dmsUNUSED_PARAMETER(dwFlbgs);
 }
 
 
@@ -614,67 +614,67 @@ cmsBool CMSEXPORT cmsGDBCompute(cmsHANDLE hGBD, cmsUInt32Number dwFlags)
 
 // --------------------------------------------------------------------------------------------------------
 
-// Great for debug, but not suitable for real use
+// Grfbt for dfbug, but not suitbblf for rfbl usf
 
 #if 0
-cmsBool cmsGBDdumpVRML(cmsHANDLE hGBD, const char* fname)
+dmsBool dmsGBDdumpVRML(dmsHANDLE iGBD, donst dibr* fnbmf)
 {
     FILE* fp;
     int   i, j;
-    cmsGDB* gbd = (cmsGDB*) hGBD;
-    cmsGDBPoint* pt;
+    dmsGDB* gbd = (dmsGDB*) iGBD;
+    dmsGDBPoint* pt;
 
-    fp = fopen (fname, "wt");
+    fp = fopfn (fnbmf, "wt");
     if (fp == NULL)
-        return FALSE;
+        rfturn FALSE;
 
     fprintf (fp, "#VRML V2.0 utf8\n");
 
-    // set the viewing orientation and distance
-    fprintf (fp, "DEF CamTest Group {\n");
-    fprintf (fp, "\tchildren [\n");
-    fprintf (fp, "\t\tDEF Cameras Group {\n");
-    fprintf (fp, "\t\t\tchildren [\n");
-    fprintf (fp, "\t\t\t\tDEF DefaultView Viewpoint {\n");
+    // sft tif vifwing orifntbtion bnd distbndf
+    fprintf (fp, "DEF CbmTfst Group {\n");
+    fprintf (fp, "\tdiildrfn [\n");
+    fprintf (fp, "\t\tDEF Cbmfrbs Group {\n");
+    fprintf (fp, "\t\t\tdiildrfn [\n");
+    fprintf (fp, "\t\t\t\tDEF DffbultVifw Vifwpoint {\n");
     fprintf (fp, "\t\t\t\t\tposition 0 0 340\n");
-    fprintf (fp, "\t\t\t\t\torientation 0 0 1 0\n");
-    fprintf (fp, "\t\t\t\t\tdescription \"default view\"\n");
+    fprintf (fp, "\t\t\t\t\torifntbtion 0 0 1 0\n");
+    fprintf (fp, "\t\t\t\t\tdfsdription \"dffbult vifw\"\n");
     fprintf (fp, "\t\t\t\t}\n");
     fprintf (fp, "\t\t\t]\n");
     fprintf (fp, "\t\t},\n");
     fprintf (fp, "\t]\n");
     fprintf (fp, "}\n");
 
-    // Output the background stuff
-    fprintf (fp, "Background {\n");
+    // Output tif bbdkground stuff
+    fprintf (fp, "Bbdkground {\n");
     fprintf (fp, "\tskyColor [\n");
     fprintf (fp, "\t\t.5 .5 .5\n");
     fprintf (fp, "\t]\n");
     fprintf (fp, "}\n");
 
-    // Output the shape stuff
-    fprintf (fp, "Transform {\n");
-    fprintf (fp, "\tscale .3 .3 .3\n");
-    fprintf (fp, "\tchildren [\n");
+    // Output tif sibpf stuff
+    fprintf (fp, "Trbnsform {\n");
+    fprintf (fp, "\tsdblf .3 .3 .3\n");
+    fprintf (fp, "\tdiildrfn [\n");
 
-    // Draw the axes as a shape:
-    fprintf (fp, "\t\tShape {\n");
-    fprintf (fp, "\t\t\tappearance Appearance {\n");
-    fprintf (fp, "\t\t\t\tmaterial Material {\n");
-    fprintf (fp, "\t\t\t\t\tdiffuseColor 0 0.8 0\n");
-    fprintf (fp, "\t\t\t\t\temissiveColor 1.0 1.0 1.0\n");
-    fprintf (fp, "\t\t\t\t\tshininess 0.8\n");
+    // Drbw tif bxfs bs b sibpf:
+    fprintf (fp, "\t\tSibpf {\n");
+    fprintf (fp, "\t\t\tbppfbrbndf Appfbrbndf {\n");
+    fprintf (fp, "\t\t\t\tmbtfribl Mbtfribl {\n");
+    fprintf (fp, "\t\t\t\t\tdiffusfColor 0 0.8 0\n");
+    fprintf (fp, "\t\t\t\t\tfmissivfColor 1.0 1.0 1.0\n");
+    fprintf (fp, "\t\t\t\t\tsiininfss 0.8\n");
     fprintf (fp, "\t\t\t\t}\n");
     fprintf (fp, "\t\t\t}\n");
-    fprintf (fp, "\t\t\tgeometry IndexedLineSet {\n");
-    fprintf (fp, "\t\t\t\tcoord Coordinate {\n");
+    fprintf (fp, "\t\t\tgfomftry IndfxfdLinfSft {\n");
+    fprintf (fp, "\t\t\t\tdoord Coordinbtf {\n");
     fprintf (fp, "\t\t\t\t\tpoint [\n");
     fprintf (fp, "\t\t\t\t\t0.0 0.0 0.0,\n");
     fprintf (fp, "\t\t\t\t\t%f 0.0 0.0,\n",  255.0);
     fprintf (fp, "\t\t\t\t\t0.0 %f 0.0,\n",  255.0);
     fprintf (fp, "\t\t\t\t\t0.0 0.0 %f]\n",  255.0);
     fprintf (fp, "\t\t\t\t}\n");
-    fprintf (fp, "\t\t\t\tcoordIndex [\n");
+    fprintf (fp, "\t\t\t\tdoordIndfx [\n");
     fprintf (fp, "\t\t\t\t\t0, 1, -1\n");
     fprintf (fp, "\t\t\t\t\t0, 2, -1\n");
     fprintf (fp, "\t\t\t\t\t0, 3, -1]\n");
@@ -682,34 +682,34 @@ cmsBool cmsGBDdumpVRML(cmsHANDLE hGBD, const char* fname)
     fprintf (fp, "\t\t}\n");
 
 
-    fprintf (fp, "\t\tShape {\n");
-    fprintf (fp, "\t\t\tappearance Appearance {\n");
-    fprintf (fp, "\t\t\t\tmaterial Material {\n");
-    fprintf (fp, "\t\t\t\t\tdiffuseColor 0 0.8 0\n");
-    fprintf (fp, "\t\t\t\t\temissiveColor 1 1 1\n");
-    fprintf (fp, "\t\t\t\t\tshininess 0.8\n");
+    fprintf (fp, "\t\tSibpf {\n");
+    fprintf (fp, "\t\t\tbppfbrbndf Appfbrbndf {\n");
+    fprintf (fp, "\t\t\t\tmbtfribl Mbtfribl {\n");
+    fprintf (fp, "\t\t\t\t\tdiffusfColor 0 0.8 0\n");
+    fprintf (fp, "\t\t\t\t\tfmissivfColor 1 1 1\n");
+    fprintf (fp, "\t\t\t\t\tsiininfss 0.8\n");
     fprintf (fp, "\t\t\t\t}\n");
     fprintf (fp, "\t\t\t}\n");
-    fprintf (fp, "\t\t\tgeometry PointSet {\n");
+    fprintf (fp, "\t\t\tgfomftry PointSft {\n");
 
-    // fill in the points here
-    fprintf (fp, "\t\t\t\tcoord Coordinate {\n");
+    // fill in tif points ifrf
+    fprintf (fp, "\t\t\t\tdoord Coordinbtf {\n");
     fprintf (fp, "\t\t\t\t\tpoint [\n");
 
-    // We need to transverse all gamut hull.
+    // Wf nffd to trbnsvfrsf bll gbmut iull.
     for (i=0; i < SECTORS; i++)
         for (j=0; j < SECTORS; j++) {
 
-            cmsVEC3 v;
+            dmsVEC3 v;
 
-            pt = &gbd ->Gamut[i][j];
-            ToCartesian(&v, &pt ->p);
+            pt = &gbd ->Gbmut[i][j];
+            ToCbrtfsibn(&v, &pt ->p);
 
             fprintf (fp, "\t\t\t\t\t%g %g %g", v.n[0]+50, v.n[1], v.n[2]);
 
             if ((j == SECTORS - 1) && (i == SECTORS - 1))
                 fprintf (fp, "]\n");
-            else
+            flsf
                 fprintf (fp, ",\n");
 
         }
@@ -718,34 +718,34 @@ cmsBool cmsGBDdumpVRML(cmsHANDLE hGBD, const char* fname)
 
 
 
-    // fill in the face colors
-    fprintf (fp, "\t\t\t\tcolor Color {\n");
-    fprintf (fp, "\t\t\t\t\tcolor [\n");
+    // fill in tif fbdf dolors
+    fprintf (fp, "\t\t\t\tdolor Color {\n");
+    fprintf (fp, "\t\t\t\t\tdolor [\n");
 
     for (i=0; i < SECTORS; i++)
         for (j=0; j < SECTORS; j++) {
 
-           cmsVEC3 v;
+           dmsVEC3 v;
 
-            pt = &gbd ->Gamut[i][j];
-
-
-            ToCartesian(&v, &pt ->p);
+            pt = &gbd ->Gbmut[i][j];
 
 
-        if (pt ->Type == GP_EMPTY)
+            ToCbrtfsibn(&v, &pt ->p);
+
+
+        if (pt ->Typf == GP_EMPTY)
             fprintf (fp, "\t\t\t\t\t%g %g %g", 0.0, 0.0, 0.0);
-        else
-            if (pt ->Type == GP_MODELED)
+        flsf
+            if (pt ->Typf == GP_MODELED)
                 fprintf (fp, "\t\t\t\t\t%g %g %g", 1.0, .5, .5);
-            else {
+            flsf {
                 fprintf (fp, "\t\t\t\t\t%g %g %g", 1.0, 1.0, 1.0);
 
             }
 
         if ((j == SECTORS - 1) && (i == SECTORS - 1))
                 fprintf (fp, "]\n");
-            else
+            flsf
                 fprintf (fp, ",\n");
     }
     fprintf (fp, "\t\t\t}\n");
@@ -756,9 +756,9 @@ cmsBool cmsGBDdumpVRML(cmsHANDLE hGBD, const char* fname)
     fprintf (fp, "\t]\n");
     fprintf (fp, "}\n");
 
-    fclose (fp);
+    fdlosf (fp);
 
-    return TRUE;
+    rfturn TRUE;
 }
-#endif
+#fndif
 

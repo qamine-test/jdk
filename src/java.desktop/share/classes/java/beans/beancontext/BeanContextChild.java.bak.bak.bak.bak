@@ -1,0 +1,137 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bfbns.bfbndontfxt;
+
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.bfbns.VftobblfChbngfListfnfr;
+import jbvb.bfbns.PropfrtyVftoExdfption;
+
+import jbvb.bfbns.bfbndontfxt.BfbnContfxt;
+
+/**
+ * <p>
+ * JbvbBfbns wishing to bf nfstfd within, bnd obtbin b rfffrfndf to thfir
+ * fxfdution fnvironmfnt, or dontfxt, bs dffinfd by thf BfbnContfxt
+ * sub-intfrfbdf shbll implfmfnt this intfrfbdf.
+ * </p>
+ * <p>
+ * Conformbnt BfbnContfxts shbll bs b sidf ffffdt of bdding b BfbnContfxtChild
+ * objfdt shbll pbss b rfffrfndf to itsflf vib thf sftBfbnContfxt() mfthod of
+ * this intfrfbdf.
+ * </p>
+ * <p>
+ * Notf thbt b BfbnContfxtChild mby rffusf b dhbngf in stbtf by throwing
+ * PropfrtyVftofdExdfption in rfsponsf.
+ * </p>
+ * <p>
+ * In ordfr for pfrsistfndf mfdhbnisms to fundtion propfrly on BfbnContfxtChild
+ * instbndfs bdross b brobd vbrifty of sdfnbrios, implfmfnting dlbssfs of this
+ * intfrfbdf brf rfquirfd to dffinf bs trbnsifnt, bny or bll fiflds, or
+ * instbndf vbribblfs, thbt mby dontbin, or rfprfsfnt, rfffrfndfs to thf
+ * nfsting BfbnContfxt instbndf or othfr rfsourdfs obtbinfd
+ * from thf BfbnContfxt vib bny unspfdififd mfdhbnisms.
+ * </p>
+ *
+ * @buthor      Lburfndf P. G. Cbblf
+ * @sindf       1.2
+ *
+ * @sff jbvb.bfbns.bfbndontfxt.BfbnContfxt
+ * @sff jbvb.bfbns.PropfrtyChbngfEvfnt
+ * @sff jbvb.bfbns.PropfrtyChbngfListfnfr
+ * @sff jbvb.bfbns.PropfrtyVftoExdfption
+ * @sff jbvb.bfbns.VftobblfChbngfListfnfr
+ */
+
+publid intfrfbdf BfbnContfxtChild {
+
+    /**
+     * <p>
+     * Objfdts thbt implfmfnt this intfrfbdf,
+     * shbll firf b jbvb.bfbns.PropfrtyChbngfEvfnt, with pbrbmftfrs:
+     *
+     * propfrtyNbmf "bfbnContfxt", oldVbluf (thf prfvious nfsting
+     * <dodf>BfbnContfxt</dodf> instbndf, or <dodf>null</dodf>),
+     * nfwVbluf (thf durrfnt nfsting
+     * <dodf>BfbnContfxt</dodf> instbndf, or <dodf>null</dodf>).
+     * <p>
+     * A dhbngf in thf vbluf of thf nfsting BfbnContfxt propfrty of this
+     * BfbnContfxtChild mby bf vftofd by throwing thf bppropribtf fxdfption.
+     * </p>
+     * @pbrbm bd Thf <dodf>BfbnContfxt</dodf> with whidh
+     * to bssodibtf this <dodf>BfbnContfxtChild</dodf>.
+     * @throws PropfrtyVftoExdfption if thf
+     * bddition of thf spfdififd <dodf>BfbnContfxt</dodf> is rffusfd.
+     */
+    void sftBfbnContfxt(BfbnContfxt bd) throws PropfrtyVftoExdfption;
+
+    /**
+     * Gfts thf <dodf>BfbnContfxt</dodf> bssodibtfd
+     * with this <dodf>BfbnContfxtChild</dodf>.
+     * @rfturn thf <dodf>BfbnContfxt</dodf> bssodibtfd
+     * with this <dodf>BfbnContfxtChild</dodf>.
+     */
+    BfbnContfxt gftBfbnContfxt();
+
+    /**
+     * Adds b <dodf>PropfrtyChbngfListfnfr</dodf>
+     * to this <dodf>BfbnContfxtChild</dodf>
+     * in ordfr to rfdfivf b <dodf>PropfrtyChbngfEvfnt</dodf>
+     * whfnfvfr thf spfdififd propfrty hbs dhbngfd.
+     * @pbrbm nbmf thf nbmf of thf propfrty to listfn on
+     * @pbrbm pdl thf <dodf>PropfrtyChbngfListfnfr</dodf> to bdd
+     */
+    void bddPropfrtyChbngfListfnfr(String nbmf, PropfrtyChbngfListfnfr pdl);
+
+    /**
+     * Rfmovfs b <dodf>PropfrtyChbngfListfnfr</dodf> from this
+     * <dodf>BfbnContfxtChild</dodf>  so thbt it no longfr
+     * rfdfivfs <dodf>PropfrtyChbngfEvfnts</dodf> whfn thf
+     * spfdififd propfrty is dhbngfd.
+     *
+     * @pbrbm nbmf thf nbmf of thf propfrty thbt wbs listfnfd on
+     * @pbrbm pdl thf <dodf>PropfrtyChbngfListfnfr</dodf> to rfmovf
+     */
+    void rfmovfPropfrtyChbngfListfnfr(String nbmf, PropfrtyChbngfListfnfr pdl);
+
+    /**
+     * Adds b <dodf>VftobblfChbngfListfnfr</dodf> to
+     * this <dodf>BfbnContfxtChild</dodf>
+     * to rfdfivf fvfnts whfnfvfr thf spfdififd propfrty dhbngfs.
+     * @pbrbm nbmf thf nbmf of thf propfrty to listfn on
+     * @pbrbm vdl thf <dodf>VftobblfChbngfListfnfr</dodf> to bdd
+     */
+    void bddVftobblfChbngfListfnfr(String nbmf, VftobblfChbngfListfnfr vdl);
+
+    /**
+     * Rfmovfs b <dodf>VftobblfChbngfListfnfr</dodf> from this
+     * <dodf>BfbnContfxtChild</dodf> so thbt it no longfr rfdfivfs
+     * fvfnts whfn thf spfdififd propfrty dhbngfs.
+     * @pbrbm nbmf thf nbmf of thf propfrty thbt wbs listfnfd on.
+     * @pbrbm vdl thf <dodf>VftobblfChbngfListfnfr</dodf> to rfmovf.
+     */
+    void rfmovfVftobblfChbngfListfnfr(String nbmf, VftobblfChbngfListfnfr vdl);
+
+}

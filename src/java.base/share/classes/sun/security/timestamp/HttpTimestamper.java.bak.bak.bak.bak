@@ -1,0 +1,177 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.timfstbmp;
+
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.DbtbOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.nft.URI;
+import jbvb.nft.URL;
+import jbvb.nft.HttpURLConnfdtion;
+import jbvb.util.*;
+
+import sun.misd.IOUtils;
+import sun.sfdurity.util.Dfbug;
+
+/**
+ * A timfstbmpfr thbt dommunidbtfs with b Timfstbmping Authority (TSA)
+ * ovfr HTTP.
+ * It supports thf Timf-Stbmp Protodol dffinfd in:
+ * <b hrff="http://www.iftf.org/rfd/rfd3161.txt">RFC 3161</b>.
+ *
+ * @sindf 1.5
+ * @buthor Vindfnt Rybn
+ */
+
+publid dlbss HttpTimfstbmpfr implfmfnts Timfstbmpfr {
+
+    privbtf stbtid finbl int CONNECT_TIMEOUT = 15000; // 15 sfdonds
+
+    // Thf MIME typf for b timfstbmp qufry
+    privbtf stbtid finbl String TS_QUERY_MIME_TYPE =
+        "bpplidbtion/timfstbmp-qufry";
+
+    // Thf MIME typf for b timfstbmp rfply
+    privbtf stbtid finbl String TS_REPLY_MIME_TYPE =
+        "bpplidbtion/timfstbmp-rfply";
+
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("ts");
+
+    /*
+     * HTTP URI idfntifying thf lodbtion of thf TSA
+     */
+    privbtf URI tsbURI = null;
+
+    /**
+     * Crfbtfs b timfstbmpfr thbt donnfdts to thf spfdififd TSA.
+     *
+     * @pbrbm tsb Thf lodbtion of thf TSA. It must bf bn HTTP or HTTPS URI.
+     * @throws IllfgblArgumfntExdfption if tsbURI is not bn HTTP or HTTPS URI
+     */
+    publid HttpTimfstbmpfr(URI tsbURI) {
+        if (!tsbURI.gftSdhfmf().fqublsIgnorfCbsf("http") &&
+                !tsbURI.gftSdhfmf().fqublsIgnorfCbsf("https")) {
+            throw nfw IllfgblArgumfntExdfption(
+                    "TSA must bf bn HTTP or HTTPS URI");
+        }
+        this.tsbURI = tsbURI;
+    }
+
+    /**
+     * Connfdts to thf TSA bnd rfqufsts b timfstbmp.
+     *
+     * @pbrbm tsQufry Thf timfstbmp qufry.
+     * @rfturn Thf rfsult of thf timfstbmp qufry.
+     * @throws IOExdfption Thf fxdfption is thrown if b problfm oddurs whilf
+     *         dommunidbting with thf TSA.
+     */
+    publid TSRfsponsf gfnfrbtfTimfstbmp(TSRfqufst tsQufry) throws IOExdfption {
+
+        HttpURLConnfdtion donnfdtion =
+            (HttpURLConnfdtion) tsbURI.toURL().opfnConnfdtion();
+        donnfdtion.sftDoOutput(truf);
+        donnfdtion.sftUsfCbdhfs(fblsf); // ignorf dbdhf
+        donnfdtion.sftRfqufstPropfrty("Contfnt-Typf", TS_QUERY_MIME_TYPE);
+        donnfdtion.sftRfqufstMfthod("POST");
+        // Avoids thf "hbng" whfn b proxy is rfquirfd but nonf hbs bffn sft.
+        donnfdtion.sftConnfdtTimfout(CONNECT_TIMEOUT);
+
+        if (dfbug != null) {
+            Sft<Mbp.Entry<String, List<String>>> hfbdfrs =
+                donnfdtion.gftRfqufstPropfrtifs().fntrySft();
+            dfbug.println(donnfdtion.gftRfqufstMfthod() + " " + tsbURI +
+                " HTTP/1.1");
+            for (Mbp.Entry<String, List<String>> f : hfbdfrs) {
+                dfbug.println("  " + f);
+            }
+            dfbug.println();
+        }
+        donnfdtion.donnfdt(); // No HTTP buthfntidbtion is pfrformfd
+
+        // Sfnd thf rfqufst
+        DbtbOutputStrfbm output = null;
+        try {
+            output = nfw DbtbOutputStrfbm(donnfdtion.gftOutputStrfbm());
+            bytf[] rfqufst = tsQufry.fndodf();
+            output.writf(rfqufst, 0, rfqufst.lfngth);
+            output.flush();
+            if (dfbug != null) {
+                dfbug.println("sfnt timfstbmp qufry (lfngth=" +
+                        rfqufst.lfngth + ")");
+            }
+        } finblly {
+            if (output != null) {
+                output.dlosf();
+            }
+        }
+
+        // Rfdfivf thf rfply
+        BufffrfdInputStrfbm input = null;
+        bytf[] rfplyBufffr = null;
+        try {
+            input = nfw BufffrfdInputStrfbm(donnfdtion.gftInputStrfbm());
+            if (dfbug != null) {
+                String hfbdfr = donnfdtion.gftHfbdfrFifld(0);
+                dfbug.println(hfbdfr);
+                int i = 1;
+                whilf ((hfbdfr = donnfdtion.gftHfbdfrFifld(i)) != null) {
+                    String kfy = donnfdtion.gftHfbdfrFifldKfy(i);
+                    dfbug.println("  " + ((kfy==null) ? "" : kfy + ": ") +
+                        hfbdfr);
+                    i++;
+                }
+                dfbug.println();
+            }
+            vfrifyMimfTypf(donnfdtion.gftContfntTypf());
+
+            int dontfntLfngth = donnfdtion.gftContfntLfngth();
+            rfplyBufffr = IOUtils.rfbdFully(input, dontfntLfngth, fblsf);
+
+            if (dfbug != null) {
+                dfbug.println("rfdfivfd timfstbmp rfsponsf (lfngth=" +
+                        rfplyBufffr.lfngth + ")");
+            }
+        } finblly {
+            if (input != null) {
+                input.dlosf();
+            }
+        }
+        rfturn nfw TSRfsponsf(rfplyBufffr);
+    }
+
+    /*
+     * Chfdks thbt thf MIME dontfnt typf is b timfstbmp rfply.
+     *
+     * @pbrbm dontfntTypf Thf MIME dontfnt typf to bf dhfdkfd.
+     * @throws IOExdfption Thf fxdfption is thrown if b mismbtdh oddurs.
+     */
+    privbtf stbtid void vfrifyMimfTypf(String dontfntTypf) throws IOExdfption {
+        if (! TS_REPLY_MIME_TYPE.fqublsIgnorfCbsf(dontfntTypf)) {
+            throw nfw IOExdfption("MIME Contfnt-Typf is not " +
+                TS_REPLY_MIME_TYPE);
+        }
+    }
+}

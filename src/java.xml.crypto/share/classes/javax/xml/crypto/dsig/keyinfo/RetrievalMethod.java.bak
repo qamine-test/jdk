@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * $Id: RetrievalMethod.java,v 1.8 2005/05/10 16:35:35 mullan Exp $
+ * $Id: RftrifvblMftiod.jbvb,v 1.8 2005/05/10 16:35:35 mullbn Exp $
  */
-package javax.xml.crypto.dsig.keyinfo;
+pbdkbgf jbvbx.xml.drypto.dsig.kfyinfo;
 
-import javax.xml.crypto.Data;
-import javax.xml.crypto.URIReference;
-import javax.xml.crypto.URIReferenceException;
-import javax.xml.crypto.XMLCryptoContext;
-import javax.xml.crypto.XMLStructure;
-import javax.xml.crypto.dsig.Transform;
-import java.util.List;
+import jbvbx.xml.drypto.Dbtb;
+import jbvbx.xml.drypto.URIRfffrfndf;
+import jbvbx.xml.drypto.URIRfffrfndfExdfption;
+import jbvbx.xml.drypto.XMLCryptoContfxt;
+import jbvbx.xml.drypto.XMLStrudturf;
+import jbvbx.xml.drypto.dsig.Trbnsform;
+import jbvb.util.List;
 
 /**
- * A representation of the XML <code>RetrievalMethod</code> element as
- * defined in the <a href="http://www.w3.org/TR/xmldsig-core/">
- * W3C Recommendation for XML-Signature Syntax and Processing</a>.
- * A <code>RetrievalMethod</code> object is used to convey a reference to
- * <code>KeyInfo</code> information that is stored at another location.
- * The XML schema definition is defined as:
+ * A rfprfsfntbtion of tif XML <dodf>RftrifvblMftiod</dodf> flfmfnt bs
+ * dffinfd in tif <b irff="ittp://www.w3.org/TR/xmldsig-dorf/">
+ * W3C Rfdommfndbtion for XML-Signbturf Syntbx bnd Prodfssing</b>.
+ * A <dodf>RftrifvblMftiod</dodf> objfdt is usfd to donvfy b rfffrfndf to
+ * <dodf>KfyInfo</dodf> informbtion tibt is storfd bt bnotifr lodbtion.
+ * Tif XML sdifmb dffinition is dffinfd bs:
  *
- * <pre>
- *   &lt;element name="RetrievalMethod" type="ds:RetrievalMethodType"/&gt;
- *   &lt;complexType name="RetrievalMethodType"&gt;
- *     &lt;sequence&gt;
- *       &lt;element name="Transforms" type="ds:TransformsType" minOccurs="0"/&gt;
- *     &lt;/sequence&gt;
- *     &lt;attribute name="URI" type="anyURI"/&gt;
- *     &lt;attribute name="Type" type="anyURI" use="optional"/&gt;
- *   &lt;/complexType&gt;
- * </pre>
+ * <prf>
+ *   &lt;flfmfnt nbmf="RftrifvblMftiod" typf="ds:RftrifvblMftiodTypf"/&gt;
+ *   &lt;domplfxTypf nbmf="RftrifvblMftiodTypf"&gt;
+ *     &lt;sfqufndf&gt;
+ *       &lt;flfmfnt nbmf="Trbnsforms" typf="ds:TrbnsformsTypf" minOddurs="0"/&gt;
+ *     &lt;/sfqufndf&gt;
+ *     &lt;bttributf nbmf="URI" typf="bnyURI"/&gt;
+ *     &lt;bttributf nbmf="Typf" typf="bnyURI" usf="optionbl"/&gt;
+ *   &lt;/domplfxTypf&gt;
+ * </prf>
  *
- * A <code>RetrievalMethod</code> instance may be created by invoking one of the
- * {@link KeyInfoFactory#newRetrievalMethod newRetrievalMethod} methods
- * of the {@link KeyInfoFactory} class, and passing it the URI
- * identifying the location of the KeyInfo, an optional type URI identifying
- * the type of KeyInfo, and an optional list of {@link Transform}s; for example:
- * <pre>
- *   KeyInfoFactory factory = KeyInfoFactory.getInstance("DOM");
- *   RetrievalMethod rm = factory.newRetrievalMethod
- *      ("#KeyValue-1", KeyValue.DSA_TYPE, Collections.singletonList(Transform.BASE64));
- * </pre>
+ * A <dodf>RftrifvblMftiod</dodf> instbndf mby bf drfbtfd by invoking onf of tif
+ * {@link KfyInfoFbdtory#nfwRftrifvblMftiod nfwRftrifvblMftiod} mftiods
+ * of tif {@link KfyInfoFbdtory} dlbss, bnd pbssing it tif URI
+ * idfntifying tif lodbtion of tif KfyInfo, bn optionbl typf URI idfntifying
+ * tif typf of KfyInfo, bnd bn optionbl list of {@link Trbnsform}s; for fxbmplf:
+ * <prf>
+ *   KfyInfoFbdtory fbdtory = KfyInfoFbdtory.gftInstbndf("DOM");
+ *   RftrifvblMftiod rm = fbdtory.nfwRftrifvblMftiod
+ *      ("#KfyVbluf-1", KfyVbluf.DSA_TYPE, Collfdtions.singlftonList(Trbnsform.BASE64));
+ * </prf>
  *
- * @author Sean Mullan
- * @author JSR 105 Expert Group
- * @since 1.6
- * @see KeyInfoFactory#newRetrievalMethod(String)
- * @see KeyInfoFactory#newRetrievalMethod(String, String, List)
+ * @butior Sfbn Mullbn
+ * @butior JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff KfyInfoFbdtory#nfwRftrifvblMftiod(String)
+ * @sff KfyInfoFbdtory#nfwRftrifvblMftiod(String, String, List)
  */
-public interface RetrievalMethod extends URIReference, XMLStructure {
+publid intfrfbdf RftrifvblMftiod fxtfnds URIRfffrfndf, XMLStrudturf {
 
     /**
-     * Returns an {@link java.util.Collections#unmodifiableList unmodifiable
-     * list} of {@link Transform}s of this <code>RetrievalMethod</code>.
+     * Rfturns bn {@link jbvb.util.Collfdtions#unmodifibblfList unmodifibblf
+     * list} of {@link Trbnsform}s of tiis <dodf>RftrifvblMftiod</dodf>.
      *
-     * @return an unmodifiable list of <code>Transform</code> objects (may be
-     *    empty but never <code>null</code>).
+     * @rfturn bn unmodifibblf list of <dodf>Trbnsform</dodf> objfdts (mby bf
+     *    fmpty but nfvfr <dodf>null</dodf>).
      */
-    @SuppressWarnings("rawtypes")
-    List getTransforms();
+    @SupprfssWbrnings("rbwtypfs")
+    List gftTrbnsforms();
 
     /**
-     * Returns the URI of the referenced <code>KeyInfo</code> information.
+     * Rfturns tif URI of tif rfffrfndfd <dodf>KfyInfo</dodf> informbtion.
      *
-     * @return the URI of the referenced <code>KeyInfo</code> information in
-     *    RFC 2396 format (never <code>null</code>)
+     * @rfturn tif URI of tif rfffrfndfd <dodf>KfyInfo</dodf> informbtion in
+     *    RFC 2396 formbt (nfvfr <dodf>null</dodf>)
      */
-    String getURI();
+    String gftURI();
 
    /**
-    * Dereferences the <code>KeyInfo</code> information referenced by this
-    * <code>RetrievalMethod</code> and applies the specified
-    * <code>Transform</code>s.
+    * Dfrfffrfndfs tif <dodf>KfyInfo</dodf> informbtion rfffrfndfd by tiis
+    * <dodf>RftrifvblMftiod</dodf> bnd bpplifs tif spfdififd
+    * <dodf>Trbnsform</dodf>s.
     *
-    * @param context an <code>XMLCryptoContext</code> that may contain
-    *    additional useful information for dereferencing the URI. The
-    *    context's <code>baseURI</code> and <code>dereferencer</code>
-    *    parameters (if specified) are used to resolve and dereference this
-    *    <code>RetrievalMethod</code>
-    * @return a <code>Data</code> object representing the raw contents of the
-    *    <code>KeyInfo</code> information referenced by this
-    *    <code>RetrievalMethod</code>. It is the caller's responsibility to
-    *    convert the returned data to an appropriate
-    *    <code>KeyInfo</code> object.
-    * @throws NullPointerException if <code>context</code> is <code>null</code>
-    * @throws URIReferenceException if there is an error while dereferencing
+    * @pbrbm dontfxt bn <dodf>XMLCryptoContfxt</dodf> tibt mby dontbin
+    *    bdditionbl usfful informbtion for dfrfffrfnding tif URI. Tif
+    *    dontfxt's <dodf>bbsfURI</dodf> bnd <dodf>dfrfffrfndfr</dodf>
+    *    pbrbmftfrs (if spfdififd) brf usfd to rfsolvf bnd dfrfffrfndf tiis
+    *    <dodf>RftrifvblMftiod</dodf>
+    * @rfturn b <dodf>Dbtb</dodf> objfdt rfprfsfnting tif rbw dontfnts of tif
+    *    <dodf>KfyInfo</dodf> informbtion rfffrfndfd by tiis
+    *    <dodf>RftrifvblMftiod</dodf>. It is tif dbllfr's rfsponsibility to
+    *    donvfrt tif rfturnfd dbtb to bn bppropribtf
+    *    <dodf>KfyInfo</dodf> objfdt.
+    * @tirows NullPointfrExdfption if <dodf>dontfxt</dodf> is <dodf>null</dodf>
+    * @tirows URIRfffrfndfExdfption if tifrf is bn frror wiilf dfrfffrfnding
     */
-    Data dereference(XMLCryptoContext context) throws URIReferenceException;
+    Dbtb dfrfffrfndf(XMLCryptoContfxt dontfxt) tirows URIRfffrfndfExdfption;
 }

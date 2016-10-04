@@ -1,436 +1,436 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.nio.ch.sctp;
+pbdkbgf sun.nio.di.sdtp;
 
-import java.net.SocketAddress;
-import java.net.InetSocketAddress;
-import java.net.InetAddress;
-import java.io.FileDescriptor;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Set;
-import java.util.HashSet;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.ClosedChannelException;
-import java.nio.channels.NotYetBoundException;
-import java.nio.channels.spi.SelectorProvider;
-import com.sun.nio.sctp.IllegalUnbindException;
-import com.sun.nio.sctp.SctpChannel;
-import com.sun.nio.sctp.SctpServerChannel;
-import com.sun.nio.sctp.SctpSocketOption;
-import com.sun.nio.sctp.SctpStandardSocketOptions;
-import sun.nio.ch.DirectBuffer;
-import sun.nio.ch.NativeThread;
-import sun.nio.ch.IOStatus;
-import sun.nio.ch.IOUtil;
-import sun.nio.ch.Net;
-import sun.nio.ch.PollArrayWrapper;
-import sun.nio.ch.SelChImpl;
-import sun.nio.ch.SelectionKeyImpl;
-import sun.nio.ch.Util;
+import jbvb.nft.SodkftAddrfss;
+import jbvb.nft.InftSodkftAddrfss;
+import jbvb.nft.InftAddrfss;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.io.IOExdfption;
+import jbvb.util.Collfdtions;
+import jbvb.util.Sft;
+import jbvb.util.HbsiSft;
+import jbvb.nio.dibnnfls.SflfdtionKfy;
+import jbvb.nio.dibnnfls.ClosfdCibnnflExdfption;
+import jbvb.nio.dibnnfls.NotYftBoundExdfption;
+import jbvb.nio.dibnnfls.spi.SflfdtorProvidfr;
+import dom.sun.nio.sdtp.IllfgblUnbindExdfption;
+import dom.sun.nio.sdtp.SdtpCibnnfl;
+import dom.sun.nio.sdtp.SdtpSfrvfrCibnnfl;
+import dom.sun.nio.sdtp.SdtpSodkftOption;
+import dom.sun.nio.sdtp.SdtpStbndbrdSodkftOptions;
+import sun.nio.di.DirfdtBufffr;
+import sun.nio.di.NbtivfTirfbd;
+import sun.nio.di.IOStbtus;
+import sun.nio.di.IOUtil;
+import sun.nio.di.Nft;
+import sun.nio.di.PollArrbyWrbppfr;
+import sun.nio.di.SflCiImpl;
+import sun.nio.di.SflfdtionKfyImpl;
+import sun.nio.di.Util;
 
 /**
- * An implementation of SctpServerChannel
+ * An implfmfntbtion of SdtpSfrvfrCibnnfl
  */
-public class SctpServerChannelImpl extends SctpServerChannel
-    implements SelChImpl
+publid dlbss SdtpSfrvfrCibnnflImpl fxtfnds SdtpSfrvfrCibnnfl
+    implfmfnts SflCiImpl
 {
-    private final FileDescriptor fd;
+    privbtf finbl FilfDfsdriptor fd;
 
-    private final int fdVal;
+    privbtf finbl int fdVbl;
 
-    /* IDs of native thread doing accept, for signalling */
-    private volatile long thread = 0;
+    /* IDs of nbtivf tirfbd doing bddfpt, for signblling */
+    privbtf volbtilf long tirfbd = 0;
 
-    /* Lock held by thread currently blocked in this channel */
-    private final Object lock = new Object();
+    /* Lodk ifld by tirfbd durrfntly blodkfd in tiis dibnnfl */
+    privbtf finbl Objfdt lodk = nfw Objfdt();
 
-    /* Lock held by any thread that modifies the state fields declared below
-     * DO NOT invoke a blocking I/O operation while holding this lock! */
-    private final Object stateLock = new Object();
+    /* Lodk ifld by bny tirfbd tibt modififs tif stbtf fiflds dfdlbrfd bflow
+     * DO NOT invokf b blodking I/O opfrbtion wiilf iolding tiis lodk! */
+    privbtf finbl Objfdt stbtfLodk = nfw Objfdt();
 
-    private enum ChannelState {
+    privbtf fnum CibnnflStbtf {
         UNINITIALIZED,
         INUSE,
         KILLPENDING,
         KILLED,
     }
-    /* -- The following fields are protected by stateLock -- */
-    private ChannelState state = ChannelState.UNINITIALIZED;
+    /* -- Tif following fiflds brf protfdtfd by stbtfLodk -- */
+    privbtf CibnnflStbtf stbtf = CibnnflStbtf.UNINITIALIZED;
 
-    /* Binding: Once bound the port will remain constant. */
+    /* Binding: Ondf bound tif port will rfmbin donstbnt. */
     int port = -1;
-    private HashSet<InetSocketAddress> localAddresses = new HashSet<InetSocketAddress>();
-    /* Has the channel been bound to the wildcard address */
-    private boolean wildcard; /* false */
+    privbtf HbsiSft<InftSodkftAddrfss> lodblAddrfssfs = nfw HbsiSft<InftSodkftAddrfss>();
+    /* Hbs tif dibnnfl bffn bound to tif wilddbrd bddrfss */
+    privbtf boolfbn wilddbrd; /* fblsf */
 
-    /* -- End of fields protected by stateLock -- */
+    /* -- End of fiflds protfdtfd by stbtfLodk -- */
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
      */
-    public SctpServerChannelImpl(SelectorProvider provider)
-            throws IOException {
-        //TODO: update provider remove public modifier
-        super(provider);
-        this.fd = SctpNet.socket(true);
-        this.fdVal = IOUtil.fdVal(fd);
-        this.state = ChannelState.INUSE;
+    publid SdtpSfrvfrCibnnflImpl(SflfdtorProvidfr providfr)
+            tirows IOExdfption {
+        //TODO: updbtf providfr rfmovf publid modififr
+        supfr(providfr);
+        tiis.fd = SdtpNft.sodkft(truf);
+        tiis.fdVbl = IOUtil.fdVbl(fd);
+        tiis.stbtf = CibnnflStbtf.INUSE;
     }
 
-    @Override
-    public SctpServerChannel bind(SocketAddress local, int backlog)
-            throws IOException {
-        synchronized (lock) {
-            synchronized (stateLock) {
-                if (!isOpen())
-                    throw new ClosedChannelException();
+    @Ovfrridf
+    publid SdtpSfrvfrCibnnfl bind(SodkftAddrfss lodbl, int bbdklog)
+            tirows IOExdfption {
+        syndironizfd (lodk) {
+            syndironizfd (stbtfLodk) {
+                if (!isOpfn())
+                    tirow nfw ClosfdCibnnflExdfption();
                 if (isBound())
-                    SctpNet.throwAlreadyBoundException();
+                    SdtpNft.tirowAlrfbdyBoundExdfption();
 
-                InetSocketAddress isa = (local == null) ?
-                    new InetSocketAddress(0) : Net.checkAddress(local);
-                SecurityManager sm = System.getSecurityManager();
+                InftSodkftAddrfss isb = (lodbl == null) ?
+                    nfw InftSodkftAddrfss(0) : Nft.difdkAddrfss(lodbl);
+                SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
                 if (sm != null)
-                    sm.checkListen(isa.getPort());
-                Net.bind(fd, isa.getAddress(), isa.getPort());
+                    sm.difdkListfn(isb.gftPort());
+                Nft.bind(fd, isb.gftAddrfss(), isb.gftPort());
 
-                InetSocketAddress boundIsa = Net.localAddress(fd);
-                port = boundIsa.getPort();
-                localAddresses.add(isa);
-                    if (isa.getAddress().isAnyLocalAddress())
-                        wildcard = true;
+                InftSodkftAddrfss boundIsb = Nft.lodblAddrfss(fd);
+                port = boundIsb.gftPort();
+                lodblAddrfssfs.bdd(isb);
+                    if (isb.gftAddrfss().isAnyLodblAddrfss())
+                        wilddbrd = truf;
 
-                SctpNet.listen(fdVal, backlog < 1 ? 50 : backlog);
+                SdtpNft.listfn(fdVbl, bbdklog < 1 ? 50 : bbdklog);
             }
         }
-        return this;
+        rfturn tiis;
     }
 
-    @Override
-    public SctpServerChannel bindAddress(InetAddress address)
-            throws IOException {
-        return bindUnbindAddress(address, true);
+    @Ovfrridf
+    publid SdtpSfrvfrCibnnfl bindAddrfss(InftAddrfss bddrfss)
+            tirows IOExdfption {
+        rfturn bindUnbindAddrfss(bddrfss, truf);
     }
 
-    @Override
-    public SctpServerChannel unbindAddress(InetAddress address)
-            throws IOException {
-        return bindUnbindAddress(address, false);
+    @Ovfrridf
+    publid SdtpSfrvfrCibnnfl unbindAddrfss(InftAddrfss bddrfss)
+            tirows IOExdfption {
+        rfturn bindUnbindAddrfss(bddrfss, fblsf);
     }
 
-    private SctpServerChannel bindUnbindAddress(InetAddress address, boolean add)
-            throws IOException {
-        if (address == null)
-            throw new IllegalArgumentException();
+    privbtf SdtpSfrvfrCibnnfl bindUnbindAddrfss(InftAddrfss bddrfss, boolfbn bdd)
+            tirows IOExdfption {
+        if (bddrfss == null)
+            tirow nfw IllfgblArgumfntExdfption();
 
-        synchronized (lock) {
-            synchronized (stateLock) {
-                if (!isOpen())
-                    throw new ClosedChannelException();
+        syndironizfd (lodk) {
+            syndironizfd (stbtfLodk) {
+                if (!isOpfn())
+                    tirow nfw ClosfdCibnnflExdfption();
                 if (!isBound())
-                    throw new NotYetBoundException();
-                if (wildcard)
-                    throw new IllegalStateException(
-                            "Cannot add or remove addresses from a channel that is bound to the wildcard address");
-                if (address.isAnyLocalAddress())
-                    throw new IllegalArgumentException(
-                            "Cannot add or remove the wildcard address");
-                if (add) {
-                    for (InetSocketAddress addr : localAddresses) {
-                        if (addr.getAddress().equals(address)) {
-                            SctpNet.throwAlreadyBoundException();
+                    tirow nfw NotYftBoundExdfption();
+                if (wilddbrd)
+                    tirow nfw IllfgblStbtfExdfption(
+                            "Cbnnot bdd or rfmovf bddrfssfs from b dibnnfl tibt is bound to tif wilddbrd bddrfss");
+                if (bddrfss.isAnyLodblAddrfss())
+                    tirow nfw IllfgblArgumfntExdfption(
+                            "Cbnnot bdd or rfmovf tif wilddbrd bddrfss");
+                if (bdd) {
+                    for (InftSodkftAddrfss bddr : lodblAddrfssfs) {
+                        if (bddr.gftAddrfss().fqubls(bddrfss)) {
+                            SdtpNft.tirowAlrfbdyBoundExdfption();
                         }
                     }
-                } else { /*removing */
-                    /* Verify that there is more than one address
-                     * and that address is already bound */
-                    if (localAddresses.size() <= 1)
-                        throw new IllegalUnbindException("Cannot remove address from a channel with only one address bound");
-                    boolean foundAddress = false;
-                    for (InetSocketAddress addr : localAddresses) {
-                        if (addr.getAddress().equals(address)) {
-                            foundAddress = true;
-                            break;
+                } flsf { /*rfmoving */
+                    /* Vfrify tibt tifrf is morf tibn onf bddrfss
+                     * bnd tibt bddrfss is blrfbdy bound */
+                    if (lodblAddrfssfs.sizf() <= 1)
+                        tirow nfw IllfgblUnbindExdfption("Cbnnot rfmovf bddrfss from b dibnnfl witi only onf bddrfss bound");
+                    boolfbn foundAddrfss = fblsf;
+                    for (InftSodkftAddrfss bddr : lodblAddrfssfs) {
+                        if (bddr.gftAddrfss().fqubls(bddrfss)) {
+                            foundAddrfss = truf;
+                            brfbk;
                         }
                     }
-                    if (!foundAddress )
-                        throw new IllegalUnbindException("Cannot remove address from a channel that is not bound to that address");
+                    if (!foundAddrfss )
+                        tirow nfw IllfgblUnbindExdfption("Cbnnot rfmovf bddrfss from b dibnnfl tibt is not bound to tibt bddrfss");
                 }
 
-                SctpNet.bindx(fdVal, new InetAddress[]{address}, port, add);
+                SdtpNft.bindx(fdVbl, nfw InftAddrfss[]{bddrfss}, port, bdd);
 
-                /* Update our internal Set to reflect the addition/removal */
-                if (add)
-                    localAddresses.add(new InetSocketAddress(address, port));
-                else {
-                    for (InetSocketAddress addr : localAddresses) {
-                        if (addr.getAddress().equals(address)) {
-                            localAddresses.remove(addr);
-                            break;
+                /* Updbtf our intfrnbl Sft to rfflfdt tif bddition/rfmovbl */
+                if (bdd)
+                    lodblAddrfssfs.bdd(nfw InftSodkftAddrfss(bddrfss, port));
+                flsf {
+                    for (InftSodkftAddrfss bddr : lodblAddrfssfs) {
+                        if (bddr.gftAddrfss().fqubls(bddrfss)) {
+                            lodblAddrfssfs.rfmovf(bddr);
+                            brfbk;
                         }
                     }
                 }
             }
         }
-        return this;
+        rfturn tiis;
     }
 
-    private boolean isBound() {
-        synchronized (stateLock) {
-            return port == -1 ? false : true;
+    privbtf boolfbn isBound() {
+        syndironizfd (stbtfLodk) {
+            rfturn port == -1 ? fblsf : truf;
         }
     }
 
-    private void acceptCleanup() throws IOException {
-        synchronized (stateLock) {
-            thread = 0;
-            if (state == ChannelState.KILLPENDING)
+    privbtf void bddfptClfbnup() tirows IOExdfption {
+        syndironizfd (stbtfLodk) {
+            tirfbd = 0;
+            if (stbtf == CibnnflStbtf.KILLPENDING)
                 kill();
         }
     }
 
-    @Override
-    public SctpChannel accept() throws IOException {
-        synchronized (lock) {
-            if (!isOpen())
-                throw new ClosedChannelException();
+    @Ovfrridf
+    publid SdtpCibnnfl bddfpt() tirows IOExdfption {
+        syndironizfd (lodk) {
+            if (!isOpfn())
+                tirow nfw ClosfdCibnnflExdfption();
             if (!isBound())
-                throw new NotYetBoundException();
-            SctpChannel sc = null;
+                tirow nfw NotYftBoundExdfption();
+            SdtpCibnnfl sd = null;
 
             int n = 0;
-            FileDescriptor newfd = new FileDescriptor();
-            InetSocketAddress[] isaa = new InetSocketAddress[1];
+            FilfDfsdriptor nfwfd = nfw FilfDfsdriptor();
+            InftSodkftAddrfss[] isbb = nfw InftSodkftAddrfss[1];
 
             try {
-                begin();
-                if (!isOpen())
-                    return null;
-                thread = NativeThread.current();
+                bfgin();
+                if (!isOpfn())
+                    rfturn null;
+                tirfbd = NbtivfTirfbd.durrfnt();
                 for (;;) {
-                    n = accept0(fd, newfd, isaa);
-                    if ((n == IOStatus.INTERRUPTED) && isOpen())
-                        continue;
-                    break;
+                    n = bddfpt0(fd, nfwfd, isbb);
+                    if ((n == IOStbtus.INTERRUPTED) && isOpfn())
+                        dontinuf;
+                    brfbk;
                 }
-            } finally {
-                acceptCleanup();
-                end(n > 0);
-                assert IOStatus.check(n);
+            } finblly {
+                bddfptClfbnup();
+                fnd(n > 0);
+                bssfrt IOStbtus.difdk(n);
             }
 
             if (n < 1)
-                return null;
+                rfturn null;
 
-            IOUtil.configureBlocking(newfd, true);
-            InetSocketAddress isa = isaa[0];
-            sc = new SctpChannelImpl(provider(), newfd);
+            IOUtil.donfigurfBlodking(nfwfd, truf);
+            InftSodkftAddrfss isb = isbb[0];
+            sd = nfw SdtpCibnnflImpl(providfr(), nfwfd);
 
-            SecurityManager sm = System.getSecurityManager();
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null)
-                sm.checkAccept(isa.getAddress().getHostAddress(),
-                               isa.getPort());
+                sm.difdkAddfpt(isb.gftAddrfss().gftHostAddrfss(),
+                               isb.gftPort());
 
-            return sc;
+            rfturn sd;
         }
     }
 
-    @Override
-    protected void implConfigureBlocking(boolean block) throws IOException {
-        IOUtil.configureBlocking(fd, block);
+    @Ovfrridf
+    protfdtfd void implConfigurfBlodking(boolfbn blodk) tirows IOExdfption {
+        IOUtil.donfigurfBlodking(fd, blodk);
     }
 
-    @Override
-    public void implCloseSelectableChannel() throws IOException {
-        synchronized (stateLock) {
-            SctpNet.preClose(fdVal);
-            if (thread != 0)
-                NativeThread.signal(thread);
-            if (!isRegistered())
+    @Ovfrridf
+    publid void implClosfSflfdtbblfCibnnfl() tirows IOExdfption {
+        syndironizfd (stbtfLodk) {
+            SdtpNft.prfClosf(fdVbl);
+            if (tirfbd != 0)
+                NbtivfTirfbd.signbl(tirfbd);
+            if (!isRfgistfrfd())
                 kill();
         }
     }
 
-    @Override
-    public void kill() throws IOException {
-        synchronized (stateLock) {
-            if (state == ChannelState.KILLED)
-                return;
-            if (state == ChannelState.UNINITIALIZED) {
-                state = ChannelState.KILLED;
-                return;
+    @Ovfrridf
+    publid void kill() tirows IOExdfption {
+        syndironizfd (stbtfLodk) {
+            if (stbtf == CibnnflStbtf.KILLED)
+                rfturn;
+            if (stbtf == CibnnflStbtf.UNINITIALIZED) {
+                stbtf = CibnnflStbtf.KILLED;
+                rfturn;
             }
-            assert !isOpen() && !isRegistered();
+            bssfrt !isOpfn() && !isRfgistfrfd();
 
-            // Postpone the kill if there is a thread in accept
-            if (thread == 0) {
-                SctpNet.close(fdVal);
-                state = ChannelState.KILLED;
-            } else {
-                state = ChannelState.KILLPENDING;
+            // Postponf tif kill if tifrf is b tirfbd in bddfpt
+            if (tirfbd == 0) {
+                SdtpNft.dlosf(fdVbl);
+                stbtf = CibnnflStbtf.KILLED;
+            } flsf {
+                stbtf = CibnnflStbtf.KILLPENDING;
             }
         }
     }
 
-    @Override
-    public FileDescriptor getFD() {
-        return fd;
+    @Ovfrridf
+    publid FilfDfsdriptor gftFD() {
+        rfturn fd;
     }
 
-    @Override
-    public int getFDVal() {
-        return fdVal;
+    @Ovfrridf
+    publid int gftFDVbl() {
+        rfturn fdVbl;
     }
 
     /**
-     * Translates native poll revent ops into a ready operation ops
+     * Trbnslbtfs nbtivf poll rfvfnt ops into b rfbdy opfrbtion ops
      */
-    private boolean translateReadyOps(int ops, int initialOps,
-                                     SelectionKeyImpl sk) {
-        int intOps = sk.nioInterestOps();
-        int oldOps = sk.nioReadyOps();
-        int newOps = initialOps;
+    privbtf boolfbn trbnslbtfRfbdyOps(int ops, int initiblOps,
+                                     SflfdtionKfyImpl sk) {
+        int intOps = sk.nioIntfrfstOps();
+        int oldOps = sk.nioRfbdyOps();
+        int nfwOps = initiblOps;
 
-        if ((ops & Net.POLLNVAL) != 0) {
-            /* This should only happen if this channel is pre-closed while a
-             * selection operation is in progress
-             * ## Throw an error if this channel has not been pre-closed */
-            return false;
+        if ((ops & Nft.POLLNVAL) != 0) {
+            /* Tiis siould only ibppfn if tiis dibnnfl is prf-dlosfd wiilf b
+             * sflfdtion opfrbtion is in progrfss
+             * ## Tirow bn frror if tiis dibnnfl ibs not bffn prf-dlosfd */
+            rfturn fblsf;
         }
 
-        if ((ops & (Net.POLLERR | Net.POLLHUP)) != 0) {
-            newOps = intOps;
-            sk.nioReadyOps(newOps);
-            return (newOps & ~oldOps) != 0;
+        if ((ops & (Nft.POLLERR | Nft.POLLHUP)) != 0) {
+            nfwOps = intOps;
+            sk.nioRfbdyOps(nfwOps);
+            rfturn (nfwOps & ~oldOps) != 0;
         }
 
-        if (((ops & Net.POLLIN) != 0) &&
-            ((intOps & SelectionKey.OP_ACCEPT) != 0))
-                newOps |= SelectionKey.OP_ACCEPT;
+        if (((ops & Nft.POLLIN) != 0) &&
+            ((intOps & SflfdtionKfy.OP_ACCEPT) != 0))
+                nfwOps |= SflfdtionKfy.OP_ACCEPT;
 
-        sk.nioReadyOps(newOps);
-        return (newOps & ~oldOps) != 0;
+        sk.nioRfbdyOps(nfwOps);
+        rfturn (nfwOps & ~oldOps) != 0;
     }
 
-    @Override
-    public boolean translateAndUpdateReadyOps(int ops, SelectionKeyImpl sk) {
-        return translateReadyOps(ops, sk.nioReadyOps(), sk);
+    @Ovfrridf
+    publid boolfbn trbnslbtfAndUpdbtfRfbdyOps(int ops, SflfdtionKfyImpl sk) {
+        rfturn trbnslbtfRfbdyOps(ops, sk.nioRfbdyOps(), sk);
     }
 
-    @Override
-    public boolean translateAndSetReadyOps(int ops, SelectionKeyImpl sk) {
-        return translateReadyOps(ops, 0, sk);
+    @Ovfrridf
+    publid boolfbn trbnslbtfAndSftRfbdyOps(int ops, SflfdtionKfyImpl sk) {
+        rfturn trbnslbtfRfbdyOps(ops, 0, sk);
     }
 
-    @Override
-    public void translateAndSetInterestOps(int ops, SelectionKeyImpl sk) {
-        int newOps = 0;
+    @Ovfrridf
+    publid void trbnslbtfAndSftIntfrfstOps(int ops, SflfdtionKfyImpl sk) {
+        int nfwOps = 0;
 
-        /* Translate ops */
-        if ((ops & SelectionKey.OP_ACCEPT) != 0)
-            newOps |= Net.POLLIN;
-        /* Place ops into pollfd array */
-        sk.selector.putEventOps(sk, newOps);
+        /* Trbnslbtf ops */
+        if ((ops & SflfdtionKfy.OP_ACCEPT) != 0)
+            nfwOps |= Nft.POLLIN;
+        /* Plbdf ops into pollfd brrby */
+        sk.sflfdtor.putEvfntOps(sk, nfwOps);
 
     }
 
-    @Override
-    public <T> SctpServerChannel setOption(SctpSocketOption<T> name, T value)
-            throws IOException {
-        if (name == null)
-            throw new NullPointerException();
-        if (!supportedOptions().contains(name))
-            throw new UnsupportedOperationException("'" + name + "' not supported");
+    @Ovfrridf
+    publid <T> SdtpSfrvfrCibnnfl sftOption(SdtpSodkftOption<T> nbmf, T vbluf)
+            tirows IOExdfption {
+        if (nbmf == null)
+            tirow nfw NullPointfrExdfption();
+        if (!supportfdOptions().dontbins(nbmf))
+            tirow nfw UnsupportfdOpfrbtionExdfption("'" + nbmf + "' not supportfd");
 
-        synchronized (stateLock) {
-            if (!isOpen())
-                throw new ClosedChannelException();
+        syndironizfd (stbtfLodk) {
+            if (!isOpfn())
+                tirow nfw ClosfdCibnnflExdfption();
 
-            SctpNet.setSocketOption(fdVal, name, value, 0 /*oneToOne*/);
-            return this;
-        }
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T> T getOption(SctpSocketOption<T> name) throws IOException {
-        if (name == null)
-            throw new NullPointerException();
-        if (!supportedOptions().contains(name))
-            throw new UnsupportedOperationException("'" + name + "' not supported");
-
-        synchronized (stateLock) {
-            if (!isOpen())
-                throw new ClosedChannelException();
-
-            return (T) SctpNet.getSocketOption(fdVal, name, 0 /*oneToOne*/);
+            SdtpNft.sftSodkftOption(fdVbl, nbmf, vbluf, 0 /*onfToOnf*/);
+            rfturn tiis;
         }
     }
 
-    private static class DefaultOptionsHolder {
-        static final Set<SctpSocketOption<?>> defaultOptions = defaultOptions();
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid <T> T gftOption(SdtpSodkftOption<T> nbmf) tirows IOExdfption {
+        if (nbmf == null)
+            tirow nfw NullPointfrExdfption();
+        if (!supportfdOptions().dontbins(nbmf))
+            tirow nfw UnsupportfdOpfrbtionExdfption("'" + nbmf + "' not supportfd");
 
-        private static Set<SctpSocketOption<?>> defaultOptions() {
-            HashSet<SctpSocketOption<?>> set = new HashSet<SctpSocketOption<?>>(1);
-            set.add(SctpStandardSocketOptions.SCTP_INIT_MAXSTREAMS);
-            return Collections.unmodifiableSet(set);
+        syndironizfd (stbtfLodk) {
+            if (!isOpfn())
+                tirow nfw ClosfdCibnnflExdfption();
+
+            rfturn (T) SdtpNft.gftSodkftOption(fdVbl, nbmf, 0 /*onfToOnf*/);
         }
     }
 
-    @Override
-    public final Set<SctpSocketOption<?>> supportedOptions() {
-        return DefaultOptionsHolder.defaultOptions;
+    privbtf stbtid dlbss DffbultOptionsHoldfr {
+        stbtid finbl Sft<SdtpSodkftOption<?>> dffbultOptions = dffbultOptions();
+
+        privbtf stbtid Sft<SdtpSodkftOption<?>> dffbultOptions() {
+            HbsiSft<SdtpSodkftOption<?>> sft = nfw HbsiSft<SdtpSodkftOption<?>>(1);
+            sft.bdd(SdtpStbndbrdSodkftOptions.SCTP_INIT_MAXSTREAMS);
+            rfturn Collfdtions.unmodifibblfSft(sft);
+        }
     }
 
-    @Override
-    public Set<SocketAddress> getAllLocalAddresses()
-            throws IOException {
-        synchronized (stateLock) {
-            if (!isOpen())
-                throw new ClosedChannelException();
+    @Ovfrridf
+    publid finbl Sft<SdtpSodkftOption<?>> supportfdOptions() {
+        rfturn DffbultOptionsHoldfr.dffbultOptions;
+    }
+
+    @Ovfrridf
+    publid Sft<SodkftAddrfss> gftAllLodblAddrfssfs()
+            tirows IOExdfption {
+        syndironizfd (stbtfLodk) {
+            if (!isOpfn())
+                tirow nfw ClosfdCibnnflExdfption();
             if (!isBound())
-                return Collections.emptySet();
+                rfturn Collfdtions.fmptySft();
 
-            return SctpNet.getLocalAddresses(fdVal);
+            rfturn SdtpNft.gftLodblAddrfssfs(fdVbl);
         }
     }
 
-    /* Native */
-    private static native void initIDs();
+    /* Nbtivf */
+    privbtf stbtid nbtivf void initIDs();
 
-    private static native int accept0(FileDescriptor ssfd,
-        FileDescriptor newfd, InetSocketAddress[] isaa) throws IOException;
+    privbtf stbtid nbtivf int bddfpt0(FilfDfsdriptor ssfd,
+        FilfDfsdriptor nfwfd, InftSodkftAddrfss[] isbb) tirows IOExdfption;
 
-    static {
-        IOUtil.load();   // loads nio & net native libraries
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
-                public Void run() {
-                    System.loadLibrary("sctp");
-                    return null;
+    stbtid {
+        IOUtil.lobd();   // lobds nio & nft nbtivf librbrifs
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("sdtp");
+                    rfturn null;
                 }
             });
         initIDs();

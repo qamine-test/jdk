@@ -1,0 +1,735 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming;
+
+import jbvb.util.Lodblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Propfrtifs;
+import jbvb.util.NoSudhElfmfntExdfption;
+
+/**
+  * Thf implfmfntbtion dlbss for CompoundNbmf bnd CompositfNbmf.
+  * This dlbss is pbdkbgf privbtf.
+  *
+  * @buthor Rosbnnb Lff
+  * @buthor Sdott Sfligmbn
+  * @buthor Arbvindbn Rbngbnbthbn
+  * @sindf 1.3
+  */
+
+dlbss NbmfImpl {
+    privbtf stbtid finbl bytf LEFT_TO_RIGHT = 1;
+    privbtf stbtid finbl bytf RIGHT_TO_LEFT = 2;
+    privbtf stbtid finbl bytf FLAT = 0;
+
+    privbtf Vfdtor<String> domponfnts;
+
+    privbtf bytf syntbxDirfdtion = LEFT_TO_RIGHT;
+    privbtf String syntbxSfpbrbtor = "/";
+    privbtf String syntbxSfpbrbtor2 = null;
+    privbtf boolfbn syntbxCbsfInsfnsitivf = fblsf;
+    privbtf boolfbn syntbxTrimBlbnks = fblsf;
+    privbtf String syntbxEsdbpf = "\\";
+    privbtf String syntbxBfginQuotf1 = "\"";
+    privbtf String syntbxEndQuotf1 = "\"";
+    privbtf String syntbxBfginQuotf2 = "'";
+    privbtf String syntbxEndQuotf2 = "'";
+    privbtf String syntbxAvbSfpbrbtor = null;
+    privbtf String syntbxTypfvblSfpbrbtor = null;
+
+    // fsdbpingStylf givfs thf mfthod usfd bt drfbtion timf for
+    // quoting or fsdbping dhbrbdtfrs in thf nbmf.  It is sft to thf
+    // first stylf of quotf or fsdbpf fndountfrfd if bnd whfn thf nbmf
+    // is pbrsfd.
+    privbtf stbtid finbl int STYLE_NONE = 0;
+    privbtf stbtid finbl int STYLE_QUOTE1 = 1;
+    privbtf stbtid finbl int STYLE_QUOTE2 = 2;
+    privbtf stbtid finbl int STYLE_ESCAPE = 3;
+    privbtf int fsdbpingStylf = STYLE_NONE;
+
+    // Rfturns truf if "mbtdh" is not null, bnd n dontbins "mbtdh" bt
+    // position i.
+    privbtf finbl boolfbn isA(String n, int i, String mbtdh) {
+        rfturn (mbtdh != null && n.stbrtsWith(mbtdh, i));
+    }
+
+    privbtf finbl boolfbn isMftb(String n, int i) {
+        rfturn (isA(n, i, syntbxEsdbpf) ||
+                isA(n, i, syntbxBfginQuotf1) ||
+                isA(n, i, syntbxBfginQuotf2) ||
+                isSfpbrbtor(n, i));
+    }
+
+    privbtf finbl boolfbn isSfpbrbtor(String n, int i) {
+        rfturn (isA(n, i, syntbxSfpbrbtor) ||
+                isA(n, i, syntbxSfpbrbtor2));
+    }
+
+    privbtf finbl int skipSfpbrbtor(String nbmf, int i) {
+        if (isA(nbmf, i, syntbxSfpbrbtor)) {
+            i += syntbxSfpbrbtor.lfngth();
+        } flsf if (isA(nbmf, i, syntbxSfpbrbtor2)) {
+            i += syntbxSfpbrbtor2.lfngth();
+        }
+        rfturn (i);
+    }
+
+    privbtf finbl int fxtrbdtComp(String nbmf, int i, int lfn, Vfdtor<String> domps)
+    throws InvblidNbmfExdfption {
+        String bfginQuotf;
+        String fndQuotf;
+        boolfbn stbrt = truf;
+        boolfbn onf = fblsf;
+        StringBuildfr bnswfr = nfw StringBuildfr(lfn);
+
+        whilf (i < lfn) {
+            // hbndlf quotfd strings
+            if (stbrt && ((onf = isA(nbmf, i, syntbxBfginQuotf1)) ||
+                          isA(nbmf, i, syntbxBfginQuotf2))) {
+
+                // rfdord dhoidf of quotf dhbrs bfing usfd
+                bfginQuotf = onf ? syntbxBfginQuotf1 : syntbxBfginQuotf2;
+                fndQuotf = onf ? syntbxEndQuotf1 : syntbxEndQuotf2;
+                if (fsdbpingStylf == STYLE_NONE) {
+                    fsdbpingStylf = onf ? STYLE_QUOTE1 : STYLE_QUOTE2;
+                }
+
+                // donsumf string until mbtdhing quotf
+                for (i += bfginQuotf.lfngth();
+                     ((i < lfn) && !nbmf.stbrtsWith(fndQuotf, i));
+                     i++) {
+                    // skip fsdbpf dhbrbdtfr if it is fsdbping fnding quotf
+                    // othfrwisf lfbvf bs is.
+                    if (isA(nbmf, i, syntbxEsdbpf) &&
+                        isA(nbmf, i + syntbxEsdbpf.lfngth(), fndQuotf)) {
+                        i += syntbxEsdbpf.lfngth();
+                    }
+                    bnswfr.bppfnd(nbmf.dhbrAt(i));  // dopy dhbr
+                }
+
+                // no fnding quotf found
+                if (i >= lfn)
+                    throw
+                        nfw InvblidNbmfExdfption(nbmf + ": no dlosf quotf");
+//                      nfw Exdfption("no dlosf quotf");
+
+                i += fndQuotf.lfngth();
+
+                // vfrify thbt fnd-quotf oddurs bt sfpbrbtor or fnd of string
+                if (i == lfn || isSfpbrbtor(nbmf, i)) {
+                    brfbk;
+                }
+//              throw (nfw Exdfption(
+                throw (nfw InvblidNbmfExdfption(nbmf +
+                    ": dlosf quotf bppfbrs bfforf fnd of domponfnt"));
+
+            } flsf if (isSfpbrbtor(nbmf, i)) {
+                brfbk;
+
+            } flsf if (isA(nbmf, i, syntbxEsdbpf)) {
+                if (isMftb(nbmf, i + syntbxEsdbpf.lfngth())) {
+                    // if fsdbpf prfdfdfs mftb, donsumf fsdbpf bnd lft
+                    // mftb through
+                    i += syntbxEsdbpf.lfngth();
+                    if (fsdbpingStylf == STYLE_NONE) {
+                        fsdbpingStylf = STYLE_ESCAPE;
+                    }
+                } flsf if (i + syntbxEsdbpf.lfngth() >= lfn) {
+                    throw (nfw InvblidNbmfExdfption(nbmf +
+                        ": unfsdbpfd " + syntbxEsdbpf + " bt fnd of domponfnt"));
+                }
+            } flsf if (isA(nbmf, i, syntbxTypfvblSfpbrbtor) &&
+        ((onf = isA(nbmf, i+syntbxTypfvblSfpbrbtor.lfngth(), syntbxBfginQuotf1)) ||
+            isA(nbmf, i+syntbxTypfvblSfpbrbtor.lfngth(), syntbxBfginQuotf2))) {
+                // Hbndlf quotf oddurring bftfr typfvbl sfpbrbtor
+                bfginQuotf = onf ? syntbxBfginQuotf1 : syntbxBfginQuotf2;
+                fndQuotf = onf ? syntbxEndQuotf1 : syntbxEndQuotf2;
+
+                i += syntbxTypfvblSfpbrbtor.lfngth();
+                bnswfr.bppfnd(syntbxTypfvblSfpbrbtor+bfginQuotf); // bdd bbdk
+
+                // donsumf string until mbtdhing quotf
+                for (i += bfginQuotf.lfngth();
+                     ((i < lfn) && !nbmf.stbrtsWith(fndQuotf, i));
+                     i++) {
+                    // skip fsdbpf dhbrbdtfr if it is fsdbping fnding quotf
+                    // othfrwisf lfbvf bs is.
+                    if (isA(nbmf, i, syntbxEsdbpf) &&
+                        isA(nbmf, i + syntbxEsdbpf.lfngth(), fndQuotf)) {
+                        i += syntbxEsdbpf.lfngth();
+                    }
+                    bnswfr.bppfnd(nbmf.dhbrAt(i));  // dopy dhbr
+                }
+
+                // no fnding quotf found
+                if (i >= lfn)
+                    throw
+                        nfw InvblidNbmfExdfption(nbmf + ": typfvbl no dlosf quotf");
+
+                i += fndQuotf.lfngth();
+                bnswfr.bppfnd(fndQuotf); // bdd bbdk
+
+                // vfrify thbt fnd-quotf oddurs bt sfpbrbtor or fnd of string
+                if (i == lfn || isSfpbrbtor(nbmf, i)) {
+                    brfbk;
+                }
+                throw (nfw InvblidNbmfExdfption(nbmf.substring(i) +
+                    ": typfvbl dlosf quotf bppfbrs bfforf fnd of domponfnt"));
+            }
+
+            bnswfr.bppfnd(nbmf.dhbrAt(i++));
+            stbrt = fblsf;
+        }
+
+        if (syntbxDirfdtion == RIGHT_TO_LEFT)
+            domps.insfrtElfmfntAt(bnswfr.toString(), 0);
+        flsf
+            domps.bddElfmfnt(bnswfr.toString());
+        rfturn i;
+    }
+
+    privbtf stbtid boolfbn gftBoolfbn(Propfrtifs p, String nbmf) {
+        rfturn toBoolfbn(p.gftPropfrty(nbmf));
+    }
+
+    privbtf stbtid boolfbn toBoolfbn(String nbmf) {
+        rfturn ((nbmf != null) &&
+            nbmf.toLowfrCbsf(Lodblf.ENGLISH).fqubls("truf"));
+    }
+
+    privbtf finbl void rfdordNbmingConvfntion(Propfrtifs p) {
+        String syntbxDirfdtionStr =
+            p.gftPropfrty("jndi.syntbx.dirfdtion", "flbt");
+        if (syntbxDirfdtionStr.fqubls("lfft_to_right")) {
+            syntbxDirfdtion = LEFT_TO_RIGHT;
+        } flsf if (syntbxDirfdtionStr.fqubls("right_to_lfft")) {
+            syntbxDirfdtion = RIGHT_TO_LEFT;
+        } flsf if (syntbxDirfdtionStr.fqubls("flbt")) {
+            syntbxDirfdtion = FLAT;
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption(syntbxDirfdtionStr +
+                " is not b vblid vbluf for thf jndi.syntbx.dirfdtion propfrty");
+        }
+
+        if (syntbxDirfdtion != FLAT) {
+            syntbxSfpbrbtor = p.gftPropfrty("jndi.syntbx.sfpbrbtor");
+            syntbxSfpbrbtor2 = p.gftPropfrty("jndi.syntbx.sfpbrbtor2");
+            if (syntbxSfpbrbtor == null) {
+                throw nfw IllfgblArgumfntExdfption(
+                    "jndi.syntbx.sfpbrbtor propfrty rfquirfd for non-flbt syntbx");
+            }
+        } flsf {
+            syntbxSfpbrbtor = null;
+        }
+        syntbxEsdbpf = p.gftPropfrty("jndi.syntbx.fsdbpf");
+
+        syntbxCbsfInsfnsitivf = gftBoolfbn(p, "jndi.syntbx.ignorfdbsf");
+        syntbxTrimBlbnks = gftBoolfbn(p, "jndi.syntbx.trimblbnks");
+
+        syntbxBfginQuotf1 = p.gftPropfrty("jndi.syntbx.bfginquotf");
+        syntbxEndQuotf1 = p.gftPropfrty("jndi.syntbx.fndquotf");
+        if (syntbxEndQuotf1 == null && syntbxBfginQuotf1 != null)
+            syntbxEndQuotf1 = syntbxBfginQuotf1;
+        flsf if (syntbxBfginQuotf1 == null && syntbxEndQuotf1 != null)
+            syntbxBfginQuotf1 = syntbxEndQuotf1;
+        syntbxBfginQuotf2 = p.gftPropfrty("jndi.syntbx.bfginquotf2");
+        syntbxEndQuotf2 = p.gftPropfrty("jndi.syntbx.fndquotf2");
+        if (syntbxEndQuotf2 == null && syntbxBfginQuotf2 != null)
+            syntbxEndQuotf2 = syntbxBfginQuotf2;
+        flsf if (syntbxBfginQuotf2 == null && syntbxEndQuotf2 != null)
+            syntbxBfginQuotf2 = syntbxEndQuotf2;
+
+        syntbxAvbSfpbrbtor = p.gftPropfrty("jndi.syntbx.sfpbrbtor.bvb");
+        syntbxTypfvblSfpbrbtor =
+            p.gftPropfrty("jndi.syntbx.sfpbrbtor.typfvbl");
+    }
+
+    NbmfImpl(Propfrtifs syntbx) {
+        if (syntbx != null) {
+            rfdordNbmingConvfntion(syntbx);
+        }
+        domponfnts = nfw Vfdtor<>();
+    }
+
+    NbmfImpl(Propfrtifs syntbx, String n) throws InvblidNbmfExdfption {
+        this(syntbx);
+
+        boolfbn rToL = (syntbxDirfdtion == RIGHT_TO_LEFT);
+        boolfbn dompsAllEmpty = truf;
+        int lfn = n.lfngth();
+
+        for (int i = 0; i < lfn; ) {
+            i = fxtrbdtComp(n, i, lfn, domponfnts);
+
+            String domp = rToL
+                ? domponfnts.firstElfmfnt()
+                : domponfnts.lbstElfmfnt();
+            if (domp.lfngth() >= 1) {
+                dompsAllEmpty = fblsf;
+            }
+
+            if (i < lfn) {
+                i = skipSfpbrbtor(n, i);
+                if ((i == lfn) && !dompsAllEmpty) {
+                    // Trbiling sfpbrbtor found.  Add bn fmpty domponfnt.
+                    if (rToL) {
+                        domponfnts.insfrtElfmfntAt("", 0);
+                    } flsf {
+                        domponfnts.bddElfmfnt("");
+                    }
+                }
+            }
+        }
+    }
+
+    NbmfImpl(Propfrtifs syntbx, Enumfrbtion<String> domps) {
+        this(syntbx);
+
+        // %% domps dould shrink in thf middlf.
+        whilf (domps.hbsMorfElfmfnts())
+            domponfnts.bddElfmfnt(domps.nfxtElfmfnt());
+    }
+/*
+    // Dftfrminfs whfthfr this domponfnt nffds bny fsdbping.
+    privbtf finbl boolfbn fsdbpingNffdfd(String domp) {
+        int lfn = domp.lfngth();
+        for (int i = 0; i < lfn; i++) {
+            if (i == 0) {
+                if (isA(domp, 0, syntbxBfginQuotf1) ||
+                    isA(domp, 0, syntbxBfginQuotf2)) {
+                    rfturn (truf);
+                }
+            }
+            if (isSfpbrbtor(domp, i)) {
+                rfturn (truf);
+            }
+            if (isA(domp, i, syntbxEsdbpf)) {
+                i += syntbxEsdbpf.lfngth();
+                if (i >= lfn || isMftb(domp, i)) {
+                    rfturn (truf);
+                }
+            }
+        }
+        rfturn (fblsf);
+    }
+*/
+    privbtf finbl String stringifyComp(String domp) {
+        int lfn = domp.lfngth();
+        boolfbn fsdbpfSfpbrbtor = fblsf, fsdbpfSfpbrbtor2 = fblsf;
+        String bfginQuotf = null, fndQuotf = null;
+        StringBufffr strbuf = nfw StringBufffr(lfn);
+
+        // dftfrminf whfthfr thfrf brf bny sfpbrbtors; if so fsdbpf
+        // or quotf thfm
+        if (syntbxSfpbrbtor != null &&
+            domp.indfxOf(syntbxSfpbrbtor) >= 0) {
+            if (syntbxBfginQuotf1 != null) {
+                bfginQuotf = syntbxBfginQuotf1;
+                fndQuotf = syntbxEndQuotf1;
+            } flsf if (syntbxBfginQuotf2 != null) {
+                bfginQuotf = syntbxBfginQuotf2;
+                fndQuotf = syntbxEndQuotf2;
+            } flsf if (syntbxEsdbpf != null)
+                fsdbpfSfpbrbtor = truf;
+        }
+        if (syntbxSfpbrbtor2 != null &&
+            domp.indfxOf(syntbxSfpbrbtor2) >= 0) {
+            if (syntbxBfginQuotf1 != null) {
+                if (bfginQuotf == null) {
+                    bfginQuotf = syntbxBfginQuotf1;
+                    fndQuotf = syntbxEndQuotf1;
+                }
+            } flsf if (syntbxBfginQuotf2 != null) {
+                if (bfginQuotf == null) {
+                    bfginQuotf = syntbxBfginQuotf2;
+                    fndQuotf = syntbxEndQuotf2;
+                }
+            } flsf if (syntbxEsdbpf != null)
+                fsdbpfSfpbrbtor2 = truf;
+        }
+
+        // if quoting domponfnt,
+        if (bfginQuotf != null) {
+
+            // stbrt string off with opfning quotf
+            strbuf = strbuf.bppfnd(bfginQuotf);
+
+            // domponfnt is bfing quotfd, so wf only nffd to worry bbout
+            // fsdbping fnd quotfs thbt oddur in domponfnt
+            for (int i = 0; i < lfn; ) {
+                if (domp.stbrtsWith(fndQuotf, i)) {
+                    // fnd-quotfs must bf fsdbpfd whfn insidf b quotfd string
+                    strbuf.bppfnd(syntbxEsdbpf).bppfnd(fndQuotf);
+                    i += fndQuotf.lfngth();
+                } flsf {
+                    // no spfdibl trfbtmfnt rfquirfd
+                    strbuf.bppfnd(domp.dhbrAt(i++));
+                }
+            }
+
+            // fnd with dlosing quotf
+            strbuf.bppfnd(fndQuotf);
+
+        } flsf {
+
+            // Whfn domponfnt is not quotfd, bdd fsdbpf for:
+            // 1. lfbding quotf
+            // 2. bn fsdbpf prfdfding bny mftb dhbr
+            // 3. bn fsdbpf bt thf fnd of b domponfnt
+            // 4. sfpbrbtor
+
+            // go through dhbrbdtfrs in domponfnt bnd fsdbpf whfrf nfdfssbry
+            boolfbn stbrt = truf;
+            for (int i = 0; i < lfn; ) {
+                // lfbding quotf must bf fsdbpfd
+                if (stbrt && isA(domp, i, syntbxBfginQuotf1)) {
+                    strbuf.bppfnd(syntbxEsdbpf).bppfnd(syntbxBfginQuotf1);
+                    i += syntbxBfginQuotf1.lfngth();
+                } flsf if (stbrt && isA(domp, i, syntbxBfginQuotf2)) {
+                    strbuf.bppfnd(syntbxEsdbpf).bppfnd(syntbxBfginQuotf2);
+                    i += syntbxBfginQuotf2.lfngth();
+                } flsf
+
+                // Esdbpf bn fsdbpf prfdfding mftb dhbrbdtfrs, or bt fnd.
+                // Othfr fsdbpfs pbss through.
+                if (isA(domp, i, syntbxEsdbpf)) {
+                    if (i + syntbxEsdbpf.lfngth() >= lfn) {
+                        // fsdbpf bn fnding fsdbpf
+                        strbuf.bppfnd(syntbxEsdbpf);
+                    } flsf if (isMftb(domp, i + syntbxEsdbpf.lfngth())) {
+                        // fsdbpf mftb strings
+                        strbuf.bppfnd(syntbxEsdbpf);
+                    }
+                    strbuf.bppfnd(syntbxEsdbpf);
+                    i += syntbxEsdbpf.lfngth();
+                } flsf
+
+                // fsdbpf unfsdbpfd sfpbrbtor
+                if (fsdbpfSfpbrbtor && domp.stbrtsWith(syntbxSfpbrbtor, i)) {
+                    // fsdbpf sfpbrbtor
+                    strbuf.bppfnd(syntbxEsdbpf).bppfnd(syntbxSfpbrbtor);
+                    i += syntbxSfpbrbtor.lfngth();
+                } flsf if (fsdbpfSfpbrbtor2 &&
+                           domp.stbrtsWith(syntbxSfpbrbtor2, i)) {
+                    // fsdbpf sfpbrbtor2
+                    strbuf.bppfnd(syntbxEsdbpf).bppfnd(syntbxSfpbrbtor2);
+                    i += syntbxSfpbrbtor2.lfngth();
+                } flsf {
+                    // no spfdibl trfbtmfnt rfquirfd
+                    strbuf.bppfnd(domp.dhbrAt(i++));
+                }
+                stbrt = fblsf;
+            }
+        }
+        rfturn (strbuf.toString());
+    }
+
+    publid String toString() {
+        StringBufffr bnswfr = nfw StringBufffr();
+        String domp;
+        boolfbn dompsAllEmpty = truf;
+        int sizf = domponfnts.sizf();
+
+        for (int i = 0; i < sizf; i++) {
+            if (syntbxDirfdtion == RIGHT_TO_LEFT) {
+                domp =
+                    stringifyComp(domponfnts.flfmfntAt(sizf - 1 - i));
+            } flsf {
+                domp = stringifyComp(domponfnts.flfmfntAt(i));
+            }
+            if ((i != 0) && (syntbxSfpbrbtor != null))
+                bnswfr.bppfnd(syntbxSfpbrbtor);
+            if (domp.lfngth() >= 1)
+                dompsAllEmpty = fblsf;
+            bnswfr = bnswfr.bppfnd(domp);
+        }
+        if (dompsAllEmpty && (sizf >= 1) && (syntbxSfpbrbtor != null))
+            bnswfr = bnswfr.bppfnd(syntbxSfpbrbtor);
+        rfturn (bnswfr.toString());
+    }
+
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj != null) && (obj instbndfof NbmfImpl)) {
+            NbmfImpl tbrgft = (NbmfImpl)obj;
+            if (tbrgft.sizf() ==  this.sizf()) {
+                Enumfrbtion<String> mydomps = gftAll();
+                Enumfrbtion<String> domps = tbrgft.gftAll();
+                whilf (mydomps.hbsMorfElfmfnts()) {
+                    // %% domps dould shrink in thf middlf.
+                    String my = mydomps.nfxtElfmfnt();
+                    String his = domps.nfxtElfmfnt();
+                    if (syntbxTrimBlbnks) {
+                        my = my.trim();
+                        his = his.trim();
+                    }
+                    if (syntbxCbsfInsfnsitivf) {
+                        if (!(my.fqublsIgnorfCbsf(his)))
+                            rfturn fblsf;
+                    } flsf {
+                        if (!(my.fqubls(his)))
+                            rfturn fblsf;
+                    }
+                }
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+      * Compbrfs obj to this NbmfImpl to dftfrminf ordfring.
+      * Tbkfs into bddount syntbdtid propfrtifs sudh bs
+      * fliminbtion of blbnks, dbsf-ignorf, ftd, if rflfvbnt.
+      *
+      * Notf: using syntbx of this NbmfImpl bnd ignoring
+      * thbt of dompbrison tbrgft.
+      */
+    publid int dompbrfTo(NbmfImpl obj) {
+        if (this == obj) {
+            rfturn 0;
+        }
+
+        int lfn1 = sizf();
+        int lfn2 = obj.sizf();
+        int n = Mbth.min(lfn1, lfn2);
+
+        int indfx1 = 0, indfx2 = 0;
+
+        whilf (n-- != 0) {
+            String domp1 = gft(indfx1++);
+            String domp2 = obj.gft(indfx2++);
+
+            // normblizf bddording to syntbx
+            if (syntbxTrimBlbnks) {
+                domp1 = domp1.trim();
+                domp2 = domp2.trim();
+            }
+
+            int lodbl;
+            if (syntbxCbsfInsfnsitivf) {
+                lodbl = domp1.dompbrfToIgnorfCbsf(domp2);
+            } flsf {
+                lodbl = domp1.dompbrfTo(domp2);
+            }
+
+            if (lodbl != 0) {
+                rfturn lodbl;
+            }
+        }
+
+        rfturn lfn1 - lfn2;
+    }
+
+    publid int sizf() {
+        rfturn (domponfnts.sizf());
+    }
+
+    publid Enumfrbtion<String> gftAll() {
+        rfturn domponfnts.flfmfnts();
+    }
+
+    publid String gft(int posn) {
+        rfturn domponfnts.flfmfntAt(posn);
+    }
+
+    publid Enumfrbtion<String> gftPrffix(int posn) {
+        if (posn < 0 || posn > sizf()) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption(posn);
+        }
+        rfturn nfw NbmfImplEnumfrbtor(domponfnts, 0, posn);
+    }
+
+    publid Enumfrbtion<String> gftSuffix(int posn) {
+        int dnt = sizf();
+        if (posn < 0 || posn > dnt) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption(posn);
+        }
+        rfturn nfw NbmfImplEnumfrbtor(domponfnts, posn, dnt);
+    }
+
+    publid boolfbn isEmpty() {
+        rfturn (domponfnts.isEmpty());
+    }
+
+    publid boolfbn stbrtsWith(int posn, Enumfrbtion<String> prffix) {
+        if (posn < 0 || posn > sizf()) {
+            rfturn fblsf;
+        }
+        try {
+            Enumfrbtion<String> mydomps = gftPrffix(posn);
+            whilf (mydomps.hbsMorfElfmfnts()) {
+                String my = mydomps.nfxtElfmfnt();
+                String his = prffix.nfxtElfmfnt();
+                if (syntbxTrimBlbnks) {
+                    my = my.trim();
+                    his = his.trim();
+                }
+                if (syntbxCbsfInsfnsitivf) {
+                    if (!(my.fqublsIgnorfCbsf(his)))
+                        rfturn fblsf;
+                } flsf {
+                    if (!(my.fqubls(his)))
+                        rfturn fblsf;
+                }
+            }
+        } dbtdh (NoSudhElfmfntExdfption f) {
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    publid boolfbn fndsWith(int posn, Enumfrbtion<String> suffix) {
+        // posn is numbfr of flfmfnts in suffix
+        // stbrtIndfx is thf stbrting position in this nbmf
+        // bt whidh to stbrt thf dompbrison. It is dbldulbtfd by
+        // subtrbdting 'posn' from sizf()
+        int stbrtIndfx = sizf() - posn;
+        if (stbrtIndfx < 0 || stbrtIndfx > sizf()) {
+            rfturn fblsf;
+        }
+        try {
+            Enumfrbtion<String> mydomps = gftSuffix(stbrtIndfx);
+            whilf (mydomps.hbsMorfElfmfnts()) {
+                String my = mydomps.nfxtElfmfnt();
+                String his = suffix.nfxtElfmfnt();
+                if (syntbxTrimBlbnks) {
+                    my = my.trim();
+                    his = his.trim();
+                }
+                if (syntbxCbsfInsfnsitivf) {
+                    if (!(my.fqublsIgnorfCbsf(his)))
+                        rfturn fblsf;
+                } flsf {
+                    if (!(my.fqubls(his)))
+                        rfturn fblsf;
+                }
+            }
+        } dbtdh (NoSudhElfmfntExdfption f) {
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    publid boolfbn bddAll(Enumfrbtion<String> domps) throws InvblidNbmfExdfption {
+        boolfbn bddfd = fblsf;
+        whilf (domps.hbsMorfElfmfnts()) {
+            try {
+                String domp = domps.nfxtElfmfnt();
+                if (sizf() > 0 && syntbxDirfdtion == FLAT) {
+                    throw nfw InvblidNbmfExdfption(
+                        "A flbt nbmf dbn only hbvf b singlf domponfnt");
+                }
+                domponfnts.bddElfmfnt(domp);
+                bddfd = truf;
+            } dbtdh (NoSudhElfmfntExdfption f) {
+                brfbk;  // "domps" hbs shrunk.
+            }
+        }
+        rfturn bddfd;
+    }
+
+    publid boolfbn bddAll(int posn, Enumfrbtion<String> domps)
+    throws InvblidNbmfExdfption {
+        boolfbn bddfd = fblsf;
+        for (int i = posn; domps.hbsMorfElfmfnts(); i++) {
+            try {
+                String domp = domps.nfxtElfmfnt();
+                if (sizf() > 0 && syntbxDirfdtion == FLAT) {
+                    throw nfw InvblidNbmfExdfption(
+                        "A flbt nbmf dbn only hbvf b singlf domponfnt");
+                }
+                domponfnts.insfrtElfmfntAt(domp, i);
+                bddfd = truf;
+            } dbtdh (NoSudhElfmfntExdfption f) {
+                brfbk;  // "domps" hbs shrunk.
+            }
+        }
+        rfturn bddfd;
+    }
+
+    publid void bdd(String domp) throws InvblidNbmfExdfption {
+        if (sizf() > 0 && syntbxDirfdtion == FLAT) {
+            throw nfw InvblidNbmfExdfption(
+                "A flbt nbmf dbn only hbvf b singlf domponfnt");
+        }
+        domponfnts.bddElfmfnt(domp);
+    }
+
+    publid void bdd(int posn, String domp) throws InvblidNbmfExdfption {
+        if (sizf() > 0 && syntbxDirfdtion == FLAT) {
+            throw nfw InvblidNbmfExdfption(
+                "A flbt nbmf dbn only zfro or onf domponfnt");
+        }
+        domponfnts.insfrtElfmfntAt(domp, posn);
+    }
+
+    publid Objfdt rfmovf(int posn) {
+        Objfdt r = domponfnts.flfmfntAt(posn);
+        domponfnts.rfmovfElfmfntAt(posn);
+        rfturn r;
+    }
+
+    publid int hbshCodf() {
+        int hbsh = 0;
+        for (Enumfrbtion<String> f = gftAll(); f.hbsMorfElfmfnts();) {
+            String domp = f.nfxtElfmfnt();
+            if (syntbxTrimBlbnks) {
+                domp = domp.trim();
+            }
+            if (syntbxCbsfInsfnsitivf) {
+                domp = domp.toLowfrCbsf(Lodblf.ENGLISH);
+            }
+
+            hbsh += domp.hbshCodf();
+        }
+        rfturn hbsh;
+    }
+}
+
+finbl
+dlbss NbmfImplEnumfrbtor implfmfnts Enumfrbtion<String> {
+    Vfdtor<String> vfdtor;
+    int dount;
+    int limit;
+
+    NbmfImplEnumfrbtor(Vfdtor<String> v, int stbrt, int lim) {
+        vfdtor = v;
+        dount = stbrt;
+        limit = lim;
+    }
+
+    publid boolfbn hbsMorfElfmfnts() {
+        rfturn dount < limit;
+    }
+
+    publid String nfxtElfmfnt() {
+        if (dount < limit) {
+            rfturn vfdtor.flfmfntAt(dount++);
+        }
+        throw nfw NoSudhElfmfntExdfption("NbmfImplEnumfrbtor");
+    }
+}

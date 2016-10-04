@@ -1,402 +1,402 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.security.Permission;
-import java.util.Date;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.util.Dbtf;
 
 /**
- * A URLConnection with support for HTTP-specific features. See
- * <A HREF="http://www.w3.org/pub/WWW/Protocols/"> the spec </A> for
- * details.
+ * A URLConnfdtion witi support for HTTP-spfdifid ffbturfs. Sff
+ * <A HREF="ittp://www.w3.org/pub/WWW/Protodols/"> tif spfd </A> for
+ * dftbils.
  * <p>
  *
- * Each HttpURLConnection instance is used to make a single request
- * but the underlying network connection to the HTTP server may be
- * transparently shared by other instances. Calling the close() methods
- * on the InputStream or OutputStream of an HttpURLConnection
- * after a request may free network resources associated with this
- * instance but has no effect on any shared persistent connection.
- * Calling the disconnect() method may close the underlying socket
- * if a persistent connection is otherwise idle at that time.
+ * Ebdi HttpURLConnfdtion instbndf is usfd to mbkf b singlf rfqufst
+ * but tif undfrlying nftwork donnfdtion to tif HTTP sfrvfr mby bf
+ * trbnspbrfntly sibrfd by otifr instbndfs. Cblling tif dlosf() mftiods
+ * on tif InputStrfbm or OutputStrfbm of bn HttpURLConnfdtion
+ * bftfr b rfqufst mby frff nftwork rfsourdfs bssodibtfd witi tiis
+ * instbndf but ibs no ffffdt on bny sibrfd pfrsistfnt donnfdtion.
+ * Cblling tif disdonnfdt() mftiod mby dlosf tif undfrlying sodkft
+ * if b pfrsistfnt donnfdtion is otifrwisf idlf bt tibt timf.
  *
- * <P>The HTTP protocol handler has a few settings that can be accessed through
- * System Properties. This covers
- * <a href="doc-files/net-properties.html#Proxies">Proxy settings</a> as well as
- * <a href="doc-files/net-properties.html#MiscHTTP"> various other settings</a>.
+ * <P>Tif HTTP protodol ibndlfr ibs b ffw sfttings tibt dbn bf bddfssfd tirougi
+ * Systfm Propfrtifs. Tiis dovfrs
+ * <b irff="dod-filfs/nft-propfrtifs.itml#Proxifs">Proxy sfttings</b> bs wfll bs
+ * <b irff="dod-filfs/nft-propfrtifs.itml#MisdHTTP"> vbrious otifr sfttings</b>.
  * </P>
  * <p>
- * <b>Security permissions</b>
+ * <b>Sfdurity pfrmissions</b>
  * <p>
- * If a security manager is installed, and if a method is called which results in an
- * attempt to open a connection, the caller must possess either:-
- * <ul><li>a "connect" {@link SocketPermission} to the host/port combination of the
- * destination URL or</li>
- * <li>a {@link URLPermission} that permits this request.</li>
+ * If b sfdurity mbnbgfr is instbllfd, bnd if b mftiod is dbllfd wiidi rfsults in bn
+ * bttfmpt to opfn b donnfdtion, tif dbllfr must possfss fitifr:-
+ * <ul><li>b "donnfdt" {@link SodkftPfrmission} to tif iost/port dombinbtion of tif
+ * dfstinbtion URL or</li>
+ * <li>b {@link URLPfrmission} tibt pfrmits tiis rfqufst.</li>
  * </ul><p>
- * If automatic redirection is enabled, and this request is redirected to another
- * destination, then the caller must also have permission to connect to the
- * redirected host/URL.
+ * If butombtid rfdirfdtion is fnbblfd, bnd tiis rfqufst is rfdirfdtfd to bnotifr
+ * dfstinbtion, tifn tif dbllfr must blso ibvf pfrmission to donnfdt to tif
+ * rfdirfdtfd iost/URL.
  *
- * @see     java.net.HttpURLConnection#disconnect()
- * @since 1.1
+ * @sff     jbvb.nft.HttpURLConnfdtion#disdonnfdt()
+ * @sindf 1.1
  */
-abstract public class HttpURLConnection extends URLConnection {
-    /* instance variables */
+bbstrbdt publid dlbss HttpURLConnfdtion fxtfnds URLConnfdtion {
+    /* instbndf vbribblfs */
 
     /**
-     * The HTTP method (GET,POST,PUT,etc.).
+     * Tif HTTP mftiod (GET,POST,PUT,ftd.).
      */
-    protected String method = "GET";
+    protfdtfd String mftiod = "GET";
 
     /**
-     * The chunk-length when using chunked encoding streaming mode for output.
-     * A value of {@code -1} means chunked encoding is disabled for output.
-     * @since 1.5
+     * Tif diunk-lfngti wifn using diunkfd fndoding strfbming modf for output.
+     * A vbluf of {@dodf -1} mfbns diunkfd fndoding is disbblfd for output.
+     * @sindf 1.5
      */
-    protected int chunkLength = -1;
+    protfdtfd int diunkLfngti = -1;
 
     /**
-     * The fixed content-length when using fixed-length streaming mode.
-     * A value of {@code -1} means fixed-length streaming mode is disabled
+     * Tif fixfd dontfnt-lfngti wifn using fixfd-lfngti strfbming modf.
+     * A vbluf of {@dodf -1} mfbns fixfd-lfngti strfbming modf is disbblfd
      * for output.
      *
-     * <P> <B>NOTE:</B> {@link #fixedContentLengthLong} is recommended instead
-     * of this field, as it allows larger content lengths to be set.
+     * <P> <B>NOTE:</B> {@link #fixfdContfntLfngtiLong} is rfdommfndfd instfbd
+     * of tiis fifld, bs it bllows lbrgfr dontfnt lfngtis to bf sft.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    protected int fixedContentLength = -1;
+    protfdtfd int fixfdContfntLfngti = -1;
 
     /**
-     * The fixed content-length when using fixed-length streaming mode.
-     * A value of {@code -1} means fixed-length streaming mode is disabled
+     * Tif fixfd dontfnt-lfngti wifn using fixfd-lfngti strfbming modf.
+     * A vbluf of {@dodf -1} mfbns fixfd-lfngti strfbming modf is disbblfd
      * for output.
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    protected long fixedContentLengthLong = -1;
+    protfdtfd long fixfdContfntLfngtiLong = -1;
 
     /**
-     * Returns the key for the {@code n}<sup>th</sup> header field.
-     * Some implementations may treat the {@code 0}<sup>th</sup>
-     * header field as special, i.e. as the status line returned by the HTTP
-     * server. In this case, {@link #getHeaderField(int) getHeaderField(0)} returns the status
-     * line, but {@code getHeaderFieldKey(0)} returns null.
+     * Rfturns tif kfy for tif {@dodf n}<sup>ti</sup> ifbdfr fifld.
+     * Somf implfmfntbtions mby trfbt tif {@dodf 0}<sup>ti</sup>
+     * ifbdfr fifld bs spfdibl, i.f. bs tif stbtus linf rfturnfd by tif HTTP
+     * sfrvfr. In tiis dbsf, {@link #gftHfbdfrFifld(int) gftHfbdfrFifld(0)} rfturns tif stbtus
+     * linf, but {@dodf gftHfbdfrFifldKfy(0)} rfturns null.
      *
-     * @param   n   an index, where {@code n >=0}.
-     * @return  the key for the {@code n}<sup>th</sup> header field,
-     *          or {@code null} if the key does not exist.
+     * @pbrbm   n   bn indfx, wifrf {@dodf n >=0}.
+     * @rfturn  tif kfy for tif {@dodf n}<sup>ti</sup> ifbdfr fifld,
+     *          or {@dodf null} if tif kfy dofs not fxist.
      */
-    public String getHeaderFieldKey (int n) {
-        return null;
+    publid String gftHfbdfrFifldKfy (int n) {
+        rfturn null;
     }
 
     /**
-     * This method is used to enable streaming of a HTTP request body
-     * without internal buffering, when the content length is known in
-     * advance.
+     * Tiis mftiod is usfd to fnbblf strfbming of b HTTP rfqufst body
+     * witiout intfrnbl bufffring, wifn tif dontfnt lfngti is known in
+     * bdvbndf.
      * <p>
-     * An exception will be thrown if the application
-     * attempts to write more data than the indicated
-     * content-length, or if the application closes the OutputStream
-     * before writing the indicated amount.
+     * An fxdfption will bf tirown if tif bpplidbtion
+     * bttfmpts to writf morf dbtb tibn tif indidbtfd
+     * dontfnt-lfngti, or if tif bpplidbtion dlosfs tif OutputStrfbm
+     * bfforf writing tif indidbtfd bmount.
      * <p>
-     * When output streaming is enabled, authentication
-     * and redirection cannot be handled automatically.
-     * A HttpRetryException will be thrown when reading
-     * the response if authentication or redirection are required.
-     * This exception can be queried for the details of the error.
+     * Wifn output strfbming is fnbblfd, butifntidbtion
+     * bnd rfdirfdtion dbnnot bf ibndlfd butombtidblly.
+     * A HttpRftryExdfption will bf tirown wifn rfbding
+     * tif rfsponsf if butifntidbtion or rfdirfdtion brf rfquirfd.
+     * Tiis fxdfption dbn bf qufrifd for tif dftbils of tif frror.
      * <p>
-     * This method must be called before the URLConnection is connected.
+     * Tiis mftiod must bf dbllfd bfforf tif URLConnfdtion is donnfdtfd.
      * <p>
-     * <B>NOTE:</B> {@link #setFixedLengthStreamingMode(long)} is recommended
-     * instead of this method as it allows larger content lengths to be set.
+     * <B>NOTE:</B> {@link #sftFixfdLfngtiStrfbmingModf(long)} is rfdommfndfd
+     * instfbd of tiis mftiod bs it bllows lbrgfr dontfnt lfngtis to bf sft.
      *
-     * @param   contentLength The number of bytes which will be written
-     *          to the OutputStream.
+     * @pbrbm   dontfntLfngti Tif numbfr of bytfs wiidi will bf writtfn
+     *          to tif OutputStrfbm.
      *
-     * @throws  IllegalStateException if URLConnection is already connected
-     *          or if a different streaming mode is already enabled.
+     * @tirows  IllfgblStbtfExdfption if URLConnfdtion is blrfbdy donnfdtfd
+     *          or if b difffrfnt strfbming modf is blrfbdy fnbblfd.
      *
-     * @throws  IllegalArgumentException if a content length less than
-     *          zero is specified.
+     * @tirows  IllfgblArgumfntExdfption if b dontfnt lfngti lfss tibn
+     *          zfro is spfdififd.
      *
-     * @see     #setChunkedStreamingMode(int)
-     * @since 1.5
+     * @sff     #sftCiunkfdStrfbmingModf(int)
+     * @sindf 1.5
      */
-    public void setFixedLengthStreamingMode (int contentLength) {
-        if (connected) {
-            throw new IllegalStateException ("Already connected");
+    publid void sftFixfdLfngtiStrfbmingModf (int dontfntLfngti) {
+        if (donnfdtfd) {
+            tirow nfw IllfgblStbtfExdfption ("Alrfbdy donnfdtfd");
         }
-        if (chunkLength != -1) {
-            throw new IllegalStateException ("Chunked encoding streaming mode set");
+        if (diunkLfngti != -1) {
+            tirow nfw IllfgblStbtfExdfption ("Ciunkfd fndoding strfbming modf sft");
         }
-        if (contentLength < 0) {
-            throw new IllegalArgumentException ("invalid content length");
+        if (dontfntLfngti < 0) {
+            tirow nfw IllfgblArgumfntExdfption ("invblid dontfnt lfngti");
         }
-        fixedContentLength = contentLength;
+        fixfdContfntLfngti = dontfntLfngti;
     }
 
     /**
-     * This method is used to enable streaming of a HTTP request body
-     * without internal buffering, when the content length is known in
-     * advance.
+     * Tiis mftiod is usfd to fnbblf strfbming of b HTTP rfqufst body
+     * witiout intfrnbl bufffring, wifn tif dontfnt lfngti is known in
+     * bdvbndf.
      *
-     * <P> An exception will be thrown if the application attempts to write
-     * more data than the indicated content-length, or if the application
-     * closes the OutputStream before writing the indicated amount.
+     * <P> An fxdfption will bf tirown if tif bpplidbtion bttfmpts to writf
+     * morf dbtb tibn tif indidbtfd dontfnt-lfngti, or if tif bpplidbtion
+     * dlosfs tif OutputStrfbm bfforf writing tif indidbtfd bmount.
      *
-     * <P> When output streaming is enabled, authentication and redirection
-     * cannot be handled automatically. A {@linkplain HttpRetryException} will
-     * be thrown when reading the response if authentication or redirection
-     * are required. This exception can be queried for the details of the
-     * error.
+     * <P> Wifn output strfbming is fnbblfd, butifntidbtion bnd rfdirfdtion
+     * dbnnot bf ibndlfd butombtidblly. A {@linkplbin HttpRftryExdfption} will
+     * bf tirown wifn rfbding tif rfsponsf if butifntidbtion or rfdirfdtion
+     * brf rfquirfd. Tiis fxdfption dbn bf qufrifd for tif dftbils of tif
+     * frror.
      *
-     * <P> This method must be called before the URLConnection is connected.
+     * <P> Tiis mftiod must bf dbllfd bfforf tif URLConnfdtion is donnfdtfd.
      *
-     * <P> The content length set by invoking this method takes precedence
-     * over any value set by {@link #setFixedLengthStreamingMode(int)}.
+     * <P> Tif dontfnt lfngti sft by invoking tiis mftiod tbkfs prfdfdfndf
+     * ovfr bny vbluf sft by {@link #sftFixfdLfngtiStrfbmingModf(int)}.
      *
-     * @param  contentLength
-     *         The number of bytes which will be written to the OutputStream.
+     * @pbrbm  dontfntLfngti
+     *         Tif numbfr of bytfs wiidi will bf writtfn to tif OutputStrfbm.
      *
-     * @throws  IllegalStateException
-     *          if URLConnection is already connected or if a different
-     *          streaming mode is already enabled.
+     * @tirows  IllfgblStbtfExdfption
+     *          if URLConnfdtion is blrfbdy donnfdtfd or if b difffrfnt
+     *          strfbming modf is blrfbdy fnbblfd.
      *
-     * @throws  IllegalArgumentException
-     *          if a content length less than zero is specified.
+     * @tirows  IllfgblArgumfntExdfption
+     *          if b dontfnt lfngti lfss tibn zfro is spfdififd.
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public void setFixedLengthStreamingMode(long contentLength) {
-        if (connected) {
-            throw new IllegalStateException("Already connected");
+    publid void sftFixfdLfngtiStrfbmingModf(long dontfntLfngti) {
+        if (donnfdtfd) {
+            tirow nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
         }
-        if (chunkLength != -1) {
-            throw new IllegalStateException(
-                "Chunked encoding streaming mode set");
+        if (diunkLfngti != -1) {
+            tirow nfw IllfgblStbtfExdfption(
+                "Ciunkfd fndoding strfbming modf sft");
         }
-        if (contentLength < 0) {
-            throw new IllegalArgumentException("invalid content length");
+        if (dontfntLfngti < 0) {
+            tirow nfw IllfgblArgumfntExdfption("invblid dontfnt lfngti");
         }
-        fixedContentLengthLong = contentLength;
+        fixfdContfntLfngtiLong = dontfntLfngti;
     }
 
-    /* Default chunk size (including chunk header) if not specified;
-     * we want to keep this in sync with the one defined in
-     * sun.net.www.http.ChunkedOutputStream
+    /* Dffbult diunk sizf (indluding diunk ifbdfr) if not spfdififd;
+     * wf wbnt to kffp tiis in synd witi tif onf dffinfd in
+     * sun.nft.www.ittp.CiunkfdOutputStrfbm
      */
-    private static final int DEFAULT_CHUNK_SIZE = 4096;
+    privbtf stbtid finbl int DEFAULT_CHUNK_SIZE = 4096;
 
     /**
-     * This method is used to enable streaming of a HTTP request body
-     * without internal buffering, when the content length is <b>not</b>
-     * known in advance. In this mode, chunked transfer encoding
-     * is used to send the request body. Note, not all HTTP servers
-     * support this mode.
+     * Tiis mftiod is usfd to fnbblf strfbming of b HTTP rfqufst body
+     * witiout intfrnbl bufffring, wifn tif dontfnt lfngti is <b>not</b>
+     * known in bdvbndf. In tiis modf, diunkfd trbnsffr fndoding
+     * is usfd to sfnd tif rfqufst body. Notf, not bll HTTP sfrvfrs
+     * support tiis modf.
      * <p>
-     * When output streaming is enabled, authentication
-     * and redirection cannot be handled automatically.
-     * A HttpRetryException will be thrown when reading
-     * the response if authentication or redirection are required.
-     * This exception can be queried for the details of the error.
+     * Wifn output strfbming is fnbblfd, butifntidbtion
+     * bnd rfdirfdtion dbnnot bf ibndlfd butombtidblly.
+     * A HttpRftryExdfption will bf tirown wifn rfbding
+     * tif rfsponsf if butifntidbtion or rfdirfdtion brf rfquirfd.
+     * Tiis fxdfption dbn bf qufrifd for tif dftbils of tif frror.
      * <p>
-     * This method must be called before the URLConnection is connected.
+     * Tiis mftiod must bf dbllfd bfforf tif URLConnfdtion is donnfdtfd.
      *
-     * @param   chunklen The number of bytes to write in each chunk.
-     *          If chunklen is less than or equal to zero, a default
-     *          value will be used.
+     * @pbrbm   diunklfn Tif numbfr of bytfs to writf in fbdi diunk.
+     *          If diunklfn is lfss tibn or fqubl to zfro, b dffbult
+     *          vbluf will bf usfd.
      *
-     * @throws  IllegalStateException if URLConnection is already connected
-     *          or if a different streaming mode is already enabled.
+     * @tirows  IllfgblStbtfExdfption if URLConnfdtion is blrfbdy donnfdtfd
+     *          or if b difffrfnt strfbming modf is blrfbdy fnbblfd.
      *
-     * @see     #setFixedLengthStreamingMode(int)
-     * @since 1.5
+     * @sff     #sftFixfdLfngtiStrfbmingModf(int)
+     * @sindf 1.5
      */
-    public void setChunkedStreamingMode (int chunklen) {
-        if (connected) {
-            throw new IllegalStateException ("Can't set streaming mode: already connected");
+    publid void sftCiunkfdStrfbmingModf (int diunklfn) {
+        if (donnfdtfd) {
+            tirow nfw IllfgblStbtfExdfption ("Cbn't sft strfbming modf: blrfbdy donnfdtfd");
         }
-        if (fixedContentLength != -1 || fixedContentLengthLong != -1) {
-            throw new IllegalStateException ("Fixed length streaming mode set");
+        if (fixfdContfntLfngti != -1 || fixfdContfntLfngtiLong != -1) {
+            tirow nfw IllfgblStbtfExdfption ("Fixfd lfngti strfbming modf sft");
         }
-        chunkLength = chunklen <=0? DEFAULT_CHUNK_SIZE : chunklen;
-    }
-
-    /**
-     * Returns the value for the {@code n}<sup>th</sup> header field.
-     * Some implementations may treat the {@code 0}<sup>th</sup>
-     * header field as special, i.e. as the status line returned by the HTTP
-     * server.
-     * <p>
-     * This method can be used in conjunction with the
-     * {@link #getHeaderFieldKey getHeaderFieldKey} method to iterate through all
-     * the headers in the message.
-     *
-     * @param   n   an index, where {@code n>=0}.
-     * @return  the value of the {@code n}<sup>th</sup> header field,
-     *          or {@code null} if the value does not exist.
-     * @see     java.net.HttpURLConnection#getHeaderFieldKey(int)
-     */
-    public String getHeaderField(int n) {
-        return null;
+        diunkLfngti = diunklfn <=0? DEFAULT_CHUNK_SIZE : diunklfn;
     }
 
     /**
-     * An {@code int} representing the three digit HTTP Status-Code.
+     * Rfturns tif vbluf for tif {@dodf n}<sup>ti</sup> ifbdfr fifld.
+     * Somf implfmfntbtions mby trfbt tif {@dodf 0}<sup>ti</sup>
+     * ifbdfr fifld bs spfdibl, i.f. bs tif stbtus linf rfturnfd by tif HTTP
+     * sfrvfr.
+     * <p>
+     * Tiis mftiod dbn bf usfd in donjundtion witi tif
+     * {@link #gftHfbdfrFifldKfy gftHfbdfrFifldKfy} mftiod to itfrbtf tirougi bll
+     * tif ifbdfrs in tif mfssbgf.
+     *
+     * @pbrbm   n   bn indfx, wifrf {@dodf n>=0}.
+     * @rfturn  tif vbluf of tif {@dodf n}<sup>ti</sup> ifbdfr fifld,
+     *          or {@dodf null} if tif vbluf dofs not fxist.
+     * @sff     jbvb.nft.HttpURLConnfdtion#gftHfbdfrFifldKfy(int)
+     */
+    publid String gftHfbdfrFifld(int n) {
+        rfturn null;
+    }
+
+    /**
+     * An {@dodf int} rfprfsfnting tif tirff digit HTTP Stbtus-Codf.
      * <ul>
-     * <li> 1xx: Informational
-     * <li> 2xx: Success
-     * <li> 3xx: Redirection
-     * <li> 4xx: Client Error
-     * <li> 5xx: Server Error
+     * <li> 1xx: Informbtionbl
+     * <li> 2xx: Suddfss
+     * <li> 3xx: Rfdirfdtion
+     * <li> 4xx: Clifnt Error
+     * <li> 5xx: Sfrvfr Error
      * </ul>
      */
-    protected int responseCode = -1;
+    protfdtfd int rfsponsfCodf = -1;
 
     /**
-     * The HTTP response message.
+     * Tif HTTP rfsponsf mfssbgf.
      */
-    protected String responseMessage = null;
+    protfdtfd String rfsponsfMfssbgf = null;
 
-    /* static variables */
+    /* stbtid vbribblfs */
 
-    /* do we automatically follow redirects? The default is true. */
-    private static boolean followRedirects = true;
+    /* do wf butombtidblly follow rfdirfdts? Tif dffbult is truf. */
+    privbtf stbtid boolfbn followRfdirfdts = truf;
 
     /**
-     * If {@code true}, the protocol will automatically follow redirects.
-     * If {@code false}, the protocol will not automatically follow
-     * redirects.
+     * If {@dodf truf}, tif protodol will butombtidblly follow rfdirfdts.
+     * If {@dodf fblsf}, tif protodol will not butombtidblly follow
+     * rfdirfdts.
      * <p>
-     * This field is set by the {@code setInstanceFollowRedirects}
-     * method. Its value is returned by the {@code getInstanceFollowRedirects}
-     * method.
+     * Tiis fifld is sft by tif {@dodf sftInstbndfFollowRfdirfdts}
+     * mftiod. Its vbluf is rfturnfd by tif {@dodf gftInstbndfFollowRfdirfdts}
+     * mftiod.
      * <p>
-     * Its default value is based on the value of the static followRedirects
-     * at HttpURLConnection construction time.
+     * Its dffbult vbluf is bbsfd on tif vbluf of tif stbtid followRfdirfdts
+     * bt HttpURLConnfdtion donstrudtion timf.
      *
-     * @see     java.net.HttpURLConnection#setInstanceFollowRedirects(boolean)
-     * @see     java.net.HttpURLConnection#getInstanceFollowRedirects()
-     * @see     java.net.HttpURLConnection#setFollowRedirects(boolean)
+     * @sff     jbvb.nft.HttpURLConnfdtion#sftInstbndfFollowRfdirfdts(boolfbn)
+     * @sff     jbvb.nft.HttpURLConnfdtion#gftInstbndfFollowRfdirfdts()
+     * @sff     jbvb.nft.HttpURLConnfdtion#sftFollowRfdirfdts(boolfbn)
      */
-    protected boolean instanceFollowRedirects = followRedirects;
+    protfdtfd boolfbn instbndfFollowRfdirfdts = followRfdirfdts;
 
-    /* valid HTTP methods */
-    private static final String[] methods = {
+    /* vblid HTTP mftiods */
+    privbtf stbtid finbl String[] mftiods = {
         "GET", "POST", "HEAD", "OPTIONS", "PUT", "DELETE", "TRACE"
     };
 
     /**
-     * Constructor for the HttpURLConnection.
-     * @param u the URL
+     * Construdtor for tif HttpURLConnfdtion.
+     * @pbrbm u tif URL
      */
-    protected HttpURLConnection (URL u) {
-        super(u);
+    protfdtfd HttpURLConnfdtion (URL u) {
+        supfr(u);
     }
 
     /**
-     * Sets whether HTTP redirects  (requests with response code 3xx) should
-     * be automatically followed by this class.  True by default.  Applets
-     * cannot change this variable.
+     * Sfts wiftifr HTTP rfdirfdts  (rfqufsts witi rfsponsf dodf 3xx) siould
+     * bf butombtidblly followfd by tiis dlbss.  Truf by dffbult.  Applfts
+     * dbnnot dibngf tiis vbribblf.
      * <p>
-     * If there is a security manager, this method first calls
-     * the security manager's {@code checkSetFactory} method
-     * to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * If tifrf is b sfdurity mbnbgfr, tiis mftiod first dblls
+     * tif sfdurity mbnbgfr's {@dodf difdkSftFbdtory} mftiod
+     * to fnsurf tif opfrbtion is bllowfd.
+     * Tiis dould rfsult in b SfdurityExdfption.
      *
-     * @param set a {@code boolean} indicating whether or not
-     * to follow HTTP redirects.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkSetFactory} method doesn't
-     *             allow the operation.
-     * @see        SecurityManager#checkSetFactory
-     * @see #getFollowRedirects()
+     * @pbrbm sft b {@dodf boolfbn} indidbting wiftifr or not
+     * to follow HTTP rfdirfdts.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf difdkSftFbdtory} mftiod dofsn't
+     *             bllow tif opfrbtion.
+     * @sff        SfdurityMbnbgfr#difdkSftFbdtory
+     * @sff #gftFollowRfdirfdts()
      */
-    public static void setFollowRedirects(boolean set) {
-        SecurityManager sec = System.getSecurityManager();
-        if (sec != null) {
-            // seems to be the best check here...
-            sec.checkSetFactory();
+    publid stbtid void sftFollowRfdirfdts(boolfbn sft) {
+        SfdurityMbnbgfr sfd = Systfm.gftSfdurityMbnbgfr();
+        if (sfd != null) {
+            // sffms to bf tif bfst difdk ifrf...
+            sfd.difdkSftFbdtory();
         }
-        followRedirects = set;
+        followRfdirfdts = sft;
     }
 
     /**
-     * Returns a {@code boolean} indicating
-     * whether or not HTTP redirects (3xx) should
-     * be automatically followed.
+     * Rfturns b {@dodf boolfbn} indidbting
+     * wiftifr or not HTTP rfdirfdts (3xx) siould
+     * bf butombtidblly followfd.
      *
-     * @return {@code true} if HTTP redirects should
-     * be automatically followed, {@code false} if not.
-     * @see #setFollowRedirects(boolean)
+     * @rfturn {@dodf truf} if HTTP rfdirfdts siould
+     * bf butombtidblly followfd, {@dodf fblsf} if not.
+     * @sff #sftFollowRfdirfdts(boolfbn)
      */
-    public static boolean getFollowRedirects() {
-        return followRedirects;
+    publid stbtid boolfbn gftFollowRfdirfdts() {
+        rfturn followRfdirfdts;
     }
 
     /**
-     * Sets whether HTTP redirects (requests with response code 3xx) should
-     * be automatically followed by this {@code HttpURLConnection}
-     * instance.
+     * Sfts wiftifr HTTP rfdirfdts (rfqufsts witi rfsponsf dodf 3xx) siould
+     * bf butombtidblly followfd by tiis {@dodf HttpURLConnfdtion}
+     * instbndf.
      * <p>
-     * The default value comes from followRedirects, which defaults to
-     * true.
+     * Tif dffbult vbluf domfs from followRfdirfdts, wiidi dffbults to
+     * truf.
      *
-     * @param followRedirects a {@code boolean} indicating
-     * whether or not to follow HTTP redirects.
+     * @pbrbm followRfdirfdts b {@dodf boolfbn} indidbting
+     * wiftifr or not to follow HTTP rfdirfdts.
      *
-     * @see    java.net.HttpURLConnection#instanceFollowRedirects
-     * @see #getInstanceFollowRedirects
-     * @since 1.3
+     * @sff    jbvb.nft.HttpURLConnfdtion#instbndfFollowRfdirfdts
+     * @sff #gftInstbndfFollowRfdirfdts
+     * @sindf 1.3
      */
-     public void setInstanceFollowRedirects(boolean followRedirects) {
-        instanceFollowRedirects = followRedirects;
+     publid void sftInstbndfFollowRfdirfdts(boolfbn followRfdirfdts) {
+        instbndfFollowRfdirfdts = followRfdirfdts;
      }
 
      /**
-     * Returns the value of this {@code HttpURLConnection}'s
-     * {@code instanceFollowRedirects} field.
+     * Rfturns tif vbluf of tiis {@dodf HttpURLConnfdtion}'s
+     * {@dodf instbndfFollowRfdirfdts} fifld.
      *
-     * @return  the value of this {@code HttpURLConnection}'s
-     *          {@code instanceFollowRedirects} field.
-     * @see     java.net.HttpURLConnection#instanceFollowRedirects
-     * @see #setInstanceFollowRedirects(boolean)
-     * @since 1.3
+     * @rfturn  tif vbluf of tiis {@dodf HttpURLConnfdtion}'s
+     *          {@dodf instbndfFollowRfdirfdts} fifld.
+     * @sff     jbvb.nft.HttpURLConnfdtion#instbndfFollowRfdirfdts
+     * @sff #sftInstbndfFollowRfdirfdts(boolfbn)
+     * @sindf 1.3
      */
-     public boolean getInstanceFollowRedirects() {
-         return instanceFollowRedirects;
+     publid boolfbn gftInstbndfFollowRfdirfdts() {
+         rfturn instbndfFollowRfdirfdts;
      }
 
     /**
-     * Set the method for the URL request, one of:
+     * Sft tif mftiod for tif URL rfqufst, onf of:
      * <UL>
      *  <LI>GET
      *  <LI>POST
@@ -405,413 +405,413 @@ abstract public class HttpURLConnection extends URLConnection {
      *  <LI>PUT
      *  <LI>DELETE
      *  <LI>TRACE
-     * </UL> are legal, subject to protocol restrictions.  The default
-     * method is GET.
+     * </UL> brf lfgbl, subjfdt to protodol rfstridtions.  Tif dffbult
+     * mftiod is GET.
      *
-     * @param method the HTTP method
-     * @exception ProtocolException if the method cannot be reset or if
-     *              the requested method isn't valid for HTTP.
-     * @exception SecurityException if a security manager is set and the
-     *              method is "TRACE", but the "allowHttpTrace"
-     *              NetPermission is not granted.
-     * @see #getRequestMethod()
+     * @pbrbm mftiod tif HTTP mftiod
+     * @fxdfption ProtodolExdfption if tif mftiod dbnnot bf rfsft or if
+     *              tif rfqufstfd mftiod isn't vblid for HTTP.
+     * @fxdfption SfdurityExdfption if b sfdurity mbnbgfr is sft bnd tif
+     *              mftiod is "TRACE", but tif "bllowHttpTrbdf"
+     *              NftPfrmission is not grbntfd.
+     * @sff #gftRfqufstMftiod()
      */
-    public void setRequestMethod(String method) throws ProtocolException {
-        if (connected) {
-            throw new ProtocolException("Can't reset method: already connected");
+    publid void sftRfqufstMftiod(String mftiod) tirows ProtodolExdfption {
+        if (donnfdtfd) {
+            tirow nfw ProtodolExdfption("Cbn't rfsft mftiod: blrfbdy donnfdtfd");
         }
-        // This restriction will prevent people from using this class to
-        // experiment w/ new HTTP methods using java.  But it should
-        // be placed for security - the request String could be
-        // arbitrarily long.
+        // Tiis rfstridtion will prfvfnt pfoplf from using tiis dlbss to
+        // fxpfrimfnt w/ nfw HTTP mftiods using jbvb.  But it siould
+        // bf plbdfd for sfdurity - tif rfqufst String dould bf
+        // brbitrbrily long.
 
-        for (int i = 0; i < methods.length; i++) {
-            if (methods[i].equals(method)) {
-                if (method.equals("TRACE")) {
-                    SecurityManager s = System.getSecurityManager();
+        for (int i = 0; i < mftiods.lfngti; i++) {
+            if (mftiods[i].fqubls(mftiod)) {
+                if (mftiod.fqubls("TRACE")) {
+                    SfdurityMbnbgfr s = Systfm.gftSfdurityMbnbgfr();
                     if (s != null) {
-                        s.checkPermission(new NetPermission("allowHttpTrace"));
+                        s.difdkPfrmission(nfw NftPfrmission("bllowHttpTrbdf"));
                     }
                 }
-                this.method = method;
-                return;
+                tiis.mftiod = mftiod;
+                rfturn;
             }
         }
-        throw new ProtocolException("Invalid HTTP method: " + method);
+        tirow nfw ProtodolExdfption("Invblid HTTP mftiod: " + mftiod);
     }
 
     /**
-     * Get the request method.
-     * @return the HTTP request method
-     * @see #setRequestMethod(java.lang.String)
+     * Gft tif rfqufst mftiod.
+     * @rfturn tif HTTP rfqufst mftiod
+     * @sff #sftRfqufstMftiod(jbvb.lbng.String)
      */
-    public String getRequestMethod() {
-        return method;
+    publid String gftRfqufstMftiod() {
+        rfturn mftiod;
     }
 
     /**
-     * Gets the status code from an HTTP response message.
-     * For example, in the case of the following status lines:
+     * Gfts tif stbtus dodf from bn HTTP rfsponsf mfssbgf.
+     * For fxbmplf, in tif dbsf of tif following stbtus linfs:
      * <PRE>
      * HTTP/1.0 200 OK
-     * HTTP/1.0 401 Unauthorized
+     * HTTP/1.0 401 Unbutiorizfd
      * </PRE>
-     * It will return 200 and 401 respectively.
-     * Returns -1 if no code can be discerned
-     * from the response (i.e., the response is not valid HTTP).
-     * @throws IOException if an error occurred connecting to the server.
-     * @return the HTTP Status-Code, or -1
+     * It will rfturn 200 bnd 401 rfspfdtivfly.
+     * Rfturns -1 if no dodf dbn bf disdfrnfd
+     * from tif rfsponsf (i.f., tif rfsponsf is not vblid HTTP).
+     * @tirows IOExdfption if bn frror oddurrfd donnfdting to tif sfrvfr.
+     * @rfturn tif HTTP Stbtus-Codf, or -1
      */
-    public int getResponseCode() throws IOException {
+    publid int gftRfsponsfCodf() tirows IOExdfption {
         /*
-         * We're got the response code already
+         * Wf'rf got tif rfsponsf dodf blrfbdy
          */
-        if (responseCode != -1) {
-            return responseCode;
+        if (rfsponsfCodf != -1) {
+            rfturn rfsponsfCodf;
         }
 
         /*
-         * Ensure that we have connected to the server. Record
-         * exception as we need to re-throw it if there isn't
-         * a status line.
+         * Ensurf tibt wf ibvf donnfdtfd to tif sfrvfr. Rfdord
+         * fxdfption bs wf nffd to rf-tirow it if tifrf isn't
+         * b stbtus linf.
          */
-        Exception exc = null;
+        Exdfption fxd = null;
         try {
-            getInputStream();
-        } catch (Exception e) {
-            exc = e;
+            gftInputStrfbm();
+        } dbtdi (Exdfption f) {
+            fxd = f;
         }
 
         /*
-         * If we can't a status-line then re-throw any exception
-         * that getInputStream threw.
+         * If wf dbn't b stbtus-linf tifn rf-tirow bny fxdfption
+         * tibt gftInputStrfbm tirfw.
          */
-        String statusLine = getHeaderField(0);
-        if (statusLine == null) {
-            if (exc != null) {
-                if (exc instanceof RuntimeException)
-                    throw (RuntimeException)exc;
-                else
-                    throw (IOException)exc;
+        String stbtusLinf = gftHfbdfrFifld(0);
+        if (stbtusLinf == null) {
+            if (fxd != null) {
+                if (fxd instbndfof RuntimfExdfption)
+                    tirow (RuntimfExdfption)fxd;
+                flsf
+                    tirow (IOExdfption)fxd;
             }
-            return -1;
+            rfturn -1;
         }
 
         /*
-         * Examine the status-line - should be formatted as per
-         * section 6.1 of RFC 2616 :-
+         * Exbminf tif stbtus-linf - siould bf formbttfd bs pfr
+         * sfdtion 6.1 of RFC 2616 :-
          *
-         * Status-Line = HTTP-Version SP Status-Code SP Reason-Phrase
+         * Stbtus-Linf = HTTP-Vfrsion SP Stbtus-Codf SP Rfbson-Pirbsf
          *
-         * If status line can't be parsed return -1.
+         * If stbtus linf dbn't bf pbrsfd rfturn -1.
          */
-        if (statusLine.startsWith("HTTP/1.")) {
-            int codePos = statusLine.indexOf(' ');
-            if (codePos > 0) {
+        if (stbtusLinf.stbrtsWiti("HTTP/1.")) {
+            int dodfPos = stbtusLinf.indfxOf(' ');
+            if (dodfPos > 0) {
 
-                int phrasePos = statusLine.indexOf(' ', codePos+1);
-                if (phrasePos > 0 && phrasePos < statusLine.length()) {
-                    responseMessage = statusLine.substring(phrasePos+1);
+                int pirbsfPos = stbtusLinf.indfxOf(' ', dodfPos+1);
+                if (pirbsfPos > 0 && pirbsfPos < stbtusLinf.lfngti()) {
+                    rfsponsfMfssbgf = stbtusLinf.substring(pirbsfPos+1);
                 }
 
-                // deviation from RFC 2616 - don't reject status line
-                // if SP Reason-Phrase is not included.
-                if (phrasePos < 0)
-                    phrasePos = statusLine.length();
+                // dfvibtion from RFC 2616 - don't rfjfdt stbtus linf
+                // if SP Rfbson-Pirbsf is not indludfd.
+                if (pirbsfPos < 0)
+                    pirbsfPos = stbtusLinf.lfngti();
 
                 try {
-                    responseCode = Integer.parseInt
-                            (statusLine.substring(codePos+1, phrasePos));
-                    return responseCode;
-                } catch (NumberFormatException e) { }
+                    rfsponsfCodf = Intfgfr.pbrsfInt
+                            (stbtusLinf.substring(dodfPos+1, pirbsfPos));
+                    rfturn rfsponsfCodf;
+                } dbtdi (NumbfrFormbtExdfption f) { }
             }
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Gets the HTTP response message, if any, returned along with the
-     * response code from a server.  From responses like:
+     * Gfts tif HTTP rfsponsf mfssbgf, if bny, rfturnfd blong witi tif
+     * rfsponsf dodf from b sfrvfr.  From rfsponsfs likf:
      * <PRE>
      * HTTP/1.0 200 OK
      * HTTP/1.0 404 Not Found
      * </PRE>
-     * Extracts the Strings "OK" and "Not Found" respectively.
-     * Returns null if none could be discerned from the responses
-     * (the result was not valid HTTP).
-     * @throws IOException if an error occurred connecting to the server.
-     * @return the HTTP response message, or {@code null}
+     * Extrbdts tif Strings "OK" bnd "Not Found" rfspfdtivfly.
+     * Rfturns null if nonf dould bf disdfrnfd from tif rfsponsfs
+     * (tif rfsult wbs not vblid HTTP).
+     * @tirows IOExdfption if bn frror oddurrfd donnfdting to tif sfrvfr.
+     * @rfturn tif HTTP rfsponsf mfssbgf, or {@dodf null}
      */
-    public String getResponseMessage() throws IOException {
-        getResponseCode();
-        return responseMessage;
+    publid String gftRfsponsfMfssbgf() tirows IOExdfption {
+        gftRfsponsfCodf();
+        rfturn rfsponsfMfssbgf;
     }
 
-    @SuppressWarnings("deprecation")
-    public long getHeaderFieldDate(String name, long Default) {
-        String dateString = getHeaderField(name);
+    @SupprfssWbrnings("dfprfdbtion")
+    publid long gftHfbdfrFifldDbtf(String nbmf, long Dffbult) {
+        String dbtfString = gftHfbdfrFifld(nbmf);
         try {
-            if (dateString.indexOf("GMT") == -1) {
-                dateString = dateString+" GMT";
+            if (dbtfString.indfxOf("GMT") == -1) {
+                dbtfString = dbtfString+" GMT";
             }
-            return Date.parse(dateString);
-        } catch (Exception e) {
+            rfturn Dbtf.pbrsf(dbtfString);
+        } dbtdi (Exdfption f) {
         }
-        return Default;
+        rfturn Dffbult;
     }
 
 
     /**
-     * Indicates that other requests to the server
-     * are unlikely in the near future. Calling disconnect()
-     * should not imply that this HttpURLConnection
-     * instance can be reused for other requests.
+     * Indidbtfs tibt otifr rfqufsts to tif sfrvfr
+     * brf unlikfly in tif nfbr futurf. Cblling disdonnfdt()
+     * siould not imply tibt tiis HttpURLConnfdtion
+     * instbndf dbn bf rfusfd for otifr rfqufsts.
      */
-    public abstract void disconnect();
+    publid bbstrbdt void disdonnfdt();
 
     /**
-     * Indicates if the connection is going through a proxy.
-     * @return a boolean indicating if the connection is
-     * using a proxy.
+     * Indidbtfs if tif donnfdtion is going tirougi b proxy.
+     * @rfturn b boolfbn indidbting if tif donnfdtion is
+     * using b proxy.
      */
-    public abstract boolean usingProxy();
+    publid bbstrbdt boolfbn usingProxy();
 
     /**
-     * Returns a {@link SocketPermission} object representing the
-     * permission necessary to connect to the destination host and port.
+     * Rfturns b {@link SodkftPfrmission} objfdt rfprfsfnting tif
+     * pfrmission nfdfssbry to donnfdt to tif dfstinbtion iost bnd port.
      *
-     * @exception IOException if an error occurs while computing
-     *            the permission.
+     * @fxdfption IOExdfption if bn frror oddurs wiilf domputing
+     *            tif pfrmission.
      *
-     * @return a {@code SocketPermission} object representing the
-     *         permission necessary to connect to the destination
-     *         host and port.
+     * @rfturn b {@dodf SodkftPfrmission} objfdt rfprfsfnting tif
+     *         pfrmission nfdfssbry to donnfdt to tif dfstinbtion
+     *         iost bnd port.
      */
-    public Permission getPermission() throws IOException {
-        int port = url.getPort();
+    publid Pfrmission gftPfrmission() tirows IOExdfption {
+        int port = url.gftPort();
         port = port < 0 ? 80 : port;
-        String host = url.getHost() + ":" + port;
-        Permission permission = new SocketPermission(host, "connect");
-        return permission;
+        String iost = url.gftHost() + ":" + port;
+        Pfrmission pfrmission = nfw SodkftPfrmission(iost, "donnfdt");
+        rfturn pfrmission;
     }
 
    /**
-    * Returns the error stream if the connection failed
-    * but the server sent useful data nonetheless. The
-    * typical example is when an HTTP server responds
-    * with a 404, which will cause a FileNotFoundException
-    * to be thrown in connect, but the server sent an HTML
-    * help page with suggestions as to what to do.
+    * Rfturns tif frror strfbm if tif donnfdtion fbilfd
+    * but tif sfrvfr sfnt usfful dbtb nonftiflfss. Tif
+    * typidbl fxbmplf is wifn bn HTTP sfrvfr rfsponds
+    * witi b 404, wiidi will dbusf b FilfNotFoundExdfption
+    * to bf tirown in donnfdt, but tif sfrvfr sfnt bn HTML
+    * iflp pbgf witi suggfstions bs to wibt to do.
     *
-    * <p>This method will not cause a connection to be initiated.  If
-    * the connection was not connected, or if the server did not have
-    * an error while connecting or if the server had an error but
-    * no error data was sent, this method will return null. This is
-    * the default.
+    * <p>Tiis mftiod will not dbusf b donnfdtion to bf initibtfd.  If
+    * tif donnfdtion wbs not donnfdtfd, or if tif sfrvfr did not ibvf
+    * bn frror wiilf donnfdting or if tif sfrvfr ibd bn frror but
+    * no frror dbtb wbs sfnt, tiis mftiod will rfturn null. Tiis is
+    * tif dffbult.
     *
-    * @return an error stream if any, null if there have been no
-    * errors, the connection is not connected or the server sent no
-    * useful data.
+    * @rfturn bn frror strfbm if bny, null if tifrf ibvf bffn no
+    * frrors, tif donnfdtion is not donnfdtfd or tif sfrvfr sfnt no
+    * usfful dbtb.
     */
-    public InputStream getErrorStream() {
-        return null;
+    publid InputStrfbm gftErrorStrfbm() {
+        rfturn null;
     }
 
     /**
-     * The response codes for HTTP, as of version 1.1.
+     * Tif rfsponsf dodfs for HTTP, bs of vfrsion 1.1.
      */
 
-    // REMIND: do we want all these??
-    // Others not here that we do want??
+    // REMIND: do wf wbnt bll tifsf??
+    // Otifrs not ifrf tibt wf do wbnt??
 
-    /* 2XX: generally "OK" */
+    /* 2XX: gfnfrblly "OK" */
 
     /**
-     * HTTP Status-Code 200: OK.
+     * HTTP Stbtus-Codf 200: OK.
      */
-    public static final int HTTP_OK = 200;
+    publid stbtid finbl int HTTP_OK = 200;
 
     /**
-     * HTTP Status-Code 201: Created.
+     * HTTP Stbtus-Codf 201: Crfbtfd.
      */
-    public static final int HTTP_CREATED = 201;
+    publid stbtid finbl int HTTP_CREATED = 201;
 
     /**
-     * HTTP Status-Code 202: Accepted.
+     * HTTP Stbtus-Codf 202: Addfptfd.
      */
-    public static final int HTTP_ACCEPTED = 202;
+    publid stbtid finbl int HTTP_ACCEPTED = 202;
 
     /**
-     * HTTP Status-Code 203: Non-Authoritative Information.
+     * HTTP Stbtus-Codf 203: Non-Autioritbtivf Informbtion.
      */
-    public static final int HTTP_NOT_AUTHORITATIVE = 203;
+    publid stbtid finbl int HTTP_NOT_AUTHORITATIVE = 203;
 
     /**
-     * HTTP Status-Code 204: No Content.
+     * HTTP Stbtus-Codf 204: No Contfnt.
      */
-    public static final int HTTP_NO_CONTENT = 204;
+    publid stbtid finbl int HTTP_NO_CONTENT = 204;
 
     /**
-     * HTTP Status-Code 205: Reset Content.
+     * HTTP Stbtus-Codf 205: Rfsft Contfnt.
      */
-    public static final int HTTP_RESET = 205;
+    publid stbtid finbl int HTTP_RESET = 205;
 
     /**
-     * HTTP Status-Code 206: Partial Content.
+     * HTTP Stbtus-Codf 206: Pbrtibl Contfnt.
      */
-    public static final int HTTP_PARTIAL = 206;
+    publid stbtid finbl int HTTP_PARTIAL = 206;
 
-    /* 3XX: relocation/redirect */
+    /* 3XX: rflodbtion/rfdirfdt */
 
     /**
-     * HTTP Status-Code 300: Multiple Choices.
+     * HTTP Stbtus-Codf 300: Multiplf Cioidfs.
      */
-    public static final int HTTP_MULT_CHOICE = 300;
+    publid stbtid finbl int HTTP_MULT_CHOICE = 300;
 
     /**
-     * HTTP Status-Code 301: Moved Permanently.
+     * HTTP Stbtus-Codf 301: Movfd Pfrmbnfntly.
      */
-    public static final int HTTP_MOVED_PERM = 301;
+    publid stbtid finbl int HTTP_MOVED_PERM = 301;
 
     /**
-     * HTTP Status-Code 302: Temporary Redirect.
+     * HTTP Stbtus-Codf 302: Tfmporbry Rfdirfdt.
      */
-    public static final int HTTP_MOVED_TEMP = 302;
+    publid stbtid finbl int HTTP_MOVED_TEMP = 302;
 
     /**
-     * HTTP Status-Code 303: See Other.
+     * HTTP Stbtus-Codf 303: Sff Otifr.
      */
-    public static final int HTTP_SEE_OTHER = 303;
+    publid stbtid finbl int HTTP_SEE_OTHER = 303;
 
     /**
-     * HTTP Status-Code 304: Not Modified.
+     * HTTP Stbtus-Codf 304: Not Modififd.
      */
-    public static final int HTTP_NOT_MODIFIED = 304;
+    publid stbtid finbl int HTTP_NOT_MODIFIED = 304;
 
     /**
-     * HTTP Status-Code 305: Use Proxy.
+     * HTTP Stbtus-Codf 305: Usf Proxy.
      */
-    public static final int HTTP_USE_PROXY = 305;
+    publid stbtid finbl int HTTP_USE_PROXY = 305;
 
-    /* 4XX: client error */
+    /* 4XX: dlifnt frror */
 
     /**
-     * HTTP Status-Code 400: Bad Request.
+     * HTTP Stbtus-Codf 400: Bbd Rfqufst.
      */
-    public static final int HTTP_BAD_REQUEST = 400;
+    publid stbtid finbl int HTTP_BAD_REQUEST = 400;
 
     /**
-     * HTTP Status-Code 401: Unauthorized.
+     * HTTP Stbtus-Codf 401: Unbutiorizfd.
      */
-    public static final int HTTP_UNAUTHORIZED = 401;
+    publid stbtid finbl int HTTP_UNAUTHORIZED = 401;
 
     /**
-     * HTTP Status-Code 402: Payment Required.
+     * HTTP Stbtus-Codf 402: Pbymfnt Rfquirfd.
      */
-    public static final int HTTP_PAYMENT_REQUIRED = 402;
+    publid stbtid finbl int HTTP_PAYMENT_REQUIRED = 402;
 
     /**
-     * HTTP Status-Code 403: Forbidden.
+     * HTTP Stbtus-Codf 403: Forbiddfn.
      */
-    public static final int HTTP_FORBIDDEN = 403;
+    publid stbtid finbl int HTTP_FORBIDDEN = 403;
 
     /**
-     * HTTP Status-Code 404: Not Found.
+     * HTTP Stbtus-Codf 404: Not Found.
      */
-    public static final int HTTP_NOT_FOUND = 404;
+    publid stbtid finbl int HTTP_NOT_FOUND = 404;
 
     /**
-     * HTTP Status-Code 405: Method Not Allowed.
+     * HTTP Stbtus-Codf 405: Mftiod Not Allowfd.
      */
-    public static final int HTTP_BAD_METHOD = 405;
+    publid stbtid finbl int HTTP_BAD_METHOD = 405;
 
     /**
-     * HTTP Status-Code 406: Not Acceptable.
+     * HTTP Stbtus-Codf 406: Not Addfptbblf.
      */
-    public static final int HTTP_NOT_ACCEPTABLE = 406;
+    publid stbtid finbl int HTTP_NOT_ACCEPTABLE = 406;
 
     /**
-     * HTTP Status-Code 407: Proxy Authentication Required.
+     * HTTP Stbtus-Codf 407: Proxy Autifntidbtion Rfquirfd.
      */
-    public static final int HTTP_PROXY_AUTH = 407;
+    publid stbtid finbl int HTTP_PROXY_AUTH = 407;
 
     /**
-     * HTTP Status-Code 408: Request Time-Out.
+     * HTTP Stbtus-Codf 408: Rfqufst Timf-Out.
      */
-    public static final int HTTP_CLIENT_TIMEOUT = 408;
+    publid stbtid finbl int HTTP_CLIENT_TIMEOUT = 408;
 
     /**
-     * HTTP Status-Code 409: Conflict.
+     * HTTP Stbtus-Codf 409: Conflidt.
      */
-    public static final int HTTP_CONFLICT = 409;
+    publid stbtid finbl int HTTP_CONFLICT = 409;
 
     /**
-     * HTTP Status-Code 410: Gone.
+     * HTTP Stbtus-Codf 410: Gonf.
      */
-    public static final int HTTP_GONE = 410;
+    publid stbtid finbl int HTTP_GONE = 410;
 
     /**
-     * HTTP Status-Code 411: Length Required.
+     * HTTP Stbtus-Codf 411: Lfngti Rfquirfd.
      */
-    public static final int HTTP_LENGTH_REQUIRED = 411;
+    publid stbtid finbl int HTTP_LENGTH_REQUIRED = 411;
 
     /**
-     * HTTP Status-Code 412: Precondition Failed.
+     * HTTP Stbtus-Codf 412: Prfdondition Fbilfd.
      */
-    public static final int HTTP_PRECON_FAILED = 412;
+    publid stbtid finbl int HTTP_PRECON_FAILED = 412;
 
     /**
-     * HTTP Status-Code 413: Request Entity Too Large.
+     * HTTP Stbtus-Codf 413: Rfqufst Entity Too Lbrgf.
      */
-    public static final int HTTP_ENTITY_TOO_LARGE = 413;
+    publid stbtid finbl int HTTP_ENTITY_TOO_LARGE = 413;
 
     /**
-     * HTTP Status-Code 414: Request-URI Too Large.
+     * HTTP Stbtus-Codf 414: Rfqufst-URI Too Lbrgf.
      */
-    public static final int HTTP_REQ_TOO_LONG = 414;
+    publid stbtid finbl int HTTP_REQ_TOO_LONG = 414;
 
     /**
-     * HTTP Status-Code 415: Unsupported Media Type.
+     * HTTP Stbtus-Codf 415: Unsupportfd Mfdib Typf.
      */
-    public static final int HTTP_UNSUPPORTED_TYPE = 415;
+    publid stbtid finbl int HTTP_UNSUPPORTED_TYPE = 415;
 
-    /* 5XX: server error */
-
-    /**
-     * HTTP Status-Code 500: Internal Server Error.
-     * @deprecated   it is misplaced and shouldn't have existed.
-     */
-    @Deprecated
-    public static final int HTTP_SERVER_ERROR = 500;
+    /* 5XX: sfrvfr frror */
 
     /**
-     * HTTP Status-Code 500: Internal Server Error.
+     * HTTP Stbtus-Codf 500: Intfrnbl Sfrvfr Error.
+     * @dfprfdbtfd   it is misplbdfd bnd siouldn't ibvf fxistfd.
      */
-    public static final int HTTP_INTERNAL_ERROR = 500;
+    @Dfprfdbtfd
+    publid stbtid finbl int HTTP_SERVER_ERROR = 500;
 
     /**
-     * HTTP Status-Code 501: Not Implemented.
+     * HTTP Stbtus-Codf 500: Intfrnbl Sfrvfr Error.
      */
-    public static final int HTTP_NOT_IMPLEMENTED = 501;
+    publid stbtid finbl int HTTP_INTERNAL_ERROR = 500;
 
     /**
-     * HTTP Status-Code 502: Bad Gateway.
+     * HTTP Stbtus-Codf 501: Not Implfmfntfd.
      */
-    public static final int HTTP_BAD_GATEWAY = 502;
+    publid stbtid finbl int HTTP_NOT_IMPLEMENTED = 501;
 
     /**
-     * HTTP Status-Code 503: Service Unavailable.
+     * HTTP Stbtus-Codf 502: Bbd Gbtfwby.
      */
-    public static final int HTTP_UNAVAILABLE = 503;
+    publid stbtid finbl int HTTP_BAD_GATEWAY = 502;
 
     /**
-     * HTTP Status-Code 504: Gateway Timeout.
+     * HTTP Stbtus-Codf 503: Sfrvidf Unbvbilbblf.
      */
-    public static final int HTTP_GATEWAY_TIMEOUT = 504;
+    publid stbtid finbl int HTTP_UNAVAILABLE = 503;
 
     /**
-     * HTTP Status-Code 505: HTTP Version Not Supported.
+     * HTTP Stbtus-Codf 504: Gbtfwby Timfout.
      */
-    public static final int HTTP_VERSION = 505;
+    publid stbtid finbl int HTTP_GATEWAY_TIMEOUT = 504;
+
+    /**
+     * HTTP Stbtus-Codf 505: HTTP Vfrsion Not Supportfd.
+     */
+    publid stbtid finbl int HTTP_VERSION = 505;
 
 }

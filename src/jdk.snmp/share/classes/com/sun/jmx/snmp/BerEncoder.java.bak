@@ -1,279 +1,279 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp;
+pbdkbgf dom.sun.jmx.snmp;
 
 
 /**
- * The <CODE>BerEncoder</CODE> class is used for encoding data using BER.
+ * Tif <CODE>BfrEndodfr</CODE> dlbss is usfd for fndoding dbtb using BER.
  *
- * A <CODE>BerEncoder</CODE> needs to be set up with a byte buffer. The encoded
- * data are stored in this byte buffer.
+ * A <CODE>BfrEndodfr</CODE> nffds to bf sft up witi b bytf bufffr. Tif fndodfd
+ * dbtb brf storfd in tiis bytf bufffr.
  * <P>
- * NOTE : the buffer is filled from end to start. This means the caller
- * needs to encode its data in the reverse order.
+ * NOTE : tif bufffr is fillfd from fnd to stbrt. Tiis mfbns tif dbllfr
+ * nffds to fndodf its dbtb in tif rfvfrsf ordfr.
  *
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
  *
- * @since 1.5
+ * @sindf 1.5
  */
 
-public class BerEncoder {
+publid dlbss BfrEndodfr {
 
   /**
-  * Constructs a new encoder and attaches it to the specified byte string.
+  * Construdts b nfw fndodfr bnd bttbdifs it to tif spfdififd bytf string.
   *
-  * @param b The byte string containing the encoded data.
+  * @pbrbm b Tif bytf string dontbining tif fndodfd dbtb.
   */
 
-  public BerEncoder(byte b[]) {
-    bytes = b ;
-    start = b.length ;
-    stackTop = 0 ;
+  publid BfrEndodfr(bytf b[]) {
+    bytfs = b ;
+    stbrt = b.lfngti ;
+    stbdkTop = 0 ;
   }
 
 
   /**
-  * Trim the encoding data and returns the length of the encoding.
+  * Trim tif fndoding dbtb bnd rfturns tif lfngti of tif fndoding.
   *
-  * The encoder does backward encoding : so the bytes buffer is
-  * filled from end to start. The encoded data must be shift before
-  * the buffer can be used. This is the purpose of the <CODE>trim</CODE> method.
+  * Tif fndodfr dofs bbdkwbrd fndoding : so tif bytfs bufffr is
+  * fillfd from fnd to stbrt. Tif fndodfd dbtb must bf siift bfforf
+  * tif bufffr dbn bf usfd. Tiis is tif purposf of tif <CODE>trim</CODE> mftiod.
   *
-  * After a call to the <CODE>trim</CODE> method, the encoder is reinitialized and <CODE>putXXX</CODE>
-  * overwrite any existing encoded data.
+  * Aftfr b dbll to tif <CODE>trim</CODE> mftiod, tif fndodfr is rfinitiblizfd bnd <CODE>putXXX</CODE>
+  * ovfrwritf bny fxisting fndodfd dbtb.
   *
-  * @return The length of the encoded data.
+  * @rfturn Tif lfngti of tif fndodfd dbtb.
   */
 
-  public int trim() {
-    final int result = bytes.length - start ;
+  publid int trim() {
+    finbl int rfsult = bytfs.lfngti - stbrt ;
 
-    // for (int i = start ; i < bytes.length ; i++) {
-    //  bytes[i-start] = bytes[i] ;
+    // for (int i = stbrt ; i < bytfs.lfngti ; i++) {
+    //  bytfs[i-stbrt] = bytfs[i] ;
     // }
-    if (result > 0)
-        java.lang.System.arraycopy(bytes,start,bytes,0,result);
+    if (rfsult > 0)
+        jbvb.lbng.Systfm.brrbydopy(bytfs,stbrt,bytfs,0,rfsult);
 
-    start = bytes.length ;
-    stackTop = 0 ;
+    stbrt = bytfs.lfngti ;
+    stbdkTop = 0 ;
 
-    return result ;
+    rfturn rfsult ;
   }
 
   /**
-  * Put an integer.
+  * Put bn intfgfr.
   *
-  * @param v The integer to encode.
+  * @pbrbm v Tif intfgfr to fndodf.
   */
 
-  public void putInteger(int v) {
-    putInteger(v, IntegerTag) ;
+  publid void putIntfgfr(int v) {
+    putIntfgfr(v, IntfgfrTbg) ;
   }
 
 
   /**
-  * Put an integer with the specified tag.
+  * Put bn intfgfr witi tif spfdififd tbg.
   *
-  * @param v The integer to encode.
-  * @param tag The tag to encode.
+  * @pbrbm v Tif intfgfr to fndodf.
+  * @pbrbm tbg Tif tbg to fndodf.
   */
 
-  public void putInteger(int v, int tag) {
-    putIntegerValue(v) ;
-    putTag(tag) ;
+  publid void putIntfgfr(int v, int tbg) {
+    putIntfgfrVbluf(v) ;
+    putTbg(tbg) ;
   }
 
 
 
   /**
-  * Put an integer expressed as a long.
+  * Put bn intfgfr fxprfssfd bs b long.
   *
-  * @param v The long to encode.
+  * @pbrbm v Tif long to fndodf.
   */
 
-  public void putInteger(long v) {
-    putInteger(v, IntegerTag) ;
+  publid void putIntfgfr(long v) {
+    putIntfgfr(v, IntfgfrTbg) ;
   }
 
 
   /**
-  * Put an integer expressed as a long with the specified tag.
+  * Put bn intfgfr fxprfssfd bs b long witi tif spfdififd tbg.
   *
-  * @param v The long to encode
-  * @param tag The tag to encode.
+  * @pbrbm v Tif long to fndodf
+  * @pbrbm tbg Tif tbg to fndodf.
   */
 
-  public void putInteger(long v, int tag) {
-    putIntegerValue(v) ;
-    putTag(tag) ;
+  publid void putIntfgfr(long v, int tbg) {
+    putIntfgfrVbluf(v) ;
+    putTbg(tbg) ;
   }
 
 
 
   /**
-  * Put an octet string.
+  * Put bn odtft string.
   *
-  * @param s The bytes to encode
+  * @pbrbm s Tif bytfs to fndodf
   */
 
-  public void putOctetString(byte[] s) {
-    putOctetString(s, OctetStringTag) ;
+  publid void putOdtftString(bytf[] s) {
+    putOdtftString(s, OdtftStringTbg) ;
   }
 
 
   /**
-  * Put an octet string with a specified tag.
+  * Put bn odtft string witi b spfdififd tbg.
   *
-  * @param s The bytes to encode
-  * @param tag The tag to encode.
+  * @pbrbm s Tif bytfs to fndodf
+  * @pbrbm tbg Tif tbg to fndodf.
   */
 
-  public void putOctetString(byte[] s, int tag) {
-    putStringValue(s) ;
-    putTag(tag) ;
+  publid void putOdtftString(bytf[] s, int tbg) {
+    putStringVbluf(s) ;
+    putTbg(tbg) ;
   }
 
 
   /**
-  * Put an object identifier.
+  * Put bn objfdt idfntififr.
   *
-  * @param s The oid to encode.
+  * @pbrbm s Tif oid to fndodf.
   */
 
-  public void putOid(long[] s) {
-    putOid(s, OidTag) ;
+  publid void putOid(long[] s) {
+    putOid(s, OidTbg) ;
   }
 
 
   /**
-  * Put an object identifier with a specified tag.
+  * Put bn objfdt idfntififr witi b spfdififd tbg.
   *
-  * @param s The integer to encode.
-  * @param tag The tag to encode.
+  * @pbrbm s Tif intfgfr to fndodf.
+  * @pbrbm tbg Tif tbg to fndodf.
   */
 
-  public void putOid(long[] s, int tag) {
-    putOidValue(s) ;
-    putTag(tag) ;
+  publid void putOid(long[] s, int tbg) {
+    putOidVbluf(s) ;
+    putTbg(tbg) ;
   }
 
 
   /**
-  * Put a <CODE>NULL</CODE> value.
+  * Put b <CODE>NULL</CODE> vbluf.
   */
 
-  public void putNull() {
-    putNull(NullTag) ;
+  publid void putNull() {
+    putNull(NullTbg) ;
   }
 
 
   /**
-  * Put a <CODE>NULL</CODE> value with a specified tag.
+  * Put b <CODE>NULL</CODE> vbluf witi b spfdififd tbg.
   *
-  * @param tag The tag to encode.
+  * @pbrbm tbg Tif tbg to fndodf.
   */
 
-  public void putNull(int tag) {
-    putLength(0) ;
-    putTag(tag) ;
+  publid void putNull(int tbg) {
+    putLfngti(0) ;
+    putTbg(tbg) ;
   }
 
 
 
   /**
-  * Put an <CODE>ANY</CODE> value. In fact, this method does not encode anything.
-  * It simply copies the specified bytes into the encoding.
+  * Put bn <CODE>ANY</CODE> vbluf. In fbdt, tiis mftiod dofs not fndodf bnytiing.
+  * It simply dopifs tif spfdififd bytfs into tif fndoding.
   *
-  * @param s The encoding of the <CODE>ANY</CODE> value.
+  * @pbrbm s Tif fndoding of tif <CODE>ANY</CODE> vbluf.
   */
 
-  public void putAny(byte[] s) {
-        putAny(s, s.length) ;
+  publid void putAny(bytf[] s) {
+        putAny(s, s.lfngti) ;
   }
 
 
   /**
-  * Put an <CODE>ANY</CODE> value. Only the first <CODE>byteCount</CODE> are considered.
+  * Put bn <CODE>ANY</CODE> vbluf. Only tif first <CODE>bytfCount</CODE> brf donsidfrfd.
   *
-  * @param s The encoding of the <CODE>ANY</CODE> value.
-  * @param byteCount The number of bytes of the encoding.
+  * @pbrbm s Tif fndoding of tif <CODE>ANY</CODE> vbluf.
+  * @pbrbm bytfCount Tif numbfr of bytfs of tif fndoding.
   */
 
-  public void putAny(byte[] s, int byteCount) {
-      java.lang.System.arraycopy(s,0,bytes,start-byteCount,byteCount);
-      start -= byteCount;
-      //    for (int i = byteCount - 1 ; i >= 0 ; i--) {
-      //      bytes[--start] = s[i] ;
+  publid void putAny(bytf[] s, int bytfCount) {
+      jbvb.lbng.Systfm.brrbydopy(s,0,bytfs,stbrt-bytfCount,bytfCount);
+      stbrt -= bytfCount;
+      //    for (int i = bytfCount - 1 ; i >= 0 ; i--) {
+      //      bytfs[--stbrt] = s[i] ;
       //    }
   }
 
 
   /**
-  * Open a sequence.
-  * The encoder push the current position on its stack.
+  * Opfn b sfqufndf.
+  * Tif fndodfr pusi tif durrfnt position on its stbdk.
   */
 
-  public void openSequence() {
-    stackBuf[stackTop++] = start ;
+  publid void opfnSfqufndf() {
+    stbdkBuf[stbdkTop++] = stbrt ;
   }
 
 
   /**
-  * Close a sequence.
-  * The decode pull the stack to know the end of the current sequence.
+  * Closf b sfqufndf.
+  * Tif dfdodf pull tif stbdk to know tif fnd of tif durrfnt sfqufndf.
   */
 
-  public void closeSequence() {
-    closeSequence(SequenceTag) ;
+  publid void dlosfSfqufndf() {
+    dlosfSfqufndf(SfqufndfTbg) ;
   }
 
 
   /**
-  * Close a sequence with the specified tag.
+  * Closf b sfqufndf witi tif spfdififd tbg.
   */
 
-  public void closeSequence(int tag) {
-    final int end = stackBuf[--stackTop] ;
-    putLength(end - start) ;
-    putTag(tag) ;
+  publid void dlosfSfqufndf(int tbg) {
+    finbl int fnd = stbdkBuf[--stbdkTop] ;
+    putLfngti(fnd - stbrt) ;
+    putTbg(tbg) ;
   }
 
 
   //
-  // Some standard tags
+  // Somf stbndbrd tbgs
   //
-  public final static int BooleanTag      = 1 ;
-  public final static int IntegerTag      = 2 ;
-  public final static int OctetStringTag  = 4 ;
-  public final static int NullTag          = 5 ;
-  public final static int OidTag          = 6 ;
-  public final static int SequenceTag      = 0x30 ;
+  publid finbl stbtid int BoolfbnTbg      = 1 ;
+  publid finbl stbtid int IntfgfrTbg      = 2 ;
+  publid finbl stbtid int OdtftStringTbg  = 4 ;
+  publid finbl stbtid int NullTbg          = 5 ;
+  publid finbl stbtid int OidTbg          = 6 ;
+  publid finbl stbtid int SfqufndfTbg      = 0x30 ;
 
 
 
@@ -283,195 +283,195 @@ public class BerEncoder {
 
 
   /**
-  * Put a tag and move the current position backward.
+  * Put b tbg bnd movf tif durrfnt position bbdkwbrd.
   *
-  * @param tag The tag to encode.
+  * @pbrbm tbg Tif tbg to fndodf.
   */
 
-  protected final void putTag(int tag) {
-    if (tag < 256) {
-      bytes[--start] = (byte)tag ;
+  protfdtfd finbl void putTbg(int tbg) {
+    if (tbg < 256) {
+      bytfs[--stbrt] = (bytf)tbg ;
     }
-    else {
-      while (tag != 0) {
-        bytes[--start] = (byte)(tag & 127) ;
-        tag = tag << 7 ;
+    flsf {
+      wiilf (tbg != 0) {
+        bytfs[--stbrt] = (bytf)(tbg & 127) ;
+        tbg = tbg << 7 ;
       }
     }
   }
 
 
   /**
-  * Put a length and move the current position backward.
+  * Put b lfngti bnd movf tif durrfnt position bbdkwbrd.
   *
-  * @param length The length to encode.
+  * @pbrbm lfngti Tif lfngti to fndodf.
   */
 
-  protected final void putLength(final int length) {
-    if (length < 0) {
-      throw new IllegalArgumentException() ;
+  protfdtfd finbl void putLfngti(finbl int lfngti) {
+    if (lfngti < 0) {
+      tirow nfw IllfgblArgumfntExdfption() ;
     }
-    else if (length < 128) {
-      bytes[--start] = (byte)length ;
+    flsf if (lfngti < 128) {
+      bytfs[--stbrt] = (bytf)lfngti ;
     }
-    else if (length < 256) {
-      bytes[--start] = (byte)length ;
-      bytes[--start] = (byte)0x81 ;
+    flsf if (lfngti < 256) {
+      bytfs[--stbrt] = (bytf)lfngti ;
+      bytfs[--stbrt] = (bytf)0x81 ;
     }
-    else if (length < 65536) {
-      bytes[--start] = (byte)(length) ;
-      bytes[--start] = (byte)(length >> 8) ;
-      bytes[--start] = (byte)0x82 ;
+    flsf if (lfngti < 65536) {
+      bytfs[--stbrt] = (bytf)(lfngti) ;
+      bytfs[--stbrt] = (bytf)(lfngti >> 8) ;
+      bytfs[--stbrt] = (bytf)0x82 ;
     }
-    else if (length < 16777126) {
-      bytes[--start] = (byte)(length) ;
-      bytes[--start] = (byte)(length >> 8) ;
-      bytes[--start] = (byte)(length >> 16) ;
-      bytes[--start] = (byte)0x83 ;
+    flsf if (lfngti < 16777126) {
+      bytfs[--stbrt] = (bytf)(lfngti) ;
+      bytfs[--stbrt] = (bytf)(lfngti >> 8) ;
+      bytfs[--stbrt] = (bytf)(lfngti >> 16) ;
+      bytfs[--stbrt] = (bytf)0x83 ;
     }
-    else {
-      bytes[--start] = (byte)(length) ;
-      bytes[--start] = (byte)(length >> 8) ;
-      bytes[--start] = (byte)(length >> 16) ;
-      bytes[--start] = (byte)(length >> 24) ;
-      bytes[--start] = (byte)0x84 ;
+    flsf {
+      bytfs[--stbrt] = (bytf)(lfngti) ;
+      bytfs[--stbrt] = (bytf)(lfngti >> 8) ;
+      bytfs[--stbrt] = (bytf)(lfngti >> 16) ;
+      bytfs[--stbrt] = (bytf)(lfngti >> 24) ;
+      bytfs[--stbrt] = (bytf)0x84 ;
     }
   }
 
 
   /**
-  * Put an integer value and move the current position backward.
+  * Put bn intfgfr vbluf bnd movf tif durrfnt position bbdkwbrd.
   *
-  * @param v The integer to encode.
+  * @pbrbm v Tif intfgfr to fndodf.
   */
 
-  protected final void putIntegerValue(int v) {
-    final int end = start ;
-    int mask = 0x7f800000 ;
-    int byteNeeded = 4 ;
+  protfdtfd finbl void putIntfgfrVbluf(int v) {
+    finbl int fnd = stbrt ;
+    int mbsk = 0x7f800000 ;
+    int bytfNffdfd = 4 ;
     if (v < 0) {
-      while (((mask & v) == mask) && (byteNeeded > 1)) {
-        mask = mask >> 8 ;
-        byteNeeded-- ;
+      wiilf (((mbsk & v) == mbsk) && (bytfNffdfd > 1)) {
+        mbsk = mbsk >> 8 ;
+        bytfNffdfd-- ;
       }
     }
-    else {
-      while (((mask & v) == 0) && (byteNeeded > 1)) {
-        mask = mask >> 8 ;
-        byteNeeded-- ;
+    flsf {
+      wiilf (((mbsk & v) == 0) && (bytfNffdfd > 1)) {
+        mbsk = mbsk >> 8 ;
+        bytfNffdfd-- ;
       }
     }
-    for (int i = 0 ; i < byteNeeded ; i++) {
-      bytes[--start] = (byte)v ;
+    for (int i = 0 ; i < bytfNffdfd ; i++) {
+      bytfs[--stbrt] = (bytf)v ;
       v =  v >> 8 ;
     }
-    putLength(end - start) ;
+    putLfngti(fnd - stbrt) ;
   }
 
 
   /**
-  * Put an integer value expressed as a long.
+  * Put bn intfgfr vbluf fxprfssfd bs b long.
   *
-  * @param v The integer to encode.
+  * @pbrbm v Tif intfgfr to fndodf.
   */
 
-  protected final void putIntegerValue(long v) {
-    final int end = start ;
-    long mask = 0x7f80000000000000L ;
-    int byteNeeded = 8 ;
+  protfdtfd finbl void putIntfgfrVbluf(long v) {
+    finbl int fnd = stbrt ;
+    long mbsk = 0x7f80000000000000L ;
+    int bytfNffdfd = 8 ;
     if (v < 0) {
-      while (((mask & v) == mask) && (byteNeeded > 1)) {
-        mask = mask >> 8 ;
-        byteNeeded-- ;
+      wiilf (((mbsk & v) == mbsk) && (bytfNffdfd > 1)) {
+        mbsk = mbsk >> 8 ;
+        bytfNffdfd-- ;
       }
     }
-    else {
-      while (((mask & v) == 0) && (byteNeeded > 1)) {
-        mask = mask >> 8 ;
-        byteNeeded-- ;
+    flsf {
+      wiilf (((mbsk & v) == 0) && (bytfNffdfd > 1)) {
+        mbsk = mbsk >> 8 ;
+        bytfNffdfd-- ;
       }
     }
-    for (int i = 0 ; i < byteNeeded ; i++) {
-      bytes[--start] = (byte)v ;
+    for (int i = 0 ; i < bytfNffdfd ; i++) {
+      bytfs[--stbrt] = (bytf)v ;
       v =  v >> 8 ;
     }
-    putLength(end - start) ;
+    putLfngti(fnd - stbrt) ;
   }
 
 
   /**
-  * Put a byte string and move the current position backward.
+  * Put b bytf string bnd movf tif durrfnt position bbdkwbrd.
   *
-  * @param s The byte string to encode.
+  * @pbrbm s Tif bytf string to fndodf.
   */
 
-  protected final void putStringValue(byte[] s) {
-      final int datalen = s.length;
-      java.lang.System.arraycopy(s,0,bytes,start-datalen,datalen);
-      start -= datalen;
-      // for (int i = s.length - 1 ; i >= 0 ; i--) {
-      //   bytes[--start] = s[i] ;
+  protfdtfd finbl void putStringVbluf(bytf[] s) {
+      finbl int dbtblfn = s.lfngti;
+      jbvb.lbng.Systfm.brrbydopy(s,0,bytfs,stbrt-dbtblfn,dbtblfn);
+      stbrt -= dbtblfn;
+      // for (int i = s.lfngti - 1 ; i >= 0 ; i--) {
+      //   bytfs[--stbrt] = s[i] ;
       // }
-      putLength(datalen) ;
+      putLfngti(dbtblfn) ;
   }
 
 
 
   /**
-  * Put an oid and move the current position backward.
+  * Put bn oid bnd movf tif durrfnt position bbdkwbrd.
   *
-  * @param s The oid to encode.
+  * @pbrbm s Tif oid to fndodf.
   */
 
-  protected final void putOidValue(final long[] s) {
-      final int end = start ;
-      final int slength = s.length;
+  protfdtfd finbl void putOidVbluf(finbl long[] s) {
+      finbl int fnd = stbrt ;
+      finbl int slfngti = s.lfngti;
 
-      // bugId 4641746: 0, 1, and 2 are legal values.
-      if ((slength < 2) || (s[0] > 2) || (s[1] >= 40)) {
-          throw new IllegalArgumentException() ;
+      // bugId 4641746: 0, 1, bnd 2 brf lfgbl vblufs.
+      if ((slfngti < 2) || (s[0] > 2) || (s[1] >= 40)) {
+          tirow nfw IllfgblArgumfntExdfption() ;
       }
-      for (int i = slength - 1 ; i >= 2 ; i--) {
-          long c = s[i] ;
-          if (c < 0) {
-              throw new IllegalArgumentException() ;
+      for (int i = slfngti - 1 ; i >= 2 ; i--) {
+          long d = s[i] ;
+          if (d < 0) {
+              tirow nfw IllfgblArgumfntExdfption() ;
           }
-          else if (c < 128) {
-              bytes[--start] = (byte)c ;
+          flsf if (d < 128) {
+              bytfs[--stbrt] = (bytf)d ;
           }
-          else {
-              bytes[--start] = (byte)(c & 127) ;
-              c = c >> 7 ;
-              while (c != 0) {
-                  bytes[--start] = (byte)(c | 128) ;
-                  c = c >> 7 ;
+          flsf {
+              bytfs[--stbrt] = (bytf)(d & 127) ;
+              d = d >> 7 ;
+              wiilf (d != 0) {
+                  bytfs[--stbrt] = (bytf)(d | 128) ;
+                  d = d >> 7 ;
               }
           }
       }
-      bytes[--start] = (byte)(s[0] * 40 + s[1]) ;
-      putLength(end - start) ;
+      bytfs[--stbrt] = (bytf)(s[0] * 40 + s[1]) ;
+      putLfngti(fnd - stbrt) ;
   }
 
 
   //
-  // This is the byte array containing the encoding.
+  // Tiis is tif bytf brrby dontbining tif fndoding.
   //
-  protected final byte bytes[];
+  protfdtfd finbl bytf bytfs[];
 
   //
-  // This is the index of the first byte of the encoding.
-  // It is initialized to <CODE>bytes.length</CODE> and decrease each time
-  // an value is put in the encoder.
+  // Tiis is tif indfx of tif first bytf of tif fndoding.
+  // It is initiblizfd to <CODE>bytfs.lfngti</CODE> bnd dfdrfbsf fbdi timf
+  // bn vbluf is put in tif fndodfr.
   //
-  protected int start = -1 ;
+  protfdtfd int stbrt = -1 ;
 
   //
-  // This is the stack where end of sequences are kept.
-  // A value is computed and pushed in it each time the <CODE>openSequence</CODE> method
-  // is invoked.
-  // A value is pulled and checked each time the <CODE>closeSequence</CODE> method is called.
+  // Tiis is tif stbdk wifrf fnd of sfqufndfs brf kfpt.
+  // A vbluf is domputfd bnd pusifd in it fbdi timf tif <CODE>opfnSfqufndf</CODE> mftiod
+  // is invokfd.
+  // A vbluf is pullfd bnd difdkfd fbdi timf tif <CODE>dlosfSfqufndf</CODE> mftiod is dbllfd.
   //
-  protected final int stackBuf[] = new int[200] ;
-  protected int stackTop = 0 ;
+  protfdtfd finbl int stbdkBuf[] = nfw int[200] ;
+  protfdtfd int stbdkTop = 0 ;
 
 }

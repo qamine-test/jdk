@@ -1,413 +1,413 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
 /**
- * A collection that contains no duplicate elements.  More formally, sets
- * contain no pair of elements <code>e1</code> and <code>e2</code> such that
- * <code>e1.equals(e2)</code>, and at most one null element.  As implied by
- * its name, this interface models the mathematical <i>set</i> abstraction.
+ * A dollfdtion tibt dontbins no duplidbtf flfmfnts.  Morf formblly, sfts
+ * dontbin no pbir of flfmfnts <dodf>f1</dodf> bnd <dodf>f2</dodf> sudi tibt
+ * <dodf>f1.fqubls(f2)</dodf>, bnd bt most onf null flfmfnt.  As implifd by
+ * its nbmf, tiis intfrfbdf modfls tif mbtifmbtidbl <i>sft</i> bbstrbdtion.
  *
- * <p>The <tt>Set</tt> interface places additional stipulations, beyond those
- * inherited from the <tt>Collection</tt> interface, on the contracts of all
- * constructors and on the contracts of the <tt>add</tt>, <tt>equals</tt> and
- * <tt>hashCode</tt> methods.  Declarations for other inherited methods are
- * also included here for convenience.  (The specifications accompanying these
- * declarations have been tailored to the <tt>Set</tt> interface, but they do
- * not contain any additional stipulations.)
+ * <p>Tif <tt>Sft</tt> intfrfbdf plbdfs bdditionbl stipulbtions, bfyond tiosf
+ * inifritfd from tif <tt>Collfdtion</tt> intfrfbdf, on tif dontrbdts of bll
+ * donstrudtors bnd on tif dontrbdts of tif <tt>bdd</tt>, <tt>fqubls</tt> bnd
+ * <tt>ibsiCodf</tt> mftiods.  Dfdlbrbtions for otifr inifritfd mftiods brf
+ * blso indludfd ifrf for donvfnifndf.  (Tif spfdifidbtions bddompbnying tifsf
+ * dfdlbrbtions ibvf bffn tbilorfd to tif <tt>Sft</tt> intfrfbdf, but tify do
+ * not dontbin bny bdditionbl stipulbtions.)
  *
- * <p>The additional stipulation on constructors is, not surprisingly,
- * that all constructors must create a set that contains no duplicate elements
- * (as defined above).
+ * <p>Tif bdditionbl stipulbtion on donstrudtors is, not surprisingly,
+ * tibt bll donstrudtors must drfbtf b sft tibt dontbins no duplidbtf flfmfnts
+ * (bs dffinfd bbovf).
  *
- * <p>Note: Great care must be exercised if mutable objects are used as set
- * elements.  The behavior of a set is not specified if the value of an object
- * is changed in a manner that affects <tt>equals</tt> comparisons while the
- * object is an element in the set.  A special case of this prohibition is
- * that it is not permissible for a set to contain itself as an element.
+ * <p>Notf: Grfbt dbrf must bf fxfrdisfd if mutbblf objfdts brf usfd bs sft
+ * flfmfnts.  Tif bfibvior of b sft is not spfdififd if tif vbluf of bn objfdt
+ * is dibngfd in b mbnnfr tibt bfffdts <tt>fqubls</tt> dompbrisons wiilf tif
+ * objfdt is bn flfmfnt in tif sft.  A spfdibl dbsf of tiis proiibition is
+ * tibt it is not pfrmissiblf for b sft to dontbin itsflf bs bn flfmfnt.
  *
- * <p>Some set implementations have restrictions on the elements that
- * they may contain.  For example, some implementations prohibit null elements,
- * and some have restrictions on the types of their elements.  Attempting to
- * add an ineligible element throws an unchecked exception, typically
- * <tt>NullPointerException</tt> or <tt>ClassCastException</tt>.  Attempting
- * to query the presence of an ineligible element may throw an exception,
- * or it may simply return false; some implementations will exhibit the former
- * behavior and some will exhibit the latter.  More generally, attempting an
- * operation on an ineligible element whose completion would not result in
- * the insertion of an ineligible element into the set may throw an
- * exception or it may succeed, at the option of the implementation.
- * Such exceptions are marked as "optional" in the specification for this
- * interface.
+ * <p>Somf sft implfmfntbtions ibvf rfstridtions on tif flfmfnts tibt
+ * tify mby dontbin.  For fxbmplf, somf implfmfntbtions proiibit null flfmfnts,
+ * bnd somf ibvf rfstridtions on tif typfs of tifir flfmfnts.  Attfmpting to
+ * bdd bn infligiblf flfmfnt tirows bn undifdkfd fxdfption, typidblly
+ * <tt>NullPointfrExdfption</tt> or <tt>ClbssCbstExdfption</tt>.  Attfmpting
+ * to qufry tif prfsfndf of bn infligiblf flfmfnt mby tirow bn fxdfption,
+ * or it mby simply rfturn fblsf; somf implfmfntbtions will fxiibit tif formfr
+ * bfibvior bnd somf will fxiibit tif lbttfr.  Morf gfnfrblly, bttfmpting bn
+ * opfrbtion on bn infligiblf flfmfnt wiosf domplftion would not rfsult in
+ * tif insfrtion of bn infligiblf flfmfnt into tif sft mby tirow bn
+ * fxdfption or it mby suddffd, bt tif option of tif implfmfntbtion.
+ * Sudi fxdfptions brf mbrkfd bs "optionbl" in tif spfdifidbtion for tiis
+ * intfrfbdf.
  *
- * <p>This interface is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis intfrfbdf is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @param <E> the type of elements maintained by this set
+ * @pbrbm <E> tif typf of flfmfnts mbintbinfd by tiis sft
  *
- * @author  Josh Bloch
- * @author  Neal Gafter
- * @see Collection
- * @see List
- * @see SortedSet
- * @see HashSet
- * @see TreeSet
- * @see AbstractSet
- * @see Collections#singleton(java.lang.Object)
- * @see Collections#EMPTY_SET
- * @since 1.2
+ * @butior  Josi Blodi
+ * @butior  Nfbl Gbftfr
+ * @sff Collfdtion
+ * @sff List
+ * @sff SortfdSft
+ * @sff HbsiSft
+ * @sff TrffSft
+ * @sff AbstrbdtSft
+ * @sff Collfdtions#singlfton(jbvb.lbng.Objfdt)
+ * @sff Collfdtions#EMPTY_SET
+ * @sindf 1.2
  */
 
-public interface Set<E> extends Collection<E> {
-    // Query Operations
+publid intfrfbdf Sft<E> fxtfnds Collfdtion<E> {
+    // Qufry Opfrbtions
 
     /**
-     * Returns the number of elements in this set (its cardinality).  If this
-     * set contains more than <tt>Integer.MAX_VALUE</tt> elements, returns
-     * <tt>Integer.MAX_VALUE</tt>.
+     * Rfturns tif numbfr of flfmfnts in tiis sft (its dbrdinblity).  If tiis
+     * sft dontbins morf tibn <tt>Intfgfr.MAX_VALUE</tt> flfmfnts, rfturns
+     * <tt>Intfgfr.MAX_VALUE</tt>.
      *
-     * @return the number of elements in this set (its cardinality)
+     * @rfturn tif numbfr of flfmfnts in tiis sft (its dbrdinblity)
      */
-    int size();
+    int sizf();
 
     /**
-     * Returns <tt>true</tt> if this set contains no elements.
+     * Rfturns <tt>truf</tt> if tiis sft dontbins no flfmfnts.
      *
-     * @return <tt>true</tt> if this set contains no elements
+     * @rfturn <tt>truf</tt> if tiis sft dontbins no flfmfnts
      */
-    boolean isEmpty();
+    boolfbn isEmpty();
 
     /**
-     * Returns <tt>true</tt> if this set contains the specified element.
-     * More formally, returns <tt>true</tt> if and only if this set
-     * contains an element <tt>e</tt> such that
-     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>.
+     * Rfturns <tt>truf</tt> if tiis sft dontbins tif spfdififd flfmfnt.
+     * Morf formblly, rfturns <tt>truf</tt> if bnd only if tiis sft
+     * dontbins bn flfmfnt <tt>f</tt> sudi tibt
+     * <tt>(o==null&nbsp;?&nbsp;f==null&nbsp;:&nbsp;o.fqubls(f))</tt>.
      *
-     * @param o element whose presence in this set is to be tested
-     * @return <tt>true</tt> if this set contains the specified element
-     * @throws ClassCastException if the type of the specified element
-     *         is incompatible with this set
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if the specified element is null and this
-     *         set does not permit null elements
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
+     * @pbrbm o flfmfnt wiosf prfsfndf in tiis sft is to bf tfstfd
+     * @rfturn <tt>truf</tt> if tiis sft dontbins tif spfdififd flfmfnt
+     * @tirows ClbssCbstExdfption if tif typf of tif spfdififd flfmfnt
+     *         is indompbtiblf witi tiis sft
+     * (<b irff="Collfdtion.itml#optionbl-rfstridtions">optionbl</b>)
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null bnd tiis
+     *         sft dofs not pfrmit null flfmfnts
+     * (<b irff="Collfdtion.itml#optionbl-rfstridtions">optionbl</b>)
      */
-    boolean contains(Object o);
+    boolfbn dontbins(Objfdt o);
 
     /**
-     * Returns an iterator over the elements in this set.  The elements are
-     * returned in no particular order (unless this set is an instance of some
-     * class that provides a guarantee).
+     * Rfturns bn itfrbtor ovfr tif flfmfnts in tiis sft.  Tif flfmfnts brf
+     * rfturnfd in no pbrtidulbr ordfr (unlfss tiis sft is bn instbndf of somf
+     * dlbss tibt providfs b gubrbntff).
      *
-     * @return an iterator over the elements in this set
+     * @rfturn bn itfrbtor ovfr tif flfmfnts in tiis sft
      */
-    Iterator<E> iterator();
+    Itfrbtor<E> itfrbtor();
 
     /**
-     * Returns an array containing all of the elements in this set.
-     * If this set makes any guarantees as to what order its elements
-     * are returned by its iterator, this method must return the
-     * elements in the same order.
+     * Rfturns bn brrby dontbining bll of tif flfmfnts in tiis sft.
+     * If tiis sft mbkfs bny gubrbntffs bs to wibt ordfr its flfmfnts
+     * brf rfturnfd by its itfrbtor, tiis mftiod must rfturn tif
+     * flfmfnts in tif sbmf ordfr.
      *
-     * <p>The returned array will be "safe" in that no references to it
-     * are maintained by this set.  (In other words, this method must
-     * allocate a new array even if this set is backed by an array).
-     * The caller is thus free to modify the returned array.
+     * <p>Tif rfturnfd brrby will bf "sbff" in tibt no rfffrfndfs to it
+     * brf mbintbinfd by tiis sft.  (In otifr words, tiis mftiod must
+     * bllodbtf b nfw brrby fvfn if tiis sft is bbdkfd by bn brrby).
+     * Tif dbllfr is tius frff to modify tif rfturnfd brrby.
      *
-     * <p>This method acts as bridge between array-based and collection-based
+     * <p>Tiis mftiod bdts bs bridgf bftwffn brrby-bbsfd bnd dollfdtion-bbsfd
      * APIs.
      *
-     * @return an array containing all the elements in this set
+     * @rfturn bn brrby dontbining bll tif flfmfnts in tiis sft
      */
-    Object[] toArray();
+    Objfdt[] toArrby();
 
     /**
-     * Returns an array containing all of the elements in this set; the
-     * runtime type of the returned array is that of the specified array.
-     * If the set fits in the specified array, it is returned therein.
-     * Otherwise, a new array is allocated with the runtime type of the
-     * specified array and the size of this set.
+     * Rfturns bn brrby dontbining bll of tif flfmfnts in tiis sft; tif
+     * runtimf typf of tif rfturnfd brrby is tibt of tif spfdififd brrby.
+     * If tif sft fits in tif spfdififd brrby, it is rfturnfd tifrfin.
+     * Otifrwisf, b nfw brrby is bllodbtfd witi tif runtimf typf of tif
+     * spfdififd brrby bnd tif sizf of tiis sft.
      *
-     * <p>If this set fits in the specified array with room to spare
-     * (i.e., the array has more elements than this set), the element in
-     * the array immediately following the end of the set is set to
-     * <tt>null</tt>.  (This is useful in determining the length of this
-     * set <i>only</i> if the caller knows that this set does not contain
-     * any null elements.)
+     * <p>If tiis sft fits in tif spfdififd brrby witi room to spbrf
+     * (i.f., tif brrby ibs morf flfmfnts tibn tiis sft), tif flfmfnt in
+     * tif brrby immfdibtfly following tif fnd of tif sft is sft to
+     * <tt>null</tt>.  (Tiis is usfful in dftfrmining tif lfngti of tiis
+     * sft <i>only</i> if tif dbllfr knows tibt tiis sft dofs not dontbin
+     * bny null flfmfnts.)
      *
-     * <p>If this set makes any guarantees as to what order its elements
-     * are returned by its iterator, this method must return the elements
-     * in the same order.
+     * <p>If tiis sft mbkfs bny gubrbntffs bs to wibt ordfr its flfmfnts
+     * brf rfturnfd by its itfrbtor, tiis mftiod must rfturn tif flfmfnts
+     * in tif sbmf ordfr.
      *
-     * <p>Like the {@link #toArray()} method, this method acts as bridge between
-     * array-based and collection-based APIs.  Further, this method allows
-     * precise control over the runtime type of the output array, and may,
-     * under certain circumstances, be used to save allocation costs.
+     * <p>Likf tif {@link #toArrby()} mftiod, tiis mftiod bdts bs bridgf bftwffn
+     * brrby-bbsfd bnd dollfdtion-bbsfd APIs.  Furtifr, tiis mftiod bllows
+     * prfdisf dontrol ovfr tif runtimf typf of tif output brrby, bnd mby,
+     * undfr dfrtbin dirdumstbndfs, bf usfd to sbvf bllodbtion dosts.
      *
-     * <p>Suppose <tt>x</tt> is a set known to contain only strings.
-     * The following code can be used to dump the set into a newly allocated
-     * array of <tt>String</tt>:
+     * <p>Supposf <tt>x</tt> is b sft known to dontbin only strings.
+     * Tif following dodf dbn bf usfd to dump tif sft into b nfwly bllodbtfd
+     * brrby of <tt>String</tt>:
      *
-     * <pre>
-     *     String[] y = x.toArray(new String[0]);</pre>
+     * <prf>
+     *     String[] y = x.toArrby(nfw String[0]);</prf>
      *
-     * Note that <tt>toArray(new Object[0])</tt> is identical in function to
-     * <tt>toArray()</tt>.
+     * Notf tibt <tt>toArrby(nfw Objfdt[0])</tt> is idfntidbl in fundtion to
+     * <tt>toArrby()</tt>.
      *
-     * @param a the array into which the elements of this set are to be
-     *        stored, if it is big enough; otherwise, a new array of the same
-     *        runtime type is allocated for this purpose.
-     * @return an array containing all the elements in this set
-     * @throws ArrayStoreException if the runtime type of the specified array
-     *         is not a supertype of the runtime type of every element in this
-     *         set
-     * @throws NullPointerException if the specified array is null
+     * @pbrbm b tif brrby into wiidi tif flfmfnts of tiis sft brf to bf
+     *        storfd, if it is big fnougi; otifrwisf, b nfw brrby of tif sbmf
+     *        runtimf typf is bllodbtfd for tiis purposf.
+     * @rfturn bn brrby dontbining bll tif flfmfnts in tiis sft
+     * @tirows ArrbyStorfExdfption if tif runtimf typf of tif spfdififd brrby
+     *         is not b supfrtypf of tif runtimf typf of fvfry flfmfnt in tiis
+     *         sft
+     * @tirows NullPointfrExdfption if tif spfdififd brrby is null
      */
-    <T> T[] toArray(T[] a);
+    <T> T[] toArrby(T[] b);
 
 
-    // Modification Operations
+    // Modifidbtion Opfrbtions
 
     /**
-     * Adds the specified element to this set if it is not already present
-     * (optional operation).  More formally, adds the specified element
-     * <tt>e</tt> to this set if the set contains no element <tt>e2</tt>
-     * such that
-     * <tt>(e==null&nbsp;?&nbsp;e2==null&nbsp;:&nbsp;e.equals(e2))</tt>.
-     * If this set already contains the element, the call leaves the set
-     * unchanged and returns <tt>false</tt>.  In combination with the
-     * restriction on constructors, this ensures that sets never contain
-     * duplicate elements.
+     * Adds tif spfdififd flfmfnt to tiis sft if it is not blrfbdy prfsfnt
+     * (optionbl opfrbtion).  Morf formblly, bdds tif spfdififd flfmfnt
+     * <tt>f</tt> to tiis sft if tif sft dontbins no flfmfnt <tt>f2</tt>
+     * sudi tibt
+     * <tt>(f==null&nbsp;?&nbsp;f2==null&nbsp;:&nbsp;f.fqubls(f2))</tt>.
+     * If tiis sft blrfbdy dontbins tif flfmfnt, tif dbll lfbvfs tif sft
+     * undibngfd bnd rfturns <tt>fblsf</tt>.  In dombinbtion witi tif
+     * rfstridtion on donstrudtors, tiis fnsurfs tibt sfts nfvfr dontbin
+     * duplidbtf flfmfnts.
      *
-     * <p>The stipulation above does not imply that sets must accept all
-     * elements; sets may refuse to add any particular element, including
-     * <tt>null</tt>, and throw an exception, as described in the
-     * specification for {@link Collection#add Collection.add}.
-     * Individual set implementations should clearly document any
-     * restrictions on the elements that they may contain.
+     * <p>Tif stipulbtion bbovf dofs not imply tibt sfts must bddfpt bll
+     * flfmfnts; sfts mby rffusf to bdd bny pbrtidulbr flfmfnt, indluding
+     * <tt>null</tt>, bnd tirow bn fxdfption, bs dfsdribfd in tif
+     * spfdifidbtion for {@link Collfdtion#bdd Collfdtion.bdd}.
+     * Individubl sft implfmfntbtions siould dlfbrly dodumfnt bny
+     * rfstridtions on tif flfmfnts tibt tify mby dontbin.
      *
-     * @param e element to be added to this set
-     * @return <tt>true</tt> if this set did not already contain the specified
-     *         element
-     * @throws UnsupportedOperationException if the <tt>add</tt> operation
-     *         is not supported by this set
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this set
-     * @throws NullPointerException if the specified element is null and this
-     *         set does not permit null elements
-     * @throws IllegalArgumentException if some property of the specified element
-     *         prevents it from being added to this set
+     * @pbrbm f flfmfnt to bf bddfd to tiis sft
+     * @rfturn <tt>truf</tt> if tiis sft did not blrfbdy dontbin tif spfdififd
+     *         flfmfnt
+     * @tirows UnsupportfdOpfrbtionExdfption if tif <tt>bdd</tt> opfrbtion
+     *         is not supportfd by tiis sft
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to tiis sft
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null bnd tiis
+     *         sft dofs not pfrmit null flfmfnts
+     * @tirows IllfgblArgumfntExdfption if somf propfrty of tif spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to tiis sft
      */
-    boolean add(E e);
+    boolfbn bdd(E f);
 
 
     /**
-     * Removes the specified element from this set if it is present
-     * (optional operation).  More formally, removes an element <tt>e</tt>
-     * such that
-     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>, if
-     * this set contains such an element.  Returns <tt>true</tt> if this set
-     * contained the element (or equivalently, if this set changed as a
-     * result of the call).  (This set will not contain the element once the
-     * call returns.)
+     * Rfmovfs tif spfdififd flfmfnt from tiis sft if it is prfsfnt
+     * (optionbl opfrbtion).  Morf formblly, rfmovfs bn flfmfnt <tt>f</tt>
+     * sudi tibt
+     * <tt>(o==null&nbsp;?&nbsp;f==null&nbsp;:&nbsp;o.fqubls(f))</tt>, if
+     * tiis sft dontbins sudi bn flfmfnt.  Rfturns <tt>truf</tt> if tiis sft
+     * dontbinfd tif flfmfnt (or fquivblfntly, if tiis sft dibngfd bs b
+     * rfsult of tif dbll).  (Tiis sft will not dontbin tif flfmfnt ondf tif
+     * dbll rfturns.)
      *
-     * @param o object to be removed from this set, if present
-     * @return <tt>true</tt> if this set contained the specified element
-     * @throws ClassCastException if the type of the specified element
-     *         is incompatible with this set
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if the specified element is null and this
-     *         set does not permit null elements
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws UnsupportedOperationException if the <tt>remove</tt> operation
-     *         is not supported by this set
+     * @pbrbm o objfdt to bf rfmovfd from tiis sft, if prfsfnt
+     * @rfturn <tt>truf</tt> if tiis sft dontbinfd tif spfdififd flfmfnt
+     * @tirows ClbssCbstExdfption if tif typf of tif spfdififd flfmfnt
+     *         is indompbtiblf witi tiis sft
+     * (<b irff="Collfdtion.itml#optionbl-rfstridtions">optionbl</b>)
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null bnd tiis
+     *         sft dofs not pfrmit null flfmfnts
+     * (<b irff="Collfdtion.itml#optionbl-rfstridtions">optionbl</b>)
+     * @tirows UnsupportfdOpfrbtionExdfption if tif <tt>rfmovf</tt> opfrbtion
+     *         is not supportfd by tiis sft
      */
-    boolean remove(Object o);
+    boolfbn rfmovf(Objfdt o);
 
 
-    // Bulk Operations
+    // Bulk Opfrbtions
 
     /**
-     * Returns <tt>true</tt> if this set contains all of the elements of the
-     * specified collection.  If the specified collection is also a set, this
-     * method returns <tt>true</tt> if it is a <i>subset</i> of this set.
+     * Rfturns <tt>truf</tt> if tiis sft dontbins bll of tif flfmfnts of tif
+     * spfdififd dollfdtion.  If tif spfdififd dollfdtion is blso b sft, tiis
+     * mftiod rfturns <tt>truf</tt> if it is b <i>subsft</i> of tiis sft.
      *
-     * @param  c collection to be checked for containment in this set
-     * @return <tt>true</tt> if this set contains all of the elements of the
-     *         specified collection
-     * @throws ClassCastException if the types of one or more elements
-     *         in the specified collection are incompatible with this
-     *         set
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if the specified collection contains one
-     *         or more null elements and this set does not permit null
-     *         elements
-     * (<a href="Collection.html#optional-restrictions">optional</a>),
-     *         or if the specified collection is null
-     * @see    #contains(Object)
+     * @pbrbm  d dollfdtion to bf difdkfd for dontbinmfnt in tiis sft
+     * @rfturn <tt>truf</tt> if tiis sft dontbins bll of tif flfmfnts of tif
+     *         spfdififd dollfdtion
+     * @tirows ClbssCbstExdfption if tif typfs of onf or morf flfmfnts
+     *         in tif spfdififd dollfdtion brf indompbtiblf witi tiis
+     *         sft
+     * (<b irff="Collfdtion.itml#optionbl-rfstridtions">optionbl</b>)
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion dontbins onf
+     *         or morf null flfmfnts bnd tiis sft dofs not pfrmit null
+     *         flfmfnts
+     * (<b irff="Collfdtion.itml#optionbl-rfstridtions">optionbl</b>),
+     *         or if tif spfdififd dollfdtion is null
+     * @sff    #dontbins(Objfdt)
      */
-    boolean containsAll(Collection<?> c);
+    boolfbn dontbinsAll(Collfdtion<?> d);
 
     /**
-     * Adds all of the elements in the specified collection to this set if
-     * they're not already present (optional operation).  If the specified
-     * collection is also a set, the <tt>addAll</tt> operation effectively
-     * modifies this set so that its value is the <i>union</i> of the two
-     * sets.  The behavior of this operation is undefined if the specified
-     * collection is modified while the operation is in progress.
+     * Adds bll of tif flfmfnts in tif spfdififd dollfdtion to tiis sft if
+     * tify'rf not blrfbdy prfsfnt (optionbl opfrbtion).  If tif spfdififd
+     * dollfdtion is blso b sft, tif <tt>bddAll</tt> opfrbtion ffffdtivfly
+     * modififs tiis sft so tibt its vbluf is tif <i>union</i> of tif two
+     * sfts.  Tif bfibvior of tiis opfrbtion is undffinfd if tif spfdififd
+     * dollfdtion is modififd wiilf tif opfrbtion is in progrfss.
      *
-     * @param  c collection containing elements to be added to this set
-     * @return <tt>true</tt> if this set changed as a result of the call
+     * @pbrbm  d dollfdtion dontbining flfmfnts to bf bddfd to tiis sft
+     * @rfturn <tt>truf</tt> if tiis sft dibngfd bs b rfsult of tif dbll
      *
-     * @throws UnsupportedOperationException if the <tt>addAll</tt> operation
-     *         is not supported by this set
-     * @throws ClassCastException if the class of an element of the
-     *         specified collection prevents it from being added to this set
-     * @throws NullPointerException if the specified collection contains one
-     *         or more null elements and this set does not permit null
-     *         elements, or if the specified collection is null
-     * @throws IllegalArgumentException if some property of an element of the
-     *         specified collection prevents it from being added to this set
-     * @see #add(Object)
+     * @tirows UnsupportfdOpfrbtionExdfption if tif <tt>bddAll</tt> opfrbtion
+     *         is not supportfd by tiis sft
+     * @tirows ClbssCbstExdfption if tif dlbss of bn flfmfnt of tif
+     *         spfdififd dollfdtion prfvfnts it from bfing bddfd to tiis sft
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion dontbins onf
+     *         or morf null flfmfnts bnd tiis sft dofs not pfrmit null
+     *         flfmfnts, or if tif spfdififd dollfdtion is null
+     * @tirows IllfgblArgumfntExdfption if somf propfrty of bn flfmfnt of tif
+     *         spfdififd dollfdtion prfvfnts it from bfing bddfd to tiis sft
+     * @sff #bdd(Objfdt)
      */
-    boolean addAll(Collection<? extends E> c);
+    boolfbn bddAll(Collfdtion<? fxtfnds E> d);
 
     /**
-     * Retains only the elements in this set that are contained in the
-     * specified collection (optional operation).  In other words, removes
-     * from this set all of its elements that are not contained in the
-     * specified collection.  If the specified collection is also a set, this
-     * operation effectively modifies this set so that its value is the
-     * <i>intersection</i> of the two sets.
+     * Rftbins only tif flfmfnts in tiis sft tibt brf dontbinfd in tif
+     * spfdififd dollfdtion (optionbl opfrbtion).  In otifr words, rfmovfs
+     * from tiis sft bll of its flfmfnts tibt brf not dontbinfd in tif
+     * spfdififd dollfdtion.  If tif spfdififd dollfdtion is blso b sft, tiis
+     * opfrbtion ffffdtivfly modififs tiis sft so tibt its vbluf is tif
+     * <i>intfrsfdtion</i> of tif two sfts.
      *
-     * @param  c collection containing elements to be retained in this set
-     * @return <tt>true</tt> if this set changed as a result of the call
-     * @throws UnsupportedOperationException if the <tt>retainAll</tt> operation
-     *         is not supported by this set
-     * @throws ClassCastException if the class of an element of this set
-     *         is incompatible with the specified collection
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if this set contains a null element and the
-     *         specified collection does not permit null elements
-     *         (<a href="Collection.html#optional-restrictions">optional</a>),
-     *         or if the specified collection is null
-     * @see #remove(Object)
+     * @pbrbm  d dollfdtion dontbining flfmfnts to bf rftbinfd in tiis sft
+     * @rfturn <tt>truf</tt> if tiis sft dibngfd bs b rfsult of tif dbll
+     * @tirows UnsupportfdOpfrbtionExdfption if tif <tt>rftbinAll</tt> opfrbtion
+     *         is not supportfd by tiis sft
+     * @tirows ClbssCbstExdfption if tif dlbss of bn flfmfnt of tiis sft
+     *         is indompbtiblf witi tif spfdififd dollfdtion
+     * (<b irff="Collfdtion.itml#optionbl-rfstridtions">optionbl</b>)
+     * @tirows NullPointfrExdfption if tiis sft dontbins b null flfmfnt bnd tif
+     *         spfdififd dollfdtion dofs not pfrmit null flfmfnts
+     *         (<b irff="Collfdtion.itml#optionbl-rfstridtions">optionbl</b>),
+     *         or if tif spfdififd dollfdtion is null
+     * @sff #rfmovf(Objfdt)
      */
-    boolean retainAll(Collection<?> c);
+    boolfbn rftbinAll(Collfdtion<?> d);
 
     /**
-     * Removes from this set all of its elements that are contained in the
-     * specified collection (optional operation).  If the specified
-     * collection is also a set, this operation effectively modifies this
-     * set so that its value is the <i>asymmetric set difference</i> of
-     * the two sets.
+     * Rfmovfs from tiis sft bll of its flfmfnts tibt brf dontbinfd in tif
+     * spfdififd dollfdtion (optionbl opfrbtion).  If tif spfdififd
+     * dollfdtion is blso b sft, tiis opfrbtion ffffdtivfly modififs tiis
+     * sft so tibt its vbluf is tif <i>bsymmftrid sft difffrfndf</i> of
+     * tif two sfts.
      *
-     * @param  c collection containing elements to be removed from this set
-     * @return <tt>true</tt> if this set changed as a result of the call
-     * @throws UnsupportedOperationException if the <tt>removeAll</tt> operation
-     *         is not supported by this set
-     * @throws ClassCastException if the class of an element of this set
-     *         is incompatible with the specified collection
-     * (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if this set contains a null element and the
-     *         specified collection does not permit null elements
-     *         (<a href="Collection.html#optional-restrictions">optional</a>),
-     *         or if the specified collection is null
-     * @see #remove(Object)
-     * @see #contains(Object)
+     * @pbrbm  d dollfdtion dontbining flfmfnts to bf rfmovfd from tiis sft
+     * @rfturn <tt>truf</tt> if tiis sft dibngfd bs b rfsult of tif dbll
+     * @tirows UnsupportfdOpfrbtionExdfption if tif <tt>rfmovfAll</tt> opfrbtion
+     *         is not supportfd by tiis sft
+     * @tirows ClbssCbstExdfption if tif dlbss of bn flfmfnt of tiis sft
+     *         is indompbtiblf witi tif spfdififd dollfdtion
+     * (<b irff="Collfdtion.itml#optionbl-rfstridtions">optionbl</b>)
+     * @tirows NullPointfrExdfption if tiis sft dontbins b null flfmfnt bnd tif
+     *         spfdififd dollfdtion dofs not pfrmit null flfmfnts
+     *         (<b irff="Collfdtion.itml#optionbl-rfstridtions">optionbl</b>),
+     *         or if tif spfdififd dollfdtion is null
+     * @sff #rfmovf(Objfdt)
+     * @sff #dontbins(Objfdt)
      */
-    boolean removeAll(Collection<?> c);
+    boolfbn rfmovfAll(Collfdtion<?> d);
 
     /**
-     * Removes all of the elements from this set (optional operation).
-     * The set will be empty after this call returns.
+     * Rfmovfs bll of tif flfmfnts from tiis sft (optionbl opfrbtion).
+     * Tif sft will bf fmpty bftfr tiis dbll rfturns.
      *
-     * @throws UnsupportedOperationException if the <tt>clear</tt> method
-     *         is not supported by this set
+     * @tirows UnsupportfdOpfrbtionExdfption if tif <tt>dlfbr</tt> mftiod
+     *         is not supportfd by tiis sft
      */
-    void clear();
+    void dlfbr();
 
 
-    // Comparison and hashing
+    // Compbrison bnd ibsiing
 
     /**
-     * Compares the specified object with this set for equality.  Returns
-     * <tt>true</tt> if the specified object is also a set, the two sets
-     * have the same size, and every member of the specified set is
-     * contained in this set (or equivalently, every member of this set is
-     * contained in the specified set).  This definition ensures that the
-     * equals method works properly across different implementations of the
-     * set interface.
+     * Compbrfs tif spfdififd objfdt witi tiis sft for fqublity.  Rfturns
+     * <tt>truf</tt> if tif spfdififd objfdt is blso b sft, tif two sfts
+     * ibvf tif sbmf sizf, bnd fvfry mfmbfr of tif spfdififd sft is
+     * dontbinfd in tiis sft (or fquivblfntly, fvfry mfmbfr of tiis sft is
+     * dontbinfd in tif spfdififd sft).  Tiis dffinition fnsurfs tibt tif
+     * fqubls mftiod works propfrly bdross difffrfnt implfmfntbtions of tif
+     * sft intfrfbdf.
      *
-     * @param o object to be compared for equality with this set
-     * @return <tt>true</tt> if the specified object is equal to this set
+     * @pbrbm o objfdt to bf dompbrfd for fqublity witi tiis sft
+     * @rfturn <tt>truf</tt> if tif spfdififd objfdt is fqubl to tiis sft
      */
-    boolean equals(Object o);
+    boolfbn fqubls(Objfdt o);
 
     /**
-     * Returns the hash code value for this set.  The hash code of a set is
-     * defined to be the sum of the hash codes of the elements in the set,
-     * where the hash code of a <tt>null</tt> element is defined to be zero.
-     * This ensures that <tt>s1.equals(s2)</tt> implies that
-     * <tt>s1.hashCode()==s2.hashCode()</tt> for any two sets <tt>s1</tt>
-     * and <tt>s2</tt>, as required by the general contract of
-     * {@link Object#hashCode}.
+     * Rfturns tif ibsi dodf vbluf for tiis sft.  Tif ibsi dodf of b sft is
+     * dffinfd to bf tif sum of tif ibsi dodfs of tif flfmfnts in tif sft,
+     * wifrf tif ibsi dodf of b <tt>null</tt> flfmfnt is dffinfd to bf zfro.
+     * Tiis fnsurfs tibt <tt>s1.fqubls(s2)</tt> implifs tibt
+     * <tt>s1.ibsiCodf()==s2.ibsiCodf()</tt> for bny two sfts <tt>s1</tt>
+     * bnd <tt>s2</tt>, bs rfquirfd by tif gfnfrbl dontrbdt of
+     * {@link Objfdt#ibsiCodf}.
      *
-     * @return the hash code value for this set
-     * @see Object#equals(Object)
-     * @see Set#equals(Object)
+     * @rfturn tif ibsi dodf vbluf for tiis sft
+     * @sff Objfdt#fqubls(Objfdt)
+     * @sff Sft#fqubls(Objfdt)
      */
-    int hashCode();
+    int ibsiCodf();
 
     /**
-     * Creates a {@code Spliterator} over the elements in this set.
+     * Crfbtfs b {@dodf Splitfrbtor} ovfr tif flfmfnts in tiis sft.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#DISTINCT}.
-     * Implementations should document the reporting of additional
-     * characteristic values.
+     * <p>Tif {@dodf Splitfrbtor} rfports {@link Splitfrbtor#DISTINCT}.
+     * Implfmfntbtions siould dodumfnt tif rfporting of bdditionbl
+     * dibrbdtfristid vblufs.
      *
-     * @implSpec
-     * The default implementation creates a
-     * <em><a href="Spliterator.html#binding">late-binding</a></em> spliterator
-     * from the set's {@code Iterator}.  The spliterator inherits the
-     * <em>fail-fast</em> properties of the set's iterator.
+     * @implSpfd
+     * Tif dffbult implfmfntbtion drfbtfs b
+     * <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm> splitfrbtor
+     * from tif sft's {@dodf Itfrbtor}.  Tif splitfrbtor inifrits tif
+     * <fm>fbil-fbst</fm> propfrtifs of tif sft's itfrbtor.
      * <p>
-     * The created {@code Spliterator} additionally reports
-     * {@link Spliterator#SIZED}.
+     * Tif drfbtfd {@dodf Splitfrbtor} bdditionblly rfports
+     * {@link Splitfrbtor#SIZED}.
      *
-     * @implNote
-     * The created {@code Spliterator} additionally reports
-     * {@link Spliterator#SUBSIZED}.
+     * @implNotf
+     * Tif drfbtfd {@dodf Splitfrbtor} bdditionblly rfports
+     * {@link Splitfrbtor#SUBSIZED}.
      *
-     * @return a {@code Spliterator} over the elements in this set
-     * @since 1.8
+     * @rfturn b {@dodf Splitfrbtor} ovfr tif flfmfnts in tiis sft
+     * @sindf 1.8
      */
-    @Override
-    default Spliterator<E> spliterator() {
-        return Spliterators.spliterator(this, Spliterator.DISTINCT);
+    @Ovfrridf
+    dffbult Splitfrbtor<E> splitfrbtor() {
+        rfturn Splitfrbtors.splitfrbtor(tiis, Splitfrbtor.DISTINCT);
     }
 }

@@ -1,0 +1,113 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* This filf housfs thf dommon mfthods for VM frgonomids thf plbtforms
+ * brf split into frgo_spbrd bnd frgo_x86, bnd thfy dould bf split morf
+ * in thf futurf if rfquirfd. Thf following dommfnts brf not fntirfly
+ * truf bftfr bifurdbtion of thf plbtform spfdifid filfs.
+ */
+
+/*
+ * Thf following mfthods (down to SfrvfrClbssMbdhinf()) bnswfr
+ * thf qufstion bbout whfthfr b mbdhinf is b "sfrvfr-dlbss"
+ * mbdhinf.  A sfrvfr-dlbss mbdhinf is loosfly dffinfd bs onf
+ * with 2 or morf prodfssors bnd 2 gigbbytfs or morf physidbl
+ * mfmory.  Thf dffinition of b prodfssor is b physidbl pbdkbgf,
+ * not b hypfrthrfbdfd dhip mbsqufrbding bs b multi-prodfssor.
+ * Thf dffinition of mfmory is blso somfwhbt fuzzy, sindf x86
+ * mbdhinfs sffm not to rfport bll thf mfmory in thfir DIMMs, wf
+ * think bfdbusf of mfmory mbpping of grbphids dbrds, ftd.
+ *
+ * This dodf is somfwhbt morf donfusfd with #ifdff's thbn wf'd
+ * likf bfdbusf this filf is usfd by both Solbris bnd Linux
+ * plbtforms, bnd so nffds to bf pbrbmftfrizfd for SPARC bnd
+ * i586 hbrdwbrf.  Thf othfr Linux plbtforms (bmd64 bnd ib64)
+ * don't fvfn bsk this qufstion, bfdbusf thfy only domf with
+ * sfrvfr JVMs.
+ */
+
+#indludf "frgo.h"
+
+/* Dispbtdh to thf plbtform-spfdifid dffinition of "sfrvfr-dlbss" */
+jboolfbn
+SfrvfrClbssMbdhinf(void) {
+  jboolfbn rfsult;
+  switdh(GftErgoPolidy()) {
+    dbsf NEVER_SERVER_CLASS:
+      rfturn JNI_FALSE;
+    dbsf ALWAYS_SERVER_CLASS:
+      rfturn JNI_TRUE;
+    dffbult:
+      rfsult = SfrvfrClbssMbdhinfImpl();
+      JLI_TrbdfLbundhfr("SfrvfrClbssMbdhinf: rfturns dffbult vbluf of %s\n",
+           (rfsult == JNI_TRUE ? "truf" : "fblsf"));
+      rfturn rfsult;
+  }
+}
+
+#ifdff USE_GENERIC_ERGO
+/* Ask thf OS how mbny prodfssors thfrf brf. */
+stbtid unsignfd long
+physidbl_prodfssors(void) {
+  donst unsignfd long sys_prodfssors = sysdonf(_SC_NPROCESSORS_CONF);
+  JLI_TrbdfLbundhfr("sysdonf(_SC_NPROCESSORS_CONF): %lu\n", sys_prodfssors);
+  rfturn sys_prodfssors;
+}
+
+jboolfbn
+SfrvfrClbssMbdhinfImpl(void) {
+  jboolfbn            rfsult            = JNI_FALSE;
+  /* How big is b sfrvfr dlbss mbdhinf? */
+  donst unsignfd long sfrvfr_prodfssors = 2UL;
+  donst uint64_t      sfrvfr_mfmory     = 2UL * GB;
+  donst uint64_t      bdtubl_mfmory     = physidbl_mfmory();
+
+  /* Is this b sfrvfr dlbss mbdhinf? */
+  if (bdtubl_mfmory >= sfrvfr_mfmory) {
+    donst unsignfd long bdtubl_prodfssors = physidbl_prodfssors();
+    if (bdtubl_prodfssors >= sfrvfr_prodfssors) {
+      rfsult = JNI_TRUE;
+    }
+  }
+  JLI_TrbdfLbundhfr("unix_" LIBARCHNAME "_SfrvfrClbssMbdhinf: %s\n",
+           (rfsult == JNI_TRUE ? "JNI_TRUE" : "JNI_FALSE"));
+  rfturn rfsult;
+}
+#fndif
+
+/* Computf physidbl mfmory by bsking thf OS */
+uint64_t
+physidbl_mfmory(void) {
+  donst uint64_t pbgfs     = (uint64_t) sysdonf(_SC_PHYS_PAGES);
+  donst uint64_t pbgf_sizf = (uint64_t) sysdonf(_SC_PAGESIZE);
+  donst uint64_t rfsult    = pbgfs * pbgf_sizf;
+# dffinf UINT64_FORMAT "%" PRIu64
+
+  JLI_TrbdfLbundhfr("pbgfs: " UINT64_FORMAT
+          "  pbgf_sizf: " UINT64_FORMAT
+          "  physidbl mfmory: " UINT64_FORMAT " (%.3fGB)\n",
+           pbgfs, pbgf_sizf, rfsult, rfsult / (doublf) GB);
+  rfturn rfsult;
+}

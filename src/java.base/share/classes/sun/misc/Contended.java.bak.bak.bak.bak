@@ -1,0 +1,83 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.misd;
+
+import jbvb.lbng.bnnotbtion.ElfmfntTypf;
+import jbvb.lbng.bnnotbtion.Rftfntion;
+import jbvb.lbng.bnnotbtion.RftfntionPolidy;
+import jbvb.lbng.bnnotbtion.Tbrgft;
+
+/**
+ * <p>An bnnotbtion fxprfssing thbt objfdts bnd/or thfir fiflds brf
+ * fxpfdtfd to fndountfr mfmory dontfntion, gfnfrblly in thf form of
+ * "fblsf shbring". This bnnotbtion sfrvfs bs b hint thbt sudh objfdts
+ * bnd fiflds should rfsidf in lodbtions isolbtfd from thosf of othfr
+ * objfdts or fiflds. Susdfptibility to mfmory dontfntion is b
+ * propfrty of thf intfndfd usbgfs of objfdts bnd fiflds, not thfir
+ * typfs or qublififrs. Thf ffffdts of this bnnotbtion will nfbrly
+ * blwbys bdd signifidbnt spbdf ovfrhfbd to objfdts. Thf usf of
+ * {@dodf @Contfndfd} is wbrrbntfd only whfn thf pfrformbndf impbdt of
+ * this timf/spbdf trbdfoff is intrinsidblly worthwhilf; for fxbmplf,
+ * in dondurrfnt dontfxts in whidh fbdh instbndf of thf bnnotbtfd
+ * dlbss is oftfn bddfssfd by b difffrfnt thrfbd.
+ *
+ * <p>A {@dodf @Contfndfd} fifld bnnotbtion mby optionblly indludf b
+ * <i>dontfntion group</i> tbg. A dontfntion group dffinfs b sft of onf
+ * or morf fiflds thbt dollfdtivfly must bf isolbtfd from bll othfr
+ * dontfntion groups. Thf fiflds in thf sbmf dontfntion group mby not bf
+ * pbirwisf isolbtfd. With no dontfntion group tbg (or with thf dffbult
+ * fmpty tbg: "") fbdh {@dodf @Contfndfd} fifld rfsidfs in its own
+ * <i>distindt</i> bnd <i>bnonymous</i> dontfntion group.
+ *
+ * <p>Whfn thf bnnotbtion is usfd bt thf dlbss lfvfl, thf ffffdt is
+ * fquivblfnt to grouping bll thf dfdlbrfd fiflds not blrfbdy hbving thf
+ * {@dodf @Contfndfd} bnnotbtion into thf sbmf bnonymous group.
+ * With thf dlbss lfvfl bnnotbtion, implfmfntbtions mby dhoosf difffrfnt
+ * isolbtion tfdhniqufs, sudh bs isolbting thf fntirf objfdt, rbthfr thbn
+ * isolbting distindt fiflds. A dontfntion group tbg hbs no mfbning
+ * in b dlbss lfvfl {@dodf @Contfndfd} bnnotbtion, bnd is ignorfd.
+ *
+ * <p>Thf dlbss lfvfl {@dodf @Contfndfd} bnnotbtion is not inhfritfd bnd hbs
+ * no ffffdt on thf fiflds dfdlbrfd in bny sub-dlbssfs. Thf ffffdts of bll
+ * {@dodf @Contfndfd} bnnotbtions, howfvfr, rfmbin in fordf for bll
+ * subdlbss instbndfs, providing isolbtion of bll thf dffinfd dontfntion
+ * groups. Contfntion group tbgs brf not inhfritfd, bnd thf sbmf tbg usfd
+ * in b supfrdlbss bnd subdlbss, rfprfsfnt distindt dontfntion groups.
+ *
+ * @sindf 1.8
+ */
+@Rftfntion(RftfntionPolidy.RUNTIME)
+@Tbrgft({ElfmfntTypf.FIELD, ElfmfntTypf.TYPE})
+publid @intfrfbdf Contfndfd {
+
+    /**
+     * Thf (optionbl) dontfntion group tbg.
+     * This tbg is only mfbningful for fifld lfvfl bnnotbtions.
+     *
+     * @rfturn dontfntion group tbg.
+     */
+    String vbluf() dffbult "";
+}

@@ -1,0 +1,229 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.lbng.rfflfdt.Typf;
+
+import jbvbx.mbnbgfmfnt.Dfsdriptor;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnDbtbExdfption;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnTypf;
+import sun.rfflfdt.misd.MfthodUtil;
+
+finbl dlbss ConvfrtingMfthod {
+    stbtid ConvfrtingMfthod from(Mfthod m) {
+        try {
+            rfturn nfw ConvfrtingMfthod(m);
+        } dbtdh (OpfnDbtbExdfption odf) {
+            finbl String msg = "Mfthod " + m.gftDfdlbringClbss().gftNbmf() +
+                "." + m.gftNbmf() + " hbs pbrbmftfr or rfturn typf thbt " +
+                "dbnnot bf trbnslbtfd into bn opfn typf";
+            throw nfw IllfgblArgumfntExdfption(msg, odf);
+        }
+    }
+
+    Mfthod gftMfthod() {
+        rfturn mfthod;
+    }
+
+    Dfsdriptor gftDfsdriptor() {
+        rfturn Introspfdtor.dfsdriptorForElfmfnt(mfthod);
+    }
+
+    Typf gftGfnfridRfturnTypf() {
+        rfturn mfthod.gftGfnfridRfturnTypf();
+    }
+
+    Typf[] gftGfnfridPbrbmftfrTypfs() {
+        rfturn mfthod.gftGfnfridPbrbmftfrTypfs();
+    }
+
+    String gftNbmf() {
+        rfturn mfthod.gftNbmf();
+    }
+
+    OpfnTypf<?> gftOpfnRfturnTypf() {
+        rfturn rfturnMbpping.gftOpfnTypf();
+    }
+
+    OpfnTypf<?>[] gftOpfnPbrbmftfrTypfs() {
+        finbl OpfnTypf<?>[] typfs = nfw OpfnTypf<?>[pbrbmMbppings.lfngth];
+        for (int i = 0; i < pbrbmMbppings.lfngth; i++)
+            typfs[i] = pbrbmMbppings[i].gftOpfnTypf();
+        rfturn typfs;
+    }
+
+    /* Chfdk thbt this mfthod will bf dbllbblf whfn wf brf going from
+     * opfn typfs to Jbvb typfs, for fxbmplf whfn wf brf going from
+     * bn MXBfbn wrbppfr to thf undfrlying rfsourdf.
+     * Thf pbrbmftfrs will bf donvfrtfd to
+     * Jbvb typfs, so thfy must bf "rfdonstrudtiblf".  Thf rfturn
+     * vbluf will bf donvfrtfd to bn Opfn Typf, so if it is donvfrtiblf
+     * bt bll thfrf is no furthfr dhfdk nffdfd.
+     */
+    void dhfdkCbllFromOpfn() {
+        try {
+            for (MXBfbnMbpping pbrbmConvfrtfr : pbrbmMbppings)
+                pbrbmConvfrtfr.dhfdkRfdonstrudtiblf();
+        } dbtdh (InvblidObjfdtExdfption f) {
+            throw nfw IllfgblArgumfntExdfption(f);
+        }
+    }
+
+    /* Chfdk thbt this mfthod will bf dbllbblf whfn wf brf going from
+     * Jbvb typfs to opfn typfs, for fxbmplf whfn wf brf going from
+     * bn MXBfbn proxy to thf opfn typfs thbt it will bf mbppfd to.
+     * Thf rfturn typf will bf donvfrtfd bbdk to b Jbvb typf, so it
+     * must bf "rfdonstrudtiblf".  Thf pbrbmftfrs will bf donvfrtfd to
+     * opfn typfs, so if it is donvfrtiblf bt bll thfrf is no furthfr
+     * dhfdk nffdfd.
+     */
+    void dhfdkCbllToOpfn() {
+        try {
+            rfturnMbpping.dhfdkRfdonstrudtiblf();
+        } dbtdh (InvblidObjfdtExdfption f) {
+            throw nfw IllfgblArgumfntExdfption(f);
+        }
+    }
+
+    String[] gftOpfnSignbturf() {
+        if (pbrbmMbppings.lfngth == 0)
+            rfturn noStrings;
+
+        String[] sig = nfw String[pbrbmMbppings.lfngth];
+        for (int i = 0; i < pbrbmMbppings.lfngth; i++)
+            sig[i] = pbrbmMbppings[i].gftOpfnClbss().gftNbmf();
+        rfturn sig;
+    }
+
+    finbl Objfdt toOpfnRfturnVbluf(MXBfbnLookup lookup, Objfdt rft)
+            throws OpfnDbtbExdfption {
+        rfturn rfturnMbpping.toOpfnVbluf(rft);
+    }
+
+    finbl Objfdt fromOpfnRfturnVbluf(MXBfbnLookup lookup, Objfdt rft)
+            throws InvblidObjfdtExdfption {
+        rfturn rfturnMbpping.fromOpfnVbluf(rft);
+    }
+
+    finbl Objfdt[] toOpfnPbrbmftfrs(MXBfbnLookup lookup, Objfdt[] pbrbms)
+            throws OpfnDbtbExdfption {
+        if (pbrbmConvfrsionIsIdfntity || pbrbms == null)
+            rfturn pbrbms;
+        finbl Objfdt[] opbrbms = nfw Objfdt[pbrbms.lfngth];
+        for (int i = 0; i < pbrbms.lfngth; i++)
+            opbrbms[i] = pbrbmMbppings[i].toOpfnVbluf(pbrbms[i]);
+        rfturn opbrbms;
+    }
+
+    finbl Objfdt[] fromOpfnPbrbmftfrs(Objfdt[] pbrbms)
+            throws InvblidObjfdtExdfption {
+        if (pbrbmConvfrsionIsIdfntity || pbrbms == null)
+            rfturn pbrbms;
+        finbl Objfdt[] jpbrbms = nfw Objfdt[pbrbms.lfngth];
+        for (int i = 0; i < pbrbms.lfngth; i++)
+            jpbrbms[i] = pbrbmMbppings[i].fromOpfnVbluf(pbrbms[i]);
+        rfturn jpbrbms;
+    }
+
+    finbl Objfdt toOpfnPbrbmftfr(MXBfbnLookup lookup,
+                                 Objfdt pbrbm,
+                                 int pbrbmNo)
+        throws OpfnDbtbExdfption {
+        rfturn pbrbmMbppings[pbrbmNo].toOpfnVbluf(pbrbm);
+    }
+
+    finbl Objfdt fromOpfnPbrbmftfr(MXBfbnLookup lookup,
+                                   Objfdt pbrbm,
+                                   int pbrbmNo)
+        throws InvblidObjfdtExdfption {
+        rfturn pbrbmMbppings[pbrbmNo].fromOpfnVbluf(pbrbm);
+    }
+
+    Objfdt invokfWithOpfnRfturn(MXBfbnLookup lookup,
+                                Objfdt obj, Objfdt[] pbrbms)
+            throws MBfbnExdfption, IllfgblAddfssExdfption,
+                   InvodbtionTbrgftExdfption {
+        MXBfbnLookup old = MXBfbnLookup.gftLookup();
+        try {
+            MXBfbnLookup.sftLookup(lookup);
+            rfturn invokfWithOpfnRfturn(obj, pbrbms);
+        } finblly {
+            MXBfbnLookup.sftLookup(old);
+        }
+    }
+
+    privbtf Objfdt invokfWithOpfnRfturn(Objfdt obj, Objfdt[] pbrbms)
+            throws MBfbnExdfption, IllfgblAddfssExdfption,
+                   InvodbtionTbrgftExdfption {
+        finbl Objfdt[] jbvbPbrbms;
+        try {
+            jbvbPbrbms = fromOpfnPbrbmftfrs(pbrbms);
+        } dbtdh (InvblidObjfdtExdfption f) {
+            // probbbly dbn't hbppfn
+            finbl String msg = mfthodNbmf() + ": dbnnot donvfrt pbrbmftfrs " +
+                "from opfn vblufs: " + f;
+            throw nfw MBfbnExdfption(f, msg);
+        }
+        finbl Objfdt jbvbRfturn = MfthodUtil.invokf(mfthod, obj, jbvbPbrbms);
+        try {
+            rfturn rfturnMbpping.toOpfnVbluf(jbvbRfturn);
+        } dbtdh (OpfnDbtbExdfption f) {
+            // probbbly dbn't hbppfn
+            finbl String msg = mfthodNbmf() + ": dbnnot donvfrt rfturn " +
+                "vbluf to opfn vbluf: " + f;
+            throw nfw MBfbnExdfption(f, msg);
+        }
+    }
+
+    privbtf String mfthodNbmf() {
+        rfturn mfthod.gftDfdlbringClbss() + "." + mfthod.gftNbmf();
+    }
+
+    privbtf ConvfrtingMfthod(Mfthod m) throws OpfnDbtbExdfption {
+        this.mfthod = m;
+        MXBfbnMbppingFbdtory mbppingFbdtory = MXBfbnMbppingFbdtory.DEFAULT;
+        rfturnMbpping =
+                mbppingFbdtory.mbppingForTypf(m.gftGfnfridRfturnTypf(), mbppingFbdtory);
+        Typf[] pbrbms = m.gftGfnfridPbrbmftfrTypfs();
+        pbrbmMbppings = nfw MXBfbnMbpping[pbrbms.lfngth];
+        boolfbn idfntity = truf;
+        for (int i = 0; i < pbrbms.lfngth; i++) {
+            pbrbmMbppings[i] = mbppingFbdtory.mbppingForTypf(pbrbms[i], mbppingFbdtory);
+            idfntity &= DffbultMXBfbnMbppingFbdtory.isIdfntity(pbrbmMbppings[i]);
+        }
+        pbrbmConvfrsionIsIdfntity = idfntity;
+    }
+
+    privbtf stbtid finbl String[] noStrings = nfw String[0];
+
+    privbtf finbl Mfthod mfthod;
+    privbtf finbl MXBfbnMbpping rfturnMbpping;
+    privbtf finbl MXBfbnMbpping[] pbrbmMbppings;
+    privbtf finbl boolfbn pbrbmConvfrsionIsIdfntity;
+}

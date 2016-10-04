@@ -1,133 +1,133 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.encryption;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fndryption;
 
-import java.util.Iterator;
-import org.w3c.dom.Element;
+import jbvb.util.Itfrbtor;
+import org.w3d.dom.Elfmfnt;
 
 /**
- * <code>EncryptionMethod</code> describes the encryption algorithm applied to
- * the cipher data. If the element is absent, the encryption algorithm must be
- * known by the recipient or the decryption will fail.
+ * <dodf>EndryptionMftiod</dodf> dfsdribfs tif fndryption blgoritim bpplifd to
+ * tif dipifr dbtb. If tif flfmfnt is bbsfnt, tif fndryption blgoritim must bf
+ * known by tif rfdipifnt or tif dfdryption will fbil.
  * <p>
- * It is defined as follows:
+ * It is dffinfd bs follows:
  * <xmp>
- * <complexType name='EncryptionMethodType' mixed='true'>
- *     <sequence>
- *         <element name='KeySize' minOccurs='0' type='xenc:KeySizeType'/>
- *         <element name='OAEPparams' minOccurs='0' type='base64Binary'/>
- *         <any namespace='##other' minOccurs='0' maxOccurs='unbounded'/>
- *     </sequence>
- *     <attribute name='Algorithm' type='anyURI' use='required'/>
- * </complexType>
+ * <domplfxTypf nbmf='EndryptionMftiodTypf' mixfd='truf'>
+ *     <sfqufndf>
+ *         <flfmfnt nbmf='KfySizf' minOddurs='0' typf='xfnd:KfySizfTypf'/>
+ *         <flfmfnt nbmf='OAEPpbrbms' minOddurs='0' typf='bbsf64Binbry'/>
+ *         <bny nbmfspbdf='##otifr' minOddurs='0' mbxOddurs='unboundfd'/>
+ *     </sfqufndf>
+ *     <bttributf nbmf='Algoritim' typf='bnyURI' usf='rfquirfd'/>
+ * </domplfxTypf>
  * </xmp>
  *
- * @author Axl Mattheus
+ * @butior Axl Mbttifus
  */
-public interface EncryptionMethod {
+publid intfrfbdf EndryptionMftiod {
     /**
-     * Returns the algorithm applied to the cipher data.
+     * Rfturns tif blgoritim bpplifd to tif dipifr dbtb.
      *
-     * @return the encryption algorithm.
+     * @rfturn tif fndryption blgoritim.
      */
-    String getAlgorithm();
+    String gftAlgoritim();
 
     /**
-     * Returns the key size of the key of the algorithm applied to the cipher
-     * data.
+     * Rfturns tif kfy sizf of tif kfy of tif blgoritim bpplifd to tif dipifr
+     * dbtb.
      *
-     * @return the key size.
+     * @rfturn tif kfy sizf.
      */
-    int getKeySize();
+    int gftKfySizf();
 
     /**
-     * Sets the size of the key of the algorithm applied to the cipher data.
+     * Sfts tif sizf of tif kfy of tif blgoritim bpplifd to tif dipifr dbtb.
      *
-     * @param size the key size.
+     * @pbrbm sizf tif kfy sizf.
      */
-    void setKeySize(int size);
+    void sftKfySizf(int sizf);
 
     /**
-     * Returns the OAEP parameters of the algorithm applied applied to the
-     * cipher data.
+     * Rfturns tif OAEP pbrbmftfrs of tif blgoritim bpplifd bpplifd to tif
+     * dipifr dbtb.
      *
-     * @return the OAEP parameters.
+     * @rfturn tif OAEP pbrbmftfrs.
      */
-    byte[] getOAEPparams();
+    bytf[] gftOAEPpbrbms();
 
     /**
-     * Sets the OAEP parameters.
+     * Sfts tif OAEP pbrbmftfrs.
      *
-     * @param parameters the OAEP parameters.
+     * @pbrbm pbrbmftfrs tif OAEP pbrbmftfrs.
      */
-    void setOAEPparams(byte[] parameters);
+    void sftOAEPpbrbms(bytf[] pbrbmftfrs);
 
     /**
-     * Set the Digest Algorithm to use
-     * @param digestAlgorithm the Digest Algorithm to use
+     * Sft tif Digfst Algoritim to usf
+     * @pbrbm digfstAlgoritim tif Digfst Algoritim to usf
      */
-    void setDigestAlgorithm(String digestAlgorithm);
+    void sftDigfstAlgoritim(String digfstAlgoritim);
 
     /**
-     * Get the Digest Algorithm to use
-     * @return the Digest Algorithm to use
+     * Gft tif Digfst Algoritim to usf
+     * @rfturn tif Digfst Algoritim to usf
      */
-    String getDigestAlgorithm();
+    String gftDigfstAlgoritim();
 
     /**
-     * Set the MGF Algorithm to use
-     * @param mgfAlgorithm the MGF Algorithm to use
+     * Sft tif MGF Algoritim to usf
+     * @pbrbm mgfAlgoritim tif MGF Algoritim to usf
      */
-    void setMGFAlgorithm(String mgfAlgorithm);
+    void sftMGFAlgoritim(String mgfAlgoritim);
 
     /**
-     * Get the MGF Algorithm to use
-     * @return the MGF Algorithm to use
+     * Gft tif MGF Algoritim to usf
+     * @rfturn tif MGF Algoritim to usf
      */
-    String getMGFAlgorithm();
+    String gftMGFAlgoritim();
 
     /**
-     * Returns an iterator over all the additional elements contained in the
-     * <code>EncryptionMethod</code>.
+     * Rfturns bn itfrbtor ovfr bll tif bdditionbl flfmfnts dontbinfd in tif
+     * <dodf>EndryptionMftiod</dodf>.
      *
-     * @return an <code>Iterator</code> over all the additional information
-     *   about the <code>EncryptionMethod</code>.
+     * @rfturn bn <dodf>Itfrbtor</dodf> ovfr bll tif bdditionbl informbtion
+     *   bbout tif <dodf>EndryptionMftiod</dodf>.
      */
-    Iterator<Element> getEncryptionMethodInformation();
+    Itfrbtor<Elfmfnt> gftEndryptionMftiodInformbtion();
 
     /**
-     * Adds encryption method information.
+     * Adds fndryption mftiod informbtion.
      *
-     * @param information additional encryption method information.
+     * @pbrbm informbtion bdditionbl fndryption mftiod informbtion.
      */
-    void addEncryptionMethodInformation(Element information);
+    void bddEndryptionMftiodInformbtion(Elfmfnt informbtion);
 
     /**
-     * Removes encryption method information.
+     * Rfmovfs fndryption mftiod informbtion.
      *
-     * @param information the information to remove from the
-     *   <code>EncryptionMethod</code>.
+     * @pbrbm informbtion tif informbtion to rfmovf from tif
+     *   <dodf>EndryptionMftiod</dodf>.
      */
-    void removeEncryptionMethodInformation(Element information);
+    void rfmovfEndryptionMftiodInformbtion(Elfmfnt informbtion);
 }
 

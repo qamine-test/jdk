@@ -1,427 +1,427 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.management.openmbean;
+pbdkbgf jbvbx.mbnbgfmfnt.opfnmbfbn;
 
 
-// java import
+// jbvb import
 //
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
-import javax.management.Descriptor;
-import javax.management.ImmutableDescriptor;
-import javax.management.MBeanOperationInfo;
-import javax.management.MBeanParameterInfo;
+import jbvbx.mbnbgfmfnt.Dfsdriptor;
+import jbvbx.mbnbgfmfnt.ImmutbblfDfsdriptor;
+import jbvbx.mbnbgfmfnt.MBfbnOpfrbtionInfo;
+import jbvbx.mbnbgfmfnt.MBfbnPbrbmftfrInfo;
 
 
 /**
- * Describes an operation of an Open MBean.
+ * Dfsdribfs bn opfrbtion of bn Opfn MBfbn.
  *
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class OpenMBeanOperationInfoSupport
-    extends MBeanOperationInfo
-    implements OpenMBeanOperationInfo {
+publid dlbss OpfnMBfbnOpfrbtionInfoSupport
+    fxtfnds MBfbnOpfrbtionInfo
+    implfmfnts OpfnMBfbnOpfrbtionInfo {
 
-    /* Serial version */
-    static final long serialVersionUID = 4996859732565369366L;
-
-    /**
-     * @serial The <i>open type</i> of the values returned by the operation
-     *         described by this {@link OpenMBeanOperationInfo} instance
-     *
-     */
-    private OpenType<?> returnOpenType;
-
-
-    // As this instance is immutable,
-    // these two values need only be calculated once.
-    private transient Integer myHashCode = null;
-    private transient String  myToString = null;
-
+    /* Sfribl vfrsion */
+    stbtid finbl long sfriblVfrsionUID = 4996859732565369366L;
 
     /**
-     * <p>Constructs an {@code OpenMBeanOperationInfoSupport}
-     * instance, which describes the operation of a class of open
-     * MBeans, with the specified {@code name}, {@code description},
-     * {@code signature}, {@code returnOpenType} and {@code
-     * impact}.</p>
+     * @sfribl Tif <i>opfn typf</i> of tif vblufs rfturnfd by tif opfrbtion
+     *         dfsdribfd by tiis {@link OpfnMBfbnOpfrbtionInfo} instbndf
      *
-     * <p>The {@code signature} array parameter is internally copied,
-     * so that subsequent changes to the array referenced by {@code
-     * signature} have no effect on this instance.</p>
-     *
-     * @param name cannot be a null or empty string.
-     *
-     * @param description cannot be a null or empty string.
-     *
-     * @param signature can be null or empty if there are no
-     * parameters to describe.
-     *
-     * @param returnOpenType cannot be null: use {@code
-     * SimpleType.VOID} for operations that return nothing.
-     *
-     * @param impact must be one of {@code ACTION}, {@code
-     * ACTION_INFO}, {@code INFO}, or {@code UNKNOWN}.
-     *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string, or {@code
-     * returnOpenType} is null, or {@code impact} is not one of {@code
-     * ACTION}, {@code ACTION_INFO}, {@code INFO}, or {@code UNKNOWN}.
-     *
-     * @throws ArrayStoreException If {@code signature} is not an
-     * array of instances of a subclass of {@code MBeanParameterInfo}.
      */
-    public OpenMBeanOperationInfoSupport(String name,
-                                         String description,
-                                         OpenMBeanParameterInfo[] signature,
-                                         OpenType<?> returnOpenType,
-                                         int impact) {
-        this(name, description, signature, returnOpenType, impact,
-             (Descriptor) null);
+    privbtf OpfnTypf<?> rfturnOpfnTypf;
+
+
+    // As tiis instbndf is immutbblf,
+    // tifsf two vblufs nffd only bf dbldulbtfd ondf.
+    privbtf trbnsifnt Intfgfr myHbsiCodf = null;
+    privbtf trbnsifnt String  myToString = null;
+
+
+    /**
+     * <p>Construdts bn {@dodf OpfnMBfbnOpfrbtionInfoSupport}
+     * instbndf, wiidi dfsdribfs tif opfrbtion of b dlbss of opfn
+     * MBfbns, witi tif spfdififd {@dodf nbmf}, {@dodf dfsdription},
+     * {@dodf signbturf}, {@dodf rfturnOpfnTypf} bnd {@dodf
+     * impbdt}.</p>
+     *
+     * <p>Tif {@dodf signbturf} brrby pbrbmftfr is intfrnblly dopifd,
+     * so tibt subsfqufnt dibngfs to tif brrby rfffrfndfd by {@dodf
+     * signbturf} ibvf no ffffdt on tiis instbndf.</p>
+     *
+     * @pbrbm nbmf dbnnot bf b null or fmpty string.
+     *
+     * @pbrbm dfsdription dbnnot bf b null or fmpty string.
+     *
+     * @pbrbm signbturf dbn bf null or fmpty if tifrf brf no
+     * pbrbmftfrs to dfsdribf.
+     *
+     * @pbrbm rfturnOpfnTypf dbnnot bf null: usf {@dodf
+     * SimplfTypf.VOID} for opfrbtions tibt rfturn notiing.
+     *
+     * @pbrbm impbdt must bf onf of {@dodf ACTION}, {@dodf
+     * ACTION_INFO}, {@dodf INFO}, or {@dodf UNKNOWN}.
+     *
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     * dfsdription} brf null or fmpty string, or {@dodf
+     * rfturnOpfnTypf} is null, or {@dodf impbdt} is not onf of {@dodf
+     * ACTION}, {@dodf ACTION_INFO}, {@dodf INFO}, or {@dodf UNKNOWN}.
+     *
+     * @tirows ArrbyStorfExdfption If {@dodf signbturf} is not bn
+     * brrby of instbndfs of b subdlbss of {@dodf MBfbnPbrbmftfrInfo}.
+     */
+    publid OpfnMBfbnOpfrbtionInfoSupport(String nbmf,
+                                         String dfsdription,
+                                         OpfnMBfbnPbrbmftfrInfo[] signbturf,
+                                         OpfnTypf<?> rfturnOpfnTypf,
+                                         int impbdt) {
+        tiis(nbmf, dfsdription, signbturf, rfturnOpfnTypf, impbdt,
+             (Dfsdriptor) null);
     }
 
     /**
-     * <p>Constructs an {@code OpenMBeanOperationInfoSupport}
-     * instance, which describes the operation of a class of open
-     * MBeans, with the specified {@code name}, {@code description},
-     * {@code signature}, {@code returnOpenType}, {@code
-     * impact}, and {@code descriptor}.</p>
+     * <p>Construdts bn {@dodf OpfnMBfbnOpfrbtionInfoSupport}
+     * instbndf, wiidi dfsdribfs tif opfrbtion of b dlbss of opfn
+     * MBfbns, witi tif spfdififd {@dodf nbmf}, {@dodf dfsdription},
+     * {@dodf signbturf}, {@dodf rfturnOpfnTypf}, {@dodf
+     * impbdt}, bnd {@dodf dfsdriptor}.</p>
      *
-     * <p>The {@code signature} array parameter is internally copied,
-     * so that subsequent changes to the array referenced by {@code
-     * signature} have no effect on this instance.</p>
+     * <p>Tif {@dodf signbturf} brrby pbrbmftfr is intfrnblly dopifd,
+     * so tibt subsfqufnt dibngfs to tif brrby rfffrfndfd by {@dodf
+     * signbturf} ibvf no ffffdt on tiis instbndf.</p>
      *
-     * @param name cannot be a null or empty string.
+     * @pbrbm nbmf dbnnot bf b null or fmpty string.
      *
-     * @param description cannot be a null or empty string.
+     * @pbrbm dfsdription dbnnot bf b null or fmpty string.
      *
-     * @param signature can be null or empty if there are no
-     * parameters to describe.
+     * @pbrbm signbturf dbn bf null or fmpty if tifrf brf no
+     * pbrbmftfrs to dfsdribf.
      *
-     * @param returnOpenType cannot be null: use {@code
-     * SimpleType.VOID} for operations that return nothing.
+     * @pbrbm rfturnOpfnTypf dbnnot bf null: usf {@dodf
+     * SimplfTypf.VOID} for opfrbtions tibt rfturn notiing.
      *
-     * @param impact must be one of {@code ACTION}, {@code
-     * ACTION_INFO}, {@code INFO}, or {@code UNKNOWN}.
+     * @pbrbm impbdt must bf onf of {@dodf ACTION}, {@dodf
+     * ACTION_INFO}, {@dodf INFO}, or {@dodf UNKNOWN}.
      *
-     * @param descriptor The descriptor for the operation.  This may
-     * be null, which is equivalent to an empty descriptor.
+     * @pbrbm dfsdriptor Tif dfsdriptor for tif opfrbtion.  Tiis mby
+     * bf null, wiidi is fquivblfnt to bn fmpty dfsdriptor.
      *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string, or {@code
-     * returnOpenType} is null, or {@code impact} is not one of {@code
-     * ACTION}, {@code ACTION_INFO}, {@code INFO}, or {@code UNKNOWN}.
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     * dfsdription} brf null or fmpty string, or {@dodf
+     * rfturnOpfnTypf} is null, or {@dodf impbdt} is not onf of {@dodf
+     * ACTION}, {@dodf ACTION_INFO}, {@dodf INFO}, or {@dodf UNKNOWN}.
      *
-     * @throws ArrayStoreException If {@code signature} is not an
-     * array of instances of a subclass of {@code MBeanParameterInfo}.
+     * @tirows ArrbyStorfExdfption If {@dodf signbturf} is not bn
+     * brrby of instbndfs of b subdlbss of {@dodf MBfbnPbrbmftfrInfo}.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public OpenMBeanOperationInfoSupport(String name,
-                                         String description,
-                                         OpenMBeanParameterInfo[] signature,
-                                         OpenType<?> returnOpenType,
-                                         int impact,
-                                         Descriptor descriptor) {
-        super(name,
-              description,
-              arrayCopyCast(signature),
-              // must prevent NPE here - we will throw IAE later on if
-              // returnOpenType is null
-              (returnOpenType == null) ? null : returnOpenType.getClassName(),
-              impact,
-              ImmutableDescriptor.union(descriptor,
-                // must prevent NPE here - we will throw IAE later on if
-                // returnOpenType is null
-                (returnOpenType==null) ? null :returnOpenType.getDescriptor()));
+    publid OpfnMBfbnOpfrbtionInfoSupport(String nbmf,
+                                         String dfsdription,
+                                         OpfnMBfbnPbrbmftfrInfo[] signbturf,
+                                         OpfnTypf<?> rfturnOpfnTypf,
+                                         int impbdt,
+                                         Dfsdriptor dfsdriptor) {
+        supfr(nbmf,
+              dfsdription,
+              brrbyCopyCbst(signbturf),
+              // must prfvfnt NPE ifrf - wf will tirow IAE lbtfr on if
+              // rfturnOpfnTypf is null
+              (rfturnOpfnTypf == null) ? null : rfturnOpfnTypf.gftClbssNbmf(),
+              impbdt,
+              ImmutbblfDfsdriptor.union(dfsdriptor,
+                // must prfvfnt NPE ifrf - wf will tirow IAE lbtfr on if
+                // rfturnOpfnTypf is null
+                (rfturnOpfnTypf==null) ? null :rfturnOpfnTypf.gftDfsdriptor()));
 
-        // check parameters that should not be null or empty
-        // (unfortunately it is not done in superclass :-( ! )
+        // difdk pbrbmftfrs tibt siould not bf null or fmpty
+        // (unfortunbtfly it is not donf in supfrdlbss :-( ! )
         //
-        if (name == null || name.trim().equals("")) {
-            throw new IllegalArgumentException("Argument name cannot " +
-                                               "be null or empty");
+        if (nbmf == null || nbmf.trim().fqubls("")) {
+            tirow nfw IllfgblArgumfntExdfption("Argumfnt nbmf dbnnot " +
+                                               "bf null or fmpty");
         }
-        if (description == null || description.trim().equals("")) {
-            throw new IllegalArgumentException("Argument description cannot " +
-                                               "be null or empty");
+        if (dfsdription == null || dfsdription.trim().fqubls("")) {
+            tirow nfw IllfgblArgumfntExdfption("Argumfnt dfsdription dbnnot " +
+                                               "bf null or fmpty");
         }
-        if (returnOpenType == null) {
-            throw new IllegalArgumentException("Argument returnOpenType " +
-                                               "cannot be null");
-        }
-
-        if (impact != ACTION && impact != ACTION_INFO && impact != INFO &&
-                impact != UNKNOWN) {
-            throw new IllegalArgumentException("Argument impact can only be " +
-                                               "one of ACTION, ACTION_INFO, " +
-                                               "INFO, or UNKNOWN: " + impact);
+        if (rfturnOpfnTypf == null) {
+            tirow nfw IllfgblArgumfntExdfption("Argumfnt rfturnOpfnTypf " +
+                                               "dbnnot bf null");
         }
 
-        this.returnOpenType = returnOpenType;
+        if (impbdt != ACTION && impbdt != ACTION_INFO && impbdt != INFO &&
+                impbdt != UNKNOWN) {
+            tirow nfw IllfgblArgumfntExdfption("Argumfnt impbdt dbn only bf " +
+                                               "onf of ACTION, ACTION_INFO, " +
+                                               "INFO, or UNKNOWN: " + impbdt);
+        }
+
+        tiis.rfturnOpfnTypf = rfturnOpfnTypf;
     }
 
 
-    // Converts an array of OpenMBeanParameterInfo objects extending
-    // MBeanParameterInfo into an array of MBeanParameterInfo.
+    // Convfrts bn brrby of OpfnMBfbnPbrbmftfrInfo objfdts fxtfnding
+    // MBfbnPbrbmftfrInfo into bn brrby of MBfbnPbrbmftfrInfo.
     //
-    private static MBeanParameterInfo[]
-            arrayCopyCast(OpenMBeanParameterInfo[] src) {
-        if (src == null)
-            return null;
+    privbtf stbtid MBfbnPbrbmftfrInfo[]
+            brrbyCopyCbst(OpfnMBfbnPbrbmftfrInfo[] srd) {
+        if (srd == null)
+            rfturn null;
 
-        MBeanParameterInfo[] dst = new MBeanParameterInfo[src.length];
-        System.arraycopy(src, 0, dst, 0, src.length);
-        // may throw an ArrayStoreException
-        return dst;
+        MBfbnPbrbmftfrInfo[] dst = nfw MBfbnPbrbmftfrInfo[srd.lfngti];
+        Systfm.brrbydopy(srd, 0, dst, 0, srd.lfngti);
+        // mby tirow bn ArrbyStorfExdfption
+        rfturn dst;
     }
 
-    // Converts an array of MBeanParameterInfo objects implementing
-    // OpenMBeanParameterInfo into an array of OpenMBeanParameterInfo.
+    // Convfrts bn brrby of MBfbnPbrbmftfrInfo objfdts implfmfnting
+    // OpfnMBfbnPbrbmftfrInfo into bn brrby of OpfnMBfbnPbrbmftfrInfo.
     //
-    private static OpenMBeanParameterInfo[]
-            arrayCopyCast(MBeanParameterInfo[] src) {
-        if (src == null)
-            return null;
+    privbtf stbtid OpfnMBfbnPbrbmftfrInfo[]
+            brrbyCopyCbst(MBfbnPbrbmftfrInfo[] srd) {
+        if (srd == null)
+            rfturn null;
 
-        OpenMBeanParameterInfo[] dst = new OpenMBeanParameterInfo[src.length];
-        System.arraycopy(src, 0, dst, 0, src.length);
-        // may throw an ArrayStoreException
-        return dst;
+        OpfnMBfbnPbrbmftfrInfo[] dst = nfw OpfnMBfbnPbrbmftfrInfo[srd.lfngti];
+        Systfm.brrbydopy(srd, 0, dst, 0, srd.lfngti);
+        // mby tirow bn ArrbyStorfExdfption
+        rfturn dst;
     }
 
 
-    // [JF]: should we add constructor with java.lang.reflect.Method
-    // method parameter ?  would need to add consistency check between
-    // OpenType<?> returnOpenType and method.getReturnType().
+    // [JF]: siould wf bdd donstrudtor witi jbvb.lbng.rfflfdt.Mftiod
+    // mftiod pbrbmftfr ?  would nffd to bdd donsistfndy difdk bftwffn
+    // OpfnTypf<?> rfturnOpfnTypf bnd mftiod.gftRfturnTypf().
 
 
     /**
-     * Returns the <i>open type</i> of the values returned by the
-     * operation described by this {@code OpenMBeanOperationInfo}
-     * instance.
+     * Rfturns tif <i>opfn typf</i> of tif vblufs rfturnfd by tif
+     * opfrbtion dfsdribfd by tiis {@dodf OpfnMBfbnOpfrbtionInfo}
+     * instbndf.
      */
-    public OpenType<?> getReturnOpenType() {
+    publid OpfnTypf<?> gftRfturnOpfnTypf() {
 
-        return returnOpenType;
+        rfturn rfturnOpfnTypf;
     }
 
 
 
-    /* ***  Commodity methods from java.lang.Object  *** */
+    /* ***  Commodity mftiods from jbvb.lbng.Objfdt  *** */
 
 
     /**
-     * <p>Compares the specified {@code obj} parameter with this
-     * {@code OpenMBeanOperationInfoSupport} instance for
-     * equality.</p>
+     * <p>Compbrfs tif spfdififd {@dodf obj} pbrbmftfr witi tiis
+     * {@dodf OpfnMBfbnOpfrbtionInfoSupport} instbndf for
+     * fqublity.</p>
      *
-     * <p>Returns {@code true} if and only if all of the following
-     * statements are true:
+     * <p>Rfturns {@dodf truf} if bnd only if bll of tif following
+     * stbtfmfnts brf truf:
      *
      * <ul>
-     * <li>{@code obj} is non null,</li>
-     * <li>{@code obj} also implements the {@code
-     * OpenMBeanOperationInfo} interface,</li>
-     * <li>their names are equal</li>
-     * <li>their signatures are equal</li>
-     * <li>their return open types are equal</li>
-     * <li>their impacts are equal</li>
+     * <li>{@dodf obj} is non null,</li>
+     * <li>{@dodf obj} blso implfmfnts tif {@dodf
+     * OpfnMBfbnOpfrbtionInfo} intfrfbdf,</li>
+     * <li>tifir nbmfs brf fqubl</li>
+     * <li>tifir signbturfs brf fqubl</li>
+     * <li>tifir rfturn opfn typfs brf fqubl</li>
+     * <li>tifir impbdts brf fqubl</li>
      * </ul>
      *
-     * This ensures that this {@code equals} method works properly for
-     * {@code obj} parameters which are different implementations of
-     * the {@code OpenMBeanOperationInfo} interface.
+     * Tiis fnsurfs tibt tiis {@dodf fqubls} mftiod works propfrly for
+     * {@dodf obj} pbrbmftfrs wiidi brf difffrfnt implfmfntbtions of
+     * tif {@dodf OpfnMBfbnOpfrbtionInfo} intfrfbdf.
      *
-     * @param obj the object to be compared for equality with this
-     * {@code OpenMBeanOperationInfoSupport} instance;
+     * @pbrbm obj tif objfdt to bf dompbrfd for fqublity witi tiis
+     * {@dodf OpfnMBfbnOpfrbtionInfoSupport} instbndf;
      *
-     * @return {@code true} if the specified object is equal to this
-     * {@code OpenMBeanOperationInfoSupport} instance.
+     * @rfturn {@dodf truf} if tif spfdififd objfdt is fqubl to tiis
+     * {@dodf OpfnMBfbnOpfrbtionInfoSupport} instbndf.
      */
-    public boolean equals(Object obj) {
+    publid boolfbn fqubls(Objfdt obj) {
 
-        // if obj is null, return false
+        // if obj is null, rfturn fblsf
         //
         if (obj == null) {
-            return false;
+            rfturn fblsf;
         }
 
-        // if obj is not a OpenMBeanOperationInfo, return false
+        // if obj is not b OpfnMBfbnOpfrbtionInfo, rfturn fblsf
         //
-        OpenMBeanOperationInfo other;
+        OpfnMBfbnOpfrbtionInfo otifr;
         try {
-            other = (OpenMBeanOperationInfo) obj;
-        } catch (ClassCastException e) {
-            return false;
+            otifr = (OpfnMBfbnOpfrbtionInfo) obj;
+        } dbtdi (ClbssCbstExdfption f) {
+            rfturn fblsf;
         }
 
-        // Now, really test for equality between this
-        // OpenMBeanOperationInfo implementation and the other:
+        // Now, rfblly tfst for fqublity bftwffn tiis
+        // OpfnMBfbnOpfrbtionInfo implfmfntbtion bnd tif otifr:
         //
 
-        // their Name should be equal
-        if ( ! this.getName().equals(other.getName()) ) {
-            return false;
+        // tifir Nbmf siould bf fqubl
+        if ( ! tiis.gftNbmf().fqubls(otifr.gftNbmf()) ) {
+            rfturn fblsf;
         }
 
-        // their Signatures should be equal
-        if ( ! Arrays.equals(this.getSignature(), other.getSignature()) ) {
-            return false;
+        // tifir Signbturfs siould bf fqubl
+        if ( ! Arrbys.fqubls(tiis.gftSignbturf(), otifr.gftSignbturf()) ) {
+            rfturn fblsf;
         }
 
-        // their return open types should be equal
-        if ( ! this.getReturnOpenType().equals(other.getReturnOpenType()) ) {
-            return false;
+        // tifir rfturn opfn typfs siould bf fqubl
+        if ( ! tiis.gftRfturnOpfnTypf().fqubls(otifr.gftRfturnOpfnTypf()) ) {
+            rfturn fblsf;
         }
 
-        // their impacts should be equal
-        if ( this.getImpact() != other.getImpact() ) {
-            return false;
+        // tifir impbdts siould bf fqubl
+        if ( tiis.gftImpbdt() != otifr.gftImpbdt() ) {
+            rfturn fblsf;
         }
 
-        // All tests for equality were successfull
+        // All tfsts for fqublity wfrf suddfssfull
         //
-        return true;
+        rfturn truf;
     }
 
     /**
-     * <p>Returns the hash code value for this {@code
-     * OpenMBeanOperationInfoSupport} instance.</p>
+     * <p>Rfturns tif ibsi dodf vbluf for tiis {@dodf
+     * OpfnMBfbnOpfrbtionInfoSupport} instbndf.</p>
      *
-     * <p>The hash code of an {@code OpenMBeanOperationInfoSupport}
-     * instance is the sum of the hash codes of all elements of
-     * information used in {@code equals} comparisons (ie: its name,
-     * return open type, impact and signature, where the signature
-     * hashCode is calculated by a call to {@code
-     * java.util.Arrays.asList(this.getSignature).hashCode()}).</p>
+     * <p>Tif ibsi dodf of bn {@dodf OpfnMBfbnOpfrbtionInfoSupport}
+     * instbndf is tif sum of tif ibsi dodfs of bll flfmfnts of
+     * informbtion usfd in {@dodf fqubls} dompbrisons (if: its nbmf,
+     * rfturn opfn typf, impbdt bnd signbturf, wifrf tif signbturf
+     * ibsiCodf is dbldulbtfd by b dbll to {@dodf
+     * jbvb.util.Arrbys.bsList(tiis.gftSignbturf).ibsiCodf()}).</p>
      *
-     * <p>This ensures that {@code t1.equals(t2) } implies that {@code
-     * t1.hashCode()==t2.hashCode() } for any two {@code
-     * OpenMBeanOperationInfoSupport} instances {@code t1} and {@code
-     * t2}, as required by the general contract of the method {@link
-     * Object#hashCode() Object.hashCode()}.</p>
+     * <p>Tiis fnsurfs tibt {@dodf t1.fqubls(t2) } implifs tibt {@dodf
+     * t1.ibsiCodf()==t2.ibsiCodf() } for bny two {@dodf
+     * OpfnMBfbnOpfrbtionInfoSupport} instbndfs {@dodf t1} bnd {@dodf
+     * t2}, bs rfquirfd by tif gfnfrbl dontrbdt of tif mftiod {@link
+     * Objfdt#ibsiCodf() Objfdt.ibsiCodf()}.</p>
      *
-     * <p>However, note that another instance of a class implementing
-     * the {@code OpenMBeanOperationInfo} interface may be equal to
-     * this {@code OpenMBeanOperationInfoSupport} instance as defined
-     * by {@link #equals(java.lang.Object)}, but may have a different
-     * hash code if it is calculated differently.</p>
+     * <p>Howfvfr, notf tibt bnotifr instbndf of b dlbss implfmfnting
+     * tif {@dodf OpfnMBfbnOpfrbtionInfo} intfrfbdf mby bf fqubl to
+     * tiis {@dodf OpfnMBfbnOpfrbtionInfoSupport} instbndf bs dffinfd
+     * by {@link #fqubls(jbvb.lbng.Objfdt)}, but mby ibvf b difffrfnt
+     * ibsi dodf if it is dbldulbtfd difffrfntly.</p>
      *
-     * <p>As {@code OpenMBeanOperationInfoSupport} instances are
-     * immutable, the hash code for this instance is calculated once,
-     * on the first call to {@code hashCode}, and then the same value
-     * is returned for subsequent calls.</p>
+     * <p>As {@dodf OpfnMBfbnOpfrbtionInfoSupport} instbndfs brf
+     * immutbblf, tif ibsi dodf for tiis instbndf is dbldulbtfd ondf,
+     * on tif first dbll to {@dodf ibsiCodf}, bnd tifn tif sbmf vbluf
+     * is rfturnfd for subsfqufnt dblls.</p>
      *
-     * @return the hash code value for this {@code
-     * OpenMBeanOperationInfoSupport} instance
+     * @rfturn tif ibsi dodf vbluf for tiis {@dodf
+     * OpfnMBfbnOpfrbtionInfoSupport} instbndf
      */
-    public int hashCode() {
+    publid int ibsiCodf() {
 
-        // Calculate the hash code value if it has not yet been done
-        // (ie 1st call to hashCode())
+        // Cbldulbtf tif ibsi dodf vbluf if it ibs not yft bffn donf
+        // (if 1st dbll to ibsiCodf())
         //
-        if (myHashCode == null) {
-            int value = 0;
-            value += this.getName().hashCode();
-            value += Arrays.asList(this.getSignature()).hashCode();
-            value += this.getReturnOpenType().hashCode();
-            value += this.getImpact();
-            myHashCode = Integer.valueOf(value);
+        if (myHbsiCodf == null) {
+            int vbluf = 0;
+            vbluf += tiis.gftNbmf().ibsiCodf();
+            vbluf += Arrbys.bsList(tiis.gftSignbturf()).ibsiCodf();
+            vbluf += tiis.gftRfturnOpfnTypf().ibsiCodf();
+            vbluf += tiis.gftImpbdt();
+            myHbsiCodf = Intfgfr.vblufOf(vbluf);
         }
 
-        // return always the same hash code for this instance (immutable)
+        // rfturn blwbys tif sbmf ibsi dodf for tiis instbndf (immutbblf)
         //
-        return myHashCode.intValue();
+        rfturn myHbsiCodf.intVbluf();
     }
 
     /**
-     * <p>Returns a string representation of this {@code
-     * OpenMBeanOperationInfoSupport} instance.</p>
+     * <p>Rfturns b string rfprfsfntbtion of tiis {@dodf
+     * OpfnMBfbnOpfrbtionInfoSupport} instbndf.</p>
      *
-     * <p>The string representation consists of the name of this class
-     * (ie {@code
-     * javax.management.openmbean.OpenMBeanOperationInfoSupport}), and
-     * the name, signature, return open type and impact of the
-     * described operation and the string representation of its descriptor.</p>
+     * <p>Tif string rfprfsfntbtion donsists of tif nbmf of tiis dlbss
+     * (if {@dodf
+     * jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnOpfrbtionInfoSupport}), bnd
+     * tif nbmf, signbturf, rfturn opfn typf bnd impbdt of tif
+     * dfsdribfd opfrbtion bnd tif string rfprfsfntbtion of its dfsdriptor.</p>
      *
-     * <p>As {@code OpenMBeanOperationInfoSupport} instances are
-     * immutable, the string representation for this instance is
-     * calculated once, on the first call to {@code toString}, and
-     * then the same value is returned for subsequent calls.</p>
+     * <p>As {@dodf OpfnMBfbnOpfrbtionInfoSupport} instbndfs brf
+     * immutbblf, tif string rfprfsfntbtion for tiis instbndf is
+     * dbldulbtfd ondf, on tif first dbll to {@dodf toString}, bnd
+     * tifn tif sbmf vbluf is rfturnfd for subsfqufnt dblls.</p>
      *
-     * @return a string representation of this {@code
-     * OpenMBeanOperationInfoSupport} instance
+     * @rfturn b string rfprfsfntbtion of tiis {@dodf
+     * OpfnMBfbnOpfrbtionInfoSupport} instbndf
      */
-    public String toString() {
+    publid String toString() {
 
-        // Calculate the hash code value if it has not yet been done
-        // (ie 1st call to toString())
+        // Cbldulbtf tif ibsi dodf vbluf if it ibs not yft bffn donf
+        // (if 1st dbll to toString())
         //
         if (myToString == null) {
-            myToString = new StringBuilder()
-                .append(this.getClass().getName())
-                .append("(name=")
-                .append(this.getName())
-                .append(",signature=")
-                .append(Arrays.asList(this.getSignature()).toString())
-                .append(",return=")
-                .append(this.getReturnOpenType().toString())
-                .append(",impact=")
-                .append(this.getImpact())
-                .append(",descriptor=")
-                .append(this.getDescriptor())
-                .append(")")
+            myToString = nfw StringBuildfr()
+                .bppfnd(tiis.gftClbss().gftNbmf())
+                .bppfnd("(nbmf=")
+                .bppfnd(tiis.gftNbmf())
+                .bppfnd(",signbturf=")
+                .bppfnd(Arrbys.bsList(tiis.gftSignbturf()).toString())
+                .bppfnd(",rfturn=")
+                .bppfnd(tiis.gftRfturnOpfnTypf().toString())
+                .bppfnd(",impbdt=")
+                .bppfnd(tiis.gftImpbdt())
+                .bppfnd(",dfsdriptor=")
+                .bppfnd(tiis.gftDfsdriptor())
+                .bppfnd(")")
                 .toString();
         }
 
-        // return always the same string representation for this
-        // instance (immutable)
+        // rfturn blwbys tif sbmf string rfprfsfntbtion for tiis
+        // instbndf (immutbblf)
         //
-        return myToString;
+        rfturn myToString;
     }
 
     /**
-     * An object serialized in a version of the API before Descriptors were
-     * added to this class will have an empty or null Descriptor.
-     * For consistency with our
-     * behavior in this version, we must replace the object with one
-     * where the Descriptors reflect the same value of returned openType.
+     * An objfdt sfriblizfd in b vfrsion of tif API bfforf Dfsdriptors wfrf
+     * bddfd to tiis dlbss will ibvf bn fmpty or null Dfsdriptor.
+     * For donsistfndy witi our
+     * bfibvior in tiis vfrsion, wf must rfplbdf tif objfdt witi onf
+     * wifrf tif Dfsdriptors rfflfdt tif sbmf vbluf of rfturnfd opfnTypf.
      **/
-    private Object readResolve() {
-        if (getDescriptor().getFieldNames().length == 0) {
-            // This constructor will construct the expected default Descriptor.
+    privbtf Objfdt rfbdRfsolvf() {
+        if (gftDfsdriptor().gftFifldNbmfs().lfngti == 0) {
+            // Tiis donstrudtor will donstrudt tif fxpfdtfd dffbult Dfsdriptor.
             //
-            return new OpenMBeanOperationInfoSupport(
-                    name, description, arrayCopyCast(getSignature()),
-                    returnOpenType, getImpact());
-        } else
-            return this;
+            rfturn nfw OpfnMBfbnOpfrbtionInfoSupport(
+                    nbmf, dfsdription, brrbyCopyCbst(gftSignbturf()),
+                    rfturnOpfnTypf, gftImpbdt());
+        } flsf
+            rfturn tiis;
     }
 
 }

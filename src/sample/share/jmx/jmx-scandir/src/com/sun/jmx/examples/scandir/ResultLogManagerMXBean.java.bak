@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,228 +30,228 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.jmx.examples.scandir;
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir;
 
-import com.sun.jmx.examples.scandir.config.ResultRecord;
-import java.io.IOException;
-import javax.management.InstanceNotFoundException;
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.RfsultRfdord;
+import jbvb.io.IOExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
 
 /**
- * The <code>ResultLogManagerMXBean</code> is in charge of managing result logs.
- * {@link DirectoryScanner DirectoryScanners} can be configured to log a
- * {@link ResultRecord} whenever they take action upon a file that
- * matches their set of matching criteria.
- * The <code>ResultLogManagerMXBean</code> is responsible for storing these
- * results in its result logs.
- * <p>The <code>ResultLogManagerMXBean</code>
- * will let you interactively clear these result logs, change their
- * capacity, and decide where (memory or file or both) the
- * {@link ResultRecord ResultRecords} should be stored.
- * <p>The memory log is useful in so far that its content can be interactively
- * returned by the <code>ResultLogManagerMXBean</code>.
- * The file log doesn't have this facility.
- * <p>The result logs are intended to be used by e.g. an offline program that
- * would take some actions on the files that were matched by the scanners
- * criteria:
- * <p>The <i>scandir</i> application could be configured to only produce logs
- * (i.e. takes no action but logging the matching files), and the real
- * action (e.g. mail the result log to the engineer which maintains the lab,
- * or parse the log and prepare and send a single mail to the matching
- * files owners, containing the list of file he/she should consider deleting)
- * could be performed by such another program/module.
+ * Tif <dodf>RfsultLogMbnbgfrMXBfbn</dodf> is in dibrgf of mbnbging rfsult logs.
+ * {@link DirfdtorySdbnnfr DirfdtorySdbnnfrs} dbn bf donfigurfd to log b
+ * {@link RfsultRfdord} wifnfvfr tify tbkf bdtion upon b filf tibt
+ * mbtdifs tifir sft of mbtdiing dritfrib.
+ * Tif <dodf>RfsultLogMbnbgfrMXBfbn</dodf> is rfsponsiblf for storing tifsf
+ * rfsults in its rfsult logs.
+ * <p>Tif <dodf>RfsultLogMbnbgfrMXBfbn</dodf>
+ * will lft you intfrbdtivfly dlfbr tifsf rfsult logs, dibngf tifir
+ * dbpbdity, bnd dfdidf wifrf (mfmory or filf or boti) tif
+ * {@link RfsultRfdord RfsultRfdords} siould bf storfd.
+ * <p>Tif mfmory log is usfful in so fbr tibt its dontfnt dbn bf intfrbdtivfly
+ * rfturnfd by tif <dodf>RfsultLogMbnbgfrMXBfbn</dodf>.
+ * Tif filf log dofsn't ibvf tiis fbdility.
+ * <p>Tif rfsult logs brf intfndfd to bf usfd by f.g. bn offlinf progrbm tibt
+ * would tbkf somf bdtions on tif filfs tibt wfrf mbtdifd by tif sdbnnfrs
+ * dritfrib:
+ * <p>Tif <i>sdbndir</i> bpplidbtion dould bf donfigurfd to only produdf logs
+ * (i.f. tbkfs no bdtion but logging tif mbtdiing filfs), bnd tif rfbl
+ * bdtion (f.g. mbil tif rfsult log to tif fnginffr wiidi mbintbins tif lbb,
+ * or pbrsf tif log bnd prfpbrf bnd sfnd b singlf mbil to tif mbtdiing
+ * filfs ownfrs, dontbining tif list of filf if/sif siould donsidfr dflfting)
+ * dould bf pfrformfd by sudi bnotifr progrbm/modulf.
  *
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @butior Sun Midrosystfms, 2006 - All rigits rfsfrvfd.
  */
-public interface ResultLogManagerMXBean {
+publid intfrfbdf RfsultLogMbnbgfrMXBfbn {
 
     /**
-     * Creates a new log file in which to store results.
-     * <p>When this method is called, the {@link ResultLogManager} will stop
-     * logging in its current log file and use the new specified file instead.
-     * If that file already exists, it will be renamed by appending a '~' to
-     * its name, and a new empty file with the name specified by
-     * <var>basename</var> will be created.
+     * Crfbtfs b nfw log filf in wiidi to storf rfsults.
+     * <p>Wifn tiis mftiod is dbllfd, tif {@link RfsultLogMbnbgfr} will stop
+     * logging in its durrfnt log filf bnd usf tif nfw spfdififd filf instfbd.
+     * If tibt filf blrfbdy fxists, it will bf rfnbmfd by bppfnding b '~' to
+     * its nbmf, bnd b nfw fmpty filf witi tif nbmf spfdififd by
+     * <vbr>bbsfnbmf</vbr> will bf drfbtfd.
      * </p>
-     * <p>Calling this method has no side effect on the {@link
-     * com.sun.jmx.examples.scandir.config.ScanManagerConfig#getInitialResultLogConfig
-     * InitialResultLogConfig} held in the {@link ScanDirConfigMXBean}
-     * configuration. To apply these new values to the
-     * {@link ScanDirConfigMXBean}
-     * configuration, you must call {@link
-     * ScanManagerMXBean#applyCurrentResultLogConfig
-     * ScanManagerMXBean.applyCurrentResultLogConfig}.
+     * <p>Cblling tiis mftiod ibs no sidf ffffdt on tif {@link
+     * dom.sun.jmx.fxbmplfs.sdbndir.donfig.SdbnMbnbgfrConfig#gftInitiblRfsultLogConfig
+     * InitiblRfsultLogConfig} ifld in tif {@link SdbnDirConfigMXBfbn}
+     * donfigurbtion. To bpply tifsf nfw vblufs to tif
+     * {@link SdbnDirConfigMXBfbn}
+     * donfigurbtion, you must dbll {@link
+     * SdbnMbnbgfrMXBfbn#bpplyCurrfntRfsultLogConfig
+     * SdbnMbnbgfrMXBfbn.bpplyCurrfntRfsultLogConfig}.
      *<p>
-     * @param basename The name of the new log file. This will be the
-     *        new name returned by {@link #getLogFileName}.
-     * @param maxRecord maximum number of records to log in the specified file
-     *        before creating a new file. <var>maxRecord</var> will be the
-     *        new value returned by {@link #getLogFileCapacity}.
-     *        When that maximum number of
-     *        records is reached the {@link ResultLogManager} will rename
-     *        the file by appending a '~' to its name, and a new empty
-     *        log file will be created.
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @pbrbm bbsfnbmf Tif nbmf of tif nfw log filf. Tiis will bf tif
+     *        nfw nbmf rfturnfd by {@link #gftLogFilfNbmf}.
+     * @pbrbm mbxRfdord mbximum numbfr of rfdords to log in tif spfdififd filf
+     *        bfforf drfbting b nfw filf. <vbr>mbxRfdord</vbr> will bf tif
+     *        nfw vbluf rfturnfd by {@link #gftLogFilfCbpbdity}.
+     *        Wifn tibt mbximum numbfr of
+     *        rfdords is rfbdifd tif {@link RfsultLogMbnbgfr} will rfnbmf
+     *        tif filf by bppfnding b '~' to its nbmf, bnd b nfw fmpty
+     *        log filf will bf drfbtfd.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
      **/
-    public void newLogFile(String basename, long maxRecord)
-        throws IOException, InstanceNotFoundException;
+    publid void nfwLogFilf(String bbsfnbmf, long mbxRfdord)
+        tirows IOExdfption, InstbndfNotFoundExdfption;
 
     /**
-     * Logs a result record to the active result logs (memory,file,both,or none)
-     * depending on how this MBean is currently configured.
-     * @see #getLogFileName()
-     * @see #getMemoryLogCapacity()
-     * @param record The result record to log.
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * Logs b rfsult rfdord to tif bdtivf rfsult logs (mfmory,filf,boti,or nonf)
+     * dfpfnding on iow tiis MBfbn is durrfntly donfigurfd.
+     * @sff #gftLogFilfNbmf()
+     * @sff #gftMfmoryLogCbpbdity()
+     * @pbrbm rfdord Tif rfsult rfdord to log.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
      */
-    public void log(ResultRecord record)
-        throws IOException, InstanceNotFoundException;
+    publid void log(RfsultRfdord rfdord)
+        tirows IOExdfption, InstbndfNotFoundExdfption;
 
     /**
-     * Gets the name of the current result log file.
-     * <p><code>null</code> means that no log file is configured: logging
-     * to file is disabled.
+     * Gfts tif nbmf of tif durrfnt rfsult log filf.
+     * <p><dodf>null</dodf> mfbns tibt no log filf is donfigurfd: logging
+     * to filf is disbblfd.
      * </p>
-     * @return The name of the current result log file, or <code>null</code>
-     *         if logging to file is disabled.
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @rfturn Tif nbmf of tif durrfnt rfsult log filf, or <dodf>null</dodf>
+     *         if logging to filf is disbblfd.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
      **/
-    public String getLogFileName()
-        throws IOException, InstanceNotFoundException;
+    publid String gftLogFilfNbmf()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
 
     /**
-     * Gets the whole content of the memory log. This cannot exceed
-     * {@link #getMemoryLogCapacity} records.
+     * Gfts tif wiolf dontfnt of tif mfmory log. Tiis dbnnot fxdffd
+     * {@link #gftMfmoryLogCbpbdity} rfdords.
      *
-     * @return the whole content of the memory log.
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @rfturn tif wiolf dontfnt of tif mfmory log.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
      **/
-    public ResultRecord[] getMemoryLog()
-        throws IOException, InstanceNotFoundException;
+    publid RfsultRfdord[] gftMfmoryLog()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
 
     /**
-     * Gets the maximum number of records that can be logged in the
-     * memory log.
+     * Gfts tif mbximum numbfr of rfdords tibt dbn bf loggfd in tif
+     * mfmory log.
      * <p>
-     * A non positive value - <code>0</code> or negative - means that
-     * logging in memory is disabled.
+     * A non positivf vbluf - <dodf>0</dodf> or nfgbtivf - mfbns tibt
+     * logging in mfmory is disbblfd.
      * </p>
-     * <p>The memory log is a FIFO: when its maximum capacity is reached, its
-     *    head element is removed to make place for a new element at its tail.
+     * <p>Tif mfmory log is b FIFO: wifn its mbximum dbpbdity is rfbdifd, its
+     *    ifbd flfmfnt is rfmovfd to mbkf plbdf for b nfw flfmfnt bt its tbil.
      * </p>
-     * @return The maximum number of records that can be logged in the
-     * memory log. A value {@code <= 0} means that logging in memory is
-     * disabled.
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @rfturn Tif mbximum numbfr of rfdords tibt dbn bf loggfd in tif
+     * mfmory log. A vbluf {@dodf <= 0} mfbns tibt logging in mfmory is
+     * disbblfd.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
      **/
-    public int getMemoryLogCapacity()
-        throws IOException, InstanceNotFoundException;
+    publid int gftMfmoryLogCbpbdity()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
 
     /**
-     * Sets the maximum number of records that can be logged in the
-     * memory log.
-     * <p>The memory log is a FIFO: when its maximum capacity is reached, its
-     *    head element is removed to make place for a new element at its tail.
+     * Sfts tif mbximum numbfr of rfdords tibt dbn bf loggfd in tif
+     * mfmory log.
+     * <p>Tif mfmory log is b FIFO: wifn its mbximum dbpbdity is rfbdifd, its
+     *    ifbd flfmfnt is rfmovfd to mbkf plbdf for b nfw flfmfnt bt its tbil.
      * </p>
-     * @param size The maximum number of result records that can be logged in the memory log.  <p>
-     * A non positive value - <code>0</code> or negative - means that
-     * logging in memory is disabled. It will also have the side
-     * effect of clearing the memory log.
+     * @pbrbm sizf Tif mbximum numbfr of rfsult rfdords tibt dbn bf loggfd in tif mfmory log.  <p>
+     * A non positivf vbluf - <dodf>0</dodf> or nfgbtivf - mfbns tibt
+     * logging in mfmory is disbblfd. It will blso ibvf tif sidf
+     * ffffdt of dlfbring tif mfmory log.
      * </p>
      *
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
      */
-    public void setMemoryLogCapacity(int size)
-        throws IOException, InstanceNotFoundException;
+    publid void sftMfmoryLogCbpbdity(int sizf)
+        tirows IOExdfption, InstbndfNotFoundExdfption;
 
     /**
-     * Sets the maximum number of records that can be logged in the result log
-     * file.
-     * <p>When that maximum number of
-     * records is reached the {@link ResultLogManager} will rename
-     * the result log file by appending a '~' to its name, and a new empty
-     * log file will be created.
+     * Sfts tif mbximum numbfr of rfdords tibt dbn bf loggfd in tif rfsult log
+     * filf.
+     * <p>Wifn tibt mbximum numbfr of
+     * rfdords is rfbdifd tif {@link RfsultLogMbnbgfr} will rfnbmf
+     * tif rfsult log filf by bppfnding b '~' to its nbmf, bnd b nfw fmpty
+     * log filf will bf drfbtfd.
      * </p>
-     * <p>If logging to file is disabled calling this method
-     *    is irrelevant.
+     * <p>If logging to filf is disbblfd dblling tiis mftiod
+     *    is irrflfvbnt.
      * </p>
-     * @param maxRecord maximum number of records to log in the result log file.
-     * @see #getLogFileName()
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @pbrbm mbxRfdord mbximum numbfr of rfdords to log in tif rfsult log filf.
+     * @sff #gftLogFilfNbmf()
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
      **/
-    public void setLogFileCapacity(long maxRecord)
-        throws IOException, InstanceNotFoundException;
+    publid void sftLogFilfCbpbdity(long mbxRfdord)
+        tirows IOExdfption, InstbndfNotFoundExdfption;
 
     /**
-     * Gets the maximum number of records that can be logged in the result log
-     * file.
-     * <p>When that maximum number of
-     * records is reached the {@link ResultLogManager} will rename
-     * the result log file by appending a '~' to its name, and a new empty
-     * log file will be created.
+     * Gfts tif mbximum numbfr of rfdords tibt dbn bf loggfd in tif rfsult log
+     * filf.
+     * <p>Wifn tibt mbximum numbfr of
+     * rfdords is rfbdifd tif {@link RfsultLogMbnbgfr} will rfnbmf
+     * tif rfsult log filf by bppfnding b '~' to its nbmf, bnd b nfw fmpty
+     * log filf will bf drfbtfd.
      * </p>
-     * @see #getLogFileName()
-     * @return The maximum number of records that can be logged in the result
-     *         log file.
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @sff #gftLogFilfNbmf()
+     * @rfturn Tif mbximum numbfr of rfdords tibt dbn bf loggfd in tif rfsult
+     *         log filf.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
      **/
-    public long getLogFileCapacity()
-        throws IOException, InstanceNotFoundException;
+    publid long gftLogFilfCbpbdity()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
 
     /**
-     * Gets The number of records that have been logged in the
-     * current result log file. This will always be less than
-     * {@link #getLogFileCapacity()}.
-     * @return The number of records in the
-     *         current result log file.
+     * Gfts Tif numbfr of rfdords tibt ibvf bffn loggfd in tif
+     * durrfnt rfsult log filf. Tiis will blwbys bf lfss tibn
+     * {@link #gftLogFilfCbpbdity()}.
+     * @rfturn Tif numbfr of rfdords in tif
+     *         durrfnt rfsult log filf.
      *
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
      **/
-    public long getLoggedCount()
-        throws IOException, InstanceNotFoundException;
+    publid long gftLoggfdCount()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
 
     /**
-     * Clears the memory log and result log file.
+     * Clfbrs tif mfmory log bnd rfsult log filf.
      *
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
      **/
-    public void clearLogs()
-        throws IOException, InstanceNotFoundException;
+    publid void dlfbrLogs()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
 }

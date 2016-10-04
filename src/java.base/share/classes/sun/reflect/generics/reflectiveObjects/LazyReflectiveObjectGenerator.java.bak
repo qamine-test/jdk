@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.reflect.generics.reflectiveObjects;
+pbdkbgf sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts;
 
-import sun.reflect.generics.factory.GenericsFactory;
-import sun.reflect.generics.visitor.Reifier;
+import sun.rfflfdt.gfnfrids.fbdtory.GfnfridsFbdtory;
+import sun.rfflfdt.gfnfrids.visitor.Rfififr;
 
 
 /**
- * Common infrastructure for things that lazily generate reflective generics
- * objects.
- * <p> In all these cases, one needs produce a visitor that will, on demand,
- * traverse the stored AST(s) and reify them into reflective objects.
- * The visitor needs to be initialized with a factory, which will be
- * provided when the instance is initialized.
- * The factory should be cached.
+ * Common infrbstrudturf for tiings tibt lbzily gfnfrbtf rfflfdtivf gfnfrids
+ * objfdts.
+ * <p> In bll tifsf dbsfs, onf nffds produdf b visitor tibt will, on dfmbnd,
+ * trbvfrsf tif storfd AST(s) bnd rfify tifm into rfflfdtivf objfdts.
+ * Tif visitor nffds to bf initiblizfd witi b fbdtory, wiidi will bf
+ * providfd wifn tif instbndf is initiblizfd.
+ * Tif fbdtory siould bf dbdifd.
  *
 */
-public abstract class LazyReflectiveObjectGenerator {
-    private GenericsFactory factory; // cached factory
+publid bbstrbdt dlbss LbzyRfflfdtivfObjfdtGfnfrbtor {
+    privbtf GfnfridsFbdtory fbdtory; // dbdifd fbdtory
 
-    protected LazyReflectiveObjectGenerator(GenericsFactory f) {
-        factory = f;
+    protfdtfd LbzyRfflfdtivfObjfdtGfnfrbtor(GfnfridsFbdtory f) {
+        fbdtory = f;
     }
 
-    // accessor for factory
-    private GenericsFactory getFactory() {
-        return factory;
+    // bddfssor for fbdtory
+    privbtf GfnfridsFbdtory gftFbdtory() {
+        rfturn fbdtory;
     }
 
-    // produce a reifying visitor (could this be typed as a TypeTreeVisitor?
-    protected Reifier getReifier(){return Reifier.make(getFactory());}
+    // produdf b rfifying visitor (dould tiis bf typfd bs b TypfTrffVisitor?
+    protfdtfd Rfififr gftRfififr(){rfturn Rfififr.mbkf(gftFbdtory());}
 
 }

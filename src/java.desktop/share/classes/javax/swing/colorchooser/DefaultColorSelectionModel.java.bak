@@ -1,153 +1,153 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.colorchooser;
+pbdkbgf jbvbx.swing.dolordioosfr;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.Color;
-import java.io.Serializable;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvb.bwt.Color;
+import jbvb.io.Sfriblizbblf;
 
 /**
- * A generic implementation of <code>ColorSelectionModel</code>.
+ * A gfnfrid implfmfntbtion of <dodf>ColorSflfdtionModfl</dodf>.
  *
- * @author Steve Wilson
+ * @butior Stfvf Wilson
  *
- * @see java.awt.Color
+ * @sff jbvb.bwt.Color
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultColorSelectionModel implements ColorSelectionModel, Serializable {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultColorSflfdtionModfl implfmfnts ColorSflfdtionModfl, Sfriblizbblf {
 
     /**
-     * Only one <code>ChangeEvent</code> is needed per model instance
-     * since the event's only (read-only) state is the source property.
-     * The source of events generated here is always "this".
+     * Only onf <dodf>CibngfEvfnt</dodf> is nffdfd pfr modfl instbndf
+     * sindf tif fvfnt's only (rfbd-only) stbtf is tif sourdf propfrty.
+     * Tif sourdf of fvfnts gfnfrbtfd ifrf is blwbys "tiis".
      */
-    protected transient ChangeEvent changeEvent = null;
+    protfdtfd trbnsifnt CibngfEvfnt dibngfEvfnt = null;
 
-    protected EventListenerList listenerList = new EventListenerList();
+    protfdtfd EvfntListfnfrList listfnfrList = nfw EvfntListfnfrList();
 
-    private Color selectedColor;
+    privbtf Color sflfdtfdColor;
 
     /**
-     * Creates a <code>DefaultColorSelectionModel</code> with the
-     * current color set to <code>Color.white</code>.  This is
-     * the default constructor.
+     * Crfbtfs b <dodf>DffbultColorSflfdtionModfl</dodf> witi tif
+     * durrfnt dolor sft to <dodf>Color.wiitf</dodf>.  Tiis is
+     * tif dffbult donstrudtor.
      */
-    public DefaultColorSelectionModel() {
-        selectedColor = Color.white;
+    publid DffbultColorSflfdtionModfl() {
+        sflfdtfdColor = Color.wiitf;
     }
 
     /**
-     * Creates a <code>DefaultColorSelectionModel</code> with the
-     * current color set to <code>color</code>, which should be
-     * non-<code>null</code>.  Note that setting the color to
-     * <code>null</code> is undefined and may have unpredictable
-     * results.
+     * Crfbtfs b <dodf>DffbultColorSflfdtionModfl</dodf> witi tif
+     * durrfnt dolor sft to <dodf>dolor</dodf>, wiidi siould bf
+     * non-<dodf>null</dodf>.  Notf tibt sftting tif dolor to
+     * <dodf>null</dodf> is undffinfd bnd mby ibvf unprfdidtbblf
+     * rfsults.
      *
-     * @param color the new <code>Color</code>
+     * @pbrbm dolor tif nfw <dodf>Color</dodf>
      */
-    public DefaultColorSelectionModel(Color color) {
-        selectedColor = color;
+    publid DffbultColorSflfdtionModfl(Color dolor) {
+        sflfdtfdColor = dolor;
     }
 
     /**
-     * Returns the selected <code>Color</code> which should be
-     * non-<code>null</code>.
+     * Rfturns tif sflfdtfd <dodf>Color</dodf> wiidi siould bf
+     * non-<dodf>null</dodf>.
      *
-     * @return the selected <code>Color</code>
+     * @rfturn tif sflfdtfd <dodf>Color</dodf>
      */
-    public Color getSelectedColor() {
-        return selectedColor;
+    publid Color gftSflfdtfdColor() {
+        rfturn sflfdtfdColor;
     }
 
     /**
-     * Sets the selected color to <code>color</code>.
-     * Note that setting the color to <code>null</code>
-     * is undefined and may have unpredictable results.
-     * This method fires a state changed event if it sets the
-     * current color to a new non-<code>null</code> color;
-     * if the new color is the same as the current color,
-     * no event is fired.
+     * Sfts tif sflfdtfd dolor to <dodf>dolor</dodf>.
+     * Notf tibt sftting tif dolor to <dodf>null</dodf>
+     * is undffinfd bnd mby ibvf unprfdidtbblf rfsults.
+     * Tiis mftiod firfs b stbtf dibngfd fvfnt if it sfts tif
+     * durrfnt dolor to b nfw non-<dodf>null</dodf> dolor;
+     * if tif nfw dolor is tif sbmf bs tif durrfnt dolor,
+     * no fvfnt is firfd.
      *
-     * @param color the new <code>Color</code>
+     * @pbrbm dolor tif nfw <dodf>Color</dodf>
      */
-    public void setSelectedColor(Color color) {
-        if (color != null && !selectedColor.equals(color)) {
-            selectedColor = color;
-            fireStateChanged();
+    publid void sftSflfdtfdColor(Color dolor) {
+        if (dolor != null && !sflfdtfdColor.fqubls(dolor)) {
+            sflfdtfdColor = dolor;
+            firfStbtfCibngfd();
         }
     }
 
 
     /**
-     * Adds a <code>ChangeListener</code> to the model.
+     * Adds b <dodf>CibngfListfnfr</dodf> to tif modfl.
      *
-     * @param l the <code>ChangeListener</code> to be added
+     * @pbrbm l tif <dodf>CibngfListfnfr</dodf> to bf bddfd
      */
-    public void addChangeListener(ChangeListener l) {
-        listenerList.add(ChangeListener.class, l);
+    publid void bddCibngfListfnfr(CibngfListfnfr l) {
+        listfnfrList.bdd(CibngfListfnfr.dlbss, l);
     }
 
     /**
-     * Removes a <code>ChangeListener</code> from the model.
-     * @param l the <code>ChangeListener</code> to be removed
+     * Rfmovfs b <dodf>CibngfListfnfr</dodf> from tif modfl.
+     * @pbrbm l tif <dodf>CibngfListfnfr</dodf> to bf rfmovfd
      */
-    public void removeChangeListener(ChangeListener l) {
-        listenerList.remove(ChangeListener.class, l);
+    publid void rfmovfCibngfListfnfr(CibngfListfnfr l) {
+        listfnfrList.rfmovf(CibngfListfnfr.dlbss, l);
     }
 
     /**
-     * Returns an array of all the <code>ChangeListener</code>s added
-     * to this <code>DefaultColorSelectionModel</code> with
-     * <code>addChangeListener</code>.
+     * Rfturns bn brrby of bll tif <dodf>CibngfListfnfr</dodf>s bddfd
+     * to tiis <dodf>DffbultColorSflfdtionModfl</dodf> witi
+     * <dodf>bddCibngfListfnfr</dodf>.
      *
-     * @return all of the <code>ChangeListener</code>s added, or an empty
-     *         array if no listeners have been added
-     * @since 1.4
+     * @rfturn bll of tif <dodf>CibngfListfnfr</dodf>s bddfd, or bn fmpty
+     *         brrby if no listfnfrs ibvf bffn bddfd
+     * @sindf 1.4
      */
-    public ChangeListener[] getChangeListeners() {
-        return listenerList.getListeners(ChangeListener.class);
+    publid CibngfListfnfr[] gftCibngfListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(CibngfListfnfr.dlbss);
     }
 
     /**
-     * Runs each <code>ChangeListener</code>'s
-     * <code>stateChanged</code> method.
+     * Runs fbdi <dodf>CibngfListfnfr</dodf>'s
+     * <dodf>stbtfCibngfd</dodf> mftiod.
      *
-     * <!-- @see #setRangeProperties    //bad link-->
-     * @see EventListenerList
+     * <!-- @sff #sftRbngfPropfrtifs    //bbd link-->
+     * @sff EvfntListfnfrList
      */
-    protected void fireStateChanged()
+    protfdtfd void firfStbtfCibngfd()
     {
-        Object[] listeners = listenerList.getListenerList();
-        for (int i = listeners.length - 2; i >= 0; i -=2 ) {
-            if (listeners[i] == ChangeListener.class) {
-                if (changeEvent == null) {
-                    changeEvent = new ChangeEvent(this);
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        for (int i = listfnfrs.lfngti - 2; i >= 0; i -=2 ) {
+            if (listfnfrs[i] == CibngfListfnfr.dlbss) {
+                if (dibngfEvfnt == null) {
+                    dibngfEvfnt = nfw CibngfEvfnt(tiis);
                 }
-                ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
+                ((CibngfListfnfr)listfnfrs[i+1]).stbtfCibngfd(dibngfEvfnt);
             }
         }
     }

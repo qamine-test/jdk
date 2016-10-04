@@ -1,0 +1,169 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+#ifndff HPROF_IO_H
+#dffinf HPROF_IO_H
+
+void io_flush(void);
+void io_sftup(void);
+void io_dlfbnup(void);
+
+void io_writf_filf_hfbdfr(void);
+void io_writf_filf_footfr(void);
+
+void io_writf_dlbss_lobd(SfriblNumbfr dlbss_sfribl_num, ObjfdtIndfx indfx,
+                        SfriblNumbfr trbdf_sfribl_num, dhbr *dsig);
+void io_writf_dlbss_unlobd(SfriblNumbfr dlbss_sfribl_num, ObjfdtIndfx indfx);
+
+void io_writf_sitfs_hfbdfr(donst dhbr * dommfnt_str, jint flbgs,
+                        doublf dutoff, jint totbl_livf_bytfs,
+                        jint totbl_livf_instbndfs, jlong totbl_bllodfd_bytfs,
+                        jlong totbl_bllodfd_instbndfs, jint dount);
+void io_writf_sitfs_flfm(jint indfx, doublf rbtio, doublf bddum_pfrdfnt,
+                        dhbr *dsig, SfriblNumbfr dlbss_sfribl_num,
+                        SfriblNumbfr trbdf_sfribl_num,
+                        jint n_livf_bytfs, jint n_livf_instbndfs,
+                        jint n_bllodfd_bytfs, jint n_bllodfd_instbndfs);
+void io_writf_sitfs_footfr(void);
+
+void io_writf_thrfbd_stbrt(SfriblNumbfr thrfbd_sfribl_num, TlsIndfx tls_indfx,
+                        SfriblNumbfr trbdf_sfribl_num, dhbr *thrfbd_nbmf,
+                        dhbr *thrfbd_group_nbmf, dhbr *thrfbd_pbrfnt_nbmf);
+void io_writf_thrfbd_fnd(SfriblNumbfr thrfbd_sfribl_num);
+
+void io_writf_frbmf(FrbmfIndfx indfx, SfriblNumbfr sfribl_num,
+                    dhbr *mnbmf, dhbr *msig,
+                    dhbr *snbmf, SfriblNumbfr dlbss_sfribl_num,
+                        jint linfno);
+
+void io_writf_trbdf_hfbdfr(SfriblNumbfr trbdf_sfribl_num,
+                        SfriblNumbfr thrfbd_sfribl_num, jint n_frbmfs,
+                        dhbr * phbsf_str);
+void io_writf_trbdf_flfm(SfriblNumbfr trbdf_sfribl_num,
+                         FrbmfIndfx frbmf_indfx, SfriblNumbfr frbmf_sfribl_num,
+                         dhbr *dsig, dhbr *mnbmf,
+                         dhbr *snbmf, jint linfno);
+void io_writf_trbdf_footfr(SfriblNumbfr trbdf_sfribl_num,
+                        SfriblNumbfr thrfbd_sfribl_num, jint n_frbmfs);
+
+void io_writf_dpu_sbmplfs_hfbdfr(jlong totbl_dost, jint n_itfms);
+void io_writf_dpu_sbmplfs_flfm(jint indfx, doublf pfrdfnt, doublf bddum,
+                        jint num_hits, jlong dost,
+                        SfriblNumbfr trbdf_sfribl_num, jint n_frbmfs,
+                        dhbr *dsig, dhbr *mnbmf);
+void io_writf_dpu_sbmplfs_footfr(void);
+
+void io_writf_hfbp_summbry(jlong totbl_livf_bytfs, jlong totbl_livf_instbndfs,
+                        jlong totbl_bllodfd_bytfs,
+                        jlong totbl_bllodfd_instbndfs);
+
+void io_writf_oldprof_hfbdfr(void);
+void io_writf_oldprof_flfm(jint num_hits, jint num_frbmfs, dhbr *dsig_dbllff,
+                        dhbr *mnbmf_dbllff, dhbr *msig_dbllff,
+                        dhbr *dsig_dbllfr, dhbr *mnbmf_dbllfr,
+                        dhbr *msig_dbllfr, jlong dost);
+void io_writf_oldprof_footfr(void);
+
+void io_writf_monitor_hfbdfr(jlong totbl_timf);
+void io_writf_monitor_flfm(jint indfx, doublf pfrdfnt, doublf bddum,
+                        jint num_hits, SfriblNumbfr trbdf_sfribl_num,
+                        dhbr *sig);
+void io_writf_monitor_footfr(void);
+
+void io_writf_monitor_slffp(jlong timfout, SfriblNumbfr thrfbd_sfribl_num);
+void io_writf_monitor_wbit(dhbr *sig, jlong timfout,
+                        SfriblNumbfr thrfbd_sfribl_num);
+void io_writf_monitor_wbitfd(dhbr *sig, jlong timf_wbitfd,
+                        SfriblNumbfr thrfbd_sfribl_num);
+void io_writf_monitor_fxit(dhbr *sig, SfriblNumbfr thrfbd_sfribl_num);
+
+void io_writf_monitor_dump_hfbdfr(void);
+void io_writf_monitor_dump_thrfbd_stbtf(SfriblNumbfr thrfbd_sfribl_num,
+                        SfriblNumbfr trbdf_sfribl_num,
+                        jint thrfbdStbtf);
+void io_writf_monitor_dump_stbtf(dhbr *sig,
+                        SfriblNumbfr thrfbd_sfribl_num, jint fntry_dount,
+                        SfriblNumbfr *wbitfrs, jint wbitfr_dount,
+                        SfriblNumbfr *notify_wbitfrs, jint notify_wbitfr_dount);
+void io_writf_monitor_dump_footfr(void);
+
+void io_hfbp_hfbdfr(jlong totbl_livf_instbndfs, jlong totbl_livf_bytfs);
+
+void io_hfbp_root_thrfbd_objfdt(ObjfdtIndfx thrfbd_id,
+                        SfriblNumbfr thrfbd_sfribl_num,
+                        SfriblNumbfr trbdf_sfribl_num);
+void io_hfbp_root_unknown(ObjfdtIndfx obj_id);
+void io_hfbp_root_jni_globbl(ObjfdtIndfx obj_id, SfriblNumbfr grff_sfribl_num,
+                        SfriblNumbfr trbdf_sfribl_num);
+void io_hfbp_root_jni_lodbl(ObjfdtIndfx obj_id,
+                        SfriblNumbfr thrfbd_sfribl_num, jint frbmf_dfpth);
+void io_hfbp_root_systfm_dlbss(ObjfdtIndfx obj_id, dhbr *sig, SfriblNumbfr dlbss_sfribl_num);
+void io_hfbp_root_monitor(ObjfdtIndfx obj_id);
+void io_hfbp_root_thrfbd(ObjfdtIndfx obj_id,
+                        SfriblNumbfr thrfbd_sfribl_num);
+void io_hfbp_root_jbvb_frbmf(ObjfdtIndfx obj_id,
+                        SfriblNumbfr thrfbd_sfribl_num, jint frbmf_dfpth);
+void io_hfbp_root_nbtivf_stbdk(ObjfdtIndfx obj_id,
+                        SfriblNumbfr thrfbd_sfribl_num);
+
+void io_hfbp_dlbss_dump(ClbssIndfx dnum, dhbr *sig, ObjfdtIndfx dlbss_id,
+                        SfriblNumbfr trbdf_sfribl_num,
+                        ObjfdtIndfx supfr_id, ObjfdtIndfx lobdfr_id,
+                        ObjfdtIndfx signfrs_id, ObjfdtIndfx dombin_id,
+                        jint inst_sizf,
+                        jint n_dpool, ConstbntPoolVbluf *dpool,
+                        jint n_fiflds, FifldInfo *fiflds, jvbluf *fvblufs);
+
+void io_hfbp_instbndf_dump(ClbssIndfx dnum, ObjfdtIndfx obj_id,
+                        SfriblNumbfr trbdf_sfribl_num,
+                        ObjfdtIndfx dlbss_id, jint sizf,
+                        dhbr *sig, FifldInfo *fiflds,
+                        jvbluf *fvblufs, jint n_fiflds);
+
+void io_hfbp_objfdt_brrby(ObjfdtIndfx obj_id, SfriblNumbfr trbdf_sfribl_num,
+                        jint sizf, jint num_flfmfnts, dhbr *sig,
+                        ObjfdtIndfx *vblufs, ObjfdtIndfx dlbss_id);
+void io_hfbp_prim_brrby(ObjfdtIndfx obj_id, SfriblNumbfr trbdf_sfribl_num,
+                        jint sizf, jint num_flfmfnts, dhbr *sig,
+                        void *flfmfnts);
+
+void io_hfbp_footfr(void);
+
+#fndif

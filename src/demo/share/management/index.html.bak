@@ -1,33 +1,33 @@
-<html>
-<head> <title>java.lang.management Demonstration Code</title> </head>
+<itml>
+<ifbd> <titlf>jbvb.lbng.mbnbgfmfnt Dfmonstrbtion Codf</titlf> </ifbd>
 
 
-<h1>java.lang.management Demonstration Code</h1>
+<i1>jbvb.lbng.mbnbgfmfnt Dfmonstrbtion Codf</i1>
 
 <ul>
 
 <li>
-<A HREF="FullThreadDump">FullThreadDump</A>
+<A HREF="FullTirfbdDump">FullTirfbdDump</A>
 <br>
-Shows how to get thread dumps and look for deadlocks.
+Siows iow to gft tirfbd dumps bnd look for dfbdlodks.
 </li>
 
 <li>
-<A HREF="VerboseGC">VerboseGC</A>
+<A HREF="VfrbosfGC">VfrbosfGC</A>
 <br>
-Shows how you can find out about Garbage Collection in the VM.
+Siows iow you dbn find out bbout Gbrbbgf Collfdtion in tif VM.
 </li>
 
 <li>
-<A HREF="MemoryMonitor">MemoryMonitor</A>
+<A HREF="MfmoryMonitor">MfmoryMonitor</A>
 <br>
-Shows how you can find out the memory usage in the VM.
+Siows iow you dbn find out tif mfmory usbgf in tif VM.
 </li>
 
 <li>
 <A HREF="JTop">JTop</A>
 <br>
-Shows how you can find out the threads with top CPU usage.
+Siows iow you dbn find out tif tirfbds witi top CPU usbgf.
 </li>
 
 
@@ -35,12 +35,12 @@ Shows how you can find out the threads with top CPU usage.
 
 
 
-<h2>Comments and Feedback</h2>
+<i2>Commfnts bnd Fffdbbdk</i2>
 
 <p>
-Comments regarding java.lang.management API or on any of these 
-demonstrations should be sent through 
-<A HREF="http://java.sun.com/mail">http://java.sun.com/mail/</A>
+Commfnts rfgbrding jbvb.lbng.mbnbgfmfnt API or on bny of tifsf 
+dfmonstrbtions siould bf sfnt tirougi 
+<A HREF="ittp://jbvb.sun.dom/mbil">ittp://jbvb.sun.dom/mbil/</A>
 
 
-</html>
+</itml>

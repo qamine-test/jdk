@@ -1,110 +1,110 @@
 # ----------------------------------------------------------------------
-#           Template for SNMP Access Control List File
+#           Tfmplbtf for SNMP Addfss Control List Filf
 #
-# o Copy this template to snmp.acl
-# o Set access control for SNMP support
-# o Change the permission of snmp.acl to be read-only
-#   by the owner.
+# o Copy tiis tfmplbtf to snmp.bdl
+# o Sft bddfss dontrol for SNMP support
+# o Cibngf tif pfrmission of snmp.bdl to bf rfbd-only
+#   by tif ownfr.
 #
-# See below for the location of snmp.acl file.
+# Sff bflow for tif lodbtion of snmp.bdl filf.
 # ----------------------------------------------------------------------
 
 ############################################################
-#            SNMP Access Control List File  
+#            SNMP Addfss Control List Filf  
 ############################################################
 #
-# Default location of this file is $JRE/lib/management/snmp.acl.
-# You can specify an alternate location by specifying a property in 
-# the management config file $JRE/lib/management/management.properties
-# or by specifying a system property (See that file for details).
+# Dffbult lodbtion of tiis filf is $JRE/lib/mbnbgfmfnt/snmp.bdl.
+# You dbn spfdify bn bltfrnbtf lodbtion by spfdifying b propfrty in 
+# tif mbnbgfmfnt donfig filf $JRE/lib/mbnbgfmfnt/mbnbgfmfnt.propfrtifs
+# or by spfdifying b systfm propfrty (Sff tibt filf for dftbils).
 #
 
 
 ##############################################################
-#        File permissions of the snmp.acl file
+#        Filf pfrmissions of tif snmp.bdl filf
 ##############################################################
 # 
-#      Since there are cleartext community strings stored in this file,
-#      this ACL file must be readable by ONLY the owner,
-#      otherwise the program will exit with an error. 
+#      Sindf tifrf brf dlfbrtfxt dommunity strings storfd in tiis filf,
+#      tiis ACL filf must bf rfbdbblf by ONLY tif ownfr,
+#      otifrwisf tif progrbm will fxit witi bn frror. 
 #
 ##############################################################
-#		Format of the acl group
+#		Formbt of tif bdl group
 ##############################################################
 #
-# communities: a list of SNMP community strings to which the
-#              access control applies separated by commas.
+# dommunitifs: b list of SNMP dommunity strings to wiidi tif
+#              bddfss dontrol bpplifs sfpbrbtfd by dommbs.
 #
-# access: either "read-only" or "read-write".
+# bddfss: fitifr "rfbd-only" or "rfbd-writf".
 #
-# managers: a list of hosts to be granted the access rights.
-#    Each can be expressed as any one of the following:
-#    - hostname: hubble
-#    - ip v4 and v6 addresses: 123.456.789.12 , fe80::a00:20ff:fe9b:ea82
-#    - ip v4 and v6 netmask prefix notation: 123.456.789.0/24, 
-#         fe80::a00:20ff:fe9b:ea82/64  
-#      see RFC 2373 (http://www.ietf.org/rfc/rfc2373.txt)
+# mbnbgfrs: b list of iosts to bf grbntfd tif bddfss rigits.
+#    Ebdi dbn bf fxprfssfd bs bny onf of tif following:
+#    - iostnbmf: iubblf
+#    - ip v4 bnd v6 bddrfssfs: 123.456.789.12 , ff80::b00:20ff:ff9b:fb82
+#    - ip v4 bnd v6 nftmbsk prffix notbtion: 123.456.789.0/24, 
+#         ff80::b00:20ff:ff9b:fb82/64  
+#      sff RFC 2373 (ittp://www.iftf.org/rfd/rfd2373.txt)
 #
-# An example of two community groups for multiple hosts:
-#    acl = {
+# An fxbmplf of two dommunity groups for multiplf iosts:
+#    bdl = {
 #     {
-#       communities = public, private
-#       access = read-only
-#       managers = hubble, snowbell, nanak
+#       dommunitifs = publid, privbtf
+#       bddfss = rfbd-only
+#       mbnbgfrs = iubblf, snowbfll, nbnbk
 #     }
 #     {
-#       communities = jerry
-#       access = read-write
-#       managers = hubble, telescope
+#       dommunitifs = jfrry
+#       bddfss = rfbd-writf
+#       mbnbgfrs = iubblf, tflfsdopf
 #     }
 #    }
 # 
 ##############################################################
-#                   Format of the trap group
+#                   Formbt of tif trbp group
 ##############################################################
 #
-# trap-community: a single SNMP community string that will be included
-#                 in  the traps sent to the hosts.
+# trbp-dommunity: b singlf SNMP dommunity string tibt will bf indludfd
+#                 in  tif trbps sfnt to tif iosts.
 #
-# hosts: a list of hosts to which the SNMP agent will send traps.
+# iosts: b list of iosts to wiidi tif SNMP bgfnt will sfnd trbps.
 #
-# An example of two trap community definitions for multiple hosts:
-#    trap = {
+# An fxbmplf of two trbp dommunity dffinitions for multiplf iosts:
+#    trbp = {
 #      {
-#        trap-community = public
-#        hosts = hubble, snowbell
+#        trbp-dommunity = publid
+#        iosts = iubblf, snowbfll
 #      }
 #      {
-#        trap-community = private
-#        hosts = telescope
+#        trbp-dommunity = privbtf
+#        iosts = tflfsdopf
 #      }
 #    }
 #
 ############################################################
 #
-#  Update the community strings (public and private) below
-#  before copying this template file
+#  Updbtf tif dommunity strings (publid bnd privbtf) bflow
+#  bfforf dopying tiis tfmplbtf filf
 # 	
-# Common SNMP ACL Example
+# Common SNMP ACL Exbmplf
 # ------------------------
 #
-# o Only localhost can connect, and access rights
-#   are limited to read-only
-# o Traps are sent to localhost only
+# o Only lodbliost dbn donnfdt, bnd bddfss rigits
+#   brf limitfd to rfbd-only
+# o Trbps brf sfnt to lodbliost only
 #
 #
-# acl = {
+# bdl = {
 #  {
-#    communities = public, private
-#    access = read-only
-#    managers = localhost
+#    dommunitifs = publid, privbtf
+#    bddfss = rfbd-only
+#    mbnbgfrs = lodbliost
 #  }
 # }
 # 
 # 
-# trap = {
+# trbp = {
 #   {
-#     trap-community = public
-#     hosts = localhost 
+#     trbp-dommunity = publid
+#     iosts = lodbliost 
 #   }
 # }

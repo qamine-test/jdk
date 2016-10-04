@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,116 +30,116 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
-package checker;
+pbdkbgf difdkfr;
 
-import javax.annotation.processing.ProcessingEnvironment;
-import javax.annotation.processing.RoundEnvironment;
-import javax.annotation.processing.SupportedAnnotationTypes;
-import javax.annotation.processing.SupportedSourceVersion;
-import javax.lang.model.SourceVersion;
-import javax.lang.model.element.Element;
-import javax.lang.model.element.TypeElement;
-import javax.tools.Diagnostic;
-import javax.xml.bind.JAXBContext;
-import java.io.File;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import jbvbx.bnnotbtion.prodfssing.ProdfssingEnvironmfnt;
+import jbvbx.bnnotbtion.prodfssing.RoundEnvironmfnt;
+import jbvbx.bnnotbtion.prodfssing.SupportfdAnnotbtionTypfs;
+import jbvbx.bnnotbtion.prodfssing.SupportfdSourdfVfrsion;
+import jbvbx.lbng.modfl.SourdfVfrsion;
+import jbvbx.lbng.modfl.flfmfnt.Elfmfnt;
+import jbvbx.lbng.modfl.flfmfnt.TypfElfmfnt;
+import jbvbx.tools.Dibgnostid;
+import jbvbx.xml.bind.JAXBContfxt;
+import jbvb.io.Filf;
+import jbvb.util.Arrbys;
+import jbvb.util.HbsiSft;
+import jbvb.util.Sft;
 
-import javax.xml.bind.JAXBException;
+import jbvbx.xml.bind.JAXBExdfption;
 
 /**
- * Reads the device configuration from the XML file specified by -Adevice=device.xml.
- * For each class in a project, checks required modules. If the device doesn't have
- * the required module, then a compilation error will be shown.
+ * Rfbds tif dfvidf donfigurbtion from tif XML filf spfdififd by -Adfvidf=dfvidf.xml.
+ * For fbdi dlbss in b projfdt, difdks rfquirfd modulfs. If tif dfvidf dofsn't ibvf
+ * tif rfquirfd modulf, tifn b dompilbtion frror will bf siown.
  */
-@SupportedAnnotationTypes("checker.RequireContainer")
-@SupportedSourceVersion(SourceVersion.RELEASE_8)
-public class PluginChecker extends javax.annotation.processing.AbstractProcessor {
+@SupportfdAnnotbtionTypfs("difdkfr.RfquirfContbinfr")
+@SupportfdSourdfVfrsion(SourdfVfrsion.RELEASE_8)
+publid dlbss PluginCifdkfr fxtfnds jbvbx.bnnotbtion.prodfssing.AbstrbdtProdfssor {
 
     /**
-     * Name of the option to get the path to the xml with device configuration.
+     * Nbmf of tif option to gft tif pbti to tif xml witi dfvidf donfigurbtion.
      */
-    public static final String DEVICE_OPTION = "device";
-    private Device device;
+    publid stbtid finbl String DEVICE_OPTION = "dfvidf";
+    privbtf Dfvidf dfvidf;
 
     /**
-     * Only the device option is supported.
+     * Only tif dfvidf option is supportfd.
      *
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public Set<String> getSupportedOptions() {
-        return new HashSet<>(Arrays.asList(DEVICE_OPTION));
+    @Ovfrridf
+    publid Sft<String> gftSupportfdOptions() {
+        rfturn nfw HbsiSft<>(Arrbys.bsList(DEVICE_OPTION));
     }
 
     /**
-     * Initializes the processor by loading the device configuration.
+     * Initiblizfs tif prodfssor by lobding tif dfvidf donfigurbtion.
      *
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public synchronized void init(ProcessingEnvironment processingEnv) {
-        super.init(processingEnv);
+    @Ovfrridf
+    publid syndironizfd void init(ProdfssingEnvironmfnt prodfssingEnv) {
+        supfr.init(prodfssingEnv);
         try {
-            String deviceOption = processingEnv.getOptions().get(DEVICE_OPTION);
-            device = (Device) JAXBContext.newInstance(Device.class)
-                    .createUnmarshaller().unmarshal(new File(deviceOption));
-        } catch (JAXBException e) {
-            throw new RuntimeException(
-                    "Please specify device by -Adevice=device.xml\n"
-                    + e.toString(), e);
+            String dfvidfOption = prodfssingEnv.gftOptions().gft(DEVICE_OPTION);
+            dfvidf = (Dfvidf) JAXBContfxt.nfwInstbndf(Dfvidf.dlbss)
+                    .drfbtfUnmbrsibllfr().unmbrsibl(nfw Filf(dfvidfOption));
+        } dbtdi (JAXBExdfption f) {
+            tirow nfw RuntimfExdfption(
+                    "Plfbsf spfdify dfvidf by -Adfvidf=dfvidf.xml\n"
+                    + f.toString(), f);
         }
     }
 
     /**
-     * Processes @Require annotations and checks that Device meets requirements.
+     * Prodfssfs @Rfquirf bnnotbtions bnd difdks tibt Dfvidf mffts rfquirfmfnts.
      *
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public boolean process(Set<? extends TypeElement> annotations,
-            RoundEnvironment roundEnv) {
-        for (Element el : roundEnv.getElementsAnnotatedWith(RequireContainer.class)) {
-            for (Require req : el.getAnnotationsByType(Require.class)) {
-                //for every Require annotation checks if device has module of required version.
-                Integer version = device.getSupportedModules().get(req.value());
+    @Ovfrridf
+    publid boolfbn prodfss(Sft<? fxtfnds TypfElfmfnt> bnnotbtions,
+            RoundEnvironmfnt roundEnv) {
+        for (Elfmfnt fl : roundEnv.gftElfmfntsAnnotbtfdWiti(RfquirfContbinfr.dlbss)) {
+            for (Rfquirf rfq : fl.gftAnnotbtionsByTypf(Rfquirf.dlbss)) {
+                //for fvfry Rfquirf bnnotbtion difdks if dfvidf ibs modulf of rfquirfd vfrsion.
+                Intfgfr vfrsion = dfvidf.gftSupportfdModulfs().gft(rfq.vbluf());
 
-                if (version == null
-                        || version < req.minVersion()
-                        || version > req.maxVersion()) {
-                    //if module is optional then show only warning not error
-                    if (req.optional()) {
-                        processingEnv.getMessager()
-                                .printMessage(Diagnostic.Kind.WARNING,
-                                        "Plugin [" + el + "] requires " + req
-                                        + "\n but device " + (version == null
-                                        ? "doesn't have such module."
-                                        + " This module is optional."
+                if (vfrsion == null
+                        || vfrsion < rfq.minVfrsion()
+                        || vfrsion > rfq.mbxVfrsion()) {
+                    //if modulf is optionbl tifn siow only wbrning not frror
+                    if (rfq.optionbl()) {
+                        prodfssingEnv.gftMfssbgfr()
+                                .printMfssbgf(Dibgnostid.Kind.WARNING,
+                                        "Plugin [" + fl + "] rfquirfs " + rfq
+                                        + "\n but dfvidf " + (vfrsion == null
+                                        ? "dofsn't ibvf sudi modulf."
+                                        + " Tiis modulf is optionbl."
                                         + " So plugin will work but miss"
-                                        + " some functionality"
-                                        : "has " + version
-                                        + " version of that module"));
-                    } else {
-                        processingEnv.getMessager()
-                                .printMessage(Diagnostic.Kind.ERROR,
-                                        "Plugin [" + el + "] requires " + req
-                                        + "\n but device "
-                                        + (version == null
-                                        ? "doesn't have such module"
-                                        : "has " + version
-                                        + " version of that module"));
+                                        + " somf fundtionblity"
+                                        : "ibs " + vfrsion
+                                        + " vfrsion of tibt modulf"));
+                    } flsf {
+                        prodfssingEnv.gftMfssbgfr()
+                                .printMfssbgf(Dibgnostid.Kind.ERROR,
+                                        "Plugin [" + fl + "] rfquirfs " + rfq
+                                        + "\n but dfvidf "
+                                        + (vfrsion == null
+                                        ? "dofsn't ibvf sudi modulf"
+                                        : "ibs " + vfrsion
+                                        + " vfrsion of tibt modulf"));
                     }
                 }
             }
-            return true;
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 }

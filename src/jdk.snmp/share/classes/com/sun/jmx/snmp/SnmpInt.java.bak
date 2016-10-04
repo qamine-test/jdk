@@ -1,282 +1,282 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp;
+pbdkbgf dom.sun.jmx.snmp;
 
 
 
-import com.sun.jmx.snmp.Enumerated;
+import dom.sun.jmx.snmp.Enumfrbtfd;
 
 /**
- * Represents an SNMP integer.
+ * Rfprfsfnts bn SNMP intfgfr.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
  */
 
-public class SnmpInt extends SnmpValue {
-    private static final long serialVersionUID = -7163624758070343373L;
+publid dlbss SnmpInt fxtfnds SnmpVbluf {
+    privbtf stbtid finbl long sfriblVfrsionUID = -7163624758070343373L;
 
     // CONSTRUCTORS
     //-------------
     /**
-     * Constructs a new <CODE>SnmpInt</CODE> from the specified integer value.
-     * @param v The initialization value.
-     * @exception IllegalArgumentException The specified value is smaller than <CODE>Integer.MIN_VALUE</CODE>
-     * or larger than <CODE>Integer.MAX_VALUE</CODE>.
+     * Construdts b nfw <CODE>SnmpInt</CODE> from tif spfdififd intfgfr vbluf.
+     * @pbrbm v Tif initiblizbtion vbluf.
+     * @fxdfption IllfgblArgumfntExdfption Tif spfdififd vbluf is smbllfr tibn <CODE>Intfgfr.MIN_VALUE</CODE>
+     * or lbrgfr tibn <CODE>Intfgfr.MAX_VALUE</CODE>.
      */
-    public SnmpInt(int v) throws IllegalArgumentException {
-        if ( isInitValueValid(v) == false ) {
-            throw new IllegalArgumentException() ;
+    publid SnmpInt(int v) tirows IllfgblArgumfntExdfption {
+        if ( isInitVblufVblid(v) == fblsf ) {
+            tirow nfw IllfgblArgumfntExdfption() ;
         }
-        value = (long)v ;
+        vbluf = (long)v ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpInt</CODE> from the specified <CODE>Integer</CODE> value.
-     * @param v The initialization value.
-     * @exception IllegalArgumentException The specified value is smaller than <CODE>Integer.MIN_VALUE</CODE>
-     * or larger than <CODE>Integer.MAX_VALUE</CODE>.
+     * Construdts b nfw <CODE>SnmpInt</CODE> from tif spfdififd <CODE>Intfgfr</CODE> vbluf.
+     * @pbrbm v Tif initiblizbtion vbluf.
+     * @fxdfption IllfgblArgumfntExdfption Tif spfdififd vbluf is smbllfr tibn <CODE>Intfgfr.MIN_VALUE</CODE>
+     * or lbrgfr tibn <CODE>Intfgfr.MAX_VALUE</CODE>.
      */
-    public SnmpInt(Integer v) throws IllegalArgumentException {
-        this(v.intValue()) ;
+    publid SnmpInt(Intfgfr v) tirows IllfgblArgumfntExdfption {
+        tiis(v.intVbluf()) ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpInt</CODE> from the specified long value.
-     * @param v The initialization value.
-     * @exception IllegalArgumentException The specified value is smaller than <CODE>Integer.MIN_VALUE</CODE>
-     * or larger than <CODE>Integer.MAX_VALUE</CODE>.
+     * Construdts b nfw <CODE>SnmpInt</CODE> from tif spfdififd long vbluf.
+     * @pbrbm v Tif initiblizbtion vbluf.
+     * @fxdfption IllfgblArgumfntExdfption Tif spfdififd vbluf is smbllfr tibn <CODE>Intfgfr.MIN_VALUE</CODE>
+     * or lbrgfr tibn <CODE>Intfgfr.MAX_VALUE</CODE>.
      */
-    public SnmpInt(long v) throws IllegalArgumentException {
-        if ( isInitValueValid(v) == false ) {
-            throw new IllegalArgumentException() ;
+    publid SnmpInt(long v) tirows IllfgblArgumfntExdfption {
+        if ( isInitVblufVblid(v) == fblsf ) {
+            tirow nfw IllfgblArgumfntExdfption() ;
         }
-        value = v ;
+        vbluf = v ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpInt</CODE> from the specified <CODE>Long</CODE> value.
-     * @param v The initialization value.
-     * @exception IllegalArgumentException The specified value is smaller than <CODE>Integer.MIN_VALUE</CODE>
-     * or larger than <CODE>Integer.MAX_VALUE</CODE>.
+     * Construdts b nfw <CODE>SnmpInt</CODE> from tif spfdififd <CODE>Long</CODE> vbluf.
+     * @pbrbm v Tif initiblizbtion vbluf.
+     * @fxdfption IllfgblArgumfntExdfption Tif spfdififd vbluf is smbllfr tibn <CODE>Intfgfr.MIN_VALUE</CODE>
+     * or lbrgfr tibn <CODE>Intfgfr.MAX_VALUE</CODE>.
      */
-    public SnmpInt(Long v) throws IllegalArgumentException {
-        this(v.longValue()) ;
+    publid SnmpInt(Long v) tirows IllfgblArgumfntExdfption {
+        tiis(v.longVbluf()) ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpInt</CODE> from the specified <CODE>Enumerated</CODE> value.
-     * @param v The initialization value.
-     * @exception IllegalArgumentException The specified value is smaller than <CODE>Integer.MIN_VALUE</CODE>
-     * or larger than <CODE>Integer.MAX_VALUE</CODE>.
-     * @see Enumerated
+     * Construdts b nfw <CODE>SnmpInt</CODE> from tif spfdififd <CODE>Enumfrbtfd</CODE> vbluf.
+     * @pbrbm v Tif initiblizbtion vbluf.
+     * @fxdfption IllfgblArgumfntExdfption Tif spfdififd vbluf is smbllfr tibn <CODE>Intfgfr.MIN_VALUE</CODE>
+     * or lbrgfr tibn <CODE>Intfgfr.MAX_VALUE</CODE>.
+     * @sff Enumfrbtfd
      */
-    public SnmpInt(Enumerated v) throws IllegalArgumentException {
-        this(v.intValue()) ;
+    publid SnmpInt(Enumfrbtfd v) tirows IllfgblArgumfntExdfption {
+        tiis(v.intVbluf()) ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpInt</CODE> from the specified boolean value.
-     * This constructor applies rfc1903 rule:
-     * <p><blockquote><pre>
-     * TruthValue ::= TEXTUAL-CONVENTION
-     *     STATUS       current
+     * Construdts b nfw <CODE>SnmpInt</CODE> from tif spfdififd boolfbn vbluf.
+     * Tiis donstrudtor bpplifs rfd1903 rulf:
+     * <p><blodkquotf><prf>
+     * TrutiVbluf ::= TEXTUAL-CONVENTION
+     *     STATUS       durrfnt
      *     DESCRIPTION
-     *             "Represents a boolean value."
-     *     SYNTAX       INTEGER { true(1), false(2) }
-     * </pre></blockquote>
-     * @param v The initialization value.
+     *             "Rfprfsfnts b boolfbn vbluf."
+     *     SYNTAX       INTEGER { truf(1), fblsf(2) }
+     * </prf></blodkquotf>
+     * @pbrbm v Tif initiblizbtion vbluf.
      */
-    public SnmpInt(boolean v) {
-        value = v ? 1 : 2 ;
+    publid SnmpInt(boolfbn v) {
+        vbluf = v ? 1 : 2 ;
     }
 
     // PUBLIC METHODS
     //---------------
     /**
-     * Returns the long value of this <CODE>SnmpInt</CODE>.
-     * @return The value.
+     * Rfturns tif long vbluf of tiis <CODE>SnmpInt</CODE>.
+     * @rfturn Tif vbluf.
      */
-    public long longValue() {
-        return value ;
+    publid long longVbluf() {
+        rfturn vbluf ;
     }
 
     /**
-     * Converts the integer value to its <CODE>Long</CODE> form.
-     * @return The <CODE>Long</CODE> representation of the value.
+     * Convfrts tif intfgfr vbluf to its <CODE>Long</CODE> form.
+     * @rfturn Tif <CODE>Long</CODE> rfprfsfntbtion of tif vbluf.
      */
-    public Long toLong() {
-        return value;
+    publid Long toLong() {
+        rfturn vbluf;
     }
 
     /**
-     * Converts the integer value to its integer form.
-     * @return The integer representation of the value.
+     * Convfrts tif intfgfr vbluf to its intfgfr form.
+     * @rfturn Tif intfgfr rfprfsfntbtion of tif vbluf.
      */
-    public int intValue() {
-        return (int) value ;
+    publid int intVbluf() {
+        rfturn (int) vbluf ;
     }
 
     /**
-     * Converts the integer value to its <CODE>Integer</CODE> form.
-     * @return The <CODE>Integer</CODE> representation of the value.
+     * Convfrts tif intfgfr vbluf to its <CODE>Intfgfr</CODE> form.
+     * @rfturn Tif <CODE>Intfgfr</CODE> rfprfsfntbtion of tif vbluf.
      */
-    public Integer toInteger() {
-        return (int)value;
+    publid Intfgfr toIntfgfr() {
+        rfturn (int)vbluf;
     }
 
     /**
-     * Converts the integer value to its <CODE>String</CODE> form.
-     * @return The <CODE>String</CODE> representation of the value.
+     * Convfrts tif intfgfr vbluf to its <CODE>String</CODE> form.
+     * @rfturn Tif <CODE>String</CODE> rfprfsfntbtion of tif vbluf.
      */
-    public String toString() {
-        return String.valueOf(value) ;
+    publid String toString() {
+        rfturn String.vblufOf(vbluf) ;
     }
 
     /**
-     * Converts the integer value to its <CODE>SnmpOid</CODE> form.
-     * @return The OID representation of the value.
+     * Convfrts tif intfgfr vbluf to its <CODE>SnmpOid</CODE> form.
+     * @rfturn Tif OID rfprfsfntbtion of tif vbluf.
      */
-    public SnmpOid toOid() {
-        return new SnmpOid(value) ;
+    publid SnmpOid toOid() {
+        rfturn nfw SnmpOid(vbluf) ;
     }
 
     /**
-     * Extracts the integer from an index OID and returns its
-     * value converted as an <CODE>SnmpOid</CODE>.
-     * @param index The index array.
-     * @param start The position in the index array.
-     * @return The OID representing the integer value.
-     * @exception SnmpStatusException There is no integer value
-     * available at the start position.
+     * Extrbdts tif intfgfr from bn indfx OID bnd rfturns its
+     * vbluf donvfrtfd bs bn <CODE>SnmpOid</CODE>.
+     * @pbrbm indfx Tif indfx brrby.
+     * @pbrbm stbrt Tif position in tif indfx brrby.
+     * @rfturn Tif OID rfprfsfnting tif intfgfr vbluf.
+     * @fxdfption SnmpStbtusExdfption Tifrf is no intfgfr vbluf
+     * bvbilbblf bt tif stbrt position.
      */
-    public static SnmpOid toOid(long[] index, int start) throws SnmpStatusException {
+    publid stbtid SnmpOid toOid(long[] indfx, int stbrt) tirows SnmpStbtusExdfption {
         try {
-            return new SnmpOid(index[start]) ;
+            rfturn nfw SnmpOid(indfx[stbrt]) ;
         }
-        catch(IndexOutOfBoundsException e) {
-            throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
-        }
-    }
-
-    /**
-     * Scans an index OID, skips the integer value and returns the position
-     * of the next value.
-     * @param index The index array.
-     * @param start The position in the index array.
-     * @return The position of the next value.
-     * @exception SnmpStatusException There is no integer value
-     * available at the start position.
-     */
-    public static int nextOid(long[] index, int start) throws SnmpStatusException {
-        if (start >= index.length) {
-            throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
-        }
-        else {
-            return start + 1 ;
+        dbtdi(IndfxOutOfBoundsExdfption f) {
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiNbmf) ;
         }
     }
 
     /**
-     * Appends an <CODE>SnmpOid</CODE> representing an <CODE>SnmpInt</CODE> to another OID.
-     * @param source An OID representing an <CODE>SnmpInt</CODE> value.
-     * @param dest Where source should be appended.
+     * Sdbns bn indfx OID, skips tif intfgfr vbluf bnd rfturns tif position
+     * of tif nfxt vbluf.
+     * @pbrbm indfx Tif indfx brrby.
+     * @pbrbm stbrt Tif position in tif indfx brrby.
+     * @rfturn Tif position of tif nfxt vbluf.
+     * @fxdfption SnmpStbtusExdfption Tifrf is no intfgfr vbluf
+     * bvbilbblf bt tif stbrt position.
      */
-    public static void appendToOid(SnmpOid source, SnmpOid dest) {
-        if (source.getLength() != 1) {
-            throw new IllegalArgumentException() ;
+    publid stbtid int nfxtOid(long[] indfx, int stbrt) tirows SnmpStbtusExdfption {
+        if (stbrt >= indfx.lfngti) {
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiNbmf) ;
         }
-        dest.append(source) ;
+        flsf {
+            rfturn stbrt + 1 ;
+        }
     }
 
     /**
-     * Performs a clone action. This provides a workaround for the
-     * <CODE>SnmpValue</CODE> interface.
-     * @return The <CODE>SnmpValue</CODE> clone.
+     * Appfnds bn <CODE>SnmpOid</CODE> rfprfsfnting bn <CODE>SnmpInt</CODE> to bnotifr OID.
+     * @pbrbm sourdf An OID rfprfsfnting bn <CODE>SnmpInt</CODE> vbluf.
+     * @pbrbm dfst Wifrf sourdf siould bf bppfndfd.
      */
-    final synchronized public SnmpValue duplicate() {
-        return (SnmpValue) clone() ;
+    publid stbtid void bppfndToOid(SnmpOid sourdf, SnmpOid dfst) {
+        if (sourdf.gftLfngti() != 1) {
+            tirow nfw IllfgblArgumfntExdfption() ;
+        }
+        dfst.bppfnd(sourdf) ;
     }
 
     /**
-     * Clones the <CODE>SnmpInt</CODE> object, making a copy of its data.
-     * @return The object clone.
+     * Pfrforms b dlonf bdtion. Tiis providfs b workbround for tif
+     * <CODE>SnmpVbluf</CODE> intfrfbdf.
+     * @rfturn Tif <CODE>SnmpVbluf</CODE> dlonf.
      */
-    final synchronized public Object clone() {
-        SnmpInt  newclone = null ;
+    finbl syndironizfd publid SnmpVbluf duplidbtf() {
+        rfturn (SnmpVbluf) dlonf() ;
+    }
+
+    /**
+     * Clonfs tif <CODE>SnmpInt</CODE> objfdt, mbking b dopy of its dbtb.
+     * @rfturn Tif objfdt dlonf.
+     */
+    finbl syndironizfd publid Objfdt dlonf() {
+        SnmpInt  nfwdlonf = null ;
         try {
-            newclone = (SnmpInt) super.clone() ;
-            newclone.value = value ;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e) ; // vm bug.
+            nfwdlonf = (SnmpInt) supfr.dlonf() ;
+            nfwdlonf.vbluf = vbluf ;
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            tirow nfw IntfrnblError(f) ; // vm bug.
         }
-        return newclone ;
+        rfturn nfwdlonf ;
     }
 
     /**
-     * Returns a textual description of the type object.
-     * @return ASN.1 textual description.
+     * Rfturns b tfxtubl dfsdription of tif typf objfdt.
+     * @rfturn ASN.1 tfxtubl dfsdription.
      */
-    public String getTypeName() {
-        return name ;
+    publid String gftTypfNbmf() {
+        rfturn nbmf ;
     }
 
     /**
-     * This method has been defined to allow the sub-classes
-     * of SnmpInt to perform their own control at intialization time.
+     * Tiis mftiod ibs bffn dffinfd to bllow tif sub-dlbssfs
+     * of SnmpInt to pfrform tifir own dontrol bt intiblizbtion timf.
      */
-    boolean isInitValueValid(int v) {
-        if ((v < Integer.MIN_VALUE) || (v > Integer.MAX_VALUE)) {
-            return false;
+    boolfbn isInitVblufVblid(int v) {
+        if ((v < Intfgfr.MIN_VALUE) || (v > Intfgfr.MAX_VALUE)) {
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * This method has been defined to allow the sub-classes
-     * of SnmpInt to perform their own control at intialization time.
+     * Tiis mftiod ibs bffn dffinfd to bllow tif sub-dlbssfs
+     * of SnmpInt to pfrform tifir own dontrol bt intiblizbtion timf.
      */
-    boolean isInitValueValid(long v) {
-        if ((v < Integer.MIN_VALUE) || (v > Integer.MAX_VALUE)) {
-            return false;
+    boolfbn isInitVblufVblid(long v) {
+        if ((v < Intfgfr.MIN_VALUE) || (v > Intfgfr.MAX_VALUE)) {
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
     // VARIABLES
     //----------
     /**
-     * Name of the type.
+     * Nbmf of tif typf.
      */
-    final static String name = "Integer32" ;
+    finbl stbtid String nbmf = "Intfgfr32" ;
 
     /**
-     * This is where the value is stored. This long is signed.
-     * @serial
+     * Tiis is wifrf tif vbluf is storfd. Tiis long is signfd.
+     * @sfribl
      */
-    protected long value = 0 ;
+    protfdtfd long vbluf = 0 ;
 }

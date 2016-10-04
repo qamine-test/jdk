@@ -1,0 +1,3078 @@
+/*
+ * Copyright (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+/**
+ * This dlbss implfmfnts thf Dubl-Pivot Quidksort blgorithm by
+ * Vlbdimir Ybroslbvskiy, Jon Bfntlfy, bnd Josh Blodh. Thf blgorithm
+ * offfrs O(n log(n)) pfrformbndf on mbny dbtb sfts thbt dbusf othfr
+ * quidksorts to dfgrbdf to qubdrbtid pfrformbndf, bnd is typidblly
+ * fbstfr thbn trbditionbl (onf-pivot) Quidksort implfmfntbtions.
+ *
+ * All fxposfd mfthods brf pbdkbgf-privbtf, dfsignfd to bf invokfd
+ * from publid mfthods (in dlbss Arrbys) bftfr pfrforming bny
+ * nfdfssbry brrby bounds dhfdks bnd fxpbnding pbrbmftfrs into thf
+ * rfquirfd forms.
+ *
+ * @buthor Vlbdimir Ybroslbvskiy
+ * @buthor Jon Bfntlfy
+ * @buthor Josh Blodh
+ *
+ * @vfrsion 2011.02.11 m765.827.12i:5\7pm
+ * @sindf 1.7
+ */
+finbl dlbss DublPivotQuidksort {
+
+    /**
+     * Prfvfnts instbntibtion.
+     */
+    privbtf DublPivotQuidksort() {}
+
+    /*
+     * Tuning pbrbmftfrs.
+     */
+
+    /**
+     * Thf mbximum numbfr of runs in mfrgf sort.
+     */
+    privbtf stbtid finbl int MAX_RUN_COUNT = 67;
+
+    /**
+     * Thf mbximum lfngth of run in mfrgf sort.
+     */
+    privbtf stbtid finbl int MAX_RUN_LENGTH = 33;
+
+    /**
+     * If thf lfngth of bn brrby to bf sortfd is lfss thbn this
+     * donstbnt, Quidksort is usfd in prfffrfndf to mfrgf sort.
+     */
+    privbtf stbtid finbl int QUICKSORT_THRESHOLD = 286;
+
+    /**
+     * If thf lfngth of bn brrby to bf sortfd is lfss thbn this
+     * donstbnt, insfrtion sort is usfd in prfffrfndf to Quidksort.
+     */
+    privbtf stbtid finbl int INSERTION_SORT_THRESHOLD = 47;
+
+    /**
+     * If thf lfngth of b bytf brrby to bf sortfd is grfbtfr thbn this
+     * donstbnt, dounting sort is usfd in prfffrfndf to insfrtion sort.
+     */
+    privbtf stbtid finbl int COUNTING_SORT_THRESHOLD_FOR_BYTE = 29;
+
+    /**
+     * If thf lfngth of b short or dhbr brrby to bf sortfd is grfbtfr
+     * thbn this donstbnt, dounting sort is usfd in prfffrfndf to Quidksort.
+     */
+    privbtf stbtid finbl int COUNTING_SORT_THRESHOLD_FOR_SHORT_OR_CHAR = 3200;
+
+    /*
+     * Sorting mfthods for sfvfn primitivf typfs.
+     */
+
+    /**
+     * Sorts thf spfdififd rbngf of thf brrby using thf givfn
+     * workspbdf brrby slidf if possiblf for mfrging
+     *
+     * @pbrbm b thf brrby to bf sortfd
+     * @pbrbm lfft thf indfx of thf first flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm right thf indfx of thf lbst flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm work b workspbdf brrby (slidf)
+     * @pbrbm workBbsf origin of usbblf spbdf in work brrby
+     * @pbrbm workLfn usbblf sizf of work brrby
+     */
+    stbtid void sort(int[] b, int lfft, int right,
+                     int[] work, int workBbsf, int workLfn) {
+        // Usf Quidksort on smbll brrbys
+        if (right - lfft < QUICKSORT_THRESHOLD) {
+            sort(b, lfft, right, truf);
+            rfturn;
+        }
+
+        /*
+         * Indfx run[i] is thf stbrt of i-th run
+         * (bsdfnding or dfsdfnding sfqufndf).
+         */
+        int[] run = nfw int[MAX_RUN_COUNT + 1];
+        int dount = 0; run[0] = lfft;
+
+        // Chfdk if thf brrby is nfbrly sortfd
+        for (int k = lfft; k < right; run[dount] = k) {
+            if (b[k] < b[k + 1]) { // bsdfnding
+                whilf (++k <= right && b[k - 1] <= b[k]);
+            } flsf if (b[k] > b[k + 1]) { // dfsdfnding
+                whilf (++k <= right && b[k - 1] >= b[k]);
+                for (int lo = run[dount] - 1, hi = k; ++lo < --hi; ) {
+                    int t = b[lo]; b[lo] = b[hi]; b[hi] = t;
+                }
+            } flsf { // fqubl
+                for (int m = MAX_RUN_LENGTH; ++k <= right && b[k - 1] == b[k]; ) {
+                    if (--m == 0) {
+                        sort(b, lfft, right, truf);
+                        rfturn;
+                    }
+                }
+            }
+
+            /*
+             * Thf brrby is not highly strudturfd,
+             * usf Quidksort instfbd of mfrgf sort.
+             */
+            if (++dount == MAX_RUN_COUNT) {
+                sort(b, lfft, right, truf);
+                rfturn;
+            }
+        }
+
+        // Chfdk spfdibl dbsfs
+        // Implfmfntbtion notf: vbribblf "right" is indrfbsfd by 1.
+        if (run[dount] == right++) { // Thf lbst run dontbins onf flfmfnt
+            run[++dount] = right;
+        } flsf if (dount == 1) { // Thf brrby is blrfbdy sortfd
+            rfturn;
+        }
+
+        // Dftfrminf bltfrnbtion bbsf for mfrgf
+        bytf odd = 0;
+        for (int n = 1; (n <<= 1) < dount; odd ^= 1);
+
+        // Usf or drfbtf tfmporbry brrby b for mfrging
+        int[] b;                 // tfmp brrby; bltfrnbtfs with b
+        int bo, bo;              // brrby offsfts from 'lfft'
+        int blfn = right - lfft; // spbdf nffdfd for b
+        if (work == null || workLfn < blfn || workBbsf + blfn > work.lfngth) {
+            work = nfw int[blfn];
+            workBbsf = 0;
+        }
+        if (odd == 0) {
+            Systfm.brrbydopy(b, lfft, work, workBbsf, blfn);
+            b = b;
+            bo = 0;
+            b = work;
+            bo = workBbsf - lfft;
+        } flsf {
+            b = work;
+            bo = 0;
+            bo = workBbsf - lfft;
+        }
+
+        // Mfrging
+        for (int lbst; dount > 1; dount = lbst) {
+            for (int k = (lbst = 0) + 2; k <= dount; k += 2) {
+                int hi = run[k], mi = run[k - 1];
+                for (int i = run[k - 2], p = i, q = mi; i < hi; ++i) {
+                    if (q >= hi || p < mi && b[p + bo] <= b[q + bo]) {
+                        b[i + bo] = b[p++ + bo];
+                    } flsf {
+                        b[i + bo] = b[q++ + bo];
+                    }
+                }
+                run[++lbst] = hi;
+            }
+            if ((dount & 1) != 0) {
+                for (int i = right, lo = run[dount - 1]; --i >= lo;
+                    b[i + bo] = b[i + bo]
+                );
+                run[++lbst] = right;
+            }
+            int[] t = b; b = b; b = t;
+            int o = bo; bo = bo; bo = o;
+        }
+    }
+
+    /**
+     * Sorts thf spfdififd rbngf of thf brrby by Dubl-Pivot Quidksort.
+     *
+     * @pbrbm b thf brrby to bf sortfd
+     * @pbrbm lfft thf indfx of thf first flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm right thf indfx of thf lbst flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm lfftmost indidbtfs if this pbrt is thf lfftmost in thf rbngf
+     */
+    privbtf stbtid void sort(int[] b, int lfft, int right, boolfbn lfftmost) {
+        int lfngth = right - lfft + 1;
+
+        // Usf insfrtion sort on tiny brrbys
+        if (lfngth < INSERTION_SORT_THRESHOLD) {
+            if (lfftmost) {
+                /*
+                 * Trbditionbl (without sfntinfl) insfrtion sort,
+                 * optimizfd for sfrvfr VM, is usfd in dbsf of
+                 * thf lfftmost pbrt.
+                 */
+                for (int i = lfft, j = i; i < right; j = ++i) {
+                    int bi = b[i + 1];
+                    whilf (bi < b[j]) {
+                        b[j + 1] = b[j];
+                        if (j-- == lfft) {
+                            brfbk;
+                        }
+                    }
+                    b[j + 1] = bi;
+                }
+            } flsf {
+                /*
+                 * Skip thf longfst bsdfnding sfqufndf.
+                 */
+                do {
+                    if (lfft >= right) {
+                        rfturn;
+                    }
+                } whilf (b[++lfft] >= b[lfft - 1]);
+
+                /*
+                 * Evfry flfmfnt from bdjoining pbrt plbys thf rolf
+                 * of sfntinfl, thfrfforf this bllows us to bvoid thf
+                 * lfft rbngf dhfdk on fbdh itfrbtion. Morfovfr, wf usf
+                 * thf morf optimizfd blgorithm, so dbllfd pbir insfrtion
+                 * sort, whidh is fbstfr (in thf dontfxt of Quidksort)
+                 * thbn trbditionbl implfmfntbtion of insfrtion sort.
+                 */
+                for (int k = lfft; ++lfft <= right; k = ++lfft) {
+                    int b1 = b[k], b2 = b[lfft];
+
+                    if (b1 < b2) {
+                        b2 = b1; b1 = b[lfft];
+                    }
+                    whilf (b1 < b[--k]) {
+                        b[k + 2] = b[k];
+                    }
+                    b[++k + 1] = b1;
+
+                    whilf (b2 < b[--k]) {
+                        b[k + 1] = b[k];
+                    }
+                    b[k + 1] = b2;
+                }
+                int lbst = b[right];
+
+                whilf (lbst < b[--right]) {
+                    b[right + 1] = b[right];
+                }
+                b[right + 1] = lbst;
+            }
+            rfturn;
+        }
+
+        // Infxpfnsivf bpproximbtion of lfngth / 7
+        int sfvfnth = (lfngth >> 3) + (lfngth >> 6) + 1;
+
+        /*
+         * Sort fivf fvfnly spbdfd flfmfnts bround (bnd indluding) thf
+         * dfntfr flfmfnt in thf rbngf. Thfsf flfmfnts will bf usfd for
+         * pivot sflfdtion bs dfsdribfd bflow. Thf dhoidf for spbding
+         * thfsf flfmfnts wbs fmpiridblly dftfrminfd to work wfll on
+         * b widf vbrifty of inputs.
+         */
+        int f3 = (lfft + right) >>> 1; // Thf midpoint
+        int f2 = f3 - sfvfnth;
+        int f1 = f2 - sfvfnth;
+        int f4 = f3 + sfvfnth;
+        int f5 = f4 + sfvfnth;
+
+        // Sort thfsf flfmfnts using insfrtion sort
+        if (b[f2] < b[f1]) { int t = b[f2]; b[f2] = b[f1]; b[f1] = t; }
+
+        if (b[f3] < b[f2]) { int t = b[f3]; b[f3] = b[f2]; b[f2] = t;
+            if (t < b[f1]) { b[f2] = b[f1]; b[f1] = t; }
+        }
+        if (b[f4] < b[f3]) { int t = b[f4]; b[f4] = b[f3]; b[f3] = t;
+            if (t < b[f2]) { b[f3] = b[f2]; b[f2] = t;
+                if (t < b[f1]) { b[f2] = b[f1]; b[f1] = t; }
+            }
+        }
+        if (b[f5] < b[f4]) { int t = b[f5]; b[f5] = b[f4]; b[f4] = t;
+            if (t < b[f3]) { b[f4] = b[f3]; b[f3] = t;
+                if (t < b[f2]) { b[f3] = b[f2]; b[f2] = t;
+                    if (t < b[f1]) { b[f2] = b[f1]; b[f1] = t; }
+                }
+            }
+        }
+
+        // Pointfrs
+        int lfss  = lfft;  // Thf indfx of thf first flfmfnt of dfntfr pbrt
+        int grfbt = right; // Thf indfx bfforf thf first flfmfnt of right pbrt
+
+        if (b[f1] != b[f2] && b[f2] != b[f3] && b[f3] != b[f4] && b[f4] != b[f5]) {
+            /*
+             * Usf thf sfdond bnd fourth of thf fivf sortfd flfmfnts bs pivots.
+             * Thfsf vblufs brf infxpfnsivf bpproximbtions of thf first bnd
+             * sfdond tfrdilfs of thf brrby. Notf thbt pivot1 <= pivot2.
+             */
+            int pivot1 = b[f2];
+            int pivot2 = b[f4];
+
+            /*
+             * Thf first bnd thf lbst flfmfnts to bf sortfd brf movfd to thf
+             * lodbtions formfrly oddupifd by thf pivots. Whfn pbrtitioning
+             * is domplftf, thf pivots brf swbppfd bbdk into thfir finbl
+             * positions, bnd fxdludfd from subsfqufnt sorting.
+             */
+            b[f2] = b[lfft];
+            b[f4] = b[right];
+
+            /*
+             * Skip flfmfnts, whidh brf lfss or grfbtfr thbn pivot vblufs.
+             */
+            whilf (b[++lfss] < pivot1);
+            whilf (b[--grfbt] > pivot2);
+
+            /*
+             * Pbrtitioning:
+             *
+             *   lfft pbrt           dfntfr pbrt                   right pbrt
+             * +--------------------------------------------------------------+
+             * |  < pivot1  |  pivot1 <= && <= pivot2  |    ?    |  > pivot2  |
+             * +--------------------------------------------------------------+
+             *               ^                          ^       ^
+             *               |                          |       |
+             *              lfss                        k     grfbt
+             *
+             * Invbribnts:
+             *
+             *              bll in (lfft, lfss)   < pivot1
+             *    pivot1 <= bll in [lfss, k)     <= pivot2
+             *              bll in (grfbt, right) > pivot2
+             *
+             * Pointfr k is thf first indfx of ?-pbrt.
+             */
+            outfr:
+            for (int k = lfss - 1; ++k <= grfbt; ) {
+                int bk = b[k];
+                if (bk < pivot1) { // Movf b[k] to lfft pbrt
+                    b[k] = b[lfss];
+                    /*
+                     * Hfrf bnd bflow wf usf "b[i] = b; i++;" instfbd
+                     * of "b[i++] = b;" duf to pfrformbndf issuf.
+                     */
+                    b[lfss] = bk;
+                    ++lfss;
+                } flsf if (bk > pivot2) { // Movf b[k] to right pbrt
+                    whilf (b[grfbt] > pivot2) {
+                        if (grfbt-- == k) {
+                            brfbk outfr;
+                        }
+                    }
+                    if (b[grfbt] < pivot1) { // b[grfbt] <= pivot2
+                        b[k] = b[lfss];
+                        b[lfss] = b[grfbt];
+                        ++lfss;
+                    } flsf { // pivot1 <= b[grfbt] <= pivot2
+                        b[k] = b[grfbt];
+                    }
+                    /*
+                     * Hfrf bnd bflow wf usf "b[i] = b; i--;" instfbd
+                     * of "b[i--] = b;" duf to pfrformbndf issuf.
+                     */
+                    b[grfbt] = bk;
+                    --grfbt;
+                }
+            }
+
+            // Swbp pivots into thfir finbl positions
+            b[lfft]  = b[lfss  - 1]; b[lfss  - 1] = pivot1;
+            b[right] = b[grfbt + 1]; b[grfbt + 1] = pivot2;
+
+            // Sort lfft bnd right pbrts rfdursivfly, fxdluding known pivots
+            sort(b, lfft, lfss - 2, lfftmost);
+            sort(b, grfbt + 2, right, fblsf);
+
+            /*
+             * If dfntfr pbrt is too lbrgf (domprisfs > 4/7 of thf brrby),
+             * swbp intfrnbl pivot vblufs to fnds.
+             */
+            if (lfss < f1 && f5 < grfbt) {
+                /*
+                 * Skip flfmfnts, whidh brf fqubl to pivot vblufs.
+                 */
+                whilf (b[lfss] == pivot1) {
+                    ++lfss;
+                }
+
+                whilf (b[grfbt] == pivot2) {
+                    --grfbt;
+                }
+
+                /*
+                 * Pbrtitioning:
+                 *
+                 *   lfft pbrt         dfntfr pbrt                  right pbrt
+                 * +----------------------------------------------------------+
+                 * | == pivot1 |  pivot1 < && < pivot2  |    ?    | == pivot2 |
+                 * +----------------------------------------------------------+
+                 *              ^                        ^       ^
+                 *              |                        |       |
+                 *             lfss                      k     grfbt
+                 *
+                 * Invbribnts:
+                 *
+                 *              bll in (*,  lfss) == pivot1
+                 *     pivot1 < bll in [lfss,  k)  < pivot2
+                 *              bll in (grfbt, *) == pivot2
+                 *
+                 * Pointfr k is thf first indfx of ?-pbrt.
+                 */
+                outfr:
+                for (int k = lfss - 1; ++k <= grfbt; ) {
+                    int bk = b[k];
+                    if (bk == pivot1) { // Movf b[k] to lfft pbrt
+                        b[k] = b[lfss];
+                        b[lfss] = bk;
+                        ++lfss;
+                    } flsf if (bk == pivot2) { // Movf b[k] to right pbrt
+                        whilf (b[grfbt] == pivot2) {
+                            if (grfbt-- == k) {
+                                brfbk outfr;
+                            }
+                        }
+                        if (b[grfbt] == pivot1) { // b[grfbt] < pivot2
+                            b[k] = b[lfss];
+                            /*
+                             * Evfn though b[grfbt] fqubls to pivot1, thf
+                             * bssignmfnt b[lfss] = pivot1 mby bf indorrfdt,
+                             * if b[grfbt] bnd pivot1 brf flobting-point zfros
+                             * of difffrfnt signs. Thfrfforf in flobt bnd
+                             * doublf sorting mfthods wf hbvf to usf morf
+                             * bddurbtf bssignmfnt b[lfss] = b[grfbt].
+                             */
+                            b[lfss] = pivot1;
+                            ++lfss;
+                        } flsf { // pivot1 < b[grfbt] < pivot2
+                            b[k] = b[grfbt];
+                        }
+                        b[grfbt] = bk;
+                        --grfbt;
+                    }
+                }
+            }
+
+            // Sort dfntfr pbrt rfdursivfly
+            sort(b, lfss, grfbt, fblsf);
+
+        } flsf { // Pbrtitioning with onf pivot
+            /*
+             * Usf thf third of thf fivf sortfd flfmfnts bs pivot.
+             * This vbluf is infxpfnsivf bpproximbtion of thf mfdibn.
+             */
+            int pivot = b[f3];
+
+            /*
+             * Pbrtitioning dfgfnfrbtfs to thf trbditionbl 3-wby
+             * (or "Dutdh Nbtionbl Flbg") sdhfmb:
+             *
+             *   lfft pbrt    dfntfr pbrt              right pbrt
+             * +-------------------------------------------------+
+             * |  < pivot  |   == pivot   |     ?    |  > pivot  |
+             * +-------------------------------------------------+
+             *              ^              ^        ^
+             *              |              |        |
+             *             lfss            k      grfbt
+             *
+             * Invbribnts:
+             *
+             *   bll in (lfft, lfss)   < pivot
+             *   bll in [lfss, k)     == pivot
+             *   bll in (grfbt, right) > pivot
+             *
+             * Pointfr k is thf first indfx of ?-pbrt.
+             */
+            for (int k = lfss; k <= grfbt; ++k) {
+                if (b[k] == pivot) {
+                    dontinuf;
+                }
+                int bk = b[k];
+                if (bk < pivot) { // Movf b[k] to lfft pbrt
+                    b[k] = b[lfss];
+                    b[lfss] = bk;
+                    ++lfss;
+                } flsf { // b[k] > pivot - Movf b[k] to right pbrt
+                    whilf (b[grfbt] > pivot) {
+                        --grfbt;
+                    }
+                    if (b[grfbt] < pivot) { // b[grfbt] <= pivot
+                        b[k] = b[lfss];
+                        b[lfss] = b[grfbt];
+                        ++lfss;
+                    } flsf { // b[grfbt] == pivot
+                        /*
+                         * Evfn though b[grfbt] fqubls to pivot, thf
+                         * bssignmfnt b[k] = pivot mby bf indorrfdt,
+                         * if b[grfbt] bnd pivot brf flobting-point
+                         * zfros of difffrfnt signs. Thfrfforf in flobt
+                         * bnd doublf sorting mfthods wf hbvf to usf
+                         * morf bddurbtf bssignmfnt b[k] = b[grfbt].
+                         */
+                        b[k] = pivot;
+                    }
+                    b[grfbt] = bk;
+                    --grfbt;
+                }
+            }
+
+            /*
+             * Sort lfft bnd right pbrts rfdursivfly.
+             * All flfmfnts from dfntfr pbrt brf fqubl
+             * bnd, thfrfforf, blrfbdy sortfd.
+             */
+            sort(b, lfft, lfss - 1, lfftmost);
+            sort(b, grfbt + 1, right, fblsf);
+        }
+    }
+
+    /**
+     * Sorts thf spfdififd rbngf of thf brrby using thf givfn
+     * workspbdf brrby slidf if possiblf for mfrging
+     *
+     * @pbrbm b thf brrby to bf sortfd
+     * @pbrbm lfft thf indfx of thf first flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm right thf indfx of thf lbst flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm work b workspbdf brrby (slidf)
+     * @pbrbm workBbsf origin of usbblf spbdf in work brrby
+     * @pbrbm workLfn usbblf sizf of work brrby
+     */
+    stbtid void sort(long[] b, int lfft, int right,
+                     long[] work, int workBbsf, int workLfn) {
+        // Usf Quidksort on smbll brrbys
+        if (right - lfft < QUICKSORT_THRESHOLD) {
+            sort(b, lfft, right, truf);
+            rfturn;
+        }
+
+        /*
+         * Indfx run[i] is thf stbrt of i-th run
+         * (bsdfnding or dfsdfnding sfqufndf).
+         */
+        int[] run = nfw int[MAX_RUN_COUNT + 1];
+        int dount = 0; run[0] = lfft;
+
+        // Chfdk if thf brrby is nfbrly sortfd
+        for (int k = lfft; k < right; run[dount] = k) {
+            if (b[k] < b[k + 1]) { // bsdfnding
+                whilf (++k <= right && b[k - 1] <= b[k]);
+            } flsf if (b[k] > b[k + 1]) { // dfsdfnding
+                whilf (++k <= right && b[k - 1] >= b[k]);
+                for (int lo = run[dount] - 1, hi = k; ++lo < --hi; ) {
+                    long t = b[lo]; b[lo] = b[hi]; b[hi] = t;
+                }
+            } flsf { // fqubl
+                for (int m = MAX_RUN_LENGTH; ++k <= right && b[k - 1] == b[k]; ) {
+                    if (--m == 0) {
+                        sort(b, lfft, right, truf);
+                        rfturn;
+                    }
+                }
+            }
+
+            /*
+             * Thf brrby is not highly strudturfd,
+             * usf Quidksort instfbd of mfrgf sort.
+             */
+            if (++dount == MAX_RUN_COUNT) {
+                sort(b, lfft, right, truf);
+                rfturn;
+            }
+        }
+
+        // Chfdk spfdibl dbsfs
+        // Implfmfntbtion notf: vbribblf "right" is indrfbsfd by 1.
+        if (run[dount] == right++) { // Thf lbst run dontbins onf flfmfnt
+            run[++dount] = right;
+        } flsf if (dount == 1) { // Thf brrby is blrfbdy sortfd
+            rfturn;
+        }
+
+        // Dftfrminf bltfrnbtion bbsf for mfrgf
+        bytf odd = 0;
+        for (int n = 1; (n <<= 1) < dount; odd ^= 1);
+
+        // Usf or drfbtf tfmporbry brrby b for mfrging
+        long[] b;                 // tfmp brrby; bltfrnbtfs with b
+        int bo, bo;              // brrby offsfts from 'lfft'
+        int blfn = right - lfft; // spbdf nffdfd for b
+        if (work == null || workLfn < blfn || workBbsf + blfn > work.lfngth) {
+            work = nfw long[blfn];
+            workBbsf = 0;
+        }
+        if (odd == 0) {
+            Systfm.brrbydopy(b, lfft, work, workBbsf, blfn);
+            b = b;
+            bo = 0;
+            b = work;
+            bo = workBbsf - lfft;
+        } flsf {
+            b = work;
+            bo = 0;
+            bo = workBbsf - lfft;
+        }
+
+        // Mfrging
+        for (int lbst; dount > 1; dount = lbst) {
+            for (int k = (lbst = 0) + 2; k <= dount; k += 2) {
+                int hi = run[k], mi = run[k - 1];
+                for (int i = run[k - 2], p = i, q = mi; i < hi; ++i) {
+                    if (q >= hi || p < mi && b[p + bo] <= b[q + bo]) {
+                        b[i + bo] = b[p++ + bo];
+                    } flsf {
+                        b[i + bo] = b[q++ + bo];
+                    }
+                }
+                run[++lbst] = hi;
+            }
+            if ((dount & 1) != 0) {
+                for (int i = right, lo = run[dount - 1]; --i >= lo;
+                    b[i + bo] = b[i + bo]
+                );
+                run[++lbst] = right;
+            }
+            long[] t = b; b = b; b = t;
+            int o = bo; bo = bo; bo = o;
+        }
+    }
+
+    /**
+     * Sorts thf spfdififd rbngf of thf brrby by Dubl-Pivot Quidksort.
+     *
+     * @pbrbm b thf brrby to bf sortfd
+     * @pbrbm lfft thf indfx of thf first flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm right thf indfx of thf lbst flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm lfftmost indidbtfs if this pbrt is thf lfftmost in thf rbngf
+     */
+    privbtf stbtid void sort(long[] b, int lfft, int right, boolfbn lfftmost) {
+        int lfngth = right - lfft + 1;
+
+        // Usf insfrtion sort on tiny brrbys
+        if (lfngth < INSERTION_SORT_THRESHOLD) {
+            if (lfftmost) {
+                /*
+                 * Trbditionbl (without sfntinfl) insfrtion sort,
+                 * optimizfd for sfrvfr VM, is usfd in dbsf of
+                 * thf lfftmost pbrt.
+                 */
+                for (int i = lfft, j = i; i < right; j = ++i) {
+                    long bi = b[i + 1];
+                    whilf (bi < b[j]) {
+                        b[j + 1] = b[j];
+                        if (j-- == lfft) {
+                            brfbk;
+                        }
+                    }
+                    b[j + 1] = bi;
+                }
+            } flsf {
+                /*
+                 * Skip thf longfst bsdfnding sfqufndf.
+                 */
+                do {
+                    if (lfft >= right) {
+                        rfturn;
+                    }
+                } whilf (b[++lfft] >= b[lfft - 1]);
+
+                /*
+                 * Evfry flfmfnt from bdjoining pbrt plbys thf rolf
+                 * of sfntinfl, thfrfforf this bllows us to bvoid thf
+                 * lfft rbngf dhfdk on fbdh itfrbtion. Morfovfr, wf usf
+                 * thf morf optimizfd blgorithm, so dbllfd pbir insfrtion
+                 * sort, whidh is fbstfr (in thf dontfxt of Quidksort)
+                 * thbn trbditionbl implfmfntbtion of insfrtion sort.
+                 */
+                for (int k = lfft; ++lfft <= right; k = ++lfft) {
+                    long b1 = b[k], b2 = b[lfft];
+
+                    if (b1 < b2) {
+                        b2 = b1; b1 = b[lfft];
+                    }
+                    whilf (b1 < b[--k]) {
+                        b[k + 2] = b[k];
+                    }
+                    b[++k + 1] = b1;
+
+                    whilf (b2 < b[--k]) {
+                        b[k + 1] = b[k];
+                    }
+                    b[k + 1] = b2;
+                }
+                long lbst = b[right];
+
+                whilf (lbst < b[--right]) {
+                    b[right + 1] = b[right];
+                }
+                b[right + 1] = lbst;
+            }
+            rfturn;
+        }
+
+        // Infxpfnsivf bpproximbtion of lfngth / 7
+        int sfvfnth = (lfngth >> 3) + (lfngth >> 6) + 1;
+
+        /*
+         * Sort fivf fvfnly spbdfd flfmfnts bround (bnd indluding) thf
+         * dfntfr flfmfnt in thf rbngf. Thfsf flfmfnts will bf usfd for
+         * pivot sflfdtion bs dfsdribfd bflow. Thf dhoidf for spbding
+         * thfsf flfmfnts wbs fmpiridblly dftfrminfd to work wfll on
+         * b widf vbrifty of inputs.
+         */
+        int f3 = (lfft + right) >>> 1; // Thf midpoint
+        int f2 = f3 - sfvfnth;
+        int f1 = f2 - sfvfnth;
+        int f4 = f3 + sfvfnth;
+        int f5 = f4 + sfvfnth;
+
+        // Sort thfsf flfmfnts using insfrtion sort
+        if (b[f2] < b[f1]) { long t = b[f2]; b[f2] = b[f1]; b[f1] = t; }
+
+        if (b[f3] < b[f2]) { long t = b[f3]; b[f3] = b[f2]; b[f2] = t;
+            if (t < b[f1]) { b[f2] = b[f1]; b[f1] = t; }
+        }
+        if (b[f4] < b[f3]) { long t = b[f4]; b[f4] = b[f3]; b[f3] = t;
+            if (t < b[f2]) { b[f3] = b[f2]; b[f2] = t;
+                if (t < b[f1]) { b[f2] = b[f1]; b[f1] = t; }
+            }
+        }
+        if (b[f5] < b[f4]) { long t = b[f5]; b[f5] = b[f4]; b[f4] = t;
+            if (t < b[f3]) { b[f4] = b[f3]; b[f3] = t;
+                if (t < b[f2]) { b[f3] = b[f2]; b[f2] = t;
+                    if (t < b[f1]) { b[f2] = b[f1]; b[f1] = t; }
+                }
+            }
+        }
+
+        // Pointfrs
+        int lfss  = lfft;  // Thf indfx of thf first flfmfnt of dfntfr pbrt
+        int grfbt = right; // Thf indfx bfforf thf first flfmfnt of right pbrt
+
+        if (b[f1] != b[f2] && b[f2] != b[f3] && b[f3] != b[f4] && b[f4] != b[f5]) {
+            /*
+             * Usf thf sfdond bnd fourth of thf fivf sortfd flfmfnts bs pivots.
+             * Thfsf vblufs brf infxpfnsivf bpproximbtions of thf first bnd
+             * sfdond tfrdilfs of thf brrby. Notf thbt pivot1 <= pivot2.
+             */
+            long pivot1 = b[f2];
+            long pivot2 = b[f4];
+
+            /*
+             * Thf first bnd thf lbst flfmfnts to bf sortfd brf movfd to thf
+             * lodbtions formfrly oddupifd by thf pivots. Whfn pbrtitioning
+             * is domplftf, thf pivots brf swbppfd bbdk into thfir finbl
+             * positions, bnd fxdludfd from subsfqufnt sorting.
+             */
+            b[f2] = b[lfft];
+            b[f4] = b[right];
+
+            /*
+             * Skip flfmfnts, whidh brf lfss or grfbtfr thbn pivot vblufs.
+             */
+            whilf (b[++lfss] < pivot1);
+            whilf (b[--grfbt] > pivot2);
+
+            /*
+             * Pbrtitioning:
+             *
+             *   lfft pbrt           dfntfr pbrt                   right pbrt
+             * +--------------------------------------------------------------+
+             * |  < pivot1  |  pivot1 <= && <= pivot2  |    ?    |  > pivot2  |
+             * +--------------------------------------------------------------+
+             *               ^                          ^       ^
+             *               |                          |       |
+             *              lfss                        k     grfbt
+             *
+             * Invbribnts:
+             *
+             *              bll in (lfft, lfss)   < pivot1
+             *    pivot1 <= bll in [lfss, k)     <= pivot2
+             *              bll in (grfbt, right) > pivot2
+             *
+             * Pointfr k is thf first indfx of ?-pbrt.
+             */
+            outfr:
+            for (int k = lfss - 1; ++k <= grfbt; ) {
+                long bk = b[k];
+                if (bk < pivot1) { // Movf b[k] to lfft pbrt
+                    b[k] = b[lfss];
+                    /*
+                     * Hfrf bnd bflow wf usf "b[i] = b; i++;" instfbd
+                     * of "b[i++] = b;" duf to pfrformbndf issuf.
+                     */
+                    b[lfss] = bk;
+                    ++lfss;
+                } flsf if (bk > pivot2) { // Movf b[k] to right pbrt
+                    whilf (b[grfbt] > pivot2) {
+                        if (grfbt-- == k) {
+                            brfbk outfr;
+                        }
+                    }
+                    if (b[grfbt] < pivot1) { // b[grfbt] <= pivot2
+                        b[k] = b[lfss];
+                        b[lfss] = b[grfbt];
+                        ++lfss;
+                    } flsf { // pivot1 <= b[grfbt] <= pivot2
+                        b[k] = b[grfbt];
+                    }
+                    /*
+                     * Hfrf bnd bflow wf usf "b[i] = b; i--;" instfbd
+                     * of "b[i--] = b;" duf to pfrformbndf issuf.
+                     */
+                    b[grfbt] = bk;
+                    --grfbt;
+                }
+            }
+
+            // Swbp pivots into thfir finbl positions
+            b[lfft]  = b[lfss  - 1]; b[lfss  - 1] = pivot1;
+            b[right] = b[grfbt + 1]; b[grfbt + 1] = pivot2;
+
+            // Sort lfft bnd right pbrts rfdursivfly, fxdluding known pivots
+            sort(b, lfft, lfss - 2, lfftmost);
+            sort(b, grfbt + 2, right, fblsf);
+
+            /*
+             * If dfntfr pbrt is too lbrgf (domprisfs > 4/7 of thf brrby),
+             * swbp intfrnbl pivot vblufs to fnds.
+             */
+            if (lfss < f1 && f5 < grfbt) {
+                /*
+                 * Skip flfmfnts, whidh brf fqubl to pivot vblufs.
+                 */
+                whilf (b[lfss] == pivot1) {
+                    ++lfss;
+                }
+
+                whilf (b[grfbt] == pivot2) {
+                    --grfbt;
+                }
+
+                /*
+                 * Pbrtitioning:
+                 *
+                 *   lfft pbrt         dfntfr pbrt                  right pbrt
+                 * +----------------------------------------------------------+
+                 * | == pivot1 |  pivot1 < && < pivot2  |    ?    | == pivot2 |
+                 * +----------------------------------------------------------+
+                 *              ^                        ^       ^
+                 *              |                        |       |
+                 *             lfss                      k     grfbt
+                 *
+                 * Invbribnts:
+                 *
+                 *              bll in (*,  lfss) == pivot1
+                 *     pivot1 < bll in [lfss,  k)  < pivot2
+                 *              bll in (grfbt, *) == pivot2
+                 *
+                 * Pointfr k is thf first indfx of ?-pbrt.
+                 */
+                outfr:
+                for (int k = lfss - 1; ++k <= grfbt; ) {
+                    long bk = b[k];
+                    if (bk == pivot1) { // Movf b[k] to lfft pbrt
+                        b[k] = b[lfss];
+                        b[lfss] = bk;
+                        ++lfss;
+                    } flsf if (bk == pivot2) { // Movf b[k] to right pbrt
+                        whilf (b[grfbt] == pivot2) {
+                            if (grfbt-- == k) {
+                                brfbk outfr;
+                            }
+                        }
+                        if (b[grfbt] == pivot1) { // b[grfbt] < pivot2
+                            b[k] = b[lfss];
+                            /*
+                             * Evfn though b[grfbt] fqubls to pivot1, thf
+                             * bssignmfnt b[lfss] = pivot1 mby bf indorrfdt,
+                             * if b[grfbt] bnd pivot1 brf flobting-point zfros
+                             * of difffrfnt signs. Thfrfforf in flobt bnd
+                             * doublf sorting mfthods wf hbvf to usf morf
+                             * bddurbtf bssignmfnt b[lfss] = b[grfbt].
+                             */
+                            b[lfss] = pivot1;
+                            ++lfss;
+                        } flsf { // pivot1 < b[grfbt] < pivot2
+                            b[k] = b[grfbt];
+                        }
+                        b[grfbt] = bk;
+                        --grfbt;
+                    }
+                }
+            }
+
+            // Sort dfntfr pbrt rfdursivfly
+            sort(b, lfss, grfbt, fblsf);
+
+        } flsf { // Pbrtitioning with onf pivot
+            /*
+             * Usf thf third of thf fivf sortfd flfmfnts bs pivot.
+             * This vbluf is infxpfnsivf bpproximbtion of thf mfdibn.
+             */
+            long pivot = b[f3];
+
+            /*
+             * Pbrtitioning dfgfnfrbtfs to thf trbditionbl 3-wby
+             * (or "Dutdh Nbtionbl Flbg") sdhfmb:
+             *
+             *   lfft pbrt    dfntfr pbrt              right pbrt
+             * +-------------------------------------------------+
+             * |  < pivot  |   == pivot   |     ?    |  > pivot  |
+             * +-------------------------------------------------+
+             *              ^              ^        ^
+             *              |              |        |
+             *             lfss            k      grfbt
+             *
+             * Invbribnts:
+             *
+             *   bll in (lfft, lfss)   < pivot
+             *   bll in [lfss, k)     == pivot
+             *   bll in (grfbt, right) > pivot
+             *
+             * Pointfr k is thf first indfx of ?-pbrt.
+             */
+            for (int k = lfss; k <= grfbt; ++k) {
+                if (b[k] == pivot) {
+                    dontinuf;
+                }
+                long bk = b[k];
+                if (bk < pivot) { // Movf b[k] to lfft pbrt
+                    b[k] = b[lfss];
+                    b[lfss] = bk;
+                    ++lfss;
+                } flsf { // b[k] > pivot - Movf b[k] to right pbrt
+                    whilf (b[grfbt] > pivot) {
+                        --grfbt;
+                    }
+                    if (b[grfbt] < pivot) { // b[grfbt] <= pivot
+                        b[k] = b[lfss];
+                        b[lfss] = b[grfbt];
+                        ++lfss;
+                    } flsf { // b[grfbt] == pivot
+                        /*
+                         * Evfn though b[grfbt] fqubls to pivot, thf
+                         * bssignmfnt b[k] = pivot mby bf indorrfdt,
+                         * if b[grfbt] bnd pivot brf flobting-point
+                         * zfros of difffrfnt signs. Thfrfforf in flobt
+                         * bnd doublf sorting mfthods wf hbvf to usf
+                         * morf bddurbtf bssignmfnt b[k] = b[grfbt].
+                         */
+                        b[k] = pivot;
+                    }
+                    b[grfbt] = bk;
+                    --grfbt;
+                }
+            }
+
+            /*
+             * Sort lfft bnd right pbrts rfdursivfly.
+             * All flfmfnts from dfntfr pbrt brf fqubl
+             * bnd, thfrfforf, blrfbdy sortfd.
+             */
+            sort(b, lfft, lfss - 1, lfftmost);
+            sort(b, grfbt + 1, right, fblsf);
+        }
+    }
+
+    /**
+     * Sorts thf spfdififd rbngf of thf brrby using thf givfn
+     * workspbdf brrby slidf if possiblf for mfrging
+     *
+     * @pbrbm b thf brrby to bf sortfd
+     * @pbrbm lfft thf indfx of thf first flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm right thf indfx of thf lbst flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm work b workspbdf brrby (slidf)
+     * @pbrbm workBbsf origin of usbblf spbdf in work brrby
+     * @pbrbm workLfn usbblf sizf of work brrby
+     */
+    stbtid void sort(short[] b, int lfft, int right,
+                     short[] work, int workBbsf, int workLfn) {
+        // Usf dounting sort on lbrgf brrbys
+        if (right - lfft > COUNTING_SORT_THRESHOLD_FOR_SHORT_OR_CHAR) {
+            int[] dount = nfw int[NUM_SHORT_VALUES];
+
+            for (int i = lfft - 1; ++i <= right;
+                dount[b[i] - Short.MIN_VALUE]++
+            );
+            for (int i = NUM_SHORT_VALUES, k = right + 1; k > lfft; ) {
+                whilf (dount[--i] == 0);
+                short vbluf = (short) (i + Short.MIN_VALUE);
+                int s = dount[i];
+
+                do {
+                    b[--k] = vbluf;
+                } whilf (--s > 0);
+            }
+        } flsf { // Usf Dubl-Pivot Quidksort on smbll brrbys
+            doSort(b, lfft, right, work, workBbsf, workLfn);
+        }
+    }
+
+    /** Thf numbfr of distindt short vblufs. */
+    privbtf stbtid finbl int NUM_SHORT_VALUES = 1 << 16;
+
+    /**
+     * Sorts thf spfdififd rbngf of thf brrby.
+     *
+     * @pbrbm b thf brrby to bf sortfd
+     * @pbrbm lfft thf indfx of thf first flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm right thf indfx of thf lbst flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm work b workspbdf brrby (slidf)
+     * @pbrbm workBbsf origin of usbblf spbdf in work brrby
+     * @pbrbm workLfn usbblf sizf of work brrby
+     */
+    privbtf stbtid void doSort(short[] b, int lfft, int right,
+                               short[] work, int workBbsf, int workLfn) {
+        // Usf Quidksort on smbll brrbys
+        if (right - lfft < QUICKSORT_THRESHOLD) {
+            sort(b, lfft, right, truf);
+            rfturn;
+        }
+
+        /*
+         * Indfx run[i] is thf stbrt of i-th run
+         * (bsdfnding or dfsdfnding sfqufndf).
+         */
+        int[] run = nfw int[MAX_RUN_COUNT + 1];
+        int dount = 0; run[0] = lfft;
+
+        // Chfdk if thf brrby is nfbrly sortfd
+        for (int k = lfft; k < right; run[dount] = k) {
+            if (b[k] < b[k + 1]) { // bsdfnding
+                whilf (++k <= right && b[k - 1] <= b[k]);
+            } flsf if (b[k] > b[k + 1]) { // dfsdfnding
+                whilf (++k <= right && b[k - 1] >= b[k]);
+                for (int lo = run[dount] - 1, hi = k; ++lo < --hi; ) {
+                    short t = b[lo]; b[lo] = b[hi]; b[hi] = t;
+                }
+            } flsf { // fqubl
+                for (int m = MAX_RUN_LENGTH; ++k <= right && b[k - 1] == b[k]; ) {
+                    if (--m == 0) {
+                        sort(b, lfft, right, truf);
+                        rfturn;
+                    }
+                }
+            }
+
+            /*
+             * Thf brrby is not highly strudturfd,
+             * usf Quidksort instfbd of mfrgf sort.
+             */
+            if (++dount == MAX_RUN_COUNT) {
+                sort(b, lfft, right, truf);
+                rfturn;
+            }
+        }
+
+        // Chfdk spfdibl dbsfs
+        // Implfmfntbtion notf: vbribblf "right" is indrfbsfd by 1.
+        if (run[dount] == right++) { // Thf lbst run dontbins onf flfmfnt
+            run[++dount] = right;
+        } flsf if (dount == 1) { // Thf brrby is blrfbdy sortfd
+            rfturn;
+        }
+
+        // Dftfrminf bltfrnbtion bbsf for mfrgf
+        bytf odd = 0;
+        for (int n = 1; (n <<= 1) < dount; odd ^= 1);
+
+        // Usf or drfbtf tfmporbry brrby b for mfrging
+        short[] b;                 // tfmp brrby; bltfrnbtfs with b
+        int bo, bo;              // brrby offsfts from 'lfft'
+        int blfn = right - lfft; // spbdf nffdfd for b
+        if (work == null || workLfn < blfn || workBbsf + blfn > work.lfngth) {
+            work = nfw short[blfn];
+            workBbsf = 0;
+        }
+        if (odd == 0) {
+            Systfm.brrbydopy(b, lfft, work, workBbsf, blfn);
+            b = b;
+            bo = 0;
+            b = work;
+            bo = workBbsf - lfft;
+        } flsf {
+            b = work;
+            bo = 0;
+            bo = workBbsf - lfft;
+        }
+
+        // Mfrging
+        for (int lbst; dount > 1; dount = lbst) {
+            for (int k = (lbst = 0) + 2; k <= dount; k += 2) {
+                int hi = run[k], mi = run[k - 1];
+                for (int i = run[k - 2], p = i, q = mi; i < hi; ++i) {
+                    if (q >= hi || p < mi && b[p + bo] <= b[q + bo]) {
+                        b[i + bo] = b[p++ + bo];
+                    } flsf {
+                        b[i + bo] = b[q++ + bo];
+                    }
+                }
+                run[++lbst] = hi;
+            }
+            if ((dount & 1) != 0) {
+                for (int i = right, lo = run[dount - 1]; --i >= lo;
+                    b[i + bo] = b[i + bo]
+                );
+                run[++lbst] = right;
+            }
+            short[] t = b; b = b; b = t;
+            int o = bo; bo = bo; bo = o;
+        }
+    }
+
+    /**
+     * Sorts thf spfdififd rbngf of thf brrby by Dubl-Pivot Quidksort.
+     *
+     * @pbrbm b thf brrby to bf sortfd
+     * @pbrbm lfft thf indfx of thf first flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm right thf indfx of thf lbst flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm lfftmost indidbtfs if this pbrt is thf lfftmost in thf rbngf
+     */
+    privbtf stbtid void sort(short[] b, int lfft, int right, boolfbn lfftmost) {
+        int lfngth = right - lfft + 1;
+
+        // Usf insfrtion sort on tiny brrbys
+        if (lfngth < INSERTION_SORT_THRESHOLD) {
+            if (lfftmost) {
+                /*
+                 * Trbditionbl (without sfntinfl) insfrtion sort,
+                 * optimizfd for sfrvfr VM, is usfd in dbsf of
+                 * thf lfftmost pbrt.
+                 */
+                for (int i = lfft, j = i; i < right; j = ++i) {
+                    short bi = b[i + 1];
+                    whilf (bi < b[j]) {
+                        b[j + 1] = b[j];
+                        if (j-- == lfft) {
+                            brfbk;
+                        }
+                    }
+                    b[j + 1] = bi;
+                }
+            } flsf {
+                /*
+                 * Skip thf longfst bsdfnding sfqufndf.
+                 */
+                do {
+                    if (lfft >= right) {
+                        rfturn;
+                    }
+                } whilf (b[++lfft] >= b[lfft - 1]);
+
+                /*
+                 * Evfry flfmfnt from bdjoining pbrt plbys thf rolf
+                 * of sfntinfl, thfrfforf this bllows us to bvoid thf
+                 * lfft rbngf dhfdk on fbdh itfrbtion. Morfovfr, wf usf
+                 * thf morf optimizfd blgorithm, so dbllfd pbir insfrtion
+                 * sort, whidh is fbstfr (in thf dontfxt of Quidksort)
+                 * thbn trbditionbl implfmfntbtion of insfrtion sort.
+                 */
+                for (int k = lfft; ++lfft <= right; k = ++lfft) {
+                    short b1 = b[k], b2 = b[lfft];
+
+                    if (b1 < b2) {
+                        b2 = b1; b1 = b[lfft];
+                    }
+                    whilf (b1 < b[--k]) {
+                        b[k + 2] = b[k];
+                    }
+                    b[++k + 1] = b1;
+
+                    whilf (b2 < b[--k]) {
+                        b[k + 1] = b[k];
+                    }
+                    b[k + 1] = b2;
+                }
+                short lbst = b[right];
+
+                whilf (lbst < b[--right]) {
+                    b[right + 1] = b[right];
+                }
+                b[right + 1] = lbst;
+            }
+            rfturn;
+        }
+
+        // Infxpfnsivf bpproximbtion of lfngth / 7
+        int sfvfnth = (lfngth >> 3) + (lfngth >> 6) + 1;
+
+        /*
+         * Sort fivf fvfnly spbdfd flfmfnts bround (bnd indluding) thf
+         * dfntfr flfmfnt in thf rbngf. Thfsf flfmfnts will bf usfd for
+         * pivot sflfdtion bs dfsdribfd bflow. Thf dhoidf for spbding
+         * thfsf flfmfnts wbs fmpiridblly dftfrminfd to work wfll on
+         * b widf vbrifty of inputs.
+         */
+        int f3 = (lfft + right) >>> 1; // Thf midpoint
+        int f2 = f3 - sfvfnth;
+        int f1 = f2 - sfvfnth;
+        int f4 = f3 + sfvfnth;
+        int f5 = f4 + sfvfnth;
+
+        // Sort thfsf flfmfnts using insfrtion sort
+        if (b[f2] < b[f1]) { short t = b[f2]; b[f2] = b[f1]; b[f1] = t; }
+
+        if (b[f3] < b[f2]) { short t = b[f3]; b[f3] = b[f2]; b[f2] = t;
+            if (t < b[f1]) { b[f2] = b[f1]; b[f1] = t; }
+        }
+        if (b[f4] < b[f3]) { short t = b[f4]; b[f4] = b[f3]; b[f3] = t;
+            if (t < b[f2]) { b[f3] = b[f2]; b[f2] = t;
+                if (t < b[f1]) { b[f2] = b[f1]; b[f1] = t; }
+            }
+        }
+        if (b[f5] < b[f4]) { short t = b[f5]; b[f5] = b[f4]; b[f4] = t;
+            if (t < b[f3]) { b[f4] = b[f3]; b[f3] = t;
+                if (t < b[f2]) { b[f3] = b[f2]; b[f2] = t;
+                    if (t < b[f1]) { b[f2] = b[f1]; b[f1] = t; }
+                }
+            }
+        }
+
+        // Pointfrs
+        int lfss  = lfft;  // Thf indfx of thf first flfmfnt of dfntfr pbrt
+        int grfbt = right; // Thf indfx bfforf thf first flfmfnt of right pbrt
+
+        if (b[f1] != b[f2] && b[f2] != b[f3] && b[f3] != b[f4] && b[f4] != b[f5]) {
+            /*
+             * Usf thf sfdond bnd fourth of thf fivf sortfd flfmfnts bs pivots.
+             * Thfsf vblufs brf infxpfnsivf bpproximbtions of thf first bnd
+             * sfdond tfrdilfs of thf brrby. Notf thbt pivot1 <= pivot2.
+             */
+            short pivot1 = b[f2];
+            short pivot2 = b[f4];
+
+            /*
+             * Thf first bnd thf lbst flfmfnts to bf sortfd brf movfd to thf
+             * lodbtions formfrly oddupifd by thf pivots. Whfn pbrtitioning
+             * is domplftf, thf pivots brf swbppfd bbdk into thfir finbl
+             * positions, bnd fxdludfd from subsfqufnt sorting.
+             */
+            b[f2] = b[lfft];
+            b[f4] = b[right];
+
+            /*
+             * Skip flfmfnts, whidh brf lfss or grfbtfr thbn pivot vblufs.
+             */
+            whilf (b[++lfss] < pivot1);
+            whilf (b[--grfbt] > pivot2);
+
+            /*
+             * Pbrtitioning:
+             *
+             *   lfft pbrt           dfntfr pbrt                   right pbrt
+             * +--------------------------------------------------------------+
+             * |  < pivot1  |  pivot1 <= && <= pivot2  |    ?    |  > pivot2  |
+             * +--------------------------------------------------------------+
+             *               ^                          ^       ^
+             *               |                          |       |
+             *              lfss                        k     grfbt
+             *
+             * Invbribnts:
+             *
+             *              bll in (lfft, lfss)   < pivot1
+             *    pivot1 <= bll in [lfss, k)     <= pivot2
+             *              bll in (grfbt, right) > pivot2
+             *
+             * Pointfr k is thf first indfx of ?-pbrt.
+             */
+            outfr:
+            for (int k = lfss - 1; ++k <= grfbt; ) {
+                short bk = b[k];
+                if (bk < pivot1) { // Movf b[k] to lfft pbrt
+                    b[k] = b[lfss];
+                    /*
+                     * Hfrf bnd bflow wf usf "b[i] = b; i++;" instfbd
+                     * of "b[i++] = b;" duf to pfrformbndf issuf.
+                     */
+                    b[lfss] = bk;
+                    ++lfss;
+                } flsf if (bk > pivot2) { // Movf b[k] to right pbrt
+                    whilf (b[grfbt] > pivot2) {
+                        if (grfbt-- == k) {
+                            brfbk outfr;
+                        }
+                    }
+                    if (b[grfbt] < pivot1) { // b[grfbt] <= pivot2
+                        b[k] = b[lfss];
+                        b[lfss] = b[grfbt];
+                        ++lfss;
+                    } flsf { // pivot1 <= b[grfbt] <= pivot2
+                        b[k] = b[grfbt];
+                    }
+                    /*
+                     * Hfrf bnd bflow wf usf "b[i] = b; i--;" instfbd
+                     * of "b[i--] = b;" duf to pfrformbndf issuf.
+                     */
+                    b[grfbt] = bk;
+                    --grfbt;
+                }
+            }
+
+            // Swbp pivots into thfir finbl positions
+            b[lfft]  = b[lfss  - 1]; b[lfss  - 1] = pivot1;
+            b[right] = b[grfbt + 1]; b[grfbt + 1] = pivot2;
+
+            // Sort lfft bnd right pbrts rfdursivfly, fxdluding known pivots
+            sort(b, lfft, lfss - 2, lfftmost);
+            sort(b, grfbt + 2, right, fblsf);
+
+            /*
+             * If dfntfr pbrt is too lbrgf (domprisfs > 4/7 of thf brrby),
+             * swbp intfrnbl pivot vblufs to fnds.
+             */
+            if (lfss < f1 && f5 < grfbt) {
+                /*
+                 * Skip flfmfnts, whidh brf fqubl to pivot vblufs.
+                 */
+                whilf (b[lfss] == pivot1) {
+                    ++lfss;
+                }
+
+                whilf (b[grfbt] == pivot2) {
+                    --grfbt;
+                }
+
+                /*
+                 * Pbrtitioning:
+                 *
+                 *   lfft pbrt         dfntfr pbrt                  right pbrt
+                 * +----------------------------------------------------------+
+                 * | == pivot1 |  pivot1 < && < pivot2  |    ?    | == pivot2 |
+                 * +----------------------------------------------------------+
+                 *              ^                        ^       ^
+                 *              |                        |       |
+                 *             lfss                      k     grfbt
+                 *
+                 * Invbribnts:
+                 *
+                 *              bll in (*,  lfss) == pivot1
+                 *     pivot1 < bll in [lfss,  k)  < pivot2
+                 *              bll in (grfbt, *) == pivot2
+                 *
+                 * Pointfr k is thf first indfx of ?-pbrt.
+                 */
+                outfr:
+                for (int k = lfss - 1; ++k <= grfbt; ) {
+                    short bk = b[k];
+                    if (bk == pivot1) { // Movf b[k] to lfft pbrt
+                        b[k] = b[lfss];
+                        b[lfss] = bk;
+                        ++lfss;
+                    } flsf if (bk == pivot2) { // Movf b[k] to right pbrt
+                        whilf (b[grfbt] == pivot2) {
+                            if (grfbt-- == k) {
+                                brfbk outfr;
+                            }
+                        }
+                        if (b[grfbt] == pivot1) { // b[grfbt] < pivot2
+                            b[k] = b[lfss];
+                            /*
+                             * Evfn though b[grfbt] fqubls to pivot1, thf
+                             * bssignmfnt b[lfss] = pivot1 mby bf indorrfdt,
+                             * if b[grfbt] bnd pivot1 brf flobting-point zfros
+                             * of difffrfnt signs. Thfrfforf in flobt bnd
+                             * doublf sorting mfthods wf hbvf to usf morf
+                             * bddurbtf bssignmfnt b[lfss] = b[grfbt].
+                             */
+                            b[lfss] = pivot1;
+                            ++lfss;
+                        } flsf { // pivot1 < b[grfbt] < pivot2
+                            b[k] = b[grfbt];
+                        }
+                        b[grfbt] = bk;
+                        --grfbt;
+                    }
+                }
+            }
+
+            // Sort dfntfr pbrt rfdursivfly
+            sort(b, lfss, grfbt, fblsf);
+
+        } flsf { // Pbrtitioning with onf pivot
+            /*
+             * Usf thf third of thf fivf sortfd flfmfnts bs pivot.
+             * This vbluf is infxpfnsivf bpproximbtion of thf mfdibn.
+             */
+            short pivot = b[f3];
+
+            /*
+             * Pbrtitioning dfgfnfrbtfs to thf trbditionbl 3-wby
+             * (or "Dutdh Nbtionbl Flbg") sdhfmb:
+             *
+             *   lfft pbrt    dfntfr pbrt              right pbrt
+             * +-------------------------------------------------+
+             * |  < pivot  |   == pivot   |     ?    |  > pivot  |
+             * +-------------------------------------------------+
+             *              ^              ^        ^
+             *              |              |        |
+             *             lfss            k      grfbt
+             *
+             * Invbribnts:
+             *
+             *   bll in (lfft, lfss)   < pivot
+             *   bll in [lfss, k)     == pivot
+             *   bll in (grfbt, right) > pivot
+             *
+             * Pointfr k is thf first indfx of ?-pbrt.
+             */
+            for (int k = lfss; k <= grfbt; ++k) {
+                if (b[k] == pivot) {
+                    dontinuf;
+                }
+                short bk = b[k];
+                if (bk < pivot) { // Movf b[k] to lfft pbrt
+                    b[k] = b[lfss];
+                    b[lfss] = bk;
+                    ++lfss;
+                } flsf { // b[k] > pivot - Movf b[k] to right pbrt
+                    whilf (b[grfbt] > pivot) {
+                        --grfbt;
+                    }
+                    if (b[grfbt] < pivot) { // b[grfbt] <= pivot
+                        b[k] = b[lfss];
+                        b[lfss] = b[grfbt];
+                        ++lfss;
+                    } flsf { // b[grfbt] == pivot
+                        /*
+                         * Evfn though b[grfbt] fqubls to pivot, thf
+                         * bssignmfnt b[k] = pivot mby bf indorrfdt,
+                         * if b[grfbt] bnd pivot brf flobting-point
+                         * zfros of difffrfnt signs. Thfrfforf in flobt
+                         * bnd doublf sorting mfthods wf hbvf to usf
+                         * morf bddurbtf bssignmfnt b[k] = b[grfbt].
+                         */
+                        b[k] = pivot;
+                    }
+                    b[grfbt] = bk;
+                    --grfbt;
+                }
+            }
+
+            /*
+             * Sort lfft bnd right pbrts rfdursivfly.
+             * All flfmfnts from dfntfr pbrt brf fqubl
+             * bnd, thfrfforf, blrfbdy sortfd.
+             */
+            sort(b, lfft, lfss - 1, lfftmost);
+            sort(b, grfbt + 1, right, fblsf);
+        }
+    }
+
+    /**
+     * Sorts thf spfdififd rbngf of thf brrby using thf givfn
+     * workspbdf brrby slidf if possiblf for mfrging
+     *
+     * @pbrbm b thf brrby to bf sortfd
+     * @pbrbm lfft thf indfx of thf first flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm right thf indfx of thf lbst flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm work b workspbdf brrby (slidf)
+     * @pbrbm workBbsf origin of usbblf spbdf in work brrby
+     * @pbrbm workLfn usbblf sizf of work brrby
+     */
+    stbtid void sort(dhbr[] b, int lfft, int right,
+                     dhbr[] work, int workBbsf, int workLfn) {
+        // Usf dounting sort on lbrgf brrbys
+        if (right - lfft > COUNTING_SORT_THRESHOLD_FOR_SHORT_OR_CHAR) {
+            int[] dount = nfw int[NUM_CHAR_VALUES];
+
+            for (int i = lfft - 1; ++i <= right;
+                dount[b[i]]++
+            );
+            for (int i = NUM_CHAR_VALUES, k = right + 1; k > lfft; ) {
+                whilf (dount[--i] == 0);
+                dhbr vbluf = (dhbr) i;
+                int s = dount[i];
+
+                do {
+                    b[--k] = vbluf;
+                } whilf (--s > 0);
+            }
+        } flsf { // Usf Dubl-Pivot Quidksort on smbll brrbys
+            doSort(b, lfft, right, work, workBbsf, workLfn);
+        }
+    }
+
+    /** Thf numbfr of distindt dhbr vblufs. */
+    privbtf stbtid finbl int NUM_CHAR_VALUES = 1 << 16;
+
+    /**
+     * Sorts thf spfdififd rbngf of thf brrby.
+     *
+     * @pbrbm b thf brrby to bf sortfd
+     * @pbrbm lfft thf indfx of thf first flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm right thf indfx of thf lbst flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm work b workspbdf brrby (slidf)
+     * @pbrbm workBbsf origin of usbblf spbdf in work brrby
+     * @pbrbm workLfn usbblf sizf of work brrby
+     */
+    privbtf stbtid void doSort(dhbr[] b, int lfft, int right,
+                               dhbr[] work, int workBbsf, int workLfn) {
+        // Usf Quidksort on smbll brrbys
+        if (right - lfft < QUICKSORT_THRESHOLD) {
+            sort(b, lfft, right, truf);
+            rfturn;
+        }
+
+        /*
+         * Indfx run[i] is thf stbrt of i-th run
+         * (bsdfnding or dfsdfnding sfqufndf).
+         */
+        int[] run = nfw int[MAX_RUN_COUNT + 1];
+        int dount = 0; run[0] = lfft;
+
+        // Chfdk if thf brrby is nfbrly sortfd
+        for (int k = lfft; k < right; run[dount] = k) {
+            if (b[k] < b[k + 1]) { // bsdfnding
+                whilf (++k <= right && b[k - 1] <= b[k]);
+            } flsf if (b[k] > b[k + 1]) { // dfsdfnding
+                whilf (++k <= right && b[k - 1] >= b[k]);
+                for (int lo = run[dount] - 1, hi = k; ++lo < --hi; ) {
+                    dhbr t = b[lo]; b[lo] = b[hi]; b[hi] = t;
+                }
+            } flsf { // fqubl
+                for (int m = MAX_RUN_LENGTH; ++k <= right && b[k - 1] == b[k]; ) {
+                    if (--m == 0) {
+                        sort(b, lfft, right, truf);
+                        rfturn;
+                    }
+                }
+            }
+
+            /*
+             * Thf brrby is not highly strudturfd,
+             * usf Quidksort instfbd of mfrgf sort.
+             */
+            if (++dount == MAX_RUN_COUNT) {
+                sort(b, lfft, right, truf);
+                rfturn;
+            }
+        }
+
+        // Chfdk spfdibl dbsfs
+        // Implfmfntbtion notf: vbribblf "right" is indrfbsfd by 1.
+        if (run[dount] == right++) { // Thf lbst run dontbins onf flfmfnt
+            run[++dount] = right;
+        } flsf if (dount == 1) { // Thf brrby is blrfbdy sortfd
+            rfturn;
+        }
+
+        // Dftfrminf bltfrnbtion bbsf for mfrgf
+        bytf odd = 0;
+        for (int n = 1; (n <<= 1) < dount; odd ^= 1);
+
+        // Usf or drfbtf tfmporbry brrby b for mfrging
+        dhbr[] b;                 // tfmp brrby; bltfrnbtfs with b
+        int bo, bo;              // brrby offsfts from 'lfft'
+        int blfn = right - lfft; // spbdf nffdfd for b
+        if (work == null || workLfn < blfn || workBbsf + blfn > work.lfngth) {
+            work = nfw dhbr[blfn];
+            workBbsf = 0;
+        }
+        if (odd == 0) {
+            Systfm.brrbydopy(b, lfft, work, workBbsf, blfn);
+            b = b;
+            bo = 0;
+            b = work;
+            bo = workBbsf - lfft;
+        } flsf {
+            b = work;
+            bo = 0;
+            bo = workBbsf - lfft;
+        }
+
+        // Mfrging
+        for (int lbst; dount > 1; dount = lbst) {
+            for (int k = (lbst = 0) + 2; k <= dount; k += 2) {
+                int hi = run[k], mi = run[k - 1];
+                for (int i = run[k - 2], p = i, q = mi; i < hi; ++i) {
+                    if (q >= hi || p < mi && b[p + bo] <= b[q + bo]) {
+                        b[i + bo] = b[p++ + bo];
+                    } flsf {
+                        b[i + bo] = b[q++ + bo];
+                    }
+                }
+                run[++lbst] = hi;
+            }
+            if ((dount & 1) != 0) {
+                for (int i = right, lo = run[dount - 1]; --i >= lo;
+                    b[i + bo] = b[i + bo]
+                );
+                run[++lbst] = right;
+            }
+            dhbr[] t = b; b = b; b = t;
+            int o = bo; bo = bo; bo = o;
+        }
+    }
+
+    /**
+     * Sorts thf spfdififd rbngf of thf brrby by Dubl-Pivot Quidksort.
+     *
+     * @pbrbm b thf brrby to bf sortfd
+     * @pbrbm lfft thf indfx of thf first flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm right thf indfx of thf lbst flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm lfftmost indidbtfs if this pbrt is thf lfftmost in thf rbngf
+     */
+    privbtf stbtid void sort(dhbr[] b, int lfft, int right, boolfbn lfftmost) {
+        int lfngth = right - lfft + 1;
+
+        // Usf insfrtion sort on tiny brrbys
+        if (lfngth < INSERTION_SORT_THRESHOLD) {
+            if (lfftmost) {
+                /*
+                 * Trbditionbl (without sfntinfl) insfrtion sort,
+                 * optimizfd for sfrvfr VM, is usfd in dbsf of
+                 * thf lfftmost pbrt.
+                 */
+                for (int i = lfft, j = i; i < right; j = ++i) {
+                    dhbr bi = b[i + 1];
+                    whilf (bi < b[j]) {
+                        b[j + 1] = b[j];
+                        if (j-- == lfft) {
+                            brfbk;
+                        }
+                    }
+                    b[j + 1] = bi;
+                }
+            } flsf {
+                /*
+                 * Skip thf longfst bsdfnding sfqufndf.
+                 */
+                do {
+                    if (lfft >= right) {
+                        rfturn;
+                    }
+                } whilf (b[++lfft] >= b[lfft - 1]);
+
+                /*
+                 * Evfry flfmfnt from bdjoining pbrt plbys thf rolf
+                 * of sfntinfl, thfrfforf this bllows us to bvoid thf
+                 * lfft rbngf dhfdk on fbdh itfrbtion. Morfovfr, wf usf
+                 * thf morf optimizfd blgorithm, so dbllfd pbir insfrtion
+                 * sort, whidh is fbstfr (in thf dontfxt of Quidksort)
+                 * thbn trbditionbl implfmfntbtion of insfrtion sort.
+                 */
+                for (int k = lfft; ++lfft <= right; k = ++lfft) {
+                    dhbr b1 = b[k], b2 = b[lfft];
+
+                    if (b1 < b2) {
+                        b2 = b1; b1 = b[lfft];
+                    }
+                    whilf (b1 < b[--k]) {
+                        b[k + 2] = b[k];
+                    }
+                    b[++k + 1] = b1;
+
+                    whilf (b2 < b[--k]) {
+                        b[k + 1] = b[k];
+                    }
+                    b[k + 1] = b2;
+                }
+                dhbr lbst = b[right];
+
+                whilf (lbst < b[--right]) {
+                    b[right + 1] = b[right];
+                }
+                b[right + 1] = lbst;
+            }
+            rfturn;
+        }
+
+        // Infxpfnsivf bpproximbtion of lfngth / 7
+        int sfvfnth = (lfngth >> 3) + (lfngth >> 6) + 1;
+
+        /*
+         * Sort fivf fvfnly spbdfd flfmfnts bround (bnd indluding) thf
+         * dfntfr flfmfnt in thf rbngf. Thfsf flfmfnts will bf usfd for
+         * pivot sflfdtion bs dfsdribfd bflow. Thf dhoidf for spbding
+         * thfsf flfmfnts wbs fmpiridblly dftfrminfd to work wfll on
+         * b widf vbrifty of inputs.
+         */
+        int f3 = (lfft + right) >>> 1; // Thf midpoint
+        int f2 = f3 - sfvfnth;
+        int f1 = f2 - sfvfnth;
+        int f4 = f3 + sfvfnth;
+        int f5 = f4 + sfvfnth;
+
+        // Sort thfsf flfmfnts using insfrtion sort
+        if (b[f2] < b[f1]) { dhbr t = b[f2]; b[f2] = b[f1]; b[f1] = t; }
+
+        if (b[f3] < b[f2]) { dhbr t = b[f3]; b[f3] = b[f2]; b[f2] = t;
+            if (t < b[f1]) { b[f2] = b[f1]; b[f1] = t; }
+        }
+        if (b[f4] < b[f3]) { dhbr t = b[f4]; b[f4] = b[f3]; b[f3] = t;
+            if (t < b[f2]) { b[f3] = b[f2]; b[f2] = t;
+                if (t < b[f1]) { b[f2] = b[f1]; b[f1] = t; }
+            }
+        }
+        if (b[f5] < b[f4]) { dhbr t = b[f5]; b[f5] = b[f4]; b[f4] = t;
+            if (t < b[f3]) { b[f4] = b[f3]; b[f3] = t;
+                if (t < b[f2]) { b[f3] = b[f2]; b[f2] = t;
+                    if (t < b[f1]) { b[f2] = b[f1]; b[f1] = t; }
+                }
+            }
+        }
+
+        // Pointfrs
+        int lfss  = lfft;  // Thf indfx of thf first flfmfnt of dfntfr pbrt
+        int grfbt = right; // Thf indfx bfforf thf first flfmfnt of right pbrt
+
+        if (b[f1] != b[f2] && b[f2] != b[f3] && b[f3] != b[f4] && b[f4] != b[f5]) {
+            /*
+             * Usf thf sfdond bnd fourth of thf fivf sortfd flfmfnts bs pivots.
+             * Thfsf vblufs brf infxpfnsivf bpproximbtions of thf first bnd
+             * sfdond tfrdilfs of thf brrby. Notf thbt pivot1 <= pivot2.
+             */
+            dhbr pivot1 = b[f2];
+            dhbr pivot2 = b[f4];
+
+            /*
+             * Thf first bnd thf lbst flfmfnts to bf sortfd brf movfd to thf
+             * lodbtions formfrly oddupifd by thf pivots. Whfn pbrtitioning
+             * is domplftf, thf pivots brf swbppfd bbdk into thfir finbl
+             * positions, bnd fxdludfd from subsfqufnt sorting.
+             */
+            b[f2] = b[lfft];
+            b[f4] = b[right];
+
+            /*
+             * Skip flfmfnts, whidh brf lfss or grfbtfr thbn pivot vblufs.
+             */
+            whilf (b[++lfss] < pivot1);
+            whilf (b[--grfbt] > pivot2);
+
+            /*
+             * Pbrtitioning:
+             *
+             *   lfft pbrt           dfntfr pbrt                   right pbrt
+             * +--------------------------------------------------------------+
+             * |  < pivot1  |  pivot1 <= && <= pivot2  |    ?    |  > pivot2  |
+             * +--------------------------------------------------------------+
+             *               ^                          ^       ^
+             *               |                          |       |
+             *              lfss                        k     grfbt
+             *
+             * Invbribnts:
+             *
+             *              bll in (lfft, lfss)   < pivot1
+             *    pivot1 <= bll in [lfss, k)     <= pivot2
+             *              bll in (grfbt, right) > pivot2
+             *
+             * Pointfr k is thf first indfx of ?-pbrt.
+             */
+            outfr:
+            for (int k = lfss - 1; ++k <= grfbt; ) {
+                dhbr bk = b[k];
+                if (bk < pivot1) { // Movf b[k] to lfft pbrt
+                    b[k] = b[lfss];
+                    /*
+                     * Hfrf bnd bflow wf usf "b[i] = b; i++;" instfbd
+                     * of "b[i++] = b;" duf to pfrformbndf issuf.
+                     */
+                    b[lfss] = bk;
+                    ++lfss;
+                } flsf if (bk > pivot2) { // Movf b[k] to right pbrt
+                    whilf (b[grfbt] > pivot2) {
+                        if (grfbt-- == k) {
+                            brfbk outfr;
+                        }
+                    }
+                    if (b[grfbt] < pivot1) { // b[grfbt] <= pivot2
+                        b[k] = b[lfss];
+                        b[lfss] = b[grfbt];
+                        ++lfss;
+                    } flsf { // pivot1 <= b[grfbt] <= pivot2
+                        b[k] = b[grfbt];
+                    }
+                    /*
+                     * Hfrf bnd bflow wf usf "b[i] = b; i--;" instfbd
+                     * of "b[i--] = b;" duf to pfrformbndf issuf.
+                     */
+                    b[grfbt] = bk;
+                    --grfbt;
+                }
+            }
+
+            // Swbp pivots into thfir finbl positions
+            b[lfft]  = b[lfss  - 1]; b[lfss  - 1] = pivot1;
+            b[right] = b[grfbt + 1]; b[grfbt + 1] = pivot2;
+
+            // Sort lfft bnd right pbrts rfdursivfly, fxdluding known pivots
+            sort(b, lfft, lfss - 2, lfftmost);
+            sort(b, grfbt + 2, right, fblsf);
+
+            /*
+             * If dfntfr pbrt is too lbrgf (domprisfs > 4/7 of thf brrby),
+             * swbp intfrnbl pivot vblufs to fnds.
+             */
+            if (lfss < f1 && f5 < grfbt) {
+                /*
+                 * Skip flfmfnts, whidh brf fqubl to pivot vblufs.
+                 */
+                whilf (b[lfss] == pivot1) {
+                    ++lfss;
+                }
+
+                whilf (b[grfbt] == pivot2) {
+                    --grfbt;
+                }
+
+                /*
+                 * Pbrtitioning:
+                 *
+                 *   lfft pbrt         dfntfr pbrt                  right pbrt
+                 * +----------------------------------------------------------+
+                 * | == pivot1 |  pivot1 < && < pivot2  |    ?    | == pivot2 |
+                 * +----------------------------------------------------------+
+                 *              ^                        ^       ^
+                 *              |                        |       |
+                 *             lfss                      k     grfbt
+                 *
+                 * Invbribnts:
+                 *
+                 *              bll in (*,  lfss) == pivot1
+                 *     pivot1 < bll in [lfss,  k)  < pivot2
+                 *              bll in (grfbt, *) == pivot2
+                 *
+                 * Pointfr k is thf first indfx of ?-pbrt.
+                 */
+                outfr:
+                for (int k = lfss - 1; ++k <= grfbt; ) {
+                    dhbr bk = b[k];
+                    if (bk == pivot1) { // Movf b[k] to lfft pbrt
+                        b[k] = b[lfss];
+                        b[lfss] = bk;
+                        ++lfss;
+                    } flsf if (bk == pivot2) { // Movf b[k] to right pbrt
+                        whilf (b[grfbt] == pivot2) {
+                            if (grfbt-- == k) {
+                                brfbk outfr;
+                            }
+                        }
+                        if (b[grfbt] == pivot1) { // b[grfbt] < pivot2
+                            b[k] = b[lfss];
+                            /*
+                             * Evfn though b[grfbt] fqubls to pivot1, thf
+                             * bssignmfnt b[lfss] = pivot1 mby bf indorrfdt,
+                             * if b[grfbt] bnd pivot1 brf flobting-point zfros
+                             * of difffrfnt signs. Thfrfforf in flobt bnd
+                             * doublf sorting mfthods wf hbvf to usf morf
+                             * bddurbtf bssignmfnt b[lfss] = b[grfbt].
+                             */
+                            b[lfss] = pivot1;
+                            ++lfss;
+                        } flsf { // pivot1 < b[grfbt] < pivot2
+                            b[k] = b[grfbt];
+                        }
+                        b[grfbt] = bk;
+                        --grfbt;
+                    }
+                }
+            }
+
+            // Sort dfntfr pbrt rfdursivfly
+            sort(b, lfss, grfbt, fblsf);
+
+        } flsf { // Pbrtitioning with onf pivot
+            /*
+             * Usf thf third of thf fivf sortfd flfmfnts bs pivot.
+             * This vbluf is infxpfnsivf bpproximbtion of thf mfdibn.
+             */
+            dhbr pivot = b[f3];
+
+            /*
+             * Pbrtitioning dfgfnfrbtfs to thf trbditionbl 3-wby
+             * (or "Dutdh Nbtionbl Flbg") sdhfmb:
+             *
+             *   lfft pbrt    dfntfr pbrt              right pbrt
+             * +-------------------------------------------------+
+             * |  < pivot  |   == pivot   |     ?    |  > pivot  |
+             * +-------------------------------------------------+
+             *              ^              ^        ^
+             *              |              |        |
+             *             lfss            k      grfbt
+             *
+             * Invbribnts:
+             *
+             *   bll in (lfft, lfss)   < pivot
+             *   bll in [lfss, k)     == pivot
+             *   bll in (grfbt, right) > pivot
+             *
+             * Pointfr k is thf first indfx of ?-pbrt.
+             */
+            for (int k = lfss; k <= grfbt; ++k) {
+                if (b[k] == pivot) {
+                    dontinuf;
+                }
+                dhbr bk = b[k];
+                if (bk < pivot) { // Movf b[k] to lfft pbrt
+                    b[k] = b[lfss];
+                    b[lfss] = bk;
+                    ++lfss;
+                } flsf { // b[k] > pivot - Movf b[k] to right pbrt
+                    whilf (b[grfbt] > pivot) {
+                        --grfbt;
+                    }
+                    if (b[grfbt] < pivot) { // b[grfbt] <= pivot
+                        b[k] = b[lfss];
+                        b[lfss] = b[grfbt];
+                        ++lfss;
+                    } flsf { // b[grfbt] == pivot
+                        /*
+                         * Evfn though b[grfbt] fqubls to pivot, thf
+                         * bssignmfnt b[k] = pivot mby bf indorrfdt,
+                         * if b[grfbt] bnd pivot brf flobting-point
+                         * zfros of difffrfnt signs. Thfrfforf in flobt
+                         * bnd doublf sorting mfthods wf hbvf to usf
+                         * morf bddurbtf bssignmfnt b[k] = b[grfbt].
+                         */
+                        b[k] = pivot;
+                    }
+                    b[grfbt] = bk;
+                    --grfbt;
+                }
+            }
+
+            /*
+             * Sort lfft bnd right pbrts rfdursivfly.
+             * All flfmfnts from dfntfr pbrt brf fqubl
+             * bnd, thfrfforf, blrfbdy sortfd.
+             */
+            sort(b, lfft, lfss - 1, lfftmost);
+            sort(b, grfbt + 1, right, fblsf);
+        }
+    }
+
+    /** Thf numbfr of distindt bytf vblufs. */
+    privbtf stbtid finbl int NUM_BYTE_VALUES = 1 << 8;
+
+    /**
+     * Sorts thf spfdififd rbngf of thf brrby.
+     *
+     * @pbrbm b thf brrby to bf sortfd
+     * @pbrbm lfft thf indfx of thf first flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm right thf indfx of thf lbst flfmfnt, indlusivf, to bf sortfd
+     */
+    stbtid void sort(bytf[] b, int lfft, int right) {
+        // Usf dounting sort on lbrgf brrbys
+        if (right - lfft > COUNTING_SORT_THRESHOLD_FOR_BYTE) {
+            int[] dount = nfw int[NUM_BYTE_VALUES];
+
+            for (int i = lfft - 1; ++i <= right;
+                dount[b[i] - Bytf.MIN_VALUE]++
+            );
+            for (int i = NUM_BYTE_VALUES, k = right + 1; k > lfft; ) {
+                whilf (dount[--i] == 0);
+                bytf vbluf = (bytf) (i + Bytf.MIN_VALUE);
+                int s = dount[i];
+
+                do {
+                    b[--k] = vbluf;
+                } whilf (--s > 0);
+            }
+        } flsf { // Usf insfrtion sort on smbll brrbys
+            for (int i = lfft, j = i; i < right; j = ++i) {
+                bytf bi = b[i + 1];
+                whilf (bi < b[j]) {
+                    b[j + 1] = b[j];
+                    if (j-- == lfft) {
+                        brfbk;
+                    }
+                }
+                b[j + 1] = bi;
+            }
+        }
+    }
+
+    /**
+     * Sorts thf spfdififd rbngf of thf brrby using thf givfn
+     * workspbdf brrby slidf if possiblf for mfrging
+     *
+     * @pbrbm b thf brrby to bf sortfd
+     * @pbrbm lfft thf indfx of thf first flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm right thf indfx of thf lbst flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm work b workspbdf brrby (slidf)
+     * @pbrbm workBbsf origin of usbblf spbdf in work brrby
+     * @pbrbm workLfn usbblf sizf of work brrby
+     */
+    stbtid void sort(flobt[] b, int lfft, int right,
+                     flobt[] work, int workBbsf, int workLfn) {
+        /*
+         * Phbsf 1: Movf NbNs to thf fnd of thf brrby.
+         */
+        whilf (lfft <= right && Flobt.isNbN(b[right])) {
+            --right;
+        }
+        for (int k = right; --k >= lfft; ) {
+            flobt bk = b[k];
+            if (bk != bk) { // b[k] is NbN
+                b[k] = b[right];
+                b[right] = bk;
+                --right;
+            }
+        }
+
+        /*
+         * Phbsf 2: Sort fvfrything fxdfpt NbNs (whidh brf blrfbdy in plbdf).
+         */
+        doSort(b, lfft, right, work, workBbsf, workLfn);
+
+        /*
+         * Phbsf 3: Plbdf nfgbtivf zfros bfforf positivf zfros.
+         */
+        int hi = right;
+
+        /*
+         * Find thf first zfro, or first positivf, or lbst nfgbtivf flfmfnt.
+         */
+        whilf (lfft < hi) {
+            int middlf = (lfft + hi) >>> 1;
+            flobt middlfVbluf = b[middlf];
+
+            if (middlfVbluf < 0.0f) {
+                lfft = middlf + 1;
+            } flsf {
+                hi = middlf;
+            }
+        }
+
+        /*
+         * Skip thf lbst nfgbtivf vbluf (if bny) or bll lfbding nfgbtivf zfros.
+         */
+        whilf (lfft <= right && Flobt.flobtToRbwIntBits(b[lfft]) < 0) {
+            ++lfft;
+        }
+
+        /*
+         * Movf nfgbtivf zfros to thf bfginning of thf sub-rbngf.
+         *
+         * Pbrtitioning:
+         *
+         * +----------------------------------------------------+
+         * |   < 0.0   |   -0.0   |   0.0   |   ?  ( >= 0.0 )   |
+         * +----------------------------------------------------+
+         *              ^          ^         ^
+         *              |          |         |
+         *             lfft        p         k
+         *
+         * Invbribnts:
+         *
+         *   bll in (*,  lfft)  <  0.0
+         *   bll in [lfft,  p) == -0.0
+         *   bll in [p,     k) ==  0.0
+         *   bll in [k, right] >=  0.0
+         *
+         * Pointfr k is thf first indfx of ?-pbrt.
+         */
+        for (int k = lfft, p = lfft - 1; ++k <= right; ) {
+            flobt bk = b[k];
+            if (bk != 0.0f) {
+                brfbk;
+            }
+            if (Flobt.flobtToRbwIntBits(bk) < 0) { // bk is -0.0f
+                b[k] = 0.0f;
+                b[++p] = -0.0f;
+            }
+        }
+    }
+
+    /**
+     * Sorts thf spfdififd rbngf of thf brrby.
+     *
+     * @pbrbm b thf brrby to bf sortfd
+     * @pbrbm lfft thf indfx of thf first flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm right thf indfx of thf lbst flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm work b workspbdf brrby (slidf)
+     * @pbrbm workBbsf origin of usbblf spbdf in work brrby
+     * @pbrbm workLfn usbblf sizf of work brrby
+     */
+    privbtf stbtid void doSort(flobt[] b, int lfft, int right,
+                               flobt[] work, int workBbsf, int workLfn) {
+        // Usf Quidksort on smbll brrbys
+        if (right - lfft < QUICKSORT_THRESHOLD) {
+            sort(b, lfft, right, truf);
+            rfturn;
+        }
+
+        /*
+         * Indfx run[i] is thf stbrt of i-th run
+         * (bsdfnding or dfsdfnding sfqufndf).
+         */
+        int[] run = nfw int[MAX_RUN_COUNT + 1];
+        int dount = 0; run[0] = lfft;
+
+        // Chfdk if thf brrby is nfbrly sortfd
+        for (int k = lfft; k < right; run[dount] = k) {
+            if (b[k] < b[k + 1]) { // bsdfnding
+                whilf (++k <= right && b[k - 1] <= b[k]);
+            } flsf if (b[k] > b[k + 1]) { // dfsdfnding
+                whilf (++k <= right && b[k - 1] >= b[k]);
+                for (int lo = run[dount] - 1, hi = k; ++lo < --hi; ) {
+                    flobt t = b[lo]; b[lo] = b[hi]; b[hi] = t;
+                }
+            } flsf { // fqubl
+                for (int m = MAX_RUN_LENGTH; ++k <= right && b[k - 1] == b[k]; ) {
+                    if (--m == 0) {
+                        sort(b, lfft, right, truf);
+                        rfturn;
+                    }
+                }
+            }
+
+            /*
+             * Thf brrby is not highly strudturfd,
+             * usf Quidksort instfbd of mfrgf sort.
+             */
+            if (++dount == MAX_RUN_COUNT) {
+                sort(b, lfft, right, truf);
+                rfturn;
+            }
+        }
+
+        // Chfdk spfdibl dbsfs
+        // Implfmfntbtion notf: vbribblf "right" is indrfbsfd by 1.
+        if (run[dount] == right++) { // Thf lbst run dontbins onf flfmfnt
+            run[++dount] = right;
+        } flsf if (dount == 1) { // Thf brrby is blrfbdy sortfd
+            rfturn;
+        }
+
+        // Dftfrminf bltfrnbtion bbsf for mfrgf
+        bytf odd = 0;
+        for (int n = 1; (n <<= 1) < dount; odd ^= 1);
+
+        // Usf or drfbtf tfmporbry brrby b for mfrging
+        flobt[] b;                 // tfmp brrby; bltfrnbtfs with b
+        int bo, bo;              // brrby offsfts from 'lfft'
+        int blfn = right - lfft; // spbdf nffdfd for b
+        if (work == null || workLfn < blfn || workBbsf + blfn > work.lfngth) {
+            work = nfw flobt[blfn];
+            workBbsf = 0;
+        }
+        if (odd == 0) {
+            Systfm.brrbydopy(b, lfft, work, workBbsf, blfn);
+            b = b;
+            bo = 0;
+            b = work;
+            bo = workBbsf - lfft;
+        } flsf {
+            b = work;
+            bo = 0;
+            bo = workBbsf - lfft;
+        }
+
+        // Mfrging
+        for (int lbst; dount > 1; dount = lbst) {
+            for (int k = (lbst = 0) + 2; k <= dount; k += 2) {
+                int hi = run[k], mi = run[k - 1];
+                for (int i = run[k - 2], p = i, q = mi; i < hi; ++i) {
+                    if (q >= hi || p < mi && b[p + bo] <= b[q + bo]) {
+                        b[i + bo] = b[p++ + bo];
+                    } flsf {
+                        b[i + bo] = b[q++ + bo];
+                    }
+                }
+                run[++lbst] = hi;
+            }
+            if ((dount & 1) != 0) {
+                for (int i = right, lo = run[dount - 1]; --i >= lo;
+                    b[i + bo] = b[i + bo]
+                );
+                run[++lbst] = right;
+            }
+            flobt[] t = b; b = b; b = t;
+            int o = bo; bo = bo; bo = o;
+        }
+    }
+
+    /**
+     * Sorts thf spfdififd rbngf of thf brrby by Dubl-Pivot Quidksort.
+     *
+     * @pbrbm b thf brrby to bf sortfd
+     * @pbrbm lfft thf indfx of thf first flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm right thf indfx of thf lbst flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm lfftmost indidbtfs if this pbrt is thf lfftmost in thf rbngf
+     */
+    privbtf stbtid void sort(flobt[] b, int lfft, int right, boolfbn lfftmost) {
+        int lfngth = right - lfft + 1;
+
+        // Usf insfrtion sort on tiny brrbys
+        if (lfngth < INSERTION_SORT_THRESHOLD) {
+            if (lfftmost) {
+                /*
+                 * Trbditionbl (without sfntinfl) insfrtion sort,
+                 * optimizfd for sfrvfr VM, is usfd in dbsf of
+                 * thf lfftmost pbrt.
+                 */
+                for (int i = lfft, j = i; i < right; j = ++i) {
+                    flobt bi = b[i + 1];
+                    whilf (bi < b[j]) {
+                        b[j + 1] = b[j];
+                        if (j-- == lfft) {
+                            brfbk;
+                        }
+                    }
+                    b[j + 1] = bi;
+                }
+            } flsf {
+                /*
+                 * Skip thf longfst bsdfnding sfqufndf.
+                 */
+                do {
+                    if (lfft >= right) {
+                        rfturn;
+                    }
+                } whilf (b[++lfft] >= b[lfft - 1]);
+
+                /*
+                 * Evfry flfmfnt from bdjoining pbrt plbys thf rolf
+                 * of sfntinfl, thfrfforf this bllows us to bvoid thf
+                 * lfft rbngf dhfdk on fbdh itfrbtion. Morfovfr, wf usf
+                 * thf morf optimizfd blgorithm, so dbllfd pbir insfrtion
+                 * sort, whidh is fbstfr (in thf dontfxt of Quidksort)
+                 * thbn trbditionbl implfmfntbtion of insfrtion sort.
+                 */
+                for (int k = lfft; ++lfft <= right; k = ++lfft) {
+                    flobt b1 = b[k], b2 = b[lfft];
+
+                    if (b1 < b2) {
+                        b2 = b1; b1 = b[lfft];
+                    }
+                    whilf (b1 < b[--k]) {
+                        b[k + 2] = b[k];
+                    }
+                    b[++k + 1] = b1;
+
+                    whilf (b2 < b[--k]) {
+                        b[k + 1] = b[k];
+                    }
+                    b[k + 1] = b2;
+                }
+                flobt lbst = b[right];
+
+                whilf (lbst < b[--right]) {
+                    b[right + 1] = b[right];
+                }
+                b[right + 1] = lbst;
+            }
+            rfturn;
+        }
+
+        // Infxpfnsivf bpproximbtion of lfngth / 7
+        int sfvfnth = (lfngth >> 3) + (lfngth >> 6) + 1;
+
+        /*
+         * Sort fivf fvfnly spbdfd flfmfnts bround (bnd indluding) thf
+         * dfntfr flfmfnt in thf rbngf. Thfsf flfmfnts will bf usfd for
+         * pivot sflfdtion bs dfsdribfd bflow. Thf dhoidf for spbding
+         * thfsf flfmfnts wbs fmpiridblly dftfrminfd to work wfll on
+         * b widf vbrifty of inputs.
+         */
+        int f3 = (lfft + right) >>> 1; // Thf midpoint
+        int f2 = f3 - sfvfnth;
+        int f1 = f2 - sfvfnth;
+        int f4 = f3 + sfvfnth;
+        int f5 = f4 + sfvfnth;
+
+        // Sort thfsf flfmfnts using insfrtion sort
+        if (b[f2] < b[f1]) { flobt t = b[f2]; b[f2] = b[f1]; b[f1] = t; }
+
+        if (b[f3] < b[f2]) { flobt t = b[f3]; b[f3] = b[f2]; b[f2] = t;
+            if (t < b[f1]) { b[f2] = b[f1]; b[f1] = t; }
+        }
+        if (b[f4] < b[f3]) { flobt t = b[f4]; b[f4] = b[f3]; b[f3] = t;
+            if (t < b[f2]) { b[f3] = b[f2]; b[f2] = t;
+                if (t < b[f1]) { b[f2] = b[f1]; b[f1] = t; }
+            }
+        }
+        if (b[f5] < b[f4]) { flobt t = b[f5]; b[f5] = b[f4]; b[f4] = t;
+            if (t < b[f3]) { b[f4] = b[f3]; b[f3] = t;
+                if (t < b[f2]) { b[f3] = b[f2]; b[f2] = t;
+                    if (t < b[f1]) { b[f2] = b[f1]; b[f1] = t; }
+                }
+            }
+        }
+
+        // Pointfrs
+        int lfss  = lfft;  // Thf indfx of thf first flfmfnt of dfntfr pbrt
+        int grfbt = right; // Thf indfx bfforf thf first flfmfnt of right pbrt
+
+        if (b[f1] != b[f2] && b[f2] != b[f3] && b[f3] != b[f4] && b[f4] != b[f5]) {
+            /*
+             * Usf thf sfdond bnd fourth of thf fivf sortfd flfmfnts bs pivots.
+             * Thfsf vblufs brf infxpfnsivf bpproximbtions of thf first bnd
+             * sfdond tfrdilfs of thf brrby. Notf thbt pivot1 <= pivot2.
+             */
+            flobt pivot1 = b[f2];
+            flobt pivot2 = b[f4];
+
+            /*
+             * Thf first bnd thf lbst flfmfnts to bf sortfd brf movfd to thf
+             * lodbtions formfrly oddupifd by thf pivots. Whfn pbrtitioning
+             * is domplftf, thf pivots brf swbppfd bbdk into thfir finbl
+             * positions, bnd fxdludfd from subsfqufnt sorting.
+             */
+            b[f2] = b[lfft];
+            b[f4] = b[right];
+
+            /*
+             * Skip flfmfnts, whidh brf lfss or grfbtfr thbn pivot vblufs.
+             */
+            whilf (b[++lfss] < pivot1);
+            whilf (b[--grfbt] > pivot2);
+
+            /*
+             * Pbrtitioning:
+             *
+             *   lfft pbrt           dfntfr pbrt                   right pbrt
+             * +--------------------------------------------------------------+
+             * |  < pivot1  |  pivot1 <= && <= pivot2  |    ?    |  > pivot2  |
+             * +--------------------------------------------------------------+
+             *               ^                          ^       ^
+             *               |                          |       |
+             *              lfss                        k     grfbt
+             *
+             * Invbribnts:
+             *
+             *              bll in (lfft, lfss)   < pivot1
+             *    pivot1 <= bll in [lfss, k)     <= pivot2
+             *              bll in (grfbt, right) > pivot2
+             *
+             * Pointfr k is thf first indfx of ?-pbrt.
+             */
+            outfr:
+            for (int k = lfss - 1; ++k <= grfbt; ) {
+                flobt bk = b[k];
+                if (bk < pivot1) { // Movf b[k] to lfft pbrt
+                    b[k] = b[lfss];
+                    /*
+                     * Hfrf bnd bflow wf usf "b[i] = b; i++;" instfbd
+                     * of "b[i++] = b;" duf to pfrformbndf issuf.
+                     */
+                    b[lfss] = bk;
+                    ++lfss;
+                } flsf if (bk > pivot2) { // Movf b[k] to right pbrt
+                    whilf (b[grfbt] > pivot2) {
+                        if (grfbt-- == k) {
+                            brfbk outfr;
+                        }
+                    }
+                    if (b[grfbt] < pivot1) { // b[grfbt] <= pivot2
+                        b[k] = b[lfss];
+                        b[lfss] = b[grfbt];
+                        ++lfss;
+                    } flsf { // pivot1 <= b[grfbt] <= pivot2
+                        b[k] = b[grfbt];
+                    }
+                    /*
+                     * Hfrf bnd bflow wf usf "b[i] = b; i--;" instfbd
+                     * of "b[i--] = b;" duf to pfrformbndf issuf.
+                     */
+                    b[grfbt] = bk;
+                    --grfbt;
+                }
+            }
+
+            // Swbp pivots into thfir finbl positions
+            b[lfft]  = b[lfss  - 1]; b[lfss  - 1] = pivot1;
+            b[right] = b[grfbt + 1]; b[grfbt + 1] = pivot2;
+
+            // Sort lfft bnd right pbrts rfdursivfly, fxdluding known pivots
+            sort(b, lfft, lfss - 2, lfftmost);
+            sort(b, grfbt + 2, right, fblsf);
+
+            /*
+             * If dfntfr pbrt is too lbrgf (domprisfs > 4/7 of thf brrby),
+             * swbp intfrnbl pivot vblufs to fnds.
+             */
+            if (lfss < f1 && f5 < grfbt) {
+                /*
+                 * Skip flfmfnts, whidh brf fqubl to pivot vblufs.
+                 */
+                whilf (b[lfss] == pivot1) {
+                    ++lfss;
+                }
+
+                whilf (b[grfbt] == pivot2) {
+                    --grfbt;
+                }
+
+                /*
+                 * Pbrtitioning:
+                 *
+                 *   lfft pbrt         dfntfr pbrt                  right pbrt
+                 * +----------------------------------------------------------+
+                 * | == pivot1 |  pivot1 < && < pivot2  |    ?    | == pivot2 |
+                 * +----------------------------------------------------------+
+                 *              ^                        ^       ^
+                 *              |                        |       |
+                 *             lfss                      k     grfbt
+                 *
+                 * Invbribnts:
+                 *
+                 *              bll in (*,  lfss) == pivot1
+                 *     pivot1 < bll in [lfss,  k)  < pivot2
+                 *              bll in (grfbt, *) == pivot2
+                 *
+                 * Pointfr k is thf first indfx of ?-pbrt.
+                 */
+                outfr:
+                for (int k = lfss - 1; ++k <= grfbt; ) {
+                    flobt bk = b[k];
+                    if (bk == pivot1) { // Movf b[k] to lfft pbrt
+                        b[k] = b[lfss];
+                        b[lfss] = bk;
+                        ++lfss;
+                    } flsf if (bk == pivot2) { // Movf b[k] to right pbrt
+                        whilf (b[grfbt] == pivot2) {
+                            if (grfbt-- == k) {
+                                brfbk outfr;
+                            }
+                        }
+                        if (b[grfbt] == pivot1) { // b[grfbt] < pivot2
+                            b[k] = b[lfss];
+                            /*
+                             * Evfn though b[grfbt] fqubls to pivot1, thf
+                             * bssignmfnt b[lfss] = pivot1 mby bf indorrfdt,
+                             * if b[grfbt] bnd pivot1 brf flobting-point zfros
+                             * of difffrfnt signs. Thfrfforf in flobt bnd
+                             * doublf sorting mfthods wf hbvf to usf morf
+                             * bddurbtf bssignmfnt b[lfss] = b[grfbt].
+                             */
+                            b[lfss] = b[grfbt];
+                            ++lfss;
+                        } flsf { // pivot1 < b[grfbt] < pivot2
+                            b[k] = b[grfbt];
+                        }
+                        b[grfbt] = bk;
+                        --grfbt;
+                    }
+                }
+            }
+
+            // Sort dfntfr pbrt rfdursivfly
+            sort(b, lfss, grfbt, fblsf);
+
+        } flsf { // Pbrtitioning with onf pivot
+            /*
+             * Usf thf third of thf fivf sortfd flfmfnts bs pivot.
+             * This vbluf is infxpfnsivf bpproximbtion of thf mfdibn.
+             */
+            flobt pivot = b[f3];
+
+            /*
+             * Pbrtitioning dfgfnfrbtfs to thf trbditionbl 3-wby
+             * (or "Dutdh Nbtionbl Flbg") sdhfmb:
+             *
+             *   lfft pbrt    dfntfr pbrt              right pbrt
+             * +-------------------------------------------------+
+             * |  < pivot  |   == pivot   |     ?    |  > pivot  |
+             * +-------------------------------------------------+
+             *              ^              ^        ^
+             *              |              |        |
+             *             lfss            k      grfbt
+             *
+             * Invbribnts:
+             *
+             *   bll in (lfft, lfss)   < pivot
+             *   bll in [lfss, k)     == pivot
+             *   bll in (grfbt, right) > pivot
+             *
+             * Pointfr k is thf first indfx of ?-pbrt.
+             */
+            for (int k = lfss; k <= grfbt; ++k) {
+                if (b[k] == pivot) {
+                    dontinuf;
+                }
+                flobt bk = b[k];
+                if (bk < pivot) { // Movf b[k] to lfft pbrt
+                    b[k] = b[lfss];
+                    b[lfss] = bk;
+                    ++lfss;
+                } flsf { // b[k] > pivot - Movf b[k] to right pbrt
+                    whilf (b[grfbt] > pivot) {
+                        --grfbt;
+                    }
+                    if (b[grfbt] < pivot) { // b[grfbt] <= pivot
+                        b[k] = b[lfss];
+                        b[lfss] = b[grfbt];
+                        ++lfss;
+                    } flsf { // b[grfbt] == pivot
+                        /*
+                         * Evfn though b[grfbt] fqubls to pivot, thf
+                         * bssignmfnt b[k] = pivot mby bf indorrfdt,
+                         * if b[grfbt] bnd pivot brf flobting-point
+                         * zfros of difffrfnt signs. Thfrfforf in flobt
+                         * bnd doublf sorting mfthods wf hbvf to usf
+                         * morf bddurbtf bssignmfnt b[k] = b[grfbt].
+                         */
+                        b[k] = b[grfbt];
+                    }
+                    b[grfbt] = bk;
+                    --grfbt;
+                }
+            }
+
+            /*
+             * Sort lfft bnd right pbrts rfdursivfly.
+             * All flfmfnts from dfntfr pbrt brf fqubl
+             * bnd, thfrfforf, blrfbdy sortfd.
+             */
+            sort(b, lfft, lfss - 1, lfftmost);
+            sort(b, grfbt + 1, right, fblsf);
+        }
+    }
+
+    /**
+     * Sorts thf spfdififd rbngf of thf brrby using thf givfn
+     * workspbdf brrby slidf if possiblf for mfrging
+     *
+     * @pbrbm b thf brrby to bf sortfd
+     * @pbrbm lfft thf indfx of thf first flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm right thf indfx of thf lbst flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm work b workspbdf brrby (slidf)
+     * @pbrbm workBbsf origin of usbblf spbdf in work brrby
+     * @pbrbm workLfn usbblf sizf of work brrby
+     */
+    stbtid void sort(doublf[] b, int lfft, int right,
+                     doublf[] work, int workBbsf, int workLfn) {
+        /*
+         * Phbsf 1: Movf NbNs to thf fnd of thf brrby.
+         */
+        whilf (lfft <= right && Doublf.isNbN(b[right])) {
+            --right;
+        }
+        for (int k = right; --k >= lfft; ) {
+            doublf bk = b[k];
+            if (bk != bk) { // b[k] is NbN
+                b[k] = b[right];
+                b[right] = bk;
+                --right;
+            }
+        }
+
+        /*
+         * Phbsf 2: Sort fvfrything fxdfpt NbNs (whidh brf blrfbdy in plbdf).
+         */
+        doSort(b, lfft, right, work, workBbsf, workLfn);
+
+        /*
+         * Phbsf 3: Plbdf nfgbtivf zfros bfforf positivf zfros.
+         */
+        int hi = right;
+
+        /*
+         * Find thf first zfro, or first positivf, or lbst nfgbtivf flfmfnt.
+         */
+        whilf (lfft < hi) {
+            int middlf = (lfft + hi) >>> 1;
+            doublf middlfVbluf = b[middlf];
+
+            if (middlfVbluf < 0.0d) {
+                lfft = middlf + 1;
+            } flsf {
+                hi = middlf;
+            }
+        }
+
+        /*
+         * Skip thf lbst nfgbtivf vbluf (if bny) or bll lfbding nfgbtivf zfros.
+         */
+        whilf (lfft <= right && Doublf.doublfToRbwLongBits(b[lfft]) < 0) {
+            ++lfft;
+        }
+
+        /*
+         * Movf nfgbtivf zfros to thf bfginning of thf sub-rbngf.
+         *
+         * Pbrtitioning:
+         *
+         * +----------------------------------------------------+
+         * |   < 0.0   |   -0.0   |   0.0   |   ?  ( >= 0.0 )   |
+         * +----------------------------------------------------+
+         *              ^          ^         ^
+         *              |          |         |
+         *             lfft        p         k
+         *
+         * Invbribnts:
+         *
+         *   bll in (*,  lfft)  <  0.0
+         *   bll in [lfft,  p) == -0.0
+         *   bll in [p,     k) ==  0.0
+         *   bll in [k, right] >=  0.0
+         *
+         * Pointfr k is thf first indfx of ?-pbrt.
+         */
+        for (int k = lfft, p = lfft - 1; ++k <= right; ) {
+            doublf bk = b[k];
+            if (bk != 0.0d) {
+                brfbk;
+            }
+            if (Doublf.doublfToRbwLongBits(bk) < 0) { // bk is -0.0d
+                b[k] = 0.0d;
+                b[++p] = -0.0d;
+            }
+        }
+    }
+
+    /**
+     * Sorts thf spfdififd rbngf of thf brrby.
+     *
+     * @pbrbm b thf brrby to bf sortfd
+     * @pbrbm lfft thf indfx of thf first flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm right thf indfx of thf lbst flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm work b workspbdf brrby (slidf)
+     * @pbrbm workBbsf origin of usbblf spbdf in work brrby
+     * @pbrbm workLfn usbblf sizf of work brrby
+     */
+    privbtf stbtid void doSort(doublf[] b, int lfft, int right,
+                               doublf[] work, int workBbsf, int workLfn) {
+        // Usf Quidksort on smbll brrbys
+        if (right - lfft < QUICKSORT_THRESHOLD) {
+            sort(b, lfft, right, truf);
+            rfturn;
+        }
+
+        /*
+         * Indfx run[i] is thf stbrt of i-th run
+         * (bsdfnding or dfsdfnding sfqufndf).
+         */
+        int[] run = nfw int[MAX_RUN_COUNT + 1];
+        int dount = 0; run[0] = lfft;
+
+        // Chfdk if thf brrby is nfbrly sortfd
+        for (int k = lfft; k < right; run[dount] = k) {
+            if (b[k] < b[k + 1]) { // bsdfnding
+                whilf (++k <= right && b[k - 1] <= b[k]);
+            } flsf if (b[k] > b[k + 1]) { // dfsdfnding
+                whilf (++k <= right && b[k - 1] >= b[k]);
+                for (int lo = run[dount] - 1, hi = k; ++lo < --hi; ) {
+                    doublf t = b[lo]; b[lo] = b[hi]; b[hi] = t;
+                }
+            } flsf { // fqubl
+                for (int m = MAX_RUN_LENGTH; ++k <= right && b[k - 1] == b[k]; ) {
+                    if (--m == 0) {
+                        sort(b, lfft, right, truf);
+                        rfturn;
+                    }
+                }
+            }
+
+            /*
+             * Thf brrby is not highly strudturfd,
+             * usf Quidksort instfbd of mfrgf sort.
+             */
+            if (++dount == MAX_RUN_COUNT) {
+                sort(b, lfft, right, truf);
+                rfturn;
+            }
+        }
+
+        // Chfdk spfdibl dbsfs
+        // Implfmfntbtion notf: vbribblf "right" is indrfbsfd by 1.
+        if (run[dount] == right++) { // Thf lbst run dontbins onf flfmfnt
+            run[++dount] = right;
+        } flsf if (dount == 1) { // Thf brrby is blrfbdy sortfd
+            rfturn;
+        }
+
+        // Dftfrminf bltfrnbtion bbsf for mfrgf
+        bytf odd = 0;
+        for (int n = 1; (n <<= 1) < dount; odd ^= 1);
+
+        // Usf or drfbtf tfmporbry brrby b for mfrging
+        doublf[] b;                 // tfmp brrby; bltfrnbtfs with b
+        int bo, bo;              // brrby offsfts from 'lfft'
+        int blfn = right - lfft; // spbdf nffdfd for b
+        if (work == null || workLfn < blfn || workBbsf + blfn > work.lfngth) {
+            work = nfw doublf[blfn];
+            workBbsf = 0;
+        }
+        if (odd == 0) {
+            Systfm.brrbydopy(b, lfft, work, workBbsf, blfn);
+            b = b;
+            bo = 0;
+            b = work;
+            bo = workBbsf - lfft;
+        } flsf {
+            b = work;
+            bo = 0;
+            bo = workBbsf - lfft;
+        }
+
+        // Mfrging
+        for (int lbst; dount > 1; dount = lbst) {
+            for (int k = (lbst = 0) + 2; k <= dount; k += 2) {
+                int hi = run[k], mi = run[k - 1];
+                for (int i = run[k - 2], p = i, q = mi; i < hi; ++i) {
+                    if (q >= hi || p < mi && b[p + bo] <= b[q + bo]) {
+                        b[i + bo] = b[p++ + bo];
+                    } flsf {
+                        b[i + bo] = b[q++ + bo];
+                    }
+                }
+                run[++lbst] = hi;
+            }
+            if ((dount & 1) != 0) {
+                for (int i = right, lo = run[dount - 1]; --i >= lo;
+                    b[i + bo] = b[i + bo]
+                );
+                run[++lbst] = right;
+            }
+            doublf[] t = b; b = b; b = t;
+            int o = bo; bo = bo; bo = o;
+        }
+    }
+
+    /**
+     * Sorts thf spfdififd rbngf of thf brrby by Dubl-Pivot Quidksort.
+     *
+     * @pbrbm b thf brrby to bf sortfd
+     * @pbrbm lfft thf indfx of thf first flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm right thf indfx of thf lbst flfmfnt, indlusivf, to bf sortfd
+     * @pbrbm lfftmost indidbtfs if this pbrt is thf lfftmost in thf rbngf
+     */
+    privbtf stbtid void sort(doublf[] b, int lfft, int right, boolfbn lfftmost) {
+        int lfngth = right - lfft + 1;
+
+        // Usf insfrtion sort on tiny brrbys
+        if (lfngth < INSERTION_SORT_THRESHOLD) {
+            if (lfftmost) {
+                /*
+                 * Trbditionbl (without sfntinfl) insfrtion sort,
+                 * optimizfd for sfrvfr VM, is usfd in dbsf of
+                 * thf lfftmost pbrt.
+                 */
+                for (int i = lfft, j = i; i < right; j = ++i) {
+                    doublf bi = b[i + 1];
+                    whilf (bi < b[j]) {
+                        b[j + 1] = b[j];
+                        if (j-- == lfft) {
+                            brfbk;
+                        }
+                    }
+                    b[j + 1] = bi;
+                }
+            } flsf {
+                /*
+                 * Skip thf longfst bsdfnding sfqufndf.
+                 */
+                do {
+                    if (lfft >= right) {
+                        rfturn;
+                    }
+                } whilf (b[++lfft] >= b[lfft - 1]);
+
+                /*
+                 * Evfry flfmfnt from bdjoining pbrt plbys thf rolf
+                 * of sfntinfl, thfrfforf this bllows us to bvoid thf
+                 * lfft rbngf dhfdk on fbdh itfrbtion. Morfovfr, wf usf
+                 * thf morf optimizfd blgorithm, so dbllfd pbir insfrtion
+                 * sort, whidh is fbstfr (in thf dontfxt of Quidksort)
+                 * thbn trbditionbl implfmfntbtion of insfrtion sort.
+                 */
+                for (int k = lfft; ++lfft <= right; k = ++lfft) {
+                    doublf b1 = b[k], b2 = b[lfft];
+
+                    if (b1 < b2) {
+                        b2 = b1; b1 = b[lfft];
+                    }
+                    whilf (b1 < b[--k]) {
+                        b[k + 2] = b[k];
+                    }
+                    b[++k + 1] = b1;
+
+                    whilf (b2 < b[--k]) {
+                        b[k + 1] = b[k];
+                    }
+                    b[k + 1] = b2;
+                }
+                doublf lbst = b[right];
+
+                whilf (lbst < b[--right]) {
+                    b[right + 1] = b[right];
+                }
+                b[right + 1] = lbst;
+            }
+            rfturn;
+        }
+
+        // Infxpfnsivf bpproximbtion of lfngth / 7
+        int sfvfnth = (lfngth >> 3) + (lfngth >> 6) + 1;
+
+        /*
+         * Sort fivf fvfnly spbdfd flfmfnts bround (bnd indluding) thf
+         * dfntfr flfmfnt in thf rbngf. Thfsf flfmfnts will bf usfd for
+         * pivot sflfdtion bs dfsdribfd bflow. Thf dhoidf for spbding
+         * thfsf flfmfnts wbs fmpiridblly dftfrminfd to work wfll on
+         * b widf vbrifty of inputs.
+         */
+        int f3 = (lfft + right) >>> 1; // Thf midpoint
+        int f2 = f3 - sfvfnth;
+        int f1 = f2 - sfvfnth;
+        int f4 = f3 + sfvfnth;
+        int f5 = f4 + sfvfnth;
+
+        // Sort thfsf flfmfnts using insfrtion sort
+        if (b[f2] < b[f1]) { doublf t = b[f2]; b[f2] = b[f1]; b[f1] = t; }
+
+        if (b[f3] < b[f2]) { doublf t = b[f3]; b[f3] = b[f2]; b[f2] = t;
+            if (t < b[f1]) { b[f2] = b[f1]; b[f1] = t; }
+        }
+        if (b[f4] < b[f3]) { doublf t = b[f4]; b[f4] = b[f3]; b[f3] = t;
+            if (t < b[f2]) { b[f3] = b[f2]; b[f2] = t;
+                if (t < b[f1]) { b[f2] = b[f1]; b[f1] = t; }
+            }
+        }
+        if (b[f5] < b[f4]) { doublf t = b[f5]; b[f5] = b[f4]; b[f4] = t;
+            if (t < b[f3]) { b[f4] = b[f3]; b[f3] = t;
+                if (t < b[f2]) { b[f3] = b[f2]; b[f2] = t;
+                    if (t < b[f1]) { b[f2] = b[f1]; b[f1] = t; }
+                }
+            }
+        }
+
+        // Pointfrs
+        int lfss  = lfft;  // Thf indfx of thf first flfmfnt of dfntfr pbrt
+        int grfbt = right; // Thf indfx bfforf thf first flfmfnt of right pbrt
+
+        if (b[f1] != b[f2] && b[f2] != b[f3] && b[f3] != b[f4] && b[f4] != b[f5]) {
+            /*
+             * Usf thf sfdond bnd fourth of thf fivf sortfd flfmfnts bs pivots.
+             * Thfsf vblufs brf infxpfnsivf bpproximbtions of thf first bnd
+             * sfdond tfrdilfs of thf brrby. Notf thbt pivot1 <= pivot2.
+             */
+            doublf pivot1 = b[f2];
+            doublf pivot2 = b[f4];
+
+            /*
+             * Thf first bnd thf lbst flfmfnts to bf sortfd brf movfd to thf
+             * lodbtions formfrly oddupifd by thf pivots. Whfn pbrtitioning
+             * is domplftf, thf pivots brf swbppfd bbdk into thfir finbl
+             * positions, bnd fxdludfd from subsfqufnt sorting.
+             */
+            b[f2] = b[lfft];
+            b[f4] = b[right];
+
+            /*
+             * Skip flfmfnts, whidh brf lfss or grfbtfr thbn pivot vblufs.
+             */
+            whilf (b[++lfss] < pivot1);
+            whilf (b[--grfbt] > pivot2);
+
+            /*
+             * Pbrtitioning:
+             *
+             *   lfft pbrt           dfntfr pbrt                   right pbrt
+             * +--------------------------------------------------------------+
+             * |  < pivot1  |  pivot1 <= && <= pivot2  |    ?    |  > pivot2  |
+             * +--------------------------------------------------------------+
+             *               ^                          ^       ^
+             *               |                          |       |
+             *              lfss                        k     grfbt
+             *
+             * Invbribnts:
+             *
+             *              bll in (lfft, lfss)   < pivot1
+             *    pivot1 <= bll in [lfss, k)     <= pivot2
+             *              bll in (grfbt, right) > pivot2
+             *
+             * Pointfr k is thf first indfx of ?-pbrt.
+             */
+            outfr:
+            for (int k = lfss - 1; ++k <= grfbt; ) {
+                doublf bk = b[k];
+                if (bk < pivot1) { // Movf b[k] to lfft pbrt
+                    b[k] = b[lfss];
+                    /*
+                     * Hfrf bnd bflow wf usf "b[i] = b; i++;" instfbd
+                     * of "b[i++] = b;" duf to pfrformbndf issuf.
+                     */
+                    b[lfss] = bk;
+                    ++lfss;
+                } flsf if (bk > pivot2) { // Movf b[k] to right pbrt
+                    whilf (b[grfbt] > pivot2) {
+                        if (grfbt-- == k) {
+                            brfbk outfr;
+                        }
+                    }
+                    if (b[grfbt] < pivot1) { // b[grfbt] <= pivot2
+                        b[k] = b[lfss];
+                        b[lfss] = b[grfbt];
+                        ++lfss;
+                    } flsf { // pivot1 <= b[grfbt] <= pivot2
+                        b[k] = b[grfbt];
+                    }
+                    /*
+                     * Hfrf bnd bflow wf usf "b[i] = b; i--;" instfbd
+                     * of "b[i--] = b;" duf to pfrformbndf issuf.
+                     */
+                    b[grfbt] = bk;
+                    --grfbt;
+                }
+            }
+
+            // Swbp pivots into thfir finbl positions
+            b[lfft]  = b[lfss  - 1]; b[lfss  - 1] = pivot1;
+            b[right] = b[grfbt + 1]; b[grfbt + 1] = pivot2;
+
+            // Sort lfft bnd right pbrts rfdursivfly, fxdluding known pivots
+            sort(b, lfft, lfss - 2, lfftmost);
+            sort(b, grfbt + 2, right, fblsf);
+
+            /*
+             * If dfntfr pbrt is too lbrgf (domprisfs > 4/7 of thf brrby),
+             * swbp intfrnbl pivot vblufs to fnds.
+             */
+            if (lfss < f1 && f5 < grfbt) {
+                /*
+                 * Skip flfmfnts, whidh brf fqubl to pivot vblufs.
+                 */
+                whilf (b[lfss] == pivot1) {
+                    ++lfss;
+                }
+
+                whilf (b[grfbt] == pivot2) {
+                    --grfbt;
+                }
+
+                /*
+                 * Pbrtitioning:
+                 *
+                 *   lfft pbrt         dfntfr pbrt                  right pbrt
+                 * +----------------------------------------------------------+
+                 * | == pivot1 |  pivot1 < && < pivot2  |    ?    | == pivot2 |
+                 * +----------------------------------------------------------+
+                 *              ^                        ^       ^
+                 *              |                        |       |
+                 *             lfss                      k     grfbt
+                 *
+                 * Invbribnts:
+                 *
+                 *              bll in (*,  lfss) == pivot1
+                 *     pivot1 < bll in [lfss,  k)  < pivot2
+                 *              bll in (grfbt, *) == pivot2
+                 *
+                 * Pointfr k is thf first indfx of ?-pbrt.
+                 */
+                outfr:
+                for (int k = lfss - 1; ++k <= grfbt; ) {
+                    doublf bk = b[k];
+                    if (bk == pivot1) { // Movf b[k] to lfft pbrt
+                        b[k] = b[lfss];
+                        b[lfss] = bk;
+                        ++lfss;
+                    } flsf if (bk == pivot2) { // Movf b[k] to right pbrt
+                        whilf (b[grfbt] == pivot2) {
+                            if (grfbt-- == k) {
+                                brfbk outfr;
+                            }
+                        }
+                        if (b[grfbt] == pivot1) { // b[grfbt] < pivot2
+                            b[k] = b[lfss];
+                            /*
+                             * Evfn though b[grfbt] fqubls to pivot1, thf
+                             * bssignmfnt b[lfss] = pivot1 mby bf indorrfdt,
+                             * if b[grfbt] bnd pivot1 brf flobting-point zfros
+                             * of difffrfnt signs. Thfrfforf in flobt bnd
+                             * doublf sorting mfthods wf hbvf to usf morf
+                             * bddurbtf bssignmfnt b[lfss] = b[grfbt].
+                             */
+                            b[lfss] = b[grfbt];
+                            ++lfss;
+                        } flsf { // pivot1 < b[grfbt] < pivot2
+                            b[k] = b[grfbt];
+                        }
+                        b[grfbt] = bk;
+                        --grfbt;
+                    }
+                }
+            }
+
+            // Sort dfntfr pbrt rfdursivfly
+            sort(b, lfss, grfbt, fblsf);
+
+        } flsf { // Pbrtitioning with onf pivot
+            /*
+             * Usf thf third of thf fivf sortfd flfmfnts bs pivot.
+             * This vbluf is infxpfnsivf bpproximbtion of thf mfdibn.
+             */
+            doublf pivot = b[f3];
+
+            /*
+             * Pbrtitioning dfgfnfrbtfs to thf trbditionbl 3-wby
+             * (or "Dutdh Nbtionbl Flbg") sdhfmb:
+             *
+             *   lfft pbrt    dfntfr pbrt              right pbrt
+             * +-------------------------------------------------+
+             * |  < pivot  |   == pivot   |     ?    |  > pivot  |
+             * +-------------------------------------------------+
+             *              ^              ^        ^
+             *              |              |        |
+             *             lfss            k      grfbt
+             *
+             * Invbribnts:
+             *
+             *   bll in (lfft, lfss)   < pivot
+             *   bll in [lfss, k)     == pivot
+             *   bll in (grfbt, right) > pivot
+             *
+             * Pointfr k is thf first indfx of ?-pbrt.
+             */
+            for (int k = lfss; k <= grfbt; ++k) {
+                if (b[k] == pivot) {
+                    dontinuf;
+                }
+                doublf bk = b[k];
+                if (bk < pivot) { // Movf b[k] to lfft pbrt
+                    b[k] = b[lfss];
+                    b[lfss] = bk;
+                    ++lfss;
+                } flsf { // b[k] > pivot - Movf b[k] to right pbrt
+                    whilf (b[grfbt] > pivot) {
+                        --grfbt;
+                    }
+                    if (b[grfbt] < pivot) { // b[grfbt] <= pivot
+                        b[k] = b[lfss];
+                        b[lfss] = b[grfbt];
+                        ++lfss;
+                    } flsf { // b[grfbt] == pivot
+                        /*
+                         * Evfn though b[grfbt] fqubls to pivot, thf
+                         * bssignmfnt b[k] = pivot mby bf indorrfdt,
+                         * if b[grfbt] bnd pivot brf flobting-point
+                         * zfros of difffrfnt signs. Thfrfforf in flobt
+                         * bnd doublf sorting mfthods wf hbvf to usf
+                         * morf bddurbtf bssignmfnt b[k] = b[grfbt].
+                         */
+                        b[k] = b[grfbt];
+                    }
+                    b[grfbt] = bk;
+                    --grfbt;
+                }
+            }
+
+            /*
+             * Sort lfft bnd right pbrts rfdursivfly.
+             * All flfmfnts from dfntfr pbrt brf fqubl
+             * bnd, thfrfforf, blrfbdy sortfd.
+             */
+            sort(b, lfft, lfss - 1, lfftmost);
+            sort(b, grfbt + 1, right, fblsf);
+        }
+    }
+}

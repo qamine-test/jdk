@@ -1,1913 +1,1913 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-08 03:32:35 +0900 (Wed, 08 Feb 2012) $"/>
-		<language type="cy"/>
-	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="ab" draft="unconfirmed">Abcaseg</language>
-			<language type="af" draft="contributed">Affricaneg</language>
-			<language type="am" draft="contributed">Amhareg</language>
-			<language type="ar">Arabeg</language>
-			<language type="as" draft="contributed">Asameg</language>
-			<language type="az" draft="unconfirmed">Azerbaijani</language>
-			<language type="be" draft="contributed">Belarwsiyn</language>
-			<language type="bg" draft="contributed">Bwlgareg</language>
-			<language type="bh" draft="contributed">Bihari</language>
-			<language type="bm" draft="unconfirmed">Bambareg</language>
-			<language type="bn" draft="contributed">Bengali; Bangla</language>
-			<language type="bo" draft="unconfirmed">Tibeteg</language>
-			<language type="br" draft="contributed">Llydaweg</language>
-			<language type="bs" draft="contributed">Bosnieg</language>
-			<language type="ca" draft="contributed">Catalaneg</language>
-			<language type="cs" draft="contributed">Tsiec</language>
-			<language type="cy">Cymraeg</language>
-			<language type="da" draft="contributed">Daneg</language>
-			<language type="de">Almaeneg</language>
-			<language type="de_AT" draft="unconfirmed">Almaeneg Awstria</language>
-			<language type="de_CH" draft="unconfirmed">Almaeneg Safonol y Swistir</language>
-			<language type="el" draft="contributed">Groeg</language>
-			<language type="en">Saesneg</language>
-			<language type="en_AU" draft="unconfirmed">Saesneg Awstralia</language>
-			<language type="en_CA" draft="unconfirmed">Saesneg Canada</language>
-			<language type="en_GB" draft="unconfirmed">Saesneg Prydain</language>
-			<language type="en_US" draft="unconfirmed">Saesneg UDA</language>
-			<language type="eo" draft="contributed">Esperanto</language>
-			<language type="es">Sbaeneg</language>
-			<language type="es_419" draft="unconfirmed">Sbaeneg America Ladin</language>
-			<language type="es_ES" draft="unconfirmed">Sbaeneg Iberia</language>
-			<language type="et" draft="contributed">Estoneg</language>
-			<language type="eu" draft="contributed">Basgeg</language>
-			<language type="fa" draft="contributed">Persieg</language>
-			<language type="fi" draft="contributed">Ffineg</language>
-			<language type="fil" draft="contributed">Tagalog</language>
-			<language type="fj" draft="unconfirmed">Ffijïeg</language>
-			<language type="fo" draft="contributed">Ffaroeg</language>
-			<language type="fr">Ffrangeg</language>
-			<language type="fr_CA" draft="unconfirmed">Ffrangeg Canada</language>
-			<language type="fr_CH" draft="unconfirmed">Ffrangeg y Swistir</language>
-			<language type="fy" draft="unconfirmed">Ffrisieg</language>
-			<language type="ga" draft="contributed">Gwyddeleg</language>
-			<language type="gd" draft="contributed">Gaeleg yr Alban</language>
-			<language type="gl" draft="contributed">Galiseg</language>
-			<language type="gn" draft="unconfirmed">Guarani</language>
-			<language type="gu" draft="unconfirmed">Gwjarati</language>
-			<language type="ha" draft="unconfirmed">Hawsa</language>
-			<language type="haw" draft="unconfirmed">Hawäieg</language>
-			<language type="he" draft="contributed">Hebraeg</language>
-			<language type="hi">Hindi</language>
-			<language type="hr" draft="contributed">Croateg</language>
-			<language type="hu" draft="contributed">Hwngareg</language>
-			<language type="hy" draft="contributed">Armeneg</language>
-			<language type="ia" draft="contributed">Interlingua</language>
-			<language type="id" draft="contributed">Indonesieg</language>
-			<language type="ie" draft="contributed">Interlingue</language>
-			<language type="is" draft="contributed">Islandeg</language>
-			<language type="it">Eidaleg</language>
-			<language type="ja">Siapaneeg</language>
-			<language type="jv" draft="contributed">Jafanaeg</language>
-			<language type="ka" draft="contributed">Georgeg</language>
-			<language type="km" draft="contributed">Cambodieg</language>
-			<language type="kn" draft="contributed">Kannada</language>
-			<language type="ko" draft="contributed">Corëeg</language>
-			<language type="ks" draft="unconfirmed">Cashmireg</language>
-			<language type="ku" draft="contributed">Cwrdeg</language>
-			<language type="ky" draft="unconfirmed">Kyrgyz</language>
-			<language type="la" draft="contributed">Lladin</language>
-			<language type="ln" draft="contributed">Lingala</language>
-			<language type="lo" draft="contributed">Laoeg</language>
-			<language type="lt" draft="contributed">Lithwaneg</language>
-			<language type="lv" draft="contributed">Latfieg</language>
-			<language type="mg" draft="unconfirmed">Malagasi</language>
-			<language type="mi" draft="unconfirmed">Maori</language>
-			<language type="mk" draft="unconfirmed">Macedoneg</language>
-			<language type="ml" draft="contributed">Malayalam</language>
-			<language type="mn" draft="contributed">Mongoleg</language>
-			<language type="mr" draft="contributed">Marathi</language>
-			<language type="ms" draft="contributed">Malai</language>
-			<language type="mt" draft="contributed">Malteseg</language>
-			<language type="my" draft="unconfirmed">Byrmaneg</language>
-			<language type="ne" draft="contributed">Nepali</language>
-			<language type="nl" draft="contributed">Iseldireg</language>
-			<language type="nl_BE" draft="unconfirmed">Fflemineg</language>
-			<language type="nn" draft="contributed">Norwyeg (Nynorsk)</language>
-			<language type="no" draft="contributed">Norwyeg</language>
-			<language type="oc" draft="contributed">Ocsitaneg</language>
-			<language type="or" draft="contributed">Oriya</language>
-			<language type="pa" draft="contributed">Pwnjabi</language>
-			<language type="pl" draft="contributed">Pwyleg</language>
-			<language type="ps" draft="contributed">Pashto</language>
-			<language type="pt">Portiwgaleg</language>
-			<language type="pt_BR" draft="unconfirmed">Portiwgaleg Brasil</language>
-			<language type="pt_PT" draft="unconfirmed">Portiwgaleg Iberia</language>
-			<language type="ro" draft="contributed">Rwmaneg</language>
-			<language type="ru">Rwsieg</language>
-			<language type="sa" draft="contributed">Sansgrit</language>
-			<language type="sah" draft="unconfirmed">Iacwteg</language>
-			<language type="sd" draft="contributed">Sindhi</language>
-			<language type="sh" draft="contributed">Serbo-Croateg</language>
-			<language type="si" draft="contributed">Sinhaleg</language>
-			<language type="sk" draft="contributed">Slofaceg</language>
-			<language type="sl" draft="contributed">Slofeneg</language>
-			<language type="so" draft="contributed">Somaleg</language>
-			<language type="sq" draft="contributed">Albaneg</language>
-			<language type="sr" draft="contributed">Serbeg</language>
-			<language type="st" draft="contributed">Sesotheg</language>
-			<language type="su" draft="contributed">Sundaneg</language>
-			<language type="sv" draft="contributed">Swedeg</language>
-			<language type="sw" draft="contributed">Swahili</language>
-			<language type="ta" draft="contributed">Tamil</language>
-			<language type="te" draft="unconfirmed">Telugu</language>
-			<language type="tg" draft="unconfirmed">Tajiceg</language>
-			<language type="ti" draft="unconfirmed">Tigrinya</language>
-			<language type="tk" draft="unconfirmed">Tyrcmeneg</language>
-			<language type="tlh" draft="contributed">Klingon</language>
-			<language type="tr" draft="unconfirmed">Tyrceg</language>
-			<language type="tw" draft="unconfirmed">Twi</language>
-			<language type="ty" draft="unconfirmed">Tahitïeg</language>
-			<language type="ug" draft="unconfirmed">Uighur</language>
-			<language type="uk" draft="contributed">Wcreineg</language>
-			<language type="und" draft="contributed">anh</language>
-			<language type="ur" draft="unconfirmed">Wrdw</language>
-			<language type="uz" draft="contributed">Wsbeceg</language>
-			<language type="vi" draft="contributed">Fietnameg</language>
-			<language type="wo" draft="unconfirmed">Woloff</language>
-			<language type="xh" draft="unconfirmed">Xhosa</language>
-			<language type="yi" draft="unconfirmed">Iddew-Almaeneg</language>
-			<language type="yo" draft="unconfirmed">Iorwba</language>
-			<language type="yue" draft="unconfirmed">Cantoneg</language>
-			<language type="zh">Tseineeg</language>
-			<language type="zh_Hant" draft="unconfirmed">Tseineeg traddodiadol</language>
-			<language type="zu" draft="contributed">Zwlw</language>
-			<language type="zxx" draft="unconfirmed">Dim geiriau i'w cael</language>
-		</languages>
-		<scripts>
-			<script type="Latn">Lladin</script>
-		</scripts>
-		<territories>
-			<territory type="001" draft="unconfirmed">Y Byd</territory>
-			<territory type="002" draft="unconfirmed">Affrica</territory>
-			<territory type="003" draft="unconfirmed">Gogledd America</territory>
-			<territory type="005" draft="unconfirmed">De America</territory>
-			<territory type="009" draft="unconfirmed">Oceania</territory>
-			<territory type="011" draft="unconfirmed">Gorllewin Affrica</territory>
-			<territory type="013" draft="unconfirmed">Canolbarth America</territory>
-			<territory type="014" draft="unconfirmed">Dwyrain Affrica</territory>
-			<territory type="015" draft="unconfirmed">Gogledd Affrica</territory>
-			<territory type="017" draft="unconfirmed">Canol Affrica</territory>
-			<territory type="018" draft="unconfirmed">De Affrica [018]</territory>
-			<territory type="019" draft="unconfirmed">Americas</territory>
-			<territory type="021" draft="unconfirmed">America i'r Gogledd o Mecsico</territory>
-			<territory type="029" draft="unconfirmed">Y Caribî</territory>
-			<territory type="030" draft="unconfirmed">Dwyrain Asia</territory>
-			<territory type="035" draft="unconfirmed">De ddwyrain Asia</territory>
-			<territory type="039" draft="unconfirmed">De Ewrop</territory>
-			<territory type="053" draft="unconfirmed">Awstralia a Seland Newydd</territory>
-			<territory type="054" draft="unconfirmed">Melanesia</territory>
-			<territory type="057" draft="unconfirmed">Micronesia [057]</territory>
-			<territory type="061" draft="unconfirmed">Polynesia</territory>
-			<territory type="142" draft="unconfirmed">Asia</territory>
-			<territory type="145" draft="unconfirmed">Gorllewin Asia</territory>
-			<territory type="150" draft="unconfirmed">Ewrop</territory>
-			<territory type="151" draft="unconfirmed">Dwyrain Ewrop</territory>
-			<territory type="154" draft="unconfirmed">Gogledd Ewrop</territory>
-			<territory type="155" draft="unconfirmed">Gorllewin Ewrop</territory>
-			<territory type="419" draft="unconfirmed">America Ladin</territory>
-			<territory type="AC" draft="unconfirmed">Ynys y Dyrchafael</territory>
-			<territory type="AD" draft="unconfirmed">Andorra</territory>
-			<territory type="AE" draft="unconfirmed">Emiraethau Arabaidd Unedig</territory>
-			<territory type="AF" draft="unconfirmed">Affganistan</territory>
-			<territory type="AG" draft="unconfirmed">Antigwa a Barbuda</territory>
-			<territory type="AI" draft="unconfirmed">Anguilla</territory>
-			<territory type="AL" draft="unconfirmed">Albania</territory>
-			<territory type="AM" draft="unconfirmed">Armenia</territory>
-			<territory type="AN" draft="unconfirmed">Ynysoedd Caribî yr Iseldiroedd</territory>
-			<territory type="AO" draft="unconfirmed">Angola</territory>
-			<territory type="AQ" draft="unconfirmed">Antarctica</territory>
-			<territory type="AR" draft="unconfirmed">Yr Ariannin</territory>
-			<territory type="AS" draft="unconfirmed">Samoa Americanaidd</territory>
-			<territory type="AT" draft="unconfirmed">Awstria</territory>
-			<territory type="AU" draft="unconfirmed">Awstralia</territory>
-			<territory type="AW" draft="unconfirmed">Aruba</territory>
-			<territory type="AX" draft="unconfirmed">Ynysoedd Aland</territory>
-			<territory type="AZ" draft="unconfirmed">Azerbaijan</territory>
-			<territory type="BA" draft="unconfirmed">Bosnia a Herzegovina</territory>
-			<territory type="BB" draft="unconfirmed">Barbados</territory>
-			<territory type="BD" draft="unconfirmed">Bangladesh</territory>
-			<territory type="BE" draft="unconfirmed">Gwlad Belg</territory>
-			<territory type="BF" draft="unconfirmed">Burkina Faso</territory>
-			<territory type="BG" draft="unconfirmed">Bwlgaria</territory>
-			<territory type="BH" draft="unconfirmed">Bahrain</territory>
-			<territory type="BI" draft="unconfirmed">Burundi</territory>
-			<territory type="BJ" draft="unconfirmed">Benin</territory>
-			<territory type="BM" draft="unconfirmed">Bermwda</territory>
-			<territory type="BN" draft="unconfirmed">Brunei</territory>
-			<territory type="BO" draft="unconfirmed">Bolifia</territory>
-			<territory type="BR" draft="unconfirmed">Brasil</territory>
-			<territory type="BS" draft="unconfirmed">Y Bahamas</territory>
-			<territory type="BT" draft="unconfirmed">Bhwtan</territory>
-			<territory type="BV" draft="unconfirmed">Ynys Bouvet</territory>
-			<territory type="BW" draft="unconfirmed">Botswana</territory>
-			<territory type="BY" draft="unconfirmed">Belarws</territory>
-			<territory type="BZ" draft="unconfirmed">Belize</territory>
-			<territory type="CA" draft="unconfirmed">Canada</territory>
-			<territory type="CC">Ynysoedd Cocos [Keeling]</territory>
-			<territory type="CD" draft="unconfirmed">Y Congo - Kinshasa</territory>
-			<territory type="CD" alt="variant" draft="unconfirmed">Y Congo [Gweriniaeth Ddemocrataidd]</territory>
-			<territory type="CF" draft="unconfirmed">Gweriniaeth Canol Affrica</territory>
-			<territory type="CG" draft="unconfirmed">Y Congo - Brazzaville</territory>
-			<territory type="CG" alt="variant" draft="unconfirmed">Y Congo [Gweriniaeth]</territory>
-			<territory type="CH" draft="unconfirmed">Y Swistir</territory>
-			<territory type="CI" draft="unconfirmed">Côte d’Ivoire</territory>
-			<territory type="CK" draft="unconfirmed">Ynysoedd Cook</territory>
-			<territory type="CL" draft="unconfirmed">Chile</territory>
-			<territory type="CM" draft="unconfirmed">Y Camerŵn</territory>
-			<territory type="CN" draft="unconfirmed">Tseina</territory>
-			<territory type="CO" draft="unconfirmed">Colombia</territory>
-			<territory type="CR" draft="unconfirmed">Costa Rica</territory>
-			<territory type="CU" draft="unconfirmed">Ciwba</territory>
-			<territory type="CV" draft="unconfirmed">Cape Verde</territory>
-			<territory type="CX" draft="unconfirmed">Ynys y Nadolig</territory>
-			<territory type="CY" draft="unconfirmed">Cyprus</territory>
-			<territory type="CZ" draft="unconfirmed">Gweriniaeth Tsiec</territory>
-			<territory type="DE" draft="unconfirmed">Yr Almaen</territory>
-			<territory type="DJ" draft="unconfirmed">Djibouti</territory>
-			<territory type="DK" draft="unconfirmed">Denmarc</territory>
-			<territory type="DM" draft="unconfirmed">Dominica</territory>
-			<territory type="DO" draft="unconfirmed">Y Weriniaeth Ddominicaidd</territory>
-			<territory type="DZ" draft="unconfirmed">Algeria</territory>
-			<territory type="EC" draft="unconfirmed">Ecwador</territory>
-			<territory type="EE" draft="unconfirmed">Estonia</territory>
-			<territory type="EG" draft="unconfirmed">Yr Aifft</territory>
-			<territory type="EH" draft="unconfirmed">Gorllewin y Sahara</territory>
-			<territory type="ER" draft="unconfirmed">Eritrea</territory>
-			<territory type="ES" draft="unconfirmed">Sbaen</territory>
-			<territory type="ET" draft="unconfirmed">Ethiopia</territory>
-			<territory type="FI" draft="unconfirmed">Y Ffindir</territory>
-			<territory type="FJ" draft="unconfirmed">Fiji</territory>
-			<territory type="FK" draft="unconfirmed">Ynysoedd y Falkland</territory>
-			<territory type="FM" draft="unconfirmed">Micronesia</territory>
-			<territory type="FO" draft="unconfirmed">Ynysoedd Ffaröe</territory>
-			<territory type="FR" draft="unconfirmed">Ffrainc</territory>
-			<territory type="GA" draft="unconfirmed">Gabon</territory>
-			<territory type="GB">Prydain Fawr</territory>
-			<territory type="GD" draft="unconfirmed">Grenada</territory>
-			<territory type="GE" draft="unconfirmed">Georgia</territory>
-			<territory type="GF" draft="unconfirmed">Giana Ffrengig</territory>
-			<territory type="GH" draft="unconfirmed">Ghana</territory>
-			<territory type="GI" draft="unconfirmed">Gibraltar</territory>
-			<territory type="GL" draft="unconfirmed">Yr Ynys Las</territory>
-			<territory type="GM" draft="unconfirmed">Gambia</territory>
-			<territory type="GN" draft="unconfirmed">Gini</territory>
-			<territory type="GP" draft="unconfirmed">Guadeloupe</territory>
-			<territory type="GQ" draft="unconfirmed">Gini Gyhydeddol</territory>
-			<territory type="GR" draft="unconfirmed">Gwlad Groeg</territory>
-			<territory type="GS" draft="unconfirmed">Ynysoedd De Georgia a De Sandwich</territory>
-			<territory type="GT" draft="unconfirmed">Guatemala</territory>
-			<territory type="GU" draft="unconfirmed">Guam</territory>
-			<territory type="GW" draft="unconfirmed">Guinea-Bissau</territory>
-			<territory type="GY" draft="unconfirmed">Guyana</territory>
-			<territory type="HK" draft="unconfirmed">Hong Kong S.A.R., Tseina</territory>
-			<territory type="HM" draft="unconfirmed">Ynys Heard ac Ynysoedd McDonald</territory>
-			<territory type="HN" draft="unconfirmed">Hondwras</territory>
-			<territory type="HR" draft="unconfirmed">Croatia</territory>
-			<territory type="HT" draft="unconfirmed">Haiti</territory>
-			<territory type="HU" draft="unconfirmed">Hwngari</territory>
-			<territory type="ID" draft="unconfirmed">Indonesia</territory>
-			<territory type="IE" draft="unconfirmed">Iwerddon</territory>
-			<territory type="IL" draft="unconfirmed">Israel</territory>
-			<territory type="IM" draft="unconfirmed">Ynys Manaw</territory>
-			<territory type="IN" draft="unconfirmed">India</territory>
-			<territory type="IO" draft="unconfirmed">Tiriogaeth Cefnfor India Prydain</territory>
-			<territory type="IQ" draft="unconfirmed">Irac</territory>
-			<territory type="IR" draft="unconfirmed">Iran</territory>
-			<territory type="IS" draft="unconfirmed">Gwlad yr Iâ</territory>
-			<territory type="IT" draft="unconfirmed">Yr Eidal</territory>
-			<territory type="JM" draft="unconfirmed">Jamaica</territory>
-			<territory type="JO" draft="unconfirmed">Gwlad Iorddonen</territory>
-			<territory type="JP" draft="unconfirmed">Siapan</territory>
-			<territory type="KE" draft="unconfirmed">Cenia</territory>
-			<territory type="KG" draft="unconfirmed">Cirgistan</territory>
-			<territory type="KH" draft="unconfirmed">Cambodia</territory>
-			<territory type="KI" draft="unconfirmed">Kiribati</territory>
-			<territory type="KM" draft="unconfirmed">Comoros</territory>
-			<territory type="KN" draft="unconfirmed">Saint Kitts a Nevis</territory>
-			<territory type="KP" draft="unconfirmed">Gogledd Corea</territory>
-			<territory type="KR" draft="unconfirmed">De Corea</territory>
-			<territory type="KW" draft="unconfirmed">Coweit</territory>
-			<territory type="KY" draft="unconfirmed">Ynysoedd Cayman</territory>
-			<territory type="KZ" draft="unconfirmed">Kazakhstan</territory>
-			<territory type="LA" draft="unconfirmed">Laos</territory>
-			<territory type="LB" draft="unconfirmed">Libanus</territory>
-			<territory type="LC" draft="unconfirmed">Saint Lucia</territory>
-			<territory type="LI" draft="unconfirmed">Liechtenstein</territory>
-			<territory type="LK" draft="unconfirmed">Sri Lanka</territory>
-			<territory type="LR" draft="unconfirmed">Liberia</territory>
-			<territory type="LS" draft="unconfirmed">Lesotho</territory>
-			<territory type="LT" draft="unconfirmed">Lithwania</territory>
-			<territory type="LU" draft="unconfirmed">Lwcsembwrg</territory>
-			<territory type="LV" draft="unconfirmed">Latfia</territory>
-			<territory type="LY" draft="unconfirmed">Libia</territory>
-			<territory type="MA" draft="unconfirmed">Moroco</territory>
-			<territory type="MC" draft="unconfirmed">Monaco</territory>
-			<territory type="MD" draft="unconfirmed">Moldofa</territory>
-			<territory type="ME" draft="unconfirmed">Montenegro</territory>
-			<territory type="MG" draft="unconfirmed">Madagascar</territory>
-			<territory type="MH" draft="unconfirmed">Ynysoedd Marshall</territory>
-			<territory type="MK" draft="unconfirmed">Macedonia</territory>
-			<territory type="ML" draft="unconfirmed">Mali</territory>
-			<territory type="MM" draft="unconfirmed">Myanmar</territory>
-			<territory type="MN" draft="unconfirmed">Mongolia</territory>
-			<territory type="MO" draft="unconfirmed">Macao S.A.R., Tseina</territory>
-			<territory type="MP" draft="unconfirmed">Ynysoedd Gogledd Mariana</territory>
-			<territory type="MQ" draft="unconfirmed">Martinique</territory>
-			<territory type="MR" draft="unconfirmed">Mawritania</territory>
-			<territory type="MS" draft="unconfirmed">Montserrat</territory>
-			<territory type="MT" draft="unconfirmed">Malta</territory>
-			<territory type="MU" draft="unconfirmed">Mawrisiws</territory>
-			<territory type="MV" draft="unconfirmed">Maldives</territory>
-			<territory type="MW" draft="unconfirmed">Malawi</territory>
-			<territory type="MX" draft="unconfirmed">Mecsico</territory>
-			<territory type="MY" draft="unconfirmed">Malaysia</territory>
-			<territory type="MZ" draft="unconfirmed">Mozambique</territory>
-			<territory type="NA" draft="unconfirmed">Namibia</territory>
-			<territory type="NC" draft="unconfirmed">Caledonia Newydd</territory>
-			<territory type="NE" draft="unconfirmed">Niger</territory>
-			<territory type="NF" draft="unconfirmed">Ynys Norfolk</territory>
-			<territory type="NG" draft="unconfirmed">Nigeria</territory>
-			<territory type="NI" draft="unconfirmed">Nicaragwa</territory>
-			<territory type="NL" draft="unconfirmed">Yr Iseldiroedd</territory>
-			<territory type="NO" draft="unconfirmed">Norwy</territory>
-			<territory type="NP" draft="unconfirmed">Nepal</territory>
-			<territory type="NR" draft="unconfirmed">Nawrw</territory>
-			<territory type="NU" draft="unconfirmed">Niue</territory>
-			<territory type="NZ" draft="unconfirmed">Seland Newydd</territory>
-			<territory type="OM" draft="unconfirmed">Oman</territory>
-			<territory type="PA" draft="unconfirmed">Panama</territory>
-			<territory type="PE" draft="unconfirmed">Perw</territory>
-			<territory type="PF" draft="unconfirmed">Polynesia Ffrainc</territory>
-			<territory type="PG" draft="unconfirmed">Papua Gini Newydd</territory>
-			<territory type="PH" draft="unconfirmed">Philipinau</territory>
-			<territory type="PK" draft="unconfirmed">Pacistan</territory>
-			<territory type="PL" draft="unconfirmed">Gwlad Pwyl</territory>
-			<territory type="PM" draft="unconfirmed">Saint Pierre a Miquelon</territory>
-			<territory type="PN" draft="unconfirmed">Pitcairn</territory>
-			<territory type="PR" draft="unconfirmed">Puerto Rico</territory>
-			<territory type="PS" draft="unconfirmed">Tiriogaeth Palesteina</territory>
-			<territory type="PT" draft="unconfirmed">Portiwgal</territory>
-			<territory type="PW" draft="unconfirmed">Palau</territory>
-			<territory type="PY" draft="unconfirmed">Paraguay</territory>
-			<territory type="QA" draft="unconfirmed">Qatar</territory>
-			<territory type="QO" draft="unconfirmed">Ynysoedd Pellenig y De</territory>
-			<territory type="RE" draft="unconfirmed">Réunion</territory>
-			<territory type="RO" draft="unconfirmed">Rwmania</territory>
-			<territory type="RU" draft="unconfirmed">Rwsia</territory>
-			<territory type="RW" draft="unconfirmed">Rwanda</territory>
-			<territory type="SA" draft="unconfirmed">Sawdi-Arabia</territory>
-			<territory type="SB" draft="unconfirmed">Ynysoedd Solomon</territory>
-			<territory type="SC" draft="unconfirmed">Seychelles</territory>
-			<territory type="SD" draft="unconfirmed">Y Swdan</territory>
-			<territory type="SE" draft="unconfirmed">Sweden</territory>
-			<territory type="SG" draft="unconfirmed">Singapore</territory>
-			<territory type="SH" draft="unconfirmed">Saint Helena</territory>
-			<territory type="SI" draft="unconfirmed">Slofenia</territory>
-			<territory type="SJ" draft="unconfirmed">Svalbard a Jan Mayen</territory>
-			<territory type="SK" draft="unconfirmed">Slofacia</territory>
-			<territory type="SL" draft="unconfirmed">Sierra Leone</territory>
-			<territory type="SM" draft="unconfirmed">San Marino</territory>
-			<territory type="SN" draft="unconfirmed">Senegal</territory>
-			<territory type="SO" draft="unconfirmed">Somalia</territory>
-			<territory type="SR" draft="unconfirmed">Swrinam</territory>
-			<territory type="ST" draft="unconfirmed">Sao Tome a Principe</territory>
-			<territory type="SV" draft="unconfirmed">El Salfador</territory>
-			<territory type="SY" draft="unconfirmed">Syria</territory>
-			<territory type="SZ" draft="unconfirmed">Swaziland</territory>
-			<territory type="TC" draft="unconfirmed">Ynysoedd Turks a Caicos</territory>
-			<territory type="TD" draft="unconfirmed">Chad</territory>
-			<territory type="TF" draft="unconfirmed">Tiriogaethau Ffrengig y De</territory>
-			<territory type="TG" draft="unconfirmed">Togo</territory>
-			<territory type="TH" draft="unconfirmed">Gwlad Thai</territory>
-			<territory type="TJ" draft="unconfirmed">Tajicistan</territory>
-			<territory type="TK" draft="unconfirmed">Tokelau</territory>
-			<territory type="TL" draft="unconfirmed">Timor-Leste</territory>
-			<territory type="TM" draft="unconfirmed">Tyrcmenistan</territory>
-			<territory type="TN" draft="unconfirmed">Tiwnisia</territory>
-			<territory type="TO" draft="unconfirmed">Tonga</territory>
-			<territory type="TR" draft="unconfirmed">Twrci</territory>
-			<territory type="TT" draft="unconfirmed">Trinidad a Thobago</territory>
-			<territory type="TV" draft="unconfirmed">Twfalw</territory>
-			<territory type="TW" draft="unconfirmed">Taiwan</territory>
-			<territory type="TZ" draft="unconfirmed">Tansanïa</territory>
-			<territory type="UA" draft="unconfirmed">Wcráin</territory>
-			<territory type="UG" draft="unconfirmed">Uganda</territory>
-			<territory type="UM" draft="unconfirmed">Mân Ynysoedd Pellenig yr Unol Daleithiau</territory>
-			<territory type="US" draft="unconfirmed">Yr Unol Daleithiau</territory>
-			<territory type="UY" draft="unconfirmed">Uruguay</territory>
-			<territory type="UZ" draft="unconfirmed">Wsbecistan</territory>
-			<territory type="VA" draft="unconfirmed">Y Fatican</territory>
-			<territory type="VC" draft="unconfirmed">Saint Vincent a’r Grenadines</territory>
-			<territory type="VE" draft="unconfirmed">Venezuela</territory>
-			<territory type="VG" draft="unconfirmed">Ynysoedd Prydeinig y Wyryf</territory>
-			<territory type="VI" draft="unconfirmed">Ynysoedd Americanaidd y Wyryf</territory>
-			<territory type="VN" draft="unconfirmed">Fietnam</territory>
-			<territory type="VU" draft="unconfirmed">Vanuatu</territory>
-			<territory type="WF" draft="unconfirmed">Wallis a Futuna</territory>
-			<territory type="WS" draft="unconfirmed">Samoa</territory>
-			<territory type="YE" draft="unconfirmed">Yemen</territory>
-			<territory type="YT" draft="unconfirmed">Mayotte</territory>
-			<territory type="ZA" draft="unconfirmed">De Affrica</territory>
-			<territory type="ZM" draft="unconfirmed">Sambia</territory>
-			<territory type="ZW" draft="unconfirmed">Simbabwe</territory>
-			<territory type="ZZ" draft="unconfirmed">ardal anhysbys</territory>
-		</territories>
-		<measurementSystemNames>
-			<measurementSystemName type="metric" draft="contributed">Metrig</measurementSystemName>
-			<measurementSystemName type="UK" draft="unconfirmed">DU</measurementSystemName>
-			<measurementSystemName type="US" draft="contributed">UD</measurementSystemName>
-		</measurementSystemNames>
-	</localeDisplayNames>
-	<characters>
-		<exemplarCharacters>[a á à â ä b c {ch} d {dd} e é è ê ë f {ff} g {ng} h i í ì î ï l {ll} m n o ó ò ô ö p {ph} r {rh} s t {th} u ú ù û ü w ẃ ẁ ŵ ẅ y ý ỳ ŷ ÿ]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[j k q v x z]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="contributed">[A B C {CH} D E F {FF} G H I J L {LL} M N O P {PH} R {RH} S T {TH} U W Y]</exemplarCharacters>
-	</characters>
-	<delimiters>
-		<quotationStart draft="unconfirmed">‘</quotationStart>
-		<quotationEnd draft="unconfirmed">’</quotationEnd>
-		<alternateQuotationStart draft="unconfirmed">“</alternateQuotationStart>
-		<alternateQuotationEnd draft="unconfirmed">”</alternateQuotationEnd>
-	</delimiters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
-				<months>
-					<monthContext type="format">
-						<monthWidth type="abbreviated">
-							<month type="1">Ion</month>
-							<month type="2">Chwef</month>
-							<month type="3">Mawrth</month>
-							<month type="4">Ebrill</month>
-							<month type="5">Mai</month>
-							<month type="6">Meh</month>
-							<month type="7">Gorff</month>
-							<month type="8">Awst</month>
-							<month type="9">Medi</month>
-							<month type="10">Hyd</month>
-							<month type="11">Tach</month>
-							<month type="12">Rhag</month>
-						</monthWidth>
-						<monthWidth type="wide">
-							<month type="1">Ionawr</month>
-							<month type="2">Chwefror</month>
-							<month type="3">Mawrth</month>
-							<month type="4">Ebrill</month>
-							<month type="5">Mai</month>
-							<month type="6">Mehefin</month>
-							<month type="7">Gorffenaf</month>
-							<month type="8">Awst</month>
-							<month type="9">Medi</month>
-							<month type="10">Hydref</month>
-							<month type="11">Tachwedd</month>
-							<month type="12">Rhagfyr</month>
-						</monthWidth>
-					</monthContext>
-					<monthContext type="stand-alone">
-						<monthWidth type="abbreviated">
-							<month type="2" draft="contributed">Chwe</month>
-							<month type="3" draft="contributed">Maw</month>
-							<month type="4" draft="contributed">Ebr</month>
-							<month type="7" draft="contributed">Gor</month>
-						</monthWidth>
-						<monthWidth type="narrow">
-							<month type="1">I</month>
-							<month type="2">C</month>
-							<month type="3">M</month>
-							<month type="4">E</month>
-							<month type="5">M</month>
-							<month type="6">M</month>
-							<month type="7">G</month>
-							<month type="8">A</month>
-							<month type="9">M</month>
-							<month type="10">H</month>
-							<month type="11">T</month>
-							<month type="12">R</month>
-						</monthWidth>
-						<monthWidth type="wide">
-							<month type="7" draft="contributed">Gorffennaf</month>
-						</monthWidth>
-					</monthContext>
-				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="abbreviated">
-							<day type="sun">Sul</day>
-							<day type="mon">Llun</day>
-							<day type="tue">Maw</day>
-							<day type="wed">Mer</day>
-							<day type="thu">Iau</day>
-							<day type="fri">Gwen</day>
-							<day type="sat">Sad</day>
-						</dayWidth>
-						<dayWidth type="wide">
-							<day type="sun">Dydd Sul</day>
-							<day type="mon">Dydd Llun</day>
-							<day type="tue">Dydd Mawrth</day>
-							<day type="wed">Dydd Mercher</day>
-							<day type="thu">Dydd Iau</day>
-							<day type="fri">Dydd Gwener</day>
-							<day type="sat">Dydd Sadwrn</day>
-						</dayWidth>
-					</dayContext>
-					<dayContext type="stand-alone">
-						<dayWidth type="abbreviated">
-							<day type="fri" draft="contributed">Gwe</day>
-						</dayWidth>
-						<dayWidth type="narrow">
-							<day type="sun">S</day>
-							<day type="mon">L</day>
-							<day type="tue">M</day>
-							<day type="wed">M</day>
-							<day type="thu">I</day>
-							<day type="fri">G</day>
-							<day type="sat">S</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1" draft="contributed">Ch1</quarter>
-							<quarter type="2" draft="contributed">Ch2</quarter>
-							<quarter type="3" draft="contributed">Ch3</quarter>
-							<quarter type="4" draft="contributed">Ch4</quarter>
-						</quarterWidth>
-						<quarterWidth type="narrow">
-							<quarter type="3" draft="unconfirmed">3</quarter>
-							<quarter type="4" draft="unconfirmed">4</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1" draft="contributed">Chwarter 1af</quarter>
-							<quarter type="2" draft="contributed">2il chwarter</quarter>
-							<quarter type="3" draft="contributed">3ydd chwarter</quarter>
-							<quarter type="4" draft="contributed">4ydd chwarter</quarter>
-						</quarterWidth>
-					</quarterContext>
-					<quarterContext type="stand-alone">
-						<quarterWidth type="abbreviated">
-							<quarter type="1" draft="unconfirmed">Ch1</quarter>
-							<quarter type="2" draft="unconfirmed">Ch2</quarter>
-							<quarter type="3" draft="unconfirmed">Ch3</quarter>
-							<quarter type="4" draft="unconfirmed">Ch4</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1" draft="unconfirmed">Chwarter 1af</quarter>
-							<quarter type="2" draft="unconfirmed">2il chwarter</quarter>
-							<quarter type="3" draft="unconfirmed">3ydd chwarter</quarter>
-							<quarter type="4" draft="unconfirmed">4ydd chwarter</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<eras>
-					<eraNames>
-						<era type="0" draft="contributed">Cyn Crist</era>
-						<era type="1" draft="contributed">Oed Crist</era>
-					</eraNames>
-					<eraAbbr>
-						<era type="0" draft="contributed">CC</era>
-						<era type="1" draft="contributed">OC</era>
-					</eraAbbr>
-					<eraNarrow>
-						<era type="0" draft="contributed">C</era>
-						<era type="1" draft="contributed">O</era>
-					</eraNarrow>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>dd/MM/yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="Md" draft="contributed">d/M</dateFormatItem>
-						<dateFormatItem id="MEd">E, d/M</dateFormatItem>
-						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
-						<dateFormatItem id="MMMEd">E, d MMM</dateFormatItem>
-						<dateFormatItem id="yM">M/y</dateFormatItem>
-						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
-						<dateFormatItem id="yMEd">E, d/M/y</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, d MMM y</dateFormatItem>
-					</availableFormats>
-					<intervalFormats>
-						<intervalFormatFallback draft="contributed">{0} – {1}</intervalFormatFallback>
-						<intervalFormatItem id="d">
-							<greatestDifference id="d" draft="contributed">d-d</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="h">
-							<greatestDifference id="a" draft="contributed">h a – h a</greatestDifference>
-							<greatestDifference id="h" draft="contributed">h–h a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hm">
-							<greatestDifference id="a" draft="contributed">h:mm a – h:mm a</greatestDifference>
-							<greatestDifference id="h" draft="contributed">h:mm–h:mm a</greatestDifference>
-							<greatestDifference id="m" draft="contributed">h:mm–h:mm a</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hmv">
-							<greatestDifference id="a" draft="contributed">h:mm a – h:mm a v</greatestDifference>
-							<greatestDifference id="h" draft="contributed">h:mm–h:mm a v</greatestDifference>
-							<greatestDifference id="m" draft="contributed">h:mm–h:mm a v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="hv">
-							<greatestDifference id="a" draft="contributed">h a – h a v</greatestDifference>
-							<greatestDifference id="h" draft="contributed">h–h a v</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="M">
-							<greatestDifference id="M" draft="contributed">M-M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="d" draft="contributed">d/M – d/M</greatestDifference>
-							<greatestDifference id="M" draft="contributed">d/M – d/M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MEd">
-							<greatestDifference id="d" draft="contributed">E, d/M – E, d/M</greatestDifference>
-							<greatestDifference id="M" draft="contributed">E, d/M – E, d/M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMM">
-							<greatestDifference id="M" draft="contributed">MMM-MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMd">
-							<greatestDifference id="d" draft="contributed">MMM d–d</greatestDifference>
-							<greatestDifference id="M" draft="contributed">d MMM – d MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMEd">
-							<greatestDifference id="d" draft="contributed">E, d MMM – E, d MMM</greatestDifference>
-							<greatestDifference id="M" draft="contributed">E, d MMM – E, d MMM</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="MMMM">
-							<greatestDifference id="M" draft="contributed">LLLL-LLLL</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="y">
-							<greatestDifference id="y" draft="contributed">y-y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yM">
-							<greatestDifference id="M" draft="contributed">M/yy – M/yy</greatestDifference>
-							<greatestDifference id="y" draft="contributed">M/yy – M/yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMd">
-							<greatestDifference id="d" draft="contributed">d/M/yy - d/M/yy</greatestDifference>
-							<greatestDifference id="M" draft="contributed">d/M/yy - d/M/yy</greatestDifference>
-							<greatestDifference id="y" draft="contributed">d/M/yy - d/M/yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d" draft="contributed">E, d/M/yy - E, d/M/yy</greatestDifference>
-							<greatestDifference id="M" draft="contributed">E, d/M/yy - E, d/M/yy</greatestDifference>
-							<greatestDifference id="y" draft="contributed">E, d/M/yy - E, d/M/yy</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M" draft="contributed">MMM - MMM, y</greatestDifference>
-							<greatestDifference id="y" draft="contributed">MMM y - MMM y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="d" draft="contributed">d-d MMM, y</greatestDifference>
-							<greatestDifference id="M" draft="contributed">d MMM - d MMM, y</greatestDifference>
-							<greatestDifference id="y" draft="contributed">d MMM, y - d MMM, y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="d" draft="contributed">E, d MMM - E, d MMM, y</greatestDifference>
-							<greatestDifference id="M" draft="contributed">E, d MMM - E, d MMM, y</greatestDifference>
-							<greatestDifference id="y" draft="contributed">E, d MMM, y - E, d MMM, y</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="yMMMM">
-							<greatestDifference id="M" draft="contributed">yyyy-MM – MM</greatestDifference>
-							<greatestDifference id="y" draft="contributed">yyyy-MM – yyyy-MM</greatestDifference>
-						</intervalFormatItem>
-					</intervalFormats>
-				</dateTimeFormats>
-				<fields>
-					<field type="era">
-						<displayName draft="contributed">Oes</displayName>
-					</field>
-					<field type="year">
-						<displayName draft="contributed">Blwyddyn</displayName>
-					</field>
-					<field type="month">
-						<displayName draft="contributed">Mis</displayName>
-					</field>
-					<field type="week">
-						<displayName draft="contributed">Wythnos</displayName>
-					</field>
-					<field type="day">
-						<displayName draft="contributed">Dydd</displayName>
-					</field>
-					<field type="weekday">
-						<displayName draft="contributed">Dydd o'r Wythnos</displayName>
-					</field>
-					<field type="dayperiod">
-						<displayName draft="contributed">AM/PM</displayName>
-					</field>
-					<field type="hour">
-						<displayName draft="contributed">Awr</displayName>
-					</field>
-					<field type="minute">
-						<displayName draft="contributed">Munud</displayName>
-					</field>
-					<field type="second">
-						<displayName draft="contributed">Eiliad</displayName>
-					</field>
-					<field type="zone">
-						<displayName draft="contributed">Cylchfa</displayName>
-					</field>
-				</fields>
-			</calendar>
-		</calendars>
-		<timeZoneNames>
-			<hourFormat>+HHmm;-HHmm</hourFormat>
-			<zone type="Etc/Unknown">
-				<exemplarCity draft="unconfirmed">Anhysbys</exemplarCity>
-			</zone>
-			<zone type="Europe/Andorra">
-				<exemplarCity draft="unconfirmed">Andorra</exemplarCity>
-			</zone>
-			<zone type="Asia/Dubai">
-				<exemplarCity draft="unconfirmed">Dubai</exemplarCity>
-			</zone>
-			<zone type="Asia/Kabul">
-				<exemplarCity draft="unconfirmed">Kabul</exemplarCity>
-			</zone>
-			<zone type="America/Antigua">
-				<exemplarCity draft="unconfirmed">Antigua</exemplarCity>
-			</zone>
-			<zone type="America/Anguilla">
-				<exemplarCity draft="unconfirmed">Anguilla</exemplarCity>
-			</zone>
-			<zone type="Europe/Tirane">
-				<exemplarCity draft="unconfirmed">Tirane</exemplarCity>
-			</zone>
-			<zone type="Asia/Yerevan">
-				<exemplarCity draft="unconfirmed">Yerevan</exemplarCity>
-			</zone>
-			<zone type="America/Curacao">
-				<exemplarCity draft="unconfirmed">Curacao</exemplarCity>
-			</zone>
-			<zone type="Africa/Luanda">
-				<exemplarCity draft="unconfirmed">Luanda</exemplarCity>
-			</zone>
-			<zone type="Antarctica/Rothera">
-				<exemplarCity draft="unconfirmed">Rothera</exemplarCity>
-			</zone>
-			<zone type="Antarctica/Palmer">
-				<exemplarCity draft="unconfirmed">Palmer</exemplarCity>
-			</zone>
-			<zone type="Antarctica/South_Pole">
-				<exemplarCity draft="unconfirmed">Pegwn y De</exemplarCity>
-			</zone>
-			<zone type="Antarctica/Syowa">
-				<exemplarCity draft="unconfirmed">Syowa</exemplarCity>
-			</zone>
-			<zone type="Antarctica/Mawson">
-				<exemplarCity draft="unconfirmed">Mawson</exemplarCity>
-			</zone>
-			<zone type="Antarctica/Davis">
-				<exemplarCity draft="unconfirmed">Davis</exemplarCity>
-			</zone>
-			<zone type="Antarctica/Vostok">
-				<exemplarCity draft="unconfirmed">Vostok</exemplarCity>
-			</zone>
-			<zone type="Antarctica/Casey">
-				<exemplarCity draft="unconfirmed">Casey</exemplarCity>
-			</zone>
-			<zone type="Antarctica/McMurdo">
-				<exemplarCity draft="unconfirmed">McMurdo</exemplarCity>
-			</zone>
-			<zone type="America/Argentina/Rio_Gallegos">
-				<exemplarCity draft="unconfirmed">Rio Gallegos</exemplarCity>
-			</zone>
-			<zone type="America/Mendoza">
-				<exemplarCity draft="unconfirmed">Mendoza</exemplarCity>
-			</zone>
-			<zone type="America/Argentina/San_Juan">
-				<exemplarCity draft="unconfirmed">San Juan</exemplarCity>
-			</zone>
-			<zone type="America/Argentina/Ushuaia">
-				<exemplarCity draft="unconfirmed">Ushuaia</exemplarCity>
-			</zone>
-			<zone type="America/Argentina/La_Rioja">
-				<exemplarCity draft="unconfirmed">La Rioja</exemplarCity>
-			</zone>
-			<zone type="America/Argentina/San_Luis">
-				<exemplarCity draft="unconfirmed">San Luis</exemplarCity>
-			</zone>
-			<zone type="America/Catamarca">
-				<exemplarCity draft="unconfirmed">Catamarca</exemplarCity>
-			</zone>
-			<zone type="America/Argentina/Salta">
-				<exemplarCity draft="unconfirmed">Salta</exemplarCity>
-			</zone>
-			<zone type="America/Jujuy">
-				<exemplarCity draft="unconfirmed">Jujuy</exemplarCity>
-			</zone>
-			<zone type="America/Argentina/Tucuman">
-				<exemplarCity draft="unconfirmed">Tucuman</exemplarCity>
-			</zone>
-			<zone type="America/Cordoba">
-				<exemplarCity draft="unconfirmed">Cordoba</exemplarCity>
-			</zone>
-			<zone type="America/Buenos_Aires">
-				<exemplarCity draft="unconfirmed">Buenos Aires</exemplarCity>
-			</zone>
-			<zone type="Pacific/Pago_Pago">
-				<exemplarCity draft="unconfirmed">Pago Pago</exemplarCity>
-			</zone>
-			<zone type="Europe/Vienna">
-				<exemplarCity draft="unconfirmed">Fienna</exemplarCity>
-			</zone>
-			<zone type="Australia/Perth">
-				<exemplarCity draft="unconfirmed">Perth</exemplarCity>
-			</zone>
-			<zone type="Australia/Eucla">
-				<exemplarCity draft="unconfirmed">Eucla</exemplarCity>
-			</zone>
-			<zone type="Australia/Darwin">
-				<exemplarCity draft="unconfirmed">Darwin</exemplarCity>
-			</zone>
-			<zone type="Australia/Adelaide">
-				<exemplarCity draft="unconfirmed">Adelaide</exemplarCity>
-			</zone>
-			<zone type="Australia/Broken_Hill">
-				<exemplarCity draft="unconfirmed">Broken Hill</exemplarCity>
-			</zone>
-			<zone type="Australia/Currie">
-				<exemplarCity draft="unconfirmed">Currie</exemplarCity>
-			</zone>
-			<zone type="Australia/Melbourne">
-				<exemplarCity draft="unconfirmed">Melbourne</exemplarCity>
-			</zone>
-			<zone type="Australia/Hobart">
-				<exemplarCity draft="unconfirmed">Hobart</exemplarCity>
-			</zone>
-			<zone type="Australia/Lindeman">
-				<exemplarCity draft="unconfirmed">Lindeman</exemplarCity>
-			</zone>
-			<zone type="Australia/Sydney">
-				<exemplarCity draft="unconfirmed">Sydney</exemplarCity>
-			</zone>
-			<zone type="Australia/Brisbane">
-				<exemplarCity draft="unconfirmed">Brisbane</exemplarCity>
-			</zone>
-			<zone type="Australia/Lord_Howe">
-				<exemplarCity draft="unconfirmed">Lord Howe</exemplarCity>
-			</zone>
-			<zone type="America/Aruba">
-				<exemplarCity draft="unconfirmed">Aruba</exemplarCity>
-			</zone>
-			<zone type="Europe/Mariehamn">
-				<exemplarCity draft="unconfirmed">Mariehamn</exemplarCity>
-			</zone>
-			<zone type="Asia/Baku">
-				<exemplarCity draft="unconfirmed">Baku</exemplarCity>
-			</zone>
-			<zone type="Europe/Sarajevo">
-				<exemplarCity draft="unconfirmed">Sarajevo</exemplarCity>
-			</zone>
-			<zone type="America/Barbados">
-				<exemplarCity draft="unconfirmed">Barbados</exemplarCity>
-			</zone>
-			<zone type="Asia/Dhaka">
-				<exemplarCity draft="unconfirmed">Dhaka</exemplarCity>
-			</zone>
-			<zone type="Europe/Brussels">
-				<exemplarCity draft="unconfirmed">Brwsel</exemplarCity>
-			</zone>
-			<zone type="Africa/Ouagadougou">
-				<exemplarCity draft="unconfirmed">Ouagadougou</exemplarCity>
-			</zone>
-			<zone type="Asia/Bahrain">
-				<exemplarCity draft="unconfirmed">Bahrain</exemplarCity>
-			</zone>
-			<zone type="Africa/Bujumbura">
-				<exemplarCity draft="unconfirmed">Bujumbura</exemplarCity>
-			</zone>
-			<zone type="Africa/Porto-Novo">
-				<exemplarCity draft="unconfirmed">Porto-Novo</exemplarCity>
-			</zone>
-			<zone type="Atlantic/Bermuda">
-				<exemplarCity draft="unconfirmed">Bermuda</exemplarCity>
-			</zone>
-			<zone type="Asia/Brunei">
-				<exemplarCity draft="unconfirmed">Brunei</exemplarCity>
-			</zone>
-			<zone type="America/La_Paz">
-				<exemplarCity draft="unconfirmed">La Paz</exemplarCity>
-			</zone>
-			<zone type="America/Eirunepe">
-				<exemplarCity draft="unconfirmed">Eirunepe</exemplarCity>
-			</zone>
-			<zone type="America/Rio_Branco">
-				<exemplarCity draft="unconfirmed">Rio Branco</exemplarCity>
-			</zone>
-			<zone type="America/Porto_Velho">
-				<exemplarCity draft="unconfirmed">Porto Velho</exemplarCity>
-			</zone>
-			<zone type="America/Boa_Vista">
-				<exemplarCity draft="unconfirmed">Boa Vista</exemplarCity>
-			</zone>
-			<zone type="America/Manaus">
-				<exemplarCity draft="unconfirmed">Manaus</exemplarCity>
-			</zone>
-			<zone type="America/Cuiaba">
-				<exemplarCity draft="unconfirmed">Cuiaba</exemplarCity>
-			</zone>
-			<zone type="America/Santarem">
-				<exemplarCity draft="unconfirmed">Santarem</exemplarCity>
-			</zone>
-			<zone type="America/Campo_Grande">
-				<exemplarCity draft="unconfirmed">Campo Grande</exemplarCity>
-			</zone>
-			<zone type="America/Belem">
-				<exemplarCity draft="unconfirmed">Belem</exemplarCity>
-			</zone>
-			<zone type="America/Araguaina">
-				<exemplarCity draft="unconfirmed">Araguaina</exemplarCity>
-			</zone>
-			<zone type="America/Sao_Paulo">
-				<exemplarCity draft="unconfirmed">Sao Paulo</exemplarCity>
-			</zone>
-			<zone type="America/Bahia">
-				<exemplarCity draft="unconfirmed">Bahia</exemplarCity>
-			</zone>
-			<zone type="America/Fortaleza">
-				<exemplarCity draft="unconfirmed">Fortaleza</exemplarCity>
-			</zone>
-			<zone type="America/Maceio">
-				<exemplarCity draft="unconfirmed">Maceio</exemplarCity>
-			</zone>
-			<zone type="America/Recife">
-				<exemplarCity draft="unconfirmed">Recife</exemplarCity>
-			</zone>
-			<zone type="America/Noronha">
-				<exemplarCity draft="unconfirmed">Noronha</exemplarCity>
-			</zone>
-			<zone type="America/Nassau">
-				<exemplarCity draft="unconfirmed">Nassau</exemplarCity>
-			</zone>
-			<zone type="Asia/Thimphu">
-				<exemplarCity draft="unconfirmed">Thimphu</exemplarCity>
-			</zone>
-			<zone type="Africa/Gaborone">
-				<exemplarCity draft="unconfirmed">Gaborone</exemplarCity>
-			</zone>
-			<zone type="Europe/Minsk">
-				<exemplarCity draft="unconfirmed">Minsk</exemplarCity>
-			</zone>
-			<zone type="America/Belize">
-				<exemplarCity draft="unconfirmed">Belize</exemplarCity>
-			</zone>
-			<zone type="America/Dawson">
-				<exemplarCity draft="unconfirmed">Dawson</exemplarCity>
-			</zone>
-			<zone type="America/Whitehorse">
-				<exemplarCity draft="unconfirmed">Whitehorse</exemplarCity>
-			</zone>
-			<zone type="America/Inuvik">
-				<exemplarCity draft="unconfirmed">Inuvik</exemplarCity>
-			</zone>
-			<zone type="America/Vancouver">
-				<exemplarCity draft="unconfirmed">Vancouver</exemplarCity>
-			</zone>
-			<zone type="America/Dawson_Creek">
-				<exemplarCity draft="unconfirmed">Dawson Creek</exemplarCity>
-			</zone>
-			<zone type="America/Yellowknife">
-				<exemplarCity draft="unconfirmed">Yellowknife</exemplarCity>
-			</zone>
-			<zone type="America/Edmonton">
-				<exemplarCity draft="unconfirmed">Edmonton</exemplarCity>
-			</zone>
-			<zone type="America/Swift_Current">
-				<exemplarCity draft="unconfirmed">Swift Current</exemplarCity>
-			</zone>
-			<zone type="America/Cambridge_Bay">
-				<exemplarCity draft="unconfirmed">Cambridge Bay</exemplarCity>
-			</zone>
-			<zone type="America/Regina">
-				<exemplarCity draft="unconfirmed">Regina</exemplarCity>
-			</zone>
-			<zone type="America/Winnipeg">
-				<exemplarCity draft="unconfirmed">Winnipeg</exemplarCity>
-			</zone>
-			<zone type="America/Resolute">
-				<exemplarCity draft="unconfirmed">Resolute</exemplarCity>
-			</zone>
-			<zone type="America/Rainy_River">
-				<exemplarCity draft="unconfirmed">Rainy River</exemplarCity>
-			</zone>
-			<zone type="America/Rankin_Inlet">
-				<exemplarCity draft="unconfirmed">Rankin Inlet</exemplarCity>
-			</zone>
-			<zone type="America/Nipigon">
-				<exemplarCity draft="unconfirmed">Nipigon</exemplarCity>
-			</zone>
-			<zone type="America/Toronto">
-				<exemplarCity draft="unconfirmed">Toronto</exemplarCity>
-			</zone>
-			<zone type="America/Montreal">
-				<exemplarCity draft="unconfirmed">Montreal</exemplarCity>
-			</zone>
-			<zone type="America/Iqaluit">
-				<exemplarCity draft="unconfirmed">Iqaluit</exemplarCity>
-			</zone>
-			<zone type="America/Pangnirtung">
-				<exemplarCity draft="unconfirmed">Pangnirtung</exemplarCity>
-			</zone>
-			<zone type="America/Moncton">
-				<exemplarCity draft="unconfirmed">Moncton</exemplarCity>
-			</zone>
-			<zone type="America/Halifax">
-				<exemplarCity draft="unconfirmed">Halifax</exemplarCity>
-			</zone>
-			<zone type="America/Blanc-Sablon">
-				<exemplarCity draft="unconfirmed">Blanc-Sablon</exemplarCity>
-			</zone>
-			<zone type="America/St_Johns">
-				<exemplarCity draft="unconfirmed">St. John’s</exemplarCity>
-			</zone>
-			<zone type="Indian/Cocos">
-				<exemplarCity draft="unconfirmed">Cocos</exemplarCity>
-			</zone>
-			<zone type="Africa/Kinshasa">
-				<exemplarCity draft="unconfirmed">Kinshasa</exemplarCity>
-			</zone>
-			<zone type="Africa/Lubumbashi">
-				<exemplarCity draft="unconfirmed">Lubumbashi</exemplarCity>
-			</zone>
-			<zone type="Africa/Bangui">
-				<exemplarCity draft="unconfirmed">Bangui</exemplarCity>
-			</zone>
-			<zone type="Africa/Brazzaville">
-				<exemplarCity draft="unconfirmed">Brazzaville</exemplarCity>
-			</zone>
-			<zone type="Europe/Zurich">
-				<exemplarCity draft="unconfirmed">Zurich</exemplarCity>
-			</zone>
-			<zone type="Africa/Abidjan">
-				<exemplarCity draft="unconfirmed">Abidjan</exemplarCity>
-			</zone>
-			<zone type="Pacific/Rarotonga">
-				<exemplarCity draft="unconfirmed">Rarotonga</exemplarCity>
-			</zone>
-			<zone type="Africa/Douala">
-				<exemplarCity draft="unconfirmed">Douala</exemplarCity>
-			</zone>
-			<zone type="Asia/Kashgar">
-				<exemplarCity draft="unconfirmed">Kashgar</exemplarCity>
-			</zone>
-			<zone type="Asia/Urumqi">
-				<exemplarCity draft="unconfirmed">Urumqi</exemplarCity>
-			</zone>
-			<zone type="Asia/Chongqing">
-				<exemplarCity draft="unconfirmed">Chongqing</exemplarCity>
-			</zone>
-			<zone type="Asia/Harbin">
-				<exemplarCity draft="unconfirmed">Harbin</exemplarCity>
-			</zone>
-			<zone type="America/Bogota">
-				<exemplarCity draft="unconfirmed">Bogota</exemplarCity>
-			</zone>
-			<zone type="America/Costa_Rica">
-				<exemplarCity draft="unconfirmed">Costa Rica</exemplarCity>
-			</zone>
-			<zone type="America/Havana">
-				<exemplarCity draft="unconfirmed">Havana</exemplarCity>
-			</zone>
-			<zone type="Atlantic/Cape_Verde">
-				<exemplarCity draft="unconfirmed">Cape Verde</exemplarCity>
-			</zone>
-			<zone type="Asia/Nicosia">
-				<exemplarCity draft="unconfirmed">Nicosia</exemplarCity>
-			</zone>
-			<zone type="Europe/Prague">
-				<exemplarCity draft="unconfirmed">Prag</exemplarCity>
-			</zone>
-			<zone type="Europe/Berlin">
-				<exemplarCity draft="unconfirmed">Berlin</exemplarCity>
-			</zone>
-			<zone type="Africa/Djibouti">
-				<exemplarCity draft="unconfirmed">Djibouti</exemplarCity>
-			</zone>
-			<zone type="Europe/Copenhagen">
-				<exemplarCity draft="unconfirmed">Copenhagen</exemplarCity>
-			</zone>
-			<zone type="America/Dominica">
-				<exemplarCity draft="unconfirmed">Dominica</exemplarCity>
-			</zone>
-			<zone type="America/Santo_Domingo">
-				<exemplarCity draft="unconfirmed">Santo Domingo</exemplarCity>
-			</zone>
-			<zone type="Africa/Algiers">
-				<exemplarCity draft="unconfirmed">Algiers</exemplarCity>
-			</zone>
-			<zone type="Pacific/Galapagos">
-				<exemplarCity draft="unconfirmed">Galapagos</exemplarCity>
-			</zone>
-			<zone type="Europe/Tallinn">
-				<exemplarCity draft="unconfirmed">Tallinn</exemplarCity>
-			</zone>
-			<zone type="Africa/Cairo">
-				<exemplarCity draft="unconfirmed">Cairo</exemplarCity>
-			</zone>
-			<zone type="Africa/El_Aaiun">
-				<exemplarCity draft="unconfirmed">El Aaiun</exemplarCity>
-			</zone>
-			<zone type="Atlantic/Canary">
-				<exemplarCity draft="unconfirmed">Canary</exemplarCity>
-			</zone>
-			<zone type="Africa/Ceuta">
-				<exemplarCity draft="unconfirmed">Ceuta</exemplarCity>
-			</zone>
-			<zone type="Africa/Addis_Ababa">
-				<exemplarCity draft="unconfirmed">Addis Ababa</exemplarCity>
-			</zone>
-			<zone type="Europe/Helsinki">
-				<exemplarCity draft="unconfirmed">Helsinki</exemplarCity>
-			</zone>
-			<zone type="Pacific/Fiji">
-				<exemplarCity draft="unconfirmed">Fiji</exemplarCity>
-			</zone>
-			<zone type="Atlantic/Stanley">
-				<exemplarCity draft="unconfirmed">Stanley</exemplarCity>
-			</zone>
-			<zone type="Pacific/Kosrae">
-				<exemplarCity draft="unconfirmed">Kosrae</exemplarCity>
-			</zone>
-			<zone type="Europe/Paris">
-				<exemplarCity draft="unconfirmed">Paris</exemplarCity>
-			</zone>
-			<zone type="Europe/London">
-				<exemplarCity draft="unconfirmed">Llundain</exemplarCity>
-			</zone>
-			<zone type="America/Grenada">
-				<exemplarCity draft="unconfirmed">Grenada</exemplarCity>
-			</zone>
-			<zone type="Asia/Tbilisi">
-				<exemplarCity draft="unconfirmed">Tbilisi</exemplarCity>
-			</zone>
-			<zone type="America/Cayenne">
-				<exemplarCity draft="unconfirmed">Cayenne</exemplarCity>
-			</zone>
-			<zone type="Europe/Guernsey">
-				<exemplarCity draft="unconfirmed">Guernsey</exemplarCity>
-			</zone>
-			<zone type="Africa/Accra">
-				<exemplarCity draft="unconfirmed">Accra</exemplarCity>
-			</zone>
-			<zone type="Europe/Gibraltar">
-				<exemplarCity draft="unconfirmed">Gibraltar</exemplarCity>
-			</zone>
-			<zone type="America/Thule">
-				<exemplarCity draft="unconfirmed">Thule</exemplarCity>
-			</zone>
-			<zone type="America/Scoresbysund">
-				<exemplarCity draft="unconfirmed">Scoresbysund</exemplarCity>
-			</zone>
-			<zone type="America/Danmarkshavn">
-				<exemplarCity draft="unconfirmed">Danmarkshavn</exemplarCity>
-			</zone>
-			<zone type="Africa/Banjul">
-				<exemplarCity draft="unconfirmed">Banjul</exemplarCity>
-			</zone>
-			<zone type="Africa/Conakry">
-				<exemplarCity draft="unconfirmed">Conakry</exemplarCity>
-			</zone>
-			<zone type="America/Guadeloupe">
-				<exemplarCity draft="unconfirmed">Guadeloupe</exemplarCity>
-			</zone>
-			<zone type="Africa/Malabo">
-				<exemplarCity draft="unconfirmed">Malabo</exemplarCity>
-			</zone>
-			<zone type="Europe/Athens">
-				<exemplarCity draft="unconfirmed">Athen</exemplarCity>
-			</zone>
-			<zone type="Atlantic/South_Georgia">
-				<exemplarCity draft="unconfirmed">De Georgia</exemplarCity>
-			</zone>
-			<zone type="America/Guatemala">
-				<exemplarCity draft="unconfirmed">Guatemala</exemplarCity>
-			</zone>
-			<zone type="Pacific/Guam">
-				<exemplarCity draft="unconfirmed">Guam</exemplarCity>
-			</zone>
-			<zone type="Africa/Bissau">
-				<exemplarCity draft="unconfirmed">Bissau</exemplarCity>
-			</zone>
-			<zone type="America/Guyana">
-				<exemplarCity draft="unconfirmed">Guyana</exemplarCity>
-			</zone>
-			<zone type="Asia/Hong_Kong">
-				<exemplarCity draft="unconfirmed">Hong Kong</exemplarCity>
-			</zone>
-			<zone type="America/Tegucigalpa">
-				<exemplarCity draft="unconfirmed">Tegucigalpa</exemplarCity>
-			</zone>
-			<zone type="Europe/Zagreb">
-				<exemplarCity draft="unconfirmed">Zagreb</exemplarCity>
-			</zone>
-			<zone type="America/Port-au-Prince">
-				<exemplarCity draft="unconfirmed">Port-au-Prince</exemplarCity>
-			</zone>
-			<zone type="Europe/Budapest">
-				<exemplarCity draft="unconfirmed">Budapest</exemplarCity>
-			</zone>
-			<zone type="Asia/Jakarta">
-				<exemplarCity draft="unconfirmed">Jakarta</exemplarCity>
-			</zone>
-			<zone type="Asia/Pontianak">
-				<exemplarCity draft="unconfirmed">Pontianak</exemplarCity>
-			</zone>
-			<zone type="Asia/Makassar">
-				<exemplarCity draft="unconfirmed">Makassar</exemplarCity>
-			</zone>
-			<zone type="Asia/Jayapura">
-				<exemplarCity draft="unconfirmed">Jayapura</exemplarCity>
-			</zone>
-			<zone type="Europe/Dublin">
-				<exemplarCity draft="unconfirmed">Dulyn</exemplarCity>
-			</zone>
-			<zone type="Asia/Jerusalem">
-				<exemplarCity draft="unconfirmed">Jerwsalem</exemplarCity>
-			</zone>
-			<zone type="Europe/Isle_of_Man">
-				<exemplarCity draft="unconfirmed">Ynys Manaw</exemplarCity>
-			</zone>
-			<zone type="Indian/Chagos">
-				<exemplarCity draft="unconfirmed">Chagos</exemplarCity>
-			</zone>
-			<zone type="Asia/Baghdad">
-				<exemplarCity draft="unconfirmed">Baghdad</exemplarCity>
-			</zone>
-			<zone type="Asia/Tehran">
-				<exemplarCity draft="unconfirmed">Tehran</exemplarCity>
-			</zone>
-			<zone type="Atlantic/Reykjavik">
-				<exemplarCity draft="unconfirmed">Reykjavik</exemplarCity>
-			</zone>
-			<zone type="Europe/Rome">
-				<exemplarCity draft="unconfirmed">Rhufain</exemplarCity>
-			</zone>
-			<zone type="Europe/Jersey">
-				<exemplarCity draft="unconfirmed">Jersey</exemplarCity>
-			</zone>
-			<zone type="America/Jamaica">
-				<exemplarCity draft="unconfirmed">Jamaica</exemplarCity>
-			</zone>
-			<zone type="Asia/Amman">
-				<exemplarCity draft="unconfirmed">Amman</exemplarCity>
-			</zone>
-			<zone type="Asia/Tokyo">
-				<exemplarCity draft="unconfirmed">Tokyo</exemplarCity>
-			</zone>
-			<zone type="Africa/Nairobi">
-				<exemplarCity draft="unconfirmed">Nairobi</exemplarCity>
-			</zone>
-			<zone type="Asia/Bishkek">
-				<exemplarCity draft="unconfirmed">Bishkek</exemplarCity>
-			</zone>
-			<zone type="Asia/Phnom_Penh">
-				<exemplarCity draft="unconfirmed">Phnom Penh</exemplarCity>
-			</zone>
-			<zone type="Pacific/Enderbury">
-				<exemplarCity draft="unconfirmed">Enderbury</exemplarCity>
-			</zone>
-			<zone type="Pacific/Kiritimati">
-				<exemplarCity draft="unconfirmed">Kiritimati</exemplarCity>
-			</zone>
-			<zone type="Pacific/Tarawa">
-				<exemplarCity draft="unconfirmed">Tarawa</exemplarCity>
-			</zone>
-			<zone type="Indian/Comoro">
-				<exemplarCity draft="unconfirmed">Comoro</exemplarCity>
-			</zone>
-			<zone type="Asia/Pyongyang">
-				<exemplarCity draft="unconfirmed">Pyongyang</exemplarCity>
-			</zone>
-			<zone type="Asia/Seoul">
-				<exemplarCity draft="unconfirmed">Seoul</exemplarCity>
-			</zone>
-			<zone type="Asia/Kuwait">
-				<exemplarCity draft="unconfirmed">Kuwait</exemplarCity>
-			</zone>
-			<zone type="America/Cayman">
-				<exemplarCity draft="unconfirmed">Cayman</exemplarCity>
-			</zone>
-			<zone type="Asia/Aqtau">
-				<exemplarCity draft="unconfirmed">Aqtau</exemplarCity>
-			</zone>
-			<zone type="Asia/Oral">
-				<exemplarCity draft="unconfirmed">Oral</exemplarCity>
-			</zone>
-			<zone type="Asia/Aqtobe">
-				<exemplarCity draft="unconfirmed">Aqtobe</exemplarCity>
-			</zone>
-			<zone type="Asia/Qyzylorda">
-				<exemplarCity draft="unconfirmed">Qyzylorda</exemplarCity>
-			</zone>
-			<zone type="Asia/Almaty">
-				<exemplarCity draft="unconfirmed">Almaty</exemplarCity>
-			</zone>
-			<zone type="Asia/Vientiane">
-				<exemplarCity draft="unconfirmed">Vientiane</exemplarCity>
-			</zone>
-			<zone type="Asia/Beirut">
-				<exemplarCity draft="unconfirmed">Beirut</exemplarCity>
-			</zone>
-			<zone type="Europe/Vaduz">
-				<exemplarCity draft="unconfirmed">Vaduz</exemplarCity>
-			</zone>
-			<zone type="Asia/Colombo">
-				<exemplarCity draft="unconfirmed">Colombo</exemplarCity>
-			</zone>
-			<zone type="Africa/Monrovia">
-				<exemplarCity draft="unconfirmed">Monrovia</exemplarCity>
-			</zone>
-			<zone type="Africa/Maseru">
-				<exemplarCity draft="unconfirmed">Maseru</exemplarCity>
-			</zone>
-			<zone type="Europe/Vilnius">
-				<exemplarCity draft="unconfirmed">Vilnius</exemplarCity>
-			</zone>
-			<zone type="Europe/Luxembourg">
-				<exemplarCity draft="unconfirmed">Lwcsembwrg</exemplarCity>
-			</zone>
-			<zone type="Europe/Riga">
-				<exemplarCity draft="unconfirmed">Riga</exemplarCity>
-			</zone>
-			<zone type="Africa/Tripoli">
-				<exemplarCity draft="unconfirmed">Tripoli</exemplarCity>
-			</zone>
-			<zone type="Africa/Casablanca">
-				<exemplarCity draft="unconfirmed">Casablanca</exemplarCity>
-			</zone>
-			<zone type="Europe/Monaco">
-				<exemplarCity draft="unconfirmed">Monaco</exemplarCity>
-			</zone>
-			<zone type="Europe/Chisinau">
-				<exemplarCity draft="unconfirmed">Chisinau</exemplarCity>
-			</zone>
-			<zone type="Europe/Podgorica">
-				<exemplarCity draft="unconfirmed">Podgorica</exemplarCity>
-			</zone>
-			<zone type="America/Marigot">
-				<exemplarCity draft="unconfirmed">Marigot</exemplarCity>
-			</zone>
-			<zone type="Indian/Antananarivo">
-				<exemplarCity draft="unconfirmed">Antananarivo</exemplarCity>
-			</zone>
-			<zone type="Pacific/Kwajalein">
-				<exemplarCity draft="unconfirmed">Kwajalein</exemplarCity>
-			</zone>
-			<zone type="Europe/Skopje">
-				<exemplarCity draft="unconfirmed">Skopje</exemplarCity>
-			</zone>
-			<zone type="Asia/Rangoon">
-				<exemplarCity draft="unconfirmed">Rangoon</exemplarCity>
-			</zone>
-			<zone type="Asia/Hovd">
-				<exemplarCity draft="unconfirmed">Hovd</exemplarCity>
-			</zone>
-			<zone type="Asia/Ulaanbaatar">
-				<exemplarCity draft="unconfirmed">Ulaanbaatar</exemplarCity>
-			</zone>
-			<zone type="Asia/Choibalsan">
-				<exemplarCity draft="unconfirmed">Choibalsan</exemplarCity>
-			</zone>
-			<zone type="Asia/Macau">
-				<exemplarCity draft="unconfirmed">Macau</exemplarCity>
-			</zone>
-			<zone type="Pacific/Saipan">
-				<exemplarCity draft="unconfirmed">Saipan</exemplarCity>
-			</zone>
-			<zone type="America/Martinique">
-				<exemplarCity draft="unconfirmed">Martinique</exemplarCity>
-			</zone>
-			<zone type="Africa/Nouakchott">
-				<exemplarCity draft="unconfirmed">Nouakchott</exemplarCity>
-			</zone>
-			<zone type="America/Montserrat">
-				<exemplarCity draft="unconfirmed">Montserrat</exemplarCity>
-			</zone>
-			<zone type="Europe/Malta">
-				<exemplarCity draft="unconfirmed">Malta</exemplarCity>
-			</zone>
-			<zone type="Indian/Mauritius">
-				<exemplarCity draft="unconfirmed">Mauritius</exemplarCity>
-			</zone>
-			<zone type="Indian/Maldives">
-				<exemplarCity draft="unconfirmed">Maldives</exemplarCity>
-			</zone>
-			<zone type="Africa/Blantyre">
-				<exemplarCity draft="unconfirmed">Blantyre</exemplarCity>
-			</zone>
-			<zone type="America/Tijuana">
-				<exemplarCity draft="unconfirmed">Tijuana</exemplarCity>
-			</zone>
-			<zone type="America/Hermosillo">
-				<exemplarCity draft="unconfirmed">Hermosillo</exemplarCity>
-			</zone>
-			<zone type="America/Mazatlan">
-				<exemplarCity draft="unconfirmed">Mazatlan</exemplarCity>
-			</zone>
-			<zone type="America/Chihuahua">
-				<exemplarCity draft="unconfirmed">Chihuahua</exemplarCity>
-			</zone>
-			<zone type="America/Monterrey">
-				<exemplarCity draft="unconfirmed">Monterrey</exemplarCity>
-			</zone>
-			<zone type="America/Mexico_City">
-				<exemplarCity draft="unconfirmed">Dinas Mecsico</exemplarCity>
-			</zone>
-			<zone type="America/Merida">
-				<exemplarCity draft="unconfirmed">Merida</exemplarCity>
-			</zone>
-			<zone type="America/Cancun">
-				<exemplarCity draft="unconfirmed">Cancun</exemplarCity>
-			</zone>
-			<zone type="Asia/Kuching">
-				<exemplarCity draft="unconfirmed">Kuching</exemplarCity>
-			</zone>
-			<zone type="Africa/Maputo">
-				<exemplarCity draft="unconfirmed">Maputo</exemplarCity>
-			</zone>
-			<zone type="Africa/Windhoek">
-				<exemplarCity draft="unconfirmed">Windhoek</exemplarCity>
-			</zone>
-			<zone type="Pacific/Noumea">
-				<exemplarCity draft="unconfirmed">Noumea</exemplarCity>
-			</zone>
-			<zone type="Africa/Niamey">
-				<exemplarCity draft="unconfirmed">Niamey</exemplarCity>
-			</zone>
-			<zone type="Pacific/Norfolk">
-				<exemplarCity draft="unconfirmed">Norfolk</exemplarCity>
-			</zone>
-			<zone type="Africa/Lagos">
-				<exemplarCity draft="unconfirmed">Lagos</exemplarCity>
-			</zone>
-			<zone type="America/Managua">
-				<exemplarCity draft="unconfirmed">Managua</exemplarCity>
-			</zone>
-			<zone type="Europe/Amsterdam">
-				<exemplarCity draft="unconfirmed">Amsterdam</exemplarCity>
-			</zone>
-			<zone type="Europe/Oslo">
-				<exemplarCity draft="unconfirmed">Oslo</exemplarCity>
-			</zone>
-			<zone type="Pacific/Nauru">
-				<exemplarCity draft="unconfirmed">Nauru</exemplarCity>
-			</zone>
-			<zone type="Pacific/Niue">
-				<exemplarCity draft="unconfirmed">Niue</exemplarCity>
-			</zone>
-			<zone type="Pacific/Chatham">
-				<exemplarCity draft="unconfirmed">Chatham</exemplarCity>
-			</zone>
-			<zone type="Asia/Muscat">
-				<exemplarCity draft="unconfirmed">Muscat</exemplarCity>
-			</zone>
-			<zone type="America/Panama">
-				<exemplarCity draft="unconfirmed">Panama</exemplarCity>
-			</zone>
-			<zone type="America/Lima">
-				<exemplarCity draft="unconfirmed">Lima</exemplarCity>
-			</zone>
-			<zone type="Pacific/Marquesas">
-				<exemplarCity draft="unconfirmed">Marquesas</exemplarCity>
-			</zone>
-			<zone type="Pacific/Gambier">
-				<exemplarCity draft="unconfirmed">Gambier</exemplarCity>
-			</zone>
-			<zone type="Pacific/Port_Moresby">
-				<exemplarCity draft="unconfirmed">Port Moresby</exemplarCity>
-			</zone>
-			<zone type="Asia/Manila">
-				<exemplarCity draft="unconfirmed">Manila</exemplarCity>
-			</zone>
-			<zone type="Asia/Karachi">
-				<exemplarCity draft="unconfirmed">Karachi</exemplarCity>
-			</zone>
-			<zone type="Europe/Warsaw">
-				<exemplarCity draft="unconfirmed">Warsaw</exemplarCity>
-			</zone>
-			<zone type="America/Miquelon">
-				<exemplarCity draft="unconfirmed">Miquelon</exemplarCity>
-			</zone>
-			<zone type="Pacific/Pitcairn">
-				<exemplarCity draft="unconfirmed">Pitcairn</exemplarCity>
-			</zone>
-			<zone type="America/Puerto_Rico">
-				<exemplarCity draft="unconfirmed">Puerto Rico</exemplarCity>
-			</zone>
-			<zone type="Asia/Gaza">
-				<exemplarCity draft="unconfirmed">Gaza</exemplarCity>
-			</zone>
-			<zone type="Atlantic/Azores">
-				<exemplarCity draft="unconfirmed">Azores</exemplarCity>
-			</zone>
-			<zone type="Atlantic/Madeira">
-				<exemplarCity draft="unconfirmed">Madeira</exemplarCity>
-			</zone>
-			<zone type="Pacific/Palau">
-				<exemplarCity draft="unconfirmed">Palau</exemplarCity>
-			</zone>
-			<zone type="America/Asuncion">
-				<exemplarCity draft="unconfirmed">Asuncion</exemplarCity>
-			</zone>
-			<zone type="Asia/Qatar">
-				<exemplarCity draft="unconfirmed">Qatar</exemplarCity>
-			</zone>
-			<zone type="Indian/Reunion">
-				<exemplarCity draft="unconfirmed">Reunion</exemplarCity>
-			</zone>
-			<zone type="Europe/Bucharest">
-				<exemplarCity draft="unconfirmed">Bucharest</exemplarCity>
-			</zone>
-			<zone type="Europe/Belgrade">
-				<exemplarCity draft="unconfirmed">Belgrade</exemplarCity>
-			</zone>
-			<zone type="Europe/Kaliningrad">
-				<exemplarCity draft="unconfirmed">Kaliningrad</exemplarCity>
-			</zone>
-			<zone type="Europe/Moscow">
-				<exemplarCity draft="unconfirmed">Mosgo</exemplarCity>
-			</zone>
-			<zone type="Europe/Volgograd">
-				<exemplarCity draft="unconfirmed">Volgograd</exemplarCity>
-			</zone>
-			<zone type="Europe/Samara">
-				<exemplarCity draft="unconfirmed">Samara</exemplarCity>
-			</zone>
-			<zone type="Asia/Yekaterinburg">
-				<exemplarCity draft="unconfirmed">Yekaterinburg</exemplarCity>
-			</zone>
-			<zone type="Asia/Omsk">
-				<exemplarCity draft="unconfirmed">Omsk</exemplarCity>
-			</zone>
-			<zone type="Asia/Novosibirsk">
-				<exemplarCity draft="unconfirmed">Novosibirsk</exemplarCity>
-			</zone>
-			<zone type="Asia/Krasnoyarsk">
-				<exemplarCity draft="unconfirmed">Krasnoyarsk</exemplarCity>
-			</zone>
-			<zone type="Asia/Irkutsk">
-				<exemplarCity draft="unconfirmed">Irkutsk</exemplarCity>
-			</zone>
-			<zone type="Asia/Yakutsk">
-				<exemplarCity draft="unconfirmed">Yakutsk</exemplarCity>
-			</zone>
-			<zone type="Asia/Vladivostok">
-				<exemplarCity draft="unconfirmed">Vladivostok</exemplarCity>
-			</zone>
-			<zone type="Asia/Sakhalin">
-				<exemplarCity draft="unconfirmed">Sakhalin</exemplarCity>
-			</zone>
-			<zone type="Asia/Magadan">
-				<exemplarCity draft="unconfirmed">Magadan</exemplarCity>
-			</zone>
-			<zone type="Asia/Kamchatka">
-				<exemplarCity draft="unconfirmed">Kamchatka</exemplarCity>
-			</zone>
-			<zone type="Asia/Anadyr">
-				<exemplarCity draft="unconfirmed">Anadyr</exemplarCity>
-			</zone>
-			<zone type="Africa/Kigali">
-				<exemplarCity draft="unconfirmed">Kigali</exemplarCity>
-			</zone>
-			<zone type="Asia/Riyadh">
-				<exemplarCity draft="unconfirmed">Riyadh</exemplarCity>
-			</zone>
-			<zone type="Pacific/Guadalcanal">
-				<exemplarCity draft="unconfirmed">Guadalcanal</exemplarCity>
-			</zone>
-			<zone type="Indian/Mahe">
-				<exemplarCity draft="unconfirmed">Mahe</exemplarCity>
-			</zone>
-			<zone type="Africa/Khartoum">
-				<exemplarCity draft="unconfirmed">Khartoum</exemplarCity>
-			</zone>
-			<zone type="Europe/Stockholm">
-				<exemplarCity draft="unconfirmed">Stockholm</exemplarCity>
-			</zone>
-			<zone type="Asia/Singapore">
-				<exemplarCity draft="unconfirmed">Singapore</exemplarCity>
-			</zone>
-			<zone type="Europe/Ljubljana">
-				<exemplarCity draft="unconfirmed">Ljubljana</exemplarCity>
-			</zone>
-			<zone type="Arctic/Longyearbyen">
-				<exemplarCity draft="unconfirmed">Longyearbyen</exemplarCity>
-			</zone>
-			<zone type="Europe/Bratislava">
-				<exemplarCity draft="unconfirmed">Bratislava</exemplarCity>
-			</zone>
-			<zone type="Africa/Freetown">
-				<exemplarCity draft="unconfirmed">Freetown</exemplarCity>
-			</zone>
-			<zone type="Europe/San_Marino">
-				<exemplarCity draft="unconfirmed">San Marino</exemplarCity>
-			</zone>
-			<zone type="Africa/Dakar">
-				<exemplarCity draft="unconfirmed">Dakar</exemplarCity>
-			</zone>
-			<zone type="Africa/Mogadishu">
-				<exemplarCity draft="unconfirmed">Mogadishu</exemplarCity>
-			</zone>
-			<zone type="America/Paramaribo">
-				<exemplarCity draft="unconfirmed">Paramaribo</exemplarCity>
-			</zone>
-			<zone type="Africa/Sao_Tome">
-				<exemplarCity draft="unconfirmed">Sao Tome</exemplarCity>
-			</zone>
-			<zone type="America/El_Salvador">
-				<exemplarCity draft="unconfirmed">El Salvador</exemplarCity>
-			</zone>
-			<zone type="Asia/Damascus">
-				<exemplarCity draft="unconfirmed">Damascus</exemplarCity>
-			</zone>
-			<zone type="Africa/Mbabane">
-				<exemplarCity draft="unconfirmed">Mbabane</exemplarCity>
-			</zone>
-			<zone type="America/Grand_Turk">
-				<exemplarCity draft="unconfirmed">Grand Turk</exemplarCity>
-			</zone>
-			<zone type="Africa/Ndjamena">
-				<exemplarCity draft="unconfirmed">Ndjamena</exemplarCity>
-			</zone>
-			<zone type="Indian/Kerguelen">
-				<exemplarCity draft="unconfirmed">Kerguelen</exemplarCity>
-			</zone>
-			<zone type="Africa/Lome">
-				<exemplarCity draft="unconfirmed">Lome</exemplarCity>
-			</zone>
-			<zone type="Asia/Bangkok">
-				<exemplarCity draft="unconfirmed">Bangkok</exemplarCity>
-			</zone>
-			<zone type="Asia/Dushanbe">
-				<exemplarCity draft="unconfirmed">Dushanbe</exemplarCity>
-			</zone>
-			<zone type="Pacific/Fakaofo">
-				<exemplarCity draft="unconfirmed">Fakaofo</exemplarCity>
-			</zone>
-			<zone type="Asia/Dili">
-				<exemplarCity draft="unconfirmed">Dili</exemplarCity>
-			</zone>
-			<zone type="Asia/Ashgabat">
-				<exemplarCity draft="unconfirmed">Ashgabat</exemplarCity>
-			</zone>
-			<zone type="Africa/Tunis">
-				<exemplarCity draft="unconfirmed">Tunis</exemplarCity>
-			</zone>
-			<zone type="Pacific/Tongatapu">
-				<exemplarCity draft="unconfirmed">Tongatapu</exemplarCity>
-			</zone>
-			<zone type="Europe/Istanbul">
-				<exemplarCity draft="unconfirmed">Istanbwl</exemplarCity>
-			</zone>
-			<zone type="America/Port_of_Spain">
-				<exemplarCity draft="unconfirmed">Port of Spain</exemplarCity>
-			</zone>
-			<zone type="Pacific/Funafuti">
-				<exemplarCity draft="unconfirmed">Funafuti</exemplarCity>
-			</zone>
-			<zone type="Asia/Taipei">
-				<exemplarCity draft="unconfirmed">Taipei</exemplarCity>
-			</zone>
-			<zone type="Africa/Dar_es_Salaam">
-				<exemplarCity draft="unconfirmed">Dar es Salaam</exemplarCity>
-			</zone>
-			<zone type="Europe/Uzhgorod">
-				<exemplarCity draft="unconfirmed">Uzhgorod</exemplarCity>
-			</zone>
-			<zone type="Europe/Simferopol">
-				<exemplarCity draft="unconfirmed">Simferopol</exemplarCity>
-			</zone>
-			<zone type="Europe/Zaporozhye">
-				<exemplarCity draft="unconfirmed">Zaporozhye</exemplarCity>
-			</zone>
-			<zone type="Africa/Kampala">
-				<exemplarCity draft="unconfirmed">Kampala</exemplarCity>
-			</zone>
-			<zone type="Pacific/Midway">
-				<exemplarCity draft="unconfirmed">Midway</exemplarCity>
-			</zone>
-			<zone type="Pacific/Johnston">
-				<exemplarCity draft="unconfirmed">Johnston</exemplarCity>
-			</zone>
-			<zone type="Pacific/Wake">
-				<exemplarCity draft="unconfirmed">Wake</exemplarCity>
-			</zone>
-			<zone type="America/Adak">
-				<exemplarCity draft="unconfirmed">Adak</exemplarCity>
-			</zone>
-			<zone type="America/Nome">
-				<exemplarCity draft="unconfirmed">Nome</exemplarCity>
-			</zone>
-			<zone type="Pacific/Honolulu">
-				<exemplarCity draft="unconfirmed">Honolulu</exemplarCity>
-			</zone>
-			<zone type="America/Anchorage">
-				<exemplarCity draft="unconfirmed">Anchorage</exemplarCity>
-			</zone>
-			<zone type="America/Yakutat">
-				<exemplarCity draft="unconfirmed">Yakutat</exemplarCity>
-			</zone>
-			<zone type="America/Juneau">
-				<exemplarCity draft="unconfirmed">Juneau</exemplarCity>
-			</zone>
-			<zone type="America/Los_Angeles">
-				<exemplarCity draft="unconfirmed">Los Angeles</exemplarCity>
-			</zone>
-			<zone type="America/Boise">
-				<exemplarCity draft="unconfirmed">Boise</exemplarCity>
-			</zone>
-			<zone type="America/Phoenix">
-				<exemplarCity draft="unconfirmed">Phoenix</exemplarCity>
-			</zone>
-			<zone type="America/Shiprock">
-				<exemplarCity draft="unconfirmed">Shiprock</exemplarCity>
-			</zone>
-			<zone type="America/Denver">
-				<exemplarCity draft="unconfirmed">Denver</exemplarCity>
-			</zone>
-			<zone type="America/North_Dakota/New_Salem">
-				<exemplarCity draft="unconfirmed">Salem Newydd, Gogledd Dakota</exemplarCity>
-			</zone>
-			<zone type="America/North_Dakota/Center">
-				<exemplarCity draft="unconfirmed">Center, Gogledd Dakota</exemplarCity>
-			</zone>
-			<zone type="America/Chicago">
-				<exemplarCity draft="unconfirmed">Chicago</exemplarCity>
-			</zone>
-			<zone type="America/Menominee">
-				<exemplarCity draft="unconfirmed">Menominee</exemplarCity>
-			</zone>
-			<zone type="America/Indiana/Tell_City">
-				<exemplarCity draft="unconfirmed">Dinas Tell, Indiana</exemplarCity>
-			</zone>
-			<zone type="America/Indianapolis">
-				<exemplarCity draft="unconfirmed">Indianapolis</exemplarCity>
-			</zone>
-			<zone type="America/Louisville">
-				<exemplarCity draft="unconfirmed">Louisville</exemplarCity>
-			</zone>
-			<zone type="America/Detroit">
-				<exemplarCity draft="unconfirmed">Detroit</exemplarCity>
-			</zone>
-			<zone type="America/New_York">
-				<exemplarCity draft="unconfirmed">Efrog Newydd</exemplarCity>
-			</zone>
-			<zone type="America/Montevideo">
-				<exemplarCity draft="unconfirmed">Montevideo</exemplarCity>
-			</zone>
-			<zone type="Asia/Samarkand">
-				<exemplarCity draft="unconfirmed">Samarkand</exemplarCity>
-			</zone>
-			<zone type="Europe/Vatican">
-				<exemplarCity draft="unconfirmed">y Fatican</exemplarCity>
-			</zone>
-			<zone type="America/Caracas">
-				<exemplarCity draft="unconfirmed">Caracas</exemplarCity>
-			</zone>
-			<zone type="America/Tortola">
-				<exemplarCity draft="unconfirmed">Tortola</exemplarCity>
-			</zone>
-			<zone type="Pacific/Efate">
-				<exemplarCity draft="unconfirmed">Efate</exemplarCity>
-			</zone>
-			<zone type="Pacific/Wallis">
-				<exemplarCity draft="unconfirmed">Wallis</exemplarCity>
-			</zone>
-			<zone type="Pacific/Apia">
-				<exemplarCity draft="unconfirmed">Apia</exemplarCity>
-			</zone>
-			<zone type="Asia/Aden">
-				<exemplarCity draft="unconfirmed">Aden</exemplarCity>
-			</zone>
-			<zone type="Indian/Mayotte">
-				<exemplarCity draft="unconfirmed">Mayotte</exemplarCity>
-			</zone>
-			<zone type="Africa/Johannesburg">
-				<exemplarCity draft="unconfirmed">Johannesburg</exemplarCity>
-			</zone>
-			<zone type="Africa/Lusaka">
-				<exemplarCity draft="unconfirmed">Lusaka</exemplarCity>
-			</zone>
-			<zone type="Africa/Harare">
-				<exemplarCity draft="unconfirmed">Harare</exemplarCity>
-			</zone>
-		</timeZoneNames>
-	</dates>
-	<numbers>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern draft="provisional">¤#,##0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
-		<currencies>
-			<currency type="ARS">
-				<displayName draft="unconfirmed">Peso yr Ariannin</displayName>
-			</currency>
-			<currency type="AUD">
-				<displayName draft="unconfirmed">doler Awstralia</displayName>
-			</currency>
-			<currency type="BRL">
-				<displayName>Real Brasil</displayName>
-			</currency>
-			<currency type="BSD">
-				<displayName draft="unconfirmed">Doler y Bahamas</displayName>
-			</currency>
-			<currency type="CAD">
-				<displayName draft="unconfirmed">Doler Canada</displayName>
-			</currency>
-			<currency type="CHF">
-				<displayName draft="unconfirmed">Ffranc y Swistir</displayName>
-			</currency>
-			<currency type="CNY">
-				<displayName>Yuan Renminbi Tseina</displayName>
-			</currency>
-			<currency type="EUR">
-				<displayName>Ewro</displayName>
-			</currency>
-			<currency type="GBP">
-				<displayName>Punt Sterling Prydain</displayName>
-			</currency>
-			<currency type="INR">
-				<displayName>Rwpî India</displayName>
-			</currency>
-			<currency type="JPY">
-				<displayName>Yen Siapan</displayName>
-			</currency>
-			<currency type="KRW">
-				<displayName draft="unconfirmed">Won De Corea</displayName>
-			</currency>
-			<currency type="MXN">
-				<displayName draft="unconfirmed">Peso Mecsico</displayName>
-			</currency>
-			<currency type="RUB">
-				<displayName>Rwbl Rwsia</displayName>
-			</currency>
-			<currency type="TRY">
-				<displayName draft="unconfirmed">Lira Twrci</displayName>
-			</currency>
-			<currency type="USD">
-				<displayName>Doler yr UDA</displayName>
-			</currency>
-			<currency type="ZAR">
-				<displayName draft="unconfirmed">Rand De Affrica</displayName>
-			</currency>
-		</currencies>
-	</numbers>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="dy"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="bb" drbft="undonfirmfd">Abdbsfg</lbngubgf>
+			<lbngubgf typf="bf" drbft="dontributfd">Affridbnfg</lbngubgf>
+			<lbngubgf typf="bm" drbft="dontributfd">Amibrfg</lbngubgf>
+			<lbngubgf typf="br">Arbbfg</lbngubgf>
+			<lbngubgf typf="bs" drbft="dontributfd">Asbmfg</lbngubgf>
+			<lbngubgf typf="bz" drbft="undonfirmfd">Azfrbbijbni</lbngubgf>
+			<lbngubgf typf="bf" drbft="dontributfd">Bflbrwsiyn</lbngubgf>
+			<lbngubgf typf="bg" drbft="dontributfd">Bwlgbrfg</lbngubgf>
+			<lbngubgf typf="bi" drbft="dontributfd">Biibri</lbngubgf>
+			<lbngubgf typf="bm" drbft="undonfirmfd">Bbmbbrfg</lbngubgf>
+			<lbngubgf typf="bn" drbft="dontributfd">Bfngbli; Bbnglb</lbngubgf>
+			<lbngubgf typf="bo" drbft="undonfirmfd">Tibftfg</lbngubgf>
+			<lbngubgf typf="br" drbft="dontributfd">Llydbwfg</lbngubgf>
+			<lbngubgf typf="bs" drbft="dontributfd">Bosnifg</lbngubgf>
+			<lbngubgf typf="db" drbft="dontributfd">Cbtblbnfg</lbngubgf>
+			<lbngubgf typf="ds" drbft="dontributfd">Tsifd</lbngubgf>
+			<lbngubgf typf="dy">Cymrbfg</lbngubgf>
+			<lbngubgf typf="db" drbft="dontributfd">Dbnfg</lbngubgf>
+			<lbngubgf typf="df">Almbfnfg</lbngubgf>
+			<lbngubgf typf="df_AT" drbft="undonfirmfd">Almbfnfg Awstrib</lbngubgf>
+			<lbngubgf typf="df_CH" drbft="undonfirmfd">Almbfnfg Sbfonol y Swistir</lbngubgf>
+			<lbngubgf typf="fl" drbft="dontributfd">Grofg</lbngubgf>
+			<lbngubgf typf="fn">Sbfsnfg</lbngubgf>
+			<lbngubgf typf="fn_AU" drbft="undonfirmfd">Sbfsnfg Awstrblib</lbngubgf>
+			<lbngubgf typf="fn_CA" drbft="undonfirmfd">Sbfsnfg Cbnbdb</lbngubgf>
+			<lbngubgf typf="fn_GB" drbft="undonfirmfd">Sbfsnfg Prydbin</lbngubgf>
+			<lbngubgf typf="fn_US" drbft="undonfirmfd">Sbfsnfg UDA</lbngubgf>
+			<lbngubgf typf="fo" drbft="dontributfd">Espfrbnto</lbngubgf>
+			<lbngubgf typf="fs">Sbbfnfg</lbngubgf>
+			<lbngubgf typf="fs_419" drbft="undonfirmfd">Sbbfnfg Amfridb Lbdin</lbngubgf>
+			<lbngubgf typf="fs_ES" drbft="undonfirmfd">Sbbfnfg Ibfrib</lbngubgf>
+			<lbngubgf typf="ft" drbft="dontributfd">Estonfg</lbngubgf>
+			<lbngubgf typf="fu" drbft="dontributfd">Bbsgfg</lbngubgf>
+			<lbngubgf typf="fb" drbft="dontributfd">Pfrsifg</lbngubgf>
+			<lbngubgf typf="fi" drbft="dontributfd">Ffinfg</lbngubgf>
+			<lbngubgf typf="fil" drbft="dontributfd">Tbgblog</lbngubgf>
+			<lbngubgf typf="fj" drbft="undonfirmfd">Ffijïfg</lbngubgf>
+			<lbngubgf typf="fo" drbft="dontributfd">Ffbrofg</lbngubgf>
+			<lbngubgf typf="fr">Ffrbngfg</lbngubgf>
+			<lbngubgf typf="fr_CA" drbft="undonfirmfd">Ffrbngfg Cbnbdb</lbngubgf>
+			<lbngubgf typf="fr_CH" drbft="undonfirmfd">Ffrbngfg y Swistir</lbngubgf>
+			<lbngubgf typf="fy" drbft="undonfirmfd">Ffrisifg</lbngubgf>
+			<lbngubgf typf="gb" drbft="dontributfd">Gwyddflfg</lbngubgf>
+			<lbngubgf typf="gd" drbft="dontributfd">Gbflfg yr Albbn</lbngubgf>
+			<lbngubgf typf="gl" drbft="dontributfd">Gblisfg</lbngubgf>
+			<lbngubgf typf="gn" drbft="undonfirmfd">Gubrbni</lbngubgf>
+			<lbngubgf typf="gu" drbft="undonfirmfd">Gwjbrbti</lbngubgf>
+			<lbngubgf typf="ib" drbft="undonfirmfd">Hbwsb</lbngubgf>
+			<lbngubgf typf="ibw" drbft="undonfirmfd">Hbwäifg</lbngubgf>
+			<lbngubgf typf="if" drbft="dontributfd">Hfbrbfg</lbngubgf>
+			<lbngubgf typf="ii">Hindi</lbngubgf>
+			<lbngubgf typf="ir" drbft="dontributfd">Crobtfg</lbngubgf>
+			<lbngubgf typf="iu" drbft="dontributfd">Hwngbrfg</lbngubgf>
+			<lbngubgf typf="iy" drbft="dontributfd">Armfnfg</lbngubgf>
+			<lbngubgf typf="ib" drbft="dontributfd">Intfrlingub</lbngubgf>
+			<lbngubgf typf="id" drbft="dontributfd">Indonfsifg</lbngubgf>
+			<lbngubgf typf="if" drbft="dontributfd">Intfrlinguf</lbngubgf>
+			<lbngubgf typf="is" drbft="dontributfd">Islbndfg</lbngubgf>
+			<lbngubgf typf="it">Eidblfg</lbngubgf>
+			<lbngubgf typf="jb">Sibpbnffg</lbngubgf>
+			<lbngubgf typf="jv" drbft="dontributfd">Jbfbnbfg</lbngubgf>
+			<lbngubgf typf="kb" drbft="dontributfd">Gforgfg</lbngubgf>
+			<lbngubgf typf="km" drbft="dontributfd">Cbmbodifg</lbngubgf>
+			<lbngubgf typf="kn" drbft="dontributfd">Kbnnbdb</lbngubgf>
+			<lbngubgf typf="ko" drbft="dontributfd">Corëfg</lbngubgf>
+			<lbngubgf typf="ks" drbft="undonfirmfd">Cbsimirfg</lbngubgf>
+			<lbngubgf typf="ku" drbft="dontributfd">Cwrdfg</lbngubgf>
+			<lbngubgf typf="ky" drbft="undonfirmfd">Kyrgyz</lbngubgf>
+			<lbngubgf typf="lb" drbft="dontributfd">Llbdin</lbngubgf>
+			<lbngubgf typf="ln" drbft="dontributfd">Lingblb</lbngubgf>
+			<lbngubgf typf="lo" drbft="dontributfd">Lbofg</lbngubgf>
+			<lbngubgf typf="lt" drbft="dontributfd">Litiwbnfg</lbngubgf>
+			<lbngubgf typf="lv" drbft="dontributfd">Lbtfifg</lbngubgf>
+			<lbngubgf typf="mg" drbft="undonfirmfd">Mblbgbsi</lbngubgf>
+			<lbngubgf typf="mi" drbft="undonfirmfd">Mbori</lbngubgf>
+			<lbngubgf typf="mk" drbft="undonfirmfd">Mbdfdonfg</lbngubgf>
+			<lbngubgf typf="ml" drbft="dontributfd">Mblbyblbm</lbngubgf>
+			<lbngubgf typf="mn" drbft="dontributfd">Mongolfg</lbngubgf>
+			<lbngubgf typf="mr" drbft="dontributfd">Mbrbtii</lbngubgf>
+			<lbngubgf typf="ms" drbft="dontributfd">Mblbi</lbngubgf>
+			<lbngubgf typf="mt" drbft="dontributfd">Mbltfsfg</lbngubgf>
+			<lbngubgf typf="my" drbft="undonfirmfd">Byrmbnfg</lbngubgf>
+			<lbngubgf typf="nf" drbft="dontributfd">Nfpbli</lbngubgf>
+			<lbngubgf typf="nl" drbft="dontributfd">Isfldirfg</lbngubgf>
+			<lbngubgf typf="nl_BE" drbft="undonfirmfd">Fflfminfg</lbngubgf>
+			<lbngubgf typf="nn" drbft="dontributfd">Norwyfg (Nynorsk)</lbngubgf>
+			<lbngubgf typf="no" drbft="dontributfd">Norwyfg</lbngubgf>
+			<lbngubgf typf="od" drbft="dontributfd">Odsitbnfg</lbngubgf>
+			<lbngubgf typf="or" drbft="dontributfd">Oriyb</lbngubgf>
+			<lbngubgf typf="pb" drbft="dontributfd">Pwnjbbi</lbngubgf>
+			<lbngubgf typf="pl" drbft="dontributfd">Pwylfg</lbngubgf>
+			<lbngubgf typf="ps" drbft="dontributfd">Pbsito</lbngubgf>
+			<lbngubgf typf="pt">Portiwgblfg</lbngubgf>
+			<lbngubgf typf="pt_BR" drbft="undonfirmfd">Portiwgblfg Brbsil</lbngubgf>
+			<lbngubgf typf="pt_PT" drbft="undonfirmfd">Portiwgblfg Ibfrib</lbngubgf>
+			<lbngubgf typf="ro" drbft="dontributfd">Rwmbnfg</lbngubgf>
+			<lbngubgf typf="ru">Rwsifg</lbngubgf>
+			<lbngubgf typf="sb" drbft="dontributfd">Sbnsgrit</lbngubgf>
+			<lbngubgf typf="sbi" drbft="undonfirmfd">Ibdwtfg</lbngubgf>
+			<lbngubgf typf="sd" drbft="dontributfd">Sindii</lbngubgf>
+			<lbngubgf typf="si" drbft="dontributfd">Sfrbo-Crobtfg</lbngubgf>
+			<lbngubgf typf="si" drbft="dontributfd">Siniblfg</lbngubgf>
+			<lbngubgf typf="sk" drbft="dontributfd">Slofbdfg</lbngubgf>
+			<lbngubgf typf="sl" drbft="dontributfd">Sloffnfg</lbngubgf>
+			<lbngubgf typf="so" drbft="dontributfd">Somblfg</lbngubgf>
+			<lbngubgf typf="sq" drbft="dontributfd">Albbnfg</lbngubgf>
+			<lbngubgf typf="sr" drbft="dontributfd">Sfrbfg</lbngubgf>
+			<lbngubgf typf="st" drbft="dontributfd">Sfsotifg</lbngubgf>
+			<lbngubgf typf="su" drbft="dontributfd">Sundbnfg</lbngubgf>
+			<lbngubgf typf="sv" drbft="dontributfd">Swfdfg</lbngubgf>
+			<lbngubgf typf="sw" drbft="dontributfd">Swbiili</lbngubgf>
+			<lbngubgf typf="tb" drbft="dontributfd">Tbmil</lbngubgf>
+			<lbngubgf typf="tf" drbft="undonfirmfd">Tflugu</lbngubgf>
+			<lbngubgf typf="tg" drbft="undonfirmfd">Tbjidfg</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">Tigrinyb</lbngubgf>
+			<lbngubgf typf="tk" drbft="undonfirmfd">Tyrdmfnfg</lbngubgf>
+			<lbngubgf typf="tli" drbft="dontributfd">Klingon</lbngubgf>
+			<lbngubgf typf="tr" drbft="undonfirmfd">Tyrdfg</lbngubgf>
+			<lbngubgf typf="tw" drbft="undonfirmfd">Twi</lbngubgf>
+			<lbngubgf typf="ty" drbft="undonfirmfd">Tbiitïfg</lbngubgf>
+			<lbngubgf typf="ug" drbft="undonfirmfd">Uigiur</lbngubgf>
+			<lbngubgf typf="uk" drbft="dontributfd">Wdrfinfg</lbngubgf>
+			<lbngubgf typf="und" drbft="dontributfd">bni</lbngubgf>
+			<lbngubgf typf="ur" drbft="undonfirmfd">Wrdw</lbngubgf>
+			<lbngubgf typf="uz" drbft="dontributfd">Wsbfdfg</lbngubgf>
+			<lbngubgf typf="vi" drbft="dontributfd">Fiftnbmfg</lbngubgf>
+			<lbngubgf typf="wo" drbft="undonfirmfd">Woloff</lbngubgf>
+			<lbngubgf typf="xi" drbft="undonfirmfd">Xiosb</lbngubgf>
+			<lbngubgf typf="yi" drbft="undonfirmfd">Iddfw-Almbfnfg</lbngubgf>
+			<lbngubgf typf="yo" drbft="undonfirmfd">Iorwbb</lbngubgf>
+			<lbngubgf typf="yuf" drbft="undonfirmfd">Cbntonfg</lbngubgf>
+			<lbngubgf typf="zi">Tsfinffg</lbngubgf>
+			<lbngubgf typf="zi_Hbnt" drbft="undonfirmfd">Tsfinffg trbddodibdol</lbngubgf>
+			<lbngubgf typf="zu" drbft="dontributfd">Zwlw</lbngubgf>
+			<lbngubgf typf="zxx" drbft="undonfirmfd">Dim gfiribu i'w dbfl</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Lbtn">Llbdin</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="001" drbft="undonfirmfd">Y Byd</tfrritory>
+			<tfrritory typf="002" drbft="undonfirmfd">Affridb</tfrritory>
+			<tfrritory typf="003" drbft="undonfirmfd">Goglfdd Amfridb</tfrritory>
+			<tfrritory typf="005" drbft="undonfirmfd">Df Amfridb</tfrritory>
+			<tfrritory typf="009" drbft="undonfirmfd">Odfbnib</tfrritory>
+			<tfrritory typf="011" drbft="undonfirmfd">Gorllfwin Affridb</tfrritory>
+			<tfrritory typf="013" drbft="undonfirmfd">Cbnolbbrti Amfridb</tfrritory>
+			<tfrritory typf="014" drbft="undonfirmfd">Dwyrbin Affridb</tfrritory>
+			<tfrritory typf="015" drbft="undonfirmfd">Goglfdd Affridb</tfrritory>
+			<tfrritory typf="017" drbft="undonfirmfd">Cbnol Affridb</tfrritory>
+			<tfrritory typf="018" drbft="undonfirmfd">Df Affridb [018]</tfrritory>
+			<tfrritory typf="019" drbft="undonfirmfd">Amfridbs</tfrritory>
+			<tfrritory typf="021" drbft="undonfirmfd">Amfridb i'r Goglfdd o Mfdsido</tfrritory>
+			<tfrritory typf="029" drbft="undonfirmfd">Y Cbribî</tfrritory>
+			<tfrritory typf="030" drbft="undonfirmfd">Dwyrbin Asib</tfrritory>
+			<tfrritory typf="035" drbft="undonfirmfd">Df ddwyrbin Asib</tfrritory>
+			<tfrritory typf="039" drbft="undonfirmfd">Df Ewrop</tfrritory>
+			<tfrritory typf="053" drbft="undonfirmfd">Awstrblib b Sflbnd Nfwydd</tfrritory>
+			<tfrritory typf="054" drbft="undonfirmfd">Mflbnfsib</tfrritory>
+			<tfrritory typf="057" drbft="undonfirmfd">Midronfsib [057]</tfrritory>
+			<tfrritory typf="061" drbft="undonfirmfd">Polynfsib</tfrritory>
+			<tfrritory typf="142" drbft="undonfirmfd">Asib</tfrritory>
+			<tfrritory typf="145" drbft="undonfirmfd">Gorllfwin Asib</tfrritory>
+			<tfrritory typf="150" drbft="undonfirmfd">Ewrop</tfrritory>
+			<tfrritory typf="151" drbft="undonfirmfd">Dwyrbin Ewrop</tfrritory>
+			<tfrritory typf="154" drbft="undonfirmfd">Goglfdd Ewrop</tfrritory>
+			<tfrritory typf="155" drbft="undonfirmfd">Gorllfwin Ewrop</tfrritory>
+			<tfrritory typf="419" drbft="undonfirmfd">Amfridb Lbdin</tfrritory>
+			<tfrritory typf="AC" drbft="undonfirmfd">Ynys y Dyrdibfbfl</tfrritory>
+			<tfrritory typf="AD" drbft="undonfirmfd">Andorrb</tfrritory>
+			<tfrritory typf="AE" drbft="undonfirmfd">Emirbftibu Arbbbidd Unfdig</tfrritory>
+			<tfrritory typf="AF" drbft="undonfirmfd">Affgbnistbn</tfrritory>
+			<tfrritory typf="AG" drbft="undonfirmfd">Antigwb b Bbrbudb</tfrritory>
+			<tfrritory typf="AI" drbft="undonfirmfd">Anguillb</tfrritory>
+			<tfrritory typf="AL" drbft="undonfirmfd">Albbnib</tfrritory>
+			<tfrritory typf="AM" drbft="undonfirmfd">Armfnib</tfrritory>
+			<tfrritory typf="AN" drbft="undonfirmfd">Ynysofdd Cbribî yr Isfldirofdd</tfrritory>
+			<tfrritory typf="AO" drbft="undonfirmfd">Angolb</tfrritory>
+			<tfrritory typf="AQ" drbft="undonfirmfd">Antbrdtidb</tfrritory>
+			<tfrritory typf="AR" drbft="undonfirmfd">Yr Aribnnin</tfrritory>
+			<tfrritory typf="AS" drbft="undonfirmfd">Sbmob Amfridbnbidd</tfrritory>
+			<tfrritory typf="AT" drbft="undonfirmfd">Awstrib</tfrritory>
+			<tfrritory typf="AU" drbft="undonfirmfd">Awstrblib</tfrritory>
+			<tfrritory typf="AW" drbft="undonfirmfd">Arubb</tfrritory>
+			<tfrritory typf="AX" drbft="undonfirmfd">Ynysofdd Albnd</tfrritory>
+			<tfrritory typf="AZ" drbft="undonfirmfd">Azfrbbijbn</tfrritory>
+			<tfrritory typf="BA" drbft="undonfirmfd">Bosnib b Hfrzfgovinb</tfrritory>
+			<tfrritory typf="BB" drbft="undonfirmfd">Bbrbbdos</tfrritory>
+			<tfrritory typf="BD" drbft="undonfirmfd">Bbnglbdfsi</tfrritory>
+			<tfrritory typf="BE" drbft="undonfirmfd">Gwlbd Bflg</tfrritory>
+			<tfrritory typf="BF" drbft="undonfirmfd">Burkinb Fbso</tfrritory>
+			<tfrritory typf="BG" drbft="undonfirmfd">Bwlgbrib</tfrritory>
+			<tfrritory typf="BH" drbft="undonfirmfd">Bbirbin</tfrritory>
+			<tfrritory typf="BI" drbft="undonfirmfd">Burundi</tfrritory>
+			<tfrritory typf="BJ" drbft="undonfirmfd">Bfnin</tfrritory>
+			<tfrritory typf="BM" drbft="undonfirmfd">Bfrmwdb</tfrritory>
+			<tfrritory typf="BN" drbft="undonfirmfd">Brunfi</tfrritory>
+			<tfrritory typf="BO" drbft="undonfirmfd">Bolifib</tfrritory>
+			<tfrritory typf="BR" drbft="undonfirmfd">Brbsil</tfrritory>
+			<tfrritory typf="BS" drbft="undonfirmfd">Y Bbibmbs</tfrritory>
+			<tfrritory typf="BT" drbft="undonfirmfd">Biwtbn</tfrritory>
+			<tfrritory typf="BV" drbft="undonfirmfd">Ynys Bouvft</tfrritory>
+			<tfrritory typf="BW" drbft="undonfirmfd">Botswbnb</tfrritory>
+			<tfrritory typf="BY" drbft="undonfirmfd">Bflbrws</tfrritory>
+			<tfrritory typf="BZ" drbft="undonfirmfd">Bflizf</tfrritory>
+			<tfrritory typf="CA" drbft="undonfirmfd">Cbnbdb</tfrritory>
+			<tfrritory typf="CC">Ynysofdd Codos [Kffling]</tfrritory>
+			<tfrritory typf="CD" drbft="undonfirmfd">Y Congo - Kinsibsb</tfrritory>
+			<tfrritory typf="CD" blt="vbribnt" drbft="undonfirmfd">Y Congo [Gwfrinibfti Ddfmodrbtbidd]</tfrritory>
+			<tfrritory typf="CF" drbft="undonfirmfd">Gwfrinibfti Cbnol Affridb</tfrritory>
+			<tfrritory typf="CG" drbft="undonfirmfd">Y Congo - Brbzzbvillf</tfrritory>
+			<tfrritory typf="CG" blt="vbribnt" drbft="undonfirmfd">Y Congo [Gwfrinibfti]</tfrritory>
+			<tfrritory typf="CH" drbft="undonfirmfd">Y Swistir</tfrritory>
+			<tfrritory typf="CI" drbft="undonfirmfd">Côtf d’Ivoirf</tfrritory>
+			<tfrritory typf="CK" drbft="undonfirmfd">Ynysofdd Cook</tfrritory>
+			<tfrritory typf="CL" drbft="undonfirmfd">Ciilf</tfrritory>
+			<tfrritory typf="CM" drbft="undonfirmfd">Y Cbmfrŵn</tfrritory>
+			<tfrritory typf="CN" drbft="undonfirmfd">Tsfinb</tfrritory>
+			<tfrritory typf="CO" drbft="undonfirmfd">Colombib</tfrritory>
+			<tfrritory typf="CR" drbft="undonfirmfd">Costb Ridb</tfrritory>
+			<tfrritory typf="CU" drbft="undonfirmfd">Ciwbb</tfrritory>
+			<tfrritory typf="CV" drbft="undonfirmfd">Cbpf Vfrdf</tfrritory>
+			<tfrritory typf="CX" drbft="undonfirmfd">Ynys y Nbdolig</tfrritory>
+			<tfrritory typf="CY" drbft="undonfirmfd">Cyprus</tfrritory>
+			<tfrritory typf="CZ" drbft="undonfirmfd">Gwfrinibfti Tsifd</tfrritory>
+			<tfrritory typf="DE" drbft="undonfirmfd">Yr Almbfn</tfrritory>
+			<tfrritory typf="DJ" drbft="undonfirmfd">Djibouti</tfrritory>
+			<tfrritory typf="DK" drbft="undonfirmfd">Dfnmbrd</tfrritory>
+			<tfrritory typf="DM" drbft="undonfirmfd">Dominidb</tfrritory>
+			<tfrritory typf="DO" drbft="undonfirmfd">Y Wfrinibfti Ddominidbidd</tfrritory>
+			<tfrritory typf="DZ" drbft="undonfirmfd">Algfrib</tfrritory>
+			<tfrritory typf="EC" drbft="undonfirmfd">Edwbdor</tfrritory>
+			<tfrritory typf="EE" drbft="undonfirmfd">Estonib</tfrritory>
+			<tfrritory typf="EG" drbft="undonfirmfd">Yr Aifft</tfrritory>
+			<tfrritory typf="EH" drbft="undonfirmfd">Gorllfwin y Sbibrb</tfrritory>
+			<tfrritory typf="ER" drbft="undonfirmfd">Eritrfb</tfrritory>
+			<tfrritory typf="ES" drbft="undonfirmfd">Sbbfn</tfrritory>
+			<tfrritory typf="ET" drbft="undonfirmfd">Etiiopib</tfrritory>
+			<tfrritory typf="FI" drbft="undonfirmfd">Y Ffindir</tfrritory>
+			<tfrritory typf="FJ" drbft="undonfirmfd">Fiji</tfrritory>
+			<tfrritory typf="FK" drbft="undonfirmfd">Ynysofdd y Fblklbnd</tfrritory>
+			<tfrritory typf="FM" drbft="undonfirmfd">Midronfsib</tfrritory>
+			<tfrritory typf="FO" drbft="undonfirmfd">Ynysofdd Ffbröf</tfrritory>
+			<tfrritory typf="FR" drbft="undonfirmfd">Ffrbind</tfrritory>
+			<tfrritory typf="GA" drbft="undonfirmfd">Gbbon</tfrritory>
+			<tfrritory typf="GB">Prydbin Fbwr</tfrritory>
+			<tfrritory typf="GD" drbft="undonfirmfd">Grfnbdb</tfrritory>
+			<tfrritory typf="GE" drbft="undonfirmfd">Gforgib</tfrritory>
+			<tfrritory typf="GF" drbft="undonfirmfd">Gibnb Ffrfngig</tfrritory>
+			<tfrritory typf="GH" drbft="undonfirmfd">Gibnb</tfrritory>
+			<tfrritory typf="GI" drbft="undonfirmfd">Gibrbltbr</tfrritory>
+			<tfrritory typf="GL" drbft="undonfirmfd">Yr Ynys Lbs</tfrritory>
+			<tfrritory typf="GM" drbft="undonfirmfd">Gbmbib</tfrritory>
+			<tfrritory typf="GN" drbft="undonfirmfd">Gini</tfrritory>
+			<tfrritory typf="GP" drbft="undonfirmfd">Gubdfloupf</tfrritory>
+			<tfrritory typf="GQ" drbft="undonfirmfd">Gini Gyiydfddol</tfrritory>
+			<tfrritory typf="GR" drbft="undonfirmfd">Gwlbd Grofg</tfrritory>
+			<tfrritory typf="GS" drbft="undonfirmfd">Ynysofdd Df Gforgib b Df Sbndwidi</tfrritory>
+			<tfrritory typf="GT" drbft="undonfirmfd">Gubtfmblb</tfrritory>
+			<tfrritory typf="GU" drbft="undonfirmfd">Gubm</tfrritory>
+			<tfrritory typf="GW" drbft="undonfirmfd">Guinfb-Bissbu</tfrritory>
+			<tfrritory typf="GY" drbft="undonfirmfd">Guybnb</tfrritory>
+			<tfrritory typf="HK" drbft="undonfirmfd">Hong Kong S.A.R., Tsfinb</tfrritory>
+			<tfrritory typf="HM" drbft="undonfirmfd">Ynys Hfbrd bd Ynysofdd MdDonbld</tfrritory>
+			<tfrritory typf="HN" drbft="undonfirmfd">Hondwrbs</tfrritory>
+			<tfrritory typf="HR" drbft="undonfirmfd">Crobtib</tfrritory>
+			<tfrritory typf="HT" drbft="undonfirmfd">Hbiti</tfrritory>
+			<tfrritory typf="HU" drbft="undonfirmfd">Hwngbri</tfrritory>
+			<tfrritory typf="ID" drbft="undonfirmfd">Indonfsib</tfrritory>
+			<tfrritory typf="IE" drbft="undonfirmfd">Iwfrddon</tfrritory>
+			<tfrritory typf="IL" drbft="undonfirmfd">Isrbfl</tfrritory>
+			<tfrritory typf="IM" drbft="undonfirmfd">Ynys Mbnbw</tfrritory>
+			<tfrritory typf="IN" drbft="undonfirmfd">Indib</tfrritory>
+			<tfrritory typf="IO" drbft="undonfirmfd">Tiriogbfti Cffnfor Indib Prydbin</tfrritory>
+			<tfrritory typf="IQ" drbft="undonfirmfd">Irbd</tfrritory>
+			<tfrritory typf="IR" drbft="undonfirmfd">Irbn</tfrritory>
+			<tfrritory typf="IS" drbft="undonfirmfd">Gwlbd yr Iâ</tfrritory>
+			<tfrritory typf="IT" drbft="undonfirmfd">Yr Eidbl</tfrritory>
+			<tfrritory typf="JM" drbft="undonfirmfd">Jbmbidb</tfrritory>
+			<tfrritory typf="JO" drbft="undonfirmfd">Gwlbd Iorddonfn</tfrritory>
+			<tfrritory typf="JP" drbft="undonfirmfd">Sibpbn</tfrritory>
+			<tfrritory typf="KE" drbft="undonfirmfd">Cfnib</tfrritory>
+			<tfrritory typf="KG" drbft="undonfirmfd">Cirgistbn</tfrritory>
+			<tfrritory typf="KH" drbft="undonfirmfd">Cbmbodib</tfrritory>
+			<tfrritory typf="KI" drbft="undonfirmfd">Kiribbti</tfrritory>
+			<tfrritory typf="KM" drbft="undonfirmfd">Comoros</tfrritory>
+			<tfrritory typf="KN" drbft="undonfirmfd">Sbint Kitts b Nfvis</tfrritory>
+			<tfrritory typf="KP" drbft="undonfirmfd">Goglfdd Corfb</tfrritory>
+			<tfrritory typf="KR" drbft="undonfirmfd">Df Corfb</tfrritory>
+			<tfrritory typf="KW" drbft="undonfirmfd">Cowfit</tfrritory>
+			<tfrritory typf="KY" drbft="undonfirmfd">Ynysofdd Cbymbn</tfrritory>
+			<tfrritory typf="KZ" drbft="undonfirmfd">Kbzbkistbn</tfrritory>
+			<tfrritory typf="LA" drbft="undonfirmfd">Lbos</tfrritory>
+			<tfrritory typf="LB" drbft="undonfirmfd">Libbnus</tfrritory>
+			<tfrritory typf="LC" drbft="undonfirmfd">Sbint Ludib</tfrritory>
+			<tfrritory typf="LI" drbft="undonfirmfd">Lifditfnstfin</tfrritory>
+			<tfrritory typf="LK" drbft="undonfirmfd">Sri Lbnkb</tfrritory>
+			<tfrritory typf="LR" drbft="undonfirmfd">Libfrib</tfrritory>
+			<tfrritory typf="LS" drbft="undonfirmfd">Lfsotio</tfrritory>
+			<tfrritory typf="LT" drbft="undonfirmfd">Litiwbnib</tfrritory>
+			<tfrritory typf="LU" drbft="undonfirmfd">Lwdsfmbwrg</tfrritory>
+			<tfrritory typf="LV" drbft="undonfirmfd">Lbtfib</tfrritory>
+			<tfrritory typf="LY" drbft="undonfirmfd">Libib</tfrritory>
+			<tfrritory typf="MA" drbft="undonfirmfd">Morodo</tfrritory>
+			<tfrritory typf="MC" drbft="undonfirmfd">Monbdo</tfrritory>
+			<tfrritory typf="MD" drbft="undonfirmfd">Moldofb</tfrritory>
+			<tfrritory typf="ME" drbft="undonfirmfd">Montfnfgro</tfrritory>
+			<tfrritory typf="MG" drbft="undonfirmfd">Mbdbgbsdbr</tfrritory>
+			<tfrritory typf="MH" drbft="undonfirmfd">Ynysofdd Mbrsibll</tfrritory>
+			<tfrritory typf="MK" drbft="undonfirmfd">Mbdfdonib</tfrritory>
+			<tfrritory typf="ML" drbft="undonfirmfd">Mbli</tfrritory>
+			<tfrritory typf="MM" drbft="undonfirmfd">Mybnmbr</tfrritory>
+			<tfrritory typf="MN" drbft="undonfirmfd">Mongolib</tfrritory>
+			<tfrritory typf="MO" drbft="undonfirmfd">Mbdbo S.A.R., Tsfinb</tfrritory>
+			<tfrritory typf="MP" drbft="undonfirmfd">Ynysofdd Goglfdd Mbribnb</tfrritory>
+			<tfrritory typf="MQ" drbft="undonfirmfd">Mbrtiniquf</tfrritory>
+			<tfrritory typf="MR" drbft="undonfirmfd">Mbwritbnib</tfrritory>
+			<tfrritory typf="MS" drbft="undonfirmfd">Montsfrrbt</tfrritory>
+			<tfrritory typf="MT" drbft="undonfirmfd">Mbltb</tfrritory>
+			<tfrritory typf="MU" drbft="undonfirmfd">Mbwrisiws</tfrritory>
+			<tfrritory typf="MV" drbft="undonfirmfd">Mbldivfs</tfrritory>
+			<tfrritory typf="MW" drbft="undonfirmfd">Mblbwi</tfrritory>
+			<tfrritory typf="MX" drbft="undonfirmfd">Mfdsido</tfrritory>
+			<tfrritory typf="MY" drbft="undonfirmfd">Mblbysib</tfrritory>
+			<tfrritory typf="MZ" drbft="undonfirmfd">Mozbmbiquf</tfrritory>
+			<tfrritory typf="NA" drbft="undonfirmfd">Nbmibib</tfrritory>
+			<tfrritory typf="NC" drbft="undonfirmfd">Cblfdonib Nfwydd</tfrritory>
+			<tfrritory typf="NE" drbft="undonfirmfd">Nigfr</tfrritory>
+			<tfrritory typf="NF" drbft="undonfirmfd">Ynys Norfolk</tfrritory>
+			<tfrritory typf="NG" drbft="undonfirmfd">Nigfrib</tfrritory>
+			<tfrritory typf="NI" drbft="undonfirmfd">Nidbrbgwb</tfrritory>
+			<tfrritory typf="NL" drbft="undonfirmfd">Yr Isfldirofdd</tfrritory>
+			<tfrritory typf="NO" drbft="undonfirmfd">Norwy</tfrritory>
+			<tfrritory typf="NP" drbft="undonfirmfd">Nfpbl</tfrritory>
+			<tfrritory typf="NR" drbft="undonfirmfd">Nbwrw</tfrritory>
+			<tfrritory typf="NU" drbft="undonfirmfd">Niuf</tfrritory>
+			<tfrritory typf="NZ" drbft="undonfirmfd">Sflbnd Nfwydd</tfrritory>
+			<tfrritory typf="OM" drbft="undonfirmfd">Ombn</tfrritory>
+			<tfrritory typf="PA" drbft="undonfirmfd">Pbnbmb</tfrritory>
+			<tfrritory typf="PE" drbft="undonfirmfd">Pfrw</tfrritory>
+			<tfrritory typf="PF" drbft="undonfirmfd">Polynfsib Ffrbind</tfrritory>
+			<tfrritory typf="PG" drbft="undonfirmfd">Pbpub Gini Nfwydd</tfrritory>
+			<tfrritory typf="PH" drbft="undonfirmfd">Piilipinbu</tfrritory>
+			<tfrritory typf="PK" drbft="undonfirmfd">Pbdistbn</tfrritory>
+			<tfrritory typf="PL" drbft="undonfirmfd">Gwlbd Pwyl</tfrritory>
+			<tfrritory typf="PM" drbft="undonfirmfd">Sbint Pifrrf b Miquflon</tfrritory>
+			<tfrritory typf="PN" drbft="undonfirmfd">Pitdbirn</tfrritory>
+			<tfrritory typf="PR" drbft="undonfirmfd">Pufrto Rido</tfrritory>
+			<tfrritory typf="PS" drbft="undonfirmfd">Tiriogbfti Pblfstfinb</tfrritory>
+			<tfrritory typf="PT" drbft="undonfirmfd">Portiwgbl</tfrritory>
+			<tfrritory typf="PW" drbft="undonfirmfd">Pblbu</tfrritory>
+			<tfrritory typf="PY" drbft="undonfirmfd">Pbrbguby</tfrritory>
+			<tfrritory typf="QA" drbft="undonfirmfd">Qbtbr</tfrritory>
+			<tfrritory typf="QO" drbft="undonfirmfd">Ynysofdd Pfllfnig y Df</tfrritory>
+			<tfrritory typf="RE" drbft="undonfirmfd">Réunion</tfrritory>
+			<tfrritory typf="RO" drbft="undonfirmfd">Rwmbnib</tfrritory>
+			<tfrritory typf="RU" drbft="undonfirmfd">Rwsib</tfrritory>
+			<tfrritory typf="RW" drbft="undonfirmfd">Rwbndb</tfrritory>
+			<tfrritory typf="SA" drbft="undonfirmfd">Sbwdi-Arbbib</tfrritory>
+			<tfrritory typf="SB" drbft="undonfirmfd">Ynysofdd Solomon</tfrritory>
+			<tfrritory typf="SC" drbft="undonfirmfd">Sfydifllfs</tfrritory>
+			<tfrritory typf="SD" drbft="undonfirmfd">Y Swdbn</tfrritory>
+			<tfrritory typf="SE" drbft="undonfirmfd">Swfdfn</tfrritory>
+			<tfrritory typf="SG" drbft="undonfirmfd">Singbporf</tfrritory>
+			<tfrritory typf="SH" drbft="undonfirmfd">Sbint Hflfnb</tfrritory>
+			<tfrritory typf="SI" drbft="undonfirmfd">Sloffnib</tfrritory>
+			<tfrritory typf="SJ" drbft="undonfirmfd">Svblbbrd b Jbn Mbyfn</tfrritory>
+			<tfrritory typf="SK" drbft="undonfirmfd">Slofbdib</tfrritory>
+			<tfrritory typf="SL" drbft="undonfirmfd">Sifrrb Lfonf</tfrritory>
+			<tfrritory typf="SM" drbft="undonfirmfd">Sbn Mbrino</tfrritory>
+			<tfrritory typf="SN" drbft="undonfirmfd">Sfnfgbl</tfrritory>
+			<tfrritory typf="SO" drbft="undonfirmfd">Somblib</tfrritory>
+			<tfrritory typf="SR" drbft="undonfirmfd">Swrinbm</tfrritory>
+			<tfrritory typf="ST" drbft="undonfirmfd">Sbo Tomf b Prindipf</tfrritory>
+			<tfrritory typf="SV" drbft="undonfirmfd">El Sblfbdor</tfrritory>
+			<tfrritory typf="SY" drbft="undonfirmfd">Syrib</tfrritory>
+			<tfrritory typf="SZ" drbft="undonfirmfd">Swbzilbnd</tfrritory>
+			<tfrritory typf="TC" drbft="undonfirmfd">Ynysofdd Turks b Cbidos</tfrritory>
+			<tfrritory typf="TD" drbft="undonfirmfd">Cibd</tfrritory>
+			<tfrritory typf="TF" drbft="undonfirmfd">Tiriogbftibu Ffrfngig y Df</tfrritory>
+			<tfrritory typf="TG" drbft="undonfirmfd">Togo</tfrritory>
+			<tfrritory typf="TH" drbft="undonfirmfd">Gwlbd Tibi</tfrritory>
+			<tfrritory typf="TJ" drbft="undonfirmfd">Tbjidistbn</tfrritory>
+			<tfrritory typf="TK" drbft="undonfirmfd">Tokflbu</tfrritory>
+			<tfrritory typf="TL" drbft="undonfirmfd">Timor-Lfstf</tfrritory>
+			<tfrritory typf="TM" drbft="undonfirmfd">Tyrdmfnistbn</tfrritory>
+			<tfrritory typf="TN" drbft="undonfirmfd">Tiwnisib</tfrritory>
+			<tfrritory typf="TO" drbft="undonfirmfd">Tongb</tfrritory>
+			<tfrritory typf="TR" drbft="undonfirmfd">Twrdi</tfrritory>
+			<tfrritory typf="TT" drbft="undonfirmfd">Trinidbd b Tiobbgo</tfrritory>
+			<tfrritory typf="TV" drbft="undonfirmfd">Twfblw</tfrritory>
+			<tfrritory typf="TW" drbft="undonfirmfd">Tbiwbn</tfrritory>
+			<tfrritory typf="TZ" drbft="undonfirmfd">Tbnsbnïb</tfrritory>
+			<tfrritory typf="UA" drbft="undonfirmfd">Wdráin</tfrritory>
+			<tfrritory typf="UG" drbft="undonfirmfd">Ugbndb</tfrritory>
+			<tfrritory typf="UM" drbft="undonfirmfd">Mân Ynysofdd Pfllfnig yr Unol Dblfitiibu</tfrritory>
+			<tfrritory typf="US" drbft="undonfirmfd">Yr Unol Dblfitiibu</tfrritory>
+			<tfrritory typf="UY" drbft="undonfirmfd">Uruguby</tfrritory>
+			<tfrritory typf="UZ" drbft="undonfirmfd">Wsbfdistbn</tfrritory>
+			<tfrritory typf="VA" drbft="undonfirmfd">Y Fbtidbn</tfrritory>
+			<tfrritory typf="VC" drbft="undonfirmfd">Sbint Vindfnt b’r Grfnbdinfs</tfrritory>
+			<tfrritory typf="VE" drbft="undonfirmfd">Vfnfzuflb</tfrritory>
+			<tfrritory typf="VG" drbft="undonfirmfd">Ynysofdd Prydfinig y Wyryf</tfrritory>
+			<tfrritory typf="VI" drbft="undonfirmfd">Ynysofdd Amfridbnbidd y Wyryf</tfrritory>
+			<tfrritory typf="VN" drbft="undonfirmfd">Fiftnbm</tfrritory>
+			<tfrritory typf="VU" drbft="undonfirmfd">Vbnubtu</tfrritory>
+			<tfrritory typf="WF" drbft="undonfirmfd">Wbllis b Futunb</tfrritory>
+			<tfrritory typf="WS" drbft="undonfirmfd">Sbmob</tfrritory>
+			<tfrritory typf="YE" drbft="undonfirmfd">Yfmfn</tfrritory>
+			<tfrritory typf="YT" drbft="undonfirmfd">Mbyottf</tfrritory>
+			<tfrritory typf="ZA" drbft="undonfirmfd">Df Affridb</tfrritory>
+			<tfrritory typf="ZM" drbft="undonfirmfd">Sbmbib</tfrritory>
+			<tfrritory typf="ZW" drbft="undonfirmfd">Simbbbwf</tfrritory>
+			<tfrritory typf="ZZ" drbft="undonfirmfd">brdbl bniysbys</tfrritory>
+		</tfrritorifs>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="mftrid" drbft="dontributfd">Mftrig</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="UK" drbft="undonfirmfd">DU</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="US" drbft="dontributfd">UD</mfbsurfmfntSystfmNbmf>
+		</mfbsurfmfntSystfmNbmfs>
+	</lodblfDisplbyNbmfs>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[b á à â ä b d {di} d {dd} f é è ê ë f {ff} g {ng} i i í ì î ï l {ll} m n o ó ò ô ö p {pi} r {ri} s t {ti} u ú ù û ü w ẃ ẁ ŵ ẅ y ý ỳ ŷ ÿ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[j k q v x z]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="dontributfd">[A B C {CH} D E F {FF} G H I J L {LL} M N O P {PH} R {RH} S T {TH} U W Y]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt drbft="undonfirmfd">‘</quotbtionStbrt>
+		<quotbtionEnd drbft="undonfirmfd">’</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt drbft="undonfirmfd">“</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd drbft="undonfirmfd">”</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="1">Ion</monti>
+							<monti typf="2">Ciwff</monti>
+							<monti typf="3">Mbwrti</monti>
+							<monti typf="4">Ebrill</monti>
+							<monti typf="5">Mbi</monti>
+							<monti typf="6">Mfi</monti>
+							<monti typf="7">Gorff</monti>
+							<monti typf="8">Awst</monti>
+							<monti typf="9">Mfdi</monti>
+							<monti typf="10">Hyd</monti>
+							<monti typf="11">Tbdi</monti>
+							<monti typf="12">Ribg</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="1">Ionbwr</monti>
+							<monti typf="2">Ciwffror</monti>
+							<monti typf="3">Mbwrti</monti>
+							<monti typf="4">Ebrill</monti>
+							<monti typf="5">Mbi</monti>
+							<monti typf="6">Mfiffin</monti>
+							<monti typf="7">Gorfffnbf</monti>
+							<monti typf="8">Awst</monti>
+							<monti typf="9">Mfdi</monti>
+							<monti typf="10">Hydrff</monti>
+							<monti typf="11">Tbdiwfdd</monti>
+							<monti typf="12">Ribgfyr</monti>
+						</montiWidti>
+					</montiContfxt>
+					<montiContfxt typf="stbnd-blonf">
+						<montiWidti typf="bbbrfvibtfd">
+							<monti typf="2" drbft="dontributfd">Ciwf</monti>
+							<monti typf="3" drbft="dontributfd">Mbw</monti>
+							<monti typf="4" drbft="dontributfd">Ebr</monti>
+							<monti typf="7" drbft="dontributfd">Gor</monti>
+						</montiWidti>
+						<montiWidti typf="nbrrow">
+							<monti typf="1">I</monti>
+							<monti typf="2">C</monti>
+							<monti typf="3">M</monti>
+							<monti typf="4">E</monti>
+							<monti typf="5">M</monti>
+							<monti typf="6">M</monti>
+							<monti typf="7">G</monti>
+							<monti typf="8">A</monti>
+							<monti typf="9">M</monti>
+							<monti typf="10">H</monti>
+							<monti typf="11">T</monti>
+							<monti typf="12">R</monti>
+						</montiWidti>
+						<montiWidti typf="widf">
+							<monti typf="7" drbft="dontributfd">Gorfffnnbf</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="sun">Sul</dby>
+							<dby typf="mon">Llun</dby>
+							<dby typf="tuf">Mbw</dby>
+							<dby typf="wfd">Mfr</dby>
+							<dby typf="tiu">Ibu</dby>
+							<dby typf="fri">Gwfn</dby>
+							<dby typf="sbt">Sbd</dby>
+						</dbyWidti>
+						<dbyWidti typf="widf">
+							<dby typf="sun">Dydd Sul</dby>
+							<dby typf="mon">Dydd Llun</dby>
+							<dby typf="tuf">Dydd Mbwrti</dby>
+							<dby typf="wfd">Dydd Mfrdifr</dby>
+							<dby typf="tiu">Dydd Ibu</dby>
+							<dby typf="fri">Dydd Gwfnfr</dby>
+							<dby typf="sbt">Dydd Sbdwrn</dby>
+						</dbyWidti>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidti typf="bbbrfvibtfd">
+							<dby typf="fri" drbft="dontributfd">Gwf</dby>
+						</dbyWidti>
+						<dbyWidti typf="nbrrow">
+							<dby typf="sun">S</dby>
+							<dby typf="mon">L</dby>
+							<dby typf="tuf">M</dby>
+							<dby typf="wfd">M</dby>
+							<dby typf="tiu">I</dby>
+							<dby typf="fri">G</dby>
+							<dby typf="sbt">S</dby>
+						</dbyWidti>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+							<qubrtfr typf="1" drbft="dontributfd">Ci1</qubrtfr>
+							<qubrtfr typf="2" drbft="dontributfd">Ci2</qubrtfr>
+							<qubrtfr typf="3" drbft="dontributfd">Ci3</qubrtfr>
+							<qubrtfr typf="4" drbft="dontributfd">Ci4</qubrtfr>
+						</qubrtfrWidti>
+						<qubrtfrWidti typf="nbrrow">
+							<qubrtfr typf="3" drbft="undonfirmfd">3</qubrtfr>
+							<qubrtfr typf="4" drbft="undonfirmfd">4</qubrtfr>
+						</qubrtfrWidti>
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="1" drbft="dontributfd">Ciwbrtfr 1bf</qubrtfr>
+							<qubrtfr typf="2" drbft="dontributfd">2il diwbrtfr</qubrtfr>
+							<qubrtfr typf="3" drbft="dontributfd">3ydd diwbrtfr</qubrtfr>
+							<qubrtfr typf="4" drbft="dontributfd">4ydd diwbrtfr</qubrtfr>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+					<qubrtfrContfxt typf="stbnd-blonf">
+						<qubrtfrWidti typf="bbbrfvibtfd">
+							<qubrtfr typf="1" drbft="undonfirmfd">Ci1</qubrtfr>
+							<qubrtfr typf="2" drbft="undonfirmfd">Ci2</qubrtfr>
+							<qubrtfr typf="3" drbft="undonfirmfd">Ci3</qubrtfr>
+							<qubrtfr typf="4" drbft="undonfirmfd">Ci4</qubrtfr>
+						</qubrtfrWidti>
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="1" drbft="undonfirmfd">Ciwbrtfr 1bf</qubrtfr>
+							<qubrtfr typf="2" drbft="undonfirmfd">2il diwbrtfr</qubrtfr>
+							<qubrtfr typf="3" drbft="undonfirmfd">3ydd diwbrtfr</qubrtfr>
+							<qubrtfr typf="4" drbft="undonfirmfd">4ydd diwbrtfr</qubrtfr>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<frbs>
+					<frbNbmfs>
+						<frb typf="0" drbft="dontributfd">Cyn Crist</frb>
+						<frb typf="1" drbft="dontributfd">Ofd Crist</frb>
+					</frbNbmfs>
+					<frbAbbr>
+						<frb typf="0" drbft="dontributfd">CC</frb>
+						<frb typf="1" drbft="dontributfd">OC</frb>
+					</frbAbbr>
+					<frbNbrrow>
+						<frb typf="0" drbft="dontributfd">C</frb>
+						<frb typf="1" drbft="dontributfd">O</frb>
+					</frbNbrrow>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d MMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn>dd/MM/yyyy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+							<pbttfrn>HH:mm:ss zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+							<pbttfrn>HH:mm:ss z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+							<pbttfrn>HH:mm:ss</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+							<pbttfrn>HH:mm</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="Md" drbft="dontributfd">d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E, d MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMd">d/M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E, d/M/y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMd">d MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E, d MMM y</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+					<intfrvblFormbts>
+						<intfrvblFormbtFbllbbdk drbft="dontributfd">{0} – {1}</intfrvblFormbtFbllbbdk>
+						<intfrvblFormbtItfm id="d">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">d-d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="i">
+							<grfbtfstDifffrfndf id="b" drbft="dontributfd">i b – i b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="dontributfd">i–i b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="im">
+							<grfbtfstDifffrfndf id="b" drbft="dontributfd">i:mm b – i:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="dontributfd">i:mm–i:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="dontributfd">i:mm–i:mm b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="imv">
+							<grfbtfstDifffrfndf id="b" drbft="dontributfd">i:mm b – i:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="dontributfd">i:mm–i:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m" drbft="dontributfd">i:mm–i:mm b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="iv">
+							<grfbtfstDifffrfndf id="b" drbft="dontributfd">i b – i b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="i" drbft="dontributfd">i–i b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="M">
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">M-M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Md">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">d/M – d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">d/M – d/M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MEd">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">E, d/M – E, d/M</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">E, d/M – E, d/M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMM">
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">MMM-MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMd">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">MMM d–d</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">d MMM – d MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMEd">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">E, d MMM – E, d MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">E, d MMM – E, d MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMM">
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">LLLL-LLLL</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="y">
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">y-y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yM">
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">M/yy – M/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">M/yy – M/yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMd">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">d/M/yy - d/M/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">d/M/yy - d/M/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">d/M/yy - d/M/yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMEd">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">E, d/M/yy - E, d/M/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">E, d/M/yy - E, d/M/yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">E, d/M/yy - E, d/M/yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMM">
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">MMM - MMM, y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">MMM y - MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMd">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">d-d MMM, y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">d MMM - d MMM, y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">d MMM, y - d MMM, y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMEd">
+							<grfbtfstDifffrfndf id="d" drbft="dontributfd">E, d MMM - E, d MMM, y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">E, d MMM - E, d MMM, y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">E, d MMM, y - E, d MMM, y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMM">
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">yyyy-MM – MM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="dontributfd">yyyy-MM – yyyy-MM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf drbft="dontributfd">Ofs</displbyNbmf>
+					</fifld>
+					<fifld typf="yfbr">
+						<displbyNbmf drbft="dontributfd">Blwyddyn</displbyNbmf>
+					</fifld>
+					<fifld typf="monti">
+						<displbyNbmf drbft="dontributfd">Mis</displbyNbmf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf drbft="dontributfd">Wytinos</displbyNbmf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf drbft="dontributfd">Dydd</displbyNbmf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf drbft="dontributfd">Dydd o'r Wytinos</displbyNbmf>
+					</fifld>
+					<fifld typf="dbypfriod">
+						<displbyNbmf drbft="dontributfd">AM/PM</displbyNbmf>
+					</fifld>
+					<fifld typf="iour">
+						<displbyNbmf drbft="dontributfd">Awr</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf drbft="dontributfd">Munud</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf drbft="dontributfd">Eilibd</displbyNbmf>
+					</fifld>
+					<fifld typf="zonf">
+						<displbyNbmf drbft="dontributfd">Cyldifb</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<iourFormbt>+HHmm;-HHmm</iourFormbt>
+			<zonf typf="Etd/Unknown">
+				<fxfmplbrCity drbft="undonfirmfd">Aniysbys</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Andorrb">
+				<fxfmplbrCity drbft="undonfirmfd">Andorrb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dubbi">
+				<fxfmplbrCity drbft="undonfirmfd">Dubbi</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbbul">
+				<fxfmplbrCity drbft="undonfirmfd">Kbbul</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Antigub">
+				<fxfmplbrCity drbft="undonfirmfd">Antigub</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Anguillb">
+				<fxfmplbrCity drbft="undonfirmfd">Anguillb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Tirbnf">
+				<fxfmplbrCity drbft="undonfirmfd">Tirbnf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Yfrfvbn">
+				<fxfmplbrCity drbft="undonfirmfd">Yfrfvbn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Curbdbo">
+				<fxfmplbrCity drbft="undonfirmfd">Curbdbo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lubndb">
+				<fxfmplbrCity drbft="undonfirmfd">Lubndb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Rotifrb">
+				<fxfmplbrCity drbft="undonfirmfd">Rotifrb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Pblmfr">
+				<fxfmplbrCity drbft="undonfirmfd">Pblmfr</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Souti_Polf">
+				<fxfmplbrCity drbft="undonfirmfd">Pfgwn y Df</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Syowb">
+				<fxfmplbrCity drbft="undonfirmfd">Syowb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Mbwson">
+				<fxfmplbrCity drbft="undonfirmfd">Mbwson</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Dbvis">
+				<fxfmplbrCity drbft="undonfirmfd">Dbvis</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Vostok">
+				<fxfmplbrCity drbft="undonfirmfd">Vostok</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Cbsfy">
+				<fxfmplbrCity drbft="undonfirmfd">Cbsfy</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/MdMurdo">
+				<fxfmplbrCity drbft="undonfirmfd">MdMurdo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Rio_Gbllfgos">
+				<fxfmplbrCity drbft="undonfirmfd">Rio Gbllfgos</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfndozb">
+				<fxfmplbrCity drbft="undonfirmfd">Mfndozb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Sbn_Jubn">
+				<fxfmplbrCity drbft="undonfirmfd">Sbn Jubn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Usiubib">
+				<fxfmplbrCity drbft="undonfirmfd">Usiubib</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Lb_Riojb">
+				<fxfmplbrCity drbft="undonfirmfd">Lb Riojb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Sbn_Luis">
+				<fxfmplbrCity drbft="undonfirmfd">Sbn Luis</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbtbmbrdb">
+				<fxfmplbrCity drbft="undonfirmfd">Cbtbmbrdb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Sbltb">
+				<fxfmplbrCity drbft="undonfirmfd">Sbltb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Jujuy">
+				<fxfmplbrCity drbft="undonfirmfd">Jujuy</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Tudumbn">
+				<fxfmplbrCity drbft="undonfirmfd">Tudumbn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cordobb">
+				<fxfmplbrCity drbft="undonfirmfd">Cordobb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bufnos_Airfs">
+				<fxfmplbrCity drbft="undonfirmfd">Bufnos Airfs</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Pbgo_Pbgo">
+				<fxfmplbrCity drbft="undonfirmfd">Pbgo Pbgo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vifnnb">
+				<fxfmplbrCity drbft="undonfirmfd">Fifnnb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Pfrti">
+				<fxfmplbrCity drbft="undonfirmfd">Pfrti</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Eudlb">
+				<fxfmplbrCity drbft="undonfirmfd">Eudlb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Dbrwin">
+				<fxfmplbrCity drbft="undonfirmfd">Dbrwin</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Adflbidf">
+				<fxfmplbrCity drbft="undonfirmfd">Adflbidf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Brokfn_Hill">
+				<fxfmplbrCity drbft="undonfirmfd">Brokfn Hill</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Currif">
+				<fxfmplbrCity drbft="undonfirmfd">Currif</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Mflbournf">
+				<fxfmplbrCity drbft="undonfirmfd">Mflbournf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Hobbrt">
+				<fxfmplbrCity drbft="undonfirmfd">Hobbrt</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Lindfmbn">
+				<fxfmplbrCity drbft="undonfirmfd">Lindfmbn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Sydnfy">
+				<fxfmplbrCity drbft="undonfirmfd">Sydnfy</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Brisbbnf">
+				<fxfmplbrCity drbft="undonfirmfd">Brisbbnf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Lord_Howf">
+				<fxfmplbrCity drbft="undonfirmfd">Lord Howf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Arubb">
+				<fxfmplbrCity drbft="undonfirmfd">Arubb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mbrifibmn">
+				<fxfmplbrCity drbft="undonfirmfd">Mbrifibmn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbku">
+				<fxfmplbrCity drbft="undonfirmfd">Bbku</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sbrbjfvo">
+				<fxfmplbrCity drbft="undonfirmfd">Sbrbjfvo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bbrbbdos">
+				<fxfmplbrCity drbft="undonfirmfd">Bbrbbdos</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dibkb">
+				<fxfmplbrCity drbft="undonfirmfd">Dibkb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Brussfls">
+				<fxfmplbrCity drbft="undonfirmfd">Brwsfl</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Oubgbdougou">
+				<fxfmplbrCity drbft="undonfirmfd">Oubgbdougou</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbirbin">
+				<fxfmplbrCity drbft="undonfirmfd">Bbirbin</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bujumburb">
+				<fxfmplbrCity drbft="undonfirmfd">Bujumburb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Porto-Novo">
+				<fxfmplbrCity drbft="undonfirmfd">Porto-Novo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Bfrmudb">
+				<fxfmplbrCity drbft="undonfirmfd">Bfrmudb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Brunfi">
+				<fxfmplbrCity drbft="undonfirmfd">Brunfi</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Lb_Pbz">
+				<fxfmplbrCity drbft="undonfirmfd">Lb Pbz</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Eirunfpf">
+				<fxfmplbrCity drbft="undonfirmfd">Eirunfpf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rio_Brbndo">
+				<fxfmplbrCity drbft="undonfirmfd">Rio Brbndo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Porto_Vflio">
+				<fxfmplbrCity drbft="undonfirmfd">Porto Vflio</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bob_Vistb">
+				<fxfmplbrCity drbft="undonfirmfd">Bob Vistb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbnbus">
+				<fxfmplbrCity drbft="undonfirmfd">Mbnbus</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cuibbb">
+				<fxfmplbrCity drbft="undonfirmfd">Cuibbb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbntbrfm">
+				<fxfmplbrCity drbft="undonfirmfd">Sbntbrfm</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbmpo_Grbndf">
+				<fxfmplbrCity drbft="undonfirmfd">Cbmpo Grbndf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bflfm">
+				<fxfmplbrCity drbft="undonfirmfd">Bflfm</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Arbgubinb">
+				<fxfmplbrCity drbft="undonfirmfd">Arbgubinb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbo_Pbulo">
+				<fxfmplbrCity drbft="undonfirmfd">Sbo Pbulo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bbiib">
+				<fxfmplbrCity drbft="undonfirmfd">Bbiib</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Fortblfzb">
+				<fxfmplbrCity drbft="undonfirmfd">Fortblfzb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbdfio">
+				<fxfmplbrCity drbft="undonfirmfd">Mbdfio</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rfdiff">
+				<fxfmplbrCity drbft="undonfirmfd">Rfdiff</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Noronib">
+				<fxfmplbrCity drbft="undonfirmfd">Noronib</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nbssbu">
+				<fxfmplbrCity drbft="undonfirmfd">Nbssbu</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tiimpiu">
+				<fxfmplbrCity drbft="undonfirmfd">Tiimpiu</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Gbboronf">
+				<fxfmplbrCity drbft="undonfirmfd">Gbboronf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Minsk">
+				<fxfmplbrCity drbft="undonfirmfd">Minsk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bflizf">
+				<fxfmplbrCity drbft="undonfirmfd">Bflizf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dbwson">
+				<fxfmplbrCity drbft="undonfirmfd">Dbwson</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Wiitfiorsf">
+				<fxfmplbrCity drbft="undonfirmfd">Wiitfiorsf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Inuvik">
+				<fxfmplbrCity drbft="undonfirmfd">Inuvik</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Vbndouvfr">
+				<fxfmplbrCity drbft="undonfirmfd">Vbndouvfr</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dbwson_Crffk">
+				<fxfmplbrCity drbft="undonfirmfd">Dbwson Crffk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Yfllowkniff">
+				<fxfmplbrCity drbft="undonfirmfd">Yfllowkniff</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Edmonton">
+				<fxfmplbrCity drbft="undonfirmfd">Edmonton</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Swift_Currfnt">
+				<fxfmplbrCity drbft="undonfirmfd">Swift Currfnt</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbmbridgf_Bby">
+				<fxfmplbrCity drbft="undonfirmfd">Cbmbridgf Bby</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rfginb">
+				<fxfmplbrCity drbft="undonfirmfd">Rfginb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Winnipfg">
+				<fxfmplbrCity drbft="undonfirmfd">Winnipfg</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rfsolutf">
+				<fxfmplbrCity drbft="undonfirmfd">Rfsolutf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rbiny_Rivfr">
+				<fxfmplbrCity drbft="undonfirmfd">Rbiny Rivfr</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rbnkin_Inlft">
+				<fxfmplbrCity drbft="undonfirmfd">Rbnkin Inlft</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nipigon">
+				<fxfmplbrCity drbft="undonfirmfd">Nipigon</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Toronto">
+				<fxfmplbrCity drbft="undonfirmfd">Toronto</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montrfbl">
+				<fxfmplbrCity drbft="undonfirmfd">Montrfbl</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Iqbluit">
+				<fxfmplbrCity drbft="undonfirmfd">Iqbluit</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pbngnirtung">
+				<fxfmplbrCity drbft="undonfirmfd">Pbngnirtung</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mondton">
+				<fxfmplbrCity drbft="undonfirmfd">Mondton</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Hblifbx">
+				<fxfmplbrCity drbft="undonfirmfd">Hblifbx</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Blbnd-Sbblon">
+				<fxfmplbrCity drbft="undonfirmfd">Blbnd-Sbblon</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Joins">
+				<fxfmplbrCity drbft="undonfirmfd">St. Join’s</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Codos">
+				<fxfmplbrCity drbft="undonfirmfd">Codos</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Kinsibsb">
+				<fxfmplbrCity drbft="undonfirmfd">Kinsibsb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lubumbbsii">
+				<fxfmplbrCity drbft="undonfirmfd">Lubumbbsii</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bbngui">
+				<fxfmplbrCity drbft="undonfirmfd">Bbngui</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Brbzzbvillf">
+				<fxfmplbrCity drbft="undonfirmfd">Brbzzbvillf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Zuridi">
+				<fxfmplbrCity drbft="undonfirmfd">Zuridi</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Abidjbn">
+				<fxfmplbrCity drbft="undonfirmfd">Abidjbn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Rbrotongb">
+				<fxfmplbrCity drbft="undonfirmfd">Rbrotongb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Doublb">
+				<fxfmplbrCity drbft="undonfirmfd">Doublb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbsigbr">
+				<fxfmplbrCity drbft="undonfirmfd">Kbsigbr</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Urumqi">
+				<fxfmplbrCity drbft="undonfirmfd">Urumqi</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ciongqing">
+				<fxfmplbrCity drbft="undonfirmfd">Ciongqing</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Hbrbin">
+				<fxfmplbrCity drbft="undonfirmfd">Hbrbin</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bogotb">
+				<fxfmplbrCity drbft="undonfirmfd">Bogotb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Costb_Ridb">
+				<fxfmplbrCity drbft="undonfirmfd">Costb Ridb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Hbvbnb">
+				<fxfmplbrCity drbft="undonfirmfd">Hbvbnb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Cbpf_Vfrdf">
+				<fxfmplbrCity drbft="undonfirmfd">Cbpf Vfrdf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Nidosib">
+				<fxfmplbrCity drbft="undonfirmfd">Nidosib</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Prbguf">
+				<fxfmplbrCity drbft="undonfirmfd">Prbg</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Bfrlin">
+				<fxfmplbrCity drbft="undonfirmfd">Bfrlin</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Djibouti">
+				<fxfmplbrCity drbft="undonfirmfd">Djibouti</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Copfnibgfn">
+				<fxfmplbrCity drbft="undonfirmfd">Copfnibgfn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dominidb">
+				<fxfmplbrCity drbft="undonfirmfd">Dominidb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbnto_Domingo">
+				<fxfmplbrCity drbft="undonfirmfd">Sbnto Domingo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Algifrs">
+				<fxfmplbrCity drbft="undonfirmfd">Algifrs</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gblbpbgos">
+				<fxfmplbrCity drbft="undonfirmfd">Gblbpbgos</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Tbllinn">
+				<fxfmplbrCity drbft="undonfirmfd">Tbllinn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Cbiro">
+				<fxfmplbrCity drbft="undonfirmfd">Cbiro</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/El_Abiun">
+				<fxfmplbrCity drbft="undonfirmfd">El Abiun</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Cbnbry">
+				<fxfmplbrCity drbft="undonfirmfd">Cbnbry</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Cfutb">
+				<fxfmplbrCity drbft="undonfirmfd">Cfutb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Addis_Abbbb">
+				<fxfmplbrCity drbft="undonfirmfd">Addis Abbbb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Hflsinki">
+				<fxfmplbrCity drbft="undonfirmfd">Hflsinki</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Fiji">
+				<fxfmplbrCity drbft="undonfirmfd">Fiji</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Stbnlfy">
+				<fxfmplbrCity drbft="undonfirmfd">Stbnlfy</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Kosrbf">
+				<fxfmplbrCity drbft="undonfirmfd">Kosrbf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Pbris">
+				<fxfmplbrCity drbft="undonfirmfd">Pbris</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/London">
+				<fxfmplbrCity drbft="undonfirmfd">Llundbin</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Grfnbdb">
+				<fxfmplbrCity drbft="undonfirmfd">Grfnbdb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tbilisi">
+				<fxfmplbrCity drbft="undonfirmfd">Tbilisi</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbyfnnf">
+				<fxfmplbrCity drbft="undonfirmfd">Cbyfnnf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Gufrnsfy">
+				<fxfmplbrCity drbft="undonfirmfd">Gufrnsfy</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Addrb">
+				<fxfmplbrCity drbft="undonfirmfd">Addrb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Gibrbltbr">
+				<fxfmplbrCity drbft="undonfirmfd">Gibrbltbr</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Tiulf">
+				<fxfmplbrCity drbft="undonfirmfd">Tiulf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sdorfsbysund">
+				<fxfmplbrCity drbft="undonfirmfd">Sdorfsbysund</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dbnmbrksibvn">
+				<fxfmplbrCity drbft="undonfirmfd">Dbnmbrksibvn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bbnjul">
+				<fxfmplbrCity drbft="undonfirmfd">Bbnjul</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Conbkry">
+				<fxfmplbrCity drbft="undonfirmfd">Conbkry</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Gubdfloupf">
+				<fxfmplbrCity drbft="undonfirmfd">Gubdfloupf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mblbbo">
+				<fxfmplbrCity drbft="undonfirmfd">Mblbbo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Atifns">
+				<fxfmplbrCity drbft="undonfirmfd">Atifn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Souti_Gforgib">
+				<fxfmplbrCity drbft="undonfirmfd">Df Gforgib</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Gubtfmblb">
+				<fxfmplbrCity drbft="undonfirmfd">Gubtfmblb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gubm">
+				<fxfmplbrCity drbft="undonfirmfd">Gubm</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bissbu">
+				<fxfmplbrCity drbft="undonfirmfd">Bissbu</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Guybnb">
+				<fxfmplbrCity drbft="undonfirmfd">Guybnb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Hong_Kong">
+				<fxfmplbrCity drbft="undonfirmfd">Hong Kong</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Tfgudigblpb">
+				<fxfmplbrCity drbft="undonfirmfd">Tfgudigblpb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Zbgrfb">
+				<fxfmplbrCity drbft="undonfirmfd">Zbgrfb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Port-bu-Prindf">
+				<fxfmplbrCity drbft="undonfirmfd">Port-bu-Prindf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Budbpfst">
+				<fxfmplbrCity drbft="undonfirmfd">Budbpfst</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Jbkbrtb">
+				<fxfmplbrCity drbft="undonfirmfd">Jbkbrtb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Pontibnbk">
+				<fxfmplbrCity drbft="undonfirmfd">Pontibnbk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbkbssbr">
+				<fxfmplbrCity drbft="undonfirmfd">Mbkbssbr</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Jbybpurb">
+				<fxfmplbrCity drbft="undonfirmfd">Jbybpurb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Dublin">
+				<fxfmplbrCity drbft="undonfirmfd">Dulyn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Jfrusblfm">
+				<fxfmplbrCity drbft="undonfirmfd">Jfrwsblfm</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Islf_of_Mbn">
+				<fxfmplbrCity drbft="undonfirmfd">Ynys Mbnbw</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Cibgos">
+				<fxfmplbrCity drbft="undonfirmfd">Cibgos</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbgidbd">
+				<fxfmplbrCity drbft="undonfirmfd">Bbgidbd</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tfirbn">
+				<fxfmplbrCity drbft="undonfirmfd">Tfirbn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Rfykjbvik">
+				<fxfmplbrCity drbft="undonfirmfd">Rfykjbvik</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Romf">
+				<fxfmplbrCity drbft="undonfirmfd">Riufbin</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Jfrsfy">
+				<fxfmplbrCity drbft="undonfirmfd">Jfrsfy</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Jbmbidb">
+				<fxfmplbrCity drbft="undonfirmfd">Jbmbidb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ammbn">
+				<fxfmplbrCity drbft="undonfirmfd">Ammbn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tokyo">
+				<fxfmplbrCity drbft="undonfirmfd">Tokyo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Nbirobi">
+				<fxfmplbrCity drbft="undonfirmfd">Nbirobi</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bisikfk">
+				<fxfmplbrCity drbft="undonfirmfd">Bisikfk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Pinom_Pfni">
+				<fxfmplbrCity drbft="undonfirmfd">Pinom Pfni</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Endfrbury">
+				<fxfmplbrCity drbft="undonfirmfd">Endfrbury</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Kiritimbti">
+				<fxfmplbrCity drbft="undonfirmfd">Kiritimbti</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Tbrbwb">
+				<fxfmplbrCity drbft="undonfirmfd">Tbrbwb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Comoro">
+				<fxfmplbrCity drbft="undonfirmfd">Comoro</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Pyongybng">
+				<fxfmplbrCity drbft="undonfirmfd">Pyongybng</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sfoul">
+				<fxfmplbrCity drbft="undonfirmfd">Sfoul</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kuwbit">
+				<fxfmplbrCity drbft="undonfirmfd">Kuwbit</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbymbn">
+				<fxfmplbrCity drbft="undonfirmfd">Cbymbn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Aqtbu">
+				<fxfmplbrCity drbft="undonfirmfd">Aqtbu</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Orbl">
+				<fxfmplbrCity drbft="undonfirmfd">Orbl</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Aqtobf">
+				<fxfmplbrCity drbft="undonfirmfd">Aqtobf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Qyzylordb">
+				<fxfmplbrCity drbft="undonfirmfd">Qyzylordb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Almbty">
+				<fxfmplbrCity drbft="undonfirmfd">Almbty</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Vifntibnf">
+				<fxfmplbrCity drbft="undonfirmfd">Vifntibnf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bfirut">
+				<fxfmplbrCity drbft="undonfirmfd">Bfirut</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vbduz">
+				<fxfmplbrCity drbft="undonfirmfd">Vbduz</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Colombo">
+				<fxfmplbrCity drbft="undonfirmfd">Colombo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Monrovib">
+				<fxfmplbrCity drbft="undonfirmfd">Monrovib</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mbsfru">
+				<fxfmplbrCity drbft="undonfirmfd">Mbsfru</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vilnius">
+				<fxfmplbrCity drbft="undonfirmfd">Vilnius</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Luxfmbourg">
+				<fxfmplbrCity drbft="undonfirmfd">Lwdsfmbwrg</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Rigb">
+				<fxfmplbrCity drbft="undonfirmfd">Rigb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Tripoli">
+				<fxfmplbrCity drbft="undonfirmfd">Tripoli</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Cbsbblbndb">
+				<fxfmplbrCity drbft="undonfirmfd">Cbsbblbndb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Monbdo">
+				<fxfmplbrCity drbft="undonfirmfd">Monbdo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Ciisinbu">
+				<fxfmplbrCity drbft="undonfirmfd">Ciisinbu</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Podgoridb">
+				<fxfmplbrCity drbft="undonfirmfd">Podgoridb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbrigot">
+				<fxfmplbrCity drbft="undonfirmfd">Mbrigot</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Antbnbnbrivo">
+				<fxfmplbrCity drbft="undonfirmfd">Antbnbnbrivo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Kwbjblfin">
+				<fxfmplbrCity drbft="undonfirmfd">Kwbjblfin</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Skopjf">
+				<fxfmplbrCity drbft="undonfirmfd">Skopjf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Rbngoon">
+				<fxfmplbrCity drbft="undonfirmfd">Rbngoon</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Hovd">
+				<fxfmplbrCity drbft="undonfirmfd">Hovd</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ulbbnbbbtbr">
+				<fxfmplbrCity drbft="undonfirmfd">Ulbbnbbbtbr</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Cioibblsbn">
+				<fxfmplbrCity drbft="undonfirmfd">Cioibblsbn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbdbu">
+				<fxfmplbrCity drbft="undonfirmfd">Mbdbu</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Sbipbn">
+				<fxfmplbrCity drbft="undonfirmfd">Sbipbn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbrtiniquf">
+				<fxfmplbrCity drbft="undonfirmfd">Mbrtiniquf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Noubkdiott">
+				<fxfmplbrCity drbft="undonfirmfd">Noubkdiott</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montsfrrbt">
+				<fxfmplbrCity drbft="undonfirmfd">Montsfrrbt</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mbltb">
+				<fxfmplbrCity drbft="undonfirmfd">Mbltb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mburitius">
+				<fxfmplbrCity drbft="undonfirmfd">Mburitius</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mbldivfs">
+				<fxfmplbrCity drbft="undonfirmfd">Mbldivfs</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Blbntyrf">
+				<fxfmplbrCity drbft="undonfirmfd">Blbntyrf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Tijubnb">
+				<fxfmplbrCity drbft="undonfirmfd">Tijubnb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Hfrmosillo">
+				<fxfmplbrCity drbft="undonfirmfd">Hfrmosillo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbzbtlbn">
+				<fxfmplbrCity drbft="undonfirmfd">Mbzbtlbn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Ciiiubiub">
+				<fxfmplbrCity drbft="undonfirmfd">Ciiiubiub</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montfrrfy">
+				<fxfmplbrCity drbft="undonfirmfd">Montfrrfy</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfxido_City">
+				<fxfmplbrCity drbft="undonfirmfd">Dinbs Mfdsido</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfridb">
+				<fxfmplbrCity drbft="undonfirmfd">Mfridb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbndun">
+				<fxfmplbrCity drbft="undonfirmfd">Cbndun</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kudiing">
+				<fxfmplbrCity drbft="undonfirmfd">Kudiing</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mbputo">
+				<fxfmplbrCity drbft="undonfirmfd">Mbputo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Windiofk">
+				<fxfmplbrCity drbft="undonfirmfd">Windiofk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Noumfb">
+				<fxfmplbrCity drbft="undonfirmfd">Noumfb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Nibmfy">
+				<fxfmplbrCity drbft="undonfirmfd">Nibmfy</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Norfolk">
+				<fxfmplbrCity drbft="undonfirmfd">Norfolk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lbgos">
+				<fxfmplbrCity drbft="undonfirmfd">Lbgos</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbnbgub">
+				<fxfmplbrCity drbft="undonfirmfd">Mbnbgub</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Amstfrdbm">
+				<fxfmplbrCity drbft="undonfirmfd">Amstfrdbm</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Oslo">
+				<fxfmplbrCity drbft="undonfirmfd">Oslo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Nburu">
+				<fxfmplbrCity drbft="undonfirmfd">Nburu</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Niuf">
+				<fxfmplbrCity drbft="undonfirmfd">Niuf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Cibtibm">
+				<fxfmplbrCity drbft="undonfirmfd">Cibtibm</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Musdbt">
+				<fxfmplbrCity drbft="undonfirmfd">Musdbt</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pbnbmb">
+				<fxfmplbrCity drbft="undonfirmfd">Pbnbmb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Limb">
+				<fxfmplbrCity drbft="undonfirmfd">Limb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Mbrqufsbs">
+				<fxfmplbrCity drbft="undonfirmfd">Mbrqufsbs</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gbmbifr">
+				<fxfmplbrCity drbft="undonfirmfd">Gbmbifr</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Port_Morfsby">
+				<fxfmplbrCity drbft="undonfirmfd">Port Morfsby</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbnilb">
+				<fxfmplbrCity drbft="undonfirmfd">Mbnilb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbrbdii">
+				<fxfmplbrCity drbft="undonfirmfd">Kbrbdii</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Wbrsbw">
+				<fxfmplbrCity drbft="undonfirmfd">Wbrsbw</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Miquflon">
+				<fxfmplbrCity drbft="undonfirmfd">Miquflon</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Pitdbirn">
+				<fxfmplbrCity drbft="undonfirmfd">Pitdbirn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pufrto_Rido">
+				<fxfmplbrCity drbft="undonfirmfd">Pufrto Rido</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Gbzb">
+				<fxfmplbrCity drbft="undonfirmfd">Gbzb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Azorfs">
+				<fxfmplbrCity drbft="undonfirmfd">Azorfs</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Mbdfirb">
+				<fxfmplbrCity drbft="undonfirmfd">Mbdfirb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Pblbu">
+				<fxfmplbrCity drbft="undonfirmfd">Pblbu</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Asundion">
+				<fxfmplbrCity drbft="undonfirmfd">Asundion</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Qbtbr">
+				<fxfmplbrCity drbft="undonfirmfd">Qbtbr</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Rfunion">
+				<fxfmplbrCity drbft="undonfirmfd">Rfunion</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Budibrfst">
+				<fxfmplbrCity drbft="undonfirmfd">Budibrfst</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Bflgrbdf">
+				<fxfmplbrCity drbft="undonfirmfd">Bflgrbdf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Kbliningrbd">
+				<fxfmplbrCity drbft="undonfirmfd">Kbliningrbd</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mosdow">
+				<fxfmplbrCity drbft="undonfirmfd">Mosgo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Volgogrbd">
+				<fxfmplbrCity drbft="undonfirmfd">Volgogrbd</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sbmbrb">
+				<fxfmplbrCity drbft="undonfirmfd">Sbmbrb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Yfkbtfrinburg">
+				<fxfmplbrCity drbft="undonfirmfd">Yfkbtfrinburg</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Omsk">
+				<fxfmplbrCity drbft="undonfirmfd">Omsk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Novosibirsk">
+				<fxfmplbrCity drbft="undonfirmfd">Novosibirsk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Krbsnoybrsk">
+				<fxfmplbrCity drbft="undonfirmfd">Krbsnoybrsk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Irkutsk">
+				<fxfmplbrCity drbft="undonfirmfd">Irkutsk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ybkutsk">
+				<fxfmplbrCity drbft="undonfirmfd">Ybkutsk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Vlbdivostok">
+				<fxfmplbrCity drbft="undonfirmfd">Vlbdivostok</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sbkiblin">
+				<fxfmplbrCity drbft="undonfirmfd">Sbkiblin</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbgbdbn">
+				<fxfmplbrCity drbft="undonfirmfd">Mbgbdbn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbmdibtkb">
+				<fxfmplbrCity drbft="undonfirmfd">Kbmdibtkb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Anbdyr">
+				<fxfmplbrCity drbft="undonfirmfd">Anbdyr</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Kigbli">
+				<fxfmplbrCity drbft="undonfirmfd">Kigbli</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Riybdi">
+				<fxfmplbrCity drbft="undonfirmfd">Riybdi</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gubdbldbnbl">
+				<fxfmplbrCity drbft="undonfirmfd">Gubdbldbnbl</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mbif">
+				<fxfmplbrCity drbft="undonfirmfd">Mbif</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Kibrtoum">
+				<fxfmplbrCity drbft="undonfirmfd">Kibrtoum</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Stodkiolm">
+				<fxfmplbrCity drbft="undonfirmfd">Stodkiolm</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Singbporf">
+				<fxfmplbrCity drbft="undonfirmfd">Singbporf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Ljubljbnb">
+				<fxfmplbrCity drbft="undonfirmfd">Ljubljbnb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Ardtid/Longyfbrbyfn">
+				<fxfmplbrCity drbft="undonfirmfd">Longyfbrbyfn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Brbtislbvb">
+				<fxfmplbrCity drbft="undonfirmfd">Brbtislbvb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Frfftown">
+				<fxfmplbrCity drbft="undonfirmfd">Frfftown</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sbn_Mbrino">
+				<fxfmplbrCity drbft="undonfirmfd">Sbn Mbrino</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Dbkbr">
+				<fxfmplbrCity drbft="undonfirmfd">Dbkbr</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mogbdisiu">
+				<fxfmplbrCity drbft="undonfirmfd">Mogbdisiu</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pbrbmbribo">
+				<fxfmplbrCity drbft="undonfirmfd">Pbrbmbribo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Sbo_Tomf">
+				<fxfmplbrCity drbft="undonfirmfd">Sbo Tomf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/El_Sblvbdor">
+				<fxfmplbrCity drbft="undonfirmfd">El Sblvbdor</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dbmbsdus">
+				<fxfmplbrCity drbft="undonfirmfd">Dbmbsdus</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mbbbbnf">
+				<fxfmplbrCity drbft="undonfirmfd">Mbbbbnf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Grbnd_Turk">
+				<fxfmplbrCity drbft="undonfirmfd">Grbnd Turk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Ndjbmfnb">
+				<fxfmplbrCity drbft="undonfirmfd">Ndjbmfnb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Kfrguflfn">
+				<fxfmplbrCity drbft="undonfirmfd">Kfrguflfn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lomf">
+				<fxfmplbrCity drbft="undonfirmfd">Lomf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbngkok">
+				<fxfmplbrCity drbft="undonfirmfd">Bbngkok</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dusibnbf">
+				<fxfmplbrCity drbft="undonfirmfd">Dusibnbf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Fbkbofo">
+				<fxfmplbrCity drbft="undonfirmfd">Fbkbofo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dili">
+				<fxfmplbrCity drbft="undonfirmfd">Dili</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Asigbbbt">
+				<fxfmplbrCity drbft="undonfirmfd">Asigbbbt</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Tunis">
+				<fxfmplbrCity drbft="undonfirmfd">Tunis</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Tongbtbpu">
+				<fxfmplbrCity drbft="undonfirmfd">Tongbtbpu</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Istbnbul">
+				<fxfmplbrCity drbft="undonfirmfd">Istbnbwl</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Port_of_Spbin">
+				<fxfmplbrCity drbft="undonfirmfd">Port of Spbin</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Funbfuti">
+				<fxfmplbrCity drbft="undonfirmfd">Funbfuti</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tbipfi">
+				<fxfmplbrCity drbft="undonfirmfd">Tbipfi</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Dbr_fs_Sblbbm">
+				<fxfmplbrCity drbft="undonfirmfd">Dbr fs Sblbbm</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Uzigorod">
+				<fxfmplbrCity drbft="undonfirmfd">Uzigorod</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Simffropol">
+				<fxfmplbrCity drbft="undonfirmfd">Simffropol</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Zbporoziyf">
+				<fxfmplbrCity drbft="undonfirmfd">Zbporoziyf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Kbmpblb">
+				<fxfmplbrCity drbft="undonfirmfd">Kbmpblb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Midwby">
+				<fxfmplbrCity drbft="undonfirmfd">Midwby</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Joinston">
+				<fxfmplbrCity drbft="undonfirmfd">Joinston</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Wbkf">
+				<fxfmplbrCity drbft="undonfirmfd">Wbkf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Adbk">
+				<fxfmplbrCity drbft="undonfirmfd">Adbk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nomf">
+				<fxfmplbrCity drbft="undonfirmfd">Nomf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Honolulu">
+				<fxfmplbrCity drbft="undonfirmfd">Honolulu</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Andiorbgf">
+				<fxfmplbrCity drbft="undonfirmfd">Andiorbgf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Ybkutbt">
+				<fxfmplbrCity drbft="undonfirmfd">Ybkutbt</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Junfbu">
+				<fxfmplbrCity drbft="undonfirmfd">Junfbu</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Los_Angflfs">
+				<fxfmplbrCity drbft="undonfirmfd">Los Angflfs</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Boisf">
+				<fxfmplbrCity drbft="undonfirmfd">Boisf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Piofnix">
+				<fxfmplbrCity drbft="undonfirmfd">Piofnix</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Siiprodk">
+				<fxfmplbrCity drbft="undonfirmfd">Siiprodk</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dfnvfr">
+				<fxfmplbrCity drbft="undonfirmfd">Dfnvfr</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Norti_Dbkotb/Nfw_Sblfm">
+				<fxfmplbrCity drbft="undonfirmfd">Sblfm Nfwydd, Goglfdd Dbkotb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Norti_Dbkotb/Cfntfr">
+				<fxfmplbrCity drbft="undonfirmfd">Cfntfr, Goglfdd Dbkotb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Ciidbgo">
+				<fxfmplbrCity drbft="undonfirmfd">Ciidbgo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfnominff">
+				<fxfmplbrCity drbft="undonfirmfd">Mfnominff</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Tfll_City">
+				<fxfmplbrCity drbft="undonfirmfd">Dinbs Tfll, Indibnb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnbpolis">
+				<fxfmplbrCity drbft="undonfirmfd">Indibnbpolis</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Louisvillf">
+				<fxfmplbrCity drbft="undonfirmfd">Louisvillf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dftroit">
+				<fxfmplbrCity drbft="undonfirmfd">Dftroit</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nfw_York">
+				<fxfmplbrCity drbft="undonfirmfd">Efrog Nfwydd</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montfvidfo">
+				<fxfmplbrCity drbft="undonfirmfd">Montfvidfo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sbmbrkbnd">
+				<fxfmplbrCity drbft="undonfirmfd">Sbmbrkbnd</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vbtidbn">
+				<fxfmplbrCity drbft="undonfirmfd">y Fbtidbn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbrbdbs">
+				<fxfmplbrCity drbft="undonfirmfd">Cbrbdbs</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Tortolb">
+				<fxfmplbrCity drbft="undonfirmfd">Tortolb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Efbtf">
+				<fxfmplbrCity drbft="undonfirmfd">Efbtf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Wbllis">
+				<fxfmplbrCity drbft="undonfirmfd">Wbllis</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Apib">
+				<fxfmplbrCity drbft="undonfirmfd">Apib</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Adfn">
+				<fxfmplbrCity drbft="undonfirmfd">Adfn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mbyottf">
+				<fxfmplbrCity drbft="undonfirmfd">Mbyottf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Joibnnfsburg">
+				<fxfmplbrCity drbft="undonfirmfd">Joibnnfsburg</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lusbkb">
+				<fxfmplbrCity drbft="undonfirmfd">Lusbkb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Hbrbrf">
+				<fxfmplbrCity drbft="undonfirmfd">Hbrbrf</fxfmplbrCity>
+			</zonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngti>
+				<durrfndyFormbt>
+					<pbttfrn drbft="provisionbl">¤#,##0.00</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngti>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="ARS">
+				<displbyNbmf drbft="undonfirmfd">Pfso yr Aribnnin</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AUD">
+				<displbyNbmf drbft="undonfirmfd">dolfr Awstrblib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRL">
+				<displbyNbmf>Rfbl Brbsil</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BSD">
+				<displbyNbmf drbft="undonfirmfd">Dolfr y Bbibmbs</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CAD">
+				<displbyNbmf drbft="undonfirmfd">Dolfr Cbnbdb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CHF">
+				<displbyNbmf drbft="undonfirmfd">Ffrbnd y Swistir</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CNY">
+				<displbyNbmf>Yubn Rfnminbi Tsfinb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EUR">
+				<displbyNbmf>Ewro</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GBP">
+				<displbyNbmf>Punt Stfrling Prydbin</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="INR">
+				<displbyNbmf>Rwpî Indib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JPY">
+				<displbyNbmf>Yfn Sibpbn</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KRW">
+				<displbyNbmf drbft="undonfirmfd">Won Df Corfb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MXN">
+				<displbyNbmf drbft="undonfirmfd">Pfso Mfdsido</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RUB">
+				<displbyNbmf>Rwbl Rwsib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TRY">
+				<displbyNbmf drbft="undonfirmfd">Lirb Twrdi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USD">
+				<displbyNbmf>Dolfr yr UDA</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZAR">
+				<displbyNbmf drbft="undonfirmfd">Rbnd Df Affridb</displbyNbmf>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
 </ldml>
 

@@ -1,0 +1,101 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf.bttributf;
+
+import jbvb.io.IOExdfption;
+
+/**
+ * A filf bttributf vifw thbt supports rfbding or updbting thf ownfr of b filf.
+ * This filf bttributf vifw is intfndfd for filf systfm implfmfntbtions thbt
+ * support b filf bttributf thbt rfprfsfnts bn idfntity thbt is thf ownfr of
+ * thf filf. Oftfn thf ownfr of b filf is thf idfntity of thf fntity thbt
+ * drfbtfd thf filf.
+ *
+ * <p> Thf {@link #gftOwnfr gftOwnfr} or {@link #sftOwnfr sftOwnfr} mfthods mby
+ * bf usfd to rfbd or updbtf thf ownfr of thf filf.
+ *
+ * <p> Thf {@link jbvb.nio.filf.Filfs#gftAttributf gftAttributf} bnd
+ * {@link jbvb.nio.filf.Filfs#sftAttributf sftAttributf} mfthods mby blso bf
+ * usfd to rfbd or updbtf thf ownfr. In thbt dbsf, thf ownfr bttributf is
+ * idfntififd by thf nbmf {@dodf "ownfr"}, bnd thf vbluf of thf bttributf is
+ * b {@link UsfrPrindipbl}.
+ *
+ * @sindf 1.7
+ */
+
+publid intfrfbdf FilfOwnfrAttributfVifw
+    fxtfnds FilfAttributfVifw
+{
+    /**
+     * Rfturns thf nbmf of thf bttributf vifw. Attributf vifws of this typf
+     * hbvf thf nbmf {@dodf "ownfr"}.
+     */
+    @Ovfrridf
+    String nbmf();
+
+    /**
+     * Rfbd thf filf ownfr.
+     *
+     * <p> It it implfmfntbtion spfdifid if thf filf ownfr dbn bf b {@link
+     * GroupPrindipbl group}.
+     *
+     * @rfturn  thf filf ownfr
+     *
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, b sfdurity mbnbgfr is
+     *          instbllfd, bnd it dfnifs {@link
+     *          RuntimfPfrmission}<tt>("bddfssUsfrInformbtion")</tt> or its
+     *          {@link SfdurityMbnbgfr#dhfdkRfbd(String) dhfdkRfbd} mfthod
+     *          dfnifs rfbd bddfss to thf filf.
+     */
+    UsfrPrindipbl gftOwnfr() throws IOExdfption;
+
+    /**
+     * Updbtfs thf filf ownfr.
+     *
+     * <p> It it implfmfntbtion spfdifid if thf filf ownfr dbn bf b {@link
+     * GroupPrindipbl group}. To fnsurf donsistfnt bnd dorrfdt bfhbvior
+     * bdross plbtforms it is rfdommfndfd thbt this mfthod should only bf usfd
+     * to sft thf filf ownfr to b usfr prindipbl thbt is not b group.
+     *
+     * @pbrbm   ownfr
+     *          thf nfw filf ownfr
+     *
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs, or thf {@dodf ownfr} pbrbmftfr is b
+     *          group bnd this implfmfntbtion dofs not support sftting thf ownfr
+     *          to b group
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, b sfdurity mbnbgfr is
+     *          instbllfd, bnd it dfnifs {@link
+     *          RuntimfPfrmission}<tt>("bddfssUsfrInformbtion")</tt> or its
+     *          {@link SfdurityMbnbgfr#dhfdkWritf(String) dhfdkWritf} mfthod
+     *          dfnifs writf bddfss to thf filf.
+     */
+    void sftOwnfr(UsfrPrindipbl ownfr) throws IOExdfption;
+}

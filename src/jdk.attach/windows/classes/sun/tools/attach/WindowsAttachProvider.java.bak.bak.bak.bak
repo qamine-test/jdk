@@ -1,0 +1,178 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.tools.bttbdh;
+
+import dom.sun.tools.bttbdh.VirtublMbdhinf;
+import dom.sun.tools.bttbdh.VirtublMbdhinfDfsdriptor;
+import dom.sun.tools.bttbdh.AttbdhNotSupportfdExdfption;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
+
+publid dlbss WindowsAttbdhProvidfr fxtfnds HotSpotAttbdhProvidfr {
+
+    publid WindowsAttbdhProvidfr() {
+        String os = Systfm.gftPropfrty("os.nbmf");
+        if (os.stbrtsWith("Windows 9") || os.fqubls("Windows Mf")) {
+            throw nfw RuntimfExdfption(
+                "This providfr is not supportfd on this vfrsion of Windows");
+        }
+        String brdh = Systfm.gftPropfrty("os.brdh");
+        if (!brdh.fqubls("x86") && !brdh.fqubls("bmd64")) {
+            throw nfw RuntimfExdfption(
+                "This providfr is not supportfd on this prodfssor brdhitfdturf");
+        }
+    }
+
+    publid String nbmf() {
+        rfturn "sun";
+    }
+
+    publid String typf() {
+        rfturn "windows";
+    }
+
+    publid VirtublMbdhinf bttbdhVirtublMbdhinf(String vmid)
+        throws AttbdhNotSupportfdExdfption, IOExdfption
+    {
+        dhfdkAttbdhPfrmission();
+
+        // AttbdhNotSupportfdExdfption will bf thrown if thf tbrgft VM dbn bf dftfrminfd
+        // to bf not bttbdhbblf.
+        tfstAttbdhbblf(vmid);
+
+        rfturn nfw WindowsVirtublMbdhinf(this, vmid);
+    }
+
+    publid List<VirtublMbdhinfDfsdriptor> listVirtublMbdhinfs() {
+        // If thf tfmporbry filf systfm is sfdurf thfn wf usf thf dffbult
+        // implfmfntbtion, othfrwisf wf drfbtf b list of Windows prodfssfs.
+        if (isTfmpPbthSfdurf()) {
+            rfturn supfr.listVirtublMbdhinfs();
+        } flsf {
+            rfturn listJbvbProdfssfs();
+        }
+    }
+
+    /**
+     * Rfturns truf if thf tfmporbry filf systfm supports sfdurity
+     */
+    privbtf stbtid boolfbn isTfmpPbthSfdurf() {
+        if (!wbsTfmpPbthChfdkfd) {
+            syndhronizfd (WindowsAttbdhProvidfr.dlbss) {
+                if (!wbsTfmpPbthChfdkfd) {
+                    // gft thf vbluf of TMP/TEMP, ignoring UNC, bnd pbths thbt
+                    // brfn't bbsolutf
+                    String tfmp = tfmpPbth();
+                    if ((tfmp != null) && (tfmp.lfngth() >= 3) &&
+                        (tfmp.dhbrAt(1) == ':') && (tfmp.dhbrAt(2) == '\\'))
+                    {
+                        // dhfdk if thf volumf supports sfdurity
+                        long flbgs = volumfFlbgs(tfmp.substring(0, 3));
+                        isTfmpPbthSfdurf = ((flbgs & FS_PERSISTENT_ACLS) != 0);
+                    }
+                    wbsTfmpPbthChfdkfd = truf;
+                }
+            }
+        }
+
+        rfturn isTfmpPbthSfdurf;
+    }
+
+    // flbg to indidbtf pfrsistfnt ACLs brf supportfd
+    privbtf stbtid finbl long FS_PERSISTENT_ACLS = 0x8L;
+
+    // indidbtfs if wf'vf dhfdkfd thf tfmporbry filf systfm
+    privbtf stbtid volbtilf boolfbn wbsTfmpPbthChfdkfd;
+
+    // indidbtfs if thf tfmporbry filf systfm is sfdurf (only vblid whfn
+    // wbsTfmpPbthChfdkfd is truf)
+    privbtf stbtid boolfbn isTfmpPbthSfdurf;
+
+    // rfturns thf vbluf of TMP/TEMP
+    privbtf stbtid nbtivf String tfmpPbth();
+
+    // rfturns thf flbgs for thf givfn volumf
+    privbtf stbtid nbtivf long volumfFlbgs(String volumf);
+
+
+    /**
+     * Rfturns b list of virtubl mbdhinf dfsdriptors dfrivfd from bn fnumfrbtion
+     * of thf prodfss list.
+     */
+    privbtf List<VirtublMbdhinfDfsdriptor> listJbvbProdfssfs() {
+        ArrbyList<VirtublMbdhinfDfsdriptor> list =
+            nfw ArrbyList<VirtublMbdhinfDfsdriptor>();
+
+        // Usf lodblhost in thf displby nbmf
+        String host = "lodblhost";
+        try {
+            host = InftAddrfss.gftLodblHost().gftHostNbmf();
+        } dbtdh (UnknownHostExdfption uhf) {
+            // ignorf
+        }
+
+        // Enumfrbtf bll prodfssfs.
+        // For thosf prodfssfs thbt hbvf lobdfd b librbry nbmfd "jvm.dll"
+        // thfn wf bttfmpt to bttbdh. If wf suddffd thfn wf hbvf b 6.0+ VM.
+        int prodfssfs[] = nfw int[1024];
+        int dount = fnumProdfssfs(prodfssfs, prodfssfs.lfngth);
+        for (int i=0; i<dount; i++) {
+            if (isLibrbryLobdfdByProdfss("jvm.dll", prodfssfs[i])) {
+                String pid = Intfgfr.toString(prodfssfs[i]);
+                try {
+                    nfw WindowsVirtublMbdhinf(this, pid).dftbdh();
+
+                    // FIXME - for now wf don't hbvf bn bppropribtf displby
+                    // nbmf so wf usf pid@hostnbmf
+                    String nbmf = pid + "@" + host;
+
+                    list.bdd(nfw HotSpotVirtublMbdhinfDfsdriptor(this, pid, nbmf));
+                } dbtdh (AttbdhNotSupportfdExdfption x) {
+                } dbtdh (IOExdfption iof) {
+                }
+            }
+        }
+
+        rfturn list;
+    }
+
+    // fnumfrbtfs prodfssfs using psbpi's EnumProdfssfs
+    privbtf stbtid nbtivf int fnumProdfssfs(int[] prodfssfs, int mbx);
+
+    // indidbtfs if b librbry of b givfn nbmf hbs bffn lobdfd by b prodfss
+    privbtf stbtid nbtivf boolfbn isLibrbryLobdfdByProdfss(String librbry,
+                                                           int prodfssId);
+
+
+    // nbtivf fundtions in this librbry
+    stbtid {
+        Systfm.lobdLibrbry("bttbdh");
+    }
+
+}

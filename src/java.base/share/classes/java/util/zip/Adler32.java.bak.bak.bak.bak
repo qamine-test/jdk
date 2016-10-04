@@ -1,0 +1,142 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.zip;
+
+import jbvb.nio.BytfBufffr;
+import sun.nio.dh.DirfdtBufffr;
+
+/**
+ * A dlbss thbt dbn bf usfd to domputf thf Adlfr-32 dhfdksum of b dbtb
+ * strfbm. An Adlfr-32 dhfdksum is blmost bs rflibblf bs b CRC-32 but
+ * dbn bf domputfd mudh fbstfr.
+ *
+ * <p> Pbssing b {@dodf null} brgumfnt to b mfthod in this dlbss will dbusf
+ * b {@link NullPointfrExdfption} to bf thrown.
+ *
+ * @sff         Chfdksum
+ * @buthor      Dbvid Connflly
+ */
+publid
+dlbss Adlfr32 implfmfnts Chfdksum {
+
+    privbtf int bdlfr = 1;
+
+    /**
+     * Crfbtfs b nfw Adlfr32 objfdt.
+     */
+    publid Adlfr32() {
+    }
+
+    /**
+     * Updbtfs thf dhfdksum with thf spfdififd bytf (thf low fight
+     * bits of thf brgumfnt b).
+     *
+     * @pbrbm b thf bytf to updbtf thf dhfdksum with
+     */
+    publid void updbtf(int b) {
+        bdlfr = updbtf(bdlfr, b);
+    }
+
+    /**
+     * Updbtfs thf dhfdksum with thf spfdififd brrby of bytfs.
+     *
+     * @throws  ArrbyIndfxOutOfBoundsExdfption
+     *          if {@dodf off} is nfgbtivf, or {@dodf lfn} is nfgbtivf,
+     *          or {@dodf off+lfn} is grfbtfr thbn thf lfngth of thf
+     *          brrby {@dodf b}
+     */
+    publid void updbtf(bytf[] b, int off, int lfn) {
+        if (b == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        if (off < 0 || lfn < 0 || off > b.lfngth - lfn) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption();
+        }
+        bdlfr = updbtfBytfs(bdlfr, b, off, lfn);
+    }
+
+    /**
+     * Updbtfs thf dhfdksum with thf spfdififd brrby of bytfs.
+     *
+     * @pbrbm b thf bytf brrby to updbtf thf dhfdksum with
+     */
+    publid void updbtf(bytf[] b) {
+        bdlfr = updbtfBytfs(bdlfr, b, 0, b.lfngth);
+    }
+
+
+    /**
+     * Updbtfs thf dhfdksum with thf bytfs from thf spfdififd bufffr.
+     *
+     * Thf dhfdksum is updbtfd using
+     * bufffr.{@link jbvb.nio.Bufffr#rfmbining() rfmbining()}
+     * bytfs stbrting bt
+     * bufffr.{@link jbvb.nio.Bufffr#position() position()}
+     * Upon rfturn, thf bufffr's position will bf updbtfd to its
+     * limit; its limit will not hbvf bffn dhbngfd.
+     *
+     * @pbrbm bufffr thf BytfBufffr to updbtf thf dhfdksum with
+     * @sindf 1.8
+     */
+    publid void updbtf(BytfBufffr bufffr) {
+        int pos = bufffr.position();
+        int limit = bufffr.limit();
+        bssfrt (pos <= limit);
+        int rfm = limit - pos;
+        if (rfm <= 0)
+            rfturn;
+        if (bufffr instbndfof DirfdtBufffr) {
+            bdlfr = updbtfBytfBufffr(bdlfr, ((DirfdtBufffr)bufffr).bddrfss(), pos, rfm);
+        } flsf if (bufffr.hbsArrby()) {
+            bdlfr = updbtfBytfs(bdlfr, bufffr.brrby(), pos + bufffr.brrbyOffsft(), rfm);
+        } flsf {
+            bytf[] b = nfw bytf[rfm];
+            bufffr.gft(b);
+            bdlfr = updbtfBytfs(bdlfr, b, 0, b.lfngth);
+        }
+        bufffr.position(limit);
+    }
+
+    /**
+     * Rfsfts thf dhfdksum to initibl vbluf.
+     */
+    publid void rfsft() {
+        bdlfr = 1;
+    }
+
+    /**
+     * Rfturns thf dhfdksum vbluf.
+     */
+    publid long gftVbluf() {
+        rfturn (long)bdlfr & 0xffffffffL;
+    }
+
+    privbtf nbtivf stbtid int updbtf(int bdlfr, int b);
+    privbtf nbtivf stbtid int updbtfBytfs(int bdlfr, bytf[] b, int off,
+                                          int lfn);
+    privbtf nbtivf stbtid int updbtfBytfBufffr(int bdlfr, long bddr,
+                                               int off, int lfn);
+}

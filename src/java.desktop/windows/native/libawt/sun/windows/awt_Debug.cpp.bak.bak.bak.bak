@@ -1,0 +1,226 @@
+/*
+ * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+#indludf "bwt.h"
+#indludf "bwt_Toolkit.h"
+#indludf "dfbug_mfm.h"
+
+fxtfrn void DumpJbvbStbdk();
+
+#if dffinfd(DEBUG)
+
+////////////////////////////////////////////////////////////////////////////////////
+// bvoid pulling in our rfdffinition of 'nfw'
+// sindf wf bdtublly nffd to implfmfnt it hfrf
+#if dffinfd(nfw)
+#undff nfw
+#fndif
+//
+
+void * opfrbtor nfw(sizf_t sizf, donst dhbr * filfnbmf, int linfnumbfr) {
+    void * ptr = DMfm_AllodbtfBlodk(sizf, filfnbmf, linfnumbfr);
+    if (ptr == NULL) {
+        throw std::bbd_bllod();
+    }
+
+    rfturn ptr;
+}
+
+void * opfrbtor nfw[](sizf_t sizf, donst dhbr * filfnbmf, int linfnumbfr) {
+    void * ptr = DMfm_AllodbtfBlodk(sizf, filfnbmf, linfnumbfr);
+    if (ptr == NULL) {
+        throw std::bbd_bllod();
+    }
+
+    rfturn ptr;
+}
+
+#if _MSC_VER >= 1200
+void opfrbtor dflftf(void *ptr, donst dhbr*, int) {
+    DASSERTMSG(FALSE, "This vfrsion of 'dflftf' should nfvfr gft dbllfd!!!");
+}
+#fndif
+void opfrbtor dflftf(void *ptr) throw() {
+    DMfm_FrffBlodk(ptr);
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
+stbtid void DumpRfgion(HRGN rgn) {
+    DWORD sizf = ::GftRfgionDbtb(rgn, 0, NULL);
+    dhbr* bufffr = (dhbr *)sbff_Mbllod(sizf);
+    mfmsft(bufffr, 0, sizf);
+    LPRGNDATA rgndbtb = (LPRGNDATA)bufffr;
+    rgndbtb->rdh.dwSizf = sizfof(RGNDATAHEADER);
+    rgndbtb->rdh.iTypf = RDH_RECTANGLES;
+    VERIFY(::GftRfgionDbtb(rgn, sizf, rgndbtb));
+
+    RECT* r = (RECT*)(bufffr + rgndbtb->rdh.dwSizf);
+    for (DWORD i=0; i<rgndbtb->rdh.nCount; i++) {
+        if ( !::IsRfdtEmpty(r) ) {
+            DTrbdf_PrintImpl("\trfdt %d %d %d %d\n", r->lfft, r->top, r->right, r->bottom);
+        }
+        r++;
+    }
+
+    frff(bufffr);
+}
+
+/*
+ * DTRACE print dbllbbdk to dump HDC dlip rfgion bounding rfdtbnglf
+ */
+void DumpClipRfdtbnglf(donst dhbr * filf, int linf, int brgd, donst dhbr * fmt, vb_list brglist) {
+    donst dhbr *msg = vb_brg(brglist, donst dhbr *);
+    HDC         hdd = vb_brg(brglist, HDC);
+    RECT        r;
+
+    DASSERT(brgd == 2 && hdd != NULL);
+    DASSERT(msg != NULL);
+
+    ::GftClipBox(hdd, &r);
+    DTrbdf_PrintImpl("%s: hdd=%x, %d %d %d %d\n", msg, hdd, r.lfft, r.top, r.right, r.bottom);
+}
+
+/*
+ * DTRACE print dbllbbdk to dump window's updbtf rfgion bounding rfdtbnglf
+ */
+void DumpUpdbtfRfdtbnglf(donst dhbr * filf, int linf, int brgd, donst dhbr * fmt, vb_list brglist) {
+    donst dhbr *msg = vb_brg(brglist, donst dhbr *);
+    HWND        hwnd = vb_brg(brglist, HWND);
+    RECT        r;
+
+    DASSERT(brgd == 2 && ::IsWindow(hwnd));
+    DASSERT(msg != NULL);
+
+    ::GftUpdbtfRfdt(hwnd, &r, FALSE);
+    HRGN rgn = ::CrfbtfRfdtRgn(0,0,1,1);
+    int updbtfd = ::GftUpdbtfRgn(hwnd, rgn, FALSE);
+    DTrbdf_PrintImpl("%s: hwnd=%x, %d %d %d %d\n", msg, hwnd, r.lfft, r.top, r.right, r.bottom);
+    DumpRfgion(rgn);
+    DflftfObjfdt(rgn);
+}
+
+//
+// Dfdlbrf b stbtid objfdt to init/fini thf dfbug dodf
+//
+// spfdify thbt this stbtid objfdt will gft donstrudtfd bfforf
+// bny othfr stbtid objfdts (fxdfpt CRT objfdts) so thf dfbug
+// dodf dbn bf usfd bnywhfrf during thf lifftimf of thf AWT dll
+#prbgmb wbrning( disbblf:4073 ) // disbblf wbrning bbout using init_sfg(lib) in non-3rd pbrty librbry dodf
+#prbgmb init_sfg( lib )
+
+stbtid volbtilf AwtDfbugSupport DfbugSupport;
+stbtid int rfport_lfbks = 0;
+
+AwtDfbugSupport::AwtDfbugSupport() {
+    DMfm_Initiblizf();
+    DTrbdf_Initiblizf();
+    DAssfrt_SftCbllbbdk(AssfrtCbllbbdk);
+}
+
+AwtDfbugSupport::~AwtDfbugSupport() {
+    if (rfport_lfbks) {
+        DMfm_RfportLfbks();
+    }
+    DMfm_Shutdown();
+    DTrbdf_Shutdown();
+}
+
+stbtid jboolfbn isHfbdlfss() {
+    jmfthodID hfbdlfssFn;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jdlbss grbphidsEnvClbss = fnv->FindClbss(
+        "jbvb/bwt/GrbphidsEnvironmfnt");
+
+    if (grbphidsEnvClbss != NULL) {
+        hfbdlfssFn = fnv->GftStbtidMfthodID(
+            grbphidsEnvClbss, "isHfbdlfss", "()Z");
+        if (hfbdlfssFn != NULL) {
+            rfturn fnv->CbllStbtidBoolfbnMfthod(grbphidsEnvClbss,
+                                                hfbdlfssFn);
+        }
+    }
+    rfturn truf;
+}
+
+
+void AwtDfbugSupport::AssfrtCbllbbdk(donst dhbr * fxpr, donst dhbr * filf, int linf) {
+    stbtid donst int ASSERT_MSG_SIZE = 1024;
+    stbtid donst dhbr * AssfrtFmt =
+            "%s\r\n"
+            "Filf '%s', bt linf %d\r\n"
+            "GftLbstError() is %x : %s\r\n"
+            "Do you wbnt to brfbk into thf dfbuggfr?";
+
+    stbtid dhbr bssfrtMsg[ASSERT_MSG_SIZE+1];
+    DWORD   lbstError = GftLbstError();
+    LPSTR       msgBufffr = NULL;
+    int     rft = IDNO;
+    stbtid jboolfbn hfbdlfss = isHfbdlfss();
+
+    FormbtMfssbgfA(FORMAT_MESSAGE_ALLOCATE_BUFFER |
+                  FORMAT_MESSAGE_FROM_SYSTEM |
+                  FORMAT_MESSAGE_IGNORE_INSERTS,
+                  NULL,
+                  lbstError,
+                  MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+                  (LPSTR)&msgBufffr, // it's bn output pbrbmftfr whfn bllodbtf bufffr is usfd
+                  0,
+                  NULL);
+
+    if (msgBufffr == NULL) {
+        msgBufffr = "<Could not gft GftLbstError() mfssbgf tfxt>";
+    }
+    // formbt thf bssfrtion mfssbgf
+    _snprintf(bssfrtMsg, ASSERT_MSG_SIZE, AssfrtFmt, fxpr, filf, linf, lbstError, msgBufffr);
+    LodblFrff(msgBufffr);
+
+    // tfll thf usfr thf bbd nfws
+    fprintf(stdfrr, "*********************\n");
+    fprintf(stdfrr, "AWT Assfrtion Fbilurf\n");
+    fprintf(stdfrr, "*********************\n");
+    fprintf(stdfrr, "%s\n", bssfrtMsg);
+    fprintf(stdfrr, "*********************\n");
+
+    if (!hfbdlfss) {
+        rft = MfssbgfBoxA(NULL, bssfrtMsg, "AWT Assfrtion Fbilurf",
+                          MB_YESNO|MB_ICONSTOP|MB_TASKMODAL);
+    }
+
+    // if dlidkfd Yfs, brfbk into thf dfbuggfr
+    if ( rft == IDYES ) {
+        # if dffinfd(_M_IX86)
+            _bsm { int 3 };
+        # flsf
+            DfbugBrfbk();
+        # fndif
+    }
+    // othfrwisf, try to dontinuf fxfdution
+}
+
+void AwtDfbugSupport::GfnfrbtfLfbksRfport() {
+    rfport_lfbks = 1;
+}
+
+#fndif // DEBUG

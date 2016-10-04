@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 1994, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
 /**
- * This abstract class is the superclass of all classes representing
- * an output stream of bytes. An output stream accepts output bytes
- * and sends them to some sink.
+ * Tiis bbstrbdt dlbss is tif supfrdlbss of bll dlbssfs rfprfsfnting
+ * bn output strfbm of bytfs. An output strfbm bddfpts output bytfs
+ * bnd sfnds tifm to somf sink.
  * <p>
- * Applications that need to define a subclass of
- * <code>OutputStream</code> must always provide at least a method
- * that writes one byte of output.
+ * Applidbtions tibt nffd to dffinf b subdlbss of
+ * <dodf>OutputStrfbm</dodf> must blwbys providf bt lfbst b mftiod
+ * tibt writfs onf bytf of output.
  *
- * @author  Arthur van Hoff
- * @see     java.io.BufferedOutputStream
- * @see     java.io.ByteArrayOutputStream
- * @see     java.io.DataOutputStream
- * @see     java.io.FilterOutputStream
- * @see     java.io.InputStream
- * @see     java.io.OutputStream#write(int)
- * @since   1.0
+ * @butior  Artiur vbn Hoff
+ * @sff     jbvb.io.BufffrfdOutputStrfbm
+ * @sff     jbvb.io.BytfArrbyOutputStrfbm
+ * @sff     jbvb.io.DbtbOutputStrfbm
+ * @sff     jbvb.io.FiltfrOutputStrfbm
+ * @sff     jbvb.io.InputStrfbm
+ * @sff     jbvb.io.OutputStrfbm#writf(int)
+ * @sindf   1.0
  */
-public abstract class OutputStream implements Closeable, Flushable {
+publid bbstrbdt dlbss OutputStrfbm implfmfnts Closfbblf, Flusibblf {
     /**
-     * Writes the specified byte to this output stream. The general
-     * contract for <code>write</code> is that one byte is written
-     * to the output stream. The byte to be written is the eight
-     * low-order bits of the argument <code>b</code>. The 24
-     * high-order bits of <code>b</code> are ignored.
+     * Writfs tif spfdififd bytf to tiis output strfbm. Tif gfnfrbl
+     * dontrbdt for <dodf>writf</dodf> is tibt onf bytf is writtfn
+     * to tif output strfbm. Tif bytf to bf writtfn is tif figit
+     * low-ordfr bits of tif brgumfnt <dodf>b</dodf>. Tif 24
+     * iigi-ordfr bits of <dodf>b</dodf> brf ignorfd.
      * <p>
-     * Subclasses of <code>OutputStream</code> must provide an
-     * implementation for this method.
+     * Subdlbssfs of <dodf>OutputStrfbm</dodf> must providf bn
+     * implfmfntbtion for tiis mftiod.
      *
-     * @param      b   the <code>byte</code>.
-     * @exception  IOException  if an I/O error occurs. In particular,
-     *             an <code>IOException</code> may be thrown if the
-     *             output stream has been closed.
+     * @pbrbm      b   tif <dodf>bytf</dodf>.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs. In pbrtidulbr,
+     *             bn <dodf>IOExdfption</dodf> mby bf tirown if tif
+     *             output strfbm ibs bffn dlosfd.
      */
-    public abstract void write(int b) throws IOException;
+    publid bbstrbdt void writf(int b) tirows IOExdfption;
 
     /**
-     * Writes <code>b.length</code> bytes from the specified byte array
-     * to this output stream. The general contract for <code>write(b)</code>
-     * is that it should have exactly the same effect as the call
-     * <code>write(b, 0, b.length)</code>.
+     * Writfs <dodf>b.lfngti</dodf> bytfs from tif spfdififd bytf brrby
+     * to tiis output strfbm. Tif gfnfrbl dontrbdt for <dodf>writf(b)</dodf>
+     * is tibt it siould ibvf fxbdtly tif sbmf ffffdt bs tif dbll
+     * <dodf>writf(b, 0, b.lfngti)</dodf>.
      *
-     * @param      b   the data.
-     * @exception  IOException  if an I/O error occurs.
-     * @see        java.io.OutputStream#write(byte[], int, int)
+     * @pbrbm      b   tif dbtb.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @sff        jbvb.io.OutputStrfbm#writf(bytf[], int, int)
      */
-    public void write(byte b[]) throws IOException {
-        write(b, 0, b.length);
+    publid void writf(bytf b[]) tirows IOExdfption {
+        writf(b, 0, b.lfngti);
     }
 
     /**
-     * Writes <code>len</code> bytes from the specified byte array
-     * starting at offset <code>off</code> to this output stream.
-     * The general contract for <code>write(b, off, len)</code> is that
-     * some of the bytes in the array <code>b</code> are written to the
-     * output stream in order; element <code>b[off]</code> is the first
-     * byte written and <code>b[off+len-1]</code> is the last byte written
-     * by this operation.
+     * Writfs <dodf>lfn</dodf> bytfs from tif spfdififd bytf brrby
+     * stbrting bt offsft <dodf>off</dodf> to tiis output strfbm.
+     * Tif gfnfrbl dontrbdt for <dodf>writf(b, off, lfn)</dodf> is tibt
+     * somf of tif bytfs in tif brrby <dodf>b</dodf> brf writtfn to tif
+     * output strfbm in ordfr; flfmfnt <dodf>b[off]</dodf> is tif first
+     * bytf writtfn bnd <dodf>b[off+lfn-1]</dodf> is tif lbst bytf writtfn
+     * by tiis opfrbtion.
      * <p>
-     * The <code>write</code> method of <code>OutputStream</code> calls
-     * the write method of one argument on each of the bytes to be
-     * written out. Subclasses are encouraged to override this method and
-     * provide a more efficient implementation.
+     * Tif <dodf>writf</dodf> mftiod of <dodf>OutputStrfbm</dodf> dblls
+     * tif writf mftiod of onf brgumfnt on fbdi of tif bytfs to bf
+     * writtfn out. Subdlbssfs brf fndourbgfd to ovfrridf tiis mftiod bnd
+     * providf b morf fffidifnt implfmfntbtion.
      * <p>
-     * If <code>b</code> is <code>null</code>, a
-     * <code>NullPointerException</code> is thrown.
+     * If <dodf>b</dodf> is <dodf>null</dodf>, b
+     * <dodf>NullPointfrExdfption</dodf> is tirown.
      * <p>
-     * If <code>off</code> is negative, or <code>len</code> is negative, or
-     * <code>off+len</code> is greater than the length of the array
-     * <code>b</code>, then an <tt>IndexOutOfBoundsException</tt> is thrown.
+     * If <dodf>off</dodf> is nfgbtivf, or <dodf>lfn</dodf> is nfgbtivf, or
+     * <dodf>off+lfn</dodf> is grfbtfr tibn tif lfngti of tif brrby
+     * <dodf>b</dodf>, tifn bn <tt>IndfxOutOfBoundsExdfption</tt> is tirown.
      *
-     * @param      b     the data.
-     * @param      off   the start offset in the data.
-     * @param      len   the number of bytes to write.
-     * @exception  IOException  if an I/O error occurs. In particular,
-     *             an <code>IOException</code> is thrown if the output
-     *             stream is closed.
+     * @pbrbm      b     tif dbtb.
+     * @pbrbm      off   tif stbrt offsft in tif dbtb.
+     * @pbrbm      lfn   tif numbfr of bytfs to writf.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs. In pbrtidulbr,
+     *             bn <dodf>IOExdfption</dodf> is tirown if tif output
+     *             strfbm is dlosfd.
      */
-    public void write(byte b[], int off, int len) throws IOException {
+    publid void writf(bytf b[], int off, int lfn) tirows IOExdfption {
         if (b == null) {
-            throw new NullPointerException();
-        } else if ((off < 0) || (off > b.length) || (len < 0) ||
-                   ((off + len) > b.length) || ((off + len) < 0)) {
-            throw new IndexOutOfBoundsException();
-        } else if (len == 0) {
-            return;
+            tirow nfw NullPointfrExdfption();
+        } flsf if ((off < 0) || (off > b.lfngti) || (lfn < 0) ||
+                   ((off + lfn) > b.lfngti) || ((off + lfn) < 0)) {
+            tirow nfw IndfxOutOfBoundsExdfption();
+        } flsf if (lfn == 0) {
+            rfturn;
         }
-        for (int i = 0 ; i < len ; i++) {
-            write(b[off + i]);
+        for (int i = 0 ; i < lfn ; i++) {
+            writf(b[off + i]);
         }
     }
 
     /**
-     * Flushes this output stream and forces any buffered output bytes
-     * to be written out. The general contract of <code>flush</code> is
-     * that calling it is an indication that, if any bytes previously
-     * written have been buffered by the implementation of the output
-     * stream, such bytes should immediately be written to their
-     * intended destination.
+     * Flusifs tiis output strfbm bnd fordfs bny bufffrfd output bytfs
+     * to bf writtfn out. Tif gfnfrbl dontrbdt of <dodf>flusi</dodf> is
+     * tibt dblling it is bn indidbtion tibt, if bny bytfs prfviously
+     * writtfn ibvf bffn bufffrfd by tif implfmfntbtion of tif output
+     * strfbm, sudi bytfs siould immfdibtfly bf writtfn to tifir
+     * intfndfd dfstinbtion.
      * <p>
-     * If the intended destination of this stream is an abstraction provided by
-     * the underlying operating system, for example a file, then flushing the
-     * stream guarantees only that bytes previously written to the stream are
-     * passed to the operating system for writing; it does not guarantee that
-     * they are actually written to a physical device such as a disk drive.
+     * If tif intfndfd dfstinbtion of tiis strfbm is bn bbstrbdtion providfd by
+     * tif undfrlying opfrbting systfm, for fxbmplf b filf, tifn flusiing tif
+     * strfbm gubrbntffs only tibt bytfs prfviously writtfn to tif strfbm brf
+     * pbssfd to tif opfrbting systfm for writing; it dofs not gubrbntff tibt
+     * tify brf bdtublly writtfn to b piysidbl dfvidf sudi bs b disk drivf.
      * <p>
-     * The <code>flush</code> method of <code>OutputStream</code> does nothing.
+     * Tif <dodf>flusi</dodf> mftiod of <dodf>OutputStrfbm</dodf> dofs notiing.
      *
-     * @exception  IOException  if an I/O error occurs.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      */
-    public void flush() throws IOException {
+    publid void flusi() tirows IOExdfption {
     }
 
     /**
-     * Closes this output stream and releases any system resources
-     * associated with this stream. The general contract of <code>close</code>
-     * is that it closes the output stream. A closed stream cannot perform
-     * output operations and cannot be reopened.
+     * Closfs tiis output strfbm bnd rflfbsfs bny systfm rfsourdfs
+     * bssodibtfd witi tiis strfbm. Tif gfnfrbl dontrbdt of <dodf>dlosf</dodf>
+     * is tibt it dlosfs tif output strfbm. A dlosfd strfbm dbnnot pfrform
+     * output opfrbtions bnd dbnnot bf rfopfnfd.
      * <p>
-     * The <code>close</code> method of <code>OutputStream</code> does nothing.
+     * Tif <dodf>dlosf</dodf> mftiod of <dodf>OutputStrfbm</dodf> dofs notiing.
      *
-     * @exception  IOException  if an I/O error occurs.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
      */
-    public void close() throws IOException {
+    publid void dlosf() tirows IOExdfption {
     }
 
 }

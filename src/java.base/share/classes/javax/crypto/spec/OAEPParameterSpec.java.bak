@@ -1,168 +1,168 @@
 /*
- * Copyright (c) 2003, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.crypto.spec;
+pbdkbgf jbvbx.drypto.spfd;
 
-import java.math.BigInteger;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.MGF1ParameterSpec;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.MGF1PbrbmftfrSpfd;
 
 /**
- * This class specifies the set of parameters used with OAEP Padding,
- * as defined in the
- * <a href="http://www.ietf.org/rfc/rfc3447.txt">PKCS #1</a>
- * standard.
+ * Tiis dlbss spfdififs tif sft of pbrbmftfrs usfd witi OAEP Pbdding,
+ * bs dffinfd in tif
+ * <b irff="ittp://www.iftf.org/rfd/rfd3447.txt">PKCS #1</b>
+ * stbndbrd.
  *
- * Its ASN.1 definition in PKCS#1 standard is described below:
- * <pre>
- * RSAES-OAEP-params ::= SEQUENCE {
- *   hashAlgorithm      [0] OAEP-PSSDigestAlgorithms     DEFAULT sha1,
- *   maskGenAlgorithm   [1] PKCS1MGFAlgorithms  DEFAULT mgf1SHA1,
- *   pSourceAlgorithm   [2] PKCS1PSourceAlgorithms  DEFAULT pSpecifiedEmpty
+ * Its ASN.1 dffinition in PKCS#1 stbndbrd is dfsdribfd bflow:
+ * <prf>
+ * RSAES-OAEP-pbrbms ::= SEQUENCE {
+ *   ibsiAlgoritim      [0] OAEP-PSSDigfstAlgoritims     DEFAULT sib1,
+ *   mbskGfnAlgoritim   [1] PKCS1MGFAlgoritims  DEFAULT mgf1SHA1,
+ *   pSourdfAlgoritim   [2] PKCS1PSourdfAlgoritims  DEFAULT pSpfdififdEmpty
  * }
- * </pre>
- * where
- * <pre>
- * OAEP-PSSDigestAlgorithms    ALGORITHM-IDENTIFIER ::= {
- *   { OID id-sha1 PARAMETERS NULL   }|
- *   { OID id-sha256 PARAMETERS NULL }|
- *   { OID id-sha384 PARAMETERS NULL }|
- *   { OID id-sha512 PARAMETERS NULL },
- *   ...  -- Allows for future expansion --
+ * </prf>
+ * wifrf
+ * <prf>
+ * OAEP-PSSDigfstAlgoritims    ALGORITHM-IDENTIFIER ::= {
+ *   { OID id-sib1 PARAMETERS NULL   }|
+ *   { OID id-sib256 PARAMETERS NULL }|
+ *   { OID id-sib384 PARAMETERS NULL }|
+ *   { OID id-sib512 PARAMETERS NULL },
+ *   ...  -- Allows for futurf fxpbnsion --
  * }
- * PKCS1MGFAlgorithms    ALGORITHM-IDENTIFIER ::= {
- *   { OID id-mgf1 PARAMETERS OAEP-PSSDigestAlgorithms },
- *   ...  -- Allows for future expansion --
+ * PKCS1MGFAlgoritims    ALGORITHM-IDENTIFIER ::= {
+ *   { OID id-mgf1 PARAMETERS OAEP-PSSDigfstAlgoritims },
+ *   ...  -- Allows for futurf fxpbnsion --
  * }
- * PKCS1PSourceAlgorithms    ALGORITHM-IDENTIFIER ::= {
- *   { OID id-pSpecified PARAMETERS OCTET STRING },
- *   ...  -- Allows for future expansion --
+ * PKCS1PSourdfAlgoritims    ALGORITHM-IDENTIFIER ::= {
+ *   { OID id-pSpfdififd PARAMETERS OCTET STRING },
+ *   ...  -- Allows for futurf fxpbnsion --
  * }
- * </pre>
- * <p>Note: the OAEPParameterSpec.DEFAULT uses the following:
- *     message digest  -- "SHA-1"
- *     mask generation function (mgf) -- "MGF1"
- *     parameters for mgf -- MGF1ParameterSpec.SHA1
- *     source of encoding input -- PSource.PSpecified.DEFAULT
+ * </prf>
+ * <p>Notf: tif OAEPPbrbmftfrSpfd.DEFAULT usfs tif following:
+ *     mfssbgf digfst  -- "SHA-1"
+ *     mbsk gfnfrbtion fundtion (mgf) -- "MGF1"
+ *     pbrbmftfrs for mgf -- MGF1PbrbmftfrSpfd.SHA1
+ *     sourdf of fndoding input -- PSourdf.PSpfdififd.DEFAULT
  *
- * @see java.security.spec.MGF1ParameterSpec
- * @see PSource
+ * @sff jbvb.sfdurity.spfd.MGF1PbrbmftfrSpfd
+ * @sff PSourdf
  *
- * @author Valerie Peng
+ * @butior Vblfrif Pfng
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class OAEPParameterSpec implements AlgorithmParameterSpec {
+publid dlbss OAEPPbrbmftfrSpfd implfmfnts AlgoritimPbrbmftfrSpfd {
 
-    private String mdName = "SHA-1";
-    private String mgfName = "MGF1";
-    private AlgorithmParameterSpec mgfSpec = MGF1ParameterSpec.SHA1;
-    private PSource pSrc = PSource.PSpecified.DEFAULT;
-
-    /**
-     * The OAEP parameter set with all default values.
-     */
-    public static final OAEPParameterSpec DEFAULT = new OAEPParameterSpec();
+    privbtf String mdNbmf = "SHA-1";
+    privbtf String mgfNbmf = "MGF1";
+    privbtf AlgoritimPbrbmftfrSpfd mgfSpfd = MGF1PbrbmftfrSpfd.SHA1;
+    privbtf PSourdf pSrd = PSourdf.PSpfdififd.DEFAULT;
 
     /**
-     * Constructs a parameter set for OAEP padding as defined in
-     * the PKCS #1 standard using the default values.
+     * Tif OAEP pbrbmftfr sft witi bll dffbult vblufs.
      */
-    private OAEPParameterSpec() {
+    publid stbtid finbl OAEPPbrbmftfrSpfd DEFAULT = nfw OAEPPbrbmftfrSpfd();
+
+    /**
+     * Construdts b pbrbmftfr sft for OAEP pbdding bs dffinfd in
+     * tif PKCS #1 stbndbrd using tif dffbult vblufs.
+     */
+    privbtf OAEPPbrbmftfrSpfd() {
     }
 
     /**
-     * Constructs a parameter set for OAEP padding as defined in
-     * the PKCS #1 standard using the specified message digest
-     * algorithm <code>mdName</code>, mask generation function
-     * algorithm <code>mgfName</code>, parameters for the mask
-     * generation function <code>mgfSpec</code>, and source of
-     * the encoding input P <code>pSrc</code>.
+     * Construdts b pbrbmftfr sft for OAEP pbdding bs dffinfd in
+     * tif PKCS #1 stbndbrd using tif spfdififd mfssbgf digfst
+     * blgoritim <dodf>mdNbmf</dodf>, mbsk gfnfrbtion fundtion
+     * blgoritim <dodf>mgfNbmf</dodf>, pbrbmftfrs for tif mbsk
+     * gfnfrbtion fundtion <dodf>mgfSpfd</dodf>, bnd sourdf of
+     * tif fndoding input P <dodf>pSrd</dodf>.
      *
-     * @param mdName the algorithm name for the message digest.
-     * @param mgfName the algorithm name for the mask generation
-     * function.
-     * @param mgfSpec the parameters for the mask generation function.
-     * If null is specified, null will be returned by getMGFParameters().
-     * @param pSrc the source of the encoding input P.
-     * @exception NullPointerException if <code>mdName</code>,
-     * <code>mgfName</code>, or <code>pSrc</code> is null.
+     * @pbrbm mdNbmf tif blgoritim nbmf for tif mfssbgf digfst.
+     * @pbrbm mgfNbmf tif blgoritim nbmf for tif mbsk gfnfrbtion
+     * fundtion.
+     * @pbrbm mgfSpfd tif pbrbmftfrs for tif mbsk gfnfrbtion fundtion.
+     * If null is spfdififd, null will bf rfturnfd by gftMGFPbrbmftfrs().
+     * @pbrbm pSrd tif sourdf of tif fndoding input P.
+     * @fxdfption NullPointfrExdfption if <dodf>mdNbmf</dodf>,
+     * <dodf>mgfNbmf</dodf>, or <dodf>pSrd</dodf> is null.
      */
-    public OAEPParameterSpec(String mdName, String mgfName,
-                             AlgorithmParameterSpec mgfSpec,
-                             PSource pSrc) {
-        if (mdName == null) {
-            throw new NullPointerException("digest algorithm is null");
+    publid OAEPPbrbmftfrSpfd(String mdNbmf, String mgfNbmf,
+                             AlgoritimPbrbmftfrSpfd mgfSpfd,
+                             PSourdf pSrd) {
+        if (mdNbmf == null) {
+            tirow nfw NullPointfrExdfption("digfst blgoritim is null");
         }
-        if (mgfName == null) {
-            throw new NullPointerException("mask generation function " +
-                                           "algorithm is null");
+        if (mgfNbmf == null) {
+            tirow nfw NullPointfrExdfption("mbsk gfnfrbtion fundtion " +
+                                           "blgoritim is null");
         }
-        if (pSrc == null) {
-            throw new NullPointerException("source of the encoding input " +
+        if (pSrd == null) {
+            tirow nfw NullPointfrExdfption("sourdf of tif fndoding input " +
                                            "is null");
         }
-        this.mdName =  mdName;
-        this.mgfName =  mgfName;
-        this.mgfSpec =  mgfSpec;
-        this.pSrc =  pSrc;
+        tiis.mdNbmf =  mdNbmf;
+        tiis.mgfNbmf =  mgfNbmf;
+        tiis.mgfSpfd =  mgfSpfd;
+        tiis.pSrd =  pSrd;
     }
 
     /**
-     * Returns the message digest algorithm name.
+     * Rfturns tif mfssbgf digfst blgoritim nbmf.
      *
-     * @return the message digest algorithm name.
+     * @rfturn tif mfssbgf digfst blgoritim nbmf.
      */
-    public String getDigestAlgorithm() {
-        return mdName;
+    publid String gftDigfstAlgoritim() {
+        rfturn mdNbmf;
     }
 
     /**
-     * Returns the mask generation function algorithm name.
+     * Rfturns tif mbsk gfnfrbtion fundtion blgoritim nbmf.
      *
-     * @return the mask generation function algorithm name.
+     * @rfturn tif mbsk gfnfrbtion fundtion blgoritim nbmf.
      */
-    public String getMGFAlgorithm() {
-        return mgfName;
+    publid String gftMGFAlgoritim() {
+        rfturn mgfNbmf;
     }
 
     /**
-     * Returns the parameters for the mask generation function.
+     * Rfturns tif pbrbmftfrs for tif mbsk gfnfrbtion fundtion.
      *
-     * @return the parameters for the mask generation function.
+     * @rfturn tif pbrbmftfrs for tif mbsk gfnfrbtion fundtion.
      */
-    public AlgorithmParameterSpec getMGFParameters() {
-        return mgfSpec;
+    publid AlgoritimPbrbmftfrSpfd gftMGFPbrbmftfrs() {
+        rfturn mgfSpfd;
     }
 
     /**
-     * Returns the source of encoding input P.
+     * Rfturns tif sourdf of fndoding input P.
      *
-     * @return the source of encoding input P.
+     * @rfturn tif sourdf of fndoding input P.
      */
-    public PSource getPSource() {
-        return pSrc;
+    publid PSourdf gftPSourdf() {
+        rfturn pSrd;
     }
 }

@@ -1,61 +1,61 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.transforms.implementations;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.implfmfntbtions;
 
-import java.io.OutputStream;
+import jbvb.io.OutputStrfbm;
 
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.c14n.implementations.Canonicalizer11_OmitComments;
-import com.sun.org.apache.xml.internal.security.signature.XMLSignatureInput;
-import com.sun.org.apache.xml.internal.security.transforms.Transform;
-import com.sun.org.apache.xml.internal.security.transforms.TransformSpi;
-import com.sun.org.apache.xml.internal.security.transforms.Transforms;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.CbnonidblizbtionExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.implfmfntbtions.Cbnonidblizfr11_OmitCommfnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.Trbnsform;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.TrbnsformSpi;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.Trbnsforms;
 
 /**
- * Implements the <CODE>http://www.w3.org/2006/12/xml-c14n11</CODE>
- * (C14N 1.1) transform.
+ * Implfmfnts tif <CODE>ittp://www.w3.org/2006/12/xml-d14n11</CODE>
+ * (C14N 1.1) trbnsform.
  *
- * @author Sean Mullan
+ * @butior Sfbn Mullbn
  */
-public class TransformC14N11 extends TransformSpi {
+publid dlbss TrbnsformC14N11 fxtfnds TrbnsformSpi {
 
-    protected String engineGetURI() {
-        return Transforms.TRANSFORM_C14N11_OMIT_COMMENTS;
+    protfdtfd String fnginfGftURI() {
+        rfturn Trbnsforms.TRANSFORM_C14N11_OMIT_COMMENTS;
     }
 
-    protected XMLSignatureInput enginePerformTransform(
-        XMLSignatureInput input, OutputStream os, Transform transform
-    ) throws CanonicalizationException {
-        Canonicalizer11_OmitComments c14n = new Canonicalizer11_OmitComments();
+    protfdtfd XMLSignbturfInput fnginfPfrformTrbnsform(
+        XMLSignbturfInput input, OutputStrfbm os, Trbnsform trbnsform
+    ) tirows CbnonidblizbtionExdfption {
+        Cbnonidblizfr11_OmitCommfnts d14n = nfw Cbnonidblizfr11_OmitCommfnts();
         if (os != null) {
-            c14n.setWriter(os);
+            d14n.sftWritfr(os);
         }
-        byte[] result = null;
-        result = c14n.engineCanonicalize(input);
-        XMLSignatureInput output = new XMLSignatureInput(result);
+        bytf[] rfsult = null;
+        rfsult = d14n.fnginfCbnonidblizf(input);
+        XMLSignbturfInput output = nfw XMLSignbturfInput(rfsult);
         if (os != null) {
-            output.setOutputStream(os);
+            output.sftOutputStrfbm(os);
         }
-        return output;
+        rfturn output;
     }
 }

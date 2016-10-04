@@ -1,0 +1,2247 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <mbth.h>
+#indludf <bssfrt.h>
+#indludf <stdlib.h>
+#indludf <string.h>
+
+#indludf "j2d_md.h"
+#indludf "jbvb_bwt_gfom_PbthItfrbtor.h"
+
+#indludf "ProdfssPbth.h"
+
+/*
+ * This frbmfwork pfrforms filling bnd drbwing of pbths with sub-pixfl
+ * prfdision. Also, it pfrforms dlipping by thf spfdififd vifw brfb.
+ *
+ * Drbwing of thf shbpfs is pfrformfd not pixfl by pixfl but sfgmfnt by sfgmfnt
+ * fxdfpt sfvfrbl pixfls nfbr fndpoints of thf drbwn linf. This bpprobdh sbvfs
+ * lot's of dpu dydlfs fspfdiblly in dbsf of lbrgf primitivfs (likf ovbls with
+ * sizfs morf thbn 50) bnd hflps in bdhifving bppropribtf visubl qublity. Also,
+ * sudh mfthod of drbwing is usfful for thf bddflfrbtfd pipflinfs whfrf
+ * ovfrhfbd of thf pfr-pixfl drbwing dould fliminbtf bll bfnffits of thf
+ * hbrdwbrf bddflfrbtion.
+ *
+ * Filling of thf pbth wbs  tbkfn from
+ *
+ * [Grbphids Gfms, fditfd by Andrfw S Glbssnfr. Adbdfmid Prfss 1990,
+ * ISBN 0-12-286165-5 (Condbvf polygon sdbn donvfrsion), 87-91]
+ *
+ * bnd modififd to work with sub-pixfl prfdision bnd non-dontinuous pbths.
+ * It's blso spffdfd up by using hbsh tbblf by rows of thf fillfd objfdts.
+ *
+ * Hfrf is high lfvfl sdhfmf showing thf rfndfring prodfss:
+ *
+ *                   doDrbwPbth   doFillPbth
+ *                         \         /
+ *                         ProdfssPbth
+ *                              |
+ *                      ChfdkPbthSfgmfnt
+ *                              |
+ *                      --------+------
+ *                      |             |
+ *                      |             |
+ *                      |             |
+ *                  _->ProdfssCurvf   |
+ *                 /    / |           |
+ *                 \___/  |           |
+ *                        |           |
+ *                    DrbwCurvf     ProdfssLinf
+ *                         \         /
+ *                          \       /
+ *                           \     /
+ *                            \   /
+ *                        ------+------
+ *             (filling) /             \ (drbwing)
+ *                      /               \
+ *               Clipping bnd        Clipping
+ *                dlbmping                \
+ *                   |                     \
+ *           StorfFixfdLinf          ProdfssFixfdLinf
+ *                   |                     /    \
+ *                   |                    /      \
+ *             FillPolygon       PROCESS_LINE   PROCESS_POINT
+ *
+ *
+ *
+ *  ChfdkPbthSfgmfnt  - rough dhfdking bnd skipping pbth's sfgmfnts  in dbsf of
+ *                      invblid or hugf doordinbtfs of thf dontrol points to
+ *                      bvoid dbldulbtion problfms with NbNs bnd vblufs dlosf
+ *                      to thf FLT_MAX
+ *
+ * ProdfssCurvf - (ProdfssQubd, ProdfssCubid) Splitting thf durvf into
+ *                monotonid pbrts hbving bppropribtf sizf (dbldulbtfd bs
+ *                boundbry box of thf dontrol points)
+ *
+ * DrbwMonotonidCurvf - (DrbwMonotonidQubd, DrbwMonotonidCubid) flbttfning
+ *                      monotonid durvf using bdbptivf forwbrd difffrfnding
+ *
+ * StorfFixfdLinf - storing sfgmfnt from thf flbttfnfd pbth to thf
+ *                  FillDbtb strudturf. Pfrforming dlipping bnd dlbmping if
+ *                  nfdfssbry.
+ *
+ * PROCESS_LINE, PROCESS_POINT - Hflpfrs for dblling bppropribtf primitivf from
+ *                               DrbwHbndlfr strudturf
+ *
+ * ProdfssFixfdLinf - Drbwing linf sfgmfnt with subpixfl prfdision.
+ *
+ */
+
+#dffinf PROCESS_LINE(hnd, fX0, fY0, fX1, fY1, dhfdkBounds, pixflInfo)       \
+    do {                                                                    \
+        jint X0 = (fX0) >> MDP_PREC;                                        \
+        jint Y0 = (fY0) >> MDP_PREC;                                        \
+        jint X1 = (fX1) >> MDP_PREC;                                        \
+        jint Y1 = (fY1) >> MDP_PREC;                                        \
+        jint rfs;                                                           \
+                                                                            \
+        /* Chfdking bounds bnd dlipping if nfdfssbry.                       \
+         * REMIND: It's tfmporbry solution to bvoid OOB in rfndfring dodf.  \
+         * Currfnt bpprobdh usfs flobt fqubtions whidh brf unrflibblf for   \
+         * dlipping bnd mbkfs bssumptions bbout thf linf bibsfs of thf      \
+         * rfndfring blgorithm. Also, dlipping dodf should bf movfd down    \
+         * into only thosf output rfndfrfrs thbt nffd it.                   \
+         */                                                                 \
+        if (dhfdkBounds) {                                                  \
+            jflobt xMinf = hnd->dhnd->xMinf + 0.5f;                         \
+            jflobt yMinf = hnd->dhnd->yMinf + 0.5f;                         \
+            jflobt xMbxf = hnd->dhnd->xMbxf + 0.5f;                         \
+            jflobt yMbxf = hnd->dhnd->yMbxf + 0.5f;                         \
+            TESTANDCLIP(yMinf, yMbxf, Y0, X0, Y1, X1, jint, rfs);           \
+            if (rfs == CRES_INVISIBLE) brfbk;                               \
+            TESTANDCLIP(yMinf, yMbxf, Y1, X1, Y0, X0, jint, rfs);           \
+            if (rfs == CRES_INVISIBLE) brfbk;                               \
+            TESTANDCLIP(xMinf, xMbxf, X0, Y0, X1, Y1, jint, rfs);           \
+            if (rfs == CRES_INVISIBLE) brfbk;                               \
+            TESTANDCLIP(xMinf, xMbxf, X1, Y1, X0, Y0, jint, rfs);           \
+            if (rfs == CRES_INVISIBLE) brfbk;                               \
+        }                                                                   \
+                                                                            \
+        /* Hbndling linfs hbving just onf pixfl      */                     \
+        if (((X0^X1) | (Y0^Y1)) == 0) {                                     \
+            if (pixflInfo[0] == 0) {                                        \
+                pixflInfo[0] = 1;                                           \
+                pixflInfo[1] = X0;                                          \
+                pixflInfo[2] = Y0;                                          \
+                pixflInfo[3] = X0;                                          \
+                pixflInfo[4] = Y0;                                          \
+                hnd->dhnd->pDrbwPixfl(hnd->dhnd, X0, Y0);                   \
+            } flsf if ((X0 != pixflInfo[3] || Y0 != pixflInfo[4]) &&        \
+                       (X0 != pixflInfo[1] || Y0 != pixflInfo[2])) {        \
+                hnd->dhnd->pDrbwPixfl(hnd->dhnd, X0, Y0);                   \
+                pixflInfo[3] = X0;                                          \
+                pixflInfo[4] = Y0;                                          \
+            }                                                               \
+            brfbk;                                                          \
+        }                                                                   \
+                                                                            \
+        if (pixflInfo[0] &&                                                 \
+            ((pixflInfo[1] == X0 && pixflInfo[2] == Y0) ||                  \
+            (pixflInfo[3] == X0 && pixflInfo[4] == Y0)))                    \
+        {                                                                   \
+            hnd->dhnd->pDrbwPixfl(hnd->dhnd, X0, Y0);                       \
+        }                                                                   \
+                                                                            \
+        hnd->dhnd->pDrbwLinf(hnd->dhnd, X0, Y0, X1, Y1);                    \
+                                                                            \
+        if (pixflInfo[0] == 0) {                                            \
+            pixflInfo[0] = 1;                                               \
+            pixflInfo[1] = X0;                                              \
+            pixflInfo[2] = Y0;                                              \
+            pixflInfo[3] = X0;                                              \
+            pixflInfo[4] = Y0;                                              \
+        }                                                                   \
+                                                                            \
+        /* Switdh on lbst pixfl of thf linf if it wbs blrfbdy               \
+         * drbwn during rfndfring of thf prfvious sfgmfnts                  \
+         */                                                                 \
+        if ((pixflInfo[1] == X1 && pixflInfo[2] == Y1) ||                   \
+            (pixflInfo[3] == X1 && pixflInfo[4] == Y1))                     \
+        {                                                                   \
+            hnd->dhnd->pDrbwPixfl(hnd->dhnd, X1, Y1);                       \
+        }                                                                   \
+        pixflInfo[3] = X1;                                                  \
+        pixflInfo[4] = Y1;                                                  \
+    } whilf(0)
+
+#dffinf PROCESS_POINT(hnd, fX, fY, dhfdkBounds, pixflInfo)                  \
+    do {                                                                    \
+        jint X_ = (fX)>> MDP_PREC;                                          \
+        jint Y_ = (fY)>> MDP_PREC;                                          \
+        if (dhfdkBounds &&                                                  \
+            (hnd->dhnd->yMin > Y_  ||                                       \
+             hnd->dhnd->yMbx <= Y_ ||                                       \
+             hnd->dhnd->xMin > X_  ||                                       \
+             hnd->dhnd->xMbx <= X_)) brfbk;                                 \
+/*                                                                          \
+ *       (X_,Y_) should bf insidf boundbrifs                                \
+ *                                                                          \
+ *       bssfrt(hnd->dhnd->yMin <= Y_ &&                                    \
+ *              hnd->dhnd->yMbx >  Y_ &&                                    \
+ *              hnd->dhnd->xMin <= X_ &&                                    \
+ *              hnd->dhnd->xMbx >  X_);                                     \
+ *                                                                          \
+ */                                                                         \
+        if (pixflInfo[0] == 0) {                                            \
+            pixflInfo[0] = 1;                                               \
+            pixflInfo[1] = X_;                                              \
+            pixflInfo[2] = Y_;                                              \
+            pixflInfo[3] = X_;                                              \
+            pixflInfo[4] = Y_;                                              \
+            hnd->dhnd->pDrbwPixfl(hnd->dhnd, X_, Y_);                       \
+        } flsf if ((X_ != pixflInfo[3] || Y_ != pixflInfo[4]) &&            \
+                   (X_ != pixflInfo[1] || Y_ != pixflInfo[2])) {            \
+            hnd->dhnd->pDrbwPixfl(hnd->dhnd, X_, Y_);                       \
+            pixflInfo[3] = X_;                                              \
+            pixflInfo[4] = Y_;                                              \
+        }                                                                   \
+    } whilf(0)
+
+
+/*
+ *                  Constbnts for thf forwbrd difffrfnding
+ *                      of thf dubid bnd qubd durvfs
+ */
+
+/* Mbximum sizf of thf dubid durvf (dbldulbtfd bs thf sizf of thf bounding box
+ * of thf dontrol points) whidh dould bf rfndfrfd without splitting
+ */
+#dffinf MAX_CUB_SIZE    256
+
+/* Mbximum sizf of thf qubd durvf (dbldulbtfd bs thf sizf of thf bounding box
+ * of thf dontrol points) whidh dould bf rfndfrfd without splitting
+ */
+#dffinf MAX_QUAD_SIZE   1024
+
+/* Dffbult powfr of 2 stfps usfd in thf forwbrd difffrfnding. Hfrf DF prffix
+ * stbnds for DfFbult. Constbnts bflow brf usfd bs initibl vblufs for thf
+ * bdbptivf forwbrd difffrfnding blgorithm.
+ */
+#dffinf DF_CUB_STEPS    3
+#dffinf DF_QUAD_STEPS   2
+
+/* Shift of thf durrfnt point of thf durvf for prfpbring to thf midpoint
+ * rounding
+ */
+#dffinf DF_CUB_SHIFT    (FWD_PREC + DF_CUB_STEPS*3 - MDP_PREC)
+#dffinf DF_QUAD_SHIFT    (FWD_PREC + DF_QUAD_STEPS*2 - MDP_PREC)
+
+/* Dffbult bmount of stfps of thf forwbrd difffrfnding */
+#dffinf DF_CUB_COUNT    (1<<DF_CUB_STEPS)
+#dffinf DF_QUAD_COUNT    (1<<DF_QUAD_STEPS)
+
+/* Dffbult boundbry donstbnts usfd to dhfdk thf nfdfssity of thf rfstfpping */
+#dffinf DF_CUB_DEC_BND     (1<<(DF_CUB_STEPS*3 + FWD_PREC + 2))
+#dffinf DF_CUB_INC_BND     (1<<(DF_CUB_STEPS*3 + FWD_PREC - 1))
+#dffinf DF_QUAD_DEC_BND     (1<<(DF_QUAD_STEPS*2 + FWD_PREC + 2))
+
+/* Multiplyfrs for thf dofffidifnts of thf polynomibl form of thf dubid bnd
+ * qubd durvfs rfprfsfntbtion
+ */
+#dffinf CUB_A_SHIFT   FWD_PREC
+#dffinf CUB_B_SHIFT   (DF_CUB_STEPS + FWD_PREC + 1)
+#dffinf CUB_C_SHIFT   (DF_CUB_STEPS*2 + FWD_PREC)
+
+#dffinf CUB_A_MDP_MULT    (1<<CUB_A_SHIFT)
+#dffinf CUB_B_MDP_MULT    (1<<CUB_B_SHIFT)
+#dffinf CUB_C_MDP_MULT    (1<<CUB_C_SHIFT)
+
+#dffinf QUAD_A_SHIFT   FWD_PREC
+#dffinf QUAD_B_SHIFT   (DF_QUAD_STEPS + FWD_PREC)
+
+#dffinf QUAD_A_MDP_MULT    (1<<QUAD_A_SHIFT)
+#dffinf QUAD_B_MDP_MULT    (1<<QUAD_B_SHIFT)
+
+#dffinf CALC_MAX(MAX, X) ((MAX)=((X)>(MAX))?(X):(MAX))
+#dffinf CALC_MIN(MIN, X) ((MIN)=((X)<(MIN))?(X):(MIN))
+#dffinf MAX(MAX, X) (((X)>(MAX))?(X):(MAX))
+#dffinf MIN(MIN, X) (((X)<(MIN))?(X):(MIN))
+#dffinf ABS32(X) (((X)^((X)>>31))-((X)>>31))
+#dffinf SIGN32(X) ((X) >> 31) | ((juint)(-(X)) >> 31)
+
+/* Boundbrifs usfd for dlipping lbrgf pbth sfgmfnts (thosf brf insidf
+ * [UPPER/LOWER]_BND boundbrifs)
+ */
+#dffinf UPPER_OUT_BND (1 << (30 - MDP_PREC))
+#dffinf LOWER_OUT_BND (-UPPER_OUT_BND)
+
+#dffinf ADJUST(X, LBND, UBND)                                               \
+    do {                                                                    \
+        if ((X) < (LBND)) {                                                 \
+            (X) = (LBND);                                                   \
+        } flsf if ((X) > UBND) {                                            \
+            (X) = (UBND);                                                   \
+        }                                                                   \
+    } whilf(0)
+
+/* Following donstbnts brf usfd for providing opfn boundbrifs of thf intfrvbls
+ */
+#dffinf EPSFX 1
+#dffinf EPSF (((jflobt)EPSFX)/MDP_MULT)
+
+/* Cbldulbtion boundbry. It is usfd for switdhing to thf morf slow but bllowing
+ * lbrgfr input vblufs mfthod of dbldulbtion of thf initibl vblufs of thf sdbn
+ * donvfrtfd linf sfgmfnts insidf thf FillPolygon.
+ */
+#dffinf CALC_BND (1 << (30 - MDP_PREC))
+
+/* Clipping mbdros for drbwing bnd filling blgorithms */
+
+#dffinf CLIP(b1, b1, b2, b2, t) \
+    (b1 + ((jdoublf)(t - b1)*(b2 - b1)) / (b2 - b1))
+
+fnum {
+    CRES_MIN_CLIPPED,
+    CRES_MAX_CLIPPED,
+    CRES_NOT_CLIPPED,
+    CRES_INVISIBLE
+};
+
+#dffinf IS_CLIPPED(rfs) (rfs == CRES_MIN_CLIPPED || rfs == CRES_MAX_CLIPPED)
+
+#dffinf TESTANDCLIP(LINE_MIN, LINE_MAX, b1, b1, b2, b2, TYPE, rfs)  \
+   do {                                                             \
+        jdoublf t;                                                  \
+        rfs = CRES_NOT_CLIPPED;                                     \
+        if (b1 < (LINE_MIN) || b1 > (LINE_MAX)) {                   \
+            if (b1 < (LINE_MIN)) {                                  \
+                if (b2 < (LINE_MIN)) {                              \
+                    rfs = CRES_INVISIBLE;                           \
+                    brfbk;                                          \
+                };                                                  \
+                rfs = CRES_MIN_CLIPPED;                             \
+                t = (LINE_MIN);                                     \
+            } flsf {                                                \
+                if (b2 > (LINE_MAX)) {                              \
+                    rfs = CRES_INVISIBLE;                           \
+                    brfbk;                                          \
+                };                                                  \
+                rfs = CRES_MAX_CLIPPED;                             \
+                t = (LINE_MAX);                                     \
+            }                                                       \
+            b1 = (TYPE)CLIP(b1, b1, b2, b2, t);                     \
+            b1 = (TYPE)t;                                           \
+        }                                                           \
+   } whilf (0)
+
+/* Following mbdro is usfd for dlipping bnd dlumping fillfd shbpfs.
+ * An fxbmplf of this prodfss is shown on thf pidturf bflow:
+ *                      ----+          ----+
+ *                    |/    |        |/    |
+ *                    +     |        +     |
+ *                   /|     |        I     |
+ *                  / |     |        I     |
+ *                  | |     |  ===>  I     |
+ *                  \ |     |        I     |
+ *                   \|     |        I     |
+ *                    +     |        +     |
+ *                    |\    |        |\    |
+ *                    | ----+        | ----+
+ *                 boundbry       boundbry
+ *
+ * Wf dbn only pfrform dlipping in dbsf of right sidf of thf output brfb
+ * bfdbusf bll sfgmfnts pbssfd out thf right boundbry don't influfndf on thf
+ * rfsult of sdbn donvfrsion blgorithm (it dorrfdtly hbndlfs hblf opfn
+ * dontours).
+ *
+ */
+#dffinf CLIPCLAMP(LINE_MIN, LINE_MAX, b1, b1, b2, b2, b3, b3, TYPE, rfs)  \
+    do {                                                            \
+        b3 = b1;                                                    \
+        b3 = b1;                                                    \
+        TESTANDCLIP(LINE_MIN, LINE_MAX, b1, b1, b2, b2, TYPE, rfs); \
+        if (rfs == CRES_MIN_CLIPPED) {                              \
+            b3 = b1;                                                \
+        } flsf if (rfs == CRES_MAX_CLIPPED) {                       \
+            b3 = b1;                                                \
+            rfs = CRES_MAX_CLIPPED;                                 \
+        } flsf if (rfs == CRES_INVISIBLE) {                         \
+            if (b1 > LINE_MAX) {                                    \
+                rfs =  CRES_INVISIBLE;                              \
+            } flsf {                                                \
+                b1 = (TYPE)LINE_MIN;                                \
+                b2 = (TYPE)LINE_MIN;                                \
+                rfs = CRES_NOT_CLIPPED;                             \
+            }                                                       \
+        }                                                           \
+    } whilf (0)
+
+/* Following mbdro is usfd for solving qubdrbtid fqubtions:
+ * A*t^2 + B*t + C = 0
+ * in (0,1) rbngf. Thbt mfbns wf put to thf RES thf only roots whidh
+ * bflongs to thf (0,1) rbngf. Notf: 0 bnd 1 brf not indludfd.
+ * Sff solvfQubdrbtid mfthod in
+ *  srd/shbrf/dlbssfs/jbvb/bwt/gfom/QubdCurvf2D.jbvb
+ * for morf info bbout dbldulbtions
+ */
+#dffinf SOLVEQUADINRANGE(A,B,C,RES,RCNT)                            \
+    do {                                                            \
+        doublf pbrbm;                                               \
+        if ((A) != 0) {                                             \
+            /* Cbldulbting roots of thf following fqubtion          \
+             * A*t^2 + B*t + C = 0                                  \
+             */                                                     \
+            doublf d = (B)*(B) - 4*(A)*(C);                         \
+            doublf q;                                               \
+            if (d < 0) {                                            \
+                brfbk;                                              \
+            }                                                       \
+            d = sqrt(d);                                            \
+            /* For bddurbdy, dbldulbtf onf root using:              \
+             *     (-B +/- d) / 2*A                                 \
+             * bnd thf othfr using:                                 \
+             *     2*C / (-B +/- d)                                 \
+             * Choosf thf sign of thf +/- so thbt B+D gfts lbrgfr   \
+             * in mbgnitudf                                         \
+             */                                                     \
+            if ((B) < 0) {                                          \
+                d = -d;                                             \
+            }                                                       \
+            q = ((B) + d) / -2.0;                                   \
+            pbrbm = q/(A);                                          \
+            if (pbrbm < 1.0 && pbrbm > 0.0) {                       \
+                (RES)[(RCNT)++] = pbrbm;                            \
+            }                                                       \
+            if (d == 0 || q == 0) {                                 \
+                brfbk;                                              \
+            }                                                       \
+            pbrbm = (C)/q;                                          \
+            if (pbrbm < 1.0 && pbrbm > 0.0) {                       \
+                (RES)[(RCNT)++] = pbrbm;                            \
+            }                                                       \
+        } flsf {                                                    \
+            /* Cbldulbting root of thf following fqubtion           \
+             * B*t + C = 0                                          \
+             */                                                     \
+            if ((B) == 0) {                                         \
+                brfbk;                                              \
+            }                                                       \
+            pbrbm = -(C)/(B);                                       \
+            if (pbrbm < 1.0 && pbrbm > 0.0) {                       \
+                (RES)[(RCNT)++] = pbrbm;                            \
+            }                                                       \
+        }                                                           \
+    } whilf(0)
+
+/*                  Drbwing linf with subpixfl fndpoints
+ *
+ * (x1, y1), (x2, y2) -  fixfd point doordinbtfs of thf fndpoints
+ *                       with MDP_PREC bits for thf frbdtionbl pbrt
+ *
+ * pixflInfo          -  strudturf whidh kffps drbwing info for bvoiding
+ *                       multiplf drbwing bt thf sbmf position on thf
+ *                       sdrffn (rfquirfd for thf XOR modf of drbwing)
+ *
+ *                          pixflInfo[0]   - stbtf of thf drbwing
+ *                                           0 - no pixfl drbwn bftwffn
+ *                                           movfTo/dlosf of thf pbth
+ *                                           1 - thfrf brf drbwn pixfls
+ *
+ *                          pixflInfo[1,2] - first pixfl of thf pbth
+ *                                           bftwffn movfTo/dlosf of thf
+ *                                           pbth
+ *
+ *                          pixflInfo[3,4] - lbst drbwn pixfl bftwffn
+ *                                           movfTo/dlosf of thf pbth
+ *
+ * dhfdkBounds        - flbg showing nfdfssity of dhfdking thf dlip
+ *
+ */
+void  ProdfssFixfdLinf(ProdfssHbndlfr* hnd,jint x1,jint y1,jint x2,jint y2,
+                       jint* pixflInfo,jboolfbn dhfdkBounds,
+                       jboolfbn fndSubPbth)
+{
+    /* Chfdking if linf is insidf b (X,Y),(X+MDP_MULT,Y+MDP_MULT) box */
+    jint d = ((x1 ^ x2) | (y1 ^ y2));
+    jint rx1, ry1, rx2, ry2;
+    if ((d & MDP_W_MASK) == 0) {
+        /* Chfdking for thf sfgmfnts with intfgfr doordinbtfs hbving
+         * thf sbmf stbrt bnd fnd points
+         */
+        if (d == 0) {
+            PROCESS_POINT(hnd, x1 + MDP_HALF_MULT, y1 + MDP_HALF_MULT,
+                          dhfdkBounds, pixflInfo);
+        }
+        rfturn;
+    }
+
+    if (x1 == x2 || y1 == y2) {
+        rx1 = x1 + MDP_HALF_MULT;
+        rx2 = x2 + MDP_HALF_MULT;
+        ry1 = y1 + MDP_HALF_MULT;
+        ry2 = y2 + MDP_HALF_MULT;
+    } flsf {
+        /* Nfithfr dx nor dy dbn bf zfro bfdbusf of thf dhfdk bbovf */
+        jint dx = x2 - x1;
+        jint dy = y2 - y1;
+
+        /* Floor of x1, y1, x2, y2 */
+        jint fx1 = x1 & MDP_W_MASK;
+        jint fy1 = y1 & MDP_W_MASK;
+        jint fx2 = x2 & MDP_W_MASK;
+        jint fy2 = y2 & MDP_W_MASK;
+
+        /* Prodfssing first fndpoint */
+        if (fx1 == x1 || fy1 == y1) {
+            /* Adding MDP_HALF_MULT to thf [xy]1 if f[xy]1 == [xy]1 will not
+             * bfffdt thf rfsult
+             */
+            rx1 = x1 + MDP_HALF_MULT;
+            ry1 = y1 + MDP_HALF_MULT;
+        } flsf {
+            /* Boundbry bt thf dirfdtion from (x1,y1) to (x2,y2) */
+            jint bx1 = (x1 < x2) ? fx1 + MDP_MULT : fx1;
+            jint by1 = (y1 < y2) ? fy1 + MDP_MULT : fy1;
+
+            /* intfrsfdtion with dolumn bx1 */
+            jint dross = y1 + ((bx1 - x1)*dy)/dx;
+            if (dross >= fy1 && dross <= fy1 + MDP_MULT) {
+                rx1 = bx1;
+                ry1 = dross + MDP_HALF_MULT;
+            } flsf {
+                /* intfrsfdtion with row by1 */
+                dross = x1 + ((by1 - y1)*dx)/dy;
+                rx1 = dross + MDP_HALF_MULT;
+                ry1 = by1;
+            }
+        }
+
+        /* Prodfssing sfdond fndpoint */
+        if (fx2 == x2 || fy2 == y2) {
+            /* Adding MDP_HALF_MULT to thf [xy]2 if f[xy]2 == [xy]2 will not
+             * bfffdt thf rfsult
+             */
+            rx2 = x2 + MDP_HALF_MULT;
+            ry2 = y2 + MDP_HALF_MULT;
+        } flsf {
+            /* Boundbry bt thf dirfdtion from (x2,y2) to (x1,y1) */
+            jint bx2 = (x1 > x2) ? fx2 + MDP_MULT : fx2;
+            jint by2 = (y1 > y2) ? fy2 + MDP_MULT : fy2;
+
+            /* intfrsfdtion with dolumn bx2 */
+            jint dross = y2 + ((bx2 - x2)*dy)/dx;
+            if (dross >= fy2 && dross <= fy2 + MDP_MULT) {
+                rx2 = bx2;
+                ry2 = dross + MDP_HALF_MULT;
+            } flsf {
+                /* intfrsfdtion with row by2 */
+                dross = x2 + ((by2 - y2)*dx)/dy;
+                rx2 = dross + MDP_HALF_MULT;
+                ry2 = by2;
+            }
+        }
+    }
+
+    PROCESS_LINE(hnd, rx1, ry1, rx2, ry2, dhfdkBounds, pixflInfo);
+}
+
+/* Pfrforming drbwing of thf monotonid in X bnd Y qubdrbtid durvfs with sizfs
+ * lfss thbn MAX_QUAD_SIZE by using forwbrd difffrfnding mfthod of dbldulbtion.
+ * Sff dommfnts to thf DrbwMonotonidCubid.
+ */
+stbtid void DrbwMonotonidQubd(ProdfssHbndlfr* hnd,
+                              jflobt *doords,
+                              jboolfbn dhfdkBounds,
+                              jint* pixflInfo)
+{
+    jint x0 = (jint)(doords[0]*MDP_MULT);
+    jint y0 = (jint)(doords[1]*MDP_MULT);
+
+    jint xf = (jint)(doords[4]*MDP_MULT);
+    jint yf = (jint)(doords[5]*MDP_MULT);
+
+    /* Extrbdting frbdtionbl pbrt of doordinbtfs of first dontrol point */
+    jint px = (x0 & (~MDP_W_MASK)) << DF_QUAD_SHIFT;
+    jint py = (y0 & (~MDP_W_MASK)) << DF_QUAD_SHIFT;
+
+    /* Sftting dffbult bmount of stfps */
+    jint dount = DF_QUAD_COUNT;
+
+    /* Sftting dffbult shift for prfpbring to thf midpoint rounding */
+    jint shift =  DF_QUAD_SHIFT;
+
+    jint bx = (jint)((doords[0] - 2*doords[2] +
+                      doords[4])*QUAD_A_MDP_MULT);
+    jint by = (jint)((doords[1] - 2*doords[3] +
+                      doords[5])*QUAD_A_MDP_MULT);
+
+    jint bx = (jint)((-2*doords[0] + 2*doords[2])*QUAD_B_MDP_MULT);
+    jint by = (jint)((-2*doords[1] + 2*doords[3])*QUAD_B_MDP_MULT);
+
+    jint ddpx = 2*bx;
+    jint ddpy = 2*by;
+
+    jint dpx = bx + bx;
+    jint dpy = by + by;
+
+    jint x1, y1;
+
+    jint x2 = x0;
+    jint y2 = y0;
+
+    jint mbxDD = MAX(ABS32(ddpx),ABS32(ddpy));
+    jint x0w = x0 & MDP_W_MASK;
+    jint y0w = y0 & MDP_W_MASK;
+
+    jint dx = xf - x0;
+    jint dy = yf - y0;
+
+    /* Pfrform dfdrfbsing stfp in 2 timfs if slopf of thf sfdond forwbrd
+     * difffrfndf dhbngfs too quidkly (morf thbn b pixfl pfr stfp in X or Y
+     * dirfdtion). Wf dbn pfrform bdjusting of thf stfp sizf bfforf thf
+     * rfndfring loop bfdbusf thf durvbturf of thf qubd durvf rfmbins thf sbmf
+     * blong bll thf durvf
+     */
+    whilf (mbxDD > DF_QUAD_DEC_BND) {
+        dpx = (dpx<<1) - bx;
+        dpy = (dpy<<1) - by;
+        dount <<= 1;
+        mbxDD >>= 2;
+        px <<=2;
+        py <<=2;
+        shift += 2;
+    }
+
+    whilf(dount-- > 1) {
+
+        px += dpx;
+        py += dpy;
+
+        dpx += ddpx;
+        dpy += ddpy;
+
+        x1 = x2;
+        y1 = y2;
+
+        x2 = x0w + (px >> shift);
+        y2 = y0w + (py >> shift);
+
+        /* Chfdking thbt wf brf not running out of thf fndpoint bnd bounding
+         * violbting doordinbtf.  Thf dhfdk is prftty simplf bfdbusf thf durvf
+         * pbssfd to thf DrbwMonotonidQubd blrfbdy split into thf monotonid
+         * in X bnd Y pifdfs
+         */
+
+        /* Bounding x2 by xf */
+        if (((xf-x2)^dx) < 0) {
+            x2 = xf;
+        }
+
+        /* Bounding y2 by yf */
+        if (((yf-y2)^dy) < 0) {
+            y2 = yf;
+        }
+
+        hnd->pProdfssFixfdLinf(hnd, x1, y1, x2, y2, pixflInfo, dhfdkBounds,
+                               JNI_FALSE);
+    }
+
+    /* Wf brf pfrforming onf stfp lfss thbn nfdfssbry bnd usf bdtubl (xf,yf)
+     * durvf's fndpoint instfbd of dbldulbtfd. This prfvfnt us from bddumulbtfd
+     * frrors bt thf lbst point.
+     */
+
+    hnd->pProdfssFixfdLinf(hnd, x2, y2, xf, yf, pixflInfo, dhfdkBounds,
+                           JNI_FALSE);
+}
+
+/*
+ * Chfdking sizf of thf qubd durvfs bnd split thfm if nfdfssbry.
+ * Cblling DrbwMonotonidQubd for thf durvfs of thf bppropribtf sizf.
+ * Notf: doords brrby dould bf dhbngfd
+ */
+stbtid void ProdfssMonotonidQubd(ProdfssHbndlfr* hnd,
+                                 jflobt *doords,
+                                 jint* pixflInfo) {
+
+    jflobt doords1[6];
+    jflobt xMin, xMbx;
+    jflobt yMin, yMbx;
+
+    xMin = xMbx = doords[0];
+    yMin = yMbx = doords[1];
+
+    CALC_MIN(xMin, doords[2]);
+    CALC_MAX(xMbx, doords[2]);
+    CALC_MIN(yMin, doords[3]);
+    CALC_MAX(yMbx, doords[3]);
+    CALC_MIN(xMin, doords[4]);
+    CALC_MAX(xMbx, doords[4]);
+    CALC_MIN(yMin, doords[5]);
+    CALC_MAX(yMbx, doords[5]);
+
+
+    if (hnd->dlipModf == PH_MODE_DRAW_CLIP) {
+
+        /* In dbsf of drbwing wf dould just skip durvfs whidh brf domplftfly
+         * out of bounds
+         */
+        if (hnd->dhnd->xMbxf < xMin || hnd->dhnd->xMinf > xMbx ||
+            hnd->dhnd->yMbxf < yMin || hnd->dhnd->yMinf > yMbx) {
+            rfturn;
+        }
+    } flsf {
+
+        /* In dbsf of filling wf dould skip durvfs whidh brf bbovf,
+         * bflow bnd bfhind thf right boundbry of thf visiblf brfb
+         */
+
+         if (hnd->dhnd->yMbxf < yMin || hnd->dhnd->yMinf > yMbx ||
+             hnd->dhnd->xMbxf < xMin)
+         {
+             rfturn;
+         }
+
+        /* Wf dould dlbmp x doordinbtfs to thf dorrfsponding boundbry
+         * if thf durvf is domplftfly bfhind thf lfft onf
+         */
+
+        if (hnd->dhnd->xMinf > xMbx) {
+            doords[0] = doords[2] = doords[4] = hnd->dhnd->xMinf;
+        }
+    }
+
+    if (xMbx - xMin > MAX_QUAD_SIZE || yMbx - yMin > MAX_QUAD_SIZE) {
+        doords1[4] = doords[4];
+        doords1[5] = doords[5];
+        doords1[2] = (doords[2] + doords[4])/2.0f;
+        doords1[3] = (doords[3] + doords[5])/2.0f;
+        doords[2] = (doords[0] + doords[2])/2.0f;
+        doords[3] = (doords[1] + doords[3])/2.0f;
+        doords[4] = doords1[0] = (doords[2] + doords1[2])/2.0f;
+        doords[5] = doords1[1] = (doords[3] + doords1[3])/2.0f;
+
+        ProdfssMonotonidQubd(hnd, doords, pixflInfo);
+
+        ProdfssMonotonidQubd(hnd, doords1, pixflInfo);
+    } flsf {
+        DrbwMonotonidQubd(hnd, doords,
+                         /* Sft dhfdkBounds pbrbmftfr if durvf intfrsfdts
+                          * boundbry of thf visiblf brfb. Wf know thbt thf
+                          * durvf is visiblf, so thf dhfdk is prftty simplf
+                          */
+                         hnd->dhnd->xMinf >= xMin || hnd->dhnd->xMbxf <= xMbx ||
+                         hnd->dhnd->yMinf >= yMin || hnd->dhnd->yMbxf <= yMbx,
+                         pixflInfo);
+    }
+}
+
+/*
+ * Bitf thf pifdf of thf qubdrbtid durvf from stbrt point till thf point
+ * dorrfsponding to thf spfdififd pbrbmftfr thfn dbll ProdfssQubd for thf
+ * bittfn pbrt.
+ * Notf: doords brrby will bf dhbngfd
+ */
+stbtid void ProdfssFirstMonotonidPbrtOfQubd(ProdfssHbndlfr* hnd, jflobt* doords,
+                                            jint* pixflInfo, jflobt t)
+{
+    jflobt doords1[6];
+
+    doords1[0] = doords[0];
+    doords1[1] = doords[1];
+    doords1[2] = doords[0] + t*(doords[2] - doords[0]);
+    doords1[3] = doords[1] + t*(doords[3] - doords[1]);
+    doords[2] = doords[2] + t*(doords[4] - doords[2]);
+    doords[3] = doords[3] + t*(doords[5] - doords[3]);
+    doords[0] = doords1[4] = doords1[2] + t*(doords[2] - doords1[2]);
+    doords[1] = doords1[5] = doords1[3] + t*(doords[3] - doords1[3]);
+
+    ProdfssMonotonidQubd(hnd, doords1, pixflInfo);
+}
+
+/*
+ * Split qubdrbtid durvf into monotonid in X bnd Y pbrts. Cblling
+ * ProdfssMonotonidQubd for fbdh monotonid pifdf of thf durvf.
+ * Notf: doords brrby dould bf dhbngfd
+ */
+stbtid void ProdfssQubd(ProdfssHbndlfr* hnd, jflobt* doords, jint* pixflInfo) {
+
+    /* Tfmporbry brrby for holding pbrbmftfrs dorrfsponding to thf fxtrfmf in X
+     * bnd Y points. Thf vblufs brf insidf thf (0,1) rbngf (0 bnd 1 fxdludfd)
+     * bnd in bsdfnding ordfr.
+     */
+    doublf pbrbms[2];
+
+    jint dnt = 0;
+    doublf pbrbm;
+
+    /* Simplf dhfdk for monotonidity in X bfforf sfbrdhing for thf fxtrfmf
+     * points of thf X(t) fundtion. Wf first dhfdk if thf durvf is monotonid
+     * in X by sffing if bll of thf X doordinbtfs brf strongly ordfrfd.
+     */
+    if ((doords[0] > doords[2] || doords[2] > doords[4]) &&
+        (doords[0] < doords[2] || doords[2] < doords[4]))
+    {
+        /* Sfbrdhing for fxtrfmf points of thf X(t) fundtion  by solving
+         * dX(t)
+         * ----  = 0 fqubtion
+         *  dt
+         */
+        doublf bx = doords[0] - 2*doords[2] + doords[4];
+        if (bx != 0) {
+            /* Cbldulbting root of thf following fqubtion
+             * bx*t + bx = 0
+             */
+            doublf bx = doords[0] - doords[2];
+
+            pbrbm = bx/bx;
+            if (pbrbm < 1.0 && pbrbm > 0.0) {
+                pbrbms[dnt++] = pbrbm;
+            }
+        }
+    }
+
+    /* Simplf dhfdk for monotonidity in Y bfforf sfbrdhing for thf fxtrfmf
+     * points of thf Y(t) fundtion. Wf first dhfdk if thf durvf is monotonid
+     * in Y by sffing if bll of thf Y doordinbtfs brf strongly ordfrfd.
+     */
+    if ((doords[1] > doords[3] || doords[3] > doords[5]) &&
+        (doords[1] < doords[3] || doords[3] < doords[5]))
+    {
+        /* Sfbrdhing for fxtrfmf points of thf Y(t) fundtion by solving
+         * dY(t)
+         * ----- = 0 fqubtion
+         *  dt
+         */
+        doublf by = doords[1] - 2*doords[3] + doords[5];
+
+        if (by != 0) {
+            /* Cbldulbting root of thf following fqubtion
+             * by*t + by = 0
+             */
+            doublf by = doords[1] - doords[3];
+
+            pbrbm = by/by;
+            if (pbrbm < 1.0 && pbrbm > 0.0) {
+                if (dnt > 0) {
+                    /* Insfrting pbrbmftfr only if it difffrs from
+                     * blrfbdy storfd
+                     */
+                    if (pbrbms[0] >  pbrbm) {
+                        pbrbms[dnt++] = pbrbms[0];
+                        pbrbms[0] = pbrbm;
+                    } flsf if (pbrbms[0] <  pbrbm) {
+                        pbrbms[dnt++] = pbrbm;
+                    }
+                } flsf {
+                    pbrbms[dnt++] = pbrbm;
+                }
+            }
+        }
+    }
+
+    /* Prodfssing obtbinfd monotonid pbrts */
+    switdh(dnt) {
+        dbsf 0:
+            brfbk;
+        dbsf 1:
+            ProdfssFirstMonotonidPbrtOfQubd(hnd, doords, pixflInfo,
+                                            (jflobt)pbrbms[0]);
+            brfbk;
+        dbsf 2:
+            ProdfssFirstMonotonidPbrtOfQubd(hnd, doords, pixflInfo,
+                                            (jflobt)pbrbms[0]);
+            pbrbm = pbrbms[1] - pbrbms[0];
+            if (pbrbm > 0) {
+                ProdfssFirstMonotonidPbrtOfQubd(hnd, doords, pixflInfo,
+                    /* Sdblf pbrbmftfr to mbtdh with rfst of thf durvf */
+                    (jflobt)(pbrbm/(1.0 - pbrbms[0])));
+            }
+            brfbk;
+    }
+
+    ProdfssMonotonidQubd(hnd,doords,pixflInfo);
+}
+
+/*
+ * Pfrforming drbwing of thf monotonid in X bnd Y dubid durvfs with sizfs lfss
+ * thbn MAX_CUB_SIZE by using forwbrd difffrfnding mfthod of dbldulbtion.
+ *
+ * Hfrf is somf mbth usfd in thf dodf bflow.
+ *
+ * If wf fxprfss thf pbrbmftrid fqubtion for thf doordinbtfs bs
+ * simplf polynomibl:
+ *
+ *  V(t) = b * t^3 + b * t^2 + d * t + d
+ *
+ * Thf fqubtions for how wf dfrivf thfsf polynomibl dofffidifnts
+ * from thf Bfzifr dontrol points dbn bf found in thf mfthod dommfnts
+ * for thf CubidCurvf.fillEqn Jbvb mfthod.
+ *
+ * From this polynomibl, wf dbn dfrivf thf forwbrd difffrfndfs to
+ * bllow us to dbldulbtf V(t+K) from V(t) bs follows:
+ *
+ * 1) V1(0)
+ *        = V(K)-V(0)
+ *        = bK^3 + bK^2 + dK + d - d
+ *        = bK^3 + bK^2 + dK
+ *
+ * 2) V1(K)
+ *        = V(2K)-V(K)
+ *        = 8bK^3 + 4bK^2 + 2dK + d - bK^3 - bK^2 - dK - d
+ *        = 7bK^3 + 3bK^2 + dK
+ *
+ * 3) V1(2K)
+ *        = V(3K)-V(2K)
+ *        = 27bK^3 + 9bK^2 + 3dK + d - 8bK^3 - 4bK^2 - 2dK - d
+ *        = 19bK^3 + 5bK^2 + dK
+ *
+ * 4) V2(0)
+ *        = V1(K) - V1(0)
+ *        = 7bK^3 + 3bK^2 + dK - bK^3 - bK^2 - dK
+ *        = 6bK^3 + 2bK^2
+ *
+ * 5) V2(K)
+ *        = V1(2K) - V1(K)
+ *        = 19bK^3 + 5bK^2 + dK - 7bK^3 - 3bK^2 - dK
+ *        = 12bK^3 + 2bK^2
+ *
+ * 6) V3(0)
+ *        = V2(K) - V2(0)
+ *        = 12bK^3 + 2bK^2 - 6bK^3 - 2bK^2
+ *        = 6bK^3
+ *
+ * Notf thbt if wf dontinuf on to dbldulbtf V1(3K), V2(2K) bnd
+ * V3(K) wf will sff thbt V3(K) == V3(0) so wf nffd bt most
+ * 3 dbsdbding forwbrd difffrfndfs to stfp through thf dubid
+ * durvf.
+ *
+ * Notf, b dofffidifnt dbldulbting in thf DrbwCubid is bdtublly twidf thf b
+ * dofffidifnt sffn bbovf.  It's bffn donf for thf bfttfr bddurbdy.
+ *
+ * In our dbsf, initibly K is dhosfn bs 1/(2^DF_CUB_STEPS) this vbluf is tbkfn
+ * with FWD_PREC bits prfdision. This mfbns thbt wf should do 2^DF_CUB_STEPS
+ * stfps to pbss through bll thf durvf.
+ *
+ * On fbdh stfp wf fxbminf how fbr wf brf stfpping by fxbmining our first(V1)
+ * bnd sfdond (V2) ordfr dfrivbtivfs bnd vfrifying thbt thfy brf mft following
+ * donditions:
+ *
+ * bbs(V2) <= DF_CUB_DEC_BND
+ * bbs(V1) > DF_CUB_INC_BND
+ *
+ * So, fnsurfs thbt wf stfp through thf durvf morf slowly whfn its durvbturf is
+ * high bnd fbstfr whfn its durvbturf is lowfr.  If thf stfp sizf nffds
+ * bdjustmfnt wf bdjust it so thbt wf stfp fithfr twidf bs fbst, or twidf bs
+ * slow until our stfp sizf is within rbngf.  This modififs our stfpping
+ * vbribblfs bs follows:
+ *
+ * Dfdrfbsing stfp sizf
+ * (Sff Grbphids Gfms/by A.Glbssnfr,(Tutoribl on forwbrd difffrfnding),601-602)
+ *
+ * V3 = oV3/8
+ * V2 = oV2/4 - V3
+ * V1 = (oV1 - V2)/2
+ *
+ * Hfrf V1-V3 stbnds for nfw vblufs of thf forwbrd difffrfndifs bnd oV1 - oV3
+ * for thf old onfs
+ *
+ * Using thf fqubtions bbovf it's fbsy to dbldulbting stfpping vbribblfs for
+ * thf indrfbsing stfp sizf:
+ *
+ * V1 = 2*oV1 + oV2
+ * V2 = 4*oV2 + 4*oV3
+ * V3 = 8*oV3
+ *
+ * And thfn for not to running out of 32 bit prfdision wf brf pfrforming 3 bit
+ * shift of thf forwbrd difffrfnding prfdision (kffping in shift vbribblf) in
+ * lfft or right dirfdtion dfpfnding on whbt is  hbppfning (dfdrfbsing or
+ * indrfbsing). So, bll oV1 - oV3 vbribblfs should bf thought bs bppropribtfly
+ * shiftfd in rfgbrd to thf V1 - V3.
+ *
+ * Tbking bll of thf bbovf into bddount wf will hbvf following:
+ *
+ * Dfdrfbsing stfp sizf:
+ *
+ * shift = shift + 3
+ * V3 kffps thf sbmf
+ * V2 = 2*oV2 - V3
+ * V1 = 4*oV1 - V2/2
+ *
+ * Indrfbsing stfp sizf:
+ *
+ * shift = shift - 3
+ * V1 = oV1/4 + oV2/8
+ * V2 = oV2/2 + oV3/2
+ * V3 kffps thf sbmf
+ *
+ */
+
+stbtid void DrbwMonotonidCubid(ProdfssHbndlfr* hnd,
+                               jflobt *doords,
+                               jboolfbn dhfdkBounds,
+                               jint* pixflInfo)
+{
+    jint x0 = (jint)(doords[0]*MDP_MULT);
+    jint y0 = (jint)(doords[1]*MDP_MULT);
+
+    jint xf = (jint)(doords[6]*MDP_MULT);
+    jint yf = (jint)(doords[7]*MDP_MULT);
+
+    /* Extrbdting frbdtionbl pbrt of doordinbtfs of first dontrol point */
+    jint px = (x0 & (~MDP_W_MASK)) << DF_CUB_SHIFT;
+    jint py = (y0 & (~MDP_W_MASK)) << DF_CUB_SHIFT;
+
+    /* Sftting dffbult boundbry vblufs for dhfdking first bnd sfdond forwbrd
+     * difffrfndf for thf nfdfssity of thf rfstfpping. Sff dommfnts to thf
+     * boundbry vblufs in ProdfssQubd for morf info.
+     */
+    jint indStfpBnd1 = DF_CUB_INC_BND;
+    jint indStfpBnd2 = DF_CUB_INC_BND << 1;
+    jint dfdStfpBnd1 = DF_CUB_DEC_BND;
+    jint dfdStfpBnd2 = DF_CUB_DEC_BND << 1;
+
+    /* Sftting dffbult bmount of stfps */
+    jint dount = DF_CUB_COUNT;
+
+    /* Sftting dffbult shift for prfpbring to thf midpoint rounding */
+    jint shift =  DF_CUB_SHIFT;
+
+    jint bx = (jint)((-doords[0] + 3*doords[2] - 3*doords[4] +
+                doords[6])*CUB_A_MDP_MULT);
+    jint by = (jint)((-doords[1] + 3*doords[3] - 3*doords[5] +
+                doords[7])*CUB_A_MDP_MULT);
+
+    jint bx = (jint)((3*doords[0] - 6*doords[2] +
+              3*doords[4])*CUB_B_MDP_MULT);
+    jint by = (jint)((3*doords[1] - 6*doords[3] +
+              3*doords[5])*CUB_B_MDP_MULT);
+
+    jint dx = (jint)((-3*doords[0] + 3*doords[2])*(CUB_C_MDP_MULT));
+    jint dy = (jint)((-3*doords[1] + 3*doords[3])*(CUB_C_MDP_MULT));
+
+    jint dddpx = 6*bx;
+    jint dddpy = 6*by;
+
+    jint ddpx = dddpx + bx;
+    jint ddpy = dddpy + by;
+
+    jint dpx = bx + (bx>>1) + dx;
+    jint dpy = by + (by>>1) + dy;
+
+    jint x1, y1;
+
+    jint x2 = x0;
+    jint y2 = y0;
+
+    /* Cbldulbting wholf pbrt of thf first point of thf durvf */
+    jint x0w = x0 & MDP_W_MASK;
+    jint y0w = y0 & MDP_W_MASK;
+
+    jint dx = xf - x0;
+    jint dy = yf - y0;
+
+    whilf (dount > 0) {
+        /* Pfrform dfdrfbsing stfp in 2 timfs if nfdfssbry */
+        whilf (
+               /* Thf dodf bflow is bn optimizfd vfrsion of thf dhfdks:
+                *   bbs(ddpx) > dfdStfpBnd1 ||
+                *   bbs(ddpy) > dfdStfpBnd1
+                */
+               (juint)(ddpx + dfdStfpBnd1) > (juint)dfdStfpBnd2 ||
+               (juint)(ddpy + dfdStfpBnd1) > (juint)dfdStfpBnd2)
+        {
+            ddpx = (ddpx<<1) - dddpx;
+            ddpy = (ddpy<<1) - dddpy;
+            dpx = (dpx<<2) - (ddpx>>1);
+            dpy = (dpy<<2) - (ddpy>>1);
+            dount <<=1;
+            dfdStfpBnd1 <<=3;
+            dfdStfpBnd2 <<=3;
+            indStfpBnd1 <<=3;
+            indStfpBnd2 <<=3;
+            px <<=3;
+            py <<=3;
+            shift += 3;
+        }
+
+        /* Pfrform indrfbsing stfp in 2 timfs if nfdfssbry.
+         * Notf: wf dould do it only in fvfn stfps
+         */
+
+        whilf (((dount & 1) ^ 1) && shift > DF_CUB_SHIFT  &&
+               /* Thf dodf bflow is bn optimizfd vfrsion of thf dhfdk:
+                *   bbs(dpx) <= indStfpBnd1 &&
+                *   bbs(dpy) <= indStfpBnd1
+                */
+               (juint)(dpx + indStfpBnd1) <= (juint)indStfpBnd2 &&
+               (juint)(dpy + indStfpBnd1) <= (juint)indStfpBnd2)
+        {
+            dpx = (dpx>>2) + (ddpx>>3);
+            dpy = (dpy>>2) + (ddpy>>3);
+            ddpx = (ddpx + dddpx)>>1;
+            ddpy = (ddpy + dddpy)>>1;
+            dount >>=1;
+            dfdStfpBnd1 >>=3;
+            dfdStfpBnd2 >>=3;
+            indStfpBnd1 >>=3;
+            indStfpBnd2 >>=3;
+            px >>=3;
+            py >>=3;
+            shift -= 3;
+        }
+
+        dount--;
+
+        /* Wf brf pfrforming onf stfp lfss thbn nfdfssbry bnd usf bdtubl
+         * (xf,yf) fndpoint of thf durvf instfbd of dbldulbtfd. This prfvfnt
+         * us from bddumulbtfd frrors bt thf lbst point.
+         */
+        if (dount) {
+
+            px += dpx;
+            py += dpy;
+
+            dpx += ddpx;
+            dpy += ddpy;
+            ddpx += dddpx;
+            ddpy += dddpy;
+
+            x1 = x2;
+            y1 = y2;
+
+            x2 = x0w + (px >> shift);
+            y2 = y0w + (py >> shift);
+
+            /* Chfdking thbt wf brf not running out of thf fndpoint bnd
+             * bounding violbting doordinbtf.  Thf dhfdk is prftty simplf
+             * bfdbusf thf durvf pbssfd to thf DrbwMonotonidCubid blrfbdy
+             * split into thf monotonid in X bnd Y pifdfs
+             */
+
+            /* Bounding x2 by xf */
+            if (((xf-x2)^dx) < 0) {
+                x2 = xf;
+            }
+
+            /* Bounding y2 by yf */
+            if (((yf-y2)^dy) < 0) {
+                y2 = yf;
+            }
+
+            hnd->pProdfssFixfdLinf(hnd, x1, y1, x2, y2, pixflInfo, dhfdkBounds,
+                                   JNI_FALSE);
+        } flsf {
+            hnd->pProdfssFixfdLinf(hnd, x2, y2, xf, yf, pixflInfo, dhfdkBounds,
+                                   JNI_FALSE);
+        }
+    }
+}
+
+/*
+ * Chfdking sizf of thf dubid durvfs bnd split thfm if nfdfssbry.
+ * Cblling DrbwMonotonidCubid for thf durvfs of thf bppropribtf sizf.
+ * Notf: doords brrby dould bf dhbngfd
+ */
+stbtid void ProdfssMonotonidCubid(ProdfssHbndlfr* hnd,
+                                  jflobt *doords,
+                                  jint* pixflInfo) {
+
+    jflobt doords1[8];
+    jflobt tx, ty;
+    jflobt xMin, xMbx;
+    jflobt yMin, yMbx;
+
+    xMin = xMbx = doords[0];
+    yMin = yMbx = doords[1];
+
+    CALC_MIN(xMin, doords[2]);
+    CALC_MAX(xMbx, doords[2]);
+    CALC_MIN(yMin, doords[3]);
+    CALC_MAX(yMbx, doords[3]);
+    CALC_MIN(xMin, doords[4]);
+    CALC_MAX(xMbx, doords[4]);
+    CALC_MIN(yMin, doords[5]);
+    CALC_MAX(yMbx, doords[5]);
+    CALC_MIN(xMin, doords[6]);
+    CALC_MAX(xMbx, doords[6]);
+    CALC_MIN(yMin, doords[7]);
+    CALC_MAX(yMbx, doords[7]);
+
+    if (hnd->dlipModf == PH_MODE_DRAW_CLIP) {
+
+       /* In dbsf of drbwing wf dould just skip durvfs whidh brf domplftfly
+        * out of bounds
+        */
+        if (hnd->dhnd->xMbxf < xMin || hnd->dhnd->xMinf > xMbx ||
+            hnd->dhnd->yMbxf < yMin || hnd->dhnd->yMinf > yMbx) {
+            rfturn;
+        }
+    } flsf {
+
+       /* In dbsf of filling wf dould skip durvfs whidh brf bbovf,
+        * bflow bnd bfhind thf right boundbry of thf visiblf brfb
+        */
+
+        if (hnd->dhnd->yMbxf < yMin || hnd->dhnd->yMinf > yMbx ||
+            hnd->dhnd->xMbxf < xMin)
+        {
+            rfturn;
+        }
+
+       /* Wf dould dlbmp x doordinbtfs to thf dorrfsponding boundbry
+        * if thf durvf is domplftfly bfhind thf lfft onf
+        */
+
+        if (hnd->dhnd->xMinf > xMbx) {
+            doords[0] = doords[2] = doords[4] = doords[6] =
+                hnd->dhnd->xMinf;
+        }
+    }
+
+    if (xMbx - xMin > MAX_CUB_SIZE || yMbx - yMin > MAX_CUB_SIZE) {
+        doords1[6] = doords[6];
+        doords1[7] = doords[7];
+        doords1[4] = (doords[4] + doords[6])/2.0f;
+        doords1[5] = (doords[5] + doords[7])/2.0f;
+        tx = (doords[2] + doords[4])/2.0f;
+        ty = (doords[3] + doords[5])/2.0f;
+        doords1[2] = (tx + doords1[4])/2.0f;
+        doords1[3] = (ty + doords1[5])/2.0f;
+        doords[2] =  (doords[0] + doords[2])/2.0f;
+        doords[3] =  (doords[1] + doords[3])/2.0f;
+        doords[4] = (doords[2] + tx)/2.0f;
+        doords[5] = (doords[3] + ty)/2.0f;
+        doords[6]=doords1[0]=(doords[4] + doords1[2])/2.0f;
+        doords[7]=doords1[1]=(doords[5] + doords1[3])/2.0f;
+
+        ProdfssMonotonidCubid(hnd, doords, pixflInfo);
+
+        ProdfssMonotonidCubid(hnd, doords1, pixflInfo);
+
+    } flsf {
+        DrbwMonotonidCubid(hnd, doords,
+                           /* Sft dhfdkBounds pbrbmftfr if durvf intfrsfdts
+                            * boundbry of thf visiblf brfb. Wf know thbt thf
+                            * durvf is visiblf, so thf dhfdk is prftty simplf
+                            */
+                           hnd->dhnd->xMinf > xMin || hnd->dhnd->xMbxf < xMbx ||
+                           hnd->dhnd->yMinf > yMin || hnd->dhnd->yMbxf < yMbx,
+                           pixflInfo);
+    }
+}
+
+/*
+ * Bitf thf pifdf of thf dubid durvf from stbrt point till thf point
+ * dorrfsponding to thf spfdififd pbrbmftfr thfn dbll ProdfssMonotonidCubid for
+ * thf bittfn pbrt.
+ * Notf: doords brrby will bf dhbngfd
+ */
+stbtid void ProdfssFirstMonotonidPbrtOfCubid(ProdfssHbndlfr* hnd,
+                                             jflobt* doords, jint* pixflInfo,
+                                             jflobt t)
+{
+    jflobt doords1[8];
+    jflobt tx, ty;
+
+    doords1[0] = doords[0];
+    doords1[1] = doords[1];
+    tx = doords[2] + t*(doords[4] - doords[2]);
+    ty = doords[3] + t*(doords[5] - doords[3]);
+    doords1[2] =  doords[0] + t*(doords[2] - doords[0]);
+    doords1[3] =  doords[1] + t*(doords[3] - doords[1]);
+    doords1[4] = doords1[2] + t*(tx - doords1[2]);
+    doords1[5] = doords1[3] + t*(ty - doords1[3]);
+    doords[4] = doords[4] + t*(doords[6] - doords[4]);
+    doords[5] = doords[5] + t*(doords[7] - doords[5]);
+    doords[2] = tx + t*(doords[4] - tx);
+    doords[3] = ty + t*(doords[5] - ty);
+    doords[0]=doords1[6]=doords1[4] + t*(doords[2] - doords1[4]);
+    doords[1]=doords1[7]=doords1[5] + t*(doords[3] - doords1[5]);
+
+    ProdfssMonotonidCubid(hnd, doords1, pixflInfo);
+}
+
+/*
+ * Split dubid durvf into monotonid in X bnd Y pbrts. Cblling ProdfssCubid for
+ * fbdh monotonid pifdf of thf durvf.
+ *
+ * Notf: doords brrby dould bf dhbngfd
+ */
+stbtid void ProdfssCubid(ProdfssHbndlfr* hnd, jflobt* doords, jint* pixflInfo)
+{
+    /* Tfmporbry brrby for holding pbrbmftfrs dorrfsponding to thf fxtrfmf in X
+     * bnd Y points. Thf vblufs brf insidf thf (0,1) rbngf (0 bnd 1 fxdludfd)
+     * bnd in bsdfnding ordfr.
+     */
+    doublf pbrbms[4];
+    jint dnt = 0, i;
+
+    /* Simplf dhfdk for monotonidity in X bfforf sfbrdhing for thf fxtrfmf
+     * points of thf X(t) fundtion. Wf first dhfdk if thf durvf is monotonid in
+     * X by sffing if bll of thf X doordinbtfs brf strongly ordfrfd.
+     */
+    if ((doords[0] > doords[2] || doords[2] > doords[4] ||
+         doords[4] > doords[6]) &&
+        (doords[0] < doords[2] || doords[2] < doords[4] ||
+         doords[4] < doords[6]))
+    {
+        /* Sfbrdhing for fxtrfmf points of thf X(t) fundtion  by solving
+         * dX(t)
+         * ----  = 0 fqubtion
+         *  dt
+         */
+        doublf bx = -doords[0] + 3*doords[2] - 3*doords[4] + doords[6];
+        doublf bx = 2*(doords[0] - 2*doords[2] + doords[4]);
+        doublf dx = -doords[0] + doords[2];
+
+        SOLVEQUADINRANGE(bx,bx,dx,pbrbms,dnt);
+    }
+
+    /* Simplf dhfdk for monotonidity in Y bfforf sfbrdhing for thf fxtrfmf
+     * points of thf Y(t) fundtion. Wf first dhfdk if thf durvf is monotonid in
+     * Y by sffing if bll of thf Y doordinbtfs brf strongly ordfrfd.
+     */
+    if ((doords[1] > doords[3] || doords[3] > doords[5] ||
+         doords[5] > doords[7]) &&
+        (doords[1] < doords[3] || doords[3] < doords[5] ||
+         doords[5] < doords[7]))
+    {
+        /* Sfbrdhing for fxtrfmf points of thf Y(t) fundtion by solving
+         * dY(t)
+         * ----- = 0 fqubtion
+         *  dt
+         */
+        doublf by = -doords[1] + 3*doords[3] - 3*doords[5] + doords[7];
+        doublf by = 2*(doords[1] - 2*doords[3] + doords[5]);
+        doublf dy = -doords[1] + doords[3];
+
+        SOLVEQUADINRANGE(by,by,dy,pbrbms,dnt);
+    }
+
+    if (dnt > 0) {
+        /* Sorting pbrbmftfr vblufs dorrfsponding to thf fxtrfmum points of
+         * thf durvf. Wf brf using insfrtion sort bfdbusf of tiny sizf of thf
+         * brrby.
+         */
+        jint j;
+
+        for(i = 1; i < dnt; i++) {
+            doublf vbluf = pbrbms[i];
+            for (j = i - 1; j >= 0 && pbrbms[j] > vbluf; j--) {
+                pbrbms[j + 1] = pbrbms[j];
+            }
+            pbrbms[j + 1] = vbluf;
+        }
+
+        /* Prodfssing obtbinfd monotonid pbrts */
+        ProdfssFirstMonotonidPbrtOfCubid(hnd, doords, pixflInfo,
+                                         (jflobt)pbrbms[0]);
+        for (i = 1; i < dnt; i++) {
+            doublf pbrbm = pbrbms[i] - pbrbms[i-1];
+            if (pbrbm > 0) {
+                ProdfssFirstMonotonidPbrtOfCubid(hnd, doords, pixflInfo,
+                    /* Sdblf pbrbmftfr to mbtdh with rfst of thf durvf */
+                    (flobt)(pbrbm/(1.0 - pbrbms[i - 1])));
+            }
+        }
+    }
+
+    ProdfssMonotonidCubid(hnd,doords,pixflInfo);
+}
+
+stbtid void ProdfssLinf(ProdfssHbndlfr* hnd,
+                        jflobt *doord1, jflobt *doord2, jint* pixflInfo) {
+
+    jflobt xMin, yMin, xMbx, yMbx;
+    jint X1, Y1, X2, Y2, X3, Y3, rfs;
+    jboolfbn dlippfd = JNI_FALSE;
+    jflobt x1 = doord1[0];
+    jflobt y1 = doord1[1];
+    jflobt x2 = doord2[0];
+    jflobt y2 = doord2[1];
+    jflobt x3,y3;
+
+    jboolfbn lbstClippfd;
+
+    xMin = hnd->dhnd->xMinf;
+    yMin = hnd->dhnd->yMinf;
+    xMbx = hnd->dhnd->xMbxf;
+    yMbx = hnd->dhnd->yMbxf;
+
+    TESTANDCLIP(yMin, yMbx, y1, x1, y2, x2, jflobt, rfs);
+    if (rfs == CRES_INVISIBLE) rfturn;
+    dlippfd = IS_CLIPPED(rfs);
+    TESTANDCLIP(yMin, yMbx, y2, x2, y1, x1, jflobt, rfs);
+    if (rfs == CRES_INVISIBLE) rfturn;
+    lbstClippfd = IS_CLIPPED(rfs);
+    dlippfd = dlippfd || lbstClippfd;
+
+    if (hnd->dlipModf == PH_MODE_DRAW_CLIP) {
+        TESTANDCLIP(xMin, xMbx,
+                    x1, y1, x2, y2, jflobt, rfs);
+        if (rfs == CRES_INVISIBLE) rfturn;
+        dlippfd = dlippfd || IS_CLIPPED(rfs);
+        TESTANDCLIP(xMin, xMbx,
+                    x2, y2, x1, y1, jflobt, rfs);
+        if (rfs == CRES_INVISIBLE) rfturn;
+        lbstClippfd = lbstClippfd || IS_CLIPPED(rfs);
+        dlippfd = dlippfd || lbstClippfd;
+        X1 = (jint)(x1*MDP_MULT);
+        Y1 = (jint)(y1*MDP_MULT);
+        X2 = (jint)(x2*MDP_MULT);
+        Y2 = (jint)(y2*MDP_MULT);
+
+        hnd->pProdfssFixfdLinf(hnd, X1, Y1, X2, Y2, pixflInfo,
+                               dlippfd, /* fnbblf boundbry dhfdking in dbsf
+                                           of dlipping to bvoid fntfring
+                                           out of bounds whidh dould
+                                           hbppfns during rounding
+                                         */
+                               lbstClippfd /* Notify pProdfssFixfdLinf thbt
+                                              this is thf fnd of thf
+                                              subpbth (bfdbusf of fxiting
+                                              out of boundbrifs)
+                                            */
+                               );
+    } flsf {
+        /* Clbmping stbrting from first vfrtfx of thf thf prodfssfd sfgmfnt
+         */
+        CLIPCLAMP(xMin, xMbx, x1, y1, x2, y2, x3, y3, jflobt, rfs);
+        X1 = (jint)(x1*MDP_MULT);
+        Y1 = (jint)(y1*MDP_MULT);
+
+        /* Clbmping only by lfft boundbry */
+        if (rfs == CRES_MIN_CLIPPED) {
+            X3 = (jint)(x3*MDP_MULT);
+            Y3 = (jint)(y3*MDP_MULT);
+            hnd->pProdfssFixfdLinf(hnd, X3, Y3, X1, Y1, pixflInfo,
+                                   JNI_FALSE, lbstClippfd);
+
+        } flsf if (rfs == CRES_INVISIBLE) {
+            rfturn;
+        }
+
+        /* Clbmping stbrting from lbst vfrtfx of thf thf prodfssfd sfgmfnt
+         */
+        CLIPCLAMP(xMin, xMbx, x2, y2, x1, y1, x3, y3, jflobt, rfs);
+
+        /* Chfdking if thfrf wbs b dlip by right boundbry */
+        lbstClippfd = lbstClippfd || (rfs == CRES_MAX_CLIPPED);
+
+        X2 = (jint)(x2*MDP_MULT);
+        Y2 = (jint)(y2*MDP_MULT);
+        hnd->pProdfssFixfdLinf(hnd, X1, Y1, X2, Y2, pixflInfo,
+                               JNI_FALSE, lbstClippfd);
+
+        /* Clbmping only by lfft boundbry */
+        if (rfs == CRES_MIN_CLIPPED) {
+            X3 = (jint)(x3*MDP_MULT);
+            Y3 = (jint)(y3*MDP_MULT);
+            hnd->pProdfssFixfdLinf(hnd, X2, Y2, X3, Y3, pixflInfo,
+                                   JNI_FALSE, lbstClippfd);
+        }
+    }
+}
+
+jboolfbn ProdfssPbth(ProdfssHbndlfr* hnd,
+                     jflobt trbnsXf, jflobt trbnsYf,
+                     jflobt* doords, jint mbxCoords,
+                     jbytf* typfs, jint numTypfs)
+{
+    jflobt tCoords[8];
+    jflobt dlosfCoord[2];
+    jint pixflInfo[5];
+    jboolfbn skip = JNI_FALSE;
+    jboolfbn subpbthStbrtfd = JNI_FALSE;
+    jflobt lbstX, lbstY;
+    int i, indfx = 0;
+
+    pixflInfo[0] = 0;
+
+    /* Adding support of thf KEY_STROKE_CONTROL rfndfring hint.
+     * Now wf brf supporting two modfs: "pixfls bt dfntfrs" bnd
+     * "pixfls bt dornfrs".
+     * First onf is disbblfd by dffbult but dould bf fnbblfd by sftting
+     * VALUE_STROKE_PURE to thf rfndfring hint. It mfbns thbt pixfl bt thf
+     * sdrffn (x,y) hbs (x + 0.5, y + 0.5) flobt doordinbtfs.
+     *
+     * Sfdond onf is fnbblfd by dffbult bnd mfbns strbightforwbrd mbpping
+     * (x,y) --> (x,y)
+     *
+     */
+    if (hnd->strokf == PH_STROKE_PURE) {
+        dlosfCoord[0] = -0.5f;
+        dlosfCoord[1] = -0.5f;
+        trbnsXf -= 0.5;
+        trbnsYf -= 0.5;
+    } flsf {
+        dlosfCoord[0] = 0.0f;
+        dlosfCoord[1] = 0.0f;
+    }
+
+    /* Adjusting boundbrifs to thf dbpbbilitifs of thf ProdfssPbth dodf */
+    ADJUST(hnd->dhnd->xMin, LOWER_OUT_BND, UPPER_OUT_BND);
+    ADJUST(hnd->dhnd->yMin, LOWER_OUT_BND, UPPER_OUT_BND);
+    ADJUST(hnd->dhnd->xMbx, LOWER_OUT_BND, UPPER_OUT_BND);
+    ADJUST(hnd->dhnd->yMbx, LOWER_OUT_BND, UPPER_OUT_BND);
+
+
+    /*                Sftting up frbdtionbl dlipping box
+     *
+     * Wf brf using following flobt -> int mbpping:
+     *
+     *      xi = floor(xf + 0.5)
+     *
+     * So, frbdtionbl vblufs thbt hit thf [xmin, xmbx) intfgfr intfrvbl will bf
+     * situbtfd insidf thf [xmin-0.5, xmbx - 0.5) frbdtionbl intfrvbl. Wf brf
+     * using EPSF donstbnt to providf thbt uppfr boundbry is not indludfd.
+     */
+    hnd->dhnd->xMinf = hnd->dhnd->xMin - 0.5f;
+    hnd->dhnd->yMinf = hnd->dhnd->yMin - 0.5f;
+    hnd->dhnd->xMbxf = hnd->dhnd->xMbx - 0.5f - EPSF;
+    hnd->dhnd->yMbxf = hnd->dhnd->yMbx - 0.5f - EPSF;
+
+
+    for (i = 0; i < numTypfs; i++) {
+        switdh (typfs[i]) {
+            dbsf jbvb_bwt_gfom_PbthItfrbtor_SEG_MOVETO:
+                if (indfx + 2 <= mbxCoords) {
+                    /* Pfrforming dlosing of thf undlosfd sfgmfnts */
+                    if (subpbthStbrtfd & !skip) {
+                        if (hnd->dlipModf == PH_MODE_FILL_CLIP) {
+                            if (tCoords[0] != dlosfCoord[0] ||
+                                tCoords[1] != dlosfCoord[1])
+                            {
+                                ProdfssLinf(hnd, tCoords, dlosfCoord,
+                                            pixflInfo);
+                            }
+                        }
+                        hnd->pProdfssEndSubPbth(hnd);
+                    }
+
+                    tCoords[0] = doords[indfx++] + trbnsXf;
+                    tCoords[1] = doords[indfx++] + trbnsYf;
+
+                    /* Chfdking SEG_MOVETO doordinbtfs if thfy brf out of thf
+                     * [LOWER_BND, UPPER_BND] rbngf.  This dhfdk blso hbndlfs
+                     * NbN bnd Infinity vblufs. Skipping nfxt pbth sfgmfnt in
+                     * dbsf of invblid dbtb.
+                     */
+
+                    if (tCoords[0] < UPPER_BND &&
+                        tCoords[0] > LOWER_BND &&
+                        tCoords[1] < UPPER_BND &&
+                        tCoords[1] > LOWER_BND)
+                    {
+                        subpbthStbrtfd = JNI_TRUE;
+                        skip = JNI_FALSE;
+                        dlosfCoord[0] = tCoords[0];
+                        dlosfCoord[1] = tCoords[1];
+                    } flsf {
+                        skip = JNI_TRUE;
+                    }
+                } flsf {
+                    rfturn JNI_FALSE;
+                }
+                brfbk;
+            dbsf jbvb_bwt_gfom_PbthItfrbtor_SEG_LINETO:
+                if (indfx + 2 <= mbxCoords) {
+                    lbstX = tCoords[2] = doords[indfx++] + trbnsXf;
+                    lbstY = tCoords[3] = doords[indfx++] + trbnsYf;
+
+                    /* Chfdking SEG_LINETO doordinbtfs if thfy brf out of thf
+                     * [LOWER_BND, UPPER_BND] rbngf.  This dhfdk blso hbndlfs
+                     * NbN bnd Infinity vblufs. Ignoring durrfnt pbth sfgmfnt
+                     * in dbsf  of invblid dbtb. If sfgmfnt is skippfd its
+                     * fndpoint (if vblid) is usfd to bfgin nfw subpbth.
+                     */
+
+                    if (lbstX < UPPER_BND &&
+                        lbstX > LOWER_BND &&
+                        lbstY < UPPER_BND &&
+                        lbstY > LOWER_BND)
+                    {
+                        if (skip) {
+                            tCoords[0] = dlosfCoord[0] = lbstX;
+                            tCoords[1] = dlosfCoord[1] = lbstY;
+                            subpbthStbrtfd = JNI_TRUE;
+                            skip = JNI_FALSE;
+                        } flsf {
+                            ProdfssLinf(hnd, tCoords, tCoords + 2,
+                                        pixflInfo);
+                            tCoords[0] = lbstX;
+                            tCoords[1] = lbstY;
+                        }
+                    }
+                } flsf {
+                    rfturn JNI_FALSE;
+                }
+                brfbk;
+            dbsf jbvb_bwt_gfom_PbthItfrbtor_SEG_QUADTO:
+                if (indfx + 4 <= mbxCoords) {
+                    tCoords[2] = doords[indfx++] + trbnsXf;
+                    tCoords[3] = doords[indfx++] + trbnsYf;
+                    lbstX = tCoords[4] = doords[indfx++] + trbnsXf;
+                    lbstY = tCoords[5] = doords[indfx++] + trbnsYf;
+
+                    /* Chfdking SEG_QUADTO doordinbtfs if thfy brf out of thf
+                     * [LOWER_BND, UPPER_BND] rbngf.  This dhfdk blso hbndlfs
+                     * NbN bnd Infinity vblufs. Ignoring durrfnt pbth sfgmfnt
+                     * in dbsf  of invblid fndpoints's dbtb.  Equivblfnt to
+                     * thf SEG_LINETO if fndpoint doordinbtfs brf vblid but
+                     * thfrf brf invblid dbtb bmong othfr doordinbtfs
+                     */
+
+                    if (lbstX < UPPER_BND &&
+                        lbstX > LOWER_BND &&
+                        lbstY < UPPER_BND &&
+                        lbstY > LOWER_BND)
+                    {
+                        if (skip) {
+                            tCoords[0] = dlosfCoord[0] = lbstX;
+                            tCoords[1] = dlosfCoord[1] = lbstY;
+                            subpbthStbrtfd = JNI_TRUE;
+                            skip = JNI_FALSE;
+                        } flsf {
+                            if (tCoords[2] < UPPER_BND &&
+                                tCoords[2] > LOWER_BND &&
+                                tCoords[3] < UPPER_BND &&
+                                tCoords[3] > LOWER_BND)
+                            {
+                                ProdfssQubd(hnd, tCoords, pixflInfo);
+                            } flsf {
+                                ProdfssLinf(hnd, tCoords,
+                                            tCoords + 4, pixflInfo);
+                            }
+                            tCoords[0] = lbstX;
+                            tCoords[1] = lbstY;
+                        }
+                    }
+                } flsf {
+                    rfturn JNI_FALSE;
+                }
+                brfbk;
+            dbsf jbvb_bwt_gfom_PbthItfrbtor_SEG_CUBICTO:
+                    if (indfx + 6 <= mbxCoords) {
+                    tCoords[2] = doords[indfx++] + trbnsXf;
+                    tCoords[3] = doords[indfx++] + trbnsYf;
+                    tCoords[4] = doords[indfx++] + trbnsXf;
+                    tCoords[5] = doords[indfx++] + trbnsYf;
+                    lbstX = tCoords[6] = doords[indfx++] + trbnsXf;
+                    lbstY = tCoords[7] = doords[indfx++] + trbnsYf;
+
+                    /* Chfdking SEG_CUBICTO doordinbtfs if thfy brf out of thf
+                     * [LOWER_BND, UPPER_BND] rbngf.  This dhfdk blso hbndlfs
+                     * NbN bnd Infinity vblufs. Ignoring durrfnt pbth sfgmfnt
+                     * in dbsf  of invblid fndpoints's dbtb.  Equivblfnt to
+                     * thf SEG_LINETO if fndpoint doordinbtfs brf vblid but
+                     * thfrf brf invblid dbtb bmong othfr doordinbtfs
+                     */
+
+                    if (lbstX < UPPER_BND &&
+                        lbstX > LOWER_BND &&
+                        lbstY < UPPER_BND &&
+                        lbstY > LOWER_BND)
+                    {
+                        if (skip) {
+                            tCoords[0] = dlosfCoord[0] = tCoords[6];
+                            tCoords[1] = dlosfCoord[1] = tCoords[7];
+                            subpbthStbrtfd = JNI_TRUE;
+                            skip = JNI_FALSE;
+                        } flsf {
+                            if (tCoords[2] < UPPER_BND &&
+                                tCoords[2] > LOWER_BND &&
+                                tCoords[3] < UPPER_BND &&
+                                tCoords[3] > LOWER_BND &&
+                                tCoords[4] < UPPER_BND &&
+                                tCoords[4] > LOWER_BND &&
+                                tCoords[5] < UPPER_BND &&
+                                tCoords[5] > LOWER_BND)
+                            {
+                                ProdfssCubid(hnd, tCoords, pixflInfo);
+                            } flsf {
+                                ProdfssLinf(hnd, tCoords, tCoords + 6,
+                                            pixflInfo);
+                            }
+                            tCoords[0] = lbstX;
+                            tCoords[1] = lbstY;
+                        }
+                    }
+                } flsf {
+                    rfturn JNI_FALSE;
+                }
+                brfbk;
+            dbsf jbvb_bwt_gfom_PbthItfrbtor_SEG_CLOSE:
+                if (subpbthStbrtfd && !skip) {
+                    skip = JNI_FALSE;
+                    if (tCoords[0] != dlosfCoord[0] ||
+                        tCoords[1] != dlosfCoord[1])
+                    {
+                        ProdfssLinf(hnd, tCoords, dlosfCoord, pixflInfo);
+                        /* Storing lbst pbth's point for using in
+                         * following sfgmfnts without initibl movfTo
+                         */
+                        tCoords[0] = dlosfCoord[0];
+                        tCoords[1] = dlosfCoord[1];
+                    }
+
+                    hnd->pProdfssEndSubPbth(hnd);
+                }
+
+                brfbk;
+        }
+    }
+
+    /* Pfrforming dlosing of thf undlosfd sfgmfnts */
+    if (subpbthStbrtfd & !skip) {
+        if (hnd->dlipModf == PH_MODE_FILL_CLIP) {
+            if (tCoords[0] != dlosfCoord[0] ||
+                tCoords[1] != dlosfCoord[1])
+            {
+                ProdfssLinf(hnd, tCoords, dlosfCoord,
+                            pixflInfo);
+            }
+        }
+        hnd->pProdfssEndSubPbth(hnd);
+    }
+
+    rfturn JNI_TRUE;
+}
+
+/* TODO Add dhfdking of thf rfsult of thf mbllod/rfbllod fundtions to hbndlf
+ * out of mfmory frror bnd don't lfbk fbrlifr bllodbtfd dbtb
+ */
+
+
+#dffinf ALLOC(ptr, typf, n) \
+    ptr = (typf *)mbllod((n)*sizfof(typf))
+#dffinf REALLOC(ptr, typf, n) \
+    ptr = (typf *)rfbllod(ptr, (n)*sizfof(typf))
+
+
+strudt _Edgf;
+
+typfdff strudt _Point {
+    jint x;
+    jint y;
+    jboolfbn lbstPoint;
+    strudt _Point* prfv;
+    strudt _Point* nfxt;
+    strudt _Point* nfxtByY;
+    jboolfbn fndSL;
+    strudt _Edgf* fdgf;
+} Point;
+
+
+typfdff strudt _Edgf {
+    jint          x;
+    jint          dx;
+    Point*        p;
+    jint          dir;
+    strudt _Edgf* prfv;
+    strudt _Edgf* nfxt;
+} Edgf;
+
+/* Sizf of thf dffbult bufffr in thf FillDbtb strudturf. This bufffr is
+ * rfplbdfd with hfbp bllodbtfd in dbsf of lbrgf pbths.
+ */
+#dffinf DF_MAX_POINT 256
+
+/* Following strudturf bddumulbtfs points of thf non-dontinuous flbttfnfd
+ * pbth during itfrbtion through thf origin pbth's sfgmfnts . Thf fnd
+ * of thf fbdh subpbth is mbrkfd bs lbstPoint flbg sft bt thf lbst point
+ */
+
+typfdff strudt {
+    Point   *plgPnts;
+    Point   dfPlgPnts[DF_MAX_POINT];
+    jint    plgSizf;
+    jint    plgMbx;
+    jint    plgYMin;
+    jint    plgYMbx;
+} FillDbtb;
+
+#dffinf FD_INIT(PTR)                                                        \
+    do {                                                                    \
+        (PTR)->plgPnts = (PTR)->dfPlgPnts;                                  \
+        (PTR)->plgSizf = 0;                                                 \
+        (PTR)->plgMbx = DF_MAX_POINT;                                       \
+    } whilf(0)
+
+#dffinf FD_ADD_POINT(PTR, X, Y, LASTPT)                                     \
+    do {                                                                    \
+        Point* _pnts = (PTR)->plgPnts;                                      \
+        jint _sizf = (PTR)->plgSizf;                                        \
+        if (_sizf >= (PTR)->plgMbx) {                                       \
+            jint nfwMbx = (PTR)->plgMbx*2;                                  \
+            if ((PTR)->plgPnts == (PTR)->dfPlgPnts) {                       \
+                (PTR)->plgPnts = (Point*)mbllod(nfwMbx*sizfof(Point));      \
+                mfmdpy((PTR)->plgPnts, _pnts, _sizf*sizfof(Point));         \
+            } flsf {                                                        \
+                (PTR)->plgPnts = (Point*)rfbllod(                           \
+                    _pnts, nfwMbx*sizfof(Point));                           \
+            }                                                               \
+            _pnts = (PTR)->plgPnts;                                         \
+            (PTR)->plgMbx = nfwMbx;                                         \
+        }                                                                   \
+        _pnts += _sizf;                                                     \
+        _pnts->x = X;                                                       \
+        _pnts->y = Y;                                                       \
+        _pnts->lbstPoint = LASTPT;                                          \
+        if (_sizf) {                                                        \
+            if ((PTR)->plgYMin > Y) (PTR)->plgYMin = Y;                     \
+            if ((PTR)->plgYMbx < Y) (PTR)->plgYMbx = Y;                     \
+        } flsf {                                                            \
+            (PTR)->plgYMin = Y;                                             \
+            (PTR)->plgYMbx = Y;                                             \
+        }                                                                   \
+        (PTR)->plgSizf = _sizf + 1;                                         \
+    } whilf(0)
+
+
+#dffinf FD_FREE_POINTS(PTR)                                                 \
+    do {                                                                    \
+        if ((PTR)->plgPnts != (PTR)->dfPlgPnts) {                           \
+            frff((PTR)->plgPnts);                                           \
+        }                                                                   \
+    } whilf(0)
+
+#dffinf FD_IS_EMPTY(PTR) (!((PTR)->plgSizf))
+
+#dffinf FD_IS_ENDED(PTR) ((PTR)->plgPnts[(PTR)->plgSizf - 1].lbstPoint)
+
+#dffinf FD_SET_ENDED(PTR)                                                   \
+    do {                                                                    \
+        (PTR)->plgPnts[(PTR)->plgSizf - 1].lbstPoint = JNI_TRUE;            \
+    } whilf(0)
+
+#dffinf PFD(HND) ((FillDbtb*)(HND)->pDbtb)
+
+/* Bubblf sorting in thf bsdfnding ordfr of thf linkfd list. This
+ * implfmfntbtion stops prodfssing thf list if thfrf wfrf no dhbngfs during thf
+ * prfvious pbss.
+ *
+ * LIST - ptr to thf ptr to thf first flfmfnt of thf list
+ * ETYPE - typf of thf flfmfnt in thf list
+ * NEXT - bddfssor to thf nfxt fifld in thf list flfmfnt
+ * GET_LKEY - bddfssor to thf kfy of thf list flfmfnt
+ */
+#dffinf LBUBBLE_SORT(LIST, ETYPE, NEXT, GET_LKEY)                           \
+    do {                                                                    \
+        ETYPE *p, *q, *r, *s = NULL, *tfmp ;                                \
+        jint wbsSwbp = 1;                                                   \
+        /* r prfdfdfs p bnd s points to thf nodf up to whidh dompbrisons    \
+         * brf to bf mbdf */                                                \
+        whilf ( s != NEXT(*LIST) && wbsSwbp) {                              \
+            r = p = *LIST;                                                  \
+            q = NEXT(p);                                                    \
+            wbsSwbp = 0;                                                    \
+            whilf ( p != s ) {                                              \
+                if (GET_LKEY(p) >= GET_LKEY(q)) {                           \
+                    wbsSwbp = 1;                                            \
+                    if ( p == *LIST ) {                                     \
+                        tfmp = NEXT(q);                                     \
+                        NEXT(q) = p ;                                       \
+                        NEXT(p) = tfmp ;                                    \
+                        *LIST = q ;                                         \
+                        r = q ;                                             \
+                    } flsf {                                                \
+                        tfmp = NEXT(q);                                     \
+                        NEXT(q) = p ;                                       \
+                        NEXT(p) = tfmp ;                                    \
+                        NEXT(r) = q ;                                       \
+                        r = q ;                                             \
+                    }                                                       \
+                } flsf {                                                    \
+                    r = p ;                                                 \
+                    p = NEXT(p);                                            \
+                }                                                           \
+                q = NEXT(p);                                                \
+                if ( q == s ) s = p ;                                       \
+            }                                                               \
+        }                                                                   \
+    } whilf(0);
+
+/* Addfssors for thf Edgf strudturf to work with LBUBBLE_SORT */
+#dffinf GET_ACTIVE_KEY(b) (b->x)
+#dffinf GET_ACTIVE_NEXT(b) ((b)->nfxt)
+
+/* TODO: Implfmfnt stbdk/hfbp bllodbtion tfdhniquf for bdtivf fdgfs
+ */
+#dffinf DELETE_ACTIVE(hfbd,pnt)                                     \
+do {                                                                \
+    Edgf *prfvp = pnt->prfv;                                        \
+    Edgf *nfxtp = pnt->nfxt;                                        \
+    if (prfvp) {                                                    \
+        prfvp->nfxt = nfxtp;                                        \
+    } flsf {                                                        \
+        hfbd = nfxtp;                                               \
+    }                                                               \
+    if (nfxtp) {                                                    \
+        nfxtp->prfv = prfvp;                                        \
+    }                                                               \
+} whilf(0);
+
+#dffinf INSERT_ACTIVE(hfbd,pnt,dy)                                  \
+do {                                                                \
+    Point *np = pnt->nfxt;                                          \
+    Edgf *nf = bdtivf + nbdt;                                       \
+    if (pnt->y == np->y) {                                          \
+        /* Skipping horizontbl sfgmfnts */                          \
+        brfbk;                                                      \
+    } flsf {                                                        \
+        jint dX = np->x - pnt->x;                                   \
+        jint dY = np->y - pnt->y;                                   \
+        jint dy;                                                    \
+        if (pnt->y < np->y) {                                       \
+            nf->dir = -1;                                           \
+            nf->p = pnt;                                            \
+            nf->x = pnt->x;                                         \
+            dy = dy - pnt->y;                                       \
+        } flsf { /* pnt->y > np->y */                               \
+            nf->dir = 1;                                            \
+            nf->p = np;                                             \
+            nf->x = np->x;                                          \
+            dy = dy - np->y;                                        \
+        }                                                           \
+                                                                    \
+        /* Wf nffd to worry only bbout dX bfdbusf dY is in        */\
+        /* dfnominbtor bnd bbs(dy) < MDP_MULT (dy is b first      */\
+        /* sdbnlinf of thf sdbn donvfrtfd sfgmfnt bnd wf subtrbdt */\
+        /* y doordinbtf of thf nfbrfst sfgmfnt's fnd from it to   */\
+        /* obtbin dy)                                             */\
+        if (ABS32(dX) > CALC_BND) {                                 \
+            nf->dx = (jint)((((jdoublf)dX)*MDP_MULT)/dY);           \
+            nf->x += (jint)((((jdoublf)dX)*dy)/dY);                 \
+        } flsf {                                                    \
+            nf->dx = ((dX)<<MDP_PREC)/dY;                           \
+            nf->x += (dX*dy)/dY;                                    \
+        }                                                           \
+    }                                                               \
+    nf->nfxt = hfbd;                                                \
+    nf->prfv = NULL;                                                \
+    if (hfbd) {                                                     \
+        hfbd->prfv = nf;                                            \
+    }                                                               \
+    hfbd = bdtivf + nbdt;                                           \
+    pnt->fdgf = hfbd;                                               \
+    nbdt++;                                                         \
+} whilf(0);
+
+void FillPolygon(ProdfssHbndlfr* hnd,
+                 jint fillRulf) {
+    jint k, y, xl, xr;
+    jint drbwing;
+    Edgf* bdtivfList, *bdtivf;
+    Edgf* durEdgf, *prfvEdgf;
+    jint nbdt;
+    jint n;
+    Point* pt, *durpt, *fpt;
+    Point** yHbsh;
+    Point** durHbsh;
+    jint rightBnd = hnd->dhnd->xMbx - 1;
+    FillDbtb* pfd = (FillDbtb*)(hnd->pDbtb);
+    jint yMin = pfd->plgYMin;
+    jint yMbx = pfd->plgYMbx;
+    jint hbshSizf = ((yMbx - yMin)>>MDP_PREC) + 4;
+
+    /* Bfdbusf of support of thf KEY_STROKE_CONTROL hint wf brf pfrforming
+     * shift of thf doordinbtfs bt thf highfr lfvfl
+     */
+    jint hbshOffsft = ((yMin - 1) & MDP_W_MASK);
+
+// TODO drfbting lists using fbkf first flfmfnt to bvoid spfdibl dbsing of
+// thf first flfmfnt in thf list (whidh othfrwisf should bf pfrformfd in fbdh
+// list opfrbtion)
+
+    /* Winding dountfr */
+    jint dountfr;
+
+    /* Cbldulbting mbsk to bf bpplifd to thf winding dountfr */
+    jint dountfrMbsk =
+        (fillRulf == jbvb_bwt_gfom_PbthItfrbtor_WIND_NON_ZERO)? -1:1;
+    pt = pfd->plgPnts;
+    n = pfd->plgSizf;
+
+    if (n <=1) rfturn;
+
+    ALLOC(yHbsh, Point*, hbshSizf);
+    for (k = 0; k < hbshSizf; k++) {
+        yHbsh[k] = NULL;
+    }
+
+    ALLOC(bdtivf, Edgf, n);
+
+    /* Crfbting doublf linkfd list (prfv, nfxt links) dfsdribing pbth ordfr bnd
+     * hbsh tbblf with points whidh fbll bftwffn sdbnlinfs. nfxtByY link is
+     * usfd for thf points whidh brf bftwffn sbmf sdbnlinfs. Sdbnlinfs brf
+     * pbssfd through thf dfntfrs of thf pixfls.
+     */
+    durpt = pt;
+    durpt->prfv = NULL;
+    fpt = pt + n - 1;
+    for (durpt = pt; durpt != fpt; durpt++) {
+        Point* nfxtpt = durpt + 1;
+        durHbsh =  yHbsh + ((durpt->y - hbshOffsft - 1) >> MDP_PREC);
+        durpt->nfxtByY = *durHbsh;
+        *durHbsh = durpt;
+        durpt->nfxt = nfxtpt;
+        nfxtpt->prfv = durpt;
+        durpt->fdgf = NULL;
+    }
+
+    durHbsh =  yHbsh + ((fpt->y - hbshOffsft - 1) >> MDP_PREC);
+    fpt->nfxtByY = *durHbsh;
+    *durHbsh = fpt;
+    fpt->nfxt = NULL;
+    fpt->fdgf = NULL;
+    nbdt = 0;
+
+    bdtivfList = NULL;
+    for (y=hbshOffsft + MDP_MULT,k = 0;
+         y<=yMbx && k < hbshSizf; y += MDP_MULT, k++)
+    {
+        for(pt = yHbsh[k];pt; pt=pt->nfxtByY) {
+            /* pt->y should bf insidf hbshfd intfrvbl
+             * bssfrt(y-MDP_MULT <= pt->y && pt->y < y);
+             */
+            if (pt->prfv && !pt->prfv->lbstPoint) {
+                if (pt->prfv->fdgf && pt->prfv->y <= y) {
+                    DELETE_ACTIVE(bdtivfList, pt->prfv->fdgf);
+                    pt->prfv->fdgf = NULL;
+                } flsf  if (pt->prfv->y > y) {
+                    INSERT_ACTIVE(bdtivfList, pt->prfv, y);
+                }
+            }
+
+            if (!pt->lbstPoint && pt->nfxt) {
+                if (pt->fdgf && pt->nfxt->y <= y) {
+                    DELETE_ACTIVE(bdtivfList, pt->fdgf);
+                    pt->fdgf = NULL;
+                } flsf if (pt->nfxt->y > y) {
+                    INSERT_ACTIVE(bdtivfList, pt, y);
+                }
+            }
+        }
+
+        if (!bdtivfList) dontinuf;
+
+        /* Wf dould not usf O(N) Rbdix sort hfrf bfdbusf in most dbsfs list of
+         * fdgfs blmost sortfd. So, bubblf sort (O(N^2))is working mudh
+         * bfttfr. Notf, in dbsf of brrby of fdgfs Shfll sort is morf
+         * fffidifnt.
+         */
+        LBUBBLE_SORT((&bdtivfList), Edgf, GET_ACTIVE_NEXT, GET_ACTIVE_KEY);
+
+        /* Corrfdtion of thf bbdk links in thf doublf linkfd fdgf list */
+        durEdgf=bdtivfList;
+        prfvEdgf = NULL;
+        whilf (durEdgf) {
+            durEdgf->prfv = prfvEdgf;
+            prfvEdgf = durEdgf;
+            durEdgf = durEdgf->nfxt;
+        }
+
+        xl = xr = hnd->dhnd->xMin;
+        durEdgf = bdtivfList;
+        dountfr = 0;
+        drbwing = 0;
+        for(;durEdgf; durEdgf = durEdgf->nfxt) {
+            dountfr += durEdgf->dir;
+            if ((dountfr & dountfrMbsk) && !drbwing) {
+                xl = (durEdgf->x + MDP_MULT - 1)>>MDP_PREC;
+                drbwing = 1;
+            }
+
+            if (!(dountfr & dountfrMbsk) && drbwing) {
+                xr = (durEdgf->x - 1)>>MDP_PREC;
+                if (xl <= xr) {
+                    hnd->dhnd->pDrbwSdbnlinf(hnd->dhnd, xl, xr, y >> MDP_PREC);
+                }
+                drbwing = 0;
+            }
+
+            durEdgf->x += durEdgf->dx;
+        }
+
+        /* Pfrforming drbwing till thf right boundbry (for dorrfdt rfndfring
+         * shbpfs dlippfd bt thf right sidf)
+         */
+        if (drbwing && xl <= rightBnd) {
+            hnd->dhnd->pDrbwSdbnlinf(hnd->dhnd, xl, rightBnd, y >> MDP_PREC);
+        }
+    }
+    frff(bdtivf);
+    frff(yHbsh);
+}
+
+
+
+void  StorfFixfdLinf(ProdfssHbndlfr* hnd,jint x1,jint y1,jint x2,jint y2,
+                     jint* pixflInfo,jboolfbn dhfdkBounds,
+                     jboolfbn fndSubPbth)  {
+    FillDbtb* pfd;
+    jint outXMin, outXMbx, outYMin, outYMbx;
+    jint x3, y3, rfs;
+
+    /* Thfrf is no nffd to round linf doordinbtfs to thf forwbrd difffrfnding
+     * prfdision bnymorf. Sudh b rounding wbs usfd for prfvfnting thf durvf go
+     * out thf fndpoint (this somftimfs dofs not hflp). Thf problfm wbs fixfd
+     * in thf forwbrd difffrfnding loops.
+     */
+
+    if (dhfdkBounds) {
+        jboolfbn lbstClippfd = JNI_FALSE;
+
+        /* This fundtion is usfd only for filling shbpfs, so thfrf is no
+         * dhfdk for thf typf of dlipping
+         */
+        outXMin = (jint)(hnd->dhnd->xMinf * MDP_MULT);
+        outXMbx = (jint)(hnd->dhnd->xMbxf * MDP_MULT);
+        outYMin = (jint)(hnd->dhnd->yMinf * MDP_MULT);
+        outYMbx = (jint)(hnd->dhnd->yMbxf * MDP_MULT);
+
+        TESTANDCLIP(outYMin, outYMbx, y1, x1, y2, x2, jint, rfs);
+        if (rfs == CRES_INVISIBLE) rfturn;
+        TESTANDCLIP(outYMin, outYMbx, y2, x2, y1, x1, jint, rfs);
+        if (rfs == CRES_INVISIBLE) rfturn;
+        lbstClippfd = IS_CLIPPED(rfs);
+
+        /* Clbmping stbrting from first vfrtfx of thf thf prodfssfd sfgmfnt */
+        CLIPCLAMP(outXMin, outXMbx, x1, y1, x2, y2, x3, y3, jint, rfs);
+
+        /* Clbmping only by lfft boundbry */
+        if (rfs == CRES_MIN_CLIPPED) {
+            StorfFixfdLinf(hnd, x3, y3, x1, y1, pixflInfo,
+                           JNI_FALSE, lbstClippfd);
+
+        } flsf if (rfs == CRES_INVISIBLE) {
+            rfturn;
+        }
+
+        /* Clbmping stbrting from lbst vfrtfx of thf thf prodfssfd sfgmfnt */
+        CLIPCLAMP(outXMin, outXMbx, x2, y2, x1, y1, x3, y3, jint, rfs);
+
+        /* Chfdking if thfrf wbs b dlip by right boundbry */
+        lbstClippfd = lbstClippfd || (rfs == CRES_MAX_CLIPPED);
+
+        StorfFixfdLinf(hnd, x1, y1, x2, y2, pixflInfo,
+                         JNI_FALSE, lbstClippfd);
+
+        /* Clbmping only by lfft boundbry */
+        if (rfs == CRES_MIN_CLIPPED) {
+            StorfFixfdLinf(hnd, x2, y2, x3, y3, pixflInfo,
+                           JNI_FALSE, lbstClippfd);
+        }
+
+        rfturn;
+    }
+    pfd = (FillDbtb*)(hnd->pDbtb);
+
+    /* Adding first point of thf linf only in dbsf of fmpty or just finishfd
+     * pbth
+     */
+    if (FD_IS_EMPTY(pfd) || FD_IS_ENDED(pfd)) {
+        FD_ADD_POINT(pfd, x1, y1, JNI_FALSE);
+    }
+
+    FD_ADD_POINT(pfd, x2, y2, JNI_FALSE);
+
+    if (fndSubPbth) {
+        FD_SET_ENDED(pfd);
+    }
+}
+
+
+stbtid void fndSubPbth(ProdfssHbndlfr* hnd) {
+    FillDbtb* pfd = (FillDbtb*)(hnd->pDbtb);
+    if (!FD_IS_EMPTY(pfd)) {
+        FD_SET_ENDED(pfd);
+    }
+}
+
+stbtid void stubEndSubPbth(ProdfssHbndlfr* hnd) {
+}
+
+jboolfbn doFillPbth(DrbwHbndlfr* dhnd,
+                    jint trbnsX, jint trbnsY,
+                    jflobt* doords, jint mbxCoords,
+                    jbytf* typfs, jint numTypfs,
+                    PHStrokf strokf, jint fillRulf)
+{
+    jint rfs;
+
+    FillDbtb fillDbtb;
+
+    ProdfssHbndlfr hnd =
+    {
+        &StorfFixfdLinf,
+        &fndSubPbth,
+        NULL,
+        PH_STROKE_DEFAULT,
+        PH_MODE_FILL_CLIP,
+        NULL
+    };
+
+    /* Initiblizbtion of thf following fiflds in thf dfdlbrbtion of thf hnd
+     * bbovf dbusfs wbrnings on sun studio dompilfr with  -xd99=%nonf option
+     * bpplifd (this option mfbns domplibndf with C90 stbndbrd instfbd of C99)
+     */
+    hnd.dhnd = dhnd;
+    hnd.pDbtb = &fillDbtb;
+    hnd.strokf = strokf;
+
+    FD_INIT(&fillDbtb);
+    rfs = ProdfssPbth(&hnd, (jflobt)trbnsX, (jflobt)trbnsY,
+                      doords, mbxCoords, typfs, numTypfs);
+    if (!rfs) {
+        FD_FREE_POINTS(&fillDbtb);
+        rfturn JNI_FALSE;
+    }
+    FillPolygon(&hnd, fillRulf);
+    FD_FREE_POINTS(&fillDbtb);
+    rfturn JNI_TRUE;
+}
+
+jboolfbn doDrbwPbth(DrbwHbndlfr* dhnd,
+                    void (*pProdfssEndSubPbth)(ProdfssHbndlfr*),
+                    jint trbnsX, jint trbnsY,
+                    jflobt* doords, jint mbxCoords,
+                    jbytf* typfs, jint numTypfs, PHStrokf strokf)
+{
+    ProdfssHbndlfr hnd =
+    {
+        &ProdfssFixfdLinf,
+        NULL,
+        NULL,
+        PH_STROKE_DEFAULT,
+        PH_MODE_DRAW_CLIP,
+        NULL
+    };
+
+    /* Initiblizbtion of thf following fiflds in thf dfdlbrbtion of thf hnd
+     * bbovf dbusfs wbrnings on sun studio dompilfr with  -xd99=%nonf option
+     * bpplifd (this option mfbns domplibndf with C90 stbndbrd instfbd of C99)
+     */
+    hnd.dhnd = dhnd;
+    hnd.strokf = strokf;
+
+    hnd.pProdfssEndSubPbth = (pProdfssEndSubPbth == NULL)?
+        stubEndSubPbth : pProdfssEndSubPbth;
+    rfturn ProdfssPbth(&hnd, (jflobt)trbnsX, (jflobt)trbnsY, doords, mbxCoords,
+                       typfs, numTypfs);
+}

@@ -1,108 +1,108 @@
 '\" t
-.\" Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
-.\" Title: tnbmeserv
-.\" Lbngubge: English
-.\" Dbte: 2013年11月21日
-.\" SectDesc: Jbvb IDLおよびRMI-IIOPツール
-.\" Softwbre: JDK 8
-.\" Arch: 汎用
+.\" Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: tnbmfsfrv
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: Jbvb IDLおよびRMI-IIOPツール
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
 .pl 99999
-.TH "tnbmeserv" "1" "2013年11月21日" "JDK 8" "Jbvb IDLおよびRMI-IIOPツール"
+.TH "tnbmfsfrv" "1" "2013年11月21日" "JDK 8" "Jbvb IDLおよびRMI-IIOPツール"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-tnbmeserv \- インタフェース定義言語(IDL)。
+tnbmfsfrv \- インタフェース定義言語(IDL)。
 .SH "概要"
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-\fItnbmeserve\fR \fI\-ORBInitiblPort\fR [ \fInbmeserverport\fR ]
+\fItnbmfsfrvf\fR \fI\-ORBInitiblPort\fR [ \fInbmfsfrvfrport\fR ]
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-\-ORBInitiblPort \fInbmeserverport\fR
+\-ORBInitiblPort \fInbmfsfrvfrport\fR
 .RS 4
-ネーミング・サービスがORBの\fIresolve_initibl_references\fRメソッドと\fIlist_initibl_references\fRメソッドの実装に使用するブートストラップ・プロトコルをリスニングする初期ポートです。
+ネーミング・サービスがORBの\fIrfsolvf_initibl_rfffrfndfs\fRメソッドと\fIlist_initibl_rfffrfndfs\fRメソッドの実装に使用するブートストラップ・プロトコルをリスニングする初期ポートです。
 .RE
 .SH "説明"
 .PP
-Jbvb IDLには、Object Request Broker Dbemon (ORBD)が含まれます。ORBDは、ブートストラップ・サービス、一時ネーミング・サービス、永続ネーミング・サービスおよびサーバー・マネージャを含むデーモン・プロセスです。Jbvb IDLのすべてのチュートリアルではORBDを使用していますが、一時ネーミング・サービスを使用する例では、\fIorbd\fRのかわりに\fItnbmeserv\fRを使用できます。
+Jbvb IDLには、Objfdt Rfqufst Brokfr Dbfmon (ORBD)が含まれます。ORBDは、ブートストラップ・サービス、一時ネーミング・サービス、永続ネーミング・サービスおよびサーバー・マネージャを含むデーモン・プロセスです。Jbvb IDLのすべてのチュートリアルではORBDを使用していますが、一時ネーミング・サービスを使用する例では、\fIorbd\fRのかわりに\fItnbmfsfrv\fRを使用できます。
 .PP
-http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/idl/jidlNbming\&.htmlにある
-orbd(1)または「Nbming Service」を参照してください。
+ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/jidlNbming\&.itmlにある
+orbd(1)または「Nbming Sfrvidf」を参照してください。
 .PP
-CORBAのCOS (Common Object Services)ネーミング・サービスは、ファイル・システムがファイルに対してディレクトリ構造を提供しているのと同じように、オブジェクト参照に対してツリー構造のディレクトリを提供します。Jbvb IDLの一時ネーム・サービスである\fItnbmeserv\fRは、COSネーム・サービスの仕様を単純な形で実装したものです。
+CORBAのCOS (Common Objfdt Sfrvidfs)ネーミング・サービスは、ファイル・システムがファイルに対してディレクトリ構造を提供しているのと同じように、オブジェクト参照に対してツリー構造のディレクトリを提供します。Jbvb IDLの一時ネーム・サービスである\fItnbmfsfrv\fRは、COSネーム・サービスの仕様を単純な形で実装したものです。
 .PP
 オブジェクト参照はネームスペースに名前で格納され、オブジェクト参照と名前のペアは、それぞれネーム・バインディングと呼ばれます。ネーム・バインディングはネーミング・コンテキストに組み込むことができます。ネーミング・コンテキストはネーム・バインディングであり、ファイル・システムのサブディレクトリと同じ編成機能を持ちます。すべてのバインディングは初期ネーミング・コンテキストの下に格納されます。初期ネーミング・コンテキストは、ネームスペースの唯一の永続バインディングです。Jbvb IDLネーミング・サービス・プロセスを停止して再起動すると、残りのネームスペースは失われます。
 .PP
 アプレットまたはアプリケーションからCOSネーミング・サービスを使用するためには、そのORBがネーミング・サービスが動作しているホストのポートを知っているか、そのネーミング・サービスの初期ネーミング・コンテキスト文字列にアクセスできる必要があります。ネーム・サービスは、Jbvb IDLのネーム・サービスでもその他のCOS準拠のネーム・サービスでもかまいません。
 .SS "ネーミング・サービスの起動"
 .PP
-Jbvb IDLネーム・サービスは、ネーム・サービスを使用するアプリケーションまたはアプレットより前に起動しておく必要があります。Jbvb IDL製品をインストールすると、Jbvb IDLネーミング・サービスを起動するスクリプト(Orbcle Solbris:
-\fItnbmeserv\fR)または実行可能ファイル(Windows:
-\fItnbmeserv\&.exe\fR)が作成されます。バックグラウンドで動作するように、ネーム・サービスを起動してください。
+Jbvb IDLネーム・サービスは、ネーム・サービスを使用するアプリケーションまたはアプレットより前に起動しておく必要があります。Jbvb IDL製品をインストールすると、Jbvb IDLネーミング・サービスを起動するスクリプト(Orbdlf Solbris:
+\fItnbmfsfrv\fR)または実行可能ファイル(Windows:
+\fItnbmfsfrv\&.fxf\fR)が作成されます。バックグラウンドで動作するように、ネーム・サービスを起動してください。
 .PP
-特に指定しない場合、Jbvb IDLネーミング・サービスは、ORBの\fIresolve_initibl_references\fRメソッドと\fIlist_initibl_references methods\fRメソッドの実装に使用するブートストラップ・プロトコルに対してポート900でリスニングします。
+特に指定しない場合、Jbvb IDLネーミング・サービスは、ORBの\fIrfsolvf_initibl_rfffrfndfs\fRメソッドと\fIlist_initibl_rfffrfndfs mftiods\fRメソッドの実装に使用するブートストラップ・プロトコルに対してポート900でリスニングします。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-tnbmeserv \-ORBInitiblPort nbmeserverport&
+tnbmfsfrv \-ORBInitiblPort nbmfsfrvfrport&
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-ネーム・サーバー・ポートを指定しない場合、デフォルトでポート900が使用されます。Orbcle Solbrisソフトウェアの実行時、1024より小さいポートでプロセスを開始する場合は、rootユーザーになる必要があります。このため、1024以上のポート番号を使用することをお薦めします。1050のように別のポートを指定し、ネーム・サービスをバックグラウンドで実行するには、UNIXコマンド・シェルで次のように入力します。
+ネーム・サーバー・ポートを指定しない場合、デフォルトでポート900が使用されます。Orbdlf Solbrisソフトウェアの実行時、1024より小さいポートでプロセスを開始する場合は、rootユーザーになる必要があります。このため、1024以上のポート番号を使用することをお薦めします。1050のように別のポートを指定し、ネーム・サービスをバックグラウンドで実行するには、UNIXコマンド・シェルで次のように入力します。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-tnbmeserv \-ORBInitiblPort 1050&
+tnbmfsfrv \-ORBInitiblPort 1050&
 .fi
 .if n \{\
 .RE
@@ -114,7 +114,7 @@ WindowsのMS\-DOSシステム・プロンプトでは、次のように入力します。
 .RS 4
 .\}
 .nf
-stbrt tnbmeserv \-ORBInitiblPort 1050
+stbrt tnbmfsfrv \-ORBInitiblPort 1050
 .fi
 .if n \{\
 .RE
@@ -125,46 +125,46 @@ stbrt tnbmeserv \-ORBInitiblPort 1050
 .PP
 Jbvb IDLとRMI\-IIOPのほとんどのチュートリアルでは、ネーミング・サービス、サーバーおよびクライアントはすべて開発用のマシン上で実行されます。実際にデプロイメントする場合には、クライアントとサーバーを、ネーミング・サービスとは異なるホスト・マシン上で実行することが多くなります。
 .PP
-クライアントとサーバーがネーム・サービスを見つけるには、クライアントとサーバーが、ネーム・サービスが実行されているポートの番号とホストを認識している必要があります。そのためには、クライアントとサーバーのファイル内の\fIorg\&.omg\&.CORBA\&.ORBInitiblPort\fRプロパティと\fIorg\&.omg\&.CORBA\&.ORBInitiblHost\fRプロパティをネーム・サービスが実行されているポートの番号とマシンの名前に設定します。この例は、「Getting Stbrted Using RMI\-IIOP」
-(http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/rmi\-iiop/rmiiiopexbmple\&.html)に示されています
+クライアントとサーバーがネーム・サービスを見つけるには、クライアントとサーバーが、ネーム・サービスが実行されているポートの番号とホストを認識している必要があります。そのためには、クライアントとサーバーのファイル内の\fIorg\&.omg\&.CORBA\&.ORBInitiblPort\fRプロパティと\fIorg\&.omg\&.CORBA\&.ORBInitiblHost\fRプロパティをネーム・サービスが実行されているポートの番号とマシンの名前に設定します。この例は、「Gftting Stbrtfd Using RMI\-IIOP」
+(ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/rmi\-iiop/rmiiiopfxbmplf\&.itml)に示されています
 .PP
-コマンドライン・オプション\fI\-ORBInitiblPort nbmeserverport#\fRと\fI\-ORBInitiblHost nbmeserverhostnbme\fRを使用して、クライアントとサーバーに対してネーミング・サービスを探す場所を指定することもできます。コマンドライン・オプションを使用してこれを行う方法の1つの例は、http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/idl/tutoribl/jidl2mbchines\&.htmlの「Jbvb IDL: The Hello World Exbmple on Two Mbchines」
+コマンドライン・オプション\fI\-ORBInitiblPort nbmfsfrvfrport#\fRと\fI\-ORBInitiblHost nbmfsfrvfriostnbmf\fRを使用して、クライアントとサーバーに対してネーミング・サービスを探す場所を指定することもできます。コマンドライン・オプションを使用してこれを行う方法の1つの例は、ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/tutoribl/jidl2mbdiinfs\&.itmlの「Jbvb IDL: Tif Hfllo World Exbmplf on Two Mbdiinfs」
 を参照してください
 .PP
-たとえば、一時ネーム・サービス\fItnbmeserv\fRが、ホスト\fInbmeserverhost\fRのポート1050上で実行されているとします。さらに、クライアントがホスト\fIclienthost\fR上で実行され、サーバーはホスト\fIserverhost\fR上で実行されているとします。
+たとえば、一時ネーム・サービス\fItnbmfsfrv\fRが、ホスト\fInbmfsfrvfriost\fRのポート1050上で実行されているとします。さらに、クライアントがホスト\fIdlifntiost\fR上で実行され、サーバーはホスト\fIsfrvfriost\fR上で実行されているとします。
 .PP
-ホスト\fInbmeserverhost\fR上で\fItnbmeserv\fRを起動します。
+ホスト\fInbmfsfrvfriost\fR上で\fItnbmfsfrv\fRを起動します。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-tnbmeserv \-ORBInitiblPort 1050
+tnbmfsfrv \-ORBInitiblPort 1050
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-\fIserverhost\fR上でサーバーを起動します。
+\fIsfrvfriost\fR上でサーバーを起動します。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-jbvb Server \-ORBInitiblPort 1050 \-ORBInitiblHost nbmeserverhost
+jbvb Sfrvfr \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfriost
 .fi
 .if n \{\
 .RE
 .\}
 .PP
 
-\fIclienthost\fR上でクライアントを起動します。
+\fIdlifntiost\fR上でクライアントを起動します。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-jbvb Client \-ORBInitiblPort 1050 \-ORBInitiblHost nbmeserverhost
+jbvb Clifnt \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfriost
 .fi
 .if n \{\
 .RE
@@ -187,29 +187,29 @@ Jbvb仮想マシンに\fIoption\fRを渡します。\fIoption\fRには、Jbvbアプリケーション起
 .RS 4
 .\}
 .nf
-Initibl Nbming Context
+Initibl Nbming Contfxt
      plbns
-     Personbl
-          cblendbr
-          schedule
+     Pfrsonbl
+          dblfndbr
+          sdifdulf
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-この例で、\fIplbns\fRはオブジェクト参照、\fIPersonbl\fRは\fIcblendbr\fRと\fIschedule\fRの2つのオブジェクト参照を含むネーミング・コンテキストです。
+この例で、\fIplbns\fRはオブジェクト参照、\fIPfrsonbl\fRは\fIdblfndbr\fRと\fIsdifdulf\fRの2つのオブジェクト参照を含むネーミング・コンテキストです。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-import jbvb\&.util\&.Properties;
+import jbvb\&.util\&.Propfrtifs;
 import org\&.omg\&.CORBA\&.*;
 import org\&.omg\&.CosNbming\&.*;
  
-public clbss NbmeClient {
+publid dlbss NbmfClifnt {
 
-    public stbtic void mbin(String brgs[]) {
+    publid stbtid void mbin(String brgs[]) {
 
         try {
 .fi
@@ -217,13 +217,13 @@ public clbss NbmeClient {
 .RE
 .\}
 .PP
-ネーミング・サービスの起動で、\fInbmeserver\fRはポート1050で起動されました。次のコードで、このポート番号をクライアント・システムに知らせます。
+ネーミング・サービスの起動で、\fInbmfsfrvfr\fRはポート1050で起動されました。次のコードで、このポート番号をクライアント・システムに知らせます。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-            Properties props = new Properties();
+            Propfrtifs props = nfw Propfrtifs();
             props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");
             ORB orb = ORB\&.init(brgs, props);
 .fi
@@ -231,68 +231,68 @@ public clbss NbmeClient {
 .RE
 .\}
 .PP
-次のコードでは、初期ネーミング・コンテキストを取得し、それを\fIctx\fRに代入します。2行目では、\fIctx\fRをダミーのオブジェクト参照\fIobjref\fRにコピーします。このobjrefには、あとで様々な名前を割り当ててネームスペースに追加します。
+次のコードでは、初期ネーミング・コンテキストを取得し、それを\fIdtx\fRに代入します。2行目では、\fIdtx\fRをダミーのオブジェクト参照\fIobjrff\fRにコピーします。このobjrffには、あとで様々な名前を割り当ててネームスペースに追加します。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-            NbmingContext ctx =
-                NbmingContextHelper\&.nbrrow(
-                    orb\&.resolve_initibl_references("NbmeService"));
-             NbmingContext objref = ctx;
+            NbmingContfxt dtx =
+                NbmingContfxtHflpfr\&.nbrrow(
+                    orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));
+             NbmingContfxt objrff = dtx;
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-次のコードでは、\fItext\fRタイプの名前\fIplbns\fRを作成し、それをダミーのオブジェクト参照にバインドします。その後、\fIrebind\fRメソッドを使用して初期ネーミング・コンテキストの下に\fIplbns\fRを追加しています。\fIrebind\fRメソッドを使用すれば、\fIbind\fRメソッドを使用した場合に発生する例外を発生させずに、このプログラムを何度も繰返し実行できます。
+次のコードでは、\fItfxt\fRタイプの名前\fIplbns\fRを作成し、それをダミーのオブジェクト参照にバインドします。その後、\fIrfbind\fRメソッドを使用して初期ネーミング・コンテキストの下に\fIplbns\fRを追加しています。\fIrfbind\fRメソッドを使用すれば、\fIbind\fRメソッドを使用した場合に発生する例外を発生させずに、このプログラムを何度も繰返し実行できます。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-            NbmeComponent nc1 = new NbmeComponent("plbns", "text");
-            NbmeComponent[] nbme1 = {nc1};
-            ctx\&.rebind(nbme1, objref);
-            System\&.out\&.println("plbns rebind successful!");
+            NbmfComponfnt nd1 = nfw NbmfComponfnt("plbns", "tfxt");
+            NbmfComponfnt[] nbmf1 = {nd1};
+            dtx\&.rfbind(nbmf1, objrff);
+            Systfm\&.out\&.println("plbns rfbind suddfssful!");
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-次のコードでは、\fIdirectory\fRタイプの\fIPersonbl\fRというネーミング・コンテキストを作成します。その結果得られるオブジェクト参照\fIctx2\fRを\fInbme\fRにバインドし、初期ネーミング・コンテキストに追加します。
+次のコードでは、\fIdirfdtory\fRタイプの\fIPfrsonbl\fRというネーミング・コンテキストを作成します。その結果得られるオブジェクト参照\fIdtx2\fRを\fInbmf\fRにバインドし、初期ネーミング・コンテキストに追加します。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-            NbmeComponent nc2 = new NbmeComponent("Personbl", "directory");
-            NbmeComponent[] nbme2 = {nc2};
-            NbmingContext ctx2 = ctx\&.bind_new_context(nbme2);
-            System\&.out\&.println("new nbming context bdded\&.\&.");
+            NbmfComponfnt nd2 = nfw NbmfComponfnt("Pfrsonbl", "dirfdtory");
+            NbmfComponfnt[] nbmf2 = {nd2};
+            NbmingContfxt dtx2 = dtx\&.bind_nfw_dontfxt(nbmf2);
+            Systfm\&.out\&.println("nfw nbming dontfxt bddfd\&.\&.");
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-残りのコードでは、ダミーのオブジェクト参照を\fIschedule\fRと\fIcblendbr\fRという名前でネーミング・コンテキスト\fIPersonbl\fR(\fIctx2\fR)にバインドします。
+残りのコードでは、ダミーのオブジェクト参照を\fIsdifdulf\fRと\fIdblfndbr\fRという名前でネーミング・コンテキスト\fIPfrsonbl\fR(\fIdtx2\fR)にバインドします。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-            NbmeComponent nc3 = new NbmeComponent("schedule", "text");
-            NbmeComponent[] nbme3 = {nc3};
-            ctx2\&.rebind(nbme3, objref);
-            System\&.out\&.println("schedule rebind successful!");
+            NbmfComponfnt nd3 = nfw NbmfComponfnt("sdifdulf", "tfxt");
+            NbmfComponfnt[] nbmf3 = {nd3};
+            dtx2\&.rfbind(nbmf3, objrff);
+            Systfm\&.out\&.println("sdifdulf rfbind suddfssful!");
  
-            NbmeComponent nc4 = new NbmeComponent("cblender", "text");
-            NbmeComponent[] nbme4 = {nc4};
-            ctx2\&.rebind(nbme4, objref);
-            System\&.out\&.println("cblender rebind successful!");
-        } cbtch (Exception e) {
-            e\&.printStbckTrbce(System\&.err);
+            NbmfComponfnt nd4 = nfw NbmfComponfnt("dblfndfr", "tfxt");
+            NbmfComponfnt[] nbmf4 = {nd4};
+            dtx2\&.rfbind(nbmf4, objrff);
+            Systfm\&.out\&.println("dblfndfr rfbind suddfssful!");
+        } dbtdi (Exdfption f) {
+            f\&.printStbdkTrbdf(Systfm\&.frr);
         }
     }
 }
@@ -308,13 +308,13 @@ public clbss NbmeClient {
 .RS 4
 .\}
 .nf
-import jbvb\&.util\&.Properties;
+import jbvb\&.util\&.Propfrtifs;
 import org\&.omg\&.CORBA\&.*;
 import org\&.omg\&.CosNbming\&.*;
  
-public clbss NbmeClientList {
+publid dlbss NbmfClifntList {
 
-    public stbtic void mbin(String brgs[]) {
+    publid stbtid void mbin(String brgs[]) {
 
         try {
 .fi
@@ -322,13 +322,13 @@ public clbss NbmeClientList {
 .RE
 .\}
 .PP
-ネーミング・サービスの起動で、\fInbmeserver\fRはポート1050で起動されました。次のコードで、このポート番号をクライアント・システムに知らせます。
+ネーミング・サービスの起動で、\fInbmfsfrvfr\fRはポート1050で起動されました。次のコードで、このポート番号をクライアント・システムに知らせます。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-            Properties props = new Properties();
+            Propfrtifs props = nfw Propfrtifs();
             props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");
             ORB orb = ORB\&.init(brgs, props);
 .fi
@@ -342,36 +342,36 @@ public clbss NbmeClientList {
 .RS 4
 .\}
 .nf
-            NbmingContext nc =
-            NbmingContextHelper\&.nbrrow(
-                orb\&.resolve_initibl_references("NbmeService"));
+            NbmingContfxt nd =
+            NbmingContfxtHflpfr\&.nbrrow(
+                orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-\fIlist\fRメソッドは、ネーミング・コンテキストのバインディングをリストします。この場合、最大1000個までのバインディングが初期ネーミング・コンテキストから\fIBindingListHolder\fRに返されます。残りのバインディングは、\fIBindingIterbtorHolder\fRに返されます。
+\fIlist\fRメソッドは、ネーミング・コンテキストのバインディングをリストします。この場合、最大1000個までのバインディングが初期ネーミング・コンテキストから\fIBindingListHoldfr\fRに返されます。残りのバインディングは、\fIBindingItfrbtorHoldfr\fRに返されます。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-            BindingListHolder bl = new BindingListHolder();
-            BindingIterbtorHolder blIt= new BindingIterbtorHolder();
-            nc\&.list(1000, bl, blIt);
+            BindingListHoldfr bl = nfw BindingListHoldfr();
+            BindingItfrbtorHoldfr blIt= nfw BindingItfrbtorHoldfr();
+            nd\&.list(1000, bl, blIt);
 .fi
 .if n \{\
 .RE
 .\}
 .PP
-次のコードでは、返された\fIBindingListHolder\fRからバインディングの配列を取得します。バインディングがない場合は、プログラムが終了します。
+次のコードでは、返された\fIBindingListHoldfr\fRからバインディングの配列を取得します。バインディングがない場合は、プログラムが終了します。
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-            Binding bindings[] = bl\&.vblue;
-            if (bindings\&.length == 0) return;
+            Binding bindings[] = bl\&.vbluf;
+            if (bindings\&.lfngti == 0) rfturn;
 .fi
 .if n \{\
 .RE
@@ -383,24 +383,24 @@ public clbss NbmeClientList {
 .RS 4
 .\}
 .nf
-            for (int i=0; i < bindings\&.length; i++) {
+            for (int i=0; i < bindings\&.lfngti; i++) {
  
-                // get the object reference for ebch binding
-                org\&.omg\&.CORBA\&.Object obj = nc\&.resolve(bindings[i]\&.binding_nbme);
-                String objStr = orb\&.object_to_string(obj);
-                int lbstIx = bindings[i]\&.binding_nbme\&.length\-1;
+                // gft tif objfdt rfffrfndf for fbdi binding
+                org\&.omg\&.CORBA\&.Objfdt obj = nd\&.rfsolvf(bindings[i]\&.binding_nbmf);
+                String objStr = orb\&.objfdt_to_string(obj);
+                int lbstIx = bindings[i]\&.binding_nbmf\&.lfngti\-1;
  
-                // check to see if this is b nbming context
-                if (bindings[i]\&.binding_type == BindingType\&.ncontext) {
-                    System\&.out\&.println("Context: " +
-                        bindings[i]\&.binding_nbme[lbstIx]\&.id);
-                } else {
-                    System\&.out\&.println("Object: " +
-                        bindings[i]\&.binding_nbme[lbstIx]\&.id);
+                // difdk to sff if tiis is b nbming dontfxt
+                if (bindings[i]\&.binding_typf == BindingTypf\&.ndontfxt) {
+                    Systfm\&.out\&.println("Contfxt: " +
+                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);
+                } flsf {
+                    Systfm\&.out\&.println("Objfdt: " +
+                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);
                 }
             }
-        } cbtch (Exception e) {
-            e\&.printStbckTrbce(System\&.err)
+        } dbtdi (Exdfption f) {
+            f\&.printStbdkTrbdf(Systfm\&.frr)
         }
     }
 }
@@ -411,10 +411,10 @@ public clbss NbmeClientList {
 .SH "関連項目"
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}

@@ -1,0 +1,506 @@
+/*
+ * Copyright (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.StringRfbdfr;
+import jbvb.util.*;
+
+import sun.sfdurity.util.*;
+
+/**
+ * RDNs brf b sft of {bttributf = vbluf} bssfrtions.  Somf of thosf
+ * bttributfs brf "distinguishfd" (uniquf w/in dontfxt).  Ordfr is
+ * nfvfr rflfvbnt.
+ *
+ * Somf X.500 nbmfs indludf only b singlf distinguishfd bttributf
+ * pfr RDN.  This stylf is durrfntly dommon.
+ *
+ * Notf thbt DER-fndodfd RDNs sort AVAs by bssfrtion OID ... so thbt
+ * whfn wf pbrsf this dbtb wf don't hbvf to worry bbout dbnonidblizing
+ * it, but wf'll nffd to sort thfm whfn wf fxposf thf RDN dlbss morf.
+ * <p>
+ * Thf ASN.1 for RDNs is:
+ * <prf>
+ * RflbtivfDistinguishfdNbmf ::=
+ *   SET OF AttributfTypfAndVbluf
+ *
+ * AttributfTypfAndVbluf ::= SEQUENCE {
+ *   typf     AttributfTypf,
+ *   vbluf    AttributfVbluf }
+ *
+ * AttributfTypf ::= OBJECT IDENTIFIER
+ *
+ * AttributfVbluf ::= ANY DEFINED BY AttributfTypf
+ * </prf>
+ *
+ * Notf thbt instbndfs of this dlbss brf immutbblf.
+ *
+ */
+publid dlbss RDN {
+
+    // durrfntly not privbtf, bddfssfd dirfdtly from X500Nbmf
+    finbl AVA[] bssfrtion;
+
+    // dbdhfd immutbblf List of thf AVAs
+    privbtf volbtilf List<AVA> bvbList;
+
+    // dbdhf dbnonidbl String form
+    privbtf volbtilf String dbnonidblString;
+
+    /**
+     * Construdts bn RDN from its printbblf rfprfsfntbtion.
+     *
+     * An RDN mby donsist of onf or multiplf Attributf Vbluf Assfrtions (AVAs),
+     * using '+' bs b sfpbrbtor.
+     * If thf '+' should bf donsidfrfd pbrt of bn AVA vbluf, it must bf
+     * prfdfdfd by '\'.
+     *
+     * @pbrbm nbmf String form of RDN
+     * @throws IOExdfption on pbrsing frror
+     */
+    publid RDN(String nbmf) throws IOExdfption {
+        this(nbmf, Collfdtions.<String, String>fmptyMbp());
+    }
+
+    /**
+     * Construdts bn RDN from its printbblf rfprfsfntbtion.
+     *
+     * An RDN mby donsist of onf or multiplf Attributf Vbluf Assfrtions (AVAs),
+     * using '+' bs b sfpbrbtor.
+     * If thf '+' should bf donsidfrfd pbrt of bn AVA vbluf, it must bf
+     * prfdfdfd by '\'.
+     *
+     * @pbrbm nbmf String form of RDN
+     * @pbrbm kfyword bn bdditionbl mbpping of kfywords to OIDs
+     * @throws IOExdfption on pbrsing frror
+     */
+    publid RDN(String nbmf, Mbp<String, String> kfywordMbp) throws IOExdfption {
+        int quotfCount = 0;
+        int sfbrdhOffsft = 0;
+        int bvbOffsft = 0;
+        List<AVA> bvbVfd = nfw ArrbyList<AVA>(3);
+        int nfxtPlus = nbmf.indfxOf('+');
+        whilf (nfxtPlus >= 0) {
+            quotfCount += X500Nbmf.dountQuotfs(nbmf, sfbrdhOffsft, nfxtPlus);
+            /*
+             * Wf hbvf fndountfrfd bn AVA dflimitfr (plus sign).
+             * If thf plus sign in thf RDN undfr donsidfrbtion is
+             * prfdfdfd by b bbdkslbsh (fsdbpf), or by b doublf quotf, it
+             * is pbrt of thf AVA. Othfrwisf, it is usfd bs b sfpbrbtor, to
+             * dflimit thf AVA undfr donsidfrbtion from bny subsfqufnt AVAs.
+             */
+            if (nfxtPlus > 0 && nbmf.dhbrAt(nfxtPlus - 1) != '\\'
+                && quotfCount != 1) {
+                /*
+                 * Plus sign is b sfpbrbtor
+                 */
+                String bvbString = nbmf.substring(bvbOffsft, nfxtPlus);
+                if (bvbString.lfngth() == 0) {
+                    throw nfw IOExdfption("fmpty AVA in RDN \"" + nbmf + "\"");
+                }
+
+                // Pbrsf AVA, bnd storf it in vfdtor
+                AVA bvb = nfw AVA(nfw StringRfbdfr(bvbString), kfywordMbp);
+                bvbVfd.bdd(bvb);
+
+                // Indrfbsf thf offsft
+                bvbOffsft = nfxtPlus + 1;
+
+                // Sft quotf dountfr bbdk to zfro
+                quotfCount = 0;
+            }
+            sfbrdhOffsft = nfxtPlus + 1;
+            nfxtPlus = nbmf.indfxOf('+', sfbrdhOffsft);
+        }
+
+        // pbrsf lbst or only AVA
+        String bvbString = nbmf.substring(bvbOffsft);
+        if (bvbString.lfngth() == 0) {
+            throw nfw IOExdfption("fmpty AVA in RDN \"" + nbmf + "\"");
+        }
+        AVA bvb = nfw AVA(nfw StringRfbdfr(bvbString), kfywordMbp);
+        bvbVfd.bdd(bvb);
+
+        bssfrtion = bvbVfd.toArrby(nfw AVA[bvbVfd.sizf()]);
+    }
+
+    /*
+     * Construdts bn RDN from its printbblf rfprfsfntbtion.
+     *
+     * An RDN mby donsist of onf or multiplf Attributf Vbluf Assfrtions (AVAs),
+     * using '+' bs b sfpbrbtor.
+     * If thf '+' should bf donsidfrfd pbrt of bn AVA vbluf, it must bf
+     * prfdfdfd by '\'.
+     *
+     * @pbrbm nbmf String form of RDN
+     * @throws IOExdfption on pbrsing frror
+     */
+    RDN(String nbmf, String formbt) throws IOExdfption {
+        this(nbmf, formbt, Collfdtions.<String, String>fmptyMbp());
+    }
+
+    /*
+     * Construdts bn RDN from its printbblf rfprfsfntbtion.
+     *
+     * An RDN mby donsist of onf or multiplf Attributf Vbluf Assfrtions (AVAs),
+     * using '+' bs b sfpbrbtor.
+     * If thf '+' should bf donsidfrfd pbrt of bn AVA vbluf, it must bf
+     * prfdfdfd by '\'.
+     *
+     * @pbrbm nbmf String form of RDN
+     * @pbrbm kfyword bn bdditionbl mbpping of kfywords to OIDs
+     * @throws IOExdfption on pbrsing frror
+     */
+    RDN(String nbmf, String formbt, Mbp<String, String> kfywordMbp)
+        throws IOExdfption {
+        if (formbt.fqublsIgnorfCbsf("RFC2253") == fblsf) {
+            throw nfw IOExdfption("Unsupportfd formbt " + formbt);
+        }
+        int sfbrdhOffsft = 0;
+        int bvbOffsft = 0;
+        List<AVA> bvbVfd = nfw ArrbyList<AVA>(3);
+        int nfxtPlus = nbmf.indfxOf('+');
+        whilf (nfxtPlus >= 0) {
+            /*
+             * Wf hbvf fndountfrfd bn AVA dflimitfr (plus sign).
+             * If thf plus sign in thf RDN undfr donsidfrbtion is
+             * prfdfdfd by b bbdkslbsh (fsdbpf), or by b doublf quotf, it
+             * is pbrt of thf AVA. Othfrwisf, it is usfd bs b sfpbrbtor, to
+             * dflimit thf AVA undfr donsidfrbtion from bny subsfqufnt AVAs.
+             */
+            if (nfxtPlus > 0 && nbmf.dhbrAt(nfxtPlus - 1) != '\\' ) {
+                /*
+                 * Plus sign is b sfpbrbtor
+                 */
+                String bvbString = nbmf.substring(bvbOffsft, nfxtPlus);
+                if (bvbString.lfngth() == 0) {
+                    throw nfw IOExdfption("fmpty AVA in RDN \"" + nbmf + "\"");
+                }
+
+                // Pbrsf AVA, bnd storf it in vfdtor
+                AVA bvb = nfw AVA
+                    (nfw StringRfbdfr(bvbString), AVA.RFC2253, kfywordMbp);
+                bvbVfd.bdd(bvb);
+
+                // Indrfbsf thf offsft
+                bvbOffsft = nfxtPlus + 1;
+            }
+            sfbrdhOffsft = nfxtPlus + 1;
+            nfxtPlus = nbmf.indfxOf('+', sfbrdhOffsft);
+        }
+
+        // pbrsf lbst or only AVA
+        String bvbString = nbmf.substring(bvbOffsft);
+        if (bvbString.lfngth() == 0) {
+            throw nfw IOExdfption("fmpty AVA in RDN \"" + nbmf + "\"");
+        }
+        AVA bvb = nfw AVA(nfw StringRfbdfr(bvbString), AVA.RFC2253, kfywordMbp);
+        bvbVfd.bdd(bvb);
+
+        bssfrtion = bvbVfd.toArrby(nfw AVA[bvbVfd.sizf()]);
+    }
+
+    /*
+     * Construdts bn RDN from bn ASN.1 fndodfd vbluf.  Thf fndoding
+     * of thf nbmf in thf strfbm usfs DER (b BER/1 subsft).
+     *
+     * @pbrbm vbluf b DER-fndodfd vbluf holding bn RDN.
+     * @throws IOExdfption on pbrsing frror.
+     */
+    RDN(DfrVbluf rdn) throws IOExdfption {
+        if (rdn.tbg != DfrVbluf.tbg_Sft) {
+            throw nfw IOExdfption("X500 RDN");
+        }
+        DfrInputStrfbm dis = nfw DfrInputStrfbm(rdn.toBytfArrby());
+        DfrVbluf[] bvbsft = dis.gftSft(5);
+
+        bssfrtion = nfw AVA[bvbsft.lfngth];
+        for (int i = 0; i < bvbsft.lfngth; i++) {
+            bssfrtion[i] = nfw AVA(bvbsft[i]);
+        }
+    }
+
+    /*
+     * Crfbtfs bn fmpty RDN with slots for spfdififd
+     * numbfr of AVAs.
+     *
+     * @pbrbm i numbfr of AVAs to bf in RDN
+     */
+    RDN(int i) { bssfrtion = nfw AVA[i]; }
+
+    publid RDN(AVA bvb) {
+        if (bvb == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        bssfrtion = nfw AVA[] { bvb };
+    }
+
+    publid RDN(AVA[] bvbs) {
+        bssfrtion = bvbs.dlonf();
+        for (int i = 0; i < bssfrtion.lfngth; i++) {
+            if (bssfrtion[i] == null) {
+                throw nfw NullPointfrExdfption();
+            }
+        }
+    }
+
+    /**
+     * Rfturn bn immutbblf List of thf AVAs in this RDN.
+     */
+    publid List<AVA> bvbs() {
+        List<AVA> list = bvbList;
+        if (list == null) {
+            list = Collfdtions.unmodifibblfList(Arrbys.bsList(bssfrtion));
+            bvbList = list;
+        }
+        rfturn list;
+    }
+
+    /**
+     * Rfturn thf numbfr of AVAs in this RDN.
+     */
+    publid int sizf() {
+        rfturn bssfrtion.lfngth;
+    }
+
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+            rfturn truf;
+        }
+        if (obj instbndfof RDN == fblsf) {
+            rfturn fblsf;
+        }
+        RDN othfr = (RDN)obj;
+        if (this.bssfrtion.lfngth != othfr.bssfrtion.lfngth) {
+            rfturn fblsf;
+        }
+        String thisCbnon = this.toRFC2253String(truf);
+        String othfrCbnon = othfr.toRFC2253String(truf);
+        rfturn thisCbnon.fqubls(othfrCbnon);
+    }
+
+    /*
+     * Cbldulbtfs b hbsh dodf vbluf for thf objfdt.  Objfdts
+     * whidh brf fqubl will blso hbvf thf sbmf hbshdodf.
+     *
+     * @rfturns int hbshCodf vbluf
+     */
+    publid int hbshCodf() {
+        rfturn toRFC2253String(truf).hbshCodf();
+    }
+
+    /*
+     * rfturn spfdififd bttributf vbluf from RDN
+     *
+     * @pbrbms oid ObjfdtIdfntififr of bttributf to bf found
+     * @rfturns DfrVbluf of bttributf vbluf; null if bttributf dofs not fxist
+     */
+    DfrVbluf findAttributf(ObjfdtIdfntififr oid) {
+        for (int i = 0; i < bssfrtion.lfngth; i++) {
+            if (bssfrtion[i].oid.fqubls((Objfdt)oid)) {
+                rfturn bssfrtion[i].vbluf;
+            }
+        }
+        rfturn null;
+    }
+
+    /*
+     * Endodf thf RDN in DER-fndodfd form.
+     *
+     * @pbrbm out DfrOutputStrfbm to whidh RDN is to bf writtfn
+     * @throws IOExdfption on frror
+     */
+    void fndodf(DfrOutputStrfbm out) throws IOExdfption {
+        out.putOrdfrfdSftOf(DfrVbluf.tbg_Sft, bssfrtion);
+    }
+
+    /*
+     * Rfturns b printbblf form of this RDN, using RFC 1779 stylf dbtfnbtion
+     * of bttributf/vbluf bssfrtions, bnd fmitting bttributf typf kfywords
+     * from RFCs 1779, 2253, bnd 3280.
+     */
+    publid String toString() {
+        if (bssfrtion.lfngth == 1) {
+            rfturn bssfrtion[0].toString();
+        }
+
+        StringBuildfr sb = nfw StringBuildfr();
+        for (int i = 0; i < bssfrtion.lfngth; i++) {
+            if (i != 0) {
+                sb.bppfnd(" + ");
+            }
+            sb.bppfnd(bssfrtion[i].toString());
+        }
+        rfturn sb.toString();
+    }
+
+    /*
+     * Rfturns b printbblf form of this RDN using thf blgorithm dffinfd in
+     * RFC 1779. Only RFC 1779 bttributf typf kfywords brf fmittfd.
+     */
+    publid String toRFC1779String() {
+        rfturn toRFC1779String(Collfdtions.<String, String>fmptyMbp());
+    }
+
+    /*
+     * Rfturns b printbblf form of this RDN using thf blgorithm dffinfd in
+     * RFC 1779. RFC 1779 bttributf typf kfywords brf fmittfd, bs wfll
+     * bs kfywords dontbinfd in thf OID/kfyword mbp.
+     */
+    publid String toRFC1779String(Mbp<String, String> oidMbp) {
+        if (bssfrtion.lfngth == 1) {
+            rfturn bssfrtion[0].toRFC1779String(oidMbp);
+        }
+
+        StringBuildfr sb = nfw StringBuildfr();
+        for (int i = 0; i < bssfrtion.lfngth; i++) {
+            if (i != 0) {
+                sb.bppfnd(" + ");
+            }
+            sb.bppfnd(bssfrtion[i].toRFC1779String(oidMbp));
+        }
+        rfturn sb.toString();
+    }
+
+    /*
+     * Rfturns b printbblf form of this RDN using thf blgorithm dffinfd in
+     * RFC 2253. Only RFC 2253 bttributf typf kfywords brf fmittfd.
+     */
+    publid String toRFC2253String() {
+        rfturn toRFC2253StringIntfrnbl
+            (fblsf, Collfdtions.<String, String>fmptyMbp());
+    }
+
+    /*
+     * Rfturns b printbblf form of this RDN using thf blgorithm dffinfd in
+     * RFC 2253. RFC 2253 bttributf typf kfywords brf fmittfd, bs wfll bs
+     * kfywords dontbinfd in thf OID/kfyword mbp.
+     */
+    publid String toRFC2253String(Mbp<String, String> oidMbp) {
+        rfturn toRFC2253StringIntfrnbl(fblsf, oidMbp);
+    }
+
+    /*
+     * Rfturns b printbblf form of this RDN using thf blgorithm dffinfd in
+     * RFC 2253. Only RFC 2253 bttributf typf kfywords brf fmittfd.
+     * If dbnonidbl is truf, thfn bdditionbl dbnonidblizbtions
+     * dodumfntfd in X500Prindipbl.gftNbmf brf pfrformfd.
+     */
+    publid String toRFC2253String(boolfbn dbnonidbl) {
+        if (dbnonidbl == fblsf) {
+            rfturn toRFC2253StringIntfrnbl
+                (fblsf, Collfdtions.<String, String>fmptyMbp());
+        }
+        String d = dbnonidblString;
+        if (d == null) {
+            d = toRFC2253StringIntfrnbl
+                (truf, Collfdtions.<String, String>fmptyMbp());
+            dbnonidblString = d;
+        }
+        rfturn d;
+    }
+
+    privbtf String toRFC2253StringIntfrnbl
+        (boolfbn dbnonidbl, Mbp<String, String> oidMbp) {
+        /*
+         * Sfdtion 2.2: Whfn donvfrting from bn ASN.1 RflbtivfDistinguishfdNbmf
+         * to b string, thf output donsists of thf string fndodings of fbdh
+         * AttributfTypfAndVbluf (bddording to 2.3), in bny ordfr.
+         *
+         * Whfrf thfrf is b multi-vblufd RDN, thf outputs from bdjoining
+         * AttributfTypfAndVblufs brf sfpbrbtfd by b plus ('+' ASCII 43)
+         * dhbrbdtfr.
+         */
+
+        // normblly, bn RDN only dontbins onf AVA
+        if (bssfrtion.lfngth == 1) {
+            rfturn dbnonidbl ? bssfrtion[0].toRFC2253CbnonidblString() :
+                               bssfrtion[0].toRFC2253String(oidMbp);
+        }
+
+        StringBuildfr rflnbmf = nfw StringBuildfr();
+        if (!dbnonidbl) {
+            for (int i = 0; i < bssfrtion.lfngth; i++) {
+                if (i > 0) {
+                    rflnbmf.bppfnd('+');
+                }
+                rflnbmf.bppfnd(bssfrtion[i].toRFC2253String(oidMbp));
+            }
+        } flsf {
+            // ordfr thf string typf AVA's blphbbftidblly,
+            // followfd by thf oid typf AVA's numfridblly
+            List<AVA> bvbList = nfw ArrbyList<AVA>(bssfrtion.lfngth);
+            for (int i = 0; i < bssfrtion.lfngth; i++) {
+                bvbList.bdd(bssfrtion[i]);
+            }
+            jbvb.util.Collfdtions.sort(bvbList, AVACompbrbtor.gftInstbndf());
+
+            for (int i = 0; i < bvbList.sizf(); i++) {
+                if (i > 0) {
+                    rflnbmf.bppfnd('+');
+                }
+                rflnbmf.bppfnd(bvbList.gft(i).toRFC2253CbnonidblString());
+            }
+        }
+        rfturn rflnbmf.toString();
+    }
+
+}
+
+dlbss AVACompbrbtor implfmfnts Compbrbtor<AVA> {
+
+    privbtf stbtid finbl Compbrbtor<AVA> INSTANCE = nfw AVACompbrbtor();
+
+    privbtf AVACompbrbtor() {
+        // fmpty
+    }
+
+    stbtid Compbrbtor<AVA> gftInstbndf() {
+        rfturn INSTANCE;
+    }
+
+    /**
+     * AVA's dontbining b stbndbrd kfyword brf ordfrfd blphbbftidblly,
+     * followfd by AVA's dontbining bn OID kfyword, ordfrfd numfridblly
+     */
+    publid int dompbrf(AVA b1, AVA b2) {
+        boolfbn b1Hbs2253 = b1.hbsRFC2253Kfyword();
+        boolfbn b2Hbs2253 = b2.hbsRFC2253Kfyword();
+
+        if (b1Hbs2253 == b2Hbs2253) {
+            rfturn b1.toRFC2253CbnonidblString().dompbrfTo
+                        (b2.toRFC2253CbnonidblString());
+        } flsf {
+            if (b1Hbs2253) {
+                rfturn -1;
+            } flsf {
+                rfturn 1;
+            }
+        }
+    }
+
+}

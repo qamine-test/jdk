@@ -1,379 +1,379 @@
 /*
- * Copyright (c) 2013, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.lang.reflect;
+pbdkbgf jbvb.lbng.rfflfdt;
 
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.WeakReference;
-import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.function.BiFunction;
-import java.util.function.Supplier;
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.util.Objfdts;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+import jbvb.util.fundtion.BiFundtion;
+import jbvb.util.fundtion.Supplifr;
 
 /**
- * Cache mapping pairs of {@code (key, sub-key) -> value}. Keys and values are
- * weakly but sub-keys are strongly referenced.  Keys are passed directly to
- * {@link #get} method which also takes a {@code parameter}. Sub-keys are
- * calculated from keys and parameters using the {@code subKeyFactory} function
- * passed to the constructor. Values are calculated from keys and parameters
- * using the {@code valueFactory} function passed to the constructor.
- * Keys can be {@code null} and are compared by identity while sub-keys returned by
- * {@code subKeyFactory} or values returned by {@code valueFactory}
- * can not be null. Sub-keys are compared using their {@link #equals} method.
- * Entries are expunged from cache lazily on each invocation to {@link #get},
- * {@link #containsValue} or {@link #size} methods when the WeakReferences to
- * keys are cleared. Cleared WeakReferences to individual values don't cause
- * expunging, but such entries are logically treated as non-existent and
- * trigger re-evaluation of {@code valueFactory} on request for their
- * key/subKey.
+ * Cbdif mbpping pbirs of {@dodf (kfy, sub-kfy) -> vbluf}. Kfys bnd vblufs brf
+ * wfbkly but sub-kfys brf strongly rfffrfndfd.  Kfys brf pbssfd dirfdtly to
+ * {@link #gft} mftiod wiidi blso tbkfs b {@dodf pbrbmftfr}. Sub-kfys brf
+ * dbldulbtfd from kfys bnd pbrbmftfrs using tif {@dodf subKfyFbdtory} fundtion
+ * pbssfd to tif donstrudtor. Vblufs brf dbldulbtfd from kfys bnd pbrbmftfrs
+ * using tif {@dodf vblufFbdtory} fundtion pbssfd to tif donstrudtor.
+ * Kfys dbn bf {@dodf null} bnd brf dompbrfd by idfntity wiilf sub-kfys rfturnfd by
+ * {@dodf subKfyFbdtory} or vblufs rfturnfd by {@dodf vblufFbdtory}
+ * dbn not bf null. Sub-kfys brf dompbrfd using tifir {@link #fqubls} mftiod.
+ * Entrifs brf fxpungfd from dbdif lbzily on fbdi invodbtion to {@link #gft},
+ * {@link #dontbinsVbluf} or {@link #sizf} mftiods wifn tif WfbkRfffrfndfs to
+ * kfys brf dlfbrfd. Clfbrfd WfbkRfffrfndfs to individubl vblufs don't dbusf
+ * fxpunging, but sudi fntrifs brf logidblly trfbtfd bs non-fxistfnt bnd
+ * triggfr rf-fvblubtion of {@dodf vblufFbdtory} on rfqufst for tifir
+ * kfy/subKfy.
  *
- * @author Peter Levart
- * @param <K> type of keys
- * @param <P> type of parameters
- * @param <V> type of values
+ * @butior Pftfr Lfvbrt
+ * @pbrbm <K> typf of kfys
+ * @pbrbm <P> typf of pbrbmftfrs
+ * @pbrbm <V> typf of vblufs
  */
-final class WeakCache<K, P, V> {
+finbl dlbss WfbkCbdif<K, P, V> {
 
-    private final ReferenceQueue<K> refQueue
-        = new ReferenceQueue<>();
-    // the key type is Object for supporting null key
-    private final ConcurrentMap<Object, ConcurrentMap<Object, Supplier<V>>> map
-        = new ConcurrentHashMap<>();
-    private final ConcurrentMap<Supplier<V>, Boolean> reverseMap
-        = new ConcurrentHashMap<>();
-    private final BiFunction<K, P, ?> subKeyFactory;
-    private final BiFunction<K, P, V> valueFactory;
+    privbtf finbl RfffrfndfQufuf<K> rffQufuf
+        = nfw RfffrfndfQufuf<>();
+    // tif kfy typf is Objfdt for supporting null kfy
+    privbtf finbl CondurrfntMbp<Objfdt, CondurrfntMbp<Objfdt, Supplifr<V>>> mbp
+        = nfw CondurrfntHbsiMbp<>();
+    privbtf finbl CondurrfntMbp<Supplifr<V>, Boolfbn> rfvfrsfMbp
+        = nfw CondurrfntHbsiMbp<>();
+    privbtf finbl BiFundtion<K, P, ?> subKfyFbdtory;
+    privbtf finbl BiFundtion<K, P, V> vblufFbdtory;
 
     /**
-     * Construct an instance of {@code WeakCache}
+     * Construdt bn instbndf of {@dodf WfbkCbdif}
      *
-     * @param subKeyFactory a function mapping a pair of
-     *                      {@code (key, parameter) -> sub-key}
-     * @param valueFactory  a function mapping a pair of
-     *                      {@code (key, parameter) -> value}
-     * @throws NullPointerException if {@code subKeyFactory} or
-     *                              {@code valueFactory} is null.
+     * @pbrbm subKfyFbdtory b fundtion mbpping b pbir of
+     *                      {@dodf (kfy, pbrbmftfr) -> sub-kfy}
+     * @pbrbm vblufFbdtory  b fundtion mbpping b pbir of
+     *                      {@dodf (kfy, pbrbmftfr) -> vbluf}
+     * @tirows NullPointfrExdfption if {@dodf subKfyFbdtory} or
+     *                              {@dodf vblufFbdtory} is null.
      */
-    public WeakCache(BiFunction<K, P, ?> subKeyFactory,
-                     BiFunction<K, P, V> valueFactory) {
-        this.subKeyFactory = Objects.requireNonNull(subKeyFactory);
-        this.valueFactory = Objects.requireNonNull(valueFactory);
+    publid WfbkCbdif(BiFundtion<K, P, ?> subKfyFbdtory,
+                     BiFundtion<K, P, V> vblufFbdtory) {
+        tiis.subKfyFbdtory = Objfdts.rfquirfNonNull(subKfyFbdtory);
+        tiis.vblufFbdtory = Objfdts.rfquirfNonNull(vblufFbdtory);
     }
 
     /**
-     * Look-up the value through the cache. This always evaluates the
-     * {@code subKeyFactory} function and optionally evaluates
-     * {@code valueFactory} function if there is no entry in the cache for given
-     * pair of (key, subKey) or the entry has already been cleared.
+     * Look-up tif vbluf tirougi tif dbdif. Tiis blwbys fvblubtfs tif
+     * {@dodf subKfyFbdtory} fundtion bnd optionblly fvblubtfs
+     * {@dodf vblufFbdtory} fundtion if tifrf is no fntry in tif dbdif for givfn
+     * pbir of (kfy, subKfy) or tif fntry ibs blrfbdy bffn dlfbrfd.
      *
-     * @param key       possibly null key
-     * @param parameter parameter used together with key to create sub-key and
-     *                  value (should not be null)
-     * @return the cached value (never null)
-     * @throws NullPointerException if {@code parameter} passed in or
-     *                              {@code sub-key} calculated by
-     *                              {@code subKeyFactory} or {@code value}
-     *                              calculated by {@code valueFactory} is null.
+     * @pbrbm kfy       possibly null kfy
+     * @pbrbm pbrbmftfr pbrbmftfr usfd togftifr witi kfy to drfbtf sub-kfy bnd
+     *                  vbluf (siould not bf null)
+     * @rfturn tif dbdifd vbluf (nfvfr null)
+     * @tirows NullPointfrExdfption if {@dodf pbrbmftfr} pbssfd in or
+     *                              {@dodf sub-kfy} dbldulbtfd by
+     *                              {@dodf subKfyFbdtory} or {@dodf vbluf}
+     *                              dbldulbtfd by {@dodf vblufFbdtory} is null.
      */
-    public V get(K key, P parameter) {
-        Objects.requireNonNull(parameter);
+    publid V gft(K kfy, P pbrbmftfr) {
+        Objfdts.rfquirfNonNull(pbrbmftfr);
 
-        expungeStaleEntries();
+        fxpungfStblfEntrifs();
 
-        Object cacheKey = CacheKey.valueOf(key, refQueue);
+        Objfdt dbdifKfy = CbdifKfy.vblufOf(kfy, rffQufuf);
 
-        // lazily install the 2nd level valuesMap for the particular cacheKey
-        ConcurrentMap<Object, Supplier<V>> valuesMap = map.get(cacheKey);
-        if (valuesMap == null) {
-            ConcurrentMap<Object, Supplier<V>> oldValuesMap
-                = map.putIfAbsent(cacheKey,
-                                  valuesMap = new ConcurrentHashMap<>());
-            if (oldValuesMap != null) {
-                valuesMap = oldValuesMap;
+        // lbzily instbll tif 2nd lfvfl vblufsMbp for tif pbrtidulbr dbdifKfy
+        CondurrfntMbp<Objfdt, Supplifr<V>> vblufsMbp = mbp.gft(dbdifKfy);
+        if (vblufsMbp == null) {
+            CondurrfntMbp<Objfdt, Supplifr<V>> oldVblufsMbp
+                = mbp.putIfAbsfnt(dbdifKfy,
+                                  vblufsMbp = nfw CondurrfntHbsiMbp<>());
+            if (oldVblufsMbp != null) {
+                vblufsMbp = oldVblufsMbp;
             }
         }
 
-        // create subKey and retrieve the possible Supplier<V> stored by that
-        // subKey from valuesMap
-        Object subKey = Objects.requireNonNull(subKeyFactory.apply(key, parameter));
-        Supplier<V> supplier = valuesMap.get(subKey);
-        Factory factory = null;
+        // drfbtf subKfy bnd rftrifvf tif possiblf Supplifr<V> storfd by tibt
+        // subKfy from vblufsMbp
+        Objfdt subKfy = Objfdts.rfquirfNonNull(subKfyFbdtory.bpply(kfy, pbrbmftfr));
+        Supplifr<V> supplifr = vblufsMbp.gft(subKfy);
+        Fbdtory fbdtory = null;
 
-        while (true) {
-            if (supplier != null) {
-                // supplier might be a Factory or a CacheValue<V> instance
-                V value = supplier.get();
-                if (value != null) {
-                    return value;
+        wiilf (truf) {
+            if (supplifr != null) {
+                // supplifr migit bf b Fbdtory or b CbdifVbluf<V> instbndf
+                V vbluf = supplifr.gft();
+                if (vbluf != null) {
+                    rfturn vbluf;
                 }
             }
-            // else no supplier in cache
-            // or a supplier that returned null (could be a cleared CacheValue
-            // or a Factory that wasn't successful in installing the CacheValue)
+            // flsf no supplifr in dbdif
+            // or b supplifr tibt rfturnfd null (dould bf b dlfbrfd CbdifVbluf
+            // or b Fbdtory tibt wbsn't suddfssful in instblling tif CbdifVbluf)
 
-            // lazily construct a Factory
-            if (factory == null) {
-                factory = new Factory(key, parameter, subKey, valuesMap);
+            // lbzily donstrudt b Fbdtory
+            if (fbdtory == null) {
+                fbdtory = nfw Fbdtory(kfy, pbrbmftfr, subKfy, vblufsMbp);
             }
 
-            if (supplier == null) {
-                supplier = valuesMap.putIfAbsent(subKey, factory);
-                if (supplier == null) {
-                    // successfully installed Factory
-                    supplier = factory;
+            if (supplifr == null) {
+                supplifr = vblufsMbp.putIfAbsfnt(subKfy, fbdtory);
+                if (supplifr == null) {
+                    // suddfssfully instbllfd Fbdtory
+                    supplifr = fbdtory;
                 }
-                // else retry with winning supplier
-            } else {
-                if (valuesMap.replace(subKey, supplier, factory)) {
-                    // successfully replaced
-                    // cleared CacheEntry / unsuccessful Factory
-                    // with our Factory
-                    supplier = factory;
-                } else {
-                    // retry with current supplier
-                    supplier = valuesMap.get(subKey);
+                // flsf rftry witi winning supplifr
+            } flsf {
+                if (vblufsMbp.rfplbdf(subKfy, supplifr, fbdtory)) {
+                    // suddfssfully rfplbdfd
+                    // dlfbrfd CbdifEntry / unsuddfssful Fbdtory
+                    // witi our Fbdtory
+                    supplifr = fbdtory;
+                } flsf {
+                    // rftry witi durrfnt supplifr
+                    supplifr = vblufsMbp.gft(subKfy);
                 }
             }
         }
     }
 
     /**
-     * Checks whether the specified non-null value is already present in this
-     * {@code WeakCache}. The check is made using identity comparison regardless
-     * of whether value's class overrides {@link Object#equals} or not.
+     * Cifdks wiftifr tif spfdififd non-null vbluf is blrfbdy prfsfnt in tiis
+     * {@dodf WfbkCbdif}. Tif difdk is mbdf using idfntity dompbrison rfgbrdlfss
+     * of wiftifr vbluf's dlbss ovfrridfs {@link Objfdt#fqubls} or not.
      *
-     * @param value the non-null value to check
-     * @return true if given {@code value} is already cached
-     * @throws NullPointerException if value is null
+     * @pbrbm vbluf tif non-null vbluf to difdk
+     * @rfturn truf if givfn {@dodf vbluf} is blrfbdy dbdifd
+     * @tirows NullPointfrExdfption if vbluf is null
      */
-    public boolean containsValue(V value) {
-        Objects.requireNonNull(value);
+    publid boolfbn dontbinsVbluf(V vbluf) {
+        Objfdts.rfquirfNonNull(vbluf);
 
-        expungeStaleEntries();
-        return reverseMap.containsKey(new LookupValue<>(value));
+        fxpungfStblfEntrifs();
+        rfturn rfvfrsfMbp.dontbinsKfy(nfw LookupVbluf<>(vbluf));
     }
 
     /**
-     * Returns the current number of cached entries that
-     * can decrease over time when keys/values are GC-ed.
+     * Rfturns tif durrfnt numbfr of dbdifd fntrifs tibt
+     * dbn dfdrfbsf ovfr timf wifn kfys/vblufs brf GC-fd.
      */
-    public int size() {
-        expungeStaleEntries();
-        return reverseMap.size();
+    publid int sizf() {
+        fxpungfStblfEntrifs();
+        rfturn rfvfrsfMbp.sizf();
     }
 
-    @SuppressWarnings("unchecked") // refQueue.poll actually returns CacheKey<K>
-    private void expungeStaleEntries() {
-        CacheKey<K> cacheKey;
-        while ((cacheKey = (CacheKey<K>)refQueue.poll()) != null) {
-            cacheKey.expungeFrom(map, reverseMap);
+    @SupprfssWbrnings("undifdkfd") // rffQufuf.poll bdtublly rfturns CbdifKfy<K>
+    privbtf void fxpungfStblfEntrifs() {
+        CbdifKfy<K> dbdifKfy;
+        wiilf ((dbdifKfy = (CbdifKfy<K>)rffQufuf.poll()) != null) {
+            dbdifKfy.fxpungfFrom(mbp, rfvfrsfMbp);
         }
     }
 
     /**
-     * A factory {@link Supplier} that implements the lazy synchronized
-     * construction of the value and installment of it into the cache.
+     * A fbdtory {@link Supplifr} tibt implfmfnts tif lbzy syndironizfd
+     * donstrudtion of tif vbluf bnd instbllmfnt of it into tif dbdif.
      */
-    private final class Factory implements Supplier<V> {
+    privbtf finbl dlbss Fbdtory implfmfnts Supplifr<V> {
 
-        private final K key;
-        private final P parameter;
-        private final Object subKey;
-        private final ConcurrentMap<Object, Supplier<V>> valuesMap;
+        privbtf finbl K kfy;
+        privbtf finbl P pbrbmftfr;
+        privbtf finbl Objfdt subKfy;
+        privbtf finbl CondurrfntMbp<Objfdt, Supplifr<V>> vblufsMbp;
 
-        Factory(K key, P parameter, Object subKey,
-                ConcurrentMap<Object, Supplier<V>> valuesMap) {
-            this.key = key;
-            this.parameter = parameter;
-            this.subKey = subKey;
-            this.valuesMap = valuesMap;
+        Fbdtory(K kfy, P pbrbmftfr, Objfdt subKfy,
+                CondurrfntMbp<Objfdt, Supplifr<V>> vblufsMbp) {
+            tiis.kfy = kfy;
+            tiis.pbrbmftfr = pbrbmftfr;
+            tiis.subKfy = subKfy;
+            tiis.vblufsMbp = vblufsMbp;
         }
 
-        @Override
-        public synchronized V get() { // serialize access
-            // re-check
-            Supplier<V> supplier = valuesMap.get(subKey);
-            if (supplier != this) {
-                // something changed while we were waiting:
-                // might be that we were replaced by a CacheValue
-                // or were removed because of failure ->
-                // return null to signal WeakCache.get() to retry
-                // the loop
-                return null;
+        @Ovfrridf
+        publid syndironizfd V gft() { // sfriblizf bddfss
+            // rf-difdk
+            Supplifr<V> supplifr = vblufsMbp.gft(subKfy);
+            if (supplifr != tiis) {
+                // somftiing dibngfd wiilf wf wfrf wbiting:
+                // migit bf tibt wf wfrf rfplbdfd by b CbdifVbluf
+                // or wfrf rfmovfd bfdbusf of fbilurf ->
+                // rfturn null to signbl WfbkCbdif.gft() to rftry
+                // tif loop
+                rfturn null;
             }
-            // else still us (supplier == this)
+            // flsf still us (supplifr == tiis)
 
-            // create new value
-            V value = null;
+            // drfbtf nfw vbluf
+            V vbluf = null;
             try {
-                value = Objects.requireNonNull(valueFactory.apply(key, parameter));
-            } finally {
-                if (value == null) { // remove us on failure
-                    valuesMap.remove(subKey, this);
+                vbluf = Objfdts.rfquirfNonNull(vblufFbdtory.bpply(kfy, pbrbmftfr));
+            } finblly {
+                if (vbluf == null) { // rfmovf us on fbilurf
+                    vblufsMbp.rfmovf(subKfy, tiis);
                 }
             }
-            // the only path to reach here is with non-null value
-            assert value != null;
+            // tif only pbti to rfbdi ifrf is witi non-null vbluf
+            bssfrt vbluf != null;
 
-            // wrap value with CacheValue (WeakReference)
-            CacheValue<V> cacheValue = new CacheValue<>(value);
+            // wrbp vbluf witi CbdifVbluf (WfbkRfffrfndf)
+            CbdifVbluf<V> dbdifVbluf = nfw CbdifVbluf<>(vbluf);
 
-            // try replacing us with CacheValue (this should always succeed)
-            if (valuesMap.replace(subKey, this, cacheValue)) {
-                // put also in reverseMap
-                reverseMap.put(cacheValue, Boolean.TRUE);
-            } else {
-                throw new AssertionError("Should not reach here");
+            // try rfplbding us witi CbdifVbluf (tiis siould blwbys suddffd)
+            if (vblufsMbp.rfplbdf(subKfy, tiis, dbdifVbluf)) {
+                // put blso in rfvfrsfMbp
+                rfvfrsfMbp.put(dbdifVbluf, Boolfbn.TRUE);
+            } flsf {
+                tirow nfw AssfrtionError("Siould not rfbdi ifrf");
             }
 
-            // successfully replaced us with new CacheValue -> return the value
-            // wrapped by it
-            return value;
+            // suddfssfully rfplbdfd us witi nfw CbdifVbluf -> rfturn tif vbluf
+            // wrbppfd by it
+            rfturn vbluf;
         }
     }
 
     /**
-     * Common type of value suppliers that are holding a referent.
-     * The {@link #equals} and {@link #hashCode} of implementations is defined
-     * to compare the referent by identity.
+     * Common typf of vbluf supplifrs tibt brf iolding b rfffrfnt.
+     * Tif {@link #fqubls} bnd {@link #ibsiCodf} of implfmfntbtions is dffinfd
+     * to dompbrf tif rfffrfnt by idfntity.
      */
-    private interface Value<V> extends Supplier<V> {}
+    privbtf intfrfbdf Vbluf<V> fxtfnds Supplifr<V> {}
 
     /**
-     * An optimized {@link Value} used to look-up the value in
-     * {@link WeakCache#containsValue} method so that we are not
-     * constructing the whole {@link CacheValue} just to look-up the referent.
+     * An optimizfd {@link Vbluf} usfd to look-up tif vbluf in
+     * {@link WfbkCbdif#dontbinsVbluf} mftiod so tibt wf brf not
+     * donstrudting tif wiolf {@link CbdifVbluf} just to look-up tif rfffrfnt.
      */
-    private static final class LookupValue<V> implements Value<V> {
-        private final V value;
+    privbtf stbtid finbl dlbss LookupVbluf<V> implfmfnts Vbluf<V> {
+        privbtf finbl V vbluf;
 
-        LookupValue(V value) {
-            this.value = value;
+        LookupVbluf(V vbluf) {
+            tiis.vbluf = vbluf;
         }
 
-        @Override
-        public V get() {
-            return value;
+        @Ovfrridf
+        publid V gft() {
+            rfturn vbluf;
         }
 
-        @Override
-        public int hashCode() {
-            return System.identityHashCode(value); // compare by identity
+        @Ovfrridf
+        publid int ibsiCodf() {
+            rfturn Systfm.idfntityHbsiCodf(vbluf); // dompbrf by idfntity
         }
 
-        @Override
-        public boolean equals(Object obj) {
-            return obj == this ||
-                   obj instanceof Value &&
-                   this.value == ((Value<?>) obj).get();  // compare by identity
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt obj) {
+            rfturn obj == tiis ||
+                   obj instbndfof Vbluf &&
+                   tiis.vbluf == ((Vbluf<?>) obj).gft();  // dompbrf by idfntity
         }
     }
 
     /**
-     * A {@link Value} that weakly references the referent.
+     * A {@link Vbluf} tibt wfbkly rfffrfndfs tif rfffrfnt.
      */
-    private static final class CacheValue<V>
-        extends WeakReference<V> implements Value<V>
+    privbtf stbtid finbl dlbss CbdifVbluf<V>
+        fxtfnds WfbkRfffrfndf<V> implfmfnts Vbluf<V>
     {
-        private final int hash;
+        privbtf finbl int ibsi;
 
-        CacheValue(V value) {
-            super(value);
-            this.hash = System.identityHashCode(value); // compare by identity
+        CbdifVbluf(V vbluf) {
+            supfr(vbluf);
+            tiis.ibsi = Systfm.idfntityHbsiCodf(vbluf); // dompbrf by idfntity
         }
 
-        @Override
-        public int hashCode() {
-            return hash;
+        @Ovfrridf
+        publid int ibsiCodf() {
+            rfturn ibsi;
         }
 
-        @Override
-        public boolean equals(Object obj) {
-            V value;
-            return obj == this ||
-                   obj instanceof Value &&
-                   // cleared CacheValue is only equal to itself
-                   (value = get()) != null &&
-                   value == ((Value<?>) obj).get(); // compare by identity
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt obj) {
+            V vbluf;
+            rfturn obj == tiis ||
+                   obj instbndfof Vbluf &&
+                   // dlfbrfd CbdifVbluf is only fqubl to itsflf
+                   (vbluf = gft()) != null &&
+                   vbluf == ((Vbluf<?>) obj).gft(); // dompbrf by idfntity
         }
     }
 
     /**
-     * CacheKey containing a weakly referenced {@code key}. It registers
-     * itself with the {@code refQueue} so that it can be used to expunge
-     * the entry when the {@link WeakReference} is cleared.
+     * CbdifKfy dontbining b wfbkly rfffrfndfd {@dodf kfy}. It rfgistfrs
+     * itsflf witi tif {@dodf rffQufuf} so tibt it dbn bf usfd to fxpungf
+     * tif fntry wifn tif {@link WfbkRfffrfndf} is dlfbrfd.
      */
-    private static final class CacheKey<K> extends WeakReference<K> {
+    privbtf stbtid finbl dlbss CbdifKfy<K> fxtfnds WfbkRfffrfndf<K> {
 
-        // a replacement for null keys
-        private static final Object NULL_KEY = new Object();
+        // b rfplbdfmfnt for null kfys
+        privbtf stbtid finbl Objfdt NULL_KEY = nfw Objfdt();
 
-        static <K> Object valueOf(K key, ReferenceQueue<K> refQueue) {
-            return key == null
-                   // null key means we can't weakly reference it,
-                   // so we use a NULL_KEY singleton as cache key
+        stbtid <K> Objfdt vblufOf(K kfy, RfffrfndfQufuf<K> rffQufuf) {
+            rfturn kfy == null
+                   // null kfy mfbns wf dbn't wfbkly rfffrfndf it,
+                   // so wf usf b NULL_KEY singlfton bs dbdif kfy
                    ? NULL_KEY
-                   // non-null key requires wrapping with a WeakReference
-                   : new CacheKey<>(key, refQueue);
+                   // non-null kfy rfquirfs wrbpping witi b WfbkRfffrfndf
+                   : nfw CbdifKfy<>(kfy, rffQufuf);
         }
 
-        private final int hash;
+        privbtf finbl int ibsi;
 
-        private CacheKey(K key, ReferenceQueue<K> refQueue) {
-            super(key, refQueue);
-            this.hash = System.identityHashCode(key);  // compare by identity
+        privbtf CbdifKfy(K kfy, RfffrfndfQufuf<K> rffQufuf) {
+            supfr(kfy, rffQufuf);
+            tiis.ibsi = Systfm.idfntityHbsiCodf(kfy);  // dompbrf by idfntity
         }
 
-        @Override
-        public int hashCode() {
-            return hash;
+        @Ovfrridf
+        publid int ibsiCodf() {
+            rfturn ibsi;
         }
 
-        @Override
-        @SuppressWarnings("unchecked")
-        public boolean equals(Object obj) {
-            K key;
-            return obj == this ||
+        @Ovfrridf
+        @SupprfssWbrnings("undifdkfd")
+        publid boolfbn fqubls(Objfdt obj) {
+            K kfy;
+            rfturn obj == tiis ||
                    obj != null &&
-                   obj.getClass() == this.getClass() &&
-                   // cleared CacheKey is only equal to itself
-                   (key = this.get()) != null &&
-                   // compare key by identity
-                   key == ((CacheKey<K>) obj).get(); // Cast is safe from getClass check
+                   obj.gftClbss() == tiis.gftClbss() &&
+                   // dlfbrfd CbdifKfy is only fqubl to itsflf
+                   (kfy = tiis.gft()) != null &&
+                   // dompbrf kfy by idfntity
+                   kfy == ((CbdifKfy<K>) obj).gft(); // Cbst is sbff from gftClbss difdk
         }
 
-        void expungeFrom(ConcurrentMap<?, ? extends ConcurrentMap<?, ?>> map,
-                         ConcurrentMap<?, Boolean> reverseMap) {
-            // removing just by key is always safe here because after a CacheKey
-            // is cleared and enqueue-ed it is only equal to itself
-            // (see equals method)...
-            ConcurrentMap<?, ?> valuesMap = map.remove(this);
-            // remove also from reverseMap if needed
-            if (valuesMap != null) {
-                for (Object cacheValue : valuesMap.values()) {
-                    reverseMap.remove(cacheValue);
+        void fxpungfFrom(CondurrfntMbp<?, ? fxtfnds CondurrfntMbp<?, ?>> mbp,
+                         CondurrfntMbp<?, Boolfbn> rfvfrsfMbp) {
+            // rfmoving just by kfy is blwbys sbff ifrf bfdbusf bftfr b CbdifKfy
+            // is dlfbrfd bnd fnqufuf-fd it is only fqubl to itsflf
+            // (sff fqubls mftiod)...
+            CondurrfntMbp<?, ?> vblufsMbp = mbp.rfmovf(tiis);
+            // rfmovf blso from rfvfrsfMbp if nffdfd
+            if (vblufsMbp != null) {
+                for (Objfdt dbdifVbluf : vblufsMbp.vblufs()) {
+                    rfvfrsfMbp.rfmovf(dbdifVbluf);
                 }
             }
         }

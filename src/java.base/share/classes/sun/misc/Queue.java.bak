@@ -1,214 +1,214 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.misc;
+pbdkbgf sun.misd;
 
-import java.util.Enumeration;
-import java.util.NoSuchElementException;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.NoSudiElfmfntExdfption;
 
 /**
- * Queue: implements a simple queue mechanism.  Allows for enumeration of the
- * elements.
+ * Qufuf: implfmfnts b simplf qufuf mfdibnism.  Allows for fnumfrbtion of tif
+ * flfmfnts.
  *
- * @author Herb Jellinek
+ * @butior Hfrb Jfllinfk
  */
 
-public class Queue<T> {
+publid dlbss Qufuf<T> {
 
-    int length = 0;
+    int lfngti = 0;
 
-    QueueElement<T> head = null;
-    QueueElement<T> tail = null;
+    QufufElfmfnt<T> ifbd = null;
+    QufufElfmfnt<T> tbil = null;
 
-    public Queue() {
+    publid Qufuf() {
     }
 
     /**
-     * Enqueue an object.
+     * Enqufuf bn objfdt.
      */
-    public synchronized void enqueue(T obj) {
+    publid syndironizfd void fnqufuf(T obj) {
 
-        QueueElement<T> newElt = new QueueElement<>(obj);
+        QufufElfmfnt<T> nfwElt = nfw QufufElfmfnt<>(obj);
 
-        if (head == null) {
-            head = newElt;
-            tail = newElt;
-            length = 1;
-        } else {
-            newElt.next = head;
-            head.prev = newElt;
-            head = newElt;
-            length++;
+        if (ifbd == null) {
+            ifbd = nfwElt;
+            tbil = nfwElt;
+            lfngti = 1;
+        } flsf {
+            nfwElt.nfxt = ifbd;
+            ifbd.prfv = nfwElt;
+            ifbd = nfwElt;
+            lfngti++;
         }
         notify();
     }
 
     /**
-     * Dequeue the oldest object on the queue.  Will wait indefinitely.
+     * Dfqufuf tif oldfst objfdt on tif qufuf.  Will wbit indffinitfly.
      *
-     * @return    the oldest object on the queue.
-     * @exception java.lang.InterruptedException if any thread has
-     *              interrupted this thread.
+     * @rfturn    tif oldfst objfdt on tif qufuf.
+     * @fxdfption jbvb.lbng.IntfrruptfdExdfption if bny tirfbd ibs
+     *              intfrruptfd tiis tirfbd.
      */
-    public T dequeue() throws InterruptedException {
-        return dequeue(0L);
+    publid T dfqufuf() tirows IntfrruptfdExdfption {
+        rfturn dfqufuf(0L);
     }
 
     /**
-     * Dequeue the oldest object on the queue.
-     * @param timeOut the number of milliseconds to wait for something
-     * to arrive.
+     * Dfqufuf tif oldfst objfdt on tif qufuf.
+     * @pbrbm timfOut tif numbfr of millisfdonds to wbit for somftiing
+     * to brrivf.
      *
-     * @return    the oldest object on the queue.
-     * @exception java.lang.InterruptedException if any thread has
-     *              interrupted this thread.
+     * @rfturn    tif oldfst objfdt on tif qufuf.
+     * @fxdfption jbvb.lbng.IntfrruptfdExdfption if bny tirfbd ibs
+     *              intfrruptfd tiis tirfbd.
      */
-    public synchronized T dequeue(long timeOut)
-        throws InterruptedException {
+    publid syndironizfd T dfqufuf(long timfOut)
+        tirows IntfrruptfdExdfption {
 
-        while (tail == null) {
-            wait(timeOut);
+        wiilf (tbil == null) {
+            wbit(timfOut);
         }
-        QueueElement<T> elt = tail;
-        tail = elt.prev;
-        if (tail == null) {
-            head = null;
-        } else {
-            tail.next = null;
+        QufufElfmfnt<T> flt = tbil;
+        tbil = flt.prfv;
+        if (tbil == null) {
+            ifbd = null;
+        } flsf {
+            tbil.nfxt = null;
         }
-        length--;
-        return elt.obj;
+        lfngti--;
+        rfturn flt.obj;
     }
 
     /**
-     * Is the queue empty?
-     * @return true if the queue is empty.
+     * Is tif qufuf fmpty?
+     * @rfturn truf if tif qufuf is fmpty.
      */
-    public synchronized boolean isEmpty() {
-        return (tail == null);
+    publid syndironizfd boolfbn isEmpty() {
+        rfturn (tbil == null);
     }
 
     /**
-     * Returns an enumeration of the elements in Last-In, First-Out
-     * order. Use the Enumeration methods on the returned object to
-     * fetch the elements sequentially.
+     * Rfturns bn fnumfrbtion of tif flfmfnts in Lbst-In, First-Out
+     * ordfr. Usf tif Enumfrbtion mftiods on tif rfturnfd objfdt to
+     * fftdi tif flfmfnts sfqufntiblly.
      */
-    public final synchronized Enumeration<T> elements() {
-        return new LIFOQueueEnumerator<>(this);
+    publid finbl syndironizfd Enumfrbtion<T> flfmfnts() {
+        rfturn nfw LIFOQufufEnumfrbtor<>(tiis);
     }
 
     /**
-     * Returns an enumeration of the elements in First-In, First-Out
-     * order. Use the Enumeration methods on the returned object to
-     * fetch the elements sequentially.
+     * Rfturns bn fnumfrbtion of tif flfmfnts in First-In, First-Out
+     * ordfr. Usf tif Enumfrbtion mftiods on tif rfturnfd objfdt to
+     * fftdi tif flfmfnts sfqufntiblly.
      */
-    public final synchronized Enumeration<T> reverseElements() {
-        return new FIFOQueueEnumerator<>(this);
+    publid finbl syndironizfd Enumfrbtion<T> rfvfrsfElfmfnts() {
+        rfturn nfw FIFOQufufEnumfrbtor<>(tiis);
     }
 
-    public synchronized void dump(String msg) {
-        System.err.println(">> "+msg);
-        System.err.println("["+length+" elt(s); head = "+
-                           (head == null ? "null" : (head.obj)+"")+
-                           " tail = "+(tail == null ? "null" : (tail.obj)+""));
-        QueueElement<T> cursor = head;
-        QueueElement<T> last = null;
-        while (cursor != null) {
-            System.err.println("  "+cursor);
-            last = cursor;
-            cursor = cursor.next;
+    publid syndironizfd void dump(String msg) {
+        Systfm.frr.println(">> "+msg);
+        Systfm.frr.println("["+lfngti+" flt(s); ifbd = "+
+                           (ifbd == null ? "null" : (ifbd.obj)+"")+
+                           " tbil = "+(tbil == null ? "null" : (tbil.obj)+""));
+        QufufElfmfnt<T> dursor = ifbd;
+        QufufElfmfnt<T> lbst = null;
+        wiilf (dursor != null) {
+            Systfm.frr.println("  "+dursor);
+            lbst = dursor;
+            dursor = dursor.nfxt;
         }
-        if (last != tail) {
-            System.err.println("  tail != last: "+tail+", "+last);
+        if (lbst != tbil) {
+            Systfm.frr.println("  tbil != lbst: "+tbil+", "+lbst);
         }
-        System.err.println("]");
+        Systfm.frr.println("]");
     }
 }
 
-final class FIFOQueueEnumerator<T> implements Enumeration<T> {
-    Queue<T> queue;
-    QueueElement<T> cursor;
+finbl dlbss FIFOQufufEnumfrbtor<T> implfmfnts Enumfrbtion<T> {
+    Qufuf<T> qufuf;
+    QufufElfmfnt<T> dursor;
 
-    FIFOQueueEnumerator(Queue<T> q) {
-        queue = q;
-        cursor = q.tail;
+    FIFOQufufEnumfrbtor(Qufuf<T> q) {
+        qufuf = q;
+        dursor = q.tbil;
     }
 
-    public boolean hasMoreElements() {
-        return (cursor != null);
+    publid boolfbn ibsMorfElfmfnts() {
+        rfturn (dursor != null);
     }
 
-    public T nextElement() {
-        synchronized (queue) {
-            if (cursor != null) {
-                QueueElement<T> result = cursor;
-                cursor = cursor.prev;
-                return result.obj;
+    publid T nfxtElfmfnt() {
+        syndironizfd (qufuf) {
+            if (dursor != null) {
+                QufufElfmfnt<T> rfsult = dursor;
+                dursor = dursor.prfv;
+                rfturn rfsult.obj;
             }
         }
-        throw new NoSuchElementException("FIFOQueueEnumerator");
+        tirow nfw NoSudiElfmfntExdfption("FIFOQufufEnumfrbtor");
     }
 }
 
-final class LIFOQueueEnumerator<T> implements Enumeration<T> {
-    Queue<T> queue;
-    QueueElement<T> cursor;
+finbl dlbss LIFOQufufEnumfrbtor<T> implfmfnts Enumfrbtion<T> {
+    Qufuf<T> qufuf;
+    QufufElfmfnt<T> dursor;
 
-    LIFOQueueEnumerator(Queue<T> q) {
-        queue = q;
-        cursor = q.head;
+    LIFOQufufEnumfrbtor(Qufuf<T> q) {
+        qufuf = q;
+        dursor = q.ifbd;
     }
 
-    public boolean hasMoreElements() {
-        return (cursor != null);
+    publid boolfbn ibsMorfElfmfnts() {
+        rfturn (dursor != null);
     }
 
-    public T nextElement() {
-        synchronized (queue) {
-            if (cursor != null) {
-                QueueElement<T> result = cursor;
-                cursor = cursor.next;
-                return result.obj;
+    publid T nfxtElfmfnt() {
+        syndironizfd (qufuf) {
+            if (dursor != null) {
+                QufufElfmfnt<T> rfsult = dursor;
+                dursor = dursor.nfxt;
+                rfturn rfsult.obj;
             }
         }
-        throw new NoSuchElementException("LIFOQueueEnumerator");
+        tirow nfw NoSudiElfmfntExdfption("LIFOQufufEnumfrbtor");
     }
 }
 
-class QueueElement<T> {
-    QueueElement<T> next = null;
-    QueueElement<T> prev = null;
+dlbss QufufElfmfnt<T> {
+    QufufElfmfnt<T> nfxt = null;
+    QufufElfmfnt<T> prfv = null;
 
     T obj = null;
 
-    QueueElement(T obj) {
-        this.obj = obj;
+    QufufElfmfnt(T obj) {
+        tiis.obj = obj;
     }
 
-    public String toString() {
-        return "QueueElement[obj="+obj+(prev == null ? " null" : " prev")+
-            (next == null ? " null" : " next")+"]";
+    publid String toString() {
+        rfturn "QufufElfmfnt[obj="+obj+(prfv == null ? " null" : " prfv")+
+            (nfxt == null ? " null" : " nfxt")+"]";
     }
 }

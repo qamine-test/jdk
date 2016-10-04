@@ -1,825 +1,825 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <errno.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in_systm.h>
-#include <netinet/in.h>
-#include <netinet/ip.h>
-#include <netinet/ip_icmp.h>
-#include <netdb.h>
-#include <string.h>
-#include <stdlib.h>
-#include <ctype.h>
+#indludf <frrno.i>
+#indludf <sys/timf.i>
+#indludf <sys/typfs.i>
+#indludf <sys/sodkft.i>
+#indludf <nftinft/in_systm.i>
+#indludf <nftinft/in.i>
+#indludf <nftinft/ip.i>
+#indludf <nftinft/ip_idmp.i>
+#indludf <nftdb.i>
+#indludf <string.i>
+#indludf <stdlib.i>
+#indludf <dtypf.i>
 
-#ifdef _ALLBSD_SOURCE
-#include <unistd.h>
-#include <sys/param.h>
-#endif
+#ifdff _ALLBSD_SOURCE
+#indludf <unistd.i>
+#indludf <sys/pbrbm.i>
+#fndif
 
-#include "jvm.h"
-#include "jni_util.h"
-#include "net_util.h"
+#indludf "jvm.i"
+#indludf "jni_util.i"
+#indludf "nft_util.i"
 
-#include "java_net_Inet4AddressImpl.h"
+#indludf "jbvb_nft_Inft4AddrfssImpl.i"
 
-#if defined(__GLIBC__) || (defined(__FreeBSD__) && (__FreeBSD_version >= 601104))
-#define HAS_GLIBC_GETHOSTBY_R   1
-#endif
+#if dffinfd(__GLIBC__) || (dffinfd(__FrffBSD__) && (__FrffBSD_vfrsion >= 601104))
+#dffinf HAS_GLIBC_GETHOSTBY_R   1
+#fndif
 
 
-#if defined(_ALLBSD_SOURCE) && !defined(HAS_GLIBC_GETHOSTBY_R)
-extern jobjectArray lookupIfLocalhost(JNIEnv *env, const char *hostname, jboolean includeV6);
+#if dffinfd(_ALLBSD_SOURCE) && !dffinfd(HAS_GLIBC_GETHOSTBY_R)
+fxtfrn jobjfdtArrby lookupIfLodbliost(JNIEnv *fnv, donst dibr *iostnbmf, jboolfbn indludfV6);
 
-/* Use getaddrinfo(3), which is thread safe */
+/* Usf gftbddrinfo(3), wiidi is tirfbd sbff */
 /************************************************************************
- * Inet4AddressImpl
+ * Inft4AddrfssImpl
  */
 
 /*
- * Class:     java_net_Inet4AddressImpl
- * Method:    getLocalHostName
- * Signature: ()Ljava/lang/String;
+ * Clbss:     jbvb_nft_Inft4AddrfssImpl
+ * Mftiod:    gftLodblHostNbmf
+ * Signbturf: ()Ljbvb/lbng/String;
  */
 JNIEXPORT jstring JNICALL
-Java_java_net_Inet4AddressImpl_getLocalHostName(JNIEnv *env, jobject this) {
-    char hostname[NI_MAXHOST+1];
+Jbvb_jbvb_nft_Inft4AddrfssImpl_gftLodblHostNbmf(JNIEnv *fnv, jobjfdt tiis) {
+    dibr iostnbmf[NI_MAXHOST+1];
 
-    hostname[0] = '\0';
-    if (gethostname(hostname, NI_MAXHOST)) {
-        /* Something went wrong, maybe networking is not setup? */
-        strcpy(hostname, "localhost");
-    } else {
-         struct addrinfo  hints, *res;
-         int error;
+    iostnbmf[0] = '\0';
+    if (gftiostnbmf(iostnbmf, NI_MAXHOST)) {
+        /* Somftiing wfnt wrong, mbybf nftworking is not sftup? */
+        strdpy(iostnbmf, "lodbliost");
+    } flsf {
+         strudt bddrinfo  iints, *rfs;
+         int frror;
 
-         memset(&hints, 0, sizeof(hints));
-         hints.ai_flags = AI_CANONNAME;
-         hints.ai_family = AF_UNSPEC;
+         mfmsft(&iints, 0, sizfof(iints));
+         iints.bi_flbgs = AI_CANONNAME;
+         iints.bi_fbmily = AF_UNSPEC;
 
-         error = getaddrinfo(hostname, NULL, &hints, &res);
+         frror = gftbddrinfo(iostnbmf, NULL, &iints, &rfs);
 
-         if (error == 0) {
-             /* host is known to name service */
-             error = getnameinfo(res->ai_addr,
-                                 res->ai_addrlen,
-                                 hostname,
+         if (frror == 0) {
+             /* iost is known to nbmf sfrvidf */
+             frror = gftnbmfinfo(rfs->bi_bddr,
+                                 rfs->bi_bddrlfn,
+                                 iostnbmf,
                                  NI_MAXHOST,
                                  NULL,
                                  0,
                                  NI_NAMEREQD);
 
-             /* if getnameinfo fails hostname is still the value
-                from gethostname */
+             /* if gftnbmfinfo fbils iostnbmf is still tif vbluf
+                from gftiostnbmf */
 
-             freeaddrinfo(res);
+             frffbddrinfo(rfs);
         }
     }
-    return (*env)->NewStringUTF(env, hostname);
+    rfturn (*fnv)->NfwStringUTF(fnv, iostnbmf);
 }
 
 /*
- * Find an internet address for a given hostname.  Note that this
- * code only works for addresses of type INET. The translation
- * of %d.%d.%d.%d to an address (int) occurs in java now, so the
- * String "host" shouldn't *ever* be a %d.%d.%d.%d string
+ * Find bn intfrnft bddrfss for b givfn iostnbmf.  Notf tibt tiis
+ * dodf only works for bddrfssfs of typf INET. Tif trbnslbtion
+ * of %d.%d.%d.%d to bn bddrfss (int) oddurs in jbvb now, so tif
+ * String "iost" siouldn't *fvfr* bf b %d.%d.%d.%d string
  *
- * Class:     java_net_Inet4AddressImpl
- * Method:    lookupAllHostAddr
- * Signature: (Ljava/lang/String;)[[B
+ * Clbss:     jbvb_nft_Inft4AddrfssImpl
+ * Mftiod:    lookupAllHostAddr
+ * Signbturf: (Ljbvb/lbng/String;)[[B
  */
 
-JNIEXPORT jobjectArray JNICALL
-Java_java_net_Inet4AddressImpl_lookupAllHostAddr(JNIEnv *env, jobject this,
-                                                jstring host) {
-    const char *hostname;
-    jobject name;
-    jobjectArray ret = 0;
-    int retLen = 0;
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_jbvb_nft_Inft4AddrfssImpl_lookupAllHostAddr(JNIEnv *fnv, jobjfdt tiis,
+                                                jstring iost) {
+    donst dibr *iostnbmf;
+    jobjfdt nbmf;
+    jobjfdtArrby rft = 0;
+    int rftLfn = 0;
 
-    int error=0;
-    struct addrinfo hints, *res, *resNew = NULL;
+    int frror=0;
+    strudt bddrinfo iints, *rfs, *rfsNfw = NULL;
 
-    initInetAddressIDs(env);
-    JNU_CHECK_EXCEPTION_RETURN(env, NULL);
+    initInftAddrfssIDs(fnv);
+    JNU_CHECK_EXCEPTION_RETURN(fnv, NULL);
 
-    if (IS_NULL(host)) {
-        JNU_ThrowNullPointerException(env, "host is null");
-        return 0;
+    if (IS_NULL(iost)) {
+        JNU_TirowNullPointfrExdfption(fnv, "iost is null");
+        rfturn 0;
     }
-    hostname = JNU_GetStringPlatformChars(env, host, JNI_FALSE);
-    CHECK_NULL_RETURN(hostname, NULL);
+    iostnbmf = JNU_GftStringPlbtformCibrs(fnv, iost, JNI_FALSE);
+    CHECK_NULL_RETURN(iostnbmf, NULL);
 
-    memset(&hints, 0, sizeof(hints));
-    hints.ai_flags = AI_CANONNAME;
-    hints.ai_family = AF_INET;
+    mfmsft(&iints, 0, sizfof(iints));
+    iints.bi_flbgs = AI_CANONNAME;
+    iints.bi_fbmily = AF_INET;
 
     /*
-     * Workaround for Solaris bug 4160367 - if a hostname contains a
-     * white space then 0.0.0.0 is returned
+     * Workbround for Solbris bug 4160367 - if b iostnbmf dontbins b
+     * wiitf spbdf tifn 0.0.0.0 is rfturnfd
      */
-    if (isspace((unsigned char)hostname[0])) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "UnknownHostException",
-                        (char *)hostname);
-        JNU_ReleaseStringPlatformChars(env, host, hostname);
-        return NULL;
+    if (isspbdf((unsignfd dibr)iostnbmf[0])) {
+        JNU_TirowByNbmf(fnv, JNU_JAVANETPKG "UnknownHostExdfption",
+                        (dibr *)iostnbmf);
+        JNU_RflfbsfStringPlbtformCibrs(fnv, iost, iostnbmf);
+        rfturn NULL;
     }
 
-#ifdef MACOSX
-    /* If we're looking up the local machine, bypass DNS lookups and get
-     * address from getifaddrs.
+#ifdff MACOSX
+    /* If wf'rf looking up tif lodbl mbdiinf, bypbss DNS lookups bnd gft
+     * bddrfss from gftifbddrs.
      */
-    ret = lookupIfLocalhost(env, hostname, JNI_FALSE);
-    if (ret != NULL || (*env)->ExceptionCheck(env)) {
-        JNU_ReleaseStringPlatformChars(env, host, hostname);
-        return ret;
+    rft = lookupIfLodbliost(fnv, iostnbmf, JNI_FALSE);
+    if (rft != NULL || (*fnv)->ExdfptionCifdk(fnv)) {
+        JNU_RflfbsfStringPlbtformCibrs(fnv, iost, iostnbmf);
+        rfturn rft;
     }
-#endif
+#fndif
 
-    error = getaddrinfo(hostname, NULL, &hints, &res);
+    frror = gftbddrinfo(iostnbmf, NULL, &iints, &rfs);
 
-    if (error) {
-        /* report error */
-        NET_ThrowUnknownHostExceptionWithGaiError(env, hostname, error);
-        JNU_ReleaseStringPlatformChars(env, host, hostname);
-        return NULL;
-    } else {
+    if (frror) {
+        /* rfport frror */
+        NET_TirowUnknownHostExdfptionWitiGbiError(fnv, iostnbmf, frror);
+        JNU_RflfbsfStringPlbtformCibrs(fnv, iost, iostnbmf);
+        rfturn NULL;
+    } flsf {
         int i = 0;
-        struct addrinfo *itr, *last = NULL, *iterator = res;
-        while (iterator != NULL) {
+        strudt bddrinfo *itr, *lbst = NULL, *itfrbtor = rfs;
+        wiilf (itfrbtor != NULL) {
             int skip = 0;
-            itr = resNew;
+            itr = rfsNfw;
 
-            while (itr != NULL) {
-                struct sockaddr_in *addr1, *addr2;
+            wiilf (itr != NULL) {
+                strudt sodkbddr_in *bddr1, *bddr2;
 
-                addr1 = (struct sockaddr_in *)iterator->ai_addr;
-                addr2 = (struct sockaddr_in *)itr->ai_addr;
-                if (addr1->sin_addr.s_addr ==
-                    addr2->sin_addr.s_addr) {
+                bddr1 = (strudt sodkbddr_in *)itfrbtor->bi_bddr;
+                bddr2 = (strudt sodkbddr_in *)itr->bi_bddr;
+                if (bddr1->sin_bddr.s_bddr ==
+                    bddr2->sin_bddr.s_bddr) {
                     skip = 1;
-                    break;
+                    brfbk;
                 }
 
-                itr = itr->ai_next;
+                itr = itr->bi_nfxt;
             }
 
             if (!skip) {
-                struct addrinfo *next
-                    = (struct addrinfo*) malloc(sizeof(struct addrinfo));
-                if (!next) {
-                    JNU_ThrowOutOfMemoryError(env, "Native heap allocation failed");
-                    ret = NULL;
-                    goto cleanupAndReturn;
+                strudt bddrinfo *nfxt
+                    = (strudt bddrinfo*) mbllod(sizfof(strudt bddrinfo));
+                if (!nfxt) {
+                    JNU_TirowOutOfMfmoryError(fnv, "Nbtivf ifbp bllodbtion fbilfd");
+                    rft = NULL;
+                    goto dlfbnupAndRfturn;
                 }
-                memcpy(next, iterator, sizeof(struct addrinfo));
-                next->ai_next = NULL;
-                if (resNew == NULL) {
-                    resNew = next;
-                } else {
-                    last->ai_next = next;
+                mfmdpy(nfxt, itfrbtor, sizfof(strudt bddrinfo));
+                nfxt->bi_nfxt = NULL;
+                if (rfsNfw == NULL) {
+                    rfsNfw = nfxt;
+                } flsf {
+                    lbst->bi_nfxt = nfxt;
                 }
-                last = next;
+                lbst = nfxt;
                 i++;
             }
-            iterator = iterator->ai_next;
+            itfrbtor = itfrbtor->bi_nfxt;
         }
 
-        retLen = i;
-        iterator = resNew;
+        rftLfn = i;
+        itfrbtor = rfsNfw;
         i = 0;
 
-        name = (*env)->NewStringUTF(env, hostname);
-        if (IS_NULL(name)) {
-          goto cleanupAndReturn;
+        nbmf = (*fnv)->NfwStringUTF(fnv, iostnbmf);
+        if (IS_NULL(nbmf)) {
+          goto dlfbnupAndRfturn;
         }
 
-        ret = (*env)->NewObjectArray(env, retLen, ia_class, NULL);
-        if (IS_NULL(ret)) {
-            /* we may have memory to free at the end of this */
-            goto cleanupAndReturn;
+        rft = (*fnv)->NfwObjfdtArrby(fnv, rftLfn, ib_dlbss, NULL);
+        if (IS_NULL(rft)) {
+            /* wf mby ibvf mfmory to frff bt tif fnd of tiis */
+            goto dlfbnupAndRfturn;
         }
 
-        while (iterator != NULL) {
-            /* We need 4 bytes to store ipv4 address; */
-            int len = 4;
+        wiilf (itfrbtor != NULL) {
+            /* Wf nffd 4 bytfs to storf ipv4 bddrfss; */
+            int lfn = 4;
 
-            jobject iaObj = (*env)->NewObject(env, ia4_class, ia4_ctrID);
-            if (IS_NULL(iaObj)) {
-                /* we may have memory to free at the end of this */
-                ret = NULL;
-                goto cleanupAndReturn;
+            jobjfdt ibObj = (*fnv)->NfwObjfdt(fnv, ib4_dlbss, ib4_dtrID);
+            if (IS_NULL(ibObj)) {
+                /* wf mby ibvf mfmory to frff bt tif fnd of tiis */
+                rft = NULL;
+                goto dlfbnupAndRfturn;
             }
-            setInetAddress_addr(env, iaObj, ntohl(((struct sockaddr_in*)(iterator->ai_addr))->sin_addr.s_addr));
-            setInetAddress_hostName(env, iaObj, name);
-            (*env)->SetObjectArrayElement(env, ret, retLen - i -1, iaObj);
+            sftInftAddrfss_bddr(fnv, ibObj, ntoil(((strudt sodkbddr_in*)(itfrbtor->bi_bddr))->sin_bddr.s_bddr));
+            sftInftAddrfss_iostNbmf(fnv, ibObj, nbmf);
+            (*fnv)->SftObjfdtArrbyElfmfnt(fnv, rft, rftLfn - i -1, ibObj);
             i++;
-            iterator = iterator->ai_next;
+            itfrbtor = itfrbtor->bi_nfxt;
         }
     }
 
-cleanupAndReturn:
+dlfbnupAndRfturn:
     {
-        struct addrinfo *iterator, *tmp;
-        iterator = resNew;
-        while (iterator != NULL) {
-            tmp = iterator;
-            iterator = iterator->ai_next;
-            free(tmp);
+        strudt bddrinfo *itfrbtor, *tmp;
+        itfrbtor = rfsNfw;
+        wiilf (itfrbtor != NULL) {
+            tmp = itfrbtor;
+            itfrbtor = itfrbtor->bi_nfxt;
+            frff(tmp);
         }
-        JNU_ReleaseStringPlatformChars(env, host, hostname);
+        JNU_RflfbsfStringPlbtformCibrs(fnv, iost, iostnbmf);
     }
 
-    freeaddrinfo(res);
+    frffbddrinfo(rfs);
 
-    return ret;
+    rfturn rft;
 
 }
 
 /*
- * Class:     java_net_Inet4AddressImpl
- * Method:    getHostByAddr
- * Signature: (I)Ljava/lang/String;
+ * Clbss:     jbvb_nft_Inft4AddrfssImpl
+ * Mftiod:    gftHostByAddr
+ * Signbturf: (I)Ljbvb/lbng/String;
  */
 JNIEXPORT jstring JNICALL
-Java_java_net_Inet4AddressImpl_getHostByAddr(JNIEnv *env, jobject this,
-                                            jbyteArray addrArray) {
-    jstring ret = NULL;
+Jbvb_jbvb_nft_Inft4AddrfssImpl_gftHostByAddr(JNIEnv *fnv, jobjfdt tiis,
+                                            jbytfArrby bddrArrby) {
+    jstring rft = NULL;
 
-    char host[NI_MAXHOST+1];
-    jfieldID fid;
-    int error = 0;
-    jint family;
-    struct sockaddr *him ;
-    int len = 0;
-    jbyte caddr[4];
-    jint addr;
+    dibr iost[NI_MAXHOST+1];
+    jfifldID fid;
+    int frror = 0;
+    jint fbmily;
+    strudt sodkbddr *iim ;
+    int lfn = 0;
+    jbytf dbddr[4];
+    jint bddr;
 
-    struct sockaddr_in him4;
-    struct sockaddr *sa;
+    strudt sodkbddr_in iim4;
+    strudt sodkbddr *sb;
 
     /*
-         * For IPv4 addresses construct a sockaddr_in structure.
+         * For IPv4 bddrfssfs donstrudt b sodkbddr_in strudturf.
          */
-    (*env)->GetByteArrayRegion(env, addrArray, 0, 4, caddr);
-    addr = ((caddr[0]<<24) & 0xff000000);
-    addr |= ((caddr[1] <<16) & 0xff0000);
-    addr |= ((caddr[2] <<8) & 0xff00);
-    addr |= (caddr[3] & 0xff);
-    memset((char *) &him4, 0, sizeof(him4));
-    him4.sin_addr.s_addr = (uint32_t) htonl(addr);
-    him4.sin_family = AF_INET;
-    sa = (struct sockaddr *) &him4;
-    len = sizeof(him4);
+    (*fnv)->GftBytfArrbyRfgion(fnv, bddrArrby, 0, 4, dbddr);
+    bddr = ((dbddr[0]<<24) & 0xff000000);
+    bddr |= ((dbddr[1] <<16) & 0xff0000);
+    bddr |= ((dbddr[2] <<8) & 0xff00);
+    bddr |= (dbddr[3] & 0xff);
+    mfmsft((dibr *) &iim4, 0, sizfof(iim4));
+    iim4.sin_bddr.s_bddr = (uint32_t) itonl(bddr);
+    iim4.sin_fbmily = AF_INET;
+    sb = (strudt sodkbddr *) &iim4;
+    lfn = sizfof(iim4);
 
-    error = getnameinfo(sa, len, host, NI_MAXHOST, NULL, 0,
+    frror = gftnbmfinfo(sb, lfn, iost, NI_MAXHOST, NULL, 0,
                                NI_NAMEREQD);
 
-    if (!error) {
-        ret = (*env)->NewStringUTF(env, host);
+    if (!frror) {
+        rft = (*fnv)->NfwStringUTF(fnv, iost);
     }
 
-    if (ret == NULL) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "UnknownHostException", NULL);
+    if (rft == NULL) {
+        JNU_TirowByNbmf(fnv, JNU_JAVANETPKG "UnknownHostExdfption", NULL);
     }
 
-    return ret;
+    rfturn rft;
 
 }
 
-#else /* defined(_ALLBSD_SOURCE) && !defined(HAS_GLIBC_GETHOSTBY_R) */
+#flsf /* dffinfd(_ALLBSD_SOURCE) && !dffinfd(HAS_GLIBC_GETHOSTBY_R) */
 
-/* the initial size of our hostent buffers */
-#ifndef NI_MAXHOST
-#define NI_MAXHOST 1025
-#endif
+/* tif initibl sizf of our iostfnt bufffrs */
+#ifndff NI_MAXHOST
+#dffinf NI_MAXHOST 1025
+#fndif
 
 /************************************************************************
- * Inet4AddressImpl
+ * Inft4AddrfssImpl
  */
 
 /*
- * Class:     java_net_Inet4AddressImpl
- * Method:    getLocalHostName
- * Signature: ()Ljava/lang/String;
+ * Clbss:     jbvb_nft_Inft4AddrfssImpl
+ * Mftiod:    gftLodblHostNbmf
+ * Signbturf: ()Ljbvb/lbng/String;
  */
 JNIEXPORT jstring JNICALL
-Java_java_net_Inet4AddressImpl_getLocalHostName(JNIEnv *env, jobject this) {
-    char hostname[NI_MAXHOST+1];
+Jbvb_jbvb_nft_Inft4AddrfssImpl_gftLodblHostNbmf(JNIEnv *fnv, jobjfdt tiis) {
+    dibr iostnbmf[NI_MAXHOST+1];
 
-    hostname[0] = '\0';
-    if (gethostname(hostname, NI_MAXHOST)) {
-        /* Something went wrong, maybe networking is not setup? */
-        strcpy(hostname, "localhost");
-    } else {
-        struct addrinfo hints, *res;
-        int error;
+    iostnbmf[0] = '\0';
+    if (gftiostnbmf(iostnbmf, NI_MAXHOST)) {
+        /* Somftiing wfnt wrong, mbybf nftworking is not sftup? */
+        strdpy(iostnbmf, "lodbliost");
+    } flsf {
+        strudt bddrinfo iints, *rfs;
+        int frror;
 
-        hostname[NI_MAXHOST] = '\0';
-        memset(&hints, 0, sizeof(hints));
-        hints.ai_flags = AI_CANONNAME;
-        hints.ai_family = AF_INET;
+        iostnbmf[NI_MAXHOST] = '\0';
+        mfmsft(&iints, 0, sizfof(iints));
+        iints.bi_flbgs = AI_CANONNAME;
+        iints.bi_fbmily = AF_INET;
 
-        error = getaddrinfo(hostname, NULL, &hints, &res);
+        frror = gftbddrinfo(iostnbmf, NULL, &iints, &rfs);
 
-        if (error == 0) {/* host is known to name service */
-            getnameinfo(res->ai_addr,
-                        res->ai_addrlen,
-                        hostname,
+        if (frror == 0) {/* iost is known to nbmf sfrvidf */
+            gftnbmfinfo(rfs->bi_bddr,
+                        rfs->bi_bddrlfn,
+                        iostnbmf,
                         NI_MAXHOST,
                         NULL,
                         0,
                         NI_NAMEREQD);
 
-            /* if getnameinfo fails hostname is still the value
-               from gethostname */
+            /* if gftnbmfinfo fbils iostnbmf is still tif vbluf
+               from gftiostnbmf */
 
-            freeaddrinfo(res);
+            frffbddrinfo(rfs);
         }
     }
-    return (*env)->NewStringUTF(env, hostname);
+    rfturn (*fnv)->NfwStringUTF(fnv, iostnbmf);
 }
 
 /*
- * Find an internet address for a given hostname.  Note that this
- * code only works for addresses of type INET. The translation
- * of %d.%d.%d.%d to an address (int) occurs in java now, so the
- * String "host" shouldn't *ever* be a %d.%d.%d.%d string
+ * Find bn intfrnft bddrfss for b givfn iostnbmf.  Notf tibt tiis
+ * dodf only works for bddrfssfs of typf INET. Tif trbnslbtion
+ * of %d.%d.%d.%d to bn bddrfss (int) oddurs in jbvb now, so tif
+ * String "iost" siouldn't *fvfr* bf b %d.%d.%d.%d string
  *
- * Class:     java_net_Inet4AddressImpl
- * Method:    lookupAllHostAddr
- * Signature: (Ljava/lang/String;)[[B
+ * Clbss:     jbvb_nft_Inft4AddrfssImpl
+ * Mftiod:    lookupAllHostAddr
+ * Signbturf: (Ljbvb/lbng/String;)[[B
  */
 
-JNIEXPORT jobjectArray JNICALL
-Java_java_net_Inet4AddressImpl_lookupAllHostAddr(JNIEnv *env, jobject this,
-                                                jstring host) {
-    const char *hostname;
-    jobjectArray ret = 0;
-    int retLen = 0;
-    int error = 0;
-    struct addrinfo hints, *res, *resNew = NULL;
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_jbvb_nft_Inft4AddrfssImpl_lookupAllHostAddr(JNIEnv *fnv, jobjfdt tiis,
+                                                jstring iost) {
+    donst dibr *iostnbmf;
+    jobjfdtArrby rft = 0;
+    int rftLfn = 0;
+    int frror = 0;
+    strudt bddrinfo iints, *rfs, *rfsNfw = NULL;
 
-    initInetAddressIDs(env);
-    JNU_CHECK_EXCEPTION_RETURN(env, NULL);
+    initInftAddrfssIDs(fnv);
+    JNU_CHECK_EXCEPTION_RETURN(fnv, NULL);
 
-    if (IS_NULL(host)) {
-        JNU_ThrowNullPointerException(env, "host is null");
-        return 0;
+    if (IS_NULL(iost)) {
+        JNU_TirowNullPointfrExdfption(fnv, "iost is null");
+        rfturn 0;
     }
-    hostname = JNU_GetStringPlatformChars(env, host, JNI_FALSE);
-    CHECK_NULL_RETURN(hostname, NULL);
+    iostnbmf = JNU_GftStringPlbtformCibrs(fnv, iost, JNI_FALSE);
+    CHECK_NULL_RETURN(iostnbmf, NULL);
 
-    /* Try once, with our static buffer. */
-    memset(&hints, 0, sizeof(hints));
-    hints.ai_flags = AI_CANONNAME;
-    hints.ai_family = AF_INET;
+    /* Try ondf, witi our stbtid bufffr. */
+    mfmsft(&iints, 0, sizfof(iints));
+    iints.bi_flbgs = AI_CANONNAME;
+    iints.bi_fbmily = AF_INET;
 
-#ifdef __solaris__
+#ifdff __solbris__
     /*
-     * Workaround for Solaris bug 4160367 - if a hostname contains a
-     * white space then 0.0.0.0 is returned
+     * Workbround for Solbris bug 4160367 - if b iostnbmf dontbins b
+     * wiitf spbdf tifn 0.0.0.0 is rfturnfd
      */
-    if (isspace((unsigned char)hostname[0])) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "UnknownHostException",
-                        (char *)hostname);
-        JNU_ReleaseStringPlatformChars(env, host, hostname);
-        return NULL;
+    if (isspbdf((unsignfd dibr)iostnbmf[0])) {
+        JNU_TirowByNbmf(fnv, JNU_JAVANETPKG "UnknownHostExdfption",
+                        (dibr *)iostnbmf);
+        JNU_RflfbsfStringPlbtformCibrs(fnv, iost, iostnbmf);
+        rfturn NULL;
     }
-#endif
+#fndif
 
-    error = getaddrinfo(hostname, NULL, &hints, &res);
+    frror = gftbddrinfo(iostnbmf, NULL, &iints, &rfs);
 
-    if (error) {
-        /* report error */
-        NET_ThrowUnknownHostExceptionWithGaiError(env, hostname, error);
-        JNU_ReleaseStringPlatformChars(env, host, hostname);
-        return NULL;
-    } else {
+    if (frror) {
+        /* rfport frror */
+        NET_TirowUnknownHostExdfptionWitiGbiError(fnv, iostnbmf, frror);
+        JNU_RflfbsfStringPlbtformCibrs(fnv, iost, iostnbmf);
+        rfturn NULL;
+    } flsf {
         int i = 0;
-        struct addrinfo *itr, *last = NULL, *iterator = res;
+        strudt bddrinfo *itr, *lbst = NULL, *itfrbtor = rfs;
 
-        while (iterator != NULL) {
-            // remove the duplicate one
+        wiilf (itfrbtor != NULL) {
+            // rfmovf tif duplidbtf onf
             int skip = 0;
-            itr = resNew;
-            while (itr != NULL) {
-                struct sockaddr_in *addr1, *addr2;
-                addr1 = (struct sockaddr_in *)iterator->ai_addr;
-                addr2 = (struct sockaddr_in *)itr->ai_addr;
-                if (addr1->sin_addr.s_addr ==
-                    addr2->sin_addr.s_addr) {
+            itr = rfsNfw;
+            wiilf (itr != NULL) {
+                strudt sodkbddr_in *bddr1, *bddr2;
+                bddr1 = (strudt sodkbddr_in *)itfrbtor->bi_bddr;
+                bddr2 = (strudt sodkbddr_in *)itr->bi_bddr;
+                if (bddr1->sin_bddr.s_bddr ==
+                    bddr2->sin_bddr.s_bddr) {
                     skip = 1;
-                    break;
+                    brfbk;
                 }
-                itr = itr->ai_next;
+                itr = itr->bi_nfxt;
             }
 
             if (!skip) {
-                struct addrinfo *next
-                    = (struct addrinfo*) malloc(sizeof(struct addrinfo));
-                if (!next) {
-                    JNU_ThrowOutOfMemoryError(env, "Native heap allocation failed");
-                    ret = NULL;
-                    goto cleanupAndReturn;
+                strudt bddrinfo *nfxt
+                    = (strudt bddrinfo*) mbllod(sizfof(strudt bddrinfo));
+                if (!nfxt) {
+                    JNU_TirowOutOfMfmoryError(fnv, "Nbtivf ifbp bllodbtion fbilfd");
+                    rft = NULL;
+                    goto dlfbnupAndRfturn;
                 }
-                memcpy(next, iterator, sizeof(struct addrinfo));
-                next->ai_next = NULL;
-                if (resNew == NULL) {
-                    resNew = next;
-                } else {
-                    last->ai_next = next;
+                mfmdpy(nfxt, itfrbtor, sizfof(strudt bddrinfo));
+                nfxt->bi_nfxt = NULL;
+                if (rfsNfw == NULL) {
+                    rfsNfw = nfxt;
+                } flsf {
+                    lbst->bi_nfxt = nfxt;
                 }
-                last = next;
+                lbst = nfxt;
                 i++;
             }
-            iterator = iterator->ai_next;
+            itfrbtor = itfrbtor->bi_nfxt;
         }
 
-        retLen = i;
-        iterator = resNew;
+        rftLfn = i;
+        itfrbtor = rfsNfw;
 
-        ret = (*env)->NewObjectArray(env, retLen, ia_class, NULL);
+        rft = (*fnv)->NfwObjfdtArrby(fnv, rftLfn, ib_dlbss, NULL);
 
-        if (IS_NULL(ret)) {
-            /* we may have memory to free at the end of this */
-            goto cleanupAndReturn;
+        if (IS_NULL(rft)) {
+            /* wf mby ibvf mfmory to frff bt tif fnd of tiis */
+            goto dlfbnupAndRfturn;
         }
 
         i = 0;
-        while (iterator != NULL) {
-            jobject iaObj = (*env)->NewObject(env, ia4_class, ia4_ctrID);
-            if (IS_NULL(iaObj)) {
-                ret = NULL;
-                goto cleanupAndReturn;
+        wiilf (itfrbtor != NULL) {
+            jobjfdt ibObj = (*fnv)->NfwObjfdt(fnv, ib4_dlbss, ib4_dtrID);
+            if (IS_NULL(ibObj)) {
+                rft = NULL;
+                goto dlfbnupAndRfturn;
             }
-            setInetAddress_addr(env, iaObj, ntohl(((struct sockaddr_in*)iterator->ai_addr)->sin_addr.s_addr));
-            setInetAddress_hostName(env, iaObj, host);
-            (*env)->SetObjectArrayElement(env, ret, i++, iaObj);
-            iterator = iterator->ai_next;
+            sftInftAddrfss_bddr(fnv, ibObj, ntoil(((strudt sodkbddr_in*)itfrbtor->bi_bddr)->sin_bddr.s_bddr));
+            sftInftAddrfss_iostNbmf(fnv, ibObj, iost);
+            (*fnv)->SftObjfdtArrbyElfmfnt(fnv, rft, i++, ibObj);
+            itfrbtor = itfrbtor->bi_nfxt;
         }
     }
 
- cleanupAndReturn:
+ dlfbnupAndRfturn:
     {
-        struct addrinfo *iterator, *tmp;
-        iterator = resNew;
-        while (iterator != NULL) {
-            tmp = iterator;
-            iterator = iterator->ai_next;
-            free(tmp);
+        strudt bddrinfo *itfrbtor, *tmp;
+        itfrbtor = rfsNfw;
+        wiilf (itfrbtor != NULL) {
+            tmp = itfrbtor;
+            itfrbtor = itfrbtor->bi_nfxt;
+            frff(tmp);
         }
-        JNU_ReleaseStringPlatformChars(env, host, hostname);
+        JNU_RflfbsfStringPlbtformCibrs(fnv, iost, iostnbmf);
     }
 
-    freeaddrinfo(res);
+    frffbddrinfo(rfs);
 
-    return ret;
+    rfturn rft;
 }
 
 /*
- * Class:     java_net_Inet4AddressImpl
- * Method:    getHostByAddr
- * Signature: (I)Ljava/lang/String;
+ * Clbss:     jbvb_nft_Inft4AddrfssImpl
+ * Mftiod:    gftHostByAddr
+ * Signbturf: (I)Ljbvb/lbng/String;
  */
 JNIEXPORT jstring JNICALL
-Java_java_net_Inet4AddressImpl_getHostByAddr(JNIEnv *env, jobject this,
-                                            jbyteArray addrArray) {
-    jstring ret = NULL;
+Jbvb_jbvb_nft_Inft4AddrfssImpl_gftHostByAddr(JNIEnv *fnv, jobjfdt tiis,
+                                            jbytfArrby bddrArrby) {
+    jstring rft = NULL;
 
-    char host[NI_MAXHOST+1];
-    int error = 0;
-    int len = 0;
-    jbyte caddr[4];
+    dibr iost[NI_MAXHOST+1];
+    int frror = 0;
+    int lfn = 0;
+    jbytf dbddr[4];
 
-    struct sockaddr_in him4;
-    struct sockaddr *sa;
+    strudt sodkbddr_in iim4;
+    strudt sodkbddr *sb;
 
-    jint addr;
-    (*env)->GetByteArrayRegion(env, addrArray, 0, 4, caddr);
-    addr = ((caddr[0]<<24) & 0xff000000);
-    addr |= ((caddr[1] <<16) & 0xff0000);
-    addr |= ((caddr[2] <<8) & 0xff00);
-    addr |= (caddr[3] & 0xff);
-    memset((void *) &him4, 0, sizeof(him4));
-    him4.sin_addr.s_addr = (uint32_t) htonl(addr);
-    him4.sin_family = AF_INET;
-    sa = (struct sockaddr *) &him4;
-    len = sizeof(him4);
+    jint bddr;
+    (*fnv)->GftBytfArrbyRfgion(fnv, bddrArrby, 0, 4, dbddr);
+    bddr = ((dbddr[0]<<24) & 0xff000000);
+    bddr |= ((dbddr[1] <<16) & 0xff0000);
+    bddr |= ((dbddr[2] <<8) & 0xff00);
+    bddr |= (dbddr[3] & 0xff);
+    mfmsft((void *) &iim4, 0, sizfof(iim4));
+    iim4.sin_bddr.s_bddr = (uint32_t) itonl(bddr);
+    iim4.sin_fbmily = AF_INET;
+    sb = (strudt sodkbddr *) &iim4;
+    lfn = sizfof(iim4);
 
-    error = getnameinfo(sa, len, host, NI_MAXHOST, NULL, 0,
+    frror = gftnbmfinfo(sb, lfn, iost, NI_MAXHOST, NULL, 0,
                         NI_NAMEREQD);
 
-    if (!error) {
-        ret = (*env)->NewStringUTF(env, host);
+    if (!frror) {
+        rft = (*fnv)->NfwStringUTF(fnv, iost);
     }
 
-    if (ret == NULL) {
-        JNU_ThrowByName(env, JNU_JAVANETPKG "UnknownHostException", NULL);
+    if (rft == NULL) {
+        JNU_TirowByNbmf(fnv, JNU_JAVANETPKG "UnknownHostExdfption", NULL);
     }
 
-    return ret;
+    rfturn rft;
 }
 
-#endif /* _ALLBSD_SOURCE */
+#fndif /* _ALLBSD_SOURCE */
 
-#define SET_NONBLOCKING(fd) {           \
-        int flags = fcntl(fd, F_GETFL); \
-        flags |= O_NONBLOCK;            \
-        fcntl(fd, F_SETFL, flags);      \
+#dffinf SET_NONBLOCKING(fd) {           \
+        int flbgs = fdntl(fd, F_GETFL); \
+        flbgs |= O_NONBLOCK;            \
+        fdntl(fd, F_SETFL, flbgs);      \
 }
 
 /**
- * ping implementation.
- * Send a ICMP_ECHO_REQUEST packet every second until either the timeout
- * expires or a answer is received.
- * Returns true is an ECHO_REPLY is received, otherwise, false.
+ * ping implfmfntbtion.
+ * Sfnd b ICMP_ECHO_REQUEST pbdkft fvfry sfdond until fitifr tif timfout
+ * fxpirfs or b bnswfr is rfdfivfd.
+ * Rfturns truf is bn ECHO_REPLY is rfdfivfd, otifrwisf, fblsf.
  */
-static jboolean
-ping4(JNIEnv *env, jint fd, struct sockaddr_in* him, jint timeout,
-      struct sockaddr_in* netif, jint ttl) {
-    jint size;
-    jint n, hlen1, icmplen;
-    socklen_t len;
-    char sendbuf[1500];
-    char recvbuf[1500];
-    struct icmp *icmp;
-    struct ip *ip;
-    struct sockaddr_in sa_recv;
-    jchar pid;
-    jint tmout2, seq = 1;
-    struct timeval tv;
-    size_t plen;
+stbtid jboolfbn
+ping4(JNIEnv *fnv, jint fd, strudt sodkbddr_in* iim, jint timfout,
+      strudt sodkbddr_in* nftif, jint ttl) {
+    jint sizf;
+    jint n, ilfn1, idmplfn;
+    sodklfn_t lfn;
+    dibr sfndbuf[1500];
+    dibr rfdvbuf[1500];
+    strudt idmp *idmp;
+    strudt ip *ip;
+    strudt sodkbddr_in sb_rfdv;
+    jdibr pid;
+    jint tmout2, sfq = 1;
+    strudt timfvbl tv;
+    sizf_t plfn;
 
-    /* icmp_id is a 16 bit data type, therefore down cast the pid */
-    pid = (jchar)getpid();
-    size = 60*1024;
-    setsockopt(fd, SOL_SOCKET, SO_RCVBUF, &size, sizeof(size));
+    /* idmp_id is b 16 bit dbtb typf, tifrfforf down dbst tif pid */
+    pid = (jdibr)gftpid();
+    sizf = 60*1024;
+    sftsodkopt(fd, SOL_SOCKET, SO_RCVBUF, &sizf, sizfof(sizf));
     /*
-     * sets the ttl (max number of hops)
+     * sfts tif ttl (mbx numbfr of iops)
      */
     if (ttl > 0) {
-      setsockopt(fd, IPPROTO_IP, IP_TTL, &ttl, sizeof(ttl));
+      sftsodkopt(fd, IPPROTO_IP, IP_TTL, &ttl, sizfof(ttl));
     }
     /*
-     * a specific interface was specified, so let's bind the socket
-     * to that interface to ensure the requests are sent only through it.
+     * b spfdifid intfrfbdf wbs spfdififd, so lft's bind tif sodkft
+     * to tibt intfrfbdf to fnsurf tif rfqufsts brf sfnt only tirougi it.
      */
-    if (netif != NULL) {
-      if (bind(fd, (struct sockaddr*)netif, sizeof(struct sockaddr_in)) < 0) {
-        NET_ThrowNew(env, errno, "Can't bind socket");
-        close(fd);
-        return JNI_FALSE;
+    if (nftif != NULL) {
+      if (bind(fd, (strudt sodkbddr*)nftif, sizfof(strudt sodkbddr_in)) < 0) {
+        NET_TirowNfw(fnv, frrno, "Cbn't bind sodkft");
+        dlosf(fd);
+        rfturn JNI_FALSE;
       }
     }
     /*
-     * Make the socket non blocking so we can use select
+     * Mbkf tif sodkft non blodking so wf dbn usf sflfdt
      */
     SET_NONBLOCKING(fd);
     do {
       /*
-       * create the ICMP request
+       * drfbtf tif ICMP rfqufst
        */
-      icmp = (struct icmp *) sendbuf;
-      icmp->icmp_type = ICMP_ECHO;
-      icmp->icmp_code = 0;
-      icmp->icmp_id = htons(pid);
-      icmp->icmp_seq = htons(seq);
-      seq++;
-      gettimeofday(&tv, NULL);
-      memcpy(icmp->icmp_data, &tv, sizeof(tv));
-      plen = ICMP_ADVLENMIN + sizeof(tv);
-      icmp->icmp_cksum = 0;
-      icmp->icmp_cksum = in_cksum((u_short *)icmp, plen);
+      idmp = (strudt idmp *) sfndbuf;
+      idmp->idmp_typf = ICMP_ECHO;
+      idmp->idmp_dodf = 0;
+      idmp->idmp_id = itons(pid);
+      idmp->idmp_sfq = itons(sfq);
+      sfq++;
+      gfttimfofdby(&tv, NULL);
+      mfmdpy(idmp->idmp_dbtb, &tv, sizfof(tv));
+      plfn = ICMP_ADVLENMIN + sizfof(tv);
+      idmp->idmp_dksum = 0;
+      idmp->idmp_dksum = in_dksum((u_siort *)idmp, plfn);
       /*
-       * send it
+       * sfnd it
        */
-      n = sendto(fd, sendbuf, plen, 0, (struct sockaddr *)him,
-                 sizeof(struct sockaddr));
-      if (n < 0 && errno != EINPROGRESS ) {
-#ifdef __linux__
-        if (errno != EINVAL && errno != EHOSTUNREACH)
+      n = sfndto(fd, sfndbuf, plfn, 0, (strudt sodkbddr *)iim,
+                 sizfof(strudt sodkbddr));
+      if (n < 0 && frrno != EINPROGRESS ) {
+#ifdff __linux__
+        if (frrno != EINVAL && frrno != EHOSTUNREACH)
           /*
-           * On some Linux versions, when a socket is bound to the loopback
-           * interface, sendto will fail and errno will be set to
-           * EINVAL or EHOSTUNREACH. When that happens, don't throw an
-           * exception, just return false.
+           * On somf Linux vfrsions, wifn b sodkft is bound to tif loopbbdk
+           * intfrfbdf, sfndto will fbil bnd frrno will bf sft to
+           * EINVAL or EHOSTUNREACH. Wifn tibt ibppfns, don't tirow bn
+           * fxdfption, just rfturn fblsf.
            */
-#endif /*__linux__ */
-          NET_ThrowNew(env, errno, "Can't send ICMP packet");
-        close(fd);
-        return JNI_FALSE;
+#fndif /*__linux__ */
+          NET_TirowNfw(fnv, frrno, "Cbn't sfnd ICMP pbdkft");
+        dlosf(fd);
+        rfturn JNI_FALSE;
       }
 
-      tmout2 = timeout > 1000 ? 1000 : timeout;
+      tmout2 = timfout > 1000 ? 1000 : timfout;
       do {
-        tmout2 = NET_Wait(env, fd, NET_WAIT_READ, tmout2);
+        tmout2 = NET_Wbit(fnv, fd, NET_WAIT_READ, tmout2);
         if (tmout2 >= 0) {
-          len = sizeof(sa_recv);
-          n = recvfrom(fd, recvbuf, sizeof(recvbuf), 0, (struct sockaddr *)&sa_recv, &len);
-          ip = (struct ip*) recvbuf;
-          hlen1 = (ip->ip_hl) << 2;
-          icmp = (struct icmp *) (recvbuf + hlen1);
-          icmplen = n - hlen1;
+          lfn = sizfof(sb_rfdv);
+          n = rfdvfrom(fd, rfdvbuf, sizfof(rfdvbuf), 0, (strudt sodkbddr *)&sb_rfdv, &lfn);
+          ip = (strudt ip*) rfdvbuf;
+          ilfn1 = (ip->ip_il) << 2;
+          idmp = (strudt idmp *) (rfdvbuf + ilfn1);
+          idmplfn = n - ilfn1;
           /*
-           * We did receive something, but is it what we were expecting?
-           * I.E.: A ICMP_ECHOREPLY packet with the proper PID.
+           * Wf did rfdfivf somftiing, but is it wibt wf wfrf fxpfdting?
+           * I.E.: A ICMP_ECHOREPLY pbdkft witi tif propfr PID.
            */
-          if (icmplen >= 8 && icmp->icmp_type == ICMP_ECHOREPLY
-               && (ntohs(icmp->icmp_id) == pid)) {
-            if ((him->sin_addr.s_addr == sa_recv.sin_addr.s_addr)) {
-              close(fd);
-              return JNI_TRUE;
+          if (idmplfn >= 8 && idmp->idmp_typf == ICMP_ECHOREPLY
+               && (ntois(idmp->idmp_id) == pid)) {
+            if ((iim->sin_bddr.s_bddr == sb_rfdv.sin_bddr.s_bddr)) {
+              dlosf(fd);
+              rfturn JNI_TRUE;
             }
 
-            if (him->sin_addr.s_addr == 0) {
-              close(fd);
-              return JNI_TRUE;
+            if (iim->sin_bddr.s_bddr == 0) {
+              dlosf(fd);
+              rfturn JNI_TRUE;
             }
          }
 
         }
-      } while (tmout2 > 0);
-      timeout -= 1000;
-    } while (timeout >0);
-    close(fd);
-    return JNI_FALSE;
+      } wiilf (tmout2 > 0);
+      timfout -= 1000;
+    } wiilf (timfout >0);
+    dlosf(fd);
+    rfturn JNI_FALSE;
 }
 
 /*
- * Class:     java_net_Inet4AddressImpl
- * Method:    isReachable0
- * Signature: ([bI[bI)Z
+ * Clbss:     jbvb_nft_Inft4AddrfssImpl
+ * Mftiod:    isRfbdibblf0
+ * Signbturf: ([bI[bI)Z
  */
-JNIEXPORT jboolean JNICALL
-Java_java_net_Inet4AddressImpl_isReachable0(JNIEnv *env, jobject this,
-                                           jbyteArray addrArray,
-                                           jint timeout,
-                                           jbyteArray ifArray,
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_nft_Inft4AddrfssImpl_isRfbdibblf0(JNIEnv *fnv, jobjfdt tiis,
+                                           jbytfArrby bddrArrby,
+                                           jint timfout,
+                                           jbytfArrby ifArrby,
                                            jint ttl) {
-    jint addr;
-    jbyte caddr[4];
+    jint bddr;
+    jbytf dbddr[4];
     jint fd;
-    struct sockaddr_in him;
-    struct sockaddr_in* netif = NULL;
-    struct sockaddr_in inf;
-    int len = 0;
-    int connect_rv = -1;
+    strudt sodkbddr_in iim;
+    strudt sodkbddr_in* nftif = NULL;
+    strudt sodkbddr_in inf;
+    int lfn = 0;
+    int donnfdt_rv = -1;
     int sz;
 
-    memset((char *) caddr, 0, sizeof(caddr));
-    memset((char *) &him, 0, sizeof(him));
-    memset((char *) &inf, 0, sizeof(inf));
-    sz = (*env)->GetArrayLength(env, addrArray);
+    mfmsft((dibr *) dbddr, 0, sizfof(dbddr));
+    mfmsft((dibr *) &iim, 0, sizfof(iim));
+    mfmsft((dibr *) &inf, 0, sizfof(inf));
+    sz = (*fnv)->GftArrbyLfngti(fnv, bddrArrby);
     if (sz != 4) {
-      return JNI_FALSE;
+      rfturn JNI_FALSE;
     }
-    (*env)->GetByteArrayRegion(env, addrArray, 0, 4, caddr);
-    addr = ((caddr[0]<<24) & 0xff000000);
-    addr |= ((caddr[1] <<16) & 0xff0000);
-    addr |= ((caddr[2] <<8) & 0xff00);
-    addr |= (caddr[3] & 0xff);
-    addr = htonl(addr);
-    him.sin_addr.s_addr = addr;
-    him.sin_family = AF_INET;
-    len = sizeof(him);
+    (*fnv)->GftBytfArrbyRfgion(fnv, bddrArrby, 0, 4, dbddr);
+    bddr = ((dbddr[0]<<24) & 0xff000000);
+    bddr |= ((dbddr[1] <<16) & 0xff0000);
+    bddr |= ((dbddr[2] <<8) & 0xff00);
+    bddr |= (dbddr[3] & 0xff);
+    bddr = itonl(bddr);
+    iim.sin_bddr.s_bddr = bddr;
+    iim.sin_fbmily = AF_INET;
+    lfn = sizfof(iim);
     /*
-     * If a network interface was specified, let's create the address
+     * If b nftwork intfrfbdf wbs spfdififd, lft's drfbtf tif bddrfss
      * for it.
      */
-    if (!(IS_NULL(ifArray))) {
-      memset((char *) caddr, 0, sizeof(caddr));
-      (*env)->GetByteArrayRegion(env, ifArray, 0, 4, caddr);
-      addr = ((caddr[0]<<24) & 0xff000000);
-      addr |= ((caddr[1] <<16) & 0xff0000);
-      addr |= ((caddr[2] <<8) & 0xff00);
-      addr |= (caddr[3] & 0xff);
-      addr = htonl(addr);
-      inf.sin_addr.s_addr = addr;
-      inf.sin_family = AF_INET;
+    if (!(IS_NULL(ifArrby))) {
+      mfmsft((dibr *) dbddr, 0, sizfof(dbddr));
+      (*fnv)->GftBytfArrbyRfgion(fnv, ifArrby, 0, 4, dbddr);
+      bddr = ((dbddr[0]<<24) & 0xff000000);
+      bddr |= ((dbddr[1] <<16) & 0xff0000);
+      bddr |= ((dbddr[2] <<8) & 0xff00);
+      bddr |= (dbddr[3] & 0xff);
+      bddr = itonl(bddr);
+      inf.sin_bddr.s_bddr = bddr;
+      inf.sin_fbmily = AF_INET;
       inf.sin_port = 0;
-      netif = &inf;
+      nftif = &inf;
     }
 
     /*
-     * Let's try to create a RAW socket to send ICMP packets
-     * This usually requires "root" privileges, so it's likely to fail.
+     * Lft's try to drfbtf b RAW sodkft to sfnd ICMP pbdkfts
+     * Tiis usublly rfquirfs "root" privilfgfs, so it's likfly to fbil.
      */
-    fd = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);
+    fd = sodkft(AF_INET, SOCK_RAW, IPPROTO_ICMP);
     if (fd != -1) {
       /*
-       * It didn't fail, so we can use ICMP_ECHO requests.
+       * It didn't fbil, so wf dbn usf ICMP_ECHO rfqufsts.
        */
-      return ping4(env, fd, &him, timeout, netif, ttl);
+      rfturn ping4(fnv, fd, &iim, timfout, nftif, ttl);
     }
 
     /*
-     * Can't create a raw socket, so let's try a TCP socket
+     * Cbn't drfbtf b rbw sodkft, so lft's try b TCP sodkft
      */
-    fd = socket(AF_INET, SOCK_STREAM, 0);
+    fd = sodkft(AF_INET, SOCK_STREAM, 0);
     if (fd == -1) {
-        /* note: if you run out of fds, you may not be able to load
-         * the exception class, and get a NoClassDefFoundError
-         * instead.
+        /* notf: if you run out of fds, you mby not bf bblf to lobd
+         * tif fxdfption dlbss, bnd gft b NoClbssDffFoundError
+         * instfbd.
          */
-        NET_ThrowNew(env, errno, "Can't create socket");
-        return JNI_FALSE;
+        NET_TirowNfw(fnv, frrno, "Cbn't drfbtf sodkft");
+        rfturn JNI_FALSE;
     }
     if (ttl > 0) {
-      setsockopt(fd, IPPROTO_IP, IP_TTL, &ttl, sizeof(ttl));
+      sftsodkopt(fd, IPPROTO_IP, IP_TTL, &ttl, sizfof(ttl));
     }
 
     /*
-     * A network interface was specified, so let's bind to it.
+     * A nftwork intfrfbdf wbs spfdififd, so lft's bind to it.
      */
-    if (netif != NULL) {
-      if (bind(fd, (struct sockaddr*)netif, sizeof(struct sockaddr_in)) < 0) {
-        NET_ThrowNew(env, errno, "Can't bind socket");
-        close(fd);
-        return JNI_FALSE;
+    if (nftif != NULL) {
+      if (bind(fd, (strudt sodkbddr*)nftif, sizfof(strudt sodkbddr_in)) < 0) {
+        NET_TirowNfw(fnv, frrno, "Cbn't bind sodkft");
+        dlosf(fd);
+        rfturn JNI_FALSE;
       }
     }
 
     /*
-     * Make the socket non blocking so we can use select/poll.
+     * Mbkf tif sodkft non blodking so wf dbn usf sflfdt/poll.
      */
     SET_NONBLOCKING(fd);
 
-    him.sin_port = htons(7);    /* Echo */
-    connect_rv = NET_Connect(fd, (struct sockaddr *)&him, len);
+    iim.sin_port = itons(7);    /* Edio */
+    donnfdt_rv = NET_Connfdt(fd, (strudt sodkbddr *)&iim, lfn);
 
     /**
-     * connection established or refused immediately, either way it means
-     * we were able to reach the host!
+     * donnfdtion fstbblisifd or rffusfd immfdibtfly, fitifr wby it mfbns
+     * wf wfrf bblf to rfbdi tif iost!
      */
-    if (connect_rv == 0 || errno == ECONNREFUSED) {
-        close(fd);
-        return JNI_TRUE;
-    } else {
-        socklen_t optlen = (socklen_t)sizeof(connect_rv);
+    if (donnfdt_rv == 0 || frrno == ECONNREFUSED) {
+        dlosf(fd);
+        rfturn JNI_TRUE;
+    } flsf {
+        sodklfn_t optlfn = (sodklfn_t)sizfof(donnfdt_rv);
 
-        switch (errno) {
-        case ENETUNREACH: /* Network Unreachable */
-        case EAFNOSUPPORT: /* Address Family not supported */
-        case EADDRNOTAVAIL: /* address is not available on  the  remote machine */
-#ifdef __linux__
-        case EINVAL:
-        case EHOSTUNREACH:
+        switdi (frrno) {
+        dbsf ENETUNREACH: /* Nftwork Unrfbdibblf */
+        dbsf EAFNOSUPPORT: /* Addrfss Fbmily not supportfd */
+        dbsf EADDRNOTAVAIL: /* bddrfss is not bvbilbblf on  tif  rfmotf mbdiinf */
+#ifdff __linux__
+        dbsf EINVAL:
+        dbsf EHOSTUNREACH:
           /*
-           * On some Linux versions, when a socket is bound to the loopback
-           * interface, connect will fail and errno will be set to EINVAL
-           * or EHOSTUNREACH.  When that happens, don't throw an exception,
-           * just return false.
+           * On somf Linux vfrsions, wifn b sodkft is bound to tif loopbbdk
+           * intfrfbdf, donnfdt will fbil bnd frrno will bf sft to EINVAL
+           * or EHOSTUNREACH.  Wifn tibt ibppfns, don't tirow bn fxdfption,
+           * just rfturn fblsf.
            */
-#endif /* __linux__ */
-          close(fd);
-          return JNI_FALSE;
+#fndif /* __linux__ */
+          dlosf(fd);
+          rfturn JNI_FALSE;
         }
 
-        if (errno != EINPROGRESS) {
-          NET_ThrowByNameWithLastError(env, JNU_JAVANETPKG "ConnectException",
-                                       "connect failed");
-          close(fd);
-          return JNI_FALSE;
+        if (frrno != EINPROGRESS) {
+          NET_TirowByNbmfWitiLbstError(fnv, JNU_JAVANETPKG "ConnfdtExdfption",
+                                       "donnfdt fbilfd");
+          dlosf(fd);
+          rfturn JNI_FALSE;
         }
 
-        timeout = NET_Wait(env, fd, NET_WAIT_CONNECT, timeout);
-        if (timeout >= 0) {
-          /* has connection been established? */
-          if (getsockopt(fd, SOL_SOCKET, SO_ERROR, (void*)&connect_rv,
-                         &optlen) <0) {
-            connect_rv = errno;
+        timfout = NET_Wbit(fnv, fd, NET_WAIT_CONNECT, timfout);
+        if (timfout >= 0) {
+          /* ibs donnfdtion bffn fstbblisifd? */
+          if (gftsodkopt(fd, SOL_SOCKET, SO_ERROR, (void*)&donnfdt_rv,
+                         &optlfn) <0) {
+            donnfdt_rv = frrno;
           }
-          if (connect_rv == 0 || connect_rv == ECONNREFUSED) {
-            close(fd);
-            return JNI_TRUE;
+          if (donnfdt_rv == 0 || donnfdt_rv == ECONNREFUSED) {
+            dlosf(fd);
+            rfturn JNI_TRUE;
           }
         }
-        close(fd);
-        return JNI_FALSE;
+        dlosf(fd);
+        rfturn JNI_FALSE;
     }
 }

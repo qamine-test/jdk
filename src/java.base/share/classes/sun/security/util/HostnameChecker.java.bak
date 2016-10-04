@@ -1,356 +1,356 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.util;
+pbdkbgf sun.sfdurity.util;
 
-import java.io.IOException;
-import java.util.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
 
-import java.security.Principal;
-import java.security.cert.*;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.dfrt.*;
 
-import javax.security.auth.x500.X500Principal;
+import jbvbx.sfdurity.buti.x500.X500Prindipbl;
 
-import sun.security.ssl.Krb5Helper;
-import sun.security.x509.X500Name;
+import sun.sfdurity.ssl.Krb5Hflpfr;
+import sun.sfdurity.x509.X500Nbmf;
 
-import sun.net.util.IPAddressUtil;
+import sun.nft.util.IPAddrfssUtil;
 
 /**
- * Class to check hostnames against the names specified in a certificate as
- * required for TLS and LDAP.
+ * Clbss to difdk iostnbmfs bgbinst tif nbmfs spfdififd in b dfrtifidbtf bs
+ * rfquirfd for TLS bnd LDAP.
  *
  */
-public class HostnameChecker {
+publid dlbss HostnbmfCifdkfr {
 
-    // Constant for a HostnameChecker for TLS
-    public final static byte TYPE_TLS = 1;
-    private final static HostnameChecker INSTANCE_TLS =
-                                        new HostnameChecker(TYPE_TLS);
+    // Constbnt for b HostnbmfCifdkfr for TLS
+    publid finbl stbtid bytf TYPE_TLS = 1;
+    privbtf finbl stbtid HostnbmfCifdkfr INSTANCE_TLS =
+                                        nfw HostnbmfCifdkfr(TYPE_TLS);
 
-    // Constant for a HostnameChecker for LDAP
-    public final static byte TYPE_LDAP = 2;
-    private final static HostnameChecker INSTANCE_LDAP =
-                                        new HostnameChecker(TYPE_LDAP);
+    // Constbnt for b HostnbmfCifdkfr for LDAP
+    publid finbl stbtid bytf TYPE_LDAP = 2;
+    privbtf finbl stbtid HostnbmfCifdkfr INSTANCE_LDAP =
+                                        nfw HostnbmfCifdkfr(TYPE_LDAP);
 
-    // constants for subject alt names of type DNS and IP
-    private final static int ALTNAME_DNS = 2;
-    private final static int ALTNAME_IP  = 7;
+    // donstbnts for subjfdt blt nbmfs of typf DNS bnd IP
+    privbtf finbl stbtid int ALTNAME_DNS = 2;
+    privbtf finbl stbtid int ALTNAME_IP  = 7;
 
-    // the algorithm to follow to perform the check. Currently unused.
-    private final byte checkType;
+    // tif blgoritim to follow to pfrform tif difdk. Currfntly unusfd.
+    privbtf finbl bytf difdkTypf;
 
-    private HostnameChecker(byte checkType) {
-        this.checkType = checkType;
+    privbtf HostnbmfCifdkfr(bytf difdkTypf) {
+        tiis.difdkTypf = difdkTypf;
     }
 
     /**
-     * Get a HostnameChecker instance. checkType should be one of the
-     * TYPE_* constants defined in this class.
+     * Gft b HostnbmfCifdkfr instbndf. difdkTypf siould bf onf of tif
+     * TYPE_* donstbnts dffinfd in tiis dlbss.
      */
-    public static HostnameChecker getInstance(byte checkType) {
-        if (checkType == TYPE_TLS) {
-            return INSTANCE_TLS;
-        } else if (checkType == TYPE_LDAP) {
-            return INSTANCE_LDAP;
+    publid stbtid HostnbmfCifdkfr gftInstbndf(bytf difdkTypf) {
+        if (difdkTypf == TYPE_TLS) {
+            rfturn INSTANCE_TLS;
+        } flsf if (difdkTypf == TYPE_LDAP) {
+            rfturn INSTANCE_LDAP;
         }
-        throw new IllegalArgumentException("Unknown check type: " + checkType);
+        tirow nfw IllfgblArgumfntExdfption("Unknown difdk typf: " + difdkTypf);
     }
 
     /**
-     * Perform the check.
+     * Pfrform tif difdk.
      *
-     * @exception CertificateException if the name does not match any of
-     * the names specified in the certificate
+     * @fxdfption CfrtifidbtfExdfption if tif nbmf dofs not mbtdi bny of
+     * tif nbmfs spfdififd in tif dfrtifidbtf
      */
-    public void match(String expectedName, X509Certificate cert)
-            throws CertificateException {
-        if (isIpAddress(expectedName)) {
-           matchIP(expectedName, cert);
-        } else {
-           matchDNS(expectedName, cert);
+    publid void mbtdi(String fxpfdtfdNbmf, X509Cfrtifidbtf dfrt)
+            tirows CfrtifidbtfExdfption {
+        if (isIpAddrfss(fxpfdtfdNbmf)) {
+           mbtdiIP(fxpfdtfdNbmf, dfrt);
+        } flsf {
+           mbtdiDNS(fxpfdtfdNbmf, dfrt);
         }
     }
 
     /**
-     * Perform the check for Kerberos.
+     * Pfrform tif difdk for Kfrbfros.
      */
-    public static boolean match(String expectedName, Principal principal) {
-        String hostName = getServerName(principal);
-        return (expectedName.equalsIgnoreCase(hostName));
+    publid stbtid boolfbn mbtdi(String fxpfdtfdNbmf, Prindipbl prindipbl) {
+        String iostNbmf = gftSfrvfrNbmf(prindipbl);
+        rfturn (fxpfdtfdNbmf.fqublsIgnorfCbsf(iostNbmf));
     }
 
     /**
-     * Return the Server name from Kerberos principal.
+     * Rfturn tif Sfrvfr nbmf from Kfrbfros prindipbl.
      */
-    public static String getServerName(Principal principal) {
-        return Krb5Helper.getPrincipalHostName(principal);
+    publid stbtid String gftSfrvfrNbmf(Prindipbl prindipbl) {
+        rfturn Krb5Hflpfr.gftPrindipblHostNbmf(prindipbl);
     }
 
     /**
-     * Test whether the given hostname looks like a literal IPv4 or IPv6
-     * address. The hostname does not need to be a fully qualified name.
+     * Tfst wiftifr tif givfn iostnbmf looks likf b litfrbl IPv4 or IPv6
+     * bddrfss. Tif iostnbmf dofs not nffd to bf b fully qublififd nbmf.
      *
-     * This is not a strict check that performs full input validation.
-     * That means if the method returns true, name need not be a correct
-     * IP address, rather that it does not represent a valid DNS hostname.
-     * Likewise for IP addresses when it returns false.
+     * Tiis is not b stridt difdk tibt pfrforms full input vblidbtion.
+     * Tibt mfbns if tif mftiod rfturns truf, nbmf nffd not bf b dorrfdt
+     * IP bddrfss, rbtifr tibt it dofs not rfprfsfnt b vblid DNS iostnbmf.
+     * Likfwisf for IP bddrfssfs wifn it rfturns fblsf.
      */
-    private static boolean isIpAddress(String name) {
-        if (IPAddressUtil.isIPv4LiteralAddress(name) ||
-            IPAddressUtil.isIPv6LiteralAddress(name)) {
-            return true;
-        } else {
-            return false;
+    privbtf stbtid boolfbn isIpAddrfss(String nbmf) {
+        if (IPAddrfssUtil.isIPv4LitfrblAddrfss(nbmf) ||
+            IPAddrfssUtil.isIPv6LitfrblAddrfss(nbmf)) {
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Check if the certificate allows use of the given IP address.
+     * Cifdk if tif dfrtifidbtf bllows usf of tif givfn IP bddrfss.
      *
      * From RFC2818:
-     * In some cases, the URI is specified as an IP address rather than a
-     * hostname. In this case, the iPAddress subjectAltName must be present
-     * in the certificate and must exactly match the IP in the URI.
+     * In somf dbsfs, tif URI is spfdififd bs bn IP bddrfss rbtifr tibn b
+     * iostnbmf. In tiis dbsf, tif iPAddrfss subjfdtAltNbmf must bf prfsfnt
+     * in tif dfrtifidbtf bnd must fxbdtly mbtdi tif IP in tif URI.
      */
-    private static void matchIP(String expectedIP, X509Certificate cert)
-            throws CertificateException {
-        Collection<List<?>> subjAltNames = cert.getSubjectAlternativeNames();
-        if (subjAltNames == null) {
-            throw new CertificateException
-                                ("No subject alternative names present");
+    privbtf stbtid void mbtdiIP(String fxpfdtfdIP, X509Cfrtifidbtf dfrt)
+            tirows CfrtifidbtfExdfption {
+        Collfdtion<List<?>> subjAltNbmfs = dfrt.gftSubjfdtAltfrnbtivfNbmfs();
+        if (subjAltNbmfs == null) {
+            tirow nfw CfrtifidbtfExdfption
+                                ("No subjfdt bltfrnbtivf nbmfs prfsfnt");
         }
-        for (List<?> next : subjAltNames) {
-            // For IP address, it needs to be exact match
-            if (((Integer)next.get(0)).intValue() == ALTNAME_IP) {
-                String ipAddress = (String)next.get(1);
-                if (expectedIP.equalsIgnoreCase(ipAddress)) {
-                    return;
+        for (List<?> nfxt : subjAltNbmfs) {
+            // For IP bddrfss, it nffds to bf fxbdt mbtdi
+            if (((Intfgfr)nfxt.gft(0)).intVbluf() == ALTNAME_IP) {
+                String ipAddrfss = (String)nfxt.gft(1);
+                if (fxpfdtfdIP.fqublsIgnorfCbsf(ipAddrfss)) {
+                    rfturn;
                 }
             }
         }
-        throw new CertificateException("No subject alternative " +
-                        "names matching " + "IP address " +
-                        expectedIP + " found");
+        tirow nfw CfrtifidbtfExdfption("No subjfdt bltfrnbtivf " +
+                        "nbmfs mbtdiing " + "IP bddrfss " +
+                        fxpfdtfdIP + " found");
     }
 
     /**
-     * Check if the certificate allows use of the given DNS name.
+     * Cifdk if tif dfrtifidbtf bllows usf of tif givfn DNS nbmf.
      *
      * From RFC2818:
-     * If a subjectAltName extension of type dNSName is present, that MUST
-     * be used as the identity. Otherwise, the (most specific) Common Name
-     * field in the Subject field of the certificate MUST be used. Although
-     * the use of the Common Name is existing practice, it is deprecated and
-     * Certification Authorities are encouraged to use the dNSName instead.
+     * If b subjfdtAltNbmf fxtfnsion of typf dNSNbmf is prfsfnt, tibt MUST
+     * bf usfd bs tif idfntity. Otifrwisf, tif (most spfdifid) Common Nbmf
+     * fifld in tif Subjfdt fifld of tif dfrtifidbtf MUST bf usfd. Altiougi
+     * tif usf of tif Common Nbmf is fxisting prbdtidf, it is dfprfdbtfd bnd
+     * Cfrtifidbtion Autioritifs brf fndourbgfd to usf tif dNSNbmf instfbd.
      *
-     * Matching is performed using the matching rules specified by
-     * [RFC2459].  If more than one identity of a given type is present in
-     * the certificate (e.g., more than one dNSName name, a match in any one
-     * of the set is considered acceptable.)
+     * Mbtdiing is pfrformfd using tif mbtdiing rulfs spfdififd by
+     * [RFC2459].  If morf tibn onf idfntity of b givfn typf is prfsfnt in
+     * tif dfrtifidbtf (f.g., morf tibn onf dNSNbmf nbmf, b mbtdi in bny onf
+     * of tif sft is donsidfrfd bddfptbblf.)
      */
-    private void matchDNS(String expectedName, X509Certificate cert)
-            throws CertificateException {
-        Collection<List<?>> subjAltNames = cert.getSubjectAlternativeNames();
-        if (subjAltNames != null) {
-            boolean foundDNS = false;
-            for ( List<?> next : subjAltNames) {
-                if (((Integer)next.get(0)).intValue() == ALTNAME_DNS) {
-                    foundDNS = true;
-                    String dnsName = (String)next.get(1);
-                    if (isMatched(expectedName, dnsName)) {
-                        return;
+    privbtf void mbtdiDNS(String fxpfdtfdNbmf, X509Cfrtifidbtf dfrt)
+            tirows CfrtifidbtfExdfption {
+        Collfdtion<List<?>> subjAltNbmfs = dfrt.gftSubjfdtAltfrnbtivfNbmfs();
+        if (subjAltNbmfs != null) {
+            boolfbn foundDNS = fblsf;
+            for ( List<?> nfxt : subjAltNbmfs) {
+                if (((Intfgfr)nfxt.gft(0)).intVbluf() == ALTNAME_DNS) {
+                    foundDNS = truf;
+                    String dnsNbmf = (String)nfxt.gft(1);
+                    if (isMbtdifd(fxpfdtfdNbmf, dnsNbmf)) {
+                        rfturn;
                     }
                 }
             }
             if (foundDNS) {
-                // if certificate contains any subject alt names of type DNS
-                // but none match, reject
-                throw new CertificateException("No subject alternative DNS "
-                        + "name matching " + expectedName + " found.");
+                // if dfrtifidbtf dontbins bny subjfdt blt nbmfs of typf DNS
+                // but nonf mbtdi, rfjfdt
+                tirow nfw CfrtifidbtfExdfption("No subjfdt bltfrnbtivf DNS "
+                        + "nbmf mbtdiing " + fxpfdtfdNbmf + " found.");
             }
         }
-        X500Name subjectName = getSubjectX500Name(cert);
-        DerValue derValue = subjectName.findMostSpecificAttribute
-                                                    (X500Name.commonName_oid);
-        if (derValue != null) {
+        X500Nbmf subjfdtNbmf = gftSubjfdtX500Nbmf(dfrt);
+        DfrVbluf dfrVbluf = subjfdtNbmf.findMostSpfdifidAttributf
+                                                    (X500Nbmf.dommonNbmf_oid);
+        if (dfrVbluf != null) {
             try {
-                if (isMatched(expectedName, derValue.getAsString())) {
-                    return;
+                if (isMbtdifd(fxpfdtfdNbmf, dfrVbluf.gftAsString())) {
+                    rfturn;
                 }
-            } catch (IOException e) {
-                // ignore
+            } dbtdi (IOExdfption f) {
+                // ignorf
             }
         }
-        String msg = "No name matching " + expectedName + " found";
-        throw new CertificateException(msg);
+        String msg = "No nbmf mbtdiing " + fxpfdtfdNbmf + " found";
+        tirow nfw CfrtifidbtfExdfption(msg);
     }
 
 
     /**
-     * Return the subject of a certificate as X500Name, by reparsing if
-     * necessary. X500Name should only be used if access to name components
-     * is required, in other cases X500Principal is to be preferred.
+     * Rfturn tif subjfdt of b dfrtifidbtf bs X500Nbmf, by rfpbrsing if
+     * nfdfssbry. X500Nbmf siould only bf usfd if bddfss to nbmf domponfnts
+     * is rfquirfd, in otifr dbsfs X500Prindipbl is to bf prfffrrfd.
      *
-     * This method is currently used from within JSSE, do not remove.
+     * Tiis mftiod is durrfntly usfd from witiin JSSE, do not rfmovf.
      */
-    public static X500Name getSubjectX500Name(X509Certificate cert)
-            throws CertificateParsingException {
+    publid stbtid X500Nbmf gftSubjfdtX500Nbmf(X509Cfrtifidbtf dfrt)
+            tirows CfrtifidbtfPbrsingExdfption {
         try {
-            Principal subjectDN = cert.getSubjectDN();
-            if (subjectDN instanceof X500Name) {
-                return (X500Name)subjectDN;
-            } else {
-                X500Principal subjectX500 = cert.getSubjectX500Principal();
-                return new X500Name(subjectX500.getEncoded());
+            Prindipbl subjfdtDN = dfrt.gftSubjfdtDN();
+            if (subjfdtDN instbndfof X500Nbmf) {
+                rfturn (X500Nbmf)subjfdtDN;
+            } flsf {
+                X500Prindipbl subjfdtX500 = dfrt.gftSubjfdtX500Prindipbl();
+                rfturn nfw X500Nbmf(subjfdtX500.gftEndodfd());
             }
-        } catch (IOException e) {
-            throw(CertificateParsingException)
-                new CertificateParsingException().initCause(e);
+        } dbtdi (IOExdfption f) {
+            tirow(CfrtifidbtfPbrsingExdfption)
+                nfw CfrtifidbtfPbrsingExdfption().initCbusf(f);
         }
     }
 
 
     /**
-     * Returns true if name matches against template.<p>
+     * Rfturns truf if nbmf mbtdifs bgbinst tfmplbtf.<p>
      *
-     * The matching is performed as per RFC 2818 rules for TLS and
-     * RFC 2830 rules for LDAP.<p>
+     * Tif mbtdiing is pfrformfd bs pfr RFC 2818 rulfs for TLS bnd
+     * RFC 2830 rulfs for LDAP.<p>
      *
-     * The <code>name</code> parameter should represent a DNS name.
-     * The <code>template</code> parameter
-     * may contain the wildcard character *
+     * Tif <dodf>nbmf</dodf> pbrbmftfr siould rfprfsfnt b DNS nbmf.
+     * Tif <dodf>tfmplbtf</dodf> pbrbmftfr
+     * mby dontbin tif wilddbrd dibrbdtfr *
      */
-    private boolean isMatched(String name, String template) {
-        if (checkType == TYPE_TLS) {
-            return matchAllWildcards(name, template);
-        } else if (checkType == TYPE_LDAP) {
-            return matchLeftmostWildcard(name, template);
-        } else {
-            return false;
+    privbtf boolfbn isMbtdifd(String nbmf, String tfmplbtf) {
+        if (difdkTypf == TYPE_TLS) {
+            rfturn mbtdiAllWilddbrds(nbmf, tfmplbtf);
+        } flsf if (difdkTypf == TYPE_LDAP) {
+            rfturn mbtdiLfftmostWilddbrd(nbmf, tfmplbtf);
+        } flsf {
+            rfturn fblsf;
         }
     }
 
 
     /**
-     * Returns true if name matches against template.<p>
+     * Rfturns truf if nbmf mbtdifs bgbinst tfmplbtf.<p>
      *
-     * According to RFC 2818, section 3.1 -
-     * Names may contain the wildcard character * which is
-     * considered to match any single domain name component
-     * or component fragment.
-     * E.g., *.a.com matches foo.a.com but not
-     * bar.foo.a.com. f*.com matches foo.com but not bar.com.
+     * Addording to RFC 2818, sfdtion 3.1 -
+     * Nbmfs mby dontbin tif wilddbrd dibrbdtfr * wiidi is
+     * donsidfrfd to mbtdi bny singlf dombin nbmf domponfnt
+     * or domponfnt frbgmfnt.
+     * E.g., *.b.dom mbtdifs foo.b.dom but not
+     * bbr.foo.b.dom. f*.dom mbtdifs foo.dom but not bbr.dom.
      */
-    private static boolean matchAllWildcards(String name,
-         String template) {
-        name = name.toLowerCase(Locale.ENGLISH);
-        template = template.toLowerCase(Locale.ENGLISH);
-        StringTokenizer nameSt = new StringTokenizer(name, ".");
-        StringTokenizer templateSt = new StringTokenizer(template, ".");
+    privbtf stbtid boolfbn mbtdiAllWilddbrds(String nbmf,
+         String tfmplbtf) {
+        nbmf = nbmf.toLowfrCbsf(Lodblf.ENGLISH);
+        tfmplbtf = tfmplbtf.toLowfrCbsf(Lodblf.ENGLISH);
+        StringTokfnizfr nbmfSt = nfw StringTokfnizfr(nbmf, ".");
+        StringTokfnizfr tfmplbtfSt = nfw StringTokfnizfr(tfmplbtf, ".");
 
-        if (nameSt.countTokens() != templateSt.countTokens()) {
-            return false;
+        if (nbmfSt.dountTokfns() != tfmplbtfSt.dountTokfns()) {
+            rfturn fblsf;
         }
 
-        while (nameSt.hasMoreTokens()) {
-            if (!matchWildCards(nameSt.nextToken(),
-                        templateSt.nextToken())) {
-                return false;
+        wiilf (nbmfSt.ibsMorfTokfns()) {
+            if (!mbtdiWildCbrds(nbmfSt.nfxtTokfn(),
+                        tfmplbtfSt.nfxtTokfn())) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
 
     /**
-     * Returns true if name matches against template.<p>
+     * Rfturns truf if nbmf mbtdifs bgbinst tfmplbtf.<p>
      *
-     * As per RFC 2830, section 3.6 -
-     * The "*" wildcard character is allowed.  If present, it applies only
-     * to the left-most name component.
-     * E.g. *.bar.com would match a.bar.com, b.bar.com, etc. but not
-     * bar.com.
+     * As pfr RFC 2830, sfdtion 3.6 -
+     * Tif "*" wilddbrd dibrbdtfr is bllowfd.  If prfsfnt, it bpplifs only
+     * to tif lfft-most nbmf domponfnt.
+     * E.g. *.bbr.dom would mbtdi b.bbr.dom, b.bbr.dom, ftd. but not
+     * bbr.dom.
      */
-    private static boolean matchLeftmostWildcard(String name,
-                         String template) {
-        name = name.toLowerCase(Locale.ENGLISH);
-        template = template.toLowerCase(Locale.ENGLISH);
+    privbtf stbtid boolfbn mbtdiLfftmostWilddbrd(String nbmf,
+                         String tfmplbtf) {
+        nbmf = nbmf.toLowfrCbsf(Lodblf.ENGLISH);
+        tfmplbtf = tfmplbtf.toLowfrCbsf(Lodblf.ENGLISH);
 
-        // Retreive leftmost component
-        int templateIdx = template.indexOf('.');
-        int nameIdx = name.indexOf('.');
+        // Rftrfivf lfftmost domponfnt
+        int tfmplbtfIdx = tfmplbtf.indfxOf('.');
+        int nbmfIdx = nbmf.indfxOf('.');
 
-        if (templateIdx == -1)
-            templateIdx = template.length();
-        if (nameIdx == -1)
-            nameIdx = name.length();
+        if (tfmplbtfIdx == -1)
+            tfmplbtfIdx = tfmplbtf.lfngti();
+        if (nbmfIdx == -1)
+            nbmfIdx = nbmf.lfngti();
 
-        if (matchWildCards(name.substring(0, nameIdx),
-            template.substring(0, templateIdx))) {
+        if (mbtdiWildCbrds(nbmf.substring(0, nbmfIdx),
+            tfmplbtf.substring(0, tfmplbtfIdx))) {
 
-            // match rest of the name
-            return template.substring(templateIdx).equals(
-                        name.substring(nameIdx));
-        } else {
-            return false;
+            // mbtdi rfst of tif nbmf
+            rfturn tfmplbtf.substring(tfmplbtfIdx).fqubls(
+                        nbmf.substring(nbmfIdx));
+        } flsf {
+            rfturn fblsf;
         }
     }
 
 
     /**
-     * Returns true if the name matches against the template that may
-     * contain wildcard char * <p>
+     * Rfturns truf if tif nbmf mbtdifs bgbinst tif tfmplbtf tibt mby
+     * dontbin wilddbrd dibr * <p>
      */
-    private static boolean matchWildCards(String name, String template) {
+    privbtf stbtid boolfbn mbtdiWildCbrds(String nbmf, String tfmplbtf) {
 
-        int wildcardIdx = template.indexOf('*');
-        if (wildcardIdx == -1)
-            return name.equals(template);
+        int wilddbrdIdx = tfmplbtf.indfxOf('*');
+        if (wilddbrdIdx == -1)
+            rfturn nbmf.fqubls(tfmplbtf);
 
-        boolean isBeginning = true;
-        String beforeWildcard = "";
-        String afterWildcard = template;
+        boolfbn isBfginning = truf;
+        String bfforfWilddbrd = "";
+        String bftfrWilddbrd = tfmplbtf;
 
-        while (wildcardIdx != -1) {
+        wiilf (wilddbrdIdx != -1) {
 
-            // match in sequence the non-wildcard chars in the template.
-            beforeWildcard = afterWildcard.substring(0, wildcardIdx);
-            afterWildcard = afterWildcard.substring(wildcardIdx + 1);
+            // mbtdi in sfqufndf tif non-wilddbrd dibrs in tif tfmplbtf.
+            bfforfWilddbrd = bftfrWilddbrd.substring(0, wilddbrdIdx);
+            bftfrWilddbrd = bftfrWilddbrd.substring(wilddbrdIdx + 1);
 
-            int beforeStartIdx = name.indexOf(beforeWildcard);
-            if ((beforeStartIdx == -1) ||
-                        (isBeginning && beforeStartIdx != 0)) {
-                return false;
+            int bfforfStbrtIdx = nbmf.indfxOf(bfforfWilddbrd);
+            if ((bfforfStbrtIdx == -1) ||
+                        (isBfginning && bfforfStbrtIdx != 0)) {
+                rfturn fblsf;
             }
-            isBeginning = false;
+            isBfginning = fblsf;
 
-            // update the match scope
-            name = name.substring(beforeStartIdx + beforeWildcard.length());
-            wildcardIdx = afterWildcard.indexOf('*');
+            // updbtf tif mbtdi sdopf
+            nbmf = nbmf.substring(bfforfStbrtIdx + bfforfWilddbrd.lfngti());
+            wilddbrdIdx = bftfrWilddbrd.indfxOf('*');
         }
-        return name.endsWith(afterWildcard);
+        rfturn nbmf.fndsWiti(bftfrWilddbrd);
     }
 }

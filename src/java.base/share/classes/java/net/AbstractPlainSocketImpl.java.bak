@@ -1,627 +1,627 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.FileDescriptor;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.FilfDfsdriptor;
 
-import sun.net.ConnectionResetException;
-import sun.net.NetHooks;
-import sun.net.ResourceManager;
+import sun.nft.ConnfdtionRfsftExdfption;
+import sun.nft.NftHooks;
+import sun.nft.RfsourdfMbnbgfr;
 
 /**
- * Default Socket Implementation. This implementation does
- * not implement any security checks.
- * Note this class should <b>NOT</b> be public.
+ * Dffbult Sodkft Implfmfntbtion. Tiis implfmfntbtion dofs
+ * not implfmfnt bny sfdurity difdks.
+ * Notf tiis dlbss siould <b>NOT</b> bf publid.
  *
- * @author  Steven B. Byrne
+ * @butior  Stfvfn B. Byrnf
  */
-abstract class AbstractPlainSocketImpl extends SocketImpl
+bbstrbdt dlbss AbstrbdtPlbinSodkftImpl fxtfnds SodkftImpl
 {
-    /* instance variable for SO_TIMEOUT */
-    int timeout;   // timeout in millisec
-    // traffic class
-    private int trafficClass;
+    /* instbndf vbribblf for SO_TIMEOUT */
+    int timfout;   // timfout in millisfd
+    // trbffid dlbss
+    privbtf int trbffidClbss;
 
-    private boolean shut_rd = false;
-    private boolean shut_wr = false;
+    privbtf boolfbn siut_rd = fblsf;
+    privbtf boolfbn siut_wr = fblsf;
 
-    private SocketInputStream socketInputStream = null;
-    private SocketOutputStream socketOutputStream = null;
+    privbtf SodkftInputStrfbm sodkftInputStrfbm = null;
+    privbtf SodkftOutputStrfbm sodkftOutputStrfbm = null;
 
-    /* number of threads using the FileDescriptor */
-    protected int fdUseCount = 0;
+    /* numbfr of tirfbds using tif FilfDfsdriptor */
+    protfdtfd int fdUsfCount = 0;
 
-    /* lock when increment/decrementing fdUseCount */
-    protected final Object fdLock = new Object();
+    /* lodk wifn indrfmfnt/dfdrfmfnting fdUsfCount */
+    protfdtfd finbl Objfdt fdLodk = nfw Objfdt();
 
-    /* indicates a close is pending on the file descriptor */
-    protected boolean closePending = false;
+    /* indidbtfs b dlosf is pfnding on tif filf dfsdriptor */
+    protfdtfd boolfbn dlosfPfnding = fblsf;
 
-    /* indicates connection reset state */
-    private int CONNECTION_NOT_RESET = 0;
-    private int CONNECTION_RESET_PENDING = 1;
-    private int CONNECTION_RESET = 2;
-    private int resetState;
-    private final Object resetLock = new Object();
+    /* indidbtfs donnfdtion rfsft stbtf */
+    privbtf int CONNECTION_NOT_RESET = 0;
+    privbtf int CONNECTION_RESET_PENDING = 1;
+    privbtf int CONNECTION_RESET = 2;
+    privbtf int rfsftStbtf;
+    privbtf finbl Objfdt rfsftLodk = nfw Objfdt();
 
-   /* whether this Socket is a stream (TCP) socket or not (UDP)
+   /* wiftifr tiis Sodkft is b strfbm (TCP) sodkft or not (UDP)
     */
-    protected boolean stream;
+    protfdtfd boolfbn strfbm;
 
     /**
-     * Load net library into runtime.
+     * Lobd nft librbry into runtimf.
      */
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
-                public Void run() {
-                    System.loadLibrary("net");
-                    return null;
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("nft");
+                    rfturn null;
                 }
             });
     }
 
     /**
-     * Creates a socket with a boolean that specifies whether this
-     * is a stream socket (true) or an unconnected UDP socket (false).
+     * Crfbtfs b sodkft witi b boolfbn tibt spfdififs wiftifr tiis
+     * is b strfbm sodkft (truf) or bn undonnfdtfd UDP sodkft (fblsf).
      */
-    protected synchronized void create(boolean stream) throws IOException {
-        this.stream = stream;
-        if (!stream) {
-            ResourceManager.beforeUdpCreate();
-            // only create the fd after we know we will be able to create the socket
-            fd = new FileDescriptor();
+    protfdtfd syndironizfd void drfbtf(boolfbn strfbm) tirows IOExdfption {
+        tiis.strfbm = strfbm;
+        if (!strfbm) {
+            RfsourdfMbnbgfr.bfforfUdpCrfbtf();
+            // only drfbtf tif fd bftfr wf know wf will bf bblf to drfbtf tif sodkft
+            fd = nfw FilfDfsdriptor();
             try {
-                socketCreate(false);
-            } catch (IOException ioe) {
-                ResourceManager.afterUdpClose();
+                sodkftCrfbtf(fblsf);
+            } dbtdi (IOExdfption iof) {
+                RfsourdfMbnbgfr.bftfrUdpClosf();
                 fd = null;
-                throw ioe;
+                tirow iof;
             }
-        } else {
-            fd = new FileDescriptor();
-            socketCreate(true);
+        } flsf {
+            fd = nfw FilfDfsdriptor();
+            sodkftCrfbtf(truf);
         }
-        if (socket != null)
-            socket.setCreated();
-        if (serverSocket != null)
-            serverSocket.setCreated();
+        if (sodkft != null)
+            sodkft.sftCrfbtfd();
+        if (sfrvfrSodkft != null)
+            sfrvfrSodkft.sftCrfbtfd();
     }
 
     /**
-     * Creates a socket and connects it to the specified port on
-     * the specified host.
-     * @param host the specified host
-     * @param port the specified port
+     * Crfbtfs b sodkft bnd donnfdts it to tif spfdififd port on
+     * tif spfdififd iost.
+     * @pbrbm iost tif spfdififd iost
+     * @pbrbm port tif spfdififd port
      */
-    protected void connect(String host, int port)
-        throws UnknownHostException, IOException
+    protfdtfd void donnfdt(String iost, int port)
+        tirows UnknownHostExdfption, IOExdfption
     {
-        boolean connected = false;
+        boolfbn donnfdtfd = fblsf;
         try {
-            InetAddress address = InetAddress.getByName(host);
-            this.port = port;
-            this.address = address;
+            InftAddrfss bddrfss = InftAddrfss.gftByNbmf(iost);
+            tiis.port = port;
+            tiis.bddrfss = bddrfss;
 
-            connectToAddress(address, port, timeout);
-            connected = true;
-        } finally {
-            if (!connected) {
+            donnfdtToAddrfss(bddrfss, port, timfout);
+            donnfdtfd = truf;
+        } finblly {
+            if (!donnfdtfd) {
                 try {
-                    close();
-                } catch (IOException ioe) {
-                    /* Do nothing. If connect threw an exception then
-                       it will be passed up the call stack */
+                    dlosf();
+                } dbtdi (IOExdfption iof) {
+                    /* Do notiing. If donnfdt tirfw bn fxdfption tifn
+                       it will bf pbssfd up tif dbll stbdk */
                 }
             }
         }
     }
 
     /**
-     * Creates a socket and connects it to the specified address on
-     * the specified port.
-     * @param address the address
-     * @param port the specified port
+     * Crfbtfs b sodkft bnd donnfdts it to tif spfdififd bddrfss on
+     * tif spfdififd port.
+     * @pbrbm bddrfss tif bddrfss
+     * @pbrbm port tif spfdififd port
      */
-    protected void connect(InetAddress address, int port) throws IOException {
-        this.port = port;
-        this.address = address;
+    protfdtfd void donnfdt(InftAddrfss bddrfss, int port) tirows IOExdfption {
+        tiis.port = port;
+        tiis.bddrfss = bddrfss;
 
         try {
-            connectToAddress(address, port, timeout);
-            return;
-        } catch (IOException e) {
-            // everything failed
-            close();
-            throw e;
+            donnfdtToAddrfss(bddrfss, port, timfout);
+            rfturn;
+        } dbtdi (IOExdfption f) {
+            // fvfrytiing fbilfd
+            dlosf();
+            tirow f;
         }
     }
 
     /**
-     * Creates a socket and connects it to the specified address on
-     * the specified port.
-     * @param address the address
-     * @param timeout the timeout value in milliseconds, or zero for no timeout.
-     * @throws IOException if connection fails
-     * @throws  IllegalArgumentException if address is null or is a
-     *          SocketAddress subclass not supported by this socket
-     * @since 1.4
+     * Crfbtfs b sodkft bnd donnfdts it to tif spfdififd bddrfss on
+     * tif spfdififd port.
+     * @pbrbm bddrfss tif bddrfss
+     * @pbrbm timfout tif timfout vbluf in millisfdonds, or zfro for no timfout.
+     * @tirows IOExdfption if donnfdtion fbils
+     * @tirows  IllfgblArgumfntExdfption if bddrfss is null or is b
+     *          SodkftAddrfss subdlbss not supportfd by tiis sodkft
+     * @sindf 1.4
      */
-    protected void connect(SocketAddress address, int timeout)
-            throws IOException {
-        boolean connected = false;
+    protfdtfd void donnfdt(SodkftAddrfss bddrfss, int timfout)
+            tirows IOExdfption {
+        boolfbn donnfdtfd = fblsf;
         try {
-            if (address == null || !(address instanceof InetSocketAddress))
-                throw new IllegalArgumentException("unsupported address type");
-            InetSocketAddress addr = (InetSocketAddress) address;
-            if (addr.isUnresolved())
-                throw new UnknownHostException(addr.getHostName());
-            this.port = addr.getPort();
-            this.address = addr.getAddress();
+            if (bddrfss == null || !(bddrfss instbndfof InftSodkftAddrfss))
+                tirow nfw IllfgblArgumfntExdfption("unsupportfd bddrfss typf");
+            InftSodkftAddrfss bddr = (InftSodkftAddrfss) bddrfss;
+            if (bddr.isUnrfsolvfd())
+                tirow nfw UnknownHostExdfption(bddr.gftHostNbmf());
+            tiis.port = bddr.gftPort();
+            tiis.bddrfss = bddr.gftAddrfss();
 
-            connectToAddress(this.address, port, timeout);
-            connected = true;
-        } finally {
-            if (!connected) {
+            donnfdtToAddrfss(tiis.bddrfss, port, timfout);
+            donnfdtfd = truf;
+        } finblly {
+            if (!donnfdtfd) {
                 try {
-                    close();
-                } catch (IOException ioe) {
-                    /* Do nothing. If connect threw an exception then
-                       it will be passed up the call stack */
+                    dlosf();
+                } dbtdi (IOExdfption iof) {
+                    /* Do notiing. If donnfdt tirfw bn fxdfption tifn
+                       it will bf pbssfd up tif dbll stbdk */
                 }
             }
         }
     }
 
-    private void connectToAddress(InetAddress address, int port, int timeout) throws IOException {
-        if (address.isAnyLocalAddress()) {
-            doConnect(InetAddress.getLocalHost(), port, timeout);
-        } else {
-            doConnect(address, port, timeout);
+    privbtf void donnfdtToAddrfss(InftAddrfss bddrfss, int port, int timfout) tirows IOExdfption {
+        if (bddrfss.isAnyLodblAddrfss()) {
+            doConnfdt(InftAddrfss.gftLodblHost(), port, timfout);
+        } flsf {
+            doConnfdt(bddrfss, port, timfout);
         }
     }
 
-    public void setOption(int opt, Object val) throws SocketException {
-        if (isClosedOrPending()) {
-            throw new SocketException("Socket Closed");
+    publid void sftOption(int opt, Objfdt vbl) tirows SodkftExdfption {
+        if (isClosfdOrPfnding()) {
+            tirow nfw SodkftExdfption("Sodkft Closfd");
         }
-        boolean on = true;
-        switch (opt) {
-            /* check type safety b4 going native.  These should never
-             * fail, since only java.Socket* has access to
-             * PlainSocketImpl.setOption().
+        boolfbn on = truf;
+        switdi (opt) {
+            /* difdk typf sbffty b4 going nbtivf.  Tifsf siould nfvfr
+             * fbil, sindf only jbvb.Sodkft* ibs bddfss to
+             * PlbinSodkftImpl.sftOption().
              */
-        case SO_LINGER:
-            if (val == null || (!(val instanceof Integer) && !(val instanceof Boolean)))
-                throw new SocketException("Bad parameter for option");
-            if (val instanceof Boolean) {
-                /* true only if disabling - enabling should be Integer */
-                on = false;
+        dbsf SO_LINGER:
+            if (vbl == null || (!(vbl instbndfof Intfgfr) && !(vbl instbndfof Boolfbn)))
+                tirow nfw SodkftExdfption("Bbd pbrbmftfr for option");
+            if (vbl instbndfof Boolfbn) {
+                /* truf only if disbbling - fnbbling siould bf Intfgfr */
+                on = fblsf;
             }
-            break;
-        case SO_TIMEOUT:
-            if (val == null || (!(val instanceof Integer)))
-                throw new SocketException("Bad parameter for SO_TIMEOUT");
-            int tmp = ((Integer) val).intValue();
+            brfbk;
+        dbsf SO_TIMEOUT:
+            if (vbl == null || (!(vbl instbndfof Intfgfr)))
+                tirow nfw SodkftExdfption("Bbd pbrbmftfr for SO_TIMEOUT");
+            int tmp = ((Intfgfr) vbl).intVbluf();
             if (tmp < 0)
-                throw new IllegalArgumentException("timeout < 0");
-            timeout = tmp;
-            break;
-        case IP_TOS:
-             if (val == null || !(val instanceof Integer)) {
-                 throw new SocketException("bad argument for IP_TOS");
+                tirow nfw IllfgblArgumfntExdfption("timfout < 0");
+            timfout = tmp;
+            brfbk;
+        dbsf IP_TOS:
+             if (vbl == null || !(vbl instbndfof Intfgfr)) {
+                 tirow nfw SodkftExdfption("bbd brgumfnt for IP_TOS");
              }
-             trafficClass = ((Integer)val).intValue();
-             break;
-        case SO_BINDADDR:
-            throw new SocketException("Cannot re-bind socket");
-        case TCP_NODELAY:
-            if (val == null || !(val instanceof Boolean))
-                throw new SocketException("bad parameter for TCP_NODELAY");
-            on = ((Boolean)val).booleanValue();
-            break;
-        case SO_SNDBUF:
-        case SO_RCVBUF:
-            if (val == null || !(val instanceof Integer) ||
-                !(((Integer)val).intValue() > 0)) {
-                throw new SocketException("bad parameter for SO_SNDBUF " +
+             trbffidClbss = ((Intfgfr)vbl).intVbluf();
+             brfbk;
+        dbsf SO_BINDADDR:
+            tirow nfw SodkftExdfption("Cbnnot rf-bind sodkft");
+        dbsf TCP_NODELAY:
+            if (vbl == null || !(vbl instbndfof Boolfbn))
+                tirow nfw SodkftExdfption("bbd pbrbmftfr for TCP_NODELAY");
+            on = ((Boolfbn)vbl).boolfbnVbluf();
+            brfbk;
+        dbsf SO_SNDBUF:
+        dbsf SO_RCVBUF:
+            if (vbl == null || !(vbl instbndfof Intfgfr) ||
+                !(((Intfgfr)vbl).intVbluf() > 0)) {
+                tirow nfw SodkftExdfption("bbd pbrbmftfr for SO_SNDBUF " +
                                           "or SO_RCVBUF");
             }
-            break;
-        case SO_KEEPALIVE:
-            if (val == null || !(val instanceof Boolean))
-                throw new SocketException("bad parameter for SO_KEEPALIVE");
-            on = ((Boolean)val).booleanValue();
-            break;
-        case SO_OOBINLINE:
-            if (val == null || !(val instanceof Boolean))
-                throw new SocketException("bad parameter for SO_OOBINLINE");
-            on = ((Boolean)val).booleanValue();
-            break;
-        case SO_REUSEADDR:
-            if (val == null || !(val instanceof Boolean))
-                throw new SocketException("bad parameter for SO_REUSEADDR");
-            on = ((Boolean)val).booleanValue();
-            break;
-        default:
-            throw new SocketException("unrecognized TCP option: " + opt);
+            brfbk;
+        dbsf SO_KEEPALIVE:
+            if (vbl == null || !(vbl instbndfof Boolfbn))
+                tirow nfw SodkftExdfption("bbd pbrbmftfr for SO_KEEPALIVE");
+            on = ((Boolfbn)vbl).boolfbnVbluf();
+            brfbk;
+        dbsf SO_OOBINLINE:
+            if (vbl == null || !(vbl instbndfof Boolfbn))
+                tirow nfw SodkftExdfption("bbd pbrbmftfr for SO_OOBINLINE");
+            on = ((Boolfbn)vbl).boolfbnVbluf();
+            brfbk;
+        dbsf SO_REUSEADDR:
+            if (vbl == null || !(vbl instbndfof Boolfbn))
+                tirow nfw SodkftExdfption("bbd pbrbmftfr for SO_REUSEADDR");
+            on = ((Boolfbn)vbl).boolfbnVbluf();
+            brfbk;
+        dffbult:
+            tirow nfw SodkftExdfption("unrfdognizfd TCP option: " + opt);
         }
-        socketSetOption(opt, on, val);
+        sodkftSftOption(opt, on, vbl);
     }
-    public Object getOption(int opt) throws SocketException {
-        if (isClosedOrPending()) {
-            throw new SocketException("Socket Closed");
+    publid Objfdt gftOption(int opt) tirows SodkftExdfption {
+        if (isClosfdOrPfnding()) {
+            tirow nfw SodkftExdfption("Sodkft Closfd");
         }
         if (opt == SO_TIMEOUT) {
-            return timeout;
+            rfturn timfout;
         }
-        int ret = 0;
+        int rft = 0;
         /*
-         * The native socketGetOption() knows about 3 options.
-         * The 32 bit value it returns will be interpreted according
-         * to what we're asking.  A return of -1 means it understands
-         * the option but its turned off.  It will raise a SocketException
-         * if "opt" isn't one it understands.
+         * Tif nbtivf sodkftGftOption() knows bbout 3 options.
+         * Tif 32 bit vbluf it rfturns will bf intfrprftfd bddording
+         * to wibt wf'rf bsking.  A rfturn of -1 mfbns it undfrstbnds
+         * tif option but its turnfd off.  It will rbisf b SodkftExdfption
+         * if "opt" isn't onf it undfrstbnds.
          */
 
-        switch (opt) {
-        case TCP_NODELAY:
-            ret = socketGetOption(opt, null);
-            return Boolean.valueOf(ret != -1);
-        case SO_OOBINLINE:
-            ret = socketGetOption(opt, null);
-            return Boolean.valueOf(ret != -1);
-        case SO_LINGER:
-            ret = socketGetOption(opt, null);
-            return (ret == -1) ? Boolean.FALSE: (Object)(ret);
-        case SO_REUSEADDR:
-            ret = socketGetOption(opt, null);
-            return Boolean.valueOf(ret != -1);
-        case SO_BINDADDR:
-            InetAddressContainer in = new InetAddressContainer();
-            ret = socketGetOption(opt, in);
-            return in.addr;
-        case SO_SNDBUF:
-        case SO_RCVBUF:
-            ret = socketGetOption(opt, null);
-            return ret;
-        case IP_TOS:
-            ret = socketGetOption(opt, null);
-            if (ret == -1) { // ipv6 tos
-                return trafficClass;
-            } else {
-                return ret;
+        switdi (opt) {
+        dbsf TCP_NODELAY:
+            rft = sodkftGftOption(opt, null);
+            rfturn Boolfbn.vblufOf(rft != -1);
+        dbsf SO_OOBINLINE:
+            rft = sodkftGftOption(opt, null);
+            rfturn Boolfbn.vblufOf(rft != -1);
+        dbsf SO_LINGER:
+            rft = sodkftGftOption(opt, null);
+            rfturn (rft == -1) ? Boolfbn.FALSE: (Objfdt)(rft);
+        dbsf SO_REUSEADDR:
+            rft = sodkftGftOption(opt, null);
+            rfturn Boolfbn.vblufOf(rft != -1);
+        dbsf SO_BINDADDR:
+            InftAddrfssContbinfr in = nfw InftAddrfssContbinfr();
+            rft = sodkftGftOption(opt, in);
+            rfturn in.bddr;
+        dbsf SO_SNDBUF:
+        dbsf SO_RCVBUF:
+            rft = sodkftGftOption(opt, null);
+            rfturn rft;
+        dbsf IP_TOS:
+            rft = sodkftGftOption(opt, null);
+            if (rft == -1) { // ipv6 tos
+                rfturn trbffidClbss;
+            } flsf {
+                rfturn rft;
             }
-        case SO_KEEPALIVE:
-            ret = socketGetOption(opt, null);
-            return Boolean.valueOf(ret != -1);
-        // should never get here
-        default:
-            return null;
+        dbsf SO_KEEPALIVE:
+            rft = sodkftGftOption(opt, null);
+            rfturn Boolfbn.vblufOf(rft != -1);
+        // siould nfvfr gft ifrf
+        dffbult:
+            rfturn null;
         }
     }
 
     /**
-     * The workhorse of the connection operation.  Tries several times to
-     * establish a connection to the given <host, port>.  If unsuccessful,
-     * throws an IOException indicating what went wrong.
+     * Tif workiorsf of tif donnfdtion opfrbtion.  Trifs sfvfrbl timfs to
+     * fstbblisi b donnfdtion to tif givfn <iost, port>.  If unsuddfssful,
+     * tirows bn IOExdfption indidbting wibt wfnt wrong.
      */
 
-    synchronized void doConnect(InetAddress address, int port, int timeout) throws IOException {
-        synchronized (fdLock) {
-            if (!closePending && (socket == null || !socket.isBound())) {
-                NetHooks.beforeTcpConnect(fd, address, port);
+    syndironizfd void doConnfdt(InftAddrfss bddrfss, int port, int timfout) tirows IOExdfption {
+        syndironizfd (fdLodk) {
+            if (!dlosfPfnding && (sodkft == null || !sodkft.isBound())) {
+                NftHooks.bfforfTdpConnfdt(fd, bddrfss, port);
             }
         }
         try {
-            acquireFD();
+            bdquirfFD();
             try {
-                socketConnect(address, port, timeout);
-                /* socket may have been closed during poll/select */
-                synchronized (fdLock) {
-                    if (closePending) {
-                        throw new SocketException ("Socket closed");
+                sodkftConnfdt(bddrfss, port, timfout);
+                /* sodkft mby ibvf bffn dlosfd during poll/sflfdt */
+                syndironizfd (fdLodk) {
+                    if (dlosfPfnding) {
+                        tirow nfw SodkftExdfption ("Sodkft dlosfd");
                     }
                 }
-                // If we have a ref. to the Socket, then sets the flags
-                // created, bound & connected to true.
-                // This is normally done in Socket.connect() but some
-                // subclasses of Socket may call impl.connect() directly!
-                if (socket != null) {
-                    socket.setBound();
-                    socket.setConnected();
+                // If wf ibvf b rff. to tif Sodkft, tifn sfts tif flbgs
+                // drfbtfd, bound & donnfdtfd to truf.
+                // Tiis is normblly donf in Sodkft.donnfdt() but somf
+                // subdlbssfs of Sodkft mby dbll impl.donnfdt() dirfdtly!
+                if (sodkft != null) {
+                    sodkft.sftBound();
+                    sodkft.sftConnfdtfd();
                 }
-            } finally {
-                releaseFD();
+            } finblly {
+                rflfbsfFD();
             }
-        } catch (IOException e) {
-            close();
-            throw e;
+        } dbtdi (IOExdfption f) {
+            dlosf();
+            tirow f;
         }
     }
 
     /**
-     * Binds the socket to the specified address of the specified local port.
-     * @param address the address
-     * @param lport the port
+     * Binds tif sodkft to tif spfdififd bddrfss of tif spfdififd lodbl port.
+     * @pbrbm bddrfss tif bddrfss
+     * @pbrbm lport tif port
      */
-    protected synchronized void bind(InetAddress address, int lport)
-        throws IOException
+    protfdtfd syndironizfd void bind(InftAddrfss bddrfss, int lport)
+        tirows IOExdfption
     {
-       synchronized (fdLock) {
-            if (!closePending && (socket == null || !socket.isBound())) {
-                NetHooks.beforeTcpBind(fd, address, lport);
+       syndironizfd (fdLodk) {
+            if (!dlosfPfnding && (sodkft == null || !sodkft.isBound())) {
+                NftHooks.bfforfTdpBind(fd, bddrfss, lport);
             }
         }
-        socketBind(address, lport);
-        if (socket != null)
-            socket.setBound();
-        if (serverSocket != null)
-            serverSocket.setBound();
+        sodkftBind(bddrfss, lport);
+        if (sodkft != null)
+            sodkft.sftBound();
+        if (sfrvfrSodkft != null)
+            sfrvfrSodkft.sftBound();
     }
 
     /**
-     * Listens, for a specified amount of time, for connections.
-     * @param count the amount of time to listen for connections
+     * Listfns, for b spfdififd bmount of timf, for donnfdtions.
+     * @pbrbm dount tif bmount of timf to listfn for donnfdtions
      */
-    protected synchronized void listen(int count) throws IOException {
-        socketListen(count);
+    protfdtfd syndironizfd void listfn(int dount) tirows IOExdfption {
+        sodkftListfn(dount);
     }
 
     /**
-     * Accepts connections.
-     * @param s the connection
+     * Addfpts donnfdtions.
+     * @pbrbm s tif donnfdtion
      */
-    protected void accept(SocketImpl s) throws IOException {
-        acquireFD();
+    protfdtfd void bddfpt(SodkftImpl s) tirows IOExdfption {
+        bdquirfFD();
         try {
-            socketAccept(s);
-        } finally {
-            releaseFD();
+            sodkftAddfpt(s);
+        } finblly {
+            rflfbsfFD();
         }
     }
 
     /**
-     * Gets an InputStream for this socket.
+     * Gfts bn InputStrfbm for tiis sodkft.
      */
-    protected synchronized InputStream getInputStream() throws IOException {
-        synchronized (fdLock) {
-            if (isClosedOrPending())
-                throw new IOException("Socket Closed");
-            if (shut_rd)
-                throw new IOException("Socket input is shutdown");
-            if (socketInputStream == null)
-                socketInputStream = new SocketInputStream(this);
+    protfdtfd syndironizfd InputStrfbm gftInputStrfbm() tirows IOExdfption {
+        syndironizfd (fdLodk) {
+            if (isClosfdOrPfnding())
+                tirow nfw IOExdfption("Sodkft Closfd");
+            if (siut_rd)
+                tirow nfw IOExdfption("Sodkft input is siutdown");
+            if (sodkftInputStrfbm == null)
+                sodkftInputStrfbm = nfw SodkftInputStrfbm(tiis);
         }
-        return socketInputStream;
+        rfturn sodkftInputStrfbm;
     }
 
-    void setInputStream(SocketInputStream in) {
-        socketInputStream = in;
+    void sftInputStrfbm(SodkftInputStrfbm in) {
+        sodkftInputStrfbm = in;
     }
 
     /**
-     * Gets an OutputStream for this socket.
+     * Gfts bn OutputStrfbm for tiis sodkft.
      */
-    protected synchronized OutputStream getOutputStream() throws IOException {
-        synchronized (fdLock) {
-            if (isClosedOrPending())
-                throw new IOException("Socket Closed");
-            if (shut_wr)
-                throw new IOException("Socket output is shutdown");
-            if (socketOutputStream == null)
-                socketOutputStream = new SocketOutputStream(this);
+    protfdtfd syndironizfd OutputStrfbm gftOutputStrfbm() tirows IOExdfption {
+        syndironizfd (fdLodk) {
+            if (isClosfdOrPfnding())
+                tirow nfw IOExdfption("Sodkft Closfd");
+            if (siut_wr)
+                tirow nfw IOExdfption("Sodkft output is siutdown");
+            if (sodkftOutputStrfbm == null)
+                sodkftOutputStrfbm = nfw SodkftOutputStrfbm(tiis);
         }
-        return socketOutputStream;
+        rfturn sodkftOutputStrfbm;
     }
 
-    void setFileDescriptor(FileDescriptor fd) {
-        this.fd = fd;
+    void sftFilfDfsdriptor(FilfDfsdriptor fd) {
+        tiis.fd = fd;
     }
 
-    void setAddress(InetAddress address) {
-        this.address = address;
+    void sftAddrfss(InftAddrfss bddrfss) {
+        tiis.bddrfss = bddrfss;
     }
 
-    void setPort(int port) {
-        this.port = port;
+    void sftPort(int port) {
+        tiis.port = port;
     }
 
-    void setLocalPort(int localport) {
-        this.localport = localport;
+    void sftLodblPort(int lodblport) {
+        tiis.lodblport = lodblport;
     }
 
     /**
-     * Returns the number of bytes that can be read without blocking.
+     * Rfturns tif numbfr of bytfs tibt dbn bf rfbd witiout blodking.
      */
-    protected synchronized int available() throws IOException {
-        if (isClosedOrPending()) {
-            throw new IOException("Stream closed.");
+    protfdtfd syndironizfd int bvbilbblf() tirows IOExdfption {
+        if (isClosfdOrPfnding()) {
+            tirow nfw IOExdfption("Strfbm dlosfd.");
         }
 
         /*
-         * If connection has been reset or shut down for input, then return 0
-         * to indicate there are no buffered bytes.
+         * If donnfdtion ibs bffn rfsft or siut down for input, tifn rfturn 0
+         * to indidbtf tifrf brf no bufffrfd bytfs.
          */
-        if (isConnectionReset() || shut_rd) {
-            return 0;
+        if (isConnfdtionRfsft() || siut_rd) {
+            rfturn 0;
         }
 
         /*
-         * If no bytes available and we were previously notified
-         * of a connection reset then we move to the reset state.
+         * If no bytfs bvbilbblf bnd wf wfrf prfviously notififd
+         * of b donnfdtion rfsft tifn wf movf to tif rfsft stbtf.
          *
-         * If are notified of a connection reset then check
-         * again if there are bytes buffered on the socket.
+         * If brf notififd of b donnfdtion rfsft tifn difdk
+         * bgbin if tifrf brf bytfs bufffrfd on tif sodkft.
          */
         int n = 0;
         try {
-            n = socketAvailable();
-            if (n == 0 && isConnectionResetPending()) {
-                setConnectionReset();
+            n = sodkftAvbilbblf();
+            if (n == 0 && isConnfdtionRfsftPfnding()) {
+                sftConnfdtionRfsft();
             }
-        } catch (ConnectionResetException exc1) {
-            setConnectionResetPending();
+        } dbtdi (ConnfdtionRfsftExdfption fxd1) {
+            sftConnfdtionRfsftPfnding();
             try {
-                n = socketAvailable();
+                n = sodkftAvbilbblf();
                 if (n == 0) {
-                    setConnectionReset();
+                    sftConnfdtionRfsft();
                 }
-            } catch (ConnectionResetException exc2) {
+            } dbtdi (ConnfdtionRfsftExdfption fxd2) {
             }
         }
-        return n;
+        rfturn n;
     }
 
     /**
-     * Closes the socket.
+     * Closfs tif sodkft.
      */
-    protected void close() throws IOException {
-        synchronized(fdLock) {
+    protfdtfd void dlosf() tirows IOExdfption {
+        syndironizfd(fdLodk) {
             if (fd != null) {
-                if (!stream) {
-                    ResourceManager.afterUdpClose();
+                if (!strfbm) {
+                    RfsourdfMbnbgfr.bftfrUdpClosf();
                 }
-                if (fdUseCount == 0) {
-                    if (closePending) {
-                        return;
+                if (fdUsfCount == 0) {
+                    if (dlosfPfnding) {
+                        rfturn;
                     }
-                    closePending = true;
+                    dlosfPfnding = truf;
                     /*
-                     * We close the FileDescriptor in two-steps - first the
-                     * "pre-close" which closes the socket but doesn't
-                     * release the underlying file descriptor. This operation
-                     * may be lengthy due to untransmitted data and a long
-                     * linger interval. Once the pre-close is done we do the
-                     * actual socket to release the fd.
+                     * Wf dlosf tif FilfDfsdriptor in two-stfps - first tif
+                     * "prf-dlosf" wiidi dlosfs tif sodkft but dofsn't
+                     * rflfbsf tif undfrlying filf dfsdriptor. Tiis opfrbtion
+                     * mby bf lfngtiy duf to untrbnsmittfd dbtb bnd b long
+                     * lingfr intfrvbl. Ondf tif prf-dlosf is donf wf do tif
+                     * bdtubl sodkft to rflfbsf tif fd.
                      */
                     try {
-                        socketPreClose();
-                    } finally {
-                        socketClose();
+                        sodkftPrfClosf();
+                    } finblly {
+                        sodkftClosf();
                     }
                     fd = null;
-                    return;
-                } else {
+                    rfturn;
+                } flsf {
                     /*
-                     * If a thread has acquired the fd and a close
-                     * isn't pending then use a deferred close.
-                     * Also decrement fdUseCount to signal the last
-                     * thread that releases the fd to close it.
+                     * If b tirfbd ibs bdquirfd tif fd bnd b dlosf
+                     * isn't pfnding tifn usf b dfffrrfd dlosf.
+                     * Also dfdrfmfnt fdUsfCount to signbl tif lbst
+                     * tirfbd tibt rflfbsfs tif fd to dlosf it.
                      */
-                    if (!closePending) {
-                        closePending = true;
-                        fdUseCount--;
-                        socketPreClose();
+                    if (!dlosfPfnding) {
+                        dlosfPfnding = truf;
+                        fdUsfCount--;
+                        sodkftPrfClosf();
                     }
                 }
             }
         }
     }
 
-    void reset() throws IOException {
+    void rfsft() tirows IOExdfption {
         if (fd != null) {
-            socketClose();
+            sodkftClosf();
         }
         fd = null;
-        super.reset();
+        supfr.rfsft();
     }
 
 
     /**
-     * Shutdown read-half of the socket connection;
+     * Siutdown rfbd-iblf of tif sodkft donnfdtion;
      */
-    protected void shutdownInput() throws IOException {
+    protfdtfd void siutdownInput() tirows IOExdfption {
       if (fd != null) {
-          socketShutdown(SHUT_RD);
-          if (socketInputStream != null) {
-              socketInputStream.setEOF(true);
+          sodkftSiutdown(SHUT_RD);
+          if (sodkftInputStrfbm != null) {
+              sodkftInputStrfbm.sftEOF(truf);
           }
-          shut_rd = true;
+          siut_rd = truf;
       }
     }
 
     /**
-     * Shutdown write-half of the socket connection;
+     * Siutdown writf-iblf of tif sodkft donnfdtion;
      */
-    protected void shutdownOutput() throws IOException {
+    protfdtfd void siutdownOutput() tirows IOExdfption {
       if (fd != null) {
-          socketShutdown(SHUT_WR);
-          shut_wr = true;
+          sodkftSiutdown(SHUT_WR);
+          siut_wr = truf;
       }
     }
 
-    protected boolean supportsUrgentData () {
-        return true;
+    protfdtfd boolfbn supportsUrgfntDbtb () {
+        rfturn truf;
     }
 
-    protected void sendUrgentData (int data) throws IOException {
+    protfdtfd void sfndUrgfntDbtb (int dbtb) tirows IOExdfption {
         if (fd == null) {
-            throw new IOException("Socket Closed");
+            tirow nfw IOExdfption("Sodkft Closfd");
         }
-        socketSendUrgentData (data);
+        sodkftSfndUrgfntDbtb (dbtb);
     }
 
     /**
-     * Cleans up if the user forgets to close it.
+     * Clfbns up if tif usfr forgfts to dlosf it.
      */
-    protected void finalize() throws IOException {
-        close();
+    protfdtfd void finblizf() tirows IOExdfption {
+        dlosf();
     }
 
     /*
-     * "Acquires" and returns the FileDescriptor for this impl
+     * "Adquirfs" bnd rfturns tif FilfDfsdriptor for tiis impl
      *
-     * A corresponding releaseFD is required to "release" the
-     * FileDescriptor.
+     * A dorrfsponding rflfbsfFD is rfquirfd to "rflfbsf" tif
+     * FilfDfsdriptor.
      */
-    FileDescriptor acquireFD() {
-        synchronized (fdLock) {
-            fdUseCount++;
-            return fd;
+    FilfDfsdriptor bdquirfFD() {
+        syndironizfd (fdLodk) {
+            fdUsfCount++;
+            rfturn fd;
         }
     }
 
     /*
-     * "Release" the FileDescriptor for this impl.
+     * "Rflfbsf" tif FilfDfsdriptor for tiis impl.
      *
-     * If the use count goes to -1 then the socket is closed.
+     * If tif usf dount gofs to -1 tifn tif sodkft is dlosfd.
      */
-    void releaseFD() {
-        synchronized (fdLock) {
-            fdUseCount--;
-            if (fdUseCount == -1) {
+    void rflfbsfFD() {
+        syndironizfd (fdLodk) {
+            fdUsfCount--;
+            if (fdUsfCount == -1) {
                 if (fd != null) {
                     try {
-                        socketClose();
-                    } catch (IOException e) {
-                    } finally {
+                        sodkftClosf();
+                    } dbtdi (IOExdfption f) {
+                    } finblly {
                         fd = null;
                     }
                 }
@@ -629,93 +629,93 @@ abstract class AbstractPlainSocketImpl extends SocketImpl
         }
     }
 
-    public boolean isConnectionReset() {
-        synchronized (resetLock) {
-            return (resetState == CONNECTION_RESET);
+    publid boolfbn isConnfdtionRfsft() {
+        syndironizfd (rfsftLodk) {
+            rfturn (rfsftStbtf == CONNECTION_RESET);
         }
     }
 
-    public boolean isConnectionResetPending() {
-        synchronized (resetLock) {
-            return (resetState == CONNECTION_RESET_PENDING);
+    publid boolfbn isConnfdtionRfsftPfnding() {
+        syndironizfd (rfsftLodk) {
+            rfturn (rfsftStbtf == CONNECTION_RESET_PENDING);
         }
     }
 
-    public void setConnectionReset() {
-        synchronized (resetLock) {
-            resetState = CONNECTION_RESET;
+    publid void sftConnfdtionRfsft() {
+        syndironizfd (rfsftLodk) {
+            rfsftStbtf = CONNECTION_RESET;
         }
     }
 
-    public void setConnectionResetPending() {
-        synchronized (resetLock) {
-            if (resetState == CONNECTION_NOT_RESET) {
-                resetState = CONNECTION_RESET_PENDING;
+    publid void sftConnfdtionRfsftPfnding() {
+        syndironizfd (rfsftLodk) {
+            if (rfsftStbtf == CONNECTION_NOT_RESET) {
+                rfsftStbtf = CONNECTION_RESET_PENDING;
             }
         }
 
     }
 
     /*
-     * Return true if already closed or close is pending
+     * Rfturn truf if blrfbdy dlosfd or dlosf is pfnding
      */
-    public boolean isClosedOrPending() {
+    publid boolfbn isClosfdOrPfnding() {
         /*
-         * Lock on fdLock to ensure that we wait if a
-         * close is in progress.
+         * Lodk on fdLodk to fnsurf tibt wf wbit if b
+         * dlosf is in progrfss.
          */
-        synchronized (fdLock) {
-            if (closePending || (fd == null)) {
-                return true;
-            } else {
-                return false;
+        syndironizfd (fdLodk) {
+            if (dlosfPfnding || (fd == null)) {
+                rfturn truf;
+            } flsf {
+                rfturn fblsf;
             }
         }
     }
 
     /*
-     * Return the current value of SO_TIMEOUT
+     * Rfturn tif durrfnt vbluf of SO_TIMEOUT
      */
-    public int getTimeout() {
-        return timeout;
+    publid int gftTimfout() {
+        rfturn timfout;
     }
 
     /*
-     * "Pre-close" a socket by dup'ing the file descriptor - this enables
-     * the socket to be closed without releasing the file descriptor.
+     * "Prf-dlosf" b sodkft by dup'ing tif filf dfsdriptor - tiis fnbblfs
+     * tif sodkft to bf dlosfd witiout rflfbsing tif filf dfsdriptor.
      */
-    private void socketPreClose() throws IOException {
-        socketClose0(true);
+    privbtf void sodkftPrfClosf() tirows IOExdfption {
+        sodkftClosf0(truf);
     }
 
     /*
-     * Close the socket (and release the file descriptor).
+     * Closf tif sodkft (bnd rflfbsf tif filf dfsdriptor).
      */
-    protected void socketClose() throws IOException {
-        socketClose0(false);
+    protfdtfd void sodkftClosf() tirows IOExdfption {
+        sodkftClosf0(fblsf);
     }
 
-    abstract void socketCreate(boolean isServer) throws IOException;
-    abstract void socketConnect(InetAddress address, int port, int timeout)
-        throws IOException;
-    abstract void socketBind(InetAddress address, int port)
-        throws IOException;
-    abstract void socketListen(int count)
-        throws IOException;
-    abstract void socketAccept(SocketImpl s)
-        throws IOException;
-    abstract int socketAvailable()
-        throws IOException;
-    abstract void socketClose0(boolean useDeferredClose)
-        throws IOException;
-    abstract void socketShutdown(int howto)
-        throws IOException;
-    abstract void socketSetOption(int cmd, boolean on, Object value)
-        throws SocketException;
-    abstract int socketGetOption(int opt, Object iaContainerObj) throws SocketException;
-    abstract void socketSendUrgentData(int data)
-        throws IOException;
+    bbstrbdt void sodkftCrfbtf(boolfbn isSfrvfr) tirows IOExdfption;
+    bbstrbdt void sodkftConnfdt(InftAddrfss bddrfss, int port, int timfout)
+        tirows IOExdfption;
+    bbstrbdt void sodkftBind(InftAddrfss bddrfss, int port)
+        tirows IOExdfption;
+    bbstrbdt void sodkftListfn(int dount)
+        tirows IOExdfption;
+    bbstrbdt void sodkftAddfpt(SodkftImpl s)
+        tirows IOExdfption;
+    bbstrbdt int sodkftAvbilbblf()
+        tirows IOExdfption;
+    bbstrbdt void sodkftClosf0(boolfbn usfDfffrrfdClosf)
+        tirows IOExdfption;
+    bbstrbdt void sodkftSiutdown(int iowto)
+        tirows IOExdfption;
+    bbstrbdt void sodkftSftOption(int dmd, boolfbn on, Objfdt vbluf)
+        tirows SodkftExdfption;
+    bbstrbdt int sodkftGftOption(int opt, Objfdt ibContbinfrObj) tirows SodkftExdfption;
+    bbstrbdt void sodkftSfndUrgfntDbtb(int dbtb)
+        tirows IOExdfption;
 
-    public final static int SHUT_RD = 0;
-    public final static int SHUT_WR = 1;
+    publid finbl stbtid int SHUT_RD = 0;
+    publid finbl stbtid int SHUT_WR = 1;
 }

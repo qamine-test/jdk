@@ -1,885 +1,885 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.awt.*;
-import java.util.Vector;
-import javax.swing.event.*;
-import javax.swing.SizeRequirements;
+import jbvb.bwt.*;
+import jbvb.util.Vfdtor;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.SizfRfquirfmfnts;
 
 /**
- * A View that tries to flow it's children into some
- * partially constrained space.  This can be used to
- * build things like paragraphs, pages, etc.  The
- * flow is made up of the following pieces of functionality.
+ * A Vifw tibt trifs to flow it's diildrfn into somf
+ * pbrtiblly donstrbinfd spbdf.  Tiis dbn bf usfd to
+ * build tiings likf pbrbgrbpis, pbgfs, ftd.  Tif
+ * flow is mbdf up of tif following pifdfs of fundtionblity.
  * <ul>
- * <li>A logical set of child views, which as used as a
- * layout pool from which a physical view is formed.
- * <li>A strategy for translating the logical view to
- * a physical (flowed) view.
- * <li>Constraints for the strategy to work against.
- * <li>A physical structure, that represents the flow.
- * The children of this view are where the pieces of
- * of the logical views are placed to create the flow.
+ * <li>A logidbl sft of diild vifws, wiidi bs usfd bs b
+ * lbyout pool from wiidi b piysidbl vifw is formfd.
+ * <li>A strbtfgy for trbnslbting tif logidbl vifw to
+ * b piysidbl (flowfd) vifw.
+ * <li>Constrbints for tif strbtfgy to work bgbinst.
+ * <li>A piysidbl strudturf, tibt rfprfsfnts tif flow.
+ * Tif diildrfn of tiis vifw brf wifrf tif pifdfs of
+ * of tif logidbl vifws brf plbdfd to drfbtf tif flow.
  * </ul>
  *
- * @author  Timothy Prinzing
- * @see     View
- * @since 1.3
+ * @butior  Timotiy Prinzing
+ * @sff     Vifw
+ * @sindf 1.3
  */
-public abstract class FlowView extends BoxView {
+publid bbstrbdt dlbss FlowVifw fxtfnds BoxVifw {
 
     /**
-     * Constructs a FlowView for the given element.
+     * Construdts b FlowVifw for tif givfn flfmfnt.
      *
-     * @param elem the element that this view is responsible for
-     * @param axis may be either View.X_AXIS or View.Y_AXIS
+     * @pbrbm flfm tif flfmfnt tibt tiis vifw is rfsponsiblf for
+     * @pbrbm bxis mby bf fitifr Vifw.X_AXIS or Vifw.Y_AXIS
      */
-    public FlowView(Element elem, int axis) {
-        super(elem, axis);
-        layoutSpan = Integer.MAX_VALUE;
-        strategy = new FlowStrategy();
+    publid FlowVifw(Elfmfnt flfm, int bxis) {
+        supfr(flfm, bxis);
+        lbyoutSpbn = Intfgfr.MAX_VALUE;
+        strbtfgy = nfw FlowStrbtfgy();
     }
 
     /**
-     * Fetches the axis along which views should be
-     * flowed.  By default, this will be the axis
-     * orthogonal to the axis along which the flow
-     * rows are tiled (the axis of the default flow
-     * rows themselves).  This is typically used
-     * by the <code>FlowStrategy</code>.
+     * Fftdifs tif bxis blong wiidi vifws siould bf
+     * flowfd.  By dffbult, tiis will bf tif bxis
+     * ortiogonbl to tif bxis blong wiidi tif flow
+     * rows brf tilfd (tif bxis of tif dffbult flow
+     * rows tifmsflvfs).  Tiis is typidblly usfd
+     * by tif <dodf>FlowStrbtfgy</dodf>.
      */
-    public int getFlowAxis() {
-        if (getAxis() == Y_AXIS) {
-            return X_AXIS;
+    publid int gftFlowAxis() {
+        if (gftAxis() == Y_AXIS) {
+            rfturn X_AXIS;
         }
-        return Y_AXIS;
+        rfturn Y_AXIS;
     }
 
     /**
-     * Fetch the constraining span to flow against for
-     * the given child index.  This is called by the
-     * FlowStrategy while it is updating the flow.
-     * A flow can be shaped by providing different values
-     * for the row constraints.  By default, the entire
-     * span inside of the insets along the flow axis
-     * is returned.
+     * Fftdi tif donstrbining spbn to flow bgbinst for
+     * tif givfn diild indfx.  Tiis is dbllfd by tif
+     * FlowStrbtfgy wiilf it is updbting tif flow.
+     * A flow dbn bf sibpfd by providing difffrfnt vblufs
+     * for tif row donstrbints.  By dffbult, tif fntirf
+     * spbn insidf of tif insfts blong tif flow bxis
+     * is rfturnfd.
      *
-     * @param index the index of the row being updated.
-     *   This should be a value &gt;= 0 and &lt; getViewCount().
-     * @see #getFlowStart
+     * @pbrbm indfx tif indfx of tif row bfing updbtfd.
+     *   Tiis siould bf b vbluf &gt;= 0 bnd &lt; gftVifwCount().
+     * @sff #gftFlowStbrt
      */
-    public int getFlowSpan(int index) {
-        return layoutSpan;
+    publid int gftFlowSpbn(int indfx) {
+        rfturn lbyoutSpbn;
     }
 
     /**
-     * Fetch the location along the flow axis that the
-     * flow span will start at.  This is called by the
-     * FlowStrategy while it is updating the flow.
-     * A flow can be shaped by providing different values
-     * for the row constraints.
+     * Fftdi tif lodbtion blong tif flow bxis tibt tif
+     * flow spbn will stbrt bt.  Tiis is dbllfd by tif
+     * FlowStrbtfgy wiilf it is updbting tif flow.
+     * A flow dbn bf sibpfd by providing difffrfnt vblufs
+     * for tif row donstrbints.
 
-     * @param index the index of the row being updated.
-     *   This should be a value &gt;= 0 and &lt; getViewCount().
-     * @see #getFlowSpan
+     * @pbrbm indfx tif indfx of tif row bfing updbtfd.
+     *   Tiis siould bf b vbluf &gt;= 0 bnd &lt; gftVifwCount().
+     * @sff #gftFlowSpbn
      */
-    public int getFlowStart(int index) {
-        return 0;
+    publid int gftFlowStbrt(int indfx) {
+        rfturn 0;
     }
 
     /**
-     * Create a View that should be used to hold a
-     * a rows worth of children in a flow.  This is
-     * called by the FlowStrategy when new children
-     * are added or removed (i.e. rows are added or
-     * removed) in the process of updating the flow.
+     * Crfbtf b Vifw tibt siould bf usfd to iold b
+     * b rows worti of diildrfn in b flow.  Tiis is
+     * dbllfd by tif FlowStrbtfgy wifn nfw diildrfn
+     * brf bddfd or rfmovfd (i.f. rows brf bddfd or
+     * rfmovfd) in tif prodfss of updbting tif flow.
      */
-    protected abstract View createRow();
+    protfdtfd bbstrbdt Vifw drfbtfRow();
 
-    // ---- BoxView methods -------------------------------------
+    // ---- BoxVifw mftiods -------------------------------------
 
     /**
-     * Loads all of the children to initialize the view.
-     * This is called by the <code>setParent</code> method.
-     * This is reimplemented to not load any children directly
-     * (as they are created in the process of formatting).
-     * If the layoutPool variable is null, an instance of
-     * LogicalView is created to represent the logical view
-     * that is used in the process of formatting.
+     * Lobds bll of tif diildrfn to initiblizf tif vifw.
+     * Tiis is dbllfd by tif <dodf>sftPbrfnt</dodf> mftiod.
+     * Tiis is rfimplfmfntfd to not lobd bny diildrfn dirfdtly
+     * (bs tify brf drfbtfd in tif prodfss of formbtting).
+     * If tif lbyoutPool vbribblf is null, bn instbndf of
+     * LogidblVifw is drfbtfd to rfprfsfnt tif logidbl vifw
+     * tibt is usfd in tif prodfss of formbtting.
      *
-     * @param f the view factory
+     * @pbrbm f tif vifw fbdtory
      */
-    protected void loadChildren(ViewFactory f) {
-        if (layoutPool == null) {
-            layoutPool = new LogicalView(getElement());
+    protfdtfd void lobdCiildrfn(VifwFbdtory f) {
+        if (lbyoutPool == null) {
+            lbyoutPool = nfw LogidblVifw(gftElfmfnt());
         }
-        layoutPool.setParent(this);
+        lbyoutPool.sftPbrfnt(tiis);
 
-        // This synthetic insertUpdate call gives the strategy a chance
-        // to initialize.
-        strategy.insertUpdate(this, null, null);
+        // Tiis syntiftid insfrtUpdbtf dbll givfs tif strbtfgy b dibndf
+        // to initiblizf.
+        strbtfgy.insfrtUpdbtf(tiis, null, null);
     }
 
     /**
-     * Fetches the child view index representing the given position in
-     * the model.
+     * Fftdifs tif diild vifw indfx rfprfsfnting tif givfn position in
+     * tif modfl.
      *
-     * @param pos the position &gt;= 0
-     * @return  index of the view representing the given position, or
-     *   -1 if no view represents that position
+     * @pbrbm pos tif position &gt;= 0
+     * @rfturn  indfx of tif vifw rfprfsfnting tif givfn position, or
+     *   -1 if no vifw rfprfsfnts tibt position
      */
-    protected int getViewIndexAtPosition(int pos) {
-        if (pos >= getStartOffset() && (pos < getEndOffset())) {
-            for (int counter = 0; counter < getViewCount(); counter++) {
-                View v = getView(counter);
-                if(pos >= v.getStartOffset() &&
-                   pos < v.getEndOffset()) {
-                    return counter;
+    protfdtfd int gftVifwIndfxAtPosition(int pos) {
+        if (pos >= gftStbrtOffsft() && (pos < gftEndOffsft())) {
+            for (int dountfr = 0; dountfr < gftVifwCount(); dountfr++) {
+                Vifw v = gftVifw(dountfr);
+                if(pos >= v.gftStbrtOffsft() &&
+                   pos < v.gftEndOffsft()) {
+                    rfturn dountfr;
                 }
             }
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Lays out the children.  If the span along the flow
-     * axis has changed, layout is marked as invalid which
-     * which will cause the superclass behavior to recalculate
-     * the layout along the box axis.  The FlowStrategy.layout
-     * method will be called to rebuild the flow rows as
-     * appropriate.  If the height of this view changes
-     * (determined by the preferred size along the box axis),
-     * a preferenceChanged is called.  Following all of that,
-     * the normal box layout of the superclass is performed.
+     * Lbys out tif diildrfn.  If tif spbn blong tif flow
+     * bxis ibs dibngfd, lbyout is mbrkfd bs invblid wiidi
+     * wiidi will dbusf tif supfrdlbss bfibvior to rfdbldulbtf
+     * tif lbyout blong tif box bxis.  Tif FlowStrbtfgy.lbyout
+     * mftiod will bf dbllfd to rfbuild tif flow rows bs
+     * bppropribtf.  If tif ifigit of tiis vifw dibngfs
+     * (dftfrminfd by tif prfffrrfd sizf blong tif box bxis),
+     * b prfffrfndfCibngfd is dbllfd.  Following bll of tibt,
+     * tif normbl box lbyout of tif supfrdlbss is pfrformfd.
      *
-     * @param width  the width to lay out against &gt;= 0.  This is
-     *   the width inside of the inset area.
-     * @param height the height to lay out against &gt;= 0 This
-     *   is the height inside of the inset area.
+     * @pbrbm widti  tif widti to lby out bgbinst &gt;= 0.  Tiis is
+     *   tif widti insidf of tif insft brfb.
+     * @pbrbm ifigit tif ifigit to lby out bgbinst &gt;= 0 Tiis
+     *   is tif ifigit insidf of tif insft brfb.
      */
-    protected void layout(int width, int height) {
-        final int faxis = getFlowAxis();
-        int newSpan;
-        if (faxis == X_AXIS) {
-            newSpan = width;
-        } else {
-            newSpan = height;
+    protfdtfd void lbyout(int widti, int ifigit) {
+        finbl int fbxis = gftFlowAxis();
+        int nfwSpbn;
+        if (fbxis == X_AXIS) {
+            nfwSpbn = widti;
+        } flsf {
+            nfwSpbn = ifigit;
         }
-        if (layoutSpan != newSpan) {
-            layoutChanged(faxis);
-            layoutChanged(getAxis());
-            layoutSpan = newSpan;
+        if (lbyoutSpbn != nfwSpbn) {
+            lbyoutCibngfd(fbxis);
+            lbyoutCibngfd(gftAxis());
+            lbyoutSpbn = nfwSpbn;
         }
 
-        // repair the flow if necessary
-        if (! isLayoutValid(faxis)) {
-            final int heightAxis = getAxis();
-            int oldFlowHeight = (heightAxis == X_AXIS)? getWidth() : getHeight();
-            strategy.layout(this);
-            int newFlowHeight = (int) getPreferredSpan(heightAxis);
-            if (oldFlowHeight != newFlowHeight) {
-                View p = getParent();
+        // rfpbir tif flow if nfdfssbry
+        if (! isLbyoutVblid(fbxis)) {
+            finbl int ifigitAxis = gftAxis();
+            int oldFlowHfigit = (ifigitAxis == X_AXIS)? gftWidti() : gftHfigit();
+            strbtfgy.lbyout(tiis);
+            int nfwFlowHfigit = (int) gftPrfffrrfdSpbn(ifigitAxis);
+            if (oldFlowHfigit != nfwFlowHfigit) {
+                Vifw p = gftPbrfnt();
                 if (p != null) {
-                    p.preferenceChanged(this, (heightAxis == X_AXIS), (heightAxis == Y_AXIS));
+                    p.prfffrfndfCibngfd(tiis, (ifigitAxis == X_AXIS), (ifigitAxis == Y_AXIS));
                 }
 
-                // PENDING(shannonh)
-                // Temporary fix for 4250847
-                // Can be removed when TraversalContext is added
-                Component host = getContainer();
-                if (host != null) {
-                    //nb idk 12/12/2001 host should not be equal to null. We need to add assertion here
-                    host.repaint();
+                // PENDING(sibnnoni)
+                // Tfmporbry fix for 4250847
+                // Cbn bf rfmovfd wifn TrbvfrsblContfxt is bddfd
+                Componfnt iost = gftContbinfr();
+                if (iost != null) {
+                    //nb idk 12/12/2001 iost siould not bf fqubl to null. Wf nffd to bdd bssfrtion ifrf
+                    iost.rfpbint();
                 }
             }
         }
 
-        super.layout(width, height);
+        supfr.lbyout(widti, ifigit);
     }
 
     /**
-     * Calculate requirements along the minor axis.  This
-     * is implemented to forward the request to the logical
-     * view by calling getMinimumSpan, getPreferredSpan, and
-     * getMaximumSpan on it.
+     * Cbldulbtf rfquirfmfnts blong tif minor bxis.  Tiis
+     * is implfmfntfd to forwbrd tif rfqufst to tif logidbl
+     * vifw by dblling gftMinimumSpbn, gftPrfffrrfdSpbn, bnd
+     * gftMbximumSpbn on it.
      */
-    protected SizeRequirements calculateMinorAxisRequirements(int axis, SizeRequirements r) {
+    protfdtfd SizfRfquirfmfnts dbldulbtfMinorAxisRfquirfmfnts(int bxis, SizfRfquirfmfnts r) {
         if (r == null) {
-            r = new SizeRequirements();
+            r = nfw SizfRfquirfmfnts();
         }
-        float pref = layoutPool.getPreferredSpan(axis);
-        float min = layoutPool.getMinimumSpan(axis);
-        // Don't include insets, Box.getXXXSpan will include them.
+        flobt prff = lbyoutPool.gftPrfffrrfdSpbn(bxis);
+        flobt min = lbyoutPool.gftMinimumSpbn(bxis);
+        // Don't indludf insfts, Box.gftXXXSpbn will indludf tifm.
         r.minimum = (int)min;
-        r.preferred = Math.max(r.minimum, (int) pref);
-        r.maximum = Integer.MAX_VALUE;
-        r.alignment = 0.5f;
-        return r;
+        r.prfffrrfd = Mbti.mbx(r.minimum, (int) prff);
+        r.mbximum = Intfgfr.MAX_VALUE;
+        r.blignmfnt = 0.5f;
+        rfturn r;
     }
 
-    // ---- View methods ----------------------------------------------------
+    // ---- Vifw mftiods ----------------------------------------------------
 
     /**
-     * Gives notification that something was inserted into the document
-     * in a location that this view is responsible for.
+     * Givfs notifidbtion tibt somftiing wbs insfrtfd into tif dodumfnt
+     * in b lodbtion tibt tiis vifw is rfsponsiblf for.
      *
-     * @param changes the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#insertUpdate
+     * @pbrbm dibngfs tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @sff Vifw#insfrtUpdbtf
      */
-    public void insertUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
-        layoutPool.insertUpdate(changes, a, f);
-        strategy.insertUpdate(this, changes, getInsideAllocation(a));
-    }
-
-    /**
-     * Gives notification that something was removed from the document
-     * in a location that this view is responsible for.
-     *
-     * @param changes the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#removeUpdate
-     */
-    public void removeUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
-        layoutPool.removeUpdate(changes, a, f);
-        strategy.removeUpdate(this, changes, getInsideAllocation(a));
+    publid void insfrtUpdbtf(DodumfntEvfnt dibngfs, Sibpf b, VifwFbdtory f) {
+        lbyoutPool.insfrtUpdbtf(dibngfs, b, f);
+        strbtfgy.insfrtUpdbtf(tiis, dibngfs, gftInsidfAllodbtion(b));
     }
 
     /**
-     * Gives notification from the document that attributes were changed
-     * in a location that this view is responsible for.
+     * Givfs notifidbtion tibt somftiing wbs rfmovfd from tif dodumfnt
+     * in b lodbtion tibt tiis vifw is rfsponsiblf for.
      *
-     * @param changes the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#changedUpdate
+     * @pbrbm dibngfs tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @sff Vifw#rfmovfUpdbtf
      */
-    public void changedUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
-        layoutPool.changedUpdate(changes, a, f);
-        strategy.changedUpdate(this, changes, getInsideAllocation(a));
+    publid void rfmovfUpdbtf(DodumfntEvfnt dibngfs, Sibpf b, VifwFbdtory f) {
+        lbyoutPool.rfmovfUpdbtf(dibngfs, b, f);
+        strbtfgy.rfmovfUpdbtf(tiis, dibngfs, gftInsidfAllodbtion(b));
     }
 
-    /** {@inheritDoc} */
-    public void setParent(View parent) {
-        super.setParent(parent);
-        if (parent == null
-                && layoutPool != null ) {
-            layoutPool.setParent(null);
+    /**
+     * Givfs notifidbtion from tif dodumfnt tibt bttributfs wfrf dibngfd
+     * in b lodbtion tibt tiis vifw is rfsponsiblf for.
+     *
+     * @pbrbm dibngfs tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @sff Vifw#dibngfdUpdbtf
+     */
+    publid void dibngfdUpdbtf(DodumfntEvfnt dibngfs, Sibpf b, VifwFbdtory f) {
+        lbyoutPool.dibngfdUpdbtf(dibngfs, b, f);
+        strbtfgy.dibngfdUpdbtf(tiis, dibngfs, gftInsidfAllodbtion(b));
+    }
+
+    /** {@inifritDod} */
+    publid void sftPbrfnt(Vifw pbrfnt) {
+        supfr.sftPbrfnt(pbrfnt);
+        if (pbrfnt == null
+                && lbyoutPool != null ) {
+            lbyoutPool.sftPbrfnt(null);
         }
     }
 
-    // --- variables -----------------------------------------------
+    // --- vbribblfs -----------------------------------------------
 
     /**
-     * Default constraint against which the flow is
-     * created against.
+     * Dffbult donstrbint bgbinst wiidi tif flow is
+     * drfbtfd bgbinst.
      */
-    protected int layoutSpan;
+    protfdtfd int lbyoutSpbn;
 
     /**
-     * These are the views that represent the child elements
-     * of the element this view represents (The logical view
-     * to translate to a physical view).  These are not
-     * directly children of this view.  These are either
-     * placed into the rows directly or used for the purpose
-     * of breaking into smaller chunks, to form the physical
-     * view.
+     * Tifsf brf tif vifws tibt rfprfsfnt tif diild flfmfnts
+     * of tif flfmfnt tiis vifw rfprfsfnts (Tif logidbl vifw
+     * to trbnslbtf to b piysidbl vifw).  Tifsf brf not
+     * dirfdtly diildrfn of tiis vifw.  Tifsf brf fitifr
+     * plbdfd into tif rows dirfdtly or usfd for tif purposf
+     * of brfbking into smbllfr diunks, to form tif piysidbl
+     * vifw.
      */
-    protected View layoutPool;
+    protfdtfd Vifw lbyoutPool;
 
     /**
-     * The behavior for keeping the flow updated.  By
-     * default this is a singleton shared by all instances
-     * of FlowView (FlowStrategy is stateless).  Subclasses
-     * can create an alternative strategy, which might keep
-     * state.
+     * Tif bfibvior for kffping tif flow updbtfd.  By
+     * dffbult tiis is b singlfton sibrfd by bll instbndfs
+     * of FlowVifw (FlowStrbtfgy is stbtflfss).  Subdlbssfs
+     * dbn drfbtf bn bltfrnbtivf strbtfgy, wiidi migit kffp
+     * stbtf.
      */
-    protected FlowStrategy strategy;
+    protfdtfd FlowStrbtfgy strbtfgy;
 
     /**
-     * Strategy for maintaining the physical form
-     * of the flow.  The default implementation is
-     * completely stateless, and recalculates the
-     * entire flow if the layout is invalid on the
-     * given FlowView.  Alternative strategies can
-     * be implemented by subclassing, and might
-     * perform incremental repair to the layout
-     * or alternative breaking behavior.
-     * @since 1.3
+     * Strbtfgy for mbintbining tif piysidbl form
+     * of tif flow.  Tif dffbult implfmfntbtion is
+     * domplftfly stbtflfss, bnd rfdbldulbtfs tif
+     * fntirf flow if tif lbyout is invblid on tif
+     * givfn FlowVifw.  Altfrnbtivf strbtfgifs dbn
+     * bf implfmfntfd by subdlbssing, bnd migit
+     * pfrform indrfmfntbl rfpbir to tif lbyout
+     * or bltfrnbtivf brfbking bfibvior.
+     * @sindf 1.3
      */
-    public static class FlowStrategy {
-        Position damageStart = null;
-        Vector<View> viewBuffer;
+    publid stbtid dlbss FlowStrbtfgy {
+        Position dbmbgfStbrt = null;
+        Vfdtor<Vifw> vifwBufffr;
 
-        void addDamage(FlowView fv, int offset) {
-            if (offset >= fv.getStartOffset() && offset < fv.getEndOffset()) {
-                if (damageStart == null || offset < damageStart.getOffset()) {
+        void bddDbmbgf(FlowVifw fv, int offsft) {
+            if (offsft >= fv.gftStbrtOffsft() && offsft < fv.gftEndOffsft()) {
+                if (dbmbgfStbrt == null || offsft < dbmbgfStbrt.gftOffsft()) {
                     try {
-                        damageStart = fv.getDocument().createPosition(offset);
-                    } catch (BadLocationException e) {
-                        // shouldn't happen since offset is inside view bounds
-                        assert(false);
+                        dbmbgfStbrt = fv.gftDodumfnt().drfbtfPosition(offsft);
+                    } dbtdi (BbdLodbtionExdfption f) {
+                        // siouldn't ibppfn sindf offsft is insidf vifw bounds
+                        bssfrt(fblsf);
                     }
                 }
             }
         }
 
-        void unsetDamage() {
-            damageStart = null;
+        void unsftDbmbgf() {
+            dbmbgfStbrt = null;
         }
 
         /**
-         * Gives notification that something was inserted into the document
-         * in a location that the given flow view is responsible for.  The
-         * strategy should update the appropriate changed region (which
-         * depends upon the strategy used for repair).
+         * Givfs notifidbtion tibt somftiing wbs insfrtfd into tif dodumfnt
+         * in b lodbtion tibt tif givfn flow vifw is rfsponsiblf for.  Tif
+         * strbtfgy siould updbtf tif bppropribtf dibngfd rfgion (wiidi
+         * dfpfnds upon tif strbtfgy usfd for rfpbir).
          *
-         * @param e the change information from the associated document
-         * @param alloc the current allocation of the view inside of the insets.
-         *   This value will be null if the view has not yet been displayed.
-         * @see View#insertUpdate
+         * @pbrbm f tif dibngf informbtion from tif bssodibtfd dodumfnt
+         * @pbrbm bllod tif durrfnt bllodbtion of tif vifw insidf of tif insfts.
+         *   Tiis vbluf will bf null if tif vifw ibs not yft bffn displbyfd.
+         * @sff Vifw#insfrtUpdbtf
          */
-        public void insertUpdate(FlowView fv, DocumentEvent e, Rectangle alloc) {
-            // FlowView.loadChildren() makes a synthetic call into this,
-            // passing null as e
-            if (e != null) {
-                addDamage(fv, e.getOffset());
+        publid void insfrtUpdbtf(FlowVifw fv, DodumfntEvfnt f, Rfdtbnglf bllod) {
+            // FlowVifw.lobdCiildrfn() mbkfs b syntiftid dbll into tiis,
+            // pbssing null bs f
+            if (f != null) {
+                bddDbmbgf(fv, f.gftOffsft());
             }
 
-            if (alloc != null) {
-                Component host = fv.getContainer();
-                if (host != null) {
-                    host.repaint(alloc.x, alloc.y, alloc.width, alloc.height);
+            if (bllod != null) {
+                Componfnt iost = fv.gftContbinfr();
+                if (iost != null) {
+                    iost.rfpbint(bllod.x, bllod.y, bllod.widti, bllod.ifigit);
                 }
-            } else {
-                fv.preferenceChanged(null, true, true);
+            } flsf {
+                fv.prfffrfndfCibngfd(null, truf, truf);
             }
         }
 
         /**
-         * Gives notification that something was removed from the document
-         * in a location that the given flow view is responsible for.
+         * Givfs notifidbtion tibt somftiing wbs rfmovfd from tif dodumfnt
+         * in b lodbtion tibt tif givfn flow vifw is rfsponsiblf for.
          *
-         * @param e the change information from the associated document
-         * @param alloc the current allocation of the view inside of the insets.
-         * @see View#removeUpdate
+         * @pbrbm f tif dibngf informbtion from tif bssodibtfd dodumfnt
+         * @pbrbm bllod tif durrfnt bllodbtion of tif vifw insidf of tif insfts.
+         * @sff Vifw#rfmovfUpdbtf
          */
-        public void removeUpdate(FlowView fv, DocumentEvent e, Rectangle alloc) {
-            addDamage(fv, e.getOffset());
-            if (alloc != null) {
-                Component host = fv.getContainer();
-                if (host != null) {
-                    host.repaint(alloc.x, alloc.y, alloc.width, alloc.height);
+        publid void rfmovfUpdbtf(FlowVifw fv, DodumfntEvfnt f, Rfdtbnglf bllod) {
+            bddDbmbgf(fv, f.gftOffsft());
+            if (bllod != null) {
+                Componfnt iost = fv.gftContbinfr();
+                if (iost != null) {
+                    iost.rfpbint(bllod.x, bllod.y, bllod.widti, bllod.ifigit);
                 }
-            } else {
-                fv.preferenceChanged(null, true, true);
+            } flsf {
+                fv.prfffrfndfCibngfd(null, truf, truf);
             }
         }
 
         /**
-         * Gives notification from the document that attributes were changed
-         * in a location that this view is responsible for.
+         * Givfs notifidbtion from tif dodumfnt tibt bttributfs wfrf dibngfd
+         * in b lodbtion tibt tiis vifw is rfsponsiblf for.
          *
-         * @param fv     the <code>FlowView</code> containing the changes
-         * @param e      the <code>DocumentEvent</code> describing the changes
-         *               done to the Document
-         * @param alloc  Bounds of the View
-         * @see View#changedUpdate
+         * @pbrbm fv     tif <dodf>FlowVifw</dodf> dontbining tif dibngfs
+         * @pbrbm f      tif <dodf>DodumfntEvfnt</dodf> dfsdribing tif dibngfs
+         *               donf to tif Dodumfnt
+         * @pbrbm bllod  Bounds of tif Vifw
+         * @sff Vifw#dibngfdUpdbtf
          */
-        public void changedUpdate(FlowView fv, DocumentEvent e, Rectangle alloc) {
-            addDamage(fv, e.getOffset());
-            if (alloc != null) {
-                Component host = fv.getContainer();
-                if (host != null) {
-                    host.repaint(alloc.x, alloc.y, alloc.width, alloc.height);
+        publid void dibngfdUpdbtf(FlowVifw fv, DodumfntEvfnt f, Rfdtbnglf bllod) {
+            bddDbmbgf(fv, f.gftOffsft());
+            if (bllod != null) {
+                Componfnt iost = fv.gftContbinfr();
+                if (iost != null) {
+                    iost.rfpbint(bllod.x, bllod.y, bllod.widti, bllod.ifigit);
                 }
-            } else {
-                fv.preferenceChanged(null, true, true);
+            } flsf {
+                fv.prfffrfndfCibngfd(null, truf, truf);
             }
         }
 
         /**
-         * This method gives flow strategies access to the logical
-         * view of the FlowView.
+         * Tiis mftiod givfs flow strbtfgifs bddfss to tif logidbl
+         * vifw of tif FlowVifw.
          */
-        protected View getLogicalView(FlowView fv) {
-            return fv.layoutPool;
+        protfdtfd Vifw gftLogidblVifw(FlowVifw fv) {
+            rfturn fv.lbyoutPool;
         }
 
         /**
-         * Update the flow on the given FlowView.  By default, this causes
-         * all of the rows (child views) to be rebuilt to match the given
-         * constraints for each row.  This is called by a FlowView.layout
-         * to update the child views in the flow.
+         * Updbtf tif flow on tif givfn FlowVifw.  By dffbult, tiis dbusfs
+         * bll of tif rows (diild vifws) to bf rfbuilt to mbtdi tif givfn
+         * donstrbints for fbdi row.  Tiis is dbllfd by b FlowVifw.lbyout
+         * to updbtf tif diild vifws in tif flow.
          *
-         * @param fv the view to reflow
+         * @pbrbm fv tif vifw to rfflow
          */
-        public void layout(FlowView fv) {
-            View pool = getLogicalView(fv);
-            int rowIndex, p0;
-            int p1 = fv.getEndOffset();
+        publid void lbyout(FlowVifw fv) {
+            Vifw pool = gftLogidblVifw(fv);
+            int rowIndfx, p0;
+            int p1 = fv.gftEndOffsft();
 
-            if (fv.majorAllocValid) {
-                if (damageStart == null) {
-                    return;
+            if (fv.mbjorAllodVblid) {
+                if (dbmbgfStbrt == null) {
+                    rfturn;
                 }
-                // In some cases there's no view at position damageStart, so
-                // step back and search again. See 6452106 for details.
-                int offset = damageStart.getOffset();
-                while ((rowIndex = fv.getViewIndexAtPosition(offset)) < 0) {
-                    offset--;
+                // In somf dbsfs tifrf's no vifw bt position dbmbgfStbrt, so
+                // stfp bbdk bnd sfbrdi bgbin. Sff 6452106 for dftbils.
+                int offsft = dbmbgfStbrt.gftOffsft();
+                wiilf ((rowIndfx = fv.gftVifwIndfxAtPosition(offsft)) < 0) {
+                    offsft--;
                 }
-                if (rowIndex > 0) {
-                    rowIndex--;
+                if (rowIndfx > 0) {
+                    rowIndfx--;
                 }
-                p0 = fv.getView(rowIndex).getStartOffset();
-            } else {
-                rowIndex = 0;
-                p0 = fv.getStartOffset();
+                p0 = fv.gftVifw(rowIndfx).gftStbrtOffsft();
+            } flsf {
+                rowIndfx = 0;
+                p0 = fv.gftStbrtOffsft();
             }
-            reparentViews(pool, p0);
+            rfpbrfntVifws(pool, p0);
 
-            viewBuffer = new Vector<View>(10, 10);
-            int rowCount = fv.getViewCount();
-            while (p0 < p1) {
-                View row;
-                if (rowIndex >= rowCount) {
-                    row = fv.createRow();
-                    fv.append(row);
-                } else {
-                    row = fv.getView(rowIndex);
+            vifwBufffr = nfw Vfdtor<Vifw>(10, 10);
+            int rowCount = fv.gftVifwCount();
+            wiilf (p0 < p1) {
+                Vifw row;
+                if (rowIndfx >= rowCount) {
+                    row = fv.drfbtfRow();
+                    fv.bppfnd(row);
+                } flsf {
+                    row = fv.gftVifw(rowIndfx);
                 }
-                p0 = layoutRow(fv, rowIndex, p0);
-                rowIndex++;
+                p0 = lbyoutRow(fv, rowIndfx, p0);
+                rowIndfx++;
             }
-            viewBuffer = null;
+            vifwBufffr = null;
 
-            if (rowIndex < rowCount) {
-                fv.replace(rowIndex, rowCount - rowIndex, null);
+            if (rowIndfx < rowCount) {
+                fv.rfplbdf(rowIndfx, rowCount - rowIndfx, null);
             }
-            unsetDamage();
+            unsftDbmbgf();
         }
 
         /**
-         * Creates a row of views that will fit within the
-         * layout span of the row.  This is called by the layout method.
-         * This is implemented to fill the row by repeatedly calling
-         * the createView method until the available span has been
-         * exhausted, a forced break was encountered, or the createView
-         * method returned null.  If the remaining span was exhausted,
-         * the adjustRow method will be called to perform adjustments
-         * to the row to try and make it fit into the given span.
+         * Crfbtfs b row of vifws tibt will fit witiin tif
+         * lbyout spbn of tif row.  Tiis is dbllfd by tif lbyout mftiod.
+         * Tiis is implfmfntfd to fill tif row by rfpfbtfdly dblling
+         * tif drfbtfVifw mftiod until tif bvbilbblf spbn ibs bffn
+         * fxibustfd, b fordfd brfbk wbs fndountfrfd, or tif drfbtfVifw
+         * mftiod rfturnfd null.  If tif rfmbining spbn wbs fxibustfd,
+         * tif bdjustRow mftiod will bf dbllfd to pfrform bdjustmfnts
+         * to tif row to try bnd mbkf it fit into tif givfn spbn.
          *
-         * @param rowIndex the index of the row to fill in with views.  The
-         *   row is assumed to be empty on entry.
-         * @param pos  The current position in the children of
-         *   this views element from which to start.
-         * @return the position to start the next row
+         * @pbrbm rowIndfx tif indfx of tif row to fill in witi vifws.  Tif
+         *   row is bssumfd to bf fmpty on fntry.
+         * @pbrbm pos  Tif durrfnt position in tif diildrfn of
+         *   tiis vifws flfmfnt from wiidi to stbrt.
+         * @rfturn tif position to stbrt tif nfxt row
          */
-        protected int layoutRow(FlowView fv, int rowIndex, int pos) {
-            View row = fv.getView(rowIndex);
-            float x = fv.getFlowStart(rowIndex);
-            float spanLeft = fv.getFlowSpan(rowIndex);
-            int end = fv.getEndOffset();
-            TabExpander te = (fv instanceof TabExpander) ? (TabExpander)fv : null;
-            final int flowAxis = fv.getFlowAxis();
+        protfdtfd int lbyoutRow(FlowVifw fv, int rowIndfx, int pos) {
+            Vifw row = fv.gftVifw(rowIndfx);
+            flobt x = fv.gftFlowStbrt(rowIndfx);
+            flobt spbnLfft = fv.gftFlowSpbn(rowIndfx);
+            int fnd = fv.gftEndOffsft();
+            TbbExpbndfr tf = (fv instbndfof TbbExpbndfr) ? (TbbExpbndfr)fv : null;
+            finbl int flowAxis = fv.gftFlowAxis();
 
-            int breakWeight = BadBreakWeight;
-            float breakX = 0f;
-            float breakSpan = 0f;
-            int breakIndex = -1;
+            int brfbkWfigit = BbdBrfbkWfigit;
+            flobt brfbkX = 0f;
+            flobt brfbkSpbn = 0f;
+            int brfbkIndfx = -1;
             int n = 0;
 
-            viewBuffer.clear();
-            while (pos < end && spanLeft >= 0) {
-                View v = createView(fv, pos, (int)spanLeft, rowIndex);
+            vifwBufffr.dlfbr();
+            wiilf (pos < fnd && spbnLfft >= 0) {
+                Vifw v = drfbtfVifw(fv, pos, (int)spbnLfft, rowIndfx);
                 if (v == null) {
-                    break;
+                    brfbk;
                 }
 
-                int bw = v.getBreakWeight(flowAxis, x, spanLeft);
-                if (bw >= ForcedBreakWeight) {
-                    View w = v.breakView(flowAxis, pos, x, spanLeft);
+                int bw = v.gftBrfbkWfigit(flowAxis, x, spbnLfft);
+                if (bw >= FordfdBrfbkWfigit) {
+                    Vifw w = v.brfbkVifw(flowAxis, pos, x, spbnLfft);
                     if (w != null) {
-                        viewBuffer.add(w);
-                    } else if (n == 0) {
-                        // if the view does not break, and it is the only view
-                        // in a row, use the whole view
-                        viewBuffer.add(v);
+                        vifwBufffr.bdd(w);
+                    } flsf if (n == 0) {
+                        // if tif vifw dofs not brfbk, bnd it is tif only vifw
+                        // in b row, usf tif wiolf vifw
+                        vifwBufffr.bdd(v);
                     }
-                    break;
-                } else if (bw >= breakWeight && bw > BadBreakWeight) {
-                    breakWeight = bw;
-                    breakX = x;
-                    breakSpan = spanLeft;
-                    breakIndex = n;
+                    brfbk;
+                } flsf if (bw >= brfbkWfigit && bw > BbdBrfbkWfigit) {
+                    brfbkWfigit = bw;
+                    brfbkX = x;
+                    brfbkSpbn = spbnLfft;
+                    brfbkIndfx = n;
                 }
 
-                float chunkSpan;
-                if (flowAxis == X_AXIS && v instanceof TabableView) {
-                    chunkSpan = ((TabableView)v).getTabbedSpan(x, te);
-                } else {
-                    chunkSpan = v.getPreferredSpan(flowAxis);
+                flobt diunkSpbn;
+                if (flowAxis == X_AXIS && v instbndfof TbbbblfVifw) {
+                    diunkSpbn = ((TbbbblfVifw)v).gftTbbbfdSpbn(x, tf);
+                } flsf {
+                    diunkSpbn = v.gftPrfffrrfdSpbn(flowAxis);
                 }
 
-                if (chunkSpan > spanLeft && breakIndex >= 0) {
-                    // row is too long, and we may break
-                    if (breakIndex < n) {
-                        v = viewBuffer.get(breakIndex);
+                if (diunkSpbn > spbnLfft && brfbkIndfx >= 0) {
+                    // row is too long, bnd wf mby brfbk
+                    if (brfbkIndfx < n) {
+                        v = vifwBufffr.gft(brfbkIndfx);
                     }
-                    for (int i = n - 1; i >= breakIndex; i--) {
-                        viewBuffer.remove(i);
+                    for (int i = n - 1; i >= brfbkIndfx; i--) {
+                        vifwBufffr.rfmovf(i);
                     }
-                    v = v.breakView(flowAxis, v.getStartOffset(), breakX, breakSpan);
+                    v = v.brfbkVifw(flowAxis, v.gftStbrtOffsft(), brfbkX, brfbkSpbn);
                 }
 
-                spanLeft -= chunkSpan;
-                x += chunkSpan;
-                viewBuffer.add(v);
-                pos = v.getEndOffset();
+                spbnLfft -= diunkSpbn;
+                x += diunkSpbn;
+                vifwBufffr.bdd(v);
+                pos = v.gftEndOffsft();
                 n++;
             }
 
-            View[] views = new View[viewBuffer.size()];
-            viewBuffer.toArray(views);
-            row.replace(0, row.getViewCount(), views);
-            return (views.length > 0 ? row.getEndOffset() : pos);
+            Vifw[] vifws = nfw Vifw[vifwBufffr.sizf()];
+            vifwBufffr.toArrby(vifws);
+            row.rfplbdf(0, row.gftVifwCount(), vifws);
+            rfturn (vifws.lfngti > 0 ? row.gftEndOffsft() : pos);
         }
 
         /**
-         * Adjusts the given row if possible to fit within the
-         * layout span.  By default this will try to find the
-         * highest break weight possible nearest the end of
-         * the row.  If a forced break is encountered, the
-         * break will be positioned there.
+         * Adjusts tif givfn row if possiblf to fit witiin tif
+         * lbyout spbn.  By dffbult tiis will try to find tif
+         * iigifst brfbk wfigit possiblf nfbrfst tif fnd of
+         * tif row.  If b fordfd brfbk is fndountfrfd, tif
+         * brfbk will bf positionfd tifrf.
          *
-         * @param rowIndex the row to adjust to the current layout
-         *  span.
-         * @param desiredSpan the current layout span &gt;= 0
-         * @param x the location r starts at.
+         * @pbrbm rowIndfx tif row to bdjust to tif durrfnt lbyout
+         *  spbn.
+         * @pbrbm dfsirfdSpbn tif durrfnt lbyout spbn &gt;= 0
+         * @pbrbm x tif lodbtion r stbrts bt.
          */
-        protected void adjustRow(FlowView fv, int rowIndex, int desiredSpan, int x) {
-            final int flowAxis = fv.getFlowAxis();
-            View r = fv.getView(rowIndex);
-            int n = r.getViewCount();
-            int span = 0;
-            int bestWeight = BadBreakWeight;
-            int bestSpan = 0;
-            int bestIndex = -1;
-            View v;
+        protfdtfd void bdjustRow(FlowVifw fv, int rowIndfx, int dfsirfdSpbn, int x) {
+            finbl int flowAxis = fv.gftFlowAxis();
+            Vifw r = fv.gftVifw(rowIndfx);
+            int n = r.gftVifwCount();
+            int spbn = 0;
+            int bfstWfigit = BbdBrfbkWfigit;
+            int bfstSpbn = 0;
+            int bfstIndfx = -1;
+            Vifw v;
             for (int i = 0; i < n; i++) {
-                v = r.getView(i);
-                int spanLeft = desiredSpan - span;
+                v = r.gftVifw(i);
+                int spbnLfft = dfsirfdSpbn - spbn;
 
-                int w = v.getBreakWeight(flowAxis, x + span, spanLeft);
-                if ((w >= bestWeight) && (w > BadBreakWeight)) {
-                    bestWeight = w;
-                    bestIndex = i;
-                    bestSpan = span;
-                    if (w >= ForcedBreakWeight) {
-                        // it's a forced break, so there is
-                        // no point in searching further.
-                        break;
+                int w = v.gftBrfbkWfigit(flowAxis, x + spbn, spbnLfft);
+                if ((w >= bfstWfigit) && (w > BbdBrfbkWfigit)) {
+                    bfstWfigit = w;
+                    bfstIndfx = i;
+                    bfstSpbn = spbn;
+                    if (w >= FordfdBrfbkWfigit) {
+                        // it's b fordfd brfbk, so tifrf is
+                        // no point in sfbrdiing furtifr.
+                        brfbk;
                     }
                 }
-                span += v.getPreferredSpan(flowAxis);
+                spbn += v.gftPrfffrrfdSpbn(flowAxis);
             }
-            if (bestIndex < 0) {
-                // there is nothing that can be broken, leave
-                // it in it's current state.
-                return;
+            if (bfstIndfx < 0) {
+                // tifrf is notiing tibt dbn bf brokfn, lfbvf
+                // it in it's durrfnt stbtf.
+                rfturn;
             }
 
-            // Break the best candidate view, and patch up the row.
-            int spanLeft = desiredSpan - bestSpan;
-            v = r.getView(bestIndex);
-            v = v.breakView(flowAxis, v.getStartOffset(), x + bestSpan, spanLeft);
-            View[] va = new View[1];
-            va[0] = v;
-            View lv = getLogicalView(fv);
-            int p0 = r.getView(bestIndex).getStartOffset();
-            int p1 = r.getEndOffset();
-            for (int i = 0; i < lv.getViewCount(); i++) {
-                View tmpView = lv.getView(i);
-                if (tmpView.getEndOffset() > p1) {
-                    break;
+            // Brfbk tif bfst dbndidbtf vifw, bnd pbtdi up tif row.
+            int spbnLfft = dfsirfdSpbn - bfstSpbn;
+            v = r.gftVifw(bfstIndfx);
+            v = v.brfbkVifw(flowAxis, v.gftStbrtOffsft(), x + bfstSpbn, spbnLfft);
+            Vifw[] vb = nfw Vifw[1];
+            vb[0] = v;
+            Vifw lv = gftLogidblVifw(fv);
+            int p0 = r.gftVifw(bfstIndfx).gftStbrtOffsft();
+            int p1 = r.gftEndOffsft();
+            for (int i = 0; i < lv.gftVifwCount(); i++) {
+                Vifw tmpVifw = lv.gftVifw(i);
+                if (tmpVifw.gftEndOffsft() > p1) {
+                    brfbk;
                 }
-                if (tmpView.getStartOffset() >= p0) {
-                    tmpView.setParent(lv);
+                if (tmpVifw.gftStbrtOffsft() >= p0) {
+                    tmpVifw.sftPbrfnt(lv);
                 }
             }
-            r.replace(bestIndex, n - bestIndex, va);
+            r.rfplbdf(bfstIndfx, n - bfstIndfx, vb);
         }
 
-        void reparentViews(View pool, int startPos) {
-            int n = pool.getViewIndex(startPos, Position.Bias.Forward);
+        void rfpbrfntVifws(Vifw pool, int stbrtPos) {
+            int n = pool.gftVifwIndfx(stbrtPos, Position.Bibs.Forwbrd);
             if (n >= 0) {
-                for (int i = n; i < pool.getViewCount(); i++) {
-                    pool.getView(i).setParent(pool);
+                for (int i = n; i < pool.gftVifwCount(); i++) {
+                    pool.gftVifw(i).sftPbrfnt(pool);
                 }
             }
         }
 
         /**
-         * Creates a view that can be used to represent the current piece
-         * of the flow.  This can be either an entire view from the
-         * logical view, or a fragment of the logical view.
+         * Crfbtfs b vifw tibt dbn bf usfd to rfprfsfnt tif durrfnt pifdf
+         * of tif flow.  Tiis dbn bf fitifr bn fntirf vifw from tif
+         * logidbl vifw, or b frbgmfnt of tif logidbl vifw.
          *
-         * @param fv the view holding the flow
-         * @param startOffset the start location for the view being created
-         * @param spanLeft the about of span left to fill in the row
-         * @param rowIndex the row the view will be placed into
+         * @pbrbm fv tif vifw iolding tif flow
+         * @pbrbm stbrtOffsft tif stbrt lodbtion for tif vifw bfing drfbtfd
+         * @pbrbm spbnLfft tif bbout of spbn lfft to fill in tif row
+         * @pbrbm rowIndfx tif row tif vifw will bf plbdfd into
          */
-        protected View createView(FlowView fv, int startOffset, int spanLeft, int rowIndex) {
-            // Get the child view that contains the given starting position
-            View lv = getLogicalView(fv);
-            int childIndex = lv.getViewIndex(startOffset, Position.Bias.Forward);
-            View v = lv.getView(childIndex);
-            if (startOffset==v.getStartOffset()) {
-                // return the entire view
-                return v;
+        protfdtfd Vifw drfbtfVifw(FlowVifw fv, int stbrtOffsft, int spbnLfft, int rowIndfx) {
+            // Gft tif diild vifw tibt dontbins tif givfn stbrting position
+            Vifw lv = gftLogidblVifw(fv);
+            int diildIndfx = lv.gftVifwIndfx(stbrtOffsft, Position.Bibs.Forwbrd);
+            Vifw v = lv.gftVifw(diildIndfx);
+            if (stbrtOffsft==v.gftStbrtOffsft()) {
+                // rfturn tif fntirf vifw
+                rfturn v;
             }
 
-            // return a fragment.
-            v = v.createFragment(startOffset, v.getEndOffset());
-            return v;
+            // rfturn b frbgmfnt.
+            v = v.drfbtfFrbgmfnt(stbrtOffsft, v.gftEndOffsft());
+            rfturn v;
         }
     }
 
     /**
-     * This class can be used to represent a logical view for
-     * a flow.  It keeps the children updated to reflect the state
-     * of the model, gives the logical child views access to the
-     * view hierarchy, and calculates a preferred span.  It doesn't
-     * do any rendering, layout, or model/view translation.
+     * Tiis dlbss dbn bf usfd to rfprfsfnt b logidbl vifw for
+     * b flow.  It kffps tif diildrfn updbtfd to rfflfdt tif stbtf
+     * of tif modfl, givfs tif logidbl diild vifws bddfss to tif
+     * vifw iifrbrdiy, bnd dbldulbtfs b prfffrrfd spbn.  It dofsn't
+     * do bny rfndfring, lbyout, or modfl/vifw trbnslbtion.
      */
-    static class LogicalView extends CompositeView {
+    stbtid dlbss LogidblVifw fxtfnds CompositfVifw {
 
-        LogicalView(Element elem) {
-            super(elem);
+        LogidblVifw(Elfmfnt flfm) {
+            supfr(flfm);
         }
 
-        protected int getViewIndexAtPosition(int pos) {
-            Element elem = getElement();
-            if (elem.isLeaf()) {
-                return 0;
+        protfdtfd int gftVifwIndfxAtPosition(int pos) {
+            Elfmfnt flfm = gftElfmfnt();
+            if (flfm.isLfbf()) {
+                rfturn 0;
             }
-            return super.getViewIndexAtPosition(pos);
+            rfturn supfr.gftVifwIndfxAtPosition(pos);
         }
 
-        protected void loadChildren(ViewFactory f) {
-            Element elem = getElement();
-            if (elem.isLeaf()) {
-                View v = new LabelView(elem);
-                append(v);
-            } else {
-                super.loadChildren(f);
+        protfdtfd void lobdCiildrfn(VifwFbdtory f) {
+            Elfmfnt flfm = gftElfmfnt();
+            if (flfm.isLfbf()) {
+                Vifw v = nfw LbbflVifw(flfm);
+                bppfnd(v);
+            } flsf {
+                supfr.lobdCiildrfn(f);
             }
         }
 
         /**
-         * Fetches the attributes to use when rendering.  This view
-         * isn't directly responsible for an element so it returns
-         * the outer classes attributes.
+         * Fftdifs tif bttributfs to usf wifn rfndfring.  Tiis vifw
+         * isn't dirfdtly rfsponsiblf for bn flfmfnt so it rfturns
+         * tif outfr dlbssfs bttributfs.
          */
-        public AttributeSet getAttributes() {
-            View p = getParent();
-            return (p != null) ? p.getAttributes() : null;
+        publid AttributfSft gftAttributfs() {
+            Vifw p = gftPbrfnt();
+            rfturn (p != null) ? p.gftAttributfs() : null;
         }
 
         /**
-         * Determines the preferred span for this view along an
-         * axis.
+         * Dftfrminfs tif prfffrrfd spbn for tiis vifw blong bn
+         * bxis.
          *
-         * @param axis may be either View.X_AXIS or View.Y_AXIS
-         * @return   the span the view would like to be rendered into.
-         *           Typically the view is told to render into the span
-         *           that is returned, although there is no guarantee.
-         *           The parent may choose to resize or break the view.
-         * @see View#getPreferredSpan
+         * @pbrbm bxis mby bf fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+         * @rfturn   tif spbn tif vifw would likf to bf rfndfrfd into.
+         *           Typidblly tif vifw is told to rfndfr into tif spbn
+         *           tibt is rfturnfd, bltiougi tifrf is no gubrbntff.
+         *           Tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw.
+         * @sff Vifw#gftPrfffrrfdSpbn
          */
-        public float getPreferredSpan(int axis) {
-            float maxpref = 0;
-            float pref = 0;
-            int n = getViewCount();
+        publid flobt gftPrfffrrfdSpbn(int bxis) {
+            flobt mbxprff = 0;
+            flobt prff = 0;
+            int n = gftVifwCount();
             for (int i = 0; i < n; i++) {
-                View v = getView(i);
-                pref += v.getPreferredSpan(axis);
-                if (v.getBreakWeight(axis, 0, Integer.MAX_VALUE) >= ForcedBreakWeight) {
-                    maxpref = Math.max(maxpref, pref);
-                    pref = 0;
+                Vifw v = gftVifw(i);
+                prff += v.gftPrfffrrfdSpbn(bxis);
+                if (v.gftBrfbkWfigit(bxis, 0, Intfgfr.MAX_VALUE) >= FordfdBrfbkWfigit) {
+                    mbxprff = Mbti.mbx(mbxprff, prff);
+                    prff = 0;
                 }
             }
-            maxpref = Math.max(maxpref, pref);
-            return maxpref;
+            mbxprff = Mbti.mbx(mbxprff, prff);
+            rfturn mbxprff;
         }
 
         /**
-         * Determines the minimum span for this view along an
-         * axis.  The is implemented to find the minimum unbreakable
-         * span.
+         * Dftfrminfs tif minimum spbn for tiis vifw blong bn
+         * bxis.  Tif is implfmfntfd to find tif minimum unbrfbkbblf
+         * spbn.
          *
-         * @param axis may be either View.X_AXIS or View.Y_AXIS
-         * @return  the span the view would like to be rendered into.
-         *           Typically the view is told to render into the span
-         *           that is returned, although there is no guarantee.
-         *           The parent may choose to resize or break the view.
-         * @see View#getPreferredSpan
+         * @pbrbm bxis mby bf fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+         * @rfturn  tif spbn tif vifw would likf to bf rfndfrfd into.
+         *           Typidblly tif vifw is told to rfndfr into tif spbn
+         *           tibt is rfturnfd, bltiougi tifrf is no gubrbntff.
+         *           Tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw.
+         * @sff Vifw#gftPrfffrrfdSpbn
          */
-        public float getMinimumSpan(int axis) {
-            float maxmin = 0;
-            float min = 0;
-            boolean nowrap = false;
-            int n = getViewCount();
+        publid flobt gftMinimumSpbn(int bxis) {
+            flobt mbxmin = 0;
+            flobt min = 0;
+            boolfbn nowrbp = fblsf;
+            int n = gftVifwCount();
             for (int i = 0; i < n; i++) {
-                View v = getView(i);
-                if (v.getBreakWeight(axis, 0, Integer.MAX_VALUE) == BadBreakWeight) {
-                    min += v.getPreferredSpan(axis);
-                    nowrap = true;
-                } else if (nowrap) {
-                    maxmin = Math.max(min, maxmin);
-                    nowrap = false;
+                Vifw v = gftVifw(i);
+                if (v.gftBrfbkWfigit(bxis, 0, Intfgfr.MAX_VALUE) == BbdBrfbkWfigit) {
+                    min += v.gftPrfffrrfdSpbn(bxis);
+                    nowrbp = truf;
+                } flsf if (nowrbp) {
+                    mbxmin = Mbti.mbx(min, mbxmin);
+                    nowrbp = fblsf;
                     min = 0;
                 }
-                if (v instanceof ComponentView) {
-                    maxmin = Math.max(maxmin, v.getMinimumSpan(axis));
+                if (v instbndfof ComponfntVifw) {
+                    mbxmin = Mbti.mbx(mbxmin, v.gftMinimumSpbn(bxis));
                 }
             }
-            maxmin = Math.max(maxmin, min);
-            return maxmin;
+            mbxmin = Mbti.mbx(mbxmin, min);
+            rfturn mbxmin;
         }
 
         /**
-         * Forward the DocumentEvent to the given child view.  This
-         * is implemented to reparent the child to the logical view
-         * (the children may have been parented by a row in the flow
-         * if they fit without breaking) and then execute the superclass
-         * behavior.
+         * Forwbrd tif DodumfntEvfnt to tif givfn diild vifw.  Tiis
+         * is implfmfntfd to rfpbrfnt tif diild to tif logidbl vifw
+         * (tif diildrfn mby ibvf bffn pbrfntfd by b row in tif flow
+         * if tify fit witiout brfbking) bnd tifn fxfdutf tif supfrdlbss
+         * bfibvior.
          *
-         * @param v the child view to forward the event to.
-         * @param e the change information from the associated document
-         * @param a the current allocation of the view
-         * @param f the factory to use to rebuild if the view has children
-         * @see #forwardUpdate
-         * @since 1.3
+         * @pbrbm v tif diild vifw to forwbrd tif fvfnt to.
+         * @pbrbm f tif dibngf informbtion from tif bssodibtfd dodumfnt
+         * @pbrbm b tif durrfnt bllodbtion of tif vifw
+         * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+         * @sff #forwbrdUpdbtf
+         * @sindf 1.3
          */
-        protected void forwardUpdateToView(View v, DocumentEvent e,
-                                           Shape a, ViewFactory f) {
-            View parent = v.getParent();
-            v.setParent(this);
-            super.forwardUpdateToView(v, e, a, f);
-            v.setParent(parent);
+        protfdtfd void forwbrdUpdbtfToVifw(Vifw v, DodumfntEvfnt f,
+                                           Sibpf b, VifwFbdtory f) {
+            Vifw pbrfnt = v.gftPbrfnt();
+            v.sftPbrfnt(tiis);
+            supfr.forwbrdUpdbtfToVifw(v, f, b, f);
+            v.sftPbrfnt(pbrfnt);
         }
 
-        /** {@inheritDoc} */
-        @Override
-        protected void forwardUpdate(DocumentEvent.ElementChange ec,
-                                          DocumentEvent e, Shape a, ViewFactory f) {
-            calculateUpdateIndexes(e);
-            // Send update event to all views followed by the changed place.
-            lastUpdateIndex = Math.max((getViewCount() - 1), 0);
-            for (int i = firstUpdateIndex; i <= lastUpdateIndex; i++) {
-                View v = getView(i);
+        /** {@inifritDod} */
+        @Ovfrridf
+        protfdtfd void forwbrdUpdbtf(DodumfntEvfnt.ElfmfntCibngf fd,
+                                          DodumfntEvfnt f, Sibpf b, VifwFbdtory f) {
+            dbldulbtfUpdbtfIndfxfs(f);
+            // Sfnd updbtf fvfnt to bll vifws followfd by tif dibngfd plbdf.
+            lbstUpdbtfIndfx = Mbti.mbx((gftVifwCount() - 1), 0);
+            for (int i = firstUpdbtfIndfx; i <= lbstUpdbtfIndfx; i++) {
+                Vifw v = gftVifw(i);
                 if (v != null) {
-                    Shape childAlloc = getChildAllocation(i, a);
-                    forwardUpdateToView(v, e, childAlloc, f);
+                    Sibpf diildAllod = gftCiildAllodbtion(i, b);
+                    forwbrdUpdbtfToVifw(v, f, diildAllod, f);
                 }
             }
         }
 
-        // The following methods don't do anything useful, they
-        // simply keep the class from being abstract.
+        // Tif following mftiods don't do bnytiing usfful, tify
+        // simply kffp tif dlbss from bfing bbstrbdt.
 
         /**
-         * Renders using the given rendering surface and area on that
-         * surface.  This is implemented to do nothing, the logical
-         * view is never visible.
+         * Rfndfrs using tif givfn rfndfring surfbdf bnd brfb on tibt
+         * surfbdf.  Tiis is implfmfntfd to do notiing, tif logidbl
+         * vifw is nfvfr visiblf.
          *
-         * @param g the rendering surface to use
-         * @param allocation the allocated region to render into
-         * @see View#paint
+         * @pbrbm g tif rfndfring surfbdf to usf
+         * @pbrbm bllodbtion tif bllodbtfd rfgion to rfndfr into
+         * @sff Vifw#pbint
          */
-        public void paint(Graphics g, Shape allocation) {
+        publid void pbint(Grbpiids g, Sibpf bllodbtion) {
         }
 
         /**
-         * Tests whether a point lies before the rectangle range.
-         * Implemented to return false, as hit detection is not
-         * performed on the logical view.
+         * Tfsts wiftifr b point lifs bfforf tif rfdtbnglf rbngf.
+         * Implfmfntfd to rfturn fblsf, bs iit dftfdtion is not
+         * pfrformfd on tif logidbl vifw.
          *
-         * @param x the X coordinate &gt;= 0
-         * @param y the Y coordinate &gt;= 0
-         * @param alloc the rectangle
-         * @return true if the point is before the specified range
+         * @pbrbm x tif X doordinbtf &gt;= 0
+         * @pbrbm y tif Y doordinbtf &gt;= 0
+         * @pbrbm bllod tif rfdtbnglf
+         * @rfturn truf if tif point is bfforf tif spfdififd rbngf
          */
-        protected boolean isBefore(int x, int y, Rectangle alloc) {
-            return false;
+        protfdtfd boolfbn isBfforf(int x, int y, Rfdtbnglf bllod) {
+            rfturn fblsf;
         }
 
         /**
-         * Tests whether a point lies after the rectangle range.
-         * Implemented to return false, as hit detection is not
-         * performed on the logical view.
+         * Tfsts wiftifr b point lifs bftfr tif rfdtbnglf rbngf.
+         * Implfmfntfd to rfturn fblsf, bs iit dftfdtion is not
+         * pfrformfd on tif logidbl vifw.
          *
-         * @param x the X coordinate &gt;= 0
-         * @param y the Y coordinate &gt;= 0
-         * @param alloc the rectangle
-         * @return true if the point is after the specified range
+         * @pbrbm x tif X doordinbtf &gt;= 0
+         * @pbrbm y tif Y doordinbtf &gt;= 0
+         * @pbrbm bllod tif rfdtbnglf
+         * @rfturn truf if tif point is bftfr tif spfdififd rbngf
          */
-        protected boolean isAfter(int x, int y, Rectangle alloc) {
-            return false;
+        protfdtfd boolfbn isAftfr(int x, int y, Rfdtbnglf bllod) {
+            rfturn fblsf;
         }
 
         /**
-         * Fetches the child view at the given point.
-         * Implemented to return null, as hit detection is not
-         * performed on the logical view.
+         * Fftdifs tif diild vifw bt tif givfn point.
+         * Implfmfntfd to rfturn null, bs iit dftfdtion is not
+         * pfrformfd on tif logidbl vifw.
          *
-         * @param x the X coordinate &gt;= 0
-         * @param y the Y coordinate &gt;= 0
-         * @param alloc the parent's allocation on entry, which should
-         *   be changed to the child's allocation on exit
-         * @return the child view
+         * @pbrbm x tif X doordinbtf &gt;= 0
+         * @pbrbm y tif Y doordinbtf &gt;= 0
+         * @pbrbm bllod tif pbrfnt's bllodbtion on fntry, wiidi siould
+         *   bf dibngfd to tif diild's bllodbtion on fxit
+         * @rfturn tif diild vifw
          */
-        protected View getViewAtPoint(int x, int y, Rectangle alloc) {
-            return null;
+        protfdtfd Vifw gftVifwAtPoint(int x, int y, Rfdtbnglf bllod) {
+            rfturn null;
         }
 
         /**
-         * Returns the allocation for a given child.
-         * Implemented to do nothing, as the logical view doesn't
-         * perform layout on the children.
+         * Rfturns tif bllodbtion for b givfn diild.
+         * Implfmfntfd to do notiing, bs tif logidbl vifw dofsn't
+         * pfrform lbyout on tif diildrfn.
          *
-         * @param index the index of the child, &gt;= 0 &amp;&amp; &lt; getViewCount()
-         * @param a  the allocation to the interior of the box on entry,
-         *   and the allocation of the child view at the index on exit.
+         * @pbrbm indfx tif indfx of tif diild, &gt;= 0 &bmp;&bmp; &lt; gftVifwCount()
+         * @pbrbm b  tif bllodbtion to tif intfrior of tif box on fntry,
+         *   bnd tif bllodbtion of tif diild vifw bt tif indfx on fxit.
          */
-        protected void childAllocation(int index, Rectangle a) {
+        protfdtfd void diildAllodbtion(int indfx, Rfdtbnglf b) {
         }
     }
 

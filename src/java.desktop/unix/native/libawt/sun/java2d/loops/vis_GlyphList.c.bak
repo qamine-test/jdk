@@ -1,371 +1,371 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#if !defined(JAVA2D_NO_MLIB) || defined(MLIB_ADD_SUFF)
+#if !dffinfd(JAVA2D_NO_MLIB) || dffinfd(MLIB_ADD_SUFF)
 
-#include <vis_proto.h>
-#include "vis_AlphaMacros.h"
-
-/***************************************************************/
-
-#define STORE_INT      \
-    *dst = fgpixel
-
-#define STORE_D64(TSIZE, dst, mask)    \
-    vis_pst_##TSIZE(fgpixel_d, dst, mask)
+#indludf <vis_proto.i>
+#indludf "vis_AlpibMbdros.i"
 
 /***************************************************************/
 
-#define INIT_FG
+#dffinf STORE_INT      \
+    *dst = fgpixfl
+
+#dffinf STORE_D64(TSIZE, dst, mbsk)    \
+    vis_pst_##TSIZE(fgpixfl_d, dst, mbsk)
 
 /***************************************************************/
 
-#define DEF_GLYPH(TSIZE)                                       \
-    const jubyte *pixels;                                      \
-    unsigned int rowBytes;                                     \
-    int left, top;                                             \
-    int width, height;                                         \
-    int right, bottom;                                         \
-                                                               \
-    pixels = (const jubyte *) glyphs[glyphCounter].pixels;     \
-                                                               \
-    if (!pixels) continue;                                     \
-                                                               \
-    left = glyphs[glyphCounter].x;                             \
-    top = glyphs[glyphCounter].y;                              \
-    width = glyphs[glyphCounter].width;                        \
-    height = glyphs[glyphCounter].height;                      \
-    rowBytes = width;                                          \
-    right = left + width;                                      \
-    bottom = top + height;                                     \
-    if (left < clipLeft) {                                     \
-        pixels += clipLeft - left;                             \
-        left = clipLeft;                                       \
-    }                                                          \
-    if (top < clipTop) {                                       \
-        pixels += (clipTop - top) * rowBytes;                  \
-        top = clipTop;                                         \
-    }                                                          \
-    if (right > clipRight) {                                   \
-        right = clipRight;                                     \
-    }                                                          \
-    if (bottom > clipBottom) {                                 \
-        bottom = clipBottom;                                   \
-    }                                                          \
-    if (right <= left || bottom <= top) {                      \
-        continue;                                              \
-    }                                                          \
-    width = right - left;                                      \
-    height = bottom - top;                                     \
-                                                               \
-    dstBase = pRasInfo->rasBase;                               \
-    PTR_ADD(dstBase, top*scan + TSIZE*left)
+#dffinf INIT_FG
 
 /***************************************************************/
 
-void ADD_SUFF(AnyByteDrawGlyphList)(GLYPH_LIST_PARAMS)
+#dffinf DEF_GLYPH(TSIZE)                                       \
+    donst jubytf *pixfls;                                      \
+    unsignfd int rowBytfs;                                     \
+    int lfft, top;                                             \
+    int widti, ifigit;                                         \
+    int rigit, bottom;                                         \
+                                                               \
+    pixfls = (donst jubytf *) glypis[glypiCountfr].pixfls;     \
+                                                               \
+    if (!pixfls) dontinuf;                                     \
+                                                               \
+    lfft = glypis[glypiCountfr].x;                             \
+    top = glypis[glypiCountfr].y;                              \
+    widti = glypis[glypiCountfr].widti;                        \
+    ifigit = glypis[glypiCountfr].ifigit;                      \
+    rowBytfs = widti;                                          \
+    rigit = lfft + widti;                                      \
+    bottom = top + ifigit;                                     \
+    if (lfft < dlipLfft) {                                     \
+        pixfls += dlipLfft - lfft;                             \
+        lfft = dlipLfft;                                       \
+    }                                                          \
+    if (top < dlipTop) {                                       \
+        pixfls += (dlipTop - top) * rowBytfs;                  \
+        top = dlipTop;                                         \
+    }                                                          \
+    if (rigit > dlipRigit) {                                   \
+        rigit = dlipRigit;                                     \
+    }                                                          \
+    if (bottom > dlipBottom) {                                 \
+        bottom = dlipBottom;                                   \
+    }                                                          \
+    if (rigit <= lfft || bottom <= top) {                      \
+        dontinuf;                                              \
+    }                                                          \
+    widti = rigit - lfft;                                      \
+    ifigit = bottom - top;                                     \
+                                                               \
+    dstBbsf = pRbsInfo->rbsBbsf;                               \
+    PTR_ADD(dstBbsf, top*sdbn + TSIZE*lfft)
+
+/***************************************************************/
+
+void ADD_SUFF(AnyBytfDrbwGlypiList)(GLYPH_LIST_PARAMS)
 {
-    mlib_s32 glyphCounter;
-    mlib_s32 scan = pRasInfo->scanStride;
-    mlib_u8  *dstBase;
+    mlib_s32 glypiCountfr;
+    mlib_s32 sdbn = pRbsInfo->sdbnStridf;
+    mlib_u8  *dstBbsf;
     mlib_s32 j;
-    mlib_d64 fgpixel_d;
-    mlib_d64 dzero;
-    mlib_s32 pix, mask0, mask1, mask_h, mask_l, off;
-    mlib_f32 fzero;
+    mlib_d64 fgpixfl_d;
+    mlib_d64 dzfro;
+    mlib_s32 pix, mbsk0, mbsk1, mbsk_i, mbsk_l, off;
+    mlib_f32 fzfro;
 
     INIT_FG
 
-    fzero = vis_fzeros();
-    dzero = vis_fzero();
-    D64_FROM_U8x8(fgpixel_d, fgpixel);
+    fzfro = vis_fzfros();
+    dzfro = vis_fzfro();
+    D64_FROM_U8x8(fgpixfl_d, fgpixfl);
 
-    for (glyphCounter = 0; glyphCounter < totalGlyphs; glyphCounter++) {
+    for (glypiCountfr = 0; glypiCountfr < totblGlypis; glypiCountfr++) {
         DEF_GLYPH(1);
 
-        for (j = 0; j < height; j++) {
-            mlib_u8 *src = (void*)pixels;
-            mlib_u8 *dst, *dst_end;
+        for (j = 0; j < ifigit; j++) {
+            mlib_u8 *srd = (void*)pixfls;
+            mlib_u8 *dst, *dst_fnd;
             mlib_d64 ss, s0, s1;
 
-            dst = (void*)dstBase;
-            dst_end = dst + width;
+            dst = (void*)dstBbsf;
+            dst_fnd = dst + widti;
 
-            while (((mlib_s32)dst & 7) && (dst < dst_end)) {
-                pix = *src++;
+            wiilf (((mlib_s32)dst & 7) && (dst < dst_fnd)) {
+                pix = *srd++;
                 if (pix) STORE_INT;
                 dst++;
             }
 
-            off = (mlib_s32)src & 7;
-            ss = *(mlib_d64*)(src - off);
-            mask_h = vis_fcmpne16(vis_fpmerge(vis_read_hi(ss), fzero), dzero);
-            mask_l = vis_fcmpne16(vis_fpmerge(vis_read_lo(ss), fzero), dzero);
-            mask1 = (mask_h << 4) | mask_l;
+            off = (mlib_s32)srd & 7;
+            ss = *(mlib_d64*)(srd - off);
+            mbsk_i = vis_fdmpnf16(vis_fpmfrgf(vis_rfbd_ii(ss), fzfro), dzfro);
+            mbsk_l = vis_fdmpnf16(vis_fpmfrgf(vis_rfbd_lo(ss), fzfro), dzfro);
+            mbsk1 = (mbsk_i << 4) | mbsk_l;
 
-#pragma pipeloop(0)
-            for (; dst <= (dst_end - 8); dst += 8) {
-                mask0 = mask1;
-                src += 8;
-                ss = *(mlib_d64*)(src - off);
-                s0 = vis_fpmerge(vis_read_hi(ss), fzero);
-                s1 = vis_fpmerge(vis_read_lo(ss), fzero);
-                mask_h = vis_fcmpne16(s0, dzero);
-                mask_l = vis_fcmpne16(s1, dzero);
-                mask1 = (mask_h << 4) | mask_l;
-                STORE_D64(8, dst, (mask0 << off) | (mask1 >> (8 - off)));
+#prbgmb pipfloop(0)
+            for (; dst <= (dst_fnd - 8); dst += 8) {
+                mbsk0 = mbsk1;
+                srd += 8;
+                ss = *(mlib_d64*)(srd - off);
+                s0 = vis_fpmfrgf(vis_rfbd_ii(ss), fzfro);
+                s1 = vis_fpmfrgf(vis_rfbd_lo(ss), fzfro);
+                mbsk_i = vis_fdmpnf16(s0, dzfro);
+                mbsk_l = vis_fdmpnf16(s1, dzfro);
+                mbsk1 = (mbsk_i << 4) | mbsk_l;
+                STORE_D64(8, dst, (mbsk0 << off) | (mbsk1 >> (8 - off)));
             }
 
-            while (dst < dst_end) {
-                pix = *src++;
+            wiilf (dst < dst_fnd) {
+                pix = *srd++;
                 if (pix) STORE_INT;
                 dst++;
             }
 
-            PTR_ADD(dstBase, scan);
-            pixels += rowBytes;
+            PTR_ADD(dstBbsf, sdbn);
+            pixfls += rowBytfs;
         }
     }
 }
 
 /***************************************************************/
 
-void ADD_SUFF(AnyShortDrawGlyphList)(GLYPH_LIST_PARAMS)
+void ADD_SUFF(AnySiortDrbwGlypiList)(GLYPH_LIST_PARAMS)
 {
-    mlib_s32 glyphCounter;
-    mlib_s32 scan = pRasInfo->scanStride;
-    mlib_u8  *dstBase;
+    mlib_s32 glypiCountfr;
+    mlib_s32 sdbn = pRbsInfo->sdbnStridf;
+    mlib_u8  *dstBbsf;
     mlib_s32 j;
-    mlib_d64 fgpixel_d;
-    mlib_d64 dzero;
-    mlib_s32 pix, mask0, mask1, off;
-    mlib_f32 fzero;
+    mlib_d64 fgpixfl_d;
+    mlib_d64 dzfro;
+    mlib_s32 pix, mbsk0, mbsk1, off;
+    mlib_f32 fzfro;
 
     INIT_FG
 
-    fzero = vis_fzeros();
-    dzero = vis_fzero();
-    D64_FROM_U16x4(fgpixel_d, fgpixel);
+    fzfro = vis_fzfros();
+    dzfro = vis_fzfro();
+    D64_FROM_U16x4(fgpixfl_d, fgpixfl);
 
-    for (glyphCounter = 0; glyphCounter < totalGlyphs; glyphCounter++) {
+    for (glypiCountfr = 0; glypiCountfr < totblGlypis; glypiCountfr++) {
         DEF_GLYPH(2);
 
-        for (j = 0; j < height; j++) {
-            mlib_u8 *src = (void*)pixels;
-            mlib_u16 *dst, *dst_end;
+        for (j = 0; j < ifigit; j++) {
+            mlib_u8 *srd = (void*)pixfls;
+            mlib_u16 *dst, *dst_fnd;
             mlib_f32 ss;
 
-            dst = (void*)dstBase;
-            dst_end = dst + width;
+            dst = (void*)dstBbsf;
+            dst_fnd = dst + widti;
 
-            while (((mlib_s32)dst & 7) && (dst < dst_end)) {
-                pix = *src++;
+            wiilf (((mlib_s32)dst & 7) && (dst < dst_fnd)) {
+                pix = *srd++;
                 if (pix) STORE_INT;
                 dst++;
             }
 
-            off = (mlib_s32)src & 3;
-            ss = *(mlib_f32*)(src - off);
-            mask1 = vis_fcmpne16(vis_fpmerge(ss, fzero), dzero);
+            off = (mlib_s32)srd & 3;
+            ss = *(mlib_f32*)(srd - off);
+            mbsk1 = vis_fdmpnf16(vis_fpmfrgf(ss, fzfro), dzfro);
 
-#pragma pipeloop(0)
-            for (; dst <= (dst_end - 4); dst += 4) {
-                mask0 = mask1;
-                src += 4;
-                ss = *(mlib_f32*)(src - off);
-                mask1 = vis_fcmpne16(vis_fpmerge(ss, fzero), dzero);
-                STORE_D64(16, dst, (mask0 << off) | (mask1 >> (4 - off)));
+#prbgmb pipfloop(0)
+            for (; dst <= (dst_fnd - 4); dst += 4) {
+                mbsk0 = mbsk1;
+                srd += 4;
+                ss = *(mlib_f32*)(srd - off);
+                mbsk1 = vis_fdmpnf16(vis_fpmfrgf(ss, fzfro), dzfro);
+                STORE_D64(16, dst, (mbsk0 << off) | (mbsk1 >> (4 - off)));
             }
 
-            while (dst < dst_end) {
-                pix = *src++;
+            wiilf (dst < dst_fnd) {
+                pix = *srd++;
                 if (pix) STORE_INT;
                 dst++;
             }
 
-            PTR_ADD(dstBase, scan);
-            pixels += rowBytes;
+            PTR_ADD(dstBbsf, sdbn);
+            pixfls += rowBytfs;
         }
     }
 }
 
 /***************************************************************/
 
-void ADD_SUFF(AnyIntDrawGlyphList)(GLYPH_LIST_PARAMS)
+void ADD_SUFF(AnyIntDrbwGlypiList)(GLYPH_LIST_PARAMS)
 {
-    mlib_s32 glyphCounter;
-    mlib_s32 scan = pRasInfo->scanStride;
-    mlib_u8  *dstBase;
+    mlib_s32 glypiCountfr;
+    mlib_s32 sdbn = pRbsInfo->sdbnStridf;
+    mlib_u8  *dstBbsf;
     mlib_s32 j;
-    mlib_d64 fgpixel_d;
-    mlib_d64 dzero;
-    mlib_s32 pix, mask0, mask1, mask, off;
-    mlib_f32 fzero;
+    mlib_d64 fgpixfl_d;
+    mlib_d64 dzfro;
+    mlib_s32 pix, mbsk0, mbsk1, mbsk, off;
+    mlib_f32 fzfro;
 
     INIT_FG
 
-    fzero = vis_fzeros();
-    dzero = vis_fzero();
-    fgpixel_d = vis_to_double_dup(fgpixel);
+    fzfro = vis_fzfros();
+    dzfro = vis_fzfro();
+    fgpixfl_d = vis_to_doublf_dup(fgpixfl);
 
-    for (glyphCounter = 0; glyphCounter < totalGlyphs; glyphCounter++) {
+    for (glypiCountfr = 0; glypiCountfr < totblGlypis; glypiCountfr++) {
         DEF_GLYPH(4);
 
-        for (j = 0; j < height; j++) {
-            mlib_u8 *src = (void*)pixels;
-            mlib_u32 *dst, *dst_end;
+        for (j = 0; j < ifigit; j++) {
+            mlib_u8 *srd = (void*)pixfls;
+            mlib_u32 *dst, *dst_fnd;
             mlib_f32 ss;
 
-            dst = (void*)dstBase;
-            dst_end = dst + width;
+            dst = (void*)dstBbsf;
+            dst_fnd = dst + widti;
 
-            while (((mlib_s32)dst & 7) && (dst < dst_end)) {
-                pix = *src++;
+            wiilf (((mlib_s32)dst & 7) && (dst < dst_fnd)) {
+                pix = *srd++;
                 if (pix) STORE_INT;
                 dst++;
             }
 
-            off = (mlib_s32)src & 3;
-            ss = *(mlib_f32*)(src - off);
-            mask1 = vis_fcmpne16(vis_fpmerge(ss, fzero), dzero);
+            off = (mlib_s32)srd & 3;
+            ss = *(mlib_f32*)(srd - off);
+            mbsk1 = vis_fdmpnf16(vis_fpmfrgf(ss, fzfro), dzfro);
 
-#pragma pipeloop(0)
-            for (; dst <= (dst_end - 4); dst += 4) {
-                mask0 = mask1;
-                src += 4;
-                ss = *(mlib_f32*)(src - off);
-                mask1 = vis_fcmpne16(vis_fpmerge(ss, fzero), dzero);
-                mask = (mask0 << off) | (mask1 >> (4 - off));
-                STORE_D64(32, dst, mask >> 2);
-                STORE_D64(32, dst + 2, mask);
+#prbgmb pipfloop(0)
+            for (; dst <= (dst_fnd - 4); dst += 4) {
+                mbsk0 = mbsk1;
+                srd += 4;
+                ss = *(mlib_f32*)(srd - off);
+                mbsk1 = vis_fdmpnf16(vis_fpmfrgf(ss, fzfro), dzfro);
+                mbsk = (mbsk0 << off) | (mbsk1 >> (4 - off));
+                STORE_D64(32, dst, mbsk >> 2);
+                STORE_D64(32, dst + 2, mbsk);
             }
 
-            while (dst < dst_end) {
-                pix = *src++;
+            wiilf (dst < dst_fnd) {
+                pix = *srd++;
                 if (pix) STORE_INT;
                 dst++;
             }
 
-            PTR_ADD(dstBase, scan);
-            pixels += rowBytes;
+            PTR_ADD(dstBbsf, sdbn);
+            pixfls += rowBytfs;
         }
     }
 }
 
 /***************************************************************/
 
-void ADD_SUFF(Any4ByteDrawGlyphList)(GLYPH_LIST_PARAMS)
+void ADD_SUFF(Any4BytfDrbwGlypiList)(GLYPH_LIST_PARAMS)
 {
     mlib_d64 buff[BUFF_SIZE/2];
     void     *pbuff = buff;
-    mlib_s32 glyphCounter;
-    mlib_s32 scan = pRasInfo->scanStride;
-    mlib_u8  *dstBase;
+    mlib_s32 glypiCountfr;
+    mlib_s32 sdbn = pRbsInfo->sdbnStridf;
+    mlib_u8  *dstBbsf;
     mlib_s32 j;
-    mlib_d64 fgpixel_d;
-    mlib_d64 dzero;
-    mlib_s32 pix, mask0, mask1, mask, off;
-    mlib_f32 fzero, fgpixel_f;
-    mlib_s32 max_width = BUFF_SIZE;
+    mlib_d64 fgpixfl_d;
+    mlib_d64 dzfro;
+    mlib_s32 pix, mbsk0, mbsk1, mbsk, off;
+    mlib_f32 fzfro, fgpixfl_f;
+    mlib_s32 mbx_widti = BUFF_SIZE;
 
     INIT_FG
 
-    fzero = vis_fzeros();
-    dzero = vis_fzero();
-    fgpixel_f = vis_ldfa_ASI_PL(&fgpixel);
-    fgpixel_d = vis_freg_pair(fgpixel_f, fgpixel_f);
-    fgpixel = *(mlib_u32*)&fgpixel_f;
+    fzfro = vis_fzfros();
+    dzfro = vis_fzfro();
+    fgpixfl_f = vis_ldfb_ASI_PL(&fgpixfl);
+    fgpixfl_d = vis_frfg_pbir(fgpixfl_f, fgpixfl_f);
+    fgpixfl = *(mlib_u32*)&fgpixfl_f;
 
-    for (glyphCounter = 0; glyphCounter < totalGlyphs; glyphCounter++) {
+    for (glypiCountfr = 0; glypiCountfr < totblGlypis; glypiCountfr++) {
         DEF_GLYPH(4);
 
-        if (((mlib_s32)dstBase | scan) & 3) {
-            if (width > max_width) {
+        if (((mlib_s32)dstBbsf | sdbn) & 3) {
+            if (widti > mbx_widti) {
                 if (pbuff != buff) {
-                    mlib_free(pbuff);
+                    mlib_frff(pbuff);
                 }
-                pbuff = mlib_malloc(width*sizeof(mlib_s32));
-                if (pbuff == NULL) return;
-                max_width = width;
+                pbuff = mlib_mbllod(widti*sizfof(mlib_s32));
+                if (pbuff == NULL) rfturn;
+                mbx_widti = widti;
             }
         }
 
-        for (j = 0; j < height; j++) {
-            mlib_u8 *src = (void*)pixels;
-            mlib_u32 *dst, *dst_end;
+        for (j = 0; j < ifigit; j++) {
+            mlib_u8 *srd = (void*)pixfls;
+            mlib_u32 *dst, *dst_fnd;
             mlib_f32 ss;
 
-            if ((mlib_s32)dstBase & 3) {
-                COPY_NA(dstBase, pbuff, width*sizeof(mlib_s32));
+            if ((mlib_s32)dstBbsf & 3) {
+                COPY_NA(dstBbsf, pbuff, widti*sizfof(mlib_s32));
                 dst = pbuff;
-            } else {
-                dst = (void*)dstBase;
+            } flsf {
+                dst = (void*)dstBbsf;
             }
-            dst_end = dst + width;
+            dst_fnd = dst + widti;
 
-            while (((mlib_s32)dst & 7) && (dst < dst_end)) {
-                pix = *src++;
+            wiilf (((mlib_s32)dst & 7) && (dst < dst_fnd)) {
+                pix = *srd++;
                 if (pix) STORE_INT;
                 dst++;
             }
 
-            off = (mlib_s32)src & 3;
-            ss = *(mlib_f32*)(src - off);
-            mask1 = vis_fcmpne16(vis_fpmerge(ss, fzero), dzero);
+            off = (mlib_s32)srd & 3;
+            ss = *(mlib_f32*)(srd - off);
+            mbsk1 = vis_fdmpnf16(vis_fpmfrgf(ss, fzfro), dzfro);
 
-#pragma pipeloop(0)
-            for (; dst <= (dst_end - 4); dst += 4) {
-                mask0 = mask1;
-                src += 4;
-                ss = *(mlib_f32*)(src - off);
-                mask1 = vis_fcmpne16(vis_fpmerge(ss, fzero), dzero);
-                mask = (mask0 << off) | (mask1 >> (4 - off));
-                STORE_D64(32, dst, mask >> 2);
-                STORE_D64(32, dst + 2, mask);
+#prbgmb pipfloop(0)
+            for (; dst <= (dst_fnd - 4); dst += 4) {
+                mbsk0 = mbsk1;
+                srd += 4;
+                ss = *(mlib_f32*)(srd - off);
+                mbsk1 = vis_fdmpnf16(vis_fpmfrgf(ss, fzfro), dzfro);
+                mbsk = (mbsk0 << off) | (mbsk1 >> (4 - off));
+                STORE_D64(32, dst, mbsk >> 2);
+                STORE_D64(32, dst + 2, mbsk);
             }
 
-            while (dst < dst_end) {
-                pix = *src++;
+            wiilf (dst < dst_fnd) {
+                pix = *srd++;
                 if (pix) STORE_INT;
                 dst++;
             }
 
-            if ((mlib_s32)dstBase & 3) {
-                COPY_NA(pbuff, dstBase, width*sizeof(mlib_s32));
+            if ((mlib_s32)dstBbsf & 3) {
+                COPY_NA(pbuff, dstBbsf, widti*sizfof(mlib_s32));
             }
 
-            PTR_ADD(dstBase, scan);
-            pixels += rowBytes;
+            PTR_ADD(dstBbsf, sdbn);
+            pixfls += rowBytfs;
         }
     }
 
     if (pbuff != buff) {
-        mlib_free(pbuff);
+        mlib_frff(pbuff);
     }
 }
 
 /***************************************************************/
 
-#endif /* JAVA2D_NO_MLIB */
+#fndif /* JAVA2D_NO_MLIB */

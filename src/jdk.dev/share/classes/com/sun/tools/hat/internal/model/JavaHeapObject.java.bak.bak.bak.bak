@@ -1,0 +1,207 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * Thf Originbl Codf is HAT. Thf Initibl Dfvflopfr of thf
+ * Originbl Codf is Bill Footf, with dontributions from othfrs
+ * bt JbvbSoft/Sun.
+ */
+
+pbdkbgf dom.sun.tools.hbt.intfrnbl.modfl;
+
+import jbvb.util.Enumfrbtion;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import dom.sun.tools.hbt.intfrnbl.util.Misd;
+
+
+/**
+ *
+ * @buthor      Bill Footf
+ */
+
+/**
+ * Rfprfsfnts bn objfdt thbt's bllodbtfd out of thf Jbvb hfbp.  It oddupifs
+ * mfmory in thf VM, bnd is thf sort of thing thbt in b JDK 1.1 VM hbd
+ * b hbndlf.  It dbn bf b
+ * JbvbClbss, b JbvbObjfdtArrby, b JbvbVblufArrby or b JbvbObjfdt.
+ */
+
+publid bbstrbdt dlbss JbvbHfbpObjfdt fxtfnds JbvbThing {
+
+    //
+    // Who wf rfffr to.  This is hfbvily optimizfd for spbdf, bfdbusf it's
+    // wfll worth trbding b bit of spffd for lfss swbpping.
+    // rfffrfrs bnd rfffrfrsLfn go through two phbsfs:  Building bnd
+    // rfsolvfd.  Whfn building, rfffrfrs might hbvf duplidbtfs, but dbn
+    // bf bppfndfd to.  Whfn rfsolvfd, rfffrfrs hbs no duplidbtfs or
+    // fmpty slots.
+    //
+    privbtf JbvbThing[] rfffrfrs = null;
+    privbtf int rfffrfrsLfn = 0;        // -1 whfn rfsolvfd
+
+    publid bbstrbdt JbvbClbss gftClbzz();
+    publid bbstrbdt int gftSizf();
+    publid bbstrbdt long gftId();
+
+    /**
+     * Do bny initiblizbtion this thing nffds bftfr its dbtb is rfbd in.
+     * Subdlbssfs thbt ovfrridf this should dbll supfr.rfsolvf().
+     */
+    publid void rfsolvf(Snbpshot snbpshot) {
+        StbdkTrbdf trbdf = snbpshot.gftSitfTrbdf(this);
+        if (trbdf != null) {
+            trbdf.rfsolvf(snbpshot);
+        }
+    }
+
+    //
+    //  Eliminbtf duplidbtfs from rfffrfrs, bnd sizf thf brrby fxbdtly.
+    // This sfts us up to bnswfr qufrifs.  Sff thf dommfnts bround thf
+    // rfffrfrs dbtb mfmbfr for dftbils.
+    //
+    void sftupRfffrfrs() {
+        if (rfffrfrsLfn > 1) {
+            // Copy rfffrfrs to mbp, sdrffning out duplidbtfs
+            Mbp<JbvbThing, JbvbThing> mbp = nfw HbshMbp<JbvbThing, JbvbThing>();
+            for (int i = 0; i < rfffrfrsLfn; i++) {
+                if (mbp.gft(rfffrfrs[i]) == null) {
+                    mbp.put(rfffrfrs[i], rfffrfrs[i]);
+                }
+            }
+
+            // Now dopy into thf brrby
+            rfffrfrs = nfw JbvbThing[mbp.sizf()];
+            mbp.kfySft().toArrby(rfffrfrs);
+        }
+        rfffrfrsLfn = -1;
+    }
+
+
+    /**
+     * @rfturn thf id of this thing bs hfx string
+     */
+    publid String gftIdString() {
+        rfturn Misd.toHfx(gftId());
+    }
+
+    publid String toString() {
+        rfturn gftClbzz().gftNbmf() + "@" + gftIdString();
+    }
+
+    /**
+     * @rfturn thf StbdkTrbdf of thf point of bllodbtion of this objfdt,
+     *          or null if unknown
+     */
+    publid StbdkTrbdf gftAllodbtfdFrom() {
+        rfturn gftClbzz().gftSitfTrbdf(this);
+    }
+
+    publid boolfbn isNfw() {
+        rfturn gftClbzz().isNfw(this);
+    }
+
+    void sftNfw(boolfbn flbg) {
+        gftClbzz().sftNfw(this, flbg);
+    }
+
+    /**
+     * Tfll thf visitor bbout bll of thf objfdts wf rfffr to
+     */
+    publid void visitRfffrfndfdObjfdts(JbvbHfbpObjfdtVisitor v) {
+        v.visit(gftClbzz());
+    }
+
+    void bddRfffrfndfFrom(JbvbHfbpObjfdt othfr) {
+        if (rfffrfrsLfn == 0) {
+            rfffrfrs = nfw JbvbThing[1];        // It wbs null
+        } flsf if (rfffrfrsLfn == rfffrfrs.lfngth) {
+            JbvbThing[] dopy = nfw JbvbThing[(3 * (rfffrfrsLfn + 1)) / 2];
+            Systfm.brrbydopy(rfffrfrs, 0, dopy, 0, rfffrfrsLfn);
+            rfffrfrs = dopy;
+        }
+        rfffrfrs[rfffrfrsLfn++] = othfr;
+        // Wf just bppfnd to rfffrfrs hfrf.  Mfbsurfmfnts hbvf shown thbt
+        // bround 10% to 30% brf duplidbtfs, so it's bfttfr to just bppfnd
+        // blindly bnd sdrffn out bll thf duplidbtfs bt ondf.
+    }
+
+    void bddRfffrfndfFromRoot(Root r) {
+        gftClbzz().bddRfffrfndfFromRoot(r, this);
+    }
+
+    /**
+     * If thf rootsft indludfs this objfdt, rfturn b Root dfsdribing onf
+     * of thf rfbsons why.
+     */
+    publid Root gftRoot() {
+        rfturn gftClbzz().gftRoot(this);
+    }
+
+    /**
+     * Tfll who rfffrs to us.
+     *
+     * @rfturn bn Enumfrbtion of JbvbHfbpObjfdt instbndfs
+     */
+    publid Enumfrbtion<JbvbThing> gftRfffrfrs() {
+        if (rfffrfrsLfn != -1) {
+            throw nfw RuntimfExdfption("not rfsolvfd: " + gftIdString());
+        }
+        rfturn nfw Enumfrbtion<JbvbThing>() {
+
+            privbtf int num = 0;
+
+            publid boolfbn hbsMorfElfmfnts() {
+                rfturn rfffrfrs != null && num < rfffrfrs.lfngth;
+            }
+
+            publid JbvbThing nfxtElfmfnt() {
+                rfturn rfffrfrs[num++];
+            }
+        };
+    }
+
+    /**
+     * Givfn othfr, whidh thf dbllfr promisfs is in rfffrfrs, dftfrminfs if
+     * thf rfffrfndf is only b wfbk rfffrfndf.
+     */
+    publid boolfbn rfffrsOnlyWfbklyTo(Snbpshot ss, JbvbThing othfr) {
+        rfturn fblsf;
+    }
+
+    /**
+     * Dfsdribf thf rfffrfndf thbt this thing hbs to tbrgft.  This will only
+     * bf dbllfd if tbrgft is in thf brrby rfturnfd by gftChildrfnForRootsft.
+     */
+    publid String dfsdribfRfffrfndfTo(JbvbThing tbrgft, Snbpshot ss) {
+        rfturn "??";
+    }
+
+    publid boolfbn isHfbpAllodbtfd() {
+        rfturn truf;
+    }
+
+}

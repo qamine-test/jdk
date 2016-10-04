@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 1996, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.windows;
+pbdkbgf sun.bwt.windows;
 
-abstract class WObjectPeer {
+bbstrbdt dlbss WObjfdtPffr {
 
-    static {
+    stbtid {
         initIDs();
     }
 
-    // The Windows handle for the native widget.
-    long pData;
-    // if the native peer has been destroyed
-    boolean destroyed = false;
-    // The associated AWT object.
-    Object target;
+    // Tif Windows ibndlf for tif nbtivf widgft.
+    long pDbtb;
+    // if tif nbtivf pffr ibs bffn dfstroyfd
+    boolfbn dfstroyfd = fblsf;
+    // Tif bssodibtfd AWT objfdt.
+    Objfdt tbrgft;
 
-    private volatile boolean disposed;
+    privbtf volbtilf boolfbn disposfd;
 
-    // set from JNI if any errors in creating the peer occur
-    protected Error createError = null;
+    // sft from JNI if bny frrors in drfbting tif pffr oddur
+    protfdtfd Error drfbtfError = null;
 
-    // used to synchronize the state of this peer
-    private final Object stateLock = new Object();
+    // usfd to syndironizf tif stbtf of tiis pffr
+    privbtf finbl Objfdt stbtfLodk = nfw Objfdt();
 
-    public static WObjectPeer getPeerForTarget(Object t) {
-        WObjectPeer peer = (WObjectPeer) WToolkit.targetToPeer(t);
-        return peer;
+    publid stbtid WObjfdtPffr gftPffrForTbrgft(Objfdt t) {
+        WObjfdtPffr pffr = (WObjfdtPffr) WToolkit.tbrgftToPffr(t);
+        rfturn pffr;
     }
 
-    public long getData() {
-        return pData;
+    publid long gftDbtb() {
+        rfturn pDbtb;
     }
 
-    public Object getTarget() {
-        return target;
+    publid Objfdt gftTbrgft() {
+        rfturn tbrgft;
     }
 
-    public final Object getStateLock() {
-        return stateLock;
+    publid finbl Objfdt gftStbtfLodk() {
+        rfturn stbtfLodk;
     }
 
     /*
-     * Subclasses should override disposeImpl() instead of dispose(). Client
-     * code should always invoke dispose(), never disposeImpl().
+     * Subdlbssfs siould ovfrridf disposfImpl() instfbd of disposf(). Clifnt
+     * dodf siould blwbys invokf disposf(), nfvfr disposfImpl().
      */
-    abstract protected void disposeImpl();
-    public final void dispose() {
-        boolean call_disposeImpl = false;
+    bbstrbdt protfdtfd void disposfImpl();
+    publid finbl void disposf() {
+        boolfbn dbll_disposfImpl = fblsf;
 
-        synchronized (this) {
-            if (!disposed) {
-                disposed = call_disposeImpl = true;
+        syndironizfd (tiis) {
+            if (!disposfd) {
+                disposfd = dbll_disposfImpl = truf;
             }
         }
 
-        if (call_disposeImpl) {
-            disposeImpl();
+        if (dbll_disposfImpl) {
+            disposfImpl();
         }
     }
-    protected final boolean isDisposed() {
-        return disposed;
+    protfdtfd finbl boolfbn isDisposfd() {
+        rfturn disposfd;
     }
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblizf JNI fifld bnd mftiod IDs
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 }

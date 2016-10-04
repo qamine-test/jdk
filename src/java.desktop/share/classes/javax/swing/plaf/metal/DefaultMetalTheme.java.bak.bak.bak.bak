@@ -1,0 +1,434 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.mftbl;
+
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.*;
+import jbvb.bwt.*;
+
+import sun.bwt.AppContfxt;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.swing.SwingUtilitifs2;
+
+/**
+ * A dondrftf implfmfntbtion of {@dodf MftblThfmf} providing
+ * thf originbl look of thf Jbvb Look bnd Fffl, dodf-nbmfd "Stffl". Rfffr
+ * to {@link MftblLookAndFffl#sftCurrfntThfmf} for dftbils on dhbnging
+ * thf dffbult thfmf.
+ * <p>
+ * All dolors rfturnfd by {@dodf DffbultMftblThfmf} brf domplftfly
+ * opbquf.
+ *
+ * <h3><b nbmf="fontStylf"></b>Font Stylf</h3>
+ *
+ * {@dodf DffbultMftblThfmf} usfs bold fonts for mbny dontrols.  To mbkf bll
+ * dontrols (with thf fxdfption of thf intfrnbl frbmf titlf bbrs bnd
+ * dlifnt dfdorbtfd frbmf titlf bbrs) usf plbin fonts you dbn do fithfr of
+ * thf following:
+ * <ul>
+ * <li>Sft thf systfm propfrty <dodf>swing.boldMftbl</dodf> to
+ *     <dodf>fblsf</dodf>.  For fxbmplf,
+ *     <dodf>jbvb&nbsp;-Dswing.boldMftbl=fblsf&nbsp;MyApp</dodf>.
+ * <li>Sft thf dffbults propfrty <dodf>swing.boldMftbl</dodf> to
+ *     <dodf>Boolfbn.FALSE</dodf>.  For fxbmplf:
+ *     <dodf>UIMbnbgfr.put("swing.boldMftbl",&nbsp;Boolfbn.FALSE);</dodf>
+ * </ul>
+ * Thf dffbults propfrty <dodf>swing.boldMftbl</dodf>, if sft,
+ * tbkfs prfdfdfndf ovfr thf systfm propfrty of thf sbmf nbmf. Aftfr
+ * sftting this dffbults propfrty you nffd to rf-instbll
+ * <dodf>MftblLookAndFffl</dodf>, bs wfll bs updbtf thf UI
+ * of bny prfviously drfbtfd widgfts. Othfrwisf thf rfsults brf undffinfd.
+ * Thf following illustrbtfs how to do this:
+ * <prf>
+ *   // turn off bold fonts
+ *   UIMbnbgfr.put("swing.boldMftbl", Boolfbn.FALSE);
+ *
+ *   // rf-instbll thf Mftbl Look bnd Fffl
+ *   UIMbnbgfr.sftLookAndFffl(nfw MftblLookAndFffl());
+ *
+ *   // Updbtf thf ComponfntUIs for bll Componfnts. This
+ *   // nffds to bf invokfd for bll windows.
+ *   SwingUtilitifs.updbtfComponfntTrffUI(rootComponfnt);
+ * </prf>
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sff MftblLookAndFffl
+ * @sff MftblLookAndFffl#sftCurrfntThfmf
+ *
+ * @buthor Stfvf Wilson
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultMftblThfmf fxtfnds MftblThfmf {
+    /**
+     * Whfthfr or not fonts should bf plbin.  This is only usfd if
+     * thf dffbults propfrty 'swing.boldMftbl' == "fblsf".
+     */
+    privbtf stbtid finbl boolfbn PLAIN_FONTS;
+
+    /**
+     * Nbmfs of thf fonts to usf.
+     */
+    privbtf stbtid finbl String[] fontNbmfs = {
+        Font.DIALOG,Font.DIALOG,Font.DIALOG,Font.DIALOG,Font.DIALOG,Font.DIALOG
+    };
+    /**
+     * Stylfs for thf fonts.  This is ignorfd if thf dffbults propfrty
+     * <dodf>swing.boldMftbl</dodf> is fblsf, or PLAIN_FONTS is truf.
+     */
+    privbtf stbtid finbl int[] fontStylfs = {
+        Font.BOLD, Font.PLAIN, Font.PLAIN, Font.BOLD, Font.BOLD, Font.PLAIN
+    };
+    /**
+     * Sizfs for thf fonts.
+     */
+    privbtf stbtid finbl int[] fontSizfs = {
+        12, 12, 12, 12, 12, 10
+    };
+
+    // notf thf propfrtifs listfd hfrf dbn durrfntly bf usfd by pfoplf
+    // providing runtimfs to hint whbt fonts brf good.  For fxbmplf thf bold
+    // diblog font looks bbd on b Mbd, so Applf dould usf this propfrty to
+    // hint bt b good font.
+    //
+    // Howfvfr, wf don't promisf to support thfsf forfvfr.  Wf mby movf
+    // to gftting thfsf from thf swing.propfrtifs filf, or flsfwhfrf.
+    /**
+     * Systfm propfrty nbmfs usfd to look up fonts.
+     */
+    privbtf stbtid finbl String[] dffbultNbmfs = {
+        "swing.plbf.mftbl.dontrolFont",
+        "swing.plbf.mftbl.systfmFont",
+        "swing.plbf.mftbl.usfrFont",
+        "swing.plbf.mftbl.dontrolFont",
+        "swing.plbf.mftbl.dontrolFont",
+        "swing.plbf.mftbl.smbllFont"
+    };
+
+    /**
+     * Rfturns thf idfbl font nbmf for thf font idfntififd by kfy.
+     */
+    stbtid String gftDffbultFontNbmf(int kfy) {
+        rfturn fontNbmfs[kfy];
+    }
+
+    /**
+     * Rfturns thf idfbl font sizf for thf font idfntififd by kfy.
+     */
+    stbtid int gftDffbultFontSizf(int kfy) {
+        rfturn fontSizfs[kfy];
+    }
+
+    /**
+     * Rfturns thf idfbl font stylf for thf font idfntififd by kfy.
+     */
+    stbtid int gftDffbultFontStylf(int kfy) {
+        if (kfy != WINDOW_TITLE_FONT) {
+            Objfdt boldMftbl = null;
+            if (AppContfxt.gftAppContfxt().gft(
+                    SwingUtilitifs2.LAF_STATE_KEY) != null) {
+                // Only bddfss thf boldMftbl kfy if b look bnd fffl hbs
+                // bffn lobdfd, othfrwisf wf'll triggfr lobding thf look
+                // bnd fffl.
+                boldMftbl = UIMbnbgfr.gft("swing.boldMftbl");
+            }
+            if (boldMftbl != null) {
+                if (Boolfbn.FALSE.fqubls(boldMftbl)) {
+                    rfturn Font.PLAIN;
+                }
+            }
+            flsf if (PLAIN_FONTS) {
+                rfturn Font.PLAIN;
+            }
+        }
+        rfturn fontStylfs[kfy];
+    }
+
+    /**
+     * Rfturns thf dffbult usfd to look up thf spfdififd font.
+     */
+    stbtid String gftDffbultPropfrtyNbmf(int kfy) {
+        rfturn dffbultNbmfs[kfy];
+    }
+
+    stbtid {
+        Objfdt boldPropfrty = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("swing.boldMftbl"));
+        if (boldPropfrty == null || !"fblsf".fqubls(boldPropfrty)) {
+            PLAIN_FONTS = fblsf;
+        }
+        flsf {
+            PLAIN_FONTS = truf;
+        }
+    }
+
+    privbtf stbtid finbl ColorUIRfsourdf primbry1 = nfw ColorUIRfsourdf(
+                              102, 102, 153);
+    privbtf stbtid finbl ColorUIRfsourdf primbry2 = nfw ColorUIRfsourdf(153,
+                              153, 204);
+    privbtf stbtid finbl ColorUIRfsourdf primbry3 = nfw ColorUIRfsourdf(
+                              204, 204, 255);
+    privbtf stbtid finbl ColorUIRfsourdf sfdondbry1 = nfw ColorUIRfsourdf(
+                              102, 102, 102);
+    privbtf stbtid finbl ColorUIRfsourdf sfdondbry2 = nfw ColorUIRfsourdf(
+                              153, 153, 153);
+    privbtf stbtid finbl ColorUIRfsourdf sfdondbry3 = nfw ColorUIRfsourdf(
+                              204, 204, 204);
+
+    privbtf FontDflfgbtf fontDflfgbtf;
+
+    /**
+     * Rfturns thf nbmf of this thfmf. This rfturns {@dodf "Stffl"}.
+     *
+     * @rfturn thf nbmf of this thfmf.
+     */
+    publid String gftNbmf() { rfturn "Stffl"; }
+
+    /**
+     * Crfbtfs bnd rfturns bn instbndf of {@dodf DffbultMftblThfmf}.
+     */
+    publid DffbultMftblThfmf() {
+        instbll();
+    }
+
+    /**
+     * Rfturns thf primbry 1 dolor. This rfturns b dolor with rgb vblufs
+     * of 102, 102, bnd 153, rfspfdtivfly.
+     *
+     * @rfturn thf primbry 1 dolor
+     */
+    protfdtfd ColorUIRfsourdf gftPrimbry1() { rfturn primbry1; }
+
+    /**
+     * Rfturns thf primbry 2 dolor. This rfturns b dolor with rgb vblufs
+     * of 153, 153, 204, rfspfdtivfly.
+     *
+     * @rfturn thf primbry 2 dolor
+     */
+    protfdtfd ColorUIRfsourdf gftPrimbry2() { rfturn primbry2; }
+
+    /**
+     * Rfturns thf primbry 3 dolor. This rfturns b dolor with rgb vblufs
+     * 204, 204, 255, rfspfdtivfly.
+     *
+     * @rfturn thf primbry 3 dolor
+     */
+    protfdtfd ColorUIRfsourdf gftPrimbry3() { rfturn primbry3; }
+
+    /**
+     * Rfturns thf sfdondbry 1 dolor. This rfturns b dolor with rgb vblufs
+     * 102, 102, bnd 102, rfspfdtivfly.
+     *
+     * @rfturn thf sfdondbry 1 dolor
+     */
+    protfdtfd ColorUIRfsourdf gftSfdondbry1() { rfturn sfdondbry1; }
+
+    /**
+     * Rfturns thf sfdondbry 2 dolor. This rfturns b dolor with rgb vblufs
+     * 153, 153, bnd 153, rfspfdtivfly.
+     *
+     * @rfturn thf sfdondbry 2 dolor
+     */
+    protfdtfd ColorUIRfsourdf gftSfdondbry2() { rfturn sfdondbry2; }
+
+    /**
+     * Rfturns thf sfdondbry 3 dolor. This rfturns b dolor with rgb vblufs
+     * 204, 204, bnd 204, rfspfdtivfly.
+     *
+     * @rfturn thf sfdondbry 3 dolor
+     */
+    protfdtfd ColorUIRfsourdf gftSfdondbry3() { rfturn sfdondbry3; }
+
+
+    /**
+     * Rfturns thf dontrol tfxt font. This rfturns Diblog, 12pt. If
+     * plbin fonts hbvf bffn fnbblfd bs dfsdribfd in <b hrff="#fontStylf">
+     * font stylf</b>, thf font stylf is plbin. Othfrwisf thf font stylf is
+     * bold.
+     *
+     * @rfturn thf dontrol tfxt font
+     */
+    publid FontUIRfsourdf gftControlTfxtFont() {
+        rfturn gftFont(CONTROL_TEXT_FONT);
+    }
+
+    /**
+     * Rfturns thf systfm tfxt font. This rfturns Diblog, 12pt, plbin.
+     *
+     * @rfturn thf systfm tfxt font
+     */
+    publid FontUIRfsourdf gftSystfmTfxtFont() {
+        rfturn gftFont(SYSTEM_TEXT_FONT);
+    }
+
+    /**
+     * Rfturns thf usfr tfxt font. This rfturns Diblog, 12pt, plbin.
+     *
+     * @rfturn thf usfr tfxt font
+     */
+    publid FontUIRfsourdf gftUsfrTfxtFont() {
+        rfturn gftFont(USER_TEXT_FONT);
+    }
+
+    /**
+     * Rfturns thf mfnu tfxt font. This rfturns Diblog, 12pt. If
+     * plbin fonts hbvf bffn fnbblfd bs dfsdribfd in <b hrff="#fontStylf">
+     * font stylf</b>, thf font stylf is plbin. Othfrwisf thf font stylf is
+     * bold.
+     *
+     * @rfturn thf mfnu tfxt font
+     */
+    publid FontUIRfsourdf gftMfnuTfxtFont() {
+        rfturn gftFont(MENU_TEXT_FONT);
+    }
+
+    /**
+     * Rfturns thf window titlf font. This rfturns Diblog, 12pt, bold.
+     *
+     * @rfturn thf window titlf font
+     */
+    publid FontUIRfsourdf gftWindowTitlfFont() {
+        rfturn gftFont(WINDOW_TITLE_FONT);
+    }
+
+    /**
+     * Rfturns thf sub-tfxt font. This rfturns Diblog, 10pt, plbin.
+     *
+     * @rfturn thf sub-tfxt font
+     */
+    publid FontUIRfsourdf gftSubTfxtFont() {
+        rfturn gftFont(SUB_TEXT_FONT);
+    }
+
+    privbtf FontUIRfsourdf gftFont(int kfy) {
+        rfturn fontDflfgbtf.gftFont(kfy);
+    }
+
+    void instbll() {
+        if (MftblLookAndFffl.isWindows() &&
+                             MftblLookAndFffl.usfSystfmFonts()) {
+            fontDflfgbtf = nfw WindowsFontDflfgbtf();
+        }
+        flsf {
+            fontDflfgbtf = nfw FontDflfgbtf();
+        }
+    }
+
+    /**
+     * Rfturns truf if this is b thfmf providfd by thf dorf plbtform.
+     */
+    boolfbn isSystfmThfmf() {
+        rfturn (gftClbss() == DffbultMftblThfmf.dlbss);
+    }
+
+    /**
+     * FontDflfgbtfs bdd bn fxtrb lfvfl of indirfdtion to obtbining fonts.
+     */
+    privbtf stbtid dlbss FontDflfgbtf {
+        privbtf stbtid int[] dffbultMbpping = {
+            CONTROL_TEXT_FONT, SYSTEM_TEXT_FONT,
+            USER_TEXT_FONT, CONTROL_TEXT_FONT,
+            CONTROL_TEXT_FONT, SUB_TEXT_FONT
+        };
+        FontUIRfsourdf fonts[];
+
+        // mfnu bnd window brf mbppfd to dontrolFont
+        publid FontDflfgbtf() {
+            fonts = nfw FontUIRfsourdf[6];
+        }
+
+        publid FontUIRfsourdf gftFont(int typf) {
+            int mbppfdTypf = dffbultMbpping[typf];
+            if (fonts[typf] == null) {
+                Font f = gftPrivilfgfdFont(mbppfdTypf);
+
+                if (f == null) {
+                    f = nfw Font(gftDffbultFontNbmf(typf),
+                             gftDffbultFontStylf(typf),
+                             gftDffbultFontSizf(typf));
+                }
+                fonts[typf] = nfw FontUIRfsourdf(f);
+            }
+            rfturn fonts[typf];
+        }
+
+        /**
+         * This is thf sbmf bs invoking
+         * <dodf>Font.gftFont(kfy)</dodf>, with thf fxdfption
+         * thbt it is wrbppfd insidf b <dodf>doPrivilfgfd</dodf> dbll.
+         */
+        protfdtfd Font gftPrivilfgfdFont(finbl int kfy) {
+            rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<Font>() {
+                    publid Font run() {
+                        rfturn Font.gftFont(gftDffbultPropfrtyNbmf(kfy));
+                    }
+                }
+                );
+        }
+    }
+
+    /**
+     * Thf WindowsFontDflfgbtf usfs DfsktopPropfrtifs to obtbin fonts.
+     */
+    privbtf stbtid dlbss WindowsFontDflfgbtf fxtfnds FontDflfgbtf {
+        privbtf MftblFontDfsktopPropfrty[] props;
+        privbtf boolfbn[] dhfdkfdPrivilfdgfd;
+
+        publid WindowsFontDflfgbtf() {
+            props = nfw MftblFontDfsktopPropfrty[6];
+            dhfdkfdPrivilfdgfd = nfw boolfbn[6];
+        }
+
+        publid FontUIRfsourdf gftFont(int typf) {
+            if (fonts[typf] != null) {
+                rfturn fonts[typf];
+            }
+            if (!dhfdkfdPrivilfdgfd[typf]) {
+                Font f = gftPrivilfgfdFont(typf);
+
+                dhfdkfdPrivilfdgfd[typf] = truf;
+                if (f != null) {
+                    fonts[typf] = nfw FontUIRfsourdf(f);
+                    rfturn fonts[typf];
+                }
+            }
+            if (props[typf] == null) {
+                props[typf] = nfw MftblFontDfsktopPropfrty(typf);
+            }
+            // Whilf pbssing null mby sffm bbd, wf don't bdtublly usf
+            // thf tbblf bnd looking it up is rbthfr fxpfnsivf.
+            rfturn (FontUIRfsourdf)props[typf].drfbtfVbluf(null);
+        }
+    }
+}

@@ -1,340 +1,340 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.midi;
+pbdkbgf jbvbx.sound.midi;
 
-import java.util.Vector;
-import com.sun.media.sound.MidiUtils;
+import jbvb.util.Vfdtor;
+import dom.sun.mfdib.sound.MidiUtils;
 
 
 /**
- * A <code>Sequence</code> is a data structure containing musical
- * information (often an entire song or composition) that can be played
- * back by a <code>{@link Sequencer}</code> object. Specifically, the
- * <code>Sequence</code> contains timing
- * information and one or more tracks.  Each <code>{@link Track track}</code> consists of a
- * series of MIDI events (such as note-ons, note-offs, program changes, and meta-events).
- * The sequence's timing information specifies the type of unit that is used
- * to time-stamp the events in the sequence.
+ * A <dodf>Sfqufndf</dodf> is b dbtb strudturf dontbining musidbl
+ * informbtion (oftfn bn fntirf song or domposition) tibt dbn bf plbyfd
+ * bbdk by b <dodf>{@link Sfqufndfr}</dodf> objfdt. Spfdifidblly, tif
+ * <dodf>Sfqufndf</dodf> dontbins timing
+ * informbtion bnd onf or morf trbdks.  Ebdi <dodf>{@link Trbdk trbdk}</dodf> donsists of b
+ * sfrifs of MIDI fvfnts (sudi bs notf-ons, notf-offs, progrbm dibngfs, bnd mftb-fvfnts).
+ * Tif sfqufndf's timing informbtion spfdififs tif typf of unit tibt is usfd
+ * to timf-stbmp tif fvfnts in tif sfqufndf.
  * <p>
- * A <code>Sequence</code> can be created from a MIDI file by reading the file
- * into an input stream and invoking one of the <code>getSequence</code> methods of
- * {@link MidiSystem}.  A sequence can also be built from scratch by adding new
- * <code>Tracks</code> to an empty <code>Sequence</code>, and adding
- * <code>{@link MidiEvent}</code> objects to these <code>Tracks</code>.
+ * A <dodf>Sfqufndf</dodf> dbn bf drfbtfd from b MIDI filf by rfbding tif filf
+ * into bn input strfbm bnd invoking onf of tif <dodf>gftSfqufndf</dodf> mftiods of
+ * {@link MidiSystfm}.  A sfqufndf dbn blso bf built from sdrbtdi by bdding nfw
+ * <dodf>Trbdks</dodf> to bn fmpty <dodf>Sfqufndf</dodf>, bnd bdding
+ * <dodf>{@link MidiEvfnt}</dodf> objfdts to tifsf <dodf>Trbdks</dodf>.
  *
- * @see Sequencer#setSequence(java.io.InputStream stream)
- * @see Sequencer#setSequence(Sequence sequence)
- * @see Track#add(MidiEvent)
- * @see MidiFileFormat
+ * @sff Sfqufndfr#sftSfqufndf(jbvb.io.InputStrfbm strfbm)
+ * @sff Sfqufndfr#sftSfqufndf(Sfqufndf sfqufndf)
+ * @sff Trbdk#bdd(MidiEvfnt)
+ * @sff MidiFilfFormbt
  *
- * @author Kara Kytle
+ * @butior Kbrb Kytlf
  */
-public class Sequence {
+publid dlbss Sfqufndf {
 
 
-    // Timing types
+    // Timing typfs
 
     /**
-     * The tempo-based timing type, for which the resolution is expressed in pulses (ticks) per quarter note.
-     * @see #Sequence(float, int)
+     * Tif tfmpo-bbsfd timing typf, for wiidi tif rfsolution is fxprfssfd in pulsfs (tidks) pfr qubrtfr notf.
+     * @sff #Sfqufndf(flobt, int)
      */
-    public static final float PPQ                                                       = 0.0f;
+    publid stbtid finbl flobt PPQ                                                       = 0.0f;
 
     /**
-     * The SMPTE-based timing type with 24 frames per second (resolution is expressed in ticks per frame).
-     * @see #Sequence(float, int)
+     * Tif SMPTE-bbsfd timing typf witi 24 frbmfs pfr sfdond (rfsolution is fxprfssfd in tidks pfr frbmf).
+     * @sff #Sfqufndf(flobt, int)
      */
-    public static final float SMPTE_24                                          = 24.0f;
+    publid stbtid finbl flobt SMPTE_24                                          = 24.0f;
 
     /**
-     * The SMPTE-based timing type with 25 frames per second (resolution is expressed in ticks per frame).
-     * @see #Sequence(float, int)
+     * Tif SMPTE-bbsfd timing typf witi 25 frbmfs pfr sfdond (rfsolution is fxprfssfd in tidks pfr frbmf).
+     * @sff #Sfqufndf(flobt, int)
      */
-    public static final float SMPTE_25                                          = 25.0f;
+    publid stbtid finbl flobt SMPTE_25                                          = 25.0f;
 
     /**
-     * The SMPTE-based timing type with 29.97 frames per second (resolution is expressed in ticks per frame).
-     * @see #Sequence(float, int)
+     * Tif SMPTE-bbsfd timing typf witi 29.97 frbmfs pfr sfdond (rfsolution is fxprfssfd in tidks pfr frbmf).
+     * @sff #Sfqufndf(flobt, int)
      */
-    public static final float SMPTE_30DROP                                      = 29.97f;
+    publid stbtid finbl flobt SMPTE_30DROP                                      = 29.97f;
 
     /**
-     * The SMPTE-based timing type with 30 frames per second (resolution is expressed in ticks per frame).
-     * @see #Sequence(float, int)
+     * Tif SMPTE-bbsfd timing typf witi 30 frbmfs pfr sfdond (rfsolution is fxprfssfd in tidks pfr frbmf).
+     * @sff #Sfqufndf(flobt, int)
      */
-    public static final float SMPTE_30                                          = 30.0f;
+    publid stbtid finbl flobt SMPTE_30                                          = 30.0f;
 
 
-    // Variables
+    // Vbribblfs
 
     /**
-     * The timing division type of the sequence.
-     * @see #PPQ
-     * @see #SMPTE_24
-     * @see #SMPTE_25
-     * @see #SMPTE_30DROP
-     * @see #SMPTE_30
-     * @see #getDivisionType
+     * Tif timing division typf of tif sfqufndf.
+     * @sff #PPQ
+     * @sff #SMPTE_24
+     * @sff #SMPTE_25
+     * @sff #SMPTE_30DROP
+     * @sff #SMPTE_30
+     * @sff #gftDivisionTypf
      */
-    protected float divisionType;
+    protfdtfd flobt divisionTypf;
 
     /**
-     * The timing resolution of the sequence.
-     * @see #getResolution
+     * Tif timing rfsolution of tif sfqufndf.
+     * @sff #gftRfsolution
      */
-    protected int resolution;
+    protfdtfd int rfsolution;
 
     /**
-     * The MIDI tracks in this sequence.
-     * @see #getTracks
+     * Tif MIDI trbdks in tiis sfqufndf.
+     * @sff #gftTrbdks
      */
-    protected Vector<Track> tracks = new Vector<Track>();
+    protfdtfd Vfdtor<Trbdk> trbdks = nfw Vfdtor<Trbdk>();
 
 
     /**
-     * Constructs a new MIDI sequence with the specified timing division
-     * type and timing resolution.  The division type must be one of the
-     * recognized MIDI timing types.  For tempo-based timing,
-     * <code>divisionType</code> is PPQ (pulses per quarter note) and
-     * the resolution is specified in ticks per beat.  For SMTPE timing,
-     * <code>divisionType</code> specifies the number of frames per
-     * second and the resolution is specified in ticks per frame.
-     * The sequence will contain no initial tracks.  Tracks may be
-     * added to or removed from the sequence using <code>{@link #createTrack}</code>
-     * and <code>{@link #deleteTrack}</code>.
+     * Construdts b nfw MIDI sfqufndf witi tif spfdififd timing division
+     * typf bnd timing rfsolution.  Tif division typf must bf onf of tif
+     * rfdognizfd MIDI timing typfs.  For tfmpo-bbsfd timing,
+     * <dodf>divisionTypf</dodf> is PPQ (pulsfs pfr qubrtfr notf) bnd
+     * tif rfsolution is spfdififd in tidks pfr bfbt.  For SMTPE timing,
+     * <dodf>divisionTypf</dodf> spfdififs tif numbfr of frbmfs pfr
+     * sfdond bnd tif rfsolution is spfdififd in tidks pfr frbmf.
+     * Tif sfqufndf will dontbin no initibl trbdks.  Trbdks mby bf
+     * bddfd to or rfmovfd from tif sfqufndf using <dodf>{@link #drfbtfTrbdk}</dodf>
+     * bnd <dodf>{@link #dflftfTrbdk}</dodf>.
      *
-     * @param divisionType the timing division type (PPQ or one of the SMPTE types)
-     * @param resolution the timing resolution
-     * @throws InvalidMidiDataException if <code>divisionType</code> is not valid
+     * @pbrbm divisionTypf tif timing division typf (PPQ or onf of tif SMPTE typfs)
+     * @pbrbm rfsolution tif timing rfsolution
+     * @tirows InvblidMidiDbtbExdfption if <dodf>divisionTypf</dodf> is not vblid
      *
-     * @see #PPQ
-     * @see #SMPTE_24
-     * @see #SMPTE_25
-     * @see #SMPTE_30DROP
-     * @see #SMPTE_30
-     * @see #getDivisionType
-     * @see #getResolution
-     * @see #getTracks
+     * @sff #PPQ
+     * @sff #SMPTE_24
+     * @sff #SMPTE_25
+     * @sff #SMPTE_30DROP
+     * @sff #SMPTE_30
+     * @sff #gftDivisionTypf
+     * @sff #gftRfsolution
+     * @sff #gftTrbdks
      */
-    public Sequence(float divisionType, int resolution) throws InvalidMidiDataException {
+    publid Sfqufndf(flobt divisionTypf, int rfsolution) tirows InvblidMidiDbtbExdfption {
 
-        if (divisionType == PPQ)
-            this.divisionType = PPQ;
-        else if (divisionType == SMPTE_24)
-            this.divisionType = SMPTE_24;
-        else if (divisionType == SMPTE_25)
-            this.divisionType = SMPTE_25;
-        else if (divisionType == SMPTE_30DROP)
-            this.divisionType = SMPTE_30DROP;
-        else if (divisionType == SMPTE_30)
-            this.divisionType = SMPTE_30;
-        else throw new InvalidMidiDataException("Unsupported division type: " + divisionType);
+        if (divisionTypf == PPQ)
+            tiis.divisionTypf = PPQ;
+        flsf if (divisionTypf == SMPTE_24)
+            tiis.divisionTypf = SMPTE_24;
+        flsf if (divisionTypf == SMPTE_25)
+            tiis.divisionTypf = SMPTE_25;
+        flsf if (divisionTypf == SMPTE_30DROP)
+            tiis.divisionTypf = SMPTE_30DROP;
+        flsf if (divisionTypf == SMPTE_30)
+            tiis.divisionTypf = SMPTE_30;
+        flsf tirow nfw InvblidMidiDbtbExdfption("Unsupportfd division typf: " + divisionTypf);
 
-        this.resolution = resolution;
+        tiis.rfsolution = rfsolution;
     }
 
 
     /**
-     * Constructs a new MIDI sequence with the specified timing division
-     * type, timing resolution, and number of tracks.  The division type must be one of the
-     * recognized MIDI timing types.  For tempo-based timing,
-     * <code>divisionType</code> is PPQ (pulses per quarter note) and
-     * the resolution is specified in ticks per beat.  For SMTPE timing,
-     * <code>divisionType</code> specifies the number of frames per
-     * second and the resolution is specified in ticks per frame.
-     * The sequence will be initialized with the number of tracks specified by
-     * <code>numTracks</code>. These tracks are initially empty (i.e.
-     * they contain only the meta-event End of Track).
-     * The tracks may be retrieved for editing using the <code>{@link #getTracks}</code>
-     * method.  Additional tracks may be added, or existing tracks removed,
-     * using <code>{@link #createTrack}</code> and <code>{@link #deleteTrack}</code>.
+     * Construdts b nfw MIDI sfqufndf witi tif spfdififd timing division
+     * typf, timing rfsolution, bnd numbfr of trbdks.  Tif division typf must bf onf of tif
+     * rfdognizfd MIDI timing typfs.  For tfmpo-bbsfd timing,
+     * <dodf>divisionTypf</dodf> is PPQ (pulsfs pfr qubrtfr notf) bnd
+     * tif rfsolution is spfdififd in tidks pfr bfbt.  For SMTPE timing,
+     * <dodf>divisionTypf</dodf> spfdififs tif numbfr of frbmfs pfr
+     * sfdond bnd tif rfsolution is spfdififd in tidks pfr frbmf.
+     * Tif sfqufndf will bf initiblizfd witi tif numbfr of trbdks spfdififd by
+     * <dodf>numTrbdks</dodf>. Tifsf trbdks brf initiblly fmpty (i.f.
+     * tify dontbin only tif mftb-fvfnt End of Trbdk).
+     * Tif trbdks mby bf rftrifvfd for fditing using tif <dodf>{@link #gftTrbdks}</dodf>
+     * mftiod.  Additionbl trbdks mby bf bddfd, or fxisting trbdks rfmovfd,
+     * using <dodf>{@link #drfbtfTrbdk}</dodf> bnd <dodf>{@link #dflftfTrbdk}</dodf>.
      *
-     * @param divisionType the timing division type (PPQ or one of the SMPTE types)
-     * @param resolution the timing resolution
-     * @param numTracks the initial number of tracks in the sequence.
-     * @throws InvalidMidiDataException if <code>divisionType</code> is not valid
+     * @pbrbm divisionTypf tif timing division typf (PPQ or onf of tif SMPTE typfs)
+     * @pbrbm rfsolution tif timing rfsolution
+     * @pbrbm numTrbdks tif initibl numbfr of trbdks in tif sfqufndf.
+     * @tirows InvblidMidiDbtbExdfption if <dodf>divisionTypf</dodf> is not vblid
      *
-     * @see #PPQ
-     * @see #SMPTE_24
-     * @see #SMPTE_25
-     * @see #SMPTE_30DROP
-     * @see #SMPTE_30
-     * @see #getDivisionType
-     * @see #getResolution
+     * @sff #PPQ
+     * @sff #SMPTE_24
+     * @sff #SMPTE_25
+     * @sff #SMPTE_30DROP
+     * @sff #SMPTE_30
+     * @sff #gftDivisionTypf
+     * @sff #gftRfsolution
      */
-    public Sequence(float divisionType, int resolution, int numTracks) throws InvalidMidiDataException {
+    publid Sfqufndf(flobt divisionTypf, int rfsolution, int numTrbdks) tirows InvblidMidiDbtbExdfption {
 
-        if (divisionType == PPQ)
-            this.divisionType = PPQ;
-        else if (divisionType == SMPTE_24)
-            this.divisionType = SMPTE_24;
-        else if (divisionType == SMPTE_25)
-            this.divisionType = SMPTE_25;
-        else if (divisionType == SMPTE_30DROP)
-            this.divisionType = SMPTE_30DROP;
-        else if (divisionType == SMPTE_30)
-            this.divisionType = SMPTE_30;
-        else throw new InvalidMidiDataException("Unsupported division type: " + divisionType);
+        if (divisionTypf == PPQ)
+            tiis.divisionTypf = PPQ;
+        flsf if (divisionTypf == SMPTE_24)
+            tiis.divisionTypf = SMPTE_24;
+        flsf if (divisionTypf == SMPTE_25)
+            tiis.divisionTypf = SMPTE_25;
+        flsf if (divisionTypf == SMPTE_30DROP)
+            tiis.divisionTypf = SMPTE_30DROP;
+        flsf if (divisionTypf == SMPTE_30)
+            tiis.divisionTypf = SMPTE_30;
+        flsf tirow nfw InvblidMidiDbtbExdfption("Unsupportfd division typf: " + divisionTypf);
 
-        this.resolution = resolution;
+        tiis.rfsolution = rfsolution;
 
-        for (int i = 0; i < numTracks; i++) {
-            tracks.addElement(new Track());
+        for (int i = 0; i < numTrbdks; i++) {
+            trbdks.bddElfmfnt(nfw Trbdk());
         }
     }
 
 
     /**
-     * Obtains the timing division type for this sequence.
-     * @return the division type (PPQ or one of the SMPTE types)
+     * Obtbins tif timing division typf for tiis sfqufndf.
+     * @rfturn tif division typf (PPQ or onf of tif SMPTE typfs)
      *
-     * @see #PPQ
-     * @see #SMPTE_24
-     * @see #SMPTE_25
-     * @see #SMPTE_30DROP
-     * @see #SMPTE_30
-     * @see #Sequence(float, int)
-     * @see MidiFileFormat#getDivisionType()
+     * @sff #PPQ
+     * @sff #SMPTE_24
+     * @sff #SMPTE_25
+     * @sff #SMPTE_30DROP
+     * @sff #SMPTE_30
+     * @sff #Sfqufndf(flobt, int)
+     * @sff MidiFilfFormbt#gftDivisionTypf()
      */
-    public float getDivisionType() {
-        return divisionType;
+    publid flobt gftDivisionTypf() {
+        rfturn divisionTypf;
     }
 
 
     /**
-     * Obtains the timing resolution for this sequence.
-     * If the sequence's division type is PPQ, the resolution is specified in ticks per beat.
-     * For SMTPE timing, the resolution is specified in ticks per frame.
+     * Obtbins tif timing rfsolution for tiis sfqufndf.
+     * If tif sfqufndf's division typf is PPQ, tif rfsolution is spfdififd in tidks pfr bfbt.
+     * For SMTPE timing, tif rfsolution is spfdififd in tidks pfr frbmf.
      *
-     * @return the number of ticks per beat (PPQ) or per frame (SMPTE)
-     * @see #getDivisionType
-     * @see #Sequence(float, int)
-     * @see MidiFileFormat#getResolution()
+     * @rfturn tif numbfr of tidks pfr bfbt (PPQ) or pfr frbmf (SMPTE)
+     * @sff #gftDivisionTypf
+     * @sff #Sfqufndf(flobt, int)
+     * @sff MidiFilfFormbt#gftRfsolution()
      */
-    public int getResolution() {
-        return resolution;
+    publid int gftRfsolution() {
+        rfturn rfsolution;
     }
 
 
     /**
-     * Creates a new, initially empty track as part of this sequence.
-     * The track initially contains the meta-event End of Track.
-     * The newly created track is returned.  All tracks in the sequence
-     * may be retrieved using <code>{@link #getTracks}</code>.  Tracks may be
-     * removed from the sequence using <code>{@link #deleteTrack}</code>.
-     * @return the newly created track
+     * Crfbtfs b nfw, initiblly fmpty trbdk bs pbrt of tiis sfqufndf.
+     * Tif trbdk initiblly dontbins tif mftb-fvfnt End of Trbdk.
+     * Tif nfwly drfbtfd trbdk is rfturnfd.  All trbdks in tif sfqufndf
+     * mby bf rftrifvfd using <dodf>{@link #gftTrbdks}</dodf>.  Trbdks mby bf
+     * rfmovfd from tif sfqufndf using <dodf>{@link #dflftfTrbdk}</dodf>.
+     * @rfturn tif nfwly drfbtfd trbdk
      */
-    public Track createTrack() {
+    publid Trbdk drfbtfTrbdk() {
 
-        Track track = new Track();
-        tracks.addElement(track);
+        Trbdk trbdk = nfw Trbdk();
+        trbdks.bddElfmfnt(trbdk);
 
-        return track;
+        rfturn trbdk;
     }
 
 
     /**
-     * Removes the specified track from the sequence.
-     * @param track the track to remove
-     * @return <code>true</code> if the track existed in the track and was removed,
-     * otherwise <code>false</code>.
+     * Rfmovfs tif spfdififd trbdk from tif sfqufndf.
+     * @pbrbm trbdk tif trbdk to rfmovf
+     * @rfturn <dodf>truf</dodf> if tif trbdk fxistfd in tif trbdk bnd wbs rfmovfd,
+     * otifrwisf <dodf>fblsf</dodf>.
      *
-     * @see #createTrack
-     * @see #getTracks
+     * @sff #drfbtfTrbdk
+     * @sff #gftTrbdks
      */
-    public boolean deleteTrack(Track track) {
+    publid boolfbn dflftfTrbdk(Trbdk trbdk) {
 
-        synchronized(tracks) {
+        syndironizfd(trbdks) {
 
-            return tracks.removeElement(track);
+            rfturn trbdks.rfmovfElfmfnt(trbdk);
         }
     }
 
 
     /**
-     * Obtains an array containing all the tracks in this sequence.
-     * If the sequence contains no tracks, an array of length 0 is returned.
-     * @return the array of tracks
+     * Obtbins bn brrby dontbining bll tif trbdks in tiis sfqufndf.
+     * If tif sfqufndf dontbins no trbdks, bn brrby of lfngti 0 is rfturnfd.
+     * @rfturn tif brrby of trbdks
      *
-     * @see #createTrack
-     * @see #deleteTrack
+     * @sff #drfbtfTrbdk
+     * @sff #dflftfTrbdk
      */
-    public Track[] getTracks() {
+    publid Trbdk[] gftTrbdks() {
 
-        return tracks.toArray(new Track[tracks.size()]);
+        rfturn trbdks.toArrby(nfw Trbdk[trbdks.sizf()]);
     }
 
 
     /**
-     * Obtains the duration of this sequence, expressed in microseconds.
-     * @return this sequence's duration in microseconds.
+     * Obtbins tif durbtion of tiis sfqufndf, fxprfssfd in midrosfdonds.
+     * @rfturn tiis sfqufndf's durbtion in midrosfdonds.
      */
-    public long getMicrosecondLength() {
+    publid long gftMidrosfdondLfngti() {
 
-        return com.sun.media.sound.MidiUtils.tick2microsecond(this, getTickLength(), null);
+        rfturn dom.sun.mfdib.sound.MidiUtils.tidk2midrosfdond(tiis, gftTidkLfngti(), null);
     }
 
 
     /**
-     * Obtains the duration of this sequence, expressed in MIDI ticks.
+     * Obtbins tif durbtion of tiis sfqufndf, fxprfssfd in MIDI tidks.
      *
-     * @return this sequence's length in ticks
+     * @rfturn tiis sfqufndf's lfngti in tidks
      *
-     * @see #getMicrosecondLength
+     * @sff #gftMidrosfdondLfngti
      */
-    public long getTickLength() {
+    publid long gftTidkLfngti() {
 
-        long length = 0;
+        long lfngti = 0;
 
-        synchronized(tracks) {
+        syndironizfd(trbdks) {
 
-            for(int i=0; i<tracks.size(); i++ ) {
-                long temp = tracks.elementAt(i).ticks();
-                if( temp>length ) {
-                    length = temp;
+            for(int i=0; i<trbdks.sizf(); i++ ) {
+                long tfmp = trbdks.flfmfntAt(i).tidks();
+                if( tfmp>lfngti ) {
+                    lfngti = tfmp;
                 }
             }
-            return length;
+            rfturn lfngti;
         }
     }
 
 
     /**
-     * Obtains a list of patches referenced in this sequence.
-     * This patch list may be used to load the required
-     * <code>{@link Instrument}</code> objects
-     * into a <code>{@link Synthesizer}</code>.
+     * Obtbins b list of pbtdifs rfffrfndfd in tiis sfqufndf.
+     * Tiis pbtdi list mby bf usfd to lobd tif rfquirfd
+     * <dodf>{@link Instrumfnt}</dodf> objfdts
+     * into b <dodf>{@link Syntifsizfr}</dodf>.
      *
-     * @return an array of <code>{@link Patch}</code> objects used in this sequence
+     * @rfturn bn brrby of <dodf>{@link Pbtdi}</dodf> objfdts usfd in tiis sfqufndf
      *
-     * @see Synthesizer#loadInstruments(Soundbank, Patch[])
+     * @sff Syntifsizfr#lobdInstrumfnts(Soundbbnk, Pbtdi[])
      */
-    public Patch[] getPatchList() {
+    publid Pbtdi[] gftPbtdiList() {
 
-        // $$kk: 04.09.99: need to implement!!
-        return new Patch[0];
+        // $$kk: 04.09.99: nffd to implfmfnt!!
+        rfturn nfw Pbtdi[0];
     }
 }

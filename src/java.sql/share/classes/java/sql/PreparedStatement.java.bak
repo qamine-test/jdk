@@ -1,1319 +1,1319 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.sql;
+pbdkbgf jbvb.sql;
 
-import java.math.BigDecimal;
-import java.util.Calendar;
-import java.io.Reader;
-import java.io.InputStream;
+import jbvb.mbti.BigDfdimbl;
+import jbvb.util.Cblfndbr;
+import jbvb.io.Rfbdfr;
+import jbvb.io.InputStrfbm;
 
 /**
- * An object that represents a precompiled SQL statement.
- * <P>A SQL statement is precompiled and stored in a
- * <code>PreparedStatement</code> object. This object can then be used to
- * efficiently execute this statement multiple times.
+ * An objfdt tibt rfprfsfnts b prfdompilfd SQL stbtfmfnt.
+ * <P>A SQL stbtfmfnt is prfdompilfd bnd storfd in b
+ * <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt. Tiis objfdt dbn tifn bf usfd to
+ * fffidifntly fxfdutf tiis stbtfmfnt multiplf timfs.
  *
- * <P><B>Note:</B> The setter methods (<code>setShort</code>, <code>setString</code>,
- * and so on) for setting IN parameter values
- * must specify types that are compatible with the defined SQL type of
- * the input parameter. For instance, if the IN parameter has SQL type
- * <code>INTEGER</code>, then the method <code>setInt</code> should be used.
+ * <P><B>Notf:</B> Tif sfttfr mftiods (<dodf>sftSiort</dodf>, <dodf>sftString</dodf>,
+ * bnd so on) for sftting IN pbrbmftfr vblufs
+ * must spfdify typfs tibt brf dompbtiblf witi tif dffinfd SQL typf of
+ * tif input pbrbmftfr. For instbndf, if tif IN pbrbmftfr ibs SQL typf
+ * <dodf>INTEGER</dodf>, tifn tif mftiod <dodf>sftInt</dodf> siould bf usfd.
  *
- * <p>If arbitrary parameter type conversions are required, the method
- * <code>setObject</code> should be used with a target SQL type.
+ * <p>If brbitrbry pbrbmftfr typf donvfrsions brf rfquirfd, tif mftiod
+ * <dodf>sftObjfdt</dodf> siould bf usfd witi b tbrgft SQL typf.
  * <P>
- * In the following example of setting a parameter, <code>con</code> represents
- * an active connection:
+ * In tif following fxbmplf of sftting b pbrbmftfr, <dodf>don</dodf> rfprfsfnts
+ * bn bdtivf donnfdtion:
  * <PRE>
- *   PreparedStatement pstmt = con.prepareStatement("UPDATE EMPLOYEES
+ *   PrfpbrfdStbtfmfnt pstmt = don.prfpbrfStbtfmfnt("UPDATE EMPLOYEES
  *                                     SET SALARY = ? WHERE ID = ?");
- *   pstmt.setBigDecimal(1, 153833.00)
- *   pstmt.setInt(2, 110592)
+ *   pstmt.sftBigDfdimbl(1, 153833.00)
+ *   pstmt.sftInt(2, 110592)
  * </PRE>
  *
- * @see Connection#prepareStatement
- * @see ResultSet
+ * @sff Connfdtion#prfpbrfStbtfmfnt
+ * @sff RfsultSft
  */
 
-public interface PreparedStatement extends Statement {
+publid intfrfbdf PrfpbrfdStbtfmfnt fxtfnds Stbtfmfnt {
 
     /**
-     * Executes the SQL query in this <code>PreparedStatement</code> object
-     * and returns the <code>ResultSet</code> object generated by the query.
+     * Exfdutfs tif SQL qufry in tiis <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt
+     * bnd rfturns tif <dodf>RfsultSft</dodf> objfdt gfnfrbtfd by tif qufry.
      *
-     * @return a <code>ResultSet</code> object that contains the data produced by the
-     *         query; never <code>null</code>
-     * @exception SQLException if a database access error occurs;
-     * this method is called on a closed  <code>PreparedStatement</code> or the SQL
-     *            statement does not return a <code>ResultSet</code> object
-     * @throws SQLTimeoutException when the driver has determined that the
-     * timeout value that was specified by the {@code setQueryTimeout}
-     * method has been exceeded and has at least attempted to cancel
-     * the currently running {@code Statement}
+     * @rfturn b <dodf>RfsultSft</dodf> objfdt tibt dontbins tif dbtb produdfd by tif
+     *         qufry; nfvfr <dodf>null</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs;
+     * tiis mftiod is dbllfd on b dlosfd  <dodf>PrfpbrfdStbtfmfnt</dodf> or tif SQL
+     *            stbtfmfnt dofs not rfturn b <dodf>RfsultSft</dodf> objfdt
+     * @tirows SQLTimfoutExdfption wifn tif drivfr ibs dftfrminfd tibt tif
+     * timfout vbluf tibt wbs spfdififd by tif {@dodf sftQufryTimfout}
+     * mftiod ibs bffn fxdffdfd bnd ibs bt lfbst bttfmptfd to dbndfl
+     * tif durrfntly running {@dodf Stbtfmfnt}
      */
-    ResultSet executeQuery() throws SQLException;
+    RfsultSft fxfdutfQufry() tirows SQLExdfption;
 
     /**
-     * Executes the SQL statement in this <code>PreparedStatement</code> object,
-     * which must be an SQL Data Manipulation Language (DML) statement, such as <code>INSERT</code>, <code>UPDATE</code> or
-     * <code>DELETE</code>; or an SQL statement that returns nothing,
-     * such as a DDL statement.
+     * Exfdutfs tif SQL stbtfmfnt in tiis <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt,
+     * wiidi must bf bn SQL Dbtb Mbnipulbtion Lbngubgf (DML) stbtfmfnt, sudi bs <dodf>INSERT</dodf>, <dodf>UPDATE</dodf> or
+     * <dodf>DELETE</dodf>; or bn SQL stbtfmfnt tibt rfturns notiing,
+     * sudi bs b DDL stbtfmfnt.
      *
-     * @return either (1) the row count for SQL Data Manipulation Language (DML) statements
-     *         or (2) 0 for SQL statements that return nothing
-     * @exception SQLException if a database access error occurs;
-     * this method is called on a closed  <code>PreparedStatement</code>
-     * or the SQL statement returns a <code>ResultSet</code> object
-     * @throws SQLTimeoutException when the driver has determined that the
-     * timeout value that was specified by the {@code setQueryTimeout}
-     * method has been exceeded and has at least attempted to cancel
-     * the currently running {@code Statement}
+     * @rfturn fitifr (1) tif row dount for SQL Dbtb Mbnipulbtion Lbngubgf (DML) stbtfmfnts
+     *         or (2) 0 for SQL stbtfmfnts tibt rfturn notiing
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs;
+     * tiis mftiod is dbllfd on b dlosfd  <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * or tif SQL stbtfmfnt rfturns b <dodf>RfsultSft</dodf> objfdt
+     * @tirows SQLTimfoutExdfption wifn tif drivfr ibs dftfrminfd tibt tif
+     * timfout vbluf tibt wbs spfdififd by tif {@dodf sftQufryTimfout}
+     * mftiod ibs bffn fxdffdfd bnd ibs bt lfbst bttfmptfd to dbndfl
+     * tif durrfntly running {@dodf Stbtfmfnt}
      */
-    int executeUpdate() throws SQLException;
+    int fxfdutfUpdbtf() tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to SQL <code>NULL</code>.
+     * Sfts tif dfsignbtfd pbrbmftfr to SQL <dodf>NULL</dodf>.
      *
-     * <P><B>Note:</B> You must specify the parameter's SQL type.
+     * <P><B>Notf:</B> You must spfdify tif pbrbmftfr's SQL typf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param sqlType the SQL type code defined in <code>java.sql.Types</code>
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @exception SQLFeatureNotSupportedException if <code>sqlType</code> is
-     * a <code>ARRAY</code>, <code>BLOB</code>, <code>CLOB</code>,
-     * <code>DATALINK</code>, <code>JAVA_OBJECT</code>, <code>NCHAR</code>,
-     * <code>NCLOB</code>, <code>NVARCHAR</code>, <code>LONGNVARCHAR</code>,
-     *  <code>REF</code>, <code>ROWID</code>, <code>SQLXML</code>
-     * or  <code>STRUCT</code> data type and the JDBC driver does not support
-     * this data type
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm sqlTypf tif SQL typf dodf dffinfd in <dodf>jbvb.sql.Typfs</dodf>
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if <dodf>sqlTypf</dodf> is
+     * b <dodf>ARRAY</dodf>, <dodf>BLOB</dodf>, <dodf>CLOB</dodf>,
+     * <dodf>DATALINK</dodf>, <dodf>JAVA_OBJECT</dodf>, <dodf>NCHAR</dodf>,
+     * <dodf>NCLOB</dodf>, <dodf>NVARCHAR</dodf>, <dodf>LONGNVARCHAR</dodf>,
+     *  <dodf>REF</dodf>, <dodf>ROWID</dodf>, <dodf>SQLXML</dodf>
+     * or  <dodf>STRUCT</dodf> dbtb typf bnd tif JDBC drivfr dofs not support
+     * tiis dbtb typf
      */
-    void setNull(int parameterIndex, int sqlType) throws SQLException;
+    void sftNull(int pbrbmftfrIndfx, int sqlTypf) tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to the given Java <code>boolean</code> value.
-     * The driver converts this
-     * to an SQL <code>BIT</code> or <code>BOOLEAN</code> value when it sends it to the database.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn Jbvb <dodf>boolfbn</dodf> vbluf.
+     * Tif drivfr donvfrts tiis
+     * to bn SQL <dodf>BIT</dodf> or <dodf>BOOLEAN</dodf> vbluf wifn it sfnds it to tif dbtbbbsf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the parameter value
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement;
-     * if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt;
+     * if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
      */
-    void setBoolean(int parameterIndex, boolean x) throws SQLException;
+    void sftBoolfbn(int pbrbmftfrIndfx, boolfbn x) tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to the given Java <code>byte</code> value.
-     * The driver converts this
-     * to an SQL <code>TINYINT</code> value when it sends it to the database.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn Jbvb <dodf>bytf</dodf> vbluf.
+     * Tif drivfr donvfrts tiis
+     * to bn SQL <dodf>TINYINT</dodf> vbluf wifn it sfnds it to tif dbtbbbsf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the parameter value
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
      */
-    void setByte(int parameterIndex, byte x) throws SQLException;
+    void sftBytf(int pbrbmftfrIndfx, bytf x) tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to the given Java <code>short</code> value.
-     * The driver converts this
-     * to an SQL <code>SMALLINT</code> value when it sends it to the database.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn Jbvb <dodf>siort</dodf> vbluf.
+     * Tif drivfr donvfrts tiis
+     * to bn SQL <dodf>SMALLINT</dodf> vbluf wifn it sfnds it to tif dbtbbbsf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the parameter value
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
      */
-    void setShort(int parameterIndex, short x) throws SQLException;
+    void sftSiort(int pbrbmftfrIndfx, siort x) tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to the given Java <code>int</code> value.
-     * The driver converts this
-     * to an SQL <code>INTEGER</code> value when it sends it to the database.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn Jbvb <dodf>int</dodf> vbluf.
+     * Tif drivfr donvfrts tiis
+     * to bn SQL <dodf>INTEGER</dodf> vbluf wifn it sfnds it to tif dbtbbbsf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the parameter value
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
      */
-    void setInt(int parameterIndex, int x) throws SQLException;
+    void sftInt(int pbrbmftfrIndfx, int x) tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to the given Java <code>long</code> value.
-     * The driver converts this
-     * to an SQL <code>BIGINT</code> value when it sends it to the database.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn Jbvb <dodf>long</dodf> vbluf.
+     * Tif drivfr donvfrts tiis
+     * to bn SQL <dodf>BIGINT</dodf> vbluf wifn it sfnds it to tif dbtbbbsf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the parameter value
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
      */
-    void setLong(int parameterIndex, long x) throws SQLException;
+    void sftLong(int pbrbmftfrIndfx, long x) tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to the given Java <code>float</code> value.
-     * The driver converts this
-     * to an SQL <code>REAL</code> value when it sends it to the database.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn Jbvb <dodf>flobt</dodf> vbluf.
+     * Tif drivfr donvfrts tiis
+     * to bn SQL <dodf>REAL</dodf> vbluf wifn it sfnds it to tif dbtbbbsf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the parameter value
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
      */
-    void setFloat(int parameterIndex, float x) throws SQLException;
+    void sftFlobt(int pbrbmftfrIndfx, flobt x) tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to the given Java <code>double</code> value.
-     * The driver converts this
-     * to an SQL <code>DOUBLE</code> value when it sends it to the database.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn Jbvb <dodf>doublf</dodf> vbluf.
+     * Tif drivfr donvfrts tiis
+     * to bn SQL <dodf>DOUBLE</dodf> vbluf wifn it sfnds it to tif dbtbbbsf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the parameter value
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
      */
-    void setDouble(int parameterIndex, double x) throws SQLException;
+    void sftDoublf(int pbrbmftfrIndfx, doublf x) tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to the given <code>java.math.BigDecimal</code> value.
-     * The driver converts this to an SQL <code>NUMERIC</code> value when
-     * it sends it to the database.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.mbti.BigDfdimbl</dodf> vbluf.
+     * Tif drivfr donvfrts tiis to bn SQL <dodf>NUMERIC</dodf> vbluf wifn
+     * it sfnds it to tif dbtbbbsf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the parameter value
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
      */
-    void setBigDecimal(int parameterIndex, BigDecimal x) throws SQLException;
+    void sftBigDfdimbl(int pbrbmftfrIndfx, BigDfdimbl x) tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to the given Java <code>String</code> value.
-     * The driver converts this
-     * to an SQL <code>VARCHAR</code> or <code>LONGVARCHAR</code> value
-     * (depending on the argument's
-     * size relative to the driver's limits on <code>VARCHAR</code> values)
-     * when it sends it to the database.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn Jbvb <dodf>String</dodf> vbluf.
+     * Tif drivfr donvfrts tiis
+     * to bn SQL <dodf>VARCHAR</dodf> or <dodf>LONGVARCHAR</dodf> vbluf
+     * (dfpfnding on tif brgumfnt's
+     * sizf rflbtivf to tif drivfr's limits on <dodf>VARCHAR</dodf> vblufs)
+     * wifn it sfnds it to tif dbtbbbsf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the parameter value
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
      */
-    void setString(int parameterIndex, String x) throws SQLException;
+    void sftString(int pbrbmftfrIndfx, String x) tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to the given Java array of bytes.  The driver converts
-     * this to an SQL <code>VARBINARY</code> or <code>LONGVARBINARY</code>
-     * (depending on the argument's size relative to the driver's limits on
-     * <code>VARBINARY</code> values) when it sends it to the database.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn Jbvb brrby of bytfs.  Tif drivfr donvfrts
+     * tiis to bn SQL <dodf>VARBINARY</dodf> or <dodf>LONGVARBINARY</dodf>
+     * (dfpfnding on tif brgumfnt's sizf rflbtivf to tif drivfr's limits on
+     * <dodf>VARBINARY</dodf> vblufs) wifn it sfnds it to tif dbtbbbsf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the parameter value
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
      */
-    void setBytes(int parameterIndex, byte x[]) throws SQLException;
+    void sftBytfs(int pbrbmftfrIndfx, bytf x[]) tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to the given <code>java.sql.Date</code> value
-     * using the default time zone of the virtual machine that is running
-     * the application.
-     * The driver converts this
-     * to an SQL <code>DATE</code> value when it sends it to the database.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.sql.Dbtf</dodf> vbluf
+     * using tif dffbult timf zonf of tif virtubl mbdiinf tibt is running
+     * tif bpplidbtion.
+     * Tif drivfr donvfrts tiis
+     * to bn SQL <dodf>DATE</dodf> vbluf wifn it sfnds it to tif dbtbbbsf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the parameter value
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
      */
-    void setDate(int parameterIndex, java.sql.Date x)
-            throws SQLException;
+    void sftDbtf(int pbrbmftfrIndfx, jbvb.sql.Dbtf x)
+            tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to the given <code>java.sql.Time</code> value.
-     * The driver converts this
-     * to an SQL <code>TIME</code> value when it sends it to the database.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.sql.Timf</dodf> vbluf.
+     * Tif drivfr donvfrts tiis
+     * to bn SQL <dodf>TIME</dodf> vbluf wifn it sfnds it to tif dbtbbbsf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the parameter value
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
      */
-    void setTime(int parameterIndex, java.sql.Time x)
-            throws SQLException;
+    void sftTimf(int pbrbmftfrIndfx, jbvb.sql.Timf x)
+            tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to the given <code>java.sql.Timestamp</code> value.
-     * The driver
-     * converts this to an SQL <code>TIMESTAMP</code> value when it sends it to the
-     * database.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.sql.Timfstbmp</dodf> vbluf.
+     * Tif drivfr
+     * donvfrts tiis to bn SQL <dodf>TIMESTAMP</dodf> vbluf wifn it sfnds it to tif
+     * dbtbbbsf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the parameter value
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>     */
-    void setTimestamp(int parameterIndex, java.sql.Timestamp x)
-            throws SQLException;
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>     */
+    void sftTimfstbmp(int pbrbmftfrIndfx, jbvb.sql.Timfstbmp x)
+            tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to the given input stream, which will have
-     * the specified number of bytes.
-     * When a very large ASCII value is input to a <code>LONGVARCHAR</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.InputStream</code>. Data will be read from the stream
-     * as needed until end-of-file is reached.  The JDBC driver will
-     * do any necessary conversion from ASCII to the database char format.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn input strfbm, wiidi will ibvf
+     * tif spfdififd numbfr of bytfs.
+     * Wifn b vfry lbrgf ASCII vbluf is input to b <dodf>LONGVARCHAR</dodf>
+     * pbrbmftfr, it mby bf morf prbdtidbl to sfnd it vib b
+     * <dodf>jbvb.io.InputStrfbm</dodf>. Dbtb will bf rfbd from tif strfbm
+     * bs nffdfd until fnd-of-filf is rfbdifd.  Tif JDBC drivfr will
+     * do bny nfdfssbry donvfrsion from ASCII to tif dbtbbbsf dibr formbt.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
+     * <P><B>Notf:</B> Tiis strfbm objfdt dbn fitifr bf b stbndbrd
+     * Jbvb strfbm objfdt or your own subdlbss tibt implfmfnts tif
+     * stbndbrd intfrfbdf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the Java input stream that contains the ASCII parameter value
-     * @param length the number of bytes in the stream
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif Jbvb input strfbm tibt dontbins tif ASCII pbrbmftfr vbluf
+     * @pbrbm lfngti tif numbfr of bytfs in tif strfbm
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
      */
-    void setAsciiStream(int parameterIndex, java.io.InputStream x, int length)
-            throws SQLException;
+    void sftAsdiiStrfbm(int pbrbmftfrIndfx, jbvb.io.InputStrfbm x, int lfngti)
+            tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to the given input stream, which
-     * will have the specified number of bytes.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn input strfbm, wiidi
+     * will ibvf tif spfdififd numbfr of bytfs.
      *
-     * When a very large Unicode value is input to a <code>LONGVARCHAR</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.InputStream</code> object. The data will be read from the
-     * stream as needed until end-of-file is reached.  The JDBC driver will
-     * do any necessary conversion from Unicode to the database char format.
+     * Wifn b vfry lbrgf Unidodf vbluf is input to b <dodf>LONGVARCHAR</dodf>
+     * pbrbmftfr, it mby bf morf prbdtidbl to sfnd it vib b
+     * <dodf>jbvb.io.InputStrfbm</dodf> objfdt. Tif dbtb will bf rfbd from tif
+     * strfbm bs nffdfd until fnd-of-filf is rfbdifd.  Tif JDBC drivfr will
+     * do bny nfdfssbry donvfrsion from Unidodf to tif dbtbbbsf dibr formbt.
      *
-     *The byte format of the Unicode stream must be a Java UTF-8, as defined in the
-     *Java Virtual Machine Specification.
+     *Tif bytf formbt of tif Unidodf strfbm must bf b Jbvb UTF-8, bs dffinfd in tif
+     *Jbvb Virtubl Mbdiinf Spfdifidbtion.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
+     * <P><B>Notf:</B> Tiis strfbm objfdt dbn fitifr bf b stbndbrd
+     * Jbvb strfbm objfdt or your own subdlbss tibt implfmfnts tif
+     * stbndbrd intfrfbdf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x a <code>java.io.InputStream</code> object that contains the
-     *        Unicode parameter value
-     * @param length the number of bytes in the stream
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @deprecated Use {@code setCharacterStream}
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x b <dodf>jbvb.io.InputStrfbm</dodf> objfdt tibt dontbins tif
+     *        Unidodf pbrbmftfr vbluf
+     * @pbrbm lfngti tif numbfr of bytfs in tif strfbm
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @dfprfdbtfd Usf {@dodf sftCibrbdtfrStrfbm}
      */
-    @Deprecated
-    void setUnicodeStream(int parameterIndex, java.io.InputStream x,
-                          int length) throws SQLException;
+    @Dfprfdbtfd
+    void sftUnidodfStrfbm(int pbrbmftfrIndfx, jbvb.io.InputStrfbm x,
+                          int lfngti) tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to the given input stream, which will have
-     * the specified number of bytes.
-     * When a very large binary value is input to a <code>LONGVARBINARY</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.InputStream</code> object. The data will be read from the
-     * stream as needed until end-of-file is reached.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn input strfbm, wiidi will ibvf
+     * tif spfdififd numbfr of bytfs.
+     * Wifn b vfry lbrgf binbry vbluf is input to b <dodf>LONGVARBINARY</dodf>
+     * pbrbmftfr, it mby bf morf prbdtidbl to sfnd it vib b
+     * <dodf>jbvb.io.InputStrfbm</dodf> objfdt. Tif dbtb will bf rfbd from tif
+     * strfbm bs nffdfd until fnd-of-filf is rfbdifd.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
+     * <P><B>Notf:</B> Tiis strfbm objfdt dbn fitifr bf b stbndbrd
+     * Jbvb strfbm objfdt or your own subdlbss tibt implfmfnts tif
+     * stbndbrd intfrfbdf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the java input stream which contains the binary parameter value
-     * @param length the number of bytes in the stream
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif jbvb input strfbm wiidi dontbins tif binbry pbrbmftfr vbluf
+     * @pbrbm lfngti tif numbfr of bytfs in tif strfbm
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
      */
-    void setBinaryStream(int parameterIndex, java.io.InputStream x,
-                         int length) throws SQLException;
+    void sftBinbryStrfbm(int pbrbmftfrIndfx, jbvb.io.InputStrfbm x,
+                         int lfngti) tirows SQLExdfption;
 
     /**
-     * Clears the current parameter values immediately.
-     * <P>In general, parameter values remain in force for repeated use of a
-     * statement. Setting a parameter value automatically clears its
-     * previous value.  However, in some cases it is useful to immediately
-     * release the resources used by the current parameter values; this can
-     * be done by calling the method <code>clearParameters</code>.
+     * Clfbrs tif durrfnt pbrbmftfr vblufs immfdibtfly.
+     * <P>In gfnfrbl, pbrbmftfr vblufs rfmbin in fordf for rfpfbtfd usf of b
+     * stbtfmfnt. Sftting b pbrbmftfr vbluf butombtidblly dlfbrs its
+     * prfvious vbluf.  Howfvfr, in somf dbsfs it is usfful to immfdibtfly
+     * rflfbsf tif rfsourdfs usfd by tif durrfnt pbrbmftfr vblufs; tiis dbn
+     * bf donf by dblling tif mftiod <dodf>dlfbrPbrbmftfrs</dodf>.
      *
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
      */
-    void clearParameters() throws SQLException;
+    void dlfbrPbrbmftfrs() tirows SQLExdfption;
 
     //----------------------------------------------------------------------
-    // Advanced features:
+    // Advbndfd ffbturfs:
 
    /**
-    * Sets the value of the designated parameter with the given object.
+    * Sfts tif vbluf of tif dfsignbtfd pbrbmftfr witi tif givfn objfdt.
     *
-    * This method is similar to {@link #setObject(int parameterIndex,
-    * Object x, int targetSqlType, int scaleOrLength)},
-    * except that it assumes a scale of zero.
+    * Tiis mftiod is similbr to {@link #sftObjfdt(int pbrbmftfrIndfx,
+    * Objfdt x, int tbrgftSqlTypf, int sdblfOrLfngti)},
+    * fxdfpt tibt it bssumfs b sdblf of zfro.
     *
-    * @param parameterIndex the first parameter is 1, the second is 2, ...
-    * @param x the object containing the input parameter value
-    * @param targetSqlType the SQL type (as defined in java.sql.Types) to be
-    *                      sent to the database
-    * @exception SQLException if parameterIndex does not correspond to a parameter
-    * marker in the SQL statement; if a database access error occurs or this
-    * method is called on a closed PreparedStatement
-    * @exception SQLFeatureNotSupportedException if
-    * the JDBC driver does not support the specified targetSqlType
-    * @see Types
+    * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+    * @pbrbm x tif objfdt dontbining tif input pbrbmftfr vbluf
+    * @pbrbm tbrgftSqlTypf tif SQL typf (bs dffinfd in jbvb.sql.Typfs) to bf
+    *                      sfnt to tif dbtbbbsf
+    * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+    * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or tiis
+    * mftiod is dbllfd on b dlosfd PrfpbrfdStbtfmfnt
+    * @fxdfption SQLFfbturfNotSupportfdExdfption if
+    * tif JDBC drivfr dofs not support tif spfdififd tbrgftSqlTypf
+    * @sff Typfs
     */
-    void setObject(int parameterIndex, Object x, int targetSqlType)
-      throws SQLException;
+    void sftObjfdt(int pbrbmftfrIndfx, Objfdt x, int tbrgftSqlTypf)
+      tirows SQLExdfption;
 
     /**
-     * <p>Sets the value of the designated parameter using the given object.
+     * <p>Sfts tif vbluf of tif dfsignbtfd pbrbmftfr using tif givfn objfdt.
      *
-     * <p>The JDBC specification specifies a standard mapping from
-     * Java <code>Object</code> types to SQL types.  The given argument
-     * will be converted to the corresponding SQL type before being
-     * sent to the database.
+     * <p>Tif JDBC spfdifidbtion spfdififs b stbndbrd mbpping from
+     * Jbvb <dodf>Objfdt</dodf> typfs to SQL typfs.  Tif givfn brgumfnt
+     * will bf donvfrtfd to tif dorrfsponding SQL typf bfforf bfing
+     * sfnt to tif dbtbbbsf.
      *
-     * <p>Note that this method may be used to pass datatabase-
-     * specific abstract data types, by using a driver-specific Java
-     * type.
+     * <p>Notf tibt tiis mftiod mby bf usfd to pbss dbtbtbbbsf-
+     * spfdifid bbstrbdt dbtb typfs, by using b drivfr-spfdifid Jbvb
+     * typf.
      *
-     * If the object is of a class implementing the interface <code>SQLData</code>,
-     * the JDBC driver should call the method <code>SQLData.writeSQL</code>
-     * to write it to the SQL data stream.
-     * If, on the other hand, the object is of a class implementing
-     * <code>Ref</code>, <code>Blob</code>, <code>Clob</code>,  <code>NClob</code>,
-     *  <code>Struct</code>, <code>java.net.URL</code>, <code>RowId</code>, <code>SQLXML</code>
-     * or <code>Array</code>, the driver should pass it to the database as a
-     * value of the corresponding SQL type.
+     * If tif objfdt is of b dlbss implfmfnting tif intfrfbdf <dodf>SQLDbtb</dodf>,
+     * tif JDBC drivfr siould dbll tif mftiod <dodf>SQLDbtb.writfSQL</dodf>
+     * to writf it to tif SQL dbtb strfbm.
+     * If, on tif otifr ibnd, tif objfdt is of b dlbss implfmfnting
+     * <dodf>Rff</dodf>, <dodf>Blob</dodf>, <dodf>Clob</dodf>,  <dodf>NClob</dodf>,
+     *  <dodf>Strudt</dodf>, <dodf>jbvb.nft.URL</dodf>, <dodf>RowId</dodf>, <dodf>SQLXML</dodf>
+     * or <dodf>Arrby</dodf>, tif drivfr siould pbss it to tif dbtbbbsf bs b
+     * vbluf of tif dorrfsponding SQL typf.
      * <P>
-     *<b>Note:</b> Not all databases allow for a non-typed Null to be sent to
-     * the backend. For maximum portability, the <code>setNull</code> or the
-     * <code>setObject(int parameterIndex, Object x, int sqlType)</code>
-     * method should be used
-     * instead of <code>setObject(int parameterIndex, Object x)</code>.
+     *<b>Notf:</b> Not bll dbtbbbsfs bllow for b non-typfd Null to bf sfnt to
+     * tif bbdkfnd. For mbximum portbbility, tif <dodf>sftNull</dodf> or tif
+     * <dodf>sftObjfdt(int pbrbmftfrIndfx, Objfdt x, int sqlTypf)</dodf>
+     * mftiod siould bf usfd
+     * instfbd of <dodf>sftObjfdt(int pbrbmftfrIndfx, Objfdt x)</dodf>.
      *<p>
-     * <b>Note:</b> This method throws an exception if there is an ambiguity, for example, if the
-     * object is of a class implementing more than one of the interfaces named above.
+     * <b>Notf:</b> Tiis mftiod tirows bn fxdfption if tifrf is bn bmbiguity, for fxbmplf, if tif
+     * objfdt is of b dlbss implfmfnting morf tibn onf of tif intfrfbdfs nbmfd bbovf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the object containing the input parameter value
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs;
-     *  this method is called on a closed <code>PreparedStatement</code>
-     * or the type of the given object is ambiguous
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif objfdt dontbining tif input pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs;
+     *  tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * or tif typf of tif givfn objfdt is bmbiguous
      */
-    void setObject(int parameterIndex, Object x) throws SQLException;
+    void sftObjfdt(int pbrbmftfrIndfx, Objfdt x) tirows SQLExdfption;
 
     /**
-     * Executes the SQL statement in this <code>PreparedStatement</code> object,
-     * which may be any kind of SQL statement.
-     * Some prepared statements return multiple results; the <code>execute</code>
-     * method handles these complex statements as well as the simpler
-     * form of statements handled by the methods <code>executeQuery</code>
-     * and <code>executeUpdate</code>.
+     * Exfdutfs tif SQL stbtfmfnt in tiis <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt,
+     * wiidi mby bf bny kind of SQL stbtfmfnt.
+     * Somf prfpbrfd stbtfmfnts rfturn multiplf rfsults; tif <dodf>fxfdutf</dodf>
+     * mftiod ibndlfs tifsf domplfx stbtfmfnts bs wfll bs tif simplfr
+     * form of stbtfmfnts ibndlfd by tif mftiods <dodf>fxfdutfQufry</dodf>
+     * bnd <dodf>fxfdutfUpdbtf</dodf>.
      * <P>
-     * The <code>execute</code> method returns a <code>boolean</code> to
-     * indicate the form of the first result.  You must call either the method
-     * <code>getResultSet</code> or <code>getUpdateCount</code>
-     * to retrieve the result; you must call <code>getMoreResults</code> to
-     * move to any subsequent result(s).
+     * Tif <dodf>fxfdutf</dodf> mftiod rfturns b <dodf>boolfbn</dodf> to
+     * indidbtf tif form of tif first rfsult.  You must dbll fitifr tif mftiod
+     * <dodf>gftRfsultSft</dodf> or <dodf>gftUpdbtfCount</dodf>
+     * to rftrifvf tif rfsult; you must dbll <dodf>gftMorfRfsults</dodf> to
+     * movf to bny subsfqufnt rfsult(s).
      *
-     * @return <code>true</code> if the first result is a <code>ResultSet</code>
-     *         object; <code>false</code> if the first result is an update
-     *         count or there is no result
-     * @exception SQLException if a database access error occurs;
-     * this method is called on a closed <code>PreparedStatement</code>
-     * or an argument is supplied to this method
-     * @throws SQLTimeoutException when the driver has determined that the
-     * timeout value that was specified by the {@code setQueryTimeout}
-     * method has been exceeded and has at least attempted to cancel
-     * the currently running {@code Statement}
-     * @see Statement#execute
-     * @see Statement#getResultSet
-     * @see Statement#getUpdateCount
-     * @see Statement#getMoreResults
+     * @rfturn <dodf>truf</dodf> if tif first rfsult is b <dodf>RfsultSft</dodf>
+     *         objfdt; <dodf>fblsf</dodf> if tif first rfsult is bn updbtf
+     *         dount or tifrf is no rfsult
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs;
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * or bn brgumfnt is supplifd to tiis mftiod
+     * @tirows SQLTimfoutExdfption wifn tif drivfr ibs dftfrminfd tibt tif
+     * timfout vbluf tibt wbs spfdififd by tif {@dodf sftQufryTimfout}
+     * mftiod ibs bffn fxdffdfd bnd ibs bt lfbst bttfmptfd to dbndfl
+     * tif durrfntly running {@dodf Stbtfmfnt}
+     * @sff Stbtfmfnt#fxfdutf
+     * @sff Stbtfmfnt#gftRfsultSft
+     * @sff Stbtfmfnt#gftUpdbtfCount
+     * @sff Stbtfmfnt#gftMorfRfsults
 
      */
-    boolean execute() throws SQLException;
+    boolfbn fxfdutf() tirows SQLExdfption;
 
     //--------------------------JDBC 2.0-----------------------------
 
     /**
-     * Adds a set of parameters to this <code>PreparedStatement</code>
-     * object's batch of commands.
+     * Adds b sft of pbrbmftfrs to tiis <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * objfdt's bbtdi of dommbnds.
      *
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @see Statement#addBatch
-     * @since 1.2
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @sff Stbtfmfnt#bddBbtdi
+     * @sindf 1.2
      */
-    void addBatch() throws SQLException;
+    void bddBbtdi() tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to the given <code>Reader</code>
-     * object, which is the given number of characters long.
-     * When a very large UNICODE value is input to a <code>LONGVARCHAR</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.Reader</code> object. The data will be read from the stream
-     * as needed until end-of-file is reached.  The JDBC driver will
-     * do any necessary conversion from UNICODE to the database char format.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>Rfbdfr</dodf>
+     * objfdt, wiidi is tif givfn numbfr of dibrbdtfrs long.
+     * Wifn b vfry lbrgf UNICODE vbluf is input to b <dodf>LONGVARCHAR</dodf>
+     * pbrbmftfr, it mby bf morf prbdtidbl to sfnd it vib b
+     * <dodf>jbvb.io.Rfbdfr</dodf> objfdt. Tif dbtb will bf rfbd from tif strfbm
+     * bs nffdfd until fnd-of-filf is rfbdifd.  Tif JDBC drivfr will
+     * do bny nfdfssbry donvfrsion from UNICODE to tif dbtbbbsf dibr formbt.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
+     * <P><B>Notf:</B> Tiis strfbm objfdt dbn fitifr bf b stbndbrd
+     * Jbvb strfbm objfdt or your own subdlbss tibt implfmfnts tif
+     * stbndbrd intfrfbdf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param reader the <code>java.io.Reader</code> object that contains the
-     *        Unicode data
-     * @param length the number of characters in the stream
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @since 1.2
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm rfbdfr tif <dodf>jbvb.io.Rfbdfr</dodf> objfdt tibt dontbins tif
+     *        Unidodf dbtb
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs in tif strfbm
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @sindf 1.2
      */
-    void setCharacterStream(int parameterIndex,
-                          java.io.Reader reader,
-                          int length) throws SQLException;
+    void sftCibrbdtfrStrfbm(int pbrbmftfrIndfx,
+                          jbvb.io.Rfbdfr rfbdfr,
+                          int lfngti) tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to the given
-     *  <code>REF(&lt;structured-type&gt;)</code> value.
-     * The driver converts this to an SQL <code>REF</code> value when it
-     * sends it to the database.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn
+     *  <dodf>REF(&lt;strudturfd-typf&gt;)</dodf> vbluf.
+     * Tif drivfr donvfrts tiis to bn SQL <dodf>REF</dodf> vbluf wifn it
+     * sfnds it to tif dbtbbbsf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x an SQL <code>REF</code> value
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
-     * @since 1.2
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x bn SQL <dodf>REF</dodf> vbluf
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     * @sindf 1.2
      */
-    void setRef (int parameterIndex, Ref x) throws SQLException;
+    void sftRff (int pbrbmftfrIndfx, Rff x) tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to the given <code>java.sql.Blob</code> object.
-     * The driver converts this to an SQL <code>BLOB</code> value when it
-     * sends it to the database.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.sql.Blob</dodf> objfdt.
+     * Tif drivfr donvfrts tiis to bn SQL <dodf>BLOB</dodf> vbluf wifn it
+     * sfnds it to tif dbtbbbsf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x a <code>Blob</code> object that maps an SQL <code>BLOB</code> value
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
-     * @since 1.2
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x b <dodf>Blob</dodf> objfdt tibt mbps bn SQL <dodf>BLOB</dodf> vbluf
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     * @sindf 1.2
      */
-    void setBlob (int parameterIndex, Blob x) throws SQLException;
+    void sftBlob (int pbrbmftfrIndfx, Blob x) tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to the given <code>java.sql.Clob</code> object.
-     * The driver converts this to an SQL <code>CLOB</code> value when it
-     * sends it to the database.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.sql.Clob</dodf> objfdt.
+     * Tif drivfr donvfrts tiis to bn SQL <dodf>CLOB</dodf> vbluf wifn it
+     * sfnds it to tif dbtbbbsf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x a <code>Clob</code> object that maps an SQL <code>CLOB</code> value
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
-     * @since 1.2
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x b <dodf>Clob</dodf> objfdt tibt mbps bn SQL <dodf>CLOB</dodf> vbluf
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     * @sindf 1.2
      */
-    void setClob (int parameterIndex, Clob x) throws SQLException;
+    void sftClob (int pbrbmftfrIndfx, Clob x) tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to the given <code>java.sql.Array</code> object.
-     * The driver converts this to an SQL <code>ARRAY</code> value when it
-     * sends it to the database.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.sql.Arrby</dodf> objfdt.
+     * Tif drivfr donvfrts tiis to bn SQL <dodf>ARRAY</dodf> vbluf wifn it
+     * sfnds it to tif dbtbbbsf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x an <code>Array</code> object that maps an SQL <code>ARRAY</code> value
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
-     * @since 1.2
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x bn <dodf>Arrby</dodf> objfdt tibt mbps bn SQL <dodf>ARRAY</dodf> vbluf
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     * @sindf 1.2
      */
-    void setArray (int parameterIndex, Array x) throws SQLException;
+    void sftArrby (int pbrbmftfrIndfx, Arrby x) tirows SQLExdfption;
 
     /**
-     * Retrieves a <code>ResultSetMetaData</code> object that contains
-     * information about the columns of the <code>ResultSet</code> object
-     * that will be returned when this <code>PreparedStatement</code> object
-     * is executed.
+     * Rftrifvfs b <dodf>RfsultSftMftbDbtb</dodf> objfdt tibt dontbins
+     * informbtion bbout tif dolumns of tif <dodf>RfsultSft</dodf> objfdt
+     * tibt will bf rfturnfd wifn tiis <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt
+     * is fxfdutfd.
      * <P>
-     * Because a <code>PreparedStatement</code> object is precompiled, it is
-     * possible to know about the <code>ResultSet</code> object that it will
-     * return without having to execute it.  Consequently, it is possible
-     * to invoke the method <code>getMetaData</code> on a
-     * <code>PreparedStatement</code> object rather than waiting to execute
-     * it and then invoking the <code>ResultSet.getMetaData</code> method
-     * on the <code>ResultSet</code> object that is returned.
+     * Bfdbusf b <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt is prfdompilfd, it is
+     * possiblf to know bbout tif <dodf>RfsultSft</dodf> objfdt tibt it will
+     * rfturn witiout ibving to fxfdutf it.  Consfqufntly, it is possiblf
+     * to invokf tif mftiod <dodf>gftMftbDbtb</dodf> on b
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt rbtifr tibn wbiting to fxfdutf
+     * it bnd tifn invoking tif <dodf>RfsultSft.gftMftbDbtb</dodf> mftiod
+     * on tif <dodf>RfsultSft</dodf> objfdt tibt is rfturnfd.
      * <P>
-     * <B>NOTE:</B> Using this method may be expensive for some drivers due
-     * to the lack of underlying DBMS support.
+     * <B>NOTE:</B> Using tiis mftiod mby bf fxpfnsivf for somf drivfrs duf
+     * to tif lbdk of undfrlying DBMS support.
      *
-     * @return the description of a <code>ResultSet</code> object's columns or
-     *         <code>null</code> if the driver cannot return a
-     *         <code>ResultSetMetaData</code> object
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-     * this method
-     * @since 1.2
+     * @rfturn tif dfsdription of b <dodf>RfsultSft</dodf> objfdt's dolumns or
+     *         <dodf>null</dodf> if tif drivfr dbnnot rfturn b
+     *         <dodf>RfsultSftMftbDbtb</dodf> objfdt
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+     * tiis mftiod
+     * @sindf 1.2
      */
-    ResultSetMetaData getMetaData() throws SQLException;
+    RfsultSftMftbDbtb gftMftbDbtb() tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to the given <code>java.sql.Date</code> value,
-     * using the given <code>Calendar</code> object.  The driver uses
-     * the <code>Calendar</code> object to construct an SQL <code>DATE</code> value,
-     * which the driver then sends to the database.  With
-     * a <code>Calendar</code> object, the driver can calculate the date
-     * taking into account a custom timezone.  If no
-     * <code>Calendar</code> object is specified, the driver uses the default
-     * timezone, which is that of the virtual machine running the application.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.sql.Dbtf</dodf> vbluf,
+     * using tif givfn <dodf>Cblfndbr</dodf> objfdt.  Tif drivfr usfs
+     * tif <dodf>Cblfndbr</dodf> objfdt to donstrudt bn SQL <dodf>DATE</dodf> vbluf,
+     * wiidi tif drivfr tifn sfnds to tif dbtbbbsf.  Witi
+     * b <dodf>Cblfndbr</dodf> objfdt, tif drivfr dbn dbldulbtf tif dbtf
+     * tbking into bddount b dustom timfzonf.  If no
+     * <dodf>Cblfndbr</dodf> objfdt is spfdififd, tif drivfr usfs tif dffbult
+     * timfzonf, wiidi is tibt of tif virtubl mbdiinf running tif bpplidbtion.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the parameter value
-     * @param cal the <code>Calendar</code> object the driver will use
-     *            to construct the date
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @since 1.2
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @pbrbm dbl tif <dodf>Cblfndbr</dodf> objfdt tif drivfr will usf
+     *            to donstrudt tif dbtf
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @sindf 1.2
      */
-    void setDate(int parameterIndex, java.sql.Date x, Calendar cal)
-            throws SQLException;
+    void sftDbtf(int pbrbmftfrIndfx, jbvb.sql.Dbtf x, Cblfndbr dbl)
+            tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to the given <code>java.sql.Time</code> value,
-     * using the given <code>Calendar</code> object.  The driver uses
-     * the <code>Calendar</code> object to construct an SQL <code>TIME</code> value,
-     * which the driver then sends to the database.  With
-     * a <code>Calendar</code> object, the driver can calculate the time
-     * taking into account a custom timezone.  If no
-     * <code>Calendar</code> object is specified, the driver uses the default
-     * timezone, which is that of the virtual machine running the application.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.sql.Timf</dodf> vbluf,
+     * using tif givfn <dodf>Cblfndbr</dodf> objfdt.  Tif drivfr usfs
+     * tif <dodf>Cblfndbr</dodf> objfdt to donstrudt bn SQL <dodf>TIME</dodf> vbluf,
+     * wiidi tif drivfr tifn sfnds to tif dbtbbbsf.  Witi
+     * b <dodf>Cblfndbr</dodf> objfdt, tif drivfr dbn dbldulbtf tif timf
+     * tbking into bddount b dustom timfzonf.  If no
+     * <dodf>Cblfndbr</dodf> objfdt is spfdififd, tif drivfr usfs tif dffbult
+     * timfzonf, wiidi is tibt of tif virtubl mbdiinf running tif bpplidbtion.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the parameter value
-     * @param cal the <code>Calendar</code> object the driver will use
-     *            to construct the time
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @since 1.2
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @pbrbm dbl tif <dodf>Cblfndbr</dodf> objfdt tif drivfr will usf
+     *            to donstrudt tif timf
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @sindf 1.2
      */
-    void setTime(int parameterIndex, java.sql.Time x, Calendar cal)
-            throws SQLException;
+    void sftTimf(int pbrbmftfrIndfx, jbvb.sql.Timf x, Cblfndbr dbl)
+            tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to the given <code>java.sql.Timestamp</code> value,
-     * using the given <code>Calendar</code> object.  The driver uses
-     * the <code>Calendar</code> object to construct an SQL <code>TIMESTAMP</code> value,
-     * which the driver then sends to the database.  With a
-     *  <code>Calendar</code> object, the driver can calculate the timestamp
-     * taking into account a custom timezone.  If no
-     * <code>Calendar</code> object is specified, the driver uses the default
-     * timezone, which is that of the virtual machine running the application.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.sql.Timfstbmp</dodf> vbluf,
+     * using tif givfn <dodf>Cblfndbr</dodf> objfdt.  Tif drivfr usfs
+     * tif <dodf>Cblfndbr</dodf> objfdt to donstrudt bn SQL <dodf>TIMESTAMP</dodf> vbluf,
+     * wiidi tif drivfr tifn sfnds to tif dbtbbbsf.  Witi b
+     *  <dodf>Cblfndbr</dodf> objfdt, tif drivfr dbn dbldulbtf tif timfstbmp
+     * tbking into bddount b dustom timfzonf.  If no
+     * <dodf>Cblfndbr</dodf> objfdt is spfdififd, tif drivfr usfs tif dffbult
+     * timfzonf, wiidi is tibt of tif virtubl mbdiinf running tif bpplidbtion.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the parameter value
-     * @param cal the <code>Calendar</code> object the driver will use
-     *            to construct the timestamp
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @since 1.2
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @pbrbm dbl tif <dodf>Cblfndbr</dodf> objfdt tif drivfr will usf
+     *            to donstrudt tif timfstbmp
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @sindf 1.2
      */
-    void setTimestamp(int parameterIndex, java.sql.Timestamp x, Calendar cal)
-            throws SQLException;
+    void sftTimfstbmp(int pbrbmftfrIndfx, jbvb.sql.Timfstbmp x, Cblfndbr dbl)
+            tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to SQL <code>NULL</code>.
-     * This version of the method <code>setNull</code> should
-     * be used for user-defined types and REF type parameters.  Examples
-     * of user-defined types include: STRUCT, DISTINCT, JAVA_OBJECT, and
-     * named array types.
+     * Sfts tif dfsignbtfd pbrbmftfr to SQL <dodf>NULL</dodf>.
+     * Tiis vfrsion of tif mftiod <dodf>sftNull</dodf> siould
+     * bf usfd for usfr-dffinfd typfs bnd REF typf pbrbmftfrs.  Exbmplfs
+     * of usfr-dffinfd typfs indludf: STRUCT, DISTINCT, JAVA_OBJECT, bnd
+     * nbmfd brrby typfs.
      *
-     * <P><B>Note:</B> To be portable, applications must give the
-     * SQL type code and the fully-qualified SQL type name when specifying
-     * a NULL user-defined or REF parameter.  In the case of a user-defined type
-     * the name is the type name of the parameter itself.  For a REF
-     * parameter, the name is the type name of the referenced type.  If
-     * a JDBC driver does not need the type code or type name information,
-     * it may ignore it.
+     * <P><B>Notf:</B> To bf portbblf, bpplidbtions must givf tif
+     * SQL typf dodf bnd tif fully-qublififd SQL typf nbmf wifn spfdifying
+     * b NULL usfr-dffinfd or REF pbrbmftfr.  In tif dbsf of b usfr-dffinfd typf
+     * tif nbmf is tif typf nbmf of tif pbrbmftfr itsflf.  For b REF
+     * pbrbmftfr, tif nbmf is tif typf nbmf of tif rfffrfndfd typf.  If
+     * b JDBC drivfr dofs not nffd tif typf dodf or typf nbmf informbtion,
+     * it mby ignorf it.
      *
-     * Although it is intended for user-defined and Ref parameters,
-     * this method may be used to set a null parameter of any JDBC type.
-     * If the parameter does not have a user-defined or REF type, the given
-     * typeName is ignored.
+     * Altiougi it is intfndfd for usfr-dffinfd bnd Rff pbrbmftfrs,
+     * tiis mftiod mby bf usfd to sft b null pbrbmftfr of bny JDBC typf.
+     * If tif pbrbmftfr dofs not ibvf b usfr-dffinfd or REF typf, tif givfn
+     * typfNbmf is ignorfd.
      *
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param sqlType a value from <code>java.sql.Types</code>
-     * @param typeName the fully-qualified name of an SQL user-defined type;
-     *  ignored if the parameter is not a user-defined type or REF
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @exception SQLFeatureNotSupportedException if <code>sqlType</code> is
-     * a <code>ARRAY</code>, <code>BLOB</code>, <code>CLOB</code>,
-     * <code>DATALINK</code>, <code>JAVA_OBJECT</code>, <code>NCHAR</code>,
-     * <code>NCLOB</code>, <code>NVARCHAR</code>, <code>LONGNVARCHAR</code>,
-     *  <code>REF</code>, <code>ROWID</code>, <code>SQLXML</code>
-     * or  <code>STRUCT</code> data type and the JDBC driver does not support
-     * this data type or if the JDBC driver does not support this method
-     * @since 1.2
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm sqlTypf b vbluf from <dodf>jbvb.sql.Typfs</dodf>
+     * @pbrbm typfNbmf tif fully-qublififd nbmf of bn SQL usfr-dffinfd typf;
+     *  ignorfd if tif pbrbmftfr is not b usfr-dffinfd typf or REF
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if <dodf>sqlTypf</dodf> is
+     * b <dodf>ARRAY</dodf>, <dodf>BLOB</dodf>, <dodf>CLOB</dodf>,
+     * <dodf>DATALINK</dodf>, <dodf>JAVA_OBJECT</dodf>, <dodf>NCHAR</dodf>,
+     * <dodf>NCLOB</dodf>, <dodf>NVARCHAR</dodf>, <dodf>LONGNVARCHAR</dodf>,
+     *  <dodf>REF</dodf>, <dodf>ROWID</dodf>, <dodf>SQLXML</dodf>
+     * or  <dodf>STRUCT</dodf> dbtb typf bnd tif JDBC drivfr dofs not support
+     * tiis dbtb typf or if tif JDBC drivfr dofs not support tiis mftiod
+     * @sindf 1.2
      */
-  void setNull (int parameterIndex, int sqlType, String typeName)
-    throws SQLException;
+  void sftNull (int pbrbmftfrIndfx, int sqlTypf, String typfNbmf)
+    tirows SQLExdfption;
 
     //------------------------- JDBC 3.0 -----------------------------------
 
     /**
-     * Sets the designated parameter to the given <code>java.net.URL</code> value.
-     * The driver converts this to an SQL <code>DATALINK</code> value
-     * when it sends it to the database.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.nft.URL</dodf> vbluf.
+     * Tif drivfr donvfrts tiis to bn SQL <dodf>DATALINK</dodf> vbluf
+     * wifn it sfnds it to tif dbtbbbsf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the <code>java.net.URL</code> object to be set
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
-     * @since 1.4
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif <dodf>jbvb.nft.URL</dodf> objfdt to bf sft
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     * @sindf 1.4
      */
-    void setURL(int parameterIndex, java.net.URL x) throws SQLException;
+    void sftURL(int pbrbmftfrIndfx, jbvb.nft.URL x) tirows SQLExdfption;
 
     /**
-     * Retrieves the number, types and properties of this
-     * <code>PreparedStatement</code> object's parameters.
+     * Rftrifvfs tif numbfr, typfs bnd propfrtifs of tiis
+     * <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt's pbrbmftfrs.
      *
-     * @return a <code>ParameterMetaData</code> object that contains information
-     *         about the number, types and properties for each
-     *  parameter marker of this <code>PreparedStatement</code> object
-     * @exception SQLException if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @see ParameterMetaData
-     * @since 1.4
+     * @rfturn b <dodf>PbrbmftfrMftbDbtb</dodf> objfdt tibt dontbins informbtion
+     *         bbout tif numbfr, typfs bnd propfrtifs for fbdi
+     *  pbrbmftfr mbrkfr of tiis <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @sff PbrbmftfrMftbDbtb
+     * @sindf 1.4
      */
-    ParameterMetaData getParameterMetaData() throws SQLException;
+    PbrbmftfrMftbDbtb gftPbrbmftfrMftbDbtb() tirows SQLExdfption;
 
     //------------------------- JDBC 4.0 -----------------------------------
 
     /**
-     * Sets the designated parameter to the given <code>java.sql.RowId</code> object. The
-     * driver converts this to a SQL <code>ROWID</code> value when it sends it
-     * to the database
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.sql.RowId</dodf> objfdt. Tif
+     * drivfr donvfrts tiis to b SQL <dodf>ROWID</dodf> vbluf wifn it sfnds it
+     * to tif dbtbbbsf
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the parameter value
-     * @throws SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif pbrbmftfr vbluf
+     * @tirows SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    void setRowId(int parameterIndex, RowId x) throws SQLException;
+    void sftRowId(int pbrbmftfrIndfx, RowId x) tirows SQLExdfption;
 
 
     /**
-     * Sets the designated parameter to the given <code>String</code> object.
-     * The driver converts this to a SQL <code>NCHAR</code> or
-     * <code>NVARCHAR</code> or <code>LONGNVARCHAR</code> value
-     * (depending on the argument's
-     * size relative to the driver's limits on <code>NVARCHAR</code> values)
-     * when it sends it to the database.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>String</dodf> objfdt.
+     * Tif drivfr donvfrts tiis to b SQL <dodf>NCHAR</dodf> or
+     * <dodf>NVARCHAR</dodf> or <dodf>LONGNVARCHAR</dodf> vbluf
+     * (dfpfnding on tif brgumfnt's
+     * sizf rflbtivf to tif drivfr's limits on <dodf>NVARCHAR</dodf> vblufs)
+     * wifn it sfnds it to tif dbtbbbsf.
      *
-     * @param parameterIndex of the first parameter is 1, the second is 2, ...
-     * @param value the parameter value
-     * @throws SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if the driver does not support national
-     *         character sets;  if the driver can detect that a data conversion
-     *  error could occur; if a database access error occurs; or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
-     * @since 1.6
+     * @pbrbm pbrbmftfrIndfx of tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm vbluf tif pbrbmftfr vbluf
+     * @tirows SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if tif drivfr dofs not support nbtionbl
+     *         dibrbdtfr sfts;  if tif drivfr dbn dftfdt tibt b dbtb donvfrsion
+     *  frror dould oddur; if b dbtbbbsf bddfss frror oddurs; or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     * @sindf 1.6
      */
-     void setNString(int parameterIndex, String value) throws SQLException;
+     void sftNString(int pbrbmftfrIndfx, String vbluf) tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to a <code>Reader</code> object. The
-     * <code>Reader</code> reads the data till end-of-file is reached. The
-     * driver does the necessary conversion from Java character format to
-     * the national character set in the database.
-     * @param parameterIndex of the first parameter is 1, the second is 2, ...
-     * @param value the parameter value
-     * @param length the number of characters in the parameter data.
-     * @throws SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if the driver does not support national
-     *         character sets;  if the driver can detect that a data conversion
-     *  error could occur; if a database access error occurs; or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
-     * @since 1.6
+     * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>Rfbdfr</dodf> objfdt. Tif
+     * <dodf>Rfbdfr</dodf> rfbds tif dbtb till fnd-of-filf is rfbdifd. Tif
+     * drivfr dofs tif nfdfssbry donvfrsion from Jbvb dibrbdtfr formbt to
+     * tif nbtionbl dibrbdtfr sft in tif dbtbbbsf.
+     * @pbrbm pbrbmftfrIndfx of tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm vbluf tif pbrbmftfr vbluf
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs in tif pbrbmftfr dbtb.
+     * @tirows SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if tif drivfr dofs not support nbtionbl
+     *         dibrbdtfr sfts;  if tif drivfr dbn dftfdt tibt b dbtb donvfrsion
+     *  frror dould oddur; if b dbtbbbsf bddfss frror oddurs; or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     * @sindf 1.6
      */
-     void setNCharacterStream(int parameterIndex, Reader value, long length) throws SQLException;
+     void sftNCibrbdtfrStrfbm(int pbrbmftfrIndfx, Rfbdfr vbluf, long lfngti) tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to a <code>java.sql.NClob</code> object. The driver converts this to a
-     * SQL <code>NCLOB</code> value when it sends it to the database.
-     * @param parameterIndex of the first parameter is 1, the second is 2, ...
-     * @param value the parameter value
-     * @throws SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if the driver does not support national
-     *         character sets;  if the driver can detect that a data conversion
-     *  error could occur; if a database access error occurs; or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
-     * @since 1.6
+     * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>jbvb.sql.NClob</dodf> objfdt. Tif drivfr donvfrts tiis to b
+     * SQL <dodf>NCLOB</dodf> vbluf wifn it sfnds it to tif dbtbbbsf.
+     * @pbrbm pbrbmftfrIndfx of tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm vbluf tif pbrbmftfr vbluf
+     * @tirows SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if tif drivfr dofs not support nbtionbl
+     *         dibrbdtfr sfts;  if tif drivfr dbn dftfdt tibt b dbtb donvfrsion
+     *  frror dould oddur; if b dbtbbbsf bddfss frror oddurs; or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     * @sindf 1.6
      */
-     void setNClob(int parameterIndex, NClob value) throws SQLException;
+     void sftNClob(int pbrbmftfrIndfx, NClob vbluf) tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to a <code>Reader</code> object.  The reader must contain  the number
-     * of characters specified by length otherwise a <code>SQLException</code> will be
-     * generated when the <code>PreparedStatement</code> is executed.
-     *This method differs from the <code>setCharacterStream (int, Reader, int)</code> method
-     * because it informs the driver that the parameter value should be sent to
-     * the server as a <code>CLOB</code>.  When the <code>setCharacterStream</code> method is used, the
-     * driver may have to do extra work to determine whether the parameter
-     * data should be sent to the server as a <code>LONGVARCHAR</code> or a <code>CLOB</code>
-     * @param parameterIndex index of the first parameter is 1, the second is 2, ...
-     * @param reader An object that contains the data to set the parameter value to.
-     * @param length the number of characters in the parameter data.
-     * @throws SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs; this method is called on
-     * a closed <code>PreparedStatement</code> or if the length specified is less than zero.
+     * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>Rfbdfr</dodf> objfdt.  Tif rfbdfr must dontbin  tif numbfr
+     * of dibrbdtfrs spfdififd by lfngti otifrwisf b <dodf>SQLExdfption</dodf> will bf
+     * gfnfrbtfd wifn tif <dodf>PrfpbrfdStbtfmfnt</dodf> is fxfdutfd.
+     *Tiis mftiod difffrs from tif <dodf>sftCibrbdtfrStrfbm (int, Rfbdfr, int)</dodf> mftiod
+     * bfdbusf it informs tif drivfr tibt tif pbrbmftfr vbluf siould bf sfnt to
+     * tif sfrvfr bs b <dodf>CLOB</dodf>.  Wifn tif <dodf>sftCibrbdtfrStrfbm</dodf> mftiod is usfd, tif
+     * drivfr mby ibvf to do fxtrb work to dftfrminf wiftifr tif pbrbmftfr
+     * dbtb siould bf sfnt to tif sfrvfr bs b <dodf>LONGVARCHAR</dodf> or b <dodf>CLOB</dodf>
+     * @pbrbm pbrbmftfrIndfx indfx of tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm rfbdfr An objfdt tibt dontbins tif dbtb to sft tif pbrbmftfr vbluf to.
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs in tif pbrbmftfr dbtb.
+     * @tirows SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs; tiis mftiod is dbllfd on
+     * b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf> or if tif lfngti spfdififd is lfss tibn zfro.
      *
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
-     * @since 1.6
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     * @sindf 1.6
      */
-     void setClob(int parameterIndex, Reader reader, long length)
-       throws SQLException;
+     void sftClob(int pbrbmftfrIndfx, Rfbdfr rfbdfr, long lfngti)
+       tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to a <code>InputStream</code> object.  The inputstream must contain  the number
-     * of characters specified by length otherwise a <code>SQLException</code> will be
-     * generated when the <code>PreparedStatement</code> is executed.
-     * This method differs from the <code>setBinaryStream (int, InputStream, int)</code>
-     * method because it informs the driver that the parameter value should be
-     * sent to the server as a <code>BLOB</code>.  When the <code>setBinaryStream</code> method is used,
-     * the driver may have to do extra work to determine whether the parameter
-     * data should be sent to the server as a <code>LONGVARBINARY</code> or a <code>BLOB</code>
-     * @param parameterIndex index of the first parameter is 1,
-     * the second is 2, ...
-     * @param inputStream An object that contains the data to set the parameter
-     * value to.
-     * @param length the number of bytes in the parameter data.
-     * @throws SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs;
-     * this method is called on a closed <code>PreparedStatement</code>;
-     *  if the length specified
-     * is less than zero or if the number of bytes in the inputstream does not match
-     * the specified length.
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+     * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>InputStrfbm</dodf> objfdt.  Tif inputstrfbm must dontbin  tif numbfr
+     * of dibrbdtfrs spfdififd by lfngti otifrwisf b <dodf>SQLExdfption</dodf> will bf
+     * gfnfrbtfd wifn tif <dodf>PrfpbrfdStbtfmfnt</dodf> is fxfdutfd.
+     * Tiis mftiod difffrs from tif <dodf>sftBinbryStrfbm (int, InputStrfbm, int)</dodf>
+     * mftiod bfdbusf it informs tif drivfr tibt tif pbrbmftfr vbluf siould bf
+     * sfnt to tif sfrvfr bs b <dodf>BLOB</dodf>.  Wifn tif <dodf>sftBinbryStrfbm</dodf> mftiod is usfd,
+     * tif drivfr mby ibvf to do fxtrb work to dftfrminf wiftifr tif pbrbmftfr
+     * dbtb siould bf sfnt to tif sfrvfr bs b <dodf>LONGVARBINARY</dodf> or b <dodf>BLOB</dodf>
+     * @pbrbm pbrbmftfrIndfx indfx of tif first pbrbmftfr is 1,
+     * tif sfdond is 2, ...
+     * @pbrbm inputStrfbm An objfdt tibt dontbins tif dbtb to sft tif pbrbmftfr
+     * vbluf to.
+     * @pbrbm lfngti tif numbfr of bytfs in tif pbrbmftfr dbtb.
+     * @tirows SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs;
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>;
+     *  if tif lfngti spfdififd
+     * is lfss tibn zfro or if tif numbfr of bytfs in tif inputstrfbm dofs not mbtdi
+     * tif spfdififd lfngti.
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-     void setBlob(int parameterIndex, InputStream inputStream, long length)
-        throws SQLException;
+     void sftBlob(int pbrbmftfrIndfx, InputStrfbm inputStrfbm, long lfngti)
+        tirows SQLExdfption;
     /**
-     * Sets the designated parameter to a <code>Reader</code> object.  The reader must contain  the number
-     * of characters specified by length otherwise a <code>SQLException</code> will be
-     * generated when the <code>PreparedStatement</code> is executed.
-     * This method differs from the <code>setCharacterStream (int, Reader, int)</code> method
-     * because it informs the driver that the parameter value should be sent to
-     * the server as a <code>NCLOB</code>.  When the <code>setCharacterStream</code> method is used, the
-     * driver may have to do extra work to determine whether the parameter
-     * data should be sent to the server as a <code>LONGNVARCHAR</code> or a <code>NCLOB</code>
-     * @param parameterIndex index of the first parameter is 1, the second is 2, ...
-     * @param reader An object that contains the data to set the parameter value to.
-     * @param length the number of characters in the parameter data.
-     * @throws SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if the length specified is less than zero;
-     * if the driver does not support national character sets;
-     * if the driver can detect that a data conversion
-     *  error could occur;  if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+     * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>Rfbdfr</dodf> objfdt.  Tif rfbdfr must dontbin  tif numbfr
+     * of dibrbdtfrs spfdififd by lfngti otifrwisf b <dodf>SQLExdfption</dodf> will bf
+     * gfnfrbtfd wifn tif <dodf>PrfpbrfdStbtfmfnt</dodf> is fxfdutfd.
+     * Tiis mftiod difffrs from tif <dodf>sftCibrbdtfrStrfbm (int, Rfbdfr, int)</dodf> mftiod
+     * bfdbusf it informs tif drivfr tibt tif pbrbmftfr vbluf siould bf sfnt to
+     * tif sfrvfr bs b <dodf>NCLOB</dodf>.  Wifn tif <dodf>sftCibrbdtfrStrfbm</dodf> mftiod is usfd, tif
+     * drivfr mby ibvf to do fxtrb work to dftfrminf wiftifr tif pbrbmftfr
+     * dbtb siould bf sfnt to tif sfrvfr bs b <dodf>LONGNVARCHAR</dodf> or b <dodf>NCLOB</dodf>
+     * @pbrbm pbrbmftfrIndfx indfx of tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm rfbdfr An objfdt tibt dontbins tif dbtb to sft tif pbrbmftfr vbluf to.
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs in tif pbrbmftfr dbtb.
+     * @tirows SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if tif lfngti spfdififd is lfss tibn zfro;
+     * if tif drivfr dofs not support nbtionbl dibrbdtfr sfts;
+     * if tif drivfr dbn dftfdt tibt b dbtb donvfrsion
+     *  frror dould oddur;  if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-     void setNClob(int parameterIndex, Reader reader, long length)
-       throws SQLException;
+     void sftNClob(int pbrbmftfrIndfx, Rfbdfr rfbdfr, long lfngti)
+       tirows SQLExdfption;
 
      /**
-      * Sets the designated parameter to the given <code>java.sql.SQLXML</code> object.
-      * The driver converts this to an
-      * SQL <code>XML</code> value when it sends it to the database.
+      * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>jbvb.sql.SQLXML</dodf> objfdt.
+      * Tif drivfr donvfrts tiis to bn
+      * SQL <dodf>XML</dodf> vbluf wifn it sfnds it to tif dbtbbbsf.
       *
-      * @param parameterIndex index of the first parameter is 1, the second is 2, ...
-      * @param xmlObject a <code>SQLXML</code> object that maps an SQL <code>XML</code> value
-      * @throws SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs;
-      *  this method is called on a closed <code>PreparedStatement</code>
-      * or the <code>java.xml.transform.Result</code>,
-      *  <code>Writer</code> or <code>OutputStream</code> has not been closed for
-      * the <code>SQLXML</code> object
-      * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+      * @pbrbm pbrbmftfrIndfx indfx of tif first pbrbmftfr is 1, tif sfdond is 2, ...
+      * @pbrbm xmlObjfdt b <dodf>SQLXML</dodf> objfdt tibt mbps bn SQL <dodf>XML</dodf> vbluf
+      * @tirows SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs;
+      *  tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+      * or tif <dodf>jbvb.xml.trbnsform.Rfsult</dodf>,
+      *  <dodf>Writfr</dodf> or <dodf>OutputStrfbm</dodf> ibs not bffn dlosfd for
+      * tif <dodf>SQLXML</dodf> objfdt
+      * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
       *
-      * @since 1.6
+      * @sindf 1.6
       */
-     void setSQLXML(int parameterIndex, SQLXML xmlObject) throws SQLException;
+     void sftSQLXML(int pbrbmftfrIndfx, SQLXML xmlObjfdt) tirows SQLExdfption;
 
     /**
-     * <p>Sets the value of the designated parameter with the given object.
+     * <p>Sfts tif vbluf of tif dfsignbtfd pbrbmftfr witi tif givfn objfdt.
      *
-     * If the second argument is an <code>InputStream</code> then the stream must contain
-     * the number of bytes specified by scaleOrLength.  If the second argument is a
-     * <code>Reader</code> then the reader must contain the number of characters specified
-     * by scaleOrLength. If these conditions are not true the driver will generate a
-     * <code>SQLException</code> when the prepared statement is executed.
+     * If tif sfdond brgumfnt is bn <dodf>InputStrfbm</dodf> tifn tif strfbm must dontbin
+     * tif numbfr of bytfs spfdififd by sdblfOrLfngti.  If tif sfdond brgumfnt is b
+     * <dodf>Rfbdfr</dodf> tifn tif rfbdfr must dontbin tif numbfr of dibrbdtfrs spfdififd
+     * by sdblfOrLfngti. If tifsf donditions brf not truf tif drivfr will gfnfrbtf b
+     * <dodf>SQLExdfption</dodf> wifn tif prfpbrfd stbtfmfnt is fxfdutfd.
      *
-     * <p>The given Java object will be converted to the given targetSqlType
-     * before being sent to the database.
+     * <p>Tif givfn Jbvb objfdt will bf donvfrtfd to tif givfn tbrgftSqlTypf
+     * bfforf bfing sfnt to tif dbtbbbsf.
      *
-     * If the object has a custom mapping (is of a class implementing the
-     * interface <code>SQLData</code>),
-     * the JDBC driver should call the method <code>SQLData.writeSQL</code> to
-     * write it to the SQL data stream.
-     * If, on the other hand, the object is of a class implementing
-     * <code>Ref</code>, <code>Blob</code>, <code>Clob</code>,  <code>NClob</code>,
-     *  <code>Struct</code>, <code>java.net.URL</code>,
-     * or <code>Array</code>, the driver should pass it to the database as a
-     * value of the corresponding SQL type.
+     * If tif objfdt ibs b dustom mbpping (is of b dlbss implfmfnting tif
+     * intfrfbdf <dodf>SQLDbtb</dodf>),
+     * tif JDBC drivfr siould dbll tif mftiod <dodf>SQLDbtb.writfSQL</dodf> to
+     * writf it to tif SQL dbtb strfbm.
+     * If, on tif otifr ibnd, tif objfdt is of b dlbss implfmfnting
+     * <dodf>Rff</dodf>, <dodf>Blob</dodf>, <dodf>Clob</dodf>,  <dodf>NClob</dodf>,
+     *  <dodf>Strudt</dodf>, <dodf>jbvb.nft.URL</dodf>,
+     * or <dodf>Arrby</dodf>, tif drivfr siould pbss it to tif dbtbbbsf bs b
+     * vbluf of tif dorrfsponding SQL typf.
      *
-     * <p>Note that this method may be used to pass database-specific
-     * abstract data types.
+     * <p>Notf tibt tiis mftiod mby bf usfd to pbss dbtbbbsf-spfdifid
+     * bbstrbdt dbtb typfs.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the object containing the input parameter value
-     * @param targetSqlType the SQL type (as defined in java.sql.Types) to be
-     * sent to the database. The scale argument may further qualify this type.
-     * @param scaleOrLength for <code>java.sql.Types.DECIMAL</code>
-     *          or <code>java.sql.Types.NUMERIC types</code>,
-     *          this is the number of digits after the decimal point. For
-     *          Java Object types <code>InputStream</code> and <code>Reader</code>,
-     *          this is the length
-     *          of the data in the stream or reader.  For all other types,
-     *          this value will be ignored.
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs;
-     * this method is called on a closed <code>PreparedStatement</code> or
-     *            if the Java Object specified by x is an InputStream
-     *            or Reader object and the value of the scale parameter is less
-     *            than zero
-     * @exception SQLFeatureNotSupportedException if
-     * the JDBC driver does not support the specified targetSqlType
-     * @see Types
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif objfdt dontbining tif input pbrbmftfr vbluf
+     * @pbrbm tbrgftSqlTypf tif SQL typf (bs dffinfd in jbvb.sql.Typfs) to bf
+     * sfnt to tif dbtbbbsf. Tif sdblf brgumfnt mby furtifr qublify tiis typf.
+     * @pbrbm sdblfOrLfngti for <dodf>jbvb.sql.Typfs.DECIMAL</dodf>
+     *          or <dodf>jbvb.sql.Typfs.NUMERIC typfs</dodf>,
+     *          tiis is tif numbfr of digits bftfr tif dfdimbl point. For
+     *          Jbvb Objfdt typfs <dodf>InputStrfbm</dodf> bnd <dodf>Rfbdfr</dodf>,
+     *          tiis is tif lfngti
+     *          of tif dbtb in tif strfbm or rfbdfr.  For bll otifr typfs,
+     *          tiis vbluf will bf ignorfd.
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs;
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf> or
+     *            if tif Jbvb Objfdt spfdififd by x is bn InputStrfbm
+     *            or Rfbdfr objfdt bnd tif vbluf of tif sdblf pbrbmftfr is lfss
+     *            tibn zfro
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if
+     * tif JDBC drivfr dofs not support tif spfdififd tbrgftSqlTypf
+     * @sff Typfs
      *
      */
-    void setObject(int parameterIndex, Object x, int targetSqlType, int scaleOrLength)
-            throws SQLException;
+    void sftObjfdt(int pbrbmftfrIndfx, Objfdt x, int tbrgftSqlTypf, int sdblfOrLfngti)
+            tirows SQLExdfption;
    /**
-     * Sets the designated parameter to the given input stream, which will have
-     * the specified number of bytes.
-     * When a very large ASCII value is input to a <code>LONGVARCHAR</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.InputStream</code>. Data will be read from the stream
-     * as needed until end-of-file is reached.  The JDBC driver will
-     * do any necessary conversion from ASCII to the database char format.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn input strfbm, wiidi will ibvf
+     * tif spfdififd numbfr of bytfs.
+     * Wifn b vfry lbrgf ASCII vbluf is input to b <dodf>LONGVARCHAR</dodf>
+     * pbrbmftfr, it mby bf morf prbdtidbl to sfnd it vib b
+     * <dodf>jbvb.io.InputStrfbm</dodf>. Dbtb will bf rfbd from tif strfbm
+     * bs nffdfd until fnd-of-filf is rfbdifd.  Tif JDBC drivfr will
+     * do bny nfdfssbry donvfrsion from ASCII to tif dbtbbbsf dibr formbt.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
+     * <P><B>Notf:</B> Tiis strfbm objfdt dbn fitifr bf b stbndbrd
+     * Jbvb strfbm objfdt or your own subdlbss tibt implfmfnts tif
+     * stbndbrd intfrfbdf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the Java input stream that contains the ASCII parameter value
-     * @param length the number of bytes in the stream
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @since 1.6
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif Jbvb input strfbm tibt dontbins tif ASCII pbrbmftfr vbluf
+     * @pbrbm lfngti tif numbfr of bytfs in tif strfbm
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @sindf 1.6
     */
-    void setAsciiStream(int parameterIndex, java.io.InputStream x, long length)
-            throws SQLException;
+    void sftAsdiiStrfbm(int pbrbmftfrIndfx, jbvb.io.InputStrfbm x, long lfngti)
+            tirows SQLExdfption;
     /**
-     * Sets the designated parameter to the given input stream, which will have
-     * the specified number of bytes.
-     * When a very large binary value is input to a <code>LONGVARBINARY</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.InputStream</code> object. The data will be read from the
-     * stream as needed until end-of-file is reached.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn input strfbm, wiidi will ibvf
+     * tif spfdififd numbfr of bytfs.
+     * Wifn b vfry lbrgf binbry vbluf is input to b <dodf>LONGVARBINARY</dodf>
+     * pbrbmftfr, it mby bf morf prbdtidbl to sfnd it vib b
+     * <dodf>jbvb.io.InputStrfbm</dodf> objfdt. Tif dbtb will bf rfbd from tif
+     * strfbm bs nffdfd until fnd-of-filf is rfbdifd.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
+     * <P><B>Notf:</B> Tiis strfbm objfdt dbn fitifr bf b stbndbrd
+     * Jbvb strfbm objfdt or your own subdlbss tibt implfmfnts tif
+     * stbndbrd intfrfbdf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the java input stream which contains the binary parameter value
-     * @param length the number of bytes in the stream
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @since 1.6
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif jbvb input strfbm wiidi dontbins tif binbry pbrbmftfr vbluf
+     * @pbrbm lfngti tif numbfr of bytfs in tif strfbm
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @sindf 1.6
      */
-    void setBinaryStream(int parameterIndex, java.io.InputStream x,
-                         long length) throws SQLException;
+    void sftBinbryStrfbm(int pbrbmftfrIndfx, jbvb.io.InputStrfbm x,
+                         long lfngti) tirows SQLExdfption;
         /**
-     * Sets the designated parameter to the given <code>Reader</code>
-     * object, which is the given number of characters long.
-     * When a very large UNICODE value is input to a <code>LONGVARCHAR</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.Reader</code> object. The data will be read from the stream
-     * as needed until end-of-file is reached.  The JDBC driver will
-     * do any necessary conversion from UNICODE to the database char format.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>Rfbdfr</dodf>
+     * objfdt, wiidi is tif givfn numbfr of dibrbdtfrs long.
+     * Wifn b vfry lbrgf UNICODE vbluf is input to b <dodf>LONGVARCHAR</dodf>
+     * pbrbmftfr, it mby bf morf prbdtidbl to sfnd it vib b
+     * <dodf>jbvb.io.Rfbdfr</dodf> objfdt. Tif dbtb will bf rfbd from tif strfbm
+     * bs nffdfd until fnd-of-filf is rfbdifd.  Tif JDBC drivfr will
+     * do bny nfdfssbry donvfrsion from UNICODE to tif dbtbbbsf dibr formbt.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
+     * <P><B>Notf:</B> Tiis strfbm objfdt dbn fitifr bf b stbndbrd
+     * Jbvb strfbm objfdt or your own subdlbss tibt implfmfnts tif
+     * stbndbrd intfrfbdf.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param reader the <code>java.io.Reader</code> object that contains the
-     *        Unicode data
-     * @param length the number of characters in the stream
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @since 1.6
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm rfbdfr tif <dodf>jbvb.io.Rfbdfr</dodf> objfdt tibt dontbins tif
+     *        Unidodf dbtb
+     * @pbrbm lfngti tif numbfr of dibrbdtfrs in tif strfbm
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @sindf 1.6
      */
-    void setCharacterStream(int parameterIndex,
-                          java.io.Reader reader,
-                          long length) throws SQLException;
+    void sftCibrbdtfrStrfbm(int pbrbmftfrIndfx,
+                          jbvb.io.Rfbdfr rfbdfr,
+                          long lfngti) tirows SQLExdfption;
     //-----
     /**
-     * Sets the designated parameter to the given input stream.
-     * When a very large ASCII value is input to a <code>LONGVARCHAR</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.InputStream</code>. Data will be read from the stream
-     * as needed until end-of-file is reached.  The JDBC driver will
-     * do any necessary conversion from ASCII to the database char format.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn input strfbm.
+     * Wifn b vfry lbrgf ASCII vbluf is input to b <dodf>LONGVARCHAR</dodf>
+     * pbrbmftfr, it mby bf morf prbdtidbl to sfnd it vib b
+     * <dodf>jbvb.io.InputStrfbm</dodf>. Dbtb will bf rfbd from tif strfbm
+     * bs nffdfd until fnd-of-filf is rfbdifd.  Tif JDBC drivfr will
+     * do bny nfdfssbry donvfrsion from ASCII to tif dbtbbbsf dibr formbt.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>setAsciiStream</code> which takes a length parameter.
+     * <P><B>Notf:</B> Tiis strfbm objfdt dbn fitifr bf b stbndbrd
+     * Jbvb strfbm objfdt or your own subdlbss tibt implfmfnts tif
+     * stbndbrd intfrfbdf.
+     * <P><B>Notf:</B> Consult your JDBC drivfr dodumfntbtion to dftfrminf if
+     * it migit bf morf fffidifnt to usf b vfrsion of
+     * <dodf>sftAsdiiStrfbm</dodf> wiidi tbkfs b lfngti pbrbmftfr.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the Java input stream that contains the ASCII parameter value
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
-       * @since 1.6
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif Jbvb input strfbm tibt dontbins tif ASCII pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+       * @sindf 1.6
     */
-    void setAsciiStream(int parameterIndex, java.io.InputStream x)
-            throws SQLException;
+    void sftAsdiiStrfbm(int pbrbmftfrIndfx, jbvb.io.InputStrfbm x)
+            tirows SQLExdfption;
     /**
-     * Sets the designated parameter to the given input stream.
-     * When a very large binary value is input to a <code>LONGVARBINARY</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.InputStream</code> object. The data will be read from the
-     * stream as needed until end-of-file is reached.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn input strfbm.
+     * Wifn b vfry lbrgf binbry vbluf is input to b <dodf>LONGVARBINARY</dodf>
+     * pbrbmftfr, it mby bf morf prbdtidbl to sfnd it vib b
+     * <dodf>jbvb.io.InputStrfbm</dodf> objfdt. Tif dbtb will bf rfbd from tif
+     * strfbm bs nffdfd until fnd-of-filf is rfbdifd.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>setBinaryStream</code> which takes a length parameter.
+     * <P><B>Notf:</B> Tiis strfbm objfdt dbn fitifr bf b stbndbrd
+     * Jbvb strfbm objfdt or your own subdlbss tibt implfmfnts tif
+     * stbndbrd intfrfbdf.
+     * <P><B>Notf:</B> Consult your JDBC drivfr dodumfntbtion to dftfrminf if
+     * it migit bf morf fffidifnt to usf b vfrsion of
+     * <dodf>sftBinbryStrfbm</dodf> wiidi tbkfs b lfngti pbrbmftfr.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the java input stream which contains the binary parameter value
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
-     * @since 1.6
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif jbvb input strfbm wiidi dontbins tif binbry pbrbmftfr vbluf
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     * @sindf 1.6
      */
-    void setBinaryStream(int parameterIndex, java.io.InputStream x)
-    throws SQLException;
+    void sftBinbryStrfbm(int pbrbmftfrIndfx, jbvb.io.InputStrfbm x)
+    tirows SQLExdfption;
         /**
-     * Sets the designated parameter to the given <code>Reader</code>
-     * object.
-     * When a very large UNICODE value is input to a <code>LONGVARCHAR</code>
-     * parameter, it may be more practical to send it via a
-     * <code>java.io.Reader</code> object. The data will be read from the stream
-     * as needed until end-of-file is reached.  The JDBC driver will
-     * do any necessary conversion from UNICODE to the database char format.
+     * Sfts tif dfsignbtfd pbrbmftfr to tif givfn <dodf>Rfbdfr</dodf>
+     * objfdt.
+     * Wifn b vfry lbrgf UNICODE vbluf is input to b <dodf>LONGVARCHAR</dodf>
+     * pbrbmftfr, it mby bf morf prbdtidbl to sfnd it vib b
+     * <dodf>jbvb.io.Rfbdfr</dodf> objfdt. Tif dbtb will bf rfbd from tif strfbm
+     * bs nffdfd until fnd-of-filf is rfbdifd.  Tif JDBC drivfr will
+     * do bny nfdfssbry donvfrsion from UNICODE to tif dbtbbbsf dibr formbt.
      *
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>setCharacterStream</code> which takes a length parameter.
+     * <P><B>Notf:</B> Tiis strfbm objfdt dbn fitifr bf b stbndbrd
+     * Jbvb strfbm objfdt or your own subdlbss tibt implfmfnts tif
+     * stbndbrd intfrfbdf.
+     * <P><B>Notf:</B> Consult your JDBC drivfr dodumfntbtion to dftfrminf if
+     * it migit bf morf fffidifnt to usf b vfrsion of
+     * <dodf>sftCibrbdtfrStrfbm</dodf> wiidi tbkfs b lfngti pbrbmftfr.
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param reader the <code>java.io.Reader</code> object that contains the
-     *        Unicode data
-     * @exception SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
-     * @since 1.6
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm rfbdfr tif <dodf>jbvb.io.Rfbdfr</dodf> objfdt tibt dontbins tif
+     *        Unidodf dbtb
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     * @sindf 1.6
      */
-    void setCharacterStream(int parameterIndex,
-                          java.io.Reader reader) throws SQLException;
+    void sftCibrbdtfrStrfbm(int pbrbmftfrIndfx,
+                          jbvb.io.Rfbdfr rfbdfr) tirows SQLExdfption;
   /**
-     * Sets the designated parameter to a <code>Reader</code> object. The
-     * <code>Reader</code> reads the data till end-of-file is reached. The
-     * driver does the necessary conversion from Java character format to
-     * the national character set in the database.
+     * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>Rfbdfr</dodf> objfdt. Tif
+     * <dodf>Rfbdfr</dodf> rfbds tif dbtb till fnd-of-filf is rfbdifd. Tif
+     * drivfr dofs tif nfdfssbry donvfrsion from Jbvb dibrbdtfr formbt to
+     * tif nbtionbl dibrbdtfr sft in tif dbtbbbsf.
 
-     * <P><B>Note:</B> This stream object can either be a standard
-     * Java stream object or your own subclass that implements the
-     * standard interface.
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>setNCharacterStream</code> which takes a length parameter.
+     * <P><B>Notf:</B> Tiis strfbm objfdt dbn fitifr bf b stbndbrd
+     * Jbvb strfbm objfdt or your own subdlbss tibt implfmfnts tif
+     * stbndbrd intfrfbdf.
+     * <P><B>Notf:</B> Consult your JDBC drivfr dodumfntbtion to dftfrminf if
+     * it migit bf morf fffidifnt to usf b vfrsion of
+     * <dodf>sftNCibrbdtfrStrfbm</dodf> wiidi tbkfs b lfngti pbrbmftfr.
      *
-     * @param parameterIndex of the first parameter is 1, the second is 2, ...
-     * @param value the parameter value
-     * @throws SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if the driver does not support national
-     *         character sets;  if the driver can detect that a data conversion
-     *  error could occur; if a database access error occurs; or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
-     * @since 1.6
+     * @pbrbm pbrbmftfrIndfx of tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm vbluf tif pbrbmftfr vbluf
+     * @tirows SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if tif drivfr dofs not support nbtionbl
+     *         dibrbdtfr sfts;  if tif drivfr dbn dftfdt tibt b dbtb donvfrsion
+     *  frror dould oddur; if b dbtbbbsf bddfss frror oddurs; or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     * @sindf 1.6
      */
-     void setNCharacterStream(int parameterIndex, Reader value) throws SQLException;
-
-    /**
-     * Sets the designated parameter to a <code>Reader</code> object.
-     * This method differs from the <code>setCharacterStream (int, Reader)</code> method
-     * because it informs the driver that the parameter value should be sent to
-     * the server as a <code>CLOB</code>.  When the <code>setCharacterStream</code> method is used, the
-     * driver may have to do extra work to determine whether the parameter
-     * data should be sent to the server as a <code>LONGVARCHAR</code> or a <code>CLOB</code>
-     *
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>setClob</code> which takes a length parameter.
-     *
-     * @param parameterIndex index of the first parameter is 1, the second is 2, ...
-     * @param reader An object that contains the data to set the parameter value to.
-     * @throws SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs; this method is called on
-     * a closed <code>PreparedStatement</code>or if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement
-     *
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
-     * @since 1.6
-     */
-     void setClob(int parameterIndex, Reader reader)
-       throws SQLException;
+     void sftNCibrbdtfrStrfbm(int pbrbmftfrIndfx, Rfbdfr vbluf) tirows SQLExdfption;
 
     /**
-     * Sets the designated parameter to a <code>InputStream</code> object.
-     * This method differs from the <code>setBinaryStream (int, InputStream)</code>
-     * method because it informs the driver that the parameter value should be
-     * sent to the server as a <code>BLOB</code>.  When the <code>setBinaryStream</code> method is used,
-     * the driver may have to do extra work to determine whether the parameter
-     * data should be sent to the server as a <code>LONGVARBINARY</code> or a <code>BLOB</code>
+     * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>Rfbdfr</dodf> objfdt.
+     * Tiis mftiod difffrs from tif <dodf>sftCibrbdtfrStrfbm (int, Rfbdfr)</dodf> mftiod
+     * bfdbusf it informs tif drivfr tibt tif pbrbmftfr vbluf siould bf sfnt to
+     * tif sfrvfr bs b <dodf>CLOB</dodf>.  Wifn tif <dodf>sftCibrbdtfrStrfbm</dodf> mftiod is usfd, tif
+     * drivfr mby ibvf to do fxtrb work to dftfrminf wiftifr tif pbrbmftfr
+     * dbtb siould bf sfnt to tif sfrvfr bs b <dodf>LONGVARCHAR</dodf> or b <dodf>CLOB</dodf>
      *
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>setBlob</code> which takes a length parameter.
+     * <P><B>Notf:</B> Consult your JDBC drivfr dodumfntbtion to dftfrminf if
+     * it migit bf morf fffidifnt to usf b vfrsion of
+     * <dodf>sftClob</dodf> wiidi tbkfs b lfngti pbrbmftfr.
      *
-     * @param parameterIndex index of the first parameter is 1,
-     * the second is 2, ...
-     * @param inputStream An object that contains the data to set the parameter
-     * value to.
-     * @throws SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement; if a database access error occurs;
-     * this method is called on a closed <code>PreparedStatement</code> or
-     * if parameterIndex does not correspond
-     * to a parameter marker in the SQL statement,
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+     * @pbrbm pbrbmftfrIndfx indfx of tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm rfbdfr An objfdt tibt dontbins tif dbtb to sft tif pbrbmftfr vbluf to.
+     * @tirows SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs; tiis mftiod is dbllfd on
+     * b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>or if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt
      *
-     * @since 1.6
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     * @sindf 1.6
      */
-     void setBlob(int parameterIndex, InputStream inputStream)
-        throws SQLException;
+     void sftClob(int pbrbmftfrIndfx, Rfbdfr rfbdfr)
+       tirows SQLExdfption;
+
     /**
-     * Sets the designated parameter to a <code>Reader</code> object.
-     * This method differs from the <code>setCharacterStream (int, Reader)</code> method
-     * because it informs the driver that the parameter value should be sent to
-     * the server as a <code>NCLOB</code>.  When the <code>setCharacterStream</code> method is used, the
-     * driver may have to do extra work to determine whether the parameter
-     * data should be sent to the server as a <code>LONGNVARCHAR</code> or a <code>NCLOB</code>
-     * <P><B>Note:</B> Consult your JDBC driver documentation to determine if
-     * it might be more efficient to use a version of
-     * <code>setNClob</code> which takes a length parameter.
+     * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>InputStrfbm</dodf> objfdt.
+     * Tiis mftiod difffrs from tif <dodf>sftBinbryStrfbm (int, InputStrfbm)</dodf>
+     * mftiod bfdbusf it informs tif drivfr tibt tif pbrbmftfr vbluf siould bf
+     * sfnt to tif sfrvfr bs b <dodf>BLOB</dodf>.  Wifn tif <dodf>sftBinbryStrfbm</dodf> mftiod is usfd,
+     * tif drivfr mby ibvf to do fxtrb work to dftfrminf wiftifr tif pbrbmftfr
+     * dbtb siould bf sfnt to tif sfrvfr bs b <dodf>LONGVARBINARY</dodf> or b <dodf>BLOB</dodf>
      *
-     * @param parameterIndex index of the first parameter is 1, the second is 2, ...
-     * @param reader An object that contains the data to set the parameter value to.
-     * @throws SQLException if parameterIndex does not correspond to a parameter
-     * marker in the SQL statement;
-     * if the driver does not support national character sets;
-     * if the driver can detect that a data conversion
-     *  error could occur;  if a database access error occurs or
-     * this method is called on a closed <code>PreparedStatement</code>
-     * @throws SQLFeatureNotSupportedException  if the JDBC driver does not support this method
+     * <P><B>Notf:</B> Consult your JDBC drivfr dodumfntbtion to dftfrminf if
+     * it migit bf morf fffidifnt to usf b vfrsion of
+     * <dodf>sftBlob</dodf> wiidi tbkfs b lfngti pbrbmftfr.
      *
-     * @since 1.6
+     * @pbrbm pbrbmftfrIndfx indfx of tif first pbrbmftfr is 1,
+     * tif sfdond is 2, ...
+     * @pbrbm inputStrfbm An objfdt tibt dontbins tif dbtb to sft tif pbrbmftfr
+     * vbluf to.
+     * @tirows SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs;
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf> or
+     * if pbrbmftfrIndfx dofs not dorrfspond
+     * to b pbrbmftfr mbrkfr in tif SQL stbtfmfnt,
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     *
+     * @sindf 1.6
      */
-     void setNClob(int parameterIndex, Reader reader)
-       throws SQLException;
+     void sftBlob(int pbrbmftfrIndfx, InputStrfbm inputStrfbm)
+        tirows SQLExdfption;
+    /**
+     * Sfts tif dfsignbtfd pbrbmftfr to b <dodf>Rfbdfr</dodf> objfdt.
+     * Tiis mftiod difffrs from tif <dodf>sftCibrbdtfrStrfbm (int, Rfbdfr)</dodf> mftiod
+     * bfdbusf it informs tif drivfr tibt tif pbrbmftfr vbluf siould bf sfnt to
+     * tif sfrvfr bs b <dodf>NCLOB</dodf>.  Wifn tif <dodf>sftCibrbdtfrStrfbm</dodf> mftiod is usfd, tif
+     * drivfr mby ibvf to do fxtrb work to dftfrminf wiftifr tif pbrbmftfr
+     * dbtb siould bf sfnt to tif sfrvfr bs b <dodf>LONGNVARCHAR</dodf> or b <dodf>NCLOB</dodf>
+     * <P><B>Notf:</B> Consult your JDBC drivfr dodumfntbtion to dftfrminf if
+     * it migit bf morf fffidifnt to usf b vfrsion of
+     * <dodf>sftNClob</dodf> wiidi tbkfs b lfngti pbrbmftfr.
+     *
+     * @pbrbm pbrbmftfrIndfx indfx of tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm rfbdfr An objfdt tibt dontbins tif dbtb to sft tif pbrbmftfr vbluf to.
+     * @tirows SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b pbrbmftfr
+     * mbrkfr in tif SQL stbtfmfnt;
+     * if tif drivfr dofs not support nbtionbl dibrbdtfr sfts;
+     * if tif drivfr dbn dftfdt tibt b dbtb donvfrsion
+     *  frror dould oddur;  if b dbtbbbsf bddfss frror oddurs or
+     * tiis mftiod is dbllfd on b dlosfd <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * @tirows SQLFfbturfNotSupportfdExdfption  if tif JDBC drivfr dofs not support tiis mftiod
+     *
+     * @sindf 1.6
+     */
+     void sftNClob(int pbrbmftfrIndfx, Rfbdfr rfbdfr)
+       tirows SQLExdfption;
 
     //------------------------- JDBC 4.2 -----------------------------------
 
     /**
-     * <p>Sets the value of the designated parameter with the given object.
+     * <p>Sfts tif vbluf of tif dfsignbtfd pbrbmftfr witi tif givfn objfdt.
      *
-     * If the second argument is an {@code InputStream} then the stream
-     * must contain the number of bytes specified by scaleOrLength.
-     * If the second argument is a {@code Reader} then the reader must
-     * contain the number of characters specified by scaleOrLength. If these
-     * conditions are not true the driver will generate a
-     * {@code SQLException} when the prepared statement is executed.
+     * If tif sfdond brgumfnt is bn {@dodf InputStrfbm} tifn tif strfbm
+     * must dontbin tif numbfr of bytfs spfdififd by sdblfOrLfngti.
+     * If tif sfdond brgumfnt is b {@dodf Rfbdfr} tifn tif rfbdfr must
+     * dontbin tif numbfr of dibrbdtfrs spfdififd by sdblfOrLfngti. If tifsf
+     * donditions brf not truf tif drivfr will gfnfrbtf b
+     * {@dodf SQLExdfption} wifn tif prfpbrfd stbtfmfnt is fxfdutfd.
      *
-     * <p>The given Java object will be converted to the given targetSqlType
-     * before being sent to the database.
+     * <p>Tif givfn Jbvb objfdt will bf donvfrtfd to tif givfn tbrgftSqlTypf
+     * bfforf bfing sfnt to tif dbtbbbsf.
      *
-     * If the object has a custom mapping (is of a class implementing the
-     * interface {@code SQLData}),
-     * the JDBC driver should call the method {@code SQLData.writeSQL} to
-     * write it to the SQL data stream.
-     * If, on the other hand, the object is of a class implementing
-     * {@code Ref}, {@code Blob}, {@code Clob},  {@code NClob},
-     *  {@code Struct}, {@code java.net.URL},
-     * or {@code Array}, the driver should pass it to the database as a
-     * value of the corresponding SQL type.
+     * If tif objfdt ibs b dustom mbpping (is of b dlbss implfmfnting tif
+     * intfrfbdf {@dodf SQLDbtb}),
+     * tif JDBC drivfr siould dbll tif mftiod {@dodf SQLDbtb.writfSQL} to
+     * writf it to tif SQL dbtb strfbm.
+     * If, on tif otifr ibnd, tif objfdt is of b dlbss implfmfnting
+     * {@dodf Rff}, {@dodf Blob}, {@dodf Clob},  {@dodf NClob},
+     *  {@dodf Strudt}, {@dodf jbvb.nft.URL},
+     * or {@dodf Arrby}, tif drivfr siould pbss it to tif dbtbbbsf bs b
+     * vbluf of tif dorrfsponding SQL typf.
      *
-     * <p>Note that this method may be used to pass database-specific
-     * abstract data types.
+     * <p>Notf tibt tiis mftiod mby bf usfd to pbss dbtbbbsf-spfdifid
+     * bbstrbdt dbtb typfs.
      *<P>
-     * The default implementation will throw {@code SQLFeatureNotSupportedException}
+     * Tif dffbult implfmfntbtion will tirow {@dodf SQLFfbturfNotSupportfdExdfption}
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the object containing the input parameter value
-     * @param targetSqlType the SQL type to be sent to the database. The
-     * scale argument may further qualify this type.
-     * @param scaleOrLength for {@code java.sql.JDBCType.DECIMAL}
-     *          or {@code java.sql.JDBCType.NUMERIC types},
-     *          this is the number of digits after the decimal point. For
-     *          Java Object types {@code InputStream} and {@code Reader},
-     *          this is the length
-     *          of the data in the stream or reader.  For all other types,
-     *          this value will be ignored.
-     * @exception SQLException if parameterIndex does not correspond to a
-     * parameter marker in the SQL statement; if a database access error occurs
-     * or this method is called on a closed {@code PreparedStatement}  or
-     *            if the Java Object specified by x is an InputStream
-     *            or Reader object and the value of the scale parameter is less
-     *            than zero
-     * @exception SQLFeatureNotSupportedException if
-     * the JDBC driver does not support the specified targetSqlType
-     * @see JDBCType
-     * @see SQLType
-     * @since 1.8
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif objfdt dontbining tif input pbrbmftfr vbluf
+     * @pbrbm tbrgftSqlTypf tif SQL typf to bf sfnt to tif dbtbbbsf. Tif
+     * sdblf brgumfnt mby furtifr qublify tiis typf.
+     * @pbrbm sdblfOrLfngti for {@dodf jbvb.sql.JDBCTypf.DECIMAL}
+     *          or {@dodf jbvb.sql.JDBCTypf.NUMERIC typfs},
+     *          tiis is tif numbfr of digits bftfr tif dfdimbl point. For
+     *          Jbvb Objfdt typfs {@dodf InputStrfbm} bnd {@dodf Rfbdfr},
+     *          tiis is tif lfngti
+     *          of tif dbtb in tif strfbm or rfbdfr.  For bll otifr typfs,
+     *          tiis vbluf will bf ignorfd.
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b
+     * pbrbmftfr mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs
+     * or tiis mftiod is dbllfd on b dlosfd {@dodf PrfpbrfdStbtfmfnt}  or
+     *            if tif Jbvb Objfdt spfdififd by x is bn InputStrfbm
+     *            or Rfbdfr objfdt bnd tif vbluf of tif sdblf pbrbmftfr is lfss
+     *            tibn zfro
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if
+     * tif JDBC drivfr dofs not support tif spfdififd tbrgftSqlTypf
+     * @sff JDBCTypf
+     * @sff SQLTypf
+     * @sindf 1.8
      */
-    default void setObject(int parameterIndex, Object x, SQLType targetSqlType,
-             int scaleOrLength) throws SQLException {
-        throw new SQLFeatureNotSupportedException("setObject not implemented");
+    dffbult void sftObjfdt(int pbrbmftfrIndfx, Objfdt x, SQLTypf tbrgftSqlTypf,
+             int sdblfOrLfngti) tirows SQLExdfption {
+        tirow nfw SQLFfbturfNotSupportfdExdfption("sftObjfdt not implfmfntfd");
     }
 
     /**
-     * Sets the value of the designated parameter with the given object.
+     * Sfts tif vbluf of tif dfsignbtfd pbrbmftfr witi tif givfn objfdt.
      *
-     * This method is similar to {@link #setObject(int parameterIndex,
-     * Object x, SQLType targetSqlType, int scaleOrLength)},
-     * except that it assumes a scale of zero.
+     * Tiis mftiod is similbr to {@link #sftObjfdt(int pbrbmftfrIndfx,
+     * Objfdt x, SQLTypf tbrgftSqlTypf, int sdblfOrLfngti)},
+     * fxdfpt tibt it bssumfs b sdblf of zfro.
      *<P>
-     * The default implementation will throw {@code SQLFeatureNotSupportedException}
+     * Tif dffbult implfmfntbtion will tirow {@dodf SQLFfbturfNotSupportfdExdfption}
      *
-     * @param parameterIndex the first parameter is 1, the second is 2, ...
-     * @param x the object containing the input parameter value
-     * @param targetSqlType the SQL type to be sent to the database
-     * @exception SQLException if parameterIndex does not correspond to a
-     * parameter marker in the SQL statement; if a database access error occurs
-     * or this method is called on a closed {@code PreparedStatement}
-     * @exception SQLFeatureNotSupportedException if
-     * the JDBC driver does not support the specified targetSqlType
-     * @see JDBCType
-     * @see SQLType
-     * @since 1.8
+     * @pbrbm pbrbmftfrIndfx tif first pbrbmftfr is 1, tif sfdond is 2, ...
+     * @pbrbm x tif objfdt dontbining tif input pbrbmftfr vbluf
+     * @pbrbm tbrgftSqlTypf tif SQL typf to bf sfnt to tif dbtbbbsf
+     * @fxdfption SQLExdfption if pbrbmftfrIndfx dofs not dorrfspond to b
+     * pbrbmftfr mbrkfr in tif SQL stbtfmfnt; if b dbtbbbsf bddfss frror oddurs
+     * or tiis mftiod is dbllfd on b dlosfd {@dodf PrfpbrfdStbtfmfnt}
+     * @fxdfption SQLFfbturfNotSupportfdExdfption if
+     * tif JDBC drivfr dofs not support tif spfdififd tbrgftSqlTypf
+     * @sff JDBCTypf
+     * @sff SQLTypf
+     * @sindf 1.8
      */
-    default void setObject(int parameterIndex, Object x, SQLType targetSqlType)
-      throws SQLException {
-        throw new SQLFeatureNotSupportedException("setObject not implemented");
+    dffbult void sftObjfdt(int pbrbmftfrIndfx, Objfdt x, SQLTypf tbrgftSqlTypf)
+      tirows SQLExdfption {
+        tirow nfw SQLFfbturfNotSupportfdExdfption("sftObjfdt not implfmfntfd");
     }
 
     /**
-     * Executes the SQL statement in this <code>PreparedStatement</code> object,
-     * which must be an SQL Data Manipulation Language (DML) statement,
-     * such as <code>INSERT</code>, <code>UPDATE</code> or
-     * <code>DELETE</code>; or an SQL statement that returns nothing,
-     * such as a DDL statement.
+     * Exfdutfs tif SQL stbtfmfnt in tiis <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt,
+     * wiidi must bf bn SQL Dbtb Mbnipulbtion Lbngubgf (DML) stbtfmfnt,
+     * sudi bs <dodf>INSERT</dodf>, <dodf>UPDATE</dodf> or
+     * <dodf>DELETE</dodf>; or bn SQL stbtfmfnt tibt rfturns notiing,
+     * sudi bs b DDL stbtfmfnt.
      * <p>
-     * This method should be used when the returned row count may exceed
-     * {@link Integer#MAX_VALUE}.
+     * Tiis mftiod siould bf usfd wifn tif rfturnfd row dount mby fxdffd
+     * {@link Intfgfr#MAX_VALUE}.
      * <p>
-     * The default implementation will throw {@code UnsupportedOperationException}
+     * Tif dffbult implfmfntbtion will tirow {@dodf UnsupportfdOpfrbtionExdfption}
      *
-     * @return either (1) the row count for SQL Data Manipulation Language
-     * (DML) statements or (2) 0 for SQL statements that return nothing
-     * @exception SQLException if a database access error occurs;
-     * this method is called on a closed  <code>PreparedStatement</code>
-     * or the SQL statement returns a <code>ResultSet</code> object
-     * @throws SQLTimeoutException when the driver has determined that the
-     * timeout value that was specified by the {@code setQueryTimeout}
-     * method has been exceeded and has at least attempted to cancel
-     * the currently running {@code Statement}
-     * @since 1.8
+     * @rfturn fitifr (1) tif row dount for SQL Dbtb Mbnipulbtion Lbngubgf
+     * (DML) stbtfmfnts or (2) 0 for SQL stbtfmfnts tibt rfturn notiing
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs;
+     * tiis mftiod is dbllfd on b dlosfd  <dodf>PrfpbrfdStbtfmfnt</dodf>
+     * or tif SQL stbtfmfnt rfturns b <dodf>RfsultSft</dodf> objfdt
+     * @tirows SQLTimfoutExdfption wifn tif drivfr ibs dftfrminfd tibt tif
+     * timfout vbluf tibt wbs spfdififd by tif {@dodf sftQufryTimfout}
+     * mftiod ibs bffn fxdffdfd bnd ibs bt lfbst bttfmptfd to dbndfl
+     * tif durrfntly running {@dodf Stbtfmfnt}
+     * @sindf 1.8
      */
-    default long executeLargeUpdate() throws SQLException {
-        throw new UnsupportedOperationException("executeLargeUpdate not implemented");
+    dffbult long fxfdutfLbrgfUpdbtf() tirows SQLExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption("fxfdutfLbrgfUpdbtf not implfmfntfd");
     }
 }

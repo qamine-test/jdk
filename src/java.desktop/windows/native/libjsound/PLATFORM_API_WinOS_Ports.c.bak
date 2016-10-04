@@ -1,1139 +1,1139 @@
 /*
- * Copyright (c) 2002, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-#define USE_ERROR
-//#define USE_TRACE
+#dffinf USE_ERROR
+//#dffinf USE_TRACE
 
-#ifndef WIN32_EXTRA_LEAN
-#define WIN32_EXTRA_LEAN
-#endif
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#endif
+#ifndff WIN32_EXTRA_LEAN
+#dffinf WIN32_EXTRA_LEAN
+#fndif
+#ifndff WIN32_LEAN_AND_MEAN
+#dffinf WIN32_LEAN_AND_MEAN
+#fndif
 
-#include <windows.h>
-#include <mmsystem.h>
-#include "Ports.h"
+#indludf <windows.i>
+#indludf <mmsystfm.i>
+#indludf "Ports.i"
 
 #if USE_PORTS == TRUE
 
-typedef struct tag_PortControlID PortControlID;
+typfdff strudt tbg_PortControlID PortControlID;
 
-typedef struct tag_PortInfo {
+typfdff strudt tbg_PortInfo {
     // Windows API stuff
-    HMIXER handle;
-    INT32 mixerIndex;
-    int dstLineCount;        // how many MIXERLINE structs in dstMixerLine
-    MIXERLINE* dstLines;
-    int srcLineCount;        // how many MIXERLINE structs in srcMixerLine
-    MIXERLINE* srcLines;     // contains all the Source Lines of dstLines
-    // Java Sound mapping
-    int targetPortCount;     // one port per dstLine (playback)
-    int sourcePortCount;     // only WAVEIN; one port maps to one srcLine
-    LPMIXERLINE* ports;      // points into dstLines and dstLines. Starts with Target Ports (Playback)
-    int maxControlCount;       // upper bound of number of controls
-    int usedControlIDs;        // number of items already filled in controlIDs
-    PortControlID* controlIDs; // the control IDs themselves
-    int usedMuxData;
-    MIXERCONTROLDETAILS_BOOLEAN* muxData;
+    HMIXER ibndlf;
+    INT32 mixfrIndfx;
+    int dstLinfCount;        // iow mbny MIXERLINE strudts in dstMixfrLinf
+    MIXERLINE* dstLinfs;
+    int srdLinfCount;        // iow mbny MIXERLINE strudts in srdMixfrLinf
+    MIXERLINE* srdLinfs;     // dontbins bll tif Sourdf Linfs of dstLinfs
+    // Jbvb Sound mbpping
+    int tbrgftPortCount;     // onf port pfr dstLinf (plbybbdk)
+    int sourdfPortCount;     // only WAVEIN; onf port mbps to onf srdLinf
+    LPMIXERLINE* ports;      // points into dstLinfs bnd dstLinfs. Stbrts witi Tbrgft Ports (Plbybbdk)
+    int mbxControlCount;       // uppfr bound of numbfr of dontrols
+    int usfdControlIDs;        // numbfr of itfms blrfbdy fillfd in dontrolIDs
+    PortControlID* dontrolIDs; // tif dontrol IDs tifmsflvfs
+    int usfdMuxDbtb;
+    MIXERCONTROLDETAILS_BOOLEAN* muxDbtb;
 } PortInfo;
 
-#define PORT_CONTROL_TYPE_BOOLEAN     1
-#define PORT_CONTROL_TYPE_SIGNED      2
-#define PORT_CONTROL_TYPE_UNSIGNED    3
-//#define PORT_CONTROL_TYPE_UNSIGNED_DB 4
-#define PORT_CONTROL_TYPE_FAKE_VOLUME 5
-#define PORT_CONTROL_TYPE_FAKE_BALANCE 6
-#define PORT_CONTROL_TYPE_MUX         5
-#define PORT_CONTROL_TYPE_MIXER       6
+#dffinf PORT_CONTROL_TYPE_BOOLEAN     1
+#dffinf PORT_CONTROL_TYPE_SIGNED      2
+#dffinf PORT_CONTROL_TYPE_UNSIGNED    3
+//#dffinf PORT_CONTROL_TYPE_UNSIGNED_DB 4
+#dffinf PORT_CONTROL_TYPE_FAKE_VOLUME 5
+#dffinf PORT_CONTROL_TYPE_FAKE_BALANCE 6
+#dffinf PORT_CONTROL_TYPE_MUX         5
+#dffinf PORT_CONTROL_TYPE_MIXER       6
 
-typedef struct tag_PortControlID {
+typfdff strudt tbg_PortControlID {
     PortInfo*           portInfo;
-    INT32               controlType;  // one of PORT_CONTROL_TYPE_XX
+    INT32               dontrolTypf;  // onf of PORT_CONTROL_TYPE_XX
     INT32               min;
-    INT32               max;
-    MIXERCONTROLDETAILS details;
+    INT32               mbx;
+    MIXERCONTROLDETAILS dftbils;
     union {
-        MIXERCONTROLDETAILS_BOOLEAN  boolValue;
-        MIXERCONTROLDETAILS_SIGNED   signedValue;
-        MIXERCONTROLDETAILS_UNSIGNED unsignedValue[2];
-        INT32                        muxIndex;
+        MIXERCONTROLDETAILS_BOOLEAN  boolVbluf;
+        MIXERCONTROLDETAILS_SIGNED   signfdVbluf;
+        MIXERCONTROLDETAILS_UNSIGNED unsignfdVbluf[2];
+        INT32                        muxIndfx;
     };
 } PortControlID;
 
 
-int getControlInfo(HMIXER handle, MIXERLINE* line, MIXERLINECONTROLS* controls);
+int gftControlInfo(HMIXER ibndlf, MIXERLINE* linf, MIXERLINECONTROLS* dontrols);
 
-INT32 PORT_GetPortMixerCount() {
-    return (INT32) mixerGetNumDevs();
+INT32 PORT_GftPortMixfrCount() {
+    rfturn (INT32) mixfrGftNumDfvs();
 }
 
-#ifdef USE_TRACE
+#ifdff USE_TRACE
 
-char* getLineFlags(DWORD flags) {
-    static char ret[100];
-    ret[0]=0;
-    if (flags & MIXERLINE_LINEF_ACTIVE) {
-        strcat(ret, "ACTIVE ");
-        flags ^= MIXERLINE_LINEF_ACTIVE;
+dibr* gftLinfFlbgs(DWORD flbgs) {
+    stbtid dibr rft[100];
+    rft[0]=0;
+    if (flbgs & MIXERLINE_LINEF_ACTIVE) {
+        strdbt(rft, "ACTIVE ");
+        flbgs ^= MIXERLINE_LINEF_ACTIVE;
     }
-    if (flags & MIXERLINE_LINEF_DISCONNECTED) {
-        strcat(ret, "DISCONNECTED ");
-        flags ^= MIXERLINE_LINEF_DISCONNECTED;
+    if (flbgs & MIXERLINE_LINEF_DISCONNECTED) {
+        strdbt(rft, "DISCONNECTED ");
+        flbgs ^= MIXERLINE_LINEF_DISCONNECTED;
     }
-    if (flags & MIXERLINE_LINEF_SOURCE) {
-        strcat(ret, "SOURCE ");
-        flags ^= MIXERLINE_LINEF_SOURCE;
+    if (flbgs & MIXERLINE_LINEF_SOURCE) {
+        strdbt(rft, "SOURCE ");
+        flbgs ^= MIXERLINE_LINEF_SOURCE;
     }
-    if (flags!=0) {
-        UINT_PTR r = (UINT_PTR) ret;
-        r += strlen(ret);
-        sprintf((char*) r, "%d", flags);
+    if (flbgs!=0) {
+        UINT_PTR r = (UINT_PTR) rft;
+        r += strlfn(rft);
+        sprintf((dibr*) r, "%d", flbgs);
     }
-    return ret;
+    rfturn rft;
 }
 
-char* getComponentType(int componentType) {
-    switch (componentType) {
-        case MIXERLINE_COMPONENTTYPE_DST_HEADPHONES:   return "DST_HEADPHONES";
-        case MIXERLINE_COMPONENTTYPE_DST_LINE:         return "DST_LINE";
-        case MIXERLINE_COMPONENTTYPE_DST_SPEAKERS:     return "DST_SPEAKERS";
-        case MIXERLINE_COMPONENTTYPE_DST_DIGITAL:      return "DST_DIGITAL";
-        case MIXERLINE_COMPONENTTYPE_DST_MONITOR:      return "DST_MONITOR";
-        case MIXERLINE_COMPONENTTYPE_DST_TELEPHONE:    return "DST_TELEPHONE";
-        case MIXERLINE_COMPONENTTYPE_DST_UNDEFINED:    return "DST_UNDEFINED";
-        case MIXERLINE_COMPONENTTYPE_DST_VOICEIN:      return "DST_VOICEIN";
-        case MIXERLINE_COMPONENTTYPE_DST_WAVEIN:       return "DST_WAVEIN";
+dibr* gftComponfntTypf(int domponfntTypf) {
+    switdi (domponfntTypf) {
+        dbsf MIXERLINE_COMPONENTTYPE_DST_HEADPHONES:   rfturn "DST_HEADPHONES";
+        dbsf MIXERLINE_COMPONENTTYPE_DST_LINE:         rfturn "DST_LINE";
+        dbsf MIXERLINE_COMPONENTTYPE_DST_SPEAKERS:     rfturn "DST_SPEAKERS";
+        dbsf MIXERLINE_COMPONENTTYPE_DST_DIGITAL:      rfturn "DST_DIGITAL";
+        dbsf MIXERLINE_COMPONENTTYPE_DST_MONITOR:      rfturn "DST_MONITOR";
+        dbsf MIXERLINE_COMPONENTTYPE_DST_TELEPHONE:    rfturn "DST_TELEPHONE";
+        dbsf MIXERLINE_COMPONENTTYPE_DST_UNDEFINED:    rfturn "DST_UNDEFINED";
+        dbsf MIXERLINE_COMPONENTTYPE_DST_VOICEIN:      rfturn "DST_VOICEIN";
+        dbsf MIXERLINE_COMPONENTTYPE_DST_WAVEIN:       rfturn "DST_WAVEIN";
 
-        case MIXERLINE_COMPONENTTYPE_SRC_COMPACTDISC:  return "SRC_COMPACTDISC";
-        case MIXERLINE_COMPONENTTYPE_SRC_LINE:         return "SRC_LINE";
-        case MIXERLINE_COMPONENTTYPE_SRC_MICROPHONE:   return "SRC_MICROPHONE";
-        case MIXERLINE_COMPONENTTYPE_SRC_ANALOG:       return "SRC_ANALOG";
-        case MIXERLINE_COMPONENTTYPE_SRC_AUXILIARY:    return "SRC_AUXILIARY";
-        case MIXERLINE_COMPONENTTYPE_SRC_DIGITAL:      return "SRC_DIGITAL";
-        case MIXERLINE_COMPONENTTYPE_SRC_PCSPEAKER:    return "SRC_PCSPEAKER";
-        case MIXERLINE_COMPONENTTYPE_SRC_SYNTHESIZER:  return "SRC_SYNTHESIZER";
-        case MIXERLINE_COMPONENTTYPE_SRC_TELEPHONE:    return "SRC_TELEPHONE";
-        case MIXERLINE_COMPONENTTYPE_SRC_UNDEFINED:    return "SRC_UNDEFINED";
-        case MIXERLINE_COMPONENTTYPE_SRC_WAVEOUT:      return "SRC_WAVEOUT";
+        dbsf MIXERLINE_COMPONENTTYPE_SRC_COMPACTDISC:  rfturn "SRC_COMPACTDISC";
+        dbsf MIXERLINE_COMPONENTTYPE_SRC_LINE:         rfturn "SRC_LINE";
+        dbsf MIXERLINE_COMPONENTTYPE_SRC_MICROPHONE:   rfturn "SRC_MICROPHONE";
+        dbsf MIXERLINE_COMPONENTTYPE_SRC_ANALOG:       rfturn "SRC_ANALOG";
+        dbsf MIXERLINE_COMPONENTTYPE_SRC_AUXILIARY:    rfturn "SRC_AUXILIARY";
+        dbsf MIXERLINE_COMPONENTTYPE_SRC_DIGITAL:      rfturn "SRC_DIGITAL";
+        dbsf MIXERLINE_COMPONENTTYPE_SRC_PCSPEAKER:    rfturn "SRC_PCSPEAKER";
+        dbsf MIXERLINE_COMPONENTTYPE_SRC_SYNTHESIZER:  rfturn "SRC_SYNTHESIZER";
+        dbsf MIXERLINE_COMPONENTTYPE_SRC_TELEPHONE:    rfturn "SRC_TELEPHONE";
+        dbsf MIXERLINE_COMPONENTTYPE_SRC_UNDEFINED:    rfturn "SRC_UNDEFINED";
+        dbsf MIXERLINE_COMPONENTTYPE_SRC_WAVEOUT:      rfturn "SRC_WAVEOUT";
     }
-    return "";
+    rfturn "";
 }
 
-void printMixerLine(MIXERLINE* mixerLine) {
-    TRACE2("MIXERLINE destination=%d, source=%d, ", mixerLine->dwDestination, mixerLine->dwSource);
-    TRACE3("channels=%d, connections=%d, controls=%d, ", mixerLine->cChannels, mixerLine->cConnections, mixerLine->cControls);
-    TRACE3("\"%s\", fdwLine=%s, componentType=%s\n", mixerLine->szName,  getLineFlags(mixerLine->fdwLine), getComponentType(mixerLine->dwComponentType));
+void printMixfrLinf(MIXERLINE* mixfrLinf) {
+    TRACE2("MIXERLINE dfstinbtion=%d, sourdf=%d, ", mixfrLinf->dwDfstinbtion, mixfrLinf->dwSourdf);
+    TRACE3("dibnnfls=%d, donnfdtions=%d, dontrols=%d, ", mixfrLinf->dCibnnfls, mixfrLinf->dConnfdtions, mixfrLinf->dControls);
+    TRACE3("\"%s\", fdwLinf=%s, domponfntTypf=%s\n", mixfrLinf->szNbmf,  gftLinfFlbgs(mixfrLinf->fdwLinf), gftComponfntTypf(mixfrLinf->dwComponfntTypf));
 }
 
-char* getControlClass(int controlType) {
-    switch (controlType & MIXERCONTROL_CT_CLASS_MASK) {
-        case MIXERCONTROL_CT_CLASS_CUSTOM : return "CLASS_CUSTOM";
-        case MIXERCONTROL_CT_CLASS_FADER  : return "CLASS_FADER ";
-        case MIXERCONTROL_CT_CLASS_LIST   : return "CLASS_LIST  ";
-        case MIXERCONTROL_CT_CLASS_METER  : return "CLASS_METER ";
-        case MIXERCONTROL_CT_CLASS_NUMBER : return "CLASS_NUMBER";
-        case MIXERCONTROL_CT_CLASS_SLIDER : return "CLASS_SLIDER";
-        case MIXERCONTROL_CT_CLASS_SWITCH : return "CLASS_SWITCH";
-        case MIXERCONTROL_CT_CLASS_TIME   : return "CLASS_TIME  ";
+dibr* gftControlClbss(int dontrolTypf) {
+    switdi (dontrolTypf & MIXERCONTROL_CT_CLASS_MASK) {
+        dbsf MIXERCONTROL_CT_CLASS_CUSTOM : rfturn "CLASS_CUSTOM";
+        dbsf MIXERCONTROL_CT_CLASS_FADER  : rfturn "CLASS_FADER ";
+        dbsf MIXERCONTROL_CT_CLASS_LIST   : rfturn "CLASS_LIST  ";
+        dbsf MIXERCONTROL_CT_CLASS_METER  : rfturn "CLASS_METER ";
+        dbsf MIXERCONTROL_CT_CLASS_NUMBER : rfturn "CLASS_NUMBER";
+        dbsf MIXERCONTROL_CT_CLASS_SLIDER : rfturn "CLASS_SLIDER";
+        dbsf MIXERCONTROL_CT_CLASS_SWITCH : rfturn "CLASS_SWITCH";
+        dbsf MIXERCONTROL_CT_CLASS_TIME   : rfturn "CLASS_TIME  ";
     }
-    return "unknown class";
+    rfturn "unknown dlbss";
 }
 
-char* getControlType(int controlType) {
-    switch (controlType) {
-        case MIXERCONTROL_CONTROLTYPE_CUSTOM          : return "CUSTOM         ";
-        case MIXERCONTROL_CONTROLTYPE_BASS            : return "BASS           ";
-        case MIXERCONTROL_CONTROLTYPE_EQUALIZER       : return "EQUALIZER      ";
-        case MIXERCONTROL_CONTROLTYPE_FADER           : return "FADER          ";
-        case MIXERCONTROL_CONTROLTYPE_TREBLE          : return "TREBLE         ";
-        case MIXERCONTROL_CONTROLTYPE_VOLUME          : return "VOLUME         ";
-        case MIXERCONTROL_CONTROLTYPE_MIXER           : return "MIXER          ";
-        case MIXERCONTROL_CONTROLTYPE_MULTIPLESELECT  : return "MULTIPLESELECT ";
-        case MIXERCONTROL_CONTROLTYPE_MUX             : return "MUX            ";
-        case MIXERCONTROL_CONTROLTYPE_SINGLESELECT    : return "SINGLESELECT   ";
-        case MIXERCONTROL_CONTROLTYPE_BOOLEANMETER    : return "BOOLEANMETER   ";
-        case MIXERCONTROL_CONTROLTYPE_PEAKMETER       : return "PEAKMETER      ";
-        case MIXERCONTROL_CONTROLTYPE_SIGNEDMETER     : return "SIGNEDMETER    ";
-        case MIXERCONTROL_CONTROLTYPE_UNSIGNEDMETER   : return "UNSIGNEDMETER  ";
-        case MIXERCONTROL_CONTROLTYPE_DECIBELS        : return "DECIBELS       ";
-        case MIXERCONTROL_CONTROLTYPE_PERCENT         : return "PERCENT        ";
-        case MIXERCONTROL_CONTROLTYPE_SIGNED          : return "SIGNED         ";
-        case MIXERCONTROL_CONTROLTYPE_UNSIGNED        : return "UNSIGNED       ";
-        case MIXERCONTROL_CONTROLTYPE_PAN             : return "PAN            ";
-        case MIXERCONTROL_CONTROLTYPE_QSOUNDPAN       : return "QSOUNDPAN      ";
-        case MIXERCONTROL_CONTROLTYPE_SLIDER          : return "SLIDER         ";
-        case MIXERCONTROL_CONTROLTYPE_BOOLEAN         : return "BOOLEAN        ";
-        case MIXERCONTROL_CONTROLTYPE_BUTTON          : return "BUTTON         ";
-        case MIXERCONTROL_CONTROLTYPE_LOUDNESS        : return "LOUDNESS       ";
-        case MIXERCONTROL_CONTROLTYPE_MONO            : return "MONO           ";
-        case MIXERCONTROL_CONTROLTYPE_MUTE            : return "MUTE           ";
-        case MIXERCONTROL_CONTROLTYPE_ONOFF           : return "ONOFF          ";
-        case MIXERCONTROL_CONTROLTYPE_STEREOENH       : return "STEREOENH      ";
-        case MIXERCONTROL_CONTROLTYPE_MICROTIME       : return "MICROTIME      ";
-        case MIXERCONTROL_CONTROLTYPE_MILLITIME       : return "MILLITIME      ";
+dibr* gftControlTypf(int dontrolTypf) {
+    switdi (dontrolTypf) {
+        dbsf MIXERCONTROL_CONTROLTYPE_CUSTOM          : rfturn "CUSTOM         ";
+        dbsf MIXERCONTROL_CONTROLTYPE_BASS            : rfturn "BASS           ";
+        dbsf MIXERCONTROL_CONTROLTYPE_EQUALIZER       : rfturn "EQUALIZER      ";
+        dbsf MIXERCONTROL_CONTROLTYPE_FADER           : rfturn "FADER          ";
+        dbsf MIXERCONTROL_CONTROLTYPE_TREBLE          : rfturn "TREBLE         ";
+        dbsf MIXERCONTROL_CONTROLTYPE_VOLUME          : rfturn "VOLUME         ";
+        dbsf MIXERCONTROL_CONTROLTYPE_MIXER           : rfturn "MIXER          ";
+        dbsf MIXERCONTROL_CONTROLTYPE_MULTIPLESELECT  : rfturn "MULTIPLESELECT ";
+        dbsf MIXERCONTROL_CONTROLTYPE_MUX             : rfturn "MUX            ";
+        dbsf MIXERCONTROL_CONTROLTYPE_SINGLESELECT    : rfturn "SINGLESELECT   ";
+        dbsf MIXERCONTROL_CONTROLTYPE_BOOLEANMETER    : rfturn "BOOLEANMETER   ";
+        dbsf MIXERCONTROL_CONTROLTYPE_PEAKMETER       : rfturn "PEAKMETER      ";
+        dbsf MIXERCONTROL_CONTROLTYPE_SIGNEDMETER     : rfturn "SIGNEDMETER    ";
+        dbsf MIXERCONTROL_CONTROLTYPE_UNSIGNEDMETER   : rfturn "UNSIGNEDMETER  ";
+        dbsf MIXERCONTROL_CONTROLTYPE_DECIBELS        : rfturn "DECIBELS       ";
+        dbsf MIXERCONTROL_CONTROLTYPE_PERCENT         : rfturn "PERCENT        ";
+        dbsf MIXERCONTROL_CONTROLTYPE_SIGNED          : rfturn "SIGNED         ";
+        dbsf MIXERCONTROL_CONTROLTYPE_UNSIGNED        : rfturn "UNSIGNED       ";
+        dbsf MIXERCONTROL_CONTROLTYPE_PAN             : rfturn "PAN            ";
+        dbsf MIXERCONTROL_CONTROLTYPE_QSOUNDPAN       : rfturn "QSOUNDPAN      ";
+        dbsf MIXERCONTROL_CONTROLTYPE_SLIDER          : rfturn "SLIDER         ";
+        dbsf MIXERCONTROL_CONTROLTYPE_BOOLEAN         : rfturn "BOOLEAN        ";
+        dbsf MIXERCONTROL_CONTROLTYPE_BUTTON          : rfturn "BUTTON         ";
+        dbsf MIXERCONTROL_CONTROLTYPE_LOUDNESS        : rfturn "LOUDNESS       ";
+        dbsf MIXERCONTROL_CONTROLTYPE_MONO            : rfturn "MONO           ";
+        dbsf MIXERCONTROL_CONTROLTYPE_MUTE            : rfturn "MUTE           ";
+        dbsf MIXERCONTROL_CONTROLTYPE_ONOFF           : rfturn "ONOFF          ";
+        dbsf MIXERCONTROL_CONTROLTYPE_STEREOENH       : rfturn "STEREOENH      ";
+        dbsf MIXERCONTROL_CONTROLTYPE_MICROTIME       : rfturn "MICROTIME      ";
+        dbsf MIXERCONTROL_CONTROLTYPE_MILLITIME       : rfturn "MILLITIME      ";
     }
-    return "unknown";
+    rfturn "unknown";
 }
 
-char* getControlState(DWORD controlState) {
-    static char ret[100];
-    ret[0]=0;
-    if (controlState & MIXERCONTROL_CONTROLF_DISABLED) {
-        strcat(ret, "DISABLED ");
-        controlState ^= MIXERCONTROL_CONTROLF_DISABLED;
+dibr* gftControlStbtf(DWORD dontrolStbtf) {
+    stbtid dibr rft[100];
+    rft[0]=0;
+    if (dontrolStbtf & MIXERCONTROL_CONTROLF_DISABLED) {
+        strdbt(rft, "DISABLED ");
+        dontrolStbtf ^= MIXERCONTROL_CONTROLF_DISABLED;
     }
-    if (controlState & MIXERCONTROL_CONTROLF_MULTIPLE) {
-        strcat(ret, "MULTIPLE ");
-        controlState ^= MIXERCONTROL_CONTROLF_MULTIPLE;
+    if (dontrolStbtf & MIXERCONTROL_CONTROLF_MULTIPLE) {
+        strdbt(rft, "MULTIPLE ");
+        dontrolStbtf ^= MIXERCONTROL_CONTROLF_MULTIPLE;
     }
-    if (controlState & MIXERCONTROL_CONTROLF_UNIFORM) {
-        strcat(ret, "UNIFORM ");
-        controlState ^= MIXERCONTROL_CONTROLF_UNIFORM;
+    if (dontrolStbtf & MIXERCONTROL_CONTROLF_UNIFORM) {
+        strdbt(rft, "UNIFORM ");
+        dontrolStbtf ^= MIXERCONTROL_CONTROLF_UNIFORM;
     }
-    if (controlState!=0) {
-        UINT_PTR r = (UINT_PTR) ret;
-        r += strlen(ret);
-        sprintf((char*) r, "%d", controlState);
+    if (dontrolStbtf!=0) {
+        UINT_PTR r = (UINT_PTR) rft;
+        r += strlfn(rft);
+        sprintf((dibr*) r, "%d", dontrolStbtf);
     }
-    return ret;
+    rfturn rft;
 }
 
-void printControl(MIXERCONTROL* control) {
-    TRACE3("    %s: dwControlType=%s/%s, ", control->szName, getControlClass(control->dwControlType), getControlType(control->dwControlType));
-    TRACE3("multpleItems=%d, state=%d, %s\n", control->cMultipleItems, control->fdwControl, getControlState(control->fdwControl));
+void printControl(MIXERCONTROL* dontrol) {
+    TRACE3("    %s: dwControlTypf=%s/%s, ", dontrol->szNbmf, gftControlClbss(dontrol->dwControlTypf), gftControlTypf(dontrol->dwControlTypf));
+    TRACE3("multplfItfms=%d, stbtf=%d, %s\n", dontrol->dMultiplfItfms, dontrol->fdwControl, gftControlStbtf(dontrol->fdwControl));
 }
 
-void printMixerLineControls(HMIXER handle, MIXERLINE* mixerLine) {
-    MIXERLINECONTROLS controls;
+void printMixfrLinfControls(HMIXER ibndlf, MIXERLINE* mixfrLinf) {
+    MIXERLINECONTROLS dontrols;
     DWORD i;
-    TRACE1("  Controls for %s:\n", mixerLine->szName);
-    if (getControlInfo(handle, mixerLine, &controls)) {
-        for (i = 0; i < controls.cControls; i++) {
-            printControl(&controls.pamxctrl[i]);
+    TRACE1("  Controls for %s:\n", mixfrLinf->szNbmf);
+    if (gftControlInfo(ibndlf, mixfrLinf, &dontrols)) {
+        for (i = 0; i < dontrols.dControls; i++) {
+            printControl(&dontrols.pbmxdtrl[i]);
         }
-        if (controls.pamxctrl) {
-            free(controls.pamxctrl);
-            controls.pamxctrl = NULL;
+        if (dontrols.pbmxdtrl) {
+            frff(dontrols.pbmxdtrl);
+            dontrols.pbmxdtrl = NULL;
         }
     }
 }
 
 void printInfo(PortInfo* info) {
-    TRACE5(" PortInfo %p: handle=%p, mixerIndex=%d, dstLineCount=%d, dstLines=%p, ", info, (void*) info->handle, info->mixerIndex, info->dstLineCount, info->dstLines);
-    TRACE5("srcLineCount=%d, srcLines=%p, targetPortCount=%d, sourcePortCount=%d, ports=%p, ", info->srcLineCount, info->srcLines, info->targetPortCount, info->sourcePortCount, info->ports);
-    TRACE3("maxControlCount=%d, usedControlIDs=%d, controlIDs=%p \n", info->maxControlCount, info->usedControlIDs, info->controlIDs);
-    TRACE2("usedMuxData=%d, muxData=%p, controlIDs=%p \n", info->usedMuxData, info->muxData);
+    TRACE5(" PortInfo %p: ibndlf=%p, mixfrIndfx=%d, dstLinfCount=%d, dstLinfs=%p, ", info, (void*) info->ibndlf, info->mixfrIndfx, info->dstLinfCount, info->dstLinfs);
+    TRACE5("srdLinfCount=%d, srdLinfs=%p, tbrgftPortCount=%d, sourdfPortCount=%d, ports=%p, ", info->srdLinfCount, info->srdLinfs, info->tbrgftPortCount, info->sourdfPortCount, info->ports);
+    TRACE3("mbxControlCount=%d, usfdControlIDs=%d, dontrolIDs=%p \n", info->mbxControlCount, info->usfdControlIDs, info->dontrolIDs);
+    TRACE2("usfdMuxDbtb=%d, muxDbtb=%p, dontrolIDs=%p \n", info->usfdMuxDbtb, info->muxDbtb);
 }
 
-#endif // USE_TRACE
+#fndif // USE_TRACE
 
-// internal utility functions
+// intfrnbl utility fundtions
 
-int getMixerLineByDestination(HMIXER handle, DWORD dstIndex, MIXERLINE* mixerLine) {
-    mixerLine->cbStruct = sizeof(MIXERLINE);
-    mixerLine->dwDestination = dstIndex;
-    if (mixerGetLineInfo((HMIXEROBJ) handle, mixerLine,
+int gftMixfrLinfByDfstinbtion(HMIXER ibndlf, DWORD dstIndfx, MIXERLINE* mixfrLinf) {
+    mixfrLinf->dbStrudt = sizfof(MIXERLINE);
+    mixfrLinf->dwDfstinbtion = dstIndfx;
+    if (mixfrGftLinfInfo((HMIXEROBJ) ibndlf, mixfrLinf,
                           MIXER_GETLINEINFOF_DESTINATION | MIXER_OBJECTF_HMIXER
                          ) == MMSYSERR_NOERROR) {
-        return TRUE;
+        rfturn TRUE;
     }
-    mixerLine->cControls = 0;
-    mixerLine->cConnections = 0;
-    return FALSE;
+    mixfrLinf->dControls = 0;
+    mixfrLinf->dConnfdtions = 0;
+    rfturn FALSE;
 }
 
-int getMixerLineByType(HMIXER handle, DWORD linetype, MIXERLINE* mixerLine) {
-    mixerLine->cbStruct = sizeof(MIXERLINE);
-    mixerLine->dwComponentType = linetype;
-    if (mixerGetLineInfo((HMIXEROBJ) handle, mixerLine,
+int gftMixfrLinfByTypf(HMIXER ibndlf, DWORD linftypf, MIXERLINE* mixfrLinf) {
+    mixfrLinf->dbStrudt = sizfof(MIXERLINE);
+    mixfrLinf->dwComponfntTypf = linftypf;
+    if (mixfrGftLinfInfo((HMIXEROBJ) ibndlf, mixfrLinf,
                           MIXER_GETLINEINFOF_COMPONENTTYPE | MIXER_OBJECTF_HMIXER
                          ) == MMSYSERR_NOERROR) {
-        return TRUE;
+        rfturn TRUE;
     }
-    mixerLine->cControls = 0;
-    mixerLine->cConnections = 0;
-    return FALSE;
+    mixfrLinf->dControls = 0;
+    mixfrLinf->dConnfdtions = 0;
+    rfturn FALSE;
 }
 
-int getMixerLineBySource(HMIXER handle, DWORD dstIndex, DWORD srcIndex, MIXERLINE* mixerLine) {
-    mixerLine->cbStruct = sizeof(MIXERLINE);
-    mixerLine->dwDestination = dstIndex;
-    mixerLine->dwSource = srcIndex;
-    if (mixerGetLineInfo((HMIXEROBJ) handle, mixerLine,
+int gftMixfrLinfBySourdf(HMIXER ibndlf, DWORD dstIndfx, DWORD srdIndfx, MIXERLINE* mixfrLinf) {
+    mixfrLinf->dbStrudt = sizfof(MIXERLINE);
+    mixfrLinf->dwDfstinbtion = dstIndfx;
+    mixfrLinf->dwSourdf = srdIndfx;
+    if (mixfrGftLinfInfo((HMIXEROBJ) ibndlf, mixfrLinf,
                           MIXER_GETLINEINFOF_SOURCE | MIXER_OBJECTF_HMIXER
                          ) == MMSYSERR_NOERROR) {
-        return TRUE;
+        rfturn TRUE;
     }
-    mixerLine->cControls = 0;
-    mixerLine->cConnections = 0;
-    return FALSE;
+    mixfrLinf->dControls = 0;
+    mixfrLinf->dConnfdtions = 0;
+    rfturn FALSE;
 }
 
-int getControlInfo(HMIXER handle, MIXERLINE* line, MIXERLINECONTROLS* controls) {
-    int ret = FALSE;
+int gftControlInfo(HMIXER ibndlf, MIXERLINE* linf, MIXERLINECONTROLS* dontrols) {
+    int rft = FALSE;
 
-    //TRACE2(">getControlInfo for line %s with %d controls\n", line->szName, line->cControls);
-    controls->pamxctrl = NULL;
-    if (line->cControls > 0) {
-        // line points to the requested line.
-        // Reserve memory for the control infos
-        controls->cbStruct = sizeof(MIXERLINECONTROLS);
-        controls->dwLineID = line->dwLineID;
-        controls->cControls = line->cControls;
-        controls->cbmxctrl = sizeof(MIXERCONTROL);
-        controls->pamxctrl = (MIXERCONTROL*) malloc(sizeof(MIXERCONTROL) * line->cControls);
-        if (controls->pamxctrl) {
-            //TRACE0(" calling mixerGetLineControls\n");
-            ret = mixerGetLineControls((HMIXEROBJ) handle, controls,
+    //TRACE2(">gftControlInfo for linf %s witi %d dontrols\n", linf->szNbmf, linf->dControls);
+    dontrols->pbmxdtrl = NULL;
+    if (linf->dControls > 0) {
+        // linf points to tif rfqufstfd linf.
+        // Rfsfrvf mfmory for tif dontrol infos
+        dontrols->dbStrudt = sizfof(MIXERLINECONTROLS);
+        dontrols->dwLinfID = linf->dwLinfID;
+        dontrols->dControls = linf->dControls;
+        dontrols->dbmxdtrl = sizfof(MIXERCONTROL);
+        dontrols->pbmxdtrl = (MIXERCONTROL*) mbllod(sizfof(MIXERCONTROL) * linf->dControls);
+        if (dontrols->pbmxdtrl) {
+            //TRACE0(" dblling mixfrGftLinfControls\n");
+            rft = mixfrGftLinfControls((HMIXEROBJ) ibndlf, dontrols,
                                        MIXER_GETLINECONTROLSF_ALL | MIXER_OBJECTF_HMIXER) == MMSYSERR_NOERROR;
         }
     }
-    if (!ret) {
-        if (controls->pamxctrl) {
-            free(controls->pamxctrl);
-            controls->pamxctrl = NULL;
+    if (!rft) {
+        if (dontrols->pbmxdtrl) {
+            frff(dontrols->pbmxdtrl);
+            dontrols->pbmxdtrl = NULL;
         }
     }
-    //TRACE0("<getControlInfo \n");
-    return ret;
+    //TRACE0("<gftControlInfo \n");
+    rfturn rft;
 }
 
-// returns TRUE if there are more than MIXER/MUX controls in this line
-// if controls is non-NULL, it will be filled with the info
-int lineHasControls(HMIXER handle, MIXERLINE* line, MIXERLINECONTROLS* controls) {
-    MIXERLINECONTROLS localControls;
-    int ret = FALSE;
+// rfturns TRUE if tifrf brf morf tibn MIXER/MUX dontrols in tiis linf
+// if dontrols is non-NULL, it will bf fillfd witi tif info
+int linfHbsControls(HMIXER ibndlf, MIXERLINE* linf, MIXERLINECONTROLS* dontrols) {
+    MIXERLINECONTROLS lodblControls;
+    int rft = FALSE;
     UINT i;
 
-    localControls.pamxctrl = NULL;
-    if (controls == NULL) {
-        controls = &localControls;
+    lodblControls.pbmxdtrl = NULL;
+    if (dontrols == NULL) {
+        dontrols = &lodblControls;
     }
-    if (getControlInfo(handle, line, controls)) {
-        for (i = 0; !ret && (i < controls->cControls); i++) {
-            switch (controls->pamxctrl[i].dwControlType & MIXERCONTROL_CT_CLASS_MASK) {
-                case MIXERCONTROL_CT_CLASS_FADER  : // fall through
-                case MIXERCONTROL_CT_CLASS_SLIDER : // fall through
-                case MIXERCONTROL_CT_CLASS_SWITCH : ret = TRUE;
+    if (gftControlInfo(ibndlf, linf, dontrols)) {
+        for (i = 0; !rft && (i < dontrols->dControls); i++) {
+            switdi (dontrols->pbmxdtrl[i].dwControlTypf & MIXERCONTROL_CT_CLASS_MASK) {
+                dbsf MIXERCONTROL_CT_CLASS_FADER  : // fbll tirougi
+                dbsf MIXERCONTROL_CT_CLASS_SLIDER : // fbll tirougi
+                dbsf MIXERCONTROL_CT_CLASS_SWITCH : rft = TRUE;
             }
         }
     }
-    if (localControls.pamxctrl) {
-        free(localControls.pamxctrl);
-        localControls.pamxctrl = NULL;
+    if (lodblControls.pbmxdtrl) {
+        frff(lodblControls.pbmxdtrl);
+        lodblControls.pbmxdtrl = NULL;
     }
-    return ret;
+    rfturn rft;
 }
 
 
-///// implemented functions of Ports.h
+///// implfmfntfd fundtions of Ports.i
 
-INT32 PORT_GetPortMixerDescription(INT32 mixerIndex, PortMixerDescription* description) {
-    MIXERCAPS mixerCaps;
-    if (mixerGetDevCaps(mixerIndex, &mixerCaps, sizeof(MIXERCAPS)) == MMSYSERR_NOERROR) {
-        strncpy(description->name, mixerCaps.szPname, PORT_STRING_LENGTH-1);
-        description->name[PORT_STRING_LENGTH-1] = 0;
-        sprintf(description->version, "%d.%d", (mixerCaps.vDriverVersion & 0xFF00) >> 8, mixerCaps.vDriverVersion & 0xFF);
-        strncpy(description->description, "Port Mixer", PORT_STRING_LENGTH-1);
-        return TRUE;
+INT32 PORT_GftPortMixfrDfsdription(INT32 mixfrIndfx, PortMixfrDfsdription* dfsdription) {
+    MIXERCAPS mixfrCbps;
+    if (mixfrGftDfvCbps(mixfrIndfx, &mixfrCbps, sizfof(MIXERCAPS)) == MMSYSERR_NOERROR) {
+        strndpy(dfsdription->nbmf, mixfrCbps.szPnbmf, PORT_STRING_LENGTH-1);
+        dfsdription->nbmf[PORT_STRING_LENGTH-1] = 0;
+        sprintf(dfsdription->vfrsion, "%d.%d", (mixfrCbps.vDrivfrVfrsion & 0xFF00) >> 8, mixfrCbps.vDrivfrVfrsion & 0xFF);
+        strndpy(dfsdription->dfsdription, "Port Mixfr", PORT_STRING_LENGTH-1);
+        rfturn TRUE;
     }
-    return FALSE;
+    rfturn FALSE;
 }
 
-int getDestinationCount(HMIXER handle) {
-    int ret = 0;
-    MIXERCAPS mixerCaps;
+int gftDfstinbtionCount(HMIXER ibndlf) {
+    int rft = 0;
+    MIXERCAPS mixfrCbps;
 
-    if (mixerGetDevCaps((UINT_PTR) handle, &mixerCaps, sizeof(MIXERCAPS)) == MMSYSERR_NOERROR) {
-        ret = mixerCaps.cDestinations;
+    if (mixfrGftDfvCbps((UINT_PTR) ibndlf, &mixfrCbps, sizfof(MIXERCAPS)) == MMSYSERR_NOERROR) {
+        rft = mixfrCbps.dDfstinbtions;
     }
-    return ret;
+    rfturn rft;
 }
 
-void* PORT_Open(INT32 mixerIndex) {
+void* PORT_Opfn(INT32 mixfrIndfx) {
     PortInfo* info = NULL;
-    MMRESULT mmres;
-    HMIXER handle;
-    MIXERLINE* waveInLine;
-    int success = FALSE;
-    int src, dst, srcIndex, waveInHasControls;
+    MMRESULT mmrfs;
+    HMIXER ibndlf;
+    MIXERLINE* wbvfInLinf;
+    int suddfss = FALSE;
+    int srd, dst, srdIndfx, wbvfInHbsControls;
     int dstCount;
 
-    TRACE0("PORT_Open\n");
-    mmres = mixerOpen((LPHMIXER) &handle, mixerIndex, 0, 0, MIXER_OBJECTF_MIXER);
-    if (mmres != MMSYSERR_NOERROR) {
-        return NULL;
+    TRACE0("PORT_Opfn\n");
+    mmrfs = mixfrOpfn((LPHMIXER) &ibndlf, mixfrIndfx, 0, 0, MIXER_OBJECTF_MIXER);
+    if (mmrfs != MMSYSERR_NOERROR) {
+        rfturn NULL;
     }
 
-    info = (PortInfo*) malloc(sizeof(PortInfo));
+    info = (PortInfo*) mbllod(sizfof(PortInfo));
     if (info != NULL) {
-        success = TRUE;
-        memset(info, 0, sizeof(PortInfo));
-        info->handle = handle;
-        info->mixerIndex = mixerIndex;
-        waveInLine = NULL;
-        waveInHasControls = FALSE;
-        // number of destinations
-        dstCount = getDestinationCount(handle);
+        suddfss = TRUE;
+        mfmsft(info, 0, sizfof(PortInfo));
+        info->ibndlf = ibndlf;
+        info->mixfrIndfx = mixfrIndfx;
+        wbvfInLinf = NULL;
+        wbvfInHbsControls = FALSE;
+        // numbfr of dfstinbtions
+        dstCount = gftDfstinbtionCount(ibndlf);
         if (dstCount) {
-            info->dstLines = (MIXERLINE*) malloc(dstCount * sizeof(MIXERLINE));
-            success = (info->dstLines != NULL);
+            info->dstLinfs = (MIXERLINE*) mbllod(dstCount * sizfof(MIXERLINE));
+            suddfss = (info->dstLinfs != NULL);
         }
-        if (success && info->dstLines) {
-            // go through all destinations and fill the structures in PortInfo
+        if (suddfss && info->dstLinfs) {
+            // go tirougi bll dfstinbtions bnd fill tif strudturfs in PortInfo
             for (dst = 0; dst < dstCount; dst++) {
-                if (getMixerLineByDestination(handle, dst, &info->dstLines[info->dstLineCount])) {
-                    info->srcLineCount += info->dstLines[info->dstLineCount].cConnections;
-                    if (info->dstLines[info->dstLineCount].dwComponentType == MIXERLINE_COMPONENTTYPE_DST_WAVEIN && !waveInLine) {
-                        waveInLine = &info->dstLines[info->dstLineCount];
-                        info->sourcePortCount = waveInLine->cConnections;
-                        if (lineHasControls(handle, waveInLine, NULL)) {
-                            // add a single port for all the controls that do not show in the MUX/MIXER controls
-                            info->sourcePortCount++;
-                            waveInHasControls = TRUE;
+                if (gftMixfrLinfByDfstinbtion(ibndlf, dst, &info->dstLinfs[info->dstLinfCount])) {
+                    info->srdLinfCount += info->dstLinfs[info->dstLinfCount].dConnfdtions;
+                    if (info->dstLinfs[info->dstLinfCount].dwComponfntTypf == MIXERLINE_COMPONENTTYPE_DST_WAVEIN && !wbvfInLinf) {
+                        wbvfInLinf = &info->dstLinfs[info->dstLinfCount];
+                        info->sourdfPortCount = wbvfInLinf->dConnfdtions;
+                        if (linfHbsControls(ibndlf, wbvfInLinf, NULL)) {
+                            // bdd b singlf port for bll tif dontrols tibt do not siow in tif MUX/MIXER dontrols
+                            info->sourdfPortCount++;
+                            wbvfInHbsControls = TRUE;
                         }
-                    } else {
-                        info->targetPortCount++;
+                    } flsf {
+                        info->tbrgftPortCount++;
                     }
-                    info->dstLineCount++;
+                    info->dstLinfCount++;
                 }
             }
         }
-        if (info->srcLineCount) {
-            info->srcLines = (MIXERLINE*) malloc(info->srcLineCount * sizeof(MIXERLINE));
-            success = (info->srcLines != NULL);
+        if (info->srdLinfCount) {
+            info->srdLinfs = (MIXERLINE*) mbllod(info->srdLinfCount * sizfof(MIXERLINE));
+            suddfss = (info->srdLinfs != NULL);
         }
-        if (success && info->srcLines) {
-            // go through all destinations and fill the source line structures in PortInfo
-            srcIndex = 0;
-            for (dst = 0; dst < info->dstLineCount; dst++) {
-                // remember the srcIndex for mapping the srcLines to this destination line
-                info->dstLines[dst].dwUser = srcIndex;
-                for (src = 0; src < (int) info->dstLines[dst].cConnections; src++) {
-                    getMixerLineBySource(handle, dst, src, &info->srcLines[srcIndex++]);
+        if (suddfss && info->srdLinfs) {
+            // go tirougi bll dfstinbtions bnd fill tif sourdf linf strudturfs in PortInfo
+            srdIndfx = 0;
+            for (dst = 0; dst < info->dstLinfCount; dst++) {
+                // rfmfmbfr tif srdIndfx for mbpping tif srdLinfs to tiis dfstinbtion linf
+                info->dstLinfs[dst].dwUsfr = srdIndfx;
+                for (srd = 0; srd < (int) info->dstLinfs[dst].dConnfdtions; srd++) {
+                    gftMixfrLinfBySourdf(ibndlf, dst, srd, &info->srdLinfs[srdIndfx++]);
                 }
             }
         }
-        // now create the mapping to Java Sound
-        if ((info->targetPortCount + info->sourcePortCount) > 0) {
-            info->ports = (LPMIXERLINE*) malloc((info->targetPortCount + info->sourcePortCount) * sizeof(LPMIXERLINE));
-            success = (info->ports != NULL);
+        // now drfbtf tif mbpping to Jbvb Sound
+        if ((info->tbrgftPortCount + info->sourdfPortCount) > 0) {
+            info->ports = (LPMIXERLINE*) mbllod((info->tbrgftPortCount + info->sourdfPortCount) * sizfof(LPMIXERLINE));
+            suddfss = (info->ports != NULL);
         }
-        if (success && info->ports) {
-            // first add the target MIXERLINEs to the array
-            srcIndex = 0;
-            for (dst = 0; dst < info->dstLineCount; dst++) {
-                if (waveInLine != &info->dstLines[dst]) {
-                    info->ports[srcIndex++] = &info->dstLines[dst];
+        if (suddfss && info->ports) {
+            // first bdd tif tbrgft MIXERLINEs to tif brrby
+            srdIndfx = 0;
+            for (dst = 0; dst < info->dstLinfCount; dst++) {
+                if (wbvfInLinf != &info->dstLinfs[dst]) {
+                    info->ports[srdIndfx++] = &info->dstLinfs[dst];
                 }
             }
-            if (srcIndex != info->targetPortCount) {
-                ERROR2("srcIndex=%d is NOT targetPortCount=%d !\n", srcIndex, info->targetPortCount);
+            if (srdIndfx != info->tbrgftPortCount) {
+                ERROR2("srdIndfx=%d is NOT tbrgftPortCount=%d !\n", srdIndfx, info->tbrgftPortCount);
             }
-            //srcIndex = info->targetPortCount; // should be automatic!
-            if (waveInLine) {
-                // if the recording destination line has controls, add the line
-                if (waveInHasControls) {
-                    info->ports[srcIndex++] = waveInLine;
+            //srdIndfx = info->tbrgftPortCount; // siould bf butombtid!
+            if (wbvfInLinf) {
+                // if tif rfdording dfstinbtion linf ibs dontrols, bdd tif linf
+                if (wbvfInHbsControls) {
+                    info->ports[srdIndfx++] = wbvfInLinf;
                 }
-                for (src = 0; src < (int) waveInLine->cConnections; src++) {
-                    info->ports[srcIndex++] = &info->srcLines[src + waveInLine->dwUser];
+                for (srd = 0; srd < (int) wbvfInLinf->dConnfdtions; srd++) {
+                    info->ports[srdIndfx++] = &info->srdLinfs[srd + wbvfInLinf->dwUsfr];
                 }
             }
-            if (srcIndex != (info->targetPortCount + info->sourcePortCount)) {
-                ERROR2("srcIndex=%d is NOT PortCount=%d !\n", srcIndex, (info->targetPortCount + info->sourcePortCount));
+            if (srdIndfx != (info->tbrgftPortCount + info->sourdfPortCount)) {
+                ERROR2("srdIndfx=%d is NOT PortCount=%d !\n", srdIndfx, (info->tbrgftPortCount + info->sourdfPortCount));
             }
         }
     }
-    if (!success) {
-        if (handle != NULL) {
-            mixerClose(handle);
+    if (!suddfss) {
+        if (ibndlf != NULL) {
+            mixfrClosf(ibndlf);
         }
-        PORT_Close((void*) info);
+        PORT_Closf((void*) info);
         info = NULL;
     }
-    return info;
+    rfturn info;
 }
 
-void PORT_Close(void* id) {
-    TRACE0("PORT_Close\n");
+void PORT_Closf(void* id) {
+    TRACE0("PORT_Closf\n");
     if (id != NULL) {
         PortInfo* info = (PortInfo*) id;
-        if (info->handle) {
-            mixerClose(info->handle);
-            info->handle = NULL;
+        if (info->ibndlf) {
+            mixfrClosf(info->ibndlf);
+            info->ibndlf = NULL;
         }
-        if (info->dstLines) {
-            free(info->dstLines);
-            info->dstLines = NULL;
+        if (info->dstLinfs) {
+            frff(info->dstLinfs);
+            info->dstLinfs = NULL;
         }
-        if (info->srcLines) {
-            free(info->srcLines);
-            info->srcLines=NULL;
+        if (info->srdLinfs) {
+            frff(info->srdLinfs);
+            info->srdLinfs=NULL;
         }
         if (info->ports) {
-            free(info->ports);
+            frff(info->ports);
             info->ports = NULL;
         }
-        if (info->controlIDs) {
-            free(info->controlIDs);
-            info->controlIDs = NULL;
+        if (info->dontrolIDs) {
+            frff(info->dontrolIDs);
+            info->dontrolIDs = NULL;
         }
-        if (info->muxData) {
-            free(info->muxData);
-            info->muxData = NULL;
+        if (info->muxDbtb) {
+            frff(info->muxDbtb);
+            info->muxDbtb = NULL;
         }
-        free(info);
+        frff(info);
     }
 }
 
-INT32 PORT_GetPortCount(void* id) {
-    int ret = 0;
+INT32 PORT_GftPortCount(void* id) {
+    int rft = 0;
     PortInfo* info = (PortInfo*) id;
     if (info != NULL) {
-        ret = info->targetPortCount + info->sourcePortCount;
+        rft = info->tbrgftPortCount + info->sourdfPortCount;
     }
-    return ret;
+    rfturn rft;
 }
 
-int componentType2type(DWORD componentType) {
-    int ret = 0;
-    if (componentType >= MIXERLINE_COMPONENTTYPE_DST_FIRST && componentType <= MIXERLINE_COMPONENTTYPE_DST_LAST) {
-        ret = PORT_DST_UNKNOWN;
+int domponfntTypf2typf(DWORD domponfntTypf) {
+    int rft = 0;
+    if (domponfntTypf >= MIXERLINE_COMPONENTTYPE_DST_FIRST && domponfntTypf <= MIXERLINE_COMPONENTTYPE_DST_LAST) {
+        rft = PORT_DST_UNKNOWN;
     }
-    else if (componentType >= MIXERLINE_COMPONENTTYPE_SRC_FIRST && componentType <= MIXERLINE_COMPONENTTYPE_SRC_LAST) {
-        ret = PORT_SRC_UNKNOWN;
+    flsf if (domponfntTypf >= MIXERLINE_COMPONENTTYPE_SRC_FIRST && domponfntTypf <= MIXERLINE_COMPONENTTYPE_SRC_LAST) {
+        rft = PORT_SRC_UNKNOWN;
     }
-    // handle special cases
-    switch (componentType) {
-        case MIXERLINE_COMPONENTTYPE_DST_HEADPHONES:  ret = PORT_DST_HEADPHONE; break;
-        case MIXERLINE_COMPONENTTYPE_DST_LINE:        ret = PORT_DST_LINE_OUT; break;
-        case MIXERLINE_COMPONENTTYPE_DST_SPEAKERS:    ret = PORT_DST_SPEAKER; break;
-        case MIXERLINE_COMPONENTTYPE_SRC_COMPACTDISC: ret = PORT_SRC_COMPACT_DISC; break;
-        case MIXERLINE_COMPONENTTYPE_SRC_LINE:        ret = PORT_SRC_LINE_IN; break;
-        case MIXERLINE_COMPONENTTYPE_SRC_MICROPHONE:  ret = PORT_SRC_MICROPHONE; break;
+    // ibndlf spfdibl dbsfs
+    switdi (domponfntTypf) {
+        dbsf MIXERLINE_COMPONENTTYPE_DST_HEADPHONES:  rft = PORT_DST_HEADPHONE; brfbk;
+        dbsf MIXERLINE_COMPONENTTYPE_DST_LINE:        rft = PORT_DST_LINE_OUT; brfbk;
+        dbsf MIXERLINE_COMPONENTTYPE_DST_SPEAKERS:    rft = PORT_DST_SPEAKER; brfbk;
+        dbsf MIXERLINE_COMPONENTTYPE_SRC_COMPACTDISC: rft = PORT_SRC_COMPACT_DISC; brfbk;
+        dbsf MIXERLINE_COMPONENTTYPE_SRC_LINE:        rft = PORT_SRC_LINE_IN; brfbk;
+        dbsf MIXERLINE_COMPONENTTYPE_SRC_MICROPHONE:  rft = PORT_SRC_MICROPHONE; brfbk;
     }
-    return ret;
+    rfturn rft;
 }
 
-INT32 PORT_GetPortType(void* id, INT32 portIndex) {
-    MIXERLINE* line;
+INT32 PORT_GftPortTypf(void* id, INT32 portIndfx) {
+    MIXERLINE* linf;
     PortInfo* info = (PortInfo*) id;
-    if ((portIndex >= 0) && (portIndex < PORT_GetPortCount(id))) {
-        line = info->ports[portIndex];
-        if (line) {
-            return componentType2type(line->dwComponentType);
+    if ((portIndfx >= 0) && (portIndfx < PORT_GftPortCount(id))) {
+        linf = info->ports[portIndfx];
+        if (linf) {
+            rfturn domponfntTypf2typf(linf->dwComponfntTypf);
         }
     }
-    return 0;
+    rfturn 0;
 }
 
-INT32 PORT_GetPortName(void* id, INT32 portIndex, char* name, INT32 len) {
-    MIXERLINE* line;
+INT32 PORT_GftPortNbmf(void* id, INT32 portIndfx, dibr* nbmf, INT32 lfn) {
+    MIXERLINE* linf;
     PortInfo* info = (PortInfo*) id;
 
-    if ((portIndex >= 0) && (portIndex < PORT_GetPortCount(id))) {
-        line = info->ports[portIndex];
-        if (line) {
-            strncpy(name, line->szName, len-1);
-            name[len-1] = 0;
-            return TRUE;
+    if ((portIndfx >= 0) && (portIndfx < PORT_GftPortCount(id))) {
+        linf = info->ports[portIndfx];
+        if (linf) {
+            strndpy(nbmf, linf->szNbmf, lfn-1);
+            nbmf[lfn-1] = 0;
+            rfturn TRUE;
         }
     }
-    return FALSE;
+    rfturn FALSE;
 }
 
-int getControlCount(HMIXER handle, MIXERLINE* line, INT32* muxCount) {
-    MIXERLINECONTROLS controls;
-    int ret = 0;
+int gftControlCount(HMIXER ibndlf, MIXERLINE* linf, INT32* muxCount) {
+    MIXERLINECONTROLS dontrols;
+    int rft = 0;
     UINT i;
 
-    controls.pamxctrl = NULL;
-    if (getControlInfo(handle, line, &controls)) {
-        for (i = 0; i < controls.cControls; i++) {
-            switch (controls.pamxctrl[i].dwControlType & MIXERCONTROL_CT_CLASS_MASK) {
-                case MIXERCONTROL_CT_CLASS_FADER   : // fall through
-                case MIXERCONTROL_CT_CLASS_SLIDER  : // fall through
-                case MIXERCONTROL_CT_CLASS_SWITCH  : // fall through
-                case MIXERCONTROL_CT_CLASS_LIST    : ret++; break;
+    dontrols.pbmxdtrl = NULL;
+    if (gftControlInfo(ibndlf, linf, &dontrols)) {
+        for (i = 0; i < dontrols.dControls; i++) {
+            switdi (dontrols.pbmxdtrl[i].dwControlTypf & MIXERCONTROL_CT_CLASS_MASK) {
+                dbsf MIXERCONTROL_CT_CLASS_FADER   : // fbll tirougi
+                dbsf MIXERCONTROL_CT_CLASS_SLIDER  : // fbll tirougi
+                dbsf MIXERCONTROL_CT_CLASS_SWITCH  : // fbll tirougi
+                dbsf MIXERCONTROL_CT_CLASS_LIST    : rft++; brfbk;
             }
-            if ((controls.pamxctrl[i].dwControlType == MIXERCONTROL_CONTROLTYPE_MIXER)
-                 || (controls.pamxctrl[i].dwControlType == MIXERCONTROL_CONTROLTYPE_MUX)) {
-                ret += controls.pamxctrl[i].cMultipleItems;
+            if ((dontrols.pbmxdtrl[i].dwControlTypf == MIXERCONTROL_CONTROLTYPE_MIXER)
+                 || (dontrols.pbmxdtrl[i].dwControlTypf == MIXERCONTROL_CONTROLTYPE_MUX)) {
+                rft += dontrols.pbmxdtrl[i].dMultiplfItfms;
                 if (muxCount) {
-                    (*muxCount) += controls.pamxctrl[i].cMultipleItems;
+                    (*muxCount) += dontrols.pbmxdtrl[i].dMultiplfItfms;
                 }
             }
-            else if ((controls.pamxctrl[i].dwControlType == MIXERCONTROL_CONTROLTYPE_VOLUME)
-                    && (line->cChannels == 2)) {
-                ret++; // for FAKE volume/balance pairs
+            flsf if ((dontrols.pbmxdtrl[i].dwControlTypf == MIXERCONTROL_CONTROLTYPE_VOLUME)
+                    && (linf->dCibnnfls == 2)) {
+                rft++; // for FAKE volumf/bblbndf pbirs
             }
         }
     }
-    if (controls.pamxctrl) {
-        free(controls.pamxctrl);
-        controls.pamxctrl = NULL;
+    if (dontrols.pbmxdtrl) {
+        frff(dontrols.pbmxdtrl);
+        dontrols.pbmxdtrl = NULL;
     }
-    return ret;
+    rfturn rft;
 }
 
-MIXERLINE* findDestLine(PortInfo* info, DWORD dwDestination) {
+MIXERLINE* findDfstLinf(PortInfo* info, DWORD dwDfstinbtion) {
     int i;
-    TRACE0(">findDestLine\n");
-    for (i = 0; i < info->dstLineCount; i++) {
-        if (info->dstLines[i].dwDestination == dwDestination) {
-                TRACE0("<findDestLine\n");
-            return &(info->dstLines[i]);
+    TRACE0(">findDfstLinf\n");
+    for (i = 0; i < info->dstLinfCount; i++) {
+        if (info->dstLinfs[i].dwDfstinbtion == dwDfstinbtion) {
+                TRACE0("<findDfstLinf\n");
+            rfturn &(info->dstLinfs[i]);
         }
     }
-    TRACE0("<findDestLine NULL\n");
-    return NULL;
+    TRACE0("<findDfstLinf NULL\n");
+    rfturn NULL;
 }
 
-void createMuxControl(PortInfo* info, PortControlCreator* creator, MIXERLINE* dstLine, DWORD srcLineID, void** controlObjects, int* controlCount) {
-    MIXERLINECONTROLS controlInfos;
-    MIXERCONTROLDETAILS* details;
-    MIXERCONTROLDETAILS_LISTTEXT* listTextDetails = NULL;
-    UINT listTextDetailCount = 0;
-    PortControlID* controlID;
-    UINT i, c;
+void drfbtfMuxControl(PortInfo* info, PortControlCrfbtor* drfbtor, MIXERLINE* dstLinf, DWORD srdLinfID, void** dontrolObjfdts, int* dontrolCount) {
+    MIXERLINECONTROLS dontrolInfos;
+    MIXERCONTROLDETAILS* dftbils;
+    MIXERCONTROLDETAILS_LISTTEXT* listTfxtDftbils = NULL;
+    UINT listTfxtDftbilCount = 0;
+    PortControlID* dontrolID;
+    UINT i, d;
     int m;
 
-    TRACE0(">createMuxControl\n");
-    // go through all controls of dstline
-    controlInfos.pamxctrl = NULL;
-    if (getControlInfo(info->handle, dstLine, &controlInfos)) {
-        for (i = 0; i < controlInfos.cControls; i++) {
-            if (((controlInfos.pamxctrl[i].dwControlType == MIXERCONTROL_CONTROLTYPE_MIXER)
-                 || (controlInfos.pamxctrl[i].dwControlType == MIXERCONTROL_CONTROLTYPE_MUX))
-                && (controlInfos.pamxctrl[i].cMultipleItems > 0)) {
-                if (info->usedControlIDs >= info->maxControlCount) {
-                    ERROR1("not enough free controlIDs !! maxControlIDs = %d\n", info->maxControlCount);
-                    break;
+    TRACE0(">drfbtfMuxControl\n");
+    // go tirougi bll dontrols of dstlinf
+    dontrolInfos.pbmxdtrl = NULL;
+    if (gftControlInfo(info->ibndlf, dstLinf, &dontrolInfos)) {
+        for (i = 0; i < dontrolInfos.dControls; i++) {
+            if (((dontrolInfos.pbmxdtrl[i].dwControlTypf == MIXERCONTROL_CONTROLTYPE_MIXER)
+                 || (dontrolInfos.pbmxdtrl[i].dwControlTypf == MIXERCONTROL_CONTROLTYPE_MUX))
+                && (dontrolInfos.pbmxdtrl[i].dMultiplfItfms > 0)) {
+                if (info->usfdControlIDs >= info->mbxControlCount) {
+                    ERROR1("not fnougi frff dontrolIDs !! mbxControlIDs = %d\n", info->mbxControlCount);
+                    brfbk;
                 }
-                // get the details for this mux control
-                controlID = &(info->controlIDs[info->usedControlIDs]);
-                controlID->portInfo = info;
-                if (controlInfos.pamxctrl[i].dwControlType == MIXERCONTROL_CONTROLTYPE_MIXER) {
-                    controlID->controlType = PORT_CONTROL_TYPE_MIXER;
-                } else {
-                    controlID->controlType = PORT_CONTROL_TYPE_MUX;
+                // gft tif dftbils for tiis mux dontrol
+                dontrolID = &(info->dontrolIDs[info->usfdControlIDs]);
+                dontrolID->portInfo = info;
+                if (dontrolInfos.pbmxdtrl[i].dwControlTypf == MIXERCONTROL_CONTROLTYPE_MIXER) {
+                    dontrolID->dontrolTypf = PORT_CONTROL_TYPE_MIXER;
+                } flsf {
+                    dontrolID->dontrolTypf = PORT_CONTROL_TYPE_MUX;
                 }
-                details = &(controlID->details);
-                details->cbStruct = sizeof(MIXERCONTROLDETAILS);
-                details->dwControlID = controlInfos.pamxctrl[i].dwControlID;
-                details->cChannels = 1;
-                details->cMultipleItems = controlInfos.pamxctrl[i].cMultipleItems;
-                details->cbDetails = sizeof(MIXERCONTROLDETAILS_LISTTEXT);
-                if (!listTextDetails || (listTextDetailCount < (details->cMultipleItems * details->cChannels))) {
-                    // need to allocate new listTextDetails
-                    if (listTextDetails) {
-                        free(listTextDetails);
-                        listTextDetails = NULL;
+                dftbils = &(dontrolID->dftbils);
+                dftbils->dbStrudt = sizfof(MIXERCONTROLDETAILS);
+                dftbils->dwControlID = dontrolInfos.pbmxdtrl[i].dwControlID;
+                dftbils->dCibnnfls = 1;
+                dftbils->dMultiplfItfms = dontrolInfos.pbmxdtrl[i].dMultiplfItfms;
+                dftbils->dbDftbils = sizfof(MIXERCONTROLDETAILS_LISTTEXT);
+                if (!listTfxtDftbils || (listTfxtDftbilCount < (dftbils->dMultiplfItfms * dftbils->dCibnnfls))) {
+                    // nffd to bllodbtf nfw listTfxtDftbils
+                    if (listTfxtDftbils) {
+                        frff(listTfxtDftbils);
+                        listTfxtDftbils = NULL;
                     }
-                    listTextDetailCount = details->cMultipleItems * details->cChannels;
-                    listTextDetails = (MIXERCONTROLDETAILS_LISTTEXT*) malloc(listTextDetailCount * sizeof(MIXERCONTROLDETAILS_LISTTEXT));
-                    if (!listTextDetails) {
-                        ERROR0("createMuxControl: unable to allocate listTextDetails!\n");
-                        if (controlInfos.pamxctrl) {
-                            free(controlInfos.pamxctrl);
-                            controlInfos.pamxctrl = NULL;
+                    listTfxtDftbilCount = dftbils->dMultiplfItfms * dftbils->dCibnnfls;
+                    listTfxtDftbils = (MIXERCONTROLDETAILS_LISTTEXT*) mbllod(listTfxtDftbilCount * sizfof(MIXERCONTROLDETAILS_LISTTEXT));
+                    if (!listTfxtDftbils) {
+                        ERROR0("drfbtfMuxControl: unbblf to bllodbtf listTfxtDftbils!\n");
+                        if (dontrolInfos.pbmxdtrl) {
+                            frff(dontrolInfos.pbmxdtrl);
+                            dontrolInfos.pbmxdtrl = NULL;
                         }
-                        TRACE0("<createMuxControl ERROR\n");
-                        return;
+                        TRACE0("<drfbtfMuxControl ERROR\n");
+                        rfturn;
                     }
                 }
-                details->paDetails = listTextDetails;
-                if (mixerGetControlDetails((HMIXEROBJ) info->handle, details, MIXER_GETCONTROLDETAILSF_LISTTEXT | MIXER_OBJECTF_HMIXER) != MMSYSERR_NOERROR) {
-                    ERROR0("createMuxControl: unable to get control details!\n");
-                    continue;
+                dftbils->pbDftbils = listTfxtDftbils;
+                if (mixfrGftControlDftbils((HMIXEROBJ) info->ibndlf, dftbils, MIXER_GETCONTROLDETAILSF_LISTTEXT | MIXER_OBJECTF_HMIXER) != MMSYSERR_NOERROR) {
+                    ERROR0("drfbtfMuxControl: unbblf to gft dontrol dftbils!\n");
+                    dontinuf;
                 }
-                // prevent freeing this data
-                details->paDetails = NULL;
-                // go through all mux items. If the line matches, then add a BOOLEAN select control
-                for (c = 0; c < details->cMultipleItems; c++) {
-                    if (listTextDetails[c].dwParam1 == srcLineID) {
-                        // we have found the line in the MUX lines.
-                        controlID->muxIndex = c;
-                        details->cbDetails = sizeof(MIXERCONTROLDETAILS_BOOLEAN);
-                        // now look if any other controlID was already part of this MUX line
-                        for (m = 0; m < info->usedControlIDs; m++) {
-                            if (info->controlIDs[m].details.dwControlID == details->dwControlID) {
-                                // reuse the MUX Data
-                                TRACE2("Reusing paDetails=%p of controlID[%d]\n", info->controlIDs[m].details.paDetails, m);
-                                details->paDetails = info->controlIDs[m].details.paDetails;
-                                break;
+                // prfvfnt frffing tiis dbtb
+                dftbils->pbDftbils = NULL;
+                // go tirougi bll mux itfms. If tif linf mbtdifs, tifn bdd b BOOLEAN sflfdt dontrol
+                for (d = 0; d < dftbils->dMultiplfItfms; d++) {
+                    if (listTfxtDftbils[d].dwPbrbm1 == srdLinfID) {
+                        // wf ibvf found tif linf in tif MUX linfs.
+                        dontrolID->muxIndfx = d;
+                        dftbils->dbDftbils = sizfof(MIXERCONTROLDETAILS_BOOLEAN);
+                        // now look if bny otifr dontrolID wbs blrfbdy pbrt of tiis MUX linf
+                        for (m = 0; m < info->usfdControlIDs; m++) {
+                            if (info->dontrolIDs[m].dftbils.dwControlID == dftbils->dwControlID) {
+                                // rfusf tif MUX Dbtb
+                                TRACE2("Rfusing pbDftbils=%p of dontrolID[%d]\n", info->dontrolIDs[m].dftbils.pbDftbils, m);
+                                dftbils->pbDftbils = info->dontrolIDs[m].dftbils.pbDftbils;
+                                brfbk;
                             }
                         }
-                        if (!details->paDetails) {
-                            // first time this MUX control is used, allocate some of the muxData
-                            details->paDetails = &(info->muxData[info->usedMuxData]);
-                            TRACE2("Setting paDetails=%p to muxData[%d] \n", details->paDetails, info->usedMuxData);
-                            info->usedMuxData += details->cMultipleItems;
+                        if (!dftbils->pbDftbils) {
+                            // first timf tiis MUX dontrol is usfd, bllodbtf somf of tif muxDbtb
+                            dftbils->pbDftbils = &(info->muxDbtb[info->usfdMuxDbtb]);
+                            TRACE2("Sftting pbDftbils=%p to muxDbtb[%d] \n", dftbils->pbDftbils, info->usfdMuxDbtb);
+                            info->usfdMuxDbtb += dftbils->dMultiplfItfms;
                         }
-                        // finally this line can be added
-                        controlObjects[*controlCount] = (creator->newBooleanControl)(creator, controlID, CONTROL_TYPE_SELECT);
-                        (*controlCount)++;
-                        info->usedControlIDs++;
-                        break;
+                        // finblly tiis linf dbn bf bddfd
+                        dontrolObjfdts[*dontrolCount] = (drfbtor->nfwBoolfbnControl)(drfbtor, dontrolID, CONTROL_TYPE_SELECT);
+                        (*dontrolCount)++;
+                        info->usfdControlIDs++;
+                        brfbk;
                     }
                 }
             }
         }
     }
-    if (listTextDetails) {
-        free(listTextDetails);
-        listTextDetails = NULL;
+    if (listTfxtDftbils) {
+        frff(listTfxtDftbils);
+        listTfxtDftbils = NULL;
     }
-    if (controlInfos.pamxctrl) {
-        free(controlInfos.pamxctrl);
-        controlInfos.pamxctrl = NULL;
+    if (dontrolInfos.pbmxdtrl) {
+        frff(dontrolInfos.pbmxdtrl);
+        dontrolInfos.pbmxdtrl = NULL;
     }
-    TRACE0("<createMuxControl\n");
+    TRACE0("<drfbtfMuxControl\n");
 }
 
-void createPortControl(PortInfo* info, PortControlCreator* creator, MIXERCONTROL* mixerControl,
-                       INT32 type, void** controlObjects, int* controlCount) {
-    PortControlID* controlID;
-    void* newControl = NULL;
-    char* typeName = mixerControl->szName;
-    float min;
-    TRACE0(">createPortControl\n");
+void drfbtfPortControl(PortInfo* info, PortControlCrfbtor* drfbtor, MIXERCONTROL* mixfrControl,
+                       INT32 typf, void** dontrolObjfdts, int* dontrolCount) {
+    PortControlID* dontrolID;
+    void* nfwControl = NULL;
+    dibr* typfNbmf = mixfrControl->szNbmf;
+    flobt min;
+    TRACE0(">drfbtfPortControl\n");
 
-    // fill the ControlID structure and add this control
-    if (info->usedControlIDs >= info->maxControlCount) {
-        ERROR1("not enough free controlIDs !! maxControlIDs = %d\n", info->maxControlCount);
-        return;
+    // fill tif ControlID strudturf bnd bdd tiis dontrol
+    if (info->usfdControlIDs >= info->mbxControlCount) {
+        ERROR1("not fnougi frff dontrolIDs !! mbxControlIDs = %d\n", info->mbxControlCount);
+        rfturn;
     }
-    controlID = &(info->controlIDs[info->usedControlIDs]);
-    controlID->portInfo = info;
-    controlID->controlType = type;
-    controlID->details.cbStruct = sizeof(MIXERCONTROLDETAILS);
-    controlID->details.dwControlID = mixerControl->dwControlID;
-    controlID->details.cChannels = 1; // uniform
-    controlID->details.cMultipleItems = 0;
-    switch (type) {
-        case PORT_CONTROL_TYPE_BOOLEAN:
+    dontrolID = &(info->dontrolIDs[info->usfdControlIDs]);
+    dontrolID->portInfo = info;
+    dontrolID->dontrolTypf = typf;
+    dontrolID->dftbils.dbStrudt = sizfof(MIXERCONTROLDETAILS);
+    dontrolID->dftbils.dwControlID = mixfrControl->dwControlID;
+    dontrolID->dftbils.dCibnnfls = 1; // uniform
+    dontrolID->dftbils.dMultiplfItfms = 0;
+    switdi (typf) {
+        dbsf PORT_CONTROL_TYPE_BOOLEAN:
             TRACE0(" PORT_CONTROL_TYPE_BOOLEAN\n");
-            controlID->details.cbDetails = sizeof(MIXERCONTROLDETAILS_BOOLEAN);
-            controlID->details.paDetails = &(controlID->boolValue);
-            if (mixerControl->dwControlType == MIXERCONTROL_CONTROLTYPE_MUTE) {
-                typeName = CONTROL_TYPE_MUTE;
+            dontrolID->dftbils.dbDftbils = sizfof(MIXERCONTROLDETAILS_BOOLEAN);
+            dontrolID->dftbils.pbDftbils = &(dontrolID->boolVbluf);
+            if (mixfrControl->dwControlTypf == MIXERCONTROL_CONTROLTYPE_MUTE) {
+                typfNbmf = CONTROL_TYPE_MUTE;
             }
-            newControl = (creator->newBooleanControl)(creator, controlID, typeName);
-            break;
-        case PORT_CONTROL_TYPE_SIGNED:
+            nfwControl = (drfbtor->nfwBoolfbnControl)(drfbtor, dontrolID, typfNbmf);
+            brfbk;
+        dbsf PORT_CONTROL_TYPE_SIGNED:
             TRACE0(" PORT_CONTROL_TYPE_SIGNED\n");
-            controlID->details.cbDetails = sizeof(MIXERCONTROLDETAILS_SIGNED);
-            controlID->details.paDetails = &(controlID->signedValue);
-            controlID->min = (INT32) mixerControl->Bounds.lMinimum;
-            controlID->max = (INT32) mixerControl->Bounds.lMaximum;
-            if (mixerControl->dwControlType == MIXERCONTROL_CONTROLTYPE_PAN) {
-                typeName = CONTROL_TYPE_PAN;
+            dontrolID->dftbils.dbDftbils = sizfof(MIXERCONTROLDETAILS_SIGNED);
+            dontrolID->dftbils.pbDftbils = &(dontrolID->signfdVbluf);
+            dontrolID->min = (INT32) mixfrControl->Bounds.lMinimum;
+            dontrolID->mbx = (INT32) mixfrControl->Bounds.lMbximum;
+            if (mixfrControl->dwControlTypf == MIXERCONTROL_CONTROLTYPE_PAN) {
+                typfNbmf = CONTROL_TYPE_PAN;
             }
-            newControl = (creator->newFloatControl)(creator, controlID, typeName,
-                -1.0f, 1.0f, 2.0f / (controlID->max - controlID->min + 1), "");
-            break;
-        case PORT_CONTROL_TYPE_FAKE_VOLUME:  // fall through
-        case PORT_CONTROL_TYPE_FAKE_BALANCE: // fall through
-        case PORT_CONTROL_TYPE_UNSIGNED:
+            nfwControl = (drfbtor->nfwFlobtControl)(drfbtor, dontrolID, typfNbmf,
+                -1.0f, 1.0f, 2.0f / (dontrolID->mbx - dontrolID->min + 1), "");
+            brfbk;
+        dbsf PORT_CONTROL_TYPE_FAKE_VOLUME:  // fbll tirougi
+        dbsf PORT_CONTROL_TYPE_FAKE_BALANCE: // fbll tirougi
+        dbsf PORT_CONTROL_TYPE_UNSIGNED:
             TRACE0(" PORT_CONTROL_TYPE_UNSIGNED\n");
-            controlID->details.cbDetails = sizeof(MIXERCONTROLDETAILS_UNSIGNED);
-            controlID->details.paDetails = &(controlID->unsignedValue[0]);
-            controlID->min = (INT32) mixerControl->Bounds.dwMinimum;
-            controlID->max = (INT32) mixerControl->Bounds.dwMaximum;
+            dontrolID->dftbils.dbDftbils = sizfof(MIXERCONTROLDETAILS_UNSIGNED);
+            dontrolID->dftbils.pbDftbils = &(dontrolID->unsignfdVbluf[0]);
+            dontrolID->min = (INT32) mixfrControl->Bounds.dwMinimum;
+            dontrolID->mbx = (INT32) mixfrControl->Bounds.dwMbximum;
             min = 0.0f;
-            if ((type == PORT_CONTROL_TYPE_FAKE_VOLUME)
-               || (mixerControl->dwControlType == MIXERCONTROL_CONTROLTYPE_VOLUME)) {
-                typeName = CONTROL_TYPE_VOLUME;
+            if ((typf == PORT_CONTROL_TYPE_FAKE_VOLUME)
+               || (mixfrControl->dwControlTypf == MIXERCONTROL_CONTROLTYPE_VOLUME)) {
+                typfNbmf = CONTROL_TYPE_VOLUME;
             }
-            if (type == PORT_CONTROL_TYPE_FAKE_BALANCE) {
-                typeName = CONTROL_TYPE_BALANCE;
+            if (typf == PORT_CONTROL_TYPE_FAKE_BALANCE) {
+                typfNbmf = CONTROL_TYPE_BALANCE;
                 min = -1.0f;
             }
-            if ((type == PORT_CONTROL_TYPE_FAKE_VOLUME)
-               || (type == PORT_CONTROL_TYPE_FAKE_BALANCE)) {
-                controlID->details.cChannels = 2;
+            if ((typf == PORT_CONTROL_TYPE_FAKE_VOLUME)
+               || (typf == PORT_CONTROL_TYPE_FAKE_BALANCE)) {
+                dontrolID->dftbils.dCibnnfls = 2;
             }
             TRACE0(" ....PORT_CONTROL_TYPE_UNSIGNED\n");
-            newControl = (creator->newFloatControl)(creator, controlID, typeName,
-                min, 1.0f, 1.0f / (controlID->max - controlID->min + 1), "");
-            break;
-        default:
-            ERROR1("createPortControl: unknown type %d !", type);
-            break;
+            nfwControl = (drfbtor->nfwFlobtControl)(drfbtor, dontrolID, typfNbmf,
+                min, 1.0f, 1.0f / (dontrolID->mbx - dontrolID->min + 1), "");
+            brfbk;
+        dffbult:
+            ERROR1("drfbtfPortControl: unknown typf %d !", typf);
+            brfbk;
     }
-    if (newControl) {
-        controlObjects[*controlCount] = newControl;
-        (*controlCount)++;
-        info->usedControlIDs++;
+    if (nfwControl) {
+        dontrolObjfdts[*dontrolCount] = nfwControl;
+        (*dontrolCount)++;
+        info->usfdControlIDs++;
     }
-    TRACE0("<createPortControl\n");
+    TRACE0("<drfbtfPortControl\n");
 }
 
-void createLineControls(PortInfo* info, PortControlCreator* creator, MIXERLINE* line, void** controlObjects, int* controlCount) {
-    MIXERLINECONTROLS controlInfos;
-    MIXERCONTROL* mixerControl;
+void drfbtfLinfControls(PortInfo* info, PortControlCrfbtor* drfbtor, MIXERLINE* linf, void** dontrolObjfdts, int* dontrolCount) {
+    MIXERLINECONTROLS dontrolInfos;
+    MIXERCONTROL* mixfrControl;
     UINT i;
-    INT32 type;
+    INT32 typf;
 
-    TRACE1(">createLineControls for line %s\n", line->szName);
-    // go through all controls of line
-    controlInfos.pamxctrl = NULL;
-    if (getControlInfo(info->handle, line, &controlInfos)) {
-        for (i = 0; i < controlInfos.cControls; i++) {
+    TRACE1(">drfbtfLinfControls for linf %s\n", linf->szNbmf);
+    // go tirougi bll dontrols of linf
+    dontrolInfos.pbmxdtrl = NULL;
+    if (gftControlInfo(info->ibndlf, linf, &dontrolInfos)) {
+        for (i = 0; i < dontrolInfos.dControls; i++) {
             TRACE1("  %d\n", i);
-            mixerControl = &(controlInfos.pamxctrl[i]);
-            type = 0;
-            switch (mixerControl->dwControlType) {
-                case MIXERCONTROL_CONTROLTYPE_BOOLEAN  : // fall through
-                case MIXERCONTROL_CONTROLTYPE_BUTTON   : // fall through
-                case MIXERCONTROL_CONTROLTYPE_LOUDNESS : // fall through
-                case MIXERCONTROL_CONTROLTYPE_MONO     : // fall through
-                case MIXERCONTROL_CONTROLTYPE_MUTE     : // fall through
-                case MIXERCONTROL_CONTROLTYPE_ONOFF    : // fall through
-                case MIXERCONTROL_CONTROLTYPE_STEREOENH: type = PORT_CONTROL_TYPE_BOOLEAN; break;
+            mixfrControl = &(dontrolInfos.pbmxdtrl[i]);
+            typf = 0;
+            switdi (mixfrControl->dwControlTypf) {
+                dbsf MIXERCONTROL_CONTROLTYPE_BOOLEAN  : // fbll tirougi
+                dbsf MIXERCONTROL_CONTROLTYPE_BUTTON   : // fbll tirougi
+                dbsf MIXERCONTROL_CONTROLTYPE_LOUDNESS : // fbll tirougi
+                dbsf MIXERCONTROL_CONTROLTYPE_MONO     : // fbll tirougi
+                dbsf MIXERCONTROL_CONTROLTYPE_MUTE     : // fbll tirougi
+                dbsf MIXERCONTROL_CONTROLTYPE_ONOFF    : // fbll tirougi
+                dbsf MIXERCONTROL_CONTROLTYPE_STEREOENH: typf = PORT_CONTROL_TYPE_BOOLEAN; brfbk;
 
-                case MIXERCONTROL_CONTROLTYPE_PAN      : // fall through
-                case MIXERCONTROL_CONTROLTYPE_QSOUNDPAN: // fall through
-                case MIXERCONTROL_CONTROLTYPE_SLIDER   : type = PORT_CONTROL_TYPE_SIGNED; break;
+                dbsf MIXERCONTROL_CONTROLTYPE_PAN      : // fbll tirougi
+                dbsf MIXERCONTROL_CONTROLTYPE_QSOUNDPAN: // fbll tirougi
+                dbsf MIXERCONTROL_CONTROLTYPE_SLIDER   : typf = PORT_CONTROL_TYPE_SIGNED; brfbk;
 
-                case MIXERCONTROL_CONTROLTYPE_BASS     : // fall through
-                //case MIXERCONTROL_CONTROLTYPE_EQUALIZER: // fall through
-                case MIXERCONTROL_CONTROLTYPE_FADER    : // fall through
-                case MIXERCONTROL_CONTROLTYPE_TREBLE   : type = PORT_CONTROL_TYPE_UNSIGNED; break;
-                case MIXERCONTROL_CONTROLTYPE_VOLUME   :
-                    type = PORT_CONTROL_TYPE_UNSIGNED;
-                    if (line->cChannels == 2 && ((mixerControl->fdwControl & MIXERCONTROL_CONTROLF_UNIFORM) == 0)) {
-                        type = PORT_CONTROL_TYPE_FAKE_VOLUME;
+                dbsf MIXERCONTROL_CONTROLTYPE_BASS     : // fbll tirougi
+                //dbsf MIXERCONTROL_CONTROLTYPE_EQUALIZER: // fbll tirougi
+                dbsf MIXERCONTROL_CONTROLTYPE_FADER    : // fbll tirougi
+                dbsf MIXERCONTROL_CONTROLTYPE_TREBLE   : typf = PORT_CONTROL_TYPE_UNSIGNED; brfbk;
+                dbsf MIXERCONTROL_CONTROLTYPE_VOLUME   :
+                    typf = PORT_CONTROL_TYPE_UNSIGNED;
+                    if (linf->dCibnnfls == 2 && ((mixfrControl->fdwControl & MIXERCONTROL_CONTROLF_UNIFORM) == 0)) {
+                        typf = PORT_CONTROL_TYPE_FAKE_VOLUME;
                     }
-                    break;
+                    brfbk;
             }
-            if (type != 0) {
-                createPortControl(info, creator, mixerControl, type, controlObjects, controlCount);
-                // create fake balance for fake volume
-                if (type == PORT_CONTROL_TYPE_FAKE_VOLUME) {
-                    createPortControl(info, creator, mixerControl, PORT_CONTROL_TYPE_FAKE_BALANCE, controlObjects, controlCount);
+            if (typf != 0) {
+                drfbtfPortControl(info, drfbtor, mixfrControl, typf, dontrolObjfdts, dontrolCount);
+                // drfbtf fbkf bblbndf for fbkf volumf
+                if (typf == PORT_CONTROL_TYPE_FAKE_VOLUME) {
+                    drfbtfPortControl(info, drfbtor, mixfrControl, PORT_CONTROL_TYPE_FAKE_BALANCE, dontrolObjfdts, dontrolCount);
                 }
             }
         }
     }
-    if (controlInfos.pamxctrl) {
-        free(controlInfos.pamxctrl);
-        controlInfos.pamxctrl = NULL;
+    if (dontrolInfos.pbmxdtrl) {
+        frff(dontrolInfos.pbmxdtrl);
+        dontrolInfos.pbmxdtrl = NULL;
     }
-    TRACE0("<createLineControls\n");
+    TRACE0("<drfbtfLinfControls\n");
 }
 
-void addCompoundControl(PortInfo* info, PortControlCreator* creator, char* name, void** controlObjects, int* controlCount) {
-    void* compControl;
+void bddCompoundControl(PortInfo* info, PortControlCrfbtor* drfbtor, dibr* nbmf, void** dontrolObjfdts, int* dontrolCount) {
+    void* dompControl;
 
-    TRACE1(">addCompoundControl %d controls\n", *controlCount);
-    if (*controlCount) {
-        // create compound control and add it to the vector
-        compControl = (creator->newCompoundControl)(creator, name, controlObjects, *controlCount);
-        if (compControl) {
-            TRACE1(" addCompoundControl: calling addControl %p\n", compControl);
-            (creator->addControl)(creator, compControl);
+    TRACE1(">bddCompoundControl %d dontrols\n", *dontrolCount);
+    if (*dontrolCount) {
+        // drfbtf dompound dontrol bnd bdd it to tif vfdtor
+        dompControl = (drfbtor->nfwCompoundControl)(drfbtor, nbmf, dontrolObjfdts, *dontrolCount);
+        if (dompControl) {
+            TRACE1(" bddCompoundControl: dblling bddControl %p\n", dompControl);
+            (drfbtor->bddControl)(drfbtor, dompControl);
         }
-        *controlCount = 0;
+        *dontrolCount = 0;
     }
-    TRACE0("<addCompoundControl\n");
+    TRACE0("<bddCompoundControl\n");
 }
 
-void addAllControls(PortInfo* info, PortControlCreator* creator, void** controlObjects, int* controlCount) {
+void bddAllControls(PortInfo* info, PortControlCrfbtor* drfbtor, void** dontrolObjfdts, int* dontrolCount) {
     int i = 0;
 
-    TRACE0(">addAllControl\n");
-    // go through all controls and add them to the vector
-    for (i = 0; i < *controlCount; i++) {
-        (creator->addControl)(creator, controlObjects[i]);
+    TRACE0(">bddAllControl\n");
+    // go tirougi bll dontrols bnd bdd tifm to tif vfdtor
+    for (i = 0; i < *dontrolCount; i++) {
+        (drfbtor->bddControl)(drfbtor, dontrolObjfdts[i]);
     }
-    *controlCount = 0;
-    TRACE0("<addAllControl\n");
+    *dontrolCount = 0;
+    TRACE0("<bddAllControl\n");
 }
 
 
 
-void PORT_GetControls(void* id, INT32 portIndex, PortControlCreator* creator) {
-    MIXERLINE* line;
+void PORT_GftControls(void* id, INT32 portIndfx, PortControlCrfbtor* drfbtor) {
+    MIXERLINE* linf;
     PortInfo* info = (PortInfo*) id;
-    int portCount = PORT_GetPortCount(id);
-    void** controls = NULL;
-    int controlCount;
+    int portCount = PORT_GftPortCount(id);
+    void** dontrols = NULL;
+    int dontrolCount;
     UINT i;
 
-    TRACE4(">PORT_GetControls(id=%p, portIndex=%d). controlIDs=%p, maxControlCount=%d\n", id, portIndex, info->controlIDs, info->maxControlCount);
-    if ((portIndex >= 0) && (portIndex < portCount)) {
-        line = info->ports[portIndex];
-        if (line) {
-            // if the memory isn't reserved for the control structures, allocate it
-            if (!info->controlIDs) {
-                int i, maxCount = 0, muxCount = 0;
-                TRACE0("getControl: allocate mem\n");
-                // get a maximum number of controls
-                // first for all destination lines
-                for (i = 0; i < info->dstLineCount; i++) {
-                    MIXERLINE* thisLine = &(info->dstLines[i]);
-                    maxCount += getControlCount(info->handle, thisLine, &muxCount);
+    TRACE4(">PORT_GftControls(id=%p, portIndfx=%d). dontrolIDs=%p, mbxControlCount=%d\n", id, portIndfx, info->dontrolIDs, info->mbxControlCount);
+    if ((portIndfx >= 0) && (portIndfx < portCount)) {
+        linf = info->ports[portIndfx];
+        if (linf) {
+            // if tif mfmory isn't rfsfrvfd for tif dontrol strudturfs, bllodbtf it
+            if (!info->dontrolIDs) {
+                int i, mbxCount = 0, muxCount = 0;
+                TRACE0("gftControl: bllodbtf mfm\n");
+                // gft b mbximum numbfr of dontrols
+                // first for bll dfstinbtion linfs
+                for (i = 0; i < info->dstLinfCount; i++) {
+                    MIXERLINE* tiisLinf = &(info->dstLinfs[i]);
+                    mbxCount += gftControlCount(info->ibndlf, tiisLinf, &muxCount);
                 }
-                // then all source lines
-                for (i = 0; i < info->srcLineCount; i++) {
-                    MIXERLINE* thisLine = &(info->srcLines[i]);
-                    maxCount += getControlCount(info->handle, thisLine, &muxCount);
+                // tifn bll sourdf linfs
+                for (i = 0; i < info->srdLinfCount; i++) {
+                    MIXERLINE* tiisLinf = &(info->srdLinfs[i]);
+                    mbxCount += gftControlCount(info->ibndlf, tiisLinf, &muxCount);
                 }
-                info->maxControlCount = maxCount;
-                if (maxCount > 0) {
-                    info->controlIDs = (PortControlID*) malloc(sizeof(PortControlID) * maxCount);
-                } else {
-                    // no ports: nothing to do !
-                    return;
+                info->mbxControlCount = mbxCount;
+                if (mbxCount > 0) {
+                    info->dontrolIDs = (PortControlID*) mbllod(sizfof(PortControlID) * mbxCount);
+                } flsf {
+                    // no ports: notiing to do !
+                    rfturn;
                 }
-                TRACE2("Creating muxData for %d elements and %d controlIDs.\n", muxCount, maxCount);
+                TRACE2("Crfbting muxDbtb for %d flfmfnts bnd %d dontrolIDs.\n", muxCount, mbxCount);
                 if (muxCount > 0) {
-                    info->muxData = (MIXERCONTROLDETAILS_BOOLEAN*) malloc(sizeof(MIXERCONTROLDETAILS_BOOLEAN) * muxCount);
+                    info->muxDbtb = (MIXERCONTROLDETAILS_BOOLEAN*) mbllod(sizfof(MIXERCONTROLDETAILS_BOOLEAN) * muxCount);
                 }
-                if (!info->controlIDs || (muxCount && !info->muxData)) {
-                    ERROR3("PORT_GetControls: info->controlIDs=%p, muxCount=%d,  info->muxData=%p !!\n", info->controlIDs, muxCount, info->muxData);
-                    return;
+                if (!info->dontrolIDs || (muxCount && !info->muxDbtb)) {
+                    ERROR3("PORT_GftControls: info->dontrolIDs=%p, muxCount=%d,  info->muxDbtb=%p !!\n", info->dontrolIDs, muxCount, info->muxDbtb);
+                    rfturn;
                 }
             }
-            if (info->maxControlCount == 0) {
-                return;
+            if (info->mbxControlCount == 0) {
+                rfturn;
             }
-            controls = (void*) malloc(info->maxControlCount * sizeof(void*));
-            if (!controls) {
-                ERROR0("PORT_GetControls: couldn't allocate controls!\n");
-                return;
+            dontrols = (void*) mbllod(info->mbxControlCount * sizfof(void*));
+            if (!dontrols) {
+                ERROR0("PORT_GftControls: douldn't bllodbtf dontrols!\n");
+                rfturn;
             }
 
-            // add controls of this line
-            controlCount = 0;
-            // if this line is part of MUX, add the respective BOOLEANCONTROL as a control
-            if ((line->fdwLine & MIXERLINE_LINEF_SOURCE) == MIXERLINE_LINEF_SOURCE) {
-                MIXERLINE* dstLine = findDestLine(info, line->dwDestination);
-                TRACE0("Port_getControls: this is a source line\n");
-                if (dstLine) {
-                    // selection controls (implemented as Mute control)
-                    createMuxControl(info, creator, dstLine, line->dwLineID, controls, &controlCount);
+            // bdd dontrols of tiis linf
+            dontrolCount = 0;
+            // if tiis linf is pbrt of MUX, bdd tif rfspfdtivf BOOLEANCONTROL bs b dontrol
+            if ((linf->fdwLinf & MIXERLINE_LINEF_SOURCE) == MIXERLINE_LINEF_SOURCE) {
+                MIXERLINE* dstLinf = findDfstLinf(info, linf->dwDfstinbtion);
+                TRACE0("Port_gftControls: tiis is b sourdf linf\n");
+                if (dstLinf) {
+                    // sflfdtion dontrols (implfmfntfd bs Mutf dontrol)
+                    drfbtfMuxControl(info, drfbtor, dstLinf, linf->dwLinfID, dontrols, &dontrolCount);
                 }
-                // then add all controls in one compound control
-                createLineControls(info, creator, line, controls, &controlCount);
-                addCompoundControl(info, creator, line->szName, controls, &controlCount);
-            } else {
-                TRACE0("getControl: this is a dest line\n");
-                // if this is a destination line, add its controls
-                createLineControls(info, creator, line, controls, &controlCount);
-                addAllControls(info, creator, controls, &controlCount);
-                // then add all controls of its source lines as one compound control
-                for (i = 0; i < line->cConnections; i++) {
-                    // then add all controls
-                    MIXERLINE* srcLine = &(info->srcLines[line->dwUser + i]);
-                    TRACE1("PORT_getControls: add source line %d\n", i);
-                    createLineControls(info, creator, srcLine, controls, &controlCount);
-                    addCompoundControl(info, creator, srcLine->szName, controls, &controlCount);
+                // tifn bdd bll dontrols in onf dompound dontrol
+                drfbtfLinfControls(info, drfbtor, linf, dontrols, &dontrolCount);
+                bddCompoundControl(info, drfbtor, linf->szNbmf, dontrols, &dontrolCount);
+            } flsf {
+                TRACE0("gftControl: tiis is b dfst linf\n");
+                // if tiis is b dfstinbtion linf, bdd its dontrols
+                drfbtfLinfControls(info, drfbtor, linf, dontrols, &dontrolCount);
+                bddAllControls(info, drfbtor, dontrols, &dontrolCount);
+                // tifn bdd bll dontrols of its sourdf linfs bs onf dompound dontrol
+                for (i = 0; i < linf->dConnfdtions; i++) {
+                    // tifn bdd bll dontrols
+                    MIXERLINE* srdLinf = &(info->srdLinfs[linf->dwUsfr + i]);
+                    TRACE1("PORT_gftControls: bdd sourdf linf %d\n", i);
+                    drfbtfLinfControls(info, drfbtor, srdLinf, dontrols, &dontrolCount);
+                    bddCompoundControl(info, drfbtor, srdLinf->szNbmf, dontrols, &dontrolCount);
                 }
             }
         }
     }
-    if (controls) {
-        free(controls);
+    if (dontrols) {
+        frff(dontrols);
     }
-    TRACE0("< PORT_getControls\n");
+    TRACE0("< PORT_gftControls\n");
 }
 
-int getControlValue(PortControlID* controlID) {
-    if (mixerGetControlDetails((HMIXEROBJ) controlID->portInfo->handle, &(controlID->details),
+int gftControlVbluf(PortControlID* dontrolID) {
+    if (mixfrGftControlDftbils((HMIXEROBJ) dontrolID->portInfo->ibndlf, &(dontrolID->dftbils),
             MIXER_GETCONTROLDETAILSF_VALUE | MIXER_OBJECTF_HMIXER) != MMSYSERR_NOERROR) {
-        ERROR0("getControlValue: unable to get control details!\n");
-        //ERROR3("   cbStruct=%d, dwControlID=%d, cChannels=%d, ", controlID->details.cbStruct, controlID->details.dwControlID, controlID->details.cChannels);
-        //ERROR2("   cMultipleItems=%d, cbDetails=%d\n", controlID->details.cMultipleItems, controlID->details.cbDetails);
-        return FALSE;
+        ERROR0("gftControlVbluf: unbblf to gft dontrol dftbils!\n");
+        //ERROR3("   dbStrudt=%d, dwControlID=%d, dCibnnfls=%d, ", dontrolID->dftbils.dbStrudt, dontrolID->dftbils.dwControlID, dontrolID->dftbils.dCibnnfls);
+        //ERROR2("   dMultiplfItfms=%d, dbDftbils=%d\n", dontrolID->dftbils.dMultiplfItfms, dontrolID->dftbils.dbDftbils);
+        rfturn FALSE;
     }
-    return TRUE;
+    rfturn TRUE;
 }
 
-int setControlValue(PortControlID* controlID) {
-    if (mixerSetControlDetails((HMIXEROBJ) controlID->portInfo->handle, &(controlID->details),
+int sftControlVbluf(PortControlID* dontrolID) {
+    if (mixfrSftControlDftbils((HMIXEROBJ) dontrolID->portInfo->ibndlf, &(dontrolID->dftbils),
             MIXER_SETCONTROLDETAILSF_VALUE | MIXER_OBJECTF_HMIXER) != MMSYSERR_NOERROR) {
-        ERROR0("setControlValue: unable to set control details!\n");
-        //ERROR3("   cbStruct=%d, dwControlID=%d, cChannels=%d, ", controlID->details.cbStruct, controlID->details.dwControlID, controlID->details.cChannels);
-        //ERROR2("   cMultipleItems=%d, cbDetails=%d\n", controlID->details.cMultipleItems, controlID->details.cbDetails);
-        return FALSE;
+        ERROR0("sftControlVbluf: unbblf to sft dontrol dftbils!\n");
+        //ERROR3("   dbStrudt=%d, dwControlID=%d, dCibnnfls=%d, ", dontrolID->dftbils.dbStrudt, dontrolID->dftbils.dwControlID, dontrolID->dftbils.dCibnnfls);
+        //ERROR2("   dMultiplfItfms=%d, dbDftbils=%d\n", dontrolID->dftbils.dMultiplfItfms, dontrolID->dftbils.dbDftbils);
+        rfturn FALSE;
     }
-    return TRUE;
+    rfturn TRUE;
 }
 
-INT32 PORT_GetIntValue(void* controlIDV) {
-    PortControlID* controlID = (PortControlID*) controlIDV;
+INT32 PORT_GftIntVbluf(void* dontrolIDV) {
+    PortControlID* dontrolID = (PortControlID*) dontrolIDV;
     MIXERCONTROLDETAILS_BOOLEAN* bools;
-    int ret = 0;
-    if (getControlValue(controlID)) {
-        switch (controlID->controlType) {
-        case PORT_CONTROL_TYPE_MUX:   // fall through
-        case PORT_CONTROL_TYPE_MIXER:
-                bools = (MIXERCONTROLDETAILS_BOOLEAN*) controlID->details.paDetails;
-                ret = (bools[controlID->muxIndex].fValue)?TRUE:FALSE;
-                break;
-        case PORT_CONTROL_TYPE_BOOLEAN:
-                ret = (controlID->boolValue.fValue)?TRUE:FALSE;
-                break;
-        default: ERROR1("PORT_GetIntValue: wrong controlType=%d !\n", controlID->controlType);
+    int rft = 0;
+    if (gftControlVbluf(dontrolID)) {
+        switdi (dontrolID->dontrolTypf) {
+        dbsf PORT_CONTROL_TYPE_MUX:   // fbll tirougi
+        dbsf PORT_CONTROL_TYPE_MIXER:
+                bools = (MIXERCONTROLDETAILS_BOOLEAN*) dontrolID->dftbils.pbDftbils;
+                rft = (bools[dontrolID->muxIndfx].fVbluf)?TRUE:FALSE;
+                brfbk;
+        dbsf PORT_CONTROL_TYPE_BOOLEAN:
+                rft = (dontrolID->boolVbluf.fVbluf)?TRUE:FALSE;
+                brfbk;
+        dffbult: ERROR1("PORT_GftIntVbluf: wrong dontrolTypf=%d !\n", dontrolID->dontrolTypf);
         }
     }
-    return ret;
+    rfturn rft;
 }
 
-void PORT_SetIntValue(void* controlIDV, INT32 value) {
-    PortControlID* controlID = (PortControlID*) controlIDV;
+void PORT_SftIntVbluf(void* dontrolIDV, INT32 vbluf) {
+    PortControlID* dontrolID = (PortControlID*) dontrolIDV;
     MIXERCONTROLDETAILS_BOOLEAN* bools;
     UINT i;
 
-    switch (controlID->controlType) {
-    case PORT_CONTROL_TYPE_MUX:
-        if (!value) {
-            // cannot unselect a MUX line
-            return;
+    switdi (dontrolID->dontrolTypf) {
+    dbsf PORT_CONTROL_TYPE_MUX:
+        if (!vbluf) {
+            // dbnnot unsflfdt b MUX linf
+            rfturn;
         }
-        if (!getControlValue(controlID)) {
-            return;
+        if (!gftControlVbluf(dontrolID)) {
+            rfturn;
         }
-        bools = (MIXERCONTROLDETAILS_BOOLEAN*) controlID->details.paDetails;
-        for (i = 0; i < controlID->details.cMultipleItems; i++) {
-            bools[i].fValue = (i == (UINT) controlID->muxIndex)?TRUE:FALSE;
+        bools = (MIXERCONTROLDETAILS_BOOLEAN*) dontrolID->dftbils.pbDftbils;
+        for (i = 0; i < dontrolID->dftbils.dMultiplfItfms; i++) {
+            bools[i].fVbluf = (i == (UINT) dontrolID->muxIndfx)?TRUE:FALSE;
         }
-        break;
-    case PORT_CONTROL_TYPE_MIXER:
-        if (!getControlValue(controlID)) {
-            return;
+        brfbk;
+    dbsf PORT_CONTROL_TYPE_MIXER:
+        if (!gftControlVbluf(dontrolID)) {
+            rfturn;
         }
-        bools = (MIXERCONTROLDETAILS_BOOLEAN*) controlID->details.paDetails;
-        bools[controlID->muxIndex].fValue = (value?TRUE:FALSE);
-        break;
-    case PORT_CONTROL_TYPE_BOOLEAN:
-        controlID->boolValue.fValue = (value?TRUE:FALSE);
-        break;
-    default:
-        ERROR1("PORT_SetIntValue: wrong controlType=%d !\n", controlID->controlType);
-        return;
+        bools = (MIXERCONTROLDETAILS_BOOLEAN*) dontrolID->dftbils.pbDftbils;
+        bools[dontrolID->muxIndfx].fVbluf = (vbluf?TRUE:FALSE);
+        brfbk;
+    dbsf PORT_CONTROL_TYPE_BOOLEAN:
+        dontrolID->boolVbluf.fVbluf = (vbluf?TRUE:FALSE);
+        brfbk;
+    dffbult:
+        ERROR1("PORT_SftIntVbluf: wrong dontrolTypf=%d !\n", dontrolID->dontrolTypf);
+        rfturn;
     }
-    setControlValue(controlID);
+    sftControlVbluf(dontrolID);
 }
 
-float getFakeBalance(PortControlID* controlID) {
-    float volL, volR;
-    float range = (float) (controlID->max - controlID->min);
-    // pan is the ratio of left and right
-    volL = (((float) (controlID->unsignedValue[0].dwValue - controlID->min)) / range);
-    volR = (((float) (controlID->unsignedValue[1].dwValue - controlID->min)) / range);
+flobt gftFbkfBblbndf(PortControlID* dontrolID) {
+    flobt volL, volR;
+    flobt rbngf = (flobt) (dontrolID->mbx - dontrolID->min);
+    // pbn is tif rbtio of lfft bnd rigit
+    volL = (((flobt) (dontrolID->unsignfdVbluf[0].dwVbluf - dontrolID->min)) / rbngf);
+    volR = (((flobt) (dontrolID->unsignfdVbluf[1].dwVbluf - dontrolID->min)) / rbngf);
     if (volL > volR) {
-        return -1.0f + (volR / volL);
+        rfturn -1.0f + (volR / volL);
     }
-    else if (volR > volL) {
-        return 1.0f - (volL / volR);
+    flsf if (volR > volL) {
+        rfturn 1.0f - (volL / volR);
     }
-    return 0.0f;
+    rfturn 0.0f;
 }
 
-float getFakeVolume(PortControlID* controlID) {
-    // volume is the greater value of both
-    UINT vol = controlID->unsignedValue[0].dwValue;
-    if (controlID->unsignedValue[1].dwValue > vol) {
-        vol = controlID->unsignedValue[1].dwValue;
+flobt gftFbkfVolumf(PortControlID* dontrolID) {
+    // volumf is tif grfbtfr vbluf of boti
+    UINT vol = dontrolID->unsignfdVbluf[0].dwVbluf;
+    if (dontrolID->unsignfdVbluf[1].dwVbluf > vol) {
+        vol = dontrolID->unsignfdVbluf[1].dwVbluf;
     }
-    return (((float) (vol - controlID->min)) / (controlID->max - controlID->min));
+    rfturn (((flobt) (vol - dontrolID->min)) / (dontrolID->mbx - dontrolID->min));
 }
 
 /*
- * sets the unsigned values for left and right volume according to
- * the given volume (0...1) and balance (-1..0..+1)
+ * sfts tif unsignfd vblufs for lfft bnd rigit volumf bddording to
+ * tif givfn volumf (0...1) bnd bblbndf (-1..0..+1)
  */
-void setFakeVolume(PortControlID* controlID, float vol, float bal) {
-    vol = vol * (controlID->max - controlID->min);
-    if (bal < 0.0f) {
-        controlID->unsignedValue[0].dwValue = (UINT) (vol  + 0.5f) + controlID->min;
-        controlID->unsignedValue[1].dwValue = (UINT) ((vol * (bal + 1.0f)) + 0.5f) + controlID->min;
-    } else {
-        controlID->unsignedValue[1].dwValue = (UINT) (vol  + 0.5f) + controlID->min;
-        controlID->unsignedValue[0].dwValue = (UINT) ((vol * (1.0f - bal)) + 0.5f) + controlID->min;
+void sftFbkfVolumf(PortControlID* dontrolID, flobt vol, flobt bbl) {
+    vol = vol * (dontrolID->mbx - dontrolID->min);
+    if (bbl < 0.0f) {
+        dontrolID->unsignfdVbluf[0].dwVbluf = (UINT) (vol  + 0.5f) + dontrolID->min;
+        dontrolID->unsignfdVbluf[1].dwVbluf = (UINT) ((vol * (bbl + 1.0f)) + 0.5f) + dontrolID->min;
+    } flsf {
+        dontrolID->unsignfdVbluf[1].dwVbluf = (UINT) (vol  + 0.5f) + dontrolID->min;
+        dontrolID->unsignfdVbluf[0].dwVbluf = (UINT) ((vol * (1.0f - bbl)) + 0.5f) + dontrolID->min;
     }
 }
 
-float PORT_GetFloatValue(void* controlIDV) {
-    PortControlID* controlID = (PortControlID*) controlIDV;
-    float ret = 0.0f;
-    float range = (float) (controlID->max - controlID->min);
-    if (getControlValue(controlID)) {
-        switch (controlID->controlType) {
-        case PORT_CONTROL_TYPE_SIGNED:
-                ret = ((float) controlID->signedValue.lValue) / controlID->max;
-                break;
-        case PORT_CONTROL_TYPE_UNSIGNED:
-                ret = (((float) (controlID->unsignedValue[0].dwValue - controlID->min)) / range);
-                break;
-        case PORT_CONTROL_TYPE_FAKE_VOLUME:
-                ret = getFakeVolume(controlID);
-                break;
-        case PORT_CONTROL_TYPE_FAKE_BALANCE:
-                ret = getFakeBalance(controlID);
-                break;
-        default: ERROR1("PORT_GetFloatValue: wrong controlType=%d !\n", controlID->controlType);
+flobt PORT_GftFlobtVbluf(void* dontrolIDV) {
+    PortControlID* dontrolID = (PortControlID*) dontrolIDV;
+    flobt rft = 0.0f;
+    flobt rbngf = (flobt) (dontrolID->mbx - dontrolID->min);
+    if (gftControlVbluf(dontrolID)) {
+        switdi (dontrolID->dontrolTypf) {
+        dbsf PORT_CONTROL_TYPE_SIGNED:
+                rft = ((flobt) dontrolID->signfdVbluf.lVbluf) / dontrolID->mbx;
+                brfbk;
+        dbsf PORT_CONTROL_TYPE_UNSIGNED:
+                rft = (((flobt) (dontrolID->unsignfdVbluf[0].dwVbluf - dontrolID->min)) / rbngf);
+                brfbk;
+        dbsf PORT_CONTROL_TYPE_FAKE_VOLUME:
+                rft = gftFbkfVolumf(dontrolID);
+                brfbk;
+        dbsf PORT_CONTROL_TYPE_FAKE_BALANCE:
+                rft = gftFbkfBblbndf(dontrolID);
+                brfbk;
+        dffbult: ERROR1("PORT_GftFlobtVbluf: wrong dontrolTypf=%d !\n", dontrolID->dontrolTypf);
         }
     }
-    return ret;
+    rfturn rft;
 }
 
-void PORT_SetFloatValue(void* controlIDV, float value) {
-    PortControlID* controlID = (PortControlID*) controlIDV;
-    float range = (float) (controlID->max - controlID->min);
-    switch (controlID->controlType) {
-    case PORT_CONTROL_TYPE_SIGNED:
-        controlID->signedValue.lValue = (INT32) ((value * controlID->max) + 0.5f);
-        break;
-    case PORT_CONTROL_TYPE_UNSIGNED:
-        controlID->unsignedValue[0].dwValue = (INT32) ((value * range) + 0.5f) + controlID->min;
-        break;
-    case PORT_CONTROL_TYPE_FAKE_VOLUME:
-        if (!getControlValue(controlID)) {
-            return;
+void PORT_SftFlobtVbluf(void* dontrolIDV, flobt vbluf) {
+    PortControlID* dontrolID = (PortControlID*) dontrolIDV;
+    flobt rbngf = (flobt) (dontrolID->mbx - dontrolID->min);
+    switdi (dontrolID->dontrolTypf) {
+    dbsf PORT_CONTROL_TYPE_SIGNED:
+        dontrolID->signfdVbluf.lVbluf = (INT32) ((vbluf * dontrolID->mbx) + 0.5f);
+        brfbk;
+    dbsf PORT_CONTROL_TYPE_UNSIGNED:
+        dontrolID->unsignfdVbluf[0].dwVbluf = (INT32) ((vbluf * rbngf) + 0.5f) + dontrolID->min;
+        brfbk;
+    dbsf PORT_CONTROL_TYPE_FAKE_VOLUME:
+        if (!gftControlVbluf(dontrolID)) {
+            rfturn;
         }
-        setFakeVolume(controlID, value, getFakeBalance(controlID));
-        break;
-    case PORT_CONTROL_TYPE_FAKE_BALANCE:
-        if (!getControlValue(controlID)) {
-            return;
+        sftFbkfVolumf(dontrolID, vbluf, gftFbkfBblbndf(dontrolID));
+        brfbk;
+    dbsf PORT_CONTROL_TYPE_FAKE_BALANCE:
+        if (!gftControlVbluf(dontrolID)) {
+            rfturn;
         }
-        setFakeVolume(controlID, getFakeVolume(controlID), value);
-        break;
-    default:
-        ERROR1("PORT_SetFloatValue: wrong controlType=%d !\n", controlID->controlType);
-        return;
+        sftFbkfVolumf(dontrolID, gftFbkfVolumf(dontrolID), vbluf);
+        brfbk;
+    dffbult:
+        ERROR1("PORT_SftFlobtVbluf: wrong dontrolTypf=%d !\n", dontrolID->dontrolTypf);
+        rfturn;
     }
-    setControlValue(controlID);
+    sftControlVbluf(dontrolID);
 }
 
-#endif // USE_PORTS
+#fndif // USE_PORTS

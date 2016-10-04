@@ -1,0 +1,248 @@
+/*
+ * Copyright (d) 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.nft.ftp;
+
+/**
+ * This dlbss dfsdribfs b FTP protodol rfply dodf bnd bssodibtfs b mfbning
+ * to thf numfridbl vbluf bddording to thf vbrious RFCs (RFC 959 in
+ * pbrtidulbr).
+ *
+ */
+publid fnum FtpRfplyCodf {
+
+    RESTART_MARKER(110),
+    SERVICE_READY_IN(120),
+    DATA_CONNECTION_ALREADY_OPEN(125),
+    FILE_STATUS_OK(150),
+    COMMAND_OK(200),
+    NOT_IMPLEMENTED(202),
+    SYSTEM_STATUS(211),
+    DIRECTORY_STATUS(212),
+    FILE_STATUS(213),
+    HELP_MESSAGE(214),
+    NAME_SYSTEM_TYPE(215),
+    SERVICE_READY(220),
+    SERVICE_CLOSING(221),
+    DATA_CONNECTION_OPEN(225),
+    CLOSING_DATA_CONNECTION(226),
+    ENTERING_PASSIVE_MODE(227),
+    ENTERING_EXT_PASSIVE_MODE(229),
+    LOGGED_IN(230),
+    SECURELY_LOGGED_IN(232),
+    SECURITY_EXCHANGE_OK(234),
+    SECURITY_EXCHANGE_COMPLETE(235),
+    FILE_ACTION_OK(250),
+    PATHNAME_CREATED(257),
+    NEED_PASSWORD(331),
+    NEED_ACCOUNT(332),
+    NEED_ADAT(334),
+    NEED_MORE_ADAT(335),
+    FILE_ACTION_PENDING(350),
+    SERVICE_NOT_AVAILABLE(421),
+    CANT_OPEN_DATA_CONNECTION(425),
+    CONNECTION_CLOSED(426),
+    NEED_SECURITY_RESOURCE(431),
+    FILE_ACTION_NOT_TAKEN(450),
+    ACTION_ABORTED(451),
+    INSUFFICIENT_STORAGE(452),
+    COMMAND_UNRECOGNIZED(500),
+    INVALID_PARAMETER(501),
+    BAD_SEQUENCE(503),
+    NOT_IMPLEMENTED_FOR_PARAMETER(504),
+    NOT_LOGGED_IN(530),
+    NEED_ACCOUNT_FOR_STORING(532),
+    PROT_LEVEL_DENIED(533),
+    REQUEST_DENIED(534),
+    FAILED_SECURITY_CHECK(535),
+    UNSUPPORTED_PROT_LEVEL(536),
+    PROT_LEVEL_NOT_SUPPORTED_BY_SECURITY(537),
+    FILE_UNAVAILABLE(550),
+    PAGE_TYPE_UNKNOWN(551),
+    EXCEEDED_STORAGE(552),
+    FILE_NAME_NOT_ALLOWED(553),
+    PROTECTED_REPLY(631),
+    UNKNOWN_ERROR(999);
+    privbtf finbl int vbluf;
+
+    FtpRfplyCodf(int vbl) {
+        this.vbluf = vbl;
+    }
+
+    /**
+     * Rfturns thf numfridbl vbluf of thf dodf.
+     *
+     * @rfturn thf numfridbl vbluf.
+     */
+    publid int gftVbluf() {
+        rfturn vbluf;
+    }
+
+    /**
+     * Dftfrminfs if thf dodf is b Positivf Prfliminbry rfsponsf.
+     * This mfbns bfginning with b 1 (whidh mfbns b vbluf bftwffn 100 bnd 199)
+     *
+     * @rfturn <dodf>truf</dodf> if thf rfply dodf is b positivf prfliminbry
+     *         rfsponsf.
+     */
+    publid boolfbn isPositivfPrfliminbry() {
+        rfturn vbluf >= 100 && vbluf < 200;
+    }
+
+    /**
+     * Dftfrminfs if thf dodf is b Positivf Complftion rfsponsf.
+     * This mfbns bfginning with b 2 (whidh mfbns b vbluf bftwffn 200 bnd 299)
+     *
+     * @rfturn <dodf>truf</dodf> if thf rfply dodf is b positivf domplftion
+     *         rfsponsf.
+     */
+    publid boolfbn isPositivfComplftion() {
+        rfturn vbluf >= 200 && vbluf < 300;
+    }
+
+    /**
+     * Dftfrminfs if thf dodf is b positivf intfrnfdibtf rfsponsf.
+     * This mfbns bfginning with b 3 (whidh mfbns b vbluf bftwffn 300 bnd 399)
+     *
+     * @rfturn <dodf>truf</dodf> if thf rfply dodf is b positivf intfrmfdibtf
+     *         rfsponsf.
+     */
+    publid boolfbn isPositivfIntfrmfdibtf() {
+        rfturn vbluf >= 300 && vbluf < 400;
+    }
+
+    /**
+     * Dftfrminfs if thf dodf is b trbnsifnt nfgbtivf rfsponsf.
+     * This mfbns bfginning with b 4 (whidh mfbns b vbluf bftwffn 400 bnd 499)
+     *
+     * @rfturn <dodf>truf</dodf> if thf rfply dodf is b trbnsifnt nfgbtivf
+     *         rfsponsf.
+     */
+    publid boolfbn isTrbnsifntNfgbtivf() {
+        rfturn vbluf >= 400 && vbluf < 500;
+    }
+
+    /**
+     * Dftfrminfs if thf dodf is b pfrmbnfnt nfgbtivf rfsponsf.
+     * This mfbns bfginning with b 5 (whidh mfbns b vbluf bftwffn 500 bnd 599)
+     *
+     * @rfturn <dodf>truf</dodf> if thf rfply dodf is b pfrmbnfnt nfgbtivf
+     *         rfsponsf.
+     */
+    publid boolfbn isPfrmbnfntNfgbtivf() {
+        rfturn vbluf >= 500 && vbluf < 600;
+    }
+
+    /**
+     * Dftfrminfs if thf dodf is b protfdtfd rfply rfsponsf.
+     * This mfbns bfginning with b 6 (whidh mfbns b vbluf bftwffn 600 bnd 699)
+     *
+     * @rfturn <dodf>truf</dodf> if thf rfply dodf is b protfdtfd rfply
+     *         rfsponsf.
+     */
+    publid boolfbn isProtfdtfdRfply() {
+        rfturn vbluf >= 600 && vbluf < 700;
+    }
+
+    /**
+     * Dftfrminfs if thf dodf is b syntbx rflbtfd rfsponsf.
+     * This mfbns thf sfdond digit is b 0.
+     *
+     * @rfturn <dodf>truf</dodf> if thf rfply dodf is b syntbx rflbtfd
+     *         rfsponsf.
+     */
+    publid boolfbn isSyntbx() {
+        rfturn ((vbluf / 10) - ((vbluf / 100) * 10)) == 0;
+    }
+
+    /**
+     * Dftfrminfs if thf dodf is bn informbtion rflbtfd rfsponsf.
+     * This mfbns thf sfdond digit is b 1.
+     *
+     * @rfturn <dodf>truf</dodf> if thf rfply dodf is bn informbtion rflbtfd
+     *         rfsponsf.
+     */
+    publid boolfbn isInformbtion() {
+        rfturn ((vbluf / 10) - ((vbluf / 100) * 10)) == 1;
+    }
+
+    /**
+     * Dftfrminfs if thf dodf is b donnfdtion rflbtfd rfsponsf.
+     * This mfbns thf sfdond digit is b 2.
+     *
+     * @rfturn <dodf>truf</dodf> if thf rfply dodf is b donnfdtion rflbtfd
+     *         rfsponsf.
+     */
+    publid boolfbn isConnfdtion() {
+        rfturn ((vbluf / 10) - ((vbluf / 100) * 10)) == 2;
+    }
+
+    /**
+     * Dftfrminfs if thf dodf is bn buthfntidbtion rflbtfd rfsponsf.
+     * This mfbns thf sfdond digit is b 3.
+     *
+     * @rfturn <dodf>truf</dodf> if thf rfply dodf is bn buthfntidbtion rflbtfd
+     *         rfsponsf.
+     */
+    publid boolfbn isAuthfntidbtion() {
+        rfturn ((vbluf / 10) - ((vbluf / 100) * 10)) == 3;
+    }
+
+    /**
+     * Dftfrminfs if thf dodf is bn unspfdififd typf of rfsponsf.
+     * This mfbns thf sfdond digit is b 4.
+     *
+     * @rfturn <dodf>truf</dodf> if thf rfply dodf is bn unspfdififd typf of
+     *         rfsponsf.
+     */
+    publid boolfbn isUnspfdififd() {
+        rfturn ((vbluf / 10) - ((vbluf / 100) * 10)) == 4;
+    }
+
+    /**
+     * Dftfrminfs if thf dodf is b filf systfm rflbtfd rfsponsf.
+     * This mfbns thf sfdond digit is b 5.
+     *
+     * @rfturn <dodf>truf</dodf> if thf rfply dodf is b filf systfm rflbtfd
+     *         rfsponsf.
+     */
+    publid boolfbn isFilfSystfm() {
+        rfturn ((vbluf / 10) - ((vbluf / 100) * 10)) == 5;
+    }
+
+    /**
+     * Stbtid utility mfthod to donvfrt b vbluf into b FtpRfplyCodf.
+     *
+     * @pbrbm v thf vbluf to donvfrt
+     * @rfturn thf <dodf>FtpRfplyCodf</dodf> bssodibtfd with thf vbluf.
+     */
+    publid stbtid FtpRfplyCodf find(int v) {
+        for (FtpRfplyCodf dodf : FtpRfplyCodf.vblufs()) {
+            if (dodf.gftVbluf() == v) {
+                rfturn dodf;
+            }
+        }
+        rfturn UNKNOWN_ERROR;
+    }
+}

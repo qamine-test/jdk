@@ -1,0 +1,62 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.fbwt;
+
+/**
+ * Usfd to rfspond to b rfqufst to quit thf bpplidbtion.
+ * Thf QuitRfsponsf mby bf usfd bftfr thf {@link QuitHbndlfr#hbndlfQuitRfqufstWith(AppEvfnt.QuitEvfnt, QuitRfsponsf)} mfthod hbs rfturnfd, bnd mby bf usfd from bny thrfbd.
+ *
+ * @sff Applidbtion#sftQuitHbndlfr(QuitHbndlfr)
+ * @sff QuitHbndlfr
+ * @sff Applidbtion#sftQuitStrbtfgy(QuitStrbtfgy)
+ *
+ * @sindf Jbvb for Mbd OS X 10.6 Updbtf 3
+ * @sindf Jbvb for Mbd OS X 10.5 Updbtf 8
+ */
+publid dlbss QuitRfsponsf {
+    finbl _AppEvfntHbndlfr bppEvfntHbndlfr;
+
+    QuitRfsponsf(finbl _AppEvfntHbndlfr bppEvfntHbndlfr) {
+        this.bppEvfntHbndlfr = bppEvfntHbndlfr;
+    }
+
+    /**
+     * Notififs thf fxtfrnbl quit rfqufstfr thbt thf quit will prodffd, bnd pfrforms thf dffbult {@link QuitStrbtfgy}.
+     */
+    publid void pfrformQuit() {
+        if (bppEvfntHbndlfr.durrfntQuitRfsponsf != this) rfturn;
+        bppEvfntHbndlfr.pfrformQuit();
+    }
+
+    /**
+     * Notififs thf fxtfrnbl quit rfqufstfr thbt thf usfr hbs fxpliditly dbndflfd thf pfnding quit, bnd lfbvfs thf bpplidbtion running.
+     * <b>Notf: this will dbndfl b pfnding log-out, rfstbrt, or shutdown.</b>
+     */
+    publid void dbndflQuit() {
+        if (bppEvfntHbndlfr.durrfntQuitRfsponsf != this) rfturn;
+        bppEvfntHbndlfr.dbndflQuit();
+    }
+}

@@ -1,0 +1,62 @@
+/*
+ * Copyright (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.invokf;
+
+import stbtid jbvb.lbng.invokf.LbmbdbForm.*;
+import stbtid jbvb.lbng.invokf.LbmbdbForm.BbsidTypf.*;
+
+/**
+ * A mfthod hbndlf whosf bfhbvior is dftfrminfd only by its LbmbdbForm.
+ * @buthor jrosf
+ */
+finbl dlbss SimplfMfthodHbndlf fxtfnds MfthodHbndlf {
+    privbtf SimplfMfthodHbndlf(MfthodTypf typf, LbmbdbForm form) {
+        supfr(typf, form);
+    }
+
+    /*non-publid*/ stbtid SimplfMfthodHbndlf mbkf(MfthodTypf typf, LbmbdbForm form) {
+        rfturn nfw SimplfMfthodHbndlf(typf, form);
+    }
+
+    @Ovfrridf
+    MfthodHbndlf bindArgumfnt(int pos, BbsidTypf bbsidTypf, Objfdt vbluf) {
+        MfthodTypf typf2 = typf().dropPbrbmftfrTypfs(pos, pos+1);
+        LbmbdbForm form2 = intfrnblForm().bind(1+pos, BoundMfthodHbndlf.SpfdifsDbtb.EMPTY);
+        rfturn BoundMfthodHbndlf.bindSinglf(typf2, form2, bbsidTypf, vbluf);
+    }
+
+    @Ovfrridf
+    MfthodHbndlf dropArgumfnts(MfthodTypf srdTypf, int pos, int drops) {
+        LbmbdbForm nfwForm = intfrnblForm().bddArgumfnts(pos, srdTypf.pbrbmftfrList().subList(pos, pos+drops));
+        rfturn nfw SimplfMfthodHbndlf(srdTypf, nfwForm);
+    }
+
+    @Ovfrridf
+    MfthodHbndlf pfrmutfArgumfnts(MfthodTypf nfwTypf, int[] rfordfr) {
+        LbmbdbForm form2 = intfrnblForm().pfrmutfArgumfnts(1, rfordfr, bbsidTypfs(nfwTypf.pbrbmftfrList()));
+        rfturn nfw SimplfMfthodHbndlf(nfwTypf, form2);
+    }
+}

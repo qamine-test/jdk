@@ -1,345 +1,345 @@
 /*
- * Copyright (c) 2004, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.remote.security;
+pbdkbgf dom.sun.jmx.rfmotf.sfdurity;
 
-import java.io.IOException;
-import java.security.AccessController;
-import java.security.Principal;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import javax.management.remote.JMXPrincipal;
-import javax.management.remote.JMXAuthenticator;
-import javax.security.auth.AuthPermission;
-import javax.security.auth.Subject;
-import javax.security.auth.callback.*;
-import javax.security.auth.login.AppConfigurationEntry;
-import javax.security.auth.login.Configuration;
-import javax.security.auth.login.LoginContext;
-import javax.security.auth.login.LoginException;
-import javax.security.auth.spi.LoginModule;
-import com.sun.jmx.remote.util.ClassLogger;
-import com.sun.jmx.remote.util.EnvHelp;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Propfrtifs;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXPrindipbl;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXAutifntidbtor;
+import jbvbx.sfdurity.buti.AutiPfrmission;
+import jbvbx.sfdurity.buti.Subjfdt;
+import jbvbx.sfdurity.buti.dbllbbdk.*;
+import jbvbx.sfdurity.buti.login.AppConfigurbtionEntry;
+import jbvbx.sfdurity.buti.login.Configurbtion;
+import jbvbx.sfdurity.buti.login.LoginContfxt;
+import jbvbx.sfdurity.buti.login.LoginExdfption;
+import jbvbx.sfdurity.buti.spi.LoginModulf;
+import dom.sun.jmx.rfmotf.util.ClbssLoggfr;
+import dom.sun.jmx.rfmotf.util.EnvHflp;
 
 /**
- * <p>This class represents a
- * <a href="{@docRoot}/../guide/security/jaas/JAASRefGuide.html">JAAS</a>
- * based implementation of the {@link JMXAuthenticator} interface.</p>
+ * <p>Tiis dlbss rfprfsfnts b
+ * <b irff="{@dodRoot}/../guidf/sfdurity/jbbs/JAASRffGuidf.itml">JAAS</b>
+ * bbsfd implfmfntbtion of tif {@link JMXAutifntidbtor} intfrfbdf.</p>
  *
- * <p>Authentication is performed by passing the supplied user's credentials
- * to one or more authentication mechanisms ({@link LoginModule}) for
- * verification. An authentication mechanism acquires the user's credentials
- * by calling {@link NameCallback} and/or {@link PasswordCallback}.
- * If authentication is successful then an authenticated {@link Subject}
- * filled in with a {@link Principal} is returned.  Authorization checks
- * will then be performed based on this <code>Subject</code>.</p>
+ * <p>Autifntidbtion is pfrformfd by pbssing tif supplifd usfr's drfdfntibls
+ * to onf or morf butifntidbtion mfdibnisms ({@link LoginModulf}) for
+ * vfrifidbtion. An butifntidbtion mfdibnism bdquirfs tif usfr's drfdfntibls
+ * by dblling {@link NbmfCbllbbdk} bnd/or {@link PbsswordCbllbbdk}.
+ * If butifntidbtion is suddfssful tifn bn butifntidbtfd {@link Subjfdt}
+ * fillfd in witi b {@link Prindipbl} is rfturnfd.  Autiorizbtion difdks
+ * will tifn bf pfrformfd bbsfd on tiis <dodf>Subjfdt</dodf>.</p>
  *
- * <p>By default, a single file-based authentication mechanism
- * {@link FileLoginModule} is configured (<code>FileLoginConfig</code>).</p>
+ * <p>By dffbult, b singlf filf-bbsfd butifntidbtion mfdibnism
+ * {@link FilfLoginModulf} is donfigurfd (<dodf>FilfLoginConfig</dodf>).</p>
  *
- * <p>To override the default configuration use the
- * <code>com.sun.management.jmxremote.login.config</code> management property
- * described in the JRE/lib/management/management.properties file.
- * Set this property to the name of a JAAS configuration entry and ensure that
- * the entry is loaded by the installed {@link Configuration}. In addition,
- * ensure that the authentication mechanisms specified in the entry acquire
- * the user's credentials by calling {@link NameCallback} and
- * {@link PasswordCallback} and that they return a {@link Subject} filled-in
- * with a {@link Principal}, for those users that are successfully
- * authenticated.</p>
+ * <p>To ovfrridf tif dffbult donfigurbtion usf tif
+ * <dodf>dom.sun.mbnbgfmfnt.jmxrfmotf.login.donfig</dodf> mbnbgfmfnt propfrty
+ * dfsdribfd in tif JRE/lib/mbnbgfmfnt/mbnbgfmfnt.propfrtifs filf.
+ * Sft tiis propfrty to tif nbmf of b JAAS donfigurbtion fntry bnd fnsurf tibt
+ * tif fntry is lobdfd by tif instbllfd {@link Configurbtion}. In bddition,
+ * fnsurf tibt tif butifntidbtion mfdibnisms spfdififd in tif fntry bdquirf
+ * tif usfr's drfdfntibls by dblling {@link NbmfCbllbbdk} bnd
+ * {@link PbsswordCbllbbdk} bnd tibt tify rfturn b {@link Subjfdt} fillfd-in
+ * witi b {@link Prindipbl}, for tiosf usfrs tibt brf suddfssfully
+ * butifntidbtfd.</p>
  */
-public final class JMXPluggableAuthenticator implements JMXAuthenticator {
+publid finbl dlbss JMXPluggbblfAutifntidbtor implfmfnts JMXAutifntidbtor {
 
     /**
-     * Creates an instance of <code>JMXPluggableAuthenticator</code>
-     * and initializes it with a {@link LoginContext}.
+     * Crfbtfs bn instbndf of <dodf>JMXPluggbblfAutifntidbtor</dodf>
+     * bnd initiblizfs it witi b {@link LoginContfxt}.
      *
-     * @param env the environment containing configuration properties for the
-     *            authenticator. Can be null, which is equivalent to an empty
-     *            Map.
-     * @exception SecurityException if the authentication mechanism cannot be
-     *            initialized.
+     * @pbrbm fnv tif fnvironmfnt dontbining donfigurbtion propfrtifs for tif
+     *            butifntidbtor. Cbn bf null, wiidi is fquivblfnt to bn fmpty
+     *            Mbp.
+     * @fxdfption SfdurityExdfption if tif butifntidbtion mfdibnism dbnnot bf
+     *            initiblizfd.
      */
-    public JMXPluggableAuthenticator(Map<?, ?> env) {
+    publid JMXPluggbblfAutifntidbtor(Mbp<?, ?> fnv) {
 
-        String loginConfigName = null;
-        String passwordFile = null;
+        String loginConfigNbmf = null;
+        String pbsswordFilf = null;
 
-        if (env != null) {
-            loginConfigName = (String) env.get(LOGIN_CONFIG_PROP);
-            passwordFile = (String) env.get(PASSWORD_FILE_PROP);
+        if (fnv != null) {
+            loginConfigNbmf = (String) fnv.gft(LOGIN_CONFIG_PROP);
+            pbsswordFilf = (String) fnv.gft(PASSWORD_FILE_PROP);
         }
 
         try {
 
-            if (loginConfigName != null) {
-                // use the supplied JAAS login configuration
-                loginContext =
-                    new LoginContext(loginConfigName, new JMXCallbackHandler());
+            if (loginConfigNbmf != null) {
+                // usf tif supplifd JAAS login donfigurbtion
+                loginContfxt =
+                    nfw LoginContfxt(loginConfigNbmf, nfw JMXCbllbbdkHbndlfr());
 
-            } else {
-                // use the default JAAS login configuration (file-based)
-                SecurityManager sm = System.getSecurityManager();
+            } flsf {
+                // usf tif dffbult JAAS login donfigurbtion (filf-bbsfd)
+                SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
                 if (sm != null) {
-                    sm.checkPermission(
-                            new AuthPermission("createLoginContext." +
+                    sm.difdkPfrmission(
+                            nfw AutiPfrmission("drfbtfLoginContfxt." +
                                                LOGIN_CONFIG_NAME));
                 }
 
-                final String pf = passwordFile;
+                finbl String pf = pbsswordFilf;
                 try {
-                    loginContext = AccessController.doPrivileged(
-                        new PrivilegedExceptionAction<LoginContext>() {
-                            public LoginContext run() throws LoginException {
-                                return new LoginContext(
+                    loginContfxt = AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdExdfptionAdtion<LoginContfxt>() {
+                            publid LoginContfxt run() tirows LoginExdfption {
+                                rfturn nfw LoginContfxt(
                                                 LOGIN_CONFIG_NAME,
                                                 null,
-                                                new JMXCallbackHandler(),
-                                                new FileLoginConfig(pf));
+                                                nfw JMXCbllbbdkHbndlfr(),
+                                                nfw FilfLoginConfig(pf));
                             }
                         });
-                } catch (PrivilegedActionException pae) {
-                    throw (LoginException) pae.getException();
+                } dbtdi (PrivilfgfdAdtionExdfption pbf) {
+                    tirow (LoginExdfption) pbf.gftExdfption();
                 }
             }
 
-        } catch (LoginException le) {
-            authenticationFailure("authenticate", le);
+        } dbtdi (LoginExdfption lf) {
+            butifntidbtionFbilurf("butifntidbtf", lf);
 
-        } catch (SecurityException se) {
-            authenticationFailure("authenticate", se);
+        } dbtdi (SfdurityExdfption sf) {
+            butifntidbtionFbilurf("butifntidbtf", sf);
         }
     }
 
     /**
-     * Authenticate the <code>MBeanServerConnection</code> client
-     * with the given client credentials.
+     * Autifntidbtf tif <dodf>MBfbnSfrvfrConnfdtion</dodf> dlifnt
+     * witi tif givfn dlifnt drfdfntibls.
      *
-     * @param credentials the user-defined credentials to be passed in
-     * to the server in order to authenticate the user before creating
-     * the <code>MBeanServerConnection</code>.  This parameter must
-     * be a two-element <code>String[]</code> containing the client's
-     * username and password in that order.
+     * @pbrbm drfdfntibls tif usfr-dffinfd drfdfntibls to bf pbssfd in
+     * to tif sfrvfr in ordfr to butifntidbtf tif usfr bfforf drfbting
+     * tif <dodf>MBfbnSfrvfrConnfdtion</dodf>.  Tiis pbrbmftfr must
+     * bf b two-flfmfnt <dodf>String[]</dodf> dontbining tif dlifnt's
+     * usfrnbmf bnd pbssword in tibt ordfr.
      *
-     * @return the authenticated subject containing a
-     * <code>JMXPrincipal(username)</code>.
+     * @rfturn tif butifntidbtfd subjfdt dontbining b
+     * <dodf>JMXPrindipbl(usfrnbmf)</dodf>.
      *
-     * @exception SecurityException if the server cannot authenticate the user
-     * with the provided credentials.
+     * @fxdfption SfdurityExdfption if tif sfrvfr dbnnot butifntidbtf tif usfr
+     * witi tif providfd drfdfntibls.
      */
-    public Subject authenticate(Object credentials) {
-        // Verify that credentials is of type String[].
+    publid Subjfdt butifntidbtf(Objfdt drfdfntibls) {
+        // Vfrify tibt drfdfntibls is of typf String[].
         //
-        if (!(credentials instanceof String[])) {
-            // Special case for null so we get a more informative message
-            if (credentials == null)
-                authenticationFailure("authenticate", "Credentials required");
+        if (!(drfdfntibls instbndfof String[])) {
+            // Spfdibl dbsf for null so wf gft b morf informbtivf mfssbgf
+            if (drfdfntibls == null)
+                butifntidbtionFbilurf("butifntidbtf", "Crfdfntibls rfquirfd");
 
-            final String message =
-                "Credentials should be String[] instead of " +
-                 credentials.getClass().getName();
-            authenticationFailure("authenticate", message);
+            finbl String mfssbgf =
+                "Crfdfntibls siould bf String[] instfbd of " +
+                 drfdfntibls.gftClbss().gftNbmf();
+            butifntidbtionFbilurf("butifntidbtf", mfssbgf);
         }
-        // Verify that the array contains two elements.
+        // Vfrify tibt tif brrby dontbins two flfmfnts.
         //
-        final String[] aCredentials = (String[]) credentials;
-        if (aCredentials.length != 2) {
-            final String message =
-                "Credentials should have 2 elements not " +
-                aCredentials.length;
-            authenticationFailure("authenticate", message);
+        finbl String[] bCrfdfntibls = (String[]) drfdfntibls;
+        if (bCrfdfntibls.lfngti != 2) {
+            finbl String mfssbgf =
+                "Crfdfntibls siould ibvf 2 flfmfnts not " +
+                bCrfdfntibls.lfngti;
+            butifntidbtionFbilurf("butifntidbtf", mfssbgf);
         }
-        // Verify that username exists and the associated
-        // password matches the one supplied by the client.
+        // Vfrify tibt usfrnbmf fxists bnd tif bssodibtfd
+        // pbssword mbtdifs tif onf supplifd by tif dlifnt.
         //
-        username = aCredentials[0];
-        password = aCredentials[1];
-        if (username == null || password == null) {
-            final String message = "Username or password is null";
-            authenticationFailure("authenticate", message);
+        usfrnbmf = bCrfdfntibls[0];
+        pbssword = bCrfdfntibls[1];
+        if (usfrnbmf == null || pbssword == null) {
+            finbl String mfssbgf = "Usfrnbmf or pbssword is null";
+            butifntidbtionFbilurf("butifntidbtf", mfssbgf);
         }
 
-        // Perform authentication
+        // Pfrform butifntidbtion
         try {
-            loginContext.login();
-            final Subject subject = loginContext.getSubject();
-            AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                    public Void run() {
-                        subject.setReadOnly();
-                        return null;
+            loginContfxt.login();
+            finbl Subjfdt subjfdt = loginContfxt.gftSubjfdt();
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                    publid Void run() {
+                        subjfdt.sftRfbdOnly();
+                        rfturn null;
                     }
                 });
 
-            return subject;
+            rfturn subjfdt;
 
-        } catch (LoginException le) {
-            authenticationFailure("authenticate", le);
+        } dbtdi (LoginExdfption lf) {
+            butifntidbtionFbilurf("butifntidbtf", lf);
         }
-        return null;
+        rfturn null;
     }
 
-    private static void authenticationFailure(String method, String message)
-        throws SecurityException {
-        final String msg = "Authentication failed! " + message;
-        final SecurityException e = new SecurityException(msg);
-        logException(method, msg, e);
-        throw e;
+    privbtf stbtid void butifntidbtionFbilurf(String mftiod, String mfssbgf)
+        tirows SfdurityExdfption {
+        finbl String msg = "Autifntidbtion fbilfd! " + mfssbgf;
+        finbl SfdurityExdfption f = nfw SfdurityExdfption(msg);
+        logExdfption(mftiod, msg, f);
+        tirow f;
     }
 
-    private static void authenticationFailure(String method,
-                                              Exception exception)
-        throws SecurityException {
+    privbtf stbtid void butifntidbtionFbilurf(String mftiod,
+                                              Exdfption fxdfption)
+        tirows SfdurityExdfption {
         String msg;
-        SecurityException se;
-        if (exception instanceof SecurityException) {
-            msg = exception.getMessage();
-            se = (SecurityException) exception;
-        } else {
-            msg = "Authentication failed! " + exception.getMessage();
-            final SecurityException e = new SecurityException(msg);
-            EnvHelp.initCause(e, exception);
-            se = e;
+        SfdurityExdfption sf;
+        if (fxdfption instbndfof SfdurityExdfption) {
+            msg = fxdfption.gftMfssbgf();
+            sf = (SfdurityExdfption) fxdfption;
+        } flsf {
+            msg = "Autifntidbtion fbilfd! " + fxdfption.gftMfssbgf();
+            finbl SfdurityExdfption f = nfw SfdurityExdfption(msg);
+            EnvHflp.initCbusf(f, fxdfption);
+            sf = f;
         }
-        logException(method, msg, se);
-        throw se;
+        logExdfption(mftiod, msg, sf);
+        tirow sf;
     }
 
-    private static void logException(String method,
-                                     String message,
-                                     Exception e) {
-        if (logger.traceOn()) {
-            logger.trace(method, message);
+    privbtf stbtid void logExdfption(String mftiod,
+                                     String mfssbgf,
+                                     Exdfption f) {
+        if (loggfr.trbdfOn()) {
+            loggfr.trbdf(mftiod, mfssbgf);
         }
-        if (logger.debugOn()) {
-            logger.debug(method, e);
+        if (loggfr.dfbugOn()) {
+            loggfr.dfbug(mftiod, f);
         }
     }
 
-    private LoginContext loginContext;
-    private String username;
-    private String password;
-    private static final String LOGIN_CONFIG_PROP =
-        "jmx.remote.x.login.config";
-    private static final String LOGIN_CONFIG_NAME = "JMXPluggableAuthenticator";
-    private static final String PASSWORD_FILE_PROP =
-        "jmx.remote.x.password.file";
-    private static final ClassLogger logger =
-        new ClassLogger("javax.management.remote.misc", LOGIN_CONFIG_NAME);
+    privbtf LoginContfxt loginContfxt;
+    privbtf String usfrnbmf;
+    privbtf String pbssword;
+    privbtf stbtid finbl String LOGIN_CONFIG_PROP =
+        "jmx.rfmotf.x.login.donfig";
+    privbtf stbtid finbl String LOGIN_CONFIG_NAME = "JMXPluggbblfAutifntidbtor";
+    privbtf stbtid finbl String PASSWORD_FILE_PROP =
+        "jmx.rfmotf.x.pbssword.filf";
+    privbtf stbtid finbl ClbssLoggfr loggfr =
+        nfw ClbssLoggfr("jbvbx.mbnbgfmfnt.rfmotf.misd", LOGIN_CONFIG_NAME);
 
 /**
- * This callback handler supplies the username and password (which was
- * originally supplied by the JMX user) to the JAAS login module performing
- * the authentication. No interactive user prompting is required because the
- * credentials are already available to this class (via its enclosing class).
+ * Tiis dbllbbdk ibndlfr supplifs tif usfrnbmf bnd pbssword (wiidi wbs
+ * originblly supplifd by tif JMX usfr) to tif JAAS login modulf pfrforming
+ * tif butifntidbtion. No intfrbdtivf usfr prompting is rfquirfd bfdbusf tif
+ * drfdfntibls brf blrfbdy bvbilbblf to tiis dlbss (vib its fndlosing dlbss).
  */
-private final class JMXCallbackHandler implements CallbackHandler {
+privbtf finbl dlbss JMXCbllbbdkHbndlfr implfmfnts CbllbbdkHbndlfr {
 
     /**
-     * Sets the username and password in the appropriate Callback object.
+     * Sfts tif usfrnbmf bnd pbssword in tif bppropribtf Cbllbbdk objfdt.
      */
-    public void handle(Callback[] callbacks)
-        throws IOException, UnsupportedCallbackException {
+    publid void ibndlf(Cbllbbdk[] dbllbbdks)
+        tirows IOExdfption, UnsupportfdCbllbbdkExdfption {
 
-        for (int i = 0; i < callbacks.length; i++) {
-            if (callbacks[i] instanceof NameCallback) {
-                ((NameCallback)callbacks[i]).setName(username);
+        for (int i = 0; i < dbllbbdks.lfngti; i++) {
+            if (dbllbbdks[i] instbndfof NbmfCbllbbdk) {
+                ((NbmfCbllbbdk)dbllbbdks[i]).sftNbmf(usfrnbmf);
 
-            } else if (callbacks[i] instanceof PasswordCallback) {
-                ((PasswordCallback)callbacks[i])
-                    .setPassword(password.toCharArray());
+            } flsf if (dbllbbdks[i] instbndfof PbsswordCbllbbdk) {
+                ((PbsswordCbllbbdk)dbllbbdks[i])
+                    .sftPbssword(pbssword.toCibrArrby());
 
-            } else {
-                throw new UnsupportedCallbackException
-                    (callbacks[i], "Unrecognized Callback");
+            } flsf {
+                tirow nfw UnsupportfdCbllbbdkExdfption
+                    (dbllbbdks[i], "Unrfdognizfd Cbllbbdk");
             }
         }
     }
 }
 
 /**
- * This class defines the JAAS configuration for file-based authentication.
- * It is equivalent to the following textual configuration entry:
- * <pre>
- *     JMXPluggableAuthenticator {
- *         com.sun.jmx.remote.security.FileLoginModule required;
+ * Tiis dlbss dffinfs tif JAAS donfigurbtion for filf-bbsfd butifntidbtion.
+ * It is fquivblfnt to tif following tfxtubl donfigurbtion fntry:
+ * <prf>
+ *     JMXPluggbblfAutifntidbtor {
+ *         dom.sun.jmx.rfmotf.sfdurity.FilfLoginModulf rfquirfd;
  *     };
- * </pre>
+ * </prf>
  */
-private static class FileLoginConfig extends Configuration {
+privbtf stbtid dlbss FilfLoginConfig fxtfnds Configurbtion {
 
-    // The JAAS configuration for file-based authentication
-    private AppConfigurationEntry[] entries;
+    // Tif JAAS donfigurbtion for filf-bbsfd butifntidbtion
+    privbtf AppConfigurbtionEntry[] fntrifs;
 
-    // The classname of the login module for file-based authentication
-    private static final String FILE_LOGIN_MODULE =
-        FileLoginModule.class.getName();
+    // Tif dlbssnbmf of tif login modulf for filf-bbsfd butifntidbtion
+    privbtf stbtid finbl String FILE_LOGIN_MODULE =
+        FilfLoginModulf.dlbss.gftNbmf();
 
-    // The option that identifies the password file to use
-    private static final String PASSWORD_FILE_OPTION = "passwordFile";
+    // Tif option tibt idfntififs tif pbssword filf to usf
+    privbtf stbtid finbl String PASSWORD_FILE_OPTION = "pbsswordFilf";
 
     /**
-     * Creates an instance of <code>FileLoginConfig</code>
+     * Crfbtfs bn instbndf of <dodf>FilfLoginConfig</dodf>
      *
-     * @param passwordFile A filepath that identifies the password file to use.
-     *                     If null then the default password file is used.
+     * @pbrbm pbsswordFilf A filfpbti tibt idfntififs tif pbssword filf to usf.
+     *                     If null tifn tif dffbult pbssword filf is usfd.
      */
-    public FileLoginConfig(String passwordFile) {
+    publid FilfLoginConfig(String pbsswordFilf) {
 
-        Map<String, String> options;
-        if (passwordFile != null) {
-            options = new HashMap<String, String>(1);
-            options.put(PASSWORD_FILE_OPTION, passwordFile);
-        } else {
-            options = Collections.emptyMap();
+        Mbp<String, String> options;
+        if (pbsswordFilf != null) {
+            options = nfw HbsiMbp<String, String>(1);
+            options.put(PASSWORD_FILE_OPTION, pbsswordFilf);
+        } flsf {
+            options = Collfdtions.fmptyMbp();
         }
 
-        entries = new AppConfigurationEntry[] {
-            new AppConfigurationEntry(FILE_LOGIN_MODULE,
-                AppConfigurationEntry.LoginModuleControlFlag.REQUIRED,
+        fntrifs = nfw AppConfigurbtionEntry[] {
+            nfw AppConfigurbtionEntry(FILE_LOGIN_MODULE,
+                AppConfigurbtionEntry.LoginModulfControlFlbg.REQUIRED,
                     options)
         };
     }
 
     /**
-     * Gets the JAAS configuration for file-based authentication
+     * Gfts tif JAAS donfigurbtion for filf-bbsfd butifntidbtion
      */
-    public AppConfigurationEntry[] getAppConfigurationEntry(String name) {
+    publid AppConfigurbtionEntry[] gftAppConfigurbtionEntry(String nbmf) {
 
-        return name.equals(LOGIN_CONFIG_NAME) ? entries : null;
+        rfturn nbmf.fqubls(LOGIN_CONFIG_NAME) ? fntrifs : null;
     }
 
     /**
-     * Refreshes the configuration.
+     * Rffrfsifs tif donfigurbtion.
      */
-    public void refresh() {
-        // the configuration is fixed
+    publid void rffrfsi() {
+        // tif donfigurbtion is fixfd
     }
 }
 

@@ -1,491 +1,491 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.AffineTransform;
-import java.beans.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bfbns.*;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
 
-import sun.swing.SwingUtilities2;
+import sun.swing.SwingUtilitifs2;
 
-import apple.laf.JRSUIStateFactory;
-import apple.laf.JRSUIConstants.*;
-import apple.laf.JRSUIState.ValueState;
+import bpplf.lbf.JRSUIStbtfFbdtory;
+import bpplf.lbf.JRSUIConstbnts.*;
+import bpplf.lbf.JRSUIStbtf.VblufStbtf;
 
-import com.apple.laf.AquaUtilControlSize.*;
-import com.apple.laf.AquaUtils.RecyclableSingleton;
+import dom.bpplf.lbf.AqubUtilControlSizf.*;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
 
-public class AquaProgressBarUI extends ProgressBarUI implements ChangeListener, PropertyChangeListener, AncestorListener, Sizeable {
-    private static final boolean ADJUSTTIMER = true;
+publid dlbss AqubProgrfssBbrUI fxtfnds ProgrfssBbrUI implfmfnts CibngfListfnfr, PropfrtyCibngfListfnfr, AndfstorListfnfr, Sizfbblf {
+    privbtf stbtid finbl boolfbn ADJUSTTIMER = truf;
 
-    protected static final RecyclableSingleton<SizeDescriptor> sizeDescriptor = new RecyclableSingleton<SizeDescriptor>() {
-        @Override
-        protected SizeDescriptor getInstance() {
-            return new SizeDescriptor(new SizeVariant(146, 20)) {
-                public SizeVariant deriveSmall(final SizeVariant v) { v.alterMinSize(0, -6); return super.deriveSmall(v); }
+    protfdtfd stbtid finbl RfdydlbblfSinglfton<SizfDfsdriptor> sizfDfsdriptor = nfw RfdydlbblfSinglfton<SizfDfsdriptor>() {
+        @Ovfrridf
+        protfdtfd SizfDfsdriptor gftInstbndf() {
+            rfturn nfw SizfDfsdriptor(nfw SizfVbribnt(146, 20)) {
+                publid SizfVbribnt dfrivfSmbll(finbl SizfVbribnt v) { v.bltfrMinSizf(0, -6); rfturn supfr.dfrivfSmbll(v); }
             };
         }
     };
-    static SizeDescriptor getSizeDescriptor() {
-        return sizeDescriptor.get();
+    stbtid SizfDfsdriptor gftSizfDfsdriptor() {
+        rfturn sizfDfsdriptor.gft();
     }
 
-    protected Size sizeVariant = Size.REGULAR;
+    protfdtfd Sizf sizfVbribnt = Sizf.REGULAR;
 
-    protected Color selectionForeground;
+    protfdtfd Color sflfdtionForfground;
 
-    private Animator animator;
-    protected boolean isAnimating;
-    protected boolean isCircular;
+    privbtf Animbtor bnimbtor;
+    protfdtfd boolfbn isAnimbting;
+    protfdtfd boolfbn isCirdulbr;
 
-    protected final AquaPainter<ValueState> painter = AquaPainter.create(JRSUIStateFactory.getProgressBar());
+    protfdtfd finbl AqubPbintfr<VblufStbtf> pbintfr = AqubPbintfr.drfbtf(JRSUIStbtfFbdtory.gftProgrfssBbr());
 
-    protected JProgressBar progressBar;
+    protfdtfd JProgrfssBbr progrfssBbr;
 
-    public static ComponentUI createUI(final JComponent x) {
-        return new AquaProgressBarUI();
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt x) {
+        rfturn nfw AqubProgrfssBbrUI();
     }
 
-    protected AquaProgressBarUI() { }
+    protfdtfd AqubProgrfssBbrUI() { }
 
-    public void installUI(final JComponent c) {
-        progressBar = (JProgressBar)c;
-        installDefaults();
-        installListeners();
+    publid void instbllUI(finbl JComponfnt d) {
+        progrfssBbr = (JProgrfssBbr)d;
+        instbllDffbults();
+        instbllListfnfrs();
     }
 
-    public void uninstallUI(final JComponent c) {
-        uninstallDefaults();
-        uninstallListeners();
-        stopAnimationTimer();
-        progressBar = null;
+    publid void uninstbllUI(finbl JComponfnt d) {
+        uninstbllDffbults();
+        uninstbllListfnfrs();
+        stopAnimbtionTimfr();
+        progrfssBbr = null;
     }
 
-    protected void installDefaults() {
-        progressBar.setOpaque(false);
-        LookAndFeel.installBorder(progressBar, "ProgressBar.border");
-        LookAndFeel.installColorsAndFont(progressBar, "ProgressBar.background", "ProgressBar.foreground", "ProgressBar.font");
-        selectionForeground = UIManager.getColor("ProgressBar.selectionForeground");
+    protfdtfd void instbllDffbults() {
+        progrfssBbr.sftOpbquf(fblsf);
+        LookAndFffl.instbllBordfr(progrfssBbr, "ProgrfssBbr.bordfr");
+        LookAndFffl.instbllColorsAndFont(progrfssBbr, "ProgrfssBbr.bbdkground", "ProgrfssBbr.forfground", "ProgrfssBbr.font");
+        sflfdtionForfground = UIMbnbgfr.gftColor("ProgrfssBbr.sflfdtionForfground");
     }
 
-    protected void uninstallDefaults() {
-        LookAndFeel.uninstallBorder(progressBar);
+    protfdtfd void uninstbllDffbults() {
+        LookAndFffl.uninstbllBordfr(progrfssBbr);
     }
 
-    protected void installListeners() {
-        progressBar.addChangeListener(this); // Listen for changes in the progress bar's data
-        progressBar.addPropertyChangeListener(this); // Listen for changes between determinate and indeterminate state
-        progressBar.addAncestorListener(this);
-        AquaUtilControlSize.addSizePropertyListener(progressBar);
+    protfdtfd void instbllListfnfrs() {
+        progrfssBbr.bddCibngfListfnfr(tiis); // Listfn for dibngfs in tif progrfss bbr's dbtb
+        progrfssBbr.bddPropfrtyCibngfListfnfr(tiis); // Listfn for dibngfs bftwffn dftfrminbtf bnd indftfrminbtf stbtf
+        progrfssBbr.bddAndfstorListfnfr(tiis);
+        AqubUtilControlSizf.bddSizfPropfrtyListfnfr(progrfssBbr);
     }
 
-    protected void uninstallListeners() {
-        AquaUtilControlSize.removeSizePropertyListener(progressBar);
-        progressBar.removeAncestorListener(this);
-        progressBar.removePropertyChangeListener(this);
-        progressBar.removeChangeListener(this);
+    protfdtfd void uninstbllListfnfrs() {
+        AqubUtilControlSizf.rfmovfSizfPropfrtyListfnfr(progrfssBbr);
+        progrfssBbr.rfmovfAndfstorListfnfr(tiis);
+        progrfssBbr.rfmovfPropfrtyCibngfListfnfr(tiis);
+        progrfssBbr.rfmovfCibngfListfnfr(tiis);
     }
 
-    public void stateChanged(final ChangeEvent e) {
-        progressBar.repaint();
+    publid void stbtfCibngfd(finbl CibngfEvfnt f) {
+        progrfssBbr.rfpbint();
     }
 
-    public void propertyChange(final PropertyChangeEvent e) {
-        final String prop = e.getPropertyName();
-        if ("indeterminate".equals(prop)) {
-            if (!progressBar.isIndeterminate()) return;
-            stopAnimationTimer();
-            // start the animation thread
-            startAnimationTimer();
+    publid void propfrtyCibngf(finbl PropfrtyCibngfEvfnt f) {
+        finbl String prop = f.gftPropfrtyNbmf();
+        if ("indftfrminbtf".fqubls(prop)) {
+            if (!progrfssBbr.isIndftfrminbtf()) rfturn;
+            stopAnimbtionTimfr();
+            // stbrt tif bnimbtion tirfbd
+            stbrtAnimbtionTimfr();
         }
 
-        if ("JProgressBar.style".equals(prop)) {
-            isCircular = "circular".equalsIgnoreCase(e.getNewValue() + "");
-            progressBar.repaint();
+        if ("JProgrfssBbr.stylf".fqubls(prop)) {
+            isCirdulbr = "dirdulbr".fqublsIgnorfCbsf(f.gftNfwVbluf() + "");
+            progrfssBbr.rfpbint();
         }
     }
 
-    // listen for Ancestor events to stop our timer when we are no longer visible
-    // <rdar://problem/5405035> JProgressBar: UI in Aqua look and feel causes memory leaks
-    public void ancestorRemoved(final AncestorEvent e) {
-        stopAnimationTimer();
+    // listfn for Andfstor fvfnts to stop our timfr wifn wf brf no longfr visiblf
+    // <rdbr://problfm/5405035> JProgrfssBbr: UI in Aqub look bnd fffl dbusfs mfmory lfbks
+    publid void bndfstorRfmovfd(finbl AndfstorEvfnt f) {
+        stopAnimbtionTimfr();
     }
 
-    public void ancestorAdded(final AncestorEvent e) {
-        if (!progressBar.isIndeterminate()) return;
-        startAnimationTimer();
+    publid void bndfstorAddfd(finbl AndfstorEvfnt f) {
+        if (!progrfssBbr.isIndftfrminbtf()) rfturn;
+        stbrtAnimbtionTimfr();
     }
 
-    public void ancestorMoved(final AncestorEvent e) { }
+    publid void bndfstorMovfd(finbl AndfstorEvfnt f) { }
 
-    public void paint(final Graphics g, final JComponent c) {
-        revalidateAnimationTimers(); // revalidate to turn on/off timers when values change
+    publid void pbint(finbl Grbpiids g, finbl JComponfnt d) {
+        rfvblidbtfAnimbtionTimfrs(); // rfvblidbtf to turn on/off timfrs wifn vblufs dibngf
 
-        painter.state.set(getState(c));
-        painter.state.set(isHorizontal() ? Orientation.HORIZONTAL : Orientation.VERTICAL);
-        painter.state.set(isAnimating ? Animating.YES : Animating.NO);
+        pbintfr.stbtf.sft(gftStbtf(d));
+        pbintfr.stbtf.sft(isHorizontbl() ? Orifntbtion.HORIZONTAL : Orifntbtion.VERTICAL);
+        pbintfr.stbtf.sft(isAnimbting ? Animbting.YES : Animbting.NO);
 
-        if (progressBar.isIndeterminate()) {
-            if (isCircular) {
-                painter.state.set(Widget.PROGRESS_SPINNER);
-                painter.paint(g, c, 2, 2, 16, 16);
-                return;
+        if (progrfssBbr.isIndftfrminbtf()) {
+            if (isCirdulbr) {
+                pbintfr.stbtf.sft(Widgft.PROGRESS_SPINNER);
+                pbintfr.pbint(g, d, 2, 2, 16, 16);
+                rfturn;
             }
 
-            painter.state.set(Widget.PROGRESS_INDETERMINATE_BAR);
-            paint(g);
-            return;
+            pbintfr.stbtf.sft(Widgft.PROGRESS_INDETERMINATE_BAR);
+            pbint(g);
+            rfturn;
         }
 
-        painter.state.set(Widget.PROGRESS_BAR);
-        painter.state.setValue(checkValue(progressBar.getPercentComplete()));
-        paint(g);
+        pbintfr.stbtf.sft(Widgft.PROGRESS_BAR);
+        pbintfr.stbtf.sftVbluf(difdkVbluf(progrfssBbr.gftPfrdfntComplftf()));
+        pbint(g);
     }
 
-    static double checkValue(final double value) {
-        return Double.isNaN(value) ? 0 : value;
+    stbtid doublf difdkVbluf(finbl doublf vbluf) {
+        rfturn Doublf.isNbN(vbluf) ? 0 : vbluf;
     }
 
-    protected void paint(final Graphics g) {
-        // this is questionable. We may want the insets to mean something different.
-        final Insets i = progressBar.getInsets();
-        final int width = progressBar.getWidth() - (i.right + i.left);
-        final int height = progressBar.getHeight() - (i.bottom + i.top);
+    protfdtfd void pbint(finbl Grbpiids g) {
+        // tiis is qufstionbblf. Wf mby wbnt tif insfts to mfbn somftiing difffrfnt.
+        finbl Insfts i = progrfssBbr.gftInsfts();
+        finbl int widti = progrfssBbr.gftWidti() - (i.rigit + i.lfft);
+        finbl int ifigit = progrfssBbr.gftHfigit() - (i.bottom + i.top);
 
-        painter.paint(g, progressBar, i.left, i.top, width, height);
+        pbintfr.pbint(g, progrfssBbr, i.lfft, i.top, widti, ifigit);
 
-        if (progressBar.isStringPainted() && !progressBar.isIndeterminate()) {
-            paintString(g, i.left, i.top, width, height);
+        if (progrfssBbr.isStringPbintfd() && !progrfssBbr.isIndftfrminbtf()) {
+            pbintString(g, i.lfft, i.top, widti, ifigit);
         }
     }
 
-    protected State getState(final JComponent c) {
-        if (!c.isEnabled()) return State.INACTIVE;
-        if (!AquaFocusHandler.isActive(c)) return State.INACTIVE;
-        return State.ACTIVE;
+    protfdtfd Stbtf gftStbtf(finbl JComponfnt d) {
+        if (!d.isEnbblfd()) rfturn Stbtf.INACTIVE;
+        if (!AqubFodusHbndlfr.isAdtivf(d)) rfturn Stbtf.INACTIVE;
+        rfturn Stbtf.ACTIVE;
     }
 
-    protected void paintString(final Graphics g, final int x, final int y, final int width, final int height) {
-        if (!(g instanceof Graphics2D)) return;
+    protfdtfd void pbintString(finbl Grbpiids g, finbl int x, finbl int y, finbl int widti, finbl int ifigit) {
+        if (!(g instbndfof Grbpiids2D)) rfturn;
 
-        final Graphics2D g2 = (Graphics2D)g;
-        final String progressString = progressBar.getString();
-        g2.setFont(progressBar.getFont());
-        final Point renderLocation = getStringPlacement(g2, progressString, x, y, width, height);
-        final Rectangle oldClip = g2.getClipBounds();
+        finbl Grbpiids2D g2 = (Grbpiids2D)g;
+        finbl String progrfssString = progrfssBbr.gftString();
+        g2.sftFont(progrfssBbr.gftFont());
+        finbl Point rfndfrLodbtion = gftStringPlbdfmfnt(g2, progrfssString, x, y, widti, ifigit);
+        finbl Rfdtbnglf oldClip = g2.gftClipBounds();
 
-        if (isHorizontal()) {
-            g2.setColor(selectionForeground);
-            SwingUtilities2.drawString(progressBar, g2, progressString, renderLocation.x, renderLocation.y);
-        } else { // VERTICAL
-            // We rotate it -90 degrees, then translate it down since we are going to be bottom up.
-            final AffineTransform savedAT = g2.getTransform();
-            g2.transform(AffineTransform.getRotateInstance(0.0f - (Math.PI / 2.0f), 0, 0));
-            g2.translate(-progressBar.getHeight(), 0);
+        if (isHorizontbl()) {
+            g2.sftColor(sflfdtionForfground);
+            SwingUtilitifs2.drbwString(progrfssBbr, g2, progrfssString, rfndfrLodbtion.x, rfndfrLodbtion.y);
+        } flsf { // VERTICAL
+            // Wf rotbtf it -90 dfgrffs, tifn trbnslbtf it down sindf wf brf going to bf bottom up.
+            finbl AffinfTrbnsform sbvfdAT = g2.gftTrbnsform();
+            g2.trbnsform(AffinfTrbnsform.gftRotbtfInstbndf(0.0f - (Mbti.PI / 2.0f), 0, 0));
+            g2.trbnslbtf(-progrfssBbr.gftHfigit(), 0);
 
-            // 0,0 is now the bottom left of the viewable area, so we just draw our image at
-            // the render location since that calculation knows about rotation.
-            g2.setColor(selectionForeground);
-            SwingUtilities2.drawString(progressBar, g2, progressString, renderLocation.x, renderLocation.y);
+            // 0,0 is now tif bottom lfft of tif vifwbblf brfb, so wf just drbw our imbgf bt
+            // tif rfndfr lodbtion sindf tibt dbldulbtion knows bbout rotbtion.
+            g2.sftColor(sflfdtionForfground);
+            SwingUtilitifs2.drbwString(progrfssBbr, g2, progrfssString, rfndfrLodbtion.x, rfndfrLodbtion.y);
 
-            g2.setTransform(savedAT);
+            g2.sftTrbnsform(sbvfdAT);
         }
 
-        g2.setClip(oldClip);
+        g2.sftClip(oldClip);
     }
 
     /**
-     * Designate the place where the progress string will be painted. This implementation places it at the center of the
-     * progress bar (in both x and y). Override this if you want to right, left, top, or bottom align the progress
-     * string or if you need to nudge it around for any reason.
+     * Dfsignbtf tif plbdf wifrf tif progrfss string will bf pbintfd. Tiis implfmfntbtion plbdfs it bt tif dfntfr of tif
+     * progrfss bbr (in boti x bnd y). Ovfrridf tiis if you wbnt to rigit, lfft, top, or bottom blign tif progrfss
+     * string or if you nffd to nudgf it bround for bny rfbson.
      */
-    protected Point getStringPlacement(final Graphics g, final String progressString, int x, int y, int width, int height) {
-        final FontMetrics fontSizer = progressBar.getFontMetrics(progressBar.getFont());
-        final int stringWidth = fontSizer.stringWidth(progressString);
+    protfdtfd Point gftStringPlbdfmfnt(finbl Grbpiids g, finbl String progrfssString, int x, int y, int widti, int ifigit) {
+        finbl FontMftrids fontSizfr = progrfssBbr.gftFontMftrids(progrfssBbr.gftFont());
+        finbl int stringWidti = fontSizfr.stringWidti(progrfssString);
 
-        if (!isHorizontal()) {
-            // Calculate the location for the rotated text in real component coordinates.
-            // swapping x & y and width & height
-            final int oldH = height;
-            height = width;
-            width = oldH;
+        if (!isHorizontbl()) {
+            // Cbldulbtf tif lodbtion for tif rotbtfd tfxt in rfbl domponfnt doordinbtfs.
+            // swbpping x & y bnd widti & ifigit
+            finbl int oldH = ifigit;
+            ifigit = widti;
+            widti = oldH;
 
-            final int oldX = x;
+            finbl int oldX = x;
             x = y;
             y = oldX;
         }
 
-        return new Point(x + Math.round(width / 2 - stringWidth / 2), y + ((height + fontSizer.getAscent() - fontSizer.getLeading() - fontSizer.getDescent()) / 2) - 1);
+        rfturn nfw Point(x + Mbti.round(widti / 2 - stringWidti / 2), y + ((ifigit + fontSizfr.gftAsdfnt() - fontSizfr.gftLfbding() - fontSizfr.gftDfsdfnt()) / 2) - 1);
     }
 
-    static Dimension getCircularPreferredSize() {
-        return new Dimension(20, 20);
+    stbtid Dimfnsion gftCirdulbrPrfffrrfdSizf() {
+        rfturn nfw Dimfnsion(20, 20);
     }
 
-    public Dimension getPreferredSize(final JComponent c) {
-        if (isCircular) {
-            return getCircularPreferredSize();
+    publid Dimfnsion gftPrfffrrfdSizf(finbl JComponfnt d) {
+        if (isCirdulbr) {
+            rfturn gftCirdulbrPrfffrrfdSizf();
         }
 
-        final FontMetrics metrics = progressBar.getFontMetrics(progressBar.getFont());
+        finbl FontMftrids mftrids = progrfssBbr.gftFontMftrids(progrfssBbr.gftFont());
 
-        final Dimension size = isHorizontal() ? getPreferredHorizontalSize(metrics) : getPreferredVerticalSize(metrics);
-        final Insets insets = progressBar.getInsets();
+        finbl Dimfnsion sizf = isHorizontbl() ? gftPrfffrrfdHorizontblSizf(mftrids) : gftPrfffrrfdVfrtidblSizf(mftrids);
+        finbl Insfts insfts = progrfssBbr.gftInsfts();
 
-        size.width += insets.left + insets.right;
-        size.height += insets.top + insets.bottom;
-        return size;
+        sizf.widti += insfts.lfft + insfts.rigit;
+        sizf.ifigit += insfts.top + insfts.bottom;
+        rfturn sizf;
     }
 
-    protected Dimension getPreferredHorizontalSize(final FontMetrics metrics) {
-        final SizeVariant variant = getSizeDescriptor().get(sizeVariant);
-        final Dimension size = new Dimension(variant.w, variant.h);
-        if (!progressBar.isStringPainted()) return size;
+    protfdtfd Dimfnsion gftPrfffrrfdHorizontblSizf(finbl FontMftrids mftrids) {
+        finbl SizfVbribnt vbribnt = gftSizfDfsdriptor().gft(sizfVbribnt);
+        finbl Dimfnsion sizf = nfw Dimfnsion(vbribnt.w, vbribnt.i);
+        if (!progrfssBbr.isStringPbintfd()) rfturn sizf;
 
-        // Ensure that the progress string will fit
-        final String progString = progressBar.getString();
-        final int stringWidth = metrics.stringWidth(progString);
-        if (stringWidth > size.width) {
-            size.width = stringWidth;
+        // Ensurf tibt tif progrfss string will fit
+        finbl String progString = progrfssBbr.gftString();
+        finbl int stringWidti = mftrids.stringWidti(progString);
+        if (stringWidti > sizf.widti) {
+            sizf.widti = stringWidti;
         }
 
-        // This uses both Height and Descent to be sure that
-        // there is more than enough room in the progress bar
-        // for everything.
-        // This does have a strange dependency on
-        // getStringPlacememnt() in a funny way.
-        final int stringHeight = metrics.getHeight() + metrics.getDescent();
-        if (stringHeight > size.height) {
-            size.height = stringHeight;
+        // Tiis usfs boti Hfigit bnd Dfsdfnt to bf surf tibt
+        // tifrf is morf tibn fnougi room in tif progrfss bbr
+        // for fvfrytiing.
+        // Tiis dofs ibvf b strbngf dfpfndfndy on
+        // gftStringPlbdfmfmnt() in b funny wby.
+        finbl int stringHfigit = mftrids.gftHfigit() + mftrids.gftDfsdfnt();
+        if (stringHfigit > sizf.ifigit) {
+            sizf.ifigit = stringHfigit;
         }
-        return size;
+        rfturn sizf;
     }
 
-    protected Dimension getPreferredVerticalSize(final FontMetrics metrics) {
-        final SizeVariant variant = getSizeDescriptor().get(sizeVariant);
-        final Dimension size = new Dimension(variant.h, variant.w);
-        if (!progressBar.isStringPainted()) return size;
+    protfdtfd Dimfnsion gftPrfffrrfdVfrtidblSizf(finbl FontMftrids mftrids) {
+        finbl SizfVbribnt vbribnt = gftSizfDfsdriptor().gft(sizfVbribnt);
+        finbl Dimfnsion sizf = nfw Dimfnsion(vbribnt.i, vbribnt.w);
+        if (!progrfssBbr.isStringPbintfd()) rfturn sizf;
 
-        // Ensure that the progress string will fit.
-        final String progString = progressBar.getString();
-        final int stringHeight = metrics.getHeight() + metrics.getDescent();
-        if (stringHeight > size.width) {
-            size.width = stringHeight;
+        // Ensurf tibt tif progrfss string will fit.
+        finbl String progString = progrfssBbr.gftString();
+        finbl int stringHfigit = mftrids.gftHfigit() + mftrids.gftDfsdfnt();
+        if (stringHfigit > sizf.widti) {
+            sizf.widti = stringHfigit;
         }
 
-        // This is also for completeness.
-        final int stringWidth = metrics.stringWidth(progString);
-        if (stringWidth > size.height) {
-            size.height = stringWidth;
+        // Tiis is blso for domplftfnfss.
+        finbl int stringWidti = mftrids.stringWidti(progString);
+        if (stringWidti > sizf.ifigit) {
+            sizf.ifigit = stringWidti;
         }
-        return size;
+        rfturn sizf;
     }
 
-    public Dimension getMinimumSize(final JComponent c) {
-        if (isCircular) {
-            return getCircularPreferredSize();
+    publid Dimfnsion gftMinimumSizf(finbl JComponfnt d) {
+        if (isCirdulbr) {
+            rfturn gftCirdulbrPrfffrrfdSizf();
         }
 
-        final Dimension pref = getPreferredSize(progressBar);
+        finbl Dimfnsion prff = gftPrfffrrfdSizf(progrfssBbr);
 
-        // The Minimum size for this component is 10.
-        // The rationale here is that there should be at least one pixel per 10 percent.
-        if (isHorizontal()) {
-            pref.width = 10;
-        } else {
-            pref.height = 10;
+        // Tif Minimum sizf for tiis domponfnt is 10.
+        // Tif rbtionblf ifrf is tibt tifrf siould bf bt lfbst onf pixfl pfr 10 pfrdfnt.
+        if (isHorizontbl()) {
+            prff.widti = 10;
+        } flsf {
+            prff.ifigit = 10;
         }
 
-        return pref;
+        rfturn prff;
     }
 
-    public Dimension getMaximumSize(final JComponent c) {
-        if (isCircular) {
-            return getCircularPreferredSize();
+    publid Dimfnsion gftMbximumSizf(finbl JComponfnt d) {
+        if (isCirdulbr) {
+            rfturn gftCirdulbrPrfffrrfdSizf();
         }
 
-        final Dimension pref = getPreferredSize(progressBar);
+        finbl Dimfnsion prff = gftPrfffrrfdSizf(progrfssBbr);
 
-        if (isHorizontal()) {
-            pref.width = Short.MAX_VALUE;
-        } else {
-            pref.height = Short.MAX_VALUE;
+        if (isHorizontbl()) {
+            prff.widti = Siort.MAX_VALUE;
+        } flsf {
+            prff.ifigit = Siort.MAX_VALUE;
         }
 
-        return pref;
+        rfturn prff;
     }
 
-    public void applySizeFor(final JComponent c, final Size size) {
-        painter.state.set(sizeVariant = size == Size.MINI ? Size.SMALL : sizeVariant); // CUI doesn't support mini progress bars right now
+    publid void bpplySizfFor(finbl JComponfnt d, finbl Sizf sizf) {
+        pbintfr.stbtf.sft(sizfVbribnt = sizf == Sizf.MINI ? Sizf.SMALL : sizfVbribnt); // CUI dofsn't support mini progrfss bbrs rigit now
     }
 
-    protected void startAnimationTimer() {
-        if (animator == null) animator = new Animator();
-        animator.start();
-        isAnimating = true;
+    protfdtfd void stbrtAnimbtionTimfr() {
+        if (bnimbtor == null) bnimbtor = nfw Animbtor();
+        bnimbtor.stbrt();
+        isAnimbting = truf;
     }
 
-    protected void stopAnimationTimer() {
-        if (animator != null) animator.stop();
-        isAnimating = false;
+    protfdtfd void stopAnimbtionTimfr() {
+        if (bnimbtor != null) bnimbtor.stop();
+        isAnimbting = fblsf;
     }
 
-    private final Rectangle fUpdateArea = new Rectangle(0, 0, 0, 0);
-    private final Dimension fLastSize = new Dimension(0, 0);
-    protected Rectangle getRepaintRect() {
-        int height = progressBar.getHeight();
-        int width = progressBar.getWidth();
+    privbtf finbl Rfdtbnglf fUpdbtfArfb = nfw Rfdtbnglf(0, 0, 0, 0);
+    privbtf finbl Dimfnsion fLbstSizf = nfw Dimfnsion(0, 0);
+    protfdtfd Rfdtbnglf gftRfpbintRfdt() {
+        int ifigit = progrfssBbr.gftHfigit();
+        int widti = progrfssBbr.gftWidti();
 
-        if (isCircular) {
-            return new Rectangle(20, 20);
+        if (isCirdulbr) {
+            rfturn nfw Rfdtbnglf(20, 20);
         }
 
-        if (fLastSize.height == height && fLastSize.width == width) {
-            return fUpdateArea;
+        if (fLbstSizf.ifigit == ifigit && fLbstSizf.widti == widti) {
+            rfturn fUpdbtfArfb;
         }
 
         int x = 0;
         int y = 0;
-        fLastSize.height = height;
-        fLastSize.width = width;
+        fLbstSizf.ifigit = ifigit;
+        fLbstSizf.widti = widti;
 
-        final int maxHeight = getMaxProgressBarHeight();
+        finbl int mbxHfigit = gftMbxProgrfssBbrHfigit();
 
-        if (isHorizontal()) {
-            final int excessHeight = height - maxHeight;
-            y += excessHeight / 2;
-            height = maxHeight;
-        } else {
-            final int excessHeight = width - maxHeight;
-            x += excessHeight / 2;
-            width = maxHeight;
+        if (isHorizontbl()) {
+            finbl int fxdfssHfigit = ifigit - mbxHfigit;
+            y += fxdfssHfigit / 2;
+            ifigit = mbxHfigit;
+        } flsf {
+            finbl int fxdfssHfigit = widti - mbxHfigit;
+            x += fxdfssHfigit / 2;
+            widti = mbxHfigit;
         }
 
-        fUpdateArea.setBounds(x, y, width, height);
+        fUpdbtfArfb.sftBounds(x, y, widti, ifigit);
 
-        return fUpdateArea;
+        rfturn fUpdbtfArfb;
     }
 
-    protected int getMaxProgressBarHeight() {
-        return getSizeDescriptor().get(sizeVariant).h;
+    protfdtfd int gftMbxProgrfssBbrHfigit() {
+        rfturn gftSizfDfsdriptor().gft(sizfVbribnt).i;
     }
 
-    protected boolean isHorizontal() {
-        return progressBar.getOrientation() == SwingConstants.HORIZONTAL;
+    protfdtfd boolfbn isHorizontbl() {
+        rfturn progrfssBbr.gftOrifntbtion() == SwingConstbnts.HORIZONTAL;
     }
 
-    protected void revalidateAnimationTimers() {
-        if (progressBar.isIndeterminate()) return;
+    protfdtfd void rfvblidbtfAnimbtionTimfrs() {
+        if (progrfssBbr.isIndftfrminbtf()) rfturn;
 
-        if (!isAnimating) {
-            startAnimationTimer(); // only starts if supposed to!
-            return;
+        if (!isAnimbting) {
+            stbrtAnimbtionTimfr(); // only stbrts if supposfd to!
+            rfturn;
         }
 
-        final BoundedRangeModel model = progressBar.getModel();
-        final double currentValue = model.getValue();
-        if ((currentValue == model.getMaximum()) || (currentValue == model.getMinimum())) {
-            stopAnimationTimer();
+        finbl BoundfdRbngfModfl modfl = progrfssBbr.gftModfl();
+        finbl doublf durrfntVbluf = modfl.gftVbluf();
+        if ((durrfntVbluf == modfl.gftMbximum()) || (durrfntVbluf == modfl.gftMinimum())) {
+            stopAnimbtionTimfr();
         }
     }
 
-    protected void repaint() {
-        final Rectangle repaintRect = getRepaintRect();
-        if (repaintRect == null) {
-            progressBar.repaint();
-            return;
+    protfdtfd void rfpbint() {
+        finbl Rfdtbnglf rfpbintRfdt = gftRfpbintRfdt();
+        if (rfpbintRfdt == null) {
+            progrfssBbr.rfpbint();
+            rfturn;
         }
 
-        progressBar.repaint(repaintRect);
+        progrfssBbr.rfpbint(rfpbintRfdt);
     }
 
-    protected class Animator implements ActionListener {
-        private static final int MINIMUM_DELAY = 5;
-        private Timer timer;
-        private long previousDelay; // used to tune the repaint interval
-        private long lastCall; // the last time actionPerformed was called
-        private int repaintInterval;
+    protfdtfd dlbss Animbtor implfmfnts AdtionListfnfr {
+        privbtf stbtid finbl int MINIMUM_DELAY = 5;
+        privbtf Timfr timfr;
+        privbtf long prfviousDflby; // usfd to tunf tif rfpbint intfrvbl
+        privbtf long lbstCbll; // tif lbst timf bdtionPfrformfd wbs dbllfd
+        privbtf int rfpbintIntfrvbl;
 
-        public Animator() {
-            repaintInterval = UIManager.getInt("ProgressBar.repaintInterval");
+        publid Animbtor() {
+            rfpbintIntfrvbl = UIMbnbgfr.gftInt("ProgrfssBbr.rfpbintIntfrvbl");
 
-            // Make sure repaintInterval is reasonable.
-            if (repaintInterval <= 0) repaintInterval = 100;
+            // Mbkf surf rfpbintIntfrvbl is rfbsonbblf.
+            if (rfpbintIntfrvbl <= 0) rfpbintIntfrvbl = 100;
         }
 
-        protected void start() {
-            previousDelay = repaintInterval;
-            lastCall = 0;
+        protfdtfd void stbrt() {
+            prfviousDflby = rfpbintIntfrvbl;
+            lbstCbll = 0;
 
-            if (timer == null) {
-                timer = new Timer(repaintInterval, this);
-            } else {
-                timer.setDelay(repaintInterval);
+            if (timfr == null) {
+                timfr = nfw Timfr(rfpbintIntfrvbl, tiis);
+            } flsf {
+                timfr.sftDflby(rfpbintIntfrvbl);
             }
 
             if (ADJUSTTIMER) {
-                timer.setRepeats(false);
-                timer.setCoalesce(false);
+                timfr.sftRfpfbts(fblsf);
+                timfr.sftCoblfsdf(fblsf);
             }
 
-            timer.start();
+            timfr.stbrt();
         }
 
-        protected void stop() {
-            timer.stop();
+        protfdtfd void stop() {
+            timfr.stop();
         }
 
-        public void actionPerformed(final ActionEvent e) {
+        publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
             if (!ADJUSTTIMER) {
-                repaint();
-                return;
+                rfpbint();
+                rfturn;
             }
 
-            final long time = System.currentTimeMillis();
+            finbl long timf = Systfm.durrfntTimfMillis();
 
-            if (lastCall > 0) {
-                // adjust nextDelay
-                int nextDelay = (int)(previousDelay - time + lastCall + repaintInterval);
-                if (nextDelay < MINIMUM_DELAY) {
-                    nextDelay = MINIMUM_DELAY;
+            if (lbstCbll > 0) {
+                // bdjust nfxtDflby
+                int nfxtDflby = (int)(prfviousDflby - timf + lbstCbll + rfpbintIntfrvbl);
+                if (nfxtDflby < MINIMUM_DELAY) {
+                    nfxtDflby = MINIMUM_DELAY;
                 }
 
-                timer.setInitialDelay(nextDelay);
-                previousDelay = nextDelay;
+                timfr.sftInitiblDflby(nfxtDflby);
+                prfviousDflby = nfxtDflby;
             }
 
-            timer.start();
-            lastCall = time;
+            timfr.stbrt();
+            lbstCbll = timf;
 
-            repaint();
+            rfpbint();
         }
     }
 }

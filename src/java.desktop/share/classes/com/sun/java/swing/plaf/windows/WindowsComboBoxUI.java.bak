@@ -1,574 +1,574 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import javax.swing.plaf.basic.*;
-import javax.swing.plaf.*;
-import javax.swing.border.*;
-import javax.swing.*;
-import java.awt.event.*;
-import java.awt.*;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.*;
 
-import static com.sun.java.swing.plaf.windows.TMSchema.Part;
-import static com.sun.java.swing.plaf.windows.TMSchema.State;
-import static com.sun.java.swing.plaf.windows.XPStyle.Skin;
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdifmb.Pbrt;
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdifmb.Stbtf;
+import stbtid dom.sun.jbvb.swing.plbf.windows.XPStylf.Skin;
 
-import sun.swing.DefaultLookup;
-import sun.swing.StringUIClientPropertyKey;
+import sun.swing.DffbultLookup;
+import sun.swing.StringUIClifntPropfrtyKfy;
 
 
 /**
- * Windows combo box.
+ * Windows dombo box.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
- * long term persistence.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs.  Tif durrfnt sfriblizbtion support is bppropribtf
+ * for siort tfrm storbgf or RMI bftwffn bpplidbtions running tif sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
  *
- * @author Tom Santos
- * @author Igor Kushnirskiy
+ * @butior Tom Sbntos
+ * @butior Igor Kusinirskiy
  */
 
-public class WindowsComboBoxUI extends BasicComboBoxUI {
+publid dlbss WindowsComboBoxUI fxtfnds BbsidComboBoxUI {
 
-    private static final MouseListener rolloverListener =
-        new MouseAdapter() {
-            private void handleRollover(MouseEvent e, boolean isRollover) {
-                JComboBox<?> comboBox = getComboBox(e);
-                WindowsComboBoxUI comboBoxUI = getWindowsComboBoxUI(e);
-                if (comboBox == null || comboBoxUI == null) {
-                    return;
+    privbtf stbtid finbl MousfListfnfr rollovfrListfnfr =
+        nfw MousfAdbptfr() {
+            privbtf void ibndlfRollovfr(MousfEvfnt f, boolfbn isRollovfr) {
+                JComboBox<?> domboBox = gftComboBox(f);
+                WindowsComboBoxUI domboBoxUI = gftWindowsComboBoxUI(f);
+                if (domboBox == null || domboBoxUI == null) {
+                    rfturn;
                 }
-                if (! comboBox.isEditable()) {
-                    //mouse over editable ComboBox does not switch rollover
-                    //for the arrow button
-                    ButtonModel m = null;
-                    if (comboBoxUI.arrowButton != null) {
-                        m = comboBoxUI.arrowButton.getModel();
+                if (! domboBox.isEditbblf()) {
+                    //mousf ovfr fditbblf ComboBox dofs not switdi rollovfr
+                    //for tif brrow button
+                    ButtonModfl m = null;
+                    if (domboBoxUI.brrowButton != null) {
+                        m = domboBoxUI.brrowButton.gftModfl();
                     }
                     if (m != null ) {
-                        m.setRollover(isRollover);
+                        m.sftRollovfr(isRollovfr);
                     }
                 }
-                comboBoxUI.isRollover = isRollover;
-                comboBox.repaint();
+                domboBoxUI.isRollovfr = isRollovfr;
+                domboBox.rfpbint();
             }
 
-            public void mouseEntered(MouseEvent e) {
-                handleRollover(e, true);
+            publid void mousfEntfrfd(MousfEvfnt f) {
+                ibndlfRollovfr(f, truf);
             }
 
-            public void mouseExited(MouseEvent e) {
-                handleRollover(e, false);
+            publid void mousfExitfd(MousfEvfnt f) {
+                ibndlfRollovfr(f, fblsf);
             }
 
-            private JComboBox<?> getComboBox(MouseEvent event) {
-                Object source = event.getSource();
+            privbtf JComboBox<?> gftComboBox(MousfEvfnt fvfnt) {
+                Objfdt sourdf = fvfnt.gftSourdf();
                 JComboBox<?> rv = null;
-                if (source instanceof JComboBox) {
-                    rv = (JComboBox) source;
-                } else if (source instanceof XPComboBoxButton) {
-                    rv = ((XPComboBoxButton) source)
-                        .getWindowsComboBoxUI().comboBox;
+                if (sourdf instbndfof JComboBox) {
+                    rv = (JComboBox) sourdf;
+                } flsf if (sourdf instbndfof XPComboBoxButton) {
+                    rv = ((XPComboBoxButton) sourdf)
+                        .gftWindowsComboBoxUI().domboBox;
                 }
-                return rv;
+                rfturn rv;
             }
 
-            private WindowsComboBoxUI getWindowsComboBoxUI(MouseEvent event) {
-                JComboBox<?> comboBox = getComboBox(event);
+            privbtf WindowsComboBoxUI gftWindowsComboBoxUI(MousfEvfnt fvfnt) {
+                JComboBox<?> domboBox = gftComboBox(fvfnt);
                 WindowsComboBoxUI rv = null;
-                if (comboBox != null
-                    && comboBox.getUI() instanceof WindowsComboBoxUI) {
-                    rv = (WindowsComboBoxUI) comboBox.getUI();
+                if (domboBox != null
+                    && domboBox.gftUI() instbndfof WindowsComboBoxUI) {
+                    rv = (WindowsComboBoxUI) domboBox.gftUI();
                 }
-                return rv;
+                rfturn rv;
             }
 
         };
-    private boolean isRollover = false;
+    privbtf boolfbn isRollovfr = fblsf;
 
-    private static final PropertyChangeListener componentOrientationListener =
-        new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent e) {
-                String propertyName = e.getPropertyName();
-                Object source = null;
-                if ("componentOrientation" == propertyName
-                    && (source = e.getSource()) instanceof JComboBox
-                    && ((JComboBox) source).getUI() instanceof
+    privbtf stbtid finbl PropfrtyCibngfListfnfr domponfntOrifntbtionListfnfr =
+        nfw PropfrtyCibngfListfnfr() {
+            publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+                String propfrtyNbmf = f.gftPropfrtyNbmf();
+                Objfdt sourdf = null;
+                if ("domponfntOrifntbtion" == propfrtyNbmf
+                    && (sourdf = f.gftSourdf()) instbndfof JComboBox
+                    && ((JComboBox) sourdf).gftUI() instbndfof
                       WindowsComboBoxUI) {
-                    JComboBox<?> comboBox = (JComboBox) source;
-                    WindowsComboBoxUI comboBoxUI = (WindowsComboBoxUI) comboBox.getUI();
-                    if (comboBoxUI.arrowButton instanceof XPComboBoxButton) {
-                        ((XPComboBoxButton) comboBoxUI.arrowButton).setPart(
-                                    (comboBox.getComponentOrientation() ==
-                                       ComponentOrientation.RIGHT_TO_LEFT)
-                                    ? Part.CP_DROPDOWNBUTTONLEFT
-                                    : Part.CP_DROPDOWNBUTTONRIGHT);
+                    JComboBox<?> domboBox = (JComboBox) sourdf;
+                    WindowsComboBoxUI domboBoxUI = (WindowsComboBoxUI) domboBox.gftUI();
+                    if (domboBoxUI.brrowButton instbndfof XPComboBoxButton) {
+                        ((XPComboBoxButton) domboBoxUI.brrowButton).sftPbrt(
+                                    (domboBox.gftComponfntOrifntbtion() ==
+                                       ComponfntOrifntbtion.RIGHT_TO_LEFT)
+                                    ? Pbrt.CP_DROPDOWNBUTTONLEFT
+                                    : Pbrt.CP_DROPDOWNBUTTONRIGHT);
                             }
                         }
                     }
                 };
 
-    public static ComponentUI createUI(JComponent c) {
-        return new WindowsComboBoxUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw WindowsComboBoxUI();
     }
 
-    public void installUI( JComponent c ) {
-        super.installUI( c );
-        isRollover = false;
-        comboBox.setRequestFocusEnabled( true );
-        if (XPStyle.getXP() != null && arrowButton != null) {
-            //we can not do it in installListeners because arrowButton
-            //is initialized after installListeners is invoked
-            comboBox.addMouseListener(rolloverListener);
-            arrowButton.addMouseListener(rolloverListener);
+    publid void instbllUI( JComponfnt d ) {
+        supfr.instbllUI( d );
+        isRollovfr = fblsf;
+        domboBox.sftRfqufstFodusEnbblfd( truf );
+        if (XPStylf.gftXP() != null && brrowButton != null) {
+            //wf dbn not do it in instbllListfnfrs bfdbusf brrowButton
+            //is initiblizfd bftfr instbllListfnfrs is invokfd
+            domboBox.bddMousfListfnfr(rollovfrListfnfr);
+            brrowButton.bddMousfListfnfr(rollovfrListfnfr);
         }
     }
 
-    public void uninstallUI(JComponent c ) {
-        comboBox.removeMouseListener(rolloverListener);
-        if(arrowButton != null) {
-            arrowButton.removeMouseListener(rolloverListener);
+    publid void uninstbllUI(JComponfnt d ) {
+        domboBox.rfmovfMousfListfnfr(rollovfrListfnfr);
+        if(brrowButton != null) {
+            brrowButton.rfmovfMousfListfnfr(rollovfrListfnfr);
         }
-        super.uninstallUI( c );
+        supfr.uninstbllUI( d );
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.6
+     * {@inifritDod}
+     * @sindf 1.6
      */
-    @Override
-    protected void installListeners() {
-        super.installListeners();
-        XPStyle xp = XPStyle.getXP();
-        //button glyph for LTR and RTL combobox might differ
+    @Ovfrridf
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        XPStylf xp = XPStylf.gftXP();
+        //button glypi for LTR bnd RTL dombobox migit difffr
         if (xp != null
-              && xp.isSkinDefined(comboBox, Part.CP_DROPDOWNBUTTONRIGHT)) {
-            comboBox.addPropertyChangeListener("componentOrientation",
-                                               componentOrientationListener);
+              && xp.isSkinDffinfd(domboBox, Pbrt.CP_DROPDOWNBUTTONRIGHT)) {
+            domboBox.bddPropfrtyCibngfListfnfr("domponfntOrifntbtion",
+                                               domponfntOrifntbtionListfnfr);
         }
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.6
+     * {@inifritDod}
+     * @sindf 1.6
      */
-    @Override
-    protected void uninstallListeners() {
-        super.uninstallListeners();
-        comboBox.removePropertyChangeListener("componentOrientation",
-                                              componentOrientationListener);
+    @Ovfrridf
+    protfdtfd void uninstbllListfnfrs() {
+        supfr.uninstbllListfnfrs();
+        domboBox.rfmovfPropfrtyCibngfListfnfr("domponfntOrifntbtion",
+                                              domponfntOrifntbtionListfnfr);
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.6
+     * {@inifritDod}
+     * @sindf 1.6
      */
-    protected void configureEditor() {
-        super.configureEditor();
-        if (XPStyle.getXP() != null) {
-            editor.addMouseListener(rolloverListener);
+    protfdtfd void donfigurfEditor() {
+        supfr.donfigurfEditor();
+        if (XPStylf.gftXP() != null) {
+            fditor.bddMousfListfnfr(rollovfrListfnfr);
         }
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.6
+     * {@inifritDod}
+     * @sindf 1.6
      */
-    protected void unconfigureEditor() {
-        super.unconfigureEditor();
-        editor.removeMouseListener(rolloverListener);
+    protfdtfd void undonfigurfEditor() {
+        supfr.undonfigurfEditor();
+        fditor.rfmovfMousfListfnfr(rollovfrListfnfr);
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.6
+     * {@inifritDod}
+     * @sindf 1.6
      */
-    public void paint(Graphics g, JComponent c) {
-        if (XPStyle.getXP() != null) {
-            paintXPComboBoxBackground(g, c);
+    publid void pbint(Grbpiids g, JComponfnt d) {
+        if (XPStylf.gftXP() != null) {
+            pbintXPComboBoxBbdkground(g, d);
         }
-        super.paint(g, c);
+        supfr.pbint(g, d);
     }
 
-    State getXPComboBoxState(JComponent c) {
-        State state = State.NORMAL;
-        if (!c.isEnabled()) {
-            state = State.DISABLED;
-        } else if (isPopupVisible(comboBox)) {
-            state = State.PRESSED;
-        } else if (isRollover) {
-            state = State.HOT;
+    Stbtf gftXPComboBoxStbtf(JComponfnt d) {
+        Stbtf stbtf = Stbtf.NORMAL;
+        if (!d.isEnbblfd()) {
+            stbtf = Stbtf.DISABLED;
+        } flsf if (isPopupVisiblf(domboBox)) {
+            stbtf = Stbtf.PRESSED;
+        } flsf if (isRollovfr) {
+            stbtf = Stbtf.HOT;
         }
-        return state;
+        rfturn stbtf;
     }
 
-    private void paintXPComboBoxBackground(Graphics g, JComponent c) {
-        XPStyle xp = XPStyle.getXP();
+    privbtf void pbintXPComboBoxBbdkground(Grbpiids g, JComponfnt d) {
+        XPStylf xp = XPStylf.gftXP();
         if (xp == null) {
-            return;
+            rfturn;
         }
-        State state = getXPComboBoxState(c);
+        Stbtf stbtf = gftXPComboBoxStbtf(d);
         Skin skin = null;
-        if (! comboBox.isEditable()
-              && xp.isSkinDefined(c, Part.CP_READONLY)) {
-            skin = xp.getSkin(c, Part.CP_READONLY);
+        if (! domboBox.isEditbblf()
+              && xp.isSkinDffinfd(d, Pbrt.CP_READONLY)) {
+            skin = xp.gftSkin(d, Pbrt.CP_READONLY);
         }
         if (skin == null) {
-            skin = xp.getSkin(c, Part.CP_COMBOBOX);
+            skin = xp.gftSkin(d, Pbrt.CP_COMBOBOX);
         }
-        skin.paintSkin(g, 0, 0, c.getWidth(), c.getHeight(), state);
+        skin.pbintSkin(g, 0, 0, d.gftWidti(), d.gftHfigit(), stbtf);
     }
 
     /**
-     * If necessary paints the currently selected item.
+     * If nfdfssbry pbints tif durrfntly sflfdtfd itfm.
      *
-     * @param g Graphics to paint to
-     * @param bounds Region to paint current value to
-     * @param hasFocus whether or not the JComboBox has focus
-     * @throws NullPointerException if any of the arguments are null.
-     * @since 1.5
+     * @pbrbm g Grbpiids to pbint to
+     * @pbrbm bounds Rfgion to pbint durrfnt vbluf to
+     * @pbrbm ibsFodus wiftifr or not tif JComboBox ibs fodus
+     * @tirows NullPointfrExdfption if bny of tif brgumfnts brf null.
+     * @sindf 1.5
      */
-    public void paintCurrentValue(Graphics g, Rectangle bounds,
-                                  boolean hasFocus) {
-        XPStyle xp = XPStyle.getXP();
+    publid void pbintCurrfntVbluf(Grbpiids g, Rfdtbnglf bounds,
+                                  boolfbn ibsFodus) {
+        XPStylf xp = XPStylf.gftXP();
         if ( xp != null) {
             bounds.x += 2;
             bounds.y += 2;
-            bounds.width -= 4;
-            bounds.height -= 4;
-        } else {
+            bounds.widti -= 4;
+            bounds.ifigit -= 4;
+        } flsf {
             bounds.x += 1;
             bounds.y += 1;
-            bounds.width -= 2;
-            bounds.height -= 2;
+            bounds.widti -= 2;
+            bounds.ifigit -= 2;
         }
-        if (! comboBox.isEditable()
+        if (! domboBox.isEditbblf()
             && xp != null
-            && xp.isSkinDefined(comboBox, Part.CP_READONLY)) {
-            // On vista for READNLY ComboBox
-            // color for currentValue is the same as for any other item
+            && xp.isSkinDffinfd(domboBox, Pbrt.CP_READONLY)) {
+            // On vistb for READNLY ComboBox
+            // dolor for durrfntVbluf is tif sbmf bs for bny otifr itfm
 
-            // mostly copied from javax.swing.plaf.basic.BasicComboBoxUI.paintCurrentValue
-            ListCellRenderer<Object> renderer = comboBox.getRenderer();
-            Component c;
-            if ( hasFocus && !isPopupVisible(comboBox) ) {
-                c = renderer.getListCellRendererComponent(
+            // mostly dopifd from jbvbx.swing.plbf.bbsid.BbsidComboBoxUI.pbintCurrfntVbluf
+            ListCfllRfndfrfr<Objfdt> rfndfrfr = domboBox.gftRfndfrfr();
+            Componfnt d;
+            if ( ibsFodus && !isPopupVisiblf(domboBox) ) {
+                d = rfndfrfr.gftListCfllRfndfrfrComponfnt(
                         listBox,
-                        comboBox.getSelectedItem(),
+                        domboBox.gftSflfdtfdItfm(),
                         -1,
-                        true,
-                        false );
-            } else {
-                c = renderer.getListCellRendererComponent(
+                        truf,
+                        fblsf );
+            } flsf {
+                d = rfndfrfr.gftListCfllRfndfrfrComponfnt(
                         listBox,
-                        comboBox.getSelectedItem(),
+                        domboBox.gftSflfdtfdItfm(),
                         -1,
-                        false,
-                        false );
+                        fblsf,
+                        fblsf );
             }
-            c.setFont(comboBox.getFont());
-            if ( comboBox.isEnabled() ) {
-                c.setForeground(comboBox.getForeground());
-                c.setBackground(comboBox.getBackground());
-            } else {
-                c.setForeground(DefaultLookup.getColor(
-                         comboBox, this, "ComboBox.disabledForeground", null));
-                c.setBackground(DefaultLookup.getColor(
-                         comboBox, this, "ComboBox.disabledBackground", null));
+            d.sftFont(domboBox.gftFont());
+            if ( domboBox.isEnbblfd() ) {
+                d.sftForfground(domboBox.gftForfground());
+                d.sftBbdkground(domboBox.gftBbdkground());
+            } flsf {
+                d.sftForfground(DffbultLookup.gftColor(
+                         domboBox, tiis, "ComboBox.disbblfdForfground", null));
+                d.sftBbdkground(DffbultLookup.gftColor(
+                         domboBox, tiis, "ComboBox.disbblfdBbdkground", null));
             }
-            boolean shouldValidate = false;
-            if (c instanceof JPanel)  {
-                shouldValidate = true;
+            boolfbn siouldVblidbtf = fblsf;
+            if (d instbndfof JPbnfl)  {
+                siouldVblidbtf = truf;
             }
-            currentValuePane.paintComponent(g, c, comboBox, bounds.x, bounds.y,
-                                            bounds.width, bounds.height, shouldValidate);
+            durrfntVblufPbnf.pbintComponfnt(g, d, domboBox, bounds.x, bounds.y,
+                                            bounds.widti, bounds.ifigit, siouldVblidbtf);
 
-        } else {
-            super.paintCurrentValue(g, bounds, hasFocus);
+        } flsf {
+            supfr.pbintCurrfntVbluf(g, bounds, ibsFodus);
         }
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.6
+     * {@inifritDod}
+     * @sindf 1.6
      */
-    public void paintCurrentValueBackground(Graphics g, Rectangle bounds,
-                                            boolean hasFocus) {
-        if (XPStyle.getXP() == null) {
-            super.paintCurrentValueBackground(g, bounds, hasFocus);
+    publid void pbintCurrfntVblufBbdkground(Grbpiids g, Rfdtbnglf bounds,
+                                            boolfbn ibsFodus) {
+        if (XPStylf.gftXP() == null) {
+            supfr.pbintCurrfntVblufBbdkground(g, bounds, ibsFodus);
         }
     }
 
-    public Dimension getMinimumSize( JComponent c ) {
-        Dimension d = super.getMinimumSize(c);
-        if (XPStyle.getXP() != null) {
-            d.width += 5;
-        } else {
-            d.width += 4;
+    publid Dimfnsion gftMinimumSizf( JComponfnt d ) {
+        Dimfnsion d = supfr.gftMinimumSizf(d);
+        if (XPStylf.gftXP() != null) {
+            d.widti += 5;
+        } flsf {
+            d.widti += 4;
         }
-        d.height += 2;
-        return d;
+        d.ifigit += 2;
+        rfturn d;
     }
 
     /**
-     * Creates a layout manager for managing the components which make up the
-     * combo box.
+     * Crfbtfs b lbyout mbnbgfr for mbnbging tif domponfnts wiidi mbkf up tif
+     * dombo box.
      *
-     * @return an instance of a layout manager
+     * @rfturn bn instbndf of b lbyout mbnbgfr
      */
-    protected LayoutManager createLayoutManager() {
-        return new BasicComboBoxUI.ComboBoxLayoutManager() {
-            public void layoutContainer(Container parent) {
-                super.layoutContainer(parent);
+    protfdtfd LbyoutMbnbgfr drfbtfLbyoutMbnbgfr() {
+        rfturn nfw BbsidComboBoxUI.ComboBoxLbyoutMbnbgfr() {
+            publid void lbyoutContbinfr(Contbinfr pbrfnt) {
+                supfr.lbyoutContbinfr(pbrfnt);
 
-                if (XPStyle.getXP() != null && arrowButton != null) {
-                    Dimension d = parent.getSize();
-                    Insets insets = getInsets();
-                    int buttonWidth = arrowButton.getPreferredSize().width;
-                    arrowButton.setBounds(WindowsGraphicsUtils.isLeftToRight((JComboBox)parent)
-                                          ? (d.width - insets.right - buttonWidth)
-                                          : insets.left,
-                                          insets.top,
-                                          buttonWidth, d.height - insets.top - insets.bottom);
+                if (XPStylf.gftXP() != null && brrowButton != null) {
+                    Dimfnsion d = pbrfnt.gftSizf();
+                    Insfts insfts = gftInsfts();
+                    int buttonWidti = brrowButton.gftPrfffrrfdSizf().widti;
+                    brrowButton.sftBounds(WindowsGrbpiidsUtils.isLfftToRigit((JComboBox)pbrfnt)
+                                          ? (d.widti - insfts.rigit - buttonWidti)
+                                          : insfts.lfft,
+                                          insfts.top,
+                                          buttonWidti, d.ifigit - insfts.top - insfts.bottom);
                 }
             }
         };
     }
 
-    protected void installKeyboardActions() {
-        super.installKeyboardActions();
+    protfdtfd void instbllKfybobrdAdtions() {
+        supfr.instbllKfybobrdAdtions();
     }
 
-    protected ComboPopup createPopup() {
-        return super.createPopup();
+    protfdtfd ComboPopup drfbtfPopup() {
+        rfturn supfr.drfbtfPopup();
     }
 
     /**
-     * Creates the default editor that will be used in editable combo boxes.
-     * A default editor will be used only if an editor has not been
-     * explicitly set with <code>setEditor</code>.
+     * Crfbtfs tif dffbult fditor tibt will bf usfd in fditbblf dombo boxfs.
+     * A dffbult fditor will bf usfd only if bn fditor ibs not bffn
+     * fxpliditly sft witi <dodf>sftEditor</dodf>.
      *
-     * @return a <code>ComboBoxEditor</code> used for the combo box
-     * @see javax.swing.JComboBox#setEditor
+     * @rfturn b <dodf>ComboBoxEditor</dodf> usfd for tif dombo box
+     * @sff jbvbx.swing.JComboBox#sftEditor
      */
-    protected ComboBoxEditor createEditor() {
-        return new WindowsComboBoxEditor();
+    protfdtfd ComboBoxEditor drfbtfEditor() {
+        rfturn nfw WindowsComboBoxEditor();
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.6
+     * {@inifritDod}
+     * @sindf 1.6
      */
-    @Override
-    protected ListCellRenderer<Object> createRenderer() {
-        XPStyle xp = XPStyle.getXP();
-        if (xp != null && xp.isSkinDefined(comboBox, Part.CP_READONLY)) {
-            return new WindowsComboBoxRenderer();
-        } else {
-            return super.createRenderer();
+    @Ovfrridf
+    protfdtfd ListCfllRfndfrfr<Objfdt> drfbtfRfndfrfr() {
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null && xp.isSkinDffinfd(domboBox, Pbrt.CP_READONLY)) {
+            rfturn nfw WindowsComboBoxRfndfrfr();
+        } flsf {
+            rfturn supfr.drfbtfRfndfrfr();
         }
     }
 
     /**
-     * Creates an button which will be used as the control to show or hide
-     * the popup portion of the combo box.
+     * Crfbtfs bn button wiidi will bf usfd bs tif dontrol to siow or iidf
+     * tif popup portion of tif dombo box.
      *
-     * @return a button which represents the popup control
+     * @rfturn b button wiidi rfprfsfnts tif popup dontrol
      */
-    protected JButton createArrowButton() {
-        XPStyle xp = XPStyle.getXP();
+    protfdtfd JButton drfbtfArrowButton() {
+        XPStylf xp = XPStylf.gftXP();
         if (xp != null) {
-            return new XPComboBoxButton(xp);
-        } else {
-            return super.createArrowButton();
+            rfturn nfw XPComboBoxButton(xp);
+        } flsf {
+            rfturn supfr.drfbtfArrowButton();
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class XPComboBoxButton extends XPStyle.GlyphButton {
-        public XPComboBoxButton(XPStyle xp) {
-            super(null,
-                  (! xp.isSkinDefined(comboBox, Part.CP_DROPDOWNBUTTONRIGHT))
-                   ? Part.CP_DROPDOWNBUTTON
-                   : (comboBox.getComponentOrientation() == ComponentOrientation.RIGHT_TO_LEFT)
-                     ? Part.CP_DROPDOWNBUTTONLEFT
-                     : Part.CP_DROPDOWNBUTTONRIGHT
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss XPComboBoxButton fxtfnds XPStylf.GlypiButton {
+        publid XPComboBoxButton(XPStylf xp) {
+            supfr(null,
+                  (! xp.isSkinDffinfd(domboBox, Pbrt.CP_DROPDOWNBUTTONRIGHT))
+                   ? Pbrt.CP_DROPDOWNBUTTON
+                   : (domboBox.gftComponfntOrifntbtion() == ComponfntOrifntbtion.RIGHT_TO_LEFT)
+                     ? Pbrt.CP_DROPDOWNBUTTONLEFT
+                     : Pbrt.CP_DROPDOWNBUTTONRIGHT
                   );
-            setRequestFocusEnabled(false);
+            sftRfqufstFodusEnbblfd(fblsf);
         }
 
-        @Override
-        protected State getState() {
-            State rv;
-            rv = super.getState();
-            XPStyle xp = XPStyle.getXP();
-            if (rv != State.DISABLED
-                && comboBox != null && ! comboBox.isEditable()
-                && xp != null && xp.isSkinDefined(comboBox,
-                                                  Part.CP_DROPDOWNBUTTONRIGHT)) {
+        @Ovfrridf
+        protfdtfd Stbtf gftStbtf() {
+            Stbtf rv;
+            rv = supfr.gftStbtf();
+            XPStylf xp = XPStylf.gftXP();
+            if (rv != Stbtf.DISABLED
+                && domboBox != null && ! domboBox.isEditbblf()
+                && xp != null && xp.isSkinDffinfd(domboBox,
+                                                  Pbrt.CP_DROPDOWNBUTTONRIGHT)) {
                 /*
-                 * for non editable ComboBoxes Vista seems to have the
-                 * same glyph for all non DISABLED states
+                 * for non fditbblf ComboBoxfs Vistb sffms to ibvf tif
+                 * sbmf glypi for bll non DISABLED stbtfs
                  */
-                rv = State.NORMAL;
+                rv = Stbtf.NORMAL;
             }
-            return rv;
+            rfturn rv;
         }
 
-        public Dimension getPreferredSize() {
-            return new Dimension(17, 21);
+        publid Dimfnsion gftPrfffrrfdSizf() {
+            rfturn nfw Dimfnsion(17, 21);
         }
 
-        void setPart(Part part) {
-            setPart(comboBox, part);
+        void sftPbrt(Pbrt pbrt) {
+            sftPbrt(domboBox, pbrt);
         }
 
-        WindowsComboBoxUI getWindowsComboBoxUI() {
-            return WindowsComboBoxUI.this;
+        WindowsComboBoxUI gftWindowsComboBoxUI() {
+            rfturn WindowsComboBoxUI.tiis;
         }
     }
 
 
     /**
-     * Subclassed to add Windows specific Key Bindings.
-     * This class is now obsolete and doesn't do anything.
-     * Only included for backwards API compatibility.
-     * Do not call or override.
+     * Subdlbssfd to bdd Windows spfdifid Kfy Bindings.
+     * Tiis dlbss is now obsolftf bnd dofsn't do bnytiing.
+     * Only indludfd for bbdkwbrds API dompbtibility.
+     * Do not dbll or ovfrridf.
      *
-     * @deprecated As of Java 2 platform v1.4.
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.4.
      */
-    @Deprecated
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class WindowsComboPopup extends BasicComboPopup {
+    @Dfprfdbtfd
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    protfdtfd dlbss WindowsComboPopup fxtfnds BbsidComboPopup {
 
-        public WindowsComboPopup( JComboBox<Object> cBox ) {
-            super( cBox );
+        publid WindowsComboPopup( JComboBox<Objfdt> dBox ) {
+            supfr( dBox );
         }
 
-        protected KeyListener createKeyListener() {
-            return new InvocationKeyHandler();
+        protfdtfd KfyListfnfr drfbtfKfyListfnfr() {
+            rfturn nfw InvodbtionKfyHbndlfr();
         }
 
-        protected class InvocationKeyHandler extends BasicComboPopup.InvocationKeyHandler {
-            protected InvocationKeyHandler() {
-                WindowsComboPopup.this.super();
+        protfdtfd dlbss InvodbtionKfyHbndlfr fxtfnds BbsidComboPopup.InvodbtionKfyHbndlfr {
+            protfdtfd InvodbtionKfyHbndlfr() {
+                WindowsComboPopup.tiis.supfr();
             }
         }
     }
 
 
     /**
-     * Subclassed to highlight selected item in an editable combo box.
+     * Subdlbssfd to iigiligit sflfdtfd itfm in bn fditbblf dombo box.
      */
-    public static class WindowsComboBoxEditor
-        extends BasicComboBoxEditor.UIResource {
+    publid stbtid dlbss WindowsComboBoxEditor
+        fxtfnds BbsidComboBoxEditor.UIRfsourdf {
 
         /**
-         * {@inheritDoc}
-         * @since 1.6
+         * {@inifritDod}
+         * @sindf 1.6
          */
-        protected JTextField createEditorComponent() {
-            JTextField editor = super.createEditorComponent();
-            Border border = (Border)UIManager.get("ComboBox.editorBorder");
-            if (border != null) {
-                editor.setBorder(border);
+        protfdtfd JTfxtFifld drfbtfEditorComponfnt() {
+            JTfxtFifld fditor = supfr.drfbtfEditorComponfnt();
+            Bordfr bordfr = (Bordfr)UIMbnbgfr.gft("ComboBox.fditorBordfr");
+            if (bordfr != null) {
+                fditor.sftBordfr(bordfr);
             }
-            editor.setOpaque(false);
-            return editor;
+            fditor.sftOpbquf(fblsf);
+            rfturn fditor;
         }
 
-        public void setItem(Object item) {
-            super.setItem(item);
-            Object focus = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
-            if ((focus == editor) || (focus == editor.getParent())) {
-                editor.selectAll();
+        publid void sftItfm(Objfdt itfm) {
+            supfr.sftItfm(itfm);
+            Objfdt fodus = KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().gftFodusOwnfr();
+            if ((fodus == fditor) || (fodus == fditor.gftPbrfnt())) {
+                fditor.sflfdtAll();
             }
         }
     }
 
     /**
-     * Subclassed to set opacity {@code false} on the renderer
-     * and to show border for focused cells.
+     * Subdlbssfd to sft opbdity {@dodf fblsf} on tif rfndfrfr
+     * bnd to siow bordfr for fodusfd dflls.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private static class WindowsComboBoxRenderer
-          extends BasicComboBoxRenderer.UIResource {
-        private static final Object BORDER_KEY
-            = new StringUIClientPropertyKey("BORDER_KEY");
-        private static final Border NULL_BORDER = new EmptyBorder(0, 0, 0, 0);
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf stbtid dlbss WindowsComboBoxRfndfrfr
+          fxtfnds BbsidComboBoxRfndfrfr.UIRfsourdf {
+        privbtf stbtid finbl Objfdt BORDER_KEY
+            = nfw StringUIClifntPropfrtyKfy("BORDER_KEY");
+        privbtf stbtid finbl Bordfr NULL_BORDER = nfw EmptyBordfr(0, 0, 0, 0);
         /**
-         * {@inheritDoc}
+         * {@inifritDod}
          */
-        @Override
-        public Component getListCellRendererComponent(
+        @Ovfrridf
+        publid Componfnt gftListCfllRfndfrfrComponfnt(
                                                  JList<?> list,
-                                                 Object value,
-                                                 int index,
-                                                 boolean isSelected,
-                                                 boolean cellHasFocus) {
-            Component rv =
-                super.getListCellRendererComponent(list, value, index,
-                                                   isSelected, cellHasFocus);
-            if (rv instanceof JComponent) {
-                JComponent component = (JComponent) rv;
-                if (index == -1 && isSelected) {
-                    Border border = component.getBorder();
-                    Border dashedBorder =
-                        new WindowsBorders.DashedBorder(list.getForeground());
-                    component.setBorder(dashedBorder);
-                    //store current border in client property if needed
-                    if (component.getClientProperty(BORDER_KEY) == null) {
-                        component.putClientProperty(BORDER_KEY,
-                                       (border == null) ? NULL_BORDER : border);
+                                                 Objfdt vbluf,
+                                                 int indfx,
+                                                 boolfbn isSflfdtfd,
+                                                 boolfbn dfllHbsFodus) {
+            Componfnt rv =
+                supfr.gftListCfllRfndfrfrComponfnt(list, vbluf, indfx,
+                                                   isSflfdtfd, dfllHbsFodus);
+            if (rv instbndfof JComponfnt) {
+                JComponfnt domponfnt = (JComponfnt) rv;
+                if (indfx == -1 && isSflfdtfd) {
+                    Bordfr bordfr = domponfnt.gftBordfr();
+                    Bordfr dbsifdBordfr =
+                        nfw WindowsBordfrs.DbsifdBordfr(list.gftForfground());
+                    domponfnt.sftBordfr(dbsifdBordfr);
+                    //storf durrfnt bordfr in dlifnt propfrty if nffdfd
+                    if (domponfnt.gftClifntPropfrty(BORDER_KEY) == null) {
+                        domponfnt.putClifntPropfrty(BORDER_KEY,
+                                       (bordfr == null) ? NULL_BORDER : bordfr);
                     }
-                } else {
-                    if (component.getBorder() instanceof
-                          WindowsBorders.DashedBorder) {
-                        Object storedBorder = component.getClientProperty(BORDER_KEY);
-                        if (storedBorder instanceof Border) {
-                            component.setBorder(
-                                (storedBorder == NULL_BORDER) ? null
-                                    : (Border) storedBorder);
+                } flsf {
+                    if (domponfnt.gftBordfr() instbndfof
+                          WindowsBordfrs.DbsifdBordfr) {
+                        Objfdt storfdBordfr = domponfnt.gftClifntPropfrty(BORDER_KEY);
+                        if (storfdBordfr instbndfof Bordfr) {
+                            domponfnt.sftBordfr(
+                                (storfdBordfr == NULL_BORDER) ? null
+                                    : (Bordfr) storfdBordfr);
                         }
-                        component.putClientProperty(BORDER_KEY, null);
+                        domponfnt.putClifntPropfrty(BORDER_KEY, null);
                     }
                 }
-                if (index == -1) {
-                    component.setOpaque(false);
-                    component.setForeground(list.getForeground());
-                } else {
-                    component.setOpaque(true);
+                if (indfx == -1) {
+                    domponfnt.sftOpbquf(fblsf);
+                    domponfnt.sftForfground(list.gftForfground());
+                } flsf {
+                    domponfnt.sftOpbquf(truf);
                 }
             }
-            return rv;
+            rfturn rv;
         }
 
     }

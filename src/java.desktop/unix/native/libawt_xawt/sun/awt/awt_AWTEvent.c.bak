@@ -1,75 +1,75 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
- * Implements the native code for the java.awt.AWTEvent class
- * and all of the classes in the java.awt.event package.
+ * Implfmfnts tif nbtivf dodf for tif jbvb.bwt.AWTEvfnt dlbss
+ * bnd bll of tif dlbssfs in tif jbvb.bwt.fvfnt pbdkbgf.
  *
- * THIS FILE DOES NOT IMPLEMENT ANY OF THE OBSOLETE java.awt.Event
- * CLASS. SEE awt_Event.[ch] FOR THAT CLASS' IMPLEMENTATION.
+ * THIS FILE DOES NOT IMPLEMENT ANY OF THE OBSOLETE jbvb.bwt.Evfnt
+ * CLASS. SEE bwt_Evfnt.[di] FOR THAT CLASS' IMPLEMENTATION.
  */
 
-#ifdef HEADLESS
-    #error This file should not be included in headless library
-#endif
+#ifdff HEADLESS
+    #frror Tiis filf siould not bf indludfd in ifbdlfss librbry
+#fndif
 
-#include "awt_p.h"
-#include "java_awt_AWTEvent.h"
-#include "java_awt_event_InputEvent.h"
-#include "java_awt_event_KeyEvent.h"
-#include "jni_util.h"
+#indludf "bwt_p.i"
+#indludf "jbvb_bwt_AWTEvfnt.i"
+#indludf "jbvb_bwt_fvfnt_InputEvfnt.i"
+#indludf "jbvb_bwt_fvfnt_KfyEvfnt.i"
+#indludf "jni_util.i"
 
-#include "awt_AWTEvent.h"
+#indludf "bwt_AWTEvfnt.i"
 
-struct AWTEventIDs awtEventIDs;
-struct InputEventIDs inputEventIDs;
-struct KeyEventIDs keyEventIDs;
+strudt AWTEvfntIDs bwtEvfntIDs;
+strudt InputEvfntIDs inputEvfntIDs;
+strudt KfyEvfntIDs kfyEvfntIDs;
 
 JNIEXPORT void JNICALL
-Java_java_awt_AWTEvent_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_bwt_AWTEvfnt_initIDs(JNIEnv *fnv, jdlbss dls)
 {
-    CHECK_NULL(awtEventIDs.bdata = (*env)->GetFieldID(env, cls, "bdata", "[B"));
-    CHECK_NULL(awtEventIDs.consumed = (*env)->GetFieldID(env, cls, "consumed", "Z"));
-    CHECK_NULL(awtEventIDs.id = (*env)->GetFieldID(env, cls, "id", "I"));
+    CHECK_NULL(bwtEvfntIDs.bdbtb = (*fnv)->GftFifldID(fnv, dls, "bdbtb", "[B"));
+    CHECK_NULL(bwtEvfntIDs.donsumfd = (*fnv)->GftFifldID(fnv, dls, "donsumfd", "Z"));
+    CHECK_NULL(bwtEvfntIDs.id = (*fnv)->GftFifldID(fnv, dls, "id", "I"));
 }
 
 JNIEXPORT void JNICALL
-Java_java_awt_event_InputEvent_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_bwt_fvfnt_InputEvfnt_initIDs(JNIEnv *fnv, jdlbss dls)
 {
-    CHECK_NULL(inputEventIDs.modifiers = (*env)->GetFieldID(env, cls, "modifiers", "I"));
+    CHECK_NULL(inputEvfntIDs.modififrs = (*fnv)->GftFifldID(fnv, dls, "modififrs", "I"));
 }
 
 JNIEXPORT void JNICALL
-Java_java_awt_event_KeyEvent_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_bwt_fvfnt_KfyEvfnt_initIDs(JNIEnv *fnv, jdlbss dls)
 {
-    CHECK_NULL(keyEventIDs.keyCode = (*env)->GetFieldID(env, cls, "keyCode", "I"));
-    CHECK_NULL(keyEventIDs.keyChar = (*env)->GetFieldID(env, cls, "keyChar", "C"));
+    CHECK_NULL(kfyEvfntIDs.kfyCodf = (*fnv)->GftFifldID(fnv, dls, "kfyCodf", "I"));
+    CHECK_NULL(kfyEvfntIDs.kfyCibr = (*fnv)->GftFifldID(fnv, dls, "kfyCibr", "C"));
 }
 
 JNIEXPORT void JNICALL
-Java_java_awt_AWTEvent_nativeSetSource(JNIEnv *env, jobject self,
-                                       jobject newSource)
+Jbvb_jbvb_bwt_AWTEvfnt_nbtivfSftSourdf(JNIEnv *fnv, jobjfdt sflf,
+                                       jobjfdt nfwSourdf)
 {
 
 }

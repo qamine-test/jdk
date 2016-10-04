@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.print;
+pbdkbgf jbvbx.print;
 
 /**
- * Class PrintException encapsulates a printing-related error condition that
- * occurred while using a Print Service instance. This base class
- * furnishes only a string description of the error. Subclasses furnish more
- * detailed information if applicable.
+ * Clbss PrintExdfption fndbpsulbtfs b printing-rflbtfd frror dondition tibt
+ * oddurrfd wiilf using b Print Sfrvidf instbndf. Tiis bbsf dlbss
+ * furnisifs only b string dfsdription of tif frror. Subdlbssfs furnisi morf
+ * dftbilfd informbtion if bpplidbblf.
  *
  */
-public class PrintException extends Exception {
-    private static final long serialVersionUID = -5932531546705242471L;
+publid dlbss PrintExdfption fxtfnds Exdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = -5932531546705242471L;
 
     /**
-     * Construct a print exception with no detail message.
+     * Construdt b print fxdfption witi no dftbil mfssbgf.
      */
-    public PrintException() {
-        super();
+    publid PrintExdfption() {
+        supfr();
     }
 
     /**
-     * Construct a print exception with the given detail message.
+     * Construdt b print fxdfption witi tif givfn dftbil mfssbgf.
      *
-     * @param  s  Detail message, or null if no detail message.
+     * @pbrbm  s  Dftbil mfssbgf, or null if no dftbil mfssbgf.
      */
-    public PrintException (String s) {
-        super (s);
+    publid PrintExdfption (String s) {
+        supfr (s);
     }
 
     /**
-     * Construct a print exception chaining the supplied exception.
+     * Construdt b print fxdfption dibining tif supplifd fxdfption.
      *
-     * @param  e  Chained exception.
+     * @pbrbm  f  Cibinfd fxdfption.
      */
-    public PrintException (Exception e) {
-        super ( e);
+    publid PrintExdfption (Exdfption f) {
+        supfr ( f);
     }
 
     /**
-     * Construct a print exception with the given detail message
-     * and chained exception.
-     * @param  s  Detail message, or null if no detail message.
-     * @param  e  Chained exception.
+     * Construdt b print fxdfption witi tif givfn dftbil mfssbgf
+     * bnd dibinfd fxdfption.
+     * @pbrbm  s  Dftbil mfssbgf, or null if no dftbil mfssbgf.
+     * @pbrbm  f  Cibinfd fxdfption.
      */
-    public PrintException (String s, Exception e) {
-        super (s, e);
+    publid PrintExdfption (String s, Exdfption f) {
+        supfr (s, f);
     }
 
 }

@@ -1,210 +1,210 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1998 - All Rigits Rfsfrvfd
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion
+ * is dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd
+ * subsidibry of IBM. Tifsf mbtfribls brf providfd undfr tfrms
+ * of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology
+ * is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
-import sun.util.ResourceBundleEnumeration;
+import sun.util.RfsourdfBundlfEnumfrbtion;
 
 /**
- * <code>ListResourceBundle</code> is an abstract subclass of
- * <code>ResourceBundle</code> that manages resources for a locale
- * in a convenient and easy to use list. See <code>ResourceBundle</code> for
- * more information about resource bundles in general.
+ * <dodf>ListRfsourdfBundlf</dodf> is bn bbstrbdt subdlbss of
+ * <dodf>RfsourdfBundlf</dodf> tibt mbnbgfs rfsourdfs for b lodblf
+ * in b donvfnifnt bnd fbsy to usf list. Sff <dodf>RfsourdfBundlf</dodf> for
+ * morf informbtion bbout rfsourdf bundlfs in gfnfrbl.
  *
  * <P>
- * Subclasses must override <code>getContents</code> and provide an array,
- * where each item in the array is a pair of objects.
- * The first element of each pair is the key, which must be a
- * <code>String</code>, and the second element is the value associated with
- * that key.
+ * Subdlbssfs must ovfrridf <dodf>gftContfnts</dodf> bnd providf bn brrby,
+ * wifrf fbdi itfm in tif brrby is b pbir of objfdts.
+ * Tif first flfmfnt of fbdi pbir is tif kfy, wiidi must bf b
+ * <dodf>String</dodf>, bnd tif sfdond flfmfnt is tif vbluf bssodibtfd witi
+ * tibt kfy.
  *
  * <p>
- * The following <a name="sample">example</a> shows two members of a resource
- * bundle family with the base name "MyResources".
- * "MyResources" is the default member of the bundle family, and
- * "MyResources_fr" is the French member.
- * These members are based on <code>ListResourceBundle</code>
- * (a related <a href="PropertyResourceBundle.html#sample">example</a> shows
- * how you can add a bundle to this family that's based on a properties file).
- * The keys in this example are of the form "s1" etc. The actual
- * keys are entirely up to your choice, so long as they are the same as
- * the keys you use in your program to retrieve the objects from the bundle.
- * Keys are case-sensitive.
- * <blockquote>
- * <pre>
+ * Tif following <b nbmf="sbmplf">fxbmplf</b> siows two mfmbfrs of b rfsourdf
+ * bundlf fbmily witi tif bbsf nbmf "MyRfsourdfs".
+ * "MyRfsourdfs" is tif dffbult mfmbfr of tif bundlf fbmily, bnd
+ * "MyRfsourdfs_fr" is tif Frfndi mfmbfr.
+ * Tifsf mfmbfrs brf bbsfd on <dodf>ListRfsourdfBundlf</dodf>
+ * (b rflbtfd <b irff="PropfrtyRfsourdfBundlf.itml#sbmplf">fxbmplf</b> siows
+ * iow you dbn bdd b bundlf to tiis fbmily tibt's bbsfd on b propfrtifs filf).
+ * Tif kfys in tiis fxbmplf brf of tif form "s1" ftd. Tif bdtubl
+ * kfys brf fntirfly up to your dioidf, so long bs tify brf tif sbmf bs
+ * tif kfys you usf in your progrbm to rftrifvf tif objfdts from tif bundlf.
+ * Kfys brf dbsf-sfnsitivf.
+ * <blodkquotf>
+ * <prf>
  *
- * public class MyResources extends ListResourceBundle {
- *     protected Object[][] getContents() {
- *         return new Object[][] {
+ * publid dlbss MyRfsourdfs fxtfnds ListRfsourdfBundlf {
+ *     protfdtfd Objfdt[][] gftContfnts() {
+ *         rfturn nfw Objfdt[][] {
  *         // LOCALIZE THIS
- *             {"s1", "The disk \"{1}\" contains {0}."},  // MessageFormat pattern
- *             {"s2", "1"},                               // location of {0} in pattern
- *             {"s3", "My Disk"},                         // sample disk name
- *             {"s4", "no files"},                        // first ChoiceFormat choice
- *             {"s5", "one file"},                        // second ChoiceFormat choice
- *             {"s6", "{0,number} files"},                // third ChoiceFormat choice
- *             {"s7", "3 Mar 96"},                        // sample date
- *             {"s8", new Dimension(1,5)}                 // real object, not just string
+ *             {"s1", "Tif disk \"{1}\" dontbins {0}."},  // MfssbgfFormbt pbttfrn
+ *             {"s2", "1"},                               // lodbtion of {0} in pbttfrn
+ *             {"s3", "My Disk"},                         // sbmplf disk nbmf
+ *             {"s4", "no filfs"},                        // first CioidfFormbt dioidf
+ *             {"s5", "onf filf"},                        // sfdond CioidfFormbt dioidf
+ *             {"s6", "{0,numbfr} filfs"},                // tiird CioidfFormbt dioidf
+ *             {"s7", "3 Mbr 96"},                        // sbmplf dbtf
+ *             {"s8", nfw Dimfnsion(1,5)}                 // rfbl objfdt, not just string
  *         // END OF MATERIAL TO LOCALIZE
  *         };
  *     }
  * }
  *
- * public class MyResources_fr extends ListResourceBundle {
- *     protected Object[][] getContents() {
- *         return new Object[][] {
+ * publid dlbss MyRfsourdfs_fr fxtfnds ListRfsourdfBundlf {
+ *     protfdtfd Objfdt[][] gftContfnts() {
+ *         rfturn nfw Objfdt[][] {
  *         // LOCALIZE THIS
- *             {"s1", "Le disque \"{1}\" {0}."},          // MessageFormat pattern
- *             {"s2", "1"},                               // location of {0} in pattern
- *             {"s3", "Mon disque"},                      // sample disk name
- *             {"s4", "ne contient pas de fichiers"},     // first ChoiceFormat choice
- *             {"s5", "contient un fichier"},             // second ChoiceFormat choice
- *             {"s6", "contient {0,number} fichiers"},    // third ChoiceFormat choice
- *             {"s7", "3 mars 1996"},                     // sample date
- *             {"s8", new Dimension(1,3)}                 // real object, not just string
+ *             {"s1", "Lf disquf \"{1}\" {0}."},          // MfssbgfFormbt pbttfrn
+ *             {"s2", "1"},                               // lodbtion of {0} in pbttfrn
+ *             {"s3", "Mon disquf"},                      // sbmplf disk nbmf
+ *             {"s4", "nf dontifnt pbs df fidiifrs"},     // first CioidfFormbt dioidf
+ *             {"s5", "dontifnt un fidiifr"},             // sfdond CioidfFormbt dioidf
+ *             {"s6", "dontifnt {0,numbfr} fidiifrs"},    // tiird CioidfFormbt dioidf
+ *             {"s7", "3 mbrs 1996"},                     // sbmplf dbtf
+ *             {"s8", nfw Dimfnsion(1,3)}                 // rfbl objfdt, not just string
  *         // END OF MATERIAL TO LOCALIZE
  *         };
  *     }
  * }
- * </pre>
- * </blockquote>
+ * </prf>
+ * </blodkquotf>
  *
  * <p>
- * The implementation of a {@code ListResourceBundle} subclass must be thread-safe
- * if it's simultaneously used by multiple threads. The default implementations
- * of the methods in this class are thread-safe.
+ * Tif implfmfntbtion of b {@dodf ListRfsourdfBundlf} subdlbss must bf tirfbd-sbff
+ * if it's simultbnfously usfd by multiplf tirfbds. Tif dffbult implfmfntbtions
+ * of tif mftiods in tiis dlbss brf tirfbd-sbff.
  *
- * @see ResourceBundle
- * @see PropertyResourceBundle
- * @since 1.1
+ * @sff RfsourdfBundlf
+ * @sff PropfrtyRfsourdfBundlf
+ * @sindf 1.1
  */
-public abstract class ListResourceBundle extends ResourceBundle {
+publid bbstrbdt dlbss ListRfsourdfBundlf fxtfnds RfsourdfBundlf {
     /**
-     * Sole constructor.  (For invocation by subclass constructors, typically
-     * implicit.)
+     * Solf donstrudtor.  (For invodbtion by subdlbss donstrudtors, typidblly
+     * implidit.)
      */
-    public ListResourceBundle() {
+    publid ListRfsourdfBundlf() {
     }
 
-    // Implements java.util.ResourceBundle.handleGetObject; inherits javadoc specification.
-    public final Object handleGetObject(String key) {
-        // lazily load the lookup hashtable.
+    // Implfmfnts jbvb.util.RfsourdfBundlf.ibndlfGftObjfdt; inifrits jbvbdod spfdifidbtion.
+    publid finbl Objfdt ibndlfGftObjfdt(String kfy) {
+        // lbzily lobd tif lookup ibsitbblf.
         if (lookup == null) {
-            loadLookup();
+            lobdLookup();
         }
-        if (key == null) {
-            throw new NullPointerException();
+        if (kfy == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        return lookup.get(key); // this class ignores locales
+        rfturn lookup.gft(kfy); // tiis dlbss ignorfs lodblfs
     }
 
     /**
-     * Returns an <code>Enumeration</code> of the keys contained in
-     * this <code>ResourceBundle</code> and its parent bundles.
+     * Rfturns bn <dodf>Enumfrbtion</dodf> of tif kfys dontbinfd in
+     * tiis <dodf>RfsourdfBundlf</dodf> bnd its pbrfnt bundlfs.
      *
-     * @return an <code>Enumeration</code> of the keys contained in
-     *         this <code>ResourceBundle</code> and its parent bundles.
-     * @see #keySet()
+     * @rfturn bn <dodf>Enumfrbtion</dodf> of tif kfys dontbinfd in
+     *         tiis <dodf>RfsourdfBundlf</dodf> bnd its pbrfnt bundlfs.
+     * @sff #kfySft()
      */
-    public Enumeration<String> getKeys() {
-        // lazily load the lookup hashtable.
+    publid Enumfrbtion<String> gftKfys() {
+        // lbzily lobd tif lookup ibsitbblf.
         if (lookup == null) {
-            loadLookup();
+            lobdLookup();
         }
 
-        ResourceBundle parent = this.parent;
-        return new ResourceBundleEnumeration(lookup.keySet(),
-                (parent != null) ? parent.getKeys() : null);
+        RfsourdfBundlf pbrfnt = tiis.pbrfnt;
+        rfturn nfw RfsourdfBundlfEnumfrbtion(lookup.kfySft(),
+                (pbrfnt != null) ? pbrfnt.gftKfys() : null);
     }
 
     /**
-     * Returns a <code>Set</code> of the keys contained
-     * <em>only</em> in this <code>ResourceBundle</code>.
+     * Rfturns b <dodf>Sft</dodf> of tif kfys dontbinfd
+     * <fm>only</fm> in tiis <dodf>RfsourdfBundlf</dodf>.
      *
-     * @return a <code>Set</code> of the keys contained only in this
-     *         <code>ResourceBundle</code>
-     * @since 1.6
-     * @see #keySet()
+     * @rfturn b <dodf>Sft</dodf> of tif kfys dontbinfd only in tiis
+     *         <dodf>RfsourdfBundlf</dodf>
+     * @sindf 1.6
+     * @sff #kfySft()
      */
-    protected Set<String> handleKeySet() {
+    protfdtfd Sft<String> ibndlfKfySft() {
         if (lookup == null) {
-            loadLookup();
+            lobdLookup();
         }
-        return lookup.keySet();
+        rfturn lookup.kfySft();
     }
 
     /**
-     * Returns an array in which each item is a pair of objects in an
-     * <code>Object</code> array. The first element of each pair is
-     * the key, which must be a <code>String</code>, and the second
-     * element is the value associated with that key.  See the class
-     * description for details.
+     * Rfturns bn brrby in wiidi fbdi itfm is b pbir of objfdts in bn
+     * <dodf>Objfdt</dodf> brrby. Tif first flfmfnt of fbdi pbir is
+     * tif kfy, wiidi must bf b <dodf>String</dodf>, bnd tif sfdond
+     * flfmfnt is tif vbluf bssodibtfd witi tibt kfy.  Sff tif dlbss
+     * dfsdription for dftbils.
      *
-     * @return an array of an <code>Object</code> array representing a
-     * key-value pair.
+     * @rfturn bn brrby of bn <dodf>Objfdt</dodf> brrby rfprfsfnting b
+     * kfy-vbluf pbir.
      */
-    abstract protected Object[][] getContents();
+    bbstrbdt protfdtfd Objfdt[][] gftContfnts();
 
-    // ==================privates====================
+    // ==================privbtfs====================
 
     /**
-     * We lazily load the lookup hashtable.  This function does the
-     * loading.
+     * Wf lbzily lobd tif lookup ibsitbblf.  Tiis fundtion dofs tif
+     * lobding.
      */
-    private synchronized void loadLookup() {
+    privbtf syndironizfd void lobdLookup() {
         if (lookup != null)
-            return;
+            rfturn;
 
-        Object[][] contents = getContents();
-        HashMap<String,Object> temp = new HashMap<>(contents.length);
-        for (Object[] content : contents) {
-            // key must be non-null String, value must be non-null
-            String key = (String) content[0];
-            Object value = content[1];
-            if (key == null || value == null) {
-                throw new NullPointerException();
+        Objfdt[][] dontfnts = gftContfnts();
+        HbsiMbp<String,Objfdt> tfmp = nfw HbsiMbp<>(dontfnts.lfngti);
+        for (Objfdt[] dontfnt : dontfnts) {
+            // kfy must bf non-null String, vbluf must bf non-null
+            String kfy = (String) dontfnt[0];
+            Objfdt vbluf = dontfnt[1];
+            if (kfy == null || vbluf == null) {
+                tirow nfw NullPointfrExdfption();
             }
-            temp.put(key, value);
+            tfmp.put(kfy, vbluf);
         }
-        lookup = temp;
+        lookup = tfmp;
     }
 
-    private Map<String,Object> lookup = null;
+    privbtf Mbp<String,Objfdt> lookup = null;
 }

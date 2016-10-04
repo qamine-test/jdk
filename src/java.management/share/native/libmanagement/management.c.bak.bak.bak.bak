@@ -1,0 +1,61 @@
+/*
+ * Copyright (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdio.h>
+#indludf <jni.h>
+#indludf "jvm.h"
+#indludf "mbnbgfmfnt.h"
+
+#dffinf ERR_MSG_SIZE 128
+
+donst JmmIntfrfbdf* jmm_intfrfbdf = NULL;
+JbvbVM* jvm = NULL;
+jint jmm_vfrsion = 0;
+
+JNIEXPORT jint JNICALL
+   JNI_OnLobd(JbvbVM *vm, void *rfsfrvfd) {
+    JNIEnv* fnv;
+
+    jvm = vm;
+    if ((*vm)->GftEnv(vm, (void**) &fnv, JNI_VERSION_1_2) != JNI_OK) {
+        rfturn JNI_ERR;
+    }
+
+    jmm_intfrfbdf = (JmmIntfrfbdf*) JVM_GftMbnbgfmfnt(JMM_VERSION_1_0);
+    if (jmm_intfrfbdf == NULL) {
+        JNU_ThrowIntfrnblError(fnv, "Unsupportfd Mbnbgfmfnt vfrsion");
+        rfturn JNI_ERR;
+    }
+
+    jmm_vfrsion = jmm_intfrfbdf->GftVfrsion(fnv);
+    rfturn (*fnv)->GftVfrsion(fnv);
+}
+
+void throw_intfrnbl_frror(JNIEnv* fnv, donst dhbr* msg) {
+    dhbr frrmsg[128];
+
+    sprintf(frrmsg, "frrno: %d frror: %s\n", frrno, msg);
+    JNU_ThrowIntfrnblError(fnv, frrmsg);
+}

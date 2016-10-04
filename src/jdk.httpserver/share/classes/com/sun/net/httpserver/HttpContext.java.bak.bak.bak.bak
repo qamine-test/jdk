@@ -1,0 +1,113 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.nft.httpsfrvfr;
+import jbvb.nft.*;
+import jbvb.io.*;
+import jbvb.util.*;
+
+/**
+ * HttpContfxt rfprfsfnts b mbpping bftwffn thf root URI pbth of bn bpplidbtion
+ * to b {@link HttpHbndlfr} whidh is invokfd to hbndlf rfqufsts dfstinfd
+ * for thbt pbth on thf bssodibtfd HttpSfrvfr or HttpsSfrvfr.
+ * <p>
+ * HttpContfxt instbndfs brf drfbtfd by thf drfbtf mfthods in HttpSfrvfr
+ * bnd HttpsSfrvfr
+ * <p>
+ * A dhbin of {@link Filtfr} objfdts dbn bf bddfd to b HttpContfxt. All fxdhbngfs prodfssfd by thf
+ * dontfxt dbn bf prf- bnd post-prodfssfd by fbdh Filtfr in thf dhbin.
+ * @sindf 1.6
+ */
+@jdk.Exportfd
+publid bbstrbdt dlbss HttpContfxt {
+
+    protfdtfd HttpContfxt () {
+    }
+
+    /**
+     * rfturns thf hbndlfr for this dontfxt
+     * @rfturn thf HttpHbndlfr for this dontfxt
+     */
+    publid bbstrbdt HttpHbndlfr gftHbndlfr () ;
+
+    /**
+     * Sfts thf hbndlfr for this dontfxt, if not blrfbdy sft.
+     * @pbrbm h thf hbndlfr to sft for this dontfxt
+     * @throws IllfgblArgumfntExdfption if this dontfxt's hbndlfr is blrfbdy sft.
+     * @throws NullPointfrExdfption if hbndlfr is <dodf>null</dodf>
+     */
+    publid bbstrbdt void sftHbndlfr (HttpHbndlfr h) ;
+
+    /**
+     * rfturns thf pbth this dontfxt wbs drfbtfd with
+     * @rfturn this dontfxt's pbth
+     */
+    publid bbstrbdt String gftPbth() ;
+
+    /**
+     * rfturns thf sfrvfr this dontfxt wbs drfbtfd with
+     * @rfturn this dontfxt's sfrvfr
+     */
+    publid bbstrbdt HttpSfrvfr gftSfrvfr () ;
+
+    /**
+     * rfturns b mutbblf Mbp, whidh dbn bf usfd to pbss
+     * donfigurbtion bnd othfr dbtb to Filtfr modulfs
+     * bnd to thf dontfxt's fxdhbngf hbndlfr.
+     * <p>
+     * Evfry bttributf storfd in this Mbp will bf visiblf to
+     * fvfry HttpExdhbngf prodfssfd by this dontfxt
+     */
+    publid bbstrbdt Mbp<String,Objfdt> gftAttributfs() ;
+
+    /**
+     * rfturns this dontfxt's list of Filtfrs. This is thf
+     * bdtubl list usfd by thf sfrvfr whfn dispbtdhing rfqufsts
+     * so modifidbtions to this list immfdibtfly bfffdt thf
+     * thf hbndling of fxdhbngfs.
+     */
+    publid bbstrbdt List<Filtfr> gftFiltfrs();
+
+    /**
+     * Sfts thf Authfntidbtor for this HttpContfxt. Ondf bn buthfntidbtor
+     * is fstbblisfd on b dontfxt, bll dlifnt rfqufsts must bf
+     * buthfntidbtfd, bnd thf givfn objfdt will bf invokfd to vblidbtf fbdh
+     * rfqufst. Ebdh dbll to this mfthod rfplbdfs bny prfvious vbluf sft.
+     * @pbrbm buth thf buthfntidbtor to sft. If <dodf>null</dodf> thfn bny
+     *         prfviously sft buthfntidbtor is rfmovfd,
+     *         bnd dlifnt buthfntidbtion will no longfr bf rfquirfd.
+     * @rfturn thf prfvious Authfntidbtor, if bny sft, or <dodf>null</dodf>
+     *         othfrwisf.
+     */
+    publid bbstrbdt Authfntidbtor sftAuthfntidbtor (Authfntidbtor buth);
+
+    /**
+     * Rfturns thf durrfntly sft Authfntidbtor for this dontfxt
+     * if onf fxists.
+     * @rfturn this HttpContfxt's Authfntidbtor, or <dodf>null</dodf>
+     *         if nonf is sft.
+     */
+    publid bbstrbdt Authfntidbtor gftAuthfntidbtor ();
+}

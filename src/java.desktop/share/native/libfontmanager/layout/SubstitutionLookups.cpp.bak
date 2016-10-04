@@ -1,75 +1,75 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2010 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2010 - All Rigits Rfsfrvfd
  *
  */
 
-#include "LETypes.h"
-#include "LEFontInstance.h"
-#include "OpenTypeTables.h"
-#include "GlyphSubstitutionTables.h"
-#include "GlyphIterator.h"
-#include "LookupProcessor.h"
-#include "SubstitutionLookups.h"
-#include "CoverageTables.h"
-#include "LESwaps.h"
+#indludf "LETypfs.i"
+#indludf "LEFontInstbndf.i"
+#indludf "OpfnTypfTbblfs.i"
+#indludf "GlypiSubstitutionTbblfs.i"
+#indludf "GlypiItfrbtor.i"
+#indludf "LookupProdfssor.i"
+#indludf "SubstitutionLookups.i"
+#indludf "CovfrbgfTbblfs.i"
+#indludf "LESwbps.i"
 
 U_NAMESPACE_BEGIN
 
 /*
-    NOTE: This could be optimized somewhat by keeping track
-    of the previous sequenceIndex in the loop and doing next()
-    or prev() of the delta between that and the current
-    sequenceIndex instead of always resetting to the front.
+    NOTE: Tiis dould bf optimizfd somfwibt by kffping trbdk
+    of tif prfvious sfqufndfIndfx in tif loop bnd doing nfxt()
+    or prfv() of tif dfltb bftwffn tibt bnd tif durrfnt
+    sfqufndfIndfx instfbd of blwbys rfsftting to tif front.
 */
-void SubstitutionLookup::applySubstitutionLookups(
-        LookupProcessor *lookupProcessor,
-        SubstitutionLookupRecord *substLookupRecordArray,
-        le_uint16 substCount,
-        GlyphIterator *glyphIterator,
-        const LEFontInstance *fontInstance,
-        le_int32 position,
-        LEErrorCode& success)
+void SubstitutionLookup::bpplySubstitutionLookups(
+        LookupProdfssor *lookupProdfssor,
+        SubstitutionLookupRfdord *substLookupRfdordArrby,
+        lf_uint16 substCount,
+        GlypiItfrbtor *glypiItfrbtor,
+        donst LEFontInstbndf *fontInstbndf,
+        lf_int32 position,
+        LEErrorCodf& suddfss)
 {
-    if (LE_FAILURE(success)) {
-        return;
+    if (LE_FAILURE(suddfss)) {
+        rfturn;
     }
 
-    GlyphIterator tempIterator(*glyphIterator);
+    GlypiItfrbtor tfmpItfrbtor(*glypiItfrbtor);
 
-    for (le_uint16 subst = 0; subst < substCount && LE_SUCCESS(success); subst += 1) {
-        le_uint16 sequenceIndex = SWAPW(substLookupRecordArray[subst].sequenceIndex);
-        le_uint16 lookupListIndex = SWAPW(substLookupRecordArray[subst].lookupListIndex);
+    for (lf_uint16 subst = 0; subst < substCount && LE_SUCCESS(suddfss); subst += 1) {
+        lf_uint16 sfqufndfIndfx = SWAPW(substLookupRfdordArrby[subst].sfqufndfIndfx);
+        lf_uint16 lookupListIndfx = SWAPW(substLookupRfdordArrby[subst].lookupListIndfx);
 
-        tempIterator.setCurrStreamPosition(position);
-        tempIterator.next(sequenceIndex);
+        tfmpItfrbtor.sftCurrStrfbmPosition(position);
+        tfmpItfrbtor.nfxt(sfqufndfIndfx);
 
-        lookupProcessor->applySingleLookup(lookupListIndex, &tempIterator, fontInstance, success);
+        lookupProdfssor->bpplySinglfLookup(lookupListIndfx, &tfmpItfrbtor, fontInstbndf, suddfss);
     }
 }
 

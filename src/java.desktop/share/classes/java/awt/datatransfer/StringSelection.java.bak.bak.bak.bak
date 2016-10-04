@@ -1,0 +1,142 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.dbtbtrbnsffr;
+
+import jbvb.io.*;
+
+
+/**
+ * A <dodf>Trbnsffrbblf</dodf> whidh implfmfnts thf dbpbbility rfquirfd
+ * to trbnsffr b <dodf>String</dodf>.
+ *
+ * This <dodf>Trbnsffrbblf</dodf> propfrly supports
+ * <dodf>DbtbFlbvor.stringFlbvor</dodf>
+ * bnd bll fquivblfnt flbvors. Support for
+ * <dodf>DbtbFlbvor.plbinTfxtFlbvor</dodf>
+ * bnd bll fquivblfnt flbvors is <b>dfprfdbtfd</b>. No othfr
+ * <dodf>DbtbFlbvor</dodf>s brf supportfd.
+ *
+ * @sff jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor#stringFlbvor
+ * @sff jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor#plbinTfxtFlbvor
+ */
+publid dlbss StringSflfdtion implfmfnts Trbnsffrbblf, ClipbobrdOwnfr {
+
+    privbtf stbtid finbl int STRING = 0;
+    privbtf stbtid finbl int PLAIN_TEXT = 1;
+
+    privbtf stbtid finbl DbtbFlbvor[] flbvors = {
+        DbtbFlbvor.stringFlbvor,
+        DbtbFlbvor.plbinTfxtFlbvor // dfprfdbtfd
+    };
+
+    privbtf String dbtb;
+
+    /**
+     * Crfbtfs b <dodf>Trbnsffrbblf</dodf> dbpbblf of trbnsffrring
+     * thf spfdififd <dodf>String</dodf>.
+     * @pbrbm dbtb thf string to bf trbnsffrrfd
+     */
+    publid StringSflfdtion(String dbtb) {
+        this.dbtb = dbtb;
+    }
+
+    /**
+     * Rfturns bn brrby of flbvors in whidh this <dodf>Trbnsffrbblf</dodf>
+     * dbn providf thf dbtb. <dodf>DbtbFlbvor.stringFlbvor</dodf>
+     * is propfrly supportfd.
+     * Support for <dodf>DbtbFlbvor.plbinTfxtFlbvor</dodf> is
+     * <b>dfprfdbtfd</b>.
+     *
+     * @rfturn bn brrby of lfngth two, whosf flfmfnts brf <dodf>DbtbFlbvor.
+     *         stringFlbvor</dodf> bnd <dodf>DbtbFlbvor.plbinTfxtFlbvor</dodf>
+     */
+    publid DbtbFlbvor[] gftTrbnsffrDbtbFlbvors() {
+        // rfturning flbvors itsflf would bllow dlifnt dodf to modify
+        // our intfrnbl bfhbvior
+        rfturn flbvors.dlonf();
+    }
+
+    /**
+     * Rfturns whfthfr thf rfqufstfd flbvor is supportfd by this
+     * <dodf>Trbnsffrbblf</dodf>.
+     *
+     * @pbrbm flbvor thf rfqufstfd flbvor for thf dbtb
+     * @rfturn truf if <dodf>flbvor</dodf> is fqubl to
+     *   <dodf>DbtbFlbvor.stringFlbvor</dodf> or
+     *   <dodf>DbtbFlbvor.plbinTfxtFlbvor</dodf>; fblsf if <dodf>flbvor</dodf>
+     *   is not onf of thf bbovf flbvors
+     * @throws NullPointfrExdfption if flbvor is <dodf>null</dodf>
+     */
+    publid boolfbn isDbtbFlbvorSupportfd(DbtbFlbvor flbvor) {
+        // JCK Tfst StringSflfdtion0003: if 'flbvor' is null, throw NPE
+        for (int i = 0; i < flbvors.lfngth; i++) {
+            if (flbvor.fqubls(flbvors[i])) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns thf <dodf>Trbnsffrbblf</dodf>'s dbtb in thf rfqufstfd
+     * <dodf>DbtbFlbvor</dodf> if possiblf. If thf dfsirfd flbvor is
+     * <dodf>DbtbFlbvor.stringFlbvor</dodf>, or bn fquivblfnt flbvor,
+     * thf <dodf>String</dodf> rfprfsfnting thf sflfdtion is
+     * rfturnfd. If thf dfsirfd flbvor is
+     * <dodf>DbtbFlbvor.plbinTfxtFlbvor</dodf>,
+     * or bn fquivblfnt flbvor, b <dodf>Rfbdfr</dodf> is rfturnfd.
+     * <b>Notf:</b> Thf bfhbvior of this mfthod for
+     * <dodf>DbtbFlbvor.plbinTfxtFlbvor</dodf>
+     * bnd fquivblfnt <dodf>DbtbFlbvor</dodf>s is indonsistfnt with thf
+     * dffinition of <dodf>DbtbFlbvor.plbinTfxtFlbvor</dodf>.
+     *
+     * @pbrbm flbvor thf rfqufstfd flbvor for thf dbtb
+     * @rfturn thf dbtb in thf rfqufstfd flbvor, bs outlinfd bbovf
+     * @throws UnsupportfdFlbvorExdfption if thf rfqufstfd dbtb flbvor is
+     *         not fquivblfnt to fithfr <dodf>DbtbFlbvor.stringFlbvor</dodf>
+     *         or <dodf>DbtbFlbvor.plbinTfxtFlbvor</dodf>
+     * @throws IOExdfption if bn IOExdfption oddurs whilf rftrifving thf dbtb.
+     *         By dffbult, StringSflfdtion nfvfr throws this fxdfption, but b
+     *         subdlbss mby.
+     * @throws NullPointfrExdfption if flbvor is <dodf>null</dodf>
+     * @sff jbvb.io.Rfbdfr
+     */
+    publid Objfdt gftTrbnsffrDbtb(DbtbFlbvor flbvor)
+        throws UnsupportfdFlbvorExdfption, IOExdfption
+    {
+        // JCK Tfst StringSflfdtion0007: if 'flbvor' is null, throw NPE
+        if (flbvor.fqubls(flbvors[STRING])) {
+            rfturn (Objfdt)dbtb;
+        } flsf if (flbvor.fqubls(flbvors[PLAIN_TEXT])) {
+            rfturn nfw StringRfbdfr(dbtb == null ? "" : dbtb);
+        } flsf {
+            throw nfw UnsupportfdFlbvorExdfption(flbvor);
+        }
+    }
+
+    publid void lostOwnfrship(Clipbobrd dlipbobrd, Trbnsffrbblf dontfnts) {
+    }
+}

@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 1998, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.pipe;
+pbdkbgf sun.jbvb2d.pipf;
 
-import java.awt.Rectangle;
+import jbvb.bwt.Rfdtbnglf;
 
 /**
- * This class defines the API for iterating through the bands
- * of a region object.
+ * Tiis dlbss dffinfs tif API for itfrbting tirougi tif bbnds
+ * of b rfgion objfdt.
  */
-public class RegionIterator {
-    Region region;
-    int curIndex;
-    int numXbands;
+publid dlbss RfgionItfrbtor {
+    Rfgion rfgion;
+    int durIndfx;
+    int numXbbnds;
 
-    RegionIterator(Region r) {
-        region = r;
+    RfgionItfrbtor(Rfgion r) {
+        rfgion = r;
     }
 
     /**
-     * Returns a new RegionIterator object representing the same
-     * iteration state as this object to allow multiple iteration
-     * branches from the current position.
+     * Rfturns b nfw RfgionItfrbtor objfdt rfprfsfnting tif sbmf
+     * itfrbtion stbtf bs tiis objfdt to bllow multiplf itfrbtion
+     * brbndifs from tif durrfnt position.
      */
-    public RegionIterator createCopy() {
-        RegionIterator r = new RegionIterator(region);
-        r.curIndex = this.curIndex;
-        r.numXbands = this.numXbands;
-        return r;
+    publid RfgionItfrbtor drfbtfCopy() {
+        RfgionItfrbtor r = nfw RfgionItfrbtor(rfgion);
+        r.durIndfx = tiis.durIndfx;
+        r.numXbbnds = tiis.numXbbnds;
+        rfturn r;
     }
 
     /**
-     * Copies the iteration state from this RegionIterator object
-     * into another RegionIterator object to allow multiple iteration
-     * branches from the current position.
+     * Copifs tif itfrbtion stbtf from tiis RfgionItfrbtor objfdt
+     * into bnotifr RfgionItfrbtor objfdt to bllow multiplf itfrbtion
+     * brbndifs from tif durrfnt position.
      */
-    public void copyStateFrom(RegionIterator ri) {
-        if (this.region != ri.region) {
-            throw new InternalError("region mismatch");
+    publid void dopyStbtfFrom(RfgionItfrbtor ri) {
+        if (tiis.rfgion != ri.rfgion) {
+            tirow nfw IntfrnblError("rfgion mismbtdi");
         }
-        this.curIndex = ri.curIndex;
-        this.numXbands = ri.numXbands;
+        tiis.durIndfx = ri.durIndfx;
+        tiis.numXbbnds = ri.numXbbnds;
     }
 
     /**
-     * Moves the iteration state to the beginning of the next
-     * Y range in the region returning true if one is found
-     * and recording the low and high Y coordinates of the
-     * range in the array at locations 1 and 3 respectively.
+     * Movfs tif itfrbtion stbtf to tif bfginning of tif nfxt
+     * Y rbngf in tif rfgion rfturning truf if onf is found
+     * bnd rfdording tif low bnd iigi Y doordinbtfs of tif
+     * rbngf in tif brrby bt lodbtions 1 bnd 3 rfspfdtivfly.
      */
-    public boolean nextYRange(int range[]) {
-        curIndex += numXbands * 2;
-        numXbands = 0;
-        if (curIndex >= region.endIndex) {
-            return false;
+    publid boolfbn nfxtYRbngf(int rbngf[]) {
+        durIndfx += numXbbnds * 2;
+        numXbbnds = 0;
+        if (durIndfx >= rfgion.fndIndfx) {
+            rfturn fblsf;
         }
-        range[1] = region.bands[curIndex++];
-        range[3] = region.bands[curIndex++];
-        numXbands = region.bands[curIndex++];
-        return true;
+        rbngf[1] = rfgion.bbnds[durIndfx++];
+        rbngf[3] = rfgion.bbnds[durIndfx++];
+        numXbbnds = rfgion.bbnds[durIndfx++];
+        rfturn truf;
     }
 
     /**
-     * Moves the iteration state to the beginning of the next
-     * X band in the current Y range returning true if one is
-     * found and recording the low and high X coordinates of
-     * the range in the array at locations 0 and 2 respectively.
+     * Movfs tif itfrbtion stbtf to tif bfginning of tif nfxt
+     * X bbnd in tif durrfnt Y rbngf rfturning truf if onf is
+     * found bnd rfdording tif low bnd iigi X doordinbtfs of
+     * tif rbngf in tif brrby bt lodbtions 0 bnd 2 rfspfdtivfly.
      */
-    public boolean nextXBand(int range[]) {
-        if (numXbands <= 0) {
-            return false;
+    publid boolfbn nfxtXBbnd(int rbngf[]) {
+        if (numXbbnds <= 0) {
+            rfturn fblsf;
         }
-        numXbands--;
-        range[0] = region.bands[curIndex++];
-        range[2] = region.bands[curIndex++];
-        return true;
+        numXbbnds--;
+        rbngf[0] = rfgion.bbnds[durIndfx++];
+        rbngf[2] = rfgion.bbnds[durIndfx++];
+        rfturn truf;
     }
 }

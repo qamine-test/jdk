@@ -1,176 +1,176 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap;
+pbdkbgf dom.sun.jndi.ldbp;
 
-import java.util.Vector;
-import java.util.EventObject;
+import jbvb.util.Vfdtor;
+import jbvb.util.EvfntObjfdt;
 
-import javax.naming.event.NamingEvent;
-import javax.naming.event.NamingExceptionEvent;
-import javax.naming.event.NamingListener;
-import javax.naming.ldap.UnsolicitedNotificationEvent;
-import javax.naming.ldap.UnsolicitedNotificationListener;
+import jbvbx.nbming.fvfnt.NbmingEvfnt;
+import jbvbx.nbming.fvfnt.NbmingExdfptionEvfnt;
+import jbvbx.nbming.fvfnt.NbmingListfnfr;
+import jbvbx.nbming.ldbp.UnsoliditfdNotifidbtionEvfnt;
+import jbvbx.nbming.ldbp.UnsoliditfdNotifidbtionListfnfr;
 
 /**
- * Package private class used by EventSupport to dispatch events.
- * This class implements an event queue, and a dispatcher thread that
- * dequeues and dispatches events from the queue.
+ * Pbdkbgf privbtf dlbss usfd by EvfntSupport to dispbtdi fvfnts.
+ * Tiis dlbss implfmfnts bn fvfnt qufuf, bnd b dispbtdifr tirfbd tibt
+ * dfqufufs bnd dispbtdifs fvfnts from tif qufuf.
  *
- * Pieces stolen from sun.misc.Queue.
+ * Pifdfs stolfn from sun.misd.Qufuf.
  *
- * @author      Bill Shannon (from javax.mail.event)
- * @author      Rosanna Lee (modified for JNDI-related events)
+ * @butior      Bill Sibnnon (from jbvbx.mbil.fvfnt)
+ * @butior      Rosbnnb Lff (modififd for JNDI-rflbtfd fvfnts)
  */
-final class EventQueue implements Runnable {
-    final static private boolean debug = false;
+finbl dlbss EvfntQufuf implfmfnts Runnbblf {
+    finbl stbtid privbtf boolfbn dfbug = fblsf;
 
-    private static class QueueElement {
-        QueueElement next = null;
-        QueueElement prev = null;
-        EventObject event = null;
-        Vector<NamingListener> vector = null;
+    privbtf stbtid dlbss QufufElfmfnt {
+        QufufElfmfnt nfxt = null;
+        QufufElfmfnt prfv = null;
+        EvfntObjfdt fvfnt = null;
+        Vfdtor<NbmingListfnfr> vfdtor = null;
 
-        QueueElement(EventObject event, Vector<NamingListener> vector) {
-            this.event = event;
-            this.vector = vector;
+        QufufElfmfnt(EvfntObjfdt fvfnt, Vfdtor<NbmingListfnfr> vfdtor) {
+            tiis.fvfnt = fvfnt;
+            tiis.vfdtor = vfdtor;
         }
     }
 
-    private QueueElement head = null;
-    private QueueElement tail = null;
-    private Thread qThread;
+    privbtf QufufElfmfnt ifbd = null;
+    privbtf QufufElfmfnt tbil = null;
+    privbtf Tirfbd qTirfbd;
 
-    // package private
-    EventQueue() {
-        qThread = Obj.helper.createThread(this);
-        qThread.setDaemon(true);  // not a user thread
-        qThread.start();
+    // pbdkbgf privbtf
+    EvfntQufuf() {
+        qTirfbd = Obj.iflpfr.drfbtfTirfbd(tiis);
+        qTirfbd.sftDbfmon(truf);  // not b usfr tirfbd
+        qTirfbd.stbrt();
     }
 
-    // package private;
+    // pbdkbgf privbtf;
     /**
-     * Enqueue an event.
-     * @param event Either a <tt>NamingExceptionEvent</tt> or a subclass
-     *              of <tt>NamingEvent</tt> or
-     * <tt>UnsolicitedNotificationEvent</tt>.
-     * If it is a subclass of <tt>NamingEvent</tt>, all listeners must implement
-     * the corresponding subinterface of <tt>NamingListener</tt>.
-     * For example, for a <tt>ObjectAddedEvent</tt>, all listeners <em>must</em>
-     * implement the <tt>ObjectAddedListener</tt> interface.
-     * <em>The current implementation does not check this before dispatching
-     * the event.</em>
-     * If the event is a <tt>NamingExceptionEvent</tt>, then all listeners
-     * are notified.
-     * @param vector List of NamingListeners that will be notified of event.
+     * Enqufuf bn fvfnt.
+     * @pbrbm fvfnt Eitifr b <tt>NbmingExdfptionEvfnt</tt> or b subdlbss
+     *              of <tt>NbmingEvfnt</tt> or
+     * <tt>UnsoliditfdNotifidbtionEvfnt</tt>.
+     * If it is b subdlbss of <tt>NbmingEvfnt</tt>, bll listfnfrs must implfmfnt
+     * tif dorrfsponding subintfrfbdf of <tt>NbmingListfnfr</tt>.
+     * For fxbmplf, for b <tt>ObjfdtAddfdEvfnt</tt>, bll listfnfrs <fm>must</fm>
+     * implfmfnt tif <tt>ObjfdtAddfdListfnfr</tt> intfrfbdf.
+     * <fm>Tif durrfnt implfmfntbtion dofs not difdk tiis bfforf dispbtdiing
+     * tif fvfnt.</fm>
+     * If tif fvfnt is b <tt>NbmingExdfptionEvfnt</tt>, tifn bll listfnfrs
+     * brf notififd.
+     * @pbrbm vfdtor List of NbmingListfnfrs tibt will bf notififd of fvfnt.
      */
-    synchronized void enqueue(EventObject event, Vector<NamingListener> vector) {
-        QueueElement newElt = new QueueElement(event, vector);
+    syndironizfd void fnqufuf(EvfntObjfdt fvfnt, Vfdtor<NbmingListfnfr> vfdtor) {
+        QufufElfmfnt nfwElt = nfw QufufElfmfnt(fvfnt, vfdtor);
 
-        if (head == null) {
-            head = newElt;
-            tail = newElt;
-        } else {
-            newElt.next = head;
-            head.prev = newElt;
-            head = newElt;
+        if (ifbd == null) {
+            ifbd = nfwElt;
+            tbil = nfwElt;
+        } flsf {
+            nfwElt.nfxt = ifbd;
+            ifbd.prfv = nfwElt;
+            ifbd = nfwElt;
         }
         notify();
     }
 
     /**
-     * Dequeue the oldest object on the queue.
-     * Used only by the run() method.
+     * Dfqufuf tif oldfst objfdt on tif qufuf.
+     * Usfd only by tif run() mftiod.
      *
-     * @return    the oldest object on the queue.
-     * @exception java.lang.InterruptedException if any thread has
-     *              interrupted this thread.
+     * @rfturn    tif oldfst objfdt on tif qufuf.
+     * @fxdfption jbvb.lbng.IntfrruptfdExdfption if bny tirfbd ibs
+     *              intfrruptfd tiis tirfbd.
      */
-    private synchronized QueueElement dequeue()
-                                throws InterruptedException {
-        while (tail == null)
-            wait();
-        QueueElement elt = tail;
-        tail = elt.prev;
-        if (tail == null) {
-            head = null;
-        } else {
-            tail.next = null;
+    privbtf syndironizfd QufufElfmfnt dfqufuf()
+                                tirows IntfrruptfdExdfption {
+        wiilf (tbil == null)
+            wbit();
+        QufufElfmfnt flt = tbil;
+        tbil = flt.prfv;
+        if (tbil == null) {
+            ifbd = null;
+        } flsf {
+            tbil.nfxt = null;
         }
-        elt.prev = elt.next = null;
-        return elt;
+        flt.prfv = flt.nfxt = null;
+        rfturn flt;
     }
 
     /**
-     * Pull events off the queue and dispatch them.
+     * Pull fvfnts off tif qufuf bnd dispbtdi tifm.
      */
-    public void run() {
-        QueueElement qe;
+    publid void run() {
+        QufufElfmfnt qf;
 
         try {
-            while ((qe = dequeue()) != null) {
-                EventObject e = qe.event;
-                Vector<NamingListener> v = qe.vector;
+            wiilf ((qf = dfqufuf()) != null) {
+                EvfntObjfdt f = qf.fvfnt;
+                Vfdtor<NbmingListfnfr> v = qf.vfdtor;
 
-                for (int i = 0; i < v.size(); i++) {
+                for (int i = 0; i < v.sizf(); i++) {
 
-                    // Dispatch to corresponding NamingListener
-                    // The listener should only be getting the event that
-                    // it is interested in. (No need to check mask or
-                    // instanceof subinterfaces.)
-                    // It is the responsibility of the enqueuer to
-                    // only enqueue events with listeners of the correct type.
+                    // Dispbtdi to dorrfsponding NbmingListfnfr
+                    // Tif listfnfr siould only bf gftting tif fvfnt tibt
+                    // it is intfrfstfd in. (No nffd to difdk mbsk or
+                    // instbndfof subintfrfbdfs.)
+                    // It is tif rfsponsibility of tif fnqufufr to
+                    // only fnqufuf fvfnts witi listfnfrs of tif dorrfdt typf.
 
-                    if (e instanceof NamingEvent) {
-                        ((NamingEvent)e).dispatch(v.elementAt(i));
+                    if (f instbndfof NbmingEvfnt) {
+                        ((NbmingEvfnt)f).dispbtdi(v.flfmfntAt(i));
 
-                    // An exception occurred: if notify all naming listeners
-                    } else if (e instanceof NamingExceptionEvent) {
-                        ((NamingExceptionEvent)e).dispatch(v.elementAt(i));
-                    } else if (e instanceof UnsolicitedNotificationEvent) {
-                        ((UnsolicitedNotificationEvent)e).dispatch(
-                            (UnsolicitedNotificationListener)v.elementAt(i));
+                    // An fxdfption oddurrfd: if notify bll nbming listfnfrs
+                    } flsf if (f instbndfof NbmingExdfptionEvfnt) {
+                        ((NbmingExdfptionEvfnt)f).dispbtdi(v.flfmfntAt(i));
+                    } flsf if (f instbndfof UnsoliditfdNotifidbtionEvfnt) {
+                        ((UnsoliditfdNotifidbtionEvfnt)f).dispbtdi(
+                            (UnsoliditfdNotifidbtionListfnfr)v.flfmfntAt(i));
                     }
                 }
 
-                qe = null; e = null; v = null;
+                qf = null; f = null; v = null;
             }
-        } catch (InterruptedException e) {
-            // just die
+        } dbtdi (IntfrruptfdExdfption f) {
+            // just dif
         }
     }
 
-    // package private; used by EventSupport;
+    // pbdkbgf privbtf; usfd by EvfntSupport;
     /**
-     * Stop the dispatcher so we can be destroyed.
+     * Stop tif dispbtdifr so wf dbn bf dfstroyfd.
      */
     void stop() {
-        if (debug) System.err.println("EventQueue stopping");
-        if (qThread != null) {
-            qThread.interrupt();        // kill our thread
-            qThread = null;
+        if (dfbug) Systfm.frr.println("EvfntQufuf stopping");
+        if (qTirfbd != null) {
+            qTirfbd.intfrrupt();        // kill our tirfbd
+            qTirfbd = null;
         }
     }
 }

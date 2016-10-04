@@ -1,174 +1,174 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.event;
+pbdkbgf jbvb.bwt.fvfnt;
 
-import java.awt.Event;
-import java.awt.Component;
-import java.awt.GraphicsEnvironment;
-import java.awt.Toolkit;
-import java.util.Arrays;
+import jbvb.bwt.Evfnt;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.Toolkit;
+import jbvb.util.Arrbys;
 
-import sun.awt.AWTAccessor;
-import sun.awt.AWTPermissions;
-import sun.util.logging.PlatformLogger;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.AWTPfrmissions;
+import sun.util.logging.PlbtformLoggfr;
 
 /**
- * The root event class for all component-level input events.
+ * Tif root fvfnt dlbss for bll domponfnt-lfvfl input fvfnts.
  *
- * Input events are delivered to listeners before they are
- * processed normally by the source where they originated.
- * This allows listeners and component subclasses to "consume"
- * the event so that the source will not process them in their
- * default manner.  For example, consuming mousePressed events
- * on a Button component will prevent the Button from being
- * activated.
+ * Input fvfnts brf dflivfrfd to listfnfrs bfforf tify brf
+ * prodfssfd normblly by tif sourdf wifrf tify originbtfd.
+ * Tiis bllows listfnfrs bnd domponfnt subdlbssfs to "donsumf"
+ * tif fvfnt so tibt tif sourdf will not prodfss tifm in tifir
+ * dffbult mbnnfr.  For fxbmplf, donsuming mousfPrfssfd fvfnts
+ * on b Button domponfnt will prfvfnt tif Button from bfing
+ * bdtivbtfd.
  *
- * @author Carl Quinn
+ * @butior Cbrl Quinn
  *
- * @see KeyEvent
- * @see KeyAdapter
- * @see MouseEvent
- * @see MouseAdapter
- * @see MouseMotionAdapter
+ * @sff KfyEvfnt
+ * @sff KfyAdbptfr
+ * @sff MousfEvfnt
+ * @sff MousfAdbptfr
+ * @sff MousfMotionAdbptfr
  *
- * @since 1.1
+ * @sindf 1.1
  */
-public abstract class InputEvent extends ComponentEvent {
+publid bbstrbdt dlbss InputEvfnt fxtfnds ComponfntEvfnt {
 
-    private static final PlatformLogger logger = PlatformLogger.getLogger("java.awt.event.InputEvent");
-
-    /**
-     * The Shift key modifier constant.
-     * It is recommended that SHIFT_DOWN_MASK be used instead.
-     */
-    public static final int SHIFT_MASK = Event.SHIFT_MASK;
+    privbtf stbtid finbl PlbtformLoggfr loggfr = PlbtformLoggfr.gftLoggfr("jbvb.bwt.fvfnt.InputEvfnt");
 
     /**
-     * The Control key modifier constant.
-     * It is recommended that CTRL_DOWN_MASK be used instead.
+     * Tif Siift kfy modififr donstbnt.
+     * It is rfdommfndfd tibt SHIFT_DOWN_MASK bf usfd instfbd.
      */
-    public static final int CTRL_MASK = Event.CTRL_MASK;
+    publid stbtid finbl int SHIFT_MASK = Evfnt.SHIFT_MASK;
 
     /**
-     * The Meta key modifier constant.
-     * It is recommended that META_DOWN_MASK be used instead.
+     * Tif Control kfy modififr donstbnt.
+     * It is rfdommfndfd tibt CTRL_DOWN_MASK bf usfd instfbd.
      */
-    public static final int META_MASK = Event.META_MASK;
+    publid stbtid finbl int CTRL_MASK = Evfnt.CTRL_MASK;
 
     /**
-     * The Alt key modifier constant.
-     * It is recommended that ALT_DOWN_MASK be used instead.
+     * Tif Mftb kfy modififr donstbnt.
+     * It is rfdommfndfd tibt META_DOWN_MASK bf usfd instfbd.
      */
-    public static final int ALT_MASK = Event.ALT_MASK;
+    publid stbtid finbl int META_MASK = Evfnt.META_MASK;
 
     /**
-     * The AltGraph key modifier constant.
+     * Tif Alt kfy modififr donstbnt.
+     * It is rfdommfndfd tibt ALT_DOWN_MASK bf usfd instfbd.
      */
-    public static final int ALT_GRAPH_MASK = 1 << 5;
+    publid stbtid finbl int ALT_MASK = Evfnt.ALT_MASK;
 
     /**
-     * The Mouse Button1 modifier constant.
-     * It is recommended that BUTTON1_DOWN_MASK be used instead.
+     * Tif AltGrbpi kfy modififr donstbnt.
      */
-    public static final int BUTTON1_MASK = 1 << 4;
+    publid stbtid finbl int ALT_GRAPH_MASK = 1 << 5;
 
     /**
-     * The Mouse Button2 modifier constant.
-     * It is recommended that BUTTON2_DOWN_MASK be used instead.
-     * Note that BUTTON2_MASK has the same value as ALT_MASK.
+     * Tif Mousf Button1 modififr donstbnt.
+     * It is rfdommfndfd tibt BUTTON1_DOWN_MASK bf usfd instfbd.
      */
-    public static final int BUTTON2_MASK = Event.ALT_MASK;
+    publid stbtid finbl int BUTTON1_MASK = 1 << 4;
 
     /**
-     * The Mouse Button3 modifier constant.
-     * It is recommended that BUTTON3_DOWN_MASK be used instead.
-     * Note that BUTTON3_MASK has the same value as META_MASK.
+     * Tif Mousf Button2 modififr donstbnt.
+     * It is rfdommfndfd tibt BUTTON2_DOWN_MASK bf usfd instfbd.
+     * Notf tibt BUTTON2_MASK ibs tif sbmf vbluf bs ALT_MASK.
      */
-    public static final int BUTTON3_MASK = Event.META_MASK;
+    publid stbtid finbl int BUTTON2_MASK = Evfnt.ALT_MASK;
 
     /**
-     * The Shift key extended modifier constant.
-     * @since 1.4
+     * Tif Mousf Button3 modififr donstbnt.
+     * It is rfdommfndfd tibt BUTTON3_DOWN_MASK bf usfd instfbd.
+     * Notf tibt BUTTON3_MASK ibs tif sbmf vbluf bs META_MASK.
      */
-    public static final int SHIFT_DOWN_MASK = 1 << 6;
+    publid stbtid finbl int BUTTON3_MASK = Evfnt.META_MASK;
 
     /**
-     * The Control key extended modifier constant.
-     * @since 1.4
+     * Tif Siift kfy fxtfndfd modififr donstbnt.
+     * @sindf 1.4
      */
-    public static final int CTRL_DOWN_MASK = 1 << 7;
+    publid stbtid finbl int SHIFT_DOWN_MASK = 1 << 6;
 
     /**
-     * The Meta key extended modifier constant.
-     * @since 1.4
+     * Tif Control kfy fxtfndfd modififr donstbnt.
+     * @sindf 1.4
      */
-    public static final int META_DOWN_MASK = 1 << 8;
+    publid stbtid finbl int CTRL_DOWN_MASK = 1 << 7;
 
     /**
-     * The Alt key extended modifier constant.
-     * @since 1.4
+     * Tif Mftb kfy fxtfndfd modififr donstbnt.
+     * @sindf 1.4
      */
-    public static final int ALT_DOWN_MASK = 1 << 9;
+    publid stbtid finbl int META_DOWN_MASK = 1 << 8;
 
     /**
-     * The Mouse Button1 extended modifier constant.
-     * @since 1.4
+     * Tif Alt kfy fxtfndfd modififr donstbnt.
+     * @sindf 1.4
      */
-    public static final int BUTTON1_DOWN_MASK = 1 << 10;
+    publid stbtid finbl int ALT_DOWN_MASK = 1 << 9;
 
     /**
-     * The Mouse Button2 extended modifier constant.
-     * @since 1.4
+     * Tif Mousf Button1 fxtfndfd modififr donstbnt.
+     * @sindf 1.4
      */
-    public static final int BUTTON2_DOWN_MASK = 1 << 11;
+    publid stbtid finbl int BUTTON1_DOWN_MASK = 1 << 10;
 
     /**
-     * The Mouse Button3 extended modifier constant.
-     * @since 1.4
+     * Tif Mousf Button2 fxtfndfd modififr donstbnt.
+     * @sindf 1.4
      */
-    public static final int BUTTON3_DOWN_MASK = 1 << 12;
+    publid stbtid finbl int BUTTON2_DOWN_MASK = 1 << 11;
 
     /**
-     * The AltGraph key extended modifier constant.
-     * @since 1.4
+     * Tif Mousf Button3 fxtfndfd modififr donstbnt.
+     * @sindf 1.4
      */
-    public static final int ALT_GRAPH_DOWN_MASK = 1 << 13;
+    publid stbtid finbl int BUTTON3_DOWN_MASK = 1 << 12;
 
     /**
-     * An array of extended modifiers for additional buttons.
-     * @see getButtonDownMasks
-     * There are twenty buttons fit into 4byte space.
-     * one more bit is reserved for FIRST_HIGH_BIT.
-     * @since 1.7
+     * Tif AltGrbpi kfy fxtfndfd modififr donstbnt.
+     * @sindf 1.4
      */
-    private static final int [] BUTTON_DOWN_MASK = new int [] { BUTTON1_DOWN_MASK,
+    publid stbtid finbl int ALT_GRAPH_DOWN_MASK = 1 << 13;
+
+    /**
+     * An brrby of fxtfndfd modififrs for bdditionbl buttons.
+     * @sff gftButtonDownMbsks
+     * Tifrf brf twfnty buttons fit into 4bytf spbdf.
+     * onf morf bit is rfsfrvfd for FIRST_HIGH_BIT.
+     * @sindf 1.7
+     */
+    privbtf stbtid finbl int [] BUTTON_DOWN_MASK = nfw int [] { BUTTON1_DOWN_MASK,
                                                                BUTTON2_DOWN_MASK,
                                                                BUTTON3_DOWN_MASK,
-                                                               1<<14, //4th phisical button (this is not a wheel!)
-                                                               1<<15, //(this is not a wheel!)
+                                                               1<<14, //4ti piisidbl button (tiis is not b wiffl!)
+                                                               1<<15, //(tiis is not b wiffl!)
                                                                1<<16,
                                                                1<<17,
                                                                1<<18,
@@ -186,365 +186,365 @@ public abstract class InputEvent extends ComponentEvent {
                                                                1<<30};
 
     /**
-     * A method to access an array of extended modifiers for additional buttons.
-     * @since 1.7
+     * A mftiod to bddfss bn brrby of fxtfndfd modififrs for bdditionbl buttons.
+     * @sindf 1.7
      */
-    private static int [] getButtonDownMasks(){
-        return Arrays.copyOf(BUTTON_DOWN_MASK, BUTTON_DOWN_MASK.length);
+    privbtf stbtid int [] gftButtonDownMbsks(){
+        rfturn Arrbys.dopyOf(BUTTON_DOWN_MASK, BUTTON_DOWN_MASK.lfngti);
     }
 
 
     /**
-     * A method to obtain a mask for any existing mouse button.
-     * The returned mask may be used for different purposes. Following are some of them:
+     * A mftiod to obtbin b mbsk for bny fxisting mousf button.
+     * Tif rfturnfd mbsk mby bf usfd for difffrfnt purposfs. Following brf somf of tifm:
      * <ul>
-     * <li> {@link java.awt.Robot#mousePress(int) mousePress(buttons)} and
-     *      {@link java.awt.Robot#mouseRelease(int) mouseRelease(buttons)}
-     * <li> as a {@code modifiers} parameter when creating a new {@link MouseEvent} instance
-     * <li> to check {@link MouseEvent#getModifiersEx() modifiersEx} of existing {@code MouseEvent}
+     * <li> {@link jbvb.bwt.Robot#mousfPrfss(int) mousfPrfss(buttons)} bnd
+     *      {@link jbvb.bwt.Robot#mousfRflfbsf(int) mousfRflfbsf(buttons)}
+     * <li> bs b {@dodf modififrs} pbrbmftfr wifn drfbting b nfw {@link MousfEvfnt} instbndf
+     * <li> to difdk {@link MousfEvfnt#gftModififrsEx() modififrsEx} of fxisting {@dodf MousfEvfnt}
      * </ul>
-     * @param button is a number to represent a button starting from 1.
-     * For example,
-     * <pre>
-     * int button = InputEvent.getMaskForButton(1);
-     * </pre>
-     * will have the same meaning as
-     * <pre>
-     * int button = InputEvent.getMaskForButton(MouseEvent.BUTTON1);
-     * </pre>
-     * because {@link MouseEvent#BUTTON1 MouseEvent.BUTTON1} equals to 1.
-     * If a mouse has three enabled buttons(see {@link java.awt.MouseInfo#getNumberOfButtons() MouseInfo.getNumberOfButtons()})
-     * then the values from the left column passed into the method will return
-     * corresponding values from the right column:
+     * @pbrbm button is b numbfr to rfprfsfnt b button stbrting from 1.
+     * For fxbmplf,
+     * <prf>
+     * int button = InputEvfnt.gftMbskForButton(1);
+     * </prf>
+     * will ibvf tif sbmf mfbning bs
+     * <prf>
+     * int button = InputEvfnt.gftMbskForButton(MousfEvfnt.BUTTON1);
+     * </prf>
+     * bfdbusf {@link MousfEvfnt#BUTTON1 MousfEvfnt.BUTTON1} fqubls to 1.
+     * If b mousf ibs tirff fnbblfd buttons(sff {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() MousfInfo.gftNumbfrOfButtons()})
+     * tifn tif vblufs from tif lfft dolumn pbssfd into tif mftiod will rfturn
+     * dorrfsponding vblufs from tif rigit dolumn:
      * <PRE>
-     *    <b>button </b>   <b>returned mask</b>
-     *    {@link MouseEvent#BUTTON1 BUTTON1}  {@link MouseEvent#BUTTON1_DOWN_MASK BUTTON1_DOWN_MASK}
-     *    {@link MouseEvent#BUTTON2 BUTTON2}  {@link MouseEvent#BUTTON2_DOWN_MASK BUTTON2_DOWN_MASK}
-     *    {@link MouseEvent#BUTTON3 BUTTON3}  {@link MouseEvent#BUTTON3_DOWN_MASK BUTTON3_DOWN_MASK}
+     *    <b>button </b>   <b>rfturnfd mbsk</b>
+     *    {@link MousfEvfnt#BUTTON1 BUTTON1}  {@link MousfEvfnt#BUTTON1_DOWN_MASK BUTTON1_DOWN_MASK}
+     *    {@link MousfEvfnt#BUTTON2 BUTTON2}  {@link MousfEvfnt#BUTTON2_DOWN_MASK BUTTON2_DOWN_MASK}
+     *    {@link MousfEvfnt#BUTTON3 BUTTON3}  {@link MousfEvfnt#BUTTON3_DOWN_MASK BUTTON3_DOWN_MASK}
      * </PRE>
-     * If a mouse has more than three enabled buttons then more values
-     * are admissible (4, 5, etc.). There is no assigned constants for these extended buttons.
-     * The button masks for the extra buttons returned by this method have no assigned names like the
-     * first three button masks.
+     * If b mousf ibs morf tibn tirff fnbblfd buttons tifn morf vblufs
+     * brf bdmissiblf (4, 5, ftd.). Tifrf is no bssignfd donstbnts for tifsf fxtfndfd buttons.
+     * Tif button mbsks for tif fxtrb buttons rfturnfd by tiis mftiod ibvf no bssignfd nbmfs likf tif
+     * first tirff button mbsks.
      * <p>
-     * This method has the following implementation restriction.
-     * It returns masks for a limited number of buttons only. The maximum number is
-     * implementation dependent and may vary.
-     * This limit is defined by the relevant number
-     * of buttons that may hypothetically exist on the mouse but it is greater than the
-     * {@link java.awt.MouseInfo#getNumberOfButtons() MouseInfo.getNumberOfButtons()}.
+     * Tiis mftiod ibs tif following implfmfntbtion rfstridtion.
+     * It rfturns mbsks for b limitfd numbfr of buttons only. Tif mbximum numbfr is
+     * implfmfntbtion dfpfndfnt bnd mby vbry.
+     * Tiis limit is dffinfd by tif rflfvbnt numbfr
+     * of buttons tibt mby iypotiftidblly fxist on tif mousf but it is grfbtfr tibn tif
+     * {@link jbvb.bwt.MousfInfo#gftNumbfrOfButtons() MousfInfo.gftNumbfrOfButtons()}.
      *
-     * @return a mask for an existing mouse button.
-     * @throws IllegalArgumentException if {@code button} is less than zero or greater than the number
-     *         of button masks reserved for buttons
-     * @since 1.7
-     * @see java.awt.MouseInfo#getNumberOfButtons()
-     * @see Toolkit#areExtraMouseButtonsEnabled()
-     * @see MouseEvent#getModifiers()
-     * @see MouseEvent#getModifiersEx()
+     * @rfturn b mbsk for bn fxisting mousf button.
+     * @tirows IllfgblArgumfntExdfption if {@dodf button} is lfss tibn zfro or grfbtfr tibn tif numbfr
+     *         of button mbsks rfsfrvfd for buttons
+     * @sindf 1.7
+     * @sff jbvb.bwt.MousfInfo#gftNumbfrOfButtons()
+     * @sff Toolkit#brfExtrbMousfButtonsEnbblfd()
+     * @sff MousfEvfnt#gftModififrs()
+     * @sff MousfEvfnt#gftModififrsEx()
      */
-    public static int getMaskForButton(int button) {
-        if (button <= 0 || button > BUTTON_DOWN_MASK.length) {
-            throw new IllegalArgumentException("button doesn\'t exist " + button);
+    publid stbtid int gftMbskForButton(int button) {
+        if (button <= 0 || button > BUTTON_DOWN_MASK.lfngti) {
+            tirow nfw IllfgblArgumfntExdfption("button dofsn\'t fxist " + button);
         }
-        return BUTTON_DOWN_MASK[button - 1];
+        rfturn BUTTON_DOWN_MASK[button - 1];
     }
 
-    // the constant below MUST be updated if any extra modifier
-    // bits are to be added!
-    // in fact, it is undesirable to add modifier bits
-    // to the same field as this may break applications
-    // see bug# 5066958
-    static final int FIRST_HIGH_BIT = 1 << 31;
+    // tif donstbnt bflow MUST bf updbtfd if bny fxtrb modififr
+    // bits brf to bf bddfd!
+    // in fbdt, it is undfsirbblf to bdd modififr bits
+    // to tif sbmf fifld bs tiis mby brfbk bpplidbtions
+    // sff bug# 5066958
+    stbtid finbl int FIRST_HIGH_BIT = 1 << 31;
 
-    static final int JDK_1_3_MODIFIERS = SHIFT_DOWN_MASK - 1;
-    static final int HIGH_MODIFIERS = ~( FIRST_HIGH_BIT - 1 );
-
-    /**
-     * The input event's Time stamp in UTC format.  The time stamp
-     * indicates when the input event was created.
-     *
-     * @serial
-     * @see #getWhen()
-     */
-    long when;
+    stbtid finbl int JDK_1_3_MODIFIERS = SHIFT_DOWN_MASK - 1;
+    stbtid finbl int HIGH_MODIFIERS = ~( FIRST_HIGH_BIT - 1 );
 
     /**
-     * The state of the modifier mask at the time the input
-     * event was fired.
+     * Tif input fvfnt's Timf stbmp in UTC formbt.  Tif timf stbmp
+     * indidbtfs wifn tif input fvfnt wbs drfbtfd.
      *
-     * @serial
-     * @see #getModifiers()
-     * @see #getModifiersEx()
-     * @see java.awt.event.KeyEvent
-     * @see java.awt.event.MouseEvent
+     * @sfribl
+     * @sff #gftWifn()
      */
-    int modifiers;
+    long wifn;
+
+    /**
+     * Tif stbtf of tif modififr mbsk bt tif timf tif input
+     * fvfnt wbs firfd.
+     *
+     * @sfribl
+     * @sff #gftModififrs()
+     * @sff #gftModififrsEx()
+     * @sff jbvb.bwt.fvfnt.KfyEvfnt
+     * @sff jbvb.bwt.fvfnt.MousfEvfnt
+     */
+    int modififrs;
 
     /*
-     * A flag that indicates that this instance can be used to access
-     * the system clipboard.
+     * A flbg tibt indidbtfs tibt tiis instbndf dbn bf usfd to bddfss
+     * tif systfm dlipbobrd.
      */
-    private transient boolean canAccessSystemClipboard;
+    privbtf trbnsifnt boolfbn dbnAddfssSystfmClipbobrd;
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        NativeLibLoader.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtid {
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        NbtivfLibLobdfr.lobdLibrbrifs();
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
             initIDs();
         }
-        AWTAccessor.setInputEventAccessor(
-            new AWTAccessor.InputEventAccessor() {
-                public int[] getButtonDownMasks() {
-                    return InputEvent.getButtonDownMasks();
+        AWTAddfssor.sftInputEvfntAddfssor(
+            nfw AWTAddfssor.InputEvfntAddfssor() {
+                publid int[] gftButtonDownMbsks() {
+                    rfturn InputEvfnt.gftButtonDownMbsks();
                 }
 
-                public boolean canAccessSystemClipboard(InputEvent event) {
-                    return event.canAccessSystemClipboard;
+                publid boolfbn dbnAddfssSystfmClipbobrd(InputEvfnt fvfnt) {
+                    rfturn fvfnt.dbnAddfssSystfmClipbobrd;
                 }
             });
     }
 
     /**
-     * Initialize JNI field and method IDs for fields that may be
-       accessed from C.
+     * Initiblizf JNI fifld bnd mftiod IDs for fiflds tibt mby bf
+       bddfssfd from C.
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
     /**
-     * Constructs an InputEvent object with the specified source component,
-     * modifiers, and type.
-     * <p> This method throws an
-     * <code>IllegalArgumentException</code> if <code>source</code>
-     * is <code>null</code>.
+     * Construdts bn InputEvfnt objfdt witi tif spfdififd sourdf domponfnt,
+     * modififrs, bnd typf.
+     * <p> Tiis mftiod tirows bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
      *
-     * @param source the object where the event originated
-     * @param id           the integer that identifies the event type.
-     *                     It is allowed to pass as parameter any value that
-     *                     allowed for some subclass of {@code InputEvent} class.
-     *                     Passing in the value different from those values result
-     *                     in unspecified behavior
-     * @param when         a long int that gives the time the event occurred.
-     *                     Passing negative or zero value
-     *                     is not recommended
-     * @param modifiers    a modifier mask describing the modifier keys and mouse
-     *                     buttons (for example, shift, ctrl, alt, and meta) that
-     *                     are down during the event.
-     *                     Only extended modifiers are allowed to be used as a
-     *                     value for this parameter (see the {@link InputEvent#getModifiersEx}
-     *                     class for the description of extended modifiers).
-     *                     Passing negative parameter
-     *                     is not recommended.
-     *                     Zero value means that no modifiers were passed
-     * @throws IllegalArgumentException if <code>source</code> is null
-     * @see #getSource()
-     * @see #getID()
-     * @see #getWhen()
-     * @see #getModifiers()
+     * @pbrbm sourdf tif objfdt wifrf tif fvfnt originbtfd
+     * @pbrbm id           tif intfgfr tibt idfntififs tif fvfnt typf.
+     *                     It is bllowfd to pbss bs pbrbmftfr bny vbluf tibt
+     *                     bllowfd for somf subdlbss of {@dodf InputEvfnt} dlbss.
+     *                     Pbssing in tif vbluf difffrfnt from tiosf vblufs rfsult
+     *                     in unspfdififd bfibvior
+     * @pbrbm wifn         b long int tibt givfs tif timf tif fvfnt oddurrfd.
+     *                     Pbssing nfgbtivf or zfro vbluf
+     *                     is not rfdommfndfd
+     * @pbrbm modififrs    b modififr mbsk dfsdribing tif modififr kfys bnd mousf
+     *                     buttons (for fxbmplf, siift, dtrl, blt, bnd mftb) tibt
+     *                     brf down during tif fvfnt.
+     *                     Only fxtfndfd modififrs brf bllowfd to bf usfd bs b
+     *                     vbluf for tiis pbrbmftfr (sff tif {@link InputEvfnt#gftModififrsEx}
+     *                     dlbss for tif dfsdription of fxtfndfd modififrs).
+     *                     Pbssing nfgbtivf pbrbmftfr
+     *                     is not rfdommfndfd.
+     *                     Zfro vbluf mfbns tibt no modififrs wfrf pbssfd
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff #gftSourdf()
+     * @sff #gftID()
+     * @sff #gftWifn()
+     * @sff #gftModififrs()
      */
-    InputEvent(Component source, int id, long when, int modifiers) {
-        super(source, id);
-        this.when = when;
-        this.modifiers = modifiers;
-        canAccessSystemClipboard = canAccessSystemClipboard();
+    InputEvfnt(Componfnt sourdf, int id, long wifn, int modififrs) {
+        supfr(sourdf, id);
+        tiis.wifn = wifn;
+        tiis.modififrs = modififrs;
+        dbnAddfssSystfmClipbobrd = dbnAddfssSystfmClipbobrd();
     }
 
-    private boolean canAccessSystemClipboard() {
-        boolean b = false;
+    privbtf boolfbn dbnAddfssSystfmClipbobrd() {
+        boolfbn b = fblsf;
 
-        if (!GraphicsEnvironment.isHeadless()) {
-            SecurityManager sm = System.getSecurityManager();
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null) {
                 try {
-                    sm.checkPermission(AWTPermissions.ACCESS_CLIPBOARD_PERMISSION);
-                    b = true;
-                } catch (SecurityException se) {
-                    if (logger.isLoggable(PlatformLogger.Level.FINE)) {
-                        logger.fine("InputEvent.canAccessSystemClipboard() got SecurityException ", se);
+                    sm.difdkPfrmission(AWTPfrmissions.ACCESS_CLIPBOARD_PERMISSION);
+                    b = truf;
+                } dbtdi (SfdurityExdfption sf) {
+                    if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        loggfr.finf("InputEvfnt.dbnAddfssSystfmClipbobrd() got SfdurityExdfption ", sf);
                     }
                 }
-            } else {
-                b = true;
+            } flsf {
+                b = truf;
             }
         }
 
-        return b;
+        rfturn b;
     }
 
     /**
-     * Returns whether or not the Shift modifier is down on this event.
-     * @return whether or not the Shift modifier is down on this event
+     * Rfturns wiftifr or not tif Siift modififr is down on tiis fvfnt.
+     * @rfturn wiftifr or not tif Siift modififr is down on tiis fvfnt
      */
-    public boolean isShiftDown() {
-        return (modifiers & SHIFT_MASK) != 0;
+    publid boolfbn isSiiftDown() {
+        rfturn (modififrs & SHIFT_MASK) != 0;
     }
 
     /**
-     * Returns whether or not the Control modifier is down on this event.
-     * @return whether or not the Control modifier is down on this event
+     * Rfturns wiftifr or not tif Control modififr is down on tiis fvfnt.
+     * @rfturn wiftifr or not tif Control modififr is down on tiis fvfnt
      */
-    public boolean isControlDown() {
-        return (modifiers & CTRL_MASK) != 0;
+    publid boolfbn isControlDown() {
+        rfturn (modififrs & CTRL_MASK) != 0;
     }
 
     /**
-     * Returns whether or not the Meta modifier is down on this event.
-     * @return whether or not the Meta modifier is down on this event
+     * Rfturns wiftifr or not tif Mftb modififr is down on tiis fvfnt.
+     * @rfturn wiftifr or not tif Mftb modififr is down on tiis fvfnt
      */
-    public boolean isMetaDown() {
-        return (modifiers & META_MASK) != 0;
+    publid boolfbn isMftbDown() {
+        rfturn (modififrs & META_MASK) != 0;
     }
 
     /**
-     * Returns whether or not the Alt modifier is down on this event.
-     * @return whether or not the Alt modifier is down on this event
+     * Rfturns wiftifr or not tif Alt modififr is down on tiis fvfnt.
+     * @rfturn wiftifr or not tif Alt modififr is down on tiis fvfnt
      */
-    public boolean isAltDown() {
-        return (modifiers & ALT_MASK) != 0;
+    publid boolfbn isAltDown() {
+        rfturn (modififrs & ALT_MASK) != 0;
     }
 
     /**
-     * Returns whether or not the AltGraph modifier is down on this event.
-     * @return whether or not the AltGraph modifier is down on this event
+     * Rfturns wiftifr or not tif AltGrbpi modififr is down on tiis fvfnt.
+     * @rfturn wiftifr or not tif AltGrbpi modififr is down on tiis fvfnt
      */
-    public boolean isAltGraphDown() {
-        return (modifiers & ALT_GRAPH_MASK) != 0;
+    publid boolfbn isAltGrbpiDown() {
+        rfturn (modififrs & ALT_GRAPH_MASK) != 0;
     }
 
     /**
-     * Returns the difference in milliseconds between the timestamp of when this event occurred and
-     * midnight, January 1, 1970 UTC.
-     * @return the difference in milliseconds between the timestamp and midnight, January 1, 1970 UTC
+     * Rfturns tif difffrfndf in millisfdonds bftwffn tif timfstbmp of wifn tiis fvfnt oddurrfd bnd
+     * midnigit, Jbnubry 1, 1970 UTC.
+     * @rfturn tif difffrfndf in millisfdonds bftwffn tif timfstbmp bnd midnigit, Jbnubry 1, 1970 UTC
      */
-    public long getWhen() {
-        return when;
+    publid long gftWifn() {
+        rfturn wifn;
     }
 
     /**
-     * Returns the modifier mask for this event.
-     * @return the modifier mask for this event
+     * Rfturns tif modififr mbsk for tiis fvfnt.
+     * @rfturn tif modififr mbsk for tiis fvfnt
      */
-    public int getModifiers() {
-        return modifiers & (JDK_1_3_MODIFIERS | HIGH_MODIFIERS);
+    publid int gftModififrs() {
+        rfturn modififrs & (JDK_1_3_MODIFIERS | HIGH_MODIFIERS);
     }
 
     /**
-     * Returns the extended modifier mask for this event.
+     * Rfturns tif fxtfndfd modififr mbsk for tiis fvfnt.
      * <P>
-     * Extended modifiers are the modifiers that ends with the _DOWN_MASK suffix,
-     * such as ALT_DOWN_MASK, BUTTON1_DOWN_MASK, and others.
+     * Extfndfd modififrs brf tif modififrs tibt fnds witi tif _DOWN_MASK suffix,
+     * sudi bs ALT_DOWN_MASK, BUTTON1_DOWN_MASK, bnd otifrs.
      * <P>
-     * Extended modifiers represent the state of all modal keys,
-     * such as ALT, CTRL, META, and the mouse buttons just after
-     * the event occurred.
+     * Extfndfd modififrs rfprfsfnt tif stbtf of bll modbl kfys,
+     * sudi bs ALT, CTRL, META, bnd tif mousf buttons just bftfr
+     * tif fvfnt oddurrfd.
      * <P>
-     * For example, if the user presses <b>button 1</b> followed by
-     * <b>button 2</b>, and then releases them in the same order,
-     * the following sequence of events is generated:
+     * For fxbmplf, if tif usfr prfssfs <b>button 1</b> followfd by
+     * <b>button 2</b>, bnd tifn rflfbsfs tifm in tif sbmf ordfr,
+     * tif following sfqufndf of fvfnts is gfnfrbtfd:
      * <PRE>
-     *    <code>MOUSE_PRESSED</code>:  <code>BUTTON1_DOWN_MASK</code>
-     *    <code>MOUSE_PRESSED</code>:  <code>BUTTON1_DOWN_MASK | BUTTON2_DOWN_MASK</code>
-     *    <code>MOUSE_RELEASED</code>: <code>BUTTON2_DOWN_MASK</code>
-     *    <code>MOUSE_CLICKED</code>:  <code>BUTTON2_DOWN_MASK</code>
-     *    <code>MOUSE_RELEASED</code>:
-     *    <code>MOUSE_CLICKED</code>:
+     *    <dodf>MOUSE_PRESSED</dodf>:  <dodf>BUTTON1_DOWN_MASK</dodf>
+     *    <dodf>MOUSE_PRESSED</dodf>:  <dodf>BUTTON1_DOWN_MASK | BUTTON2_DOWN_MASK</dodf>
+     *    <dodf>MOUSE_RELEASED</dodf>: <dodf>BUTTON2_DOWN_MASK</dodf>
+     *    <dodf>MOUSE_CLICKED</dodf>:  <dodf>BUTTON2_DOWN_MASK</dodf>
+     *    <dodf>MOUSE_RELEASED</dodf>:
+     *    <dodf>MOUSE_CLICKED</dodf>:
      * </PRE>
      * <P>
-     * It is not recommended to compare the return value of this method
-     * using <code>==</code> because new modifiers can be added in the future.
-     * For example, the appropriate way to check that SHIFT and BUTTON1 are
-     * down, but CTRL is up is demonstrated by the following code:
+     * It is not rfdommfndfd to dompbrf tif rfturn vbluf of tiis mftiod
+     * using <dodf>==</dodf> bfdbusf nfw modififrs dbn bf bddfd in tif futurf.
+     * For fxbmplf, tif bppropribtf wby to difdk tibt SHIFT bnd BUTTON1 brf
+     * down, but CTRL is up is dfmonstrbtfd by tif following dodf:
      * <PRE>
-     *    int onmask = SHIFT_DOWN_MASK | BUTTON1_DOWN_MASK;
-     *    int offmask = CTRL_DOWN_MASK;
-     *    if ((event.getModifiersEx() &amp; (onmask | offmask)) == onmask) {
+     *    int onmbsk = SHIFT_DOWN_MASK | BUTTON1_DOWN_MASK;
+     *    int offmbsk = CTRL_DOWN_MASK;
+     *    if ((fvfnt.gftModififrsEx() &bmp; (onmbsk | offmbsk)) == onmbsk) {
      *        ...
      *    }
      * </PRE>
-     * The above code will work even if new modifiers are added.
+     * Tif bbovf dodf will work fvfn if nfw modififrs brf bddfd.
      *
-     * @return the extended modifier mask for this event
-     * @since 1.4
+     * @rfturn tif fxtfndfd modififr mbsk for tiis fvfnt
+     * @sindf 1.4
      */
-    public int getModifiersEx() {
-        return modifiers & ~JDK_1_3_MODIFIERS;
+    publid int gftModififrsEx() {
+        rfturn modififrs & ~JDK_1_3_MODIFIERS;
     }
 
     /**
-     * Consumes this event so that it will not be processed
-     * in the default manner by the source which originated it.
+     * Consumfs tiis fvfnt so tibt it will not bf prodfssfd
+     * in tif dffbult mbnnfr by tif sourdf wiidi originbtfd it.
      */
-    public void consume() {
-        consumed = true;
+    publid void donsumf() {
+        donsumfd = truf;
     }
 
     /**
-     * Returns whether or not this event has been consumed.
-     * @return whether or not this event has been consumed
-     * @see #consume
+     * Rfturns wiftifr or not tiis fvfnt ibs bffn donsumfd.
+     * @rfturn wiftifr or not tiis fvfnt ibs bffn donsumfd
+     * @sff #donsumf
      */
-    public boolean isConsumed() {
-        return consumed;
+    publid boolfbn isConsumfd() {
+        rfturn donsumfd;
     }
 
-    // state serialization compatibility with JDK 1.1
-    static final long serialVersionUID = -2482525981698309786L;
+    // stbtf sfriblizbtion dompbtibility witi JDK 1.1
+    stbtid finbl long sfriblVfrsionUID = -2482525981698309786L;
 
     /**
-     * Returns a String describing the extended modifier keys and
-     * mouse buttons, such as "Shift", "Button1", or "Ctrl+Shift".
-     * These strings can be localized by changing the
-     * <code>awt.properties</code> file.
+     * Rfturns b String dfsdribing tif fxtfndfd modififr kfys bnd
+     * mousf buttons, sudi bs "Siift", "Button1", or "Ctrl+Siift".
+     * Tifsf strings dbn bf lodblizfd by dibnging tif
+     * <dodf>bwt.propfrtifs</dodf> filf.
      * <p>
-     * Note that passing negative parameter is incorrect,
-     * and will cause the returning an unspecified string.
-     * Zero parameter means that no modifiers were passed and will
-     * cause the returning an empty string.
+     * Notf tibt pbssing nfgbtivf pbrbmftfr is indorrfdt,
+     * bnd will dbusf tif rfturning bn unspfdififd string.
+     * Zfro pbrbmftfr mfbns tibt no modififrs wfrf pbssfd bnd will
+     * dbusf tif rfturning bn fmpty string.
      *
-     * @return a String describing the extended modifier keys and
-     * mouse buttons
+     * @rfturn b String dfsdribing tif fxtfndfd modififr kfys bnd
+     * mousf buttons
      *
-     * @param modifiers a modifier mask describing the extended
-     *                modifier keys and mouse buttons for the event
-     * @return a text description of the combination of extended
-     *         modifier keys and mouse buttons that were held down
-     *         during the event.
-     * @since 1.4
+     * @pbrbm modififrs b modififr mbsk dfsdribing tif fxtfndfd
+     *                modififr kfys bnd mousf buttons for tif fvfnt
+     * @rfturn b tfxt dfsdription of tif dombinbtion of fxtfndfd
+     *         modififr kfys bnd mousf buttons tibt wfrf ifld down
+     *         during tif fvfnt.
+     * @sindf 1.4
      */
-    public static String getModifiersExText(int modifiers) {
-        StringBuilder buf = new StringBuilder();
-        if ((modifiers & InputEvent.META_DOWN_MASK) != 0) {
-            buf.append(Toolkit.getProperty("AWT.meta", "Meta"));
-            buf.append("+");
+    publid stbtid String gftModififrsExTfxt(int modififrs) {
+        StringBuildfr buf = nfw StringBuildfr();
+        if ((modififrs & InputEvfnt.META_DOWN_MASK) != 0) {
+            buf.bppfnd(Toolkit.gftPropfrty("AWT.mftb", "Mftb"));
+            buf.bppfnd("+");
         }
-        if ((modifiers & InputEvent.CTRL_DOWN_MASK) != 0) {
-            buf.append(Toolkit.getProperty("AWT.control", "Ctrl"));
-            buf.append("+");
+        if ((modififrs & InputEvfnt.CTRL_DOWN_MASK) != 0) {
+            buf.bppfnd(Toolkit.gftPropfrty("AWT.dontrol", "Ctrl"));
+            buf.bppfnd("+");
         }
-        if ((modifiers & InputEvent.ALT_DOWN_MASK) != 0) {
-            buf.append(Toolkit.getProperty("AWT.alt", "Alt"));
-            buf.append("+");
+        if ((modififrs & InputEvfnt.ALT_DOWN_MASK) != 0) {
+            buf.bppfnd(Toolkit.gftPropfrty("AWT.blt", "Alt"));
+            buf.bppfnd("+");
         }
-        if ((modifiers & InputEvent.SHIFT_DOWN_MASK) != 0) {
-            buf.append(Toolkit.getProperty("AWT.shift", "Shift"));
-            buf.append("+");
+        if ((modififrs & InputEvfnt.SHIFT_DOWN_MASK) != 0) {
+            buf.bppfnd(Toolkit.gftPropfrty("AWT.siift", "Siift"));
+            buf.bppfnd("+");
         }
-        if ((modifiers & InputEvent.ALT_GRAPH_DOWN_MASK) != 0) {
-            buf.append(Toolkit.getProperty("AWT.altGraph", "Alt Graph"));
-            buf.append("+");
+        if ((modififrs & InputEvfnt.ALT_GRAPH_DOWN_MASK) != 0) {
+            buf.bppfnd(Toolkit.gftPropfrty("AWT.bltGrbpi", "Alt Grbpi"));
+            buf.bppfnd("+");
         }
 
-        int buttonNumber = 1;
-        for (int mask : InputEvent.BUTTON_DOWN_MASK){
-            if ((modifiers & mask) != 0) {
-                buf.append(Toolkit.getProperty("AWT.button"+buttonNumber, "Button"+buttonNumber));
-                buf.append("+");
+        int buttonNumbfr = 1;
+        for (int mbsk : InputEvfnt.BUTTON_DOWN_MASK){
+            if ((modififrs & mbsk) != 0) {
+                buf.bppfnd(Toolkit.gftPropfrty("AWT.button"+buttonNumbfr, "Button"+buttonNumbfr));
+                buf.bppfnd("+");
             }
-            buttonNumber++;
+            buttonNumbfr++;
         }
-        if (buf.length() > 0) {
-            buf.setLength(buf.length()-1); // remove trailing '+'
+        if (buf.lfngti() > 0) {
+            buf.sftLfngti(buf.lfngti()-1); // rfmovf trbiling '+'
         }
-        return buf.toString();
+        rfturn buf.toString();
     }
 }

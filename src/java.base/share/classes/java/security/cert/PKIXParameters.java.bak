@@ -1,736 +1,736 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security.cert;
+pbdkbgf jbvb.sfdurity.dfrt;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.KfyStorf;
+import jbvb.sfdurity.KfyStorfExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.Dbtf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.HbsiSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Sft;
 
 /**
- * Parameters used as input for the PKIX {@code CertPathValidator}
- * algorithm.
+ * Pbrbmftfrs usfd bs input for tif PKIX {@dodf CfrtPbtiVblidbtor}
+ * blgoritim.
  * <p>
- * A PKIX {@code CertPathValidator} uses these parameters to
- * validate a {@code CertPath} according to the PKIX certification path
- * validation algorithm.
+ * A PKIX {@dodf CfrtPbtiVblidbtor} usfs tifsf pbrbmftfrs to
+ * vblidbtf b {@dodf CfrtPbti} bddording to tif PKIX dfrtifidbtion pbti
+ * vblidbtion blgoritim.
  *
- * <p>To instantiate a {@code PKIXParameters} object, an
- * application must specify one or more <i>most-trusted CAs</i> as defined by
- * the PKIX certification path validation algorithm. The most-trusted CAs
- * can be specified using one of two constructors. An application
- * can call {@link #PKIXParameters(Set) PKIXParameters(Set)},
- * specifying a {@code Set} of {@code TrustAnchor} objects, each
- * of which identify a most-trusted CA. Alternatively, an application can call
- * {@link #PKIXParameters(KeyStore) PKIXParameters(KeyStore)}, specifying a
- * {@code KeyStore} instance containing trusted certificate entries, each
- * of which will be considered as a most-trusted CA.
+ * <p>To instbntibtf b {@dodf PKIXPbrbmftfrs} objfdt, bn
+ * bpplidbtion must spfdify onf or morf <i>most-trustfd CAs</i> bs dffinfd by
+ * tif PKIX dfrtifidbtion pbti vblidbtion blgoritim. Tif most-trustfd CAs
+ * dbn bf spfdififd using onf of two donstrudtors. An bpplidbtion
+ * dbn dbll {@link #PKIXPbrbmftfrs(Sft) PKIXPbrbmftfrs(Sft)},
+ * spfdifying b {@dodf Sft} of {@dodf TrustAndior} objfdts, fbdi
+ * of wiidi idfntify b most-trustfd CA. Altfrnbtivfly, bn bpplidbtion dbn dbll
+ * {@link #PKIXPbrbmftfrs(KfyStorf) PKIXPbrbmftfrs(KfyStorf)}, spfdifying b
+ * {@dodf KfyStorf} instbndf dontbining trustfd dfrtifidbtf fntrifs, fbdi
+ * of wiidi will bf donsidfrfd bs b most-trustfd CA.
  * <p>
- * Once a {@code PKIXParameters} object has been created, other parameters
- * can be specified (by calling {@link #setInitialPolicies setInitialPolicies}
- * or {@link #setDate setDate}, for instance) and then the
- * {@code PKIXParameters} is passed along with the {@code CertPath}
- * to be validated to {@link CertPathValidator#validate
- * CertPathValidator.validate}.
+ * Ondf b {@dodf PKIXPbrbmftfrs} objfdt ibs bffn drfbtfd, otifr pbrbmftfrs
+ * dbn bf spfdififd (by dblling {@link #sftInitiblPolidifs sftInitiblPolidifs}
+ * or {@link #sftDbtf sftDbtf}, for instbndf) bnd tifn tif
+ * {@dodf PKIXPbrbmftfrs} is pbssfd blong witi tif {@dodf CfrtPbti}
+ * to bf vblidbtfd to {@link CfrtPbtiVblidbtor#vblidbtf
+ * CfrtPbtiVblidbtor.vblidbtf}.
  * <p>
- * Any parameter that is not set (or is set to {@code null}) will
- * be set to the default value for that parameter. The default value for the
- * {@code date} parameter is {@code null}, which indicates
- * the current time when the path is validated. The default for the
- * remaining parameters is the least constrained.
+ * Any pbrbmftfr tibt is not sft (or is sft to {@dodf null}) will
+ * bf sft to tif dffbult vbluf for tibt pbrbmftfr. Tif dffbult vbluf for tif
+ * {@dodf dbtf} pbrbmftfr is {@dodf null}, wiidi indidbtfs
+ * tif durrfnt timf wifn tif pbti is vblidbtfd. Tif dffbult for tif
+ * rfmbining pbrbmftfrs is tif lfbst donstrbinfd.
  * <p>
- * <b>Concurrent Access</b>
+ * <b>Condurrfnt Addfss</b>
  * <p>
- * Unless otherwise specified, the methods defined in this class are not
- * thread-safe. Multiple threads that need to access a single
- * object concurrently should synchronize amongst themselves and
- * provide the necessary locking. Multiple threads each manipulating
- * separate objects need not synchronize.
+ * Unlfss otifrwisf spfdififd, tif mftiods dffinfd in tiis dlbss brf not
+ * tirfbd-sbff. Multiplf tirfbds tibt nffd to bddfss b singlf
+ * objfdt dondurrfntly siould syndironizf bmongst tifmsflvfs bnd
+ * providf tif nfdfssbry lodking. Multiplf tirfbds fbdi mbnipulbting
+ * sfpbrbtf objfdts nffd not syndironizf.
  *
- * @see CertPathValidator
+ * @sff CfrtPbtiVblidbtor
  *
- * @since       1.4
- * @author      Sean Mullan
- * @author      Yassir Elley
+ * @sindf       1.4
+ * @butior      Sfbn Mullbn
+ * @butior      Ybssir Ellfy
  */
-public class PKIXParameters implements CertPathParameters {
+publid dlbss PKIXPbrbmftfrs implfmfnts CfrtPbtiPbrbmftfrs {
 
-    private Set<TrustAnchor> unmodTrustAnchors;
-    private Date date;
-    private List<PKIXCertPathChecker> certPathCheckers;
-    private String sigProvider;
-    private boolean revocationEnabled = true;
-    private Set<String> unmodInitialPolicies;
-    private boolean explicitPolicyRequired = false;
-    private boolean policyMappingInhibited = false;
-    private boolean anyPolicyInhibited = false;
-    private boolean policyQualifiersRejected = true;
-    private List<CertStore> certStores;
-    private CertSelector certSelector;
+    privbtf Sft<TrustAndior> unmodTrustAndiors;
+    privbtf Dbtf dbtf;
+    privbtf List<PKIXCfrtPbtiCifdkfr> dfrtPbtiCifdkfrs;
+    privbtf String sigProvidfr;
+    privbtf boolfbn rfvodbtionEnbblfd = truf;
+    privbtf Sft<String> unmodInitiblPolidifs;
+    privbtf boolfbn fxpliditPolidyRfquirfd = fblsf;
+    privbtf boolfbn polidyMbppingIniibitfd = fblsf;
+    privbtf boolfbn bnyPolidyIniibitfd = fblsf;
+    privbtf boolfbn polidyQublififrsRfjfdtfd = truf;
+    privbtf List<CfrtStorf> dfrtStorfs;
+    privbtf CfrtSflfdtor dfrtSflfdtor;
 
     /**
-     * Creates an instance of {@code PKIXParameters} with the specified
-     * {@code Set} of most-trusted CAs. Each element of the
-     * set is a {@link TrustAnchor TrustAnchor}.
+     * Crfbtfs bn instbndf of {@dodf PKIXPbrbmftfrs} witi tif spfdififd
+     * {@dodf Sft} of most-trustfd CAs. Ebdi flfmfnt of tif
+     * sft is b {@link TrustAndior TrustAndior}.
      * <p>
-     * Note that the {@code Set} is copied to protect against
-     * subsequent modifications.
+     * Notf tibt tif {@dodf Sft} is dopifd to protfdt bgbinst
+     * subsfqufnt modifidbtions.
      *
-     * @param trustAnchors a {@code Set} of {@code TrustAnchor}s
-     * @throws InvalidAlgorithmParameterException if the specified
-     * {@code Set} is empty {@code (trustAnchors.isEmpty() == true)}
-     * @throws NullPointerException if the specified {@code Set} is
-     * {@code null}
-     * @throws ClassCastException if any of the elements in the {@code Set}
-     * are not of type {@code java.security.cert.TrustAnchor}
+     * @pbrbm trustAndiors b {@dodf Sft} of {@dodf TrustAndior}s
+     * @tirows InvblidAlgoritimPbrbmftfrExdfption if tif spfdififd
+     * {@dodf Sft} is fmpty {@dodf (trustAndiors.isEmpty() == truf)}
+     * @tirows NullPointfrExdfption if tif spfdififd {@dodf Sft} is
+     * {@dodf null}
+     * @tirows ClbssCbstExdfption if bny of tif flfmfnts in tif {@dodf Sft}
+     * brf not of typf {@dodf jbvb.sfdurity.dfrt.TrustAndior}
      */
-    public PKIXParameters(Set<TrustAnchor> trustAnchors)
-        throws InvalidAlgorithmParameterException
+    publid PKIXPbrbmftfrs(Sft<TrustAndior> trustAndiors)
+        tirows InvblidAlgoritimPbrbmftfrExdfption
     {
-        setTrustAnchors(trustAnchors);
+        sftTrustAndiors(trustAndiors);
 
-        this.unmodInitialPolicies = Collections.<String>emptySet();
-        this.certPathCheckers = new ArrayList<PKIXCertPathChecker>();
-        this.certStores = new ArrayList<CertStore>();
+        tiis.unmodInitiblPolidifs = Collfdtions.<String>fmptySft();
+        tiis.dfrtPbtiCifdkfrs = nfw ArrbyList<PKIXCfrtPbtiCifdkfr>();
+        tiis.dfrtStorfs = nfw ArrbyList<CfrtStorf>();
     }
 
     /**
-     * Creates an instance of {@code PKIXParameters} that
-     * populates the set of most-trusted CAs from the trusted
-     * certificate entries contained in the specified {@code KeyStore}.
-     * Only keystore entries that contain trusted {@code X509Certificates}
-     * are considered; all other certificate types are ignored.
+     * Crfbtfs bn instbndf of {@dodf PKIXPbrbmftfrs} tibt
+     * populbtfs tif sft of most-trustfd CAs from tif trustfd
+     * dfrtifidbtf fntrifs dontbinfd in tif spfdififd {@dodf KfyStorf}.
+     * Only kfystorf fntrifs tibt dontbin trustfd {@dodf X509Cfrtifidbtfs}
+     * brf donsidfrfd; bll otifr dfrtifidbtf typfs brf ignorfd.
      *
-     * @param keystore a {@code KeyStore} from which the set of
-     * most-trusted CAs will be populated
-     * @throws KeyStoreException if the keystore has not been initialized
-     * @throws InvalidAlgorithmParameterException if the keystore does
-     * not contain at least one trusted certificate entry
-     * @throws NullPointerException if the keystore is {@code null}
+     * @pbrbm kfystorf b {@dodf KfyStorf} from wiidi tif sft of
+     * most-trustfd CAs will bf populbtfd
+     * @tirows KfyStorfExdfption if tif kfystorf ibs not bffn initiblizfd
+     * @tirows InvblidAlgoritimPbrbmftfrExdfption if tif kfystorf dofs
+     * not dontbin bt lfbst onf trustfd dfrtifidbtf fntry
+     * @tirows NullPointfrExdfption if tif kfystorf is {@dodf null}
      */
-    public PKIXParameters(KeyStore keystore)
-        throws KeyStoreException, InvalidAlgorithmParameterException
+    publid PKIXPbrbmftfrs(KfyStorf kfystorf)
+        tirows KfyStorfExdfption, InvblidAlgoritimPbrbmftfrExdfption
     {
-        if (keystore == null)
-            throw new NullPointerException("the keystore parameter must be " +
+        if (kfystorf == null)
+            tirow nfw NullPointfrExdfption("tif kfystorf pbrbmftfr must bf " +
                 "non-null");
-        Set<TrustAnchor> hashSet = new HashSet<TrustAnchor>();
-        Enumeration<String> aliases = keystore.aliases();
-        while (aliases.hasMoreElements()) {
-            String alias = aliases.nextElement();
-            if (keystore.isCertificateEntry(alias)) {
-                Certificate cert = keystore.getCertificate(alias);
-                if (cert instanceof X509Certificate)
-                    hashSet.add(new TrustAnchor((X509Certificate)cert, null));
+        Sft<TrustAndior> ibsiSft = nfw HbsiSft<TrustAndior>();
+        Enumfrbtion<String> blibsfs = kfystorf.blibsfs();
+        wiilf (blibsfs.ibsMorfElfmfnts()) {
+            String blibs = blibsfs.nfxtElfmfnt();
+            if (kfystorf.isCfrtifidbtfEntry(blibs)) {
+                Cfrtifidbtf dfrt = kfystorf.gftCfrtifidbtf(blibs);
+                if (dfrt instbndfof X509Cfrtifidbtf)
+                    ibsiSft.bdd(nfw TrustAndior((X509Cfrtifidbtf)dfrt, null));
             }
         }
-        setTrustAnchors(hashSet);
-        this.unmodInitialPolicies = Collections.<String>emptySet();
-        this.certPathCheckers = new ArrayList<PKIXCertPathChecker>();
-        this.certStores = new ArrayList<CertStore>();
+        sftTrustAndiors(ibsiSft);
+        tiis.unmodInitiblPolidifs = Collfdtions.<String>fmptySft();
+        tiis.dfrtPbtiCifdkfrs = nfw ArrbyList<PKIXCfrtPbtiCifdkfr>();
+        tiis.dfrtStorfs = nfw ArrbyList<CfrtStorf>();
     }
 
     /**
-     * Returns an immutable {@code Set} of the most-trusted
+     * Rfturns bn immutbblf {@dodf Sft} of tif most-trustfd
      * CAs.
      *
-     * @return an immutable {@code Set} of {@code TrustAnchor}s
-     * (never {@code null})
+     * @rfturn bn immutbblf {@dodf Sft} of {@dodf TrustAndior}s
+     * (nfvfr {@dodf null})
      *
-     * @see #setTrustAnchors
+     * @sff #sftTrustAndiors
      */
-    public Set<TrustAnchor> getTrustAnchors() {
-        return this.unmodTrustAnchors;
+    publid Sft<TrustAndior> gftTrustAndiors() {
+        rfturn tiis.unmodTrustAndiors;
     }
 
     /**
-     * Sets the {@code Set} of most-trusted CAs.
+     * Sfts tif {@dodf Sft} of most-trustfd CAs.
      * <p>
-     * Note that the {@code Set} is copied to protect against
-     * subsequent modifications.
+     * Notf tibt tif {@dodf Sft} is dopifd to protfdt bgbinst
+     * subsfqufnt modifidbtions.
      *
-     * @param trustAnchors a {@code Set} of {@code TrustAnchor}s
-     * @throws InvalidAlgorithmParameterException if the specified
-     * {@code Set} is empty {@code (trustAnchors.isEmpty() == true)}
-     * @throws NullPointerException if the specified {@code Set} is
-     * {@code null}
-     * @throws ClassCastException if any of the elements in the set
-     * are not of type {@code java.security.cert.TrustAnchor}
+     * @pbrbm trustAndiors b {@dodf Sft} of {@dodf TrustAndior}s
+     * @tirows InvblidAlgoritimPbrbmftfrExdfption if tif spfdififd
+     * {@dodf Sft} is fmpty {@dodf (trustAndiors.isEmpty() == truf)}
+     * @tirows NullPointfrExdfption if tif spfdififd {@dodf Sft} is
+     * {@dodf null}
+     * @tirows ClbssCbstExdfption if bny of tif flfmfnts in tif sft
+     * brf not of typf {@dodf jbvb.sfdurity.dfrt.TrustAndior}
      *
-     * @see #getTrustAnchors
+     * @sff #gftTrustAndiors
      */
-    public void setTrustAnchors(Set<TrustAnchor> trustAnchors)
-        throws InvalidAlgorithmParameterException
+    publid void sftTrustAndiors(Sft<TrustAndior> trustAndiors)
+        tirows InvblidAlgoritimPbrbmftfrExdfption
     {
-        if (trustAnchors == null) {
-            throw new NullPointerException("the trustAnchors parameters must" +
-                " be non-null");
+        if (trustAndiors == null) {
+            tirow nfw NullPointfrExdfption("tif trustAndiors pbrbmftfrs must" +
+                " bf non-null");
         }
-        if (trustAnchors.isEmpty()) {
-            throw new InvalidAlgorithmParameterException("the trustAnchors " +
-                "parameter must be non-empty");
+        if (trustAndiors.isEmpty()) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption("tif trustAndiors " +
+                "pbrbmftfr must bf non-fmpty");
         }
-        for (Iterator<TrustAnchor> i = trustAnchors.iterator(); i.hasNext(); ) {
-            if (!(i.next() instanceof TrustAnchor)) {
-                throw new ClassCastException("all elements of set must be "
-                    + "of type java.security.cert.TrustAnchor");
+        for (Itfrbtor<TrustAndior> i = trustAndiors.itfrbtor(); i.ibsNfxt(); ) {
+            if (!(i.nfxt() instbndfof TrustAndior)) {
+                tirow nfw ClbssCbstExdfption("bll flfmfnts of sft must bf "
+                    + "of typf jbvb.sfdurity.dfrt.TrustAndior");
             }
         }
-        this.unmodTrustAnchors = Collections.unmodifiableSet
-                (new HashSet<TrustAnchor>(trustAnchors));
+        tiis.unmodTrustAndiors = Collfdtions.unmodifibblfSft
+                (nfw HbsiSft<TrustAndior>(trustAndiors));
     }
 
     /**
-     * Returns an immutable {@code Set} of initial
-     * policy identifiers (OID strings), indicating that any one of these
-     * policies would be acceptable to the certificate user for the purposes of
-     * certification path processing. The default return value is an empty
-     * {@code Set}, which is interpreted as meaning that any policy would
-     * be acceptable.
+     * Rfturns bn immutbblf {@dodf Sft} of initibl
+     * polidy idfntififrs (OID strings), indidbting tibt bny onf of tifsf
+     * polidifs would bf bddfptbblf to tif dfrtifidbtf usfr for tif purposfs of
+     * dfrtifidbtion pbti prodfssing. Tif dffbult rfturn vbluf is bn fmpty
+     * {@dodf Sft}, wiidi is intfrprftfd bs mfbning tibt bny polidy would
+     * bf bddfptbblf.
      *
-     * @return an immutable {@code Set} of initial policy OIDs in
-     * {@code String} format, or an empty {@code Set} (implying any
-     * policy is acceptable). Never returns {@code null}.
+     * @rfturn bn immutbblf {@dodf Sft} of initibl polidy OIDs in
+     * {@dodf String} formbt, or bn fmpty {@dodf Sft} (implying bny
+     * polidy is bddfptbblf). Nfvfr rfturns {@dodf null}.
      *
-     * @see #setInitialPolicies
+     * @sff #sftInitiblPolidifs
      */
-    public Set<String> getInitialPolicies() {
-        return this.unmodInitialPolicies;
+    publid Sft<String> gftInitiblPolidifs() {
+        rfturn tiis.unmodInitiblPolidifs;
     }
 
     /**
-     * Sets the {@code Set} of initial policy identifiers
-     * (OID strings), indicating that any one of these
-     * policies would be acceptable to the certificate user for the purposes of
-     * certification path processing. By default, any policy is acceptable
-     * (i.e. all policies), so a user that wants to allow any policy as
-     * acceptable does not need to call this method, or can call it
-     * with an empty {@code Set} (or {@code null}).
+     * Sfts tif {@dodf Sft} of initibl polidy idfntififrs
+     * (OID strings), indidbting tibt bny onf of tifsf
+     * polidifs would bf bddfptbblf to tif dfrtifidbtf usfr for tif purposfs of
+     * dfrtifidbtion pbti prodfssing. By dffbult, bny polidy is bddfptbblf
+     * (i.f. bll polidifs), so b usfr tibt wbnts to bllow bny polidy bs
+     * bddfptbblf dofs not nffd to dbll tiis mftiod, or dbn dbll it
+     * witi bn fmpty {@dodf Sft} (or {@dodf null}).
      * <p>
-     * Note that the {@code Set} is copied to protect against
-     * subsequent modifications.
+     * Notf tibt tif {@dodf Sft} is dopifd to protfdt bgbinst
+     * subsfqufnt modifidbtions.
      *
-     * @param initialPolicies a {@code Set} of initial policy
-     * OIDs in {@code String} format (or {@code null})
-     * @throws ClassCastException if any of the elements in the set are
-     * not of type {@code String}
+     * @pbrbm initiblPolidifs b {@dodf Sft} of initibl polidy
+     * OIDs in {@dodf String} formbt (or {@dodf null})
+     * @tirows ClbssCbstExdfption if bny of tif flfmfnts in tif sft brf
+     * not of typf {@dodf String}
      *
-     * @see #getInitialPolicies
+     * @sff #gftInitiblPolidifs
      */
-    public void setInitialPolicies(Set<String> initialPolicies) {
-        if (initialPolicies != null) {
-            for (Iterator<String> i = initialPolicies.iterator();
-                        i.hasNext();) {
-                if (!(i.next() instanceof String))
-                    throw new ClassCastException("all elements of set must be "
-                        + "of type java.lang.String");
+    publid void sftInitiblPolidifs(Sft<String> initiblPolidifs) {
+        if (initiblPolidifs != null) {
+            for (Itfrbtor<String> i = initiblPolidifs.itfrbtor();
+                        i.ibsNfxt();) {
+                if (!(i.nfxt() instbndfof String))
+                    tirow nfw ClbssCbstExdfption("bll flfmfnts of sft must bf "
+                        + "of typf jbvb.lbng.String");
             }
-            this.unmodInitialPolicies =
-                Collections.unmodifiableSet(new HashSet<String>(initialPolicies));
-        } else
-            this.unmodInitialPolicies = Collections.<String>emptySet();
+            tiis.unmodInitiblPolidifs =
+                Collfdtions.unmodifibblfSft(nfw HbsiSft<String>(initiblPolidifs));
+        } flsf
+            tiis.unmodInitiblPolidifs = Collfdtions.<String>fmptySft();
     }
 
     /**
-     * Sets the list of {@code CertStore}s to be used in finding
-     * certificates and CRLs. May be {@code null}, in which case
-     * no {@code CertStore}s will be used. The first
-     * {@code CertStore}s in the list may be preferred to those that
-     * appear later.
+     * Sfts tif list of {@dodf CfrtStorf}s to bf usfd in finding
+     * dfrtifidbtfs bnd CRLs. Mby bf {@dodf null}, in wiidi dbsf
+     * no {@dodf CfrtStorf}s will bf usfd. Tif first
+     * {@dodf CfrtStorf}s in tif list mby bf prfffrrfd to tiosf tibt
+     * bppfbr lbtfr.
      * <p>
-     * Note that the {@code List} is copied to protect against
-     * subsequent modifications.
+     * Notf tibt tif {@dodf List} is dopifd to protfdt bgbinst
+     * subsfqufnt modifidbtions.
      *
-     * @param stores a {@code List} of {@code CertStore}s (or
-     * {@code null})
-     * @throws ClassCastException if any of the elements in the list are
-     * not of type {@code java.security.cert.CertStore}
+     * @pbrbm storfs b {@dodf List} of {@dodf CfrtStorf}s (or
+     * {@dodf null})
+     * @tirows ClbssCbstExdfption if bny of tif flfmfnts in tif list brf
+     * not of typf {@dodf jbvb.sfdurity.dfrt.CfrtStorf}
      *
-     * @see #getCertStores
+     * @sff #gftCfrtStorfs
      */
-    public void setCertStores(List<CertStore> stores) {
-        if (stores == null) {
-            this.certStores = new ArrayList<CertStore>();
-        } else {
-            for (Iterator<CertStore> i = stores.iterator(); i.hasNext();) {
-                if (!(i.next() instanceof CertStore)) {
-                    throw new ClassCastException("all elements of list must be "
-                        + "of type java.security.cert.CertStore");
+    publid void sftCfrtStorfs(List<CfrtStorf> storfs) {
+        if (storfs == null) {
+            tiis.dfrtStorfs = nfw ArrbyList<CfrtStorf>();
+        } flsf {
+            for (Itfrbtor<CfrtStorf> i = storfs.itfrbtor(); i.ibsNfxt();) {
+                if (!(i.nfxt() instbndfof CfrtStorf)) {
+                    tirow nfw ClbssCbstExdfption("bll flfmfnts of list must bf "
+                        + "of typf jbvb.sfdurity.dfrt.CfrtStorf");
                 }
             }
-            this.certStores = new ArrayList<CertStore>(stores);
+            tiis.dfrtStorfs = nfw ArrbyList<CfrtStorf>(storfs);
         }
     }
 
     /**
-     * Adds a {@code CertStore} to the end of the list of
-     * {@code CertStore}s used in finding certificates and CRLs.
+     * Adds b {@dodf CfrtStorf} to tif fnd of tif list of
+     * {@dodf CfrtStorf}s usfd in finding dfrtifidbtfs bnd CRLs.
      *
-     * @param store the {@code CertStore} to add. If {@code null},
-     * the store is ignored (not added to list).
+     * @pbrbm storf tif {@dodf CfrtStorf} to bdd. If {@dodf null},
+     * tif storf is ignorfd (not bddfd to list).
      */
-    public void addCertStore(CertStore store) {
-        if (store != null) {
-            this.certStores.add(store);
+    publid void bddCfrtStorf(CfrtStorf storf) {
+        if (storf != null) {
+            tiis.dfrtStorfs.bdd(storf);
         }
     }
 
     /**
-     * Returns an immutable {@code List} of {@code CertStore}s that
-     * are used to find certificates and CRLs.
+     * Rfturns bn immutbblf {@dodf List} of {@dodf CfrtStorf}s tibt
+     * brf usfd to find dfrtifidbtfs bnd CRLs.
      *
-     * @return an immutable {@code List} of {@code CertStore}s
-     * (may be empty, but never {@code null})
+     * @rfturn bn immutbblf {@dodf List} of {@dodf CfrtStorf}s
+     * (mby bf fmpty, but nfvfr {@dodf null})
      *
-     * @see #setCertStores
+     * @sff #sftCfrtStorfs
      */
-    public List<CertStore> getCertStores() {
-        return Collections.unmodifiableList
-                (new ArrayList<CertStore>(this.certStores));
+    publid List<CfrtStorf> gftCfrtStorfs() {
+        rfturn Collfdtions.unmodifibblfList
+                (nfw ArrbyList<CfrtStorf>(tiis.dfrtStorfs));
     }
 
     /**
-     * Sets the RevocationEnabled flag. If this flag is true, the default
-     * revocation checking mechanism of the underlying PKIX service provider
-     * will be used. If this flag is false, the default revocation checking
-     * mechanism will be disabled (not used).
+     * Sfts tif RfvodbtionEnbblfd flbg. If tiis flbg is truf, tif dffbult
+     * rfvodbtion difdking mfdibnism of tif undfrlying PKIX sfrvidf providfr
+     * will bf usfd. If tiis flbg is fblsf, tif dffbult rfvodbtion difdking
+     * mfdibnism will bf disbblfd (not usfd).
      * <p>
-     * When a {@code PKIXParameters} object is created, this flag is set
-     * to true. This setting reflects the most common strategy for checking
-     * revocation, since each service provider must support revocation
-     * checking to be PKIX compliant. Sophisticated applications should set
-     * this flag to false when it is not practical to use a PKIX service
-     * provider's default revocation checking mechanism or when an alternative
-     * revocation checking mechanism is to be substituted (by also calling the
-     * {@link #addCertPathChecker addCertPathChecker} or {@link
-     * #setCertPathCheckers setCertPathCheckers} methods).
+     * Wifn b {@dodf PKIXPbrbmftfrs} objfdt is drfbtfd, tiis flbg is sft
+     * to truf. Tiis sftting rfflfdts tif most dommon strbtfgy for difdking
+     * rfvodbtion, sindf fbdi sfrvidf providfr must support rfvodbtion
+     * difdking to bf PKIX domplibnt. Sopiistidbtfd bpplidbtions siould sft
+     * tiis flbg to fblsf wifn it is not prbdtidbl to usf b PKIX sfrvidf
+     * providfr's dffbult rfvodbtion difdking mfdibnism or wifn bn bltfrnbtivf
+     * rfvodbtion difdking mfdibnism is to bf substitutfd (by blso dblling tif
+     * {@link #bddCfrtPbtiCifdkfr bddCfrtPbtiCifdkfr} or {@link
+     * #sftCfrtPbtiCifdkfrs sftCfrtPbtiCifdkfrs} mftiods).
      *
-     * @param val the new value of the RevocationEnabled flag
+     * @pbrbm vbl tif nfw vbluf of tif RfvodbtionEnbblfd flbg
      */
-    public void setRevocationEnabled(boolean val) {
-        revocationEnabled = val;
+    publid void sftRfvodbtionEnbblfd(boolfbn vbl) {
+        rfvodbtionEnbblfd = vbl;
     }
 
     /**
-     * Checks the RevocationEnabled flag. If this flag is true, the default
-     * revocation checking mechanism of the underlying PKIX service provider
-     * will be used. If this flag is false, the default revocation checking
-     * mechanism will be disabled (not used). See the {@link
-     * #setRevocationEnabled setRevocationEnabled} method for more details on
-     * setting the value of this flag.
+     * Cifdks tif RfvodbtionEnbblfd flbg. If tiis flbg is truf, tif dffbult
+     * rfvodbtion difdking mfdibnism of tif undfrlying PKIX sfrvidf providfr
+     * will bf usfd. If tiis flbg is fblsf, tif dffbult rfvodbtion difdking
+     * mfdibnism will bf disbblfd (not usfd). Sff tif {@link
+     * #sftRfvodbtionEnbblfd sftRfvodbtionEnbblfd} mftiod for morf dftbils on
+     * sftting tif vbluf of tiis flbg.
      *
-     * @return the current value of the RevocationEnabled flag
+     * @rfturn tif durrfnt vbluf of tif RfvodbtionEnbblfd flbg
      */
-    public boolean isRevocationEnabled() {
-        return revocationEnabled;
+    publid boolfbn isRfvodbtionEnbblfd() {
+        rfturn rfvodbtionEnbblfd;
     }
 
     /**
-     * Sets the ExplicitPolicyRequired flag. If this flag is true, an
-     * acceptable policy needs to be explicitly identified in every certificate.
-     * By default, the ExplicitPolicyRequired flag is false.
+     * Sfts tif ExpliditPolidyRfquirfd flbg. If tiis flbg is truf, bn
+     * bddfptbblf polidy nffds to bf fxpliditly idfntififd in fvfry dfrtifidbtf.
+     * By dffbult, tif ExpliditPolidyRfquirfd flbg is fblsf.
      *
-     * @param val {@code true} if explicit policy is to be required,
-     * {@code false} otherwise
+     * @pbrbm vbl {@dodf truf} if fxplidit polidy is to bf rfquirfd,
+     * {@dodf fblsf} otifrwisf
      */
-    public void setExplicitPolicyRequired(boolean val) {
-        explicitPolicyRequired = val;
+    publid void sftExpliditPolidyRfquirfd(boolfbn vbl) {
+        fxpliditPolidyRfquirfd = vbl;
     }
 
     /**
-     * Checks if explicit policy is required. If this flag is true, an
-     * acceptable policy needs to be explicitly identified in every certificate.
-     * By default, the ExplicitPolicyRequired flag is false.
+     * Cifdks if fxplidit polidy is rfquirfd. If tiis flbg is truf, bn
+     * bddfptbblf polidy nffds to bf fxpliditly idfntififd in fvfry dfrtifidbtf.
+     * By dffbult, tif ExpliditPolidyRfquirfd flbg is fblsf.
      *
-     * @return {@code true} if explicit policy is required,
-     * {@code false} otherwise
+     * @rfturn {@dodf truf} if fxplidit polidy is rfquirfd,
+     * {@dodf fblsf} otifrwisf
      */
-    public boolean isExplicitPolicyRequired() {
-        return explicitPolicyRequired;
+    publid boolfbn isExpliditPolidyRfquirfd() {
+        rfturn fxpliditPolidyRfquirfd;
     }
 
     /**
-     * Sets the PolicyMappingInhibited flag. If this flag is true, policy
-     * mapping is inhibited. By default, policy mapping is not inhibited (the
-     * flag is false).
+     * Sfts tif PolidyMbppingIniibitfd flbg. If tiis flbg is truf, polidy
+     * mbpping is iniibitfd. By dffbult, polidy mbpping is not iniibitfd (tif
+     * flbg is fblsf).
      *
-     * @param val {@code true} if policy mapping is to be inhibited,
-     * {@code false} otherwise
+     * @pbrbm vbl {@dodf truf} if polidy mbpping is to bf iniibitfd,
+     * {@dodf fblsf} otifrwisf
      */
-    public void setPolicyMappingInhibited(boolean val) {
-        policyMappingInhibited = val;
+    publid void sftPolidyMbppingIniibitfd(boolfbn vbl) {
+        polidyMbppingIniibitfd = vbl;
     }
 
     /**
-     * Checks if policy mapping is inhibited. If this flag is true, policy
-     * mapping is inhibited. By default, policy mapping is not inhibited (the
-     * flag is false).
+     * Cifdks if polidy mbpping is iniibitfd. If tiis flbg is truf, polidy
+     * mbpping is iniibitfd. By dffbult, polidy mbpping is not iniibitfd (tif
+     * flbg is fblsf).
      *
-     * @return true if policy mapping is inhibited, false otherwise
+     * @rfturn truf if polidy mbpping is iniibitfd, fblsf otifrwisf
      */
-    public boolean isPolicyMappingInhibited() {
-        return policyMappingInhibited;
+    publid boolfbn isPolidyMbppingIniibitfd() {
+        rfturn polidyMbppingIniibitfd;
     }
 
     /**
-     * Sets state to determine if the any policy OID should be processed
-     * if it is included in a certificate. By default, the any policy OID
-     * is not inhibited ({@link #isAnyPolicyInhibited isAnyPolicyInhibited()}
-     * returns {@code false}).
+     * Sfts stbtf to dftfrminf if tif bny polidy OID siould bf prodfssfd
+     * if it is indludfd in b dfrtifidbtf. By dffbult, tif bny polidy OID
+     * is not iniibitfd ({@link #isAnyPolidyIniibitfd isAnyPolidyIniibitfd()}
+     * rfturns {@dodf fblsf}).
      *
-     * @param val {@code true} if the any policy OID is to be
-     * inhibited, {@code false} otherwise
+     * @pbrbm vbl {@dodf truf} if tif bny polidy OID is to bf
+     * iniibitfd, {@dodf fblsf} otifrwisf
      */
-    public void setAnyPolicyInhibited(boolean val) {
-        anyPolicyInhibited = val;
+    publid void sftAnyPolidyIniibitfd(boolfbn vbl) {
+        bnyPolidyIniibitfd = vbl;
     }
 
     /**
-     * Checks whether the any policy OID should be processed if it
-     * is included in a certificate.
+     * Cifdks wiftifr tif bny polidy OID siould bf prodfssfd if it
+     * is indludfd in b dfrtifidbtf.
      *
-     * @return {@code true} if the any policy OID is inhibited,
-     * {@code false} otherwise
+     * @rfturn {@dodf truf} if tif bny polidy OID is iniibitfd,
+     * {@dodf fblsf} otifrwisf
      */
-    public boolean isAnyPolicyInhibited() {
-        return anyPolicyInhibited;
+    publid boolfbn isAnyPolidyIniibitfd() {
+        rfturn bnyPolidyIniibitfd;
     }
 
     /**
-     * Sets the PolicyQualifiersRejected flag. If this flag is true,
-     * certificates that include policy qualifiers in a certificate
-     * policies extension that is marked critical are rejected.
-     * If the flag is false, certificates are not rejected on this basis.
+     * Sfts tif PolidyQublififrsRfjfdtfd flbg. If tiis flbg is truf,
+     * dfrtifidbtfs tibt indludf polidy qublififrs in b dfrtifidbtf
+     * polidifs fxtfnsion tibt is mbrkfd dritidbl brf rfjfdtfd.
+     * If tif flbg is fblsf, dfrtifidbtfs brf not rfjfdtfd on tiis bbsis.
      *
-     * <p> When a {@code PKIXParameters} object is created, this flag is
-     * set to true. This setting reflects the most common (and simplest)
-     * strategy for processing policy qualifiers. Applications that want to use
-     * a more sophisticated policy must set this flag to false.
+     * <p> Wifn b {@dodf PKIXPbrbmftfrs} objfdt is drfbtfd, tiis flbg is
+     * sft to truf. Tiis sftting rfflfdts tif most dommon (bnd simplfst)
+     * strbtfgy for prodfssing polidy qublififrs. Applidbtions tibt wbnt to usf
+     * b morf sopiistidbtfd polidy must sft tiis flbg to fblsf.
      * <p>
-     * Note that the PKIX certification path validation algorithm specifies
-     * that any policy qualifier in a certificate policies extension that is
-     * marked critical must be processed and validated. Otherwise the
-     * certification path must be rejected. If the policyQualifiersRejected flag
-     * is set to false, it is up to the application to validate all policy
-     * qualifiers in this manner in order to be PKIX compliant.
+     * Notf tibt tif PKIX dfrtifidbtion pbti vblidbtion blgoritim spfdififs
+     * tibt bny polidy qublififr in b dfrtifidbtf polidifs fxtfnsion tibt is
+     * mbrkfd dritidbl must bf prodfssfd bnd vblidbtfd. Otifrwisf tif
+     * dfrtifidbtion pbti must bf rfjfdtfd. If tif polidyQublififrsRfjfdtfd flbg
+     * is sft to fblsf, it is up to tif bpplidbtion to vblidbtf bll polidy
+     * qublififrs in tiis mbnnfr in ordfr to bf PKIX domplibnt.
      *
-     * @param qualifiersRejected the new value of the PolicyQualifiersRejected
-     * flag
-     * @see #getPolicyQualifiersRejected
-     * @see PolicyQualifierInfo
+     * @pbrbm qublififrsRfjfdtfd tif nfw vbluf of tif PolidyQublififrsRfjfdtfd
+     * flbg
+     * @sff #gftPolidyQublififrsRfjfdtfd
+     * @sff PolidyQublififrInfo
      */
-    public void setPolicyQualifiersRejected(boolean qualifiersRejected) {
-        policyQualifiersRejected = qualifiersRejected;
+    publid void sftPolidyQublififrsRfjfdtfd(boolfbn qublififrsRfjfdtfd) {
+        polidyQublififrsRfjfdtfd = qublififrsRfjfdtfd;
     }
 
     /**
-     * Gets the PolicyQualifiersRejected flag. If this flag is true,
-     * certificates that include policy qualifiers in a certificate policies
-     * extension that is marked critical are rejected.
-     * If the flag is false, certificates are not rejected on this basis.
+     * Gfts tif PolidyQublififrsRfjfdtfd flbg. If tiis flbg is truf,
+     * dfrtifidbtfs tibt indludf polidy qublififrs in b dfrtifidbtf polidifs
+     * fxtfnsion tibt is mbrkfd dritidbl brf rfjfdtfd.
+     * If tif flbg is fblsf, dfrtifidbtfs brf not rfjfdtfd on tiis bbsis.
      *
-     * <p> When a {@code PKIXParameters} object is created, this flag is
-     * set to true. This setting reflects the most common (and simplest)
-     * strategy for processing policy qualifiers. Applications that want to use
-     * a more sophisticated policy must set this flag to false.
+     * <p> Wifn b {@dodf PKIXPbrbmftfrs} objfdt is drfbtfd, tiis flbg is
+     * sft to truf. Tiis sftting rfflfdts tif most dommon (bnd simplfst)
+     * strbtfgy for prodfssing polidy qublififrs. Applidbtions tibt wbnt to usf
+     * b morf sopiistidbtfd polidy must sft tiis flbg to fblsf.
      *
-     * @return the current value of the PolicyQualifiersRejected flag
-     * @see #setPolicyQualifiersRejected
+     * @rfturn tif durrfnt vbluf of tif PolidyQublififrsRfjfdtfd flbg
+     * @sff #sftPolidyQublififrsRfjfdtfd
      */
-    public boolean getPolicyQualifiersRejected() {
-        return policyQualifiersRejected;
+    publid boolfbn gftPolidyQublififrsRfjfdtfd() {
+        rfturn polidyQublififrsRfjfdtfd;
     }
 
     /**
-     * Returns the time for which the validity of the certification path
-     * should be determined. If {@code null}, the current time is used.
+     * Rfturns tif timf for wiidi tif vblidity of tif dfrtifidbtion pbti
+     * siould bf dftfrminfd. If {@dodf null}, tif durrfnt timf is usfd.
      * <p>
-     * Note that the {@code Date} returned is copied to protect against
-     * subsequent modifications.
+     * Notf tibt tif {@dodf Dbtf} rfturnfd is dopifd to protfdt bgbinst
+     * subsfqufnt modifidbtions.
      *
-     * @return the {@code Date}, or {@code null} if not set
-     * @see #setDate
+     * @rfturn tif {@dodf Dbtf}, or {@dodf null} if not sft
+     * @sff #sftDbtf
      */
-    public Date getDate() {
-        if (date == null)
-            return null;
-        else
-            return (Date) this.date.clone();
+    publid Dbtf gftDbtf() {
+        if (dbtf == null)
+            rfturn null;
+        flsf
+            rfturn (Dbtf) tiis.dbtf.dlonf();
     }
 
     /**
-     * Sets the time for which the validity of the certification path
-     * should be determined. If {@code null}, the current time is used.
+     * Sfts tif timf for wiidi tif vblidity of tif dfrtifidbtion pbti
+     * siould bf dftfrminfd. If {@dodf null}, tif durrfnt timf is usfd.
      * <p>
-     * Note that the {@code Date} supplied here is copied to protect
-     * against subsequent modifications.
+     * Notf tibt tif {@dodf Dbtf} supplifd ifrf is dopifd to protfdt
+     * bgbinst subsfqufnt modifidbtions.
      *
-     * @param date the {@code Date}, or {@code null} for the
-     * current time
-     * @see #getDate
+     * @pbrbm dbtf tif {@dodf Dbtf}, or {@dodf null} for tif
+     * durrfnt timf
+     * @sff #gftDbtf
      */
-    public void setDate(Date date) {
-        if (date != null)
-            this.date = (Date) date.clone();
-        else
-            date = null;
+    publid void sftDbtf(Dbtf dbtf) {
+        if (dbtf != null)
+            tiis.dbtf = (Dbtf) dbtf.dlonf();
+        flsf
+            dbtf = null;
     }
 
     /**
-     * Sets a {@code List} of additional certification path checkers. If
-     * the specified {@code List} contains an object that is not a
-     * {@code PKIXCertPathChecker}, it is ignored.
+     * Sfts b {@dodf List} of bdditionbl dfrtifidbtion pbti difdkfrs. If
+     * tif spfdififd {@dodf List} dontbins bn objfdt tibt is not b
+     * {@dodf PKIXCfrtPbtiCifdkfr}, it is ignorfd.
      * <p>
-     * Each {@code PKIXCertPathChecker} specified implements
-     * additional checks on a certificate. Typically, these are checks to
-     * process and verify private extensions contained in certificates.
-     * Each {@code PKIXCertPathChecker} should be instantiated with any
-     * initialization parameters needed to execute the check.
+     * Ebdi {@dodf PKIXCfrtPbtiCifdkfr} spfdififd implfmfnts
+     * bdditionbl difdks on b dfrtifidbtf. Typidblly, tifsf brf difdks to
+     * prodfss bnd vfrify privbtf fxtfnsions dontbinfd in dfrtifidbtfs.
+     * Ebdi {@dodf PKIXCfrtPbtiCifdkfr} siould bf instbntibtfd witi bny
+     * initiblizbtion pbrbmftfrs nffdfd to fxfdutf tif difdk.
      * <p>
-     * This method allows sophisticated applications to extend a PKIX
-     * {@code CertPathValidator} or {@code CertPathBuilder}.
-     * Each of the specified {@code PKIXCertPathChecker}s will be called,
-     * in turn, by a PKIX {@code CertPathValidator} or
-     * {@code CertPathBuilder} for each certificate processed or
-     * validated.
+     * Tiis mftiod bllows sopiistidbtfd bpplidbtions to fxtfnd b PKIX
+     * {@dodf CfrtPbtiVblidbtor} or {@dodf CfrtPbtiBuildfr}.
+     * Ebdi of tif spfdififd {@dodf PKIXCfrtPbtiCifdkfr}s will bf dbllfd,
+     * in turn, by b PKIX {@dodf CfrtPbtiVblidbtor} or
+     * {@dodf CfrtPbtiBuildfr} for fbdi dfrtifidbtf prodfssfd or
+     * vblidbtfd.
      * <p>
-     * Regardless of whether these additional {@code PKIXCertPathChecker}s
-     * are set, a PKIX {@code CertPathValidator} or
-     * {@code CertPathBuilder} must perform all of the required PKIX
-     * checks on each certificate. The one exception to this rule is if the
-     * RevocationEnabled flag is set to false (see the {@link
-     * #setRevocationEnabled setRevocationEnabled} method).
+     * Rfgbrdlfss of wiftifr tifsf bdditionbl {@dodf PKIXCfrtPbtiCifdkfr}s
+     * brf sft, b PKIX {@dodf CfrtPbtiVblidbtor} or
+     * {@dodf CfrtPbtiBuildfr} must pfrform bll of tif rfquirfd PKIX
+     * difdks on fbdi dfrtifidbtf. Tif onf fxdfption to tiis rulf is if tif
+     * RfvodbtionEnbblfd flbg is sft to fblsf (sff tif {@link
+     * #sftRfvodbtionEnbblfd sftRfvodbtionEnbblfd} mftiod).
      * <p>
-     * Note that the {@code List} supplied here is copied and each
-     * {@code PKIXCertPathChecker} in the list is cloned to protect
-     * against subsequent modifications.
+     * Notf tibt tif {@dodf List} supplifd ifrf is dopifd bnd fbdi
+     * {@dodf PKIXCfrtPbtiCifdkfr} in tif list is dlonfd to protfdt
+     * bgbinst subsfqufnt modifidbtions.
      *
-     * @param checkers a {@code List} of {@code PKIXCertPathChecker}s.
-     * May be {@code null}, in which case no additional checkers will be
-     * used.
-     * @throws ClassCastException if any of the elements in the list
-     * are not of type {@code java.security.cert.PKIXCertPathChecker}
-     * @see #getCertPathCheckers
+     * @pbrbm difdkfrs b {@dodf List} of {@dodf PKIXCfrtPbtiCifdkfr}s.
+     * Mby bf {@dodf null}, in wiidi dbsf no bdditionbl difdkfrs will bf
+     * usfd.
+     * @tirows ClbssCbstExdfption if bny of tif flfmfnts in tif list
+     * brf not of typf {@dodf jbvb.sfdurity.dfrt.PKIXCfrtPbtiCifdkfr}
+     * @sff #gftCfrtPbtiCifdkfrs
      */
-    public void setCertPathCheckers(List<PKIXCertPathChecker> checkers) {
-        if (checkers != null) {
-            List<PKIXCertPathChecker> tmpList =
-                        new ArrayList<PKIXCertPathChecker>();
-            for (PKIXCertPathChecker checker : checkers) {
-                tmpList.add((PKIXCertPathChecker)checker.clone());
+    publid void sftCfrtPbtiCifdkfrs(List<PKIXCfrtPbtiCifdkfr> difdkfrs) {
+        if (difdkfrs != null) {
+            List<PKIXCfrtPbtiCifdkfr> tmpList =
+                        nfw ArrbyList<PKIXCfrtPbtiCifdkfr>();
+            for (PKIXCfrtPbtiCifdkfr difdkfr : difdkfrs) {
+                tmpList.bdd((PKIXCfrtPbtiCifdkfr)difdkfr.dlonf());
             }
-            this.certPathCheckers = tmpList;
-        } else {
-            this.certPathCheckers = new ArrayList<PKIXCertPathChecker>();
+            tiis.dfrtPbtiCifdkfrs = tmpList;
+        } flsf {
+            tiis.dfrtPbtiCifdkfrs = nfw ArrbyList<PKIXCfrtPbtiCifdkfr>();
         }
     }
 
     /**
-     * Returns the {@code List} of certification path checkers.
-     * The returned {@code List} is immutable, and each
-     * {@code PKIXCertPathChecker} in the {@code List} is cloned
-     * to protect against subsequent modifications.
+     * Rfturns tif {@dodf List} of dfrtifidbtion pbti difdkfrs.
+     * Tif rfturnfd {@dodf List} is immutbblf, bnd fbdi
+     * {@dodf PKIXCfrtPbtiCifdkfr} in tif {@dodf List} is dlonfd
+     * to protfdt bgbinst subsfqufnt modifidbtions.
      *
-     * @return an immutable {@code List} of
-     * {@code PKIXCertPathChecker}s (may be empty, but not
-     * {@code null})
-     * @see #setCertPathCheckers
+     * @rfturn bn immutbblf {@dodf List} of
+     * {@dodf PKIXCfrtPbtiCifdkfr}s (mby bf fmpty, but not
+     * {@dodf null})
+     * @sff #sftCfrtPbtiCifdkfrs
      */
-    public List<PKIXCertPathChecker> getCertPathCheckers() {
-        List<PKIXCertPathChecker> tmpList = new ArrayList<PKIXCertPathChecker>();
-        for (PKIXCertPathChecker ck : certPathCheckers) {
-            tmpList.add((PKIXCertPathChecker)ck.clone());
+    publid List<PKIXCfrtPbtiCifdkfr> gftCfrtPbtiCifdkfrs() {
+        List<PKIXCfrtPbtiCifdkfr> tmpList = nfw ArrbyList<PKIXCfrtPbtiCifdkfr>();
+        for (PKIXCfrtPbtiCifdkfr dk : dfrtPbtiCifdkfrs) {
+            tmpList.bdd((PKIXCfrtPbtiCifdkfr)dk.dlonf());
         }
-        return Collections.unmodifiableList(tmpList);
+        rfturn Collfdtions.unmodifibblfList(tmpList);
     }
 
     /**
-     * Adds a {@code PKIXCertPathChecker} to the list of certification
-     * path checkers. See the {@link #setCertPathCheckers setCertPathCheckers}
-     * method for more details.
+     * Adds b {@dodf PKIXCfrtPbtiCifdkfr} to tif list of dfrtifidbtion
+     * pbti difdkfrs. Sff tif {@link #sftCfrtPbtiCifdkfrs sftCfrtPbtiCifdkfrs}
+     * mftiod for morf dftbils.
      * <p>
-     * Note that the {@code PKIXCertPathChecker} is cloned to protect
-     * against subsequent modifications.
+     * Notf tibt tif {@dodf PKIXCfrtPbtiCifdkfr} is dlonfd to protfdt
+     * bgbinst subsfqufnt modifidbtions.
      *
-     * @param checker a {@code PKIXCertPathChecker} to add to the list of
-     * checks. If {@code null}, the checker is ignored (not added to list).
+     * @pbrbm difdkfr b {@dodf PKIXCfrtPbtiCifdkfr} to bdd to tif list of
+     * difdks. If {@dodf null}, tif difdkfr is ignorfd (not bddfd to list).
      */
-    public void addCertPathChecker(PKIXCertPathChecker checker) {
-        if (checker != null) {
-            certPathCheckers.add((PKIXCertPathChecker)checker.clone());
+    publid void bddCfrtPbtiCifdkfr(PKIXCfrtPbtiCifdkfr difdkfr) {
+        if (difdkfr != null) {
+            dfrtPbtiCifdkfrs.bdd((PKIXCfrtPbtiCifdkfr)difdkfr.dlonf());
         }
     }
 
     /**
-     * Returns the signature provider's name, or {@code null}
-     * if not set.
+     * Rfturns tif signbturf providfr's nbmf, or {@dodf null}
+     * if not sft.
      *
-     * @return the signature provider's name (or {@code null})
-     * @see #setSigProvider
+     * @rfturn tif signbturf providfr's nbmf (or {@dodf null})
+     * @sff #sftSigProvidfr
      */
-    public String getSigProvider() {
-        return this.sigProvider;
+    publid String gftSigProvidfr() {
+        rfturn tiis.sigProvidfr;
     }
 
     /**
-     * Sets the signature provider's name. The specified provider will be
-     * preferred when creating {@link java.security.Signature Signature}
-     * objects. If {@code null} or not set, the first provider found
-     * supporting the algorithm will be used.
+     * Sfts tif signbturf providfr's nbmf. Tif spfdififd providfr will bf
+     * prfffrrfd wifn drfbting {@link jbvb.sfdurity.Signbturf Signbturf}
+     * objfdts. If {@dodf null} or not sft, tif first providfr found
+     * supporting tif blgoritim will bf usfd.
      *
-     * @param sigProvider the signature provider's name (or {@code null})
-     * @see #getSigProvider
+     * @pbrbm sigProvidfr tif signbturf providfr's nbmf (or {@dodf null})
+     * @sff #gftSigProvidfr
     */
-    public void setSigProvider(String sigProvider) {
-        this.sigProvider = sigProvider;
+    publid void sftSigProvidfr(String sigProvidfr) {
+        tiis.sigProvidfr = sigProvidfr;
     }
 
     /**
-     * Returns the required constraints on the target certificate.
-     * The constraints are returned as an instance of {@code CertSelector}.
-     * If {@code null}, no constraints are defined.
+     * Rfturns tif rfquirfd donstrbints on tif tbrgft dfrtifidbtf.
+     * Tif donstrbints brf rfturnfd bs bn instbndf of {@dodf CfrtSflfdtor}.
+     * If {@dodf null}, no donstrbints brf dffinfd.
      *
-     * <p>Note that the {@code CertSelector} returned is cloned
-     * to protect against subsequent modifications.
+     * <p>Notf tibt tif {@dodf CfrtSflfdtor} rfturnfd is dlonfd
+     * to protfdt bgbinst subsfqufnt modifidbtions.
      *
-     * @return a {@code CertSelector} specifying the constraints
-     * on the target certificate (or {@code null})
-     * @see #setTargetCertConstraints
+     * @rfturn b {@dodf CfrtSflfdtor} spfdifying tif donstrbints
+     * on tif tbrgft dfrtifidbtf (or {@dodf null})
+     * @sff #sftTbrgftCfrtConstrbints
      */
-    public CertSelector getTargetCertConstraints() {
-        if (certSelector != null) {
-            return (CertSelector) certSelector.clone();
-        } else {
-            return null;
+    publid CfrtSflfdtor gftTbrgftCfrtConstrbints() {
+        if (dfrtSflfdtor != null) {
+            rfturn (CfrtSflfdtor) dfrtSflfdtor.dlonf();
+        } flsf {
+            rfturn null;
         }
     }
 
     /**
-     * Sets the required constraints on the target certificate.
-     * The constraints are specified as an instance of
-     * {@code CertSelector}. If {@code null}, no constraints are
-     * defined.
+     * Sfts tif rfquirfd donstrbints on tif tbrgft dfrtifidbtf.
+     * Tif donstrbints brf spfdififd bs bn instbndf of
+     * {@dodf CfrtSflfdtor}. If {@dodf null}, no donstrbints brf
+     * dffinfd.
      *
-     * <p>Note that the {@code CertSelector} specified is cloned
-     * to protect against subsequent modifications.
+     * <p>Notf tibt tif {@dodf CfrtSflfdtor} spfdififd is dlonfd
+     * to protfdt bgbinst subsfqufnt modifidbtions.
      *
-     * @param selector a {@code CertSelector} specifying the constraints
-     * on the target certificate (or {@code null})
-     * @see #getTargetCertConstraints
+     * @pbrbm sflfdtor b {@dodf CfrtSflfdtor} spfdifying tif donstrbints
+     * on tif tbrgft dfrtifidbtf (or {@dodf null})
+     * @sff #gftTbrgftCfrtConstrbints
      */
-    public void setTargetCertConstraints(CertSelector selector) {
-        if (selector != null)
-            certSelector = (CertSelector) selector.clone();
-        else
-            certSelector = null;
+    publid void sftTbrgftCfrtConstrbints(CfrtSflfdtor sflfdtor) {
+        if (sflfdtor != null)
+            dfrtSflfdtor = (CfrtSflfdtor) sflfdtor.dlonf();
+        flsf
+            dfrtSflfdtor = null;
     }
 
     /**
-     * Makes a copy of this {@code PKIXParameters} object. Changes
-     * to the copy will not affect the original and vice versa.
+     * Mbkfs b dopy of tiis {@dodf PKIXPbrbmftfrs} objfdt. Cibngfs
+     * to tif dopy will not bfffdt tif originbl bnd vidf vfrsb.
      *
-     * @return a copy of this {@code PKIXParameters} object
+     * @rfturn b dopy of tiis {@dodf PKIXPbrbmftfrs} objfdt
      */
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            PKIXParameters copy = (PKIXParameters)super.clone();
+            PKIXPbrbmftfrs dopy = (PKIXPbrbmftfrs)supfr.dlonf();
 
-            // must clone these because addCertStore, et al. modify them
-            if (certStores != null) {
-                copy.certStores = new ArrayList<CertStore>(certStores);
+            // must dlonf tifsf bfdbusf bddCfrtStorf, ft bl. modify tifm
+            if (dfrtStorfs != null) {
+                dopy.dfrtStorfs = nfw ArrbyList<CfrtStorf>(dfrtStorfs);
             }
-            if (certPathCheckers != null) {
-                copy.certPathCheckers =
-                    new ArrayList<PKIXCertPathChecker>(certPathCheckers.size());
-                for (PKIXCertPathChecker checker : certPathCheckers) {
-                    copy.certPathCheckers.add(
-                                    (PKIXCertPathChecker)checker.clone());
+            if (dfrtPbtiCifdkfrs != null) {
+                dopy.dfrtPbtiCifdkfrs =
+                    nfw ArrbyList<PKIXCfrtPbtiCifdkfr>(dfrtPbtiCifdkfrs.sizf());
+                for (PKIXCfrtPbtiCifdkfr difdkfr : dfrtPbtiCifdkfrs) {
+                    dopy.dfrtPbtiCifdkfrs.bdd(
+                                    (PKIXCfrtPbtiCifdkfr)difdkfr.dlonf());
                 }
             }
 
-            // other class fields are immutable to public, don't bother
-            // to clone the read-only fields.
-            return copy;
-        } catch (CloneNotSupportedException e) {
-            /* Cannot happen */
-            throw new InternalError(e.toString(), e);
+            // otifr dlbss fiflds brf immutbblf to publid, don't botifr
+            // to dlonf tif rfbd-only fiflds.
+            rfturn dopy;
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            /* Cbnnot ibppfn */
+            tirow nfw IntfrnblError(f.toString(), f);
         }
     }
 
     /**
-     * Returns a formatted string describing the parameters.
+     * Rfturns b formbttfd string dfsdribing tif pbrbmftfrs.
      *
-     * @return a formatted string describing the parameters.
+     * @rfturn b formbttfd string dfsdribing tif pbrbmftfrs.
      */
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[\n");
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("[\n");
 
-        /* start with trusted anchor info */
-        if (unmodTrustAnchors != null) {
-            sb.append("  Trust Anchors: " + unmodTrustAnchors.toString()
+        /* stbrt witi trustfd bndior info */
+        if (unmodTrustAndiors != null) {
+            sb.bppfnd("  Trust Andiors: " + unmodTrustAndiors.toString()
                 + "\n");
         }
 
-        /* now, append initial state information */
-        if (unmodInitialPolicies != null) {
-            if (unmodInitialPolicies.isEmpty()) {
-                sb.append("  Initial Policy OIDs: any\n");
-            } else {
-                sb.append("  Initial Policy OIDs: ["
-                    + unmodInitialPolicies.toString() + "]\n");
+        /* now, bppfnd initibl stbtf informbtion */
+        if (unmodInitiblPolidifs != null) {
+            if (unmodInitiblPolidifs.isEmpty()) {
+                sb.bppfnd("  Initibl Polidy OIDs: bny\n");
+            } flsf {
+                sb.bppfnd("  Initibl Polidy OIDs: ["
+                    + unmodInitiblPolidifs.toString() + "]\n");
             }
         }
 
-        /* now, append constraints on all certificates in the path */
-        sb.append("  Validity Date: " + String.valueOf(date) + "\n");
-        sb.append("  Signature Provider: " + String.valueOf(sigProvider) + "\n");
-        sb.append("  Default Revocation Enabled: " + revocationEnabled + "\n");
-        sb.append("  Explicit Policy Required: " + explicitPolicyRequired + "\n");
-        sb.append("  Policy Mapping Inhibited: " + policyMappingInhibited + "\n");
-        sb.append("  Any Policy Inhibited: " + anyPolicyInhibited + "\n");
-        sb.append("  Policy Qualifiers Rejected: " + policyQualifiersRejected + "\n");
+        /* now, bppfnd donstrbints on bll dfrtifidbtfs in tif pbti */
+        sb.bppfnd("  Vblidity Dbtf: " + String.vblufOf(dbtf) + "\n");
+        sb.bppfnd("  Signbturf Providfr: " + String.vblufOf(sigProvidfr) + "\n");
+        sb.bppfnd("  Dffbult Rfvodbtion Enbblfd: " + rfvodbtionEnbblfd + "\n");
+        sb.bppfnd("  Explidit Polidy Rfquirfd: " + fxpliditPolidyRfquirfd + "\n");
+        sb.bppfnd("  Polidy Mbpping Iniibitfd: " + polidyMbppingIniibitfd + "\n");
+        sb.bppfnd("  Any Polidy Iniibitfd: " + bnyPolidyIniibitfd + "\n");
+        sb.bppfnd("  Polidy Qublififrs Rfjfdtfd: " + polidyQublififrsRfjfdtfd + "\n");
 
-        /* now, append target cert requirements */
-        sb.append("  Target Cert Constraints: " + String.valueOf(certSelector) + "\n");
+        /* now, bppfnd tbrgft dfrt rfquirfmfnts */
+        sb.bppfnd("  Tbrgft Cfrt Constrbints: " + String.vblufOf(dfrtSflfdtor) + "\n");
 
-        /* finally, append miscellaneous parameters */
-        if (certPathCheckers != null)
-            sb.append("  Certification Path Checkers: ["
-                + certPathCheckers.toString() + "]\n");
-        if (certStores != null)
-            sb.append("  CertStores: [" + certStores.toString() + "]\n");
-        sb.append("]");
-        return sb.toString();
+        /* finblly, bppfnd misdfllbnfous pbrbmftfrs */
+        if (dfrtPbtiCifdkfrs != null)
+            sb.bppfnd("  Cfrtifidbtion Pbti Cifdkfrs: ["
+                + dfrtPbtiCifdkfrs.toString() + "]\n");
+        if (dfrtStorfs != null)
+            sb.bppfnd("  CfrtStorfs: [" + dfrtStorfs.toString() + "]\n");
+        sb.bppfnd("]");
+        rfturn sb.toString();
     }
 }

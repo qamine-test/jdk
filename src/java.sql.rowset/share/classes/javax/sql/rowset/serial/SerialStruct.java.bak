@@ -1,348 +1,348 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sql.rowset.serial;
+pbdkbgf jbvbx.sql.rowsft.sfribl;
 
-import java.sql.*;
-import javax.sql.*;
-import java.io.*;
-import java.math.*;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Vector;
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvb.io.*;
+import jbvb.mbti.*;
+import jbvb.util.Arrbys;
+import jbvb.util.Mbp;
+import jbvb.util.Vfdtor;
 
-import javax.sql.rowset.*;
+import jbvbx.sql.rowsft.*;
 
 /**
- * A serialized mapping in the Java programming language of an SQL
- * structured type. Each attribute that is not already serialized
- * is mapped to a serialized form, and if an attribute is itself
- * a structured type, each of its attributes that is not already
- * serialized is mapped to a serialized form.
+ * A sfriblizfd mbpping in tif Jbvb progrbmming lbngubgf of bn SQL
+ * strudturfd typf. Ebdi bttributf tibt is not blrfbdy sfriblizfd
+ * is mbppfd to b sfriblizfd form, bnd if bn bttributf is itsflf
+ * b strudturfd typf, fbdi of its bttributfs tibt is not blrfbdy
+ * sfriblizfd is mbppfd to b sfriblizfd form.
  * <P>
- * In addition, the structured type is custom mapped to a class in the
- * Java programming language if there is such a mapping, as are
- * its attributes, if appropriate.
+ * In bddition, tif strudturfd typf is dustom mbppfd to b dlbss in tif
+ * Jbvb progrbmming lbngubgf if tifrf is sudi b mbpping, bs brf
+ * its bttributfs, if bppropribtf.
  * <P>
- * The <code>SerialStruct</code> class provides a constructor for creating
- * an instance from a <code>Struct</code> object, a method for retrieving
- * the SQL type name of the SQL structured type in the database, and methods
- * for retrieving its attribute values.
+ * Tif <dodf>SfriblStrudt</dodf> dlbss providfs b donstrudtor for drfbting
+ * bn instbndf from b <dodf>Strudt</dodf> objfdt, b mftiod for rftrifving
+ * tif SQL typf nbmf of tif SQL strudturfd typf in tif dbtbbbsf, bnd mftiods
+ * for rftrifving its bttributf vblufs.
  *
- * <h3> Thread safety </h3>
+ * <i3> Tirfbd sbffty </i3>
  *
- * A SerialStruct is not safe for use by multiple concurrent threads.  If a
- * SerialStruct is to be used by more than one thread then access to the
- * SerialStruct should be controlled by appropriate synchronization.
+ * A SfriblStrudt is not sbff for usf by multiplf dondurrfnt tirfbds.  If b
+ * SfriblStrudt is to bf usfd by morf tibn onf tirfbd tifn bddfss to tif
+ * SfriblStrudt siould bf dontrollfd by bppropribtf syndironizbtion.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class SerialStruct implements Struct, Serializable, Cloneable {
+publid dlbss SfriblStrudt implfmfnts Strudt, Sfriblizbblf, Clonfbblf {
 
 
     /**
-     * The SQL type name for the structured type that this
-     * <code>SerialStruct</code> object represents.  This is the name
-     * used in the SQL definition of the SQL structured type.
+     * Tif SQL typf nbmf for tif strudturfd typf tibt tiis
+     * <dodf>SfriblStrudt</dodf> objfdt rfprfsfnts.  Tiis is tif nbmf
+     * usfd in tif SQL dffinition of tif SQL strudturfd typf.
      *
-     * @serial
+     * @sfribl
      */
-    private String SQLTypeName;
+    privbtf String SQLTypfNbmf;
 
     /**
-     * An array of <code>Object</code> instances in  which each
-     * element is an attribute of the SQL structured type that this
-     * <code>SerialStruct</code> object represents.  The attributes are
-     * ordered according to their order in the definition of the
-     * SQL structured type.
+     * An brrby of <dodf>Objfdt</dodf> instbndfs in  wiidi fbdi
+     * flfmfnt is bn bttributf of tif SQL strudturfd typf tibt tiis
+     * <dodf>SfriblStrudt</dodf> objfdt rfprfsfnts.  Tif bttributfs brf
+     * ordfrfd bddording to tifir ordfr in tif dffinition of tif
+     * SQL strudturfd typf.
      *
-     * @serial
+     * @sfribl
      */
-    private Object attribs[];
+    privbtf Objfdt bttribs[];
 
     /**
-     * Constructs a <code>SerialStruct</code> object from the given
-     * <code>Struct</code> object, using the given <code>java.util.Map</code>
-     * object for custom mapping the SQL structured type or any of its
-     * attributes that are SQL structured types.
+     * Construdts b <dodf>SfriblStrudt</dodf> objfdt from tif givfn
+     * <dodf>Strudt</dodf> objfdt, using tif givfn <dodf>jbvb.util.Mbp</dodf>
+     * objfdt for dustom mbpping tif SQL strudturfd typf or bny of its
+     * bttributfs tibt brf SQL strudturfd typfs.
      *
-     * @param in an instance of {@code Struct}
-     * @param map a <code>java.util.Map</code> object in which
-     *        each entry consists of 1) a <code>String</code> object
-     *        giving the fully qualified name of a UDT and 2) the
-     *        <code>Class</code> object for the <code>SQLData</code> implementation
-     *        that defines how the UDT is to be mapped
-     * @throws SerialException if an error occurs
-     * @see java.sql.Struct
+     * @pbrbm in bn instbndf of {@dodf Strudt}
+     * @pbrbm mbp b <dodf>jbvb.util.Mbp</dodf> objfdt in wiidi
+     *        fbdi fntry donsists of 1) b <dodf>String</dodf> objfdt
+     *        giving tif fully qublififd nbmf of b UDT bnd 2) tif
+     *        <dodf>Clbss</dodf> objfdt for tif <dodf>SQLDbtb</dodf> implfmfntbtion
+     *        tibt dffinfs iow tif UDT is to bf mbppfd
+     * @tirows SfriblExdfption if bn frror oddurs
+     * @sff jbvb.sql.Strudt
      */
-     public SerialStruct(Struct in, Map<String,Class<?>> map)
-         throws SerialException
+     publid SfriblStrudt(Strudt in, Mbp<String,Clbss<?>> mbp)
+         tirows SfriblExdfption
      {
 
         try {
 
-        // get the type name
-        SQLTypeName = in.getSQLTypeName();
-        System.out.println("SQLTypeName: " + SQLTypeName);
+        // gft tif typf nbmf
+        SQLTypfNbmf = in.gftSQLTypfNbmf();
+        Systfm.out.println("SQLTypfNbmf: " + SQLTypfNbmf);
 
-        // get the attributes of the struct
-        attribs = in.getAttributes(map);
+        // gft tif bttributfs of tif strudt
+        bttribs = in.gftAttributfs(mbp);
 
         /*
-         * the array may contain further Structs
-         * and/or classes that have been mapped,
-         * other types that we have to serialize
+         * tif brrby mby dontbin furtifr Strudts
+         * bnd/or dlbssfs tibt ibvf bffn mbppfd,
+         * otifr typfs tibt wf ibvf to sfriblizf
          */
-        mapToSerial(map);
+        mbpToSfribl(mbp);
 
-        } catch (SQLException e) {
-            throw new SerialException(e.getMessage());
+        } dbtdi (SQLExdfption f) {
+            tirow nfw SfriblExdfption(f.gftMfssbgf());
         }
     }
 
      /**
-      * Constructs a <code>SerialStruct</code> object from the
-      * given <code>SQLData</code> object, using the given type
-      * map to custom map it to a class in the Java programming
-      * language.  The type map gives the SQL type and the class
-      * to which it is mapped.  The <code>SQLData</code> object
-      * defines the class to which the SQL type will be mapped.
+      * Construdts b <dodf>SfriblStrudt</dodf> objfdt from tif
+      * givfn <dodf>SQLDbtb</dodf> objfdt, using tif givfn typf
+      * mbp to dustom mbp it to b dlbss in tif Jbvb progrbmming
+      * lbngubgf.  Tif typf mbp givfs tif SQL typf bnd tif dlbss
+      * to wiidi it is mbppfd.  Tif <dodf>SQLDbtb</dodf> objfdt
+      * dffinfs tif dlbss to wiidi tif SQL typf will bf mbppfd.
       *
-      * @param in an instance of the <code>SQLData</code> class
-      *           that defines the mapping of the SQL structured
-      *           type to one or more objects in the Java programming language
-      * @param map a <code>java.util.Map</code> object in which
-      *        each entry consists of 1) a <code>String</code> object
-      *        giving the fully qualified name of a UDT and 2) the
-      *        <code>Class</code> object for the <code>SQLData</code> implementation
-      *        that defines how the UDT is to be mapped
-      * @throws SerialException if an error occurs
+      * @pbrbm in bn instbndf of tif <dodf>SQLDbtb</dodf> dlbss
+      *           tibt dffinfs tif mbpping of tif SQL strudturfd
+      *           typf to onf or morf objfdts in tif Jbvb progrbmming lbngubgf
+      * @pbrbm mbp b <dodf>jbvb.util.Mbp</dodf> objfdt in wiidi
+      *        fbdi fntry donsists of 1) b <dodf>String</dodf> objfdt
+      *        giving tif fully qublififd nbmf of b UDT bnd 2) tif
+      *        <dodf>Clbss</dodf> objfdt for tif <dodf>SQLDbtb</dodf> implfmfntbtion
+      *        tibt dffinfs iow tif UDT is to bf mbppfd
+      * @tirows SfriblExdfption if bn frror oddurs
       */
-    public SerialStruct(SQLData in, Map<String,Class<?>> map)
-        throws SerialException
+    publid SfriblStrudt(SQLDbtb in, Mbp<String,Clbss<?>> mbp)
+        tirows SfriblExdfption
     {
 
         try {
 
-        //set the type name
-        SQLTypeName = in.getSQLTypeName();
+        //sft tif typf nbmf
+        SQLTypfNbmf = in.gftSQLTypfNbmf();
 
-        Vector<Object> tmp = new Vector<>();
-        in.writeSQL(new SQLOutputImpl(tmp, map));
-        attribs = tmp.toArray();
+        Vfdtor<Objfdt> tmp = nfw Vfdtor<>();
+        in.writfSQL(nfw SQLOutputImpl(tmp, mbp));
+        bttribs = tmp.toArrby();
 
-        } catch (SQLException e) {
-            throw new SerialException(e.getMessage());
+        } dbtdi (SQLExdfption f) {
+            tirow nfw SfriblExdfption(f.gftMfssbgf());
         }
     }
 
 
     /**
-     * Retrieves the SQL type name for this <code>SerialStruct</code>
-     * object. This is the name used in the SQL definition of the
-     * structured type
+     * Rftrifvfs tif SQL typf nbmf for tiis <dodf>SfriblStrudt</dodf>
+     * objfdt. Tiis is tif nbmf usfd in tif SQL dffinition of tif
+     * strudturfd typf
      *
-     * @return a <code>String</code> object representing the SQL
-     *         type name for the SQL structured type that this
-     *         <code>SerialStruct</code> object represents
-     * @throws SerialException if an error occurs
+     * @rfturn b <dodf>String</dodf> objfdt rfprfsfnting tif SQL
+     *         typf nbmf for tif SQL strudturfd typf tibt tiis
+     *         <dodf>SfriblStrudt</dodf> objfdt rfprfsfnts
+     * @tirows SfriblExdfption if bn frror oddurs
      */
-    public String getSQLTypeName() throws SerialException {
-        return SQLTypeName;
+    publid String gftSQLTypfNbmf() tirows SfriblExdfption {
+        rfturn SQLTypfNbmf;
     }
 
     /**
-     * Retrieves an array of <code>Object</code> values containing the
-     * attributes of the SQL structured type that this
-     * <code>SerialStruct</code> object represents.
+     * Rftrifvfs bn brrby of <dodf>Objfdt</dodf> vblufs dontbining tif
+     * bttributfs of tif SQL strudturfd typf tibt tiis
+     * <dodf>SfriblStrudt</dodf> objfdt rfprfsfnts.
      *
-     * @return an array of <code>Object</code> values, with each
-     *         element being an attribute of the SQL structured type
-     *         that this <code>SerialStruct</code> object represents
-     * @throws SerialException if an error occurs
+     * @rfturn bn brrby of <dodf>Objfdt</dodf> vblufs, witi fbdi
+     *         flfmfnt bfing bn bttributf of tif SQL strudturfd typf
+     *         tibt tiis <dodf>SfriblStrudt</dodf> objfdt rfprfsfnts
+     * @tirows SfriblExdfption if bn frror oddurs
      */
-    public Object[]  getAttributes() throws SerialException {
-        Object[] val = this.attribs;
-        return (val == null) ? null : Arrays.copyOf(val, val.length);
+    publid Objfdt[]  gftAttributfs() tirows SfriblExdfption {
+        Objfdt[] vbl = tiis.bttribs;
+        rfturn (vbl == null) ? null : Arrbys.dopyOf(vbl, vbl.lfngti);
     }
 
     /**
-     * Retrieves the attributes for the SQL structured type that
-     * this <code>SerialStruct</code> represents as an array of
-     * <code>Object</code> values, using the given type map for
-     * custom mapping if appropriate.
+     * Rftrifvfs tif bttributfs for tif SQL strudturfd typf tibt
+     * tiis <dodf>SfriblStrudt</dodf> rfprfsfnts bs bn brrby of
+     * <dodf>Objfdt</dodf> vblufs, using tif givfn typf mbp for
+     * dustom mbpping if bppropribtf.
      *
-     * @param map a <code>java.util.Map</code> object in which
-     *        each entry consists of 1) a <code>String</code> object
-     *        giving the fully qualified name of a UDT and 2) the
-     *        <code>Class</code> object for the <code>SQLData</code> implementation
-     *        that defines how the UDT is to be mapped
-     * @return an array of <code>Object</code> values, with each
-     *         element being an attribute of the SQL structured
-     *         type that this <code>SerialStruct</code> object
-     *         represents
-     * @throws SerialException if an error occurs
+     * @pbrbm mbp b <dodf>jbvb.util.Mbp</dodf> objfdt in wiidi
+     *        fbdi fntry donsists of 1) b <dodf>String</dodf> objfdt
+     *        giving tif fully qublififd nbmf of b UDT bnd 2) tif
+     *        <dodf>Clbss</dodf> objfdt for tif <dodf>SQLDbtb</dodf> implfmfntbtion
+     *        tibt dffinfs iow tif UDT is to bf mbppfd
+     * @rfturn bn brrby of <dodf>Objfdt</dodf> vblufs, witi fbdi
+     *         flfmfnt bfing bn bttributf of tif SQL strudturfd
+     *         typf tibt tiis <dodf>SfriblStrudt</dodf> objfdt
+     *         rfprfsfnts
+     * @tirows SfriblExdfption if bn frror oddurs
      */
-    public Object[] getAttributes(Map<String,Class<?>> map)
-        throws SerialException
+    publid Objfdt[] gftAttributfs(Mbp<String,Clbss<?>> mbp)
+        tirows SfriblExdfption
     {
-        Object[] val = this.attribs;
-        return (val == null) ? null : Arrays.copyOf(val, val.length);
+        Objfdt[] vbl = tiis.bttribs;
+        rfturn (vbl == null) ? null : Arrbys.dopyOf(vbl, vbl.lfngti);
     }
 
 
     /**
-     * Maps attributes of an SQL structured type that are not
-     * serialized to a serialized form, using the given type map
-     * for custom mapping when appropriate.  The following types
-     * in the Java programming language are mapped to their
-     * serialized forms:  <code>Struct</code>, <code>SQLData</code>,
-     * <code>Ref</code>, <code>Blob</code>, <code>Clob</code>, and
-     * <code>Array</code>.
+     * Mbps bttributfs of bn SQL strudturfd typf tibt brf not
+     * sfriblizfd to b sfriblizfd form, using tif givfn typf mbp
+     * for dustom mbpping wifn bppropribtf.  Tif following typfs
+     * in tif Jbvb progrbmming lbngubgf brf mbppfd to tifir
+     * sfriblizfd forms:  <dodf>Strudt</dodf>, <dodf>SQLDbtb</dodf>,
+     * <dodf>Rff</dodf>, <dodf>Blob</dodf>, <dodf>Clob</dodf>, bnd
+     * <dodf>Arrby</dodf>.
      * <P>
-     * This method is called internally and is not used by an
-     * application programmer.
+     * Tiis mftiod is dbllfd intfrnblly bnd is not usfd by bn
+     * bpplidbtion progrbmmfr.
      *
-     * @param map a <code>java.util.Map</code> object in which
-     *        each entry consists of 1) a <code>String</code> object
-     *        giving the fully qualified name of a UDT and 2) the
-     *        <code>Class</code> object for the <code>SQLData</code> implementation
-     *        that defines how the UDT is to be mapped
-     * @throws SerialException if an error occurs
+     * @pbrbm mbp b <dodf>jbvb.util.Mbp</dodf> objfdt in wiidi
+     *        fbdi fntry donsists of 1) b <dodf>String</dodf> objfdt
+     *        giving tif fully qublififd nbmf of b UDT bnd 2) tif
+     *        <dodf>Clbss</dodf> objfdt for tif <dodf>SQLDbtb</dodf> implfmfntbtion
+     *        tibt dffinfs iow tif UDT is to bf mbppfd
+     * @tirows SfriblExdfption if bn frror oddurs
      */
-    private void mapToSerial(Map<String,Class<?>> map) throws SerialException {
+    privbtf void mbpToSfribl(Mbp<String,Clbss<?>> mbp) tirows SfriblExdfption {
 
         try {
 
-        for (int i = 0; i < attribs.length; i++) {
-            if (attribs[i] instanceof Struct) {
-                attribs[i] = new SerialStruct((Struct)attribs[i], map);
-            } else if (attribs[i] instanceof SQLData) {
-                attribs[i] = new SerialStruct((SQLData)attribs[i], map);
-            } else if (attribs[i] instanceof Blob) {
-                attribs[i] = new SerialBlob((Blob)attribs[i]);
-            } else if (attribs[i] instanceof Clob) {
-                attribs[i] = new SerialClob((Clob)attribs[i]);
-            } else if (attribs[i] instanceof Ref) {
-                attribs[i] = new SerialRef((Ref)attribs[i]);
-            } else if (attribs[i] instanceof java.sql.Array) {
-                attribs[i] = new SerialArray((java.sql.Array)attribs[i], map);
+        for (int i = 0; i < bttribs.lfngti; i++) {
+            if (bttribs[i] instbndfof Strudt) {
+                bttribs[i] = nfw SfriblStrudt((Strudt)bttribs[i], mbp);
+            } flsf if (bttribs[i] instbndfof SQLDbtb) {
+                bttribs[i] = nfw SfriblStrudt((SQLDbtb)bttribs[i], mbp);
+            } flsf if (bttribs[i] instbndfof Blob) {
+                bttribs[i] = nfw SfriblBlob((Blob)bttribs[i]);
+            } flsf if (bttribs[i] instbndfof Clob) {
+                bttribs[i] = nfw SfriblClob((Clob)bttribs[i]);
+            } flsf if (bttribs[i] instbndfof Rff) {
+                bttribs[i] = nfw SfriblRff((Rff)bttribs[i]);
+            } flsf if (bttribs[i] instbndfof jbvb.sql.Arrby) {
+                bttribs[i] = nfw SfriblArrby((jbvb.sql.Arrby)bttribs[i], mbp);
             }
         }
 
-        } catch (SQLException e) {
-            throw new SerialException(e.getMessage());
+        } dbtdi (SQLExdfption f) {
+            tirow nfw SfriblExdfption(f.gftMfssbgf());
         }
-        return;
+        rfturn;
     }
 
     /**
-     * Compares this SerialStruct to the specified object.  The result is
-     * {@code true} if and only if the argument is not {@code null} and is a
-     * {@code SerialStruct} object whose attributes are identical to this
-     * object's attributes
+     * Compbrfs tiis SfriblStrudt to tif spfdififd objfdt.  Tif rfsult is
+     * {@dodf truf} if bnd only if tif brgumfnt is not {@dodf null} bnd is b
+     * {@dodf SfriblStrudt} objfdt wiosf bttributfs brf idfntidbl to tiis
+     * objfdt's bttributfs
      *
-     * @param  obj The object to compare this {@code SerialStruct} against
+     * @pbrbm  obj Tif objfdt to dompbrf tiis {@dodf SfriblStrudt} bgbinst
      *
-     * @return {@code true} if the given object represents a {@code SerialStruct}
-     *          equivalent to this SerialStruct, {@code false} otherwise
+     * @rfturn {@dodf truf} if tif givfn objfdt rfprfsfnts b {@dodf SfriblStrudt}
+     *          fquivblfnt to tiis SfriblStrudt, {@dodf fblsf} otifrwisf
      *
      */
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (obj instanceof SerialStruct) {
-            SerialStruct ss = (SerialStruct)obj;
-            return SQLTypeName.equals(ss.SQLTypeName) &&
-                    Arrays.equals(attribs, ss.attribs);
+        if (obj instbndfof SfriblStrudt) {
+            SfriblStrudt ss = (SfriblStrudt)obj;
+            rfturn SQLTypfNbmf.fqubls(ss.SQLTypfNbmf) &&
+                    Arrbys.fqubls(bttribs, ss.bttribs);
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns a hash code for this {@code SerialStruct}. The hash code for a
-     * {@code SerialStruct} object is computed using the hash codes
-     * of the attributes of the {@code SerialStruct} object and its
-     * {@code SQLTypeName}
+     * Rfturns b ibsi dodf for tiis {@dodf SfriblStrudt}. Tif ibsi dodf for b
+     * {@dodf SfriblStrudt} objfdt is domputfd using tif ibsi dodfs
+     * of tif bttributfs of tif {@dodf SfriblStrudt} objfdt bnd its
+     * {@dodf SQLTypfNbmf}
      *
-     * @return  a hash code value for this object.
+     * @rfturn  b ibsi dodf vbluf for tiis objfdt.
      */
-    public int hashCode() {
-        return ((31 + Arrays.hashCode(attribs)) * 31) * 31
-                + SQLTypeName.hashCode();
+    publid int ibsiCodf() {
+        rfturn ((31 + Arrbys.ibsiCodf(bttribs)) * 31) * 31
+                + SQLTypfNbmf.ibsiCodf();
     }
 
     /**
-     * Returns a clone of this {@code SerialStruct}. The copy will contain a
-     * reference to a clone of the underlying attribs array, not a reference
-     * to the original underlying attribs array of this {@code SerialStruct} object.
+     * Rfturns b dlonf of tiis {@dodf SfriblStrudt}. Tif dopy will dontbin b
+     * rfffrfndf to b dlonf of tif undfrlying bttribs brrby, not b rfffrfndf
+     * to tif originbl undfrlying bttribs brrby of tiis {@dodf SfriblStrudt} objfdt.
      *
-     * @return  a clone of this SerialStruct
+     * @rfturn  b dlonf of tiis SfriblStrudt
      */
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            SerialStruct ss = (SerialStruct) super.clone();
-            ss.attribs = Arrays.copyOf(attribs, attribs.length);
-            return ss;
-        } catch (CloneNotSupportedException ex) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError();
+            SfriblStrudt ss = (SfriblStrudt) supfr.dlonf();
+            ss.bttribs = Arrbys.dopyOf(bttribs, bttribs.lfngti);
+            rfturn ss;
+        } dbtdi (ClonfNotSupportfdExdfption fx) {
+            // tiis siouldn't ibppfn, sindf wf brf Clonfbblf
+            tirow nfw IntfrnblError();
         }
 
     }
 
     /**
-     * readObject is called to restore the state of the {@code SerialStruct} from
-     * a stream.
+     * rfbdObjfdt is dbllfd to rfstorf tif stbtf of tif {@dodf SfriblStrudt} from
+     * b strfbm.
      */
-    private void readObject(ObjectInputStream s)
-            throws IOException, ClassNotFoundException {
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+            tirows IOExdfption, ClbssNotFoundExdfption {
 
-       ObjectInputStream.GetField fields = s.readFields();
-       Object[] tmp = (Object[])fields.get("attribs", null);
-       attribs = tmp == null ? null : tmp.clone();
-       SQLTypeName = (String)fields.get("SQLTypeName", null);
+       ObjfdtInputStrfbm.GftFifld fiflds = s.rfbdFiflds();
+       Objfdt[] tmp = (Objfdt[])fiflds.gft("bttribs", null);
+       bttribs = tmp == null ? null : tmp.dlonf();
+       SQLTypfNbmf = (String)fiflds.gft("SQLTypfNbmf", null);
     }
 
     /**
-     * writeObject is called to save the state of the {@code SerialStruct}
-     * to a stream.
+     * writfObjfdt is dbllfd to sbvf tif stbtf of tif {@dodf SfriblStrudt}
+     * to b strfbm.
      */
-    private void writeObject(ObjectOutputStream s)
-            throws IOException, ClassNotFoundException {
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+            tirows IOExdfption, ClbssNotFoundExdfption {
 
-        ObjectOutputStream.PutField fields = s.putFields();
-        fields.put("attribs", attribs);
-        fields.put("SQLTypeName", SQLTypeName);
-        s.writeFields();
+        ObjfdtOutputStrfbm.PutFifld fiflds = s.putFiflds();
+        fiflds.put("bttribs", bttribs);
+        fiflds.put("SQLTypfNbmf", SQLTypfNbmf);
+        s.writfFiflds();
     }
 
     /**
-     * The identifier that assists in the serialization of this
-     * <code>SerialStruct</code> object.
+     * Tif idfntififr tibt bssists in tif sfriblizbtion of tiis
+     * <dodf>SfriblStrudt</dodf> objfdt.
      */
-    static final long serialVersionUID = -8322445504027483372L;
+    stbtid finbl long sfriblVfrsionUID = -8322445504027483372L;
 }

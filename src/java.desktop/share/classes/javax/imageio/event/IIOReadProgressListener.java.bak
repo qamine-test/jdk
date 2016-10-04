@@ -1,170 +1,170 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio.event;
+pbdkbgf jbvbx.imbgfio.fvfnt;
 
-import java.util.EventListener;
-import javax.imageio.ImageReader;
+import jbvb.util.EvfntListfnfr;
+import jbvbx.imbgfio.ImbgfRfbdfr;
 
 /**
- * An interface used by <code>ImageReader</code> implementations to
- * notify callers of their image and thumbnail reading methods of
- * progress.
+ * An intfrfbdf usfd by <dodf>ImbgfRfbdfr</dodf> implfmfntbtions to
+ * notify dbllfrs of tifir imbgf bnd tiumbnbil rfbding mftiods of
+ * progrfss.
  *
- * <p> This interface receives general indications of decoding
- * progress (via the <code>imageProgress</code> and
- * <code>thumbnailProgress</code> methods), and events indicating when
- * an entire image has been updated (via the
- * <code>imageStarted</code>, <code>imageComplete</code>,
- * <code>thumbnailStarted</code> and <code>thumbnailComplete</code>
- * methods).  Applications that wish to be informed of pixel updates
- * as they happen (for example, during progressive decoding), should
- * provide an <code>IIOReadUpdateListener</code>.
+ * <p> Tiis intfrfbdf rfdfivfs gfnfrbl indidbtions of dfdoding
+ * progrfss (vib tif <dodf>imbgfProgrfss</dodf> bnd
+ * <dodf>tiumbnbilProgrfss</dodf> mftiods), bnd fvfnts indidbting wifn
+ * bn fntirf imbgf ibs bffn updbtfd (vib tif
+ * <dodf>imbgfStbrtfd</dodf>, <dodf>imbgfComplftf</dodf>,
+ * <dodf>tiumbnbilStbrtfd</dodf> bnd <dodf>tiumbnbilComplftf</dodf>
+ * mftiods).  Applidbtions tibt wisi to bf informfd of pixfl updbtfs
+ * bs tify ibppfn (for fxbmplf, during progrfssivf dfdoding), siould
+ * providf bn <dodf>IIORfbdUpdbtfListfnfr</dodf>.
  *
- * @see IIOReadUpdateListener
- * @see javax.imageio.ImageReader#addIIOReadProgressListener
- * @see javax.imageio.ImageReader#removeIIOReadProgressListener
+ * @sff IIORfbdUpdbtfListfnfr
+ * @sff jbvbx.imbgfio.ImbgfRfbdfr#bddIIORfbdProgrfssListfnfr
+ * @sff jbvbx.imbgfio.ImbgfRfbdfr#rfmovfIIORfbdProgrfssListfnfr
  *
  */
-public interface IIOReadProgressListener extends EventListener {
+publid intfrfbdf IIORfbdProgrfssListfnfr fxtfnds EvfntListfnfr {
 
     /**
-     * Reports that a sequence of read operations is beginning.
-     * <code>ImageReader</code> implementations are required to call
-     * this method exactly once from their
-     * <code>readAll(Iterator)</code> method.
+     * Rfports tibt b sfqufndf of rfbd opfrbtions is bfginning.
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * tiis mftiod fxbdtly ondf from tifir
+     * <dodf>rfbdAll(Itfrbtor)</dodf> mftiod.
      *
-     * @param source the <code>ImageReader</code> object calling this method.
-     * @param minIndex the index of the first image to be read.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm minIndfx tif indfx of tif first imbgf to bf rfbd.
      */
-    void sequenceStarted(ImageReader source, int minIndex);
+    void sfqufndfStbrtfd(ImbgfRfbdfr sourdf, int minIndfx);
 
     /**
-     * Reports that a sequence of read operations has completed.
-     * <code>ImageReader</code> implementations are required to call
-     * this method exactly once from their
-     * <code>readAll(Iterator)</code> method.
+     * Rfports tibt b sfqufndf of rfbd opfrbtions ibs domplftfd.
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * tiis mftiod fxbdtly ondf from tifir
+     * <dodf>rfbdAll(Itfrbtor)</dodf> mftiod.
      *
-     * @param source the <code>ImageReader</code> object calling this method.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
      */
-    void sequenceComplete(ImageReader source);
+    void sfqufndfComplftf(ImbgfRfbdfr sourdf);
 
     /**
-     * Reports that an image read operation is beginning.  All
-     * <code>ImageReader</code> implementations are required to call
-     * this method exactly once when beginning an image read
-     * operation.
+     * Rfports tibt bn imbgf rfbd opfrbtion is bfginning.  All
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * tiis mftiod fxbdtly ondf wifn bfginning bn imbgf rfbd
+     * opfrbtion.
      *
-     * @param source the <code>ImageReader</code> object calling this method.
-     * @param imageIndex the index of the image being read within its
-     * containing input file or stream.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm imbgfIndfx tif indfx of tif imbgf bfing rfbd witiin its
+     * dontbining input filf or strfbm.
      */
-    void imageStarted(ImageReader source, int imageIndex);
+    void imbgfStbrtfd(ImbgfRfbdfr sourdf, int imbgfIndfx);
 
     /**
-     * Reports the approximate degree of completion of the current
-     * <code>read</code> call of the associated
-     * <code>ImageReader</code>.
+     * Rfports tif bpproximbtf dfgrff of domplftion of tif durrfnt
+     * <dodf>rfbd</dodf> dbll of tif bssodibtfd
+     * <dodf>ImbgfRfbdfr</dodf>.
      *
-     * <p> The degree of completion is expressed as a percentage
-     * varying from <code>0.0F</code> to <code>100.0F</code>.  The
-     * percentage should ideally be calculated in terms of the
-     * remaining time to completion, but it is usually more practical
-     * to use a more well-defined metric such as pixels decoded or
-     * portion of input stream consumed.  In any case, a sequence of
-     * calls to this method during a given read operation should
-     * supply a monotonically increasing sequence of percentage
-     * values.  It is not necessary to supply the exact values
-     * <code>0</code> and <code>100</code>, as these may be inferred
-     * by the callee from other methods.
+     * <p> Tif dfgrff of domplftion is fxprfssfd bs b pfrdfntbgf
+     * vbrying from <dodf>0.0F</dodf> to <dodf>100.0F</dodf>.  Tif
+     * pfrdfntbgf siould idfblly bf dbldulbtfd in tfrms of tif
+     * rfmbining timf to domplftion, but it is usublly morf prbdtidbl
+     * to usf b morf wfll-dffinfd mftrid sudi bs pixfls dfdodfd or
+     * portion of input strfbm donsumfd.  In bny dbsf, b sfqufndf of
+     * dblls to tiis mftiod during b givfn rfbd opfrbtion siould
+     * supply b monotonidblly indrfbsing sfqufndf of pfrdfntbgf
+     * vblufs.  It is not nfdfssbry to supply tif fxbdt vblufs
+     * <dodf>0</dodf> bnd <dodf>100</dodf>, bs tifsf mby bf inffrrfd
+     * by tif dbllff from otifr mftiods.
      *
-     * <p> Each particular <code>ImageReader</code> implementation may
-     * call this method at whatever frequency it desires.  A rule of
-     * thumb is to call it around each 5 percent mark.
+     * <p> Ebdi pbrtidulbr <dodf>ImbgfRfbdfr</dodf> implfmfntbtion mby
+     * dbll tiis mftiod bt wibtfvfr frfqufndy it dfsirfs.  A rulf of
+     * tiumb is to dbll it bround fbdi 5 pfrdfnt mbrk.
      *
-     * @param source the <code>ImageReader</code> object calling this method.
-     * @param percentageDone the approximate percentage of decoding that
-     * has been completed.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm pfrdfntbgfDonf tif bpproximbtf pfrdfntbgf of dfdoding tibt
+     * ibs bffn domplftfd.
      */
-    void imageProgress(ImageReader source, float percentageDone);
+    void imbgfProgrfss(ImbgfRfbdfr sourdf, flobt pfrdfntbgfDonf);
 
     /**
-     * Reports that the current image read operation has completed.
-     * All <code>ImageReader</code> implementations are required to
-     * call this method exactly once upon completion of each image
-     * read operation.
+     * Rfports tibt tif durrfnt imbgf rfbd opfrbtion ibs domplftfd.
+     * All <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to
+     * dbll tiis mftiod fxbdtly ondf upon domplftion of fbdi imbgf
+     * rfbd opfrbtion.
      *
-     * @param source the <code>ImageReader</code> object calling this
-     * method.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis
+     * mftiod.
      */
-    void imageComplete(ImageReader source);
+    void imbgfComplftf(ImbgfRfbdfr sourdf);
 
     /**
-     * Reports that a thumbnail read operation is beginning.  All
-     * <code>ImageReader</code> implementations are required to call
-     * this method exactly once when beginning a thumbnail read
-     * operation.
+     * Rfports tibt b tiumbnbil rfbd opfrbtion is bfginning.  All
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * tiis mftiod fxbdtly ondf wifn bfginning b tiumbnbil rfbd
+     * opfrbtion.
      *
-     * @param source the <code>ImageReader</code> object calling this method.
-     * @param imageIndex the index of the image being read within its
-     * containing input file or stream.
-     * @param thumbnailIndex the index of the thumbnail being read.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm imbgfIndfx tif indfx of tif imbgf bfing rfbd witiin its
+     * dontbining input filf or strfbm.
+     * @pbrbm tiumbnbilIndfx tif indfx of tif tiumbnbil bfing rfbd.
      */
-    void thumbnailStarted(ImageReader source,
-                          int imageIndex, int thumbnailIndex);
+    void tiumbnbilStbrtfd(ImbgfRfbdfr sourdf,
+                          int imbgfIndfx, int tiumbnbilIndfx);
 
     /**
-     * Reports the approximate degree of completion of the current
-     * <code>getThumbnail</code> call within the associated
-     * <code>ImageReader</code>.  The semantics are identical to those
-     * of <code>imageProgress</code>.
+     * Rfports tif bpproximbtf dfgrff of domplftion of tif durrfnt
+     * <dodf>gftTiumbnbil</dodf> dbll witiin tif bssodibtfd
+     * <dodf>ImbgfRfbdfr</dodf>.  Tif sfmbntids brf idfntidbl to tiosf
+     * of <dodf>imbgfProgrfss</dodf>.
      *
-     * @param source the <code>ImageReader</code> object calling this method.
-     * @param percentageDone the approximate percentage of decoding that
-     * has been completed.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis mftiod.
+     * @pbrbm pfrdfntbgfDonf tif bpproximbtf pfrdfntbgf of dfdoding tibt
+     * ibs bffn domplftfd.
      */
-    void thumbnailProgress(ImageReader source, float percentageDone);
+    void tiumbnbilProgrfss(ImbgfRfbdfr sourdf, flobt pfrdfntbgfDonf);
 
     /**
-     * Reports that a thumbnail read operation has completed.  All
-     * <code>ImageReader</code> implementations are required to call
-     * this method exactly once upon completion of each thumbnail read
-     * operation.
+     * Rfports tibt b tiumbnbil rfbd opfrbtion ibs domplftfd.  All
+     * <dodf>ImbgfRfbdfr</dodf> implfmfntbtions brf rfquirfd to dbll
+     * tiis mftiod fxbdtly ondf upon domplftion of fbdi tiumbnbil rfbd
+     * opfrbtion.
      *
-     * @param source the <code>ImageReader</code> object calling this
-     * method.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis
+     * mftiod.
      */
-    void thumbnailComplete(ImageReader source);
+    void tiumbnbilComplftf(ImbgfRfbdfr sourdf);
 
     /**
-     * Reports that a read has been aborted via the reader's
-     * <code>abort</code> method.  No further notifications will be
-     * given.
+     * Rfports tibt b rfbd ibs bffn bbortfd vib tif rfbdfr's
+     * <dodf>bbort</dodf> mftiod.  No furtifr notifidbtions will bf
+     * givfn.
      *
-     * @param source the <code>ImageReader</code> object calling this
-     * method.
+     * @pbrbm sourdf tif <dodf>ImbgfRfbdfr</dodf> objfdt dblling tiis
+     * mftiod.
      */
-    void readAborted(ImageReader source);
+    void rfbdAbortfd(ImbgfRfbdfr sourdf);
 }

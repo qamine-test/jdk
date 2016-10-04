@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 1998, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp;
+pbdkbgf dom.sun.jmx.snmp;
 
 
 
 
 /**
- * Defines the interface of the object in charge of encoding and decoding SNMP packets.
+ * Dffinfs tif intfrfbdf of tif objfdt in dibrgf of fndoding bnd dfdoding SNMP pbdkfts.
  * <P>
- * You will not usually need to use this interface, except if you
- * decide to replace the default implementation <CODE>SnmpPduFactoryBER</CODE>.
+ * You will not usublly nffd to usf tiis intfrfbdf, fxdfpt if you
+ * dfdidf to rfplbdf tif dffbult implfmfntbtion <CODE>SnmpPduFbdtoryBER</CODE>.
  * <P>
- * An <CODE>SnmpPduFactory</CODE> object is attached to an
- * {@link com.sun.jmx.snmp.daemon.SnmpAdaptorServer SNMP protocol adaptor}
- * or an {@link com.sun.jmx.snmp.SnmpPeer SnmpPeer}.
- * It is used each time an SNMP packet needs to be encoded or decoded.
- * <BR>{@link com.sun.jmx.snmp.SnmpPduFactoryBER SnmpPduFactoryBER} is the default
- * implementation.
- * It simply applies the standard ASN.1 encoding and decoding
- * on the bytes of the SNMP packet.
+ * An <CODE>SnmpPduFbdtory</CODE> objfdt is bttbdifd to bn
+ * {@link dom.sun.jmx.snmp.dbfmon.SnmpAdbptorSfrvfr SNMP protodol bdbptor}
+ * or bn {@link dom.sun.jmx.snmp.SnmpPffr SnmpPffr}.
+ * It is usfd fbdi timf bn SNMP pbdkft nffds to bf fndodfd or dfdodfd.
+ * <BR>{@link dom.sun.jmx.snmp.SnmpPduFbdtoryBER SnmpPduFbdtoryBER} is tif dffbult
+ * implfmfntbtion.
+ * It simply bpplifs tif stbndbrd ASN.1 fndoding bnd dfdoding
+ * on tif bytfs of tif SNMP pbdkft.
  * <P>
- * It's possible to implement your own <CODE>SnmpPduFactory</CODE>
- * object and to add authentication and/or encryption to the
- * default encoding/decoding process.
+ * It's possiblf to implfmfnt your own <CODE>SnmpPduFbdtory</CODE>
+ * objfdt bnd to bdd butifntidbtion bnd/or fndryption to tif
+ * dffbult fndoding/dfdoding prodfss.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
- * @see SnmpPduFactory
- * @see SnmpPduPacket
- * @see SnmpMessage
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
+ * @sff SnmpPduFbdtory
+ * @sff SnmpPduPbdkft
+ * @sff SnmpMfssbgf
  *
  */
 
-public interface SnmpPduFactory {
+publid intfrfbdf SnmpPduFbdtory {
 
     /**
-     * Decodes the specified <CODE>SnmpMsg</CODE> and returns the
-     * resulting <CODE>SnmpPdu</CODE>. If this method returns
-     * <CODE>null</CODE>, the message will be considered unsafe
-     * and will be dropped.
+     * Dfdodfs tif spfdififd <CODE>SnmpMsg</CODE> bnd rfturns tif
+     * rfsulting <CODE>SnmpPdu</CODE>. If tiis mftiod rfturns
+     * <CODE>null</CODE>, tif mfssbgf will bf donsidfrfd unsbff
+     * bnd will bf droppfd.
      *
-     * @param msg The <CODE>SnmpMsg</CODE> to be decoded.
-     * @return Null or a fully initialized <CODE>SnmpPdu</CODE>.
-     * @exception SnmpStatusException If the encoding is invalid.
+     * @pbrbm msg Tif <CODE>SnmpMsg</CODE> to bf dfdodfd.
+     * @rfturn Null or b fully initiblizfd <CODE>SnmpPdu</CODE>.
+     * @fxdfption SnmpStbtusExdfption If tif fndoding is invblid.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public SnmpPdu decodeSnmpPdu(SnmpMsg msg) throws SnmpStatusException ;
+    publid SnmpPdu dfdodfSnmpPdu(SnmpMsg msg) tirows SnmpStbtusExdfption ;
 
     /**
-     * Encodes the specified <CODE>SnmpPdu</CODE> and
-     * returns the resulting <CODE>SnmpMsg</CODE>. If this
-     * method returns null, the specified <CODE>SnmpPdu</CODE>
-     * will be dropped and the current SNMP request will be
-     * aborted.
+     * Endodfs tif spfdififd <CODE>SnmpPdu</CODE> bnd
+     * rfturns tif rfsulting <CODE>SnmpMsg</CODE>. If tiis
+     * mftiod rfturns null, tif spfdififd <CODE>SnmpPdu</CODE>
+     * will bf droppfd bnd tif durrfnt SNMP rfqufst will bf
+     * bbortfd.
      *
-     * @param p The <CODE>SnmpPdu</CODE> to be encoded.
-     * @param maxDataLength The size limit of the resulting encoding.
-     * @return Null or a fully encoded <CODE>SnmpMsg</CODE>.
-     * @exception SnmpStatusException If <CODE>pdu</CODE> contains
-     *            illegal values and cannot be encoded.
-     * @exception SnmpTooBigException If the resulting encoding does not
-     *            fit into <CODE>maxPktSize</CODE> bytes.
+     * @pbrbm p Tif <CODE>SnmpPdu</CODE> to bf fndodfd.
+     * @pbrbm mbxDbtbLfngti Tif sizf limit of tif rfsulting fndoding.
+     * @rfturn Null or b fully fndodfd <CODE>SnmpMsg</CODE>.
+     * @fxdfption SnmpStbtusExdfption If <CODE>pdu</CODE> dontbins
+     *            illfgbl vblufs bnd dbnnot bf fndodfd.
+     * @fxdfption SnmpTooBigExdfption If tif rfsulting fndoding dofs not
+     *            fit into <CODE>mbxPktSizf</CODE> bytfs.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public SnmpMsg encodeSnmpPdu(SnmpPdu p, int maxDataLength)
-        throws SnmpStatusException, SnmpTooBigException ;
+    publid SnmpMsg fndodfSnmpPdu(SnmpPdu p, int mbxDbtbLfngti)
+        tirows SnmpStbtusExdfption, SnmpTooBigExdfption ;
 }

@@ -1,49 +1,49 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Bulk Data Operations Demo</title>
-</head>
+<!DOCTYPE itml>
+<itml>
+<ifbd>
+    <titlf>Bulk Dbtb Opfrbtions Dfmo</titlf>
+</ifbd>
 <body>
-<h2>Bulk Data Operations Demo</h2>
+<i2>Bulk Dbtb Opfrbtions Dfmo</i2>
 
 <p>
-    This demo shows how to use bulk data operations with the new JDK8
-    Collections API.
-    The demo also demonstrates new features of JDK8 such as lambda expressions
-    and method/constructor references.
+    Tiis dfmo siows iow to usf bulk dbtb opfrbtions witi tif nfw JDK8
+    Collfdtions API.
+    Tif dfmo blso dfmonstrbtfs nfw ffbturfs of JDK8 sudi bs lbmbdb fxprfssions
+    bnd mftiod/donstrudtor rfffrfndfs.
 </p>
 
 <ul>
-    <li><h3>CSV Processor</h3>
+    <li><i3>CSV Prodfssor</i3>
 
         <p>
-            Analyzes a CSV file, finds and collects useful information, computes
-            different statistics. For more information, see the source file.
+            Anblyzfs b CSV filf, finds bnd dollfdts usfful informbtion, domputfs
+            difffrfnt stbtistids. For morf informbtion, sff tif sourdf filf.
         </p>
-        Source: <a href="src/CSVProcessor.java">src/CSVProcessor.java</a>
-    <li><h3>Grep</h3>
+        Sourdf: <b irff="srd/CSVProdfssor.jbvb">srd/CSVProdfssor.jbvb</b>
+    <li><i3>Grfp</i3>
 
         <p>
-            Behaves like the standard Linux tool Grep. For more information, see
-            the source file.
+            Bfibvfs likf tif stbndbrd Linux tool Grfp. For morf informbtion, sff
+            tif sourdf filf.
         </p>
-        Source: <a href="src/Grep.java">src/Grep.java</a>
-    <li><h3>PasswordGenerator</h3>
+        Sourdf: <b irff="srd/Grfp.jbvb">srd/Grfp.jbvb</b>
+    <li><i3>PbsswordGfnfrbtor</i3>
 
         <p>
-            Produces a password of desired length. For more information see
-            source file.
+            Produdfs b pbssword of dfsirfd lfngti. For morf informbtion sff
+            sourdf filf.
         </p>
-        Source: <a
-                href="src/PasswordGenerator.java">src/PasswordGenerator.java</a>
-    <li><h3>WC</h3>
+        Sourdf: <b
+                irff="srd/PbsswordGfnfrbtor.jbvb">srd/PbsswordGfnfrbtor.jbvb</b>
+    <li><i3>WC</i3>
 
         <p>
-            Counts newlines, words, characters, and the maximum line length of a
-            text file. For more information, see the source
-            file.
+            Counts nfwlinfs, words, dibrbdtfrs, bnd tif mbximum linf lfngti of b
+            tfxt filf. For morf informbtion, sff tif sourdf
+            filf.
         </p>
-        Source: <a href="src/WC.java">src/WC.java</a>
+        Sourdf: <b irff="srd/WC.jbvb">srd/WC.jbvb</b>
 </ul>
 </body>
-</html>
+</itml>

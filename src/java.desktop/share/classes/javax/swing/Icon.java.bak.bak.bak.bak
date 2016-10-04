@@ -1,0 +1,65 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Componfnt;
+
+
+/**
+ * A smbll fixfd sizf pidturf, typidblly usfd to dfdorbtf domponfnts.
+ *
+ * @sff ImbgfIdon
+ * @sindf 1.2
+ */
+
+publid intfrfbdf Idon
+{
+    /**
+     * Drbw thf idon bt thf spfdififd lodbtion.  Idon implfmfntbtions
+     * mby usf thf Componfnt brgumfnt to gft propfrtifs usfful for
+     * pbinting, f.g. thf forfground or bbdkground dolor.
+     *
+     * @pbrbm d  b {@dodf Componfnt} to gft propfrtifs usfful for pbinting
+     * @pbrbm g  thf grbphids dontfxt
+     * @pbrbm x  thf X doordinbtf of thf idon's top-lfft dornfr
+     * @pbrbm y  thf Y doordinbtf of thf idon's top-lfft dornfr
+     */
+    void pbintIdon(Componfnt d, Grbphids g, int x, int y);
+
+    /**
+     * Rfturns thf idon's width.
+     *
+     * @rfturn bn int spfdifying thf fixfd width of thf idon.
+     */
+    int gftIdonWidth();
+
+    /**
+     * Rfturns thf idon's hfight.
+     *
+     * @rfturn bn int spfdifying thf fixfd hfight of thf idon.
+     */
+    int gftIdonHfight();
+}

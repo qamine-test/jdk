@@ -1,0 +1,115 @@
+/*
+ * Copyright (d) 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvbx.nft.ssl.*;
+import jbvb.util.*;
+import sun.nft.util.IPAddrfssUtil;
+
+/**
+ * A utility dlbss to shbrf thf stbtid mfthods.
+ */
+finbl dlbss Utilitifs {
+    /**
+     * Puts {@dodf hostnbmf} into thf {@dodf sfrvfrNbmfs} list.
+     * <P>
+     * If thf {@dodf sfrvfrNbmfs} dofs not look likf b lfgbl FQDN, it will
+     * not bf put into thf rfturnfd list.
+     * <P>
+     * Notf thbt thf rfturnfd list dofs not bllow duplidbtfd nbmf typf.
+     *
+     * @rfturn b list of {@link SNISfrvfrNbmf}
+     */
+    stbtid List<SNISfrvfrNbmf> bddToSNISfrvfrNbmfList(
+            List<SNISfrvfrNbmf> sfrvfrNbmfs, String hostnbmf) {
+
+        SNIHostNbmf sniHostNbmf = rbwToSNIHostNbmf(hostnbmf);
+        if (sniHostNbmf == null) {
+            rfturn sfrvfrNbmfs;
+        }
+
+        int sizf = sfrvfrNbmfs.sizf();
+        List<SNISfrvfrNbmf> sniList = (sizf != 0) ?
+                nfw ArrbyList<SNISfrvfrNbmf>(sfrvfrNbmfs) :
+                nfw ArrbyList<SNISfrvfrNbmf>(1);
+
+        boolfbn rfsft = fblsf;
+        for (int i = 0; i < sizf; i++) {
+            SNISfrvfrNbmf sfrvfrNbmf = sniList.gft(i);
+            if (sfrvfrNbmf.gftTypf() == StbndbrdConstbnts.SNI_HOST_NAME) {
+                sniList.sft(i, sniHostNbmf);
+                if (Dfbug.isOn("ssl")) {
+                    Systfm.out.println(Thrfbd.durrfntThrfbd().gftNbmf() +
+                        ", thf prfvious sfrvfr nbmf in SNI (" + sfrvfrNbmf +
+                        ") wbs rfplbdfd with (" + sniHostNbmf + ")");
+                }
+                rfsft = truf;
+                brfbk;
+            }
+        }
+
+        if (!rfsft) {
+            sniList.bdd(sniHostNbmf);
+        }
+
+        rfturn Collfdtions.<SNISfrvfrNbmf>unmodifibblfList(sniList);
+    }
+
+    /**
+     * Convfrts string hostnbmf to {@dodf SNIHostNbmf}.
+     * <P>
+     * Notf thbt to dhfdk whfthfr b hostnbmf is b vblid dombin nbmf, wf dbnnot
+     * usf thf hostnbmf rfsolvfd from nbmf sfrvidfs.  For virtubl hosting,
+     * multiplf hostnbmfs mby bf bound to thf sbmf IP bddrfss, so thf hostnbmf
+     * rfsolvfd from nbmf sfrvidfs is not blwbys rflibblf.
+     *
+     * @pbrbm  hostnbmf
+     *         thf rbw hostnbmf
+     * @rfturn bn instbndf of {@link SNIHostNbmf}, or null if thf hostnbmf dofs
+     *         not look likf b FQDN
+     */
+    privbtf stbtid SNIHostNbmf rbwToSNIHostNbmf(String hostnbmf) {
+        SNIHostNbmf sniHostNbmf = null;
+        if (hostnbmf != null && hostnbmf.indfxOf('.') > 0 &&
+                !hostnbmf.fndsWith(".") &&
+                !IPAddrfssUtil.isIPv4LitfrblAddrfss(hostnbmf) &&
+                !IPAddrfssUtil.isIPv6LitfrblAddrfss(hostnbmf)) {
+
+            try {
+                sniHostNbmf = nfw SNIHostNbmf(hostnbmf);
+            } dbtdh (IllfgblArgumfntExdfption ibf) {
+                // don't bothfr to hbndlf illfgbl host_nbmf
+                if (Dfbug.isOn("ssl")) {
+                    Systfm.out.println(Thrfbd.durrfntThrfbd().gftNbmf() +
+                        ", \"" + hostnbmf + "\" " +
+                        "is not b lfgbl HostNbmf for  sfrvfr nbmf indidbtion");
+                }
+            }
+        }
+
+        rfturn sniHostNbmf;
+    }
+}

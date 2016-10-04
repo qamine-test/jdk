@@ -1,543 +1,543 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.beans;
+pbdkbgf jbvb.bfbns;
 
-import java.io.Serializable;
-import java.io.ObjectStreamField;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import java.util.Hashtable;
-import java.util.Map.Entry;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Mbp.Entry;
 
 /**
- * This is a utility class that can be used by beans that support constrained
- * properties.  It manages a list of listeners and dispatches
- * {@link PropertyChangeEvent}s to them.  You can use an instance of this class
- * as a member field of your bean and delegate these types of work to it.
- * The {@link VetoableChangeListener} can be registered for all properties
- * or for a property specified by name.
+ * Tiis is b utility dlbss tibt dbn bf usfd by bfbns tibt support donstrbinfd
+ * propfrtifs.  It mbnbgfs b list of listfnfrs bnd dispbtdifs
+ * {@link PropfrtyCibngfEvfnt}s to tifm.  You dbn usf bn instbndf of tiis dlbss
+ * bs b mfmbfr fifld of your bfbn bnd dflfgbtf tifsf typfs of work to it.
+ * Tif {@link VftobblfCibngfListfnfr} dbn bf rfgistfrfd for bll propfrtifs
+ * or for b propfrty spfdififd by nbmf.
  * <p>
- * Here is an example of {@code VetoableChangeSupport} usage that follows
- * the rules and recommendations laid out in the JavaBeans&trade; specification:
- * <pre>{@code
- * public class MyBean {
- *     private final VetoableChangeSupport vcs = new VetoableChangeSupport(this);
+ * Hfrf is bn fxbmplf of {@dodf VftobblfCibngfSupport} usbgf tibt follows
+ * tif rulfs bnd rfdommfndbtions lbid out in tif JbvbBfbns&trbdf; spfdifidbtion:
+ * <prf>{@dodf
+ * publid dlbss MyBfbn {
+ *     privbtf finbl VftobblfCibngfSupport vds = nfw VftobblfCibngfSupport(tiis);
  *
- *     public void addVetoableChangeListener(VetoableChangeListener listener) {
- *         this.vcs.addVetoableChangeListener(listener);
+ *     publid void bddVftobblfCibngfListfnfr(VftobblfCibngfListfnfr listfnfr) {
+ *         tiis.vds.bddVftobblfCibngfListfnfr(listfnfr);
  *     }
  *
- *     public void removeVetoableChangeListener(VetoableChangeListener listener) {
- *         this.vcs.removeVetoableChangeListener(listener);
+ *     publid void rfmovfVftobblfCibngfListfnfr(VftobblfCibngfListfnfr listfnfr) {
+ *         tiis.vds.rfmovfVftobblfCibngfListfnfr(listfnfr);
  *     }
  *
- *     private String value;
+ *     privbtf String vbluf;
  *
- *     public String getValue() {
- *         return this.value;
+ *     publid String gftVbluf() {
+ *         rfturn tiis.vbluf;
  *     }
  *
- *     public void setValue(String newValue) throws PropertyVetoException {
- *         String oldValue = this.value;
- *         this.vcs.fireVetoableChange("value", oldValue, newValue);
- *         this.value = newValue;
+ *     publid void sftVbluf(String nfwVbluf) tirows PropfrtyVftoExdfption {
+ *         String oldVbluf = tiis.vbluf;
+ *         tiis.vds.firfVftobblfCibngf("vbluf", oldVbluf, nfwVbluf);
+ *         tiis.vbluf = nfwVbluf;
  *     }
  *
  *     [...]
  * }
- * }</pre>
+ * }</prf>
  * <p>
- * A {@code VetoableChangeSupport} instance is thread-safe.
+ * A {@dodf VftobblfCibngfSupport} instbndf is tirfbd-sbff.
  * <p>
- * This class is serializable.  When it is serialized it will save
- * (and restore) any listeners that are themselves serializable.  Any
- * non-serializable listeners will be skipped during serialization.
+ * Tiis dlbss is sfriblizbblf.  Wifn it is sfriblizfd it will sbvf
+ * (bnd rfstorf) bny listfnfrs tibt brf tifmsflvfs sfriblizbblf.  Any
+ * non-sfriblizbblf listfnfrs will bf skippfd during sfriblizbtion.
  *
- * @see PropertyChangeSupport
- * @since 1.1
+ * @sff PropfrtyCibngfSupport
+ * @sindf 1.1
  */
-public class VetoableChangeSupport implements Serializable {
-    private VetoableChangeListenerMap map = new VetoableChangeListenerMap();
+publid dlbss VftobblfCibngfSupport implfmfnts Sfriblizbblf {
+    privbtf VftobblfCibngfListfnfrMbp mbp = nfw VftobblfCibngfListfnfrMbp();
 
     /**
-     * Constructs a <code>VetoableChangeSupport</code> object.
+     * Construdts b <dodf>VftobblfCibngfSupport</dodf> objfdt.
      *
-     * @param sourceBean  The bean to be given as the source for any events.
+     * @pbrbm sourdfBfbn  Tif bfbn to bf givfn bs tif sourdf for bny fvfnts.
      */
-    public VetoableChangeSupport(Object sourceBean) {
-        if (sourceBean == null) {
-            throw new NullPointerException();
+    publid VftobblfCibngfSupport(Objfdt sourdfBfbn) {
+        if (sourdfBfbn == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        source = sourceBean;
+        sourdf = sourdfBfbn;
     }
 
     /**
-     * Add a VetoableChangeListener to the listener list.
-     * The listener is registered for all properties.
-     * The same listener object may be added more than once, and will be called
-     * as many times as it is added.
-     * If <code>listener</code> is null, no exception is thrown and no action
-     * is taken.
+     * Add b VftobblfCibngfListfnfr to tif listfnfr list.
+     * Tif listfnfr is rfgistfrfd for bll propfrtifs.
+     * Tif sbmf listfnfr objfdt mby bf bddfd morf tibn ondf, bnd will bf dbllfd
+     * bs mbny timfs bs it is bddfd.
+     * If <dodf>listfnfr</dodf> is null, no fxdfption is tirown bnd no bdtion
+     * is tbkfn.
      *
-     * @param listener  The VetoableChangeListener to be added
+     * @pbrbm listfnfr  Tif VftobblfCibngfListfnfr to bf bddfd
      */
-    public void addVetoableChangeListener(VetoableChangeListener listener) {
-        if (listener == null) {
-            return;
+    publid void bddVftobblfCibngfListfnfr(VftobblfCibngfListfnfr listfnfr) {
+        if (listfnfr == null) {
+            rfturn;
         }
-        if (listener instanceof VetoableChangeListenerProxy) {
-            VetoableChangeListenerProxy proxy =
-                    (VetoableChangeListenerProxy)listener;
-            // Call two argument add method.
-            addVetoableChangeListener(proxy.getPropertyName(),
-                                      proxy.getListener());
-        } else {
-            this.map.add(null, listener);
-        }
-    }
-
-    /**
-     * Remove a VetoableChangeListener from the listener list.
-     * This removes a VetoableChangeListener that was registered
-     * for all properties.
-     * If <code>listener</code> was added more than once to the same event
-     * source, it will be notified one less time after being removed.
-     * If <code>listener</code> is null, or was never added, no exception is
-     * thrown and no action is taken.
-     *
-     * @param listener  The VetoableChangeListener to be removed
-     */
-    public void removeVetoableChangeListener(VetoableChangeListener listener) {
-        if (listener == null) {
-            return;
-        }
-        if (listener instanceof VetoableChangeListenerProxy) {
-            VetoableChangeListenerProxy proxy =
-                    (VetoableChangeListenerProxy)listener;
-            // Call two argument remove method.
-            removeVetoableChangeListener(proxy.getPropertyName(),
-                                         proxy.getListener());
-        } else {
-            this.map.remove(null, listener);
+        if (listfnfr instbndfof VftobblfCibngfListfnfrProxy) {
+            VftobblfCibngfListfnfrProxy proxy =
+                    (VftobblfCibngfListfnfrProxy)listfnfr;
+            // Cbll two brgumfnt bdd mftiod.
+            bddVftobblfCibngfListfnfr(proxy.gftPropfrtyNbmf(),
+                                      proxy.gftListfnfr());
+        } flsf {
+            tiis.mbp.bdd(null, listfnfr);
         }
     }
 
     /**
-     * Returns an array of all the listeners that were added to the
-     * VetoableChangeSupport object with addVetoableChangeListener().
+     * Rfmovf b VftobblfCibngfListfnfr from tif listfnfr list.
+     * Tiis rfmovfs b VftobblfCibngfListfnfr tibt wbs rfgistfrfd
+     * for bll propfrtifs.
+     * If <dodf>listfnfr</dodf> wbs bddfd morf tibn ondf to tif sbmf fvfnt
+     * sourdf, it will bf notififd onf lfss timf bftfr bfing rfmovfd.
+     * If <dodf>listfnfr</dodf> is null, or wbs nfvfr bddfd, no fxdfption is
+     * tirown bnd no bdtion is tbkfn.
+     *
+     * @pbrbm listfnfr  Tif VftobblfCibngfListfnfr to bf rfmovfd
+     */
+    publid void rfmovfVftobblfCibngfListfnfr(VftobblfCibngfListfnfr listfnfr) {
+        if (listfnfr == null) {
+            rfturn;
+        }
+        if (listfnfr instbndfof VftobblfCibngfListfnfrProxy) {
+            VftobblfCibngfListfnfrProxy proxy =
+                    (VftobblfCibngfListfnfrProxy)listfnfr;
+            // Cbll two brgumfnt rfmovf mftiod.
+            rfmovfVftobblfCibngfListfnfr(proxy.gftPropfrtyNbmf(),
+                                         proxy.gftListfnfr());
+        } flsf {
+            tiis.mbp.rfmovf(null, listfnfr);
+        }
+    }
+
+    /**
+     * Rfturns bn brrby of bll tif listfnfrs tibt wfrf bddfd to tif
+     * VftobblfCibngfSupport objfdt witi bddVftobblfCibngfListfnfr().
      * <p>
-     * If some listeners have been added with a named property, then
-     * the returned array will be a mixture of VetoableChangeListeners
-     * and <code>VetoableChangeListenerProxy</code>s. If the calling
-     * method is interested in distinguishing the listeners then it must
-     * test each element to see if it's a
-     * <code>VetoableChangeListenerProxy</code>, perform the cast, and examine
-     * the parameter.
+     * If somf listfnfrs ibvf bffn bddfd witi b nbmfd propfrty, tifn
+     * tif rfturnfd brrby will bf b mixturf of VftobblfCibngfListfnfrs
+     * bnd <dodf>VftobblfCibngfListfnfrProxy</dodf>s. If tif dblling
+     * mftiod is intfrfstfd in distinguisiing tif listfnfrs tifn it must
+     * tfst fbdi flfmfnt to sff if it's b
+     * <dodf>VftobblfCibngfListfnfrProxy</dodf>, pfrform tif dbst, bnd fxbminf
+     * tif pbrbmftfr.
      *
-     * <pre>{@code
-     * VetoableChangeListener[] listeners = bean.getVetoableChangeListeners();
-     * for (int i = 0; i < listeners.length; i++) {
-     *        if (listeners[i] instanceof VetoableChangeListenerProxy) {
-     *     VetoableChangeListenerProxy proxy =
-     *                    (VetoableChangeListenerProxy)listeners[i];
-     *     if (proxy.getPropertyName().equals("foo")) {
-     *       // proxy is a VetoableChangeListener which was associated
-     *       // with the property named "foo"
+     * <prf>{@dodf
+     * VftobblfCibngfListfnfr[] listfnfrs = bfbn.gftVftobblfCibngfListfnfrs();
+     * for (int i = 0; i < listfnfrs.lfngti; i++) {
+     *        if (listfnfrs[i] instbndfof VftobblfCibngfListfnfrProxy) {
+     *     VftobblfCibngfListfnfrProxy proxy =
+     *                    (VftobblfCibngfListfnfrProxy)listfnfrs[i];
+     *     if (proxy.gftPropfrtyNbmf().fqubls("foo")) {
+     *       // proxy is b VftobblfCibngfListfnfr wiidi wbs bssodibtfd
+     *       // witi tif propfrty nbmfd "foo"
      *     }
      *   }
      * }
-     * }</pre>
+     * }</prf>
      *
-     * @see VetoableChangeListenerProxy
-     * @return all of the <code>VetoableChangeListeners</code> added or an
-     *         empty array if no listeners have been added
-     * @since 1.4
+     * @sff VftobblfCibngfListfnfrProxy
+     * @rfturn bll of tif <dodf>VftobblfCibngfListfnfrs</dodf> bddfd or bn
+     *         fmpty brrby if no listfnfrs ibvf bffn bddfd
+     * @sindf 1.4
      */
-    public VetoableChangeListener[] getVetoableChangeListeners(){
-        return this.map.getListeners();
+    publid VftobblfCibngfListfnfr[] gftVftobblfCibngfListfnfrs(){
+        rfturn tiis.mbp.gftListfnfrs();
     }
 
     /**
-     * Add a VetoableChangeListener for a specific property.  The listener
-     * will be invoked only when a call on fireVetoableChange names that
-     * specific property.
-     * The same listener object may be added more than once.  For each
-     * property,  the listener will be invoked the number of times it was added
-     * for that property.
-     * If <code>propertyName</code> or <code>listener</code> is null, no
-     * exception is thrown and no action is taken.
+     * Add b VftobblfCibngfListfnfr for b spfdifid propfrty.  Tif listfnfr
+     * will bf invokfd only wifn b dbll on firfVftobblfCibngf nbmfs tibt
+     * spfdifid propfrty.
+     * Tif sbmf listfnfr objfdt mby bf bddfd morf tibn ondf.  For fbdi
+     * propfrty,  tif listfnfr will bf invokfd tif numbfr of timfs it wbs bddfd
+     * for tibt propfrty.
+     * If <dodf>propfrtyNbmf</dodf> or <dodf>listfnfr</dodf> is null, no
+     * fxdfption is tirown bnd no bdtion is tbkfn.
      *
-     * @param propertyName  The name of the property to listen on.
-     * @param listener  The VetoableChangeListener to be added
-     * @since 1.2
+     * @pbrbm propfrtyNbmf  Tif nbmf of tif propfrty to listfn on.
+     * @pbrbm listfnfr  Tif VftobblfCibngfListfnfr to bf bddfd
+     * @sindf 1.2
      */
-    public void addVetoableChangeListener(
-                                String propertyName,
-                VetoableChangeListener listener) {
-        if (listener == null || propertyName == null) {
-            return;
+    publid void bddVftobblfCibngfListfnfr(
+                                String propfrtyNbmf,
+                VftobblfCibngfListfnfr listfnfr) {
+        if (listfnfr == null || propfrtyNbmf == null) {
+            rfturn;
         }
-        listener = this.map.extract(listener);
-        if (listener != null) {
-            this.map.add(propertyName, listener);
-        }
-    }
-
-    /**
-     * Remove a VetoableChangeListener for a specific property.
-     * If <code>listener</code> was added more than once to the same event
-     * source for the specified property, it will be notified one less time
-     * after being removed.
-     * If <code>propertyName</code> is null, no exception is thrown and no
-     * action is taken.
-     * If <code>listener</code> is null, or was never added for the specified
-     * property, no exception is thrown and no action is taken.
-     *
-     * @param propertyName  The name of the property that was listened on.
-     * @param listener  The VetoableChangeListener to be removed
-     * @since 1.2
-     */
-    public void removeVetoableChangeListener(
-                                String propertyName,
-                VetoableChangeListener listener) {
-        if (listener == null || propertyName == null) {
-            return;
-        }
-        listener = this.map.extract(listener);
-        if (listener != null) {
-            this.map.remove(propertyName, listener);
+        listfnfr = tiis.mbp.fxtrbdt(listfnfr);
+        if (listfnfr != null) {
+            tiis.mbp.bdd(propfrtyNbmf, listfnfr);
         }
     }
 
     /**
-     * Returns an array of all the listeners which have been associated
-     * with the named property.
+     * Rfmovf b VftobblfCibngfListfnfr for b spfdifid propfrty.
+     * If <dodf>listfnfr</dodf> wbs bddfd morf tibn ondf to tif sbmf fvfnt
+     * sourdf for tif spfdififd propfrty, it will bf notififd onf lfss timf
+     * bftfr bfing rfmovfd.
+     * If <dodf>propfrtyNbmf</dodf> is null, no fxdfption is tirown bnd no
+     * bdtion is tbkfn.
+     * If <dodf>listfnfr</dodf> is null, or wbs nfvfr bddfd for tif spfdififd
+     * propfrty, no fxdfption is tirown bnd no bdtion is tbkfn.
      *
-     * @param propertyName  The name of the property being listened to
-     * @return all the <code>VetoableChangeListeners</code> associated with
-     *         the named property.  If no such listeners have been added,
-     *         or if <code>propertyName</code> is null, an empty array is
-     *         returned.
-     * @since 1.4
+     * @pbrbm propfrtyNbmf  Tif nbmf of tif propfrty tibt wbs listfnfd on.
+     * @pbrbm listfnfr  Tif VftobblfCibngfListfnfr to bf rfmovfd
+     * @sindf 1.2
      */
-    public VetoableChangeListener[] getVetoableChangeListeners(String propertyName) {
-        return this.map.getListeners(propertyName);
-    }
-
-    /**
-     * Reports a constrained property update to listeners
-     * that have been registered to track updates of
-     * all properties or a property with the specified name.
-     * <p>
-     * Any listener can throw a {@code PropertyVetoException} to veto the update.
-     * If one of the listeners vetoes the update, this method passes
-     * a new "undo" {@code PropertyChangeEvent} that reverts to the old value
-     * to all listeners that already confirmed this update
-     * and throws the {@code PropertyVetoException} again.
-     * <p>
-     * No event is fired if old and new values are equal and non-null.
-     * <p>
-     * This is merely a convenience wrapper around the more general
-     * {@link #fireVetoableChange(PropertyChangeEvent)} method.
-     *
-     * @param propertyName  the programmatic name of the property that is about to change
-     * @param oldValue      the old value of the property
-     * @param newValue      the new value of the property
-     * @throws PropertyVetoException if one of listeners vetoes the property update
-     */
-    public void fireVetoableChange(String propertyName, Object oldValue, Object newValue)
-            throws PropertyVetoException {
-        if (oldValue == null || newValue == null || !oldValue.equals(newValue)) {
-            fireVetoableChange(new PropertyChangeEvent(this.source, propertyName, oldValue, newValue));
+    publid void rfmovfVftobblfCibngfListfnfr(
+                                String propfrtyNbmf,
+                VftobblfCibngfListfnfr listfnfr) {
+        if (listfnfr == null || propfrtyNbmf == null) {
+            rfturn;
+        }
+        listfnfr = tiis.mbp.fxtrbdt(listfnfr);
+        if (listfnfr != null) {
+            tiis.mbp.rfmovf(propfrtyNbmf, listfnfr);
         }
     }
 
     /**
-     * Reports an integer constrained property update to listeners
-     * that have been registered to track updates of
-     * all properties or a property with the specified name.
-     * <p>
-     * Any listener can throw a {@code PropertyVetoException} to veto the update.
-     * If one of the listeners vetoes the update, this method passes
-     * a new "undo" {@code PropertyChangeEvent} that reverts to the old value
-     * to all listeners that already confirmed this update
-     * and throws the {@code PropertyVetoException} again.
-     * <p>
-     * No event is fired if old and new values are equal.
-     * <p>
-     * This is merely a convenience wrapper around the more general
-     * {@link #fireVetoableChange(String, Object, Object)} method.
+     * Rfturns bn brrby of bll tif listfnfrs wiidi ibvf bffn bssodibtfd
+     * witi tif nbmfd propfrty.
      *
-     * @param propertyName  the programmatic name of the property that is about to change
-     * @param oldValue      the old value of the property
-     * @param newValue      the new value of the property
-     * @throws PropertyVetoException if one of listeners vetoes the property update
-     * @since 1.2
+     * @pbrbm propfrtyNbmf  Tif nbmf of tif propfrty bfing listfnfd to
+     * @rfturn bll tif <dodf>VftobblfCibngfListfnfrs</dodf> bssodibtfd witi
+     *         tif nbmfd propfrty.  If no sudi listfnfrs ibvf bffn bddfd,
+     *         or if <dodf>propfrtyNbmf</dodf> is null, bn fmpty brrby is
+     *         rfturnfd.
+     * @sindf 1.4
      */
-    public void fireVetoableChange(String propertyName, int oldValue, int newValue)
-            throws PropertyVetoException {
-        if (oldValue != newValue) {
-            fireVetoableChange(propertyName, Integer.valueOf(oldValue), Integer.valueOf(newValue));
+    publid VftobblfCibngfListfnfr[] gftVftobblfCibngfListfnfrs(String propfrtyNbmf) {
+        rfturn tiis.mbp.gftListfnfrs(propfrtyNbmf);
+    }
+
+    /**
+     * Rfports b donstrbinfd propfrty updbtf to listfnfrs
+     * tibt ibvf bffn rfgistfrfd to trbdk updbtfs of
+     * bll propfrtifs or b propfrty witi tif spfdififd nbmf.
+     * <p>
+     * Any listfnfr dbn tirow b {@dodf PropfrtyVftoExdfption} to vfto tif updbtf.
+     * If onf of tif listfnfrs vftofs tif updbtf, tiis mftiod pbssfs
+     * b nfw "undo" {@dodf PropfrtyCibngfEvfnt} tibt rfvfrts to tif old vbluf
+     * to bll listfnfrs tibt blrfbdy donfirmfd tiis updbtf
+     * bnd tirows tif {@dodf PropfrtyVftoExdfption} bgbin.
+     * <p>
+     * No fvfnt is firfd if old bnd nfw vblufs brf fqubl bnd non-null.
+     * <p>
+     * Tiis is mfrfly b donvfnifndf wrbppfr bround tif morf gfnfrbl
+     * {@link #firfVftobblfCibngf(PropfrtyCibngfEvfnt)} mftiod.
+     *
+     * @pbrbm propfrtyNbmf  tif progrbmmbtid nbmf of tif propfrty tibt is bbout to dibngf
+     * @pbrbm oldVbluf      tif old vbluf of tif propfrty
+     * @pbrbm nfwVbluf      tif nfw vbluf of tif propfrty
+     * @tirows PropfrtyVftoExdfption if onf of listfnfrs vftofs tif propfrty updbtf
+     */
+    publid void firfVftobblfCibngf(String propfrtyNbmf, Objfdt oldVbluf, Objfdt nfwVbluf)
+            tirows PropfrtyVftoExdfption {
+        if (oldVbluf == null || nfwVbluf == null || !oldVbluf.fqubls(nfwVbluf)) {
+            firfVftobblfCibngf(nfw PropfrtyCibngfEvfnt(tiis.sourdf, propfrtyNbmf, oldVbluf, nfwVbluf));
         }
     }
 
     /**
-     * Reports a boolean constrained property update to listeners
-     * that have been registered to track updates of
-     * all properties or a property with the specified name.
+     * Rfports bn intfgfr donstrbinfd propfrty updbtf to listfnfrs
+     * tibt ibvf bffn rfgistfrfd to trbdk updbtfs of
+     * bll propfrtifs or b propfrty witi tif spfdififd nbmf.
      * <p>
-     * Any listener can throw a {@code PropertyVetoException} to veto the update.
-     * If one of the listeners vetoes the update, this method passes
-     * a new "undo" {@code PropertyChangeEvent} that reverts to the old value
-     * to all listeners that already confirmed this update
-     * and throws the {@code PropertyVetoException} again.
+     * Any listfnfr dbn tirow b {@dodf PropfrtyVftoExdfption} to vfto tif updbtf.
+     * If onf of tif listfnfrs vftofs tif updbtf, tiis mftiod pbssfs
+     * b nfw "undo" {@dodf PropfrtyCibngfEvfnt} tibt rfvfrts to tif old vbluf
+     * to bll listfnfrs tibt blrfbdy donfirmfd tiis updbtf
+     * bnd tirows tif {@dodf PropfrtyVftoExdfption} bgbin.
      * <p>
-     * No event is fired if old and new values are equal.
+     * No fvfnt is firfd if old bnd nfw vblufs brf fqubl.
      * <p>
-     * This is merely a convenience wrapper around the more general
-     * {@link #fireVetoableChange(String, Object, Object)} method.
+     * Tiis is mfrfly b donvfnifndf wrbppfr bround tif morf gfnfrbl
+     * {@link #firfVftobblfCibngf(String, Objfdt, Objfdt)} mftiod.
      *
-     * @param propertyName  the programmatic name of the property that is about to change
-     * @param oldValue      the old value of the property
-     * @param newValue      the new value of the property
-     * @throws PropertyVetoException if one of listeners vetoes the property update
-     * @since 1.2
+     * @pbrbm propfrtyNbmf  tif progrbmmbtid nbmf of tif propfrty tibt is bbout to dibngf
+     * @pbrbm oldVbluf      tif old vbluf of tif propfrty
+     * @pbrbm nfwVbluf      tif nfw vbluf of tif propfrty
+     * @tirows PropfrtyVftoExdfption if onf of listfnfrs vftofs tif propfrty updbtf
+     * @sindf 1.2
      */
-    public void fireVetoableChange(String propertyName, boolean oldValue, boolean newValue)
-            throws PropertyVetoException {
-        if (oldValue != newValue) {
-            fireVetoableChange(propertyName, Boolean.valueOf(oldValue), Boolean.valueOf(newValue));
+    publid void firfVftobblfCibngf(String propfrtyNbmf, int oldVbluf, int nfwVbluf)
+            tirows PropfrtyVftoExdfption {
+        if (oldVbluf != nfwVbluf) {
+            firfVftobblfCibngf(propfrtyNbmf, Intfgfr.vblufOf(oldVbluf), Intfgfr.vblufOf(nfwVbluf));
         }
     }
 
     /**
-     * Fires a property change event to listeners
-     * that have been registered to track updates of
-     * all properties or a property with the specified name.
+     * Rfports b boolfbn donstrbinfd propfrty updbtf to listfnfrs
+     * tibt ibvf bffn rfgistfrfd to trbdk updbtfs of
+     * bll propfrtifs or b propfrty witi tif spfdififd nbmf.
      * <p>
-     * Any listener can throw a {@code PropertyVetoException} to veto the update.
-     * If one of the listeners vetoes the update, this method passes
-     * a new "undo" {@code PropertyChangeEvent} that reverts to the old value
-     * to all listeners that already confirmed this update
-     * and throws the {@code PropertyVetoException} again.
+     * Any listfnfr dbn tirow b {@dodf PropfrtyVftoExdfption} to vfto tif updbtf.
+     * If onf of tif listfnfrs vftofs tif updbtf, tiis mftiod pbssfs
+     * b nfw "undo" {@dodf PropfrtyCibngfEvfnt} tibt rfvfrts to tif old vbluf
+     * to bll listfnfrs tibt blrfbdy donfirmfd tiis updbtf
+     * bnd tirows tif {@dodf PropfrtyVftoExdfption} bgbin.
      * <p>
-     * No event is fired if the given event's old and new values are equal and non-null.
+     * No fvfnt is firfd if old bnd nfw vblufs brf fqubl.
+     * <p>
+     * Tiis is mfrfly b donvfnifndf wrbppfr bround tif morf gfnfrbl
+     * {@link #firfVftobblfCibngf(String, Objfdt, Objfdt)} mftiod.
      *
-     * @param event  the {@code PropertyChangeEvent} to be fired
-     * @throws PropertyVetoException if one of listeners vetoes the property update
-     * @since 1.2
+     * @pbrbm propfrtyNbmf  tif progrbmmbtid nbmf of tif propfrty tibt is bbout to dibngf
+     * @pbrbm oldVbluf      tif old vbluf of tif propfrty
+     * @pbrbm nfwVbluf      tif nfw vbluf of tif propfrty
+     * @tirows PropfrtyVftoExdfption if onf of listfnfrs vftofs tif propfrty updbtf
+     * @sindf 1.2
      */
-    public void fireVetoableChange(PropertyChangeEvent event)
-            throws PropertyVetoException {
-        Object oldValue = event.getOldValue();
-        Object newValue = event.getNewValue();
-        if (oldValue == null || newValue == null || !oldValue.equals(newValue)) {
-            String name = event.getPropertyName();
+    publid void firfVftobblfCibngf(String propfrtyNbmf, boolfbn oldVbluf, boolfbn nfwVbluf)
+            tirows PropfrtyVftoExdfption {
+        if (oldVbluf != nfwVbluf) {
+            firfVftobblfCibngf(propfrtyNbmf, Boolfbn.vblufOf(oldVbluf), Boolfbn.vblufOf(nfwVbluf));
+        }
+    }
 
-            VetoableChangeListener[] common = this.map.get(null);
-            VetoableChangeListener[] named = (name != null)
-                        ? this.map.get(name)
+    /**
+     * Firfs b propfrty dibngf fvfnt to listfnfrs
+     * tibt ibvf bffn rfgistfrfd to trbdk updbtfs of
+     * bll propfrtifs or b propfrty witi tif spfdififd nbmf.
+     * <p>
+     * Any listfnfr dbn tirow b {@dodf PropfrtyVftoExdfption} to vfto tif updbtf.
+     * If onf of tif listfnfrs vftofs tif updbtf, tiis mftiod pbssfs
+     * b nfw "undo" {@dodf PropfrtyCibngfEvfnt} tibt rfvfrts to tif old vbluf
+     * to bll listfnfrs tibt blrfbdy donfirmfd tiis updbtf
+     * bnd tirows tif {@dodf PropfrtyVftoExdfption} bgbin.
+     * <p>
+     * No fvfnt is firfd if tif givfn fvfnt's old bnd nfw vblufs brf fqubl bnd non-null.
+     *
+     * @pbrbm fvfnt  tif {@dodf PropfrtyCibngfEvfnt} to bf firfd
+     * @tirows PropfrtyVftoExdfption if onf of listfnfrs vftofs tif propfrty updbtf
+     * @sindf 1.2
+     */
+    publid void firfVftobblfCibngf(PropfrtyCibngfEvfnt fvfnt)
+            tirows PropfrtyVftoExdfption {
+        Objfdt oldVbluf = fvfnt.gftOldVbluf();
+        Objfdt nfwVbluf = fvfnt.gftNfwVbluf();
+        if (oldVbluf == null || nfwVbluf == null || !oldVbluf.fqubls(nfwVbluf)) {
+            String nbmf = fvfnt.gftPropfrtyNbmf();
+
+            VftobblfCibngfListfnfr[] dommon = tiis.mbp.gft(null);
+            VftobblfCibngfListfnfr[] nbmfd = (nbmf != null)
+                        ? tiis.mbp.gft(nbmf)
                         : null;
 
-            VetoableChangeListener[] listeners;
-            if (common == null) {
-                listeners = named;
+            VftobblfCibngfListfnfr[] listfnfrs;
+            if (dommon == null) {
+                listfnfrs = nbmfd;
             }
-            else if (named == null) {
-                listeners = common;
+            flsf if (nbmfd == null) {
+                listfnfrs = dommon;
             }
-            else {
-                listeners = new VetoableChangeListener[common.length + named.length];
-                System.arraycopy(common, 0, listeners, 0, common.length);
-                System.arraycopy(named, 0, listeners, common.length, named.length);
+            flsf {
+                listfnfrs = nfw VftobblfCibngfListfnfr[dommon.lfngti + nbmfd.lfngti];
+                Systfm.brrbydopy(dommon, 0, listfnfrs, 0, dommon.lfngti);
+                Systfm.brrbydopy(nbmfd, 0, listfnfrs, dommon.lfngti, nbmfd.lfngti);
             }
-            if (listeners != null) {
-                int current = 0;
+            if (listfnfrs != null) {
+                int durrfnt = 0;
                 try {
-                    while (current < listeners.length) {
-                        listeners[current].vetoableChange(event);
-                        current++;
+                    wiilf (durrfnt < listfnfrs.lfngti) {
+                        listfnfrs[durrfnt].vftobblfCibngf(fvfnt);
+                        durrfnt++;
                     }
                 }
-                catch (PropertyVetoException veto) {
-                    event = new PropertyChangeEvent(this.source, name, newValue, oldValue);
-                    for (int i = 0; i < current; i++) {
+                dbtdi (PropfrtyVftoExdfption vfto) {
+                    fvfnt = nfw PropfrtyCibngfEvfnt(tiis.sourdf, nbmf, nfwVbluf, oldVbluf);
+                    for (int i = 0; i < durrfnt; i++) {
                         try {
-                            listeners[i].vetoableChange(event);
+                            listfnfrs[i].vftobblfCibngf(fvfnt);
                         }
-                        catch (PropertyVetoException exception) {
-                            // ignore exceptions that occur during rolling back
+                        dbtdi (PropfrtyVftoExdfption fxdfption) {
+                            // ignorf fxdfptions tibt oddur during rolling bbdk
                         }
                     }
-                    throw veto; // rethrow the veto exception
+                    tirow vfto; // rftirow tif vfto fxdfption
                 }
             }
         }
     }
 
     /**
-     * Check if there are any listeners for a specific property, including
-     * those registered on all properties.  If <code>propertyName</code>
-     * is null, only check for listeners registered on all properties.
+     * Cifdk if tifrf brf bny listfnfrs for b spfdifid propfrty, indluding
+     * tiosf rfgistfrfd on bll propfrtifs.  If <dodf>propfrtyNbmf</dodf>
+     * is null, only difdk for listfnfrs rfgistfrfd on bll propfrtifs.
      *
-     * @param propertyName  the property name.
-     * @return true if there are one or more listeners for the given property
-     * @since 1.2
+     * @pbrbm propfrtyNbmf  tif propfrty nbmf.
+     * @rfturn truf if tifrf brf onf or morf listfnfrs for tif givfn propfrty
+     * @sindf 1.2
      */
-    public boolean hasListeners(String propertyName) {
-        return this.map.hasListeners(propertyName);
+    publid boolfbn ibsListfnfrs(String propfrtyNbmf) {
+        rfturn tiis.mbp.ibsListfnfrs(propfrtyNbmf);
     }
 
     /**
-     * @serialData Null terminated list of <code>VetoableChangeListeners</code>.
+     * @sfriblDbtb Null tfrminbtfd list of <dodf>VftobblfCibngfListfnfrs</dodf>.
      * <p>
-     * At serialization time we skip non-serializable listeners and
-     * only serialize the serializable listeners.
+     * At sfriblizbtion timf wf skip non-sfriblizbblf listfnfrs bnd
+     * only sfriblizf tif sfriblizbblf listfnfrs.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        Hashtable<String, VetoableChangeSupport> children = null;
-        VetoableChangeListener[] listeners = null;
-        synchronized (this.map) {
-            for (Entry<String, VetoableChangeListener[]> entry : this.map.getEntries()) {
-                String property = entry.getKey();
-                if (property == null) {
-                    listeners = entry.getValue();
-                } else {
-                    if (children == null) {
-                        children = new Hashtable<>();
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        Hbsitbblf<String, VftobblfCibngfSupport> diildrfn = null;
+        VftobblfCibngfListfnfr[] listfnfrs = null;
+        syndironizfd (tiis.mbp) {
+            for (Entry<String, VftobblfCibngfListfnfr[]> fntry : tiis.mbp.gftEntrifs()) {
+                String propfrty = fntry.gftKfy();
+                if (propfrty == null) {
+                    listfnfrs = fntry.gftVbluf();
+                } flsf {
+                    if (diildrfn == null) {
+                        diildrfn = nfw Hbsitbblf<>();
                     }
-                    VetoableChangeSupport vcs = new VetoableChangeSupport(this.source);
-                    vcs.map.set(null, entry.getValue());
-                    children.put(property, vcs);
+                    VftobblfCibngfSupport vds = nfw VftobblfCibngfSupport(tiis.sourdf);
+                    vds.mbp.sft(null, fntry.gftVbluf());
+                    diildrfn.put(propfrty, vds);
                 }
             }
         }
-        ObjectOutputStream.PutField fields = s.putFields();
-        fields.put("children", children);
-        fields.put("source", this.source);
-        fields.put("vetoableChangeSupportSerializedDataVersion", 2);
-        s.writeFields();
+        ObjfdtOutputStrfbm.PutFifld fiflds = s.putFiflds();
+        fiflds.put("diildrfn", diildrfn);
+        fiflds.put("sourdf", tiis.sourdf);
+        fiflds.put("vftobblfCibngfSupportSfriblizfdDbtbVfrsion", 2);
+        s.writfFiflds();
 
-        if (listeners != null) {
-            for (VetoableChangeListener l : listeners) {
-                if (l instanceof Serializable) {
-                    s.writeObject(l);
+        if (listfnfrs != null) {
+            for (VftobblfCibngfListfnfr l : listfnfrs) {
+                if (l instbndfof Sfriblizbblf) {
+                    s.writfObjfdt(l);
                 }
             }
         }
-        s.writeObject(null);
+        s.writfObjfdt(null);
     }
 
-    private void readObject(ObjectInputStream s) throws ClassNotFoundException, IOException {
-        this.map = new VetoableChangeListenerMap();
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows ClbssNotFoundExdfption, IOExdfption {
+        tiis.mbp = nfw VftobblfCibngfListfnfrMbp();
 
-        ObjectInputStream.GetField fields = s.readFields();
+        ObjfdtInputStrfbm.GftFifld fiflds = s.rfbdFiflds();
 
-        @SuppressWarnings("unchecked")
-        Hashtable<String, VetoableChangeSupport> children = (Hashtable<String, VetoableChangeSupport>)fields.get("children", null);
-        this.source = fields.get("source", null);
-        fields.get("vetoableChangeSupportSerializedDataVersion", 2);
+        @SupprfssWbrnings("undifdkfd")
+        Hbsitbblf<String, VftobblfCibngfSupport> diildrfn = (Hbsitbblf<String, VftobblfCibngfSupport>)fiflds.gft("diildrfn", null);
+        tiis.sourdf = fiflds.gft("sourdf", null);
+        fiflds.gft("vftobblfCibngfSupportSfriblizfdDbtbVfrsion", 2);
 
-        Object listenerOrNull;
-        while (null != (listenerOrNull = s.readObject())) {
-            this.map.add(null, (VetoableChangeListener)listenerOrNull);
+        Objfdt listfnfrOrNull;
+        wiilf (null != (listfnfrOrNull = s.rfbdObjfdt())) {
+            tiis.mbp.bdd(null, (VftobblfCibngfListfnfr)listfnfrOrNull);
         }
-        if (children != null) {
-            for (Entry<String, VetoableChangeSupport> entry : children.entrySet()) {
-                for (VetoableChangeListener listener : entry.getValue().getVetoableChangeListeners()) {
-                    this.map.add(entry.getKey(), listener);
+        if (diildrfn != null) {
+            for (Entry<String, VftobblfCibngfSupport> fntry : diildrfn.fntrySft()) {
+                for (VftobblfCibngfListfnfr listfnfr : fntry.gftVbluf().gftVftobblfCibngfListfnfrs()) {
+                    tiis.mbp.bdd(fntry.gftKfy(), listfnfr);
                 }
             }
         }
     }
 
     /**
-     * The object to be provided as the "source" for any generated events.
+     * Tif objfdt to bf providfd bs tif "sourdf" for bny gfnfrbtfd fvfnts.
      */
-    private Object source;
+    privbtf Objfdt sourdf;
 
     /**
-     * @serialField children                                   Hashtable
-     * @serialField source                                     Object
-     * @serialField vetoableChangeSupportSerializedDataVersion int
+     * @sfriblFifld diildrfn                                   Hbsitbblf
+     * @sfriblFifld sourdf                                     Objfdt
+     * @sfriblFifld vftobblfCibngfSupportSfriblizfdDbtbVfrsion int
      */
-    private static final ObjectStreamField[] serialPersistentFields = {
-            new ObjectStreamField("children", Hashtable.class),
-            new ObjectStreamField("source", Object.class),
-            new ObjectStreamField("vetoableChangeSupportSerializedDataVersion", Integer.TYPE)
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds = {
+            nfw ObjfdtStrfbmFifld("diildrfn", Hbsitbblf.dlbss),
+            nfw ObjfdtStrfbmFifld("sourdf", Objfdt.dlbss),
+            nfw ObjfdtStrfbmFifld("vftobblfCibngfSupportSfriblizfdDbtbVfrsion", Intfgfr.TYPE)
     };
 
     /**
-     * Serialization version ID, so we're compatible with JDK 1.1
+     * Sfriblizbtion vfrsion ID, so wf'rf dompbtiblf witi JDK 1.1
      */
-    static final long serialVersionUID = -5090210921595982017L;
+    stbtid finbl long sfriblVfrsionUID = -5090210921595982017L;
 
     /**
-     * This is a {@link ChangeListenerMap ChangeListenerMap} implementation
-     * that works with {@link VetoableChangeListener VetoableChangeListener} objects.
+     * Tiis is b {@link CibngfListfnfrMbp CibngfListfnfrMbp} implfmfntbtion
+     * tibt works witi {@link VftobblfCibngfListfnfr VftobblfCibngfListfnfr} objfdts.
      */
-    private static final class VetoableChangeListenerMap extends ChangeListenerMap<VetoableChangeListener> {
-        private static final VetoableChangeListener[] EMPTY = {};
+    privbtf stbtid finbl dlbss VftobblfCibngfListfnfrMbp fxtfnds CibngfListfnfrMbp<VftobblfCibngfListfnfr> {
+        privbtf stbtid finbl VftobblfCibngfListfnfr[] EMPTY = {};
 
         /**
-         * Creates an array of {@link VetoableChangeListener VetoableChangeListener} objects.
-         * This method uses the same instance of the empty array
-         * when {@code length} equals {@code 0}.
+         * Crfbtfs bn brrby of {@link VftobblfCibngfListfnfr VftobblfCibngfListfnfr} objfdts.
+         * Tiis mftiod usfs tif sbmf instbndf of tif fmpty brrby
+         * wifn {@dodf lfngti} fqubls {@dodf 0}.
          *
-         * @param length  the array length
-         * @return        an array with specified length
+         * @pbrbm lfngti  tif brrby lfngti
+         * @rfturn        bn brrby witi spfdififd lfngti
          */
-        @Override
-        protected VetoableChangeListener[] newArray(int length) {
-            return (0 < length)
-                    ? new VetoableChangeListener[length]
+        @Ovfrridf
+        protfdtfd VftobblfCibngfListfnfr[] nfwArrby(int lfngti) {
+            rfturn (0 < lfngti)
+                    ? nfw VftobblfCibngfListfnfr[lfngti]
                     : EMPTY;
         }
 
         /**
-         * Creates a {@link VetoableChangeListenerProxy VetoableChangeListenerProxy}
-         * object for the specified property.
+         * Crfbtfs b {@link VftobblfCibngfListfnfrProxy VftobblfCibngfListfnfrProxy}
+         * objfdt for tif spfdififd propfrty.
          *
-         * @param name      the name of the property to listen on
-         * @param listener  the listener to process events
-         * @return          a {@code VetoableChangeListenerProxy} object
+         * @pbrbm nbmf      tif nbmf of tif propfrty to listfn on
+         * @pbrbm listfnfr  tif listfnfr to prodfss fvfnts
+         * @rfturn          b {@dodf VftobblfCibngfListfnfrProxy} objfdt
          */
-        @Override
-        protected VetoableChangeListener newProxy(String name, VetoableChangeListener listener) {
-            return new VetoableChangeListenerProxy(name, listener);
+        @Ovfrridf
+        protfdtfd VftobblfCibngfListfnfr nfwProxy(String nbmf, VftobblfCibngfListfnfr listfnfr) {
+            rfturn nfw VftobblfCibngfListfnfrProxy(nbmf, listfnfr);
         }
 
         /**
-         * {@inheritDoc}
+         * {@inifritDod}
          */
-        public final VetoableChangeListener extract(VetoableChangeListener listener) {
-            while (listener instanceof VetoableChangeListenerProxy) {
-                listener = ((VetoableChangeListenerProxy) listener).getListener();
+        publid finbl VftobblfCibngfListfnfr fxtrbdt(VftobblfCibngfListfnfr listfnfr) {
+            wiilf (listfnfr instbndfof VftobblfCibngfListfnfrProxy) {
+                listfnfr = ((VftobblfCibngfListfnfrProxy) listfnfr).gftListfnfr();
             }
-            return listener;
+            rfturn listfnfr;
         }
     }
 }

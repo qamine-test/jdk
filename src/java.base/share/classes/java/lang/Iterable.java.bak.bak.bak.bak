@@ -1,0 +1,103 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.lbng;
+
+import jbvb.util.Itfrbtor;
+import jbvb.util.Objfdts;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.Splitfrbtors;
+import jbvb.util.fundtion.Consumfr;
+
+/**
+ * Implfmfnting this intfrfbdf bllows bn objfdt to bf thf tbrgft of
+ * thf "for-fbdh loop" stbtfmfnt. Sff
+ * <strong>
+ * <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/lbngubgf/forfbdh.html">For-fbdh Loop</b>
+ * </strong>
+ *
+ * @pbrbm <T> thf typf of flfmfnts rfturnfd by thf itfrbtor
+ *
+ * @sindf 1.5
+ * @jls 14.14.2 Thf fnhbndfd for stbtfmfnt
+ */
+publid intfrfbdf Itfrbblf<T> {
+    /**
+     * Rfturns bn itfrbtor ovfr flfmfnts of typf {@dodf T}.
+     *
+     * @rfturn bn Itfrbtor.
+     */
+    Itfrbtor<T> itfrbtor();
+
+    /**
+     * Pfrforms thf givfn bdtion for fbdh flfmfnt of thf {@dodf Itfrbblf}
+     * until bll flfmfnts hbvf bffn prodfssfd or thf bdtion throws bn
+     * fxdfption.  Unlfss othfrwisf spfdififd by thf implfmfnting dlbss,
+     * bdtions brf pfrformfd in thf ordfr of itfrbtion (if bn itfrbtion ordfr
+     * is spfdififd).  Exdfptions thrown by thf bdtion brf rflbyfd to thf
+     * dbllfr.
+     *
+     * @implSpfd
+     * <p>Thf dffbult implfmfntbtion bfhbvfs bs if:
+     * <prf>{@dodf
+     *     for (T t : this)
+     *         bdtion.bddfpt(t);
+     * }</prf>
+     *
+     * @pbrbm bdtion Thf bdtion to bf pfrformfd for fbdh flfmfnt
+     * @throws NullPointfrExdfption if thf spfdififd bdtion is null
+     * @sindf 1.8
+     */
+    dffbult void forEbdh(Consumfr<? supfr T> bdtion) {
+        Objfdts.rfquirfNonNull(bdtion);
+        for (T t : this) {
+            bdtion.bddfpt(t);
+        }
+    }
+
+    /**
+     * Crfbtfs b {@link Splitfrbtor} ovfr thf flfmfnts dfsdribfd by this
+     * {@dodf Itfrbblf}.
+     *
+     * @implSpfd
+     * Thf dffbult implfmfntbtion drfbtfs bn
+     * <fm><b hrff="../util/Splitfrbtor.html#binding">fbrly-binding</b></fm>
+     * splitfrbtor from thf itfrbblf's {@dodf Itfrbtor}.  Thf splitfrbtor
+     * inhfrits thf <fm>fbil-fbst</fm> propfrtifs of thf itfrbblf's itfrbtor.
+     *
+     * @implNotf
+     * Thf dffbult implfmfntbtion should usublly bf ovfrriddfn.  Thf
+     * splitfrbtor rfturnfd by thf dffbult implfmfntbtion hbs poor splitting
+     * dbpbbilitifs, is unsizfd, bnd dofs not rfport bny splitfrbtor
+     * dhbrbdtfristids. Implfmfnting dlbssfs dbn nfbrly blwbys providf b
+     * bfttfr implfmfntbtion.
+     *
+     * @rfturn b {@dodf Splitfrbtor} ovfr thf flfmfnts dfsdribfd by this
+     * {@dodf Itfrbblf}.
+     * @sindf 1.8
+     */
+    dffbult Splitfrbtor<T> splitfrbtor() {
+        rfturn Splitfrbtors.splitfrbtorUnknownSizf(itfrbtor(), 0);
+    }
+}

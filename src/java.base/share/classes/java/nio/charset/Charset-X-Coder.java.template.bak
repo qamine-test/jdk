@@ -1,996 +1,996 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#warn This file is preprocessed before being compiled
+#wbrn Tiis filf is prfprodfssfd bfforf bfing dompilfd
 
-package java.nio.charset;
+pbdkbgf jbvb.nio.dibrsft;
 
-import java.nio.Buffer;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.BufferOverflowException;
-import java.nio.BufferUnderflowException;
-import java.lang.ref.WeakReference;
-import java.nio.charset.CoderMalfunctionError;                  // javadoc
-import java.util.Arrays;
+import jbvb.nio.Bufffr;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.CibrBufffr;
+import jbvb.nio.BufffrOvfrflowExdfption;
+import jbvb.nio.BufffrUndfrflowExdfption;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.nio.dibrsft.CodfrMblfundtionError;                  // jbvbdod
+import jbvb.util.Arrbys;
 
 
 /**
- * An engine that can transform a sequence of $itypesPhrase$ into a sequence of
- * $otypesPhrase$.
+ * An fnginf tibt dbn trbnsform b sfqufndf of $itypfsPirbsf$ into b sfqufndf of
+ * $otypfsPirbsf$.
  *
- * <a name="steps"></a>
+ * <b nbmf="stfps"></b>
  *
- * <p> The input $itype$ sequence is provided in a $itype$ buffer or a series
- * of such buffers.  The output $otype$ sequence is written to a $otype$ buffer
- * or a series of such buffers.  $A$ $coder$ should always be used by making
- * the following sequence of method invocations, hereinafter referred to as $a$
- * <i>$coding$ operation</i>:
+ * <p> Tif input $itypf$ sfqufndf is providfd in b $itypf$ bufffr or b sfrifs
+ * of sudi bufffrs.  Tif output $otypf$ sfqufndf is writtfn to b $otypf$ bufffr
+ * or b sfrifs of sudi bufffrs.  $A$ $dodfr$ siould blwbys bf usfd by mbking
+ * tif following sfqufndf of mftiod invodbtions, ifrfinbftfr rfffrrfd to bs $b$
+ * <i>$doding$ opfrbtion</i>:
  *
  * <ol>
  *
- *   <li><p> Reset the $coder$ via the {@link #reset reset} method, unless it
- *   has not been used before; </p></li>
+ *   <li><p> Rfsft tif $dodfr$ vib tif {@link #rfsft rfsft} mftiod, unlfss it
+ *   ibs not bffn usfd bfforf; </p></li>
  *
- *   <li><p> Invoke the {@link #$code$ $code$} method zero or more times, as
- *   long as additional input may be available, passing <tt>false</tt> for the
- *   <tt>endOfInput</tt> argument and filling the input buffer and flushing the
- *   output buffer between invocations; </p></li>
+ *   <li><p> Invokf tif {@link #$dodf$ $dodf$} mftiod zfro or morf timfs, bs
+ *   long bs bdditionbl input mby bf bvbilbblf, pbssing <tt>fblsf</tt> for tif
+ *   <tt>fndOfInput</tt> brgumfnt bnd filling tif input bufffr bnd flusiing tif
+ *   output bufffr bftwffn invodbtions; </p></li>
  *
- *   <li><p> Invoke the {@link #$code$ $code$} method one final time, passing
- *   <tt>true</tt> for the <tt>endOfInput</tt> argument; and then </p></li>
+ *   <li><p> Invokf tif {@link #$dodf$ $dodf$} mftiod onf finbl timf, pbssing
+ *   <tt>truf</tt> for tif <tt>fndOfInput</tt> brgumfnt; bnd tifn </p></li>
  *
- *   <li><p> Invoke the {@link #flush flush} method so that the $coder$ can
- *   flush any internal state to the output buffer. </p></li>
+ *   <li><p> Invokf tif {@link #flusi flusi} mftiod so tibt tif $dodfr$ dbn
+ *   flusi bny intfrnbl stbtf to tif output bufffr. </p></li>
  *
  * </ol>
  *
- * Each invocation of the {@link #$code$ $code$} method will $code$ as many
- * $itype$s as possible from the input buffer, writing the resulting $otype$s
- * to the output buffer.  The {@link #$code$ $code$} method returns when more
- * input is required, when there is not enough room in the output buffer, or
- * when $a$ $coding$ error has occurred.  In each case a {@link CoderResult}
- * object is returned to describe the reason for termination.  An invoker can
- * examine this object and fill the input buffer, flush the output buffer, or
- * attempt to recover from $a$ $coding$ error, as appropriate, and try again.
+ * Ebdi invodbtion of tif {@link #$dodf$ $dodf$} mftiod will $dodf$ bs mbny
+ * $itypf$s bs possiblf from tif input bufffr, writing tif rfsulting $otypf$s
+ * to tif output bufffr.  Tif {@link #$dodf$ $dodf$} mftiod rfturns wifn morf
+ * input is rfquirfd, wifn tifrf is not fnougi room in tif output bufffr, or
+ * wifn $b$ $doding$ frror ibs oddurrfd.  In fbdi dbsf b {@link CodfrRfsult}
+ * objfdt is rfturnfd to dfsdribf tif rfbson for tfrminbtion.  An invokfr dbn
+ * fxbminf tiis objfdt bnd fill tif input bufffr, flusi tif output bufffr, or
+ * bttfmpt to rfdovfr from $b$ $doding$ frror, bs bppropribtf, bnd try bgbin.
  *
- * <a name="ce"></a>
+ * <b nbmf="df"></b>
  *
- * <p> There are two general types of $coding$ errors.  If the input $itype$
- * sequence is $notLegal$ then the input is considered <i>malformed</i>.  If
- * the input $itype$ sequence is legal but cannot be mapped to a valid
- * $outSequence$ then an <i>unmappable character</i> has been encountered.
+ * <p> Tifrf brf two gfnfrbl typfs of $doding$ frrors.  If tif input $itypf$
+ * sfqufndf is $notLfgbl$ tifn tif input is donsidfrfd <i>mblformfd</i>.  If
+ * tif input $itypf$ sfqufndf is lfgbl but dbnnot bf mbppfd to b vblid
+ * $outSfqufndf$ tifn bn <i>unmbppbblf dibrbdtfr</i> ibs bffn fndountfrfd.
  *
- * <a name="cae"></a>
+ * <b nbmf="dbf"></b>
  *
- * <p> How $a$ $coding$ error is handled depends upon the action requested for
- * that type of error, which is described by an instance of the {@link
- * CodingErrorAction} class.  The possible error actions are to {@linkplain
- * CodingErrorAction#IGNORE ignore} the erroneous input, {@linkplain
- * CodingErrorAction#REPORT report} the error to the invoker via
- * the returned {@link CoderResult} object, or {@linkplain CodingErrorAction#REPLACE
- * replace} the erroneous input with the current value of the
- * replacement $replTypeName$.  The replacement
+ * <p> How $b$ $doding$ frror is ibndlfd dfpfnds upon tif bdtion rfqufstfd for
+ * tibt typf of frror, wiidi is dfsdribfd by bn instbndf of tif {@link
+ * CodingErrorAdtion} dlbss.  Tif possiblf frror bdtions brf to {@linkplbin
+ * CodingErrorAdtion#IGNORE ignorf} tif frronfous input, {@linkplbin
+ * CodingErrorAdtion#REPORT rfport} tif frror to tif invokfr vib
+ * tif rfturnfd {@link CodfrRfsult} objfdt, or {@linkplbin CodingErrorAdtion#REPLACE
+ * rfplbdf} tif frronfous input witi tif durrfnt vbluf of tif
+ * rfplbdfmfnt $rfplTypfNbmf$.  Tif rfplbdfmfnt
  *
-#if[encoder]
- * is initially set to the $coder$'s default replacement, which often
- * (but not always) has the initial value&nbsp;$defaultReplName$;
-#end[encoder]
-#if[decoder]
- * has the initial value $defaultReplName$;
-#end[decoder]
+#if[fndodfr]
+ * is initiblly sft to tif $dodfr$'s dffbult rfplbdfmfnt, wiidi oftfn
+ * (but not blwbys) ibs tif initibl vbluf&nbsp;$dffbultRfplNbmf$;
+#fnd[fndodfr]
+#if[dfdodfr]
+ * ibs tif initibl vbluf $dffbultRfplNbmf$;
+#fnd[dfdodfr]
  *
- * its value may be changed via the {@link #replaceWith($replFQType$)
- * replaceWith} method.
+ * its vbluf mby bf dibngfd vib tif {@link #rfplbdfWiti($rfplFQTypf$)
+ * rfplbdfWiti} mftiod.
  *
- * <p> The default action for malformed-input and unmappable-character errors
- * is to {@linkplain CodingErrorAction#REPORT report} them.  The
- * malformed-input error action may be changed via the {@link
- * #onMalformedInput(CodingErrorAction) onMalformedInput} method; the
- * unmappable-character action may be changed via the {@link
- * #onUnmappableCharacter(CodingErrorAction) onUnmappableCharacter} method.
+ * <p> Tif dffbult bdtion for mblformfd-input bnd unmbppbblf-dibrbdtfr frrors
+ * is to {@linkplbin CodingErrorAdtion#REPORT rfport} tifm.  Tif
+ * mblformfd-input frror bdtion mby bf dibngfd vib tif {@link
+ * #onMblformfdInput(CodingErrorAdtion) onMblformfdInput} mftiod; tif
+ * unmbppbblf-dibrbdtfr bdtion mby bf dibngfd vib tif {@link
+ * #onUnmbppbblfCibrbdtfr(CodingErrorAdtion) onUnmbppbblfCibrbdtfr} mftiod.
  *
- * <p> This class is designed to handle many of the details of the $coding$
- * process, including the implementation of error actions.  $A$ $coder$ for a
- * specific charset, which is a concrete subclass of this class, need only
- * implement the abstract {@link #$code$Loop $code$Loop} method, which
- * encapsulates the basic $coding$ loop.  A subclass that maintains internal
- * state should, additionally, override the {@link #implFlush implFlush} and
- * {@link #implReset implReset} methods.
+ * <p> Tiis dlbss is dfsignfd to ibndlf mbny of tif dftbils of tif $doding$
+ * prodfss, indluding tif implfmfntbtion of frror bdtions.  $A$ $dodfr$ for b
+ * spfdifid dibrsft, wiidi is b dondrftf subdlbss of tiis dlbss, nffd only
+ * implfmfnt tif bbstrbdt {@link #$dodf$Loop $dodf$Loop} mftiod, wiidi
+ * fndbpsulbtfs tif bbsid $doding$ loop.  A subdlbss tibt mbintbins intfrnbl
+ * stbtf siould, bdditionblly, ovfrridf tif {@link #implFlusi implFlusi} bnd
+ * {@link #implRfsft implRfsft} mftiods.
  *
- * <p> Instances of this class are not safe for use by multiple concurrent
- * threads.  </p>
+ * <p> Instbndfs of tiis dlbss brf not sbff for usf by multiplf dondurrfnt
+ * tirfbds.  </p>
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
- * @since 1.4
+ * @butior Mbrk Rfiniold
+ * @butior JSR-51 Expfrt Group
+ * @sindf 1.4
  *
- * @see ByteBuffer
- * @see CharBuffer
- * @see Charset
- * @see Charset$OtherCoder$
+ * @sff BytfBufffr
+ * @sff CibrBufffr
+ * @sff Cibrsft
+ * @sff Cibrsft$OtifrCodfr$
  */
 
-public abstract class Charset$Coder$ {
+publid bbstrbdt dlbss Cibrsft$Codfr$ {
 
-    private final Charset charset;
-    private final float average$ItypesPerOtype$;
-    private final float max$ItypesPerOtype$;
+    privbtf finbl Cibrsft dibrsft;
+    privbtf finbl flobt bvfrbgf$ItypfsPfrOtypf$;
+    privbtf finbl flobt mbx$ItypfsPfrOtypf$;
 
-    private $replType$ replacement;
-    private CodingErrorAction malformedInputAction
-        = CodingErrorAction.REPORT;
-    private CodingErrorAction unmappableCharacterAction
-        = CodingErrorAction.REPORT;
+    privbtf $rfplTypf$ rfplbdfmfnt;
+    privbtf CodingErrorAdtion mblformfdInputAdtion
+        = CodingErrorAdtion.REPORT;
+    privbtf CodingErrorAdtion unmbppbblfCibrbdtfrAdtion
+        = CodingErrorAdtion.REPORT;
 
-    // Internal states
+    // Intfrnbl stbtfs
     //
-    private static final int ST_RESET   = 0;
-    private static final int ST_CODING  = 1;
-    private static final int ST_END     = 2;
-    private static final int ST_FLUSHED = 3;
+    privbtf stbtid finbl int ST_RESET   = 0;
+    privbtf stbtid finbl int ST_CODING  = 1;
+    privbtf stbtid finbl int ST_END     = 2;
+    privbtf stbtid finbl int ST_FLUSHED = 3;
 
-    private int state = ST_RESET;
+    privbtf int stbtf = ST_RESET;
 
-    private static String stateNames[]
+    privbtf stbtid String stbtfNbmfs[]
         = { "RESET", "CODING", "CODING_END", "FLUSHED" };
 
 
     /**
-     * Initializes a new $coder$.  The new $coder$ will have the given
-     * $otypes-per-itype$ and replacement values.
+     * Initiblizfs b nfw $dodfr$.  Tif nfw $dodfr$ will ibvf tif givfn
+     * $otypfs-pfr-itypf$ bnd rfplbdfmfnt vblufs.
      *
-     * @param  cs
-     *         The charset that created this $coder$
+     * @pbrbm  ds
+     *         Tif dibrsft tibt drfbtfd tiis $dodfr$
      *
-     * @param  average$ItypesPerOtype$
-     *         A positive float value indicating the expected number of
-     *         $otype$s that will be produced for each input $itype$
+     * @pbrbm  bvfrbgf$ItypfsPfrOtypf$
+     *         A positivf flobt vbluf indidbting tif fxpfdtfd numbfr of
+     *         $otypf$s tibt will bf produdfd for fbdi input $itypf$
      *
-     * @param  max$ItypesPerOtype$
-     *         A positive float value indicating the maximum number of
-     *         $otype$s that will be produced for each input $itype$
+     * @pbrbm  mbx$ItypfsPfrOtypf$
+     *         A positivf flobt vbluf indidbting tif mbximum numbfr of
+     *         $otypf$s tibt will bf produdfd for fbdi input $itypf$
      *
-     * @param  replacement
-     *         The initial replacement; must not be <tt>null</tt>, must have
-     *         non-zero length, must not be longer than max$ItypesPerOtype$,
-     *         and must be {@linkplain #isLegalReplacement legal}
+     * @pbrbm  rfplbdfmfnt
+     *         Tif initibl rfplbdfmfnt; must not bf <tt>null</tt>, must ibvf
+     *         non-zfro lfngti, must not bf longfr tibn mbx$ItypfsPfrOtypf$,
+     *         bnd must bf {@linkplbin #isLfgblRfplbdfmfnt lfgbl}
      *
-     * @throws  IllegalArgumentException
-     *          If the preconditions on the parameters do not hold
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif prfdonditions on tif pbrbmftfrs do not iold
      */
-    {#if[encoder]?protected:private}
-    Charset$Coder$(Charset cs,
-                   float average$ItypesPerOtype$,
-                   float max$ItypesPerOtype$,
-                   $replType$ replacement)
+    {#if[fndodfr]?protfdtfd:privbtf}
+    Cibrsft$Codfr$(Cibrsft ds,
+                   flobt bvfrbgf$ItypfsPfrOtypf$,
+                   flobt mbx$ItypfsPfrOtypf$,
+                   $rfplTypf$ rfplbdfmfnt)
     {
-        this.charset = cs;
-        if (average$ItypesPerOtype$ <= 0.0f)
-            throw new IllegalArgumentException("Non-positive "
-                                               + "average$ItypesPerOtype$");
-        if (max$ItypesPerOtype$ <= 0.0f)
-            throw new IllegalArgumentException("Non-positive "
-                                               + "max$ItypesPerOtype$");
-        if (!Charset.atBugLevel("1.4")) {
-            if (average$ItypesPerOtype$ > max$ItypesPerOtype$)
-                throw new IllegalArgumentException("average$ItypesPerOtype$"
-                                                   + " exceeds "
-                                                   + "max$ItypesPerOtype$");
+        tiis.dibrsft = ds;
+        if (bvfrbgf$ItypfsPfrOtypf$ <= 0.0f)
+            tirow nfw IllfgblArgumfntExdfption("Non-positivf "
+                                               + "bvfrbgf$ItypfsPfrOtypf$");
+        if (mbx$ItypfsPfrOtypf$ <= 0.0f)
+            tirow nfw IllfgblArgumfntExdfption("Non-positivf "
+                                               + "mbx$ItypfsPfrOtypf$");
+        if (!Cibrsft.btBugLfvfl("1.4")) {
+            if (bvfrbgf$ItypfsPfrOtypf$ > mbx$ItypfsPfrOtypf$)
+                tirow nfw IllfgblArgumfntExdfption("bvfrbgf$ItypfsPfrOtypf$"
+                                                   + " fxdffds "
+                                                   + "mbx$ItypfsPfrOtypf$");
         }
-        this.replacement = replacement;
-        this.average$ItypesPerOtype$ = average$ItypesPerOtype$;
-        this.max$ItypesPerOtype$ = max$ItypesPerOtype$;
-        replaceWith(replacement);
+        tiis.rfplbdfmfnt = rfplbdfmfnt;
+        tiis.bvfrbgf$ItypfsPfrOtypf$ = bvfrbgf$ItypfsPfrOtypf$;
+        tiis.mbx$ItypfsPfrOtypf$ = mbx$ItypfsPfrOtypf$;
+        rfplbdfWiti(rfplbdfmfnt);
     }
 
     /**
-     * Initializes a new $coder$.  The new $coder$ will have the given
-     * $otypes-per-itype$ values and its replacement will be the
-     * $replTypeName$ $defaultReplName$.
+     * Initiblizfs b nfw $dodfr$.  Tif nfw $dodfr$ will ibvf tif givfn
+     * $otypfs-pfr-itypf$ vblufs bnd its rfplbdfmfnt will bf tif
+     * $rfplTypfNbmf$ $dffbultRfplNbmf$.
      *
-     * @param  cs
-     *         The charset that created this $coder$
+     * @pbrbm  ds
+     *         Tif dibrsft tibt drfbtfd tiis $dodfr$
      *
-     * @param  average$ItypesPerOtype$
-     *         A positive float value indicating the expected number of
-     *         $otype$s that will be produced for each input $itype$
+     * @pbrbm  bvfrbgf$ItypfsPfrOtypf$
+     *         A positivf flobt vbluf indidbting tif fxpfdtfd numbfr of
+     *         $otypf$s tibt will bf produdfd for fbdi input $itypf$
      *
-     * @param  max$ItypesPerOtype$
-     *         A positive float value indicating the maximum number of
-     *         $otype$s that will be produced for each input $itype$
+     * @pbrbm  mbx$ItypfsPfrOtypf$
+     *         A positivf flobt vbluf indidbting tif mbximum numbfr of
+     *         $otypf$s tibt will bf produdfd for fbdi input $itypf$
      *
-     * @throws  IllegalArgumentException
-     *          If the preconditions on the parameters do not hold
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif prfdonditions on tif pbrbmftfrs do not iold
      */
-    protected Charset$Coder$(Charset cs,
-                             float average$ItypesPerOtype$,
-                             float max$ItypesPerOtype$)
+    protfdtfd Cibrsft$Codfr$(Cibrsft ds,
+                             flobt bvfrbgf$ItypfsPfrOtypf$,
+                             flobt mbx$ItypfsPfrOtypf$)
     {
-        this(cs,
-             average$ItypesPerOtype$, max$ItypesPerOtype$,
-             $defaultRepl$);
+        tiis(ds,
+             bvfrbgf$ItypfsPfrOtypf$, mbx$ItypfsPfrOtypf$,
+             $dffbultRfpl$);
     }
 
     /**
-     * Returns the charset that created this $coder$.
+     * Rfturns tif dibrsft tibt drfbtfd tiis $dodfr$.
      *
-     * @return  This $coder$'s charset
+     * @rfturn  Tiis $dodfr$'s dibrsft
      */
-    public final Charset charset() {
-        return charset;
+    publid finbl Cibrsft dibrsft() {
+        rfturn dibrsft;
     }
 
     /**
-     * Returns this $coder$'s replacement value.
+     * Rfturns tiis $dodfr$'s rfplbdfmfnt vbluf.
      *
-     * @return  This $coder$'s current replacement,
-     *          which is never <tt>null</tt> and is never empty
+     * @rfturn  Tiis $dodfr$'s durrfnt rfplbdfmfnt,
+     *          wiidi is nfvfr <tt>null</tt> bnd is nfvfr fmpty
      */
-    public final $replType$ replacement() {
-#if[decoder]
-        return replacement;
-#end[decoder]
-#if[encoder]
-        return Arrays.copyOf(replacement, replacement.$replLength$);
-#end[encoder]
+    publid finbl $rfplTypf$ rfplbdfmfnt() {
+#if[dfdodfr]
+        rfturn rfplbdfmfnt;
+#fnd[dfdodfr]
+#if[fndodfr]
+        rfturn Arrbys.dopyOf(rfplbdfmfnt, rfplbdfmfnt.$rfplLfngti$);
+#fnd[fndodfr]
     }
 
     /**
-     * Changes this $coder$'s replacement value.
+     * Cibngfs tiis $dodfr$'s rfplbdfmfnt vbluf.
      *
-     * <p> This method invokes the {@link #implReplaceWith implReplaceWith}
-     * method, passing the new replacement, after checking that the new
-     * replacement is acceptable.  </p>
+     * <p> Tiis mftiod invokfs tif {@link #implRfplbdfWiti implRfplbdfWiti}
+     * mftiod, pbssing tif nfw rfplbdfmfnt, bftfr difdking tibt tif nfw
+     * rfplbdfmfnt is bddfptbblf.  </p>
      *
-     * @param  newReplacement  The replacement value
+     * @pbrbm  nfwRfplbdfmfnt  Tif rfplbdfmfnt vbluf
      *
-#if[decoder]
-     *         The new replacement; must not be <tt>null</tt>
-     *         and must have non-zero length
-#end[decoder]
-#if[encoder]
-     *         The new replacement; must not be <tt>null</tt>, must have
-     *         non-zero length, must not be longer than the value returned by
-     *         the {@link #max$ItypesPerOtype$() max$ItypesPerOtype$} method, and
-     *         must be {@link #isLegalReplacement legal}
-#end[encoder]
+#if[dfdodfr]
+     *         Tif nfw rfplbdfmfnt; must not bf <tt>null</tt>
+     *         bnd must ibvf non-zfro lfngti
+#fnd[dfdodfr]
+#if[fndodfr]
+     *         Tif nfw rfplbdfmfnt; must not bf <tt>null</tt>, must ibvf
+     *         non-zfro lfngti, must not bf longfr tibn tif vbluf rfturnfd by
+     *         tif {@link #mbx$ItypfsPfrOtypf$() mbx$ItypfsPfrOtypf$} mftiod, bnd
+     *         must bf {@link #isLfgblRfplbdfmfnt lfgbl}
+#fnd[fndodfr]
      *
-     * @return  This $coder$
+     * @rfturn  Tiis $dodfr$
      *
-     * @throws  IllegalArgumentException
-     *          If the preconditions on the parameter do not hold
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif prfdonditions on tif pbrbmftfr do not iold
      */
-    public final Charset$Coder$ replaceWith($replType$ newReplacement) {
-        if (newReplacement == null)
-            throw new IllegalArgumentException("Null replacement");
-        int len = newReplacement.$replLength$;
-        if (len == 0)
-            throw new IllegalArgumentException("Empty replacement");
-        if (len > max$ItypesPerOtype$)
-            throw new IllegalArgumentException("Replacement too long");
-#if[decoder]
-        this.replacement = newReplacement;
-#end[decoder]
-#if[encoder]
-        if (!isLegalReplacement(newReplacement))
-            throw new IllegalArgumentException("Illegal replacement");
-        this.replacement = Arrays.copyOf(newReplacement, newReplacement.$replLength$);
-#end[encoder]
-        implReplaceWith(this.replacement);
-        return this;
+    publid finbl Cibrsft$Codfr$ rfplbdfWiti($rfplTypf$ nfwRfplbdfmfnt) {
+        if (nfwRfplbdfmfnt == null)
+            tirow nfw IllfgblArgumfntExdfption("Null rfplbdfmfnt");
+        int lfn = nfwRfplbdfmfnt.$rfplLfngti$;
+        if (lfn == 0)
+            tirow nfw IllfgblArgumfntExdfption("Empty rfplbdfmfnt");
+        if (lfn > mbx$ItypfsPfrOtypf$)
+            tirow nfw IllfgblArgumfntExdfption("Rfplbdfmfnt too long");
+#if[dfdodfr]
+        tiis.rfplbdfmfnt = nfwRfplbdfmfnt;
+#fnd[dfdodfr]
+#if[fndodfr]
+        if (!isLfgblRfplbdfmfnt(nfwRfplbdfmfnt))
+            tirow nfw IllfgblArgumfntExdfption("Illfgbl rfplbdfmfnt");
+        tiis.rfplbdfmfnt = Arrbys.dopyOf(nfwRfplbdfmfnt, nfwRfplbdfmfnt.$rfplLfngti$);
+#fnd[fndodfr]
+        implRfplbdfWiti(tiis.rfplbdfmfnt);
+        rfturn tiis;
     }
 
     /**
-     * Reports a change to this $coder$'s replacement value.
+     * Rfports b dibngf to tiis $dodfr$'s rfplbdfmfnt vbluf.
      *
-     * <p> The default implementation of this method does nothing.  This method
-     * should be overridden by $coder$s that require notification of changes to
-     * the replacement.  </p>
+     * <p> Tif dffbult implfmfntbtion of tiis mftiod dofs notiing.  Tiis mftiod
+     * siould bf ovfrriddfn by $dodfr$s tibt rfquirf notifidbtion of dibngfs to
+     * tif rfplbdfmfnt.  </p>
      *
-     * @param  newReplacement    The replacement value
+     * @pbrbm  nfwRfplbdfmfnt    Tif rfplbdfmfnt vbluf
      */
-    protected void implReplaceWith($replType$ newReplacement) {
+    protfdtfd void implRfplbdfWiti($rfplTypf$ nfwRfplbdfmfnt) {
     }
 
-#if[encoder]
+#if[fndodfr]
 
-    private WeakReference<CharsetDecoder> cachedDecoder = null;
+    privbtf WfbkRfffrfndf<CibrsftDfdodfr> dbdifdDfdodfr = null;
 
     /**
-     * Tells whether or not the given byte array is a legal replacement value
-     * for this encoder.
+     * Tflls wiftifr or not tif givfn bytf brrby is b lfgbl rfplbdfmfnt vbluf
+     * for tiis fndodfr.
      *
-     * <p> A replacement is legal if, and only if, it is a legal sequence of
-     * bytes in this encoder's charset; that is, it must be possible to decode
-     * the replacement into one or more sixteen-bit Unicode characters.
+     * <p> A rfplbdfmfnt is lfgbl if, bnd only if, it is b lfgbl sfqufndf of
+     * bytfs in tiis fndodfr's dibrsft; tibt is, it must bf possiblf to dfdodf
+     * tif rfplbdfmfnt into onf or morf sixtffn-bit Unidodf dibrbdtfrs.
      *
-     * <p> The default implementation of this method is not very efficient; it
-     * should generally be overridden to improve performance.  </p>
+     * <p> Tif dffbult implfmfntbtion of tiis mftiod is not vfry fffidifnt; it
+     * siould gfnfrblly bf ovfrriddfn to improvf pfrformbndf.  </p>
      *
-     * @param  repl  The byte array to be tested
+     * @pbrbm  rfpl  Tif bytf brrby to bf tfstfd
      *
-     * @return  <tt>true</tt> if, and only if, the given byte array
-     *          is a legal replacement value for this encoder
+     * @rfturn  <tt>truf</tt> if, bnd only if, tif givfn bytf brrby
+     *          is b lfgbl rfplbdfmfnt vbluf for tiis fndodfr
      */
-    public boolean isLegalReplacement(byte[] repl) {
-        WeakReference<CharsetDecoder> wr = cachedDecoder;
-        CharsetDecoder dec = null;
-        if ((wr == null) || ((dec = wr.get()) == null)) {
-            dec = charset().newDecoder();
-            dec.onMalformedInput(CodingErrorAction.REPORT);
-            dec.onUnmappableCharacter(CodingErrorAction.REPORT);
-            cachedDecoder = new WeakReference<CharsetDecoder>(dec);
-        } else {
-            dec.reset();
+    publid boolfbn isLfgblRfplbdfmfnt(bytf[] rfpl) {
+        WfbkRfffrfndf<CibrsftDfdodfr> wr = dbdifdDfdodfr;
+        CibrsftDfdodfr dfd = null;
+        if ((wr == null) || ((dfd = wr.gft()) == null)) {
+            dfd = dibrsft().nfwDfdodfr();
+            dfd.onMblformfdInput(CodingErrorAdtion.REPORT);
+            dfd.onUnmbppbblfCibrbdtfr(CodingErrorAdtion.REPORT);
+            dbdifdDfdodfr = nfw WfbkRfffrfndf<CibrsftDfdodfr>(dfd);
+        } flsf {
+            dfd.rfsft();
         }
-        ByteBuffer bb = ByteBuffer.wrap(repl);
-        CharBuffer cb = CharBuffer.allocate((int)(bb.remaining()
-                                                  * dec.maxCharsPerByte()));
-        CoderResult cr = dec.decode(bb, cb, true);
-        return !cr.isError();
+        BytfBufffr bb = BytfBufffr.wrbp(rfpl);
+        CibrBufffr db = CibrBufffr.bllodbtf((int)(bb.rfmbining()
+                                                  * dfd.mbxCibrsPfrBytf()));
+        CodfrRfsult dr = dfd.dfdodf(bb, db, truf);
+        rfturn !dr.isError();
     }
 
-#end[encoder]
+#fnd[fndodfr]
 
     /**
-     * Returns this $coder$'s current action for malformed-input errors.
+     * Rfturns tiis $dodfr$'s durrfnt bdtion for mblformfd-input frrors.
      *
-     * @return The current malformed-input action, which is never <tt>null</tt>
+     * @rfturn Tif durrfnt mblformfd-input bdtion, wiidi is nfvfr <tt>null</tt>
      */
-    public CodingErrorAction malformedInputAction() {
-        return malformedInputAction;
-    }
-
-    /**
-     * Changes this $coder$'s action for malformed-input errors.
-     *
-     * <p> This method invokes the {@link #implOnMalformedInput
-     * implOnMalformedInput} method, passing the new action.  </p>
-     *
-     * @param  newAction  The new action; must not be <tt>null</tt>
-     *
-     * @return  This $coder$
-     *
-     * @throws IllegalArgumentException
-     *         If the precondition on the parameter does not hold
-     */
-    public final Charset$Coder$ onMalformedInput(CodingErrorAction newAction) {
-        if (newAction == null)
-            throw new IllegalArgumentException("Null action");
-        malformedInputAction = newAction;
-        implOnMalformedInput(newAction);
-        return this;
+    publid CodingErrorAdtion mblformfdInputAdtion() {
+        rfturn mblformfdInputAdtion;
     }
 
     /**
-     * Reports a change to this $coder$'s malformed-input action.
+     * Cibngfs tiis $dodfr$'s bdtion for mblformfd-input frrors.
      *
-     * <p> The default implementation of this method does nothing.  This method
-     * should be overridden by $coder$s that require notification of changes to
-     * the malformed-input action.  </p>
+     * <p> Tiis mftiod invokfs tif {@link #implOnMblformfdInput
+     * implOnMblformfdInput} mftiod, pbssing tif nfw bdtion.  </p>
      *
-     * @param  newAction  The new action
+     * @pbrbm  nfwAdtion  Tif nfw bdtion; must not bf <tt>null</tt>
+     *
+     * @rfturn  Tiis $dodfr$
+     *
+     * @tirows IllfgblArgumfntExdfption
+     *         If tif prfdondition on tif pbrbmftfr dofs not iold
      */
-    protected void implOnMalformedInput(CodingErrorAction newAction) { }
+    publid finbl Cibrsft$Codfr$ onMblformfdInput(CodingErrorAdtion nfwAdtion) {
+        if (nfwAdtion == null)
+            tirow nfw IllfgblArgumfntExdfption("Null bdtion");
+        mblformfdInputAdtion = nfwAdtion;
+        implOnMblformfdInput(nfwAdtion);
+        rfturn tiis;
+    }
 
     /**
-     * Returns this $coder$'s current action for unmappable-character errors.
+     * Rfports b dibngf to tiis $dodfr$'s mblformfd-input bdtion.
      *
-     * @return The current unmappable-character action, which is never
+     * <p> Tif dffbult implfmfntbtion of tiis mftiod dofs notiing.  Tiis mftiod
+     * siould bf ovfrriddfn by $dodfr$s tibt rfquirf notifidbtion of dibngfs to
+     * tif mblformfd-input bdtion.  </p>
+     *
+     * @pbrbm  nfwAdtion  Tif nfw bdtion
+     */
+    protfdtfd void implOnMblformfdInput(CodingErrorAdtion nfwAdtion) { }
+
+    /**
+     * Rfturns tiis $dodfr$'s durrfnt bdtion for unmbppbblf-dibrbdtfr frrors.
+     *
+     * @rfturn Tif durrfnt unmbppbblf-dibrbdtfr bdtion, wiidi is nfvfr
      *         <tt>null</tt>
      */
-    public CodingErrorAction unmappableCharacterAction() {
-        return unmappableCharacterAction;
+    publid CodingErrorAdtion unmbppbblfCibrbdtfrAdtion() {
+        rfturn unmbppbblfCibrbdtfrAdtion;
     }
 
     /**
-     * Changes this $coder$'s action for unmappable-character errors.
+     * Cibngfs tiis $dodfr$'s bdtion for unmbppbblf-dibrbdtfr frrors.
      *
-     * <p> This method invokes the {@link #implOnUnmappableCharacter
-     * implOnUnmappableCharacter} method, passing the new action.  </p>
+     * <p> Tiis mftiod invokfs tif {@link #implOnUnmbppbblfCibrbdtfr
+     * implOnUnmbppbblfCibrbdtfr} mftiod, pbssing tif nfw bdtion.  </p>
      *
-     * @param  newAction  The new action; must not be <tt>null</tt>
+     * @pbrbm  nfwAdtion  Tif nfw bdtion; must not bf <tt>null</tt>
      *
-     * @return  This $coder$
+     * @rfturn  Tiis $dodfr$
      *
-     * @throws IllegalArgumentException
-     *         If the precondition on the parameter does not hold
+     * @tirows IllfgblArgumfntExdfption
+     *         If tif prfdondition on tif pbrbmftfr dofs not iold
      */
-    public final Charset$Coder$ onUnmappableCharacter(CodingErrorAction
-                                                      newAction)
+    publid finbl Cibrsft$Codfr$ onUnmbppbblfCibrbdtfr(CodingErrorAdtion
+                                                      nfwAdtion)
     {
-        if (newAction == null)
-            throw new IllegalArgumentException("Null action");
-        unmappableCharacterAction = newAction;
-        implOnUnmappableCharacter(newAction);
-        return this;
+        if (nfwAdtion == null)
+            tirow nfw IllfgblArgumfntExdfption("Null bdtion");
+        unmbppbblfCibrbdtfrAdtion = nfwAdtion;
+        implOnUnmbppbblfCibrbdtfr(nfwAdtion);
+        rfturn tiis;
     }
 
     /**
-     * Reports a change to this $coder$'s unmappable-character action.
+     * Rfports b dibngf to tiis $dodfr$'s unmbppbblf-dibrbdtfr bdtion.
      *
-     * <p> The default implementation of this method does nothing.  This method
-     * should be overridden by $coder$s that require notification of changes to
-     * the unmappable-character action.  </p>
+     * <p> Tif dffbult implfmfntbtion of tiis mftiod dofs notiing.  Tiis mftiod
+     * siould bf ovfrriddfn by $dodfr$s tibt rfquirf notifidbtion of dibngfs to
+     * tif unmbppbblf-dibrbdtfr bdtion.  </p>
      *
-     * @param  newAction  The new action
+     * @pbrbm  nfwAdtion  Tif nfw bdtion
      */
-    protected void implOnUnmappableCharacter(CodingErrorAction newAction) { }
+    protfdtfd void implOnUnmbppbblfCibrbdtfr(CodingErrorAdtion nfwAdtion) { }
 
     /**
-     * Returns the average number of $otype$s that will be produced for each
-     * $itype$ of input.  This heuristic value may be used to estimate the size
-     * of the output buffer required for a given input sequence.
+     * Rfturns tif bvfrbgf numbfr of $otypf$s tibt will bf produdfd for fbdi
+     * $itypf$ of input.  Tiis ifuristid vbluf mby bf usfd to fstimbtf tif sizf
+     * of tif output bufffr rfquirfd for b givfn input sfqufndf.
      *
-     * @return  The average number of $otype$s produced
-     *          per $itype$ of input
+     * @rfturn  Tif bvfrbgf numbfr of $otypf$s produdfd
+     *          pfr $itypf$ of input
      */
-    public final float average$ItypesPerOtype$() {
-        return average$ItypesPerOtype$;
+    publid finbl flobt bvfrbgf$ItypfsPfrOtypf$() {
+        rfturn bvfrbgf$ItypfsPfrOtypf$;
     }
 
     /**
-     * Returns the maximum number of $otype$s that will be produced for each
-     * $itype$ of input.  This value may be used to compute the worst-case size
-     * of the output buffer required for a given input sequence.
+     * Rfturns tif mbximum numbfr of $otypf$s tibt will bf produdfd for fbdi
+     * $itypf$ of input.  Tiis vbluf mby bf usfd to domputf tif worst-dbsf sizf
+     * of tif output bufffr rfquirfd for b givfn input sfqufndf.
      *
-     * @return  The maximum number of $otype$s that will be produced per
-     *          $itype$ of input
+     * @rfturn  Tif mbximum numbfr of $otypf$s tibt will bf produdfd pfr
+     *          $itypf$ of input
      */
-    public final float max$ItypesPerOtype$() {
-        return max$ItypesPerOtype$;
+    publid finbl flobt mbx$ItypfsPfrOtypf$() {
+        rfturn mbx$ItypfsPfrOtypf$;
     }
 
     /**
-     * $Code$s as many $itype$s as possible from the given input buffer,
-     * writing the results to the given output buffer.
+     * $Codf$s bs mbny $itypf$s bs possiblf from tif givfn input bufffr,
+     * writing tif rfsults to tif givfn output bufffr.
      *
-     * <p> The buffers are read from, and written to, starting at their current
-     * positions.  At most {@link Buffer#remaining in.remaining()} $itype$s
-     * will be read and at most {@link Buffer#remaining out.remaining()}
-     * $otype$s will be written.  The buffers' positions will be advanced to
-     * reflect the $itype$s read and the $otype$s written, but their marks and
-     * limits will not be modified.
+     * <p> Tif bufffrs brf rfbd from, bnd writtfn to, stbrting bt tifir durrfnt
+     * positions.  At most {@link Bufffr#rfmbining in.rfmbining()} $itypf$s
+     * will bf rfbd bnd bt most {@link Bufffr#rfmbining out.rfmbining()}
+     * $otypf$s will bf writtfn.  Tif bufffrs' positions will bf bdvbndfd to
+     * rfflfdt tif $itypf$s rfbd bnd tif $otypf$s writtfn, but tifir mbrks bnd
+     * limits will not bf modififd.
      *
-     * <p> In addition to reading $itype$s from the input buffer and writing
-     * $otype$s to the output buffer, this method returns a {@link CoderResult}
-     * object to describe its reason for termination:
+     * <p> In bddition to rfbding $itypf$s from tif input bufffr bnd writing
+     * $otypf$s to tif output bufffr, tiis mftiod rfturns b {@link CodfrRfsult}
+     * objfdt to dfsdribf its rfbson for tfrminbtion:
      *
      * <ul>
      *
-     *   <li><p> {@link CoderResult#UNDERFLOW} indicates that as much of the
-     *   input buffer as possible has been $code$d.  If there is no further
-     *   input then the invoker can proceed to the next step of the
-     *   <a href="#steps">$coding$ operation</a>.  Otherwise this method
-     *   should be invoked again with further input.  </p></li>
+     *   <li><p> {@link CodfrRfsult#UNDERFLOW} indidbtfs tibt bs mudi of tif
+     *   input bufffr bs possiblf ibs bffn $dodf$d.  If tifrf is no furtifr
+     *   input tifn tif invokfr dbn prodffd to tif nfxt stfp of tif
+     *   <b irff="#stfps">$doding$ opfrbtion</b>.  Otifrwisf tiis mftiod
+     *   siould bf invokfd bgbin witi furtifr input.  </p></li>
      *
-     *   <li><p> {@link CoderResult#OVERFLOW} indicates that there is
-     *   insufficient space in the output buffer to $code$ any more $itype$s.
-     *   This method should be invoked again with an output buffer that has
-     *   more {@linkplain Buffer#remaining remaining} $otype$s. This is
-     *   typically done by draining any $code$d $otype$s from the output
-     *   buffer.  </p></li>
+     *   <li><p> {@link CodfrRfsult#OVERFLOW} indidbtfs tibt tifrf is
+     *   insuffidifnt spbdf in tif output bufffr to $dodf$ bny morf $itypf$s.
+     *   Tiis mftiod siould bf invokfd bgbin witi bn output bufffr tibt ibs
+     *   morf {@linkplbin Bufffr#rfmbining rfmbining} $otypf$s. Tiis is
+     *   typidblly donf by drbining bny $dodf$d $otypf$s from tif output
+     *   bufffr.  </p></li>
      *
-     *   <li><p> A {@linkplain CoderResult#malformedForLength
-     *   malformed-input} result indicates that a malformed-input
-     *   error has been detected.  The malformed $itype$s begin at the input
-     *   buffer's (possibly incremented) position; the number of malformed
-     *   $itype$s may be determined by invoking the result object's {@link
-     *   CoderResult#length() length} method.  This case applies only if the
-     *   {@linkplain #onMalformedInput malformed action} of this $coder$
-     *   is {@link CodingErrorAction#REPORT}; otherwise the malformed input
-     *   will be ignored or replaced, as requested.  </p></li>
+     *   <li><p> A {@linkplbin CodfrRfsult#mblformfdForLfngti
+     *   mblformfd-input} rfsult indidbtfs tibt b mblformfd-input
+     *   frror ibs bffn dftfdtfd.  Tif mblformfd $itypf$s bfgin bt tif input
+     *   bufffr's (possibly indrfmfntfd) position; tif numbfr of mblformfd
+     *   $itypf$s mby bf dftfrminfd by invoking tif rfsult objfdt's {@link
+     *   CodfrRfsult#lfngti() lfngti} mftiod.  Tiis dbsf bpplifs only if tif
+     *   {@linkplbin #onMblformfdInput mblformfd bdtion} of tiis $dodfr$
+     *   is {@link CodingErrorAdtion#REPORT}; otifrwisf tif mblformfd input
+     *   will bf ignorfd or rfplbdfd, bs rfqufstfd.  </p></li>
      *
-     *   <li><p> An {@linkplain CoderResult#unmappableForLength
-     *   unmappable-character} result indicates that an
-     *   unmappable-character error has been detected.  The $itype$s that
-     *   $code$ the unmappable character begin at the input buffer's (possibly
-     *   incremented) position; the number of such $itype$s may be determined
-     *   by invoking the result object's {@link CoderResult#length() length}
-     *   method.  This case applies only if the {@linkplain #onUnmappableCharacter
-     *   unmappable action} of this $coder$ is {@link
-     *   CodingErrorAction#REPORT}; otherwise the unmappable character will be
-     *   ignored or replaced, as requested.  </p></li>
+     *   <li><p> An {@linkplbin CodfrRfsult#unmbppbblfForLfngti
+     *   unmbppbblf-dibrbdtfr} rfsult indidbtfs tibt bn
+     *   unmbppbblf-dibrbdtfr frror ibs bffn dftfdtfd.  Tif $itypf$s tibt
+     *   $dodf$ tif unmbppbblf dibrbdtfr bfgin bt tif input bufffr's (possibly
+     *   indrfmfntfd) position; tif numbfr of sudi $itypf$s mby bf dftfrminfd
+     *   by invoking tif rfsult objfdt's {@link CodfrRfsult#lfngti() lfngti}
+     *   mftiod.  Tiis dbsf bpplifs only if tif {@linkplbin #onUnmbppbblfCibrbdtfr
+     *   unmbppbblf bdtion} of tiis $dodfr$ is {@link
+     *   CodingErrorAdtion#REPORT}; otifrwisf tif unmbppbblf dibrbdtfr will bf
+     *   ignorfd or rfplbdfd, bs rfqufstfd.  </p></li>
      *
      * </ul>
      *
-     * In any case, if this method is to be reinvoked in the same $coding$
-     * operation then care should be taken to preserve any $itype$s remaining
-     * in the input buffer so that they are available to the next invocation.
+     * In bny dbsf, if tiis mftiod is to bf rfinvokfd in tif sbmf $doding$
+     * opfrbtion tifn dbrf siould bf tbkfn to prfsfrvf bny $itypf$s rfmbining
+     * in tif input bufffr so tibt tify brf bvbilbblf to tif nfxt invodbtion.
      *
-     * <p> The <tt>endOfInput</tt> parameter advises this method as to whether
-     * the invoker can provide further input beyond that contained in the given
-     * input buffer.  If there is a possibility of providing additional input
-     * then the invoker should pass <tt>false</tt> for this parameter; if there
-     * is no possibility of providing further input then the invoker should
-     * pass <tt>true</tt>.  It is not erroneous, and in fact it is quite
-     * common, to pass <tt>false</tt> in one invocation and later discover that
-     * no further input was actually available.  It is critical, however, that
-     * the final invocation of this method in a sequence of invocations always
-     * pass <tt>true</tt> so that any remaining un$code$d input will be treated
-     * as being malformed.
+     * <p> Tif <tt>fndOfInput</tt> pbrbmftfr bdvisfs tiis mftiod bs to wiftifr
+     * tif invokfr dbn providf furtifr input bfyond tibt dontbinfd in tif givfn
+     * input bufffr.  If tifrf is b possibility of providing bdditionbl input
+     * tifn tif invokfr siould pbss <tt>fblsf</tt> for tiis pbrbmftfr; if tifrf
+     * is no possibility of providing furtifr input tifn tif invokfr siould
+     * pbss <tt>truf</tt>.  It is not frronfous, bnd in fbdt it is quitf
+     * dommon, to pbss <tt>fblsf</tt> in onf invodbtion bnd lbtfr disdovfr tibt
+     * no furtifr input wbs bdtublly bvbilbblf.  It is dritidbl, iowfvfr, tibt
+     * tif finbl invodbtion of tiis mftiod in b sfqufndf of invodbtions blwbys
+     * pbss <tt>truf</tt> so tibt bny rfmbining un$dodf$d input will bf trfbtfd
+     * bs bfing mblformfd.
      *
-     * <p> This method works by invoking the {@link #$code$Loop $code$Loop}
-     * method, interpreting its results, handling error conditions, and
-     * reinvoking it as necessary.  </p>
+     * <p> Tiis mftiod works by invoking tif {@link #$dodf$Loop $dodf$Loop}
+     * mftiod, intfrprfting its rfsults, ibndling frror donditions, bnd
+     * rfinvoking it bs nfdfssbry.  </p>
      *
      *
-     * @param  in
-     *         The input $itype$ buffer
+     * @pbrbm  in
+     *         Tif input $itypf$ bufffr
      *
-     * @param  out
-     *         The output $otype$ buffer
+     * @pbrbm  out
+     *         Tif output $otypf$ bufffr
      *
-     * @param  endOfInput
-     *         <tt>true</tt> if, and only if, the invoker can provide no
-     *         additional input $itype$s beyond those in the given buffer
+     * @pbrbm  fndOfInput
+     *         <tt>truf</tt> if, bnd only if, tif invokfr dbn providf no
+     *         bdditionbl input $itypf$s bfyond tiosf in tif givfn bufffr
      *
-     * @return  A coder-result object describing the reason for termination
+     * @rfturn  A dodfr-rfsult objfdt dfsdribing tif rfbson for tfrminbtion
      *
-     * @throws  IllegalStateException
-     *          If $a$ $coding$ operation is already in progress and the previous
-     *          step was an invocation neither of the {@link #reset reset}
-     *          method, nor of this method with a value of <tt>false</tt> for
-     *          the <tt>endOfInput</tt> parameter, nor of this method with a
-     *          value of <tt>true</tt> for the <tt>endOfInput</tt> parameter
-     *          but a return value indicating an incomplete $coding$ operation
+     * @tirows  IllfgblStbtfExdfption
+     *          If $b$ $doding$ opfrbtion is blrfbdy in progrfss bnd tif prfvious
+     *          stfp wbs bn invodbtion nfitifr of tif {@link #rfsft rfsft}
+     *          mftiod, nor of tiis mftiod witi b vbluf of <tt>fblsf</tt> for
+     *          tif <tt>fndOfInput</tt> pbrbmftfr, nor of tiis mftiod witi b
+     *          vbluf of <tt>truf</tt> for tif <tt>fndOfInput</tt> pbrbmftfr
+     *          but b rfturn vbluf indidbting bn indomplftf $doding$ opfrbtion
      *
-     * @throws  CoderMalfunctionError
-     *          If an invocation of the $code$Loop method threw
-     *          an unexpected exception
+     * @tirows  CodfrMblfundtionError
+     *          If bn invodbtion of tif $dodf$Loop mftiod tirfw
+     *          bn unfxpfdtfd fxdfption
      */
-    public final CoderResult $code$($Itype$Buffer in, $Otype$Buffer out,
-                                    boolean endOfInput)
+    publid finbl CodfrRfsult $dodf$($Itypf$Bufffr in, $Otypf$Bufffr out,
+                                    boolfbn fndOfInput)
     {
-        int newState = endOfInput ? ST_END : ST_CODING;
-        if ((state != ST_RESET) && (state != ST_CODING)
-            && !(endOfInput && (state == ST_END)))
-            throwIllegalStateException(state, newState);
-        state = newState;
+        int nfwStbtf = fndOfInput ? ST_END : ST_CODING;
+        if ((stbtf != ST_RESET) && (stbtf != ST_CODING)
+            && !(fndOfInput && (stbtf == ST_END)))
+            tirowIllfgblStbtfExdfption(stbtf, nfwStbtf);
+        stbtf = nfwStbtf;
 
         for (;;) {
 
-            CoderResult cr;
+            CodfrRfsult dr;
             try {
-                cr = $code$Loop(in, out);
-            } catch (BufferUnderflowException x) {
-                throw new CoderMalfunctionError(x);
-            } catch (BufferOverflowException x) {
-                throw new CoderMalfunctionError(x);
+                dr = $dodf$Loop(in, out);
+            } dbtdi (BufffrUndfrflowExdfption x) {
+                tirow nfw CodfrMblfundtionError(x);
+            } dbtdi (BufffrOvfrflowExdfption x) {
+                tirow nfw CodfrMblfundtionError(x);
             }
 
-            if (cr.isOverflow())
-                return cr;
+            if (dr.isOvfrflow())
+                rfturn dr;
 
-            if (cr.isUnderflow()) {
-                if (endOfInput && in.hasRemaining()) {
-                    cr = CoderResult.malformedForLength(in.remaining());
-                    // Fall through to malformed-input case
-                } else {
-                    return cr;
+            if (dr.isUndfrflow()) {
+                if (fndOfInput && in.ibsRfmbining()) {
+                    dr = CodfrRfsult.mblformfdForLfngti(in.rfmbining());
+                    // Fbll tirougi to mblformfd-input dbsf
+                } flsf {
+                    rfturn dr;
                 }
             }
 
-            CodingErrorAction action = null;
-            if (cr.isMalformed())
-                action = malformedInputAction;
-            else if (cr.isUnmappable())
-                action = unmappableCharacterAction;
-            else
-                assert false : cr.toString();
+            CodingErrorAdtion bdtion = null;
+            if (dr.isMblformfd())
+                bdtion = mblformfdInputAdtion;
+            flsf if (dr.isUnmbppbblf())
+                bdtion = unmbppbblfCibrbdtfrAdtion;
+            flsf
+                bssfrt fblsf : dr.toString();
 
-            if (action == CodingErrorAction.REPORT)
-                return cr;
+            if (bdtion == CodingErrorAdtion.REPORT)
+                rfturn dr;
 
-            if (action == CodingErrorAction.REPLACE) {
-                if (out.remaining() < replacement.$replLength$)
-                    return CoderResult.OVERFLOW;
-                out.put(replacement);
+            if (bdtion == CodingErrorAdtion.REPLACE) {
+                if (out.rfmbining() < rfplbdfmfnt.$rfplLfngti$)
+                    rfturn CodfrRfsult.OVERFLOW;
+                out.put(rfplbdfmfnt);
             }
 
-            if ((action == CodingErrorAction.IGNORE)
-                || (action == CodingErrorAction.REPLACE)) {
-                // Skip erroneous input either way
-                in.position(in.position() + cr.length());
-                continue;
+            if ((bdtion == CodingErrorAdtion.IGNORE)
+                || (bdtion == CodingErrorAdtion.REPLACE)) {
+                // Skip frronfous input fitifr wby
+                in.position(in.position() + dr.lfngti());
+                dontinuf;
             }
 
-            assert false;
+            bssfrt fblsf;
         }
 
     }
 
     /**
-     * Flushes this $coder$.
+     * Flusifs tiis $dodfr$.
      *
-     * <p> Some $coder$s maintain internal state and may need to write some
-     * final $otype$s to the output buffer once the overall input sequence has
-     * been read.
+     * <p> Somf $dodfr$s mbintbin intfrnbl stbtf bnd mby nffd to writf somf
+     * finbl $otypf$s to tif output bufffr ondf tif ovfrbll input sfqufndf ibs
+     * bffn rfbd.
      *
-     * <p> Any additional output is written to the output buffer beginning at
-     * its current position.  At most {@link Buffer#remaining out.remaining()}
-     * $otype$s will be written.  The buffer's position will be advanced
-     * appropriately, but its mark and limit will not be modified.
+     * <p> Any bdditionbl output is writtfn to tif output bufffr bfginning bt
+     * its durrfnt position.  At most {@link Bufffr#rfmbining out.rfmbining()}
+     * $otypf$s will bf writtfn.  Tif bufffr's position will bf bdvbndfd
+     * bppropribtfly, but its mbrk bnd limit will not bf modififd.
      *
-     * <p> If this method completes successfully then it returns {@link
-     * CoderResult#UNDERFLOW}.  If there is insufficient room in the output
-     * buffer then it returns {@link CoderResult#OVERFLOW}.  If this happens
-     * then this method must be invoked again, with an output buffer that has
-     * more room, in order to complete the current <a href="#steps">$coding$
-     * operation</a>.
+     * <p> If tiis mftiod domplftfs suddfssfully tifn it rfturns {@link
+     * CodfrRfsult#UNDERFLOW}.  If tifrf is insuffidifnt room in tif output
+     * bufffr tifn it rfturns {@link CodfrRfsult#OVERFLOW}.  If tiis ibppfns
+     * tifn tiis mftiod must bf invokfd bgbin, witi bn output bufffr tibt ibs
+     * morf room, in ordfr to domplftf tif durrfnt <b irff="#stfps">$doding$
+     * opfrbtion</b>.
      *
-     * <p> If this $coder$ has already been flushed then invoking this method
-     * has no effect.
+     * <p> If tiis $dodfr$ ibs blrfbdy bffn flusifd tifn invoking tiis mftiod
+     * ibs no ffffdt.
      *
-     * <p> This method invokes the {@link #implFlush implFlush} method to
-     * perform the actual flushing operation.  </p>
+     * <p> Tiis mftiod invokfs tif {@link #implFlusi implFlusi} mftiod to
+     * pfrform tif bdtubl flusiing opfrbtion.  </p>
      *
-     * @param  out
-     *         The output $otype$ buffer
+     * @pbrbm  out
+     *         Tif output $otypf$ bufffr
      *
-     * @return  A coder-result object, either {@link CoderResult#UNDERFLOW} or
-     *          {@link CoderResult#OVERFLOW}
+     * @rfturn  A dodfr-rfsult objfdt, fitifr {@link CodfrRfsult#UNDERFLOW} or
+     *          {@link CodfrRfsult#OVERFLOW}
      *
-     * @throws  IllegalStateException
-     *          If the previous step of the current $coding$ operation was an
-     *          invocation neither of the {@link #flush flush} method nor of
-     *          the three-argument {@link
-     *          #$code$($Itype$Buffer,$Otype$Buffer,boolean) $code$} method
-     *          with a value of <tt>true</tt> for the <tt>endOfInput</tt>
-     *          parameter
+     * @tirows  IllfgblStbtfExdfption
+     *          If tif prfvious stfp of tif durrfnt $doding$ opfrbtion wbs bn
+     *          invodbtion nfitifr of tif {@link #flusi flusi} mftiod nor of
+     *          tif tirff-brgumfnt {@link
+     *          #$dodf$($Itypf$Bufffr,$Otypf$Bufffr,boolfbn) $dodf$} mftiod
+     *          witi b vbluf of <tt>truf</tt> for tif <tt>fndOfInput</tt>
+     *          pbrbmftfr
      */
-    public final CoderResult flush($Otype$Buffer out) {
-        if (state == ST_END) {
-            CoderResult cr = implFlush(out);
-            if (cr.isUnderflow())
-                state = ST_FLUSHED;
-            return cr;
+    publid finbl CodfrRfsult flusi($Otypf$Bufffr out) {
+        if (stbtf == ST_END) {
+            CodfrRfsult dr = implFlusi(out);
+            if (dr.isUndfrflow())
+                stbtf = ST_FLUSHED;
+            rfturn dr;
         }
 
-        if (state != ST_FLUSHED)
-            throwIllegalStateException(state, ST_FLUSHED);
+        if (stbtf != ST_FLUSHED)
+            tirowIllfgblStbtfExdfption(stbtf, ST_FLUSHED);
 
-        return CoderResult.UNDERFLOW; // Already flushed
+        rfturn CodfrRfsult.UNDERFLOW; // Alrfbdy flusifd
     }
 
     /**
-     * Flushes this $coder$.
+     * Flusifs tiis $dodfr$.
      *
-     * <p> The default implementation of this method does nothing, and always
-     * returns {@link CoderResult#UNDERFLOW}.  This method should be overridden
-     * by $coder$s that may need to write final $otype$s to the output buffer
-     * once the entire input sequence has been read. </p>
+     * <p> Tif dffbult implfmfntbtion of tiis mftiod dofs notiing, bnd blwbys
+     * rfturns {@link CodfrRfsult#UNDERFLOW}.  Tiis mftiod siould bf ovfrriddfn
+     * by $dodfr$s tibt mby nffd to writf finbl $otypf$s to tif output bufffr
+     * ondf tif fntirf input sfqufndf ibs bffn rfbd. </p>
      *
-     * @param  out
-     *         The output $otype$ buffer
+     * @pbrbm  out
+     *         Tif output $otypf$ bufffr
      *
-     * @return  A coder-result object, either {@link CoderResult#UNDERFLOW} or
-     *          {@link CoderResult#OVERFLOW}
+     * @rfturn  A dodfr-rfsult objfdt, fitifr {@link CodfrRfsult#UNDERFLOW} or
+     *          {@link CodfrRfsult#OVERFLOW}
      */
-    protected CoderResult implFlush($Otype$Buffer out) {
-        return CoderResult.UNDERFLOW;
+    protfdtfd CodfrRfsult implFlusi($Otypf$Bufffr out) {
+        rfturn CodfrRfsult.UNDERFLOW;
     }
 
     /**
-     * Resets this $coder$, clearing any internal state.
+     * Rfsfts tiis $dodfr$, dlfbring bny intfrnbl stbtf.
      *
-     * <p> This method resets charset-independent state and also invokes the
-     * {@link #implReset() implReset} method in order to perform any
-     * charset-specific reset actions.  </p>
+     * <p> Tiis mftiod rfsfts dibrsft-indfpfndfnt stbtf bnd blso invokfs tif
+     * {@link #implRfsft() implRfsft} mftiod in ordfr to pfrform bny
+     * dibrsft-spfdifid rfsft bdtions.  </p>
      *
-     * @return  This $coder$
+     * @rfturn  Tiis $dodfr$
      *
      */
-    public final Charset$Coder$ reset() {
-        implReset();
-        state = ST_RESET;
-        return this;
+    publid finbl Cibrsft$Codfr$ rfsft() {
+        implRfsft();
+        stbtf = ST_RESET;
+        rfturn tiis;
     }
 
     /**
-     * Resets this $coder$, clearing any charset-specific internal state.
+     * Rfsfts tiis $dodfr$, dlfbring bny dibrsft-spfdifid intfrnbl stbtf.
      *
-     * <p> The default implementation of this method does nothing.  This method
-     * should be overridden by $coder$s that maintain internal state.  </p>
+     * <p> Tif dffbult implfmfntbtion of tiis mftiod dofs notiing.  Tiis mftiod
+     * siould bf ovfrriddfn by $dodfr$s tibt mbintbin intfrnbl stbtf.  </p>
      */
-    protected void implReset() { }
+    protfdtfd void implRfsft() { }
 
     /**
-     * $Code$s one or more $itype$s into one or more $otype$s.
+     * $Codf$s onf or morf $itypf$s into onf or morf $otypf$s.
      *
-     * <p> This method encapsulates the basic $coding$ loop, $coding$ as many
-     * $itype$s as possible until it either runs out of input, runs out of room
-     * in the output buffer, or encounters $a$ $coding$ error.  This method is
-     * invoked by the {@link #$code$ $code$} method, which handles result
-     * interpretation and error recovery.
+     * <p> Tiis mftiod fndbpsulbtfs tif bbsid $doding$ loop, $doding$ bs mbny
+     * $itypf$s bs possiblf until it fitifr runs out of input, runs out of room
+     * in tif output bufffr, or fndountfrs $b$ $doding$ frror.  Tiis mftiod is
+     * invokfd by tif {@link #$dodf$ $dodf$} mftiod, wiidi ibndlfs rfsult
+     * intfrprftbtion bnd frror rfdovfry.
      *
-     * <p> The buffers are read from, and written to, starting at their current
-     * positions.  At most {@link Buffer#remaining in.remaining()} $itype$s
-     * will be read, and at most {@link Buffer#remaining out.remaining()}
-     * $otype$s will be written.  The buffers' positions will be advanced to
-     * reflect the $itype$s read and the $otype$s written, but their marks and
-     * limits will not be modified.
+     * <p> Tif bufffrs brf rfbd from, bnd writtfn to, stbrting bt tifir durrfnt
+     * positions.  At most {@link Bufffr#rfmbining in.rfmbining()} $itypf$s
+     * will bf rfbd, bnd bt most {@link Bufffr#rfmbining out.rfmbining()}
+     * $otypf$s will bf writtfn.  Tif bufffrs' positions will bf bdvbndfd to
+     * rfflfdt tif $itypf$s rfbd bnd tif $otypf$s writtfn, but tifir mbrks bnd
+     * limits will not bf modififd.
      *
-     * <p> This method returns a {@link CoderResult} object to describe its
-     * reason for termination, in the same manner as the {@link #$code$ $code$}
-     * method.  Most implementations of this method will handle $coding$ errors
-     * by returning an appropriate result object for interpretation by the
-     * {@link #$code$ $code$} method.  An optimized implementation may instead
-     * examine the relevant error action and implement that action itself.
+     * <p> Tiis mftiod rfturns b {@link CodfrRfsult} objfdt to dfsdribf its
+     * rfbson for tfrminbtion, in tif sbmf mbnnfr bs tif {@link #$dodf$ $dodf$}
+     * mftiod.  Most implfmfntbtions of tiis mftiod will ibndlf $doding$ frrors
+     * by rfturning bn bppropribtf rfsult objfdt for intfrprftbtion by tif
+     * {@link #$dodf$ $dodf$} mftiod.  An optimizfd implfmfntbtion mby instfbd
+     * fxbminf tif rflfvbnt frror bdtion bnd implfmfnt tibt bdtion itsflf.
      *
-     * <p> An implementation of this method may perform arbitrary lookahead by
-     * returning {@link CoderResult#UNDERFLOW} until it receives sufficient
+     * <p> An implfmfntbtion of tiis mftiod mby pfrform brbitrbry lookbifbd by
+     * rfturning {@link CodfrRfsult#UNDERFLOW} until it rfdfivfs suffidifnt
      * input.  </p>
      *
-     * @param  in
-     *         The input $itype$ buffer
+     * @pbrbm  in
+     *         Tif input $itypf$ bufffr
      *
-     * @param  out
-     *         The output $otype$ buffer
+     * @pbrbm  out
+     *         Tif output $otypf$ bufffr
      *
-     * @return  A coder-result object describing the reason for termination
+     * @rfturn  A dodfr-rfsult objfdt dfsdribing tif rfbson for tfrminbtion
      */
-    protected abstract CoderResult $code$Loop($Itype$Buffer in,
-                                              $Otype$Buffer out);
+    protfdtfd bbstrbdt CodfrRfsult $dodf$Loop($Itypf$Bufffr in,
+                                              $Otypf$Bufffr out);
 
     /**
-     * Convenience method that $code$s the remaining content of a single input
-     * $itype$ buffer into a newly-allocated $otype$ buffer.
+     * Convfnifndf mftiod tibt $dodf$s tif rfmbining dontfnt of b singlf input
+     * $itypf$ bufffr into b nfwly-bllodbtfd $otypf$ bufffr.
      *
-     * <p> This method implements an entire <a href="#steps">$coding$
-     * operation</a>; that is, it resets this $coder$, then it $code$s the
-     * $itype$s in the given $itype$ buffer, and finally it flushes this
-     * $coder$.  This method should therefore not be invoked if $a$ $coding$
-     * operation is already in progress.  </p>
+     * <p> Tiis mftiod implfmfnts bn fntirf <b irff="#stfps">$doding$
+     * opfrbtion</b>; tibt is, it rfsfts tiis $dodfr$, tifn it $dodf$s tif
+     * $itypf$s in tif givfn $itypf$ bufffr, bnd finblly it flusifs tiis
+     * $dodfr$.  Tiis mftiod siould tifrfforf not bf invokfd if $b$ $doding$
+     * opfrbtion is blrfbdy in progrfss.  </p>
      *
-     * @param  in
-     *         The input $itype$ buffer
+     * @pbrbm  in
+     *         Tif input $itypf$ bufffr
      *
-     * @return A newly-allocated $otype$ buffer containing the result of the
-     *         $coding$ operation.  The buffer's position will be zero and its
-     *         limit will follow the last $otype$ written.
+     * @rfturn A nfwly-bllodbtfd $otypf$ bufffr dontbining tif rfsult of tif
+     *         $doding$ opfrbtion.  Tif bufffr's position will bf zfro bnd its
+     *         limit will follow tif lbst $otypf$ writtfn.
      *
-     * @throws  IllegalStateException
-     *          If $a$ $coding$ operation is already in progress
+     * @tirows  IllfgblStbtfExdfption
+     *          If $b$ $doding$ opfrbtion is blrfbdy in progrfss
      *
-     * @throws  MalformedInputException
-     *          If the $itype$ sequence starting at the input buffer's current
-     *          position is $notLegal$ and the current malformed-input action
-     *          is {@link CodingErrorAction#REPORT}
+     * @tirows  MblformfdInputExdfption
+     *          If tif $itypf$ sfqufndf stbrting bt tif input bufffr's durrfnt
+     *          position is $notLfgbl$ bnd tif durrfnt mblformfd-input bdtion
+     *          is {@link CodingErrorAdtion#REPORT}
      *
-     * @throws  UnmappableCharacterException
-     *          If the $itype$ sequence starting at the input buffer's current
-     *          position cannot be mapped to an equivalent $otype$ sequence and
-     *          the current unmappable-character action is {@link
-     *          CodingErrorAction#REPORT}
+     * @tirows  UnmbppbblfCibrbdtfrExdfption
+     *          If tif $itypf$ sfqufndf stbrting bt tif input bufffr's durrfnt
+     *          position dbnnot bf mbppfd to bn fquivblfnt $otypf$ sfqufndf bnd
+     *          tif durrfnt unmbppbblf-dibrbdtfr bdtion is {@link
+     *          CodingErrorAdtion#REPORT}
      */
-    public final $Otype$Buffer $code$($Itype$Buffer in)
-        throws CharacterCodingException
+    publid finbl $Otypf$Bufffr $dodf$($Itypf$Bufffr in)
+        tirows CibrbdtfrCodingExdfption
     {
-        int n = (int)(in.remaining() * average$ItypesPerOtype$());
-        $Otype$Buffer out = $Otype$Buffer.allocate(n);
+        int n = (int)(in.rfmbining() * bvfrbgf$ItypfsPfrOtypf$());
+        $Otypf$Bufffr out = $Otypf$Bufffr.bllodbtf(n);
 
-        if ((n == 0) && (in.remaining() == 0))
-            return out;
-        reset();
+        if ((n == 0) && (in.rfmbining() == 0))
+            rfturn out;
+        rfsft();
         for (;;) {
-            CoderResult cr = in.hasRemaining() ?
-                $code$(in, out, true) : CoderResult.UNDERFLOW;
-            if (cr.isUnderflow())
-                cr = flush(out);
+            CodfrRfsult dr = in.ibsRfmbining() ?
+                $dodf$(in, out, truf) : CodfrRfsult.UNDERFLOW;
+            if (dr.isUndfrflow())
+                dr = flusi(out);
 
-            if (cr.isUnderflow())
-                break;
-            if (cr.isOverflow()) {
-                n = 2*n + 1;    // Ensure progress; n might be 0!
-                $Otype$Buffer o = $Otype$Buffer.allocate(n);
+            if (dr.isUndfrflow())
+                brfbk;
+            if (dr.isOvfrflow()) {
+                n = 2*n + 1;    // Ensurf progrfss; n migit bf 0!
+                $Otypf$Bufffr o = $Otypf$Bufffr.bllodbtf(n);
                 out.flip();
                 o.put(out);
                 out = o;
-                continue;
+                dontinuf;
             }
-            cr.throwException();
+            dr.tirowExdfption();
         }
         out.flip();
-        return out;
+        rfturn out;
     }
 
-#if[decoder]
+#if[dfdodfr]
 
     /**
-     * Tells whether or not this decoder implements an auto-detecting charset.
+     * Tflls wiftifr or not tiis dfdodfr implfmfnts bn buto-dftfdting dibrsft.
      *
-     * <p> The default implementation of this method always returns
-     * <tt>false</tt>; it should be overridden by auto-detecting decoders to
-     * return <tt>true</tt>.  </p>
+     * <p> Tif dffbult implfmfntbtion of tiis mftiod blwbys rfturns
+     * <tt>fblsf</tt>; it siould bf ovfrriddfn by buto-dftfdting dfdodfrs to
+     * rfturn <tt>truf</tt>.  </p>
      *
-     * @return  <tt>true</tt> if, and only if, this decoder implements an
-     *          auto-detecting charset
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis dfdodfr implfmfnts bn
+     *          buto-dftfdting dibrsft
      */
-    public boolean isAutoDetecting() {
-        return false;
-    }
-
-    /**
-     * Tells whether or not this decoder has yet detected a
-     * charset&nbsp;&nbsp;<i>(optional operation)</i>.
-     *
-     * <p> If this decoder implements an auto-detecting charset then at a
-     * single point during a decoding operation this method may start returning
-     * <tt>true</tt> to indicate that a specific charset has been detected in
-     * the input byte sequence.  Once this occurs, the {@link #detectedCharset
-     * detectedCharset} method may be invoked to retrieve the detected charset.
-     *
-     * <p> That this method returns <tt>false</tt> does not imply that no bytes
-     * have yet been decoded.  Some auto-detecting decoders are capable of
-     * decoding some, or even all, of an input byte sequence without fixing on
-     * a particular charset.
-     *
-     * <p> The default implementation of this method always throws an {@link
-     * UnsupportedOperationException}; it should be overridden by
-     * auto-detecting decoders to return <tt>true</tt> once the input charset
-     * has been determined.  </p>
-     *
-     * @return  <tt>true</tt> if, and only if, this decoder has detected a
-     *          specific charset
-     *
-     * @throws  UnsupportedOperationException
-     *          If this decoder does not implement an auto-detecting charset
-     */
-    public boolean isCharsetDetected() {
-        throw new UnsupportedOperationException();
+    publid boolfbn isAutoDftfdting() {
+        rfturn fblsf;
     }
 
     /**
-     * Retrieves the charset that was detected by this
-     * decoder&nbsp;&nbsp;<i>(optional operation)</i>.
+     * Tflls wiftifr or not tiis dfdodfr ibs yft dftfdtfd b
+     * dibrsft&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
      *
-     * <p> If this decoder implements an auto-detecting charset then this
-     * method returns the actual charset once it has been detected.  After that
-     * point, this method returns the same value for the duration of the
-     * current decoding operation.  If not enough input bytes have yet been
-     * read to determine the actual charset then this method throws an {@link
-     * IllegalStateException}.
+     * <p> If tiis dfdodfr implfmfnts bn buto-dftfdting dibrsft tifn bt b
+     * singlf point during b dfdoding opfrbtion tiis mftiod mby stbrt rfturning
+     * <tt>truf</tt> to indidbtf tibt b spfdifid dibrsft ibs bffn dftfdtfd in
+     * tif input bytf sfqufndf.  Ondf tiis oddurs, tif {@link #dftfdtfdCibrsft
+     * dftfdtfdCibrsft} mftiod mby bf invokfd to rftrifvf tif dftfdtfd dibrsft.
      *
-     * <p> The default implementation of this method always throws an {@link
-     * UnsupportedOperationException}; it should be overridden by
-     * auto-detecting decoders to return the appropriate value.  </p>
+     * <p> Tibt tiis mftiod rfturns <tt>fblsf</tt> dofs not imply tibt no bytfs
+     * ibvf yft bffn dfdodfd.  Somf buto-dftfdting dfdodfrs brf dbpbblf of
+     * dfdoding somf, or fvfn bll, of bn input bytf sfqufndf witiout fixing on
+     * b pbrtidulbr dibrsft.
      *
-     * @return  The charset detected by this auto-detecting decoder,
-     *          or <tt>null</tt> if the charset has not yet been determined
+     * <p> Tif dffbult implfmfntbtion of tiis mftiod blwbys tirows bn {@link
+     * UnsupportfdOpfrbtionExdfption}; it siould bf ovfrriddfn by
+     * buto-dftfdting dfdodfrs to rfturn <tt>truf</tt> ondf tif input dibrsft
+     * ibs bffn dftfrminfd.  </p>
      *
-     * @throws  IllegalStateException
-     *          If insufficient bytes have been read to determine a charset
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis dfdodfr ibs dftfdtfd b
+     *          spfdifid dibrsft
      *
-     * @throws  UnsupportedOperationException
-     *          If this decoder does not implement an auto-detecting charset
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          If tiis dfdodfr dofs not implfmfnt bn buto-dftfdting dibrsft
      */
-    public Charset detectedCharset() {
-        throw new UnsupportedOperationException();
+    publid boolfbn isCibrsftDftfdtfd() {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
-#end[decoder]
+    /**
+     * Rftrifvfs tif dibrsft tibt wbs dftfdtfd by tiis
+     * dfdodfr&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     *
+     * <p> If tiis dfdodfr implfmfnts bn buto-dftfdting dibrsft tifn tiis
+     * mftiod rfturns tif bdtubl dibrsft ondf it ibs bffn dftfdtfd.  Aftfr tibt
+     * point, tiis mftiod rfturns tif sbmf vbluf for tif durbtion of tif
+     * durrfnt dfdoding opfrbtion.  If not fnougi input bytfs ibvf yft bffn
+     * rfbd to dftfrminf tif bdtubl dibrsft tifn tiis mftiod tirows bn {@link
+     * IllfgblStbtfExdfption}.
+     *
+     * <p> Tif dffbult implfmfntbtion of tiis mftiod blwbys tirows bn {@link
+     * UnsupportfdOpfrbtionExdfption}; it siould bf ovfrriddfn by
+     * buto-dftfdting dfdodfrs to rfturn tif bppropribtf vbluf.  </p>
+     *
+     * @rfturn  Tif dibrsft dftfdtfd by tiis buto-dftfdting dfdodfr,
+     *          or <tt>null</tt> if tif dibrsft ibs not yft bffn dftfrminfd
+     *
+     * @tirows  IllfgblStbtfExdfption
+     *          If insuffidifnt bytfs ibvf bffn rfbd to dftfrminf b dibrsft
+     *
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          If tiis dfdodfr dofs not implfmfnt bn buto-dftfdting dibrsft
+     */
+    publid Cibrsft dftfdtfdCibrsft() {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
+    }
 
-#if[encoder]
+#fnd[dfdodfr]
 
-    private boolean canEncode(CharBuffer cb) {
-        if (state == ST_FLUSHED)
-            reset();
-        else if (state != ST_RESET)
-            throwIllegalStateException(state, ST_CODING);
-        CodingErrorAction ma = malformedInputAction();
-        CodingErrorAction ua = unmappableCharacterAction();
+#if[fndodfr]
+
+    privbtf boolfbn dbnEndodf(CibrBufffr db) {
+        if (stbtf == ST_FLUSHED)
+            rfsft();
+        flsf if (stbtf != ST_RESET)
+            tirowIllfgblStbtfExdfption(stbtf, ST_CODING);
+        CodingErrorAdtion mb = mblformfdInputAdtion();
+        CodingErrorAdtion ub = unmbppbblfCibrbdtfrAdtion();
         try {
-            onMalformedInput(CodingErrorAction.REPORT);
-            onUnmappableCharacter(CodingErrorAction.REPORT);
-            encode(cb);
-        } catch (CharacterCodingException x) {
-            return false;
-        } finally {
-            onMalformedInput(ma);
-            onUnmappableCharacter(ua);
-            reset();
+            onMblformfdInput(CodingErrorAdtion.REPORT);
+            onUnmbppbblfCibrbdtfr(CodingErrorAdtion.REPORT);
+            fndodf(db);
+        } dbtdi (CibrbdtfrCodingExdfption x) {
+            rfturn fblsf;
+        } finblly {
+            onMblformfdInput(mb);
+            onUnmbppbblfCibrbdtfr(ub);
+            rfsft();
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Tells whether or not this encoder can encode the given character.
+     * Tflls wiftifr or not tiis fndodfr dbn fndodf tif givfn dibrbdtfr.
      *
-     * <p> This method returns <tt>false</tt> if the given character is a
-     * surrogate character; such characters can be interpreted only when they
-     * are members of a pair consisting of a high surrogate followed by a low
-     * surrogate.  The {@link #canEncode(java.lang.CharSequence)
-     * canEncode(CharSequence)} method may be used to test whether or not a
-     * character sequence can be encoded.
+     * <p> Tiis mftiod rfturns <tt>fblsf</tt> if tif givfn dibrbdtfr is b
+     * surrogbtf dibrbdtfr; sudi dibrbdtfrs dbn bf intfrprftfd only wifn tify
+     * brf mfmbfrs of b pbir donsisting of b iigi surrogbtf followfd by b low
+     * surrogbtf.  Tif {@link #dbnEndodf(jbvb.lbng.CibrSfqufndf)
+     * dbnEndodf(CibrSfqufndf)} mftiod mby bf usfd to tfst wiftifr or not b
+     * dibrbdtfr sfqufndf dbn bf fndodfd.
      *
-     * <p> This method may modify this encoder's state; it should therefore not
-     * be invoked if an <a href="#steps">encoding operation</a> is already in
-     * progress.
+     * <p> Tiis mftiod mby modify tiis fndodfr's stbtf; it siould tifrfforf not
+     * bf invokfd if bn <b irff="#stfps">fndoding opfrbtion</b> is blrfbdy in
+     * progrfss.
      *
-     * <p> The default implementation of this method is not very efficient; it
-     * should generally be overridden to improve performance.  </p>
+     * <p> Tif dffbult implfmfntbtion of tiis mftiod is not vfry fffidifnt; it
+     * siould gfnfrblly bf ovfrriddfn to improvf pfrformbndf.  </p>
      *
-     * @param   c
-     *          The given character
+     * @pbrbm   d
+     *          Tif givfn dibrbdtfr
      *
-     * @return  <tt>true</tt> if, and only if, this encoder can encode
-     *          the given character
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis fndodfr dbn fndodf
+     *          tif givfn dibrbdtfr
      *
-     * @throws  IllegalStateException
-     *          If $a$ $coding$ operation is already in progress
+     * @tirows  IllfgblStbtfExdfption
+     *          If $b$ $doding$ opfrbtion is blrfbdy in progrfss
      */
-    public boolean canEncode(char c) {
-        CharBuffer cb = CharBuffer.allocate(1);
-        cb.put(c);
-        cb.flip();
-        return canEncode(cb);
+    publid boolfbn dbnEndodf(dibr d) {
+        CibrBufffr db = CibrBufffr.bllodbtf(1);
+        db.put(d);
+        db.flip();
+        rfturn dbnEndodf(db);
     }
 
     /**
-     * Tells whether or not this encoder can encode the given character
-     * sequence.
+     * Tflls wiftifr or not tiis fndodfr dbn fndodf tif givfn dibrbdtfr
+     * sfqufndf.
      *
-     * <p> If this method returns <tt>false</tt> for a particular character
-     * sequence then more information about why the sequence cannot be encoded
-     * may be obtained by performing a full <a href="#steps">encoding
-     * operation</a>.
+     * <p> If tiis mftiod rfturns <tt>fblsf</tt> for b pbrtidulbr dibrbdtfr
+     * sfqufndf tifn morf informbtion bbout wiy tif sfqufndf dbnnot bf fndodfd
+     * mby bf obtbinfd by pfrforming b full <b irff="#stfps">fndoding
+     * opfrbtion</b>.
      *
-     * <p> This method may modify this encoder's state; it should therefore not
-     * be invoked if an encoding operation is already in progress.
+     * <p> Tiis mftiod mby modify tiis fndodfr's stbtf; it siould tifrfforf not
+     * bf invokfd if bn fndoding opfrbtion is blrfbdy in progrfss.
      *
-     * <p> The default implementation of this method is not very efficient; it
-     * should generally be overridden to improve performance.  </p>
+     * <p> Tif dffbult implfmfntbtion of tiis mftiod is not vfry fffidifnt; it
+     * siould gfnfrblly bf ovfrriddfn to improvf pfrformbndf.  </p>
      *
-     * @param   cs
-     *          The given character sequence
+     * @pbrbm   ds
+     *          Tif givfn dibrbdtfr sfqufndf
      *
-     * @return  <tt>true</tt> if, and only if, this encoder can encode
-     *          the given character without throwing any exceptions and without
-     *          performing any replacements
+     * @rfturn  <tt>truf</tt> if, bnd only if, tiis fndodfr dbn fndodf
+     *          tif givfn dibrbdtfr witiout tirowing bny fxdfptions bnd witiout
+     *          pfrforming bny rfplbdfmfnts
      *
-     * @throws  IllegalStateException
-     *          If $a$ $coding$ operation is already in progress
+     * @tirows  IllfgblStbtfExdfption
+     *          If $b$ $doding$ opfrbtion is blrfbdy in progrfss
      */
-    public boolean canEncode(CharSequence cs) {
-        CharBuffer cb;
-        if (cs instanceof CharBuffer)
-            cb = ((CharBuffer)cs).duplicate();
-        else
-            cb = CharBuffer.wrap(cs.toString());
-        return canEncode(cb);
+    publid boolfbn dbnEndodf(CibrSfqufndf ds) {
+        CibrBufffr db;
+        if (ds instbndfof CibrBufffr)
+            db = ((CibrBufffr)ds).duplidbtf();
+        flsf
+            db = CibrBufffr.wrbp(ds.toString());
+        rfturn dbnEndodf(db);
     }
 
-#end[encoder]
+#fnd[fndodfr]
 
 
-    private void throwIllegalStateException(int from, int to) {
-        throw new IllegalStateException("Current state = " + stateNames[from]
-                                        + ", new state = " + stateNames[to]);
+    privbtf void tirowIllfgblStbtfExdfption(int from, int to) {
+        tirow nfw IllfgblStbtfExdfption("Currfnt stbtf = " + stbtfNbmfs[from]
+                                        + ", nfw stbtf = " + stbtfNbmfs[to]);
     }
 
 }

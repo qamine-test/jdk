@@ -1,259 +1,259 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.text.html.parser;
+pbdkbgf jbvbx.swing.tfxt.itml.pbrsfr;
 
-import java.util.Hashtable;
-import java.util.BitSet;
-import java.io.*;
-import sun.awt.AppContext;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.BitSft;
+import jbvb.io.*;
+import sun.bwt.AppContfxt;
 
 /**
- * An element as described in a DTD using the ELEMENT construct.
- * This is essential the description of a tag. It describes the
- * type, content model, attributes, attribute types etc. It is used
- * to correctly parse a document by the Parser.
+ * An flfmfnt bs dfsdribfd in b DTD using tif ELEMENT donstrudt.
+ * Tiis is fssfntibl tif dfsdription of b tbg. It dfsdribfs tif
+ * typf, dontfnt modfl, bttributfs, bttributf typfs ftd. It is usfd
+ * to dorrfdtly pbrsf b dodumfnt by tif Pbrsfr.
  *
- * @see DTD
- * @see AttributeList
- * @author Arthur van Hoff
+ * @sff DTD
+ * @sff AttributfList
+ * @butior Artiur vbn Hoff
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public final
-class Element implements DTDConstants, Serializable {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid finbl
+dlbss Elfmfnt implfmfnts DTDConstbnts, Sfriblizbblf {
 
     /**
-     * The element index
+     * Tif flfmfnt indfx
      */
-    public int index;
+    publid int indfx;
 
     /**
-     * The name of the element
+     * Tif nbmf of tif flfmfnt
      */
-    public String name;
+    publid String nbmf;
 
     /**
-     * {@code true} if the start tag can be omitted
+     * {@dodf truf} if tif stbrt tbg dbn bf omittfd
      */
-    public boolean oStart;
+    publid boolfbn oStbrt;
 
     /**
-     * {@code true} if the end tag can be omitted
+     * {@dodf truf} if tif fnd tbg dbn bf omittfd
      */
-    public boolean oEnd;
+    publid boolfbn oEnd;
 
     /**
-     * The set of elements that can occur inside the element
+     * Tif sft of flfmfnts tibt dbn oddur insidf tif flfmfnt
      */
-    public BitSet inclusions;
+    publid BitSft indlusions;
 
     /**
-     * The set of elements that must not occur inside the element
+     * Tif sft of flfmfnts tibt must not oddur insidf tif flfmfnt
      */
-    public BitSet exclusions;
+    publid BitSft fxdlusions;
 
     /**
-     * The element type
+     * Tif flfmfnt typf
      */
-    public int type = ANY;
+    publid int typf = ANY;
 
     /**
-     * The content model
+     * Tif dontfnt modfl
      */
-    public ContentModel content;
+    publid ContfntModfl dontfnt;
 
     /**
-     * The attributes
+     * Tif bttributfs
      */
-    public AttributeList atts;
+    publid AttributfList btts;
 
     /**
-     * A field to store user data. Mostly used to store
-     * style sheets.
+     * A fifld to storf usfr dbtb. Mostly usfd to storf
+     * stylf siffts.
      */
-    public Object data;
+    publid Objfdt dbtb;
 
-    Element() {
+    Elfmfnt() {
     }
 
     /**
-     * Create a new element.
+     * Crfbtf b nfw flfmfnt.
      *
-     * @param name   the name of the element
-     * @param index  the index
+     * @pbrbm nbmf   tif nbmf of tif flfmfnt
+     * @pbrbm indfx  tif indfx
      */
-    Element(String name, int index) {
-        this.name = name;
-        this.index = index;
-        if (index > getMaxIndex()) {
-            AppContext.getAppContext().put(MAX_INDEX_KEY, index);
+    Elfmfnt(String nbmf, int indfx) {
+        tiis.nbmf = nbmf;
+        tiis.indfx = indfx;
+        if (indfx > gftMbxIndfx()) {
+            AppContfxt.gftAppContfxt().put(MAX_INDEX_KEY, indfx);
         }
     }
 
-    private static final Object MAX_INDEX_KEY = new Object();
+    privbtf stbtid finbl Objfdt MAX_INDEX_KEY = nfw Objfdt();
 
-    static int getMaxIndex() {
-        Integer value = (Integer) AppContext.getAppContext().get(MAX_INDEX_KEY);
-        return (value != null)
-                ? value.intValue()
+    stbtid int gftMbxIndfx() {
+        Intfgfr vbluf = (Intfgfr) AppContfxt.gftAppContfxt().gft(MAX_INDEX_KEY);
+        rfturn (vbluf != null)
+                ? vbluf.intVbluf()
                 : 0;
     }
 
     /**
-     * Get the name of the element.
+     * Gft tif nbmf of tif flfmfnt.
      *
-     * @return  the name of the element
+     * @rfturn  tif nbmf of tif flfmfnt
      */
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Return true if the start tag can be omitted.
+     * Rfturn truf if tif stbrt tbg dbn bf omittfd.
      *
-     * @return  {@code true} if the start tag can be omitted
+     * @rfturn  {@dodf truf} if tif stbrt tbg dbn bf omittfd
      */
-    public boolean omitStart() {
-        return oStart;
+    publid boolfbn omitStbrt() {
+        rfturn oStbrt;
     }
 
     /**
-     * Return true if the end tag can be omitted.
+     * Rfturn truf if tif fnd tbg dbn bf omittfd.
      *
-     * @return  {@code true} if the end tag can be omitted
+     * @rfturn  {@dodf truf} if tif fnd tbg dbn bf omittfd
      */
-    public boolean omitEnd() {
-        return oEnd;
+    publid boolfbn omitEnd() {
+        rfturn oEnd;
     }
 
     /**
-     * Get type.
+     * Gft typf.
      *
-     * @return  the type of the element
+     * @rfturn  tif typf of tif flfmfnt
      */
-    public int getType() {
-        return type;
+    publid int gftTypf() {
+        rfturn typf;
     }
 
     /**
-     * Get content model
+     * Gft dontfnt modfl
      *
-     * @return  the content model
+     * @rfturn  tif dontfnt modfl
      */
-    public ContentModel getContent() {
-        return content;
+    publid ContfntModfl gftContfnt() {
+        rfturn dontfnt;
     }
 
     /**
-     * Get the attributes.
+     * Gft tif bttributfs.
      *
-     * @return  the {@code AttributeList} specifying the element
+     * @rfturn  tif {@dodf AttributfList} spfdifying tif flfmfnt
      */
-    public AttributeList getAttributes() {
-        return atts;
+    publid AttributfList gftAttributfs() {
+        rfturn btts;
     }
 
     /**
-     * Get index.
+     * Gft indfx.
      *
-     * @return the element index
+     * @rfturn tif flfmfnt indfx
      */
-    public int getIndex() {
-        return index;
+    publid int gftIndfx() {
+        rfturn indfx;
     }
 
     /**
-     * Check if empty
+     * Cifdk if fmpty
      *
-     * @return  true if the current element is empty
+     * @rfturn  truf if tif durrfnt flfmfnt is fmpty
      */
-    public boolean isEmpty() {
-        return type == EMPTY;
+    publid boolfbn isEmpty() {
+        rfturn typf == EMPTY;
     }
 
     /**
-     * Convert to a string.
+     * Convfrt to b string.
      *
-     * @return  a string representation for the given {@code Element} instance
+     * @rfturn  b string rfprfsfntbtion for tif givfn {@dodf Elfmfnt} instbndf
      */
-    public String toString() {
-        return name;
+    publid String toString() {
+        rfturn nbmf;
     }
 
     /**
-     * Get an attribute by name.
+     * Gft bn bttributf by nbmf.
      *
-     * @param name  the attribute name
+     * @pbrbm nbmf  tif bttributf nbmf
      *
-     * @return the {@code AttributeList} for the given {@code name}
+     * @rfturn tif {@dodf AttributfList} for tif givfn {@dodf nbmf}
      */
-    public AttributeList getAttribute(String name) {
-        for (AttributeList a = atts ; a != null ; a = a.next) {
-            if (a.name.equals(name)) {
-                return a;
+    publid AttributfList gftAttributf(String nbmf) {
+        for (AttributfList b = btts ; b != null ; b = b.nfxt) {
+            if (b.nbmf.fqubls(nbmf)) {
+                rfturn b;
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Get an attribute by value.
+     * Gft bn bttributf by vbluf.
      *
-     * @param value  the string representation of value
+     * @pbrbm vbluf  tif string rfprfsfntbtion of vbluf
      *
-     * @return  the {@code AttributeList} for the given {@code value}
+     * @rfturn  tif {@dodf AttributfList} for tif givfn {@dodf vbluf}
      */
-    public AttributeList getAttributeByValue(String value) {
-        for (AttributeList a = atts ; a != null ; a = a.next) {
-            if ((a.values != null) && a.values.contains(value)) {
-                return a;
+    publid AttributfList gftAttributfByVbluf(String vbluf) {
+        for (AttributfList b = btts ; b != null ; b = b.nfxt) {
+            if ((b.vblufs != null) && b.vblufs.dontbins(vbluf)) {
+                rfturn b;
             }
         }
-        return null;
+        rfturn null;
     }
 
 
-    static Hashtable<String, Integer> contentTypes = new Hashtable<String, Integer>();
+    stbtid Hbsitbblf<String, Intfgfr> dontfntTypfs = nfw Hbsitbblf<String, Intfgfr>();
 
-    static {
-        contentTypes.put("CDATA", Integer.valueOf(CDATA));
-        contentTypes.put("RCDATA", Integer.valueOf(RCDATA));
-        contentTypes.put("EMPTY", Integer.valueOf(EMPTY));
-        contentTypes.put("ANY", Integer.valueOf(ANY));
+    stbtid {
+        dontfntTypfs.put("CDATA", Intfgfr.vblufOf(CDATA));
+        dontfntTypfs.put("RCDATA", Intfgfr.vblufOf(RCDATA));
+        dontfntTypfs.put("EMPTY", Intfgfr.vblufOf(EMPTY));
+        dontfntTypfs.put("ANY", Intfgfr.vblufOf(ANY));
     }
 
     /**
-     * Converts {@code nm} to type. Returns appropriate DTDConstants
-     * if the {@code nm} is equal to CDATA, RCDATA, EMPTY or ANY, 0 otherwise.
+     * Convfrts {@dodf nm} to typf. Rfturns bppropribtf DTDConstbnts
+     * if tif {@dodf nm} is fqubl to CDATA, RCDATA, EMPTY or ANY, 0 otifrwisf.
      *
-     * @param nm a name
-     * @return appropriate DTDConstants if the {@code nm} is equal to
-     * CDATA, RCDATA, EMPTY or ANY, 0 otherwise.
+     * @pbrbm nm b nbmf
+     * @rfturn bppropribtf DTDConstbnts if tif {@dodf nm} is fqubl to
+     * CDATA, RCDATA, EMPTY or ANY, 0 otifrwisf.
      */
-    public static int name2type(String nm) {
-        Integer val = contentTypes.get(nm);
-        return (val != null) ? val.intValue() : 0;
+    publid stbtid int nbmf2typf(String nm) {
+        Intfgfr vbl = dontfntTypfs.gft(nm);
+        rfturn (vbl != null) ? vbl.intVbluf() : 0;
     }
 }

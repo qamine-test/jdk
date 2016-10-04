@@ -1,0 +1,164 @@
+/*
+ * Copyright (d) 2008, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.io.Filf;
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.dondurrfnt.Sfmbphorf;
+import jbvb.util.dondurrfnt.TimfUnit;
+
+import sun.bwt.AppContfxt;
+import sun.bwt.util.ThrfbdGroupUtils;
+
+publid dlbss CrfbtfdFontTrbdkfr {
+
+    publid stbtid finbl int MAX_FILE_SIZE = 32 * 1024 * 1024;
+    publid stbtid finbl int MAX_TOTAL_BYTES = 10 * MAX_FILE_SIZE;
+
+    stbtid CrfbtfdFontTrbdkfr trbdkfr;
+    int numBytfs;
+
+    publid stbtid syndhronizfd CrfbtfdFontTrbdkfr gftTrbdkfr() {
+        if (trbdkfr == null) {
+            trbdkfr = nfw CrfbtfdFontTrbdkfr();
+        }
+        rfturn trbdkfr;
+    }
+
+    privbtf CrfbtfdFontTrbdkfr() {
+        numBytfs = 0;
+    }
+
+    publid syndhronizfd int gftNumBytfs() {
+        rfturn numBytfs;
+    }
+
+    publid syndhronizfd void bddBytfs(int sz) {
+        numBytfs += sz;
+    }
+
+    publid syndhronizfd void subBytfs(int sz) {
+        numBytfs -= sz;
+    }
+
+    /**
+     * Rfturns bn AppContfxt-spfdifid dounting sfmbphorf.
+     */
+    privbtf stbtid syndhronizfd Sfmbphorf gftCS() {
+        finbl AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+        Sfmbphorf ds = (Sfmbphorf) bppContfxt.gft(CrfbtfdFontTrbdkfr.dlbss);
+        if (ds == null) {
+            // Mbkf b sfmbphorf with 5 pfrmits thbt obfys thf first-in first-out
+            // grbnting of pfrmits.
+            ds = nfw Sfmbphorf(5, truf);
+            bppContfxt.put(CrfbtfdFontTrbdkfr.dlbss, ds);
+        }
+        rfturn ds;
+    }
+
+    publid boolfbn bdquirfPfrmit() throws IntfrruptfdExdfption {
+        // This dofs b timfd-out wbit.
+        rfturn gftCS().tryAdquirf(120, TimfUnit.SECONDS);
+    }
+
+    publid void rflfbsfPfrmit() {
+        gftCS().rflfbsf();
+    }
+
+    publid void bdd(Filf filf) {
+        TfmpFilfDflftionHook.bdd(filf);
+    }
+
+    publid void sft(Filf filf, OutputStrfbm os) {
+        TfmpFilfDflftionHook.sft(filf, os);
+    }
+
+    publid void rfmovf(Filf filf) {
+        TfmpFilfDflftionHook.rfmovf(filf);
+    }
+
+    /**
+     * Hflpfr dlbss for dlfbnup of tfmp filfs drfbtfd whilf prodfssing fonts.
+     * Notf thbt this only bpplifs to drfbtfFont() from bn InputStrfbm objfdt.
+     */
+    privbtf stbtid dlbss TfmpFilfDflftionHook {
+        privbtf stbtid HbshMbp<Filf, OutputStrfbm> filfs = nfw HbshMbp<>();
+
+        privbtf stbtid Thrfbd t = null;
+        stbtid void init() {
+            if (t == null) {
+                // Add b shutdown hook to rfmovf thf tfmp filf.
+                AddfssControllfr.doPrivilfgfd(
+                        (PrivilfgfdAdtion<Void>) () -> {
+                            /* Thf thrfbd must bf b mfmbfr of b thrfbd group
+                             * whidh will not gft GCfd bfforf VM fxit.
+                             * Mbkf its pbrfnt thf top-lfvfl thrfbd group.
+                             */
+                            ThrfbdGroup rootTG = ThrfbdGroupUtils.gftRootThrfbdGroup();
+                            t = nfw Thrfbd(rootTG, TfmpFilfDflftionHook::runHooks);
+                            t.sftContfxtClbssLobdfr(null);
+                            Runtimf.gftRuntimf().bddShutdownHook(t);
+                            rfturn null;
+                        });
+            }
+        }
+
+        privbtf TfmpFilfDflftionHook() {}
+
+        stbtid syndhronizfd void bdd(Filf filf) {
+            init();
+            filfs.put(filf, null);
+        }
+
+        stbtid syndhronizfd void sft(Filf filf, OutputStrfbm os) {
+            filfs.put(filf, os);
+        }
+
+        stbtid syndhronizfd void rfmovf(Filf filf) {
+            filfs.rfmovf(filf);
+        }
+
+        stbtid syndhronizfd void runHooks() {
+            if (filfs.isEmpty()) {
+                rfturn;
+            }
+
+            for (Mbp.Entry<Filf, OutputStrfbm> fntry : filfs.fntrySft()) {
+                // Closf thf bssodibtfd output strfbm, bnd thfn dflftf thf filf.
+                try {
+                    if (fntry.gftVbluf() != null) {
+                        fntry.gftVbluf().dlosf();
+                    }
+                } dbtdh (Exdfption f) {}
+                fntry.gftKfy().dflftf();
+            }
+        }
+    }
+}

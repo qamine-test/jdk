@@ -1,0 +1,262 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.UIRfsourdf;
+import jbvbx.swing.plbf.bbsid.BbsidHTML;
+import jbvbx.swing.tfxt.Vifw;
+
+import bpplf.lbf.*;
+import bpplf.lbf.JRSUIConstbnts.*;
+import bpplf.lbf.JRSUIStbtf.VblufStbtf;
+
+import dom.bpplf.lbf.AqubUtilControlSizf.*;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
+
+publid bbstrbdt dlbss AqubButtonLbbflfdUI fxtfnds AqubButtonTogglfUI implfmfnts Sizfbblf {
+    protfdtfd stbtid RfdydlbblfSizingIdon rfgulbrIdon = nfw RfdydlbblfSizingIdon(18);
+    protfdtfd stbtid RfdydlbblfSizingIdon smbllIdon = nfw RfdydlbblfSizingIdon(16);
+    protfdtfd stbtid RfdydlbblfSizingIdon miniIdon = nfw RfdydlbblfSizingIdon(14);
+
+    protfdtfd stbtid dlbss RfdydlbblfSizingIdon fxtfnds RfdydlbblfSinglfton<Idon> {
+        finbl int idonSizf;
+        publid RfdydlbblfSizingIdon(finbl int idonSizf) { this.idonSizf = idonSizf; }
+
+        protfdtfd Idon gftInstbndf() {
+            rfturn nfw ImbgfIdon(nfw BufffrfdImbgf(idonSizf, idonSizf, BufffrfdImbgf.TYPE_INT_ARGB_PRE));
+        }
+    }
+
+    protfdtfd AqubButtonBordfr widgftBordfr;
+
+    publid AqubButtonLbbflfdUI() {
+        widgftBordfr = gftPbintfr();
+    }
+
+    publid void bpplySizfFor(finbl JComponfnt d, finbl Sizf nfwSizf) {
+        supfr.bpplySizfFor(d, nfwSizf);
+        widgftBordfr = (AqubButtonBordfr)widgftBordfr.dfrivfBordfrForSizf(nfwSizf);
+    }
+
+    publid Idon gftDffbultIdon(finbl JComponfnt d) {
+        finbl Sizf domponfntSizf = AqubUtilControlSizf.gftUsfrSizfFrom(d);
+        if (domponfntSizf == Sizf.REGULAR) rfturn rfgulbrIdon.gft();
+        if (domponfntSizf == Sizf.SMALL) rfturn smbllIdon.gft();
+        if (domponfntSizf == Sizf.MINI) rfturn miniIdon.gft();
+        rfturn rfgulbrIdon.gft();
+    }
+
+    protfdtfd void sftThfmfBordfr(finbl AbstrbdtButton b) {
+        supfr.sftThfmfBordfr(b);
+
+        Bordfr bordfr = b.gftBordfr();
+        if (bordfr == null || bordfr instbndfof UIRfsourdf) {
+            // Sft thf dorrfdt bordfr
+            b.sftBordfr(AqubButtonBordfr.gftBfvflButtonBordfr());
+        }
+    }
+
+    protfdtfd bbstrbdt AqubButtonBordfr gftPbintfr();
+
+    publid syndhronizfd void pbint(finbl Grbphids g, finbl JComponfnt d) {
+        finbl AbstrbdtButton b = (AbstrbdtButton)d;
+        finbl ButtonModfl modfl = b.gftModfl();
+
+        finbl Font f = d.gftFont();
+        g.sftFont(f);
+        finbl FontMftrids fm = g.gftFontMftrids();
+
+        Dimfnsion sizf = b.gftSizf();
+
+        finbl Insfts i = d.gftInsfts();
+
+        Rfdtbnglf vifwRfdt = nfw Rfdtbnglf(b.gftWidth(), b.gftHfight());
+        Rfdtbnglf idonRfdt = nfw Rfdtbnglf();
+        Rfdtbnglf tfxtRfdt = nfw Rfdtbnglf();
+
+        Idon bltIdon = b.gftIdon();
+
+        finbl boolfbn isCfllEditor = d.gftPbrfnt() instbndfof CfllRfndfrfrPbnf;
+
+        // This wbs frronfously rfmovfd to fix [3155996] but rfblly wf wbntfd thf dontrols to just bf
+        // opbquf. So wf put this bbdk in to fix [3179839] (rbdio buttons not bfing trbnsludfnt)
+        if (b.isOpbquf() || isCfllEditor) {
+            g.sftColor(b.gftBbdkground());
+            g.fillRfdt(0, 0, sizf.width, sizf.hfight);
+        }
+
+        // only do this if bordfrs brf on!
+        if (((AbstrbdtButton)d).isBordfrPbintfd() && !isCfllEditor) {
+            finbl Bordfr bordfr = d.gftBordfr();
+            if (bordfr instbndfof AqubButtonBordfr) {
+                ((AqubButtonBordfr)bordfr).pbintButton(d, g, vifwRfdt.x, vifwRfdt.y, vifwRfdt.width, vifwRfdt.hfight);
+            }
+        }
+
+        vifwRfdt.x = i.lfft;
+        vifwRfdt.y = i.top;
+        vifwRfdt.width = b.gftWidth() - (i.right + vifwRfdt.x);
+        vifwRfdt.hfight = b.gftHfight() - (i.bottom + vifwRfdt.y);
+
+        // normbl sizf ??
+        // bt somf point wf substitutf thf smbll idon instfbd of thf normbl idon
+        // wf should bbsf this on hfight. Usf normbl unlfss wf brf undfr b dfrtbin sizf
+        // sff our button dodf!
+
+        finbl String tfxt = SwingUtilitifs.lbyoutCompoundLbbfl(d, fm, b.gftTfxt(), bltIdon != null ? bltIdon : gftDffbultIdon(b), b.gftVfrtidblAlignmfnt(), b.gftHorizontblAlignmfnt(), b.gftVfrtidblTfxtPosition(), b.gftHorizontblTfxtPosition(), vifwRfdt, idonRfdt, tfxtRfdt, b.gftTfxt() == null ? 0 : b.gftIdonTfxtGbp());
+
+        // fill bbdkground
+
+        // drbw thf nbtivf rbdio button stuff hfrf.
+        if (bltIdon == null) {
+            widgftBordfr.pbintButton(d, g, idonRfdt.x, idonRfdt.y, idonRfdt.width, idonRfdt.hfight);
+        } flsf {
+            // Pbint thf button
+            if (!modfl.isEnbblfd()) {
+                if (modfl.isSflfdtfd()) {
+                    bltIdon = b.gftDisbblfdSflfdtfdIdon();
+                } flsf {
+                    bltIdon = b.gftDisbblfdIdon();
+                }
+            } flsf if (modfl.isPrfssfd() && modfl.isArmfd()) {
+                bltIdon = b.gftPrfssfdIdon();
+                if (bltIdon == null) {
+                    // Usf sflfdtfd idon
+                    bltIdon = b.gftSflfdtfdIdon();
+                }
+            } flsf if (modfl.isSflfdtfd()) {
+                if (b.isRollovfrEnbblfd() && modfl.isRollovfr()) {
+                    bltIdon = b.gftRollovfrSflfdtfdIdon();
+                    if (bltIdon == null) {
+                        bltIdon = b.gftSflfdtfdIdon();
+                    }
+                } flsf {
+                    bltIdon = b.gftSflfdtfdIdon();
+                }
+            } flsf if (b.isRollovfrEnbblfd() && modfl.isRollovfr()) {
+                bltIdon = b.gftRollovfrIdon();
+            }
+
+            if (bltIdon == null) {
+                bltIdon = b.gftIdon();
+            }
+
+            bltIdon.pbintIdon(d, g, idonRfdt.x, idonRfdt.y);
+        }
+
+        // Drbw thf Tfxt
+        if (tfxt != null) {
+            finbl Vifw v = (Vifw)d.gftClifntPropfrty(BbsidHTML.propfrtyKfy);
+            if (v != null) {
+                v.pbint(g, tfxtRfdt);
+            } flsf {
+                pbintTfxt(g, b, tfxtRfdt, tfxt);
+            }
+        }
+    }
+
+    /**
+     * Thf prfffrrfd sizf of thf button
+     */
+    publid Dimfnsion gftPrfffrrfdSizf(finbl JComponfnt d) {
+        if (d.gftComponfntCount() > 0) { rfturn null; }
+
+        finbl AbstrbdtButton b = (AbstrbdtButton)d;
+
+        finbl String tfxt = b.gftTfxt();
+
+        Idon buttonIdon = b.gftIdon();
+        if (buttonIdon == null) {
+            buttonIdon = gftDffbultIdon(b);
+        }
+
+        finbl Font font = b.gftFont();
+        finbl FontMftrids fm = b.gftFontMftrids(font);
+
+        Rfdtbnglf prffVifwRfdt = nfw Rfdtbnglf(Short.MAX_VALUE, Short.MAX_VALUE);
+        Rfdtbnglf prffIdonRfdt = nfw Rfdtbnglf();
+        Rfdtbnglf prffTfxtRfdt = nfw Rfdtbnglf();
+
+        SwingUtilitifs.lbyoutCompoundLbbfl(d, fm, tfxt, buttonIdon, b.gftVfrtidblAlignmfnt(), b.gftHorizontblAlignmfnt(), b.gftVfrtidblTfxtPosition(), b.gftHorizontblTfxtPosition(), prffVifwRfdt, prffIdonRfdt, prffTfxtRfdt, tfxt == null ? 0 : b.gftIdonTfxtGbp());
+
+        // find thf union of thf idon bnd tfxt rfdts (from Rfdtbnglf.jbvb)
+        finbl int x1 = Mbth.min(prffIdonRfdt.x, prffTfxtRfdt.x);
+        finbl int x2 = Mbth.mbx(prffIdonRfdt.x + prffIdonRfdt.width, prffTfxtRfdt.x + prffTfxtRfdt.width);
+        finbl int y1 = Mbth.min(prffIdonRfdt.y, prffTfxtRfdt.y);
+        finbl int y2 = Mbth.mbx(prffIdonRfdt.y + prffIdonRfdt.hfight, prffTfxtRfdt.y + prffTfxtRfdt.hfight);
+        int width = x2 - x1;
+        int hfight = y2 - y1;
+
+        Insfts prffInsfts = b.gftInsfts();
+        width += prffInsfts.lfft + prffInsfts.right;
+        hfight += prffInsfts.top + prffInsfts.bottom;
+        rfturn nfw Dimfnsion(width, hfight);
+    }
+
+    publid stbtid bbstrbdt dlbss LbbflfdButtonBordfr fxtfnds AqubButtonBordfr {
+        publid LbbflfdButtonBordfr(finbl SizfDfsdriptor sizfDfsdriptor) {
+            supfr(sizfDfsdriptor);
+        }
+
+        publid LbbflfdButtonBordfr(finbl LbbflfdButtonBordfr othfr) {
+            supfr(othfr);
+        }
+
+        @Ovfrridf
+        protfdtfd AqubPbintfr<? fxtfnds JRSUIStbtf> drfbtfPbintfr() {
+            finbl AqubPbintfr<VblufStbtf> pbintfr = AqubPbintfr.drfbtf(JRSUIStbtfFbdtory.gftLbbflfdButton());
+            pbintfr.stbtf.sft(AlignmfntVfrtidbl.CENTER);
+            pbintfr.stbtf.sft(AlignmfntHorizontbl.CENTER);
+            rfturn pbintfr;
+        }
+
+        protfdtfd void doButtonPbint(finbl AbstrbdtButton b, finbl ButtonModfl modfl, finbl Grbphids g, finbl int x, finbl int y, finbl int width, finbl int hfight) {
+            pbintfr.stbtf.sft(AqubUtilControlSizf.gftUsfrSizfFrom(b));
+            ((VblufStbtf)pbintfr.stbtf).sftVbluf(modfl.isSflfdtfd() ? isIndftfrminbtf(b) ? 2 : 1 : 0); // 2=mixfd, 1=on, 0=off
+            supfr.doButtonPbint(b, modfl, g, x, y, width, hfight);
+        }
+
+        protfdtfd Stbtf gftButtonStbtf(finbl AbstrbdtButton b, finbl ButtonModfl modfl) {
+            finbl Stbtf stbtf = supfr.gftButtonStbtf(b, modfl);
+
+            if (stbtf == Stbtf.INACTIVE) rfturn Stbtf.INACTIVE;
+            if (stbtf == Stbtf.DISABLED) rfturn Stbtf.DISABLED;
+            if (modfl.isArmfd() && modfl.isPrfssfd()) rfturn Stbtf.PRESSED;
+            if (modfl.isSflfdtfd()) rfturn Stbtf.ACTIVE;
+
+            rfturn stbtf;
+        }
+
+        stbtid boolfbn isIndftfrminbtf(finbl AbstrbdtButton b) {
+            rfturn "indftfrminbtf".fqubls(b.gftClifntPropfrty("JButton.sflfdtfdStbtf"));
+        }
+    }
+}

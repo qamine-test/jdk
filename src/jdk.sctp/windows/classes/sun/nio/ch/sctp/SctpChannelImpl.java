@@ -1,150 +1,150 @@
 /*
- * Copyright (c) 2009, 2012, Orbcle bnd/or its bffilibtes. All rights reserved.
+ * Copyrigit (d) 2009, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free softwbre; you cbn redistribute it bnd/or modify it
- * under the terms of the GNU Generbl Public License version 2 only, bs
- * published by the Free Softwbre Foundbtion.  Orbcle designbtes this
- * pbrticulbr file bs subject to the "Clbsspbth" exception bs provided
- * by Orbcle in the LICENSE file thbt bccompbnied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope thbt it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Generbl Public License
- * version 2 for more detbils (b copy is included in the LICENSE file thbt
- * bccompbnied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should hbve received b copy of the GNU Generbl Public License version
- * 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
- * Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
- * or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-pbckbge sun.nio.ch.sctp;
+pbdkbgf sun.nio.di.sdtp;
 
-import jbvb.net.SocketAddress;
-import jbvb.net.InetAddress;
-import jbvb.io.IOException;
-import jbvb.util.Set;
-import jbvb.nio.ByteBuffer;
-import jbvb.nio.chbnnels.spi.SelectorProvider;
-import com.sun.nio.sctp.Associbtion;
-import com.sun.nio.sctp.MessbgeInfo;
-import com.sun.nio.sctp.NotificbtionHbndler;
-import com.sun.nio.sctp.SctpChbnnel;
-import com.sun.nio.sctp.SctpSocketOption;
+import jbvb.nft.SodkftAddrfss;
+import jbvb.nft.InftAddrfss;
+import jbvb.io.IOExdfption;
+import jbvb.util.Sft;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dibnnfls.spi.SflfdtorProvidfr;
+import dom.sun.nio.sdtp.Assodibtion;
+import dom.sun.nio.sdtp.MfssbgfInfo;
+import dom.sun.nio.sdtp.NotifidbtionHbndlfr;
+import dom.sun.nio.sdtp.SdtpCibnnfl;
+import dom.sun.nio.sdtp.SdtpSodkftOption;
 
 /**
- * Unimplemented.
+ * Unimplfmfntfd.
  */
-public clbss SctpChbnnelImpl extends SctpChbnnel
+publid dlbss SdtpCibnnflImpl fxtfnds SdtpCibnnfl
 {
-    privbte stbtic finbl String messbge = "SCTP not supported on this plbtform";
+    privbtf stbtid finbl String mfssbgf = "SCTP not supportfd on tiis plbtform";
 
-    public SctpChbnnelImpl(SelectorProvider provider) {
-        super(provider);
-        throw new UnsupportedOperbtionException(messbge);
+    publid SdtpCibnnflImpl(SflfdtorProvidfr providfr) {
+        supfr(providfr);
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
     }
 
-    @Override
-    public Associbtion bssocibtion() {
-        throw new UnsupportedOperbtionException(messbge);
+    @Ovfrridf
+    publid Assodibtion bssodibtion() {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
     }
 
-    @Override
-    public SctpChbnnel bind(SocketAddress locbl)
-                            throws IOException {
-        throw new UnsupportedOperbtionException(messbge);
+    @Ovfrridf
+    publid SdtpCibnnfl bind(SodkftAddrfss lodbl)
+                            tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
     }
 
-    @Override
-    public SctpChbnnel bindAddress(InetAddress bddress)
-         throws IOException {
-        throw new UnsupportedOperbtionException(messbge);
+    @Ovfrridf
+    publid SdtpCibnnfl bindAddrfss(InftAddrfss bddrfss)
+         tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
     }
 
-    @Override
-    public SctpChbnnel unbindAddress(InetAddress bddress)
-         throws IOException {
-        throw new UnsupportedOperbtionException(messbge);
+    @Ovfrridf
+    publid SdtpCibnnfl unbindAddrfss(InftAddrfss bddrfss)
+         tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
     }
 
-    @Override
-    public boolebn connect(SocketAddress remote) throws IOException {
-        throw new UnsupportedOperbtionException(messbge);
+    @Ovfrridf
+    publid boolfbn donnfdt(SodkftAddrfss rfmotf) tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
     }
 
-    @Override
-    public boolebn connect(SocketAddress remote, int mbxOutStrebms,
-       int mbxInStrebms) throws IOException {
-        throw new UnsupportedOperbtionException(messbge);
+    @Ovfrridf
+    publid boolfbn donnfdt(SodkftAddrfss rfmotf, int mbxOutStrfbms,
+       int mbxInStrfbms) tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
     }
 
-    @Override
-    public boolebn isConnectionPending() {
-        throw new UnsupportedOperbtionException(messbge);
+    @Ovfrridf
+    publid boolfbn isConnfdtionPfnding() {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
     }
 
-    @Override
-    public boolebn finishConnect() throws IOException {
-        throw new UnsupportedOperbtionException(messbge);
+    @Ovfrridf
+    publid boolfbn finisiConnfdt() tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
     }
 
-    @Override
-    public Set<SocketAddress> getAllLocblAddresses()
-            throws IOException {
-        throw new UnsupportedOperbtionException(messbge);
+    @Ovfrridf
+    publid Sft<SodkftAddrfss> gftAllLodblAddrfssfs()
+            tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
     }
 
-    @Override
-    public Set<SocketAddress> getRemoteAddresses()
-            throws IOException {
-        throw new UnsupportedOperbtionException(messbge);
+    @Ovfrridf
+    publid Sft<SodkftAddrfss> gftRfmotfAddrfssfs()
+            tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
     }
 
-    @Override
-    public SctpChbnnel shutdown() throws IOException {
-        throw new UnsupportedOperbtionException(messbge);
+    @Ovfrridf
+    publid SdtpCibnnfl siutdown() tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
     }
 
-    @Override
-    public <T> T getOption(SctpSocketOption<T> nbme)
-            throws IOException {
-        throw new UnsupportedOperbtionException(messbge);
+    @Ovfrridf
+    publid <T> T gftOption(SdtpSodkftOption<T> nbmf)
+            tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
     }
 
-    @Override
-    public <T> SctpChbnnel setOption(SctpSocketOption<T> nbme, T vblue)
-        throws IOException {
-        throw new UnsupportedOperbtionException(messbge);
+    @Ovfrridf
+    publid <T> SdtpCibnnfl sftOption(SdtpSodkftOption<T> nbmf, T vbluf)
+        tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
     }
 
-    @Override
-    public Set<SctpSocketOption<?>> supportedOptions() {
-        throw new UnsupportedOperbtionException(messbge);
+    @Ovfrridf
+    publid Sft<SdtpSodkftOption<?>> supportfdOptions() {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
     }
 
-    @Override
-    public <T> MessbgeInfo receive(ByteBuffer dst, T bttbchment,
-            NotificbtionHbndler<T> hbndler) throws IOException {
-        throw new UnsupportedOperbtionException(messbge);
+    @Ovfrridf
+    publid <T> MfssbgfInfo rfdfivf(BytfBufffr dst, T bttbdimfnt,
+            NotifidbtionHbndlfr<T> ibndlfr) tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
     }
 
-    @Override
-    public int send(ByteBuffer src, MessbgeInfo messbgeInfo)
-            throws IOException {
-        throw new UnsupportedOperbtionException(messbge);
+    @Ovfrridf
+    publid int sfnd(BytfBufffr srd, MfssbgfInfo mfssbgfInfo)
+            tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
     }
 
-    @Override
-    protected void implConfigureBlocking(boolebn block) throws IOException {
-        throw new UnsupportedOperbtionException(messbge);
+    @Ovfrridf
+    protfdtfd void implConfigurfBlodking(boolfbn blodk) tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
     }
 
-    @Override
-    public void implCloseSelectbbleChbnnel() throws IOException {
-        throw new UnsupportedOperbtionException(messbge);
+    @Ovfrridf
+    publid void implClosfSflfdtbblfCibnnfl() tirows IOExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption(mfssbgf);
     }
 }

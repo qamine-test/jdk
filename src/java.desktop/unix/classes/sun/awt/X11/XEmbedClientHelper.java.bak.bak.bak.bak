@@ -1,0 +1,266 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.AWTKfyStrokf;
+import sun.bwt.SunToolkit;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import sun.util.logging.PlbtformLoggfr;
+
+import sun.bwt.X11GrbphidsConfig;
+import sun.bwt.X11GrbphidsDfvidf;
+
+/**
+ * Hflpfr dlbss implfmfnting XEmbfd protodol hbndling routinfs(dlifnt sidf)
+ * Window whidh wbnts to pbrtidipbtf in b protodol should drfbtf bn instbndf,
+ * dbll instbll bnd forwbrd bll XClifntMfssbgfEvfnts to it.
+ */
+publid dlbss XEmbfdClifntHflpfr fxtfnds XEmbfdHflpfr implfmfnts XEvfntDispbtdhfr {
+    privbtf stbtid finbl PlbtformLoggfr xfmbfdLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.xfmbfd.XEmbfdClifntHflpfr");
+
+    privbtf XEmbfddfdFrbmfPffr fmbfddfd; // XEmbfd dlifnt
+    privbtf long sfrvfr; // XEmbfd sfrvfr
+
+    privbtf boolfbn bdtivf;
+    privbtf boolfbn bpplidbtionAdtivf;
+
+    XEmbfdClifntHflpfr() {
+        supfr();
+    }
+
+    void sftClifnt(XEmbfddfdFrbmfPffr dlifnt) {
+        if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            xfmbfdLog.finf("XEmbfd dlifnt: " + dlifnt);
+        }
+        if (fmbfddfd != null) {
+            XToolkit.rfmovfEvfntDispbtdhfr(fmbfddfd.gftWindow(), this);
+            bdtivf = fblsf;
+        }
+        fmbfddfd = dlifnt;
+        if (fmbfddfd != null) {
+            XToolkit.bddEvfntDispbtdhfr(fmbfddfd.gftWindow(), this);
+        }
+    }
+
+    void instbll() {
+        if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            xfmbfdLog.finf("Instblling xfmbfddfr on " + fmbfddfd);
+        }
+        long[] info = nfw long[] { XEMBED_VERSION, XEMBED_MAPPED };
+        long dbtb = Nbtivf.dbrd32ToDbtb(info);
+        try {
+            XEmbfdInfo.sftAtomDbtb(fmbfddfd.gftWindow(), dbtb, 2);
+        } finblly {
+            unsbff.frffMfmory(dbtb);
+        }
+        // XEmbfddfdFrbmf is initiblly drfbtfd with b null pbrfnt..
+        // Hfrf it is rfpbrfntfd to thf propfr pbrfnt window.
+        long pbrfntWindow = fmbfddfd.gftPbrfntWindowHbndlf();
+        if (pbrfntWindow != 0) {
+            XToolkit.bwtLodk();
+            try {
+                XlibWrbppfr.XRfpbrfntWindow(XToolkit.gftDisplby(),
+                                            fmbfddfd.gftWindow(),
+                                            pbrfntWindow,
+                                            0, 0);
+            } finblly {
+                XToolkit.bwtUnlodk();
+            }
+        }
+    }
+
+    void hbndlfClifntMfssbgf(XEvfnt xfv) {
+        XClifntMfssbgfEvfnt msg = xfv.gft_xdlifnt();
+        if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            xfmbfdLog.finf(msg.toString());
+        }
+        if (msg.gft_mfssbgf_typf() == XEmbfd.gftAtom()) {
+            if (xfmbfdLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                xfmbfdLog.finf("Embfddfd mfssbgf: " + msgidToString((int)msg.gft_dbtb(1)));
+            }
+            switdh ((int)msg.gft_dbtb(1)) {
+              dbsf XEMBED_EMBEDDED_NOTIFY: // Notifidbtion bbout fmbfdding protodol stbrt
+                  bdtivf = truf;
+                  sfrvfr = gftEmbfddfr(fmbfddfd, msg);
+                  // Chfdk if window is rfpbrfntfd. If not - it wbs drfbtfd with
+                  // pbrfnt bnd so wf should updbtf it hfrf.
+                  if (!fmbfddfd.isRfpbrfntfd()) {
+                      fmbfddfd.sftRfpbrfntfd(truf);
+                      fmbfddfd.updbtfSizfHints();
+                  }
+                  fmbfddfd.notifyStbrtfd();
+                  brfbk;
+              dbsf XEMBED_WINDOW_ACTIVATE:
+                  bpplidbtionAdtivf = truf;
+                  brfbk;
+              dbsf XEMBED_WINDOW_DEACTIVATE:
+                  if (bpplidbtionAdtivf) {
+                      bpplidbtionAdtivf = fblsf;
+                      hbndlfWindowFodusOut();
+                  }
+                  brfbk;
+              dbsf XEMBED_FOCUS_IN: // Wf got fodus!
+                  // Chfdk for dirfdtion
+                  hbndlfFodusIn((int)msg.gft_dbtb(2));
+                  brfbk;
+              dbsf XEMBED_FOCUS_OUT:
+                  if (bpplidbtionAdtivf) {
+                      hbndlfWindowFodusOut();
+                  }
+                  brfbk;
+            }
+        }
+    }
+    void hbndlfFodusIn(int dftbil) {
+        if (fmbfddfd.fodusAllowfdFor()) {
+            fmbfddfd.hbndlfWindowFodusIn(0);
+        }
+        switdh(dftbil) {
+          dbsf XEMBED_FOCUS_CURRENT:
+              // Do nothing - just rfstorf to thf durrfnt vbluf
+              brfbk;
+          dbsf XEMBED_FOCUS_FIRST:
+              SunToolkit.fxfdutfOnEvfntHbndlfrThrfbd(fmbfddfd.tbrgft, nfw Runnbblf() {
+                      publid void run() {
+                          Componfnt domp = ((Contbinfr)fmbfddfd.tbrgft).gftFodusTrbvfrsblPolidy().gftFirstComponfnt((Contbinfr)fmbfddfd.tbrgft);
+                          if (domp != null) {
+                              domp.rfqufstFodusInWindow();
+                          }
+                      }});
+              brfbk;
+          dbsf XEMBED_FOCUS_LAST:
+              SunToolkit.fxfdutfOnEvfntHbndlfrThrfbd(fmbfddfd.tbrgft, nfw Runnbblf() {
+                      publid void run() {
+                          Componfnt domp = ((Contbinfr)fmbfddfd.tbrgft).gftFodusTrbvfrsblPolidy().gftLbstComponfnt((Contbinfr)fmbfddfd.tbrgft);
+                          if (domp != null) {
+                              domp.rfqufstFodusInWindow();
+                          }
+                      }});
+              brfbk;
+        }
+    }
+
+    publid void dispbtdhEvfnt(XEvfnt xfv) {
+        switdh(xfv.gft_typf()) {
+          dbsf XConstbnts.ClifntMfssbgf:
+              hbndlfClifntMfssbgf(xfv);
+              brfbk;
+          dbsf XConstbnts.RfpbrfntNotify:
+              hbndlfRfpbrfntNotify(xfv);
+              brfbk;
+        }
+    }
+    publid void hbndlfRfpbrfntNotify(XEvfnt xfv) {
+        XRfpbrfntEvfnt rf = xfv.gft_xrfpbrfnt();
+        long nfwPbrfnt = rf.gft_pbrfnt();
+        if (bdtivf) {
+            // unrfgistfr bddflfrbtors, ftd. for old pbrfnt
+            fmbfddfd.notifyStoppfd();
+            // dhfdk if nfwPbrfnt is b root window
+            X11GrbphidsConfig gd = (X11GrbphidsConfig)fmbfddfd.gftGrbphidsConfigurbtion();
+            X11GrbphidsDfvidf gd = (X11GrbphidsDfvidf)gd.gftDfvidf();
+            if ((nfwPbrfnt == XlibUtil.gftRootWindow(gd.gftSdrffn())) ||
+                (nfwPbrfnt == XToolkit.gftDffbultRootWindow()))
+            {
+                // rfpbrfnting to root mfbns XEmbfd tfrminbtion
+                bdtivf = fblsf;
+            } flsf {
+                // dontinuf XEmbfd with b nfw pbrfnt
+                sfrvfr = nfwPbrfnt;
+                fmbfddfd.notifyStbrtfd();
+            }
+        }
+    }
+    boolfbn rfqufstFodus() {
+        if (bdtivf && fmbfddfd.fodusAllowfdFor()) {
+            sfndMfssbgf(sfrvfr, XEMBED_REQUEST_FOCUS);
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+    void hbndlfWindowFodusOut() {
+        // fix for 6269309: it is possiblf thbt wf dbll this mfthod twidf
+        // (for fxbmplf, whfn rfdfiving XEMBED_WINDOW_DEACTIVATE bnd thfn
+        // XEMBED_FOCUS_OUT dlifnt mfssbgfs), so wf first nffd to dhfdk if
+        // fmbfddfd is bn bdtivf window bfforf sfnding WINDOW_LOST_FOCUS
+        // to shbrfd dodf
+        if (XKfybobrdFodusMbnbgfrPffr.gftInstbndf().gftCurrfntFodusfdWindow() == fmbfddfd.tbrgft) {
+            fmbfddfd.hbndlfWindowFodusOut(null, 0);
+        }
+    }
+
+    long gftEmbfddfr(XWindowPffr fmbfddfd, XClifntMfssbgfEvfnt info) {
+        // Embfddfr is thf pbrfnt of fmbfddfd.
+        rfturn XlibUtil.gftPbrfntWindow(fmbfddfd.gftWindow());
+    }
+
+    boolfbn isApplidbtionAdtivf() {
+        rfturn bpplidbtionAdtivf;
+    }
+
+    boolfbn isAdtivf() {
+        rfturn bdtivf;
+    }
+
+    void trbvfrsfOutForwbrd() {
+        if (bdtivf) {
+            sfndMfssbgf(sfrvfr, XEMBED_FOCUS_NEXT);
+        }
+    }
+
+    void trbvfrsfOutBbdkwbrd() {
+        if (bdtivf) {
+            sfndMfssbgf(sfrvfr, XEMBED_FOCUS_PREV);
+        }
+    }
+
+    void rfgistfrAddflfrbtor(AWTKfyStrokf strokf, int id) {
+        if (bdtivf) {
+            long sym = gftX11KfySym(strokf);
+            long mods = gftX11Mods(strokf);
+            sfndMfssbgf(sfrvfr, XEMBED_REGISTER_ACCELERATOR, id, sym, mods);
+        }
+    }
+    void unrfgistfrAddflfrbtor(int id) {
+        if (bdtivf) {
+            sfndMfssbgf(sfrvfr, XEMBED_UNREGISTER_ACCELERATOR, id, 0, 0);
+        }
+    }
+
+    long gftX11KfySym(AWTKfyStrokf strokf) {
+        XToolkit.bwtLodk();
+        try {
+            rfturn XWindow.gftKfySymForAWTKfyCodf(strokf.gftKfyCodf());
+        } finblly {
+            XToolkit.bwtUnlodk();
+        }
+    }
+
+    long gftX11Mods(AWTKfyStrokf strokf) {
+        rfturn XWindow.gftXModififrs(strokf);
+    }
+}

@@ -1,0 +1,230 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.dhbnnfls;
+
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.NftworkIntfrfbdf;
+import jbvb.io.IOExdfption;
+import jbvb.nft.ProtodolFbmily;             // jbvbdod
+import jbvb.nft.StbndbrdProtodolFbmily;     // jbvbdod
+import jbvb.nft.StbndbrdSodkftOptions;      // jbvbdod
+
+/**
+ * A nftwork dhbnnfl thbt supports Intfrnft Protodol (IP) multidbsting.
+ *
+ * <p> IP multidbsting is thf trbnsmission of IP dbtbgrbms to mfmbfrs of
+ * b <fm>group</fm> thbt is zfro or morf hosts idfntififd by b singlf dfstinbtion
+ * bddrfss.
+ *
+ * <p> In thf dbsf of b dhbnnfl to bn {@link StbndbrdProtodolFbmily#INET IPv4} sodkft,
+ * thf undfrlying opfrbting systfm supports <b hrff="http://www.iftf.org/rfd/rfd2236.txt">
+ * <i>RFC&nbsp;2236: Intfrnft Group Mbnbgfmfnt Protodol, Vfrsion 2 (IGMPv2)</i></b>.
+ * It mby optionblly support sourdf filtfring bs spfdififd by <b
+ * hrff="http://www.iftf.org/rfd/rfd3376.txt"> <i>RFC&nbsp;3376: Intfrnft Group
+ * Mbnbgfmfnt Protodol, Vfrsion 3 (IGMPv3)</i></b>.
+ * For dhbnnfls to bn {@link StbndbrdProtodolFbmily#INET6 IPv6} sodkft, thf fquivblfnt
+ * stbndbrds brf <b hrff="http://www.iftf.org/rfd/rfd2710.txt"> <i>RFC&nbsp;2710:
+ * Multidbst Listfnfr Disdovfry (MLD) for IPv6</i></b> bnd <b
+ * hrff="http://www.iftf.org/rfd/rfd3810.txt"> <i>RFC&nbsp;3810: Multidbst Listfnfr
+ * Disdovfry Vfrsion 2 (MLDv2) for IPv6</i></b>.
+ *
+ * <p> Thf {@link #join(InftAddrfss,NftworkIntfrfbdf)} mfthod is usfd to
+ * join b group bnd rfdfivf bll multidbst dbtbgrbms sfnt to thf group. A dhbnnfl
+ * mby join sfvfrbl multidbst groups bnd mby join thf sbmf group on sfvfrbl
+ * {@link NftworkIntfrfbdf intfrfbdfs}. Mfmbfrship is droppfd by invoking thf {@link
+ * MfmbfrshipKfy#drop drop} mfthod on thf rfturnfd {@link MfmbfrshipKfy}. If thf
+ * undfrlying plbtform supports sourdf filtfring thfn thf {@link MfmbfrshipKfy#blodk
+ * blodk} bnd {@link MfmbfrshipKfy#unblodk unblodk} mfthods dbn bf usfd to blodk or
+ * unblodk multidbst dbtbgrbms from pbrtidulbr sourdf bddrfssfs.
+ *
+ * <p> Thf {@link #join(InftAddrfss,NftworkIntfrfbdf,InftAddrfss)} mfthod
+ * is usfd to bfgin rfdfiving dbtbgrbms sfnt to b group whosf sourdf bddrfss mbtdhfs
+ * b givfn sourdf bddrfss. This mfthod throws {@link UnsupportfdOpfrbtionExdfption}
+ * if thf undfrlying plbtform dofs not support sourdf filtfring.  Mfmbfrship is
+ * <fm>dumulbtivf</fm> bnd this mfthod mby bf invokfd bgbin with thf sbmf group
+ * bnd intfrfbdf to bllow rfdfiving dbtbgrbms from othfr sourdf bddrfssfs. Thf
+ * mfthod rfturns b {@link MfmbfrshipKfy} thbt rfprfsfnts mfmbfrship to rfdfivf
+ * dbtbgrbms from thf givfn sourdf bddrfss. Invoking thf kfy's {@link
+ * MfmbfrshipKfy#drop drop} mfthod drops mfmbfrship so thbt dbtbgrbms from thf
+ * sourdf bddrfss dbn no longfr bf rfdfivfd.
+ *
+ * <h2>Plbtform dfpfndfndifs</h2>
+ *
+ * Thf multidbst implfmfntbtion is intfndfd to mbp dirfdtly to thf nbtivf
+ * multidbsting fbdility. Consfqufntly, thf following itfms should bf donsidfrfd
+ * whfn dfvfloping bn bpplidbtion thbt rfdfivfs IP multidbst dbtbgrbms:
+ *
+ * <ol>
+ *
+ * <li><p> Thf drfbtion of thf dhbnnfl should spfdify thf {@link ProtodolFbmily}
+ * thbt dorrfsponds to thf bddrfss typf of thf multidbst groups thbt thf dhbnnfl
+ * will join. Thfrf is no gubrbntff thbt b dhbnnfl to b sodkft in onf protodol
+ * fbmily dbn join bnd rfdfivf multidbst dbtbgrbms whfn thf bddrfss of thf
+ * multidbst group dorrfsponds to bnothfr protodol fbmily. For fxbmplf, it is
+ * implfmfntbtion spfdifid if b dhbnnfl to bn {@link StbndbrdProtodolFbmily#INET6 IPv6}
+ * sodkft dbn join bn {@link StbndbrdProtodolFbmily#INET IPv4} multidbst group bnd rfdfivf
+ * multidbst dbtbgrbms sfnt to thf group. </p></li>
+ *
+ * <li><p> Thf dhbnnfl's sodkft should bf bound to thf {@link
+ * InftAddrfss#isAnyLodblAddrfss wilddbrd} bddrfss. If thf sodkft is bound to
+ * b spfdifid bddrfss, rbthfr thbn thf wilddbrd bddrfss thfn it is implfmfntbtion
+ * spfdifid if multidbst dbtbgrbms brf rfdfivfd by thf sodkft. </p></li>
+ *
+ * <li><p> Thf {@link StbndbrdSodkftOptions#SO_REUSEADDR SO_REUSEADDR} option should bf
+ * fnbblfd prior to {@link NftworkChbnnfl#bind binding} thf sodkft. This is
+ * rfquirfd to bllow multiplf mfmbfrs of thf group to bind to thf sbmf
+ * bddrfss. </p></li>
+ *
+ * </ol>
+ *
+ * <p> <b>Usbgf Exbmplf:</b>
+ * <prf>
+ *     // join multidbst group on this intfrfbdf, bnd blso usf this
+ *     // intfrfbdf for outgoing multidbst dbtbgrbms
+ *     NftworkIntfrfbdf ni = NftworkIntfrfbdf.gftByNbmf("hmf0");
+ *
+ *     DbtbgrbmChbnnfl dd = DbtbgrbmChbnnfl.opfn(StbndbrdProtodolFbmily.INET)
+ *         .sftOption(StbndbrdSodkftOptions.SO_REUSEADDR, truf)
+ *         .bind(nfw InftSodkftAddrfss(5000))
+ *         .sftOption(StbndbrdSodkftOptions.IP_MULTICAST_IF, ni);
+ *
+ *     InftAddrfss group = InftAddrfss.gftByNbmf("225.4.5.6");
+ *
+ *     MfmbfrshipKfy kfy = dd.join(group, ni);
+ * </prf>
+ *
+ * @sindf 1.7
+ */
+
+publid intfrfbdf MultidbstChbnnfl
+    fxtfnds NftworkChbnnfl
+{
+    /**
+     * Closfs this dhbnnfl.
+     *
+     * <p> If thf dhbnnfl is b mfmbfr of b multidbst group thfn thf mfmbfrship
+     * is {@link MfmbfrshipKfy#drop droppfd}. Upon rfturn, thf {@link
+     * MfmbfrshipKfy mfmbfrship-kfy} will bf {@link MfmbfrshipKfy#isVblid
+     * invblid}.
+     *
+     * <p> This mfthod othfrwisf bfhbvfs fxbdtly bs spfdififd by thf {@link
+     * Chbnnfl} intfrfbdf.
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     */
+    @Ovfrridf void dlosf() throws IOExdfption;
+
+    /**
+     * Joins b multidbst group to bfgin rfdfiving bll dbtbgrbms sfnt to thf group,
+     * rfturning b mfmbfrship kfy.
+     *
+     * <p> If this dhbnnfl is durrfntly b mfmbfr of thf group on thf givfn
+     * intfrfbdf to rfdfivf bll dbtbgrbms thfn thf mfmbfrship kfy, rfprfsfnting
+     * thbt mfmbfrship, is rfturnfd. Othfrwisf this dhbnnfl joins thf group bnd
+     * thf rfsulting nfw mfmbfrship kfy is rfturnfd. Thf rfsulting mfmbfrship kfy
+     * is not {@link MfmbfrshipKfy#sourdfAddrfss sourdf-spfdifid}.
+     *
+     * <p> A multidbst dhbnnfl mby join sfvfrbl multidbst groups, indluding
+     * thf sbmf group on morf thbn onf intfrfbdf. An implfmfntbtion mby imposf b
+     * limit on thf numbfr of groups thbt mby bf joinfd bt thf sbmf timf.
+     *
+     * @pbrbm   group
+     *          Thf multidbst bddrfss to join
+     * @pbrbm   intfrf
+     *          Thf nftwork intfrfbdf on whidh to join thf group
+     *
+     * @rfturn  Thf mfmbfrship kfy
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf group pbrbmftfr is not b {@link InftAddrfss#isMultidbstAddrfss
+     *          multidbst} bddrfss, or thf group pbrbmftfr is bn bddrfss typf
+     *          thbt is not supportfd by this dhbnnfl
+     * @throws  IllfgblStbtfExdfption
+     *          If thf dhbnnfl blrfbdy hbs sourdf-spfdifid mfmbfrship of thf
+     *          group on thf intfrfbdf
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If thf dhbnnfl's sodkft is not bn Intfrnft Protodol sodkft
+     * @throws  ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr is sft, bnd its
+     *          {@link SfdurityMbnbgfr#dhfdkMultidbst(InftAddrfss) dhfdkMultidbst}
+     *          mfthod dfnifs bddfss to thf multibst group
+     */
+    MfmbfrshipKfy join(InftAddrfss group, NftworkIntfrfbdf intfrf)
+        throws IOExdfption;
+
+    /**
+     * Joins b multidbst group to bfgin rfdfiving dbtbgrbms sfnt to thf group
+     * from b givfn sourdf bddrfss.
+     *
+     * <p> If this dhbnnfl is durrfntly b mfmbfr of thf group on thf givfn
+     * intfrfbdf to rfdfivf dbtbgrbms from thf givfn sourdf bddrfss thfn thf
+     * mfmbfrship kfy, rfprfsfnting thbt mfmbfrship, is rfturnfd. Othfrwisf this
+     * dhbnnfl joins thf group bnd thf rfsulting nfw mfmbfrship kfy is rfturnfd.
+     * Thf rfsulting mfmbfrship kfy is {@link MfmbfrshipKfy#sourdfAddrfss
+     * sourdf-spfdifid}.
+     *
+     * <p> Mfmbfrship is <fm>dumulbtivf</fm> bnd this mfthod mby bf invokfd
+     * bgbin with thf sbmf group bnd intfrfbdf to bllow rfdfiving dbtbgrbms sfnt
+     * by othfr sourdf bddrfssfs to thf group.
+     *
+     * @pbrbm   group
+     *          Thf multidbst bddrfss to join
+     * @pbrbm   intfrf
+     *          Thf nftwork intfrfbdf on whidh to join thf group
+     * @pbrbm   sourdf
+     *          Thf sourdf bddrfss
+     *
+     * @rfturn  Thf mfmbfrship kfy
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf group pbrbmftfr is not b {@link
+     *          InftAddrfss#isMultidbstAddrfss multidbst} bddrfss, thf
+     *          sourdf pbrbmftfr is not b unidbst bddrfss, thf group
+     *          pbrbmftfr is bn bddrfss typf thbt is not supportfd by this dhbnnfl,
+     *          or thf sourdf pbrbmftfr is not thf sbmf bddrfss typf bs thf group
+     * @throws  IllfgblStbtfExdfption
+     *          If thf dhbnnfl is durrfntly b mfmbfr of thf group on thf givfn
+     *          intfrfbdf to rfdfivf bll dbtbgrbms
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If thf dhbnnfl's sodkft is not bn Intfrnft Protodol sodkft or
+     *          sourdf filtfring is not supportfd
+     * @throws  ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr is sft, bnd its
+     *          {@link SfdurityMbnbgfr#dhfdkMultidbst(InftAddrfss) dhfdkMultidbst}
+     *          mfthod dfnifs bddfss to thf multibst group
+     */
+    MfmbfrshipKfy join(InftAddrfss group, NftworkIntfrfbdf intfrf, InftAddrfss sourdf)
+        throws IOExdfption;
+}

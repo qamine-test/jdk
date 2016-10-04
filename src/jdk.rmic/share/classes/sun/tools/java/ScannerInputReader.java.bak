@@ -1,242 +1,242 @@
 /*
- * Copyright (c) 1995, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.java;
+pbdkbgf sun.tools.jbvb;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
-import java.io.FilterReader;
-import java.io.UnsupportedEncodingException;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.FiltfrRfbdfr;
+import jbvb.io.UnsupportfdEndodingExdfption;
 
 /**
- * An input stream for java programs. The stream treats either "\n", "\r"
- * or "\r\n" as the end of a line, it always returns \n. It also parses
- * UNICODE characters expressed as \uffff. However, if it sees "\\", the
- * second slash cannot begin a unicode sequence. It keeps track of the current
- * position in the input stream.
+ * An input strfbm for jbvb progrbms. Tif strfbm trfbts fitifr "\n", "\r"
+ * or "\r\n" bs tif fnd of b linf, it blwbys rfturns \n. It blso pbrsfs
+ * UNICODE dibrbdtfrs fxprfssfd bs \uffff. Howfvfr, if it sffs "\\", tif
+ * sfdond slbsi dbnnot bfgin b unidodf sfqufndf. It kffps trbdk of tif durrfnt
+ * position in tif input strfbm.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  *
- * @author      Arthur van Hoff
+ * @butior      Artiur vbn Hoff
  */
 
-public
-class ScannerInputReader extends FilterReader implements Constants {
-    // A note.  This class does not really properly subclass FilterReader.
-    // Since this class only overrides the single character read method,
-    // and not the multi-character read method, any use of the latter
-    // will not work properly.  Any attempt to use this code outside of
-    // the compiler should take that into account.
+publid
+dlbss SdbnnfrInputRfbdfr fxtfnds FiltfrRfbdfr implfmfnts Constbnts {
+    // A notf.  Tiis dlbss dofs not rfblly propfrly subdlbss FiltfrRfbdfr.
+    // Sindf tiis dlbss only ovfrridfs tif singlf dibrbdtfr rfbd mftiod,
+    // bnd not tif multi-dibrbdtfr rfbd mftiod, bny usf of tif lbttfr
+    // will not work propfrly.  Any bttfmpt to usf tiis dodf outsidf of
+    // tif dompilfr siould tbkf tibt into bddount.
     //
-    // For efficiency, it might be worth moving this code to Scanner and
-    // getting rid of this class.
+    // For fffidifndy, it migit bf worti moving tiis dodf to Sdbnnfr bnd
+    // gftting rid of tiis dlbss.
 
-    Environment env;
+    Environmfnt fnv;
     long pos;
 
-    private long chpos;
-    private int pushBack = -1;
+    privbtf long dipos;
+    privbtf int pusiBbdk = -1;
 
-    public ScannerInputReader(Environment env, InputStream in)
-        throws UnsupportedEncodingException
+    publid SdbnnfrInputRfbdfr(Environmfnt fnv, InputStrfbm in)
+        tirows UnsupportfdEndodingExdfption
     {
-        // ScannerInputStream has been modified to no longer use
-        // BufferedReader.  It now does its own buffering for
-        // performance.
-        super(env.getCharacterEncoding() != null ?
-              new InputStreamReader(in, env.getCharacterEncoding()) :
-              new InputStreamReader(in));
+        // SdbnnfrInputStrfbm ibs bffn modififd to no longfr usf
+        // BufffrfdRfbdfr.  It now dofs its own bufffring for
+        // pfrformbndf.
+        supfr(fnv.gftCibrbdtfrEndoding() != null ?
+              nfw InputStrfbmRfbdfr(in, fnv.gftCibrbdtfrEndoding()) :
+              nfw InputStrfbmRfbdfr(in));
 
-        // Start out the buffer empty.
-        currentIndex = 0;
-        numChars = 0;
+        // Stbrt out tif bufffr fmpty.
+        durrfntIndfx = 0;
+        numCibrs = 0;
 
-        this.env = env;
-        chpos = Scanner.LINEINC;
+        tiis.fnv = fnv;
+        dipos = Sdbnnfr.LINEINC;
     }
 
     //------------------------------------------------------------
-    // Buffering code.
+    // Bufffring dodf.
 
-    // The size of our buffer.
-    private static final int BUFFERLEN = 10 * 1024;
+    // Tif sizf of our bufffr.
+    privbtf stbtid finbl int BUFFERLEN = 10 * 1024;
 
-    // A character buffer.
-    private final char[] buffer = new char[BUFFERLEN];
+    // A dibrbdtfr bufffr.
+    privbtf finbl dibr[] bufffr = nfw dibr[BUFFERLEN];
 
-    // The index of the next character to be "read" from the buffer.
-    private int currentIndex;
+    // Tif indfx of tif nfxt dibrbdtfr to bf "rfbd" from tif bufffr.
+    privbtf int durrfntIndfx;
 
-    // The number of characters in the buffer.  -1 if EOF is reached.
-    private int numChars;
+    // Tif numbfr of dibrbdtfrs in tif bufffr.  -1 if EOF is rfbdifd.
+    privbtf int numCibrs;
 
     /**
-     * Get the next character from our buffer.
-     * Note: this method has been inlined by hand in the `read' method
-     * below.  Any changes made to this method should be equally applied
-     * to that code.
+     * Gft tif nfxt dibrbdtfr from our bufffr.
+     * Notf: tiis mftiod ibs bffn inlinfd by ibnd in tif `rfbd' mftiod
+     * bflow.  Any dibngfs mbdf to tiis mftiod siould bf fqublly bpplifd
+     * to tibt dodf.
      */
-    private int getNextChar() throws IOException {
-        // Check to see if we have either run out of characters in our
-        // buffer or gotten to EOF on a previous call.
-        if (currentIndex >= numChars) {
-            numChars = in.read(buffer);
-            if (numChars == -1) {
-                // We have reached EOF.
-                return -1;
+    privbtf int gftNfxtCibr() tirows IOExdfption {
+        // Cifdk to sff if wf ibvf fitifr run out of dibrbdtfrs in our
+        // bufffr or gottfn to EOF on b prfvious dbll.
+        if (durrfntIndfx >= numCibrs) {
+            numCibrs = in.rfbd(bufffr);
+            if (numCibrs == -1) {
+                // Wf ibvf rfbdifd EOF.
+                rfturn -1;
             }
 
-            // No EOF.  currentIndex points to first char in buffer.
-            currentIndex = 0;
+            // No EOF.  durrfntIndfx points to first dibr in bufffr.
+            durrfntIndfx = 0;
         }
 
-        return buffer[currentIndex++];
+        rfturn bufffr[durrfntIndfx++];
     }
 
     //------------------------------------------------------------
 
-    public int read(char[] buffer, int off, int len) {
-        throw new CompilerError(
-                   "ScannerInputReader is not a fully implemented reader.");
+    publid int rfbd(dibr[] bufffr, int off, int lfn) {
+        tirow nfw CompilfrError(
+                   "SdbnnfrInputRfbdfr is not b fully implfmfntfd rfbdfr.");
     }
 
-    public int read() throws IOException {
-        pos = chpos;
-        chpos += Scanner.OFFSETINC;
+    publid int rfbd() tirows IOExdfption {
+        pos = dipos;
+        dipos += Sdbnnfr.OFFSETINC;
 
-        int c = pushBack;
-        if (c == -1) {
-        getchar: try {
-                // Here the call...
-                //     c = getNextChar();
-                // has been inlined by hand for performance.
+        int d = pusiBbdk;
+        if (d == -1) {
+        gftdibr: try {
+                // Hfrf tif dbll...
+                //     d = gftNfxtCibr();
+                // ibs bffn inlinfd by ibnd for pfrformbndf.
 
-                if (currentIndex >= numChars) {
-                    numChars = in.read(buffer);
-                    if (numChars == -1) {
-                        // We have reached EOF.
-                        c = -1;
-                        break getchar;
+                if (durrfntIndfx >= numCibrs) {
+                    numCibrs = in.rfbd(bufffr);
+                    if (numCibrs == -1) {
+                        // Wf ibvf rfbdifd EOF.
+                        d = -1;
+                        brfbk gftdibr;
                     }
 
-                    // No EOF.  currentIndex points to first char in buffer.
-                    currentIndex = 0;
+                    // No EOF.  durrfntIndfx points to first dibr in bufffr.
+                    durrfntIndfx = 0;
                 }
-                c = buffer[currentIndex++];
+                d = bufffr[durrfntIndfx++];
 
-            } catch (java.io.CharConversionException e) {
-                env.error(pos, "invalid.encoding.char");
-                // this is fatal error
-                return -1;
+            } dbtdi (jbvb.io.CibrConvfrsionExdfption f) {
+                fnv.frror(pos, "invblid.fndoding.dibr");
+                // tiis is fbtbl frror
+                rfturn -1;
             }
-        } else {
-            pushBack = -1;
+        } flsf {
+            pusiBbdk = -1;
         }
 
-        // parse special characters
-        switch (c) {
-          case -2:
-            // -2 is a special code indicating a pushback of a backslash that
-            // definitely isn't the start of a unicode sequence.
-            return '\\';
+        // pbrsf spfdibl dibrbdtfrs
+        switdi (d) {
+          dbsf -2:
+            // -2 is b spfdibl dodf indidbting b pusibbdk of b bbdkslbsi tibt
+            // dffinitfly isn't tif stbrt of b unidodf sfqufndf.
+            rfturn '\\';
 
-          case '\\':
-            if ((c = getNextChar()) != 'u') {
-                pushBack = (c == '\\' ? -2 : c);
-                return '\\';
+          dbsf '\\':
+            if ((d = gftNfxtCibr()) != 'u') {
+                pusiBbdk = (d == '\\' ? -2 : d);
+                rfturn '\\';
             }
-            // we have a unicode sequence
-            chpos += Scanner.OFFSETINC;
-            while ((c = getNextChar()) == 'u') {
-                chpos += Scanner.OFFSETINC;
+            // wf ibvf b unidodf sfqufndf
+            dipos += Sdbnnfr.OFFSETINC;
+            wiilf ((d = gftNfxtCibr()) == 'u') {
+                dipos += Sdbnnfr.OFFSETINC;
             }
 
-            // unicode escape sequence
+            // unidodf fsdbpf sfqufndf
             int d = 0;
-            for (int i = 0 ; i < 4 ; i++, chpos += Scanner.OFFSETINC, c = getNextChar()) {
-                switch (c) {
-                  case '0': case '1': case '2': case '3': case '4':
-                  case '5': case '6': case '7': case '8': case '9':
-                    d = (d << 4) + c - '0';
-                    break;
+            for (int i = 0 ; i < 4 ; i++, dipos += Sdbnnfr.OFFSETINC, d = gftNfxtCibr()) {
+                switdi (d) {
+                  dbsf '0': dbsf '1': dbsf '2': dbsf '3': dbsf '4':
+                  dbsf '5': dbsf '6': dbsf '7': dbsf '8': dbsf '9':
+                    d = (d << 4) + d - '0';
+                    brfbk;
 
-                  case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
-                    d = (d << 4) + 10 + c - 'a';
-                    break;
+                  dbsf 'b': dbsf 'b': dbsf 'd': dbsf 'd': dbsf 'f': dbsf 'f':
+                    d = (d << 4) + 10 + d - 'b';
+                    brfbk;
 
-                  case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
-                    d = (d << 4) + 10 + c - 'A';
-                    break;
+                  dbsf 'A': dbsf 'B': dbsf 'C': dbsf 'D': dbsf 'E': dbsf 'F':
+                    d = (d << 4) + 10 + d - 'A';
+                    brfbk;
 
-                  default:
-                    env.error(pos, "invalid.escape.char");
-                    pushBack = c;
-                    return d;
+                  dffbult:
+                    fnv.frror(pos, "invblid.fsdbpf.dibr");
+                    pusiBbdk = d;
+                    rfturn d;
                 }
             }
-            pushBack = c;
+            pusiBbdk = d;
 
-            // To read the following line, switch \ and /...
-            // Handle /u000a, /u000A, /u000d, /u000D properly as
-            // line terminators as per JLS 3.4, even though they are encoded
-            // (this properly respects the order given in JLS 3.2).
-            switch (d) {
-                case '\n':
-                   chpos += Scanner.LINEINC;
-                    return '\n';
-                case '\r':
-                    if ((c = getNextChar()) != '\n') {
-                        pushBack = c;
-                    } else {
-                        chpos += Scanner.OFFSETINC;
+            // To rfbd tif following linf, switdi \ bnd /...
+            // Hbndlf /u000b, /u000A, /u000d, /u000D propfrly bs
+            // linf tfrminbtors bs pfr JLS 3.4, fvfn tiougi tify brf fndodfd
+            // (tiis propfrly rfspfdts tif ordfr givfn in JLS 3.2).
+            switdi (d) {
+                dbsf '\n':
+                   dipos += Sdbnnfr.LINEINC;
+                    rfturn '\n';
+                dbsf '\r':
+                    if ((d = gftNfxtCibr()) != '\n') {
+                        pusiBbdk = d;
+                    } flsf {
+                        dipos += Sdbnnfr.OFFSETINC;
                     }
-                    chpos += Scanner.LINEINC;
-                    return '\n';
-                default:
-                    return d;
+                    dipos += Sdbnnfr.LINEINC;
+                    rfturn '\n';
+                dffbult:
+                    rfturn d;
             }
 
-          case '\n':
-            chpos += Scanner.LINEINC;
-            return '\n';
+          dbsf '\n':
+            dipos += Sdbnnfr.LINEINC;
+            rfturn '\n';
 
-          case '\r':
-            if ((c = getNextChar()) != '\n') {
-                pushBack = c;
-            } else {
-                chpos += Scanner.OFFSETINC;
+          dbsf '\r':
+            if ((d = gftNfxtCibr()) != '\n') {
+                pusiBbdk = d;
+            } flsf {
+                dipos += Sdbnnfr.OFFSETINC;
             }
-            chpos += Scanner.LINEINC;
-            return '\n';
+            dipos += Sdbnnfr.LINEINC;
+            rfturn '\n';
 
-          default:
-            return c;
+          dffbult:
+            rfturn d;
         }
     }
 }

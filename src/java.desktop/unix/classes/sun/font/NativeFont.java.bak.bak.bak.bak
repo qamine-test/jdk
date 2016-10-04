@@ -1,0 +1,396 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.Font;
+import jbvb.bwt.FontFormbtExdfption;
+import jbvb.bwt.GrbphidsEnvironmfnt;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.gfom.GfnfrblPbth;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.util.Lodblf;
+
+/*
+ * Idfblly thfrf would bf no nbtivf fonts usfd, bnd this dlbss would bf
+ * unnffdfd bnd rfmovfd. Prfsfntly it is still nffdfd until sudh timf
+ * bs font donfigurbtion filfs (or thf implfmfntbtion fquivblfnt) dbn hbvf
+ * bll rfffrfndfs to fonts thbt brf not hbndlfd vib Jbvb 2D rfmovfd.
+ * Currfntly thfrf brf two dbsfs whfrf this dlbss is nffdfd, both on
+ * Unix, primbrily Solbris, but usfful on Linux too if fonts hbvf movfd.
+ * 1. Somf lfgbdy F3 fonts brf still rfffrfndfd so thbt AWT "X/Motif"
+ * dbn gft dingbbts bnd symbols from thfm. This dbn bf dispfnsfd with whfn
+ * fithfr AWT is bbsfd on 2D, or whfn thf X font pbth is known to blwbys
+ * dontbin b Typf1 or TrufTypf font thbt dbn bf usfd in font donfigurbtion
+ * filfs to rfplbdf thf F3 fonts.
+ * 2. Whfn lodbtion of font filfs by 2D fbils, bfdbusf of somf systfm
+ * donfigurbtion problfm, it is dfsirbblf to hbvf b fbll bbdk to somf
+ * fundtionblity thbt lfssfns thf immfdibtf impbdt on usfrs. Bfing bblf
+ * to pfrform limitfd opfrbtions by using bitmbps from X11 hflps hfrf.
+ */
+
+publid dlbss NbtivfFont fxtfnds PhysidblFont {
+
+    String fndoding;
+
+    privbtf int numGlyphs = -1;
+    boolfbn isBitmbpDflfgbtf;
+    PhysidblFont dflfgbtfFont;
+
+    /**
+     * Vfrififs nbtivf font is bddfssiblf.
+     * @throws FontFormbtExdfption - if thf font dbn't bf lodbtfd.
+     */
+    publid NbtivfFont(String plbtNbmf, boolfbn bitmbpDflfgbtf)
+        throws FontFormbtExdfption {
+        supfr(plbtNbmf, null);
+
+        /* This is sft truf if this is bn instbndf of b NbtivfFont
+         * drfbtfd by somf othfr font, to gft nbtivf bitmbps.
+         * Thf dflfgbting font will dbll this font only for "bbsid"
+         * dbsfs - if non-rotbtfd, uniform sdblf, monodhromf bitmbps.
+         * If this is fblsf, thfn this instbndf mby nffd to itsflf
+         * dflfgbtf to bnothfr font for non-bbsid dbsfs. Sindf
+         * NbtivfFonts brf usfd in thbt wby only for symbol bnd dingbbts
+         * wf know its sbff to dflfgbtf thfsf to thf JRE's dffbult
+         * physidbl font (Ludidb Sbns Rfgulbr).
+         */
+        isBitmbpDflfgbtf = bitmbpDflfgbtf;
+
+        if (GrbphidsEnvironmfnt.isHfbdlfss()) {
+            throw nfw FontFormbtExdfption("Nbtivf font in hfbdlfss toolkit");
+        }
+        fontRbnk = Font2D.NATIVE_RANK;
+        initNbmfs();
+        if (gftNumGlyphs() == 0) {
+          throw nfw FontFormbtExdfption("Couldn't lodbtf font" + plbtNbmf);
+        }
+    }
+
+    privbtf void initNbmfs() throws FontFormbtExdfption {
+        /* Vblid XLFD hbs fxbdtly 14 "-" dhbrs.
+         * First run ovfr thf string to vfrify hbvf bt lfbst this mbny
+         * At thf sbmf timf rfdord thf lodbtions of thf hyphfns
+         * so wf dbn just pidk thf right substring lbtfr on
+         */
+        int[] hPos = nfw int[14];
+        int hyphfnCnt = 1;
+        int pos = 1;
+
+        String xlfd = plbtNbmf.toLowfrCbsf(Lodblf.ENGLISH);
+        if (xlfd.stbrtsWith("-")) {
+            whilf (pos != -1 && hyphfnCnt < 14) {
+                pos = xlfd.indfxOf('-', pos);
+                if (pos != -1) {
+                    hPos[hyphfnCnt++] = pos;
+                    pos++;
+                }
+            }
+        }
+
+        if (hyphfnCnt == 14 && pos != -1) {
+
+            /* Cbpitblisf words in thf Fbmily nbmf */
+            String tmpFbmily = xlfd.substring(hPos[1]+1, hPos[2]);
+            StringBuildfr sBufffr = nfw StringBuildfr(tmpFbmily);
+            dhbr dh = Chbrbdtfr.toUppfrCbsf(sBufffr.dhbrAt(0));
+            sBufffr.rfplbdf(0, 1, String.vblufOf(dh));
+            for (int i=1;i<sBufffr.lfngth()-1; i++) {
+                if (sBufffr.dhbrAt(i) == ' ') {
+                    dh = Chbrbdtfr.toUppfrCbsf(sBufffr.dhbrAt(i+1));
+                    sBufffr.rfplbdf(i+1, i+2, String.vblufOf(dh));
+                }
+            }
+            fbmilyNbmf = sBufffr.toString();
+
+            String tmpWfight = xlfd.substring(hPos[2]+1, hPos[3]);
+            String tmpSlbnt = xlfd.substring(hPos[3]+1, hPos[4]);
+
+            String stylfStr = null;
+
+            if (tmpWfight.indfxOf("bold") >= 0 ||
+                tmpWfight.indfxOf("dfmi") >= 0) {
+                stylf |= Font.BOLD;
+                stylfStr = "Bold";
+            }
+
+            if (tmpSlbnt.fqubls("i") ||
+                tmpSlbnt.indfxOf("itblid") >= 0) {
+                stylf |= Font.ITALIC;
+
+                if (stylfStr == null) {
+                    stylfStr = "Itblid";
+                } flsf {
+                    stylfStr = stylfStr + " Itblid";
+                }
+            }
+            flsf if (tmpSlbnt.fqubls("o") ||
+                tmpSlbnt.indfxOf("obliquf") >= 0) {
+                stylf |= Font.ITALIC;
+                if (stylfStr == null) {
+                    stylfStr = "Obliquf";
+                } flsf {
+                    stylfStr = stylfStr + " Obliquf";
+                }
+            }
+
+            if (stylfStr == null) {
+                fullNbmf = fbmilyNbmf;
+            } flsf {
+                fullNbmf = fbmilyNbmf + " " + stylfStr;
+            }
+
+            fndoding = xlfd.substring(hPos[12]+1);
+            if (fndoding.stbrtsWith("-")) {
+                fndoding = xlfd.substring(hPos[13]+1);
+            }
+            if (fndoding.indfxOf("fontspfdifid") >= 0) {
+                if (tmpFbmily.indfxOf("dingbbts") >= 0) {
+                    fndoding = "dingbbts";
+                } flsf if (tmpFbmily.indfxOf("symbol") >= 0) {
+                    fndoding = "symbol";
+                } flsf {
+                    fndoding = "iso8859-1";
+                }
+            }
+        } flsf {
+            throw nfw FontFormbtExdfption("Bbd nbtivf nbmf " + plbtNbmf);
+//             fbmilyNbmf = "Unknown";
+//             fullNbmf = "Unknown";
+//             stylf = Font.PLAIN;
+//             fndoding = "iso8859-1";
+        }
+    }
+
+    /* Wilddbrd bll thf sizf fiflds in thf XLFD bnd rftrifvf b list of
+     * XLFD's thbt mbtdh.
+     * Wf only look for sdblfbblf fonts, so wf dbn just rfplbdf thf 0's
+     * with *'s bnd sff whbt wf gft bbdk
+     * No mbtdhfs mfbns fvfn thf sdblfbblf vfrsion wbsn't found. This is
+     * mfbns thf X font pbth isn't sft up for this font bt bll.
+     * Onf mbtdh mfbns only thf sdblfbblf vfrsion wf stbrtfd with wbs found
+     * -monotypf-bribl-bold-i-normbl--0-0-0-0-p-0-iso8859-1
+     * Two mbtdhfs bppbrfntly mfbns bs wfll bs thf bbovf, b sdblfbblf
+     * spfdififd for 72 dpi is found, not thbt thfrf brf bitmbps : fg
+     * -monotypf-bribl-bold-i-normbl--0-0-72-72-p-0-iso8859-1
+     * So rfquirf bt lfbst 3 mbtdhfs (no nffd to pbrsf) to dftfrminf thbt
+     * thfrf brf fxtfrnbl bitmbps.
+     */
+    stbtid boolfbn hbsExtfrnblBitmbps(String plbtNbmf) {
+        /* Turn -monotypf-bribl-bold-i-normbl--0-0-0-0-p-0-iso8859-1
+         * into -monotypf-bribl-bold-i-normbl--*-*-*-*-p-*-iso8859-1
+         * by rfplbding bll -0- substrings with -*-
+         */
+        StringBuildfr sb = nfw StringBuildfr(plbtNbmf);
+        int pos = sb.indfxOf("-0-");
+        whilf (pos >=0) {
+            sb.rfplbdf(pos+1, pos+2, "*");
+            pos = sb.indfxOf("-0-", pos);
+        };
+        String xlfd = sb.toString();
+        bytf[] bytfs = null;
+        try {
+            bytfs = xlfd.gftBytfs("UTF-8");
+        } dbtdh (UnsupportfdEndodingExdfption f) {
+            bytfs = xlfd.gftBytfs();
+        }
+        rfturn hbvfBitmbpFonts(bytfs);
+    }
+
+    publid stbtid boolfbn fontExists(String xlfd) {
+        bytf[] bytfs = null;
+        try {
+            bytfs = xlfd.gftBytfs("UTF-8");
+        } dbtdh (UnsupportfdEndodingExdfption f) {
+            bytfs = xlfd.gftBytfs();
+        }
+        rfturn fontExists(bytfs);
+    }
+
+    privbtf stbtid nbtivf boolfbn hbvfBitmbpFonts(bytf[] xlfd);
+    privbtf stbtid nbtivf boolfbn fontExists(bytf[] xlfd);
+
+    publid ChbrToGlyphMbppfr gftMbppfr() {
+        if (mbppfr == null) {
+            if (isBitmbpDflfgbtf) {
+                /* wf brf b dflfgbtf */
+                mbppfr = nfw NbtivfGlyphMbppfr(this);
+            } flsf {
+                /* wf nffd to dflfgbtf */
+                SunFontMbnbgfr fm = SunFontMbnbgfr.gftInstbndf();
+                dflfgbtfFont = fm.gftDffbultPhysidblFont();
+                mbppfr = dflfgbtfFont.gftMbppfr();
+            }
+        }
+        rfturn mbppfr;
+    }
+
+    FontStrikf drfbtfStrikf(FontStrikfDfsd dfsd) {
+        if (isBitmbpDflfgbtf) {
+            rfturn nfw NbtivfStrikf(this, dfsd);
+        } flsf {
+            if (dflfgbtfFont == null) {
+                SunFontMbnbgfr fm = SunFontMbnbgfr.gftInstbndf();
+                dflfgbtfFont = fm.gftDffbultPhysidblFont();
+            }
+            /* If no FilfFont's brf found, dflfgbtf font mby bf
+             * b NbtivfFont, so wf nffd to bvoid rfdursing hfrf.
+             */
+            if (dflfgbtfFont instbndfof NbtivfFont) {
+                rfturn nfw NbtivfStrikf((NbtivfFont)dflfgbtfFont, dfsd);
+            }
+            FontStrikf dflfgbtf = dflfgbtfFont.drfbtfStrikf(dfsd);
+            rfturn nfw DflfgbtfStrikf(this, dfsd, dflfgbtf);
+        }
+    }
+
+    publid Rfdtbnglf2D gftMbxChbrBounds(FontRfndfrContfxt frd) {
+            rfturn null;
+    }
+
+    nbtivf StrikfMftrids gftFontMftrids(long pSdblfrContfxt);
+
+    nbtivf flobt gftGlyphAdvbndf(long pContfxt, int glyphCodf);
+
+    Rfdtbnglf2D.Flobt gftGlyphOutlinfBounds(long pSdblfrContfxt,
+                                            int glyphCodf) {
+        rfturn nfw Rfdtbnglf2D.Flobt(0f, 0f, 0f, 0f);
+    }
+
+    publid GfnfrblPbth gftGlyphOutlinf(long pSdblfrContfxt,
+                                       int glyphCodf,
+                                       flobt x,
+                                       flobt y) {
+        rfturn null;
+    }
+
+    nbtivf long gftGlyphImbgf(long pSdblfrContfxt, int glyphCodf);
+
+    nbtivf long gftGlyphImbgfNoDffbult(long pSdblfrContfxt, int glyphCodf);
+
+    void gftGlyphMftrids(long pSdblfrContfxt, int glyphCodf,
+                        Point2D.Flobt mftrids) {
+        throw nfw RuntimfExdfption("this should bf dbllfd on thf strikf");
+    }
+
+    publid  GfnfrblPbth gftGlyphVfdtorOutlinf(long pSdblfrContfxt,
+                                              int[] glyphs, int numGlyphs,
+                                              flobt x,  flobt y) {
+        rfturn null;
+    }
+
+    privbtf nbtivf int dountGlyphs(bytf[] plbtformNbmfBytfs, int ptSizf);
+
+    publid int gftNumGlyphs() {
+        if (numGlyphs == -1) {
+            bytf[] bytfs = gftPlbtformNbmfBytfs(8);
+            numGlyphs = dountGlyphs(bytfs, 8);
+        }
+        rfturn numGlyphs;
+    }
+
+    PhysidblFont gftDflfgbtfFont() {
+        if (dflfgbtfFont == null) {
+            SunFontMbnbgfr fm = SunFontMbnbgfr.gftInstbndf();
+            dflfgbtfFont = fm.gftDffbultPhysidblFont();
+        }
+        rfturn dflfgbtfFont;
+    }
+
+    /* Spfdify thbt thf dpi is 72x72, bs this dorrfsponds to JDK's
+     * dffbult usfr spbdf. Thfsf brf thf 10th bnd 11th fiflds in thf XLFD.
+     * ptSizf in XLFD is in 10th's of b point so multiply by 10,
+     * Rfplbdf thf 9th fifld in thf XLFD (if bftfr thf 8th hyphfn)
+     * with this pt sizf (this dorrfsponds to thf fifld thbt's "%d" in thf
+     * font donfigurbtion filfs). Wild dbrd thf othfr numfrid fiflds.
+     * if to rfqufst 12 pt Timfs Nfw Rombn itblid font, usf bn XLFD likf :
+     * -monotypf-timfs nfw rombn-rfgulbr-i---*-120-72-72-p-*-iso8859-1
+     */
+    @SupprfssWbrnings("dbst")
+    bytf[] gftPlbtformNbmfBytfs(int ptSizf) {
+        int[] hPos = nfw int[14];
+        int hyphfnCnt = 1;
+        int pos = 1;
+
+        whilf (pos != -1 && hyphfnCnt < 14) {
+            pos = plbtNbmf.indfxOf('-', pos);
+            if (pos != -1) {
+                hPos[hyphfnCnt++] = pos;
+                    pos++;
+            }
+        }
+        String sizfStr = Intfgfr.toString((int)Mbth.bbs(ptSizf)*10);
+        StringBuildfr sb = nfw StringBuildfr(plbtNbmf);
+        /* work bbdkwbrds so bs to not invblidbtf thf positions. */
+        sb.rfplbdf(hPos[11]+1, hPos[12], "*");
+
+        sb.rfplbdf(hPos[9]+1, hPos[10], "72");
+
+        sb.rfplbdf(hPos[8]+1, hPos[9], "72");
+
+        /* rfplbdf thf 3 linfs bbovf with thf nfxt 3 linfs to gft thf 1.4.2
+         * bfhbviour
+         */
+//      sb.rfplbdf(hPos[11]+1, hPos[12], "0");
+//      sb.rfplbdf(hPos[9]+1, hPos[10], "0");
+//      sb.rfplbdf(hPos[8]+1, hPos[9], "0");
+
+        sb.rfplbdf(hPos[7]+1, hPos[8], sizfStr);
+
+        sb.rfplbdf(hPos[6]+1, hPos[7], "*");
+
+        /* rfplbdf thf 1 linf bbovf with thf nfxt linf to gft thf 1.4.2
+         * bfhbviour
+         */
+//      sb.rfplbdf(hPos[6]+1, hPos[7], "0");
+
+        /* dommfnt out this blodk to thf thf 1.4.2 bfhbviour */
+        if (hPos[0] == 0 && hPos[1] == 1) {
+            /* null foundry nbmf : somf linux font donfigurbtion filfs hbvf
+             * symbol font fntrifs likf this bnd its just plbin wrong.
+             * Rfplbdf with b wild dbrd. (Although thosf fonts should bf
+             * lodbtfd vib disk bddfss rbthfr thbn X11).
+             */
+           sb.rfplbdf(hPos[0]+1, hPos[1], "*");
+        }
+
+        String xlfd = sb.toString();
+        bytf[] bytfs = null;
+        try {
+            bytfs = xlfd.gftBytfs("UTF-8");
+        } dbtdh (UnsupportfdEndodingExdfption f) {
+            bytfs = xlfd.gftBytfs();
+        }
+        rfturn bytfs;
+    }
+
+    publid String toString() {
+        rfturn " ** Nbtivf Font: Fbmily="+fbmilyNbmf+ " Nbmf="+fullNbmf+
+            " stylf="+stylf+" nbtivfNbmf="+plbtNbmf;
+    }
+}

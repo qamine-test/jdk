@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.charset.spi;
+pbdkbgf jbvb.nio.dibrsft.spi;
 
-import java.nio.charset.Charset;
-import java.util.Iterator;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.util.Itfrbtor;
 
 
 /**
- * Charset service-provider class.
+ * Cibrsft sfrvidf-providfr dlbss.
  *
- * <p> A charset provider is a concrete subclass of this class that has a
- * zero-argument constructor and some number of associated charset
- * implementation classes.  Charset providers may be installed in an instance
- * of the Java platform as extensions, that is, jar files placed into any of
- * the usual extension directories.  Providers may also be made available by
- * adding them to the applet or application class path or by some other
- * platform-specific means.  Charset providers are looked up via the current
- * thread's {@link java.lang.Thread#getContextClassLoader() context class
- * loader}.
+ * <p> A dibrsft providfr is b dondrftf subdlbss of tiis dlbss tibt ibs b
+ * zfro-brgumfnt donstrudtor bnd somf numbfr of bssodibtfd dibrsft
+ * implfmfntbtion dlbssfs.  Cibrsft providfrs mby bf instbllfd in bn instbndf
+ * of tif Jbvb plbtform bs fxtfnsions, tibt is, jbr filfs plbdfd into bny of
+ * tif usubl fxtfnsion dirfdtorifs.  Providfrs mby blso bf mbdf bvbilbblf by
+ * bdding tifm to tif bpplft or bpplidbtion dlbss pbti or by somf otifr
+ * plbtform-spfdifid mfbns.  Cibrsft providfrs brf lookfd up vib tif durrfnt
+ * tirfbd's {@link jbvb.lbng.Tirfbd#gftContfxtClbssLobdfr() dontfxt dlbss
+ * lobdfr}.
  *
- * <p> A charset provider identifies itself with a provider-configuration file
- * named <tt>java.nio.charset.spi.CharsetProvider</tt> in the resource
- * directory <tt>META-INF/services</tt>.  The file should contain a list of
- * fully-qualified concrete charset-provider class names, one per line.  A line
- * is terminated by any one of a line feed (<tt>'\n'</tt>), a carriage return
- * (<tt>'\r'</tt>), or a carriage return followed immediately by a line feed.
- * Space and tab characters surrounding each name, as well as blank lines, are
- * ignored.  The comment character is <tt>'#'</tt> (<tt>'&#92;u0023'</tt>); on
- * each line all characters following the first comment character are ignored.
- * The file must be encoded in UTF-8.
+ * <p> A dibrsft providfr idfntififs itsflf witi b providfr-donfigurbtion filf
+ * nbmfd <tt>jbvb.nio.dibrsft.spi.CibrsftProvidfr</tt> in tif rfsourdf
+ * dirfdtory <tt>META-INF/sfrvidfs</tt>.  Tif filf siould dontbin b list of
+ * fully-qublififd dondrftf dibrsft-providfr dlbss nbmfs, onf pfr linf.  A linf
+ * is tfrminbtfd by bny onf of b linf fffd (<tt>'\n'</tt>), b dbrribgf rfturn
+ * (<tt>'\r'</tt>), or b dbrribgf rfturn followfd immfdibtfly by b linf fffd.
+ * Spbdf bnd tbb dibrbdtfrs surrounding fbdi nbmf, bs wfll bs blbnk linfs, brf
+ * ignorfd.  Tif dommfnt dibrbdtfr is <tt>'#'</tt> (<tt>'&#92;u0023'</tt>); on
+ * fbdi linf bll dibrbdtfrs following tif first dommfnt dibrbdtfr brf ignorfd.
+ * Tif filf must bf fndodfd in UTF-8.
  *
- * <p> If a particular concrete charset provider class is named in more than
- * one configuration file, or is named in the same configuration file more than
- * once, then the duplicates will be ignored.  The configuration file naming a
- * particular provider need not be in the same jar file or other distribution
- * unit as the provider itself.  The provider must be accessible from the same
- * class loader that was initially queried to locate the configuration file;
- * this is not necessarily the class loader that loaded the file. </p>
+ * <p> If b pbrtidulbr dondrftf dibrsft providfr dlbss is nbmfd in morf tibn
+ * onf donfigurbtion filf, or is nbmfd in tif sbmf donfigurbtion filf morf tibn
+ * ondf, tifn tif duplidbtfs will bf ignorfd.  Tif donfigurbtion filf nbming b
+ * pbrtidulbr providfr nffd not bf in tif sbmf jbr filf or otifr distribution
+ * unit bs tif providfr itsflf.  Tif providfr must bf bddfssiblf from tif sbmf
+ * dlbss lobdfr tibt wbs initiblly qufrifd to lodbtf tif donfigurbtion filf;
+ * tiis is not nfdfssbrily tif dlbss lobdfr tibt lobdfd tif filf. </p>
  *
  *
- * @author Mark Reinhold
- * @author JSR-51 Expert Group
- * @since 1.4
+ * @butior Mbrk Rfiniold
+ * @butior JSR-51 Expfrt Group
+ * @sindf 1.4
  *
- * @see java.nio.charset.Charset
+ * @sff jbvb.nio.dibrsft.Cibrsft
  */
 
-public abstract class CharsetProvider {
+publid bbstrbdt dlbss CibrsftProvidfr {
 
-    private static Void checkPermission() {
-        SecurityManager sm = System.getSecurityManager();
+    privbtf stbtid Void difdkPfrmission() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null)
-            sm.checkPermission(new RuntimePermission("charsetProvider"));
-        return null;
+            sm.difdkPfrmission(nfw RuntimfPfrmission("dibrsftProvidfr"));
+        rfturn null;
     }
-    private CharsetProvider(Void ignore) { }
+    privbtf CibrsftProvidfr(Void ignorf) { }
 
     /**
-     * Initializes a new charset provider.
+     * Initiblizfs b nfw dibrsft providfr.
      *
-     * @throws  SecurityException
-     *          If a security manager has been installed and it denies
-     *          {@link RuntimePermission}<tt>("charsetProvider")</tt>
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr ibs bffn instbllfd bnd it dfnifs
+     *          {@link RuntimfPfrmission}<tt>("dibrsftProvidfr")</tt>
      */
-    protected CharsetProvider() {
-        this(checkPermission());
+    protfdtfd CibrsftProvidfr() {
+        tiis(difdkPfrmission());
     }
 
     /**
-     * Creates an iterator that iterates over the charsets supported by this
-     * provider.  This method is used in the implementation of the {@link
-     * java.nio.charset.Charset#availableCharsets Charset.availableCharsets}
-     * method.
+     * Crfbtfs bn itfrbtor tibt itfrbtfs ovfr tif dibrsfts supportfd by tiis
+     * providfr.  Tiis mftiod is usfd in tif implfmfntbtion of tif {@link
+     * jbvb.nio.dibrsft.Cibrsft#bvbilbblfCibrsfts Cibrsft.bvbilbblfCibrsfts}
+     * mftiod.
      *
-     * @return  The new iterator
+     * @rfturn  Tif nfw itfrbtor
      */
-    public abstract Iterator<Charset> charsets();
+    publid bbstrbdt Itfrbtor<Cibrsft> dibrsfts();
 
     /**
-     * Retrieves a charset for the given charset name.
+     * Rftrifvfs b dibrsft for tif givfn dibrsft nbmf.
      *
-     * @param  charsetName
-     *         The name of the requested charset; may be either
-     *         a canonical name or an alias
+     * @pbrbm  dibrsftNbmf
+     *         Tif nbmf of tif rfqufstfd dibrsft; mby bf fitifr
+     *         b dbnonidbl nbmf or bn blibs
      *
-     * @return  A charset object for the named charset,
-     *          or <tt>null</tt> if the named charset
-     *          is not supported by this provider
+     * @rfturn  A dibrsft objfdt for tif nbmfd dibrsft,
+     *          or <tt>null</tt> if tif nbmfd dibrsft
+     *          is not supportfd by tiis providfr
      */
-    public abstract Charset charsetForName(String charsetName);
+    publid bbstrbdt Cibrsft dibrsftForNbmf(String dibrsftNbmf);
 
 }

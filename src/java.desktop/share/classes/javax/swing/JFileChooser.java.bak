@@ -1,2048 +1,2048 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import javax.swing.event.*;
-import javax.swing.filechooser.*;
-import javax.swing.plaf.FileChooserUI;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.filfdioosfr.*;
+import jbvbx.swing.plbf.FilfCioosfrUI;
 
-import javax.accessibility.*;
+import jbvbx.bddfssibility.*;
 
-import java.io.File;
-import java.io.ObjectOutputStream;
-import java.io.IOException;
+import jbvb.io.Filf;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.IOExdfption;
 
-import java.util.Vector;
-import java.awt.AWTEvent;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.BorderLayout;
-import java.awt.Window;
-import java.awt.Dialog;
-import java.awt.Frame;
-import java.awt.GraphicsEnvironment;
-import java.awt.HeadlessException;
-import java.awt.EventQueue;
-import java.awt.Toolkit;
-import java.awt.event.*;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.lang.ref.WeakReference;
+import jbvb.util.Vfdtor;
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.BordfrLbyout;
+import jbvb.bwt.Window;
+import jbvb.bwt.Diblog;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.HfbdlfssExdfption;
+import jbvb.bwt.EvfntQufuf;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.lbng.rff.WfbkRfffrfndf;
 
 /**
- * <code>JFileChooser</code> provides a simple mechanism for the user to
- * choose a file.
- * For information about using <code>JFileChooser</code>, see
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/filechooser.html">How to Use File Choosers</a>,
- * a section in <em>The Java Tutorial</em>.
+ * <dodf>JFilfCioosfr</dodf> providfs b simplf mfdibnism for tif usfr to
+ * dioosf b filf.
+ * For informbtion bbout using <dodf>JFilfCioosfr</dodf>, sff
+ * <b
+ irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/filfdioosfr.itml">How to Usf Filf Cioosfrs</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl</fm>.
  *
  * <p>
  *
- * The following code pops up a file chooser for the user's home directory that
- * sees only .jpg and .gif images:
- * <pre>
- *    JFileChooser chooser = new JFileChooser();
- *    FileNameExtensionFilter filter = new FileNameExtensionFilter(
- *        "JPG &amp; GIF Images", "jpg", "gif");
- *    chooser.setFileFilter(filter);
- *    int returnVal = chooser.showOpenDialog(parent);
- *    if(returnVal == JFileChooser.APPROVE_OPTION) {
- *       System.out.println("You chose to open this file: " +
- *            chooser.getSelectedFile().getName());
+ * Tif following dodf pops up b filf dioosfr for tif usfr's iomf dirfdtory tibt
+ * sffs only .jpg bnd .gif imbgfs:
+ * <prf>
+ *    JFilfCioosfr dioosfr = nfw JFilfCioosfr();
+ *    FilfNbmfExtfnsionFiltfr filtfr = nfw FilfNbmfExtfnsionFiltfr(
+ *        "JPG &bmp; GIF Imbgfs", "jpg", "gif");
+ *    dioosfr.sftFilfFiltfr(filtfr);
+ *    int rfturnVbl = dioosfr.siowOpfnDiblog(pbrfnt);
+ *    if(rfturnVbl == JFilfCioosfr.APPROVE_OPTION) {
+ *       Systfm.out.println("You diosf to opfn tiis filf: " +
+ *            dioosfr.gftSflfdtfdFilf().gftNbmf());
  *    }
- * </pre>
+ * </prf>
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
  *
- * @beaninfo
- *   attribute: isContainer false
- * description: A component which allows for the interactive selection of a file.
+ * @bfbninfo
+ *   bttributf: isContbinfr fblsf
+ * dfsdription: A domponfnt wiidi bllows for tif intfrbdtivf sflfdtion of b filf.
  *
- * @author Jeff Dinkins
- * @since 1.2
+ * @butior Jfff Dinkins
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public class JFileChooser extends JComponent implements Accessible {
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+publid dlbss JFilfCioosfr fxtfnds JComponfnt implfmfnts Addfssiblf {
 
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
      */
-    private static final String uiClassID = "FileChooserUI";
+    privbtf stbtid finbl String uiClbssID = "FilfCioosfrUI";
 
     // ************************
-    // ***** Dialog Types *****
+    // ***** Diblog Typfs *****
     // ************************
 
     /**
-     * Type value indicating that the <code>JFileChooser</code> supports an
-     * "Open" file operation.
+     * Typf vbluf indidbting tibt tif <dodf>JFilfCioosfr</dodf> supports bn
+     * "Opfn" filf opfrbtion.
      */
-    public static final int OPEN_DIALOG = 0;
+    publid stbtid finbl int OPEN_DIALOG = 0;
 
     /**
-     * Type value indicating that the <code>JFileChooser</code> supports a
-     * "Save" file operation.
+     * Typf vbluf indidbting tibt tif <dodf>JFilfCioosfr</dodf> supports b
+     * "Sbvf" filf opfrbtion.
      */
-    public static final int SAVE_DIALOG = 1;
+    publid stbtid finbl int SAVE_DIALOG = 1;
 
     /**
-     * Type value indicating that the <code>JFileChooser</code> supports a
-     * developer-specified file operation.
+     * Typf vbluf indidbting tibt tif <dodf>JFilfCioosfr</dodf> supports b
+     * dfvflopfr-spfdififd filf opfrbtion.
      */
-    public static final int CUSTOM_DIALOG = 2;
+    publid stbtid finbl int CUSTOM_DIALOG = 2;
 
 
     // ********************************
-    // ***** Dialog Return Values *****
+    // ***** Diblog Rfturn Vblufs *****
     // ********************************
 
     /**
-     * Return value if cancel is chosen.
+     * Rfturn vbluf if dbndfl is diosfn.
      */
-    public static final int CANCEL_OPTION = 1;
+    publid stbtid finbl int CANCEL_OPTION = 1;
 
     /**
-     * Return value if approve (yes, ok) is chosen.
+     * Rfturn vbluf if bpprovf (yfs, ok) is diosfn.
      */
-    public static final int APPROVE_OPTION = 0;
+    publid stbtid finbl int APPROVE_OPTION = 0;
 
     /**
-     * Return value if an error occurred.
+     * Rfturn vbluf if bn frror oddurrfd.
      */
-    public static final int ERROR_OPTION = -1;
+    publid stbtid finbl int ERROR_OPTION = -1;
 
 
     // **********************************
-    // ***** JFileChooser properties *****
+    // ***** JFilfCioosfr propfrtifs *****
     // **********************************
 
 
-    /** Instruction to display only files. */
-    public static final int FILES_ONLY = 0;
+    /** Instrudtion to displby only filfs. */
+    publid stbtid finbl int FILES_ONLY = 0;
 
-    /** Instruction to display only directories. */
-    public static final int DIRECTORIES_ONLY = 1;
+    /** Instrudtion to displby only dirfdtorifs. */
+    publid stbtid finbl int DIRECTORIES_ONLY = 1;
 
-    /** Instruction to display both files and directories. */
-    public static final int FILES_AND_DIRECTORIES = 2;
+    /** Instrudtion to displby boti filfs bnd dirfdtorifs. */
+    publid stbtid finbl int FILES_AND_DIRECTORIES = 2;
 
-    /** Instruction to cancel the current selection. */
-    public static final String CANCEL_SELECTION = "CancelSelection";
+    /** Instrudtion to dbndfl tif durrfnt sflfdtion. */
+    publid stbtid finbl String CANCEL_SELECTION = "CbndflSflfdtion";
 
     /**
-     * Instruction to approve the current selection
-     * (same as pressing yes or ok).
+     * Instrudtion to bpprovf tif durrfnt sflfdtion
+     * (sbmf bs prfssing yfs or ok).
      */
-    public static final String APPROVE_SELECTION = "ApproveSelection";
+    publid stbtid finbl String APPROVE_SELECTION = "ApprovfSflfdtion";
 
-    /** Identifies change in the text on the approve (yes, ok) button. */
-    public static final String APPROVE_BUTTON_TEXT_CHANGED_PROPERTY = "ApproveButtonTextChangedProperty";
+    /** Idfntififs dibngf in tif tfxt on tif bpprovf (yfs, ok) button. */
+    publid stbtid finbl String APPROVE_BUTTON_TEXT_CHANGED_PROPERTY = "ApprovfButtonTfxtCibngfdPropfrty";
 
     /**
-     * Identifies change in the tooltip text for the approve (yes, ok)
+     * Idfntififs dibngf in tif tooltip tfxt for tif bpprovf (yfs, ok)
      * button.
      */
-    public static final String APPROVE_BUTTON_TOOL_TIP_TEXT_CHANGED_PROPERTY = "ApproveButtonToolTipTextChangedProperty";
+    publid stbtid finbl String APPROVE_BUTTON_TOOL_TIP_TEXT_CHANGED_PROPERTY = "ApprovfButtonToolTipTfxtCibngfdPropfrty";
 
-    /** Identifies change in the mnemonic for the approve (yes, ok) button. */
-    public static final String APPROVE_BUTTON_MNEMONIC_CHANGED_PROPERTY = "ApproveButtonMnemonicChangedProperty";
+    /** Idfntififs dibngf in tif mnfmonid for tif bpprovf (yfs, ok) button. */
+    publid stbtid finbl String APPROVE_BUTTON_MNEMONIC_CHANGED_PROPERTY = "ApprovfButtonMnfmonidCibngfdPropfrty";
 
-    /** Instruction to display the control buttons. */
-    public static final String CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY = "ControlButtonsAreShownChangedProperty";
+    /** Instrudtion to displby tif dontrol buttons. */
+    publid stbtid finbl String CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY = "ControlButtonsArfSiownCibngfdPropfrty";
 
-    /** Identifies user's directory change. */
-    public static final String DIRECTORY_CHANGED_PROPERTY = "directoryChanged";
+    /** Idfntififs usfr's dirfdtory dibngf. */
+    publid stbtid finbl String DIRECTORY_CHANGED_PROPERTY = "dirfdtoryCibngfd";
 
-    /** Identifies change in user's single-file selection. */
-    public static final String SELECTED_FILE_CHANGED_PROPERTY = "SelectedFileChangedProperty";
+    /** Idfntififs dibngf in usfr's singlf-filf sflfdtion. */
+    publid stbtid finbl String SELECTED_FILE_CHANGED_PROPERTY = "SflfdtfdFilfCibngfdPropfrty";
 
-    /** Identifies change in user's multiple-file selection. */
-    public static final String SELECTED_FILES_CHANGED_PROPERTY = "SelectedFilesChangedProperty";
+    /** Idfntififs dibngf in usfr's multiplf-filf sflfdtion. */
+    publid stbtid finbl String SELECTED_FILES_CHANGED_PROPERTY = "SflfdtfdFilfsCibngfdPropfrty";
 
-    /** Enables multiple-file selections. */
-    public static final String MULTI_SELECTION_ENABLED_CHANGED_PROPERTY = "MultiSelectionEnabledChangedProperty";
-
-    /**
-     * Says that a different object is being used to find available drives
-     * on the system.
-     */
-    public static final String FILE_SYSTEM_VIEW_CHANGED_PROPERTY = "FileSystemViewChanged";
+    /** Enbblfs multiplf-filf sflfdtions. */
+    publid stbtid finbl String MULTI_SELECTION_ENABLED_CHANGED_PROPERTY = "MultiSflfdtionEnbblfdCibngfdPropfrty";
 
     /**
-     * Says that a different object is being used to retrieve file
-     * information.
+     * Sbys tibt b difffrfnt objfdt is bfing usfd to find bvbilbblf drivfs
+     * on tif systfm.
      */
-    public static final String FILE_VIEW_CHANGED_PROPERTY = "fileViewChanged";
-
-    /** Identifies a change in the display-hidden-files property. */
-    public static final String FILE_HIDING_CHANGED_PROPERTY = "FileHidingChanged";
-
-    /** User changed the kind of files to display. */
-    public static final String FILE_FILTER_CHANGED_PROPERTY = "fileFilterChanged";
+    publid stbtid finbl String FILE_SYSTEM_VIEW_CHANGED_PROPERTY = "FilfSystfmVifwCibngfd";
 
     /**
-     * Identifies a change in the kind of selection (single,
-     * multiple, etc.).
+     * Sbys tibt b difffrfnt objfdt is bfing usfd to rftrifvf filf
+     * informbtion.
      */
-    public static final String FILE_SELECTION_MODE_CHANGED_PROPERTY = "fileSelectionChanged";
+    publid stbtid finbl String FILE_VIEW_CHANGED_PROPERTY = "filfVifwCibngfd";
+
+    /** Idfntififs b dibngf in tif displby-iiddfn-filfs propfrty. */
+    publid stbtid finbl String FILE_HIDING_CHANGED_PROPERTY = "FilfHidingCibngfd";
+
+    /** Usfr dibngfd tif kind of filfs to displby. */
+    publid stbtid finbl String FILE_FILTER_CHANGED_PROPERTY = "filfFiltfrCibngfd";
 
     /**
-     * Says that a different accessory component is in use
-     * (for example, to preview files).
+     * Idfntififs b dibngf in tif kind of sflfdtion (singlf,
+     * multiplf, ftd.).
      */
-    public static final String ACCESSORY_CHANGED_PROPERTY = "AccessoryChangedProperty";
+    publid stbtid finbl String FILE_SELECTION_MODE_CHANGED_PROPERTY = "filfSflfdtionCibngfd";
 
     /**
-     * Identifies whether a the AcceptAllFileFilter is used or not.
+     * Sbys tibt b difffrfnt bddfssory domponfnt is in usf
+     * (for fxbmplf, to prfvifw filfs).
      */
-    public static final String ACCEPT_ALL_FILE_FILTER_USED_CHANGED_PROPERTY = "acceptAllFileFilterUsedChanged";
-
-    /** Identifies a change in the dialog title. */
-    public static final String DIALOG_TITLE_CHANGED_PROPERTY = "DialogTitleChangedProperty";
+    publid stbtid finbl String ACCESSORY_CHANGED_PROPERTY = "AddfssoryCibngfdPropfrty";
 
     /**
-     * Identifies a change in the type of files displayed (files only,
-     * directories only, or both files and directories).
+     * Idfntififs wiftifr b tif AddfptAllFilfFiltfr is usfd or not.
      */
-    public static final String DIALOG_TYPE_CHANGED_PROPERTY = "DialogTypeChangedProperty";
+    publid stbtid finbl String ACCEPT_ALL_FILE_FILTER_USED_CHANGED_PROPERTY = "bddfptAllFilfFiltfrUsfdCibngfd";
+
+    /** Idfntififs b dibngf in tif diblog titlf. */
+    publid stbtid finbl String DIALOG_TITLE_CHANGED_PROPERTY = "DiblogTitlfCibngfdPropfrty";
 
     /**
-     * Identifies a change in the list of predefined file filters
-     * the user can choose from.
+     * Idfntififs b dibngf in tif typf of filfs displbyfd (filfs only,
+     * dirfdtorifs only, or boti filfs bnd dirfdtorifs).
      */
-    public static final String CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY = "ChoosableFileFilterChangedProperty";
+    publid stbtid finbl String DIALOG_TYPE_CHANGED_PROPERTY = "DiblogTypfCibngfdPropfrty";
+
+    /**
+     * Idfntififs b dibngf in tif list of prfdffinfd filf filtfrs
+     * tif usfr dbn dioosf from.
+     */
+    publid stbtid finbl String CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY = "CioosbblfFilfFiltfrCibngfdPropfrty";
 
     // ******************************
-    // ***** instance variables *****
+    // ***** instbndf vbribblfs *****
     // ******************************
 
-    private String dialogTitle = null;
-    private String approveButtonText = null;
-    private String approveButtonToolTipText = null;
-    private int approveButtonMnemonic = 0;
+    privbtf String diblogTitlf = null;
+    privbtf String bpprovfButtonTfxt = null;
+    privbtf String bpprovfButtonToolTipTfxt = null;
+    privbtf int bpprovfButtonMnfmonid = 0;
 
-    private Vector<FileFilter> filters = new Vector<FileFilter>(5);
-    private JDialog dialog = null;
-    private int dialogType = OPEN_DIALOG;
-    private int returnValue = ERROR_OPTION;
-    private JComponent accessory = null;
+    privbtf Vfdtor<FilfFiltfr> filtfrs = nfw Vfdtor<FilfFiltfr>(5);
+    privbtf JDiblog diblog = null;
+    privbtf int diblogTypf = OPEN_DIALOG;
+    privbtf int rfturnVbluf = ERROR_OPTION;
+    privbtf JComponfnt bddfssory = null;
 
-    private FileView fileView = null;
+    privbtf FilfVifw filfVifw = null;
 
-    private boolean controlsShown = true;
+    privbtf boolfbn dontrolsSiown = truf;
 
-    private boolean useFileHiding = true;
-    private static final String SHOW_HIDDEN_PROP = "awt.file.showHiddenFiles";
+    privbtf boolfbn usfFilfHiding = truf;
+    privbtf stbtid finbl String SHOW_HIDDEN_PROP = "bwt.filf.siowHiddfnFilfs";
 
-    // Listens to changes in the native setting for showing hidden files.
-    // The Listener is removed and the native setting is ignored if
-    // setFileHidingEnabled() is ever called.
-    private transient PropertyChangeListener showFilesListener = null;
+    // Listfns to dibngfs in tif nbtivf sftting for siowing iiddfn filfs.
+    // Tif Listfnfr is rfmovfd bnd tif nbtivf sftting is ignorfd if
+    // sftFilfHidingEnbblfd() is fvfr dbllfd.
+    privbtf trbnsifnt PropfrtyCibngfListfnfr siowFilfsListfnfr = null;
 
-    private int fileSelectionMode = FILES_ONLY;
+    privbtf int filfSflfdtionModf = FILES_ONLY;
 
-    private boolean multiSelectionEnabled = false;
+    privbtf boolfbn multiSflfdtionEnbblfd = fblsf;
 
-    private boolean useAcceptAllFileFilter = true;
+    privbtf boolfbn usfAddfptAllFilfFiltfr = truf;
 
-    private boolean dragEnabled = false;
+    privbtf boolfbn drbgEnbblfd = fblsf;
 
-    private FileFilter fileFilter = null;
+    privbtf FilfFiltfr filfFiltfr = null;
 
-    private FileSystemView fileSystemView = null;
+    privbtf FilfSystfmVifw filfSystfmVifw = null;
 
-    private File currentDirectory = null;
-    private File selectedFile = null;
-    private File[] selectedFiles;
+    privbtf Filf durrfntDirfdtory = null;
+    privbtf Filf sflfdtfdFilf = null;
+    privbtf Filf[] sflfdtfdFilfs;
 
     // *************************************
-    // ***** JFileChooser Constructors *****
+    // ***** JFilfCioosfr Construdtors *****
     // *************************************
 
     /**
-     * Constructs a <code>JFileChooser</code> pointing to the user's
-     * default directory. This default depends on the operating system.
-     * It is typically the "My Documents" folder on Windows, and the
-     * user's home directory on Unix.
+     * Construdts b <dodf>JFilfCioosfr</dodf> pointing to tif usfr's
+     * dffbult dirfdtory. Tiis dffbult dfpfnds on tif opfrbting systfm.
+     * It is typidblly tif "My Dodumfnts" foldfr on Windows, bnd tif
+     * usfr's iomf dirfdtory on Unix.
      */
-    public JFileChooser() {
-        this((File) null, (FileSystemView) null);
+    publid JFilfCioosfr() {
+        tiis((Filf) null, (FilfSystfmVifw) null);
     }
 
     /**
-     * Constructs a <code>JFileChooser</code> using the given path.
-     * Passing in a <code>null</code>
-     * string causes the file chooser to point to the user's default directory.
-     * This default depends on the operating system. It is
-     * typically the "My Documents" folder on Windows, and the user's
-     * home directory on Unix.
+     * Construdts b <dodf>JFilfCioosfr</dodf> using tif givfn pbti.
+     * Pbssing in b <dodf>null</dodf>
+     * string dbusfs tif filf dioosfr to point to tif usfr's dffbult dirfdtory.
+     * Tiis dffbult dfpfnds on tif opfrbting systfm. It is
+     * typidblly tif "My Dodumfnts" foldfr on Windows, bnd tif usfr's
+     * iomf dirfdtory on Unix.
      *
-     * @param currentDirectoryPath  a <code>String</code> giving the path
-     *                          to a file or directory
+     * @pbrbm durrfntDirfdtoryPbti  b <dodf>String</dodf> giving tif pbti
+     *                          to b filf or dirfdtory
      */
-    public JFileChooser(String currentDirectoryPath) {
-        this(currentDirectoryPath, (FileSystemView) null);
+    publid JFilfCioosfr(String durrfntDirfdtoryPbti) {
+        tiis(durrfntDirfdtoryPbti, (FilfSystfmVifw) null);
     }
 
     /**
-     * Constructs a <code>JFileChooser</code> using the given <code>File</code>
-     * as the path. Passing in a <code>null</code> file
-     * causes the file chooser to point to the user's default directory.
-     * This default depends on the operating system. It is
-     * typically the "My Documents" folder on Windows, and the user's
-     * home directory on Unix.
+     * Construdts b <dodf>JFilfCioosfr</dodf> using tif givfn <dodf>Filf</dodf>
+     * bs tif pbti. Pbssing in b <dodf>null</dodf> filf
+     * dbusfs tif filf dioosfr to point to tif usfr's dffbult dirfdtory.
+     * Tiis dffbult dfpfnds on tif opfrbting systfm. It is
+     * typidblly tif "My Dodumfnts" foldfr on Windows, bnd tif usfr's
+     * iomf dirfdtory on Unix.
      *
-     * @param currentDirectory  a <code>File</code> object specifying
-     *                          the path to a file or directory
+     * @pbrbm durrfntDirfdtory  b <dodf>Filf</dodf> objfdt spfdifying
+     *                          tif pbti to b filf or dirfdtory
      */
-    public JFileChooser(File currentDirectory) {
-        this(currentDirectory, (FileSystemView) null);
+    publid JFilfCioosfr(Filf durrfntDirfdtory) {
+        tiis(durrfntDirfdtory, (FilfSystfmVifw) null);
     }
 
     /**
-     * Constructs a <code>JFileChooser</code> using the given
-     * <code>FileSystemView</code>.
+     * Construdts b <dodf>JFilfCioosfr</dodf> using tif givfn
+     * <dodf>FilfSystfmVifw</dodf>.
      *
-     * @param fsv a {@code FileSystemView}
+     * @pbrbm fsv b {@dodf FilfSystfmVifw}
      */
-    public JFileChooser(FileSystemView fsv) {
-        this((File) null, fsv);
+    publid JFilfCioosfr(FilfSystfmVifw fsv) {
+        tiis((Filf) null, fsv);
     }
 
 
     /**
-     * Constructs a <code>JFileChooser</code> using the given current directory
-     * and <code>FileSystemView</code>.
+     * Construdts b <dodf>JFilfCioosfr</dodf> using tif givfn durrfnt dirfdtory
+     * bnd <dodf>FilfSystfmVifw</dodf>.
      *
-     * @param currentDirectory a {@code File} object specifying the path to a
-     *                         file or directory
-     * @param fsv a {@code FileSystemView}
+     * @pbrbm durrfntDirfdtory b {@dodf Filf} objfdt spfdifying tif pbti to b
+     *                         filf or dirfdtory
+     * @pbrbm fsv b {@dodf FilfSystfmVifw}
      */
-    public JFileChooser(File currentDirectory, FileSystemView fsv) {
-        setup(fsv);
-        setCurrentDirectory(currentDirectory);
+    publid JFilfCioosfr(Filf durrfntDirfdtory, FilfSystfmVifw fsv) {
+        sftup(fsv);
+        sftCurrfntDirfdtory(durrfntDirfdtory);
     }
 
     /**
-     * Constructs a <code>JFileChooser</code> using the given current directory
-     * path and <code>FileSystemView</code>.
+     * Construdts b <dodf>JFilfCioosfr</dodf> using tif givfn durrfnt dirfdtory
+     * pbti bnd <dodf>FilfSystfmVifw</dodf>.
      *
-     * @param currentDirectoryPath a {@code String} specifying the path to a file
-     *                             or directory
-     * @param fsv a {@code FileSystemView}
+     * @pbrbm durrfntDirfdtoryPbti b {@dodf String} spfdifying tif pbti to b filf
+     *                             or dirfdtory
+     * @pbrbm fsv b {@dodf FilfSystfmVifw}
      */
-    public JFileChooser(String currentDirectoryPath, FileSystemView fsv) {
-        setup(fsv);
-        if(currentDirectoryPath == null) {
-            setCurrentDirectory(null);
-        } else {
-            setCurrentDirectory(fileSystemView.createFileObject(currentDirectoryPath));
+    publid JFilfCioosfr(String durrfntDirfdtoryPbti, FilfSystfmVifw fsv) {
+        sftup(fsv);
+        if(durrfntDirfdtoryPbti == null) {
+            sftCurrfntDirfdtory(null);
+        } flsf {
+            sftCurrfntDirfdtory(filfSystfmVifw.drfbtfFilfObjfdt(durrfntDirfdtoryPbti));
         }
     }
 
     /**
-     * Performs common constructor initialization and setup.
+     * Pfrforms dommon donstrudtor initiblizbtion bnd sftup.
      *
-     * @param view the {@code FileSystemView} used for setup
+     * @pbrbm vifw tif {@dodf FilfSystfmVifw} usfd for sftup
      */
-    protected void setup(FileSystemView view) {
-        installShowFilesListener();
-        installHierarchyListener();
+    protfdtfd void sftup(FilfSystfmVifw vifw) {
+        instbllSiowFilfsListfnfr();
+        instbllHifrbrdiyListfnfr();
 
-        if(view == null) {
-            view = FileSystemView.getFileSystemView();
+        if(vifw == null) {
+            vifw = FilfSystfmVifw.gftFilfSystfmVifw();
         }
-        setFileSystemView(view);
-        updateUI();
-        if(isAcceptAllFileFilterUsed()) {
-            setFileFilter(getAcceptAllFileFilter());
+        sftFilfSystfmVifw(vifw);
+        updbtfUI();
+        if(isAddfptAllFilfFiltfrUsfd()) {
+            sftFilfFiltfr(gftAddfptAllFilfFiltfr());
         }
-        enableEvents(AWTEvent.MOUSE_EVENT_MASK);
+        fnbblfEvfnts(AWTEvfnt.MOUSE_EVENT_MASK);
     }
 
-    private void installHierarchyListener() {
-        addHierarchyListener(new HierarchyListener() {
-            @Override
-            public void hierarchyChanged(HierarchyEvent e) {
-                if ((e.getChangeFlags() & HierarchyEvent.PARENT_CHANGED)
-                        == HierarchyEvent.PARENT_CHANGED) {
-                    JFileChooser fc = JFileChooser.this;
-                    JRootPane rootPane = SwingUtilities.getRootPane(fc);
-                    if (rootPane != null) {
-                        rootPane.setDefaultButton(fc.getUI().getDefaultButton(fc));
+    privbtf void instbllHifrbrdiyListfnfr() {
+        bddHifrbrdiyListfnfr(nfw HifrbrdiyListfnfr() {
+            @Ovfrridf
+            publid void iifrbrdiyCibngfd(HifrbrdiyEvfnt f) {
+                if ((f.gftCibngfFlbgs() & HifrbrdiyEvfnt.PARENT_CHANGED)
+                        == HifrbrdiyEvfnt.PARENT_CHANGED) {
+                    JFilfCioosfr fd = JFilfCioosfr.tiis;
+                    JRootPbnf rootPbnf = SwingUtilitifs.gftRootPbnf(fd);
+                    if (rootPbnf != null) {
+                        rootPbnf.sftDffbultButton(fd.gftUI().gftDffbultButton(fd));
                     }
                 }
             }
         });
     }
 
-    private void installShowFilesListener() {
-        // Track native setting for showing hidden files
-        Toolkit tk = Toolkit.getDefaultToolkit();
-        Object showHiddenProperty = tk.getDesktopProperty(SHOW_HIDDEN_PROP);
-        if (showHiddenProperty instanceof Boolean) {
-            useFileHiding = !((Boolean)showHiddenProperty).booleanValue();
-            showFilesListener = new WeakPCL(this);
-            tk.addPropertyChangeListener(SHOW_HIDDEN_PROP, showFilesListener);
+    privbtf void instbllSiowFilfsListfnfr() {
+        // Trbdk nbtivf sftting for siowing iiddfn filfs
+        Toolkit tk = Toolkit.gftDffbultToolkit();
+        Objfdt siowHiddfnPropfrty = tk.gftDfsktopPropfrty(SHOW_HIDDEN_PROP);
+        if (siowHiddfnPropfrty instbndfof Boolfbn) {
+            usfFilfHiding = !((Boolfbn)siowHiddfnPropfrty).boolfbnVbluf();
+            siowFilfsListfnfr = nfw WfbkPCL(tiis);
+            tk.bddPropfrtyCibngfListfnfr(SHOW_HIDDEN_PROP, siowFilfsListfnfr);
         }
     }
 
     /**
-     * Sets the <code>dragEnabled</code> property,
-     * which must be <code>true</code> to enable
-     * automatic drag handling (the first part of drag and drop)
-     * on this component.
-     * The <code>transferHandler</code> property needs to be set
-     * to a non-<code>null</code> value for the drag to do
-     * anything.  The default value of the <code>dragEnabled</code>
-     * property
-     * is <code>false</code>.
+     * Sfts tif <dodf>drbgEnbblfd</dodf> propfrty,
+     * wiidi must bf <dodf>truf</dodf> to fnbblf
+     * butombtid drbg ibndling (tif first pbrt of drbg bnd drop)
+     * on tiis domponfnt.
+     * Tif <dodf>trbnsffrHbndlfr</dodf> propfrty nffds to bf sft
+     * to b non-<dodf>null</dodf> vbluf for tif drbg to do
+     * bnytiing.  Tif dffbult vbluf of tif <dodf>drbgEnbblfd</dodf>
+     * propfrty
+     * is <dodf>fblsf</dodf>.
      *
      * <p>
      *
-     * When automatic drag handling is enabled,
-     * most look and feels begin a drag-and-drop operation
-     * whenever the user presses the mouse button over an item
-     * and then moves the mouse a few pixels.
-     * Setting this property to <code>true</code>
-     * can therefore have a subtle effect on
-     * how selections behave.
+     * Wifn butombtid drbg ibndling is fnbblfd,
+     * most look bnd fffls bfgin b drbg-bnd-drop opfrbtion
+     * wifnfvfr tif usfr prfssfs tif mousf button ovfr bn itfm
+     * bnd tifn movfs tif mousf b ffw pixfls.
+     * Sftting tiis propfrty to <dodf>truf</dodf>
+     * dbn tifrfforf ibvf b subtlf ffffdt on
+     * iow sflfdtions bfibvf.
      *
      * <p>
      *
-     * Some look and feels might not support automatic drag and drop;
-     * they will ignore this property.  You can work around such
-     * look and feels by modifying the component
-     * to directly call the <code>exportAsDrag</code> method of a
-     * <code>TransferHandler</code>.
+     * Somf look bnd fffls migit not support butombtid drbg bnd drop;
+     * tify will ignorf tiis propfrty.  You dbn work bround sudi
+     * look bnd fffls by modifying tif domponfnt
+     * to dirfdtly dbll tif <dodf>fxportAsDrbg</dodf> mftiod of b
+     * <dodf>TrbnsffrHbndlfr</dodf>.
      *
-     * @param b the value to set the <code>dragEnabled</code> property to
-     * @exception HeadlessException if
-     *            <code>b</code> is <code>true</code> and
-     *            <code>GraphicsEnvironment.isHeadless()</code>
-     *            returns <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #getDragEnabled
-     * @see #setTransferHandler
-     * @see TransferHandler
-     * @since 1.4
+     * @pbrbm b tif vbluf to sft tif <dodf>drbgEnbblfd</dodf> propfrty to
+     * @fxdfption HfbdlfssExdfption if
+     *            <dodf>b</dodf> is <dodf>truf</dodf> bnd
+     *            <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf>
+     *            rfturns <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff #gftDrbgEnbblfd
+     * @sff #sftTrbnsffrHbndlfr
+     * @sff TrbnsffrHbndlfr
+     * @sindf 1.4
      *
-     * @beaninfo
-     *  description: determines whether automatic drag handling is enabled
-     *        bound: false
+     * @bfbninfo
+     *  dfsdription: dftfrminfs wiftifr butombtid drbg ibndling is fnbblfd
+     *        bound: fblsf
      */
-    public void setDragEnabled(boolean b) {
-        if (b && GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    publid void sftDrbgEnbblfd(boolfbn b) {
+        if (b && GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            tirow nfw HfbdlfssExdfption();
         }
-        dragEnabled = b;
+        drbgEnbblfd = b;
     }
 
     /**
-     * Gets the value of the <code>dragEnabled</code> property.
+     * Gfts tif vbluf of tif <dodf>drbgEnbblfd</dodf> propfrty.
      *
-     * @return  the value of the <code>dragEnabled</code> property
-     * @see #setDragEnabled
-     * @since 1.4
+     * @rfturn  tif vbluf of tif <dodf>drbgEnbblfd</dodf> propfrty
+     * @sff #sftDrbgEnbblfd
+     * @sindf 1.4
      */
-    public boolean getDragEnabled() {
-        return dragEnabled;
+    publid boolfbn gftDrbgEnbblfd() {
+        rfturn drbgEnbblfd;
     }
 
     // *****************************
-    // ****** File Operations ******
+    // ****** Filf Opfrbtions ******
     // *****************************
 
     /**
-     * Returns the selected file. This can be set either by the
-     * programmer via <code>setSelectedFile</code> or by a user action, such as
-     * either typing the filename into the UI or selecting the
-     * file from a list in the UI.
+     * Rfturns tif sflfdtfd filf. Tiis dbn bf sft fitifr by tif
+     * progrbmmfr vib <dodf>sftSflfdtfdFilf</dodf> or by b usfr bdtion, sudi bs
+     * fitifr typing tif filfnbmf into tif UI or sflfdting tif
+     * filf from b list in tif UI.
      *
-     * @see #setSelectedFile
-     * @return the selected file
+     * @sff #sftSflfdtfdFilf
+     * @rfturn tif sflfdtfd filf
      */
-    public File getSelectedFile() {
-        return selectedFile;
+    publid Filf gftSflfdtfdFilf() {
+        rfturn sflfdtfdFilf;
     }
 
     /**
-     * Sets the selected file. If the file's parent directory is
-     * not the current directory, changes the current directory
-     * to be the file's parent directory.
+     * Sfts tif sflfdtfd filf. If tif filf's pbrfnt dirfdtory is
+     * not tif durrfnt dirfdtory, dibngfs tif durrfnt dirfdtory
+     * to bf tif filf's pbrfnt dirfdtory.
      *
-     * @beaninfo
-     *   preferred: true
-     *       bound: true
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
      *
-     * @see #getSelectedFile
+     * @sff #gftSflfdtfdFilf
      *
-     * @param file the selected file
+     * @pbrbm filf tif sflfdtfd filf
      */
-    public void setSelectedFile(File file) {
-        File oldValue = selectedFile;
-        selectedFile = file;
-        if(selectedFile != null) {
-            if (file.isAbsolute() && !getFileSystemView().isParent(getCurrentDirectory(), selectedFile)) {
-                setCurrentDirectory(selectedFile.getParentFile());
+    publid void sftSflfdtfdFilf(Filf filf) {
+        Filf oldVbluf = sflfdtfdFilf;
+        sflfdtfdFilf = filf;
+        if(sflfdtfdFilf != null) {
+            if (filf.isAbsolutf() && !gftFilfSystfmVifw().isPbrfnt(gftCurrfntDirfdtory(), sflfdtfdFilf)) {
+                sftCurrfntDirfdtory(sflfdtfdFilf.gftPbrfntFilf());
             }
-            if (!isMultiSelectionEnabled() || selectedFiles == null || selectedFiles.length == 1) {
-                ensureFileIsVisible(selectedFile);
+            if (!isMultiSflfdtionEnbblfd() || sflfdtfdFilfs == null || sflfdtfdFilfs.lfngti == 1) {
+                fnsurfFilfIsVisiblf(sflfdtfdFilf);
             }
         }
-        firePropertyChange(SELECTED_FILE_CHANGED_PROPERTY, oldValue, selectedFile);
+        firfPropfrtyCibngf(SELECTED_FILE_CHANGED_PROPERTY, oldVbluf, sflfdtfdFilf);
     }
 
     /**
-     * Returns a list of selected files if the file chooser is
-     * set to allow multiple selection.
+     * Rfturns b list of sflfdtfd filfs if tif filf dioosfr is
+     * sft to bllow multiplf sflfdtion.
      *
-     * @return an array of selected {@code File}s
+     * @rfturn bn brrby of sflfdtfd {@dodf Filf}s
      */
-    public File[] getSelectedFiles() {
-        if(selectedFiles == null) {
-            return new File[0];
-        } else {
-            return selectedFiles.clone();
+    publid Filf[] gftSflfdtfdFilfs() {
+        if(sflfdtfdFilfs == null) {
+            rfturn nfw Filf[0];
+        } flsf {
+            rfturn sflfdtfdFilfs.dlonf();
         }
     }
 
     /**
-     * Sets the list of selected files if the file chooser is
-     * set to allow multiple selection.
+     * Sfts tif list of sflfdtfd filfs if tif filf dioosfr is
+     * sft to bllow multiplf sflfdtion.
      *
-     * @param selectedFiles an array {@code File}s to be selected
-     * @beaninfo
-     *       bound: true
-     * description: The list of selected files if the chooser is in multiple selection mode.
+     * @pbrbm sflfdtfdFilfs bn brrby {@dodf Filf}s to bf sflfdtfd
+     * @bfbninfo
+     *       bound: truf
+     * dfsdription: Tif list of sflfdtfd filfs if tif dioosfr is in multiplf sflfdtion modf.
      */
-    public void setSelectedFiles(File[] selectedFiles) {
-        File[] oldValue = this.selectedFiles;
-        if (selectedFiles == null || selectedFiles.length == 0) {
-            selectedFiles = null;
-            this.selectedFiles = null;
-            setSelectedFile(null);
-        } else {
-            this.selectedFiles = selectedFiles.clone();
-            setSelectedFile(this.selectedFiles[0]);
+    publid void sftSflfdtfdFilfs(Filf[] sflfdtfdFilfs) {
+        Filf[] oldVbluf = tiis.sflfdtfdFilfs;
+        if (sflfdtfdFilfs == null || sflfdtfdFilfs.lfngti == 0) {
+            sflfdtfdFilfs = null;
+            tiis.sflfdtfdFilfs = null;
+            sftSflfdtfdFilf(null);
+        } flsf {
+            tiis.sflfdtfdFilfs = sflfdtfdFilfs.dlonf();
+            sftSflfdtfdFilf(tiis.sflfdtfdFilfs[0]);
         }
-        firePropertyChange(SELECTED_FILES_CHANGED_PROPERTY, oldValue, selectedFiles);
+        firfPropfrtyCibngf(SELECTED_FILES_CHANGED_PROPERTY, oldVbluf, sflfdtfdFilfs);
     }
 
     /**
-     * Returns the current directory.
+     * Rfturns tif durrfnt dirfdtory.
      *
-     * @return the current directory
-     * @see #setCurrentDirectory
+     * @rfturn tif durrfnt dirfdtory
+     * @sff #sftCurrfntDirfdtory
      */
-    public File getCurrentDirectory() {
-        return currentDirectory;
+    publid Filf gftCurrfntDirfdtory() {
+        rfturn durrfntDirfdtory;
     }
 
     /**
-     * Sets the current directory. Passing in <code>null</code> sets the
-     * file chooser to point to the user's default directory.
-     * This default depends on the operating system. It is
-     * typically the "My Documents" folder on Windows, and the user's
-     * home directory on Unix.
+     * Sfts tif durrfnt dirfdtory. Pbssing in <dodf>null</dodf> sfts tif
+     * filf dioosfr to point to tif usfr's dffbult dirfdtory.
+     * Tiis dffbult dfpfnds on tif opfrbting systfm. It is
+     * typidblly tif "My Dodumfnts" foldfr on Windows, bnd tif usfr's
+     * iomf dirfdtory on Unix.
      *
-     * If the file passed in as <code>currentDirectory</code> is not a
-     * directory, the parent of the file will be used as the currentDirectory.
-     * If the parent is not traversable, then it will walk up the parent tree
-     * until it finds a traversable directory, or hits the root of the
-     * file system.
+     * If tif filf pbssfd in bs <dodf>durrfntDirfdtory</dodf> is not b
+     * dirfdtory, tif pbrfnt of tif filf will bf usfd bs tif durrfntDirfdtory.
+     * If tif pbrfnt is not trbvfrsbblf, tifn it will wblk up tif pbrfnt trff
+     * until it finds b trbvfrsbblf dirfdtory, or iits tif root of tif
+     * filf systfm.
      *
-     * @beaninfo
-     *   preferred: true
-     *       bound: true
-     * description: The directory that the JFileChooser is showing files of.
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Tif dirfdtory tibt tif JFilfCioosfr is siowing filfs of.
      *
-     * @param dir the current directory to point to
-     * @see #getCurrentDirectory
+     * @pbrbm dir tif durrfnt dirfdtory to point to
+     * @sff #gftCurrfntDirfdtory
      */
-    public void setCurrentDirectory(File dir) {
-        File oldValue = currentDirectory;
+    publid void sftCurrfntDirfdtory(Filf dir) {
+        Filf oldVbluf = durrfntDirfdtory;
 
-        if (dir != null && !dir.exists()) {
-            dir = currentDirectory;
+        if (dir != null && !dir.fxists()) {
+            dir = durrfntDirfdtory;
         }
         if (dir == null) {
-            dir = getFileSystemView().getDefaultDirectory();
+            dir = gftFilfSystfmVifw().gftDffbultDirfdtory();
         }
-        if (currentDirectory != null) {
-            /* Verify the toString of object */
-            if (this.currentDirectory.equals(dir)) {
-                return;
+        if (durrfntDirfdtory != null) {
+            /* Vfrify tif toString of objfdt */
+            if (tiis.durrfntDirfdtory.fqubls(dir)) {
+                rfturn;
             }
         }
 
-        File prev = null;
-        while (!isTraversable(dir) && prev != dir) {
-            prev = dir;
-            dir = getFileSystemView().getParentDirectory(dir);
+        Filf prfv = null;
+        wiilf (!isTrbvfrsbblf(dir) && prfv != dir) {
+            prfv = dir;
+            dir = gftFilfSystfmVifw().gftPbrfntDirfdtory(dir);
         }
-        currentDirectory = dir;
+        durrfntDirfdtory = dir;
 
-        firePropertyChange(DIRECTORY_CHANGED_PROPERTY, oldValue, currentDirectory);
+        firfPropfrtyCibngf(DIRECTORY_CHANGED_PROPERTY, oldVbluf, durrfntDirfdtory);
     }
 
     /**
-     * Changes the directory to be set to the parent of the
-     * current directory.
+     * Cibngfs tif dirfdtory to bf sft to tif pbrfnt of tif
+     * durrfnt dirfdtory.
      *
-     * @see #getCurrentDirectory
+     * @sff #gftCurrfntDirfdtory
      */
-    public void changeToParentDirectory() {
-        selectedFile = null;
-        File oldValue = getCurrentDirectory();
-        setCurrentDirectory(getFileSystemView().getParentDirectory(oldValue));
+    publid void dibngfToPbrfntDirfdtory() {
+        sflfdtfdFilf = null;
+        Filf oldVbluf = gftCurrfntDirfdtory();
+        sftCurrfntDirfdtory(gftFilfSystfmVifw().gftPbrfntDirfdtory(oldVbluf));
     }
 
     /**
-     * Tells the UI to rescan its files list from the current directory.
+     * Tflls tif UI to rfsdbn its filfs list from tif durrfnt dirfdtory.
      */
-    public void rescanCurrentDirectory() {
-        getUI().rescanCurrentDirectory(this);
+    publid void rfsdbnCurrfntDirfdtory() {
+        gftUI().rfsdbnCurrfntDirfdtory(tiis);
     }
 
     /**
-     * Makes sure that the specified file is viewable, and
-     * not hidden.
+     * Mbkfs surf tibt tif spfdififd filf is vifwbblf, bnd
+     * not iiddfn.
      *
-     * @param f  a File object
+     * @pbrbm f  b Filf objfdt
      */
-    public void ensureFileIsVisible(File f) {
-        getUI().ensureFileIsVisible(this, f);
+    publid void fnsurfFilfIsVisiblf(Filf f) {
+        gftUI().fnsurfFilfIsVisiblf(tiis, f);
     }
 
     // **************************************
-    // ***** JFileChooser Dialog methods *****
+    // ***** JFilfCioosfr Diblog mftiods *****
     // **************************************
 
     /**
-     * Pops up an "Open File" file chooser dialog. Note that the
-     * text that appears in the approve button is determined by
-     * the L&amp;F.
+     * Pops up bn "Opfn Filf" filf dioosfr diblog. Notf tibt tif
+     * tfxt tibt bppfbrs in tif bpprovf button is dftfrminfd by
+     * tif L&bmp;F.
      *
-     * @param    parent  the parent component of the dialog,
-     *                  can be <code>null</code>;
-     *                  see <code>showDialog</code> for details
-     * @return   the return state of the file chooser on popdown:
+     * @pbrbm    pbrfnt  tif pbrfnt domponfnt of tif diblog,
+     *                  dbn bf <dodf>null</dodf>;
+     *                  sff <dodf>siowDiblog</dodf> for dftbils
+     * @rfturn   tif rfturn stbtf of tif filf dioosfr on popdown:
      * <ul>
-     * <li>JFileChooser.CANCEL_OPTION
-     * <li>JFileChooser.APPROVE_OPTION
-     * <li>JFileChooser.ERROR_OPTION if an error occurs or the
-     *                  dialog is dismissed
+     * <li>JFilfCioosfr.CANCEL_OPTION
+     * <li>JFilfCioosfr.APPROVE_OPTION
+     * <li>JFilfCioosfr.ERROR_OPTION if bn frror oddurs or tif
+     *                  diblog is dismissfd
      * </ul>
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #showDialog
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff #siowDiblog
      */
-    public int showOpenDialog(Component parent) throws HeadlessException {
-        setDialogType(OPEN_DIALOG);
-        return showDialog(parent, null);
+    publid int siowOpfnDiblog(Componfnt pbrfnt) tirows HfbdlfssExdfption {
+        sftDiblogTypf(OPEN_DIALOG);
+        rfturn siowDiblog(pbrfnt, null);
     }
 
     /**
-     * Pops up a "Save File" file chooser dialog. Note that the
-     * text that appears in the approve button is determined by
-     * the L&amp;F.
+     * Pops up b "Sbvf Filf" filf dioosfr diblog. Notf tibt tif
+     * tfxt tibt bppfbrs in tif bpprovf button is dftfrminfd by
+     * tif L&bmp;F.
      *
-     * @param    parent  the parent component of the dialog,
-     *                  can be <code>null</code>;
-     *                  see <code>showDialog</code> for details
-     * @return   the return state of the file chooser on popdown:
+     * @pbrbm    pbrfnt  tif pbrfnt domponfnt of tif diblog,
+     *                  dbn bf <dodf>null</dodf>;
+     *                  sff <dodf>siowDiblog</dodf> for dftbils
+     * @rfturn   tif rfturn stbtf of tif filf dioosfr on popdown:
      * <ul>
-     * <li>JFileChooser.CANCEL_OPTION
-     * <li>JFileChooser.APPROVE_OPTION
-     * <li>JFileChooser.ERROR_OPTION if an error occurs or the
-     *                  dialog is dismissed
+     * <li>JFilfCioosfr.CANCEL_OPTION
+     * <li>JFilfCioosfr.APPROVE_OPTION
+     * <li>JFilfCioosfr.ERROR_OPTION if bn frror oddurs or tif
+     *                  diblog is dismissfd
      * </ul>
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see #showDialog
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff #siowDiblog
      */
-    public int showSaveDialog(Component parent) throws HeadlessException {
-        setDialogType(SAVE_DIALOG);
-        return showDialog(parent, null);
+    publid int siowSbvfDiblog(Componfnt pbrfnt) tirows HfbdlfssExdfption {
+        sftDiblogTypf(SAVE_DIALOG);
+        rfturn siowDiblog(pbrfnt, null);
     }
 
     /**
-     * Pops a custom file chooser dialog with a custom approve button.
-     * For example, the following code
-     * pops up a file chooser with a "Run Application" button
-     * (instead of the normal "Save" or "Open" button):
-     * <pre>
-     * filechooser.showDialog(parentFrame, "Run Application");
-     * </pre>
+     * Pops b dustom filf dioosfr diblog witi b dustom bpprovf button.
+     * For fxbmplf, tif following dodf
+     * pops up b filf dioosfr witi b "Run Applidbtion" button
+     * (instfbd of tif normbl "Sbvf" or "Opfn" button):
+     * <prf>
+     * filfdioosfr.siowDiblog(pbrfntFrbmf, "Run Applidbtion");
+     * </prf>
      *
-     * Alternatively, the following code does the same thing:
-     * <pre>
-     *    JFileChooser chooser = new JFileChooser(null);
-     *    chooser.setApproveButtonText("Run Application");
-     *    chooser.showDialog(parentFrame, null);
-     * </pre>
+     * Altfrnbtivfly, tif following dodf dofs tif sbmf tiing:
+     * <prf>
+     *    JFilfCioosfr dioosfr = nfw JFilfCioosfr(null);
+     *    dioosfr.sftApprovfButtonTfxt("Run Applidbtion");
+     *    dioosfr.siowDiblog(pbrfntFrbmf, null);
+     * </prf>
      *
-     * <!--PENDING(jeff) - the following method should be added to the api:
-     *      showDialog(Component parent);-->
-     * <!--PENDING(kwalrath) - should specify modality and what
-     *      "depends" means.-->
+     * <!--PENDING(jfff) - tif following mftiod siould bf bddfd to tif bpi:
+     *      siowDiblog(Componfnt pbrfnt);-->
+     * <!--PENDING(kwblrbti) - siould spfdify modblity bnd wibt
+     *      "dfpfnds" mfbns.-->
      *
      * <p>
      *
-     * The <code>parent</code> argument determines two things:
-     * the frame on which the open dialog depends and
-     * the component whose position the look and feel
-     * should consider when placing the dialog.  If the parent
-     * is a <code>Frame</code> object (such as a <code>JFrame</code>)
-     * then the dialog depends on the frame and
-     * the look and feel positions the dialog
-     * relative to the frame (for example, centered over the frame).
-     * If the parent is a component, then the dialog
-     * depends on the frame containing the component,
-     * and is positioned relative to the component
-     * (for example, centered over the component).
-     * If the parent is <code>null</code>, then the dialog depends on
-     * no visible window, and it's placed in a
-     * look-and-feel-dependent position
-     * such as the center of the screen.
+     * Tif <dodf>pbrfnt</dodf> brgumfnt dftfrminfs two tiings:
+     * tif frbmf on wiidi tif opfn diblog dfpfnds bnd
+     * tif domponfnt wiosf position tif look bnd fffl
+     * siould donsidfr wifn plbding tif diblog.  If tif pbrfnt
+     * is b <dodf>Frbmf</dodf> objfdt (sudi bs b <dodf>JFrbmf</dodf>)
+     * tifn tif diblog dfpfnds on tif frbmf bnd
+     * tif look bnd fffl positions tif diblog
+     * rflbtivf to tif frbmf (for fxbmplf, dfntfrfd ovfr tif frbmf).
+     * If tif pbrfnt is b domponfnt, tifn tif diblog
+     * dfpfnds on tif frbmf dontbining tif domponfnt,
+     * bnd is positionfd rflbtivf to tif domponfnt
+     * (for fxbmplf, dfntfrfd ovfr tif domponfnt).
+     * If tif pbrfnt is <dodf>null</dodf>, tifn tif diblog dfpfnds on
+     * no visiblf window, bnd it's plbdfd in b
+     * look-bnd-fffl-dfpfndfnt position
+     * sudi bs tif dfntfr of tif sdrffn.
      *
-     * @param   parent  the parent component of the dialog;
-     *                  can be <code>null</code>
-     * @param   approveButtonText the text of the <code>ApproveButton</code>
-     * @return  the return state of the file chooser on popdown:
+     * @pbrbm   pbrfnt  tif pbrfnt domponfnt of tif diblog;
+     *                  dbn bf <dodf>null</dodf>
+     * @pbrbm   bpprovfButtonTfxt tif tfxt of tif <dodf>ApprovfButton</dodf>
+     * @rfturn  tif rfturn stbtf of tif filf dioosfr on popdown:
      * <ul>
-     * <li>JFileChooser.CANCEL_OPTION
-     * <li>JFileChooser.APPROVE_OPTION
-     * <li>JFileChooser.ERROR_OPTION if an error occurs or the
-     *                  dialog is dismissed
+     * <li>JFilfCioosfr.CANCEL_OPTION
+     * <li>JFilfCioosfr.APPROVE_OPTION
+     * <li>JFilfCioosfr.ERROR_OPTION if bn frror oddurs or tif
+     *                  diblog is dismissfd
      * </ul>
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      */
-    public int showDialog(Component parent, String approveButtonText)
-        throws HeadlessException {
-        if (dialog != null) {
-            // Prevent to show second instance of dialog if the previous one still exists
-            return JFileChooser.ERROR_OPTION;
+    publid int siowDiblog(Componfnt pbrfnt, String bpprovfButtonTfxt)
+        tirows HfbdlfssExdfption {
+        if (diblog != null) {
+            // Prfvfnt to siow sfdond instbndf of diblog if tif prfvious onf still fxists
+            rfturn JFilfCioosfr.ERROR_OPTION;
         }
 
-        if(approveButtonText != null) {
-            setApproveButtonText(approveButtonText);
-            setDialogType(CUSTOM_DIALOG);
+        if(bpprovfButtonTfxt != null) {
+            sftApprovfButtonTfxt(bpprovfButtonTfxt);
+            sftDiblogTypf(CUSTOM_DIALOG);
         }
-        dialog = createDialog(parent);
-        dialog.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                returnValue = CANCEL_OPTION;
+        diblog = drfbtfDiblog(pbrfnt);
+        diblog.bddWindowListfnfr(nfw WindowAdbptfr() {
+            publid void windowClosing(WindowEvfnt f) {
+                rfturnVbluf = CANCEL_OPTION;
             }
         });
-        returnValue = ERROR_OPTION;
-        rescanCurrentDirectory();
+        rfturnVbluf = ERROR_OPTION;
+        rfsdbnCurrfntDirfdtory();
 
-        dialog.show();
-        firePropertyChange("JFileChooserDialogIsClosingProperty", dialog, null);
+        diblog.siow();
+        firfPropfrtyCibngf("JFilfCioosfrDiblogIsClosingPropfrty", diblog, null);
 
-        // Remove all components from dialog. The MetalFileChooserUI.installUI() method (and other LAFs)
-        // registers AWT listener for dialogs and produces memory leaks. It happens when
-        // installUI invoked after the showDialog method.
-        dialog.getContentPane().removeAll();
-        dialog.dispose();
-        dialog = null;
-        return returnValue;
+        // Rfmovf bll domponfnts from diblog. Tif MftblFilfCioosfrUI.instbllUI() mftiod (bnd otifr LAFs)
+        // rfgistfrs AWT listfnfr for diblogs bnd produdfs mfmory lfbks. It ibppfns wifn
+        // instbllUI invokfd bftfr tif siowDiblog mftiod.
+        diblog.gftContfntPbnf().rfmovfAll();
+        diblog.disposf();
+        diblog = null;
+        rfturn rfturnVbluf;
     }
 
     /**
-     * Creates and returns a new <code>JDialog</code> wrapping
-     * <code>this</code> centered on the <code>parent</code>
-     * in the <code>parent</code>'s frame.
-     * This method can be overriden to further manipulate the dialog,
-     * to disable resizing, set the location, etc. Example:
-     * <pre>
-     *     class MyFileChooser extends JFileChooser {
-     *         protected JDialog createDialog(Component parent) throws HeadlessException {
-     *             JDialog dialog = super.createDialog(parent);
-     *             dialog.setLocation(300, 200);
-     *             dialog.setResizable(false);
-     *             return dialog;
+     * Crfbtfs bnd rfturns b nfw <dodf>JDiblog</dodf> wrbpping
+     * <dodf>tiis</dodf> dfntfrfd on tif <dodf>pbrfnt</dodf>
+     * in tif <dodf>pbrfnt</dodf>'s frbmf.
+     * Tiis mftiod dbn bf ovfrridfn to furtifr mbnipulbtf tif diblog,
+     * to disbblf rfsizing, sft tif lodbtion, ftd. Exbmplf:
+     * <prf>
+     *     dlbss MyFilfCioosfr fxtfnds JFilfCioosfr {
+     *         protfdtfd JDiblog drfbtfDiblog(Componfnt pbrfnt) tirows HfbdlfssExdfption {
+     *             JDiblog diblog = supfr.drfbtfDiblog(pbrfnt);
+     *             diblog.sftLodbtion(300, 200);
+     *             diblog.sftRfsizbblf(fblsf);
+     *             rfturn diblog;
      *         }
      *     }
-     * </pre>
+     * </prf>
      *
-     * @param   parent  the parent component of the dialog;
-     *                  can be <code>null</code>
-     * @return a new <code>JDialog</code> containing this instance
-     * @exception HeadlessException if GraphicsEnvironment.isHeadless()
-     * returns true.
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @since 1.4
+     * @pbrbm   pbrfnt  tif pbrfnt domponfnt of tif diblog;
+     *                  dbn bf <dodf>null</dodf>
+     * @rfturn b nfw <dodf>JDiblog</dodf> dontbining tiis instbndf
+     * @fxdfption HfbdlfssExdfption if GrbpiidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sindf 1.4
      */
-    protected JDialog createDialog(Component parent) throws HeadlessException {
-        FileChooserUI ui = getUI();
-        String title = ui.getDialogTitle(this);
-        putClientProperty(AccessibleContext.ACCESSIBLE_DESCRIPTION_PROPERTY,
-                          title);
+    protfdtfd JDiblog drfbtfDiblog(Componfnt pbrfnt) tirows HfbdlfssExdfption {
+        FilfCioosfrUI ui = gftUI();
+        String titlf = ui.gftDiblogTitlf(tiis);
+        putClifntPropfrty(AddfssiblfContfxt.ACCESSIBLE_DESCRIPTION_PROPERTY,
+                          titlf);
 
-        JDialog dialog;
-        Window window = JOptionPane.getWindowForComponent(parent);
-        if (window instanceof Frame) {
-            dialog = new JDialog((Frame)window, title, true);
-        } else {
-            dialog = new JDialog((Dialog)window, title, true);
+        JDiblog diblog;
+        Window window = JOptionPbnf.gftWindowForComponfnt(pbrfnt);
+        if (window instbndfof Frbmf) {
+            diblog = nfw JDiblog((Frbmf)window, titlf, truf);
+        } flsf {
+            diblog = nfw JDiblog((Diblog)window, titlf, truf);
         }
-        dialog.setComponentOrientation(this.getComponentOrientation());
+        diblog.sftComponfntOrifntbtion(tiis.gftComponfntOrifntbtion());
 
-        Container contentPane = dialog.getContentPane();
-        contentPane.setLayout(new BorderLayout());
-        contentPane.add(this, BorderLayout.CENTER);
+        Contbinfr dontfntPbnf = diblog.gftContfntPbnf();
+        dontfntPbnf.sftLbyout(nfw BordfrLbyout());
+        dontfntPbnf.bdd(tiis, BordfrLbyout.CENTER);
 
-        if (JDialog.isDefaultLookAndFeelDecorated()) {
-            boolean supportsWindowDecorations =
-            UIManager.getLookAndFeel().getSupportsWindowDecorations();
-            if (supportsWindowDecorations) {
-                dialog.getRootPane().setWindowDecorationStyle(JRootPane.FILE_CHOOSER_DIALOG);
+        if (JDiblog.isDffbultLookAndFfflDfdorbtfd()) {
+            boolfbn supportsWindowDfdorbtions =
+            UIMbnbgfr.gftLookAndFffl().gftSupportsWindowDfdorbtions();
+            if (supportsWindowDfdorbtions) {
+                diblog.gftRootPbnf().sftWindowDfdorbtionStylf(JRootPbnf.FILE_CHOOSER_DIALOG);
             }
         }
-        dialog.pack();
-        dialog.setLocationRelativeTo(parent);
+        diblog.pbdk();
+        diblog.sftLodbtionRflbtivfTo(pbrfnt);
 
-        return dialog;
+        rfturn diblog;
     }
 
     // **************************
-    // ***** Dialog Options *****
+    // ***** Diblog Options *****
     // **************************
 
     /**
-     * Returns the value of the <code>controlButtonsAreShown</code>
-     * property.
+     * Rfturns tif vbluf of tif <dodf>dontrolButtonsArfSiown</dodf>
+     * propfrty.
      *
-     * @return   the value of the <code>controlButtonsAreShown</code>
-     *     property
+     * @rfturn   tif vbluf of tif <dodf>dontrolButtonsArfSiown</dodf>
+     *     propfrty
      *
-     * @see #setControlButtonsAreShown
-     * @since 1.3
+     * @sff #sftControlButtonsArfSiown
+     * @sindf 1.3
      */
-    public boolean getControlButtonsAreShown() {
-        return controlsShown;
+    publid boolfbn gftControlButtonsArfSiown() {
+        rfturn dontrolsSiown;
     }
 
 
     /**
-     * Sets the property
-     * that indicates whether the <i>approve</i> and <i>cancel</i>
-     * buttons are shown in the file chooser.  This property
-     * is <code>true</code> by default.  Look and feels
-     * that always show these buttons will ignore the value
-     * of this property.
-     * This method fires a property-changed event,
-     * using the string value of
-     * <code>CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY</code>
-     * as the name of the property.
+     * Sfts tif propfrty
+     * tibt indidbtfs wiftifr tif <i>bpprovf</i> bnd <i>dbndfl</i>
+     * buttons brf siown in tif filf dioosfr.  Tiis propfrty
+     * is <dodf>truf</dodf> by dffbult.  Look bnd fffls
+     * tibt blwbys siow tifsf buttons will ignorf tif vbluf
+     * of tiis propfrty.
+     * Tiis mftiod firfs b propfrty-dibngfd fvfnt,
+     * using tif string vbluf of
+     * <dodf>CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY</dodf>
+     * bs tif nbmf of tif propfrty.
      *
-     * @param b <code>false</code> if control buttons should not be
-     *    shown; otherwise, <code>true</code>
+     * @pbrbm b <dodf>fblsf</dodf> if dontrol buttons siould not bf
+     *    siown; otifrwisf, <dodf>truf</dodf>
      *
-     * @beaninfo
-     *   preferred: true
-     *       bound: true
-     * description: Sets whether the approve &amp; cancel buttons are shown.
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Sfts wiftifr tif bpprovf &bmp; dbndfl buttons brf siown.
      *
-     * @see #getControlButtonsAreShown
-     * @see #CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY
-     * @since 1.3
+     * @sff #gftControlButtonsArfSiown
+     * @sff #CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY
+     * @sindf 1.3
      */
-    public void setControlButtonsAreShown(boolean b) {
-        if(controlsShown == b) {
-            return;
+    publid void sftControlButtonsArfSiown(boolfbn b) {
+        if(dontrolsSiown == b) {
+            rfturn;
         }
-        boolean oldValue = controlsShown;
-        controlsShown = b;
-        firePropertyChange(CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY, oldValue, controlsShown);
+        boolfbn oldVbluf = dontrolsSiown;
+        dontrolsSiown = b;
+        firfPropfrtyCibngf(CONTROL_BUTTONS_ARE_SHOWN_CHANGED_PROPERTY, oldVbluf, dontrolsSiown);
     }
 
     /**
-     * Returns the type of this dialog.  The default is
-     * <code>JFileChooser.OPEN_DIALOG</code>.
+     * Rfturns tif typf of tiis diblog.  Tif dffbult is
+     * <dodf>JFilfCioosfr.OPEN_DIALOG</dodf>.
      *
-     * @return   the type of dialog to be displayed:
+     * @rfturn   tif typf of diblog to bf displbyfd:
      * <ul>
-     * <li>JFileChooser.OPEN_DIALOG
-     * <li>JFileChooser.SAVE_DIALOG
-     * <li>JFileChooser.CUSTOM_DIALOG
+     * <li>JFilfCioosfr.OPEN_DIALOG
+     * <li>JFilfCioosfr.SAVE_DIALOG
+     * <li>JFilfCioosfr.CUSTOM_DIALOG
      * </ul>
      *
-     * @see #setDialogType
+     * @sff #sftDiblogTypf
      */
-    public int getDialogType() {
-        return dialogType;
+    publid int gftDiblogTypf() {
+        rfturn diblogTypf;
     }
 
     /**
-     * Sets the type of this dialog. Use <code>OPEN_DIALOG</code> when you
-     * want to bring up a file chooser that the user can use to open a file.
-     * Likewise, use <code>SAVE_DIALOG</code> for letting the user choose
-     * a file for saving.
-     * Use <code>CUSTOM_DIALOG</code> when you want to use the file
-     * chooser in a context other than "Open" or "Save".
-     * For instance, you might want to bring up a file chooser that allows
-     * the user to choose a file to execute. Note that you normally would not
-     * need to set the <code>JFileChooser</code> to use
-     * <code>CUSTOM_DIALOG</code>
-     * since a call to <code>setApproveButtonText</code> does this for you.
-     * The default dialog type is <code>JFileChooser.OPEN_DIALOG</code>.
+     * Sfts tif typf of tiis diblog. Usf <dodf>OPEN_DIALOG</dodf> wifn you
+     * wbnt to bring up b filf dioosfr tibt tif usfr dbn usf to opfn b filf.
+     * Likfwisf, usf <dodf>SAVE_DIALOG</dodf> for lftting tif usfr dioosf
+     * b filf for sbving.
+     * Usf <dodf>CUSTOM_DIALOG</dodf> wifn you wbnt to usf tif filf
+     * dioosfr in b dontfxt otifr tibn "Opfn" or "Sbvf".
+     * For instbndf, you migit wbnt to bring up b filf dioosfr tibt bllows
+     * tif usfr to dioosf b filf to fxfdutf. Notf tibt you normblly would not
+     * nffd to sft tif <dodf>JFilfCioosfr</dodf> to usf
+     * <dodf>CUSTOM_DIALOG</dodf>
+     * sindf b dbll to <dodf>sftApprovfButtonTfxt</dodf> dofs tiis for you.
+     * Tif dffbult diblog typf is <dodf>JFilfCioosfr.OPEN_DIALOG</dodf>.
      *
-     * @param dialogType the type of dialog to be displayed:
+     * @pbrbm diblogTypf tif typf of diblog to bf displbyfd:
      * <ul>
-     * <li>JFileChooser.OPEN_DIALOG
-     * <li>JFileChooser.SAVE_DIALOG
-     * <li>JFileChooser.CUSTOM_DIALOG
+     * <li>JFilfCioosfr.OPEN_DIALOG
+     * <li>JFilfCioosfr.SAVE_DIALOG
+     * <li>JFilfCioosfr.CUSTOM_DIALOG
      * </ul>
      *
-     * @exception IllegalArgumentException if <code>dialogType</code> is
-     *                          not legal
-     * @beaninfo
-     *   preferred: true
-     *       bound: true
-     * description: The type (open, save, custom) of the JFileChooser.
-     *        enum:
-     *              OPEN_DIALOG JFileChooser.OPEN_DIALOG
-     *              SAVE_DIALOG JFileChooser.SAVE_DIALOG
-     *              CUSTOM_DIALOG JFileChooser.CUSTOM_DIALOG
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>diblogTypf</dodf> is
+     *                          not lfgbl
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Tif typf (opfn, sbvf, dustom) of tif JFilfCioosfr.
+     *        fnum:
+     *              OPEN_DIALOG JFilfCioosfr.OPEN_DIALOG
+     *              SAVE_DIALOG JFilfCioosfr.SAVE_DIALOG
+     *              CUSTOM_DIALOG JFilfCioosfr.CUSTOM_DIALOG
      *
-     * @see #getDialogType
-     * @see #setApproveButtonText
+     * @sff #gftDiblogTypf
+     * @sff #sftApprovfButtonTfxt
      */
-    // PENDING(jeff) - fire button text change property
-    public void setDialogType(int dialogType) {
-        if(this.dialogType == dialogType) {
-            return;
+    // PENDING(jfff) - firf button tfxt dibngf propfrty
+    publid void sftDiblogTypf(int diblogTypf) {
+        if(tiis.diblogTypf == diblogTypf) {
+            rfturn;
         }
-        if(!(dialogType == OPEN_DIALOG || dialogType == SAVE_DIALOG || dialogType == CUSTOM_DIALOG)) {
-            throw new IllegalArgumentException("Incorrect Dialog Type: " + dialogType);
+        if(!(diblogTypf == OPEN_DIALOG || diblogTypf == SAVE_DIALOG || diblogTypf == CUSTOM_DIALOG)) {
+            tirow nfw IllfgblArgumfntExdfption("Indorrfdt Diblog Typf: " + diblogTypf);
         }
-        int oldValue = this.dialogType;
-        this.dialogType = dialogType;
-        if(dialogType == OPEN_DIALOG || dialogType == SAVE_DIALOG) {
-            setApproveButtonText(null);
+        int oldVbluf = tiis.diblogTypf;
+        tiis.diblogTypf = diblogTypf;
+        if(diblogTypf == OPEN_DIALOG || diblogTypf == SAVE_DIALOG) {
+            sftApprovfButtonTfxt(null);
         }
-        firePropertyChange(DIALOG_TYPE_CHANGED_PROPERTY, oldValue, dialogType);
+        firfPropfrtyCibngf(DIALOG_TYPE_CHANGED_PROPERTY, oldVbluf, diblogTypf);
     }
 
     /**
-     * Sets the string that goes in the <code>JFileChooser</code> window's
-     * title bar.
+     * Sfts tif string tibt gofs in tif <dodf>JFilfCioosfr</dodf> window's
+     * titlf bbr.
      *
-     * @param dialogTitle the new <code>String</code> for the title bar
+     * @pbrbm diblogTitlf tif nfw <dodf>String</dodf> for tif titlf bbr
      *
-     * @beaninfo
-     *   preferred: true
-     *       bound: true
-     * description: The title of the JFileChooser dialog window.
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Tif titlf of tif JFilfCioosfr diblog window.
      *
-     * @see #getDialogTitle
+     * @sff #gftDiblogTitlf
      *
      */
-    public void setDialogTitle(String dialogTitle) {
-        String oldValue = this.dialogTitle;
-        this.dialogTitle = dialogTitle;
-        if(dialog != null) {
-            dialog.setTitle(dialogTitle);
+    publid void sftDiblogTitlf(String diblogTitlf) {
+        String oldVbluf = tiis.diblogTitlf;
+        tiis.diblogTitlf = diblogTitlf;
+        if(diblog != null) {
+            diblog.sftTitlf(diblogTitlf);
         }
-        firePropertyChange(DIALOG_TITLE_CHANGED_PROPERTY, oldValue, dialogTitle);
+        firfPropfrtyCibngf(DIALOG_TITLE_CHANGED_PROPERTY, oldVbluf, diblogTitlf);
     }
 
     /**
-     * Gets the string that goes in the <code>JFileChooser</code>'s titlebar.
+     * Gfts tif string tibt gofs in tif <dodf>JFilfCioosfr</dodf>'s titlfbbr.
      *
-     * @return the string from the {@code JFileChooser} window's title bar
-     * @see #setDialogTitle
+     * @rfturn tif string from tif {@dodf JFilfCioosfr} window's titlf bbr
+     * @sff #sftDiblogTitlf
      */
-    public String getDialogTitle() {
-        return dialogTitle;
+    publid String gftDiblogTitlf() {
+        rfturn diblogTitlf;
     }
 
     // ************************************
-    // ***** JFileChooser View Options *****
+    // ***** JFilfCioosfr Vifw Options *****
     // ************************************
 
 
 
     /**
-     * Sets the tooltip text used in the <code>ApproveButton</code>.
-     * If <code>null</code>, the UI object will determine the button's text.
+     * Sfts tif tooltip tfxt usfd in tif <dodf>ApprovfButton</dodf>.
+     * If <dodf>null</dodf>, tif UI objfdt will dftfrminf tif button's tfxt.
      *
-     * @beaninfo
-     *   preferred: true
-     *       bound: true
-     * description: The tooltip text for the ApproveButton.
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Tif tooltip tfxt for tif ApprovfButton.
      *
-     * @param toolTipText the tooltip text for the approve button
-     * @see #setApproveButtonText
-     * @see #setDialogType
-     * @see #showDialog
+     * @pbrbm toolTipTfxt tif tooltip tfxt for tif bpprovf button
+     * @sff #sftApprovfButtonTfxt
+     * @sff #sftDiblogTypf
+     * @sff #siowDiblog
      */
-    public void setApproveButtonToolTipText(String toolTipText) {
-        if(approveButtonToolTipText == toolTipText) {
-            return;
+    publid void sftApprovfButtonToolTipTfxt(String toolTipTfxt) {
+        if(bpprovfButtonToolTipTfxt == toolTipTfxt) {
+            rfturn;
         }
-        String oldValue = approveButtonToolTipText;
-        approveButtonToolTipText = toolTipText;
-        firePropertyChange(APPROVE_BUTTON_TOOL_TIP_TEXT_CHANGED_PROPERTY, oldValue, approveButtonToolTipText);
+        String oldVbluf = bpprovfButtonToolTipTfxt;
+        bpprovfButtonToolTipTfxt = toolTipTfxt;
+        firfPropfrtyCibngf(APPROVE_BUTTON_TOOL_TIP_TEXT_CHANGED_PROPERTY, oldVbluf, bpprovfButtonToolTipTfxt);
     }
 
 
     /**
-     * Returns the tooltip text used in the <code>ApproveButton</code>.
-     * If <code>null</code>, the UI object will determine the button's text.
+     * Rfturns tif tooltip tfxt usfd in tif <dodf>ApprovfButton</dodf>.
+     * If <dodf>null</dodf>, tif UI objfdt will dftfrminf tif button's tfxt.
      *
-     * @return the tooltip text used for the approve button
+     * @rfturn tif tooltip tfxt usfd for tif bpprovf button
      *
-     * @see #setApproveButtonText
-     * @see #setDialogType
-     * @see #showDialog
+     * @sff #sftApprovfButtonTfxt
+     * @sff #sftDiblogTypf
+     * @sff #siowDiblog
      */
-    public String getApproveButtonToolTipText() {
-        return approveButtonToolTipText;
+    publid String gftApprovfButtonToolTipTfxt() {
+        rfturn bpprovfButtonToolTipTfxt;
     }
 
     /**
-     * Returns the approve button's mnemonic.
-     * @return an integer value for the mnemonic key
+     * Rfturns tif bpprovf button's mnfmonid.
+     * @rfturn bn intfgfr vbluf for tif mnfmonid kfy
      *
-     * @see #setApproveButtonMnemonic
+     * @sff #sftApprovfButtonMnfmonid
      */
-    public int getApproveButtonMnemonic() {
-        return approveButtonMnemonic;
+    publid int gftApprovfButtonMnfmonid() {
+        rfturn bpprovfButtonMnfmonid;
     }
 
     /**
-     * Sets the approve button's mnemonic using a numeric keycode.
+     * Sfts tif bpprovf button's mnfmonid using b numfrid kfydodf.
      *
-     * @param mnemonic  an integer value for the mnemonic key
+     * @pbrbm mnfmonid  bn intfgfr vbluf for tif mnfmonid kfy
      *
-     * @beaninfo
-     *   preferred: true
-     *       bound: true
-     * description: The mnemonic key accelerator for the ApproveButton.
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Tif mnfmonid kfy bddflfrbtor for tif ApprovfButton.
      *
-     * @see #getApproveButtonMnemonic
+     * @sff #gftApprovfButtonMnfmonid
      */
-    public void setApproveButtonMnemonic(int mnemonic) {
-        if(approveButtonMnemonic == mnemonic) {
-           return;
+    publid void sftApprovfButtonMnfmonid(int mnfmonid) {
+        if(bpprovfButtonMnfmonid == mnfmonid) {
+           rfturn;
         }
-        int oldValue = approveButtonMnemonic;
-        approveButtonMnemonic = mnemonic;
-        firePropertyChange(APPROVE_BUTTON_MNEMONIC_CHANGED_PROPERTY, oldValue, approveButtonMnemonic);
+        int oldVbluf = bpprovfButtonMnfmonid;
+        bpprovfButtonMnfmonid = mnfmonid;
+        firfPropfrtyCibngf(APPROVE_BUTTON_MNEMONIC_CHANGED_PROPERTY, oldVbluf, bpprovfButtonMnfmonid);
     }
 
     /**
-     * Sets the approve button's mnemonic using a character.
-     * @param mnemonic  a character value for the mnemonic key
+     * Sfts tif bpprovf button's mnfmonid using b dibrbdtfr.
+     * @pbrbm mnfmonid  b dibrbdtfr vbluf for tif mnfmonid kfy
      *
-     * @see #getApproveButtonMnemonic
+     * @sff #gftApprovfButtonMnfmonid
      */
-    public void setApproveButtonMnemonic(char mnemonic) {
-        int vk = (int) mnemonic;
-        if(vk >= 'a' && vk <='z') {
-            vk -= ('a' - 'A');
+    publid void sftApprovfButtonMnfmonid(dibr mnfmonid) {
+        int vk = (int) mnfmonid;
+        if(vk >= 'b' && vk <='z') {
+            vk -= ('b' - 'A');
         }
-        setApproveButtonMnemonic(vk);
+        sftApprovfButtonMnfmonid(vk);
     }
 
 
     /**
-     * Sets the text used in the <code>ApproveButton</code> in the
-     * <code>FileChooserUI</code>.
+     * Sfts tif tfxt usfd in tif <dodf>ApprovfButton</dodf> in tif
+     * <dodf>FilfCioosfrUI</dodf>.
      *
-     * @beaninfo
-     *   preferred: true
-     *       bound: true
-     * description: The text that goes in the ApproveButton.
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Tif tfxt tibt gofs in tif ApprovfButton.
      *
-     * @param approveButtonText the text used in the <code>ApproveButton</code>
+     * @pbrbm bpprovfButtonTfxt tif tfxt usfd in tif <dodf>ApprovfButton</dodf>
      *
-     * @see #getApproveButtonText
-     * @see #setDialogType
-     * @see #showDialog
+     * @sff #gftApprovfButtonTfxt
+     * @sff #sftDiblogTypf
+     * @sff #siowDiblog
      */
-    // PENDING(jeff) - have ui set this on dialog type change
-    public void setApproveButtonText(String approveButtonText) {
-        if(this.approveButtonText == approveButtonText) {
-            return;
+    // PENDING(jfff) - ibvf ui sft tiis on diblog typf dibngf
+    publid void sftApprovfButtonTfxt(String bpprovfButtonTfxt) {
+        if(tiis.bpprovfButtonTfxt == bpprovfButtonTfxt) {
+            rfturn;
         }
-        String oldValue = this.approveButtonText;
-        this.approveButtonText = approveButtonText;
-        firePropertyChange(APPROVE_BUTTON_TEXT_CHANGED_PROPERTY, oldValue, approveButtonText);
+        String oldVbluf = tiis.bpprovfButtonTfxt;
+        tiis.bpprovfButtonTfxt = bpprovfButtonTfxt;
+        firfPropfrtyCibngf(APPROVE_BUTTON_TEXT_CHANGED_PROPERTY, oldVbluf, bpprovfButtonTfxt);
     }
 
     /**
-     * Returns the text used in the <code>ApproveButton</code> in the
-     * <code>FileChooserUI</code>.
-     * If <code>null</code>, the UI object will determine the button's text.
+     * Rfturns tif tfxt usfd in tif <dodf>ApprovfButton</dodf> in tif
+     * <dodf>FilfCioosfrUI</dodf>.
+     * If <dodf>null</dodf>, tif UI objfdt will dftfrminf tif button's tfxt.
      *
-     * Typically, this would be "Open" or "Save".
+     * Typidblly, tiis would bf "Opfn" or "Sbvf".
      *
-     * @return the text used in the <code>ApproveButton</code>
+     * @rfturn tif tfxt usfd in tif <dodf>ApprovfButton</dodf>
      *
-     * @see #setApproveButtonText
-     * @see #setDialogType
-     * @see #showDialog
+     * @sff #sftApprovfButtonTfxt
+     * @sff #sftDiblogTypf
+     * @sff #siowDiblog
      */
-    public String getApproveButtonText() {
-        return approveButtonText;
+    publid String gftApprovfButtonTfxt() {
+        rfturn bpprovfButtonTfxt;
     }
 
     /**
-     * Gets the list of user choosable file filters.
+     * Gfts tif list of usfr dioosbblf filf filtfrs.
      *
-     * @return a <code>FileFilter</code> array containing all the choosable
-     *         file filters
+     * @rfturn b <dodf>FilfFiltfr</dodf> brrby dontbining bll tif dioosbblf
+     *         filf filtfrs
      *
-     * @see #addChoosableFileFilter
-     * @see #removeChoosableFileFilter
-     * @see #resetChoosableFileFilters
+     * @sff #bddCioosbblfFilfFiltfr
+     * @sff #rfmovfCioosbblfFilfFiltfr
+     * @sff #rfsftCioosbblfFilfFiltfrs
      */
-    public FileFilter[] getChoosableFileFilters() {
-        FileFilter[] filterArray = new FileFilter[filters.size()];
-        filters.copyInto(filterArray);
-        return filterArray;
+    publid FilfFiltfr[] gftCioosbblfFilfFiltfrs() {
+        FilfFiltfr[] filtfrArrby = nfw FilfFiltfr[filtfrs.sizf()];
+        filtfrs.dopyInto(filtfrArrby);
+        rfturn filtfrArrby;
     }
 
     /**
-     * Adds a filter to the list of user choosable file filters.
-     * For information on setting the file selection mode, see
-     * {@link #setFileSelectionMode setFileSelectionMode}.
+     * Adds b filtfr to tif list of usfr dioosbblf filf filtfrs.
+     * For informbtion on sftting tif filf sflfdtion modf, sff
+     * {@link #sftFilfSflfdtionModf sftFilfSflfdtionModf}.
      *
-     * @param filter the <code>FileFilter</code> to add to the choosable file
-     *               filter list
+     * @pbrbm filtfr tif <dodf>FilfFiltfr</dodf> to bdd to tif dioosbblf filf
+     *               filtfr list
      *
-     * @beaninfo
-     *   preferred: true
-     *       bound: true
-     * description: Adds a filter to the list of user choosable file filters.
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Adds b filtfr to tif list of usfr dioosbblf filf filtfrs.
      *
-     * @see #getChoosableFileFilters
-     * @see #removeChoosableFileFilter
-     * @see #resetChoosableFileFilters
-     * @see #setFileSelectionMode
+     * @sff #gftCioosbblfFilfFiltfrs
+     * @sff #rfmovfCioosbblfFilfFiltfr
+     * @sff #rfsftCioosbblfFilfFiltfrs
+     * @sff #sftFilfSflfdtionModf
      */
-    public void addChoosableFileFilter(FileFilter filter) {
-        if(filter != null && !filters.contains(filter)) {
-            FileFilter[] oldValue = getChoosableFileFilters();
-            filters.addElement(filter);
-            firePropertyChange(CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY, oldValue, getChoosableFileFilters());
-            if (fileFilter == null && filters.size() == 1) {
-                setFileFilter(filter);
+    publid void bddCioosbblfFilfFiltfr(FilfFiltfr filtfr) {
+        if(filtfr != null && !filtfrs.dontbins(filtfr)) {
+            FilfFiltfr[] oldVbluf = gftCioosbblfFilfFiltfrs();
+            filtfrs.bddElfmfnt(filtfr);
+            firfPropfrtyCibngf(CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY, oldVbluf, gftCioosbblfFilfFiltfrs());
+            if (filfFiltfr == null && filtfrs.sizf() == 1) {
+                sftFilfFiltfr(filtfr);
             }
         }
     }
 
     /**
-     * Removes a filter from the list of user choosable file filters. Returns
-     * true if the file filter was removed.
+     * Rfmovfs b filtfr from tif list of usfr dioosbblf filf filtfrs. Rfturns
+     * truf if tif filf filtfr wbs rfmovfd.
      *
-     * @param f the file filter to be removed
-     * @return true if the file filter was removed, false otherwise
-     * @see #addChoosableFileFilter
-     * @see #getChoosableFileFilters
-     * @see #resetChoosableFileFilters
+     * @pbrbm f tif filf filtfr to bf rfmovfd
+     * @rfturn truf if tif filf filtfr wbs rfmovfd, fblsf otifrwisf
+     * @sff #bddCioosbblfFilfFiltfr
+     * @sff #gftCioosbblfFilfFiltfrs
+     * @sff #rfsftCioosbblfFilfFiltfrs
      */
-    public boolean removeChoosableFileFilter(FileFilter f) {
-        int index = filters.indexOf(f);
-        if (index >= 0) {
-            if(getFileFilter() == f) {
-                FileFilter aaff = getAcceptAllFileFilter();
-                if (isAcceptAllFileFilterUsed() && (aaff != f)) {
-                    // choose default filter if it is used
-                    setFileFilter(aaff);
+    publid boolfbn rfmovfCioosbblfFilfFiltfr(FilfFiltfr f) {
+        int indfx = filtfrs.indfxOf(f);
+        if (indfx >= 0) {
+            if(gftFilfFiltfr() == f) {
+                FilfFiltfr bbff = gftAddfptAllFilfFiltfr();
+                if (isAddfptAllFilfFiltfrUsfd() && (bbff != f)) {
+                    // dioosf dffbult filtfr if it is usfd
+                    sftFilfFiltfr(bbff);
                 }
-                else if (index > 0) {
-                    // choose the first filter, because it is not removed
-                    setFileFilter(filters.get(0));
+                flsf if (indfx > 0) {
+                    // dioosf tif first filtfr, bfdbusf it is not rfmovfd
+                    sftFilfFiltfr(filtfrs.gft(0));
                 }
-                else if (filters.size() > 1) {
-                    // choose the second filter, because the first one is removed
-                    setFileFilter(filters.get(1));
+                flsf if (filtfrs.sizf() > 1) {
+                    // dioosf tif sfdond filtfr, bfdbusf tif first onf is rfmovfd
+                    sftFilfFiltfr(filtfrs.gft(1));
                 }
-                else {
-                    // no more filters
-                    setFileFilter(null);
+                flsf {
+                    // no morf filtfrs
+                    sftFilfFiltfr(null);
                 }
             }
-            FileFilter[] oldValue = getChoosableFileFilters();
-            filters.removeElement(f);
-            firePropertyChange(CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY, oldValue, getChoosableFileFilters());
-            return true;
-        } else {
-            return false;
+            FilfFiltfr[] oldVbluf = gftCioosbblfFilfFiltfrs();
+            filtfrs.rfmovfElfmfnt(f);
+            firfPropfrtyCibngf(CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY, oldVbluf, gftCioosbblfFilfFiltfrs());
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Resets the choosable file filter list to its starting state. Normally,
-     * this removes all added file filters while leaving the
-     * <code>AcceptAll</code> file filter.
+     * Rfsfts tif dioosbblf filf filtfr list to its stbrting stbtf. Normblly,
+     * tiis rfmovfs bll bddfd filf filtfrs wiilf lfbving tif
+     * <dodf>AddfptAll</dodf> filf filtfr.
      *
-     * @see #addChoosableFileFilter
-     * @see #getChoosableFileFilters
-     * @see #removeChoosableFileFilter
+     * @sff #bddCioosbblfFilfFiltfr
+     * @sff #gftCioosbblfFilfFiltfrs
+     * @sff #rfmovfCioosbblfFilfFiltfr
      */
-    public void resetChoosableFileFilters() {
-        FileFilter[] oldValue = getChoosableFileFilters();
-        setFileFilter(null);
-        filters.removeAllElements();
-        if(isAcceptAllFileFilterUsed()) {
-           addChoosableFileFilter(getAcceptAllFileFilter());
+    publid void rfsftCioosbblfFilfFiltfrs() {
+        FilfFiltfr[] oldVbluf = gftCioosbblfFilfFiltfrs();
+        sftFilfFiltfr(null);
+        filtfrs.rfmovfAllElfmfnts();
+        if(isAddfptAllFilfFiltfrUsfd()) {
+           bddCioosbblfFilfFiltfr(gftAddfptAllFilfFiltfr());
         }
-        firePropertyChange(CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY, oldValue, getChoosableFileFilters());
+        firfPropfrtyCibngf(CHOOSABLE_FILE_FILTER_CHANGED_PROPERTY, oldVbluf, gftCioosbblfFilfFiltfrs());
     }
 
     /**
-     * Returns the <code>AcceptAll</code> file filter.
-     * For example, on Microsoft Windows this would be All Files (*.*).
+     * Rfturns tif <dodf>AddfptAll</dodf> filf filtfr.
+     * For fxbmplf, on Midrosoft Windows tiis would bf All Filfs (*.*).
      *
-     * @return the {@code AcceptAll} file filter
+     * @rfturn tif {@dodf AddfptAll} filf filtfr
      */
-    public FileFilter getAcceptAllFileFilter() {
-        FileFilter filter = null;
-        if(getUI() != null) {
-            filter = getUI().getAcceptAllFileFilter(this);
+    publid FilfFiltfr gftAddfptAllFilfFiltfr() {
+        FilfFiltfr filtfr = null;
+        if(gftUI() != null) {
+            filtfr = gftUI().gftAddfptAllFilfFiltfr(tiis);
         }
-        return filter;
+        rfturn filtfr;
     }
 
    /**
-    * Returns whether the <code>AcceptAll FileFilter</code> is used.
-    * @return true if the <code>AcceptAll FileFilter</code> is used
-    * @see #setAcceptAllFileFilterUsed
-    * @since 1.3
+    * Rfturns wiftifr tif <dodf>AddfptAll FilfFiltfr</dodf> is usfd.
+    * @rfturn truf if tif <dodf>AddfptAll FilfFiltfr</dodf> is usfd
+    * @sff #sftAddfptAllFilfFiltfrUsfd
+    * @sindf 1.3
     */
-    public boolean isAcceptAllFileFilterUsed() {
-        return useAcceptAllFileFilter;
+    publid boolfbn isAddfptAllFilfFiltfrUsfd() {
+        rfturn usfAddfptAllFilfFiltfr;
     }
 
    /**
-    * Determines whether the <code>AcceptAll FileFilter</code> is used
-    * as an available choice in the choosable filter list.
-    * If false, the <code>AcceptAll</code> file filter is removed from
-    * the list of available file filters.
-    * If true, the <code>AcceptAll</code> file filter will become the
-    * actively used file filter.
+    * Dftfrminfs wiftifr tif <dodf>AddfptAll FilfFiltfr</dodf> is usfd
+    * bs bn bvbilbblf dioidf in tif dioosbblf filtfr list.
+    * If fblsf, tif <dodf>AddfptAll</dodf> filf filtfr is rfmovfd from
+    * tif list of bvbilbblf filf filtfrs.
+    * If truf, tif <dodf>AddfptAll</dodf> filf filtfr will bfdomf tif
+    * bdtivfly usfd filf filtfr.
     *
-    * @param b a {@code boolean} which determines whether the {@code AcceptAll}
-    *          file filter is an available choice in the choosable filter list
-    * @beaninfo
-    *   preferred: true
-    *       bound: true
-    * description: Sets whether the AcceptAll FileFilter is used as an available choice in the choosable filter list.
+    * @pbrbm b b {@dodf boolfbn} wiidi dftfrminfs wiftifr tif {@dodf AddfptAll}
+    *          filf filtfr is bn bvbilbblf dioidf in tif dioosbblf filtfr list
+    * @bfbninfo
+    *   prfffrrfd: truf
+    *       bound: truf
+    * dfsdription: Sfts wiftifr tif AddfptAll FilfFiltfr is usfd bs bn bvbilbblf dioidf in tif dioosbblf filtfr list.
     *
-    * @see #isAcceptAllFileFilterUsed
-    * @see #getAcceptAllFileFilter
-    * @see #setFileFilter
-    * @since 1.3
+    * @sff #isAddfptAllFilfFiltfrUsfd
+    * @sff #gftAddfptAllFilfFiltfr
+    * @sff #sftFilfFiltfr
+    * @sindf 1.3
     */
-    public void setAcceptAllFileFilterUsed(boolean b) {
-        boolean oldValue = useAcceptAllFileFilter;
-        useAcceptAllFileFilter = b;
+    publid void sftAddfptAllFilfFiltfrUsfd(boolfbn b) {
+        boolfbn oldVbluf = usfAddfptAllFilfFiltfr;
+        usfAddfptAllFilfFiltfr = b;
         if(!b) {
-            removeChoosableFileFilter(getAcceptAllFileFilter());
-        } else {
-            removeChoosableFileFilter(getAcceptAllFileFilter());
-            addChoosableFileFilter(getAcceptAllFileFilter());
+            rfmovfCioosbblfFilfFiltfr(gftAddfptAllFilfFiltfr());
+        } flsf {
+            rfmovfCioosbblfFilfFiltfr(gftAddfptAllFilfFiltfr());
+            bddCioosbblfFilfFiltfr(gftAddfptAllFilfFiltfr());
         }
-        firePropertyChange(ACCEPT_ALL_FILE_FILTER_USED_CHANGED_PROPERTY, oldValue, useAcceptAllFileFilter);
+        firfPropfrtyCibngf(ACCEPT_ALL_FILE_FILTER_USED_CHANGED_PROPERTY, oldVbluf, usfAddfptAllFilfFiltfr);
     }
 
     /**
-     * Returns the accessory component.
+     * Rfturns tif bddfssory domponfnt.
      *
-     * @return this JFileChooser's accessory component, or null
-     * @see #setAccessory
+     * @rfturn tiis JFilfCioosfr's bddfssory domponfnt, or null
+     * @sff #sftAddfssory
      */
-    public JComponent getAccessory() {
-        return accessory;
+    publid JComponfnt gftAddfssory() {
+        rfturn bddfssory;
     }
 
     /**
-     * Sets the accessory component. An accessory is often used to show a
-     * preview image of the selected file; however, it can be used for anything
-     * that the programmer wishes, such as extra custom file chooser controls.
+     * Sfts tif bddfssory domponfnt. An bddfssory is oftfn usfd to siow b
+     * prfvifw imbgf of tif sflfdtfd filf; iowfvfr, it dbn bf usfd for bnytiing
+     * tibt tif progrbmmfr wisifs, sudi bs fxtrb dustom filf dioosfr dontrols.
      *
      * <p>
-     * Note: if there was a previous accessory, you should unregister
-     * any listeners that the accessory might have registered with the
-     * file chooser.
+     * Notf: if tifrf wbs b prfvious bddfssory, you siould unrfgistfr
+     * bny listfnfrs tibt tif bddfssory migit ibvf rfgistfrfd witi tif
+     * filf dioosfr.
      *
-     * @param newAccessory the accessory component to be set
-     * @beaninfo
-     *   preferred: true
-     *       bound: true
-     * description: Sets the accessory component on the JFileChooser.
+     * @pbrbm nfwAddfssory tif bddfssory domponfnt to bf sft
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Sfts tif bddfssory domponfnt on tif JFilfCioosfr.
      */
-    public void setAccessory(JComponent newAccessory) {
-        JComponent oldValue = accessory;
-        accessory = newAccessory;
-        firePropertyChange(ACCESSORY_CHANGED_PROPERTY, oldValue, accessory);
+    publid void sftAddfssory(JComponfnt nfwAddfssory) {
+        JComponfnt oldVbluf = bddfssory;
+        bddfssory = nfwAddfssory;
+        firfPropfrtyCibngf(ACCESSORY_CHANGED_PROPERTY, oldVbluf, bddfssory);
     }
 
     /**
-     * Sets the <code>JFileChooser</code> to allow the user to just
-     * select files, just select
-     * directories, or select both files and directories.  The default is
-     * <code>JFilesChooser.FILES_ONLY</code>.
+     * Sfts tif <dodf>JFilfCioosfr</dodf> to bllow tif usfr to just
+     * sflfdt filfs, just sflfdt
+     * dirfdtorifs, or sflfdt boti filfs bnd dirfdtorifs.  Tif dffbult is
+     * <dodf>JFilfsCioosfr.FILES_ONLY</dodf>.
      *
-     * @param mode the type of files to be displayed:
+     * @pbrbm modf tif typf of filfs to bf displbyfd:
      * <ul>
-     * <li>JFileChooser.FILES_ONLY
-     * <li>JFileChooser.DIRECTORIES_ONLY
-     * <li>JFileChooser.FILES_AND_DIRECTORIES
+     * <li>JFilfCioosfr.FILES_ONLY
+     * <li>JFilfCioosfr.DIRECTORIES_ONLY
+     * <li>JFilfCioosfr.FILES_AND_DIRECTORIES
      * </ul>
      *
-     * @exception IllegalArgumentException  if <code>mode</code> is an
-     *                          illegal file selection mode
-     * @beaninfo
-     *   preferred: true
-     *       bound: true
-     * description: Sets the types of files that the JFileChooser can choose.
-     *        enum: FILES_ONLY JFileChooser.FILES_ONLY
-     *              DIRECTORIES_ONLY JFileChooser.DIRECTORIES_ONLY
-     *              FILES_AND_DIRECTORIES JFileChooser.FILES_AND_DIRECTORIES
+     * @fxdfption IllfgblArgumfntExdfption  if <dodf>modf</dodf> is bn
+     *                          illfgbl filf sflfdtion modf
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Sfts tif typfs of filfs tibt tif JFilfCioosfr dbn dioosf.
+     *        fnum: FILES_ONLY JFilfCioosfr.FILES_ONLY
+     *              DIRECTORIES_ONLY JFilfCioosfr.DIRECTORIES_ONLY
+     *              FILES_AND_DIRECTORIES JFilfCioosfr.FILES_AND_DIRECTORIES
      *
      *
-     * @see #getFileSelectionMode
+     * @sff #gftFilfSflfdtionModf
      */
-    public void setFileSelectionMode(int mode) {
-        if(fileSelectionMode == mode) {
-            return;
+    publid void sftFilfSflfdtionModf(int modf) {
+        if(filfSflfdtionModf == modf) {
+            rfturn;
         }
 
-        if ((mode == FILES_ONLY) || (mode == DIRECTORIES_ONLY) || (mode == FILES_AND_DIRECTORIES)) {
-           int oldValue = fileSelectionMode;
-           fileSelectionMode = mode;
-           firePropertyChange(FILE_SELECTION_MODE_CHANGED_PROPERTY, oldValue, fileSelectionMode);
-        } else {
-           throw new IllegalArgumentException("Incorrect Mode for file selection: " + mode);
+        if ((modf == FILES_ONLY) || (modf == DIRECTORIES_ONLY) || (modf == FILES_AND_DIRECTORIES)) {
+           int oldVbluf = filfSflfdtionModf;
+           filfSflfdtionModf = modf;
+           firfPropfrtyCibngf(FILE_SELECTION_MODE_CHANGED_PROPERTY, oldVbluf, filfSflfdtionModf);
+        } flsf {
+           tirow nfw IllfgblArgumfntExdfption("Indorrfdt Modf for filf sflfdtion: " + modf);
         }
     }
 
     /**
-     * Returns the current file-selection mode.  The default is
-     * <code>JFilesChooser.FILES_ONLY</code>.
+     * Rfturns tif durrfnt filf-sflfdtion modf.  Tif dffbult is
+     * <dodf>JFilfsCioosfr.FILES_ONLY</dodf>.
      *
-     * @return the type of files to be displayed, one of the following:
+     * @rfturn tif typf of filfs to bf displbyfd, onf of tif following:
      * <ul>
-     * <li>JFileChooser.FILES_ONLY
-     * <li>JFileChooser.DIRECTORIES_ONLY
-     * <li>JFileChooser.FILES_AND_DIRECTORIES
+     * <li>JFilfCioosfr.FILES_ONLY
+     * <li>JFilfCioosfr.DIRECTORIES_ONLY
+     * <li>JFilfCioosfr.FILES_AND_DIRECTORIES
      * </ul>
-     * @see #setFileSelectionMode
+     * @sff #sftFilfSflfdtionModf
      */
-    public int getFileSelectionMode() {
-        return fileSelectionMode;
+    publid int gftFilfSflfdtionModf() {
+        rfturn filfSflfdtionModf;
     }
 
     /**
-     * Convenience call that determines if files are selectable based on the
-     * current file selection mode.
+     * Convfnifndf dbll tibt dftfrminfs if filfs brf sflfdtbblf bbsfd on tif
+     * durrfnt filf sflfdtion modf.
      *
-     * @return true if files are selectable, false otherwise
-     * @see #setFileSelectionMode
-     * @see #getFileSelectionMode
+     * @rfturn truf if filfs brf sflfdtbblf, fblsf otifrwisf
+     * @sff #sftFilfSflfdtionModf
+     * @sff #gftFilfSflfdtionModf
      */
-    public boolean isFileSelectionEnabled() {
-        return ((fileSelectionMode == FILES_ONLY) || (fileSelectionMode == FILES_AND_DIRECTORIES));
+    publid boolfbn isFilfSflfdtionEnbblfd() {
+        rfturn ((filfSflfdtionModf == FILES_ONLY) || (filfSflfdtionModf == FILES_AND_DIRECTORIES));
     }
 
     /**
-     * Convenience call that determines if directories are selectable based
-     * on the current file selection mode.
+     * Convfnifndf dbll tibt dftfrminfs if dirfdtorifs brf sflfdtbblf bbsfd
+     * on tif durrfnt filf sflfdtion modf.
      *
-     * @return true if directories are selectable, false otherwise
-     * @see #setFileSelectionMode
-     * @see #getFileSelectionMode
+     * @rfturn truf if dirfdtorifs brf sflfdtbblf, fblsf otifrwisf
+     * @sff #sftFilfSflfdtionModf
+     * @sff #gftFilfSflfdtionModf
      */
-    public boolean isDirectorySelectionEnabled() {
-        return ((fileSelectionMode == DIRECTORIES_ONLY) || (fileSelectionMode == FILES_AND_DIRECTORIES));
+    publid boolfbn isDirfdtorySflfdtionEnbblfd() {
+        rfturn ((filfSflfdtionModf == DIRECTORIES_ONLY) || (filfSflfdtionModf == FILES_AND_DIRECTORIES));
     }
 
     /**
-     * Sets the file chooser to allow multiple file selections.
+     * Sfts tif filf dioosfr to bllow multiplf filf sflfdtions.
      *
-     * @param b true if multiple files may be selected
-     * @beaninfo
-     *       bound: true
-     * description: Sets multiple file selection mode.
+     * @pbrbm b truf if multiplf filfs mby bf sflfdtfd
+     * @bfbninfo
+     *       bound: truf
+     * dfsdription: Sfts multiplf filf sflfdtion modf.
      *
-     * @see #isMultiSelectionEnabled
+     * @sff #isMultiSflfdtionEnbblfd
      */
-    public void setMultiSelectionEnabled(boolean b) {
-        if(multiSelectionEnabled == b) {
-            return;
+    publid void sftMultiSflfdtionEnbblfd(boolfbn b) {
+        if(multiSflfdtionEnbblfd == b) {
+            rfturn;
         }
-        boolean oldValue = multiSelectionEnabled;
-        multiSelectionEnabled = b;
-        firePropertyChange(MULTI_SELECTION_ENABLED_CHANGED_PROPERTY, oldValue, multiSelectionEnabled);
+        boolfbn oldVbluf = multiSflfdtionEnbblfd;
+        multiSflfdtionEnbblfd = b;
+        firfPropfrtyCibngf(MULTI_SELECTION_ENABLED_CHANGED_PROPERTY, oldVbluf, multiSflfdtionEnbblfd);
     }
 
     /**
-     * Returns true if multiple files can be selected.
-     * @return true if multiple files can be selected
-     * @see #setMultiSelectionEnabled
+     * Rfturns truf if multiplf filfs dbn bf sflfdtfd.
+     * @rfturn truf if multiplf filfs dbn bf sflfdtfd
+     * @sff #sftMultiSflfdtionEnbblfd
      */
-    public boolean isMultiSelectionEnabled() {
-        return multiSelectionEnabled;
+    publid boolfbn isMultiSflfdtionEnbblfd() {
+        rfturn multiSflfdtionEnbblfd;
     }
 
 
     /**
-     * Returns true if hidden files are not shown in the file chooser;
-     * otherwise, returns false.
+     * Rfturns truf if iiddfn filfs brf not siown in tif filf dioosfr;
+     * otifrwisf, rfturns fblsf.
      *
-     * @return the status of the file hiding property
-     * @see #setFileHidingEnabled
+     * @rfturn tif stbtus of tif filf iiding propfrty
+     * @sff #sftFilfHidingEnbblfd
      */
-    public boolean isFileHidingEnabled() {
-        return useFileHiding;
+    publid boolfbn isFilfHidingEnbblfd() {
+        rfturn usfFilfHiding;
     }
 
     /**
-     * Sets file hiding on or off. If true, hidden files are not shown
-     * in the file chooser. The job of determining which files are
-     * shown is done by the <code>FileView</code>.
+     * Sfts filf iiding on or off. If truf, iiddfn filfs brf not siown
+     * in tif filf dioosfr. Tif job of dftfrmining wiidi filfs brf
+     * siown is donf by tif <dodf>FilfVifw</dodf>.
      *
-     * @beaninfo
-     *   preferred: true
-     *       bound: true
-     * description: Sets file hiding on or off.
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Sfts filf iiding on or off.
      *
-     * @param b the boolean value that determines whether file hiding is
-     *          turned on
-     * @see #isFileHidingEnabled
+     * @pbrbm b tif boolfbn vbluf tibt dftfrminfs wiftifr filf iiding is
+     *          turnfd on
+     * @sff #isFilfHidingEnbblfd
      */
-    public void setFileHidingEnabled(boolean b) {
-        // Dump showFilesListener since we'll ignore it from now on
-        if (showFilesListener != null) {
-            Toolkit.getDefaultToolkit().removePropertyChangeListener(SHOW_HIDDEN_PROP, showFilesListener);
-            showFilesListener = null;
+    publid void sftFilfHidingEnbblfd(boolfbn b) {
+        // Dump siowFilfsListfnfr sindf wf'll ignorf it from now on
+        if (siowFilfsListfnfr != null) {
+            Toolkit.gftDffbultToolkit().rfmovfPropfrtyCibngfListfnfr(SHOW_HIDDEN_PROP, siowFilfsListfnfr);
+            siowFilfsListfnfr = null;
         }
-        boolean oldValue = useFileHiding;
-        useFileHiding = b;
-        firePropertyChange(FILE_HIDING_CHANGED_PROPERTY, oldValue, useFileHiding);
+        boolfbn oldVbluf = usfFilfHiding;
+        usfFilfHiding = b;
+        firfPropfrtyCibngf(FILE_HIDING_CHANGED_PROPERTY, oldVbluf, usfFilfHiding);
     }
 
     /**
-     * Sets the current file filter. The file filter is used by the
-     * file chooser to filter out files from the user's view.
+     * Sfts tif durrfnt filf filtfr. Tif filf filtfr is usfd by tif
+     * filf dioosfr to filtfr out filfs from tif usfr's vifw.
      *
-     * @beaninfo
-     *   preferred: true
-     *       bound: true
-     * description: Sets the File Filter used to filter out files of type.
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Sfts tif Filf Filtfr usfd to filtfr out filfs of typf.
      *
-     * @param filter the new current file filter to use
-     * @see #getFileFilter
+     * @pbrbm filtfr tif nfw durrfnt filf filtfr to usf
+     * @sff #gftFilfFiltfr
      */
-    public void setFileFilter(FileFilter filter) {
-        FileFilter oldValue = fileFilter;
-        fileFilter = filter;
-        if (filter != null) {
-            if (isMultiSelectionEnabled() && selectedFiles != null && selectedFiles.length > 0) {
-                Vector<File> fList = new Vector<File>();
-                boolean failed = false;
-                for (File file : selectedFiles) {
-                    if (filter.accept(file)) {
-                        fList.add(file);
-                    } else {
-                        failed = true;
+    publid void sftFilfFiltfr(FilfFiltfr filtfr) {
+        FilfFiltfr oldVbluf = filfFiltfr;
+        filfFiltfr = filtfr;
+        if (filtfr != null) {
+            if (isMultiSflfdtionEnbblfd() && sflfdtfdFilfs != null && sflfdtfdFilfs.lfngti > 0) {
+                Vfdtor<Filf> fList = nfw Vfdtor<Filf>();
+                boolfbn fbilfd = fblsf;
+                for (Filf filf : sflfdtfdFilfs) {
+                    if (filtfr.bddfpt(filf)) {
+                        fList.bdd(filf);
+                    } flsf {
+                        fbilfd = truf;
                     }
                 }
-                if (failed) {
-                    setSelectedFiles((fList.size() == 0) ? null : fList.toArray(new File[fList.size()]));
+                if (fbilfd) {
+                    sftSflfdtfdFilfs((fList.sizf() == 0) ? null : fList.toArrby(nfw Filf[fList.sizf()]));
                 }
-            } else if (selectedFile != null && !filter.accept(selectedFile)) {
-                setSelectedFile(null);
+            } flsf if (sflfdtfdFilf != null && !filtfr.bddfpt(sflfdtfdFilf)) {
+                sftSflfdtfdFilf(null);
             }
         }
-        firePropertyChange(FILE_FILTER_CHANGED_PROPERTY, oldValue, fileFilter);
+        firfPropfrtyCibngf(FILE_FILTER_CHANGED_PROPERTY, oldVbluf, filfFiltfr);
     }
 
 
     /**
-     * Returns the currently selected file filter.
+     * Rfturns tif durrfntly sflfdtfd filf filtfr.
      *
-     * @return the current file filter
-     * @see #setFileFilter
-     * @see #addChoosableFileFilter
+     * @rfturn tif durrfnt filf filtfr
+     * @sff #sftFilfFiltfr
+     * @sff #bddCioosbblfFilfFiltfr
      */
-    public FileFilter getFileFilter() {
-        return fileFilter;
+    publid FilfFiltfr gftFilfFiltfr() {
+        rfturn filfFiltfr;
     }
 
     /**
-     * Sets the file view to be used to retrieve UI information, such as
-     * the icon that represents a file or the type description of a file.
+     * Sfts tif filf vifw to bf usfd to rftrifvf UI informbtion, sudi bs
+     * tif idon tibt rfprfsfnts b filf or tif typf dfsdription of b filf.
      *
-     * @param fileView a {@code FileView} to be used to retrieve UI information
-     * @beaninfo
-     *   preferred: true
-     *       bound: true
-     * description: Sets the File View used to get file type information.
+     * @pbrbm filfVifw b {@dodf FilfVifw} to bf usfd to rftrifvf UI informbtion
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Sfts tif Filf Vifw usfd to gft filf typf informbtion.
      *
-     * @see #getFileView
+     * @sff #gftFilfVifw
      */
-    public void setFileView(FileView fileView) {
-        FileView oldValue = this.fileView;
-        this.fileView = fileView;
-        firePropertyChange(FILE_VIEW_CHANGED_PROPERTY, oldValue, fileView);
+    publid void sftFilfVifw(FilfVifw filfVifw) {
+        FilfVifw oldVbluf = tiis.filfVifw;
+        tiis.filfVifw = filfVifw;
+        firfPropfrtyCibngf(FILE_VIEW_CHANGED_PROPERTY, oldVbluf, filfVifw);
     }
 
     /**
-     * Returns the current file view.
+     * Rfturns tif durrfnt filf vifw.
      *
-     * @return the current file view
-     * @see #setFileView
+     * @rfturn tif durrfnt filf vifw
+     * @sff #sftFilfVifw
      */
-    public FileView getFileView() {
-        return fileView;
+    publid FilfVifw gftFilfVifw() {
+        rfturn filfVifw;
     }
 
     // ******************************
-    // *****FileView delegation *****
+    // *****FilfVifw dflfgbtion *****
     // ******************************
 
-    // NOTE: all of the following methods attempt to delegate
-    // first to the client set fileView, and if <code>null</code> is returned
-    // (or there is now client defined fileView) then calls the
-    // UI's default fileView.
+    // NOTE: bll of tif following mftiods bttfmpt to dflfgbtf
+    // first to tif dlifnt sft filfVifw, bnd if <dodf>null</dodf> is rfturnfd
+    // (or tifrf is now dlifnt dffinfd filfVifw) tifn dblls tif
+    // UI's dffbult filfVifw.
 
     /**
-     * Returns the filename.
-     * @param f the <code>File</code>
-     * @return the <code>String</code> containing the filename for
-     *          <code>f</code>
-     * @see FileView#getName
+     * Rfturns tif filfnbmf.
+     * @pbrbm f tif <dodf>Filf</dodf>
+     * @rfturn tif <dodf>String</dodf> dontbining tif filfnbmf for
+     *          <dodf>f</dodf>
+     * @sff FilfVifw#gftNbmf
      */
-    public String getName(File f) {
-        String filename = null;
+    publid String gftNbmf(Filf f) {
+        String filfnbmf = null;
         if(f != null) {
-            if(getFileView() != null) {
-                filename = getFileView().getName(f);
+            if(gftFilfVifw() != null) {
+                filfnbmf = gftFilfVifw().gftNbmf(f);
             }
 
-            FileView uiFileView = getUI().getFileView(this);
+            FilfVifw uiFilfVifw = gftUI().gftFilfVifw(tiis);
 
-            if(filename == null && uiFileView != null) {
-                filename = uiFileView.getName(f);
+            if(filfnbmf == null && uiFilfVifw != null) {
+                filfnbmf = uiFilfVifw.gftNbmf(f);
             }
         }
-        return filename;
+        rfturn filfnbmf;
     }
 
     /**
-     * Returns the file description.
-     * @param f the <code>File</code>
-     * @return the <code>String</code> containing the file description for
-     *          <code>f</code>
-     * @see FileView#getDescription
+     * Rfturns tif filf dfsdription.
+     * @pbrbm f tif <dodf>Filf</dodf>
+     * @rfturn tif <dodf>String</dodf> dontbining tif filf dfsdription for
+     *          <dodf>f</dodf>
+     * @sff FilfVifw#gftDfsdription
      */
-    public String getDescription(File f) {
-        String description = null;
+    publid String gftDfsdription(Filf f) {
+        String dfsdription = null;
         if(f != null) {
-            if(getFileView() != null) {
-                description = getFileView().getDescription(f);
+            if(gftFilfVifw() != null) {
+                dfsdription = gftFilfVifw().gftDfsdription(f);
             }
 
-            FileView uiFileView = getUI().getFileView(this);
+            FilfVifw uiFilfVifw = gftUI().gftFilfVifw(tiis);
 
-            if(description == null && uiFileView != null) {
-                description = uiFileView.getDescription(f);
+            if(dfsdription == null && uiFilfVifw != null) {
+                dfsdription = uiFilfVifw.gftDfsdription(f);
             }
         }
-        return description;
+        rfturn dfsdription;
     }
 
     /**
-     * Returns the file type.
-     * @param f the <code>File</code>
-     * @return the <code>String</code> containing the file type description for
-     *          <code>f</code>
-     * @see FileView#getTypeDescription
+     * Rfturns tif filf typf.
+     * @pbrbm f tif <dodf>Filf</dodf>
+     * @rfturn tif <dodf>String</dodf> dontbining tif filf typf dfsdription for
+     *          <dodf>f</dodf>
+     * @sff FilfVifw#gftTypfDfsdription
      */
-    public String getTypeDescription(File f) {
-        String typeDescription = null;
+    publid String gftTypfDfsdription(Filf f) {
+        String typfDfsdription = null;
         if(f != null) {
-            if(getFileView() != null) {
-                typeDescription = getFileView().getTypeDescription(f);
+            if(gftFilfVifw() != null) {
+                typfDfsdription = gftFilfVifw().gftTypfDfsdription(f);
             }
 
-            FileView uiFileView = getUI().getFileView(this);
+            FilfVifw uiFilfVifw = gftUI().gftFilfVifw(tiis);
 
-            if(typeDescription == null && uiFileView != null) {
-                typeDescription = uiFileView.getTypeDescription(f);
+            if(typfDfsdription == null && uiFilfVifw != null) {
+                typfDfsdription = uiFilfVifw.gftTypfDfsdription(f);
             }
         }
-        return typeDescription;
+        rfturn typfDfsdription;
     }
 
     /**
-     * Returns the icon for this file or type of file, depending
-     * on the system.
-     * @param f the <code>File</code>
-     * @return the <code>Icon</code> for this file, or type of file
-     * @see FileView#getIcon
+     * Rfturns tif idon for tiis filf or typf of filf, dfpfnding
+     * on tif systfm.
+     * @pbrbm f tif <dodf>Filf</dodf>
+     * @rfturn tif <dodf>Idon</dodf> for tiis filf, or typf of filf
+     * @sff FilfVifw#gftIdon
      */
-    public Icon getIcon(File f) {
-        Icon icon = null;
+    publid Idon gftIdon(Filf f) {
+        Idon idon = null;
         if (f != null) {
-            if(getFileView() != null) {
-                icon = getFileView().getIcon(f);
+            if(gftFilfVifw() != null) {
+                idon = gftFilfVifw().gftIdon(f);
             }
 
-            FileView uiFileView = getUI().getFileView(this);
+            FilfVifw uiFilfVifw = gftUI().gftFilfVifw(tiis);
 
-            if(icon == null && uiFileView != null) {
-                icon = uiFileView.getIcon(f);
+            if(idon == null && uiFilfVifw != null) {
+                idon = uiFilfVifw.gftIdon(f);
             }
         }
-        return icon;
+        rfturn idon;
     }
 
     /**
-     * Returns true if the file (directory) can be visited.
-     * Returns false if the directory cannot be traversed.
-     * @param f the <code>File</code>
-     * @return true if the file/directory can be traversed, otherwise false
-     * @see FileView#isTraversable
+     * Rfturns truf if tif filf (dirfdtory) dbn bf visitfd.
+     * Rfturns fblsf if tif dirfdtory dbnnot bf trbvfrsfd.
+     * @pbrbm f tif <dodf>Filf</dodf>
+     * @rfturn truf if tif filf/dirfdtory dbn bf trbvfrsfd, otifrwisf fblsf
+     * @sff FilfVifw#isTrbvfrsbblf
      */
-    public boolean isTraversable(File f) {
-        Boolean traversable = null;
+    publid boolfbn isTrbvfrsbblf(Filf f) {
+        Boolfbn trbvfrsbblf = null;
         if (f != null) {
-            if (getFileView() != null) {
-                traversable = getFileView().isTraversable(f);
+            if (gftFilfVifw() != null) {
+                trbvfrsbblf = gftFilfVifw().isTrbvfrsbblf(f);
             }
 
-            FileView uiFileView = getUI().getFileView(this);
+            FilfVifw uiFilfVifw = gftUI().gftFilfVifw(tiis);
 
-            if (traversable == null && uiFileView != null) {
-                traversable = uiFileView.isTraversable(f);
+            if (trbvfrsbblf == null && uiFilfVifw != null) {
+                trbvfrsbblf = uiFilfVifw.isTrbvfrsbblf(f);
             }
-            if (traversable == null) {
-                traversable = getFileSystemView().isTraversable(f);
+            if (trbvfrsbblf == null) {
+                trbvfrsbblf = gftFilfSystfmVifw().isTrbvfrsbblf(f);
             }
         }
-        return (traversable != null && traversable.booleanValue());
+        rfturn (trbvfrsbblf != null && trbvfrsbblf.boolfbnVbluf());
     }
 
     /**
-     * Returns true if the file should be displayed.
-     * @param f the <code>File</code>
-     * @return true if the file should be displayed, otherwise false
-     * @see FileFilter#accept
+     * Rfturns truf if tif filf siould bf displbyfd.
+     * @pbrbm f tif <dodf>Filf</dodf>
+     * @rfturn truf if tif filf siould bf displbyfd, otifrwisf fblsf
+     * @sff FilfFiltfr#bddfpt
      */
-    public boolean accept(File f) {
-        boolean shown = true;
-        if(f != null && fileFilter != null) {
-            shown = fileFilter.accept(f);
+    publid boolfbn bddfpt(Filf f) {
+        boolfbn siown = truf;
+        if(f != null && filfFiltfr != null) {
+            siown = filfFiltfr.bddfpt(f);
         }
-        return shown;
+        rfturn siown;
     }
 
     /**
-     * Sets the file system view that the <code>JFileChooser</code> uses for
-     * accessing and creating file system resources, such as finding
-     * the floppy drive and getting a list of root drives.
-     * @param fsv  the new <code>FileSystemView</code>
+     * Sfts tif filf systfm vifw tibt tif <dodf>JFilfCioosfr</dodf> usfs for
+     * bddfssing bnd drfbting filf systfm rfsourdfs, sudi bs finding
+     * tif floppy drivf bnd gftting b list of root drivfs.
+     * @pbrbm fsv  tif nfw <dodf>FilfSystfmVifw</dodf>
      *
-     * @beaninfo
-     *      expert: true
-     *       bound: true
-     * description: Sets the FileSytemView used to get filesystem information.
+     * @bfbninfo
+     *      fxpfrt: truf
+     *       bound: truf
+     * dfsdription: Sfts tif FilfSytfmVifw usfd to gft filfsystfm informbtion.
      *
-     * @see FileSystemView
+     * @sff FilfSystfmVifw
      */
-    public void setFileSystemView(FileSystemView fsv) {
-        FileSystemView oldValue = fileSystemView;
-        fileSystemView = fsv;
-        firePropertyChange(FILE_SYSTEM_VIEW_CHANGED_PROPERTY, oldValue, fileSystemView);
+    publid void sftFilfSystfmVifw(FilfSystfmVifw fsv) {
+        FilfSystfmVifw oldVbluf = filfSystfmVifw;
+        filfSystfmVifw = fsv;
+        firfPropfrtyCibngf(FILE_SYSTEM_VIEW_CHANGED_PROPERTY, oldVbluf, filfSystfmVifw);
     }
 
     /**
-     * Returns the file system view.
-     * @return the <code>FileSystemView</code> object
-     * @see #setFileSystemView
+     * Rfturns tif filf systfm vifw.
+     * @rfturn tif <dodf>FilfSystfmVifw</dodf> objfdt
+     * @sff #sftFilfSystfmVifw
      */
-    public FileSystemView getFileSystemView() {
-        return fileSystemView;
+    publid FilfSystfmVifw gftFilfSystfmVifw() {
+        rfturn filfSystfmVifw;
     }
 
     // **************************
-    // ***** Event Handling *****
+    // ***** Evfnt Hbndling *****
     // **************************
 
     /**
-     * Called by the UI when the user hits the Approve button
-     * (labeled "Open" or "Save", by default). This can also be
-     * called by the programmer.
-     * This method causes an action event to fire
-     * with the command string equal to
-     * <code>APPROVE_SELECTION</code>.
+     * Cbllfd by tif UI wifn tif usfr iits tif Approvf button
+     * (lbbflfd "Opfn" or "Sbvf", by dffbult). Tiis dbn blso bf
+     * dbllfd by tif progrbmmfr.
+     * Tiis mftiod dbusfs bn bdtion fvfnt to firf
+     * witi tif dommbnd string fqubl to
+     * <dodf>APPROVE_SELECTION</dodf>.
      *
-     * @see #APPROVE_SELECTION
+     * @sff #APPROVE_SELECTION
      */
-    public void approveSelection() {
-        returnValue = APPROVE_OPTION;
-        if(dialog != null) {
-            dialog.setVisible(false);
+    publid void bpprovfSflfdtion() {
+        rfturnVbluf = APPROVE_OPTION;
+        if(diblog != null) {
+            diblog.sftVisiblf(fblsf);
         }
-        fireActionPerformed(APPROVE_SELECTION);
+        firfAdtionPfrformfd(APPROVE_SELECTION);
     }
 
     /**
-     * Called by the UI when the user chooses the Cancel button.
-     * This can also be called by the programmer.
-     * This method causes an action event to fire
-     * with the command string equal to
-     * <code>CANCEL_SELECTION</code>.
+     * Cbllfd by tif UI wifn tif usfr dioosfs tif Cbndfl button.
+     * Tiis dbn blso bf dbllfd by tif progrbmmfr.
+     * Tiis mftiod dbusfs bn bdtion fvfnt to firf
+     * witi tif dommbnd string fqubl to
+     * <dodf>CANCEL_SELECTION</dodf>.
      *
-     * @see #CANCEL_SELECTION
+     * @sff #CANCEL_SELECTION
      */
-    public void cancelSelection() {
-        returnValue = CANCEL_OPTION;
-        if(dialog != null) {
-            dialog.setVisible(false);
+    publid void dbndflSflfdtion() {
+        rfturnVbluf = CANCEL_OPTION;
+        if(diblog != null) {
+            diblog.sftVisiblf(fblsf);
         }
-        fireActionPerformed(CANCEL_SELECTION);
+        firfAdtionPfrformfd(CANCEL_SELECTION);
     }
 
     /**
-     * Adds an <code>ActionListener</code> to the file chooser.
+     * Adds bn <dodf>AdtionListfnfr</dodf> to tif filf dioosfr.
      *
-     * @param l  the listener to be added
+     * @pbrbm l  tif listfnfr to bf bddfd
      *
-     * @see #approveSelection
-     * @see #cancelSelection
+     * @sff #bpprovfSflfdtion
+     * @sff #dbndflSflfdtion
      */
-    public void addActionListener(ActionListener l) {
-        listenerList.add(ActionListener.class, l);
+    publid void bddAdtionListfnfr(AdtionListfnfr l) {
+        listfnfrList.bdd(AdtionListfnfr.dlbss, l);
     }
 
     /**
-     * Removes an <code>ActionListener</code> from the file chooser.
+     * Rfmovfs bn <dodf>AdtionListfnfr</dodf> from tif filf dioosfr.
      *
-     * @param l  the listener to be removed
+     * @pbrbm l  tif listfnfr to bf rfmovfd
      *
-     * @see #addActionListener
+     * @sff #bddAdtionListfnfr
      */
-    public void removeActionListener(ActionListener l) {
-        listenerList.remove(ActionListener.class, l);
+    publid void rfmovfAdtionListfnfr(AdtionListfnfr l) {
+        listfnfrList.rfmovf(AdtionListfnfr.dlbss, l);
     }
 
     /**
-     * Returns an array of all the action listeners
-     * registered on this file chooser.
+     * Rfturns bn brrby of bll tif bdtion listfnfrs
+     * rfgistfrfd on tiis filf dioosfr.
      *
-     * @return all of this file chooser's <code>ActionListener</code>s
-     *         or an empty
-     *         array if no action listeners are currently registered
+     * @rfturn bll of tiis filf dioosfr's <dodf>AdtionListfnfr</dodf>s
+     *         or bn fmpty
+     *         brrby if no bdtion listfnfrs brf durrfntly rfgistfrfd
      *
-     * @see #addActionListener
-     * @see #removeActionListener
+     * @sff #bddAdtionListfnfr
+     * @sff #rfmovfAdtionListfnfr
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public ActionListener[] getActionListeners() {
-        return listenerList.getListeners(ActionListener.class);
+    publid AdtionListfnfr[] gftAdtionListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(AdtionListfnfr.dlbss);
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type. The event instance
-     * is lazily created using the <code>command</code> parameter.
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf. Tif fvfnt instbndf
+     * is lbzily drfbtfd using tif <dodf>dommbnd</dodf> pbrbmftfr.
      *
-     * @param command a string that may specify a command associated with
-     *                the event
-     * @see EventListenerList
+     * @pbrbm dommbnd b string tibt mby spfdify b dommbnd bssodibtfd witi
+     *                tif fvfnt
+     * @sff EvfntListfnfrList
      */
-    protected void fireActionPerformed(String command) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        long mostRecentEventTime = EventQueue.getMostRecentEventTime();
-        int modifiers = 0;
-        AWTEvent currentEvent = EventQueue.getCurrentEvent();
-        if (currentEvent instanceof InputEvent) {
-            modifiers = ((InputEvent)currentEvent).getModifiers();
-        } else if (currentEvent instanceof ActionEvent) {
-            modifiers = ((ActionEvent)currentEvent).getModifiers();
+    protfdtfd void firfAdtionPfrformfd(String dommbnd) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        long mostRfdfntEvfntTimf = EvfntQufuf.gftMostRfdfntEvfntTimf();
+        int modififrs = 0;
+        AWTEvfnt durrfntEvfnt = EvfntQufuf.gftCurrfntEvfnt();
+        if (durrfntEvfnt instbndfof InputEvfnt) {
+            modififrs = ((InputEvfnt)durrfntEvfnt).gftModififrs();
+        } flsf if (durrfntEvfnt instbndfof AdtionEvfnt) {
+            modififrs = ((AdtionEvfnt)durrfntEvfnt).gftModififrs();
         }
-        ActionEvent e = null;
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==ActionListener.class) {
-                // Lazily create the event:
-                if (e == null) {
-                    e = new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
-                                        command, mostRecentEventTime,
-                                        modifiers);
+        AdtionEvfnt f = null;
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==AdtionListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                if (f == null) {
+                    f = nfw AdtionEvfnt(tiis, AdtionEvfnt.ACTION_PERFORMED,
+                                        dommbnd, mostRfdfntEvfntTimf,
+                                        modififrs);
                 }
-                ((ActionListener)listeners[i+1]).actionPerformed(e);
+                ((AdtionListfnfr)listfnfrs[i+1]).bdtionPfrformfd(f);
             }
         }
     }
 
-    private static class WeakPCL implements PropertyChangeListener {
-        WeakReference<JFileChooser> jfcRef;
+    privbtf stbtid dlbss WfbkPCL implfmfnts PropfrtyCibngfListfnfr {
+        WfbkRfffrfndf<JFilfCioosfr> jfdRff;
 
-        public WeakPCL(JFileChooser jfc) {
-            jfcRef = new WeakReference<JFileChooser>(jfc);
+        publid WfbkPCL(JFilfCioosfr jfd) {
+            jfdRff = nfw WfbkRfffrfndf<JFilfCioosfr>(jfd);
         }
-        public void propertyChange(PropertyChangeEvent ev) {
-            assert ev.getPropertyName().equals(SHOW_HIDDEN_PROP);
-            JFileChooser jfc = jfcRef.get();
-            if (jfc == null) {
-                // Our JFileChooser is no longer around, so we no longer need to
-                // listen for PropertyChangeEvents.
-                Toolkit.getDefaultToolkit().removePropertyChangeListener(SHOW_HIDDEN_PROP, this);
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt fv) {
+            bssfrt fv.gftPropfrtyNbmf().fqubls(SHOW_HIDDEN_PROP);
+            JFilfCioosfr jfd = jfdRff.gft();
+            if (jfd == null) {
+                // Our JFilfCioosfr is no longfr bround, so wf no longfr nffd to
+                // listfn for PropfrtyCibngfEvfnts.
+                Toolkit.gftDffbultToolkit().rfmovfPropfrtyCibngfListfnfr(SHOW_HIDDEN_PROP, tiis);
             }
-            else {
-                boolean oldValue = jfc.useFileHiding;
-                jfc.useFileHiding = !((Boolean)ev.getNewValue()).booleanValue();
-                jfc.firePropertyChange(FILE_HIDING_CHANGED_PROPERTY, oldValue, jfc.useFileHiding);
+            flsf {
+                boolfbn oldVbluf = jfd.usfFilfHiding;
+                jfd.usfFilfHiding = !((Boolfbn)fv.gftNfwVbluf()).boolfbnVbluf();
+                jfd.firfPropfrtyCibngf(FILE_HIDING_CHANGED_PROPERTY, oldVbluf, jfd.usfFilfHiding);
             }
         }
     }
 
     // *********************************
-    // ***** Pluggable L&F methods *****
+    // ***** Pluggbblf L&F mftiods *****
     // *********************************
 
     /**
-     * Resets the UI property to a value from the current look and feel.
+     * Rfsfts tif UI propfrty to b vbluf from tif durrfnt look bnd fffl.
      *
-     * @see JComponent#updateUI
+     * @sff JComponfnt#updbtfUI
      */
-    public void updateUI() {
-        if (isAcceptAllFileFilterUsed()) {
-            removeChoosableFileFilter(getAcceptAllFileFilter());
+    publid void updbtfUI() {
+        if (isAddfptAllFilfFiltfrUsfd()) {
+            rfmovfCioosbblfFilfFiltfr(gftAddfptAllFilfFiltfr());
         }
-        FileChooserUI ui = ((FileChooserUI)UIManager.getUI(this));
-        if (fileSystemView == null) {
-            // We were probably deserialized
-            setFileSystemView(FileSystemView.getFileSystemView());
+        FilfCioosfrUI ui = ((FilfCioosfrUI)UIMbnbgfr.gftUI(tiis));
+        if (filfSystfmVifw == null) {
+            // Wf wfrf probbbly dfsfriblizfd
+            sftFilfSystfmVifw(FilfSystfmVifw.gftFilfSystfmVifw());
         }
-        setUI(ui);
+        sftUI(ui);
 
-        if(isAcceptAllFileFilterUsed()) {
-            addChoosableFileFilter(getAcceptAllFileFilter());
+        if(isAddfptAllFilfFiltfrUsfd()) {
+            bddCioosbblfFilfFiltfr(gftAddfptAllFilfFiltfr());
         }
     }
 
     /**
-     * Returns a string that specifies the name of the L&amp;F class
-     * that renders this component.
+     * Rfturns b string tibt spfdififs tif nbmf of tif L&bmp;F dlbss
+     * tibt rfndfrs tiis domponfnt.
      *
-     * @return the string "FileChooserUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
-     * @beaninfo
-     *        expert: true
-     *   description: A string that specifies the name of the L&amp;F class.
+     * @rfturn tif string "FilfCioosfrUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *        fxpfrt: truf
+     *   dfsdription: A string tibt spfdififs tif nbmf of tif L&bmp;F dlbss.
      */
-    public String getUIClassID() {
-        return uiClassID;
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
     }
 
     /**
-     * Gets the UI object which implements the L&amp;F for this component.
+     * Gfts tif UI objfdt wiidi implfmfnts tif L&bmp;F for tiis domponfnt.
      *
-     * @return the FileChooserUI object that implements the FileChooserUI L&amp;F
+     * @rfturn tif FilfCioosfrUI objfdt tibt implfmfnts tif FilfCioosfrUI L&bmp;F
      */
-    public FileChooserUI getUI() {
-        return (FileChooserUI) ui;
+    publid FilfCioosfrUI gftUI() {
+        rfturn (FilfCioosfrUI) ui;
     }
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code> in
-     * <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * Sff <dodf>rfbdObjfdt</dodf> bnd <dodf>writfObjfdt</dodf> in
+     * <dodf>JComponfnt</dodf> for morf
+     * informbtion bbout sfriblizbtion in Swing.
      */
-    private void readObject(java.io.ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
-        installShowFilesListener();
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm in)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+        in.dffbultRfbdObjfdt();
+        instbllSiowFilfsListfnfr();
     }
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code> in
-     * <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * Sff <dodf>rfbdObjfdt</dodf> bnd <dodf>writfObjfdt</dodf> in
+     * <dodf>JComponfnt</dodf> for morf
+     * informbtion bbout sfriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        FileSystemView fsv = null;
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        FilfSystfmVifw fsv = null;
 
-        if (isAcceptAllFileFilterUsed()) {
-            //The AcceptAllFileFilter is UI specific, it will be reset by
-            //updateUI() after deserialization
-            removeChoosableFileFilter(getAcceptAllFileFilter());
+        if (isAddfptAllFilfFiltfrUsfd()) {
+            //Tif AddfptAllFilfFiltfr is UI spfdifid, it will bf rfsft by
+            //updbtfUI() bftfr dfsfriblizbtion
+            rfmovfCioosbblfFilfFiltfr(gftAddfptAllFilfFiltfr());
         }
-        if (fileSystemView.equals(FileSystemView.getFileSystemView())) {
-            //The default FileSystemView is platform specific, it will be
-            //reset by updateUI() after deserialization
-            fsv = fileSystemView;
-            fileSystemView = null;
+        if (filfSystfmVifw.fqubls(FilfSystfmVifw.gftFilfSystfmVifw())) {
+            //Tif dffbult FilfSystfmVifw is plbtform spfdifid, it will bf
+            //rfsft by updbtfUI() bftfr dfsfriblizbtion
+            fsv = filfSystfmVifw;
+            filfSystfmVifw = null;
         }
-        s.defaultWriteObject();
+        s.dffbultWritfObjfdt();
         if (fsv != null) {
-            fileSystemView = fsv;
+            filfSystfmVifw = fsv;
         }
-        if (isAcceptAllFileFilterUsed()) {
-            addChoosableFileFilter(getAcceptAllFileFilter());
+        if (isAddfptAllFilfFiltfrUsfd()) {
+            bddCioosbblfFilfFiltfr(gftAddfptAllFilfFiltfr());
         }
-        if (getUIClassID().equals(uiClassID)) {
-            byte count = JComponent.getWriteObjCounter(this);
-            JComponent.setWriteObjCounter(this, --count);
-            if (count == 0 && ui != null) {
-                ui.installUI(this);
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(tiis);
+            JComponfnt.sftWritfObjCountfr(tiis, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(tiis);
             }
         }
     }
 
 
     /**
-     * Returns a string representation of this <code>JFileChooser</code>.
-     * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>JFilfCioosfr</dodf>.
+     * Tiis mftiod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
      *
-     * @return  a string representation of this <code>JFileChooser</code>
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>JFilfCioosfr</dodf>
      */
-    protected String paramString() {
-        String approveButtonTextString = (approveButtonText != null ?
-                                          approveButtonText: "");
-        String dialogTitleString = (dialogTitle != null ?
-                                    dialogTitle: "");
-        String dialogTypeString;
-        if (dialogType == OPEN_DIALOG) {
-            dialogTypeString = "OPEN_DIALOG";
-        } else if (dialogType == SAVE_DIALOG) {
-            dialogTypeString = "SAVE_DIALOG";
-        } else if (dialogType == CUSTOM_DIALOG) {
-            dialogTypeString = "CUSTOM_DIALOG";
-        } else dialogTypeString = "";
-        String returnValueString;
-        if (returnValue == CANCEL_OPTION) {
-            returnValueString = "CANCEL_OPTION";
-        } else if (returnValue == APPROVE_OPTION) {
-            returnValueString = "APPROVE_OPTION";
-        } else if (returnValue == ERROR_OPTION) {
-            returnValueString = "ERROR_OPTION";
-        } else returnValueString = "";
-        String useFileHidingString = (useFileHiding ?
-                                    "true" : "false");
-        String fileSelectionModeString;
-        if (fileSelectionMode == FILES_ONLY) {
-            fileSelectionModeString = "FILES_ONLY";
-        } else if (fileSelectionMode == DIRECTORIES_ONLY) {
-            fileSelectionModeString = "DIRECTORIES_ONLY";
-        } else if (fileSelectionMode == FILES_AND_DIRECTORIES) {
-            fileSelectionModeString = "FILES_AND_DIRECTORIES";
-        } else fileSelectionModeString = "";
-        String currentDirectoryString = (currentDirectory != null ?
-                                         currentDirectory.toString() : "");
-        String selectedFileString = (selectedFile != null ?
-                                     selectedFile.toString() : "");
+    protfdtfd String pbrbmString() {
+        String bpprovfButtonTfxtString = (bpprovfButtonTfxt != null ?
+                                          bpprovfButtonTfxt: "");
+        String diblogTitlfString = (diblogTitlf != null ?
+                                    diblogTitlf: "");
+        String diblogTypfString;
+        if (diblogTypf == OPEN_DIALOG) {
+            diblogTypfString = "OPEN_DIALOG";
+        } flsf if (diblogTypf == SAVE_DIALOG) {
+            diblogTypfString = "SAVE_DIALOG";
+        } flsf if (diblogTypf == CUSTOM_DIALOG) {
+            diblogTypfString = "CUSTOM_DIALOG";
+        } flsf diblogTypfString = "";
+        String rfturnVblufString;
+        if (rfturnVbluf == CANCEL_OPTION) {
+            rfturnVblufString = "CANCEL_OPTION";
+        } flsf if (rfturnVbluf == APPROVE_OPTION) {
+            rfturnVblufString = "APPROVE_OPTION";
+        } flsf if (rfturnVbluf == ERROR_OPTION) {
+            rfturnVblufString = "ERROR_OPTION";
+        } flsf rfturnVblufString = "";
+        String usfFilfHidingString = (usfFilfHiding ?
+                                    "truf" : "fblsf");
+        String filfSflfdtionModfString;
+        if (filfSflfdtionModf == FILES_ONLY) {
+            filfSflfdtionModfString = "FILES_ONLY";
+        } flsf if (filfSflfdtionModf == DIRECTORIES_ONLY) {
+            filfSflfdtionModfString = "DIRECTORIES_ONLY";
+        } flsf if (filfSflfdtionModf == FILES_AND_DIRECTORIES) {
+            filfSflfdtionModfString = "FILES_AND_DIRECTORIES";
+        } flsf filfSflfdtionModfString = "";
+        String durrfntDirfdtoryString = (durrfntDirfdtory != null ?
+                                         durrfntDirfdtory.toString() : "");
+        String sflfdtfdFilfString = (sflfdtfdFilf != null ?
+                                     sflfdtfdFilf.toString() : "");
 
-        return super.paramString() +
-        ",approveButtonText=" + approveButtonTextString +
-        ",currentDirectory=" + currentDirectoryString +
-        ",dialogTitle=" + dialogTitleString +
-        ",dialogType=" + dialogTypeString +
-        ",fileSelectionMode=" + fileSelectionModeString +
-        ",returnValue=" + returnValueString +
-        ",selectedFile=" + selectedFileString +
-        ",useFileHiding=" + useFileHidingString;
+        rfturn supfr.pbrbmString() +
+        ",bpprovfButtonTfxt=" + bpprovfButtonTfxtString +
+        ",durrfntDirfdtory=" + durrfntDirfdtoryString +
+        ",diblogTitlf=" + diblogTitlfString +
+        ",diblogTypf=" + diblogTypfString +
+        ",filfSflfdtionModf=" + filfSflfdtionModfString +
+        ",rfturnVbluf=" + rfturnVblufString +
+        ",sflfdtfdFilf=" + sflfdtfdFilfString +
+        ",usfFilfHiding=" + usfFilfHidingString;
     }
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
     /**
-     * {@code AccessibleContext} associated with this {@code JFileChooser}
+     * {@dodf AddfssiblfContfxt} bssodibtfd witi tiis {@dodf JFilfCioosfr}
      */
-    protected AccessibleContext accessibleContext = null;
+    protfdtfd AddfssiblfContfxt bddfssiblfContfxt = null;
 
     /**
-     * Gets the AccessibleContext associated with this JFileChooser.
-     * For file choosers, the AccessibleContext takes the form of an
-     * AccessibleJFileChooser.
-     * A new AccessibleJFileChooser instance is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis JFilfCioosfr.
+     * For filf dioosfrs, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfJFilfCioosfr.
+     * A nfw AddfssiblfJFilfCioosfr instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleJFileChooser that serves as the
-     *         AccessibleContext of this JFileChooser
+     * @rfturn bn AddfssiblfJFilfCioosfr tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis JFilfCioosfr
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJFileChooser();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJFilfCioosfr();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JFileChooser</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to file chooser user-interface
-     * elements.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>JFilfCioosfr</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to filf dioosfr usfr-intfrfbdf
+     * flfmfnts.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    protected class AccessibleJFileChooser extends AccessibleJComponent {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    protfdtfd dlbss AddfssiblfJFilfCioosfr fxtfnds AddfssiblfJComponfnt {
 
         /**
-         * Gets the role of this object.
+         * Gfts tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of the
-         * object
-         * @see AccessibleRole
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         * objfdt
+         * @sff AddfssiblfRolf
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.FILE_CHOOSER;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.FILE_CHOOSER;
         }
 
-    } // inner class AccessibleJFileChooser
+    } // innfr dlbss AddfssiblfJFilfCioosfr
 
 }

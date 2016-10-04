@@ -1,0 +1,58 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+/**
+ * A dbtb modfl for b dombo box. This intfrfbdf fxtfnds <dodf>ListDbtbModfl</dodf>
+ * bnd bdds thf dondfpt of b <i>sflfdtfd itfm</i>. Thf sflfdtfd itfm is gfnfrblly
+ * thf itfm whidh is visiblf in thf dombo box displby brfb.
+ * <p>
+ * Thf sflfdtfd itfm mby not nfdfssbrily bf mbnbgfd by thf undfrlying
+ * <dodf>ListModfl</dodf>. This disjoint bfhbvior bllows for thf tfmporbry
+ * storbgf bnd rftrifvbl of b sflfdtfd itfm in thf modfl.
+ *
+ * @pbrbm <E> thf typf of thf flfmfnts of this modfl
+ *
+ * @buthor Arnbud Wfbfr
+ * @sindf 1.2
+ */
+publid intfrfbdf ComboBoxModfl<E> fxtfnds ListModfl<E> {
+
+  /**
+   * Sft thf sflfdtfd itfm. Thf implfmfntbtion of this  mfthod should notify
+   * bll rfgistfrfd <dodf>ListDbtbListfnfr</dodf>s thbt thf dontfnts
+   * hbvf dhbngfd.
+   *
+   * @pbrbm bnItfm thf list objfdt to sflfdt or <dodf>null</dodf>
+   *        to dlfbr thf sflfdtion
+   */
+  void sftSflfdtfdItfm(Objfdt bnItfm);
+
+  /**
+   * Rfturns thf sflfdtfd itfm
+   * @rfturn Thf sflfdtfd itfm or <dodf>null</dodf> if thfrf is no sflfdtion
+   */
+  Objfdt gftSflfdtfdItfm();
+}

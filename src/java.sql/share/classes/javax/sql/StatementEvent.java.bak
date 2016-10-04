@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Created on Apr 28, 2005
+ * Crfbtfd on Apr 28, 2005
  */
-package javax.sql;
+pbdkbgf jbvbx.sql;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.EventObject;
+import jbvb.sql.PrfpbrfdStbtfmfnt;
+import jbvb.sql.SQLExdfption;
+import jbvb.util.EvfntObjfdt;
 
 /**
- * A <code>StatementEvent</code> is sent to all <code>StatementEventListener</code>s which were
- * registered with a <code>PooledConnection</code>. This occurs when the driver determines that a
- * <code>PreparedStatement</code> that is associated with the <code>PooledConnection</code> has been closed or the driver determines
- * is invalid.
+ * A <dodf>StbtfmfntEvfnt</dodf> is sfnt to bll <dodf>StbtfmfntEvfntListfnfr</dodf>s wiidi wfrf
+ * rfgistfrfd witi b <dodf>PoolfdConnfdtion</dodf>. Tiis oddurs wifn tif drivfr dftfrminfs tibt b
+ * <dodf>PrfpbrfdStbtfmfnt</dodf> tibt is bssodibtfd witi tif <dodf>PoolfdConnfdtion</dodf> ibs bffn dlosfd or tif drivfr dftfrminfs
+ * is invblid.
  *
- * @since 1.6
+ * @sindf 1.6
  */
-public class StatementEvent extends EventObject {
+publid dlbss StbtfmfntEvfnt fxtfnds EvfntObjfdt {
 
-        static final long serialVersionUID = -8089573731826608315L;
-        private SQLException            exception;
-        private PreparedStatement       statement;
+        stbtid finbl long sfriblVfrsionUID = -8089573731826608315L;
+        privbtf SQLExdfption            fxdfption;
+        privbtf PrfpbrfdStbtfmfnt       stbtfmfnt;
 
         /**
-         * Constructs a <code>StatementEvent</code> with the specified <code>PooledConnection</code> and
-         * <code>PreparedStatement</code>.  The <code>SQLException</code> contained in the event defaults to
+         * Construdts b <dodf>StbtfmfntEvfnt</dodf> witi tif spfdififd <dodf>PoolfdConnfdtion</dodf> bnd
+         * <dodf>PrfpbrfdStbtfmfnt</dodf>.  Tif <dodf>SQLExdfption</dodf> dontbinfd in tif fvfnt dffbults to
          * null.
          *
-         * @param con                   The <code>PooledConnection</code> that the closed or invalid
-         * <code>PreparedStatement</code>is associated with.
-         * @param statement             The <code>PreparedStatement</code> that is being closed or is invalid
+         * @pbrbm don                   Tif <dodf>PoolfdConnfdtion</dodf> tibt tif dlosfd or invblid
+         * <dodf>PrfpbrfdStbtfmfnt</dodf>is bssodibtfd witi.
+         * @pbrbm stbtfmfnt             Tif <dodf>PrfpbrfdStbtfmfnt</dodf> tibt is bfing dlosfd or is invblid
          *
-         * @throws IllegalArgumentException if <code>con</code> is null.
+         * @tirows IllfgblArgumfntExdfption if <dodf>don</dodf> is null.
          *
-         * @since 1.6
+         * @sindf 1.6
          */
-        public StatementEvent(PooledConnection con,
-                                                  PreparedStatement statement) {
+        publid StbtfmfntEvfnt(PoolfdConnfdtion don,
+                                                  PrfpbrfdStbtfmfnt stbtfmfnt) {
 
-                super(con);
+                supfr(don);
 
-                this.statement = statement;
-                this.exception = null;
+                tiis.stbtfmfnt = stbtfmfnt;
+                tiis.fxdfption = null;
         }
 
         /**
-         * Constructs a <code>StatementEvent</code> with the specified <code>PooledConnection</code>,
-         * <code>PreparedStatement</code> and <code>SQLException</code>
+         * Construdts b <dodf>StbtfmfntEvfnt</dodf> witi tif spfdififd <dodf>PoolfdConnfdtion</dodf>,
+         * <dodf>PrfpbrfdStbtfmfnt</dodf> bnd <dodf>SQLExdfption</dodf>
          *
-         * @param con                   The <code>PooledConnection</code> that the closed or invalid <code>PreparedStatement</code>
-         * is associated with.
-         * @param statement             The <code>PreparedStatement</code> that is being closed or is invalid
-         * @param exception             The <code>SQLException </code>the driver is about to throw to
-         *                                              the application
+         * @pbrbm don                   Tif <dodf>PoolfdConnfdtion</dodf> tibt tif dlosfd or invblid <dodf>PrfpbrfdStbtfmfnt</dodf>
+         * is bssodibtfd witi.
+         * @pbrbm stbtfmfnt             Tif <dodf>PrfpbrfdStbtfmfnt</dodf> tibt is bfing dlosfd or is invblid
+         * @pbrbm fxdfption             Tif <dodf>SQLExdfption </dodf>tif drivfr is bbout to tirow to
+         *                                              tif bpplidbtion
          *
-         * @throws IllegalArgumentException if <code>con</code> is null.
+         * @tirows IllfgblArgumfntExdfption if <dodf>don</dodf> is null.
          *
-         * @since 1.6
+         * @sindf 1.6
          */
-        public StatementEvent(PooledConnection con,
-                                                  PreparedStatement statement,
-                                                  SQLException exception) {
+        publid StbtfmfntEvfnt(PoolfdConnfdtion don,
+                                                  PrfpbrfdStbtfmfnt stbtfmfnt,
+                                                  SQLExdfption fxdfption) {
 
-                super(con);
+                supfr(don);
 
-                this.statement = statement;
-                this.exception = exception;
+                tiis.stbtfmfnt = stbtfmfnt;
+                tiis.fxdfption = fxdfption;
         }
 
         /**
-         * Returns the <code>PreparedStatement</code> that is being closed or is invalid
+         * Rfturns tif <dodf>PrfpbrfdStbtfmfnt</dodf> tibt is bfing dlosfd or is invblid
          *
-         * @return      The <code>PreparedStatement</code> that is being closed or is invalid
+         * @rfturn      Tif <dodf>PrfpbrfdStbtfmfnt</dodf> tibt is bfing dlosfd or is invblid
          *
-         * @since 1.6
+         * @sindf 1.6
          */
-        public PreparedStatement getStatement() {
+        publid PrfpbrfdStbtfmfnt gftStbtfmfnt() {
 
-                return this.statement;
+                rfturn tiis.stbtfmfnt;
         }
 
         /**
-         * Returns the <code>SQLException</code> the driver is about to throw
+         * Rfturns tif <dodf>SQLExdfption</dodf> tif drivfr is bbout to tirow
          *
-         * @return      The <code>SQLException</code> the driver is about to throw
+         * @rfturn      Tif <dodf>SQLExdfption</dodf> tif drivfr is bbout to tirow
          *
-         * @since 1.6
+         * @sindf 1.6
          */
-        public SQLException getSQLException() {
+        publid SQLExdfption gftSQLExdfption() {
 
-                return this.exception;
+                rfturn tiis.fxdfption;
         }
 }

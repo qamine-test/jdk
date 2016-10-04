@@ -1,86 +1,86 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
 
 /**
- * This class defines the <i>Service Provider Interface</i> (<b>SPI</b>)
- * for the {@code AlgorithmParameterGenerator} class, which
- * is used to generate a set of parameters to be used with a certain algorithm.
+ * Tiis dlbss dffinfs tif <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for tif {@dodf AlgoritimPbrbmftfrGfnfrbtor} dlbss, wiidi
+ * is usfd to gfnfrbtf b sft of pbrbmftfrs to bf usfd witi b dfrtbin blgoritim.
  *
- * <p> All the abstract methods in this class must be implemented by each
- * cryptographic service provider who wishes to supply the implementation
- * of a parameter generator for a particular algorithm.
+ * <p> All tif bbstrbdt mftiods in tiis dlbss must bf implfmfntfd by fbdi
+ * dryptogrbpiid sfrvidf providfr wio wisifs to supply tif implfmfntbtion
+ * of b pbrbmftfr gfnfrbtor for b pbrtidulbr blgoritim.
  *
- * <p> In case the client does not explicitly initialize the
- * AlgorithmParameterGenerator (via a call to an {@code engineInit}
- * method), each provider must supply (and document) a default initialization.
- * For example, the Sun provider uses a default modulus prime size of 1024
- * bits for the generation of DSA parameters.
+ * <p> In dbsf tif dlifnt dofs not fxpliditly initiblizf tif
+ * AlgoritimPbrbmftfrGfnfrbtor (vib b dbll to bn {@dodf fnginfInit}
+ * mftiod), fbdi providfr must supply (bnd dodumfnt) b dffbult initiblizbtion.
+ * For fxbmplf, tif Sun providfr usfs b dffbult modulus primf sizf of 1024
+ * bits for tif gfnfrbtion of DSA pbrbmftfrs.
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
  *
- * @see AlgorithmParameterGenerator
- * @see AlgorithmParameters
- * @see java.security.spec.AlgorithmParameterSpec
+ * @sff AlgoritimPbrbmftfrGfnfrbtor
+ * @sff AlgoritimPbrbmftfrs
+ * @sff jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd
  *
- * @since 1.2
+ * @sindf 1.2
  */
 
-public abstract class AlgorithmParameterGeneratorSpi {
+publid bbstrbdt dlbss AlgoritimPbrbmftfrGfnfrbtorSpi {
 
     /**
-     * Initializes this parameter generator for a certain size
-     * and source of randomness.
+     * Initiblizfs tiis pbrbmftfr gfnfrbtor for b dfrtbin sizf
+     * bnd sourdf of rbndomnfss.
      *
-     * @param size the size (number of bits).
-     * @param random the source of randomness.
+     * @pbrbm sizf tif sizf (numbfr of bits).
+     * @pbrbm rbndom tif sourdf of rbndomnfss.
      */
-    protected abstract void engineInit(int size, SecureRandom random);
+    protfdtfd bbstrbdt void fnginfInit(int sizf, SfdurfRbndom rbndom);
 
     /**
-     * Initializes this parameter generator with a set of
-     * algorithm-specific parameter generation values.
+     * Initiblizfs tiis pbrbmftfr gfnfrbtor witi b sft of
+     * blgoritim-spfdifid pbrbmftfr gfnfrbtion vblufs.
      *
-     * @param genParamSpec the set of algorithm-specific parameter generation values.
-     * @param random the source of randomness.
+     * @pbrbm gfnPbrbmSpfd tif sft of blgoritim-spfdifid pbrbmftfr gfnfrbtion vblufs.
+     * @pbrbm rbndom tif sourdf of rbndomnfss.
      *
-     * @exception InvalidAlgorithmParameterException if the given parameter
-     * generation values are inappropriate for this parameter generator.
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn pbrbmftfr
+     * gfnfrbtion vblufs brf inbppropribtf for tiis pbrbmftfr gfnfrbtor.
      */
-    protected abstract void engineInit(AlgorithmParameterSpec genParamSpec,
-                                       SecureRandom random)
-        throws InvalidAlgorithmParameterException;
+    protfdtfd bbstrbdt void fnginfInit(AlgoritimPbrbmftfrSpfd gfnPbrbmSpfd,
+                                       SfdurfRbndom rbndom)
+        tirows InvblidAlgoritimPbrbmftfrExdfption;
 
     /**
-     * Generates the parameters.
+     * Gfnfrbtfs tif pbrbmftfrs.
      *
-     * @return the new AlgorithmParameters object.
+     * @rfturn tif nfw AlgoritimPbrbmftfrs objfdt.
      */
-    protected abstract AlgorithmParameters engineGenerateParameters();
+    protfdtfd bbstrbdt AlgoritimPbrbmftfrs fnginfGfnfrbtfPbrbmftfrs();
 }

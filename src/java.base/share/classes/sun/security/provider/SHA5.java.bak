@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider;
+pbdkbgf sun.sfdurity.providfr;
 
-import java.security.*;
-import java.math.BigInteger;
+import jbvb.sfdurity.*;
+import jbvb.mbti.BigIntfgfr;
 
-import static sun.security.provider.ByteArrayAccess.*;
+import stbtid sun.sfdurity.providfr.BytfArrbyAddfss.*;
 
 /**
- * This class implements the Secure Hash Algorithm SHA-384 and SHA-512
- * developed by the National Institute of Standards and Technology along
- * with the National Security Agency.
+ * Tiis dlbss implfmfnts tif Sfdurf Hbsi Algoritim SHA-384 bnd SHA-512
+ * dfvflopfd by tif Nbtionbl Institutf of Stbndbrds bnd Tfdinology blong
+ * witi tif Nbtionbl Sfdurity Agfndy.
  *
- * The two algorithms are almost identical. This file contains a base
- * class SHA5 and two nested static subclasses as the classes to be used
- * by the JCA framework.
+ * Tif two blgoritims brf blmost idfntidbl. Tiis filf dontbins b bbsf
+ * dlbss SHA5 bnd two nfstfd stbtid subdlbssfs bs tif dlbssfs to bf usfd
+ * by tif JCA frbmfwork.
  *
- * <p>It implements java.security.MessageDigestSpi, and can be used
- * through Java Cryptography Architecture (JCA), as a pluggable
- * MessageDigest implementation.
+ * <p>It implfmfnts jbvb.sfdurity.MfssbgfDigfstSpi, bnd dbn bf usfd
+ * tirougi Jbvb Cryptogrbpiy Ardiitfdturf (JCA), bs b pluggbblf
+ * MfssbgfDigfst implfmfntbtion.
  *
- * @since       1.4.2
- * @author      Valerie Peng
- * @author      Andreas Sterbenz
+ * @sindf       1.4.2
+ * @butior      Vblfrif Pfng
+ * @butior      Andrfbs Stfrbfnz
  */
-abstract class SHA5 extends DigestBase {
+bbstrbdt dlbss SHA5 fxtfnds DigfstBbsf {
 
-    private static final int ITERATION = 80;
-    // Constants for each round/iteration
-    private static final long[] ROUND_CONSTS = {
+    privbtf stbtid finbl int ITERATION = 80;
+    // Constbnts for fbdi round/itfrbtion
+    privbtf stbtid finbl long[] ROUND_CONSTS = {
         0x428A2F98D728AE22L, 0x7137449123EF65CDL, 0xB5C0FBCFEC4D3B2FL,
         0xE9B5DBA58189DBBCL, 0x3956C25BF348B538L, 0x59F111F1B605D019L,
         0x923F82A4AF194F9BL, 0xAB1C5ED5DA6D8118L, 0xD807AA98A3030242L,
@@ -81,208 +81,208 @@ abstract class SHA5 extends DigestBase {
         0x5FCB6FAB3AD6FAECL, 0x6C44198C4A475817L
     };
 
-    // buffer used by implCompress()
-    private long[] W;
+    // bufffr usfd by implComprfss()
+    privbtf long[] W;
 
-    // state of this object
-    private long[] state;
+    // stbtf of tiis objfdt
+    privbtf long[] stbtf;
 
-    // initial state value. different between SHA-384 and SHA-512
-    private final long[] initialHashes;
+    // initibl stbtf vbluf. difffrfnt bftwffn SHA-384 bnd SHA-512
+    privbtf finbl long[] initiblHbsifs;
 
     /**
-     * Creates a new SHA object.
+     * Crfbtfs b nfw SHA objfdt.
      */
-    SHA5(String name, int digestLength, long[] initialHashes) {
-        super(name, digestLength, 128);
-        this.initialHashes = initialHashes;
-        state = new long[8];
-        W = new long[80];
-        implReset();
+    SHA5(String nbmf, int digfstLfngti, long[] initiblHbsifs) {
+        supfr(nbmf, digfstLfngti, 128);
+        tiis.initiblHbsifs = initiblHbsifs;
+        stbtf = nfw long[8];
+        W = nfw long[80];
+        implRfsft();
     }
 
-    final void implReset() {
-        System.arraycopy(initialHashes, 0, state, 0, state.length);
+    finbl void implRfsft() {
+        Systfm.brrbydopy(initiblHbsifs, 0, stbtf, 0, stbtf.lfngti);
     }
 
-    final void implDigest(byte[] out, int ofs) {
-        long bitsProcessed = bytesProcessed << 3;
+    finbl void implDigfst(bytf[] out, int ofs) {
+        long bitsProdfssfd = bytfsProdfssfd << 3;
 
-        int index = (int)bytesProcessed & 0x7f;
-        int padLen = (index < 112) ? (112 - index) : (240 - index);
-        engineUpdate(padding, 0, padLen + 8);
+        int indfx = (int)bytfsProdfssfd & 0x7f;
+        int pbdLfn = (indfx < 112) ? (112 - indfx) : (240 - indfx);
+        fnginfUpdbtf(pbdding, 0, pbdLfn + 8);
 
-        i2bBig4((int)(bitsProcessed >>> 32), buffer, 120);
-        i2bBig4((int)bitsProcessed, buffer, 124);
-        implCompress(buffer, 0);
+        i2bBig4((int)(bitsProdfssfd >>> 32), bufffr, 120);
+        i2bBig4((int)bitsProdfssfd, bufffr, 124);
+        implComprfss(bufffr, 0);
 
-        l2bBig(state, 0, out, ofs, engineGetDigestLength());
+        l2bBig(stbtf, 0, out, ofs, fnginfGftDigfstLfngti());
     }
 
     /**
-     * logical function ch(x,y,z) as defined in spec:
-     * @return (x and y) xor ((complement x) and z)
-     * @param x long
-     * @param y long
-     * @param z long
+     * logidbl fundtion di(x,y,z) bs dffinfd in spfd:
+     * @rfturn (x bnd y) xor ((domplfmfnt x) bnd z)
+     * @pbrbm x long
+     * @pbrbm y long
+     * @pbrbm z long
      */
-    private static long lf_ch(long x, long y, long z) {
-        return (x & y) ^ ((~x) & z);
+    privbtf stbtid long lf_di(long x, long y, long z) {
+        rfturn (x & y) ^ ((~x) & z);
     }
 
     /**
-     * logical function maj(x,y,z) as defined in spec:
-     * @return (x and y) xor (x and z) xor (y and z)
-     * @param x long
-     * @param y long
-     * @param z long
+     * logidbl fundtion mbj(x,y,z) bs dffinfd in spfd:
+     * @rfturn (x bnd y) xor (x bnd z) xor (y bnd z)
+     * @pbrbm x long
+     * @pbrbm y long
+     * @pbrbm z long
      */
-    private static long lf_maj(long x, long y, long z) {
-        return (x & y) ^ (x & z) ^ (y & z);
+    privbtf stbtid long lf_mbj(long x, long y, long z) {
+        rfturn (x & y) ^ (x & z) ^ (y & z);
     }
 
     /**
-     * logical function R(x,s) - right shift
-     * @return x right shift for s times
-     * @param x long
-     * @param s int
+     * logidbl fundtion R(x,s) - rigit siift
+     * @rfturn x rigit siift for s timfs
+     * @pbrbm x long
+     * @pbrbm s int
      */
-    private static long lf_R(long x, int s) {
-        return (x >>> s);
+    privbtf stbtid long lf_R(long x, int s) {
+        rfturn (x >>> s);
     }
 
     /**
-     * logical function S(x,s) - right rotation
-     * @return x circular right shift for s times
-     * @param x long
-     * @param s int
+     * logidbl fundtion S(x,s) - rigit rotbtion
+     * @rfturn x dirdulbr rigit siift for s timfs
+     * @pbrbm x long
+     * @pbrbm s int
      */
-    private static long lf_S(long x, int s) {
-        return (x >>> s) | (x << (64 - s));
+    privbtf stbtid long lf_S(long x, int s) {
+        rfturn (x >>> s) | (x << (64 - s));
     }
 
     /**
-     * logical function sigma0(x) - xor of results of right rotations
-     * @return S(x,28) xor S(x,34) xor S(x,39)
-     * @param x long
+     * logidbl fundtion sigmb0(x) - xor of rfsults of rigit rotbtions
+     * @rfturn S(x,28) xor S(x,34) xor S(x,39)
+     * @pbrbm x long
      */
-    private static long lf_sigma0(long x) {
-        return lf_S(x, 28) ^ lf_S(x, 34) ^ lf_S(x, 39);
+    privbtf stbtid long lf_sigmb0(long x) {
+        rfturn lf_S(x, 28) ^ lf_S(x, 34) ^ lf_S(x, 39);
     }
 
     /**
-     * logical function sigma1(x) - xor of results of right rotations
-     * @return S(x,14) xor S(x,18) xor S(x,41)
-     * @param x long
+     * logidbl fundtion sigmb1(x) - xor of rfsults of rigit rotbtions
+     * @rfturn S(x,14) xor S(x,18) xor S(x,41)
+     * @pbrbm x long
      */
-    private static long lf_sigma1(long x) {
-        return lf_S(x, 14) ^ lf_S(x, 18) ^ lf_S(x, 41);
+    privbtf stbtid long lf_sigmb1(long x) {
+        rfturn lf_S(x, 14) ^ lf_S(x, 18) ^ lf_S(x, 41);
     }
 
     /**
-     * logical function delta0(x) - xor of results of right shifts/rotations
-     * @return long
-     * @param x long
+     * logidbl fundtion dfltb0(x) - xor of rfsults of rigit siifts/rotbtions
+     * @rfturn long
+     * @pbrbm x long
      */
-    private static long lf_delta0(long x) {
-        return lf_S(x, 1) ^ lf_S(x, 8) ^ lf_R(x, 7);
+    privbtf stbtid long lf_dfltb0(long x) {
+        rfturn lf_S(x, 1) ^ lf_S(x, 8) ^ lf_R(x, 7);
     }
 
     /**
-     * logical function delta1(x) - xor of results of right shifts/rotations
-     * @return long
-     * @param x long
+     * logidbl fundtion dfltb1(x) - xor of rfsults of rigit siifts/rotbtions
+     * @rfturn long
+     * @pbrbm x long
      */
-    private static long lf_delta1(long x) {
-        return lf_S(x, 19) ^ lf_S(x, 61) ^ lf_R(x, 6);
+    privbtf stbtid long lf_dfltb1(long x) {
+        rfturn lf_S(x, 19) ^ lf_S(x, 61) ^ lf_R(x, 6);
     }
 
     /**
-     * Compute the hash for the current block.
+     * Computf tif ibsi for tif durrfnt blodk.
      *
-     * This is in the same vein as Peter Gutmann's algorithm listed in
-     * the back of Applied Cryptography, Compact implementation of
-     * "old" NIST Secure Hash Algorithm.
+     * Tiis is in tif sbmf vfin bs Pftfr Gutmbnn's blgoritim listfd in
+     * tif bbdk of Applifd Cryptogrbpiy, Compbdt implfmfntbtion of
+     * "old" NIST Sfdurf Hbsi Algoritim.
      */
-    final void implCompress(byte[] buf, int ofs) {
+    finbl void implComprfss(bytf[] buf, int ofs) {
         b2lBig128(buf, ofs, W);
 
-        // The first 16 longs are from the byte stream, compute the rest of
-        // the W[]'s
+        // Tif first 16 longs brf from tif bytf strfbm, domputf tif rfst of
+        // tif W[]'s
         for (int t = 16; t < ITERATION; t++) {
-            W[t] = lf_delta1(W[t-2]) + W[t-7] + lf_delta0(W[t-15])
+            W[t] = lf_dfltb1(W[t-2]) + W[t-7] + lf_dfltb0(W[t-15])
                    + W[t-16];
         }
 
-        long a = state[0];
-        long b = state[1];
-        long c = state[2];
-        long d = state[3];
-        long e = state[4];
-        long f = state[5];
-        long g = state[6];
-        long h = state[7];
+        long b = stbtf[0];
+        long b = stbtf[1];
+        long d = stbtf[2];
+        long d = stbtf[3];
+        long f = stbtf[4];
+        long f = stbtf[5];
+        long g = stbtf[6];
+        long i = stbtf[7];
 
         for (int i = 0; i < ITERATION; i++) {
-            long T1 = h + lf_sigma1(e) + lf_ch(e,f,g) + ROUND_CONSTS[i] + W[i];
-            long T2 = lf_sigma0(a) + lf_maj(a,b,c);
-            h = g;
+            long T1 = i + lf_sigmb1(f) + lf_di(f,f,g) + ROUND_CONSTS[i] + W[i];
+            long T2 = lf_sigmb0(b) + lf_mbj(b,b,d);
+            i = g;
             g = f;
-            f = e;
-            e = d + T1;
-            d = c;
-            c = b;
-            b = a;
-            a = T1 + T2;
+            f = f;
+            f = d + T1;
+            d = d;
+            d = b;
+            b = b;
+            b = T1 + T2;
         }
-        state[0] += a;
-        state[1] += b;
-        state[2] += c;
-        state[3] += d;
-        state[4] += e;
-        state[5] += f;
-        state[6] += g;
-        state[7] += h;
+        stbtf[0] += b;
+        stbtf[1] += b;
+        stbtf[2] += d;
+        stbtf[3] += d;
+        stbtf[4] += f;
+        stbtf[5] += f;
+        stbtf[6] += g;
+        stbtf[7] += i;
     }
 
-    public Object clone() throws CloneNotSupportedException {
-        SHA5 copy = (SHA5) super.clone();
-        copy.state = copy.state.clone();
-        copy.W = new long[80];
-        return copy;
+    publid Objfdt dlonf() tirows ClonfNotSupportfdExdfption {
+        SHA5 dopy = (SHA5) supfr.dlonf();
+        dopy.stbtf = dopy.stbtf.dlonf();
+        dopy.W = nfw long[80];
+        rfturn dopy;
     }
 
     /**
-     * SHA-512 implementation class.
+     * SHA-512 implfmfntbtion dlbss.
      */
-    public static final class SHA512 extends SHA5 {
+    publid stbtid finbl dlbss SHA512 fxtfnds SHA5 {
 
-        private static final long[] INITIAL_HASHES = {
-            0x6a09e667f3bcc908L, 0xbb67ae8584caa73bL,
-            0x3c6ef372fe94f82bL, 0xa54ff53a5f1d36f1L,
-            0x510e527fade682d1L, 0x9b05688c2b3e6c1fL,
-            0x1f83d9abfb41bd6bL, 0x5be0cd19137e2179L
+        privbtf stbtid finbl long[] INITIAL_HASHES = {
+            0x6b09f667f3bdd908L, 0xbb67bf8584dbb73bL,
+            0x3d6ff372ff94f82bL, 0xb54ff53b5f1d36f1L,
+            0x510f527fbdf682d1L, 0x9b05688d2b3f6d1fL,
+            0x1f83d9bbfb41bd6bL, 0x5bf0dd19137f2179L
         };
 
-        public SHA512() {
-            super("SHA-512", 64, INITIAL_HASHES);
+        publid SHA512() {
+            supfr("SHA-512", 64, INITIAL_HASHES);
         }
     }
 
     /**
-     * SHA-384 implementation class.
+     * SHA-384 implfmfntbtion dlbss.
      */
-    public static final class SHA384 extends SHA5 {
+    publid stbtid finbl dlbss SHA384 fxtfnds SHA5 {
 
-        private static final long[] INITIAL_HASHES = {
-            0xcbbb9d5dc1059ed8L, 0x629a292a367cd507L,
-            0x9159015a3070dd17L, 0x152fecd8f70e5939L,
-            0x67332667ffc00b31L, 0x8eb44a8768581511L,
-            0xdb0c2e0d64f98fa7L, 0x47b5481dbefa4fa4L
+        privbtf stbtid finbl long[] INITIAL_HASHES = {
+            0xdbbb9d5dd1059fd8L, 0x629b292b367dd507L,
+            0x9159015b3070dd17L, 0x152ffdd8f70f5939L,
+            0x67332667ffd00b31L, 0x8fb44b8768581511L,
+            0xdb0d2f0d64f98fb7L, 0x47b5481dbffb4fb4L
         };
 
-        public SHA384() {
-            super("SHA-384", 48, INITIAL_HASHES);
+        publid SHA384() {
+            supfr("SHA-384", 48, INITIAL_HASHES);
         }
     }
 }

@@ -1,661 +1,661 @@
 /*
- * Copyright (c) 1997, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.accessibility;
+pbdkbgf jbvbx.bddfssibility;
 
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import jbvb.util.Lodblf;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.RfsourdfBundlf;
 
 /**
- * <P>Class AccessibleRole determines the role of a component.  The role of a
- * component describes its generic function. (E.G.,
-* "push button," "table," or "list.")
- * <p>The toDisplayString method allows you to obtain the localized string
- * for a locale independent key from a predefined ResourceBundle for the
- * keys defined in this class.
- * <p>The constants in this class present a strongly typed enumeration
- * of common object roles.  A public constructor for this class has been
- * purposely omitted and applications should use one of the constants
- * from this class.  If the constants in this class are not sufficient
- * to describe the role of an object, a subclass should be generated
- * from this class and it should provide constants in a similar manner.
+ * <P>Clbss AddfssiblfRolf dftfrminfs tif rolf of b domponfnt.  Tif rolf of b
+ * domponfnt dfsdribfs its gfnfrid fundtion. (E.G.,
+* "pusi button," "tbblf," or "list.")
+ * <p>Tif toDisplbyString mftiod bllows you to obtbin tif lodblizfd string
+ * for b lodblf indfpfndfnt kfy from b prfdffinfd RfsourdfBundlf for tif
+ * kfys dffinfd in tiis dlbss.
+ * <p>Tif donstbnts in tiis dlbss prfsfnt b strongly typfd fnumfrbtion
+ * of dommon objfdt rolfs.  A publid donstrudtor for tiis dlbss ibs bffn
+ * purposfly omittfd bnd bpplidbtions siould usf onf of tif donstbnts
+ * from tiis dlbss.  If tif donstbnts in tiis dlbss brf not suffidifnt
+ * to dfsdribf tif rolf of bn objfdt, b subdlbss siould bf gfnfrbtfd
+ * from tiis dlbss bnd it siould providf donstbnts in b similbr mbnnfr.
  *
- * @author      Willie Walker
- * @author      Peter Korn
- * @author      Lynn Monsanto
+ * @butior      Willif Wblkfr
+ * @butior      Pftfr Korn
+ * @butior      Lynn Monsbnto
  */
-public class AccessibleRole extends AccessibleBundle {
+publid dlbss AddfssiblfRolf fxtfnds AddfssiblfBundlf {
 
-// If you add or remove anything from here, make sure you
-// update AccessibleResourceBundle.java.
+// If you bdd or rfmovf bnytiing from ifrf, mbkf surf you
+// updbtf AddfssiblfRfsourdfBundlf.jbvb.
 
     /**
-     * Object is used to alert the user about something.
+     * Objfdt is usfd to blfrt tif usfr bbout somftiing.
      */
-    public static final AccessibleRole ALERT
-            = new AccessibleRole("alert");
+    publid stbtid finbl AddfssiblfRolf ALERT
+            = nfw AddfssiblfRolf("blfrt");
 
     /**
-     * The header for a column of data.
+     * Tif ifbdfr for b dolumn of dbtb.
      */
-    public static final AccessibleRole COLUMN_HEADER
-            = new AccessibleRole("columnheader");
+    publid stbtid finbl AddfssiblfRolf COLUMN_HEADER
+            = nfw AddfssiblfRolf("dolumnifbdfr");
 
     /**
-     * Object that can be drawn into and is used to trap
-     * events.
-     * @see #FRAME
-     * @see #GLASS_PANE
-     * @see #LAYERED_PANE
+     * Objfdt tibt dbn bf drbwn into bnd is usfd to trbp
+     * fvfnts.
+     * @sff #FRAME
+     * @sff #GLASS_PANE
+     * @sff #LAYERED_PANE
      */
-    public static final AccessibleRole CANVAS
-            = new AccessibleRole("canvas");
+    publid stbtid finbl AddfssiblfRolf CANVAS
+            = nfw AddfssiblfRolf("dbnvbs");
 
     /**
-     * A list of choices the user can select from.  Also optionally
-     * allows the user to enter a choice of their own.
+     * A list of dioidfs tif usfr dbn sflfdt from.  Also optionblly
+     * bllows tif usfr to fntfr b dioidf of tifir own.
      */
-    public static final AccessibleRole COMBO_BOX
-            = new AccessibleRole("combobox");
+    publid stbtid finbl AddfssiblfRolf COMBO_BOX
+            = nfw AddfssiblfRolf("dombobox");
 
     /**
-     * An iconified internal frame in a DESKTOP_PANE.
-     * @see #DESKTOP_PANE
-     * @see #INTERNAL_FRAME
+     * An idonififd intfrnbl frbmf in b DESKTOP_PANE.
+     * @sff #DESKTOP_PANE
+     * @sff #INTERNAL_FRAME
      */
-    public static final AccessibleRole DESKTOP_ICON
-            = new AccessibleRole("desktopicon");
+    publid stbtid finbl AddfssiblfRolf DESKTOP_ICON
+            = nfw AddfssiblfRolf("dfsktopidon");
 
     /**
-     * An object containing a collection of <code>Accessibles</code> that
-     * together represents <code>HTML</code> content.  The child
-     * <code>Accessibles</code> would include objects implementing
-     * <code>AccessibleText</code>, <code>AccessibleHypertext</code>,
-     * <code>AccessibleIcon</code>, and other interfaces.
-     * @see #HYPERLINK
-     * @see AccessibleText
-     * @see AccessibleHypertext
-     * @see AccessibleHyperlink
-     * @see AccessibleIcon
-     * @since 1.6
+     * An objfdt dontbining b dollfdtion of <dodf>Addfssiblfs</dodf> tibt
+     * togftifr rfprfsfnts <dodf>HTML</dodf> dontfnt.  Tif diild
+     * <dodf>Addfssiblfs</dodf> would indludf objfdts implfmfnting
+     * <dodf>AddfssiblfTfxt</dodf>, <dodf>AddfssiblfHypfrtfxt</dodf>,
+     * <dodf>AddfssiblfIdon</dodf>, bnd otifr intfrfbdfs.
+     * @sff #HYPERLINK
+     * @sff AddfssiblfTfxt
+     * @sff AddfssiblfHypfrtfxt
+     * @sff AddfssiblfHypfrlink
+     * @sff AddfssiblfIdon
+     * @sindf 1.6
      */
-    public static final AccessibleRole HTML_CONTAINER
-            = new AccessibleRole("htmlcontainer");
+    publid stbtid finbl AddfssiblfRolf HTML_CONTAINER
+            = nfw AddfssiblfRolf("itmldontbinfr");
 
     /**
-     * A frame-like object that is clipped by a desktop pane.  The
-     * desktop pane, internal frame, and desktop icon objects are
-     * often used to create multiple document interfaces within an
-     * application.
-     * @see #DESKTOP_ICON
-     * @see #DESKTOP_PANE
-     * @see #FRAME
+     * A frbmf-likf objfdt tibt is dlippfd by b dfsktop pbnf.  Tif
+     * dfsktop pbnf, intfrnbl frbmf, bnd dfsktop idon objfdts brf
+     * oftfn usfd to drfbtf multiplf dodumfnt intfrfbdfs witiin bn
+     * bpplidbtion.
+     * @sff #DESKTOP_ICON
+     * @sff #DESKTOP_PANE
+     * @sff #FRAME
      */
-    public static final AccessibleRole INTERNAL_FRAME
-            = new AccessibleRole("internalframe");
+    publid stbtid finbl AddfssiblfRolf INTERNAL_FRAME
+            = nfw AddfssiblfRolf("intfrnblfrbmf");
 
     /**
-     * A pane that supports internal frames and
-     * iconified versions of those internal frames.
-     * @see #DESKTOP_ICON
-     * @see #INTERNAL_FRAME
+     * A pbnf tibt supports intfrnbl frbmfs bnd
+     * idonififd vfrsions of tiosf intfrnbl frbmfs.
+     * @sff #DESKTOP_ICON
+     * @sff #INTERNAL_FRAME
      */
-    public static final AccessibleRole DESKTOP_PANE
-            = new AccessibleRole("desktoppane");
+    publid stbtid finbl AddfssiblfRolf DESKTOP_PANE
+            = nfw AddfssiblfRolf("dfsktoppbnf");
 
     /**
-     * A specialized pane whose primary use is inside a DIALOG
-     * @see #DIALOG
+     * A spfdiblizfd pbnf wiosf primbry usf is insidf b DIALOG
+     * @sff #DIALOG
      */
-    public static final AccessibleRole OPTION_PANE
-            = new AccessibleRole("optionpane");
+    publid stbtid finbl AddfssiblfRolf OPTION_PANE
+            = nfw AddfssiblfRolf("optionpbnf");
 
     /**
-     * A top level window with no title or border.
-     * @see #FRAME
-     * @see #DIALOG
+     * A top lfvfl window witi no titlf or bordfr.
+     * @sff #FRAME
+     * @sff #DIALOG
      */
-    public static final AccessibleRole WINDOW
-            = new AccessibleRole("window");
+    publid stbtid finbl AddfssiblfRolf WINDOW
+            = nfw AddfssiblfRolf("window");
 
     /**
-     * A top level window with a title bar, border, menu bar, etc.  It is
-     * often used as the primary window for an application.
-     * @see #DIALOG
-     * @see #CANVAS
-     * @see #WINDOW
+     * A top lfvfl window witi b titlf bbr, bordfr, mfnu bbr, ftd.  It is
+     * oftfn usfd bs tif primbry window for bn bpplidbtion.
+     * @sff #DIALOG
+     * @sff #CANVAS
+     * @sff #WINDOW
      */
-    public static final AccessibleRole FRAME
-            = new AccessibleRole("frame");
+    publid stbtid finbl AddfssiblfRolf FRAME
+            = nfw AddfssiblfRolf("frbmf");
 
     /**
-     * A top level window with title bar and a border.  A dialog is similar
-     * to a frame, but it has fewer properties and is often used as a
-     * secondary window for an application.
-     * @see #FRAME
-     * @see #WINDOW
+     * A top lfvfl window witi titlf bbr bnd b bordfr.  A diblog is similbr
+     * to b frbmf, but it ibs ffwfr propfrtifs bnd is oftfn usfd bs b
+     * sfdondbry window for bn bpplidbtion.
+     * @sff #FRAME
+     * @sff #WINDOW
      */
-    public static final AccessibleRole DIALOG
-            = new AccessibleRole("dialog");
+    publid stbtid finbl AddfssiblfRolf DIALOG
+            = nfw AddfssiblfRolf("diblog");
 
     /**
-     * A specialized pane that lets the user choose a color.
+     * A spfdiblizfd pbnf tibt lfts tif usfr dioosf b dolor.
      */
-    public static final AccessibleRole COLOR_CHOOSER
-            = new AccessibleRole("colorchooser");
+    publid stbtid finbl AddfssiblfRolf COLOR_CHOOSER
+            = nfw AddfssiblfRolf("dolordioosfr");
 
 
     /**
-     * A pane that allows the user to navigate through
-     * and select the contents of a directory.  May be used
-     * by a file chooser.
-     * @see #FILE_CHOOSER
+     * A pbnf tibt bllows tif usfr to nbvigbtf tirougi
+     * bnd sflfdt tif dontfnts of b dirfdtory.  Mby bf usfd
+     * by b filf dioosfr.
+     * @sff #FILE_CHOOSER
      */
-    public static final AccessibleRole DIRECTORY_PANE
-            = new AccessibleRole("directorypane");
+    publid stbtid finbl AddfssiblfRolf DIRECTORY_PANE
+            = nfw AddfssiblfRolf("dirfdtorypbnf");
 
     /**
-     * A specialized dialog that displays the files in the directory
-     * and lets the user select a file, browse a different directory,
-     * or specify a filename.  May use the directory pane to show the
-     * contents of a directory.
-     * @see #DIRECTORY_PANE
+     * A spfdiblizfd diblog tibt displbys tif filfs in tif dirfdtory
+     * bnd lfts tif usfr sflfdt b filf, browsf b difffrfnt dirfdtory,
+     * or spfdify b filfnbmf.  Mby usf tif dirfdtory pbnf to siow tif
+     * dontfnts of b dirfdtory.
+     * @sff #DIRECTORY_PANE
      */
-    public static final AccessibleRole FILE_CHOOSER
-            = new AccessibleRole("filechooser");
+    publid stbtid finbl AddfssiblfRolf FILE_CHOOSER
+            = nfw AddfssiblfRolf("filfdioosfr");
 
     /**
-     * An object that fills up space in a user interface.  It is often
-     * used in interfaces to tweak the spacing between components,
-     * but serves no other purpose.
+     * An objfdt tibt fills up spbdf in b usfr intfrfbdf.  It is oftfn
+     * usfd in intfrfbdfs to twfbk tif spbding bftwffn domponfnts,
+     * but sfrvfs no otifr purposf.
      */
-    public static final AccessibleRole FILLER
-            = new AccessibleRole("filler");
+    publid stbtid finbl AddfssiblfRolf FILLER
+            = nfw AddfssiblfRolf("fillfr");
 
     /**
-     * A hypertext anchor
+     * A iypfrtfxt bndior
      */
-    public static final AccessibleRole HYPERLINK
-            = new AccessibleRole("hyperlink");
+    publid stbtid finbl AddfssiblfRolf HYPERLINK
+            = nfw AddfssiblfRolf("iypfrlink");
 
     /**
-     * A small fixed size picture, typically used to decorate components.
+     * A smbll fixfd sizf pidturf, typidblly usfd to dfdorbtf domponfnts.
      */
-    public static final AccessibleRole ICON
-            = new AccessibleRole("icon");
+    publid stbtid finbl AddfssiblfRolf ICON
+            = nfw AddfssiblfRolf("idon");
 
     /**
-     * An object used to present an icon or short string in an interface.
+     * An objfdt usfd to prfsfnt bn idon or siort string in bn intfrfbdf.
      */
-    public static final AccessibleRole LABEL
-            = new AccessibleRole("label");
+    publid stbtid finbl AddfssiblfRolf LABEL
+            = nfw AddfssiblfRolf("lbbfl");
 
     /**
-     * A specialized pane that has a glass pane and a layered pane as its
-     * children.
-     * @see #GLASS_PANE
-     * @see #LAYERED_PANE
+     * A spfdiblizfd pbnf tibt ibs b glbss pbnf bnd b lbyfrfd pbnf bs its
+     * diildrfn.
+     * @sff #GLASS_PANE
+     * @sff #LAYERED_PANE
      */
-    public static final AccessibleRole ROOT_PANE
-            = new AccessibleRole("rootpane");
+    publid stbtid finbl AddfssiblfRolf ROOT_PANE
+            = nfw AddfssiblfRolf("rootpbnf");
 
     /**
-     * A pane that is guaranteed to be painted on top
-     * of all panes beneath it.
-     * @see #ROOT_PANE
-     * @see #CANVAS
+     * A pbnf tibt is gubrbntffd to bf pbintfd on top
+     * of bll pbnfs bfnfbti it.
+     * @sff #ROOT_PANE
+     * @sff #CANVAS
      */
-    public static final AccessibleRole GLASS_PANE
-            = new AccessibleRole("glasspane");
+    publid stbtid finbl AddfssiblfRolf GLASS_PANE
+            = nfw AddfssiblfRolf("glbsspbnf");
 
     /**
-     * A specialized pane that allows its children to be drawn in layers,
-     * providing a form of stacking order.  This is usually the pane that
-     * holds the menu bar as well as the pane that contains most of the
-     * visual components in a window.
-     * @see #GLASS_PANE
-     * @see #ROOT_PANE
+     * A spfdiblizfd pbnf tibt bllows its diildrfn to bf drbwn in lbyfrs,
+     * providing b form of stbdking ordfr.  Tiis is usublly tif pbnf tibt
+     * iolds tif mfnu bbr bs wfll bs tif pbnf tibt dontbins most of tif
+     * visubl domponfnts in b window.
+     * @sff #GLASS_PANE
+     * @sff #ROOT_PANE
      */
-    public static final AccessibleRole LAYERED_PANE
-            = new AccessibleRole("layeredpane");
+    publid stbtid finbl AddfssiblfRolf LAYERED_PANE
+            = nfw AddfssiblfRolf("lbyfrfdpbnf");
 
     /**
-     * An object that presents a list of objects to the user and allows the
-     * user to select one or more of them.  A list is usually contained
-     * within a scroll pane.
-     * @see #SCROLL_PANE
-     * @see #LIST_ITEM
+     * An objfdt tibt prfsfnts b list of objfdts to tif usfr bnd bllows tif
+     * usfr to sflfdt onf or morf of tifm.  A list is usublly dontbinfd
+     * witiin b sdroll pbnf.
+     * @sff #SCROLL_PANE
+     * @sff #LIST_ITEM
      */
-    public static final AccessibleRole LIST
-            = new AccessibleRole("list");
+    publid stbtid finbl AddfssiblfRolf LIST
+            = nfw AddfssiblfRolf("list");
 
     /**
-     * An object that presents an element in a list.  A list is usually
-     * contained within a scroll pane.
-     * @see #SCROLL_PANE
-     * @see #LIST
+     * An objfdt tibt prfsfnts bn flfmfnt in b list.  A list is usublly
+     * dontbinfd witiin b sdroll pbnf.
+     * @sff #SCROLL_PANE
+     * @sff #LIST
      */
-    public static final AccessibleRole LIST_ITEM
-            = new AccessibleRole("listitem");
+    publid stbtid finbl AddfssiblfRolf LIST_ITEM
+            = nfw AddfssiblfRolf("listitfm");
 
     /**
-     * An object usually drawn at the top of the primary dialog box of
-     * an application that contains a list of menus the user can choose
-     * from.  For example, a menu bar might contain menus for "File,"
-     * "Edit," and "Help."
-     * @see #MENU
-     * @see #POPUP_MENU
-     * @see #LAYERED_PANE
+     * An objfdt usublly drbwn bt tif top of tif primbry diblog box of
+     * bn bpplidbtion tibt dontbins b list of mfnus tif usfr dbn dioosf
+     * from.  For fxbmplf, b mfnu bbr migit dontbin mfnus for "Filf,"
+     * "Edit," bnd "Hflp."
+     * @sff #MENU
+     * @sff #POPUP_MENU
+     * @sff #LAYERED_PANE
      */
-    public static final AccessibleRole MENU_BAR
-            = new AccessibleRole("menubar");
+    publid stbtid finbl AddfssiblfRolf MENU_BAR
+            = nfw AddfssiblfRolf("mfnubbr");
 
     /**
-     * A temporary window that is usually used to offer the user a
-     * list of choices, and then hides when the user selects one of
-     * those choices.
-     * @see #MENU
-     * @see #MENU_ITEM
+     * A tfmporbry window tibt is usublly usfd to offfr tif usfr b
+     * list of dioidfs, bnd tifn iidfs wifn tif usfr sflfdts onf of
+     * tiosf dioidfs.
+     * @sff #MENU
+     * @sff #MENU_ITEM
      */
-    public static final AccessibleRole POPUP_MENU
-            = new AccessibleRole("popupmenu");
+    publid stbtid finbl AddfssiblfRolf POPUP_MENU
+            = nfw AddfssiblfRolf("popupmfnu");
 
     /**
-     * An object usually found inside a menu bar that contains a list
-     * of actions the user can choose from.  A menu can have any object
-     * as its children, but most often they are menu items, other menus,
-     * or rudimentary objects such as radio buttons, check boxes, or
-     * separators.  For example, an application may have an "Edit" menu
-     * that contains menu items for "Cut" and "Paste."
-     * @see #MENU_BAR
-     * @see #MENU_ITEM
-     * @see #SEPARATOR
-     * @see #RADIO_BUTTON
-     * @see #CHECK_BOX
-     * @see #POPUP_MENU
+     * An objfdt usublly found insidf b mfnu bbr tibt dontbins b list
+     * of bdtions tif usfr dbn dioosf from.  A mfnu dbn ibvf bny objfdt
+     * bs its diildrfn, but most oftfn tify brf mfnu itfms, otifr mfnus,
+     * or rudimfntbry objfdts sudi bs rbdio buttons, difdk boxfs, or
+     * sfpbrbtors.  For fxbmplf, bn bpplidbtion mby ibvf bn "Edit" mfnu
+     * tibt dontbins mfnu itfms for "Cut" bnd "Pbstf."
+     * @sff #MENU_BAR
+     * @sff #MENU_ITEM
+     * @sff #SEPARATOR
+     * @sff #RADIO_BUTTON
+     * @sff #CHECK_BOX
+     * @sff #POPUP_MENU
      */
-    public static final AccessibleRole MENU
-            = new AccessibleRole("menu");
+    publid stbtid finbl AddfssiblfRolf MENU
+            = nfw AddfssiblfRolf("mfnu");
 
     /**
-     * An object usually contained in a menu that presents an action
-     * the user can choose.  For example, the "Cut" menu item in an
-     * "Edit" menu would be an action the user can select to cut the
-     * selected area of text in a document.
-     * @see #MENU_BAR
-     * @see #SEPARATOR
-     * @see #POPUP_MENU
+     * An objfdt usublly dontbinfd in b mfnu tibt prfsfnts bn bdtion
+     * tif usfr dbn dioosf.  For fxbmplf, tif "Cut" mfnu itfm in bn
+     * "Edit" mfnu would bf bn bdtion tif usfr dbn sflfdt to dut tif
+     * sflfdtfd brfb of tfxt in b dodumfnt.
+     * @sff #MENU_BAR
+     * @sff #SEPARATOR
+     * @sff #POPUP_MENU
      */
-    public static final AccessibleRole MENU_ITEM
-            = new AccessibleRole("menuitem");
+    publid stbtid finbl AddfssiblfRolf MENU_ITEM
+            = nfw AddfssiblfRolf("mfnuitfm");
 
     /**
-     * An object usually contained in a menu to provide a visual
-     * and logical separation of the contents in a menu.  For example,
-     * the "File" menu of an application might contain menu items for
-     * "Open," "Close," and "Exit," and will place a separator between
-     * "Close" and "Exit" menu items.
-     * @see #MENU
-     * @see #MENU_ITEM
+     * An objfdt usublly dontbinfd in b mfnu to providf b visubl
+     * bnd logidbl sfpbrbtion of tif dontfnts in b mfnu.  For fxbmplf,
+     * tif "Filf" mfnu of bn bpplidbtion migit dontbin mfnu itfms for
+     * "Opfn," "Closf," bnd "Exit," bnd will plbdf b sfpbrbtor bftwffn
+     * "Closf" bnd "Exit" mfnu itfms.
+     * @sff #MENU
+     * @sff #MENU_ITEM
      */
-    public static final AccessibleRole SEPARATOR
-            = new AccessibleRole("separator");
+    publid stbtid finbl AddfssiblfRolf SEPARATOR
+            = nfw AddfssiblfRolf("sfpbrbtor");
 
     /**
-     * An object that presents a series of panels (or page tabs), one at a
-     * time, through some mechanism provided by the object.  The most common
-     * mechanism is a list of tabs at the top of the panel.  The children of
-     * a page tab list are all page tabs.
-     * @see #PAGE_TAB
+     * An objfdt tibt prfsfnts b sfrifs of pbnfls (or pbgf tbbs), onf bt b
+     * timf, tirougi somf mfdibnism providfd by tif objfdt.  Tif most dommon
+     * mfdibnism is b list of tbbs bt tif top of tif pbnfl.  Tif diildrfn of
+     * b pbgf tbb list brf bll pbgf tbbs.
+     * @sff #PAGE_TAB
      */
-    public static final AccessibleRole PAGE_TAB_LIST
-            = new AccessibleRole("pagetablist");
+    publid stbtid finbl AddfssiblfRolf PAGE_TAB_LIST
+            = nfw AddfssiblfRolf("pbgftbblist");
 
     /**
-     * An object that is a child of a page tab list.  Its sole child is
-     * the panel that is to be presented to the user when the user
-     * selects the page tab from the list of tabs in the page tab list.
-     * @see #PAGE_TAB_LIST
+     * An objfdt tibt is b diild of b pbgf tbb list.  Its solf diild is
+     * tif pbnfl tibt is to bf prfsfntfd to tif usfr wifn tif usfr
+     * sflfdts tif pbgf tbb from tif list of tbbs in tif pbgf tbb list.
+     * @sff #PAGE_TAB_LIST
      */
-    public static final AccessibleRole PAGE_TAB
-            = new AccessibleRole("pagetab");
+    publid stbtid finbl AddfssiblfRolf PAGE_TAB
+            = nfw AddfssiblfRolf("pbgftbb");
 
     /**
-     * A generic container that is often used to group objects.
+     * A gfnfrid dontbinfr tibt is oftfn usfd to group objfdts.
      */
-    public static final AccessibleRole PANEL
-            = new AccessibleRole("panel");
+    publid stbtid finbl AddfssiblfRolf PANEL
+            = nfw AddfssiblfRolf("pbnfl");
 
     /**
-     * An object used to indicate how much of a task has been completed.
+     * An objfdt usfd to indidbtf iow mudi of b tbsk ibs bffn domplftfd.
      */
-    public static final AccessibleRole PROGRESS_BAR
-            = new AccessibleRole("progressbar");
+    publid stbtid finbl AddfssiblfRolf PROGRESS_BAR
+            = nfw AddfssiblfRolf("progrfssbbr");
 
     /**
-     * A text object used for passwords, or other places where the
-     * text contents is not shown visibly to the user
+     * A tfxt objfdt usfd for pbsswords, or otifr plbdfs wifrf tif
+     * tfxt dontfnts is not siown visibly to tif usfr
      */
-    public static final AccessibleRole PASSWORD_TEXT
-            = new AccessibleRole("passwordtext");
+    publid stbtid finbl AddfssiblfRolf PASSWORD_TEXT
+            = nfw AddfssiblfRolf("pbsswordtfxt");
 
     /**
-     * An object the user can manipulate to tell the application to do
-     * something.
-     * @see #CHECK_BOX
-     * @see #TOGGLE_BUTTON
-     * @see #RADIO_BUTTON
+     * An objfdt tif usfr dbn mbnipulbtf to tfll tif bpplidbtion to do
+     * somftiing.
+     * @sff #CHECK_BOX
+     * @sff #TOGGLE_BUTTON
+     * @sff #RADIO_BUTTON
      */
-    public static final AccessibleRole PUSH_BUTTON
-            = new AccessibleRole("pushbutton");
+    publid stbtid finbl AddfssiblfRolf PUSH_BUTTON
+            = nfw AddfssiblfRolf("pusibutton");
 
     /**
-     * A specialized push button that can be checked or unchecked, but
-     * does not provide a separate indicator for the current state.
-     * @see #PUSH_BUTTON
-     * @see #CHECK_BOX
-     * @see #RADIO_BUTTON
+     * A spfdiblizfd pusi button tibt dbn bf difdkfd or undifdkfd, but
+     * dofs not providf b sfpbrbtf indidbtor for tif durrfnt stbtf.
+     * @sff #PUSH_BUTTON
+     * @sff #CHECK_BOX
+     * @sff #RADIO_BUTTON
      */
-    public static final AccessibleRole TOGGLE_BUTTON
-            = new AccessibleRole("togglebutton");
+    publid stbtid finbl AddfssiblfRolf TOGGLE_BUTTON
+            = nfw AddfssiblfRolf("togglfbutton");
 
     /**
-     * A choice that can be checked or unchecked and provides a
-     * separate indicator for the current state.
-     * @see #PUSH_BUTTON
-     * @see #TOGGLE_BUTTON
-     * @see #RADIO_BUTTON
+     * A dioidf tibt dbn bf difdkfd or undifdkfd bnd providfs b
+     * sfpbrbtf indidbtor for tif durrfnt stbtf.
+     * @sff #PUSH_BUTTON
+     * @sff #TOGGLE_BUTTON
+     * @sff #RADIO_BUTTON
      */
-    public static final AccessibleRole CHECK_BOX
-            = new AccessibleRole("checkbox");
+    publid stbtid finbl AddfssiblfRolf CHECK_BOX
+            = nfw AddfssiblfRolf("difdkbox");
 
     /**
-     * A specialized check box that will cause other radio buttons in the
-     * same group to become unchecked when this one is checked.
-     * @see #PUSH_BUTTON
-     * @see #TOGGLE_BUTTON
-     * @see #CHECK_BOX
+     * A spfdiblizfd difdk box tibt will dbusf otifr rbdio buttons in tif
+     * sbmf group to bfdomf undifdkfd wifn tiis onf is difdkfd.
+     * @sff #PUSH_BUTTON
+     * @sff #TOGGLE_BUTTON
+     * @sff #CHECK_BOX
      */
-    public static final AccessibleRole RADIO_BUTTON
-            = new AccessibleRole("radiobutton");
+    publid stbtid finbl AddfssiblfRolf RADIO_BUTTON
+            = nfw AddfssiblfRolf("rbdiobutton");
 
     /**
-     * The header for a row of data.
+     * Tif ifbdfr for b row of dbtb.
      */
-    public static final AccessibleRole ROW_HEADER
-            = new AccessibleRole("rowheader");
+    publid stbtid finbl AddfssiblfRolf ROW_HEADER
+            = nfw AddfssiblfRolf("rowifbdfr");
 
     /**
-     * An object that allows a user to incrementally view a large amount
-     * of information.  Its children can include scroll bars and a viewport.
-     * @see #SCROLL_BAR
-     * @see #VIEWPORT
+     * An objfdt tibt bllows b usfr to indrfmfntblly vifw b lbrgf bmount
+     * of informbtion.  Its diildrfn dbn indludf sdroll bbrs bnd b vifwport.
+     * @sff #SCROLL_BAR
+     * @sff #VIEWPORT
      */
-    public static final AccessibleRole SCROLL_PANE
-            = new AccessibleRole("scrollpane");
+    publid stbtid finbl AddfssiblfRolf SCROLL_PANE
+            = nfw AddfssiblfRolf("sdrollpbnf");
 
     /**
-     * An object usually used to allow a user to incrementally view a
-     * large amount of data.  Usually used only by a scroll pane.
-     * @see #SCROLL_PANE
+     * An objfdt usublly usfd to bllow b usfr to indrfmfntblly vifw b
+     * lbrgf bmount of dbtb.  Usublly usfd only by b sdroll pbnf.
+     * @sff #SCROLL_PANE
      */
-    public static final AccessibleRole SCROLL_BAR
-            = new AccessibleRole("scrollbar");
+    publid stbtid finbl AddfssiblfRolf SCROLL_BAR
+            = nfw AddfssiblfRolf("sdrollbbr");
 
     /**
-     * An object usually used in a scroll pane.  It represents the portion
-     * of the entire data that the user can see.  As the user manipulates
-     * the scroll bars, the contents of the viewport can change.
-     * @see #SCROLL_PANE
+     * An objfdt usublly usfd in b sdroll pbnf.  It rfprfsfnts tif portion
+     * of tif fntirf dbtb tibt tif usfr dbn sff.  As tif usfr mbnipulbtfs
+     * tif sdroll bbrs, tif dontfnts of tif vifwport dbn dibngf.
+     * @sff #SCROLL_PANE
      */
-    public static final AccessibleRole VIEWPORT
-            = new AccessibleRole("viewport");
+    publid stbtid finbl AddfssiblfRolf VIEWPORT
+            = nfw AddfssiblfRolf("vifwport");
 
     /**
-     * An object that allows the user to select from a bounded range.  For
-     * example, a slider might be used to select a number between 0 and 100.
+     * An objfdt tibt bllows tif usfr to sflfdt from b boundfd rbngf.  For
+     * fxbmplf, b slidfr migit bf usfd to sflfdt b numbfr bftwffn 0 bnd 100.
      */
-    public static final AccessibleRole SLIDER
-            = new AccessibleRole("slider");
+    publid stbtid finbl AddfssiblfRolf SLIDER
+            = nfw AddfssiblfRolf("slidfr");
 
     /**
-     * A specialized panel that presents two other panels at the same time.
-     * Between the two panels is a divider the user can manipulate to make
-     * one panel larger and the other panel smaller.
+     * A spfdiblizfd pbnfl tibt prfsfnts two otifr pbnfls bt tif sbmf timf.
+     * Bftwffn tif two pbnfls is b dividfr tif usfr dbn mbnipulbtf to mbkf
+     * onf pbnfl lbrgfr bnd tif otifr pbnfl smbllfr.
      */
-    public static final AccessibleRole SPLIT_PANE
-            = new AccessibleRole("splitpane");
+    publid stbtid finbl AddfssiblfRolf SPLIT_PANE
+            = nfw AddfssiblfRolf("splitpbnf");
 
     /**
-     * An object used to present information in terms of rows and columns.
-     * An example might include a spreadsheet application.
+     * An objfdt usfd to prfsfnt informbtion in tfrms of rows bnd dolumns.
+     * An fxbmplf migit indludf b sprfbdsifft bpplidbtion.
      */
-    public static final AccessibleRole TABLE
-            = new AccessibleRole("table");
+    publid stbtid finbl AddfssiblfRolf TABLE
+            = nfw AddfssiblfRolf("tbblf");
 
     /**
-     * An object that presents text to the user.  The text is usually
-     * editable by the user as opposed to a label.
-     * @see #LABEL
+     * An objfdt tibt prfsfnts tfxt to tif usfr.  Tif tfxt is usublly
+     * fditbblf by tif usfr bs opposfd to b lbbfl.
+     * @sff #LABEL
      */
-    public static final AccessibleRole TEXT
-            = new AccessibleRole("text");
+    publid stbtid finbl AddfssiblfRolf TEXT
+            = nfw AddfssiblfRolf("tfxt");
 
     /**
-     * An object used to present hierarchical information to the user.
-     * The individual nodes in the tree can be collapsed and expanded
-     * to provide selective disclosure of the tree's contents.
+     * An objfdt usfd to prfsfnt iifrbrdiidbl informbtion to tif usfr.
+     * Tif individubl nodfs in tif trff dbn bf dollbpsfd bnd fxpbndfd
+     * to providf sflfdtivf disdlosurf of tif trff's dontfnts.
      */
-    public static final AccessibleRole TREE
-            = new AccessibleRole("tree");
+    publid stbtid finbl AddfssiblfRolf TREE
+            = nfw AddfssiblfRolf("trff");
 
     /**
-     * A bar or palette usually composed of push buttons or toggle buttons.
-     * It is often used to provide the most frequently used functions for an
-     * application.
+     * A bbr or pblfttf usublly domposfd of pusi buttons or togglf buttons.
+     * It is oftfn usfd to providf tif most frfqufntly usfd fundtions for bn
+     * bpplidbtion.
      */
-    public static final AccessibleRole TOOL_BAR
-            = new AccessibleRole("toolbar");
+    publid stbtid finbl AddfssiblfRolf TOOL_BAR
+            = nfw AddfssiblfRolf("toolbbr");
 
     /**
-     * An object that provides information about another object.  The
-     * accessibleDescription property of the tool tip is often displayed
-     * to the user in a small "help bubble" when the user causes the
-     * mouse to hover over the object associated with the tool tip.
+     * An objfdt tibt providfs informbtion bbout bnotifr objfdt.  Tif
+     * bddfssiblfDfsdription propfrty of tif tool tip is oftfn displbyfd
+     * to tif usfr in b smbll "iflp bubblf" wifn tif usfr dbusfs tif
+     * mousf to iovfr ovfr tif objfdt bssodibtfd witi tif tool tip.
      */
-    public static final AccessibleRole TOOL_TIP
-            = new AccessibleRole("tooltip");
+    publid stbtid finbl AddfssiblfRolf TOOL_TIP
+            = nfw AddfssiblfRolf("tooltip");
 
     /**
-     * An AWT component, but nothing else is known about it.
-     * @see #SWING_COMPONENT
-     * @see #UNKNOWN
+     * An AWT domponfnt, but notiing flsf is known bbout it.
+     * @sff #SWING_COMPONENT
+     * @sff #UNKNOWN
      */
-    public static final AccessibleRole AWT_COMPONENT
-            = new AccessibleRole("awtcomponent");
+    publid stbtid finbl AddfssiblfRolf AWT_COMPONENT
+            = nfw AddfssiblfRolf("bwtdomponfnt");
 
     /**
-     * A Swing component, but nothing else is known about it.
-     * @see #AWT_COMPONENT
-     * @see #UNKNOWN
+     * A Swing domponfnt, but notiing flsf is known bbout it.
+     * @sff #AWT_COMPONENT
+     * @sff #UNKNOWN
      */
-    public static final AccessibleRole SWING_COMPONENT
-            = new AccessibleRole("swingcomponent");
+    publid stbtid finbl AddfssiblfRolf SWING_COMPONENT
+            = nfw AddfssiblfRolf("swingdomponfnt");
 
     /**
-     * The object contains some Accessible information, but its role is
+     * Tif objfdt dontbins somf Addfssiblf informbtion, but its rolf is
      * not known.
-     * @see #AWT_COMPONENT
-     * @see #SWING_COMPONENT
+     * @sff #AWT_COMPONENT
+     * @sff #SWING_COMPONENT
      */
-    public static final AccessibleRole UNKNOWN
-            = new AccessibleRole("unknown");
+    publid stbtid finbl AddfssiblfRolf UNKNOWN
+            = nfw AddfssiblfRolf("unknown");
 
     /**
-     * A STATUS_BAR is an simple component that can contain
-     * multiple labels of status information to the user.
+     * A STATUS_BAR is bn simplf domponfnt tibt dbn dontbin
+     * multiplf lbbfls of stbtus informbtion to tif usfr.
      */
-    public static final AccessibleRole STATUS_BAR
-        = new AccessibleRole("statusbar");
+    publid stbtid finbl AddfssiblfRolf STATUS_BAR
+        = nfw AddfssiblfRolf("stbtusbbr");
 
     /**
-     * A DATE_EDITOR is a component that allows users to edit
-     * java.util.Date and java.util.Time objects
+     * A DATE_EDITOR is b domponfnt tibt bllows usfrs to fdit
+     * jbvb.util.Dbtf bnd jbvb.util.Timf objfdts
      */
-    public static final AccessibleRole DATE_EDITOR
-        = new AccessibleRole("dateeditor");
+    publid stbtid finbl AddfssiblfRolf DATE_EDITOR
+        = nfw AddfssiblfRolf("dbtffditor");
 
     /**
-     * A SPIN_BOX is a simple spinner component and its main use
-     * is for simple numbers.
+     * A SPIN_BOX is b simplf spinnfr domponfnt bnd its mbin usf
+     * is for simplf numbfrs.
      */
-    public static final AccessibleRole SPIN_BOX
-        = new AccessibleRole("spinbox");
+    publid stbtid finbl AddfssiblfRolf SPIN_BOX
+        = nfw AddfssiblfRolf("spinbox");
 
     /**
-     * A FONT_CHOOSER is a component that lets the user pick various
-     * attributes for fonts.
+     * A FONT_CHOOSER is b domponfnt tibt lfts tif usfr pidk vbrious
+     * bttributfs for fonts.
      */
-    public static final AccessibleRole FONT_CHOOSER
-        = new AccessibleRole("fontchooser");
+    publid stbtid finbl AddfssiblfRolf FONT_CHOOSER
+        = nfw AddfssiblfRolf("fontdioosfr");
 
     /**
-     * A GROUP_BOX is a simple container that contains a border
-     * around it and contains components inside it.
+     * A GROUP_BOX is b simplf dontbinfr tibt dontbins b bordfr
+     * bround it bnd dontbins domponfnts insidf it.
      */
-    public static final AccessibleRole GROUP_BOX
-        = new AccessibleRole("groupbox");
+    publid stbtid finbl AddfssiblfRolf GROUP_BOX
+        = nfw AddfssiblfRolf("groupbox");
 
     /**
-     * A text header
+     * A tfxt ifbdfr
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public static final AccessibleRole HEADER =
-        new AccessibleRole("header");
+    publid stbtid finbl AddfssiblfRolf HEADER =
+        nfw AddfssiblfRolf("ifbdfr");
 
     /**
-     * A text footer
+     * A tfxt footfr
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public static final AccessibleRole FOOTER =
-        new AccessibleRole("footer");
+    publid stbtid finbl AddfssiblfRolf FOOTER =
+        nfw AddfssiblfRolf("footfr");
 
     /**
-     * A text paragraph
+     * A tfxt pbrbgrbpi
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public static final AccessibleRole PARAGRAPH =
-        new AccessibleRole("paragraph");
+    publid stbtid finbl AddfssiblfRolf PARAGRAPH =
+        nfw AddfssiblfRolf("pbrbgrbpi");
 
     /**
-     * A ruler is an object used to measure distance
+     * A rulfr is bn objfdt usfd to mfbsurf distbndf
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public static final AccessibleRole RULER =
-        new AccessibleRole("ruler");
+    publid stbtid finbl AddfssiblfRolf RULER =
+        nfw AddfssiblfRolf("rulfr");
 
     /**
-     * A role indicating the object acts as a formula for
-     * calculating a value.  An example is a formula in
-     * a spreadsheet cell.
+     * A rolf indidbting tif objfdt bdts bs b formulb for
+     * dbldulbting b vbluf.  An fxbmplf is b formulb in
+     * b sprfbdsifft dfll.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    static public final AccessibleRole EDITBAR =
-        new AccessibleRole("editbar");
+    stbtid publid finbl AddfssiblfRolf EDITBAR =
+        nfw AddfssiblfRolf("fditbbr");
 
     /**
-     * A role indicating the object monitors the progress
-     * of some operation.
+     * A rolf indidbting tif objfdt monitors tif progrfss
+     * of somf opfrbtion.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    static public final AccessibleRole PROGRESS_MONITOR =
-        new AccessibleRole("progressMonitor");
+    stbtid publid finbl AddfssiblfRolf PROGRESS_MONITOR =
+        nfw AddfssiblfRolf("progrfssMonitor");
 
 
-// The following are all under consideration for potential future use.
+// Tif following brf bll undfr donsidfrbtion for potfntibl futurf usf.
 
-//    public static final AccessibleRole APPLICATION
-//            = new AccessibleRole("application");
+//    publid stbtid finbl AddfssiblfRolf APPLICATION
+//            = nfw AddfssiblfRolf("bpplidbtion");
 
-//    public static final AccessibleRole BORDER
-//            = new AccessibleRole("border");
+//    publid stbtid finbl AddfssiblfRolf BORDER
+//            = nfw AddfssiblfRolf("bordfr");
 
-//    public static final AccessibleRole CHECK_BOX_MENU_ITEM
-//            = new AccessibleRole("checkboxmenuitem");
+//    publid stbtid finbl AddfssiblfRolf CHECK_BOX_MENU_ITEM
+//            = nfw AddfssiblfRolf("difdkboxmfnuitfm");
 
-//    public static final AccessibleRole CHOICE
-//            = new AccessibleRole("choice");
+//    publid stbtid finbl AddfssiblfRolf CHOICE
+//            = nfw AddfssiblfRolf("dioidf");
 
-//    public static final AccessibleRole COLUMN
-//            = new AccessibleRole("column");
+//    publid stbtid finbl AddfssiblfRolf COLUMN
+//            = nfw AddfssiblfRolf("dolumn");
 
-//    public static final AccessibleRole CURSOR
-//            = new AccessibleRole("cursor");
+//    publid stbtid finbl AddfssiblfRolf CURSOR
+//            = nfw AddfssiblfRolf("dursor");
 
-//    public static final AccessibleRole DOCUMENT
-//            = new AccessibleRole("document");
+//    publid stbtid finbl AddfssiblfRolf DOCUMENT
+//            = nfw AddfssiblfRolf("dodumfnt");
 
-//    public static final AccessibleRole IMAGE
-//            = new AccessibleRole("Image");
+//    publid stbtid finbl AddfssiblfRolf IMAGE
+//            = nfw AddfssiblfRolf("Imbgf");
 
-//    public static final AccessibleRole INDICATOR
-//            = new AccessibleRole("indicator");
+//    publid stbtid finbl AddfssiblfRolf INDICATOR
+//            = nfw AddfssiblfRolf("indidbtor");
 
-//    public static final AccessibleRole RADIO_BUTTON_MENU_ITEM
-//            = new AccessibleRole("radiobuttonmenuitem");
+//    publid stbtid finbl AddfssiblfRolf RADIO_BUTTON_MENU_ITEM
+//            = nfw AddfssiblfRolf("rbdiobuttonmfnuitfm");
 
-//    public static final AccessibleRole ROW
-//            = new AccessibleRole("row");
+//    publid stbtid finbl AddfssiblfRolf ROW
+//            = nfw AddfssiblfRolf("row");
 
-//    public static final AccessibleRole TABLE_CELL
-//          = new AccessibleRole("tablecell");
+//    publid stbtid finbl AddfssiblfRolf TABLE_CELL
+//          = nfw AddfssiblfRolf("tbblfdfll");
 
-//    public static final AccessibleRole TREE_NODE
-//            = new AccessibleRole("treenode");
+//    publid stbtid finbl AddfssiblfRolf TREE_NODE
+//            = nfw AddfssiblfRolf("trffnodf");
 
     /**
-     * Creates a new AccessibleRole using the given locale independent key.
-     * This should not be a public method.  Instead, it is used to create
-     * the constants in this file to make it a strongly typed enumeration.
-     * Subclasses of this class should enforce similar policy.
+     * Crfbtfs b nfw AddfssiblfRolf using tif givfn lodblf indfpfndfnt kfy.
+     * Tiis siould not bf b publid mftiod.  Instfbd, it is usfd to drfbtf
+     * tif donstbnts in tiis filf to mbkf it b strongly typfd fnumfrbtion.
+     * Subdlbssfs of tiis dlbss siould fnfordf similbr polidy.
      * <p>
-     * The key String should be a locale independent key for the role.
-     * It is not intended to be used as the actual String to display
-     * to the user.  To get the localized string, use toDisplayString.
+     * Tif kfy String siould bf b lodblf indfpfndfnt kfy for tif rolf.
+     * It is not intfndfd to bf usfd bs tif bdtubl String to displby
+     * to tif usfr.  To gft tif lodblizfd string, usf toDisplbyString.
      *
-     * @param key the locale independent name of the role.
-     * @see AccessibleBundle#toDisplayString
+     * @pbrbm kfy tif lodblf indfpfndfnt nbmf of tif rolf.
+     * @sff AddfssiblfBundlf#toDisplbyString
      */
-    protected AccessibleRole(String key) {
-        this.key = key;
+    protfdtfd AddfssiblfRolf(String kfy) {
+        tiis.kfy = kfy;
     }
 }

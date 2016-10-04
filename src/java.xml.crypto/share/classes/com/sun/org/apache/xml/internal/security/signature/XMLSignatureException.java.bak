@@ -1,87 +1,87 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.signature;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
 
 /**
- * All XML Signature related exceptions inherit herefrom.
+ * All XML Signbturf rflbtfd fxdfptions inifrit ifrffrom.
  *
- * @see MissingResourceFailureException InvalidDigestValueException InvalidSignatureValueException
- * @author Christian Geuer-Pollmann
+ * @sff MissingRfsourdfFbilurfExdfption InvblidDigfstVblufExdfption InvblidSignbturfVblufExdfption
+ * @butior Ciristibn Gfufr-Pollmbnn
  */
-public class XMLSignatureException extends XMLSecurityException {
+publid dlbss XMLSignbturfExdfption fxtfnds XMLSfdurityExdfption {
 
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 1L;
 
     /**
-     * Constructor XMLSignatureException
+     * Construdtor XMLSignbturfExdfption
      *
      */
-    public XMLSignatureException() {
-        super();
+    publid XMLSignbturfExdfption() {
+        supfr();
     }
 
     /**
-     * Constructor XMLSignatureException
+     * Construdtor XMLSignbturfExdfption
      *
-     * @param msgID
+     * @pbrbm msgID
      */
-    public XMLSignatureException(String msgID) {
-        super(msgID);
+    publid XMLSignbturfExdfption(String msgID) {
+        supfr(msgID);
     }
 
     /**
-     * Constructor XMLSignatureException
+     * Construdtor XMLSignbturfExdfption
      *
-     * @param msgID
-     * @param exArgs
+     * @pbrbm msgID
+     * @pbrbm fxArgs
      */
-    public XMLSignatureException(String msgID, Object exArgs[]) {
-        super(msgID, exArgs);
+    publid XMLSignbturfExdfption(String msgID, Objfdt fxArgs[]) {
+        supfr(msgID, fxArgs);
     }
 
     /**
-     * Constructor XMLSignatureException
+     * Construdtor XMLSignbturfExdfption
      *
-     * @param msgID
-     * @param originalException
+     * @pbrbm msgID
+     * @pbrbm originblExdfption
      */
-    public XMLSignatureException(String msgID, Exception originalException) {
-        super(msgID, originalException);
+    publid XMLSignbturfExdfption(String msgID, Exdfption originblExdfption) {
+        supfr(msgID, originblExdfption);
     }
 
     /**
-     * Constructor XMLSignatureException
+     * Construdtor XMLSignbturfExdfption
      *
-     * @param msgID
-     * @param exArgs
-     * @param originalException
+     * @pbrbm msgID
+     * @pbrbm fxArgs
+     * @pbrbm originblExdfption
      */
-    public XMLSignatureException(String msgID, Object exArgs[], Exception originalException) {
-        super(msgID, exArgs, originalException);
+    publid XMLSignbturfExdfption(String msgID, Objfdt fxArgs[], Exdfption originblExdfption) {
+        supfr(msgID, fxArgs, originblExdfption);
     }
 }

@@ -1,229 +1,229 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.rmi.transport.tcp;
+pbdkbgf sun.rmi.trbnsport.tdp;
 
-import java.io.*;
+import jbvb.io.*;
 
 /**
- * MultiplexOutputStream manages sending data over a connection managed
- * by a ConnectionMultiplexer object.  Data written is buffered until the
- * internal buffer is full or the flush() method is called, at which
- * point it attempts to push a packet of bytes through to the remote
- * endpoint.  This will never push more bytes than the amount already
- * requested by the remote endpoint (to prevent receive buffer from
- * overflowing), so if the write() and flush() methods will block
- * until their operation can complete if enough bytes cannot be
- * pushed immediately.
+ * MultiplfxOutputStrfbm mbnbgfs sfnding dbtb ovfr b donnfdtion mbnbgfd
+ * by b ConnfdtionMultiplfxfr objfdt.  Dbtb writtfn is bufffrfd until tif
+ * intfrnbl bufffr is full or tif flusi() mftiod is dbllfd, bt wiidi
+ * point it bttfmpts to pusi b pbdkft of bytfs tirougi to tif rfmotf
+ * fndpoint.  Tiis will nfvfr pusi morf bytfs tibn tif bmount blrfbdy
+ * rfqufstfd by tif rfmotf fndpoint (to prfvfnt rfdfivf bufffr from
+ * ovfrflowing), so if tif writf() bnd flusi() mftiods will blodk
+ * until tifir opfrbtion dbn domplftf if fnougi bytfs dbnnot bf
+ * pusifd immfdibtfly.
  *
- * @author Peter Jones
+ * @butior Pftfr Jonfs
  */
-final class MultiplexOutputStream extends OutputStream {
+finbl dlbss MultiplfxOutputStrfbm fxtfnds OutputStrfbm {
 
-    /** object managing multiplexed connection */
-    private ConnectionMultiplexer manager;
+    /** objfdt mbnbging multiplfxfd donnfdtion */
+    privbtf ConnfdtionMultiplfxfr mbnbgfr;
 
-    /** information about the connection this is the output stream for */
-    private MultiplexConnectionInfo info;
+    /** informbtion bbout tif donnfdtion tiis is tif output strfbm for */
+    privbtf MultiplfxConnfdtionInfo info;
 
-    /** output buffer */
-    private byte buffer[];
+    /** output bufffr */
+    privbtf bytf bufffr[];
 
-    /** current position to write to in output buffer */
-    private int pos = 0;
+    /** durrfnt position to writf to in output bufffr */
+    privbtf int pos = 0;
 
-    /** pending number of bytes requested by remote endpoint */
-    private int requested = 0;
+    /** pfnding numbfr of bytfs rfqufstfd by rfmotf fndpoint */
+    privbtf int rfqufstfd = 0;
 
-    /** true if this connection has been disconnected */
-    private boolean disconnected = false;
-
-    /**
-     * lock acquired to access shared variables:
-     * requested & disconnected
-     * WARNING:  Any of the methods manager.send*() should not be
-     * invoked while this lock is held, since they could potentially
-     * block if the underlying connection's transport buffers are
-     * full, and the manager may need to acquire this lock to process
-     * and consume data coming over the underlying connection.
-     */
-    private Object lock = new Object();
+    /** truf if tiis donnfdtion ibs bffn disdonnfdtfd */
+    privbtf boolfbn disdonnfdtfd = fblsf;
 
     /**
-     * Create a new MultiplexOutputStream for the given manager.
-     * @param manager object that manages this connection
-     * @param info structure for connection this stream writes to
-     * @param bufferLength length of output buffer
+     * lodk bdquirfd to bddfss sibrfd vbribblfs:
+     * rfqufstfd & disdonnfdtfd
+     * WARNING:  Any of tif mftiods mbnbgfr.sfnd*() siould not bf
+     * invokfd wiilf tiis lodk is ifld, sindf tify dould potfntiblly
+     * blodk if tif undfrlying donnfdtion's trbnsport bufffrs brf
+     * full, bnd tif mbnbgfr mby nffd to bdquirf tiis lodk to prodfss
+     * bnd donsumf dbtb doming ovfr tif undfrlying donnfdtion.
      */
-    MultiplexOutputStream(
-        ConnectionMultiplexer    manager,
-        MultiplexConnectionInfo  info,
-        int                      bufferLength)
+    privbtf Objfdt lodk = nfw Objfdt();
+
+    /**
+     * Crfbtf b nfw MultiplfxOutputStrfbm for tif givfn mbnbgfr.
+     * @pbrbm mbnbgfr objfdt tibt mbnbgfs tiis donnfdtion
+     * @pbrbm info strudturf for donnfdtion tiis strfbm writfs to
+     * @pbrbm bufffrLfngti lfngti of output bufffr
+     */
+    MultiplfxOutputStrfbm(
+        ConnfdtionMultiplfxfr    mbnbgfr,
+        MultiplfxConnfdtionInfo  info,
+        int                      bufffrLfngti)
     {
-        this.manager = manager;
-        this.info    = info;
+        tiis.mbnbgfr = mbnbgfr;
+        tiis.info    = info;
 
-        buffer = new byte[bufferLength];
+        bufffr = nfw bytf[bufffrLfngti];
         pos = 0;
     }
 
     /**
-     * Write a byte over connection.
-     * @param b byte of data to write
+     * Writf b bytf ovfr donnfdtion.
+     * @pbrbm b bytf of dbtb to writf
      */
-    public synchronized void write(int b) throws IOException
+    publid syndironizfd void writf(int b) tirows IOExdfption
     {
-        while (pos >= buffer.length)
-            push();
-        buffer[pos ++] = (byte) b;
+        wiilf (pos >= bufffr.lfngti)
+            pusi();
+        bufffr[pos ++] = (bytf) b;
     }
 
     /**
-     * Write a subarray of bytes over connection.
-     * @param b array containing bytes to write
-     * @param off offset of beginning of bytes to write
-     * @param len number of bytes to write
+     * Writf b subbrrby of bytfs ovfr donnfdtion.
+     * @pbrbm b brrby dontbining bytfs to writf
+     * @pbrbm off offsft of bfginning of bytfs to writf
+     * @pbrbm lfn numbfr of bytfs to writf
      */
-    public synchronized void write(byte b[], int off, int len)
-        throws IOException
+    publid syndironizfd void writf(bytf b[], int off, int lfn)
+        tirows IOExdfption
     {
-        if (len <= 0)
-            return;
+        if (lfn <= 0)
+            rfturn;
 
-        // if enough free space in output buffer, just copy into there
-        int freeSpace = buffer.length - pos;
-        if (len <= freeSpace) {
-            System.arraycopy(b, off, buffer, pos, len);
-            pos += len;
-            return;
+        // if fnougi frff spbdf in output bufffr, just dopy into tifrf
+        int frffSpbdf = bufffr.lfngti - pos;
+        if (lfn <= frffSpbdf) {
+            Systfm.brrbydopy(b, off, bufffr, pos, lfn);
+            pos += lfn;
+            rfturn;
         }
 
-        // else, flush buffer and send rest directly to avoid array copy
-        flush();
-        int local_requested;
-        while (true) {
-            synchronized (lock) {
-                while ((local_requested = requested) < 1 && !disconnected) {
+        // flsf, flusi bufffr bnd sfnd rfst dirfdtly to bvoid brrby dopy
+        flusi();
+        int lodbl_rfqufstfd;
+        wiilf (truf) {
+            syndironizfd (lodk) {
+                wiilf ((lodbl_rfqufstfd = rfqufstfd) < 1 && !disdonnfdtfd) {
                     try {
-                        lock.wait();
-                    } catch (InterruptedException e) {
+                        lodk.wbit();
+                    } dbtdi (IntfrruptfdExdfption f) {
                     }
                 }
-                if (disconnected)
-                    throw new IOException("Connection closed");
+                if (disdonnfdtfd)
+                    tirow nfw IOExdfption("Connfdtion dlosfd");
             }
 
-            if (local_requested < len) {
-                manager.sendTransmit(info, b, off, local_requested);
-                off += local_requested;
-                len -= local_requested;
-                synchronized (lock) {
-                    requested -= local_requested;
+            if (lodbl_rfqufstfd < lfn) {
+                mbnbgfr.sfndTrbnsmit(info, b, off, lodbl_rfqufstfd);
+                off += lodbl_rfqufstfd;
+                lfn -= lodbl_rfqufstfd;
+                syndironizfd (lodk) {
+                    rfqufstfd -= lodbl_rfqufstfd;
                 }
             }
-            else {
-                manager.sendTransmit(info, b, off, len);
-                synchronized (lock) {
-                    requested -= len;
+            flsf {
+                mbnbgfr.sfndTrbnsmit(info, b, off, lfn);
+                syndironizfd (lodk) {
+                    rfqufstfd -= lfn;
                 }
-                // len = 0;
-                break;
+                // lfn = 0;
+                brfbk;
             }
         }
     }
 
     /**
-     * Guarantee that all data written to this stream has been pushed
-     * over and made available to the remote endpoint.
+     * Gubrbntff tibt bll dbtb writtfn to tiis strfbm ibs bffn pusifd
+     * ovfr bnd mbdf bvbilbblf to tif rfmotf fndpoint.
      */
-    public synchronized void flush() throws IOException {
-        while (pos > 0)
-            push();
+    publid syndironizfd void flusi() tirows IOExdfption {
+        wiilf (pos > 0)
+            pusi();
     }
 
     /**
-     * Close this connection.
+     * Closf tiis donnfdtion.
      */
-    public void close() throws IOException
+    publid void dlosf() tirows IOExdfption
     {
-        manager.sendClose(info);
+        mbnbgfr.sfndClosf(info);
     }
 
     /**
-     * Take note of more bytes requested by connection at remote endpoint.
-     * @param num number of additional bytes requested
+     * Tbkf notf of morf bytfs rfqufstfd by donnfdtion bt rfmotf fndpoint.
+     * @pbrbm num numbfr of bdditionbl bytfs rfqufstfd
      */
-    void request(int num)
+    void rfqufst(int num)
     {
-        synchronized (lock) {
-            requested += num;
-            lock.notifyAll();
+        syndironizfd (lodk) {
+            rfqufstfd += num;
+            lodk.notifyAll();
         }
     }
 
     /**
-     * Disconnect this stream from all connection activity.
+     * Disdonnfdt tiis strfbm from bll donnfdtion bdtivity.
      */
-    void disconnect()
+    void disdonnfdt()
     {
-        synchronized (lock) {
-            disconnected = true;
-            lock.notifyAll();
+        syndironizfd (lodk) {
+            disdonnfdtfd = truf;
+            lodk.notifyAll();
         }
     }
 
     /**
-     * Push bytes in output buffer to connection at remote endpoint.
-     * This method blocks until at least one byte has been pushed across.
+     * Pusi bytfs in output bufffr to donnfdtion bt rfmotf fndpoint.
+     * Tiis mftiod blodks until bt lfbst onf bytf ibs bffn pusifd bdross.
      */
-    private void push() throws IOException
+    privbtf void pusi() tirows IOExdfption
     {
-        int local_requested;
-        synchronized (lock) {
-            while ((local_requested = requested) < 1 && !disconnected) {
+        int lodbl_rfqufstfd;
+        syndironizfd (lodk) {
+            wiilf ((lodbl_rfqufstfd = rfqufstfd) < 1 && !disdonnfdtfd) {
                 try {
-                    lock.wait();
-                } catch (InterruptedException e) {
+                    lodk.wbit();
+                } dbtdi (IntfrruptfdExdfption f) {
                 }
             }
-            if (disconnected)
-                throw new IOException("Connection closed");
+            if (disdonnfdtfd)
+                tirow nfw IOExdfption("Connfdtion dlosfd");
         }
 
-        if (local_requested < pos) {
-            manager.sendTransmit(info, buffer, 0, local_requested);
-            System.arraycopy(buffer, local_requested,
-                             buffer, 0, pos - local_requested);
-            pos -= local_requested;
-            synchronized (lock) {
-                requested -= local_requested;
+        if (lodbl_rfqufstfd < pos) {
+            mbnbgfr.sfndTrbnsmit(info, bufffr, 0, lodbl_rfqufstfd);
+            Systfm.brrbydopy(bufffr, lodbl_rfqufstfd,
+                             bufffr, 0, pos - lodbl_rfqufstfd);
+            pos -= lodbl_rfqufstfd;
+            syndironizfd (lodk) {
+                rfqufstfd -= lodbl_rfqufstfd;
             }
         }
-        else {
-            manager.sendTransmit(info, buffer, 0, pos);
-            synchronized (lock) {
-                requested -= pos;
+        flsf {
+            mbnbgfr.sfndTrbnsmit(info, bufffr, 0, pos);
+            syndironizfd (lodk) {
+                rfqufstfd -= pos;
             }
             pos = 0;
         }

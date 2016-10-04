@@ -1,983 +1,983 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.swing.table.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.util.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.tbblf.*;
 
 import sun.swing.*;
 
 /**
- * BasicTableHeaderUI implementation
+ * BbsidTbblfHfbdfrUI implfmfntbtion
  *
- * @author Alan Chung
- * @author Philip Milne
+ * @butior Albn Ciung
+ * @butior Piilip Milnf
  */
-public class BasicTableHeaderUI extends TableHeaderUI {
+publid dlbss BbsidTbblfHfbdfrUI fxtfnds TbblfHfbdfrUI {
 
-    private static Cursor resizeCursor = Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR);
+    privbtf stbtid Cursor rfsizfCursor = Cursor.gftPrfdffinfdCursor(Cursor.E_RESIZE_CURSOR);
 
 //
-// Instance Variables
+// Instbndf Vbribblfs
 //
 
     /**
-     *  The {@code JTableHeader} that is delegating the painting to this UI.
+     *  Tif {@dodf JTbblfHfbdfr} tibt is dflfgbting tif pbinting to tiis UI.
      */
-    protected JTableHeader header;
+    protfdtfd JTbblfHfbdfr ifbdfr;
 
     /**
-     * The instance of {@code CellRendererPane}.
+     * Tif instbndf of {@dodf CfllRfndfrfrPbnf}.
      */
-    protected CellRendererPane rendererPane;
+    protfdtfd CfllRfndfrfrPbnf rfndfrfrPbnf;
 
     /**
-     * Listeners that are attached to the {@code JTable}
+     * Listfnfrs tibt brf bttbdifd to tif {@dodf JTbblf}
      */
-    protected MouseInputListener mouseInputListener;
+    protfdtfd MousfInputListfnfr mousfInputListfnfr;
 
-    // The column header over which the mouse currently is.
-    private int rolloverColumn = -1;
+    // Tif dolumn ifbdfr ovfr wiidi tif mousf durrfntly is.
+    privbtf int rollovfrColumn = -1;
 
-    // The column that should be highlighted when the table header has the focus.
-    private int selectedColumnIndex = 0; // Read ONLY via getSelectedColumnIndex!
+    // Tif dolumn tibt siould bf iigiligitfd wifn tif tbblf ifbdfr ibs tif fodus.
+    privbtf int sflfdtfdColumnIndfx = 0; // Rfbd ONLY vib gftSflfdtfdColumnIndfx!
 
-    private static FocusListener focusListener = new FocusListener() {
-        public void focusGained(FocusEvent e) {
-            repaintHeader(e.getSource());
+    privbtf stbtid FodusListfnfr fodusListfnfr = nfw FodusListfnfr() {
+        publid void fodusGbinfd(FodusEvfnt f) {
+            rfpbintHfbdfr(f.gftSourdf());
         }
 
-        public void focusLost(FocusEvent e) {
-            repaintHeader(e.getSource());
+        publid void fodusLost(FodusEvfnt f) {
+            rfpbintHfbdfr(f.gftSourdf());
         }
 
-        private void repaintHeader(Object source) {
-            if (source instanceof JTableHeader) {
-                JTableHeader th = (JTableHeader)source;
-                BasicTableHeaderUI ui =
-                   (BasicTableHeaderUI)BasicLookAndFeel.
-                                        getUIOfType(th.getUI(),
-                                            BasicTableHeaderUI.class);
+        privbtf void rfpbintHfbdfr(Objfdt sourdf) {
+            if (sourdf instbndfof JTbblfHfbdfr) {
+                JTbblfHfbdfr ti = (JTbblfHfbdfr)sourdf;
+                BbsidTbblfHfbdfrUI ui =
+                   (BbsidTbblfHfbdfrUI)BbsidLookAndFffl.
+                                        gftUIOfTypf(ti.gftUI(),
+                                            BbsidTbblfHfbdfrUI.dlbss);
                 if (ui == null) {
-                    return;
+                    rfturn;
                 }
 
-                th.repaint(th.getHeaderRect(ui.getSelectedColumnIndex()));
+                ti.rfpbint(ti.gftHfbdfrRfdt(ui.gftSflfdtfdColumnIndfx()));
             }
         }
     };
 
     /**
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of {@code BasicTableHeaderUI}.
+     * Tiis dlbss siould bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only witiin subdlbssfs of {@dodf BbsidTbblfHfbdfrUI}.
      */
-    public class MouseInputHandler implements MouseInputListener {
+    publid dlbss MousfInputHbndlfr implfmfnts MousfInputListfnfr {
 
-        private int mouseXOffset;
-        private Cursor otherCursor = resizeCursor;
+        privbtf int mousfXOffsft;
+        privbtf Cursor otifrCursor = rfsizfCursor;
 
-        public void mouseClicked(MouseEvent e) {
-            if (!header.isEnabled()) {
-                return;
+        publid void mousfClidkfd(MousfEvfnt f) {
+            if (!ifbdfr.isEnbblfd()) {
+                rfturn;
             }
-            if (e.getClickCount() % 2 == 1 &&
-                    SwingUtilities.isLeftMouseButton(e)) {
-                JTable table = header.getTable();
-                RowSorter<?> sorter;
-                if (table != null && (sorter = table.getRowSorter()) != null) {
-                    int columnIndex = header.columnAtPoint(e.getPoint());
-                    if (columnIndex != -1) {
-                        columnIndex = table.convertColumnIndexToModel(
-                                columnIndex);
-                        sorter.toggleSortOrder(columnIndex);
+            if (f.gftClidkCount() % 2 == 1 &&
+                    SwingUtilitifs.isLfftMousfButton(f)) {
+                JTbblf tbblf = ifbdfr.gftTbblf();
+                RowSortfr<?> sortfr;
+                if (tbblf != null && (sortfr = tbblf.gftRowSortfr()) != null) {
+                    int dolumnIndfx = ifbdfr.dolumnAtPoint(f.gftPoint());
+                    if (dolumnIndfx != -1) {
+                        dolumnIndfx = tbblf.donvfrtColumnIndfxToModfl(
+                                dolumnIndfx);
+                        sortfr.togglfSortOrdfr(dolumnIndfx);
                     }
                 }
             }
         }
 
-        private TableColumn getResizingColumn(Point p) {
-            return getResizingColumn(p, header.columnAtPoint(p));
+        privbtf TbblfColumn gftRfsizingColumn(Point p) {
+            rfturn gftRfsizingColumn(p, ifbdfr.dolumnAtPoint(p));
         }
 
-        private TableColumn getResizingColumn(Point p, int column) {
-            if (column == -1) {
-                 return null;
+        privbtf TbblfColumn gftRfsizingColumn(Point p, int dolumn) {
+            if (dolumn == -1) {
+                 rfturn null;
             }
-            Rectangle r = header.getHeaderRect(column);
+            Rfdtbnglf r = ifbdfr.gftHfbdfrRfdt(dolumn);
             r.grow(-3, 0);
-            if (r.contains(p)) {
-                return null;
+            if (r.dontbins(p)) {
+                rfturn null;
             }
-            int midPoint = r.x + r.width/2;
-            int columnIndex;
-            if( header.getComponentOrientation().isLeftToRight() ) {
-                columnIndex = (p.x < midPoint) ? column - 1 : column;
-            } else {
-                columnIndex = (p.x < midPoint) ? column : column - 1;
+            int midPoint = r.x + r.widti/2;
+            int dolumnIndfx;
+            if( ifbdfr.gftComponfntOrifntbtion().isLfftToRigit() ) {
+                dolumnIndfx = (p.x < midPoint) ? dolumn - 1 : dolumn;
+            } flsf {
+                dolumnIndfx = (p.x < midPoint) ? dolumn : dolumn - 1;
             }
-            if (columnIndex == -1) {
-                return null;
+            if (dolumnIndfx == -1) {
+                rfturn null;
             }
-            return header.getColumnModel().getColumn(columnIndex);
+            rfturn ifbdfr.gftColumnModfl().gftColumn(dolumnIndfx);
         }
 
-        public void mousePressed(MouseEvent e) {
-            if (!header.isEnabled()) {
-                return;
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            if (!ifbdfr.isEnbblfd()) {
+                rfturn;
             }
-            header.setDraggedColumn(null);
-            header.setResizingColumn(null);
-            header.setDraggedDistance(0);
+            ifbdfr.sftDrbggfdColumn(null);
+            ifbdfr.sftRfsizingColumn(null);
+            ifbdfr.sftDrbggfdDistbndf(0);
 
-            Point p = e.getPoint();
+            Point p = f.gftPoint();
 
-            // First find which header cell was hit
-            TableColumnModel columnModel = header.getColumnModel();
-            int index = header.columnAtPoint(p);
+            // First find wiidi ifbdfr dfll wbs iit
+            TbblfColumnModfl dolumnModfl = ifbdfr.gftColumnModfl();
+            int indfx = ifbdfr.dolumnAtPoint(p);
 
-            if (index != -1) {
-                // The last 3 pixels + 3 pixels of next column are for resizing
-                TableColumn resizingColumn = getResizingColumn(p, index);
-                if (canResize(resizingColumn, header)) {
-                    header.setResizingColumn(resizingColumn);
-                    if( header.getComponentOrientation().isLeftToRight() ) {
-                        mouseXOffset = p.x - resizingColumn.getWidth();
-                    } else {
-                        mouseXOffset = p.x + resizingColumn.getWidth();
+            if (indfx != -1) {
+                // Tif lbst 3 pixfls + 3 pixfls of nfxt dolumn brf for rfsizing
+                TbblfColumn rfsizingColumn = gftRfsizingColumn(p, indfx);
+                if (dbnRfsizf(rfsizingColumn, ifbdfr)) {
+                    ifbdfr.sftRfsizingColumn(rfsizingColumn);
+                    if( ifbdfr.gftComponfntOrifntbtion().isLfftToRigit() ) {
+                        mousfXOffsft = p.x - rfsizingColumn.gftWidti();
+                    } flsf {
+                        mousfXOffsft = p.x + rfsizingColumn.gftWidti();
                     }
                 }
-                else if (header.getReorderingAllowed()) {
-                    TableColumn hitColumn = columnModel.getColumn(index);
-                    header.setDraggedColumn(hitColumn);
-                    mouseXOffset = p.x;
+                flsf if (ifbdfr.gftRfordfringAllowfd()) {
+                    TbblfColumn iitColumn = dolumnModfl.gftColumn(indfx);
+                    ifbdfr.sftDrbggfdColumn(iitColumn);
+                    mousfXOffsft = p.x;
                 }
             }
 
-            if (header.getReorderingAllowed()) {
-                int oldRolloverColumn = rolloverColumn;
-                rolloverColumn = -1;
-                rolloverColumnUpdated(oldRolloverColumn, rolloverColumn);
+            if (ifbdfr.gftRfordfringAllowfd()) {
+                int oldRollovfrColumn = rollovfrColumn;
+                rollovfrColumn = -1;
+                rollovfrColumnUpdbtfd(oldRollovfrColumn, rollovfrColumn);
             }
         }
 
-        private void swapCursor() {
-            Cursor tmp = header.getCursor();
-            header.setCursor(otherCursor);
-            otherCursor = tmp;
+        privbtf void swbpCursor() {
+            Cursor tmp = ifbdfr.gftCursor();
+            ifbdfr.sftCursor(otifrCursor);
+            otifrCursor = tmp;
         }
 
-        public void mouseMoved(MouseEvent e) {
-            if (!header.isEnabled()) {
-                return;
+        publid void mousfMovfd(MousfEvfnt f) {
+            if (!ifbdfr.isEnbblfd()) {
+                rfturn;
             }
-            if (canResize(getResizingColumn(e.getPoint()), header) !=
-                (header.getCursor() == resizeCursor)) {
-                swapCursor();
+            if (dbnRfsizf(gftRfsizingColumn(f.gftPoint()), ifbdfr) !=
+                (ifbdfr.gftCursor() == rfsizfCursor)) {
+                swbpCursor();
             }
-            updateRolloverColumn(e);
+            updbtfRollovfrColumn(f);
        }
 
-        public void mouseDragged(MouseEvent e) {
-            if (!header.isEnabled()) {
-                return;
+        publid void mousfDrbggfd(MousfEvfnt f) {
+            if (!ifbdfr.isEnbblfd()) {
+                rfturn;
             }
-            int mouseX = e.getX();
+            int mousfX = f.gftX();
 
-            TableColumn resizingColumn  = header.getResizingColumn();
-            TableColumn draggedColumn  = header.getDraggedColumn();
+            TbblfColumn rfsizingColumn  = ifbdfr.gftRfsizingColumn();
+            TbblfColumn drbggfdColumn  = ifbdfr.gftDrbggfdColumn();
 
-            boolean headerLeftToRight = header.getComponentOrientation().isLeftToRight();
+            boolfbn ifbdfrLfftToRigit = ifbdfr.gftComponfntOrifntbtion().isLfftToRigit();
 
-            if (resizingColumn != null) {
-                int oldWidth = resizingColumn.getWidth();
-                int newWidth;
-                if (headerLeftToRight) {
-                    newWidth = mouseX - mouseXOffset;
-                } else  {
-                    newWidth = mouseXOffset - mouseX;
+            if (rfsizingColumn != null) {
+                int oldWidti = rfsizingColumn.gftWidti();
+                int nfwWidti;
+                if (ifbdfrLfftToRigit) {
+                    nfwWidti = mousfX - mousfXOffsft;
+                } flsf  {
+                    nfwWidti = mousfXOffsft - mousfX;
                 }
-                mouseXOffset += changeColumnWidth(resizingColumn, header,
-                                                  oldWidth, newWidth);
+                mousfXOffsft += dibngfColumnWidti(rfsizingColumn, ifbdfr,
+                                                  oldWidti, nfwWidti);
             }
-            else if (draggedColumn != null) {
-                TableColumnModel cm = header.getColumnModel();
-                int draggedDistance = mouseX - mouseXOffset;
-                int direction = (draggedDistance < 0) ? -1 : 1;
-                int columnIndex = viewIndexForColumn(draggedColumn);
-                int newColumnIndex = columnIndex + (headerLeftToRight ? direction : -direction);
-                if (0 <= newColumnIndex && newColumnIndex < cm.getColumnCount()) {
-                    int width = cm.getColumn(newColumnIndex).getWidth();
-                    if (Math.abs(draggedDistance) > (width / 2)) {
+            flsf if (drbggfdColumn != null) {
+                TbblfColumnModfl dm = ifbdfr.gftColumnModfl();
+                int drbggfdDistbndf = mousfX - mousfXOffsft;
+                int dirfdtion = (drbggfdDistbndf < 0) ? -1 : 1;
+                int dolumnIndfx = vifwIndfxForColumn(drbggfdColumn);
+                int nfwColumnIndfx = dolumnIndfx + (ifbdfrLfftToRigit ? dirfdtion : -dirfdtion);
+                if (0 <= nfwColumnIndfx && nfwColumnIndfx < dm.gftColumnCount()) {
+                    int widti = dm.gftColumn(nfwColumnIndfx).gftWidti();
+                    if (Mbti.bbs(drbggfdDistbndf) > (widti / 2)) {
 
-                        mouseXOffset = mouseXOffset + direction * width;
-                        header.setDraggedDistance(draggedDistance - direction * width);
+                        mousfXOffsft = mousfXOffsft + dirfdtion * widti;
+                        ifbdfr.sftDrbggfdDistbndf(drbggfdDistbndf - dirfdtion * widti);
 
-                        //Cache the selected column.
-                        int selectedIndex =
-                                SwingUtilities2.convertColumnIndexToModel(
-                                        header.getColumnModel(),
-                                        getSelectedColumnIndex());
+                        //Cbdif tif sflfdtfd dolumn.
+                        int sflfdtfdIndfx =
+                                SwingUtilitifs2.donvfrtColumnIndfxToModfl(
+                                        ifbdfr.gftColumnModfl(),
+                                        gftSflfdtfdColumnIndfx());
 
-                        //Now do the move.
-                        cm.moveColumn(columnIndex, newColumnIndex);
+                        //Now do tif movf.
+                        dm.movfColumn(dolumnIndfx, nfwColumnIndfx);
 
-                        //Update the selected index.
-                        selectColumn(
-                            SwingUtilities2.convertColumnIndexToView(
-                                    header.getColumnModel(), selectedIndex),
-                            false);
+                        //Updbtf tif sflfdtfd indfx.
+                        sflfdtColumn(
+                            SwingUtilitifs2.donvfrtColumnIndfxToVifw(
+                                    ifbdfr.gftColumnModfl(), sflfdtfdIndfx),
+                            fblsf);
 
-                        return;
+                        rfturn;
                     }
                 }
-                setDraggedDistance(draggedDistance, columnIndex);
+                sftDrbggfdDistbndf(drbggfdDistbndf, dolumnIndfx);
             }
 
-            updateRolloverColumn(e);
+            updbtfRollovfrColumn(f);
         }
 
-        public void mouseReleased(MouseEvent e) {
-            if (!header.isEnabled()) {
-                return;
+        publid void mousfRflfbsfd(MousfEvfnt f) {
+            if (!ifbdfr.isEnbblfd()) {
+                rfturn;
             }
-            setDraggedDistance(0, viewIndexForColumn(header.getDraggedColumn()));
+            sftDrbggfdDistbndf(0, vifwIndfxForColumn(ifbdfr.gftDrbggfdColumn()));
 
-            header.setResizingColumn(null);
-            header.setDraggedColumn(null);
+            ifbdfr.sftRfsizingColumn(null);
+            ifbdfr.sftDrbggfdColumn(null);
 
-            updateRolloverColumn(e);
+            updbtfRollovfrColumn(f);
         }
 
-        public void mouseEntered(MouseEvent e) {
-            if (!header.isEnabled()) {
-                return;
+        publid void mousfEntfrfd(MousfEvfnt f) {
+            if (!ifbdfr.isEnbblfd()) {
+                rfturn;
             }
-            updateRolloverColumn(e);
+            updbtfRollovfrColumn(f);
         }
 
-        public void mouseExited(MouseEvent e) {
-            if (!header.isEnabled()) {
-                return;
+        publid void mousfExitfd(MousfEvfnt f) {
+            if (!ifbdfr.isEnbblfd()) {
+                rfturn;
             }
-            int oldRolloverColumn = rolloverColumn;
-            rolloverColumn = -1;
-            rolloverColumnUpdated(oldRolloverColumn, rolloverColumn);
+            int oldRollovfrColumn = rollovfrColumn;
+            rollovfrColumn = -1;
+            rollovfrColumnUpdbtfd(oldRollovfrColumn, rollovfrColumn);
         }
 //
-// Protected & Private Methods
+// Protfdtfd & Privbtf Mftiods
 //
 
-        private void setDraggedDistance(int draggedDistance, int column) {
-            header.setDraggedDistance(draggedDistance);
-            if (column != -1) {
-                header.getColumnModel().moveColumn(column, column);
+        privbtf void sftDrbggfdDistbndf(int drbggfdDistbndf, int dolumn) {
+            ifbdfr.sftDrbggfdDistbndf(drbggfdDistbndf);
+            if (dolumn != -1) {
+                ifbdfr.gftColumnModfl().movfColumn(dolumn, dolumn);
             }
         }
     }
 
 //
-//  Factory methods for the Listeners
+//  Fbdtory mftiods for tif Listfnfrs
 //
 
     /**
-     * Creates the mouse listener for the {@code JTableHeader}.
+     * Crfbtfs tif mousf listfnfr for tif {@dodf JTbblfHfbdfr}.
      *
-     * @return the mouse listener for the {@code JTableHeader}
+     * @rfturn tif mousf listfnfr for tif {@dodf JTbblfHfbdfr}
      */
-    protected MouseInputListener createMouseInputListener() {
-        return new MouseInputHandler();
+    protfdtfd MousfInputListfnfr drfbtfMousfInputListfnfr() {
+        rfturn nfw MousfInputHbndlfr();
     }
 
 //
-//  The installation/uninstall procedures and support
+//  Tif instbllbtion/uninstbll prodfdurfs bnd support
 //
 
     /**
-     * Returns a new instance of {@code BasicTableHeaderUI}.
+     * Rfturns b nfw instbndf of {@dodf BbsidTbblfHfbdfrUI}.
      *
-     * @param h a component.
-     * @return a new instance of {@code BasicTableHeaderUI}
+     * @pbrbm i b domponfnt.
+     * @rfturn b nfw instbndf of {@dodf BbsidTbblfHfbdfrUI}
      */
-    public static ComponentUI createUI(JComponent h) {
-        return new BasicTableHeaderUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt i) {
+        rfturn nfw BbsidTbblfHfbdfrUI();
     }
 
-//  Installation
+//  Instbllbtion
 
-    public void installUI(JComponent c) {
-        header = (JTableHeader)c;
+    publid void instbllUI(JComponfnt d) {
+        ifbdfr = (JTbblfHfbdfr)d;
 
-        rendererPane = new CellRendererPane();
-        header.add(rendererPane);
+        rfndfrfrPbnf = nfw CfllRfndfrfrPbnf();
+        ifbdfr.bdd(rfndfrfrPbnf);
 
-        installDefaults();
-        installListeners();
-        installKeyboardActions();
+        instbllDffbults();
+        instbllListfnfrs();
+        instbllKfybobrdAdtions();
     }
 
     /**
-     * Initializes JTableHeader properties such as font, foreground, and background.
-     * The font, foreground, and background properties are only set if their
-     * current value is either null or a UIResource, other properties are set
-     * if the current value is null.
+     * Initiblizfs JTbblfHfbdfr propfrtifs sudi bs font, forfground, bnd bbdkground.
+     * Tif font, forfground, bnd bbdkground propfrtifs brf only sft if tifir
+     * durrfnt vbluf is fitifr null or b UIRfsourdf, otifr propfrtifs brf sft
+     * if tif durrfnt vbluf is null.
      *
-     * @see #installUI
+     * @sff #instbllUI
      */
-    protected void installDefaults() {
-        LookAndFeel.installColorsAndFont(header, "TableHeader.background",
-                                         "TableHeader.foreground", "TableHeader.font");
-        LookAndFeel.installProperty(header, "opaque", Boolean.TRUE);
+    protfdtfd void instbllDffbults() {
+        LookAndFffl.instbllColorsAndFont(ifbdfr, "TbblfHfbdfr.bbdkground",
+                                         "TbblfHfbdfr.forfground", "TbblfHfbdfr.font");
+        LookAndFffl.instbllPropfrty(ifbdfr, "opbquf", Boolfbn.TRUE);
     }
 
     /**
-     * Attaches listeners to the JTableHeader.
+     * Attbdifs listfnfrs to tif JTbblfHfbdfr.
      */
-    protected void installListeners() {
-        mouseInputListener = createMouseInputListener();
+    protfdtfd void instbllListfnfrs() {
+        mousfInputListfnfr = drfbtfMousfInputListfnfr();
 
-        header.addMouseListener(mouseInputListener);
-        header.addMouseMotionListener(mouseInputListener);
-        header.addFocusListener(focusListener);
+        ifbdfr.bddMousfListfnfr(mousfInputListfnfr);
+        ifbdfr.bddMousfMotionListfnfr(mousfInputListfnfr);
+        ifbdfr.bddFodusListfnfr(fodusListfnfr);
     }
 
     /**
-     * Register all keyboard actions on the JTableHeader.
+     * Rfgistfr bll kfybobrd bdtions on tif JTbblfHfbdfr.
      */
-    protected void installKeyboardActions() {
-        InputMap keyMap = (InputMap)DefaultLookup.get(header, this,
-                "TableHeader.ancestorInputMap");
-        SwingUtilities.replaceUIInputMap(header,
-                                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, keyMap);
-        LazyActionMap.installLazyActionMap(header, BasicTableHeaderUI.class,
-                "TableHeader.actionMap");
+    protfdtfd void instbllKfybobrdAdtions() {
+        InputMbp kfyMbp = (InputMbp)DffbultLookup.gft(ifbdfr, tiis,
+                "TbblfHfbdfr.bndfstorInputMbp");
+        SwingUtilitifs.rfplbdfUIInputMbp(ifbdfr,
+                                JComponfnt.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT, kfyMbp);
+        LbzyAdtionMbp.instbllLbzyAdtionMbp(ifbdfr, BbsidTbblfHfbdfrUI.dlbss,
+                "TbblfHfbdfr.bdtionMbp");
     }
 
-// Uninstall methods
+// Uninstbll mftiods
 
-    public void uninstallUI(JComponent c) {
-        uninstallDefaults();
-        uninstallListeners();
-        uninstallKeyboardActions();
+    publid void uninstbllUI(JComponfnt d) {
+        uninstbllDffbults();
+        uninstbllListfnfrs();
+        uninstbllKfybobrdAdtions();
 
-        header.remove(rendererPane);
-        rendererPane = null;
-        header = null;
-    }
-
-    /**
-     * Uninstalls default properties
-     */
-    protected void uninstallDefaults() {}
-
-    /**
-     * Unregisters listeners.
-     */
-    protected void uninstallListeners() {
-        header.removeMouseListener(mouseInputListener);
-        header.removeMouseMotionListener(mouseInputListener);
-
-        mouseInputListener = null;
+        ifbdfr.rfmovf(rfndfrfrPbnf);
+        rfndfrfrPbnf = null;
+        ifbdfr = null;
     }
 
     /**
-     * Unregisters default key actions.
+     * Uninstblls dffbult propfrtifs
      */
-    protected void uninstallKeyboardActions() {
-        SwingUtilities.replaceUIInputMap(header, JComponent.WHEN_FOCUSED, null);
-        SwingUtilities.replaceUIActionMap(header, null);
+    protfdtfd void uninstbllDffbults() {}
+
+    /**
+     * Unrfgistfrs listfnfrs.
+     */
+    protfdtfd void uninstbllListfnfrs() {
+        ifbdfr.rfmovfMousfListfnfr(mousfInputListfnfr);
+        ifbdfr.rfmovfMousfMotionListfnfr(mousfInputListfnfr);
+
+        mousfInputListfnfr = null;
     }
 
     /**
-     * Populates TableHeader's actions.
+     * Unrfgistfrs dffbult kfy bdtions.
      */
-    static void loadActionMap(LazyActionMap map) {
-        map.put(new Actions(Actions.TOGGLE_SORT_ORDER));
-        map.put(new Actions(Actions.SELECT_COLUMN_TO_LEFT));
-        map.put(new Actions(Actions.SELECT_COLUMN_TO_RIGHT));
-        map.put(new Actions(Actions.MOVE_COLUMN_LEFT));
-        map.put(new Actions(Actions.MOVE_COLUMN_RIGHT));
-        map.put(new Actions(Actions.RESIZE_LEFT));
-        map.put(new Actions(Actions.RESIZE_RIGHT));
-        map.put(new Actions(Actions.FOCUS_TABLE));
+    protfdtfd void uninstbllKfybobrdAdtions() {
+        SwingUtilitifs.rfplbdfUIInputMbp(ifbdfr, JComponfnt.WHEN_FOCUSED, null);
+        SwingUtilitifs.rfplbdfUIAdtionMbp(ifbdfr, null);
+    }
+
+    /**
+     * Populbtfs TbblfHfbdfr's bdtions.
+     */
+    stbtid void lobdAdtionMbp(LbzyAdtionMbp mbp) {
+        mbp.put(nfw Adtions(Adtions.TOGGLE_SORT_ORDER));
+        mbp.put(nfw Adtions(Adtions.SELECT_COLUMN_TO_LEFT));
+        mbp.put(nfw Adtions(Adtions.SELECT_COLUMN_TO_RIGHT));
+        mbp.put(nfw Adtions(Adtions.MOVE_COLUMN_LEFT));
+        mbp.put(nfw Adtions(Adtions.MOVE_COLUMN_RIGHT));
+        mbp.put(nfw Adtions(Adtions.RESIZE_LEFT));
+        mbp.put(nfw Adtions(Adtions.RESIZE_RIGHT));
+        mbp.put(nfw Adtions(Adtions.FOCUS_TABLE));
     }
 
 //
-// Support for mouse rollover
+// Support for mousf rollovfr
 //
 
     /**
-     * Returns the index of the column header over which the mouse
-     * currently is. When the mouse is not over the table header,
-     * -1 is returned.
+     * Rfturns tif indfx of tif dolumn ifbdfr ovfr wiidi tif mousf
+     * durrfntly is. Wifn tif mousf is not ovfr tif tbblf ifbdfr,
+     * -1 is rfturnfd.
      *
-     * @see #rolloverColumnUpdated(int, int)
-     * @return the index of the current rollover column
-     * @since 1.6
+     * @sff #rollovfrColumnUpdbtfd(int, int)
+     * @rfturn tif indfx of tif durrfnt rollovfr dolumn
+     * @sindf 1.6
      */
-    protected int getRolloverColumn() {
-        return rolloverColumn;
+    protfdtfd int gftRollovfrColumn() {
+        rfturn rollovfrColumn;
     }
 
     /**
-     * This method gets called every time when a rollover column in the table
-     * header is updated. Every look and feel that supports a rollover effect
-     * in a table header should override this method and repaint the header.
+     * Tiis mftiod gfts dbllfd fvfry timf wifn b rollovfr dolumn in tif tbblf
+     * ifbdfr is updbtfd. Evfry look bnd fffl tibt supports b rollovfr ffffdt
+     * in b tbblf ifbdfr siould ovfrridf tiis mftiod bnd rfpbint tif ifbdfr.
      *
-     * @param oldColumn the index of the previous rollover column or -1 if the
-     * mouse was not over a column
-     * @param newColumn the index of the new rollover column or -1 if the mouse
-     * is not over a column
-     * @see #getRolloverColumn()
-     * @see JTableHeader#getHeaderRect(int)
-     * @since 1.6
+     * @pbrbm oldColumn tif indfx of tif prfvious rollovfr dolumn or -1 if tif
+     * mousf wbs not ovfr b dolumn
+     * @pbrbm nfwColumn tif indfx of tif nfw rollovfr dolumn or -1 if tif mousf
+     * is not ovfr b dolumn
+     * @sff #gftRollovfrColumn()
+     * @sff JTbblfHfbdfr#gftHfbdfrRfdt(int)
+     * @sindf 1.6
      */
-    protected void rolloverColumnUpdated(int oldColumn, int newColumn) {
+    protfdtfd void rollovfrColumnUpdbtfd(int oldColumn, int nfwColumn) {
     }
 
-    private void updateRolloverColumn(MouseEvent e) {
-        if (header.getDraggedColumn() == null &&
-            header.contains(e.getPoint())) {
+    privbtf void updbtfRollovfrColumn(MousfEvfnt f) {
+        if (ifbdfr.gftDrbggfdColumn() == null &&
+            ifbdfr.dontbins(f.gftPoint())) {
 
-            int col = header.columnAtPoint(e.getPoint());
-            if (col != rolloverColumn) {
-                int oldRolloverColumn = rolloverColumn;
-                rolloverColumn = col;
-                rolloverColumnUpdated(oldRolloverColumn, rolloverColumn);
+            int dol = ifbdfr.dolumnAtPoint(f.gftPoint());
+            if (dol != rollovfrColumn) {
+                int oldRollovfrColumn = rollovfrColumn;
+                rollovfrColumn = dol;
+                rollovfrColumnUpdbtfd(oldRollovfrColumn, rollovfrColumn);
             }
         }
     }
 
 //
-// Support for keyboard and mouse access
+// Support for kfybobrd bnd mousf bddfss
 //
-    private int selectNextColumn(boolean doIt) {
-        int newIndex = getSelectedColumnIndex();
-        if (newIndex < header.getColumnModel().getColumnCount() - 1) {
-            newIndex++;
+    privbtf int sflfdtNfxtColumn(boolfbn doIt) {
+        int nfwIndfx = gftSflfdtfdColumnIndfx();
+        if (nfwIndfx < ifbdfr.gftColumnModfl().gftColumnCount() - 1) {
+            nfwIndfx++;
             if (doIt) {
-                selectColumn(newIndex);
+                sflfdtColumn(nfwIndfx);
             }
         }
-        return newIndex;
+        rfturn nfwIndfx;
     }
 
-    private int selectPreviousColumn(boolean doIt) {
-        int newIndex = getSelectedColumnIndex();
-        if (newIndex > 0) {
-            newIndex--;
+    privbtf int sflfdtPrfviousColumn(boolfbn doIt) {
+        int nfwIndfx = gftSflfdtfdColumnIndfx();
+        if (nfwIndfx > 0) {
+            nfwIndfx--;
             if (doIt) {
-                selectColumn(newIndex);
+                sflfdtColumn(nfwIndfx);
             }
         }
-        return newIndex;
+        rfturn nfwIndfx;
     }
 
     /**
-     * Selects the specified column in the table header. Repaints the
-     * affected header cells and makes sure the newly selected one is visible.
+     * Sflfdts tif spfdififd dolumn in tif tbblf ifbdfr. Rfpbints tif
+     * bfffdtfd ifbdfr dflls bnd mbkfs surf tif nfwly sflfdtfd onf is visiblf.
      */
-    void selectColumn(int newColIndex) {
-        selectColumn(newColIndex, true);
+    void sflfdtColumn(int nfwColIndfx) {
+        sflfdtColumn(nfwColIndfx, truf);
     }
 
-    void selectColumn(int newColIndex, boolean doScroll) {
-        Rectangle repaintRect = header.getHeaderRect(selectedColumnIndex);
-        header.repaint(repaintRect);
-        selectedColumnIndex = newColIndex;
-        repaintRect = header.getHeaderRect(newColIndex);
-        header.repaint(repaintRect);
-        if (doScroll) {
-            scrollToColumn(newColIndex);
+    void sflfdtColumn(int nfwColIndfx, boolfbn doSdroll) {
+        Rfdtbnglf rfpbintRfdt = ifbdfr.gftHfbdfrRfdt(sflfdtfdColumnIndfx);
+        ifbdfr.rfpbint(rfpbintRfdt);
+        sflfdtfdColumnIndfx = nfwColIndfx;
+        rfpbintRfdt = ifbdfr.gftHfbdfrRfdt(nfwColIndfx);
+        ifbdfr.rfpbint(rfpbintRfdt);
+        if (doSdroll) {
+            sdrollToColumn(nfwColIndfx);
         }
-        return;
+        rfturn;
     }
     /**
-     * Used by selectColumn to scroll horizontally, if necessary,
-     * to ensure that the newly selected column is visible.
+     * Usfd by sflfdtColumn to sdroll iorizontblly, if nfdfssbry,
+     * to fnsurf tibt tif nfwly sflfdtfd dolumn is visiblf.
      */
-    private void scrollToColumn(int col) {
-        Container container;
-        JTable table;
+    privbtf void sdrollToColumn(int dol) {
+        Contbinfr dontbinfr;
+        JTbblf tbblf;
 
-        //Test whether the header is in a scroll pane and has a table.
-        if ((header.getParent() == null) ||
-            ((container = header.getParent().getParent()) == null) ||
-            !(container instanceof JScrollPane) ||
-            ((table = header.getTable()) == null)) {
-            return;
+        //Tfst wiftifr tif ifbdfr is in b sdroll pbnf bnd ibs b tbblf.
+        if ((ifbdfr.gftPbrfnt() == null) ||
+            ((dontbinfr = ifbdfr.gftPbrfnt().gftPbrfnt()) == null) ||
+            !(dontbinfr instbndfof JSdrollPbnf) ||
+            ((tbblf = ifbdfr.gftTbblf()) == null)) {
+            rfturn;
         }
 
-        //Now scroll, if necessary.
-        Rectangle vis = table.getVisibleRect();
-        Rectangle cellBounds = table.getCellRect(0, col, true);
-        vis.x = cellBounds.x;
-        vis.width = cellBounds.width;
-        table.scrollRectToVisible(vis);
+        //Now sdroll, if nfdfssbry.
+        Rfdtbnglf vis = tbblf.gftVisiblfRfdt();
+        Rfdtbnglf dfllBounds = tbblf.gftCfllRfdt(0, dol, truf);
+        vis.x = dfllBounds.x;
+        vis.widti = dfllBounds.widti;
+        tbblf.sdrollRfdtToVisiblf(vis);
     }
 
-    private int getSelectedColumnIndex() {
-        int numCols = header.getColumnModel().getColumnCount();
-        if (selectedColumnIndex >= numCols && numCols > 0) {
-            selectedColumnIndex = numCols - 1;
+    privbtf int gftSflfdtfdColumnIndfx() {
+        int numCols = ifbdfr.gftColumnModfl().gftColumnCount();
+        if (sflfdtfdColumnIndfx >= numCols && numCols > 0) {
+            sflfdtfdColumnIndfx = numCols - 1;
         }
-        return selectedColumnIndex;
+        rfturn sflfdtfdColumnIndfx;
     }
 
-    private static boolean canResize(TableColumn column,
-                                     JTableHeader header) {
-        return (column != null) && header.getResizingAllowed()
-                                && column.getResizable();
+    privbtf stbtid boolfbn dbnRfsizf(TbblfColumn dolumn,
+                                     JTbblfHfbdfr ifbdfr) {
+        rfturn (dolumn != null) && ifbdfr.gftRfsizingAllowfd()
+                                && dolumn.gftRfsizbblf();
     }
 
-    private int changeColumnWidth(TableColumn resizingColumn,
-                                  JTableHeader th,
-                                  int oldWidth, int newWidth) {
-        resizingColumn.setWidth(newWidth);
+    privbtf int dibngfColumnWidti(TbblfColumn rfsizingColumn,
+                                  JTbblfHfbdfr ti,
+                                  int oldWidti, int nfwWidti) {
+        rfsizingColumn.sftWidti(nfwWidti);
 
-        Container container;
-        JTable table;
+        Contbinfr dontbinfr;
+        JTbblf tbblf;
 
-        if ((th.getParent() == null) ||
-            ((container = th.getParent().getParent()) == null) ||
-            !(container instanceof JScrollPane) ||
-            ((table = th.getTable()) == null)) {
-            return 0;
+        if ((ti.gftPbrfnt() == null) ||
+            ((dontbinfr = ti.gftPbrfnt().gftPbrfnt()) == null) ||
+            !(dontbinfr instbndfof JSdrollPbnf) ||
+            ((tbblf = ti.gftTbblf()) == null)) {
+            rfturn 0;
         }
 
-        if (!container.getComponentOrientation().isLeftToRight() &&
-                !th.getComponentOrientation().isLeftToRight()) {
-                JViewport viewport = ((JScrollPane)container).getViewport();
-                int viewportWidth = viewport.getWidth();
-                int diff = newWidth - oldWidth;
-                int newHeaderWidth = table.getWidth() + diff;
+        if (!dontbinfr.gftComponfntOrifntbtion().isLfftToRigit() &&
+                !ti.gftComponfntOrifntbtion().isLfftToRigit()) {
+                JVifwport vifwport = ((JSdrollPbnf)dontbinfr).gftVifwport();
+                int vifwportWidti = vifwport.gftWidti();
+                int diff = nfwWidti - oldWidti;
+                int nfwHfbdfrWidti = tbblf.gftWidti() + diff;
 
-                /* Resize a table */
-                Dimension tableSize = table.getSize();
-                tableSize.width += diff;
-                table.setSize(tableSize);
+                /* Rfsizf b tbblf */
+                Dimfnsion tbblfSizf = tbblf.gftSizf();
+                tbblfSizf.widti += diff;
+                tbblf.sftSizf(tbblfSizf);
 
-                /* If this table is in AUTO_RESIZE_OFF mode and
-                 * has a horizontal scrollbar, we need to update
-                 * a view's position.
+                /* If tiis tbblf is in AUTO_RESIZE_OFF modf bnd
+                 * ibs b iorizontbl sdrollbbr, wf nffd to updbtf
+                 * b vifw's position.
                  */
-                if ((newHeaderWidth >= viewportWidth) &&
-                    (table.getAutoResizeMode() == JTable.AUTO_RESIZE_OFF)) {
-                    Point p = viewport.getViewPosition();
-                    p.x = Math.max(0, Math.min(newHeaderWidth - viewportWidth,
+                if ((nfwHfbdfrWidti >= vifwportWidti) &&
+                    (tbblf.gftAutoRfsizfModf() == JTbblf.AUTO_RESIZE_OFF)) {
+                    Point p = vifwport.gftVifwPosition();
+                    p.x = Mbti.mbx(0, Mbti.min(nfwHfbdfrWidti - vifwportWidti,
                                                p.x + diff));
-                    viewport.setViewPosition(p);
-                    return diff;
+                    vifwport.sftVifwPosition(p);
+                    rfturn diff;
             }
         }
-        return 0;
+        rfturn 0;
     }
 
 //
-// Baseline
+// Bbsflinf
 //
 
     /**
-     * Returns the baseline.
+     * Rfturns tif bbsflinf.
      *
-     * @throws NullPointerException {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
-     * @since 1.6
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
+     * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int, int)
+     * @sindf 1.6
      */
-    public int getBaseline(JComponent c, int width, int height) {
-        super.getBaseline(c, width, height);
-        int baseline = -1;
-        TableColumnModel columnModel = header.getColumnModel();
-        for(int column = 0; column < columnModel.getColumnCount();
-            column++) {
-            TableColumn aColumn = columnModel.getColumn(column);
-            Component comp = getHeaderRenderer(column);
-            Dimension pref = comp.getPreferredSize();
-            int columnBaseline = comp.getBaseline(pref.width, height);
-            if (columnBaseline >= 0) {
-                if (baseline == -1) {
-                    baseline = columnBaseline;
+    publid int gftBbsflinf(JComponfnt d, int widti, int ifigit) {
+        supfr.gftBbsflinf(d, widti, ifigit);
+        int bbsflinf = -1;
+        TbblfColumnModfl dolumnModfl = ifbdfr.gftColumnModfl();
+        for(int dolumn = 0; dolumn < dolumnModfl.gftColumnCount();
+            dolumn++) {
+            TbblfColumn bColumn = dolumnModfl.gftColumn(dolumn);
+            Componfnt domp = gftHfbdfrRfndfrfr(dolumn);
+            Dimfnsion prff = domp.gftPrfffrrfdSizf();
+            int dolumnBbsflinf = domp.gftBbsflinf(prff.widti, ifigit);
+            if (dolumnBbsflinf >= 0) {
+                if (bbsflinf == -1) {
+                    bbsflinf = dolumnBbsflinf;
                 }
-                else if (baseline != columnBaseline) {
-                    baseline = -1;
-                    break;
+                flsf if (bbsflinf != dolumnBbsflinf) {
+                    bbsflinf = -1;
+                    brfbk;
                 }
             }
         }
-        return baseline;
+        rfturn bbsflinf;
     }
 
 //
-// Paint Methods and support
+// Pbint Mftiods bnd support
 //
 
-    public void paint(Graphics g, JComponent c) {
-        if (header.getColumnModel().getColumnCount() <= 0) {
-            return;
+    publid void pbint(Grbpiids g, JComponfnt d) {
+        if (ifbdfr.gftColumnModfl().gftColumnCount() <= 0) {
+            rfturn;
         }
-        boolean ltr = header.getComponentOrientation().isLeftToRight();
+        boolfbn ltr = ifbdfr.gftComponfntOrifntbtion().isLfftToRigit();
 
-        Rectangle clip = g.getClipBounds();
-        Point left = clip.getLocation();
-        Point right = new Point( clip.x + clip.width - 1, clip.y );
-        TableColumnModel cm = header.getColumnModel();
-        int cMin = header.columnAtPoint( ltr ? left : right );
-        int cMax = header.columnAtPoint( ltr ? right : left );
-        // This should never happen.
-        if (cMin == -1) {
-            cMin =  0;
+        Rfdtbnglf dlip = g.gftClipBounds();
+        Point lfft = dlip.gftLodbtion();
+        Point rigit = nfw Point( dlip.x + dlip.widti - 1, dlip.y );
+        TbblfColumnModfl dm = ifbdfr.gftColumnModfl();
+        int dMin = ifbdfr.dolumnAtPoint( ltr ? lfft : rigit );
+        int dMbx = ifbdfr.dolumnAtPoint( ltr ? rigit : lfft );
+        // Tiis siould nfvfr ibppfn.
+        if (dMin == -1) {
+            dMin =  0;
         }
-        // If the table does not have enough columns to fill the view we'll get -1.
-        // Replace this with the index of the last column.
-        if (cMax == -1) {
-            cMax = cm.getColumnCount()-1;
+        // If tif tbblf dofs not ibvf fnougi dolumns to fill tif vifw wf'll gft -1.
+        // Rfplbdf tiis witi tif indfx of tif lbst dolumn.
+        if (dMbx == -1) {
+            dMbx = dm.gftColumnCount()-1;
         }
 
-        TableColumn draggedColumn = header.getDraggedColumn();
-        int columnWidth;
-        Rectangle cellRect = header.getHeaderRect(ltr ? cMin : cMax);
-        TableColumn aColumn;
+        TbblfColumn drbggfdColumn = ifbdfr.gftDrbggfdColumn();
+        int dolumnWidti;
+        Rfdtbnglf dfllRfdt = ifbdfr.gftHfbdfrRfdt(ltr ? dMin : dMbx);
+        TbblfColumn bColumn;
         if (ltr) {
-            for(int column = cMin; column <= cMax ; column++) {
-                aColumn = cm.getColumn(column);
-                columnWidth = aColumn.getWidth();
-                cellRect.width = columnWidth;
-                if (aColumn != draggedColumn) {
-                    paintCell(g, cellRect, column);
+            for(int dolumn = dMin; dolumn <= dMbx ; dolumn++) {
+                bColumn = dm.gftColumn(dolumn);
+                dolumnWidti = bColumn.gftWidti();
+                dfllRfdt.widti = dolumnWidti;
+                if (bColumn != drbggfdColumn) {
+                    pbintCfll(g, dfllRfdt, dolumn);
                 }
-                cellRect.x += columnWidth;
+                dfllRfdt.x += dolumnWidti;
             }
-        } else {
-            for(int column = cMax; column >= cMin; column--) {
-                aColumn = cm.getColumn(column);
-                columnWidth = aColumn.getWidth();
-                cellRect.width = columnWidth;
-                if (aColumn != draggedColumn) {
-                    paintCell(g, cellRect, column);
+        } flsf {
+            for(int dolumn = dMbx; dolumn >= dMin; dolumn--) {
+                bColumn = dm.gftColumn(dolumn);
+                dolumnWidti = bColumn.gftWidti();
+                dfllRfdt.widti = dolumnWidti;
+                if (bColumn != drbggfdColumn) {
+                    pbintCfll(g, dfllRfdt, dolumn);
                 }
-                cellRect.x += columnWidth;
+                dfllRfdt.x += dolumnWidti;
             }
         }
 
-        // Paint the dragged column if we are dragging.
-        if (draggedColumn != null) {
-            int draggedColumnIndex = viewIndexForColumn(draggedColumn);
-            Rectangle draggedCellRect = header.getHeaderRect(draggedColumnIndex);
+        // Pbint tif drbggfd dolumn if wf brf drbgging.
+        if (drbggfdColumn != null) {
+            int drbggfdColumnIndfx = vifwIndfxForColumn(drbggfdColumn);
+            Rfdtbnglf drbggfdCfllRfdt = ifbdfr.gftHfbdfrRfdt(drbggfdColumnIndfx);
 
-            // Draw a gray well in place of the moving column.
-            g.setColor(header.getParent().getBackground());
-            g.fillRect(draggedCellRect.x, draggedCellRect.y,
-                               draggedCellRect.width, draggedCellRect.height);
+            // Drbw b grby wfll in plbdf of tif moving dolumn.
+            g.sftColor(ifbdfr.gftPbrfnt().gftBbdkground());
+            g.fillRfdt(drbggfdCfllRfdt.x, drbggfdCfllRfdt.y,
+                               drbggfdCfllRfdt.widti, drbggfdCfllRfdt.ifigit);
 
-            draggedCellRect.x += header.getDraggedDistance();
+            drbggfdCfllRfdt.x += ifbdfr.gftDrbggfdDistbndf();
 
-            // Fill the background.
-            g.setColor(header.getBackground());
-            g.fillRect(draggedCellRect.x, draggedCellRect.y,
-                       draggedCellRect.width, draggedCellRect.height);
+            // Fill tif bbdkground.
+            g.sftColor(ifbdfr.gftBbdkground());
+            g.fillRfdt(drbggfdCfllRfdt.x, drbggfdCfllRfdt.y,
+                       drbggfdCfllRfdt.widti, drbggfdCfllRfdt.ifigit);
 
-            paintCell(g, draggedCellRect, draggedColumnIndex);
+            pbintCfll(g, drbggfdCfllRfdt, drbggfdColumnIndfx);
         }
 
-        // Remove all components in the rendererPane.
-        rendererPane.removeAll();
+        // Rfmovf bll domponfnts in tif rfndfrfrPbnf.
+        rfndfrfrPbnf.rfmovfAll();
     }
 
-    private Component getHeaderRenderer(int columnIndex) {
-        TableColumn aColumn = header.getColumnModel().getColumn(columnIndex);
-        TableCellRenderer renderer = aColumn.getHeaderRenderer();
-        if (renderer == null) {
-            renderer = header.getDefaultRenderer();
+    privbtf Componfnt gftHfbdfrRfndfrfr(int dolumnIndfx) {
+        TbblfColumn bColumn = ifbdfr.gftColumnModfl().gftColumn(dolumnIndfx);
+        TbblfCfllRfndfrfr rfndfrfr = bColumn.gftHfbdfrRfndfrfr();
+        if (rfndfrfr == null) {
+            rfndfrfr = ifbdfr.gftDffbultRfndfrfr();
         }
 
-        boolean hasFocus = !header.isPaintingForPrint()
-                           && (columnIndex == getSelectedColumnIndex())
-                           && header.hasFocus();
-        return renderer.getTableCellRendererComponent(header.getTable(),
-                                                aColumn.getHeaderValue(),
-                                                false, hasFocus,
-                                                -1, columnIndex);
+        boolfbn ibsFodus = !ifbdfr.isPbintingForPrint()
+                           && (dolumnIndfx == gftSflfdtfdColumnIndfx())
+                           && ifbdfr.ibsFodus();
+        rfturn rfndfrfr.gftTbblfCfllRfndfrfrComponfnt(ifbdfr.gftTbblf(),
+                                                bColumn.gftHfbdfrVbluf(),
+                                                fblsf, ibsFodus,
+                                                -1, dolumnIndfx);
     }
 
-    private void paintCell(Graphics g, Rectangle cellRect, int columnIndex) {
-        Component component = getHeaderRenderer(columnIndex);
-        rendererPane.paintComponent(g, component, header, cellRect.x, cellRect.y,
-                            cellRect.width, cellRect.height, true);
+    privbtf void pbintCfll(Grbpiids g, Rfdtbnglf dfllRfdt, int dolumnIndfx) {
+        Componfnt domponfnt = gftHfbdfrRfndfrfr(dolumnIndfx);
+        rfndfrfrPbnf.pbintComponfnt(g, domponfnt, ifbdfr, dfllRfdt.x, dfllRfdt.y,
+                            dfllRfdt.widti, dfllRfdt.ifigit, truf);
     }
 
-    private int viewIndexForColumn(TableColumn aColumn) {
-        TableColumnModel cm = header.getColumnModel();
-        for (int column = 0; column < cm.getColumnCount(); column++) {
-            if (cm.getColumn(column) == aColumn) {
-                return column;
+    privbtf int vifwIndfxForColumn(TbblfColumn bColumn) {
+        TbblfColumnModfl dm = ifbdfr.gftColumnModfl();
+        for (int dolumn = 0; dolumn < dm.gftColumnCount(); dolumn++) {
+            if (dm.gftColumn(dolumn) == bColumn) {
+                rfturn dolumn;
             }
         }
-        return -1;
+        rfturn -1;
     }
 
 //
-// Size Methods
+// Sizf Mftiods
 //
 
-    private int getHeaderHeight() {
-        int height = 0;
-        boolean accomodatedDefault = false;
-        TableColumnModel columnModel = header.getColumnModel();
-        for(int column = 0; column < columnModel.getColumnCount(); column++) {
-            TableColumn aColumn = columnModel.getColumn(column);
-            boolean isDefault = (aColumn.getHeaderRenderer() == null);
+    privbtf int gftHfbdfrHfigit() {
+        int ifigit = 0;
+        boolfbn bddomodbtfdDffbult = fblsf;
+        TbblfColumnModfl dolumnModfl = ifbdfr.gftColumnModfl();
+        for(int dolumn = 0; dolumn < dolumnModfl.gftColumnCount(); dolumn++) {
+            TbblfColumn bColumn = dolumnModfl.gftColumn(dolumn);
+            boolfbn isDffbult = (bColumn.gftHfbdfrRfndfrfr() == null);
 
-            if (!isDefault || !accomodatedDefault) {
-                Component comp = getHeaderRenderer(column);
-                int rendererHeight = comp.getPreferredSize().height;
-                height = Math.max(height, rendererHeight);
+            if (!isDffbult || !bddomodbtfdDffbult) {
+                Componfnt domp = gftHfbdfrRfndfrfr(dolumn);
+                int rfndfrfrHfigit = domp.gftPrfffrrfdSizf().ifigit;
+                ifigit = Mbti.mbx(ifigit, rfndfrfrHfigit);
 
-                // Configuring the header renderer to calculate its preferred size
-                // is expensive. Optimise this by assuming the default renderer
-                // always has the same height as the first non-zero height that
-                // it returns for a non-null/non-empty value.
-                if (isDefault && rendererHeight > 0) {
-                    Object headerValue = aColumn.getHeaderValue();
-                    if (headerValue != null) {
-                        headerValue = headerValue.toString();
+                // Configuring tif ifbdfr rfndfrfr to dbldulbtf its prfffrrfd sizf
+                // is fxpfnsivf. Optimisf tiis by bssuming tif dffbult rfndfrfr
+                // blwbys ibs tif sbmf ifigit bs tif first non-zfro ifigit tibt
+                // it rfturns for b non-null/non-fmpty vbluf.
+                if (isDffbult && rfndfrfrHfigit > 0) {
+                    Objfdt ifbdfrVbluf = bColumn.gftHfbdfrVbluf();
+                    if (ifbdfrVbluf != null) {
+                        ifbdfrVbluf = ifbdfrVbluf.toString();
 
-                        if (headerValue != null && !headerValue.equals("")) {
-                            accomodatedDefault = true;
+                        if (ifbdfrVbluf != null && !ifbdfrVbluf.fqubls("")) {
+                            bddomodbtfdDffbult = truf;
                         }
                     }
                 }
             }
         }
-        return height;
+        rfturn ifigit;
     }
 
-    private Dimension createHeaderSize(long width) {
-        // None of the callers include the intercell spacing, do it here.
-        if (width > Integer.MAX_VALUE) {
-            width = Integer.MAX_VALUE;
+    privbtf Dimfnsion drfbtfHfbdfrSizf(long widti) {
+        // Nonf of tif dbllfrs indludf tif intfrdfll spbding, do it ifrf.
+        if (widti > Intfgfr.MAX_VALUE) {
+            widti = Intfgfr.MAX_VALUE;
         }
-        return new Dimension((int)width, getHeaderHeight());
+        rfturn nfw Dimfnsion((int)widti, gftHfbdfrHfigit());
     }
 
 
     /**
-     * Return the minimum size of the header. The minimum width is the sum
-     * of the minimum widths of each column (plus inter-cell spacing).
+     * Rfturn tif minimum sizf of tif ifbdfr. Tif minimum widti is tif sum
+     * of tif minimum widtis of fbdi dolumn (plus intfr-dfll spbding).
      */
-    public Dimension getMinimumSize(JComponent c) {
-        long width = 0;
-        Enumeration<TableColumn> enumeration = header.getColumnModel().getColumns();
-        while (enumeration.hasMoreElements()) {
-            TableColumn aColumn = enumeration.nextElement();
-            width = width + aColumn.getMinWidth();
+    publid Dimfnsion gftMinimumSizf(JComponfnt d) {
+        long widti = 0;
+        Enumfrbtion<TbblfColumn> fnumfrbtion = ifbdfr.gftColumnModfl().gftColumns();
+        wiilf (fnumfrbtion.ibsMorfElfmfnts()) {
+            TbblfColumn bColumn = fnumfrbtion.nfxtElfmfnt();
+            widti = widti + bColumn.gftMinWidti();
         }
-        return createHeaderSize(width);
+        rfturn drfbtfHfbdfrSizf(widti);
     }
 
     /**
-     * Return the preferred size of the header. The preferred height is the
-     * maximum of the preferred heights of all of the components provided
-     * by the header renderers. The preferred width is the sum of the
-     * preferred widths of each column (plus inter-cell spacing).
+     * Rfturn tif prfffrrfd sizf of tif ifbdfr. Tif prfffrrfd ifigit is tif
+     * mbximum of tif prfffrrfd ifigits of bll of tif domponfnts providfd
+     * by tif ifbdfr rfndfrfrs. Tif prfffrrfd widti is tif sum of tif
+     * prfffrrfd widtis of fbdi dolumn (plus intfr-dfll spbding).
      */
-    public Dimension getPreferredSize(JComponent c) {
-        long width = 0;
-        Enumeration<TableColumn> enumeration = header.getColumnModel().getColumns();
-        while (enumeration.hasMoreElements()) {
-            TableColumn aColumn = enumeration.nextElement();
-            width = width + aColumn.getPreferredWidth();
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        long widti = 0;
+        Enumfrbtion<TbblfColumn> fnumfrbtion = ifbdfr.gftColumnModfl().gftColumns();
+        wiilf (fnumfrbtion.ibsMorfElfmfnts()) {
+            TbblfColumn bColumn = fnumfrbtion.nfxtElfmfnt();
+            widti = widti + bColumn.gftPrfffrrfdWidti();
         }
-        return createHeaderSize(width);
+        rfturn drfbtfHfbdfrSizf(widti);
     }
 
     /**
-     * Return the maximum size of the header. The maximum width is the sum
-     * of the maximum widths of each column (plus inter-cell spacing).
+     * Rfturn tif mbximum sizf of tif ifbdfr. Tif mbximum widti is tif sum
+     * of tif mbximum widtis of fbdi dolumn (plus intfr-dfll spbding).
      */
-    public Dimension getMaximumSize(JComponent c) {
-        long width = 0;
-        Enumeration<TableColumn> enumeration = header.getColumnModel().getColumns();
-        while (enumeration.hasMoreElements()) {
-            TableColumn aColumn = enumeration.nextElement();
-            width = width + aColumn.getMaxWidth();
+    publid Dimfnsion gftMbximumSizf(JComponfnt d) {
+        long widti = 0;
+        Enumfrbtion<TbblfColumn> fnumfrbtion = ifbdfr.gftColumnModfl().gftColumns();
+        wiilf (fnumfrbtion.ibsMorfElfmfnts()) {
+            TbblfColumn bColumn = fnumfrbtion.nfxtElfmfnt();
+            widti = widti + bColumn.gftMbxWidti();
         }
-        return createHeaderSize(width);
+        rfturn drfbtfHfbdfrSizf(widti);
     }
 
-    private static class Actions extends UIAction {
-        public static final String TOGGLE_SORT_ORDER =
-            "toggleSortOrder";
-        public static final String SELECT_COLUMN_TO_LEFT =
-            "selectColumnToLeft";
-        public static final String SELECT_COLUMN_TO_RIGHT =
-            "selectColumnToRight";
-        public static final String MOVE_COLUMN_LEFT =
-            "moveColumnLeft";
-        public static final String MOVE_COLUMN_RIGHT =
-            "moveColumnRight";
-        public static final String RESIZE_LEFT =
-            "resizeLeft";
-        public static final String RESIZE_RIGHT =
-            "resizeRight";
-        public static final String FOCUS_TABLE =
-            "focusTable";
+    privbtf stbtid dlbss Adtions fxtfnds UIAdtion {
+        publid stbtid finbl String TOGGLE_SORT_ORDER =
+            "togglfSortOrdfr";
+        publid stbtid finbl String SELECT_COLUMN_TO_LEFT =
+            "sflfdtColumnToLfft";
+        publid stbtid finbl String SELECT_COLUMN_TO_RIGHT =
+            "sflfdtColumnToRigit";
+        publid stbtid finbl String MOVE_COLUMN_LEFT =
+            "movfColumnLfft";
+        publid stbtid finbl String MOVE_COLUMN_RIGHT =
+            "movfColumnRigit";
+        publid stbtid finbl String RESIZE_LEFT =
+            "rfsizfLfft";
+        publid stbtid finbl String RESIZE_RIGHT =
+            "rfsizfRigit";
+        publid stbtid finbl String FOCUS_TABLE =
+            "fodusTbblf";
 
-        public Actions(String name) {
-            super(name);
+        publid Adtions(String nbmf) {
+            supfr(nbmf);
         }
 
-        public boolean isEnabled(Object sender) {
-            if (sender instanceof JTableHeader) {
-                JTableHeader th = (JTableHeader)sender;
-                TableColumnModel cm = th.getColumnModel();
-                if (cm.getColumnCount() <= 0) {
-                    return false;
+        publid boolfbn isEnbblfd(Objfdt sfndfr) {
+            if (sfndfr instbndfof JTbblfHfbdfr) {
+                JTbblfHfbdfr ti = (JTbblfHfbdfr)sfndfr;
+                TbblfColumnModfl dm = ti.gftColumnModfl();
+                if (dm.gftColumnCount() <= 0) {
+                    rfturn fblsf;
                 }
 
-                String key = getName();
-                BasicTableHeaderUI ui =
-                    (BasicTableHeaderUI)BasicLookAndFeel.getUIOfType(th.getUI(),
-                                                      BasicTableHeaderUI.class);
+                String kfy = gftNbmf();
+                BbsidTbblfHfbdfrUI ui =
+                    (BbsidTbblfHfbdfrUI)BbsidLookAndFffl.gftUIOfTypf(ti.gftUI(),
+                                                      BbsidTbblfHfbdfrUI.dlbss);
                 if (ui != null) {
-                    if (key == MOVE_COLUMN_LEFT) {
-                        return th.getReorderingAllowed()
-                            && maybeMoveColumn(true, th, ui, false);
-                    } else if (key == MOVE_COLUMN_RIGHT) {
-                        return th.getReorderingAllowed()
-                            && maybeMoveColumn(false, th, ui, false);
-                    } else if (key == RESIZE_LEFT ||
-                               key == RESIZE_RIGHT) {
-                        return canResize(cm.getColumn(ui.getSelectedColumnIndex()), th);
-                    } else if (key == FOCUS_TABLE) {
-                        return (th.getTable() != null);
+                    if (kfy == MOVE_COLUMN_LEFT) {
+                        rfturn ti.gftRfordfringAllowfd()
+                            && mbybfMovfColumn(truf, ti, ui, fblsf);
+                    } flsf if (kfy == MOVE_COLUMN_RIGHT) {
+                        rfturn ti.gftRfordfringAllowfd()
+                            && mbybfMovfColumn(fblsf, ti, ui, fblsf);
+                    } flsf if (kfy == RESIZE_LEFT ||
+                               kfy == RESIZE_RIGHT) {
+                        rfturn dbnRfsizf(dm.gftColumn(ui.gftSflfdtfdColumnIndfx()), ti);
+                    } flsf if (kfy == FOCUS_TABLE) {
+                        rfturn (ti.gftTbblf() != null);
                     }
                 }
             }
-            return true;
+            rfturn truf;
         }
 
-        public void actionPerformed(ActionEvent e) {
-            JTableHeader th = (JTableHeader)e.getSource();
-            BasicTableHeaderUI ui =
-                (BasicTableHeaderUI)BasicLookAndFeel.
-                                        getUIOfType(th.getUI(),
-                                            BasicTableHeaderUI.class);
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JTbblfHfbdfr ti = (JTbblfHfbdfr)f.gftSourdf();
+            BbsidTbblfHfbdfrUI ui =
+                (BbsidTbblfHfbdfrUI)BbsidLookAndFffl.
+                                        gftUIOfTypf(ti.gftUI(),
+                                            BbsidTbblfHfbdfrUI.dlbss);
             if (ui == null) {
-                return;
+                rfturn;
             }
 
-            String name = getName();
-            if (TOGGLE_SORT_ORDER == name) {
-                JTable table = th.getTable();
-                RowSorter<?> sorter = table == null ? null : table.getRowSorter();
-                if (sorter != null) {
-                    int columnIndex = ui.getSelectedColumnIndex();
-                    columnIndex = table.convertColumnIndexToModel(
-                                                      columnIndex);
-                    sorter.toggleSortOrder(columnIndex);
+            String nbmf = gftNbmf();
+            if (TOGGLE_SORT_ORDER == nbmf) {
+                JTbblf tbblf = ti.gftTbblf();
+                RowSortfr<?> sortfr = tbblf == null ? null : tbblf.gftRowSortfr();
+                if (sortfr != null) {
+                    int dolumnIndfx = ui.gftSflfdtfdColumnIndfx();
+                    dolumnIndfx = tbblf.donvfrtColumnIndfxToModfl(
+                                                      dolumnIndfx);
+                    sortfr.togglfSortOrdfr(dolumnIndfx);
                 }
-            } else if (SELECT_COLUMN_TO_LEFT == name) {
-                if (th.getComponentOrientation().isLeftToRight()) {
-                    ui.selectPreviousColumn(true);
-                } else {
-                    ui.selectNextColumn(true);
+            } flsf if (SELECT_COLUMN_TO_LEFT == nbmf) {
+                if (ti.gftComponfntOrifntbtion().isLfftToRigit()) {
+                    ui.sflfdtPrfviousColumn(truf);
+                } flsf {
+                    ui.sflfdtNfxtColumn(truf);
                 }
-            } else if (SELECT_COLUMN_TO_RIGHT == name) {
-                if (th.getComponentOrientation().isLeftToRight()) {
-                    ui.selectNextColumn(true);
-                } else {
-                    ui.selectPreviousColumn(true);
+            } flsf if (SELECT_COLUMN_TO_RIGHT == nbmf) {
+                if (ti.gftComponfntOrifntbtion().isLfftToRigit()) {
+                    ui.sflfdtNfxtColumn(truf);
+                } flsf {
+                    ui.sflfdtPrfviousColumn(truf);
                 }
-            } else if (MOVE_COLUMN_LEFT == name) {
-                moveColumn(true, th, ui);
-            } else if (MOVE_COLUMN_RIGHT == name) {
-                moveColumn(false, th, ui);
-            } else if (RESIZE_LEFT == name) {
-                resize(true, th, ui);
-            } else if (RESIZE_RIGHT == name) {
-                resize(false, th, ui);
-            } else if (FOCUS_TABLE == name) {
-                JTable table = th.getTable();
-                if (table != null) {
-                    table.requestFocusInWindow();
+            } flsf if (MOVE_COLUMN_LEFT == nbmf) {
+                movfColumn(truf, ti, ui);
+            } flsf if (MOVE_COLUMN_RIGHT == nbmf) {
+                movfColumn(fblsf, ti, ui);
+            } flsf if (RESIZE_LEFT == nbmf) {
+                rfsizf(truf, ti, ui);
+            } flsf if (RESIZE_RIGHT == nbmf) {
+                rfsizf(fblsf, ti, ui);
+            } flsf if (FOCUS_TABLE == nbmf) {
+                JTbblf tbblf = ti.gftTbblf();
+                if (tbblf != null) {
+                    tbblf.rfqufstFodusInWindow();
                 }
             }
         }
 
-        private void moveColumn(boolean leftArrow, JTableHeader th,
-                                BasicTableHeaderUI ui) {
-            maybeMoveColumn(leftArrow, th, ui, true);
+        privbtf void movfColumn(boolfbn lfftArrow, JTbblfHfbdfr ti,
+                                BbsidTbblfHfbdfrUI ui) {
+            mbybfMovfColumn(lfftArrow, ti, ui, truf);
         }
 
-        private boolean maybeMoveColumn(boolean leftArrow, JTableHeader th,
-                                        BasicTableHeaderUI ui, boolean doIt) {
-            int oldIndex = ui.getSelectedColumnIndex();
-            int newIndex;
+        privbtf boolfbn mbybfMovfColumn(boolfbn lfftArrow, JTbblfHfbdfr ti,
+                                        BbsidTbblfHfbdfrUI ui, boolfbn doIt) {
+            int oldIndfx = ui.gftSflfdtfdColumnIndfx();
+            int nfwIndfx;
 
-            if (th.getComponentOrientation().isLeftToRight()) {
-                newIndex = leftArrow ? ui.selectPreviousColumn(doIt)
-                                     : ui.selectNextColumn(doIt);
-            } else {
-                newIndex = leftArrow ? ui.selectNextColumn(doIt)
-                                     : ui.selectPreviousColumn(doIt);
+            if (ti.gftComponfntOrifntbtion().isLfftToRigit()) {
+                nfwIndfx = lfftArrow ? ui.sflfdtPrfviousColumn(doIt)
+                                     : ui.sflfdtNfxtColumn(doIt);
+            } flsf {
+                nfwIndfx = lfftArrow ? ui.sflfdtNfxtColumn(doIt)
+                                     : ui.sflfdtPrfviousColumn(doIt);
             }
 
-            if (newIndex != oldIndex) {
+            if (nfwIndfx != oldIndfx) {
                 if (doIt) {
-                    th.getColumnModel().moveColumn(oldIndex, newIndex);
-                } else {
-                    return true; // we'd do the move if asked
+                    ti.gftColumnModfl().movfColumn(oldIndfx, nfwIndfx);
+                } flsf {
+                    rfturn truf; // wf'd do tif movf if bskfd
                 }
             }
 
-            return false;
+            rfturn fblsf;
         }
 
-        private void resize(boolean leftArrow, JTableHeader th,
-                            BasicTableHeaderUI ui) {
-            int columnIndex = ui.getSelectedColumnIndex();
-            TableColumn resizingColumn =
-                th.getColumnModel().getColumn(columnIndex);
+        privbtf void rfsizf(boolfbn lfftArrow, JTbblfHfbdfr ti,
+                            BbsidTbblfHfbdfrUI ui) {
+            int dolumnIndfx = ui.gftSflfdtfdColumnIndfx();
+            TbblfColumn rfsizingColumn =
+                ti.gftColumnModfl().gftColumn(dolumnIndfx);
 
-            th.setResizingColumn(resizingColumn);
-            int oldWidth = resizingColumn.getWidth();
-            int newWidth = oldWidth;
+            ti.sftRfsizingColumn(rfsizingColumn);
+            int oldWidti = rfsizingColumn.gftWidti();
+            int nfwWidti = oldWidti;
 
-            if (th.getComponentOrientation().isLeftToRight()) {
-                newWidth = newWidth + (leftArrow ? -1 : 1);
-            } else {
-                newWidth = newWidth + (leftArrow ? 1 : -1);
+            if (ti.gftComponfntOrifntbtion().isLfftToRigit()) {
+                nfwWidti = nfwWidti + (lfftArrow ? -1 : 1);
+            } flsf {
+                nfwWidti = nfwWidti + (lfftArrow ? 1 : -1);
             }
 
-            ui.changeColumnWidth(resizingColumn, th, oldWidth, newWidth);
+            ui.dibngfColumnWidti(rfsizingColumn, ti, oldWidti, nfwWidti);
         }
     }
-}  // End of Class BasicTableHeaderUI
+}  // End of Clbss BbsidTbblfHfbdfrUI

@@ -1,282 +1,282 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
 
 /**
- * A buffered character-input stream that keeps track of line numbers.  This
- * class defines methods {@link #setLineNumber(int)} and {@link
- * #getLineNumber()} for setting and getting the current line number
- * respectively.
+ * A bufffrfd dibrbdtfr-input strfbm tibt kffps trbdk of linf numbfrs.  Tiis
+ * dlbss dffinfs mftiods {@link #sftLinfNumbfr(int)} bnd {@link
+ * #gftLinfNumbfr()} for sftting bnd gftting tif durrfnt linf numbfr
+ * rfspfdtivfly.
  *
- * <p> By default, line numbering begins at 0. This number increments at every
- * <a href="#lt">line terminator</a> as the data is read, and can be changed
- * with a call to <tt>setLineNumber(int)</tt>.  Note however, that
- * <tt>setLineNumber(int)</tt> does not actually change the current position in
- * the stream; it only changes the value that will be returned by
- * <tt>getLineNumber()</tt>.
+ * <p> By dffbult, linf numbfring bfgins bt 0. Tiis numbfr indrfmfnts bt fvfry
+ * <b irff="#lt">linf tfrminbtor</b> bs tif dbtb is rfbd, bnd dbn bf dibngfd
+ * witi b dbll to <tt>sftLinfNumbfr(int)</tt>.  Notf iowfvfr, tibt
+ * <tt>sftLinfNumbfr(int)</tt> dofs not bdtublly dibngf tif durrfnt position in
+ * tif strfbm; it only dibngfs tif vbluf tibt will bf rfturnfd by
+ * <tt>gftLinfNumbfr()</tt>.
  *
- * <p> A line is considered to be <a name="lt">terminated</a> by any one of a
- * line feed ('\n'), a carriage return ('\r'), or a carriage return followed
- * immediately by a linefeed.
+ * <p> A linf is donsidfrfd to bf <b nbmf="lt">tfrminbtfd</b> by bny onf of b
+ * linf fffd ('\n'), b dbrribgf rfturn ('\r'), or b dbrribgf rfturn followfd
+ * immfdibtfly by b linffffd.
  *
- * @author      Mark Reinhold
- * @since       1.1
+ * @butior      Mbrk Rfiniold
+ * @sindf       1.1
  */
 
-public class LineNumberReader extends BufferedReader {
+publid dlbss LinfNumbfrRfbdfr fxtfnds BufffrfdRfbdfr {
 
-    /** The current line number */
-    private int lineNumber = 0;
+    /** Tif durrfnt linf numbfr */
+    privbtf int linfNumbfr = 0;
 
-    /** The line number of the mark, if any */
-    private int markedLineNumber; // Defaults to 0
+    /** Tif linf numbfr of tif mbrk, if bny */
+    privbtf int mbrkfdLinfNumbfr; // Dffbults to 0
 
-    /** If the next character is a line feed, skip it */
-    private boolean skipLF;
+    /** If tif nfxt dibrbdtfr is b linf fffd, skip it */
+    privbtf boolfbn skipLF;
 
-    /** The skipLF flag when the mark was set */
-    private boolean markedSkipLF;
+    /** Tif skipLF flbg wifn tif mbrk wbs sft */
+    privbtf boolfbn mbrkfdSkipLF;
 
     /**
-     * Create a new line-numbering reader, using the default input-buffer
-     * size.
+     * Crfbtf b nfw linf-numbfring rfbdfr, using tif dffbult input-bufffr
+     * sizf.
      *
-     * @param  in
-     *         A Reader object to provide the underlying stream
+     * @pbrbm  in
+     *         A Rfbdfr objfdt to providf tif undfrlying strfbm
      */
-    public LineNumberReader(Reader in) {
-        super(in);
+    publid LinfNumbfrRfbdfr(Rfbdfr in) {
+        supfr(in);
     }
 
     /**
-     * Create a new line-numbering reader, reading characters into a buffer of
-     * the given size.
+     * Crfbtf b nfw linf-numbfring rfbdfr, rfbding dibrbdtfrs into b bufffr of
+     * tif givfn sizf.
      *
-     * @param  in
-     *         A Reader object to provide the underlying stream
+     * @pbrbm  in
+     *         A Rfbdfr objfdt to providf tif undfrlying strfbm
      *
-     * @param  sz
-     *         An int specifying the size of the buffer
+     * @pbrbm  sz
+     *         An int spfdifying tif sizf of tif bufffr
      */
-    public LineNumberReader(Reader in, int sz) {
-        super(in, sz);
+    publid LinfNumbfrRfbdfr(Rfbdfr in, int sz) {
+        supfr(in, sz);
     }
 
     /**
-     * Set the current line number.
+     * Sft tif durrfnt linf numbfr.
      *
-     * @param  lineNumber
-     *         An int specifying the line number
+     * @pbrbm  linfNumbfr
+     *         An int spfdifying tif linf numbfr
      *
-     * @see #getLineNumber
+     * @sff #gftLinfNumbfr
      */
-    public void setLineNumber(int lineNumber) {
-        this.lineNumber = lineNumber;
+    publid void sftLinfNumbfr(int linfNumbfr) {
+        tiis.linfNumbfr = linfNumbfr;
     }
 
     /**
-     * Get the current line number.
+     * Gft tif durrfnt linf numbfr.
      *
-     * @return  The current line number
+     * @rfturn  Tif durrfnt linf numbfr
      *
-     * @see #setLineNumber
+     * @sff #sftLinfNumbfr
      */
-    public int getLineNumber() {
-        return lineNumber;
+    publid int gftLinfNumbfr() {
+        rfturn linfNumbfr;
     }
 
     /**
-     * Read a single character.  <a href="#lt">Line terminators</a> are
-     * compressed into single newline ('\n') characters.  Whenever a line
-     * terminator is read the current line number is incremented.
+     * Rfbd b singlf dibrbdtfr.  <b irff="#lt">Linf tfrminbtors</b> brf
+     * domprfssfd into singlf nfwlinf ('\n') dibrbdtfrs.  Wifnfvfr b linf
+     * tfrminbtor is rfbd tif durrfnt linf numbfr is indrfmfntfd.
      *
-     * @return  The character read, or -1 if the end of the stream has been
-     *          reached
+     * @rfturn  Tif dibrbdtfr rfbd, or -1 if tif fnd of tif strfbm ibs bffn
+     *          rfbdifd
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    @SuppressWarnings("fallthrough")
-    public int read() throws IOException {
-        synchronized (lock) {
-            int c = super.read();
+    @SupprfssWbrnings("fblltirougi")
+    publid int rfbd() tirows IOExdfption {
+        syndironizfd (lodk) {
+            int d = supfr.rfbd();
             if (skipLF) {
-                if (c == '\n')
-                    c = super.read();
-                skipLF = false;
+                if (d == '\n')
+                    d = supfr.rfbd();
+                skipLF = fblsf;
             }
-            switch (c) {
-            case '\r':
-                skipLF = true;
-            case '\n':          /* Fall through */
-                lineNumber++;
-                return '\n';
+            switdi (d) {
+            dbsf '\r':
+                skipLF = truf;
+            dbsf '\n':          /* Fbll tirougi */
+                linfNumbfr++;
+                rfturn '\n';
             }
-            return c;
+            rfturn d;
         }
     }
 
     /**
-     * Read characters into a portion of an array.  Whenever a <a
-     * href="#lt">line terminator</a> is read the current line number is
-     * incremented.
+     * Rfbd dibrbdtfrs into b portion of bn brrby.  Wifnfvfr b <b
+     * irff="#lt">linf tfrminbtor</b> is rfbd tif durrfnt linf numbfr is
+     * indrfmfntfd.
      *
-     * @param  cbuf
-     *         Destination buffer
+     * @pbrbm  dbuf
+     *         Dfstinbtion bufffr
      *
-     * @param  off
-     *         Offset at which to start storing characters
+     * @pbrbm  off
+     *         Offsft bt wiidi to stbrt storing dibrbdtfrs
      *
-     * @param  len
-     *         Maximum number of characters to read
+     * @pbrbm  lfn
+     *         Mbximum numbfr of dibrbdtfrs to rfbd
      *
-     * @return  The number of bytes read, or -1 if the end of the stream has
-     *          already been reached
+     * @rfturn  Tif numbfr of bytfs rfbd, or -1 if tif fnd of tif strfbm ibs
+     *          blrfbdy bffn rfbdifd
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    @SuppressWarnings("fallthrough")
-    public int read(char cbuf[], int off, int len) throws IOException {
-        synchronized (lock) {
-            int n = super.read(cbuf, off, len);
+    @SupprfssWbrnings("fblltirougi")
+    publid int rfbd(dibr dbuf[], int off, int lfn) tirows IOExdfption {
+        syndironizfd (lodk) {
+            int n = supfr.rfbd(dbuf, off, lfn);
 
             for (int i = off; i < off + n; i++) {
-                int c = cbuf[i];
+                int d = dbuf[i];
                 if (skipLF) {
-                    skipLF = false;
-                    if (c == '\n')
-                        continue;
+                    skipLF = fblsf;
+                    if (d == '\n')
+                        dontinuf;
                 }
-                switch (c) {
-                case '\r':
-                    skipLF = true;
-                case '\n':      /* Fall through */
-                    lineNumber++;
-                    break;
+                switdi (d) {
+                dbsf '\r':
+                    skipLF = truf;
+                dbsf '\n':      /* Fbll tirougi */
+                    linfNumbfr++;
+                    brfbk;
                 }
             }
 
-            return n;
+            rfturn n;
         }
     }
 
     /**
-     * Read a line of text.  Whenever a <a href="#lt">line terminator</a> is
-     * read the current line number is incremented.
+     * Rfbd b linf of tfxt.  Wifnfvfr b <b irff="#lt">linf tfrminbtor</b> is
+     * rfbd tif durrfnt linf numbfr is indrfmfntfd.
      *
-     * @return  A String containing the contents of the line, not including
-     *          any <a href="#lt">line termination characters</a>, or
-     *          <tt>null</tt> if the end of the stream has been reached
+     * @rfturn  A String dontbining tif dontfnts of tif linf, not indluding
+     *          bny <b irff="#lt">linf tfrminbtion dibrbdtfrs</b>, or
+     *          <tt>null</tt> if tif fnd of tif strfbm ibs bffn rfbdifd
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    public String readLine() throws IOException {
-        synchronized (lock) {
-            String l = super.readLine(skipLF);
-            skipLF = false;
+    publid String rfbdLinf() tirows IOExdfption {
+        syndironizfd (lodk) {
+            String l = supfr.rfbdLinf(skipLF);
+            skipLF = fblsf;
             if (l != null)
-                lineNumber++;
-            return l;
+                linfNumbfr++;
+            rfturn l;
         }
     }
 
-    /** Maximum skip-buffer size */
-    private static final int maxSkipBufferSize = 8192;
+    /** Mbximum skip-bufffr sizf */
+    privbtf stbtid finbl int mbxSkipBufffrSizf = 8192;
 
-    /** Skip buffer, null until allocated */
-    private char skipBuffer[] = null;
+    /** Skip bufffr, null until bllodbtfd */
+    privbtf dibr skipBufffr[] = null;
 
     /**
-     * Skip characters.
+     * Skip dibrbdtfrs.
      *
-     * @param  n
-     *         The number of characters to skip
+     * @pbrbm  n
+     *         Tif numbfr of dibrbdtfrs to skip
      *
-     * @return  The number of characters actually skipped
+     * @rfturn  Tif numbfr of dibrbdtfrs bdtublly skippfd
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      *
-     * @throws  IllegalArgumentException
-     *          If <tt>n</tt> is negative
+     * @tirows  IllfgblArgumfntExdfption
+     *          If <tt>n</tt> is nfgbtivf
      */
-    public long skip(long n) throws IOException {
+    publid long skip(long n) tirows IOExdfption {
         if (n < 0)
-            throw new IllegalArgumentException("skip() value is negative");
-        int nn = (int) Math.min(n, maxSkipBufferSize);
-        synchronized (lock) {
-            if ((skipBuffer == null) || (skipBuffer.length < nn))
-                skipBuffer = new char[nn];
+            tirow nfw IllfgblArgumfntExdfption("skip() vbluf is nfgbtivf");
+        int nn = (int) Mbti.min(n, mbxSkipBufffrSizf);
+        syndironizfd (lodk) {
+            if ((skipBufffr == null) || (skipBufffr.lfngti < nn))
+                skipBufffr = nfw dibr[nn];
             long r = n;
-            while (r > 0) {
-                int nc = read(skipBuffer, 0, (int) Math.min(r, nn));
-                if (nc == -1)
-                    break;
-                r -= nc;
+            wiilf (r > 0) {
+                int nd = rfbd(skipBufffr, 0, (int) Mbti.min(r, nn));
+                if (nd == -1)
+                    brfbk;
+                r -= nd;
             }
-            return n - r;
+            rfturn n - r;
         }
     }
 
     /**
-     * Mark the present position in the stream.  Subsequent calls to reset()
-     * will attempt to reposition the stream to this point, and will also reset
-     * the line number appropriately.
+     * Mbrk tif prfsfnt position in tif strfbm.  Subsfqufnt dblls to rfsft()
+     * will bttfmpt to rfposition tif strfbm to tiis point, bnd will blso rfsft
+     * tif linf numbfr bppropribtfly.
      *
-     * @param  readAheadLimit
-     *         Limit on the number of characters that may be read while still
-     *         preserving the mark.  After reading this many characters,
-     *         attempting to reset the stream may fail.
+     * @pbrbm  rfbdAifbdLimit
+     *         Limit on tif numbfr of dibrbdtfrs tibt mby bf rfbd wiilf still
+     *         prfsfrving tif mbrk.  Aftfr rfbding tiis mbny dibrbdtfrs,
+     *         bttfmpting to rfsft tif strfbm mby fbil.
      *
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    public void mark(int readAheadLimit) throws IOException {
-        synchronized (lock) {
-            super.mark(readAheadLimit);
-            markedLineNumber = lineNumber;
-            markedSkipLF     = skipLF;
+    publid void mbrk(int rfbdAifbdLimit) tirows IOExdfption {
+        syndironizfd (lodk) {
+            supfr.mbrk(rfbdAifbdLimit);
+            mbrkfdLinfNumbfr = linfNumbfr;
+            mbrkfdSkipLF     = skipLF;
         }
     }
 
     /**
-     * Reset the stream to the most recent mark.
+     * Rfsft tif strfbm to tif most rfdfnt mbrk.
      *
-     * @throws  IOException
-     *          If the stream has not been marked, or if the mark has been
-     *          invalidated
+     * @tirows  IOExdfption
+     *          If tif strfbm ibs not bffn mbrkfd, or if tif mbrk ibs bffn
+     *          invblidbtfd
      */
-    public void reset() throws IOException {
-        synchronized (lock) {
-            super.reset();
-            lineNumber = markedLineNumber;
-            skipLF     = markedSkipLF;
+    publid void rfsft() tirows IOExdfption {
+        syndironizfd (lodk) {
+            supfr.rfsft();
+            linfNumbfr = mbrkfdLinfNumbfr;
+            skipLF     = mbrkfdSkipLF;
         }
     }
 

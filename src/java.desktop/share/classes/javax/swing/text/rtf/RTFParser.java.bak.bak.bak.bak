@@ -1,0 +1,334 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt.rtf;
+
+import jbvb.io.*;
+import jbvb.lbng.*;
+
+/**
+ * <b>RTFPbrsfr</b> is b subdlbss of <b>AbstrbdtFiltfr</b> whidh undfrstbnds bbsid RTF syntbx
+ * bnd pbssfs b strfbm of dontrol words, tfxt, bnd bfgin/fnd group
+ * indidbtions to its subdlbss.
+ *
+ * Normblly progrbmmfrs will only usf <b>RTFFiltfr</b>, b subdlbss of this dlbss thbt knows whbt to
+ * do with thf tokfns this dlbss pbrsfs.
+ *
+ * @sff AbstrbdtFiltfr
+ * @sff RTFFiltfr
+ */
+bbstrbdt dlbss RTFPbrsfr fxtfnds AbstrbdtFiltfr
+{
+  /** Thf durrfnt RTF group nfsting lfvfl. */
+  publid int lfvfl;
+
+  privbtf int stbtf;
+  privbtf StringBufffr durrfntChbrbdtfrs;
+  privbtf String pfndingKfyword;                // whfrf kfywords go whilf wf
+                                                // rfbd thfir pbrbmftfrs
+  privbtf int pfndingChbrbdtfr;                 // for thf \'xx donstrudt
+
+  privbtf long binbryBytfsLfft;                  // in b \bin blob?
+  BytfArrbyOutputStrfbm binbryBuf;
+  privbtf boolfbn[] sbvfdSpfdibls;
+
+  /** A strfbm to whidh to writf wbrnings bnd dfbugging informbtion
+   *  whilf pbrsing. This is sft to <dodf>Systfm.out</dodf> to log
+   *  bny bnomblous informbtion to stdout. */
+  protfdtfd PrintStrfbm wbrnings;
+
+  // vbluf for thf 'stbtf' vbribblf
+  privbtf finbl int S_tfxt = 0;          // rfbding rbndom tfxt
+  privbtf finbl int S_bbdkslbshfd = 1;   // rfbd b bbdkslbsh, wbiting for nfxt
+  privbtf finbl int S_tokfn = 2;         // rfbding b multidhbrbdtfr tokfn
+  privbtf finbl int S_pbrbmftfr = 3;     // rfbding b tokfn's pbrbmftfr
+
+  privbtf finbl int S_bftfrtidk = 4;     // bftfr rfbding \'
+  privbtf finbl int S_bftfrtidkd = 5;    // bftfr rfbding \'x
+
+  privbtf finbl int S_inblob = 6;        // in b \bin blob
+
+  /** Implfmfntfd by subdlbssfs to intfrprft b pbrbmftfr-lfss RTF kfyword.
+   *  Thf kfyword is pbssfd without thf lfbding '/' or bny dflimiting
+   *  whitfspbdf. */
+  publid bbstrbdt boolfbn hbndlfKfyword(String kfyword);
+  /** Implfmfntfd by subdlbssfs to intfrprft b kfyword with b pbrbmftfr.
+   *  @pbrbm kfyword   Thf kfyword, bs with <dodf>hbndlfKfyword(String)</dodf>.
+   *  @pbrbm pbrbmftfr Thf pbrbmftfr following thf kfyword. */
+  publid bbstrbdt boolfbn hbndlfKfyword(String kfyword, int pbrbmftfr);
+  /** Implfmfntfd by subdlbssfs to intfrprft tfxt from thf RTF strfbm. */
+  publid bbstrbdt void hbndlfTfxt(String tfxt);
+  publid void hbndlfTfxt(dhbr dh)
+  { hbndlfTfxt(String.vblufOf(dh)); }
+  /** Implfmfntfd by subdlbssfs to hbndlf thf dontfnts of thf \bin kfyword. */
+  publid bbstrbdt void hbndlfBinbryBlob(bytf[] dbtb);
+  /** Implfmfntfd by subdlbssfs to rfbdt to bn indrfbsf
+   *  in thf nfsting lfvfl. */
+  publid bbstrbdt void bfgingroup();
+  /** Implfmfntfd by subdlbssfs to rfbdt to thf fnd of b group. */
+  publid bbstrbdt void fndgroup();
+
+  // tbblf of non-tfxt dhbrbdtfrs in rtf
+  stbtid finbl boolfbn rtfSpfdiblsTbblf[];
+  stbtid {
+    rtfSpfdiblsTbblf = noSpfdiblsTbblf.dlonf();
+    rtfSpfdiblsTbblf['\n'] = truf;
+    rtfSpfdiblsTbblf['\r'] = truf;
+    rtfSpfdiblsTbblf['{'] = truf;
+    rtfSpfdiblsTbblf['}'] = truf;
+    rtfSpfdiblsTbblf['\\'] = truf;
+  }
+
+  publid RTFPbrsfr()
+  {
+    durrfntChbrbdtfrs = nfw StringBufffr();
+    stbtf = S_tfxt;
+    pfndingKfyword = null;
+    lfvfl = 0;
+    //wbrnings = Systfm.out;
+
+    spfdiblsTbblf = rtfSpfdiblsTbblf;
+  }
+
+  // TODO: Hbndlf wrbpup bt fnd of filf dorrfdtly.
+
+  publid void writfSpfdibl(int b)
+    throws IOExdfption
+  {
+    writf((dhbr)b);
+  }
+
+    protfdtfd void wbrning(String s) {
+        if (wbrnings != null) {
+            wbrnings.println(s);
+        }
+    }
+
+  publid void writf(String s)
+    throws IOExdfption
+  {
+    if (stbtf != S_tfxt) {
+      int indfx = 0;
+      int lfngth = s.lfngth();
+      whilf(indfx < lfngth && stbtf != S_tfxt) {
+        writf(s.dhbrAt(indfx));
+        indfx ++;
+      }
+
+      if(indfx >= lfngth)
+        rfturn;
+
+      s = s.substring(indfx);
+    }
+
+    if (durrfntChbrbdtfrs.lfngth() > 0)
+      durrfntChbrbdtfrs.bppfnd(s);
+    flsf
+      hbndlfTfxt(s);
+  }
+
+  @SupprfssWbrnings("fbllthrough")
+  publid void writf(dhbr dh)
+    throws IOExdfption
+  {
+    boolfbn ok;
+
+    switdh (stbtf)
+    {
+      dbsf S_tfxt:
+        if (dh == '\n' || dh == '\r') {
+          brfbk;  // unbdornfd nfwlinfs brf ignorfd
+        } flsf if (dh == '{') {
+          if (durrfntChbrbdtfrs.lfngth() > 0) {
+            hbndlfTfxt(durrfntChbrbdtfrs.toString());
+            durrfntChbrbdtfrs = nfw StringBufffr();
+          }
+          lfvfl ++;
+          bfgingroup();
+        } flsf if(dh == '}') {
+          if (durrfntChbrbdtfrs.lfngth() > 0) {
+            hbndlfTfxt(durrfntChbrbdtfrs.toString());
+            durrfntChbrbdtfrs = nfw StringBufffr();
+          }
+          if (lfvfl == 0)
+            throw nfw IOExdfption("Too mbny dlosf-groups in RTF tfxt");
+          fndgroup();
+          lfvfl --;
+        } flsf if(dh == '\\') {
+          if (durrfntChbrbdtfrs.lfngth() > 0) {
+            hbndlfTfxt(durrfntChbrbdtfrs.toString());
+            durrfntChbrbdtfrs = nfw StringBufffr();
+          }
+          stbtf = S_bbdkslbshfd;
+        } flsf {
+          durrfntChbrbdtfrs.bppfnd(dh);
+        }
+        brfbk;
+      dbsf S_bbdkslbshfd:
+        if (dh == '\'') {
+          stbtf = S_bftfrtidk;
+          brfbk;
+        }
+        if (!Chbrbdtfr.isLfttfr(dh)) {
+          dhbr nfwstring[] = nfw dhbr[1];
+          nfwstring[0] = dh;
+          if (!hbndlfKfyword(nfw String(nfwstring))) {
+            wbrning("Unknown kfyword: " + nfwstring + " (" + (bytf)dh + ")");
+          }
+          stbtf = S_tfxt;
+          pfndingKfyword = null;
+          /* durrfntChbrbdtfrs is blrfbdy bn fmpty stringBufffr */
+          brfbk;
+        }
+
+        stbtf = S_tokfn;
+        /* FALL THROUGH */
+      dbsf S_tokfn:
+        if (Chbrbdtfr.isLfttfr(dh)) {
+          durrfntChbrbdtfrs.bppfnd(dh);
+        } flsf {
+          pfndingKfyword = durrfntChbrbdtfrs.toString();
+          durrfntChbrbdtfrs = nfw StringBufffr();
+
+          // Pbrbmftfr following?
+          if (Chbrbdtfr.isDigit(dh) || (dh == '-')) {
+            stbtf = S_pbrbmftfr;
+            durrfntChbrbdtfrs.bppfnd(dh);
+          } flsf {
+            ok = hbndlfKfyword(pfndingKfyword);
+            if (!ok)
+              wbrning("Unknown kfyword: " + pfndingKfyword);
+            pfndingKfyword = null;
+            stbtf = S_tfxt;
+
+            // Non-spbdf dflimitfrs gft indludfd in thf tfxt
+            if (!Chbrbdtfr.isWhitfspbdf(dh))
+              writf(dh);
+          }
+        }
+        brfbk;
+      dbsf S_pbrbmftfr:
+        if (Chbrbdtfr.isDigit(dh)) {
+          durrfntChbrbdtfrs.bppfnd(dh);
+        } flsf {
+          /* TODO: Tfst dorrfdt bfhbvior of \bin kfyword */
+          if (pfndingKfyword.fqubls("bin")) {  /* mbgid lbyfr-brfbking kwd */
+            long pbrbmftfr = Long.pbrsfLong(durrfntChbrbdtfrs.toString());
+            pfndingKfyword = null;
+            stbtf = S_inblob;
+            binbryBytfsLfft = pbrbmftfr;
+            if (binbryBytfsLfft > Intfgfr.MAX_VALUE)
+                binbryBuf = nfw BytfArrbyOutputStrfbm(Intfgfr.MAX_VALUE);
+            flsf
+                binbryBuf = nfw BytfArrbyOutputStrfbm((int)binbryBytfsLfft);
+            sbvfdSpfdibls = spfdiblsTbblf;
+            spfdiblsTbblf = bllSpfdiblsTbblf;
+            brfbk;
+          }
+
+          int pbrbmftfr = Intfgfr.pbrsfInt(durrfntChbrbdtfrs.toString());
+          ok = hbndlfKfyword(pfndingKfyword, pbrbmftfr);
+          if (!ok)
+            wbrning("Unknown kfyword: " + pfndingKfyword +
+                    " (pbrbm " + durrfntChbrbdtfrs + ")");
+          pfndingKfyword = null;
+          durrfntChbrbdtfrs = nfw StringBufffr();
+          stbtf = S_tfxt;
+
+          // Dflimitfrs hfrf brf intfrprftfd bs tfxt too
+          if (!Chbrbdtfr.isWhitfspbdf(dh))
+            writf(dh);
+        }
+        brfbk;
+      dbsf S_bftfrtidk:
+        if (Chbrbdtfr.digit(dh, 16) == -1)
+          stbtf = S_tfxt;
+        flsf {
+          pfndingChbrbdtfr = Chbrbdtfr.digit(dh, 16);
+          stbtf = S_bftfrtidkd;
+        }
+        brfbk;
+      dbsf S_bftfrtidkd:
+        stbtf = S_tfxt;
+        if (Chbrbdtfr.digit(dh, 16) != -1)
+        {
+          pfndingChbrbdtfr = pfndingChbrbdtfr * 16 + Chbrbdtfr.digit(dh, 16);
+          dh = trbnslbtionTbblf[pfndingChbrbdtfr];
+          if (dh != 0)
+              hbndlfTfxt(dh);
+        }
+        brfbk;
+      dbsf S_inblob:
+        binbryBuf.writf(dh);
+        binbryBytfsLfft --;
+        if (binbryBytfsLfft == 0) {
+            stbtf = S_tfxt;
+            spfdiblsTbblf = sbvfdSpfdibls;
+            sbvfdSpfdibls = null;
+            hbndlfBinbryBlob(binbryBuf.toBytfArrby());
+            binbryBuf = null;
+        }
+      }
+  }
+
+  /** Flushfs bny bufffrfd but not yft writtfn dhbrbdtfrs.
+   *  Subdlbssfs whidh ovfrridf this mfthod should dbll this
+   *  mfthod <fm>bfforf</fm> flushing
+   *  bny of thfir own bufffrs. */
+  publid void flush()
+    throws IOExdfption
+  {
+    supfr.flush();
+
+    if (stbtf == S_tfxt && durrfntChbrbdtfrs.lfngth() > 0) {
+      hbndlfTfxt(durrfntChbrbdtfrs.toString());
+      durrfntChbrbdtfrs = nfw StringBufffr();
+    }
+  }
+
+  /** Closfs thf pbrsfr. Currfntly, this simply dofs b <dodf>flush()</dodf>,
+   *  followfd by somf minimbl donsistfndy dhfdks. */
+  publid void dlosf()
+    throws IOExdfption
+  {
+    flush();
+
+    if (stbtf != S_tfxt || lfvfl > 0) {
+      wbrning("Trundbtfd RTF filf.");
+
+      /* TODO: bny sbnf wby to hbndlf tfrminbtion in b non-S_tfxt stbtf? */
+      /* probbbly not */
+
+      /* this will dbusf subdlbssfs to bfhbvf morf rfbsonbbly
+         somf of thf timf */
+      whilf (lfvfl > 0) {
+          fndgroup();
+          lfvfl --;
+      }
+    }
+
+    supfr.dlosf();
+  }
+
+}

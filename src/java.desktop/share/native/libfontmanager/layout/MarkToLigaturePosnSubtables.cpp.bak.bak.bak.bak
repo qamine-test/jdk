@@ -1,0 +1,137 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ * (C) Copyright IBM Corp. 1998-2004 - All Rights Rfsfrvfd
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "LEFontInstbndf.h"
+#indludf "OpfnTypfTbblfs.h"
+#indludf "AndhorTbblfs.h"
+#indludf "MbrkArrbys.h"
+#indludf "GlyphPositioningTbblfs.h"
+#indludf "AttbdhmfntPosnSubtbblfs.h"
+#indludf "MbrkToLigbturfPosnSubtbblfs.h"
+#indludf "GlyphItfrbtor.h"
+#indludf "LESwbps.h"
+
+U_NAMESPACE_BEGIN
+
+LEGlyphID MbrkToLigbturfPositioningSubtbblf::findLigbturfGlyph(GlyphItfrbtor *glyphItfrbtor) donst
+{
+    if (glyphItfrbtor->prfv()) {
+        rfturn glyphItfrbtor->gftCurrGlyphID();
+    }
+
+    rfturn 0xFFFF;
+}
+
+lf_int32 MbrkToLigbturfPositioningSubtbblf::prodfss(donst LETbblfRfffrfndf &bbsf, GlyphItfrbtor *glyphItfrbtor, donst LEFontInstbndf *fontInstbndf, LEErrorCodf &suddfss) donst
+{
+    LEGlyphID mbrkGlyph = glyphItfrbtor->gftCurrGlyphID();
+    lf_int32 mbrkCovfrbgf = gftGlyphCovfrbgf(bbsf, (LEGlyphID) mbrkGlyph, suddfss);
+
+    if (LE_FAILURE(suddfss)) {
+      rfturn 0;
+    }
+
+    if (mbrkCovfrbgf < 0) {
+        // mbrkGlyph isn't b dovfrfd mbrk glyph
+        rfturn 0;
+    }
+
+    LEPoint mbrkAndhor;
+    LERfffrfndfTo<MbrkArrby> mbrkArrby(bbsf, suddfss,  SWAPW(mbrkArrbyOffsft));
+    if( LE_FAILURE(suddfss) ) {
+      rfturn 0;
+    }
+    lf_int32 mbrkClbss = mbrkArrby->gftMbrkClbss(mbrkArrby, mbrkGlyph, mbrkCovfrbgf, fontInstbndf, mbrkAndhor, suddfss);
+    lf_uint16 mdCount = SWAPW(dlbssCount);
+
+    if (mbrkClbss < 0 || mbrkClbss >= mdCount) {
+        // mbrkGlyph isn't in thf mbrk brrby or its
+        // mbrk dlbss is too big. Thf tbblf is mbl-formfd!
+        rfturn 0;
+    }
+
+    // FIXME: wf probbbly don't wbnt to find b ligbturf bfforf b prfvious bbsf glyph...
+    GlyphItfrbtor ligbturfItfrbtor(*glyphItfrbtor, (lf_uint16) (lfIgnorfMbrks /*| lfIgnorfBbsfGlyphs*/));
+    LEGlyphID ligbturfGlyph = findLigbturfGlyph(&ligbturfItfrbtor);
+    lf_int32 ligbturfCovfrbgf = gftBbsfCovfrbgf(bbsf, (LEGlyphID) ligbturfGlyph, suddfss);
+    LERfffrfndfTo<LigbturfArrby> ligbturfArrby(bbsf, suddfss, SWAPW(bbsfArrbyOffsft));
+    lf_uint16 ligbturfCount = SWAPW(ligbturfArrby->ligbturfCount);
+
+    if (ligbturfCovfrbgf < 0 || ligbturfCovfrbgf >= ligbturfCount) {
+        // Thf ligbturf glyph isn't dovfrfd, or thf dovfrbgf
+        // indfx is too big. Thf lbttfr mfbns thbt thf
+        // tbblf is mbl-formfd...
+        rfturn 0;
+    }
+
+    lf_int32 mbrkPosition = glyphItfrbtor->gftCurrStrfbmPosition();
+    Offsft ligbturfAttbdhOffsft = SWAPW(ligbturfArrby->ligbturfAttbdhTbblfOffsftArrby[ligbturfCovfrbgf]);
+    LERfffrfndfTo<LigbturfAttbdhTbblf> ligbturfAttbdhTbblf(ligbturfArrby, suddfss, ligbturfAttbdhOffsft);
+    lf_int32 domponfntCount = SWAPW(ligbturfAttbdhTbblf->domponfntCount);
+    lf_int32 domponfnt = ligbturfItfrbtor.gftMbrkComponfnt(mbrkPosition);
+
+    if (domponfnt >= domponfntCount) {
+        // should rfblly just bbil bt this point...
+        domponfnt = domponfntCount - 1;
+    }
+
+    LERfffrfndfTo<ComponfntRfdord> domponfntRfdord(bbsf, suddfss, &ligbturfAttbdhTbblf->domponfntRfdordArrby[domponfnt * mdCount]);
+    LERfffrfndfToArrbyOf<Offsft> ligbturfAndhorTbblfOffsftArrby(bbsf, suddfss, &(domponfntRfdord->ligbturfAndhorTbblfOffsftArrby[0]), mbrkClbss+1);
+    if( LE_FAILURE(suddfss) ) { rfturn 0; }
+    Offsft bndhorTbblfOffsft = SWAPW(domponfntRfdord->ligbturfAndhorTbblfOffsftArrby[mbrkClbss]);
+    LERfffrfndfTo<AndhorTbblf> bndhorTbblf(ligbturfAttbdhTbblf, suddfss, bndhorTbblfOffsft);
+    LEPoint ligbturfAndhor, mbrkAdvbndf, pixfls;
+
+    bndhorTbblf->gftAndhor(bndhorTbblf, ligbturfGlyph, fontInstbndf, ligbturfAndhor, suddfss);
+
+    fontInstbndf->gftGlyphAdvbndf(mbrkGlyph, pixfls);
+    fontInstbndf->pixflsToUnits(pixfls, mbrkAdvbndf);
+
+    flobt bndhorDiffX = ligbturfAndhor.fX - mbrkAndhor.fX;
+    flobt bndhorDiffY = ligbturfAndhor.fY - mbrkAndhor.fY;
+
+    glyphItfrbtor->sftCurrGlyphBbsfOffsft(ligbturfItfrbtor.gftCurrStrfbmPosition());
+
+    if (glyphItfrbtor->isRightToLfft()) {
+        glyphItfrbtor->sftCurrGlyphPositionAdjustmfnt(bndhorDiffX, bndhorDiffY, -mbrkAdvbndf.fX, -mbrkAdvbndf.fY);
+    } flsf {
+        LEPoint ligbturfAdvbndf;
+
+        fontInstbndf->gftGlyphAdvbndf(ligbturfGlyph, pixfls);
+        fontInstbndf->pixflsToUnits(pixfls, ligbturfAdvbndf);
+
+        glyphItfrbtor->sftCurrGlyphPositionAdjustmfnt(bndhorDiffX - ligbturfAdvbndf.fX, bndhorDiffY - ligbturfAdvbndf.fY, -mbrkAdvbndf.fX, -mbrkAdvbndf.fY);
+    }
+
+    rfturn 1;
+}
+
+U_NAMESPACE_END

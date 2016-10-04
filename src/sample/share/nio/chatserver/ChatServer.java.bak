@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2011 Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011 Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,159 +30,159 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.SocketAddress;
-import java.net.StandardSocketOptions;
-import java.nio.channels.*;
-import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftSodkftAddrfss;
+import jbvb.nft.SodkftAddrfss;
+import jbvb.nft.StbndbrdSodkftOptions;
+import jbvb.nio.dibnnfls.*;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.Exfdutors;
+import jbvb.util.dondurrfnt.TimfUnit;
 
 /**
- * Implements a chat server, this class holds the list of {@code clients} connected to the server.
- * It sets up a server socket using AsynchronousServerSocketChannel listening to a specified port.
+ * Implfmfnts b dibt sfrvfr, tiis dlbss iolds tif list of {@dodf dlifnts} donnfdtfd to tif sfrvfr.
+ * It sfts up b sfrvfr sodkft using AsyndironousSfrvfrSodkftCibnnfl listfning to b spfdififd port.
  */
-public class ChatServer implements Runnable {
-    private final List<Client> connections = Collections.synchronizedList(new ArrayList<Client>());
-    private int port;
-    private final AsynchronousServerSocketChannel listener;
-    private final AsynchronousChannelGroup channelGroup;
+publid dlbss CibtSfrvfr implfmfnts Runnbblf {
+    privbtf finbl List<Clifnt> donnfdtions = Collfdtions.syndironizfdList(nfw ArrbyList<Clifnt>());
+    privbtf int port;
+    privbtf finbl AsyndironousSfrvfrSodkftCibnnfl listfnfr;
+    privbtf finbl AsyndironousCibnnflGroup dibnnflGroup;
 
     /**
      *
-     * @param port to listen to
-     * @throws java.io.IOException when failing to start the server
+     * @pbrbm port to listfn to
+     * @tirows jbvb.io.IOExdfption wifn fbiling to stbrt tif sfrvfr
      */
-    public ChatServer(int port) throws IOException {
-        channelGroup = AsynchronousChannelGroup.withFixedThreadPool(Runtime.getRuntime().availableProcessors(),
-                Executors.defaultThreadFactory());
-        this.port = port;
-        listener = createListener(channelGroup);
+    publid CibtSfrvfr(int port) tirows IOExdfption {
+        dibnnflGroup = AsyndironousCibnnflGroup.witiFixfdTirfbdPool(Runtimf.gftRuntimf().bvbilbblfProdfssors(),
+                Exfdutors.dffbultTirfbdFbdtory());
+        tiis.port = port;
+        listfnfr = drfbtfListfnfr(dibnnflGroup);
     }
 
     /**
      *
-     * @return The socket address that the server is bound to
-     * @throws java.io.IOException if an I/O error occurs
+     * @rfturn Tif sodkft bddrfss tibt tif sfrvfr is bound to
+     * @tirows jbvb.io.IOExdfption if bn I/O frror oddurs
      */
-    public SocketAddress getSocketAddress() throws IOException {
-        return listener.getLocalAddress();
+    publid SodkftAddrfss gftSodkftAddrfss() tirows IOExdfption {
+        rfturn listfnfr.gftLodblAddrfss();
     }
 
     /**
-     * Start accepting connections
+     * Stbrt bddfpting donnfdtions
      */
-    public void run() {
+    publid void run() {
 
-        // call accept to wait for connections, tell it to call our CompletionHandler when there
-        // is a new incoming connection
-        listener.accept(null, new CompletionHandler<AsynchronousSocketChannel, Void>() {
-            @Override
-            public void completed(AsynchronousSocketChannel result, Void attachment) {
-                // request a new accept and handle the incoming connection
-                listener.accept(null, this);
-                handleNewConnection(result);
+        // dbll bddfpt to wbit for donnfdtions, tfll it to dbll our ComplftionHbndlfr wifn tifrf
+        // is b nfw indoming donnfdtion
+        listfnfr.bddfpt(null, nfw ComplftionHbndlfr<AsyndironousSodkftCibnnfl, Void>() {
+            @Ovfrridf
+            publid void domplftfd(AsyndironousSodkftCibnnfl rfsult, Void bttbdimfnt) {
+                // rfqufst b nfw bddfpt bnd ibndlf tif indoming donnfdtion
+                listfnfr.bddfpt(null, tiis);
+                ibndlfNfwConnfdtion(rfsult);
             }
 
-            @Override
-            public void failed(Throwable exc, Void attachment) {
+            @Ovfrridf
+            publid void fbilfd(Tirowbblf fxd, Void bttbdimfnt) {
             }
         });
     }
 
     /**
-     * Shuts down the server
-     * @throws InterruptedException if terminated while waiting for shutdown
-     * @throws IOException if failing to shutdown the channel group
+     * Siuts down tif sfrvfr
+     * @tirows IntfrruptfdExdfption if tfrminbtfd wiilf wbiting for siutdown
+     * @tirows IOExdfption if fbiling to siutdown tif dibnnfl group
      */
-    public void shutdown() throws InterruptedException, IOException {
-        channelGroup.shutdownNow();
-        channelGroup.awaitTermination(1, TimeUnit.SECONDS);
+    publid void siutdown() tirows IntfrruptfdExdfption, IOExdfption {
+        dibnnflGroup.siutdownNow();
+        dibnnflGroup.bwbitTfrminbtion(1, TimfUnit.SECONDS);
     }
 
     /*
-    * Creates a listener and starts accepting connections
+    * Crfbtfs b listfnfr bnd stbrts bddfpting donnfdtions
     */
-    private AsynchronousServerSocketChannel createListener(AsynchronousChannelGroup channelGroup) throws IOException {
-        final AsynchronousServerSocketChannel listener = openChannel(channelGroup);
-        listener.setOption(StandardSocketOptions.SO_REUSEADDR, true);
-        listener.bind(new InetSocketAddress(port));
-        return listener;
+    privbtf AsyndironousSfrvfrSodkftCibnnfl drfbtfListfnfr(AsyndironousCibnnflGroup dibnnflGroup) tirows IOExdfption {
+        finbl AsyndironousSfrvfrSodkftCibnnfl listfnfr = opfnCibnnfl(dibnnflGroup);
+        listfnfr.sftOption(StbndbrdSodkftOptions.SO_REUSEADDR, truf);
+        listfnfr.bind(nfw InftSodkftAddrfss(port));
+        rfturn listfnfr;
     }
 
-    private AsynchronousServerSocketChannel openChannel(AsynchronousChannelGroup channelGroup) throws IOException {
-        return AsynchronousServerSocketChannel.open(channelGroup);
+    privbtf AsyndironousSfrvfrSodkftCibnnfl opfnCibnnfl(AsyndironousCibnnflGroup dibnnflGroup) tirows IOExdfption {
+        rfturn AsyndironousSfrvfrSodkftCibnnfl.opfn(dibnnflGroup);
     }
 
     /**
-     * Creates a new client and adds it to the list of connections.
-     * Sets the clients handler to the initial state of NameReader
+     * Crfbtfs b nfw dlifnt bnd bdds it to tif list of donnfdtions.
+     * Sfts tif dlifnts ibndlfr to tif initibl stbtf of NbmfRfbdfr
      *
-     * @param channel the newly accepted channel
+     * @pbrbm dibnnfl tif nfwly bddfptfd dibnnfl
      */
-    private void handleNewConnection(AsynchronousSocketChannel channel) {
-        Client client = new Client(channel, new ClientReader(this, new NameReader(this)));
+    privbtf void ibndlfNfwConnfdtion(AsyndironousSodkftCibnnfl dibnnfl) {
+        Clifnt dlifnt = nfw Clifnt(dibnnfl, nfw ClifntRfbdfr(tiis, nfw NbmfRfbdfr(tiis)));
         try {
-            channel.setOption(StandardSocketOptions.TCP_NODELAY, true);
-        } catch (IOException e) {
-            // ignore
+            dibnnfl.sftOption(StbndbrdSodkftOptions.TCP_NODELAY, truf);
+        } dbtdi (IOExdfption f) {
+            // ignorf
         }
-        connections.add(client);
-        client.run();
+        donnfdtions.bdd(dlifnt);
+        dlifnt.run();
     }
 
     /**
-     * Sends a message to all clients except the source.
-     * The method is synchronized as it is desired that messages are sent to
-     * all clients in the same order as received.
+     * Sfnds b mfssbgf to bll dlifnts fxdfpt tif sourdf.
+     * Tif mftiod is syndironizfd bs it is dfsirfd tibt mfssbgfs brf sfnt to
+     * bll dlifnts in tif sbmf ordfr bs rfdfivfd.
      *
-     * @param client the message source
-     * @param message the message to be sent
+     * @pbrbm dlifnt tif mfssbgf sourdf
+     * @pbrbm mfssbgf tif mfssbgf to bf sfnt
      */
-    public void writeMessageToClients(Client client, String message) {
-        synchronized (connections) {
-            for (Client clientConnection : connections) {
-                if (clientConnection != client) {
-                    clientConnection.writeMessageFrom(client, message);
+    publid void writfMfssbgfToClifnts(Clifnt dlifnt, String mfssbgf) {
+        syndironizfd (donnfdtions) {
+            for (Clifnt dlifntConnfdtion : donnfdtions) {
+                if (dlifntConnfdtion != dlifnt) {
+                    dlifntConnfdtion.writfMfssbgfFrom(dlifnt, mfssbgf);
                 }
             }
         }
     }
 
-    public void removeClient(Client client) {
-        connections.remove(client);
+    publid void rfmovfClifnt(Clifnt dlifnt) {
+        donnfdtions.rfmovf(dlifnt);
     }
 
-    private static void usage() {
-        System.err.println("ChatServer [-port <port number>]");
-        System.exit(1);
+    privbtf stbtid void usbgf() {
+        Systfm.frr.println("CibtSfrvfr [-port <port numbfr>]");
+        Systfm.fxit(1);
     }
 
-    public static void main(String[] args) throws IOException {
+    publid stbtid void mbin(String[] brgs) tirows IOExdfption {
         int port = 5000;
-        if (args.length != 0 && args.length != 2) {
-            usage();
-        } else if (args.length == 2) {
+        if (brgs.lfngti != 0 && brgs.lfngti != 2) {
+            usbgf();
+        } flsf if (brgs.lfngti == 2) {
             try {
-                if (args[0].equals("-port")) {
-                    port = Integer.parseInt(args[1]);
-                } else {
-                    usage();
+                if (brgs[0].fqubls("-port")) {
+                    port = Intfgfr.pbrsfInt(brgs[1]);
+                } flsf {
+                    usbgf();
                 }
-            } catch (NumberFormatException e) {
-                usage();
+            } dbtdi (NumbfrFormbtExdfption f) {
+                usbgf();
             }
         }
-        System.out.println("Running on port " + port);
-        new ChatServer(port).run();
+        Systfm.out.println("Running on port " + port);
+        nfw CibtSfrvfr(port).run();
     }
 }

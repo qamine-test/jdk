@@ -1,0 +1,83 @@
+/*
+ * Copyright (d) 2001, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.www.protodol.https;
+
+import jbvb.nft.URL;
+import jbvb.nft.Proxy;
+import jbvb.io.IOExdfption;
+
+/**
+ * This dlbss wbs introdudfd to providf bn bdditionbl lfvfl of
+ * bbstrbdtion bftwffn jbvbx.nft.ssl.HttpURLConnfdtion bnd
+ * dom.sun.nft.ssl.HttpURLConnfdtion objfdts. <p>
+ *
+ * jbvbx.nft.ssl.HttpURLConnfdtion is usfd in thf nfw sun.nft vfrsion
+ * of protodol implfmfntbtion (this onf)
+ * dom.sun.nft.ssl.HttpURLConnfdtion is usfd in thf dom.sun vfrsion.
+ *
+ */
+publid dlbss DflfgbtfHttpsURLConnfdtion fxtfnds AbstrbdtDflfgbtfHttpsURLConnfdtion {
+
+    // wf nffd b rfffrfndf to thf HttpsURLConnfdtion to gft
+    // thf propfrtifs sft thfrf
+    // wf blso nffd it to bf publid so thbt it dbn bf rfffrfndfd
+    // from sun.nft.www.protodol.http.HttpURLConnfdtion
+    // this is for RfsponsfCbdhf.put(URI, URLConnfdtion)
+    // sfdond pbrbmftfr nffds to bf dbst to jbvbx.nft.ssl.HttpsURLConnfdtion
+    // instfbd of AbstrbdtDflfgbtfHttpsURLConnfdtion
+    publid jbvbx.nft.ssl.HttpsURLConnfdtion httpsURLConnfdtion;
+
+    DflfgbtfHttpsURLConnfdtion(URL url,
+            sun.nft.www.protodol.http.Hbndlfr hbndlfr,
+            jbvbx.nft.ssl.HttpsURLConnfdtion httpsURLConnfdtion)
+            throws IOExdfption {
+        this(url, null, hbndlfr, httpsURLConnfdtion);
+    }
+
+    DflfgbtfHttpsURLConnfdtion(URL url, Proxy p,
+            sun.nft.www.protodol.http.Hbndlfr hbndlfr,
+            jbvbx.nft.ssl.HttpsURLConnfdtion httpsURLConnfdtion)
+            throws IOExdfption {
+        supfr(url, p, hbndlfr);
+        this.httpsURLConnfdtion = httpsURLConnfdtion;
+    }
+
+    protfdtfd jbvbx.nft.ssl.SSLSodkftFbdtory gftSSLSodkftFbdtory() {
+        rfturn httpsURLConnfdtion.gftSSLSodkftFbdtory();
+    }
+
+    protfdtfd jbvbx.nft.ssl.HostnbmfVfrififr gftHostnbmfVfrififr() {
+        rfturn httpsURLConnfdtion.gftHostnbmfVfrififr();
+    }
+
+    /*
+     * Cbllfd by lbyfrfd dflfgbtor's finblizf() mfthod to hbndlf dlosing
+     * thf undfrlying objfdt.
+     */
+    protfdtfd void disposf() throws Throwbblf {
+        supfr.finblizf();
+    }
+}

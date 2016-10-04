@@ -1,480 +1,480 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text.html;
+pbdkbgf jbvbx.swing.tfxt.itml;
 
-import java.awt.*;
-import java.util.*;
-import java.net.*;
-import java.io.*;
-import javax.swing.*;
-import javax.swing.text.*;
-import javax.swing.event.*;
+import jbvb.bwt.*;
+import jbvb.util.*;
+import jbvb.nft.*;
+import jbvb.io.*;
+import jbvbx.swing.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.fvfnt.*;
 
-import sun.swing.text.html.FrameEditorPaneTag;
+import sun.swing.tfxt.itml.FrbmfEditorPbnfTbg;
 
 /**
- * Implements a FrameView, intended to support the HTML
- * &lt;FRAME&gt; tag.  Supports the frameborder, scrolling,
- * marginwidth and marginheight attributes.
+ * Implfmfnts b FrbmfVifw, intfndfd to support tif HTML
+ * &lt;FRAME&gt; tbg.  Supports tif frbmfbordfr, sdrolling,
+ * mbrginwidti bnd mbrginifigit bttributfs.
  *
- * @author    Sunita Mani
+ * @butior    Sunitb Mbni
  */
 
-class FrameView extends ComponentView implements HyperlinkListener {
+dlbss FrbmfVifw fxtfnds ComponfntVifw implfmfnts HypfrlinkListfnfr {
 
 
-    JEditorPane htmlPane;
-    JScrollPane scroller;
-    boolean editable;
-    float width;
-    float height;
-    URL src;
-    /** Set to true when the component has been created. */
-    private boolean createdComponent;
+    JEditorPbnf itmlPbnf;
+    JSdrollPbnf sdrollfr;
+    boolfbn fditbblf;
+    flobt widti;
+    flobt ifigit;
+    URL srd;
+    /** Sft to truf wifn tif domponfnt ibs bffn drfbtfd. */
+    privbtf boolfbn drfbtfdComponfnt;
 
     /**
-     * Creates a new Frame.
+     * Crfbtfs b nfw Frbmf.
      *
-     * @param elem the element to represent.
+     * @pbrbm flfm tif flfmfnt to rfprfsfnt.
      */
-    public FrameView(Element elem) {
-        super(elem);
+    publid FrbmfVifw(Elfmfnt flfm) {
+        supfr(flfm);
     }
 
-    protected Component createComponent() {
+    protfdtfd Componfnt drfbtfComponfnt() {
 
-        Element elem = getElement();
-        AttributeSet attributes = elem.getAttributes();
-        String srcAtt = (String)attributes.getAttribute(HTML.Attribute.SRC);
+        Elfmfnt flfm = gftElfmfnt();
+        AttributfSft bttributfs = flfm.gftAttributfs();
+        String srdAtt = (String)bttributfs.gftAttributf(HTML.Attributf.SRC);
 
-        if ((srcAtt != null) && (!srcAtt.equals(""))) {
+        if ((srdAtt != null) && (!srdAtt.fqubls(""))) {
             try {
-                URL base = ((HTMLDocument)elem.getDocument()).getBase();
-                src = new URL(base, srcAtt);
-                htmlPane = new FrameEditorPane();
-                htmlPane.addHyperlinkListener(this);
-                JEditorPane host = getHostPane();
-                boolean isAutoFormSubmission = true;
-                if (host != null) {
-                    htmlPane.setEditable(host.isEditable());
-                    String charset = (String) host.getClientProperty("charset");
-                    if (charset != null) {
-                        htmlPane.putClientProperty("charset", charset);
+                URL bbsf = ((HTMLDodumfnt)flfm.gftDodumfnt()).gftBbsf();
+                srd = nfw URL(bbsf, srdAtt);
+                itmlPbnf = nfw FrbmfEditorPbnf();
+                itmlPbnf.bddHypfrlinkListfnfr(tiis);
+                JEditorPbnf iost = gftHostPbnf();
+                boolfbn isAutoFormSubmission = truf;
+                if (iost != null) {
+                    itmlPbnf.sftEditbblf(iost.isEditbblf());
+                    String dibrsft = (String) iost.gftClifntPropfrty("dibrsft");
+                    if (dibrsft != null) {
+                        itmlPbnf.putClifntPropfrty("dibrsft", dibrsft);
                     }
-                    HTMLEditorKit hostKit = (HTMLEditorKit)host.getEditorKit();
-                    if (hostKit != null) {
-                        isAutoFormSubmission = hostKit.isAutoFormSubmission();
+                    HTMLEditorKit iostKit = (HTMLEditorKit)iost.gftEditorKit();
+                    if (iostKit != null) {
+                        isAutoFormSubmission = iostKit.isAutoFormSubmission();
                     }
                 }
-                htmlPane.setPage(src);
-                HTMLEditorKit kit = (HTMLEditorKit)htmlPane.getEditorKit();
+                itmlPbnf.sftPbgf(srd);
+                HTMLEditorKit kit = (HTMLEditorKit)itmlPbnf.gftEditorKit();
                 if (kit != null) {
-                    kit.setAutoFormSubmission(isAutoFormSubmission);
+                    kit.sftAutoFormSubmission(isAutoFormSubmission);
                 }
 
-                Document doc = htmlPane.getDocument();
-                if (doc instanceof HTMLDocument) {
-                    ((HTMLDocument)doc).setFrameDocumentState(true);
+                Dodumfnt dod = itmlPbnf.gftDodumfnt();
+                if (dod instbndfof HTMLDodumfnt) {
+                    ((HTMLDodumfnt)dod).sftFrbmfDodumfntStbtf(truf);
                 }
-                setMargin();
-                createScrollPane();
-                setBorder();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e1) {
-                e1.printStackTrace();
+                sftMbrgin();
+                drfbtfSdrollPbnf();
+                sftBordfr();
+            } dbtdi (MblformfdURLExdfption f) {
+                f.printStbdkTrbdf();
+            } dbtdi (IOExdfption f1) {
+                f1.printStbdkTrbdf();
             }
         }
-        createdComponent = true;
-        return scroller;
+        drfbtfdComponfnt = truf;
+        rfturn sdrollfr;
     }
 
-    JEditorPane getHostPane() {
-        Container c = getContainer();
-        while ((c != null) && ! (c instanceof JEditorPane)) {
-            c = c.getParent();
+    JEditorPbnf gftHostPbnf() {
+        Contbinfr d = gftContbinfr();
+        wiilf ((d != null) && ! (d instbndfof JEditorPbnf)) {
+            d = d.gftPbrfnt();
         }
-        return (JEditorPane) c;
+        rfturn (JEditorPbnf) d;
     }
 
 
     /**
-     * Sets the parent view for the FrameView.
-     * Also determines if the FrameView should be editable
-     * or not based on whether the JTextComponent that
-     * contains it is editable.
+     * Sfts tif pbrfnt vifw for tif FrbmfVifw.
+     * Also dftfrminfs if tif FrbmfVifw siould bf fditbblf
+     * or not bbsfd on wiftifr tif JTfxtComponfnt tibt
+     * dontbins it is fditbblf.
      *
-     * @param parent View
+     * @pbrbm pbrfnt Vifw
      */
-    public void setParent(View parent) {
-        if (parent != null) {
-            JTextComponent t = (JTextComponent)parent.getContainer();
-            editable = t.isEditable();
+    publid void sftPbrfnt(Vifw pbrfnt) {
+        if (pbrfnt != null) {
+            JTfxtComponfnt t = (JTfxtComponfnt)pbrfnt.gftContbinfr();
+            fditbblf = t.isEditbblf();
         }
-        super.setParent(parent);
+        supfr.sftPbrfnt(pbrfnt);
     }
 
 
     /**
-     * Also determines if the FrameView should be editable
-     * or not based on whether the JTextComponent that
-     * contains it is editable. And then proceeds to call
-     * the superclass to do the paint().
+     * Also dftfrminfs if tif FrbmfVifw siould bf fditbblf
+     * or not bbsfd on wiftifr tif JTfxtComponfnt tibt
+     * dontbins it is fditbblf. And tifn prodffds to dbll
+     * tif supfrdlbss to do tif pbint().
      *
-     * @param parent View
-     * @see text.ComponentView#paint
+     * @pbrbm pbrfnt Vifw
+     * @sff tfxt.ComponfntVifw#pbint
      */
-    public void paint(Graphics g, Shape allocation) {
+    publid void pbint(Grbpiids g, Sibpf bllodbtion) {
 
-        Container host = getContainer();
-        if (host != null && htmlPane != null &&
-            htmlPane.isEditable() != ((JTextComponent)host).isEditable()) {
-            editable = ((JTextComponent)host).isEditable();
-            htmlPane.setEditable(editable);
+        Contbinfr iost = gftContbinfr();
+        if (iost != null && itmlPbnf != null &&
+            itmlPbnf.isEditbblf() != ((JTfxtComponfnt)iost).isEditbblf()) {
+            fditbblf = ((JTfxtComponfnt)iost).isEditbblf();
+            itmlPbnf.sftEditbblf(fditbblf);
         }
-        super.paint(g, allocation);
+        supfr.pbint(g, bllodbtion);
     }
 
 
     /**
-     * If the marginwidth or marginheight attributes have been specified,
-     * then the JEditorPane's margin's are set to the new values.
+     * If tif mbrginwidti or mbrginifigit bttributfs ibvf bffn spfdififd,
+     * tifn tif JEditorPbnf's mbrgin's brf sft to tif nfw vblufs.
      */
-    private void setMargin() {
-        int margin = 0;
-        Insets in = htmlPane.getMargin();
-        Insets newInsets;
-        boolean modified = false;
-        AttributeSet attributes = getElement().getAttributes();
-        String marginStr = (String)attributes.getAttribute(HTML.Attribute.MARGINWIDTH);
+    privbtf void sftMbrgin() {
+        int mbrgin = 0;
+        Insfts in = itmlPbnf.gftMbrgin();
+        Insfts nfwInsfts;
+        boolfbn modififd = fblsf;
+        AttributfSft bttributfs = gftElfmfnt().gftAttributfs();
+        String mbrginStr = (String)bttributfs.gftAttributf(HTML.Attributf.MARGINWIDTH);
         if ( in != null) {
-            newInsets = new Insets(in.top, in.left, in.right, in.bottom);
-        } else {
-            newInsets = new Insets(0,0,0,0);
+            nfwInsfts = nfw Insfts(in.top, in.lfft, in.rigit, in.bottom);
+        } flsf {
+            nfwInsfts = nfw Insfts(0,0,0,0);
         }
-        if (marginStr != null) {
-            margin = Integer.parseInt(marginStr);
-            if (margin > 0) {
-                newInsets.left = margin;
-                newInsets.right = margin;
-                modified = true;
+        if (mbrginStr != null) {
+            mbrgin = Intfgfr.pbrsfInt(mbrginStr);
+            if (mbrgin > 0) {
+                nfwInsfts.lfft = mbrgin;
+                nfwInsfts.rigit = mbrgin;
+                modififd = truf;
             }
         }
-        marginStr = (String)attributes.getAttribute(HTML.Attribute.MARGINHEIGHT);
-        if (marginStr != null) {
-            margin = Integer.parseInt(marginStr);
-            if (margin > 0) {
-                newInsets.top = margin;
-                newInsets.bottom = margin;
-                modified = true;
+        mbrginStr = (String)bttributfs.gftAttributf(HTML.Attributf.MARGINHEIGHT);
+        if (mbrginStr != null) {
+            mbrgin = Intfgfr.pbrsfInt(mbrginStr);
+            if (mbrgin > 0) {
+                nfwInsfts.top = mbrgin;
+                nfwInsfts.bottom = mbrgin;
+                modififd = truf;
             }
         }
-        if (modified) {
-            htmlPane.setMargin(newInsets);
+        if (modififd) {
+            itmlPbnf.sftMbrgin(nfwInsfts);
         }
     }
 
     /**
-     * If the frameborder attribute has been specified, either in the frame,
-     * or by the frames enclosing frameset, the JScrollPane's setBorder()
-     * method is invoked to achieve the desired look.
+     * If tif frbmfbordfr bttributf ibs bffn spfdififd, fitifr in tif frbmf,
+     * or by tif frbmfs fndlosing frbmfsft, tif JSdrollPbnf's sftBordfr()
+     * mftiod is invokfd to bdiifvf tif dfsirfd look.
      */
-    private void setBorder() {
+    privbtf void sftBordfr() {
 
-        AttributeSet attributes = getElement().getAttributes();
-        String frameBorder = (String)attributes.getAttribute(HTML.Attribute.FRAMEBORDER);
-        if ((frameBorder != null) &&
-            (frameBorder.equals("no") || frameBorder.equals("0"))) {
-            // make invisible borders.
-            scroller.setBorder(null);
+        AttributfSft bttributfs = gftElfmfnt().gftAttributfs();
+        String frbmfBordfr = (String)bttributfs.gftAttributf(HTML.Attributf.FRAMEBORDER);
+        if ((frbmfBordfr != null) &&
+            (frbmfBordfr.fqubls("no") || frbmfBordfr.fqubls("0"))) {
+            // mbkf invisiblf bordfrs.
+            sdrollfr.sftBordfr(null);
         }
     }
 
 
     /**
-     * This method creates the JScrollPane.  The scrollbar policy is determined by
-     * the scrolling attribute.  If not defined, the default is "auto" which
-     * maps to the scrollbar's being displayed as needed.
+     * Tiis mftiod drfbtfs tif JSdrollPbnf.  Tif sdrollbbr polidy is dftfrminfd by
+     * tif sdrolling bttributf.  If not dffinfd, tif dffbult is "buto" wiidi
+     * mbps to tif sdrollbbr's bfing displbyfd bs nffdfd.
      */
-    private void createScrollPane() {
-        AttributeSet attributes = getElement().getAttributes();
-        String scrolling = (String)attributes.getAttribute(HTML.Attribute.SCROLLING);
-        if (scrolling == null) {
-            scrolling = "auto";
+    privbtf void drfbtfSdrollPbnf() {
+        AttributfSft bttributfs = gftElfmfnt().gftAttributfs();
+        String sdrolling = (String)bttributfs.gftAttributf(HTML.Attributf.SCROLLING);
+        if (sdrolling == null) {
+            sdrolling = "buto";
         }
 
-        if (!scrolling.equals("no")) {
-            if (scrolling.equals("yes")) {
-                scroller = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                                           JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-            } else {
-                // scrollbars will be displayed if needed
+        if (!sdrolling.fqubls("no")) {
+            if (sdrolling.fqubls("yfs")) {
+                sdrollfr = nfw JSdrollPbnf(JSdrollPbnf.VERTICAL_SCROLLBAR_ALWAYS,
+                                           JSdrollPbnf.HORIZONTAL_SCROLLBAR_ALWAYS);
+            } flsf {
+                // sdrollbbrs will bf displbyfd if nffdfd
                 //
-                scroller = new JScrollPane();
+                sdrollfr = nfw JSdrollPbnf();
             }
-        } else {
-            scroller = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_NEVER,
-                                       JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        } flsf {
+            sdrollfr = nfw JSdrollPbnf(JSdrollPbnf.VERTICAL_SCROLLBAR_NEVER,
+                                       JSdrollPbnf.HORIZONTAL_SCROLLBAR_NEVER);
         }
 
-        JViewport vp = scroller.getViewport();
-        vp.add(htmlPane);
-        vp.setBackingStoreEnabled(true);
-        scroller.setMinimumSize(new Dimension(5,5));
-        scroller.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
+        JVifwport vp = sdrollfr.gftVifwport();
+        vp.bdd(itmlPbnf);
+        vp.sftBbdkingStorfEnbblfd(truf);
+        sdrollfr.sftMinimumSizf(nfw Dimfnsion(5,5));
+        sdrollfr.sftMbximumSizf(nfw Dimfnsion(Intfgfr.MAX_VALUE, Intfgfr.MAX_VALUE));
     }
 
 
     /**
-     * Finds the outermost FrameSetView.  It then
-     * returns that FrameSetView's container.
+     * Finds tif outfrmost FrbmfSftVifw.  It tifn
+     * rfturns tibt FrbmfSftVifw's dontbinfr.
      */
-    JEditorPane getOutermostJEditorPane() {
+    JEditorPbnf gftOutfrmostJEditorPbnf() {
 
-        View parent = getParent();
-        FrameSetView frameSetView = null;
-        while (parent != null) {
-            if (parent instanceof FrameSetView) {
-                frameSetView = (FrameSetView)parent;
+        Vifw pbrfnt = gftPbrfnt();
+        FrbmfSftVifw frbmfSftVifw = null;
+        wiilf (pbrfnt != null) {
+            if (pbrfnt instbndfof FrbmfSftVifw) {
+                frbmfSftVifw = (FrbmfSftVifw)pbrfnt;
             }
-            parent = parent.getParent();
+            pbrfnt = pbrfnt.gftPbrfnt();
         }
-        if (frameSetView != null) {
-            return (JEditorPane)frameSetView.getContainer();
+        if (frbmfSftVifw != null) {
+            rfturn (JEditorPbnf)frbmfSftVifw.gftContbinfr();
         }
-        return null;
+        rfturn null;
     }
 
 
     /**
-     * Returns true if this frame is contained within
-     * a nested frameset.
+     * Rfturns truf if tiis frbmf is dontbinfd witiin
+     * b nfstfd frbmfsft.
      */
-    private boolean inNestedFrameSet() {
-        FrameSetView parent = (FrameSetView)getParent();
-        return (parent.getParent() instanceof FrameSetView);
+    privbtf boolfbn inNfstfdFrbmfSft() {
+        FrbmfSftVifw pbrfnt = (FrbmfSftVifw)gftPbrfnt();
+        rfturn (pbrfnt.gftPbrfnt() instbndfof FrbmfSftVifw);
     }
 
 
     /**
-     * Notification of a change relative to a
-     * hyperlink. This method searches for the outermost
-     * JEditorPane, and then fires an HTMLFrameHyperlinkEvent
-     * to that frame.  In addition, if the target is _parent,
-     * and there is not nested framesets then the target is
-     * reset to _top.  If the target is _top, in addition to
-     * firing the event to the outermost JEditorPane, this
-     * method also invokes the setPage() method and explicitly
-     * replaces the current document with the destination url.
+     * Notifidbtion of b dibngf rflbtivf to b
+     * iypfrlink. Tiis mftiod sfbrdifs for tif outfrmost
+     * JEditorPbnf, bnd tifn firfs bn HTMLFrbmfHypfrlinkEvfnt
+     * to tibt frbmf.  In bddition, if tif tbrgft is _pbrfnt,
+     * bnd tifrf is not nfstfd frbmfsfts tifn tif tbrgft is
+     * rfsft to _top.  If tif tbrgft is _top, in bddition to
+     * firing tif fvfnt to tif outfrmost JEditorPbnf, tiis
+     * mftiod blso invokfs tif sftPbgf() mftiod bnd fxpliditly
+     * rfplbdfs tif durrfnt dodumfnt witi tif dfstinbtion url.
      *
-     * @param HyperlinkEvent
+     * @pbrbm HypfrlinkEvfnt
      */
-    public void hyperlinkUpdate(HyperlinkEvent evt) {
+    publid void iypfrlinkUpdbtf(HypfrlinkEvfnt fvt) {
 
-        JEditorPane c = getOutermostJEditorPane();
-        if (c == null) {
-            return;
+        JEditorPbnf d = gftOutfrmostJEditorPbnf();
+        if (d == null) {
+            rfturn;
         }
 
-        if (!(evt instanceof HTMLFrameHyperlinkEvent)) {
-            c.fireHyperlinkUpdate(evt);
-            return;
+        if (!(fvt instbndfof HTMLFrbmfHypfrlinkEvfnt)) {
+            d.firfHypfrlinkUpdbtf(fvt);
+            rfturn;
         }
 
-        HTMLFrameHyperlinkEvent e = (HTMLFrameHyperlinkEvent)evt;
+        HTMLFrbmfHypfrlinkEvfnt f = (HTMLFrbmfHypfrlinkEvfnt)fvt;
 
-        if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-            String target = e.getTarget();
-            String postTarget = target;
+        if (f.gftEvfntTypf() == HypfrlinkEvfnt.EvfntTypf.ACTIVATED) {
+            String tbrgft = f.gftTbrgft();
+            String postTbrgft = tbrgft;
 
-            if (target.equals("_parent") && !inNestedFrameSet()){
-                target = "_top";
+            if (tbrgft.fqubls("_pbrfnt") && !inNfstfdFrbmfSft()){
+                tbrgft = "_top";
             }
 
-            if (evt instanceof FormSubmitEvent) {
-                HTMLEditorKit kit = (HTMLEditorKit)c.getEditorKit();
+            if (fvt instbndfof FormSubmitEvfnt) {
+                HTMLEditorKit kit = (HTMLEditorKit)d.gftEditorKit();
                 if (kit != null && kit.isAutoFormSubmission()) {
-                    if (target.equals("_top")) {
+                    if (tbrgft.fqubls("_top")) {
                         try {
-                            movePostData(c, postTarget);
-                            c.setPage(e.getURL());
-                        } catch (IOException ex) {
-                            // Need a way to handle exceptions
+                            movfPostDbtb(d, postTbrgft);
+                            d.sftPbgf(f.gftURL());
+                        } dbtdi (IOExdfption fx) {
+                            // Nffd b wby to ibndlf fxdfptions
                         }
-                    } else {
-                        HTMLDocument doc = (HTMLDocument)c.getDocument();
-                        doc.processHTMLFrameHyperlinkEvent(e);
+                    } flsf {
+                        HTMLDodumfnt dod = (HTMLDodumfnt)d.gftDodumfnt();
+                        dod.prodfssHTMLFrbmfHypfrlinkEvfnt(f);
                     }
-                } else {
-                    c.fireHyperlinkUpdate(evt);
+                } flsf {
+                    d.firfHypfrlinkUpdbtf(fvt);
                 }
-                return;
+                rfturn;
             }
 
-            if (target.equals("_top")) {
+            if (tbrgft.fqubls("_top")) {
                 try {
-                    c.setPage(e.getURL());
-                } catch (IOException ex) {
-                    // Need a way to handle exceptions
-                    // ex.printStackTrace();
+                    d.sftPbgf(f.gftURL());
+                } dbtdi (IOExdfption fx) {
+                    // Nffd b wby to ibndlf fxdfptions
+                    // fx.printStbdkTrbdf();
                 }
             }
-            if (!c.isEditable()) {
-                c.fireHyperlinkUpdate(new HTMLFrameHyperlinkEvent(c,
-                                                                  e.getEventType(),
-                                                                  e.getURL(),
-                                                                  e.getDescription(),
-                                                                  getElement(),
-                                                                  e.getInputEvent(),
-                                                                  target));
+            if (!d.isEditbblf()) {
+                d.firfHypfrlinkUpdbtf(nfw HTMLFrbmfHypfrlinkEvfnt(d,
+                                                                  f.gftEvfntTypf(),
+                                                                  f.gftURL(),
+                                                                  f.gftDfsdription(),
+                                                                  gftElfmfnt(),
+                                                                  f.gftInputEvfnt(),
+                                                                  tbrgft));
             }
         }
     }
 
     /**
-     * Gives notification from the document that attributes were changed
-     * in a location that this view is responsible for.  Currently this view
-     * handles changes to its SRC attribute.
+     * Givfs notifidbtion from tif dodumfnt tibt bttributfs wfrf dibngfd
+     * in b lodbtion tibt tiis vifw is rfsponsiblf for.  Currfntly tiis vifw
+     * ibndlfs dibngfs to its SRC bttributf.
      *
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
+     * @pbrbm f tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
      *
      */
-    public void changedUpdate(DocumentEvent e, Shape a, ViewFactory f) {
+    publid void dibngfdUpdbtf(DodumfntEvfnt f, Sibpf b, VifwFbdtory f) {
 
-        Element elem = getElement();
-        AttributeSet attributes = elem.getAttributes();
+        Elfmfnt flfm = gftElfmfnt();
+        AttributfSft bttributfs = flfm.gftAttributfs();
 
-        URL oldPage = src;
+        URL oldPbgf = srd;
 
-        String srcAtt = (String)attributes.getAttribute(HTML.Attribute.SRC);
-        URL base = ((HTMLDocument)elem.getDocument()).getBase();
+        String srdAtt = (String)bttributfs.gftAttributf(HTML.Attributf.SRC);
+        URL bbsf = ((HTMLDodumfnt)flfm.gftDodumfnt()).gftBbsf();
         try {
-            if (!createdComponent) {
-                return;
+            if (!drfbtfdComponfnt) {
+                rfturn;
             }
 
-            Object postData = movePostData(htmlPane, null);
-            src = new URL(base, srcAtt);
-            if (oldPage.equals(src) && (src.getRef() == null) && (postData == null)) {
-                return;
+            Objfdt postDbtb = movfPostDbtb(itmlPbnf, null);
+            srd = nfw URL(bbsf, srdAtt);
+            if (oldPbgf.fqubls(srd) && (srd.gftRff() == null) && (postDbtb == null)) {
+                rfturn;
             }
 
-            htmlPane.setPage(src);
-            Document newDoc = htmlPane.getDocument();
-            if (newDoc instanceof HTMLDocument) {
-                ((HTMLDocument)newDoc).setFrameDocumentState(true);
+            itmlPbnf.sftPbgf(srd);
+            Dodumfnt nfwDod = itmlPbnf.gftDodumfnt();
+            if (nfwDod instbndfof HTMLDodumfnt) {
+                ((HTMLDodumfnt)nfwDod).sftFrbmfDodumfntStbtf(truf);
             }
-        } catch (MalformedURLException e1) {
-            // Need a way to handle exceptions
-            //e1.printStackTrace();
-        } catch (IOException e2) {
-            // Need a way to handle exceptions
-            //e2.printStackTrace();
+        } dbtdi (MblformfdURLExdfption f1) {
+            // Nffd b wby to ibndlf fxdfptions
+            //f1.printStbdkTrbdf();
+        } dbtdi (IOExdfption f2) {
+            // Nffd b wby to ibndlf fxdfptions
+            //f2.printStbdkTrbdf();
         }
     }
 
     /**
-     * Move POST data from temporary storage into the target document property.
+     * Movf POST dbtb from tfmporbry storbgf into tif tbrgft dodumfnt propfrty.
      *
-     * @return the POST data or null if no data found
+     * @rfturn tif POST dbtb or null if no dbtb found
      */
-    private Object movePostData(JEditorPane targetPane, String frameName) {
-        Object postData = null;
-        JEditorPane p = getOutermostJEditorPane();
+    privbtf Objfdt movfPostDbtb(JEditorPbnf tbrgftPbnf, String frbmfNbmf) {
+        Objfdt postDbtb = null;
+        JEditorPbnf p = gftOutfrmostJEditorPbnf();
         if (p != null) {
-            if (frameName == null) {
-                frameName = (String) getElement().getAttributes().getAttribute(
-                        HTML.Attribute.NAME);
+            if (frbmfNbmf == null) {
+                frbmfNbmf = (String) gftElfmfnt().gftAttributfs().gftAttributf(
+                        HTML.Attributf.NAME);
             }
-            if (frameName != null) {
-                String propName = FormView.PostDataProperty + "." + frameName;
-                Document d = p.getDocument();
-                postData = d.getProperty(propName);
-                if (postData != null) {
-                    targetPane.getDocument().putProperty(
-                            FormView.PostDataProperty, postData);
-                    d.putProperty(propName, null);
+            if (frbmfNbmf != null) {
+                String propNbmf = FormVifw.PostDbtbPropfrty + "." + frbmfNbmf;
+                Dodumfnt d = p.gftDodumfnt();
+                postDbtb = d.gftPropfrty(propNbmf);
+                if (postDbtb != null) {
+                    tbrgftPbnf.gftDodumfnt().putPropfrty(
+                            FormVifw.PostDbtbPropfrty, postDbtb);
+                    d.putPropfrty(propNbmf, null);
                 }
             }
         }
 
-        return postData;
+        rfturn postDbtb;
     }
 
     /**
-     * Determines the minimum span for this view along an
-     * axis.
+     * Dftfrminfs tif minimum spbn for tiis vifw blong bn
+     * bxis.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
-     *  <code>View.Y_AXIS</code>
-     * @return the preferred span; given that we do not
-     * support resizing of frames, the minimum span returned
-     * is the same as the preferred span
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
+     *  <dodf>Vifw.Y_AXIS</dodf>
+     * @rfturn tif prfffrrfd spbn; givfn tibt wf do not
+     * support rfsizing of frbmfs, tif minimum spbn rfturnfd
+     * is tif sbmf bs tif prfffrrfd spbn
      *
      */
-    public float getMinimumSpan(int axis) {
-      return 5;
+    publid flobt gftMinimumSpbn(int bxis) {
+      rfturn 5;
     }
 
     /**
-     * Determines the maximum span for this view along an
-     * axis.
+     * Dftfrminfs tif mbximum spbn for tiis vifw blong bn
+     * bxis.
      *
-     * @param axis may be either <code>View.X_AXIS</code> or
-     *  <code>View.Y_AXIS</code>
-     * @return the preferred span; given that we do not
-     * support resizing of frames, the maximum span returned
-     * is the same as the preferred span
+     * @pbrbm bxis mby bf fitifr <dodf>Vifw.X_AXIS</dodf> or
+     *  <dodf>Vifw.Y_AXIS</dodf>
+     * @rfturn tif prfffrrfd spbn; givfn tibt wf do not
+     * support rfsizing of frbmfs, tif mbximum spbn rfturnfd
+     * is tif sbmf bs tif prfffrrfd spbn
      *
      */
-    public float getMaximumSpan(int axis) {
-        return Integer.MAX_VALUE;
+    publid flobt gftMbximumSpbn(int bxis) {
+        rfturn Intfgfr.MAX_VALUE;
     }
 
-    /** Editor pane rendering frame of HTML document
-     *  It uses the same editor kits classes as outermost JEditorPane
+    /** Editor pbnf rfndfring frbmf of HTML dodumfnt
+     *  It usfs tif sbmf fditor kits dlbssfs bs outfrmost JEditorPbnf
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    class FrameEditorPane extends JEditorPane implements FrameEditorPaneTag {
-        public EditorKit getEditorKitForContentType(String type) {
-            EditorKit editorKit = super.getEditorKitForContentType(type);
-            JEditorPane outerMostJEditorPane = null;
-            if ((outerMostJEditorPane = getOutermostJEditorPane()) != null) {
-                EditorKit inheritedEditorKit = outerMostJEditorPane.getEditorKitForContentType(type);
-                if (! editorKit.getClass().equals(inheritedEditorKit.getClass())) {
-                    editorKit = (EditorKit) inheritedEditorKit.clone();
-                    setEditorKitForContentType(type, editorKit);
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    dlbss FrbmfEditorPbnf fxtfnds JEditorPbnf implfmfnts FrbmfEditorPbnfTbg {
+        publid EditorKit gftEditorKitForContfntTypf(String typf) {
+            EditorKit fditorKit = supfr.gftEditorKitForContfntTypf(typf);
+            JEditorPbnf outfrMostJEditorPbnf = null;
+            if ((outfrMostJEditorPbnf = gftOutfrmostJEditorPbnf()) != null) {
+                EditorKit inifritfdEditorKit = outfrMostJEditorPbnf.gftEditorKitForContfntTypf(typf);
+                if (! fditorKit.gftClbss().fqubls(inifritfdEditorKit.gftClbss())) {
+                    fditorKit = (EditorKit) inifritfdEditorKit.dlonf();
+                    sftEditorKitForContfntTypf(typf, fditorKit);
                 }
             }
-            return editorKit;
+            rfturn fditorKit;
         }
 
-        FrameView getFrameView() {
-            return FrameView.this;
+        FrbmfVifw gftFrbmfVifw() {
+            rfturn FrbmfVifw.tiis;
         }
     }
 }

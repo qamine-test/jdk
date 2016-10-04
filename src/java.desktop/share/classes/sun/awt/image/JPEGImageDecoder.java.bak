@@ -1,160 +1,160 @@
 /*
- * Copyright (c) 1995, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*-
- *      Reads JPEG images from an InputStream and reports the
- *      image data to an InputStreamImageSource object.
+ *      Rfbds JPEG imbgfs from bn InputStrfbm bnd rfports tif
+ *      imbgf dbtb to bn InputStrfbmImbgfSourdf objfdt.
  *
- * The native implementation of the JPEG image decoder was adapted from
- * release 6 of the free JPEG software from the Independent JPEG Group.
+ * Tif nbtivf implfmfntbtion of tif JPEG imbgf dfdodfr wbs bdbptfd from
+ * rflfbsf 6 of tif frff JPEG softwbrf from tif Indfpfndfnt JPEG Group.
  */
-package sun.awt.image;
+pbdkbgf sun.bwt.imbgf;
 
-import java.util.Vector;
-import java.util.Hashtable;
-import java.io.InputStream;
-import java.io.IOException;
-import java.awt.image.*;
+import jbvb.util.Vfdtor;
+import jbvb.util.Hbsitbblf;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.bwt.imbgf.*;
 
 /**
- * JPEG Image converter
+ * JPEG Imbgf donvfrtfr
  *
- * @author Jim Graham
+ * @butior Jim Grbibm
  */
-public class JPEGImageDecoder extends ImageDecoder {
-    private static ColorModel RGBcolormodel;
-    private static ColorModel ARGBcolormodel;
-    private static ColorModel Graycolormodel;
+publid dlbss JPEGImbgfDfdodfr fxtfnds ImbgfDfdodfr {
+    privbtf stbtid ColorModfl RGBdolormodfl;
+    privbtf stbtid ColorModfl ARGBdolormodfl;
+    privbtf stbtid ColorModfl Grbydolormodfl;
 
-    private static final Class<?> InputStreamClass = InputStream.class;
-    private static native void initIDs(Class<?> InputStreamClass);
+    privbtf stbtid finbl Clbss<?> InputStrfbmClbss = InputStrfbm.dlbss;
+    privbtf stbtid nbtivf void initIDs(Clbss<?> InputStrfbmClbss);
 
-    private ColorModel colormodel;
+    privbtf ColorModfl dolormodfl;
 
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
-                public Void run() {
-                    System.loadLibrary("javajpeg");
-                    return null;
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("jbvbjpfg");
+                    rfturn null;
                 }
             });
-        initIDs(InputStreamClass);
-        RGBcolormodel = new DirectColorModel(24, 0xff0000, 0xff00, 0xff);
-        ARGBcolormodel = ColorModel.getRGBdefault();
-        byte g[] = new byte[256];
+        initIDs(InputStrfbmClbss);
+        RGBdolormodfl = nfw DirfdtColorModfl(24, 0xff0000, 0xff00, 0xff);
+        ARGBdolormodfl = ColorModfl.gftRGBdffbult();
+        bytf g[] = nfw bytf[256];
         for (int i = 0; i < 256; i++) {
-            g[i] = (byte) i;
+            g[i] = (bytf) i;
         }
-        Graycolormodel = new IndexColorModel(8, 256, g, g, g);
+        Grbydolormodfl = nfw IndfxColorModfl(8, 256, g, g, g);
     }
 
-    private native void readImage(InputStream is, byte buf[])
-        throws ImageFormatException, IOException;
+    privbtf nbtivf void rfbdImbgf(InputStrfbm is, bytf buf[])
+        tirows ImbgfFormbtExdfption, IOExdfption;
 
-    Hashtable<String, Object> props = new Hashtable<>();
+    Hbsitbblf<String, Objfdt> props = nfw Hbsitbblf<>();
 
-    public JPEGImageDecoder(InputStreamImageSource src, InputStream is) {
-        super(src, is);
+    publid JPEGImbgfDfdodfr(InputStrfbmImbgfSourdf srd, InputStrfbm is) {
+        supfr(srd, is);
     }
 
     /**
-     * An error has occurred. Throw an exception.
+     * An frror ibs oddurrfd. Tirow bn fxdfption.
      */
-    private static void error(String s1) throws ImageFormatException {
-        throw new ImageFormatException(s1);
+    privbtf stbtid void frror(String s1) tirows ImbgfFormbtExdfption {
+        tirow nfw ImbgfFormbtExdfption(s1);
     }
 
-    public boolean sendHeaderInfo(int width, int height,
-                                  boolean gray, boolean hasalpha,
-                                  boolean multipass)
+    publid boolfbn sfndHfbdfrInfo(int widti, int ifigit,
+                                  boolfbn grby, boolfbn ibsblpib,
+                                  boolfbn multipbss)
     {
-        setDimensions(width, height);
+        sftDimfnsions(widti, ifigit);
 
-        setProperties(props);
-        if (gray) {
-            colormodel = Graycolormodel;
-        } else {
-            if (hasalpha) {
-                colormodel = ARGBcolormodel;
-            } else {
-                colormodel = RGBcolormodel;
+        sftPropfrtifs(props);
+        if (grby) {
+            dolormodfl = Grbydolormodfl;
+        } flsf {
+            if (ibsblpib) {
+                dolormodfl = ARGBdolormodfl;
+            } flsf {
+                dolormodfl = RGBdolormodfl;
             }
         }
 
-        setColorModel(colormodel);
+        sftColorModfl(dolormodfl);
 
-        int flags = hintflags;
-        if (!multipass) {
-            flags |= ImageConsumer.SINGLEPASS;
+        int flbgs = iintflbgs;
+        if (!multipbss) {
+            flbgs |= ImbgfConsumfr.SINGLEPASS;
         }
-        setHints(hintflags);
-        headerComplete();
+        sftHints(iintflbgs);
+        ifbdfrComplftf();
 
-        return true;
+        rfturn truf;
     }
 
-    public boolean sendPixels(int pixels[], int y) {
-        int count = setPixels(0, y, pixels.length, 1, colormodel,
-                              pixels, 0, pixels.length);
-        if (count <= 0) {
-            aborted = true;
+    publid boolfbn sfndPixfls(int pixfls[], int y) {
+        int dount = sftPixfls(0, y, pixfls.lfngti, 1, dolormodfl,
+                              pixfls, 0, pixfls.lfngti);
+        if (dount <= 0) {
+            bbortfd = truf;
         }
-        return !aborted;
+        rfturn !bbortfd;
     }
 
-    public boolean sendPixels(byte pixels[], int y) {
-        int count = setPixels(0, y, pixels.length, 1, colormodel,
-                              pixels, 0, pixels.length);
-        if (count <= 0) {
-            aborted = true;
+    publid boolfbn sfndPixfls(bytf pixfls[], int y) {
+        int dount = sftPixfls(0, y, pixfls.lfngti, 1, dolormodfl,
+                              pixfls, 0, pixfls.lfngti);
+        if (dount <= 0) {
+            bbortfd = truf;
         }
-        return !aborted;
+        rfturn !bbortfd;
     }
 
     /**
-     * produce an image from the stream.
+     * produdf bn imbgf from tif strfbm.
      */
-    public void produceImage() throws IOException, ImageFormatException {
+    publid void produdfImbgf() tirows IOExdfption, ImbgfFormbtExdfption {
         try {
-            readImage(input, new byte[1024]);
-            if (!aborted) {
-                imageComplete(ImageConsumer.STATICIMAGEDONE, true);
+            rfbdImbgf(input, nfw bytf[1024]);
+            if (!bbortfd) {
+                imbgfComplftf(ImbgfConsumfr.STATICIMAGEDONE, truf);
             }
-        } catch (IOException e) {
-            if (!aborted) {
-                throw e;
+        } dbtdi (IOExdfption f) {
+            if (!bbortfd) {
+                tirow f;
             }
-        } finally {
-            close();
+        } finblly {
+            dlosf();
         }
     }
 
     /**
-     * The ImageConsumer hints flag for a JPEG image.
+     * Tif ImbgfConsumfr iints flbg for b JPEG imbgf.
      */
-    private static final int hintflags =
-        ImageConsumer.TOPDOWNLEFTRIGHT | ImageConsumer.COMPLETESCANLINES |
-        ImageConsumer.SINGLEFRAME;
+    privbtf stbtid finbl int iintflbgs =
+        ImbgfConsumfr.TOPDOWNLEFTRIGHT | ImbgfConsumfr.COMPLETESCANLINES |
+        ImbgfConsumfr.SINGLEFRAME;
 }

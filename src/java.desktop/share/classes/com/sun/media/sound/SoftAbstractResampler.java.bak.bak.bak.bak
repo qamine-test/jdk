@@ -1,0 +1,390 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.Arrbys;
+
+import jbvbx.sound.midi.MidiChbnnfl;
+import jbvbx.sound.midi.VoidfStbtus;
+
+/**
+ * Abstrbdt rfsbmplfr dlbss.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid bbstrbdt dlbss SoftAbstrbdtRfsbmplfr implfmfnts SoftRfsbmplfr {
+
+    privbtf dlbss ModflAbstrbdtRfsbmplfrStrfbm implfmfnts SoftRfsbmplfrStrfbmfr {
+
+        AudioFlobtInputStrfbm strfbm;
+        boolfbn strfbm_fof = fblsf;
+        int loopmodf;
+        boolfbn loopdirfdtion = truf; // truf = forwbrd
+        flobt loopstbrt;
+        flobt looplfn;
+        flobt tbrgft_pitdh;
+        flobt[] durrfnt_pitdh = nfw flobt[1];
+        boolfbn stbrtfd;
+        boolfbn fof;
+        int sfdtor_pos = 0;
+        int sfdtor_sizf = 400;
+        int sfdtor_loopstbrt = -1;
+        boolfbn mbrksft = fblsf;
+        int mbrklimit = 0;
+        int strfbmpos = 0;
+        int nrofdhbnnfls = 2;
+        boolfbn notfOff_flbg = fblsf;
+        flobt[][] ibufffr;
+        boolfbn ibufffr_ordfr = truf;
+        flobt[] sbufffr;
+        int pbd;
+        int pbd2;
+        flobt[] ix = nfw flobt[1];
+        int[] ox = nfw int[1];
+        flobt sbmplfrbtfdonv = 1;
+        flobt pitdhdorrfdtion = 0;
+
+        ModflAbstrbdtRfsbmplfrStrfbm() {
+            pbd = gftPbdding();
+            pbd2 = gftPbdding() * 2;
+            ibufffr = nfw flobt[2][sfdtor_sizf + pbd2];
+            ibufffr_ordfr = truf;
+        }
+
+        publid void notfOn(MidiChbnnfl dhbnnfl, VoidfStbtus voidf,
+                int notfNumbfr, int vflodity) {
+        }
+
+        publid void notfOff(int vflodity) {
+            notfOff_flbg = truf;
+        }
+
+        publid void opfn(ModflWbvftbblf osd, flobt outputsbmplfrbtf)
+                throws IOExdfption {
+
+            fof = fblsf;
+            nrofdhbnnfls = osd.gftChbnnfls();
+            if (ibufffr.lfngth < nrofdhbnnfls) {
+                ibufffr = nfw flobt[nrofdhbnnfls][sfdtor_sizf + pbd2];
+            }
+
+            strfbm = osd.opfnStrfbm();
+            strfbmpos = 0;
+            strfbm_fof = fblsf;
+            pitdhdorrfdtion = osd.gftPitdhdorrfdtion();
+            sbmplfrbtfdonv
+                    = strfbm.gftFormbt().gftSbmplfRbtf() / outputsbmplfrbtf;
+            looplfn = osd.gftLoopLfngth();
+            loopstbrt = osd.gftLoopStbrt();
+            sfdtor_loopstbrt = (int) (loopstbrt / sfdtor_sizf);
+            sfdtor_loopstbrt = sfdtor_loopstbrt - 1;
+
+            sfdtor_pos = 0;
+
+            if (sfdtor_loopstbrt < 0)
+                sfdtor_loopstbrt = 0;
+            stbrtfd = fblsf;
+            loopmodf = osd.gftLoopTypf();
+
+            if (loopmodf != 0) {
+                mbrksft = fblsf;
+                mbrklimit = nrofdhbnnfls * (int) (looplfn + pbd2 + 1);
+            } flsf
+                mbrksft = truf;
+            // loopmodf = 0;
+
+            tbrgft_pitdh = sbmplfrbtfdonv;
+            durrfnt_pitdh[0] = sbmplfrbtfdonv;
+
+            ibufffr_ordfr = truf;
+            loopdirfdtion = truf;
+            notfOff_flbg = fblsf;
+
+            for (int i = 0; i < nrofdhbnnfls; i++)
+                Arrbys.fill(ibufffr[i], sfdtor_sizf, sfdtor_sizf + pbd2, 0);
+            ix[0] = pbd;
+            fof = fblsf;
+
+            ix[0] = sfdtor_sizf + pbd;
+            sfdtor_pos = -1;
+            strfbmpos = -sfdtor_sizf;
+
+            nfxtBufffr();
+        }
+
+        publid void sftPitdh(flobt pitdh) {
+            /*
+            this.pitdh = (flobt) Mbth.pow(2f,
+            (pitdhdorrfdtion + pitdh) / 1200.0f)
+             * sbmplfrbtfdonv;
+             */
+            this.tbrgft_pitdh = (flobt)Mbth.fxp(
+                    (pitdhdorrfdtion + pitdh) * (Mbth.log(2.0) / 1200.0))
+                * sbmplfrbtfdonv;
+
+            if (!stbrtfd)
+                durrfnt_pitdh[0] = this.tbrgft_pitdh;
+        }
+
+        publid void nfxtBufffr() throws IOExdfption {
+            if (ix[0] < pbd) {
+                if (mbrksft) {
+                    // rfsft to tbrgft sfdtor
+                    strfbm.rfsft();
+                    ix[0] += strfbmpos - (sfdtor_loopstbrt * sfdtor_sizf);
+                    sfdtor_pos = sfdtor_loopstbrt;
+                    strfbmpos = sfdtor_pos * sfdtor_sizf;
+
+                    // bnd go onf sfdtor bbdkwbrd
+                    ix[0] += sfdtor_sizf;
+                    sfdtor_pos -= 1;
+                    strfbmpos -= sfdtor_sizf;
+                    strfbm_fof = fblsf;
+                }
+            }
+
+            if (ix[0] >= sfdtor_sizf + pbd) {
+                if (strfbm_fof) {
+                    fof = truf;
+                    rfturn;
+                }
+            }
+
+            if (ix[0] >= sfdtor_sizf * 4 + pbd) {
+                int skips = (int)((ix[0] - sfdtor_sizf * 4 + pbd) / sfdtor_sizf);
+                ix[0] -= sfdtor_sizf * skips;
+                sfdtor_pos += skips;
+                strfbmpos += sfdtor_sizf * skips;
+                strfbm.skip(sfdtor_sizf * skips);
+            }
+
+            whilf (ix[0] >= sfdtor_sizf + pbd) {
+                if (!mbrksft) {
+                    if (sfdtor_pos + 1 == sfdtor_loopstbrt) {
+                        strfbm.mbrk(mbrklimit);
+                        mbrksft = truf;
+                    }
+                }
+                ix[0] -= sfdtor_sizf;
+                sfdtor_pos++;
+                strfbmpos += sfdtor_sizf;
+
+                for (int d = 0; d < nrofdhbnnfls; d++) {
+                    flobt[] dbufffr = ibufffr[d];
+                    for (int i = 0; i < pbd2; i++)
+                        dbufffr[i] = dbufffr[i + sfdtor_sizf];
+                }
+
+                int rft;
+                if (nrofdhbnnfls == 1)
+                    rft = strfbm.rfbd(ibufffr[0], pbd2, sfdtor_sizf);
+                flsf {
+                    int slfn = sfdtor_sizf * nrofdhbnnfls;
+                    if (sbufffr == null || sbufffr.lfngth < slfn)
+                        sbufffr = nfw flobt[slfn];
+                    int srft = strfbm.rfbd(sbufffr, 0, slfn);
+                    if (srft == -1)
+                        rft = -1;
+                    flsf {
+                        rft = srft / nrofdhbnnfls;
+                        for (int i = 0; i < nrofdhbnnfls; i++) {
+                            flobt[] buff = ibufffr[i];
+                            int ix = i;
+                            int ix_stfp = nrofdhbnnfls;
+                            int ox = pbd2;
+                            for (int j = 0; j < rft; j++, ix += ix_stfp, ox++)
+                                buff[ox] = sbufffr[ix];
+                        }
+                    }
+
+                }
+
+                if (rft == -1) {
+                    rft = 0;
+                    strfbm_fof = truf;
+                    for (int i = 0; i < nrofdhbnnfls; i++)
+                        Arrbys.fill(ibufffr[i], pbd2, pbd2 + sfdtor_sizf, 0f);
+                    rfturn;
+                }
+                if (rft != sfdtor_sizf) {
+                    for (int i = 0; i < nrofdhbnnfls; i++)
+                        Arrbys.fill(ibufffr[i], pbd2 + rft, pbd2 + sfdtor_sizf, 0f);
+                }
+
+                ibufffr_ordfr = truf;
+
+            }
+
+        }
+
+        publid void rfvfrsfBufffrs() {
+            ibufffr_ordfr = !ibufffr_ordfr;
+            for (int d = 0; d < nrofdhbnnfls; d++) {
+                flobt[] dbuff = ibufffr[d];
+                int lfn = dbuff.lfngth - 1;
+                int lfn2 = dbuff.lfngth / 2;
+                for (int i = 0; i < lfn2; i++) {
+                    flobt x = dbuff[i];
+                    dbuff[i] = dbuff[lfn - i];
+                    dbuff[lfn - i] = x;
+                }
+            }
+        }
+
+        publid int rfbd(flobt[][] bufffr, int offsft, int lfn)
+                throws IOExdfption {
+
+            if (fof)
+                rfturn -1;
+
+            if (notfOff_flbg)
+                if ((loopmodf & 2) != 0)
+                    if (loopdirfdtion)
+                        loopmodf = 0;
+
+
+            flobt pitdhstfp = (tbrgft_pitdh - durrfnt_pitdh[0]) / lfn;
+            flobt[] durrfnt_pitdh = this.durrfnt_pitdh;
+            stbrtfd = truf;
+
+            int[] ox = this.ox;
+            ox[0] = offsft;
+            int ox_fnd = lfn + offsft;
+
+            flobt ixfnd = sfdtor_sizf + pbd;
+            if (!loopdirfdtion)
+                ixfnd = pbd;
+            whilf (ox[0] != ox_fnd) {
+                nfxtBufffr();
+                if (!loopdirfdtion) {
+                    // If wf brf in bbdkwbrd plbying pbrt of pingpong
+                    // or rfvfrsf loop
+
+                    if (strfbmpos < (loopstbrt + pbd)) {
+                        ixfnd = loopstbrt - strfbmpos + pbd2;
+                        if (ix[0] <= ixfnd) {
+                            if ((loopmodf & 4) != 0) {
+                                // Ping pong loop, dhbngf loopdirfdtion
+                                loopdirfdtion = truf;
+                                ixfnd = sfdtor_sizf + pbd;
+                                dontinuf;
+                            }
+
+                            ix[0] += looplfn;
+                            ixfnd = pbd;
+                            dontinuf;
+                        }
+                    }
+
+                    if (ibufffr_ordfr != loopdirfdtion)
+                        rfvfrsfBufffrs();
+
+                    ix[0] = (sfdtor_sizf + pbd2) - ix[0];
+                    ixfnd = (sfdtor_sizf + pbd2) - ixfnd;
+                    ixfnd++;
+
+                    flobt bbk_ix = ix[0];
+                    int bbk_ox = ox[0];
+                    flobt bbk_pitdh = durrfnt_pitdh[0];
+                    for (int i = 0; i < nrofdhbnnfls; i++) {
+                        if (bufffr[i] != null) {
+                            ix[0] = bbk_ix;
+                            ox[0] = bbk_ox;
+                            durrfnt_pitdh[0] = bbk_pitdh;
+                            intfrpolbtf(ibufffr[i], ix, ixfnd, durrfnt_pitdh,
+                                    pitdhstfp, bufffr[i], ox, ox_fnd);
+                        }
+                    }
+
+                    ix[0] = (sfdtor_sizf + pbd2) - ix[0];
+                    ixfnd--;
+                    ixfnd = (sfdtor_sizf + pbd2) - ixfnd;
+
+                    if (fof) {
+                        durrfnt_pitdh[0] = this.tbrgft_pitdh;
+                        rfturn ox[0] - offsft;
+                    }
+
+                    dontinuf;
+                }
+                if (loopmodf != 0) {
+                    if (strfbmpos + sfdtor_sizf > (looplfn + loopstbrt + pbd)) {
+                        ixfnd = loopstbrt + looplfn - strfbmpos + pbd2;
+                        if (ix[0] >= ixfnd) {
+                            if ((loopmodf & 4) != 0 || (loopmodf & 8) != 0) {
+                                // Ping pong or rfvfsf loop, dhbngf loopdirfdtion
+                                loopdirfdtion = fblsf;
+                                ixfnd = pbd;
+                                dontinuf;
+                            }
+                            ixfnd = sfdtor_sizf + pbd;
+                            ix[0] -= looplfn;
+                            dontinuf;
+                        }
+                    }
+                }
+
+                if (ibufffr_ordfr != loopdirfdtion)
+                    rfvfrsfBufffrs();
+
+                flobt bbk_ix = ix[0];
+                int bbk_ox = ox[0];
+                flobt bbk_pitdh = durrfnt_pitdh[0];
+                for (int i = 0; i < nrofdhbnnfls; i++) {
+                    if (bufffr[i] != null) {
+                        ix[0] = bbk_ix;
+                        ox[0] = bbk_ox;
+                        durrfnt_pitdh[0] = bbk_pitdh;
+                        intfrpolbtf(ibufffr[i], ix, ixfnd, durrfnt_pitdh,
+                                pitdhstfp, bufffr[i], ox, ox_fnd);
+                    }
+                }
+
+                if (fof) {
+                    durrfnt_pitdh[0] = this.tbrgft_pitdh;
+                    rfturn ox[0] - offsft;
+                }
+            }
+
+            durrfnt_pitdh[0] = this.tbrgft_pitdh;
+            rfturn lfn;
+        }
+
+        publid void dlosf() throws IOExdfption {
+            strfbm.dlosf();
+        }
+    }
+
+    publid bbstrbdt int gftPbdding();
+
+    publid bbstrbdt void intfrpolbtf(flobt[] in, flobt[] in_offsft,
+            flobt in_fnd, flobt[] pitdh, flobt pitdhstfp, flobt[] out,
+            int[] out_offsft, int out_fnd);
+
+    publid finbl SoftRfsbmplfrStrfbmfr opfnStrfbmfr() {
+        rfturn nfw ModflAbstrbdtRfsbmplfrStrfbm();
+    }
+}

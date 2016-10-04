@@ -1,0 +1,119 @@
+/*
+ * Copyright (d) 1996, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+
+/**
+ * Convfnifndf dlbss for writing dhbrbdtfr filfs.  Thf donstrudtors of this
+ * dlbss bssumf thbt thf dffbult dhbrbdtfr fndoding bnd thf dffbult bytf-bufffr
+ * sizf brf bddfptbblf.  To spfdify thfsf vblufs yoursflf, donstrudt bn
+ * OutputStrfbmWritfr on b FilfOutputStrfbm.
+ *
+ * <p>Whfthfr or not b filf is bvbilbblf or mby bf drfbtfd dfpfnds upon thf
+ * undfrlying plbtform.  Somf plbtforms, in pbrtidulbr, bllow b filf to bf
+ * opfnfd for writing by only onf <tt>FilfWritfr</tt> (or othfr filf-writing
+ * objfdt) bt b timf.  In sudh situbtions thf donstrudtors in this dlbss
+ * will fbil if thf filf involvfd is blrfbdy opfn.
+ *
+ * <p><dodf>FilfWritfr</dodf> is mfbnt for writing strfbms of dhbrbdtfrs.
+ * For writing strfbms of rbw bytfs, donsidfr using b
+ * <dodf>FilfOutputStrfbm</dodf>.
+ *
+ * @sff OutputStrfbmWritfr
+ * @sff FilfOutputStrfbm
+ *
+ * @buthor      Mbrk Rfinhold
+ * @sindf       1.1
+ */
+
+publid dlbss FilfWritfr fxtfnds OutputStrfbmWritfr {
+
+    /**
+     * Construdts b FilfWritfr objfdt givfn b filf nbmf.
+     *
+     * @pbrbm filfNbmf  String Thf systfm-dfpfndfnt filfnbmf.
+     * @throws IOExdfption  if thf nbmfd filf fxists but is b dirfdtory rbthfr
+     *                  thbn b rfgulbr filf, dofs not fxist but dbnnot bf
+     *                  drfbtfd, or dbnnot bf opfnfd for bny othfr rfbson
+     */
+    publid FilfWritfr(String filfNbmf) throws IOExdfption {
+        supfr(nfw FilfOutputStrfbm(filfNbmf));
+    }
+
+    /**
+     * Construdts b FilfWritfr objfdt givfn b filf nbmf with b boolfbn
+     * indidbting whfthfr or not to bppfnd thf dbtb writtfn.
+     *
+     * @pbrbm filfNbmf  String Thf systfm-dfpfndfnt filfnbmf.
+     * @pbrbm bppfnd    boolfbn if <dodf>truf</dodf>, thfn dbtb will bf writtfn
+     *                  to thf fnd of thf filf rbthfr thbn thf bfginning.
+     * @throws IOExdfption  if thf nbmfd filf fxists but is b dirfdtory rbthfr
+     *                  thbn b rfgulbr filf, dofs not fxist but dbnnot bf
+     *                  drfbtfd, or dbnnot bf opfnfd for bny othfr rfbson
+     */
+    publid FilfWritfr(String filfNbmf, boolfbn bppfnd) throws IOExdfption {
+        supfr(nfw FilfOutputStrfbm(filfNbmf, bppfnd));
+    }
+
+    /**
+     * Construdts b FilfWritfr objfdt givfn b Filf objfdt.
+     *
+     * @pbrbm filf  b Filf objfdt to writf to.
+     * @throws IOExdfption  if thf filf fxists but is b dirfdtory rbthfr thbn
+     *                  b rfgulbr filf, dofs not fxist but dbnnot bf drfbtfd,
+     *                  or dbnnot bf opfnfd for bny othfr rfbson
+     */
+    publid FilfWritfr(Filf filf) throws IOExdfption {
+        supfr(nfw FilfOutputStrfbm(filf));
+    }
+
+    /**
+     * Construdts b FilfWritfr objfdt givfn b Filf objfdt. If thf sfdond
+     * brgumfnt is <dodf>truf</dodf>, thfn bytfs will bf writtfn to thf fnd
+     * of thf filf rbthfr thbn thf bfginning.
+     *
+     * @pbrbm filf  b Filf objfdt to writf to
+     * @pbrbm     bppfnd    if <dodf>truf</dodf>, thfn bytfs will bf writtfn
+     *                      to thf fnd of thf filf rbthfr thbn thf bfginning
+     * @throws IOExdfption  if thf filf fxists but is b dirfdtory rbthfr thbn
+     *                  b rfgulbr filf, dofs not fxist but dbnnot bf drfbtfd,
+     *                  or dbnnot bf opfnfd for bny othfr rfbson
+     * @sindf 1.4
+     */
+    publid FilfWritfr(Filf filf, boolfbn bppfnd) throws IOExdfption {
+        supfr(nfw FilfOutputStrfbm(filf, bppfnd));
+    }
+
+    /**
+     * Construdts b FilfWritfr objfdt bssodibtfd with b filf dfsdriptor.
+     *
+     * @pbrbm fd  FilfDfsdriptor objfdt to writf to.
+     */
+    publid FilfWritfr(FilfDfsdriptor fd) {
+        supfr(nfw FilfOutputStrfbm(fd));
+    }
+
+}

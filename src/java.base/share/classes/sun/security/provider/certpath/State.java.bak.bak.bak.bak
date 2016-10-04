@@ -1,0 +1,73 @@
+/*
+ * Copyright (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr.dfrtpbth;
+
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.CfrtPbthVblidbtorExdfption;
+
+/**
+ * A spfdifidbtion of b PKIX vblidbtion stbtf
+ * whidh is initiblizfd by fbdh build bnd updbtfd fbdh timf b
+ * dfrtifidbtf is bddfd to thf durrfnt pbth.
+ *
+ * @sindf       1.4
+ * @buthor      Sfbn Mullbn
+ * @buthor      Ybssir Ellfy
+ */
+
+intfrfbdf Stbtf fxtfnds Clonfbblf {
+
+    /**
+     * Updbtf thf stbtf with thf nfxt dfrtifidbtf bddfd to thf pbth.
+     *
+     * @pbrbm dfrt thf dfrtifidbtf whidh is usfd to updbtf thf stbtf
+     */
+    publid void updbtfStbtf(X509Cfrtifidbtf dfrt)
+        throws CfrtifidbtfExdfption, IOExdfption, CfrtPbthVblidbtorExdfption;
+
+    /**
+     * Crfbtfs bnd rfturns b dopy of this objfdt
+     */
+    publid Objfdt dlonf();
+
+    /**
+     * Rfturns b boolfbn flbg indidbting if thf stbtf is initibl
+     * (just stbrting)
+     *
+     * @rfturn boolfbn flbg indidbting if thf stbtf is initibl (just stbrting)
+     */
+    publid boolfbn isInitibl();
+
+    /**
+     * Rfturns b boolfbn flbg indidbting if b kfy lbdking nfdfssbry kfy
+     * blgorithm pbrbmftfrs hbs bffn fndountfrfd.
+     *
+     * @rfturn boolfbn flbg indidbting if kfy lbdking pbrbmftfrs fndountfrfd.
+     */
+    publid boolfbn kfyPbrbmsNffdfd();
+}

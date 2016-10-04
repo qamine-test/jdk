@@ -1,0 +1,114 @@
+/*
+ * Copyright (d) 1997, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi.bdtivbtion;
+
+import jbvb.rmi.MbrshbllfdObjfdt;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.bdtivbtion.UnknownObjfdtExdfption;
+
+/**
+ * Thf <dodf>Adtivbtor</dodf> fbdilitbtfs rfmotf objfdt bdtivbtion. A
+ * "fbulting" rfmotf rfffrfndf dblls thf bdtivbtor's
+ * <dodf>bdtivbtf</dodf> mfthod to obtbin b "livf" rfffrfndf to b
+ * "bdtivbtbblf" rfmotf objfdt. Upon rfdfiving b rfqufst for bdtivbtion,
+ * thf bdtivbtor looks up thf bdtivbtion dfsdriptor for thf bdtivbtion
+ * idfntififr, <dodf>id</dodf>, dftfrminfs thf group in whidh thf
+ * objfdt should bf bdtivbtfd initibtfs objfdt rf-drfbtion vib thf
+ * group's <dodf>AdtivbtionInstbntibtor</dodf> (vib b dbll to thf
+ * <dodf>nfwInstbndf</dodf> mfthod). Thf bdtivbtor initibtfs thf
+ * fxfdution of bdtivbtion groups bs nfdfssbry. For fxbmplf, if bn
+ * bdtivbtion group for b spfdifid group idfntififr is not blrfbdy
+ * fxfduting, thf bdtivbtor initibtfs thf fxfdution of b VM for thf
+ * group. <p>
+ *
+ * Thf <dodf>Adtivbtor</dodf> works dlosfly with
+ * <dodf>AdtivbtionSystfm</dodf>, whidh providfs b mfbns for rfgistfring
+ * groups bnd objfdts within thosf groups, bnd <dodf>AdtivbtionMonitor</dodf>,
+ * whidh rfdivfs informbtion bbout bdtivf bnd inbdtivf objfdts bnd inbdtivf
+ * groups. <p>
+ *
+ * Thf bdtivbtor is rfsponsiblf for monitoring bnd dftfdting whfn
+ * bdtivbtion groups fbil so thbt it dbn rfmovf stblf rfmotf rfffrfndfs
+ * to groups bnd bdtivf objfdt's within thosf groups.
+ *
+ * @buthor      Ann Wollrbth
+ * @sff         AdtivbtionInstbntibtor
+ * @sff         AdtivbtionGroupDfsd
+ * @sff         AdtivbtionGroupID
+ * @sindf       1.2
+ */
+publid intfrfbdf Adtivbtor fxtfnds Rfmotf {
+    /**
+     * Adtivbtf thf objfdt bssodibtfd with thf bdtivbtion idfntififr,
+     * <dodf>id</dodf>. If thf bdtivbtor knows thf objfdt to bf bdtivf
+     * blrfbdy, bnd <dodf>fordf</dodf> is fblsf , thf stub with b
+     * "livf" rfffrfndf is rfturnfd immfdibtfly to thf dbllfr;
+     * othfrwisf, if thf bdtivbtor dofs not know thbt dorrfsponding
+     * thf rfmotf objfdt is bdtivf, thf bdtivbtor usfs thf bdtivbtion
+     * dfsdriptor informbtion (prfviously rfgistfrfd) to dftfrminf thf
+     * group (VM) in whidh thf objfdt should bf bdtivbtfd. If bn
+     * <dodf>AdtivbtionInstbntibtor</dodf> dorrfsponding to thf
+     * objfdt's group dfsdriptor blrfbdy fxists, thf bdtivbtor invokfs
+     * thf bdtivbtion group's <dodf>nfwInstbndf</dodf> mfthod pbssing
+     * it thf objfdt's id bnd dfsdriptor. <p>
+     *
+     * If thf bdtivbtion group for thf objfdt's group dfsdriptor dofs
+     * not yft fxist, thf bdtivbtor stbrts bn
+     * <dodf>AdtivbtionInstbntibtor</dodf> fxfduting (by spbwning b
+     * dhild prodfss, for fxbmplf). Whfn thf bdtivbtor rfdfivfs thf
+     * bdtivbtion group's dbll bbdk (vib thf
+     * <dodf>AdtivbtionSystfm</dodf>'s <dodf>bdtivfGroup</dodf>
+     * mfthod) spfdifying thf bdtivbtion group's rfffrfndf, thf
+     * bdtivbtor dbn thfn invokf thbt bdtivbtion instbntibtor's
+     * <dodf>nfwInstbndf</dodf> mfthod to forwbrd fbdh pfnding
+     * bdtivbtion rfqufst to thf bdtivbtion group bnd rfturn thf
+     * rfsult (b mbrshbllfd rfmotf objfdt rfffrfndf, b stub) to thf
+     * dbllfr.<p>
+     *
+     * Notf thbt thf bdtivbtor rfdfivfs b "mbrshbllfd" objfdt instfbd of b
+     * Rfmotf objfdt so thbt thf bdtivbtor dofs not nffd to lobd thf
+     * dodf for thbt objfdt, or pbrtidipbtf in distributfd gbrbbgf
+     * dollfdtion for thbt objfdt. If thf bdtivbtor kfpt b strong
+     * rfffrfndf to thf rfmotf objfdt, thf bdtivbtor would thfn
+     * prfvfnt thf objfdt from bfing gbrbbgf dollfdtfd undfr thf
+     * normbl distributfd gbrbbgf dollfdtion mfdhbnism.
+     *
+     * @pbrbm id thf bdtivbtion idfntififr for thf objfdt bfing bdtivbtfd
+     * @pbrbm fordf if truf, thf bdtivbtor dontbdts thf group to obtbin
+     * thf rfmotf objfdt's rfffrfndf; if fblsf, rfturning thf dbdhfd vbluf
+     * is bllowfd.
+     * @rfturn thf rfmotf objfdt (b stub) in b mbrshbllfd form
+     * @fxdfption AdtivbtionExdfption if objfdt bdtivbtion fbils
+     * @fxdfption UnknownObjfdtExdfption if objfdt is unknown (not rfgistfrfd)
+     * @fxdfption RfmotfExdfption if rfmotf dbll fbils
+     * @sindf 1.2
+     */
+    publid MbrshbllfdObjfdt<? fxtfnds Rfmotf> bdtivbtf(AdtivbtionID id,
+                                                       boolfbn fordf)
+        throws AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption;
+
+}

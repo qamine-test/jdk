@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,137 +30,137 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
-package j2dbench.tests.cmm;
+pbdkbgf j2dbfndi.tfsts.dmm;
 
-import j2dbench.Group;
-import j2dbench.Option;
-import j2dbench.Result;
-import j2dbench.TestEnvironment;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
+import j2dbfndi.Group;
+import j2dbfndi.Option;
+import j2dbfndi.Rfsult;
+import j2dbfndi.TfstEnvironmfnt;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.io.IOExdfption;
+import jbvb.nft.URL;
+import jbvbx.imbgfio.ImbgfIO;
+import jbvbx.imbgfio.ImbgfRfbdfr;
+import jbvbx.imbgfio.strfbm.ImbgfInputStrfbm;
 
-/* This benchmark verifies how changes in cmm library affects image decoding */
-public class EmbeddedProfileTests extends ColorConversionTests {
+/* Tiis bfndimbrk vfrififs iow dibngfs in dmm librbry bfffdts imbgf dfdoding */
+publid dlbss EmbfddfdProfilfTfsts fxtfnds ColorConvfrsionTfsts {
 
-    protected static Group grpRoot;
-    protected static Group grpOptionsRoot;
+    protfdtfd stbtid Group grpRoot;
+    protfdtfd stbtid Group grpOptionsRoot;
 
-    protected static Option inputImages;
+    protfdtfd stbtid Option inputImbgfs;
 
-    public static void init() {
-        grpRoot = new Group(colorConvRoot, "embed", "Embedded Profile Tests");
+    publid stbtid void init() {
+        grpRoot = nfw Group(dolorConvRoot, "fmbfd", "Embfddfd Profilf Tfsts");
 
-        grpOptionsRoot = new Group(grpRoot, "embedOptions", "Options");
+        grpOptionsRoot = nfw Group(grpRoot, "fmbfdOptions", "Options");
 
-        inputImages = createImageList();
+        inputImbgfs = drfbtfImbgfList();
 
-        new ReadImageTest();
+        nfw RfbdImbgfTfst();
     }
 
-    private static enum IccImageResource {
-        SMALL("images/img_icc_small.jpg", "512x512", "Small: 512x512"),
-        MEDIUM("images/img_icc_medium.jpg", "2048x2048", "Medium: 2048x2048"),
-        LARGE("images/img_icc_large.jpg", "4096x4096", "Large: 4096x4096");
+    privbtf stbtid fnum IddImbgfRfsourdf {
+        SMALL("imbgfs/img_idd_smbll.jpg", "512x512", "Smbll: 512x512"),
+        MEDIUM("imbgfs/img_idd_mfdium.jpg", "2048x2048", "Mfdium: 2048x2048"),
+        LARGE("imbgfs/img_idd_lbrgf.jpg", "4096x4096", "Lbrgf: 4096x4096");
 
-        private IccImageResource(String file, String name, String description) {
-            this.url = CMMTests.class.getResource(file);
-            this.abbrev = name;
-            this.description = description;
+        privbtf IddImbgfRfsourdf(String filf, String nbmf, String dfsdription) {
+            tiis.url = CMMTfsts.dlbss.gftRfsourdf(filf);
+            tiis.bbbrfv = nbmf;
+            tiis.dfsdription = dfsdription;
         }
 
-        public final URL url;
-        public final String abbrev;
-        public final String description;
+        publid finbl URL url;
+        publid finbl String bbbrfv;
+        publid finbl String dfsdription;
     }
 
-    private static Option createImageList() {
-        IccImageResource[] images = IccImageResource.values();
+    privbtf stbtid Option drfbtfImbgfList() {
+        IddImbgfRfsourdf[] imbgfs = IddImbgfRfsourdf.vblufs();
 
-        int num = images.length;
+        int num = imbgfs.lfngti;
 
-        String[] names = new String[num];
-        String[] abbrev = new String[num];
-        String[] descr = new String[num];
+        String[] nbmfs = nfw String[num];
+        String[] bbbrfv = nfw String[num];
+        String[] dfsdr = nfw String[num];
 
         for (int i = 0; i < num; i++) {
-            names[i] = images[i].toString();
-            abbrev[i] = images[i].abbrev;
-            descr[i] = images[i].description;
+            nbmfs[i] = imbgfs[i].toString();
+            bbbrfv[i] = imbgfs[i].bbbrfv;
+            dfsdr[i] = imbgfs[i].dfsdription;
         }
 
-         Option list = new Option.ObjectList(grpOptionsRoot,
-                "Images", "Input Images",
-                names, images, abbrev, descr, 1);
+         Option list = nfw Option.ObjfdtList(grpOptionsRoot,
+                "Imbgfs", "Input Imbgfs",
+                nbmfs, imbgfs, bbbrfv, dfsdr, 1);
 
-         return list;
+         rfturn list;
     }
 
-    public EmbeddedProfileTests(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
-        addDependencies(grpOptionsRoot, true);
+    publid EmbfddfdProfilfTfsts(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        supfr(pbrfnt, nodfNbmf, dfsdription);
+        bddDfpfndfndifs(grpOptionsRoot, truf);
     }
 
-    private static class Context {
+    privbtf stbtid dlbss Contfxt {
         URL input;
 
-        public Context(TestEnvironment env, Result res) {
+        publid Contfxt(TfstEnvironmfnt fnv, Rfsult rfs) {
 
-            IccImageResource icc_input = (IccImageResource)
-                    env.getModifier(inputImages);
+            IddImbgfRfsourdf idd_input = (IddImbgfRfsourdf)
+                    fnv.gftModififr(inputImbgfs);
 
-            input = icc_input.url;
+            input = idd_input.url;
         }
     }
 
-     public Object initTest(TestEnvironment env, Result res) {
-        return new Context(env, res);
+     publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfs) {
+        rfturn nfw Contfxt(fnv, rfs);
     }
 
-    public void cleanupTest(TestEnvironment env, Object o) {
-        Context ctx = (Context)o;
-        ctx.input = null;
+    publid void dlfbnupTfst(TfstEnvironmfnt fnv, Objfdt o) {
+        Contfxt dtx = (Contfxt)o;
+        dtx.input = null;
     }
 
-    private static class ReadImageTest extends EmbeddedProfileTests {
-        public ReadImageTest() {
-            super(grpRoot, "embd_img_read", "ImageReader.read()");
+    privbtf stbtid dlbss RfbdImbgfTfst fxtfnds EmbfddfdProfilfTfsts {
+        publid RfbdImbgfTfst() {
+            supfr(grpRoot, "fmbd_img_rfbd", "ImbgfRfbdfr.rfbd()");
         }
 
-        public void runTest(Object octx, int numReps) {
-            final Context ctx = (Context)octx;
-            final URL url = ctx.input;
-            ImageInputStream iis = null;
-            ImageReader reader = null;
+        publid void runTfst(Objfdt odtx, int numRfps) {
+            finbl Contfxt dtx = (Contfxt)odtx;
+            finbl URL url = dtx.input;
+            ImbgfInputStrfbm iis = null;
+            ImbgfRfbdfr rfbdfr = null;
 
             try {
-                iis = ImageIO.createImageInputStream(url.openStream());
-                reader = ImageIO.getImageReaders(iis).next();
-            } catch (IOException e) {
-                throw new RuntimeException("Unable to run the becnhmark", e);
+                iis = ImbgfIO.drfbtfImbgfInputStrfbm(url.opfnStrfbm());
+                rfbdfr = ImbgfIO.gftImbgfRfbdfrs(iis).nfxt();
+            } dbtdi (IOExdfption f) {
+                tirow nfw RuntimfExdfption("Unbblf to run tif bfdnimbrk", f);
             }
 
             do {
                 try {
-                    reader.setInput(iis);
-                    BufferedImage img = reader.read(0);
-                    reader.reset();
+                    rfbdfr.sftInput(iis);
+                    BufffrfdImbgf img = rfbdfr.rfbd(0);
+                    rfbdfr.rfsft();
 
-                    iis = ImageIO.createImageInputStream(url.openStream());
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    iis = ImbgfIO.drfbtfImbgfInputStrfbm(url.opfnStrfbm());
+                } dbtdi (Exdfption f) {
+                    f.printStbdkTrbdf();
                 }
-            } while (--numReps >= 0);
+            } wiilf (--numRfps >= 0);
         }
     }
 }

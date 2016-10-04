@@ -1,135 +1,135 @@
 /*
- * Copyright (c) 1999, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
 
-// java import
-import java.io.Serializable;
+// jbvb import
+import jbvb.io.Sfriblizbblf;
 
 
 /**
- * Represents an MBean attribute by associating its name with its value.
- * The MBean server and other objects use this class to get and set attributes values.
+ * Rfprfsfnts bn MBfbn bttributf by bssodibting its nbmf witi its vbluf.
+ * Tif MBfbn sfrvfr bnd otifr objfdts usf tiis dlbss to gft bnd sft bttributfs vblufs.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class Attribute implements Serializable   {
+publid dlbss Attributf implfmfnts Sfriblizbblf   {
 
-    /* Serial version */
-    private static final long serialVersionUID = 2484220110589082382L;
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = 2484220110589082382L;
 
     /**
-     * @serial Attribute name.
+     * @sfribl Attributf nbmf.
      */
-    private String name;
+    privbtf String nbmf;
 
     /**
-     * @serial Attribute value
+     * @sfribl Attributf vbluf
      */
-    private Object value= null;
+    privbtf Objfdt vbluf= null;
 
 
     /**
-     * Constructs an Attribute object which associates the given attribute name with the given value.
+     * Construdts bn Attributf objfdt wiidi bssodibtfs tif givfn bttributf nbmf witi tif givfn vbluf.
      *
-     * @param name A String containing the name of the attribute to be created. Cannot be null.
-     * @param value The Object which is assigned to the attribute. This object must be of the same type as the attribute.
+     * @pbrbm nbmf A String dontbining tif nbmf of tif bttributf to bf drfbtfd. Cbnnot bf null.
+     * @pbrbm vbluf Tif Objfdt wiidi is bssignfd to tif bttributf. Tiis objfdt must bf of tif sbmf typf bs tif bttributf.
      *
      */
-    public Attribute(String name, Object value) {
+    publid Attributf(String nbmf, Objfdt vbluf) {
 
-        if (name == null) {
-            throw new RuntimeOperationsException(new IllegalArgumentException("Attribute name cannot be null "));
+        if (nbmf == null) {
+            tirow nfw RuntimfOpfrbtionsExdfption(nfw IllfgblArgumfntExdfption("Attributf nbmf dbnnot bf null "));
         }
 
-        this.name = name;
-        this.value = value;
+        tiis.nbmf = nbmf;
+        tiis.vbluf = vbluf;
     }
 
 
     /**
-     * Returns a String containing the  name of the attribute.
+     * Rfturns b String dontbining tif  nbmf of tif bttributf.
      *
-     * @return the name of the attribute.
+     * @rfturn tif nbmf of tif bttributf.
      */
-    public String getName()  {
-        return name;
+    publid String gftNbmf()  {
+        rfturn nbmf;
     }
 
     /**
-     * Returns an Object that is the value of this attribute.
+     * Rfturns bn Objfdt tibt is tif vbluf of tiis bttributf.
      *
-     * @return the value of the attribute.
+     * @rfturn tif vbluf of tif bttributf.
      */
-    public Object getValue()  {
-        return value;
+    publid Objfdt gftVbluf()  {
+        rfturn vbluf;
     }
 
     /**
-     * Compares the current Attribute Object with another Attribute Object.
+     * Compbrfs tif durrfnt Attributf Objfdt witi bnotifr Attributf Objfdt.
      *
-     * @param object  The Attribute that the current Attribute is to be compared with.
+     * @pbrbm objfdt  Tif Attributf tibt tif durrfnt Attributf is to bf dompbrfd witi.
      *
-     * @return  True if the two Attribute objects are equal, otherwise false.
+     * @rfturn  Truf if tif two Attributf objfdts brf fqubl, otifrwisf fblsf.
      */
 
 
-    public boolean equals(Object object)  {
-        if (!(object instanceof Attribute)) {
-            return false;
+    publid boolfbn fqubls(Objfdt objfdt)  {
+        if (!(objfdt instbndfof Attributf)) {
+            rfturn fblsf;
         }
-        Attribute val = (Attribute) object;
+        Attributf vbl = (Attributf) objfdt;
 
-        if (value == null) {
-            if (val.getValue() == null) {
-                return name.equals(val.getName());
-            } else {
-                return false;
+        if (vbluf == null) {
+            if (vbl.gftVbluf() == null) {
+                rfturn nbmf.fqubls(vbl.gftNbmf());
+            } flsf {
+                rfturn fblsf;
             }
         }
 
-        return ((name.equals(val.getName())) &&
-                (value.equals(val.getValue())));
+        rfturn ((nbmf.fqubls(vbl.gftNbmf())) &&
+                (vbluf.fqubls(vbl.gftVbluf())));
     }
 
     /**
-     * Returns a hash code value for this attribute.
+     * Rfturns b ibsi dodf vbluf for tiis bttributf.
      *
-     * @return a hash code value for this attribute.
+     * @rfturn b ibsi dodf vbluf for tiis bttributf.
      */
-    public int hashCode() {
-        return name.hashCode() ^ (value == null ? 0 : value.hashCode());
+    publid int ibsiCodf() {
+        rfturn nbmf.ibsiCodf() ^ (vbluf == null ? 0 : vbluf.ibsiCodf());
     }
 
     /**
-     * Returns a String object representing this Attribute's value. The format of this
-     * string is not specified, but users can expect that two Attributes return the
-     * same string if and only if they are equal.
+     * Rfturns b String objfdt rfprfsfnting tiis Attributf's vbluf. Tif formbt of tiis
+     * string is not spfdififd, but usfrs dbn fxpfdt tibt two Attributfs rfturn tif
+     * sbmf string if bnd only if tify brf fqubl.
      */
-    public String toString() {
-        return getName() + " = " + getValue();
+    publid String toString() {
+        rfturn gftNbmf() + " = " + gftVbluf();
     }
  }

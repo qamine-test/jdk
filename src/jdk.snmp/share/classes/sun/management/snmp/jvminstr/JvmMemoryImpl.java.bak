@@ -1,391 +1,391 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.management.snmp.jvminstr;
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
 
 // jmx imports
 //
-import javax.management.MBeanServer;
-import com.sun.jmx.snmp.SnmpStatusException;
-import com.sun.jmx.snmp.SnmpDefinitions;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpDffinitions;
 
 // jdmk imports
 //
-import com.sun.jmx.snmp.agent.SnmpMib;
+import dom.sun.jmx.snmp.bgfnt.SnmpMib;
 
-import java.util.Map;
-import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryUsage;
-import java.lang.management.MemoryType;
-import java.lang.management.MemoryMXBean;
-import javax.management.openmbean.CompositeData;
+import jbvb.util.Mbp;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.lbng.mbnbgfmfnt.MfmoryUsbgf;
+import jbvb.lbng.mbnbgfmfnt.MfmoryTypf;
+import jbvb.lbng.mbnbgfmfnt.MfmoryMXBfbn;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
 
-import sun.management.snmp.jvmmib.JvmMemoryMBean;
-import sun.management.snmp.jvmmib.EnumJvmMemoryGCCall;
-import sun.management.snmp.jvmmib.EnumJvmMemoryGCVerboseLevel;
-import sun.management.snmp.util.MibLogger;
-import sun.management.snmp.util.JvmContextFactory;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmMfmoryMBfbn;
+import sun.mbnbgfmfnt.snmp.jvmmib.EnumJvmMfmoryGCCbll;
+import sun.mbnbgfmfnt.snmp.jvmmib.EnumJvmMfmoryGCVfrbosfLfvfl;
+import sun.mbnbgfmfnt.snmp.util.MibLoggfr;
+import sun.mbnbgfmfnt.snmp.util.JvmContfxtFbdtory;
 
 /**
- * The class is used for implementing the "JvmMemory" group.
+ * Tif dlbss is usfd for implfmfnting tif "JvmMfmory" group.
  */
-public class JvmMemoryImpl implements JvmMemoryMBean {
+publid dlbss JvmMfmoryImpl implfmfnts JvmMfmoryMBfbn {
 
     /**
-     * Variable for storing the value of "JvmMemoryGCCall".
+     * Vbribblf for storing tif vbluf of "JvmMfmoryGCCbll".
      *
-     * "This object makes it possible to remotelly trigger the
-     * Garbage Collector in the JVM.
+     * "Tiis objfdt mbkfs it possiblf to rfmotflly triggfr tif
+     * Gbrbbgf Collfdtor in tif JVM.
      *
-     * This object's syntax is an enumeration which defines:
+     * Tiis objfdt's syntbx is bn fnumfrbtion wiidi dffinfs:
      *
-     * * Two state values, that can be returned from a GET request:
+     * * Two stbtf vblufs, tibt dbn bf rfturnfd from b GET rfqufst:
      *
-     * unsupported(1): means that remote invocation of gc() is not
-     * supported by the SNMP agent.
-     * supported(2)  : means that remote invocation of gc() is supported
-     * by the SNMP agent.
+     * unsupportfd(1): mfbns tibt rfmotf invodbtion of gd() is not
+     * supportfd by tif SNMP bgfnt.
+     * supportfd(2)  : mfbns tibt rfmotf invodbtion of gd() is supportfd
+     * by tif SNMP bgfnt.
      *
-     * * One action value, that can be provided in a SET request to
-     * trigger the garbage collector:
+     * * Onf bdtion vbluf, tibt dbn bf providfd in b SET rfqufst to
+     * triggfr tif gbrbbgf dollfdtor:
      *
-     * start(3)      : means that a manager wishes to trigger
-     * garbage collection.
+     * stbrt(3)      : mfbns tibt b mbnbgfr wisifs to triggfr
+     * gbrbbgf dollfdtion.
      *
-     * * Two result value, that will be returned as a result of a
-     * SET request when remote invocation of gc is supported
-     * by the SNMP agent:
+     * * Two rfsult vbluf, tibt will bf rfturnfd bs b rfsult of b
+     * SET rfqufst wifn rfmotf invodbtion of gd is supportfd
+     * by tif SNMP bgfnt:
      *
-     * started(4)       : means that garbage collection was
-     * successfully triggered. It does not mean
-     * however that the action was successfullly
-     * completed: gc might still be running when
-     * this value is returned.
-     * failed(5)     : means that garbage collection couldn't be
-     * triggered.
+     * stbrtfd(4)       : mfbns tibt gbrbbgf dollfdtion wbs
+     * suddfssfully triggfrfd. It dofs not mfbn
+     * iowfvfr tibt tif bdtion wbs suddfssfullly
+     * domplftfd: gd migit still bf running wifn
+     * tiis vbluf is rfturnfd.
+     * fbilfd(5)     : mfbns tibt gbrbbgf dollfdtion douldn't bf
+     * triggfrfd.
      *
-     * * If remote invocation is not supported by the SNMP agent, then
-     * unsupported(1) will always be returned as a result of either
-     * a GET request, or a SET request with start(3) as input value.
+     * * If rfmotf invodbtion is not supportfd by tif SNMP bgfnt, tifn
+     * unsupportfd(1) will blwbys bf rfturnfd bs b rfsult of fitifr
+     * b GET rfqufst, or b SET rfqufst witi stbrt(3) bs input vbluf.
      *
-     * * If a SET request with anything but start(3) is received, then
-     * the agent will return a wrongValue error.
+     * * If b SET rfqufst witi bnytiing but stbrt(3) is rfdfivfd, tifn
+     * tif bgfnt will rfturn b wrongVbluf frror.
      *
-     * See java.management.MemoryMXBean.gc()
+     * Sff jbvb.mbnbgfmfnt.MfmoryMXBfbn.gd()
      * "
      *
      */
-    final static EnumJvmMemoryGCCall JvmMemoryGCCallSupported
-        = new EnumJvmMemoryGCCall("supported");
-    final static EnumJvmMemoryGCCall JvmMemoryGCCallStart
-        = new EnumJvmMemoryGCCall("start");
-    final static EnumJvmMemoryGCCall JvmMemoryGCCallFailed
-        = new EnumJvmMemoryGCCall("failed");
-    final static EnumJvmMemoryGCCall JvmMemoryGCCallStarted
-        = new EnumJvmMemoryGCCall("started");
+    finbl stbtid EnumJvmMfmoryGCCbll JvmMfmoryGCCbllSupportfd
+        = nfw EnumJvmMfmoryGCCbll("supportfd");
+    finbl stbtid EnumJvmMfmoryGCCbll JvmMfmoryGCCbllStbrt
+        = nfw EnumJvmMfmoryGCCbll("stbrt");
+    finbl stbtid EnumJvmMfmoryGCCbll JvmMfmoryGCCbllFbilfd
+        = nfw EnumJvmMfmoryGCCbll("fbilfd");
+    finbl stbtid EnumJvmMfmoryGCCbll JvmMfmoryGCCbllStbrtfd
+        = nfw EnumJvmMfmoryGCCbll("stbrtfd");
 
     /**
-     * Variable for storing the value of "JvmMemoryGCVerboseLevel".
+     * Vbribblf for storing tif vbluf of "JvmMfmoryGCVfrbosfLfvfl".
      *
-     * "State of the -verbose:gc state.
+     * "Stbtf of tif -vfrbosf:gd stbtf.
      *
-     * verbose: if the -verbose:gc flag is on,
-     * silent:  otherwise.
+     * vfrbosf: if tif -vfrbosf:gd flbg is on,
+     * silfnt:  otifrwisf.
      *
-     * See java.management.MemoryMXBean.isVerbose(),
-     * java.management.MemoryMXBean.setVerbose()
+     * Sff jbvb.mbnbgfmfnt.MfmoryMXBfbn.isVfrbosf(),
+     * jbvb.mbnbgfmfnt.MfmoryMXBfbn.sftVfrbosf()
      * "
      *
      */
-    final static EnumJvmMemoryGCVerboseLevel JvmMemoryGCVerboseLevelVerbose =
-        new EnumJvmMemoryGCVerboseLevel("verbose");
-    final static EnumJvmMemoryGCVerboseLevel JvmMemoryGCVerboseLevelSilent =
-        new EnumJvmMemoryGCVerboseLevel("silent");
+    finbl stbtid EnumJvmMfmoryGCVfrbosfLfvfl JvmMfmoryGCVfrbosfLfvflVfrbosf =
+        nfw EnumJvmMfmoryGCVfrbosfLfvfl("vfrbosf");
+    finbl stbtid EnumJvmMfmoryGCVfrbosfLfvfl JvmMfmoryGCVfrbosfLfvflSilfnt =
+        nfw EnumJvmMfmoryGCVfrbosfLfvfl("silfnt");
 
     /**
-     * Constructor for the "JvmMemory" group.
-     * If the group contains a table, the entries created through an
-     * SNMP SET will not be registered in Java DMK.
+     * Construdtor for tif "JvmMfmory" group.
+     * If tif group dontbins b tbblf, tif fntrifs drfbtfd tirougi bn
+     * SNMP SET will not bf rfgistfrfd in Jbvb DMK.
      */
-    public JvmMemoryImpl(SnmpMib myMib) {
+    publid JvmMfmoryImpl(SnmpMib myMib) {
     }
 
 
     /**
-     * Constructor for the "JvmMemory" group.
-     * If the group contains a table, the entries created through an
-     * SNMP SET will be AUTOMATICALLY REGISTERED in Java DMK.
+     * Construdtor for tif "JvmMfmory" group.
+     * If tif group dontbins b tbblf, tif fntrifs drfbtfd tirougi bn
+     * SNMP SET will bf AUTOMATICALLY REGISTERED in Jbvb DMK.
      */
-    public JvmMemoryImpl(SnmpMib myMib, MBeanServer server) {
-        // no entry will be registered since the table is virtual.
+    publid JvmMfmoryImpl(SnmpMib myMib, MBfbnSfrvfr sfrvfr) {
+        // no fntry will bf rfgistfrfd sindf tif tbblf is virtubl.
     }
 
-    final static String heapMemoryTag = "jvmMemory.getHeapMemoryUsage";
-    final static String nonHeapMemoryTag = "jvmMemory.getNonHeapMemoryUsage";
+    finbl stbtid String ifbpMfmoryTbg = "jvmMfmory.gftHfbpMfmoryUsbgf";
+    finbl stbtid String nonHfbpMfmoryTbg = "jvmMfmory.gftNonHfbpMfmoryUsbgf";
 
-    private MemoryUsage getMemoryUsage(MemoryType type) {
-        if (type == MemoryType.HEAP) {
-            return ManagementFactory.getMemoryMXBean().getHeapMemoryUsage();
-        } else {
-            return ManagementFactory.getMemoryMXBean().getNonHeapMemoryUsage();
+    privbtf MfmoryUsbgf gftMfmoryUsbgf(MfmoryTypf typf) {
+        if (typf == MfmoryTypf.HEAP) {
+            rfturn MbnbgfmfntFbdtory.gftMfmoryMXBfbn().gftHfbpMfmoryUsbgf();
+        } flsf {
+            rfturn MbnbgfmfntFbdtory.gftMfmoryMXBfbn().gftNonHfbpMfmoryUsbgf();
         }
     }
 
-    MemoryUsage getNonHeapMemoryUsage() {
+    MfmoryUsbgf gftNonHfbpMfmoryUsbgf() {
         try {
-            final Map<Object, Object> m = JvmContextFactory.getUserData();
+            finbl Mbp<Objfdt, Objfdt> m = JvmContfxtFbdtory.gftUsfrDbtb();
 
             if (m != null) {
-                final MemoryUsage cached = (MemoryUsage)
-                    m.get(nonHeapMemoryTag);
-                if (cached != null) {
-                    log.debug("getNonHeapMemoryUsage",
-                          "jvmMemory.getNonHeapMemoryUsage found in cache.");
-                    return cached;
+                finbl MfmoryUsbgf dbdifd = (MfmoryUsbgf)
+                    m.gft(nonHfbpMfmoryTbg);
+                if (dbdifd != null) {
+                    log.dfbug("gftNonHfbpMfmoryUsbgf",
+                          "jvmMfmory.gftNonHfbpMfmoryUsbgf found in dbdif.");
+                    rfturn dbdifd;
                 }
 
-                final MemoryUsage u = getMemoryUsage(MemoryType.NON_HEAP);
+                finbl MfmoryUsbgf u = gftMfmoryUsbgf(MfmoryTypf.NON_HEAP);
 
-                //  getNonHeapMemoryUsage() never returns null.
+                //  gftNonHfbpMfmoryUsbgf() nfvfr rfturns null.
                 //
-                // if (u == null) u=MemoryUsage.INVALID;
+                // if (u == null) u=MfmoryUsbgf.INVALID;
 
-                m.put(nonHeapMemoryTag,u);
-                return u;
+                m.put(nonHfbpMfmoryTbg,u);
+                rfturn u;
             }
-            // Should never come here.
-            // Log error!
-            log.trace("getNonHeapMemoryUsage",
-                      "ERROR: should never come here!");
-            return getMemoryUsage(MemoryType.NON_HEAP);
-        } catch (RuntimeException x) {
-            log.trace("getNonHeapMemoryUsage",
-                  "Failed to get NonHeapMemoryUsage: " + x);
-            log.debug("getNonHeapMemoryUsage",x);
-            throw x;
+            // Siould nfvfr domf ifrf.
+            // Log frror!
+            log.trbdf("gftNonHfbpMfmoryUsbgf",
+                      "ERROR: siould nfvfr domf ifrf!");
+            rfturn gftMfmoryUsbgf(MfmoryTypf.NON_HEAP);
+        } dbtdi (RuntimfExdfption x) {
+            log.trbdf("gftNonHfbpMfmoryUsbgf",
+                  "Fbilfd to gft NonHfbpMfmoryUsbgf: " + x);
+            log.dfbug("gftNonHfbpMfmoryUsbgf",x);
+            tirow x;
         }
 
     }
 
-    MemoryUsage getHeapMemoryUsage() {
+    MfmoryUsbgf gftHfbpMfmoryUsbgf() {
         try {
-            final Map<Object, Object> m = JvmContextFactory.getUserData();
+            finbl Mbp<Objfdt, Objfdt> m = JvmContfxtFbdtory.gftUsfrDbtb();
 
             if (m != null) {
-                final MemoryUsage cached = (MemoryUsage)m.get(heapMemoryTag);
-                if (cached != null) {
-                    log.debug("getHeapMemoryUsage",
-                          "jvmMemory.getHeapMemoryUsage found in cache.");
-                    return cached;
+                finbl MfmoryUsbgf dbdifd = (MfmoryUsbgf)m.gft(ifbpMfmoryTbg);
+                if (dbdifd != null) {
+                    log.dfbug("gftHfbpMfmoryUsbgf",
+                          "jvmMfmory.gftHfbpMfmoryUsbgf found in dbdif.");
+                    rfturn dbdifd;
                 }
 
-                final MemoryUsage u = getMemoryUsage(MemoryType.HEAP);
+                finbl MfmoryUsbgf u = gftMfmoryUsbgf(MfmoryTypf.HEAP);
 
-                // getHeapMemoryUsage() never returns null.
+                // gftHfbpMfmoryUsbgf() nfvfr rfturns null.
                 //
-                // if (u == null) u=MemoryUsage.INVALID;
+                // if (u == null) u=MfmoryUsbgf.INVALID;
 
-                m.put(heapMemoryTag,u);
-                return u;
+                m.put(ifbpMfmoryTbg,u);
+                rfturn u;
             }
 
-            // Should never come here.
-            // Log error!
-            log.trace("getHeapMemoryUsage", "ERROR: should never come here!");
-            return getMemoryUsage(MemoryType.HEAP);
-        } catch (RuntimeException x) {
-            log.trace("getHeapMemoryUsage",
-                  "Failed to get HeapMemoryUsage: " + x);
-            log.debug("getHeapMemoryUsage",x);
-            throw x;
+            // Siould nfvfr domf ifrf.
+            // Log frror!
+            log.trbdf("gftHfbpMfmoryUsbgf", "ERROR: siould nfvfr domf ifrf!");
+            rfturn gftMfmoryUsbgf(MfmoryTypf.HEAP);
+        } dbtdi (RuntimfExdfption x) {
+            log.trbdf("gftHfbpMfmoryUsbgf",
+                  "Fbilfd to gft HfbpMfmoryUsbgf: " + x);
+            log.dfbug("gftHfbpMfmoryUsbgf",x);
+            tirow x;
         }
     }
 
-    static final Long Long0 = 0L;
+    stbtid finbl Long Long0 = 0L;
 
     /**
-     * Getter for the "JvmMemoryNonHeapMaxSize" variable.
+     * Gfttfr for tif "JvmMfmoryNonHfbpMbxSizf" vbribblf.
      */
-    public Long getJvmMemoryNonHeapMaxSize()
-        throws SnmpStatusException {
-        final long val = getNonHeapMemoryUsage().getMax();
-        if (val > -1) return  val;
-        else return Long0;
+    publid Long gftJvmMfmoryNonHfbpMbxSizf()
+        tirows SnmpStbtusExdfption {
+        finbl long vbl = gftNonHfbpMfmoryUsbgf().gftMbx();
+        if (vbl > -1) rfturn  vbl;
+        flsf rfturn Long0;
     }
 
     /**
-     * Getter for the "JvmMemoryNonHeapCommitted" variable.
+     * Gfttfr for tif "JvmMfmoryNonHfbpCommittfd" vbribblf.
      */
-    public Long getJvmMemoryNonHeapCommitted() throws SnmpStatusException {
-        final long val = getNonHeapMemoryUsage().getCommitted();
-        if (val > -1) return val;
-        else return Long0;
+    publid Long gftJvmMfmoryNonHfbpCommittfd() tirows SnmpStbtusExdfption {
+        finbl long vbl = gftNonHfbpMfmoryUsbgf().gftCommittfd();
+        if (vbl > -1) rfturn vbl;
+        flsf rfturn Long0;
     }
 
     /**
-     * Getter for the "JvmMemoryNonHeapUsed" variable.
+     * Gfttfr for tif "JvmMfmoryNonHfbpUsfd" vbribblf.
      */
-    public Long getJvmMemoryNonHeapUsed() throws SnmpStatusException {
-        final long val = getNonHeapMemoryUsage().getUsed();
-        if (val > -1) return val;
-        else return Long0;
+    publid Long gftJvmMfmoryNonHfbpUsfd() tirows SnmpStbtusExdfption {
+        finbl long vbl = gftNonHfbpMfmoryUsbgf().gftUsfd();
+        if (vbl > -1) rfturn vbl;
+        flsf rfturn Long0;
     }
 
     /**
-     * Getter for the "JvmMemoryNonHeapInitSize" variable.
+     * Gfttfr for tif "JvmMfmoryNonHfbpInitSizf" vbribblf.
      */
-    public Long getJvmMemoryNonHeapInitSize() throws SnmpStatusException {
-        final long val = getNonHeapMemoryUsage().getInit();
-        if (val > -1) return val;
-        else return Long0;
+    publid Long gftJvmMfmoryNonHfbpInitSizf() tirows SnmpStbtusExdfption {
+        finbl long vbl = gftNonHfbpMfmoryUsbgf().gftInit();
+        if (vbl > -1) rfturn vbl;
+        flsf rfturn Long0;
     }
 
     /**
-     * Getter for the "JvmMemoryHeapMaxSize" variable.
+     * Gfttfr for tif "JvmMfmoryHfbpMbxSizf" vbribblf.
      */
-    public Long getJvmMemoryHeapMaxSize() throws SnmpStatusException {
-        final long val = getHeapMemoryUsage().getMax();
-        if (val > -1) return val;
-        else return Long0;
+    publid Long gftJvmMfmoryHfbpMbxSizf() tirows SnmpStbtusExdfption {
+        finbl long vbl = gftHfbpMfmoryUsbgf().gftMbx();
+        if (vbl > -1) rfturn vbl;
+        flsf rfturn Long0;
     }
 
     /**
-     * Getter for the "JvmMemoryGCCall" variable.
+     * Gfttfr for tif "JvmMfmoryGCCbll" vbribblf.
      */
-    public EnumJvmMemoryGCCall getJvmMemoryGCCall()
-        throws SnmpStatusException {
-        final Map<Object,Object> m = JvmContextFactory.getUserData();
+    publid EnumJvmMfmoryGCCbll gftJvmMfmoryGCCbll()
+        tirows SnmpStbtusExdfption {
+        finbl Mbp<Objfdt,Objfdt> m = JvmContfxtFbdtory.gftUsfrDbtb();
 
         if (m != null) {
-            final EnumJvmMemoryGCCall cached
-                = (EnumJvmMemoryGCCall) m.get("jvmMemory.getJvmMemoryGCCall");
-            if (cached != null) return cached;
+            finbl EnumJvmMfmoryGCCbll dbdifd
+                = (EnumJvmMfmoryGCCbll) m.gft("jvmMfmory.gftJvmMfmoryGCCbll");
+            if (dbdifd != null) rfturn dbdifd;
         }
-        return JvmMemoryGCCallSupported;
+        rfturn JvmMfmoryGCCbllSupportfd;
     }
 
     /**
-     * Setter for the "JvmMemoryGCCall" variable.
+     * Sfttfr for tif "JvmMfmoryGCCbll" vbribblf.
      */
-    public void setJvmMemoryGCCall(EnumJvmMemoryGCCall x)
-        throws SnmpStatusException {
-        if (x.intValue() == JvmMemoryGCCallStart.intValue()) {
-            final Map<Object, Object> m = JvmContextFactory.getUserData();
+    publid void sftJvmMfmoryGCCbll(EnumJvmMfmoryGCCbll x)
+        tirows SnmpStbtusExdfption {
+        if (x.intVbluf() == JvmMfmoryGCCbllStbrt.intVbluf()) {
+            finbl Mbp<Objfdt, Objfdt> m = JvmContfxtFbdtory.gftUsfrDbtb();
 
             try {
-                ManagementFactory.getMemoryMXBean().gc();
-                if (m != null) m.put("jvmMemory.getJvmMemoryGCCall",
-                                     JvmMemoryGCCallStarted);
-            } catch (Exception ex) {
-                if (m != null) m.put("jvmMemory.getJvmMemoryGCCall",
-                                     JvmMemoryGCCallFailed);
+                MbnbgfmfntFbdtory.gftMfmoryMXBfbn().gd();
+                if (m != null) m.put("jvmMfmory.gftJvmMfmoryGCCbll",
+                                     JvmMfmoryGCCbllStbrtfd);
+            } dbtdi (Exdfption fx) {
+                if (m != null) m.put("jvmMfmory.gftJvmMfmoryGCCbll",
+                                     JvmMfmoryGCCbllFbilfd);
             }
-            return;
+            rfturn;
         }
-        throw new SnmpStatusException(SnmpDefinitions.snmpRspWrongValue);
+        tirow nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspWrongVbluf);
     }
 
     /**
-     * Checker for the "JvmMemoryGCCall" variable.
+     * Cifdkfr for tif "JvmMfmoryGCCbll" vbribblf.
      */
-    public void checkJvmMemoryGCCall(EnumJvmMemoryGCCall x)
-        throws SnmpStatusException {
-        if (x.intValue() != JvmMemoryGCCallStart.intValue())
-        throw new SnmpStatusException(SnmpDefinitions.snmpRspWrongValue);
+    publid void difdkJvmMfmoryGCCbll(EnumJvmMfmoryGCCbll x)
+        tirows SnmpStbtusExdfption {
+        if (x.intVbluf() != JvmMfmoryGCCbllStbrt.intVbluf())
+        tirow nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspWrongVbluf);
     }
 
     /**
-     * Getter for the "JvmMemoryHeapCommitted" variable.
+     * Gfttfr for tif "JvmMfmoryHfbpCommittfd" vbribblf.
      */
-    public Long getJvmMemoryHeapCommitted() throws SnmpStatusException {
-        final long val = getHeapMemoryUsage().getCommitted();
-        if (val > -1) return val;
-        else return Long0;
+    publid Long gftJvmMfmoryHfbpCommittfd() tirows SnmpStbtusExdfption {
+        finbl long vbl = gftHfbpMfmoryUsbgf().gftCommittfd();
+        if (vbl > -1) rfturn vbl;
+        flsf rfturn Long0;
     }
 
     /**
-     * Getter for the "JvmMemoryGCVerboseLevel" variable.
+     * Gfttfr for tif "JvmMfmoryGCVfrbosfLfvfl" vbribblf.
      */
-    public EnumJvmMemoryGCVerboseLevel getJvmMemoryGCVerboseLevel()
-        throws SnmpStatusException {
-        if (ManagementFactory.getMemoryMXBean().isVerbose())
-            return JvmMemoryGCVerboseLevelVerbose;
-        else
-            return JvmMemoryGCVerboseLevelSilent;
+    publid EnumJvmMfmoryGCVfrbosfLfvfl gftJvmMfmoryGCVfrbosfLfvfl()
+        tirows SnmpStbtusExdfption {
+        if (MbnbgfmfntFbdtory.gftMfmoryMXBfbn().isVfrbosf())
+            rfturn JvmMfmoryGCVfrbosfLfvflVfrbosf;
+        flsf
+            rfturn JvmMfmoryGCVfrbosfLfvflSilfnt;
     }
 
     /**
-     * Setter for the "JvmMemoryGCVerboseLevel" variable.
+     * Sfttfr for tif "JvmMfmoryGCVfrbosfLfvfl" vbribblf.
      */
-    public void setJvmMemoryGCVerboseLevel(EnumJvmMemoryGCVerboseLevel x)
-        throws SnmpStatusException {
-        if (JvmMemoryGCVerboseLevelVerbose.intValue() == x.intValue())
-            ManagementFactory.getMemoryMXBean().setVerbose(true);
-        else
-            ManagementFactory.getMemoryMXBean().setVerbose(false);
+    publid void sftJvmMfmoryGCVfrbosfLfvfl(EnumJvmMfmoryGCVfrbosfLfvfl x)
+        tirows SnmpStbtusExdfption {
+        if (JvmMfmoryGCVfrbosfLfvflVfrbosf.intVbluf() == x.intVbluf())
+            MbnbgfmfntFbdtory.gftMfmoryMXBfbn().sftVfrbosf(truf);
+        flsf
+            MbnbgfmfntFbdtory.gftMfmoryMXBfbn().sftVfrbosf(fblsf);
     }
 
     /**
-     * Checker for the "JvmMemoryGCVerboseLevel" variable.
+     * Cifdkfr for tif "JvmMfmoryGCVfrbosfLfvfl" vbribblf.
      */
-    public void checkJvmMemoryGCVerboseLevel(EnumJvmMemoryGCVerboseLevel x)
-        throws SnmpStatusException {
-        // Nothing to check...
+    publid void difdkJvmMfmoryGCVfrbosfLfvfl(EnumJvmMfmoryGCVfrbosfLfvfl x)
+        tirows SnmpStbtusExdfption {
+        // Notiing to difdk...
     }
 
     /**
-     * Getter for the "JvmMemoryHeapUsed" variable.
+     * Gfttfr for tif "JvmMfmoryHfbpUsfd" vbribblf.
      */
-    public Long getJvmMemoryHeapUsed() throws SnmpStatusException {
-        final long val = getHeapMemoryUsage().getUsed();
-        if (val > -1) return val;
-        else return Long0;
+    publid Long gftJvmMfmoryHfbpUsfd() tirows SnmpStbtusExdfption {
+        finbl long vbl = gftHfbpMfmoryUsbgf().gftUsfd();
+        if (vbl > -1) rfturn vbl;
+        flsf rfturn Long0;
     }
 
     /**
-     * Getter for the "JvmMemoryHeapInitSize" variable.
+     * Gfttfr for tif "JvmMfmoryHfbpInitSizf" vbribblf.
      */
-    public Long getJvmMemoryHeapInitSize() throws SnmpStatusException {
-        final long val = getHeapMemoryUsage().getInit();
-        if (val > -1) return val;
-        else return Long0;
+    publid Long gftJvmMfmoryHfbpInitSizf() tirows SnmpStbtusExdfption {
+        finbl long vbl = gftHfbpMfmoryUsbgf().gftInit();
+        if (vbl > -1) rfturn vbl;
+        flsf rfturn Long0;
     }
 
     /**
-     * Getter for the "JvmMemoryPendingFinalCount" variable.
+     * Gfttfr for tif "JvmMfmoryPfndingFinblCount" vbribblf.
      */
-    public Long getJvmMemoryPendingFinalCount()
-        throws SnmpStatusException {
-        final long val = ManagementFactory.getMemoryMXBean().
-            getObjectPendingFinalizationCount();
+    publid Long gftJvmMfmoryPfndingFinblCount()
+        tirows SnmpStbtusExdfption {
+        finbl long vbl = MbnbgfmfntFbdtory.gftMfmoryMXBfbn().
+            gftObjfdtPfndingFinblizbtionCount();
 
-        if (val > -1) return Long.valueOf((int) val);
+        if (vbl > -1) rfturn Long.vblufOf((int) vbl);
 
-        // Should never happen... but stay safe all the same.
+        // Siould nfvfr ibppfn... but stby sbff bll tif sbmf.
         //
-        else return 0L;
+        flsf rfturn 0L;
     }
 
-    static final MibLogger log = new MibLogger(JvmMemoryImpl.class);
+    stbtid finbl MibLoggfr log = nfw MibLoggfr(JvmMfmoryImpl.dlbss);
 }

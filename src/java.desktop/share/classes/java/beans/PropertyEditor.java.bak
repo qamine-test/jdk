@@ -1,227 +1,227 @@
 /*
- * Copyright (c) 1996, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.beans;
+pbdkbgf jbvb.bfbns;
 
 /**
- * A PropertyEditor class provides support for GUIs that want to
- * allow users to edit a property value of a given type.
+ * A PropfrtyEditor dlbss providfs support for GUIs tibt wbnt to
+ * bllow usfrs to fdit b propfrty vbluf of b givfn typf.
  * <p>
- * PropertyEditor supports a variety of different kinds of ways of
- * displaying and updating property values.  Most PropertyEditors will
- * only need to support a subset of the different options available in
- * this API.
+ * PropfrtyEditor supports b vbrifty of difffrfnt kinds of wbys of
+ * displbying bnd updbting propfrty vblufs.  Most PropfrtyEditors will
+ * only nffd to support b subsft of tif difffrfnt options bvbilbblf in
+ * tiis API.
  * <P>
- * Simple PropertyEditors may only support the getAsText and setAsText
- * methods and need not support (say) paintValue or getCustomEditor.  More
- * complex types may be unable to support getAsText and setAsText but will
- * instead support paintValue and getCustomEditor.
+ * Simplf PropfrtyEditors mby only support tif gftAsTfxt bnd sftAsTfxt
+ * mftiods bnd nffd not support (sby) pbintVbluf or gftCustomEditor.  Morf
+ * domplfx typfs mby bf unbblf to support gftAsTfxt bnd sftAsTfxt but will
+ * instfbd support pbintVbluf bnd gftCustomEditor.
  * <p>
- * Every propertyEditor must support one or more of the three simple
- * display styles.  Thus it can either (1) support isPaintable or (2)
- * both return a non-null String[] from getTags() and return a non-null
- * value from getAsText or (3) simply return a non-null String from
- * getAsText().
+ * Evfry propfrtyEditor must support onf or morf of tif tirff simplf
+ * displby stylfs.  Tius it dbn fitifr (1) support isPbintbblf or (2)
+ * boti rfturn b non-null String[] from gftTbgs() bnd rfturn b non-null
+ * vbluf from gftAsTfxt or (3) simply rfturn b non-null String from
+ * gftAsTfxt().
  * <p>
- * Every property editor must support a call on setValue when the argument
- * object is of the type for which this is the corresponding propertyEditor.
- * In addition, each property editor must either support a custom editor,
- * or support setAsText.
+ * Evfry propfrty fditor must support b dbll on sftVbluf wifn tif brgumfnt
+ * objfdt is of tif typf for wiidi tiis is tif dorrfsponding propfrtyEditor.
+ * In bddition, fbdi propfrty fditor must fitifr support b dustom fditor,
+ * or support sftAsTfxt.
  * <p>
- * Each PropertyEditor should have a null constructor.
+ * Ebdi PropfrtyEditor siould ibvf b null donstrudtor.
  *
- * @since 1.1
+ * @sindf 1.1
  */
 
-public interface PropertyEditor {
+publid intfrfbdf PropfrtyEditor {
 
     /**
-     * Set (or change) the object that is to be edited.  Primitive types such
-     * as "int" must be wrapped as the corresponding object type such as
-     * "java.lang.Integer".
+     * Sft (or dibngf) tif objfdt tibt is to bf fditfd.  Primitivf typfs sudi
+     * bs "int" must bf wrbppfd bs tif dorrfsponding objfdt typf sudi bs
+     * "jbvb.lbng.Intfgfr".
      *
-     * @param value The new target object to be edited.  Note that this
-     *     object should not be modified by the PropertyEditor, rather
-     *     the PropertyEditor should create a new object to hold any
-     *     modified value.
+     * @pbrbm vbluf Tif nfw tbrgft objfdt to bf fditfd.  Notf tibt tiis
+     *     objfdt siould not bf modififd by tif PropfrtyEditor, rbtifr
+     *     tif PropfrtyEditor siould drfbtf b nfw objfdt to iold bny
+     *     modififd vbluf.
      */
-    void setValue(Object value);
+    void sftVbluf(Objfdt vbluf);
 
     /**
-     * Gets the property value.
+     * Gfts tif propfrty vbluf.
      *
-     * @return The value of the property.  Primitive types such as "int" will
-     * be wrapped as the corresponding object type such as "java.lang.Integer".
+     * @rfturn Tif vbluf of tif propfrty.  Primitivf typfs sudi bs "int" will
+     * bf wrbppfd bs tif dorrfsponding objfdt typf sudi bs "jbvb.lbng.Intfgfr".
      */
 
-    Object getValue();
+    Objfdt gftVbluf();
 
     //----------------------------------------------------------------------
 
     /**
-     * Determines whether this property editor is paintable.
+     * Dftfrminfs wiftifr tiis propfrty fditor is pbintbblf.
      *
-     * @return  True if the class will honor the paintValue method.
+     * @rfturn  Truf if tif dlbss will ionor tif pbintVbluf mftiod.
      */
 
-    boolean isPaintable();
+    boolfbn isPbintbblf();
 
     /**
-     * Paint a representation of the value into a given area of screen
-     * real estate.  Note that the propertyEditor is responsible for doing
-     * its own clipping so that it fits into the given rectangle.
+     * Pbint b rfprfsfntbtion of tif vbluf into b givfn brfb of sdrffn
+     * rfbl fstbtf.  Notf tibt tif propfrtyEditor is rfsponsiblf for doing
+     * its own dlipping so tibt it fits into tif givfn rfdtbnglf.
      * <p>
-     * If the PropertyEditor doesn't honor paint requests (see isPaintable)
-     * this method should be a silent noop.
+     * If tif PropfrtyEditor dofsn't ionor pbint rfqufsts (sff isPbintbblf)
+     * tiis mftiod siould bf b silfnt noop.
      * <p>
-     * The given Graphics object will have the default font, color, etc of
-     * the parent container.  The PropertyEditor may change graphics attributes
-     * such as font and color and doesn't need to restore the old values.
+     * Tif givfn Grbpiids objfdt will ibvf tif dffbult font, dolor, ftd of
+     * tif pbrfnt dontbinfr.  Tif PropfrtyEditor mby dibngf grbpiids bttributfs
+     * sudi bs font bnd dolor bnd dofsn't nffd to rfstorf tif old vblufs.
      *
-     * @param gfx  Graphics object to paint into.
-     * @param box  Rectangle within graphics object into which we should paint.
+     * @pbrbm gfx  Grbpiids objfdt to pbint into.
+     * @pbrbm box  Rfdtbnglf witiin grbpiids objfdt into wiidi wf siould pbint.
      */
-    void paintValue(java.awt.Graphics gfx, java.awt.Rectangle box);
+    void pbintVbluf(jbvb.bwt.Grbpiids gfx, jbvb.bwt.Rfdtbnglf box);
 
     //----------------------------------------------------------------------
 
     /**
-     * Returns a fragment of Java code that can be used to set a property
-     * to match the editors current state. This method is intended
-     * for use when generating Java code to reflect changes made through the
-     * property editor.
+     * Rfturns b frbgmfnt of Jbvb dodf tibt dbn bf usfd to sft b propfrty
+     * to mbtdi tif fditors durrfnt stbtf. Tiis mftiod is intfndfd
+     * for usf wifn gfnfrbting Jbvb dodf to rfflfdt dibngfs mbdf tirougi tif
+     * propfrty fditor.
      * <p>
-     * The code fragment should be context free and must be a legal Java
-     * expression as specified by the JLS.
+     * Tif dodf frbgmfnt siould bf dontfxt frff bnd must bf b lfgbl Jbvb
+     * fxprfssion bs spfdififd by tif JLS.
      * <p>
-     * Specifically, if the expression represents a computation then all
-     * classes and static members should be fully qualified. This rule
-     * applies to constructors, static methods and non primitive arguments.
+     * Spfdifidblly, if tif fxprfssion rfprfsfnts b domputbtion tifn bll
+     * dlbssfs bnd stbtid mfmbfrs siould bf fully qublififd. Tiis rulf
+     * bpplifs to donstrudtors, stbtid mftiods bnd non primitivf brgumfnts.
      * <p>
-     * Caution should be used when evaluating the expression as it may throw
-     * exceptions. In particular, code generators must ensure that generated
-     * code will compile in the presence of an expression that can throw
-     * checked exceptions.
+     * Cbution siould bf usfd wifn fvblubting tif fxprfssion bs it mby tirow
+     * fxdfptions. In pbrtidulbr, dodf gfnfrbtors must fnsurf tibt gfnfrbtfd
+     * dodf will dompilf in tif prfsfndf of bn fxprfssion tibt dbn tirow
+     * difdkfd fxdfptions.
      * <p>
-     * Example results are:
+     * Exbmplf rfsults brf:
      * <ul>
-     * <li>Primitive expresssion: <code>2</code>
-     * <li>Class constructor: <code>new java.awt.Color(127,127,34)</code>
-     * <li>Static field: <code>java.awt.Color.orange</code>
-     * <li>Static method: <code>javax.swing.Box.createRigidArea(new
-     *                                   java.awt.Dimension(0, 5))</code>
+     * <li>Primitivf fxprfsssion: <dodf>2</dodf>
+     * <li>Clbss donstrudtor: <dodf>nfw jbvb.bwt.Color(127,127,34)</dodf>
+     * <li>Stbtid fifld: <dodf>jbvb.bwt.Color.orbngf</dodf>
+     * <li>Stbtid mftiod: <dodf>jbvbx.swing.Box.drfbtfRigidArfb(nfw
+     *                                   jbvb.bwt.Dimfnsion(0, 5))</dodf>
      * </ul>
      *
-     * @return a fragment of Java code representing an initializer for the
-     *         current value. It should not contain a semi-colon
-     *         ('<code>;</code>') to end the expression.
+     * @rfturn b frbgmfnt of Jbvb dodf rfprfsfnting bn initiblizfr for tif
+     *         durrfnt vbluf. It siould not dontbin b sfmi-dolon
+     *         ('<dodf>;</dodf>') to fnd tif fxprfssion.
      */
-    String getJavaInitializationString();
+    String gftJbvbInitiblizbtionString();
 
     //----------------------------------------------------------------------
 
     /**
-     * Gets the property value as text.
+     * Gfts tif propfrty vbluf bs tfxt.
      *
-     * @return The property value as a human editable string.
-     * <p>   Returns null if the value can't be expressed as an editable string.
-     * <p>   If a non-null value is returned, then the PropertyEditor should
-     *       be prepared to parse that string back in setAsText().
+     * @rfturn Tif propfrty vbluf bs b iumbn fditbblf string.
+     * <p>   Rfturns null if tif vbluf dbn't bf fxprfssfd bs bn fditbblf string.
+     * <p>   If b non-null vbluf is rfturnfd, tifn tif PropfrtyEditor siould
+     *       bf prfpbrfd to pbrsf tibt string bbdk in sftAsTfxt().
      */
-    String getAsText();
+    String gftAsTfxt();
 
     /**
-     * Set the property value by parsing a given String.  May raise
-     * java.lang.IllegalArgumentException if either the String is
-     * badly formatted or if this kind of property can't be expressed
-     * as text.
-     * @param text  The string to be parsed.
+     * Sft tif propfrty vbluf by pbrsing b givfn String.  Mby rbisf
+     * jbvb.lbng.IllfgblArgumfntExdfption if fitifr tif String is
+     * bbdly formbttfd or if tiis kind of propfrty dbn't bf fxprfssfd
+     * bs tfxt.
+     * @pbrbm tfxt  Tif string to bf pbrsfd.
      */
-    void setAsText(String text) throws java.lang.IllegalArgumentException;
+    void sftAsTfxt(String tfxt) tirows jbvb.lbng.IllfgblArgumfntExdfption;
 
     //----------------------------------------------------------------------
 
     /**
-     * If the property value must be one of a set of known tagged values,
-     * then this method should return an array of the tags.  This can
-     * be used to represent (for example) enum values.  If a PropertyEditor
-     * supports tags, then it should support the use of setAsText with
-     * a tag value as a way of setting the value and the use of getAsText
-     * to identify the current value.
+     * If tif propfrty vbluf must bf onf of b sft of known tbggfd vblufs,
+     * tifn tiis mftiod siould rfturn bn brrby of tif tbgs.  Tiis dbn
+     * bf usfd to rfprfsfnt (for fxbmplf) fnum vblufs.  If b PropfrtyEditor
+     * supports tbgs, tifn it siould support tif usf of sftAsTfxt witi
+     * b tbg vbluf bs b wby of sftting tif vbluf bnd tif usf of gftAsTfxt
+     * to idfntify tif durrfnt vbluf.
      *
-     * @return The tag values for this property.  May be null if this
-     *   property cannot be represented as a tagged value.
+     * @rfturn Tif tbg vblufs for tiis propfrty.  Mby bf null if tiis
+     *   propfrty dbnnot bf rfprfsfntfd bs b tbggfd vbluf.
      *
      */
-    String[] getTags();
+    String[] gftTbgs();
 
     //----------------------------------------------------------------------
 
     /**
-     * A PropertyEditor may choose to make available a full custom Component
-     * that edits its property value.  It is the responsibility of the
-     * PropertyEditor to hook itself up to its editor Component itself and
-     * to report property value changes by firing a PropertyChange event.
+     * A PropfrtyEditor mby dioosf to mbkf bvbilbblf b full dustom Componfnt
+     * tibt fdits its propfrty vbluf.  It is tif rfsponsibility of tif
+     * PropfrtyEditor to iook itsflf up to its fditor Componfnt itsflf bnd
+     * to rfport propfrty vbluf dibngfs by firing b PropfrtyCibngf fvfnt.
      * <P>
-     * The higher-level code that calls getCustomEditor may either embed
-     * the Component in some larger property sheet, or it may put it in
-     * its own individual dialog, or ...
+     * Tif iigifr-lfvfl dodf tibt dblls gftCustomEditor mby fitifr fmbfd
+     * tif Componfnt in somf lbrgfr propfrty sifft, or it mby put it in
+     * its own individubl diblog, or ...
      *
-     * @return A java.awt.Component that will allow a human to directly
-     *      edit the current property value.  May be null if this is
-     *      not supported.
+     * @rfturn A jbvb.bwt.Componfnt tibt will bllow b iumbn to dirfdtly
+     *      fdit tif durrfnt propfrty vbluf.  Mby bf null if tiis is
+     *      not supportfd.
      */
 
-    java.awt.Component getCustomEditor();
+    jbvb.bwt.Componfnt gftCustomEditor();
 
     /**
-     * Determines whether this property editor supports a custom editor.
+     * Dftfrminfs wiftifr tiis propfrty fditor supports b dustom fditor.
      *
-     * @return  True if the propertyEditor can provide a custom editor.
+     * @rfturn  Truf if tif propfrtyEditor dbn providf b dustom fditor.
      */
-    boolean supportsCustomEditor();
+    boolfbn supportsCustomEditor();
 
     //----------------------------------------------------------------------
 
     /**
-     * Adds a listener for the value change.
-     * When the property editor changes its value
-     * it should fire a {@link PropertyChangeEvent}
-     * on all registered {@link PropertyChangeListener}s,
-     * specifying the {@code null} value for the property name
-     * and itself as the source.
+     * Adds b listfnfr for tif vbluf dibngf.
+     * Wifn tif propfrty fditor dibngfs its vbluf
+     * it siould firf b {@link PropfrtyCibngfEvfnt}
+     * on bll rfgistfrfd {@link PropfrtyCibngfListfnfr}s,
+     * spfdifying tif {@dodf null} vbluf for tif propfrty nbmf
+     * bnd itsflf bs tif sourdf.
      *
-     * @param listener  the {@link PropertyChangeListener} to add
+     * @pbrbm listfnfr  tif {@link PropfrtyCibngfListfnfr} to bdd
      */
-    void addPropertyChangeListener(PropertyChangeListener listener);
+    void bddPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr listfnfr);
 
     /**
-     * Removes a listener for the value change.
+     * Rfmovfs b listfnfr for tif vbluf dibngf.
      *
-     * @param listener  the {@link PropertyChangeListener} to remove
+     * @pbrbm listfnfr  tif {@link PropfrtyCibngfListfnfr} to rfmovf
      */
-    void removePropertyChangeListener(PropertyChangeListener listener);
+    void rfmovfPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr listfnfr);
 
 }

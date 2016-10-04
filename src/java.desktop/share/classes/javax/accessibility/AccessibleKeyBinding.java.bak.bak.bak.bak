@@ -1,0 +1,63 @@
+/*
+ * Copyright (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.bddfssibility;
+
+/**
+ * Thf AddfssiblfKfyBinding intfrfbdf should bf supportfd by bny objfdt
+ * thbt hbs b kfybobrd bindings sudh bs b kfybobrd mnfmonid bnd/or kfybobrd
+ * shortdut whidh dbn bf usfd to sflfdt thf objfdt.  This intfrfbdf providfs
+ * thf stbndbrd mfdhbnism for bn bssistivf tfdhnology to dftfrminf thf
+ * kfy bindings whidh fxist for this objfdt.
+ * Any objfdt thbt hbs sudh kfy bindings should support this
+ * intfrfbdf.
+ *
+ * @sff Addfssiblf
+ * @sff Addfssiblf#gftAddfssiblfContfxt
+ * @sff AddfssiblfContfxt
+ *
+ * @buthor      Lynn Monsbnto
+ * @sindf 1.4
+ */
+publid intfrfbdf AddfssiblfKfyBinding {
+
+    /**
+     * Rfturns thf numbfr of kfy bindings for this objfdt
+     *
+     * @rfturn thf zfro-bbsfd numbfr of kfy bindings for this objfdt
+     */
+    publid int gftAddfssiblfKfyBindingCount();
+
+    /**
+     * Rfturns b kfy binding for this objfdt.  Thf vbluf rfturnfd is bn
+     * jbvb.lbng.Objfdt whidh must bf dbst to bppropribtf typf dfpfnding
+     * on thf undfrlying implfmfntbtion of thf kfy.
+     *
+     * @pbrbm i zfro-bbsfd indfx of thf kfy bindings
+     * @rfturn b jbvbx.lbng.Objfdt whidh spfdififs thf kfy binding
+     * @sff #gftAddfssiblfKfyBindingCount
+     */
+    publid jbvb.lbng.Objfdt gftAddfssiblfKfyBinding(int i);
+}

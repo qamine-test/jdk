@@ -1,527 +1,527 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.beans;
+pbdkbgf jbvb.bfbns;
 
-import java.lang.ref.Reference;
-import java.lang.reflect.Method;
-import java.util.Map.Entry;
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.util.Mbp.Entry;
 
-import com.sun.beans.introspect.PropertyInfo;
+import dom.sun.bfbns.introspfdt.PropfrtyInfo;
 
 /**
- * An IndexedPropertyDescriptor describes a property that acts like an
- * array and has an indexed read and/or indexed write method to access
- * specific elements of the array.
+ * An IndfxfdPropfrtyDfsdriptor dfsdribfs b propfrty tibt bdts likf bn
+ * brrby bnd ibs bn indfxfd rfbd bnd/or indfxfd writf mftiod to bddfss
+ * spfdifid flfmfnts of tif brrby.
  * <p>
- * An indexed property may also provide simple non-indexed read and write
- * methods.  If these are present, they read and write arrays of the type
- * returned by the indexed read method.
+ * An indfxfd propfrty mby blso providf simplf non-indfxfd rfbd bnd writf
+ * mftiods.  If tifsf brf prfsfnt, tify rfbd bnd writf brrbys of tif typf
+ * rfturnfd by tif indfxfd rfbd mftiod.
  *
- * @since 1.1
+ * @sindf 1.1
  */
 
-public class IndexedPropertyDescriptor extends PropertyDescriptor {
+publid dlbss IndfxfdPropfrtyDfsdriptor fxtfnds PropfrtyDfsdriptor {
 
-    private Reference<? extends Class<?>> indexedPropertyTypeRef;
-    private final MethodRef indexedReadMethodRef = new MethodRef();
-    private final MethodRef indexedWriteMethodRef = new MethodRef();
+    privbtf Rfffrfndf<? fxtfnds Clbss<?>> indfxfdPropfrtyTypfRff;
+    privbtf finbl MftiodRff indfxfdRfbdMftiodRff = nfw MftiodRff();
+    privbtf finbl MftiodRff indfxfdWritfMftiodRff = nfw MftiodRff();
 
-    private String indexedReadMethodName;
-    private String indexedWriteMethodName;
+    privbtf String indfxfdRfbdMftiodNbmf;
+    privbtf String indfxfdWritfMftiodNbmf;
 
     /**
-     * This constructor constructs an IndexedPropertyDescriptor for a property
-     * that follows the standard Java conventions by having getFoo and setFoo
-     * accessor methods, for both indexed access and array access.
+     * Tiis donstrudtor donstrudts bn IndfxfdPropfrtyDfsdriptor for b propfrty
+     * tibt follows tif stbndbrd Jbvb donvfntions by ibving gftFoo bnd sftFoo
+     * bddfssor mftiods, for boti indfxfd bddfss bnd brrby bddfss.
      * <p>
-     * Thus if the argument name is "fred", it will assume that there
-     * is an indexed reader method "getFred", a non-indexed (array) reader
-     * method also called "getFred", an indexed writer method "setFred",
-     * and finally a non-indexed writer method "setFred".
+     * Tius if tif brgumfnt nbmf is "frfd", it will bssumf tibt tifrf
+     * is bn indfxfd rfbdfr mftiod "gftFrfd", b non-indfxfd (brrby) rfbdfr
+     * mftiod blso dbllfd "gftFrfd", bn indfxfd writfr mftiod "sftFrfd",
+     * bnd finblly b non-indfxfd writfr mftiod "sftFrfd".
      *
-     * @param propertyName The programmatic name of the property.
-     * @param beanClass The Class object for the target bean.
-     * @exception IntrospectionException if an exception occurs during
-     *              introspection.
+     * @pbrbm propfrtyNbmf Tif progrbmmbtid nbmf of tif propfrty.
+     * @pbrbm bfbnClbss Tif Clbss objfdt for tif tbrgft bfbn.
+     * @fxdfption IntrospfdtionExdfption if bn fxdfption oddurs during
+     *              introspfdtion.
      */
-    public IndexedPropertyDescriptor(String propertyName, Class<?> beanClass)
-                throws IntrospectionException {
-        this(propertyName, beanClass,
-             Introspector.GET_PREFIX + NameGenerator.capitalize(propertyName),
-             Introspector.SET_PREFIX + NameGenerator.capitalize(propertyName),
-             Introspector.GET_PREFIX + NameGenerator.capitalize(propertyName),
-             Introspector.SET_PREFIX + NameGenerator.capitalize(propertyName));
+    publid IndfxfdPropfrtyDfsdriptor(String propfrtyNbmf, Clbss<?> bfbnClbss)
+                tirows IntrospfdtionExdfption {
+        tiis(propfrtyNbmf, bfbnClbss,
+             Introspfdtor.GET_PREFIX + NbmfGfnfrbtor.dbpitblizf(propfrtyNbmf),
+             Introspfdtor.SET_PREFIX + NbmfGfnfrbtor.dbpitblizf(propfrtyNbmf),
+             Introspfdtor.GET_PREFIX + NbmfGfnfrbtor.dbpitblizf(propfrtyNbmf),
+             Introspfdtor.SET_PREFIX + NbmfGfnfrbtor.dbpitblizf(propfrtyNbmf));
     }
 
     /**
-     * This constructor takes the name of a simple property, and method
-     * names for reading and writing the property, both indexed
-     * and non-indexed.
+     * Tiis donstrudtor tbkfs tif nbmf of b simplf propfrty, bnd mftiod
+     * nbmfs for rfbding bnd writing tif propfrty, boti indfxfd
+     * bnd non-indfxfd.
      *
-     * @param propertyName The programmatic name of the property.
-     * @param beanClass  The Class object for the target bean.
-     * @param readMethodName The name of the method used for reading the property
-     *           values as an array.  May be null if the property is write-only
-     *           or must be indexed.
-     * @param writeMethodName The name of the method used for writing the property
-     *           values as an array.  May be null if the property is read-only
-     *           or must be indexed.
-     * @param indexedReadMethodName The name of the method used for reading
-     *          an indexed property value.
-     *          May be null if the property is write-only.
-     * @param indexedWriteMethodName The name of the method used for writing
-     *          an indexed property value.
-     *          May be null if the property is read-only.
-     * @exception IntrospectionException if an exception occurs during
-     *              introspection.
+     * @pbrbm propfrtyNbmf Tif progrbmmbtid nbmf of tif propfrty.
+     * @pbrbm bfbnClbss  Tif Clbss objfdt for tif tbrgft bfbn.
+     * @pbrbm rfbdMftiodNbmf Tif nbmf of tif mftiod usfd for rfbding tif propfrty
+     *           vblufs bs bn brrby.  Mby bf null if tif propfrty is writf-only
+     *           or must bf indfxfd.
+     * @pbrbm writfMftiodNbmf Tif nbmf of tif mftiod usfd for writing tif propfrty
+     *           vblufs bs bn brrby.  Mby bf null if tif propfrty is rfbd-only
+     *           or must bf indfxfd.
+     * @pbrbm indfxfdRfbdMftiodNbmf Tif nbmf of tif mftiod usfd for rfbding
+     *          bn indfxfd propfrty vbluf.
+     *          Mby bf null if tif propfrty is writf-only.
+     * @pbrbm indfxfdWritfMftiodNbmf Tif nbmf of tif mftiod usfd for writing
+     *          bn indfxfd propfrty vbluf.
+     *          Mby bf null if tif propfrty is rfbd-only.
+     * @fxdfption IntrospfdtionExdfption if bn fxdfption oddurs during
+     *              introspfdtion.
      */
-    public IndexedPropertyDescriptor(String propertyName, Class<?> beanClass,
-                String readMethodName, String writeMethodName,
-                String indexedReadMethodName, String indexedWriteMethodName)
-                throws IntrospectionException {
-        super(propertyName, beanClass, readMethodName, writeMethodName);
+    publid IndfxfdPropfrtyDfsdriptor(String propfrtyNbmf, Clbss<?> bfbnClbss,
+                String rfbdMftiodNbmf, String writfMftiodNbmf,
+                String indfxfdRfbdMftiodNbmf, String indfxfdWritfMftiodNbmf)
+                tirows IntrospfdtionExdfption {
+        supfr(propfrtyNbmf, bfbnClbss, rfbdMftiodNbmf, writfMftiodNbmf);
 
-        this.indexedReadMethodName = indexedReadMethodName;
-        if (indexedReadMethodName != null && getIndexedReadMethod() == null) {
-            throw new IntrospectionException("Method not found: " + indexedReadMethodName);
+        tiis.indfxfdRfbdMftiodNbmf = indfxfdRfbdMftiodNbmf;
+        if (indfxfdRfbdMftiodNbmf != null && gftIndfxfdRfbdMftiod() == null) {
+            tirow nfw IntrospfdtionExdfption("Mftiod not found: " + indfxfdRfbdMftiodNbmf);
         }
 
-        this.indexedWriteMethodName = indexedWriteMethodName;
-        if (indexedWriteMethodName != null && getIndexedWriteMethod() == null) {
-            throw new IntrospectionException("Method not found: " + indexedWriteMethodName);
+        tiis.indfxfdWritfMftiodNbmf = indfxfdWritfMftiodNbmf;
+        if (indfxfdWritfMftiodNbmf != null && gftIndfxfdWritfMftiod() == null) {
+            tirow nfw IntrospfdtionExdfption("Mftiod not found: " + indfxfdWritfMftiodNbmf);
         }
-        // Implemented only for type checking.
-        findIndexedPropertyType(getIndexedReadMethod(), getIndexedWriteMethod());
+        // Implfmfntfd only for typf difdking.
+        findIndfxfdPropfrtyTypf(gftIndfxfdRfbdMftiod(), gftIndfxfdWritfMftiod());
     }
 
     /**
-     * This constructor takes the name of a simple property, and Method
-     * objects for reading and writing the property.
+     * Tiis donstrudtor tbkfs tif nbmf of b simplf propfrty, bnd Mftiod
+     * objfdts for rfbding bnd writing tif propfrty.
      *
-     * @param propertyName The programmatic name of the property.
-     * @param readMethod The method used for reading the property values as an array.
-     *          May be null if the property is write-only or must be indexed.
-     * @param writeMethod The method used for writing the property values as an array.
-     *          May be null if the property is read-only or must be indexed.
-     * @param indexedReadMethod The method used for reading an indexed property value.
-     *          May be null if the property is write-only.
-     * @param indexedWriteMethod The method used for writing an indexed property value.
-     *          May be null if the property is read-only.
-     * @exception IntrospectionException if an exception occurs during
-     *              introspection.
+     * @pbrbm propfrtyNbmf Tif progrbmmbtid nbmf of tif propfrty.
+     * @pbrbm rfbdMftiod Tif mftiod usfd for rfbding tif propfrty vblufs bs bn brrby.
+     *          Mby bf null if tif propfrty is writf-only or must bf indfxfd.
+     * @pbrbm writfMftiod Tif mftiod usfd for writing tif propfrty vblufs bs bn brrby.
+     *          Mby bf null if tif propfrty is rfbd-only or must bf indfxfd.
+     * @pbrbm indfxfdRfbdMftiod Tif mftiod usfd for rfbding bn indfxfd propfrty vbluf.
+     *          Mby bf null if tif propfrty is writf-only.
+     * @pbrbm indfxfdWritfMftiod Tif mftiod usfd for writing bn indfxfd propfrty vbluf.
+     *          Mby bf null if tif propfrty is rfbd-only.
+     * @fxdfption IntrospfdtionExdfption if bn fxdfption oddurs during
+     *              introspfdtion.
      */
-    public IndexedPropertyDescriptor(String propertyName, Method readMethod, Method writeMethod,
-                                            Method indexedReadMethod, Method indexedWriteMethod)
-                throws IntrospectionException {
-        super(propertyName, readMethod, writeMethod);
+    publid IndfxfdPropfrtyDfsdriptor(String propfrtyNbmf, Mftiod rfbdMftiod, Mftiod writfMftiod,
+                                            Mftiod indfxfdRfbdMftiod, Mftiod indfxfdWritfMftiod)
+                tirows IntrospfdtionExdfption {
+        supfr(propfrtyNbmf, rfbdMftiod, writfMftiod);
 
-        setIndexedReadMethod0(indexedReadMethod);
-        setIndexedWriteMethod0(indexedWriteMethod);
+        sftIndfxfdRfbdMftiod0(indfxfdRfbdMftiod);
+        sftIndfxfdWritfMftiod0(indfxfdWritfMftiod);
 
-        // Type checking
-        setIndexedPropertyType(findIndexedPropertyType(indexedReadMethod, indexedWriteMethod));
+        // Typf difdking
+        sftIndfxfdPropfrtyTypf(findIndfxfdPropfrtyTypf(indfxfdRfbdMftiod, indfxfdWritfMftiod));
     }
 
     /**
-     * Creates {@code IndexedPropertyDescriptor} from the specified property info.
+     * Crfbtfs {@dodf IndfxfdPropfrtyDfsdriptor} from tif spfdififd propfrty info.
      *
-     * @param entry  the key-value pair,
-     *               where the {@code key} is the base name of the property (the rest of the method name)
-     *               and the {@code value} is the automatically generated property info
-     * @param bound  the flag indicating whether it is possible to treat this property as a bound property
+     * @pbrbm fntry  tif kfy-vbluf pbir,
+     *               wifrf tif {@dodf kfy} is tif bbsf nbmf of tif propfrty (tif rfst of tif mftiod nbmf)
+     *               bnd tif {@dodf vbluf} is tif butombtidblly gfnfrbtfd propfrty info
+     * @pbrbm bound  tif flbg indidbting wiftifr it is possiblf to trfbt tiis propfrty bs b bound propfrty
      *
-     * @since 1.9
+     * @sindf 1.9
      */
-    IndexedPropertyDescriptor(Entry<String,PropertyInfo> entry, boolean bound) {
-        super(entry, bound);
-        PropertyInfo info = entry.getValue().getIndexed();
-        setIndexedReadMethod0(info.getReadMethod());
-        setIndexedWriteMethod0(info.getWriteMethod());
-        setIndexedPropertyType(info.getPropertyType());
+    IndfxfdPropfrtyDfsdriptor(Entry<String,PropfrtyInfo> fntry, boolfbn bound) {
+        supfr(fntry, bound);
+        PropfrtyInfo info = fntry.gftVbluf().gftIndfxfd();
+        sftIndfxfdRfbdMftiod0(info.gftRfbdMftiod());
+        sftIndfxfdWritfMftiod0(info.gftWritfMftiod());
+        sftIndfxfdPropfrtyTypf(info.gftPropfrtyTypf());
     }
 
     /**
-     * Gets the method that should be used to read an indexed
-     * property value.
+     * Gfts tif mftiod tibt siould bf usfd to rfbd bn indfxfd
+     * propfrty vbluf.
      *
-     * @return The method that should be used to read an indexed
-     * property value.
-     * May return null if the property isn't indexed or is write-only.
+     * @rfturn Tif mftiod tibt siould bf usfd to rfbd bn indfxfd
+     * propfrty vbluf.
+     * Mby rfturn null if tif propfrty isn't indfxfd or is writf-only.
      */
-    public synchronized Method getIndexedReadMethod() {
-        Method indexedReadMethod = this.indexedReadMethodRef.get();
-        if (indexedReadMethod == null) {
-            Class<?> cls = getClass0();
-            if (cls == null ||
-                (indexedReadMethodName == null && !this.indexedReadMethodRef.isSet())) {
-                // the Indexed readMethod was explicitly set to null.
-                return null;
+    publid syndironizfd Mftiod gftIndfxfdRfbdMftiod() {
+        Mftiod indfxfdRfbdMftiod = tiis.indfxfdRfbdMftiodRff.gft();
+        if (indfxfdRfbdMftiod == null) {
+            Clbss<?> dls = gftClbss0();
+            if (dls == null ||
+                (indfxfdRfbdMftiodNbmf == null && !tiis.indfxfdRfbdMftiodRff.isSft())) {
+                // tif Indfxfd rfbdMftiod wbs fxpliditly sft to null.
+                rfturn null;
             }
-            String nextMethodName = Introspector.GET_PREFIX + getBaseName();
-            if (indexedReadMethodName == null) {
-                Class<?> type = getIndexedPropertyType0();
-                if (type == boolean.class || type == null) {
-                    indexedReadMethodName = Introspector.IS_PREFIX + getBaseName();
-                } else {
-                    indexedReadMethodName = nextMethodName;
+            String nfxtMftiodNbmf = Introspfdtor.GET_PREFIX + gftBbsfNbmf();
+            if (indfxfdRfbdMftiodNbmf == null) {
+                Clbss<?> typf = gftIndfxfdPropfrtyTypf0();
+                if (typf == boolfbn.dlbss || typf == null) {
+                    indfxfdRfbdMftiodNbmf = Introspfdtor.IS_PREFIX + gftBbsfNbmf();
+                } flsf {
+                    indfxfdRfbdMftiodNbmf = nfxtMftiodNbmf;
                 }
             }
 
-            Class<?>[] args = { int.class };
-            indexedReadMethod = Introspector.findMethod(cls, indexedReadMethodName, 1, args);
-            if ((indexedReadMethod == null) && !indexedReadMethodName.equals(nextMethodName)) {
-                // no "is" method, so look for a "get" method.
-                indexedReadMethodName = nextMethodName;
-                indexedReadMethod = Introspector.findMethod(cls, indexedReadMethodName, 1, args);
+            Clbss<?>[] brgs = { int.dlbss };
+            indfxfdRfbdMftiod = Introspfdtor.findMftiod(dls, indfxfdRfbdMftiodNbmf, 1, brgs);
+            if ((indfxfdRfbdMftiod == null) && !indfxfdRfbdMftiodNbmf.fqubls(nfxtMftiodNbmf)) {
+                // no "is" mftiod, so look for b "gft" mftiod.
+                indfxfdRfbdMftiodNbmf = nfxtMftiodNbmf;
+                indfxfdRfbdMftiod = Introspfdtor.findMftiod(dls, indfxfdRfbdMftiodNbmf, 1, brgs);
             }
-            setIndexedReadMethod0(indexedReadMethod);
+            sftIndfxfdRfbdMftiod0(indfxfdRfbdMftiod);
         }
-        return indexedReadMethod;
+        rfturn indfxfdRfbdMftiod;
     }
 
     /**
-     * Sets the method that should be used to read an indexed property value.
+     * Sfts tif mftiod tibt siould bf usfd to rfbd bn indfxfd propfrty vbluf.
      *
-     * @param readMethod The new indexed read method.
-     * @throws IntrospectionException if an exception occurs during
-     * introspection.
+     * @pbrbm rfbdMftiod Tif nfw indfxfd rfbd mftiod.
+     * @tirows IntrospfdtionExdfption if bn fxdfption oddurs during
+     * introspfdtion.
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-    public synchronized void setIndexedReadMethod(Method readMethod)
-        throws IntrospectionException {
+    publid syndironizfd void sftIndfxfdRfbdMftiod(Mftiod rfbdMftiod)
+        tirows IntrospfdtionExdfption {
 
-        // the indexed property type is set by the reader.
-        setIndexedPropertyType(findIndexedPropertyType(readMethod,
-                                                       this.indexedWriteMethodRef.get()));
-        setIndexedReadMethod0(readMethod);
+        // tif indfxfd propfrty typf is sft by tif rfbdfr.
+        sftIndfxfdPropfrtyTypf(findIndfxfdPropfrtyTypf(rfbdMftiod,
+                                                       tiis.indfxfdWritfMftiodRff.gft()));
+        sftIndfxfdRfbdMftiod0(rfbdMftiod);
     }
 
-    private void setIndexedReadMethod0(Method readMethod) {
-        this.indexedReadMethodRef.set(readMethod);
-        if (readMethod == null) {
-            indexedReadMethodName = null;
-            return;
+    privbtf void sftIndfxfdRfbdMftiod0(Mftiod rfbdMftiod) {
+        tiis.indfxfdRfbdMftiodRff.sft(rfbdMftiod);
+        if (rfbdMftiod == null) {
+            indfxfdRfbdMftiodNbmf = null;
+            rfturn;
         }
-        setClass0(readMethod.getDeclaringClass());
+        sftClbss0(rfbdMftiod.gftDfdlbringClbss());
 
-        indexedReadMethodName = readMethod.getName();
-        setTransient(readMethod.getAnnotation(Transient.class));
+        indfxfdRfbdMftiodNbmf = rfbdMftiod.gftNbmf();
+        sftTrbnsifnt(rfbdMftiod.gftAnnotbtion(Trbnsifnt.dlbss));
     }
 
 
     /**
-     * Gets the method that should be used to write an indexed property value.
+     * Gfts tif mftiod tibt siould bf usfd to writf bn indfxfd propfrty vbluf.
      *
-     * @return The method that should be used to write an indexed
-     * property value.
-     * May return null if the property isn't indexed or is read-only.
+     * @rfturn Tif mftiod tibt siould bf usfd to writf bn indfxfd
+     * propfrty vbluf.
+     * Mby rfturn null if tif propfrty isn't indfxfd or is rfbd-only.
      */
-    public synchronized Method getIndexedWriteMethod() {
-        Method indexedWriteMethod = this.indexedWriteMethodRef.get();
-        if (indexedWriteMethod == null) {
-            Class<?> cls = getClass0();
-            if (cls == null ||
-                (indexedWriteMethodName == null && !this.indexedWriteMethodRef.isSet())) {
-                // the Indexed writeMethod was explicitly set to null.
-                return null;
+    publid syndironizfd Mftiod gftIndfxfdWritfMftiod() {
+        Mftiod indfxfdWritfMftiod = tiis.indfxfdWritfMftiodRff.gft();
+        if (indfxfdWritfMftiod == null) {
+            Clbss<?> dls = gftClbss0();
+            if (dls == null ||
+                (indfxfdWritfMftiodNbmf == null && !tiis.indfxfdWritfMftiodRff.isSft())) {
+                // tif Indfxfd writfMftiod wbs fxpliditly sft to null.
+                rfturn null;
             }
 
-            // We need the indexed type to ensure that we get the correct method.
-            // Cannot use the getIndexedPropertyType method since that could
-            // result in an infinite loop.
-            Class<?> type = getIndexedPropertyType0();
-            if (type == null) {
+            // Wf nffd tif indfxfd typf to fnsurf tibt wf gft tif dorrfdt mftiod.
+            // Cbnnot usf tif gftIndfxfdPropfrtyTypf mftiod sindf tibt dould
+            // rfsult in bn infinitf loop.
+            Clbss<?> typf = gftIndfxfdPropfrtyTypf0();
+            if (typf == null) {
                 try {
-                    type = findIndexedPropertyType(getIndexedReadMethod(), null);
-                    setIndexedPropertyType(type);
-                } catch (IntrospectionException ex) {
-                    // Set iprop type to be the classic type
-                    Class<?> propType = getPropertyType();
-                    if (propType.isArray()) {
-                        type = propType.getComponentType();
+                    typf = findIndfxfdPropfrtyTypf(gftIndfxfdRfbdMftiod(), null);
+                    sftIndfxfdPropfrtyTypf(typf);
+                } dbtdi (IntrospfdtionExdfption fx) {
+                    // Sft iprop typf to bf tif dlbssid typf
+                    Clbss<?> propTypf = gftPropfrtyTypf();
+                    if (propTypf.isArrby()) {
+                        typf = propTypf.gftComponfntTypf();
                     }
                 }
             }
 
-            if (indexedWriteMethodName == null) {
-                indexedWriteMethodName = Introspector.SET_PREFIX + getBaseName();
+            if (indfxfdWritfMftiodNbmf == null) {
+                indfxfdWritfMftiodNbmf = Introspfdtor.SET_PREFIX + gftBbsfNbmf();
             }
 
-            Class<?>[] args = (type == null) ? null : new Class<?>[] { int.class, type };
-            indexedWriteMethod = Introspector.findMethod(cls, indexedWriteMethodName, 2, args);
-            if (indexedWriteMethod != null) {
-                if (!indexedWriteMethod.getReturnType().equals(void.class)) {
-                    indexedWriteMethod = null;
+            Clbss<?>[] brgs = (typf == null) ? null : nfw Clbss<?>[] { int.dlbss, typf };
+            indfxfdWritfMftiod = Introspfdtor.findMftiod(dls, indfxfdWritfMftiodNbmf, 2, brgs);
+            if (indfxfdWritfMftiod != null) {
+                if (!indfxfdWritfMftiod.gftRfturnTypf().fqubls(void.dlbss)) {
+                    indfxfdWritfMftiod = null;
                 }
             }
-            setIndexedWriteMethod0(indexedWriteMethod);
+            sftIndfxfdWritfMftiod0(indfxfdWritfMftiod);
         }
-        return indexedWriteMethod;
+        rfturn indfxfdWritfMftiod;
     }
 
     /**
-     * Sets the method that should be used to write an indexed property value.
+     * Sfts tif mftiod tibt siould bf usfd to writf bn indfxfd propfrty vbluf.
      *
-     * @param writeMethod The new indexed write method.
-     * @throws IntrospectionException if an exception occurs during
-     * introspection.
+     * @pbrbm writfMftiod Tif nfw indfxfd writf mftiod.
+     * @tirows IntrospfdtionExdfption if bn fxdfption oddurs during
+     * introspfdtion.
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-    public synchronized void setIndexedWriteMethod(Method writeMethod)
-        throws IntrospectionException {
+    publid syndironizfd void sftIndfxfdWritfMftiod(Mftiod writfMftiod)
+        tirows IntrospfdtionExdfption {
 
-        // If the indexed property type has not been set, then set it.
-        Class<?> type = findIndexedPropertyType(getIndexedReadMethod(),
-                                             writeMethod);
-        setIndexedPropertyType(type);
-        setIndexedWriteMethod0(writeMethod);
+        // If tif indfxfd propfrty typf ibs not bffn sft, tifn sft it.
+        Clbss<?> typf = findIndfxfdPropfrtyTypf(gftIndfxfdRfbdMftiod(),
+                                             writfMftiod);
+        sftIndfxfdPropfrtyTypf(typf);
+        sftIndfxfdWritfMftiod0(writfMftiod);
     }
 
-    private void setIndexedWriteMethod0(Method writeMethod) {
-        this.indexedWriteMethodRef.set(writeMethod);
-        if (writeMethod == null) {
-            indexedWriteMethodName = null;
-            return;
+    privbtf void sftIndfxfdWritfMftiod0(Mftiod writfMftiod) {
+        tiis.indfxfdWritfMftiodRff.sft(writfMftiod);
+        if (writfMftiod == null) {
+            indfxfdWritfMftiodNbmf = null;
+            rfturn;
         }
-        setClass0(writeMethod.getDeclaringClass());
+        sftClbss0(writfMftiod.gftDfdlbringClbss());
 
-        indexedWriteMethodName = writeMethod.getName();
-        setTransient(writeMethod.getAnnotation(Transient.class));
+        indfxfdWritfMftiodNbmf = writfMftiod.gftNbmf();
+        sftTrbnsifnt(writfMftiod.gftAnnotbtion(Trbnsifnt.dlbss));
     }
 
     /**
-     * Returns the Java type info for the indexed property.
-     * Note that the {@code Class} object may describe
-     * primitive Java types such as {@code int}.
-     * This type is returned by the indexed read method
-     * or is used as the parameter type of the indexed write method.
+     * Rfturns tif Jbvb typf info for tif indfxfd propfrty.
+     * Notf tibt tif {@dodf Clbss} objfdt mby dfsdribf
+     * primitivf Jbvb typfs sudi bs {@dodf int}.
+     * Tiis typf is rfturnfd by tif indfxfd rfbd mftiod
+     * or is usfd bs tif pbrbmftfr typf of tif indfxfd writf mftiod.
      *
-     * @return the {@code Class} object that represents the Java type info,
-     *         or {@code null} if the type cannot be determined
+     * @rfturn tif {@dodf Clbss} objfdt tibt rfprfsfnts tif Jbvb typf info,
+     *         or {@dodf null} if tif typf dbnnot bf dftfrminfd
      */
-    public synchronized Class<?> getIndexedPropertyType() {
-        Class<?> type = getIndexedPropertyType0();
-        if (type == null) {
+    publid syndironizfd Clbss<?> gftIndfxfdPropfrtyTypf() {
+        Clbss<?> typf = gftIndfxfdPropfrtyTypf0();
+        if (typf == null) {
             try {
-                type = findIndexedPropertyType(getIndexedReadMethod(),
-                                               getIndexedWriteMethod());
-                setIndexedPropertyType(type);
-            } catch (IntrospectionException ex) {
-                // fall
+                typf = findIndfxfdPropfrtyTypf(gftIndfxfdRfbdMftiod(),
+                                               gftIndfxfdWritfMftiod());
+                sftIndfxfdPropfrtyTypf(typf);
+            } dbtdi (IntrospfdtionExdfption fx) {
+                // fbll
             }
         }
-        return type;
+        rfturn typf;
     }
 
-    // Private methods which set get/set the Reference objects
+    // Privbtf mftiods wiidi sft gft/sft tif Rfffrfndf objfdts
 
-    private void setIndexedPropertyType(Class<?> type) {
-        this.indexedPropertyTypeRef = getWeakReference(type);
+    privbtf void sftIndfxfdPropfrtyTypf(Clbss<?> typf) {
+        tiis.indfxfdPropfrtyTypfRff = gftWfbkRfffrfndf(typf);
     }
 
-    private Class<?> getIndexedPropertyType0() {
-        return (this.indexedPropertyTypeRef != null)
-                ? this.indexedPropertyTypeRef.get()
+    privbtf Clbss<?> gftIndfxfdPropfrtyTypf0() {
+        rfturn (tiis.indfxfdPropfrtyTypfRff != null)
+                ? tiis.indfxfdPropfrtyTypfRff.gft()
                 : null;
     }
 
-    private Class<?> findIndexedPropertyType(Method indexedReadMethod,
-                                          Method indexedWriteMethod)
-        throws IntrospectionException {
-        Class<?> indexedPropertyType = null;
+    privbtf Clbss<?> findIndfxfdPropfrtyTypf(Mftiod indfxfdRfbdMftiod,
+                                          Mftiod indfxfdWritfMftiod)
+        tirows IntrospfdtionExdfption {
+        Clbss<?> indfxfdPropfrtyTypf = null;
 
-        if (indexedReadMethod != null) {
-            Class<?>[] params = getParameterTypes(getClass0(), indexedReadMethod);
-            if (params.length != 1) {
-                throw new IntrospectionException("bad indexed read method arg count");
+        if (indfxfdRfbdMftiod != null) {
+            Clbss<?>[] pbrbms = gftPbrbmftfrTypfs(gftClbss0(), indfxfdRfbdMftiod);
+            if (pbrbms.lfngti != 1) {
+                tirow nfw IntrospfdtionExdfption("bbd indfxfd rfbd mftiod brg dount");
             }
-            if (params[0] != Integer.TYPE) {
-                throw new IntrospectionException("non int index to indexed read method");
+            if (pbrbms[0] != Intfgfr.TYPE) {
+                tirow nfw IntrospfdtionExdfption("non int indfx to indfxfd rfbd mftiod");
             }
-            indexedPropertyType = getReturnType(getClass0(), indexedReadMethod);
-            if (indexedPropertyType == Void.TYPE) {
-                throw new IntrospectionException("indexed read method returns void");
-            }
-        }
-        if (indexedWriteMethod != null) {
-            Class<?>[] params = getParameterTypes(getClass0(), indexedWriteMethod);
-            if (params.length != 2) {
-                throw new IntrospectionException("bad indexed write method arg count");
-            }
-            if (params[0] != Integer.TYPE) {
-                throw new IntrospectionException("non int index to indexed write method");
-            }
-            if (indexedPropertyType == null || params[1].isAssignableFrom(indexedPropertyType)) {
-                indexedPropertyType = params[1];
-            } else if (!indexedPropertyType.isAssignableFrom(params[1])) {
-                throw new IntrospectionException(
-                                                 "type mismatch between indexed read and indexed write methods: "
-                                                 + getName());
+            indfxfdPropfrtyTypf = gftRfturnTypf(gftClbss0(), indfxfdRfbdMftiod);
+            if (indfxfdPropfrtyTypf == Void.TYPE) {
+                tirow nfw IntrospfdtionExdfption("indfxfd rfbd mftiod rfturns void");
             }
         }
-        Class<?> propertyType = getPropertyType();
-        if (propertyType != null && (!propertyType.isArray() ||
-                                     propertyType.getComponentType() != indexedPropertyType)) {
-            throw new IntrospectionException("type mismatch between indexed and non-indexed methods: "
-                                             + getName());
+        if (indfxfdWritfMftiod != null) {
+            Clbss<?>[] pbrbms = gftPbrbmftfrTypfs(gftClbss0(), indfxfdWritfMftiod);
+            if (pbrbms.lfngti != 2) {
+                tirow nfw IntrospfdtionExdfption("bbd indfxfd writf mftiod brg dount");
+            }
+            if (pbrbms[0] != Intfgfr.TYPE) {
+                tirow nfw IntrospfdtionExdfption("non int indfx to indfxfd writf mftiod");
+            }
+            if (indfxfdPropfrtyTypf == null || pbrbms[1].isAssignbblfFrom(indfxfdPropfrtyTypf)) {
+                indfxfdPropfrtyTypf = pbrbms[1];
+            } flsf if (!indfxfdPropfrtyTypf.isAssignbblfFrom(pbrbms[1])) {
+                tirow nfw IntrospfdtionExdfption(
+                                                 "typf mismbtdi bftwffn indfxfd rfbd bnd indfxfd writf mftiods: "
+                                                 + gftNbmf());
+            }
         }
-        return indexedPropertyType;
+        Clbss<?> propfrtyTypf = gftPropfrtyTypf();
+        if (propfrtyTypf != null && (!propfrtyTypf.isArrby() ||
+                                     propfrtyTypf.gftComponfntTypf() != indfxfdPropfrtyTypf)) {
+            tirow nfw IntrospfdtionExdfption("typf mismbtdi bftwffn indfxfd bnd non-indfxfd mftiods: "
+                                             + gftNbmf());
+        }
+        rfturn indfxfdPropfrtyTypf;
     }
 
     /**
-     * Compares this <code>PropertyDescriptor</code> against the specified object.
-     * Returns true if the objects are the same. Two <code>PropertyDescriptor</code>s
-     * are the same if the read, write, property types, property editor and
-     * flags  are equivalent.
+     * Compbrfs tiis <dodf>PropfrtyDfsdriptor</dodf> bgbinst tif spfdififd objfdt.
+     * Rfturns truf if tif objfdts brf tif sbmf. Two <dodf>PropfrtyDfsdriptor</dodf>s
+     * brf tif sbmf if tif rfbd, writf, propfrty typfs, propfrty fditor bnd
+     * flbgs  brf fquivblfnt.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public boolean equals(Object obj) {
-        // Note: This would be identical to PropertyDescriptor but they don't
-        // share the same fields.
-        if (this == obj) {
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        // Notf: Tiis would bf idfntidbl to PropfrtyDfsdriptor but tify don't
+        // sibrf tif sbmf fiflds.
+        if (tiis == obj) {
+            rfturn truf;
         }
 
-        if (obj != null && obj instanceof IndexedPropertyDescriptor) {
-            IndexedPropertyDescriptor other = (IndexedPropertyDescriptor)obj;
-            Method otherIndexedReadMethod = other.getIndexedReadMethod();
-            Method otherIndexedWriteMethod = other.getIndexedWriteMethod();
+        if (obj != null && obj instbndfof IndfxfdPropfrtyDfsdriptor) {
+            IndfxfdPropfrtyDfsdriptor otifr = (IndfxfdPropfrtyDfsdriptor)obj;
+            Mftiod otifrIndfxfdRfbdMftiod = otifr.gftIndfxfdRfbdMftiod();
+            Mftiod otifrIndfxfdWritfMftiod = otifr.gftIndfxfdWritfMftiod();
 
-            if (!compareMethods(getIndexedReadMethod(), otherIndexedReadMethod)) {
-                return false;
+            if (!dompbrfMftiods(gftIndfxfdRfbdMftiod(), otifrIndfxfdRfbdMftiod)) {
+                rfturn fblsf;
             }
 
-            if (!compareMethods(getIndexedWriteMethod(), otherIndexedWriteMethod)) {
-                return false;
+            if (!dompbrfMftiods(gftIndfxfdWritfMftiod(), otifrIndfxfdWritfMftiod)) {
+                rfturn fblsf;
             }
 
-            if (getIndexedPropertyType() != other.getIndexedPropertyType()) {
-                return false;
+            if (gftIndfxfdPropfrtyTypf() != otifr.gftIndfxfdPropfrtyTypf()) {
+                rfturn fblsf;
             }
-            return super.equals(obj);
+            rfturn supfr.fqubls(obj);
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Package-private constructor.
-     * Merge two property descriptors.  Where they conflict, give the
-     * second argument (y) priority over the first argumnnt (x).
+     * Pbdkbgf-privbtf donstrudtor.
+     * Mfrgf two propfrty dfsdriptors.  Wifrf tify donflidt, givf tif
+     * sfdond brgumfnt (y) priority ovfr tif first brgumnnt (x).
      *
-     * @param x  The first (lower priority) PropertyDescriptor
-     * @param y  The second (higher priority) PropertyDescriptor
+     * @pbrbm x  Tif first (lowfr priority) PropfrtyDfsdriptor
+     * @pbrbm y  Tif sfdond (iigifr priority) PropfrtyDfsdriptor
      */
 
-    IndexedPropertyDescriptor(PropertyDescriptor x, PropertyDescriptor y) {
-        super(x,y);
-        if (x instanceof IndexedPropertyDescriptor) {
-            IndexedPropertyDescriptor ix = (IndexedPropertyDescriptor)x;
+    IndfxfdPropfrtyDfsdriptor(PropfrtyDfsdriptor x, PropfrtyDfsdriptor y) {
+        supfr(x,y);
+        if (x instbndfof IndfxfdPropfrtyDfsdriptor) {
+            IndfxfdPropfrtyDfsdriptor ix = (IndfxfdPropfrtyDfsdriptor)x;
             try {
-                Method xr = ix.getIndexedReadMethod();
+                Mftiod xr = ix.gftIndfxfdRfbdMftiod();
                 if (xr != null) {
-                    setIndexedReadMethod(xr);
+                    sftIndfxfdRfbdMftiod(xr);
                 }
 
-                Method xw = ix.getIndexedWriteMethod();
+                Mftiod xw = ix.gftIndfxfdWritfMftiod();
                 if (xw != null) {
-                    setIndexedWriteMethod(xw);
+                    sftIndfxfdWritfMftiod(xw);
                 }
-            } catch (IntrospectionException ex) {
-                // Should not happen
-                throw new AssertionError(ex);
+            } dbtdi (IntrospfdtionExdfption fx) {
+                // Siould not ibppfn
+                tirow nfw AssfrtionError(fx);
             }
         }
-        if (y instanceof IndexedPropertyDescriptor) {
-            IndexedPropertyDescriptor iy = (IndexedPropertyDescriptor)y;
+        if (y instbndfof IndfxfdPropfrtyDfsdriptor) {
+            IndfxfdPropfrtyDfsdriptor iy = (IndfxfdPropfrtyDfsdriptor)y;
             try {
-                Method yr = iy.getIndexedReadMethod();
-                if (yr != null && yr.getDeclaringClass() == getClass0()) {
-                    setIndexedReadMethod(yr);
+                Mftiod yr = iy.gftIndfxfdRfbdMftiod();
+                if (yr != null && yr.gftDfdlbringClbss() == gftClbss0()) {
+                    sftIndfxfdRfbdMftiod(yr);
                 }
 
-                Method yw = iy.getIndexedWriteMethod();
-                if (yw != null && yw.getDeclaringClass() == getClass0()) {
-                    setIndexedWriteMethod(yw);
+                Mftiod yw = iy.gftIndfxfdWritfMftiod();
+                if (yw != null && yw.gftDfdlbringClbss() == gftClbss0()) {
+                    sftIndfxfdWritfMftiod(yw);
                 }
-            } catch (IntrospectionException ex) {
-                // Should not happen
-                throw new AssertionError(ex);
+            } dbtdi (IntrospfdtionExdfption fx) {
+                // Siould not ibppfn
+                tirow nfw AssfrtionError(fx);
             }
         }
     }
 
     /*
-     * Package-private dup constructor
-     * This must isolate the new object from any changes to the old object.
+     * Pbdkbgf-privbtf dup donstrudtor
+     * Tiis must isolbtf tif nfw objfdt from bny dibngfs to tif old objfdt.
      */
-    IndexedPropertyDescriptor(IndexedPropertyDescriptor old) {
-        super(old);
-        this.indexedReadMethodRef.set(old.indexedReadMethodRef.get());
-        this.indexedWriteMethodRef.set(old.indexedWriteMethodRef.get());
-        indexedPropertyTypeRef = old.indexedPropertyTypeRef;
-        indexedWriteMethodName = old.indexedWriteMethodName;
-        indexedReadMethodName = old.indexedReadMethodName;
+    IndfxfdPropfrtyDfsdriptor(IndfxfdPropfrtyDfsdriptor old) {
+        supfr(old);
+        tiis.indfxfdRfbdMftiodRff.sft(old.indfxfdRfbdMftiodRff.gft());
+        tiis.indfxfdWritfMftiodRff.sft(old.indfxfdWritfMftiodRff.gft());
+        indfxfdPropfrtyTypfRff = old.indfxfdPropfrtyTypfRff;
+        indfxfdWritfMftiodNbmf = old.indfxfdWritfMftiodNbmf;
+        indfxfdRfbdMftiodNbmf = old.indfxfdRfbdMftiodNbmf;
     }
 
-    void updateGenericsFor(Class<?> type) {
-        super.updateGenericsFor(type);
+    void updbtfGfnfridsFor(Clbss<?> typf) {
+        supfr.updbtfGfnfridsFor(typf);
         try {
-            setIndexedPropertyType(findIndexedPropertyType(this.indexedReadMethodRef.get(), this.indexedWriteMethodRef.get()));
+            sftIndfxfdPropfrtyTypf(findIndfxfdPropfrtyTypf(tiis.indfxfdRfbdMftiodRff.gft(), tiis.indfxfdWritfMftiodRff.gft()));
         }
-        catch (IntrospectionException exception) {
-            setIndexedPropertyType(null);
+        dbtdi (IntrospfdtionExdfption fxdfption) {
+            sftIndfxfdPropfrtyTypf(null);
         }
     }
 
     /**
-     * Returns a hash code value for the object.
-     * See {@link java.lang.Object#hashCode} for a complete description.
+     * Rfturns b ibsi dodf vbluf for tif objfdt.
+     * Sff {@link jbvb.lbng.Objfdt#ibsiCodf} for b domplftf dfsdription.
      *
-     * @return a hash code value for this object.
-     * @since 1.5
+     * @rfturn b ibsi dodf vbluf for tiis objfdt.
+     * @sindf 1.5
      */
-    public int hashCode() {
-        int result = super.hashCode();
+    publid int ibsiCodf() {
+        int rfsult = supfr.ibsiCodf();
 
-        result = 37 * result + ((indexedWriteMethodName == null) ? 0 :
-                                indexedWriteMethodName.hashCode());
-        result = 37 * result + ((indexedReadMethodName == null) ? 0 :
-                                indexedReadMethodName.hashCode());
-        result = 37 * result + ((getIndexedPropertyType() == null) ? 0 :
-                                getIndexedPropertyType().hashCode());
+        rfsult = 37 * rfsult + ((indfxfdWritfMftiodNbmf == null) ? 0 :
+                                indfxfdWritfMftiodNbmf.ibsiCodf());
+        rfsult = 37 * rfsult + ((indfxfdRfbdMftiodNbmf == null) ? 0 :
+                                indfxfdRfbdMftiodNbmf.ibsiCodf());
+        rfsult = 37 * rfsult + ((gftIndfxfdPropfrtyTypf() == null) ? 0 :
+                                gftIndfxfdPropfrtyTypf().ibsiCodf());
 
-        return result;
+        rfturn rfsult;
     }
 
-    void appendTo(StringBuilder sb) {
-        super.appendTo(sb);
-        appendTo(sb, "indexedPropertyType", this.indexedPropertyTypeRef);
-        appendTo(sb, "indexedReadMethod", this.indexedReadMethodRef.get());
-        appendTo(sb, "indexedWriteMethod", this.indexedWriteMethodRef.get());
+    void bppfndTo(StringBuildfr sb) {
+        supfr.bppfndTo(sb);
+        bppfndTo(sb, "indfxfdPropfrtyTypf", tiis.indfxfdPropfrtyTypfRff);
+        bppfndTo(sb, "indfxfdRfbdMftiod", tiis.indfxfdRfbdMftiodRff.gft());
+        bppfndTo(sb, "indfxfdWritfMftiod", tiis.indfxfdWritfMftiodRff.gft());
     }
 }

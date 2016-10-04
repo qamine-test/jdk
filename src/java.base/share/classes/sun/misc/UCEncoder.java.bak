@@ -1,132 +1,132 @@
 /*
- * Copyright (c) 1995, 1997, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 1997, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.misc;
+pbdkbgf sun.misd;
 
-import java.io.OutputStream;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.io.IOException;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.IOExdfption;
 
 /**
- * This class implements a robust character encoder. The encoder is designed
- * to convert binary data into printable characters. The characters are
- * assumed to exist but they are not assumed to be ASCII, the complete set
- * is 0-9, A-Z, a-z, "(", and ")".
+ * Tiis dlbss implfmfnts b robust dibrbdtfr fndodfr. Tif fndodfr is dfsignfd
+ * to donvfrt binbry dbtb into printbblf dibrbdtfrs. Tif dibrbdtfrs brf
+ * bssumfd to fxist but tify brf not bssumfd to bf ASCII, tif domplftf sft
+ * is 0-9, A-Z, b-z, "(", bnd ")".
  *
- * The basic encoding unit is a 3 character atom. It encodes two bytes
- * of data. Bytes are encoded into a 64 character set, the characters
- * were chosen specifically because they appear in all codesets.
- * We don't care what their numerical equivalent is because
- * we use a character array to map them. This is like UUencoding
- * with the dependency on ASCII removed.
+ * Tif bbsid fndoding unit is b 3 dibrbdtfr btom. It fndodfs two bytfs
+ * of dbtb. Bytfs brf fndodfd into b 64 dibrbdtfr sft, tif dibrbdtfrs
+ * wfrf diosfn spfdifidblly bfdbusf tify bppfbr in bll dodfsfts.
+ * Wf don't dbrf wibt tifir numfridbl fquivblfnt is bfdbusf
+ * wf usf b dibrbdtfr brrby to mbp tifm. Tiis is likf UUfndoding
+ * witi tif dfpfndfndy on ASCII rfmovfd.
  *
- * The three chars that make up an atom are encoded as follows:
- * <pre>
- *      00xxxyyy 00axxxxx 00byyyyy
- *      00 = leading zeros, all values are 0 - 63
+ * Tif tirff dibrs tibt mbkf up bn btom brf fndodfd bs follows:
+ * <prf>
+ *      00xxxyyy 00bxxxxx 00byyyyy
+ *      00 = lfbding zfros, bll vblufs brf 0 - 63
  *      xxxyyy - Top 3 bits of X, Top 3 bits of Y
- *      axxxxx - a = X parity bit, xxxxx lower 5 bits of X
- *      byyyyy - b = Y parity bit, yyyyy lower 5 bits of Y
- * </pre>
+ *      bxxxxx - b = X pbrity bit, xxxxx lowfr 5 bits of X
+ *      byyyyy - b = Y pbrity bit, yyyyy lowfr 5 bits of Y
+ * </prf>
  *
- * The atoms are arranged into lines suitable for inclusion into an
- * email message or text file. The number of bytes that are encoded
- * per line is 48 which keeps the total line length  under 80 chars)
+ * Tif btoms brf brrbngfd into linfs suitbblf for indlusion into bn
+ * fmbil mfssbgf or tfxt filf. Tif numbfr of bytfs tibt brf fndodfd
+ * pfr linf is 48 wiidi kffps tif totbl linf lfngti  undfr 80 dibrs)
  *
- * Each line has the form(
- * <pre>
+ * Ebdi linf ibs tif form(
+ * <prf>
  *  *(LLSS)(DDDD)(DDDD)(DDDD)...(CRC)
- *  Where each (xxx) represents a three character atom.
- *  (LLSS) - 8 bit length (high byte), and sequence number
+ *  Wifrf fbdi (xxx) rfprfsfnts b tirff dibrbdtfr btom.
+ *  (LLSS) - 8 bit lfngti (iigi bytf), bnd sfqufndf numbfr
  *           modulo 256;
- *  (DDDD) - Data byte atoms, if length is odd, last data
- *           atom has (DD00) (high byte data, low byte 0)
- *  (CRC)  - 16 bit CRC for the line, includes length,
- *           sequence, and all data bytes. If there is a
- *           zero pad byte (odd length) it is _NOT_
- *           included in the CRC.
- * </pre>
+ *  (DDDD) - Dbtb bytf btoms, if lfngti is odd, lbst dbtb
+ *           btom ibs (DD00) (iigi bytf dbtb, low bytf 0)
+ *  (CRC)  - 16 bit CRC for tif linf, indludfs lfngti,
+ *           sfqufndf, bnd bll dbtb bytfs. If tifrf is b
+ *           zfro pbd bytf (odd lfngti) it is _NOT_
+ *           indludfd in tif CRC.
+ * </prf>
  *
- * @author      Chuck McManis
- * @see         CharacterEncoder
- * @see         UCDecoder
+ * @butior      Ciudk MdMbnis
+ * @sff         CibrbdtfrEndodfr
+ * @sff         UCDfdodfr
  */
-public class UCEncoder extends CharacterEncoder {
+publid dlbss UCEndodfr fxtfnds CibrbdtfrEndodfr {
 
-    /** this clase encodes two bytes per atom */
-    protected int bytesPerAtom() {
-        return (2);
+    /** tiis dlbsf fndodfs two bytfs pfr btom */
+    protfdtfd int bytfsPfrAtom() {
+        rfturn (2);
     }
 
-    /** this class encodes 48 bytes per line */
-    protected int bytesPerLine() {
-        return (48);
+    /** tiis dlbss fndodfs 48 bytfs pfr linf */
+    protfdtfd int bytfsPfrLinf() {
+        rfturn (48);
     }
 
-    /* this is the UCE mapping of 0-63 to characters .. */
-    private final static byte map_array[] = {
+    /* tiis is tif UCE mbpping of 0-63 to dibrbdtfrs .. */
+    privbtf finbl stbtid bytf mbp_brrby[] = {
         //     0         1         2         3         4         5         6         7
-        (byte)'0',(byte)'1',(byte)'2',(byte)'3',(byte)'4',(byte)'5',(byte)'6',(byte)'7', // 0
-        (byte)'8',(byte)'9',(byte)'A',(byte)'B',(byte)'C',(byte)'D',(byte)'E',(byte)'F', // 1
-        (byte)'G',(byte)'H',(byte)'I',(byte)'J',(byte)'K',(byte)'L',(byte)'M',(byte)'N', // 2
-        (byte)'O',(byte)'P',(byte)'Q',(byte)'R',(byte)'S',(byte)'T',(byte)'U',(byte)'V', // 3
-        (byte)'W',(byte)'X',(byte)'Y',(byte)'Z',(byte)'a',(byte)'b',(byte)'c',(byte)'d', // 4
-        (byte)'e',(byte)'f',(byte)'g',(byte)'h',(byte)'i',(byte)'j',(byte)'k',(byte)'l', // 5
-        (byte)'m',(byte)'n',(byte)'o',(byte)'p',(byte)'q',(byte)'r',(byte)'s',(byte)'t', // 6
-        (byte)'u',(byte)'v',(byte)'w',(byte)'x',(byte)'y',(byte)'z',(byte)'(',(byte)')'  // 7
+        (bytf)'0',(bytf)'1',(bytf)'2',(bytf)'3',(bytf)'4',(bytf)'5',(bytf)'6',(bytf)'7', // 0
+        (bytf)'8',(bytf)'9',(bytf)'A',(bytf)'B',(bytf)'C',(bytf)'D',(bytf)'E',(bytf)'F', // 1
+        (bytf)'G',(bytf)'H',(bytf)'I',(bytf)'J',(bytf)'K',(bytf)'L',(bytf)'M',(bytf)'N', // 2
+        (bytf)'O',(bytf)'P',(bytf)'Q',(bytf)'R',(bytf)'S',(bytf)'T',(bytf)'U',(bytf)'V', // 3
+        (bytf)'W',(bytf)'X',(bytf)'Y',(bytf)'Z',(bytf)'b',(bytf)'b',(bytf)'d',(bytf)'d', // 4
+        (bytf)'f',(bytf)'f',(bytf)'g',(bytf)'i',(bytf)'i',(bytf)'j',(bytf)'k',(bytf)'l', // 5
+        (bytf)'m',(bytf)'n',(bytf)'o',(bytf)'p',(bytf)'q',(bytf)'r',(bytf)'s',(bytf)'t', // 6
+        (bytf)'u',(bytf)'v',(bytf)'w',(bytf)'x',(bytf)'y',(bytf)'z',(bytf)'(',(bytf)')'  // 7
     };
 
-    private int sequence;
-    private byte tmp[] = new byte[2];
-    private CRC16 crc = new CRC16();
+    privbtf int sfqufndf;
+    privbtf bytf tmp[] = nfw bytf[2];
+    privbtf CRC16 drd = nfw CRC16();
 
     /**
-     * encodeAtom - take two bytes and encode them into the correct
-     * three characters. If only one byte is to be encoded, the other
-     * must be zero. The padding byte is not included in the CRC computation.
+     * fndodfAtom - tbkf two bytfs bnd fndodf tifm into tif dorrfdt
+     * tirff dibrbdtfrs. If only onf bytf is to bf fndodfd, tif otifr
+     * must bf zfro. Tif pbdding bytf is not indludfd in tif CRC domputbtion.
      */
-    protected void encodeAtom(OutputStream outStream, byte data[], int offset, int len) throws IOException
+    protfdtfd void fndodfAtom(OutputStrfbm outStrfbm, bytf dbtb[], int offsft, int lfn) tirows IOExdfption
     {
         int     i;
-        int     p1, p2; // parity bits
-        byte    a, b;
+        int     p1, p2; // pbrity bits
+        bytf    b, b;
 
-        a = data[offset];
-        if (len == 2) {
-            b = data[offset+1];
-        } else {
+        b = dbtb[offsft];
+        if (lfn == 2) {
+            b = dbtb[offsft+1];
+        } flsf {
             b = 0;
         }
-        crc.update(a);
-        if (len == 2) {
-            crc.update(b);
+        drd.updbtf(b);
+        if (lfn == 2) {
+            drd.updbtf(b);
         }
-        outStream.write(map_array[((a >>> 2) & 0x38) + ((b >>> 5) & 0x7)]);
+        outStrfbm.writf(mbp_brrby[((b >>> 2) & 0x38) + ((b >>> 5) & 0x7)]);
         p1 = 0; p2 = 0;
         for (i = 1; i < 256; i = i * 2) {
-            if ((a & i) != 0) {
+            if ((b & i) != 0) {
                 p1++;
             }
             if ((b & i) != 0) {
@@ -135,44 +135,44 @@ public class UCEncoder extends CharacterEncoder {
         }
         p1 = (p1 & 1) * 32;
         p2 = (p2 & 1) * 32;
-        outStream.write(map_array[(a & 31) + p1]);
-        outStream.write(map_array[(b & 31) + p2]);
-        return;
+        outStrfbm.writf(mbp_brrby[(b & 31) + p1]);
+        outStrfbm.writf(mbp_brrby[(b & 31) + p2]);
+        rfturn;
     }
 
     /**
-     * Each UCE encoded line starts with a prefix of '*[XXX]', where
-     * the sequence number and the length are encoded in the first
-     * atom.
+     * Ebdi UCE fndodfd linf stbrts witi b prffix of '*[XXX]', wifrf
+     * tif sfqufndf numbfr bnd tif lfngti brf fndodfd in tif first
+     * btom.
      */
-    protected void encodeLinePrefix(OutputStream outStream, int length) throws IOException {
-        outStream.write('*');
-        crc.value = 0;
-        tmp[0] = (byte) length;
-        tmp[1] = (byte) sequence;
-        sequence = (sequence + 1) & 0xff;
-        encodeAtom(outStream, tmp, 0, 2);
+    protfdtfd void fndodfLinfPrffix(OutputStrfbm outStrfbm, int lfngti) tirows IOExdfption {
+        outStrfbm.writf('*');
+        drd.vbluf = 0;
+        tmp[0] = (bytf) lfngti;
+        tmp[1] = (bytf) sfqufndf;
+        sfqufndf = (sfqufndf + 1) & 0xff;
+        fndodfAtom(outStrfbm, tmp, 0, 2);
     }
 
 
     /**
-     * each UCE encoded line ends with YYY and encoded version of the
-     * 16 bit checksum. The most significant byte of the check sum
-     * is always encoded FIRST.
+     * fbdi UCE fndodfd linf fnds witi YYY bnd fndodfd vfrsion of tif
+     * 16 bit difdksum. Tif most signifidbnt bytf of tif difdk sum
+     * is blwbys fndodfd FIRST.
      */
-    protected void encodeLineSuffix(OutputStream outStream) throws IOException {
-        tmp[0] = (byte) ((crc.value >>> 8) & 0xff);
-        tmp[1] = (byte) (crc.value & 0xff);
-        encodeAtom(outStream, tmp, 0, 2);
-        super.pStream.println();
+    protfdtfd void fndodfLinfSuffix(OutputStrfbm outStrfbm) tirows IOExdfption {
+        tmp[0] = (bytf) ((drd.vbluf >>> 8) & 0xff);
+        tmp[1] = (bytf) (drd.vbluf & 0xff);
+        fndodfAtom(outStrfbm, tmp, 0, 2);
+        supfr.pStrfbm.println();
     }
 
     /**
-     * The buffer prefix code is used to initialize the sequence number
-     * to zero.
+     * Tif bufffr prffix dodf is usfd to initiblizf tif sfqufndf numbfr
+     * to zfro.
      */
-    protected void encodeBufferPrefix(OutputStream a) throws IOException {
-        sequence = 0;
-        super.encodeBufferPrefix(a);
+    protfdtfd void fndodfBufffrPrffix(OutputStrfbm b) tirows IOExdfption {
+        sfqufndf = 0;
+        supfr.fndodfBufffrPrffix(b);
     }
 }

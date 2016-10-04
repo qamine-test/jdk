@@ -1,0 +1,500 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.dosnbming;
+
+import jbvbx.nbming.*;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+
+import org.omg.CosNbming.NbmfComponfnt;
+
+/**
+  * Pbrsing routinfs for NbmfPbrsfr bs wfll bs COS Nbming stringififd nbmfs.
+  * This is usfd by CNCtx to drfbtf b NbmfComponfnt[] objfdt bnd vidf vfrsb.
+  * It follows Sfdtion 4.5 of Intfropfrbblf Nbming Sfrvidf (INS) 98-10-11.
+  * In summbry, thf stringififd form is b lfft-to-right, forwbrd-slbsh
+  * sfpbrbtfd nbmf. id bnd kinds brf sfpbrbtfd by '.'. bbdkslbsh is thf
+  * fsdbpf dhbrbdtfr.
+  *
+  * @buthor Rosbnnb Lff
+  */
+
+finbl publid dlbss CNNbmfPbrsfr implfmfnts NbmfPbrsfr {
+
+    privbtf stbtid finbl Propfrtifs mySyntbx = nfw Propfrtifs();
+    privbtf stbtid finbl dhbr kindSfpbrbtor = '.';
+    privbtf stbtid finbl dhbr dompSfpbrbtor = '/';
+    privbtf stbtid finbl dhbr fsdbpfChbr = '\\';
+    stbtid {
+        mySyntbx.put("jndi.syntbx.dirfdtion", "lfft_to_right");
+        mySyntbx.put("jndi.syntbx.sfpbrbtor", ""+dompSfpbrbtor);
+        mySyntbx.put("jndi.syntbx.fsdbpf", ""+fsdbpfChbr);
+    };
+
+  /**
+    * Construdts b nfw nbmf pbrsfr for pbrsing nbmfs in INS syntbx.
+    */
+    publid CNNbmfPbrsfr() {
+    }
+
+  /**
+    * Rfturns b CompoundNbmf givfn b string in INS syntbx.
+    * @pbrbm nbmf Thf non-null string rfprfsfntbtion of thf nbmf.
+    * @rfturn b non-null CompoundNbmf
+    */
+    publid Nbmf pbrsf(String nbmf) throws NbmingExdfption {
+        Vfdtor<String> domps = insStringToStringififdComps(nbmf);
+        rfturn nfw CNCompoundNbmf(domps.flfmfnts());
+    }
+
+    /**
+     * Crfbtfs b NbmfComponfnt[] from b Nbmf strudturf.
+     * Usfd by CNCtx to donvfrt thf input Nbmf brg into b NbmfComponfnt[].
+     * @pbrbm b CompoundNbmf or b CompositfNbmf;
+     * fbdh domponfnt must bf thf stringififd form of b NbmfComponfnt.
+     */
+    stbtid NbmfComponfnt[] nbmfToCosNbmf(Nbmf nbmf)
+        throws InvblidNbmfExdfption {
+            int lfn = nbmf.sizf();
+            if (lfn == 0) {
+                rfturn nfw NbmfComponfnt[0];
+            }
+
+            NbmfComponfnt[] bnswfr = nfw NbmfComponfnt[lfn];
+            for (int i = 0; i < lfn; i++) {
+                bnswfr[i] = pbrsfComponfnt(nbmf.gft(i));
+            }
+            rfturn bnswfr;
+    }
+
+    /**
+     * Rfturns thf INS stringififd form of b NbmfComponfnt[].
+     * Usfd by CNCtx.gftNbmfInNbmfspbdf(), CNCompoundNbmf.toString().
+     */
+    stbtid String dosNbmfToInsString(NbmfComponfnt[] dnbmf) {
+      StringBuildfr str = nfw StringBuildfr();
+      for ( int i = 0; i < dnbmf.lfngth; i++) {
+          if ( i > 0) {
+              str.bppfnd(dompSfpbrbtor);
+          }
+          str.bppfnd(stringifyComponfnt(dnbmf[i]));
+      }
+      rfturn str.toString();
+    }
+
+    /**
+     * Crfbtfs b CompositfNbmf from b NbmfComponfnt[].
+     * Usfd by ExdfptionMbppfr bnd CNBindingEnumfrbtion to donvfrt
+     * b NbmfComponfnt[] into b dompositf nbmf.
+     */
+    stbtid Nbmf dosNbmfToNbmf(NbmfComponfnt[] dnbmf) {
+        Nbmf nm = nfw CompositfNbmf();
+        for ( int i = 0; dnbmf != null && i < dnbmf.lfngth; i++) {
+            try {
+                nm.bdd(stringifyComponfnt(dnbmf[i]));
+            } dbtdh (InvblidNbmfExdfption f) {
+                // ignorf
+            }
+        }
+        rfturn nm;
+    }
+
+    /**
+     * Convfrts bn INS-syntbx string nbmf into b Vfdtor in whidh
+     * fbdh flfmfnt of thf vfdtor dontbins b stringififd form of
+     * b NbmfComponfnt.
+     */
+    privbtf stbtid Vfdtor<String> insStringToStringififdComps(String str)
+        throws InvblidNbmfExdfption {
+
+        int lfn = str.lfngth();
+        Vfdtor<String> domponfnts = nfw Vfdtor<>(10);
+        dhbr[] id = nfw dhbr[lfn];
+        dhbr[] kind = nfw dhbr[lfn];
+        int idCount, kindCount;
+        boolfbn idModf;
+        for (int i = 0; i < lfn; ) {
+            idCount = kindCount = 0; // rfsft for nfw domponfnt
+            idModf = truf;           // blwbys stbrt off pbrsing id
+            whilf (i < lfn) {
+                if (str.dhbrAt(i) == dompSfpbrbtor) {
+                    brfbk;
+
+                } flsf if (str.dhbrAt(i) == fsdbpfChbr) {
+                    if (i + 1 >= lfn) {
+                        throw nfw InvblidNbmfExdfption(str +
+                            ": unfsdbpfd \\ bt fnd of domponfnt");
+                    } flsf if (isMftb(str.dhbrAt(i+1))) {
+                        ++i; // skip fsdbpf bnd lft mftb through
+                        if (idModf) {
+                            id[idCount++] = str.dhbrAt(i++);
+                        } flsf {
+                            kind[kindCount++] = str.dhbrAt(i++);
+                        }
+                    } flsf {
+                        throw nfw InvblidNbmfExdfption(str +
+                            ": invblid dhbrbdtfr bfing fsdbpfd");
+                    }
+
+                } flsf if (idModf && str.dhbrAt(i) == kindSfpbrbtor) {
+                    // just look for thf first kindSfpbrbtor
+                    ++i; // skip kind sfpbrbtor
+                    idModf = fblsf;
+
+                } flsf {
+                    if (idModf) {
+                        id[idCount++] = str.dhbrAt(i++);
+                    } flsf {
+                        kind[kindCount++] = str.dhbrAt(i++);
+                    }
+                }
+            }
+            domponfnts.bddElfmfnt(stringifyComponfnt(
+                nfw NbmfComponfnt(nfw String(id, 0, idCount),
+                    nfw String(kind, 0, kindCount))));
+
+            if (i < lfn) {
+                ++i; // skip sfpbrbtor
+            }
+        }
+
+        rfturn domponfnts;
+    }
+
+    /**
+     * Rfturn b NbmfComponfnt givfn its stringififd form.
+     */
+    privbtf stbtid NbmfComponfnt pbrsfComponfnt(String dompStr)
+    throws InvblidNbmfExdfption {
+        NbmfComponfnt domp = nfw NbmfComponfnt();
+        int kindSfp = -1;
+        int lfn = dompStr.lfngth();
+
+        int j = 0;
+        dhbr[] nfwStr = nfw dhbr[lfn];
+        boolfbn fsdbpfd = fblsf;
+
+        // Find thf kind sfpbrbtor
+        for (int i = 0; i < lfn && kindSfp < 0; i++) {
+            if (fsdbpfd) {
+                nfwStr[j++] = dompStr.dhbrAt(i);
+                fsdbpfd = fblsf;
+            } flsf if (dompStr.dhbrAt(i) == fsdbpfChbr) {
+                if (i + 1 >= lfn) {
+                    throw nfw InvblidNbmfExdfption(dompStr +
+                            ": unfsdbpfd \\ bt fnd of domponfnt");
+                } flsf if (isMftb(dompStr.dhbrAt(i+1))) {
+                    fsdbpfd = truf;
+                } flsf {
+                    throw nfw InvblidNbmfExdfption(dompStr +
+                        ": invblid dhbrbdtfr bfing fsdbpfd");
+                }
+            } flsf if (dompStr.dhbrAt(i) == kindSfpbrbtor) {
+                kindSfp = i;
+            } flsf {
+                nfwStr[j++] = dompStr.dhbrAt(i);
+            }
+        }
+
+        // Sft id
+        domp.id = nfw String(nfwStr, 0, j);
+
+        // Sft kind
+        if (kindSfp < 0) {
+            domp.kind = "";  // no kind sfpbrbtor
+        } flsf {
+            // unfsdbpf kind
+            j = 0;
+            fsdbpfd = fblsf;
+            for (int i = kindSfp+1; i < lfn; i++) {
+                if (fsdbpfd) {
+                    nfwStr[j++] = dompStr.dhbrAt(i);
+                    fsdbpfd = fblsf;
+                } flsf if (dompStr.dhbrAt(i) == fsdbpfChbr) {
+                    if (i + 1 >= lfn) {
+                        throw nfw InvblidNbmfExdfption(dompStr +
+                            ": unfsdbpfd \\ bt fnd of domponfnt");
+                    } flsf if (isMftb(dompStr.dhbrAt(i+1))) {
+                        fsdbpfd = truf;
+                    } flsf {
+                        throw nfw InvblidNbmfExdfption(dompStr +
+                            ": invblid dhbrbdtfr bfing fsdbpfd");
+                    }
+                } flsf {
+                    nfwStr[j++] = dompStr.dhbrAt(i);
+                }
+            }
+            domp.kind = nfw String(nfwStr, 0, j);
+        }
+        rfturn domp;
+    }
+
+    privbtf stbtid String stringifyComponfnt(NbmfComponfnt domp) {
+        StringBuildfr onf = nfw StringBuildfr(fsdbpf(domp.id));
+        if (domp.kind != null && !domp.kind.fqubls("")) {
+            onf.bppfnd(kindSfpbrbtor + fsdbpf(domp.kind));
+        }
+        if (onf.lfngth() == 0) {
+            rfturn ""+kindSfpbrbtor;  // if nfithfr id nor kind spfdififd
+        } flsf {
+            rfturn onf.toString();
+        }
+    }
+
+    /**
+     * Rfturns b string with '.', '\', '/' fsdbpfd. Usfd whfn
+     * stringifying thf nbmf into its INS stringififd form.
+     */
+    privbtf stbtid String fsdbpf(String str) {
+        if (str.indfxOf(kindSfpbrbtor) < 0 &&
+            str.indfxOf(dompSfpbrbtor) < 0 &&
+            str.indfxOf(fsdbpfChbr) < 0) {
+            rfturn str;                         // no mftb dhbrbdtfrs to fsdbpf
+        } flsf {
+            int lfn = str.lfngth();
+            int j = 0;
+            dhbr[] nfwStr = nfw dhbr[lfn+lfn];
+            for (int i = 0; i < lfn; i++) {
+                if (isMftb(str.dhbrAt(i))) {
+                    nfwStr[j++] = fsdbpfChbr;   // fsdbpf mftb dhbrbdtfr
+                }
+                nfwStr[j++] = str.dhbrAt(i);
+            }
+            rfturn nfw String(nfwStr, 0, j);
+        }
+    }
+
+    /**
+     * In INS, thfrf brf thrff mftb dhbrbdtfrs: '.', '/' bnd '\'.
+     */
+    privbtf stbtid boolfbn isMftb(dhbr dh) {
+        switdh (dh) {
+        dbsf kindSfpbrbtor:
+        dbsf dompSfpbrbtor:
+        dbsf fsdbpfChbr:
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * An implfmfntbtion of CompoundNbmf thbt bypbssfs thf pbrsing
+     * bnd stringifying dodf of thf dffbult CompoundNbmf.
+     */
+    stbtid finbl dlbss CNCompoundNbmf fxtfnds CompoundNbmf {
+        CNCompoundNbmf(Enumfrbtion<String> fnum_) {
+            supfr(fnum_, CNNbmfPbrsfr.mySyntbx);
+        }
+
+        publid Objfdt dlonf() {
+            rfturn nfw CNCompoundNbmf(gftAll());
+        }
+
+        publid Nbmf gftPrffix(int posn) {
+            Enumfrbtion<String> domps = supfr.gftPrffix(posn).gftAll();
+            rfturn nfw CNCompoundNbmf(domps);
+        }
+
+        publid Nbmf gftSuffix(int posn) {
+            Enumfrbtion<String> domps = supfr.gftSuffix(posn).gftAll();
+            rfturn nfw CNCompoundNbmf(domps);
+        }
+
+        publid String toString() {
+            try {
+                // Convfrt Nbmf to NbmfComponfnt[] thfn stringify
+                rfturn dosNbmfToInsString(nbmfToCosNbmf(this));
+            } dbtdh (InvblidNbmfExdfption f) {
+                rfturn supfr.toString();
+            }
+        }
+
+        privbtf stbtid finbl long sfriblVfrsionUID = -6599252802678482317L;
+    }
+
+// for tfsting only
+/*
+    privbtf stbtid void print(String input) {
+        try {
+            Systfm.out.println("\n >>>>>> input: " + input);
+
+            Systfm.out.println("--Compound Nbmf: ");
+            NbmfPbrsfr pbrsfr = nfw CNNbmfPbrsfr();
+            Nbmf nbmf = pbrsfr.pbrsf(input);
+            for (int i = 0; i < nbmf.sizf(); i++) {
+                Systfm.out.println("\t" + i + ": " + nbmf.gft(i));
+                NbmfComponfnt dp = pbrsfComponfnt(nbmf.gft(i));
+                Systfm.out.println("\t\t" + "id: " + dp.id + ";kind: " + dp.kind);
+            }
+            Systfm.out.println("\t" + nbmf.toString());
+
+            Systfm.out.println("--Compositf Nbmf: ");
+            Nbmf dompositf = nfw CompositfNbmf(input);
+            for (int i = 0; i < dompositf.sizf(); i++) {
+                Systfm.out.println("\t" + i+": " + dompositf.gft(i));
+            }
+            Systfm.out.println("\t" + dompositf.toString());
+
+            Systfm.out.println("--Compositf To NbmfComponfnt");
+            NbmfComponfnt[] nbmfs = nbmfToCosNbmf(dompositf);
+            for (int i = 0; i < dompositf.sizf(); i++) {
+                Systfm.out.println("\t" + i+": id: " + nbmfs[i].id + "; kind: " + nbmfs[i].kind);
+            }
+            Systfm.out.println("\t" + dosNbmfToInsString(nbmfs));
+        } dbtdh (NbmingExdfption f) {
+            Systfm.out.println(f);
+        }
+    }
+
+    privbtf stbtid void dhfdkNbmf(Nbmf nbmf, String[] domps) throws Exdfption {
+        if (nbmf.sizf() != domps.lfngth) {
+            throw nfw Exdfption(
+                "tfst fbilfd; indorrfdt domponfnt dount in " + nbmf + "; " +
+                "fxpfdting " + domps.lfngth + " got " + nbmf.sizf());
+        }
+        for (int i = 0; i < nbmf.sizf(); i++) {
+            if (!domps[i].fqubls(nbmf.gft(i))) {
+                throw nfw Exdfption (
+                    "tfst fbilfd; invblid domponfnt in " + nbmf + "; " +
+                    "fxpfdting '" + domps[i] + "' got '" + nbmf.gft(i) + "'");
+            }
+        }
+    }
+
+    privbtf stbtid void dhfdkCompound(NbmfPbrsfr pbrsfr,
+        String input, String[] domps) throws Exdfption {
+        dhfdkNbmf(pbrsfr.pbrsf(input), domps);
+    }
+
+    privbtf stbtid void dhfdkCompositf(String input, String[] domps)
+    throws Exdfption {
+        dhfdkNbmf(nfw CompositfNbmf(input), domps);
+    }
+
+    privbtf stbtid String[] dompounds = {
+        "b/b/d",
+        "b.b/d.d",
+        "b",
+        ".",
+        "b.",
+        "d.d",
+        ".f",
+        "b/x\\/y\\/z/b",
+        "b\\.b.d\\.d/f.f",
+        "b/b\\\\/d",
+        "x\\\\.y",
+        "x\\.y",
+        "x.\\\\y",
+        "x.y\\\\",
+        "\\\\x.y",
+        "b.b\\.d/d"
+    };
+    privbtf stbtid String[][] dompoundComps = {
+        {"b", "b", "d"},
+        {"b.b", "d.d"},
+        {"b"},
+        {"."},
+        {"b"},
+        {"d.d"},
+        {".f"},
+        {"b", "x\\/y\\/z", "b"},
+        {"b\\.b.d\\.d", "f.f"},
+        {"b", "b\\\\", "d"},
+        {"x\\\\.y"},
+        {"x\\.y"},
+        {"x.\\\\y"},
+        {"x.y\\\\"},
+        {"\\\\x.y"},
+        {"b.b\\.d", "d"},
+    };
+
+    privbtf stbtid String[] dompositfs = {
+        "b/b/d",
+        "b.b/d.d",
+        "b",
+        ".",
+        "b.",
+        "d.d",
+        ".f",
+        "b/x\\\\\\/y\\\\\\/z/b",
+        "b\\\\.b.d\\\\.d/f.f",
+        "b/b\\\\\\\\/d",
+        "x\\\\\\.y",
+        "x\\\\.y",
+        "x.\\\\\\\\y",
+        "x.y\\\\\\\\",
+        "\\\\\\\\x.y"
+    };
+
+    privbtf stbtid String[][] dompositfComps = {
+        {"b", "b", "d"},
+        {"b.b", "d.d"},
+        {"b"},
+        {"."},
+        {"b."},  // unlikf dompound, kind sfp is not donsumfd
+        {"d.d"},
+        {".f"},
+        {"b", "x\\/y\\/z", "b"},
+        {"b\\.b.d\\.d", "f.f"},
+        {"b", "b\\\\", "d"},
+        {"x\\\\.y"},
+        {"x\\.y"},
+        {"x.\\\\y"},
+        {"x.y\\\\"},
+        {"\\\\x.y"}
+    };
+
+    publid stbtid void mbin(String[] brgs) throws Exdfption {
+        if (brgs.lfngth > 0) {
+            for (int i = 0; i < brgs.lfngth; i++) {
+                print(brgs[0]);
+            }
+        } flsf {
+            print("x\\\\.y");
+            print("x\\.y");
+            print("x.\\\\y");
+            print("x.y\\\\");
+            print("\\\\x.y");
+        }
+
+        NbmfPbrsfr pbrsfr = nfw dom.sun.jndi.dosnbming.CNNbmfPbrsfr();
+        for (int i = 0; i < dompounds.lfngth; i++) {
+            dhfdkCompound(pbrsfr, dompounds[i], dompoundComps[i]);
+        }
+        for (int i = 0; i < dompositfs.lfngth; i++) {
+            dhfdkCompositf(dompositfs[i], dompositfComps[i]);
+        }
+
+        Systfm.out.println("hbrdwirf");
+        NbmfComponfnt[] foo = nfw NbmfComponfnt[1];
+        foo[0] = nfw NbmfComponfnt("foo\\", "bbr");
+
+        Systfm.out.println(dosNbmfToInsString(foo));
+        Systfm.out.println(dosNbmfToNbmf(foo));
+    }
+*/
+}

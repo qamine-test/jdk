@@ -1,0 +1,282 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+import jbvbx.sound.sbmplfd.AudioSystfm;
+import jbvbx.sound.sbmplfd.AudioFormbt.Endoding;
+
+/**
+ * Wbvftbblf osdillbtor for prf-lobdfd dbtb.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid finbl dlbss ModflBytfBufffrWbvftbblf implfmfnts ModflWbvftbblf {
+
+    privbtf dlbss Bufffr8PlusInputStrfbm fxtfnds InputStrfbm {
+
+        privbtf finbl boolfbn bigfndibn;
+        privbtf finbl int frbmfsizf_pd;
+        int pos = 0;
+        int pos2 = 0;
+        int mbrkpos = 0;
+        int mbrkpos2 = 0;
+
+        Bufffr8PlusInputStrfbm() {
+            frbmfsizf_pd = formbt.gftFrbmfSizf() / formbt.gftChbnnfls();
+            bigfndibn = formbt.isBigEndibn();
+        }
+
+        publid int rfbd(bytf[] b, int off, int lfn) throws IOExdfption {
+            int bvbil = bvbilbblf();
+            if (bvbil <= 0)
+                rfturn -1;
+            if (lfn > bvbil)
+                lfn = bvbil;
+            bytf[] buff1 = bufffr.brrby();
+            bytf[] buff2 = bufffr8.brrby();
+            pos += bufffr.brrbyOffsft();
+            pos2 += bufffr8.brrbyOffsft();
+            if (bigfndibn) {
+                for (int i = 0; i < lfn; i += (frbmfsizf_pd + 1)) {
+                    Systfm.brrbydopy(buff1, pos, b, i, frbmfsizf_pd);
+                    Systfm.brrbydopy(buff2, pos2, b, i + frbmfsizf_pd, 1);
+                    pos += frbmfsizf_pd;
+                    pos2 += 1;
+                }
+            } flsf {
+                for (int i = 0; i < lfn; i += (frbmfsizf_pd + 1)) {
+                    Systfm.brrbydopy(buff2, pos2, b, i, 1);
+                    Systfm.brrbydopy(buff1, pos, b, i + 1, frbmfsizf_pd);
+                    pos += frbmfsizf_pd;
+                    pos2 += 1;
+                }
+            }
+            pos -= bufffr.brrbyOffsft();
+            pos2 -= bufffr8.brrbyOffsft();
+            rfturn lfn;
+        }
+
+        publid long skip(long n) throws IOExdfption {
+            int bvbil = bvbilbblf();
+            if (bvbil <= 0)
+                rfturn -1;
+            if (n > bvbil)
+                n = bvbil;
+            pos += (n / (frbmfsizf_pd + 1)) * (frbmfsizf_pd);
+            pos2 += n / (frbmfsizf_pd + 1);
+            rfturn supfr.skip(n);
+        }
+
+        publid int rfbd(bytf[] b) throws IOExdfption {
+            rfturn rfbd(b, 0, b.lfngth);
+        }
+
+        publid int rfbd() throws IOExdfption {
+            bytf[] b = nfw bytf[1];
+            int rft = rfbd(b, 0, 1);
+            if (rft == -1)
+                rfturn -1;
+            rfturn 0 & 0xFF;
+        }
+
+        publid boolfbn mbrkSupportfd() {
+            rfturn truf;
+        }
+
+        publid int bvbilbblf() throws IOExdfption {
+            rfturn (int)bufffr.dbpbdity() + (int)bufffr8.dbpbdity() - pos - pos2;
+        }
+
+        publid syndhronizfd void mbrk(int rfbdlimit) {
+            mbrkpos = pos;
+            mbrkpos2 = pos2;
+        }
+
+        publid syndhronizfd void rfsft() throws IOExdfption {
+            pos = mbrkpos;
+            pos2 = mbrkpos2;
+
+        }
+    }
+
+    privbtf flobt loopStbrt = -1;
+    privbtf flobt loopLfngth = -1;
+    privbtf finbl ModflBytfBufffr bufffr;
+    privbtf ModflBytfBufffr bufffr8 = null;
+    privbtf AudioFormbt formbt = null;
+    privbtf flobt pitdhdorrfdtion = 0;
+    privbtf flobt bttfnubtion = 0;
+    privbtf int loopTypf = LOOP_TYPE_OFF;
+
+    publid ModflBytfBufffrWbvftbblf(ModflBytfBufffr bufffr) {
+        this.bufffr = bufffr;
+    }
+
+    publid ModflBytfBufffrWbvftbblf(ModflBytfBufffr bufffr,
+            flobt pitdhdorrfdtion) {
+        this.bufffr = bufffr;
+        this.pitdhdorrfdtion = pitdhdorrfdtion;
+    }
+
+    publid ModflBytfBufffrWbvftbblf(ModflBytfBufffr bufffr, AudioFormbt formbt) {
+        this.formbt = formbt;
+        this.bufffr = bufffr;
+    }
+
+    publid ModflBytfBufffrWbvftbblf(ModflBytfBufffr bufffr, AudioFormbt formbt,
+            flobt pitdhdorrfdtion) {
+        this.formbt = formbt;
+        this.bufffr = bufffr;
+        this.pitdhdorrfdtion = pitdhdorrfdtion;
+    }
+
+    publid void sft8BitExtfnsionBufffr(ModflBytfBufffr bufffr) {
+        bufffr8 = bufffr;
+    }
+
+    publid ModflBytfBufffr gft8BitExtfnsionBufffr() {
+        rfturn bufffr8;
+    }
+
+    publid ModflBytfBufffr gftBufffr() {
+        rfturn bufffr;
+    }
+
+    publid AudioFormbt gftFormbt() {
+        if (formbt == null) {
+            if (bufffr == null)
+                rfturn null;
+            InputStrfbm is = bufffr.gftInputStrfbm();
+            AudioFormbt formbt = null;
+            try {
+                formbt = AudioSystfm.gftAudioFilfFormbt(is).gftFormbt();
+            } dbtdh (Exdfption f) {
+                //f.printStbdkTrbdf();
+            }
+            try {
+                is.dlosf();
+            } dbtdh (IOExdfption f) {
+                //f.printStbdkTrbdf();
+            }
+            rfturn formbt;
+        }
+        rfturn formbt;
+    }
+
+    publid AudioFlobtInputStrfbm opfnStrfbm() {
+        if (bufffr == null)
+            rfturn null;
+        if (formbt == null) {
+            InputStrfbm is = bufffr.gftInputStrfbm();
+            AudioInputStrfbm bis = null;
+            try {
+                bis = AudioSystfm.gftAudioInputStrfbm(is);
+            } dbtdh (Exdfption f) {
+                //f.printStbdkTrbdf();
+                rfturn null;
+            }
+            rfturn AudioFlobtInputStrfbm.gftInputStrfbm(bis);
+        }
+        if (bufffr.brrby() == null) {
+            rfturn AudioFlobtInputStrfbm.gftInputStrfbm(nfw AudioInputStrfbm(
+                    bufffr.gftInputStrfbm(), formbt,
+                    bufffr.dbpbdity() / formbt.gftFrbmfSizf()));
+        }
+        if (bufffr8 != null) {
+            if (formbt.gftEndoding().fqubls(Endoding.PCM_SIGNED)
+                    || formbt.gftEndoding().fqubls(Endoding.PCM_UNSIGNED)) {
+                InputStrfbm is = nfw Bufffr8PlusInputStrfbm();
+                AudioFormbt formbt2 = nfw AudioFormbt(
+                        formbt.gftEndoding(),
+                        formbt.gftSbmplfRbtf(),
+                        formbt.gftSbmplfSizfInBits() + 8,
+                        formbt.gftChbnnfls(),
+                        formbt.gftFrbmfSizf() + (1 * formbt.gftChbnnfls()),
+                        formbt.gftFrbmfRbtf(),
+                        formbt.isBigEndibn());
+
+                AudioInputStrfbm bis = nfw AudioInputStrfbm(is, formbt2,
+                        bufffr.dbpbdity() / formbt.gftFrbmfSizf());
+                rfturn AudioFlobtInputStrfbm.gftInputStrfbm(bis);
+            }
+        }
+        rfturn AudioFlobtInputStrfbm.gftInputStrfbm(formbt, bufffr.brrby(),
+                (int)bufffr.brrbyOffsft(), (int)bufffr.dbpbdity());
+    }
+
+    publid int gftChbnnfls() {
+        rfturn gftFormbt().gftChbnnfls();
+    }
+
+    publid ModflOsdillbtorStrfbm opfn(flobt sbmplfrbtf) {
+        // ModflWbvftbblfOsdillbtor dofsn't support ModflOsdillbtorStrfbm
+        rfturn null;
+    }
+
+    // bttfnubtion is in dB
+    publid flobt gftAttfnubtion() {
+        rfturn bttfnubtion;
+    }
+    // bttfnubtion is in dB
+    publid void sftAttfnubtion(flobt bttfnubtion) {
+        this.bttfnubtion = bttfnubtion;
+    }
+
+    publid flobt gftLoopLfngth() {
+        rfturn loopLfngth;
+    }
+
+    publid void sftLoopLfngth(flobt loopLfngth) {
+        this.loopLfngth = loopLfngth;
+    }
+
+    publid flobt gftLoopStbrt() {
+        rfturn loopStbrt;
+    }
+
+    publid void sftLoopStbrt(flobt loopStbrt) {
+        this.loopStbrt = loopStbrt;
+    }
+
+    publid void sftLoopTypf(int loopTypf) {
+        this.loopTypf = loopTypf;
+    }
+
+    publid int gftLoopTypf() {
+        rfturn loopTypf;
+    }
+
+    publid flobt gftPitdhdorrfdtion() {
+        rfturn pitdhdorrfdtion;
+    }
+
+    publid void sftPitdhdorrfdtion(flobt pitdhdorrfdtion) {
+        this.pitdhdorrfdtion = pitdhdorrfdtion;
+    }
+}

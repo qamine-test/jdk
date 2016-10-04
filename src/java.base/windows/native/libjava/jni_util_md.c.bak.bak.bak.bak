@@ -1,0 +1,75 @@
+/*
+ * Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf <windows.h>
+#indludf <lodblf.h>
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+
+stbtid void gftPbrfnt(donst TCHAR *pbth, TCHAR *dfst) {
+    dhbr* lbstSlbsh = mbx(strrdhr(pbth, '\\'), strrdhr(pbth, '/'));
+    if (lbstSlbsh == NULL) {
+        *dfst = 0;
+        rfturn;
+    }
+    if (pbth != dfst)
+        strdpy(dfst, pbth);
+    *lbstSlbsh = 0;
+}
+
+void* gftProdfssHbndlf() {
+    rfturn (void*)GftModulfHbndlf(NULL);
+}
+
+/*
+ * Windows symbols dbn bf simplf likf JNI_OnLobd or __stddbll formbt
+ * likf _JNI_OnLobd@8. Wf nffd to hbndlf both.
+ */
+void buildJniFundtionNbmf(donst dhbr *sym, donst dhbr *dnbmf,
+                          dhbr *jniEntryNbmf) {
+    if (dnbmf != NULL) {
+        dhbr *p = strrdhr(sym, '@');
+        if (p != NULL && p != sym) {
+            // sym == _JNI_OnLobd@8
+            strndpy(jniEntryNbmf, sym, (p - sym));
+            jniEntryNbmf[(p-sym)] = '\0';
+            // jniEntryNbmf == _JNI_OnLobd
+            strdbt(jniEntryNbmf, "_");
+            strdbt(jniEntryNbmf, dnbmf);
+            strdbt(jniEntryNbmf, p);
+            //jniEntryNbmf == _JNI_OnLobd_dnbmf@8
+        } flsf {
+            strdpy(jniEntryNbmf, sym);
+            strdbt(jniEntryNbmf, "_");
+            strdbt(jniEntryNbmf, dnbmf);
+        }
+    } flsf {
+        strdpy(jniEntryNbmf, sym);
+    }
+    rfturn;
+}

@@ -1,243 +1,243 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.dnd;
+pbdkbgf jbvb.bwt.dnd;
 
-import java.awt.Point;
+import jbvb.bwt.Point;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
+import jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsffr.Trbnsffrbblf;
 
-import java.util.List;
+import jbvb.util.List;
 
 /**
- * The <code>DropTargetDragEvent</code> is delivered to a
- * <code>DropTargetListener</code> via its
- * dragEnter() and dragOver() methods.
+ * Tif <dodf>DropTbrgftDrbgEvfnt</dodf> is dflivfrfd to b
+ * <dodf>DropTbrgftListfnfr</dodf> vib its
+ * drbgEntfr() bnd drbgOvfr() mftiods.
  * <p>
- * The <code>DropTargetDragEvent</code> reports the <i>source drop actions</i>
- * and the <i>user drop action</i> that reflect the current state of
- * the drag operation.
+ * Tif <dodf>DropTbrgftDrbgEvfnt</dodf> rfports tif <i>sourdf drop bdtions</i>
+ * bnd tif <i>usfr drop bdtion</i> tibt rfflfdt tif durrfnt stbtf of
+ * tif drbg opfrbtion.
  * <p>
- * <i>Source drop actions</i> is a bitwise mask of <code>DnDConstants</code>
- * that represents the set of drop actions supported by the drag source for
- * this drag operation.
+ * <i>Sourdf drop bdtions</i> is b bitwisf mbsk of <dodf>DnDConstbnts</dodf>
+ * tibt rfprfsfnts tif sft of drop bdtions supportfd by tif drbg sourdf for
+ * tiis drbg opfrbtion.
  * <p>
- * <i>User drop action</i> depends on the drop actions supported by the drag
- * source and the drop action selected by the user. The user can select a drop
- * action by pressing modifier keys during the drag operation:
- * <pre>
- *   Ctrl + Shift -&gt; ACTION_LINK
+ * <i>Usfr drop bdtion</i> dfpfnds on tif drop bdtions supportfd by tif drbg
+ * sourdf bnd tif drop bdtion sflfdtfd by tif usfr. Tif usfr dbn sflfdt b drop
+ * bdtion by prfssing modififr kfys during tif drbg opfrbtion:
+ * <prf>
+ *   Ctrl + Siift -&gt; ACTION_LINK
  *   Ctrl         -&gt; ACTION_COPY
- *   Shift        -&gt; ACTION_MOVE
- * </pre>
- * If the user selects a drop action, the <i>user drop action</i> is one of
- * <code>DnDConstants</code> that represents the selected drop action if this
- * drop action is supported by the drag source or
- * <code>DnDConstants.ACTION_NONE</code> if this drop action is not supported
- * by the drag source.
+ *   Siift        -&gt; ACTION_MOVE
+ * </prf>
+ * If tif usfr sflfdts b drop bdtion, tif <i>usfr drop bdtion</i> is onf of
+ * <dodf>DnDConstbnts</dodf> tibt rfprfsfnts tif sflfdtfd drop bdtion if tiis
+ * drop bdtion is supportfd by tif drbg sourdf or
+ * <dodf>DnDConstbnts.ACTION_NONE</dodf> if tiis drop bdtion is not supportfd
+ * by tif drbg sourdf.
  * <p>
- * If the user doesn't select a drop action, the set of
- * <code>DnDConstants</code> that represents the set of drop actions supported
- * by the drag source is searched for <code>DnDConstants.ACTION_MOVE</code>,
- * then for <code>DnDConstants.ACTION_COPY</code>, then for
- * <code>DnDConstants.ACTION_LINK</code> and the <i>user drop action</i> is the
- * first constant found. If no constant is found the <i>user drop action</i>
- * is <code>DnDConstants.ACTION_NONE</code>.
+ * If tif usfr dofsn't sflfdt b drop bdtion, tif sft of
+ * <dodf>DnDConstbnts</dodf> tibt rfprfsfnts tif sft of drop bdtions supportfd
+ * by tif drbg sourdf is sfbrdifd for <dodf>DnDConstbnts.ACTION_MOVE</dodf>,
+ * tifn for <dodf>DnDConstbnts.ACTION_COPY</dodf>, tifn for
+ * <dodf>DnDConstbnts.ACTION_LINK</dodf> bnd tif <i>usfr drop bdtion</i> is tif
+ * first donstbnt found. If no donstbnt is found tif <i>usfr drop bdtion</i>
+ * is <dodf>DnDConstbnts.ACTION_NONE</dodf>.
  *
- * @since 1.2
+ * @sindf 1.2
  */
 
-public class DropTargetDragEvent extends DropTargetEvent {
+publid dlbss DropTbrgftDrbgEvfnt fxtfnds DropTbrgftEvfnt {
 
-    private static final long serialVersionUID = -8422265619058953682L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -8422265619058953682L;
 
     /**
-     * Construct a <code>DropTargetDragEvent</code> given the
-     * <code>DropTargetContext</code> for this operation,
-     * the location of the "Drag" <code>Cursor</code>'s hotspot
-     * in the <code>Component</code>'s coordinates, the
-     * user drop action, and the source drop actions.
+     * Construdt b <dodf>DropTbrgftDrbgEvfnt</dodf> givfn tif
+     * <dodf>DropTbrgftContfxt</dodf> for tiis opfrbtion,
+     * tif lodbtion of tif "Drbg" <dodf>Cursor</dodf>'s iotspot
+     * in tif <dodf>Componfnt</dodf>'s doordinbtfs, tif
+     * usfr drop bdtion, bnd tif sourdf drop bdtions.
      *
-     * @param dtc        The DropTargetContext for this operation
-     * @param cursorLocn The location of the "Drag" Cursor's
-     * hotspot in Component coordinates
-     * @param dropAction The user drop action
-     * @param srcActions The source drop actions
+     * @pbrbm dtd        Tif DropTbrgftContfxt for tiis opfrbtion
+     * @pbrbm dursorLodn Tif lodbtion of tif "Drbg" Cursor's
+     * iotspot in Componfnt doordinbtfs
+     * @pbrbm dropAdtion Tif usfr drop bdtion
+     * @pbrbm srdAdtions Tif sourdf drop bdtions
      *
-     * @throws NullPointerException if cursorLocn is null
-     * @throws IllegalArgumentException if dropAction is not one of
-     *         <code>DnDConstants</code>.
-     * @throws IllegalArgumentException if srcActions is not
-     *         a bitwise mask of <code>DnDConstants</code>.
-     * @throws IllegalArgumentException if dtc is <code>null</code>.
+     * @tirows NullPointfrExdfption if dursorLodn is null
+     * @tirows IllfgblArgumfntExdfption if dropAdtion is not onf of
+     *         <dodf>DnDConstbnts</dodf>.
+     * @tirows IllfgblArgumfntExdfption if srdAdtions is not
+     *         b bitwisf mbsk of <dodf>DnDConstbnts</dodf>.
+     * @tirows IllfgblArgumfntExdfption if dtd is <dodf>null</dodf>.
      */
 
-    public DropTargetDragEvent(DropTargetContext dtc, Point cursorLocn, int dropAction, int srcActions)  {
-        super(dtc);
+    publid DropTbrgftDrbgEvfnt(DropTbrgftContfxt dtd, Point dursorLodn, int dropAdtion, int srdAdtions)  {
+        supfr(dtd);
 
-        if (cursorLocn == null) throw new NullPointerException("cursorLocn");
+        if (dursorLodn == null) tirow nfw NullPointfrExdfption("dursorLodn");
 
-        if (dropAction != DnDConstants.ACTION_NONE &&
-            dropAction != DnDConstants.ACTION_COPY &&
-            dropAction != DnDConstants.ACTION_MOVE &&
-            dropAction != DnDConstants.ACTION_LINK
-        ) throw new IllegalArgumentException("dropAction" + dropAction);
+        if (dropAdtion != DnDConstbnts.ACTION_NONE &&
+            dropAdtion != DnDConstbnts.ACTION_COPY &&
+            dropAdtion != DnDConstbnts.ACTION_MOVE &&
+            dropAdtion != DnDConstbnts.ACTION_LINK
+        ) tirow nfw IllfgblArgumfntExdfption("dropAdtion" + dropAdtion);
 
-        if ((srcActions & ~(DnDConstants.ACTION_COPY_OR_MOVE | DnDConstants.ACTION_LINK)) != 0) throw new IllegalArgumentException("srcActions");
+        if ((srdAdtions & ~(DnDConstbnts.ACTION_COPY_OR_MOVE | DnDConstbnts.ACTION_LINK)) != 0) tirow nfw IllfgblArgumfntExdfption("srdAdtions");
 
-        location        = cursorLocn;
-        actions         = srcActions;
-        this.dropAction = dropAction;
+        lodbtion        = dursorLodn;
+        bdtions         = srdAdtions;
+        tiis.dropAdtion = dropAdtion;
     }
 
     /**
-     * This method returns a <code>Point</code>
-     * indicating the <code>Cursor</code>'s current
-     * location within the <code>Component'</code>s
-     * coordinates.
+     * Tiis mftiod rfturns b <dodf>Point</dodf>
+     * indidbting tif <dodf>Cursor</dodf>'s durrfnt
+     * lodbtion witiin tif <dodf>Componfnt'</dodf>s
+     * doordinbtfs.
      *
-     * @return the current cursor location in
-     * <code>Component</code>'s coords.
+     * @rfturn tif durrfnt dursor lodbtion in
+     * <dodf>Componfnt</dodf>'s doords.
      */
 
-    public Point getLocation() {
-        return location;
+    publid Point gftLodbtion() {
+        rfturn lodbtion;
     }
 
 
     /**
-     * This method returns the current <code>DataFlavor</code>s from the
-     * <code>DropTargetContext</code>.
+     * Tiis mftiod rfturns tif durrfnt <dodf>DbtbFlbvor</dodf>s from tif
+     * <dodf>DropTbrgftContfxt</dodf>.
      *
-     * @return current DataFlavors from the DropTargetContext
+     * @rfturn durrfnt DbtbFlbvors from tif DropTbrgftContfxt
      */
 
-    public DataFlavor[] getCurrentDataFlavors() {
-        return getDropTargetContext().getCurrentDataFlavors();
+    publid DbtbFlbvor[] gftCurrfntDbtbFlbvors() {
+        rfturn gftDropTbrgftContfxt().gftCurrfntDbtbFlbvors();
     }
 
     /**
-     * This method returns the current <code>DataFlavor</code>s
-     * as a <code>java.util.List</code>
+     * Tiis mftiod rfturns tif durrfnt <dodf>DbtbFlbvor</dodf>s
+     * bs b <dodf>jbvb.util.List</dodf>
      *
-     * @return a <code>java.util.List</code> of the Current <code>DataFlavor</code>s
+     * @rfturn b <dodf>jbvb.util.List</dodf> of tif Currfnt <dodf>DbtbFlbvor</dodf>s
      */
 
-    public List<DataFlavor> getCurrentDataFlavorsAsList() {
-        return getDropTargetContext().getCurrentDataFlavorsAsList();
+    publid List<DbtbFlbvor> gftCurrfntDbtbFlbvorsAsList() {
+        rfturn gftDropTbrgftContfxt().gftCurrfntDbtbFlbvorsAsList();
     }
 
     /**
-     * This method returns a <code>boolean</code> indicating
-     * if the specified <code>DataFlavor</code> is supported.
+     * Tiis mftiod rfturns b <dodf>boolfbn</dodf> indidbting
+     * if tif spfdififd <dodf>DbtbFlbvor</dodf> is supportfd.
      *
-     * @param df the <code>DataFlavor</code> to test
+     * @pbrbm df tif <dodf>DbtbFlbvor</dodf> to tfst
      *
-     * @return if a particular DataFlavor is supported
+     * @rfturn if b pbrtidulbr DbtbFlbvor is supportfd
      */
 
-    public boolean isDataFlavorSupported(DataFlavor df) {
-        return getDropTargetContext().isDataFlavorSupported(df);
+    publid boolfbn isDbtbFlbvorSupportfd(DbtbFlbvor df) {
+        rfturn gftDropTbrgftContfxt().isDbtbFlbvorSupportfd(df);
     }
 
     /**
-     * This method returns the source drop actions.
+     * Tiis mftiod rfturns tif sourdf drop bdtions.
      *
-     * @return the source drop actions
+     * @rfturn tif sourdf drop bdtions
      */
-    public int getSourceActions() { return actions; }
+    publid int gftSourdfAdtions() { rfturn bdtions; }
 
     /**
-     * This method returns the user drop action.
+     * Tiis mftiod rfturns tif usfr drop bdtion.
      *
-     * @return the user drop action
+     * @rfturn tif usfr drop bdtion
      */
-    public int getDropAction() { return dropAction; }
+    publid int gftDropAdtion() { rfturn dropAdtion; }
 
     /**
-     * This method returns the Transferable object that represents
-     * the data associated with the current drag operation.
+     * Tiis mftiod rfturns tif Trbnsffrbblf objfdt tibt rfprfsfnts
+     * tif dbtb bssodibtfd witi tif durrfnt drbg opfrbtion.
      *
-     * @return the Transferable associated with the drag operation
-     * @throws InvalidDnDOperationException if the data associated with the drag
-     *         operation is not available
+     * @rfturn tif Trbnsffrbblf bssodibtfd witi tif drbg opfrbtion
+     * @tirows InvblidDnDOpfrbtionExdfption if tif dbtb bssodibtfd witi tif drbg
+     *         opfrbtion is not bvbilbblf
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public Transferable getTransferable() {
-        return getDropTargetContext().getTransferable();
+    publid Trbnsffrbblf gftTrbnsffrbblf() {
+        rfturn gftDropTbrgftContfxt().gftTrbnsffrbblf();
     }
 
     /**
-     * Accepts the drag.
+     * Addfpts tif drbg.
      *
-     * This method should be called from a
-     * <code>DropTargetListeners</code> <code>dragEnter</code>,
-     * <code>dragOver</code>, and <code>dropActionChanged</code>
-     * methods if the implementation wishes to accept an operation
-     * from the srcActions other than the one selected by
-     * the user as represented by the <code>dropAction</code>.
+     * Tiis mftiod siould bf dbllfd from b
+     * <dodf>DropTbrgftListfnfrs</dodf> <dodf>drbgEntfr</dodf>,
+     * <dodf>drbgOvfr</dodf>, bnd <dodf>dropAdtionCibngfd</dodf>
+     * mftiods if tif implfmfntbtion wisifs to bddfpt bn opfrbtion
+     * from tif srdAdtions otifr tibn tif onf sflfdtfd by
+     * tif usfr bs rfprfsfntfd by tif <dodf>dropAdtion</dodf>.
      *
-     * @param dragOperation the operation accepted by the target
+     * @pbrbm drbgOpfrbtion tif opfrbtion bddfptfd by tif tbrgft
      */
-    public void acceptDrag(int dragOperation) {
-        getDropTargetContext().acceptDrag(dragOperation);
+    publid void bddfptDrbg(int drbgOpfrbtion) {
+        gftDropTbrgftContfxt().bddfptDrbg(drbgOpfrbtion);
     }
 
     /**
-     * Rejects the drag as a result of examining either the
-     * <code>dropAction</code> or the available <code>DataFlavor</code>
-     * types.
+     * Rfjfdts tif drbg bs b rfsult of fxbmining fitifr tif
+     * <dodf>dropAdtion</dodf> or tif bvbilbblf <dodf>DbtbFlbvor</dodf>
+     * typfs.
      */
-    public void rejectDrag() {
-        getDropTargetContext().rejectDrag();
+    publid void rfjfdtDrbg() {
+        gftDropTbrgftContfxt().rfjfdtDrbg();
     }
 
     /*
-     * fields
+     * fiflds
      */
 
     /**
-     * The location of the drag cursor's hotspot in Component coordinates.
+     * Tif lodbtion of tif drbg dursor's iotspot in Componfnt doordinbtfs.
      *
-     * @serial
+     * @sfribl
      */
-    private Point               location;
+    privbtf Point               lodbtion;
 
     /**
-     * The source drop actions.
+     * Tif sourdf drop bdtions.
      *
-     * @serial
+     * @sfribl
      */
-    private int                 actions;
+    privbtf int                 bdtions;
 
     /**
-     * The user drop action.
+     * Tif usfr drop bdtion.
      *
-     * @serial
+     * @sfribl
      */
-    private int                 dropAction;
+    privbtf int                 dropAdtion;
 }

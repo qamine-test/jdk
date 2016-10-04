@@ -1,0 +1,80 @@
+/*
+ * Copyright (d) 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi.bdtivbtion;
+
+/**
+ * <dodf>AdtivbtionGroup_Stub</dodf> is b stub dlbss
+ * for thf subdlbssfs of <dodf>jbvb.rmi.bdtivbtion.AdtivbtionGroup</dodf>
+ * thbt brf fxportfd bs b <dodf>jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt</dodf>.
+ *
+ * @sindf       1.2
+ */
+publid finbl dlbss AdtivbtionGroup_Stub
+    fxtfnds jbvb.rmi.sfrvfr.RfmotfStub
+    implfmfnts jbvb.rmi.bdtivbtion.AdtivbtionInstbntibtor, jbvb.rmi.Rfmotf
+{
+    /**
+     * Construdts b stub for thf <dodf>AdtivbtionGroup</dodf> dlbss.  It
+     * invokfs thf supfrdlbss <dodf>RfmotfStub(RfmotfRff)</dodf>
+     * donstrudtor with its brgumfnt, <dodf>rff</dodf>.
+     *
+     * @pbrbm   rff b rfmotf rff
+     */
+    publid AdtivbtionGroup_Stub(jbvb.rmi.sfrvfr.RfmotfRff rff) {
+    }
+
+    /**
+     * Stub mfthod for <dodf>AdtivbtionGroup.nfwInstbndf</dodf>.  Invokfs
+     * thf <dodf>invokf</dodf> mfthod on this instbndf's
+     * <dodf>RfmotfObjfdt.rff</dodf> fifld, with <dodf>this</dodf> bs thf
+     * first brgumfnt, b two-flfmfnt <dodf>Objfdt[]</dodf> bs thf sfdond
+     * brgumfnt (with <dodf>id</dodf> bs thf first flfmfnt bnd
+     * <dodf>dfsd</dodf> bs thf sfdond flfmfnt), bnd -5274445189091581345L
+     * bs thf third brgumfnt, bnd rfturns thf rfsult.  If thbt invodbtion
+     * throws b <dodf>RuntimfExdfption</dodf>, <dodf>RfmotfExdfption</dodf>,
+     * or bn <dodf>AdtivbtionExdfption</dodf>, thfn thbt fxdfption is
+     * thrown to thf dbllfr.  If thbt invodbtion throws bny othfr
+     * <dodf>jbvb.lbng.Exdfption</dodf>, thfn b
+     * <dodf>jbvb.rmi.UnfxpfdtfdExdfption</dodf> is thrown to thf dbllfr
+     * with thf originbl fxdfption bs thf dbusf.
+     *
+     * @pbrbm   id bn bdtivbtion idfntififr
+     * @pbrbm   dfsd bn bdtivbtion dfsdriptor
+     * @rfturn  thf rfsult of thf invodbtion
+     * @throws  jbvb.rmi.RfmotfExdfption if invodbtion rfsults in
+     *          b <dodf>RfmotfExdfption</dodf>
+     * @throws  jbvb.rmi.bdtivbtion.AdtivbtionExdfption if invodbtion
+     *          rfsults in bn <dodf>AdtivbtionExdfption</dodf>
+     */
+    publid jbvb.rmi.MbrshbllfdObjfdt nfwInstbndf(
+                                jbvb.rmi.bdtivbtion.AdtivbtionID id,
+                                jbvb.rmi.bdtivbtion.AdtivbtionDfsd dfsd)
+        throws jbvb.rmi.RfmotfExdfption,
+            jbvb.rmi.bdtivbtion.AdtivbtionExdfption
+    {
+        rfturn null;
+    }
+}

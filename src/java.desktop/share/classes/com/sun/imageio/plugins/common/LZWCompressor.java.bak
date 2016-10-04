@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.common;
+pbdkbgf dom.sun.imbgfio.plugins.dommon;
 
-import java.io.IOException;
-import java.io.PrintStream;
-import javax.imageio.stream.ImageOutputStream;
+import jbvb.io.IOExdfption;
+import jbvb.io.PrintStrfbm;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
 
 /*
- * Modified from original LZWCompressor to change interface to passing a
- * buffer of data to be compressed.
+ * Modififd from originbl LZWComprfssor to dibngf intfrfbdf to pbssing b
+ * bufffr of dbtb to bf domprfssfd.
  */
-public class LZWCompressor {
-    /** base underlying code size of data being compressed 8 for TIFF, 1 to 8 for GIF **/
-    int codeSize;
+publid dlbss LZWComprfssor {
+    /** bbsf undfrlying dodf sizf of dbtb bfing domprfssfd 8 for TIFF, 1 to 8 for GIF **/
+    int dodfSizf;
 
-    /** reserved clear code based on code size **/
-    int clearCode;
+    /** rfsfrvfd dlfbr dodf bbsfd on dodf sizf **/
+    int dlfbrCodf;
 
-    /** reserved end of data code based on code size **/
-    int endOfInfo;
+    /** rfsfrvfd fnd of dbtb dodf bbsfd on dodf sizf **/
+    int fndOfInfo;
 
-    /** current number bits output for each code **/
+    /** durrfnt numbfr bits output for fbdi dodf **/
     int numBits;
 
-    /** limit at which current number of bits code size has to be increased **/
+    /** limit bt wiidi durrfnt numbfr of bits dodf sizf ibs to bf indrfbsfd **/
     int limit;
 
-    /** the prefix code which represents the predecessor string to current input point **/
-    short prefix;
+    /** tif prffix dodf wiidi rfprfsfnts tif prfdfdfssor string to durrfnt input point **/
+    siort prffix;
 
-    /** output destination for bit codes **/
-    BitFile bf;
+    /** output dfstinbtion for bit dodfs **/
+    BitFilf bf;
 
-    /** general purpose LZW string table **/
-    LZWStringTable lzss;
+    /** gfnfrbl purposf LZW string tbblf **/
+    LZWStringTbblf lzss;
 
-    /** modify the limits of the code values in LZW encoding due to TIFF bug / feature **/
-    boolean tiffFudge;
+    /** modify tif limits of tif dodf vblufs in LZW fndoding duf to TIFF bug / ffbturf **/
+    boolfbn tiffFudgf;
 
     /**
-     * @param out destination for compressed data
-     * @param codeSize the initial code size for the LZW compressor
-     * @param TIFF flag indicating that TIFF lzw fudge needs to be applied
-     * @exception IOException if underlying output stream error
+     * @pbrbm out dfstinbtion for domprfssfd dbtb
+     * @pbrbm dodfSizf tif initibl dodf sizf for tif LZW domprfssor
+     * @pbrbm TIFF flbg indidbting tibt TIFF lzw fudgf nffds to bf bpplifd
+     * @fxdfption IOExdfption if undfrlying output strfbm frror
      **/
-    public LZWCompressor(ImageOutputStream out, int codeSize, boolean TIFF)
-        throws IOException
+    publid LZWComprfssor(ImbgfOutputStrfbm out, int dodfSizf, boolfbn TIFF)
+        tirows IOExdfption
     {
-        bf = new BitFile(out, !TIFF); // set flag for GIF as NOT tiff
-        this.codeSize = codeSize;
-        tiffFudge = TIFF;
-        clearCode = 1 << codeSize;
-        endOfInfo = clearCode + 1;
-        numBits = codeSize + 1;
+        bf = nfw BitFilf(out, !TIFF); // sft flbg for GIF bs NOT tiff
+        tiis.dodfSizf = dodfSizf;
+        tiffFudgf = TIFF;
+        dlfbrCodf = 1 << dodfSizf;
+        fndOfInfo = dlfbrCodf + 1;
+        numBits = dodfSizf + 1;
 
         limit = (1 << numBits) - 1;
-        if (tiffFudge) {
+        if (tiffFudgf) {
             --limit;
         }
 
-        prefix = (short)0xFFFF;
-        lzss = new LZWStringTable();
-        lzss.clearTable(codeSize);
-        bf.writeBits(clearCode, numBits);
+        prffix = (siort)0xFFFF;
+        lzss = nfw LZWStringTbblf();
+        lzss.dlfbrTbblf(dodfSizf);
+        bf.writfBits(dlfbrCodf, numBits);
     }
 
     /**
-     * @param buf data to be compressed to output stream
-     * @exception IOException if underlying output stream error
+     * @pbrbm buf dbtb to bf domprfssfd to output strfbm
+     * @fxdfption IOExdfption if undfrlying output strfbm frror
      **/
-    public void compress(byte[] buf, int offset, int length)
-        throws IOException
+    publid void domprfss(bytf[] buf, int offsft, int lfngti)
+        tirows IOExdfption
     {
         int idx;
-        byte c;
-        short index;
+        bytf d;
+        siort indfx;
 
-        int maxOffset = offset + length;
-        for (idx = offset; idx < maxOffset; ++idx) {
-            c = buf[idx];
-            if ((index = lzss.findCharString(prefix, c)) != -1) {
-                prefix = index;
-            } else {
-                bf.writeBits(prefix, numBits);
-                if (lzss.addCharString(prefix, c) > limit) {
+        int mbxOffsft = offsft + lfngti;
+        for (idx = offsft; idx < mbxOffsft; ++idx) {
+            d = buf[idx];
+            if ((indfx = lzss.findCibrString(prffix, d)) != -1) {
+                prffix = indfx;
+            } flsf {
+                bf.writfBits(prffix, numBits);
+                if (lzss.bddCibrString(prffix, d) > limit) {
                     if (numBits == 12) {
-                        bf.writeBits(clearCode, numBits);
-                        lzss.clearTable(codeSize);
-                        numBits = codeSize + 1;
-                    } else {
+                        bf.writfBits(dlfbrCodf, numBits);
+                        lzss.dlfbrTbblf(dodfSizf);
+                        numBits = dodfSizf + 1;
+                    } flsf {
                         ++numBits;
                     }
 
                     limit = (1 << numBits) - 1;
-                    if (tiffFudge) {
+                    if (tiffFudgf) {
                         --limit;
                     }
                 }
-                prefix = (short)((short)c & 0xFF);
+                prffix = (siort)((siort)d & 0xFF);
             }
         }
     }
 
     /*
-     * Indicate to compressor that no more data to go so write out
-     * any remaining buffered data.
+     * Indidbtf to domprfssor tibt no morf dbtb to go so writf out
+     * bny rfmbining bufffrfd dbtb.
      *
-     * @exception IOException if underlying output stream error
+     * @fxdfption IOExdfption if undfrlying output strfbm frror
      */
-    public void flush() throws IOException {
-        if (prefix != -1) {
-            bf.writeBits(prefix, numBits);
+    publid void flusi() tirows IOExdfption {
+        if (prffix != -1) {
+            bf.writfBits(prffix, numBits);
         }
 
-        bf.writeBits(endOfInfo, numBits);
-        bf.flush();
+        bf.writfBits(fndOfInfo, numBits);
+        bf.flusi();
     }
 
-    public void dump(PrintStream out) {
+    publid void dump(PrintStrfbm out) {
         lzss.dump(out);
     }
 }

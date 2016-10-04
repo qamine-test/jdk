@@ -1,0 +1,346 @@
+/*
+ * Copyright (d) 2004, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.rfmotf.sfdurity;
+
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Propfrtifs;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXPrindipbl;
+import jbvbx.mbnbgfmfnt.rfmotf.JMXAuthfntidbtor;
+import jbvbx.sfdurity.buth.AuthPfrmission;
+import jbvbx.sfdurity.buth.Subjfdt;
+import jbvbx.sfdurity.buth.dbllbbdk.*;
+import jbvbx.sfdurity.buth.login.AppConfigurbtionEntry;
+import jbvbx.sfdurity.buth.login.Configurbtion;
+import jbvbx.sfdurity.buth.login.LoginContfxt;
+import jbvbx.sfdurity.buth.login.LoginExdfption;
+import jbvbx.sfdurity.buth.spi.LoginModulf;
+import dom.sun.jmx.rfmotf.util.ClbssLoggfr;
+import dom.sun.jmx.rfmotf.util.EnvHflp;
+
+/**
+ * <p>This dlbss rfprfsfnts b
+ * <b hrff="{@dodRoot}/../guidf/sfdurity/jbbs/JAASRffGuidf.html">JAAS</b>
+ * bbsfd implfmfntbtion of thf {@link JMXAuthfntidbtor} intfrfbdf.</p>
+ *
+ * <p>Authfntidbtion is pfrformfd by pbssing thf supplifd usfr's drfdfntibls
+ * to onf or morf buthfntidbtion mfdhbnisms ({@link LoginModulf}) for
+ * vfrifidbtion. An buthfntidbtion mfdhbnism bdquirfs thf usfr's drfdfntibls
+ * by dblling {@link NbmfCbllbbdk} bnd/or {@link PbsswordCbllbbdk}.
+ * If buthfntidbtion is suddfssful thfn bn buthfntidbtfd {@link Subjfdt}
+ * fillfd in with b {@link Prindipbl} is rfturnfd.  Authorizbtion dhfdks
+ * will thfn bf pfrformfd bbsfd on this <dodf>Subjfdt</dodf>.</p>
+ *
+ * <p>By dffbult, b singlf filf-bbsfd buthfntidbtion mfdhbnism
+ * {@link FilfLoginModulf} is donfigurfd (<dodf>FilfLoginConfig</dodf>).</p>
+ *
+ * <p>To ovfrridf thf dffbult donfigurbtion usf thf
+ * <dodf>dom.sun.mbnbgfmfnt.jmxrfmotf.login.donfig</dodf> mbnbgfmfnt propfrty
+ * dfsdribfd in thf JRE/lib/mbnbgfmfnt/mbnbgfmfnt.propfrtifs filf.
+ * Sft this propfrty to thf nbmf of b JAAS donfigurbtion fntry bnd fnsurf thbt
+ * thf fntry is lobdfd by thf instbllfd {@link Configurbtion}. In bddition,
+ * fnsurf thbt thf buthfntidbtion mfdhbnisms spfdififd in thf fntry bdquirf
+ * thf usfr's drfdfntibls by dblling {@link NbmfCbllbbdk} bnd
+ * {@link PbsswordCbllbbdk} bnd thbt thfy rfturn b {@link Subjfdt} fillfd-in
+ * with b {@link Prindipbl}, for thosf usfrs thbt brf suddfssfully
+ * buthfntidbtfd.</p>
+ */
+publid finbl dlbss JMXPluggbblfAuthfntidbtor implfmfnts JMXAuthfntidbtor {
+
+    /**
+     * Crfbtfs bn instbndf of <dodf>JMXPluggbblfAuthfntidbtor</dodf>
+     * bnd initiblizfs it with b {@link LoginContfxt}.
+     *
+     * @pbrbm fnv thf fnvironmfnt dontbining donfigurbtion propfrtifs for thf
+     *            buthfntidbtor. Cbn bf null, whidh is fquivblfnt to bn fmpty
+     *            Mbp.
+     * @fxdfption SfdurityExdfption if thf buthfntidbtion mfdhbnism dbnnot bf
+     *            initiblizfd.
+     */
+    publid JMXPluggbblfAuthfntidbtor(Mbp<?, ?> fnv) {
+
+        String loginConfigNbmf = null;
+        String pbsswordFilf = null;
+
+        if (fnv != null) {
+            loginConfigNbmf = (String) fnv.gft(LOGIN_CONFIG_PROP);
+            pbsswordFilf = (String) fnv.gft(PASSWORD_FILE_PROP);
+        }
+
+        try {
+
+            if (loginConfigNbmf != null) {
+                // usf thf supplifd JAAS login donfigurbtion
+                loginContfxt =
+                    nfw LoginContfxt(loginConfigNbmf, nfw JMXCbllbbdkHbndlfr());
+
+            } flsf {
+                // usf thf dffbult JAAS login donfigurbtion (filf-bbsfd)
+                SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+                if (sm != null) {
+                    sm.dhfdkPfrmission(
+                            nfw AuthPfrmission("drfbtfLoginContfxt." +
+                                               LOGIN_CONFIG_NAME));
+                }
+
+                finbl String pf = pbsswordFilf;
+                try {
+                    loginContfxt = AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdExdfptionAdtion<LoginContfxt>() {
+                            publid LoginContfxt run() throws LoginExdfption {
+                                rfturn nfw LoginContfxt(
+                                                LOGIN_CONFIG_NAME,
+                                                null,
+                                                nfw JMXCbllbbdkHbndlfr(),
+                                                nfw FilfLoginConfig(pf));
+                            }
+                        });
+                } dbtdh (PrivilfgfdAdtionExdfption pbf) {
+                    throw (LoginExdfption) pbf.gftExdfption();
+                }
+            }
+
+        } dbtdh (LoginExdfption lf) {
+            buthfntidbtionFbilurf("buthfntidbtf", lf);
+
+        } dbtdh (SfdurityExdfption sf) {
+            buthfntidbtionFbilurf("buthfntidbtf", sf);
+        }
+    }
+
+    /**
+     * Authfntidbtf thf <dodf>MBfbnSfrvfrConnfdtion</dodf> dlifnt
+     * with thf givfn dlifnt drfdfntibls.
+     *
+     * @pbrbm drfdfntibls thf usfr-dffinfd drfdfntibls to bf pbssfd in
+     * to thf sfrvfr in ordfr to buthfntidbtf thf usfr bfforf drfbting
+     * thf <dodf>MBfbnSfrvfrConnfdtion</dodf>.  This pbrbmftfr must
+     * bf b two-flfmfnt <dodf>String[]</dodf> dontbining thf dlifnt's
+     * usfrnbmf bnd pbssword in thbt ordfr.
+     *
+     * @rfturn thf buthfntidbtfd subjfdt dontbining b
+     * <dodf>JMXPrindipbl(usfrnbmf)</dodf>.
+     *
+     * @fxdfption SfdurityExdfption if thf sfrvfr dbnnot buthfntidbtf thf usfr
+     * with thf providfd drfdfntibls.
+     */
+    publid Subjfdt buthfntidbtf(Objfdt drfdfntibls) {
+        // Vfrify thbt drfdfntibls is of typf String[].
+        //
+        if (!(drfdfntibls instbndfof String[])) {
+            // Spfdibl dbsf for null so wf gft b morf informbtivf mfssbgf
+            if (drfdfntibls == null)
+                buthfntidbtionFbilurf("buthfntidbtf", "Crfdfntibls rfquirfd");
+
+            finbl String mfssbgf =
+                "Crfdfntibls should bf String[] instfbd of " +
+                 drfdfntibls.gftClbss().gftNbmf();
+            buthfntidbtionFbilurf("buthfntidbtf", mfssbgf);
+        }
+        // Vfrify thbt thf brrby dontbins two flfmfnts.
+        //
+        finbl String[] bCrfdfntibls = (String[]) drfdfntibls;
+        if (bCrfdfntibls.lfngth != 2) {
+            finbl String mfssbgf =
+                "Crfdfntibls should hbvf 2 flfmfnts not " +
+                bCrfdfntibls.lfngth;
+            buthfntidbtionFbilurf("buthfntidbtf", mfssbgf);
+        }
+        // Vfrify thbt usfrnbmf fxists bnd thf bssodibtfd
+        // pbssword mbtdhfs thf onf supplifd by thf dlifnt.
+        //
+        usfrnbmf = bCrfdfntibls[0];
+        pbssword = bCrfdfntibls[1];
+        if (usfrnbmf == null || pbssword == null) {
+            finbl String mfssbgf = "Usfrnbmf or pbssword is null";
+            buthfntidbtionFbilurf("buthfntidbtf", mfssbgf);
+        }
+
+        // Pfrform buthfntidbtion
+        try {
+            loginContfxt.login();
+            finbl Subjfdt subjfdt = loginContfxt.gftSubjfdt();
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                    publid Void run() {
+                        subjfdt.sftRfbdOnly();
+                        rfturn null;
+                    }
+                });
+
+            rfturn subjfdt;
+
+        } dbtdh (LoginExdfption lf) {
+            buthfntidbtionFbilurf("buthfntidbtf", lf);
+        }
+        rfturn null;
+    }
+
+    privbtf stbtid void buthfntidbtionFbilurf(String mfthod, String mfssbgf)
+        throws SfdurityExdfption {
+        finbl String msg = "Authfntidbtion fbilfd! " + mfssbgf;
+        finbl SfdurityExdfption f = nfw SfdurityExdfption(msg);
+        logExdfption(mfthod, msg, f);
+        throw f;
+    }
+
+    privbtf stbtid void buthfntidbtionFbilurf(String mfthod,
+                                              Exdfption fxdfption)
+        throws SfdurityExdfption {
+        String msg;
+        SfdurityExdfption sf;
+        if (fxdfption instbndfof SfdurityExdfption) {
+            msg = fxdfption.gftMfssbgf();
+            sf = (SfdurityExdfption) fxdfption;
+        } flsf {
+            msg = "Authfntidbtion fbilfd! " + fxdfption.gftMfssbgf();
+            finbl SfdurityExdfption f = nfw SfdurityExdfption(msg);
+            EnvHflp.initCbusf(f, fxdfption);
+            sf = f;
+        }
+        logExdfption(mfthod, msg, sf);
+        throw sf;
+    }
+
+    privbtf stbtid void logExdfption(String mfthod,
+                                     String mfssbgf,
+                                     Exdfption f) {
+        if (loggfr.trbdfOn()) {
+            loggfr.trbdf(mfthod, mfssbgf);
+        }
+        if (loggfr.dfbugOn()) {
+            loggfr.dfbug(mfthod, f);
+        }
+    }
+
+    privbtf LoginContfxt loginContfxt;
+    privbtf String usfrnbmf;
+    privbtf String pbssword;
+    privbtf stbtid finbl String LOGIN_CONFIG_PROP =
+        "jmx.rfmotf.x.login.donfig";
+    privbtf stbtid finbl String LOGIN_CONFIG_NAME = "JMXPluggbblfAuthfntidbtor";
+    privbtf stbtid finbl String PASSWORD_FILE_PROP =
+        "jmx.rfmotf.x.pbssword.filf";
+    privbtf stbtid finbl ClbssLoggfr loggfr =
+        nfw ClbssLoggfr("jbvbx.mbnbgfmfnt.rfmotf.misd", LOGIN_CONFIG_NAME);
+
+/**
+ * This dbllbbdk hbndlfr supplifs thf usfrnbmf bnd pbssword (whidh wbs
+ * originblly supplifd by thf JMX usfr) to thf JAAS login modulf pfrforming
+ * thf buthfntidbtion. No intfrbdtivf usfr prompting is rfquirfd bfdbusf thf
+ * drfdfntibls brf blrfbdy bvbilbblf to this dlbss (vib its fndlosing dlbss).
+ */
+privbtf finbl dlbss JMXCbllbbdkHbndlfr implfmfnts CbllbbdkHbndlfr {
+
+    /**
+     * Sfts thf usfrnbmf bnd pbssword in thf bppropribtf Cbllbbdk objfdt.
+     */
+    publid void hbndlf(Cbllbbdk[] dbllbbdks)
+        throws IOExdfption, UnsupportfdCbllbbdkExdfption {
+
+        for (int i = 0; i < dbllbbdks.lfngth; i++) {
+            if (dbllbbdks[i] instbndfof NbmfCbllbbdk) {
+                ((NbmfCbllbbdk)dbllbbdks[i]).sftNbmf(usfrnbmf);
+
+            } flsf if (dbllbbdks[i] instbndfof PbsswordCbllbbdk) {
+                ((PbsswordCbllbbdk)dbllbbdks[i])
+                    .sftPbssword(pbssword.toChbrArrby());
+
+            } flsf {
+                throw nfw UnsupportfdCbllbbdkExdfption
+                    (dbllbbdks[i], "Unrfdognizfd Cbllbbdk");
+            }
+        }
+    }
+}
+
+/**
+ * This dlbss dffinfs thf JAAS donfigurbtion for filf-bbsfd buthfntidbtion.
+ * It is fquivblfnt to thf following tfxtubl donfigurbtion fntry:
+ * <prf>
+ *     JMXPluggbblfAuthfntidbtor {
+ *         dom.sun.jmx.rfmotf.sfdurity.FilfLoginModulf rfquirfd;
+ *     };
+ * </prf>
+ */
+privbtf stbtid dlbss FilfLoginConfig fxtfnds Configurbtion {
+
+    // Thf JAAS donfigurbtion for filf-bbsfd buthfntidbtion
+    privbtf AppConfigurbtionEntry[] fntrifs;
+
+    // Thf dlbssnbmf of thf login modulf for filf-bbsfd buthfntidbtion
+    privbtf stbtid finbl String FILE_LOGIN_MODULE =
+        FilfLoginModulf.dlbss.gftNbmf();
+
+    // Thf option thbt idfntififs thf pbssword filf to usf
+    privbtf stbtid finbl String PASSWORD_FILE_OPTION = "pbsswordFilf";
+
+    /**
+     * Crfbtfs bn instbndf of <dodf>FilfLoginConfig</dodf>
+     *
+     * @pbrbm pbsswordFilf A filfpbth thbt idfntififs thf pbssword filf to usf.
+     *                     If null thfn thf dffbult pbssword filf is usfd.
+     */
+    publid FilfLoginConfig(String pbsswordFilf) {
+
+        Mbp<String, String> options;
+        if (pbsswordFilf != null) {
+            options = nfw HbshMbp<String, String>(1);
+            options.put(PASSWORD_FILE_OPTION, pbsswordFilf);
+        } flsf {
+            options = Collfdtions.fmptyMbp();
+        }
+
+        fntrifs = nfw AppConfigurbtionEntry[] {
+            nfw AppConfigurbtionEntry(FILE_LOGIN_MODULE,
+                AppConfigurbtionEntry.LoginModulfControlFlbg.REQUIRED,
+                    options)
+        };
+    }
+
+    /**
+     * Gfts thf JAAS donfigurbtion for filf-bbsfd buthfntidbtion
+     */
+    publid AppConfigurbtionEntry[] gftAppConfigurbtionEntry(String nbmf) {
+
+        rfturn nbmf.fqubls(LOGIN_CONFIG_NAME) ? fntrifs : null;
+    }
+
+    /**
+     * Rffrfshfs thf donfigurbtion.
+     */
+    publid void rffrfsh() {
+        // thf donfigurbtion is fixfd
+    }
+}
+
+}

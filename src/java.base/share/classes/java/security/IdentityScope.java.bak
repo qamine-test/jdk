@@ -1,256 +1,256 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.io.Serializable;
-import java.util.Enumeration;
-import java.util.Properties;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Propfrtifs;
 
 /**
- * <p>This class represents a scope for identities. It is an Identity
- * itself, and therefore has a name and can have a scope. It can also
- * optionally have a public key and associated certificates.
+ * <p>Tiis dlbss rfprfsfnts b sdopf for idfntitifs. It is bn Idfntity
+ * itsflf, bnd tifrfforf ibs b nbmf bnd dbn ibvf b sdopf. It dbn blso
+ * optionblly ibvf b publid kfy bnd bssodibtfd dfrtifidbtfs.
  *
- * <p>An IdentityScope can contain Identity objects of all kinds, including
- * Signers. All types of Identity objects can be retrieved, added, and
- * removed using the same methods. Note that it is possible, and in fact
- * expected, that different types of identity scopes will
- * apply different policies for their various operations on the
- * various types of Identities.
+ * <p>An IdfntitySdopf dbn dontbin Idfntity objfdts of bll kinds, indluding
+ * Signfrs. All typfs of Idfntity objfdts dbn bf rftrifvfd, bddfd, bnd
+ * rfmovfd using tif sbmf mftiods. Notf tibt it is possiblf, bnd in fbdt
+ * fxpfdtfd, tibt difffrfnt typfs of idfntity sdopfs will
+ * bpply difffrfnt polidifs for tifir vbrious opfrbtions on tif
+ * vbrious typfs of Idfntitifs.
  *
- * <p>There is a one-to-one mapping between keys and identities, and
- * there can only be one copy of one key per scope. For example, suppose
- * <b>Acme Software, Inc</b> is a software publisher known to a user.
- * Suppose it is an Identity, that is, it has a public key, and a set of
- * associated certificates. It is named in the scope using the name
- * "Acme Software". No other named Identity in the scope has the same
- * public  key. Of course, none has the same name as well.
+ * <p>Tifrf is b onf-to-onf mbpping bftwffn kfys bnd idfntitifs, bnd
+ * tifrf dbn only bf onf dopy of onf kfy pfr sdopf. For fxbmplf, supposf
+ * <b>Admf Softwbrf, Ind</b> is b softwbrf publisifr known to b usfr.
+ * Supposf it is bn Idfntity, tibt is, it ibs b publid kfy, bnd b sft of
+ * bssodibtfd dfrtifidbtfs. It is nbmfd in tif sdopf using tif nbmf
+ * "Admf Softwbrf". No otifr nbmfd Idfntity in tif sdopf ibs tif sbmf
+ * publid  kfy. Of doursf, nonf ibs tif sbmf nbmf bs wfll.
  *
- * @see Identity
- * @see Signer
- * @see Principal
- * @see Key
+ * @sff Idfntity
+ * @sff Signfr
+ * @sff Prindipbl
+ * @sff Kfy
  *
- * @author Benjamin Renaud
+ * @butior Bfnjbmin Rfnbud
  *
- * @deprecated This class is no longer used. Its functionality has been
- * replaced by {@code java.security.KeyStore}, the
- * {@code java.security.cert} package, and
- * {@code java.security.Principal}.
+ * @dfprfdbtfd Tiis dlbss is no longfr usfd. Its fundtionblity ibs bffn
+ * rfplbdfd by {@dodf jbvb.sfdurity.KfyStorf}, tif
+ * {@dodf jbvb.sfdurity.dfrt} pbdkbgf, bnd
+ * {@dodf jbvb.sfdurity.Prindipbl}.
  */
-@Deprecated
-public abstract
-class IdentityScope extends Identity {
+@Dfprfdbtfd
+publid bbstrbdt
+dlbss IdfntitySdopf fxtfnds Idfntity {
 
-    private static final long serialVersionUID = -2337346281189773310L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -2337346281189773310L;
 
-    /* The system's scope */
-    private static IdentityScope scope;
+    /* Tif systfm's sdopf */
+    privbtf stbtid IdfntitySdopf sdopf;
 
-    // initialize the system scope
-    private static void initializeSystemScope() {
+    // initiblizf tif systfm sdopf
+    privbtf stbtid void initiblizfSystfmSdopf() {
 
-        String classname = AccessController.doPrivileged(
-                                new PrivilegedAction<String>() {
-            public String run() {
-                return Security.getProperty("system.scope");
+        String dlbssnbmf = AddfssControllfr.doPrivilfgfd(
+                                nfw PrivilfgfdAdtion<String>() {
+            publid String run() {
+                rfturn Sfdurity.gftPropfrty("systfm.sdopf");
             }
         });
 
-        if (classname == null) {
-            return;
+        if (dlbssnbmf == null) {
+            rfturn;
 
-        } else {
+        } flsf {
 
             try {
-                Class.forName(classname);
-            } catch (ClassNotFoundException e) {
-                //Security.error("unable to establish a system scope from " +
-                //             classname);
-                e.printStackTrace();
+                Clbss.forNbmf(dlbssnbmf);
+            } dbtdi (ClbssNotFoundExdfption f) {
+                //Sfdurity.frror("unbblf to fstbblisi b systfm sdopf from " +
+                //             dlbssnbmf);
+                f.printStbdkTrbdf();
             }
         }
     }
 
     /**
-     * This constructor is used for serialization only and should not
-     * be used by subclasses.
+     * Tiis donstrudtor is usfd for sfriblizbtion only bnd siould not
+     * bf usfd by subdlbssfs.
      */
-    protected IdentityScope() {
-        this("restoring...");
+    protfdtfd IdfntitySdopf() {
+        tiis("rfstoring...");
     }
 
     /**
-     * Constructs a new identity scope with the specified name.
+     * Construdts b nfw idfntity sdopf witi tif spfdififd nbmf.
      *
-     * @param name the scope name.
+     * @pbrbm nbmf tif sdopf nbmf.
      */
-    public IdentityScope(String name) {
-        super(name);
+    publid IdfntitySdopf(String nbmf) {
+        supfr(nbmf);
     }
 
     /**
-     * Constructs a new identity scope with the specified name and scope.
+     * Construdts b nfw idfntity sdopf witi tif spfdififd nbmf bnd sdopf.
      *
-     * @param name the scope name.
-     * @param scope the scope for the new identity scope.
+     * @pbrbm nbmf tif sdopf nbmf.
+     * @pbrbm sdopf tif sdopf for tif nfw idfntity sdopf.
      *
-     * @exception KeyManagementException if there is already an identity
-     * with the same name in the scope.
+     * @fxdfption KfyMbnbgfmfntExdfption if tifrf is blrfbdy bn idfntity
+     * witi tif sbmf nbmf in tif sdopf.
      */
-    public IdentityScope(String name, IdentityScope scope)
-    throws KeyManagementException {
-        super(name, scope);
+    publid IdfntitySdopf(String nbmf, IdfntitySdopf sdopf)
+    tirows KfyMbnbgfmfntExdfption {
+        supfr(nbmf, sdopf);
     }
 
     /**
-     * Returns the system's identity scope.
+     * Rfturns tif systfm's idfntity sdopf.
      *
-     * @return the system's identity scope, or {@code null} if none has been
-     *         set.
+     * @rfturn tif systfm's idfntity sdopf, or {@dodf null} if nonf ibs bffn
+     *         sft.
      *
-     * @see #setSystemScope
+     * @sff #sftSystfmSdopf
      */
-    public static IdentityScope getSystemScope() {
-        if (scope == null) {
-            initializeSystemScope();
+    publid stbtid IdfntitySdopf gftSystfmSdopf() {
+        if (sdopf == null) {
+            initiblizfSystfmSdopf();
         }
-        return scope;
+        rfturn sdopf;
     }
 
 
     /**
-     * Sets the system's identity scope.
+     * Sfts tif systfm's idfntity sdopf.
      *
-     * <p>First, if there is a security manager, its
-     * {@code checkSecurityAccess}
-     * method is called with {@code "setSystemScope"}
-     * as its argument to see if it's ok to set the identity scope.
+     * <p>First, if tifrf is b sfdurity mbnbgfr, its
+     * {@dodf difdkSfdurityAddfss}
+     * mftiod is dbllfd witi {@dodf "sftSystfmSdopf"}
+     * bs its brgumfnt to sff if it's ok to sft tif idfntity sdopf.
      *
-     * @param scope the scope to set.
+     * @pbrbm sdopf tif sdopf to sft.
      *
-     * @exception  SecurityException  if a security manager exists and its
-     * {@code checkSecurityAccess} method doesn't allow
-     * setting the identity scope.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     * {@dodf difdkSfdurityAddfss} mftiod dofsn't bllow
+     * sftting tif idfntity sdopf.
      *
-     * @see #getSystemScope
-     * @see SecurityManager#checkSecurityAccess
+     * @sff #gftSystfmSdopf
+     * @sff SfdurityMbnbgfr#difdkSfdurityAddfss
      */
-    protected static void setSystemScope(IdentityScope scope) {
-        check("setSystemScope");
-        IdentityScope.scope = scope;
+    protfdtfd stbtid void sftSystfmSdopf(IdfntitySdopf sdopf) {
+        difdk("sftSystfmSdopf");
+        IdfntitySdopf.sdopf = sdopf;
     }
 
     /**
-     * Returns the number of identities within this identity scope.
+     * Rfturns tif numbfr of idfntitifs witiin tiis idfntity sdopf.
      *
-     * @return the number of identities within this identity scope.
+     * @rfturn tif numbfr of idfntitifs witiin tiis idfntity sdopf.
      */
-    public abstract int size();
+    publid bbstrbdt int sizf();
 
     /**
-     * Returns the identity in this scope with the specified name (if any).
+     * Rfturns tif idfntity in tiis sdopf witi tif spfdififd nbmf (if bny).
      *
-     * @param name the name of the identity to be retrieved.
+     * @pbrbm nbmf tif nbmf of tif idfntity to bf rftrifvfd.
      *
-     * @return the identity named {@code name}, or null if there are
-     * no identities named {@code name} in this scope.
+     * @rfturn tif idfntity nbmfd {@dodf nbmf}, or null if tifrf brf
+     * no idfntitifs nbmfd {@dodf nbmf} in tiis sdopf.
      */
-    public abstract Identity getIdentity(String name);
+    publid bbstrbdt Idfntity gftIdfntity(String nbmf);
 
     /**
-     * Retrieves the identity whose name is the same as that of the
-     * specified principal. (Note: Identity implements Principal.)
+     * Rftrifvfs tif idfntity wiosf nbmf is tif sbmf bs tibt of tif
+     * spfdififd prindipbl. (Notf: Idfntity implfmfnts Prindipbl.)
      *
-     * @param principal the principal corresponding to the identity
-     * to be retrieved.
+     * @pbrbm prindipbl tif prindipbl dorrfsponding to tif idfntity
+     * to bf rftrifvfd.
      *
-     * @return the identity whose name is the same as that of the
-     * principal, or null if there are no identities of the same name
-     * in this scope.
+     * @rfturn tif idfntity wiosf nbmf is tif sbmf bs tibt of tif
+     * prindipbl, or null if tifrf brf no idfntitifs of tif sbmf nbmf
+     * in tiis sdopf.
      */
-    public Identity getIdentity(Principal principal) {
-        return getIdentity(principal.getName());
+    publid Idfntity gftIdfntity(Prindipbl prindipbl) {
+        rfturn gftIdfntity(prindipbl.gftNbmf());
     }
 
     /**
-     * Retrieves the identity with the specified public key.
+     * Rftrifvfs tif idfntity witi tif spfdififd publid kfy.
      *
-     * @param key the public key for the identity to be returned.
+     * @pbrbm kfy tif publid kfy for tif idfntity to bf rfturnfd.
      *
-     * @return the identity with the given key, or null if there are
-     * no identities in this scope with that key.
+     * @rfturn tif idfntity witi tif givfn kfy, or null if tifrf brf
+     * no idfntitifs in tiis sdopf witi tibt kfy.
      */
-    public abstract Identity getIdentity(PublicKey key);
+    publid bbstrbdt Idfntity gftIdfntity(PublidKfy kfy);
 
     /**
-     * Adds an identity to this identity scope.
+     * Adds bn idfntity to tiis idfntity sdopf.
      *
-     * @param identity the identity to be added.
+     * @pbrbm idfntity tif idfntity to bf bddfd.
      *
-     * @exception KeyManagementException if the identity is not
-     * valid, a name conflict occurs, another identity has the same
-     * public key as the identity being added, or another exception
-     * occurs. */
-    public abstract void addIdentity(Identity identity)
-    throws KeyManagementException;
+     * @fxdfption KfyMbnbgfmfntExdfption if tif idfntity is not
+     * vblid, b nbmf donflidt oddurs, bnotifr idfntity ibs tif sbmf
+     * publid kfy bs tif idfntity bfing bddfd, or bnotifr fxdfption
+     * oddurs. */
+    publid bbstrbdt void bddIdfntity(Idfntity idfntity)
+    tirows KfyMbnbgfmfntExdfption;
 
     /**
-     * Removes an identity from this identity scope.
+     * Rfmovfs bn idfntity from tiis idfntity sdopf.
      *
-     * @param identity the identity to be removed.
+     * @pbrbm idfntity tif idfntity to bf rfmovfd.
      *
-     * @exception KeyManagementException if the identity is missing,
-     * or another exception occurs.
+     * @fxdfption KfyMbnbgfmfntExdfption if tif idfntity is missing,
+     * or bnotifr fxdfption oddurs.
      */
-    public abstract void removeIdentity(Identity identity)
-    throws KeyManagementException;
+    publid bbstrbdt void rfmovfIdfntity(Idfntity idfntity)
+    tirows KfyMbnbgfmfntExdfption;
 
     /**
-     * Returns an enumeration of all identities in this identity scope.
+     * Rfturns bn fnumfrbtion of bll idfntitifs in tiis idfntity sdopf.
      *
-     * @return an enumeration of all identities in this identity scope.
+     * @rfturn bn fnumfrbtion of bll idfntitifs in tiis idfntity sdopf.
      */
-    public abstract Enumeration<Identity> identities();
+    publid bbstrbdt Enumfrbtion<Idfntity> idfntitifs();
 
     /**
-     * Returns a string representation of this identity scope, including
-     * its name, its scope name, and the number of identities in this
-     * identity scope.
+     * Rfturns b string rfprfsfntbtion of tiis idfntity sdopf, indluding
+     * its nbmf, its sdopf nbmf, bnd tif numbfr of idfntitifs in tiis
+     * idfntity sdopf.
      *
-     * @return a string representation of this identity scope.
+     * @rfturn b string rfprfsfntbtion of tiis idfntity sdopf.
      */
-    public String toString() {
-        return super.toString() + "[" + size() + "]";
+    publid String toString() {
+        rfturn supfr.toString() + "[" + sizf() + "]";
     }
 
-    private static void check(String directive) {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkSecurityAccess(directive);
+    privbtf stbtid void difdk(String dirfdtivf) {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkSfdurityAddfss(dirfdtivf);
         }
     }
 

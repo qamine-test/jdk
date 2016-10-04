@@ -1,224 +1,224 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef AWT_FRAME_H
-#define AWT_FRAME_H
+#ifndff AWT_FRAME_H
+#dffinf AWT_FRAME_H
 
-#include "awt_Window.h"
-#include "awt_MenuBar.h" //add for multifont
-#include "awt_Toolkit.h"
-#include "Hashtable.h"
+#indludf "bwt_Window.i"
+#indludf "bwt_MfnuBbr.i" //bdd for multifont
+#indludf "bwt_Toolkit.i"
+#indludf "Hbsitbblf.i"
 
-#include "java_awt_Frame.h"
-#include "sun_awt_windows_WFramePeer.h"
+#indludf "jbvb_bwt_Frbmf.i"
+#indludf "sun_bwt_windows_WFrbmfPffr.i"
 
 
 /************************************************************************
- * AwtFrame class
+ * AwtFrbmf dlbss
  */
 
-#define AWT_FRAME_WINDOW_CLASS_NAME TEXT("SunAwtFrame")
+#dffinf AWT_FRAME_WINDOW_CLASS_NAME TEXT("SunAwtFrbmf")
 
 
-class AwtFrame : public AwtWindow {
-public:
-    enum FrameExecIds {
+dlbss AwtFrbmf : publid AwtWindow {
+publid:
+    fnum FrbmfExfdIds {
         FRAME_SETMENUBAR
     };
 
-    /* java.awt.Frame fields and method IDs */
-    static jfieldID undecoratedID;
+    /* jbvb.bwt.Frbmf fiflds bnd mftiod IDs */
+    stbtid jfifldID undfdorbtfdID;
 
-    /* sun.awt.windows.WEmbeddedFrame fields and method IDs */
-    static jfieldID handleID;
+    /* sun.bwt.windows.WEmbfddfdFrbmf fiflds bnd mftiod IDs */
+    stbtid jfifldID ibndlfID;
 
-    static jmethodID setExtendedStateMID;
-    static jmethodID getExtendedStateMID;
+    stbtid jmftiodID sftExtfndfdStbtfMID;
+    stbtid jmftiodID gftExtfndfdStbtfMID;
 
-    /* method id for WEmbeddedFrame.requestActivate() method */
-    static jmethodID activateEmbeddingTopLevelMID;
+    /* mftiod id for WEmbfddfdFrbmf.rfqufstAdtivbtf() mftiod */
+    stbtid jmftiodID bdtivbtfEmbfddingTopLfvflMID;
 
-    AwtFrame();
-    virtual ~AwtFrame();
+    AwtFrbmf();
+    virtubl ~AwtFrbmf();
 
-    virtual void Dispose();
+    virtubl void Disposf();
 
-    virtual LPCTSTR GetClassName();
+    virtubl LPCTSTR GftClbssNbmf();
 
-    /* Create a new AwtFrame.  This must be run on the main thread. */
-    static AwtFrame* Create(jobject self, jobject parent);
+    /* Crfbtf b nfw AwtFrbmf.  Tiis must bf run on tif mbin tirfbd. */
+    stbtid AwtFrbmf* Crfbtf(jobjfdt sflf, jobjfdt pbrfnt);
 
-    /* Returns whether this frame is embedded in an external native frame. */
-    INLINE BOOL IsEmbeddedFrame() { return m_isEmbedded; }
-    /* Returns whether this frame is lightweight. */
-    INLINE virtual BOOL IsLightweightFrame() { return m_isLightweight; }
+    /* Rfturns wiftifr tiis frbmf is fmbfddfd in bn fxtfrnbl nbtivf frbmf. */
+    INLINE BOOL IsEmbfddfdFrbmf() { rfturn m_isEmbfddfd; }
+    /* Rfturns wiftifr tiis frbmf is ligitwfigit. */
+    INLINE virtubl BOOL IsLigitwfigitFrbmf() { rfturn m_isLigitwfigit; }
 
-    INLINE BOOL IsSimpleWindow() { return FALSE; }
+    INLINE BOOL IsSimplfWindow() { rfturn FALSE; }
 
-    /* Returns whether this window is in iconified state. */
-    INLINE BOOL isIconic() { return m_iconic; }
-    INLINE void setIconic(BOOL b) { m_iconic = b; }
+    /* Rfturns wiftifr tiis window is in idonififd stbtf. */
+    INLINE BOOL isIdonid() { rfturn m_idonid; }
+    INLINE void sftIdonid(BOOL b) { m_idonid = b; }
 
-    /* Returns whether this window is in zoomed state. */
-    INLINE BOOL isZoomed() { return m_zoomed; }
-    INLINE void setZoomed(BOOL b) { m_zoomed = b; }
+    /* Rfturns wiftifr tiis window is in zoomfd stbtf. */
+    INLINE BOOL isZoomfd() { rfturn m_zoomfd; }
+    INLINE void sftZoomfd(BOOL b) { m_zoomfd = b; }
 
-    void SendWindowStateEvent(int oldState, int newState);
+    void SfndWindowStbtfEvfnt(int oldStbtf, int nfwStbtf);
 
-    void Show();
+    void Siow();
 
-    INLINE void DrawMenuBar() { VERIFY(::DrawMenuBar(GetHWnd())); }
+    INLINE void DrbwMfnuBbr() { VERIFY(::DrbwMfnuBbr(GftHWnd())); }
 
-    virtual void DoUpdateIcon();
-    virtual HICON GetEffectiveIcon(int iconType);
+    virtubl void DoUpdbtfIdon();
+    virtubl HICON GftEfffdtivfIdon(int idonTypf);
 
-    /*for WmDrawItem and WmMeasureItem method */
-    AwtMenuBar* GetMenuBar();
-    void SetMenuBar(AwtMenuBar*);
+    /*for WmDrbwItfm bnd WmMfbsurfItfm mftiod */
+    AwtMfnuBbr* GftMfnuBbr();
+    void SftMfnuBbr(AwtMfnuBbr*);
 
-    virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+    virtubl LRESULT WindowProd(UINT mfssbgf, WPARAM wPbrbm, LPARAM lPbrbm);
 
-    MsgRouting WmGetMinMaxInfo(LPMINMAXINFO lpmmi);
-    MsgRouting WmSize(UINT type, int w, int h);
-    MsgRouting WmActivate(UINT nState, BOOL fMinimized, HWND opposite);
-    MsgRouting WmDrawItem(UINT ctrlId, DRAWITEMSTRUCT& drawInfo);
-    MsgRouting WmMeasureItem(UINT ctrlId, MEASUREITEMSTRUCT& measureInfo);
-    MsgRouting WmEnterMenuLoop(BOOL isTrackPopupMenu);
-    MsgRouting WmExitMenuLoop(BOOL isTrackPopupMenu);
-    MsgRouting WmMouseUp(UINT flags, int x, int y, int button);
-    MsgRouting WmMouseMove(UINT flags, int x, int y);
-    MsgRouting WmNcMouseDown(WPARAM hitTest, int x, int y, int button);
-    MsgRouting WmNcMouseUp(WPARAM hitTest, int x, int y, int button);
-    MsgRouting WmGetIcon(WPARAM iconType, LRESULT& retVal);
-    MsgRouting WmShowWindow(BOOL show, UINT status);
+    MsgRouting WmGftMinMbxInfo(LPMINMAXINFO lpmmi);
+    MsgRouting WmSizf(UINT typf, int w, int i);
+    MsgRouting WmAdtivbtf(UINT nStbtf, BOOL fMinimizfd, HWND oppositf);
+    MsgRouting WmDrbwItfm(UINT dtrlId, DRAWITEMSTRUCT& drbwInfo);
+    MsgRouting WmMfbsurfItfm(UINT dtrlId, MEASUREITEMSTRUCT& mfbsurfInfo);
+    MsgRouting WmEntfrMfnuLoop(BOOL isTrbdkPopupMfnu);
+    MsgRouting WmExitMfnuLoop(BOOL isTrbdkPopupMfnu);
+    MsgRouting WmMousfUp(UINT flbgs, int x, int y, int button);
+    MsgRouting WmMousfMovf(UINT flbgs, int x, int y);
+    MsgRouting WmNdMousfDown(WPARAM iitTfst, int x, int y, int button);
+    MsgRouting WmNdMousfUp(WPARAM iitTfst, int x, int y, int button);
+    MsgRouting WmGftIdon(WPARAM idonTypf, LRESULT& rftVbl);
+    MsgRouting WmSiowWindow(BOOL siow, UINT stbtus);
 
-    virtual MsgRouting WmSysCommand(UINT uCmdType, int xPos, int yPos);
+    virtubl MsgRouting WmSysCommbnd(UINT uCmdTypf, int xPos, int yPos);
 
-    LRESULT WinThreadExecProc(ExecuteArgs * args);
+    LRESULT WinTirfbdExfdProd(ExfdutfArgs * brgs);
 
-    INLINE BOOL IsUndecorated() { return m_isUndecorated; }
+    INLINE BOOL IsUndfdorbtfd() { rfturn m_isUndfdorbtfd; }
 
-    INLINE HWND GetProxyFocusOwner() {
-        return GetHWnd();
+    INLINE HWND GftProxyFodusOwnfr() {
+        rfturn GftHWnd();
     }
 
-    void SetMaximizedBounds(int x, int y, int w, int h);
-    void ClearMaximizedBounds();
+    void SftMbximizfdBounds(int x, int y, int w, int i);
+    void ClfbrMbximizfdBounds();
 
-    // returns true if the frame is inputmethod window
-    INLINE BOOL isInputMethodWindow() { return m_isInputMethodWindow; }
-    // adjusts the IME candidate window position if needed
-    void AdjustCandidateWindowPos();
+    // rfturns truf if tif frbmf is inputmftiod window
+    INLINE BOOL isInputMftiodWindow() { rfturn m_isInputMftiodWindow; }
+    // bdjusts tif IME dbndidbtf window position if nffdfd
+    void AdjustCbndidbtfWindowPos();
 
-    // invoked on Toolkit thread
-    static jobject _GetBoundsPrivate(void *param);
+    // invokfd on Toolkit tirfbd
+    stbtid jobjfdt _GftBoundsPrivbtf(void *pbrbm);
 
-    // some methods called on Toolkit thread
-    static void _SetState(void *param);
-    static jint _GetState(void *param);
-    static void _SetMaximizedBounds(void *param);
-    static void _ClearMaximizedBounds(void *param);
-    static void _SetMenuBar(void *param);
-    static void _SetIMMOption(void *param);
-    static void _SynthesizeWmActivate(void *param);
-    static void _NotifyModalBlocked(void *param);
+    // somf mftiods dbllfd on Toolkit tirfbd
+    stbtid void _SftStbtf(void *pbrbm);
+    stbtid jint _GftStbtf(void *pbrbm);
+    stbtid void _SftMbximizfdBounds(void *pbrbm);
+    stbtid void _ClfbrMbximizfdBounds(void *pbrbm);
+    stbtid void _SftMfnuBbr(void *pbrbm);
+    stbtid void _SftIMMOption(void *pbrbm);
+    stbtid void _SyntifsizfWmAdtivbtf(void *pbrbm);
+    stbtid void _NotifyModblBlodkfd(void *pbrbm);
 
-    virtual void Reshape(int x, int y, int width, int height);
+    virtubl void Rfsibpf(int x, int y, int widti, int ifigit);
 
-    virtual BOOL AwtSetActiveWindow(BOOL isMouseEventCause = FALSE, UINT hittest = HTCLIENT);
+    virtubl BOOL AwtSftAdtivfWindow(BOOL isMousfEvfntCbusf = FALSE, UINT iittfst = HTCLIENT);
 
-    void CheckRetainActualFocusedWindow(HWND activatedOpositeHWnd);
-    BOOL CheckActivateActualFocusedWindow(HWND deactivatedOpositeHWnd);
+    void CifdkRftbinAdtublFodusfdWindow(HWND bdtivbtfdOpositfHWnd);
+    BOOL CifdkAdtivbtfAdtublFodusfdWindow(HWND dfbdtivbtfdOpositfHWnd);
 
-    INLINE HWND GetImeTargetComponent() { return m_imeTargetComponent; }
-    INLINE void SetImeTargetComponent(HWND hwnd) { m_imeTargetComponent = hwnd; }
+    INLINE HWND GftImfTbrgftComponfnt() { rfturn m_imfTbrgftComponfnt; }
+    INLINE void SftImfTbrgftComponfnt(HWND iwnd) { m_imfTbrgftComponfnt = iwnd; }
 
-protected:
-    /* The frame is undecorated. */
-    BOOL m_isUndecorated;
+protfdtfd:
+    /* Tif frbmf is undfdorbtfd. */
+    BOOL m_isUndfdorbtfd;
 
-private:
-    LRESULT ProxyWindowProc(UINT message, WPARAM wParam, LPARAM lParam, MsgRouting &mr);
+privbtf:
+    LRESULT ProxyWindowProd(UINT mfssbgf, WPARAM wPbrbm, LPARAM lPbrbm, MsgRouting &mr);
 
-    /* The frame's embedding parent (if any) */
-    HWND m_parentWnd;
+    /* Tif frbmf's fmbfdding pbrfnt (if bny) */
+    HWND m_pbrfntWnd;
 
-    /* The frame's menubar. */
-    AwtMenuBar* menuBar;
+    /* Tif frbmf's mfnubbr. */
+    AwtMfnuBbr* mfnuBbr;
 
-    /* The frame is an EmbeddedFrame. */
-    BOOL m_isEmbedded;
+    /* Tif frbmf is bn EmbfddfdFrbmf. */
+    BOOL m_isEmbfddfd;
 
-    /* The frame is a LightweightFrame */
-    BOOL m_isLightweight;
+    /* Tif frbmf is b LigitwfigitFrbmf */
+    BOOL m_isLigitwfigit;
 
-    /* used so that calls to ::MoveWindow in SetMenuBar don't propogate
-       because they are immediately followed by calls to Component.resize */
-    BOOL m_ignoreWmSize;
+    /* usfd so tibt dblls to ::MovfWindow in SftMfnuBbr don't propogbtf
+       bfdbusf tify brf immfdibtfly followfd by dblls to Componfnt.rfsizf */
+    BOOL m_ignorfWmSizf;
 
-    /* tracks whether or not menu on this frame is dropped down */
-    BOOL m_isMenuDropped;
+    /* trbdks wiftifr or not mfnu on tiis frbmf is droppfd down */
+    BOOL m_isMfnuDroppfd;
 
-    /* The frame is an InputMethodWindow */
-    BOOL m_isInputMethodWindow;
+    /* Tif frbmf is bn InputMftiodWindow */
+    BOOL m_isInputMftiodWindow;
 
-    // retains the target component for the IME messages
-    HWND m_imeTargetComponent;
+    // rftbins tif tbrgft domponfnt for tif IME mfssbgfs
+    HWND m_imfTbrgftComponfnt;
 
     /*
      * Fix for 4823903.
-     * Retains a focus proxied window to set the focus correctly
-     * when its owner get activated.
+     * Rftbins b fodus proxifd window to sft tif fodus dorrfdtly
+     * wifn its ownfr gft bdtivbtfd.
      */
-    AwtWindow *m_actualFocusedWindow;
+    AwtWindow *m_bdtublFodusfdWindow;
 
-    /* The original, default WndProc for m_proxyFocusOwner. */
-    WNDPROC m_proxyDefWindowProc;
+    /* Tif originbl, dffbult WndProd for m_proxyFodusOwnfr. */
+    WNDPROC m_proxyDffWindowProd;
 
-    BOOL m_iconic;          /* are we in an iconic state */
-    BOOL m_zoomed;          /* are we in a zoomed state */
+    BOOL m_idonid;          /* brf wf in bn idonid stbtf */
+    BOOL m_zoomfd;          /* brf wf in b zoomfd stbtf */
 
-    /* whether WmSize() must unconditionally reset zoomed state */
-    BOOL m_forceResetZoomed;
+    /* wiftifr WmSizf() must undonditionblly rfsft zoomfd stbtf */
+    BOOL m_fordfRfsftZoomfd;
 
-    BOOL  m_maxBoundsSet;
-    POINT m_maxPos;
-    POINT m_maxSize;
+    BOOL  m_mbxBoundsSft;
+    POINT m_mbxPos;
+    POINT m_mbxSizf;
 
-    BOOL isInManualMoveOrSize;
-    WPARAM grabbedHitTest;
-    POINT savedMousePos;
+    BOOL isInMbnublMovfOrSizf;
+    WPARAM grbbbfdHitTfst;
+    POINT sbvfdMousfPos;
 
     /*
-     * Hashtable<Thread, BlockedThreadStruct> - a table that contains all the
-     * information about non-toolkit threads with modal blocked embedded
-     * frames. This information includes: number of blocked embedded frames
-     * created on the the thread, and mouse and modal hooks installed for
-     * that thread. For every thread each hook is installed only once
+     * Hbsitbblf<Tirfbd, BlodkfdTirfbdStrudt> - b tbblf tibt dontbins bll tif
+     * informbtion bbout non-toolkit tirfbds witi modbl blodkfd fmbfddfd
+     * frbmfs. Tiis informbtion indludfs: numbfr of blodkfd fmbfddfd frbmfs
+     * drfbtfd on tif tif tirfbd, bnd mousf bnd modbl iooks instbllfd for
+     * tibt tirfbd. For fvfry tirfbd fbdi iook is instbllfd only ondf
      */
-    static Hashtable sm_BlockedThreads;
+    stbtid Hbsitbblf sm_BlodkfdTirfbds;
 };
 
-#endif /* AWT_FRAME_H */
+#fndif /* AWT_FRAME_H */

@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 1997, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.rmi.server;
+pbdkbgf sun.rmi.sfrvfr;
 
-import java.rmi.activation.ActivationGroupDesc;
-import java.rmi.activation.ActivationGroupID;
-import java.rmi.activation.ActivationGroup;
+import jbvb.rmi.bdtivbtion.AdtivbtionGroupDfsd;
+import jbvb.rmi.bdtivbtion.AdtivbtionGroupID;
+import jbvb.rmi.bdtivbtion.AdtivbtionGroup;
 
 /**
- * This is the bootstrap code to start a VM executing an activation
+ * Tiis is tif bootstrbp dodf to stbrt b VM fxfduting bn bdtivbtion
  * group.
  *
- * The activator spawns (as a child process) an activation group as needed
- * and directs activation requests to the appropriate activation
- * group. After spawning the VM, the activator passes some
- * information to the bootstrap code via its stdin: <p>
+ * Tif bdtivbtor spbwns (bs b diild prodfss) bn bdtivbtion group bs nffdfd
+ * bnd dirfdts bdtivbtion rfqufsts to tif bppropribtf bdtivbtion
+ * group. Aftfr spbwning tif VM, tif bdtivbtor pbssfs somf
+ * informbtion to tif bootstrbp dodf vib its stdin: <p>
  * <ul>
- * <li> the activation group's id,
- * <li> the activation group's descriptor (an instance of the class
- *    java.rmi.activation.ActivationGroupDesc) for the group, adn
- * <li> the group's incarnation number.
+ * <li> tif bdtivbtion group's id,
+ * <li> tif bdtivbtion group's dfsdriptor (bn instbndf of tif dlbss
+ *    jbvb.rmi.bdtivbtion.AdtivbtionGroupDfsd) for tif group, bdn
+ * <li> tif group's indbrnbtion numbfr.
  * </ul><p>
  *
- * When the bootstrap VM starts executing, it reads group id and
- * descriptor from its stdin so that it can create the activation
- * group for the VM.
+ * Wifn tif bootstrbp VM stbrts fxfduting, it rfbds group id bnd
+ * dfsdriptor from its stdin so tibt it dbn drfbtf tif bdtivbtion
+ * group for tif VM.
  *
- * @author Ann Wollrath
+ * @butior Ann Wollrbti
  */
-public abstract class ActivationGroupInit
+publid bbstrbdt dlbss AdtivbtionGroupInit
 {
     /**
-     * Main program to start a VM for an activation group.
+     * Mbin progrbm to stbrt b VM for bn bdtivbtion group.
      */
-    public static void main(String args[])
+    publid stbtid void mbin(String brgs[])
     {
         try {
-            if (System.getSecurityManager() == null) {
-                System.setSecurityManager(new SecurityManager());
+            if (Systfm.gftSfdurityMbnbgfr() == null) {
+                Systfm.sftSfdurityMbnbgfr(nfw SfdurityMbnbgfr());
             }
-            // read group id, descriptor, and incarnation number from stdin
-            MarshalInputStream in = new MarshalInputStream(System.in);
-            ActivationGroupID id  = (ActivationGroupID)in.readObject();
-            ActivationGroupDesc desc = (ActivationGroupDesc)in.readObject();
-            long incarnation = in.readLong();
+            // rfbd group id, dfsdriptor, bnd indbrnbtion numbfr from stdin
+            MbrsiblInputStrfbm in = nfw MbrsiblInputStrfbm(Systfm.in);
+            AdtivbtionGroupID id  = (AdtivbtionGroupID)in.rfbdObjfdt();
+            AdtivbtionGroupDfsd dfsd = (AdtivbtionGroupDfsd)in.rfbdObjfdt();
+            long indbrnbtion = in.rfbdLong();
 
-            // create and set group for the VM
-            ActivationGroup.createGroup(id, desc, incarnation);
-        } catch (Exception e) {
-            System.err.println("Exception in starting ActivationGroupInit:");
-            e.printStackTrace();
-        } finally {
+            // drfbtf bnd sft group for tif VM
+            AdtivbtionGroup.drfbtfGroup(id, dfsd, indbrnbtion);
+        } dbtdi (Exdfption f) {
+            Systfm.frr.println("Exdfption in stbrting AdtivbtionGroupInit:");
+            f.printStbdkTrbdf();
+        } finblly {
             try {
-                System.in.close();
-                // note: system out/err shouldn't be closed
-                // since the parent may want to read them.
-            } catch (Exception ex) {
-                // ignore exceptions
+                Systfm.in.dlosf();
+                // notf: systfm out/frr siouldn't bf dlosfd
+                // sindf tif pbrfnt mby wbnt to rfbd tifm.
+            } dbtdi (Exdfption fx) {
+                // ignorf fxdfptions
             }
         }
     }

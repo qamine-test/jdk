@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.event;
+pbdkbgf jbvbx.swing.fvfnt;
 
-import java.beans.PropertyChangeSupport;
-import java.beans.PropertyChangeEvent;
+import jbvb.bfbns.PropfrtyCibngfSupport;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
 
-import javax.swing.SwingUtilities;
+import jbvbx.swing.SwingUtilitifs;
 
 /**
- * This subclass of {@code java.beans.PropertyChangeSupport} is almost
- * identical in functionality. The only difference is if constructed with
- * {@code SwingPropertyChangeSupport(sourceBean, true)} it ensures
- * listeners are only ever notified on the <i>Event Dispatch Thread</i>.
+ * Tiis subdlbss of {@dodf jbvb.bfbns.PropfrtyCibngfSupport} is blmost
+ * idfntidbl in fundtionblity. Tif only difffrfndf is if donstrudtfd witi
+ * {@dodf SwingPropfrtyCibngfSupport(sourdfBfbn, truf)} it fnsurfs
+ * listfnfrs brf only fvfr notififd on tif <i>Evfnt Dispbtdi Tirfbd</i>.
  *
- * @author Igor Kushnirskiy
+ * @butior Igor Kusinirskiy
  */
 
-public final class SwingPropertyChangeSupport extends PropertyChangeSupport {
+publid finbl dlbss SwingPropfrtyCibngfSupport fxtfnds PropfrtyCibngfSupport {
 
     /**
-     * Constructs a SwingPropertyChangeSupport object.
+     * Construdts b SwingPropfrtyCibngfSupport objfdt.
      *
-     * @param sourceBean  The bean to be given as the source for any
-     *        events.
-     * @throws NullPointerException if {@code sourceBean} is
-     *         {@code null}
+     * @pbrbm sourdfBfbn  Tif bfbn to bf givfn bs tif sourdf for bny
+     *        fvfnts.
+     * @tirows NullPointfrExdfption if {@dodf sourdfBfbn} is
+     *         {@dodf null}
      */
-    public SwingPropertyChangeSupport(Object sourceBean) {
-        this(sourceBean, false);
+    publid SwingPropfrtyCibngfSupport(Objfdt sourdfBfbn) {
+        tiis(sourdfBfbn, fblsf);
     }
 
     /**
-     * Constructs a SwingPropertyChangeSupport object.
+     * Construdts b SwingPropfrtyCibngfSupport objfdt.
      *
-     * @param sourceBean the bean to be given as the source for any events
-     * @param notifyOnEDT whether to notify listeners on the <i>Event
-     *        Dispatch Thread</i> only
+     * @pbrbm sourdfBfbn tif bfbn to bf givfn bs tif sourdf for bny fvfnts
+     * @pbrbm notifyOnEDT wiftifr to notify listfnfrs on tif <i>Evfnt
+     *        Dispbtdi Tirfbd</i> only
      *
-     * @throws NullPointerException if {@code sourceBean} is
-     *         {@code null}
-     * @since 1.6
+     * @tirows NullPointfrExdfption if {@dodf sourdfBfbn} is
+     *         {@dodf null}
+     * @sindf 1.6
      */
-    public SwingPropertyChangeSupport(Object sourceBean, boolean notifyOnEDT) {
-        super(sourceBean);
-        this.notifyOnEDT = notifyOnEDT;
+    publid SwingPropfrtyCibngfSupport(Objfdt sourdfBfbn, boolfbn notifyOnEDT) {
+        supfr(sourdfBfbn);
+        tiis.notifyOnEDT = notifyOnEDT;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
      * <p>
-     * If {@link #isNotifyOnEDT} is {@code true} and called off the
-     * <i>Event Dispatch Thread</i> this implementation uses
-     * {@code SwingUtilities.invokeLater} to send out the notification
-     * on the <i>Event Dispatch Thread</i>. This ensures  listeners
-     * are only ever notified on the <i>Event Dispatch Thread</i>.
+     * If {@link #isNotifyOnEDT} is {@dodf truf} bnd dbllfd off tif
+     * <i>Evfnt Dispbtdi Tirfbd</i> tiis implfmfntbtion usfs
+     * {@dodf SwingUtilitifs.invokfLbtfr} to sfnd out tif notifidbtion
+     * on tif <i>Evfnt Dispbtdi Tirfbd</i>. Tiis fnsurfs  listfnfrs
+     * brf only fvfr notififd on tif <i>Evfnt Dispbtdi Tirfbd</i>.
      *
-     * @throws NullPointerException if {@code evt} is
-     *         {@code null}
-     * @since 1.6
+     * @tirows NullPointfrExdfption if {@dodf fvt} is
+     *         {@dodf null}
+     * @sindf 1.6
      */
-    public void firePropertyChange(final PropertyChangeEvent evt) {
-        if (evt == null) {
-            throw new NullPointerException();
+    publid void firfPropfrtyCibngf(finbl PropfrtyCibngfEvfnt fvt) {
+        if (fvt == null) {
+            tirow nfw NullPointfrExdfption();
         }
         if (! isNotifyOnEDT()
-            || SwingUtilities.isEventDispatchThread()) {
-            super.firePropertyChange(evt);
-        } else {
-            SwingUtilities.invokeLater(
-                new Runnable() {
-                    public void run() {
-                        firePropertyChange(evt);
+            || SwingUtilitifs.isEvfntDispbtdiTirfbd()) {
+            supfr.firfPropfrtyCibngf(fvt);
+        } flsf {
+            SwingUtilitifs.invokfLbtfr(
+                nfw Runnbblf() {
+                    publid void run() {
+                        firfPropfrtyCibngf(fvt);
                     }
                 });
         }
     }
 
     /**
-     * Returns {@code notifyOnEDT} property.
+     * Rfturns {@dodf notifyOnEDT} propfrty.
      *
-     * @return {@code notifyOnEDT} property
-     * @see #SwingPropertyChangeSupport(Object sourceBean, boolean notifyOnEDT)
-     * @since 1.6
+     * @rfturn {@dodf notifyOnEDT} propfrty
+     * @sff #SwingPropfrtyCibngfSupport(Objfdt sourdfBfbn, boolfbn notifyOnEDT)
+     * @sindf 1.6
      */
-    public final boolean isNotifyOnEDT() {
-        return notifyOnEDT;
+    publid finbl boolfbn isNotifyOnEDT() {
+        rfturn notifyOnEDT;
     }
 
-    // Serialization version ID
-    static final long serialVersionUID = 7162625831330845068L;
+    // Sfriblizbtion vfrsion ID
+    stbtid finbl long sfriblVfrsionUID = 7162625831330845068L;
 
     /**
-     * whether to notify listeners on EDT
+     * wiftifr to notify listfnfrs on EDT
      *
-     * @serial
-     * @since 1.6
+     * @sfribl
+     * @sindf 1.6
      */
-    private final boolean notifyOnEDT;
+    privbtf finbl boolfbn notifyOnEDT;
 }

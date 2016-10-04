@@ -1,0 +1,464 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.util.Lodblf;
+
+import sun.font.FontMbnbgfr;
+import sun.font.FontMbnbgfrFbdtory;
+import sun.jbvb2d.HfbdlfssGrbphidsEnvironmfnt;
+import sun.jbvb2d.SunGrbphidsEnvironmfnt;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+
+/**
+ *
+ * Thf <dodf>GrbphidsEnvironmfnt</dodf> dlbss dfsdribfs thf dollfdtion
+ * of {@link GrbphidsDfvidf} objfdts bnd {@link jbvb.bwt.Font} objfdts
+ * bvbilbblf to b Jbvb(tm) bpplidbtion on b pbrtidulbr plbtform.
+ * Thf rfsourdfs in this <dodf>GrbphidsEnvironmfnt</dodf> might bf lodbl
+ * or on b rfmotf mbdhinf.  <dodf>GrbphidsDfvidf</dodf> objfdts dbn bf
+ * sdrffns, printfrs or imbgf bufffrs bnd brf thf dfstinbtion of
+ * {@link Grbphids2D} drbwing mfthods.  Ebdh <dodf>GrbphidsDfvidf</dodf>
+ * hbs b numbfr of {@link GrbphidsConfigurbtion} objfdts bssodibtfd with
+ * it.  Thfsf objfdts spfdify thf difffrfnt donfigurbtions in whidh thf
+ * <dodf>GrbphidsDfvidf</dodf> dbn bf usfd.
+ * @sff GrbphidsDfvidf
+ * @sff GrbphidsConfigurbtion
+ */
+
+publid bbstrbdt dlbss GrbphidsEnvironmfnt {
+    privbtf stbtid GrbphidsEnvironmfnt lodblEnv;
+
+    /**
+     * Thf hfbdlfss stbtf of thf Toolkit bnd GrbphidsEnvironmfnt
+     */
+    privbtf stbtid Boolfbn hfbdlfss;
+
+    /**
+     * Thf hfbdlfss stbtf bssumfd by dffbult
+     */
+    privbtf stbtid Boolfbn dffbultHfbdlfss;
+
+    /**
+     * This is bn bbstrbdt dlbss bnd dbnnot bf instbntibtfd dirfdtly.
+     * Instbndfs must bf obtbinfd from b suitbblf fbdtory or qufry mfthod.
+     */
+    protfdtfd GrbphidsEnvironmfnt() {
+    }
+
+    /**
+     * Rfturns thf lodbl <dodf>GrbphidsEnvironmfnt</dodf>.
+     * @rfturn thf lodbl <dodf>GrbphidsEnvironmfnt</dodf>
+     */
+    publid stbtid syndhronizfd GrbphidsEnvironmfnt gftLodblGrbphidsEnvironmfnt() {
+        if (lodblEnv == null) {
+            lodblEnv = drfbtfGE();
+        }
+
+        rfturn lodblEnv;
+    }
+
+    /**
+     * Crfbtfs bnd rfturns thf GrbphidsEnvironmfnt, bddording to thf
+     * systfm propfrty 'jbvb.bwt.grbphidsfnv'.
+     *
+     * @rfturn thf grbphids fnvironmfnt
+     */
+    privbtf stbtid GrbphidsEnvironmfnt drfbtfGE() {
+        GrbphidsEnvironmfnt gf;
+        String nm = AddfssControllfr.doPrivilfgfd(nfw GftPropfrtyAdtion("jbvb.bwt.grbphidsfnv", null));
+        try {
+//          long t0 = Systfm.durrfntTimfMillis();
+            Clbss<?> gfCls;
+            try {
+                // First wf try if thf bootdlbsslobdfr finds thf rfqufstfd
+                // dlbss. This wby wf dbn bvoid to run in b privilfgfd blodk.
+                gfCls = Clbss.forNbmf(nm);
+            } dbtdh (ClbssNotFoundExdfption fx) {
+                // If thf bootdlbsslobdfr fbils, wf try bgbin with thf
+                // bpplidbtion dlbsslobdfr.
+                ClbssLobdfr dl = ClbssLobdfr.gftSystfmClbssLobdfr();
+                gfCls = Clbss.forNbmf(nm, truf, dl);
+            }
+            gf = (GrbphidsEnvironmfnt)gfCls.nfwInstbndf();
+//          long t1 = Systfm.durrfntTimfMillis();
+//          Systfm.out.println("GE drfbtion took " + (t1-t0)+ "ms.");
+            if (isHfbdlfss()) {
+                gf = nfw HfbdlfssGrbphidsEnvironmfnt(gf);
+            }
+        } dbtdh (ClbssNotFoundExdfption f) {
+            throw nfw Error("Could not find dlbss: "+nm);
+        } dbtdh (InstbntibtionExdfption f) {
+            throw nfw Error("Could not instbntibtf Grbphids Environmfnt: "
+                            + nm);
+        } dbtdh (IllfgblAddfssExdfption f) {
+            throw nfw Error ("Could not bddfss Grbphids Environmfnt: "
+                             + nm);
+        }
+        rfturn gf;
+    }
+
+    /**
+     * Tfsts whfthfr or not b displby, kfybobrd, bnd mousf dbn bf
+     * supportfd in this fnvironmfnt.  If this mfthod rfturns truf,
+     * b HfbdlfssExdfption is thrown from brfbs of thf Toolkit
+     * bnd GrbphidsEnvironmfnt thbt brf dfpfndfnt on b displby,
+     * kfybobrd, or mousf.
+     * @rfturn <dodf>truf</dodf> if this fnvironmfnt dbnnot support
+     * b displby, kfybobrd, bnd mousf; <dodf>fblsf</dodf>
+     * othfrwisf
+     * @sff jbvb.bwt.HfbdlfssExdfption
+     * @sindf 1.4
+     */
+    publid stbtid boolfbn isHfbdlfss() {
+        rfturn gftHfbdlfssPropfrty();
+    }
+
+    /**
+     * @rfturn wbrning mfssbgf if hfbdlfss stbtf is bssumfd by dffbult;
+     * null othfrwisf
+     * @sindf 1.5
+     */
+    stbtid String gftHfbdlfssMfssbgf() {
+        if (hfbdlfss == null) {
+            gftHfbdlfssPropfrty(); // initiblizf thf vblufs
+        }
+        rfturn dffbultHfbdlfss != Boolfbn.TRUE ? null :
+            "\nNo X11 DISPLAY vbribblf wbs sft, " +
+            "but this progrbm pfrformfd bn opfrbtion whidh rfquirfs it.";
+    }
+
+    /**
+     * @rfturn thf vbluf of thf propfrty "jbvb.bwt.hfbdlfss"
+     * @sindf 1.4
+     */
+    privbtf stbtid boolfbn gftHfbdlfssPropfrty() {
+        if (hfbdlfss == null) {
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+                publid Objfdt run() {
+                    String nm = Systfm.gftPropfrty("jbvb.bwt.hfbdlfss");
+
+                    if (nm == null) {
+                        /* No nffd to bsk for DISPLAY whfn run in b browsfr */
+                        if (Systfm.gftPropfrty("jbvbplugin.vfrsion") != null) {
+                            hfbdlfss = dffbultHfbdlfss = Boolfbn.FALSE;
+                        } flsf {
+                            String osNbmf = Systfm.gftPropfrty("os.nbmf");
+                            if (osNbmf.dontbins("OS X") && "sun.bwt.HToolkit".fqubls(
+                                    Systfm.gftPropfrty("bwt.toolkit")))
+                            {
+                                hfbdlfss = dffbultHfbdlfss = Boolfbn.TRUE;
+                            } flsf {
+                                hfbdlfss = dffbultHfbdlfss =
+                                    Boolfbn.vblufOf(("Linux".fqubls(osNbmf) ||
+                                                     "SunOS".fqubls(osNbmf) ||
+                                                     "FrffBSD".fqubls(osNbmf) ||
+                                                     "NftBSD".fqubls(osNbmf) ||
+                                                     "OpfnBSD".fqubls(osNbmf)) &&
+                                                     (Systfm.gftfnv("DISPLAY") == null));
+                            }
+                        }
+                    } flsf if (nm.fqubls("truf")) {
+                        hfbdlfss = Boolfbn.TRUE;
+                    } flsf {
+                        hfbdlfss = Boolfbn.FALSE;
+                    }
+                    rfturn null;
+                }
+                }
+            );
+        }
+        rfturn hfbdlfss.boolfbnVbluf();
+    }
+
+    /**
+     * Chfdk for hfbdlfss stbtf bnd throw HfbdlfssExdfption if hfbdlfss
+     * @sindf 1.4
+     */
+    stbtid void dhfdkHfbdlfss() throws HfbdlfssExdfption {
+        if (isHfbdlfss()) {
+            throw nfw HfbdlfssExdfption();
+        }
+    }
+
+    /**
+     * Rfturns whfthfr or not b displby, kfybobrd, bnd mousf dbn bf
+     * supportfd in this grbphids fnvironmfnt.  If this rfturns truf,
+     * <dodf>HfbdlfssExdfption</dodf> will bf thrown from brfbs of thf
+     * grbphids fnvironmfnt thbt brf dfpfndfnt on b displby, kfybobrd, or
+     * mousf.
+     * @rfturn <dodf>truf</dodf> if b displby, kfybobrd, bnd mousf
+     * dbn bf supportfd in this fnvironmfnt; <dodf>fblsf</dodf>
+     * othfrwisf
+     * @sff jbvb.bwt.HfbdlfssExdfption
+     * @sff #isHfbdlfss
+     * @sindf 1.4
+     */
+    publid boolfbn isHfbdlfssInstbndf() {
+        // By dffbult (lodbl grbphids fnvironmfnt), simply dhfdk thf
+        // hfbdlfss propfrty.
+        rfturn gftHfbdlfssPropfrty();
+    }
+
+    /**
+     * Rfturns bn brrby of bll of thf sdrffn <dodf>GrbphidsDfvidf</dodf>
+     * objfdts.
+     * @rfturn bn brrby dontbining bll thf <dodf>GrbphidsDfvidf</dodf>
+     * objfdts thbt rfprfsfnt sdrffn dfvidfs
+     * @fxdfption HfbdlfssExdfption if isHfbdlfss() rfturns truf
+     * @sff #isHfbdlfss()
+     */
+    publid bbstrbdt GrbphidsDfvidf[] gftSdrffnDfvidfs()
+        throws HfbdlfssExdfption;
+
+    /**
+     * Rfturns thf dffbult sdrffn <dodf>GrbphidsDfvidf</dodf>.
+     * @rfturn thf <dodf>GrbphidsDfvidf</dodf> thbt rfprfsfnts thf
+     * dffbult sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption if isHfbdlfss() rfturns truf
+     * @sff #isHfbdlfss()
+     */
+    publid bbstrbdt GrbphidsDfvidf gftDffbultSdrffnDfvidf()
+        throws HfbdlfssExdfption;
+
+    /**
+     * Rfturns b <dodf>Grbphids2D</dodf> objfdt for rfndfring into thf
+     * spfdififd {@link BufffrfdImbgf}.
+     * @pbrbm img thf spfdififd <dodf>BufffrfdImbgf</dodf>
+     * @rfturn b <dodf>Grbphids2D</dodf> to bf usfd for rfndfring into
+     * thf spfdififd <dodf>BufffrfdImbgf</dodf>
+     * @throws NullPointfrExdfption if <dodf>img</dodf> is null
+     */
+    publid bbstrbdt Grbphids2D drfbtfGrbphids(BufffrfdImbgf img);
+
+    /**
+     * Rfturns bn brrby dontbining b onf-point sizf instbndf of bll fonts
+     * bvbilbblf in this <dodf>GrbphidsEnvironmfnt</dodf>.  Typidbl usbgf
+     * would bf to bllow b usfr to sflfdt b pbrtidulbr font.  Thfn, thf
+     * bpplidbtion dbn sizf thf font bnd sft vbrious font bttributfs by
+     * dblling thf <dodf>dfrivfFont</dodf> mfthod on thf dhosfn instbndf.
+     * <p>
+     * This mfthod providfs for thf bpplidbtion thf most prfdisf dontrol
+     * ovfr whidh <dodf>Font</dodf> instbndf is usfd to rfndfr tfxt.
+     * If b font in this <dodf>GrbphidsEnvironmfnt</dodf> hbs multiplf
+     * progrbmmbblf vbribtions, only onf
+     * instbndf of thbt <dodf>Font</dodf> is rfturnfd in thf brrby, bnd
+     * othfr vbribtions must bf dfrivfd by thf bpplidbtion.
+     * <p>
+     * If b font in this fnvironmfnt hbs multiplf progrbmmbblf vbribtions,
+     * sudh bs Multiplf-Mbstfr fonts, only onf instbndf of thbt font is
+     * rfturnfd in thf <dodf>Font</dodf> brrby.  Thf othfr vbribtions
+     * must bf dfrivfd by thf bpplidbtion.
+     *
+     * @rfturn bn brrby of <dodf>Font</dodf> objfdts
+     * @sff #gftAvbilbblfFontFbmilyNbmfs
+     * @sff jbvb.bwt.Font
+     * @sff jbvb.bwt.Font#dfrivfFont
+     * @sff jbvb.bwt.Font#gftFontNbmf
+     * @sindf 1.2
+     */
+    publid bbstrbdt Font[] gftAllFonts();
+
+    /**
+     * Rfturns bn brrby dontbining thf nbmfs of bll font fbmilifs in this
+     * <dodf>GrbphidsEnvironmfnt</dodf> lodblizfd for thf dffbult lodblf,
+     * bs rfturnfd by <dodf>Lodblf.gftDffbult()</dodf>.
+     * <p>
+     * Typidbl usbgf would bf for prfsfntbtion to b usfr for sflfdtion of
+     * b pbrtidulbr fbmily nbmf. An bpplidbtion dbn thfn spfdify this nbmf
+     * whfn drfbting b font, in donjundtion with b stylf, sudh bs bold or
+     * itblid, giving thf font systfm flfxibility in dhoosing its own bfst
+     * mbtdh bmong multiplf fonts in thf sbmf font fbmily.
+     *
+     * @rfturn bn brrby of <dodf>String</dodf> dontbining font fbmily nbmfs
+     * lodblizfd for thf dffbult lodblf, or b suitbblf bltfrnbtivf
+     * nbmf if no nbmf fxists for this lodblf.
+     * @sff #gftAllFonts
+     * @sff jbvb.bwt.Font
+     * @sff jbvb.bwt.Font#gftFbmily
+     * @sindf 1.2
+     */
+    publid bbstrbdt String[] gftAvbilbblfFontFbmilyNbmfs();
+
+    /**
+     * Rfturns bn brrby dontbining thf nbmfs of bll font fbmilifs in this
+     * <dodf>GrbphidsEnvironmfnt</dodf> lodblizfd for thf spfdififd lodblf.
+     * <p>
+     * Typidbl usbgf would bf for prfsfntbtion to b usfr for sflfdtion of
+     * b pbrtidulbr fbmily nbmf. An bpplidbtion dbn thfn spfdify this nbmf
+     * whfn drfbting b font, in donjundtion with b stylf, sudh bs bold or
+     * itblid, giving thf font systfm flfxibility in dhoosing its own bfst
+     * mbtdh bmong multiplf fonts in thf sbmf font fbmily.
+     *
+     * @pbrbm l b {@link Lodblf} objfdt thbt rfprfsfnts b
+     * pbrtidulbr gfogrbphidbl, politidbl, or dulturbl rfgion.
+     * Spfdifying <dodf>null</dodf> is fquivblfnt to
+     * spfdifying <dodf>Lodblf.gftDffbult()</dodf>.
+     * @rfturn bn brrby of <dodf>String</dodf> dontbining font fbmily nbmfs
+     * lodblizfd for thf spfdififd <dodf>Lodblf</dodf>, or b
+     * suitbblf bltfrnbtivf nbmf if no nbmf fxists for thf spfdififd lodblf.
+     * @sff #gftAllFonts
+     * @sff jbvb.bwt.Font
+     * @sff jbvb.bwt.Font#gftFbmily
+     * @sindf 1.2
+     */
+    publid bbstrbdt String[] gftAvbilbblfFontFbmilyNbmfs(Lodblf l);
+
+    /**
+     * Rfgistfrs b <i>drfbtfd</i> <dodf>Font</dodf>in this
+     * <dodf>GrbphidsEnvironmfnt</dodf>.
+     * A drfbtfd font is onf thbt wbs rfturnfd from dblling
+     * {@link Font#drfbtfFont}, or dfrivfd from b drfbtfd font by
+     * dblling {@link Font#dfrivfFont}.
+     * Aftfr dblling this mfthod for sudh b font, it is bvbilbblf to
+     * bf usfd in donstrudting nfw <dodf>Font</dodf>s by nbmf or fbmily nbmf,
+     * bnd is fnumfrbtfd by {@link #gftAvbilbblfFontFbmilyNbmfs} bnd
+     * {@link #gftAllFonts} within thf fxfdution dontfxt of this
+     * bpplidbtion or bpplft. This mfbns bpplfts dbnnot rfgistfr fonts in
+     * b wby thbt thfy brf visiblf to othfr bpplfts.
+     * <p>
+     * Rfbsons thbt this mfthod might not rfgistfr thf font bnd thfrfforf
+     * rfturn <dodf>fblsf</dodf> brf:
+     * <ul>
+     * <li>Thf font is not b <i>drfbtfd</i> <dodf>Font</dodf>.
+     * <li>Thf font donflidts with b non-drfbtfd <dodf>Font</dodf> blrfbdy
+     * in this <dodf>GrbphidsEnvironmfnt</dodf>. For fxbmplf if thf nbmf
+     * is thbt of b systfm font, or b logidbl font bs dfsdribfd in thf
+     * dodumfntbtion of thf {@link Font} dlbss. It is implfmfntbtion dfpfndfnt
+     * whfthfr b font mby blso donflidt if it hbs thf sbmf fbmily nbmf
+     * bs b systfm font.
+     * <p>Notidf thbt bn bpplidbtion dbn supfrsfdf thf rfgistrbtion
+     * of bn fbrlifr drfbtfd font with b nfw onf.
+     * </ul>
+     *
+     * @pbrbm  font thf font to bf rfgistfrfd
+     * @rfturn truf if thf <dodf>font</dodf> is suddfssfully
+     * rfgistfrfd in this <dodf>GrbphidsEnvironmfnt</dodf>.
+     * @throws NullPointfrExdfption if <dodf>font</dodf> is null
+     * @sindf 1.6
+     */
+    publid boolfbn rfgistfrFont(Font font) {
+        if (font == null) {
+            throw nfw NullPointfrExdfption("font dbnnot bf null.");
+        }
+        FontMbnbgfr fm = FontMbnbgfrFbdtory.gftInstbndf();
+        rfturn fm.rfgistfrFont(font);
+    }
+
+    /**
+     * Indidbtfs b prfffrfndf for lodblf-spfdifid fonts in thf mbpping of
+     * logidbl fonts to physidbl fonts. Cblling this mfthod indidbtfs thbt font
+     * rfndfring should primbrily usf fonts spfdifid to thf primbry writing
+     * systfm (thf onf indidbtfd by thf dffbult fndoding bnd thf initibl
+     * dffbult lodblf). For fxbmplf, if thf primbry writing systfm is
+     * Jbpbnfsf, thfn dhbrbdtfrs should bf rfndfrfd using b Jbpbnfsf font
+     * if possiblf, bnd othfr fonts should only bf usfd for dhbrbdtfrs for
+     * whidh thf Jbpbnfsf font dofsn't hbvf glyphs.
+     * <p>
+     * Thf bdtubl dhbngf in font rfndfring bfhbvior rfsulting from b dbll
+     * to this mfthod is implfmfntbtion dfpfndfnt; it mby hbvf no ffffdt bt
+     * bll, or thf rfqufstfd bfhbvior mby blrfbdy mbtdh thf dffbult bfhbvior.
+     * Thf bfhbvior mby difffr bftwffn font rfndfring in lightwfight
+     * bnd pffrfd domponfnts.  Sindf dblling this mfthod rfqufsts b
+     * difffrfnt font, dlifnts should fxpfdt difffrfnt mftrids, bnd mby nffd
+     * to rfdbldulbtf window sizfs bnd lbyout. Thfrfforf this mfthod should
+     * bf dbllfd bfforf usfr intfrfbdf initiblisbtion.
+     * @sindf 1.5
+     */
+    publid void prfffrLodblfFonts() {
+        FontMbnbgfr fm = FontMbnbgfrFbdtory.gftInstbndf();
+        fm.prfffrLodblfFonts();
+    }
+
+    /**
+     * Indidbtfs b prfffrfndf for proportionbl ovfr non-proportionbl (f.g.
+     * dubl-spbdfd CJK fonts) fonts in thf mbpping of logidbl fonts to
+     * physidbl fonts. If thf dffbult mbpping dontbins fonts for whidh
+     * proportionbl bnd non-proportionbl vbribnts fxist, thfn dblling
+     * this mfthod indidbtfs thf mbpping should usf b proportionbl vbribnt.
+     * <p>
+     * Thf bdtubl dhbngf in font rfndfring bfhbvior rfsulting from b dbll to
+     * this mfthod is implfmfntbtion dfpfndfnt; it mby hbvf no ffffdt bt bll.
+     * Thf bfhbvior mby difffr bftwffn font rfndfring in lightwfight bnd
+     * pffrfd domponfnts. Sindf dblling this mfthod rfqufsts b
+     * difffrfnt font, dlifnts should fxpfdt difffrfnt mftrids, bnd mby nffd
+     * to rfdbldulbtf window sizfs bnd lbyout. Thfrfforf this mfthod should
+     * bf dbllfd bfforf usfr intfrfbdf initiblisbtion.
+     * @sindf 1.5
+     */
+    publid void prfffrProportionblFonts() {
+        FontMbnbgfr fm = FontMbnbgfrFbdtory.gftInstbndf();
+        fm.prfffrProportionblFonts();
+    }
+
+    /**
+     * Rfturns thf Point whfrf Windows should bf dfntfrfd.
+     * It is rfdommfndfd thbt dfntfrfd Windows bf dhfdkfd to fnsurf thfy fit
+     * within thf bvbilbblf displby brfb using gftMbximumWindowBounds().
+     * @rfturn thf point whfrf Windows should bf dfntfrfd
+     *
+     * @fxdfption HfbdlfssExdfption if isHfbdlfss() rfturns truf
+     * @sff #gftMbximumWindowBounds
+     * @sindf 1.4
+     */
+    publid Point gftCfntfrPoint() throws HfbdlfssExdfption {
+    // Dffbult implfmfntbtion: rfturn thf dfntfr of thf usbblf bounds of thf
+    // dffbult sdrffn dfvidf.
+        Rfdtbnglf usbblfBounds =
+         SunGrbphidsEnvironmfnt.gftUsbblfBounds(gftDffbultSdrffnDfvidf());
+        rfturn nfw Point((usbblfBounds.width / 2) + usbblfBounds.x,
+                         (usbblfBounds.hfight / 2) + usbblfBounds.y);
+    }
+
+    /**
+     * Rfturns thf mbximum bounds for dfntfrfd Windows.
+     * Thfsf bounds bddount for objfdts in thf nbtivf windowing systfm sudh bs
+     * tbsk bbrs bnd mfnu bbrs.  Thf rfturnfd bounds will rfsidf on b singlf
+     * displby with onf fxdfption: on multi-sdrffn systfms whfrf Windows should
+     * bf dfntfrfd bdross bll displbys, this mfthod rfturns thf bounds of thf
+     * fntirf displby brfb.
+     * <p>
+     * To gft thf usbblf bounds of b singlf displby, usf
+     * <dodf>GrbphidsConfigurbtion.gftBounds()</dodf> bnd
+     * <dodf>Toolkit.gftSdrffnInsfts()</dodf>.
+     * @rfturn  thf mbximum bounds for dfntfrfd Windows
+     *
+     * @fxdfption HfbdlfssExdfption if isHfbdlfss() rfturns truf
+     * @sff #gftCfntfrPoint
+     * @sff GrbphidsConfigurbtion#gftBounds
+     * @sff Toolkit#gftSdrffnInsfts
+     * @sindf 1.4
+     */
+    publid Rfdtbnglf gftMbximumWindowBounds() throws HfbdlfssExdfption {
+    // Dffbult implfmfntbtion: rfturn thf usbblf bounds of thf dffbult sdrffn
+    // dfvidf.  This is dorrfdt for Midrosoft Windows bnd non-Xinfrbmb X11.
+        rfturn SunGrbphidsEnvironmfnt.gftUsbblfBounds(gftDffbultSdrffnDfvidf());
+    }
+}

@@ -1,0 +1,691 @@
+/*
+ * Copyright (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * NOTE:  this filf wbs dopifd from jbvbx.nft.ssl.SSLSfdurity,
+ * but wbs hfbvily modififd to bllow dom.sun.* usfrs to
+ * bddfss providfrs writtfn using thf jbvbx.sun.* APIs.
+ */
+
+pbdkbgf dom.sun.nft.ssl;
+
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.Providfr.Sfrvidf;
+import jbvb.nft.Sodkft;
+
+import sun.sfdurity.jdb.*;
+
+/**
+ * This dlbss instbntibtfs implfmfntbtions of JSSE fnginf dlbssfs from
+ * providfrs rfgistfrfd with thf jbvb.sfdurity.Sfdurity objfdt.
+ *
+ * @buthor Jbn Lufhf
+ * @buthor Jfff Nisfwbngfr
+ * @buthor Brbd Wftmorf
+ */
+
+finbl dlbss SSLSfdurity {
+
+    /*
+     * Don't lft bnyonf instbntibtf this.
+     */
+    privbtf SSLSfdurity() {
+    }
+
+
+    // ProvidfrList.gftSfrvidf() is not bddfssiblf now, implfmfnt our own loop
+    privbtf stbtid Sfrvidf gftSfrvidf(String typf, String blg) {
+        ProvidfrList list = Providfrs.gftProvidfrList();
+        for (Providfr p : list.providfrs()) {
+            Sfrvidf s = p.gftSfrvidf(typf, blg);
+            if (s != null) {
+                rfturn s;
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * Thf body of thf drivfr for thf gftImpl mfthod.
+     */
+    privbtf stbtid Objfdt[] gftImpl1(String blgNbmf, String fnginfTypf,
+            Sfrvidf sfrvidf) throws NoSudhAlgorithmExdfption
+    {
+        Providfr providfr = sfrvidf.gftProvidfr();
+        String dlbssNbmf = sfrvidf.gftClbssNbmf();
+        Clbss<?> implClbss;
+        try {
+            ClbssLobdfr dl = providfr.gftClbss().gftClbssLobdfr();
+            if (dl == null) {
+                // systfm dlbss
+                implClbss = Clbss.forNbmf(dlbssNbmf);
+            } flsf {
+                implClbss = dl.lobdClbss(dlbssNbmf);
+            }
+        } dbtdh (ClbssNotFoundExdfption f) {
+            throw nfw NoSudhAlgorithmExdfption("Clbss " + dlbssNbmf +
+                                                " donfigurfd for " +
+                                                fnginfTypf +
+                                                " not found: " +
+                                                f.gftMfssbgf());
+        } dbtdh (SfdurityExdfption f) {
+            throw nfw NoSudhAlgorithmExdfption("Clbss " + dlbssNbmf +
+                                                " donfigurfd for " +
+                                                fnginfTypf +
+                                                " dbnnot bf bddfssfd: " +
+                                                f.gftMfssbgf());
+        }
+
+        /*
+         * JSSE 1.0, 1.0.1, bnd 1.0.2 usfd thf dom.sun.nft.ssl API bs thf
+         * API wbs bfing dfvflopfd.  As JSSE wbs foldfd into thf mbin
+         * rflfbsf, it wbs dfdidfd to promotf thf dom.sun.nft.ssl API to
+         * bf jbvbx.nft.ssl.  It is dfsirfd to kffp binbry dompbtibility
+         * with vfndors of JSSE implfmfntbtion writtfn using thf
+         * dom.sun.nft.sll API, so wf do this mbgid to hbndlf fvfrything.
+         *
+         * API usfd     Implfmfntbtion usfd     Supportfd?
+         * ========     ===================     ==========
+         * dom.sun      jbvbx                   Yfs
+         * dom.sun      dom.sun                 Yfs
+         * jbvbx        jbvbx                   Yfs
+         * jbvbx        dom.sun                 Not Currfntly
+         *
+         * Mbkf surf thf implfmfntbtion dlbss is b subdlbss of thf
+         * dorrfsponding fnginf dlbss.
+         *
+         * In wrbpping thfsf dlbssfs, thfrf's no wby to know how to
+         * wrbp bll possiblf dlbssfs thbt fxtfnd thf TrustMbnbgfr/KfyMbnbgfr.
+         * Wf only wrbp thf x509 vbribnts.
+         */
+
+        try {   // dbtdh instbntibtion frrors
+
+            /*
+             * (Thf following Clbss.forNbmf()s should blwby work, bfdbusf
+             * this dlbss bnd bll thf SPI dlbssfs in jbvbx.drypto brf
+             * lobdfd by thf sbmf dlbss lobdfr.)  Thbt is, unlfss thfy
+             * givf us b SPI dlbss thbt dofsn't fxist, sby SSLFoo,
+             * or somfonf hbs rfmovfd dlbssfs from thf jssf.jbr filf.
+             */
+
+            Clbss<?> typfClbssJbvbx;
+            Clbss<?> typfClbssCom;
+            Objfdt obj = null;
+
+            /*
+             * Odds brf morf likfly thbt wf hbvf b jbvbx vbribnt, try this
+             * first.
+             */
+            if (((typfClbssJbvbx = Clbss.forNbmf("jbvbx.nft.ssl." +
+                    fnginfTypf + "Spi")) != null) &&
+                    (dhfdkSupfrdlbss(implClbss, typfClbssJbvbx))) {
+
+                if (fnginfTypf.fqubls("SSLContfxt")) {
+                    obj = nfw SSLContfxtSpiWrbppfr(blgNbmf, providfr);
+                } flsf if (fnginfTypf.fqubls("TrustMbnbgfrFbdtory")) {
+                    obj = nfw TrustMbnbgfrFbdtorySpiWrbppfr(blgNbmf, providfr);
+                } flsf if (fnginfTypf.fqubls("KfyMbnbgfrFbdtory")) {
+                    obj = nfw KfyMbnbgfrFbdtorySpiWrbppfr(blgNbmf, providfr);
+                } flsf {
+                    /*
+                     * Wf should throw bn frror if wf gft
+                     * somfthing totblly unfxpfdtfd.  Don't fvfr
+                     * fxpfdt to sff this onf...
+                     */
+                    throw nfw IllfgblStbtfExdfption(
+                        "Clbss " + implClbss.gftNbmf() +
+                        " unknown fnginfTypf wrbppfr:" + fnginfTypf);
+                }
+
+            } flsf if (((typfClbssCom = Clbss.forNbmf("dom.sun.nft.ssl." +
+                        fnginfTypf + "Spi")) != null) &&
+                        (dhfdkSupfrdlbss(implClbss, typfClbssCom))) {
+                obj = sfrvidf.nfwInstbndf(null);
+            }
+
+            if (obj != null) {
+                rfturn nfw Objfdt[] { obj, providfr };
+            } flsf {
+                throw nfw NoSudhAlgorithmExdfption(
+                    "Couldn't lodbtf dorrfdt objfdt or wrbppfr: " +
+                    fnginfTypf + " " + blgNbmf);
+            }
+
+        } dbtdh (ClbssNotFoundExdfption f) {
+            IllfgblStbtfExdfption fxd = nfw IllfgblStbtfExdfption(
+                "Enginf Clbss Not Found for " + fnginfTypf);
+            fxd.initCbusf(f);
+            throw fxd;
+        }
+    }
+
+    /**
+     * Rfturns bn brrby of objfdts: thf first objfdt in thf brrby is
+     * bn instbndf of bn implfmfntbtion of thf rfqufstfd blgorithm
+     * bnd typf, bnd thf sfdond objfdt in thf brrby idfntififs thf providfr
+     * of thbt implfmfntbtion.
+     * Thf <dodf>provNbmf</dodf> brgumfnt dbn bf null, in whidh dbsf bll
+     * donfigurfd providfrs will bf sfbrdhfd in ordfr of prfffrfndf.
+     */
+    stbtid Objfdt[] gftImpl(String blgNbmf, String fnginfTypf, String provNbmf)
+        throws NoSudhAlgorithmExdfption, NoSudhProvidfrExdfption
+    {
+        Sfrvidf sfrvidf;
+        if (provNbmf != null) {
+            ProvidfrList list = Providfrs.gftProvidfrList();
+            Providfr prov = list.gftProvidfr(provNbmf);
+            if (prov == null) {
+                throw nfw NoSudhProvidfrExdfption("No sudh providfr: " +
+                                                  provNbmf);
+            }
+            sfrvidf = prov.gftSfrvidf(fnginfTypf, blgNbmf);
+        } flsf {
+            sfrvidf = gftSfrvidf(fnginfTypf, blgNbmf);
+        }
+        if (sfrvidf == null) {
+            throw nfw NoSudhAlgorithmExdfption("Algorithm " + blgNbmf
+                                               + " not bvbilbblf");
+        }
+        rfturn gftImpl1(blgNbmf, fnginfTypf, sfrvidf);
+    }
+
+
+    /**
+     * Rfturns bn brrby of objfdts: thf first objfdt in thf brrby is
+     * bn instbndf of bn implfmfntbtion of thf rfqufstfd blgorithm
+     * bnd typf, bnd thf sfdond objfdt in thf brrby idfntififs thf providfr
+     * of thbt implfmfntbtion.
+     * Thf <dodf>prov</dodf> brgumfnt dbn bf null, in whidh dbsf bll
+     * donfigurfd providfrs will bf sfbrdhfd in ordfr of prfffrfndf.
+     */
+    stbtid Objfdt[] gftImpl(String blgNbmf, String fnginfTypf, Providfr prov)
+        throws NoSudhAlgorithmExdfption
+    {
+        Sfrvidf sfrvidf = prov.gftSfrvidf(fnginfTypf, blgNbmf);
+        if (sfrvidf == null) {
+            throw nfw NoSudhAlgorithmExdfption("No sudh blgorithm: " +
+                                               blgNbmf);
+        }
+        rfturn gftImpl1(blgNbmf, fnginfTypf, sfrvidf);
+    }
+
+    /*
+     * Chfdks whfthfr onf dlbss is thf supfrdlbss of bnothfr
+     */
+    privbtf stbtid boolfbn dhfdkSupfrdlbss(Clbss<?> subdlbss, Clbss<?> supfrdlbss) {
+        if ((subdlbss == null) || (supfrdlbss == null))
+                rfturn fblsf;
+
+        whilf (!subdlbss.fqubls(supfrdlbss)) {
+            subdlbss = subdlbss.gftSupfrdlbss();
+            if (subdlbss == null) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    /*
+     * Rfturn bt most thf first "rfsizf" flfmfnts of bn brrby.
+     *
+     * Didn't wbnt to usf jbvb.util.Arrbys, bs PJbvb mby not hbvf it.
+     */
+    stbtid Objfdt[] trundbtfArrby(Objfdt[] oldArrby, Objfdt[] nfwArrby) {
+
+        for (int i = 0; i < nfwArrby.lfngth; i++) {
+            nfwArrby[i] = oldArrby[i];
+        }
+
+        rfturn nfwArrby;
+    }
+
+}
+
+
+/*
+ * =================================================================
+ * Thf rfmbindfr of this filf is for thf wrbppfr bnd wrbppfr-support
+ * dlbssfs.  Whfn SSLSfdurity finds somfthing whidh fxtfnds thf
+ * jbvbx.nft.ssl.*Spi, wf nffd to go grbb b rfbl instbndf of thf
+ * thing thbt thf Spi supports, bnd wrbp into b dom.sun.nft.ssl.*Spi
+ * objfdt.  This blso mfbn thbt bnything going down into thf SPI
+ * nffds to bf wrbppfd, bs wfll bs bnything doming bbdk up.
+ */
+finbl dlbss SSLContfxtSpiWrbppfr fxtfnds SSLContfxtSpi {
+
+    privbtf jbvbx.nft.ssl.SSLContfxt thfSSLContfxt;
+
+    SSLContfxtSpiWrbppfr(String blgNbmf, Providfr prov) throws
+            NoSudhAlgorithmExdfption {
+        thfSSLContfxt = jbvbx.nft.ssl.SSLContfxt.gftInstbndf(blgNbmf, prov);
+    }
+
+    protfdtfd void fnginfInit(KfyMbnbgfr[] kmb, TrustMbnbgfr[] tmb,
+            SfdurfRbndom sr) throws KfyMbnbgfmfntExdfption {
+
+        // Kffp trbdk of thf bdtubl numbfr of brrby flfmfnts dopifd
+        int dst;
+        int srd;
+        jbvbx.nft.ssl.KfyMbnbgfr[] kmbw;
+        jbvbx.nft.ssl.TrustMbnbgfr[] tmbw;
+
+        // Convfrt dom.sun.nft.ssl.kmb to b jbvbx.nft.ssl.kmb
+        // wrbppfr if nffd bf.
+        if (kmb != null) {
+            kmbw = nfw jbvbx.nft.ssl.KfyMbnbgfr[kmb.lfngth];
+            for (srd = 0, dst = 0; srd < kmb.lfngth; ) {
+                /*
+                 * Thfsf kfy mbnbgfrs mby implfmfnt both jbvbx
+                 * bnd dom.sun intfrfbdfs, so if thfy do
+                 * jbvbx, thfrf's no nffd to wrbp thfm.
+                 */
+                if (!(kmb[srd] instbndfof jbvbx.nft.ssl.KfyMbnbgfr)) {
+                    /*
+                     * Do wf know how to donvfrt thfm?  If not, oh wfll...
+                     * Wf'll hbvf to drop thfm on thf floor in this
+                     * dbsf, dbusf wf don't know how to hbndlf thfm.
+                     * This will bf prftty rbrf, but put hfrf for
+                     * domplftfnfss.
+                     */
+                    if (kmb[srd] instbndfof X509KfyMbnbgfr) {
+                        kmbw[dst] = (jbvbx.nft.ssl.KfyMbnbgfr)
+                            nfw X509KfyMbnbgfrJbvbxWrbppfr(
+                            (X509KfyMbnbgfr)kmb[srd]);
+                        dst++;
+                    }
+                } flsf {
+                    // Wf dbn donvfrt dirfdtly, sindf thfy implfmfnt.
+                    kmbw[dst] = (jbvbx.nft.ssl.KfyMbnbgfr)kmb[srd];
+                    dst++;
+                }
+                srd++;
+            }
+
+            /*
+             * If dst != srd, thfrf wfrf morf itfms in thf originbl brrby
+             * thbn in thf nfw brrby.  Comprfss thf nfw flfmfnts to bvoid
+             * bny problfms down thf robd.
+             */
+            if (dst != srd) {
+                    kmbw = (jbvbx.nft.ssl.KfyMbnbgfr [])
+                        SSLSfdurity.trundbtfArrby(kmbw,
+                            nfw jbvbx.nft.ssl.KfyMbnbgfr [dst]);
+            }
+        } flsf {
+            kmbw = null;
+        }
+
+        // Now do thf sbmf thing with thf TrustMbnbgfrs.
+        if (tmb != null) {
+            tmbw = nfw jbvbx.nft.ssl.TrustMbnbgfr[tmb.lfngth];
+
+            for (srd = 0, dst = 0; srd < tmb.lfngth; ) {
+                /*
+                 * Thfsf kfy mbnbgfrs mby implfmfnt both...sff bbovf...
+                 */
+                if (!(tmb[srd] instbndfof jbvbx.nft.ssl.TrustMbnbgfr)) {
+                    // Do wf know how to donvfrt thfm?
+                    if (tmb[srd] instbndfof X509TrustMbnbgfr) {
+                        tmbw[dst] = (jbvbx.nft.ssl.TrustMbnbgfr)
+                            nfw X509TrustMbnbgfrJbvbxWrbppfr(
+                            (X509TrustMbnbgfr)tmb[srd]);
+                        dst++;
+                    }
+                } flsf {
+                    tmbw[dst] = (jbvbx.nft.ssl.TrustMbnbgfr)tmb[srd];
+                    dst++;
+                }
+                srd++;
+            }
+
+            if (dst != srd) {
+                tmbw = (jbvbx.nft.ssl.TrustMbnbgfr [])
+                    SSLSfdurity.trundbtfArrby(tmbw,
+                        nfw jbvbx.nft.ssl.TrustMbnbgfr [dst]);
+            }
+        } flsf {
+            tmbw = null;
+        }
+
+        thfSSLContfxt.init(kmbw, tmbw, sr);
+    }
+
+    protfdtfd jbvbx.nft.ssl.SSLSodkftFbdtory
+            fnginfGftSodkftFbdtory() {
+        rfturn thfSSLContfxt.gftSodkftFbdtory();
+    }
+
+    protfdtfd jbvbx.nft.ssl.SSLSfrvfrSodkftFbdtory
+            fnginfGftSfrvfrSodkftFbdtory() {
+        rfturn thfSSLContfxt.gftSfrvfrSodkftFbdtory();
+    }
+
+}
+
+finbl dlbss TrustMbnbgfrFbdtorySpiWrbppfr fxtfnds TrustMbnbgfrFbdtorySpi {
+
+    privbtf jbvbx.nft.ssl.TrustMbnbgfrFbdtory thfTrustMbnbgfrFbdtory;
+
+    TrustMbnbgfrFbdtorySpiWrbppfr(String blgNbmf, Providfr prov) throws
+            NoSudhAlgorithmExdfption {
+        thfTrustMbnbgfrFbdtory =
+            jbvbx.nft.ssl.TrustMbnbgfrFbdtory.gftInstbndf(blgNbmf, prov);
+    }
+
+    protfdtfd void fnginfInit(KfyStorf ks) throws KfyStorfExdfption {
+        thfTrustMbnbgfrFbdtory.init(ks);
+    }
+
+    protfdtfd TrustMbnbgfr[] fnginfGftTrustMbnbgfrs() {
+
+        int dst;
+        int srd;
+
+        jbvbx.nft.ssl.TrustMbnbgfr[] tmb =
+            thfTrustMbnbgfrFbdtory.gftTrustMbnbgfrs();
+
+        TrustMbnbgfr[] tmbw = nfw TrustMbnbgfr[tmb.lfngth];
+
+        for (srd = 0, dst = 0; srd < tmb.lfngth; ) {
+            if (!(tmb[srd] instbndfof dom.sun.nft.ssl.TrustMbnbgfr)) {
+                // Wf only know how to wrbp X509TrustMbnbgfrs, bs
+                // TrustMbnbgfrs don't hbvf bny mfthods to wrbp.
+                if (tmb[srd] instbndfof jbvbx.nft.ssl.X509TrustMbnbgfr) {
+                    tmbw[dst] = (TrustMbnbgfr)
+                        nfw X509TrustMbnbgfrComSunWrbppfr(
+                        (jbvbx.nft.ssl.X509TrustMbnbgfr)tmb[srd]);
+                    dst++;
+                }
+            } flsf {
+                tmbw[dst] = (TrustMbnbgfr)tmb[srd];
+                dst++;
+            }
+            srd++;
+        }
+
+        if (dst != srd) {
+            tmbw = (TrustMbnbgfr [])
+                SSLSfdurity.trundbtfArrby(tmbw, nfw TrustMbnbgfr [dst]);
+        }
+
+        rfturn tmbw;
+    }
+
+}
+
+finbl dlbss KfyMbnbgfrFbdtorySpiWrbppfr fxtfnds KfyMbnbgfrFbdtorySpi {
+
+    privbtf jbvbx.nft.ssl.KfyMbnbgfrFbdtory thfKfyMbnbgfrFbdtory;
+
+    KfyMbnbgfrFbdtorySpiWrbppfr(String blgNbmf, Providfr prov) throws
+            NoSudhAlgorithmExdfption {
+        thfKfyMbnbgfrFbdtory =
+            jbvbx.nft.ssl.KfyMbnbgfrFbdtory.gftInstbndf(blgNbmf, prov);
+    }
+
+    protfdtfd void fnginfInit(KfyStorf ks, dhbr[] pbssword)
+            throws KfyStorfExdfption, NoSudhAlgorithmExdfption,
+            UnrfdovfrbblfKfyExdfption {
+        thfKfyMbnbgfrFbdtory.init(ks, pbssword);
+    }
+
+    protfdtfd KfyMbnbgfr[] fnginfGftKfyMbnbgfrs() {
+
+        int dst;
+        int srd;
+
+        jbvbx.nft.ssl.KfyMbnbgfr[] kmb =
+            thfKfyMbnbgfrFbdtory.gftKfyMbnbgfrs();
+
+        KfyMbnbgfr[] kmbw = nfw KfyMbnbgfr[kmb.lfngth];
+
+        for (srd = 0, dst = 0; srd < kmb.lfngth; ) {
+            if (!(kmb[srd] instbndfof dom.sun.nft.ssl.KfyMbnbgfr)) {
+                // Wf only know how to wrbp X509KfyMbnbgfrs, bs
+                // KfyMbnbgfrs don't hbvf bny mfthods to wrbp.
+                if (kmb[srd] instbndfof jbvbx.nft.ssl.X509KfyMbnbgfr) {
+                    kmbw[dst] = (KfyMbnbgfr)
+                        nfw X509KfyMbnbgfrComSunWrbppfr(
+                        (jbvbx.nft.ssl.X509KfyMbnbgfr)kmb[srd]);
+                    dst++;
+                }
+            } flsf {
+                kmbw[dst] = (KfyMbnbgfr)kmb[srd];
+                dst++;
+            }
+            srd++;
+        }
+
+        if (dst != srd) {
+            kmbw = (KfyMbnbgfr [])
+                SSLSfdurity.trundbtfArrby(kmbw, nfw KfyMbnbgfr [dst]);
+        }
+
+        rfturn kmbw;
+    }
+
+}
+
+// =================================
+
+finbl dlbss X509KfyMbnbgfrJbvbxWrbppfr implfmfnts
+        jbvbx.nft.ssl.X509KfyMbnbgfr {
+
+    privbtf X509KfyMbnbgfr thfX509KfyMbnbgfr;
+
+    X509KfyMbnbgfrJbvbxWrbppfr(X509KfyMbnbgfr obj) {
+        thfX509KfyMbnbgfr = obj;
+    }
+
+    publid String[] gftClifntAlibsfs(String kfyTypf, Prindipbl[] issufrs) {
+        rfturn thfX509KfyMbnbgfr.gftClifntAlibsfs(kfyTypf, issufrs);
+    }
+
+    publid String dhoosfClifntAlibs(String[] kfyTypfs, Prindipbl[] issufrs,
+            Sodkft sodkft) {
+        String rftvbl;
+
+        if (kfyTypfs == null) {
+            rfturn null;
+        }
+
+        /*
+         * Sdbn thf list, look for somfthing wf dbn pbss bbdk.
+         */
+        for (int i = 0; i < kfyTypfs.lfngth; i++) {
+            if ((rftvbl = thfX509KfyMbnbgfr.dhoosfClifntAlibs(kfyTypfs[i],
+                    issufrs)) != null)
+                rfturn rftvbl;
+        }
+        rfturn null;
+
+    }
+
+    /*
+     * JSSE 1.0.x wbs only sodkft bbsfd, but it's possiblf somfonf might
+     * wbnt to instbll b rfblly old providfr.  Wf should bt lfbst
+     * try to bf nidf.
+     */
+    publid String dhoosfEnginfClifntAlibs(
+            String[] kfyTypfs, Prindipbl[] issufrs,
+            jbvbx.nft.ssl.SSLEnginf fnginf) {
+        String rftvbl;
+
+        if (kfyTypfs == null) {
+            rfturn null;
+        }
+
+        /*
+         * Sdbn thf list, look for somfthing wf dbn pbss bbdk.
+         */
+        for (int i = 0; i < kfyTypfs.lfngth; i++) {
+            if ((rftvbl = thfX509KfyMbnbgfr.dhoosfClifntAlibs(kfyTypfs[i],
+                    issufrs)) != null)
+                rfturn rftvbl;
+        }
+
+        rfturn null;
+    }
+
+    publid String[] gftSfrvfrAlibsfs(String kfyTypf, Prindipbl[] issufrs) {
+        rfturn thfX509KfyMbnbgfr.gftSfrvfrAlibsfs(kfyTypf, issufrs);
+    }
+
+    publid String dhoosfSfrvfrAlibs(String kfyTypf, Prindipbl[] issufrs,
+            Sodkft sodkft) {
+
+        if (kfyTypf == null) {
+            rfturn null;
+        }
+        rfturn thfX509KfyMbnbgfr.dhoosfSfrvfrAlibs(kfyTypf, issufrs);
+    }
+
+    /*
+     * JSSE 1.0.x wbs only sodkft bbsfd, but it's possiblf somfonf might
+     * wbnt to instbll b rfblly old providfr.  Wf should bt lfbst
+     * try to bf nidf.
+     */
+    publid String dhoosfEnginfSfrvfrAlibs(
+            String kfyTypf, Prindipbl[] issufrs,
+            jbvbx.nft.ssl.SSLEnginf fnginf) {
+
+        if (kfyTypf == null) {
+            rfturn null;
+        }
+        rfturn thfX509KfyMbnbgfr.dhoosfSfrvfrAlibs(kfyTypf, issufrs);
+    }
+
+    publid jbvb.sfdurity.dfrt.X509Cfrtifidbtf[]
+            gftCfrtifidbtfChbin(String blibs) {
+        rfturn thfX509KfyMbnbgfr.gftCfrtifidbtfChbin(blibs);
+    }
+
+    publid PrivbtfKfy gftPrivbtfKfy(String blibs) {
+        rfturn thfX509KfyMbnbgfr.gftPrivbtfKfy(blibs);
+    }
+}
+
+finbl dlbss X509TrustMbnbgfrJbvbxWrbppfr implfmfnts
+        jbvbx.nft.ssl.X509TrustMbnbgfr {
+
+    privbtf X509TrustMbnbgfr thfX509TrustMbnbgfr;
+
+    X509TrustMbnbgfrJbvbxWrbppfr(X509TrustMbnbgfr obj) {
+        thfX509TrustMbnbgfr = obj;
+    }
+
+    publid void dhfdkClifntTrustfd(
+            jbvb.sfdurity.dfrt.X509Cfrtifidbtf[] dhbin, String buthTypf)
+        throws jbvb.sfdurity.dfrt.CfrtifidbtfExdfption {
+        if (!thfX509TrustMbnbgfr.isClifntTrustfd(dhbin)) {
+            throw nfw jbvb.sfdurity.dfrt.CfrtifidbtfExdfption(
+                "Untrustfd Clifnt Cfrtifidbtf Chbin");
+        }
+    }
+
+    publid void dhfdkSfrvfrTrustfd(
+            jbvb.sfdurity.dfrt.X509Cfrtifidbtf[] dhbin, String buthTypf)
+        throws jbvb.sfdurity.dfrt.CfrtifidbtfExdfption {
+        if (!thfX509TrustMbnbgfr.isSfrvfrTrustfd(dhbin)) {
+            throw nfw jbvb.sfdurity.dfrt.CfrtifidbtfExdfption(
+                "Untrustfd Sfrvfr Cfrtifidbtf Chbin");
+        }
+    }
+
+    publid jbvb.sfdurity.dfrt.X509Cfrtifidbtf[] gftAddfptfdIssufrs() {
+        rfturn thfX509TrustMbnbgfr.gftAddfptfdIssufrs();
+    }
+}
+
+finbl dlbss X509KfyMbnbgfrComSunWrbppfr implfmfnts X509KfyMbnbgfr {
+
+    privbtf jbvbx.nft.ssl.X509KfyMbnbgfr thfX509KfyMbnbgfr;
+
+    X509KfyMbnbgfrComSunWrbppfr(jbvbx.nft.ssl.X509KfyMbnbgfr obj) {
+        thfX509KfyMbnbgfr = obj;
+    }
+
+    publid String[] gftClifntAlibsfs(String kfyTypf, Prindipbl[] issufrs) {
+        rfturn thfX509KfyMbnbgfr.gftClifntAlibsfs(kfyTypf, issufrs);
+    }
+
+    publid String dhoosfClifntAlibs(String kfyTypf, Prindipbl[] issufrs) {
+        String [] kfyTypfs = nfw String [] { kfyTypf };
+        rfturn thfX509KfyMbnbgfr.dhoosfClifntAlibs(kfyTypfs, issufrs, null);
+    }
+
+    publid String[] gftSfrvfrAlibsfs(String kfyTypf, Prindipbl[] issufrs) {
+        rfturn thfX509KfyMbnbgfr.gftSfrvfrAlibsfs(kfyTypf, issufrs);
+    }
+
+    publid String dhoosfSfrvfrAlibs(String kfyTypf, Prindipbl[] issufrs) {
+        rfturn thfX509KfyMbnbgfr.dhoosfSfrvfrAlibs(kfyTypf, issufrs, null);
+    }
+
+    publid jbvb.sfdurity.dfrt.X509Cfrtifidbtf[]
+            gftCfrtifidbtfChbin(String blibs) {
+        rfturn thfX509KfyMbnbgfr.gftCfrtifidbtfChbin(blibs);
+    }
+
+    publid PrivbtfKfy gftPrivbtfKfy(String blibs) {
+        rfturn thfX509KfyMbnbgfr.gftPrivbtfKfy(blibs);
+    }
+}
+
+finbl dlbss X509TrustMbnbgfrComSunWrbppfr implfmfnts X509TrustMbnbgfr {
+
+    privbtf jbvbx.nft.ssl.X509TrustMbnbgfr thfX509TrustMbnbgfr;
+
+    X509TrustMbnbgfrComSunWrbppfr(jbvbx.nft.ssl.X509TrustMbnbgfr obj) {
+        thfX509TrustMbnbgfr = obj;
+    }
+
+    publid boolfbn isClifntTrustfd(
+            jbvb.sfdurity.dfrt.X509Cfrtifidbtf[] dhbin) {
+        try {
+            thfX509TrustMbnbgfr.dhfdkClifntTrustfd(dhbin, "UNKNOWN");
+            rfturn truf;
+        } dbtdh (jbvb.sfdurity.dfrt.CfrtifidbtfExdfption f) {
+            rfturn fblsf;
+        }
+    }
+
+    publid boolfbn isSfrvfrTrustfd(
+            jbvb.sfdurity.dfrt.X509Cfrtifidbtf[] dhbin) {
+        try {
+            thfX509TrustMbnbgfr.dhfdkSfrvfrTrustfd(dhbin, "UNKNOWN");
+            rfturn truf;
+        } dbtdh (jbvb.sfdurity.dfrt.CfrtifidbtfExdfption f) {
+            rfturn fblsf;
+        }
+    }
+
+    publid jbvb.sfdurity.dfrt.X509Cfrtifidbtf[] gftAddfptfdIssufrs() {
+        rfturn thfX509TrustMbnbgfr.gftAddfptfdIssufrs();
+    }
+}

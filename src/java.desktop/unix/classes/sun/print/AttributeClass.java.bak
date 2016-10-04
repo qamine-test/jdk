@@ -1,289 +1,289 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.print;
+pbdkbgf sun.print;
 
-import java.util.Objects;
-import java.io.ByteArrayInputStream;
+import jbvb.util.Objfdts;
+import jbvb.io.BytfArrbyInputStrfbm;
 
-public class AttributeClass {
-    private String myName;
-    private int myType;
-    private int nameLen;
-    private Object myValue;
+publid dlbss AttributfClbss {
+    privbtf String myNbmf;
+    privbtf int myTypf;
+    privbtf int nbmfLfn;
+    privbtf Objfdt myVbluf;
 
-    public static final int TAG_UNSUPPORTED_VALUE = 0x10;
-    public static final int TAG_INT = 0x21;
-    public static final int TAG_BOOL = 0x22;
-    public static final int TAG_ENUM = 0x23;
-    public static final int TAG_OCTET = 0x30;
-    public static final int TAG_DATE = 0x31;
-    public static final int TAG_RESOLUTION = 0x32;
-    public static final int TAG_RANGE_INTEGER = 0x33;
+    publid stbtid finbl int TAG_UNSUPPORTED_VALUE = 0x10;
+    publid stbtid finbl int TAG_INT = 0x21;
+    publid stbtid finbl int TAG_BOOL = 0x22;
+    publid stbtid finbl int TAG_ENUM = 0x23;
+    publid stbtid finbl int TAG_OCTET = 0x30;
+    publid stbtid finbl int TAG_DATE = 0x31;
+    publid stbtid finbl int TAG_RESOLUTION = 0x32;
+    publid stbtid finbl int TAG_RANGE_INTEGER = 0x33;
 
-    public static final int TAG_TEXT_LANGUAGE = 0x35;
-    public static final int TAG_NAME_LANGUAGE = 0x36;
+    publid stbtid finbl int TAG_TEXT_LANGUAGE = 0x35;
+    publid stbtid finbl int TAG_NAME_LANGUAGE = 0x36;
 
-    public static final int TAG_TEXT_WO_LANGUAGE = 0x41;
-    public static final int TAG_NAME_WO_LANGUAGE = 0x42;
-    public static final int TAG_KEYWORD = 0x44;
-    public static final int TAG_URI = 0x45;
-    public static final int TAG_CHARSET = 0x47;
-    public static final int TAG_NATURALLANGUAGE = 0x48;
-    public static final int TAG_MIME_MEDIATYPE = 0x49;
-    public static final int TAG_MEMBER_ATTRNAME = 0x4A;
+    publid stbtid finbl int TAG_TEXT_WO_LANGUAGE = 0x41;
+    publid stbtid finbl int TAG_NAME_WO_LANGUAGE = 0x42;
+    publid stbtid finbl int TAG_KEYWORD = 0x44;
+    publid stbtid finbl int TAG_URI = 0x45;
+    publid stbtid finbl int TAG_CHARSET = 0x47;
+    publid stbtid finbl int TAG_NATURALLANGUAGE = 0x48;
+    publid stbtid finbl int TAG_MIME_MEDIATYPE = 0x49;
+    publid stbtid finbl int TAG_MEMBER_ATTRNAME = 0x4A;
 
 
-    public static final AttributeClass ATTRIBUTES_CHARSET =
-        new AttributeClass("attributes-charset",
+    publid stbtid finbl AttributfClbss ATTRIBUTES_CHARSET =
+        nfw AttributfClbss("bttributfs-dibrsft",
                            TAG_CHARSET, "utf-8");
-    public static final AttributeClass ATTRIBUTES_NATURAL_LANGUAGE =
-        new AttributeClass("attributes-natural-language",
-                           TAG_NATURALLANGUAGE, "en");
+    publid stbtid finbl AttributfClbss ATTRIBUTES_NATURAL_LANGUAGE =
+        nfw AttributfClbss("bttributfs-nbturbl-lbngubgf",
+                           TAG_NATURALLANGUAGE, "fn");
 
     /*
-     * value passed in by IPPPrintService.readIPPResponse is a sequence
-     * of bytes with this format
-     * | length1 | byte1 | byte 2 | ... byten | length2 | byte1 ... byten |
+     * vbluf pbssfd in by IPPPrintSfrvidf.rfbdIPPRfsponsf is b sfqufndf
+     * of bytfs witi tiis formbt
+     * | lfngti1 | bytf1 | bytf 2 | ... bytfn | lfngti2 | bytf1 ... bytfn |
      *      :
-     * | lengthN | byte1 ... byten | total number of values|
+     * | lfngtiN | bytf1 ... bytfn | totbl numbfr of vblufs|
      */
-    protected AttributeClass(String name, int type, Object value) {
-        myName = name;
-        myType = type;
-        nameLen = name.length();
-        myValue = value;
+    protfdtfd AttributfClbss(String nbmf, int typf, Objfdt vbluf) {
+        myNbmf = nbmf;
+        myTypf = typf;
+        nbmfLfn = nbmf.lfngti();
+        myVbluf = vbluf;
     }
 
-    public byte getType() {
-        return (byte)myType;
+    publid bytf gftTypf() {
+        rfturn (bytf)myTypf;
     }
 
-    public char[] getLenChars() {
-        char[] chars = new char[2];
-        chars[0] = 0;
-        chars[1] = (char)nameLen;
-        return chars;
+    publid dibr[] gftLfnCibrs() {
+        dibr[] dibrs = nfw dibr[2];
+        dibrs[0] = 0;
+        dibrs[1] = (dibr)nbmfLfn;
+        rfturn dibrs;
     }
 
     /**
-     * Returns raw data.
+     * Rfturns rbw dbtb.
      */
-    public Object getObjectValue() {
-        return myValue;
+    publid Objfdt gftObjfdtVbluf() {
+        rfturn myVbluf;
     }
 
     /**
-     * Returns single int value.
+     * Rfturns singlf int vbluf.
      */
-    public int getIntValue() {
-        byte[] bufArray = (byte[])myValue;
+    publid int gftIntVbluf() {
+        bytf[] bufArrby = (bytf[])myVbluf;
 
-        if (bufArray != null) {
-            byte[] buf = new byte[4];
+        if (bufArrby != null) {
+            bytf[] buf = nfw bytf[4];
             for (int i=0; i<4; i++) {
-                buf[i] = bufArray[i+1];
+                buf[i] = bufArrby[i+1];
             }
 
-            return convertToInt(buf);
+            rfturn donvfrtToInt(buf);
         }
-        return 0;
+        rfturn 0;
     }
 
     /**
-     * Returns array of int values.
+     * Rfturns brrby of int vblufs.
      */
-    public int[] getArrayOfIntValues() {
+    publid int[] gftArrbyOfIntVblufs() {
 
-        byte[] bufArray = (byte[])myValue;
-        if (bufArray != null) {
+        bytf[] bufArrby = (bytf[])myVbluf;
+        if (bufArrby != null) {
 
-            //ArrayList valList = new ArrayList();
-            ByteArrayInputStream bufStream =
-                new ByteArrayInputStream(bufArray);
-            int available = bufStream.available();
+            //ArrbyList vblList = nfw ArrbyList();
+            BytfArrbyInputStrfbm bufStrfbm =
+                nfw BytfArrbyInputStrfbm(bufArrby);
+            int bvbilbblf = bufStrfbm.bvbilbblf();
 
-            // total number of values is at the end of the stream
-            bufStream.mark(available);
-            bufStream.skip(available-1);
-            int length = bufStream.read();
-            bufStream.reset();
+            // totbl numbfr of vblufs is bt tif fnd of tif strfbm
+            bufStrfbm.mbrk(bvbilbblf);
+            bufStrfbm.skip(bvbilbblf-1);
+            int lfngti = bufStrfbm.rfbd();
+            bufStrfbm.rfsft();
 
-            int[] valueArray = new int[length];
-            for (int i = 0; i < length; i++) {
-                // read length
-                int valLength = bufStream.read();
-                if (valLength != 4) {
-                    // invalid data
-                    return null;
+            int[] vblufArrby = nfw int[lfngti];
+            for (int i = 0; i < lfngti; i++) {
+                // rfbd lfngti
+                int vblLfngti = bufStrfbm.rfbd();
+                if (vblLfngti != 4) {
+                    // invblid dbtb
+                    rfturn null;
                 }
 
-                byte[] bufBytes = new byte[valLength];
-                bufStream.read(bufBytes, 0, valLength);
-                valueArray[i] = convertToInt(bufBytes);
+                bytf[] bufBytfs = nfw bytf[vblLfngti];
+                bufStrfbm.rfbd(bufBytfs, 0, vblLfngti);
+                vblufArrby[i] = donvfrtToInt(bufBytfs);
 
             }
-            return valueArray;
+            rfturn vblufArrby;
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns 2 int values.
+     * Rfturns 2 int vblufs.
      */
-    public int[] getIntRangeValue() {
-        int[] range = {0, 0};
-        byte[] bufArray = (byte[])myValue;
-        if (bufArray != null) {
-            int nBytes = 4; // 32-bit signed integer
-            for (int j=0; j<2; j++) { // 2 set of integers
-                byte[] intBytes = new byte[nBytes];
-                // REMIND: # bytes should be 8
-                for (int i=0; i< nBytes; i++) {
-                    //+ 1 because the 1st byte is length
-                    intBytes[i] = bufArray[i+(4*j)+1];
+    publid int[] gftIntRbngfVbluf() {
+        int[] rbngf = {0, 0};
+        bytf[] bufArrby = (bytf[])myVbluf;
+        if (bufArrby != null) {
+            int nBytfs = 4; // 32-bit signfd intfgfr
+            for (int j=0; j<2; j++) { // 2 sft of intfgfrs
+                bytf[] intBytfs = nfw bytf[nBytfs];
+                // REMIND: # bytfs siould bf 8
+                for (int i=0; i< nBytfs; i++) {
+                    //+ 1 bfdbusf tif 1st bytf is lfngti
+                    intBytfs[i] = bufArrby[i+(4*j)+1];
                 }
-                range[j] = convertToInt(intBytes);
+                rbngf[j] = donvfrtToInt(intBytfs);
             }
         }
-        return range;
+        rfturn rbngf;
 
     }
 
     /**
-     * Returns String value.
+     * Rfturns String vbluf.
      */
-    public String getStringValue() {
-        //assumes only 1 attribute value.  Will get the first value
+    publid String gftStringVbluf() {
+        //bssumfs only 1 bttributf vbluf.  Will gft tif first vbluf
         // if > 1.
-        String strVal = null;
-        byte[] bufArray = (byte[])myValue;
-        if (bufArray != null) {
-            ByteArrayInputStream bufStream =
-                new ByteArrayInputStream(bufArray);
+        String strVbl = null;
+        bytf[] bufArrby = (bytf[])myVbluf;
+        if (bufArrby != null) {
+            BytfArrbyInputStrfbm bufStrfbm =
+                nfw BytfArrbyInputStrfbm(bufArrby);
 
-            int valLength = bufStream.read();
+            int vblLfngti = bufStrfbm.rfbd();
 
-            byte[] strBytes = new byte[valLength];
-            bufStream.read(strBytes, 0, valLength);
+            bytf[] strBytfs = nfw bytf[vblLfngti];
+            bufStrfbm.rfbd(strBytfs, 0, vblLfngti);
             try {
-                strVal = new String(strBytes, "UTF-8");
-            } catch (java.io.UnsupportedEncodingException uee) {
+                strVbl = nfw String(strBytfs, "UTF-8");
+            } dbtdi (jbvb.io.UnsupportfdEndodingExdfption uff) {
             }
         }
-        return strVal;
+        rfturn strVbl;
     }
 
 
     /**
-     * Returns array of String values.
+     * Rfturns brrby of String vblufs.
      */
-    public String[] getArrayOfStringValues() {
+    publid String[] gftArrbyOfStringVblufs() {
 
-        byte[] bufArray = (byte[])myValue;
-        if (bufArray != null) {
-            ByteArrayInputStream bufStream =
-                new ByteArrayInputStream(bufArray);
-            int available = bufStream.available();
+        bytf[] bufArrby = (bytf[])myVbluf;
+        if (bufArrby != null) {
+            BytfArrbyInputStrfbm bufStrfbm =
+                nfw BytfArrbyInputStrfbm(bufArrby);
+            int bvbilbblf = bufStrfbm.bvbilbblf();
 
-            // total number of values is at the end of the stream
-            bufStream.mark(available);
-            bufStream.skip(available-1);
-            int length = bufStream.read();
-            bufStream.reset();
+            // totbl numbfr of vblufs is bt tif fnd of tif strfbm
+            bufStrfbm.mbrk(bvbilbblf);
+            bufStrfbm.skip(bvbilbblf-1);
+            int lfngti = bufStrfbm.rfbd();
+            bufStrfbm.rfsft();
 
-            String[] valueArray = new String[length];
-            for (int i = 0; i < length; i++) {
-                // read length
-                int valLength = bufStream.read();
-                byte[] bufBytes = new byte[valLength];
-                bufStream.read(bufBytes, 0, valLength);
+            String[] vblufArrby = nfw String[lfngti];
+            for (int i = 0; i < lfngti; i++) {
+                // rfbd lfngti
+                int vblLfngti = bufStrfbm.rfbd();
+                bytf[] bufBytfs = nfw bytf[vblLfngti];
+                bufStrfbm.rfbd(bufBytfs, 0, vblLfngti);
                 try {
-                    valueArray[i] = new String(bufBytes, "UTF-8");
-                } catch (java.io.UnsupportedEncodingException uee) {
+                    vblufArrby[i] = nfw String(bufBytfs, "UTF-8");
+                } dbtdi (jbvb.io.UnsupportfdEndodingExdfption uff) {
                 }
             }
-            return valueArray;
+            rfturn vblufArrby;
         }
-        return null;
+        rfturn null;
     }
 
 
     /**
-     * Returns single byte value.
+     * Rfturns singlf bytf vbluf.
      */
-    public byte getByteValue() {
-        byte[] bufArray = (byte[])myValue;
+    publid bytf gftBytfVbluf() {
+        bytf[] bufArrby = (bytf[])myVbluf;
 
-        if ((bufArray != null) && (bufArray.length>=2)) {
-            return bufArray[1];
+        if ((bufArrby != null) && (bufArrby.lfngti>=2)) {
+            rfturn bufArrby[1];
         }
-        return 0;
+        rfturn 0;
     }
 
     /**
-     * Returns attribute name.
+     * Rfturns bttributf nbmf.
      */
-    public String getName() {
-        return myName;
+    publid String gftNbmf() {
+        rfturn myNbmf;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof AttributeClass)) {
-            return false;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof AttributfClbss)) {
+            rfturn fblsf;
         }
-        if (this == obj) {
-            return true;
+        if (tiis == obj) {
+            rfturn truf;
         }
 
-        AttributeClass acObj = (AttributeClass) obj;
-        return myType == acObj.getType() &&
-               Objects.equals(myName, acObj.getName()) &&
-               Objects.equals(myValue, acObj.getObjectValue());
+        AttributfClbss bdObj = (AttributfClbss) obj;
+        rfturn myTypf == bdObj.gftTypf() &&
+               Objfdts.fqubls(myNbmf, bdObj.gftNbmf()) &&
+               Objfdts.fqubls(myVbluf, bdObj.gftObjfdtVbluf());
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(myType, myName, myValue);
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn Objfdts.ibsi(myTypf, myNbmf, myVbluf);
     }
 
-    public String toString() {
-        return myName;
+    publid String toString() {
+        rfturn myNbmf;
     }
 
-    private int unsignedByteToInt(byte b) {
-        return (b & 0xff);
+    privbtf int unsignfdBytfToInt(bytf b) {
+        rfturn (b & 0xff);
     }
 
-    private int convertToInt(byte[] buf) {
-        int intVal = 0;
+    privbtf int donvfrtToInt(bytf[] buf) {
+        int intVbl = 0;
         int pos = 0;
-        intVal+= unsignedByteToInt(buf[pos++]) << 24;
-        intVal+= unsignedByteToInt(buf[pos++]) << 16;
-        intVal+= unsignedByteToInt(buf[pos++]) << 8;
-        intVal+= unsignedByteToInt(buf[pos++]) << 0;
-        return intVal;
+        intVbl+= unsignfdBytfToInt(buf[pos++]) << 24;
+        intVbl+= unsignfdBytfToInt(buf[pos++]) << 16;
+        intVbl+= unsignfdBytfToInt(buf[pos++]) << 8;
+        intVbl+= unsignfdBytfToInt(buf[pos++]) << 0;
+        rfturn intVbl;
     }
 }

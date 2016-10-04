@@ -1,768 +1,768 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole;
+pbdkbgf sun.tools.jdonsolf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.lang.management.*;
-import java.lang.reflect.*;
-import java.util.*;
-import java.util.concurrent.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.io.*;
+import jbvb.lbng.mbnbgfmfnt.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.*;
 
-import javax.accessibility.*;
-import javax.management.*;
-import javax.management.openmbean.CompositeData;
-import javax.swing.*;
-import javax.swing.border.*;
+import jbvbx.bddfssibility.*;
+import jbvbx.mbnbgfmfnt.*;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
 
 
-import static sun.tools.jconsole.Formatter.*;
-import static sun.tools.jconsole.Utilities.*;
+import stbtid sun.tools.jdonsolf.Formbttfr.*;
+import stbtid sun.tools.jdonsolf.Utilitifs.*;
 
-@SuppressWarnings("serial")
-class MemoryTab extends Tab implements ActionListener, ItemListener {
-    JComboBox<Plotter> plotterChoice;
-    TimeComboBox timeComboBox;
-    JButton gcButton;
+@SupprfssWbrnings("sfribl")
+dlbss MfmoryTbb fxtfnds Tbb implfmfnts AdtionListfnfr, ItfmListfnfr {
+    JComboBox<Plottfr> plottfrCioidf;
+    TimfComboBox timfComboBox;
+    JButton gdButton;
 
-    PlotterPanel plotterPanel;
-    JPanel bottomPanel;
-    HTMLPane details;
-    PoolChart poolChart;
+    PlottfrPbnfl plottfrPbnfl;
+    JPbnfl bottomPbnfl;
+    HTMLPbnf dftbils;
+    PoolCibrt poolCibrt;
 
-    ArrayList<Plotter> plotterList;
-    Plotter heapPlotter, nonHeapPlotter;
+    ArrbyList<Plottfr> plottfrList;
+    Plottfr ifbpPlottfr, nonHfbpPlottfr;
 
-    private MemoryOverviewPanel overviewPanel;
+    privbtf MfmoryOvfrvifwPbnfl ovfrvifwPbnfl;
 
-    private static final String usedKey        = "used";
-    private static final String committedKey   = "committed";
-    private static final String maxKey         = "max";
-    private static final String thresholdKey   = "threshold";
-    private static final Color  usedColor      = Plotter.defaultColor;
-    private static final Color  committedColor = null;
-    private static final Color  maxColor       = null;
-    private static final Color  thresholdColor = Color.red;
+    privbtf stbtid finbl String usfdKfy        = "usfd";
+    privbtf stbtid finbl String dommittfdKfy   = "dommittfd";
+    privbtf stbtid finbl String mbxKfy         = "mbx";
+    privbtf stbtid finbl String tirfsioldKfy   = "tirfsiold";
+    privbtf stbtid finbl Color  usfdColor      = Plottfr.dffbultColor;
+    privbtf stbtid finbl Color  dommittfdColor = null;
+    privbtf stbtid finbl Color  mbxColor       = null;
+    privbtf stbtid finbl Color  tirfsioldColor = Color.rfd;
 
     /*
-      Hierarchy of panels and layouts for this tab:
+      Hifrbrdiy of pbnfls bnd lbyouts for tiis tbb:
 
-        MemoryTab (BorderLayout)
+        MfmoryTbb (BordfrLbyout)
 
-            North:  topPanel (BorderLayout)
+            Norti:  topPbnfl (BordfrLbyout)
 
-                        Center: controlPanel (FlowLayout)
-                                    plotterChoice, timeComboBox
+                        Cfntfr: dontrolPbnfl (FlowLbyout)
+                                    plottfrCioidf, timfComboBox
 
-                        East:   topRightPanel (FlowLayout)
-                                    gcButton
+                        Ebst:   topRigitPbnfl (FlowLbyout)
+                                    gdButton
 
-            Center: plotterPanel
+            Cfntfr: plottfrPbnfl
 
-                        Center: plotter
+                        Cfntfr: plottfr
 
-            South:  bottomPanel (BorderLayout)
+            Souti:  bottomPbnfl (BordfrLbyout)
 
-                        Center: details
-                        East:   poolChart
+                        Cfntfr: dftbils
+                        Ebst:   poolCibrt
     */
 
 
-    public static String getTabName() {
-        return Messages.MEMORY;
+    publid stbtid String gftTbbNbmf() {
+        rfturn Mfssbgfs.MEMORY;
     }
 
-    public MemoryTab(VMPanel vmPanel) {
-        super(vmPanel, getTabName());
+    publid MfmoryTbb(VMPbnfl vmPbnfl) {
+        supfr(vmPbnfl, gftTbbNbmf());
 
-        setLayout(new BorderLayout(0, 0));
-        setBorder(new EmptyBorder(4, 4, 3, 4));
+        sftLbyout(nfw BordfrLbyout(0, 0));
+        sftBordfr(nfw EmptyBordfr(4, 4, 3, 4));
 
-        JPanel topPanel     = new JPanel(new BorderLayout());
-               plotterPanel = new PlotterPanel(null);
-               bottomPanel  = new JPanel(new BorderLayout());
+        JPbnfl topPbnfl     = nfw JPbnfl(nfw BordfrLbyout());
+               plottfrPbnfl = nfw PlottfrPbnfl(null);
+               bottomPbnfl  = nfw JPbnfl(nfw BordfrLbyout());
 
-        add(topPanel,     BorderLayout.NORTH);
-        add(plotterPanel, BorderLayout.CENTER);
+        bdd(topPbnfl,     BordfrLbyout.NORTH);
+        bdd(plottfrPbnfl, BordfrLbyout.CENTER);
 
-        JPanel controlPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 20, 5));
-        topPanel.add(controlPanel, BorderLayout.CENTER);
+        JPbnfl dontrolPbnfl = nfw JPbnfl(nfw FlowLbyout(FlowLbyout.LEADING, 20, 5));
+        topPbnfl.bdd(dontrolPbnfl, BordfrLbyout.CENTER);
 
-        // Plotter choice
-        plotterChoice = new JComboBox<Plotter>();
-        plotterChoice.addItemListener(this);
-        controlPanel.add(new LabeledComponent(Messages.CHART_COLON,
-                                              Resources.getMnemonicInt(Messages.CHART_COLON),
-                                              plotterChoice));
+        // Plottfr dioidf
+        plottfrCioidf = nfw JComboBox<Plottfr>();
+        plottfrCioidf.bddItfmListfnfr(tiis);
+        dontrolPbnfl.bdd(nfw LbbflfdComponfnt(Mfssbgfs.CHART_COLON,
+                                              Rfsourdfs.gftMnfmonidInt(Mfssbgfs.CHART_COLON),
+                                              plottfrCioidf));
 
-        // Range control
-        timeComboBox = new TimeComboBox();
-        controlPanel.add(new LabeledComponent(Messages.TIME_RANGE_COLON,
-                                              Resources.getMnemonicInt(Messages.TIME_RANGE_COLON),
-                                              timeComboBox));
+        // Rbngf dontrol
+        timfComboBox = nfw TimfComboBox();
+        dontrolPbnfl.bdd(nfw LbbflfdComponfnt(Mfssbgfs.TIME_RANGE_COLON,
+                                              Rfsourdfs.gftMnfmonidInt(Mfssbgfs.TIME_RANGE_COLON),
+                                              timfComboBox));
 
-        gcButton = new JButton(Messages.PERFORM_GC);
-        gcButton.setMnemonic(Resources.getMnemonicInt(Messages.PERFORM_GC));
-        gcButton.addActionListener(this);
-        gcButton.setToolTipText(Messages.PERFORM_GC_TOOLTIP);
-        JPanel topRightPanel = new JPanel();
-        topRightPanel.setBorder(new EmptyBorder(0, 65-8, 0, 70));
-        topRightPanel.add(gcButton);
-        topPanel.add(topRightPanel, BorderLayout.AFTER_LINE_ENDS);
+        gdButton = nfw JButton(Mfssbgfs.PERFORM_GC);
+        gdButton.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.PERFORM_GC));
+        gdButton.bddAdtionListfnfr(tiis);
+        gdButton.sftToolTipTfxt(Mfssbgfs.PERFORM_GC_TOOLTIP);
+        JPbnfl topRigitPbnfl = nfw JPbnfl();
+        topRigitPbnfl.sftBordfr(nfw EmptyBordfr(0, 65-8, 0, 70));
+        topRigitPbnfl.bdd(gdButton);
+        topPbnfl.bdd(topRigitPbnfl, BordfrLbyout.AFTER_LINE_ENDS);
 
-        bottomPanel.setBorder(new CompoundBorder(new TitledBorder(Messages.DETAILS),
-                                                  new EmptyBorder(10, 10, 10, 10)));
+        bottomPbnfl.sftBordfr(nfw CompoundBordfr(nfw TitlfdBordfr(Mfssbgfs.DETAILS),
+                                                  nfw EmptyBordfr(10, 10, 10, 10)));
 
-        details = new HTMLPane();
-        setAccessibleName(details, Messages.DETAILS);
-        bottomPanel.add(new JScrollPane(details), BorderLayout.CENTER);
+        dftbils = nfw HTMLPbnf();
+        sftAddfssiblfNbmf(dftbils, Mfssbgfs.DETAILS);
+        bottomPbnfl.bdd(nfw JSdrollPbnf(dftbils), BordfrLbyout.CENTER);
 
-        poolChart = new PoolChart();
-        bottomPanel.add(poolChart, BorderLayout.AFTER_LINE_ENDS);
+        poolCibrt = nfw PoolCibrt();
+        bottomPbnfl.bdd(poolCibrt, BordfrLbyout.AFTER_LINE_ENDS);
     }
 
 
-    private void createPlotters() throws IOException {
-        plotterList = new ArrayList<Plotter>();
+    privbtf void drfbtfPlottfrs() tirows IOExdfption {
+        plottfrList = nfw ArrbyList<Plottfr>();
 
-        ProxyClient proxyClient = vmPanel.getProxyClient();
+        ProxyClifnt proxyClifnt = vmPbnfl.gftProxyClifnt();
 
-        heapPlotter = new Plotter(Plotter.Unit.BYTES) {
-            public String toString() {
-                return Messages.HEAP_MEMORY_USAGE;
+        ifbpPlottfr = nfw Plottfr(Plottfr.Unit.BYTES) {
+            publid String toString() {
+                rfturn Mfssbgfs.HEAP_MEMORY_USAGE;
             }
         };
-        proxyClient.addWeakPropertyChangeListener(heapPlotter);
+        proxyClifnt.bddWfbkPropfrtyCibngfListfnfr(ifbpPlottfr);
 
-        nonHeapPlotter = new Plotter(Plotter.Unit.BYTES) {
-            public String toString() {
-                return Messages.NON_HEAP_MEMORY_USAGE;
+        nonHfbpPlottfr = nfw Plottfr(Plottfr.Unit.BYTES) {
+            publid String toString() {
+                rfturn Mfssbgfs.NON_HEAP_MEMORY_USAGE;
             }
         };
 
-        setAccessibleName(heapPlotter,
-                          Messages.MEMORY_TAB_HEAP_PLOTTER_ACCESSIBLE_NAME);
-        setAccessibleName(nonHeapPlotter,
-                          Messages.MEMORY_TAB_NON_HEAP_PLOTTER_ACCESSIBLE_NAME);
+        sftAddfssiblfNbmf(ifbpPlottfr,
+                          Mfssbgfs.MEMORY_TAB_HEAP_PLOTTER_ACCESSIBLE_NAME);
+        sftAddfssiblfNbmf(nonHfbpPlottfr,
+                          Mfssbgfs.MEMORY_TAB_NON_HEAP_PLOTTER_ACCESSIBLE_NAME);
 
-        proxyClient.addWeakPropertyChangeListener(nonHeapPlotter);
+        proxyClifnt.bddWfbkPropfrtyCibngfListfnfr(nonHfbpPlottfr);
 
-        heapPlotter.createSequence(usedKey,         Messages.USED,      usedColor,      true);
-        heapPlotter.createSequence(committedKey,    Messages.COMMITTED, committedColor, false);
-        heapPlotter.createSequence(maxKey,          Messages.MAX,       maxColor,       false);
+        ifbpPlottfr.drfbtfSfqufndf(usfdKfy,         Mfssbgfs.USED,      usfdColor,      truf);
+        ifbpPlottfr.drfbtfSfqufndf(dommittfdKfy,    Mfssbgfs.COMMITTED, dommittfdColor, fblsf);
+        ifbpPlottfr.drfbtfSfqufndf(mbxKfy,          Mfssbgfs.MAX,       mbxColor,       fblsf);
 
-        nonHeapPlotter.createSequence(usedKey,      Messages.USED,      usedColor,      true);
-        nonHeapPlotter.createSequence(committedKey, Messages.COMMITTED, committedColor, false);
-        nonHeapPlotter.createSequence(maxKey,       Messages.MAX,       maxColor,       false);
+        nonHfbpPlottfr.drfbtfSfqufndf(usfdKfy,      Mfssbgfs.USED,      usfdColor,      truf);
+        nonHfbpPlottfr.drfbtfSfqufndf(dommittfdKfy, Mfssbgfs.COMMITTED, dommittfdColor, fblsf);
+        nonHfbpPlottfr.drfbtfSfqufndf(mbxKfy,       Mfssbgfs.MAX,       mbxColor,       fblsf);
 
-        plotterList.add(heapPlotter);
-        plotterList.add(nonHeapPlotter);
+        plottfrList.bdd(ifbpPlottfr);
+        plottfrList.bdd(nonHfbpPlottfr);
 
-        // Now add memory pools
-        Map<ObjectName, MBeanInfo> mBeanMap = proxyClient.getMBeans("java.lang");
-        Set<ObjectName> keys = mBeanMap.keySet();
-        ObjectName[] objectNames = keys.toArray(new ObjectName[keys.size()]);
-        ArrayList<PoolPlotter> nonHeapPlotters = new ArrayList<PoolPlotter>(2);
-        for (ObjectName objectName : objectNames) {
-            String type = objectName.getKeyProperty("type");
-            if (type.equals("MemoryPool")) {
-                String name = Resources.format(Messages.MEMORY_POOL_LABEL,
-                                               objectName.getKeyProperty("name"));
-                // Heap or non-heap?
-                boolean isHeap = false;
-                AttributeList al =
-                    proxyClient.getAttributes(objectName,
-                                              new String[] { "Type" });
-                if (al.size() > 0) {
-                    isHeap = MemoryType.HEAP.name().equals(((Attribute)al.get(0)).getValue());
+        // Now bdd mfmory pools
+        Mbp<ObjfdtNbmf, MBfbnInfo> mBfbnMbp = proxyClifnt.gftMBfbns("jbvb.lbng");
+        Sft<ObjfdtNbmf> kfys = mBfbnMbp.kfySft();
+        ObjfdtNbmf[] objfdtNbmfs = kfys.toArrby(nfw ObjfdtNbmf[kfys.sizf()]);
+        ArrbyList<PoolPlottfr> nonHfbpPlottfrs = nfw ArrbyList<PoolPlottfr>(2);
+        for (ObjfdtNbmf objfdtNbmf : objfdtNbmfs) {
+            String typf = objfdtNbmf.gftKfyPropfrty("typf");
+            if (typf.fqubls("MfmoryPool")) {
+                String nbmf = Rfsourdfs.formbt(Mfssbgfs.MEMORY_POOL_LABEL,
+                                               objfdtNbmf.gftKfyPropfrty("nbmf"));
+                // Hfbp or non-ifbp?
+                boolfbn isHfbp = fblsf;
+                AttributfList bl =
+                    proxyClifnt.gftAttributfs(objfdtNbmf,
+                                              nfw String[] { "Typf" });
+                if (bl.sizf() > 0) {
+                    isHfbp = MfmoryTypf.HEAP.nbmf().fqubls(((Attributf)bl.gft(0)).gftVbluf());
                 }
-                PoolPlotter poolPlotter = new PoolPlotter(objectName, name, isHeap);
-                proxyClient.addWeakPropertyChangeListener(poolPlotter);
+                PoolPlottfr poolPlottfr = nfw PoolPlottfr(objfdtNbmf, nbmf, isHfbp);
+                proxyClifnt.bddWfbkPropfrtyCibngfListfnfr(poolPlottfr);
 
-                poolPlotter.createSequence(usedKey,      Messages.USED,      usedColor,      true);
-                poolPlotter.createSequence(committedKey, Messages.COMMITTED, committedColor, false);
-                poolPlotter.createSequence(maxKey,       Messages.MAX,       maxColor,       false);
-                poolPlotter.createSequence(thresholdKey, Messages.THRESHOLD, thresholdColor, false);
-                poolPlotter.setUseDashedTransitions(thresholdKey, true);
+                poolPlottfr.drfbtfSfqufndf(usfdKfy,      Mfssbgfs.USED,      usfdColor,      truf);
+                poolPlottfr.drfbtfSfqufndf(dommittfdKfy, Mfssbgfs.COMMITTED, dommittfdColor, fblsf);
+                poolPlottfr.drfbtfSfqufndf(mbxKfy,       Mfssbgfs.MAX,       mbxColor,       fblsf);
+                poolPlottfr.drfbtfSfqufndf(tirfsioldKfy, Mfssbgfs.THRESHOLD, tirfsioldColor, fblsf);
+                poolPlottfr.sftUsfDbsifdTrbnsitions(tirfsioldKfy, truf);
 
-                if (isHeap) {
-                    plotterList.add(poolPlotter);
-                } else {
-                    // Will be added to plotterList below
-                    nonHeapPlotters.add(poolPlotter);
+                if (isHfbp) {
+                    plottfrList.bdd(poolPlottfr);
+                } flsf {
+                    // Will bf bddfd to plottfrList bflow
+                    nonHfbpPlottfrs.bdd(poolPlottfr);
                 }
             }
         }
-        // Add non-heap plotters last
-        for (PoolPlotter poolPlotter : nonHeapPlotters) {
-            plotterList.add(poolPlotter);
+        // Add non-ifbp plottfrs lbst
+        for (PoolPlottfr poolPlottfr : nonHfbpPlottfrs) {
+            plottfrList.bdd(poolPlottfr);
         }
     }
 
 
-    public void itemStateChanged(ItemEvent ev) {
-        if (ev.getStateChange() == ItemEvent.SELECTED) {
-            Plotter plotter = (Plotter)plotterChoice.getSelectedItem();
-            plotterPanel.setPlotter(plotter);
-            plotterPanel.repaint();
+    publid void itfmStbtfCibngfd(ItfmEvfnt fv) {
+        if (fv.gftStbtfCibngf() == ItfmEvfnt.SELECTED) {
+            Plottfr plottfr = (Plottfr)plottfrCioidf.gftSflfdtfdItfm();
+            plottfrPbnfl.sftPlottfr(plottfr);
+            plottfrPbnfl.rfpbint();
         }
     }
 
-    public void gc() {
-        new Thread("MemoryPanel.gc") {
-            public void run() {
-                ProxyClient proxyClient = vmPanel.getProxyClient();
+    publid void gd() {
+        nfw Tirfbd("MfmoryPbnfl.gd") {
+            publid void run() {
+                ProxyClifnt proxyClifnt = vmPbnfl.gftProxyClifnt();
                 try {
-                    proxyClient.getMemoryMXBean().gc();
-                } catch (UndeclaredThrowableException e) {
-                    proxyClient.markAsDead();
-                } catch (IOException e) {
-                    // Ignore
+                    proxyClifnt.gftMfmoryMXBfbn().gd();
+                } dbtdi (UndfdlbrfdTirowbblfExdfption f) {
+                    proxyClifnt.mbrkAsDfbd();
+                } dbtdi (IOExdfption f) {
+                    // Ignorf
                 }
             }
-        }.start();
+        }.stbrt();
     }
 
-    public SwingWorker<?, ?> newSwingWorker() {
-        return new SwingWorker<Boolean, Object>() {
-            private long[] used, committed, max, threshold;
-            private long timeStamp;
-            private String detailsStr;
-            private boolean initialRun = false;
+    publid SwingWorkfr<?, ?> nfwSwingWorkfr() {
+        rfturn nfw SwingWorkfr<Boolfbn, Objfdt>() {
+            privbtf long[] usfd, dommittfd, mbx, tirfsiold;
+            privbtf long timfStbmp;
+            privbtf String dftbilsStr;
+            privbtf boolfbn initiblRun = fblsf;
 
-            public Boolean doInBackground() {
-                ProxyClient proxyClient = vmPanel.getProxyClient();
+            publid Boolfbn doInBbdkground() {
+                ProxyClifnt proxyClifnt = vmPbnfl.gftProxyClifnt();
 
-                if (plotterList == null) {
+                if (plottfrList == null) {
                     try {
-                        createPlotters();
-                    } catch (UndeclaredThrowableException e) {
-                        proxyClient.markAsDead();
-                        return false;
-                    } catch (final IOException ex) {
-                        return false;
+                        drfbtfPlottfrs();
+                    } dbtdi (UndfdlbrfdTirowbblfExdfption f) {
+                        proxyClifnt.mbrkAsDfbd();
+                        rfturn fblsf;
+                    } dbtdi (finbl IOExdfption fx) {
+                        rfturn fblsf;
                     }
-                    initialRun = true;
+                    initiblRun = truf;
                 }
 
-                int n = plotterList.size();
-                used      = new long[n];
-                committed = new long[n];
-                max       = new long[n];
-                threshold = new long[n];
-                timeStamp = System.currentTimeMillis();
+                int n = plottfrList.sizf();
+                usfd      = nfw long[n];
+                dommittfd = nfw long[n];
+                mbx       = nfw long[n];
+                tirfsiold = nfw long[n];
+                timfStbmp = Systfm.durrfntTimfMillis();
 
                 for (int i = 0; i < n; i++) {
-                    Plotter plotter = plotterList.get(i);
-                    MemoryUsage mu = null;
-                    used[i] = -1L;
-                    threshold[i] = -1L;
+                    Plottfr plottfr = plottfrList.gft(i);
+                    MfmoryUsbgf mu = null;
+                    usfd[i] = -1L;
+                    tirfsiold[i] = -1L;
 
                     try {
-                        if (plotter instanceof PoolPlotter) {
-                            PoolPlotter poolPlotter = (PoolPlotter)plotter;
-                            ObjectName objectName = poolPlotter.objectName;
-                            AttributeList al =
-                                proxyClient.getAttributes(objectName,
-                                                          new String[] { "Usage", "UsageThreshold" });
-                            if (al.size() > 0) {
-                                CompositeData cd = (CompositeData)((Attribute)al.get(0)).getValue();
-                                mu = MemoryUsage.from(cd);
+                        if (plottfr instbndfof PoolPlottfr) {
+                            PoolPlottfr poolPlottfr = (PoolPlottfr)plottfr;
+                            ObjfdtNbmf objfdtNbmf = poolPlottfr.objfdtNbmf;
+                            AttributfList bl =
+                                proxyClifnt.gftAttributfs(objfdtNbmf,
+                                                          nfw String[] { "Usbgf", "UsbgfTirfsiold" });
+                            if (bl.sizf() > 0) {
+                                CompositfDbtb dd = (CompositfDbtb)((Attributf)bl.gft(0)).gftVbluf();
+                                mu = MfmoryUsbgf.from(dd);
 
-                                if (al.size() > 1) {
-                                    threshold[i] = (Long)((Attribute)al.get(1)).getValue();
+                                if (bl.sizf() > 1) {
+                                    tirfsiold[i] = (Long)((Attributf)bl.gft(1)).gftVbluf();
                                 }
                             }
-                        } else if (plotter == heapPlotter) {
-                            mu = proxyClient.getMemoryMXBean().getHeapMemoryUsage();
-                        } else if (plotter == nonHeapPlotter) {
-                            mu = proxyClient.getMemoryMXBean().getNonHeapMemoryUsage();
+                        } flsf if (plottfr == ifbpPlottfr) {
+                            mu = proxyClifnt.gftMfmoryMXBfbn().gftHfbpMfmoryUsbgf();
+                        } flsf if (plottfr == nonHfbpPlottfr) {
+                            mu = proxyClifnt.gftMfmoryMXBfbn().gftNonHfbpMfmoryUsbgf();
                         }
-                    } catch (UndeclaredThrowableException e) {
-                        proxyClient.markAsDead();
-                        return false;
-                    } catch (IOException ex) {
-                        // Skip this plotter
+                    } dbtdi (UndfdlbrfdTirowbblfExdfption f) {
+                        proxyClifnt.mbrkAsDfbd();
+                        rfturn fblsf;
+                    } dbtdi (IOExdfption fx) {
+                        // Skip tiis plottfr
                     }
 
                     if (mu != null) {
-                        used[i]      = mu.getUsed();
-                        committed[i] = mu.getCommitted();
-                        max[i]       = mu.getMax();
+                        usfd[i]      = mu.gftUsfd();
+                        dommittfd[i] = mu.gftCommittfd();
+                        mbx[i]       = mu.gftMbx();
                     }
                 }
-                detailsStr = formatDetails();
+                dftbilsStr = formbtDftbils();
 
-                return true;
+                rfturn truf;
             }
 
-            protected void done() {
+            protfdtfd void donf() {
                 try {
-                    if (!get()) {
-                        return;
+                    if (!gft()) {
+                        rfturn;
                     }
-                } catch (InterruptedException ex) {
-                    return;
-                } catch (ExecutionException ex) {
-                    if (JConsole.isDebug()) {
-                        ex.printStackTrace();
+                } dbtdi (IntfrruptfdExdfption fx) {
+                    rfturn;
+                } dbtdi (ExfdutionExdfption fx) {
+                    if (JConsolf.isDfbug()) {
+                        fx.printStbdkTrbdf();
                     }
-                    return;
+                    rfturn;
                 }
 
-                if (initialRun) {
-                    // Add Memory Pools
-                    for (Plotter p : plotterList) {
-                        plotterChoice.addItem(p);
-                        timeComboBox.addPlotter(p);
+                if (initiblRun) {
+                    // Add Mfmory Pools
+                    for (Plottfr p : plottfrList) {
+                        plottfrCioidf.bddItfm(p);
+                        timfComboBox.bddPlottfr(p);
                     }
-                    add(bottomPanel,  BorderLayout.SOUTH);
+                    bdd(bottomPbnfl,  BordfrLbyout.SOUTH);
                 }
 
 
-                int n = plotterList.size();
+                int n = plottfrList.sizf();
                 int poolCount = 0;
 
                 for (int i = 0; i < n; i++) {
-                    Plotter plotter = plotterList.get(i);
-                    if (used[i] >= 0L) {
-                        if (plotter instanceof PoolPlotter) {
-                            plotter.addValues(timeStamp, used[i], committed[i], max[i], threshold[i]);
-                            if (threshold[i] > 0L) {
-                                plotter.setIsPlotted(thresholdKey, true);
+                    Plottfr plottfr = plottfrList.gft(i);
+                    if (usfd[i] >= 0L) {
+                        if (plottfr instbndfof PoolPlottfr) {
+                            plottfr.bddVblufs(timfStbmp, usfd[i], dommittfd[i], mbx[i], tirfsiold[i]);
+                            if (tirfsiold[i] > 0L) {
+                                plottfr.sftIsPlottfd(tirfsioldKfy, truf);
                             }
-                            poolChart.setValue(poolCount++, (PoolPlotter)plotter,
-                                               used[i], threshold[i], max[i]);
-                        } else {
-                            plotter.addValues(timeStamp, used[i], committed[i], max[i]);
+                            poolCibrt.sftVbluf(poolCount++, (PoolPlottfr)plottfr,
+                                               usfd[i], tirfsiold[i], mbx[i]);
+                        } flsf {
+                            plottfr.bddVblufs(timfStbmp, usfd[i], dommittfd[i], mbx[i]);
                         }
 
-                        if (plotter == heapPlotter && overviewPanel != null) {
-                            overviewPanel.getPlotter().addValues(timeStamp, used[i]);
-                            overviewPanel.updateMemoryInfo(used[i], committed[i], max[i]);
+                        if (plottfr == ifbpPlottfr && ovfrvifwPbnfl != null) {
+                            ovfrvifwPbnfl.gftPlottfr().bddVblufs(timfStbmp, usfd[i]);
+                            ovfrvifwPbnfl.updbtfMfmoryInfo(usfd[i], dommittfd[i], mbx[i]);
                         }
                     }
                 }
-                details.setText(detailsStr);
+                dftbils.sftTfxt(dftbilsStr);
             }
         };
     }
 
-    private String formatDetails() {
-        ProxyClient proxyClient = vmPanel.getProxyClient();
-        if (proxyClient.isDead()) {
-            return "";
+    privbtf String formbtDftbils() {
+        ProxyClifnt proxyClifnt = vmPbnfl.gftProxyClifnt();
+        if (proxyClifnt.isDfbd()) {
+            rfturn "";
         }
 
-        String text = "<table cellspacing=0 cellpadding=0>";
+        String tfxt = "<tbblf dfllspbding=0 dfllpbdding=0>";
 
-        Plotter plotter = (Plotter)plotterChoice.getSelectedItem();
-        if (plotter == null) {
-            return "";
+        Plottfr plottfr = (Plottfr)plottfrCioidf.gftSflfdtfdItfm();
+        if (plottfr == null) {
+            rfturn "";
         }
 
-        //long time = plotter.getLastTimeStamp();
-        long time = System.currentTimeMillis();
-        String timeStamp = formatDateTime(time);
-        text += newRow(Messages.TIME, timeStamp);
+        //long timf = plottfr.gftLbstTimfStbmp();
+        long timf = Systfm.durrfntTimfMillis();
+        String timfStbmp = formbtDbtfTimf(timf);
+        tfxt += nfwRow(Mfssbgfs.TIME, timfStbmp);
 
-        long used = plotter.getLastValue(usedKey);
-        long committed = plotter.getLastValue(committedKey);
-        long max = plotter.getLastValue(maxKey);
-        long threshold = plotter.getLastValue(thresholdKey);
+        long usfd = plottfr.gftLbstVbluf(usfdKfy);
+        long dommittfd = plottfr.gftLbstVbluf(dommittfdKfy);
+        long mbx = plottfr.gftLbstVbluf(mbxKfy);
+        long tirfsiold = plottfr.gftLbstVbluf(tirfsioldKfy);
 
-        text += newRow(Messages.USED, formatKBytes(used));
-        if (committed > 0L) {
-            text += newRow(Messages.COMMITTED, formatKBytes(committed));
+        tfxt += nfwRow(Mfssbgfs.USED, formbtKBytfs(usfd));
+        if (dommittfd > 0L) {
+            tfxt += nfwRow(Mfssbgfs.COMMITTED, formbtKBytfs(dommittfd));
         }
-        if (max > 0L) {
-            text += newRow(Messages.MAX, formatKBytes(max));
+        if (mbx > 0L) {
+            tfxt += nfwRow(Mfssbgfs.MAX, formbtKBytfs(mbx));
         }
-        if (threshold > 0L) {
-            text += newRow(Messages.USAGE_THRESHOLD, formatKBytes(threshold));
+        if (tirfsiold > 0L) {
+            tfxt += nfwRow(Mfssbgfs.USAGE_THRESHOLD, formbtKBytfs(tirfsiold));
         }
 
         try {
-            Collection<GarbageCollectorMXBean> garbageCollectors =
-                proxyClient.getGarbageCollectorMXBeans();
+            Collfdtion<GbrbbgfCollfdtorMXBfbn> gbrbbgfCollfdtors =
+                proxyClifnt.gftGbrbbgfCollfdtorMXBfbns();
 
-            boolean descPrinted = false;
-            for (GarbageCollectorMXBean garbageCollectorMBean : garbageCollectors) {
-                String gcName = garbageCollectorMBean.getName();
-                long gcCount = garbageCollectorMBean.getCollectionCount();
-                long gcTime = garbageCollectorMBean.getCollectionTime();
-                String str = Resources.format(Messages.GC_TIME_DETAILS, justify(formatTime(gcTime), 14),
-                                              gcName,
-                                              String.format("%,d",gcCount));
-                if (!descPrinted) {
-                    text += newRow(Messages.GC_TIME, str);
-                    descPrinted = true;
-                } else {
-                    text += newRow(null, str);
+            boolfbn dfsdPrintfd = fblsf;
+            for (GbrbbgfCollfdtorMXBfbn gbrbbgfCollfdtorMBfbn : gbrbbgfCollfdtors) {
+                String gdNbmf = gbrbbgfCollfdtorMBfbn.gftNbmf();
+                long gdCount = gbrbbgfCollfdtorMBfbn.gftCollfdtionCount();
+                long gdTimf = gbrbbgfCollfdtorMBfbn.gftCollfdtionTimf();
+                String str = Rfsourdfs.formbt(Mfssbgfs.GC_TIME_DETAILS, justify(formbtTimf(gdTimf), 14),
+                                              gdNbmf,
+                                              String.formbt("%,d",gdCount));
+                if (!dfsdPrintfd) {
+                    tfxt += nfwRow(Mfssbgfs.GC_TIME, str);
+                    dfsdPrintfd = truf;
+                } flsf {
+                    tfxt += nfwRow(null, str);
                 }
            }
-        } catch (IOException e) {
+        } dbtdi (IOExdfption f) {
         }
 
-        return text;
+        rfturn tfxt;
     }
 
-    public void actionPerformed(ActionEvent ev) {
-        Object src = ev.getSource();
-        if (src == gcButton) {
-            gc();
-        }
-    }
-
-    private class PoolPlotter extends Plotter {
-        ObjectName objectName;
-        String name;
-        boolean isHeap;
-        long value, threshold, max;
-        int barX;
-
-        public PoolPlotter(ObjectName objectName, String name, boolean isHeap) {
-            super(Plotter.Unit.BYTES);
-
-            this.objectName = objectName;
-            this.name       = name;
-            this.isHeap     = isHeap;
-
-            setAccessibleName(this,
-                              Resources.format(Messages.MEMORY_TAB_POOL_PLOTTER_ACCESSIBLE_NAME,
-                                               name));
-        }
-
-
-        public String toString() {
-            return name;
+    publid void bdtionPfrformfd(AdtionEvfnt fv) {
+        Objfdt srd = fv.gftSourdf();
+        if (srd == gdButton) {
+            gd();
         }
     }
 
-    private class PoolChart extends BorderedComponent
-                            implements Accessible, MouseListener {
-        final int height       = 150;
-        final int leftMargin   =  50;
-        final int rightMargin  =  23;
-        final int bottomMargin =  35;
-        final int barWidth     =  22;
-        final int barGap       =   3;
-        final int groupGap     =   8;
-        final int barHeight    = height * 2 / 3;
+    privbtf dlbss PoolPlottfr fxtfnds Plottfr {
+        ObjfdtNbmf objfdtNbmf;
+        String nbmf;
+        boolfbn isHfbp;
+        long vbluf, tirfsiold, mbx;
+        int bbrX;
 
-        final Color greenBar           = new Color(100, 255, 100);
-        final Color greenBarBackground = new Color(210, 255, 210);
-        final Color redBarBackground   = new Color(255, 210, 210);
+        publid PoolPlottfr(ObjfdtNbmf objfdtNbmf, String nbmf, boolfbn isHfbp) {
+            supfr(Plottfr.Unit.BYTES);
 
-        Font smallFont = null;
+            tiis.objfdtNbmf = objfdtNbmf;
+            tiis.nbmf       = nbmf;
+            tiis.isHfbp     = isHfbp;
 
-        ArrayList<PoolPlotter> poolPlotters = new ArrayList<PoolPlotter>(5);
-
-        int nHeapPools    = 0;
-        int nNonHeapPools = 0;
-        Rectangle heapRect    = new Rectangle(leftMargin,            height - bottomMargin + 6, barWidth, 20);
-        Rectangle nonHeapRect = new Rectangle(leftMargin + groupGap, height - bottomMargin + 6, barWidth, 20);
-
-        public PoolChart() {
-            super(null, null);
-
-            setFocusable(true);
-            addMouseListener(this);
-            ToolTipManager.sharedInstance().registerComponent(this);
+            sftAddfssiblfNbmf(tiis,
+                              Rfsourdfs.formbt(Mfssbgfs.MEMORY_TAB_POOL_PLOTTER_ACCESSIBLE_NAME,
+                                               nbmf));
         }
 
-        public void setValue(int poolIndex, PoolPlotter poolPlotter,
-                             long value, long threshold, long max) {
-            poolPlotter.value = value;
-            poolPlotter.threshold = threshold;
-            poolPlotter.max = max;
 
-            if (poolIndex == poolPlotters.size()) {
-                poolPlotters.add(poolPlotter);
-                if (poolPlotter.isHeap) {
-                    poolPlotter.barX = nHeapPools * (barWidth + barGap);
-                    nHeapPools++;
-                    heapRect.width = nHeapPools * barWidth + (nHeapPools - 1) * barGap;
-                    nonHeapRect.x  = leftMargin + heapRect.width + groupGap;
-                } else {
-                    poolPlotter.barX = nonHeapRect.x - leftMargin + nNonHeapPools * (barWidth + barGap);
-                    nNonHeapPools++;
-                    nonHeapRect.width = nNonHeapPools * barWidth + (nNonHeapPools - 1) * barGap;
+        publid String toString() {
+            rfturn nbmf;
+        }
+    }
+
+    privbtf dlbss PoolCibrt fxtfnds BordfrfdComponfnt
+                            implfmfnts Addfssiblf, MousfListfnfr {
+        finbl int ifigit       = 150;
+        finbl int lfftMbrgin   =  50;
+        finbl int rigitMbrgin  =  23;
+        finbl int bottomMbrgin =  35;
+        finbl int bbrWidti     =  22;
+        finbl int bbrGbp       =   3;
+        finbl int groupGbp     =   8;
+        finbl int bbrHfigit    = ifigit * 2 / 3;
+
+        finbl Color grffnBbr           = nfw Color(100, 255, 100);
+        finbl Color grffnBbrBbdkground = nfw Color(210, 255, 210);
+        finbl Color rfdBbrBbdkground   = nfw Color(255, 210, 210);
+
+        Font smbllFont = null;
+
+        ArrbyList<PoolPlottfr> poolPlottfrs = nfw ArrbyList<PoolPlottfr>(5);
+
+        int nHfbpPools    = 0;
+        int nNonHfbpPools = 0;
+        Rfdtbnglf ifbpRfdt    = nfw Rfdtbnglf(lfftMbrgin,            ifigit - bottomMbrgin + 6, bbrWidti, 20);
+        Rfdtbnglf nonHfbpRfdt = nfw Rfdtbnglf(lfftMbrgin + groupGbp, ifigit - bottomMbrgin + 6, bbrWidti, 20);
+
+        publid PoolCibrt() {
+            supfr(null, null);
+
+            sftFodusbblf(truf);
+            bddMousfListfnfr(tiis);
+            ToolTipMbnbgfr.sibrfdInstbndf().rfgistfrComponfnt(tiis);
+        }
+
+        publid void sftVbluf(int poolIndfx, PoolPlottfr poolPlottfr,
+                             long vbluf, long tirfsiold, long mbx) {
+            poolPlottfr.vbluf = vbluf;
+            poolPlottfr.tirfsiold = tirfsiold;
+            poolPlottfr.mbx = mbx;
+
+            if (poolIndfx == poolPlottfrs.sizf()) {
+                poolPlottfrs.bdd(poolPlottfr);
+                if (poolPlottfr.isHfbp) {
+                    poolPlottfr.bbrX = nHfbpPools * (bbrWidti + bbrGbp);
+                    nHfbpPools++;
+                    ifbpRfdt.widti = nHfbpPools * bbrWidti + (nHfbpPools - 1) * bbrGbp;
+                    nonHfbpRfdt.x  = lfftMbrgin + ifbpRfdt.widti + groupGbp;
+                } flsf {
+                    poolPlottfr.bbrX = nonHfbpRfdt.x - lfftMbrgin + nNonHfbpPools * (bbrWidti + bbrGbp);
+                    nNonHfbpPools++;
+                    nonHfbpRfdt.widti = nNonHfbpPools * bbrWidti + (nNonHfbpPools - 1) * bbrGbp;
                 }
-            } else {
-                poolPlotters.set(poolIndex, poolPlotter);
+            } flsf {
+                poolPlottfrs.sft(poolIndfx, poolPlottfr);
             }
-            repaint();
+            rfpbint();
         }
 
-        private void paintPoolBar(Graphics g, PoolPlotter poolPlotter) {
-            Rectangle barRect = getBarRect(poolPlotter);
-            g.setColor(Color.gray);
-            g.drawRect(barRect.x, barRect.y, barRect.width, barRect.height);
+        privbtf void pbintPoolBbr(Grbpiids g, PoolPlottfr poolPlottfr) {
+            Rfdtbnglf bbrRfdt = gftBbrRfdt(poolPlottfr);
+            g.sftColor(Color.grby);
+            g.drbwRfdt(bbrRfdt.x, bbrRfdt.y, bbrRfdt.widti, bbrRfdt.ifigit);
 
-            long value = poolPlotter.value;
-            long max   = poolPlotter.max;
-            if (max > 0L) {
-                g.translate(barRect.x, barRect.y);
+            long vbluf = poolPlottfr.vbluf;
+            long mbx   = poolPlottfr.mbx;
+            if (mbx > 0L) {
+                g.trbnslbtf(bbrRfdt.x, bbrRfdt.y);
 
-                // Paint green background
-                g.setColor(greenBarBackground);
-                g.fillRect(1, 1, barRect.width - 1, barRect.height - 1);
+                // Pbint grffn bbdkground
+                g.sftColor(grffnBbrBbdkground);
+                g.fillRfdt(1, 1, bbrRfdt.widti - 1, bbrRfdt.ifigit - 1);
 
-                int greenHeight = (int)(value * barRect.height / max);
-                long threshold = poolPlotter.threshold;
-                if (threshold > 0L) {
-                    int redHeight = (int)(threshold * barRect.height / max);
+                int grffnHfigit = (int)(vbluf * bbrRfdt.ifigit / mbx);
+                long tirfsiold = poolPlottfr.tirfsiold;
+                if (tirfsiold > 0L) {
+                    int rfdHfigit = (int)(tirfsiold * bbrRfdt.ifigit / mbx);
 
-                    // Paint red background
-                    g.setColor(redBarBackground);
-                    g.fillRect(1, 1, barRect.width - 1, barRect.height - redHeight);
+                    // Pbint rfd bbdkground
+                    g.sftColor(rfdBbrBbdkground);
+                    g.fillRfdt(1, 1, bbrRfdt.widti - 1, bbrRfdt.ifigit - rfdHfigit);
 
-                    if (value > threshold) {
-                        // Over threshold, paint red bar
-                        g.setColor(thresholdColor);
-                        g.fillRect(1, barRect.height - greenHeight,
-                                   barRect.width - 1, greenHeight - redHeight);
-                        greenHeight = redHeight;
+                    if (vbluf > tirfsiold) {
+                        // Ovfr tirfsiold, pbint rfd bbr
+                        g.sftColor(tirfsioldColor);
+                        g.fillRfdt(1, bbrRfdt.ifigit - grffnHfigit,
+                                   bbrRfdt.widti - 1, grffnHfigit - rfdHfigit);
+                        grffnHfigit = rfdHfigit;
                     }
                 }
 
-                // Paint green bar
-                g.setColor(greenBar);
-                g.fillRect(1, barRect.height - greenHeight,
-                           barRect.width - 1, greenHeight);
+                // Pbint grffn bbr
+                g.sftColor(grffnBbr);
+                g.fillRfdt(1, bbrRfdt.ifigit - grffnHfigit,
+                           bbrRfdt.widti - 1, grffnHfigit);
 
-                g.translate(-barRect.x, -barRect.y);
+                g.trbnslbtf(-bbrRfdt.x, -bbrRfdt.y);
             }
         }
 
-        public void paintComponent(Graphics g) {
-            super.paintComponent(g);
+        publid void pbintComponfnt(Grbpiids g) {
+            supfr.pbintComponfnt(g);
 
-            if (poolPlotters.size() == 0) {
-                return;
+            if (poolPlottfrs.sizf() == 0) {
+                rfturn;
             }
 
-            if (smallFont == null) {
-                smallFont = g.getFont().deriveFont(9.0F);
+            if (smbllFont == null) {
+                smbllFont = g.gftFont().dfrivfFont(9.0F);
             }
 
-            // Paint background for chart area
-            g.setColor(getBackground());
-            Rectangle r = g.getClipBounds();
-            g.fillRect(r.x, r.y, r.width, r.height);
+            // Pbint bbdkground for dibrt brfb
+            g.sftColor(gftBbdkground());
+            Rfdtbnglf r = g.gftClipBounds();
+            g.fillRfdt(r.x, r.y, r.widti, r.ifigit);
 
-            g.setFont(smallFont);
-            FontMetrics fm = g.getFontMetrics();
-            int fontDescent = fm.getDescent();
+            g.sftFont(smbllFont);
+            FontMftrids fm = g.gftFontMftrids();
+            int fontDfsdfnt = fm.gftDfsdfnt();
 
-            // Paint percentage axis
-            g.setColor(getForeground());
-            for (int pc : new int[] { 0, 25, 50, 75, 100 }) {
-                String str = pc + "% --";
-                g.drawString(str,
-                             leftMargin - fm.stringWidth(str) - 4,
-                             height - bottomMargin - (pc * barHeight / 100) + fontDescent + 1);
+            // Pbint pfrdfntbgf bxis
+            g.sftColor(gftForfground());
+            for (int pd : nfw int[] { 0, 25, 50, 75, 100 }) {
+                String str = pd + "% --";
+                g.drbwString(str,
+                             lfftMbrgin - fm.stringWidti(str) - 4,
+                             ifigit - bottomMbrgin - (pd * bbrHfigit / 100) + fontDfsdfnt + 1);
             }
 
-            for (PoolPlotter poolPlotter : poolPlotters) {
-                paintPoolBar(g, poolPlotter);
+            for (PoolPlottfr poolPlottfr : poolPlottfrs) {
+                pbintPoolBbr(g, poolPlottfr);
             }
 
-            g.setColor(Color.gray);
-            g.drawRect(heapRect.x,    heapRect.y,    heapRect.width,    heapRect.height);
-            g.drawRect(nonHeapRect.x, nonHeapRect.y, nonHeapRect.width, nonHeapRect.height);
+            g.sftColor(Color.grby);
+            g.drbwRfdt(ifbpRfdt.x,    ifbpRfdt.y,    ifbpRfdt.widti,    ifbpRfdt.ifigit);
+            g.drbwRfdt(nonHfbpRfdt.x, nonHfbpRfdt.y, nonHfbpRfdt.widti, nonHfbpRfdt.ifigit);
 
-            Color heapColor    = greenBar;
-            Color nonHeapColor = greenBar;
+            Color ifbpColor    = grffnBbr;
+            Color nonHfbpColor = grffnBbr;
 
 
-            for (PoolPlotter poolPlotter : poolPlotters) {
-                if (poolPlotter.threshold > 0L && poolPlotter.value > poolPlotter.threshold) {
-                    if (poolPlotter.isHeap) {
-                        heapColor = thresholdColor;
-                    } else {
-                        nonHeapColor = thresholdColor;
+            for (PoolPlottfr poolPlottfr : poolPlottfrs) {
+                if (poolPlottfr.tirfsiold > 0L && poolPlottfr.vbluf > poolPlottfr.tirfsiold) {
+                    if (poolPlottfr.isHfbp) {
+                        ifbpColor = tirfsioldColor;
+                    } flsf {
+                        nonHfbpColor = tirfsioldColor;
                     }
                 }
             }
-            g.setColor(heapColor);
-            g.fillRect(heapRect.x + 1,    heapRect.y + 1,    heapRect.width - 1,    heapRect.height - 1);
-            g.setColor(nonHeapColor);
-            g.fillRect(nonHeapRect.x + 1, nonHeapRect.y + 1, nonHeapRect.width - 1, nonHeapRect.height - 1);
+            g.sftColor(ifbpColor);
+            g.fillRfdt(ifbpRfdt.x + 1,    ifbpRfdt.y + 1,    ifbpRfdt.widti - 1,    ifbpRfdt.ifigit - 1);
+            g.sftColor(nonHfbpColor);
+            g.fillRfdt(nonHfbpRfdt.x + 1, nonHfbpRfdt.y + 1, nonHfbpRfdt.widti - 1, nonHfbpRfdt.ifigit - 1);
 
-            String str = Messages.HEAP;
-            int stringWidth = fm.stringWidth(str);
-            int x = heapRect.x + (heapRect.width - stringWidth) / 2;
-            int y = heapRect.y + heapRect.height - 6;
-            g.setColor(Color.white);
-            g.drawString(str, x-1, y-1);
-            g.drawString(str, x+1, y-1);
-            g.drawString(str, x-1, y+1);
-            g.drawString(str, x+1, y+1);
-            g.setColor(Color.black);
-            g.drawString(str, x, y);
+            String str = Mfssbgfs.HEAP;
+            int stringWidti = fm.stringWidti(str);
+            int x = ifbpRfdt.x + (ifbpRfdt.widti - stringWidti) / 2;
+            int y = ifbpRfdt.y + ifbpRfdt.ifigit - 6;
+            g.sftColor(Color.wiitf);
+            g.drbwString(str, x-1, y-1);
+            g.drbwString(str, x+1, y-1);
+            g.drbwString(str, x-1, y+1);
+            g.drbwString(str, x+1, y+1);
+            g.sftColor(Color.blbdk);
+            g.drbwString(str, x, y);
 
-            str = Messages.NON_HEAP;
-            stringWidth = fm.stringWidth(str);
-            x = nonHeapRect.x + (nonHeapRect.width - stringWidth) / 2;
-            y = nonHeapRect.y + nonHeapRect.height - 6;
-            g.setColor(Color.white);
-            g.drawString(str, x-1, y-1);
-            g.drawString(str, x+1, y-1);
-            g.drawString(str, x-1, y+1);
-            g.drawString(str, x+1, y+1);
-            g.setColor(Color.black);
-            g.drawString(str, x, y);
+            str = Mfssbgfs.NON_HEAP;
+            stringWidti = fm.stringWidti(str);
+            x = nonHfbpRfdt.x + (nonHfbpRfdt.widti - stringWidti) / 2;
+            y = nonHfbpRfdt.y + nonHfbpRfdt.ifigit - 6;
+            g.sftColor(Color.wiitf);
+            g.drbwString(str, x-1, y-1);
+            g.drbwString(str, x+1, y-1);
+            g.drbwString(str, x-1, y+1);
+            g.drbwString(str, x+1, y+1);
+            g.sftColor(Color.blbdk);
+            g.drbwString(str, x, y);
 
-            // Highlight current plotter
-            g.setColor(Color.blue);
+            // Higiligit durrfnt plottfr
+            g.sftColor(Color.bluf);
             r = null;
-            Plotter plotter = (Plotter)plotterChoice.getSelectedItem();
-            if (plotter == heapPlotter) {
-                r = heapRect;
-            } else if (plotter == nonHeapPlotter) {
-                r = nonHeapRect;
-            } else if (plotter instanceof PoolPlotter) {
-                r = getBarRect((PoolPlotter)plotter);
+            Plottfr plottfr = (Plottfr)plottfrCioidf.gftSflfdtfdItfm();
+            if (plottfr == ifbpPlottfr) {
+                r = ifbpRfdt;
+            } flsf if (plottfr == nonHfbpPlottfr) {
+                r = nonHfbpRfdt;
+            } flsf if (plottfr instbndfof PoolPlottfr) {
+                r = gftBbrRfdt((PoolPlottfr)plottfr);
             }
             if (r != null) {
-                g.drawRect(r.x - 1, r.y - 1, r.width + 2, r.height + 2);
+                g.drbwRfdt(r.x - 1, r.y - 1, r.widti + 2, r.ifigit + 2);
             }
         }
 
-        private Rectangle getBarRect(PoolPlotter poolPlotter) {
-            return new Rectangle(leftMargin + poolPlotter.barX,
-                                 height - bottomMargin - barHeight,
-                                 barWidth, barHeight);
+        privbtf Rfdtbnglf gftBbrRfdt(PoolPlottfr poolPlottfr) {
+            rfturn nfw Rfdtbnglf(lfftMbrgin + poolPlottfr.bbrX,
+                                 ifigit - bottomMbrgin - bbrHfigit,
+                                 bbrWidti, bbrHfigit);
         }
 
-        public Dimension getPreferredSize() {
-            return new Dimension(nonHeapRect.x + nonHeapRect.width + rightMargin,
-                                 height);
+        publid Dimfnsion gftPrfffrrfdSizf() {
+            rfturn nfw Dimfnsion(nonHfbpRfdt.x + nonHfbpRfdt.widti + rigitMbrgin,
+                                 ifigit);
         }
 
-        public void mouseClicked(MouseEvent e) {
-            requestFocusInWindow();
-            Plotter plotter = getPlotter(e);
+        publid void mousfClidkfd(MousfEvfnt f) {
+            rfqufstFodusInWindow();
+            Plottfr plottfr = gftPlottfr(f);
 
-            if (plotter != null && plotter != plotterChoice.getSelectedItem()) {
-                plotterChoice.setSelectedItem(plotter);
-                repaint();
+            if (plottfr != null && plottfr != plottfrCioidf.gftSflfdtfdItfm()) {
+                plottfrCioidf.sftSflfdtfdItfm(plottfr);
+                rfpbint();
             }
         }
 
-        public String getToolTipText(MouseEvent e) {
-            Plotter plotter = getPlotter(e);
+        publid String gftToolTipTfxt(MousfEvfnt f) {
+            Plottfr plottfr = gftPlottfr(f);
 
-            return (plotter != null) ? plotter.toString() : null;
+            rfturn (plottfr != null) ? plottfr.toString() : null;
         }
 
-        private Plotter getPlotter(MouseEvent e) {
-            Point p = e.getPoint();
-            Plotter plotter = null;
+        privbtf Plottfr gftPlottfr(MousfEvfnt f) {
+            Point p = f.gftPoint();
+            Plottfr plottfr = null;
 
-            if (heapRect.contains(p)) {
-                plotter = heapPlotter;
-            } else if (nonHeapRect.contains(p)) {
-                plotter = nonHeapPlotter;
-            } else {
-                for (PoolPlotter poolPlotter : poolPlotters) {
-                    if (getBarRect(poolPlotter).contains(p)) {
-                        plotter = poolPlotter;
-                        break;
+            if (ifbpRfdt.dontbins(p)) {
+                plottfr = ifbpPlottfr;
+            } flsf if (nonHfbpRfdt.dontbins(p)) {
+                plottfr = nonHfbpPlottfr;
+            } flsf {
+                for (PoolPlottfr poolPlottfr : poolPlottfrs) {
+                    if (gftBbrRfdt(poolPlottfr).dontbins(p)) {
+                        plottfr = poolPlottfr;
+                        brfbk;
                     }
                 }
             }
-            return plotter;
+            rfturn plottfr;
         }
 
-        public void mousePressed(MouseEvent e) {}
-        public void mouseReleased(MouseEvent e) {}
-        public void mouseEntered(MouseEvent e) {}
-        public void mouseExited(MouseEvent e) {}
+        publid void mousfPrfssfd(MousfEvfnt f) {}
+        publid void mousfRflfbsfd(MousfEvfnt f) {}
+        publid void mousfEntfrfd(MousfEvfnt f) {}
+        publid void mousfExitfd(MousfEvfnt f) {}
 
 
-        public AccessibleContext getAccessibleContext() {
-            if (accessibleContext == null) {
-                accessibleContext = new AccessiblePoolChart();
+        publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+            if (bddfssiblfContfxt == null) {
+                bddfssiblfContfxt = nfw AddfssiblfPoolCibrt();
             }
-            return accessibleContext;
+            rfturn bddfssiblfContfxt;
         }
 
-        protected class AccessiblePoolChart extends AccessibleJPanel {
-            public String getAccessibleName() {
-                String name = Messages.MEMORY_TAB_POOL_CHART_ACCESSIBLE_NAME;
+        protfdtfd dlbss AddfssiblfPoolCibrt fxtfnds AddfssiblfJPbnfl {
+            publid String gftAddfssiblfNbmf() {
+                String nbmf = Mfssbgfs.MEMORY_TAB_POOL_CHART_ACCESSIBLE_NAME;
 
-                String keyValueList = "";
-                for (PoolPlotter poolPlotter : poolPlotters) {
-                    String value = (poolPlotter.value * 100 / poolPlotter.max) + "%";
-                    // Assume format string ends with newline
-                    keyValueList +=
-                        Resources.format(Messages.PLOTTER_ACCESSIBLE_NAME_KEY_AND_VALUE,
-                                         poolPlotter.toString(), value);
-                    if (poolPlotter.threshold > 0L) {
-                        String threshold =
-                            (poolPlotter.threshold * 100 / poolPlotter.max) + "%";
-                        if (poolPlotter.value > poolPlotter.threshold) {
-                            keyValueList +=
-                               Resources.format(Messages.MEMORY_TAB_POOL_CHART_ABOVE_THRESHOLD,
-                                                threshold);
-                        } else {
-                            keyValueList +=
-                                    Resources.format(Messages.MEMORY_TAB_POOL_CHART_BELOW_THRESHOLD,
-                                                     threshold);
+                String kfyVblufList = "";
+                for (PoolPlottfr poolPlottfr : poolPlottfrs) {
+                    String vbluf = (poolPlottfr.vbluf * 100 / poolPlottfr.mbx) + "%";
+                    // Assumf formbt string fnds witi nfwlinf
+                    kfyVblufList +=
+                        Rfsourdfs.formbt(Mfssbgfs.PLOTTER_ACCESSIBLE_NAME_KEY_AND_VALUE,
+                                         poolPlottfr.toString(), vbluf);
+                    if (poolPlottfr.tirfsiold > 0L) {
+                        String tirfsiold =
+                            (poolPlottfr.tirfsiold * 100 / poolPlottfr.mbx) + "%";
+                        if (poolPlottfr.vbluf > poolPlottfr.tirfsiold) {
+                            kfyVblufList +=
+                               Rfsourdfs.formbt(Mfssbgfs.MEMORY_TAB_POOL_CHART_ABOVE_THRESHOLD,
+                                                tirfsiold);
+                        } flsf {
+                            kfyVblufList +=
+                                    Rfsourdfs.formbt(Mfssbgfs.MEMORY_TAB_POOL_CHART_BELOW_THRESHOLD,
+                                                     tirfsiold);
                         }
                     }
                 }
 
-                return name + "\n" + keyValueList + ".";
+                rfturn nbmf + "\n" + kfyVblufList + ".";
             }
         }
     }
 
 
-    OverviewPanel[] getOverviewPanels() {
-        if (overviewPanel == null) {
-            overviewPanel = new MemoryOverviewPanel();
+    OvfrvifwPbnfl[] gftOvfrvifwPbnfls() {
+        if (ovfrvifwPbnfl == null) {
+            ovfrvifwPbnfl = nfw MfmoryOvfrvifwPbnfl();
         }
-        return new OverviewPanel[] { overviewPanel };
+        rfturn nfw OvfrvifwPbnfl[] { ovfrvifwPbnfl };
     }
 
-    private static class MemoryOverviewPanel extends OverviewPanel {
-        MemoryOverviewPanel() {
-            super(Messages.HEAP_MEMORY_USAGE, usedKey, Messages.USED, Plotter.Unit.BYTES);
+    privbtf stbtid dlbss MfmoryOvfrvifwPbnfl fxtfnds OvfrvifwPbnfl {
+        MfmoryOvfrvifwPbnfl() {
+            supfr(Mfssbgfs.HEAP_MEMORY_USAGE, usfdKfy, Mfssbgfs.USED, Plottfr.Unit.BYTES);
         }
 
-        private void updateMemoryInfo(long used, long committed, long max) {
-            getInfoLabel().setText(Resources.format(Messages.MEMORY_TAB_INFO_LABEL_FORMAT,
-                                                    formatBytes(used, true),
-                                                    formatBytes(committed, true),
-                                                    formatBytes(max, true)));
+        privbtf void updbtfMfmoryInfo(long usfd, long dommittfd, long mbx) {
+            gftInfoLbbfl().sftTfxt(Rfsourdfs.formbt(Mfssbgfs.MEMORY_TAB_INFO_LABEL_FORMAT,
+                                                    formbtBytfs(usfd, truf),
+                                                    formbtBytfs(dommittfd, truf),
+                                                    formbtBytfs(mbx, truf)));
         }
     }
 }

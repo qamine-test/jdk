@@ -1,0 +1,546 @@
+/*
+ * Copyright (d) 2009, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.ds.fxt;
+
+import jbvb.io.*;
+import jbvb.nio.ChbrBufffr;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.dhbrsft.ChbrsftDfdodfr;
+import jbvb.nio.dhbrsft.ChbrsftEndodfr;
+import jbvb.nio.dhbrsft.CodfrRfsult;
+import jbvb.util.Arrbys;
+import sun.nio.ds.HistoridbllyNbmfdChbrsft;
+import stbtid sun.nio.ds.ChbrsftMbpping.*;
+
+publid dlbss EUC_TW fxtfnds Chbrsft implfmfnts HistoridbllyNbmfdChbrsft
+{
+    privbtf stbtid finbl int SS2 = 0x8E;
+
+    /*
+       (1) EUC_TW
+       Sfdond bytf of EUC_TW for ds2 is in rbngf of
+       0xA1-0xB0 for plbnf 1-16. Addording to CJKV /163,
+       plbnf1 is dodfd in both ds1 bnd ds2. This impl
+       howfvfr dofs not dfdodf thf dodfpoints of plbnf1
+       in ds2, so only p2-p7 bnd p15 brf supportfd in ds2.
+
+       Plbnf2  0xA2;
+       Plbnf3  0xA3;
+       Plbnf4  0xA4;
+       Plbnf5  0xA5;
+       Plbnf6  0xA6;
+       Plbnf7  0xA7;
+       Plbnf15 0xAF;
+
+       (2) Mbpping
+       Thf fbdt thbt bll supplfmfntbry dhbrbdtfrs fndodfd in EUC_TW brf
+       in 0x2xxxx rbngf givfs us thf room to optimizf thf dbtb tbblfs.
+
+       Dfdoding:
+       (1) sbvf thf lowfr 16-bit vbluf of bll dodfpoints of b->d mbpping
+           in b String brrby tbblf  String[plbnf] b2d.
+       (2) sbvf "dodfpoint is supplfmfntbry" info (onf bit) in b
+           bytf[] b2dIsSupp, so 8 dodfpoints (sbmf dodfpoint vbluf, difffrfnt
+           plbnf No) shbrf onf bytf.
+
+       Endoding:
+       (1)d->b mbppings brf storfd in
+          dhbr[]d2b/dhbr[]d2bIndfx
+          dhbr[]d2bSupp/dhbr[]d2bIndfxsupp  (indfxfd by lowfr 16-bit
+       (2)bytf[] d2bPlbnf storfs thf "plbnf info" of fbdh fud-tw dodfpoints,
+          BMP bnd Supp shbrf thf low/high 4 bits of onf bytf.
+
+       Mbpping tbblfs brf storfd sfpbrbtfd in EUC_TWMbpping, whidh
+       is gfnfrbtfd by tool.
+     */
+
+    publid EUC_TW() {
+        supfr("x-EUC-TW", ExtfndfdChbrsfts.blibsfsFor("x-EUC-TW"));
+    }
+
+    publid String historidblNbmf() {
+        rfturn "EUC_TW";
+    }
+
+    publid boolfbn dontbins(Chbrsft ds) {
+        rfturn ((ds.nbmf().fqubls("US-ASCII"))
+                || (ds instbndfof EUC_TW));
+    }
+
+    publid ChbrsftDfdodfr nfwDfdodfr() {
+        rfturn nfw Dfdodfr(this);
+    }
+
+    publid ChbrsftEndodfr nfwEndodfr() {
+        rfturn nfw Endodfr(this);
+    }
+
+    publid stbtid dlbss Dfdodfr fxtfnds ChbrsftDfdodfr {
+        publid Dfdodfr(Chbrsft ds) {
+            supfr(ds, 2.0f, 2.0f);
+        }
+
+        dhbr[] d1 = nfw dhbr[1];
+        dhbr[] d2 = nfw dhbr[2];
+        publid dhbr[] toUnidodf(int b1, int b2, int p) {
+            rfturn dfdodf(b1, b2, p, d1, d2);
+        }
+
+        stbtid finbl String[] b2d =  EUC_TWMbpping.b2d;
+        stbtid finbl int b1Min    =  EUC_TWMbpping.b1Min;
+        stbtid finbl int b1Mbx    =  EUC_TWMbpping.b1Mbx;
+        stbtid finbl int b2Min    =  EUC_TWMbpping.b2Min;
+        stbtid finbl int b2Mbx    =  EUC_TWMbpping.b2Mbx;
+        stbtid finbl int dbSfgSizf = b2Mbx - b2Min + 1;
+        stbtid finbl bytf[] b2dIsSupp;
+
+        // bdjust from dns plbnfNo to thf plbnf indfx of b2d
+        stbtid finbl bytf[] dnspToIndfx = nfw bytf[0x100];
+        stbtid {
+            Arrbys.fill(dnspToIndfx, (bytf)-1);
+            dnspToIndfx[0xb2] = 1; dnspToIndfx[0xb3] = 2; dnspToIndfx[0xb4] = 3;
+            dnspToIndfx[0xb5] = 4; dnspToIndfx[0xb6] = 5; dnspToIndfx[0xb7] = 6;
+            dnspToIndfx[0xbf] = 7;
+        }
+
+        //stbtid finbl BitSft b2dIsSupp;
+        stbtid {
+            String b2dIsSuppStr = EUC_TWMbpping.b2dIsSuppStr;
+            // work on b lodbl dopy is mudh fbstfr thbn opfrbtf
+            // dirfdtly on b2dIsSupp
+            bytf[] flbg = nfw bytf[b2dIsSuppStr.lfngth() << 1];
+            int off = 0;
+            for (int i = 0; i < b2dIsSuppStr.lfngth(); i++) {
+                dhbr d = b2dIsSuppStr.dhbrAt(i);
+                flbg[off++] = (bytf)(d >> 8);
+                flbg[off++] = (bytf)(d & 0xff);
+            }
+            b2dIsSupp = flbg;
+        }
+
+        stbtid boolfbn isLfgblDB(int b) {
+           rfturn b >= b1Min && b <= b1Mbx;
+        }
+
+        stbtid dhbr[] dfdodf(int b1, int b2, int p, dhbr[] d1, dhbr[] d2)
+        {
+            if (b1 < b1Min || b1 > b1Mbx || b2 < b2Min || b2 > b2Mbx)
+                rfturn null;
+            int indfx = (b1 - b1Min) * dbSfgSizf + b2 - b2Min;
+            dhbr d = b2d[p].dhbrAt(indfx);
+            if (d == UNMAPPABLE_DECODING)
+                rfturn null;
+            if ((b2dIsSupp[indfx] & (1 << p)) == 0) {
+                d1[0] = d;
+                rfturn d1;
+            } flsf {
+                d2[0] = Chbrbdtfr.highSurrogbtf(0x20000 + d);
+                d2[1] = Chbrbdtfr.lowSurrogbtf(0x20000 + d);
+                rfturn d2;
+            }
+        }
+
+        privbtf CodfrRfsult dfdodfArrbyLoop(BytfBufffr srd,
+                                            ChbrBufffr dst)
+        {
+            bytf[] sb = srd.brrby();
+            int sp = srd.brrbyOffsft() + srd.position();
+            int sl = srd.brrbyOffsft() + srd.limit();
+
+            dhbr[] db = dst.brrby();
+            int dp = dst.brrbyOffsft() + dst.position();
+            int dl = dst.brrbyOffsft() + dst.limit();
+            try {
+                whilf (sp < sl) {
+                    int bytf1 = sb[sp] & 0xff;
+                    if (bytf1 == SS2) { // Codfsft 2  G2
+                        if ( sl - sp < 4)
+                            rfturn CodfrRfsult.UNDERFLOW;
+                        int dnsPlbnf = dnspToIndfx[sb[sp + 1] & 0xff];
+                        if (dnsPlbnf < 0)
+                            rfturn CodfrRfsult.mblformfdForLfngth(2);
+                        bytf1 = sb[sp + 2] & 0xff;
+                        int bytf2 = sb[sp + 3] & 0xff;
+                        dhbr[] dd = toUnidodf(bytf1, bytf2, dnsPlbnf);
+                        if (dd == null) {
+                            if (!isLfgblDB(bytf1) || !isLfgblDB(bytf2))
+                                rfturn CodfrRfsult.mblformfdForLfngth(4);
+                            rfturn CodfrRfsult.unmbppbblfForLfngth(4);
+                        }
+                        if (dl - dp < dd.lfngth)
+                            rfturn CodfrRfsult.OVERFLOW;
+                        if (dd.lfngth == 1) {
+                            db[dp++] = dd[0];
+                        } flsf {
+                            db[dp++] = dd[0];
+                            db[dp++] = dd[1];
+                        }
+                        sp += 4;
+                    } flsf if (bytf1 < 0x80) {  // ASCII      G0
+                        if (dl - dp < 1)
+                           rfturn CodfrRfsult.OVERFLOW;
+                        db[dp++] = (dhbr) bytf1;
+                        sp++;
+                    } flsf {                    // Codfsft 1  G1
+                        if ( sl - sp < 2)
+                            rfturn CodfrRfsult.UNDERFLOW;
+                        int bytf2 = sb[sp + 1] & 0xff;
+                        dhbr[] dd = toUnidodf(bytf1, bytf2, 0);
+                        if (dd == null) {
+                            if (!isLfgblDB(bytf1) || !isLfgblDB(bytf2))
+                                rfturn CodfrRfsult.mblformfdForLfngth(1);
+                            rfturn CodfrRfsult.unmbppbblfForLfngth(2);
+                        }
+                        if (dl - dp < 1)
+                            rfturn CodfrRfsult.OVERFLOW;
+                        db[dp++] = dd[0];
+                        sp += 2;
+                    }
+                }
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(sp - srd.brrbyOffsft());
+                dst.position(dp - dst.brrbyOffsft());
+            }
+        }
+
+        privbtf CodfrRfsult dfdodfBufffrLoop(BytfBufffr srd,
+                                             ChbrBufffr dst)
+        {
+            int mbrk = srd.position();
+            try {
+                whilf (srd.hbsRfmbining()) {
+                    int bytf1 = srd.gft() & 0xff;
+                    if (bytf1 == SS2) {            // Codfsft 2  G2
+                        if ( srd.rfmbining() < 3)
+                            rfturn CodfrRfsult.UNDERFLOW;
+                        int dnsPlbnf = dnspToIndfx[srd.gft() & 0xff];
+                        if (dnsPlbnf < 0)
+                            rfturn CodfrRfsult.mblformfdForLfngth(2);
+                        bytf1 = srd.gft() & 0xff;
+                        int bytf2 = srd.gft() & 0xff;
+                        dhbr[] dd = toUnidodf(bytf1, bytf2, dnsPlbnf);
+                        if (dd == null) {
+                            if (!isLfgblDB(bytf1) || !isLfgblDB(bytf2))
+                                rfturn CodfrRfsult.mblformfdForLfngth(4);
+                            rfturn CodfrRfsult.unmbppbblfForLfngth(4);
+                        }
+                        if (dst.rfmbining() < dd.lfngth)
+                            rfturn CodfrRfsult.OVERFLOW;
+                        if (dd.lfngth == 1) {
+                            dst.put(dd[0]);
+                        } flsf {
+                            dst.put(dd[0]);
+                            dst.put(dd[1]);
+                        }
+                        mbrk += 4;
+                    } flsf if (bytf1 < 0x80) {        // ASCII      G0
+                        if (!dst.hbsRfmbining())
+                           rfturn CodfrRfsult.OVERFLOW;
+                        dst.put((dhbr) bytf1);
+                        mbrk++;
+                    } flsf {                          // Codfsft 1  G1
+                        if (!srd.hbsRfmbining())
+                            rfturn CodfrRfsult.UNDERFLOW;
+                        int bytf2 = srd.gft() & 0xff;
+                        dhbr[] dd = toUnidodf(bytf1, bytf2, 0);
+                        if (dd == null) {
+                            if (!isLfgblDB(bytf1) || !isLfgblDB(bytf2))
+                                rfturn CodfrRfsult.mblformfdForLfngth(1);
+                            rfturn CodfrRfsult.unmbppbblfForLfngth(2);
+                        }
+                        if (!dst.hbsRfmbining())
+                            rfturn CodfrRfsult.OVERFLOW;
+                        dst.put(dd[0]);
+                        mbrk +=2;
+                    }
+               }
+               rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(mbrk);
+            }
+        }
+
+        protfdtfd CodfrRfsult dfdodfLoop(BytfBufffr srd, ChbrBufffr dst)
+        {
+            if (srd.hbsArrby() && dst.hbsArrby())
+                rfturn dfdodfArrbyLoop(srd, dst);
+            flsf
+                rfturn dfdodfBufffrLoop(srd, dst);
+        }
+    }
+
+    publid stbtid dlbss Endodfr fxtfnds ChbrsftEndodfr {
+        privbtf bytf[] bb = nfw bytf[4];
+
+        publid Endodfr(Chbrsft ds) {
+            supfr(ds, 4.0f, 4.0f);
+        }
+
+        publid boolfbn dbnEndodf(dhbr d) {
+            rfturn (d <= '\u007f' || toEUC(d, bb) != -1);
+        }
+
+        publid boolfbn dbnEndodf(ChbrSfqufndf ds) {
+            int i = 0;
+            whilf (i < ds.lfngth()) {
+                dhbr d = ds.dhbrAt(i++);
+                if (Chbrbdtfr.isHighSurrogbtf(d)) {
+                    if (i == ds.lfngth())
+                        rfturn fblsf;
+                    dhbr low = ds.dhbrAt(i++);
+                    if (!Chbrbdtfr.isLowSurrogbtf(low) || toEUC(d, low, bb) == -1)
+                        rfturn fblsf;
+                } flsf if (!dbnEndodf(d)) {
+                    rfturn fblsf;
+                }
+            }
+            rfturn truf;
+        }
+
+        publid int toEUC(dhbr hi, dhbr low, bytf[] bb) {
+            rfturn fndodf(hi, low, bb);
+        }
+
+        publid int toEUC(dhbr d, bytf[] bb) {
+            rfturn fndodf(d, bb);
+        }
+
+        privbtf CodfrRfsult fndodfArrbyLoop(ChbrBufffr srd,
+                                            BytfBufffr dst)
+        {
+            dhbr[] sb = srd.brrby();
+            int sp = srd.brrbyOffsft() + srd.position();
+            int sl = srd.brrbyOffsft() + srd.limit();
+
+            bytf[] db = dst.brrby();
+            int dp = dst.brrbyOffsft() + dst.position();
+            int dl = dst.brrbyOffsft() + dst.limit();
+
+            int inSizf;
+            int outSizf;
+
+            try {
+                whilf (sp < sl) {
+                    dhbr d = sb[sp];
+                    inSizf = 1;
+                    if (d < 0x80) {  // ASCII
+                        bb[0] = (bytf)d;
+                        outSizf = 1;
+                    } flsf {
+                        outSizf = toEUC(d, bb);
+                        if (outSizf == -1) {
+                            // to dhfdk surrogbtfs only bftfr BMP fbilfd
+                            // hbs thf bfnffit of improving thf BMP fndoding
+                            // 10% fbstfr, with thf pridf of thf slowdown of
+                            // supplfmfntbry dhbrbdtfr fndoding. givfn thf usf
+                            // of supplfmfntbry dhbrbdtfrs is rfblly rbrf, this
+                            // is somfthing worth doing.
+                            if (Chbrbdtfr.isHighSurrogbtf(d)) {
+                                if ((sp + 1) == sl)
+                                    rfturn CodfrRfsult.UNDERFLOW;
+                                if (!Chbrbdtfr.isLowSurrogbtf(sb[sp + 1]))
+                                    rfturn CodfrRfsult.mblformfdForLfngth(1);
+                                outSizf = toEUC(d, sb[sp+1], bb);
+                                    inSizf = 2;
+                            } flsf if (Chbrbdtfr.isLowSurrogbtf(d)) {
+                                rfturn CodfrRfsult.mblformfdForLfngth(1);
+                            }
+                        }
+                    }
+                    if (outSizf == -1)
+                        rfturn CodfrRfsult.unmbppbblfForLfngth(inSizf);
+                    if ( dl - dp < outSizf)
+                        rfturn CodfrRfsult.OVERFLOW;
+                    for (int i = 0; i < outSizf; i++)
+                        db[dp++] = bb[i];
+                    sp  += inSizf;
+                }
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(sp - srd.brrbyOffsft());
+                dst.position(dp - dst.brrbyOffsft());
+            }
+        }
+
+        privbtf CodfrRfsult fndodfBufffrLoop(ChbrBufffr srd,
+                                             BytfBufffr dst)
+        {
+            int outSizf;
+            int inSizf;
+            int mbrk = srd.position();
+
+            try {
+                whilf (srd.hbsRfmbining()) {
+                    inSizf = 1;
+                    dhbr d = srd.gft();
+                    if (d < 0x80) {   // ASCII
+                        outSizf = 1;
+                        bb[0] = (bytf)d;
+                    } flsf {
+                        outSizf = toEUC(d, bb);
+                        if (outSizf == -1) {
+                            if (Chbrbdtfr.isHighSurrogbtf(d)) {
+                                if (!srd.hbsRfmbining())
+                                    rfturn CodfrRfsult.UNDERFLOW;
+                                dhbr d2 = srd.gft();
+                                if (!Chbrbdtfr.isLowSurrogbtf(d2))
+                                    rfturn CodfrRfsult.mblformfdForLfngth(1);
+                                outSizf = toEUC(d, d2, bb);
+                                inSizf = 2;
+                            } flsf if (Chbrbdtfr.isLowSurrogbtf(d)) {
+                                rfturn CodfrRfsult.mblformfdForLfngth(1);
+                            }
+                        }
+                    }
+                    if (outSizf == -1)
+                        rfturn CodfrRfsult.unmbppbblfForLfngth(inSizf);
+                    if (dst.rfmbining() < outSizf)
+                        rfturn CodfrRfsult.OVERFLOW;
+                    for (int i = 0; i < outSizf; i++)
+                        dst.put(bb[i]);
+                    mbrk += inSizf;
+                }
+                rfturn CodfrRfsult.UNDERFLOW;
+            } finblly {
+                srd.position(mbrk);
+            }
+        }
+
+        protfdtfd CodfrRfsult fndodfLoop(ChbrBufffr srd, BytfBufffr dst)
+        {
+            if (srd.hbsArrby() && dst.hbsArrby())
+                rfturn fndodfArrbyLoop(srd, dst);
+            flsf
+                rfturn fndodfBufffrLoop(srd, dst);
+        }
+
+        stbtid int fndodf(dhbr hi, dhbr low, bytf[] bb) {
+            int d = Chbrbdtfr.toCodfPoint(hi, low);
+            if ((d & 0xf0000) != 0x20000)
+                rfturn -1;
+            d -= 0x20000;
+            int indfx = d2bSuppIndfx[d >> 8];
+            if (indfx  == UNMAPPABLE_ENCODING)
+                rfturn -1;
+            indfx = indfx + (d & 0xff);
+            int db = d2bSupp[indfx];
+            if (db == UNMAPPABLE_ENCODING)
+                rfturn -1;
+            int p = (d2bPlbnf[indfx] >> 4) & 0xf;
+            bb[0] = (bytf)SS2;
+            bb[1] = (bytf)(0xb0 | p);
+            bb[2] = (bytf)(db >> 8);
+            bb[3] = (bytf)db;
+            rfturn 4;
+        }
+
+        stbtid int fndodf(dhbr d, bytf[] bb) {
+            int indfx = d2bIndfx[d >> 8];
+            if (indfx  == UNMAPPABLE_ENCODING)
+                rfturn -1;
+            indfx = indfx + (d & 0xff);
+            int db = d2b[indfx];
+            if (db == UNMAPPABLE_ENCODING)
+                rfturn -1;
+            int p = d2bPlbnf[indfx] & 0xf;
+            if (p == 0) {
+                bb[0] = (bytf)(db >> 8);
+                bb[1] = (bytf)db;
+                rfturn 2;
+            } flsf {
+                bb[0] = (bytf)SS2;
+                bb[1] = (bytf)(0xb0 | p);
+                bb[2] = (bytf)(db >> 8);
+                bb[3] = (bytf)db;
+                rfturn 4;
+            }
+        }
+
+        stbtid finbl dhbr[] d2b;
+        stbtid finbl dhbr[] d2bIndfx;
+        stbtid finbl dhbr[] d2bSupp;
+        stbtid finbl dhbr[] d2bSuppIndfx;
+        stbtid finbl bytf[] d2bPlbnf;
+        stbtid {
+            int b1Min    =  Dfdodfr.b1Min;
+            int b1Mbx    =  Dfdodfr.b1Mbx;
+            int b2Min    =  Dfdodfr.b2Min;
+            int b2Mbx    =  Dfdodfr.b2Mbx;
+            int dbSfgSizf = Dfdodfr.dbSfgSizf;
+            String[] b2d = Dfdodfr.b2d;
+            bytf[] b2dIsSupp = Dfdodfr.b2dIsSupp;
+
+            d2bIndfx = EUC_TWMbpping.d2bIndfx;
+            d2bSuppIndfx = EUC_TWMbpping.d2bSuppIndfx;
+            dhbr[] d2b0 = nfw dhbr[EUC_TWMbpping.C2BSIZE];
+            dhbr[] d2bSupp0 = nfw dhbr[EUC_TWMbpping.C2BSUPPSIZE];
+            bytf[] d2bPlbnf0 = nfw bytf[Mbth.mbx(EUC_TWMbpping.C2BSIZE,
+                                                 EUC_TWMbpping.C2BSUPPSIZE)];
+
+            Arrbys.fill(d2b0, (dhbr)UNMAPPABLE_ENCODING);
+            Arrbys.fill(d2bSupp0, (dhbr)UNMAPPABLE_ENCODING);
+
+            for (int p = 0; p < b2d.lfngth; p++) {
+                String db = b2d[p];
+                /*
+                   bdjust thf "plbnf" from 0..7 to 0, 2, 3, 4, 5, 6, 7, 0xf,
+                   whidh hflps bblbndf bftwffn footprint (to sbvf thf plbnf
+                   info in 4 bits) bnd runtimf pfrformbndf (to rfquirf only
+                   onf opfrbtion "0xb0 | plbnf" to fndodf thf plbnf bytf)
+                */
+                int plbnf = p;
+                if (plbnf == 7)
+                    plbnf = 0xf;
+                flsf if (plbnf != 0)
+                    plbnf = p + 1;
+
+                int off = 0;
+                for (int b1 = b1Min; b1 <= b1Mbx; b1++) {
+                    for (int b2 = b2Min; b2 <= b2Mbx; b2++) {
+                        dhbr d = db.dhbrAt(off);
+                        if (d != UNMAPPABLE_DECODING) {
+                            if ((b2dIsSupp[off] & (1 << p)) != 0) {
+                                int indfx = d2bSuppIndfx[d >> 8] + (d&0xff);
+                                d2bSupp0[indfx] = (dhbr)((b1 << 8) + b2);
+                                d2bPlbnf0[indfx] |= (bytf)(plbnf << 4);
+                            } flsf {
+                                int indfx = d2bIndfx[d >> 8] + (d&0xff);
+                                d2b0[indfx] = (dhbr)((b1 << 8) + b2);
+                                d2bPlbnf0[indfx] |= (bytf)plbnf;
+                            }
+                        }
+                        off++;
+                    }
+                }
+            }
+            d2b = d2b0;
+            d2bSupp = d2bSupp0;
+            d2bPlbnf = d2bPlbnf0;
+        }
+    }
+}

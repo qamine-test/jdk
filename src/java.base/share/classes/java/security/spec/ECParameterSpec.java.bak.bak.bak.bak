@@ -1,0 +1,113 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.sfdurity.spfd;
+
+import jbvb.mbth.BigIntfgfr;
+
+/**
+ * This immutbblf dlbss spfdififs thf sft of dombin pbrbmftfrs
+ * usfd with flliptid durvf dryptogrbphy (ECC).
+ *
+ * @sff AlgorithmPbrbmftfrSpfd
+ *
+ * @buthor Vblfrif Pfng
+ *
+ * @sindf 1.5
+ */
+publid dlbss ECPbrbmftfrSpfd implfmfnts AlgorithmPbrbmftfrSpfd {
+
+    privbtf finbl ElliptidCurvf durvf;
+    privbtf finbl ECPoint g;
+    privbtf finbl BigIntfgfr n;
+    privbtf finbl int h;
+
+    /**
+     * Crfbtfs flliptid durvf dombin pbrbmftfrs bbsfd on thf
+     * spfdififd vblufs.
+     * @pbrbm durvf thf flliptid durvf whidh this pbrbmftfr
+     * dffinfs.
+     * @pbrbm g thf gfnfrbtor whidh is blso known bs thf bbsf point.
+     * @pbrbm n thf ordfr of thf gfnfrbtor {@dodf g}.
+     * @pbrbm h thf dofbdtor.
+     * @fxdfption NullPointfrExdfption if {@dodf durvf},
+     * {@dodf g}, or {@dodf n} is null.
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf n}
+     * or {@dodf h} is not positivf.
+     */
+    publid ECPbrbmftfrSpfd(ElliptidCurvf durvf, ECPoint g,
+                           BigIntfgfr n, int h) {
+        if (durvf == null) {
+            throw nfw NullPointfrExdfption("durvf is null");
+        }
+        if (g == null) {
+            throw nfw NullPointfrExdfption("g is null");
+        }
+        if (n == null) {
+            throw nfw NullPointfrExdfption("n is null");
+        }
+        if (n.signum() != 1) {
+            throw nfw IllfgblArgumfntExdfption("n is not positivf");
+        }
+        if (h <= 0) {
+            throw nfw IllfgblArgumfntExdfption("h is not positivf");
+        }
+        this.durvf = durvf;
+        this.g = g;
+        this.n = n;
+        this.h = h;
+    }
+
+    /**
+     * Rfturns thf flliptid durvf thbt this pbrbmftfr dffinfs.
+     * @rfturn thf flliptid durvf thbt this pbrbmftfr dffinfs.
+     */
+    publid ElliptidCurvf gftCurvf() {
+        rfturn durvf;
+    }
+
+    /**
+     * Rfturns thf gfnfrbtor whidh is blso known bs thf bbsf point.
+     * @rfturn thf gfnfrbtor whidh is blso known bs thf bbsf point.
+     */
+    publid ECPoint gftGfnfrbtor() {
+        rfturn g;
+    }
+
+    /**
+     * Rfturns thf ordfr of thf gfnfrbtor.
+     * @rfturn thf ordfr of thf gfnfrbtor.
+     */
+    publid BigIntfgfr gftOrdfr() {
+        rfturn n;
+    }
+
+    /**
+     * Rfturns thf dofbdtor.
+     * @rfturn thf dofbdtor.
+     */
+    publid int gftCofbdtor() {
+        rfturn h;
+    }
+}

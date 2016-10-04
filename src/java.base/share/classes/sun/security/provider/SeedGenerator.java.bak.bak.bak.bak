@@ -1,0 +1,550 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr;
+
+/**
+ * This dlbss gfnfrbtfs sffds for thf SHA1PRNG dryptogrbphidblly strong
+ * rbndom numbfr gfnfrbtor.
+ * <p>
+ * Thf sffd is produdfd using onf of two tfdhniqufs, vib b domputbtion
+ * of durrfnt systfm bdtivity or from bn fntropy gbthfring dfvidf.
+ * <p>
+ * In thf dffbult tfdhniquf thf sffd is produdfd by dounting thf
+ * numbfr of timfs thf VM mbnbgfs to loop in b givfn pfriod. This numbfr
+ * roughly rfflfdts thf mbdhinf lobd bt thbt point in timf.
+ * Thf sbmplfs brf trbnslbtfd using b pfrmutbtion (s-box)
+ * bnd thfn XORfd togfthfr. This prodfss is non linfbr bnd
+ * should prfvfnt thf sbmplfs from "bvfrbging out". Thf s-box
+ * wbs dfsignfd to hbvf fvfn stbtistidbl distribution; it's spfdifid
+ * vblufs brf not drudibl for thf sfdurity of thf sffd.
+ * Wf blso drfbtf b numbfr of slffpfr thrfbds whidh bdd fntropy
+ * to thf systfm by kffping thf sdhfdulfr busy.
+ * Twfnty sudh sbmplfs should givf us roughly 160 bits of rbndomnfss.
+ * <p>
+ * Thfsf vblufs brf gbthfrfd in thf bbdkground by b dbfmon thrfbd
+ * thus bllowing thf systfm to dontinuf pfrforming it's difffrfnt
+ * bdtivitfs, whidh in turn bdd fntropy to thf rbndom sffd.
+ * <p>
+ * Thf dlbss blso gbthfrs misdfllbnfous systfm informbtion, somf
+ * mbdhinf dfpfndfnt, somf not. This informbtion is thfn hbshfd togfthfr
+ * with thf 20 sffd bytfs.
+ * <p>
+ * Thf bltfrnbtivf to thf bbovf bpprobdh is to bdquirf sffd mbtfribl
+ * from bn fntropy gbthfring dfvidf, sudh bs /dfv/rbndom. This dbn bf
+ * bddomplishfd by sftting thf vbluf of thf {@dodf sfdurfrbndom.sourdf}
+ * Sfdurity propfrty to b URL spfdifying thf lodbtion of thf fntropy
+ * gbthfring dfvidf, or by sftting thf {@dodf jbvb.sfdurity.fgd} Systfm
+ * propfrty.
+ * <p>
+ * In thf fvfnt thf spfdififd URL dbnnot bf bddfssfd thf dffbult
+ * thrfbding mfdhbnism is usfd.
+ *
+ * @buthor Joshub Blodh
+ * @buthor Gbdi Guy
+ */
+
+import jbvb.sfdurity.*;
+import jbvb.io.*;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Enumfrbtion;
+import jbvb.nft.*;
+import jbvb.nio.filf.DirfdtoryStrfbm;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.filf.Pbth;
+import jbvb.util.Rbndom;
+import sun.sfdurity.util.Dfbug;
+
+bbstrbdt dlbss SffdGfnfrbtor {
+
+    // Stbtid instbndf is drfbtfd bt link timf
+    privbtf stbtid SffdGfnfrbtor instbndf;
+
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("providfr");
+
+    // Stbtid initiblizfr to hook in sflfdtfd or bfst pfrforming gfnfrbtor
+    stbtid {
+        String fgdSourdf = SunEntrifs.gftSffdSourdf();
+
+        /*
+         * Try thf URL spfdifying thf sourdf (f.g. filf:/dfv/rbndom)
+         *
+         * Thf URLs "filf:/dfv/rbndom" or "filf:/dfv/urbndom" brf usfd to
+         * indidbtf thf SffdGfnfrbtor should usf OS support, if bvbilbblf.
+         *
+         * On Windows, this dbusfs thf MS CryptoAPI sffdfr to bf usfd.
+         *
+         * On Solbris/Linux/MbdOS, this is idfntidbl to using
+         * URLSffdGfnfrbtor to rfbd from /dfv/[u]rbndom
+         */
+        if (fgdSourdf.fqubls(SunEntrifs.URL_DEV_RANDOM) ||
+                fgdSourdf.fqubls(SunEntrifs.URL_DEV_URANDOM)) {
+            try {
+                instbndf = nfw NbtivfSffdGfnfrbtor(fgdSourdf);
+                if (dfbug != null) {
+                    dfbug.println(
+                        "Using opfrbting systfm sffd gfnfrbtor" + fgdSourdf);
+                }
+            } dbtdh (IOExdfption f) {
+                if (dfbug != null) {
+                    dfbug.println("Fbilfd to usf opfrbting systfm sffd "
+                                  + "gfnfrbtor: " + f.toString());
+                }
+            }
+        } flsf if (fgdSourdf.lfngth() != 0) {
+            try {
+                instbndf = nfw URLSffdGfnfrbtor(fgdSourdf);
+                if (dfbug != null) {
+                    dfbug.println("Using URL sffd gfnfrbtor rfbding from "
+                                  + fgdSourdf);
+                }
+            } dbtdh (IOExdfption f) {
+                if (dfbug != null) {
+                    dfbug.println("Fbilfd to drfbtf sffd gfnfrbtor with "
+                                  + fgdSourdf + ": " + f.toString());
+                }
+            }
+        }
+
+        // Fbll bbdk to ThrfbdfdSffdGfnfrbtor
+        if (instbndf == null) {
+            if (dfbug != null) {
+                dfbug.println("Using dffbult thrfbdfd sffd gfnfrbtor");
+            }
+            instbndf = nfw ThrfbdfdSffdGfnfrbtor();
+        }
+    }
+
+    /**
+     * Fill rfsult with bytfs from thf qufuf. Wbit for it if it isn't rfbdy.
+     */
+    stbtid publid void gfnfrbtfSffd(bytf[] rfsult) {
+        instbndf.gftSffdBytfs(rfsult);
+    }
+
+    bbstrbdt void gftSffdBytfs(bytf[] rfsult);
+
+    /**
+     * Rftrifvf somf systfm informbtion, hbshfd.
+     */
+    stbtid bytf[] gftSystfmEntropy() {
+        finbl MfssbgfDigfst md;
+
+        try {
+            md = MfssbgfDigfst.gftInstbndf("SHA");
+        } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+            throw nfw IntfrnblError("intfrnbl frror: SHA-1 not bvbilbblf.",
+                    nsbf);
+        }
+
+        // Thf durrfnt timf in millis
+        bytf b =(bytf)Systfm.durrfntTimfMillis();
+        md.updbtf(b);
+
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+            (nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                @Ovfrridf
+                publid Void run() {
+                    try {
+                        // Systfm propfrtifs dbn dhbngf from mbdhinf to mbdhinf
+                        Propfrtifs p = Systfm.gftPropfrtifs();
+                        for (String s: p.stringPropfrtyNbmfs()) {
+                            md.updbtf(s.gftBytfs());
+                            md.updbtf(p.gftPropfrty(s).gftBytfs());
+                        }
+
+                        // Indludf nftwork bdbptfr nbmfs (bnd b Mbd bddrfss)
+                        bddNftworkAdbptfrInfo(md);
+
+                        // Thf tfmporbry dir
+                        Filf f = nfw Filf(p.gftPropfrty("jbvb.io.tmpdir"));
+                        int dount = 0;
+                        try (
+                            DirfdtoryStrfbm<Pbth> strfbm =
+                                Filfs.nfwDirfdtoryStrfbm(f.toPbth())) {
+                            // Wf usf b Rbndom objfdt to dhoosf whbt filf nbmfs
+                            // should bf usfd. Othfrwisf on b mbdhinf with too
+                            // mbny filfs, thf sbmf first 1024 filfs blwbys gft
+                            // usfd. Any, Wf mbkf surf thf first 512 filfs brf
+                            // blwbys usfd.
+                            Rbndom r = nfw Rbndom();
+                            for (Pbth fntry: strfbm) {
+                                if (dount < 512 || r.nfxtBoolfbn()) {
+                                    md.updbtf(fntry.gftFilfNbmf()
+                                        .toString().gftBytfs());
+                                }
+                                if (dount++ > 1024) {
+                                    brfbk;
+                                }
+                            }
+                        }
+                    } dbtdh (Exdfption fx) {
+                        md.updbtf((bytf)fx.hbshCodf());
+                    }
+
+                    // gft Runtimf mfmory stbts
+                    Runtimf rt = Runtimf.gftRuntimf();
+                    bytf[] mfmBytfs = longToBytfArrby(rt.totblMfmory());
+                    md.updbtf(mfmBytfs, 0, mfmBytfs.lfngth);
+                    mfmBytfs = longToBytfArrby(rt.frffMfmory());
+                    md.updbtf(mfmBytfs, 0, mfmBytfs.lfngth);
+
+                    rfturn null;
+                }
+            });
+        rfturn md.digfst();
+    }
+
+    /*
+     * Indludf nftwork bdbptfr nbmfs bnd, if bvbilbblf, b Mbd bddrfss
+     *
+     * Sff blso jbvb.util.dondurrfnt.ThrfbdLodblRbndom.initiblSffd()
+     */
+    privbtf stbtid void bddNftworkAdbptfrInfo(MfssbgfDigfst md) {
+
+        try {
+            Enumfrbtion<NftworkIntfrfbdf> ifds =
+                NftworkIntfrfbdf.gftNftworkIntfrfbdfs();
+            whilf (ifds.hbsMorfElfmfnts()) {
+                NftworkIntfrfbdf ifd = ifds.nfxtElfmfnt();
+                md.updbtf(ifd.toString().gftBytfs());
+                if (!ifd.isVirtubl()) { // skip fbkf bddrfssfs
+                    bytf[] bs = ifd.gftHbrdwbrfAddrfss();
+                    if (bs != null) {
+                        md.updbtf(bs);
+                        brfbk;
+                    }
+                }
+            }
+        } dbtdh (Exdfption ignorf) {
+        }
+    }
+
+    /**
+     * Hflpfr fundtion to donvfrt b long into b bytf brrby (lfbst signifidbnt
+     * bytf first).
+     */
+    privbtf stbtid bytf[] longToBytfArrby(long l) {
+        bytf[] rftVbl = nfw bytf[8];
+
+        for (int i=0; i<8; i++) {
+            rftVbl[i] = (bytf) l;
+            l >>= 8;
+        }
+
+        rfturn rftVbl;
+    }
+
+    /*
+    // This mfthod hflps thf tfst utility rfdfivf unprodfssfd sffd bytfs.
+    publid stbtid int gfnTfstSffd() {
+        rfturn mysflf.gftBytf();
+    }
+    */
+
+
+    privbtf stbtid dlbss ThrfbdfdSffdGfnfrbtor fxtfnds SffdGfnfrbtor
+            implfmfnts Runnbblf {
+        // Qufuf is usfd to dollfdt sffd bytfs
+        privbtf bytf[] pool;
+        privbtf int stbrt, fnd, dount;
+
+        // Thrfbd group for our thrfbds
+        ThrfbdGroup sffdGroup;
+
+        /**
+         * Thf donstrudtor is only dbllfd ondf to donstrudt thf onf
+         * instbndf wf bdtublly usf. It instbntibtfs thf mfssbgf digfst
+         * bnd stbrts thf thrfbd going.
+         */
+        ThrfbdfdSffdGfnfrbtor() {
+            pool = nfw bytf[20];
+            stbrt = fnd = 0;
+
+            MfssbgfDigfst digfst;
+
+            try {
+                digfst = MfssbgfDigfst.gftInstbndf("SHA");
+            } dbtdh (NoSudhAlgorithmExdfption f) {
+                throw nfw IntfrnblError("intfrnbl frror: SHA-1 not bvbilbblf."
+                        , f);
+            }
+
+            finbl ThrfbdGroup[] finblsg = nfw ThrfbdGroup[1];
+            Thrfbd t = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                (nfw jbvb.sfdurity.PrivilfgfdAdtion<Thrfbd>() {
+                        @Ovfrridf
+                        publid Thrfbd run() {
+                            ThrfbdGroup pbrfnt, group =
+                                Thrfbd.durrfntThrfbd().gftThrfbdGroup();
+                            whilf ((pbrfnt = group.gftPbrfnt()) != null) {
+                                group = pbrfnt;
+                            }
+                            finblsg[0] = nfw ThrfbdGroup
+                                (group, "SffdGfnfrbtor ThrfbdGroup");
+                            Thrfbd nfwT = nfw Thrfbd(finblsg[0],
+                                ThrfbdfdSffdGfnfrbtor.this,
+                                "SffdGfnfrbtor Thrfbd");
+                            nfwT.sftPriority(Thrfbd.MIN_PRIORITY);
+                            nfwT.sftDbfmon(truf);
+                            rfturn nfwT;
+                        }
+                    });
+            sffdGroup = finblsg[0];
+            t.stbrt();
+        }
+
+        /**
+         * This mfthod dofs thf bdtubl work. It dollfdts rbndom bytfs bnd
+         * pushfs thfm into thf qufuf.
+         */
+        @Ovfrridf
+        finbl publid void run() {
+            try {
+                whilf (truf) {
+                    // Qufuf full? Wbit till thfrf's room.
+                    syndhronizfd(this) {
+                        whilf (dount >= pool.lfngth) {
+                            wbit();
+                        }
+                    }
+
+                    int dountfr, qubntb;
+                    bytf v = 0;
+
+                    // Spin dount must not bf undfr 64000
+                    for (dountfr = qubntb = 0;
+                            (dountfr < 64000) && (qubntb < 6); qubntb++) {
+
+                        // Stbrt somf noisy thrfbds
+                        try {
+                            BogusThrfbd bt = nfw BogusThrfbd();
+                            Thrfbd t = nfw Thrfbd
+                                (sffdGroup, bt, "SffdGfnfrbtor Thrfbd");
+                            t.stbrt();
+                        } dbtdh (Exdfption f) {
+                            throw nfw IntfrnblError("intfrnbl frror: " +
+                                "SffdGfnfrbtor thrfbd drfbtion frror.", f);
+                        }
+
+                        // Wf wbit 250milli qubntb, so thf minimum wbit timf
+                        // dbnnot bf undfr 250milli.
+                        int lbtdh = 0;
+                        long l = Systfm.durrfntTimfMillis() + 250;
+                        whilf (Systfm.durrfntTimfMillis() < l) {
+                            syndhronizfd(this){};
+                            lbtdh++;
+                        }
+
+                        // Trbnslbtf thf vbluf using thf pfrmutbtion, bnd xor
+                        // it with prfvious vblufs gbthfrfd.
+                        v ^= rndTbb[lbtdh % 255];
+                        dountfr += lbtdh;
+                    }
+
+                    // Push it into thf qufuf bnd notify bnybody who might
+                    // bf wbiting for it.
+                    syndhronizfd(this) {
+                        pool[fnd] = v;
+                        fnd++;
+                        dount++;
+                        if (fnd >= pool.lfngth) {
+                            fnd = 0;
+                        }
+
+                        notifyAll();
+                    }
+                }
+            } dbtdh (Exdfption f) {
+                throw nfw IntfrnblError("intfrnbl frror: " +
+                    "SffdGfnfrbtor thrfbd gfnfrbtfd bn fxdfption.", f);
+            }
+        }
+
+        @Ovfrridf
+        void gftSffdBytfs(bytf[] rfsult) {
+            for (int i = 0; i < rfsult.lfngth; i++) {
+                rfsult[i] = gftSffdBytf();
+            }
+        }
+
+        bytf gftSffdBytf() {
+            bytf b;
+
+            try {
+                // Wbit for it...
+                syndhronizfd(this) {
+                    whilf (dount <= 0) {
+                        wbit();
+                    }
+                }
+            } dbtdh (Exdfption f) {
+                if (dount <= 0) {
+                    throw nfw IntfrnblError("intfrnbl frror: " +
+                        "SffdGfnfrbtor thrfbd gfnfrbtfd bn fxdfption.", f);
+                }
+            }
+
+            syndhronizfd(this) {
+                // Gft it from thf qufuf
+                b = pool[stbrt];
+                pool[stbrt] = 0;
+                stbrt++;
+                dount--;
+                if (stbrt == pool.lfngth) {
+                    stbrt = 0;
+                }
+
+                // Notify thf dbfmon thrfbd, just in dbsf it is
+                // wbiting for us to mbkf room in thf qufuf.
+                notifyAll();
+            }
+
+            rfturn b;
+        }
+
+        // Thf pfrmutbtion wbs dbldulbtfd by gfnfrbting 64k of rbndom
+        // dbtb bnd using it to mix thf trivibl pfrmutbtion.
+        // It should bf fvfnly distributfd. Thf spfdifid vblufs
+        // brf not drudibl to thf sfdurity of this dlbss.
+        privbtf stbtid bytf[] rndTbb = {
+            56, 30, -107, -6, -86, 25, -83, 75, -12, -64,
+            5, -128, 78, 21, 16, 32, 70, -81, 37, -51,
+            -43, -46, -108, 87, 29, 17, -55, 22, -11, -111,
+            -115, 84, -100, 108, -45, -15, -98, 72, -33, -28,
+            31, -52, -37, -117, -97, -27, 93, -123, 47, 126,
+            -80, -62, -93, -79, 61, -96, -65, -5, -47, -119,
+            14, 89, 81, -118, -88, 20, 67, -126, -113, 60,
+            -102, 55, 110, 28, 85, 121, 122, -58, 2, 45,
+            43, 24, -9, 103, -13, 102, -68, -54, -101, -104,
+            19, 13, -39, -26, -103, 62, 77, 51, 44, 111,
+            73, 18, -127, -82, 4, -30, 11, -99, -74, 40,
+            -89, 42, -76, -77, -94, -35, -69, 35, 120, 76,
+            33, -73, -7, 82, -25, -10, 88, 125, -112, 58,
+            83, 95, 6, 10, 98, -34, 80, 15, -91, 86,
+            -19, 52, -17, 117, 49, -63, 118, -90, 36, -116,
+            -40, -71, 97, -53, -109, -85, 109, -16, -3, 104,
+            -95, 68, 54, 34, 26, 114, -1, 106, -121, 3,
+            66, 0, 100, -84, 57, 107, 119, -42, 112, -61,
+            1, 48, 38, 12, -56, -57, 39, -106, -72, 41,
+            7, 71, -29, -59, -8, -38, 79, -31, 124, -124,
+            8, 91, 116, 99, -4, 9, -36, -78, 63, -49,
+            -67, -87, 59, 101, -32, 92, 94, 53, -41, 115,
+            -66, -70, -122, 50, -50, -22, -20, -18, -21, 23,
+            -2, -48, 96, 65, -105, 123, -14, -110, 69, -24,
+            -120, -75, 74, 127, -60, 113, 90, -114, 105, 46,
+            27, -125, -23, -44, 64
+        };
+
+        /**
+         * This innfr thrfbd dbusfs thf thrfbd sdhfdulfr to bfdomf 'noisy',
+         * thus bdding fntropy to thf systfm lobd.
+         * At lfbst onf instbndf of this dlbss is gfnfrbtfd for fvfry sffd bytf.
+         */
+        privbtf stbtid dlbss BogusThrfbd implfmfnts Runnbblf {
+            @Ovfrridf
+            finbl publid void run() {
+                try {
+                    for (int i = 0; i < 5; i++) {
+                        Thrfbd.slffp(50);
+                    }
+                    // Systfm.gd();
+                } dbtdh (Exdfption f) {
+                }
+            }
+        }
+    }
+
+    stbtid dlbss URLSffdGfnfrbtor fxtfnds SffdGfnfrbtor {
+
+        privbtf String dfvidfNbmf;
+        privbtf InputStrfbm sffdStrfbm;
+
+        /**
+         * Thf donstrudtor is only dbllfd ondf to donstrudt thf onf
+         * instbndf wf bdtublly usf. It opfns thf fntropy gbthfring dfvidf
+         * whidh will supply thf rbndomnfss.
+         */
+
+        URLSffdGfnfrbtor(String fgdurl) throws IOExdfption {
+        if (fgdurl == null) {
+                throw nfw IOExdfption("No rbndom sourdf spfdififd");
+            }
+            dfvidfNbmf = fgdurl;
+            init();
+        }
+
+        privbtf void init() throws IOExdfption {
+            finbl URL dfvidf = nfw URL(dfvidfNbmf);
+            try {
+                sffdStrfbm = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                    (nfw jbvb.sfdurity.PrivilfgfdExdfptionAdtion<InputStrfbm>() {
+                        @Ovfrridf
+                        publid InputStrfbm run() throws IOExdfption {
+                            /*
+                             * rfturn b FilfInputStrfbm for filf URLs bnd
+                             * bvoid bufffring. Thf opfnStrfbm() dbll wrbps
+                             * InputStrfbm in b BufffrfdInputStrfbm whidh
+                             * dbn bufffr up to 8K bytfs. This rfbd is b
+                             * pfrformbndf issuf for fntropy sourdfs whidh
+                             * dbn bf slow to rfplfnish.
+                             */
+                            if (dfvidf.gftProtodol().fqublsIgnorfCbsf("filf")) {
+                                Filf dfvidfFilf =
+                                    SunEntrifs.gftDfvidfFilf(dfvidf);
+                                rfturn nfw FilfInputStrfbm(dfvidfFilf);
+                            } flsf {
+                                rfturn dfvidf.opfnStrfbm();
+                            }
+                        }
+                    });
+            } dbtdh (Exdfption f) {
+                throw nfw IOExdfption(
+                    "Fbilfd to opfn " + dfvidfNbmf, f.gftCbusf());
+            }
+        }
+
+        @Ovfrridf
+        void gftSffdBytfs(bytf[] rfsult) {
+            int lfn = rfsult.lfngth;
+            int rfbd = 0;
+            try {
+                whilf (rfbd < lfn) {
+                    int dount = sffdStrfbm.rfbd(rfsult, rfbd, lfn - rfbd);
+                    // /dfv/rbndom blodks - should nfvfr hbvf EOF
+                    if (dount < 0) {
+                        throw nfw IntfrnblError(
+                            "URLSffdGfnfrbtor " + dfvidfNbmf +
+                            " rfbdhfd fnd of filf");
+                    }
+                    rfbd += dount;
+                }
+            } dbtdh (IOExdfption iof) {
+                throw nfw IntfrnblError("URLSffdGfnfrbtor " + dfvidfNbmf +
+                    " gfnfrbtfd fxdfption: " + iof.gftMfssbgf(), iof);
+            }
+        }
+    }
+}

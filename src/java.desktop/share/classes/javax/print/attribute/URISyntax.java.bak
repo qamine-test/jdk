@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.print.attribute;
+pbdkbgf jbvbx.print.bttributf;
 
-import java.io.Serializable;
-import java.net.URI;
+import jbvb.io.Sfriblizbblf;
+import jbvb.nft.URI;
 
 /**
- * Class URISyntax is an abstract base class providing the common
- * implementation of all attributes whose value is a Uniform Resource
- * Identifier (URI). Once constructed, a URI attribute's value is immutable.
+ * Clbss URISyntbx is bn bbstrbdt bbsf dlbss providing tif dommon
+ * implfmfntbtion of bll bttributfs wiosf vbluf is b Uniform Rfsourdf
+ * Idfntififr (URI). Ondf donstrudtfd, b URI bttributf's vbluf is immutbblf.
  *
- * @author  Alan Kaminsky
+ * @butior  Albn Kbminsky
  */
-public abstract class URISyntax implements Serializable, Cloneable {
+publid bbstrbdt dlbss URISyntbx implfmfnts Sfriblizbblf, Clonfbblf {
 
-    private static final long serialVersionUID = -7842661210486401678L;
-
-    /**
-     * URI value of this URI attribute.
-     * @serial
-     */
-    private URI uri;
+    privbtf stbtid finbl long sfriblVfrsionUID = -7842661210486401678L;
 
     /**
-     * Constructs a URI attribute with the specified URI.
-     *
-     * @param  uri  URI.
-     *
-     * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>uri</CODE> is null.
+     * URI vbluf of tiis URI bttributf.
+     * @sfribl
      */
-    protected URISyntax(URI uri) {
-        this.uri = verify (uri);
+    privbtf URI uri;
+
+    /**
+     * Construdts b URI bttributf witi tif spfdififd URI.
+     *
+     * @pbrbm  uri  URI.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>uri</CODE> is null.
+     */
+    protfdtfd URISyntbx(URI uri) {
+        tiis.uri = vfrify (uri);
     }
 
-    private static URI verify(URI uri) {
+    privbtf stbtid URI vfrify(URI uri) {
         if (uri == null) {
-            throw new NullPointerException(" uri is null");
+            tirow nfw NullPointfrExdfption(" uri is null");
         }
-        return uri;
+        rfturn uri;
     }
 
     /**
-     * Returns this URI attribute's URI value.
-     * @return the URI.
+     * Rfturns tiis URI bttributf's URI vbluf.
+     * @rfturn tif URI.
      */
-    public URI getURI()  {
-        return uri;
+    publid URI gftURI()  {
+        rfturn uri;
     }
 
     /**
-     * Returns a hashcode for this URI attribute.
+     * Rfturns b ibsidodf for tiis URI bttributf.
      *
-     * @return  A hashcode value for this object.
+     * @rfturn  A ibsidodf vbluf for tiis objfdt.
      */
-    public int hashCode() {
-        return uri.hashCode();
+    publid int ibsiCodf() {
+        rfturn uri.ibsiCodf();
     }
 
     /**
-     * Returns whether this URI attribute is equivalent to the passed in
-     * object.
-     * To be equivalent, all of the following conditions must be true:
+     * Rfturns wiftifr tiis URI bttributf is fquivblfnt to tif pbssfd in
+     * objfdt.
+     * To bf fquivblfnt, bll of tif following donditions must bf truf:
      * <OL TYPE=1>
      * <LI>
-     * <CODE>object</CODE> is not null.
+     * <CODE>objfdt</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class URISyntax.
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss URISyntbx.
      * <LI>
-     * This URI attribute's underlying URI and <CODE>object</CODE>'s
-     * underlying URI are equal.
+     * Tiis URI bttributf's undfrlying URI bnd <CODE>objfdt</CODE>'s
+     * undfrlying URI brf fqubl.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this URI
-     *          attribute, false otherwise.
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to tiis URI
+     *          bttributf, fblsf otifrwisf.
      */
-    public boolean equals(Object object) {
-        return(object != null &&
-               object instanceof URISyntax &&
-               this.uri.equals (((URISyntax) object).uri));
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn(objfdt != null &&
+               objfdt instbndfof URISyntbx &&
+               tiis.uri.fqubls (((URISyntbx) objfdt).uri));
     }
 
     /**
-     * Returns a String identifying this URI attribute. The String is the
-     * string representation of the attribute's underlying URI.
+     * Rfturns b String idfntifying tiis URI bttributf. Tif String is tif
+     * string rfprfsfntbtion of tif bttributf's undfrlying URI.
      *
-     * @return  A String identifying this object.
+     * @rfturn  A String idfntifying tiis objfdt.
      */
-    public String toString() {
-        return uri.toString();
+    publid String toString() {
+        rfturn uri.toString();
     }
 
 }

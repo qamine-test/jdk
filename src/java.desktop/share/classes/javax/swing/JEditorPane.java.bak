@@ -1,858 +1,858 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import sun.swing.SwingUtilities2;
+import sun.swing.SwingUtilitifs2;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.lang.reflect.*;
-import java.net.*;
-import java.util.*;
-import java.io.*;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.nft.*;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
-import javax.swing.plaf.*;
-import javax.swing.text.*;
-import javax.swing.event.*;
-import javax.swing.text.html.*;
-import javax.accessibility.*;
-import sun.reflect.misc.ReflectUtil;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.tfxt.itml.*;
+import jbvbx.bddfssibility.*;
+import sun.rfflfdt.misd.RfflfdtUtil;
 
 /**
- * A text component to edit various kinds of content.
- * You can find how-to information and examples of using editor panes in
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/text.html">Using Text Components</a>,
- * a section in <em>The Java Tutorial.</em>
+ * A tfxt domponfnt to fdit vbrious kinds of dontfnt.
+ * You dbn find iow-to informbtion bnd fxbmplfs of using fditor pbnfs in
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/tfxt.itml">Using Tfxt Componfnts</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl.</fm>
  *
  * <p>
- * This component uses implementations of the
- * <code>EditorKit</code> to accomplish its behavior. It effectively
- * morphs into the proper kind of text editor for the kind
- * of content it is given.  The content type that editor is bound
- * to at any given time is determined by the <code>EditorKit</code> currently
- * installed.  If the content is set to a new URL, its type is used
- * to determine the <code>EditorKit</code> that should be used to
- * load the content.
+ * Tiis domponfnt usfs implfmfntbtions of tif
+ * <dodf>EditorKit</dodf> to bddomplisi its bfibvior. It ffffdtivfly
+ * morpis into tif propfr kind of tfxt fditor for tif kind
+ * of dontfnt it is givfn.  Tif dontfnt typf tibt fditor is bound
+ * to bt bny givfn timf is dftfrminfd by tif <dodf>EditorKit</dodf> durrfntly
+ * instbllfd.  If tif dontfnt is sft to b nfw URL, its typf is usfd
+ * to dftfrminf tif <dodf>EditorKit</dodf> tibt siould bf usfd to
+ * lobd tif dontfnt.
  * <p>
- * By default, the following types of content are known:
+ * By dffbult, tif following typfs of dontfnt brf known:
  * <dl>
- * <dt><b>text/plain</b>
- * <dd>Plain text, which is the default the type given isn't
- * recognized.  The kit used in this case is an extension of
- * <code>DefaultEditorKit</code> that produces a wrapped plain text view.
- * <dt><b>text/html</b>
- * <dd>HTML text.  The kit used in this case is the class
- * <code>javax.swing.text.html.HTMLEditorKit</code>
- * which provides HTML 3.2 support.
- * <dt><b>text/rtf</b>
- * <dd>RTF text.  The kit used in this case is the class
- * <code>javax.swing.text.rtf.RTFEditorKit</code>
- * which provides a limited support of the Rich Text Format.
+ * <dt><b>tfxt/plbin</b>
+ * <dd>Plbin tfxt, wiidi is tif dffbult tif typf givfn isn't
+ * rfdognizfd.  Tif kit usfd in tiis dbsf is bn fxtfnsion of
+ * <dodf>DffbultEditorKit</dodf> tibt produdfs b wrbppfd plbin tfxt vifw.
+ * <dt><b>tfxt/itml</b>
+ * <dd>HTML tfxt.  Tif kit usfd in tiis dbsf is tif dlbss
+ * <dodf>jbvbx.swing.tfxt.itml.HTMLEditorKit</dodf>
+ * wiidi providfs HTML 3.2 support.
+ * <dt><b>tfxt/rtf</b>
+ * <dd>RTF tfxt.  Tif kit usfd in tiis dbsf is tif dlbss
+ * <dodf>jbvbx.swing.tfxt.rtf.RTFEditorKit</dodf>
+ * wiidi providfs b limitfd support of tif Ridi Tfxt Formbt.
  * </dl>
  * <p>
- * There are several ways to load content into this component.
+ * Tifrf brf sfvfrbl wbys to lobd dontfnt into tiis domponfnt.
  * <ol>
  * <li>
- * The {@link #setText setText} method can be used to initialize
- * the component from a string.  In this case the current
- * <code>EditorKit</code> will be used, and the content type will be
- * expected to be of this type.
+ * Tif {@link #sftTfxt sftTfxt} mftiod dbn bf usfd to initiblizf
+ * tif domponfnt from b string.  In tiis dbsf tif durrfnt
+ * <dodf>EditorKit</dodf> will bf usfd, bnd tif dontfnt typf will bf
+ * fxpfdtfd to bf of tiis typf.
  * <li>
- * The {@link #read read} method can be used to initialize the
- * component from a <code>Reader</code>.  Note that if the content type is HTML,
- * relative references (e.g. for things like images) can't be resolved
- * unless the &lt;base&gt; tag is used or the <em>Base</em> property
- * on <code>HTMLDocument</code> is set.
- * In this case the current <code>EditorKit</code> will be used,
- * and the content type will be expected to be of this type.
+ * Tif {@link #rfbd rfbd} mftiod dbn bf usfd to initiblizf tif
+ * domponfnt from b <dodf>Rfbdfr</dodf>.  Notf tibt if tif dontfnt typf is HTML,
+ * rflbtivf rfffrfndfs (f.g. for tiings likf imbgfs) dbn't bf rfsolvfd
+ * unlfss tif &lt;bbsf&gt; tbg is usfd or tif <fm>Bbsf</fm> propfrty
+ * on <dodf>HTMLDodumfnt</dodf> is sft.
+ * In tiis dbsf tif durrfnt <dodf>EditorKit</dodf> will bf usfd,
+ * bnd tif dontfnt typf will bf fxpfdtfd to bf of tiis typf.
  * <li>
- * The {@link #setPage setPage} method can be used to initialize
- * the component from a URL.  In this case, the content type will be
- * determined from the URL, and the registered <code>EditorKit</code>
- * for that content type will be set.
+ * Tif {@link #sftPbgf sftPbgf} mftiod dbn bf usfd to initiblizf
+ * tif domponfnt from b URL.  In tiis dbsf, tif dontfnt typf will bf
+ * dftfrminfd from tif URL, bnd tif rfgistfrfd <dodf>EditorKit</dodf>
+ * for tibt dontfnt typf will bf sft.
  * </ol>
  * <p>
- * Some kinds of content may provide hyperlink support by generating
- * hyperlink events.  The HTML <code>EditorKit</code> will generate
- * hyperlink events if the <code>JEditorPane</code> is <em>not editable</em>
- * (<code>JEditorPane.setEditable(false);</code> has been called).
- * If HTML frames are embedded in the document, the typical response would be
- * to change a portion of the current document.  The following code
- * fragment is a possible hyperlink listener implementation, that treats
- * HTML frame events specially, and simply displays any other activated
- * hyperlinks.
- * <pre>
+ * Somf kinds of dontfnt mby providf iypfrlink support by gfnfrbting
+ * iypfrlink fvfnts.  Tif HTML <dodf>EditorKit</dodf> will gfnfrbtf
+ * iypfrlink fvfnts if tif <dodf>JEditorPbnf</dodf> is <fm>not fditbblf</fm>
+ * (<dodf>JEditorPbnf.sftEditbblf(fblsf);</dodf> ibs bffn dbllfd).
+ * If HTML frbmfs brf fmbfddfd in tif dodumfnt, tif typidbl rfsponsf would bf
+ * to dibngf b portion of tif durrfnt dodumfnt.  Tif following dodf
+ * frbgmfnt is b possiblf iypfrlink listfnfr implfmfntbtion, tibt trfbts
+ * HTML frbmf fvfnts spfdiblly, bnd simply displbys bny otifr bdtivbtfd
+ * iypfrlinks.
+ * <prf>
 
-&nbsp;    class Hyperactive implements HyperlinkListener {
+&nbsp;    dlbss Hypfrbdtivf implfmfnts HypfrlinkListfnfr {
 &nbsp;
-&nbsp;        public void hyperlinkUpdate(HyperlinkEvent e) {
-&nbsp;            if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-&nbsp;                JEditorPane pane = (JEditorPane) e.getSource();
-&nbsp;                if (e instanceof HTMLFrameHyperlinkEvent) {
-&nbsp;                    HTMLFrameHyperlinkEvent  evt = (HTMLFrameHyperlinkEvent)e;
-&nbsp;                    HTMLDocument doc = (HTMLDocument)pane.getDocument();
-&nbsp;                    doc.processHTMLFrameHyperlinkEvent(evt);
-&nbsp;                } else {
+&nbsp;        publid void iypfrlinkUpdbtf(HypfrlinkEvfnt f) {
+&nbsp;            if (f.gftEvfntTypf() == HypfrlinkEvfnt.EvfntTypf.ACTIVATED) {
+&nbsp;                JEditorPbnf pbnf = (JEditorPbnf) f.gftSourdf();
+&nbsp;                if (f instbndfof HTMLFrbmfHypfrlinkEvfnt) {
+&nbsp;                    HTMLFrbmfHypfrlinkEvfnt  fvt = (HTMLFrbmfHypfrlinkEvfnt)f;
+&nbsp;                    HTMLDodumfnt dod = (HTMLDodumfnt)pbnf.gftDodumfnt();
+&nbsp;                    dod.prodfssHTMLFrbmfHypfrlinkEvfnt(fvt);
+&nbsp;                } flsf {
 &nbsp;                    try {
-&nbsp;                        pane.setPage(e.getURL());
-&nbsp;                    } catch (Throwable t) {
-&nbsp;                        t.printStackTrace();
+&nbsp;                        pbnf.sftPbgf(f.gftURL());
+&nbsp;                    } dbtdi (Tirowbblf t) {
+&nbsp;                        t.printStbdkTrbdf();
 &nbsp;                    }
 &nbsp;                }
 &nbsp;            }
 &nbsp;        }
 &nbsp;    }
 
- * </pre>
+ * </prf>
  * <p>
- * For information on customizing how <b>text/html</b> is rendered please see
- * {@link #W3C_LENGTH_UNITS} and {@link #HONOR_DISPLAY_PROPERTIES}
+ * For informbtion on dustomizing iow <b>tfxt/itml</b> is rfndfrfd plfbsf sff
+ * {@link #W3C_LENGTH_UNITS} bnd {@link #HONOR_DISPLAY_PROPERTIES}
  * <p>
- * Culturally dependent information in some documents is handled through
- * a mechanism called character encoding.  Character encoding is an
- * unambiguous mapping of the members of a character set (letters, ideographs,
- * digits, symbols, or control functions) to specific numeric code values. It
- * represents the way the file is stored. Example character encodings are
- * ISO-8859-1, ISO-8859-5, Shift-jis, Euc-jp, and UTF-8. When the file is
- * passed to an user agent (<code>JEditorPane</code>) it is converted to
- * the document character set (ISO-10646 aka Unicode).
+ * Culturblly dfpfndfnt informbtion in somf dodumfnts is ibndlfd tirougi
+ * b mfdibnism dbllfd dibrbdtfr fndoding.  Cibrbdtfr fndoding is bn
+ * unbmbiguous mbpping of tif mfmbfrs of b dibrbdtfr sft (lfttfrs, idfogrbpis,
+ * digits, symbols, or dontrol fundtions) to spfdifid numfrid dodf vblufs. It
+ * rfprfsfnts tif wby tif filf is storfd. Exbmplf dibrbdtfr fndodings brf
+ * ISO-8859-1, ISO-8859-5, Siift-jis, Eud-jp, bnd UTF-8. Wifn tif filf is
+ * pbssfd to bn usfr bgfnt (<dodf>JEditorPbnf</dodf>) it is donvfrtfd to
+ * tif dodumfnt dibrbdtfr sft (ISO-10646 bkb Unidodf).
  * <p>
- * There are multiple ways to get a character set mapping to happen
- * with <code>JEditorPane</code>.
+ * Tifrf brf multiplf wbys to gft b dibrbdtfr sft mbpping to ibppfn
+ * witi <dodf>JEditorPbnf</dodf>.
  * <ol>
  * <li>
- * One way is to specify the character set as a parameter of the MIME
- * type.  This will be established by a call to the
- * {@link #setContentType setContentType} method.  If the content
- * is loaded by the {@link #setPage setPage} method the content
- * type will have been set according to the specification of the URL.
- * It the file is loaded directly, the content type would be expected to
- * have been set prior to loading.
+ * Onf wby is to spfdify tif dibrbdtfr sft bs b pbrbmftfr of tif MIME
+ * typf.  Tiis will bf fstbblisifd by b dbll to tif
+ * {@link #sftContfntTypf sftContfntTypf} mftiod.  If tif dontfnt
+ * is lobdfd by tif {@link #sftPbgf sftPbgf} mftiod tif dontfnt
+ * typf will ibvf bffn sft bddording to tif spfdifidbtion of tif URL.
+ * It tif filf is lobdfd dirfdtly, tif dontfnt typf would bf fxpfdtfd to
+ * ibvf bffn sft prior to lobding.
  * <li>
- * Another way the character set can be specified is in the document itself.
- * This requires reading the document prior to determining the character set
- * that is desired.  To handle this, it is expected that the
- * <code>EditorKit</code>.read operation throw a
- * <code>ChangedCharSetException</code> which will
- * be caught.  The read is then restarted with a new Reader that uses
- * the character set specified in the <code>ChangedCharSetException</code>
- * (which is an <code>IOException</code>).
+ * Anotifr wby tif dibrbdtfr sft dbn bf spfdififd is in tif dodumfnt itsflf.
+ * Tiis rfquirfs rfbding tif dodumfnt prior to dftfrmining tif dibrbdtfr sft
+ * tibt is dfsirfd.  To ibndlf tiis, it is fxpfdtfd tibt tif
+ * <dodf>EditorKit</dodf>.rfbd opfrbtion tirow b
+ * <dodf>CibngfdCibrSftExdfption</dodf> wiidi will
+ * bf dbugit.  Tif rfbd is tifn rfstbrtfd witi b nfw Rfbdfr tibt usfs
+ * tif dibrbdtfr sft spfdififd in tif <dodf>CibngfdCibrSftExdfption</dodf>
+ * (wiidi is bn <dodf>IOExdfption</dodf>).
  * </ol>
  *
  * <dl>
- * <dt><b>Newlines</b>
+ * <dt><b>Nfwlinfs</b>
  * <dd>
- * For a discussion on how newlines are handled, see
- * <a href="text/DefaultEditorKit.html">DefaultEditorKit</a>.
+ * For b disdussion on iow nfwlinfs brf ibndlfd, sff
+ * <b irff="tfxt/DffbultEditorKit.itml">DffbultEditorKit</b>.
  * </dl>
  *
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @beaninfo
- *   attribute: isContainer false
- * description: A text component to edit various types of content.
+ * @bfbninfo
+ *   bttributf: isContbinfr fblsf
+ * dfsdription: A tfxt domponfnt to fdit vbrious typfs of dontfnt.
  *
- * @author  Timothy Prinzing
- * @since 1.2
+ * @butior  Timotiy Prinzing
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JEditorPane extends JTextComponent {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JEditorPbnf fxtfnds JTfxtComponfnt {
 
     /**
-     * Creates a new <code>JEditorPane</code>.
-     * The document model is set to <code>null</code>.
+     * Crfbtfs b nfw <dodf>JEditorPbnf</dodf>.
+     * Tif dodumfnt modfl is sft to <dodf>null</dodf>.
      */
-    public JEditorPane() {
-        super();
-        setFocusCycleRoot(true);
-        setFocusTraversalPolicy(new LayoutFocusTraversalPolicy() {
-                public Component getComponentAfter(Container focusCycleRoot,
-                                                   Component aComponent) {
-                    if (focusCycleRoot != JEditorPane.this ||
-                        (!isEditable() && getComponentCount() > 0)) {
-                        return super.getComponentAfter(focusCycleRoot,
-                                                       aComponent);
-                    } else {
-                        Container rootAncestor = getFocusCycleRootAncestor();
-                        return (rootAncestor != null)
-                            ? rootAncestor.getFocusTraversalPolicy().
-                                  getComponentAfter(rootAncestor,
-                                                    JEditorPane.this)
+    publid JEditorPbnf() {
+        supfr();
+        sftFodusCydlfRoot(truf);
+        sftFodusTrbvfrsblPolidy(nfw LbyoutFodusTrbvfrsblPolidy() {
+                publid Componfnt gftComponfntAftfr(Contbinfr fodusCydlfRoot,
+                                                   Componfnt bComponfnt) {
+                    if (fodusCydlfRoot != JEditorPbnf.tiis ||
+                        (!isEditbblf() && gftComponfntCount() > 0)) {
+                        rfturn supfr.gftComponfntAftfr(fodusCydlfRoot,
+                                                       bComponfnt);
+                    } flsf {
+                        Contbinfr rootAndfstor = gftFodusCydlfRootAndfstor();
+                        rfturn (rootAndfstor != null)
+                            ? rootAndfstor.gftFodusTrbvfrsblPolidy().
+                                  gftComponfntAftfr(rootAndfstor,
+                                                    JEditorPbnf.tiis)
                             : null;
                     }
                 }
-                public Component getComponentBefore(Container focusCycleRoot,
-                                                    Component aComponent) {
-                    if (focusCycleRoot != JEditorPane.this ||
-                        (!isEditable() && getComponentCount() > 0)) {
-                        return super.getComponentBefore(focusCycleRoot,
-                                                        aComponent);
-                    } else {
-                        Container rootAncestor = getFocusCycleRootAncestor();
-                        return (rootAncestor != null)
-                            ? rootAncestor.getFocusTraversalPolicy().
-                                  getComponentBefore(rootAncestor,
-                                                     JEditorPane.this)
+                publid Componfnt gftComponfntBfforf(Contbinfr fodusCydlfRoot,
+                                                    Componfnt bComponfnt) {
+                    if (fodusCydlfRoot != JEditorPbnf.tiis ||
+                        (!isEditbblf() && gftComponfntCount() > 0)) {
+                        rfturn supfr.gftComponfntBfforf(fodusCydlfRoot,
+                                                        bComponfnt);
+                    } flsf {
+                        Contbinfr rootAndfstor = gftFodusCydlfRootAndfstor();
+                        rfturn (rootAndfstor != null)
+                            ? rootAndfstor.gftFodusTrbvfrsblPolidy().
+                                  gftComponfntBfforf(rootAndfstor,
+                                                     JEditorPbnf.tiis)
                             : null;
                     }
                 }
-                public Component getDefaultComponent(Container focusCycleRoot)
+                publid Componfnt gftDffbultComponfnt(Contbinfr fodusCydlfRoot)
                 {
-                    return (focusCycleRoot != JEditorPane.this ||
-                            (!isEditable() && getComponentCount() > 0))
-                        ? super.getDefaultComponent(focusCycleRoot)
+                    rfturn (fodusCydlfRoot != JEditorPbnf.tiis ||
+                            (!isEditbblf() && gftComponfntCount() > 0))
+                        ? supfr.gftDffbultComponfnt(fodusCydlfRoot)
                         : null;
                 }
-                protected boolean accept(Component aComponent) {
-                    return (aComponent != JEditorPane.this)
-                        ? super.accept(aComponent)
-                        : false;
+                protfdtfd boolfbn bddfpt(Componfnt bComponfnt) {
+                    rfturn (bComponfnt != JEditorPbnf.tiis)
+                        ? supfr.bddfpt(bComponfnt)
+                        : fblsf;
                 }
             });
-        LookAndFeel.installProperty(this,
-                                    "focusTraversalKeysForward",
-                                    JComponent.
-                                    getManagingFocusForwardTraversalKeys());
-        LookAndFeel.installProperty(this,
-                                    "focusTraversalKeysBackward",
-                                    JComponent.
-                                    getManagingFocusBackwardTraversalKeys());
+        LookAndFffl.instbllPropfrty(tiis,
+                                    "fodusTrbvfrsblKfysForwbrd",
+                                    JComponfnt.
+                                    gftMbnbgingFodusForwbrdTrbvfrsblKfys());
+        LookAndFffl.instbllPropfrty(tiis,
+                                    "fodusTrbvfrsblKfysBbdkwbrd",
+                                    JComponfnt.
+                                    gftMbnbgingFodusBbdkwbrdTrbvfrsblKfys());
     }
 
     /**
-     * Creates a <code>JEditorPane</code> based on a specified URL for input.
+     * Crfbtfs b <dodf>JEditorPbnf</dodf> bbsfd on b spfdififd URL for input.
      *
-     * @param initialPage the URL
-     * @exception IOException if the URL is <code>null</code>
-     *          or cannot be accessed
+     * @pbrbm initiblPbgf tif URL
+     * @fxdfption IOExdfption if tif URL is <dodf>null</dodf>
+     *          or dbnnot bf bddfssfd
      */
-    public JEditorPane(URL initialPage) throws IOException {
-        this();
-        setPage(initialPage);
+    publid JEditorPbnf(URL initiblPbgf) tirows IOExdfption {
+        tiis();
+        sftPbgf(initiblPbgf);
     }
 
     /**
-     * Creates a <code>JEditorPane</code> based on a string containing
-     * a URL specification.
+     * Crfbtfs b <dodf>JEditorPbnf</dodf> bbsfd on b string dontbining
+     * b URL spfdifidbtion.
      *
-     * @param url the URL
-     * @exception IOException if the URL is <code>null</code> or
-     *          cannot be accessed
+     * @pbrbm url tif URL
+     * @fxdfption IOExdfption if tif URL is <dodf>null</dodf> or
+     *          dbnnot bf bddfssfd
      */
-    public JEditorPane(String url) throws IOException {
-        this();
-        setPage(url);
+    publid JEditorPbnf(String url) tirows IOExdfption {
+        tiis();
+        sftPbgf(url);
     }
 
     /**
-     * Creates a <code>JEditorPane</code> that has been initialized
-     * to the given text.  This is a convenience constructor that calls the
-     * <code>setContentType</code> and <code>setText</code> methods.
+     * Crfbtfs b <dodf>JEditorPbnf</dodf> tibt ibs bffn initiblizfd
+     * to tif givfn tfxt.  Tiis is b donvfnifndf donstrudtor tibt dblls tif
+     * <dodf>sftContfntTypf</dodf> bnd <dodf>sftTfxt</dodf> mftiods.
      *
-     * @param type mime type of the given text
-     * @param text the text to initialize with; may be <code>null</code>
-     * @exception NullPointerException if the <code>type</code> parameter
-     *          is <code>null</code>
+     * @pbrbm typf mimf typf of tif givfn tfxt
+     * @pbrbm tfxt tif tfxt to initiblizf witi; mby bf <dodf>null</dodf>
+     * @fxdfption NullPointfrExdfption if tif <dodf>typf</dodf> pbrbmftfr
+     *          is <dodf>null</dodf>
      */
-    public JEditorPane(String type, String text) {
-        this();
-        setContentType(type);
-        setText(text);
+    publid JEditorPbnf(String typf, String tfxt) {
+        tiis();
+        sftContfntTypf(typf);
+        sftTfxt(tfxt);
     }
 
     /**
-     * Adds a hyperlink listener for notification of any changes, for example
-     * when a link is selected and entered.
+     * Adds b iypfrlink listfnfr for notifidbtion of bny dibngfs, for fxbmplf
+     * wifn b link is sflfdtfd bnd fntfrfd.
      *
-     * @param listener the listener
+     * @pbrbm listfnfr tif listfnfr
      */
-    public synchronized void addHyperlinkListener(HyperlinkListener listener) {
-        listenerList.add(HyperlinkListener.class, listener);
+    publid syndironizfd void bddHypfrlinkListfnfr(HypfrlinkListfnfr listfnfr) {
+        listfnfrList.bdd(HypfrlinkListfnfr.dlbss, listfnfr);
     }
 
     /**
-     * Removes a hyperlink listener.
+     * Rfmovfs b iypfrlink listfnfr.
      *
-     * @param listener the listener
+     * @pbrbm listfnfr tif listfnfr
      */
-    public synchronized void removeHyperlinkListener(HyperlinkListener listener) {
-        listenerList.remove(HyperlinkListener.class, listener);
+    publid syndironizfd void rfmovfHypfrlinkListfnfr(HypfrlinkListfnfr listfnfr) {
+        listfnfrList.rfmovf(HypfrlinkListfnfr.dlbss, listfnfr);
     }
 
     /**
-     * Returns an array of all the <code>HyperLinkListener</code>s added
-     * to this JEditorPane with addHyperlinkListener().
+     * Rfturns bn brrby of bll tif <dodf>HypfrLinkListfnfr</dodf>s bddfd
+     * to tiis JEditorPbnf witi bddHypfrlinkListfnfr().
      *
-     * @return all of the <code>HyperLinkListener</code>s added or an empty
-     *         array if no listeners have been added
-     * @since 1.4
+     * @rfturn bll of tif <dodf>HypfrLinkListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs ibvf bffn bddfd
+     * @sindf 1.4
      */
-    public synchronized HyperlinkListener[] getHyperlinkListeners() {
-        return listenerList.getListeners(javax.swing.event.HyperlinkListener.class);
+    publid syndironizfd HypfrlinkListfnfr[] gftHypfrlinkListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(jbvbx.swing.fvfnt.HypfrlinkListfnfr.dlbss);
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  This is normally called
-     * by the currently installed <code>EditorKit</code> if a content type
-     * that supports hyperlinks is currently active and there
-     * was activity with a link.  The listener list is processed
-     * last to first.
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.  Tiis is normblly dbllfd
+     * by tif durrfntly instbllfd <dodf>EditorKit</dodf> if b dontfnt typf
+     * tibt supports iypfrlinks is durrfntly bdtivf bnd tifrf
+     * wbs bdtivity witi b link.  Tif listfnfr list is prodfssfd
+     * lbst to first.
      *
-     * @param e the event
-     * @see EventListenerList
+     * @pbrbm f tif fvfnt
+     * @sff EvfntListfnfrList
      */
-    public void fireHyperlinkUpdate(HyperlinkEvent e) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==HyperlinkListener.class) {
-                ((HyperlinkListener)listeners[i+1]).hyperlinkUpdate(e);
+    publid void firfHypfrlinkUpdbtf(HypfrlinkEvfnt f) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==HypfrlinkListfnfr.dlbss) {
+                ((HypfrlinkListfnfr)listfnfrs[i+1]).iypfrlinkUpdbtf(f);
             }
         }
     }
 
 
     /**
-     * Sets the current URL being displayed.  The content type of the
-     * pane is set, and if the editor kit for the pane is
-     * non-<code>null</code>, then
-     * a new default document is created and the URL is read into it.
-     * If the URL contains and reference location, the location will
-     * be scrolled to by calling the <code>scrollToReference</code>
-     * method. If the desired URL is the one currently being displayed,
-     * the document will not be reloaded. To force a document
-     * reload it is necessary to clear the stream description property
-     * of the document. The following code shows how this can be done:
+     * Sfts tif durrfnt URL bfing displbyfd.  Tif dontfnt typf of tif
+     * pbnf is sft, bnd if tif fditor kit for tif pbnf is
+     * non-<dodf>null</dodf>, tifn
+     * b nfw dffbult dodumfnt is drfbtfd bnd tif URL is rfbd into it.
+     * If tif URL dontbins bnd rfffrfndf lodbtion, tif lodbtion will
+     * bf sdrollfd to by dblling tif <dodf>sdrollToRfffrfndf</dodf>
+     * mftiod. If tif dfsirfd URL is tif onf durrfntly bfing displbyfd,
+     * tif dodumfnt will not bf rflobdfd. To fordf b dodumfnt
+     * rflobd it is nfdfssbry to dlfbr tif strfbm dfsdription propfrty
+     * of tif dodumfnt. Tif following dodf siows iow tiis dbn bf donf:
      *
-     * <pre>
-     *   Document doc = jEditorPane.getDocument();
-     *   doc.putProperty(Document.StreamDescriptionProperty, null);
-     * </pre>
+     * <prf>
+     *   Dodumfnt dod = jEditorPbnf.gftDodumfnt();
+     *   dod.putPropfrty(Dodumfnt.StrfbmDfsdriptionPropfrty, null);
+     * </prf>
      *
-     * If the desired URL is not the one currently being
-     * displayed, the <code>getStream</code> method is called to
-     * give subclasses control over the stream provided.
+     * If tif dfsirfd URL is not tif onf durrfntly bfing
+     * displbyfd, tif <dodf>gftStrfbm</dodf> mftiod is dbllfd to
+     * givf subdlbssfs dontrol ovfr tif strfbm providfd.
      * <p>
-     * This may load either synchronously or asynchronously
-     * depending upon the document returned by the <code>EditorKit</code>.
-     * If the <code>Document</code> is of type
-     * <code>AbstractDocument</code> and has a value returned by
-     * <code>AbstractDocument.getAsynchronousLoadPriority</code>
-     * that is greater than or equal to zero, the page will be
-     * loaded on a separate thread using that priority.
+     * Tiis mby lobd fitifr syndironously or bsyndironously
+     * dfpfnding upon tif dodumfnt rfturnfd by tif <dodf>EditorKit</dodf>.
+     * If tif <dodf>Dodumfnt</dodf> is of typf
+     * <dodf>AbstrbdtDodumfnt</dodf> bnd ibs b vbluf rfturnfd by
+     * <dodf>AbstrbdtDodumfnt.gftAsyndironousLobdPriority</dodf>
+     * tibt is grfbtfr tibn or fqubl to zfro, tif pbgf will bf
+     * lobdfd on b sfpbrbtf tirfbd using tibt priority.
      * <p>
-     * If the document is loaded synchronously, it will be
-     * filled in with the stream prior to being installed into
-     * the editor with a call to <code>setDocument</code>, which
-     * is bound and will fire a property change event.  If an
-     * <code>IOException</code> is thrown the partially loaded
-     * document will
-     * be discarded and neither the document or page property
-     * change events will be fired.  If the document is
-     * successfully loaded and installed, a view will be
-     * built for it by the UI which will then be scrolled if
-     * necessary, and then the page property change event
-     * will be fired.
+     * If tif dodumfnt is lobdfd syndironously, it will bf
+     * fillfd in witi tif strfbm prior to bfing instbllfd into
+     * tif fditor witi b dbll to <dodf>sftDodumfnt</dodf>, wiidi
+     * is bound bnd will firf b propfrty dibngf fvfnt.  If bn
+     * <dodf>IOExdfption</dodf> is tirown tif pbrtiblly lobdfd
+     * dodumfnt will
+     * bf disdbrdfd bnd nfitifr tif dodumfnt or pbgf propfrty
+     * dibngf fvfnts will bf firfd.  If tif dodumfnt is
+     * suddfssfully lobdfd bnd instbllfd, b vifw will bf
+     * built for it by tif UI wiidi will tifn bf sdrollfd if
+     * nfdfssbry, bnd tifn tif pbgf propfrty dibngf fvfnt
+     * will bf firfd.
      * <p>
-     * If the document is loaded asynchronously, the document
-     * will be installed into the editor immediately using a
-     * call to <code>setDocument</code> which will fire a
-     * document property change event, then a thread will be
-     * created which will begin doing the actual loading.
-     * In this case, the page property change event will not be
-     * fired by the call to this method directly, but rather will be
-     * fired when the thread doing the loading has finished.
-     * It will also be fired on the event-dispatch thread.
-     * Since the calling thread can not throw an <code>IOException</code>
-     * in the event of failure on the other thread, the page
-     * property change event will be fired when the other
-     * thread is done whether the load was successful or not.
+     * If tif dodumfnt is lobdfd bsyndironously, tif dodumfnt
+     * will bf instbllfd into tif fditor immfdibtfly using b
+     * dbll to <dodf>sftDodumfnt</dodf> wiidi will firf b
+     * dodumfnt propfrty dibngf fvfnt, tifn b tirfbd will bf
+     * drfbtfd wiidi will bfgin doing tif bdtubl lobding.
+     * In tiis dbsf, tif pbgf propfrty dibngf fvfnt will not bf
+     * firfd by tif dbll to tiis mftiod dirfdtly, but rbtifr will bf
+     * firfd wifn tif tirfbd doing tif lobding ibs finisifd.
+     * It will blso bf firfd on tif fvfnt-dispbtdi tirfbd.
+     * Sindf tif dblling tirfbd dbn not tirow bn <dodf>IOExdfption</dodf>
+     * in tif fvfnt of fbilurf on tif otifr tirfbd, tif pbgf
+     * propfrty dibngf fvfnt will bf firfd wifn tif otifr
+     * tirfbd is donf wiftifr tif lobd wbs suddfssful or not.
      *
-     * @param page the URL of the page
-     * @exception IOException for a <code>null</code> or invalid
-     *          page specification, or exception from the stream being read
-     * @see #getPage
-     * @beaninfo
-     *  description: the URL used to set content
-     *        bound: true
-     *       expert: true
+     * @pbrbm pbgf tif URL of tif pbgf
+     * @fxdfption IOExdfption for b <dodf>null</dodf> or invblid
+     *          pbgf spfdifidbtion, or fxdfption from tif strfbm bfing rfbd
+     * @sff #gftPbgf
+     * @bfbninfo
+     *  dfsdription: tif URL usfd to sft dontfnt
+     *        bound: truf
+     *       fxpfrt: truf
      */
-    public void setPage(URL page) throws IOException {
-        if (page == null) {
-            throw new IOException("invalid url");
+    publid void sftPbgf(URL pbgf) tirows IOExdfption {
+        if (pbgf == null) {
+            tirow nfw IOExdfption("invblid url");
         }
-        URL loaded = getPage();
+        URL lobdfd = gftPbgf();
 
 
-        // reset scrollbar
-        if (!page.equals(loaded) && page.getRef() == null) {
-            scrollRectToVisible(new Rectangle(0,0,1,1));
+        // rfsft sdrollbbr
+        if (!pbgf.fqubls(lobdfd) && pbgf.gftRff() == null) {
+            sdrollRfdtToVisiblf(nfw Rfdtbnglf(0,0,1,1));
         }
-        boolean reloaded = false;
-        Object postData = getPostData();
-        if ((loaded == null) || !loaded.sameFile(page) || (postData != null)) {
-            // different url or POST method, load the new content
+        boolfbn rflobdfd = fblsf;
+        Objfdt postDbtb = gftPostDbtb();
+        if ((lobdfd == null) || !lobdfd.sbmfFilf(pbgf) || (postDbtb != null)) {
+            // difffrfnt url or POST mftiod, lobd tif nfw dontfnt
 
-            int p = getAsynchronousLoadPriority(getDocument());
+            int p = gftAsyndironousLobdPriority(gftDodumfnt());
             if (p < 0) {
-                // open stream synchronously
-                InputStream in = getStream(page);
+                // opfn strfbm syndironously
+                InputStrfbm in = gftStrfbm(pbgf);
                 if (kit != null) {
-                    Document doc = initializeModel(kit, page);
+                    Dodumfnt dod = initiblizfModfl(kit, pbgf);
 
-                    // At this point, one could either load up the model with no
-                    // view notifications slowing it down (i.e. best synchronous
-                    // behavior) or set the model and start to feed it on a separate
-                    // thread (best asynchronous behavior).
-                    p = getAsynchronousLoadPriority(doc);
+                    // At tiis point, onf dould fitifr lobd up tif modfl witi no
+                    // vifw notifidbtions slowing it down (i.f. bfst syndironous
+                    // bfibvior) or sft tif modfl bnd stbrt to fffd it on b sfpbrbtf
+                    // tirfbd (bfst bsyndironous bfibvior).
+                    p = gftAsyndironousLobdPriority(dod);
                     if (p >= 0) {
-                        // load asynchronously
-                        setDocument(doc);
-                        synchronized(this) {
-                            pageLoader = new PageLoader(doc, in, loaded, page);
-                            pageLoader.execute();
+                        // lobd bsyndironously
+                        sftDodumfnt(dod);
+                        syndironizfd(tiis) {
+                            pbgfLobdfr = nfw PbgfLobdfr(dod, in, lobdfd, pbgf);
+                            pbgfLobdfr.fxfdutf();
                         }
-                        return;
+                        rfturn;
                     }
-                    read(in, doc);
-                    setDocument(doc);
-                    reloaded = true;
+                    rfbd(in, dod);
+                    sftDodumfnt(dod);
+                    rflobdfd = truf;
                 }
-            } else {
-                // we may need to cancel background loading
-                if (pageLoader != null) {
-                    pageLoader.cancel(true);
+            } flsf {
+                // wf mby nffd to dbndfl bbdkground lobding
+                if (pbgfLobdfr != null) {
+                    pbgfLobdfr.dbndfl(truf);
                 }
 
-                // Do everything in a background thread.
-                // Model initialization is deferred to that thread, too.
-                pageLoader = new PageLoader(null, null, loaded, page);
-                pageLoader.execute();
-                return;
+                // Do fvfrytiing in b bbdkground tirfbd.
+                // Modfl initiblizbtion is dfffrrfd to tibt tirfbd, too.
+                pbgfLobdfr = nfw PbgfLobdfr(null, null, lobdfd, pbgf);
+                pbgfLobdfr.fxfdutf();
+                rfturn;
             }
         }
-        final String reference = page.getRef();
-        if (reference != null) {
-            if (!reloaded) {
-                scrollToReference(reference);
+        finbl String rfffrfndf = pbgf.gftRff();
+        if (rfffrfndf != null) {
+            if (!rflobdfd) {
+                sdrollToRfffrfndf(rfffrfndf);
             }
-            else {
-                // Have to scroll after painted.
-                SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        scrollToReference(reference);
+            flsf {
+                // Hbvf to sdroll bftfr pbintfd.
+                SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                    publid void run() {
+                        sdrollToRfffrfndf(rfffrfndf);
                     }
                 });
             }
-            getDocument().putProperty(Document.StreamDescriptionProperty, page);
+            gftDodumfnt().putPropfrty(Dodumfnt.StrfbmDfsdriptionPropfrty, pbgf);
         }
-        firePropertyChange("page", loaded, page);
+        firfPropfrtyCibngf("pbgf", lobdfd, pbgf);
     }
 
     /**
-     * Create model and initialize document properties from page properties.
+     * Crfbtf modfl bnd initiblizf dodumfnt propfrtifs from pbgf propfrtifs.
      */
-    private Document initializeModel(EditorKit kit, URL page) {
-        Document doc = kit.createDefaultDocument();
-        if (pageProperties != null) {
-            // transfer properties discovered in stream to the
-            // document property collection.
-            for (Enumeration<String> e = pageProperties.keys(); e.hasMoreElements() ;) {
-                String key = e.nextElement();
-                doc.putProperty(key, pageProperties.get(key));
+    privbtf Dodumfnt initiblizfModfl(EditorKit kit, URL pbgf) {
+        Dodumfnt dod = kit.drfbtfDffbultDodumfnt();
+        if (pbgfPropfrtifs != null) {
+            // trbnsffr propfrtifs disdovfrfd in strfbm to tif
+            // dodumfnt propfrty dollfdtion.
+            for (Enumfrbtion<String> f = pbgfPropfrtifs.kfys(); f.ibsMorfElfmfnts() ;) {
+                String kfy = f.nfxtElfmfnt();
+                dod.putPropfrty(kfy, pbgfPropfrtifs.gft(kfy));
             }
-            pageProperties.clear();
+            pbgfPropfrtifs.dlfbr();
         }
-        if (doc.getProperty(Document.StreamDescriptionProperty) == null) {
-            doc.putProperty(Document.StreamDescriptionProperty, page);
+        if (dod.gftPropfrty(Dodumfnt.StrfbmDfsdriptionPropfrty) == null) {
+            dod.putPropfrty(Dodumfnt.StrfbmDfsdriptionPropfrty, pbgf);
         }
-        return doc;
+        rfturn dod;
     }
 
     /**
-     * Return load priority for the document or -1 if priority not supported.
+     * Rfturn lobd priority for tif dodumfnt or -1 if priority not supportfd.
      */
-    private int getAsynchronousLoadPriority(Document doc) {
-        return (doc instanceof AbstractDocument ?
-            ((AbstractDocument) doc).getAsynchronousLoadPriority() : -1);
+    privbtf int gftAsyndironousLobdPriority(Dodumfnt dod) {
+        rfturn (dod instbndfof AbstrbdtDodumfnt ?
+            ((AbstrbdtDodumfnt) dod).gftAsyndironousLobdPriority() : -1);
     }
 
     /**
-     * This method initializes from a stream.  If the kit is
-     * set to be of type <code>HTMLEditorKit</code>, and the
-     * <code>desc</code> parameter is an <code>HTMLDocument</code>,
-     * then it invokes the <code>HTMLEditorKit</code> to initiate
-     * the read. Otherwise it calls the superclass
-     * method which loads the model as plain text.
+     * Tiis mftiod initiblizfs from b strfbm.  If tif kit is
+     * sft to bf of typf <dodf>HTMLEditorKit</dodf>, bnd tif
+     * <dodf>dfsd</dodf> pbrbmftfr is bn <dodf>HTMLDodumfnt</dodf>,
+     * tifn it invokfs tif <dodf>HTMLEditorKit</dodf> to initibtf
+     * tif rfbd. Otifrwisf it dblls tif supfrdlbss
+     * mftiod wiidi lobds tif modfl bs plbin tfxt.
      *
-     * @param in the stream from which to read
-     * @param desc an object describing the stream
-     * @exception IOException as thrown by the stream being
-     *          used to initialize
-     * @see JTextComponent#read
-     * @see #setDocument
+     * @pbrbm in tif strfbm from wiidi to rfbd
+     * @pbrbm dfsd bn objfdt dfsdribing tif strfbm
+     * @fxdfption IOExdfption bs tirown by tif strfbm bfing
+     *          usfd to initiblizf
+     * @sff JTfxtComponfnt#rfbd
+     * @sff #sftDodumfnt
      */
-    public void read(InputStream in, Object desc) throws IOException {
+    publid void rfbd(InputStrfbm in, Objfdt dfsd) tirows IOExdfption {
 
-        if (desc instanceof HTMLDocument &&
-            kit instanceof HTMLEditorKit) {
-            HTMLDocument hdoc = (HTMLDocument) desc;
-            setDocument(hdoc);
-            read(in, hdoc);
-        } else {
-            String charset = (String) getClientProperty("charset");
-            Reader r = (charset != null) ? new InputStreamReader(in, charset) :
-                new InputStreamReader(in);
-            super.read(r, desc);
+        if (dfsd instbndfof HTMLDodumfnt &&
+            kit instbndfof HTMLEditorKit) {
+            HTMLDodumfnt idod = (HTMLDodumfnt) dfsd;
+            sftDodumfnt(idod);
+            rfbd(in, idod);
+        } flsf {
+            String dibrsft = (String) gftClifntPropfrty("dibrsft");
+            Rfbdfr r = (dibrsft != null) ? nfw InputStrfbmRfbdfr(in, dibrsft) :
+                nfw InputStrfbmRfbdfr(in);
+            supfr.rfbd(r, dfsd);
         }
     }
 
 
     /**
-     * This method invokes the <code>EditorKit</code> to initiate a
-     * read.  In the case where a <code>ChangedCharSetException</code>
-     * is thrown this exception will contain the new CharSet.
-     * Therefore the <code>read</code> operation
-     * is then restarted after building a new Reader with the new charset.
+     * Tiis mftiod invokfs tif <dodf>EditorKit</dodf> to initibtf b
+     * rfbd.  In tif dbsf wifrf b <dodf>CibngfdCibrSftExdfption</dodf>
+     * is tirown tiis fxdfption will dontbin tif nfw CibrSft.
+     * Tifrfforf tif <dodf>rfbd</dodf> opfrbtion
+     * is tifn rfstbrtfd bftfr building b nfw Rfbdfr witi tif nfw dibrsft.
      *
-     * @param in the inputstream to use
-     * @param doc the document to load
+     * @pbrbm in tif inputstrfbm to usf
+     * @pbrbm dod tif dodumfnt to lobd
      *
      */
-    void read(InputStream in, Document doc) throws IOException {
-        if (! Boolean.TRUE.equals(doc.getProperty("IgnoreCharsetDirective"))) {
-            final int READ_LIMIT = 1024 * 10;
-            in = new BufferedInputStream(in, READ_LIMIT);
-            in.mark(READ_LIMIT);
+    void rfbd(InputStrfbm in, Dodumfnt dod) tirows IOExdfption {
+        if (! Boolfbn.TRUE.fqubls(dod.gftPropfrty("IgnorfCibrsftDirfdtivf"))) {
+            finbl int READ_LIMIT = 1024 * 10;
+            in = nfw BufffrfdInputStrfbm(in, READ_LIMIT);
+            in.mbrk(READ_LIMIT);
         }
         try {
-            String charset = (String) getClientProperty("charset");
-            Reader r = (charset != null) ? new InputStreamReader(in, charset) :
-                new InputStreamReader(in);
-            kit.read(r, doc, 0);
-        } catch (BadLocationException e) {
-            throw new IOException(e.getMessage());
-        } catch (ChangedCharSetException changedCharSetException) {
-            String charSetSpec = changedCharSetException.getCharSetSpec();
-            if (changedCharSetException.keyEqualsCharSet()) {
-                putClientProperty("charset", charSetSpec);
-            } else {
-                setCharsetFromContentTypeParameters(charSetSpec);
+            String dibrsft = (String) gftClifntPropfrty("dibrsft");
+            Rfbdfr r = (dibrsft != null) ? nfw InputStrfbmRfbdfr(in, dibrsft) :
+                nfw InputStrfbmRfbdfr(in);
+            kit.rfbd(r, dod, 0);
+        } dbtdi (BbdLodbtionExdfption f) {
+            tirow nfw IOExdfption(f.gftMfssbgf());
+        } dbtdi (CibngfdCibrSftExdfption dibngfdCibrSftExdfption) {
+            String dibrSftSpfd = dibngfdCibrSftExdfption.gftCibrSftSpfd();
+            if (dibngfdCibrSftExdfption.kfyEqublsCibrSft()) {
+                putClifntPropfrty("dibrsft", dibrSftSpfd);
+            } flsf {
+                sftCibrsftFromContfntTypfPbrbmftfrs(dibrSftSpfd);
             }
             try {
-                in.reset();
-            } catch (IOException exception) {
-                //mark was invalidated
-                in.close();
-                URL url = (URL)doc.getProperty(Document.StreamDescriptionProperty);
+                in.rfsft();
+            } dbtdi (IOExdfption fxdfption) {
+                //mbrk wbs invblidbtfd
+                in.dlosf();
+                URL url = (URL)dod.gftPropfrty(Dodumfnt.StrfbmDfsdriptionPropfrty);
                 if (url != null) {
-                    URLConnection conn = url.openConnection();
-                    in = conn.getInputStream();
-                } else {
-                    //there is nothing we can do to recover stream
-                    throw changedCharSetException;
+                    URLConnfdtion donn = url.opfnConnfdtion();
+                    in = donn.gftInputStrfbm();
+                } flsf {
+                    //tifrf is notiing wf dbn do to rfdovfr strfbm
+                    tirow dibngfdCibrSftExdfption;
                 }
             }
             try {
-                doc.remove(0, doc.getLength());
-            } catch (BadLocationException e) {}
-            doc.putProperty("IgnoreCharsetDirective", Boolean.valueOf(true));
-            read(in, doc);
+                dod.rfmovf(0, dod.gftLfngti());
+            } dbtdi (BbdLodbtionExdfption f) {}
+            dod.putPropfrty("IgnorfCibrsftDirfdtivf", Boolfbn.vblufOf(truf));
+            rfbd(in, dod);
         }
     }
 
 
     /**
-     * Loads a stream into the text document model.
+     * Lobds b strfbm into tif tfxt dodumfnt modfl.
      */
-    class PageLoader extends SwingWorker<URL, Object> {
+    dlbss PbgfLobdfr fxtfnds SwingWorkfr<URL, Objfdt> {
 
         /**
-         * Construct an asynchronous page loader.
+         * Construdt bn bsyndironous pbgf lobdfr.
          */
-        PageLoader(Document doc, InputStream in, URL old, URL page) {
-            this.in = in;
-            this.old = old;
-            this.page = page;
-            this.doc = doc;
+        PbgfLobdfr(Dodumfnt dod, InputStrfbm in, URL old, URL pbgf) {
+            tiis.in = in;
+            tiis.old = old;
+            tiis.pbgf = pbgf;
+            tiis.dod = dod;
         }
 
         /**
-         * Try to load the document, then scroll the view
-         * to the reference (if specified).  When done, fire
-         * a page property change event.
+         * Try to lobd tif dodumfnt, tifn sdroll tif vifw
+         * to tif rfffrfndf (if spfdififd).  Wifn donf, firf
+         * b pbgf propfrty dibngf fvfnt.
          */
-        protected URL doInBackground() {
-            boolean pageLoaded = false;
+        protfdtfd URL doInBbdkground() {
+            boolfbn pbgfLobdfd = fblsf;
             try {
                 if (in == null) {
-                    in = getStream(page);
+                    in = gftStrfbm(pbgf);
                     if (kit == null) {
-                        // We received document of unknown content type.
-                        UIManager.getLookAndFeel().
-                                provideErrorFeedback(JEditorPane.this);
-                        return old;
+                        // Wf rfdfivfd dodumfnt of unknown dontfnt typf.
+                        UIMbnbgfr.gftLookAndFffl().
+                                providfErrorFffdbbdk(JEditorPbnf.tiis);
+                        rfturn old;
                     }
                 }
 
-                if (doc == null) {
+                if (dod == null) {
                     try {
-                        SwingUtilities.invokeAndWait(new Runnable() {
-                            public void run() {
-                                doc = initializeModel(kit, page);
-                                setDocument(doc);
+                        SwingUtilitifs.invokfAndWbit(nfw Runnbblf() {
+                            publid void run() {
+                                dod = initiblizfModfl(kit, pbgf);
+                                sftDodumfnt(dod);
                             }
                         });
-                    } catch (InvocationTargetException ex) {
-                        UIManager.getLookAndFeel().provideErrorFeedback(
-                                                            JEditorPane.this);
-                        return old;
-                    } catch (InterruptedException ex) {
-                        UIManager.getLookAndFeel().provideErrorFeedback(
-                                                            JEditorPane.this);
-                        return old;
+                    } dbtdi (InvodbtionTbrgftExdfption fx) {
+                        UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(
+                                                            JEditorPbnf.tiis);
+                        rfturn old;
+                    } dbtdi (IntfrruptfdExdfption fx) {
+                        UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(
+                                                            JEditorPbnf.tiis);
+                        rfturn old;
                     }
                 }
 
-                read(in, doc);
-                URL page = (URL) doc.getProperty(Document.StreamDescriptionProperty);
-                String reference = page.getRef();
-                if (reference != null) {
-                    // scroll the page if necessary, but do it on the
-                    // event thread... that is the only guarantee that
-                    // modelToView can be safely called.
-                    Runnable callScrollToReference = new Runnable() {
-                        public void run() {
-                            URL u = (URL) getDocument().getProperty
-                                (Document.StreamDescriptionProperty);
-                            String ref = u.getRef();
-                            scrollToReference(ref);
+                rfbd(in, dod);
+                URL pbgf = (URL) dod.gftPropfrty(Dodumfnt.StrfbmDfsdriptionPropfrty);
+                String rfffrfndf = pbgf.gftRff();
+                if (rfffrfndf != null) {
+                    // sdroll tif pbgf if nfdfssbry, but do it on tif
+                    // fvfnt tirfbd... tibt is tif only gubrbntff tibt
+                    // modflToVifw dbn bf sbffly dbllfd.
+                    Runnbblf dbllSdrollToRfffrfndf = nfw Runnbblf() {
+                        publid void run() {
+                            URL u = (URL) gftDodumfnt().gftPropfrty
+                                (Dodumfnt.StrfbmDfsdriptionPropfrty);
+                            String rff = u.gftRff();
+                            sdrollToRfffrfndf(rff);
                         }
                     };
-                    SwingUtilities.invokeLater(callScrollToReference);
+                    SwingUtilitifs.invokfLbtfr(dbllSdrollToRfffrfndf);
                 }
-                pageLoaded = true;
-            } catch (IOException ioe) {
-                UIManager.getLookAndFeel().provideErrorFeedback(JEditorPane.this);
-            } finally {
-                if (pageLoaded) {
-                    SwingUtilities.invokeLater(new Runnable() {
-                        public void run() {
-                            JEditorPane.this.firePropertyChange("page", old, page);
+                pbgfLobdfd = truf;
+            } dbtdi (IOExdfption iof) {
+                UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(JEditorPbnf.tiis);
+            } finblly {
+                if (pbgfLobdfd) {
+                    SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                        publid void run() {
+                            JEditorPbnf.tiis.firfPropfrtyCibngf("pbgf", old, pbgf);
                         }
                     });
                 }
             }
-            return (pageLoaded ? page : old);
+            rfturn (pbgfLobdfd ? pbgf : old);
         }
 
         /**
-         * The stream to load the document with
+         * Tif strfbm to lobd tif dodumfnt witi
          */
-        InputStream in;
+        InputStrfbm in;
 
         /**
-         * URL of the old page that was replaced (for the property change event)
+         * URL of tif old pbgf tibt wbs rfplbdfd (for tif propfrty dibngf fvfnt)
          */
         URL old;
 
         /**
-         * URL of the page being loaded (for the property change event)
+         * URL of tif pbgf bfing lobdfd (for tif propfrty dibngf fvfnt)
          */
-        URL page;
+        URL pbgf;
 
         /**
-         * The Document instance to load into. This is cached in case a
-         * new Document is created between the time the thread this is created
-         * and run.
+         * Tif Dodumfnt instbndf to lobd into. Tiis is dbdifd in dbsf b
+         * nfw Dodumfnt is drfbtfd bftwffn tif timf tif tirfbd tiis is drfbtfd
+         * bnd run.
          */
-        Document doc;
+        Dodumfnt dod;
     }
 
     /**
-     * Fetches a stream for the given URL, which is about to
-     * be loaded by the <code>setPage</code> method.  By
-     * default, this simply opens the URL and returns the
-     * stream.  This can be reimplemented to do useful things
-     * like fetch the stream from a cache, monitor the progress
-     * of the stream, etc.
+     * Fftdifs b strfbm for tif givfn URL, wiidi is bbout to
+     * bf lobdfd by tif <dodf>sftPbgf</dodf> mftiod.  By
+     * dffbult, tiis simply opfns tif URL bnd rfturns tif
+     * strfbm.  Tiis dbn bf rfimplfmfntfd to do usfful tiings
+     * likf fftdi tif strfbm from b dbdif, monitor tif progrfss
+     * of tif strfbm, ftd.
      * <p>
-     * This method is expected to have the the side effect of
-     * establishing the content type, and therefore setting the
-     * appropriate <code>EditorKit</code> to use for loading the stream.
+     * Tiis mftiod is fxpfdtfd to ibvf tif tif sidf ffffdt of
+     * fstbblisiing tif dontfnt typf, bnd tifrfforf sftting tif
+     * bppropribtf <dodf>EditorKit</dodf> to usf for lobding tif strfbm.
      * <p>
-     * If this the stream was an http connection, redirects
-     * will be followed and the resulting URL will be set as
-     * the <code>Document.StreamDescriptionProperty</code> so that relative
-     * URL's can be properly resolved.
+     * If tiis tif strfbm wbs bn ittp donnfdtion, rfdirfdts
+     * will bf followfd bnd tif rfsulting URL will bf sft bs
+     * tif <dodf>Dodumfnt.StrfbmDfsdriptionPropfrty</dodf> so tibt rflbtivf
+     * URL's dbn bf propfrly rfsolvfd.
      *
-     * @param page  the URL of the page
+     * @pbrbm pbgf  tif URL of tif pbgf
      */
-    protected InputStream getStream(URL page) throws IOException {
-        final URLConnection conn = page.openConnection();
-        if (conn instanceof HttpURLConnection) {
-            HttpURLConnection hconn = (HttpURLConnection) conn;
-            hconn.setInstanceFollowRedirects(false);
-            Object postData = getPostData();
-            if (postData != null) {
-                handlePostData(hconn, postData);
+    protfdtfd InputStrfbm gftStrfbm(URL pbgf) tirows IOExdfption {
+        finbl URLConnfdtion donn = pbgf.opfnConnfdtion();
+        if (donn instbndfof HttpURLConnfdtion) {
+            HttpURLConnfdtion idonn = (HttpURLConnfdtion) donn;
+            idonn.sftInstbndfFollowRfdirfdts(fblsf);
+            Objfdt postDbtb = gftPostDbtb();
+            if (postDbtb != null) {
+                ibndlfPostDbtb(idonn, postDbtb);
             }
-            int response = hconn.getResponseCode();
-            boolean redirect = (response >= 300 && response <= 399);
+            int rfsponsf = idonn.gftRfsponsfCodf();
+            boolfbn rfdirfdt = (rfsponsf >= 300 && rfsponsf <= 399);
 
             /*
-             * In the case of a redirect, we want to actually change the URL
-             * that was input to the new, redirected URL
+             * In tif dbsf of b rfdirfdt, wf wbnt to bdtublly dibngf tif URL
+             * tibt wbs input to tif nfw, rfdirfdtfd URL
              */
-            if (redirect) {
-                String loc = conn.getHeaderField("Location");
-                if (loc.startsWith("http", 0)) {
-                    page = new URL(loc);
-                } else {
-                    page = new URL(page, loc);
+            if (rfdirfdt) {
+                String lod = donn.gftHfbdfrFifld("Lodbtion");
+                if (lod.stbrtsWiti("ittp", 0)) {
+                    pbgf = nfw URL(lod);
+                } flsf {
+                    pbgf = nfw URL(pbgf, lod);
                 }
-                return getStream(page);
+                rfturn gftStrfbm(pbgf);
             }
         }
 
-        // Connection properties handler should be forced to run on EDT,
-        // as it instantiates the EditorKit.
-        if (SwingUtilities.isEventDispatchThread()) {
-            handleConnectionProperties(conn);
-        } else {
+        // Connfdtion propfrtifs ibndlfr siould bf fordfd to run on EDT,
+        // bs it instbntibtfs tif EditorKit.
+        if (SwingUtilitifs.isEvfntDispbtdiTirfbd()) {
+            ibndlfConnfdtionPropfrtifs(donn);
+        } flsf {
             try {
-                SwingUtilities.invokeAndWait(new Runnable() {
-                    public void run() {
-                        handleConnectionProperties(conn);
+                SwingUtilitifs.invokfAndWbit(nfw Runnbblf() {
+                    publid void run() {
+                        ibndlfConnfdtionPropfrtifs(donn);
                     }
                 });
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            } catch (InvocationTargetException e) {
-                throw new RuntimeException(e);
+            } dbtdi (IntfrruptfdExdfption f) {
+                tirow nfw RuntimfExdfption(f);
+            } dbtdi (InvodbtionTbrgftExdfption f) {
+                tirow nfw RuntimfExdfption(f);
             }
         }
-        return conn.getInputStream();
+        rfturn donn.gftInputStrfbm();
     }
 
     /**
-     * Handle URL connection properties (most notably, content type).
+     * Hbndlf URL donnfdtion propfrtifs (most notbbly, dontfnt typf).
      */
-    private void handleConnectionProperties(URLConnection conn) {
-        if (pageProperties == null) {
-            pageProperties = new Hashtable<String, Object>();
+    privbtf void ibndlfConnfdtionPropfrtifs(URLConnfdtion donn) {
+        if (pbgfPropfrtifs == null) {
+            pbgfPropfrtifs = nfw Hbsitbblf<String, Objfdt>();
         }
-        String type = conn.getContentType();
-        if (type != null) {
-            setContentType(type);
-            pageProperties.put("content-type", type);
+        String typf = donn.gftContfntTypf();
+        if (typf != null) {
+            sftContfntTypf(typf);
+            pbgfPropfrtifs.put("dontfnt-typf", typf);
         }
-        pageProperties.put(Document.StreamDescriptionProperty, conn.getURL());
-        String enc = conn.getContentEncoding();
-        if (enc != null) {
-            pageProperties.put("content-encoding", enc);
+        pbgfPropfrtifs.put(Dodumfnt.StrfbmDfsdriptionPropfrty, donn.gftURL());
+        String fnd = donn.gftContfntEndoding();
+        if (fnd != null) {
+            pbgfPropfrtifs.put("dontfnt-fndoding", fnd);
         }
     }
 
-    private Object getPostData() {
-        return getDocument().getProperty(PostDataProperty);
+    privbtf Objfdt gftPostDbtb() {
+        rfturn gftDodumfnt().gftPropfrty(PostDbtbPropfrty);
     }
 
-    private void handlePostData(HttpURLConnection conn, Object postData)
-                                                            throws IOException {
-        conn.setDoOutput(true);
-        DataOutputStream os = null;
+    privbtf void ibndlfPostDbtb(HttpURLConnfdtion donn, Objfdt postDbtb)
+                                                            tirows IOExdfption {
+        donn.sftDoOutput(truf);
+        DbtbOutputStrfbm os = null;
         try {
-            conn.setRequestProperty("Content-Type",
-                    "application/x-www-form-urlencoded");
-            os = new DataOutputStream(conn.getOutputStream());
-            os.writeBytes((String) postData);
-        } finally {
+            donn.sftRfqufstPropfrty("Contfnt-Typf",
+                    "bpplidbtion/x-www-form-urlfndodfd");
+            os = nfw DbtbOutputStrfbm(donn.gftOutputStrfbm());
+            os.writfBytfs((String) postDbtb);
+        } finblly {
             if (os != null) {
-                os.close();
+                os.dlosf();
             }
         }
     }
 
 
     /**
-     * Scrolls the view to the given reference location
-     * (that is, the value returned by the <code>UL.getRef</code>
-     * method for the URL being displayed).  By default, this
-     * method only knows how to locate a reference in an
-     * HTMLDocument.  The implementation calls the
-     * <code>scrollRectToVisible</code> method to
-     * accomplish the actual scrolling.  If scrolling to a
-     * reference location is needed for document types other
-     * than HTML, this method should be reimplemented.
-     * This method will have no effect if the component
-     * is not visible.
+     * Sdrolls tif vifw to tif givfn rfffrfndf lodbtion
+     * (tibt is, tif vbluf rfturnfd by tif <dodf>UL.gftRff</dodf>
+     * mftiod for tif URL bfing displbyfd).  By dffbult, tiis
+     * mftiod only knows iow to lodbtf b rfffrfndf in bn
+     * HTMLDodumfnt.  Tif implfmfntbtion dblls tif
+     * <dodf>sdrollRfdtToVisiblf</dodf> mftiod to
+     * bddomplisi tif bdtubl sdrolling.  If sdrolling to b
+     * rfffrfndf lodbtion is nffdfd for dodumfnt typfs otifr
+     * tibn HTML, tiis mftiod siould bf rfimplfmfntfd.
+     * Tiis mftiod will ibvf no ffffdt if tif domponfnt
+     * is not visiblf.
      *
-     * @param reference the named location to scroll to
+     * @pbrbm rfffrfndf tif nbmfd lodbtion to sdroll to
      */
-    public void scrollToReference(String reference) {
-        Document d = getDocument();
-        if (d instanceof HTMLDocument) {
-            HTMLDocument doc = (HTMLDocument) d;
-            HTMLDocument.Iterator iter = doc.getIterator(HTML.Tag.A);
-            for (; iter.isValid(); iter.next()) {
-                AttributeSet a = iter.getAttributes();
-                String nm = (String) a.getAttribute(HTML.Attribute.NAME);
-                if ((nm != null) && nm.equals(reference)) {
-                    // found a matching reference in the document.
+    publid void sdrollToRfffrfndf(String rfffrfndf) {
+        Dodumfnt d = gftDodumfnt();
+        if (d instbndfof HTMLDodumfnt) {
+            HTMLDodumfnt dod = (HTMLDodumfnt) d;
+            HTMLDodumfnt.Itfrbtor itfr = dod.gftItfrbtor(HTML.Tbg.A);
+            for (; itfr.isVblid(); itfr.nfxt()) {
+                AttributfSft b = itfr.gftAttributfs();
+                String nm = (String) b.gftAttributf(HTML.Attributf.NAME);
+                if ((nm != null) && nm.fqubls(rfffrfndf)) {
+                    // found b mbtdiing rfffrfndf in tif dodumfnt.
                     try {
-                        int pos = iter.getStartOffset();
-                        Rectangle r = modelToView(pos);
+                        int pos = itfr.gftStbrtOffsft();
+                        Rfdtbnglf r = modflToVifw(pos);
                         if (r != null) {
-                            // the view is visible, scroll it to the
-                            // center of the current visible area.
-                            Rectangle vis = getVisibleRect();
-                            //r.y -= (vis.height / 2);
-                            r.height = vis.height;
-                            scrollRectToVisible(r);
-                            setCaretPosition(pos);
+                            // tif vifw is visiblf, sdroll it to tif
+                            // dfntfr of tif durrfnt visiblf brfb.
+                            Rfdtbnglf vis = gftVisiblfRfdt();
+                            //r.y -= (vis.ifigit / 2);
+                            r.ifigit = vis.ifigit;
+                            sdrollRfdtToVisiblf(r);
+                            sftCbrftPosition(pos);
                         }
-                    } catch (BadLocationException ble) {
-                        UIManager.getLookAndFeel().provideErrorFeedback(JEditorPane.this);
+                    } dbtdi (BbdLodbtionExdfption blf) {
+                        UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(JEditorPbnf.tiis);
                     }
                 }
             }
@@ -860,1563 +860,1563 @@ public class JEditorPane extends JTextComponent {
     }
 
     /**
-     * Gets the current URL being displayed.  If a URL was
-     * not specified in the creation of the document, this
-     * will return <code>null</code>, and relative URL's will not be
-     * resolved.
+     * Gfts tif durrfnt URL bfing displbyfd.  If b URL wbs
+     * not spfdififd in tif drfbtion of tif dodumfnt, tiis
+     * will rfturn <dodf>null</dodf>, bnd rflbtivf URL's will not bf
+     * rfsolvfd.
      *
-     * @return the URL, or <code>null</code> if none
+     * @rfturn tif URL, or <dodf>null</dodf> if nonf
      */
-    public URL getPage() {
-        return (URL) getDocument().getProperty(Document.StreamDescriptionProperty);
+    publid URL gftPbgf() {
+        rfturn (URL) gftDodumfnt().gftPropfrty(Dodumfnt.StrfbmDfsdriptionPropfrty);
     }
 
     /**
-     * Sets the current URL being displayed.
+     * Sfts tif durrfnt URL bfing displbyfd.
      *
-     * @param url the URL for display
-     * @exception IOException for a <code>null</code> or invalid URL
-     *          specification
+     * @pbrbm url tif URL for displby
+     * @fxdfption IOExdfption for b <dodf>null</dodf> or invblid URL
+     *          spfdifidbtion
      */
-    public void setPage(String url) throws IOException {
+    publid void sftPbgf(String url) tirows IOExdfption {
         if (url == null) {
-            throw new IOException("invalid url");
+            tirow nfw IOExdfption("invblid url");
         }
-        URL page = new URL(url);
-        setPage(page);
+        URL pbgf = nfw URL(url);
+        sftPbgf(pbgf);
     }
 
     /**
-     * Gets the class ID for the UI.
+     * Gfts tif dlbss ID for tif UI.
      *
-     * @return the string "EditorPaneUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @rfturn tif string "EditorPbnfUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
     }
 
     /**
-     * Creates the default editor kit (<code>PlainEditorKit</code>) for when
-     * the component is first created.
+     * Crfbtfs tif dffbult fditor kit (<dodf>PlbinEditorKit</dodf>) for wifn
+     * tif domponfnt is first drfbtfd.
      *
-     * @return the editor kit
+     * @rfturn tif fditor kit
      */
-    protected EditorKit createDefaultEditorKit() {
-        return new PlainEditorKit();
+    protfdtfd EditorKit drfbtfDffbultEditorKit() {
+        rfturn nfw PlbinEditorKit();
     }
 
     /**
-     * Fetches the currently installed kit for handling content.
-     * <code>createDefaultEditorKit</code> is called to set up a default
-     * if necessary.
+     * Fftdifs tif durrfntly instbllfd kit for ibndling dontfnt.
+     * <dodf>drfbtfDffbultEditorKit</dodf> is dbllfd to sft up b dffbult
+     * if nfdfssbry.
      *
-     * @return the editor kit
+     * @rfturn tif fditor kit
      */
-    public EditorKit getEditorKit() {
+    publid EditorKit gftEditorKit() {
         if (kit == null) {
-            kit = createDefaultEditorKit();
-            isUserSetEditorKit = false;
+            kit = drfbtfDffbultEditorKit();
+            isUsfrSftEditorKit = fblsf;
         }
-        return kit;
+        rfturn kit;
     }
 
     /**
-     * Gets the type of content that this editor
-     * is currently set to deal with.  This is
-     * defined to be the type associated with the
-     * currently installed <code>EditorKit</code>.
+     * Gfts tif typf of dontfnt tibt tiis fditor
+     * is durrfntly sft to dfbl witi.  Tiis is
+     * dffinfd to bf tif typf bssodibtfd witi tif
+     * durrfntly instbllfd <dodf>EditorKit</dodf>.
      *
-     * @return the content type, <code>null</code> if no editor kit set
+     * @rfturn tif dontfnt typf, <dodf>null</dodf> if no fditor kit sft
      */
-    public final String getContentType() {
-        return (kit != null) ? kit.getContentType() : null;
+    publid finbl String gftContfntTypf() {
+        rfturn (kit != null) ? kit.gftContfntTypf() : null;
     }
 
     /**
-     * Sets the type of content that this editor
-     * handles.  This calls <code>getEditorKitForContentType</code>,
-     * and then <code>setEditorKit</code> if an editor kit can
-     * be successfully located.  This is mostly convenience method
-     * that can be used as an alternative to calling
-     * <code>setEditorKit</code> directly.
+     * Sfts tif typf of dontfnt tibt tiis fditor
+     * ibndlfs.  Tiis dblls <dodf>gftEditorKitForContfntTypf</dodf>,
+     * bnd tifn <dodf>sftEditorKit</dodf> if bn fditor kit dbn
+     * bf suddfssfully lodbtfd.  Tiis is mostly donvfnifndf mftiod
+     * tibt dbn bf usfd bs bn bltfrnbtivf to dblling
+     * <dodf>sftEditorKit</dodf> dirfdtly.
      * <p>
-     * If there is a charset definition specified as a parameter
-     * of the content type specification, it will be used when
-     * loading input streams using the associated <code>EditorKit</code>.
-     * For example if the type is specified as
-     * <code>text/html; charset=EUC-JP</code> the content
-     * will be loaded using the <code>EditorKit</code> registered for
-     * <code>text/html</code> and the Reader provided to
-     * the <code>EditorKit</code> to load unicode into the document will
-     * use the <code>EUC-JP</code> charset for translating
-     * to unicode.  If the type is not recognized, the content
-     * will be loaded using the <code>EditorKit</code> registered
-     * for plain text, <code>text/plain</code>.
+     * If tifrf is b dibrsft dffinition spfdififd bs b pbrbmftfr
+     * of tif dontfnt typf spfdifidbtion, it will bf usfd wifn
+     * lobding input strfbms using tif bssodibtfd <dodf>EditorKit</dodf>.
+     * For fxbmplf if tif typf is spfdififd bs
+     * <dodf>tfxt/itml; dibrsft=EUC-JP</dodf> tif dontfnt
+     * will bf lobdfd using tif <dodf>EditorKit</dodf> rfgistfrfd for
+     * <dodf>tfxt/itml</dodf> bnd tif Rfbdfr providfd to
+     * tif <dodf>EditorKit</dodf> to lobd unidodf into tif dodumfnt will
+     * usf tif <dodf>EUC-JP</dodf> dibrsft for trbnslbting
+     * to unidodf.  If tif typf is not rfdognizfd, tif dontfnt
+     * will bf lobdfd using tif <dodf>EditorKit</dodf> rfgistfrfd
+     * for plbin tfxt, <dodf>tfxt/plbin</dodf>.
      *
-     * @param type the non-<code>null</code> mime type for the content editing
+     * @pbrbm typf tif non-<dodf>null</dodf> mimf typf for tif dontfnt fditing
      *   support
-     * @see #getContentType
-     * @beaninfo
-     *  description: the type of content
-     * @throws NullPointerException if the <code>type</code> parameter
-     *          is <code>null</code>
+     * @sff #gftContfntTypf
+     * @bfbninfo
+     *  dfsdription: tif typf of dontfnt
+     * @tirows NullPointfrExdfption if tif <dodf>typf</dodf> pbrbmftfr
+     *          is <dodf>null</dodf>
      */
-    public final void setContentType(String type) {
-        // The type could have optional info is part of it,
-        // for example some charset info.  We need to strip that
-        // of and save it.
-        int parm = type.indexOf(';');
-        if (parm > -1) {
-            // Save the paramList.
-            String paramList = type.substring(parm);
-            // update the content type string.
-            type = type.substring(0, parm).trim();
-            if (type.toLowerCase().startsWith("text/")) {
-                setCharsetFromContentTypeParameters(paramList);
+    publid finbl void sftContfntTypf(String typf) {
+        // Tif typf dould ibvf optionbl info is pbrt of it,
+        // for fxbmplf somf dibrsft info.  Wf nffd to strip tibt
+        // of bnd sbvf it.
+        int pbrm = typf.indfxOf(';');
+        if (pbrm > -1) {
+            // Sbvf tif pbrbmList.
+            String pbrbmList = typf.substring(pbrm);
+            // updbtf tif dontfnt typf string.
+            typf = typf.substring(0, pbrm).trim();
+            if (typf.toLowfrCbsf().stbrtsWiti("tfxt/")) {
+                sftCibrsftFromContfntTypfPbrbmftfrs(pbrbmList);
             }
         }
-        if ((kit == null) || (! type.equals(kit.getContentType()))
-                || !isUserSetEditorKit) {
-            EditorKit k = getEditorKitForContentType(type);
+        if ((kit == null) || (! typf.fqubls(kit.gftContfntTypf()))
+                || !isUsfrSftEditorKit) {
+            EditorKit k = gftEditorKitForContfntTypf(typf);
             if (k != null && k != kit) {
-                setEditorKit(k);
-                isUserSetEditorKit = false;
+                sftEditorKit(k);
+                isUsfrSftEditorKit = fblsf;
             }
         }
 
     }
 
     /**
-     * This method gets the charset information specified as part
-     * of the content type in the http header information.
+     * Tiis mftiod gfts tif dibrsft informbtion spfdififd bs pbrt
+     * of tif dontfnt typf in tif ittp ifbdfr informbtion.
      */
-    private void setCharsetFromContentTypeParameters(String paramlist) {
-        String charset;
+    privbtf void sftCibrsftFromContfntTypfPbrbmftfrs(String pbrbmlist) {
+        String dibrsft;
         try {
-            // paramlist is handed to us with a leading ';', strip it.
-            int semi = paramlist.indexOf(';');
-            if (semi > -1 && semi < paramlist.length()-1) {
-                paramlist = paramlist.substring(semi + 1);
+            // pbrbmlist is ibndfd to us witi b lfbding ';', strip it.
+            int sfmi = pbrbmlist.indfxOf(';');
+            if (sfmi > -1 && sfmi < pbrbmlist.lfngti()-1) {
+                pbrbmlist = pbrbmlist.substring(sfmi + 1);
             }
 
-            if (paramlist.length() > 0) {
-                // parse the paramlist into attr-value pairs & get the
-                // charset pair's value
-                HeaderParser hdrParser = new HeaderParser(paramlist);
-                charset = hdrParser.findValue("charset");
-                if (charset != null) {
-                    putClientProperty("charset", charset);
+            if (pbrbmlist.lfngti() > 0) {
+                // pbrsf tif pbrbmlist into bttr-vbluf pbirs & gft tif
+                // dibrsft pbir's vbluf
+                HfbdfrPbrsfr idrPbrsfr = nfw HfbdfrPbrsfr(pbrbmlist);
+                dibrsft = idrPbrsfr.findVbluf("dibrsft");
+                if (dibrsft != null) {
+                    putClifntPropfrty("dibrsft", dibrsft);
                 }
             }
         }
-        catch (IndexOutOfBoundsException e) {
-            // malformed parameter list, use charset we have
+        dbtdi (IndfxOutOfBoundsExdfption f) {
+            // mblformfd pbrbmftfr list, usf dibrsft wf ibvf
         }
-        catch (NullPointerException e) {
-            // malformed parameter list, use charset we have
+        dbtdi (NullPointfrExdfption f) {
+            // mblformfd pbrbmftfr list, usf dibrsft wf ibvf
         }
-        catch (Exception e) {
-            // malformed parameter list, use charset we have; but complain
-            System.err.println("JEditorPane.getCharsetFromContentTypeParameters failed on: " + paramlist);
-            e.printStackTrace();
+        dbtdi (Exdfption f) {
+            // mblformfd pbrbmftfr list, usf dibrsft wf ibvf; but domplbin
+            Systfm.frr.println("JEditorPbnf.gftCibrsftFromContfntTypfPbrbmftfrs fbilfd on: " + pbrbmlist);
+            f.printStbdkTrbdf();
         }
     }
 
 
     /**
-     * Sets the currently installed kit for handling
-     * content.  This is the bound property that
-     * establishes the content type of the editor.
-     * Any old kit is first deinstalled, then if kit is
-     * non-<code>null</code>,
-     * the new kit is installed, and a default document created for it.
-     * A <code>PropertyChange</code> event ("editorKit") is always fired when
-     * <code>setEditorKit</code> is called.
+     * Sfts tif durrfntly instbllfd kit for ibndling
+     * dontfnt.  Tiis is tif bound propfrty tibt
+     * fstbblisifs tif dontfnt typf of tif fditor.
+     * Any old kit is first dfinstbllfd, tifn if kit is
+     * non-<dodf>null</dodf>,
+     * tif nfw kit is instbllfd, bnd b dffbult dodumfnt drfbtfd for it.
+     * A <dodf>PropfrtyCibngf</dodf> fvfnt ("fditorKit") is blwbys firfd wifn
+     * <dodf>sftEditorKit</dodf> is dbllfd.
      * <p>
-     * <em>NOTE: This has the side effect of changing the model,
-     * because the <code>EditorKit</code> is the source of how a
-     * particular type
-     * of content is modeled.  This method will cause <code>setDocument</code>
-     * to be called on behalf of the caller to ensure integrity
-     * of the internal state.</em>
+     * <fm>NOTE: Tiis ibs tif sidf ffffdt of dibnging tif modfl,
+     * bfdbusf tif <dodf>EditorKit</dodf> is tif sourdf of iow b
+     * pbrtidulbr typf
+     * of dontfnt is modflfd.  Tiis mftiod will dbusf <dodf>sftDodumfnt</dodf>
+     * to bf dbllfd on bfiblf of tif dbllfr to fnsurf intfgrity
+     * of tif intfrnbl stbtf.</fm>
      *
-     * @param kit the desired editor behavior
-     * @see #getEditorKit
-     * @beaninfo
-     *  description: the currently installed kit for handling content
-     *        bound: true
-     *       expert: true
+     * @pbrbm kit tif dfsirfd fditor bfibvior
+     * @sff #gftEditorKit
+     * @bfbninfo
+     *  dfsdription: tif durrfntly instbllfd kit for ibndling dontfnt
+     *        bound: truf
+     *       fxpfrt: truf
      */
-    public void setEditorKit(EditorKit kit) {
-        EditorKit old = this.kit;
-        isUserSetEditorKit = true;
+    publid void sftEditorKit(EditorKit kit) {
+        EditorKit old = tiis.kit;
+        isUsfrSftEditorKit = truf;
         if (old != null) {
-            old.deinstall(this);
+            old.dfinstbll(tiis);
         }
-        this.kit = kit;
-        if (this.kit != null) {
-            this.kit.install(this);
-            setDocument(this.kit.createDefaultDocument());
+        tiis.kit = kit;
+        if (tiis.kit != null) {
+            tiis.kit.instbll(tiis);
+            sftDodumfnt(tiis.kit.drfbtfDffbultDodumfnt());
         }
-        firePropertyChange("editorKit", old, kit);
+        firfPropfrtyCibngf("fditorKit", old, kit);
     }
 
     /**
-     * Fetches the editor kit to use for the given type
-     * of content.  This is called when a type is requested
-     * that doesn't match the currently installed type.
-     * If the component doesn't have an <code>EditorKit</code> registered
-     * for the given type, it will try to create an
-     * <code>EditorKit</code> from the default <code>EditorKit</code> registry.
-     * If that fails, a <code>PlainEditorKit</code> is used on the
-     * assumption that all text documents can be represented
-     * as plain text.
+     * Fftdifs tif fditor kit to usf for tif givfn typf
+     * of dontfnt.  Tiis is dbllfd wifn b typf is rfqufstfd
+     * tibt dofsn't mbtdi tif durrfntly instbllfd typf.
+     * If tif domponfnt dofsn't ibvf bn <dodf>EditorKit</dodf> rfgistfrfd
+     * for tif givfn typf, it will try to drfbtf bn
+     * <dodf>EditorKit</dodf> from tif dffbult <dodf>EditorKit</dodf> rfgistry.
+     * If tibt fbils, b <dodf>PlbinEditorKit</dodf> is usfd on tif
+     * bssumption tibt bll tfxt dodumfnts dbn bf rfprfsfntfd
+     * bs plbin tfxt.
      * <p>
-     * This method can be reimplemented to use some
-     * other kind of type registry.  This can
-     * be reimplemented to use the Java Activation
-     * Framework, for example.
+     * Tiis mftiod dbn bf rfimplfmfntfd to usf somf
+     * otifr kind of typf rfgistry.  Tiis dbn
+     * bf rfimplfmfntfd to usf tif Jbvb Adtivbtion
+     * Frbmfwork, for fxbmplf.
      *
-     * @param type the non-<code>null</code> content type
-     * @return the editor kit
+     * @pbrbm typf tif non-<dodf>null</dodf> dontfnt typf
+     * @rfturn tif fditor kit
      */
-    public EditorKit getEditorKitForContentType(String type) {
-        if (typeHandlers == null) {
-            typeHandlers = new Hashtable<String, EditorKit>(3);
+    publid EditorKit gftEditorKitForContfntTypf(String typf) {
+        if (typfHbndlfrs == null) {
+            typfHbndlfrs = nfw Hbsitbblf<String, EditorKit>(3);
         }
-        EditorKit k = typeHandlers.get(type);
+        EditorKit k = typfHbndlfrs.gft(typf);
         if (k == null) {
-            k = createEditorKitForContentType(type);
+            k = drfbtfEditorKitForContfntTypf(typf);
             if (k != null) {
-                setEditorKitForContentType(type, k);
+                sftEditorKitForContfntTypf(typf, k);
             }
         }
         if (k == null) {
-            k = createDefaultEditorKit();
+            k = drfbtfDffbultEditorKit();
         }
-        return k;
+        rfturn k;
     }
 
     /**
-     * Directly sets the editor kit to use for the given type.  A
-     * look-and-feel implementation might use this in conjunction
-     * with <code>createEditorKitForContentType</code> to install handlers for
-     * content types with a look-and-feel bias.
+     * Dirfdtly sfts tif fditor kit to usf for tif givfn typf.  A
+     * look-bnd-fffl implfmfntbtion migit usf tiis in donjundtion
+     * witi <dodf>drfbtfEditorKitForContfntTypf</dodf> to instbll ibndlfrs for
+     * dontfnt typfs witi b look-bnd-fffl bibs.
      *
-     * @param type the non-<code>null</code> content type
-     * @param k the editor kit to be set
+     * @pbrbm typf tif non-<dodf>null</dodf> dontfnt typf
+     * @pbrbm k tif fditor kit to bf sft
      */
-    public void setEditorKitForContentType(String type, EditorKit k) {
-        if (typeHandlers == null) {
-            typeHandlers = new Hashtable<String, EditorKit>(3);
+    publid void sftEditorKitForContfntTypf(String typf, EditorKit k) {
+        if (typfHbndlfrs == null) {
+            typfHbndlfrs = nfw Hbsitbblf<String, EditorKit>(3);
         }
-        typeHandlers.put(type, k);
+        typfHbndlfrs.put(typf, k);
     }
 
     /**
-     * Replaces the currently selected content with new content
-     * represented by the given string.  If there is no selection
-     * this amounts to an insert of the given text.  If there
-     * is no replacement text (i.e. the content string is empty
-     * or <code>null</code>) this amounts to a removal of the
-     * current selection.  The replacement text will have the
-     * attributes currently defined for input.  If the component is not
-     * editable, beep and return.
+     * Rfplbdfs tif durrfntly sflfdtfd dontfnt witi nfw dontfnt
+     * rfprfsfntfd by tif givfn string.  If tifrf is no sflfdtion
+     * tiis bmounts to bn insfrt of tif givfn tfxt.  If tifrf
+     * is no rfplbdfmfnt tfxt (i.f. tif dontfnt string is fmpty
+     * or <dodf>null</dodf>) tiis bmounts to b rfmovbl of tif
+     * durrfnt sflfdtion.  Tif rfplbdfmfnt tfxt will ibvf tif
+     * bttributfs durrfntly dffinfd for input.  If tif domponfnt is not
+     * fditbblf, bffp bnd rfturn.
      *
-     * @param content  the content to replace the selection with.  This
-     *   value can be <code>null</code>
+     * @pbrbm dontfnt  tif dontfnt to rfplbdf tif sflfdtion witi.  Tiis
+     *   vbluf dbn bf <dodf>null</dodf>
      */
-    @Override
-    public void replaceSelection(String content) {
-        if (! isEditable()) {
-            UIManager.getLookAndFeel().provideErrorFeedback(JEditorPane.this);
-            return;
+    @Ovfrridf
+    publid void rfplbdfSflfdtion(String dontfnt) {
+        if (! isEditbblf()) {
+            UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(JEditorPbnf.tiis);
+            rfturn;
         }
-        EditorKit kit = getEditorKit();
-        if(kit instanceof StyledEditorKit) {
+        EditorKit kit = gftEditorKit();
+        if(kit instbndfof StylfdEditorKit) {
             try {
-                Document doc = getDocument();
-                Caret caret = getCaret();
-                boolean composedTextSaved = saveComposedText(caret.getDot());
-                int p0 = Math.min(caret.getDot(), caret.getMark());
-                int p1 = Math.max(caret.getDot(), caret.getMark());
-                if (doc instanceof AbstractDocument) {
-                    ((AbstractDocument)doc).replace(p0, p1 - p0, content,
-                              ((StyledEditorKit)kit).getInputAttributes());
+                Dodumfnt dod = gftDodumfnt();
+                Cbrft dbrft = gftCbrft();
+                boolfbn domposfdTfxtSbvfd = sbvfComposfdTfxt(dbrft.gftDot());
+                int p0 = Mbti.min(dbrft.gftDot(), dbrft.gftMbrk());
+                int p1 = Mbti.mbx(dbrft.gftDot(), dbrft.gftMbrk());
+                if (dod instbndfof AbstrbdtDodumfnt) {
+                    ((AbstrbdtDodumfnt)dod).rfplbdf(p0, p1 - p0, dontfnt,
+                              ((StylfdEditorKit)kit).gftInputAttributfs());
                 }
-                else {
+                flsf {
                     if (p0 != p1) {
-                        doc.remove(p0, p1 - p0);
+                        dod.rfmovf(p0, p1 - p0);
                     }
-                    if (content != null && content.length() > 0) {
-                        doc.insertString(p0, content, ((StyledEditorKit)kit).
-                                         getInputAttributes());
+                    if (dontfnt != null && dontfnt.lfngti() > 0) {
+                        dod.insfrtString(p0, dontfnt, ((StylfdEditorKit)kit).
+                                         gftInputAttributfs());
                     }
                 }
-                if (composedTextSaved) {
-                    restoreComposedText();
+                if (domposfdTfxtSbvfd) {
+                    rfstorfComposfdTfxt();
                 }
-            } catch (BadLocationException e) {
-                UIManager.getLookAndFeel().provideErrorFeedback(JEditorPane.this);
+            } dbtdi (BbdLodbtionExdfption f) {
+                UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(JEditorPbnf.tiis);
             }
         }
-        else {
-            super.replaceSelection(content);
+        flsf {
+            supfr.rfplbdfSflfdtion(dontfnt);
         }
     }
 
     /**
-     * Creates a handler for the given type from the default registry
-     * of editor kits.  The registry is created if necessary.  If the
-     * registered class has not yet been loaded, an attempt
-     * is made to dynamically load the prototype of the kit for the
-     * given type.  If the type was registered with a <code>ClassLoader</code>,
-     * that <code>ClassLoader</code> will be used to load the prototype.
-     * If there was no registered <code>ClassLoader</code>,
-     * <code>Class.forName</code> will be used to load the prototype.
+     * Crfbtfs b ibndlfr for tif givfn typf from tif dffbult rfgistry
+     * of fditor kits.  Tif rfgistry is drfbtfd if nfdfssbry.  If tif
+     * rfgistfrfd dlbss ibs not yft bffn lobdfd, bn bttfmpt
+     * is mbdf to dynbmidblly lobd tif prototypf of tif kit for tif
+     * givfn typf.  If tif typf wbs rfgistfrfd witi b <dodf>ClbssLobdfr</dodf>,
+     * tibt <dodf>ClbssLobdfr</dodf> will bf usfd to lobd tif prototypf.
+     * If tifrf wbs no rfgistfrfd <dodf>ClbssLobdfr</dodf>,
+     * <dodf>Clbss.forNbmf</dodf> will bf usfd to lobd tif prototypf.
      * <p>
-     * Once a prototype <code>EditorKit</code> instance is successfully
-     * located, it is cloned and the clone is returned.
+     * Ondf b prototypf <dodf>EditorKit</dodf> instbndf is suddfssfully
+     * lodbtfd, it is dlonfd bnd tif dlonf is rfturnfd.
      *
-     * @param type the content type
-     * @return the editor kit, or <code>null</code> if there is nothing
-     *   registered for the given type
+     * @pbrbm typf tif dontfnt typf
+     * @rfturn tif fditor kit, or <dodf>null</dodf> if tifrf is notiing
+     *   rfgistfrfd for tif givfn typf
      */
-    public static EditorKit createEditorKitForContentType(String type) {
-        Hashtable<String, EditorKit> kitRegistry = getKitRegisty();
-        EditorKit k = kitRegistry.get(type);
+    publid stbtid EditorKit drfbtfEditorKitForContfntTypf(String typf) {
+        Hbsitbblf<String, EditorKit> kitRfgistry = gftKitRfgisty();
+        EditorKit k = kitRfgistry.gft(typf);
         if (k == null) {
-            // try to dynamically load the support
-            String classname = getKitTypeRegistry().get(type);
-            ClassLoader loader = getKitLoaderRegistry().get(type);
+            // try to dynbmidblly lobd tif support
+            String dlbssnbmf = gftKitTypfRfgistry().gft(typf);
+            ClbssLobdfr lobdfr = gftKitLobdfrRfgistry().gft(typf);
             try {
-                Class<?> c;
-                if (loader != null) {
-                    ReflectUtil.checkPackageAccess(classname);
-                    c = loader.loadClass(classname);
-                } else {
-                    // Will only happen if developer has invoked
-                    // registerEditorKitForContentType(type, class, null).
-                    c = SwingUtilities.loadSystemClass(classname);
+                Clbss<?> d;
+                if (lobdfr != null) {
+                    RfflfdtUtil.difdkPbdkbgfAddfss(dlbssnbmf);
+                    d = lobdfr.lobdClbss(dlbssnbmf);
+                } flsf {
+                    // Will only ibppfn if dfvflopfr ibs invokfd
+                    // rfgistfrEditorKitForContfntTypf(typf, dlbss, null).
+                    d = SwingUtilitifs.lobdSystfmClbss(dlbssnbmf);
                 }
-                k = (EditorKit) c.newInstance();
-                kitRegistry.put(type, k);
-            } catch (Throwable e) {
+                k = (EditorKit) d.nfwInstbndf();
+                kitRfgistry.put(typf, k);
+            } dbtdi (Tirowbblf f) {
                 k = null;
             }
         }
 
-        // create a copy of the prototype or null if there
-        // is no prototype.
+        // drfbtf b dopy of tif prototypf or null if tifrf
+        // is no prototypf.
         if (k != null) {
-            return (EditorKit) k.clone();
+            rfturn (EditorKit) k.dlonf();
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Establishes the default bindings of <code>type</code> to
-     * <code>classname</code>.
-     * The class will be dynamically loaded later when actually
-     * needed, and can be safely changed before attempted uses
-     * to avoid loading unwanted classes.  The prototype
-     * <code>EditorKit</code> will be loaded with <code>Class.forName</code>
-     * when registered with this method.
+     * Estbblisifs tif dffbult bindings of <dodf>typf</dodf> to
+     * <dodf>dlbssnbmf</dodf>.
+     * Tif dlbss will bf dynbmidblly lobdfd lbtfr wifn bdtublly
+     * nffdfd, bnd dbn bf sbffly dibngfd bfforf bttfmptfd usfs
+     * to bvoid lobding unwbntfd dlbssfs.  Tif prototypf
+     * <dodf>EditorKit</dodf> will bf lobdfd witi <dodf>Clbss.forNbmf</dodf>
+     * wifn rfgistfrfd witi tiis mftiod.
      *
-     * @param type the non-<code>null</code> content type
-     * @param classname the class to load later
+     * @pbrbm typf tif non-<dodf>null</dodf> dontfnt typf
+     * @pbrbm dlbssnbmf tif dlbss to lobd lbtfr
      */
-    public static void registerEditorKitForContentType(String type, String classname) {
-        registerEditorKitForContentType(type, classname,Thread.currentThread().
-                                        getContextClassLoader());
+    publid stbtid void rfgistfrEditorKitForContfntTypf(String typf, String dlbssnbmf) {
+        rfgistfrEditorKitForContfntTypf(typf, dlbssnbmf,Tirfbd.durrfntTirfbd().
+                                        gftContfxtClbssLobdfr());
     }
 
     /**
-     * Establishes the default bindings of <code>type</code> to
-     * <code>classname</code>.
-     * The class will be dynamically loaded later when actually
-     * needed using the given <code>ClassLoader</code>,
-     * and can be safely changed
-     * before attempted uses to avoid loading unwanted classes.
+     * Estbblisifs tif dffbult bindings of <dodf>typf</dodf> to
+     * <dodf>dlbssnbmf</dodf>.
+     * Tif dlbss will bf dynbmidblly lobdfd lbtfr wifn bdtublly
+     * nffdfd using tif givfn <dodf>ClbssLobdfr</dodf>,
+     * bnd dbn bf sbffly dibngfd
+     * bfforf bttfmptfd usfs to bvoid lobding unwbntfd dlbssfs.
      *
-     * @param type the non-<code>null</code> content type
-     * @param classname the class to load later
-     * @param loader the <code>ClassLoader</code> to use to load the name
+     * @pbrbm typf tif non-<dodf>null</dodf> dontfnt typf
+     * @pbrbm dlbssnbmf tif dlbss to lobd lbtfr
+     * @pbrbm lobdfr tif <dodf>ClbssLobdfr</dodf> to usf to lobd tif nbmf
      */
-    public static void registerEditorKitForContentType(String type, String classname, ClassLoader loader) {
-        getKitTypeRegistry().put(type, classname);
-        getKitLoaderRegistry().put(type, loader);
-        getKitRegisty().remove(type);
+    publid stbtid void rfgistfrEditorKitForContfntTypf(String typf, String dlbssnbmf, ClbssLobdfr lobdfr) {
+        gftKitTypfRfgistry().put(typf, dlbssnbmf);
+        gftKitLobdfrRfgistry().put(typf, lobdfr);
+        gftKitRfgisty().rfmovf(typf);
     }
 
     /**
-     * Returns the currently registered {@code EditorKit} class name for the
-     * type {@code type}.
+     * Rfturns tif durrfntly rfgistfrfd {@dodf EditorKit} dlbss nbmf for tif
+     * typf {@dodf typf}.
      *
-     * @param type  the non-{@code null} content type
-     * @return a {@code String} containing the {@code EditorKit} class name
-     *         for {@code type}
-     * @since 1.3
+     * @pbrbm typf  tif non-{@dodf null} dontfnt typf
+     * @rfturn b {@dodf String} dontbining tif {@dodf EditorKit} dlbss nbmf
+     *         for {@dodf typf}
+     * @sindf 1.3
      */
-    public static String getEditorKitClassNameForContentType(String type) {
-        return getKitTypeRegistry().get(type);
+    publid stbtid String gftEditorKitClbssNbmfForContfntTypf(String typf) {
+        rfturn gftKitTypfRfgistry().gft(typf);
     }
 
-    private static Hashtable<String, String> getKitTypeRegistry() {
-        loadDefaultKitsIfNecessary();
-        @SuppressWarnings("unchecked")
-        Hashtable<String, String> tmp =
-            (Hashtable)SwingUtilities.appContextGet(kitTypeRegistryKey);
-        return tmp;
+    privbtf stbtid Hbsitbblf<String, String> gftKitTypfRfgistry() {
+        lobdDffbultKitsIfNfdfssbry();
+        @SupprfssWbrnings("undifdkfd")
+        Hbsitbblf<String, String> tmp =
+            (Hbsitbblf)SwingUtilitifs.bppContfxtGft(kitTypfRfgistryKfy);
+        rfturn tmp;
     }
 
-    private static Hashtable<String, ClassLoader> getKitLoaderRegistry() {
-        loadDefaultKitsIfNecessary();
-        @SuppressWarnings("unchecked")
-        Hashtable<String, ClassLoader> tmp =
-            (Hashtable)SwingUtilities.appContextGet(kitLoaderRegistryKey);
-        return tmp;
+    privbtf stbtid Hbsitbblf<String, ClbssLobdfr> gftKitLobdfrRfgistry() {
+        lobdDffbultKitsIfNfdfssbry();
+        @SupprfssWbrnings("undifdkfd")
+        Hbsitbblf<String, ClbssLobdfr> tmp =
+            (Hbsitbblf)SwingUtilitifs.bppContfxtGft(kitLobdfrRfgistryKfy);
+        rfturn tmp;
     }
 
-    private static Hashtable<String, EditorKit> getKitRegisty() {
-        @SuppressWarnings("unchecked")
-        Hashtable<String, EditorKit> ht =
-            (Hashtable)SwingUtilities.appContextGet(kitRegistryKey);
-        if (ht == null) {
-            ht = new Hashtable<>(3);
-            SwingUtilities.appContextPut(kitRegistryKey, ht);
+    privbtf stbtid Hbsitbblf<String, EditorKit> gftKitRfgisty() {
+        @SupprfssWbrnings("undifdkfd")
+        Hbsitbblf<String, EditorKit> it =
+            (Hbsitbblf)SwingUtilitifs.bppContfxtGft(kitRfgistryKfy);
+        if (it == null) {
+            it = nfw Hbsitbblf<>(3);
+            SwingUtilitifs.bppContfxtPut(kitRfgistryKfy, it);
         }
-        return ht;
+        rfturn it;
     }
 
     /**
-     * This is invoked every time the registries are accessed. Loading
-     * is done this way instead of via a static as the static is only
-     * called once when running in plugin resulting in the entries only
-     * appearing in the first applet.
+     * Tiis is invokfd fvfry timf tif rfgistrifs brf bddfssfd. Lobding
+     * is donf tiis wby instfbd of vib b stbtid bs tif stbtid is only
+     * dbllfd ondf wifn running in plugin rfsulting in tif fntrifs only
+     * bppfbring in tif first bpplft.
      */
-    private static void loadDefaultKitsIfNecessary() {
-        if (SwingUtilities.appContextGet(kitTypeRegistryKey) == null) {
-            synchronized(defaultEditorKitMap) {
-                if (defaultEditorKitMap.size() == 0) {
-                    defaultEditorKitMap.put("text/plain",
-                                            "javax.swing.JEditorPane$PlainEditorKit");
-                    defaultEditorKitMap.put("text/html",
-                                            "javax.swing.text.html.HTMLEditorKit");
-                    defaultEditorKitMap.put("text/rtf",
-                                            "javax.swing.text.rtf.RTFEditorKit");
-                    defaultEditorKitMap.put("application/rtf",
-                                            "javax.swing.text.rtf.RTFEditorKit");
+    privbtf stbtid void lobdDffbultKitsIfNfdfssbry() {
+        if (SwingUtilitifs.bppContfxtGft(kitTypfRfgistryKfy) == null) {
+            syndironizfd(dffbultEditorKitMbp) {
+                if (dffbultEditorKitMbp.sizf() == 0) {
+                    dffbultEditorKitMbp.put("tfxt/plbin",
+                                            "jbvbx.swing.JEditorPbnf$PlbinEditorKit");
+                    dffbultEditorKitMbp.put("tfxt/itml",
+                                            "jbvbx.swing.tfxt.itml.HTMLEditorKit");
+                    dffbultEditorKitMbp.put("tfxt/rtf",
+                                            "jbvbx.swing.tfxt.rtf.RTFEditorKit");
+                    dffbultEditorKitMbp.put("bpplidbtion/rtf",
+                                            "jbvbx.swing.tfxt.rtf.RTFEditorKit");
                 }
             }
-            Hashtable<Object, Object> ht = new Hashtable<>();
-            SwingUtilities.appContextPut(kitTypeRegistryKey, ht);
-            ht = new Hashtable<>();
-            SwingUtilities.appContextPut(kitLoaderRegistryKey, ht);
-            for (String key : defaultEditorKitMap.keySet()) {
-                registerEditorKitForContentType(key,defaultEditorKitMap.get(key));
+            Hbsitbblf<Objfdt, Objfdt> it = nfw Hbsitbblf<>();
+            SwingUtilitifs.bppContfxtPut(kitTypfRfgistryKfy, it);
+            it = nfw Hbsitbblf<>();
+            SwingUtilitifs.bppContfxtPut(kitLobdfrRfgistryKfy, it);
+            for (String kfy : dffbultEditorKitMbp.kfySft()) {
+                rfgistfrEditorKitForContfntTypf(kfy,dffbultEditorKitMbp.gft(kfy));
             }
 
         }
     }
 
-    // --- java.awt.Component methods --------------------------
+    // --- jbvb.bwt.Componfnt mftiods --------------------------
 
     /**
-     * Returns the preferred size for the <code>JEditorPane</code>.
-     * The preferred size for <code>JEditorPane</code> is slightly altered
-     * from the preferred size of the superclass.  If the size
-     * of the viewport has become smaller than the minimum size
-     * of the component, the scrollable definition for tracking
-     * width or height will turn to false.  The default viewport
-     * layout will give the preferred size, and that is not desired
-     * in the case where the scrollable is tracking.  In that case
-     * the <em>normal</em> preferred size is adjusted to the
-     * minimum size.  This allows things like HTML tables to
-     * shrink down to their minimum size and then be laid out at
-     * their minimum size, refusing to shrink any further.
+     * Rfturns tif prfffrrfd sizf for tif <dodf>JEditorPbnf</dodf>.
+     * Tif prfffrrfd sizf for <dodf>JEditorPbnf</dodf> is sligitly bltfrfd
+     * from tif prfffrrfd sizf of tif supfrdlbss.  If tif sizf
+     * of tif vifwport ibs bfdomf smbllfr tibn tif minimum sizf
+     * of tif domponfnt, tif sdrollbblf dffinition for trbdking
+     * widti or ifigit will turn to fblsf.  Tif dffbult vifwport
+     * lbyout will givf tif prfffrrfd sizf, bnd tibt is not dfsirfd
+     * in tif dbsf wifrf tif sdrollbblf is trbdking.  In tibt dbsf
+     * tif <fm>normbl</fm> prfffrrfd sizf is bdjustfd to tif
+     * minimum sizf.  Tiis bllows tiings likf HTML tbblfs to
+     * sirink down to tifir minimum sizf bnd tifn bf lbid out bt
+     * tifir minimum sizf, rffusing to sirink bny furtifr.
      *
-     * @return a <code>Dimension</code> containing the preferred size
+     * @rfturn b <dodf>Dimfnsion</dodf> dontbining tif prfffrrfd sizf
      */
-    public Dimension getPreferredSize() {
-        Dimension d = super.getPreferredSize();
-        Container parent = SwingUtilities.getUnwrappedParent(this);
-        if (parent instanceof JViewport) {
-            JViewport port = (JViewport) parent;
-            TextUI ui = getUI();
-            int prefWidth = d.width;
-            int prefHeight = d.height;
-            if (! getScrollableTracksViewportWidth()) {
-                int w = port.getWidth();
-                Dimension min = ui.getMinimumSize(this);
-                if (w != 0 && w < min.width) {
-                    // Only adjust to min if we have a valid size
-                    prefWidth = min.width;
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        Dimfnsion d = supfr.gftPrfffrrfdSizf();
+        Contbinfr pbrfnt = SwingUtilitifs.gftUnwrbppfdPbrfnt(tiis);
+        if (pbrfnt instbndfof JVifwport) {
+            JVifwport port = (JVifwport) pbrfnt;
+            TfxtUI ui = gftUI();
+            int prffWidti = d.widti;
+            int prffHfigit = d.ifigit;
+            if (! gftSdrollbblfTrbdksVifwportWidti()) {
+                int w = port.gftWidti();
+                Dimfnsion min = ui.gftMinimumSizf(tiis);
+                if (w != 0 && w < min.widti) {
+                    // Only bdjust to min if wf ibvf b vblid sizf
+                    prffWidti = min.widti;
                 }
             }
-            if (! getScrollableTracksViewportHeight()) {
-                int h = port.getHeight();
-                Dimension min = ui.getMinimumSize(this);
-                if (h != 0 && h < min.height) {
-                    // Only adjust to min if we have a valid size
-                    prefHeight = min.height;
+            if (! gftSdrollbblfTrbdksVifwportHfigit()) {
+                int i = port.gftHfigit();
+                Dimfnsion min = ui.gftMinimumSizf(tiis);
+                if (i != 0 && i < min.ifigit) {
+                    // Only bdjust to min if wf ibvf b vblid sizf
+                    prffHfigit = min.ifigit;
                 }
             }
-            if (prefWidth != d.width || prefHeight != d.height) {
-                d = new Dimension(prefWidth, prefHeight);
+            if (prffWidti != d.widti || prffHfigit != d.ifigit) {
+                d = nfw Dimfnsion(prffWidti, prffHfigit);
             }
         }
-        return d;
+        rfturn d;
     }
 
-    // --- JTextComponent methods -----------------------------
+    // --- JTfxtComponfnt mftiods -----------------------------
 
     /**
-     * Sets the text of this <code>TextComponent</code> to the specified
-     * content,
-     * which is expected to be in the format of the content type of
-     * this editor.  For example, if the type is set to <code>text/html</code>
-     * the string should be specified in terms of HTML.
+     * Sfts tif tfxt of tiis <dodf>TfxtComponfnt</dodf> to tif spfdififd
+     * dontfnt,
+     * wiidi is fxpfdtfd to bf in tif formbt of tif dontfnt typf of
+     * tiis fditor.  For fxbmplf, if tif typf is sft to <dodf>tfxt/itml</dodf>
+     * tif string siould bf spfdififd in tfrms of HTML.
      * <p>
-     * This is implemented to remove the contents of the current document,
-     * and replace them by parsing the given string using the current
-     * <code>EditorKit</code>.  This gives the semantics of the
-     * superclass by not changing
-     * out the model, while supporting the content type currently set on
-     * this component.  The assumption is that the previous content is
-     * relatively
-     * small, and that the previous content doesn't have side effects.
-     * Both of those assumptions can be violated and cause undesirable results.
-     * To avoid this, create a new document,
-     * <code>getEditorKit().createDefaultDocument()</code>, and replace the
-     * existing <code>Document</code> with the new one. You are then assured the
-     * previous <code>Document</code> won't have any lingering state.
+     * Tiis is implfmfntfd to rfmovf tif dontfnts of tif durrfnt dodumfnt,
+     * bnd rfplbdf tifm by pbrsing tif givfn string using tif durrfnt
+     * <dodf>EditorKit</dodf>.  Tiis givfs tif sfmbntids of tif
+     * supfrdlbss by not dibnging
+     * out tif modfl, wiilf supporting tif dontfnt typf durrfntly sft on
+     * tiis domponfnt.  Tif bssumption is tibt tif prfvious dontfnt is
+     * rflbtivfly
+     * smbll, bnd tibt tif prfvious dontfnt dofsn't ibvf sidf ffffdts.
+     * Boti of tiosf bssumptions dbn bf violbtfd bnd dbusf undfsirbblf rfsults.
+     * To bvoid tiis, drfbtf b nfw dodumfnt,
+     * <dodf>gftEditorKit().drfbtfDffbultDodumfnt()</dodf>, bnd rfplbdf tif
+     * fxisting <dodf>Dodumfnt</dodf> witi tif nfw onf. You brf tifn bssurfd tif
+     * prfvious <dodf>Dodumfnt</dodf> won't ibvf bny lingfring stbtf.
      * <ol>
      * <li>
-     * Leaving the existing model in place means that the old view will be
-     * torn down, and a new view created, where replacing the document would
-     * avoid the tear down of the old view.
+     * Lfbving tif fxisting modfl in plbdf mfbns tibt tif old vifw will bf
+     * torn down, bnd b nfw vifw drfbtfd, wifrf rfplbding tif dodumfnt would
+     * bvoid tif tfbr down of tif old vifw.
      * <li>
-     * Some formats (such as HTML) can install things into the document that
-     * can influence future contents.  HTML can have style information embedded
-     * that would influence the next content installed unexpectedly.
+     * Somf formbts (sudi bs HTML) dbn instbll tiings into tif dodumfnt tibt
+     * dbn influfndf futurf dontfnts.  HTML dbn ibvf stylf informbtion fmbfddfd
+     * tibt would influfndf tif nfxt dontfnt instbllfd unfxpfdtfdly.
      * </ol>
      * <p>
-     * An alternative way to load this component with a string would be to
-     * create a StringReader and call the read method.  In this case the model
-     * would be replaced after it was initialized with the contents of the
+     * An bltfrnbtivf wby to lobd tiis domponfnt witi b string would bf to
+     * drfbtf b StringRfbdfr bnd dbll tif rfbd mftiod.  In tiis dbsf tif modfl
+     * would bf rfplbdfd bftfr it wbs initiblizfd witi tif dontfnts of tif
      * string.
      *
-     * @param t the new text to be set; if <code>null</code> the old
-     *    text will be deleted
-     * @see #getText
-     * @beaninfo
-     * description: the text of this component
+     * @pbrbm t tif nfw tfxt to bf sft; if <dodf>null</dodf> tif old
+     *    tfxt will bf dflftfd
+     * @sff #gftTfxt
+     * @bfbninfo
+     * dfsdription: tif tfxt of tiis domponfnt
      */
-    public void setText(String t) {
+    publid void sftTfxt(String t) {
         try {
-            Document doc = getDocument();
-            doc.remove(0, doc.getLength());
-            if (t == null || t.equals("")) {
-                return;
+            Dodumfnt dod = gftDodumfnt();
+            dod.rfmovf(0, dod.gftLfngti());
+            if (t == null || t.fqubls("")) {
+                rfturn;
             }
-            Reader r = new StringReader(t);
-            EditorKit kit = getEditorKit();
-            kit.read(r, doc, 0);
-        } catch (IOException ioe) {
-            UIManager.getLookAndFeel().provideErrorFeedback(JEditorPane.this);
-        } catch (BadLocationException ble) {
-            UIManager.getLookAndFeel().provideErrorFeedback(JEditorPane.this);
+            Rfbdfr r = nfw StringRfbdfr(t);
+            EditorKit kit = gftEditorKit();
+            kit.rfbd(r, dod, 0);
+        } dbtdi (IOExdfption iof) {
+            UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(JEditorPbnf.tiis);
+        } dbtdi (BbdLodbtionExdfption blf) {
+            UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(JEditorPbnf.tiis);
         }
     }
 
     /**
-     * Returns the text contained in this <code>TextComponent</code>
-     * in terms of the
-     * content type of this editor.  If an exception is thrown while
-     * attempting to retrieve the text, <code>null</code> will be returned.
-     * This is implemented to call <code>JTextComponent.write</code> with
-     * a <code>StringWriter</code>.
+     * Rfturns tif tfxt dontbinfd in tiis <dodf>TfxtComponfnt</dodf>
+     * in tfrms of tif
+     * dontfnt typf of tiis fditor.  If bn fxdfption is tirown wiilf
+     * bttfmpting to rftrifvf tif tfxt, <dodf>null</dodf> will bf rfturnfd.
+     * Tiis is implfmfntfd to dbll <dodf>JTfxtComponfnt.writf</dodf> witi
+     * b <dodf>StringWritfr</dodf>.
      *
-     * @return the text
-     * @see #setText
+     * @rfturn tif tfxt
+     * @sff #sftTfxt
      */
-    public String getText() {
+    publid String gftTfxt() {
         String txt;
         try {
-            StringWriter buf = new StringWriter();
-            write(buf);
+            StringWritfr buf = nfw StringWritfr();
+            writf(buf);
             txt = buf.toString();
-        } catch (IOException ioe) {
+        } dbtdi (IOExdfption iof) {
             txt = null;
         }
-        return txt;
+        rfturn txt;
     }
 
-    // --- Scrollable  ----------------------------------------
+    // --- Sdrollbblf  ----------------------------------------
 
     /**
-     * Returns true if a viewport should always force the width of this
-     * <code>Scrollable</code> to match the width of the viewport.
+     * Rfturns truf if b vifwport siould blwbys fordf tif widti of tiis
+     * <dodf>Sdrollbblf</dodf> to mbtdi tif widti of tif vifwport.
      *
-     * @return true if a viewport should force the Scrollables width to
-     * match its own, false otherwise
+     * @rfturn truf if b vifwport siould fordf tif Sdrollbblfs widti to
+     * mbtdi its own, fblsf otifrwisf
      */
-    public boolean getScrollableTracksViewportWidth() {
-        Container parent = SwingUtilities.getUnwrappedParent(this);
-        if (parent instanceof JViewport) {
-            JViewport port = (JViewport) parent;
-            TextUI ui = getUI();
-            int w = port.getWidth();
-            Dimension min = ui.getMinimumSize(this);
-            Dimension max = ui.getMaximumSize(this);
-            if ((w >= min.width) && (w <= max.width)) {
-                return true;
+    publid boolfbn gftSdrollbblfTrbdksVifwportWidti() {
+        Contbinfr pbrfnt = SwingUtilitifs.gftUnwrbppfdPbrfnt(tiis);
+        if (pbrfnt instbndfof JVifwport) {
+            JVifwport port = (JVifwport) pbrfnt;
+            TfxtUI ui = gftUI();
+            int w = port.gftWidti();
+            Dimfnsion min = ui.gftMinimumSizf(tiis);
+            Dimfnsion mbx = ui.gftMbximumSizf(tiis);
+            if ((w >= min.widti) && (w <= mbx.widti)) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns true if a viewport should always force the height of this
-     * <code>Scrollable</code> to match the height of the viewport.
+     * Rfturns truf if b vifwport siould blwbys fordf tif ifigit of tiis
+     * <dodf>Sdrollbblf</dodf> to mbtdi tif ifigit of tif vifwport.
      *
-     * @return true if a viewport should force the
-     *          <code>Scrollable</code>'s height to match its own,
-     *          false otherwise
+     * @rfturn truf if b vifwport siould fordf tif
+     *          <dodf>Sdrollbblf</dodf>'s ifigit to mbtdi its own,
+     *          fblsf otifrwisf
      */
-    public boolean getScrollableTracksViewportHeight() {
-        Container parent = SwingUtilities.getUnwrappedParent(this);
-        if (parent instanceof JViewport) {
-            JViewport port = (JViewport) parent;
-            TextUI ui = getUI();
-            int h = port.getHeight();
-            Dimension min = ui.getMinimumSize(this);
-            if (h >= min.height) {
-                Dimension max = ui.getMaximumSize(this);
-                if (h <= max.height) {
-                    return true;
+    publid boolfbn gftSdrollbblfTrbdksVifwportHfigit() {
+        Contbinfr pbrfnt = SwingUtilitifs.gftUnwrbppfdPbrfnt(tiis);
+        if (pbrfnt instbndfof JVifwport) {
+            JVifwport port = (JVifwport) pbrfnt;
+            TfxtUI ui = gftUI();
+            int i = port.gftHfigit();
+            Dimfnsion min = ui.gftMinimumSizf(tiis);
+            if (i >= min.ifigit) {
+                Dimfnsion mbx = ui.gftMbximumSizf(tiis);
+                if (i <= mbx.ifigit) {
+                    rfturn truf;
                 }
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    // --- Serialization ------------------------------------
+    // --- Sfriblizbtion ------------------------------------
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code> in
-     * <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * Sff <dodf>rfbdObjfdt</dodf> bnd <dodf>writfObjfdt</dodf> in
+     * <dodf>JComponfnt</dodf> for morf
+     * informbtion bbout sfriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
-            byte count = JComponent.getWriteObjCounter(this);
-            JComponent.setWriteObjCounter(this, --count);
-            if (count == 0 && ui != null) {
-                ui.installUI(this);
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(tiis);
+            JComponfnt.sftWritfObjCountfr(tiis, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(tiis);
             }
         }
     }
 
-    // --- variables ---------------------------------------
+    // --- vbribblfs ---------------------------------------
 
-    private SwingWorker<URL, Object> pageLoader;
-
-    /**
-     * Current content binding of the editor.
-     */
-    private EditorKit kit;
-    private boolean isUserSetEditorKit;
-
-    private Hashtable<String, Object> pageProperties;
-
-    /** Should be kept in sync with javax.swing.text.html.FormView counterpart. */
-    final static String PostDataProperty = "javax.swing.JEditorPane.postdata";
+    privbtf SwingWorkfr<URL, Objfdt> pbgfLobdfr;
 
     /**
-     * Table of registered type handlers for this editor.
+     * Currfnt dontfnt binding of tif fditor.
      */
-    private Hashtable<String, EditorKit> typeHandlers;
+    privbtf EditorKit kit;
+    privbtf boolfbn isUsfrSftEditorKit;
+
+    privbtf Hbsitbblf<String, Objfdt> pbgfPropfrtifs;
+
+    /** Siould bf kfpt in synd witi jbvbx.swing.tfxt.itml.FormVifw dountfrpbrt. */
+    finbl stbtid String PostDbtbPropfrty = "jbvbx.swing.JEditorPbnf.postdbtb";
+
+    /**
+     * Tbblf of rfgistfrfd typf ibndlfrs for tiis fditor.
+     */
+    privbtf Hbsitbblf<String, EditorKit> typfHbndlfrs;
 
     /*
-     * Private AppContext keys for this class's static variables.
+     * Privbtf AppContfxt kfys for tiis dlbss's stbtid vbribblfs.
      */
-    private static final Object kitRegistryKey =
-        new StringBuffer("JEditorPane.kitRegistry");
-    private static final Object kitTypeRegistryKey =
-        new StringBuffer("JEditorPane.kitTypeRegistry");
-    private static final Object kitLoaderRegistryKey =
-        new StringBuffer("JEditorPane.kitLoaderRegistry");
+    privbtf stbtid finbl Objfdt kitRfgistryKfy =
+        nfw StringBufffr("JEditorPbnf.kitRfgistry");
+    privbtf stbtid finbl Objfdt kitTypfRfgistryKfy =
+        nfw StringBufffr("JEditorPbnf.kitTypfRfgistry");
+    privbtf stbtid finbl Objfdt kitLobdfrRfgistryKfy =
+        nfw StringBufffr("JEditorPbnf.kitLobdfrRfgistry");
 
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
      */
-    private static final String uiClassID = "EditorPaneUI";
+    privbtf stbtid finbl String uiClbssID = "EditorPbnfUI";
 
 
     /**
-     * Key for a client property used to indicate whether
-     * <a href="http://www.w3.org/TR/CSS21/syndata.html#length-units">
-     * w3c compliant</a> length units are used for html rendering.
+     * Kfy for b dlifnt propfrty usfd to indidbtf wiftifr
+     * <b irff="ittp://www.w3.org/TR/CSS21/syndbtb.itml#lfngti-units">
+     * w3d domplibnt</b> lfngti units brf usfd for itml rfndfring.
      * <p>
-     * By default this is not enabled; to enable
-     * it set the client {@link #putClientProperty property} with this name
-     * to <code>Boolean.TRUE</code>.
+     * By dffbult tiis is not fnbblfd; to fnbblf
+     * it sft tif dlifnt {@link #putClifntPropfrty propfrty} witi tiis nbmf
+     * to <dodf>Boolfbn.TRUE</dodf>.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public static final String W3C_LENGTH_UNITS = "JEditorPane.w3cLengthUnits";
+    publid stbtid finbl String W3C_LENGTH_UNITS = "JEditorPbnf.w3dLfngtiUnits";
 
     /**
-     * Key for a client property used to indicate whether
-     * the default font and foreground color from the component are
-     * used if a font or foreground color is not specified in the styled
-     * text.
+     * Kfy for b dlifnt propfrty usfd to indidbtf wiftifr
+     * tif dffbult font bnd forfground dolor from tif domponfnt brf
+     * usfd if b font or forfground dolor is not spfdififd in tif stylfd
+     * tfxt.
      * <p>
-     * The default varies based on the look and feel;
-     * to enable it set the client {@link #putClientProperty property} with
-     * this name to <code>Boolean.TRUE</code>.
+     * Tif dffbult vbrifs bbsfd on tif look bnd fffl;
+     * to fnbblf it sft tif dlifnt {@link #putClifntPropfrty propfrty} witi
+     * tiis nbmf to <dodf>Boolfbn.TRUE</dodf>.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public static final String HONOR_DISPLAY_PROPERTIES = "JEditorPane.honorDisplayProperties";
+    publid stbtid finbl String HONOR_DISPLAY_PROPERTIES = "JEditorPbnf.ionorDisplbyPropfrtifs";
 
-    static final Map<String, String> defaultEditorKitMap = new HashMap<String, String>(0);
+    stbtid finbl Mbp<String, String> dffbultEditorKitMbp = nfw HbsiMbp<String, String>(0);
 
     /**
-     * Returns a string representation of this <code>JEditorPane</code>.
-     * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>JEditorPbnf</dodf>.
+     * Tiis mftiod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
      *
-     * @return  a string representation of this <code>JEditorPane</code>
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>JEditorPbnf</dodf>
      */
-    protected String paramString() {
+    protfdtfd String pbrbmString() {
         String kitString = (kit != null ?
                             kit.toString() : "");
-        String typeHandlersString = (typeHandlers != null ?
-                                     typeHandlers.toString() : "");
+        String typfHbndlfrsString = (typfHbndlfrs != null ?
+                                     typfHbndlfrs.toString() : "");
 
-        return super.paramString() +
+        rfturn supfr.pbrbmString() +
         ",kit=" + kitString +
-        ",typeHandlers=" + typeHandlersString;
+        ",typfHbndlfrs=" + typfHbndlfrsString;
     }
 
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
 
     /**
-     * Gets the AccessibleContext associated with this JEditorPane.
-     * For editor panes, the AccessibleContext takes the form of an
-     * AccessibleJEditorPane.
-     * A new AccessibleJEditorPane instance is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis JEditorPbnf.
+     * For fditor pbnfs, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfJEditorPbnf.
+     * A nfw AddfssiblfJEditorPbnf instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleJEditorPane that serves as the
-     *         AccessibleContext of this JEditorPane
+     * @rfturn bn AddfssiblfJEditorPbnf tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis JEditorPbnf
      */
-    public AccessibleContext getAccessibleContext() {
-        if (getEditorKit() instanceof HTMLEditorKit) {
-            if (accessibleContext == null || accessibleContext.getClass() !=
-                    AccessibleJEditorPaneHTML.class) {
-                accessibleContext = new AccessibleJEditorPaneHTML();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (gftEditorKit() instbndfof HTMLEditorKit) {
+            if (bddfssiblfContfxt == null || bddfssiblfContfxt.gftClbss() !=
+                    AddfssiblfJEditorPbnfHTML.dlbss) {
+                bddfssiblfContfxt = nfw AddfssiblfJEditorPbnfHTML();
             }
-        } else if (accessibleContext == null || accessibleContext.getClass() !=
-                       AccessibleJEditorPane.class) {
-            accessibleContext = new AccessibleJEditorPane();
+        } flsf if (bddfssiblfContfxt == null || bddfssiblfContfxt.gftClbss() !=
+                       AddfssiblfJEditorPbnf.dlbss) {
+            bddfssiblfContfxt = nfw AddfssiblfJEditorPbnf();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JEditorPane</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to editor pane user-interface
-     * elements.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>JEditorPbnf</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to fditor pbnf usfr-intfrfbdf
+     * flfmfnts.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJEditorPane extends AccessibleJTextComponent {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJEditorPbnf fxtfnds AddfssiblfJTfxtComponfnt {
 
         /**
-         * Gets the accessibleDescription property of this object.  If this
-         * property isn't set, returns the content type of this
-         * <code>JEditorPane</code> instead (e.g. "plain/text", "html/text").
+         * Gfts tif bddfssiblfDfsdription propfrty of tiis objfdt.  If tiis
+         * propfrty isn't sft, rfturns tif dontfnt typf of tiis
+         * <dodf>JEditorPbnf</dodf> instfbd (f.g. "plbin/tfxt", "itml/tfxt").
          *
-         * @return the localized description of the object; <code>null</code>
-         *      if this object does not have a description
+         * @rfturn tif lodblizfd dfsdription of tif objfdt; <dodf>null</dodf>
+         *      if tiis objfdt dofs not ibvf b dfsdription
          *
-         * @see #setAccessibleName
+         * @sff #sftAddfssiblfNbmf
          */
-        public String getAccessibleDescription() {
-            String description = accessibleDescription;
+        publid String gftAddfssiblfDfsdription() {
+            String dfsdription = bddfssiblfDfsdription;
 
-            // fallback to client property
-            if (description == null) {
-                description = (String)getClientProperty(AccessibleContext.ACCESSIBLE_DESCRIPTION_PROPERTY);
+            // fbllbbdk to dlifnt propfrty
+            if (dfsdription == null) {
+                dfsdription = (String)gftClifntPropfrty(AddfssiblfContfxt.ACCESSIBLE_DESCRIPTION_PROPERTY);
             }
-            if (description == null) {
-                description = JEditorPane.this.getContentType();
+            if (dfsdription == null) {
+                dfsdription = JEditorPbnf.tiis.gftContfntTypf();
             }
-            return description;
+            rfturn dfsdription;
         }
 
         /**
-         * Gets the state set of this object.
+         * Gfts tif stbtf sft of tiis objfdt.
          *
-         * @return an instance of AccessibleStateSet describing the states
-         * of the object
-         * @see AccessibleStateSet
+         * @rfturn bn instbndf of AddfssiblfStbtfSft dfsdribing tif stbtfs
+         * of tif objfdt
+         * @sff AddfssiblfStbtfSft
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            states.add(AccessibleState.MULTI_LINE);
-            return states;
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            stbtfs.bdd(AddfssiblfStbtf.MULTI_LINE);
+            rfturn stbtfs;
         }
     }
 
     /**
-     * This class provides support for <code>AccessibleHypertext</code>,
-     * and is used in instances where the <code>EditorKit</code>
-     * installed in this <code>JEditorPane</code> is an instance of
-     * <code>HTMLEditorKit</code>.
+     * Tiis dlbss providfs support for <dodf>AddfssiblfHypfrtfxt</dodf>,
+     * bnd is usfd in instbndfs wifrf tif <dodf>EditorKit</dodf>
+     * instbllfd in tiis <dodf>JEditorPbnf</dodf> is bn instbndf of
+     * <dodf>HTMLEditorKit</dodf>.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJEditorPaneHTML extends AccessibleJEditorPane {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJEditorPbnfHTML fxtfnds AddfssiblfJEditorPbnf {
 
-        private AccessibleContext accessibleContext;
+        privbtf AddfssiblfContfxt bddfssiblfContfxt;
 
-        public AccessibleText getAccessibleText() {
-            return new JEditorPaneAccessibleHypertextSupport();
+        publid AddfssiblfTfxt gftAddfssiblfTfxt() {
+            rfturn nfw JEditorPbnfAddfssiblfHypfrtfxtSupport();
         }
 
-        protected AccessibleJEditorPaneHTML () {
-            HTMLEditorKit kit = (HTMLEditorKit)JEditorPane.this.getEditorKit();
-            accessibleContext = kit.getAccessibleContext();
+        protfdtfd AddfssiblfJEditorPbnfHTML () {
+            HTMLEditorKit kit = (HTMLEditorKit)JEditorPbnf.tiis.gftEditorKit();
+            bddfssiblfContfxt = kit.gftAddfssiblfContfxt();
         }
 
         /**
-         * Returns the number of accessible children of the object.
+         * Rfturns tif numbfr of bddfssiblf diildrfn of tif objfdt.
          *
-         * @return the number of accessible children of the object.
+         * @rfturn tif numbfr of bddfssiblf diildrfn of tif objfdt.
          */
-        public int getAccessibleChildrenCount() {
-            if (accessibleContext != null) {
-                return accessibleContext.getAccessibleChildrenCount();
-            } else {
-                return 0;
+        publid int gftAddfssiblfCiildrfnCount() {
+            if (bddfssiblfContfxt != null) {
+                rfturn bddfssiblfContfxt.gftAddfssiblfCiildrfnCount();
+            } flsf {
+                rfturn 0;
             }
         }
 
         /**
-         * Returns the specified Accessible child of the object.  The Accessible
-         * children of an Accessible object are zero-based, so the first child
-         * of an Accessible child is at index 0, the second child is at index 1,
-         * and so on.
+         * Rfturns tif spfdififd Addfssiblf diild of tif objfdt.  Tif Addfssiblf
+         * diildrfn of bn Addfssiblf objfdt brf zfro-bbsfd, so tif first diild
+         * of bn Addfssiblf diild is bt indfx 0, tif sfdond diild is bt indfx 1,
+         * bnd so on.
          *
-         * @param i zero-based index of child
-         * @return the Accessible child of the object
-         * @see #getAccessibleChildrenCount
+         * @pbrbm i zfro-bbsfd indfx of diild
+         * @rfturn tif Addfssiblf diild of tif objfdt
+         * @sff #gftAddfssiblfCiildrfnCount
          */
-        public Accessible getAccessibleChild(int i) {
-            if (accessibleContext != null) {
-                return accessibleContext.getAccessibleChild(i);
-            } else {
-                return null;
+        publid Addfssiblf gftAddfssiblfCiild(int i) {
+            if (bddfssiblfContfxt != null) {
+                rfturn bddfssiblfContfxt.gftAddfssiblfCiild(i);
+            } flsf {
+                rfturn null;
             }
         }
 
         /**
-         * Returns the Accessible child, if one exists, contained at the local
-         * coordinate Point.
+         * Rfturns tif Addfssiblf diild, if onf fxists, dontbinfd bt tif lodbl
+         * doordinbtf Point.
          *
-         * @param p The point relative to the coordinate system of this object.
-         * @return the Accessible, if it exists, at the specified location;
-         * otherwise null
+         * @pbrbm p Tif point rflbtivf to tif doordinbtf systfm of tiis objfdt.
+         * @rfturn tif Addfssiblf, if it fxists, bt tif spfdififd lodbtion;
+         * otifrwisf null
          */
-        public Accessible getAccessibleAt(Point p) {
-            if (accessibleContext != null && p != null) {
+        publid Addfssiblf gftAddfssiblfAt(Point p) {
+            if (bddfssiblfContfxt != null && p != null) {
                 try {
-                    AccessibleComponent acomp =
-                        accessibleContext.getAccessibleComponent();
-                    if (acomp != null) {
-                        return acomp.getAccessibleAt(p);
-                    } else {
-                        return null;
+                    AddfssiblfComponfnt bdomp =
+                        bddfssiblfContfxt.gftAddfssiblfComponfnt();
+                    if (bdomp != null) {
+                        rfturn bdomp.gftAddfssiblfAt(p);
+                    } flsf {
+                        rfturn null;
                     }
-                } catch (IllegalComponentStateException e) {
-                    return null;
+                } dbtdi (IllfgblComponfntStbtfExdfption f) {
+                    rfturn null;
                 }
-            } else {
-                return null;
+            } flsf {
+                rfturn null;
             }
         }
     }
 
     /**
-     * What's returned by
-     * <code>AccessibleJEditorPaneHTML.getAccessibleText</code>.
+     * Wibt's rfturnfd by
+     * <dodf>AddfssiblfJEditorPbnfHTML.gftAddfssiblfTfxt</dodf>.
      *
-     * Provides support for <code>AccessibleHypertext</code> in case
-     * there is an HTML document being displayed in this
-     * <code>JEditorPane</code>.
+     * Providfs support for <dodf>AddfssiblfHypfrtfxt</dodf> in dbsf
+     * tifrf is bn HTML dodumfnt bfing displbyfd in tiis
+     * <dodf>JEditorPbnf</dodf>.
      *
      */
-    protected class JEditorPaneAccessibleHypertextSupport
-    extends AccessibleJEditorPane implements AccessibleHypertext {
+    protfdtfd dlbss JEditorPbnfAddfssiblfHypfrtfxtSupport
+    fxtfnds AddfssiblfJEditorPbnf implfmfnts AddfssiblfHypfrtfxt {
 
-        public class HTMLLink extends AccessibleHyperlink {
-            Element element;
+        publid dlbss HTMLLink fxtfnds AddfssiblfHypfrlink {
+            Elfmfnt flfmfnt;
 
-            public HTMLLink(Element e) {
-                element = e;
+            publid HTMLLink(Elfmfnt f) {
+                flfmfnt = f;
             }
 
             /**
-             * Since the document a link is associated with may have
-             * changed, this method returns whether this Link is valid
-             * anymore (with respect to the document it references).
+             * Sindf tif dodumfnt b link is bssodibtfd witi mby ibvf
+             * dibngfd, tiis mftiod rfturns wiftifr tiis Link is vblid
+             * bnymorf (witi rfspfdt to tif dodumfnt it rfffrfndfs).
              *
-             * @return a flag indicating whether this link is still valid with
-             *         respect to the AccessibleHypertext it belongs to
+             * @rfturn b flbg indidbting wiftifr tiis link is still vblid witi
+             *         rfspfdt to tif AddfssiblfHypfrtfxt it bflongs to
              */
-            public boolean isValid() {
-                return JEditorPaneAccessibleHypertextSupport.this.linksValid;
+            publid boolfbn isVblid() {
+                rfturn JEditorPbnfAddfssiblfHypfrtfxtSupport.tiis.linksVblid;
             }
 
             /**
-             * Returns the number of accessible actions available in this Link
-             * If there are more than one, the first one is NOT considered the
-             * "default" action of this LINK object (e.g. in an HTML imagemap).
-             * In general, links will have only one AccessibleAction in them.
+             * Rfturns tif numbfr of bddfssiblf bdtions bvbilbblf in tiis Link
+             * If tifrf brf morf tibn onf, tif first onf is NOT donsidfrfd tif
+             * "dffbult" bdtion of tiis LINK objfdt (f.g. in bn HTML imbgfmbp).
+             * In gfnfrbl, links will ibvf only onf AddfssiblfAdtion in tifm.
              *
-             * @return the zero-based number of Actions in this object
+             * @rfturn tif zfro-bbsfd numbfr of Adtions in tiis objfdt
              */
-            public int getAccessibleActionCount() {
-                return 1;
+            publid int gftAddfssiblfAdtionCount() {
+                rfturn 1;
             }
 
             /**
-             * Perform the specified Action on the object
+             * Pfrform tif spfdififd Adtion on tif objfdt
              *
-             * @param i zero-based index of actions
-             * @return true if the the action was performed; else false.
-             * @see #getAccessibleActionCount
+             * @pbrbm i zfro-bbsfd indfx of bdtions
+             * @rfturn truf if tif tif bdtion wbs pfrformfd; flsf fblsf.
+             * @sff #gftAddfssiblfAdtionCount
              */
-            public boolean doAccessibleAction(int i) {
-                if (i == 0 && isValid() == true) {
-                    URL u = (URL) getAccessibleActionObject(i);
+            publid boolfbn doAddfssiblfAdtion(int i) {
+                if (i == 0 && isVblid() == truf) {
+                    URL u = (URL) gftAddfssiblfAdtionObjfdt(i);
                     if (u != null) {
-                        HyperlinkEvent linkEvent =
-                            new HyperlinkEvent(JEditorPane.this, HyperlinkEvent.EventType.ACTIVATED, u);
-                        JEditorPane.this.fireHyperlinkUpdate(linkEvent);
-                        return true;
+                        HypfrlinkEvfnt linkEvfnt =
+                            nfw HypfrlinkEvfnt(JEditorPbnf.tiis, HypfrlinkEvfnt.EvfntTypf.ACTIVATED, u);
+                        JEditorPbnf.tiis.firfHypfrlinkUpdbtf(linkEvfnt);
+                        rfturn truf;
                     }
                 }
-                return false;  // link invalid or i != 0
+                rfturn fblsf;  // link invblid or i != 0
             }
 
             /**
-             * Return a String description of this particular
-             * link action.  The string returned is the text
-             * within the document associated with the element
-             * which contains this link.
+             * Rfturn b String dfsdription of tiis pbrtidulbr
+             * link bdtion.  Tif string rfturnfd is tif tfxt
+             * witiin tif dodumfnt bssodibtfd witi tif flfmfnt
+             * wiidi dontbins tiis link.
              *
-             * @param i zero-based index of the actions
-             * @return a String description of the action
-             * @see #getAccessibleActionCount
+             * @pbrbm i zfro-bbsfd indfx of tif bdtions
+             * @rfturn b String dfsdription of tif bdtion
+             * @sff #gftAddfssiblfAdtionCount
              */
-            public String getAccessibleActionDescription(int i) {
-                if (i == 0 && isValid() == true) {
-                    Document d = JEditorPane.this.getDocument();
+            publid String gftAddfssiblfAdtionDfsdription(int i) {
+                if (i == 0 && isVblid() == truf) {
+                    Dodumfnt d = JEditorPbnf.tiis.gftDodumfnt();
                     if (d != null) {
                         try {
-                            return d.getText(getStartIndex(),
-                                             getEndIndex() - getStartIndex());
-                        } catch (BadLocationException exception) {
-                            return null;
+                            rfturn d.gftTfxt(gftStbrtIndfx(),
+                                             gftEndIndfx() - gftStbrtIndfx());
+                        } dbtdi (BbdLodbtionExdfption fxdfption) {
+                            rfturn null;
                         }
                     }
                 }
-                return null;
+                rfturn null;
             }
 
             /**
-             * Returns a URL object that represents the link.
+             * Rfturns b URL objfdt tibt rfprfsfnts tif link.
              *
-             * @param i zero-based index of the actions
-             * @return an URL representing the HTML link itself
-             * @see #getAccessibleActionCount
+             * @pbrbm i zfro-bbsfd indfx of tif bdtions
+             * @rfturn bn URL rfprfsfnting tif HTML link itsflf
+             * @sff #gftAddfssiblfAdtionCount
              */
-            public Object getAccessibleActionObject(int i) {
-                if (i == 0 && isValid() == true) {
-                    AttributeSet as = element.getAttributes();
-                    AttributeSet anchor =
-                        (AttributeSet) as.getAttribute(HTML.Tag.A);
-                    String href = (anchor != null) ?
-                        (String) anchor.getAttribute(HTML.Attribute.HREF) : null;
-                    if (href != null) {
+            publid Objfdt gftAddfssiblfAdtionObjfdt(int i) {
+                if (i == 0 && isVblid() == truf) {
+                    AttributfSft bs = flfmfnt.gftAttributfs();
+                    AttributfSft bndior =
+                        (AttributfSft) bs.gftAttributf(HTML.Tbg.A);
+                    String irff = (bndior != null) ?
+                        (String) bndior.gftAttributf(HTML.Attributf.HREF) : null;
+                    if (irff != null) {
                         URL u;
                         try {
-                            u = new URL(JEditorPane.this.getPage(), href);
-                        } catch (MalformedURLException m) {
+                            u = nfw URL(JEditorPbnf.tiis.gftPbgf(), irff);
+                        } dbtdi (MblformfdURLExdfption m) {
                             u = null;
                         }
-                        return u;
+                        rfturn u;
                     }
                 }
-                return null;  // link invalid or i != 0
+                rfturn null;  // link invblid or i != 0
             }
 
             /**
-             * Return an object that represents the link anchor,
-             * as appropriate for that link.  E.g. from HTML:
-             *   <a href="http://www.sun.com/access">Accessibility</a>
-             * this method would return a String containing the text:
-             * 'Accessibility'.
+             * Rfturn bn objfdt tibt rfprfsfnts tif link bndior,
+             * bs bppropribtf for tibt link.  E.g. from HTML:
+             *   <b irff="ittp://www.sun.dom/bddfss">Addfssibility</b>
+             * tiis mftiod would rfturn b String dontbining tif tfxt:
+             * 'Addfssibility'.
              *
-             * Similarly, from this HTML:
-             *   &lt;a HREF="#top"&gt;&lt;img src="top-hat.gif" alt="top hat"&gt;&lt;/a&gt;
-             * this might return the object ImageIcon("top-hat.gif", "top hat");
+             * Similbrly, from tiis HTML:
+             *   &lt;b HREF="#top"&gt;&lt;img srd="top-ibt.gif" blt="top ibt"&gt;&lt;/b&gt;
+             * tiis migit rfturn tif objfdt ImbgfIdon("top-ibt.gif", "top ibt");
              *
-             * @param i zero-based index of the actions
-             * @return an Object representing the hypertext anchor
-             * @see #getAccessibleActionCount
+             * @pbrbm i zfro-bbsfd indfx of tif bdtions
+             * @rfturn bn Objfdt rfprfsfnting tif iypfrtfxt bndior
+             * @sff #gftAddfssiblfAdtionCount
              */
-            public Object getAccessibleActionAnchor(int i) {
-                return getAccessibleActionDescription(i);
+            publid Objfdt gftAddfssiblfAdtionAndior(int i) {
+                rfturn gftAddfssiblfAdtionDfsdription(i);
             }
 
 
             /**
-             * Get the index with the hypertext document at which this
-             * link begins
+             * Gft tif indfx witi tif iypfrtfxt dodumfnt bt wiidi tiis
+             * link bfgins
              *
-             * @return index of start of link
+             * @rfturn indfx of stbrt of link
              */
-            public int getStartIndex() {
-                return element.getStartOffset();
+            publid int gftStbrtIndfx() {
+                rfturn flfmfnt.gftStbrtOffsft();
             }
 
             /**
-             * Get the index with the hypertext document at which this
-             * link ends
+             * Gft tif indfx witi tif iypfrtfxt dodumfnt bt wiidi tiis
+             * link fnds
              *
-             * @return index of end of link
+             * @rfturn indfx of fnd of link
              */
-            public int getEndIndex() {
-                return element.getEndOffset();
+            publid int gftEndIndfx() {
+                rfturn flfmfnt.gftEndOffsft();
             }
         }
 
-        private class LinkVector extends Vector<HTMLLink> {
-            public int baseElementIndex(Element e) {
+        privbtf dlbss LinkVfdtor fxtfnds Vfdtor<HTMLLink> {
+            publid int bbsfElfmfntIndfx(Elfmfnt f) {
                 HTMLLink l;
-                for (int i = 0; i < elementCount; i++) {
-                    l = elementAt(i);
-                    if (l.element == e) {
-                        return i;
+                for (int i = 0; i < flfmfntCount; i++) {
+                    l = flfmfntAt(i);
+                    if (l.flfmfnt == f) {
+                        rfturn i;
                     }
                 }
-                return -1;
+                rfturn -1;
             }
         }
 
-        LinkVector hyperlinks;
-        boolean linksValid = false;
+        LinkVfdtor iypfrlinks;
+        boolfbn linksVblid = fblsf;
 
         /**
-         * Build the private table mapping links to locations in the text
+         * Build tif privbtf tbblf mbpping links to lodbtions in tif tfxt
          */
-        private void buildLinkTable() {
-            hyperlinks.removeAllElements();
-            Document d = JEditorPane.this.getDocument();
+        privbtf void buildLinkTbblf() {
+            iypfrlinks.rfmovfAllElfmfnts();
+            Dodumfnt d = JEditorPbnf.tiis.gftDodumfnt();
             if (d != null) {
-                ElementIterator ei = new ElementIterator(d);
-                Element e;
-                AttributeSet as;
-                AttributeSet anchor;
-                String href;
-                while ((e = ei.next()) != null) {
-                    if (e.isLeaf()) {
-                        as = e.getAttributes();
-                    anchor = (AttributeSet) as.getAttribute(HTML.Tag.A);
-                    href = (anchor != null) ?
-                        (String) anchor.getAttribute(HTML.Attribute.HREF) : null;
-                        if (href != null) {
-                            hyperlinks.addElement(new HTMLLink(e));
+                ElfmfntItfrbtor fi = nfw ElfmfntItfrbtor(d);
+                Elfmfnt f;
+                AttributfSft bs;
+                AttributfSft bndior;
+                String irff;
+                wiilf ((f = fi.nfxt()) != null) {
+                    if (f.isLfbf()) {
+                        bs = f.gftAttributfs();
+                    bndior = (AttributfSft) bs.gftAttributf(HTML.Tbg.A);
+                    irff = (bndior != null) ?
+                        (String) bndior.gftAttributf(HTML.Attributf.HREF) : null;
+                        if (irff != null) {
+                            iypfrlinks.bddElfmfnt(nfw HTMLLink(f));
                         }
                     }
                 }
             }
-            linksValid = true;
+            linksVblid = truf;
         }
 
         /**
-         * Make one of these puppies
+         * Mbkf onf of tifsf puppifs
          */
-        public JEditorPaneAccessibleHypertextSupport() {
-            hyperlinks = new LinkVector();
-            Document d = JEditorPane.this.getDocument();
+        publid JEditorPbnfAddfssiblfHypfrtfxtSupport() {
+            iypfrlinks = nfw LinkVfdtor();
+            Dodumfnt d = JEditorPbnf.tiis.gftDodumfnt();
             if (d != null) {
-                d.addDocumentListener(new DocumentListener() {
-                    public void changedUpdate(DocumentEvent theEvent) {
-                        linksValid = false;
+                d.bddDodumfntListfnfr(nfw DodumfntListfnfr() {
+                    publid void dibngfdUpdbtf(DodumfntEvfnt tifEvfnt) {
+                        linksVblid = fblsf;
                     }
-                    public void insertUpdate(DocumentEvent theEvent) {
-                        linksValid = false;
+                    publid void insfrtUpdbtf(DodumfntEvfnt tifEvfnt) {
+                        linksVblid = fblsf;
                     }
-                    public void removeUpdate(DocumentEvent theEvent) {
-                        linksValid = false;
+                    publid void rfmovfUpdbtf(DodumfntEvfnt tifEvfnt) {
+                        linksVblid = fblsf;
                     }
                 });
             }
         }
 
         /**
-         * Returns the number of links within this hypertext doc.
+         * Rfturns tif numbfr of links witiin tiis iypfrtfxt dod.
          *
-         * @return number of links in this hypertext doc.
+         * @rfturn numbfr of links in tiis iypfrtfxt dod.
          */
-        public int getLinkCount() {
-            if (linksValid == false) {
-                buildLinkTable();
+        publid int gftLinkCount() {
+            if (linksVblid == fblsf) {
+                buildLinkTbblf();
             }
-            return hyperlinks.size();
+            rfturn iypfrlinks.sizf();
         }
 
         /**
-         * Returns the index into an array of hyperlinks that
-         * is associated with this character index, or -1 if there
-         * is no hyperlink associated with this index.
+         * Rfturns tif indfx into bn brrby of iypfrlinks tibt
+         * is bssodibtfd witi tiis dibrbdtfr indfx, or -1 if tifrf
+         * is no iypfrlink bssodibtfd witi tiis indfx.
          *
-         * @param  charIndex index within the text
-         * @return index into the set of hyperlinks for this hypertext doc.
+         * @pbrbm  dibrIndfx indfx witiin tif tfxt
+         * @rfturn indfx into tif sft of iypfrlinks for tiis iypfrtfxt dod.
          */
-        public int getLinkIndex(int charIndex) {
-            if (linksValid == false) {
-                buildLinkTable();
+        publid int gftLinkIndfx(int dibrIndfx) {
+            if (linksVblid == fblsf) {
+                buildLinkTbblf();
             }
-            Element e = null;
-            Document doc = JEditorPane.this.getDocument();
-            if (doc != null) {
-                for (e = doc.getDefaultRootElement(); ! e.isLeaf(); ) {
-                    int index = e.getElementIndex(charIndex);
-                    e = e.getElement(index);
+            Elfmfnt f = null;
+            Dodumfnt dod = JEditorPbnf.tiis.gftDodumfnt();
+            if (dod != null) {
+                for (f = dod.gftDffbultRootElfmfnt(); ! f.isLfbf(); ) {
+                    int indfx = f.gftElfmfntIndfx(dibrIndfx);
+                    f = f.gftElfmfnt(indfx);
                 }
             }
 
-            // don't need to verify that it's an HREF element; if
-            // not, then it won't be in the hyperlinks Vector, and
-            // so indexOf will return -1 in any case
-            return hyperlinks.baseElementIndex(e);
+            // don't nffd to vfrify tibt it's bn HREF flfmfnt; if
+            // not, tifn it won't bf in tif iypfrlinks Vfdtor, bnd
+            // so indfxOf will rfturn -1 in bny dbsf
+            rfturn iypfrlinks.bbsfElfmfntIndfx(f);
         }
 
         /**
-         * Returns the index into an array of hyperlinks that
-         * index.  If there is no hyperlink at this index, it returns
+         * Rfturns tif indfx into bn brrby of iypfrlinks tibt
+         * indfx.  If tifrf is no iypfrlink bt tiis indfx, it rfturns
          * null.
          *
-         * @param linkIndex into the set of hyperlinks for this hypertext doc.
-         * @return string representation of the hyperlink
+         * @pbrbm linkIndfx into tif sft of iypfrlinks for tiis iypfrtfxt dod.
+         * @rfturn string rfprfsfntbtion of tif iypfrlink
          */
-        public AccessibleHyperlink getLink(int linkIndex) {
-            if (linksValid == false) {
-                buildLinkTable();
+        publid AddfssiblfHypfrlink gftLink(int linkIndfx) {
+            if (linksVblid == fblsf) {
+                buildLinkTbblf();
             }
-            if (linkIndex >= 0 && linkIndex < hyperlinks.size()) {
-                return hyperlinks.elementAt(linkIndex);
-            } else {
-                return null;
+            if (linkIndfx >= 0 && linkIndfx < iypfrlinks.sizf()) {
+                rfturn iypfrlinks.flfmfntAt(linkIndfx);
+            } flsf {
+                rfturn null;
             }
         }
 
         /**
-         * Returns the contiguous text within the document that
-         * is associated with this hyperlink.
+         * Rfturns tif dontiguous tfxt witiin tif dodumfnt tibt
+         * is bssodibtfd witi tiis iypfrlink.
          *
-         * @param linkIndex into the set of hyperlinks for this hypertext doc.
-         * @return the contiguous text sharing the link at this index
+         * @pbrbm linkIndfx into tif sft of iypfrlinks for tiis iypfrtfxt dod.
+         * @rfturn tif dontiguous tfxt sibring tif link bt tiis indfx
          */
-        public String getLinkText(int linkIndex) {
-            if (linksValid == false) {
-                buildLinkTable();
+        publid String gftLinkTfxt(int linkIndfx) {
+            if (linksVblid == fblsf) {
+                buildLinkTbblf();
             }
-            Element e = (Element) hyperlinks.elementAt(linkIndex);
-            if (e != null) {
-                Document d = JEditorPane.this.getDocument();
+            Elfmfnt f = (Elfmfnt) iypfrlinks.flfmfntAt(linkIndfx);
+            if (f != null) {
+                Dodumfnt d = JEditorPbnf.tiis.gftDodumfnt();
                 if (d != null) {
                     try {
-                        return d.getText(e.getStartOffset(),
-                                         e.getEndOffset() - e.getStartOffset());
-                    } catch (BadLocationException exception) {
-                        return null;
+                        rfturn d.gftTfxt(f.gftStbrtOffsft(),
+                                         f.gftEndOffsft() - f.gftStbrtOffsft());
+                    } dbtdi (BbdLodbtionExdfption fxdfption) {
+                        rfturn null;
                     }
                 }
             }
-            return null;
+            rfturn null;
         }
     }
 
-    static class PlainEditorKit extends DefaultEditorKit implements ViewFactory {
+    stbtid dlbss PlbinEditorKit fxtfnds DffbultEditorKit implfmfnts VifwFbdtory {
 
         /**
-         * Fetches a factory that is suitable for producing
-         * views of any models that are produced by this
-         * kit.  The default is to have the UI produce the
-         * factory, so this method has no implementation.
+         * Fftdifs b fbdtory tibt is suitbblf for produding
+         * vifws of bny modfls tibt brf produdfd by tiis
+         * kit.  Tif dffbult is to ibvf tif UI produdf tif
+         * fbdtory, so tiis mftiod ibs no implfmfntbtion.
          *
-         * @return the view factory
+         * @rfturn tif vifw fbdtory
          */
-        public ViewFactory getViewFactory() {
-            return this;
+        publid VifwFbdtory gftVifwFbdtory() {
+            rfturn tiis;
         }
 
         /**
-         * Creates a view from the given structural element of a
-         * document.
+         * Crfbtfs b vifw from tif givfn strudturbl flfmfnt of b
+         * dodumfnt.
          *
-         * @param elem  the piece of the document to build a view of
-         * @return the view
-         * @see View
+         * @pbrbm flfm  tif pifdf of tif dodumfnt to build b vifw of
+         * @rfturn tif vifw
+         * @sff Vifw
          */
-        public View create(Element elem) {
-            Document doc = elem.getDocument();
-            Object i18nFlag
-                = doc.getProperty("i18n"/*AbstractDocument.I18NProperty*/);
-            if ((i18nFlag != null) && i18nFlag.equals(Boolean.TRUE)) {
-                // build a view that support bidi
-                return createI18N(elem);
-            } else {
-                return new WrappedPlainView(elem);
+        publid Vifw drfbtf(Elfmfnt flfm) {
+            Dodumfnt dod = flfm.gftDodumfnt();
+            Objfdt i18nFlbg
+                = dod.gftPropfrty("i18n"/*AbstrbdtDodumfnt.I18NPropfrty*/);
+            if ((i18nFlbg != null) && i18nFlbg.fqubls(Boolfbn.TRUE)) {
+                // build b vifw tibt support bidi
+                rfturn drfbtfI18N(flfm);
+            } flsf {
+                rfturn nfw WrbppfdPlbinVifw(flfm);
             }
         }
 
-        View createI18N(Element elem) {
-            String kind = elem.getName();
+        Vifw drfbtfI18N(Elfmfnt flfm) {
+            String kind = flfm.gftNbmf();
             if (kind != null) {
-                if (kind.equals(AbstractDocument.ContentElementName)) {
-                    return new PlainParagraph(elem);
-                } else if (kind.equals(AbstractDocument.ParagraphElementName)){
-                    return new BoxView(elem, View.Y_AXIS);
+                if (kind.fqubls(AbstrbdtDodumfnt.ContfntElfmfntNbmf)) {
+                    rfturn nfw PlbinPbrbgrbpi(flfm);
+                } flsf if (kind.fqubls(AbstrbdtDodumfnt.PbrbgrbpiElfmfntNbmf)){
+                    rfturn nfw BoxVifw(flfm, Vifw.Y_AXIS);
                 }
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Paragraph for representing plain-text lines that support
-         * bidirectional text.
+         * Pbrbgrbpi for rfprfsfnting plbin-tfxt linfs tibt support
+         * bidirfdtionbl tfxt.
          */
-        static class PlainParagraph extends javax.swing.text.ParagraphView {
+        stbtid dlbss PlbinPbrbgrbpi fxtfnds jbvbx.swing.tfxt.PbrbgrbpiVifw {
 
-            PlainParagraph(Element elem) {
-                super(elem);
-                layoutPool = new LogicalView(elem);
-                layoutPool.setParent(this);
+            PlbinPbrbgrbpi(Elfmfnt flfm) {
+                supfr(flfm);
+                lbyoutPool = nfw LogidblVifw(flfm);
+                lbyoutPool.sftPbrfnt(tiis);
             }
 
-            protected void setPropertiesFromAttributes() {
-                Component c = getContainer();
-                if ((c != null)
-                    && (! c.getComponentOrientation().isLeftToRight()))
+            protfdtfd void sftPropfrtifsFromAttributfs() {
+                Componfnt d = gftContbinfr();
+                if ((d != null)
+                    && (! d.gftComponfntOrifntbtion().isLfftToRigit()))
                 {
-                    setJustification(StyleConstants.ALIGN_RIGHT);
-                } else {
-                    setJustification(StyleConstants.ALIGN_LEFT);
+                    sftJustifidbtion(StylfConstbnts.ALIGN_RIGHT);
+                } flsf {
+                    sftJustifidbtion(StylfConstbnts.ALIGN_LEFT);
                 }
             }
 
             /**
-             * Fetch the constraining span to flow against for
-             * the given child index.
+             * Fftdi tif donstrbining spbn to flow bgbinst for
+             * tif givfn diild indfx.
              */
-            public int getFlowSpan(int index) {
-                Component c = getContainer();
-                if (c instanceof JTextArea) {
-                    JTextArea area = (JTextArea) c;
-                    if (! area.getLineWrap()) {
-                        // no limit if unwrapped
-                        return Integer.MAX_VALUE;
+            publid int gftFlowSpbn(int indfx) {
+                Componfnt d = gftContbinfr();
+                if (d instbndfof JTfxtArfb) {
+                    JTfxtArfb brfb = (JTfxtArfb) d;
+                    if (! brfb.gftLinfWrbp()) {
+                        // no limit if unwrbppfd
+                        rfturn Intfgfr.MAX_VALUE;
                     }
                 }
-                return super.getFlowSpan(index);
+                rfturn supfr.gftFlowSpbn(indfx);
             }
 
-            protected SizeRequirements calculateMinorAxisRequirements(int axis,
-                                                            SizeRequirements r)
+            protfdtfd SizfRfquirfmfnts dbldulbtfMinorAxisRfquirfmfnts(int bxis,
+                                                            SizfRfquirfmfnts r)
             {
-                SizeRequirements req
-                    = super.calculateMinorAxisRequirements(axis, r);
-                Component c = getContainer();
-                if (c instanceof JTextArea) {
-                    JTextArea area = (JTextArea) c;
-                    if (! area.getLineWrap()) {
-                        // min is pref if unwrapped
-                        req.minimum = req.preferred;
+                SizfRfquirfmfnts rfq
+                    = supfr.dbldulbtfMinorAxisRfquirfmfnts(bxis, r);
+                Componfnt d = gftContbinfr();
+                if (d instbndfof JTfxtArfb) {
+                    JTfxtArfb brfb = (JTfxtArfb) d;
+                    if (! brfb.gftLinfWrbp()) {
+                        // min is prff if unwrbppfd
+                        rfq.minimum = rfq.prfffrrfd;
                     }
                 }
-                return req;
+                rfturn rfq;
             }
 
             /**
-             * This class can be used to represent a logical view for
-             * a flow.  It keeps the children updated to reflect the state
-             * of the model, gives the logical child views access to the
-             * view hierarchy, and calculates a preferred span.  It doesn't
-             * do any rendering, layout, or model/view translation.
+             * Tiis dlbss dbn bf usfd to rfprfsfnt b logidbl vifw for
+             * b flow.  It kffps tif diildrfn updbtfd to rfflfdt tif stbtf
+             * of tif modfl, givfs tif logidbl diild vifws bddfss to tif
+             * vifw iifrbrdiy, bnd dbldulbtfs b prfffrrfd spbn.  It dofsn't
+             * do bny rfndfring, lbyout, or modfl/vifw trbnslbtion.
              */
-            static class LogicalView extends CompositeView {
+            stbtid dlbss LogidblVifw fxtfnds CompositfVifw {
 
-                LogicalView(Element elem) {
-                    super(elem);
+                LogidblVifw(Elfmfnt flfm) {
+                    supfr(flfm);
                 }
 
-                protected int getViewIndexAtPosition(int pos) {
-                    Element elem = getElement();
-                    if (elem.getElementCount() > 0) {
-                        return elem.getElementIndex(pos);
+                protfdtfd int gftVifwIndfxAtPosition(int pos) {
+                    Elfmfnt flfm = gftElfmfnt();
+                    if (flfm.gftElfmfntCount() > 0) {
+                        rfturn flfm.gftElfmfntIndfx(pos);
                     }
-                    return 0;
+                    rfturn 0;
                 }
 
-                protected boolean
-                updateChildren(DocumentEvent.ElementChange ec,
-                               DocumentEvent e, ViewFactory f)
+                protfdtfd boolfbn
+                updbtfCiildrfn(DodumfntEvfnt.ElfmfntCibngf fd,
+                               DodumfntEvfnt f, VifwFbdtory f)
                 {
-                    return false;
+                    rfturn fblsf;
                 }
 
-                protected void loadChildren(ViewFactory f) {
-                    Element elem = getElement();
-                    if (elem.getElementCount() > 0) {
-                        super.loadChildren(f);
-                    } else {
-                        View v = new GlyphView(elem);
-                        append(v);
+                protfdtfd void lobdCiildrfn(VifwFbdtory f) {
+                    Elfmfnt flfm = gftElfmfnt();
+                    if (flfm.gftElfmfntCount() > 0) {
+                        supfr.lobdCiildrfn(f);
+                    } flsf {
+                        Vifw v = nfw GlypiVifw(flfm);
+                        bppfnd(v);
                     }
                 }
 
-                public float getPreferredSpan(int axis) {
-                    if( getViewCount() != 1 )
-                        throw new Error("One child view is assumed.");
+                publid flobt gftPrfffrrfdSpbn(int bxis) {
+                    if( gftVifwCount() != 1 )
+                        tirow nfw Error("Onf diild vifw is bssumfd.");
 
-                    View v = getView(0);
-                    //((GlyphView)v).setGlyphPainter(null);
-                    return v.getPreferredSpan(axis);
+                    Vifw v = gftVifw(0);
+                    //((GlypiVifw)v).sftGlypiPbintfr(null);
+                    rfturn v.gftPrfffrrfdSpbn(bxis);
                 }
 
                 /**
-                 * Forward the DocumentEvent to the given child view.  This
-                 * is implemented to reparent the child to the logical view
-                 * (the children may have been parented by a row in the flow
-                 * if they fit without breaking) and then execute the
-                 * superclass behavior.
+                 * Forwbrd tif DodumfntEvfnt to tif givfn diild vifw.  Tiis
+                 * is implfmfntfd to rfpbrfnt tif diild to tif logidbl vifw
+                 * (tif diildrfn mby ibvf bffn pbrfntfd by b row in tif flow
+                 * if tify fit witiout brfbking) bnd tifn fxfdutf tif
+                 * supfrdlbss bfibvior.
                  *
-                 * @param v the child view to forward the event to.
-                 * @param e the change information from the associated document
-                 * @param a the current allocation of the view
-                 * @param f the factory to use to rebuild if the view has
-                 *          children
-                 * @see #forwardUpdate
-                 * @since 1.3
+                 * @pbrbm v tif diild vifw to forwbrd tif fvfnt to.
+                 * @pbrbm f tif dibngf informbtion from tif bssodibtfd dodumfnt
+                 * @pbrbm b tif durrfnt bllodbtion of tif vifw
+                 * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs
+                 *          diildrfn
+                 * @sff #forwbrdUpdbtf
+                 * @sindf 1.3
                  */
-                protected void forwardUpdateToView(View v, DocumentEvent e,
-                                                   Shape a, ViewFactory f) {
-                    v.setParent(this);
-                    super.forwardUpdateToView(v, e, a, f);
+                protfdtfd void forwbrdUpdbtfToVifw(Vifw v, DodumfntEvfnt f,
+                                                   Sibpf b, VifwFbdtory f) {
+                    v.sftPbrfnt(tiis);
+                    supfr.forwbrdUpdbtfToVifw(v, f, b, f);
                 }
 
-                // The following methods don't do anything useful, they
-                // simply keep the class from being abstract.
+                // Tif following mftiods don't do bnytiing usfful, tify
+                // simply kffp tif dlbss from bfing bbstrbdt.
 
-                public void paint(Graphics g, Shape allocation) {
+                publid void pbint(Grbpiids g, Sibpf bllodbtion) {
                 }
 
-                protected boolean isBefore(int x, int y, Rectangle alloc) {
-                    return false;
+                protfdtfd boolfbn isBfforf(int x, int y, Rfdtbnglf bllod) {
+                    rfturn fblsf;
                 }
 
-                protected boolean isAfter(int x, int y, Rectangle alloc) {
-                    return false;
+                protfdtfd boolfbn isAftfr(int x, int y, Rfdtbnglf bllod) {
+                    rfturn fblsf;
                 }
 
-                protected View getViewAtPoint(int x, int y, Rectangle alloc) {
-                    return null;
+                protfdtfd Vifw gftVifwAtPoint(int x, int y, Rfdtbnglf bllod) {
+                    rfturn null;
                 }
 
-                protected void childAllocation(int index, Rectangle a) {
+                protfdtfd void diildAllodbtion(int indfx, Rfdtbnglf b) {
                 }
             }
         }
     }
 
-/* This is useful for the nightmare of parsing multi-part HTTP/RFC822 headers
- * sensibly:
- * From a String like: 'timeout=15, max=5'
- * create an array of Strings:
- * { {"timeout", "15"},
- *   {"max", "5"}
+/* Tiis is usfful for tif nigitmbrf of pbrsing multi-pbrt HTTP/RFC822 ifbdfrs
+ * sfnsibly:
+ * From b String likf: 'timfout=15, mbx=5'
+ * drfbtf bn brrby of Strings:
+ * { {"timfout", "15"},
+ *   {"mbx", "5"}
  * }
- * From one like: 'Basic Realm="FuzzFace" Foo="Biz Bar Baz"'
- * create one like (no quotes in literal):
- * { {"basic", null},
- *   {"realm", "FuzzFace"}
- *   {"foo", "Biz Bar Baz"}
+ * From onf likf: 'Bbsid Rfblm="FuzzFbdf" Foo="Biz Bbr Bbz"'
+ * drfbtf onf likf (no quotfs in litfrbl):
+ * { {"bbsid", null},
+ *   {"rfblm", "FuzzFbdf"}
+ *   {"foo", "Biz Bbr Bbz"}
  * }
- * keys are converted to lower case, vals are left as is....
+ * kfys brf donvfrtfd to lowfr dbsf, vbls brf lfft bs is....
  *
- * author Dave Brown
+ * butior Dbvf Brown
  */
 
 
-static class HeaderParser {
+stbtid dlbss HfbdfrPbrsfr {
 
-    /* table of key/val pairs - maxes out at 10!!!!*/
-    String raw;
-    String[][] tab;
+    /* tbblf of kfy/vbl pbirs - mbxfs out bt 10!!!!*/
+    String rbw;
+    String[][] tbb;
 
-    public HeaderParser(String raw) {
-        this.raw = raw;
-        tab = new String[10][2];
-        parse();
+    publid HfbdfrPbrsfr(String rbw) {
+        tiis.rbw = rbw;
+        tbb = nfw String[10][2];
+        pbrsf();
     }
 
-    private void parse() {
+    privbtf void pbrsf() {
 
-        if (raw != null) {
-            raw = raw.trim();
-            char[] ca = raw.toCharArray();
-            int beg = 0, end = 0, i = 0;
-            boolean inKey = true;
-            boolean inQuote = false;
-            int len = ca.length;
-            while (end < len) {
-                char c = ca[end];
-                if (c == '=') { // end of a key
-                    tab[i][0] = new String(ca, beg, end-beg).toLowerCase();
-                    inKey = false;
-                    end++;
-                    beg = end;
-                } else if (c == '\"') {
-                    if (inQuote) {
-                        tab[i++][1]= new String(ca, beg, end-beg);
-                        inQuote=false;
+        if (rbw != null) {
+            rbw = rbw.trim();
+            dibr[] db = rbw.toCibrArrby();
+            int bfg = 0, fnd = 0, i = 0;
+            boolfbn inKfy = truf;
+            boolfbn inQuotf = fblsf;
+            int lfn = db.lfngti;
+            wiilf (fnd < lfn) {
+                dibr d = db[fnd];
+                if (d == '=') { // fnd of b kfy
+                    tbb[i][0] = nfw String(db, bfg, fnd-bfg).toLowfrCbsf();
+                    inKfy = fblsf;
+                    fnd++;
+                    bfg = fnd;
+                } flsf if (d == '\"') {
+                    if (inQuotf) {
+                        tbb[i++][1]= nfw String(db, bfg, fnd-bfg);
+                        inQuotf=fblsf;
                         do {
-                            end++;
-                        } while (end < len && (ca[end] == ' ' || ca[end] == ','));
-                        inKey=true;
-                        beg=end;
-                    } else {
-                        inQuote=true;
-                        end++;
-                        beg=end;
+                            fnd++;
+                        } wiilf (fnd < lfn && (db[fnd] == ' ' || db[fnd] == ','));
+                        inKfy=truf;
+                        bfg=fnd;
+                    } flsf {
+                        inQuotf=truf;
+                        fnd++;
+                        bfg=fnd;
                     }
-                } else if (c == ' ' || c == ',') { // end key/val, of whatever we're in
-                    if (inQuote) {
-                        end++;
-                        continue;
-                    } else if (inKey) {
-                        tab[i++][0] = (new String(ca, beg, end-beg)).toLowerCase();
-                    } else {
-                        tab[i++][1] = (new String(ca, beg, end-beg));
+                } flsf if (d == ' ' || d == ',') { // fnd kfy/vbl, of wibtfvfr wf'rf in
+                    if (inQuotf) {
+                        fnd++;
+                        dontinuf;
+                    } flsf if (inKfy) {
+                        tbb[i++][0] = (nfw String(db, bfg, fnd-bfg)).toLowfrCbsf();
+                    } flsf {
+                        tbb[i++][1] = (nfw String(db, bfg, fnd-bfg));
                     }
-                    while (end < len && (ca[end] == ' ' || ca[end] == ',')) {
-                        end++;
+                    wiilf (fnd < lfn && (db[fnd] == ' ' || db[fnd] == ',')) {
+                        fnd++;
                     }
-                    inKey = true;
-                    beg = end;
-                } else {
-                    end++;
+                    inKfy = truf;
+                    bfg = fnd;
+                } flsf {
+                    fnd++;
                 }
             }
-            // get last key/val, if any
-            if (--end > beg) {
-                if (!inKey) {
-                    if (ca[end] == '\"') {
-                        tab[i++][1] = (new String(ca, beg, end-beg));
-                    } else {
-                        tab[i++][1] = (new String(ca, beg, end-beg+1));
+            // gft lbst kfy/vbl, if bny
+            if (--fnd > bfg) {
+                if (!inKfy) {
+                    if (db[fnd] == '\"') {
+                        tbb[i++][1] = (nfw String(db, bfg, fnd-bfg));
+                    } flsf {
+                        tbb[i++][1] = (nfw String(db, bfg, fnd-bfg+1));
                     }
-                } else {
-                    tab[i][0] = (new String(ca, beg, end-beg+1)).toLowerCase();
+                } flsf {
+                    tbb[i][0] = (nfw String(db, bfg, fnd-bfg+1)).toLowfrCbsf();
                 }
-            } else if (end == beg) {
-                if (!inKey) {
-                    if (ca[end] == '\"') {
-                        tab[i++][1] = String.valueOf(ca[end-1]);
-                    } else {
-                        tab[i++][1] = String.valueOf(ca[end]);
+            } flsf if (fnd == bfg) {
+                if (!inKfy) {
+                    if (db[fnd] == '\"') {
+                        tbb[i++][1] = String.vblufOf(db[fnd-1]);
+                    } flsf {
+                        tbb[i++][1] = String.vblufOf(db[fnd]);
                     }
-                } else {
-                    tab[i][0] = String.valueOf(ca[end]).toLowerCase();
+                } flsf {
+                    tbb[i][0] = String.vblufOf(db[fnd]).toLowfrCbsf();
                 }
             }
         }
 
     }
 
-    public String findKey(int i) {
+    publid String findKfy(int i) {
         if (i < 0 || i > 10)
-            return null;
-        return tab[i][0];
+            rfturn null;
+        rfturn tbb[i][0];
     }
 
-    public String findValue(int i) {
+    publid String findVbluf(int i) {
         if (i < 0 || i > 10)
-            return null;
-        return tab[i][1];
+            rfturn null;
+        rfturn tbb[i][1];
     }
 
-    public String findValue(String key) {
-        return findValue(key, null);
+    publid String findVbluf(String kfy) {
+        rfturn findVbluf(kfy, null);
     }
 
-    public String findValue(String k, String Default) {
+    publid String findVbluf(String k, String Dffbult) {
         if (k == null)
-            return Default;
-        k = k.toLowerCase();
+            rfturn Dffbult;
+        k = k.toLowfrCbsf();
         for (int i = 0; i < 10; ++i) {
-            if (tab[i][0] == null) {
-                return Default;
-            } else if (k.equals(tab[i][0])) {
-                return tab[i][1];
+            if (tbb[i][0] == null) {
+                rfturn Dffbult;
+            } flsf if (k.fqubls(tbb[i][0])) {
+                rfturn tbb[i][1];
             }
         }
-        return Default;
+        rfturn Dffbult;
     }
 
-    public int findInt(String k, int Default) {
+    publid int findInt(String k, int Dffbult) {
         try {
-            return Integer.parseInt(findValue(k, String.valueOf(Default)));
-        } catch (Throwable t) {
-            return Default;
+            rfturn Intfgfr.pbrsfInt(findVbluf(k, String.vblufOf(Dffbult)));
+        } dbtdi (Tirowbblf t) {
+            rfturn Dffbult;
         }
     }
  }

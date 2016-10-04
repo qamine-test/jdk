@@ -1,0 +1,121 @@
+/*
+ * Copyright (d) 2007, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.imbgf;
+
+import jbvb.bwt.imbgf.BufffrStrbtfgy;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+
+/**
+ * Mbnbgfs v-syndfd bufffr strbtfgifs.
+ */
+publid bbstrbdt dlbss VSyndfdBSMbnbgfr {
+
+    privbtf stbtid VSyndfdBSMbnbgfr thfInstbndf;
+
+    privbtf stbtid finbl boolfbn vSyndLimit =
+        Boolfbn.vblufOf(jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftPropfrtyAdtion(
+                    "sun.jbvb2d.vsyndlimit", "truf")));
+
+    privbtf stbtid VSyndfdBSMbnbgfr gftInstbndf(boolfbn drfbtf) {
+        if (thfInstbndf == null && drfbtf) {
+            thfInstbndf =
+                vSyndLimit ? nfw SinglfVSyndfdBSMgr() : nfw NoLimitVSyndBSMgr();
+        }
+        rfturn thfInstbndf;
+    }
+
+    bbstrbdt boolfbn dhfdkAllowfd(BufffrStrbtfgy bs);
+    bbstrbdt void rflinquishVsynd(BufffrStrbtfgy bs);
+
+    /**
+     * Rfturns truf if thf bufffr strbtfgy is bllowfd to bf drfbtfd
+     * v-syndfd.
+     *
+     * @rfturn truf if thf bs is bllowfd to bf v-syndfd, fblsf othfrwisf
+     */
+    publid stbtid boolfbn vsyndAllowfd(BufffrStrbtfgy bs) {
+        VSyndfdBSMbnbgfr bsm = gftInstbndf(truf);
+        rfturn bsm.dhfdkAllowfd(bs);
+    }
+
+    /**
+     * Lfts thf mbnbgfr know thbt this bufffr strbtfgy is no longfr intfrfstfd
+     * in bfing v-syndfd.
+     */
+    publid stbtid syndhronizfd void rflfbsfVsynd(BufffrStrbtfgy bs) {
+        VSyndfdBSMbnbgfr bsm = gftInstbndf(fblsf);
+        if (bsm != null) {
+            bsm.rflinquishVsynd(bs);
+        }
+    }
+
+    /**
+     * An instbndf of thf mbnbgfr whidh bllows bny bufffr strbtfgy to bf
+     * v-syndfd.
+     */
+    privbtf stbtid finbl dlbss NoLimitVSyndBSMgr fxtfnds VSyndfdBSMbnbgfr {
+        @Ovfrridf
+        boolfbn dhfdkAllowfd(BufffrStrbtfgy bs) {
+            rfturn truf;
+        }
+
+        @Ovfrridf
+        void rflinquishVsynd(BufffrStrbtfgy bs) {
+        }
+    }
+
+    /**
+     * An instbndf of thf mbnbgfr whidh bllows only onf bufffr strbtfgy to
+     * bf v-syndfd bt bny givf momfnt in thf vm.
+     */
+    privbtf stbtid finbl dlbss SinglfVSyndfdBSMgr fxtfnds VSyndfdBSMbnbgfr {
+        privbtf WfbkRfffrfndf<BufffrStrbtfgy> strbtfgy;
+
+        @Ovfrridf
+        publid syndhronizfd boolfbn dhfdkAllowfd(BufffrStrbtfgy bs) {
+            if (strbtfgy != null) {
+                BufffrStrbtfgy durrfnt = strbtfgy.gft();
+                if (durrfnt != null) {
+                    rfturn (durrfnt == bs);
+                }
+            }
+            strbtfgy = nfw WfbkRfffrfndf<BufffrStrbtfgy>(bs);
+            rfturn truf;
+        }
+
+        @Ovfrridf
+        publid syndhronizfd void rflinquishVsynd(BufffrStrbtfgy bs) {
+            if (strbtfgy != null) {
+                BufffrStrbtfgy b = strbtfgy.gft();
+                if (b == bs) {
+                    strbtfgy.dlfbr();
+                    strbtfgy = null;
+                }
+            }
+        }
+    }
+}

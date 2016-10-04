@@ -1,238 +1,238 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.nio.*;
+import jbvb.nio.*;
 
 /*
- * A multi-purpose class which handles all of the SSLEngine arguments.
- * It validates arguments, checks for RO conditions, does space
- * calculations, performs scatter/gather, etc.
+ * A multi-purposf dlbss wiidi ibndlfs bll of tif SSLEnginf brgumfnts.
+ * It vblidbtfs brgumfnts, difdks for RO donditions, dofs spbdf
+ * dbldulbtions, pfrforms sdbttfr/gbtifr, ftd.
  *
- * @author Brad R. Wetmore
+ * @butior Brbd R. Wftmorf
  */
-class EngineArgs {
+dlbss EnginfArgs {
 
     /*
-     * Keep track of the input parameters.
+     * Kffp trbdk of tif input pbrbmftfrs.
      */
-    ByteBuffer netData;
-    ByteBuffer [] appData;
+    BytfBufffr nftDbtb;
+    BytfBufffr [] bppDbtb;
 
-    private int offset;         // offset/len for the appData array.
-    private int len;
+    privbtf int offsft;         // offsft/lfn for tif bppDbtb brrby.
+    privbtf int lfn;
 
     /*
-     * The initial pos/limit conditions.  This is useful because we can
-     * quickly calculate the amount consumed/produced in successful
-     * operations, or easily return the buffers to their pre-error
-     * conditions.
+     * Tif initibl pos/limit donditions.  Tiis is usfful bfdbusf wf dbn
+     * quidkly dbldulbtf tif bmount donsumfd/produdfd in suddfssful
+     * opfrbtions, or fbsily rfturn tif bufffrs to tifir prf-frror
+     * donditions.
      */
-    private int netPos;
-    private int netLim;
+    privbtf int nftPos;
+    privbtf int nftLim;
 
-    private int [] appPoss;
-    private int [] appLims;
+    privbtf int [] bppPoss;
+    privbtf int [] bppLims;
 
     /*
-     * Sum total of the space remaining in all of the appData buffers
+     * Sum totbl of tif spbdf rfmbining in bll of tif bppDbtb bufffrs
      */
-    private int appRemaining = 0;
+    privbtf int bppRfmbining = 0;
 
-    private boolean wrapMethod;
+    privbtf boolfbn wrbpMftiod;
 
     /*
-     * Called by the SSLEngine.wrap() method.
+     * Cbllfd by tif SSLEnginf.wrbp() mftiod.
      */
-    EngineArgs(ByteBuffer [] appData, int offset, int len,
-            ByteBuffer netData) {
-        this.wrapMethod = true;
-        init(netData, appData, offset, len);
+    EnginfArgs(BytfBufffr [] bppDbtb, int offsft, int lfn,
+            BytfBufffr nftDbtb) {
+        tiis.wrbpMftiod = truf;
+        init(nftDbtb, bppDbtb, offsft, lfn);
     }
 
     /*
-     * Called by the SSLEngine.unwrap() method.
+     * Cbllfd by tif SSLEnginf.unwrbp() mftiod.
      */
-    EngineArgs(ByteBuffer netData, ByteBuffer [] appData, int offset,
-            int len) {
-        this.wrapMethod = false;
-        init(netData, appData, offset, len);
+    EnginfArgs(BytfBufffr nftDbtb, BytfBufffr [] bppDbtb, int offsft,
+            int lfn) {
+        tiis.wrbpMftiod = fblsf;
+        init(nftDbtb, bppDbtb, offsft, lfn);
     }
 
     /*
-     * The main initialization method for the arguments.  Most
-     * of them are pretty obvious as to what they do.
+     * Tif mbin initiblizbtion mftiod for tif brgumfnts.  Most
+     * of tifm brf prftty obvious bs to wibt tify do.
      *
-     * Since we're already iterating over appData array for validity
-     * checking, we also keep track of how much remainging space is
-     * available.  Info is used in both unwrap (to see if there is
-     * enough space available in the destination), and in wrap (to
-     * determine how much more we can copy into the outgoing data
-     * buffer.
+     * Sindf wf'rf blrfbdy itfrbting ovfr bppDbtb brrby for vblidity
+     * difdking, wf blso kffp trbdk of iow mudi rfmbinging spbdf is
+     * bvbilbblf.  Info is usfd in boti unwrbp (to sff if tifrf is
+     * fnougi spbdf bvbilbblf in tif dfstinbtion), bnd in wrbp (to
+     * dftfrminf iow mudi morf wf dbn dopy into tif outgoing dbtb
+     * bufffr.
      */
-    private void init(ByteBuffer netData, ByteBuffer [] appData,
-            int offset, int len) {
+    privbtf void init(BytfBufffr nftDbtb, BytfBufffr [] bppDbtb,
+            int offsft, int lfn) {
 
-        if ((netData == null) || (appData == null)) {
-            throw new IllegalArgumentException("src/dst is null");
+        if ((nftDbtb == null) || (bppDbtb == null)) {
+            tirow nfw IllfgblArgumfntExdfption("srd/dst is null");
         }
 
-        if ((offset < 0) || (len < 0) || (offset > appData.length - len)) {
-            throw new IndexOutOfBoundsException();
+        if ((offsft < 0) || (lfn < 0) || (offsft > bppDbtb.lfngti - lfn)) {
+            tirow nfw IndfxOutOfBoundsExdfption();
         }
 
-        if (wrapMethod && netData.isReadOnly()) {
-            throw new ReadOnlyBufferException();
+        if (wrbpMftiod && nftDbtb.isRfbdOnly()) {
+            tirow nfw RfbdOnlyBufffrExdfption();
         }
 
-        netPos = netData.position();
-        netLim = netData.limit();
+        nftPos = nftDbtb.position();
+        nftLim = nftDbtb.limit();
 
-        appPoss = new int [appData.length];
-        appLims = new int [appData.length];
+        bppPoss = nfw int [bppDbtb.lfngti];
+        bppLims = nfw int [bppDbtb.lfngti];
 
-        for (int i = offset; i < offset + len; i++) {
-            if (appData[i] == null) {
-                throw new IllegalArgumentException(
-                    "appData[" + i + "] == null");
+        for (int i = offsft; i < offsft + lfn; i++) {
+            if (bppDbtb[i] == null) {
+                tirow nfw IllfgblArgumfntExdfption(
+                    "bppDbtb[" + i + "] == null");
             }
 
             /*
-             * If we're unwrapping, then check to make sure our
-             * destination bufffers are writable.
+             * If wf'rf unwrbpping, tifn difdk to mbkf surf our
+             * dfstinbtion buffffrs brf writbblf.
              */
-            if (!wrapMethod && appData[i].isReadOnly()) {
-                throw new ReadOnlyBufferException();
+            if (!wrbpMftiod && bppDbtb[i].isRfbdOnly()) {
+                tirow nfw RfbdOnlyBufffrExdfption();
             }
 
-            appRemaining += appData[i].remaining();
+            bppRfmbining += bppDbtb[i].rfmbining();
 
-            appPoss[i] = appData[i].position();
-            appLims[i] = appData[i].limit();
+            bppPoss[i] = bppDbtb[i].position();
+            bppLims[i] = bppDbtb[i].limit();
         }
 
         /*
-         * Ok, looks like we have a good set of args, let's
-         * store the rest of this stuff.
+         * Ok, looks likf wf ibvf b good sft of brgs, lft's
+         * storf tif rfst of tiis stuff.
          */
-        this.netData = netData;
-        this.appData = appData;
-        this.offset = offset;
-        this.len = len;
+        tiis.nftDbtb = nftDbtb;
+        tiis.bppDbtb = bppDbtb;
+        tiis.offsft = offsft;
+        tiis.lfn = lfn;
     }
 
     /*
-     * Given spaceLeft bytes to transfer, gather up that much data
-     * from the appData buffers (starting at offset in the array),
-     * and transfer it into the netData buffer.
+     * Givfn spbdfLfft bytfs to trbnsffr, gbtifr up tibt mudi dbtb
+     * from tif bppDbtb bufffrs (stbrting bt offsft in tif brrby),
+     * bnd trbnsffr it into tif nftDbtb bufffr.
      *
-     * The user has already ensured there is enough room.
+     * Tif usfr ibs blrfbdy fnsurfd tifrf is fnougi room.
      */
-    void gather(int spaceLeft) {
-        for (int i = offset; (i < (offset + len)) && (spaceLeft > 0); i++) {
-            int amount = Math.min(appData[i].remaining(), spaceLeft);
-            appData[i].limit(appData[i].position() + amount);
-            netData.put(appData[i]);
-            appRemaining -= amount;
-            spaceLeft -= amount;
+    void gbtifr(int spbdfLfft) {
+        for (int i = offsft; (i < (offsft + lfn)) && (spbdfLfft > 0); i++) {
+            int bmount = Mbti.min(bppDbtb[i].rfmbining(), spbdfLfft);
+            bppDbtb[i].limit(bppDbtb[i].position() + bmount);
+            nftDbtb.put(bppDbtb[i]);
+            bppRfmbining -= bmount;
+            spbdfLfft -= bmount;
         }
     }
 
     /*
-     * Using the supplied buffer, scatter the data into the appData buffers
-     * (starting at offset in the array).
+     * Using tif supplifd bufffr, sdbttfr tif dbtb into tif bppDbtb bufffrs
+     * (stbrting bt offsft in tif brrby).
      *
-     * The user has already ensured there is enough room.
+     * Tif usfr ibs blrfbdy fnsurfd tifrf is fnougi room.
      */
-    void scatter(ByteBuffer readyData) {
-        int amountLeft = readyData.remaining();
+    void sdbttfr(BytfBufffr rfbdyDbtb) {
+        int bmountLfft = rfbdyDbtb.rfmbining();
 
-        for (int i = offset; (i < (offset + len)) && (amountLeft > 0);
+        for (int i = offsft; (i < (offsft + lfn)) && (bmountLfft > 0);
                 i++) {
-            int amount = Math.min(appData[i].remaining(), amountLeft);
-            readyData.limit(readyData.position() + amount);
-            appData[i].put(readyData);
-            amountLeft -= amount;
+            int bmount = Mbti.min(bppDbtb[i].rfmbining(), bmountLfft);
+            rfbdyDbtb.limit(rfbdyDbtb.position() + bmount);
+            bppDbtb[i].put(rfbdyDbtb);
+            bmountLfft -= bmount;
         }
-        assert(readyData.remaining() == 0);
+        bssfrt(rfbdyDbtb.rfmbining() == 0);
     }
 
-    int getAppRemaining() {
-        return appRemaining;
-    }
-
-    /*
-     * Calculate the bytesConsumed/byteProduced.  Aren't you glad
-     * we saved this off earlier?
-     */
-    int deltaNet() {
-        return (netData.position() - netPos);
+    int gftAppRfmbining() {
+        rfturn bppRfmbining;
     }
 
     /*
-     * Calculate the bytesConsumed/byteProduced.  Aren't you glad
-     * we saved this off earlier?
+     * Cbldulbtf tif bytfsConsumfd/bytfProdudfd.  Arfn't you glbd
+     * wf sbvfd tiis off fbrlifr?
      */
-    int deltaApp() {
-        int sum = 0;    // Only calculating 2^14 here, don't need a long.
+    int dfltbNft() {
+        rfturn (nftDbtb.position() - nftPos);
+    }
 
-        for (int i = offset; i < offset + len; i++) {
-            sum += appData[i].position() - appPoss[i];
+    /*
+     * Cbldulbtf tif bytfsConsumfd/bytfProdudfd.  Arfn't you glbd
+     * wf sbvfd tiis off fbrlifr?
+     */
+    int dfltbApp() {
+        int sum = 0;    // Only dbldulbting 2^14 ifrf, don't nffd b long.
+
+        for (int i = offsft; i < offsft + lfn; i++) {
+            sum += bppDbtb[i].position() - bppPoss[i];
         }
 
-        return sum;
+        rfturn sum;
     }
 
     /*
-     * In the case of Exception, we want to reset the positions
-     * to appear as though no data has been consumed or produced.
+     * In tif dbsf of Exdfption, wf wbnt to rfsft tif positions
+     * to bppfbr bs tiougi no dbtb ibs bffn donsumfd or produdfd.
      *
-     * Currently, this method is only called as we are preparing to
-     * fail out, and thus we don't need to actually recalculate
-     * appRemaining.  If that assumption changes, that variable should
-     * be updated here.
+     * Currfntly, tiis mftiod is only dbllfd bs wf brf prfpbring to
+     * fbil out, bnd tius wf don't nffd to bdtublly rfdbldulbtf
+     * bppRfmbining.  If tibt bssumption dibngfs, tibt vbribblf siould
+     * bf updbtfd ifrf.
      */
-    void resetPos() {
-        netData.position(netPos);
-        for (int i = offset; i < offset + len; i++) {
-            // See comment above about recalculating appRemaining.
-            appData[i].position(appPoss[i]);
+    void rfsftPos() {
+        nftDbtb.position(nftPos);
+        for (int i = offsft; i < offsft + lfn; i++) {
+            // Sff dommfnt bbovf bbout rfdbldulbting bppRfmbining.
+            bppDbtb[i].position(bppPoss[i]);
         }
     }
 
     /*
-     * We are doing lots of ByteBuffer manipulations, in which case
-     * we need to make sure that the limits get set back correctly.
-     * This is one of the last things to get done before returning to
-     * the user.
+     * Wf brf doing lots of BytfBufffr mbnipulbtions, in wiidi dbsf
+     * wf nffd to mbkf surf tibt tif limits gft sft bbdk dorrfdtly.
+     * Tiis is onf of tif lbst tiings to gft donf bfforf rfturning to
+     * tif usfr.
      */
-    void resetLim() {
-        netData.limit(netLim);
-        for (int i = offset; i < offset + len; i++) {
-            appData[i].limit(appLims[i]);
+    void rfsftLim() {
+        nftDbtb.limit(nftLim);
+        for (int i = offsft; i < offsft + lfn; i++) {
+            bppDbtb[i].limit(bppLims[i]);
         }
     }
 }

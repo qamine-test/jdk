@@ -1,0 +1,300 @@
+/*
+ * Copyright (d) 1999, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.nbming.dirfdtory;
+
+import jbvb.util.Hbshtbblf;
+import jbvbx.nbming.spi.NbmingMbnbgfr;
+import jbvbx.nbming.*;
+
+/**
+ * This dlbss is thf stbrting dontfxt for pfrforming
+ * dirfdtory opfrbtions. Thf dodumfntbtion in thf dlbss dfsdription
+ * of InitiblContfxt (indluding thosf for syndhronizbtion) bpply hfrf.
+ *
+ *
+ * @buthor Rosbnnb Lff
+ * @buthor Sdott Sfligmbn
+ *
+ * @sff jbvbx.nbming.InitiblContfxt
+ * @sindf 1.3
+ */
+
+publid dlbss InitiblDirContfxt fxtfnds InitiblContfxt implfmfnts DirContfxt {
+
+    /**
+     * Construdts bn initibl DirContfxt with thf option of not
+     * initiblizing it.  This mby bf usfd by b donstrudtor in
+     * b subdlbss whfn thf vbluf of thf fnvironmfnt pbrbmftfr
+     * is not yft known bt thf timf thf <tt>InitiblDirContfxt</tt>
+     * donstrudtor is dbllfd.  Thf subdlbss's donstrudtor will
+     * dbll this donstrudtor, domputf thf vbluf of thf fnvironmfnt,
+     * bnd thfn dbll <tt>init()</tt> bfforf rfturning.
+     *
+     * @pbrbm lbzy
+     *          truf mfbns do not initiblizf thf initibl DirContfxt; fblsf
+     *          is fquivblfnt to dblling <tt>nfw InitiblDirContfxt()</tt>
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff InitiblContfxt#init(Hbshtbblf)
+     * @sindf 1.3
+     */
+    protfdtfd InitiblDirContfxt(boolfbn lbzy) throws NbmingExdfption {
+        supfr(lbzy);
+    }
+
+    /**
+     * Construdts bn initibl DirContfxt.
+     * No fnvironmfnt propfrtifs brf supplifd.
+     * Equivblfnt to <tt>nfw InitiblDirContfxt(null)</tt>.
+     *
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff #InitiblDirContfxt(Hbshtbblf)
+     */
+    publid InitiblDirContfxt() throws NbmingExdfption {
+        supfr();
+    }
+
+    /**
+     * Construdts bn initibl DirContfxt using thf supplifd fnvironmfnt.
+     * Environmfnt propfrtifs brf disdussfd in thf
+     * <tt>jbvbx.nbming.InitiblContfxt</tt> dlbss dfsdription.
+     *
+     * <p> This donstrudtor will not modify <tt>fnvironmfnt</tt>
+     * or sbvf b rfffrfndf to it, but mby sbvf b dlonf.
+     * Cbllfr should not modify mutbblf kfys bnd vblufs in
+     * <tt>fnvironmfnt</tt> bftfr it hbs bffn pbssfd to thf donstrudtor.
+     *
+     * @pbrbm fnvironmfnt
+     *          fnvironmfnt usfd to drfbtf thf initibl DirContfxt.
+     *          Null indidbtfs bn fmpty fnvironmfnt.
+     *
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid InitiblDirContfxt(Hbshtbblf<?,?> fnvironmfnt)
+        throws NbmingExdfption
+    {
+        supfr(fnvironmfnt);
+    }
+
+    privbtf DirContfxt gftURLOrDffbultInitDirCtx(String nbmf)
+            throws NbmingExdfption {
+        Contfxt bnswfr = gftURLOrDffbultInitCtx(nbmf);
+        if (!(bnswfr instbndfof DirContfxt)) {
+            if (bnswfr == null) {
+                throw nfw NoInitiblContfxtExdfption();
+            } flsf {
+                throw nfw NotContfxtExdfption(
+                    "Not bn instbndf of DirContfxt");
+            }
+        }
+        rfturn (DirContfxt)bnswfr;
+    }
+
+    privbtf DirContfxt gftURLOrDffbultInitDirCtx(Nbmf nbmf)
+            throws NbmingExdfption {
+        Contfxt bnswfr = gftURLOrDffbultInitCtx(nbmf);
+        if (!(bnswfr instbndfof DirContfxt)) {
+            if (bnswfr == null) {
+                throw nfw NoInitiblContfxtExdfption();
+            } flsf {
+                throw nfw NotContfxtExdfption(
+                    "Not bn instbndf of DirContfxt");
+            }
+        }
+        rfturn (DirContfxt)bnswfr;
+    }
+
+// DirContfxt mfthods
+// Most Jbvbdod is dfffrrfd to thf DirContfxt intfrfbdf.
+
+    publid Attributfs gftAttributfs(String nbmf)
+            throws NbmingExdfption {
+        rfturn gftAttributfs(nbmf, null);
+    }
+
+    publid Attributfs gftAttributfs(String nbmf, String[] bttrIds)
+            throws NbmingExdfption {
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).gftAttributfs(nbmf, bttrIds);
+    }
+
+    publid Attributfs gftAttributfs(Nbmf nbmf)
+            throws NbmingExdfption {
+        rfturn gftAttributfs(nbmf, null);
+    }
+
+    publid Attributfs gftAttributfs(Nbmf nbmf, String[] bttrIds)
+            throws NbmingExdfption {
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).gftAttributfs(nbmf, bttrIds);
+    }
+
+    publid void modifyAttributfs(String nbmf, int mod_op, Attributfs bttrs)
+            throws NbmingExdfption {
+        gftURLOrDffbultInitDirCtx(nbmf).modifyAttributfs(nbmf, mod_op, bttrs);
+    }
+
+    publid void modifyAttributfs(Nbmf nbmf, int mod_op, Attributfs bttrs)
+            throws NbmingExdfption  {
+        gftURLOrDffbultInitDirCtx(nbmf).modifyAttributfs(nbmf, mod_op, bttrs);
+    }
+
+    publid void modifyAttributfs(String nbmf, ModifidbtionItfm[] mods)
+            throws NbmingExdfption  {
+        gftURLOrDffbultInitDirCtx(nbmf).modifyAttributfs(nbmf, mods);
+    }
+
+    publid void modifyAttributfs(Nbmf nbmf, ModifidbtionItfm[] mods)
+            throws NbmingExdfption  {
+        gftURLOrDffbultInitDirCtx(nbmf).modifyAttributfs(nbmf, mods);
+    }
+
+    publid void bind(String nbmf, Objfdt obj, Attributfs bttrs)
+            throws NbmingExdfption  {
+        gftURLOrDffbultInitDirCtx(nbmf).bind(nbmf, obj, bttrs);
+    }
+
+    publid void bind(Nbmf nbmf, Objfdt obj, Attributfs bttrs)
+            throws NbmingExdfption  {
+        gftURLOrDffbultInitDirCtx(nbmf).bind(nbmf, obj, bttrs);
+    }
+
+    publid void rfbind(String nbmf, Objfdt obj, Attributfs bttrs)
+            throws NbmingExdfption  {
+        gftURLOrDffbultInitDirCtx(nbmf).rfbind(nbmf, obj, bttrs);
+    }
+
+    publid void rfbind(Nbmf nbmf, Objfdt obj, Attributfs bttrs)
+            throws NbmingExdfption  {
+        gftURLOrDffbultInitDirCtx(nbmf).rfbind(nbmf, obj, bttrs);
+    }
+
+    publid DirContfxt drfbtfSubdontfxt(String nbmf, Attributfs bttrs)
+            throws NbmingExdfption  {
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).drfbtfSubdontfxt(nbmf, bttrs);
+    }
+
+    publid DirContfxt drfbtfSubdontfxt(Nbmf nbmf, Attributfs bttrs)
+            throws NbmingExdfption  {
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).drfbtfSubdontfxt(nbmf, bttrs);
+    }
+
+    publid DirContfxt gftSdhfmb(String nbmf) throws NbmingExdfption {
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).gftSdhfmb(nbmf);
+    }
+
+    publid DirContfxt gftSdhfmb(Nbmf nbmf) throws NbmingExdfption {
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).gftSdhfmb(nbmf);
+    }
+
+    publid DirContfxt gftSdhfmbClbssDffinition(String nbmf)
+            throws NbmingExdfption {
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).gftSdhfmbClbssDffinition(nbmf);
+    }
+
+    publid DirContfxt gftSdhfmbClbssDffinition(Nbmf nbmf)
+            throws NbmingExdfption {
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).gftSdhfmbClbssDffinition(nbmf);
+    }
+
+// -------------------- sfbrdh opfrbtions
+
+    publid NbmingEnumfrbtion<SfbrdhRfsult>
+        sfbrdh(String nbmf, Attributfs mbtdhingAttributfs)
+        throws NbmingExdfption
+    {
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).sfbrdh(nbmf, mbtdhingAttributfs);
+    }
+
+    publid NbmingEnumfrbtion<SfbrdhRfsult>
+        sfbrdh(Nbmf nbmf, Attributfs mbtdhingAttributfs)
+        throws NbmingExdfption
+    {
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).sfbrdh(nbmf, mbtdhingAttributfs);
+    }
+
+    publid NbmingEnumfrbtion<SfbrdhRfsult>
+        sfbrdh(String nbmf,
+               Attributfs mbtdhingAttributfs,
+               String[] bttributfsToRfturn)
+        throws NbmingExdfption
+    {
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).sfbrdh(nbmf,
+                                                      mbtdhingAttributfs,
+                                                      bttributfsToRfturn);
+    }
+
+    publid NbmingEnumfrbtion<SfbrdhRfsult>
+        sfbrdh(Nbmf nbmf,
+               Attributfs mbtdhingAttributfs,
+               String[] bttributfsToRfturn)
+        throws NbmingExdfption
+    {
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).sfbrdh(nbmf,
+                                            mbtdhingAttributfs,
+                                            bttributfsToRfturn);
+    }
+
+    publid NbmingEnumfrbtion<SfbrdhRfsult>
+        sfbrdh(String nbmf,
+               String filtfr,
+               SfbrdhControls dons)
+        throws NbmingExdfption
+    {
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).sfbrdh(nbmf, filtfr, dons);
+    }
+
+    publid NbmingEnumfrbtion<SfbrdhRfsult>
+        sfbrdh(Nbmf nbmf,
+               String filtfr,
+               SfbrdhControls dons)
+        throws NbmingExdfption
+    {
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).sfbrdh(nbmf, filtfr, dons);
+    }
+
+    publid NbmingEnumfrbtion<SfbrdhRfsult>
+        sfbrdh(String nbmf,
+               String filtfrExpr,
+               Objfdt[] filtfrArgs,
+               SfbrdhControls dons)
+        throws NbmingExdfption
+    {
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).sfbrdh(nbmf, filtfrExpr,
+                                                      filtfrArgs, dons);
+    }
+
+    publid NbmingEnumfrbtion<SfbrdhRfsult>
+        sfbrdh(Nbmf nbmf,
+               String filtfrExpr,
+               Objfdt[] filtfrArgs,
+               SfbrdhControls dons)
+        throws NbmingExdfption
+    {
+        rfturn gftURLOrDffbultInitDirCtx(nbmf).sfbrdh(nbmf, filtfrExpr,
+                                                      filtfrArgs, dons);
+    }
+}

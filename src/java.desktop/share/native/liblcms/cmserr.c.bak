@@ -1,46 +1,46 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-// This file is available under and governed by the GNU General Public
-// License version 2 only, as published by the Free Software Foundation.
-// However, the following notice accompanied the original version of this
-// file:
+// Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+// Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+// Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+// filf:
 //
 //---------------------------------------------------------------------------------
 //
-//  Little Color Management System
-//  Copyright (c) 1998-2012 Marti Maria Saguer
+//  Littlf Color Mbnbgfmfnt Systfm
+//  Copyrigit (d) 1998-2012 Mbrti Mbrib Sbgufr
 //
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
-// the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the Software
-// is furnished to do so, subject to the following conditions:
+// Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining
+// b dopy of tiis softwbrf bnd bssodibtfd dodumfntbtion filfs (tif "Softwbrf"),
+// to dfbl in tif Softwbrf witiout rfstridtion, indluding witiout limitbtion
+// tif rigits to usf, dopy, modify, mfrgf, publisi, distributf, sublidfnsf,
+// bnd/or sfll dopifs of tif Softwbrf, bnd to pfrmit pfrsons to wiom tif Softwbrf
+// is furnisifd to do so, subjfdt to tif following donditions:
 //
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
+// Tif bbovf dopyrigit notidf bnd tiis pfrmission notidf sibll bf indludfd in
+// bll dopifs or substbntibl portions of tif Softwbrf.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
@@ -52,406 +52,406 @@
 //
 //---------------------------------------------------------------------------------
 
-#include "lcms2_internal.h"
+#indludf "ldms2_intfrnbl.i"
 
-// I am so tired about incompatibilities on those functions that here are some replacements
-// that hopefully would be fully portable.
+// I bm so tirfd bbout indompbtibilitifs on tiosf fundtions tibt ifrf brf somf rfplbdfmfnts
+// tibt iopffully would bf fully portbblf.
 
-// compare two strings ignoring case
-int CMSEXPORT cmsstrcasecmp(const char* s1, const char* s2)
+// dompbrf two strings ignoring dbsf
+int CMSEXPORT dmsstrdbsfdmp(donst dibr* s1, donst dibr* s2)
 {
-         register const unsigned char *us1 = (const unsigned char *)s1,
-                                      *us2 = (const unsigned char *)s2;
+         rfgistfr donst unsignfd dibr *us1 = (donst unsignfd dibr *)s1,
+                                      *us2 = (donst unsignfd dibr *)s2;
 
-        while (toupper(*us1) == toupper(*us2++))
+        wiilf (touppfr(*us1) == touppfr(*us2++))
                 if (*us1++ == '\0')
-                        return (0);
-        return (toupper(*us1) - toupper(*--us2));
+                        rfturn (0);
+        rfturn (touppfr(*us1) - touppfr(*--us2));
 }
 
-// long int because C99 specifies ftell in such way (7.19.9.2)
-long int CMSEXPORT cmsfilelength(FILE* f)
+// long int bfdbusf C99 spfdififs ftfll in sudi wby (7.19.9.2)
+long int CMSEXPORT dmsfilflfngti(FILE* f)
 {
     long int p , n;
 
-    p = ftell(f); // register current file position
+    p = ftfll(f); // rfgistfr durrfnt filf position
 
-    if (fseek(f, 0, SEEK_END) != 0) {
-        return -1;
+    if (fsffk(f, 0, SEEK_END) != 0) {
+        rfturn -1;
     }
 
-    n = ftell(f);
-    fseek(f, p, SEEK_SET); // file position restored
+    n = ftfll(f);
+    fsffk(f, p, SEEK_SET); // filf position rfstorfd
 
-    return n;
+    rfturn n;
 }
 
 
-// Memory handling ------------------------------------------------------------------
+// Mfmory ibndling ------------------------------------------------------------------
 //
-// This is the interface to low-level memory management routines. By default a simple
-// wrapping to malloc/free/realloc is provided, although there is a limit on the max
-// amount of memoy that can be reclaimed. This is mostly as a safety feature to
-// prevent bogus or malintentionated code to allocate huge blocks that otherwise lcms
-// would never need.
+// Tiis is tif intfrfbdf to low-lfvfl mfmory mbnbgfmfnt routinfs. By dffbult b simplf
+// wrbpping to mbllod/frff/rfbllod is providfd, bltiougi tifrf is b limit on tif mbx
+// bmount of mfmoy tibt dbn bf rfdlbimfd. Tiis is mostly bs b sbffty ffbturf to
+// prfvfnt bogus or mblintfntionbtfd dodf to bllodbtf iugf blodks tibt otifrwisf ldms
+// would nfvfr nffd.
 
-#define MAX_MEMORY_FOR_ALLOC  ((cmsUInt32Number)(1024U*1024U*512U))
+#dffinf MAX_MEMORY_FOR_ALLOC  ((dmsUInt32Numbfr)(1024U*1024U*512U))
 
-// User may override this behaviour by using a memory plug-in, which basically replaces
-// the default memory management functions. In this case, no check is performed and it
-// is up to the plug-in writter to keep in the safe side. There are only three functions
-// required to be implemented: malloc, realloc and free, although the user may want to
-// replace the optional mallocZero, calloc and dup as well.
+// Usfr mby ovfrridf tiis bfibviour by using b mfmory plug-in, wiidi bbsidblly rfplbdfs
+// tif dffbult mfmory mbnbgfmfnt fundtions. In tiis dbsf, no difdk is pfrformfd bnd it
+// is up to tif plug-in writtfr to kffp in tif sbff sidf. Tifrf brf only tirff fundtions
+// rfquirfd to bf implfmfntfd: mbllod, rfbllod bnd frff, bltiougi tif usfr mby wbnt to
+// rfplbdf tif optionbl mbllodZfro, dbllod bnd dup bs wfll.
 
-cmsBool   _cmsRegisterMemHandlerPlugin(cmsPluginBase* Plugin);
+dmsBool   _dmsRfgistfrMfmHbndlfrPlugin(dmsPluginBbsf* Plugin);
 
 // *********************************************************************************
 
-// This is the default memory allocation function. It does a very coarse
-// check of amout of memory, just to prevent exploits
-static
-void* _cmsMallocDefaultFn(cmsContext ContextID, cmsUInt32Number size)
+// Tiis is tif dffbult mfmory bllodbtion fundtion. It dofs b vfry dobrsf
+// difdk of bmout of mfmory, just to prfvfnt fxploits
+stbtid
+void* _dmsMbllodDffbultFn(dmsContfxt ContfxtID, dmsUInt32Numbfr sizf)
 {
-    if (size > MAX_MEMORY_FOR_ALLOC) return NULL;  // Never allow over maximum
+    if (sizf > MAX_MEMORY_FOR_ALLOC) rfturn NULL;  // Nfvfr bllow ovfr mbximum
 
-    return (void*) malloc(size);
+    rfturn (void*) mbllod(sizf);
 
-    cmsUNUSED_PARAMETER(ContextID);
+    dmsUNUSED_PARAMETER(ContfxtID);
 }
 
-// Generic allocate & zero
-static
-void* _cmsMallocZeroDefaultFn(cmsContext ContextID, cmsUInt32Number size)
+// Gfnfrid bllodbtf & zfro
+stbtid
+void* _dmsMbllodZfroDffbultFn(dmsContfxt ContfxtID, dmsUInt32Numbfr sizf)
 {
-    void *pt = _cmsMalloc(ContextID, size);
-    if (pt == NULL) return NULL;
+    void *pt = _dmsMbllod(ContfxtID, sizf);
+    if (pt == NULL) rfturn NULL;
 
-    memset(pt, 0, size);
-    return pt;
-}
-
-
-// The default free function. The only check proformed is against NULL pointers
-static
-void _cmsFreeDefaultFn(cmsContext ContextID, void *Ptr)
-{
-    // free(NULL) is defined a no-op by C99, therefore it is safe to
-    // avoid the check, but it is here just in case...
-
-    if (Ptr) free(Ptr);
-
-    cmsUNUSED_PARAMETER(ContextID);
-}
-
-// The default realloc function. Again it check for exploits. If Ptr is NULL,
-// realloc behaves the same way as malloc and allocates a new block of size bytes.
-static
-void* _cmsReallocDefaultFn(cmsContext ContextID, void* Ptr, cmsUInt32Number size)
-{
-
-    if (size > MAX_MEMORY_FOR_ALLOC) return NULL;  // Never realloc over 512Mb
-
-    return realloc(Ptr, size);
-
-    cmsUNUSED_PARAMETER(ContextID);
+    mfmsft(pt, 0, sizf);
+    rfturn pt;
 }
 
 
-// The default calloc function. Allocates an array of num elements, each one of size bytes
-// all memory is initialized to zero.
-static
-void* _cmsCallocDefaultFn(cmsContext ContextID, cmsUInt32Number num, cmsUInt32Number size)
+// Tif dffbult frff fundtion. Tif only difdk proformfd is bgbinst NULL pointfrs
+stbtid
+void _dmsFrffDffbultFn(dmsContfxt ContfxtID, void *Ptr)
 {
-    cmsUInt32Number Total = num * size;
+    // frff(NULL) is dffinfd b no-op by C99, tifrfforf it is sbff to
+    // bvoid tif difdk, but it is ifrf just in dbsf...
 
-    // Preserve calloc behaviour
-    if (Total == 0) return NULL;
+    if (Ptr) frff(Ptr);
 
-    // Safe check for overflow.
-    if (num >= UINT_MAX / size) return NULL;
+    dmsUNUSED_PARAMETER(ContfxtID);
+}
 
-    // Check for overflow
-    if (Total < num || Total < size) {
-        return NULL;
+// Tif dffbult rfbllod fundtion. Agbin it difdk for fxploits. If Ptr is NULL,
+// rfbllod bfibvfs tif sbmf wby bs mbllod bnd bllodbtfs b nfw blodk of sizf bytfs.
+stbtid
+void* _dmsRfbllodDffbultFn(dmsContfxt ContfxtID, void* Ptr, dmsUInt32Numbfr sizf)
+{
+
+    if (sizf > MAX_MEMORY_FOR_ALLOC) rfturn NULL;  // Nfvfr rfbllod ovfr 512Mb
+
+    rfturn rfbllod(Ptr, sizf);
+
+    dmsUNUSED_PARAMETER(ContfxtID);
+}
+
+
+// Tif dffbult dbllod fundtion. Allodbtfs bn brrby of num flfmfnts, fbdi onf of sizf bytfs
+// bll mfmory is initiblizfd to zfro.
+stbtid
+void* _dmsCbllodDffbultFn(dmsContfxt ContfxtID, dmsUInt32Numbfr num, dmsUInt32Numbfr sizf)
+{
+    dmsUInt32Numbfr Totbl = num * sizf;
+
+    // Prfsfrvf dbllod bfibviour
+    if (Totbl == 0) rfturn NULL;
+
+    // Sbff difdk for ovfrflow.
+    if (num >= UINT_MAX / sizf) rfturn NULL;
+
+    // Cifdk for ovfrflow
+    if (Totbl < num || Totbl < sizf) {
+        rfturn NULL;
     }
 
-    if (Total > MAX_MEMORY_FOR_ALLOC) return NULL;  // Never alloc over 512Mb
+    if (Totbl > MAX_MEMORY_FOR_ALLOC) rfturn NULL;  // Nfvfr bllod ovfr 512Mb
 
-    return _cmsMallocZero(ContextID, Total);
+    rfturn _dmsMbllodZfro(ContfxtID, Totbl);
 }
 
-// Generic block duplication
-static
-void* _cmsDupDefaultFn(cmsContext ContextID, const void* Org, cmsUInt32Number size)
+// Gfnfrid blodk duplidbtion
+stbtid
+void* _dmsDupDffbultFn(dmsContfxt ContfxtID, donst void* Org, dmsUInt32Numbfr sizf)
 {
-    void* mem;
+    void* mfm;
 
-    if (size > MAX_MEMORY_FOR_ALLOC) return NULL;  // Never dup over 512Mb
+    if (sizf > MAX_MEMORY_FOR_ALLOC) rfturn NULL;  // Nfvfr dup ovfr 512Mb
 
-    mem = _cmsMalloc(ContextID, size);
+    mfm = _dmsMbllod(ContfxtID, sizf);
 
-    if (mem != NULL && Org != NULL)
-        memmove(mem, Org, size);
+    if (mfm != NULL && Org != NULL)
+        mfmmovf(mfm, Org, sizf);
 
-    return mem;
+    rfturn mfm;
 }
 
-// Pointers to malloc and _cmsFree functions in current environment
-static void * (* MallocPtr)(cmsContext ContextID, cmsUInt32Number size)                     = _cmsMallocDefaultFn;
-static void * (* MallocZeroPtr)(cmsContext ContextID, cmsUInt32Number size)                 = _cmsMallocZeroDefaultFn;
-static void   (* FreePtr)(cmsContext ContextID, void *Ptr)                                  = _cmsFreeDefaultFn;
-static void * (* ReallocPtr)(cmsContext ContextID, void *Ptr, cmsUInt32Number NewSize)      = _cmsReallocDefaultFn;
-static void * (* CallocPtr)(cmsContext ContextID, cmsUInt32Number num, cmsUInt32Number size)= _cmsCallocDefaultFn;
-static void * (* DupPtr)(cmsContext ContextID, const void* Org, cmsUInt32Number size)       = _cmsDupDefaultFn;
+// Pointfrs to mbllod bnd _dmsFrff fundtions in durrfnt fnvironmfnt
+stbtid void * (* MbllodPtr)(dmsContfxt ContfxtID, dmsUInt32Numbfr sizf)                     = _dmsMbllodDffbultFn;
+stbtid void * (* MbllodZfroPtr)(dmsContfxt ContfxtID, dmsUInt32Numbfr sizf)                 = _dmsMbllodZfroDffbultFn;
+stbtid void   (* FrffPtr)(dmsContfxt ContfxtID, void *Ptr)                                  = _dmsFrffDffbultFn;
+stbtid void * (* RfbllodPtr)(dmsContfxt ContfxtID, void *Ptr, dmsUInt32Numbfr NfwSizf)      = _dmsRfbllodDffbultFn;
+stbtid void * (* CbllodPtr)(dmsContfxt ContfxtID, dmsUInt32Numbfr num, dmsUInt32Numbfr sizf)= _dmsCbllodDffbultFn;
+stbtid void * (* DupPtr)(dmsContfxt ContfxtID, donst void* Org, dmsUInt32Numbfr sizf)       = _dmsDupDffbultFn;
 
-// Plug-in replacement entry
-cmsBool  _cmsRegisterMemHandlerPlugin(cmsPluginBase *Data)
+// Plug-in rfplbdfmfnt fntry
+dmsBool  _dmsRfgistfrMfmHbndlfrPlugin(dmsPluginBbsf *Dbtb)
 {
-    cmsPluginMemHandler* Plugin = (cmsPluginMemHandler*) Data;
+    dmsPluginMfmHbndlfr* Plugin = (dmsPluginMfmHbndlfr*) Dbtb;
 
-    // NULL forces to reset to defaults
-    if (Data == NULL) {
+    // NULL fordfs to rfsft to dffbults
+    if (Dbtb == NULL) {
 
-        MallocPtr    = _cmsMallocDefaultFn;
-        MallocZeroPtr= _cmsMallocZeroDefaultFn;
-        FreePtr      = _cmsFreeDefaultFn;
-        ReallocPtr   = _cmsReallocDefaultFn;
-        CallocPtr    = _cmsCallocDefaultFn;
-        DupPtr       = _cmsDupDefaultFn;
-        return TRUE;
+        MbllodPtr    = _dmsMbllodDffbultFn;
+        MbllodZfroPtr= _dmsMbllodZfroDffbultFn;
+        FrffPtr      = _dmsFrffDffbultFn;
+        RfbllodPtr   = _dmsRfbllodDffbultFn;
+        CbllodPtr    = _dmsCbllodDffbultFn;
+        DupPtr       = _dmsDupDffbultFn;
+        rfturn TRUE;
     }
 
-    // Check for required callbacks
-    if (Plugin -> MallocPtr == NULL ||
-        Plugin -> FreePtr == NULL ||
-        Plugin -> ReallocPtr == NULL) return FALSE;
+    // Cifdk for rfquirfd dbllbbdks
+    if (Plugin -> MbllodPtr == NULL ||
+        Plugin -> FrffPtr == NULL ||
+        Plugin -> RfbllodPtr == NULL) rfturn FALSE;
 
-    // Set replacement functions
-    MallocPtr  = Plugin -> MallocPtr;
-    FreePtr    = Plugin -> FreePtr;
-    ReallocPtr = Plugin -> ReallocPtr;
+    // Sft rfplbdfmfnt fundtions
+    MbllodPtr  = Plugin -> MbllodPtr;
+    FrffPtr    = Plugin -> FrffPtr;
+    RfbllodPtr = Plugin -> RfbllodPtr;
 
-    if (Plugin ->MallocZeroPtr != NULL) MallocZeroPtr = Plugin ->MallocZeroPtr;
-    if (Plugin ->CallocPtr != NULL)     CallocPtr     = Plugin -> CallocPtr;
+    if (Plugin ->MbllodZfroPtr != NULL) MbllodZfroPtr = Plugin ->MbllodZfroPtr;
+    if (Plugin ->CbllodPtr != NULL)     CbllodPtr     = Plugin -> CbllodPtr;
     if (Plugin ->DupPtr != NULL)        DupPtr        = Plugin -> DupPtr;
 
-    return TRUE;
+    rfturn TRUE;
 }
 
-// Generic allocate
-void* CMSEXPORT _cmsMalloc(cmsContext ContextID, cmsUInt32Number size)
+// Gfnfrid bllodbtf
+void* CMSEXPORT _dmsMbllod(dmsContfxt ContfxtID, dmsUInt32Numbfr sizf)
 {
-    return MallocPtr(ContextID, size);
+    rfturn MbllodPtr(ContfxtID, sizf);
 }
 
-// Generic allocate & zero
-void* CMSEXPORT _cmsMallocZero(cmsContext ContextID, cmsUInt32Number size)
+// Gfnfrid bllodbtf & zfro
+void* CMSEXPORT _dmsMbllodZfro(dmsContfxt ContfxtID, dmsUInt32Numbfr sizf)
 {
-    return MallocZeroPtr(ContextID, size);
+    rfturn MbllodZfroPtr(ContfxtID, sizf);
 }
 
-// Generic calloc
-void* CMSEXPORT _cmsCalloc(cmsContext ContextID, cmsUInt32Number num, cmsUInt32Number size)
+// Gfnfrid dbllod
+void* CMSEXPORT _dmsCbllod(dmsContfxt ContfxtID, dmsUInt32Numbfr num, dmsUInt32Numbfr sizf)
 {
-    return CallocPtr(ContextID, num, size);
+    rfturn CbllodPtr(ContfxtID, num, sizf);
 }
 
-// Generic reallocate
-void* CMSEXPORT _cmsRealloc(cmsContext ContextID, void* Ptr, cmsUInt32Number size)
+// Gfnfrid rfbllodbtf
+void* CMSEXPORT _dmsRfbllod(dmsContfxt ContfxtID, void* Ptr, dmsUInt32Numbfr sizf)
 {
-    return ReallocPtr(ContextID, Ptr, size);
+    rfturn RfbllodPtr(ContfxtID, Ptr, sizf);
 }
 
-// Generic free memory
-void CMSEXPORT _cmsFree(cmsContext ContextID, void* Ptr)
+// Gfnfrid frff mfmory
+void CMSEXPORT _dmsFrff(dmsContfxt ContfxtID, void* Ptr)
 {
-    if (Ptr != NULL) FreePtr(ContextID, Ptr);
+    if (Ptr != NULL) FrffPtr(ContfxtID, Ptr);
 }
 
-// Generic block duplication
-void* CMSEXPORT _cmsDupMem(cmsContext ContextID, const void* Org, cmsUInt32Number size)
+// Gfnfrid blodk duplidbtion
+void* CMSEXPORT _dmsDupMfm(dmsContfxt ContfxtID, donst void* Org, dmsUInt32Numbfr sizf)
 {
-    return DupPtr(ContextID, Org, size);
+    rfturn DupPtr(ContfxtID, Org, sizf);
 }
 
 // ********************************************************************************************
 
-// Sub allocation takes care of many pointers of small size. The memory allocated in
-// this way have be freed at once. Next function allocates a single chunk for linked list
-// I prefer this method over realloc due to the big inpact on xput realloc may have if
-// memory is being swapped to disk. This approach is safer (although that may not be true on all platforms)
-static
-_cmsSubAllocator_chunk* _cmsCreateSubAllocChunk(cmsContext ContextID, cmsUInt32Number Initial)
+// Sub bllodbtion tbkfs dbrf of mbny pointfrs of smbll sizf. Tif mfmory bllodbtfd in
+// tiis wby ibvf bf frffd bt ondf. Nfxt fundtion bllodbtfs b singlf diunk for linkfd list
+// I prfffr tiis mftiod ovfr rfbllod duf to tif big inpbdt on xput rfbllod mby ibvf if
+// mfmory is bfing swbppfd to disk. Tiis bpprobdi is sbffr (bltiougi tibt mby not bf truf on bll plbtforms)
+stbtid
+_dmsSubAllodbtor_diunk* _dmsCrfbtfSubAllodCiunk(dmsContfxt ContfxtID, dmsUInt32Numbfr Initibl)
 {
-    _cmsSubAllocator_chunk* chunk;
+    _dmsSubAllodbtor_diunk* diunk;
 
-    // 20K by default
-    if (Initial == 0)
-        Initial = 20*1024;
+    // 20K by dffbult
+    if (Initibl == 0)
+        Initibl = 20*1024;
 
-    // Create the container
-    chunk = (_cmsSubAllocator_chunk*) _cmsMallocZero(ContextID, sizeof(_cmsSubAllocator_chunk));
-    if (chunk == NULL) return NULL;
+    // Crfbtf tif dontbinfr
+    diunk = (_dmsSubAllodbtor_diunk*) _dmsMbllodZfro(ContfxtID, sizfof(_dmsSubAllodbtor_diunk));
+    if (diunk == NULL) rfturn NULL;
 
-    // Initialize values
-    chunk ->Block     = (cmsUInt8Number*) _cmsMalloc(ContextID, Initial);
-    if (chunk ->Block == NULL) {
+    // Initiblizf vblufs
+    diunk ->Blodk     = (dmsUInt8Numbfr*) _dmsMbllod(ContfxtID, Initibl);
+    if (diunk ->Blodk == NULL) {
 
-        // Something went wrong
-        _cmsFree(ContextID, chunk);
-        return NULL;
+        // Somftiing wfnt wrong
+        _dmsFrff(ContfxtID, diunk);
+        rfturn NULL;
     }
 
-    chunk ->BlockSize = Initial;
-    chunk ->Used      = 0;
-    chunk ->next      = NULL;
+    diunk ->BlodkSizf = Initibl;
+    diunk ->Usfd      = 0;
+    diunk ->nfxt      = NULL;
 
-    return chunk;
+    rfturn diunk;
 }
 
-// The suballocated is nothing but a pointer to the first element in the list. We also keep
-// the thread ID in this structure.
-_cmsSubAllocator* _cmsCreateSubAlloc(cmsContext ContextID, cmsUInt32Number Initial)
+// Tif subbllodbtfd is notiing but b pointfr to tif first flfmfnt in tif list. Wf blso kffp
+// tif tirfbd ID in tiis strudturf.
+_dmsSubAllodbtor* _dmsCrfbtfSubAllod(dmsContfxt ContfxtID, dmsUInt32Numbfr Initibl)
 {
-    _cmsSubAllocator* sub;
+    _dmsSubAllodbtor* sub;
 
-    // Create the container
-    sub = (_cmsSubAllocator*) _cmsMallocZero(ContextID, sizeof(_cmsSubAllocator));
-    if (sub == NULL) return NULL;
+    // Crfbtf tif dontbinfr
+    sub = (_dmsSubAllodbtor*) _dmsMbllodZfro(ContfxtID, sizfof(_dmsSubAllodbtor));
+    if (sub == NULL) rfturn NULL;
 
-    sub ->ContextID = ContextID;
+    sub ->ContfxtID = ContfxtID;
 
-    sub ->h = _cmsCreateSubAllocChunk(ContextID, Initial);
-    if (sub ->h == NULL) {
-        _cmsFree(ContextID, sub);
-        return NULL;
+    sub ->i = _dmsCrfbtfSubAllodCiunk(ContfxtID, Initibl);
+    if (sub ->i == NULL) {
+        _dmsFrff(ContfxtID, sub);
+        rfturn NULL;
     }
 
-    return sub;
-}
-
-
-// Get rid of whole linked list
-void _cmsSubAllocDestroy(_cmsSubAllocator* sub)
-{
-    _cmsSubAllocator_chunk *chunk, *n;
-
-    for (chunk = sub ->h; chunk != NULL; chunk = n) {
-
-        n = chunk->next;
-        if (chunk->Block != NULL) _cmsFree(sub ->ContextID, chunk->Block);
-        _cmsFree(sub ->ContextID, chunk);
-    }
-
-    // Free the header
-    _cmsFree(sub ->ContextID, sub);
+    rfturn sub;
 }
 
 
-// Get a pointer to small memory block.
-void*  _cmsSubAlloc(_cmsSubAllocator* sub, cmsUInt32Number size)
+// Gft rid of wiolf linkfd list
+void _dmsSubAllodDfstroy(_dmsSubAllodbtor* sub)
 {
-    cmsUInt32Number Free = sub -> h ->BlockSize - sub -> h -> Used;
-    cmsUInt8Number* ptr;
+    _dmsSubAllodbtor_diunk *diunk, *n;
 
-    size = _cmsALIGNMEM(size);
+    for (diunk = sub ->i; diunk != NULL; diunk = n) {
 
-    // Check for memory. If there is no room, allocate a new chunk of double memory size.
-    if (size > Free) {
+        n = diunk->nfxt;
+        if (diunk->Blodk != NULL) _dmsFrff(sub ->ContfxtID, diunk->Blodk);
+        _dmsFrff(sub ->ContfxtID, diunk);
+    }
 
-        _cmsSubAllocator_chunk* chunk;
-        cmsUInt32Number newSize;
+    // Frff tif ifbdfr
+    _dmsFrff(sub ->ContfxtID, sub);
+}
 
-        newSize = sub -> h ->BlockSize * 2;
-        if (newSize < size) newSize = size;
 
-        chunk = _cmsCreateSubAllocChunk(sub -> ContextID, newSize);
-        if (chunk == NULL) return NULL;
+// Gft b pointfr to smbll mfmory blodk.
+void*  _dmsSubAllod(_dmsSubAllodbtor* sub, dmsUInt32Numbfr sizf)
+{
+    dmsUInt32Numbfr Frff = sub -> i ->BlodkSizf - sub -> i -> Usfd;
+    dmsUInt8Numbfr* ptr;
+
+    sizf = _dmsALIGNMEM(sizf);
+
+    // Cifdk for mfmory. If tifrf is no room, bllodbtf b nfw diunk of doublf mfmory sizf.
+    if (sizf > Frff) {
+
+        _dmsSubAllodbtor_diunk* diunk;
+        dmsUInt32Numbfr nfwSizf;
+
+        nfwSizf = sub -> i ->BlodkSizf * 2;
+        if (nfwSizf < sizf) nfwSizf = sizf;
+
+        diunk = _dmsCrfbtfSubAllodCiunk(sub -> ContfxtID, nfwSizf);
+        if (diunk == NULL) rfturn NULL;
 
         // Link list
-        chunk ->next = sub ->h;
-        sub ->h    = chunk;
+        diunk ->nfxt = sub ->i;
+        sub ->i    = diunk;
 
     }
 
-    ptr =  sub -> h ->Block + sub -> h ->Used;
-    sub -> h -> Used += size;
+    ptr =  sub -> i ->Blodk + sub -> i ->Usfd;
+    sub -> i -> Usfd += sizf;
 
-    return (void*) ptr;
+    rfturn (void*) ptr;
 }
 
 // Error logging ******************************************************************
 
-// There is no error handling at all. When a funtion fails, it returns proper value.
-// For example, all create functions does return NULL on failure. Other return FALSE
-// It may be interesting, for the developer, to know why the function is failing.
-// for that reason, lcms2 does offer a logging function. This function does recive
-// a ENGLISH string with some clues on what is going wrong. You can show this
-// info to the end user, or just create some sort of log.
-// The logging function should NOT terminate the program, as this obviously can leave
-// resources. It is the programmer's responsability to check each function return code
-// to make sure it didn't fail.
+// Tifrf is no frror ibndling bt bll. Wifn b funtion fbils, it rfturns propfr vbluf.
+// For fxbmplf, bll drfbtf fundtions dofs rfturn NULL on fbilurf. Otifr rfturn FALSE
+// It mby bf intfrfsting, for tif dfvflopfr, to know wiy tif fundtion is fbiling.
+// for tibt rfbson, ldms2 dofs offfr b logging fundtion. Tiis fundtion dofs rfdivf
+// b ENGLISH string witi somf dlufs on wibt is going wrong. You dbn siow tiis
+// info to tif fnd usfr, or just drfbtf somf sort of log.
+// Tif logging fundtion siould NOT tfrminbtf tif progrbm, bs tiis obviously dbn lfbvf
+// rfsourdfs. It is tif progrbmmfr's rfsponsbbility to difdk fbdi fundtion rfturn dodf
+// to mbkf surf it didn't fbil.
 
-// Error messages are limited to MAX_ERROR_MESSAGE_LEN
+// Error mfssbgfs brf limitfd to MAX_ERROR_MESSAGE_LEN
 
-#define MAX_ERROR_MESSAGE_LEN   1024
+#dffinf MAX_ERROR_MESSAGE_LEN   1024
 
 // ---------------------------------------------------------------------------------------------------------
 
-// This is our default log error
-static void DefaultLogErrorHandlerFunction(cmsContext ContextID, cmsUInt32Number ErrorCode, const char *Text);
+// Tiis is our dffbult log frror
+stbtid void DffbultLogErrorHbndlfrFundtion(dmsContfxt ContfxtID, dmsUInt32Numbfr ErrorCodf, donst dibr *Tfxt);
 
-// The current handler in actual environment
-static cmsLogErrorHandlerFunction LogErrorHandler   = DefaultLogErrorHandlerFunction;
+// Tif durrfnt ibndlfr in bdtubl fnvironmfnt
+stbtid dmsLogErrorHbndlfrFundtion LogErrorHbndlfr   = DffbultLogErrorHbndlfrFundtion;
 
-// The default error logger does nothing.
-static
-void DefaultLogErrorHandlerFunction(cmsContext ContextID, cmsUInt32Number ErrorCode, const char *Text)
+// Tif dffbult frror loggfr dofs notiing.
+stbtid
+void DffbultLogErrorHbndlfrFundtion(dmsContfxt ContfxtID, dmsUInt32Numbfr ErrorCodf, donst dibr *Tfxt)
 {
-    // fprintf(stderr, "[lcms]: %s\n", Text);
-    // fflush(stderr);
+    // fprintf(stdfrr, "[ldms]: %s\n", Tfxt);
+    // fflusi(stdfrr);
 
-     cmsUNUSED_PARAMETER(ContextID);
-     cmsUNUSED_PARAMETER(ErrorCode);
-     cmsUNUSED_PARAMETER(Text);
+     dmsUNUSED_PARAMETER(ContfxtID);
+     dmsUNUSED_PARAMETER(ErrorCodf);
+     dmsUNUSED_PARAMETER(Tfxt);
 }
 
-// Change log error
-void CMSEXPORT cmsSetLogErrorHandler(cmsLogErrorHandlerFunction Fn)
+// Cibngf log frror
+void CMSEXPORT dmsSftLogErrorHbndlfr(dmsLogErrorHbndlfrFundtion Fn)
 {
     if (Fn == NULL)
-        LogErrorHandler = DefaultLogErrorHandlerFunction;
-    else
-        LogErrorHandler = Fn;
+        LogErrorHbndlfr = DffbultLogErrorHbndlfrFundtion;
+    flsf
+        LogErrorHbndlfr = Fn;
 }
 
-// Log an error
-// ErrorText is a text holding an english description of error.
-void CMSEXPORT cmsSignalError(cmsContext ContextID, cmsUInt32Number ErrorCode, const char *ErrorText, ...)
+// Log bn frror
+// ErrorTfxt is b tfxt iolding bn fnglisi dfsdription of frror.
+void CMSEXPORT dmsSignblError(dmsContfxt ContfxtID, dmsUInt32Numbfr ErrorCodf, donst dibr *ErrorTfxt, ...)
 {
-    va_list args;
-    char Buffer[MAX_ERROR_MESSAGE_LEN];
+    vb_list brgs;
+    dibr Bufffr[MAX_ERROR_MESSAGE_LEN];
 
-    va_start(args, ErrorText);
-    vsnprintf(Buffer, MAX_ERROR_MESSAGE_LEN-1, ErrorText, args);
-    va_end(args);
+    vb_stbrt(brgs, ErrorTfxt);
+    vsnprintf(Bufffr, MAX_ERROR_MESSAGE_LEN-1, ErrorTfxt, brgs);
+    vb_fnd(brgs);
 
-    // Call handler
-    LogErrorHandler(ContextID, ErrorCode, Buffer);
+    // Cbll ibndlfr
+    LogErrorHbndlfr(ContfxtID, ErrorCodf, Bufffr);
 }
 
-// Utility function to print signatures
-void _cmsTagSignature2String(char String[5], cmsTagSignature sig)
+// Utility fundtion to print signbturfs
+void _dmsTbgSignbturf2String(dibr String[5], dmsTbgSignbturf sig)
 {
-    cmsUInt32Number be;
+    dmsUInt32Numbfr bf;
 
-    // Convert to big endian
-    be = _cmsAdjustEndianess32((cmsUInt32Number) sig);
+    // Convfrt to big fndibn
+    bf = _dmsAdjustEndibnfss32((dmsUInt32Numbfr) sig);
 
-    // Move chars
-    memmove(String, &be, 4);
+    // Movf dibrs
+    mfmmovf(String, &bf, 4);
 
-    // Make sure of terminator
+    // Mbkf surf of tfrminbtor
     String[4] = 0;
 }
 

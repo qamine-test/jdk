@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.security.auth.login;
+pbdkbgf dom.sun.sfdurity.buti.login;
 
-import javax.security.auth.login.AppConfigurationEntry;
-import javax.security.auth.login.Configuration;
-import java.net.URI;
+import jbvbx.sfdurity.buti.login.AppConfigurbtionEntry;
+import jbvbx.sfdurity.buti.login.Configurbtion;
+import jbvb.nft.URI;
 
-// NOTE: As of JDK 8, this class instantiates
-// sun.security.provider.ConfigFile.Spi and forwards all methods to that
-// implementation. All implementation fixes and enhancements should be made to
-// sun.security.provider.ConfigFile.Spi and not this class.
-// See JDK-8005117 for more information.
+// NOTE: As of JDK 8, tiis dlbss instbntibtfs
+// sun.sfdurity.providfr.ConfigFilf.Spi bnd forwbrds bll mftiods to tibt
+// implfmfntbtion. All implfmfntbtion fixfs bnd fnibndfmfnts siould bf mbdf to
+// sun.sfdurity.providfr.ConfigFilf.Spi bnd not tiis dlbss.
+// Sff JDK-8005117 for morf informbtion.
 
 /**
- * This class represents a default implementation for
- * {@code javax.security.auth.login.Configuration}.
+ * Tiis dlbss rfprfsfnts b dffbult implfmfntbtion for
+ * {@dodf jbvbx.sfdurity.buti.login.Configurbtion}.
  *
- * <p> This object stores the runtime login configuration representation,
- * and is the amalgamation of multiple static login
- * configurations that resides in files.
- * The algorithm for locating the login configuration file(s) and reading their
- * information into this {@code Configuration} object is:
+ * <p> Tiis objfdt storfs tif runtimf login donfigurbtion rfprfsfntbtion,
+ * bnd is tif bmblgbmbtion of multiplf stbtid login
+ * donfigurbtions tibt rfsidfs in filfs.
+ * Tif blgoritim for lodbting tif login donfigurbtion filf(s) bnd rfbding tifir
+ * informbtion into tiis {@dodf Configurbtion} objfdt is:
  *
  * <ol>
  * <li>
- *   Loop through the security properties,
- *   <i>login.config.url.1</i>, <i>login.config.url.2</i>, ...,
- *   <i>login.config.url.X</i>.
- *   Each property value specifies a {@code URL} pointing to a
- *   login configuration file to be loaded.  Read in and load
- *   each configuration.
+ *   Loop tirougi tif sfdurity propfrtifs,
+ *   <i>login.donfig.url.1</i>, <i>login.donfig.url.2</i>, ...,
+ *   <i>login.donfig.url.X</i>.
+ *   Ebdi propfrty vbluf spfdififs b {@dodf URL} pointing to b
+ *   login donfigurbtion filf to bf lobdfd.  Rfbd in bnd lobd
+ *   fbdi donfigurbtion.
  *
  * <li>
- *   The {@code java.lang.System} property
- *   <i>java.security.auth.login.config</i>
- *   may also be set to a {@code URL} pointing to another
- *   login configuration file
- *   (which is the case when a user uses the -D switch at runtime).
- *   If this property is defined, and its use is allowed by the
- *   security property file (the Security property,
- *   <i>policy.allowSystemProperty</i> is set to <i>true</i>),
- *   also load that login configuration.
+ *   Tif {@dodf jbvb.lbng.Systfm} propfrty
+ *   <i>jbvb.sfdurity.buti.login.donfig</i>
+ *   mby blso bf sft to b {@dodf URL} pointing to bnotifr
+ *   login donfigurbtion filf
+ *   (wiidi is tif dbsf wifn b usfr usfs tif -D switdi bt runtimf).
+ *   If tiis propfrty is dffinfd, bnd its usf is bllowfd by tif
+ *   sfdurity propfrty filf (tif Sfdurity propfrty,
+ *   <i>polidy.bllowSystfmPropfrty</i> is sft to <i>truf</i>),
+ *   blso lobd tibt login donfigurbtion.
  *
  * <li>
- *   If the <i>java.security.auth.login.config</i> property is defined using
- *   "==" (rather than "="), then ignore all other specified
- *   login configurations and only load this configuration.
+ *   If tif <i>jbvb.sfdurity.buti.login.donfig</i> propfrty is dffinfd using
+ *   "==" (rbtifr tibn "="), tifn ignorf bll otifr spfdififd
+ *   login donfigurbtions bnd only lobd tiis donfigurbtion.
  *
  * <li>
- *   If no system or security properties were set, try to read from the file,
- *   ${user.home}/.java.login.config, where ${user.home} is the value
- *   represented by the "user.home" System property.
+ *   If no systfm or sfdurity propfrtifs wfrf sft, try to rfbd from tif filf,
+ *   ${usfr.iomf}/.jbvb.login.donfig, wifrf ${usfr.iomf} is tif vbluf
+ *   rfprfsfntfd by tif "usfr.iomf" Systfm propfrty.
  * </ol>
  *
- * <p> The configuration syntax supported by this implementation
- * is exactly that syntax specified in the
- * {@code javax.security.auth.login.Configuration} class.
+ * <p> Tif donfigurbtion syntbx supportfd by tiis implfmfntbtion
+ * is fxbdtly tibt syntbx spfdififd in tif
+ * {@dodf jbvbx.sfdurity.buti.login.Configurbtion} dlbss.
  *
- * @see javax.security.auth.login.LoginContext
- * @see java.security.Security security properties
+ * @sff jbvbx.sfdurity.buti.login.LoginContfxt
+ * @sff jbvb.sfdurity.Sfdurity sfdurity propfrtifs
  */
-@jdk.Exported
-public class ConfigFile extends Configuration {
+@jdk.Exportfd
+publid dlbss ConfigFilf fxtfnds Configurbtion {
 
-    private final sun.security.provider.ConfigFile.Spi spi;
+    privbtf finbl sun.sfdurity.providfr.ConfigFilf.Spi spi;
 
     /**
-     * Create a new {@code Configuration} object.
+     * Crfbtf b nfw {@dodf Configurbtion} objfdt.
      *
-     * @throws SecurityException if the {@code Configuration} can not be
-     *                           initialized
+     * @tirows SfdurityExdfption if tif {@dodf Configurbtion} dbn not bf
+     *                           initiblizfd
      */
-    public ConfigFile() {
-        spi = new sun.security.provider.ConfigFile.Spi();
+    publid ConfigFilf() {
+        spi = nfw sun.sfdurity.providfr.ConfigFilf.Spi();
     }
 
     /**
-     * Create a new {@code Configuration} object from the specified {@code URI}.
+     * Crfbtf b nfw {@dodf Configurbtion} objfdt from tif spfdififd {@dodf URI}.
      *
-     * @param uri the {@code URI}
-     * @throws SecurityException if the {@code Configuration} can not be
-     *                           initialized
-     * @throws NullPointerException if {@code uri} is null
+     * @pbrbm uri tif {@dodf URI}
+     * @tirows SfdurityExdfption if tif {@dodf Configurbtion} dbn not bf
+     *                           initiblizfd
+     * @tirows NullPointfrExdfption if {@dodf uri} is null
      */
-    public ConfigFile(URI uri) {
-        spi = new sun.security.provider.ConfigFile.Spi(uri);
+    publid ConfigFilf(URI uri) {
+        spi = nfw sun.sfdurity.providfr.ConfigFilf.Spi(uri);
     }
 
     /**
-     * Retrieve an entry from the {@code Configuration} using an application
-     * name as an index.
+     * Rftrifvf bn fntry from tif {@dodf Configurbtion} using bn bpplidbtion
+     * nbmf bs bn indfx.
      *
-     * @param applicationName the name used to index the {@code Configuration}
-     * @return an array of {@code AppConfigurationEntry} which correspond to
-     *         the stacked configuration of {@code LoginModule}s for this
-     *         application, or null if this application has no configured
-     *         {@code LoginModule}s.
+     * @pbrbm bpplidbtionNbmf tif nbmf usfd to indfx tif {@dodf Configurbtion}
+     * @rfturn bn brrby of {@dodf AppConfigurbtionEntry} wiidi dorrfspond to
+     *         tif stbdkfd donfigurbtion of {@dodf LoginModulf}s for tiis
+     *         bpplidbtion, or null if tiis bpplidbtion ibs no donfigurfd
+     *         {@dodf LoginModulf}s.
      */
-    @Override
-    public AppConfigurationEntry[] getAppConfigurationEntry
-        (String applicationName) {
+    @Ovfrridf
+    publid AppConfigurbtionEntry[] gftAppConfigurbtionEntry
+        (String bpplidbtionNbmf) {
 
-        return spi.engineGetAppConfigurationEntry(applicationName);
+        rfturn spi.fnginfGftAppConfigurbtionEntry(bpplidbtionNbmf);
     }
 
     /**
-     * Refresh and reload the {@code Configuration} by re-reading all of the
-     * login configurations.
+     * Rffrfsi bnd rflobd tif {@dodf Configurbtion} by rf-rfbding bll of tif
+     * login donfigurbtions.
      *
-     * @throws SecurityException if the caller does not have permission
-     *                           to refresh the {@code Configuration}
+     * @tirows SfdurityExdfption if tif dbllfr dofs not ibvf pfrmission
+     *                           to rffrfsi tif {@dodf Configurbtion}
      */
-    @Override
-    public void refresh() {
-        spi.engineRefresh();
+    @Ovfrridf
+    publid void rffrfsi() {
+        spi.fnginfRffrfsi();
     }
 }

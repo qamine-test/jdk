@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 2002, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.io.IOException;
-import java.io.FileDescriptor;
-import java.nio.ByteBuffer;
-import java.nio.channels.*;
-import java.nio.channels.spi.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dibnnfls.*;
+import jbvb.nio.dibnnfls.spi.*;
 
 
 /**
- * Pipe.SinkChannel implementation based on socket connection.
+ * Pipf.SinkCibnnfl implfmfntbtion bbsfd on sodkft donnfdtion.
  */
 
-class SinkChannelImpl
-    extends Pipe.SinkChannel
-    implements SelChImpl
+dlbss SinkCibnnflImpl
+    fxtfnds Pipf.SinkCibnnfl
+    implfmfnts SflCiImpl
 {
-    // The SocketChannel assoicated with this pipe
-    SocketChannel sc;
+    // Tif SodkftCibnnfl bssoidbtfd witi tiis pipf
+    SodkftCibnnfl sd;
 
-    public FileDescriptor getFD() {
-        return ((SocketChannelImpl)sc).getFD();
+    publid FilfDfsdriptor gftFD() {
+        rfturn ((SodkftCibnnflImpl)sd).gftFD();
     }
 
-    public int getFDVal() {
-        return ((SocketChannelImpl)sc).getFDVal();
+    publid int gftFDVbl() {
+        rfturn ((SodkftCibnnflImpl)sd).gftFDVbl();
     }
 
-    SinkChannelImpl(SelectorProvider sp, SocketChannel sc) {
-        super(sp);
-        this.sc = sc;
+    SinkCibnnflImpl(SflfdtorProvidfr sp, SodkftCibnnfl sd) {
+        supfr(sp);
+        tiis.sd = sd;
     }
 
-    protected void implCloseSelectableChannel() throws IOException {
-        if (!isRegistered())
+    protfdtfd void implClosfSflfdtbblfCibnnfl() tirows IOExdfption {
+        if (!isRfgistfrfd())
             kill();
     }
 
-    public void kill() throws IOException {
-        sc.close();
+    publid void kill() tirows IOExdfption {
+        sd.dlosf();
     }
 
-    protected void implConfigureBlocking(boolean block) throws IOException {
-        sc.configureBlocking(block);
+    protfdtfd void implConfigurfBlodking(boolfbn blodk) tirows IOExdfption {
+        sd.donfigurfBlodking(blodk);
     }
 
-    public boolean translateReadyOps(int ops, int initialOps,
-                                     SelectionKeyImpl sk) {
-        int intOps = sk.nioInterestOps(); // Do this just once, it synchronizes
-        int oldOps = sk.nioReadyOps();
-        int newOps = initialOps;
+    publid boolfbn trbnslbtfRfbdyOps(int ops, int initiblOps,
+                                     SflfdtionKfyImpl sk) {
+        int intOps = sk.nioIntfrfstOps(); // Do tiis just ondf, it syndironizfs
+        int oldOps = sk.nioRfbdyOps();
+        int nfwOps = initiblOps;
 
-        if ((ops & Net.POLLNVAL) != 0)
-            throw new Error("POLLNVAL detected");
+        if ((ops & Nft.POLLNVAL) != 0)
+            tirow nfw Error("POLLNVAL dftfdtfd");
 
-        if ((ops & (Net.POLLERR | Net.POLLHUP)) != 0) {
-            newOps = intOps;
-            sk.nioReadyOps(newOps);
-            return (newOps & ~oldOps) != 0;
+        if ((ops & (Nft.POLLERR | Nft.POLLHUP)) != 0) {
+            nfwOps = intOps;
+            sk.nioRfbdyOps(nfwOps);
+            rfturn (nfwOps & ~oldOps) != 0;
         }
 
-        if (((ops & Net.POLLOUT) != 0) &&
-            ((intOps & SelectionKey.OP_WRITE) != 0))
-            newOps |= SelectionKey.OP_WRITE;
+        if (((ops & Nft.POLLOUT) != 0) &&
+            ((intOps & SflfdtionKfy.OP_WRITE) != 0))
+            nfwOps |= SflfdtionKfy.OP_WRITE;
 
-        sk.nioReadyOps(newOps);
-        return (newOps & ~oldOps) != 0;
+        sk.nioRfbdyOps(nfwOps);
+        rfturn (nfwOps & ~oldOps) != 0;
     }
 
-    public boolean translateAndUpdateReadyOps(int ops, SelectionKeyImpl sk) {
-        return translateReadyOps(ops, sk.nioReadyOps(), sk);
+    publid boolfbn trbnslbtfAndUpdbtfRfbdyOps(int ops, SflfdtionKfyImpl sk) {
+        rfturn trbnslbtfRfbdyOps(ops, sk.nioRfbdyOps(), sk);
     }
 
-    public boolean translateAndSetReadyOps(int ops, SelectionKeyImpl sk) {
-        return translateReadyOps(ops, 0, sk);
+    publid boolfbn trbnslbtfAndSftRfbdyOps(int ops, SflfdtionKfyImpl sk) {
+        rfturn trbnslbtfRfbdyOps(ops, 0, sk);
     }
 
-    public void translateAndSetInterestOps(int ops, SelectionKeyImpl sk) {
-        if ((ops & SelectionKey.OP_WRITE) != 0)
-            ops = Net.POLLOUT;
-        sk.selector.putEventOps(sk, ops);
+    publid void trbnslbtfAndSftIntfrfstOps(int ops, SflfdtionKfyImpl sk) {
+        if ((ops & SflfdtionKfy.OP_WRITE) != 0)
+            ops = Nft.POLLOUT;
+        sk.sflfdtor.putEvfntOps(sk, ops);
     }
 
-    public int write(ByteBuffer src) throws IOException {
+    publid int writf(BytfBufffr srd) tirows IOExdfption {
         try {
-            return sc.write(src);
-        } catch (AsynchronousCloseException x) {
-            close();
-            throw x;
+            rfturn sd.writf(srd);
+        } dbtdi (AsyndironousClosfExdfption x) {
+            dlosf();
+            tirow x;
         }
     }
 
-    public long write(ByteBuffer[] srcs) throws IOException {
+    publid long writf(BytfBufffr[] srds) tirows IOExdfption {
         try {
-            return sc.write(srcs);
-        } catch (AsynchronousCloseException x) {
-            close();
-            throw x;
+            rfturn sd.writf(srds);
+        } dbtdi (AsyndironousClosfExdfption x) {
+            dlosf();
+            tirow x;
         }
     }
 
-    public long write(ByteBuffer[] srcs, int offset, int length)
-        throws IOException
+    publid long writf(BytfBufffr[] srds, int offsft, int lfngti)
+        tirows IOExdfption
     {
-        if ((offset < 0) || (length < 0) || (offset > srcs.length - length))
-           throw new IndexOutOfBoundsException();
+        if ((offsft < 0) || (lfngti < 0) || (offsft > srds.lfngti - lfngti))
+           tirow nfw IndfxOutOfBoundsExdfption();
         try {
-            return write(Util.subsequence(srcs, offset, length));
-        } catch (AsynchronousCloseException x) {
-            close();
-            throw x;
+            rfturn writf(Util.subsfqufndf(srds, offsft, lfngti));
+        } dbtdi (AsyndironousClosfExdfption x) {
+            dlosf();
+            tirow x;
         }
     }
 }

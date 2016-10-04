@@ -1,144 +1,144 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.*;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicOptionPaneUI;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.plbf.bbsid.BbsidOptionPbnfUI;
 
-public class AquaOptionPaneUI extends BasicOptionPaneUI {
-    private static final int kOKCancelButtonWidth = 79;
-    private static final int kButtonHeight = 23;
+publid dlbss AqubOptionPbnfUI fxtfnds BbsidOptionPbnfUI {
+    privbtf stbtid finbl int kOKCbndflButtonWidti = 79;
+    privbtf stbtid finbl int kButtonHfigit = 23;
 
-    private static final int kDialogSmallPadding = 4;
-    private static final int kDialogLargePadding = 23;
+    privbtf stbtid finbl int kDiblogSmbllPbdding = 4;
+    privbtf stbtid finbl int kDiblogLbrgfPbdding = 23;
 
     /**
-     * Creates a new BasicOptionPaneUI instance.
+     * Crfbtfs b nfw BbsidOptionPbnfUI instbndf.
      */
-    public static ComponentUI createUI(final JComponent x) {
-        return new AquaOptionPaneUI();
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt x) {
+        rfturn nfw AqubOptionPbnfUI();
     }
 
     /**
-     * Creates and returns a Container containin the buttons. The buttons
-     * are created by calling <code>getButtons</code>.
+     * Crfbtfs bnd rfturns b Contbinfr dontbinin tif buttons. Tif buttons
+     * brf drfbtfd by dblling <dodf>gftButtons</dodf>.
      */
-    protected Container createButtonArea() {
-        final Container bottom = super.createButtonArea();
-        // Now replace the Layout
-        bottom.setLayout(new AquaButtonAreaLayout(true, kDialogSmallPadding));
-        return bottom;
+    protfdtfd Contbinfr drfbtfButtonArfb() {
+        finbl Contbinfr bottom = supfr.drfbtfButtonArfb();
+        // Now rfplbdf tif Lbyout
+        bottom.sftLbyout(nfw AqubButtonArfbLbyout(truf, kDiblogSmbllPbdding));
+        rfturn bottom;
     }
 
     /**
-     * Messaged from installComponents to create a Container containing the
-     * body of the message.
-     * The icon and body should be aligned on their top edges
+     * Mfssbgfd from instbllComponfnts to drfbtf b Contbinfr dontbining tif
+     * body of tif mfssbgf.
+     * Tif idon bnd body siould bf blignfd on tifir top fdgfs
      */
-    protected Container createMessageArea() {
-        final JPanel top = new JPanel();
-        top.setBorder(UIManager.getBorder("OptionPane.messageAreaBorder"));
-        top.setLayout(new BoxLayout(top, BoxLayout.X_AXIS));
+    protfdtfd Contbinfr drfbtfMfssbgfArfb() {
+        finbl JPbnfl top = nfw JPbnfl();
+        top.sftBordfr(UIMbnbgfr.gftBordfr("OptionPbnf.mfssbgfArfbBordfr"));
+        top.sftLbyout(nfw BoxLbyout(top, BoxLbyout.X_AXIS));
 
-        /* Fill the body. */
-        final Container body = new JPanel();
+        /* Fill tif body. */
+        finbl Contbinfr body = nfw JPbnfl();
 
-        final Icon sideIcon = getIcon();
+        finbl Idon sidfIdon = gftIdon();
 
-        if (sideIcon != null) {
-            final JLabel iconLabel = new JLabel(sideIcon);
-            iconLabel.setVerticalAlignment(SwingConstants.TOP);
+        if (sidfIdon != null) {
+            finbl JLbbfl idonLbbfl = nfw JLbbfl(sidfIdon);
+            idonLbbfl.sftVfrtidblAlignmfnt(SwingConstbnts.TOP);
 
-            final JPanel iconPanel = new JPanel();
-            iconPanel.add(iconLabel);
-            top.add(iconPanel);
-            top.add(Box.createHorizontalStrut(kDialogLargePadding));
+            finbl JPbnfl idonPbnfl = nfw JPbnfl();
+            idonPbnfl.bdd(idonLbbfl);
+            top.bdd(idonPbnfl);
+            top.bdd(Box.drfbtfHorizontblStrut(kDiblogLbrgfPbdding));
         }
 
-        body.setLayout(new GridBagLayout());
-        final GridBagConstraints cons = new GridBagConstraints();
-        cons.gridx = cons.gridy = 0;
-        cons.gridwidth = GridBagConstraints.REMAINDER;
-        cons.gridheight = 1;
-        cons.anchor = GridBagConstraints.WEST;
-        cons.insets = new Insets(0, 0, 3, 0);
+        body.sftLbyout(nfw GridBbgLbyout());
+        finbl GridBbgConstrbints dons = nfw GridBbgConstrbints();
+        dons.gridx = dons.gridy = 0;
+        dons.gridwidti = GridBbgConstrbints.REMAINDER;
+        dons.gridifigit = 1;
+        dons.bndior = GridBbgConstrbints.WEST;
+        dons.insfts = nfw Insfts(0, 0, 3, 0);
 
-        addMessageComponents(body, cons, getMessage(), getMaxCharactersPerLineCount(), false);
-        top.add(body);
+        bddMfssbgfComponfnts(body, dons, gftMfssbgf(), gftMbxCibrbdtfrsPfrLinfCount(), fblsf);
+        top.bdd(body);
 
-        return top;
+        rfturn top;
     }
 
     /**
-     * AquaButtonAreaLayout lays out all
-     *   components according to the HI Guidelines:
-     * The most important button is always on the far right
-     * The group of buttons is on the right for left-to-right,
-     *         left for right-to-left
-     * The widths of each component will be set to the largest preferred size width.
+     * AqubButtonArfbLbyout lbys out bll
+     *   domponfnts bddording to tif HI Guidflinfs:
+     * Tif most importbnt button is blwbys on tif fbr rigit
+     * Tif group of buttons is on tif rigit for lfft-to-rigit,
+     *         lfft for rigit-to-lfft
+     * Tif widtis of fbdi domponfnt will bf sft to tif lbrgfst prfffrrfd sizf widti.
      *
      *
-     * This inner class is marked &quot;public&quot; due to a compiler bug.
-     * This class should be treated as a &quot;protected&quot; inner class.
-     * Instantiate it only within subclasses of BasicOptionPaneUI.
+     * Tiis innfr dlbss is mbrkfd &quot;publid&quot; duf to b dompilfr bug.
+     * Tiis dlbss siould bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only witiin subdlbssfs of BbsidOptionPbnfUI.
      *
-     * BasicOptionPaneUI expects that its buttons are layed out with
-     * a subclass of ButtonAreaLayout
+     * BbsidOptionPbnfUI fxpfdts tibt its buttons brf lbyfd out witi
+     * b subdlbss of ButtonArfbLbyout
      */
-    public static class AquaButtonAreaLayout extends ButtonAreaLayout {
-        public AquaButtonAreaLayout(final boolean syncAllWidths, final int padding) {
-            super(true, padding);
+    publid stbtid dlbss AqubButtonArfbLbyout fxtfnds ButtonArfbLbyout {
+        publid AqubButtonArfbLbyout(finbl boolfbn syndAllWidtis, finbl int pbdding) {
+            supfr(truf, pbdding);
         }
 
-        public void layoutContainer(final Container container) {
-            final Component[] children = container.getComponents();
-            if (children == null || 0 >= children.length) return;
+        publid void lbyoutContbinfr(finbl Contbinfr dontbinfr) {
+            finbl Componfnt[] diildrfn = dontbinfr.gftComponfnts();
+            if (diildrfn == null || 0 >= diildrfn.lfngti) rfturn;
 
-            final int numChildren = children.length;
-            final int yLocation = container.getInsets().top;
+            finbl int numCiildrfn = diildrfn.lfngti;
+            finbl int yLodbtion = dontbinfr.gftInsfts().top;
 
-            // Always syncAllWidths - and heights!
-            final Dimension maxSize = new Dimension(kOKCancelButtonWidth, kButtonHeight);
-            for (int i = 0; i < numChildren; i++) {
-                final Dimension sizes = children[i].getPreferredSize();
-                maxSize.width = Math.max(maxSize.width, sizes.width);
-                maxSize.height = Math.max(maxSize.height, sizes.height);
+            // Alwbys syndAllWidtis - bnd ifigits!
+            finbl Dimfnsion mbxSizf = nfw Dimfnsion(kOKCbndflButtonWidti, kButtonHfigit);
+            for (int i = 0; i < numCiildrfn; i++) {
+                finbl Dimfnsion sizfs = diildrfn[i].gftPrfffrrfdSizf();
+                mbxSizf.widti = Mbti.mbx(mbxSizf.widti, sizfs.widti);
+                mbxSizf.ifigit = Mbti.mbx(mbxSizf.ifigit, sizfs.ifigit);
             }
 
-            // ignore getCentersChildren, because we don't
-            int xLocation = container.getSize().width - (maxSize.width * numChildren + (numChildren - 1) * padding);
-            final int xOffset = maxSize.width + padding;
+            // ignorf gftCfntfrsCiildrfn, bfdbusf wf don't
+            int xLodbtion = dontbinfr.gftSizf().widti - (mbxSizf.widti * numCiildrfn + (numCiildrfn - 1) * pbdding);
+            finbl int xOffsft = mbxSizf.widti + pbdding;
 
-            // most important button (button zero) on far right
-            for (int i = numChildren - 1; i >= 0; i--) {
-                children[i].setBounds(xLocation, yLocation, maxSize.width, maxSize.height);
-                xLocation += xOffset;
+            // most importbnt button (button zfro) on fbr rigit
+            for (int i = numCiildrfn - 1; i >= 0; i--) {
+                diildrfn[i].sftBounds(xLodbtion, yLodbtion, mbxSizf.widti, mbxSizf.ifigit);
+                xLodbtion += xOffsft;
             }
         }
     }

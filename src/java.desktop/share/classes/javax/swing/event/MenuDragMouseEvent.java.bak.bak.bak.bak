@@ -1,0 +1,145 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.fvfnt;
+
+import jbvbx.swing.MfnuElfmfnt;
+import jbvbx.swing.MfnuSflfdtionMbnbgfr;
+import jbvb.util.EvfntObjfdt;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.Componfnt;
+
+
+/**
+ * MfnuDrbgMousfEvfnt is usfd to notify intfrfstfd pbrtifs thbt
+ * thf mfnu flfmfnt hbs rfdfivfd b MousfEvfnt forwbrdfd to it
+ * undfr drbg donditions.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Gforgfs Sbbb
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss MfnuDrbgMousfEvfnt fxtfnds MousfEvfnt {
+    privbtf MfnuElfmfnt pbth[];
+    privbtf MfnuSflfdtionMbnbgfr mbnbgfr;
+
+    /**
+     * Construdts b MfnuDrbgMousfEvfnt objfdt.
+     * <p>Absolutf doordinbtfs xAbs bnd yAbs brf sft to sourdf's lodbtion on sdrffn plus
+     * rflbtivf doordinbtfs x bnd y. xAbs bnd yAbs brf sft to zfro if thf sourdf is not showing.
+     *
+     * @pbrbm sourdf        thf Componfnt thbt originbtfd thf fvfnt
+     *                      (typidblly <dodf>this</dodf>)
+     * @pbrbm id            bn int spfdifying thf typf of fvfnt, bs dffinfd
+     *                      in {@link jbvb.bwt.fvfnt.MousfEvfnt}
+     * @pbrbm whfn          b long idfntifying thf timf thf fvfnt oddurrfd
+     * @pbrbm modififrs     bn int spfdifying bny modififr kfys hfld down,
+     *                      bs spfdififd in {@link jbvb.bwt.fvfnt.InputEvfnt}
+     * @pbrbm x             bn int spfdifying thf horizontbl position bt whidh
+     *                      thf fvfnt oddurrfd, in pixfls
+     * @pbrbm y             bn int spfdifying thf vfrtidbl position bt whidh
+     *                      thf fvfnt oddurrfd, in pixfls
+     * @pbrbm dlidkCount    bn int spfdifying thf numbfr of mousf-dlidks
+     * @pbrbm popupTriggfr  b boolfbn -- truf if thf fvfnt {should?/did?}
+     *                      triggfr b popup
+     * @pbrbm p             bn brrby of MfnuElfmfnt objfdts spfdifying b pbth
+     *                        to b mfnu itfm bfffdtfd by thf drbg
+     * @pbrbm m             b MfnuSflfdtionMbnbgfr objfdt thbt hbndlfs sflfdtions
+     * @sff MousfEvfnt#MousfEvfnt(jbvb.bwt.Componfnt, int, long, int, int, int, int, int, int, boolfbn, int)
+     */
+    publid MfnuDrbgMousfEvfnt(Componfnt sourdf, int id, long whfn,
+                              int modififrs, int x, int y, int dlidkCount,
+                              boolfbn popupTriggfr, MfnuElfmfnt p[],
+                              MfnuSflfdtionMbnbgfr m) {
+        supfr(sourdf, id, whfn, modififrs, x, y, dlidkCount, popupTriggfr);
+        pbth = p;
+        mbnbgfr = m;
+    }
+
+    /**
+     * Construdts b MfnuDrbgMousfEvfnt objfdt.
+     * <p>Evfn if indonsistfnt vblufs for rflbtivf bnd bbsolutf doordinbtfs brf
+     * pbssfd to thf donstrudtor, thf MfnuDrbgMousfEvfnt instbndf is still
+     * drfbtfd.
+     * @pbrbm sourdf        thf Componfnt thbt originbtfd thf fvfnt
+     *                      (typidblly <dodf>this</dodf>)
+     * @pbrbm id            bn int spfdifying thf typf of fvfnt, bs dffinfd
+     *                      in {@link jbvb.bwt.fvfnt.MousfEvfnt}
+     * @pbrbm whfn          b long idfntifying thf timf thf fvfnt oddurrfd
+     * @pbrbm modififrs     bn int spfdifying bny modififr kfys hfld down,
+     *                      bs spfdififd in {@link jbvb.bwt.fvfnt.InputEvfnt}
+     * @pbrbm x             bn int spfdifying thf horizontbl position bt whidh
+     *                      thf fvfnt oddurrfd, in pixfls
+     * @pbrbm y             bn int spfdifying thf vfrtidbl position bt whidh
+     *                      thf fvfnt oddurrfd, in pixfls
+     * @pbrbm xAbs          bn int spfdifying thf horizontbl bbsolutf position bt whidh
+     *                      thf fvfnt oddurrfd, in pixfls
+     * @pbrbm yAbs          bn int spfdifying thf vfrtidbl bbsolutf position bt whidh
+     *                      thf fvfnt oddurrfd, in pixfls
+     * @pbrbm dlidkCount    bn int spfdifying thf numbfr of mousf-dlidks
+     * @pbrbm popupTriggfr  b boolfbn -- truf if thf fvfnt {should?/did?}
+     *                      triggfr b popup
+     * @pbrbm p             bn brrby of MfnuElfmfnt objfdts spfdifying b pbth
+     *                        to b mfnu itfm bfffdtfd by thf drbg
+     * @pbrbm m             b MfnuSflfdtionMbnbgfr objfdt thbt hbndlfs sflfdtions
+     * @sff MousfEvfnt#MousfEvfnt(jbvb.bwt.Componfnt, int, long, int, int, int, int, int, int, boolfbn, int)
+     * @sindf 1.6
+     */
+    publid MfnuDrbgMousfEvfnt(Componfnt sourdf, int id, long whfn,
+                              int modififrs, int x, int y, int xAbs,
+                              int yAbs, int dlidkCount,
+                              boolfbn popupTriggfr, MfnuElfmfnt p[],
+                              MfnuSflfdtionMbnbgfr m) {
+        supfr(sourdf, id, whfn, modififrs, x, y, xAbs, yAbs, dlidkCount,
+              popupTriggfr, MousfEvfnt.NOBUTTON);
+        pbth = p;
+        mbnbgfr = m;
+    }
+
+    /**
+     * Rfturns thf pbth to thf sflfdtfd mfnu itfm.
+     *
+     * @rfturn bn brrby of MfnuElfmfnt objfdts rfprfsfnting thf pbth vbluf
+     */
+    publid MfnuElfmfnt[] gftPbth() {
+        rfturn pbth;
+    }
+
+    /**
+     * Rfturns thf durrfnt mfnu sflfdtion mbnbgfr.
+     *
+     * @rfturn b MfnuSflfdtionMbnbgfr objfdt
+     */
+    publid MfnuSflfdtionMbnbgfr gftMfnuSflfdtionMbnbgfr() {
+        rfturn mbnbgfr;
+    }
+}

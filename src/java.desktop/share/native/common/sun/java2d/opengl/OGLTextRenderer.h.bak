@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef OGLTextRenderer_h_Included
-#define OGLTextRenderer_h_Included
+#ifndff OGLTfxtRfndfrfr_i_Indludfd
+#dffinf OGLTfxtRfndfrfr_i_Indludfd
 
-#include <jni.h>
-#include <jlong.h>
-#include "sun_java2d_pipe_BufferedTextPipe.h"
-#include "OGLContext.h"
-#include "OGLSurfaceData.h"
+#indludf <jni.i>
+#indludf <jlong.i>
+#indludf "sun_jbvb2d_pipf_BufffrfdTfxtPipf.i"
+#indludf "OGLContfxt.i"
+#indludf "OGLSurfbdfDbtb.i"
 
-#define BYTES_PER_GLYPH_IMAGE \
-    sun_java2d_pipe_BufferedTextPipe_BYTES_PER_GLYPH_IMAGE
-#define BYTES_PER_GLYPH_POSITION \
-    sun_java2d_pipe_BufferedTextPipe_BYTES_PER_GLYPH_POSITION
-#define BYTES_PER_POSITIONED_GLYPH \
+#dffinf BYTES_PER_GLYPH_IMAGE \
+    sun_jbvb2d_pipf_BufffrfdTfxtPipf_BYTES_PER_GLYPH_IMAGE
+#dffinf BYTES_PER_GLYPH_POSITION \
+    sun_jbvb2d_pipf_BufffrfdTfxtPipf_BYTES_PER_GLYPH_POSITION
+#dffinf BYTES_PER_POSITIONED_GLYPH \
     (BYTES_PER_GLYPH_IMAGE + BYTES_PER_GLYPH_POSITION)
 
-#define OFFSET_CONTRAST  sun_java2d_pipe_BufferedTextPipe_OFFSET_CONTRAST
-#define OFFSET_RGBORDER  sun_java2d_pipe_BufferedTextPipe_OFFSET_RGBORDER
-#define OFFSET_SUBPIXPOS sun_java2d_pipe_BufferedTextPipe_OFFSET_SUBPIXPOS
-#define OFFSET_POSITIONS sun_java2d_pipe_BufferedTextPipe_OFFSET_POSITIONS
+#dffinf OFFSET_CONTRAST  sun_jbvb2d_pipf_BufffrfdTfxtPipf_OFFSET_CONTRAST
+#dffinf OFFSET_RGBORDER  sun_jbvb2d_pipf_BufffrfdTfxtPipf_OFFSET_RGBORDER
+#dffinf OFFSET_SUBPIXPOS sun_jbvb2d_pipf_BufffrfdTfxtPipf_OFFSET_SUBPIXPOS
+#dffinf OFFSET_POSITIONS sun_jbvb2d_pipf_BufffrfdTfxtPipf_OFFSET_POSITIONS
 
-void OGLTR_EnableGlyphVertexCache(OGLContext *oglc);
-void OGLTR_DisableGlyphVertexCache(OGLContext *oglc);
+void OGLTR_EnbblfGlypiVfrtfxCbdif(OGLContfxt *ogld);
+void OGLTR_DisbblfGlypiVfrtfxCbdif(OGLContfxt *ogld);
 
-void OGLTR_DrawGlyphList(JNIEnv *env, OGLContext *oglc, OGLSDOps *dstOps,
-                         jint totalGlyphs, jboolean usePositions,
-                         jboolean subPixPos, jboolean rgbOrder,
-                         jint lcdContrast,
-                         jfloat glyphListOrigX, jfloat glyphListOrigY,
-                         unsigned char *images, unsigned char *positions);
+void OGLTR_DrbwGlypiList(JNIEnv *fnv, OGLContfxt *ogld, OGLSDOps *dstOps,
+                         jint totblGlypis, jboolfbn usfPositions,
+                         jboolfbn subPixPos, jboolfbn rgbOrdfr,
+                         jint lddContrbst,
+                         jflobt glypiListOrigX, jflobt glypiListOrigY,
+                         unsignfd dibr *imbgfs, unsignfd dibr *positions);
 
-#endif /* OGLTextRenderer_h_Included */
+#fndif /* OGLTfxtRfndfrfr_i_Indludfd */

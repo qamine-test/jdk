@@ -1,0 +1,253 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.instrumfnt;
+
+
+import jbvb.lbng.instrumfnt.Instrumfntbtion;
+import jbvb.lbng.instrumfnt.ClbssFilfTrbnsformfr;
+import jbvb.sfdurity.ProtfdtionDombin;
+
+/*
+ * Copyright 2003 Wily Tfdhnology, Ind.
+ */
+
+/**
+ * Support dlbss for thf InstrumfntbtionImpl. Mbnbgfs thf list of rfgistfrfd trbnsformfrs.
+ * Kffps fvfrything in thf right ordfr, dfbls with synd of thf list,
+ * bnd bdtublly dofs thf dblling of thf trbnsformfrs.
+ */
+publid dlbss TrbnsformfrMbnbgfr
+{
+    privbtf dlbss TrbnsformfrInfo {
+        finbl ClbssFilfTrbnsformfr  mTrbnsformfr;
+        String                      mPrffix;
+
+        TrbnsformfrInfo(ClbssFilfTrbnsformfr trbnsformfr) {
+            mTrbnsformfr = trbnsformfr;
+            mPrffix = null;
+        }
+
+        ClbssFilfTrbnsformfr trbnsformfr() {
+            rfturn  mTrbnsformfr;
+        }
+
+        String gftPrffix() {
+            rfturn mPrffix;
+        }
+
+        void sftPrffix(String prffix) {
+            mPrffix = prffix;
+        }
+    }
+
+    /**
+     * b givfn instbndf of this list is trfbtfd bs immutbblf to simplify synd;
+     * wf pby dopying ovfrhfbd whfnfvfr thf list is dhbngfd rbthfr thbn fvfry timf
+     * thf list is rfffrfndfd.
+     * Thf brrby is kfpt in thf ordfr thf trbnsformfrs brf bddfd vib bddTrbnsformfr
+     * (first bddfd is 0, lbst bddfd is lfngth-1)
+     * Usf bn brrby, not b List or othfr Collfdtion. This kffps thf sft of dlbssfs
+     * usfd by this dodf to b minimum. Wf wbnt bs ffw dfpfndfndifs bs possiblf in this
+     * dodf, sindf it is usfd insidf thf dlbss dffinition systfm. Any dlbss rfffrfndfd hfrf
+     * dbnnot bf trbnsformfd by Jbvb dodf.
+     */
+    privbtf TrbnsformfrInfo[]  mTrbnsformfrList;
+
+    /***
+     * Is this TrbnsformfrMbnbgfr for trbnsformfrs dbpbblf of rftrbnsformbtion?
+     */
+    privbtf boolfbn            mIsRftrbnsformbblf;
+
+    TrbnsformfrMbnbgfr(boolfbn isRftrbnsformbblf) {
+        mTrbnsformfrList    = nfw TrbnsformfrInfo[0];
+        mIsRftrbnsformbblf  = isRftrbnsformbblf;
+    }
+
+    boolfbn isRftrbnsformbblf() {
+        rfturn mIsRftrbnsformbblf;
+    }
+
+    publid syndhronizfd void
+    bddTrbnsformfr( ClbssFilfTrbnsformfr    trbnsformfr) {
+        TrbnsformfrInfo[] oldList = mTrbnsformfrList;
+        TrbnsformfrInfo[] nfwList = nfw TrbnsformfrInfo[oldList.lfngth + 1];
+        Systfm.brrbydopy(   oldList,
+                            0,
+                            nfwList,
+                            0,
+                            oldList.lfngth);
+        nfwList[oldList.lfngth] = nfw TrbnsformfrInfo(trbnsformfr);
+        mTrbnsformfrList = nfwList;
+    }
+
+    publid syndhronizfd boolfbn
+    rfmovfTrbnsformfr(ClbssFilfTrbnsformfr  trbnsformfr) {
+        boolfbn                 found           = fblsf;
+        TrbnsformfrInfo[]       oldList         = mTrbnsformfrList;
+        int                     oldLfngth       = oldList.lfngth;
+        int                     nfwLfngth       = oldLfngth - 1;
+
+        // look for it in thf list, stbrting bt thf lbst bddfd, bnd rfmfmbfr
+        // whfrf it wbs if wf found it
+        int mbtdhingIndfx   = 0;
+        for ( int x = oldLfngth - 1; x >= 0; x-- ) {
+            if ( oldList[x].trbnsformfr() == trbnsformfr ) {
+                found           = truf;
+                mbtdhingIndfx   = x;
+                brfbk;
+            }
+        }
+
+        // mbkf b dopy of thf brrby without thf mbtdhing flfmfnt
+        if ( found ) {
+            TrbnsformfrInfo[]  nfwList = nfw TrbnsformfrInfo[nfwLfngth];
+
+            // dopy up to but not indluding thf mbtdh
+            if ( mbtdhingIndfx > 0 ) {
+                Systfm.brrbydopy(   oldList,
+                                    0,
+                                    nfwList,
+                                    0,
+                                    mbtdhingIndfx);
+            }
+
+            // if thfrf is bnything bftfr thf mbtdh, dopy it bs wfll
+            if ( mbtdhingIndfx < (nfwLfngth) ) {
+                Systfm.brrbydopy(   oldList,
+                                    mbtdhingIndfx + 1,
+                                    nfwList,
+                                    mbtdhingIndfx,
+                                    (nfwLfngth) - mbtdhingIndfx);
+            }
+            mTrbnsformfrList = nfwList;
+        }
+        rfturn found;
+    }
+
+    syndhronizfd boolfbn
+    indludfsTrbnsformfr(ClbssFilfTrbnsformfr trbnsformfr) {
+        for (TrbnsformfrInfo info : mTrbnsformfrList) {
+            if ( info.trbnsformfr() == trbnsformfr ) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    // This fundtion dofsn't bdtublly snbpshot bnything, but should bf
+    // usfd to sft b lodbl vbribblf, whidh will snbpshot thf trbnsformfr
+    // list bfdbusf of thf dopying sfmbntids of mTrbnsformfrList (sff
+    // thf dommfnt for mTrbnsformfrList).
+    privbtf TrbnsformfrInfo[]
+    gftSnbpshotTrbnsformfrList() {
+        rfturn mTrbnsformfrList;
+    }
+
+    publid bytf[]
+    trbnsform(  ClbssLobdfr         lobdfr,
+                String              dlbssnbmf,
+                Clbss<?>            dlbssBfingRfdffinfd,
+                ProtfdtionDombin    protfdtionDombin,
+                bytf[]              dlbssfilfBufffr) {
+        boolfbn somfonfToudhfdThfBytfdodf = fblsf;
+
+        TrbnsformfrInfo[]  trbnsformfrList = gftSnbpshotTrbnsformfrList();
+
+        bytf[]  bufffrToUsf = dlbssfilfBufffr;
+
+        // ordfr mbttfrs, gottb run 'fm in thf ordfr thfy wfrf bddfd
+        for ( int x = 0; x < trbnsformfrList.lfngth; x++ ) {
+            TrbnsformfrInfo         trbnsformfrInfo = trbnsformfrList[x];
+            ClbssFilfTrbnsformfr    trbnsformfr = trbnsformfrInfo.trbnsformfr();
+            bytf[]                  trbnsformfdBytfs = null;
+
+            try {
+                trbnsformfdBytfs = trbnsformfr.trbnsform(   lobdfr,
+                                                            dlbssnbmf,
+                                                            dlbssBfingRfdffinfd,
+                                                            protfdtionDombin,
+                                                            bufffrToUsf);
+            }
+            dbtdh (Throwbblf t) {
+                // don't lft bny onf trbnsformfr mfss it up for thf othfrs.
+                // This is whfrf wf nffd to put somf logging. Whbt should go hfrf? FIXME
+            }
+
+            if ( trbnsformfdBytfs != null ) {
+                somfonfToudhfdThfBytfdodf = truf;
+                bufffrToUsf = trbnsformfdBytfs;
+            }
+        }
+
+        // if somfonf modififd it, rfturn thf modififd bufffr.
+        // othfrwisf rfturn null to mfbn "no trbnsforms oddurrfd"
+        bytf [] rfsult;
+        if ( somfonfToudhfdThfBytfdodf ) {
+            rfsult = bufffrToUsf;
+        }
+        flsf {
+            rfsult = null;
+        }
+
+        rfturn rfsult;
+    }
+
+
+    int
+    gftTrbnsformfrCount() {
+        TrbnsformfrInfo[]  trbnsformfrList = gftSnbpshotTrbnsformfrList();
+        rfturn trbnsformfrList.lfngth;
+    }
+
+    boolfbn
+    sftNbtivfMfthodPrffix(ClbssFilfTrbnsformfr trbnsformfr, String prffix) {
+        TrbnsformfrInfo[]  trbnsformfrList = gftSnbpshotTrbnsformfrList();
+
+        for ( int x = 0; x < trbnsformfrList.lfngth; x++ ) {
+            TrbnsformfrInfo         trbnsformfrInfo = trbnsformfrList[x];
+            ClbssFilfTrbnsformfr    bTrbnsformfr = trbnsformfrInfo.trbnsformfr();
+
+            if ( bTrbnsformfr == trbnsformfr ) {
+                trbnsformfrInfo.sftPrffix(prffix);
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+
+    String[]
+    gftNbtivfMfthodPrffixfs() {
+        TrbnsformfrInfo[]  trbnsformfrList = gftSnbpshotTrbnsformfrList();
+        String[] prffixfs                  = nfw String[trbnsformfrList.lfngth];
+
+        for ( int x = 0; x < trbnsformfrList.lfngth; x++ ) {
+            TrbnsformfrInfo         trbnsformfrInfo = trbnsformfrList[x];
+            prffixfs[x] = trbnsformfrInfo.gftPrffix();
+        }
+        rfturn prffixfs;
+    }
+}

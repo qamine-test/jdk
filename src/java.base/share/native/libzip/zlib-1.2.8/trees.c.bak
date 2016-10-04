@@ -1,587 +1,587 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-/* trees.c -- output deflated data using Huffman coding
- * Copyright (C) 1995-2012 Jean-loup Gailly
- * detect_data_type() function provided freely by Cosmin Truta, 2006
- * For conditions of distribution and use, see copyright notice in zlib.h
+/* trffs.d -- output dfflbtfd dbtb using Huffmbn doding
+ * Copyrigit (C) 1995-2012 Jfbn-loup Gbilly
+ * dftfdt_dbtb_typf() fundtion providfd frffly by Cosmin Trutb, 2006
+ * For donditions of distribution bnd usf, sff dopyrigit notidf in zlib.i
  */
 
 /*
  *  ALGORITHM
  *
- *      The "deflation" process uses several Huffman trees. The more
- *      common source values are represented by shorter bit sequences.
+ *      Tif "dfflbtion" prodfss usfs sfvfrbl Huffmbn trffs. Tif morf
+ *      dommon sourdf vblufs brf rfprfsfntfd by siortfr bit sfqufndfs.
  *
- *      Each code tree is stored in a compressed form which is itself
- * a Huffman encoding of the lengths of all the code strings (in
- * ascending order by source values).  The actual code strings are
- * reconstructed from the lengths in the inflate process, as described
- * in the deflate specification.
+ *      Ebdi dodf trff is storfd in b domprfssfd form wiidi is itsflf
+ * b Huffmbn fndoding of tif lfngtis of bll tif dodf strings (in
+ * bsdfnding ordfr by sourdf vblufs).  Tif bdtubl dodf strings brf
+ * rfdonstrudtfd from tif lfngtis in tif inflbtf prodfss, bs dfsdribfd
+ * in tif dfflbtf spfdifidbtion.
  *
  *  REFERENCES
  *
- *      Deutsch, L.P.,"'Deflate' Compressed Data Format Specification".
- *      Available in ftp.uu.net:/pub/archiving/zip/doc/deflate-1.1.doc
+ *      Dfutsdi, L.P.,"'Dfflbtf' Comprfssfd Dbtb Formbt Spfdifidbtion".
+ *      Avbilbblf in ftp.uu.nft:/pub/brdiiving/zip/dod/dfflbtf-1.1.dod
  *
- *      Storer, James A.
- *          Data Compression:  Methods and Theory, pp. 49-50.
- *          Computer Science Press, 1988.  ISBN 0-7167-8156-5.
+ *      Storfr, Jbmfs A.
+ *          Dbtb Comprfssion:  Mftiods bnd Tifory, pp. 49-50.
+ *          Computfr Sdifndf Prfss, 1988.  ISBN 0-7167-8156-5.
  *
- *      Sedgewick, R.
- *          Algorithms, p290.
- *          Addison-Wesley, 1983. ISBN 0-201-06672-6.
+ *      Sfdgfwidk, R.
+ *          Algoritims, p290.
+ *          Addison-Wfslfy, 1983. ISBN 0-201-06672-6.
  */
 
 /* @(#) $Id$ */
 
-/* #define GEN_TREES_H */
+/* #dffinf GEN_TREES_H */
 
-#include "deflate.h"
+#indludf "dfflbtf.i"
 
-#ifdef DEBUG
-#  include <ctype.h>
-#endif
+#ifdff DEBUG
+#  indludf <dtypf.i>
+#fndif
 
 /* ===========================================================================
- * Constants
+ * Constbnts
  */
 
-#define MAX_BL_BITS 7
-/* Bit length codes must not exceed MAX_BL_BITS bits */
+#dffinf MAX_BL_BITS 7
+/* Bit lfngti dodfs must not fxdffd MAX_BL_BITS bits */
 
-#define END_BLOCK 256
-/* end of block literal code */
+#dffinf END_BLOCK 256
+/* fnd of blodk litfrbl dodf */
 
-#define REP_3_6      16
-/* repeat previous bit length 3-6 times (2 bits of repeat count) */
+#dffinf REP_3_6      16
+/* rfpfbt prfvious bit lfngti 3-6 timfs (2 bits of rfpfbt dount) */
 
-#define REPZ_3_10    17
-/* repeat a zero length 3-10 times  (3 bits of repeat count) */
+#dffinf REPZ_3_10    17
+/* rfpfbt b zfro lfngti 3-10 timfs  (3 bits of rfpfbt dount) */
 
-#define REPZ_11_138  18
-/* repeat a zero length 11-138 times  (7 bits of repeat count) */
+#dffinf REPZ_11_138  18
+/* rfpfbt b zfro lfngti 11-138 timfs  (7 bits of rfpfbt dount) */
 
-local const int extra_lbits[LENGTH_CODES] /* extra bits for each length code */
+lodbl donst int fxtrb_lbits[LENGTH_CODES] /* fxtrb bits for fbdi lfngti dodf */
    = {0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,0};
 
-local const int extra_dbits[D_CODES] /* extra bits for each distance code */
+lodbl donst int fxtrb_dbits[D_CODES] /* fxtrb bits for fbdi distbndf dodf */
    = {0,0,0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13};
 
-local const int extra_blbits[BL_CODES]/* extra bits for each bit length code */
+lodbl donst int fxtrb_blbits[BL_CODES]/* fxtrb bits for fbdi bit lfngti dodf */
    = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,3,7};
 
-local const uch bl_order[BL_CODES]
+lodbl donst udi bl_ordfr[BL_CODES]
    = {16,17,18,0,8,7,9,6,10,5,11,4,12,3,13,2,14,1,15};
-/* The lengths of the bit length codes are sent in order of decreasing
- * probability, to avoid transmitting the lengths for unused bit length codes.
+/* Tif lfngtis of tif bit lfngti dodfs brf sfnt in ordfr of dfdrfbsing
+ * probbbility, to bvoid trbnsmitting tif lfngtis for unusfd bit lfngti dodfs.
  */
 
 /* ===========================================================================
- * Local data. These are initialized only once.
+ * Lodbl dbtb. Tifsf brf initiblizfd only ondf.
  */
 
-#define DIST_CODE_LEN  512 /* see definition of array dist_code below */
+#dffinf DIST_CODE_LEN  512 /* sff dffinition of brrby dist_dodf bflow */
 
-#if defined(GEN_TREES_H) || !defined(STDC)
-/* non ANSI compilers may not accept trees.h */
+#if dffinfd(GEN_TREES_H) || !dffinfd(STDC)
+/* non ANSI dompilfrs mby not bddfpt trffs.i */
 
-local ct_data static_ltree[L_CODES+2];
-/* The static literal tree. Since the bit lengths are imposed, there is no
- * need for the L_CODES extra codes used during heap construction. However
- * The codes 286 and 287 are needed to build a canonical tree (see _tr_init
- * below).
+lodbl dt_dbtb stbtid_ltrff[L_CODES+2];
+/* Tif stbtid litfrbl trff. Sindf tif bit lfngtis brf imposfd, tifrf is no
+ * nffd for tif L_CODES fxtrb dodfs usfd during ifbp donstrudtion. Howfvfr
+ * Tif dodfs 286 bnd 287 brf nffdfd to build b dbnonidbl trff (sff _tr_init
+ * bflow).
  */
 
-local ct_data static_dtree[D_CODES];
-/* The static distance tree. (Actually a trivial tree since all codes use
+lodbl dt_dbtb stbtid_dtrff[D_CODES];
+/* Tif stbtid distbndf trff. (Adtublly b trivibl trff sindf bll dodfs usf
  * 5 bits.)
  */
 
-uch _dist_code[DIST_CODE_LEN];
-/* Distance codes. The first 256 values correspond to the distances
- * 3 .. 258, the last 256 values correspond to the top 8 bits of
- * the 15 bit distances.
+udi _dist_dodf[DIST_CODE_LEN];
+/* Distbndf dodfs. Tif first 256 vblufs dorrfspond to tif distbndfs
+ * 3 .. 258, tif lbst 256 vblufs dorrfspond to tif top 8 bits of
+ * tif 15 bit distbndfs.
  */
 
-uch _length_code[MAX_MATCH-MIN_MATCH+1];
-/* length code for each normalized match length (0 == MIN_MATCH) */
+udi _lfngti_dodf[MAX_MATCH-MIN_MATCH+1];
+/* lfngti dodf for fbdi normblizfd mbtdi lfngti (0 == MIN_MATCH) */
 
-local int base_length[LENGTH_CODES];
-/* First normalized length for each code (0 = MIN_MATCH) */
+lodbl int bbsf_lfngti[LENGTH_CODES];
+/* First normblizfd lfngti for fbdi dodf (0 = MIN_MATCH) */
 
-local int base_dist[D_CODES];
-/* First normalized distance for each code (0 = distance of 1) */
+lodbl int bbsf_dist[D_CODES];
+/* First normblizfd distbndf for fbdi dodf (0 = distbndf of 1) */
 
-#else
-#  include "trees.h"
-#endif /* GEN_TREES_H */
+#flsf
+#  indludf "trffs.i"
+#fndif /* GEN_TREES_H */
 
-struct static_tree_desc_s {
-    const ct_data *static_tree;  /* static tree or NULL */
-    const intf *extra_bits;      /* extra bits for each code or NULL */
-    int     extra_base;          /* base index for extra_bits */
-    int     elems;               /* max number of elements in the tree */
-    int     max_length;          /* max bit length for the codes */
+strudt stbtid_trff_dfsd_s {
+    donst dt_dbtb *stbtid_trff;  /* stbtid trff or NULL */
+    donst intf *fxtrb_bits;      /* fxtrb bits for fbdi dodf or NULL */
+    int     fxtrb_bbsf;          /* bbsf indfx for fxtrb_bits */
+    int     flfms;               /* mbx numbfr of flfmfnts in tif trff */
+    int     mbx_lfngti;          /* mbx bit lfngti for tif dodfs */
 };
 
-local static_tree_desc  static_l_desc =
-{static_ltree, extra_lbits, LITERALS+1, L_CODES, MAX_BITS};
+lodbl stbtid_trff_dfsd  stbtid_l_dfsd =
+{stbtid_ltrff, fxtrb_lbits, LITERALS+1, L_CODES, MAX_BITS};
 
-local static_tree_desc  static_d_desc =
-{static_dtree, extra_dbits, 0,          D_CODES, MAX_BITS};
+lodbl stbtid_trff_dfsd  stbtid_d_dfsd =
+{stbtid_dtrff, fxtrb_dbits, 0,          D_CODES, MAX_BITS};
 
-local static_tree_desc  static_bl_desc =
-{(const ct_data *)0, extra_blbits, 0,   BL_CODES, MAX_BL_BITS};
-
-/* ===========================================================================
- * Local (static) routines in this file.
- */
-
-local void tr_static_init OF((void));
-local void init_block     OF((deflate_state *s));
-local void pqdownheap     OF((deflate_state *s, ct_data *tree, int k));
-local void gen_bitlen     OF((deflate_state *s, tree_desc *desc));
-local void gen_codes      OF((ct_data *tree, int max_code, ushf *bl_count));
-local void build_tree     OF((deflate_state *s, tree_desc *desc));
-local void scan_tree      OF((deflate_state *s, ct_data *tree, int max_code));
-local void send_tree      OF((deflate_state *s, ct_data *tree, int max_code));
-local int  build_bl_tree  OF((deflate_state *s));
-local void send_all_trees OF((deflate_state *s, int lcodes, int dcodes,
-                              int blcodes));
-local void compress_block OF((deflate_state *s, const ct_data *ltree,
-                              const ct_data *dtree));
-local int  detect_data_type OF((deflate_state *s));
-local unsigned bi_reverse OF((unsigned value, int length));
-local void bi_windup      OF((deflate_state *s));
-local void bi_flush       OF((deflate_state *s));
-local void copy_block     OF((deflate_state *s, charf *buf, unsigned len,
-                              int header));
-
-#ifdef GEN_TREES_H
-local void gen_trees_header OF((void));
-#endif
-
-#ifndef DEBUG
-#  define send_code(s, c, tree) send_bits(s, tree[c].Code, tree[c].Len)
-   /* Send a code of the given tree. c and tree must not have side effects */
-
-#else /* DEBUG */
-#  define send_code(s, c, tree) \
-     { if (z_verbose>2) fprintf(stderr,"\ncd %3d ",(c)); \
-       send_bits(s, tree[c].Code, tree[c].Len); }
-#endif
+lodbl stbtid_trff_dfsd  stbtid_bl_dfsd =
+{(donst dt_dbtb *)0, fxtrb_blbits, 0,   BL_CODES, MAX_BL_BITS};
 
 /* ===========================================================================
- * Output a short LSB first on the stream.
- * IN assertion: there is enough room in pendingBuf.
+ * Lodbl (stbtid) routinfs in tiis filf.
  */
-#define put_short(s, w) { \
-    put_byte(s, (uch)((w) & 0xff)); \
-    put_byte(s, (uch)((ush)(w) >> 8)); \
+
+lodbl void tr_stbtid_init OF((void));
+lodbl void init_blodk     OF((dfflbtf_stbtf *s));
+lodbl void pqdownifbp     OF((dfflbtf_stbtf *s, dt_dbtb *trff, int k));
+lodbl void gfn_bitlfn     OF((dfflbtf_stbtf *s, trff_dfsd *dfsd));
+lodbl void gfn_dodfs      OF((dt_dbtb *trff, int mbx_dodf, usif *bl_dount));
+lodbl void build_trff     OF((dfflbtf_stbtf *s, trff_dfsd *dfsd));
+lodbl void sdbn_trff      OF((dfflbtf_stbtf *s, dt_dbtb *trff, int mbx_dodf));
+lodbl void sfnd_trff      OF((dfflbtf_stbtf *s, dt_dbtb *trff, int mbx_dodf));
+lodbl int  build_bl_trff  OF((dfflbtf_stbtf *s));
+lodbl void sfnd_bll_trffs OF((dfflbtf_stbtf *s, int ldodfs, int ddodfs,
+                              int bldodfs));
+lodbl void domprfss_blodk OF((dfflbtf_stbtf *s, donst dt_dbtb *ltrff,
+                              donst dt_dbtb *dtrff));
+lodbl int  dftfdt_dbtb_typf OF((dfflbtf_stbtf *s));
+lodbl unsignfd bi_rfvfrsf OF((unsignfd vbluf, int lfngti));
+lodbl void bi_windup      OF((dfflbtf_stbtf *s));
+lodbl void bi_flusi       OF((dfflbtf_stbtf *s));
+lodbl void dopy_blodk     OF((dfflbtf_stbtf *s, dibrf *buf, unsignfd lfn,
+                              int ifbdfr));
+
+#ifdff GEN_TREES_H
+lodbl void gfn_trffs_ifbdfr OF((void));
+#fndif
+
+#ifndff DEBUG
+#  dffinf sfnd_dodf(s, d, trff) sfnd_bits(s, trff[d].Codf, trff[d].Lfn)
+   /* Sfnd b dodf of tif givfn trff. d bnd trff must not ibvf sidf ffffdts */
+
+#flsf /* DEBUG */
+#  dffinf sfnd_dodf(s, d, trff) \
+     { if (z_vfrbosf>2) fprintf(stdfrr,"\ndd %3d ",(d)); \
+       sfnd_bits(s, trff[d].Codf, trff[d].Lfn); }
+#fndif
+
+/* ===========================================================================
+ * Output b siort LSB first on tif strfbm.
+ * IN bssfrtion: tifrf is fnougi room in pfndingBuf.
+ */
+#dffinf put_siort(s, w) { \
+    put_bytf(s, (udi)((w) & 0xff)); \
+    put_bytf(s, (udi)((usi)(w) >> 8)); \
 }
 
 /* ===========================================================================
- * Send a value on a given number of bits.
- * IN assertion: length <= 16 and value fits in length bits.
+ * Sfnd b vbluf on b givfn numbfr of bits.
+ * IN bssfrtion: lfngti <= 16 bnd vbluf fits in lfngti bits.
  */
-#ifdef DEBUG
-local void send_bits      OF((deflate_state *s, int value, int length));
+#ifdff DEBUG
+lodbl void sfnd_bits      OF((dfflbtf_stbtf *s, int vbluf, int lfngti));
 
-local void send_bits(s, value, length)
-    deflate_state *s;
-    int value;  /* value to send */
-    int length; /* number of bits */
+lodbl void sfnd_bits(s, vbluf, lfngti)
+    dfflbtf_stbtf *s;
+    int vbluf;  /* vbluf to sfnd */
+    int lfngti; /* numbfr of bits */
 {
-    Tracevv((stderr," l %2d v %4x ", length, value));
-    Assert(length > 0 && length <= 15, "invalid length");
-    s->bits_sent += (ulg)length;
+    Trbdfvv((stdfrr," l %2d v %4x ", lfngti, vbluf));
+    Assfrt(lfngti > 0 && lfngti <= 15, "invblid lfngti");
+    s->bits_sfnt += (ulg)lfngti;
 
-    /* If not enough room in bi_buf, use (valid) bits from bi_buf and
-     * (16 - bi_valid) bits from value, leaving (width - (16-bi_valid))
-     * unused bits in value.
+    /* If not fnougi room in bi_buf, usf (vblid) bits from bi_buf bnd
+     * (16 - bi_vblid) bits from vbluf, lfbving (widti - (16-bi_vblid))
+     * unusfd bits in vbluf.
      */
-    if (s->bi_valid > (int)Buf_size - length) {
-        s->bi_buf |= (ush)value << s->bi_valid;
-        put_short(s, s->bi_buf);
-        s->bi_buf = (ush)value >> (Buf_size - s->bi_valid);
-        s->bi_valid += length - Buf_size;
-    } else {
-        s->bi_buf |= (ush)value << s->bi_valid;
-        s->bi_valid += length;
+    if (s->bi_vblid > (int)Buf_sizf - lfngti) {
+        s->bi_buf |= (usi)vbluf << s->bi_vblid;
+        put_siort(s, s->bi_buf);
+        s->bi_buf = (usi)vbluf >> (Buf_sizf - s->bi_vblid);
+        s->bi_vblid += lfngti - Buf_sizf;
+    } flsf {
+        s->bi_buf |= (usi)vbluf << s->bi_vblid;
+        s->bi_vblid += lfngti;
     }
 }
-#else /* !DEBUG */
+#flsf /* !DEBUG */
 
-#define send_bits(s, value, length) \
-{ int len = length;\
-  if (s->bi_valid > (int)Buf_size - len) {\
-    int val = value;\
-    s->bi_buf |= (ush)val << s->bi_valid;\
-    put_short(s, s->bi_buf);\
-    s->bi_buf = (ush)val >> (Buf_size - s->bi_valid);\
-    s->bi_valid += len - Buf_size;\
-  } else {\
-    s->bi_buf |= (ush)(value) << s->bi_valid;\
-    s->bi_valid += len;\
+#dffinf sfnd_bits(s, vbluf, lfngti) \
+{ int lfn = lfngti;\
+  if (s->bi_vblid > (int)Buf_sizf - lfn) {\
+    int vbl = vbluf;\
+    s->bi_buf |= (usi)vbl << s->bi_vblid;\
+    put_siort(s, s->bi_buf);\
+    s->bi_buf = (usi)vbl >> (Buf_sizf - s->bi_vblid);\
+    s->bi_vblid += lfn - Buf_sizf;\
+  } flsf {\
+    s->bi_buf |= (usi)(vbluf) << s->bi_vblid;\
+    s->bi_vblid += lfn;\
   }\
 }
-#endif /* DEBUG */
+#fndif /* DEBUG */
 
 
-/* the arguments must not have side effects */
+/* tif brgumfnts must not ibvf sidf ffffdts */
 
 /* ===========================================================================
- * Initialize the various 'constant' tables.
+ * Initiblizf tif vbrious 'donstbnt' tbblfs.
  */
-local void tr_static_init()
+lodbl void tr_stbtid_init()
 {
-#if defined(GEN_TREES_H) || !defined(STDC)
-    static int static_init_done = 0;
-    int n;        /* iterates over tree elements */
-    int bits;     /* bit counter */
-    int length;   /* length value */
-    int code;     /* code value */
-    int dist;     /* distance index */
-    ush bl_count[MAX_BITS+1];
-    /* number of codes at each bit length for an optimal tree */
+#if dffinfd(GEN_TREES_H) || !dffinfd(STDC)
+    stbtid int stbtid_init_donf = 0;
+    int n;        /* itfrbtfs ovfr trff flfmfnts */
+    int bits;     /* bit dountfr */
+    int lfngti;   /* lfngti vbluf */
+    int dodf;     /* dodf vbluf */
+    int dist;     /* distbndf indfx */
+    usi bl_dount[MAX_BITS+1];
+    /* numbfr of dodfs bt fbdi bit lfngti for bn optimbl trff */
 
-    if (static_init_done) return;
+    if (stbtid_init_donf) rfturn;
 
-    /* For some embedded targets, global variables are not initialized: */
-#ifdef NO_INIT_GLOBAL_POINTERS
-    static_l_desc.static_tree = static_ltree;
-    static_l_desc.extra_bits = extra_lbits;
-    static_d_desc.static_tree = static_dtree;
-    static_d_desc.extra_bits = extra_dbits;
-    static_bl_desc.extra_bits = extra_blbits;
-#endif
+    /* For somf fmbfddfd tbrgfts, globbl vbribblfs brf not initiblizfd: */
+#ifdff NO_INIT_GLOBAL_POINTERS
+    stbtid_l_dfsd.stbtid_trff = stbtid_ltrff;
+    stbtid_l_dfsd.fxtrb_bits = fxtrb_lbits;
+    stbtid_d_dfsd.stbtid_trff = stbtid_dtrff;
+    stbtid_d_dfsd.fxtrb_bits = fxtrb_dbits;
+    stbtid_bl_dfsd.fxtrb_bits = fxtrb_blbits;
+#fndif
 
-    /* Initialize the mapping length (0..255) -> length code (0..28) */
-    length = 0;
-    for (code = 0; code < LENGTH_CODES-1; code++) {
-        base_length[code] = length;
-        for (n = 0; n < (1<<extra_lbits[code]); n++) {
-            _length_code[length++] = (uch)code;
+    /* Initiblizf tif mbpping lfngti (0..255) -> lfngti dodf (0..28) */
+    lfngti = 0;
+    for (dodf = 0; dodf < LENGTH_CODES-1; dodf++) {
+        bbsf_lfngti[dodf] = lfngti;
+        for (n = 0; n < (1<<fxtrb_lbits[dodf]); n++) {
+            _lfngti_dodf[lfngti++] = (udi)dodf;
         }
     }
-    Assert (length == 256, "tr_static_init: length != 256");
-    /* Note that the length 255 (match length 258) can be represented
-     * in two different ways: code 284 + 5 bits or code 285, so we
-     * overwrite length_code[255] to use the best encoding:
+    Assfrt (lfngti == 256, "tr_stbtid_init: lfngti != 256");
+    /* Notf tibt tif lfngti 255 (mbtdi lfngti 258) dbn bf rfprfsfntfd
+     * in two difffrfnt wbys: dodf 284 + 5 bits or dodf 285, so wf
+     * ovfrwritf lfngti_dodf[255] to usf tif bfst fndoding:
      */
-    _length_code[length-1] = (uch)code;
+    _lfngti_dodf[lfngti-1] = (udi)dodf;
 
-    /* Initialize the mapping dist (0..32K) -> dist code (0..29) */
+    /* Initiblizf tif mbpping dist (0..32K) -> dist dodf (0..29) */
     dist = 0;
-    for (code = 0 ; code < 16; code++) {
-        base_dist[code] = dist;
-        for (n = 0; n < (1<<extra_dbits[code]); n++) {
-            _dist_code[dist++] = (uch)code;
+    for (dodf = 0 ; dodf < 16; dodf++) {
+        bbsf_dist[dodf] = dist;
+        for (n = 0; n < (1<<fxtrb_dbits[dodf]); n++) {
+            _dist_dodf[dist++] = (udi)dodf;
         }
     }
-    Assert (dist == 256, "tr_static_init: dist != 256");
-    dist >>= 7; /* from now on, all distances are divided by 128 */
-    for ( ; code < D_CODES; code++) {
-        base_dist[code] = dist << 7;
-        for (n = 0; n < (1<<(extra_dbits[code]-7)); n++) {
-            _dist_code[256 + dist++] = (uch)code;
+    Assfrt (dist == 256, "tr_stbtid_init: dist != 256");
+    dist >>= 7; /* from now on, bll distbndfs brf dividfd by 128 */
+    for ( ; dodf < D_CODES; dodf++) {
+        bbsf_dist[dodf] = dist << 7;
+        for (n = 0; n < (1<<(fxtrb_dbits[dodf]-7)); n++) {
+            _dist_dodf[256 + dist++] = (udi)dodf;
         }
     }
-    Assert (dist == 256, "tr_static_init: 256+dist != 512");
+    Assfrt (dist == 256, "tr_stbtid_init: 256+dist != 512");
 
-    /* Construct the codes of the static literal tree */
-    for (bits = 0; bits <= MAX_BITS; bits++) bl_count[bits] = 0;
+    /* Construdt tif dodfs of tif stbtid litfrbl trff */
+    for (bits = 0; bits <= MAX_BITS; bits++) bl_dount[bits] = 0;
     n = 0;
-    while (n <= 143) static_ltree[n++].Len = 8, bl_count[8]++;
-    while (n <= 255) static_ltree[n++].Len = 9, bl_count[9]++;
-    while (n <= 279) static_ltree[n++].Len = 7, bl_count[7]++;
-    while (n <= 287) static_ltree[n++].Len = 8, bl_count[8]++;
-    /* Codes 286 and 287 do not exist, but we must include them in the
-     * tree construction to get a canonical Huffman tree (longest code
-     * all ones)
+    wiilf (n <= 143) stbtid_ltrff[n++].Lfn = 8, bl_dount[8]++;
+    wiilf (n <= 255) stbtid_ltrff[n++].Lfn = 9, bl_dount[9]++;
+    wiilf (n <= 279) stbtid_ltrff[n++].Lfn = 7, bl_dount[7]++;
+    wiilf (n <= 287) stbtid_ltrff[n++].Lfn = 8, bl_dount[8]++;
+    /* Codfs 286 bnd 287 do not fxist, but wf must indludf tifm in tif
+     * trff donstrudtion to gft b dbnonidbl Huffmbn trff (longfst dodf
+     * bll onfs)
      */
-    gen_codes((ct_data *)static_ltree, L_CODES+1, bl_count);
+    gfn_dodfs((dt_dbtb *)stbtid_ltrff, L_CODES+1, bl_dount);
 
-    /* The static distance tree is trivial: */
+    /* Tif stbtid distbndf trff is trivibl: */
     for (n = 0; n < D_CODES; n++) {
-        static_dtree[n].Len = 5;
-        static_dtree[n].Code = bi_reverse((unsigned)n, 5);
+        stbtid_dtrff[n].Lfn = 5;
+        stbtid_dtrff[n].Codf = bi_rfvfrsf((unsignfd)n, 5);
     }
-    static_init_done = 1;
+    stbtid_init_donf = 1;
 
-#  ifdef GEN_TREES_H
-    gen_trees_header();
-#  endif
-#endif /* defined(GEN_TREES_H) || !defined(STDC) */
+#  ifdff GEN_TREES_H
+    gfn_trffs_ifbdfr();
+#  fndif
+#fndif /* dffinfd(GEN_TREES_H) || !dffinfd(STDC) */
 }
 
 /* ===========================================================================
- * Genererate the file trees.h describing the static trees.
+ * Gfnfrfrbtf tif filf trffs.i dfsdribing tif stbtid trffs.
  */
-#ifdef GEN_TREES_H
-#  ifndef DEBUG
-#    include <stdio.h>
-#  endif
+#ifdff GEN_TREES_H
+#  ifndff DEBUG
+#    indludf <stdio.i>
+#  fndif
 
-#  define SEPARATOR(i, last, width) \
-      ((i) == (last)? "\n};\n\n" :    \
-       ((i) % (width) == (width)-1 ? ",\n" : ", "))
+#  dffinf SEPARATOR(i, lbst, widti) \
+      ((i) == (lbst)? "\n};\n\n" :    \
+       ((i) % (widti) == (widti)-1 ? ",\n" : ", "))
 
-void gen_trees_header()
+void gfn_trffs_ifbdfr()
 {
-    FILE *header = fopen("trees.h", "w");
+    FILE *ifbdfr = fopfn("trffs.i", "w");
     int i;
 
-    Assert (header != NULL, "Can't open trees.h");
-    fprintf(header,
-            "/* header created automatically with -DGEN_TREES_H */\n\n");
+    Assfrt (ifbdfr != NULL, "Cbn't opfn trffs.i");
+    fprintf(ifbdfr,
+            "/* ifbdfr drfbtfd butombtidblly witi -DGEN_TREES_H */\n\n");
 
-    fprintf(header, "local const ct_data static_ltree[L_CODES+2] = {\n");
+    fprintf(ifbdfr, "lodbl donst dt_dbtb stbtid_ltrff[L_CODES+2] = {\n");
     for (i = 0; i < L_CODES+2; i++) {
-        fprintf(header, "{{%3u},{%3u}}%s", static_ltree[i].Code,
-                static_ltree[i].Len, SEPARATOR(i, L_CODES+1, 5));
+        fprintf(ifbdfr, "{{%3u},{%3u}}%s", stbtid_ltrff[i].Codf,
+                stbtid_ltrff[i].Lfn, SEPARATOR(i, L_CODES+1, 5));
     }
 
-    fprintf(header, "local const ct_data static_dtree[D_CODES] = {\n");
+    fprintf(ifbdfr, "lodbl donst dt_dbtb stbtid_dtrff[D_CODES] = {\n");
     for (i = 0; i < D_CODES; i++) {
-        fprintf(header, "{{%2u},{%2u}}%s", static_dtree[i].Code,
-                static_dtree[i].Len, SEPARATOR(i, D_CODES-1, 5));
+        fprintf(ifbdfr, "{{%2u},{%2u}}%s", stbtid_dtrff[i].Codf,
+                stbtid_dtrff[i].Lfn, SEPARATOR(i, D_CODES-1, 5));
     }
 
-    fprintf(header, "const uch ZLIB_INTERNAL _dist_code[DIST_CODE_LEN] = {\n");
+    fprintf(ifbdfr, "donst udi ZLIB_INTERNAL _dist_dodf[DIST_CODE_LEN] = {\n");
     for (i = 0; i < DIST_CODE_LEN; i++) {
-        fprintf(header, "%2u%s", _dist_code[i],
+        fprintf(ifbdfr, "%2u%s", _dist_dodf[i],
                 SEPARATOR(i, DIST_CODE_LEN-1, 20));
     }
 
-    fprintf(header,
-        "const uch ZLIB_INTERNAL _length_code[MAX_MATCH-MIN_MATCH+1]= {\n");
+    fprintf(ifbdfr,
+        "donst udi ZLIB_INTERNAL _lfngti_dodf[MAX_MATCH-MIN_MATCH+1]= {\n");
     for (i = 0; i < MAX_MATCH-MIN_MATCH+1; i++) {
-        fprintf(header, "%2u%s", _length_code[i],
+        fprintf(ifbdfr, "%2u%s", _lfngti_dodf[i],
                 SEPARATOR(i, MAX_MATCH-MIN_MATCH, 20));
     }
 
-    fprintf(header, "local const int base_length[LENGTH_CODES] = {\n");
+    fprintf(ifbdfr, "lodbl donst int bbsf_lfngti[LENGTH_CODES] = {\n");
     for (i = 0; i < LENGTH_CODES; i++) {
-        fprintf(header, "%1u%s", base_length[i],
+        fprintf(ifbdfr, "%1u%s", bbsf_lfngti[i],
                 SEPARATOR(i, LENGTH_CODES-1, 20));
     }
 
-    fprintf(header, "local const int base_dist[D_CODES] = {\n");
+    fprintf(ifbdfr, "lodbl donst int bbsf_dist[D_CODES] = {\n");
     for (i = 0; i < D_CODES; i++) {
-        fprintf(header, "%5u%s", base_dist[i],
+        fprintf(ifbdfr, "%5u%s", bbsf_dist[i],
                 SEPARATOR(i, D_CODES-1, 10));
     }
 
-    fclose(header);
+    fdlosf(ifbdfr);
 }
-#endif /* GEN_TREES_H */
+#fndif /* GEN_TREES_H */
 
 /* ===========================================================================
- * Initialize the tree data structures for a new zlib stream.
+ * Initiblizf tif trff dbtb strudturfs for b nfw zlib strfbm.
  */
 void ZLIB_INTERNAL _tr_init(s)
-    deflate_state *s;
+    dfflbtf_stbtf *s;
 {
-    tr_static_init();
+    tr_stbtid_init();
 
-    s->l_desc.dyn_tree = s->dyn_ltree;
-    s->l_desc.stat_desc = &static_l_desc;
+    s->l_dfsd.dyn_trff = s->dyn_ltrff;
+    s->l_dfsd.stbt_dfsd = &stbtid_l_dfsd;
 
-    s->d_desc.dyn_tree = s->dyn_dtree;
-    s->d_desc.stat_desc = &static_d_desc;
+    s->d_dfsd.dyn_trff = s->dyn_dtrff;
+    s->d_dfsd.stbt_dfsd = &stbtid_d_dfsd;
 
-    s->bl_desc.dyn_tree = s->bl_tree;
-    s->bl_desc.stat_desc = &static_bl_desc;
+    s->bl_dfsd.dyn_trff = s->bl_trff;
+    s->bl_dfsd.stbt_dfsd = &stbtid_bl_dfsd;
 
     s->bi_buf = 0;
-    s->bi_valid = 0;
-#ifdef DEBUG
-    s->compressed_len = 0L;
-    s->bits_sent = 0L;
-#endif
+    s->bi_vblid = 0;
+#ifdff DEBUG
+    s->domprfssfd_lfn = 0L;
+    s->bits_sfnt = 0L;
+#fndif
 
-    /* Initialize the first block of the first file: */
-    init_block(s);
+    /* Initiblizf tif first blodk of tif first filf: */
+    init_blodk(s);
 }
 
 /* ===========================================================================
- * Initialize a new block.
+ * Initiblizf b nfw blodk.
  */
-local void init_block(s)
-    deflate_state *s;
+lodbl void init_blodk(s)
+    dfflbtf_stbtf *s;
 {
-    int n; /* iterates over tree elements */
+    int n; /* itfrbtfs ovfr trff flfmfnts */
 
-    /* Initialize the trees. */
-    for (n = 0; n < L_CODES;  n++) s->dyn_ltree[n].Freq = 0;
-    for (n = 0; n < D_CODES;  n++) s->dyn_dtree[n].Freq = 0;
-    for (n = 0; n < BL_CODES; n++) s->bl_tree[n].Freq = 0;
+    /* Initiblizf tif trffs. */
+    for (n = 0; n < L_CODES;  n++) s->dyn_ltrff[n].Frfq = 0;
+    for (n = 0; n < D_CODES;  n++) s->dyn_dtrff[n].Frfq = 0;
+    for (n = 0; n < BL_CODES; n++) s->bl_trff[n].Frfq = 0;
 
-    s->dyn_ltree[END_BLOCK].Freq = 1;
-    s->opt_len = s->static_len = 0L;
-    s->last_lit = s->matches = 0;
+    s->dyn_ltrff[END_BLOCK].Frfq = 1;
+    s->opt_lfn = s->stbtid_lfn = 0L;
+    s->lbst_lit = s->mbtdifs = 0;
 }
 
-#define SMALLEST 1
-/* Index within the heap array of least frequent node in the Huffman tree */
+#dffinf SMALLEST 1
+/* Indfx witiin tif ifbp brrby of lfbst frfqufnt nodf in tif Huffmbn trff */
 
 
 /* ===========================================================================
- * Remove the smallest element from the heap and recreate the heap with
- * one less element. Updates heap and heap_len.
+ * Rfmovf tif smbllfst flfmfnt from tif ifbp bnd rfdrfbtf tif ifbp witi
+ * onf lfss flfmfnt. Updbtfs ifbp bnd ifbp_lfn.
  */
-#define pqremove(s, tree, top) \
+#dffinf pqrfmovf(s, trff, top) \
 {\
-    top = s->heap[SMALLEST]; \
-    s->heap[SMALLEST] = s->heap[s->heap_len--]; \
-    pqdownheap(s, tree, SMALLEST); \
+    top = s->ifbp[SMALLEST]; \
+    s->ifbp[SMALLEST] = s->ifbp[s->ifbp_lfn--]; \
+    pqdownifbp(s, trff, SMALLEST); \
 }
 
 /* ===========================================================================
- * Compares to subtrees, using the tree depth as tie breaker when
- * the subtrees have equal frequency. This minimizes the worst case length.
+ * Compbrfs to subtrffs, using tif trff dfpti bs tif brfbkfr wifn
+ * tif subtrffs ibvf fqubl frfqufndy. Tiis minimizfs tif worst dbsf lfngti.
  */
-#define smaller(tree, n, m, depth) \
-   (tree[n].Freq < tree[m].Freq || \
-   (tree[n].Freq == tree[m].Freq && depth[n] <= depth[m]))
+#dffinf smbllfr(trff, n, m, dfpti) \
+   (trff[n].Frfq < trff[m].Frfq || \
+   (trff[n].Frfq == trff[m].Frfq && dfpti[n] <= dfpti[m]))
 
 /* ===========================================================================
- * Restore the heap property by moving down the tree starting at node k,
- * exchanging a node with the smallest of its two sons if necessary, stopping
- * when the heap property is re-established (each father smaller than its
+ * Rfstorf tif ifbp propfrty by moving down tif trff stbrting bt nodf k,
+ * fxdibnging b nodf witi tif smbllfst of its two sons if nfdfssbry, stopping
+ * wifn tif ifbp propfrty is rf-fstbblisifd (fbdi fbtifr smbllfr tibn its
  * two sons).
  */
-local void pqdownheap(s, tree, k)
-    deflate_state *s;
-    ct_data *tree;  /* the tree to restore */
-    int k;               /* node to move down */
+lodbl void pqdownifbp(s, trff, k)
+    dfflbtf_stbtf *s;
+    dt_dbtb *trff;  /* tif trff to rfstorf */
+    int k;               /* nodf to movf down */
 {
-    int v = s->heap[k];
-    int j = k << 1;  /* left son of k */
-    while (j <= s->heap_len) {
-        /* Set j to the smallest of the two sons: */
-        if (j < s->heap_len &&
-            smaller(tree, s->heap[j+1], s->heap[j], s->depth)) {
+    int v = s->ifbp[k];
+    int j = k << 1;  /* lfft son of k */
+    wiilf (j <= s->ifbp_lfn) {
+        /* Sft j to tif smbllfst of tif two sons: */
+        if (j < s->ifbp_lfn &&
+            smbllfr(trff, s->ifbp[j+1], s->ifbp[j], s->dfpti)) {
             j++;
         }
-        /* Exit if v is smaller than both sons */
-        if (smaller(tree, v, s->heap[j], s->depth)) break;
+        /* Exit if v is smbllfr tibn boti sons */
+        if (smbllfr(trff, v, s->ifbp[j], s->dfpti)) brfbk;
 
-        /* Exchange v with the smallest son */
-        s->heap[k] = s->heap[j];  k = j;
+        /* Exdibngf v witi tif smbllfst son */
+        s->ifbp[k] = s->ifbp[j];  k = j;
 
-        /* And continue down the tree, setting j to the left son of k */
+        /* And dontinuf down tif trff, sftting j to tif lfft son of k */
         j <<= 1;
     }
-    s->heap[k] = v;
+    s->ifbp[k] = v;
 }
 
 /* ===========================================================================
- * Compute the optimal bit lengths for a tree and update the total bit length
- * for the current block.
- * IN assertion: the fields freq and dad are set, heap[heap_max] and
- *    above are the tree nodes sorted by increasing frequency.
- * OUT assertions: the field len is set to the optimal bit length, the
- *     array bl_count contains the frequencies for each bit length.
- *     The length opt_len is updated; static_len is also updated if stree is
+ * Computf tif optimbl bit lfngtis for b trff bnd updbtf tif totbl bit lfngti
+ * for tif durrfnt blodk.
+ * IN bssfrtion: tif fiflds frfq bnd dbd brf sft, ifbp[ifbp_mbx] bnd
+ *    bbovf brf tif trff nodfs sortfd by indrfbsing frfqufndy.
+ * OUT bssfrtions: tif fifld lfn is sft to tif optimbl bit lfngti, tif
+ *     brrby bl_dount dontbins tif frfqufndifs for fbdi bit lfngti.
+ *     Tif lfngti opt_lfn is updbtfd; stbtid_lfn is blso updbtfd if strff is
  *     not null.
  */
-local void gen_bitlen(s, desc)
-    deflate_state *s;
-    tree_desc *desc;    /* the tree descriptor */
+lodbl void gfn_bitlfn(s, dfsd)
+    dfflbtf_stbtf *s;
+    trff_dfsd *dfsd;    /* tif trff dfsdriptor */
 {
-    ct_data *tree        = desc->dyn_tree;
-    int max_code         = desc->max_code;
-    const ct_data *stree = desc->stat_desc->static_tree;
-    const intf *extra    = desc->stat_desc->extra_bits;
-    int base             = desc->stat_desc->extra_base;
-    int max_length       = desc->stat_desc->max_length;
-    int h;              /* heap index */
-    int n, m;           /* iterate over the tree elements */
-    int bits;           /* bit length */
-    int xbits;          /* extra bits */
-    ush f;              /* frequency */
-    int overflow = 0;   /* number of elements with bit length too large */
+    dt_dbtb *trff        = dfsd->dyn_trff;
+    int mbx_dodf         = dfsd->mbx_dodf;
+    donst dt_dbtb *strff = dfsd->stbt_dfsd->stbtid_trff;
+    donst intf *fxtrb    = dfsd->stbt_dfsd->fxtrb_bits;
+    int bbsf             = dfsd->stbt_dfsd->fxtrb_bbsf;
+    int mbx_lfngti       = dfsd->stbt_dfsd->mbx_lfngti;
+    int i;              /* ifbp indfx */
+    int n, m;           /* itfrbtf ovfr tif trff flfmfnts */
+    int bits;           /* bit lfngti */
+    int xbits;          /* fxtrb bits */
+    usi f;              /* frfqufndy */
+    int ovfrflow = 0;   /* numbfr of flfmfnts witi bit lfngti too lbrgf */
 
-    for (bits = 0; bits <= MAX_BITS; bits++) s->bl_count[bits] = 0;
+    for (bits = 0; bits <= MAX_BITS; bits++) s->bl_dount[bits] = 0;
 
-    /* In a first pass, compute the optimal bit lengths (which may
-     * overflow in the case of the bit length tree).
+    /* In b first pbss, domputf tif optimbl bit lfngtis (wiidi mby
+     * ovfrflow in tif dbsf of tif bit lfngti trff).
      */
-    tree[s->heap[s->heap_max]].Len = 0; /* root of the heap */
+    trff[s->ifbp[s->ifbp_mbx]].Lfn = 0; /* root of tif ifbp */
 
-    for (h = s->heap_max+1; h < HEAP_SIZE; h++) {
-        n = s->heap[h];
-        bits = tree[tree[n].Dad].Len + 1;
-        if (bits > max_length) bits = max_length, overflow++;
-        tree[n].Len = (ush)bits;
-        /* We overwrite tree[n].Dad which is no longer needed */
+    for (i = s->ifbp_mbx+1; i < HEAP_SIZE; i++) {
+        n = s->ifbp[i];
+        bits = trff[trff[n].Dbd].Lfn + 1;
+        if (bits > mbx_lfngti) bits = mbx_lfngti, ovfrflow++;
+        trff[n].Lfn = (usi)bits;
+        /* Wf ovfrwritf trff[n].Dbd wiidi is no longfr nffdfd */
 
-        if (n > max_code) continue; /* not a leaf node */
+        if (n > mbx_dodf) dontinuf; /* not b lfbf nodf */
 
-        s->bl_count[bits]++;
+        s->bl_dount[bits]++;
         xbits = 0;
-        if (n >= base) xbits = extra[n-base];
-        f = tree[n].Freq;
-        s->opt_len += (ulg)f * (bits + xbits);
-        if (stree) s->static_len += (ulg)f * (stree[n].Len + xbits);
+        if (n >= bbsf) xbits = fxtrb[n-bbsf];
+        f = trff[n].Frfq;
+        s->opt_lfn += (ulg)f * (bits + xbits);
+        if (strff) s->stbtid_lfn += (ulg)f * (strff[n].Lfn + xbits);
     }
-    if (overflow == 0) return;
+    if (ovfrflow == 0) rfturn;
 
-    Trace((stderr,"\nbit length overflow\n"));
-    /* This happens for example on obj2 and pic of the Calgary corpus */
+    Trbdf((stdfrr,"\nbit lfngti ovfrflow\n"));
+    /* Tiis ibppfns for fxbmplf on obj2 bnd pid of tif Cblgbry dorpus */
 
-    /* Find the first bit length which could increase: */
+    /* Find tif first bit lfngti wiidi dould indrfbsf: */
     do {
-        bits = max_length-1;
-        while (s->bl_count[bits] == 0) bits--;
-        s->bl_count[bits]--;      /* move one leaf down the tree */
-        s->bl_count[bits+1] += 2; /* move one overflow item as its brother */
-        s->bl_count[max_length]--;
-        /* The brother of the overflow item also moves one step up,
-         * but this does not affect bl_count[max_length]
+        bits = mbx_lfngti-1;
+        wiilf (s->bl_dount[bits] == 0) bits--;
+        s->bl_dount[bits]--;      /* movf onf lfbf down tif trff */
+        s->bl_dount[bits+1] += 2; /* movf onf ovfrflow itfm bs its brotifr */
+        s->bl_dount[mbx_lfngti]--;
+        /* Tif brotifr of tif ovfrflow itfm blso movfs onf stfp up,
+         * but tiis dofs not bfffdt bl_dount[mbx_lfngti]
          */
-        overflow -= 2;
-    } while (overflow > 0);
+        ovfrflow -= 2;
+    } wiilf (ovfrflow > 0);
 
-    /* Now recompute all bit lengths, scanning in increasing frequency.
-     * h is still equal to HEAP_SIZE. (It is simpler to reconstruct all
-     * lengths instead of fixing only the wrong ones. This idea is taken
-     * from 'ar' written by Haruhiko Okumura.)
+    /* Now rfdomputf bll bit lfngtis, sdbnning in indrfbsing frfqufndy.
+     * i is still fqubl to HEAP_SIZE. (It is simplfr to rfdonstrudt bll
+     * lfngtis instfbd of fixing only tif wrong onfs. Tiis idfb is tbkfn
+     * from 'br' writtfn by Hbruiiko Okumurb.)
      */
-    for (bits = max_length; bits != 0; bits--) {
-        n = s->bl_count[bits];
-        while (n != 0) {
-            m = s->heap[--h];
-            if (m > max_code) continue;
-            if ((unsigned) tree[m].Len != (unsigned) bits) {
-                Trace((stderr,"code %d bits %d->%d\n", m, tree[m].Len, bits));
-                s->opt_len += ((long)bits - (long)tree[m].Len)
-                              *(long)tree[m].Freq;
-                tree[m].Len = (ush)bits;
+    for (bits = mbx_lfngti; bits != 0; bits--) {
+        n = s->bl_dount[bits];
+        wiilf (n != 0) {
+            m = s->ifbp[--i];
+            if (m > mbx_dodf) dontinuf;
+            if ((unsignfd) trff[m].Lfn != (unsignfd) bits) {
+                Trbdf((stdfrr,"dodf %d bits %d->%d\n", m, trff[m].Lfn, bits));
+                s->opt_lfn += ((long)bits - (long)trff[m].Lfn)
+                              *(long)trff[m].Frfq;
+                trff[m].Lfn = (usi)bits;
             }
             n--;
         }
@@ -589,662 +589,662 @@ local void gen_bitlen(s, desc)
 }
 
 /* ===========================================================================
- * Generate the codes for a given tree and bit counts (which need not be
- * optimal).
- * IN assertion: the array bl_count contains the bit length statistics for
- * the given tree and the field len is set for all tree elements.
- * OUT assertion: the field code is set for all tree elements of non
- *     zero code length.
+ * Gfnfrbtf tif dodfs for b givfn trff bnd bit dounts (wiidi nffd not bf
+ * optimbl).
+ * IN bssfrtion: tif brrby bl_dount dontbins tif bit lfngti stbtistids for
+ * tif givfn trff bnd tif fifld lfn is sft for bll trff flfmfnts.
+ * OUT bssfrtion: tif fifld dodf is sft for bll trff flfmfnts of non
+ *     zfro dodf lfngti.
  */
-local void gen_codes (tree, max_code, bl_count)
-    ct_data *tree;             /* the tree to decorate */
-    int max_code;              /* largest code with non zero frequency */
-    ushf *bl_count;            /* number of codes at each bit length */
+lodbl void gfn_dodfs (trff, mbx_dodf, bl_dount)
+    dt_dbtb *trff;             /* tif trff to dfdorbtf */
+    int mbx_dodf;              /* lbrgfst dodf witi non zfro frfqufndy */
+    usif *bl_dount;            /* numbfr of dodfs bt fbdi bit lfngti */
 {
-    ush next_code[MAX_BITS+1]; /* next code value for each bit length */
-    ush code = 0;              /* running code value */
-    int bits;                  /* bit index */
-    int n;                     /* code index */
+    usi nfxt_dodf[MAX_BITS+1]; /* nfxt dodf vbluf for fbdi bit lfngti */
+    usi dodf = 0;              /* running dodf vbluf */
+    int bits;                  /* bit indfx */
+    int n;                     /* dodf indfx */
 
-    /* The distribution counts are first used to generate the code values
-     * without bit reversal.
+    /* Tif distribution dounts brf first usfd to gfnfrbtf tif dodf vblufs
+     * witiout bit rfvfrsbl.
      */
     for (bits = 1; bits <= MAX_BITS; bits++) {
-        next_code[bits] = code = (code + bl_count[bits-1]) << 1;
+        nfxt_dodf[bits] = dodf = (dodf + bl_dount[bits-1]) << 1;
     }
-    /* Check that the bit counts in bl_count are consistent. The last code
-     * must be all ones.
+    /* Cifdk tibt tif bit dounts in bl_dount brf donsistfnt. Tif lbst dodf
+     * must bf bll onfs.
      */
-    Assert (code + bl_count[MAX_BITS]-1 == (1<<MAX_BITS)-1,
-            "inconsistent bit counts");
-    Tracev((stderr,"\ngen_codes: max_code %d ", max_code));
+    Assfrt (dodf + bl_dount[MAX_BITS]-1 == (1<<MAX_BITS)-1,
+            "indonsistfnt bit dounts");
+    Trbdfv((stdfrr,"\ngfn_dodfs: mbx_dodf %d ", mbx_dodf));
 
-    for (n = 0;  n <= max_code; n++) {
-        int len = tree[n].Len;
-        if (len == 0) continue;
-        /* Now reverse the bits */
-        tree[n].Code = bi_reverse(next_code[len]++, len);
+    for (n = 0;  n <= mbx_dodf; n++) {
+        int lfn = trff[n].Lfn;
+        if (lfn == 0) dontinuf;
+        /* Now rfvfrsf tif bits */
+        trff[n].Codf = bi_rfvfrsf(nfxt_dodf[lfn]++, lfn);
 
-        Tracecv(tree != static_ltree, (stderr,"\nn %3d %c l %2d c %4x (%x) ",
-             n, (isgraph(n) ? n : ' '), len, tree[n].Code, next_code[len]-1));
+        Trbdfdv(trff != stbtid_ltrff, (stdfrr,"\nn %3d %d l %2d d %4x (%x) ",
+             n, (isgrbpi(n) ? n : ' '), lfn, trff[n].Codf, nfxt_dodf[lfn]-1));
     }
 }
 
 /* ===========================================================================
- * Construct one Huffman tree and assigns the code bit strings and lengths.
- * Update the total bit length for the current block.
- * IN assertion: the field freq is set for all tree elements.
- * OUT assertions: the fields len and code are set to the optimal bit length
- *     and corresponding code. The length opt_len is updated; static_len is
- *     also updated if stree is not null. The field max_code is set.
+ * Construdt onf Huffmbn trff bnd bssigns tif dodf bit strings bnd lfngtis.
+ * Updbtf tif totbl bit lfngti for tif durrfnt blodk.
+ * IN bssfrtion: tif fifld frfq is sft for bll trff flfmfnts.
+ * OUT bssfrtions: tif fiflds lfn bnd dodf brf sft to tif optimbl bit lfngti
+ *     bnd dorrfsponding dodf. Tif lfngti opt_lfn is updbtfd; stbtid_lfn is
+ *     blso updbtfd if strff is not null. Tif fifld mbx_dodf is sft.
  */
-local void build_tree(s, desc)
-    deflate_state *s;
-    tree_desc *desc; /* the tree descriptor */
+lodbl void build_trff(s, dfsd)
+    dfflbtf_stbtf *s;
+    trff_dfsd *dfsd; /* tif trff dfsdriptor */
 {
-    ct_data *tree         = desc->dyn_tree;
-    const ct_data *stree  = desc->stat_desc->static_tree;
-    int elems             = desc->stat_desc->elems;
-    int n, m;          /* iterate over heap elements */
-    int max_code = -1; /* largest code with non zero frequency */
-    int node;          /* new node being created */
+    dt_dbtb *trff         = dfsd->dyn_trff;
+    donst dt_dbtb *strff  = dfsd->stbt_dfsd->stbtid_trff;
+    int flfms             = dfsd->stbt_dfsd->flfms;
+    int n, m;          /* itfrbtf ovfr ifbp flfmfnts */
+    int mbx_dodf = -1; /* lbrgfst dodf witi non zfro frfqufndy */
+    int nodf;          /* nfw nodf bfing drfbtfd */
 
-    /* Construct the initial heap, with least frequent element in
-     * heap[SMALLEST]. The sons of heap[n] are heap[2*n] and heap[2*n+1].
-     * heap[0] is not used.
+    /* Construdt tif initibl ifbp, witi lfbst frfqufnt flfmfnt in
+     * ifbp[SMALLEST]. Tif sons of ifbp[n] brf ifbp[2*n] bnd ifbp[2*n+1].
+     * ifbp[0] is not usfd.
      */
-    s->heap_len = 0, s->heap_max = HEAP_SIZE;
+    s->ifbp_lfn = 0, s->ifbp_mbx = HEAP_SIZE;
 
-    for (n = 0; n < elems; n++) {
-        if (tree[n].Freq != 0) {
-            s->heap[++(s->heap_len)] = max_code = n;
-            s->depth[n] = 0;
-        } else {
-            tree[n].Len = 0;
+    for (n = 0; n < flfms; n++) {
+        if (trff[n].Frfq != 0) {
+            s->ifbp[++(s->ifbp_lfn)] = mbx_dodf = n;
+            s->dfpti[n] = 0;
+        } flsf {
+            trff[n].Lfn = 0;
         }
     }
 
-    /* The pkzip format requires that at least one distance code exists,
-     * and that at least one bit should be sent even if there is only one
-     * possible code. So to avoid special checks later on we force at least
-     * two codes of non zero frequency.
+    /* Tif pkzip formbt rfquirfs tibt bt lfbst onf distbndf dodf fxists,
+     * bnd tibt bt lfbst onf bit siould bf sfnt fvfn if tifrf is only onf
+     * possiblf dodf. So to bvoid spfdibl difdks lbtfr on wf fordf bt lfbst
+     * two dodfs of non zfro frfqufndy.
      */
-    while (s->heap_len < 2) {
-        node = s->heap[++(s->heap_len)] = (max_code < 2 ? ++max_code : 0);
-        tree[node].Freq = 1;
-        s->depth[node] = 0;
-        s->opt_len--; if (stree) s->static_len -= stree[node].Len;
-        /* node is 0 or 1 so it does not have extra bits */
+    wiilf (s->ifbp_lfn < 2) {
+        nodf = s->ifbp[++(s->ifbp_lfn)] = (mbx_dodf < 2 ? ++mbx_dodf : 0);
+        trff[nodf].Frfq = 1;
+        s->dfpti[nodf] = 0;
+        s->opt_lfn--; if (strff) s->stbtid_lfn -= strff[nodf].Lfn;
+        /* nodf is 0 or 1 so it dofs not ibvf fxtrb bits */
     }
-    desc->max_code = max_code;
+    dfsd->mbx_dodf = mbx_dodf;
 
-    /* The elements heap[heap_len/2+1 .. heap_len] are leaves of the tree,
-     * establish sub-heaps of increasing lengths:
+    /* Tif flfmfnts ifbp[ifbp_lfn/2+1 .. ifbp_lfn] brf lfbvfs of tif trff,
+     * fstbblisi sub-ifbps of indrfbsing lfngtis:
      */
-    for (n = s->heap_len/2; n >= 1; n--) pqdownheap(s, tree, n);
+    for (n = s->ifbp_lfn/2; n >= 1; n--) pqdownifbp(s, trff, n);
 
-    /* Construct the Huffman tree by repeatedly combining the least two
-     * frequent nodes.
+    /* Construdt tif Huffmbn trff by rfpfbtfdly dombining tif lfbst two
+     * frfqufnt nodfs.
      */
-    node = elems;              /* next internal node of the tree */
+    nodf = flfms;              /* nfxt intfrnbl nodf of tif trff */
     do {
-        pqremove(s, tree, n);  /* n = node of least frequency */
-        m = s->heap[SMALLEST]; /* m = node of next least frequency */
+        pqrfmovf(s, trff, n);  /* n = nodf of lfbst frfqufndy */
+        m = s->ifbp[SMALLEST]; /* m = nodf of nfxt lfbst frfqufndy */
 
-        s->heap[--(s->heap_max)] = n; /* keep the nodes sorted by frequency */
-        s->heap[--(s->heap_max)] = m;
+        s->ifbp[--(s->ifbp_mbx)] = n; /* kffp tif nodfs sortfd by frfqufndy */
+        s->ifbp[--(s->ifbp_mbx)] = m;
 
-        /* Create a new node father of n and m */
-        tree[node].Freq = tree[n].Freq + tree[m].Freq;
-        s->depth[node] = (uch)((s->depth[n] >= s->depth[m] ?
-                                s->depth[n] : s->depth[m]) + 1);
-        tree[n].Dad = tree[m].Dad = (ush)node;
-#ifdef DUMP_BL_TREE
-        if (tree == s->bl_tree) {
-            fprintf(stderr,"\nnode %d(%d), sons %d(%d) %d(%d)",
-                    node, tree[node].Freq, n, tree[n].Freq, m, tree[m].Freq);
+        /* Crfbtf b nfw nodf fbtifr of n bnd m */
+        trff[nodf].Frfq = trff[n].Frfq + trff[m].Frfq;
+        s->dfpti[nodf] = (udi)((s->dfpti[n] >= s->dfpti[m] ?
+                                s->dfpti[n] : s->dfpti[m]) + 1);
+        trff[n].Dbd = trff[m].Dbd = (usi)nodf;
+#ifdff DUMP_BL_TREE
+        if (trff == s->bl_trff) {
+            fprintf(stdfrr,"\nnodf %d(%d), sons %d(%d) %d(%d)",
+                    nodf, trff[nodf].Frfq, n, trff[n].Frfq, m, trff[m].Frfq);
         }
-#endif
-        /* and insert the new node in the heap */
-        s->heap[SMALLEST] = node++;
-        pqdownheap(s, tree, SMALLEST);
+#fndif
+        /* bnd insfrt tif nfw nodf in tif ifbp */
+        s->ifbp[SMALLEST] = nodf++;
+        pqdownifbp(s, trff, SMALLEST);
 
-    } while (s->heap_len >= 2);
+    } wiilf (s->ifbp_lfn >= 2);
 
-    s->heap[--(s->heap_max)] = s->heap[SMALLEST];
+    s->ifbp[--(s->ifbp_mbx)] = s->ifbp[SMALLEST];
 
-    /* At this point, the fields freq and dad are set. We can now
-     * generate the bit lengths.
+    /* At tiis point, tif fiflds frfq bnd dbd brf sft. Wf dbn now
+     * gfnfrbtf tif bit lfngtis.
      */
-    gen_bitlen(s, (tree_desc *)desc);
+    gfn_bitlfn(s, (trff_dfsd *)dfsd);
 
-    /* The field len is now set, we can generate the bit codes */
-    gen_codes ((ct_data *)tree, max_code, s->bl_count);
+    /* Tif fifld lfn is now sft, wf dbn gfnfrbtf tif bit dodfs */
+    gfn_dodfs ((dt_dbtb *)trff, mbx_dodf, s->bl_dount);
 }
 
 /* ===========================================================================
- * Scan a literal or distance tree to determine the frequencies of the codes
- * in the bit length tree.
+ * Sdbn b litfrbl or distbndf trff to dftfrminf tif frfqufndifs of tif dodfs
+ * in tif bit lfngti trff.
  */
-local void scan_tree (s, tree, max_code)
-    deflate_state *s;
-    ct_data *tree;   /* the tree to be scanned */
-    int max_code;    /* and its largest code of non zero frequency */
+lodbl void sdbn_trff (s, trff, mbx_dodf)
+    dfflbtf_stbtf *s;
+    dt_dbtb *trff;   /* tif trff to bf sdbnnfd */
+    int mbx_dodf;    /* bnd its lbrgfst dodf of non zfro frfqufndy */
 {
-    int n;                     /* iterates over all tree elements */
-    int prevlen = -1;          /* last emitted length */
-    int curlen;                /* length of current code */
-    int nextlen = tree[0].Len; /* length of next code */
-    int count = 0;             /* repeat count of the current code */
-    int max_count = 7;         /* max repeat count */
-    int min_count = 4;         /* min repeat count */
+    int n;                     /* itfrbtfs ovfr bll trff flfmfnts */
+    int prfvlfn = -1;          /* lbst fmittfd lfngti */
+    int durlfn;                /* lfngti of durrfnt dodf */
+    int nfxtlfn = trff[0].Lfn; /* lfngti of nfxt dodf */
+    int dount = 0;             /* rfpfbt dount of tif durrfnt dodf */
+    int mbx_dount = 7;         /* mbx rfpfbt dount */
+    int min_dount = 4;         /* min rfpfbt dount */
 
-    if (nextlen == 0) max_count = 138, min_count = 3;
-    tree[max_code+1].Len = (ush)0xffff; /* guard */
+    if (nfxtlfn == 0) mbx_dount = 138, min_dount = 3;
+    trff[mbx_dodf+1].Lfn = (usi)0xffff; /* gubrd */
 
-    for (n = 0; n <= max_code; n++) {
-        curlen = nextlen; nextlen = tree[n+1].Len;
-        if (++count < max_count && curlen == nextlen) {
-            continue;
-        } else if (count < min_count) {
-            s->bl_tree[curlen].Freq += count;
-        } else if (curlen != 0) {
-            if (curlen != prevlen) s->bl_tree[curlen].Freq++;
-            s->bl_tree[REP_3_6].Freq++;
-        } else if (count <= 10) {
-            s->bl_tree[REPZ_3_10].Freq++;
-        } else {
-            s->bl_tree[REPZ_11_138].Freq++;
+    for (n = 0; n <= mbx_dodf; n++) {
+        durlfn = nfxtlfn; nfxtlfn = trff[n+1].Lfn;
+        if (++dount < mbx_dount && durlfn == nfxtlfn) {
+            dontinuf;
+        } flsf if (dount < min_dount) {
+            s->bl_trff[durlfn].Frfq += dount;
+        } flsf if (durlfn != 0) {
+            if (durlfn != prfvlfn) s->bl_trff[durlfn].Frfq++;
+            s->bl_trff[REP_3_6].Frfq++;
+        } flsf if (dount <= 10) {
+            s->bl_trff[REPZ_3_10].Frfq++;
+        } flsf {
+            s->bl_trff[REPZ_11_138].Frfq++;
         }
-        count = 0; prevlen = curlen;
-        if (nextlen == 0) {
-            max_count = 138, min_count = 3;
-        } else if (curlen == nextlen) {
-            max_count = 6, min_count = 3;
-        } else {
-            max_count = 7, min_count = 4;
+        dount = 0; prfvlfn = durlfn;
+        if (nfxtlfn == 0) {
+            mbx_dount = 138, min_dount = 3;
+        } flsf if (durlfn == nfxtlfn) {
+            mbx_dount = 6, min_dount = 3;
+        } flsf {
+            mbx_dount = 7, min_dount = 4;
         }
     }
 }
 
 /* ===========================================================================
- * Send a literal or distance tree in compressed form, using the codes in
- * bl_tree.
+ * Sfnd b litfrbl or distbndf trff in domprfssfd form, using tif dodfs in
+ * bl_trff.
  */
-local void send_tree (s, tree, max_code)
-    deflate_state *s;
-    ct_data *tree; /* the tree to be scanned */
-    int max_code;       /* and its largest code of non zero frequency */
+lodbl void sfnd_trff (s, trff, mbx_dodf)
+    dfflbtf_stbtf *s;
+    dt_dbtb *trff; /* tif trff to bf sdbnnfd */
+    int mbx_dodf;       /* bnd its lbrgfst dodf of non zfro frfqufndy */
 {
-    int n;                     /* iterates over all tree elements */
-    int prevlen = -1;          /* last emitted length */
-    int curlen;                /* length of current code */
-    int nextlen = tree[0].Len; /* length of next code */
-    int count = 0;             /* repeat count of the current code */
-    int max_count = 7;         /* max repeat count */
-    int min_count = 4;         /* min repeat count */
+    int n;                     /* itfrbtfs ovfr bll trff flfmfnts */
+    int prfvlfn = -1;          /* lbst fmittfd lfngti */
+    int durlfn;                /* lfngti of durrfnt dodf */
+    int nfxtlfn = trff[0].Lfn; /* lfngti of nfxt dodf */
+    int dount = 0;             /* rfpfbt dount of tif durrfnt dodf */
+    int mbx_dount = 7;         /* mbx rfpfbt dount */
+    int min_dount = 4;         /* min rfpfbt dount */
 
-    /* tree[max_code+1].Len = -1; */  /* guard already set */
-    if (nextlen == 0) max_count = 138, min_count = 3;
+    /* trff[mbx_dodf+1].Lfn = -1; */  /* gubrd blrfbdy sft */
+    if (nfxtlfn == 0) mbx_dount = 138, min_dount = 3;
 
-    for (n = 0; n <= max_code; n++) {
-        curlen = nextlen; nextlen = tree[n+1].Len;
-        if (++count < max_count && curlen == nextlen) {
-            continue;
-        } else if (count < min_count) {
-            do { send_code(s, curlen, s->bl_tree); } while (--count != 0);
+    for (n = 0; n <= mbx_dodf; n++) {
+        durlfn = nfxtlfn; nfxtlfn = trff[n+1].Lfn;
+        if (++dount < mbx_dount && durlfn == nfxtlfn) {
+            dontinuf;
+        } flsf if (dount < min_dount) {
+            do { sfnd_dodf(s, durlfn, s->bl_trff); } wiilf (--dount != 0);
 
-        } else if (curlen != 0) {
-            if (curlen != prevlen) {
-                send_code(s, curlen, s->bl_tree); count--;
+        } flsf if (durlfn != 0) {
+            if (durlfn != prfvlfn) {
+                sfnd_dodf(s, durlfn, s->bl_trff); dount--;
             }
-            Assert(count >= 3 && count <= 6, " 3_6?");
-            send_code(s, REP_3_6, s->bl_tree); send_bits(s, count-3, 2);
+            Assfrt(dount >= 3 && dount <= 6, " 3_6?");
+            sfnd_dodf(s, REP_3_6, s->bl_trff); sfnd_bits(s, dount-3, 2);
 
-        } else if (count <= 10) {
-            send_code(s, REPZ_3_10, s->bl_tree); send_bits(s, count-3, 3);
+        } flsf if (dount <= 10) {
+            sfnd_dodf(s, REPZ_3_10, s->bl_trff); sfnd_bits(s, dount-3, 3);
 
-        } else {
-            send_code(s, REPZ_11_138, s->bl_tree); send_bits(s, count-11, 7);
+        } flsf {
+            sfnd_dodf(s, REPZ_11_138, s->bl_trff); sfnd_bits(s, dount-11, 7);
         }
-        count = 0; prevlen = curlen;
-        if (nextlen == 0) {
-            max_count = 138, min_count = 3;
-        } else if (curlen == nextlen) {
-            max_count = 6, min_count = 3;
-        } else {
-            max_count = 7, min_count = 4;
+        dount = 0; prfvlfn = durlfn;
+        if (nfxtlfn == 0) {
+            mbx_dount = 138, min_dount = 3;
+        } flsf if (durlfn == nfxtlfn) {
+            mbx_dount = 6, min_dount = 3;
+        } flsf {
+            mbx_dount = 7, min_dount = 4;
         }
     }
 }
 
 /* ===========================================================================
- * Construct the Huffman tree for the bit lengths and return the index in
- * bl_order of the last bit length code to send.
+ * Construdt tif Huffmbn trff for tif bit lfngtis bnd rfturn tif indfx in
+ * bl_ordfr of tif lbst bit lfngti dodf to sfnd.
  */
-local int build_bl_tree(s)
-    deflate_state *s;
+lodbl int build_bl_trff(s)
+    dfflbtf_stbtf *s;
 {
-    int max_blindex;  /* index of last bit length code of non zero freq */
+    int mbx_blindfx;  /* indfx of lbst bit lfngti dodf of non zfro frfq */
 
-    /* Determine the bit length frequencies for literal and distance trees */
-    scan_tree(s, (ct_data *)s->dyn_ltree, s->l_desc.max_code);
-    scan_tree(s, (ct_data *)s->dyn_dtree, s->d_desc.max_code);
+    /* Dftfrminf tif bit lfngti frfqufndifs for litfrbl bnd distbndf trffs */
+    sdbn_trff(s, (dt_dbtb *)s->dyn_ltrff, s->l_dfsd.mbx_dodf);
+    sdbn_trff(s, (dt_dbtb *)s->dyn_dtrff, s->d_dfsd.mbx_dodf);
 
-    /* Build the bit length tree: */
-    build_tree(s, (tree_desc *)(&(s->bl_desc)));
-    /* opt_len now includes the length of the tree representations, except
-     * the lengths of the bit lengths codes and the 5+5+4 bits for the counts.
+    /* Build tif bit lfngti trff: */
+    build_trff(s, (trff_dfsd *)(&(s->bl_dfsd)));
+    /* opt_lfn now indludfs tif lfngti of tif trff rfprfsfntbtions, fxdfpt
+     * tif lfngtis of tif bit lfngtis dodfs bnd tif 5+5+4 bits for tif dounts.
      */
 
-    /* Determine the number of bit length codes to send. The pkzip format
-     * requires that at least 4 bit length codes be sent. (appnote.txt says
-     * 3 but the actual value used is 4.)
+    /* Dftfrminf tif numbfr of bit lfngti dodfs to sfnd. Tif pkzip formbt
+     * rfquirfs tibt bt lfbst 4 bit lfngti dodfs bf sfnt. (bppnotf.txt sbys
+     * 3 but tif bdtubl vbluf usfd is 4.)
      */
-    for (max_blindex = BL_CODES-1; max_blindex >= 3; max_blindex--) {
-        if (s->bl_tree[bl_order[max_blindex]].Len != 0) break;
+    for (mbx_blindfx = BL_CODES-1; mbx_blindfx >= 3; mbx_blindfx--) {
+        if (s->bl_trff[bl_ordfr[mbx_blindfx]].Lfn != 0) brfbk;
     }
-    /* Update opt_len to include the bit length tree and counts */
-    s->opt_len += 3*(max_blindex+1) + 5+5+4;
-    Tracev((stderr, "\ndyn trees: dyn %ld, stat %ld",
-            s->opt_len, s->static_len));
+    /* Updbtf opt_lfn to indludf tif bit lfngti trff bnd dounts */
+    s->opt_lfn += 3*(mbx_blindfx+1) + 5+5+4;
+    Trbdfv((stdfrr, "\ndyn trffs: dyn %ld, stbt %ld",
+            s->opt_lfn, s->stbtid_lfn));
 
-    return max_blindex;
+    rfturn mbx_blindfx;
 }
 
 /* ===========================================================================
- * Send the header for a block using dynamic Huffman trees: the counts, the
- * lengths of the bit length codes, the literal tree and the distance tree.
- * IN assertion: lcodes >= 257, dcodes >= 1, blcodes >= 4.
+ * Sfnd tif ifbdfr for b blodk using dynbmid Huffmbn trffs: tif dounts, tif
+ * lfngtis of tif bit lfngti dodfs, tif litfrbl trff bnd tif distbndf trff.
+ * IN bssfrtion: ldodfs >= 257, ddodfs >= 1, bldodfs >= 4.
  */
-local void send_all_trees(s, lcodes, dcodes, blcodes)
-    deflate_state *s;
-    int lcodes, dcodes, blcodes; /* number of codes for each tree */
+lodbl void sfnd_bll_trffs(s, ldodfs, ddodfs, bldodfs)
+    dfflbtf_stbtf *s;
+    int ldodfs, ddodfs, bldodfs; /* numbfr of dodfs for fbdi trff */
 {
-    int rank;                    /* index in bl_order */
+    int rbnk;                    /* indfx in bl_ordfr */
 
-    Assert (lcodes >= 257 && dcodes >= 1 && blcodes >= 4, "not enough codes");
-    Assert (lcodes <= L_CODES && dcodes <= D_CODES && blcodes <= BL_CODES,
-            "too many codes");
-    Tracev((stderr, "\nbl counts: "));
-    send_bits(s, lcodes-257, 5); /* not +255 as stated in appnote.txt */
-    send_bits(s, dcodes-1,   5);
-    send_bits(s, blcodes-4,  4); /* not -3 as stated in appnote.txt */
-    for (rank = 0; rank < blcodes; rank++) {
-        Tracev((stderr, "\nbl code %2d ", bl_order[rank]));
-        send_bits(s, s->bl_tree[bl_order[rank]].Len, 3);
+    Assfrt (ldodfs >= 257 && ddodfs >= 1 && bldodfs >= 4, "not fnougi dodfs");
+    Assfrt (ldodfs <= L_CODES && ddodfs <= D_CODES && bldodfs <= BL_CODES,
+            "too mbny dodfs");
+    Trbdfv((stdfrr, "\nbl dounts: "));
+    sfnd_bits(s, ldodfs-257, 5); /* not +255 bs stbtfd in bppnotf.txt */
+    sfnd_bits(s, ddodfs-1,   5);
+    sfnd_bits(s, bldodfs-4,  4); /* not -3 bs stbtfd in bppnotf.txt */
+    for (rbnk = 0; rbnk < bldodfs; rbnk++) {
+        Trbdfv((stdfrr, "\nbl dodf %2d ", bl_ordfr[rbnk]));
+        sfnd_bits(s, s->bl_trff[bl_ordfr[rbnk]].Lfn, 3);
     }
-    Tracev((stderr, "\nbl tree: sent %ld", s->bits_sent));
+    Trbdfv((stdfrr, "\nbl trff: sfnt %ld", s->bits_sfnt));
 
-    send_tree(s, (ct_data *)s->dyn_ltree, lcodes-1); /* literal tree */
-    Tracev((stderr, "\nlit tree: sent %ld", s->bits_sent));
+    sfnd_trff(s, (dt_dbtb *)s->dyn_ltrff, ldodfs-1); /* litfrbl trff */
+    Trbdfv((stdfrr, "\nlit trff: sfnt %ld", s->bits_sfnt));
 
-    send_tree(s, (ct_data *)s->dyn_dtree, dcodes-1); /* distance tree */
-    Tracev((stderr, "\ndist tree: sent %ld", s->bits_sent));
+    sfnd_trff(s, (dt_dbtb *)s->dyn_dtrff, ddodfs-1); /* distbndf trff */
+    Trbdfv((stdfrr, "\ndist trff: sfnt %ld", s->bits_sfnt));
 }
 
 /* ===========================================================================
- * Send a stored block
+ * Sfnd b storfd blodk
  */
-void ZLIB_INTERNAL _tr_stored_block(s, buf, stored_len, last)
-    deflate_state *s;
-    charf *buf;       /* input block */
-    ulg stored_len;   /* length of input block */
-    int last;         /* one if this is the last block for a file */
+void ZLIB_INTERNAL _tr_storfd_blodk(s, buf, storfd_lfn, lbst)
+    dfflbtf_stbtf *s;
+    dibrf *buf;       /* input blodk */
+    ulg storfd_lfn;   /* lfngti of input blodk */
+    int lbst;         /* onf if tiis is tif lbst blodk for b filf */
 {
-    send_bits(s, (STORED_BLOCK<<1)+last, 3);    /* send block type */
-#ifdef DEBUG
-    s->compressed_len = (s->compressed_len + 3 + 7) & (ulg)~7L;
-    s->compressed_len += (stored_len + 4) << 3;
-#endif
-    copy_block(s, buf, (unsigned)stored_len, 1); /* with header */
+    sfnd_bits(s, (STORED_BLOCK<<1)+lbst, 3);    /* sfnd blodk typf */
+#ifdff DEBUG
+    s->domprfssfd_lfn = (s->domprfssfd_lfn + 3 + 7) & (ulg)~7L;
+    s->domprfssfd_lfn += (storfd_lfn + 4) << 3;
+#fndif
+    dopy_blodk(s, buf, (unsignfd)storfd_lfn, 1); /* witi ifbdfr */
 }
 
 /* ===========================================================================
- * Flush the bits in the bit buffer to pending output (leaves at most 7 bits)
+ * Flusi tif bits in tif bit bufffr to pfnding output (lfbvfs bt most 7 bits)
  */
-void ZLIB_INTERNAL _tr_flush_bits(s)
-    deflate_state *s;
+void ZLIB_INTERNAL _tr_flusi_bits(s)
+    dfflbtf_stbtf *s;
 {
-    bi_flush(s);
+    bi_flusi(s);
 }
 
 /* ===========================================================================
- * Send one empty static block to give enough lookahead for inflate.
- * This takes 10 bits, of which 7 may remain in the bit buffer.
+ * Sfnd onf fmpty stbtid blodk to givf fnougi lookbifbd for inflbtf.
+ * Tiis tbkfs 10 bits, of wiidi 7 mby rfmbin in tif bit bufffr.
  */
-void ZLIB_INTERNAL _tr_align(s)
-    deflate_state *s;
+void ZLIB_INTERNAL _tr_blign(s)
+    dfflbtf_stbtf *s;
 {
-    send_bits(s, STATIC_TREES<<1, 3);
-    send_code(s, END_BLOCK, static_ltree);
-#ifdef DEBUG
-    s->compressed_len += 10L; /* 3 for block type, 7 for EOB */
-#endif
-    bi_flush(s);
+    sfnd_bits(s, STATIC_TREES<<1, 3);
+    sfnd_dodf(s, END_BLOCK, stbtid_ltrff);
+#ifdff DEBUG
+    s->domprfssfd_lfn += 10L; /* 3 for blodk typf, 7 for EOB */
+#fndif
+    bi_flusi(s);
 }
 
 /* ===========================================================================
- * Determine the best encoding for the current block: dynamic trees, static
- * trees or store, and output the encoded block to the zip file.
+ * Dftfrminf tif bfst fndoding for tif durrfnt blodk: dynbmid trffs, stbtid
+ * trffs or storf, bnd output tif fndodfd blodk to tif zip filf.
  */
-void ZLIB_INTERNAL _tr_flush_block(s, buf, stored_len, last)
-    deflate_state *s;
-    charf *buf;       /* input block, or NULL if too old */
-    ulg stored_len;   /* length of input block */
-    int last;         /* one if this is the last block for a file */
+void ZLIB_INTERNAL _tr_flusi_blodk(s, buf, storfd_lfn, lbst)
+    dfflbtf_stbtf *s;
+    dibrf *buf;       /* input blodk, or NULL if too old */
+    ulg storfd_lfn;   /* lfngti of input blodk */
+    int lbst;         /* onf if tiis is tif lbst blodk for b filf */
 {
-    ulg opt_lenb, static_lenb; /* opt_len and static_len in bytes */
-    int max_blindex = 0;  /* index of last bit length code of non zero freq */
+    ulg opt_lfnb, stbtid_lfnb; /* opt_lfn bnd stbtid_lfn in bytfs */
+    int mbx_blindfx = 0;  /* indfx of lbst bit lfngti dodf of non zfro frfq */
 
-    /* Build the Huffman trees unless a stored block is forced */
-    if (s->level > 0) {
+    /* Build tif Huffmbn trffs unlfss b storfd blodk is fordfd */
+    if (s->lfvfl > 0) {
 
-        /* Check if the file is binary or text */
-        if (s->strm->data_type == Z_UNKNOWN)
-            s->strm->data_type = detect_data_type(s);
+        /* Cifdk if tif filf is binbry or tfxt */
+        if (s->strm->dbtb_typf == Z_UNKNOWN)
+            s->strm->dbtb_typf = dftfdt_dbtb_typf(s);
 
-        /* Construct the literal and distance trees */
-        build_tree(s, (tree_desc *)(&(s->l_desc)));
-        Tracev((stderr, "\nlit data: dyn %ld, stat %ld", s->opt_len,
-                s->static_len));
+        /* Construdt tif litfrbl bnd distbndf trffs */
+        build_trff(s, (trff_dfsd *)(&(s->l_dfsd)));
+        Trbdfv((stdfrr, "\nlit dbtb: dyn %ld, stbt %ld", s->opt_lfn,
+                s->stbtid_lfn));
 
-        build_tree(s, (tree_desc *)(&(s->d_desc)));
-        Tracev((stderr, "\ndist data: dyn %ld, stat %ld", s->opt_len,
-                s->static_len));
-        /* At this point, opt_len and static_len are the total bit lengths of
-         * the compressed block data, excluding the tree representations.
+        build_trff(s, (trff_dfsd *)(&(s->d_dfsd)));
+        Trbdfv((stdfrr, "\ndist dbtb: dyn %ld, stbt %ld", s->opt_lfn,
+                s->stbtid_lfn));
+        /* At tiis point, opt_lfn bnd stbtid_lfn brf tif totbl bit lfngtis of
+         * tif domprfssfd blodk dbtb, fxdluding tif trff rfprfsfntbtions.
          */
 
-        /* Build the bit length tree for the above two trees, and get the index
-         * in bl_order of the last bit length code to send.
+        /* Build tif bit lfngti trff for tif bbovf two trffs, bnd gft tif indfx
+         * in bl_ordfr of tif lbst bit lfngti dodf to sfnd.
          */
-        max_blindex = build_bl_tree(s);
+        mbx_blindfx = build_bl_trff(s);
 
-        /* Determine the best encoding. Compute the block lengths in bytes. */
-        opt_lenb = (s->opt_len+3+7)>>3;
-        static_lenb = (s->static_len+3+7)>>3;
+        /* Dftfrminf tif bfst fndoding. Computf tif blodk lfngtis in bytfs. */
+        opt_lfnb = (s->opt_lfn+3+7)>>3;
+        stbtid_lfnb = (s->stbtid_lfn+3+7)>>3;
 
-        Tracev((stderr, "\nopt %lu(%lu) stat %lu(%lu) stored %lu lit %u ",
-                opt_lenb, s->opt_len, static_lenb, s->static_len, stored_len,
-                s->last_lit));
+        Trbdfv((stdfrr, "\nopt %lu(%lu) stbt %lu(%lu) storfd %lu lit %u ",
+                opt_lfnb, s->opt_lfn, stbtid_lfnb, s->stbtid_lfn, storfd_lfn,
+                s->lbst_lit));
 
-        if (static_lenb <= opt_lenb) opt_lenb = static_lenb;
+        if (stbtid_lfnb <= opt_lfnb) opt_lfnb = stbtid_lfnb;
 
-    } else {
-        Assert(buf != (char*)0, "lost buf");
-        opt_lenb = static_lenb = stored_len + 5; /* force a stored block */
+    } flsf {
+        Assfrt(buf != (dibr*)0, "lost buf");
+        opt_lfnb = stbtid_lfnb = storfd_lfn + 5; /* fordf b storfd blodk */
     }
 
-#ifdef FORCE_STORED
-    if (buf != (char*)0) { /* force stored block */
-#else
-    if (stored_len+4 <= opt_lenb && buf != (char*)0) {
-                       /* 4: two words for the lengths */
-#endif
-        /* The test buf != NULL is only necessary if LIT_BUFSIZE > WSIZE.
-         * Otherwise we can't have processed more than WSIZE input bytes since
-         * the last block flush, because compression would have been
-         * successful. If LIT_BUFSIZE <= WSIZE, it is never too late to
-         * transform a block into a stored block.
+#ifdff FORCE_STORED
+    if (buf != (dibr*)0) { /* fordf storfd blodk */
+#flsf
+    if (storfd_lfn+4 <= opt_lfnb && buf != (dibr*)0) {
+                       /* 4: two words for tif lfngtis */
+#fndif
+        /* Tif tfst buf != NULL is only nfdfssbry if LIT_BUFSIZE > WSIZE.
+         * Otifrwisf wf dbn't ibvf prodfssfd morf tibn WSIZE input bytfs sindf
+         * tif lbst blodk flusi, bfdbusf domprfssion would ibvf bffn
+         * suddfssful. If LIT_BUFSIZE <= WSIZE, it is nfvfr too lbtf to
+         * trbnsform b blodk into b storfd blodk.
          */
-        _tr_stored_block(s, buf, stored_len, last);
+        _tr_storfd_blodk(s, buf, storfd_lfn, lbst);
 
-#ifdef FORCE_STATIC
-    } else if (static_lenb >= 0) { /* force static trees */
-#else
-    } else if (s->strategy == Z_FIXED || static_lenb == opt_lenb) {
-#endif
-        send_bits(s, (STATIC_TREES<<1)+last, 3);
-        compress_block(s, (const ct_data *)static_ltree,
-                       (const ct_data *)static_dtree);
-#ifdef DEBUG
-        s->compressed_len += 3 + s->static_len;
-#endif
-    } else {
-        send_bits(s, (DYN_TREES<<1)+last, 3);
-        send_all_trees(s, s->l_desc.max_code+1, s->d_desc.max_code+1,
-                       max_blindex+1);
-        compress_block(s, (const ct_data *)s->dyn_ltree,
-                       (const ct_data *)s->dyn_dtree);
-#ifdef DEBUG
-        s->compressed_len += 3 + s->opt_len;
-#endif
+#ifdff FORCE_STATIC
+    } flsf if (stbtid_lfnb >= 0) { /* fordf stbtid trffs */
+#flsf
+    } flsf if (s->strbtfgy == Z_FIXED || stbtid_lfnb == opt_lfnb) {
+#fndif
+        sfnd_bits(s, (STATIC_TREES<<1)+lbst, 3);
+        domprfss_blodk(s, (donst dt_dbtb *)stbtid_ltrff,
+                       (donst dt_dbtb *)stbtid_dtrff);
+#ifdff DEBUG
+        s->domprfssfd_lfn += 3 + s->stbtid_lfn;
+#fndif
+    } flsf {
+        sfnd_bits(s, (DYN_TREES<<1)+lbst, 3);
+        sfnd_bll_trffs(s, s->l_dfsd.mbx_dodf+1, s->d_dfsd.mbx_dodf+1,
+                       mbx_blindfx+1);
+        domprfss_blodk(s, (donst dt_dbtb *)s->dyn_ltrff,
+                       (donst dt_dbtb *)s->dyn_dtrff);
+#ifdff DEBUG
+        s->domprfssfd_lfn += 3 + s->opt_lfn;
+#fndif
     }
-    Assert (s->compressed_len == s->bits_sent, "bad compressed size");
-    /* The above check is made mod 2^32, for files larger than 512 MB
-     * and uLong implemented on 32 bits.
+    Assfrt (s->domprfssfd_lfn == s->bits_sfnt, "bbd domprfssfd sizf");
+    /* Tif bbovf difdk is mbdf mod 2^32, for filfs lbrgfr tibn 512 MB
+     * bnd uLong implfmfntfd on 32 bits.
      */
-    init_block(s);
+    init_blodk(s);
 
-    if (last) {
+    if (lbst) {
         bi_windup(s);
-#ifdef DEBUG
-        s->compressed_len += 7;  /* align on byte boundary */
-#endif
+#ifdff DEBUG
+        s->domprfssfd_lfn += 7;  /* blign on bytf boundbry */
+#fndif
     }
-    Tracev((stderr,"\ncomprlen %lu(%lu) ", s->compressed_len>>3,
-           s->compressed_len-7*last));
+    Trbdfv((stdfrr,"\ndomprlfn %lu(%lu) ", s->domprfssfd_lfn>>3,
+           s->domprfssfd_lfn-7*lbst));
 }
 
 /* ===========================================================================
- * Save the match info and tally the frequency counts. Return true if
- * the current block must be flushed.
+ * Sbvf tif mbtdi info bnd tblly tif frfqufndy dounts. Rfturn truf if
+ * tif durrfnt blodk must bf flusifd.
  */
-int ZLIB_INTERNAL _tr_tally (s, dist, lc)
-    deflate_state *s;
-    unsigned dist;  /* distance of matched string */
-    unsigned lc;    /* match length-MIN_MATCH or unmatched char (if dist==0) */
+int ZLIB_INTERNAL _tr_tblly (s, dist, ld)
+    dfflbtf_stbtf *s;
+    unsignfd dist;  /* distbndf of mbtdifd string */
+    unsignfd ld;    /* mbtdi lfngti-MIN_MATCH or unmbtdifd dibr (if dist==0) */
 {
-    s->d_buf[s->last_lit] = (ush)dist;
-    s->l_buf[s->last_lit++] = (uch)lc;
+    s->d_buf[s->lbst_lit] = (usi)dist;
+    s->l_buf[s->lbst_lit++] = (udi)ld;
     if (dist == 0) {
-        /* lc is the unmatched char */
-        s->dyn_ltree[lc].Freq++;
-    } else {
-        s->matches++;
-        /* Here, lc is the match length - MIN_MATCH */
-        dist--;             /* dist = match distance - 1 */
-        Assert((ush)dist < (ush)MAX_DIST(s) &&
-               (ush)lc <= (ush)(MAX_MATCH-MIN_MATCH) &&
-               (ush)d_code(dist) < (ush)D_CODES,  "_tr_tally: bad match");
+        /* ld is tif unmbtdifd dibr */
+        s->dyn_ltrff[ld].Frfq++;
+    } flsf {
+        s->mbtdifs++;
+        /* Hfrf, ld is tif mbtdi lfngti - MIN_MATCH */
+        dist--;             /* dist = mbtdi distbndf - 1 */
+        Assfrt((usi)dist < (usi)MAX_DIST(s) &&
+               (usi)ld <= (usi)(MAX_MATCH-MIN_MATCH) &&
+               (usi)d_dodf(dist) < (usi)D_CODES,  "_tr_tblly: bbd mbtdi");
 
-        s->dyn_ltree[_length_code[lc]+LITERALS+1].Freq++;
-        s->dyn_dtree[d_code(dist)].Freq++;
+        s->dyn_ltrff[_lfngti_dodf[ld]+LITERALS+1].Frfq++;
+        s->dyn_dtrff[d_dodf(dist)].Frfq++;
     }
 
-#ifdef TRUNCATE_BLOCK
-    /* Try to guess if it is profitable to stop the current block here */
-    if ((s->last_lit & 0x1fff) == 0 && s->level > 2) {
-        /* Compute an upper bound for the compressed length */
-        ulg out_length = (ulg)s->last_lit*8L;
-        ulg in_length = (ulg)((long)s->strstart - s->block_start);
-        int dcode;
-        for (dcode = 0; dcode < D_CODES; dcode++) {
-            out_length += (ulg)s->dyn_dtree[dcode].Freq *
-                (5L+extra_dbits[dcode]);
+#ifdff TRUNCATE_BLOCK
+    /* Try to gufss if it is profitbblf to stop tif durrfnt blodk ifrf */
+    if ((s->lbst_lit & 0x1fff) == 0 && s->lfvfl > 2) {
+        /* Computf bn uppfr bound for tif domprfssfd lfngti */
+        ulg out_lfngti = (ulg)s->lbst_lit*8L;
+        ulg in_lfngti = (ulg)((long)s->strstbrt - s->blodk_stbrt);
+        int ddodf;
+        for (ddodf = 0; ddodf < D_CODES; ddodf++) {
+            out_lfngti += (ulg)s->dyn_dtrff[ddodf].Frfq *
+                (5L+fxtrb_dbits[ddodf]);
         }
-        out_length >>= 3;
-        Tracev((stderr,"\nlast_lit %u, in %ld, out ~%ld(%ld%%) ",
-               s->last_lit, in_length, out_length,
-               100L - out_length*100L/in_length));
-        if (s->matches < s->last_lit/2 && out_length < in_length/2) return 1;
+        out_lfngti >>= 3;
+        Trbdfv((stdfrr,"\nlbst_lit %u, in %ld, out ~%ld(%ld%%) ",
+               s->lbst_lit, in_lfngti, out_lfngti,
+               100L - out_lfngti*100L/in_lfngti));
+        if (s->mbtdifs < s->lbst_lit/2 && out_lfngti < in_lfngti/2) rfturn 1;
     }
-#endif
-    return (s->last_lit == s->lit_bufsize-1);
-    /* We avoid equality with lit_bufsize because of wraparound at 64K
-     * on 16 bit machines and because stored blocks are restricted to
-     * 64K-1 bytes.
+#fndif
+    rfturn (s->lbst_lit == s->lit_bufsizf-1);
+    /* Wf bvoid fqublity witi lit_bufsizf bfdbusf of wrbpbround bt 64K
+     * on 16 bit mbdiinfs bnd bfdbusf storfd blodks brf rfstridtfd to
+     * 64K-1 bytfs.
      */
 }
 
 /* ===========================================================================
- * Send the block data compressed using the given Huffman trees
+ * Sfnd tif blodk dbtb domprfssfd using tif givfn Huffmbn trffs
  */
-local void compress_block(s, ltree, dtree)
-    deflate_state *s;
-    const ct_data *ltree; /* literal tree */
-    const ct_data *dtree; /* distance tree */
+lodbl void domprfss_blodk(s, ltrff, dtrff)
+    dfflbtf_stbtf *s;
+    donst dt_dbtb *ltrff; /* litfrbl trff */
+    donst dt_dbtb *dtrff; /* distbndf trff */
 {
-    unsigned dist;      /* distance of matched string */
-    int lc;             /* match length or unmatched char (if dist == 0) */
-    unsigned lx = 0;    /* running index in l_buf */
-    unsigned code;      /* the code to send */
-    int extra;          /* number of extra bits to send */
+    unsignfd dist;      /* distbndf of mbtdifd string */
+    int ld;             /* mbtdi lfngti or unmbtdifd dibr (if dist == 0) */
+    unsignfd lx = 0;    /* running indfx in l_buf */
+    unsignfd dodf;      /* tif dodf to sfnd */
+    int fxtrb;          /* numbfr of fxtrb bits to sfnd */
 
-    if (s->last_lit != 0) do {
+    if (s->lbst_lit != 0) do {
         dist = s->d_buf[lx];
-        lc = s->l_buf[lx++];
+        ld = s->l_buf[lx++];
         if (dist == 0) {
-            send_code(s, lc, ltree); /* send a literal byte */
-            Tracecv(isgraph(lc), (stderr," '%c' ", lc));
-        } else {
-            /* Here, lc is the match length - MIN_MATCH */
-            code = _length_code[lc];
-            send_code(s, code+LITERALS+1, ltree); /* send the length code */
-            extra = extra_lbits[code];
-            if (extra != 0) {
-                lc -= base_length[code];
-                send_bits(s, lc, extra);       /* send the extra length bits */
+            sfnd_dodf(s, ld, ltrff); /* sfnd b litfrbl bytf */
+            Trbdfdv(isgrbpi(ld), (stdfrr," '%d' ", ld));
+        } flsf {
+            /* Hfrf, ld is tif mbtdi lfngti - MIN_MATCH */
+            dodf = _lfngti_dodf[ld];
+            sfnd_dodf(s, dodf+LITERALS+1, ltrff); /* sfnd tif lfngti dodf */
+            fxtrb = fxtrb_lbits[dodf];
+            if (fxtrb != 0) {
+                ld -= bbsf_lfngti[dodf];
+                sfnd_bits(s, ld, fxtrb);       /* sfnd tif fxtrb lfngti bits */
             }
-            dist--; /* dist is now the match distance - 1 */
-            code = d_code(dist);
-            Assert (code < D_CODES, "bad d_code");
+            dist--; /* dist is now tif mbtdi distbndf - 1 */
+            dodf = d_dodf(dist);
+            Assfrt (dodf < D_CODES, "bbd d_dodf");
 
-            send_code(s, code, dtree);       /* send the distance code */
-            extra = extra_dbits[code];
-            if (extra != 0) {
-                dist -= base_dist[code];
-                send_bits(s, dist, extra);   /* send the extra distance bits */
+            sfnd_dodf(s, dodf, dtrff);       /* sfnd tif distbndf dodf */
+            fxtrb = fxtrb_dbits[dodf];
+            if (fxtrb != 0) {
+                dist -= bbsf_dist[dodf];
+                sfnd_bits(s, dist, fxtrb);   /* sfnd tif fxtrb distbndf bits */
             }
-        } /* literal or match pair ? */
+        } /* litfrbl or mbtdi pbir ? */
 
-        /* Check that the overlay between pending_buf and d_buf+l_buf is ok: */
-        Assert((uInt)(s->pending) < s->lit_bufsize + 2*lx,
-               "pendingBuf overflow");
+        /* Cifdk tibt tif ovfrlby bftwffn pfnding_buf bnd d_buf+l_buf is ok: */
+        Assfrt((uInt)(s->pfnding) < s->lit_bufsizf + 2*lx,
+               "pfndingBuf ovfrflow");
 
-    } while (lx < s->last_lit);
+    } wiilf (lx < s->lbst_lit);
 
-    send_code(s, END_BLOCK, ltree);
+    sfnd_dodf(s, END_BLOCK, ltrff);
 }
 
 /* ===========================================================================
- * Check if the data type is TEXT or BINARY, using the following algorithm:
- * - TEXT if the two conditions below are satisfied:
- *    a) There are no non-portable control characters belonging to the
- *       "black list" (0..6, 14..25, 28..31).
- *    b) There is at least one printable character belonging to the
- *       "white list" (9 {TAB}, 10 {LF}, 13 {CR}, 32..255).
- * - BINARY otherwise.
- * - The following partially-portable control characters form a
- *   "gray list" that is ignored in this detection algorithm:
+ * Cifdk if tif dbtb typf is TEXT or BINARY, using tif following blgoritim:
+ * - TEXT if tif two donditions bflow brf sbtisfifd:
+ *    b) Tifrf brf no non-portbblf dontrol dibrbdtfrs bflonging to tif
+ *       "blbdk list" (0..6, 14..25, 28..31).
+ *    b) Tifrf is bt lfbst onf printbblf dibrbdtfr bflonging to tif
+ *       "wiitf list" (9 {TAB}, 10 {LF}, 13 {CR}, 32..255).
+ * - BINARY otifrwisf.
+ * - Tif following pbrtiblly-portbblf dontrol dibrbdtfrs form b
+ *   "grby list" tibt is ignorfd in tiis dftfdtion blgoritim:
  *   (7 {BEL}, 8 {BS}, 11 {VT}, 12 {FF}, 26 {SUB}, 27 {ESC}).
- * IN assertion: the fields Freq of dyn_ltree are set.
+ * IN bssfrtion: tif fiflds Frfq of dyn_ltrff brf sft.
  */
-local int detect_data_type(s)
-    deflate_state *s;
+lodbl int dftfdt_dbtb_typf(s)
+    dfflbtf_stbtf *s;
 {
-    /* black_mask is the bit mask of black-listed bytes
-     * set bits 0..6, 14..25, and 28..31
-     * 0xf3ffc07f = binary 11110011111111111100000001111111
+    /* blbdk_mbsk is tif bit mbsk of blbdk-listfd bytfs
+     * sft bits 0..6, 14..25, bnd 28..31
+     * 0xf3ffd07f = binbry 11110011111111111100000001111111
      */
-    unsigned long black_mask = 0xf3ffc07fUL;
+    unsignfd long blbdk_mbsk = 0xf3ffd07fUL;
     int n;
 
-    /* Check for non-textual ("black-listed") bytes. */
-    for (n = 0; n <= 31; n++, black_mask >>= 1)
-        if ((black_mask & 1) && (s->dyn_ltree[n].Freq != 0))
-            return Z_BINARY;
+    /* Cifdk for non-tfxtubl ("blbdk-listfd") bytfs. */
+    for (n = 0; n <= 31; n++, blbdk_mbsk >>= 1)
+        if ((blbdk_mbsk & 1) && (s->dyn_ltrff[n].Frfq != 0))
+            rfturn Z_BINARY;
 
-    /* Check for textual ("white-listed") bytes. */
-    if (s->dyn_ltree[9].Freq != 0 || s->dyn_ltree[10].Freq != 0
-            || s->dyn_ltree[13].Freq != 0)
-        return Z_TEXT;
+    /* Cifdk for tfxtubl ("wiitf-listfd") bytfs. */
+    if (s->dyn_ltrff[9].Frfq != 0 || s->dyn_ltrff[10].Frfq != 0
+            || s->dyn_ltrff[13].Frfq != 0)
+        rfturn Z_TEXT;
     for (n = 32; n < LITERALS; n++)
-        if (s->dyn_ltree[n].Freq != 0)
-            return Z_TEXT;
+        if (s->dyn_ltrff[n].Frfq != 0)
+            rfturn Z_TEXT;
 
-    /* There are no "black-listed" or "white-listed" bytes:
-     * this stream either is empty or has tolerated ("gray-listed") bytes only.
+    /* Tifrf brf no "blbdk-listfd" or "wiitf-listfd" bytfs:
+     * tiis strfbm fitifr is fmpty or ibs tolfrbtfd ("grby-listfd") bytfs only.
      */
-    return Z_BINARY;
+    rfturn Z_BINARY;
 }
 
 /* ===========================================================================
- * Reverse the first len bits of a code, using straightforward code (a faster
- * method would use a table)
- * IN assertion: 1 <= len <= 15
+ * Rfvfrsf tif first lfn bits of b dodf, using strbigitforwbrd dodf (b fbstfr
+ * mftiod would usf b tbblf)
+ * IN bssfrtion: 1 <= lfn <= 15
  */
-local unsigned bi_reverse(code, len)
-    unsigned code; /* the value to invert */
-    int len;       /* its bit length */
+lodbl unsignfd bi_rfvfrsf(dodf, lfn)
+    unsignfd dodf; /* tif vbluf to invfrt */
+    int lfn;       /* its bit lfngti */
 {
-    register unsigned res = 0;
+    rfgistfr unsignfd rfs = 0;
     do {
-        res |= code & 1;
-        code >>= 1, res <<= 1;
-    } while (--len > 0);
-    return res >> 1;
+        rfs |= dodf & 1;
+        dodf >>= 1, rfs <<= 1;
+    } wiilf (--lfn > 0);
+    rfturn rfs >> 1;
 }
 
 /* ===========================================================================
- * Flush the bit buffer, keeping at most 7 bits in it.
+ * Flusi tif bit bufffr, kffping bt most 7 bits in it.
  */
-local void bi_flush(s)
-    deflate_state *s;
+lodbl void bi_flusi(s)
+    dfflbtf_stbtf *s;
 {
-    if (s->bi_valid == 16) {
-        put_short(s, s->bi_buf);
+    if (s->bi_vblid == 16) {
+        put_siort(s, s->bi_buf);
         s->bi_buf = 0;
-        s->bi_valid = 0;
-    } else if (s->bi_valid >= 8) {
-        put_byte(s, (Byte)s->bi_buf);
+        s->bi_vblid = 0;
+    } flsf if (s->bi_vblid >= 8) {
+        put_bytf(s, (Bytf)s->bi_buf);
         s->bi_buf >>= 8;
-        s->bi_valid -= 8;
+        s->bi_vblid -= 8;
     }
 }
 
 /* ===========================================================================
- * Flush the bit buffer and align the output on a byte boundary
+ * Flusi tif bit bufffr bnd blign tif output on b bytf boundbry
  */
-local void bi_windup(s)
-    deflate_state *s;
+lodbl void bi_windup(s)
+    dfflbtf_stbtf *s;
 {
-    if (s->bi_valid > 8) {
-        put_short(s, s->bi_buf);
-    } else if (s->bi_valid > 0) {
-        put_byte(s, (Byte)s->bi_buf);
+    if (s->bi_vblid > 8) {
+        put_siort(s, s->bi_buf);
+    } flsf if (s->bi_vblid > 0) {
+        put_bytf(s, (Bytf)s->bi_buf);
     }
     s->bi_buf = 0;
-    s->bi_valid = 0;
-#ifdef DEBUG
-    s->bits_sent = (s->bits_sent+7) & ~7;
-#endif
+    s->bi_vblid = 0;
+#ifdff DEBUG
+    s->bits_sfnt = (s->bits_sfnt+7) & ~7;
+#fndif
 }
 
 /* ===========================================================================
- * Copy a stored block, storing first the length and its
- * one's complement if requested.
+ * Copy b storfd blodk, storing first tif lfngti bnd its
+ * onf's domplfmfnt if rfqufstfd.
  */
-local void copy_block(s, buf, len, header)
-    deflate_state *s;
-    charf    *buf;    /* the input data */
-    unsigned len;     /* its length */
-    int      header;  /* true if block header must be written */
+lodbl void dopy_blodk(s, buf, lfn, ifbdfr)
+    dfflbtf_stbtf *s;
+    dibrf    *buf;    /* tif input dbtb */
+    unsignfd lfn;     /* its lfngti */
+    int      ifbdfr;  /* truf if blodk ifbdfr must bf writtfn */
 {
-    bi_windup(s);        /* align on byte boundary */
+    bi_windup(s);        /* blign on bytf boundbry */
 
-    if (header) {
-        put_short(s, (ush)len);
-        put_short(s, (ush)~len);
-#ifdef DEBUG
-        s->bits_sent += 2*16;
-#endif
+    if (ifbdfr) {
+        put_siort(s, (usi)lfn);
+        put_siort(s, (usi)~lfn);
+#ifdff DEBUG
+        s->bits_sfnt += 2*16;
+#fndif
     }
-#ifdef DEBUG
-    s->bits_sent += (ulg)len<<3;
-#endif
-    while (len--) {
-        put_byte(s, *buf++);
+#ifdff DEBUG
+    s->bits_sfnt += (ulg)lfn<<3;
+#fndif
+    wiilf (lfn--) {
+        put_bytf(s, *buf++);
     }
 }

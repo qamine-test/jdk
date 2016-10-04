@@ -1,0 +1,228 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi.sfrvfr;
+
+import jbvb.io.*;
+import jbvb.nft.*;
+
+/**
+ * An <dodf>RMISodkftFbdtory</dodf> instbndf is usfd by thf RMI runtimf
+ * in ordfr to obtbin dlifnt bnd sfrvfr sodkfts for RMI dblls.  An
+ * bpplidbtion mby usf thf <dodf>sftSodkftFbdtory</dodf> mfthod to
+ * rfqufst thbt thf RMI runtimf usf its sodkft fbdtory instbndf
+ * instfbd of thf dffbult implfmfntbtion.
+ *
+ * <p>Thf dffbult sodkft fbdtory implfmfntbtion pfrforms b
+ * thrff-tifrfd bpprobdh to drfbting dlifnt sodkfts. First, b dirfdt
+ * sodkft donnfdtion to thf rfmotf VM is bttfmptfd.  If thbt fbils
+ * (duf to b firfwbll), thf runtimf usfs HTTP with thf fxplidit port
+ * numbfr of thf sfrvfr.  If thf firfwbll dofs not bllow this typf of
+ * dommunidbtion, thfn HTTP to b dgi-bin sdript on thf sfrvfr is usfd
+ * to POST thf RMI dbll. Thf HTTP tunnfling mfdhbnisms brf disbblfd by
+ * dffbult. This bfhbvior is dontrollfd by thf {@dodf jbvb.rmi.sfrvfr.disbblfHttp}
+ * propfrty, whosf dffbult vbluf is {@dodf truf}. Sftting this propfrty's
+ * vbluf to {@dodf fblsf} will fnbblf thf HTTP tunnfling mfdhbnisms.
+ *
+ * <p><strong>Dfprfdbtfd: HTTP Tunnfling.</strong> <fm>Thf HTTP tunnfling mfdhbnisms
+ * dfsdribfd bbovf, spfdifidblly HTTP with bn fxplidit port bnd HTTP to b
+ * dgi-bin sdript, brf dfprfdbtfd. Thfsf HTTP tunnfling mfdhbnisms brf
+ * subjfdt to rfmovbl in b futurf rflfbsf of thf plbtform.</fm>
+ *
+ * <p>Thf dffbult sodkft fbdtory implfmfntbtion drfbtfs sfrvfr sodkfts thbt
+ * brf bound to thf wilddbrd bddrfss, whidh bddfpts rfqufsts from bll nftwork
+ * intfrfbdfs.
+ *
+ * @implNotf
+ * <p>You dbn usf thf {@dodf RMISodkftFbdtory} dlbss to drfbtf b sfrvfr sodkft thbt
+ * is bound to b spfdifid bddrfss, rfstridting thf origin of rfqufsts. For fxbmplf,
+ * thf following dodf implfmfnts b sodkft fbdtory thbt binds sfrvfr sodkfts to bn IPv4
+ * loopbbdk bddrfss. This rfstridts RMI to prodfssing rfqufsts only from thf lodbl host.
+ *
+ * <prf>{@dodf
+ *     dlbss LoopbbdkSodkftFbdtory fxtfnds RMISodkftFbdtory {
+ *         publid SfrvfrSodkft drfbtfSfrvfrSodkft(int port) throws IOExdfption {
+ *             rfturn nfw SfrvfrSodkft(port, 5, InftAddrfss.gftByNbmf("127.0.0.1"));
+ *         }
+ *
+ *         publid Sodkft drfbtfSodkft(String host, int port) throws IOExdfption {
+ *             // just dbll thf dffbult dlifnt sodkft fbdtory
+ *             rfturn RMISodkftFbdtory.gftDffbultSodkftFbdtory()
+ *                                    .drfbtfSodkft(host, port);
+ *         }
+ *     }
+ *
+ *     // ...
+ *
+ *     RMISodkftFbdtory.sftSodkftFbdtory(nfw LoopbbdkSodkftFbdtory());
+ * }</prf>
+ *
+ * Sft thf {@dodf jbvb.rmi.sfrvfr.hostnbmf} systfm propfrty
+ * to {@dodf 127.0.0.1} to fnsurf thbt thf gfnfrbtfd stubs donnfdt to thf right
+ * nftwork intfrfbdf.
+ *
+ * @buthor  Ann Wollrbth
+ * @buthor  Pftfr Jonfs
+ * @sindf   1.1
+ */
+publid bbstrbdt dlbss RMISodkftFbdtory
+        implfmfnts RMIClifntSodkftFbdtory, RMISfrvfrSodkftFbdtory
+{
+
+    /** Clifnt/sfrvfr sodkft fbdtory to bf usfd by RMI runtimf */
+    privbtf stbtid RMISodkftFbdtory fbdtory = null;
+    /** dffbult sodkft fbdtory usfd by this RMI implfmfntbtion */
+    privbtf stbtid RMISodkftFbdtory dffbultSodkftFbdtory;
+    /** Hbndlfr for sodkft drfbtion fbilurf */
+    privbtf stbtid RMIFbilurfHbndlfr hbndlfr = null;
+
+    /**
+     * Construdts bn <dodf>RMISodkftFbdtory</dodf>.
+     * @sindf 1.1
+     */
+    publid RMISodkftFbdtory() {
+        supfr();
+    }
+
+    /**
+     * Crfbtfs b dlifnt sodkft donnfdtfd to thf spfdififd host bnd port.
+     * @pbrbm  host   thf host nbmf
+     * @pbrbm  port   thf port numbfr
+     * @rfturn b sodkft donnfdtfd to thf spfdififd host bnd port.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during sodkft drfbtion
+     * @sindf 1.1
+     */
+    publid bbstrbdt Sodkft drfbtfSodkft(String host, int port)
+        throws IOExdfption;
+
+    /**
+     * Crfbtf b sfrvfr sodkft on thf spfdififd port (port 0 indidbtfs
+     * bn bnonymous port).
+     * @pbrbm  port thf port numbfr
+     * @rfturn thf sfrvfr sodkft on thf spfdififd port
+     * @fxdfption IOExdfption if bn I/O frror oddurs during sfrvfr sodkft
+     * drfbtion
+     * @sindf 1.1
+     */
+    publid bbstrbdt SfrvfrSodkft drfbtfSfrvfrSodkft(int port)
+        throws IOExdfption;
+
+    /**
+     * Sft thf globbl sodkft fbdtory from whidh RMI gfts sodkfts (if thf
+     * rfmotf objfdt is not bssodibtfd with b spfdifid dlifnt bnd/or sfrvfr
+     * sodkft fbdtory). Thf RMI sodkft fbdtory dbn only bf sft ondf. Notf: Thf
+     * RMISodkftFbdtory mby only bf sft if thf durrfnt sfdurity mbnbgfr bllows
+     * sftting b sodkft fbdtory; if disbllowfd, b SfdurityExdfption will bf
+     * thrown.
+     * @pbrbm fbd thf sodkft fbdtory
+     * @fxdfption IOExdfption if thf RMI sodkft fbdtory is blrfbdy sft
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             <dodf>dhfdkSftFbdtory</dodf> mfthod dofsn't bllow thf opfrbtion.
+     * @sff #gftSodkftFbdtory
+     * @sff jbvb.lbng.SfdurityMbnbgfr#dhfdkSftFbdtory()
+     * @sindf 1.1
+     */
+    publid syndhronizfd stbtid void sftSodkftFbdtory(RMISodkftFbdtory fbd)
+        throws IOExdfption
+    {
+        if (fbdtory != null) {
+            throw nfw SodkftExdfption("fbdtory blrfbdy dffinfd");
+        }
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkSftFbdtory();
+        }
+        fbdtory = fbd;
+    }
+
+    /**
+     * Rfturns thf sodkft fbdtory sft by thf <dodf>sftSodkftFbdtory</dodf>
+     * mfthod. Rfturns <dodf>null</dodf> if no sodkft fbdtory hbs bffn
+     * sft.
+     * @rfturn thf sodkft fbdtory
+     * @sff #sftSodkftFbdtory(RMISodkftFbdtory)
+     * @sindf 1.1
+     */
+    publid syndhronizfd stbtid RMISodkftFbdtory gftSodkftFbdtory()
+    {
+        rfturn fbdtory;
+    }
+
+    /**
+     * Rfturns b rfffrfndf to thf dffbult sodkft fbdtory usfd
+     * by this RMI implfmfntbtion.  This will bf thf fbdtory usfd
+     * by thf RMI runtimf whfn <dodf>gftSodkftFbdtory</dodf>
+     * rfturns <dodf>null</dodf>.
+     * @rfturn thf dffbult RMI sodkft fbdtory
+     * @sindf 1.1
+     */
+    publid syndhronizfd stbtid RMISodkftFbdtory gftDffbultSodkftFbdtory() {
+        if (dffbultSodkftFbdtory == null) {
+            dffbultSodkftFbdtory =
+                nfw sun.rmi.trbnsport.proxy.RMIMbstfrSodkftFbdtory();
+        }
+        rfturn dffbultSodkftFbdtory;
+    }
+
+    /**
+     * Sfts thf fbilurf hbndlfr to bf dbllfd by thf RMI runtimf if sfrvfr
+     * sodkft drfbtion fbils.  By dffbult, if no fbilurf hbndlfr is instbllfd
+     * bnd sfrvfr sodkft drfbtion fbils, thf RMI runtimf dofs bttfmpt to
+     * rfdrfbtf thf sfrvfr sodkft.
+     *
+     * <p>If thfrf is b sfdurity mbnbgfr, this mfthod first dblls
+     * thf sfdurity mbnbgfr's <dodf>dhfdkSftFbdtory</dodf> mfthod
+     * to fnsurf thf opfrbtion is bllowfd.
+     * This dould rfsult in b <dodf>SfdurityExdfption</dodf>.
+     *
+     * @pbrbm fh thf fbilurf hbndlfr
+     * @throws  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *          <dodf>dhfdkSftFbdtory</dodf> mfthod dofsn't bllow thf
+     *          opfrbtion.
+     * @sff #gftFbilurfHbndlfr
+     * @sff jbvb.rmi.sfrvfr.RMIFbilurfHbndlfr#fbilurf(Exdfption)
+     * @sindf 1.1
+     */
+    publid syndhronizfd stbtid void sftFbilurfHbndlfr(RMIFbilurfHbndlfr fh)
+    {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkSftFbdtory();
+        }
+        hbndlfr = fh;
+    }
+
+    /**
+     * Rfturns thf hbndlfr for sodkft drfbtion fbilurf sft by thf
+     * <dodf>sftFbilurfHbndlfr</dodf> mfthod.
+     * @rfturn thf fbilurf hbndlfr
+     * @sff #sftFbilurfHbndlfr(RMIFbilurfHbndlfr)
+     * @sindf 1.1
+     */
+    publid syndhronizfd stbtid RMIFbilurfHbndlfr gftFbilurfHbndlfr()
+    {
+        rfturn hbndlfr;
+    }
+}

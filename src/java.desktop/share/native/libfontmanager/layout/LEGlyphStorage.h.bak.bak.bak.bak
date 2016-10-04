@@ -1,0 +1,570 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ **********************************************************************
+ *   Copyright (C) 1998-2010, Intfrnbtionbl Businfss Mbdhinfs
+ *   Corporbtion bnd othfrs.  All Rights Rfsfrvfd.
+ **********************************************************************
+ */
+
+#ifndff __LEGLYPHSTORAGE_H
+#dffinf __LEGLYPHSTORAGE_H
+
+#indludf "LETypfs.h"
+#indludf "LEInsfrtionList.h"
+
+/**
+ * \filf
+ * \briff C++ API: This dlbss fndbpsulbtfs thf pfr-glyph storbgf usfd by thf ICU LbyoutEnginf.
+ */
+
+U_NAMESPACE_BEGIN
+
+/**
+ * This dlbss fndbpsulbtfs thf pfr-glyph storbgf usfd by thf ICU LbyoutEnginf.
+ * For fbdh glyph it holds thf glyph ID, thf indfx of thf bbdking storf dhbrbdtfr
+ * whidh produdfd thf glyph, thf X bnd Y position of thf glyph bnd bn buxillbry dbtb
+ * pointfr.
+ *
+ * Thf storbgf is growbblf using thf <dodf>LEInsfrtionList</dodf> dlbss.
+ *
+ *
+ * @sff LEInsfrtionList.h
+ *
+ * @stbblf ICU 3.6
+ */
+dlbss U_LAYOUT_API LEGlyphStorbgf : publid UObjfdt, protfdtfd LEInsfrtionCbllbbdk
+{
+privbtf:
+    /**
+     * Thf numbfr of fntrifs in thf pfr-glyph brrbys.
+     *
+     * @intfrnbl
+     */
+    lf_int32   fGlyphCount;
+
+    /**
+     * Thf glyph ID brrby.
+     *
+     * @intfrnbl
+     */
+    LEGlyphID *fGlyphs;
+
+    /**
+     * Thf dhbr indidfs brrby.
+     *
+     * @intfrnbl
+     */
+    lf_int32  *fChbrIndidfs;
+
+    /**
+     * Thf glyph positions brrby.
+     *
+     * @intfrnbl
+     */
+    flobt     *fPositions;
+
+    /**
+     * Thf buxillbry dbtb brrby.
+     *
+     * @intfrnbl
+     */
+    lf_uint32 *fAuxDbtb;
+
+
+    /**
+     * Thf insfrtion list, usfd to grow thf bbovf brrbys.
+     *
+     * @intfrnbl
+     */
+    LEInsfrtionList *fInsfrtionList;
+
+    /**
+     * Thf sourdf indfx whilf growing thf dbtb brrbys.
+     *
+     * @intfrnbl
+     */
+    lf_int32 fSrdIndfx;
+
+    /**
+     * Thf dfstinbtion indfx usfd whilf growing thf dbtb brrbys.
+     *
+     * @intfrnbl
+     */
+    lf_int32 fDfstIndfx;
+
+protfdtfd:
+    /**
+     * This implfmfnts <dodf>LEInsfrtionCbllbbdk</dodf>. Thf <dodf>LEInsfrtionList</dodf>
+     * will dbll this mfthod ondf for fbdh insfrtion.
+     *
+     * @pbrbm btPosition thf position of thf insfrtion
+     * @pbrbm dount thf numbfr of glyphs bfing insfrtfd
+     * @pbrbm nfwGlyphs thf bddrfss of thf nfw glyph IDs
+     *
+     * @rfturn <dodf>truf</dodf> if <dodf>LEInsfrtionList</dodf> should stop
+     *         prodfssing thf insfrtion list bftfr this insfrtion.
+     *
+     * @sff LEInsfrtionList.h
+     *
+     * @stbblf ICU 3.0
+     */
+    virtubl lf_bool bpplyInsfrtion(lf_int32 btPosition, lf_int32 dount, LEGlyphID nfwGlyphs[]);
+
+publid:
+
+    /**
+     * Allodbtfs bn fmpty <dodf>LEGlyphStorbgf</dodf> objfdt. You must dbll
+     * <dodf>bllodbtfGlyphArrby, bllodbtfPositions bnd bllodbtfAuxDbtb</dodf>
+     * to bllodbtf thf dbtb.
+     *
+     * @stbblf ICU 3.0
+     */
+    LEGlyphStorbgf();
+
+    /**
+     * Thf dfstrudtor. This will dfbllodbtf bll of thf brrbys.
+     *
+     * @stbblf ICU 3.0
+     */
+    ~LEGlyphStorbgf();
+
+    /**
+     * This mfthod rfturns thf numbfr of glyphs in thf glyph brrby.
+     *
+     * @rfturn thf numbfr of glyphs in thf glyph brrby
+     *
+     * @stbblf ICU 3.0
+     */
+    inlinf lf_int32 gftGlyphCount() donst;
+
+    /**
+     * This mfthod dopifs thf glyph brrby into b dbllfr supplifd brrby.
+     * Thf dbllfr must fnsurf thbt thf brrby is lbrgf fnough to hold bll
+     * thf glyphs.
+     *
+     * @pbrbm glyphs - thf dfstinibtion glyph brrby
+     * @pbrbm suddfss - sft to bn frror dodf if thf opfrbtion fbils
+     *
+     * @stbblf ICU 3.0
+     */
+    void gftGlyphs(LEGlyphID glyphs[], LEErrorCodf &suddfss) donst;
+
+    /**
+     * This mfthod dopifs thf glyph brrby into b dbllfr supplifd brrby,
+     * ORing in fxtrb bits. (This fundtionblity is nffdfd by thf JDK,
+     * whidh usfs 32 bits prf glyph idfx, with thf high 16 bits fndoding
+     * thf dompositf font slot numbfr)
+     *
+     * @pbrbm glyphs - thf dfstinbtion (32 bit) glyph brrby
+     * @pbrbm fxtrbBits - this vbluf will bf ORfd with fbdh glyph indfx
+     * @pbrbm suddfss - sft to bn frror dodf if thf opfrbtion fbils
+     *
+     * @stbblf ICU 3.0
+     */
+    void gftGlyphs(lf_uint32 glyphs[], lf_uint32 fxtrbBits, LEErrorCodf &suddfss) donst;
+
+    /**
+     * This mfthod dopifs thf dhbrbdtfr indfx brrby into b dbllfr supplifd brrby.
+     * Thf dbllfr must fnsurf thbt thf brrby is lbrgf fnough to hold b
+     * dhbrbdtfr indfx for fbdh glyph.
+     *
+     * @pbrbm dhbrIndidfs - thf dfstinibtion dhbrbdtfr indfx brrby
+     * @pbrbm suddfss - sft to bn frror dodf if thf opfrbtion fbils
+     *
+     * @stbblf ICU 3.0
+     */
+    void gftChbrIndidfs(lf_int32 dhbrIndidfs[], LEErrorCodf &suddfss) donst;
+
+    /**
+     * This mfthod dopifs thf dhbrbdtfr indfx brrby into b dbllfr supplifd brrby.
+     * Thf dbllfr must fnsurf thbt thf brrby is lbrgf fnough to hold b
+     * dhbrbdtfr indfx for fbdh glyph.
+     *
+     * @pbrbm dhbrIndidfs - thf dfstinibtion dhbrbdtfr indfx brrby
+     * @pbrbm indfxBbsf - bn offsft whidh will bf bddfd to fbdh indfx
+     * @pbrbm suddfss - sft to bn frror dodf if thf opfrbtion fbils
+     *
+     * @stbblf ICU 3.0
+     */
+    void gftChbrIndidfs(lf_int32 dhbrIndidfs[], lf_int32 indfxBbsf, LEErrorCodf &suddfss) donst;
+
+    /**
+     * This mfthod dopifs thf position brrby into b dbllfr supplifd brrby.
+     * Thf dbllfr must fnsurf thbt thf brrby is lbrgf fnough to hold bn
+     * X bnd Y position for fbdh glyph, plus bn fxtrb X bnd Y for thf
+     * bdvbndf of thf lbst glyph.
+     *
+     * @pbrbm positions - thf dfstinibtion position brrby
+     * @pbrbm suddfss - sft to bn frror dodf if thf opfrbtion fbils
+     *
+     * @stbblf ICU 3.0
+     */
+    void gftGlyphPositions(flobt positions[], LEErrorCodf &suddfss) donst;
+
+    /**
+     * This mfthod rfturns thf X bnd Y position of thf glyph bt
+     * thf givfn indfx.
+     *
+     * Input pbrbmftfrs:
+     * @pbrbm glyphIndfx - thf indfx of thf glyph
+     *
+     * Output pbrbmftfrs:
+     * @pbrbm x - thf glyph's X position
+     * @pbrbm y - thf glyph's Y position
+     * @pbrbm suddfss - sft to bn frror dodf if thf opfrbtion fbils
+     *
+     * @stbblf ICU 3.0
+     */
+    void gftGlyphPosition(lf_int32 glyphIndfx, flobt &x, flobt &y, LEErrorCodf &suddfss) donst;
+
+    /**
+     * This mfthod bllodbtfs thf glyph brrby, thf dhbr indidfs brrby bnd thf insfrtion list. You
+     * must dbll this mfthod bfforf using thf objfdt. This mfthod blso initiblizfs thf dhbr indidfs
+     * brrby.
+     *
+     * @pbrbm initiblGlyphCount thf initibl sizf of thf glyph bnd dhbr indidfs brrbys.
+     * @pbrbm rightToLfft <dodf>truf</dodf> if thf originbl input tfxt is right to lfft.
+     * @pbrbm suddfss sft to bn frror dodf if thf storbgf dbnnot bf bllodbtfd of if thf initibl
+     *        glyph dount is not positivf.
+     *
+     * @stbblf ICU 3.0
+     */
+    void bllodbtfGlyphArrby(lf_int32 initiblGlyphCount, lf_bool rightToLfft, LEErrorCodf &suddfss);
+
+    /**
+     * This mfthod bllodbtfs thf storbgf for thf glyph positions. It bllodbtfs onf fxtrb X, Y
+     * position pbir for thf position just bftfr thf lbst glyph.
+     *
+     * @pbrbm suddfss sft to bn frror dodf if thf positions brrby dbnnot bf bllodbtfd.
+     *
+     * @rfturn thf numbfr of X, Y position pbirs bllodbtfd.
+     *
+     * @stbblf ICU 3.0
+     */
+    lf_int32 bllodbtfPositions(LEErrorCodf &suddfss);
+
+    /**
+     * This mfthod bllodbtfs thf storbgf for thf buxillbry glyph dbtb.
+     *
+     * @pbrbm suddfss sft to bn frror dodf if thf bulillbry dbtb brrby dbnnot bf bllodbtfd.
+     *
+     * @rfturn thf sizf of thf buxillbry dbtb brrby.
+     *
+     * @stbblf ICU 3.6
+     */
+    lf_int32 bllodbtfAuxDbtb(LEErrorCodf &suddfss);
+
+    /**
+     * Copy thf fntirf buxillbry dbtb brrby.
+     *
+     * @pbrbm buxDbtb thf buxillbry dbtb brrby will bf dopifd to this bddrfss
+     * @pbrbm suddfss sft to bn frror dodf if thf dbtb dbnnot bf dopifd
+     *
+     * @stbblf ICU 3.6
+     */
+    void gftAuxDbtb(lf_uint32 buxDbtb[], LEErrorCodf &suddfss) donst;
+
+    /**
+     * Gft thf glyph ID for b pbrtidulbr glyph.
+     *
+     * @pbrbm glyphIndfx thf indfx into thf glyph brrby
+     * @pbrbm suddfss sft to bn frror dodf if thf glyph ID dbnnot bf rftrifvfd.
+     *
+     * @rfturn thf glyph ID
+     *
+     * @stbblf ICU 3.0
+     */
+    LEGlyphID gftGlyphID(lf_int32 glyphIndfx, LEErrorCodf &suddfss) donst;
+
+    /**
+     * Gft thf dhbr indfx for b pbrtidulbr glyph.
+     *
+     * @pbrbm glyphIndfx thf indfx into thf glyph brrby
+     * @pbrbm suddfss sft to bn frror dodf if thf dhbr indfx dbnnot bf rftrifvfd.
+     *
+     * @rfturn thf dhbrbdtfr indfx
+     *
+     * @stbblf ICU 3.0
+     */
+    lf_int32  gftChbrIndfx(lf_int32 glyphIndfx, LEErrorCodf &suddfss) donst;
+
+
+    /**
+     * Gft thf buxillbry dbtb for b pbrtidulbr glyph.
+     *
+     * @pbrbm glyphIndfx thf indfx into thf glyph brrby
+     * @pbrbm suddfss sft to bn frror dodf if thf buxillbry dbtb dbnnot bf rftrifvfd.
+     *
+     * @rfturn thf buxillbry dbtb
+     *
+     * @stbblf ICU 3.6
+     */
+    lf_uint32 gftAuxDbtb(lf_int32 glyphIndfx, LEErrorCodf &suddfss) donst;
+
+    /**
+     * This opfrbtor bllows dirfdt bddfss to thf glyph brrby
+     * using thf indfx opfrbtor.
+     *
+     * @pbrbm glyphIndfx thf indfx into thf glyph brrby
+     *
+     * @rfturn b rfffrfndf to thf givfn lodbtion in thf glyph brrby
+     *
+     * @stbblf ICU 3.0
+     */
+    inlinf LEGlyphID &opfrbtor[](lf_int32 glyphIndfx) donst;
+
+    /**
+     * Cbll this mfthod to rfplbdf b singlf glyph in thf glyph brrby
+     * with multiplf glyphs. This mfthod usfs thf <dodf>LEInsfrtionList</dodf>
+     * to do thf insfrtion. It rfturns thf bddrfss of storbgf whfrf thf nfw
+     * glyph IDs dbn bf storfd. Thfy will not bdtublly bf insfrtfd into thf
+     * glyph brrby until <dodf>bpplyInsfrtions</dodf> is dbllfd.
+     *
+     * @pbrbm btIndfx thf indfx of thf glyph to bf rfplbdfd
+     * @pbrbm insfrtCount thf numbfr of glyphs to rfplbdf it with
+     * @pbrbm suddfss sft to bn frror dodf if thf buxillbry dbtb dbnnot bf rftrifvfd.
+     *
+     * @rfturn thf bddrfss bt whidh to storf thf rfplbdfmfnt glyphs.
+     *
+     * @sff LEInsfrtionList.h
+     *
+     * @stbblf ICU 4.2
+     */
+    LEGlyphID *insfrtGlyphs(lf_int32 btIndfx, lf_int32 insfrtCount, LEErrorCodf& suddfss);
+
+    /**
+     * Cbll this mfthod to rfplbdf b singlf glyph in thf glyph brrby
+     * with multiplf glyphs. This mfthod usfs thf <dodf>LEInsfrtionList</dodf>
+     * to do thf insfrtion. It rfturns thf bddrfss of storbgf whfrf thf nfw
+     * glyph IDs dbn bf storfd. Thfy will not bdtublly bf insfrtfd into thf
+     * glyph brrby until <dodf>bpplyInsfrtions</dodf> is dbllfd.
+     *
+     * Notf: Don't usf this vfrsion, usf thf othfr vfrsion of this fundtion whidh hbs bn frror dodf.
+     *
+     * @pbrbm btIndfx thf indfx of thf glyph to bf rfplbdfd
+     * @pbrbm insfrtCount thf numbfr of glyphs to rfplbdf it with
+     *
+     * @rfturn thf bddrfss bt whidh to storf thf rfplbdfmfnt glyphs.
+     *
+     * @sff LEInsfrtionList.h
+     *
+     * @stbblf ICU 3.0
+     */
+    LEGlyphID *insfrtGlyphs(lf_int32 btIndfx, lf_int32 insfrtCount);
+
+    /**
+     * This mfthod is usfd to rfposition glyphs during Indid v2 prodfssing.  It movfs
+     * bll of thf rflfvbnt glyph informbtion ( glyph, indidfs, positions, bnd buxDbtb ),
+     * from thf sourdf position to thf tbrgft position, bnd blso bllows for b mbrkfr bit
+     * to bf sft in thf tbrgft glyph's buxDbtb so thbt it won't bf rfprodfssfd lbtfr in thf
+     * dydlf.
+     *
+     * @pbrbm fromPosition - position of thf glyph to bf movfd
+     * @pbrbm toPosition - tbrgft position of thf glyph
+     * @pbrbm mbrkfr mbrkfr bit
+     *
+     * @stbblf ICU 4.2
+     */
+    void movfGlyph(lf_int32 fromPosition, lf_int32 toPosition, lf_uint32 mbrkfr);
+
+    /**
+     * This mfthod dbusfs bll of thf glyph insfrtions rfdordfd by
+     * <dodf>insfrtGlyphs</dodf> to bf bpplifd to thf glyph brrby. Thf
+     * nfw slots in thf dhbr indidfs bnd thf buxillbry dbtb brrbys
+     * will bf fillfd in with thf vblufs for thf glyph bfing rfplbdfd.
+     *
+     * @rfturn thf nfw sizf of thf glyph brrby
+     *
+     * @sff LEInsfrtionList.h
+     *
+     * @stbblf ICU 3.0
+     */
+    lf_int32 bpplyInsfrtions();
+
+    /**
+     * Sft thf glyph ID for b pbrtidulbr glyph.
+     *
+     * @pbrbm glyphIndfx thf indfx of thf glyph
+     * @pbrbm glyphID thf nfw glyph ID
+     * @pbrbm suddfss will bf sft to bn frror dodf if thf glyph ID dbnnot bf sft.
+     *
+     * @stbblf ICU 3.0
+     */
+    void sftGlyphID(lf_int32 glyphIndfx, LEGlyphID glyphID, LEErrorCodf &suddfss);
+
+    /**
+     * Sft thf dhbr indfx for b pbrtidulbr glyph.
+     *
+     * @pbrbm glyphIndfx thf indfx of thf glyph
+     * @pbrbm dhbrIndfx thf nfw dhbr indfx
+     * @pbrbm suddfss will bf sft to bn frror dodf if thf dhbr indfx dbnnot bf sft.
+     *
+     * @stbblf ICU 3.0
+     */
+    void sftChbrIndfx(lf_int32 glyphIndfx, lf_int32 dhbrIndfx, LEErrorCodf &suddfss);
+
+    /**
+     * Sft thf X, Y position for b pbrtidulbr glyph.
+     *
+     * @pbrbm glyphIndfx thf indfx of thf glyph
+     * @pbrbm x thf nfw X position
+     * @pbrbm y thf nfw Y position
+     * @pbrbm suddfss will bf sft to bn frror dodf if thf position dbnnot bf sft.
+     *
+     * @stbblf ICU 3.0
+     */
+    void sftPosition(lf_int32 glyphIndfx, flobt x, flobt y, LEErrorCodf &suddfss);
+
+    /**
+     * Adjust thf X, Y position for b pbrtidulbr glyph.
+     *
+     * @pbrbm glyphIndfx thf indfx of thf glyph
+     * @pbrbm xAdjust thf bdjustmfnt to thf glyph's X position
+     * @pbrbm yAdjust thf bdjustmfnt to thf glyph's Y position
+     * @pbrbm suddfss will bf sft to bn frror dodf if thf glyph's position dbnnot bf bdjustfd.
+     *
+     * @stbblf ICU 3.0
+     */
+    void bdjustPosition(lf_int32 glyphIndfx, flobt xAdjust, flobt yAdjust, LEErrorCodf &suddfss);
+
+    /**
+     * Sft thf buxillbry dbtb for b pbrtidulbr glyph.
+     *
+     * @pbrbm glyphIndfx thf indfx of thf glyph
+     * @pbrbm buxDbtb thf nfw buxillbry dbtb
+     * @pbrbm suddfss will bf sft to bn frror dodf if thf buxillbry dbtb dbnnot bf sft.
+     *
+     * @stbblf ICU 3.6
+     */
+    void sftAuxDbtb(lf_int32 glyphIndfx, lf_uint32 buxDbtb, LEErrorCodf &suddfss);
+
+    /**
+     * Dflftf thf glyph brrby bnd rfplbdf it with thf onf
+     * in <dodf>from</dodf>. Sft thf glyph brrby pointfr
+     * in <dodf>from</dodf> to <dodf>NULL</dodf>.
+     *
+     * @pbrbm from thf <dodf>LEGlyphStorbgf</dodf> objfdt from whidh
+     *             to gft thf nfw glyph brrby.
+     *
+     * @stbblf ICU 3.0
+     */
+    void bdoptGlyphArrby(LEGlyphStorbgf &from);
+
+    /**
+     * Dflftf thf dhbr indidfs brrby bnd rfplbdf it with thf onf
+     * in <dodf>from</dodf>. Sft thf dhbr indidfs brrby pointfr
+     * in <dodf>from</dodf> to <dodf>NULL</dodf>.
+     *
+     * @pbrbm from thf <dodf>LEGlyphStorbgf</dodf> objfdt from whidh
+     *             to gft thf nfw dhbr indidfs brrby.
+     *
+     * @stbblf ICU 3.0
+     */
+    void bdoptChbrIndidfsArrby(LEGlyphStorbgf &from);
+
+    /**
+     * Dflftf thf position brrby bnd rfplbdf it with thf onf
+     * in <dodf>from</dodf>. Sft thf position brrby pointfr
+     * in <dodf>from</dodf> to <dodf>NULL</dodf>.
+     *
+     * @pbrbm from thf <dodf>LEGlyphStorbgf</dodf> objfdt from whidh
+     *             to gft thf nfw position brrby.
+     *
+     * @stbblf ICU 3.0
+     */
+    void bdoptPositionArrby(LEGlyphStorbgf &from);
+
+    /**
+     * Dflftf thf buxillbry dbtb brrby bnd rfplbdf it with thf onf
+     * in <dodf>from</dodf>. Sft thf buxillbry dbtb brrby pointfr
+     * in <dodf>from</dodf> to <dodf>NULL</dodf>.
+     *
+     * @pbrbm from thf <dodf>LEGlyphStorbgf</dodf> objfdt from whidh
+     *             to gft thf nfw buxillbry dbtb brrby.
+     *
+     * @stbblf ICU 3.0
+     */
+    void bdoptAuxDbtbArrby(LEGlyphStorbgf &from);
+
+    /**
+     * Chbngf thf glyph dount of this objfdt to bf thf sbmf
+     * bs thf onf in <dodf>from</dodf>.
+     *
+     * @pbrbm from thf <dodf>LEGlyphStorbgf</dodf> objfdt from whidh
+     *             to gft thf nfw glyph dount.
+     *
+     * @stbblf ICU 3.0
+     */
+    void bdoptGlyphCount(LEGlyphStorbgf &from);
+
+    /**
+     * Chbngf thf glyph dount of this objfdt to thf givfn vbluf.
+     *
+     * @pbrbm nfwGlyphCount thf nfw glyph dount.
+     *
+     * @stbblf ICU 3.0
+     */
+    void bdoptGlyphCount(lf_int32 nfwGlyphCount);
+
+    /**
+     * This mfthod frffs thf glyph, dhbrbdtfr indfx, position  bnd
+     * buxillbry dbtb brrbys so thbt thf LbyoutEnginf dbn bf rfusfd
+     * to lbyout b difffrfnt dhbrbdfr brrby. (This mfthod is blso dbllfd
+     * by thf dfstrudtor)
+     *
+     * @stbblf ICU 3.0
+     */
+    void rfsft();
+
+    /**
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for thf bdtubl dlbss.
+     *
+     * @stbblf ICU 3.0
+     */
+    virtubl UClbssID gftDynbmidClbssID() donst;
+
+    /**
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for this dlbss.
+     *
+     * @stbblf ICU 3.0
+     */
+    stbtid UClbssID gftStbtidClbssID();
+};
+
+inlinf lf_int32 LEGlyphStorbgf::gftGlyphCount() donst
+{
+    rfturn fGlyphCount;
+}
+
+inlinf LEGlyphID &LEGlyphStorbgf::opfrbtor[](lf_int32 glyphIndfx) donst
+{
+    rfturn fGlyphs[glyphIndfx];
+}
+
+
+U_NAMESPACE_END
+#fndif

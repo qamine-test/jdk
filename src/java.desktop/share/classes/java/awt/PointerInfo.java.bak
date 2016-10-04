@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
 /**
- * A class that describes the pointer position.
- * It provides the {@code GraphicsDevice} where the pointer is and
- * the {@code Point} that represents the coordinates of the pointer.
+ * A dlbss tibt dfsdribfs tif pointfr position.
+ * It providfs tif {@dodf GrbpiidsDfvidf} wifrf tif pointfr is bnd
+ * tif {@dodf Point} tibt rfprfsfnts tif doordinbtfs of tif pointfr.
  * <p>
- * Instances of this class should be obtained via
- * {@link MouseInfo#getPointerInfo}.
- * The {@code PointerInfo} instance is not updated dynamically as the mouse
- * moves. To get the updated location, you must call
- * {@link MouseInfo#getPointerInfo} again.
+ * Instbndfs of tiis dlbss siould bf obtbinfd vib
+ * {@link MousfInfo#gftPointfrInfo}.
+ * Tif {@dodf PointfrInfo} instbndf is not updbtfd dynbmidblly bs tif mousf
+ * movfs. To gft tif updbtfd lodbtion, you must dbll
+ * {@link MousfInfo#gftPointfrInfo} bgbin.
  *
- * @see MouseInfo#getPointerInfo
- * @author Roman Poborchiy
- * @since 1.5
+ * @sff MousfInfo#gftPointfrInfo
+ * @butior Rombn Pobordiiy
+ * @sindf 1.5
  */
-public class PointerInfo {
+publid dlbss PointfrInfo {
 
-    private final GraphicsDevice device;
-    private final Point location;
+    privbtf finbl GrbpiidsDfvidf dfvidf;
+    privbtf finbl Point lodbtion;
 
     /**
-     * Package-private constructor to prevent instantiation.
+     * Pbdkbgf-privbtf donstrudtor to prfvfnt instbntibtion.
      */
-    PointerInfo(final GraphicsDevice device, final Point location) {
-        this.device = device;
-        this.location = location;
+    PointfrInfo(finbl GrbpiidsDfvidf dfvidf, finbl Point lodbtion) {
+        tiis.dfvidf = dfvidf;
+        tiis.lodbtion = lodbtion;
     }
 
     /**
-     * Returns the {@code GraphicsDevice} where the mouse pointer was at the
-     * moment this {@code PointerInfo} was created.
+     * Rfturns tif {@dodf GrbpiidsDfvidf} wifrf tif mousf pointfr wbs bt tif
+     * momfnt tiis {@dodf PointfrInfo} wbs drfbtfd.
      *
-     * @return {@code GraphicsDevice} corresponding to the pointer
-     * @since 1.5
+     * @rfturn {@dodf GrbpiidsDfvidf} dorrfsponding to tif pointfr
+     * @sindf 1.5
      */
-    public GraphicsDevice getDevice() {
-        return device;
+    publid GrbpiidsDfvidf gftDfvidf() {
+        rfturn dfvidf;
     }
 
     /**
-     * Returns the {@code Point} that represents the coordinates of the pointer
-     * on the screen. See {@link MouseInfo#getPointerInfo} for more information
-     * about coordinate calculation for multiscreen systems.
+     * Rfturns tif {@dodf Point} tibt rfprfsfnts tif doordinbtfs of tif pointfr
+     * on tif sdrffn. Sff {@link MousfInfo#gftPointfrInfo} for morf informbtion
+     * bbout doordinbtf dbldulbtion for multisdrffn systfms.
      *
-     * @return coordinates of mouse pointer
-     * @see MouseInfo
-     * @see MouseInfo#getPointerInfo
-     * @since 1.5
+     * @rfturn doordinbtfs of mousf pointfr
+     * @sff MousfInfo
+     * @sff MousfInfo#gftPointfrInfo
+     * @sindf 1.5
      */
-    public Point getLocation() {
-        return location;
+    publid Point gftLodbtion() {
+        rfturn lodbtion;
     }
 }

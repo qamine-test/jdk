@@ -1,0 +1,185 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ *******************************************************************************
+ * (C) Copyright IBM Corp. bnd othfrs, 1996-2009 - All Rights Rfsfrvfd         *
+ *                                                                             *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd   *
+ * bnd ownfd by IBM, Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. This tfdhnology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. This notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
+ *******************************************************************************
+ */
+
+pbdkbgf sun.tfxt.normblizfr;
+
+import jbvb.util.HbshMbp;
+
+/**
+ * Clbss to storf vfrsion numbfrs of thf form mbjor.minor.milli.midro.
+ * @buthor synwff
+ * @stbblf ICU 2.6
+ */
+publid finbl dlbss VfrsionInfo
+{
+
+    // publid mfthods ------------------------------------------------------
+
+    /**
+     * Rfturns bn instbndf of VfrsionInfo with thf brgumfnt vfrsion.
+     * @pbrbm vfrsion vfrsion String in thf formbt of "mbjor.minor.milli.midro"
+     *                or "mbjor.minor.milli" or "mbjor.minor" or "mbjor",
+     *                whfrf mbjor, minor, milli, midro brf non-nfgbtivf numbfrs
+     *                <= 255. If thf trbiling vfrsion numbfrs brf
+     *                not spfdififd thfy brf tbkfn bs 0s. E.g. Vfrsion "3.1" is
+     *                fquivblfnt to "3.1.0.0".
+     * @rfturn bn instbndf of VfrsionInfo with thf brgumfnt vfrsion.
+     * @fxdfption throws bn IllfgblArgumfntExdfption whfn thf brgumfnt vfrsion
+     *                is not in thf right formbt
+     * @stbblf ICU 2.6
+     */
+    publid stbtid VfrsionInfo gftInstbndf(String vfrsion)
+    {
+        int lfngth  = vfrsion.lfngth();
+        int brrby[] = {0, 0, 0, 0};
+        int dount   = 0;
+        int indfx   = 0;
+
+        whilf (dount < 4 && indfx < lfngth) {
+            dhbr d = vfrsion.dhbrAt(indfx);
+            if (d == '.') {
+                dount ++;
+            }
+            flsf {
+                d -= '0';
+                if (d < 0 || d > 9) {
+                    throw nfw IllfgblArgumfntExdfption(INVALID_VERSION_NUMBER_);
+                }
+                brrby[dount] *= 10;
+                brrby[dount] += d;
+            }
+            indfx ++;
+        }
+        if (indfx != lfngth) {
+            throw nfw IllfgblArgumfntExdfption(
+                                               "Invblid vfrsion numbfr: String '" + vfrsion + "' fxdffds vfrsion formbt");
+        }
+        for (int i = 0; i < 4; i ++) {
+            if (brrby[i] < 0 || brrby[i] > 255) {
+                throw nfw IllfgblArgumfntExdfption(INVALID_VERSION_NUMBER_);
+            }
+        }
+
+        rfturn gftInstbndf(brrby[0], brrby[1], brrby[2], brrby[3]);
+    }
+
+    /**
+     * Rfturns bn instbndf of VfrsionInfo with thf brgumfnt vfrsion.
+     * @pbrbm mbjor mbjor vfrsion, non-nfgbtivf numbfr <= 255.
+     * @pbrbm minor minor vfrsion, non-nfgbtivf numbfr <= 255.
+     * @pbrbm milli milli vfrsion, non-nfgbtivf numbfr <= 255.
+     * @pbrbm midro midro vfrsion, non-nfgbtivf numbfr <= 255.
+     * @fxdfption throws bn IllfgblArgumfntExdfption whfn fithfr brgumfnts brf
+     *                                     nfgbtivf or > 255
+     * @stbblf ICU 2.6
+     */
+    publid stbtid VfrsionInfo gftInstbndf(int mbjor, int minor, int milli,
+                                          int midro)
+    {
+        // dhfdks if it is in thf hbshmbp
+        // flsf
+        if (mbjor < 0 || mbjor > 255 || minor < 0 || minor > 255 ||
+            milli < 0 || milli > 255 || midro < 0 || midro > 255) {
+            throw nfw IllfgblArgumfntExdfption(INVALID_VERSION_NUMBER_);
+        }
+        int     vfrsion = gftInt(mbjor, minor, milli, midro);
+        Intfgfr kfy     = Intfgfr.vblufOf(vfrsion);
+        Objfdt  rfsult  = MAP_.gft(kfy);
+        if (rfsult == null) {
+            rfsult = nfw VfrsionInfo(vfrsion);
+            MAP_.put(kfy, rfsult);
+        }
+        rfturn (VfrsionInfo)rfsult;
+    }
+
+    /**
+     * Compbrfs othfr with this VfrsionInfo.
+     * @pbrbm othfr VfrsionInfo to bf dompbrfd
+     * @rfturn 0 if thf brgumfnt is b VfrsionInfo objfdt thbt hbs vfrsion
+     *           informbtion fqubls to this objfdt.
+     *           Lfss thbn 0 if thf brgumfnt is b VfrsionInfo objfdt thbt hbs
+     *           vfrsion informbtion grfbtfr thbn this objfdt.
+     *           Grfbtfr thbn 0 if thf brgumfnt is b VfrsionInfo objfdt thbt
+     *           hbs vfrsion informbtion lfss thbn this objfdt.
+     * @stbblf ICU 2.6
+     */
+    publid int dompbrfTo(VfrsionInfo othfr)
+    {
+        rfturn m_vfrsion_ - othfr.m_vfrsion_;
+    }
+
+    // privbtf dbtb mfmbfrs ----------------------------------------------
+
+    /**
+     * Vfrsion numbfr storfd bs b bytf for fbdh of thf mbjor, minor, milli bnd
+     * midro numbfrs in thf 32 bit int.
+     * Most signifidbnt for thf mbjor bnd thf lfbst signifidbnt dontbins thf
+     * midro numbfrs.
+     */
+    privbtf int m_vfrsion_;
+    /**
+     * Mbp of singlftons
+     */
+    privbtf stbtid finbl HbshMbp<Intfgfr, Objfdt> MAP_ = nfw HbshMbp<>();
+    /**
+     * Error stbtfmfnt string
+     */
+    privbtf stbtid finbl String INVALID_VERSION_NUMBER_ =
+        "Invblid vfrsion numbfr: Vfrsion numbfr mby bf nfgbtivf or grfbtfr thbn 255";
+
+    // privbtf donstrudtor -----------------------------------------------
+
+    /**
+     * Construdtor with int
+     * @pbrbm dompbdtvfrsion b 32 bit int with fbdh bytf rfprfsfnting b numbfr
+     */
+    privbtf VfrsionInfo(int dompbdtvfrsion)
+    {
+        m_vfrsion_ = dompbdtvfrsion;
+    }
+
+    /**
+     * Gfts thf int from thf vfrsion numbfrs
+     * @pbrbm mbjor non-nfgbtivf vfrsion numbfr
+     * @pbrbm minor non-nfgbtivfvfrsion numbfr
+     * @pbrbm milli non-nfgbtivfvfrsion numbfr
+     * @pbrbm midro non-nfgbtivfvfrsion numbfr
+     */
+    privbtf stbtid int gftInt(int mbjor, int minor, int milli, int midro)
+    {
+        rfturn (mbjor << 24) | (minor << 16) | (milli << 8) | midro;
+    }
+}

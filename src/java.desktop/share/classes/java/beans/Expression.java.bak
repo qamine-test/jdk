@@ -1,184 +1,184 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.beans;
+pbdkbgf jbvb.bfbns;
 
 /**
- * An <code>Expression</code> object represents a primitive expression
- * in which a single method is applied to a target and a set of
- * arguments to return a result - as in <code>"a.getFoo()"</code>.
+ * An <dodf>Exprfssion</dodf> objfdt rfprfsfnts b primitivf fxprfssion
+ * in wiidi b singlf mftiod is bpplifd to b tbrgft bnd b sft of
+ * brgumfnts to rfturn b rfsult - bs in <dodf>"b.gftFoo()"</dodf>.
  * <p>
- * In addition to the properties of the super class, the
- * <code>Expression</code> object provides a <em>value</em> which
- * is the object returned when this expression is evaluated.
- * The return value is typically not provided by the caller and
- * is instead computed by dynamically finding the method and invoking
- * it when the first call to <code>getValue</code> is made.
+ * In bddition to tif propfrtifs of tif supfr dlbss, tif
+ * <dodf>Exprfssion</dodf> objfdt providfs b <fm>vbluf</fm> wiidi
+ * is tif objfdt rfturnfd wifn tiis fxprfssion is fvblubtfd.
+ * Tif rfturn vbluf is typidblly not providfd by tif dbllfr bnd
+ * is instfbd domputfd by dynbmidblly finding tif mftiod bnd invoking
+ * it wifn tif first dbll to <dodf>gftVbluf</dodf> is mbdf.
  *
- * @see #getValue
- * @see #setValue
+ * @sff #gftVbluf
+ * @sff #sftVbluf
  *
- * @since 1.4
+ * @sindf 1.4
  *
- * @author Philip Milne
+ * @butior Piilip Milnf
  */
-public class Expression extends Statement {
+publid dlbss Exprfssion fxtfnds Stbtfmfnt {
 
-    private static Object unbound = new Object();
+    privbtf stbtid Objfdt unbound = nfw Objfdt();
 
-    private Object value = unbound;
+    privbtf Objfdt vbluf = unbound;
 
     /**
-     * Creates a new {@link Expression} object
-     * for the specified target object to invoke the method
-     * specified by the name and by the array of arguments.
+     * Crfbtfs b nfw {@link Exprfssion} objfdt
+     * for tif spfdififd tbrgft objfdt to invokf tif mftiod
+     * spfdififd by tif nbmf bnd by tif brrby of brgumfnts.
      * <p>
-     * The {@code target} and the {@code methodName} values should not be {@code null}.
-     * Otherwise an attempt to execute this {@code Expression}
-     * will result in a {@code NullPointerException}.
-     * If the {@code arguments} value is {@code null},
-     * an empty array is used as the value of the {@code arguments} property.
+     * Tif {@dodf tbrgft} bnd tif {@dodf mftiodNbmf} vblufs siould not bf {@dodf null}.
+     * Otifrwisf bn bttfmpt to fxfdutf tiis {@dodf Exprfssion}
+     * will rfsult in b {@dodf NullPointfrExdfption}.
+     * If tif {@dodf brgumfnts} vbluf is {@dodf null},
+     * bn fmpty brrby is usfd bs tif vbluf of tif {@dodf brgumfnts} propfrty.
      *
-     * @param target  the target object of this expression
-     * @param methodName  the name of the method to invoke on the specified target
-     * @param arguments  the array of arguments to invoke the specified method
+     * @pbrbm tbrgft  tif tbrgft objfdt of tiis fxprfssion
+     * @pbrbm mftiodNbmf  tif nbmf of tif mftiod to invokf on tif spfdififd tbrgft
+     * @pbrbm brgumfnts  tif brrby of brgumfnts to invokf tif spfdififd mftiod
      *
-     * @see #getValue
+     * @sff #gftVbluf
      */
-    @ConstructorProperties({"target", "methodName", "arguments"})
-    public Expression(Object target, String methodName, Object[] arguments) {
-        super(target, methodName, arguments);
+    @ConstrudtorPropfrtifs({"tbrgft", "mftiodNbmf", "brgumfnts"})
+    publid Exprfssion(Objfdt tbrgft, String mftiodNbmf, Objfdt[] brgumfnts) {
+        supfr(tbrgft, mftiodNbmf, brgumfnts);
     }
 
     /**
-     * Creates a new {@link Expression} object with the specified value
-     * for the specified target object to invoke the  method
-     * specified by the name and by the array of arguments.
-     * The {@code value} value is used as the value of the {@code value} property,
-     * so the {@link #getValue} method will return it
-     * without executing this {@code Expression}.
+     * Crfbtfs b nfw {@link Exprfssion} objfdt witi tif spfdififd vbluf
+     * for tif spfdififd tbrgft objfdt to invokf tif  mftiod
+     * spfdififd by tif nbmf bnd by tif brrby of brgumfnts.
+     * Tif {@dodf vbluf} vbluf is usfd bs tif vbluf of tif {@dodf vbluf} propfrty,
+     * so tif {@link #gftVbluf} mftiod will rfturn it
+     * witiout fxfduting tiis {@dodf Exprfssion}.
      * <p>
-     * The {@code target} and the {@code methodName} values should not be {@code null}.
-     * Otherwise an attempt to execute this {@code Expression}
-     * will result in a {@code NullPointerException}.
-     * If the {@code arguments} value is {@code null},
-     * an empty array is used as the value of the {@code arguments} property.
+     * Tif {@dodf tbrgft} bnd tif {@dodf mftiodNbmf} vblufs siould not bf {@dodf null}.
+     * Otifrwisf bn bttfmpt to fxfdutf tiis {@dodf Exprfssion}
+     * will rfsult in b {@dodf NullPointfrExdfption}.
+     * If tif {@dodf brgumfnts} vbluf is {@dodf null},
+     * bn fmpty brrby is usfd bs tif vbluf of tif {@dodf brgumfnts} propfrty.
      *
-     * @param value  the value of this expression
-     * @param target  the target object of this expression
-     * @param methodName  the name of the method to invoke on the specified target
-     * @param arguments  the array of arguments to invoke the specified method
+     * @pbrbm vbluf  tif vbluf of tiis fxprfssion
+     * @pbrbm tbrgft  tif tbrgft objfdt of tiis fxprfssion
+     * @pbrbm mftiodNbmf  tif nbmf of tif mftiod to invokf on tif spfdififd tbrgft
+     * @pbrbm brgumfnts  tif brrby of brgumfnts to invokf tif spfdififd mftiod
      *
-     * @see #setValue
+     * @sff #sftVbluf
      */
-    public Expression(Object value, Object target, String methodName, Object[] arguments) {
-        this(target, methodName, arguments);
-        setValue(value);
+    publid Exprfssion(Objfdt vbluf, Objfdt tbrgft, String mftiodNbmf, Objfdt[] brgumfnts) {
+        tiis(tbrgft, mftiodNbmf, brgumfnts);
+        sftVbluf(vbluf);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      * <p>
-     * If the invoked method completes normally,
-     * the value it returns is copied in the {@code value} property.
-     * Note that the {@code value} property is set to {@code null},
-     * if the return type of the underlying method is {@code void}.
+     * If tif invokfd mftiod domplftfs normblly,
+     * tif vbluf it rfturns is dopifd in tif {@dodf vbluf} propfrty.
+     * Notf tibt tif {@dodf vbluf} propfrty is sft to {@dodf null},
+     * if tif rfturn typf of tif undfrlying mftiod is {@dodf void}.
      *
-     * @throws NullPointerException if the value of the {@code target} or
-     *                              {@code methodName} property is {@code null}
-     * @throws NoSuchMethodException if a matching method is not found
-     * @throws SecurityException if a security manager exists and
-     *                           it denies the method invocation
-     * @throws Exception that is thrown by the invoked method
+     * @tirows NullPointfrExdfption if tif vbluf of tif {@dodf tbrgft} or
+     *                              {@dodf mftiodNbmf} propfrty is {@dodf null}
+     * @tirows NoSudiMftiodExdfption if b mbtdiing mftiod is not found
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd
+     *                           it dfnifs tif mftiod invodbtion
+     * @tirows Exdfption tibt is tirown by tif invokfd mftiod
      *
-     * @see java.lang.reflect.Method
-     * @since 1.7
+     * @sff jbvb.lbng.rfflfdt.Mftiod
+     * @sindf 1.7
      */
-    @Override
-    public void execute() throws Exception {
-        setValue(invoke());
+    @Ovfrridf
+    publid void fxfdutf() tirows Exdfption {
+        sftVbluf(invokf());
     }
 
     /**
-     * If the value property of this instance is not already set,
-     * this method dynamically finds the method with the specified
-     * methodName on this target with these arguments and calls it.
-     * The result of the method invocation is first copied
-     * into the value property of this expression and then returned
-     * as the result of <code>getValue</code>. If the value property
-     * was already set, either by a call to <code>setValue</code>
-     * or a previous call to <code>getValue</code> then the value
-     * property is returned without either looking up or calling the method.
+     * If tif vbluf propfrty of tiis instbndf is not blrfbdy sft,
+     * tiis mftiod dynbmidblly finds tif mftiod witi tif spfdififd
+     * mftiodNbmf on tiis tbrgft witi tifsf brgumfnts bnd dblls it.
+     * Tif rfsult of tif mftiod invodbtion is first dopifd
+     * into tif vbluf propfrty of tiis fxprfssion bnd tifn rfturnfd
+     * bs tif rfsult of <dodf>gftVbluf</dodf>. If tif vbluf propfrty
+     * wbs blrfbdy sft, fitifr by b dbll to <dodf>sftVbluf</dodf>
+     * or b prfvious dbll to <dodf>gftVbluf</dodf> tifn tif vbluf
+     * propfrty is rfturnfd witiout fitifr looking up or dblling tif mftiod.
      * <p>
-     * The value property of an <code>Expression</code> is set to
-     * a unique private (non-<code>null</code>) value by default and
-     * this value is used as an internal indication that the method
-     * has not yet been called. A return value of <code>null</code>
-     * replaces this default value in the same way that any other value
-     * would, ensuring that expressions are never evaluated more than once.
+     * Tif vbluf propfrty of bn <dodf>Exprfssion</dodf> is sft to
+     * b uniquf privbtf (non-<dodf>null</dodf>) vbluf by dffbult bnd
+     * tiis vbluf is usfd bs bn intfrnbl indidbtion tibt tif mftiod
+     * ibs not yft bffn dbllfd. A rfturn vbluf of <dodf>null</dodf>
+     * rfplbdfs tiis dffbult vbluf in tif sbmf wby tibt bny otifr vbluf
+     * would, fnsuring tibt fxprfssions brf nfvfr fvblubtfd morf tibn ondf.
      * <p>
-     * See the <code>execute</code> method for details on how
-     * methods are chosen using the dynamic types of the target
-     * and arguments.
+     * Sff tif <dodf>fxfdutf</dodf> mftiod for dftbils on iow
+     * mftiods brf diosfn using tif dynbmid typfs of tif tbrgft
+     * bnd brgumfnts.
      *
-     * @see Statement#execute
-     * @see #setValue
+     * @sff Stbtfmfnt#fxfdutf
+     * @sff #sftVbluf
      *
-     * @return The result of applying this method to these arguments.
-     * @throws Exception if the method with the specified methodName
-     * throws an exception
+     * @rfturn Tif rfsult of bpplying tiis mftiod to tifsf brgumfnts.
+     * @tirows Exdfption if tif mftiod witi tif spfdififd mftiodNbmf
+     * tirows bn fxdfption
      */
-    public Object getValue() throws Exception {
-        if (value == unbound) {
-            setValue(invoke());
+    publid Objfdt gftVbluf() tirows Exdfption {
+        if (vbluf == unbound) {
+            sftVbluf(invokf());
         }
-        return value;
+        rfturn vbluf;
     }
 
     /**
-     * Sets the value of this expression to <code>value</code>.
-     * This value will be returned by the getValue method
-     * without calling the method associated with this
-     * expression.
+     * Sfts tif vbluf of tiis fxprfssion to <dodf>vbluf</dodf>.
+     * Tiis vbluf will bf rfturnfd by tif gftVbluf mftiod
+     * witiout dblling tif mftiod bssodibtfd witi tiis
+     * fxprfssion.
      *
-     * @param value The value of this expression.
+     * @pbrbm vbluf Tif vbluf of tiis fxprfssion.
      *
-     * @see #getValue
+     * @sff #gftVbluf
      */
-    public void setValue(Object value) {
-        this.value = value;
+    publid void sftVbluf(Objfdt vbluf) {
+        tiis.vbluf = vbluf;
     }
 
-    /*pp*/ String instanceName(Object instance) {
-        return instance == unbound ? "<unbound>" : super.instanceName(instance);
+    /*pp*/ String instbndfNbmf(Objfdt instbndf) {
+        rfturn instbndf == unbound ? "<unbound>" : supfr.instbndfNbmf(instbndf);
     }
 
     /**
-     * Prints the value of this expression using a Java-style syntax.
+     * Prints tif vbluf of tiis fxprfssion using b Jbvb-stylf syntbx.
      */
-    public String toString() {
-        return instanceName(value) + "=" + super.toString();
+    publid String toString() {
+        rfturn instbndfNbmf(vbluf) + "=" + supfr.toString();
     }
 }

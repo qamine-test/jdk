@@ -1,209 +1,209 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.common;
+pbdkbgf dom.sun.imbgfio.plugins.dommon;
 
-import java.util.ListResourceBundle;
+import jbvb.util.ListRfsourdfBundlf;
 
-public class StandardMetadataFormatResources extends ListResourceBundle {
+publid dlbss StbndbrdMftbdbtbFormbtRfsourdfs fxtfnds ListRfsourdfBundlf {
 
-    public StandardMetadataFormatResources() {}
+    publid StbndbrdMftbdbtbFormbtRfsourdfs() {}
 
-    protected Object[][] getContents() {
-        return new Object[][] {
+    protfdtfd Objfdt[][] gftContfnts() {
+        rfturn nfw Objfdt[][] {
 
-        // Node name, followed by description, or
-        // Node name + "/" + AttributeName, followed by description
+        // Nodf nbmf, followfd by dfsdription, or
+        // Nodf nbmf + "/" + AttributfNbmf, followfd by dfsdription
 
-        { "Chroma", "Chroma (color) information" },
+        { "Ciromb", "Ciromb (dolor) informbtion" },
 
-        { "ColorSpaceType", "The raw color space of the image" },
+        { "ColorSpbdfTypf", "Tif rbw dolor spbdf of tif imbgf" },
 
-        { "NumChannels",
-          "The number of channels in the raw image, including alpha" },
+        { "NumCibnnfls",
+          "Tif numbfr of dibnnfls in tif rbw imbgf, indluding blpib" },
 
-        { "Gamma", "The image gamma" },
+        { "Gbmmb", "Tif imbgf gbmmb" },
 
-        { "BlackIsZero",
-          "True if smaller values represent darker shades"},
+        { "BlbdkIsZfro",
+          "Truf if smbllfr vblufs rfprfsfnt dbrkfr sibdfs"},
 
-        { "Palette", "Palette-color information" },
+        { "Pblfttf", "Pblfttf-dolor informbtion" },
 
-        { "PaletteEntry", "A palette entry" },
-        { "PaletteEntry/index", "The index of the palette entry" },
-        { "PaletteEntry/red", "The red value for the palette entry" },
-        { "PaletteEntry/green", "The green value for the palette entry" },
-        { "PaletteEntry/blue", "The blue value for the palette entry" },
-        { "PaletteEntry/alpha", "The alpha value for the palette entry" },
+        { "PblfttfEntry", "A pblfttf fntry" },
+        { "PblfttfEntry/indfx", "Tif indfx of tif pblfttf fntry" },
+        { "PblfttfEntry/rfd", "Tif rfd vbluf for tif pblfttf fntry" },
+        { "PblfttfEntry/grffn", "Tif grffn vbluf for tif pblfttf fntry" },
+        { "PblfttfEntry/bluf", "Tif bluf vbluf for tif pblfttf fntry" },
+        { "PblfttfEntry/blpib", "Tif blpib vbluf for tif pblfttf fntry" },
 
-        { "BackgroundIndex", "A palette index to be used as a background" },
+        { "BbdkgroundIndfx", "A pblfttf indfx to bf usfd bs b bbdkground" },
 
-        { "BackgroundColor", "An RGB triple to be used as a background" },
-        { "BackgroundColor/red", "The red background value" },
-        { "BackgroundColor/green", "The green background value" },
-        { "BackgroundColor/blue", "The blue background value" },
+        { "BbdkgroundColor", "An RGB triplf to bf usfd bs b bbdkground" },
+        { "BbdkgroundColor/rfd", "Tif rfd bbdkground vbluf" },
+        { "BbdkgroundColor/grffn", "Tif grffn bbdkground vbluf" },
+        { "BbdkgroundColor/bluf", "Tif bluf bbdkground vbluf" },
 
-        { "Compression", "Compression information" },
+        { "Comprfssion", "Comprfssion informbtion" },
 
-        { "CompressionTypeName", "The name of the compression scheme in use" },
+        { "ComprfssionTypfNbmf", "Tif nbmf of tif domprfssion sdifmf in usf" },
 
-        { "Lossless",
-          "True if the compression scheme is lossless" },
+        { "Losslfss",
+          "Truf if tif domprfssion sdifmf is losslfss" },
 
-        { "BitRate", "The estimated bit rate of the compression scheme" },
+        { "BitRbtf", "Tif fstimbtfd bit rbtf of tif domprfssion sdifmf" },
 
-        { "NumProgressiveScans",
-          "The number of progressive scans used in the image encoding"},
+        { "NumProgrfssivfSdbns",
+          "Tif numbfr of progrfssivf sdbns usfd in tif imbgf fndoding"},
 
-        { "Data", "Information on the image layout" },
+        { "Dbtb", "Informbtion on tif imbgf lbyout" },
 
-        { "PlanarConfiguration",
-          "The organization of image samples in the stream" },
+        { "PlbnbrConfigurbtion",
+          "Tif orgbnizbtion of imbgf sbmplfs in tif strfbm" },
 
-        { "SampleFormat", "The numeric format of image samples" },
+        { "SbmplfFormbt", "Tif numfrid formbt of imbgf sbmplfs" },
 
-        { "BitsPerSample", "The number of bits per sample"},
-        { "BitsPerSample/value",
-          "A list of integers, one per channel" },
+        { "BitsPfrSbmplf", "Tif numbfr of bits pfr sbmplf"},
+        { "BitsPfrSbmplf/vbluf",
+          "A list of intfgfrs, onf pfr dibnnfl" },
 
-        { "SignificantBitsPerSample",
-          "The number of significant bits per sample"},
-        { "SignificantBitsPerSample/value",
-          "A list of integers, one per channel" },
+        { "SignifidbntBitsPfrSbmplf",
+          "Tif numbfr of signifidbnt bits pfr sbmplf"},
+        { "SignifidbntBitsPfrSbmplf/vbluf",
+          "A list of intfgfrs, onf pfr dibnnfl" },
 
-        { "SampleMSB",
-          "The position of the most significant bit of each sample"},
-        { "SampleMSB/value",
-          "A list of integers, one per channel" },
+        { "SbmplfMSB",
+          "Tif position of tif most signifidbnt bit of fbdi sbmplf"},
+        { "SbmplfMSB/vbluf",
+          "A list of intfgfrs, onf pfr dibnnfl" },
 
-        { "Dimension", "Dimension information" },
+        { "Dimfnsion", "Dimfnsion informbtion" },
 
-        { "PixelAspectRatio", "The width of a pixel divided by its height" },
+        { "PixflAspfdtRbtio", "Tif widti of b pixfl dividfd by its ifigit" },
 
-        { "ImageOrientation", "The desired orientation of the image in terms of flips and counter-clockwise rotations" },
+        { "ImbgfOrifntbtion", "Tif dfsirfd orifntbtion of tif imbgf in tfrms of flips bnd dountfr-dlodkwisf rotbtions" },
 
-        { "HorizontalPixelSize",
-  "The width of a pixel, in millimeters, as it should be rendered on media" },
+        { "HorizontblPixflSizf",
+  "Tif widti of b pixfl, in millimftfrs, bs it siould bf rfndfrfd on mfdib" },
 
-        { "VerticalPixelSize",
-  "The height of a pixel, in millimeters, as it should be rendered on media" },
+        { "VfrtidblPixflSizf",
+  "Tif ifigit of b pixfl, in millimftfrs, bs it siould bf rfndfrfd on mfdib" },
 
-        { "HorizontalPhysicalPixelSpacing",
-          "The horizontal distance in the subject of the image, in millimeters, represented by one pixel at the center of the image" },
+        { "HorizontblPiysidblPixflSpbding",
+          "Tif iorizontbl distbndf in tif subjfdt of tif imbgf, in millimftfrs, rfprfsfntfd by onf pixfl bt tif dfntfr of tif imbgf" },
 
-        { "VerticalPhysicalPixelSpacing",
-          "The vertical distance in the subject of the image, in millimeters, represented by one pixel at the center of the image" },
+        { "VfrtidblPiysidblPixflSpbding",
+          "Tif vfrtidbl distbndf in tif subjfdt of tif imbgf, in millimftfrs, rfprfsfntfd by onf pixfl bt tif dfntfr of tif imbgf" },
 
-        { "HorizontalPosition",
-          "The horizontal position, in millimeters, where the image should be rendered on media " },
+        { "HorizontblPosition",
+          "Tif iorizontbl position, in millimftfrs, wifrf tif imbgf siould bf rfndfrfd on mfdib " },
 
-        { "VerticalPosition",
-          "The vertical position, in millimeters, where the image should be rendered on media " },
+        { "VfrtidblPosition",
+          "Tif vfrtidbl position, in millimftfrs, wifrf tif imbgf siould bf rfndfrfd on mfdib " },
 
-        { "HorizontalPixelOffset",
-          "The horizontal position, in pixels, where the image should be rendered onto a raster display" },
+        { "HorizontblPixflOffsft",
+          "Tif iorizontbl position, in pixfls, wifrf tif imbgf siould bf rfndfrfd onto b rbstfr displby" },
 
-        { "VerticalPixelOffset",
-          "The vertical position, in pixels, where the image should be rendered onto a raster display" },
+        { "VfrtidblPixflOffsft",
+          "Tif vfrtidbl position, in pixfls, wifrf tif imbgf siould bf rfndfrfd onto b rbstfr displby" },
 
-        { "HorizontalScreenSize",
-          "The width, in pixels, of the raster display into which the image should be rendered" },
+        { "HorizontblSdrffnSizf",
+          "Tif widti, in pixfls, of tif rbstfr displby into wiidi tif imbgf siould bf rfndfrfd" },
 
-        { "VerticalScreenSize",
-          "The height, in pixels, of the raster display into which the image should be rendered" },
+        { "VfrtidblSdrffnSizf",
+          "Tif ifigit, in pixfls, of tif rbstfr displby into wiidi tif imbgf siould bf rfndfrfd" },
 
-        { "Document", "Document information" },
+        { "Dodumfnt", "Dodumfnt informbtion" },
 
-        { "FormatVersion",
-          "The version of the format used by the stream" },
+        { "FormbtVfrsion",
+          "Tif vfrsion of tif formbt usfd by tif strfbm" },
 
-        { "SubimageInterpretation",
-          "The interpretation of this image in relation to the other images stored in the same stream" },
+        { "SubimbgfIntfrprftbtion",
+          "Tif intfrprftbtion of tiis imbgf in rflbtion to tif otifr imbgfs storfd in tif sbmf strfbm" },
 
-        { "ImageCreationTime", "The time of image creation" },
-        { "ImageCreationTime/year",
-          "The full year (e.g., 1967, not 67)" },
-        { "ImageCreationTime/month",
-          "The month, with January = 1" },
-        { "ImageCreationTime/day",
-          "The day of the month" },
-        { "ImageCreationTime/hour",
-          "The hour from 0 to 23" },
-        { "ImageCreationTime/minute",
-          "The minute from 0 to 59" },
-        { "ImageCreationTime/second",
-          "The second from 0 to 60 (60 = leap second)" },
+        { "ImbgfCrfbtionTimf", "Tif timf of imbgf drfbtion" },
+        { "ImbgfCrfbtionTimf/yfbr",
+          "Tif full yfbr (f.g., 1967, not 67)" },
+        { "ImbgfCrfbtionTimf/monti",
+          "Tif monti, witi Jbnubry = 1" },
+        { "ImbgfCrfbtionTimf/dby",
+          "Tif dby of tif monti" },
+        { "ImbgfCrfbtionTimf/iour",
+          "Tif iour from 0 to 23" },
+        { "ImbgfCrfbtionTimf/minutf",
+          "Tif minutf from 0 to 59" },
+        { "ImbgfCrfbtionTimf/sfdond",
+          "Tif sfdond from 0 to 60 (60 = lfbp sfdond)" },
 
-        { "ImageModificationTime", "The time of the last image modification" },
-        { "ImageModificationTime/year",
-          "The full year (e.g., 1967, not 67)" },
-        { "ImageModificationTime/month",
-          "The month, with January = 1" },
-        { "ImageModificationTime/day",
-          "The day of the month" },
-        { "ImageModificationTime/hour",
-          "The hour from 0 to 23" },
-        { "ImageModificationTime/minute",
-          "The minute from 0 to 59" },
-        { "ImageModificationTime/second",
-          "The second from 0 to 60 (60 = leap second)" },
+        { "ImbgfModifidbtionTimf", "Tif timf of tif lbst imbgf modifidbtion" },
+        { "ImbgfModifidbtionTimf/yfbr",
+          "Tif full yfbr (f.g., 1967, not 67)" },
+        { "ImbgfModifidbtionTimf/monti",
+          "Tif monti, witi Jbnubry = 1" },
+        { "ImbgfModifidbtionTimf/dby",
+          "Tif dby of tif monti" },
+        { "ImbgfModifidbtionTimf/iour",
+          "Tif iour from 0 to 23" },
+        { "ImbgfModifidbtionTimf/minutf",
+          "Tif minutf from 0 to 59" },
+        { "ImbgfModifidbtionTimf/sfdond",
+          "Tif sfdond from 0 to 60 (60 = lfbp sfdond)" },
 
-        { "Text", "Text information" },
+        { "Tfxt", "Tfxt informbtion" },
 
-        { "TextEntry", "A text entry"},
-        { "TextEntry/keyword", "A keyword associated with the text entry" },
-        { "TextEntry/value", "the text entry" },
-        { "TextEntry/language", "The language of the text" },
-        { "TextEntry/encoding", "The encoding of the text" },
-        { "TextEntry/compression", "The method used to compress the text" },
+        { "TfxtEntry", "A tfxt fntry"},
+        { "TfxtEntry/kfyword", "A kfyword bssodibtfd witi tif tfxt fntry" },
+        { "TfxtEntry/vbluf", "tif tfxt fntry" },
+        { "TfxtEntry/lbngubgf", "Tif lbngubgf of tif tfxt" },
+        { "TfxtEntry/fndoding", "Tif fndoding of tif tfxt" },
+        { "TfxtEntry/domprfssion", "Tif mftiod usfd to domprfss tif tfxt" },
 
-        { "Transparency", "Transparency information" },
+        { "Trbnspbrfndy", "Trbnspbrfndy informbtion" },
 
-        { "Alpha", "The type of alpha information contained in the image" },
+        { "Alpib", "Tif typf of blpib informbtion dontbinfd in tif imbgf" },
 
-        { "TransparentIndex", "A palette index to be treated as transparent" },
+        { "TrbnspbrfntIndfx", "A pblfttf indfx to bf trfbtfd bs trbnspbrfnt" },
 
-        { "TransparentColor", "An RGB color to be treated as transparent" },
-        { "TransparentColor/red",
-          "The red channel of the transparent color" },
-        { "TransparentColor/green",
-          "The green channel of the transparent color" },
-        { "TransparentColor/blue",
-          "The blue channel of the transparent color" },
+        { "TrbnspbrfntColor", "An RGB dolor to bf trfbtfd bs trbnspbrfnt" },
+        { "TrbnspbrfntColor/rfd",
+          "Tif rfd dibnnfl of tif trbnspbrfnt dolor" },
+        { "TrbnspbrfntColor/grffn",
+          "Tif grffn dibnnfl of tif trbnspbrfnt dolor" },
+        { "TrbnspbrfntColor/bluf",
+          "Tif bluf dibnnfl of tif trbnspbrfnt dolor" },
 
-        { "TileTransparencies", "A list of completely transparent tiles" },
+        { "TilfTrbnspbrfndifs", "A list of domplftfly trbnspbrfnt tilfs" },
 
-        { "TransparentTile", "The index of a completely transparent tile" },
-        { "TransparentTile/x", "The tile's X index" },
-        { "TransparentTile/y", "The tile's Y index" },
+        { "TrbnspbrfntTilf", "Tif indfx of b domplftfly trbnspbrfnt tilf" },
+        { "TrbnspbrfntTilf/x", "Tif tilf's X indfx" },
+        { "TrbnspbrfntTilf/y", "Tif tilf's Y indfx" },
 
-        { "TileOpacities", "A list of completely opaque tiles" },
+        { "TilfOpbditifs", "A list of domplftfly opbquf tilfs" },
 
-        { "OpaqueTile", "The index of a completely opaque tile" },
-        { "OpaqueTile/x", "The tile's X index" },
-        { "OpaqueTile/y", "The tile's Y index" },
+        { "OpbqufTilf", "Tif indfx of b domplftfly opbquf tilf" },
+        { "OpbqufTilf/x", "Tif tilf's X indfx" },
+        { "OpbqufTilf/y", "Tif tilf's Y indfx" },
 
         };
     }

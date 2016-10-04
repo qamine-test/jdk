@@ -1,757 +1,757 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <windows.h>
-#include <stdio.h>
+#indludf <windows.i>
+#indludf <stdio.i>
 
-#include <jni.h>
-#include <jni_util.h>
-#include <sun_awt_Win32FontManager.h>
+#indludf <jni.i>
+#indludf <jni_util.i>
+#indludf <sun_bwt_Win32FontMbnbgfr.i>
 
-#define BSIZE (max(512, MAX_PATH+1))
+#dffinf BSIZE (mbx(512, MAX_PATH+1))
 
 
-JNIEXPORT jstring JNICALL Java_sun_awt_Win32FontManager_getFontPath(JNIEnv *env, jobject thiz, jboolean noType1)
+JNIEXPORT jstring JNICALL Jbvb_sun_bwt_Win32FontMbnbgfr_gftFontPbti(JNIEnv *fnv, jobjfdt tiiz, jboolfbn noTypf1)
 {
-    char windir[BSIZE];
-    char sysdir[BSIZE];
-    char fontpath[BSIZE*2];
-    char *end;
+    dibr windir[BSIZE];
+    dibr sysdir[BSIZE];
+    dibr fontpbti[BSIZE*2];
+    dibr *fnd;
 
-    /* Locate fonts directories relative to the Windows System directory.
-     * If Windows System location is different than the user's window
-     * directory location, as in a shared Windows installation,
-     * return both locations as potential font directories
+    /* Lodbtf fonts dirfdtorifs rflbtivf to tif Windows Systfm dirfdtory.
+     * If Windows Systfm lodbtion is difffrfnt tibn tif usfr's window
+     * dirfdtory lodbtion, bs in b sibrfd Windows instbllbtion,
+     * rfturn boti lodbtions bs potfntibl font dirfdtorifs
      */
-    GetSystemDirectory(sysdir, BSIZE);
-    end = strrchr(sysdir,'\\');
-    if (end && (stricmp(end,"\\System") || stricmp(end,"\\System32"))) {
-        *end = 0;
-         strcat(sysdir, "\\Fonts");
+    GftSystfmDirfdtory(sysdir, BSIZE);
+    fnd = strrdir(sysdir,'\\');
+    if (fnd && (stridmp(fnd,"\\Systfm") || stridmp(fnd,"\\Systfm32"))) {
+        *fnd = 0;
+         strdbt(sysdir, "\\Fonts");
     }
 
-    GetWindowsDirectory(windir, BSIZE);
-    if (strlen(windir) > BSIZE-7) {
+    GftWindowsDirfdtory(windir, BSIZE);
+    if (strlfn(windir) > BSIZE-7) {
         *windir = 0;
-    } else {
-        strcat(windir, "\\Fonts");
+    } flsf {
+        strdbt(windir, "\\Fonts");
     }
 
-    strcpy(fontpath,sysdir);
-    if (stricmp(sysdir,windir)) {
-        strcat(fontpath,";");
-        strcat(fontpath,windir);
+    strdpy(fontpbti,sysdir);
+    if (stridmp(sysdir,windir)) {
+        strdbt(fontpbti,";");
+        strdbt(fontpbti,windir);
     }
 
-    return JNU_NewStringPlatform(env, fontpath);
+    rfturn JNU_NfwStringPlbtform(fnv, fontpbti);
 }
 
-/* The code below is used to obtain information from the windows font APIS
- * and registry on which fonts are available and what font files hold those
- * fonts. The results are used to speed font lookup.
+/* Tif dodf bflow is usfd to obtbin informbtion from tif windows font APIS
+ * bnd rfgistry on wiidi fonts brf bvbilbblf bnd wibt font filfs iold tiosf
+ * fonts. Tif rfsults brf usfd to spffd font lookup.
  */
 
-typedef struct GdiFontMapInfo {
-    JNIEnv *env;
-    jstring family;
-    jobject fontToFamilyMap;
-    jobject familyToFontListMap;
-    jobject list;
-    jmethodID putMID;
-    jmethodID containsKeyMID;
-    jclass arrayListClass;
-    jmethodID arrayListCtr;
-    jmethodID addMID;
-    jmethodID toLowerCaseMID;
-    jobject locale;
-} GdiFontMapInfo;
+typfdff strudt GdiFontMbpInfo {
+    JNIEnv *fnv;
+    jstring fbmily;
+    jobjfdt fontToFbmilyMbp;
+    jobjfdt fbmilyToFontListMbp;
+    jobjfdt list;
+    jmftiodID putMID;
+    jmftiodID dontbinsKfyMID;
+    jdlbss brrbyListClbss;
+    jmftiodID brrbyListCtr;
+    jmftiodID bddMID;
+    jmftiodID toLowfrCbsfMID;
+    jobjfdt lodblf;
+} GdiFontMbpInfo;
 
-/* IS_NT means NT or later OSes which support Unicode.
- * We have to painfully deal with the ASCII and non-ASCII case we
- * we really want to get the font names as unicode wherever possible.
- * UNICODE_OS is 0 to mean uninitialised, 1 to mean not a unicode OS,
- * 2 to mean a unicode OS.
+/* IS_NT mfbns NT or lbtfr OSfs wiidi support Unidodf.
+ * Wf ibvf to pbinfully dfbl witi tif ASCII bnd non-ASCII dbsf wf
+ * wf rfblly wbnt to gft tif font nbmfs bs unidodf wifrfvfr possiblf.
+ * UNICODE_OS is 0 to mfbn uninitiblisfd, 1 to mfbn not b unidodf OS,
+ * 2 to mfbn b unidodf OS.
  */
 
-#define UC_UNKNOWN 0
-#define UC_NO     1
-#define UC_YES    2
-static int UNICODE_OS = UC_UNKNOWN;
-static int GetOSVersion () {
+#dffinf UC_UNKNOWN 0
+#dffinf UC_NO     1
+#dffinf UC_YES    2
+stbtid int UNICODE_OS = UC_UNKNOWN;
+stbtid int GftOSVfrsion () {
     OSVERSIONINFO vinfo;
-    vinfo.dwOSVersionInfoSize = sizeof(vinfo);
-    GetVersionEx(&vinfo);
-    if ((int)vinfo.dwMajorVersion > 4) {
+    vinfo.dwOSVfrsionInfoSizf = sizfof(vinfo);
+    GftVfrsionEx(&vinfo);
+    if ((int)vinfo.dwMbjorVfrsion > 4) {
         UNICODE_OS = UC_YES;
-    } else if ((int)vinfo.dwMajorVersion < 4) {
+    } flsf if ((int)vinfo.dwMbjorVfrsion < 4) {
         UNICODE_OS = UC_NO;
-    } else {
-        if ((int)vinfo.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS) {
+    } flsf {
+        if ((int)vinfo.dwPlbtformId == VER_PLATFORM_WIN32_WINDOWS) {
             UNICODE_OS = UC_NO;
-        } else {
+        } flsf {
             UNICODE_OS = UC_YES;
         }
     }
-    return UNICODE_OS;
+    rfturn UNICODE_OS;
 }
 
-#define IS_NT ((UNICODE_OS == UC_UNKNOWN) \
-   ? (GetOSVersion() == UC_YES) : (UNICODE_OS == UC_YES))
+#dffinf IS_NT ((UNICODE_OS == UC_UNKNOWN) \
+   ? (GftOSVfrsion() == UC_YES) : (UNICODE_OS == UC_YES))
 
 /* NT is W2K & XP. WIN is Win9x */
-static const char FONTKEY_NT[] =
-    "Software\\Microsoft\\Windows NT\\CurrentVersion\\Fonts";
-static const char FONTKEY_WIN[] =
-    "Software\\Microsoft\\Windows\\CurrentVersion\\Fonts";
+stbtid donst dibr FONTKEY_NT[] =
+    "Softwbrf\\Midrosoft\\Windows NT\\CurrfntVfrsion\\Fonts";
+stbtid donst dibr FONTKEY_WIN[] =
+    "Softwbrf\\Midrosoft\\Windows\\CurrfntVfrsion\\Fonts";
 
-/* Callback for call to EnumFontFamiliesEx in the EnumFamilyNames function.
- * Expects to be called once for each face name in the family specified
- * in the call. We extract the full name for the font which is expected
- * to be in the "system encoding" and create canonical and lower case
- * Java strings for the name which are added to the maps. The lower case
- * name is used as key to the family name value in the font to family map,
- * the canonical name is one of the"list" of members of the family.
+/* Cbllbbdk for dbll to EnumFontFbmilifsEx in tif EnumFbmilyNbmfs fundtion.
+ * Expfdts to bf dbllfd ondf for fbdi fbdf nbmf in tif fbmily spfdififd
+ * in tif dbll. Wf fxtrbdt tif full nbmf for tif font wiidi is fxpfdtfd
+ * to bf in tif "systfm fndoding" bnd drfbtf dbnonidbl bnd lowfr dbsf
+ * Jbvb strings for tif nbmf wiidi brf bddfd to tif mbps. Tif lowfr dbsf
+ * nbmf is usfd bs kfy to tif fbmily nbmf vbluf in tif font to fbmily mbp,
+ * tif dbnonidbl nbmf is onf of tif"list" of mfmbfrs of tif fbmily.
  */
-static int CALLBACK EnumFontFacesInFamilyProcA(
-  ENUMLOGFONTEXA *lpelfe,
-  NEWTEXTMETRICEX *lpntme,
-  int FontType,
-  LPARAM lParam )
+stbtid int CALLBACK EnumFontFbdfsInFbmilyProdA(
+  ENUMLOGFONTEXA *lpflff,
+  NEWTEXTMETRICEX *lpntmf,
+  int FontTypf,
+  LPARAM lPbrbm )
 {
-    GdiFontMapInfo *fmi = (GdiFontMapInfo*)lParam;
-    JNIEnv *env = fmi->env;
-    jstring fullname, fullnameLC;
+    GdiFontMbpInfo *fmi = (GdiFontMbpInfo*)lPbrbm;
+    JNIEnv *fnv = fmi->fnv;
+    jstring fullnbmf, fullnbmfLC;
 
-    /* Both Vista and XP return DEVICE_FONTTYPE for OTF fonts */
-    if (FontType != TRUETYPE_FONTTYPE && FontType != DEVICE_FONTTYPE) {
-        return 1;
+    /* Boti Vistb bnd XP rfturn DEVICE_FONTTYPE for OTF fonts */
+    if (FontTypf != TRUETYPE_FONTTYPE && FontTypf != DEVICE_FONTTYPE) {
+        rfturn 1;
     }
 
-    /* printf("FULL=%s\n",lpelfe->elfFullName);fflush(stdout);  */
+    /* printf("FULL=%s\n",lpflff->flfFullNbmf);fflusi(stdout);  */
 
-    fullname = JNU_NewStringPlatform(env, lpelfe->elfFullName);
-    if (fullname == NULL) {
-        (*env)->ExceptionClear(env);
-        return 1;
+    fullnbmf = JNU_NfwStringPlbtform(fnv, lpflff->flfFullNbmf);
+    if (fullnbmf == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        rfturn 1;
     }
-    fullnameLC = (*env)->CallObjectMethod(env, fullname,
-                                          fmi->toLowerCaseMID, fmi->locale);
-    (*env)->CallBooleanMethod(env, fmi->list, fmi->addMID, fullname);
-    (*env)->CallObjectMethod(env, fmi->fontToFamilyMap,
-                             fmi->putMID, fullnameLC, fmi->family);
-    return 1;
+    fullnbmfLC = (*fnv)->CbllObjfdtMftiod(fnv, fullnbmf,
+                                          fmi->toLowfrCbsfMID, fmi->lodblf);
+    (*fnv)->CbllBoolfbnMftiod(fnv, fmi->list, fmi->bddMID, fullnbmf);
+    (*fnv)->CbllObjfdtMftiod(fnv, fmi->fontToFbmilyMbp,
+                             fmi->putMID, fullnbmfLC, fmi->fbmily);
+    rfturn 1;
 }
 
-typedef struct CheckFamilyInfo {
-  wchar_t *family;
-  wchar_t* fullName;
-  int isDifferent;
-} CheckFamilyInfo;
+typfdff strudt CifdkFbmilyInfo {
+  wdibr_t *fbmily;
+  wdibr_t* fullNbmf;
+  int isDifffrfnt;
+} CifdkFbmilyInfo;
 
-static int CALLBACK CheckFontFamilyProcW(
-  ENUMLOGFONTEXW *lpelfe,
-  NEWTEXTMETRICEX *lpntme,
-  int FontType,
-  LPARAM lParam)
+stbtid int CALLBACK CifdkFontFbmilyProdW(
+  ENUMLOGFONTEXW *lpflff,
+  NEWTEXTMETRICEX *lpntmf,
+  int FontTypf,
+  LPARAM lPbrbm)
 {
-    CheckFamilyInfo *info = (CheckFamilyInfo*)lParam;
-    info->isDifferent = wcscmp(lpelfe->elfLogFont.lfFaceName, info->family);
+    CifdkFbmilyInfo *info = (CifdkFbmilyInfo*)lPbrbm;
+    info->isDifffrfnt = wdsdmp(lpflff->flfLogFont.lfFbdfNbmf, info->fbmily);
 
-/*     if (!info->isDifferent) { */
-/*         wprintf(LFor font %s expected family=%s instead got %s\n", */
-/*                 lpelfe->elfFullName, */
-/*                 info->family, */
-/*                 lpelfe->elfLogFont.lfFaceName); */
-/*         fflush(stdout); */
+/*     if (!info->isDifffrfnt) { */
+/*         wprintf(LFor font %s fxpfdtfd fbmily=%s instfbd got %s\n", */
+/*                 lpflff->flfFullNbmf, */
+/*                 info->fbmily, */
+/*                 lpflff->flfLogFont.lfFbdfNbmf); */
+/*         fflusi(stdout); */
 /*     } */
-    return 0;
+    rfturn 0;
 }
 
-/* This HDC is initialised and released in the populate family map
- * JNI entry point, and used within the call which would otherwise
- * create many DCs.
+/* Tiis HDC is initiblisfd bnd rflfbsfd in tif populbtf fbmily mbp
+ * JNI fntry point, bnd usfd witiin tif dbll wiidi would otifrwisf
+ * drfbtf mbny DCs.
  */
-static HDC screenDC = NULL;
+stbtid HDC sdrffnDC = NULL;
 
-static int DifferentFamily(wchar_t *family, wchar_t* fullName) {
+stbtid int DifffrfntFbmily(wdibr_t *fbmily, wdibr_t* fullNbmf) {
     LOGFONTW lfw;
-    CheckFamilyInfo info;
+    CifdkFbmilyInfo info;
 
-    /* If fullName can't be stored in the struct, assume correct family */
-    if (wcslen((LPWSTR)fullName) >= LF_FACESIZE) {
-        return 0;
+    /* If fullNbmf dbn't bf storfd in tif strudt, bssumf dorrfdt fbmily */
+    if (wdslfn((LPWSTR)fullNbmf) >= LF_FACESIZE) {
+        rfturn 0;
     }
 
-    memset(&info, 0, sizeof(CheckFamilyInfo));
-    info.family = family;
-    info.fullName = fullName;
-    info.isDifferent = 0;
+    mfmsft(&info, 0, sizfof(CifdkFbmilyInfo));
+    info.fbmily = fbmily;
+    info.fullNbmf = fullNbmf;
+    info.isDifffrfnt = 0;
 
-    memset(&lfw, 0, sizeof(lfw));
-    wcscpy(lfw.lfFaceName, fullName);
-    lfw.lfCharSet = DEFAULT_CHARSET;
-    EnumFontFamiliesExW(screenDC, &lfw,
-                        (FONTENUMPROCW)CheckFontFamilyProcW,
+    mfmsft(&lfw, 0, sizfof(lfw));
+    wdsdpy(lfw.lfFbdfNbmf, fullNbmf);
+    lfw.lfCibrSft = DEFAULT_CHARSET;
+    EnumFontFbmilifsExW(sdrffnDC, &lfw,
+                        (FONTENUMPROCW)CifdkFontFbmilyProdW,
                         (LPARAM)(&info), 0L);
 
-    return info.isDifferent;
+    rfturn info.isDifffrfnt;
 }
 
-static int CALLBACK EnumFontFacesInFamilyProcW(
-  ENUMLOGFONTEXW *lpelfe,
-  NEWTEXTMETRICEX *lpntme,
-  int FontType,
-  LPARAM lParam)
+stbtid int CALLBACK EnumFontFbdfsInFbmilyProdW(
+  ENUMLOGFONTEXW *lpflff,
+  NEWTEXTMETRICEX *lpntmf,
+  int FontTypf,
+  LPARAM lPbrbm)
 {
-    GdiFontMapInfo *fmi = (GdiFontMapInfo*)lParam;
-    JNIEnv *env = fmi->env;
-    jstring fullname, fullnameLC;
+    GdiFontMbpInfo *fmi = (GdiFontMbpInfo*)lPbrbm;
+    JNIEnv *fnv = fmi->fnv;
+    jstring fullnbmf, fullnbmfLC;
 
-    /* Both Vista and XP return DEVICE_FONTTYPE for OTF fonts */
-    if (FontType != TRUETYPE_FONTTYPE && FontType != DEVICE_FONTTYPE) {
-        return 1;
+    /* Boti Vistb bnd XP rfturn DEVICE_FONTTYPE for OTF fonts */
+    if (FontTypf != TRUETYPE_FONTTYPE && FontTypf != DEVICE_FONTTYPE) {
+        rfturn 1;
     }
 
-    /* Windows has font aliases and so may enumerate fonts from
-     * the aliased family if any actual font of that family is installed.
-     * To protect against it ignore fonts which aren't enumerated under
-     * their true family.
+    /* Windows ibs font blibsfs bnd so mby fnumfrbtf fonts from
+     * tif blibsfd fbmily if bny bdtubl font of tibt fbmily is instbllfd.
+     * To protfdt bgbinst it ignorf fonts wiidi brfn't fnumfrbtfd undfr
+     * tifir truf fbmily.
      */
-    if (DifferentFamily(lpelfe->elfLogFont.lfFaceName,
-                        lpelfe->elfFullName))  {
-      return 1;
+    if (DifffrfntFbmily(lpflff->flfLogFont.lfFbdfNbmf,
+                        lpflff->flfFullNbmf))  {
+      rfturn 1;
     }
 
-    fullname = (*env)->NewString(env, lpelfe->elfFullName,
-                                 (jsize)wcslen((LPWSTR)lpelfe->elfFullName));
-    if (fullname == NULL) {
-        (*env)->ExceptionClear(env);
-        return 1;
+    fullnbmf = (*fnv)->NfwString(fnv, lpflff->flfFullNbmf,
+                                 (jsizf)wdslfn((LPWSTR)lpflff->flfFullNbmf));
+    if (fullnbmf == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        rfturn 1;
     }
-    fullnameLC = (*env)->CallObjectMethod(env, fullname,
-                                          fmi->toLowerCaseMID, fmi->locale);
-    (*env)->CallBooleanMethod(env, fmi->list, fmi->addMID, fullname);
-    (*env)->CallObjectMethod(env, fmi->fontToFamilyMap,
-                             fmi->putMID, fullnameLC, fmi->family);
-    return 1;
+    fullnbmfLC = (*fnv)->CbllObjfdtMftiod(fnv, fullnbmf,
+                                          fmi->toLowfrCbsfMID, fmi->lodblf);
+    (*fnv)->CbllBoolfbnMftiod(fnv, fmi->list, fmi->bddMID, fullnbmf);
+    (*fnv)->CbllObjfdtMftiod(fnv, fmi->fontToFbmilyMbp,
+                             fmi->putMID, fullnbmfLC, fmi->fbmily);
+    rfturn 1;
 }
 
-/* Callback for EnumFontFamiliesEx in populateFontFileNameMap.
- * Expects to be called for every charset of every font family.
- * If this is the first time we have been called for this family,
- * add a new mapping to the familyToFontListMap from this family to a
- * list of its members. To populate that list, further enumerate all faces
- * in this family for the matched charset. This assumes that all fonts
- * in a family support the same charset, which is a fairly safe assumption
- * and saves time as the call we make here to EnumFontFamiliesEx will
- * enumerate the members of this family just once each.
- * Because we set fmi->list to be the newly created list the call back
- * can safely add to that list without a search.
+/* Cbllbbdk for EnumFontFbmilifsEx in populbtfFontFilfNbmfMbp.
+ * Expfdts to bf dbllfd for fvfry dibrsft of fvfry font fbmily.
+ * If tiis is tif first timf wf ibvf bffn dbllfd for tiis fbmily,
+ * bdd b nfw mbpping to tif fbmilyToFontListMbp from tiis fbmily to b
+ * list of its mfmbfrs. To populbtf tibt list, furtifr fnumfrbtf bll fbdfs
+ * in tiis fbmily for tif mbtdifd dibrsft. Tiis bssumfs tibt bll fonts
+ * in b fbmily support tif sbmf dibrsft, wiidi is b fbirly sbff bssumption
+ * bnd sbvfs timf bs tif dbll wf mbkf ifrf to EnumFontFbmilifsEx will
+ * fnumfrbtf tif mfmbfrs of tiis fbmily just ondf fbdi.
+ * Bfdbusf wf sft fmi->list to bf tif nfwly drfbtfd list tif dbll bbdk
+ * dbn sbffly bdd to tibt list witiout b sfbrdi.
  */
-static int CALLBACK EnumFamilyNamesA(
-  ENUMLOGFONTEXA *lpelfe,    /* pointer to logical-font data */
-  NEWTEXTMETRICEX *lpntme,   /* pointer to physical-font data */
-  int FontType,              /* type of font */
-  LPARAM lParam)             /* application-defined data */
+stbtid int CALLBACK EnumFbmilyNbmfsA(
+  ENUMLOGFONTEXA *lpflff,    /* pointfr to logidbl-font dbtb */
+  NEWTEXTMETRICEX *lpntmf,   /* pointfr to piysidbl-font dbtb */
+  int FontTypf,              /* typf of font */
+  LPARAM lPbrbm)             /* bpplidbtion-dffinfd dbtb */
 {
-    GdiFontMapInfo *fmi = (GdiFontMapInfo*)lParam;
-    JNIEnv *env = fmi->env;
-    jstring familyLC;
-    LOGFONTA lfa;
+    GdiFontMbpInfo *fmi = (GdiFontMbpInfo*)lPbrbm;
+    JNIEnv *fnv = fmi->fnv;
+    jstring fbmilyLC;
+    LOGFONTA lfb;
 
-    /* Both Vista and XP return DEVICE_FONTTYPE for OTF fonts */
-    if (FontType != TRUETYPE_FONTTYPE && FontType != DEVICE_FONTTYPE) {
-        return 1;
+    /* Boti Vistb bnd XP rfturn DEVICE_FONTTYPE for OTF fonts */
+    if (FontTypf != TRUETYPE_FONTTYPE && FontTypf != DEVICE_FONTTYPE) {
+        rfturn 1;
     }
 
-    /* Windows lists fonts which have a vmtx (vertical metrics) table twice.
-     * Once using their normal name, and again preceded by '@'. These appear
-     * in font lists in some windows apps, such as wordpad. We don't want
-     * these so we skip any font where the first character is '@'
+    /* Windows lists fonts wiidi ibvf b vmtx (vfrtidbl mftrids) tbblf twidf.
+     * Ondf using tifir normbl nbmf, bnd bgbin prfdfdfd by '@'. Tifsf bppfbr
+     * in font lists in somf windows bpps, sudi bs wordpbd. Wf don't wbnt
+     * tifsf so wf skip bny font wifrf tif first dibrbdtfr is '@'
      */
-    if (lpelfe->elfLogFont.lfFaceName[0] == '@') {
-        return 1;
+    if (lpflff->flfLogFont.lfFbdfNbmf[0] == '@') {
+        rfturn 1;
     }
-    fmi->family = JNU_NewStringPlatform(env,lpelfe->elfLogFont.lfFaceName);
-    if (fmi->family == NULL) {
-        (*env)->ExceptionClear(env);
-        return 1;
+    fmi->fbmily = JNU_NfwStringPlbtform(fnv,lpflff->flfLogFont.lfFbdfNbmf);
+    if (fmi->fbmily == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        rfturn 1;
     }
-    familyLC = (*env)->CallObjectMethod(env, fmi->family,
-                                        fmi->toLowerCaseMID, fmi->locale);
-    /* check if already seen this family with a different charset */
-    if ((*env)->CallBooleanMethod(env,fmi->familyToFontListMap,
-                                  fmi->containsKeyMID, familyLC)) {
-        return 1;
+    fbmilyLC = (*fnv)->CbllObjfdtMftiod(fnv, fmi->fbmily,
+                                        fmi->toLowfrCbsfMID, fmi->lodblf);
+    /* difdk if blrfbdy sffn tiis fbmily witi b difffrfnt dibrsft */
+    if ((*fnv)->CbllBoolfbnMftiod(fnv,fmi->fbmilyToFontListMbp,
+                                  fmi->dontbinsKfyMID, fbmilyLC)) {
+        rfturn 1;
     }
-    fmi->list = (*env)->NewObject(env,
-                                  fmi->arrayListClass, fmi->arrayListCtr, 4);
+    fmi->list = (*fnv)->NfwObjfdt(fnv,
+                                  fmi->brrbyListClbss, fmi->brrbyListCtr, 4);
     if (fmi->list == NULL) {
-        (*env)->ExceptionClear(env);
-        return 1;
+        (*fnv)->ExdfptionClfbr(fnv);
+        rfturn 1;
     }
-    (*env)->CallObjectMethod(env, fmi->familyToFontListMap,
-                             fmi->putMID, familyLC, fmi->list);
+    (*fnv)->CbllObjfdtMftiod(fnv, fmi->fbmilyToFontListMbp,
+                             fmi->putMID, fbmilyLC, fmi->list);
 
-/*  printf("FAMILY=%s\n", lpelfe->elfLogFont.lfFaceName);fflush(stdout); */
+/*  printf("FAMILY=%s\n", lpflff->flfLogFont.lfFbdfNbmf);fflusi(stdout); */
 
-    memset(&lfa, 0, sizeof(lfa));
-    strcpy(lfa.lfFaceName, lpelfe->elfLogFont.lfFaceName);
-    lfa.lfCharSet = lpelfe->elfLogFont.lfCharSet;
-    EnumFontFamiliesExA(screenDC, &lfa,
-                        (FONTENUMPROCA)EnumFontFacesInFamilyProcA,
-                        lParam, 0L);
-    return 1;
+    mfmsft(&lfb, 0, sizfof(lfb));
+    strdpy(lfb.lfFbdfNbmf, lpflff->flfLogFont.lfFbdfNbmf);
+    lfb.lfCibrSft = lpflff->flfLogFont.lfCibrSft;
+    EnumFontFbmilifsExA(sdrffnDC, &lfb,
+                        (FONTENUMPROCA)EnumFontFbdfsInFbmilyProdA,
+                        lPbrbm, 0L);
+    rfturn 1;
 }
 
-static int CALLBACK EnumFamilyNamesW(
-  ENUMLOGFONTEXW *lpelfe,    /* pointer to logical-font data */
-  NEWTEXTMETRICEX *lpntme,  /* pointer to physical-font data */
-  int FontType,             /* type of font */
-  LPARAM lParam )           /* application-defined data */
+stbtid int CALLBACK EnumFbmilyNbmfsW(
+  ENUMLOGFONTEXW *lpflff,    /* pointfr to logidbl-font dbtb */
+  NEWTEXTMETRICEX *lpntmf,  /* pointfr to piysidbl-font dbtb */
+  int FontTypf,             /* typf of font */
+  LPARAM lPbrbm )           /* bpplidbtion-dffinfd dbtb */
 {
-    GdiFontMapInfo *fmi = (GdiFontMapInfo*)lParam;
-    JNIEnv *env = fmi->env;
-    jstring familyLC;
-    size_t slen;
+    GdiFontMbpInfo *fmi = (GdiFontMbpInfo*)lPbrbm;
+    JNIEnv *fnv = fmi->fnv;
+    jstring fbmilyLC;
+    sizf_t slfn;
     LOGFONTW lfw;
 
-    /* Both Vista and XP return DEVICE_FONTTYPE for OTF fonts */
-    if (FontType != TRUETYPE_FONTTYPE && FontType != DEVICE_FONTTYPE) {
-        return 1;
+    /* Boti Vistb bnd XP rfturn DEVICE_FONTTYPE for OTF fonts */
+    if (FontTypf != TRUETYPE_FONTTYPE && FontTypf != DEVICE_FONTTYPE) {
+        rfturn 1;
     }
-/*     wprintf(L"FAMILY=%s charset=%d FULL=%s\n", */
-/*          lpelfe->elfLogFont.lfFaceName, */
-/*          lpelfe->elfLogFont.lfCharSet, */
-/*          lpelfe->elfFullName); */
-/*     fflush(stdout); */
+/*     wprintf(L"FAMILY=%s dibrsft=%d FULL=%s\n", */
+/*          lpflff->flfLogFont.lfFbdfNbmf, */
+/*          lpflff->flfLogFont.lfCibrSft, */
+/*          lpflff->flfFullNbmf); */
+/*     fflusi(stdout); */
 
-    /* Windows lists fonts which have a vmtx (vertical metrics) table twice.
-     * Once using their normal name, and again preceded by '@'. These appear
-     * in font lists in some windows apps, such as wordpad. We don't want
-     * these so we skip any font where the first character is '@'
+    /* Windows lists fonts wiidi ibvf b vmtx (vfrtidbl mftrids) tbblf twidf.
+     * Ondf using tifir normbl nbmf, bnd bgbin prfdfdfd by '@'. Tifsf bppfbr
+     * in font lists in somf windows bpps, sudi bs wordpbd. Wf don't wbnt
+     * tifsf so wf skip bny font wifrf tif first dibrbdtfr is '@'
      */
-    if (lpelfe->elfLogFont.lfFaceName[0] == L'@') {
-            return 1;
+    if (lpflff->flfLogFont.lfFbdfNbmf[0] == L'@') {
+            rfturn 1;
     }
-    slen = wcslen(lpelfe->elfLogFont.lfFaceName);
-    fmi->family = (*env)->NewString(env,lpelfe->elfLogFont.lfFaceName, (jsize)slen);
-    if (fmi->family == NULL) {
-        (*env)->ExceptionClear(env);
-        return 1;
+    slfn = wdslfn(lpflff->flfLogFont.lfFbdfNbmf);
+    fmi->fbmily = (*fnv)->NfwString(fnv,lpflff->flfLogFont.lfFbdfNbmf, (jsizf)slfn);
+    if (fmi->fbmily == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        rfturn 1;
     }
-    familyLC = (*env)->CallObjectMethod(env, fmi->family,
-                                        fmi->toLowerCaseMID, fmi->locale);
-    /* check if already seen this family with a different charset */
-    if ((*env)->CallBooleanMethod(env,fmi->familyToFontListMap,
-                                  fmi->containsKeyMID, familyLC)) {
-        return 1;
+    fbmilyLC = (*fnv)->CbllObjfdtMftiod(fnv, fmi->fbmily,
+                                        fmi->toLowfrCbsfMID, fmi->lodblf);
+    /* difdk if blrfbdy sffn tiis fbmily witi b difffrfnt dibrsft */
+    if ((*fnv)->CbllBoolfbnMftiod(fnv,fmi->fbmilyToFontListMbp,
+                                  fmi->dontbinsKfyMID, fbmilyLC)) {
+        rfturn 1;
     }
-    fmi->list = (*env)->NewObject(env,
-                                  fmi->arrayListClass, fmi->arrayListCtr, 4);
+    fmi->list = (*fnv)->NfwObjfdt(fnv,
+                                  fmi->brrbyListClbss, fmi->brrbyListCtr, 4);
     if (fmi->list == NULL) {
-        (*env)->ExceptionClear(env);
-        return 1;
+        (*fnv)->ExdfptionClfbr(fnv);
+        rfturn 1;
     }
-    (*env)->CallObjectMethod(env, fmi->familyToFontListMap,
-                             fmi->putMID, familyLC, fmi->list);
+    (*fnv)->CbllObjfdtMftiod(fnv, fmi->fbmilyToFontListMbp,
+                             fmi->putMID, fbmilyLC, fmi->list);
 
-    memset(&lfw, 0, sizeof(lfw));
-    wcscpy(lfw.lfFaceName, lpelfe->elfLogFont.lfFaceName);
-    lfw.lfCharSet = lpelfe->elfLogFont.lfCharSet;
-    EnumFontFamiliesExW(screenDC, &lfw,
-                        (FONTENUMPROCW)EnumFontFacesInFamilyProcW,
-                        lParam, 0L);
-    return 1;
+    mfmsft(&lfw, 0, sizfof(lfw));
+    wdsdpy(lfw.lfFbdfNbmf, lpflff->flfLogFont.lfFbdfNbmf);
+    lfw.lfCibrSft = lpflff->flfLogFont.lfCibrSft;
+    EnumFontFbmilifsExW(sdrffnDC, &lfw,
+                        (FONTENUMPROCW)EnumFontFbdfsInFbmilyProdW,
+                        lPbrbm, 0L);
+    rfturn 1;
 }
 
 
-/* It looks like TrueType fonts have " (TrueType)" tacked on the end of their
- * name, so we can try to use that to distinguish TT from other fonts.
- * However if a program "installed" a font in the registry the key may
- * not include that. We could also try to "pass" fonts which have no "(..)"
- * at the end. But that turns out to pass a few .FON files that MS supply.
- * If there's no parenthesized type string, we could next try to infer
- * the file type from the file name extension. Since the MS entries that
- * have no type string are very few, and have odd names like "MS-DOS CP 437"
- * and would never return a Java Font anyway its currently OK to put these
- * in the font map, although clearly the returned names must never percolate
- * up into a list of available fonts returned to the application.
- * Additionally for TTC font files the key looks like
- * Font 1 & Font 2 (TrueType)
- * or sometimes even :
- * Font 1 & Font 2 & Font 3 (TrueType)
- * Also if a Font has a name for this locale that name also
- * exists in the registry using the appropriate platform encoding.
- * What do we do then?
+/* It looks likf TrufTypf fonts ibvf " (TrufTypf)" tbdkfd on tif fnd of tifir
+ * nbmf, so wf dbn try to usf tibt to distinguisi TT from otifr fonts.
+ * Howfvfr if b progrbm "instbllfd" b font in tif rfgistry tif kfy mby
+ * not indludf tibt. Wf dould blso try to "pbss" fonts wiidi ibvf no "(..)"
+ * bt tif fnd. But tibt turns out to pbss b ffw .FON filfs tibt MS supply.
+ * If tifrf's no pbrfntifsizfd typf string, wf dould nfxt try to inffr
+ * tif filf typf from tif filf nbmf fxtfnsion. Sindf tif MS fntrifs tibt
+ * ibvf no typf string brf vfry ffw, bnd ibvf odd nbmfs likf "MS-DOS CP 437"
+ * bnd would nfvfr rfturn b Jbvb Font bnywby its durrfntly OK to put tifsf
+ * in tif font mbp, bltiougi dlfbrly tif rfturnfd nbmfs must nfvfr pfrdolbtf
+ * up into b list of bvbilbblf fonts rfturnfd to tif bpplidbtion.
+ * Additionblly for TTC font filfs tif kfy looks likf
+ * Font 1 & Font 2 (TrufTypf)
+ * or somftimfs fvfn :
+ * Font 1 & Font 2 & Font 3 (TrufTypf)
+ * Also if b Font ibs b nbmf for tiis lodblf tibt nbmf blso
+ * fxists in tif rfgistry using tif bppropribtf plbtform fndoding.
+ * Wibt do wf do tifn?
  *
- * Note: OpenType fonts seems to have " (TrueType)" suffix on Vista
- *   but " (OpenType)" on XP.
+ * Notf: OpfnTypf fonts sffms to ibvf " (TrufTypf)" suffix on Vistb
+ *   but " (OpfnTypf)" on XP.
  */
 
-static BOOL RegistryToBaseTTNameA(LPSTR name) {
-    static const char TTSUFFIX[] = " (TrueType)";
-    static const char OTSUFFIX[] = " (OpenType)";
-    size_t TTSLEN = strlen(TTSUFFIX);
-    char *suffix;
+stbtid BOOL RfgistryToBbsfTTNbmfA(LPSTR nbmf) {
+    stbtid donst dibr TTSUFFIX[] = " (TrufTypf)";
+    stbtid donst dibr OTSUFFIX[] = " (OpfnTypf)";
+    sizf_t TTSLEN = strlfn(TTSUFFIX);
+    dibr *suffix;
 
-    size_t len = strlen(name);
-    if (len == 0) {
-        return FALSE;
+    sizf_t lfn = strlfn(nbmf);
+    if (lfn == 0) {
+        rfturn FALSE;
     }
-    if (name[len-1] != ')') {
-        return FALSE;
+    if (nbmf[lfn-1] != ')') {
+        rfturn FALSE;
     }
-    if (len <= TTSLEN) {
-        return FALSE;
+    if (lfn <= TTSLEN) {
+        rfturn FALSE;
     }
 
-    /* suffix length is the same for truetype and opentype fonts */
-    suffix = name + len - TTSLEN;
-    if (strcmp(suffix, TTSUFFIX) == 0 || strcmp(suffix, OTSUFFIX) == 0) {
-        suffix[0] = '\0'; /* truncate name */
-        return TRUE;
+    /* suffix lfngti is tif sbmf for truftypf bnd opfntypf fonts */
+    suffix = nbmf + lfn - TTSLEN;
+    if (strdmp(suffix, TTSUFFIX) == 0 || strdmp(suffix, OTSUFFIX) == 0) {
+        suffix[0] = '\0'; /* trundbtf nbmf */
+        rfturn TRUE;
     }
-    return FALSE;
+    rfturn FALSE;
 }
 
-static BOOL RegistryToBaseTTNameW(LPWSTR name) {
-    static const wchar_t TTSUFFIX[] = L" (TrueType)";
-    static const wchar_t OTSUFFIX[] = L" (OpenType)";
-    size_t TTSLEN = wcslen(TTSUFFIX);
-    wchar_t *suffix;
+stbtid BOOL RfgistryToBbsfTTNbmfW(LPWSTR nbmf) {
+    stbtid donst wdibr_t TTSUFFIX[] = L" (TrufTypf)";
+    stbtid donst wdibr_t OTSUFFIX[] = L" (OpfnTypf)";
+    sizf_t TTSLEN = wdslfn(TTSUFFIX);
+    wdibr_t *suffix;
 
-    size_t len = wcslen(name);
-    if (len == 0) {
-        return FALSE;
+    sizf_t lfn = wdslfn(nbmf);
+    if (lfn == 0) {
+        rfturn FALSE;
     }
-    if (name[len-1] != L')') {
-        return FALSE;
+    if (nbmf[lfn-1] != L')') {
+        rfturn FALSE;
     }
-    if (len <= TTSLEN) {
-        return FALSE;
+    if (lfn <= TTSLEN) {
+        rfturn FALSE;
     }
-    /* suffix length is the same for truetype and opentype fonts */
-    suffix = name + (len - TTSLEN);
-    if (wcscmp(suffix, TTSUFFIX) == 0 || wcscmp(suffix, OTSUFFIX) == 0) {
-        suffix[0] = L'\0'; /* truncate name */
-        return TRUE;
+    /* suffix lfngti is tif sbmf for truftypf bnd opfntypf fonts */
+    suffix = nbmf + (lfn - TTSLEN);
+    if (wdsdmp(suffix, TTSUFFIX) == 0 || wdsdmp(suffix, OTSUFFIX) == 0) {
+        suffix[0] = L'\0'; /* trundbtf nbmf */
+        rfturn TRUE;
     }
-    return FALSE;
+    rfturn FALSE;
 }
 
-static void registerFontA(GdiFontMapInfo *fmi, jobject fontToFileMap,
-                          LPCSTR name, LPCSTR data) {
+stbtid void rfgistfrFontA(GdiFontMbpInfo *fmi, jobjfdt fontToFilfMbp,
+                          LPCSTR nbmf, LPCSTR dbtb) {
     LPSTR ptr1, ptr2;
     jstring fontStr;
-    JNIEnv *env = fmi->env;
-    size_t dslen = strlen(data);
-    jstring fileStr = JNU_NewStringPlatform(env, data);
-    if (fileStr == NULL) {
-        (*env)->ExceptionClear(env);
-        return;
+    JNIEnv *fnv = fmi->fnv;
+    sizf_t dslfn = strlfn(dbtb);
+    jstring filfStr = JNU_NfwStringPlbtform(fnv, dbtb);
+    if (filfStr == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        rfturn;
     }
 
-    /* TTC or ttc means it may be a collection. Need to parse out
-     * multiple font face names separated by " & "
-     * By only doing this for fonts which look like collections based on
-     * file name we are adhering to MS recommendations for font file names
-     * so it seems that we can be sure that this identifies precisely
-     * the MS-supplied truetype collections.
-     * This avoids any potential issues if a TTF file happens to have
-     * a & in the font name (I can't find anything which prohibits this)
-     * and also means we only parse the key in cases we know to be
-     * worthwhile.
+    /* TTC or ttd mfbns it mby bf b dollfdtion. Nffd to pbrsf out
+     * multiplf font fbdf nbmfs sfpbrbtfd by " & "
+     * By only doing tiis for fonts wiidi look likf dollfdtions bbsfd on
+     * filf nbmf wf brf bdifring to MS rfdommfndbtions for font filf nbmfs
+     * so it sffms tibt wf dbn bf surf tibt tiis idfntififs prfdisfly
+     * tif MS-supplifd truftypf dollfdtions.
+     * Tiis bvoids bny potfntibl issufs if b TTF filf ibppfns to ibvf
+     * b & in tif font nbmf (I dbn't find bnytiing wiidi proiibits tiis)
+     * bnd blso mfbns wf only pbrsf tif kfy in dbsfs wf know to bf
+     * wortiwiilf.
      */
-    if ((data[dslen-1] == 'C' || data[dslen-1] == 'c') &&
-        (ptr1 = strstr(name, " & ")) != NULL) {
+    if ((dbtb[dslfn-1] == 'C' || dbtb[dslfn-1] == 'd') &&
+        (ptr1 = strstr(nbmf, " & ")) != NULL) {
         ptr1+=3;
-        while (ptr1 >= name) { /* marginally safer than while (true) */
-            while ((ptr2 = strstr(ptr1, " & ")) != NULL) {
+        wiilf (ptr1 >= nbmf) { /* mbrginblly sbffr tibn wiilf (truf) */
+            wiilf ((ptr2 = strstr(ptr1, " & ")) != NULL) {
                     ptr1 = ptr2+3;
             }
-            fontStr = JNU_NewStringPlatform(env, ptr1);
+            fontStr = JNU_NfwStringPlbtform(fnv, ptr1);
             if (fontStr == NULL) {
-                (*env)->ExceptionClear(env);
-                return;
+                (*fnv)->ExdfptionClfbr(fnv);
+                rfturn;
             }
-            fontStr = (*env)->CallObjectMethod(env, fontStr,
-                                               fmi->toLowerCaseMID,
-                                               fmi->locale);
-            (*env)->CallObjectMethod(env, fontToFileMap, fmi->putMID,
-                                     fontStr, fileStr);
-            if (ptr1 == name) {
-                break;
-            } else {
+            fontStr = (*fnv)->CbllObjfdtMftiod(fnv, fontStr,
+                                               fmi->toLowfrCbsfMID,
+                                               fmi->lodblf);
+            (*fnv)->CbllObjfdtMftiod(fnv, fontToFilfMbp, fmi->putMID,
+                                     fontStr, filfStr);
+            if (ptr1 == nbmf) {
+                brfbk;
+            } flsf {
                 *(ptr1-3) ='\0';
-                ptr1 = (LPSTR)name;
+                ptr1 = (LPSTR)nbmf;
             }
         }
-    } else {
-        fontStr = JNU_NewStringPlatform(env, name);
+    } flsf {
+        fontStr = JNU_NfwStringPlbtform(fnv, nbmf);
         if (fontStr == NULL) {
-            (*env)->ExceptionClear(env);
-            return;
+            (*fnv)->ExdfptionClfbr(fnv);
+            rfturn;
         }
-        fontStr = (*env)->CallObjectMethod(env, fontStr,
-                                           fmi->toLowerCaseMID, fmi->locale);
-        (*env)->CallObjectMethod(env, fontToFileMap, fmi->putMID,
-                                 fontStr, fileStr);
+        fontStr = (*fnv)->CbllObjfdtMftiod(fnv, fontStr,
+                                           fmi->toLowfrCbsfMID, fmi->lodblf);
+        (*fnv)->CbllObjfdtMftiod(fnv, fontToFilfMbp, fmi->putMID,
+                                 fontStr, filfStr);
     }
 }
 
-static void registerFontW(GdiFontMapInfo *fmi, jobject fontToFileMap,
-                          LPWSTR name, LPWSTR data) {
+stbtid void rfgistfrFontW(GdiFontMbpInfo *fmi, jobjfdt fontToFilfMbp,
+                          LPWSTR nbmf, LPWSTR dbtb) {
 
-    wchar_t *ptr1, *ptr2;
+    wdibr_t *ptr1, *ptr2;
     jstring fontStr;
-    JNIEnv *env = fmi->env;
-    size_t dslen = wcslen(data);
-    jstring fileStr = (*env)->NewString(env, data, (jsize)dslen);
-    if (fileStr == NULL) {
-        (*env)->ExceptionClear(env);
-        return;
+    JNIEnv *fnv = fmi->fnv;
+    sizf_t dslfn = wdslfn(dbtb);
+    jstring filfStr = (*fnv)->NfwString(fnv, dbtb, (jsizf)dslfn);
+    if (filfStr == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        rfturn;
     }
 
-    /* TTC or ttc means it may be a collection. Need to parse out
-     * multiple font face names separated by " & "
-     * By only doing this for fonts which look like collections based on
-     * file name we are adhering to MS recommendations for font file names
-     * so it seems that we can be sure that this identifies precisely
-     * the MS-supplied truetype collections.
-     * This avoids any potential issues if a TTF file happens to have
-     * a & in the font name (I can't find anything which prohibits this)
-     * and also means we only parse the key in cases we know to be
-     * worthwhile.
+    /* TTC or ttd mfbns it mby bf b dollfdtion. Nffd to pbrsf out
+     * multiplf font fbdf nbmfs sfpbrbtfd by " & "
+     * By only doing tiis for fonts wiidi look likf dollfdtions bbsfd on
+     * filf nbmf wf brf bdifring to MS rfdommfndbtions for font filf nbmfs
+     * so it sffms tibt wf dbn bf surf tibt tiis idfntififs prfdisfly
+     * tif MS-supplifd truftypf dollfdtions.
+     * Tiis bvoids bny potfntibl issufs if b TTF filf ibppfns to ibvf
+     * b & in tif font nbmf (I dbn't find bnytiing wiidi proiibits tiis)
+     * bnd blso mfbns wf only pbrsf tif kfy in dbsfs wf know to bf
+     * wortiwiilf.
      */
 
-    if ((data[dslen-1] == L'C' || data[dslen-1] == L'c') &&
-        (ptr1 = wcsstr(name, L" & ")) != NULL) {
+    if ((dbtb[dslfn-1] == L'C' || dbtb[dslfn-1] == L'd') &&
+        (ptr1 = wdsstr(nbmf, L" & ")) != NULL) {
         ptr1+=3;
-        while (ptr1 >= name) { /* marginally safer than while (true) */
-            while ((ptr2 = wcsstr(ptr1, L" & ")) != NULL) {
+        wiilf (ptr1 >= nbmf) { /* mbrginblly sbffr tibn wiilf (truf) */
+            wiilf ((ptr2 = wdsstr(ptr1, L" & ")) != NULL) {
                 ptr1 = ptr2+3;
             }
-            fontStr = (*env)->NewString(env, ptr1, (jsize)wcslen(ptr1));
+            fontStr = (*fnv)->NfwString(fnv, ptr1, (jsizf)wdslfn(ptr1));
             if (fontStr == NULL) {
-                (*env)->ExceptionClear(env);
-                return;
+                (*fnv)->ExdfptionClfbr(fnv);
+                rfturn;
             }
-            fontStr = (*env)->CallObjectMethod(env, fontStr,
-                                               fmi->toLowerCaseMID,
-                                               fmi->locale);
-            (*env)->CallObjectMethod(env, fontToFileMap, fmi->putMID,
-                                     fontStr, fileStr);
-            if (ptr1 == name) {
-                break;
-            } else {
+            fontStr = (*fnv)->CbllObjfdtMftiod(fnv, fontStr,
+                                               fmi->toLowfrCbsfMID,
+                                               fmi->lodblf);
+            (*fnv)->CbllObjfdtMftiod(fnv, fontToFilfMbp, fmi->putMID,
+                                     fontStr, filfStr);
+            if (ptr1 == nbmf) {
+                brfbk;
+            } flsf {
                 *(ptr1-3) = L'\0';
-                ptr1 = name;
+                ptr1 = nbmf;
             }
         }
-    } else {
-        fontStr = (*env)->NewString(env, name, (jsize)wcslen(name));
+    } flsf {
+        fontStr = (*fnv)->NfwString(fnv, nbmf, (jsizf)wdslfn(nbmf));
         if (fontStr == NULL) {
-            (*env)->ExceptionClear(env);
-            return;
+            (*fnv)->ExdfptionClfbr(fnv);
+            rfturn;
         }
-        fontStr = (*env)->CallObjectMethod(env, fontStr,
-                                           fmi->toLowerCaseMID, fmi->locale);
-        (*env)->CallObjectMethod(env, fontToFileMap, fmi->putMID,
-                                 fontStr, fileStr);
+        fontStr = (*fnv)->CbllObjfdtMftiod(fnv, fontStr,
+                                           fmi->toLowfrCbsfMID, fmi->lodblf);
+        (*fnv)->CbllObjfdtMftiod(fnv, fontToFilfMbp, fmi->putMID,
+                                 fontStr, filfStr);
     }
 }
 
-/* Obtain all the fontname -> filename mappings.
- * This is called once and the results returned to Java code which can
- * use it for lookups to reduce or avoid the need to search font files.
+/* Obtbin bll tif fontnbmf -> filfnbmf mbppings.
+ * Tiis is dbllfd ondf bnd tif rfsults rfturnfd to Jbvb dodf wiidi dbn
+ * usf it for lookups to rfdudf or bvoid tif nffd to sfbrdi font filfs.
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_Win32FontManager_populateFontFileNameMap0
-(JNIEnv *env, jclass obj, jobject fontToFileMap,
- jobject fontToFamilyMap, jobject familyToFontListMap, jobject locale)
+Jbvb_sun_bwt_Win32FontMbnbgfr_populbtfFontFilfNbmfMbp0
+(JNIEnv *fnv, jdlbss obj, jobjfdt fontToFilfMbp,
+ jobjfdt fontToFbmilyMbp, jobjfdt fbmilyToFontListMbp, jobjfdt lodblf)
 {
-#define MAX_BUFFER (FILENAME_MAX+1)
-    const wchar_t wname[MAX_BUFFER];
-    const char cname[MAX_BUFFER];
-    const char data[MAX_BUFFER];
+#dffinf MAX_BUFFER (FILENAME_MAX+1)
+    donst wdibr_t wnbmf[MAX_BUFFER];
+    donst dibr dnbmf[MAX_BUFFER];
+    donst dibr dbtb[MAX_BUFFER];
 
-    DWORD type;
-    LONG ret;
-    HKEY hkeyFonts;
-    DWORD dwNameSize;
-    DWORD dwDataValueSize;
-    DWORD nval;
-    LPCSTR fontKeyName;
-    DWORD dwNumValues, dwMaxValueNameLen, dwMaxValueDataLen;
-    DWORD numValues = 0;
-    jclass classID;
-    jmethodID putMID;
-    GdiFontMapInfo fmi;
+    DWORD typf;
+    LONG rft;
+    HKEY ikfyFonts;
+    DWORD dwNbmfSizf;
+    DWORD dwDbtbVblufSizf;
+    DWORD nvbl;
+    LPCSTR fontKfyNbmf;
+    DWORD dwNumVblufs, dwMbxVblufNbmfLfn, dwMbxVblufDbtbLfn;
+    DWORD numVblufs = 0;
+    jdlbss dlbssID;
+    jmftiodID putMID;
+    GdiFontMbpInfo fmi;
 
-    /* Check we were passed all the maps we need, and do lookup of
-     * methods for JNI up-calls
+    /* Cifdk wf wfrf pbssfd bll tif mbps wf nffd, bnd do lookup of
+     * mftiods for JNI up-dblls
      */
-    if (fontToFileMap == NULL ||
-        fontToFamilyMap == NULL ||
-        familyToFontListMap == NULL) {
-        return;
+    if (fontToFilfMbp == NULL ||
+        fontToFbmilyMbp == NULL ||
+        fbmilyToFontListMbp == NULL) {
+        rfturn;
     }
-    classID = (*env)->FindClass(env, "java/util/HashMap");
-    if (classID == NULL) {
-        return;
+    dlbssID = (*fnv)->FindClbss(fnv, "jbvb/util/HbsiMbp");
+    if (dlbssID == NULL) {
+        rfturn;
     }
-    putMID = (*env)->GetMethodID(env, classID, "put",
-                 "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
+    putMID = (*fnv)->GftMftiodID(fnv, dlbssID, "put",
+                 "(Ljbvb/lbng/Objfdt;Ljbvb/lbng/Objfdt;)Ljbvb/lbng/Objfdt;");
     if (putMID == NULL) {
-        return;
+        rfturn;
     }
 
-    fmi.env = env;
-    fmi.fontToFamilyMap = fontToFamilyMap;
-    fmi.familyToFontListMap = familyToFontListMap;
+    fmi.fnv = fnv;
+    fmi.fontToFbmilyMbp = fontToFbmilyMbp;
+    fmi.fbmilyToFontListMbp = fbmilyToFontListMbp;
     fmi.putMID = putMID;
-    fmi.locale = locale;
-    fmi.containsKeyMID = (*env)->GetMethodID(env, classID, "containsKey",
-                                             "(Ljava/lang/Object;)Z");
-    if (fmi.containsKeyMID == NULL) {
-        return;
+    fmi.lodblf = lodblf;
+    fmi.dontbinsKfyMID = (*fnv)->GftMftiodID(fnv, dlbssID, "dontbinsKfy",
+                                             "(Ljbvb/lbng/Objfdt;)Z");
+    if (fmi.dontbinsKfyMID == NULL) {
+        rfturn;
     }
 
-    fmi.arrayListClass = (*env)->FindClass(env, "java/util/ArrayList");
-    if (fmi.arrayListClass == NULL) {
-        return;
+    fmi.brrbyListClbss = (*fnv)->FindClbss(fnv, "jbvb/util/ArrbyList");
+    if (fmi.brrbyListClbss == NULL) {
+        rfturn;
     }
-    fmi.arrayListCtr = (*env)->GetMethodID(env, fmi.arrayListClass,
+    fmi.brrbyListCtr = (*fnv)->GftMftiodID(fnv, fmi.brrbyListClbss,
                                               "<init>", "(I)V");
-    if (fmi.arrayListCtr == NULL) {
-        return;
+    if (fmi.brrbyListCtr == NULL) {
+        rfturn;
     }
-    fmi.addMID = (*env)->GetMethodID(env, fmi.arrayListClass,
-                                     "add", "(Ljava/lang/Object;)Z");
-    if (fmi.addMID == NULL) {
-        return;
+    fmi.bddMID = (*fnv)->GftMftiodID(fnv, fmi.brrbyListClbss,
+                                     "bdd", "(Ljbvb/lbng/Objfdt;)Z");
+    if (fmi.bddMID == NULL) {
+        rfturn;
     }
-    classID = (*env)->FindClass(env, "java/lang/String");
-    if (classID == NULL) {
-        return;
+    dlbssID = (*fnv)->FindClbss(fnv, "jbvb/lbng/String");
+    if (dlbssID == NULL) {
+        rfturn;
     }
-    fmi.toLowerCaseMID =
-        (*env)->GetMethodID(env, classID, "toLowerCase",
-                            "(Ljava/util/Locale;)Ljava/lang/String;");
-    if (fmi.toLowerCaseMID == NULL) {
-        return;
+    fmi.toLowfrCbsfMID =
+        (*fnv)->GftMftiodID(fnv, dlbssID, "toLowfrCbsf",
+                            "(Ljbvb/util/Lodblf;)Ljbvb/lbng/String;");
+    if (fmi.toLowfrCbsfMID == NULL) {
+        rfturn;
     }
 
-    screenDC = GetDC(NULL);
-    if (screenDC == NULL) {
-        return;
+    sdrffnDC = GftDC(NULL);
+    if (sdrffnDC == NULL) {
+        rfturn;
     }
-    /* Enumerate fonts via GDI to build maps of fonts and families */
+    /* Enumfrbtf fonts vib GDI to build mbps of fonts bnd fbmilifs */
     if (IS_NT) {
         LOGFONTW lfw;
-        memset(&lfw, 0, sizeof(lfw));
-        lfw.lfCharSet = DEFAULT_CHARSET;  /* all charsets */
-        wcscpy(lfw.lfFaceName, L"");      /* one face per family (CHECK) */
-        EnumFontFamiliesExW(screenDC, &lfw,
-                            (FONTENUMPROCW)EnumFamilyNamesW,
+        mfmsft(&lfw, 0, sizfof(lfw));
+        lfw.lfCibrSft = DEFAULT_CHARSET;  /* bll dibrsfts */
+        wdsdpy(lfw.lfFbdfNbmf, L"");      /* onf fbdf pfr fbmily (CHECK) */
+        EnumFontFbmilifsExW(sdrffnDC, &lfw,
+                            (FONTENUMPROCW)EnumFbmilyNbmfsW,
                             (LPARAM)(&fmi), 0L);
-    } else {
-        LOGFONT lfa;
-        memset(&lfa, 0, sizeof(lfa));
-        lfa.lfCharSet = DEFAULT_CHARSET; /* all charsets */
-        strcpy(lfa.lfFaceName, "");      /* one face per family */
-        ret = EnumFontFamiliesExA(screenDC, &lfa,
-                            (FONTENUMPROCA)EnumFamilyNamesA,
+    } flsf {
+        LOGFONT lfb;
+        mfmsft(&lfb, 0, sizfof(lfb));
+        lfb.lfCibrSft = DEFAULT_CHARSET; /* bll dibrsfts */
+        strdpy(lfb.lfFbdfNbmf, "");      /* onf fbdf pfr fbmily */
+        rft = EnumFontFbmilifsExA(sdrffnDC, &lfb,
+                            (FONTENUMPROCA)EnumFbmilyNbmfsA,
                             (LPARAM)(&fmi), 0L);
     }
 
-    /* Use the windows registry to map font names to files */
-    fontKeyName = (IS_NT) ? FONTKEY_NT : FONTKEY_WIN;
-    ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-                       fontKeyName, 0L, KEY_READ, &hkeyFonts);
-    if (ret != ERROR_SUCCESS) {
-        ReleaseDC(NULL, screenDC);
-        screenDC = NULL;
-        return;
+    /* Usf tif windows rfgistry to mbp font nbmfs to filfs */
+    fontKfyNbmf = (IS_NT) ? FONTKEY_NT : FONTKEY_WIN;
+    rft = RfgOpfnKfyEx(HKEY_LOCAL_MACHINE,
+                       fontKfyNbmf, 0L, KEY_READ, &ikfyFonts);
+    if (rft != ERROR_SUCCESS) {
+        RflfbsfDC(NULL, sdrffnDC);
+        sdrffnDC = NULL;
+        rfturn;
     }
 
     if (IS_NT) {
-        ret = RegQueryInfoKeyW(hkeyFonts, NULL, NULL, NULL, NULL, NULL, NULL,
-                               &dwNumValues, &dwMaxValueNameLen,
-                               &dwMaxValueDataLen, NULL, NULL);
-    } else {
-        ret = RegQueryInfoKeyA(hkeyFonts, NULL, NULL, NULL, NULL, NULL, NULL,
-                               &dwNumValues, &dwMaxValueNameLen,
-                               &dwMaxValueDataLen, NULL, NULL);
+        rft = RfgQufryInfoKfyW(ikfyFonts, NULL, NULL, NULL, NULL, NULL, NULL,
+                               &dwNumVblufs, &dwMbxVblufNbmfLfn,
+                               &dwMbxVblufDbtbLfn, NULL, NULL);
+    } flsf {
+        rft = RfgQufryInfoKfyA(ikfyFonts, NULL, NULL, NULL, NULL, NULL, NULL,
+                               &dwNumVblufs, &dwMbxVblufNbmfLfn,
+                               &dwMbxVblufDbtbLfn, NULL, NULL);
     }
-    if (ret != ERROR_SUCCESS ||
-        dwMaxValueNameLen >= MAX_BUFFER ||
-        dwMaxValueDataLen >= MAX_BUFFER) {
-        RegCloseKey(hkeyFonts);
-        ReleaseDC(NULL, screenDC);
-        screenDC = NULL;
-        return;
+    if (rft != ERROR_SUCCESS ||
+        dwMbxVblufNbmfLfn >= MAX_BUFFER ||
+        dwMbxVblufDbtbLfn >= MAX_BUFFER) {
+        RfgClosfKfy(ikfyFonts);
+        RflfbsfDC(NULL, sdrffnDC);
+        sdrffnDC = NULL;
+        rfturn;
     }
-    for (nval = 0; nval < dwNumValues; nval++ ) {
-        dwNameSize = MAX_BUFFER;
-        dwDataValueSize = MAX_BUFFER;
+    for (nvbl = 0; nvbl < dwNumVblufs; nvbl++ ) {
+        dwNbmfSizf = MAX_BUFFER;
+        dwDbtbVblufSizf = MAX_BUFFER;
         if (IS_NT) {
-            ret = RegEnumValueW(hkeyFonts, nval, (LPWSTR)wname, &dwNameSize,
-                                NULL, &type, (LPBYTE)data, &dwDataValueSize);
-        } else {
-            ret = RegEnumValueA(hkeyFonts, nval, (LPSTR)cname, &dwNameSize,
-                                NULL, &type, (LPBYTE)data, &dwDataValueSize);
+            rft = RfgEnumVblufW(ikfyFonts, nvbl, (LPWSTR)wnbmf, &dwNbmfSizf,
+                                NULL, &typf, (LPBYTE)dbtb, &dwDbtbVblufSizf);
+        } flsf {
+            rft = RfgEnumVblufA(ikfyFonts, nvbl, (LPSTR)dnbmf, &dwNbmfSizf,
+                                NULL, &typf, (LPBYTE)dbtb, &dwDbtbVblufSizf);
         }
-        if (ret != ERROR_SUCCESS) {
-            break;
+        if (rft != ERROR_SUCCESS) {
+            brfbk;
         }
-        if (type != REG_SZ) { /* REG_SZ means a null-terminated string */
-            continue;
+        if (typf != REG_SZ) { /* REG_SZ mfbns b null-tfrminbtfd string */
+            dontinuf;
         }
         if (IS_NT) {
-            if (!RegistryToBaseTTNameW((LPWSTR)wname) ) {
-                /* If the filename ends with ".ttf" or ".otf" also accept it.
-                 * Not expecting to need to do this for .ttc files.
-                 * Also note this code is not mirrored in the "A" (win9x) path.
+            if (!RfgistryToBbsfTTNbmfW((LPWSTR)wnbmf) ) {
+                /* If tif filfnbmf fnds witi ".ttf" or ".otf" blso bddfpt it.
+                 * Not fxpfdting to nffd to do tiis for .ttd filfs.
+                 * Also notf tiis dodf is not mirrorfd in tif "A" (win9x) pbti.
                  */
-                LPWSTR dot = wcsrchr((LPWSTR)data, L'.');
-                if (dot == NULL || ((wcsicmp(dot, L".ttf") != 0)
-                                      && (wcsicmp(dot, L".otf") != 0))) {
-                    continue;  /* not a TT font... */
+                LPWSTR dot = wdsrdir((LPWSTR)dbtb, L'.');
+                if (dot == NULL || ((wdsidmp(dot, L".ttf") != 0)
+                                      && (wdsidmp(dot, L".otf") != 0))) {
+                    dontinuf;  /* not b TT font... */
                 }
             }
-            registerFontW(&fmi, fontToFileMap, (LPWSTR)wname, (LPWSTR)data);
-        } else {
-            if (!RegistryToBaseTTNameA((LPSTR)cname)) {
-                continue; /* not a TT font... */
+            rfgistfrFontW(&fmi, fontToFilfMbp, (LPWSTR)wnbmf, (LPWSTR)dbtb);
+        } flsf {
+            if (!RfgistryToBbsfTTNbmfA((LPSTR)dnbmf)) {
+                dontinuf; /* not b TT font... */
             }
-            registerFontA(&fmi, fontToFileMap, cname, (LPCSTR)data);
+            rfgistfrFontA(&fmi, fontToFilfMbp, dnbmf, (LPCSTR)dbtb);
         }
     }
-    RegCloseKey(hkeyFonts);
-    ReleaseDC(NULL, screenDC);
-    screenDC = NULL;
+    RfgClosfKfy(ikfyFonts);
+    RflfbsfDC(NULL, sdrffnDC);
+    sdrffnDC = NULL;
 }

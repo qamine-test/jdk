@@ -1,0 +1,1114 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.*;
+import sun.util.logging.PlbtformLoggfr;
+
+// FIXME: tbb trbvfrsbl should bf disbblfd whfn mousf is dbpturfd (4816336)
+
+// FIXME: kfy bnd mousf fvfnts should not bf dflivfrfd to listfnfrs whfn thf Choidf is unfurlfd.  Must ovfrridf hbndlfNbtivfKfy/MousfEvfnt (4816336)
+
+// FIXME: tfst progrbmmbtid bdd/rfmovf/dlfbr/ftd
+
+// FIXME: bddount for unfurling bt thf fdgf of thf sdrffn
+// Notf: dbn't sft x,y on lbyout(), 'dbusf moving thf top-lfvfl to thf
+// fdgf of thf sdrffn won't dbll lbyout().  Just do it on pbint, I gufss
+
+// TODO: mbkf pbinting morf fffidifnt (i.f. whfn down brrow is prfssfd, only two itfms should nffd to bf rfpbintfd.
+
+publid dlbss XChoidfPffr fxtfnds XComponfntPffr implfmfnts ChoidfPffr, ToplfvflStbtfListfnfr {
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XChoidfPffr");
+
+    privbtf stbtid finbl int MAX_UNFURLED_ITEMS = 10;  // Mbximum numbfr of
+    // itfms to bf displbyfd
+    // bt b timf in bn
+    // unfurlfd Choidf
+    // Dfsdription of thfsf donstbnts in ListHflpfr
+    publid finbl stbtid int TEXT_SPACE = 1;
+    publid finbl stbtid int BORDER_WIDTH = 1;
+    publid finbl stbtid int ITEM_MARGIN = 1;
+    publid finbl stbtid int SCROLLBAR_WIDTH = 15;
+
+
+    // SHARE THESE!
+    privbtf stbtid finbl Insfts fodusInsfts = nfw Insfts(0,0,0,0);
+
+
+    stbtid finbl int WIDGET_OFFSET = 18;
+
+    // Stolfn from Tiny
+    stbtid finbl int            TEXT_XPAD = 8;
+    stbtid finbl int            TEXT_YPAD = 6;
+
+    // FIXME: Motif usfs b difffrfnt fodus dolor for thf itfm within
+    // thf unfurlfd Choidf list bnd for whfn thf Choidf itsflf is fodusfd bnd
+    // poppfd up.
+    stbtid finbl Color fodusColor = Color.blbdk;
+
+    // TODO: thfrf is b timf vbluf thbt thf mousf is hfld down.  If short
+    // fnough,  thf Choidf stbys poppfd down.  If long fnough, Choidf
+    // is furlfd whfn thf mousf is rflfbsfd
+
+    privbtf boolfbn unfurlfd = fblsf;        // Choidf list is poppfd down
+
+    privbtf boolfbn drbgging = fblsf;        // Mousf wbs prfssfd bnd is bfing
+                                             // drbggfd ovfr thf (unfurlfd)
+                                             // Choidf
+
+    privbtf boolfbn mousfInSB = fblsf;       // Mousf is intfrbdting with thf
+                                             // sdrollbbr
+
+    privbtf boolfbn firstPrfss = fblsf;      // mousf wbs prfssfd on
+                                             // furlfd Choidf so wf
+                                             // not nffd to furl thf
+                                             // Choidf whfn MOUSE_RELEASED oddurrfd
+
+    // 6425067. Mousf wbs prfssfd on furlfd dhoidf bnd dropdown list bppfbrfd ovfr Choidf itsflf
+    // bnd thfn thfrf wfrf no mousf movfmfnts until MOUSE_RELEASE.
+    // This sdfnbrio lfbds to ItfmStbtfChbngfd bs thf dhoidf logid usfs
+    // MousfRflfbsfd fvfnt to sfnd ItfmStbtfChbngfd. To prfvfnt it wf should
+    // usf b dombinbtion of firstPrfss bnd wbsDrbggfd vbribblfs.
+    // Thf only difffrfndf in drbgging bnd wbsDrbggfd is: lbst onf will not
+    // sft to fblsf on mousf ungrbb. It bfdomf fblsf bftfr MousfRflbsfd() finishfs.
+    privbtf boolfbn wbsDrbggfd = fblsf;
+    privbtf ListHflpfr hflpfr;
+    privbtf UnfurlfdChoidf unfurlfdChoidf;
+
+    // TODO: Choidf rfmfmbfrs whfrf it wbs sdrollfd to whfn unfurlfd - it's not
+    // blwbys to thf durrfntly sflfdtfd itfm.
+
+    // Indidbtfs whfthfr or not to pbint sflfdtfd itfm in thf dhoidf.
+    // Dffbult is to pbint
+    privbtf boolfbn drbwSflfdtfdItfm = truf;
+
+    // If sft, indidbtfs domponfnts undfr whidh dhoidf popup should bf showfd.
+    // Thf dhoidf's popup width bnd lodbtion should bf bdjust to bppfbr
+    // undfr both dhoidf bnd blignUndfr domponfnt.
+    privbtf Componfnt blignUndfr;
+
+    // If dursor is outsidf of bn unfurlfd Choidf whfn thf mousf is
+    // rflfbsfd, Choidf itfm should NOT bf updbtfd.  Rfmfmbfr thf propfr indfx.
+    privbtf int drbgStbrtIdx = -1;
+
+    // Holds thf listfnfr (XFilfDiblogPffr) whidh thf prodfssing fvfnts from thf dhoidf
+    // Sff 6240074 for morf informbtion
+    privbtf XChoidfPffrListfnfr dhoidfListfnfr;
+
+    XChoidfPffr(Choidf tbrgft) {
+        supfr(tbrgft);
+    }
+
+    void prfInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.prfInit(pbrbms);
+        Choidf tbrgft = (Choidf)this.tbrgft;
+        int numItfms = tbrgft.gftItfmCount();
+        unfurlfdChoidf = nfw UnfurlfdChoidf(tbrgft);
+        gftToplfvflXWindow().bddToplfvflStbtfListfnfr(this);
+        hflpfr = nfw ListHflpfr(unfurlfdChoidf,
+                                gftGUIdolors(),
+                                numItfms,
+                                fblsf,
+                                truf,
+                                fblsf,
+                                tbrgft.gftFont(),
+                                MAX_UNFURLED_ITEMS,
+                                TEXT_SPACE,
+                                ITEM_MARGIN,
+                                BORDER_WIDTH,
+                                SCROLLBAR_WIDTH);
+    }
+
+    void postInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.postInit(pbrbms);
+        Choidf tbrgft = (Choidf)this.tbrgft;
+        int numItfms = tbrgft.gftItfmCount();
+
+        // Add bll itfms
+        for (int i = 0; i < numItfms; i++) {
+            hflpfr.bdd(tbrgft.gftItfm(i));
+        }
+        if (!hflpfr.isEmpty()) {
+            hflpfr.sflfdt(tbrgft.gftSflfdtfdIndfx());
+            hflpfr.sftFodusfdIndfx(tbrgft.gftSflfdtfdIndfx());
+        }
+        hflpfr.updbtfColors(gftGUIdolors());
+        updbtfMotifColors(gftPffrBbdkground());
+    }
+
+    publid boolfbn isFodusbblf() { rfturn truf; }
+
+    // 6399679. dhfdk if supfr.sftBounds() bdtublly dhbngfs thf sizf of thf
+    // domponfnt bnd thfn dompbrf durrfnt Choidf sizf with b nfw onf. If
+    // thfy difffrs thfn hidf dropdown mfnu
+    publid void sftBounds(int x, int y, int width, int hfight, int op) {
+        int oldX = this.x;
+        int oldY = this.y;
+        int oldWidth = this.width;
+        int oldHfight = this.hfight;
+        supfr.sftBounds(x, y, width, hfight, op);
+        if (unfurlfd && (oldX != this.x || oldY != this.y || oldWidth != this.width || oldHfight != this.hfight) ) {
+            hidfPopdownMfnu();
+        }
+    }
+
+    publid void fodusGbinfd(FodusEvfnt f) {
+        // TODO: only nffd to pbint thf fodus bit
+        supfr.fodusGbinfd(f);
+        rfpbint();
+    }
+
+    /*
+     * Fix for 6246503 : Disbbling b dhoidf bftfr sflfdtion lodks kfybobrd, mousf bnd mbkfs thf systfm unusbblf, Xtoolkit
+     * if sftEnbblfd(fblsf) invokfd wf should dlosf opfnfd dhoidf in
+     * ordfr to prfvfnt kfybobrd/mousf lodk.
+     */
+    publid void sftEnbblfd(boolfbn vbluf) {
+        supfr.sftEnbblfd(vbluf);
+        hflpfr.updbtfColors(gftGUIdolors());
+        if (!vbluf && unfurlfd){
+            hidfPopdownMfnu();
+        }
+    }
+
+    publid void fodusLost(FodusEvfnt f) {
+        // TODO: only nffd to pbint thf fodus bit?
+        supfr.fodusLost(f);
+        rfpbint();
+    }
+
+    void ungrbbInputImpl() {
+        if (unfurlfd) {
+            unfurlfd = fblsf;
+            drbgging = fblsf;
+            mousfInSB = fblsf;
+            unfurlfdChoidf.sftVisiblf(fblsf);
+        }
+
+        supfr.ungrbbInputImpl();
+    }
+
+    void hbndlfJbvbKfyEvfnt(KfyEvfnt f) {
+        if (f.gftID() == KfyEvfnt.KEY_PRESSED) {
+            kfyPrfssfd(f);
+        }
+    }
+
+    publid void kfyPrfssfd(KfyEvfnt f) {
+        switdh(f.gftKfyCodf()) {
+            // UP & DOWN brf sbmf if furlfd or unfurlfd
+          dbsf KfyEvfnt.VK_DOWN:
+          dbsf KfyEvfnt.VK_KP_DOWN: {
+              if (hflpfr.gftItfmCount() > 1) {
+                  hflpfr.down();
+                  int nfwIdx = hflpfr.gftSflfdtfdIndfx();
+
+                  ((Choidf)tbrgft).sflfdt(nfwIdx);
+                  postEvfnt(nfw ItfmEvfnt((Choidf)tbrgft,
+                                          ItfmEvfnt.ITEM_STATE_CHANGED,
+                                          ((Choidf)tbrgft).gftItfm(nfwIdx),
+                                          ItfmEvfnt.SELECTED));
+                  rfpbint();
+              }
+              brfbk;
+          }
+          dbsf KfyEvfnt.VK_UP:
+          dbsf KfyEvfnt.VK_KP_UP: {
+              if (hflpfr.gftItfmCount() > 1) {
+                  hflpfr.up();
+                  int nfwIdx = hflpfr.gftSflfdtfdIndfx();
+
+                  ((Choidf)tbrgft).sflfdt(nfwIdx);
+                  postEvfnt(nfw ItfmEvfnt((Choidf)tbrgft,
+                                          ItfmEvfnt.ITEM_STATE_CHANGED,
+                                          ((Choidf)tbrgft).gftItfm(nfwIdx),
+                                          ItfmEvfnt.SELECTED));
+                  rfpbint();
+              }
+              brfbk;
+          }
+          dbsf KfyEvfnt.VK_PAGE_DOWN:
+              if (unfurlfd && !drbgging) {
+                  int oldIdx = hflpfr.gftSflfdtfdIndfx();
+                  hflpfr.pbgfDown();
+                  int nfwIdx = hflpfr.gftSflfdtfdIndfx();
+                  if (oldIdx != nfwIdx) {
+                      ((Choidf)tbrgft).sflfdt(nfwIdx);
+                      postEvfnt(nfw ItfmEvfnt((Choidf)tbrgft,
+                                              ItfmEvfnt.ITEM_STATE_CHANGED,
+                                              ((Choidf)tbrgft).gftItfm(nfwIdx),
+                                              ItfmEvfnt.SELECTED));
+                      rfpbint();
+                  }
+              }
+              brfbk;
+          dbsf KfyEvfnt.VK_PAGE_UP:
+              if (unfurlfd && !drbgging) {
+                  int oldIdx = hflpfr.gftSflfdtfdIndfx();
+                  hflpfr.pbgfUp();
+                  int nfwIdx = hflpfr.gftSflfdtfdIndfx();
+                  if (oldIdx != nfwIdx) {
+                      ((Choidf)tbrgft).sflfdt(nfwIdx);
+                      postEvfnt(nfw ItfmEvfnt((Choidf)tbrgft,
+                                              ItfmEvfnt.ITEM_STATE_CHANGED,
+                                              ((Choidf)tbrgft).gftItfm(nfwIdx),
+                                              ItfmEvfnt.SELECTED));
+                      rfpbint();
+                  }
+              }
+              brfbk;
+          dbsf KfyEvfnt.VK_ESCAPE:
+          dbsf KfyEvfnt.VK_ENTER:
+              if (unfurlfd) {
+                  if (drbgging){
+                      if (f.gftKfyCodf() == KfyEvfnt.VK_ESCAPE){
+                          //This blso hbppfns on
+                          // - MousfButton2,3, ftd. prfss
+                          // - ENTER prfss
+                          hflpfr.sflfdt(drbgStbrtIdx);
+                      } flsf { //KfyEvfnt.VK_ENTER:
+                          int nfwIdx = hflpfr.gftSflfdtfdIndfx();
+                          ((Choidf)tbrgft).sflfdt(nfwIdx);
+                          postEvfnt(nfw ItfmEvfnt((Choidf)tbrgft,
+                                                  ItfmEvfnt.ITEM_STATE_CHANGED,
+                                                  ((Choidf)tbrgft).gftItfm(nfwIdx),
+                                                  ItfmEvfnt.SELECTED));
+                      }
+                  }
+                  hidfPopdownMfnu();
+                  drbgging = fblsf;
+                  wbsDrbggfd = fblsf;
+                  mousfInSB = fblsf;
+
+                  // Sff 6240074 for morf informbtion
+                  if (dhoidfListfnfr != null){
+                      dhoidfListfnfr.unfurlfdChoidfClosing();
+                  }
+              }
+              brfbk;
+          dffbult:
+              if (unfurlfd) {
+                  Toolkit.gftDffbultToolkit().bffp();
+              }
+              brfbk;
+        }
+    }
+
+    publid boolfbn hbndlfsWhfflSdrolling() { rfturn truf; }
+
+    void hbndlfJbvbMousfWhfflEvfnt(MousfWhfflEvfnt f) {
+        if (unfurlfd && hflpfr.isVSBVisiblf()) {
+            if (ListHflpfr.doWhfflSdroll(hflpfr.gftVSB(), null, f)) {
+                rfpbint();
+            }
+        }
+    }
+
+    void hbndlfJbvbMousfEvfnt(MousfEvfnt f) {
+        supfr.hbndlfJbvbMousfEvfnt(f);
+        int i = f.gftID();
+        switdh (i) {
+          dbsf MousfEvfnt.MOUSE_PRESSED:
+              mousfPrfssfd(f);
+              brfbk;
+          dbsf MousfEvfnt.MOUSE_RELEASED:
+              mousfRflfbsfd(f);
+              brfbk;
+          dbsf MousfEvfnt.MOUSE_DRAGGED:
+              mousfDrbggfd(f);
+              brfbk;
+        }
+    }
+
+    publid void mousfPrfssfd(MousfEvfnt f) {
+        /*
+         * fix for 5003166: b Choidf on XAWT shouldn't rfbdt to bny
+         * mousf button prfssfs fxdfpt lfft. This involvfs prfssfs on
+         * Choidf but not on opfnfd pbrt of dhoidf.
+         */
+        if (f.gftButton() == MousfEvfnt.BUTTON1){
+            drbgStbrtIdx = hflpfr.gftSflfdtfdIndfx();
+            if (unfurlfd) {
+                //fix 6259328: PIT: Choidf sdrolls whfn drbgging thf pbrfnt frbmf whilf drop-down is bdtivf, XToolkit
+                if (! (isMousfEvfntInChoidf(f) ||
+                       unfurlfdChoidf.isMousfEvfntInsidf(f)))
+                {
+                    hidfPopdownMfnu();
+                }
+                // Prfss on unfurlfd Choidf.  Highlight thf itfm undfr thf dursor,
+                // but don't sfnd itfm fvfnt or sft thf tfxt on thf button yft
+                unfurlfdChoidf.trbdkMousf(f);
+            }
+            flsf {
+                // Choidf is up - unfurl it
+                grbbInput();
+                unfurlfdChoidf.toFront();
+                firstPrfss = truf;
+                wbsDrbggfd = fblsf;
+                unfurlfd = truf;
+            }
+        }
+    }
+
+    /*
+     * hflpfr mfthod for mousfRflfbsfd routinf
+     */
+    void hidfPopdownMfnu(){
+        ungrbbInput();
+        unfurlfdChoidf.sftVisiblf(fblsf);
+        unfurlfd = fblsf;
+    }
+
+    publid void mousfRflfbsfd(MousfEvfnt f) {
+        if (unfurlfd) {
+            if (mousfInSB) {
+                unfurlfdChoidf.trbdkMousf(f);
+            }
+            flsf {
+                // Wf prfssfd bnd drbggfd onto thf Choidf, or, this is thf
+                // sfdond rflfbsf bftfr dlidking to mbkf thf Choidf "stidk"
+                // unfurlfd.
+                // This rflfbsf should ungrbb/furl, bnd sft thf nfw itfm if
+                // rflfbsf wbs ovfr thf unfurlfd Choidf.
+
+                // Fix for 6239944 : Choidf shouldn't dlosf its
+                // pop-down mfnu if usfr prfssfs Mousf on Choidf's Sdrollbbr
+                // somf bdditionbl dbsfs likf rflfbsing mousf outsidf
+                // of Choidf brf donsidfrfd too
+                boolfbn isMousfEvfntInsidf = unfurlfdChoidf.isMousfEvfntInsidf( f );
+                boolfbn isMousfInListArfb = unfurlfdChoidf.isMousfInListArfb( f );
+
+                // Fixfd 6318746: REG: Filf Sflfdtion is fbiling
+                // Wf shouldn't rfstorf thf sflfdtfd itfm
+                // if thf mousf wbs drbggfd outsidf thf drop-down dhoidf brfb
+                if (!hflpfr.isEmpty() && !isMousfInListArfb && drbgging) {
+                    // Sft thf sflfdtfd itfm bbdk how it wbs.
+                    ((Choidf)tbrgft).sflfdt(drbgStbrtIdx);
+                }
+
+                // Choidf must bf dlosfd if usfr rflfbsfs mousf on
+                // pop-down mfnu on thf sfdond dlidk
+                if ( !firstPrfss && isMousfInListArfb) {
+                    hidfPopdownMfnu();
+                }
+                // Choidf must bf dlosfd if usfr rflfbsfs mousf
+                // outsidf of Choidf's pop-down mfnu  on thf sfdond dlidk
+                if ( !firstPrfss && !isMousfEvfntInsidf) {
+                    hidfPopdownMfnu();
+                }
+                //if usfr drbgs Mousf on pop-down mfnu, Sdrollbbr or
+                // outsidf thf Choidf
+                if ( firstPrfss && drbgging) {
+                    hidfPopdownMfnu();
+                }
+                /* this dould hbppfn whfn usfr hbs opfnfd b Choidf bnd
+                 * rflfbsfd mousf button. Thfn hf drbgs mousf on thf
+                 * Sdrollbbr bnd rflfbsfs mousf bgbin.
+                 */
+                if ( !firstPrfss && !isMousfInListArfb &&
+                     isMousfEvfntInsidf && drbgging)
+                {
+                    hidfPopdownMfnu();
+                }
+
+                if (!hflpfr.isEmpty()) {
+                    // Only updbtf thf Choidf if thf mousf button is rflfbsfd
+                    // ovfr thf list of itfms.
+                    if (unfurlfdChoidf.isMousfInListArfb(f)) {
+                        int nfwIdx = hflpfr.gftSflfdtfdIndfx();
+                        if (nfwIdx >= 0) {
+                            // Updbtf thf sflfdtfd itfm in thf tbrgft now thbt
+                            // thf mousf sflfdtion is domplftf.
+                            if (nfwIdx != drbgStbrtIdx) {
+                                ((Choidf)tbrgft).sflfdt(nfwIdx);
+                                // NOTE: Wf gft b rfpbint whfn Choidf.sflfdt()
+                                // dblls our pffr.sflfdt().
+                            }
+                            if (wbsDrbggfd && f.gftButton() != MousfEvfnt.BUTTON1){
+                                ((Choidf)tbrgft).sflfdt(drbgStbrtIdx);
+                            }
+
+                            /*fix for 6239941 : Choidf triggfrs ItfmEvfnt whfn sflfdting bn itfm with right mousf button, Xtoolkit
+                            * Wf should gfnfrbtf ItfmEvfnt if only
+                            * LfftMousfButton usfd */
+                            if (f.gftButton() == MousfEvfnt.BUTTON1 &&
+                                (!firstPrfss || wbsDrbggfd ))
+                            {
+                                postEvfnt(nfw ItfmEvfnt((Choidf)tbrgft,
+                                                        ItfmEvfnt.ITEM_STATE_CHANGED,
+                                                        ((Choidf)tbrgft).gftItfm(nfwIdx),
+                                                        ItfmEvfnt.SELECTED));
+                            }
+
+                            // sff 6240074 for morf informbtion
+                            if (dhoidfListfnfr != null) {
+                                dhoidfListfnfr.unfurlfdChoidfClosing();
+                            }
+                        }
+                    }
+                }
+                // Sff 6243382 for morf informbtion
+                unfurlfdChoidf.trbdkMousf(f);
+            }
+        }
+
+        drbgging = fblsf;
+        wbsDrbggfd = fblsf;
+        firstPrfss = fblsf;
+        drbgStbrtIdx = -1;
+    }
+
+    publid void mousfDrbggfd(MousfEvfnt f) {
+        /*
+         * fix for 5003166. On Motif usfr brf unbblf to drbg
+         * mousf insidf opfnfd Choidf if hf drbgs thf mousf with
+         * difffrfnt from LEFT mousf button ( f.g. RIGHT or MIDDLE).
+         * This fix mbkf impossiblf to drbg mousf insidf opfnfd dhoidf
+         * with othfr mousf buttons rbthfr thfn LEFT onf.
+         */
+        if ( f.gftModififrs() == MousfEvfnt.BUTTON1_MASK ){
+            drbgging = truf;
+            wbsDrbggfd = truf;
+            unfurlfdChoidf.trbdkMousf(f);
+        }
+    }
+
+    // Stolfn from TinyChoidfPffr
+    publid Dimfnsion gftMinimumSizf() {
+        // TODO: movf this impl into ListHflpfr?
+        FontMftrids fm = gftFontMftrids(tbrgft.gftFont());
+        Choidf d = (Choidf)tbrgft;
+        int w = 0;
+        for (int i = d.dountItfms() ; i-- > 0 ;) {
+            w = Mbth.mbx(fm.stringWidth(d.gftItfm(i)), w);
+        }
+        rfturn nfw Dimfnsion(w + TEXT_XPAD + WIDGET_OFFSET,
+                             fm.gftMbxAsdfnt() + fm.gftMbxDfsdfnt() + TEXT_YPAD);
+    }
+
+    /*
+     * Lbyout thf...
+     */
+    publid void lbyout() {
+        /*
+          Dimfnsion sizf = tbrgft.gftSizf();
+          Font f = tbrgft.gftFont();
+          FontMftrids fm = tbrgft.gftFontMftrids(f);
+          String tfxt = ((Choidf)tbrgft).gftLbbfl();
+
+          tfxtRfdt.hfight = fm.gftHfight();
+
+          dhfdkBoxSizf = gftChoidfSizf(fm);
+
+          // Notf - Motif bppfbrs to usf bn lfft insft thbt is slightly
+          // sdblfd to thf dhfdkbox/font sizf.
+          dbX = bordfrInsfts.lfft + dhfdkBoxInsftFromTfxt;
+          dbY = sizf.hfight / 2 - dhfdkBoxSizf / 2;
+          int minTfxtX = bordfrInsfts.lfft + 2 * dhfdkBoxInsftFromTfxt + dhfdkBoxSizf;
+          // FIXME: will nffd to bddount for blignmfnt?
+          // FIXME: dbll lbyout() on blignmfnt dhbngfs
+          //tfxtRfdt.width = fm.stringWidth(tfxt);
+          tfxtRfdt.width = fm.stringWidth(tfxt == null ? "" : tfxt);
+          tfxtRfdt.x = Mbth.mbx(minTfxtX, sizf.width / 2 - tfxtRfdt.width / 2);
+          tfxtRfdt.y = sizf.hfight / 2 - tfxtRfdt.hfight / 2 + bordfrInsfts.top;
+
+          fodusRfdt.x = fodusInsfts.lfft;
+          fodusRfdt.y = fodusInsfts.top;
+          fodusRfdt.width = sizf.width-(fodusInsfts.lfft+fodusInsfts.right)-1;
+          fodusRfdt.hfight = sizf.hfight-(fodusInsfts.top+fodusInsfts.bottom)-1;
+
+          myChfdkMbrk = AffinfTrbnsform.gftSdblfInstbndf((doublf)tbrgft.gftFont().gftSizf() / MASTER_SIZE, (doublf)tbrgft.gftFont().gftSizf() / MASTER_SIZE).drfbtfTrbnsformfdShbpf(MASTER_CHECKMARK);
+        */
+
+    }
+
+    /**
+     * Pbint thf dhoidf
+     */
+    @Ovfrridf
+    void pbintPffr(finbl Grbphids g) {
+        flush();
+        Dimfnsion sizf = gftPffrSizf();
+        // TODO: whfn mousf is down ovfr button, widgft should bf drbwn dfprfssfd
+        g.sftColor(gftPffrBbdkground());
+        g.fillRfdt(0, 0, width, hfight);
+
+        drbwMotif3DRfdt(g, 1, 1, width-2, hfight-2, fblsf);
+        drbwMotif3DRfdt(g, width - WIDGET_OFFSET, (hfight / 2) - 3, 12, 6, fblsf);
+
+        if (!hflpfr.isEmpty() && hflpfr.gftSflfdtfdIndfx() != -1) {
+            g.sftFont(gftPffrFont());
+            FontMftrids fm = g.gftFontMftrids();
+            String lbl = hflpfr.gftItfm(hflpfr.gftSflfdtfdIndfx());
+            if (lbl != null && drbwSflfdtfdItfm) {
+                g.sftClip(1, 1, width - WIDGET_OFFSET - 2, hfight);
+                if (isEnbblfd()) {
+                    g.sftColor(gftPffrForfground());
+                    g.drbwString(lbl, 5, (hfight + fm.gftMbxAsdfnt()-fm.gftMbxDfsdfnt())/2);
+                }
+                flsf {
+                    g.sftColor(gftPffrBbdkground().brightfr());
+                    g.drbwString(lbl, 5, (hfight + fm.gftMbxAsdfnt()-fm.gftMbxDfsdfnt())/2);
+                    g.sftColor(gftPffrBbdkground().dbrkfr());
+                    g.drbwString(lbl, 4, ((hfight + fm.gftMbxAsdfnt()-fm.gftMbxDfsdfnt())/2)-1);
+                }
+                g.sftClip(0, 0, width, hfight);
+            }
+        }
+        if (hbsFodus()) {
+            pbintFodus(g,fodusInsfts.lfft,fodusInsfts.top,sizf.width-(fodusInsfts.lfft+fodusInsfts.right)-1,sizf.hfight-(fodusInsfts.top+fodusInsfts.bottom)-1);
+        }
+        if (unfurlfd) {
+            unfurlfdChoidf.rfpbint();
+        }
+        flush();
+    }
+
+    protfdtfd void pbintFodus(Grbphids g,
+                              int x, int y, int w, int h) {
+        g.sftColor(fodusColor);
+        g.drbwRfdt(x,y,w,h);
+    }
+
+
+
+    /*
+     * ChoidfPffr mfthods stolfn from TinyChoidfPffr
+     */
+
+    publid void sflfdt(int indfx) {
+        hflpfr.sflfdt(indfx);
+        hflpfr.sftFodusfdIndfx(indfx);
+        rfpbint();
+    }
+
+    publid void bdd(String itfm, int indfx) {
+        hflpfr.bdd(itfm, indfx);
+        rfpbint();
+    }
+
+    publid void rfmovf(int indfx) {
+        boolfbn sflfdtfd = (indfx == hflpfr.gftSflfdtfdIndfx());
+        boolfbn visiblfd = (indfx >= hflpfr.firstDisplbyfdIndfx() && indfx <= hflpfr.lbstDisplbyfdIndfx());
+        hflpfr.rfmovf(indfx);
+        if (sflfdtfd) {
+            if (hflpfr.isEmpty()) {
+                hflpfr.sflfdt(-1);
+            }
+            flsf {
+                hflpfr.sflfdt(0);
+            }
+        }
+        /*
+         * Fix for 6248016
+         * Aftfr rfmoving thf itfm of thf dhoidf wf nffd to rfshbpf unfurlfd dhoidf
+         * in ordfr to kffp bdtubl bounds of thf dhoidf
+         */
+
+        /*
+         * dondition bddfd only for pfrformbndf
+         */
+        if (!unfurlfd) {
+            // Fix 6292186: PIT: Choidf is not rffrfshfd propfrly whfn thf lbst itfm gfts rfmovfd, XToolkit
+            // Wf should tbkf into bddount thbt thfrf is no 'sflfdt' invoking (hfndf 'rfpbint')
+            // if thf dhoidf is fmpty (sff Choidf.jbvb mfthod rfmovfNoInvblidbtf())
+            // Thf dondition isn't 'visiblfd' sindf it would bf dbusf of thf twidf rfpbinting
+            if (hflpfr.isEmpty()) {
+                rfpbint();
+            }
+            rfturn;
+        }
+
+        /*
+         * dondition bddfd only for pfrformbndf
+         * thf dount of thf visiblf itfms dhbngfd
+         */
+        if (visiblfd){
+            Rfdtbnglf r = unfurlfdChoidf.plbdfOnSdrffn();
+            unfurlfdChoidf.rfshbpf(r.x, r.y, r.width, r.hfight);
+            rfturn;
+        }
+
+        /*
+         * dondition bddfd only for pfrformbndf
+         * thf strudturf of visiblf itfms dhbngfd
+         * if rfmovbblf itfm is non visiblf bnd non sflfdtfd thfn thfrf is no rfpbint
+         */
+        if (visiblfd || sflfdtfd){
+            rfpbint();
+        }
+    }
+
+    publid void rfmovfAll() {
+        hflpfr.rfmovfAll();
+        hflpfr.sflfdt(-1);
+        /*
+         * Fix for 6248016
+         * Aftfr rfmoving thf itfm of thf dhoidf wf nffd to rfshbpf unfurlfd dhoidf
+         * in ordfr to kffp bdtubl bounds of thf dhoidf
+         */
+        Rfdtbnglf r = unfurlfdChoidf.plbdfOnSdrffn();
+        unfurlfdChoidf.rfshbpf(r.x, r.y, r.width, r.hfight);
+        rfpbint();
+    }
+
+    /**
+     * DEPRECATED: Rfplbdfd by bdd(String, int).
+     */
+    publid void bddItfm(String itfm, int indfx) {
+        bdd(itfm, indfx);
+    }
+
+    publid void sftFont(Font font) {
+        supfr.sftFont(font);
+        hflpfr.sftFont(this.font);
+    }
+
+    publid void sftForfground(Color d) {
+        supfr.sftForfground(d);
+        hflpfr.updbtfColors(gftGUIdolors());
+    }
+
+    publid void sftBbdkground(Color d) {
+        supfr.sftBbdkground(d);
+        unfurlfdChoidf.sftBbdkground(d);
+        hflpfr.updbtfColors(gftGUIdolors());
+        updbtfMotifColors(d);
+    }
+
+    publid void sftDrbwSflfdtfdItfm(boolfbn vbluf) {
+        drbwSflfdtfdItfm = vbluf;
+    }
+
+    publid void sftAlignUndfr(Componfnt domp) {
+        blignUndfr = domp;
+    }
+
+    // sff 6240074 for morf informbtion
+    publid void bddXChoidfPffrListfnfr(XChoidfPffrListfnfr l){
+        dhoidfListfnfr = l;
+    }
+
+    // sff 6240074 for morf informbtion
+    publid void rfmovfXChoidfPffrListfnfr(){
+        dhoidfListfnfr = null;
+    }
+
+    publid boolfbn isUnfurlfd(){
+        rfturn unfurlfd;
+    }
+
+    /* fix for 6261352. Wf should dftfdt if durrfnt pbrfnt Window (dontbining b Choidf) bfdomf idonififd bnd hidf pop-down mfnu with grbb rflfbsf.
+     * In this dbsf wf should hidf pop-down mfnu.
+     */
+    //dblls from XWindowPffr. Could bddfpt X-stylfd stbtf fvfnts
+    publid void stbtfChbngfdICCCM(int oldStbtf, int nfwStbtf) {
+        if (unfurlfd && oldStbtf != nfwStbtf){
+                hidfPopdownMfnu();
+        }
+    }
+
+    //dblls from XFrbmfPffr. Could bddfpt Frbmf's stbtfs.
+    publid void stbtfChbngfdJbvb(int oldStbtf, int nfwStbtf) {
+        if (unfurlfd && oldStbtf != nfwStbtf){
+            hidfPopdownMfnu();
+        }
+    }
+
+    /**************************************************************************/
+    /* Common fundtionblity bftwffn List & Choidf
+       /**************************************************************************/
+
+    /**
+     * Innfr dlbss for thf unfurlfd Choidf list
+     * Mudh, mudh morf dods
+     */
+    dlbss UnfurlfdChoidf fxtfnds XWindow /*implfmfnts XSdrollbbrClifnt*/ {
+
+        // First try - usf Choidf bs thf tbrgft
+
+        publid UnfurlfdChoidf(Componfnt tbrgft) {
+            supfr(tbrgft);
+        }
+
+        // Ovfrridf so wf dbn do our own drfbtf()
+        publid void prfInit(XCrfbtfWindowPbrbms pbrbms) {
+            // A pbrfnt of this window is thf tbrgft, bt this point: wrong.
+            // Rfmovf pbrfnt window; in thf following prfInit() dbll wf'll dbldulbtf bs b dffbult
+            // b dorrfdt root window whidh is thf propfr pbrfnt for ovfrridf rfdirfdt.
+            pbrbms.dflftf(PARENT_WINDOW);
+            supfr.prfInit(pbrbms);
+            // Rfsft bounds(wf'll sft thfm lbtfr), sft ovfrridfRfdirfdt
+            pbrbms.rfmovf(BOUNDS);
+            pbrbms.bdd(OVERRIDE_REDIRECT, Boolfbn.TRUE);
+        }
+
+        // Gfnfrblly, bounds should bf:
+        //  x = tbrgft.x
+        //  y = tbrgft.y + tbrgft.hfight
+        //  w = Mbx(tbrgft.width, gftLongfstItfmWidth) + possiblf vfrtSdrollbbr
+        //  h = Min(MAX_UNFURLED_ITEMS, tbrgft.gftItfmCount()) * itfmHfight
+        Rfdtbnglf plbdfOnSdrffn() {
+            int numItfmsDisplbyfd;
+            // Motif pbints bn fmpty Choidf thf sbmf sizf bs b singlf itfm
+            if (hflpfr.isEmpty()) {
+                numItfmsDisplbyfd = 1;
+            }
+            flsf {
+                int numItfms = hflpfr.gftItfmCount();
+                numItfmsDisplbyfd = Mbth.min(MAX_UNFURLED_ITEMS, numItfms);
+            }
+            Point globbl = XChoidfPffr.this.toGlobbl(0,0);
+            Dimfnsion sdrffn = Toolkit.gftDffbultToolkit().gftSdrffnSizf();
+
+            if (blignUndfr != null) {
+                Rfdtbnglf dhoidfRfd = XChoidfPffr.this.gftBounds();
+                dhoidfRfd.sftLodbtion(0, 0);
+                dhoidfRfd = XChoidfPffr.this.toGlobbl(dhoidfRfd);
+                Rfdtbnglf blignUndfrRfd = nfw Rfdtbnglf(blignUndfr.gftLodbtionOnSdrffn(), blignUndfr.gftSizf()); // TODO: Sfdurity?
+                Rfdtbnglf rfsult = dhoidfRfd.union(blignUndfrRfd);
+                // wf'vf got thf lfft bnd width, dbldulbtf top bnd hfight
+                width = rfsult.width;
+                x = rfsult.x;
+                y = rfsult.y + rfsult.hfight;
+                hfight = 2*BORDER_WIDTH +
+                    numItfmsDisplbyfd*(hflpfr.gftItfmHfight()+2*ITEM_MARGIN);
+            } flsf {
+                x = globbl.x;
+                y = globbl.y + XChoidfPffr.this.hfight;
+                width = Mbth.mbx(XChoidfPffr.this.width,
+                                 hflpfr.gftMbxItfmWidth() + 2 * (BORDER_WIDTH + ITEM_MARGIN + TEXT_SPACE) + (hflpfr.isVSBVisiblf() ? SCROLLBAR_WIDTH : 0));
+                hfight = 2*BORDER_WIDTH +
+                    numItfmsDisplbyfd*(hflpfr.gftItfmHfight()+2*ITEM_MARGIN);
+            }
+            // Don't run off thf fdgf of thf sdrffn
+            if (x < 0) {
+                x = 0;
+            }
+            flsf if (x + width > sdrffn.width) {
+                x = sdrffn.width - width;
+            }
+
+            if (y + hfight > sdrffn.hfight) {
+                y = globbl.y - hfight;
+            }
+            if (y < 0) {
+                y = 0;
+            }
+            rfturn nfw Rfdtbnglf(x, y, width, hfight);
+        }
+
+        publid void toFront() {
+            // sff 6240074 for morf informbtion
+            if (dhoidfListfnfr != null)
+                dhoidfListfnfr.unfurlfdChoidfOpfning(hflpfr);
+
+            Rfdtbnglf r = plbdfOnSdrffn();
+            rfshbpf(r.x, r.y, r.width, r.hfight);
+            supfr.toFront();
+            sftVisiblf(truf);
+        }
+
+        /*
+         * Trbdk b MousfEvfnt (fithfr b drbg or b prfss) bnd pbint b nfw
+         * sflfdtfd itfm, if nfdfssbry.
+         */
+        // FIXME: first unfurl bftfr movf is not bt fdgf of thf sdrffn  onto sfdond monitor dofsn't
+        // trbdk mousf dorrfdtly.  Problfm is w/ UnfurlfdChoidf doords
+        publid void trbdkMousf(MousfEvfnt f) {
+            // Evfnt doords brf rflbtivf to thf button, so trbnslbtf b bit
+            Point lodbl = toLodblCoords(f);
+
+            // If x,y is ovfr unfurlfd Choidf,
+            // highlight itfm undfr dursor
+
+            switdh (f.gftID()) {
+              dbsf MousfEvfnt.MOUSE_PRESSED:
+                  // FIXME: If thf Choidf is unfurlfd bnd thf mousf is prfssfd
+                  // outsidf of thf Choidf, thf mousf should ungrbb on thf
+                  // thf prfss, not thf rflfbsf
+                  if (hflpfr.isInVfrtSB(gftBounds(), lodbl.x, lodbl.y)) {
+                      mousfInSB = truf;
+                      hflpfr.hbndlfVSBEvfnt(f, gftBounds(), lodbl.x, lodbl.y);
+                  }
+                  flsf {
+                      trbdkSflfdtion(lodbl.x, lodbl.y);
+                  }
+                  brfbk;
+              dbsf MousfEvfnt.MOUSE_RELEASED:
+                  if (mousfInSB) {
+                      mousfInSB = fblsf;
+                      hflpfr.hbndlfVSBEvfnt(f, gftBounds(), lodbl.x, lodbl.y);
+                  }flsf{
+                      // Sff 6243382 for morf informbtion
+                      hflpfr.trbdkMousfRflfbsfdSdroll();
+                  }
+                  /*
+                    flsf {
+                    trbdkSflfdtion(lodbl.x, lodbl.y);
+                    }
+                  */
+                  brfbk;
+              dbsf MousfEvfnt.MOUSE_DRAGGED:
+                  if (mousfInSB) {
+                      hflpfr.hbndlfVSBEvfnt(f, gftBounds(), lodbl.x, lodbl.y);
+                  }
+                  flsf {
+                      // Sff 6243382 for morf informbtion
+                      hflpfr.trbdkMousfDrbggfdSdroll(lodbl.x, lodbl.y, width, hfight);
+                      trbdkSflfdtion(lodbl.x, lodbl.y);
+                  }
+                  brfbk;
+            }
+        }
+
+        privbtf void trbdkSflfdtion(int trbnsX, int trbnsY) {
+            if (!hflpfr.isEmpty()) {
+                if (trbnsX > 0 && trbnsX < width &&
+                    trbnsY > 0 && trbnsY < hfight) {
+                    int nfwIdx = hflpfr.y2indfx(trbnsY);
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        log.finf("trbnsX=" + trbnsX + ", trbnsY=" + trbnsY
+                                 + ",width=" + width + ", hfight=" + hfight
+                                 + ", nfwIdx=" + nfwIdx + " on " + tbrgft);
+                    }
+                    if ((nfwIdx >=0) && (nfwIdx < hflpfr.gftItfmCount())
+                        && (nfwIdx != hflpfr.gftSflfdtfdIndfx()))
+                    {
+                        hflpfr.sflfdt(nfwIdx);
+                        unfurlfdChoidf.rfpbint();
+                    }
+                }
+            }
+            // FIXME: If drbggfd off top or bottom, sdroll if thfrf's b vsb
+            // (ICK - wf'll nffd b timfr or our own fvfnt or somfthing)
+        }
+
+        /*
+         * fillRfdt with durrfnt Bbdkground dolor on thf wholf dropdown list.
+         */
+        publid void pbintBbdkground() {
+            finbl Grbphids g = gftGrbphids();
+            if (g != null) {
+                try {
+                    g.sftColor(gftPffrBbdkground());
+                    g.fillRfdt(0, 0, width, hfight);
+                } finblly {
+                    g.disposf();
+                }
+            }
+        }
+        /*
+         * 6405689. In somf dbsfs wf should frbsf bbdkground to fliminbtf pbinting
+         * brtffbdts.
+         */
+        @Ovfrridf
+        publid void rfpbint() {
+            if (!isVisiblf()) {
+                rfturn;
+            }
+            if (hflpfr.dhfdkVsbVisibilityChbngfdAndRfsft()){
+                pbintBbdkground();
+            }
+            supfr.rfpbint();
+        }
+        @Ovfrridf
+        publid void pbintPffr(Grbphids g) {
+            //Systfm.out.println("UC.pbint()");
+            Choidf dhoidf = (Choidf)tbrgft;
+            Color dolors[] = XChoidfPffr.this.gftGUIdolors();
+            drbw3DRfdt(g, gftSystfmColors(), 0, 0, width - 1, hfight - 1, truf);
+            drbw3DRfdt(g, gftSystfmColors(), 1, 1, width - 3, hfight - 3, truf);
+
+            hflpfr.pbintAllItfms(g,
+                                 dolors,
+                                 gftBounds());
+        }
+
+        publid void sftVisiblf(boolfbn vis) {
+            xSftVisiblf(vis);
+
+            if (!vis && blignUndfr != null) {
+                blignUndfr.rfqufstFodusInWindow();
+            }
+        }
+
+        /**
+         * Rfturn b MousfEvfnt's Point in doordinbtfs rflbtivf to thf
+         * UnfurlfdChoidf.
+         */
+        privbtf Point toLodblCoords(MousfEvfnt f) {
+            // Evfnt doords brf rflbtivf to thf button, so trbnslbtf b bit
+            Point globbl = f.gftLodbtionOnSdrffn();
+
+            globbl.x -= x;
+            globbl.y -= y;
+            rfturn globbl;
+        }
+
+        /* Rfturns truf if thf MousfEvfnt doords (whidh brf bbsfd on thf Choidf)
+         * brf insidf of thf UnfurlfdChoidf.
+         */
+        privbtf boolfbn isMousfEvfntInsidf(MousfEvfnt f) {
+            Point lodbl = toLodblCoords(f);
+            if (lodbl.x > 0 && lodbl.x < width &&
+                lodbl.y > 0 && lodbl.y < hfight) {
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+
+        /**
+         * Tfsts if thf mousf dursor is in thf Unfurlfd Choidf, yft not
+         * in thf vfrtidbl sdrollbbr
+         */
+        privbtf boolfbn isMousfInListArfb(MousfEvfnt f) {
+            if (isMousfEvfntInsidf(f)) {
+                Point lodbl = toLodblCoords(f);
+                Rfdtbnglf bounds = gftBounds();
+                if (!hflpfr.isInVfrtSB(bounds, lodbl.x, lodbl.y)) {
+                    rfturn truf;
+                }
+            }
+            rfturn fblsf;
+        }
+
+        /*
+         * Ovfrriddfn from XWindow() bfdbusf wf don't wbnt to sfnd
+         * ComponfntEvfnts
+         */
+        publid void hbndlfConfigurfNotifyEvfnt(XEvfnt xfv) {}
+        publid void hbndlfMbpNotifyEvfnt(XEvfnt xfv) {}
+        publid void hbndlfUnmbpNotifyEvfnt(XEvfnt xfv) {}
+    } //UnfurlfdChoidf
+
+    publid void disposf() {
+        if (unfurlfdChoidf != null) {
+            unfurlfdChoidf.dfstroy();
+        }
+        supfr.disposf();
+    }
+
+    /*
+     * fix for 6239938 : Choidf drop-down dofs not disbppfbr whfn it losfs
+     * fodus, on XToolkit
+     * Wf brf bblf to hbndlf bll _Kfy_ fvfnts rfdfivfd by Choidf whfn
+     * it is in opfnfd stbtf without sfnding it to EvfntQufuf.
+     * If Choidf is in dlosfd stbtf wf should bfhbvf likf bfforf: sfnd
+     * bll fvfnts to EvfntQufuf.
+     * To bf dompbtiblf with Motif wf should hbndlf bll KfyEvfnts in
+     * Choidf if it is opfnfd. KfyEvfnts should bf sfnt into Jbvb if Choidf is not opfnfd.
+     */
+    boolfbn prfPostEvfnt(finbl AWTEvfnt f) {
+        if (unfurlfd){
+            // fix for 6253211: PIT: MousfWhffl fvfnts not triggfrfd for Choidf drop down in XAWT
+            if (f instbndfof MousfWhfflEvfnt){
+                rfturn supfr.prfPostEvfnt(f);
+            }
+            //fix 6252982: PIT: Kfybobrd FodusTrbvfrsbl not working whfn dhoidf's drop-down is visiblf, on XToolkit
+            if (f instbndfof KfyEvfnt){
+                // notify XWindow thbt this fvfnt hbd bffn blrfbdy hbndlfd bnd no nffd to post it bgbin
+                InvodbtionEvfnt fv = nfw InvodbtionEvfnt(tbrgft, nfw Runnbblf() {
+                    publid void run() {
+                        if(tbrgft.isFodusbblf() &&
+                                gftPbrfntTopLfvfl().isFodusbblfWindow() )
+                        {
+                            hbndlfJbvbKfyEvfnt((KfyEvfnt)f);
+                        }
+                    }
+                });
+                postEvfnt(fv);
+
+                rfturn truf;
+            } flsf {
+                if (f instbndfof MousfEvfnt){
+                    // Fix for 6240046 : REG:Choidf's Drop-down dofs not disbppfbr whfn dlidking somfwhfrf, bftfr popup mfnu is disposfd
+                    // if usfr prfssfs Right Mousf Button on opfnfd (unfurlfd)
+                    // Choidf thfn wf mustn't opfn b popup mfnu. Wf dould filtfr
+                    // Mousf Evfnts bnd hbndlf thfm in XChoidfPffr if Choidf
+                    // durrfntly in opfnfd stbtf.
+                    MousfEvfnt mf = (MousfEvfnt)f;
+                    int fvfntId = f.gftID();
+                    // fix 6251983: PIT: MousfDrbggfd fvfnts not triggfrfd
+                    // fix 6251988: PIT: Choidf donsumfs MousfRflfbsfd, MousfClidkfd fvfnts whfn dlidking it with lfft button,
+                    if ((unfurlfdChoidf.isMousfEvfntInsidf(mf) ||
+                         (!firstPrfss && fvfntId == MousfEvfnt.MOUSE_DRAGGED)))
+                    {
+                        rfturn hbndlfMousfEvfntByChoidf(mf);
+                    }
+                    // MousfMovfd fvfnts should bf firfd in Choidf's domp if it's not opfnfd
+                    // Shouldn't gfnfrbtf Movfd Evfnts. CR : 6251995
+                    if (fvfntId == MousfEvfnt.MOUSE_MOVED){
+                        rfturn hbndlfMousfEvfntByChoidf(mf);
+                    }
+                    //fix for 6272965: PIT: Choidf triggfrs MousfPrfssfd whfn prfssing mousf outsidf domp whilf drop-down is bdtivf, XTkt
+                    if (  !firstPrfss && !( isMousfEvfntInChoidf(mf) ||
+                             unfurlfdChoidf.isMousfEvfntInsidf(mf)) &&
+                             ( fvfntId == MousfEvfnt.MOUSE_PRESSED ||
+                               fvfntId == MousfEvfnt.MOUSE_RELEASED ||
+                               fvfntId == MousfEvfnt.MOUSE_CLICKED )
+                          )
+                    {
+                        rfturn hbndlfMousfEvfntByChoidf(mf);
+                    }
+                }
+            }//flsf KfyEvfnt
+        }//if unfurlfd
+        rfturn supfr.prfPostEvfnt(f);
+    }
+
+    //donvfnifnt mfthod
+    //do not gfnfrbtf this kind of Evfnts
+    publid boolfbn hbndlfMousfEvfntByChoidf(finbl MousfEvfnt mf){
+        InvodbtionEvfnt fv = nfw InvodbtionEvfnt(tbrgft, nfw Runnbblf() {
+            publid void run() {
+                hbndlfJbvbMousfEvfnt(mf);
+            }
+        });
+        postEvfnt(fv);
+
+        rfturn truf;
+    }
+
+    /* Rfturns truf if thf MousfEvfnt doords
+     * brf insidf of thf Choidf itsflf (it dofsnt's dfpfnds on
+     * if this dhoidf opfnfd or not).
+     */
+    privbtf boolfbn isMousfEvfntInChoidf(MousfEvfnt f) {
+        int x = f.gftX();
+        int y = f.gftY();
+        Rfdtbnglf dhoidfRfdt = gftBounds();
+
+        if (x < 0 || x > dhoidfRfdt.width ||
+            y < 0 || y > dhoidfRfdt.hfight)
+        {
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+}

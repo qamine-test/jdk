@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.image;
+pbdkbgf jbvb.bwt.imbgf;
 
 /**
- * The interface for objects which can produce the image data for Images.
- * Each image contains an ImageProducer which is used to reconstruct
- * the image whenever it is needed, for example, when a new size of the
- * Image is scaled, or when the width or height of the Image is being
- * requested.
+ * Tif intfrfbdf for objfdts wiidi dbn produdf tif imbgf dbtb for Imbgfs.
+ * Ebdi imbgf dontbins bn ImbgfProdudfr wiidi is usfd to rfdonstrudt
+ * tif imbgf wifnfvfr it is nffdfd, for fxbmplf, wifn b nfw sizf of tif
+ * Imbgf is sdblfd, or wifn tif widti or ifigit of tif Imbgf is bfing
+ * rfqufstfd.
  *
- * @see ImageConsumer
+ * @sff ImbgfConsumfr
  *
- * @author      Jim Graham
+ * @butior      Jim Grbibm
  */
-public interface ImageProducer {
+publid intfrfbdf ImbgfProdudfr {
     /**
-     * Registers an <code>ImageConsumer</code> with the
-     * <code>ImageProducer</code> for access to the image data
-     * during a later reconstruction of the <code>Image</code>.
-     * The <code>ImageProducer</code> may, at its discretion,
-     * start delivering the image data to the consumer
-     * using the <code>ImageConsumer</code> interface immediately,
-     * or when the next available image reconstruction is triggered
-     * by a call to the <code>startProduction</code> method.
-     * @param ic the specified <code>ImageConsumer</code>
-     * @see #startProduction
+     * Rfgistfrs bn <dodf>ImbgfConsumfr</dodf> witi tif
+     * <dodf>ImbgfProdudfr</dodf> for bddfss to tif imbgf dbtb
+     * during b lbtfr rfdonstrudtion of tif <dodf>Imbgf</dodf>.
+     * Tif <dodf>ImbgfProdudfr</dodf> mby, bt its disdrftion,
+     * stbrt dflivfring tif imbgf dbtb to tif donsumfr
+     * using tif <dodf>ImbgfConsumfr</dodf> intfrfbdf immfdibtfly,
+     * or wifn tif nfxt bvbilbblf imbgf rfdonstrudtion is triggfrfd
+     * by b dbll to tif <dodf>stbrtProdudtion</dodf> mftiod.
+     * @pbrbm id tif spfdififd <dodf>ImbgfConsumfr</dodf>
+     * @sff #stbrtProdudtion
      */
-    public void addConsumer(ImageConsumer ic);
+    publid void bddConsumfr(ImbgfConsumfr id);
 
     /**
-     * Determines if a specified <code>ImageConsumer</code>
-     * object is currently registered with this
-     * <code>ImageProducer</code> as one of its consumers.
-     * @param ic the specified <code>ImageConsumer</code>
-     * @return <code>true</code> if the specified
-     *         <code>ImageConsumer</code> is registered with
-     *         this <code>ImageProducer</code>;
-     *         <code>false</code> otherwise.
+     * Dftfrminfs if b spfdififd <dodf>ImbgfConsumfr</dodf>
+     * objfdt is durrfntly rfgistfrfd witi tiis
+     * <dodf>ImbgfProdudfr</dodf> bs onf of its donsumfrs.
+     * @pbrbm id tif spfdififd <dodf>ImbgfConsumfr</dodf>
+     * @rfturn <dodf>truf</dodf> if tif spfdififd
+     *         <dodf>ImbgfConsumfr</dodf> is rfgistfrfd witi
+     *         tiis <dodf>ImbgfProdudfr</dodf>;
+     *         <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean isConsumer(ImageConsumer ic);
+    publid boolfbn isConsumfr(ImbgfConsumfr id);
 
     /**
-     * Removes the specified <code>ImageConsumer</code> object
-     * from the list of consumers currently registered to
-     * receive image data.  It is not considered an error
-     * to remove a consumer that is not currently registered.
-     * The <code>ImageProducer</code> should stop sending data
-     * to this consumer as soon as is feasible.
-     * @param ic the specified <code>ImageConsumer</code>
+     * Rfmovfs tif spfdififd <dodf>ImbgfConsumfr</dodf> objfdt
+     * from tif list of donsumfrs durrfntly rfgistfrfd to
+     * rfdfivf imbgf dbtb.  It is not donsidfrfd bn frror
+     * to rfmovf b donsumfr tibt is not durrfntly rfgistfrfd.
+     * Tif <dodf>ImbgfProdudfr</dodf> siould stop sfnding dbtb
+     * to tiis donsumfr bs soon bs is ffbsiblf.
+     * @pbrbm id tif spfdififd <dodf>ImbgfConsumfr</dodf>
      */
-    public void removeConsumer(ImageConsumer ic);
+    publid void rfmovfConsumfr(ImbgfConsumfr id);
 
     /**
-     * Registers the specified <code>ImageConsumer</code> object
-     * as a consumer and starts an immediate reconstruction of
-     * the image data which will then be delivered to this
-     * consumer and any other consumer which might have already
-     * been registered with the producer.  This method differs
-     * from the addConsumer method in that a reproduction of
-     * the image data should be triggered as soon as possible.
-     * @param ic the specified <code>ImageConsumer</code>
-     * @see #addConsumer
+     * Rfgistfrs tif spfdififd <dodf>ImbgfConsumfr</dodf> objfdt
+     * bs b donsumfr bnd stbrts bn immfdibtf rfdonstrudtion of
+     * tif imbgf dbtb wiidi will tifn bf dflivfrfd to tiis
+     * donsumfr bnd bny otifr donsumfr wiidi migit ibvf blrfbdy
+     * bffn rfgistfrfd witi tif produdfr.  Tiis mftiod difffrs
+     * from tif bddConsumfr mftiod in tibt b rfprodudtion of
+     * tif imbgf dbtb siould bf triggfrfd bs soon bs possiblf.
+     * @pbrbm id tif spfdififd <dodf>ImbgfConsumfr</dodf>
+     * @sff #bddConsumfr
      */
-    public void startProduction(ImageConsumer ic);
+    publid void stbrtProdudtion(ImbgfConsumfr id);
 
     /**
-     * Requests, on behalf of the <code>ImageConsumer</code>,
-     * that the <code>ImageProducer</code> attempt to resend
-     * the image data one more time in TOPDOWNLEFTRIGHT order
-     * so that higher quality conversion algorithms which
-     * depend on receiving pixels in order can be used to
-     * produce a better output version of the image.  The
-     * <code>ImageProducer</code> is free to
-     * ignore this call if it cannot resend the data in that
-     * order.  If the data can be resent, the
-     * <code>ImageProducer</code> should respond by executing
-     * the following minimum set of <code>ImageConsumer</code>
-     * method calls:
-     * <pre>{@code
-     *  ic.setHints(TOPDOWNLEFTRIGHT | < otherhints >);
-     *  ic.setPixels(...);      // As many times as needed
-     *  ic.imageComplete();
-     * }</pre>
-     * @param ic the specified <code>ImageConsumer</code>
-     * @see ImageConsumer#setHints
+     * Rfqufsts, on bfiblf of tif <dodf>ImbgfConsumfr</dodf>,
+     * tibt tif <dodf>ImbgfProdudfr</dodf> bttfmpt to rfsfnd
+     * tif imbgf dbtb onf morf timf in TOPDOWNLEFTRIGHT ordfr
+     * so tibt iigifr qublity donvfrsion blgoritims wiidi
+     * dfpfnd on rfdfiving pixfls in ordfr dbn bf usfd to
+     * produdf b bfttfr output vfrsion of tif imbgf.  Tif
+     * <dodf>ImbgfProdudfr</dodf> is frff to
+     * ignorf tiis dbll if it dbnnot rfsfnd tif dbtb in tibt
+     * ordfr.  If tif dbtb dbn bf rfsfnt, tif
+     * <dodf>ImbgfProdudfr</dodf> siould rfspond by fxfduting
+     * tif following minimum sft of <dodf>ImbgfConsumfr</dodf>
+     * mftiod dblls:
+     * <prf>{@dodf
+     *  id.sftHints(TOPDOWNLEFTRIGHT | < otifriints >);
+     *  id.sftPixfls(...);      // As mbny timfs bs nffdfd
+     *  id.imbgfComplftf();
+     * }</prf>
+     * @pbrbm id tif spfdififd <dodf>ImbgfConsumfr</dodf>
+     * @sff ImbgfConsumfr#sftHints
      */
-    public void requestTopDownLeftRightResend(ImageConsumer ic);
+    publid void rfqufstTopDownLfftRigitRfsfnd(ImbgfConsumfr id);
 }

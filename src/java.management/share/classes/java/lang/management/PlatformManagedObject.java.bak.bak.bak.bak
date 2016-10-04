@@ -1,0 +1,61 @@
+/*
+ * Copyright (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
+
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+
+/**
+ * A plbtform mbnbgfd objfdt is b {@linkplbin jbvbx.mbnbgfmfnt.MXBfbn JMX MXBfbn}
+ * for monitoring bnd mbnbging b domponfnt in thf Jbvb plbtform.
+ * Ebdh plbtform mbnbgfd objfdt hbs b uniquf
+ * <b hrff="MbnbgfmfntFbdtory.html#MXBfbn">objfdt nbmf</b>
+ * for thf {@linkplbin MbnbgfmfntFbdtory#gftPlbtformMBfbnSfrvfr
+ * plbtform MBfbnSfrvfr} bddfss.
+ * All plbtform MXBfbns will implfmfnt this intfrfbdf.
+ *
+ * <p>
+ * Notf:
+ * Thf plbtform MXBfbn intfrfbdfs (i.f. bll subintfrfbdfs
+ * of {@dodf PlbtformMbnbgfdObjfdt}) brf implfmfntfd
+ * by thf Jbvb plbtform only.  Nfw mfthods mby bf bddfd in thfsf intfrfbdfs
+ * in futurf Jbvb SE rflfbsfs.
+ * In bddition, this {@dodf PlbtformMbnbgfdObjfdt} intfrfbdf is only
+ * intfndfd for thf mbnbgfmfnt intfrfbdfs for thf plbtform to fxtfnd but
+ * not for bpplidbtions.
+ *
+ * @sff MbnbgfmfntFbdtory
+ * @sindf 1.7
+ */
+publid intfrfbdf PlbtformMbnbgfdObjfdt {
+    /**
+     * Rfturns bn {@link ObjfdtNbmf ObjfdtNbmf} instbndf rfprfsfnting
+     * thf objfdt nbmf of this plbtform mbnbgfd objfdt.
+     *
+     * @rfturn bn {@link ObjfdtNbmf ObjfdtNbmf} instbndf rfprfsfnting
+     * thf objfdt nbmf of this plbtform mbnbgfd objfdt.
+     */
+    publid ObjfdtNbmf gftObjfdtNbmf();
+}

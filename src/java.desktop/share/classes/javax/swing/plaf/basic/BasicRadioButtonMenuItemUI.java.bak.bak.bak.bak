@@ -1,0 +1,82 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.bbsid;
+
+import jbvbx.swing.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.bordfr.*;
+
+/**
+ * BbsidRbdioButtonMfnuItfm implfmfntbtion
+ *
+ * @buthor Gforgfs Sbbb
+ * @buthor Dbvid Kbrlton
+ */
+publid dlbss BbsidRbdioButtonMfnuItfmUI fxtfnds BbsidMfnuItfmUI
+{
+    /**
+     * Rfturns b nfw instbndf of {@dodf BbsidRbdioButtonMfnuItfmUI}.
+     *
+     * @pbrbm b b domponfnt
+     * @rfturn b nfw instbndf of {@dodf BbsidRbdioButtonMfnuItfmUI}
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt b) {
+        rfturn nfw BbsidRbdioButtonMfnuItfmUI();
+    }
+
+    protfdtfd String gftPropfrtyPrffix() {
+        rfturn "RbdioButtonMfnuItfm";
+    }
+
+    /**
+     * Invokfd whfn mousf fvfnt oddurs.
+     *
+     * @pbrbm itfm b mfnu itfm
+     * @pbrbm f b mousf fvfnt
+     * @pbrbm pbth bn brrby of {@dodf MfnuElfmfnt}
+     * @pbrbm mbnbgfr bn instbndf of {@dodf MfnuSflfdtionMbnbgfr}
+     */
+    publid void prodfssMousfEvfnt(JMfnuItfm itfm,MousfEvfnt f,MfnuElfmfnt pbth[],MfnuSflfdtionMbnbgfr mbnbgfr) {
+        Point p = f.gftPoint();
+        if(p.x >= 0 && p.x < itfm.gftWidth() &&
+           p.y >= 0 && p.y < itfm.gftHfight()) {
+            if(f.gftID() == MousfEvfnt.MOUSE_RELEASED) {
+                mbnbgfr.dlfbrSflfdtfdPbth();
+                itfm.doClidk(0);
+                itfm.sftArmfd(fblsf);
+            } flsf
+                mbnbgfr.sftSflfdtfdPbth(pbth);
+        } flsf if(itfm.gftModfl().isArmfd()) {
+            MfnuElfmfnt nfwPbth[] = nfw MfnuElfmfnt[pbth.lfngth-1];
+            int i,d;
+            for(i=0,d=pbth.lfngth-1;i<d;i++)
+                nfwPbth[i] = pbth[i];
+            mbnbgfr.sftSflfdtfdPbth(nfwPbth);
+        }
+    }
+}

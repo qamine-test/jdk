@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,229 +56,229 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm;
 
 /**
- * A non standard class, field, method or code attribute.
+ * A non stbndbrd dlbss, fifld, mftiod or dodf bttributf.
  *
- * @author Eric Bruneton
- * @author Eugene Kuleshov
+ * @butior Erid Brunfton
+ * @butior Eugfnf Kulfsiov
  */
-public class Attribute {
+publid dlbss Attributf {
 
     /**
-     * The type of this attribute.
+     * Tif typf of tiis bttributf.
      */
-    public final String type;
+    publid finbl String typf;
 
     /**
-     * The raw value of this attribute, used only for unknown attributes.
+     * Tif rbw vbluf of tiis bttributf, usfd only for unknown bttributfs.
      */
-    byte[] value;
+    bytf[] vbluf;
 
     /**
-     * The next attribute in this attribute list. May be <tt>null</tt>.
+     * Tif nfxt bttributf in tiis bttributf list. Mby bf <tt>null</tt>.
      */
-    Attribute next;
+    Attributf nfxt;
 
     /**
-     * Constructs a new empty attribute.
+     * Construdts b nfw fmpty bttributf.
      *
-     * @param type
-     *            the type of the attribute.
+     * @pbrbm typf
+     *            tif typf of tif bttributf.
      */
-    protected Attribute(final String type) {
-        this.type = type;
+    protfdtfd Attributf(finbl String typf) {
+        tiis.typf = typf;
     }
 
     /**
-     * Returns <tt>true</tt> if this type of attribute is unknown. The default
-     * implementation of this method always returns <tt>true</tt>.
+     * Rfturns <tt>truf</tt> if tiis typf of bttributf is unknown. Tif dffbult
+     * implfmfntbtion of tiis mftiod blwbys rfturns <tt>truf</tt>.
      *
-     * @return <tt>true</tt> if this type of attribute is unknown.
+     * @rfturn <tt>truf</tt> if tiis typf of bttributf is unknown.
      */
-    public boolean isUnknown() {
-        return true;
+    publid boolfbn isUnknown() {
+        rfturn truf;
     }
 
     /**
-     * Returns <tt>true</tt> if this type of attribute is a code attribute.
+     * Rfturns <tt>truf</tt> if tiis typf of bttributf is b dodf bttributf.
      *
-     * @return <tt>true</tt> if this type of attribute is a code attribute.
+     * @rfturn <tt>truf</tt> if tiis typf of bttributf is b dodf bttributf.
      */
-    public boolean isCodeAttribute() {
-        return false;
+    publid boolfbn isCodfAttributf() {
+        rfturn fblsf;
     }
 
     /**
-     * Returns the labels corresponding to this attribute.
+     * Rfturns tif lbbfls dorrfsponding to tiis bttributf.
      *
-     * @return the labels corresponding to this attribute, or <tt>null</tt> if
-     *         this attribute is not a code attribute that contains labels.
+     * @rfturn tif lbbfls dorrfsponding to tiis bttributf, or <tt>null</tt> if
+     *         tiis bttributf is not b dodf bttributf tibt dontbins lbbfls.
      */
-    protected Label[] getLabels() {
-        return null;
+    protfdtfd Lbbfl[] gftLbbfls() {
+        rfturn null;
     }
 
     /**
-     * Reads a {@link #type type} attribute. This method must return a
-     * <i>new</i> {@link Attribute} object, of type {@link #type type},
-     * corresponding to the <tt>len</tt> bytes starting at the given offset, in
-     * the given class reader.
+     * Rfbds b {@link #typf typf} bttributf. Tiis mftiod must rfturn b
+     * <i>nfw</i> {@link Attributf} objfdt, of typf {@link #typf typf},
+     * dorrfsponding to tif <tt>lfn</tt> bytfs stbrting bt tif givfn offsft, in
+     * tif givfn dlbss rfbdfr.
      *
-     * @param cr
-     *            the class that contains the attribute to be read.
-     * @param off
-     *            index of the first byte of the attribute's content in
-     *            {@link ClassReader#b cr.b}. The 6 attribute header bytes,
-     *            containing the type and the length of the attribute, are not
-     *            taken into account here.
-     * @param len
-     *            the length of the attribute's content.
-     * @param buf
-     *            buffer to be used to call {@link ClassReader#readUTF8
-     *            readUTF8}, {@link ClassReader#readClass(int,char[]) readClass}
-     *            or {@link ClassReader#readConst readConst}.
-     * @param codeOff
-     *            index of the first byte of code's attribute content in
-     *            {@link ClassReader#b cr.b}, or -1 if the attribute to be read
-     *            is not a code attribute. The 6 attribute header bytes,
-     *            containing the type and the length of the attribute, are not
-     *            taken into account here.
-     * @param labels
-     *            the labels of the method's code, or <tt>null</tt> if the
-     *            attribute to be read is not a code attribute.
-     * @return a <i>new</i> {@link Attribute} object corresponding to the given
-     *         bytes.
+     * @pbrbm dr
+     *            tif dlbss tibt dontbins tif bttributf to bf rfbd.
+     * @pbrbm off
+     *            indfx of tif first bytf of tif bttributf's dontfnt in
+     *            {@link ClbssRfbdfr#b dr.b}. Tif 6 bttributf ifbdfr bytfs,
+     *            dontbining tif typf bnd tif lfngti of tif bttributf, brf not
+     *            tbkfn into bddount ifrf.
+     * @pbrbm lfn
+     *            tif lfngti of tif bttributf's dontfnt.
+     * @pbrbm buf
+     *            bufffr to bf usfd to dbll {@link ClbssRfbdfr#rfbdUTF8
+     *            rfbdUTF8}, {@link ClbssRfbdfr#rfbdClbss(int,dibr[]) rfbdClbss}
+     *            or {@link ClbssRfbdfr#rfbdConst rfbdConst}.
+     * @pbrbm dodfOff
+     *            indfx of tif first bytf of dodf's bttributf dontfnt in
+     *            {@link ClbssRfbdfr#b dr.b}, or -1 if tif bttributf to bf rfbd
+     *            is not b dodf bttributf. Tif 6 bttributf ifbdfr bytfs,
+     *            dontbining tif typf bnd tif lfngti of tif bttributf, brf not
+     *            tbkfn into bddount ifrf.
+     * @pbrbm lbbfls
+     *            tif lbbfls of tif mftiod's dodf, or <tt>null</tt> if tif
+     *            bttributf to bf rfbd is not b dodf bttributf.
+     * @rfturn b <i>nfw</i> {@link Attributf} objfdt dorrfsponding to tif givfn
+     *         bytfs.
      */
-    protected Attribute read(final ClassReader cr, final int off,
-            final int len, final char[] buf, final int codeOff,
-            final Label[] labels) {
-        Attribute attr = new Attribute(type);
-        attr.value = new byte[len];
-        System.arraycopy(cr.b, off, attr.value, 0, len);
-        return attr;
+    protfdtfd Attributf rfbd(finbl ClbssRfbdfr dr, finbl int off,
+            finbl int lfn, finbl dibr[] buf, finbl int dodfOff,
+            finbl Lbbfl[] lbbfls) {
+        Attributf bttr = nfw Attributf(typf);
+        bttr.vbluf = nfw bytf[lfn];
+        Systfm.brrbydopy(dr.b, off, bttr.vbluf, 0, lfn);
+        rfturn bttr;
     }
 
     /**
-     * Returns the byte array form of this attribute.
+     * Rfturns tif bytf brrby form of tiis bttributf.
      *
-     * @param cw
-     *            the class to which this attribute must be added. This
-     *            parameter can be used to add to the constant pool of this
-     *            class the items that corresponds to this attribute.
-     * @param code
-     *            the bytecode of the method corresponding to this code
-     *            attribute, or <tt>null</tt> if this attribute is not a code
-     *            attributes.
-     * @param len
-     *            the length of the bytecode of the method corresponding to this
-     *            code attribute, or <tt>null</tt> if this attribute is not a
-     *            code attribute.
-     * @param maxStack
-     *            the maximum stack size of the method corresponding to this
-     *            code attribute, or -1 if this attribute is not a code
-     *            attribute.
-     * @param maxLocals
-     *            the maximum number of local variables of the method
-     *            corresponding to this code attribute, or -1 if this attribute
-     *            is not a code attribute.
-     * @return the byte array form of this attribute.
+     * @pbrbm dw
+     *            tif dlbss to wiidi tiis bttributf must bf bddfd. Tiis
+     *            pbrbmftfr dbn bf usfd to bdd to tif donstbnt pool of tiis
+     *            dlbss tif itfms tibt dorrfsponds to tiis bttributf.
+     * @pbrbm dodf
+     *            tif bytfdodf of tif mftiod dorrfsponding to tiis dodf
+     *            bttributf, or <tt>null</tt> if tiis bttributf is not b dodf
+     *            bttributfs.
+     * @pbrbm lfn
+     *            tif lfngti of tif bytfdodf of tif mftiod dorrfsponding to tiis
+     *            dodf bttributf, or <tt>null</tt> if tiis bttributf is not b
+     *            dodf bttributf.
+     * @pbrbm mbxStbdk
+     *            tif mbximum stbdk sizf of tif mftiod dorrfsponding to tiis
+     *            dodf bttributf, or -1 if tiis bttributf is not b dodf
+     *            bttributf.
+     * @pbrbm mbxLodbls
+     *            tif mbximum numbfr of lodbl vbribblfs of tif mftiod
+     *            dorrfsponding to tiis dodf bttributf, or -1 if tiis bttributf
+     *            is not b dodf bttributf.
+     * @rfturn tif bytf brrby form of tiis bttributf.
      */
-    protected ByteVector write(final ClassWriter cw, final byte[] code,
-            final int len, final int maxStack, final int maxLocals) {
-        ByteVector v = new ByteVector();
-        v.data = value;
-        v.length = value.length;
-        return v;
+    protfdtfd BytfVfdtor writf(finbl ClbssWritfr dw, finbl bytf[] dodf,
+            finbl int lfn, finbl int mbxStbdk, finbl int mbxLodbls) {
+        BytfVfdtor v = nfw BytfVfdtor();
+        v.dbtb = vbluf;
+        v.lfngti = vbluf.lfngti;
+        rfturn v;
     }
 
     /**
-     * Returns the length of the attribute list that begins with this attribute.
+     * Rfturns tif lfngti of tif bttributf list tibt bfgins witi tiis bttributf.
      *
-     * @return the length of the attribute list that begins with this attribute.
+     * @rfturn tif lfngti of tif bttributf list tibt bfgins witi tiis bttributf.
      */
-    final int getCount() {
-        int count = 0;
-        Attribute attr = this;
-        while (attr != null) {
-            count += 1;
-            attr = attr.next;
+    finbl int gftCount() {
+        int dount = 0;
+        Attributf bttr = tiis;
+        wiilf (bttr != null) {
+            dount += 1;
+            bttr = bttr.nfxt;
         }
-        return count;
+        rfturn dount;
     }
 
     /**
-     * Returns the size of all the attributes in this attribute list.
+     * Rfturns tif sizf of bll tif bttributfs in tiis bttributf list.
      *
-     * @param cw
-     *            the class writer to be used to convert the attributes into
-     *            byte arrays, with the {@link #write write} method.
-     * @param code
-     *            the bytecode of the method corresponding to these code
-     *            attributes, or <tt>null</tt> if these attributes are not code
-     *            attributes.
-     * @param len
-     *            the length of the bytecode of the method corresponding to
-     *            these code attributes, or <tt>null</tt> if these attributes
-     *            are not code attributes.
-     * @param maxStack
-     *            the maximum stack size of the method corresponding to these
-     *            code attributes, or -1 if these attributes are not code
-     *            attributes.
-     * @param maxLocals
-     *            the maximum number of local variables of the method
-     *            corresponding to these code attributes, or -1 if these
-     *            attributes are not code attributes.
-     * @return the size of all the attributes in this attribute list. This size
-     *         includes the size of the attribute headers.
+     * @pbrbm dw
+     *            tif dlbss writfr to bf usfd to donvfrt tif bttributfs into
+     *            bytf brrbys, witi tif {@link #writf writf} mftiod.
+     * @pbrbm dodf
+     *            tif bytfdodf of tif mftiod dorrfsponding to tifsf dodf
+     *            bttributfs, or <tt>null</tt> if tifsf bttributfs brf not dodf
+     *            bttributfs.
+     * @pbrbm lfn
+     *            tif lfngti of tif bytfdodf of tif mftiod dorrfsponding to
+     *            tifsf dodf bttributfs, or <tt>null</tt> if tifsf bttributfs
+     *            brf not dodf bttributfs.
+     * @pbrbm mbxStbdk
+     *            tif mbximum stbdk sizf of tif mftiod dorrfsponding to tifsf
+     *            dodf bttributfs, or -1 if tifsf bttributfs brf not dodf
+     *            bttributfs.
+     * @pbrbm mbxLodbls
+     *            tif mbximum numbfr of lodbl vbribblfs of tif mftiod
+     *            dorrfsponding to tifsf dodf bttributfs, or -1 if tifsf
+     *            bttributfs brf not dodf bttributfs.
+     * @rfturn tif sizf of bll tif bttributfs in tiis bttributf list. Tiis sizf
+     *         indludfs tif sizf of tif bttributf ifbdfrs.
      */
-    final int getSize(final ClassWriter cw, final byte[] code, final int len,
-            final int maxStack, final int maxLocals) {
-        Attribute attr = this;
-        int size = 0;
-        while (attr != null) {
-            cw.newUTF8(attr.type);
-            size += attr.write(cw, code, len, maxStack, maxLocals).length + 6;
-            attr = attr.next;
+    finbl int gftSizf(finbl ClbssWritfr dw, finbl bytf[] dodf, finbl int lfn,
+            finbl int mbxStbdk, finbl int mbxLodbls) {
+        Attributf bttr = tiis;
+        int sizf = 0;
+        wiilf (bttr != null) {
+            dw.nfwUTF8(bttr.typf);
+            sizf += bttr.writf(dw, dodf, lfn, mbxStbdk, mbxLodbls).lfngti + 6;
+            bttr = bttr.nfxt;
         }
-        return size;
+        rfturn sizf;
     }
 
     /**
-     * Writes all the attributes of this attribute list in the given byte
-     * vector.
+     * Writfs bll tif bttributfs of tiis bttributf list in tif givfn bytf
+     * vfdtor.
      *
-     * @param cw
-     *            the class writer to be used to convert the attributes into
-     *            byte arrays, with the {@link #write write} method.
-     * @param code
-     *            the bytecode of the method corresponding to these code
-     *            attributes, or <tt>null</tt> if these attributes are not code
-     *            attributes.
-     * @param len
-     *            the length of the bytecode of the method corresponding to
-     *            these code attributes, or <tt>null</tt> if these attributes
-     *            are not code attributes.
-     * @param maxStack
-     *            the maximum stack size of the method corresponding to these
-     *            code attributes, or -1 if these attributes are not code
-     *            attributes.
-     * @param maxLocals
-     *            the maximum number of local variables of the method
-     *            corresponding to these code attributes, or -1 if these
-     *            attributes are not code attributes.
-     * @param out
-     *            where the attributes must be written.
+     * @pbrbm dw
+     *            tif dlbss writfr to bf usfd to donvfrt tif bttributfs into
+     *            bytf brrbys, witi tif {@link #writf writf} mftiod.
+     * @pbrbm dodf
+     *            tif bytfdodf of tif mftiod dorrfsponding to tifsf dodf
+     *            bttributfs, or <tt>null</tt> if tifsf bttributfs brf not dodf
+     *            bttributfs.
+     * @pbrbm lfn
+     *            tif lfngti of tif bytfdodf of tif mftiod dorrfsponding to
+     *            tifsf dodf bttributfs, or <tt>null</tt> if tifsf bttributfs
+     *            brf not dodf bttributfs.
+     * @pbrbm mbxStbdk
+     *            tif mbximum stbdk sizf of tif mftiod dorrfsponding to tifsf
+     *            dodf bttributfs, or -1 if tifsf bttributfs brf not dodf
+     *            bttributfs.
+     * @pbrbm mbxLodbls
+     *            tif mbximum numbfr of lodbl vbribblfs of tif mftiod
+     *            dorrfsponding to tifsf dodf bttributfs, or -1 if tifsf
+     *            bttributfs brf not dodf bttributfs.
+     * @pbrbm out
+     *            wifrf tif bttributfs must bf writtfn.
      */
-    final void put(final ClassWriter cw, final byte[] code, final int len,
-            final int maxStack, final int maxLocals, final ByteVector out) {
-        Attribute attr = this;
-        while (attr != null) {
-            ByteVector b = attr.write(cw, code, len, maxStack, maxLocals);
-            out.putShort(cw.newUTF8(attr.type)).putInt(b.length);
-            out.putByteArray(b.data, 0, b.length);
-            attr = attr.next;
+    finbl void put(finbl ClbssWritfr dw, finbl bytf[] dodf, finbl int lfn,
+            finbl int mbxStbdk, finbl int mbxLodbls, finbl BytfVfdtor out) {
+        Attributf bttr = tiis;
+        wiilf (bttr != null) {
+            BytfVfdtor b = bttr.writf(dw, dodf, lfn, mbxStbdk, mbxLodbls);
+            out.putSiort(dw.nfwUTF8(bttr.typf)).putInt(b.lfngti);
+            out.putBytfArrby(b.dbtb, 0, b.lfngti);
+            bttr = bttr.nfxt;
         }
     }
 }

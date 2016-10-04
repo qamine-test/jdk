@@ -1,0 +1,53 @@
+# This propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf thf Mftbl Look bnd Fffl.
+# Currfntly, thf following domponfnts nffd this for support:
+#
+#    FilfChoosfr
+#
+# Whfn this filf is rfbd in, thf strings brf put into thf
+# dffbults tbblf.  This is bn implfmfntbtion dftbil of thf durrfnt
+# workings of Swing.  DO NOT DEPEND ON THIS.
+# This mby dhbngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
+# support.
+#
+# Rfffr to thf notf in bbsid.propfrtifs for b dfsdription bs to whbt
+# thf mnfmonids dorrfspond to bnd how to dbldulbtf thfm.
+#
+# @buthor Stfvf Wilson
+
+
+############ FILE CHOOSER STRINGS #############
+
+FilfChoosfr.lookInLbbfl.tfxtAndMnfmonid=\u67E5\u8A62(&I):
+FilfChoosfr.sbvfInLbbfl.tfxtAndMnfmonid=\u5132\u5B58\u65BC: 
+FilfChoosfr.filfNbmfLbbfl.tfxtAndMnfmonid=\u6A94\u6848\u540D\u7A31(&N):
+FilfChoosfr.foldfrNbmfLbbfl.tfxtAndMnfmonid=\u8CC7\u6599\u593E\u540D\u7A31(&N):
+FilfChoosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=\u6A94\u6848\u985E\u578B(&T):
+FilfChoosfr.upFoldfrToolTip.tfxtAndMnfmonid=\u5F80\u4E0A\u4E00\u5C64
+FilfChoosfr.upFoldfrAddfssiblfNbmf=\u5F80\u4E0A
+FilfChoosfr.homfFoldfrToolTip.tfxtAndMnfmonid=\u4E3B\u76EE\u9304
+FilfChoosfr.homfFoldfrAddfssiblfNbmf=\u4E3B\u76EE\u9304
+FilfChoosfr.nfwFoldfrToolTip.tfxtAndMnfmonid=\u5EFA\u7ACB\u65B0\u8CC7\u6599\u593E
+FilfChoosfr.nfwFoldfrAddfssiblfNbmf=\u65B0\u8CC7\u6599\u593E
+FilfChoosfr.nfwFoldfrAdtionLbbfl.tfxtAndMnfmonid=\u65B0\u8CC7\u6599\u593E
+FilfChoosfr.listVifwButtonToolTip.tfxtAndMnfmonid=\u6E05\u55AE
+FilfChoosfr.listVifwButtonAddfssiblfNbmf=\u6E05\u55AE
+FilfChoosfr.listVifwAdtionLbbfl.tfxtAndMnfmonid=\u6E05\u55AE
+FilfChoosfr.dftbilsVifwButtonToolTip.tfxtAndMnfmonid=\u8A73\u7D30\u8CC7\u8A0A
+FilfChoosfr.dftbilsVifwButtonAddfssiblfNbmf=\u8A73\u7D30\u8CC7\u8A0A
+FilfChoosfr.dftbilsVifwAdtionLbbfl.tfxtAndMnfmonid=\u8A73\u7D30\u8CC7\u8A0A
+FilfChoosfr.rffrfshAdtionLbbfl.tfxtAndMnfmonid=\u91CD\u65B0\u6574\u7406
+FilfChoosfr.vifwMfnuLbbfl.tfxtAndMnfmonid=\u6AA2\u8996
+FilfChoosfr.filfNbmfHfbdfr.tfxtAndMnfmonid=\u540D\u7A31
+FilfChoosfr.filfSizfHfbdfr.tfxtAndMnfmonid=\u5927\u5C0F
+FilfChoosfr.filfTypfHfbdfr.tfxtAndMnfmonid=\u985E\u578B
+FilfChoosfr.filfDbtfHfbdfr.tfxtAndMnfmonid=\u4FEE\u6539\u65E5\u671F
+FilfChoosfr.filfAttrHfbdfr.tfxtAndMnfmonid=\u5C6C\u6027
+FilfChoosfr.sbvfButton.tfxtAndMnfmonid=\u5132\u5B58
+FilfChoosfr.opfnButton.tfxtAndMnfmonid=\u958B\u555F
+
+############ Usfd by MftblTitlfPbnf if rfndfring window dfdorbtions############
+MftblTitlfPbnf.rfstorf.titlfAndMnfmonid=\u56DE\u5FA9(&R)
+MftblTitlfPbnf.idonify.titlfAndMnfmonid=\u6700\u5C0F\u5316(&E)
+MftblTitlfPbnf.mbximizf.titlfAndMnfmonid=\u6700\u5927\u5316(&X)
+MftblTitlfPbnf.dlosf.titlfAndMnfmonid=\u95DC\u9589(&C)

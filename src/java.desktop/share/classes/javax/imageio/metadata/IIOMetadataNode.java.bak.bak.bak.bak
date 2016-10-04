@@ -1,0 +1,1133 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio.mftbdbtb;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+
+import org.w3d.dom.Attr;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.DOMExdfption;
+import org.w3d.dom.NbmfdNodfMbp;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
+import org.w3d.dom.TypfInfo;
+import org.w3d.dom.UsfrDbtbHbndlfr;
+
+
+dlbss IIODOMExdfption fxtfnds DOMExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = -4369510142067447468L;
+
+    publid IIODOMExdfption(short dodf, String mfssbgf) {
+        supfr(dodf, mfssbgf);
+    }
+}
+
+dlbss IIONbmfdNodfMbp implfmfnts NbmfdNodfMbp {
+
+    List<? fxtfnds Nodf> nodfs;
+
+    publid IIONbmfdNodfMbp(List<? fxtfnds Nodf> nodfs) {
+        this.nodfs = nodfs;
+    }
+
+    publid int gftLfngth() {
+        rfturn nodfs.sizf();
+    }
+
+    publid Nodf gftNbmfdItfm(String nbmf) {
+        Itfrbtor<? fxtfnds Nodf> itfr = nodfs.itfrbtor();
+        whilf (itfr.hbsNfxt()) {
+            Nodf nodf = itfr.nfxt();
+            if (nbmf.fqubls(nodf.gftNodfNbmf())) {
+                rfturn nodf;
+            }
+        }
+
+        rfturn null;
+    }
+
+    publid Nodf itfm(int indfx) {
+        Nodf nodf = nodfs.gft(indfx);
+        rfturn nodf;
+    }
+
+    publid Nodf rfmovfNbmfdItfm(jbvb.lbng.String nbmf) {
+        throw nfw DOMExdfption(DOMExdfption.NO_MODIFICATION_ALLOWED_ERR,
+                               "This NbmfdNodfMbp is rfbd-only!");
+    }
+
+    publid Nodf sftNbmfdItfm(Nodf brg) {
+        throw nfw DOMExdfption(DOMExdfption.NO_MODIFICATION_ALLOWED_ERR,
+                               "This NbmfdNodfMbp is rfbd-only!");
+    }
+
+    /**
+     * Equivblfnt to <dodf>gftNbmfdItfm(lodblNbmf)</dodf>.
+     */
+    publid Nodf gftNbmfdItfmNS(String nbmfspbdfURI, String lodblNbmf) {
+        rfturn gftNbmfdItfm(lodblNbmf);
+    }
+
+    /**
+     * Equivblfnt to <dodf>sftNbmfdItfm(brg)</dodf>.
+     */
+    publid Nodf sftNbmfdItfmNS(Nodf brg) {
+        rfturn sftNbmfdItfm(brg);
+    }
+
+    /**
+     * Equivblfnt to <dodf>rfmovfNbmfdItfm(lodblNbmf)</dodf>.
+     */
+    publid Nodf rfmovfNbmfdItfmNS(String nbmfspbdfURI, String lodblNbmf) {
+        rfturn rfmovfNbmfdItfm(lodblNbmf);
+    }
+}
+
+dlbss IIONodfList implfmfnts NodfList {
+
+    List<? fxtfnds Nodf> nodfs;
+
+    publid IIONodfList(List<? fxtfnds Nodf> nodfs) {
+        this.nodfs = nodfs;
+    }
+
+    publid int gftLfngth() {
+        rfturn nodfs.sizf();
+    }
+
+    publid Nodf itfm(int indfx) {
+        if (indfx < 0 || indfx > nodfs.sizf()) {
+            rfturn null;
+        }
+        rfturn nodfs.gft(indfx);
+    }
+}
+
+dlbss IIOAttr fxtfnds IIOMftbdbtbNodf implfmfnts Attr {
+
+    Elfmfnt ownfr;
+    String nbmf;
+    String vbluf;
+
+    publid IIOAttr(Elfmfnt ownfr, String nbmf, String vbluf) {
+        this.ownfr = ownfr;
+        this.nbmf = nbmf;
+        this.vbluf = vbluf;
+    }
+
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    publid String gftNodfNbmf() {
+        rfturn nbmf;
+    }
+
+    publid short gftNodfTypf() {
+        rfturn ATTRIBUTE_NODE;
+    }
+
+    publid boolfbn gftSpfdififd() {
+        rfturn truf;
+    }
+
+    publid String gftVbluf() {
+        rfturn vbluf;
+    }
+
+    publid String gftNodfVbluf() {
+        rfturn vbluf;
+    }
+
+    publid void sftVbluf(String vbluf) {
+        this.vbluf = vbluf;
+    }
+
+    publid void sftNodfVbluf(String vbluf) {
+        this.vbluf = vbluf;
+    }
+
+    publid Elfmfnt gftOwnfrElfmfnt() {
+        rfturn ownfr;
+    }
+
+    publid void sftOwnfrElfmfnt(Elfmfnt ownfr) {
+        this.ownfr = ownfr;
+    }
+
+    /** This mfthod is nfw in thf DOM L3 for Attr intfrfbdf.
+     * Could throw DOMExdfption hfrf, but its probbbly OK
+     * to blwbys rfturn fblsf. Onf rfbson for this, is wf hbvf no good
+     * wby to dodumfnt this fxdfption, sindf this dlbss, IIOAttr,
+     * is not b publid dlbss. Thf rfst of thf mfthods thbt throw
+     * DOMExdfption brf publidblly dodumfntfd bs sudh on IIOMftbdbtbNodf.
+     * @rfturn fblsf
+     */
+    publid boolfbn isId() {
+        rfturn fblsf;
+    }
+
+
+}
+
+/**
+ * A dlbss rfprfsfnting b nodf in b mftb-dbtb trff, whidh implfmfnts
+ * thf <b
+ * hrff="../../../../bpi/org/w3d/dom/Elfmfnt.html">
+ * <dodf>org.w3d.dom.Elfmfnt</dodf></b> intfrfbdf bnd bdditionblly bllows
+ * for thf storbgf of non-tfxtubl objfdts vib thf
+ * <dodf>gftUsfrObjfdt</dodf> bnd <dodf>sftUsfrObjfdt</dodf> mfthods.
+ *
+ * <p> This dlbss is not intfndfd to bf usfd for gfnfrbl XML
+ * prodfssing. In pbrtidulbr, <dodf>Elfmfnt</dodf> nodfs drfbtfd
+ * within thf Imbgf I/O API brf not dompbtiblf with thosf drfbtfd by
+ * Sun's stbndbrd implfmfntbtion of thf <dodf>org.w3.dom</dodf> API.
+ * In pbrtidulbr, thf implfmfntbtion is tunfd for simplf usfs bnd mby
+ * not pfrform wfll for intfnsivf prodfssing.
+ *
+ * <p> Nbmfspbdfs brf ignorfd in this implfmfntbtion.  Thf tfrms "tbg
+ * nbmf" bnd "nodf nbmf" brf blwbys donsidfrfd to bf synonymous.
+ *
+ * <fm>Notf:</fm>
+ * Thf DOM Lfvfl 3 spfdifidbtion bddfd b numbfr of nfw mfthods to thf
+ * {@dodf Nodf}, {@dodf Elfmfnt} bnd {@dodf Attr} intfrfbdfs thbt brf not
+ * of vbluf to thf {@dodf IIOMftbdbtbNodf} implfmfntbtion or spfdifidbtion.
+ *
+ * Cblling sudh mfthods on bn {@dodf IIOMftbdbtbNodf}, or bn {@dodf Attr}
+ * instbndf rfturnfd from bn {@dodf IIOMftbdbtbNodf} will rfsult in b
+ * {@dodf DOMExdfption} bfing thrown.
+ *
+ * @sff IIOMftbdbtb#gftAsTrff
+ * @sff IIOMftbdbtb#sftFromTrff
+ * @sff IIOMftbdbtb#mfrgfTrff
+ *
+ */
+publid dlbss IIOMftbdbtbNodf implfmfnts Elfmfnt, NodfList {
+
+    /**
+     * Thf nbmf of thf nodf bs b <dodf>String</dodf>.
+     */
+    privbtf String nodfNbmf = null;
+
+    /**
+     * Thf vbluf of thf nodf bs b <dodf>String</dodf>.  Thf Imbgf I/O
+     * API typidblly dofs not mbkf usf of thf nodf vbluf.
+     */
+    privbtf String nodfVbluf = null;
+
+    /**
+     * Thf <dodf>Objfdt</dodf> vbluf bssodibtfd with this nodf.
+     */
+    privbtf Objfdt usfrObjfdt = null;
+
+    /**
+     * Thf pbrfnt nodf of this nodf, or <dodf>null</dodf> if this nodf
+     * forms thf root of its own trff.
+     */
+    privbtf IIOMftbdbtbNodf pbrfnt = null;
+
+    /**
+     * Thf numbfr of dhild nodfs.
+     */
+    privbtf int numChildrfn = 0;
+
+    /**
+     * Thf first (lfftmost) dhild nodf of this nodf, or
+     * <dodf>null</dodf> if this nodf is b lfbf nodf.
+     */
+    privbtf IIOMftbdbtbNodf firstChild = null;
+
+    /**
+     * Thf lbst (rightmost) dhild nodf of this nodf, or
+     * <dodf>null</dodf> if this nodf is b lfbf nodf.
+     */
+    privbtf IIOMftbdbtbNodf lbstChild = null;
+
+    /**
+     * Thf nfxt (right) sibling nodf of this nodf, or
+     * <dodf>null</dodf> if this nodf is its pbrfnt's lbst dhild nodf.
+     */
+    privbtf IIOMftbdbtbNodf nfxtSibling = null;
+
+    /**
+     * Thf prfvious (lfft) sibling nodf of this nodf, or
+     * <dodf>null</dodf> if this nodf is its pbrfnt's first dhild nodf.
+     */
+    privbtf IIOMftbdbtbNodf prfviousSibling = null;
+
+    /**
+     * A <dodf>List</dodf> of <dodf>IIOAttr</dodf> nodfs rfprfsfnting
+     * bttributfs.
+     */
+    privbtf List<IIOAttr> bttributfs = nfw ArrbyList<>();
+
+    /**
+     * Construdts bn fmpty <dodf>IIOMftbdbtbNodf</dodf>.
+     */
+    publid IIOMftbdbtbNodf() {}
+
+    /**
+     * Construdts bn <dodf>IIOMftbdbtbNodf</dodf> with b givfn nodf
+     * nbmf.
+     *
+     * @pbrbm nodfNbmf thf nbmf of thf nodf, bs b <dodf>String</dodf>.
+     */
+    publid IIOMftbdbtbNodf(String nodfNbmf) {
+        this.nodfNbmf = nodfNbmf;
+    }
+
+    /**
+     * Chfdk thbt thf nodf is fithfr <dodf>null</dodf> or bn
+     * <dodf>IIOMftbdbtbNodf</dodf>.
+     */
+    privbtf void dhfdkNodf(Nodf nodf) throws DOMExdfption {
+        if (nodf == null) {
+            rfturn;
+        }
+        if (!(nodf instbndfof IIOMftbdbtbNodf)) {
+            throw nfw IIODOMExdfption(DOMExdfption.WRONG_DOCUMENT_ERR,
+                                      "Nodf not bn IIOMftbdbtbNodf!");
+        }
+    }
+
+    // Mfthods from Nodf
+
+    /**
+     * Rfturns thf nodf nbmf bssodibtfd with this nodf.
+     *
+     * @rfturn thf nodf nbmf, bs b <dodf>String</dodf>.
+     */
+    publid String gftNodfNbmf() {
+        rfturn nodfNbmf;
+    }
+
+    /**
+     * Rfturns thf vbluf bssodibtfd with this nodf.
+     *
+     * @rfturn thf nodf vbluf, bs b <dodf>String</dodf>.
+     */
+    publid String gftNodfVbluf(){
+        rfturn nodfVbluf;
+    }
+
+    /**
+     * Sfts thf <dodf>String</dodf> vbluf bssodibtfd with this nodf.
+     */
+    publid void sftNodfVbluf(String nodfVbluf) {
+        this.nodfVbluf = nodfVbluf;
+    }
+
+    /**
+     * Rfturns thf nodf typf, whidh is blwbys
+     * <dodf>ELEMENT_NODE</dodf>.
+     *
+     * @rfturn thf <dodf>short</dodf> vbluf <dodf>ELEMENT_NODE</dodf>.
+     */
+    publid short gftNodfTypf() {
+        rfturn ELEMENT_NODE;
+    }
+
+    /**
+     * Rfturns thf pbrfnt of this nodf.  A <dodf>null</dodf> vbluf
+     * indidbtfs thbt thf nodf is thf root of its own trff.  To bdd b
+     * nodf to bn fxisting trff, usf onf of thf
+     * <dodf>insfrtBfforf</dodf>, <dodf>rfplbdfChild</dodf>, or
+     * <dodf>bppfndChild</dodf> mfthods.
+     *
+     * @rfturn thf pbrfnt, bs b <dodf>Nodf</dodf>.
+     *
+     * @sff #insfrtBfforf
+     * @sff #rfplbdfChild
+     * @sff #bppfndChild
+     */
+    publid Nodf gftPbrfntNodf() {
+        rfturn pbrfnt;
+    }
+
+    /**
+     * Rfturns b <dodf>NodfList</dodf> thbt dontbins bll dhildrfn of this nodf.
+     * If thfrf brf no dhildrfn, this is b <dodf>NodfList</dodf> dontbining
+     * no nodfs.
+     *
+     * @rfturn thf dhildrfn bs b <dodf>NodfList</dodf>
+     */
+    publid NodfList gftChildNodfs() {
+        rfturn this;
+    }
+
+    /**
+     * Rfturns thf first dhild of this nodf, or <dodf>null</dodf> if
+     * thf nodf hbs no dhildrfn.
+     *
+     * @rfturn thf first dhild, bs b <dodf>Nodf</dodf>, or
+     * <dodf>null</dodf>
+     */
+    publid Nodf gftFirstChild() {
+        rfturn firstChild;
+    }
+
+    /**
+     * Rfturns thf lbst dhild of this nodf, or <dodf>null</dodf> if
+     * thf nodf hbs no dhildrfn.
+     *
+     * @rfturn thf lbst dhild, bs b <dodf>Nodf</dodf>, or
+     * <dodf>null</dodf>.
+     */
+    publid Nodf gftLbstChild() {
+        rfturn lbstChild;
+    }
+
+    /**
+     * Rfturns thf prfvious sibling of this nodf, or <dodf>null</dodf>
+     * if this nodf hbs no prfvious sibling.
+     *
+     * @rfturn thf prfvious sibling, bs b <dodf>Nodf</dodf>, or
+     * <dodf>null</dodf>.
+     */
+    publid Nodf gftPrfviousSibling() {
+        rfturn prfviousSibling;
+    }
+
+    /**
+     * Rfturns thf nfxt sibling of this nodf, or <dodf>null</dodf> if
+     * thf nodf hbs no nfxt sibling.
+     *
+     * @rfturn thf nfxt sibling, bs b <dodf>Nodf</dodf>, or
+     * <dodf>null</dodf>.
+     */
+    publid Nodf gftNfxtSibling() {
+        rfturn nfxtSibling;
+    }
+
+    /**
+     * Rfturns b <dodf>NbmfdNodfMbp</dodf> dontbining thf bttributfs of
+     * this nodf.
+     *
+     * @rfturn b <dodf>NbmfdNodfMbp</dodf> dontbining thf bttributfs of
+     * this nodf.
+     */
+    publid NbmfdNodfMbp gftAttributfs() {
+        rfturn nfw IIONbmfdNodfMbp(bttributfs);
+    }
+
+    /**
+     * Rfturns <dodf>null</dodf>, sindf <dodf>IIOMftbdbtbNodf</dodf>s
+     * do not bflong to bny <dodf>Dodumfnt</dodf>.
+     *
+     * @rfturn <dodf>null</dodf>.
+     */
+    publid Dodumfnt gftOwnfrDodumfnt() {
+        rfturn null;
+    }
+
+    /**
+     * Insfrts thf nodf <dodf>nfwChild</dodf> bfforf thf fxisting
+     * dhild nodf <dodf>rffChild</dodf>. If <dodf>rffChild</dodf> is
+     * <dodf>null</dodf>, insfrt <dodf>nfwChild</dodf> bt thf fnd of
+     * thf list of dhildrfn.
+     *
+     * @pbrbm nfwChild thf <dodf>Nodf</dodf> to insfrt.
+     * @pbrbm rffChild thf rfffrfndf <dodf>Nodf</dodf>.
+     *
+     * @rfturn thf nodf bfing insfrtfd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>nfwChild</dodf> is
+     * <dodf>null</dodf>.
+     */
+    publid Nodf insfrtBfforf(Nodf nfwChild,
+                             Nodf rffChild) {
+        if (nfwChild == null) {
+            throw nfw IllfgblArgumfntExdfption("nfwChild == null!");
+        }
+
+        dhfdkNodf(nfwChild);
+        dhfdkNodf(rffChild);
+
+        IIOMftbdbtbNodf nfwChildNodf = (IIOMftbdbtbNodf)nfwChild;
+        IIOMftbdbtbNodf rffChildNodf = (IIOMftbdbtbNodf)rffChild;
+
+        // Siblings, dbn bf null.
+        IIOMftbdbtbNodf prfvious = null;
+        IIOMftbdbtbNodf nfxt = null;
+
+        if (rffChild == null) {
+            prfvious = this.lbstChild;
+            nfxt = null;
+            this.lbstChild = nfwChildNodf;
+        } flsf {
+            prfvious = rffChildNodf.prfviousSibling;
+            nfxt = rffChildNodf;
+        }
+
+        if (prfvious != null) {
+            prfvious.nfxtSibling = nfwChildNodf;
+        }
+        if (nfxt != null) {
+            nfxt.prfviousSibling = nfwChildNodf;
+        }
+
+        nfwChildNodf.pbrfnt = this;
+        nfwChildNodf.prfviousSibling = prfvious;
+        nfwChildNodf.nfxtSibling = nfxt;
+
+        // N.B.: O.K. if rffChild == null
+        if (this.firstChild == rffChildNodf) {
+            this.firstChild = nfwChildNodf;
+        }
+
+        ++numChildrfn;
+        rfturn nfwChildNodf;
+    }
+
+    /**
+     * Rfplbdfs thf dhild nodf <dodf>oldChild</dodf> with
+     * <dodf>nfwChild</dodf> in thf list of dhildrfn, bnd rfturns thf
+     * <dodf>oldChild</dodf> nodf.
+     *
+     * @pbrbm nfwChild thf <dodf>Nodf</dodf> to insfrt.
+     * @pbrbm oldChild thf <dodf>Nodf</dodf> to bf rfplbdfd.
+     *
+     * @rfturn thf nodf rfplbdfd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>nfwChild</dodf> is
+     * <dodf>null</dodf>.
+     */
+    publid Nodf rfplbdfChild(Nodf nfwChild,
+                             Nodf oldChild) {
+        if (nfwChild == null) {
+            throw nfw IllfgblArgumfntExdfption("nfwChild == null!");
+        }
+
+        dhfdkNodf(nfwChild);
+        dhfdkNodf(oldChild);
+
+        IIOMftbdbtbNodf nfwChildNodf = (IIOMftbdbtbNodf)nfwChild;
+        IIOMftbdbtbNodf oldChildNodf = (IIOMftbdbtbNodf)oldChild;
+
+        IIOMftbdbtbNodf prfvious = oldChildNodf.prfviousSibling;
+        IIOMftbdbtbNodf nfxt = oldChildNodf.nfxtSibling;
+
+        if (prfvious != null) {
+            prfvious.nfxtSibling = nfwChildNodf;
+        }
+        if (nfxt != null) {
+            nfxt.prfviousSibling = nfwChildNodf;
+        }
+
+        nfwChildNodf.pbrfnt = this;
+        nfwChildNodf.prfviousSibling = prfvious;
+        nfwChildNodf.nfxtSibling = nfxt;
+
+        if (firstChild == oldChildNodf) {
+            firstChild = nfwChildNodf;
+        }
+        if (lbstChild == oldChildNodf) {
+            lbstChild = nfwChildNodf;
+        }
+
+        oldChildNodf.pbrfnt = null;
+        oldChildNodf.prfviousSibling = null;
+        oldChildNodf.nfxtSibling = null;
+
+        rfturn oldChildNodf;
+    }
+
+    /**
+     * Rfmovfs thf dhild nodf indidbtfd by <dodf>oldChild</dodf> from
+     * thf list of dhildrfn, bnd rfturns it.
+     *
+     * @pbrbm oldChild thf <dodf>Nodf</dodf> to bf rfmovfd.
+     *
+     * @rfturn thf nodf rfmovfd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>oldChild</dodf> is
+     * <dodf>null</dodf>.
+     */
+    publid Nodf rfmovfChild(Nodf oldChild) {
+        if (oldChild == null) {
+            throw nfw IllfgblArgumfntExdfption("oldChild == null!");
+        }
+        dhfdkNodf(oldChild);
+
+        IIOMftbdbtbNodf oldChildNodf = (IIOMftbdbtbNodf)oldChild;
+
+        IIOMftbdbtbNodf prfvious = oldChildNodf.prfviousSibling;
+        IIOMftbdbtbNodf nfxt = oldChildNodf.nfxtSibling;
+
+        if (prfvious != null) {
+            prfvious.nfxtSibling = nfxt;
+        }
+        if (nfxt != null) {
+            nfxt.prfviousSibling = prfvious;
+        }
+
+        if (this.firstChild == oldChildNodf) {
+            this.firstChild = nfxt;
+        }
+        if (this.lbstChild == oldChildNodf) {
+            this.lbstChild = prfvious;
+        }
+
+        oldChildNodf.pbrfnt = null;
+        oldChildNodf.prfviousSibling = null;
+        oldChildNodf.nfxtSibling = null;
+
+        --numChildrfn;
+        rfturn oldChildNodf;
+    }
+
+    /**
+     * Adds thf nodf <dodf>nfwChild</dodf> to thf fnd of thf list of
+     * dhildrfn of this nodf.
+     *
+     * @pbrbm nfwChild thf <dodf>Nodf</dodf> to insfrt.
+     *
+     * @rfturn thf nodf bddfd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>nfwChild</dodf> is
+     * <dodf>null</dodf>.
+     */
+    publid Nodf bppfndChild(Nodf nfwChild) {
+        if (nfwChild == null) {
+            throw nfw IllfgblArgumfntExdfption("nfwChild == null!");
+        }
+        dhfdkNodf(nfwChild);
+
+        // insfrtBfforf will indrfmfnt numChildrfn
+        rfturn insfrtBfforf(nfwChild, null);
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if this nodf hbs dhild nodfs.
+     *
+     * @rfturn <dodf>truf</dodf> if this nodf hbs dhildrfn.
+     */
+    publid boolfbn hbsChildNodfs() {
+        rfturn numChildrfn > 0;
+    }
+
+    /**
+     * Rfturns b duplidbtf of this nodf.  Thf duplidbtf nodf hbs no
+     * pbrfnt (<dodf>gftPbrfntNodf</dodf> rfturns <dodf>null</dodf>).
+     * If b shbllow dlonf is bfing pfrformfd (<dodf>dffp</dodf> is
+     * <dodf>fblsf</dodf>), thf nfw nodf will not hbvf bny dhildrfn or
+     * siblings.  If b dffp dlonf is bfing pfrformfd, thf nfw nodf
+     * will form thf root of b domplftf dlonfd subtrff.
+     *
+     * @pbrbm dffp if <dodf>truf</dodf>, rfdursivfly dlonf thf subtrff
+     * undfr thf spfdififd nodf; if <dodf>fblsf</dodf>, dlonf only thf
+     * nodf itsflf.
+     *
+     * @rfturn thf duplidbtf nodf.
+     */
+    publid Nodf dlonfNodf(boolfbn dffp) {
+        IIOMftbdbtbNodf nfwNodf = nfw IIOMftbdbtbNodf(this.nodfNbmf);
+        nfwNodf.sftUsfrObjfdt(gftUsfrObjfdt());
+        // Attributfs
+
+        if (dffp) {
+            for (IIOMftbdbtbNodf dhild = firstChild;
+                 dhild != null;
+                 dhild = dhild.nfxtSibling) {
+                nfwNodf.bppfndChild(dhild.dlonfNodf(truf));
+            }
+        }
+
+        rfturn nfwNodf;
+    }
+
+    /**
+     * Dofs nothing, sindf <dodf>IIOMftbdbtbNodf</dodf>s do not
+     * dontbin <dodf>Tfxt</dodf> dhildrfn.
+     */
+    publid void normblizf() {
+    }
+
+    /**
+     * Rfturns <dodf>fblsf</dodf> sindf DOM ffbturfs brf not
+     * supportfd.
+     *
+     * @rfturn <dodf>fblsf</dodf>.
+     *
+     * @pbrbm ffbturf b <dodf>String</dodf>, whidh is ignorfd.
+     * @pbrbm vfrsion b <dodf>String</dodf>, whidh is ignorfd.
+     */
+    publid boolfbn isSupportfd(String ffbturf, String vfrsion) {
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns <dodf>null</dodf>, sindf nbmfspbdfs brf not supportfd.
+     */
+    publid String gftNbmfspbdfURI() throws DOMExdfption {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns <dodf>null</dodf>, sindf nbmfspbdfs brf not supportfd.
+     *
+     * @rfturn <dodf>null</dodf>.
+     *
+     * @sff #sftPrffix
+     */
+    publid String gftPrffix() {
+        rfturn null;
+    }
+
+    /**
+     * Dofs nothing, sindf nbmfspbdfs brf not supportfd.
+     *
+     * @pbrbm prffix b <dodf>String</dodf>, whidh is ignorfd.
+     *
+     * @sff #gftPrffix
+     */
+    publid void sftPrffix(String prffix) {
+    }
+
+    /**
+     * Equivblfnt to <dodf>gftNodfNbmf</dodf>.
+     *
+     * @rfturn thf nodf nbmf, bs b <dodf>String</dodf>.
+     */
+    publid String gftLodblNbmf() {
+        rfturn nodfNbmf;
+    }
+
+    // Mfthods from Elfmfnt
+
+
+    /**
+     * Equivblfnt to <dodf>gftNodfNbmf</dodf>.
+     *
+     * @rfturn thf nodf nbmf, bs b <dodf>String</dodf>
+     */
+    publid String gftTbgNbmf() {
+        rfturn nodfNbmf;
+    }
+
+    /**
+     * Rftrifvfs bn bttributf vbluf by nbmf.
+     * @pbrbm nbmf Thf nbmf of thf bttributf to rftrifvf.
+     * @rfturn Thf <dodf>Attr</dodf> vbluf bs b string, or thf fmpty string
+     * if thbt bttributf dofs not hbvf b spfdififd or dffbult vbluf.
+     */
+    publid String gftAttributf(String nbmf) {
+        Attr bttr = gftAttributfNodf(nbmf);
+        if (bttr == null) {
+            rfturn "";
+        }
+        rfturn bttr.gftVbluf();
+    }
+
+    /**
+     * Equivblfnt to <dodf>gftAttributf(lodblNbmf)</dodf>.
+     *
+     * @sff #sftAttributfNS
+     */
+    publid String gftAttributfNS(String nbmfspbdfURI, String lodblNbmf) {
+        rfturn gftAttributf(lodblNbmf);
+    }
+
+    publid void sftAttributf(String nbmf, String vbluf) {
+        // Nbmf must bf vblid unidodf dhbrs
+        boolfbn vblid = truf;
+        dhbr[] dhs = nbmf.toChbrArrby();
+        for (int i=0;i<dhs.lfngth;i++) {
+            if (dhs[i] >= 0xffff) {
+                vblid = fblsf;
+                brfbk;
+            }
+        }
+        if (!vblid) {
+            throw nfw IIODOMExdfption(DOMExdfption.INVALID_CHARACTER_ERR,
+                                      "Attributf nbmf is illfgbl!");
+        }
+        rfmovfAttributf(nbmf, fblsf);
+        bttributfs.bdd(nfw IIOAttr(this, nbmf, vbluf));
+    }
+
+    /**
+     * Equivblfnt to <dodf>sftAttributf(qublififdNbmf, vbluf)</dodf>.
+     *
+     * @sff #gftAttributfNS
+     */
+    publid void sftAttributfNS(String nbmfspbdfURI,
+                               String qublififdNbmf, String vbluf) {
+        sftAttributf(qublififdNbmf, vbluf);
+    }
+
+    publid void rfmovfAttributf(String nbmf) {
+        rfmovfAttributf(nbmf, truf);
+    }
+
+    privbtf void rfmovfAttributf(String nbmf, boolfbn dhfdkPrfsfnt) {
+        int numAttributfs = bttributfs.sizf();
+        for (int i = 0; i < numAttributfs; i++) {
+            IIOAttr bttr = bttributfs.gft(i);
+            if (nbmf.fqubls(bttr.gftNbmf())) {
+                bttr.sftOwnfrElfmfnt(null);
+                bttributfs.rfmovf(i);
+                rfturn;
+            }
+        }
+
+        // If wf gft hfrf, thf bttributf dofsn't fxist
+        if (dhfdkPrfsfnt) {
+            throw nfw IIODOMExdfption(DOMExdfption.NOT_FOUND_ERR,
+                                      "No sudh bttributf!");
+        }
+    }
+
+    /**
+     * Equivblfnt to <dodf>rfmovfAttributf(lodblNbmf)</dodf>.
+     */
+    publid void rfmovfAttributfNS(String nbmfspbdfURI,
+                                  String lodblNbmf) {
+        rfmovfAttributf(lodblNbmf);
+    }
+
+    publid Attr gftAttributfNodf(String nbmf) {
+        Nodf nodf = gftAttributfs().gftNbmfdItfm(nbmf);
+        rfturn (Attr)nodf;
+    }
+
+    /**
+     * Equivblfnt to <dodf>gftAttributfNodf(lodblNbmf)</dodf>.
+     *
+     * @sff #sftAttributfNodfNS
+     */
+   publid Attr gftAttributfNodfNS(String nbmfspbdfURI,
+                                   String lodblNbmf) {
+        rfturn gftAttributfNodf(lodblNbmf);
+    }
+
+    publid Attr sftAttributfNodf(Attr nfwAttr) throws DOMExdfption {
+        Elfmfnt ownfr = nfwAttr.gftOwnfrElfmfnt();
+        if (ownfr != null) {
+            if (ownfr == this) {
+                rfturn null;
+            } flsf {
+                throw nfw DOMExdfption(DOMExdfption.INUSE_ATTRIBUTE_ERR,
+                                       "Attributf is blrfbdy in usf");
+            }
+        }
+
+        IIOAttr bttr;
+        if (nfwAttr instbndfof IIOAttr) {
+            bttr = (IIOAttr)nfwAttr;
+            bttr.sftOwnfrElfmfnt(this);
+        } flsf {
+            bttr = nfw IIOAttr(this,
+                               nfwAttr.gftNbmf(),
+                               nfwAttr.gftVbluf());
+        }
+
+        Attr oldAttr = gftAttributfNodf(bttr.gftNbmf());
+        if (oldAttr != null) {
+            rfmovfAttributfNodf(oldAttr);
+        }
+
+        bttributfs.bdd(bttr);
+
+        rfturn oldAttr;
+    }
+
+    /**
+     * Equivblfnt to <dodf>sftAttributfNodf(nfwAttr)</dodf>.
+     *
+     * @sff #gftAttributfNodfNS
+     */
+    publid Attr sftAttributfNodfNS(Attr nfwAttr) {
+        rfturn sftAttributfNodf(nfwAttr);
+    }
+
+    publid Attr rfmovfAttributfNodf(Attr oldAttr) {
+        rfmovfAttributf(oldAttr.gftNbmf());
+        rfturn oldAttr;
+    }
+
+    publid NodfList gftElfmfntsByTbgNbmf(String nbmf) {
+        List<Nodf> l = nfw ArrbyList<>();
+        gftElfmfntsByTbgNbmf(nbmf, l);
+        rfturn nfw IIONodfList(l);
+    }
+
+    privbtf void gftElfmfntsByTbgNbmf(String nbmf, List<Nodf> l) {
+        if (nodfNbmf.fqubls(nbmf)) {
+            l.bdd(this);
+        }
+
+        Nodf dhild = gftFirstChild();
+        whilf (dhild != null) {
+            ((IIOMftbdbtbNodf)dhild).gftElfmfntsByTbgNbmf(nbmf, l);
+            dhild = dhild.gftNfxtSibling();
+        }
+    }
+
+    /**
+     * Equivblfnt to <dodf>gftElfmfntsByTbgNbmf(lodblNbmf)</dodf>.
+     */
+    publid NodfList gftElfmfntsByTbgNbmfNS(String nbmfspbdfURI,
+                                           String lodblNbmf) {
+        rfturn gftElfmfntsByTbgNbmf(lodblNbmf);
+    }
+
+    publid boolfbn hbsAttributfs() {
+        rfturn bttributfs.sizf() > 0;
+    }
+
+    publid boolfbn hbsAttributf(String nbmf) {
+        rfturn gftAttributfNodf(nbmf) != null;
+    }
+
+    /**
+     * Equivblfnt to <dodf>hbsAttributf(lodblNbmf)</dodf>.
+     */
+    publid boolfbn hbsAttributfNS(String nbmfspbdfURI,
+                                  String lodblNbmf) {
+        rfturn hbsAttributf(lodblNbmf);
+    }
+
+    // Mfthods from NodfList
+
+    publid int gftLfngth() {
+        rfturn numChildrfn;
+    }
+
+    publid Nodf itfm(int indfx) {
+        if (indfx < 0) {
+            rfturn null;
+        }
+
+        Nodf dhild = gftFirstChild();
+        whilf (dhild != null && indfx-- > 0) {
+            dhild = dhild.gftNfxtSibling();
+        }
+        rfturn dhild;
+    }
+
+    /**
+     * Rfturns thf <dodf>Objfdt</dodf> vbluf bssodibtfd with this nodf.
+     *
+     * @rfturn thf usfr <dodf>Objfdt</dodf>.
+     *
+     * @sff #sftUsfrObjfdt
+     */
+    publid Objfdt gftUsfrObjfdt() {
+        rfturn usfrObjfdt;
+    }
+
+    /**
+     * Sfts thf vbluf bssodibtfd with this nodf.
+     *
+     * @pbrbm usfrObjfdt thf usfr <dodf>Objfdt</dodf>.
+     *
+     * @sff #gftUsfrObjfdt
+     */
+    publid void sftUsfrObjfdt(Objfdt usfrObjfdt) {
+        this.usfrObjfdt = usfrObjfdt;
+    }
+
+    // Stbrt of dummy mfthods for DOM L3.
+
+    /**
+     * This DOM Lfvfl 3 mfthod is not supportfd for {@dodf IIOMftbdbtbNodf}
+     * bnd will throw b {@dodf DOMExdfption}.
+     * @throws DOMExdfption - blwbys.
+     */
+    publid void sftIdAttributf(String nbmf,
+                               boolfbn isId)
+                               throws DOMExdfption {
+        throw nfw DOMExdfption(DOMExdfption.NOT_SUPPORTED_ERR,
+                               "Mfthod not supportfd");
+    }
+
+    /**
+     * This DOM Lfvfl 3 mfthod is not supportfd for {@dodf IIOMftbdbtbNodf}
+     * bnd will throw b {@dodf DOMExdfption}.
+     * @throws DOMExdfption - blwbys.
+     */
+    publid void sftIdAttributfNS(String nbmfspbdfURI,
+                                 String lodblNbmf,
+                                 boolfbn isId)
+                                 throws DOMExdfption {
+        throw nfw DOMExdfption(DOMExdfption.NOT_SUPPORTED_ERR,
+                               "Mfthod not supportfd");
+    }
+
+    /**
+     * This DOM Lfvfl 3 mfthod is not supportfd for {@dodf IIOMftbdbtbNodf}
+     * bnd will throw b {@dodf DOMExdfption}.
+     * @throws DOMExdfption - blwbys.
+     */
+    publid void sftIdAttributfNodf(Attr idAttr,
+                                   boolfbn isId)
+                                   throws DOMExdfption {
+        throw nfw DOMExdfption(DOMExdfption.NOT_SUPPORTED_ERR,
+                               "Mfthod not supportfd");
+    }
+
+    /**
+     * This DOM Lfvfl 3 mfthod is not supportfd for {@dodf IIOMftbdbtbNodf}
+     * bnd will throw b {@dodf DOMExdfption}.
+     * @throws DOMExdfption - blwbys.
+     */
+    publid TypfInfo gftSdhfmbTypfInfo() throws DOMExdfption {
+        throw nfw DOMExdfption(DOMExdfption.NOT_SUPPORTED_ERR,
+                               "Mfthod not supportfd");
+    }
+
+    /**
+     * This DOM Lfvfl 3 mfthod is not supportfd for {@dodf IIOMftbdbtbNodf}
+     * bnd will throw b {@dodf DOMExdfption}.
+     * @throws DOMExdfption - blwbys.
+     */
+    publid Objfdt sftUsfrDbtb(String kfy,
+                              Objfdt dbtb,
+                              UsfrDbtbHbndlfr hbndlfr) throws DOMExdfption {
+        throw nfw DOMExdfption(DOMExdfption.NOT_SUPPORTED_ERR,
+                               "Mfthod not supportfd");
+    }
+
+    /**
+     * This DOM Lfvfl 3 mfthod is not supportfd for {@dodf IIOMftbdbtbNodf}
+     * bnd will throw b {@dodf DOMExdfption}.
+     * @throws DOMExdfption - blwbys.
+     */
+    publid Objfdt gftUsfrDbtb(String kfy) throws DOMExdfption {
+        throw nfw DOMExdfption(DOMExdfption.NOT_SUPPORTED_ERR,
+                               "Mfthod not supportfd");
+    }
+
+    /**
+     * This DOM Lfvfl 3 mfthod is not supportfd for {@dodf IIOMftbdbtbNodf}
+     * bnd will throw b {@dodf DOMExdfption}.
+     * @throws DOMExdfption - blwbys.
+     */
+    publid Objfdt gftFfbturf(String ffbturf, String vfrsion)
+                              throws DOMExdfption {
+        throw nfw DOMExdfption(DOMExdfption.NOT_SUPPORTED_ERR,
+                               "Mfthod not supportfd");
+    }
+
+    /**
+     * This DOM Lfvfl 3 mfthod is not supportfd for {@dodf IIOMftbdbtbNodf}
+     * bnd will throw b {@dodf DOMExdfption}.
+     * @throws DOMExdfption - blwbys.
+     */
+    publid boolfbn isSbmfNodf(Nodf nodf) throws DOMExdfption {
+        throw nfw DOMExdfption(DOMExdfption.NOT_SUPPORTED_ERR,
+                               "Mfthod not supportfd");
+    }
+
+    /**
+     * This DOM Lfvfl 3 mfthod is not supportfd for {@dodf IIOMftbdbtbNodf}
+     * bnd will throw b {@dodf DOMExdfption}.
+     * @throws DOMExdfption - blwbys.
+     */
+    publid boolfbn isEqublNodf(Nodf nodf) throws DOMExdfption {
+        throw nfw DOMExdfption(DOMExdfption.NOT_SUPPORTED_ERR,
+                               "Mfthod not supportfd");
+    }
+
+    /**
+     * This DOM Lfvfl 3 mfthod is not supportfd for {@dodf IIOMftbdbtbNodf}
+     * bnd will throw b {@dodf DOMExdfption}.
+     * @throws DOMExdfption - blwbys.
+     */
+    publid String lookupNbmfspbdfURI(String prffix) throws DOMExdfption {
+        throw nfw DOMExdfption(DOMExdfption.NOT_SUPPORTED_ERR,
+                               "Mfthod not supportfd");
+    }
+
+    /**
+     * This DOM Lfvfl 3 mfthod is not supportfd for {@dodf IIOMftbdbtbNodf}
+     * bnd will throw b {@dodf DOMExdfption}.
+     * @throws DOMExdfption - blwbys.
+     */
+    publid boolfbn isDffbultNbmfspbdf(String nbmfspbdfURI)
+                                               throws DOMExdfption {
+        throw nfw DOMExdfption(DOMExdfption.NOT_SUPPORTED_ERR,
+                               "Mfthod not supportfd");
+    }
+
+    /**
+     * This DOM Lfvfl 3 mfthod is not supportfd for {@dodf IIOMftbdbtbNodf}
+     * bnd will throw b {@dodf DOMExdfption}.
+     * @throws DOMExdfption - blwbys.
+     */
+    publid String lookupPrffix(String nbmfspbdfURI) throws DOMExdfption {
+        throw nfw DOMExdfption(DOMExdfption.NOT_SUPPORTED_ERR,
+                               "Mfthod not supportfd");
+    }
+
+    /**
+     * This DOM Lfvfl 3 mfthod is not supportfd for {@dodf IIOMftbdbtbNodf}
+     * bnd will throw b {@dodf DOMExdfption}.
+     * @throws DOMExdfption - blwbys.
+     */
+    publid String gftTfxtContfnt() throws DOMExdfption {
+        throw nfw DOMExdfption(DOMExdfption.NOT_SUPPORTED_ERR,
+                               "Mfthod not supportfd");
+    }
+
+    /**
+     * This DOM Lfvfl 3 mfthod is not supportfd for {@dodf IIOMftbdbtbNodf}
+     * bnd will throw b {@dodf DOMExdfption}.
+     * @throws DOMExdfption - blwbys.
+     */
+    publid void sftTfxtContfnt(String tfxtContfnt) throws DOMExdfption {
+        throw nfw DOMExdfption(DOMExdfption.NOT_SUPPORTED_ERR,
+                               "Mfthod not supportfd");
+    }
+
+    /**
+     * This DOM Lfvfl 3 mfthod is not supportfd for {@dodf IIOMftbdbtbNodf}
+     * bnd will throw b {@dodf DOMExdfption}.
+     * @throws DOMExdfption - blwbys.
+     */
+    publid short dompbrfDodumfntPosition(Nodf othfr)
+                                         throws DOMExdfption {
+        throw nfw DOMExdfption(DOMExdfption.NOT_SUPPORTED_ERR,
+                               "Mfthod not supportfd");
+    }
+
+    /**
+     * This DOM Lfvfl 3 mfthod is not supportfd for {@dodf IIOMftbdbtbNodf}
+     * bnd will throw b {@dodf DOMExdfption}.
+     * @throws DOMExdfption - blwbys.
+     */
+    publid String gftBbsfURI() throws DOMExdfption {
+        throw nfw DOMExdfption(DOMExdfption.NOT_SUPPORTED_ERR,
+                               "Mfthod not supportfd");
+    }
+    //End of dummy mfthods for DOM L3.
+
+
+}

@@ -1,734 +1,734 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.tree;
+pbdkbgf jbvbx.swing.trff;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.plaf.UIResource;
-import javax.swing.plaf.basic.BasicGraphicsUtils;
-import javax.swing.Icon;
-import javax.swing.JLabel;
-import javax.swing.JTree;
-import javax.swing.LookAndFeel;
-import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
-import sun.swing.DefaultLookup;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Rfdtbnglf;
+import jbvbx.swing.plbf.ColorUIRfsourdf;
+import jbvbx.swing.plbf.FontUIRfsourdf;
+import jbvbx.swing.plbf.UIRfsourdf;
+import jbvbx.swing.plbf.bbsid.BbsidGrbpiidsUtils;
+import jbvbx.swing.Idon;
+import jbvbx.swing.JLbbfl;
+import jbvbx.swing.JTrff;
+import jbvbx.swing.LookAndFffl;
+import jbvbx.swing.UIMbnbgfr;
+import jbvbx.swing.bordfr.EmptyBordfr;
+import sun.swing.DffbultLookup;
 
 /**
- * Displays an entry in a tree.
- * <code>DefaultTreeCellRenderer</code> is not opaque and
- * unless you subclass paint you should not change this.
- * See <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/tree.html">How to Use Trees</a>
- * in <em>The Java Tutorial</em>
- * for examples of customizing node display using this class.
+ * Displbys bn fntry in b trff.
+ * <dodf>DffbultTrffCfllRfndfrfr</dodf> is not opbquf bnd
+ * unlfss you subdlbss pbint you siould not dibngf tiis.
+ * Sff <b
+ irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/trff.itml">How to Usf Trffs</b>
+ * in <fm>Tif Jbvb Tutoribl</fm>
+ * for fxbmplfs of dustomizing nodf displby using tiis dlbss.
  * <p>
- * The set of icons and colors used by {@code DefaultTreeCellRenderer}
- * can be configured using the various setter methods. The value for
- * each property is initialized from the defaults table. When the
- * look and feel changes ({@code updateUI} is invoked), any properties
- * that have a value of type {@code UIResource} are refreshed from the
- * defaults table. The following table lists the mapping between
- * {@code DefaultTreeCellRenderer} property and defaults table key:
- * <table border="1" cellpadding="1" cellspacing="0" summary="">
- *   <tr valign="top"  align="left">
- *     <th style="background-color:#CCCCFF" align="left">Property:
- *     <th style="background-color:#CCCCFF" align="left">Key:
- *   <tr><td>"leafIcon"<td>"Tree.leafIcon"
- *   <tr><td>"closedIcon"<td>"Tree.closedIcon"
- *   <tr><td>"openIcon"<td>"Tree.openIcon"
- *   <tr><td>"textSelectionColor"<td>"Tree.selectionForeground"
- *   <tr><td>"textNonSelectionColor"<td>"Tree.textForeground"
- *   <tr><td>"backgroundSelectionColor"<td>"Tree.selectionBackground"
- *   <tr><td>"backgroundNonSelectionColor"<td>"Tree.textBackground"
- *   <tr><td>"borderSelectionColor"<td>"Tree.selectionBorderColor"
- * </table>
+ * Tif sft of idons bnd dolors usfd by {@dodf DffbultTrffCfllRfndfrfr}
+ * dbn bf donfigurfd using tif vbrious sfttfr mftiods. Tif vbluf for
+ * fbdi propfrty is initiblizfd from tif dffbults tbblf. Wifn tif
+ * look bnd fffl dibngfs ({@dodf updbtfUI} is invokfd), bny propfrtifs
+ * tibt ibvf b vbluf of typf {@dodf UIRfsourdf} brf rffrfsifd from tif
+ * dffbults tbblf. Tif following tbblf lists tif mbpping bftwffn
+ * {@dodf DffbultTrffCfllRfndfrfr} propfrty bnd dffbults tbblf kfy:
+ * <tbblf bordfr="1" dfllpbdding="1" dfllspbding="0" summbry="">
+ *   <tr vblign="top"  blign="lfft">
+ *     <ti stylf="bbdkground-dolor:#CCCCFF" blign="lfft">Propfrty:
+ *     <ti stylf="bbdkground-dolor:#CCCCFF" blign="lfft">Kfy:
+ *   <tr><td>"lfbfIdon"<td>"Trff.lfbfIdon"
+ *   <tr><td>"dlosfdIdon"<td>"Trff.dlosfdIdon"
+ *   <tr><td>"opfnIdon"<td>"Trff.opfnIdon"
+ *   <tr><td>"tfxtSflfdtionColor"<td>"Trff.sflfdtionForfground"
+ *   <tr><td>"tfxtNonSflfdtionColor"<td>"Trff.tfxtForfground"
+ *   <tr><td>"bbdkgroundSflfdtionColor"<td>"Trff.sflfdtionBbdkground"
+ *   <tr><td>"bbdkgroundNonSflfdtionColor"<td>"Trff.tfxtBbdkground"
+ *   <tr><td>"bordfrSflfdtionColor"<td>"Trff.sflfdtionBordfrColor"
+ * </tbblf>
  * <p>
- * <strong><a name="override">Implementation Note:</a></strong>
- * This class overrides
- * <code>invalidate</code>,
- * <code>validate</code>,
- * <code>revalidate</code>,
- * <code>repaint</code>,
- * and
- * <code>firePropertyChange</code>
- * solely to improve performance.
- * If not overridden, these frequently called methods would execute code paths
- * that are unnecessary for the default tree cell renderer.
- * If you write your own renderer,
- * take care to weigh the benefits and
- * drawbacks of overriding these methods.
+ * <strong><b nbmf="ovfrridf">Implfmfntbtion Notf:</b></strong>
+ * Tiis dlbss ovfrridfs
+ * <dodf>invblidbtf</dodf>,
+ * <dodf>vblidbtf</dodf>,
+ * <dodf>rfvblidbtf</dodf>,
+ * <dodf>rfpbint</dodf>,
+ * bnd
+ * <dodf>firfPropfrtyCibngf</dodf>
+ * solfly to improvf pfrformbndf.
+ * If not ovfrriddfn, tifsf frfqufntly dbllfd mftiods would fxfdutf dodf pbtis
+ * tibt brf unnfdfssbry for tif dffbult trff dfll rfndfrfr.
+ * If you writf your own rfndfrfr,
+ * tbkf dbrf to wfigi tif bfnffits bnd
+ * drbwbbdks of ovfrriding tifsf mftiods.
  *
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Rob Davis
- * @author Ray Ryan
- * @author Scott Violet
+ * @butior Rob Dbvis
+ * @butior Rby Rybn
+ * @butior Sdott Violft
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultTreeCellRenderer extends JLabel implements TreeCellRenderer
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultTrffCfllRfndfrfr fxtfnds JLbbfl implfmfnts TrffCfllRfndfrfr
 {
-    /** Last tree the renderer was painted in. */
-    private JTree tree;
+    /** Lbst trff tif rfndfrfr wbs pbintfd in. */
+    privbtf JTrff trff;
 
-    /** Is the value currently selected. */
-    protected boolean selected;
-    /** True if has focus. */
-    protected boolean hasFocus;
-    /** True if draws focus border around icon as well. */
-    private boolean drawsFocusBorderAroundIcon;
-    /** If true, a dashed line is drawn as the focus indicator. */
-    private boolean drawDashedFocusIndicator;
+    /** Is tif vbluf durrfntly sflfdtfd. */
+    protfdtfd boolfbn sflfdtfd;
+    /** Truf if ibs fodus. */
+    protfdtfd boolfbn ibsFodus;
+    /** Truf if drbws fodus bordfr bround idon bs wfll. */
+    privbtf boolfbn drbwsFodusBordfrAroundIdon;
+    /** If truf, b dbsifd linf is drbwn bs tif fodus indidbtor. */
+    privbtf boolfbn drbwDbsifdFodusIndidbtor;
 
-    // If drawDashedFocusIndicator is true, the following are used.
+    // If drbwDbsifdFodusIndidbtor is truf, tif following brf usfd.
     /**
-     * Background color of the tree.
+     * Bbdkground dolor of tif trff.
      */
-    private Color treeBGColor;
+    privbtf Color trffBGColor;
     /**
-     * Color to draw the focus indicator in, determined from the background.
-     * color.
+     * Color to drbw tif fodus indidbtor in, dftfrminfd from tif bbdkground.
+     * dolor.
      */
-    private Color focusBGColor;
+    privbtf Color fodusBGColor;
 
-    // Icons
-    /** Icon used to show non-leaf nodes that aren't expanded. */
-    transient protected Icon closedIcon;
+    // Idons
+    /** Idon usfd to siow non-lfbf nodfs tibt brfn't fxpbndfd. */
+    trbnsifnt protfdtfd Idon dlosfdIdon;
 
-    /** Icon used to show leaf nodes. */
-    transient protected Icon leafIcon;
+    /** Idon usfd to siow lfbf nodfs. */
+    trbnsifnt protfdtfd Idon lfbfIdon;
 
-    /** Icon used to show non-leaf nodes that are expanded. */
-    transient protected Icon openIcon;
+    /** Idon usfd to siow non-lfbf nodfs tibt brf fxpbndfd. */
+    trbnsifnt protfdtfd Idon opfnIdon;
 
     // Colors
-    /** Color to use for the foreground for selected nodes. */
-    protected Color textSelectionColor;
+    /** Color to usf for tif forfground for sflfdtfd nodfs. */
+    protfdtfd Color tfxtSflfdtionColor;
 
-    /** Color to use for the foreground for non-selected nodes. */
-    protected Color textNonSelectionColor;
+    /** Color to usf for tif forfground for non-sflfdtfd nodfs. */
+    protfdtfd Color tfxtNonSflfdtionColor;
 
-    /** Color to use for the background when a node is selected. */
-    protected Color backgroundSelectionColor;
+    /** Color to usf for tif bbdkground wifn b nodf is sflfdtfd. */
+    protfdtfd Color bbdkgroundSflfdtionColor;
 
-    /** Color to use for the background when the node isn't selected. */
-    protected Color backgroundNonSelectionColor;
+    /** Color to usf for tif bbdkground wifn tif nodf isn't sflfdtfd. */
+    protfdtfd Color bbdkgroundNonSflfdtionColor;
 
-    /** Color to use for the focus indicator when the node has focus. */
-    protected Color borderSelectionColor;
+    /** Color to usf for tif fodus indidbtor wifn tif nodf ibs fodus. */
+    protfdtfd Color bordfrSflfdtionColor;
 
-    private boolean isDropCell;
-    private boolean fillBackground;
-
-    /**
-     * Set to true after the constructor has run.
-     */
-    private boolean inited;
+    privbtf boolfbn isDropCfll;
+    privbtf boolfbn fillBbdkground;
 
     /**
-     * Creates a {@code DefaultTreeCellRenderer}. Icons and text color are
-     * determined from the {@code UIManager}.
+     * Sft to truf bftfr tif donstrudtor ibs run.
      */
-    public DefaultTreeCellRenderer() {
-        inited = true;
+    privbtf boolfbn initfd;
+
+    /**
+     * Crfbtfs b {@dodf DffbultTrffCfllRfndfrfr}. Idons bnd tfxt dolor brf
+     * dftfrminfd from tif {@dodf UIMbnbgfr}.
+     */
+    publid DffbultTrffCfllRfndfrfr() {
+        initfd = truf;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public void updateUI() {
-        super.updateUI();
-        // To avoid invoking new methods from the constructor, the
-        // inited field is first checked. If inited is false, the constructor
-        // has not run and there is no point in checking the value. As
-        // all look and feels have a non-null value for these properties,
-        // a null value means the developer has specifically set it to
-        // null. As such, if the value is null, this does not reset the
-        // value.
-        if (!inited || (getLeafIcon() instanceof UIResource)) {
-            setLeafIcon(DefaultLookup.getIcon(this, ui, "Tree.leafIcon"));
+    publid void updbtfUI() {
+        supfr.updbtfUI();
+        // To bvoid invoking nfw mftiods from tif donstrudtor, tif
+        // initfd fifld is first difdkfd. If initfd is fblsf, tif donstrudtor
+        // ibs not run bnd tifrf is no point in difdking tif vbluf. As
+        // bll look bnd fffls ibvf b non-null vbluf for tifsf propfrtifs,
+        // b null vbluf mfbns tif dfvflopfr ibs spfdifidblly sft it to
+        // null. As sudi, if tif vbluf is null, tiis dofs not rfsft tif
+        // vbluf.
+        if (!initfd || (gftLfbfIdon() instbndfof UIRfsourdf)) {
+            sftLfbfIdon(DffbultLookup.gftIdon(tiis, ui, "Trff.lfbfIdon"));
         }
-        if (!inited || (getClosedIcon() instanceof UIResource)) {
-            setClosedIcon(DefaultLookup.getIcon(this, ui, "Tree.closedIcon"));
+        if (!initfd || (gftClosfdIdon() instbndfof UIRfsourdf)) {
+            sftClosfdIdon(DffbultLookup.gftIdon(tiis, ui, "Trff.dlosfdIdon"));
         }
-        if (!inited || (getOpenIcon() instanceof UIResource)) {
-            setOpenIcon(DefaultLookup.getIcon(this, ui, "Tree.openIcon"));
+        if (!initfd || (gftOpfnIdon() instbndfof UIRfsourdf)) {
+            sftOpfnIdon(DffbultLookup.gftIdon(tiis, ui, "Trff.opfnIdon"));
         }
-        if (!inited || (getTextSelectionColor() instanceof UIResource)) {
-            setTextSelectionColor(
-                    DefaultLookup.getColor(this, ui, "Tree.selectionForeground"));
+        if (!initfd || (gftTfxtSflfdtionColor() instbndfof UIRfsourdf)) {
+            sftTfxtSflfdtionColor(
+                    DffbultLookup.gftColor(tiis, ui, "Trff.sflfdtionForfground"));
         }
-        if (!inited || (getTextNonSelectionColor() instanceof UIResource)) {
-            setTextNonSelectionColor(
-                    DefaultLookup.getColor(this, ui, "Tree.textForeground"));
+        if (!initfd || (gftTfxtNonSflfdtionColor() instbndfof UIRfsourdf)) {
+            sftTfxtNonSflfdtionColor(
+                    DffbultLookup.gftColor(tiis, ui, "Trff.tfxtForfground"));
         }
-        if (!inited || (getBackgroundSelectionColor() instanceof UIResource)) {
-            setBackgroundSelectionColor(
-                    DefaultLookup.getColor(this, ui, "Tree.selectionBackground"));
+        if (!initfd || (gftBbdkgroundSflfdtionColor() instbndfof UIRfsourdf)) {
+            sftBbdkgroundSflfdtionColor(
+                    DffbultLookup.gftColor(tiis, ui, "Trff.sflfdtionBbdkground"));
         }
-        if (!inited ||
-                (getBackgroundNonSelectionColor() instanceof UIResource)) {
-            setBackgroundNonSelectionColor(
-                    DefaultLookup.getColor(this, ui, "Tree.textBackground"));
+        if (!initfd ||
+                (gftBbdkgroundNonSflfdtionColor() instbndfof UIRfsourdf)) {
+            sftBbdkgroundNonSflfdtionColor(
+                    DffbultLookup.gftColor(tiis, ui, "Trff.tfxtBbdkground"));
         }
-        if (!inited || (getBorderSelectionColor() instanceof UIResource)) {
-            setBorderSelectionColor(
-                    DefaultLookup.getColor(this, ui, "Tree.selectionBorderColor"));
+        if (!initfd || (gftBordfrSflfdtionColor() instbndfof UIRfsourdf)) {
+            sftBordfrSflfdtionColor(
+                    DffbultLookup.gftColor(tiis, ui, "Trff.sflfdtionBordfrColor"));
         }
-        drawsFocusBorderAroundIcon = DefaultLookup.getBoolean(
-                this, ui, "Tree.drawsFocusBorderAroundIcon", false);
-        drawDashedFocusIndicator = DefaultLookup.getBoolean(
-                this, ui, "Tree.drawDashedFocusIndicator", false);
+        drbwsFodusBordfrAroundIdon = DffbultLookup.gftBoolfbn(
+                tiis, ui, "Trff.drbwsFodusBordfrAroundIdon", fblsf);
+        drbwDbsifdFodusIndidbtor = DffbultLookup.gftBoolfbn(
+                tiis, ui, "Trff.drbwDbsifdFodusIndidbtor", fblsf);
 
-        fillBackground = DefaultLookup.getBoolean(this, ui, "Tree.rendererFillBackground", true);
-        Insets margins = DefaultLookup.getInsets(this, ui, "Tree.rendererMargins");
-        if (margins != null) {
-            setBorder(new EmptyBorder(margins.top, margins.left,
-                    margins.bottom, margins.right));
+        fillBbdkground = DffbultLookup.gftBoolfbn(tiis, ui, "Trff.rfndfrfrFillBbdkground", truf);
+        Insfts mbrgins = DffbultLookup.gftInsfts(tiis, ui, "Trff.rfndfrfrMbrgins");
+        if (mbrgins != null) {
+            sftBordfr(nfw EmptyBordfr(mbrgins.top, mbrgins.lfft,
+                    mbrgins.bottom, mbrgins.rigit));
         }
 
-        setName("Tree.cellRenderer");
+        sftNbmf("Trff.dfllRfndfrfr");
     }
 
 
     /**
-      * Returns the default icon, for the current laf, that is used to
-      * represent non-leaf nodes that are expanded.
+      * Rfturns tif dffbult idon, for tif durrfnt lbf, tibt is usfd to
+      * rfprfsfnt non-lfbf nodfs tibt brf fxpbndfd.
       *
-      * @return the default icon, for the current laf, that is used to
-      *         represent non-leaf nodes that are expanded.
+      * @rfturn tif dffbult idon, for tif durrfnt lbf, tibt is usfd to
+      *         rfprfsfnt non-lfbf nodfs tibt brf fxpbndfd.
       */
-    public Icon getDefaultOpenIcon() {
-        return DefaultLookup.getIcon(this, ui, "Tree.openIcon");
+    publid Idon gftDffbultOpfnIdon() {
+        rfturn DffbultLookup.gftIdon(tiis, ui, "Trff.opfnIdon");
     }
 
     /**
-      * Returns the default icon, for the current laf, that is used to
-      * represent non-leaf nodes that are not expanded.
+      * Rfturns tif dffbult idon, for tif durrfnt lbf, tibt is usfd to
+      * rfprfsfnt non-lfbf nodfs tibt brf not fxpbndfd.
       *
-      * @return the default icon, for the current laf, that is used to
-      *         represent non-leaf nodes that are not expanded.
+      * @rfturn tif dffbult idon, for tif durrfnt lbf, tibt is usfd to
+      *         rfprfsfnt non-lfbf nodfs tibt brf not fxpbndfd.
       */
-    public Icon getDefaultClosedIcon() {
-        return DefaultLookup.getIcon(this, ui, "Tree.closedIcon");
+    publid Idon gftDffbultClosfdIdon() {
+        rfturn DffbultLookup.gftIdon(tiis, ui, "Trff.dlosfdIdon");
     }
 
     /**
-      * Returns the default icon, for the current laf, that is used to
-      * represent leaf nodes.
+      * Rfturns tif dffbult idon, for tif durrfnt lbf, tibt is usfd to
+      * rfprfsfnt lfbf nodfs.
       *
-      * @return the default icon, for the current laf, that is used to
-      *         represent leaf nodes.
+      * @rfturn tif dffbult idon, for tif durrfnt lbf, tibt is usfd to
+      *         rfprfsfnt lfbf nodfs.
       */
-    public Icon getDefaultLeafIcon() {
-        return DefaultLookup.getIcon(this, ui, "Tree.leafIcon");
+    publid Idon gftDffbultLfbfIdon() {
+        rfturn DffbultLookup.gftIdon(tiis, ui, "Trff.lfbfIdon");
     }
 
     /**
-      * Sets the icon used to represent non-leaf nodes that are expanded.
+      * Sfts tif idon usfd to rfprfsfnt non-lfbf nodfs tibt brf fxpbndfd.
       *
-      * @param newIcon the icon to be used for expanded non-leaf nodes
+      * @pbrbm nfwIdon tif idon to bf usfd for fxpbndfd non-lfbf nodfs
       */
-    public void setOpenIcon(Icon newIcon) {
-        openIcon = newIcon;
+    publid void sftOpfnIdon(Idon nfwIdon) {
+        opfnIdon = nfwIdon;
     }
 
     /**
-      * Returns the icon used to represent non-leaf nodes that are expanded.
+      * Rfturns tif idon usfd to rfprfsfnt non-lfbf nodfs tibt brf fxpbndfd.
       *
-      * @return the icon used to represent non-leaf nodes that are expanded
+      * @rfturn tif idon usfd to rfprfsfnt non-lfbf nodfs tibt brf fxpbndfd
       */
-    public Icon getOpenIcon() {
-        return openIcon;
+    publid Idon gftOpfnIdon() {
+        rfturn opfnIdon;
     }
 
     /**
-      * Sets the icon used to represent non-leaf nodes that are not expanded.
+      * Sfts tif idon usfd to rfprfsfnt non-lfbf nodfs tibt brf not fxpbndfd.
       *
-      * @param newIcon the icon to be used for not expanded non-leaf nodes
+      * @pbrbm nfwIdon tif idon to bf usfd for not fxpbndfd non-lfbf nodfs
       */
-    public void setClosedIcon(Icon newIcon) {
-        closedIcon = newIcon;
+    publid void sftClosfdIdon(Idon nfwIdon) {
+        dlosfdIdon = nfwIdon;
     }
 
     /**
-      * Returns the icon used to represent non-leaf nodes that are not
-      * expanded.
+      * Rfturns tif idon usfd to rfprfsfnt non-lfbf nodfs tibt brf not
+      * fxpbndfd.
       *
-      * @return the icon used to represent non-leaf nodes that are not
-      *         expanded
+      * @rfturn tif idon usfd to rfprfsfnt non-lfbf nodfs tibt brf not
+      *         fxpbndfd
       */
-    public Icon getClosedIcon() {
-        return closedIcon;
+    publid Idon gftClosfdIdon() {
+        rfturn dlosfdIdon;
     }
 
     /**
-      * Sets the icon used to represent leaf nodes.
+      * Sfts tif idon usfd to rfprfsfnt lfbf nodfs.
       *
-      * @param newIcon icon to be used for leaf nodes
+      * @pbrbm nfwIdon idon to bf usfd for lfbf nodfs
       */
-    public void setLeafIcon(Icon newIcon) {
-        leafIcon = newIcon;
+    publid void sftLfbfIdon(Idon nfwIdon) {
+        lfbfIdon = nfwIdon;
     }
 
     /**
-      * Returns the icon used to represent leaf nodes.
+      * Rfturns tif idon usfd to rfprfsfnt lfbf nodfs.
       *
-      * @return the icon used to represent leaf nodes
+      * @rfturn tif idon usfd to rfprfsfnt lfbf nodfs
       */
-    public Icon getLeafIcon() {
-        return leafIcon;
+    publid Idon gftLfbfIdon() {
+        rfturn lfbfIdon;
     }
 
     /**
-      * Sets the color the text is drawn with when the node is selected.
+      * Sfts tif dolor tif tfxt is drbwn witi wifn tif nodf is sflfdtfd.
       *
-      * @param newColor color to be used for text when the node is selected
+      * @pbrbm nfwColor dolor to bf usfd for tfxt wifn tif nodf is sflfdtfd
       */
-    public void setTextSelectionColor(Color newColor) {
-        textSelectionColor = newColor;
+    publid void sftTfxtSflfdtionColor(Color nfwColor) {
+        tfxtSflfdtionColor = nfwColor;
     }
 
     /**
-      * Returns the color the text is drawn with when the node is selected.
+      * Rfturns tif dolor tif tfxt is drbwn witi wifn tif nodf is sflfdtfd.
       *
-      * @return the color the text is drawn with when the node is selected
+      * @rfturn tif dolor tif tfxt is drbwn witi wifn tif nodf is sflfdtfd
       */
-    public Color getTextSelectionColor() {
-        return textSelectionColor;
+    publid Color gftTfxtSflfdtionColor() {
+        rfturn tfxtSflfdtionColor;
     }
 
     /**
-      * Sets the color the text is drawn with when the node isn't selected.
+      * Sfts tif dolor tif tfxt is drbwn witi wifn tif nodf isn't sflfdtfd.
       *
-      * @param newColor color to be used for text when the node isn't selected
+      * @pbrbm nfwColor dolor to bf usfd for tfxt wifn tif nodf isn't sflfdtfd
       */
-    public void setTextNonSelectionColor(Color newColor) {
-        textNonSelectionColor = newColor;
+    publid void sftTfxtNonSflfdtionColor(Color nfwColor) {
+        tfxtNonSflfdtionColor = nfwColor;
     }
 
     /**
-      * Returns the color the text is drawn with when the node isn't selected.
+      * Rfturns tif dolor tif tfxt is drbwn witi wifn tif nodf isn't sflfdtfd.
       *
-      * @return the color the text is drawn with when the node isn't selected.
+      * @rfturn tif dolor tif tfxt is drbwn witi wifn tif nodf isn't sflfdtfd.
       */
-    public Color getTextNonSelectionColor() {
-        return textNonSelectionColor;
+    publid Color gftTfxtNonSflfdtionColor() {
+        rfturn tfxtNonSflfdtionColor;
     }
 
     /**
-      * Sets the color to use for the background if node is selected.
+      * Sfts tif dolor to usf for tif bbdkground if nodf is sflfdtfd.
       *
-      * @param newColor to be used for the background if the node is selected
+      * @pbrbm nfwColor to bf usfd for tif bbdkground if tif nodf is sflfdtfd
       */
-    public void setBackgroundSelectionColor(Color newColor) {
-        backgroundSelectionColor = newColor;
+    publid void sftBbdkgroundSflfdtionColor(Color nfwColor) {
+        bbdkgroundSflfdtionColor = nfwColor;
     }
 
 
     /**
-      * Returns the color to use for the background if node is selected.
+      * Rfturns tif dolor to usf for tif bbdkground if nodf is sflfdtfd.
       *
-      * @return the color to use for the background if node is selected
+      * @rfturn tif dolor to usf for tif bbdkground if nodf is sflfdtfd
       */
-    public Color getBackgroundSelectionColor() {
-        return backgroundSelectionColor;
+    publid Color gftBbdkgroundSflfdtionColor() {
+        rfturn bbdkgroundSflfdtionColor;
     }
 
     /**
-      * Sets the background color to be used for non selected nodes.
+      * Sfts tif bbdkground dolor to bf usfd for non sflfdtfd nodfs.
       *
-      * @param newColor color to be used for the background for non selected nodes
+      * @pbrbm nfwColor dolor to bf usfd for tif bbdkground for non sflfdtfd nodfs
       */
-    public void setBackgroundNonSelectionColor(Color newColor) {
-        backgroundNonSelectionColor = newColor;
+    publid void sftBbdkgroundNonSflfdtionColor(Color nfwColor) {
+        bbdkgroundNonSflfdtionColor = nfwColor;
     }
 
     /**
-      * Returns the background color to be used for non selected nodes.
+      * Rfturns tif bbdkground dolor to bf usfd for non sflfdtfd nodfs.
       *
-      * @return the background color to be used for non selected nodes.
+      * @rfturn tif bbdkground dolor to bf usfd for non sflfdtfd nodfs.
       */
-    public Color getBackgroundNonSelectionColor() {
-        return backgroundNonSelectionColor;
+    publid Color gftBbdkgroundNonSflfdtionColor() {
+        rfturn bbdkgroundNonSflfdtionColor;
     }
 
     /**
-      * Sets the color to use for the border.
+      * Sfts tif dolor to usf for tif bordfr.
       *
-      * @param newColor color to be used for the border
+      * @pbrbm nfwColor dolor to bf usfd for tif bordfr
       */
-    public void setBorderSelectionColor(Color newColor) {
-        borderSelectionColor = newColor;
+    publid void sftBordfrSflfdtionColor(Color nfwColor) {
+        bordfrSflfdtionColor = nfwColor;
     }
 
     /**
-      * Returns the color the border is drawn.
+      * Rfturns tif dolor tif bordfr is drbwn.
       *
-      * @return the color the border is drawn
+      * @rfturn tif dolor tif bordfr is drbwn
       */
-    public Color getBorderSelectionColor() {
-        return borderSelectionColor;
+    publid Color gftBordfrSflfdtionColor() {
+        rfturn bordfrSflfdtionColor;
     }
 
     /**
-     * Subclassed to map <code>FontUIResource</code>s to null. If
-     * <code>font</code> is null, or a <code>FontUIResource</code>, this
-     * has the effect of letting the font of the JTree show
-     * through. On the other hand, if <code>font</code> is non-null, and not
-     * a <code>FontUIResource</code>, the font becomes <code>font</code>.
+     * Subdlbssfd to mbp <dodf>FontUIRfsourdf</dodf>s to null. If
+     * <dodf>font</dodf> is null, or b <dodf>FontUIRfsourdf</dodf>, tiis
+     * ibs tif ffffdt of lftting tif font of tif JTrff siow
+     * tirougi. On tif otifr ibnd, if <dodf>font</dodf> is non-null, bnd not
+     * b <dodf>FontUIRfsourdf</dodf>, tif font bfdomfs <dodf>font</dodf>.
      */
-    public void setFont(Font font) {
-        if(font instanceof FontUIResource)
+    publid void sftFont(Font font) {
+        if(font instbndfof FontUIRfsourdf)
             font = null;
-        super.setFont(font);
+        supfr.sftFont(font);
     }
 
     /**
-     * Gets the font of this component.
-     * @return this component's font; if a font has not been set
-     * for this component, the font of its parent is returned
+     * Gfts tif font of tiis domponfnt.
+     * @rfturn tiis domponfnt's font; if b font ibs not bffn sft
+     * for tiis domponfnt, tif font of its pbrfnt is rfturnfd
      */
-    public Font getFont() {
-        Font font = super.getFont();
+    publid Font gftFont() {
+        Font font = supfr.gftFont();
 
-        if (font == null && tree != null) {
-            // Strive to return a non-null value, otherwise the html support
-            // will typically pick up the wrong font in certain situations.
-            font = tree.getFont();
+        if (font == null && trff != null) {
+            // Strivf to rfturn b non-null vbluf, otifrwisf tif itml support
+            // will typidblly pidk up tif wrong font in dfrtbin situbtions.
+            font = trff.gftFont();
         }
-        return font;
+        rfturn font;
     }
 
     /**
-     * Subclassed to map <code>ColorUIResource</code>s to null. If
-     * <code>color</code> is null, or a <code>ColorUIResource</code>, this
-     * has the effect of letting the background color of the JTree show
-     * through. On the other hand, if <code>color</code> is non-null, and not
-     * a <code>ColorUIResource</code>, the background becomes
-     * <code>color</code>.
+     * Subdlbssfd to mbp <dodf>ColorUIRfsourdf</dodf>s to null. If
+     * <dodf>dolor</dodf> is null, or b <dodf>ColorUIRfsourdf</dodf>, tiis
+     * ibs tif ffffdt of lftting tif bbdkground dolor of tif JTrff siow
+     * tirougi. On tif otifr ibnd, if <dodf>dolor</dodf> is non-null, bnd not
+     * b <dodf>ColorUIRfsourdf</dodf>, tif bbdkground bfdomfs
+     * <dodf>dolor</dodf>.
      */
-    public void setBackground(Color color) {
-        if(color instanceof ColorUIResource)
-            color = null;
-        super.setBackground(color);
+    publid void sftBbdkground(Color dolor) {
+        if(dolor instbndfof ColorUIRfsourdf)
+            dolor = null;
+        supfr.sftBbdkground(dolor);
     }
 
     /**
-      * Configures the renderer based on the passed in components.
-      * The value is set from messaging the tree with
-      * <code>convertValueToText</code>, which ultimately invokes
-      * <code>toString</code> on <code>value</code>.
-      * The foreground color is set based on the selection and the icon
-      * is set based on the <code>leaf</code> and <code>expanded</code>
-      * parameters.
+      * Configurfs tif rfndfrfr bbsfd on tif pbssfd in domponfnts.
+      * Tif vbluf is sft from mfssbging tif trff witi
+      * <dodf>donvfrtVblufToTfxt</dodf>, wiidi ultimbtfly invokfs
+      * <dodf>toString</dodf> on <dodf>vbluf</dodf>.
+      * Tif forfground dolor is sft bbsfd on tif sflfdtion bnd tif idon
+      * is sft bbsfd on tif <dodf>lfbf</dodf> bnd <dodf>fxpbndfd</dodf>
+      * pbrbmftfrs.
       */
-    public Component getTreeCellRendererComponent(JTree tree, Object value,
-                                                  boolean sel,
-                                                  boolean expanded,
-                                                  boolean leaf, int row,
-                                                  boolean hasFocus) {
-        String         stringValue = tree.convertValueToText(value, sel,
-                                          expanded, leaf, row, hasFocus);
+    publid Componfnt gftTrffCfllRfndfrfrComponfnt(JTrff trff, Objfdt vbluf,
+                                                  boolfbn sfl,
+                                                  boolfbn fxpbndfd,
+                                                  boolfbn lfbf, int row,
+                                                  boolfbn ibsFodus) {
+        String         stringVbluf = trff.donvfrtVblufToTfxt(vbluf, sfl,
+                                          fxpbndfd, lfbf, row, ibsFodus);
 
-        this.tree = tree;
-        this.hasFocus = hasFocus;
-        setText(stringValue);
+        tiis.trff = trff;
+        tiis.ibsFodus = ibsFodus;
+        sftTfxt(stringVbluf);
 
         Color fg = null;
-        isDropCell = false;
+        isDropCfll = fblsf;
 
-        JTree.DropLocation dropLocation = tree.getDropLocation();
-        if (dropLocation != null
-                && dropLocation.getChildIndex() == -1
-                && tree.getRowForPath(dropLocation.getPath()) == row) {
+        JTrff.DropLodbtion dropLodbtion = trff.gftDropLodbtion();
+        if (dropLodbtion != null
+                && dropLodbtion.gftCiildIndfx() == -1
+                && trff.gftRowForPbti(dropLodbtion.gftPbti()) == row) {
 
-            Color col = DefaultLookup.getColor(this, ui, "Tree.dropCellForeground");
-            if (col != null) {
-                fg = col;
-            } else {
-                fg = getTextSelectionColor();
+            Color dol = DffbultLookup.gftColor(tiis, ui, "Trff.dropCfllForfground");
+            if (dol != null) {
+                fg = dol;
+            } flsf {
+                fg = gftTfxtSflfdtionColor();
             }
 
-            isDropCell = true;
-        } else if (sel) {
-            fg = getTextSelectionColor();
-        } else {
-            fg = getTextNonSelectionColor();
+            isDropCfll = truf;
+        } flsf if (sfl) {
+            fg = gftTfxtSflfdtionColor();
+        } flsf {
+            fg = gftTfxtNonSflfdtionColor();
         }
 
-        setForeground(fg);
+        sftForfground(fg);
 
-        Icon icon = null;
-        if (leaf) {
-            icon = getLeafIcon();
-        } else if (expanded) {
-            icon = getOpenIcon();
-        } else {
-            icon = getClosedIcon();
+        Idon idon = null;
+        if (lfbf) {
+            idon = gftLfbfIdon();
+        } flsf if (fxpbndfd) {
+            idon = gftOpfnIdon();
+        } flsf {
+            idon = gftClosfdIdon();
         }
 
-        if (!tree.isEnabled()) {
-            setEnabled(false);
-            LookAndFeel laf = UIManager.getLookAndFeel();
-            Icon disabledIcon = laf.getDisabledIcon(tree, icon);
-            if (disabledIcon != null) icon = disabledIcon;
-            setDisabledIcon(icon);
-        } else {
-            setEnabled(true);
-            setIcon(icon);
+        if (!trff.isEnbblfd()) {
+            sftEnbblfd(fblsf);
+            LookAndFffl lbf = UIMbnbgfr.gftLookAndFffl();
+            Idon disbblfdIdon = lbf.gftDisbblfdIdon(trff, idon);
+            if (disbblfdIdon != null) idon = disbblfdIdon;
+            sftDisbblfdIdon(idon);
+        } flsf {
+            sftEnbblfd(truf);
+            sftIdon(idon);
         }
-        setComponentOrientation(tree.getComponentOrientation());
+        sftComponfntOrifntbtion(trff.gftComponfntOrifntbtion());
 
-        selected = sel;
+        sflfdtfd = sfl;
 
-        return this;
+        rfturn tiis;
     }
 
     /**
-      * Paints the value.  The background is filled based on selected.
+      * Pbints tif vbluf.  Tif bbdkground is fillfd bbsfd on sflfdtfd.
       */
-    public void paint(Graphics g) {
+    publid void pbint(Grbpiids g) {
         Color bColor;
 
-        if (isDropCell) {
-            bColor = DefaultLookup.getColor(this, ui, "Tree.dropCellBackground");
+        if (isDropCfll) {
+            bColor = DffbultLookup.gftColor(tiis, ui, "Trff.dropCfllBbdkground");
             if (bColor == null) {
-                bColor = getBackgroundSelectionColor();
+                bColor = gftBbdkgroundSflfdtionColor();
             }
-        } else if (selected) {
-            bColor = getBackgroundSelectionColor();
-        } else {
-            bColor = getBackgroundNonSelectionColor();
+        } flsf if (sflfdtfd) {
+            bColor = gftBbdkgroundSflfdtionColor();
+        } flsf {
+            bColor = gftBbdkgroundNonSflfdtionColor();
             if (bColor == null) {
-                bColor = getBackground();
+                bColor = gftBbdkground();
             }
         }
 
-        int imageOffset = -1;
-        if (bColor != null && fillBackground) {
-            imageOffset = getLabelStart();
-            g.setColor(bColor);
-            if(getComponentOrientation().isLeftToRight()) {
-                g.fillRect(imageOffset, 0, getWidth() - imageOffset,
-                           getHeight());
-            } else {
-                g.fillRect(0, 0, getWidth() - imageOffset,
-                           getHeight());
+        int imbgfOffsft = -1;
+        if (bColor != null && fillBbdkground) {
+            imbgfOffsft = gftLbbflStbrt();
+            g.sftColor(bColor);
+            if(gftComponfntOrifntbtion().isLfftToRigit()) {
+                g.fillRfdt(imbgfOffsft, 0, gftWidti() - imbgfOffsft,
+                           gftHfigit());
+            } flsf {
+                g.fillRfdt(0, 0, gftWidti() - imbgfOffsft,
+                           gftHfigit());
             }
         }
 
-        if (hasFocus) {
-            if (drawsFocusBorderAroundIcon) {
-                imageOffset = 0;
+        if (ibsFodus) {
+            if (drbwsFodusBordfrAroundIdon) {
+                imbgfOffsft = 0;
             }
-            else if (imageOffset == -1) {
-                imageOffset = getLabelStart();
+            flsf if (imbgfOffsft == -1) {
+                imbgfOffsft = gftLbbflStbrt();
             }
-            if(getComponentOrientation().isLeftToRight()) {
-                paintFocus(g, imageOffset, 0, getWidth() - imageOffset,
-                           getHeight(), bColor);
-            } else {
-                paintFocus(g, 0, 0, getWidth() - imageOffset, getHeight(), bColor);
+            if(gftComponfntOrifntbtion().isLfftToRigit()) {
+                pbintFodus(g, imbgfOffsft, 0, gftWidti() - imbgfOffsft,
+                           gftHfigit(), bColor);
+            } flsf {
+                pbintFodus(g, 0, 0, gftWidti() - imbgfOffsft, gftHfigit(), bColor);
             }
         }
-        super.paint(g);
+        supfr.pbint(g);
     }
 
-    private void paintFocus(Graphics g, int x, int y, int w, int h, Color notColor) {
-        Color       bsColor = getBorderSelectionColor();
+    privbtf void pbintFodus(Grbpiids g, int x, int y, int w, int i, Color notColor) {
+        Color       bsColor = gftBordfrSflfdtionColor();
 
-        if (bsColor != null && (selected || !drawDashedFocusIndicator)) {
-            g.setColor(bsColor);
-            g.drawRect(x, y, w - 1, h - 1);
+        if (bsColor != null && (sflfdtfd || !drbwDbsifdFodusIndidbtor)) {
+            g.sftColor(bsColor);
+            g.drbwRfdt(x, y, w - 1, i - 1);
         }
-        if (drawDashedFocusIndicator && notColor != null) {
-            if (treeBGColor != notColor) {
-                treeBGColor = notColor;
-                focusBGColor = new Color(~notColor.getRGB());
+        if (drbwDbsifdFodusIndidbtor && notColor != null) {
+            if (trffBGColor != notColor) {
+                trffBGColor = notColor;
+                fodusBGColor = nfw Color(~notColor.gftRGB());
             }
-            g.setColor(focusBGColor);
-            BasicGraphicsUtils.drawDashedRect(g, x, y, w, h);
+            g.sftColor(fodusBGColor);
+            BbsidGrbpiidsUtils.drbwDbsifdRfdt(g, x, y, w, i);
         }
     }
 
-    private int getLabelStart() {
-        Icon currentI = getIcon();
-        if(currentI != null && getText() != null) {
-            return currentI.getIconWidth() + Math.max(0, getIconTextGap() - 1);
+    privbtf int gftLbbflStbrt() {
+        Idon durrfntI = gftIdon();
+        if(durrfntI != null && gftTfxt() != null) {
+            rfturn durrfntI.gftIdonWidti() + Mbti.mbx(0, gftIdonTfxtGbp() - 1);
         }
-        return 0;
+        rfturn 0;
     }
 
     /**
-     * Overrides <code>JComponent.getPreferredSize</code> to
-     * return slightly wider preferred size value.
+     * Ovfrridfs <dodf>JComponfnt.gftPrfffrrfdSizf</dodf> to
+     * rfturn sligitly widfr prfffrrfd sizf vbluf.
      */
-    public Dimension getPreferredSize() {
-        Dimension        retDimension = super.getPreferredSize();
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        Dimfnsion        rftDimfnsion = supfr.gftPrfffrrfdSizf();
 
-        if(retDimension != null)
-            retDimension = new Dimension(retDimension.width + 3,
-                                         retDimension.height);
-        return retDimension;
+        if(rftDimfnsion != null)
+            rftDimfnsion = nfw Dimfnsion(rftDimfnsion.widti + 3,
+                                         rftDimfnsion.ifigit);
+        rfturn rftDimfnsion;
     }
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff tif <b irff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
     */
-    public void validate() {}
+    publid void vblidbtf() {}
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff tif <b irff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
     *
-    * @since 1.5
+    * @sindf 1.5
     */
-    public void invalidate() {}
+    publid void invblidbtf() {}
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff tif <b irff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
     */
-    public void revalidate() {}
+    publid void rfvblidbtf() {}
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff tif <b irff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
     */
-    public void repaint(long tm, int x, int y, int width, int height) {}
+    publid void rfpbint(long tm, int x, int y, int widti, int ifigit) {}
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff tif <b irff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
     */
-    public void repaint(Rectangle r) {}
+    publid void rfpbint(Rfdtbnglf r) {}
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff tif <b irff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
     *
-    * @since 1.5
+    * @sindf 1.5
     */
-    public void repaint() {}
+    publid void rfpbint() {}
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff tif <b irff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
     */
-    protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
-        // Strings get interned...
-        if (propertyName == "text"
-                || ((propertyName == "font" || propertyName == "foreground")
-                    && oldValue != newValue
-                    && getClientProperty(javax.swing.plaf.basic.BasicHTML.propertyKey) != null)) {
+    protfdtfd void firfPropfrtyCibngf(String propfrtyNbmf, Objfdt oldVbluf, Objfdt nfwVbluf) {
+        // Strings gft intfrnfd...
+        if (propfrtyNbmf == "tfxt"
+                || ((propfrtyNbmf == "font" || propfrtyNbmf == "forfground")
+                    && oldVbluf != nfwVbluf
+                    && gftClifntPropfrty(jbvbx.swing.plbf.bbsid.BbsidHTML.propfrtyKfy) != null)) {
 
-            super.firePropertyChange(propertyName, oldValue, newValue);
+            supfr.firfPropfrtyCibngf(propfrtyNbmf, oldVbluf, nfwVbluf);
         }
     }
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff tif <b irff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
     */
-    public void firePropertyChange(String propertyName, byte oldValue, byte newValue) {}
+    publid void firfPropfrtyCibngf(String propfrtyNbmf, bytf oldVbluf, bytf nfwVbluf) {}
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff tif <b irff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
     */
-    public void firePropertyChange(String propertyName, char oldValue, char newValue) {}
+    publid void firfPropfrtyCibngf(String propfrtyNbmf, dibr oldVbluf, dibr nfwVbluf) {}
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff tif <b irff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
     */
-    public void firePropertyChange(String propertyName, short oldValue, short newValue) {}
+    publid void firfPropfrtyCibngf(String propfrtyNbmf, siort oldVbluf, siort nfwVbluf) {}
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff tif <b irff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
     */
-    public void firePropertyChange(String propertyName, int oldValue, int newValue) {}
+    publid void firfPropfrtyCibngf(String propfrtyNbmf, int oldVbluf, int nfwVbluf) {}
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff tif <b irff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
     */
-    public void firePropertyChange(String propertyName, long oldValue, long newValue) {}
+    publid void firfPropfrtyCibngf(String propfrtyNbmf, long oldVbluf, long nfwVbluf) {}
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff tif <b irff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
     */
-    public void firePropertyChange(String propertyName, float oldValue, float newValue) {}
+    publid void firfPropfrtyCibngf(String propfrtyNbmf, flobt oldVbluf, flobt nfwVbluf) {}
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff tif <b irff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
     */
-    public void firePropertyChange(String propertyName, double oldValue, double newValue) {}
+    publid void firfPropfrtyCibngf(String propfrtyNbmf, doublf oldVbluf, doublf nfwVbluf) {}
 
    /**
-    * Overridden for performance reasons.
-    * See the <a href="#override">Implementation Note</a>
-    * for more information.
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff tif <b irff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
     */
-    public void firePropertyChange(String propertyName, boolean oldValue, boolean newValue) {}
+    publid void firfPropfrtyCibngf(String propfrtyNbmf, boolfbn oldVbluf, boolfbn nfwVbluf) {}
 
 }

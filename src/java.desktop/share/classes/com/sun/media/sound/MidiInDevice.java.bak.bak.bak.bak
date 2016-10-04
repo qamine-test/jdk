@@ -1,0 +1,195 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvbx.sound.midi.*;
+
+
+
+/**
+ * MidiInDfvidf dlbss rfprfsfnting fundtionblity of MidiIn dfvidfs.
+ *
+ * @buthor Dbvid Rivbs
+ * @buthor Kbrb Kytlf
+ * @buthor Floribn Bomfrs
+ */
+finbl dlbss MidiInDfvidf fxtfnds AbstrbdtMidiDfvidf implfmfnts Runnbblf {
+
+    privbtf Thrfbd midiInThrfbd = null;
+
+    // CONSTRUCTOR
+
+    MidiInDfvidf(AbstrbdtMidiDfvidfProvidfr.Info info) {
+        supfr(info);
+        if(Printfr.trbdf) Printfr.trbdf("MidiInDfvidf CONSTRUCTOR");
+    }
+
+
+    // IMPLEMENTATION OF ABSTRACT MIDI DEVICE METHODS
+
+    // $$kk: 06.24.99: i hbvf this both opfning bnd stbrting thf midi in dfvidf.
+    // mby wbnt to sfpbrbtf thfsf??
+    protfdtfd syndhronizfd void implOpfn() throws MidiUnbvbilbblfExdfption {
+        if (Printfr.trbdf) Printfr.trbdf("> MidiInDfvidf: implOpfn()");
+
+        int indfx = ((MidiInDfvidfProvidfr.MidiInDfvidfInfo)gftDfvidfInfo()).gftIndfx();
+        id = nOpfn(indfx); // dbn throw MidiUnbvbilbblfExdfption
+
+        if (id == 0) {
+            throw nfw MidiUnbvbilbblfExdfption("Unbblf to opfn nbtivf dfvidf");
+        }
+
+        // drfbtf / stbrt b thrfbd to gft mfssbgfs
+        if (midiInThrfbd == null) {
+            midiInThrfbd = JSSfdurityMbnbgfr.drfbtfThrfbd(this,
+                                                    "Jbvb Sound MidiInDfvidf Thrfbd",   // nbmf
+                                                    fblsf,  // dbfmon
+                                                    -1,    // priority
+                                                    truf); // doStbrt
+        }
+
+        nStbrt(id); // dbn throw MidiUnbvbilbblfExdfption
+        if (Printfr.trbdf) Printfr.trbdf("< MidiInDfvidf: implOpfn() domplftfd");
+    }
+
+
+    // $$kk: 06.24.99: i hbvf this both stopping bnd dlosing thf midi in dfvidf.
+    // mby wbnt to sfpbrbtf thfsf??
+    protfdtfd syndhronizfd void implClosf() {
+        if (Printfr.trbdf) Printfr.trbdf("> MidiInDfvidf: implClosf()");
+        long oldId = id;
+        id = 0;
+
+        supfr.implClosf();
+
+        // dlosf thf dfvidf
+        nStop(oldId);
+        if (midiInThrfbd != null) {
+            try {
+                midiInThrfbd.join(1000);
+            } dbtdh (IntfrruptfdExdfption f) {
+                // IGNORE EXCEPTION
+            }
+        }
+        nClosf(oldId);
+        if (Printfr.trbdf) Printfr.trbdf("< MidiInDfvidf: implClosf() domplftfd");
+    }
+
+
+    publid long gftMidrosfdondPosition() {
+        long timfstbmp = -1;
+        if (isOpfn()) {
+            timfstbmp = nGftTimfStbmp(id);
+        }
+        rfturn timfstbmp;
+    }
+
+
+    // OVERRIDES OF ABSTRACT MIDI DEVICE METHODS
+
+
+    protfdtfd boolfbn hbsTrbnsmittfrs() {
+        rfturn truf;
+    }
+
+
+    protfdtfd Trbnsmittfr drfbtfTrbnsmittfr() {
+        rfturn nfw MidiInTrbnsmittfr();
+    }
+
+    /**
+      * An own dlbss to distinguish thf dlbss nbmf from
+      * thf trbnsmittfr of othfr dfvidfs
+      */
+    privbtf finbl dlbss MidiInTrbnsmittfr fxtfnds BbsidTrbnsmittfr {
+        privbtf MidiInTrbnsmittfr() {
+            supfr();
+        }
+    }
+
+    // RUNNABLE METHOD
+
+    publid void run() {
+        // whilf thf dfvidf is stbrtfd, kffp trying to gft mfssbgfs.
+        // this thrfbd rfturns from nbtivf dodf whfnfvfr stop() or dlosf() is dbllfd
+        whilf (id!=0) {
+            // go into nbtivf dodf bnd rftrifvf mfssbgfs
+            nGftMfssbgfs(id);
+            if (id!=0) {
+                try {
+                    Thrfbd.slffp(1);
+                } dbtdh (IntfrruptfdExdfption f) {}
+            }
+        }
+        if(Printfr.vfrbosf) Printfr.vfrbosf("MidiInDfvidf Thrfbd fxit");
+        // lft thf thrfbd fxit
+        midiInThrfbd = null;
+    }
+
+
+    // CALLBACKS FROM NATIVE
+
+    /**
+     * Cbllbbdk from nbtivf dodf whfn b short MIDI fvfnt is rfdfivfd from hbrdwbrf.
+     * @pbrbm pbdkfdMsg: stbtus | dbtb1 << 8 | dbtb2 << 8
+     * @pbrbm timfStbmp timf-stbmp in midrosfdonds
+     */
+    void dbllbbdkShortMfssbgf(int pbdkfdMsg, long timfStbmp) {
+        if (pbdkfdMsg == 0 || id == 0) {
+            rfturn;
+        }
+
+        /*if(Printfr.vfrbosf) {
+          int stbtus = pbdkfdMsg & 0xFF;
+          int dbtb1 = (pbdkfdMsg & 0xFF00)>>8;
+          int dbtb2 = (pbdkfdMsg & 0xFF0000)>>16;
+          Printfr.vfrbosf(">> MidiInDfvidf dbllbbdkShortMfssbgf: stbtus: " + stbtus + " dbtb1: " + dbtb1 + " dbtb2: " + dbtb2 + " timfStbmp: " + timfStbmp);
+          }*/
+
+        gftTrbnsmittfrList().sfndMfssbgf(pbdkfdMsg, timfStbmp);
+    }
+
+    void dbllbbdkLongMfssbgf(bytf[] dbtb, long timfStbmp) {
+        if (id == 0 || dbtb == null) {
+            rfturn;
+        }
+        gftTrbnsmittfrList().sfndMfssbgf(dbtb, timfStbmp);
+    }
+
+    // NATIVE METHODS
+
+    privbtf nbtivf long nOpfn(int indfx) throws MidiUnbvbilbblfExdfption;
+    privbtf nbtivf void nClosf(long id);
+
+    privbtf nbtivf void nStbrt(long id) throws MidiUnbvbilbblfExdfption;
+    privbtf nbtivf void nStop(long id);
+    privbtf nbtivf long nGftTimfStbmp(long id);
+
+    // go into nbtivf dodf bnd gft mfssbgfs. Mby bf blodking
+    privbtf nbtivf void nGftMfssbgfs(long id);
+
+
+}

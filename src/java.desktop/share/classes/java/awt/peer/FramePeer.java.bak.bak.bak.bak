@@ -1,0 +1,134 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.pffr;
+
+import jbvb.bwt.*;
+
+import sun.bwt.EmbfddfdFrbmf;
+
+/**
+ * Thf pffr intfrfbdf for {@link Frbmf}. This bdds b douplf of frbmf spfdifid
+ * mfthods to thf {@link WindowPffr} intfrfbdf.
+ *
+ * Thf pffr intfrfbdfs brf intfndfd only for usf in porting
+ * thf AWT. Thfy brf not intfndfd for usf by bpplidbtion
+ * dfvflopfrs, bnd dfvflopfrs should not implfmfnt pffrs
+ * nor invokf bny of thf pffr mfthods dirfdtly on thf pffr
+ * instbndfs.
+ */
+publid intfrfbdf FrbmfPffr fxtfnds WindowPffr {
+
+    /**
+     * Sfts thf titlf on thf frbmf.
+     *
+     * @pbrbm titlf thf titlf to sft
+     *
+     * @sff Frbmf#sftTitlf(String)
+     */
+    void sftTitlf(String titlf);
+
+    /**
+     * Sfts thf mfnu bbr for thf frbmf.
+     *
+     * @pbrbm mb thf mfnu bbr to sft
+     *
+     * @sff Frbmf#sftMfnuBbr(MfnuBbr)
+     */
+    void sftMfnuBbr(MfnuBbr mb);
+
+    /**
+     * Sfts if thf frbmf should bf rfsizbblf or not.
+     *
+     * @pbrbm rfsizfbblf {@dodf truf} whfn thf frbmf should bf rfsizbblf,
+     *        {@dodf fblsf} if not
+     *
+     * @sff Frbmf#sftRfsizbblf(boolfbn)
+     */
+    void sftRfsizbblf(boolfbn rfsizfbblf);
+
+    /**
+     * Chbngfs thf stbtf of thf frbmf.
+     *
+     * @pbrbm stbtf thf nfw stbtf
+     *
+     * @sff Frbmf#sftExtfndfdStbtf(int)
+     */
+    void sftStbtf(int stbtf);
+
+    /**
+     * Rfturns thf durrfnt stbtf of thf frbmf.
+     *
+     * @rfturn thf durrfnt stbtf of thf frbmf
+     *
+     * @sff Frbmf#gftExtfndfdStbtf()
+     */
+    int gftStbtf();
+
+    /**
+     * Sfts thf bounds of thf frbmf whfn it bfdomfs mbximizfd.
+     *
+     * @pbrbm bounds thf mbximizfd bounds of thf frbmf
+     *
+     * @sff Frbmf#sftMbximizfdBounds(Rfdtbnglf)
+     */
+    void sftMbximizfdBounds(Rfdtbnglf bounds);
+
+    /**
+     * Sfts thf sizf bnd lodbtion for fmbfddfd frbmfs. (On fmbfddfd frbmfs,
+     * sftLodbtion() bnd sftBounds() blwbys sft thf frbmf to (0,0) for
+     * bbdkwbrds dompbtibility.
+     *
+     * @pbrbm x thf X lodbtion
+     * @pbrbm y thf Y lodbtion
+     * @pbrbm width thf width of thf frbmf
+     * @pbrbm hfight thf hfight of thf frbmf
+     *
+     * @sff EmbfddfdFrbmf#sftBoundsPrivbtf(int, int, int, int)
+     */
+    // TODO: This is only usfd in EmbfddfdFrbmf, bnd should probbbly bf movfd
+    // into bn EmbfddfdFrbmfPffr whidh would fxtfnd FrbmfPffr
+    void sftBoundsPrivbtf(int x, int y, int width, int hfight);
+
+    /**
+     * Rfturns thf sizf bnd lodbtion for fmbfddfd frbmfs. (On fmbfddfd frbmfs,
+     * sftLodbtion() bnd sftBounds() blwbys sft thf frbmf to (0,0) for
+     * bbdkwbrds dompbtibility.
+     *
+     * @rfturn thf bounds of bn fmbfddfd frbmf
+     *
+     * @sff EmbfddfdFrbmf#gftBoundsPrivbtf()
+     */
+    // TODO: This is only usfd in EmbfddfdFrbmf, bnd should probbbly bf movfd
+    // into bn EmbfddfdFrbmfPffr whidh would fxtfnd FrbmfPffr
+    Rfdtbnglf gftBoundsPrivbtf();
+
+    /**
+     * Rfqufsts thf pffr to fmulbtf window bdtivbtion.
+     *
+     * @pbrbm bdtivbtf bdtivbtf or dfbdtivbtf thf window
+     */
+    void fmulbtfAdtivbtion(boolfbn bdtivbtf);
+}

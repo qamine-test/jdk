@@ -1,196 +1,196 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.io.IOException;
-import java.nio.channels.*;
-import java.nio.channels.spi.*;
-import java.util.*;
-import sun.misc.*;
+import jbvb.io.IOExdfption;
+import jbvb.nio.dibnnfls.*;
+import jbvb.nio.dibnnfls.spi.*;
+import jbvb.util.*;
+import sun.misd.*;
 
 
 /**
- * An abstract selector impl.
+ * An bbstrbdt sflfdtor impl.
  */
 
-abstract class AbstractPollSelectorImpl
-    extends SelectorImpl
+bbstrbdt dlbss AbstrbdtPollSflfdtorImpl
+    fxtfnds SflfdtorImpl
 {
 
-    // The poll fd array
-    PollArrayWrapper pollWrapper;
+    // Tif poll fd brrby
+    PollArrbyWrbppfr pollWrbppfr;
 
-    // Initial capacity of the pollfd array
-    protected final int INIT_CAP = 10;
+    // Initibl dbpbdity of tif pollfd brrby
+    protfdtfd finbl int INIT_CAP = 10;
 
-    // The list of SelectableChannels serviced by this Selector
-    protected SelectionKeyImpl[] channelArray;
+    // Tif list of SflfdtbblfCibnnfls sfrvidfd by tiis Sflfdtor
+    protfdtfd SflfdtionKfyImpl[] dibnnflArrby;
 
-    // In some impls the first entry of channelArray is bogus
-    protected int channelOffset = 0;
+    // In somf impls tif first fntry of dibnnflArrby is bogus
+    protfdtfd int dibnnflOffsft = 0;
 
-    // The number of valid channels in this Selector's poll array
-    protected int totalChannels;
+    // Tif numbfr of vblid dibnnfls in tiis Sflfdtor's poll brrby
+    protfdtfd int totblCibnnfls;
 
-    // True if this Selector has been closed
-    private boolean closed = false;
+    // Truf if tiis Sflfdtor ibs bffn dlosfd
+    privbtf boolfbn dlosfd = fblsf;
 
-    // Lock for close and cleanup
-    private Object closeLock = new Object();
+    // Lodk for dlosf bnd dlfbnup
+    privbtf Objfdt dlosfLodk = nfw Objfdt();
 
-    AbstractPollSelectorImpl(SelectorProvider sp, int channels, int offset) {
-        super(sp);
-        this.totalChannels = channels;
-        this.channelOffset = offset;
+    AbstrbdtPollSflfdtorImpl(SflfdtorProvidfr sp, int dibnnfls, int offsft) {
+        supfr(sp);
+        tiis.totblCibnnfls = dibnnfls;
+        tiis.dibnnflOffsft = offsft;
     }
 
-    public void putEventOps(SelectionKeyImpl sk, int ops) {
-        synchronized (closeLock) {
-            if (closed)
-                throw new ClosedSelectorException();
-            pollWrapper.putEventOps(sk.getIndex(), ops);
+    publid void putEvfntOps(SflfdtionKfyImpl sk, int ops) {
+        syndironizfd (dlosfLodk) {
+            if (dlosfd)
+                tirow nfw ClosfdSflfdtorExdfption();
+            pollWrbppfr.putEvfntOps(sk.gftIndfx(), ops);
         }
     }
 
-    public Selector wakeup() {
-        pollWrapper.interrupt();
-        return this;
+    publid Sflfdtor wbkfup() {
+        pollWrbppfr.intfrrupt();
+        rfturn tiis;
     }
 
-    protected abstract int doSelect(long timeout) throws IOException;
+    protfdtfd bbstrbdt int doSflfdt(long timfout) tirows IOExdfption;
 
-    protected void implClose() throws IOException {
-        synchronized (closeLock) {
-            if (closed)
-                return;
-            closed = true;
-            // Deregister channels
-            for(int i=channelOffset; i<totalChannels; i++) {
-                SelectionKeyImpl ski = channelArray[i];
-                assert(ski.getIndex() != -1);
-                ski.setIndex(-1);
-                deregister(ski);
-                SelectableChannel selch = channelArray[i].channel();
-                if (!selch.isOpen() && !selch.isRegistered())
-                    ((SelChImpl)selch).kill();
+    protfdtfd void implClosf() tirows IOExdfption {
+        syndironizfd (dlosfLodk) {
+            if (dlosfd)
+                rfturn;
+            dlosfd = truf;
+            // Dfrfgistfr dibnnfls
+            for(int i=dibnnflOffsft; i<totblCibnnfls; i++) {
+                SflfdtionKfyImpl ski = dibnnflArrby[i];
+                bssfrt(ski.gftIndfx() != -1);
+                ski.sftIndfx(-1);
+                dfrfgistfr(ski);
+                SflfdtbblfCibnnfl sfldi = dibnnflArrby[i].dibnnfl();
+                if (!sfldi.isOpfn() && !sfldi.isRfgistfrfd())
+                    ((SflCiImpl)sfldi).kill();
             }
-            implCloseInterrupt();
-            pollWrapper.free();
-            pollWrapper = null;
-            selectedKeys = null;
-            channelArray = null;
-            totalChannels = 0;
+            implClosfIntfrrupt();
+            pollWrbppfr.frff();
+            pollWrbppfr = null;
+            sflfdtfdKfys = null;
+            dibnnflArrby = null;
+            totblCibnnfls = 0;
         }
     }
 
-    protected abstract void implCloseInterrupt() throws IOException;
+    protfdtfd bbstrbdt void implClosfIntfrrupt() tirows IOExdfption;
 
     /**
-     * Copy the information in the pollfd structs into the opss
-     * of the corresponding Channels. Add the ready keys to the
-     * ready queue.
+     * Copy tif informbtion in tif pollfd strudts into tif opss
+     * of tif dorrfsponding Cibnnfls. Add tif rfbdy kfys to tif
+     * rfbdy qufuf.
      */
-    protected int updateSelectedKeys() {
-        int numKeysUpdated = 0;
-        // Skip zeroth entry; it is for interrupts only
-        for (int i=channelOffset; i<totalChannels; i++) {
-            int rOps = pollWrapper.getReventOps(i);
+    protfdtfd int updbtfSflfdtfdKfys() {
+        int numKfysUpdbtfd = 0;
+        // Skip zfroti fntry; it is for intfrrupts only
+        for (int i=dibnnflOffsft; i<totblCibnnfls; i++) {
+            int rOps = pollWrbppfr.gftRfvfntOps(i);
             if (rOps != 0) {
-                SelectionKeyImpl sk = channelArray[i];
-                pollWrapper.putReventOps(i, 0);
-                if (selectedKeys.contains(sk)) {
-                    if (sk.channel.translateAndSetReadyOps(rOps, sk)) {
-                        numKeysUpdated++;
+                SflfdtionKfyImpl sk = dibnnflArrby[i];
+                pollWrbppfr.putRfvfntOps(i, 0);
+                if (sflfdtfdKfys.dontbins(sk)) {
+                    if (sk.dibnnfl.trbnslbtfAndSftRfbdyOps(rOps, sk)) {
+                        numKfysUpdbtfd++;
                     }
-                } else {
-                    sk.channel.translateAndSetReadyOps(rOps, sk);
-                    if ((sk.nioReadyOps() & sk.nioInterestOps()) != 0) {
-                        selectedKeys.add(sk);
-                        numKeysUpdated++;
+                } flsf {
+                    sk.dibnnfl.trbnslbtfAndSftRfbdyOps(rOps, sk);
+                    if ((sk.nioRfbdyOps() & sk.nioIntfrfstOps()) != 0) {
+                        sflfdtfdKfys.bdd(sk);
+                        numKfysUpdbtfd++;
                     }
                 }
             }
         }
-        return numKeysUpdated;
+        rfturn numKfysUpdbtfd;
     }
 
-    protected void implRegister(SelectionKeyImpl ski) {
-        synchronized (closeLock) {
-            if (closed)
-                throw new ClosedSelectorException();
+    protfdtfd void implRfgistfr(SflfdtionKfyImpl ski) {
+        syndironizfd (dlosfLodk) {
+            if (dlosfd)
+                tirow nfw ClosfdSflfdtorExdfption();
 
-            // Check to see if the array is large enough
-            if (channelArray.length == totalChannels) {
-                // Make a larger array
-                int newSize = pollWrapper.totalChannels * 2;
-                SelectionKeyImpl temp[] = new SelectionKeyImpl[newSize];
-                // Copy over
-                for (int i=channelOffset; i<totalChannels; i++)
-                    temp[i] = channelArray[i];
-                channelArray = temp;
-                // Grow the NativeObject poll array
-                pollWrapper.grow(newSize);
+            // Cifdk to sff if tif brrby is lbrgf fnougi
+            if (dibnnflArrby.lfngti == totblCibnnfls) {
+                // Mbkf b lbrgfr brrby
+                int nfwSizf = pollWrbppfr.totblCibnnfls * 2;
+                SflfdtionKfyImpl tfmp[] = nfw SflfdtionKfyImpl[nfwSizf];
+                // Copy ovfr
+                for (int i=dibnnflOffsft; i<totblCibnnfls; i++)
+                    tfmp[i] = dibnnflArrby[i];
+                dibnnflArrby = tfmp;
+                // Grow tif NbtivfObjfdt poll brrby
+                pollWrbppfr.grow(nfwSizf);
             }
-            channelArray[totalChannels] = ski;
-            ski.setIndex(totalChannels);
-            pollWrapper.addEntry(ski.channel);
-            totalChannels++;
-            keys.add(ski);
+            dibnnflArrby[totblCibnnfls] = ski;
+            ski.sftIndfx(totblCibnnfls);
+            pollWrbppfr.bddEntry(ski.dibnnfl);
+            totblCibnnfls++;
+            kfys.bdd(ski);
         }
     }
 
-    protected void implDereg(SelectionKeyImpl ski) throws IOException {
-        // Algorithm: Copy the sc from the end of the list and put it into
-        // the location of the sc to be removed (since order doesn't
-        // matter). Decrement the sc count. Update the index of the sc
-        // that is moved.
-        int i = ski.getIndex();
-        assert (i >= 0);
-        if (i != totalChannels - 1) {
-            // Copy end one over it
-            SelectionKeyImpl endChannel = channelArray[totalChannels-1];
-            channelArray[i] = endChannel;
-            endChannel.setIndex(i);
-            pollWrapper.release(i);
-            PollArrayWrapper.replaceEntry(pollWrapper, totalChannels - 1,
-                                          pollWrapper, i);
-        } else {
-            pollWrapper.release(i);
+    protfdtfd void implDfrfg(SflfdtionKfyImpl ski) tirows IOExdfption {
+        // Algoritim: Copy tif sd from tif fnd of tif list bnd put it into
+        // tif lodbtion of tif sd to bf rfmovfd (sindf ordfr dofsn't
+        // mbttfr). Dfdrfmfnt tif sd dount. Updbtf tif indfx of tif sd
+        // tibt is movfd.
+        int i = ski.gftIndfx();
+        bssfrt (i >= 0);
+        if (i != totblCibnnfls - 1) {
+            // Copy fnd onf ovfr it
+            SflfdtionKfyImpl fndCibnnfl = dibnnflArrby[totblCibnnfls-1];
+            dibnnflArrby[i] = fndCibnnfl;
+            fndCibnnfl.sftIndfx(i);
+            pollWrbppfr.rflfbsf(i);
+            PollArrbyWrbppfr.rfplbdfEntry(pollWrbppfr, totblCibnnfls - 1,
+                                          pollWrbppfr, i);
+        } flsf {
+            pollWrbppfr.rflfbsf(i);
         }
-        // Destroy the last one
-        channelArray[totalChannels-1] = null;
-        totalChannels--;
-        pollWrapper.totalChannels--;
-        ski.setIndex(-1);
-        // Remove the key from keys and selectedKeys
-        keys.remove(ski);
-        selectedKeys.remove(ski);
-        deregister((AbstractSelectionKey)ski);
-        SelectableChannel selch = ski.channel();
-        if (!selch.isOpen() && !selch.isRegistered())
-            ((SelChImpl)selch).kill();
+        // Dfstroy tif lbst onf
+        dibnnflArrby[totblCibnnfls-1] = null;
+        totblCibnnfls--;
+        pollWrbppfr.totblCibnnfls--;
+        ski.sftIndfx(-1);
+        // Rfmovf tif kfy from kfys bnd sflfdtfdKfys
+        kfys.rfmovf(ski);
+        sflfdtfdKfys.rfmovf(ski);
+        dfrfgistfr((AbstrbdtSflfdtionKfy)ski);
+        SflfdtbblfCibnnfl sfldi = ski.dibnnfl();
+        if (!sfldi.isOpfn() && !sfldi.isRfgistfrfd())
+            ((SflCiImpl)sfldi).kill();
     }
 }

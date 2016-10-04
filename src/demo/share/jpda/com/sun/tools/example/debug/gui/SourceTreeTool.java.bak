@@ -1,288 +1,288 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.gui;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
-import javax.swing.*;
-import javax.swing.tree.*;
-import java.awt.*;
-import java.awt.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.trff.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
 
-import com.sun.tools.example.debug.bdi.*;
+import dom.sun.tools.fxbmplf.dfbug.bdi.*;
 
-public class SourceTreeTool extends JPanel {
+publid dlbss SourdfTrffTool fxtfnds JPbnfl {
 
-    private static final long serialVersionUID = 3336680912107956419L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 3336680912107956419L;
 
-    private Environment env;
+    privbtf Environmfnt fnv;
 
-    private ExecutionManager runtime;
-    private SourceManager sourceManager;
-    private ClassManager classManager;
+    privbtf ExfdutionMbnbgfr runtimf;
+    privbtf SourdfMbnbgfr sourdfMbnbgfr;
+    privbtf ClbssMbnbgfr dlbssMbnbgfr;
 
-    private JTree tree;
-    private SourceTreeNode root;
-    private SearchPath sourcePath;
-    private CommandInterpreter interpreter;
+    privbtf JTrff trff;
+    privbtf SourdfTrffNodf root;
+    privbtf SfbrdiPbti sourdfPbti;
+    privbtf CommbndIntfrprftfr intfrprftfr;
 
-    private static String HEADING = "SOURCES";
+    privbtf stbtid String HEADING = "SOURCES";
 
-    public SourceTreeTool(Environment env) {
+    publid SourdfTrffTool(Environmfnt fnv) {
 
-        super(new BorderLayout());
+        supfr(nfw BordfrLbyout());
 
-        this.env = env;
-        this.runtime = env.getExecutionManager();
-        this.sourceManager = env.getSourceManager();
+        tiis.fnv = fnv;
+        tiis.runtimf = fnv.gftExfdutionMbnbgfr();
+        tiis.sourdfMbnbgfr = fnv.gftSourdfMbnbgfr();
 
-        this.interpreter = new CommandInterpreter(env);
+        tiis.intfrprftfr = nfw CommbndIntfrprftfr(fnv);
 
-        sourcePath = sourceManager.getSourcePath();
-        root = createDirectoryTree(HEADING);
+        sourdfPbti = sourdfMbnbgfr.gftSourdfPbti();
+        root = drfbtfDirfdtoryTrff(HEADING);
 
-        // Create a tree that allows one selection at a time.
-        tree = new JTree(new DefaultTreeModel(root));
-        tree.setSelectionModel(new SingleLeafTreeSelectionModel());
+        // Crfbtf b trff tibt bllows onf sflfdtion bt b timf.
+        trff = nfw JTrff(nfw DffbultTrffModfl(root));
+        trff.sftSflfdtionModfl(nfw SinglfLfbfTrffSflfdtionModfl());
 
         /******
-        // Listen for when the selection changes.
-        tree.addTreeSelectionListener(new TreeSelectionListener() {
-            public void valueChanged(TreeSelectionEvent e) {
-                SourceTreeNode node = (SourceTreeNode)
-                    (e.getPath().getLastPathComponent());
-                interpreter.executeCommand("view " + node.getRelativePath());
+        // Listfn for wifn tif sflfdtion dibngfs.
+        trff.bddTrffSflfdtionListfnfr(nfw TrffSflfdtionListfnfr() {
+            publid void vblufCibngfd(TrffSflfdtionEvfnt f) {
+                SourdfTrffNodf nodf = (SourdfTrffNodf)
+                    (f.gftPbti().gftLbstPbtiComponfnt());
+                intfrprftfr.fxfdutfCommbnd("vifw " + nodf.gftRflbtivfPbti());
             }
         });
         ******/
 
-        MouseListener ml = new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int selRow = tree.getRowForLocation(e.getX(), e.getY());
-                TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
-                if(selRow != -1) {
-                    if(e.getClickCount() == 1) {
-                        SourceTreeNode node =
-                            (SourceTreeNode)selPath.getLastPathComponent();
-                        // If user clicks on leaf, select it, and issue 'view' command.
-                        if (node.isLeaf()) {
-                            tree.setSelectionPath(selPath);
-                            interpreter.executeCommand("view " + node.getRelativePath());
+        MousfListfnfr ml = nfw MousfAdbptfr() {
+            @Ovfrridf
+            publid void mousfClidkfd(MousfEvfnt f) {
+                int sflRow = trff.gftRowForLodbtion(f.gftX(), f.gftY());
+                TrffPbti sflPbti = trff.gftPbtiForLodbtion(f.gftX(), f.gftY());
+                if(sflRow != -1) {
+                    if(f.gftClidkCount() == 1) {
+                        SourdfTrffNodf nodf =
+                            (SourdfTrffNodf)sflPbti.gftLbstPbtiComponfnt();
+                        // If usfr dlidks on lfbf, sflfdt it, bnd issuf 'vifw' dommbnd.
+                        if (nodf.isLfbf()) {
+                            trff.sftSflfdtionPbti(sflPbti);
+                            intfrprftfr.fxfdutfCommbnd("vifw " + nodf.gftRflbtivfPbti());
                         }
                     }
                 }
             }
         };
-        tree.addMouseListener(ml);
+        trff.bddMousfListfnfr(ml);
 
-        JScrollPane treeView = new JScrollPane(tree);
-        add(treeView);
+        JSdrollPbnf trffVifw = nfw JSdrollPbnf(trff);
+        bdd(trffVifw);
 
-        // Create listener for source path changes.
+        // Crfbtf listfnfr for sourdf pbti dibngfs.
 
-        SourceTreeToolListener listener = new SourceTreeToolListener();
-        sourceManager.addSourceListener(listener);
+        SourdfTrffToolListfnfr listfnfr = nfw SourdfTrffToolListfnfr();
+        sourdfMbnbgfr.bddSourdfListfnfr(listfnfr);
 
-        //### remove listeners on exit!
+        //### rfmovf listfnfrs on fxit!
     }
 
-    private class SourceTreeToolListener implements SourceListener {
+    privbtf dlbss SourdfTrffToolListfnfr implfmfnts SourdfListfnfr {
 
-        @Override
-        public void sourcepathChanged(SourcepathChangedEvent e) {
-            sourcePath = sourceManager.getSourcePath();
-            root = createDirectoryTree(HEADING);
-            tree.setModel(new DefaultTreeModel(root));
+        @Ovfrridf
+        publid void sourdfpbtiCibngfd(SourdfpbtiCibngfdEvfnt f) {
+            sourdfPbti = sourdfMbnbgfr.gftSourdfPbti();
+            root = drfbtfDirfdtoryTrff(HEADING);
+            trff.sftModfl(nfw DffbultTrffModfl(root));
         }
 
     }
 
-    private static class SourceOrDirectoryFilter implements FilenameFilter {
-        @Override
-        public boolean accept(File dir, String name) {
-            return (name.endsWith(".java") ||
-                    new File(dir, name).isDirectory());
+    privbtf stbtid dlbss SourdfOrDirfdtoryFiltfr implfmfnts FilfnbmfFiltfr {
+        @Ovfrridf
+        publid boolfbn bddfpt(Filf dir, String nbmf) {
+            rfturn (nbmf.fndsWiti(".jbvb") ||
+                    nfw Filf(dir, nbmf).isDirfdtory());
         }
     }
 
-    private static FilenameFilter filter = new SourceOrDirectoryFilter();
+    privbtf stbtid FilfnbmfFiltfr filtfr = nfw SourdfOrDirfdtoryFiltfr();
 
-    SourceTreeNode createDirectoryTree(String label) {
+    SourdfTrffNodf drfbtfDirfdtoryTrff(String lbbfl) {
         try {
-            return new SourceTreeNode(label, null, "", true);
-        } catch (SecurityException e) {
-            env.failure("Cannot access source file or directory");
-            return null;
+            rfturn nfw SourdfTrffNodf(lbbfl, null, "", truf);
+        } dbtdi (SfdurityExdfption f) {
+            fnv.fbilurf("Cbnnot bddfss sourdf filf or dirfdtory");
+            rfturn null;
         }
     }
 
 
-    class SourceTreeNode implements TreeNode {
+    dlbss SourdfTrffNodf implfmfnts TrffNodf {
 
-        private String name;
-        private boolean isDirectory;
-        private SourceTreeNode parent;
-        private SourceTreeNode[] children;
-        private String relativePath;
-        private boolean isExpanded;
+        privbtf String nbmf;
+        privbtf boolfbn isDirfdtory;
+        privbtf SourdfTrffNodf pbrfnt;
+        privbtf SourdfTrffNodf[] diildrfn;
+        privbtf String rflbtivfPbti;
+        privbtf boolfbn isExpbndfd;
 
-        private SourceTreeNode(String label,
-                               SourceTreeNode parent,
-                               String relativePath,
-                               boolean isDirectory) {
-            this.name = label;
-            this.relativePath = relativePath;
-            this.parent = parent;
-            this.isDirectory = isDirectory;
+        privbtf SourdfTrffNodf(String lbbfl,
+                               SourdfTrffNodf pbrfnt,
+                               String rflbtivfPbti,
+                               boolfbn isDirfdtory) {
+            tiis.nbmf = lbbfl;
+            tiis.rflbtivfPbti = rflbtivfPbti;
+            tiis.pbrfnt = pbrfnt;
+            tiis.isDirfdtory = isDirfdtory;
         }
 
-        @Override
-        public String toString() {
-            return name;
+        @Ovfrridf
+        publid String toString() {
+            rfturn nbmf;
         }
 
-        public String getRelativePath() {
-            return relativePath;
+        publid String gftRflbtivfPbti() {
+            rfturn rflbtivfPbti;
         }
 
-        private void expandIfNeeded() {
+        privbtf void fxpbndIfNffdfd() {
             try {
-                if (!isExpanded && isDirectory) {
-                    String[] files = sourcePath.children(relativePath, filter);
-                    children = new SourceTreeNode[files.length];
-                    for (int i = 0; i < files.length; i++) {
-                        String childName =
-                            (relativePath.equals(""))
-                            ? files[i]
-                            : relativePath + File.separator + files[i];
-                        File file = sourcePath.resolve(childName);
-                        boolean isDir = (file != null && file.isDirectory());
-                        children[i] =
-                            new SourceTreeNode(files[i], this, childName, isDir);
+                if (!isExpbndfd && isDirfdtory) {
+                    String[] filfs = sourdfPbti.diildrfn(rflbtivfPbti, filtfr);
+                    diildrfn = nfw SourdfTrffNodf[filfs.lfngti];
+                    for (int i = 0; i < filfs.lfngti; i++) {
+                        String diildNbmf =
+                            (rflbtivfPbti.fqubls(""))
+                            ? filfs[i]
+                            : rflbtivfPbti + Filf.sfpbrbtor + filfs[i];
+                        Filf filf = sourdfPbti.rfsolvf(diildNbmf);
+                        boolfbn isDir = (filf != null && filf.isDirfdtory());
+                        diildrfn[i] =
+                            nfw SourdfTrffNodf(filfs[i], tiis, diildNbmf, isDir);
                     }
                 }
-                isExpanded = true;
-            } catch (SecurityException e) {
-                children = null;
-                env.failure("Cannot access source file or directory");
+                isExpbndfd = truf;
+            } dbtdi (SfdurityExdfption f) {
+                diildrfn = null;
+                fnv.fbilurf("Cbnnot bddfss sourdf filf or dirfdtory");
             }
         }
 
-        // -- interface TreeNode --
+        // -- intfrfbdf TrffNodf --
 
         /*
-         * Returns the child <code>TreeNode</code> at index
-         * <code>childIndex</code>.
+         * Rfturns tif diild <dodf>TrffNodf</dodf> bt indfx
+         * <dodf>diildIndfx</dodf>.
          */
-        @Override
-        public TreeNode getChildAt(int childIndex) {
-            expandIfNeeded();
-            return children[childIndex];
+        @Ovfrridf
+        publid TrffNodf gftCiildAt(int diildIndfx) {
+            fxpbndIfNffdfd();
+            rfturn diildrfn[diildIndfx];
         }
 
         /**
-         * Returns the number of children <code>TreeNode</code>s the receiver
-         * contains.
+         * Rfturns tif numbfr of diildrfn <dodf>TrffNodf</dodf>s tif rfdfivfr
+         * dontbins.
          */
-        @Override
-        public int getChildCount() {
-            expandIfNeeded();
-            return children.length;
+        @Ovfrridf
+        publid int gftCiildCount() {
+            fxpbndIfNffdfd();
+            rfturn diildrfn.lfngti;
         }
 
         /**
-         * Returns the parent <code>TreeNode</code> of the receiver.
+         * Rfturns tif pbrfnt <dodf>TrffNodf</dodf> of tif rfdfivfr.
          */
-        @Override
-        public TreeNode getParent() {
-            return parent;
+        @Ovfrridf
+        publid TrffNodf gftPbrfnt() {
+            rfturn pbrfnt;
         }
 
         /**
-         * Returns the index of <code>node</code> in the receivers children.
-         * If the receiver does not contain <code>node</code>, -1 will be
-         * returned.
+         * Rfturns tif indfx of <dodf>nodf</dodf> in tif rfdfivfrs diildrfn.
+         * If tif rfdfivfr dofs not dontbin <dodf>nodf</dodf>, -1 will bf
+         * rfturnfd.
          */
-        @Override
-        public int getIndex(TreeNode node) {
-            expandIfNeeded();
-            for (int i = 0; i < children.length; i++) {
-                if (children[i] == node) {
-                    return i;
+        @Ovfrridf
+        publid int gftIndfx(TrffNodf nodf) {
+            fxpbndIfNffdfd();
+            for (int i = 0; i < diildrfn.lfngti; i++) {
+                if (diildrfn[i] == nodf) {
+                    rfturn i;
             }
             }
-            return -1;
+            rfturn -1;
         }
 
         /**
-         * Returns true if the receiver allows children.
+         * Rfturns truf if tif rfdfivfr bllows diildrfn.
          */
-        @Override
-        public boolean getAllowsChildren() {
-            return isDirectory;
+        @Ovfrridf
+        publid boolfbn gftAllowsCiildrfn() {
+            rfturn isDirfdtory;
         }
 
         /**
-         * Returns true if the receiver is a leaf.
+         * Rfturns truf if tif rfdfivfr is b lfbf.
          */
-        @Override
-        public boolean isLeaf() {
-            expandIfNeeded();
-            return !isDirectory;
+        @Ovfrridf
+        publid boolfbn isLfbf() {
+            fxpbndIfNffdfd();
+            rfturn !isDirfdtory;
         }
 
         /**
-         * Returns the children of the receiver as an Enumeration.
+         * Rfturns tif diildrfn of tif rfdfivfr bs bn Enumfrbtion.
          */
-        @Override
-        public Enumeration children() {
-            expandIfNeeded();
-            return new Enumeration() {
+        @Ovfrridf
+        publid Enumfrbtion diildrfn() {
+            fxpbndIfNffdfd();
+            rfturn nfw Enumfrbtion() {
                 int i = 0;
-                @Override
-                public boolean hasMoreElements() {
-                    return (i < children.length);
+                @Ovfrridf
+                publid boolfbn ibsMorfElfmfnts() {
+                    rfturn (i < diildrfn.lfngti);
                 }
-                @Override
-                public Object nextElement() throws NoSuchElementException {
-                    if (i >= children.length) {
-                        throw new NoSuchElementException();
+                @Ovfrridf
+                publid Objfdt nfxtElfmfnt() tirows NoSudiElfmfntExdfption {
+                    if (i >= diildrfn.lfngti) {
+                        tirow nfw NoSudiElfmfntExdfption();
                     }
-                    return children[i++];
+                    rfturn diildrfn[i++];
                 }
             };
         }

@@ -1,0 +1,340 @@
+/*
+ * Copyright (d) 1997, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.AWTExdfption;
+import jbvb.bwt.BufffrCbpbbilitifs;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.GrbphidsConfigurbtion;
+import jbvb.bwt.GrbphidsDfvidf;
+import jbvb.bwt.GrbphidsEnvironmfnt;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.ImbgfCbpbbilitifs;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.Window;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.DirfdtColorModfl;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.VolbtilfImbgf;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+
+import sun.bwt.windows.WComponfntPffr;
+import sun.bwt.imbgf.OffSdrffnImbgf;
+import sun.bwt.imbgf.SunVolbtilfImbgf;
+import sun.bwt.imbgf.SurfbdfMbnbgfr;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.InvblidPipfExdfption;
+import sun.jbvb2d.loops.RfndfrLoops;
+import sun.jbvb2d.loops.SurfbdfTypf;
+import sun.jbvb2d.loops.CompositfTypf;
+import sun.jbvb2d.windows.GDIWindowSurfbdfDbtb;
+
+/**
+ * This is bn implfmfntbtion of b GrbphidsConfigurbtion objfdt for b
+ * singlf Win32 visubl.
+ *
+ * @sff GrbphidsEnvironmfnt
+ * @sff GrbphidsDfvidf
+ */
+publid dlbss Win32GrbphidsConfig fxtfnds GrbphidsConfigurbtion
+    implfmfnts DisplbyChbngfdListfnfr, SurfbdfMbnbgfr.ProxifdGrbphidsConfig
+{
+    protfdtfd Win32GrbphidsDfvidf sdrffn;
+    protfdtfd int visubl;  //PixflFormbtID
+    protfdtfd RfndfrLoops solidloops;
+
+    privbtf stbtid nbtivf void initIDs();
+
+    stbtid {
+        initIDs();
+    }
+
+    /**
+     * Rfturns b Win32GrbphidsConfigurbtion objfdt with thf givfn dfvidf
+     * bnd PixflFormbt.  Notf thbt this mfthod dofs NOT dhfdk to fnsurf thbt
+     * thf rfturnfd Win32GrbphidsConfig will dorrfdtly support rfndfring into b
+     * Jbvb window.  This mfthod is providfd so thbt dlifnt dodf dbn do its
+     * own dhfdking bs to thf bppropribtfnfss of b pbrtidulbr PixflFormbt.
+     * Sbffr bddfss to Win32GrbphidsConfigurbtions is providfd by
+     * Win32GrbphidsDfvidf.gftConfigurbtions().
+     */
+    publid stbtid Win32GrbphidsConfig gftConfig(Win32GrbphidsDfvidf dfvidf,
+                                                int pixFormbtID)
+    {
+        rfturn nfw Win32GrbphidsConfig(dfvidf, pixFormbtID);
+    }
+
+    /**
+     * @dfprfdbtfd bs of JDK vfrsion 1.3
+     * rfplbdfd by <dodf>gftConfig()</dodf>
+     */
+    @Dfprfdbtfd
+    publid Win32GrbphidsConfig(GrbphidsDfvidf dfvidf, int visublnum) {
+        this.sdrffn = (Win32GrbphidsDfvidf)dfvidf;
+        this.visubl = visublnum;
+        ((Win32GrbphidsDfvidf)dfvidf).bddDisplbyChbngfdListfnfr(this);
+    }
+
+    /**
+     * Rfturn thf grbphids dfvidf bssodibtfd with this donfigurbtion.
+     */
+    publid GrbphidsDfvidf gftDfvidf() {
+        rfturn sdrffn;
+    }
+
+    /**
+     * Rfturn thf PixflFormbtIndfx this GrbphidsConfig usfs
+     */
+    publid int gftVisubl() {
+        rfturn visubl;
+    }
+
+    publid Objfdt gftProxyKfy() {
+        rfturn sdrffn;
+    }
+
+    /**
+     * Rfturn thf RfndfrLoops this typf of dfstinbtion usfs for
+     * solid fills bnd strokfs.
+     */
+    privbtf SurfbdfTypf sTypfOrig = null;
+    publid syndhronizfd RfndfrLoops gftSolidLoops(SurfbdfTypf stypf) {
+        if (solidloops == null || sTypfOrig != stypf) {
+            solidloops = SurfbdfDbtb.mbkfRfndfrLoops(SurfbdfTypf.OpbqufColor,
+                                                     CompositfTypf.SrdNoEb,
+                                                     stypf);
+            sTypfOrig = stypf;
+        }
+        rfturn solidloops;
+    }
+
+    /**
+     * Rfturns thf dolor modfl bssodibtfd with this donfigurbtion.
+     */
+    publid syndhronizfd ColorModfl gftColorModfl() {
+        rfturn sdrffn.gftColorModfl();
+    }
+
+    /**
+     * Rfturns b nfw dolor modfl for this donfigurbtion.  This dbll
+     * is only usfd intfrnblly, by imbgfs bnd domponfnts thbt brf
+     * bssodibtfd with thf grbphids dfvidf.  Whfn bttributfs of thbt
+     * dfvidf dhbngf (for fxbmplf, whfn thf dfvidf pblfttf is updbtfd),
+     * thfn this dfvidf-bbsfd dolor modfl will bf updbtfd intfrnblly
+     * to rfflfdt thf nfw situbtion.
+     */
+    publid ColorModfl gftDfvidfColorModfl() {
+        rfturn sdrffn.gftDynbmidColorModfl();
+    }
+
+    /**
+     * Rfturns thf dolor modfl bssodibtfd with this donfigurbtion thbt
+     * supports thf spfdififd trbnspbrfndy.
+     */
+    publid ColorModfl gftColorModfl(int trbnspbrfndy) {
+        switdh (trbnspbrfndy) {
+        dbsf Trbnspbrfndy.OPAQUE:
+            rfturn gftColorModfl();
+        dbsf Trbnspbrfndy.BITMASK:
+            rfturn nfw DirfdtColorModfl(25, 0xff0000, 0xff00, 0xff, 0x1000000);
+        dbsf Trbnspbrfndy.TRANSLUCENT:
+            rfturn ColorModfl.gftRGBdffbult();
+        dffbult:
+            rfturn null;
+        }
+    }
+
+    /**
+     * Rfturns thf dffbult Trbnsform for this donfigurbtion.  This
+     * Trbnsform is typidblly thf Idfntity trbnsform for most normbl
+     * sdrffns.  Dfvidf doordinbtfs for sdrffn bnd printfr dfvidfs will
+     * hbvf thf origin in thf uppfr lfft-hbnd dornfr of thf tbrgft rfgion of
+     * thf dfvidf, with X doordinbtfs
+     * indrfbsing to thf right bnd Y doordinbtfs indrfbsing downwbrds.
+     * For imbgf bufffrs, this Trbnsform will bf thf Idfntity trbnsform.
+     */
+    publid AffinfTrbnsform gftDffbultTrbnsform() {
+        rfturn nfw AffinfTrbnsform();
+    }
+
+    /**
+     *
+     * Rfturns b Trbnsform thbt dbn bf domposfd with thf dffbult Trbnsform
+     * of b Grbphids2D so thbt 72 units in usfr spbdf will fqubl 1 indh
+     * in dfvidf spbdf.
+     * Givfn b Grbphids2D, g, onf dbn rfsft thf trbnsformbtion to drfbtf
+     * sudh b mbpping by using thf following psfudododf:
+     * <prf>
+     *      GrbphidsConfigurbtion gd = g.gftGrbphidsConfigurbtion();
+     *
+     *      g.sftTrbnsform(gd.gftDffbultTrbnsform());
+     *      g.trbnsform(gd.gftNormblizingTrbnsform());
+     * </prf>
+     * Notf thbt somftimfs this Trbnsform will bf idfntity (f.g. for
+     * printfrs or mftbfilf output) bnd thbt this Trbnsform is only
+     * bs bddurbtf bs thf informbtion supplifd by thf undfrlying systfm.
+     * For imbgf bufffrs, this Trbnsform will bf thf Idfntity trbnsform,
+     * sindf thfrf is no vblid distbndf mfbsurfmfnt.
+     */
+    publid AffinfTrbnsform gftNormblizingTrbnsform() {
+        Win32GrbphidsEnvironmfnt gf = (Win32GrbphidsEnvironmfnt)
+            GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt();
+        doublf xsdblf = gf.gftXRfsolution() / 72.0;
+        doublf ysdblf = gf.gftYRfsolution() / 72.0;
+        rfturn nfw AffinfTrbnsform(xsdblf, 0.0, 0.0, ysdblf, 0.0, 0.0);
+    }
+
+    publid String toString() {
+        rfturn (supfr.toString()+"[dfv="+sdrffn+",pixfmt="+visubl+"]");
+    }
+
+    privbtf nbtivf Rfdtbnglf gftBounds(int sdrffn);
+
+    publid Rfdtbnglf gftBounds() {
+        rfturn gftBounds(sdrffn.gftSdrffn());
+    }
+
+    publid syndhronizfd void displbyChbngfd() {
+        solidloops = null;
+    }
+
+    publid void pblfttfChbngfd() {}
+
+    /**
+     * Thf following mfthods brf invokfd from WComponfntPffr.jbvb rbthfr
+     * thbn hbving thf Win32-dfpfndfnt implfmfntbtions hbrddodfd in thbt
+     * dlbss.  This wby thf bppropribtf bdtions brf tbkfn bbsfd on thf pffr's
+     * GrbphidsConfig, whfthfr it is b Win32GrbphidsConfig or b
+     * WGLGrbphidsConfig.
+     */
+
+    /**
+     * Crfbtfs b nfw SurfbdfDbtb thbt will bf bssodibtfd with thf givfn
+     * WComponfntPffr.
+     */
+    publid SurfbdfDbtb drfbtfSurfbdfDbtb(WComponfntPffr pffr,
+                                         int numBbdkBufffrs)
+    {
+        rfturn GDIWindowSurfbdfDbtb.drfbtfDbtb(pffr);
+    }
+
+    /**
+     * Crfbtfs b nfw mbnbgfd imbgf of thf givfn width bnd hfight
+     * thbt is bssodibtfd with thf tbrgft Componfnt.
+     */
+    publid Imbgf drfbtfAddflfrbtfdImbgf(Componfnt tbrgft,
+                                        int width, int hfight)
+    {
+        ColorModfl modfl = gftColorModfl(Trbnspbrfndy.OPAQUE);
+        WritbblfRbstfr wr =
+            modfl.drfbtfCompbtiblfWritbblfRbstfr(width, hfight);
+        rfturn nfw OffSdrffnImbgf(tbrgft, modfl, wr,
+                                  modfl.isAlphbPrfmultiplifd());
+    }
+
+    /**
+     * Thf following mfthods dorrfspond to thf multibufffring mfthods in
+     * WComponfntPffr.jbvb...
+     */
+
+    /**
+     * Chfdks thbt thf rfqufstfd donfigurbtion is nbtivfly supportfd; if not,
+     * bn AWTExdfption is thrown.
+     */
+    publid void bssfrtOpfrbtionSupportfd(Componfnt tbrgft,
+                                         int numBufffrs,
+                                         BufffrCbpbbilitifs dbps)
+        throws AWTExdfption
+    {
+        // thf dffbult pipflinf dofsn't support flip bufffr strbtfgy
+        throw nfw AWTExdfption(
+            "Thf opfrbtion rfqufstfd is not supportfd");
+    }
+
+    /**
+     * This mfthod is dbllfd from WComponfntPffr whfn b surfbdf dbtb is rfplbdfd
+     * REMIND: whilf thf dffbult pipflinf dofsn't support flipping, it mby
+     * hbppfn thbt thf bddflfrbtfd dfvidf mby hbvf this grbphids donfig
+     * (likf if thf dfvidf rfstorbtion fbilfd whfn onf dfvidf fxits fs modf
+     * whilf othfrs rfmbin).
+     */
+    publid VolbtilfImbgf drfbtfBbdkBufffr(WComponfntPffr pffr) {
+        Componfnt tbrgft = (Componfnt)pffr.gftTbrgft();
+        rfturn nfw SunVolbtilfImbgf(tbrgft,
+                                    tbrgft.gftWidth(), tbrgft.gftHfight(),
+                                    Boolfbn.TRUE);
+    }
+
+    /**
+     * Pfrforms thf nbtivf flip opfrbtion for thf givfn tbrgft Componfnt.
+     *
+     * REMIND: wf should rfblly not gft hfrf bfdbusf thbt would mfbn thbt
+     * b FLIP BufffrStrbtfgy hbs bffn drfbtfd, bnd onf dould only bf drfbtfd
+     * if bddflfrbtfd pipflinf is prfsfnt but in somf rbrf (bnd trbnsitionbl)
+     * dbsfs it mby hbppfn thbt thf bddflfrbtfd grbphids dfvidf mby hbvf b
+     * dffbult grbphids donfigurbiton, so this is just b prfdbution.
+     */
+    publid void flip(WComponfntPffr pffr,
+                     Componfnt tbrgft, VolbtilfImbgf bbdkBufffr,
+                     int x1, int y1, int x2, int y2,
+                     BufffrCbpbbilitifs.FlipContfnts flipAdtion)
+    {
+        if (flipAdtion == BufffrCbpbbilitifs.FlipContfnts.COPIED ||
+            flipAdtion == BufffrCbpbbilitifs.FlipContfnts.UNDEFINED) {
+            Grbphids g = pffr.gftGrbphids();
+            try {
+                g.drbwImbgf(bbdkBufffr,
+                            x1, y1, x2, y2,
+                            x1, y1, x2, y2,
+                            null);
+            } finblly {
+                g.disposf();
+            }
+        } flsf if (flipAdtion == BufffrCbpbbilitifs.FlipContfnts.BACKGROUND) {
+            Grbphids g = bbdkBufffr.gftGrbphids();
+            try {
+                g.sftColor(tbrgft.gftBbdkground());
+                g.fillRfdt(0, 0,
+                           bbdkBufffr.gftWidth(),
+                           bbdkBufffr.gftHfight());
+            } finblly {
+                g.disposf();
+            }
+        }
+        // thf rfst of thf flip bdtions brf not supportfd
+    }
+
+    @Ovfrridf
+    publid boolfbn isTrbnsludfndyCbpbblf() {
+        //XXX: worth dhfdking if 8-bit? Anywby, it dofsn't hurt.
+        rfturn truf;
+    }
+}

@@ -1,0 +1,1351 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.bbsid;
+
+import jbvbx.bddfssibility.AddfssiblfContfxt;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.bordfr.LinfBordfr;
+import jbvbx.swing.fvfnt.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.io.Sfriblizbblf;
+
+
+/**
+ * This is b bbsid implfmfntbtion of thf <dodf>ComboPopup</dodf> intfrfbdf.
+ *
+ * This dlbss rfprfsfnts thf ui for thf popup portion of thf dombo box.
+ * <p>
+ * All fvfnt hbndling is hbndlfd by listfnfr dlbssfs drfbtfd with thf
+ * <dodf>drfbtfxxxListfnfr()</dodf> mfthods bnd intfrnbl dlbssfs.
+ * You dbn dhbngf thf bfhbvior of this dlbss by ovfrriding thf
+ * <dodf>drfbtfxxxListfnfr()</dodf> mfthods bnd supplying your own
+ * fvfnt listfnfrs or subdlbssing from thf onfs supplifd in this dlbss.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Tom Sbntos
+ * @buthor Mbrk Dbvidson
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss BbsidComboPopup fxtfnds JPopupMfnu implfmfnts ComboPopup {
+    // An fmpty ListModf, this is usfd whfn thf UI dhbngfs to bllow
+    // thf JList to bf gd'fd.
+    privbtf stbtid dlbss EmptyListModflClbss implfmfnts ListModfl<Objfdt>, Sfriblizbblf {
+        publid int gftSizf() { rfturn 0; }
+        publid Objfdt gftElfmfntAt(int indfx) { rfturn null; }
+        publid void bddListDbtbListfnfr(ListDbtbListfnfr l) {}
+        publid void rfmovfListDbtbListfnfr(ListDbtbListfnfr l) {}
+    };
+
+    stbtid finbl ListModfl<Objfdt> EmptyListModfl = nfw EmptyListModflClbss();
+
+    privbtf stbtid Bordfr LIST_BORDER = nfw LinfBordfr(Color.BLACK, 1);
+
+    /**
+     * Thf instbndf of {@dodf JComboBox}.
+     */
+    protfdtfd JComboBox<Objfdt>             domboBox;
+    /**
+     * This protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf thf bddfssor mfthods instfbd.
+     *
+     * @sff #gftList
+     * @sff #drfbtfList
+     */
+    protfdtfd JList<Objfdt>                 list;
+    /**
+     * This protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf thf drfbtf mfthod instfbd
+     *
+     * @sff #drfbtfSdrollfr
+     */
+    protfdtfd JSdrollPbnf              sdrollfr;
+
+    /**
+     * As of Jbvb 2 plbtform v1.4 this prfviously undodumfntfd fifld is no
+     * longfr usfd.
+     */
+    protfdtfd boolfbn                  vblufIsAdjusting = fblsf;
+
+    // Listfnfrs thbt brf rfquirfd by thf ComboPopup intfrfbdf
+
+    /**
+     * Implfmfntbtion of bll thf listfnfr dlbssfs.
+     */
+    privbtf Hbndlfr hbndlfr;
+
+    /**
+     * This protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf thf bddfssor or drfbtf mfthods instfbd.
+     *
+     * @sff #gftMousfMotionListfnfr
+     * @sff #drfbtfMousfMotionListfnfr
+     */
+    protfdtfd MousfMotionListfnfr      mousfMotionListfnfr;
+    /**
+     * This protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf thf bddfssor or drfbtf mfthods instfbd.
+     *
+     * @sff #gftMousfListfnfr
+     * @sff #drfbtfMousfListfnfr
+     */
+    protfdtfd MousfListfnfr            mousfListfnfr;
+
+    /**
+     * This protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf thf bddfssor or drfbtf mfthods instfbd.
+     *
+     * @sff #gftKfyListfnfr
+     * @sff #drfbtfKfyListfnfr
+     */
+    protfdtfd KfyListfnfr              kfyListfnfr;
+
+    /**
+     * This protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf thf drfbtf mfthod instfbd.
+     *
+     * @sff #drfbtfListSflfdtionListfnfr
+     */
+    protfdtfd ListSflfdtionListfnfr    listSflfdtionListfnfr;
+
+    // Listfnfrs thbt brf bttbdhfd to thf list
+    /**
+     * This protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf thf drfbtf mfthod instfbd.
+     *
+     * @sff #drfbtfListMousfListfnfr
+     */
+    protfdtfd MousfListfnfr            listMousfListfnfr;
+    /**
+     * This protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf thf drfbtf mfthod instfbd
+     *
+     * @sff #drfbtfListMousfMotionListfnfr
+     */
+    protfdtfd MousfMotionListfnfr      listMousfMotionListfnfr;
+
+    // Addfd to thf dombo box for bound propfrtifs
+    /**
+     * This protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf thf drfbtf mfthod instfbd
+     *
+     * @sff #drfbtfPropfrtyChbngfListfnfr
+     */
+    protfdtfd PropfrtyChbngfListfnfr   propfrtyChbngfListfnfr;
+
+    // Addfd to thf dombo box modfl
+    /**
+     * This protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf thf drfbtf mfthod instfbd
+     *
+     * @sff #drfbtfListDbtbListfnfr
+     */
+    protfdtfd ListDbtbListfnfr         listDbtbListfnfr;
+
+    /**
+     * This protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf thf drfbtf mfthod instfbd
+     *
+     * @sff #drfbtfItfmListfnfr
+     */
+    protfdtfd ItfmListfnfr             itfmListfnfr;
+
+    /**
+     * This protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf.
+     */
+    protfdtfd Timfr                    butosdrollTimfr;
+
+    /**
+     * {@dodf truf} if thf mousf dursor is in thf popup.
+     */
+    protfdtfd boolfbn                  hbsEntfrfd = fblsf;
+
+    /**
+     * If {@dodf truf} thf buto-sdrolling is fnbblfd.
+     */
+    protfdtfd boolfbn                  isAutoSdrolling = fblsf;
+
+    /**
+     * Thf dirfdtion of sdrolling.
+     */
+    protfdtfd int                      sdrollDirfdtion = SCROLL_UP;
+
+    /**
+     * Thf dirfdtion of sdrolling up.
+     */
+    protfdtfd stbtid finbl int         SCROLL_UP = 0;
+
+    /**
+     * Thf dirfdtion of sdrolling down.
+     */
+    protfdtfd stbtid finbl int         SCROLL_DOWN = 1;
+
+
+    //========================================
+    // bfgin ComboPopup mfthod implfmfntbtions
+    //
+
+    /**
+     * Implfmfntbtion of ComboPopup.show().
+     */
+    publid void show() {
+        domboBox.firfPopupMfnuWillBfdomfVisiblf();
+        sftListSflfdtion(domboBox.gftSflfdtfdIndfx());
+        Point lodbtion = gftPopupLodbtion();
+        show( domboBox, lodbtion.x, lodbtion.y );
+    }
+
+
+    /**
+     * Implfmfntbtion of ComboPopup.hidf().
+     */
+    publid void hidf() {
+        MfnuSflfdtionMbnbgfr mbnbgfr = MfnuSflfdtionMbnbgfr.dffbultMbnbgfr();
+        MfnuElfmfnt [] sflfdtion = mbnbgfr.gftSflfdtfdPbth();
+        for ( int i = 0 ; i < sflfdtion.lfngth ; i++ ) {
+            if ( sflfdtion[i] == this ) {
+                mbnbgfr.dlfbrSflfdtfdPbth();
+                brfbk;
+            }
+        }
+        if (sflfdtion.lfngth > 0) {
+            domboBox.rfpbint();
+        }
+    }
+
+    /**
+     * Implfmfntbtion of ComboPopup.gftList().
+     */
+    publid JList<Objfdt> gftList() {
+        rfturn list;
+    }
+
+    /**
+     * Implfmfntbtion of ComboPopup.gftMousfListfnfr().
+     *
+     * @rfturn b <dodf>MousfListfnfr</dodf> or null
+     * @sff ComboPopup#gftMousfListfnfr
+     */
+    publid MousfListfnfr gftMousfListfnfr() {
+        if (mousfListfnfr == null) {
+            mousfListfnfr = drfbtfMousfListfnfr();
+        }
+        rfturn mousfListfnfr;
+    }
+
+    /**
+     * Implfmfntbtion of ComboPopup.gftMousfMotionListfnfr().
+     *
+     * @rfturn b <dodf>MousfMotionListfnfr</dodf> or null
+     * @sff ComboPopup#gftMousfMotionListfnfr
+     */
+    publid MousfMotionListfnfr gftMousfMotionListfnfr() {
+        if (mousfMotionListfnfr == null) {
+            mousfMotionListfnfr = drfbtfMousfMotionListfnfr();
+        }
+        rfturn mousfMotionListfnfr;
+    }
+
+    /**
+     * Implfmfntbtion of ComboPopup.gftKfyListfnfr().
+     *
+     * @rfturn b <dodf>KfyListfnfr</dodf> or null
+     * @sff ComboPopup#gftKfyListfnfr
+     */
+    publid KfyListfnfr gftKfyListfnfr() {
+        if (kfyListfnfr == null) {
+            kfyListfnfr = drfbtfKfyListfnfr();
+        }
+        rfturn kfyListfnfr;
+    }
+
+    /**
+     * Cbllfd whfn thf UI is uninstblling.  Sindf this popup isn't in thf domponfnt
+     * trff, it won't gft it's uninstbllUI() dbllfd.  It rfmovfs thf listfnfrs thbt
+     * wfrf bddfd in bddComboBoxListfnfrs().
+     */
+    publid void uninstbllingUI() {
+        if (propfrtyChbngfListfnfr != null) {
+            domboBox.rfmovfPropfrtyChbngfListfnfr( propfrtyChbngfListfnfr );
+        }
+        if (itfmListfnfr != null) {
+            domboBox.rfmovfItfmListfnfr( itfmListfnfr );
+        }
+        uninstbllComboBoxModflListfnfrs(domboBox.gftModfl());
+        uninstbllKfybobrdAdtions();
+        uninstbllListListfnfrs();
+        // Wf do this, othfrwisf thf listfnfr thf ui instblls on
+        // thf modfl (thf dombobox modfl in this dbsf) will kffp b
+        // rfffrfndf to thf list, dbusing thf list (bnd us) to nfvfr gft gdfd.
+        list.sftModfl(EmptyListModfl);
+    }
+
+    //
+    // fnd ComboPopup mfthod implfmfntbtions
+    //======================================
+
+    /**
+     * Rfmovfs thf listfnfrs from thf dombo box modfl
+     *
+     * @pbrbm modfl Thf dombo box modfl to instbll listfnfrs
+     * @sff #instbllComboBoxModflListfnfrs
+     */
+    protfdtfd void uninstbllComboBoxModflListfnfrs( ComboBoxModfl<?> modfl ) {
+        if (modfl != null && listDbtbListfnfr != null) {
+            modfl.rfmovfListDbtbListfnfr(listDbtbListfnfr);
+        }
+    }
+
+    /**
+     * Unrfgistfrs kfybobrd bdtions.
+     */
+    protfdtfd void uninstbllKfybobrdAdtions() {
+        // XXX - shouldn't dbll this mfthod
+//        domboBox.unrfgistfrKfybobrdAdtion( KfyStrokf.gftKfyStrokf( KfyEvfnt.VK_ENTER, 0 ) );
+    }
+
+
+
+    //===================================================================
+    // bfgin Initiblizbtion routinfs
+    //
+
+    /**
+     * Construdts b nfw instbndf of {@dodf BbsidComboPopup}.
+     *
+     * @pbrbm dombo bn instbndf of {@dodf JComboBox}
+     */
+    publid BbsidComboPopup( JComboBox<Objfdt> dombo ) {
+        supfr();
+        sftNbmf("ComboPopup.popup");
+        domboBox = dombo;
+
+        sftLightWfightPopupEnbblfd( domboBox.isLightWfightPopupEnbblfd() );
+
+        // UI donstrudtion of thf popup.
+        list = drfbtfList();
+        list.sftNbmf("ComboBox.list");
+        donfigurfList();
+        sdrollfr = drfbtfSdrollfr();
+        sdrollfr.sftNbmf("ComboBox.sdrollPbnf");
+        donfigurfSdrollfr();
+        donfigurfPopup();
+
+        instbllComboBoxListfnfrs();
+        instbllKfybobrdAdtions();
+    }
+
+    // Ovfrridfn PopupMfnuListfnfr notifidbtion mfthods to inform dombo box
+    // PopupMfnuListfnfrs.
+
+    protfdtfd void firfPopupMfnuWillBfdomfVisiblf() {
+        supfr.firfPopupMfnuWillBfdomfVisiblf();
+        // domboBox.firfPopupMfnuWillBfdomfVisiblf() is dbllfd from BbsidComboPopup.show() mfthod
+        // to lft thf usfr dhbngf thf popup mfnu from thf PopupMfnuListfnfr.popupMfnuWillBfdomfVisiblf()
+    }
+
+    protfdtfd void firfPopupMfnuWillBfdomfInvisiblf() {
+        supfr.firfPopupMfnuWillBfdomfInvisiblf();
+        domboBox.firfPopupMfnuWillBfdomfInvisiblf();
+    }
+
+    protfdtfd void firfPopupMfnuCbndflfd() {
+        supfr.firfPopupMfnuCbndflfd();
+        domboBox.firfPopupMfnuCbndflfd();
+    }
+
+    /**
+     * Crfbtfs b listfnfr
+     * thbt will wbtdh for mousf-prfss bnd rflfbsf fvfnts on thf dombo box.
+     *
+     * <strong>Wbrning:</strong>
+     * Whfn ovfrriding this mfthod, mbkf surf to mbintbin thf fxisting
+     * bfhbvior.
+     *
+     * @rfturn b <dodf>MousfListfnfr</dodf> whidh will bf bddfd to
+     * thf dombo box or null
+     */
+    protfdtfd MousfListfnfr drfbtfMousfListfnfr() {
+        rfturn gftHbndlfr();
+    }
+
+    /**
+     * Crfbtfs thf mousf motion listfnfr whidh will bf bddfd to thf dombo
+     * box.
+     *
+     * <strong>Wbrning:</strong>
+     * Whfn ovfrriding this mfthod, mbkf surf to mbintbin thf fxisting
+     * bfhbvior.
+     *
+     * @rfturn b <dodf>MousfMotionListfnfr</dodf> whidh will bf bddfd to
+     *         thf dombo box or null
+     */
+    protfdtfd MousfMotionListfnfr drfbtfMousfMotionListfnfr() {
+        rfturn gftHbndlfr();
+    }
+
+    /**
+     * Crfbtfs thf kfy listfnfr thbt will bf bddfd to thf dombo box. If
+     * this mfthod rfturns null thfn it will not bf bddfd to thf dombo box.
+     *
+     * @rfturn b <dodf>KfyListfnfr</dodf> or null
+     */
+    protfdtfd KfyListfnfr drfbtfKfyListfnfr() {
+        rfturn null;
+    }
+
+    /**
+     * Crfbtfs b list sflfdtion listfnfr thbt wbtdhfs for sflfdtion dhbngfs in
+     * thf popup's list.  If this mfthod rfturns null thfn it will not
+     * bf bddfd to thf popup list.
+     *
+     * @rfturn bn instbndf of b <dodf>ListSflfdtionListfnfr</dodf> or null
+     */
+    protfdtfd ListSflfdtionListfnfr drfbtfListSflfdtionListfnfr() {
+        rfturn null;
+    }
+
+    /**
+     * Crfbtfs b list dbtb listfnfr whidh will bf bddfd to thf
+     * <dodf>ComboBoxModfl</dodf>. If this mfthod rfturns null thfn
+     * it will not bf bddfd to thf dombo box modfl.
+     *
+     * @rfturn bn instbndf of b <dodf>ListDbtbListfnfr</dodf> or null
+     */
+    protfdtfd ListDbtbListfnfr drfbtfListDbtbListfnfr() {
+        rfturn null;
+    }
+
+    /**
+     * Crfbtfs b mousf listfnfr thbt wbtdhfs for mousf fvfnts in
+     * thf popup's list. If this mfthod rfturns null thfn it will
+     * not bf bddfd to thf dombo box.
+     *
+     * @rfturn bn instbndf of b <dodf>MousfListfnfr</dodf> or null
+     */
+    protfdtfd MousfListfnfr drfbtfListMousfListfnfr() {
+        rfturn gftHbndlfr();
+    }
+
+    /**
+     * Crfbtfs b mousf motion listfnfr thbt wbtdhfs for mousf motion
+     * fvfnts in thf popup's list. If this mfthod rfturns null thfn it will
+     * not bf bddfd to thf dombo box.
+     *
+     * @rfturn bn instbndf of b <dodf>MousfMotionListfnfr</dodf> or null
+     */
+    protfdtfd MousfMotionListfnfr drfbtfListMousfMotionListfnfr() {
+        rfturn gftHbndlfr();
+    }
+
+    /**
+     * Crfbtfs b <dodf>PropfrtyChbngfListfnfr</dodf> whidh will bf bddfd to
+     * thf dombo box. If this mfthod rfturns null thfn it will not
+     * bf bddfd to thf dombo box.
+     *
+     * @rfturn bn instbndf of b <dodf>PropfrtyChbngfListfnfr</dodf> or null
+     */
+    protfdtfd PropfrtyChbngfListfnfr drfbtfPropfrtyChbngfListfnfr() {
+        rfturn gftHbndlfr();
+    }
+
+    /**
+     * Crfbtfs bn <dodf>ItfmListfnfr</dodf> whidh will bf bddfd to thf
+     * dombo box. If this mfthod rfturns null thfn it will not
+     * bf bddfd to thf dombo box.
+     * <p>
+     * Subdlbssfs mby ovfrridf this mfthod to rfturn instbndfs of thfir own
+     * ItfmEvfnt hbndlfrs.
+     *
+     * @rfturn bn instbndf of bn <dodf>ItfmListfnfr</dodf> or null
+     */
+    protfdtfd ItfmListfnfr drfbtfItfmListfnfr() {
+        rfturn gftHbndlfr();
+    }
+
+    privbtf Hbndlfr gftHbndlfr() {
+        if (hbndlfr == null) {
+            hbndlfr = nfw Hbndlfr();
+        }
+        rfturn hbndlfr;
+    }
+
+    /**
+     * Crfbtfs thf JList usfd in thf popup to displby
+     * thf itfms in thf dombo box modfl. This mfthod is dbllfd whfn thf UI dlbss
+     * is drfbtfd.
+     *
+     * @rfturn b <dodf>JList</dodf> usfd to displby thf dombo box itfms
+     */
+    protfdtfd JList<Objfdt> drfbtfList() {
+        rfturn nfw JList<Objfdt>( domboBox.gftModfl() ) {
+            publid void prodfssMousfEvfnt(MousfEvfnt f)  {
+                if (BbsidGrbphidsUtils.isMfnuShortdutKfyDown(f))  {
+                    // Fix for 4234053. Filtfr out thf Control Kfy from thf list.
+                    // if., don't bllow CTRL kfy dfsflfdtion.
+                    Toolkit toolkit = Toolkit.gftDffbultToolkit();
+                    f = nfw MousfEvfnt((Componfnt)f.gftSourdf(), f.gftID(), f.gftWhfn(),
+                                       f.gftModififrs() ^ toolkit.gftMfnuShortdutKfyMbsk(),
+                                       f.gftX(), f.gftY(),
+                                       f.gftXOnSdrffn(), f.gftYOnSdrffn(),
+                                       f.gftClidkCount(),
+                                       f.isPopupTriggfr(),
+                                       MousfEvfnt.NOBUTTON);
+                }
+                supfr.prodfssMousfEvfnt(f);
+            }
+        };
+    }
+
+    /**
+     * Configurfs thf list whidh is usfd to hold thf dombo box itfms in thf
+     * popup. This mfthod is dbllfd whfn thf UI dlbss
+     * is drfbtfd.
+     *
+     * @sff #drfbtfList
+     */
+    protfdtfd void donfigurfList() {
+        list.sftFont( domboBox.gftFont() );
+        list.sftForfground( domboBox.gftForfground() );
+        list.sftBbdkground( domboBox.gftBbdkground() );
+        list.sftSflfdtionForfground( UIMbnbgfr.gftColor( "ComboBox.sflfdtionForfground" ) );
+        list.sftSflfdtionBbdkground( UIMbnbgfr.gftColor( "ComboBox.sflfdtionBbdkground" ) );
+        list.sftBordfr( null );
+        list.sftCfllRfndfrfr( domboBox.gftRfndfrfr() );
+        list.sftFodusbblf( fblsf );
+        list.sftSflfdtionModf( ListSflfdtionModfl.SINGLE_SELECTION );
+        sftListSflfdtion( domboBox.gftSflfdtfdIndfx() );
+        instbllListListfnfrs();
+    }
+
+    /**
+     * Adds thf listfnfrs to thf list dontrol.
+     */
+    protfdtfd void instbllListListfnfrs() {
+        if ((listMousfListfnfr = drfbtfListMousfListfnfr()) != null) {
+            list.bddMousfListfnfr( listMousfListfnfr );
+        }
+        if ((listMousfMotionListfnfr = drfbtfListMousfMotionListfnfr()) != null) {
+            list.bddMousfMotionListfnfr( listMousfMotionListfnfr );
+        }
+        if ((listSflfdtionListfnfr = drfbtfListSflfdtionListfnfr()) != null) {
+            list.bddListSflfdtionListfnfr( listSflfdtionListfnfr );
+        }
+    }
+
+    void uninstbllListListfnfrs() {
+        if (listMousfListfnfr != null) {
+            list.rfmovfMousfListfnfr(listMousfListfnfr);
+            listMousfListfnfr = null;
+        }
+        if (listMousfMotionListfnfr != null) {
+            list.rfmovfMousfMotionListfnfr(listMousfMotionListfnfr);
+            listMousfMotionListfnfr = null;
+        }
+        if (listSflfdtionListfnfr != null) {
+            list.rfmovfListSflfdtionListfnfr(listSflfdtionListfnfr);
+            listSflfdtionListfnfr = null;
+        }
+        hbndlfr = null;
+    }
+
+    /**
+     * Crfbtfs thf sdroll pbnf whidh housfs thf sdrollbblf list.
+     *
+     * @rfturn thf sdroll pbnf whidh housfs thf sdrollbblf list
+     */
+    protfdtfd JSdrollPbnf drfbtfSdrollfr() {
+        JSdrollPbnf sp = nfw JSdrollPbnf( list,
+                                SdrollPbnfConstbnts.VERTICAL_SCROLLBAR_AS_NEEDED,
+                                SdrollPbnfConstbnts.HORIZONTAL_SCROLLBAR_NEVER );
+        sp.sftHorizontblSdrollBbr(null);
+        rfturn sp;
+    }
+
+    /**
+     * Configurfs thf sdrollbblf portion whidh holds thf list within
+     * thf dombo box popup. This mfthod is dbllfd whfn thf UI dlbss
+     * is drfbtfd.
+     */
+    protfdtfd void donfigurfSdrollfr() {
+        sdrollfr.sftFodusbblf( fblsf );
+        sdrollfr.gftVfrtidblSdrollBbr().sftFodusbblf( fblsf );
+        sdrollfr.sftBordfr( null );
+    }
+
+    /**
+     * Configurfs thf popup portion of thf dombo box. This mfthod is dbllfd
+     * whfn thf UI dlbss is drfbtfd.
+     */
+    protfdtfd void donfigurfPopup() {
+        sftLbyout( nfw BoxLbyout( this, BoxLbyout.Y_AXIS ) );
+        sftBordfrPbintfd( truf );
+        sftBordfr(LIST_BORDER);
+        sftOpbquf( fblsf );
+        bdd( sdrollfr );
+        sftDoublfBufffrfd( truf );
+        sftFodusbblf( fblsf );
+    }
+
+    /**
+     * This mfthod bdds thf nfdfssbry listfnfrs to thf JComboBox.
+     */
+    protfdtfd void instbllComboBoxListfnfrs() {
+        if ((propfrtyChbngfListfnfr = drfbtfPropfrtyChbngfListfnfr()) != null) {
+            domboBox.bddPropfrtyChbngfListfnfr(propfrtyChbngfListfnfr);
+        }
+        if ((itfmListfnfr = drfbtfItfmListfnfr()) != null) {
+            domboBox.bddItfmListfnfr(itfmListfnfr);
+        }
+        instbllComboBoxModflListfnfrs(domboBox.gftModfl());
+    }
+
+    /**
+     * Instblls thf listfnfrs on thf dombo box modfl. Any listfnfrs instbllfd
+     * on thf dombo box modfl should bf rfmovfd in
+     * <dodf>uninstbllComboBoxModflListfnfrs</dodf>.
+     *
+     * @pbrbm modfl Thf dombo box modfl to instbll listfnfrs
+     * @sff #uninstbllComboBoxModflListfnfrs
+     */
+    protfdtfd void instbllComboBoxModflListfnfrs( ComboBoxModfl<?> modfl ) {
+        if (modfl != null && (listDbtbListfnfr = drfbtfListDbtbListfnfr()) != null) {
+            modfl.bddListDbtbListfnfr(listDbtbListfnfr);
+        }
+    }
+
+    /**
+     * Rfgistfrs kfybobrd bdtions.
+     */
+    protfdtfd void instbllKfybobrdAdtions() {
+
+        /* XXX - shouldn't dbll this mfthod. tbkf it out for tfsting.
+        AdtionListfnfr bdtion = nfw AdtionListfnfr() {
+            publid void bdtionPfrformfd(AdtionEvfnt f){
+            }
+        };
+
+        domboBox.rfgistfrKfybobrdAdtion( bdtion,
+                                         KfyStrokf.gftKfyStrokf( KfyEvfnt.VK_ENTER, 0 ),
+                                         JComponfnt.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT ); */
+
+    }
+
+    //
+    // fnd Initiblizbtion routinfs
+    //=================================================================
+
+
+    //===================================================================
+    // bfgin Evfnt Listfntfrs
+    //
+
+    /**
+     * A listfnfr to bf rfgistfrfd upon thf dombo box
+     * (<fm>not</fm> its popup mfnu)
+     * to hbndlf mousf fvfnts
+     * thbt bfffdt thf stbtf of thf popup mfnu.
+     * Thf mbin purposf of this listfnfr is to mbkf thf popup mfnu
+     * bppfbr bnd disbppfbr.
+     * This listfnfr blso hflps
+     * with dlidk-bnd-drbg sdfnbrios by sftting thf sflfdtion if thf mousf wbs
+     * rflfbsfd ovfr thf list during b drbg.
+     *
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Wf rfdommfnd thbt you <fm>not</fm>
+     * drfbtf subdlbssfs of this dlbss.
+     * If you bbsolutfly must drfbtf b subdlbss,
+     * bf surf to invokf thf supfrdlbss
+     * vfrsion of fbdh mfthod.
+     *
+     * @sff BbsidComboPopup#drfbtfMousfListfnfr
+     */
+    protfdtfd dlbss InvodbtionMousfHbndlfr fxtfnds MousfAdbptfr {
+        /**
+         * Rfsponds to mousf-prfssfd fvfnts on thf dombo box.
+         *
+         * @pbrbm f thf mousf-prfss fvfnt to bf hbndlfd
+         */
+        publid void mousfPrfssfd( MousfEvfnt f ) {
+            gftHbndlfr().mousfPrfssfd(f);
+        }
+
+        /**
+         * Rfsponds to thf usfr tfrminbting
+         * b dlidk or drbg thbt bfgbn on thf dombo box.
+         *
+         * @pbrbm f thf mousf-rflfbsf fvfnt to bf hbndlfd
+         */
+        publid void mousfRflfbsfd( MousfEvfnt f ) {
+            gftHbndlfr().mousfRflfbsfd(f);
+        }
+    }
+
+    /**
+     * This listfnfr wbtdhfs for drbgging bnd updbtfs thf durrfnt sflfdtion in thf
+     * list if it is drbgging ovfr thf list.
+     */
+    protfdtfd dlbss InvodbtionMousfMotionHbndlfr fxtfnds MousfMotionAdbptfr {
+        publid void mousfDrbggfd( MousfEvfnt f ) {
+            gftHbndlfr().mousfDrbggfd(f);
+        }
+    }
+
+    /**
+     * As of Jbvb 2 plbtform v 1.4, this dlbss is now obsolftf bnd is only indludfd for
+     * bbdkwbrds API dompbtibility. Do not instbntibtf or subdlbss.
+     * <p>
+     * All thf fundtionblity of this dlbss hbs bffn indludfd in
+     * BbsidComboBoxUI AdtionMbp/InputMbp mfthods.
+     */
+    publid dlbss InvodbtionKfyHbndlfr fxtfnds KfyAdbptfr {
+        publid void kfyRflfbsfd( KfyEvfnt f ) {}
+    }
+
+    /**
+     * As of Jbvb 2 plbtform v 1.4, this dlbss is now obsolftf, dofsn't do bnything, bnd
+     * is only indludfd for bbdkwbrds API dompbtibility. Do not dbll or
+     * ovfrridf.
+     */
+    protfdtfd dlbss ListSflfdtionHbndlfr implfmfnts ListSflfdtionListfnfr {
+        publid void vblufChbngfd( ListSflfdtionEvfnt f ) {}
+    }
+
+    /**
+     * As of 1.4, this dlbss is now obsolftf, dofsn't do bnything, bnd
+     * is only indludfd for bbdkwbrds API dompbtibility. Do not dbll or
+     * ovfrridf.
+     * <p>
+     * Thf fundtionblity hbs bffn migrbtfd into <dodf>ItfmHbndlfr</dodf>.
+     *
+     * @sff #drfbtfItfmListfnfr
+     */
+    publid dlbss ListDbtbHbndlfr implfmfnts ListDbtbListfnfr {
+        publid void dontfntsChbngfd( ListDbtbEvfnt f ) {}
+
+        publid void intfrvblAddfd( ListDbtbEvfnt f ) {
+        }
+
+        publid void intfrvblRfmovfd( ListDbtbEvfnt f ) {
+        }
+    }
+
+    /**
+     * This listfnfr hidfs thf popup whfn thf mousf is rflfbsfd in thf list.
+     */
+    protfdtfd dlbss ListMousfHbndlfr fxtfnds MousfAdbptfr {
+        publid void mousfPrfssfd( MousfEvfnt f ) {
+        }
+        publid void mousfRflfbsfd(MousfEvfnt bnEvfnt) {
+            gftHbndlfr().mousfRflfbsfd(bnEvfnt);
+        }
+    }
+
+    /**
+     * This listfnfr dhbngfs thf sflfdtfd itfm bs you movf thf mousf ovfr thf list.
+     * Thf sflfdtion dhbngf is not dommittfd to thf modfl, this is for usfr fffdbbdk only.
+     */
+    protfdtfd dlbss ListMousfMotionHbndlfr fxtfnds MousfMotionAdbptfr {
+        publid void mousfMovfd( MousfEvfnt bnEvfnt ) {
+            gftHbndlfr().mousfMovfd(bnEvfnt);
+        }
+    }
+
+    /**
+     * This listfnfr wbtdhfs for dhbngfs to thf sflfdtion in thf
+     * dombo box.
+     */
+    protfdtfd dlbss ItfmHbndlfr implfmfnts ItfmListfnfr {
+        publid void itfmStbtfChbngfd( ItfmEvfnt f ) {
+            gftHbndlfr().itfmStbtfChbngfd(f);
+        }
+    }
+
+    /**
+     * This listfnfr wbtdhfs for bound propfrtifs thbt hbvf dhbngfd in thf
+     * dombo box.
+     * <p>
+     * Subdlbssfs whidh wish to listfn to dombo box propfrty dhbngfs should
+     * dbll thf supfrdlbss mfthods to fnsurf thbt thf dombo popup dorrfdtly
+     * hbndlfs propfrty dhbngfs.
+     *
+     * @sff #drfbtfPropfrtyChbngfListfnfr
+     */
+    protfdtfd dlbss PropfrtyChbngfHbndlfr implfmfnts PropfrtyChbngfListfnfr {
+        publid void propfrtyChbngf( PropfrtyChbngfEvfnt f ) {
+            gftHbndlfr().propfrtyChbngf(f);
+        }
+    }
+
+
+    privbtf dlbss AutoSdrollAdtionHbndlfr implfmfnts AdtionListfnfr {
+        privbtf int dirfdtion;
+
+        AutoSdrollAdtionHbndlfr(int dirfdtion) {
+            this.dirfdtion = dirfdtion;
+        }
+
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            if (dirfdtion == SCROLL_UP) {
+                butoSdrollUp();
+            }
+            flsf {
+                butoSdrollDown();
+            }
+        }
+    }
+
+
+    privbtf dlbss Hbndlfr implfmfnts ItfmListfnfr, MousfListfnfr,
+                          MousfMotionListfnfr, PropfrtyChbngfListfnfr,
+                          Sfriblizbblf {
+        //
+        // MousfListfnfr
+        // NOTE: this is bddfd to both thf JList bnd JComboBox
+        //
+        publid void mousfClidkfd(MousfEvfnt f) {
+        }
+
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            if (f.gftSourdf() == list) {
+                rfturn;
+            }
+            if (!SwingUtilitifs.isLfftMousfButton(f) || !domboBox.isEnbblfd())
+                rfturn;
+
+            if ( domboBox.isEditbblf() ) {
+                Componfnt domp = domboBox.gftEditor().gftEditorComponfnt();
+                if ((!(domp instbndfof JComponfnt)) || ((JComponfnt)domp).isRfqufstFodusEnbblfd()) {
+                    domp.rfqufstFodus();
+                }
+            }
+            flsf if (domboBox.isRfqufstFodusEnbblfd()) {
+                domboBox.rfqufstFodus();
+            }
+            togglfPopup();
+        }
+
+        publid void mousfRflfbsfd(MousfEvfnt f) {
+            if (f.gftSourdf() == list) {
+                if (list.gftModfl().gftSizf() > 0) {
+                    // JList mousf listfnfr
+                    if (domboBox.gftSflfdtfdIndfx() == list.gftSflfdtfdIndfx()) {
+                        domboBox.gftEditor().sftItfm(list.gftSflfdtfdVbluf());
+                    }
+                    domboBox.sftSflfdtfdIndfx(list.gftSflfdtfdIndfx());
+                }
+                domboBox.sftPopupVisiblf(fblsf);
+                // workbround for dbndflling bn fditfd itfm (bug 4530953)
+                if (domboBox.isEditbblf() && domboBox.gftEditor() != null) {
+                    domboBox.donfigurfEditor(domboBox.gftEditor(),
+                                             domboBox.gftSflfdtfdItfm());
+                }
+                rfturn;
+            }
+            // JComboBox mousf listfnfr
+            Componfnt sourdf = (Componfnt)f.gftSourdf();
+            Dimfnsion sizf = sourdf.gftSizf();
+            Rfdtbnglf bounds = nfw Rfdtbnglf( 0, 0, sizf.width - 1, sizf.hfight - 1 );
+            if ( !bounds.dontbins( f.gftPoint() ) ) {
+                MousfEvfnt nfwEvfnt = donvfrtMousfEvfnt( f );
+                Point lodbtion = nfwEvfnt.gftPoint();
+                Rfdtbnglf r = nfw Rfdtbnglf();
+                list.domputfVisiblfRfdt( r );
+                if ( r.dontbins( lodbtion ) ) {
+                    if (domboBox.gftSflfdtfdIndfx() == list.gftSflfdtfdIndfx()) {
+                        domboBox.gftEditor().sftItfm(list.gftSflfdtfdVbluf());
+                    }
+                    domboBox.sftSflfdtfdIndfx(list.gftSflfdtfdIndfx());
+                }
+                domboBox.sftPopupVisiblf(fblsf);
+            }
+            hbsEntfrfd = fblsf;
+            stopAutoSdrolling();
+        }
+
+        publid void mousfEntfrfd(MousfEvfnt f) {
+        }
+
+        publid void mousfExitfd(MousfEvfnt f) {
+        }
+
+        //
+        // MousfMotionListfnfr:
+        // NOTE: this is bddfd to both thf List bnd ComboBox
+        //
+        publid void mousfMovfd(MousfEvfnt bnEvfnt) {
+            if (bnEvfnt.gftSourdf() == list) {
+                Point lodbtion = bnEvfnt.gftPoint();
+                Rfdtbnglf r = nfw Rfdtbnglf();
+                list.domputfVisiblfRfdt( r );
+                if ( r.dontbins( lodbtion ) ) {
+                    updbtfListBoxSflfdtionForEvfnt( bnEvfnt, fblsf );
+                }
+            }
+        }
+
+        publid void mousfDrbggfd( MousfEvfnt f ) {
+            if (f.gftSourdf() == list) {
+                rfturn;
+            }
+            if ( isVisiblf() ) {
+                MousfEvfnt nfwEvfnt = donvfrtMousfEvfnt( f );
+                Rfdtbnglf r = nfw Rfdtbnglf();
+                list.domputfVisiblfRfdt( r );
+
+                if ( nfwEvfnt.gftPoint().y >= r.y && nfwEvfnt.gftPoint().y <= r.y + r.hfight - 1 ) {
+                    hbsEntfrfd = truf;
+                    if ( isAutoSdrolling ) {
+                        stopAutoSdrolling();
+                    }
+                    Point lodbtion = nfwEvfnt.gftPoint();
+                    if ( r.dontbins( lodbtion ) ) {
+                        updbtfListBoxSflfdtionForEvfnt( nfwEvfnt, fblsf );
+                    }
+                }
+                flsf {
+                    if ( hbsEntfrfd ) {
+                        int dirfdtionToSdroll = nfwEvfnt.gftPoint().y < r.y ? SCROLL_UP : SCROLL_DOWN;
+                        if ( isAutoSdrolling && sdrollDirfdtion != dirfdtionToSdroll ) {
+                            stopAutoSdrolling();
+                            stbrtAutoSdrolling( dirfdtionToSdroll );
+                        }
+                        flsf if ( !isAutoSdrolling ) {
+                            stbrtAutoSdrolling( dirfdtionToSdroll );
+                        }
+                    }
+                    flsf {
+                        if ( f.gftPoint().y < 0 ) {
+                            hbsEntfrfd = truf;
+                            stbrtAutoSdrolling( SCROLL_UP );
+                        }
+                    }
+                }
+            }
+        }
+
+        //
+        // PropfrtyChbngfListfnfr
+        //
+        publid void propfrtyChbngf(PropfrtyChbngfEvfnt f) {
+            @SupprfssWbrnings("undhfdkfd")
+            JComboBox<Objfdt> domboBox = (JComboBox)f.gftSourdf();
+            String propfrtyNbmf = f.gftPropfrtyNbmf();
+
+            if ( propfrtyNbmf == "modfl" ) {
+                @SupprfssWbrnings("undhfdkfd")
+                ComboBoxModfl<Objfdt> oldModfl = (ComboBoxModfl)f.gftOldVbluf();
+                @SupprfssWbrnings("undhfdkfd")
+                ComboBoxModfl<Objfdt> nfwModfl = (ComboBoxModfl)f.gftNfwVbluf();
+                uninstbllComboBoxModflListfnfrs(oldModfl);
+                instbllComboBoxModflListfnfrs(nfwModfl);
+
+                list.sftModfl(nfwModfl);
+
+                if ( isVisiblf() ) {
+                    hidf();
+                }
+            }
+            flsf if ( propfrtyNbmf == "rfndfrfr" ) {
+                list.sftCfllRfndfrfr( domboBox.gftRfndfrfr() );
+                if ( isVisiblf() ) {
+                    hidf();
+                }
+            }
+            flsf if (propfrtyNbmf == "domponfntOrifntbtion") {
+                // Pbss blong thf nfw domponfnt orifntbtion
+                // to thf list bnd thf sdrollfr
+
+                ComponfntOrifntbtion o =(ComponfntOrifntbtion)f.gftNfwVbluf();
+
+                JList<?> list = gftList();
+                if (list!=null && list.gftComponfntOrifntbtion()!=o) {
+                    list.sftComponfntOrifntbtion(o);
+                }
+
+                if (sdrollfr!=null && sdrollfr.gftComponfntOrifntbtion()!=o) {
+                    sdrollfr.sftComponfntOrifntbtion(o);
+                }
+
+                if (o!=gftComponfntOrifntbtion()) {
+                    sftComponfntOrifntbtion(o);
+                }
+            }
+            flsf if (propfrtyNbmf == "lightWfightPopupEnbblfd") {
+                sftLightWfightPopupEnbblfd(domboBox.isLightWfightPopupEnbblfd());
+            }
+        }
+
+        //
+        // ItfmListfnfr
+        //
+        publid void itfmStbtfChbngfd( ItfmEvfnt f ) {
+            if (f.gftStbtfChbngf() == ItfmEvfnt.SELECTED) {
+                @SupprfssWbrnings("undhfdkfd")
+                JComboBox<Objfdt> domboBox = (JComboBox)f.gftSourdf();
+                sftListSflfdtion(domboBox.gftSflfdtfdIndfx());
+            }
+        }
+    }
+
+    //
+    // fnd Evfnt Listfnfrs
+    //=================================================================
+
+
+    /**
+     * Ovfrriddfn to undonditionblly rfturn fblsf.
+     */
+    publid boolfbn isFodusTrbvfrsbblf() {
+        rfturn fblsf;
+    }
+
+    //===================================================================
+    // bfgin Autosdroll mfthods
+    //
+
+    /**
+     * This protfdtfd mfthod is implfmfntbtion spfdifid bnd should bf privbtf.
+     * do not dbll or ovfrridf.
+     *
+     * @pbrbm dirfdtion thf dirfdtion of sdrolling
+     */
+    protfdtfd void stbrtAutoSdrolling( int dirfdtion ) {
+        // XXX - should bf b privbtf mfthod within InvodbtionMousfMotionHbndlfr
+        // if possiblf.
+        if ( isAutoSdrolling ) {
+            butosdrollTimfr.stop();
+        }
+
+        isAutoSdrolling = truf;
+
+        if ( dirfdtion == SCROLL_UP ) {
+            sdrollDirfdtion = SCROLL_UP;
+            Point donvfrtfdPoint = SwingUtilitifs.donvfrtPoint( sdrollfr, nfw Point( 1, 1 ), list );
+            int top = list.lodbtionToIndfx( donvfrtfdPoint );
+            list.sftSflfdtfdIndfx( top );
+
+            butosdrollTimfr = nfw Timfr( 100, nfw AutoSdrollAdtionHbndlfr(
+                                             SCROLL_UP) );
+        }
+        flsf if ( dirfdtion == SCROLL_DOWN ) {
+            sdrollDirfdtion = SCROLL_DOWN;
+            Dimfnsion sizf = sdrollfr.gftSizf();
+            Point donvfrtfdPoint = SwingUtilitifs.donvfrtPoint( sdrollfr,
+                                                                nfw Point( 1, (sizf.hfight - 1) - 2 ),
+                                                                list );
+            int bottom = list.lodbtionToIndfx( donvfrtfdPoint );
+            list.sftSflfdtfdIndfx( bottom );
+
+            butosdrollTimfr = nfw Timfr(100, nfw AutoSdrollAdtionHbndlfr(
+                                            SCROLL_DOWN));
+        }
+        butosdrollTimfr.stbrt();
+    }
+
+    /**
+     * This protfdtfd mfthod is implfmfntbtion spfdifid bnd should bf privbtf.
+     * do not dbll or ovfrridf.
+     */
+    protfdtfd void stopAutoSdrolling() {
+        isAutoSdrolling = fblsf;
+
+        if ( butosdrollTimfr != null ) {
+            butosdrollTimfr.stop();
+            butosdrollTimfr = null;
+        }
+    }
+
+    /**
+     * This protfdtfd mfthod is implfmfntbtion spfdifid bnd should bf privbtf.
+     * do not dbll or ovfrridf.
+     */
+    protfdtfd void butoSdrollUp() {
+        int indfx = list.gftSflfdtfdIndfx();
+        if ( indfx > 0 ) {
+            list.sftSflfdtfdIndfx( indfx - 1 );
+            list.fnsurfIndfxIsVisiblf( indfx - 1 );
+        }
+    }
+
+    /**
+     * This protfdtfd mfthod is implfmfntbtion spfdifid bnd should bf privbtf.
+     * do not dbll or ovfrridf.
+     */
+    protfdtfd void butoSdrollDown() {
+        int indfx = list.gftSflfdtfdIndfx();
+        int lbstItfm = list.gftModfl().gftSizf() - 1;
+        if ( indfx < lbstItfm ) {
+            list.sftSflfdtfdIndfx( indfx + 1 );
+            list.fnsurfIndfxIsVisiblf( indfx + 1 );
+        }
+    }
+
+    //
+    // fnd Autosdroll mfthods
+    //=================================================================
+
+
+    //===================================================================
+    // bfgin Utility mfthods
+    //
+
+    /**
+     * Gfts thf AddfssiblfContfxt bssodibtfd with this BbsidComboPopup.
+     * Thf AddfssiblfContfxt will hbvf its pbrfnt sft to thf ComboBox.
+     *
+     * @rfturn bn AddfssiblfContfxt for thf BbsidComboPopup
+     * @sindf 1.5
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        AddfssiblfContfxt dontfxt = supfr.gftAddfssiblfContfxt();
+        dontfxt.sftAddfssiblfPbrfnt(domboBox);
+        rfturn dontfxt;
+    }
+
+
+    /**
+     * This is is b utility mfthod thbt hflps fvfnt hbndlfrs figurf out whfrf to
+     * sfnd thf fodus whfn thf popup is brought up.  Thf stbndbrd implfmfntbtion
+     * dflfgbtfs thf fodus to thf fditor (if thf dombo box is fditbblf) or to
+     * thf JComboBox if it is not fditbblf.
+     *
+     * @pbrbm f b mousf fvfnt
+     */
+    protfdtfd void dflfgbtfFodus( MousfEvfnt f ) {
+        if ( domboBox.isEditbblf() ) {
+            Componfnt domp = domboBox.gftEditor().gftEditorComponfnt();
+            if ((!(domp instbndfof JComponfnt)) || ((JComponfnt)domp).isRfqufstFodusEnbblfd()) {
+                domp.rfqufstFodus();
+            }
+        }
+        flsf if (domboBox.isRfqufstFodusEnbblfd()) {
+            domboBox.rfqufstFodus();
+        }
+    }
+
+    /**
+     * Mbkfs thf popup visiblf if it is hiddfn bnd mbkfs it hiddfn if it is
+     * visiblf.
+     */
+    protfdtfd void togglfPopup() {
+        if ( isVisiblf() ) {
+            hidf();
+        }
+        flsf {
+            show();
+        }
+    }
+
+    /**
+     * Sfts thf list sflfdtion indfx to thf sflfdtfdIndfx. This
+     * mfthod is usfd to syndhronizf thf list sflfdtion with thf
+     * dombo box sflfdtion.
+     *
+     * @pbrbm sflfdtfdIndfx thf indfx to sft thf list
+     */
+    privbtf void sftListSflfdtion(int sflfdtfdIndfx) {
+        if ( sflfdtfdIndfx == -1 ) {
+            list.dlfbrSflfdtion();
+        }
+        flsf {
+            list.sftSflfdtfdIndfx( sflfdtfdIndfx );
+            list.fnsurfIndfxIsVisiblf( sflfdtfdIndfx );
+        }
+    }
+
+    /**
+     * Convfrts mousf fvfnt.
+     *
+     * @pbrbm f b mousf fvfnt
+     * @rfturn donvfrtfd mousf fvfnt
+     */
+    protfdtfd MousfEvfnt donvfrtMousfEvfnt( MousfEvfnt f ) {
+        Point donvfrtfdPoint = SwingUtilitifs.donvfrtPoint( (Componfnt)f.gftSourdf(),
+                                                            f.gftPoint(), list );
+        MousfEvfnt nfwEvfnt = nfw MousfEvfnt( (Componfnt)f.gftSourdf(),
+                                              f.gftID(),
+                                              f.gftWhfn(),
+                                              f.gftModififrs(),
+                                              donvfrtfdPoint.x,
+                                              donvfrtfdPoint.y,
+                                              f.gftXOnSdrffn(),
+                                              f.gftYOnSdrffn(),
+                                              f.gftClidkCount(),
+                                              f.isPopupTriggfr(),
+                                              MousfEvfnt.NOBUTTON );
+        rfturn nfwEvfnt;
+    }
+
+
+    /**
+     * Rftrifvfs thf hfight of thf popup bbsfd on thf durrfnt
+     * ListCfllRfndfrfr bnd thf mbximum row dount.
+     *
+     * @pbrbm mbxRowCount thf row dount
+     * @rfturn thf hfight of thf popup
+     */
+    protfdtfd int gftPopupHfightForRowCount(int mbxRowCount) {
+        // Sft thf dbdhfd vbluf of thf minimum row dount
+        int minRowCount = Mbth.min( mbxRowCount, domboBox.gftItfmCount() );
+        int hfight = 0;
+        ListCfllRfndfrfr<Objfdt> rfndfrfr = list.gftCfllRfndfrfr();
+        Objfdt vbluf = null;
+
+        for ( int i = 0; i < minRowCount; ++i ) {
+            vbluf = list.gftModfl().gftElfmfntAt( i );
+            Componfnt d = rfndfrfr.gftListCfllRfndfrfrComponfnt( list, vbluf, i, fblsf, fblsf );
+            hfight += d.gftPrfffrrfdSizf().hfight;
+        }
+
+        if (hfight == 0) {
+            hfight = domboBox.gftHfight();
+        }
+
+        Bordfr bordfr = sdrollfr.gftVifwportBordfr();
+        if (bordfr != null) {
+            Insfts insfts = bordfr.gftBordfrInsfts(null);
+            hfight += insfts.top + insfts.bottom;
+        }
+
+        bordfr = sdrollfr.gftBordfr();
+        if (bordfr != null) {
+            Insfts insfts = bordfr.gftBordfrInsfts(null);
+            hfight += insfts.top + insfts.bottom;
+        }
+
+        rfturn hfight;
+    }
+
+    /**
+     * Cbldulbtf thf plbdfmfnt bnd sizf of thf popup portion of thf dombo box bbsfd
+     * on thf dombo box lodbtion bnd thf fndlosing sdrffn bounds. If
+     * no trbnsformbtions brf rfquirfd, thfn thf rfturnfd rfdtbnglf will
+     * hbvf thf sbmf vblufs bs thf pbrbmftfrs.
+     *
+     * @pbrbm px stbrting x lodbtion
+     * @pbrbm py stbrting y lodbtion
+     * @pbrbm pw stbrting width
+     * @pbrbm ph stbrting hfight
+     * @rfturn b rfdtbnglf whidh rfprfsfnts thf plbdfmfnt bnd sizf of thf popup
+     */
+    protfdtfd Rfdtbnglf domputfPopupBounds(int px,int py,int pw,int ph) {
+        Toolkit toolkit = Toolkit.gftDffbultToolkit();
+        Rfdtbnglf sdrffnBounds;
+
+        // Cbldulbtf thf dfsktop dimfnsions rflbtivf to thf dombo box.
+        GrbphidsConfigurbtion gd = domboBox.gftGrbphidsConfigurbtion();
+        Point p = nfw Point();
+        SwingUtilitifs.donvfrtPointFromSdrffn(p, domboBox);
+        if (gd != null) {
+            Insfts sdrffnInsfts = toolkit.gftSdrffnInsfts(gd);
+            sdrffnBounds = gd.gftBounds();
+            sdrffnBounds.width -= (sdrffnInsfts.lfft + sdrffnInsfts.right);
+            sdrffnBounds.hfight -= (sdrffnInsfts.top + sdrffnInsfts.bottom);
+            sdrffnBounds.x += (p.x + sdrffnInsfts.lfft);
+            sdrffnBounds.y += (p.y + sdrffnInsfts.top);
+        }
+        flsf {
+            sdrffnBounds = nfw Rfdtbnglf(p, toolkit.gftSdrffnSizf());
+        }
+
+        Rfdtbnglf rfdt = nfw Rfdtbnglf(px,py,pw,ph);
+        if (py+ph > sdrffnBounds.y+sdrffnBounds.hfight
+            && ph < sdrffnBounds.hfight) {
+            rfdt.y = -rfdt.hfight;
+        }
+        rfturn rfdt;
+    }
+
+    /**
+     * Cbldulbtfs thf uppfr lfft lodbtion of thf Popup.
+     */
+    privbtf Point gftPopupLodbtion() {
+        Dimfnsion popupSizf = domboBox.gftSizf();
+        Insfts insfts = gftInsfts();
+
+        // rfdudf thf width of thf sdrollpbnf by thf insfts so thbt thf popup
+        // is thf sbmf width bs thf dombo box.
+        popupSizf.sftSizf(popupSizf.width - (insfts.right + insfts.lfft),
+                          gftPopupHfightForRowCount( domboBox.gftMbximumRowCount()));
+        Rfdtbnglf popupBounds = domputfPopupBounds( 0, domboBox.gftBounds().hfight,
+                                                    popupSizf.width, popupSizf.hfight);
+        Dimfnsion sdrollSizf = popupBounds.gftSizf();
+        Point popupLodbtion = popupBounds.gftLodbtion();
+
+        sdrollfr.sftMbximumSizf( sdrollSizf );
+        sdrollfr.sftPrfffrrfdSizf( sdrollSizf );
+        sdrollfr.sftMinimumSizf( sdrollSizf );
+
+        list.rfvblidbtf();
+
+        rfturn popupLodbtion;
+    }
+
+    /**
+     * A utility mfthod usfd by thf fvfnt listfnfrs.  Givfn b mousf fvfnt, it dhbngfs
+     * thf list sflfdtion to thf list itfm bflow thf mousf.
+     *
+     * @pbrbm bnEvfnt b mousf fvfnt
+     * @pbrbm shouldSdroll if {@dodf truf} list should bf sdrollfd.
+     */
+    protfdtfd void updbtfListBoxSflfdtionForEvfnt(MousfEvfnt bnEvfnt,boolfbn shouldSdroll) {
+        // XXX - only sffms to bf dbllfd from this dlbss. shouldSdroll flbg is
+        // nfvfr truf
+        Point lodbtion = bnEvfnt.gftPoint();
+        if ( list == null )
+            rfturn;
+        int indfx = list.lodbtionToIndfx(lodbtion);
+        if ( indfx == -1 ) {
+            if ( lodbtion.y < 0 )
+                indfx = 0;
+            flsf
+                indfx = domboBox.gftModfl().gftSizf() - 1;
+        }
+        if ( list.gftSflfdtfdIndfx() != indfx ) {
+            list.sftSflfdtfdIndfx(indfx);
+            if ( shouldSdroll )
+                list.fnsurfIndfxIsVisiblf(indfx);
+        }
+    }
+
+    //
+    // fnd Utility mfthods
+    //=================================================================
+}

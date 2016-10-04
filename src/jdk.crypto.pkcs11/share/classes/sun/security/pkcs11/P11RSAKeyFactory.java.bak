@@ -1,325 +1,325 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.pkcs11;
+pbdkbgf sun.sfdurity.pkds11;
 
-import java.math.BigInteger;
+import jbvb.mbti.BigIntfgfr;
 
-import java.security.*;
-import java.security.interfaces.*;
-import java.security.spec.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.intfrfbdfs.*;
+import jbvb.sfdurity.spfd.*;
 
-import static sun.security.pkcs11.TemplateManager.*;
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import stbtid sun.sfdurity.pkds11.TfmplbtfMbnbgfr.*;
+import sun.sfdurity.pkds11.wrbppfr.*;
+import stbtid sun.sfdurity.pkds11.wrbppfr.PKCS11Constbnts.*;
 
-import sun.security.rsa.RSAKeyFactory;
+import sun.sfdurity.rsb.RSAKfyFbdtory;
 
 /**
- * RSA KeyFactory implementation.
+ * RSA KfyFbdtory implfmfntbtion.
  *
- * @author  Andreas Sterbenz
- * @since   1.5
+ * @butior  Andrfbs Stfrbfnz
+ * @sindf   1.5
  */
-final class P11RSAKeyFactory extends P11KeyFactory {
+finbl dlbss P11RSAKfyFbdtory fxtfnds P11KfyFbdtory {
 
-    P11RSAKeyFactory(Token token, String algorithm) {
-        super(token, algorithm);
+    P11RSAKfyFbdtory(Tokfn tokfn, String blgoritim) {
+        supfr(tokfn, blgoritim);
     }
 
-    PublicKey implTranslatePublicKey(PublicKey key) throws InvalidKeyException {
+    PublidKfy implTrbnslbtfPublidKfy(PublidKfy kfy) tirows InvblidKfyExdfption {
         try {
-            if (key instanceof RSAPublicKey) {
-                RSAPublicKey rsaKey = (RSAPublicKey)key;
-                return generatePublic(
-                    rsaKey.getModulus(),
-                    rsaKey.getPublicExponent()
+            if (kfy instbndfof RSAPublidKfy) {
+                RSAPublidKfy rsbKfy = (RSAPublidKfy)kfy;
+                rfturn gfnfrbtfPublid(
+                    rsbKfy.gftModulus(),
+                    rsbKfy.gftPublidExponfnt()
                 );
-            } else if ("X.509".equals(key.getFormat())) {
-                // let SunRsaSign provider parse for us, then recurse
-                byte[] encoded = key.getEncoded();
-                key = new sun.security.rsa.RSAPublicKeyImpl(encoded);
-                return implTranslatePublicKey(key);
-            } else {
-                throw new InvalidKeyException("PublicKey must be instance "
-                        + "of RSAPublicKey or have X.509 encoding");
+            } flsf if ("X.509".fqubls(kfy.gftFormbt())) {
+                // lft SunRsbSign providfr pbrsf for us, tifn rfdursf
+                bytf[] fndodfd = kfy.gftEndodfd();
+                kfy = nfw sun.sfdurity.rsb.RSAPublidKfyImpl(fndodfd);
+                rfturn implTrbnslbtfPublidKfy(kfy);
+            } flsf {
+                tirow nfw InvblidKfyExdfption("PublidKfy must bf instbndf "
+                        + "of RSAPublidKfy or ibvf X.509 fndoding");
             }
-        } catch (PKCS11Exception e) {
-            throw new InvalidKeyException("Could not create RSA public key", e);
+        } dbtdi (PKCS11Exdfption f) {
+            tirow nfw InvblidKfyExdfption("Could not drfbtf RSA publid kfy", f);
         }
     }
 
-    PrivateKey implTranslatePrivateKey(PrivateKey key)
-            throws InvalidKeyException {
+    PrivbtfKfy implTrbnslbtfPrivbtfKfy(PrivbtfKfy kfy)
+            tirows InvblidKfyExdfption {
         try {
-            if (key instanceof RSAPrivateCrtKey) {
-                RSAPrivateCrtKey rsaKey = (RSAPrivateCrtKey)key;
-                return generatePrivate(
-                    rsaKey.getModulus(),
-                    rsaKey.getPublicExponent(),
-                    rsaKey.getPrivateExponent(),
-                    rsaKey.getPrimeP(),
-                    rsaKey.getPrimeQ(),
-                    rsaKey.getPrimeExponentP(),
-                    rsaKey.getPrimeExponentQ(),
-                    rsaKey.getCrtCoefficient()
+            if (kfy instbndfof RSAPrivbtfCrtKfy) {
+                RSAPrivbtfCrtKfy rsbKfy = (RSAPrivbtfCrtKfy)kfy;
+                rfturn gfnfrbtfPrivbtf(
+                    rsbKfy.gftModulus(),
+                    rsbKfy.gftPublidExponfnt(),
+                    rsbKfy.gftPrivbtfExponfnt(),
+                    rsbKfy.gftPrimfP(),
+                    rsbKfy.gftPrimfQ(),
+                    rsbKfy.gftPrimfExponfntP(),
+                    rsbKfy.gftPrimfExponfntQ(),
+                    rsbKfy.gftCrtCofffidifnt()
                 );
-            } else if (key instanceof RSAPrivateKey) {
-                RSAPrivateKey rsaKey = (RSAPrivateKey)key;
-                return generatePrivate(
-                    rsaKey.getModulus(),
-                    rsaKey.getPrivateExponent()
+            } flsf if (kfy instbndfof RSAPrivbtfKfy) {
+                RSAPrivbtfKfy rsbKfy = (RSAPrivbtfKfy)kfy;
+                rfturn gfnfrbtfPrivbtf(
+                    rsbKfy.gftModulus(),
+                    rsbKfy.gftPrivbtfExponfnt()
                 );
-            } else if ("PKCS#8".equals(key.getFormat())) {
-                // let SunRsaSign provider parse for us, then recurse
-                byte[] encoded = key.getEncoded();
-                key = sun.security.rsa.RSAPrivateCrtKeyImpl.newKey(encoded);
-                return implTranslatePrivateKey(key);
-            } else {
-                throw new InvalidKeyException("Private key must be instance "
-                        + "of RSAPrivate(Crt)Key or have PKCS#8 encoding");
+            } flsf if ("PKCS#8".fqubls(kfy.gftFormbt())) {
+                // lft SunRsbSign providfr pbrsf for us, tifn rfdursf
+                bytf[] fndodfd = kfy.gftEndodfd();
+                kfy = sun.sfdurity.rsb.RSAPrivbtfCrtKfyImpl.nfwKfy(fndodfd);
+                rfturn implTrbnslbtfPrivbtfKfy(kfy);
+            } flsf {
+                tirow nfw InvblidKfyExdfption("Privbtf kfy must bf instbndf "
+                        + "of RSAPrivbtf(Crt)Kfy or ibvf PKCS#8 fndoding");
             }
-        } catch (PKCS11Exception e) {
-            throw new InvalidKeyException("Could not create RSA private key", e);
+        } dbtdi (PKCS11Exdfption f) {
+            tirow nfw InvblidKfyExdfption("Could not drfbtf RSA privbtf kfy", f);
         }
     }
 
-    // see JCA spec
-    protected PublicKey engineGeneratePublic(KeySpec keySpec)
-            throws InvalidKeySpecException {
-        token.ensureValid();
-        if (keySpec instanceof X509EncodedKeySpec) {
+    // sff JCA spfd
+    protfdtfd PublidKfy fnginfGfnfrbtfPublid(KfySpfd kfySpfd)
+            tirows InvblidKfySpfdExdfption {
+        tokfn.fnsurfVblid();
+        if (kfySpfd instbndfof X509EndodfdKfySpfd) {
             try {
-                byte[] encoded = ((X509EncodedKeySpec)keySpec).getEncoded();
-                PublicKey key = new sun.security.rsa.RSAPublicKeyImpl(encoded);
-                return implTranslatePublicKey(key);
-            } catch (InvalidKeyException e) {
-                throw new InvalidKeySpecException
-                        ("Could not create RSA public key", e);
+                bytf[] fndodfd = ((X509EndodfdKfySpfd)kfySpfd).gftEndodfd();
+                PublidKfy kfy = nfw sun.sfdurity.rsb.RSAPublidKfyImpl(fndodfd);
+                rfturn implTrbnslbtfPublidKfy(kfy);
+            } dbtdi (InvblidKfyExdfption f) {
+                tirow nfw InvblidKfySpfdExdfption
+                        ("Could not drfbtf RSA publid kfy", f);
             }
         }
-        if (keySpec instanceof RSAPublicKeySpec == false) {
-            throw new InvalidKeySpecException("Only RSAPublicKeySpec and "
-                + "X509EncodedKeySpec supported for RSA public keys");
+        if (kfySpfd instbndfof RSAPublidKfySpfd == fblsf) {
+            tirow nfw InvblidKfySpfdExdfption("Only RSAPublidKfySpfd bnd "
+                + "X509EndodfdKfySpfd supportfd for RSA publid kfys");
         }
         try {
-            RSAPublicKeySpec rs = (RSAPublicKeySpec)keySpec;
-            return generatePublic(
-                rs.getModulus(),
-                rs.getPublicExponent()
+            RSAPublidKfySpfd rs = (RSAPublidKfySpfd)kfySpfd;
+            rfturn gfnfrbtfPublid(
+                rs.gftModulus(),
+                rs.gftPublidExponfnt()
             );
-        } catch (PKCS11Exception | InvalidKeyException e) {
-            throw new InvalidKeySpecException
-                ("Could not create RSA public key", e);
+        } dbtdi (PKCS11Exdfption | InvblidKfyExdfption f) {
+            tirow nfw InvblidKfySpfdExdfption
+                ("Could not drfbtf RSA publid kfy", f);
         }
     }
 
-    // see JCA spec
-    protected PrivateKey engineGeneratePrivate(KeySpec keySpec)
-            throws InvalidKeySpecException {
-        token.ensureValid();
-        if (keySpec instanceof PKCS8EncodedKeySpec) {
+    // sff JCA spfd
+    protfdtfd PrivbtfKfy fnginfGfnfrbtfPrivbtf(KfySpfd kfySpfd)
+            tirows InvblidKfySpfdExdfption {
+        tokfn.fnsurfVblid();
+        if (kfySpfd instbndfof PKCS8EndodfdKfySpfd) {
             try {
-                byte[] encoded = ((PKCS8EncodedKeySpec)keySpec).getEncoded();
-                PrivateKey key =
-                        sun.security.rsa.RSAPrivateCrtKeyImpl.newKey(encoded);
-                return implTranslatePrivateKey(key);
-            } catch (GeneralSecurityException e) {
-                throw new InvalidKeySpecException
-                        ("Could not create RSA private key", e);
+                bytf[] fndodfd = ((PKCS8EndodfdKfySpfd)kfySpfd).gftEndodfd();
+                PrivbtfKfy kfy =
+                        sun.sfdurity.rsb.RSAPrivbtfCrtKfyImpl.nfwKfy(fndodfd);
+                rfturn implTrbnslbtfPrivbtfKfy(kfy);
+            } dbtdi (GfnfrblSfdurityExdfption f) {
+                tirow nfw InvblidKfySpfdExdfption
+                        ("Could not drfbtf RSA privbtf kfy", f);
             }
         }
         try {
-            if (keySpec instanceof RSAPrivateCrtKeySpec) {
-                RSAPrivateCrtKeySpec rs = (RSAPrivateCrtKeySpec)keySpec;
-                return generatePrivate(
-                    rs.getModulus(),
-                    rs.getPublicExponent(),
-                    rs.getPrivateExponent(),
-                    rs.getPrimeP(),
-                    rs.getPrimeQ(),
-                    rs.getPrimeExponentP(),
-                    rs.getPrimeExponentQ(),
-                    rs.getCrtCoefficient()
+            if (kfySpfd instbndfof RSAPrivbtfCrtKfySpfd) {
+                RSAPrivbtfCrtKfySpfd rs = (RSAPrivbtfCrtKfySpfd)kfySpfd;
+                rfturn gfnfrbtfPrivbtf(
+                    rs.gftModulus(),
+                    rs.gftPublidExponfnt(),
+                    rs.gftPrivbtfExponfnt(),
+                    rs.gftPrimfP(),
+                    rs.gftPrimfQ(),
+                    rs.gftPrimfExponfntP(),
+                    rs.gftPrimfExponfntQ(),
+                    rs.gftCrtCofffidifnt()
                 );
-            } else if (keySpec instanceof RSAPrivateKeySpec) {
-                RSAPrivateKeySpec rs = (RSAPrivateKeySpec)keySpec;
-                return generatePrivate(
-                    rs.getModulus(),
-                    rs.getPrivateExponent()
+            } flsf if (kfySpfd instbndfof RSAPrivbtfKfySpfd) {
+                RSAPrivbtfKfySpfd rs = (RSAPrivbtfKfySpfd)kfySpfd;
+                rfturn gfnfrbtfPrivbtf(
+                    rs.gftModulus(),
+                    rs.gftPrivbtfExponfnt()
                 );
-            } else {
-                throw new InvalidKeySpecException("Only RSAPrivate(Crt)KeySpec "
-                    + "and PKCS8EncodedKeySpec supported for RSA private keys");
+            } flsf {
+                tirow nfw InvblidKfySpfdExdfption("Only RSAPrivbtf(Crt)KfySpfd "
+                    + "bnd PKCS8EndodfdKfySpfd supportfd for RSA privbtf kfys");
             }
-        } catch (PKCS11Exception | InvalidKeyException e) {
-            throw new InvalidKeySpecException
-                ("Could not create RSA private key", e);
+        } dbtdi (PKCS11Exdfption | InvblidKfyExdfption f) {
+            tirow nfw InvblidKfySpfdExdfption
+                ("Could not drfbtf RSA privbtf kfy", f);
         }
     }
 
-    private PublicKey generatePublic(BigInteger n, BigInteger e)
-            throws PKCS11Exception, InvalidKeyException {
-        RSAKeyFactory.checkKeyLengths(n.bitLength(), e, -1, 64 * 1024);
-        CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
-            new CK_ATTRIBUTE(CKA_CLASS, CKO_PUBLIC_KEY),
-            new CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_RSA),
-            new CK_ATTRIBUTE(CKA_MODULUS, n),
-            new CK_ATTRIBUTE(CKA_PUBLIC_EXPONENT, e),
+    privbtf PublidKfy gfnfrbtfPublid(BigIntfgfr n, BigIntfgfr f)
+            tirows PKCS11Exdfption, InvblidKfyExdfption {
+        RSAKfyFbdtory.difdkKfyLfngtis(n.bitLfngti(), f, -1, 64 * 1024);
+        CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+            nfw CK_ATTRIBUTE(CKA_CLASS, CKO_PUBLIC_KEY),
+            nfw CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_RSA),
+            nfw CK_ATTRIBUTE(CKA_MODULUS, n),
+            nfw CK_ATTRIBUTE(CKA_PUBLIC_EXPONENT, f),
         };
-        attributes = token.getAttributes
-                (O_IMPORT, CKO_PUBLIC_KEY, CKK_RSA, attributes);
-        Session session = null;
+        bttributfs = tokfn.gftAttributfs
+                (O_IMPORT, CKO_PUBLIC_KEY, CKK_RSA, bttributfs);
+        Sfssion sfssion = null;
         try {
-            session = token.getObjSession();
-            long keyID = token.p11.C_CreateObject(session.id(), attributes);
-            return P11Key.publicKey
-                (session, keyID, "RSA", n.bitLength(), attributes);
-        } finally {
-            token.releaseSession(session);
+            sfssion = tokfn.gftObjSfssion();
+            long kfyID = tokfn.p11.C_CrfbtfObjfdt(sfssion.id(), bttributfs);
+            rfturn P11Kfy.publidKfy
+                (sfssion, kfyID, "RSA", n.bitLfngti(), bttributfs);
+        } finblly {
+            tokfn.rflfbsfSfssion(sfssion);
         }
     }
 
-    private PrivateKey generatePrivate(BigInteger n, BigInteger d)
-            throws PKCS11Exception, InvalidKeyException {
-        RSAKeyFactory.checkKeyLengths(n.bitLength(), null, -1, 64 * 1024);
-        CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
-            new CK_ATTRIBUTE(CKA_CLASS, CKO_PRIVATE_KEY),
-            new CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_RSA),
-            new CK_ATTRIBUTE(CKA_MODULUS, n),
-            new CK_ATTRIBUTE(CKA_PRIVATE_EXPONENT, d),
+    privbtf PrivbtfKfy gfnfrbtfPrivbtf(BigIntfgfr n, BigIntfgfr d)
+            tirows PKCS11Exdfption, InvblidKfyExdfption {
+        RSAKfyFbdtory.difdkKfyLfngtis(n.bitLfngti(), null, -1, 64 * 1024);
+        CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+            nfw CK_ATTRIBUTE(CKA_CLASS, CKO_PRIVATE_KEY),
+            nfw CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_RSA),
+            nfw CK_ATTRIBUTE(CKA_MODULUS, n),
+            nfw CK_ATTRIBUTE(CKA_PRIVATE_EXPONENT, d),
         };
-        attributes = token.getAttributes
-                (O_IMPORT, CKO_PRIVATE_KEY, CKK_RSA, attributes);
-        Session session = null;
+        bttributfs = tokfn.gftAttributfs
+                (O_IMPORT, CKO_PRIVATE_KEY, CKK_RSA, bttributfs);
+        Sfssion sfssion = null;
         try {
-            session = token.getObjSession();
-            long keyID = token.p11.C_CreateObject(session.id(), attributes);
-            return P11Key.privateKey
-                (session,  keyID, "RSA", n.bitLength(), attributes);
-        } finally {
-            token.releaseSession(session);
+            sfssion = tokfn.gftObjSfssion();
+            long kfyID = tokfn.p11.C_CrfbtfObjfdt(sfssion.id(), bttributfs);
+            rfturn P11Kfy.privbtfKfy
+                (sfssion,  kfyID, "RSA", n.bitLfngti(), bttributfs);
+        } finblly {
+            tokfn.rflfbsfSfssion(sfssion);
         }
     }
 
-    private PrivateKey generatePrivate(BigInteger n, BigInteger e,
-            BigInteger d, BigInteger p, BigInteger q, BigInteger pe,
-            BigInteger qe, BigInteger coeff) throws PKCS11Exception,
-            InvalidKeyException {
-        RSAKeyFactory.checkKeyLengths(n.bitLength(), e, -1, 64 * 1024);
-        CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
-            new CK_ATTRIBUTE(CKA_CLASS, CKO_PRIVATE_KEY),
-            new CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_RSA),
-            new CK_ATTRIBUTE(CKA_MODULUS, n),
-            new CK_ATTRIBUTE(CKA_PUBLIC_EXPONENT, e),
-            new CK_ATTRIBUTE(CKA_PRIVATE_EXPONENT, d),
-            new CK_ATTRIBUTE(CKA_PRIME_1, p),
-            new CK_ATTRIBUTE(CKA_PRIME_2, q),
-            new CK_ATTRIBUTE(CKA_EXPONENT_1, pe),
-            new CK_ATTRIBUTE(CKA_EXPONENT_2, qe),
-            new CK_ATTRIBUTE(CKA_COEFFICIENT, coeff),
+    privbtf PrivbtfKfy gfnfrbtfPrivbtf(BigIntfgfr n, BigIntfgfr f,
+            BigIntfgfr d, BigIntfgfr p, BigIntfgfr q, BigIntfgfr pf,
+            BigIntfgfr qf, BigIntfgfr dofff) tirows PKCS11Exdfption,
+            InvblidKfyExdfption {
+        RSAKfyFbdtory.difdkKfyLfngtis(n.bitLfngti(), f, -1, 64 * 1024);
+        CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+            nfw CK_ATTRIBUTE(CKA_CLASS, CKO_PRIVATE_KEY),
+            nfw CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_RSA),
+            nfw CK_ATTRIBUTE(CKA_MODULUS, n),
+            nfw CK_ATTRIBUTE(CKA_PUBLIC_EXPONENT, f),
+            nfw CK_ATTRIBUTE(CKA_PRIVATE_EXPONENT, d),
+            nfw CK_ATTRIBUTE(CKA_PRIME_1, p),
+            nfw CK_ATTRIBUTE(CKA_PRIME_2, q),
+            nfw CK_ATTRIBUTE(CKA_EXPONENT_1, pf),
+            nfw CK_ATTRIBUTE(CKA_EXPONENT_2, qf),
+            nfw CK_ATTRIBUTE(CKA_COEFFICIENT, dofff),
         };
-        attributes = token.getAttributes
-                (O_IMPORT, CKO_PRIVATE_KEY, CKK_RSA, attributes);
-        Session session = null;
+        bttributfs = tokfn.gftAttributfs
+                (O_IMPORT, CKO_PRIVATE_KEY, CKK_RSA, bttributfs);
+        Sfssion sfssion = null;
         try {
-            session = token.getObjSession();
-            long keyID = token.p11.C_CreateObject(session.id(), attributes);
-            return P11Key.privateKey
-                (session, keyID, "RSA", n.bitLength(), attributes);
-        } finally {
-            token.releaseSession(session);
+            sfssion = tokfn.gftObjSfssion();
+            long kfyID = tokfn.p11.C_CrfbtfObjfdt(sfssion.id(), bttributfs);
+            rfturn P11Kfy.privbtfKfy
+                (sfssion, kfyID, "RSA", n.bitLfngti(), bttributfs);
+        } finblly {
+            tokfn.rflfbsfSfssion(sfssion);
         }
     }
 
-    <T extends KeySpec> T implGetPublicKeySpec(P11Key key, Class<T> keySpec,
-            Session[] session) throws PKCS11Exception, InvalidKeySpecException {
-        if (RSAPublicKeySpec.class.isAssignableFrom(keySpec)) {
-            session[0] = token.getObjSession();
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
-                new CK_ATTRIBUTE(CKA_MODULUS),
-                new CK_ATTRIBUTE(CKA_PUBLIC_EXPONENT),
+    <T fxtfnds KfySpfd> T implGftPublidKfySpfd(P11Kfy kfy, Clbss<T> kfySpfd,
+            Sfssion[] sfssion) tirows PKCS11Exdfption, InvblidKfySpfdExdfption {
+        if (RSAPublidKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)) {
+            sfssion[0] = tokfn.gftObjSfssion();
+            CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_MODULUS),
+                nfw CK_ATTRIBUTE(CKA_PUBLIC_EXPONENT),
             };
-            token.p11.C_GetAttributeValue(session[0].id(), key.keyID, attributes);
-            KeySpec spec = new RSAPublicKeySpec(
-                attributes[0].getBigInteger(),
-                attributes[1].getBigInteger()
+            tokfn.p11.C_GftAttributfVbluf(sfssion[0].id(), kfy.kfyID, bttributfs);
+            KfySpfd spfd = nfw RSAPublidKfySpfd(
+                bttributfs[0].gftBigIntfgfr(),
+                bttributfs[1].gftBigIntfgfr()
             );
-            return keySpec.cast(spec);
-        } else { // X.509 handled in superclass
-            throw new InvalidKeySpecException("Only RSAPublicKeySpec and "
-                + "X509EncodedKeySpec supported for RSA public keys");
+            rfturn kfySpfd.dbst(spfd);
+        } flsf { // X.509 ibndlfd in supfrdlbss
+            tirow nfw InvblidKfySpfdExdfption("Only RSAPublidKfySpfd bnd "
+                + "X509EndodfdKfySpfd supportfd for RSA publid kfys");
         }
     }
 
-    <T extends KeySpec> T implGetPrivateKeySpec(P11Key key, Class<T> keySpec,
-            Session[] session) throws PKCS11Exception, InvalidKeySpecException {
-        if (RSAPrivateCrtKeySpec.class.isAssignableFrom(keySpec)) {
-            session[0] = token.getObjSession();
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
-                new CK_ATTRIBUTE(CKA_MODULUS),
-                new CK_ATTRIBUTE(CKA_PUBLIC_EXPONENT),
-                new CK_ATTRIBUTE(CKA_PRIVATE_EXPONENT),
-                new CK_ATTRIBUTE(CKA_PRIME_1),
-                new CK_ATTRIBUTE(CKA_PRIME_2),
-                new CK_ATTRIBUTE(CKA_EXPONENT_1),
-                new CK_ATTRIBUTE(CKA_EXPONENT_2),
-                new CK_ATTRIBUTE(CKA_COEFFICIENT),
+    <T fxtfnds KfySpfd> T implGftPrivbtfKfySpfd(P11Kfy kfy, Clbss<T> kfySpfd,
+            Sfssion[] sfssion) tirows PKCS11Exdfption, InvblidKfySpfdExdfption {
+        if (RSAPrivbtfCrtKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)) {
+            sfssion[0] = tokfn.gftObjSfssion();
+            CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_MODULUS),
+                nfw CK_ATTRIBUTE(CKA_PUBLIC_EXPONENT),
+                nfw CK_ATTRIBUTE(CKA_PRIVATE_EXPONENT),
+                nfw CK_ATTRIBUTE(CKA_PRIME_1),
+                nfw CK_ATTRIBUTE(CKA_PRIME_2),
+                nfw CK_ATTRIBUTE(CKA_EXPONENT_1),
+                nfw CK_ATTRIBUTE(CKA_EXPONENT_2),
+                nfw CK_ATTRIBUTE(CKA_COEFFICIENT),
             };
-            token.p11.C_GetAttributeValue(session[0].id(), key.keyID, attributes);
-            KeySpec spec = new RSAPrivateCrtKeySpec(
-                attributes[0].getBigInteger(),
-                attributes[1].getBigInteger(),
-                attributes[2].getBigInteger(),
-                attributes[3].getBigInteger(),
-                attributes[4].getBigInteger(),
-                attributes[5].getBigInteger(),
-                attributes[6].getBigInteger(),
-                attributes[7].getBigInteger()
+            tokfn.p11.C_GftAttributfVbluf(sfssion[0].id(), kfy.kfyID, bttributfs);
+            KfySpfd spfd = nfw RSAPrivbtfCrtKfySpfd(
+                bttributfs[0].gftBigIntfgfr(),
+                bttributfs[1].gftBigIntfgfr(),
+                bttributfs[2].gftBigIntfgfr(),
+                bttributfs[3].gftBigIntfgfr(),
+                bttributfs[4].gftBigIntfgfr(),
+                bttributfs[5].gftBigIntfgfr(),
+                bttributfs[6].gftBigIntfgfr(),
+                bttributfs[7].gftBigIntfgfr()
             );
-            return keySpec.cast(spec);
-        } else if (RSAPrivateKeySpec.class.isAssignableFrom(keySpec)) {
-            session[0] = token.getObjSession();
-            CK_ATTRIBUTE[] attributes = new CK_ATTRIBUTE[] {
-                new CK_ATTRIBUTE(CKA_MODULUS),
-                new CK_ATTRIBUTE(CKA_PRIVATE_EXPONENT),
+            rfturn kfySpfd.dbst(spfd);
+        } flsf if (RSAPrivbtfKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)) {
+            sfssion[0] = tokfn.gftObjSfssion();
+            CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_MODULUS),
+                nfw CK_ATTRIBUTE(CKA_PRIVATE_EXPONENT),
             };
-            token.p11.C_GetAttributeValue(session[0].id(), key.keyID, attributes);
-            KeySpec spec = new RSAPrivateKeySpec(
-                attributes[0].getBigInteger(),
-                attributes[1].getBigInteger()
+            tokfn.p11.C_GftAttributfVbluf(sfssion[0].id(), kfy.kfyID, bttributfs);
+            KfySpfd spfd = nfw RSAPrivbtfKfySpfd(
+                bttributfs[0].gftBigIntfgfr(),
+                bttributfs[1].gftBigIntfgfr()
             );
-            return keySpec.cast(spec);
-        } else { // PKCS#8 handled in superclass
-            throw new InvalidKeySpecException("Only RSAPrivate(Crt)KeySpec "
-                + "and PKCS8EncodedKeySpec supported for RSA private keys");
+            rfturn kfySpfd.dbst(spfd);
+        } flsf { // PKCS#8 ibndlfd in supfrdlbss
+            tirow nfw InvblidKfySpfdExdfption("Only RSAPrivbtf(Crt)KfySpfd "
+                + "bnd PKCS8EndodfdKfySpfd supportfd for RSA privbtf kfys");
         }
     }
 
-    KeyFactory implGetSoftwareFactory() throws GeneralSecurityException {
-        return KeyFactory.getInstance("RSA", P11Util.getSunRsaSignProvider());
+    KfyFbdtory implGftSoftwbrfFbdtory() tirows GfnfrblSfdurityExdfption {
+        rfturn KfyFbdtory.gftInstbndf("RSA", P11Util.gftSunRsbSignProvidfr());
     }
 
 }

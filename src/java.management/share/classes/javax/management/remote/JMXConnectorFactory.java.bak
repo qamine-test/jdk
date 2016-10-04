@@ -1,574 +1,574 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.remote;
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf;
 
-import com.sun.jmx.mbeanserver.Util;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Iterator;
-import java.util.ServiceLoader;
-import java.util.StringTokenizer;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import dom.sun.jmx.mbfbnsfrvfr.Util;
+import jbvb.io.IOExdfption;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.StringTokfnizfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
-import com.sun.jmx.remote.util.ClassLogger;
-import com.sun.jmx.remote.util.EnvHelp;
-import sun.reflect.misc.ReflectUtil;
+import dom.sun.jmx.rfmotf.util.ClbssLoggfr;
+import dom.sun.jmx.rfmotf.util.EnvHflp;
+import sun.rfflfdt.misd.RfflfdtUtil;
 
 
 /**
- * <p>Factory to create JMX API connector clients.  There
- * are no instances of this class.</p>
+ * <p>Fbdtory to drfbtf JMX API donnfdtor dlifnts.  Tifrf
+ * brf no instbndfs of tiis dlbss.</p>
  *
- * <p>Connections are usually made using the {@link
- * #connect(JMXServiceURL) connect} method of this class.  More
- * advanced applications can separate the creation of the connector
- * client, using {@link #newJMXConnector(JMXServiceURL, Map)
- * newJMXConnector} and the establishment of the connection itself, using
- * {@link JMXConnector#connect(Map)}.</p>
+ * <p>Connfdtions brf usublly mbdf using tif {@link
+ * #donnfdt(JMXSfrvidfURL) donnfdt} mftiod of tiis dlbss.  Morf
+ * bdvbndfd bpplidbtions dbn sfpbrbtf tif drfbtion of tif donnfdtor
+ * dlifnt, using {@link #nfwJMXConnfdtor(JMXSfrvidfURL, Mbp)
+ * nfwJMXConnfdtor} bnd tif fstbblisimfnt of tif donnfdtion itsflf, using
+ * {@link JMXConnfdtor#donnfdt(Mbp)}.</p>
  *
- * <p>Each client is created by an instance of {@link
- * JMXConnectorProvider}.  This instance is found as follows.  Suppose
- * the given {@link JMXServiceURL} looks like
- * <code>"service:jmx:<em>protocol</em>:<em>remainder</em>"</code>.
- * Then the factory will attempt to find the appropriate {@link
- * JMXConnectorProvider} for <code><em>protocol</em></code>.  Each
- * occurrence of the character <code>+</code> or <code>-</code> in
- * <code><em>protocol</em></code> is replaced by <code>.</code> or
- * <code>_</code>, respectively.</p>
+ * <p>Ebdi dlifnt is drfbtfd by bn instbndf of {@link
+ * JMXConnfdtorProvidfr}.  Tiis instbndf is found bs follows.  Supposf
+ * tif givfn {@link JMXSfrvidfURL} looks likf
+ * <dodf>"sfrvidf:jmx:<fm>protodol</fm>:<fm>rfmbindfr</fm>"</dodf>.
+ * Tifn tif fbdtory will bttfmpt to find tif bppropribtf {@link
+ * JMXConnfdtorProvidfr} for <dodf><fm>protodol</fm></dodf>.  Ebdi
+ * oddurrfndf of tif dibrbdtfr <dodf>+</dodf> or <dodf>-</dodf> in
+ * <dodf><fm>protodol</fm></dodf> is rfplbdfd by <dodf>.</dodf> or
+ * <dodf>_</dodf>, rfspfdtivfly.</p>
  *
- * <p>A <em>provider package list</em> is searched for as follows:</p>
+ * <p>A <fm>providfr pbdkbgf list</fm> is sfbrdifd for bs follows:</p>
  *
  * <ol>
  *
- * <li>If the <code>environment</code> parameter to {@link
- * #newJMXConnector(JMXServiceURL, Map) newJMXConnector} contains the
- * key <code>jmx.remote.protocol.provider.pkgs</code> then the
- * associated value is the provider package list.
+ * <li>If tif <dodf>fnvironmfnt</dodf> pbrbmftfr to {@link
+ * #nfwJMXConnfdtor(JMXSfrvidfURL, Mbp) nfwJMXConnfdtor} dontbins tif
+ * kfy <dodf>jmx.rfmotf.protodol.providfr.pkgs</dodf> tifn tif
+ * bssodibtfd vbluf is tif providfr pbdkbgf list.
  *
- * <li>Otherwise, if the system property
- * <code>jmx.remote.protocol.provider.pkgs</code> exists, then its value
- * is the provider package list.
+ * <li>Otifrwisf, if tif systfm propfrty
+ * <dodf>jmx.rfmotf.protodol.providfr.pkgs</dodf> fxists, tifn its vbluf
+ * is tif providfr pbdkbgf list.
  *
- * <li>Otherwise, there is no provider package list.
+ * <li>Otifrwisf, tifrf is no providfr pbdkbgf list.
  *
  * </ol>
  *
- * <p>The provider package list is a string that is interpreted as a
- * list of non-empty Java package names separated by vertical bars
- * (<code>|</code>).  If the string is empty, then so is the provider
- * package list.  If the provider package list is not a String, or if
- * it contains an element that is an empty string, a {@link
- * JMXProviderException} is thrown.</p>
+ * <p>Tif providfr pbdkbgf list is b string tibt is intfrprftfd bs b
+ * list of non-fmpty Jbvb pbdkbgf nbmfs sfpbrbtfd by vfrtidbl bbrs
+ * (<dodf>|</dodf>).  If tif string is fmpty, tifn so is tif providfr
+ * pbdkbgf list.  If tif providfr pbdkbgf list is not b String, or if
+ * it dontbins bn flfmfnt tibt is bn fmpty string, b {@link
+ * JMXProvidfrExdfption} is tirown.</p>
  *
- * <p>If the provider package list exists and is not empty, then for
- * each element <code><em>pkg</em></code> of the list, the factory
- * will attempt to load the class
+ * <p>If tif providfr pbdkbgf list fxists bnd is not fmpty, tifn for
+ * fbdi flfmfnt <dodf><fm>pkg</fm></dodf> of tif list, tif fbdtory
+ * will bttfmpt to lobd tif dlbss
  *
- * <blockquote>
- * <code><em>pkg</em>.<em>protocol</em>.ClientProvider</code>
- * </blockquote>
+ * <blodkquotf>
+ * <dodf><fm>pkg</fm>.<fm>protodol</fm>.ClifntProvidfr</dodf>
+ * </blodkquotf>
 
- * <p>If the <code>environment</code> parameter to {@link
- * #newJMXConnector(JMXServiceURL, Map) newJMXConnector} contains the
- * key <code>jmx.remote.protocol.provider.class.loader</code> then the
- * associated value is the class loader to use to load the provider.
- * If the associated value is not an instance of {@link
- * java.lang.ClassLoader}, an {@link
- * java.lang.IllegalArgumentException} is thrown.</p>
+ * <p>If tif <dodf>fnvironmfnt</dodf> pbrbmftfr to {@link
+ * #nfwJMXConnfdtor(JMXSfrvidfURL, Mbp) nfwJMXConnfdtor} dontbins tif
+ * kfy <dodf>jmx.rfmotf.protodol.providfr.dlbss.lobdfr</dodf> tifn tif
+ * bssodibtfd vbluf is tif dlbss lobdfr to usf to lobd tif providfr.
+ * If tif bssodibtfd vbluf is not bn instbndf of {@link
+ * jbvb.lbng.ClbssLobdfr}, bn {@link
+ * jbvb.lbng.IllfgblArgumfntExdfption} is tirown.</p>
  *
- * <p>If the <code>jmx.remote.protocol.provider.class.loader</code>
- * key is not present in the <code>environment</code> parameter, the
- * calling thread's context class loader is used.</p>
+ * <p>If tif <dodf>jmx.rfmotf.protodol.providfr.dlbss.lobdfr</dodf>
+ * kfy is not prfsfnt in tif <dodf>fnvironmfnt</dodf> pbrbmftfr, tif
+ * dblling tirfbd's dontfxt dlbss lobdfr is usfd.</p>
  *
- * <p>If the attempt to load this class produces a {@link
- * ClassNotFoundException}, the search for a handler continues with
- * the next element of the list.</p>
+ * <p>If tif bttfmpt to lobd tiis dlbss produdfs b {@link
+ * ClbssNotFoundExdfption}, tif sfbrdi for b ibndlfr dontinufs witi
+ * tif nfxt flfmfnt of tif list.</p>
  *
- * <p>Otherwise, a problem with the provider found is signalled by a
- * {@link JMXProviderException} whose {@link
- * JMXProviderException#getCause() <em>cause</em>} indicates the underlying
- * exception, as follows:</p>
+ * <p>Otifrwisf, b problfm witi tif providfr found is signbllfd by b
+ * {@link JMXProvidfrExdfption} wiosf {@link
+ * JMXProvidfrExdfption#gftCbusf() <fm>dbusf</fm>} indidbtfs tif undfrlying
+ * fxdfption, bs follows:</p>
  *
  * <ul>
  *
- * <li>if the attempt to load the class produces an exception other
- * than <code>ClassNotFoundException</code>, that is the
- * <em>cause</em>;
+ * <li>if tif bttfmpt to lobd tif dlbss produdfs bn fxdfption otifr
+ * tibn <dodf>ClbssNotFoundExdfption</dodf>, tibt is tif
+ * <fm>dbusf</fm>;
  *
- * <li>if {@link Class#newInstance()} for the class produces an
- * exception, that is the <em>cause</em>.
+ * <li>if {@link Clbss#nfwInstbndf()} for tif dlbss produdfs bn
+ * fxdfption, tibt is tif <fm>dbusf</fm>.
  *
  * </ul>
  *
- * <p>If no provider is found by the above steps, including the
- * default case where there is no provider package list, then the
- * implementation will use its own provider for
- * <code><em>protocol</em></code>, or it will throw a
- * <code>MalformedURLException</code> if there is none.  An
- * implementation may choose to find providers by other means.  For
- * example, it may support the <a
- * href="{@docRoot}/../technotes/guides/jar/jar.html#Service%20Provider">
- * JAR conventions for service providers</a>, where the service
- * interface is <code>JMXConnectorProvider</code>.</p>
+ * <p>If no providfr is found by tif bbovf stfps, indluding tif
+ * dffbult dbsf wifrf tifrf is no providfr pbdkbgf list, tifn tif
+ * implfmfntbtion will usf its own providfr for
+ * <dodf><fm>protodol</fm></dodf>, or it will tirow b
+ * <dodf>MblformfdURLExdfption</dodf> if tifrf is nonf.  An
+ * implfmfntbtion mby dioosf to find providfrs by otifr mfbns.  For
+ * fxbmplf, it mby support tif <b
+ * irff="{@dodRoot}/../tfdinotfs/guidfs/jbr/jbr.itml#Sfrvidf%20Providfr">
+ * JAR donvfntions for sfrvidf providfrs</b>, wifrf tif sfrvidf
+ * intfrfbdf is <dodf>JMXConnfdtorProvidfr</dodf>.</p>
  *
- * <p>Every implementation must support the RMI connector protocol with
- * the default RMI transport, specified with string <code>rmi</code>.
- * An implementation may optionally support the RMI connector protocol
- * with the RMI/IIOP transport, specified with the string
- * <code>iiop</code>.</p>
+ * <p>Evfry implfmfntbtion must support tif RMI donnfdtor protodol witi
+ * tif dffbult RMI trbnsport, spfdififd witi string <dodf>rmi</dodf>.
+ * An implfmfntbtion mby optionblly support tif RMI donnfdtor protodol
+ * witi tif RMI/IIOP trbnsport, spfdififd witi tif string
+ * <dodf>iiop</dodf>.</p>
  *
- * <p>Once a provider is found, the result of the
- * <code>newJMXConnector</code> method is the result of calling {@link
- * JMXConnectorProvider#newJMXConnector(JMXServiceURL,Map) newJMXConnector}
- * on the provider.</p>
+ * <p>Ondf b providfr is found, tif rfsult of tif
+ * <dodf>nfwJMXConnfdtor</dodf> mftiod is tif rfsult of dblling {@link
+ * JMXConnfdtorProvidfr#nfwJMXConnfdtor(JMXSfrvidfURL,Mbp) nfwJMXConnfdtor}
+ * on tif providfr.</p>
  *
- * <p>The <code>Map</code> parameter passed to the
- * <code>JMXConnectorProvider</code> is a new read-only
- * <code>Map</code> that contains all the entries that were in the
- * <code>environment</code> parameter to {@link
- * #newJMXConnector(JMXServiceURL,Map)
- * JMXConnectorFactory.newJMXConnector}, if there was one.
- * Additionally, if the
- * <code>jmx.remote.protocol.provider.class.loader</code> key is not
- * present in the <code>environment</code> parameter, it is added to
- * the new read-only <code>Map</code>.  The associated value is the
- * calling thread's context class loader.</p>
+ * <p>Tif <dodf>Mbp</dodf> pbrbmftfr pbssfd to tif
+ * <dodf>JMXConnfdtorProvidfr</dodf> is b nfw rfbd-only
+ * <dodf>Mbp</dodf> tibt dontbins bll tif fntrifs tibt wfrf in tif
+ * <dodf>fnvironmfnt</dodf> pbrbmftfr to {@link
+ * #nfwJMXConnfdtor(JMXSfrvidfURL,Mbp)
+ * JMXConnfdtorFbdtory.nfwJMXConnfdtor}, if tifrf wbs onf.
+ * Additionblly, if tif
+ * <dodf>jmx.rfmotf.protodol.providfr.dlbss.lobdfr</dodf> kfy is not
+ * prfsfnt in tif <dodf>fnvironmfnt</dodf> pbrbmftfr, it is bddfd to
+ * tif nfw rfbd-only <dodf>Mbp</dodf>.  Tif bssodibtfd vbluf is tif
+ * dblling tirfbd's dontfxt dlbss lobdfr.</p>
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class JMXConnectorFactory {
+publid dlbss JMXConnfdtorFbdtory {
 
     /**
-     * <p>Name of the attribute that specifies the default class
-     * loader. This class loader is used to deserialize return values and
-     * exceptions from remote <code>MBeanServerConnection</code>
-     * calls.  The value associated with this attribute is an instance
-     * of {@link ClassLoader}.</p>
+     * <p>Nbmf of tif bttributf tibt spfdififs tif dffbult dlbss
+     * lobdfr. Tiis dlbss lobdfr is usfd to dfsfriblizf rfturn vblufs bnd
+     * fxdfptions from rfmotf <dodf>MBfbnSfrvfrConnfdtion</dodf>
+     * dblls.  Tif vbluf bssodibtfd witi tiis bttributf is bn instbndf
+     * of {@link ClbssLobdfr}.</p>
      */
-    public static final String DEFAULT_CLASS_LOADER =
-        "jmx.remote.default.class.loader";
+    publid stbtid finbl String DEFAULT_CLASS_LOADER =
+        "jmx.rfmotf.dffbult.dlbss.lobdfr";
 
     /**
-     * <p>Name of the attribute that specifies the provider packages
-     * that are consulted when looking for the handler for a protocol.
-     * The value associated with this attribute is a string with
-     * package names separated by vertical bars (<code>|</code>).</p>
+     * <p>Nbmf of tif bttributf tibt spfdififs tif providfr pbdkbgfs
+     * tibt brf donsultfd wifn looking for tif ibndlfr for b protodol.
+     * Tif vbluf bssodibtfd witi tiis bttributf is b string witi
+     * pbdkbgf nbmfs sfpbrbtfd by vfrtidbl bbrs (<dodf>|</dodf>).</p>
      */
-    public static final String PROTOCOL_PROVIDER_PACKAGES =
-        "jmx.remote.protocol.provider.pkgs";
+    publid stbtid finbl String PROTOCOL_PROVIDER_PACKAGES =
+        "jmx.rfmotf.protodol.providfr.pkgs";
 
     /**
-     * <p>Name of the attribute that specifies the class
-     * loader for loading protocol providers.
-     * The value associated with this attribute is an instance
-     * of {@link ClassLoader}.</p>
+     * <p>Nbmf of tif bttributf tibt spfdififs tif dlbss
+     * lobdfr for lobding protodol providfrs.
+     * Tif vbluf bssodibtfd witi tiis bttributf is bn instbndf
+     * of {@link ClbssLobdfr}.</p>
      */
-    public static final String PROTOCOL_PROVIDER_CLASS_LOADER =
-        "jmx.remote.protocol.provider.class.loader";
+    publid stbtid finbl String PROTOCOL_PROVIDER_CLASS_LOADER =
+        "jmx.rfmotf.protodol.providfr.dlbss.lobdfr";
 
-    private static final String PROTOCOL_PROVIDER_DEFAULT_PACKAGE =
-        "com.sun.jmx.remote.protocol";
+    privbtf stbtid finbl String PROTOCOL_PROVIDER_DEFAULT_PACKAGE =
+        "dom.sun.jmx.rfmotf.protodol";
 
-    private static final ClassLogger logger =
-        new ClassLogger("javax.management.remote.misc", "JMXConnectorFactory");
+    privbtf stbtid finbl ClbssLoggfr loggfr =
+        nfw ClbssLoggfr("jbvbx.mbnbgfmfnt.rfmotf.misd", "JMXConnfdtorFbdtory");
 
-    /** There are no instances of this class.  */
-    private JMXConnectorFactory() {
+    /** Tifrf brf no instbndfs of tiis dlbss.  */
+    privbtf JMXConnfdtorFbdtory() {
     }
 
     /**
-     * <p>Creates a connection to the connector server at the given
-     * address.</p>
+     * <p>Crfbtfs b donnfdtion to tif donnfdtor sfrvfr bt tif givfn
+     * bddrfss.</p>
      *
-     * <p>This method is equivalent to {@link
-     * #connect(JMXServiceURL,Map) connect(serviceURL, null)}.</p>
+     * <p>Tiis mftiod is fquivblfnt to {@link
+     * #donnfdt(JMXSfrvidfURL,Mbp) donnfdt(sfrvidfURL, null)}.</p>
      *
-     * @param serviceURL the address of the connector server to
-     * connect to.
+     * @pbrbm sfrvidfURL tif bddrfss of tif donnfdtor sfrvfr to
+     * donnfdt to.
      *
-     * @return a <code>JMXConnector</code> whose {@link
-     * JMXConnector#connect connect} method has been called.
+     * @rfturn b <dodf>JMXConnfdtor</dodf> wiosf {@link
+     * JMXConnfdtor#donnfdt donnfdt} mftiod ibs bffn dbllfd.
      *
-     * @exception NullPointerException if <code>serviceURL</code> is null.
+     * @fxdfption NullPointfrExdfption if <dodf>sfrvidfURL</dodf> is null.
      *
-     * @exception IOException if the connector client or the
-     * connection cannot be made because of a communication problem.
+     * @fxdfption IOExdfption if tif donnfdtor dlifnt or tif
+     * donnfdtion dbnnot bf mbdf bfdbusf of b dommunidbtion problfm.
      *
-     * @exception SecurityException if the connection cannot be made
-     * for security reasons.
+     * @fxdfption SfdurityExdfption if tif donnfdtion dbnnot bf mbdf
+     * for sfdurity rfbsons.
      */
-    public static JMXConnector connect(JMXServiceURL serviceURL)
-            throws IOException {
-        return connect(serviceURL, null);
+    publid stbtid JMXConnfdtor donnfdt(JMXSfrvidfURL sfrvidfURL)
+            tirows IOExdfption {
+        rfturn donnfdt(sfrvidfURL, null);
     }
 
     /**
-     * <p>Creates a connection to the connector server at the given
-     * address.</p>
+     * <p>Crfbtfs b donnfdtion to tif donnfdtor sfrvfr bt tif givfn
+     * bddrfss.</p>
      *
-     * <p>This method is equivalent to:</p>
+     * <p>Tiis mftiod is fquivblfnt to:</p>
      *
-     * <pre>
-     * JMXConnector conn = JMXConnectorFactory.newJMXConnector(serviceURL,
-     *                                                         environment);
-     * conn.connect(environment);
-     * </pre>
+     * <prf>
+     * JMXConnfdtor donn = JMXConnfdtorFbdtory.nfwJMXConnfdtor(sfrvidfURL,
+     *                                                         fnvironmfnt);
+     * donn.donnfdt(fnvironmfnt);
+     * </prf>
      *
-     * @param serviceURL the address of the connector server to connect to.
+     * @pbrbm sfrvidfURL tif bddrfss of tif donnfdtor sfrvfr to donnfdt to.
      *
-     * @param environment a set of attributes to determine how the
-     * connection is made.  This parameter can be null.  Keys in this
-     * map must be Strings.  The appropriate type of each associated
-     * value depends on the attribute.  The contents of
-     * <code>environment</code> are not changed by this call.
+     * @pbrbm fnvironmfnt b sft of bttributfs to dftfrminf iow tif
+     * donnfdtion is mbdf.  Tiis pbrbmftfr dbn bf null.  Kfys in tiis
+     * mbp must bf Strings.  Tif bppropribtf typf of fbdi bssodibtfd
+     * vbluf dfpfnds on tif bttributf.  Tif dontfnts of
+     * <dodf>fnvironmfnt</dodf> brf not dibngfd by tiis dbll.
      *
-     * @return a <code>JMXConnector</code> representing the newly-made
-     * connection.  Each successful call to this method produces a
-     * different object.
+     * @rfturn b <dodf>JMXConnfdtor</dodf> rfprfsfnting tif nfwly-mbdf
+     * donnfdtion.  Ebdi suddfssful dbll to tiis mftiod produdfs b
+     * difffrfnt objfdt.
      *
-     * @exception NullPointerException if <code>serviceURL</code> is null.
+     * @fxdfption NullPointfrExdfption if <dodf>sfrvidfURL</dodf> is null.
      *
-     * @exception IOException if the connector client or the
-     * connection cannot be made because of a communication problem.
+     * @fxdfption IOExdfption if tif donnfdtor dlifnt or tif
+     * donnfdtion dbnnot bf mbdf bfdbusf of b dommunidbtion problfm.
      *
-     * @exception SecurityException if the connection cannot be made
-     * for security reasons.
+     * @fxdfption SfdurityExdfption if tif donnfdtion dbnnot bf mbdf
+     * for sfdurity rfbsons.
      */
-    public static JMXConnector connect(JMXServiceURL serviceURL,
-                                       Map<String,?> environment)
-            throws IOException {
-        if (serviceURL == null)
-            throw new NullPointerException("Null JMXServiceURL");
-        JMXConnector conn = newJMXConnector(serviceURL, environment);
-        conn.connect(environment);
-        return conn;
+    publid stbtid JMXConnfdtor donnfdt(JMXSfrvidfURL sfrvidfURL,
+                                       Mbp<String,?> fnvironmfnt)
+            tirows IOExdfption {
+        if (sfrvidfURL == null)
+            tirow nfw NullPointfrExdfption("Null JMXSfrvidfURL");
+        JMXConnfdtor donn = nfwJMXConnfdtor(sfrvidfURL, fnvironmfnt);
+        donn.donnfdt(fnvironmfnt);
+        rfturn donn;
     }
 
-    private static <K,V> Map<K,V> newHashMap() {
-        return new HashMap<K,V>();
+    privbtf stbtid <K,V> Mbp<K,V> nfwHbsiMbp() {
+        rfturn nfw HbsiMbp<K,V>();
     }
 
-    private static <K> Map<K,Object> newHashMap(Map<K,?> map) {
-        return new HashMap<K,Object>(map);
+    privbtf stbtid <K> Mbp<K,Objfdt> nfwHbsiMbp(Mbp<K,?> mbp) {
+        rfturn nfw HbsiMbp<K,Objfdt>(mbp);
     }
 
     /**
-     * <p>Creates a connector client for the connector server at the
-     * given address.  The resultant client is not connected until its
-     * {@link JMXConnector#connect(Map) connect} method is called.</p>
+     * <p>Crfbtfs b donnfdtor dlifnt for tif donnfdtor sfrvfr bt tif
+     * givfn bddrfss.  Tif rfsultbnt dlifnt is not donnfdtfd until its
+     * {@link JMXConnfdtor#donnfdt(Mbp) donnfdt} mftiod is dbllfd.</p>
      *
-     * @param serviceURL the address of the connector server to connect to.
+     * @pbrbm sfrvidfURL tif bddrfss of tif donnfdtor sfrvfr to donnfdt to.
      *
-     * @param environment a set of attributes to determine how the
-     * connection is made.  This parameter can be null.  Keys in this
-     * map must be Strings.  The appropriate type of each associated
-     * value depends on the attribute.  The contents of
-     * <code>environment</code> are not changed by this call.
+     * @pbrbm fnvironmfnt b sft of bttributfs to dftfrminf iow tif
+     * donnfdtion is mbdf.  Tiis pbrbmftfr dbn bf null.  Kfys in tiis
+     * mbp must bf Strings.  Tif bppropribtf typf of fbdi bssodibtfd
+     * vbluf dfpfnds on tif bttributf.  Tif dontfnts of
+     * <dodf>fnvironmfnt</dodf> brf not dibngfd by tiis dbll.
      *
-     * @return a <code>JMXConnector</code> representing the new
-     * connector client.  Each successful call to this method produces
-     * a different object.
+     * @rfturn b <dodf>JMXConnfdtor</dodf> rfprfsfnting tif nfw
+     * donnfdtor dlifnt.  Ebdi suddfssful dbll to tiis mftiod produdfs
+     * b difffrfnt objfdt.
      *
-     * @exception NullPointerException if <code>serviceURL</code> is null.
+     * @fxdfption NullPointfrExdfption if <dodf>sfrvidfURL</dodf> is null.
      *
-     * @exception IOException if the connector client cannot be made
-     * because of a communication problem.
+     * @fxdfption IOExdfption if tif donnfdtor dlifnt dbnnot bf mbdf
+     * bfdbusf of b dommunidbtion problfm.
      *
-     * @exception MalformedURLException if there is no provider for the
-     * protocol in <code>serviceURL</code>.
+     * @fxdfption MblformfdURLExdfption if tifrf is no providfr for tif
+     * protodol in <dodf>sfrvidfURL</dodf>.
      *
-     * @exception JMXProviderException if there is a provider for the
-     * protocol in <code>serviceURL</code> but it cannot be used for
-     * some reason.
+     * @fxdfption JMXProvidfrExdfption if tifrf is b providfr for tif
+     * protodol in <dodf>sfrvidfURL</dodf> but it dbnnot bf usfd for
+     * somf rfbson.
      */
-    public static JMXConnector newJMXConnector(JMXServiceURL serviceURL,
-                                               Map<String,?> environment)
-            throws IOException {
+    publid stbtid JMXConnfdtor nfwJMXConnfdtor(JMXSfrvidfURL sfrvidfURL,
+                                               Mbp<String,?> fnvironmfnt)
+            tirows IOExdfption {
 
-        final Map<String,Object> envcopy;
-        if (environment == null)
-            envcopy = newHashMap();
-        else {
-            EnvHelp.checkAttributes(environment);
-            envcopy = newHashMap(environment);
+        finbl Mbp<String,Objfdt> fnvdopy;
+        if (fnvironmfnt == null)
+            fnvdopy = nfwHbsiMbp();
+        flsf {
+            EnvHflp.difdkAttributfs(fnvironmfnt);
+            fnvdopy = nfwHbsiMbp(fnvironmfnt);
         }
 
-        final ClassLoader loader = resolveClassLoader(envcopy);
-        final Class<JMXConnectorProvider> targetInterface =
-                JMXConnectorProvider.class;
-        final String protocol = serviceURL.getProtocol();
-        final String providerClassName = "ClientProvider";
-        final JMXServiceURL providerURL = serviceURL;
+        finbl ClbssLobdfr lobdfr = rfsolvfClbssLobdfr(fnvdopy);
+        finbl Clbss<JMXConnfdtorProvidfr> tbrgftIntfrfbdf =
+                JMXConnfdtorProvidfr.dlbss;
+        finbl String protodol = sfrvidfURL.gftProtodol();
+        finbl String providfrClbssNbmf = "ClifntProvidfr";
+        finbl JMXSfrvidfURL providfrURL = sfrvidfURL;
 
-        JMXConnectorProvider provider = getProvider(providerURL, envcopy,
-                                               providerClassName,
-                                               targetInterface,
-                                               loader);
+        JMXConnfdtorProvidfr providfr = gftProvidfr(providfrURL, fnvdopy,
+                                               providfrClbssNbmf,
+                                               tbrgftIntfrfbdf,
+                                               lobdfr);
 
-        IOException exception = null;
-        if (provider == null) {
-            // Loader is null when context class loader is set to null
-            // and no loader has been provided in map.
-            // com.sun.jmx.remote.util.Service class extracted from j2se
-            // provider search algorithm doesn't handle well null classloader.
-            if (loader != null) {
+        IOExdfption fxdfption = null;
+        if (providfr == null) {
+            // Lobdfr is null wifn dontfxt dlbss lobdfr is sft to null
+            // bnd no lobdfr ibs bffn providfd in mbp.
+            // dom.sun.jmx.rfmotf.util.Sfrvidf dlbss fxtrbdtfd from j2sf
+            // providfr sfbrdi blgoritim dofsn't ibndlf wfll null dlbsslobdfr.
+            if (lobdfr != null) {
                 try {
-                    JMXConnector connection =
-                        getConnectorAsService(loader, providerURL, envcopy);
-                    if (connection != null)
-                        return connection;
-                } catch (JMXProviderException e) {
-                    throw e;
-                } catch (IOException e) {
-                    exception = e;
+                    JMXConnfdtor donnfdtion =
+                        gftConnfdtorAsSfrvidf(lobdfr, providfrURL, fnvdopy);
+                    if (donnfdtion != null)
+                        rfturn donnfdtion;
+                } dbtdi (JMXProvidfrExdfption f) {
+                    tirow f;
+                } dbtdi (IOExdfption f) {
+                    fxdfption = f;
                 }
             }
-            provider = getProvider(protocol, PROTOCOL_PROVIDER_DEFAULT_PACKAGE,
-                            JMXConnectorFactory.class.getClassLoader(),
-                            providerClassName, targetInterface);
+            providfr = gftProvidfr(protodol, PROTOCOL_PROVIDER_DEFAULT_PACKAGE,
+                            JMXConnfdtorFbdtory.dlbss.gftClbssLobdfr(),
+                            providfrClbssNbmf, tbrgftIntfrfbdf);
         }
 
-        if (provider == null) {
-            MalformedURLException e =
-                new MalformedURLException("Unsupported protocol: " + protocol);
-            if (exception == null) {
-                throw e;
-            } else {
-                throw EnvHelp.initCause(e, exception);
+        if (providfr == null) {
+            MblformfdURLExdfption f =
+                nfw MblformfdURLExdfption("Unsupportfd protodol: " + protodol);
+            if (fxdfption == null) {
+                tirow f;
+            } flsf {
+                tirow EnvHflp.initCbusf(f, fxdfption);
             }
         }
 
-        final Map<String,Object> fixedenv =
-                Collections.unmodifiableMap(envcopy);
+        finbl Mbp<String,Objfdt> fixfdfnv =
+                Collfdtions.unmodifibblfMbp(fnvdopy);
 
-        return provider.newJMXConnector(serviceURL, fixedenv);
+        rfturn providfr.nfwJMXConnfdtor(sfrvidfURL, fixfdfnv);
     }
 
-    private static String resolvePkgs(Map<String, ?> env)
-            throws JMXProviderException {
+    privbtf stbtid String rfsolvfPkgs(Mbp<String, ?> fnv)
+            tirows JMXProvidfrExdfption {
 
-        Object pkgsObject = null;
+        Objfdt pkgsObjfdt = null;
 
-        if (env != null)
-            pkgsObject = env.get(PROTOCOL_PROVIDER_PACKAGES);
+        if (fnv != null)
+            pkgsObjfdt = fnv.gft(PROTOCOL_PROVIDER_PACKAGES);
 
-        if (pkgsObject == null)
-            pkgsObject =
-                AccessController.doPrivileged(new PrivilegedAction<String>() {
-                    public String run() {
-                        return System.getProperty(PROTOCOL_PROVIDER_PACKAGES);
+        if (pkgsObjfdt == null)
+            pkgsObjfdt =
+                AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+                    publid String run() {
+                        rfturn Systfm.gftPropfrty(PROTOCOL_PROVIDER_PACKAGES);
                     }
                 });
 
-        if (pkgsObject == null)
-            return null;
+        if (pkgsObjfdt == null)
+            rfturn null;
 
-        if (!(pkgsObject instanceof String)) {
-            final String msg = "Value of " + PROTOCOL_PROVIDER_PACKAGES +
-                " parameter is not a String: " +
-                pkgsObject.getClass().getName();
-            throw new JMXProviderException(msg);
+        if (!(pkgsObjfdt instbndfof String)) {
+            finbl String msg = "Vbluf of " + PROTOCOL_PROVIDER_PACKAGES +
+                " pbrbmftfr is not b String: " +
+                pkgsObjfdt.gftClbss().gftNbmf();
+            tirow nfw JMXProvidfrExdfption(msg);
         }
 
-        final String pkgs = (String) pkgsObject;
-        if (pkgs.trim().equals(""))
-            return null;
+        finbl String pkgs = (String) pkgsObjfdt;
+        if (pkgs.trim().fqubls(""))
+            rfturn null;
 
-        // pkgs may not contain an empty element
-        if (pkgs.startsWith("|") || pkgs.endsWith("|") ||
-            pkgs.indexOf("||") >= 0) {
-            final String msg = "Value of " + PROTOCOL_PROVIDER_PACKAGES +
-                " contains an empty element: " + pkgs;
-            throw new JMXProviderException(msg);
+        // pkgs mby not dontbin bn fmpty flfmfnt
+        if (pkgs.stbrtsWiti("|") || pkgs.fndsWiti("|") ||
+            pkgs.indfxOf("||") >= 0) {
+            finbl String msg = "Vbluf of " + PROTOCOL_PROVIDER_PACKAGES +
+                " dontbins bn fmpty flfmfnt: " + pkgs;
+            tirow nfw JMXProvidfrExdfption(msg);
         }
 
-        return pkgs;
+        rfturn pkgs;
     }
 
-    static <T> T getProvider(JMXServiceURL serviceURL,
-                             final Map<String, Object> environment,
-                             String providerClassName,
-                             Class<T> targetInterface,
-                             final ClassLoader loader)
-            throws IOException {
+    stbtid <T> T gftProvidfr(JMXSfrvidfURL sfrvidfURL,
+                             finbl Mbp<String, Objfdt> fnvironmfnt,
+                             String providfrClbssNbmf,
+                             Clbss<T> tbrgftIntfrfbdf,
+                             finbl ClbssLobdfr lobdfr)
+            tirows IOExdfption {
 
-        final String protocol = serviceURL.getProtocol();
+        finbl String protodol = sfrvidfURL.gftProtodol();
 
-        final String pkgs = resolvePkgs(environment);
+        finbl String pkgs = rfsolvfPkgs(fnvironmfnt);
 
-        T instance = null;
+        T instbndf = null;
 
         if (pkgs != null) {
-            instance =
-                getProvider(protocol, pkgs, loader, providerClassName,
-                            targetInterface);
+            instbndf =
+                gftProvidfr(protodol, pkgs, lobdfr, providfrClbssNbmf,
+                            tbrgftIntfrfbdf);
 
-            if (instance != null) {
-                boolean needsWrap = (loader != instance.getClass().getClassLoader());
-                environment.put(PROTOCOL_PROVIDER_CLASS_LOADER, needsWrap ? wrap(loader) : loader);
+            if (instbndf != null) {
+                boolfbn nffdsWrbp = (lobdfr != instbndf.gftClbss().gftClbssLobdfr());
+                fnvironmfnt.put(PROTOCOL_PROVIDER_CLASS_LOADER, nffdsWrbp ? wrbp(lobdfr) : lobdfr);
             }
         }
 
-        return instance;
+        rfturn instbndf;
     }
 
-    static <T> Iterator<T> getProviderIterator(final Class<T> providerClass,
-                                               final ClassLoader loader) {
-       ServiceLoader<T> serviceLoader =
-                ServiceLoader.load(providerClass, loader);
-       return serviceLoader.iterator();
+    stbtid <T> Itfrbtor<T> gftProvidfrItfrbtor(finbl Clbss<T> providfrClbss,
+                                               finbl ClbssLobdfr lobdfr) {
+       SfrvidfLobdfr<T> sfrvidfLobdfr =
+                SfrvidfLobdfr.lobd(providfrClbss, lobdfr);
+       rfturn sfrvidfLobdfr.itfrbtor();
     }
 
-    private static ClassLoader wrap(final ClassLoader parent) {
-        return parent != null ? AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
-            @Override
-            public ClassLoader run() {
-                return new ClassLoader(parent) {
-                    @Override
-                    protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
-                        ReflectUtil.checkPackageAccess(name);
-                        return super.loadClass(name, resolve);
+    privbtf stbtid ClbssLobdfr wrbp(finbl ClbssLobdfr pbrfnt) {
+        rfturn pbrfnt != null ? AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<ClbssLobdfr>() {
+            @Ovfrridf
+            publid ClbssLobdfr run() {
+                rfturn nfw ClbssLobdfr(pbrfnt) {
+                    @Ovfrridf
+                    protfdtfd Clbss<?> lobdClbss(String nbmf, boolfbn rfsolvf) tirows ClbssNotFoundExdfption {
+                        RfflfdtUtil.difdkPbdkbgfAddfss(nbmf);
+                        rfturn supfr.lobdClbss(nbmf, rfsolvf);
                     }
                 };
             }
         }) : null;
     }
 
-    private static JMXConnector getConnectorAsService(ClassLoader loader,
-                                                      JMXServiceURL url,
-                                                      Map<String, ?> map)
-        throws IOException {
+    privbtf stbtid JMXConnfdtor gftConnfdtorAsSfrvidf(ClbssLobdfr lobdfr,
+                                                      JMXSfrvidfURL url,
+                                                      Mbp<String, ?> mbp)
+        tirows IOExdfption {
 
-        Iterator<JMXConnectorProvider> providers =
-                getProviderIterator(JMXConnectorProvider.class, loader);
-        JMXConnector connection;
-        IOException exception = null;
-        while (providers.hasNext()) {
-            JMXConnectorProvider provider = providers.next();
+        Itfrbtor<JMXConnfdtorProvidfr> providfrs =
+                gftProvidfrItfrbtor(JMXConnfdtorProvidfr.dlbss, lobdfr);
+        JMXConnfdtor donnfdtion;
+        IOExdfption fxdfption = null;
+        wiilf (providfrs.ibsNfxt()) {
+            JMXConnfdtorProvidfr providfr = providfrs.nfxt();
             try {
-                connection = provider.newJMXConnector(url, map);
-                return connection;
-            } catch (JMXProviderException e) {
-                throw e;
-            } catch (Exception e) {
-                if (logger.traceOn())
-                    logger.trace("getConnectorAsService",
+                donnfdtion = providfr.nfwJMXConnfdtor(url, mbp);
+                rfturn donnfdtion;
+            } dbtdi (JMXProvidfrExdfption f) {
+                tirow f;
+            } dbtdi (Exdfption f) {
+                if (loggfr.trbdfOn())
+                    loggfr.trbdf("gftConnfdtorAsSfrvidf",
                                  "URL[" + url +
-                                 "] Service provider exception: " + e);
-                if (!(e instanceof MalformedURLException)) {
-                    if (exception == null) {
-                        if (e instanceof IOException) {
-                            exception = (IOException) e;
-                        } else {
-                            exception = EnvHelp.initCause(
-                                new IOException(e.getMessage()), e);
+                                 "] Sfrvidf providfr fxdfption: " + f);
+                if (!(f instbndfof MblformfdURLExdfption)) {
+                    if (fxdfption == null) {
+                        if (f instbndfof IOExdfption) {
+                            fxdfption = (IOExdfption) f;
+                        } flsf {
+                            fxdfption = EnvHflp.initCbusf(
+                                nfw IOExdfption(f.gftMfssbgf()), f);
                         }
                     }
                 }
-                continue;
+                dontinuf;
             }
         }
-        if (exception == null)
-            return null;
-        else
-            throw exception;
+        if (fxdfption == null)
+            rfturn null;
+        flsf
+            tirow fxdfption;
     }
 
-    static <T> T getProvider(String protocol,
+    stbtid <T> T gftProvidfr(String protodol,
                               String pkgs,
-                              ClassLoader loader,
-                              String providerClassName,
-                              Class<T> targetInterface)
-            throws IOException {
+                              ClbssLobdfr lobdfr,
+                              String providfrClbssNbmf,
+                              Clbss<T> tbrgftIntfrfbdf)
+            tirows IOExdfption {
 
-        StringTokenizer tokenizer = new StringTokenizer(pkgs, "|");
+        StringTokfnizfr tokfnizfr = nfw StringTokfnizfr(pkgs, "|");
 
-        while (tokenizer.hasMoreTokens()) {
-            String pkg = tokenizer.nextToken();
-            String className = (pkg + "." + protocol2package(protocol) +
-                                "." + providerClassName);
-            Class<?> providerClass;
+        wiilf (tokfnizfr.ibsMorfTokfns()) {
+            String pkg = tokfnizfr.nfxtTokfn();
+            String dlbssNbmf = (pkg + "." + protodol2pbdkbgf(protodol) +
+                                "." + providfrClbssNbmf);
+            Clbss<?> providfrClbss;
             try {
-                providerClass = Class.forName(className, true, loader);
-            } catch (ClassNotFoundException e) {
-                //Add trace.
-                continue;
+                providfrClbss = Clbss.forNbmf(dlbssNbmf, truf, lobdfr);
+            } dbtdi (ClbssNotFoundExdfption f) {
+                //Add trbdf.
+                dontinuf;
             }
 
-            if (!targetInterface.isAssignableFrom(providerClass)) {
-                final String msg =
-                    "Provider class does not implement " +
-                    targetInterface.getName() + ": " +
-                    providerClass.getName();
-                throw new JMXProviderException(msg);
+            if (!tbrgftIntfrfbdf.isAssignbblfFrom(providfrClbss)) {
+                finbl String msg =
+                    "Providfr dlbss dofs not implfmfnt " +
+                    tbrgftIntfrfbdf.gftNbmf() + ": " +
+                    providfrClbss.gftNbmf();
+                tirow nfw JMXProvidfrExdfption(msg);
             }
 
-            // We have just proved that this cast is correct
-            Class<? extends T> providerClassT = Util.cast(providerClass);
+            // Wf ibvf just provfd tibt tiis dbst is dorrfdt
+            Clbss<? fxtfnds T> providfrClbssT = Util.dbst(providfrClbss);
             try {
-                return providerClassT.newInstance();
-            } catch (Exception e) {
-                final String msg =
-                    "Exception when instantiating provider [" + className +
+                rfturn providfrClbssT.nfwInstbndf();
+            } dbtdi (Exdfption f) {
+                finbl String msg =
+                    "Exdfption wifn instbntibting providfr [" + dlbssNbmf +
                     "]";
-                throw new JMXProviderException(msg, e);
+                tirow nfw JMXProvidfrExdfption(msg, f);
             }
         }
 
-        return null;
+        rfturn null;
     }
 
-    static ClassLoader resolveClassLoader(Map<String, ?> environment) {
-        ClassLoader loader = null;
+    stbtid ClbssLobdfr rfsolvfClbssLobdfr(Mbp<String, ?> fnvironmfnt) {
+        ClbssLobdfr lobdfr = null;
 
-        if (environment != null) {
+        if (fnvironmfnt != null) {
             try {
-                loader = (ClassLoader)
-                    environment.get(PROTOCOL_PROVIDER_CLASS_LOADER);
-            } catch (ClassCastException e) {
-                final String msg =
-                    "The ClassLoader supplied in the environment map using " +
-                    "the " + PROTOCOL_PROVIDER_CLASS_LOADER +
-                    " attribute is not an instance of java.lang.ClassLoader";
-                throw new IllegalArgumentException(msg);
+                lobdfr = (ClbssLobdfr)
+                    fnvironmfnt.gft(PROTOCOL_PROVIDER_CLASS_LOADER);
+            } dbtdi (ClbssCbstExdfption f) {
+                finbl String msg =
+                    "Tif ClbssLobdfr supplifd in tif fnvironmfnt mbp using " +
+                    "tif " + PROTOCOL_PROVIDER_CLASS_LOADER +
+                    " bttributf is not bn instbndf of jbvb.lbng.ClbssLobdfr";
+                tirow nfw IllfgblArgumfntExdfption(msg);
             }
         }
 
-        if (loader == null) {
-            loader = Thread.currentThread().getContextClassLoader();
+        if (lobdfr == null) {
+            lobdfr = Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr();
         }
 
-        return loader;
+        rfturn lobdfr;
     }
 
-    private static String protocol2package(String protocol) {
-        return protocol.replace('+', '.').replace('-', '_');
+    privbtf stbtid String protodol2pbdkbgf(String protodol) {
+        rfturn protodol.rfplbdf('+', '.').rfplbdf('-', '_');
     }
 }

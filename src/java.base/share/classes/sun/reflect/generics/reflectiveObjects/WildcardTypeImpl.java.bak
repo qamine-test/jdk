@@ -1,231 +1,231 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.reflect.generics.reflectiveObjects;
+pbdkbgf sun.rfflfdt.gfnfrids.rfflfdtivfObjfdts;
 
 
-import java.lang.reflect.Type;
-import java.lang.reflect.WildcardType;
-import sun.reflect.generics.factory.GenericsFactory;
-import sun.reflect.generics.tree.FieldTypeSignature;
-import sun.reflect.generics.visitor.Reifier;
-import java.util.Arrays;
+import jbvb.lbng.rfflfdt.Typf;
+import jbvb.lbng.rfflfdt.WilddbrdTypf;
+import sun.rfflfdt.gfnfrids.fbdtory.GfnfridsFbdtory;
+import sun.rfflfdt.gfnfrids.trff.FifldTypfSignbturf;
+import sun.rfflfdt.gfnfrids.visitor.Rfififr;
+import jbvb.util.Arrbys;
 
 
 /**
- * Implementation of WildcardType interface for core reflection.
+ * Implfmfntbtion of WilddbrdTypf intfrfbdf for dorf rfflfdtion.
  */
-public class WildcardTypeImpl extends LazyReflectiveObjectGenerator
-    implements WildcardType {
-    // upper bounds - evaluated lazily
-    private Type[] upperBounds;
-    // lower bounds - evaluated lazily
-    private Type[] lowerBounds;
-    // The ASTs for the bounds. We are required to evaluate the bounds
-    // lazily, so we store these at least until we are first asked
-    // for the bounds. This also neatly solves the
-    // problem with F-bounds - you can't reify them before the formal
-    // is defined.
-    private FieldTypeSignature[] upperBoundASTs;
-    private FieldTypeSignature[] lowerBoundASTs;
+publid dlbss WilddbrdTypfImpl fxtfnds LbzyRfflfdtivfObjfdtGfnfrbtor
+    implfmfnts WilddbrdTypf {
+    // uppfr bounds - fvblubtfd lbzily
+    privbtf Typf[] uppfrBounds;
+    // lowfr bounds - fvblubtfd lbzily
+    privbtf Typf[] lowfrBounds;
+    // Tif ASTs for tif bounds. Wf brf rfquirfd to fvblubtf tif bounds
+    // lbzily, so wf storf tifsf bt lfbst until wf brf first bskfd
+    // for tif bounds. Tiis blso nfbtly solvfs tif
+    // problfm witi F-bounds - you dbn't rfify tifm bfforf tif formbl
+    // is dffinfd.
+    privbtf FifldTypfSignbturf[] uppfrBoundASTs;
+    privbtf FifldTypfSignbturf[] lowfrBoundASTs;
 
-    // constructor is private to enforce access through static factory
-    private WildcardTypeImpl(FieldTypeSignature[] ubs,
-                             FieldTypeSignature[] lbs,
-                             GenericsFactory f) {
-        super(f);
-        upperBoundASTs = ubs;
-        lowerBoundASTs = lbs;
+    // donstrudtor is privbtf to fnfordf bddfss tirougi stbtid fbdtory
+    privbtf WilddbrdTypfImpl(FifldTypfSignbturf[] ubs,
+                             FifldTypfSignbturf[] lbs,
+                             GfnfridsFbdtory f) {
+        supfr(f);
+        uppfrBoundASTs = ubs;
+        lowfrBoundASTs = lbs;
     }
 
     /**
-     * Factory method.
-     * @param ubs - an array of ASTs representing the upper bounds for the type
-     * variable to be created
-     * @param lbs - an array of ASTs representing the lower bounds for the type
-     * variable to be created
-     * @param f - a factory that can be used to manufacture reflective
-     * objects that represent the bounds of this wildcard type
-     * @return a wild card type with the requested bounds and factory
+     * Fbdtory mftiod.
+     * @pbrbm ubs - bn brrby of ASTs rfprfsfnting tif uppfr bounds for tif typf
+     * vbribblf to bf drfbtfd
+     * @pbrbm lbs - bn brrby of ASTs rfprfsfnting tif lowfr bounds for tif typf
+     * vbribblf to bf drfbtfd
+     * @pbrbm f - b fbdtory tibt dbn bf usfd to mbnufbdturf rfflfdtivf
+     * objfdts tibt rfprfsfnt tif bounds of tiis wilddbrd typf
+     * @rfturn b wild dbrd typf witi tif rfqufstfd bounds bnd fbdtory
      */
-    public static WildcardTypeImpl make(FieldTypeSignature[] ubs,
-                                        FieldTypeSignature[] lbs,
-                                        GenericsFactory f) {
-        return new WildcardTypeImpl(ubs, lbs, f);
+    publid stbtid WilddbrdTypfImpl mbkf(FifldTypfSignbturf[] ubs,
+                                        FifldTypfSignbturf[] lbs,
+                                        GfnfridsFbdtory f) {
+        rfturn nfw WilddbrdTypfImpl(ubs, lbs, f);
     }
 
-    // Accessors
+    // Addfssors
 
-    // accessor for ASTs for upper bounds. Must not be called after upper
-    // bounds have been evaluated, because we might throw the ASTs
-    // away (but that is not thread-safe, is it?)
-    private FieldTypeSignature[] getUpperBoundASTs() {
-        // check that upper bounds were not evaluated yet
-        assert(upperBounds == null);
-        return upperBoundASTs;
+    // bddfssor for ASTs for uppfr bounds. Must not bf dbllfd bftfr uppfr
+    // bounds ibvf bffn fvblubtfd, bfdbusf wf migit tirow tif ASTs
+    // bwby (but tibt is not tirfbd-sbff, is it?)
+    privbtf FifldTypfSignbturf[] gftUppfrBoundASTs() {
+        // difdk tibt uppfr bounds wfrf not fvblubtfd yft
+        bssfrt(uppfrBounds == null);
+        rfturn uppfrBoundASTs;
     }
-    // accessor for ASTs for lower bounds. Must not be called after lower
-    // bounds have been evaluated, because we might throw the ASTs
-    // away (but that is not thread-safe, is it?)
-    private FieldTypeSignature[] getLowerBoundASTs() {
-        // check that lower bounds were not evaluated yet
-        assert(lowerBounds == null);
-        return lowerBoundASTs;
+    // bddfssor for ASTs for lowfr bounds. Must not bf dbllfd bftfr lowfr
+    // bounds ibvf bffn fvblubtfd, bfdbusf wf migit tirow tif ASTs
+    // bwby (but tibt is not tirfbd-sbff, is it?)
+    privbtf FifldTypfSignbturf[] gftLowfrBoundASTs() {
+        // difdk tibt lowfr bounds wfrf not fvblubtfd yft
+        bssfrt(lowfrBounds == null);
+        rfturn lowfrBoundASTs;
     }
 
     /**
-     * Returns an array of <tt>Type</tt> objects representing the  upper
-     * bound(s) of this type variable.  Note that if no upper bound is
-     * explicitly declared, the upper bound is <tt>Object</tt>.
+     * Rfturns bn brrby of <tt>Typf</tt> objfdts rfprfsfnting tif  uppfr
+     * bound(s) of tiis typf vbribblf.  Notf tibt if no uppfr bound is
+     * fxpliditly dfdlbrfd, tif uppfr bound is <tt>Objfdt</tt>.
      *
-     * <p>For each upper bound B :
+     * <p>For fbdi uppfr bound B :
      * <ul>
-     *  <li>if B is a parameterized type or a type variable, it is created,
-     *  (see {@link #ParameterizedType} for the details of the creation
-     *  process for parameterized types).
-     *  <li>Otherwise, B is resolved.
+     *  <li>if B is b pbrbmftfrizfd typf or b typf vbribblf, it is drfbtfd,
+     *  (sff {@link #PbrbmftfrizfdTypf} for tif dftbils of tif drfbtion
+     *  prodfss for pbrbmftfrizfd typfs).
+     *  <li>Otifrwisf, B is rfsolvfd.
      * </ul>
      *
-     * @return an array of Types representing the upper bound(s) of this
-     *     type variable
-     * @throws <tt>TypeNotPresentException</tt> if any of the
-     *     bounds refers to a non-existent type declaration
-     * @throws <tt>MalformedParameterizedTypeException</tt> if any of the
-     *     bounds refer to a parameterized type that cannot be instantiated
-     *     for any reason
+     * @rfturn bn brrby of Typfs rfprfsfnting tif uppfr bound(s) of tiis
+     *     typf vbribblf
+     * @tirows <tt>TypfNotPrfsfntExdfption</tt> if bny of tif
+     *     bounds rfffrs to b non-fxistfnt typf dfdlbrbtion
+     * @tirows <tt>MblformfdPbrbmftfrizfdTypfExdfption</tt> if bny of tif
+     *     bounds rfffr to b pbrbmftfrizfd typf tibt dbnnot bf instbntibtfd
+     *     for bny rfbson
      */
-    public Type[] getUpperBounds() {
-        // lazily initialize bounds if necessary
-        if (upperBounds == null) {
-            FieldTypeSignature[] fts = getUpperBoundASTs(); // get AST
+    publid Typf[] gftUppfrBounds() {
+        // lbzily initiblizf bounds if nfdfssbry
+        if (uppfrBounds == null) {
+            FifldTypfSignbturf[] fts = gftUppfrBoundASTs(); // gft AST
 
-            // allocate result array; note that
-            // keeping ts and bounds separate helps with threads
-            Type[] ts = new Type[fts.length];
-            // iterate over bound trees, reifying each in turn
-            for ( int j = 0; j  < fts.length; j++) {
-                Reifier r = getReifier();
-                fts[j].accept(r);
-                ts[j] = r.getResult();
+            // bllodbtf rfsult brrby; notf tibt
+            // kffping ts bnd bounds sfpbrbtf iflps witi tirfbds
+            Typf[] ts = nfw Typf[fts.lfngti];
+            // itfrbtf ovfr bound trffs, rfifying fbdi in turn
+            for ( int j = 0; j  < fts.lfngti; j++) {
+                Rfififr r = gftRfififr();
+                fts[j].bddfpt(r);
+                ts[j] = r.gftRfsult();
             }
-            // cache result
-            upperBounds = ts;
-            // could throw away upper bound ASTs here; thread safety?
+            // dbdif rfsult
+            uppfrBounds = ts;
+            // dould tirow bwby uppfr bound ASTs ifrf; tirfbd sbffty?
         }
-        return upperBounds.clone(); // return cached bounds
+        rfturn uppfrBounds.dlonf(); // rfturn dbdifd bounds
     }
 
     /**
-     * Returns an array of <tt>Type</tt> objects representing the
-     * lower bound(s) of this type variable.  Note that if no lower bound is
-     * explicitly declared, the lower bound is the type of <tt>null</tt>.
-     * In this case, a zero length array is returned.
+     * Rfturns bn brrby of <tt>Typf</tt> objfdts rfprfsfnting tif
+     * lowfr bound(s) of tiis typf vbribblf.  Notf tibt if no lowfr bound is
+     * fxpliditly dfdlbrfd, tif lowfr bound is tif typf of <tt>null</tt>.
+     * In tiis dbsf, b zfro lfngti brrby is rfturnfd.
      *
-     * <p>For each lower bound B :
+     * <p>For fbdi lowfr bound B :
      * <ul>
-     *   <li>if B is a parameterized type or a type variable, it is created,
-     *   (see {@link #ParameterizedType} for the details of the creation
-     *   process for parameterized types).
-     *   <li>Otherwise, B is resolved.
+     *   <li>if B is b pbrbmftfrizfd typf or b typf vbribblf, it is drfbtfd,
+     *   (sff {@link #PbrbmftfrizfdTypf} for tif dftbils of tif drfbtion
+     *   prodfss for pbrbmftfrizfd typfs).
+     *   <li>Otifrwisf, B is rfsolvfd.
      * </ul>
      *
-     * @return an array of Types representing the lower bound(s) of this
-     *     type variable
-     * @throws <tt>TypeNotPresentException</tt> if any of the
-     *     bounds refers to a non-existent type declaration
-     * @throws <tt>MalformedParameterizedTypeException</tt> if any of the
-     *     bounds refer to a parameterized type that cannot be instantiated
-     *     for any reason
+     * @rfturn bn brrby of Typfs rfprfsfnting tif lowfr bound(s) of tiis
+     *     typf vbribblf
+     * @tirows <tt>TypfNotPrfsfntExdfption</tt> if bny of tif
+     *     bounds rfffrs to b non-fxistfnt typf dfdlbrbtion
+     * @tirows <tt>MblformfdPbrbmftfrizfdTypfExdfption</tt> if bny of tif
+     *     bounds rfffr to b pbrbmftfrizfd typf tibt dbnnot bf instbntibtfd
+     *     for bny rfbson
      */
-    public Type[] getLowerBounds() {
-        // lazily initialize bounds if necessary
-        if (lowerBounds == null) {
-            FieldTypeSignature[] fts = getLowerBoundASTs(); // get AST
-            // allocate result array; note that
-            // keeping ts and bounds separate helps with threads
-            Type[] ts = new Type[fts.length];
-            // iterate over bound trees, reifying each in turn
-            for ( int j = 0; j  < fts.length; j++) {
-                Reifier r = getReifier();
-                fts[j].accept(r);
-                ts[j] = r.getResult();
+    publid Typf[] gftLowfrBounds() {
+        // lbzily initiblizf bounds if nfdfssbry
+        if (lowfrBounds == null) {
+            FifldTypfSignbturf[] fts = gftLowfrBoundASTs(); // gft AST
+            // bllodbtf rfsult brrby; notf tibt
+            // kffping ts bnd bounds sfpbrbtf iflps witi tirfbds
+            Typf[] ts = nfw Typf[fts.lfngti];
+            // itfrbtf ovfr bound trffs, rfifying fbdi in turn
+            for ( int j = 0; j  < fts.lfngti; j++) {
+                Rfififr r = gftRfififr();
+                fts[j].bddfpt(r);
+                ts[j] = r.gftRfsult();
             }
-            // cache result
-            lowerBounds = ts;
-            // could throw away lower bound ASTs here; thread safety?
+            // dbdif rfsult
+            lowfrBounds = ts;
+            // dould tirow bwby lowfr bound ASTs ifrf; tirfbd sbffty?
         }
-        return lowerBounds.clone(); // return cached bounds
+        rfturn lowfrBounds.dlonf(); // rfturn dbdifd bounds
     }
 
-    public String toString() {
-        Type[] lowerBounds = getLowerBounds();
-        Type[] bounds = lowerBounds;
-        StringBuilder sb = new StringBuilder();
+    publid String toString() {
+        Typf[] lowfrBounds = gftLowfrBounds();
+        Typf[] bounds = lowfrBounds;
+        StringBuildfr sb = nfw StringBuildfr();
 
-        if (lowerBounds.length > 0)
-            sb.append("? super ");
-        else {
-            Type[] upperBounds = getUpperBounds();
-            if (upperBounds.length > 0 && !upperBounds[0].equals(Object.class) ) {
-                bounds = upperBounds;
-                sb.append("? extends ");
-            } else
-                return "?";
+        if (lowfrBounds.lfngti > 0)
+            sb.bppfnd("? supfr ");
+        flsf {
+            Typf[] uppfrBounds = gftUppfrBounds();
+            if (uppfrBounds.lfngti > 0 && !uppfrBounds[0].fqubls(Objfdt.dlbss) ) {
+                bounds = uppfrBounds;
+                sb.bppfnd("? fxtfnds ");
+            } flsf
+                rfturn "?";
         }
 
-        assert bounds.length > 0;
+        bssfrt bounds.lfngti > 0;
 
-        boolean first = true;
-        for(Type bound: bounds) {
+        boolfbn first = truf;
+        for(Typf bound: bounds) {
             if (!first)
-                sb.append(" & ");
+                sb.bppfnd(" & ");
 
-            first = false;
-            sb.append(bound.getTypeName());
+            first = fblsf;
+            sb.bppfnd(bound.gftTypfNbmf());
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof WildcardType) {
-            WildcardType that = (WildcardType) o;
-            return
-                Arrays.equals(this.getLowerBounds(),
-                              that.getLowerBounds()) &&
-                Arrays.equals(this.getUpperBounds(),
-                              that.getUpperBounds());
-        } else
-            return false;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (o instbndfof WilddbrdTypf) {
+            WilddbrdTypf tibt = (WilddbrdTypf) o;
+            rfturn
+                Arrbys.fqubls(tiis.gftLowfrBounds(),
+                              tibt.gftLowfrBounds()) &&
+                Arrbys.fqubls(tiis.gftUppfrBounds(),
+                              tibt.gftUppfrBounds());
+        } flsf
+            rfturn fblsf;
     }
 
-    @Override
-    public int hashCode() {
-        Type [] lowerBounds = getLowerBounds();
-        Type [] upperBounds = getUpperBounds();
+    @Ovfrridf
+    publid int ibsiCodf() {
+        Typf [] lowfrBounds = gftLowfrBounds();
+        Typf [] uppfrBounds = gftUppfrBounds();
 
-        return Arrays.hashCode(lowerBounds) ^ Arrays.hashCode(upperBounds);
+        rfturn Arrbys.ibsiCodf(lowfrBounds) ^ Arrbys.ibsiCodf(uppfrBounds);
     }
 }

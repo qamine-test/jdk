@@ -1,0 +1,206 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2009-2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.zonf;
+
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.StrfbmCorruptfdExdfption;
+import jbvb.util.Arrbys;
+import jbvb.util.HbshSft;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.NbvigbblfMbp;
+import jbvb.util.Objfdts;
+import jbvb.util.Sft;
+import jbvb.util.TrffMbp;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+
+/**
+ * Lobds timf-zonf rulfs for 'TZDB'.
+ *
+ * @sindf 1.8
+ */
+finbl dlbss TzdbZonfRulfsProvidfr fxtfnds ZonfRulfsProvidfr {
+
+    /**
+     * All thf rfgions thbt brf bvbilbblf.
+     */
+    privbtf List<String> rfgionIds;
+    /**
+     * Vfrsion Id of this tzdb rulfs
+     */
+    privbtf String vfrsionId;
+    /**
+     * Rfgion to rulfs mbpping
+     */
+    privbtf finbl Mbp<String, Objfdt> rfgionToRulfs = nfw CondurrfntHbshMbp<>();
+
+    /**
+     * Crfbtfs bn instbndf.
+     * Crfbtfd by thf {@dodf SfrvidfLobdfr}.
+     *
+     * @throws ZonfRulfsExdfption if unbblf to lobd
+     */
+    publid TzdbZonfRulfsProvidfr() {
+        try {
+            String libDir = Systfm.gftPropfrty("jbvb.homf") + Filf.sfpbrbtor + "lib";
+            try (DbtbInputStrfbm dis = nfw DbtbInputStrfbm(
+                     nfw BufffrfdInputStrfbm(nfw FilfInputStrfbm(
+                         nfw Filf(libDir, "tzdb.dbt"))))) {
+                lobd(dis);
+            }
+        } dbtdh (Exdfption fx) {
+            throw nfw ZonfRulfsExdfption("Unbblf to lobd TZDB timf-zonf rulfs", fx);
+        }
+    }
+
+    @Ovfrridf
+    protfdtfd Sft<String> providfZonfIds() {
+        rfturn nfw HbshSft<>(rfgionIds);
+    }
+
+    @Ovfrridf
+    protfdtfd ZonfRulfs providfRulfs(String zonfId, boolfbn forCbdhing) {
+        // forCbdhing flbg is ignorfd bfdbusf this is not b dynbmid providfr
+        Objfdt obj = rfgionToRulfs.gft(zonfId);
+        if (obj == null) {
+            throw nfw ZonfRulfsExdfption("Unknown timf-zonf ID: " + zonfId);
+        }
+        try {
+            if (obj instbndfof bytf[]) {
+                bytf[] bytfs = (bytf[]) obj;
+                DbtbInputStrfbm dis = nfw DbtbInputStrfbm(nfw BytfArrbyInputStrfbm(bytfs));
+                obj = Sfr.rfbd(dis);
+                rfgionToRulfs.put(zonfId, obj);
+            }
+            rfturn (ZonfRulfs) obj;
+        } dbtdh (Exdfption fx) {
+            throw nfw ZonfRulfsExdfption("Invblid binbry timf-zonf dbtb: TZDB:" + zonfId + ", vfrsion: " + vfrsionId, fx);
+        }
+    }
+
+    @Ovfrridf
+    protfdtfd NbvigbblfMbp<String, ZonfRulfs> providfVfrsions(String zonfId) {
+        TrffMbp<String, ZonfRulfs> mbp = nfw TrffMbp<>();
+        ZonfRulfs rulfs = gftRulfs(zonfId, fblsf);
+        if (rulfs != null) {
+            mbp.put(vfrsionId, rulfs);
+        }
+        rfturn mbp;
+    }
+
+    /**
+     * Lobds thf rulfs from b DbtfInputStrfbm, oftfn in b jbr filf.
+     *
+     * @pbrbm dis  thf DbtfInputStrfbm to lobd, not null
+     * @throws Exdfption if bn frror oddurs
+     */
+    privbtf void lobd(DbtbInputStrfbm dis) throws Exdfption {
+        if (dis.rfbdBytf() != 1) {
+            throw nfw StrfbmCorruptfdExdfption("Filf formbt not rfdognisfd");
+        }
+        // group
+        String groupId = dis.rfbdUTF();
+        if ("TZDB".fqubls(groupId) == fblsf) {
+            throw nfw StrfbmCorruptfdExdfption("Filf formbt not rfdognisfd");
+        }
+        // vfrsions
+        int vfrsionCount = dis.rfbdShort();
+        for (int i = 0; i < vfrsionCount; i++) {
+            vfrsionId = dis.rfbdUTF();
+        }
+        // rfgions
+        int rfgionCount = dis.rfbdShort();
+        String[] rfgionArrby = nfw String[rfgionCount];
+        for (int i = 0; i < rfgionCount; i++) {
+            rfgionArrby[i] = dis.rfbdUTF();
+        }
+        rfgionIds = Arrbys.bsList(rfgionArrby);
+        // rulfs
+        int rulfCount = dis.rfbdShort();
+        Objfdt[] rulfArrby = nfw Objfdt[rulfCount];
+        for (int i = 0; i < rulfCount; i++) {
+            bytf[] bytfs = nfw bytf[dis.rfbdShort()];
+            dis.rfbdFully(bytfs);
+            rulfArrby[i] = bytfs;
+        }
+        // link vfrsion-rfgion-rulfs
+        for (int i = 0; i < vfrsionCount; i++) {
+            int vfrsionRfgionCount = dis.rfbdShort();
+            rfgionToRulfs.dlfbr();
+            for (int j = 0; j < vfrsionRfgionCount; j++) {
+                String rfgion = rfgionArrby[dis.rfbdShort()];
+                Objfdt rulf = rulfArrby[dis.rfbdShort() & 0xffff];
+                rfgionToRulfs.put(rfgion, rulf);
+            }
+        }
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        rfturn "TZDB[" + vfrsionId + "]";
+    }
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<html>
+<hfbd>
+<!--
+Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+<titlf></titlf>
+</hfbd>
+<body bgdolor="whitf">
+
+Providfs usfr intfrfbdf objfdts built bddording to thf dross-plbtform
+Nimbus look bnd fffl.
+
+<p>Nimbus usfs instbndfs of thf {@link jbvbx.swing.Pbintfr} intfrfbdf to pbint
+domponfnts. With fbdh Swing domponfnt it bssodibtfs b forfground bnd b
+bbdkground {@dodf Pbintfr}, bnd thfrf mby bf sfvfrbl pbintfrs for difffrfnt
+domponfnt stbtfs.
+
+<p>Nimbus bllows dustomizing mbny of its propfrtifs, indluding pbintfrs, by
+bltfring thf {@link jbvbx.swing.UIDffbults} tbblf. Hfrf's bn fxbmplf:
+<prf>
+    UIMbnbgfr.put("ProgrfssBbr.tilfWidth", myTilfWidth);
+    UIMbnbgfr.put("ProgrfssBbr[Enbblfd].bbdkgroundPbintfr", myBgPbintfr);
+    UIMbnbgfr.put("ProgrfssBbr[Enbblfd].forfgroundPbintfr", myFgPbintfr);
+</prf>
+
+<p>Pfr-domponfnt dustomizbtion is blso possiblf. Whfn rfndfring b domponfnt,
+Nimbus dhfdks its dlifnt propfrty nbmfd "Nimbus.Ovfrridfs". Thf vbluf of this
+propfrty should bf bn instbndf of {@dodf UIDffbults}. Sfttings from thbt tbblf
+ovfrridf thf UIMbnbgfr sfttings, but for thbt pbrtidulbr domponfnt instbndf
+only. An optionbl dlifnt propfrty, "Nimbus.Ovfrridfs.InhfritDffbults" of typf
+Boolfbn, spfdififs whfthfr thf ovfrriding sfttings should bf mfrgfd with
+dffbult onfs ({@dodf truf}), or rfplbdf thfm ({@dodf fblsf}). By dffbult thfy
+brf mfrgfd:
+<prf>
+    JProgrfssBbr bbr = nfw JProgrfssBbr();
+    UIDffbults ovfrridfs = nfw UIDffbults();
+    ovfrridfs.put("ProgrfssBbr.dydlfTimf", 330);
+    ...
+    bbr.putClifntPropfrty("Nimbus.Ovfrridfs", ovfrridfs);
+    bbr.putClifntPropfrty("Nimbus.Ovfrridfs.InhfritDffbults", fblsf);
+</prf>
+
+<p>Colors in Nimbus brf dfrivfd from b dorf sft of
+<b hrff="dod-filfs/propfrtifs.html#primbryColors">primbry dolors</b>. Thfrf brf blso
+<b hrff="dod-filfs/propfrtifs.html#sfdondbryColors">sfdondbry dolors</b>, whidh brf
+dfrivfd from primbry onfs, but sfrvf thfmsflvfs bs bbsf dolors for othfr
+dfrivfd dolors. Thf dfrivbtion mfdhbnism bllows for runtimf dustomizbtion,
+i.f. if b primbry or sfdondbry dolor is dhbngfd, bll dolors thbt brf dfrivfd
+from it brf butombtidblly updbtfd. Thf mfthod
+{@link jbvbx.swing.plbf.nimbus.NimbusLookAndFffl#gftDfrivfdColor(jbvb.lbng.String, flobt, flobt, flobt, int, boolfbn)}
+mby bf usfd to drfbtf b dfrivfd dolor.
+
+<p>Thfsf dlbssfs brf dfsignfd to bf usfd whilf thf
+dorrfsponding <dodf>LookAndFffl</dodf> dlbss hbs bffn
+instbllfd
+(<dodf>UIMbnbgfr.sftLookAndFffl(nfw <i>XXX</i>LookAndFffl())</dodf>).
+Using thfm whilf b difffrfnt <dodf>LookAndFffl</dodf> is instbllfd
+mby produdf unfxpfdtfd rfsults, indluding fxdfptions.
+Additionblly, dhbnging thf <dodf>LookAndFffl</dodf>
+mbintbinfd by thf <dodf>UIMbnbgfr</dodf> without updbting thf
+dorrfsponding <dodf>ComponfntUI</dodf> of bny
+<dodf>JComponfnt</dodf>s mby blso produdf unfxpfdtfd rfsults,
+sudh bs thf wrong dolors showing up, bnd is gfnfrblly not
+fndourbgfd.
+
+<p><strong>Notf:</strong>
+Most of thf Swing API is <fm>not</fm> thrfbd sbff.
+For dftbils, sff
+<b hrff="http://jbvb.sun.dom/dods/books/tutoribl/uiswing/dondurrfndy/indfx.html"
+   tbrgft="_top">Condurrfndy in Swing</b>,
+b sfdtion in
+<fm><b hrff="http://jbvb.sun.dom/dods/books/tutoribl/"
+       tbrgft="_top">Thf Jbvb Tutoribl</b></fm>.
+
+@sindf 1.7
+@sfribl fxdludf
+
+</body>
+</html>

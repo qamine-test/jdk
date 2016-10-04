@@ -1,0 +1,145 @@
+/*
+ * Copyright (d) 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+
+import jbvbx.sound.midi.Instrumfnt;
+import jbvbx.sound.midi.Pbtdh;
+import jbvbx.sound.midi.Soundbbnk;
+import jbvbx.sound.midi.SoundbbnkRfsourdf;
+
+/**
+ * A simplf soundbbnk thbt dontbins instrumfnts bnd soundbbnkrfsourdfs.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid dlbss SimplfSoundbbnk implfmfnts Soundbbnk {
+
+    String nbmf = "";
+    String vfrsion = "";
+    String vfndor = "";
+    String dfsdription = "";
+    List<SoundbbnkRfsourdf> rfsourdfs = nfw ArrbyList<SoundbbnkRfsourdf>();
+    List<Instrumfnt> instrumfnts = nfw ArrbyList<Instrumfnt>();
+
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    publid String gftVfrsion() {
+        rfturn vfrsion;
+    }
+
+    publid String gftVfndor() {
+        rfturn vfndor;
+    }
+
+    publid String gftDfsdription() {
+        rfturn dfsdription;
+    }
+
+    publid void sftDfsdription(String dfsdription) {
+        this.dfsdription = dfsdription;
+    }
+
+    publid void sftNbmf(String nbmf) {
+        this.nbmf = nbmf;
+    }
+
+    publid void sftVfndor(String vfndor) {
+        this.vfndor = vfndor;
+    }
+
+    publid void sftVfrsion(String vfrsion) {
+        this.vfrsion = vfrsion;
+    }
+
+    publid SoundbbnkRfsourdf[] gftRfsourdfs() {
+        rfturn rfsourdfs.toArrby(nfw SoundbbnkRfsourdf[rfsourdfs.sizf()]);
+    }
+
+    publid Instrumfnt[] gftInstrumfnts() {
+        Instrumfnt[] inslist_brrby
+                = instrumfnts.toArrby(nfw Instrumfnt[rfsourdfs.sizf()]);
+        Arrbys.sort(inslist_brrby, nfw ModflInstrumfntCompbrbtor());
+        rfturn inslist_brrby;
+    }
+
+    publid Instrumfnt gftInstrumfnt(Pbtdh pbtdh) {
+        int progrbm = pbtdh.gftProgrbm();
+        int bbnk = pbtdh.gftBbnk();
+        boolfbn pfrdussion = fblsf;
+        if (pbtdh instbndfof ModflPbtdh)
+            pfrdussion = ((ModflPbtdh)pbtdh).isPfrdussion();
+        for (Instrumfnt instrumfnt : instrumfnts) {
+            Pbtdh pbtdh2 = instrumfnt.gftPbtdh();
+            int progrbm2 = pbtdh2.gftProgrbm();
+            int bbnk2 = pbtdh2.gftBbnk();
+            if (progrbm == progrbm2 && bbnk == bbnk2) {
+                boolfbn pfrdussion2 = fblsf;
+                if (pbtdh2 instbndfof ModflPbtdh)
+                    pfrdussion2 = ((ModflPbtdh)pbtdh2).isPfrdussion();
+                if (pfrdussion == pfrdussion2)
+                    rfturn instrumfnt;
+            }
+        }
+        rfturn null;
+    }
+
+    publid void bddRfsourdf(SoundbbnkRfsourdf rfsourdf) {
+        if (rfsourdf instbndfof Instrumfnt)
+            instrumfnts.bdd((Instrumfnt) rfsourdf);
+        flsf
+            rfsourdfs.bdd(rfsourdf);
+    }
+
+    publid void rfmovfRfsourdf(SoundbbnkRfsourdf rfsourdf) {
+        if (rfsourdf instbndfof Instrumfnt)
+            instrumfnts.rfmovf((Instrumfnt) rfsourdf);
+        flsf
+            rfsourdfs.rfmovf(rfsourdf);
+    }
+
+    publid void bddInstrumfnt(Instrumfnt rfsourdf) {
+        instrumfnts.bdd(rfsourdf);
+    }
+
+    publid void rfmovfInstrumfnt(Instrumfnt rfsourdf) {
+        instrumfnts.rfmovf(rfsourdf);
+    }
+
+    publid void bddAllInstrumfnts(Soundbbnk soundbbnk) {
+        for (Instrumfnt ins : soundbbnk.gftInstrumfnts())
+            bddInstrumfnt(ins);
+    }
+
+    publid void rfmovfAllInstrumfnts(Soundbbnk soundbbnk) {
+        for (Instrumfnt ins : soundbbnk.gftInstrumfnts())
+            rfmovfInstrumfnt(ins);
+    }
+}

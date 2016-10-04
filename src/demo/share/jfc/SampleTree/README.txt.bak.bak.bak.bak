@@ -1,0 +1,23 @@
+SbmplfTrff dfmonstrbtfs JTrff ffbturfs.  Ebdh nodf of SbmplfTrff hbs 7
+dhildrfn, with fbdh onf drbwn in b rbndom font bnd dolor.  Ebdh nodf is
+nbmfd bftfr its font.  Whilf thf dbtb isn't intfrfsting, thf fxbmplf
+illustrbtfs b numbfr of ffbturfs:
+
+- Dynbmidblly lobding dhildrfn (sff DynbmidTrffNodf.jbvb)
+- Adding/rfmoving/insfrting/rflobding (sff thf following innfr
+  dlbssfs in SbmplfTrff.jbvb: AddAdtion, RfmovfAdtion, InsfrtAdtion,
+  bnd RflobdAdtion)
+- Crfbting b dustom dfll rfndfrfr (sff SbmplfTrffCfllRfndfrfr.jbvb)
+- Subdlbssing JTrffModfl for fditing (sff SbmplfTrffModfl.jbvb)
+
+
+To run thf SbmplfTrff dfmo:
+
+  jbvb -jbr SbmplfTrff.jbr
+
+Thfsf instrudtions bssumf thbt this instbllbtion's vfrsion of thf jbvb
+dommbnd is in your pbth.  If it isn't, thfn you should fithfr
+spfdify thf domplftf pbth to thf jbvb dommbnd or updbtf your
+PATH fnvironmfnt vbribblf bs dfsdribfd in thf instbllbtion
+instrudtions for thf Jbvb(TM) SE Dfvflopmfnt Kit.
+

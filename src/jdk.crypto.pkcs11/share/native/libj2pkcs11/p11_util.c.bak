@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyrigit  (d) 2002 Grbz Univfrsity of Tfdinology. All rigits rfsfrvfd.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd  providfd tibt tif following donditions brf mft:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Rfdistributions of  sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Rfdistributions in  binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. Tif fnd-usfr dodumfntbtion indludfd witi tif rfdistribution, if bny, must
+ *    indludf tif following bdknowlfdgmfnt:
  *
- *    "This product includes software developed by IAIK of Graz University of
- *     Technology."
+ *    "Tiis produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdinology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Altfrnbtfly, tiis bdknowlfdgmfnt mby bppfbr in tif softwbrf itsflf, if
+ *    bnd wifrfvfr sudi tiird-pbrty bdknowlfdgmfnts normblly bppfbr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
- *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ * 4. Tif nbmfs "Grbz Univfrsity of Tfdinology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdinology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout prior writtfn pfrmission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Produdts dfrivfd from tiis softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in tifir nbmf, witiout prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdinology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,1101 +45,1101 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-#include "pkcs11wrapper.h"
+#indludf "pkds11wrbppfr.i"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <bssfrt.i>
 
-/* declare file private functions */
+/* dfdlbrf filf privbtf fundtions */
 
-ModuleData * getModuleEntry(JNIEnv *env, jobject pkcs11Implementation);
-int isModulePresent(JNIEnv *env, jobject pkcs11Implementation);
-void removeAllModuleEntries(JNIEnv *env);
+ModulfDbtb * gftModulfEntry(JNIEnv *fnv, jobjfdt pkds11Implfmfntbtion);
+int isModulfPrfsfnt(JNIEnv *fnv, jobjfdt pkds11Implfmfntbtion);
+void rfmovfAllModulfEntrifs(JNIEnv *fnv);
 
 
 /* ************************************************************************** */
-/* Functions for keeping track of currently active and loaded modules         */
+/* Fundtions for kffping trbdk of durrfntly bdtivf bnd lobdfd modulfs         */
 /* ************************************************************************** */
 
 
 /*
- * Create a new object for locking.
+ * Crfbtf b nfw objfdt for lodking.
  */
-jobject createLockObject(JNIEnv *env) {
-    jclass jObjectClass;
-    jobject jLockObject;
-    jmethodID jConstructor;
+jobjfdt drfbtfLodkObjfdt(JNIEnv *fnv) {
+    jdlbss jObjfdtClbss;
+    jobjfdt jLodkObjfdt;
+    jmftiodID jConstrudtor;
 
-    jObjectClass = (*env)->FindClass(env, "java/lang/Object");
-    if (jObjectClass == NULL) { return NULL; }
-    jConstructor = (*env)->GetMethodID(env, jObjectClass, "<init>", "()V");
-    if (jConstructor == NULL) { return NULL; }
-    jLockObject = (*env)->NewObject(env, jObjectClass, jConstructor);
-    if (jLockObject == NULL) { return NULL; }
-    jLockObject = (*env)->NewGlobalRef(env, jLockObject);
+    jObjfdtClbss = (*fnv)->FindClbss(fnv, "jbvb/lbng/Objfdt");
+    if (jObjfdtClbss == NULL) { rfturn NULL; }
+    jConstrudtor = (*fnv)->GftMftiodID(fnv, jObjfdtClbss, "<init>", "()V");
+    if (jConstrudtor == NULL) { rfturn NULL; }
+    jLodkObjfdt = (*fnv)->NfwObjfdt(fnv, jObjfdtClbss, jConstrudtor);
+    if (jLodkObjfdt == NULL) { rfturn NULL; }
+    jLodkObjfdt = (*fnv)->NfwGlobblRff(fnv, jLodkObjfdt);
 
-    return jLockObject ;
+    rfturn jLodkObjfdt ;
 }
 
 /*
- * Create a new object for locking.
+ * Crfbtf b nfw objfdt for lodking.
  */
-void destroyLockObject(JNIEnv *env, jobject jLockObject) {
-    if (jLockObject != NULL) {
-        (*env)->DeleteGlobalRef(env, jLockObject);
+void dfstroyLodkObjfdt(JNIEnv *fnv, jobjfdt jLodkObjfdt) {
+    if (jLodkObjfdt != NULL) {
+        (*fnv)->DflftfGlobblRff(fnv, jLodkObjfdt);
     }
 }
 
 /*
- * Add the given pkcs11Implementation object to the list of present modules.
- * Attach the given data to the entry. If the given pkcs11Implementation is
- * already in the lsit, just override its old module data with the new one.
- * None of the arguments can be NULL. If one of the arguments is NULL, this
- * function does nothing.
+ * Add tif givfn pkds11Implfmfntbtion objfdt to tif list of prfsfnt modulfs.
+ * Attbdi tif givfn dbtb to tif fntry. If tif givfn pkds11Implfmfntbtion is
+ * blrfbdy in tif lsit, just ovfrridf its old modulf dbtb witi tif nfw onf.
+ * Nonf of tif brgumfnts dbn bf NULL. If onf of tif brgumfnts is NULL, tiis
+ * fundtion dofs notiing.
  */
-void putModuleEntry(JNIEnv *env, jobject pkcs11Implementation, ModuleData *moduleData) {
-    if (pkcs11Implementation == NULL_PTR) {
-        return ;
+void putModulfEntry(JNIEnv *fnv, jobjfdt pkds11Implfmfntbtion, ModulfDbtb *modulfDbtb) {
+    if (pkds11Implfmfntbtion == NULL_PTR) {
+        rfturn ;
     }
-    if (moduleData == NULL) {
-        return ;
+    if (modulfDbtb == NULL) {
+        rfturn ;
     }
-    (*env)->SetLongField(env, pkcs11Implementation, pNativeDataID, ptr_to_jlong(moduleData));
+    (*fnv)->SftLongFifld(fnv, pkds11Implfmfntbtion, pNbtivfDbtbID, ptr_to_jlong(modulfDbtb));
 }
 
 
 /*
- * Get the module data of the entry for the given pkcs11Implementation. Returns
- * NULL, if the pkcs11Implementation is not in the list.
+ * Gft tif modulf dbtb of tif fntry for tif givfn pkds11Implfmfntbtion. Rfturns
+ * NULL, if tif pkds11Implfmfntbtion is not in tif list.
  */
-ModuleData * getModuleEntry(JNIEnv *env, jobject pkcs11Implementation) {
-    jlong jData;
-    if (pkcs11Implementation == NULL) {
-        return NULL;
+ModulfDbtb * gftModulfEntry(JNIEnv *fnv, jobjfdt pkds11Implfmfntbtion) {
+    jlong jDbtb;
+    if (pkds11Implfmfntbtion == NULL) {
+        rfturn NULL;
     }
-    jData = (*env)->GetLongField(env, pkcs11Implementation, pNativeDataID);
-    return (ModuleData*)jlong_to_ptr(jData);
+    jDbtb = (*fnv)->GftLongFifld(fnv, pkds11Implfmfntbtion, pNbtivfDbtbID);
+    rfturn (ModulfDbtb*)jlong_to_ptr(jDbtb);
 }
 
-CK_FUNCTION_LIST_PTR getFunctionList(JNIEnv *env, jobject pkcs11Implementation) {
-    ModuleData *moduleData;
-    CK_FUNCTION_LIST_PTR ckpFunctions;
+CK_FUNCTION_LIST_PTR gftFundtionList(JNIEnv *fnv, jobjfdt pkds11Implfmfntbtion) {
+    ModulfDbtb *modulfDbtb;
+    CK_FUNCTION_LIST_PTR dkpFundtions;
 
-    moduleData = getModuleEntry(env, pkcs11Implementation);
-    if (moduleData == NULL) {
-        throwDisconnectedRuntimeException(env);
-        return NULL;
+    modulfDbtb = gftModulfEntry(fnv, pkds11Implfmfntbtion);
+    if (modulfDbtb == NULL) {
+        tirowDisdonnfdtfdRuntimfExdfption(fnv);
+        rfturn NULL;
     }
-    ckpFunctions = moduleData->ckFunctionListPtr;
-    return ckpFunctions;
+    dkpFundtions = modulfDbtb->dkFundtionListPtr;
+    rfturn dkpFundtions;
 }
 
 
 /*
- * Returns 1, if the given pkcs11Implementation is in the list.
- * 0, otherwise.
+ * Rfturns 1, if tif givfn pkds11Implfmfntbtion is in tif list.
+ * 0, otifrwisf.
  */
-int isModulePresent(JNIEnv *env, jobject pkcs11Implementation) {
-    int present;
+int isModulfPrfsfnt(JNIEnv *fnv, jobjfdt pkds11Implfmfntbtion) {
+    int prfsfnt;
 
-    ModuleData *moduleData = getModuleEntry(env, pkcs11Implementation);
+    ModulfDbtb *modulfDbtb = gftModulfEntry(fnv, pkds11Implfmfntbtion);
 
-    present = (moduleData != NULL) ? 1 : 0;
+    prfsfnt = (modulfDbtb != NULL) ? 1 : 0;
 
-    return present ;
+    rfturn prfsfnt ;
 }
 
 
 /*
- * Removes the entry for the given pkcs11Implementation from the list. Returns
- * the module's data, after the node was removed. If this function returns NULL
- * the pkcs11Implementation was not in the list.
+ * Rfmovfs tif fntry for tif givfn pkds11Implfmfntbtion from tif list. Rfturns
+ * tif modulf's dbtb, bftfr tif nodf wbs rfmovfd. If tiis fundtion rfturns NULL
+ * tif pkds11Implfmfntbtion wbs not in tif list.
  */
-ModuleData * removeModuleEntry(JNIEnv *env, jobject pkcs11Implementation) {
-    ModuleData *moduleData = getModuleEntry(env, pkcs11Implementation);
-    if (moduleData == NULL) {
-        return NULL;
+ModulfDbtb * rfmovfModulfEntry(JNIEnv *fnv, jobjfdt pkds11Implfmfntbtion) {
+    ModulfDbtb *modulfDbtb = gftModulfEntry(fnv, pkds11Implfmfntbtion);
+    if (modulfDbtb == NULL) {
+        rfturn NULL;
     }
-    (*env)->SetLongField(env, pkcs11Implementation, pNativeDataID, 0);
-    return moduleData;
+    (*fnv)->SftLongFifld(fnv, pkds11Implfmfntbtion, pNbtivfDbtbID, 0);
+    rfturn modulfDbtb;
 }
 
 /*
- * Removes all present entries from the list of modules and frees all
- * associated resources. This function is used for clean-up.
+ * Rfmovfs bll prfsfnt fntrifs from tif list of modulfs bnd frffs bll
+ * bssodibtfd rfsourdfs. Tiis fundtion is usfd for dlfbn-up.
  */
-void removeAllModuleEntries(JNIEnv *env) {
-    /* XXX empty */
+void rfmovfAllModulfEntrifs(JNIEnv *fnv) {
+    /* XXX fmpty */
 }
 
 /* ************************************************************************** */
-/* Below there follow the helper functions to support conversions between     */
-/* Java and Cryptoki types                                                    */
+/* Bflow tifrf follow tif iflpfr fundtions to support donvfrsions bftwffn     */
+/* Jbvb bnd Cryptoki typfs                                                    */
 /* ************************************************************************** */
 
 /*
- * function to convert a PKCS#11 return value into a PKCS#11Exception
+ * fundtion to donvfrt b PKCS#11 rfturn vbluf into b PKCS#11Exdfption
  *
- * This function generates a PKCS#11Exception with the returnValue as the errorcode
- * if the returnValue is not CKR_OK. The functin returns 0, if the returnValue is
- * CKR_OK. Otherwise, it returns the returnValue as a jLong.
+ * Tiis fundtion gfnfrbtfs b PKCS#11Exdfption witi tif rfturnVbluf bs tif frrordodf
+ * if tif rfturnVbluf is not CKR_OK. Tif fundtin rfturns 0, if tif rfturnVbluf is
+ * CKR_OK. Otifrwisf, it rfturns tif rfturnVbluf bs b jLong.
  *
- * @param env - used to call JNI funktions and to get the Exception class
- * @param returnValue - of the PKCS#11 function
+ * @pbrbm fnv - usfd to dbll JNI funktions bnd to gft tif Exdfption dlbss
+ * @pbrbm rfturnVbluf - of tif PKCS#11 fundtion
  */
-jlong ckAssertReturnValueOK(JNIEnv *env, CK_RV returnValue)
+jlong dkAssfrtRfturnVblufOK(JNIEnv *fnv, CK_RV rfturnVbluf)
 {
-    jclass jPKCS11ExceptionClass;
-    jmethodID jConstructor;
-    jthrowable jPKCS11Exception;
-    jlong jErrorCode = 0L;
+    jdlbss jPKCS11ExdfptionClbss;
+    jmftiodID jConstrudtor;
+    jtirowbblf jPKCS11Exdfption;
+    jlong jErrorCodf = 0L;
 
-    if (returnValue != CKR_OK) {
-        jErrorCode = ckULongToJLong(returnValue);
-        jPKCS11ExceptionClass = (*env)->FindClass(env, CLASS_PKCS11EXCEPTION);
-        if (jPKCS11ExceptionClass != NULL) {
-            jConstructor = (*env)->GetMethodID(env, jPKCS11ExceptionClass, "<init>", "(J)V");
-            if (jConstructor != NULL) {
-                jPKCS11Exception = (jthrowable) (*env)->NewObject(env, jPKCS11ExceptionClass, jConstructor, jErrorCode);
-                if (jPKCS11Exception != NULL) {
-                    (*env)->Throw(env, jPKCS11Exception);
+    if (rfturnVbluf != CKR_OK) {
+        jErrorCodf = dkULongToJLong(rfturnVbluf);
+        jPKCS11ExdfptionClbss = (*fnv)->FindClbss(fnv, CLASS_PKCS11EXCEPTION);
+        if (jPKCS11ExdfptionClbss != NULL) {
+            jConstrudtor = (*fnv)->GftMftiodID(fnv, jPKCS11ExdfptionClbss, "<init>", "(J)V");
+            if (jConstrudtor != NULL) {
+                jPKCS11Exdfption = (jtirowbblf) (*fnv)->NfwObjfdt(fnv, jPKCS11ExdfptionClbss, jConstrudtor, jErrorCodf);
+                if (jPKCS11Exdfption != NULL) {
+                    (*fnv)->Tirow(fnv, jPKCS11Exdfption);
                 }
             }
         }
-        (*env)->DeleteLocalRef(env, jPKCS11ExceptionClass);
+        (*fnv)->DflftfLodblRff(fnv, jPKCS11ExdfptionClbss);
     }
-    return jErrorCode ;
+    rfturn jErrorCodf ;
 }
 
 
 /*
- * Throws a Java Exception by name
+ * Tirows b Jbvb Exdfption by nbmf
  */
-void throwByName(JNIEnv *env, const char *name, const char *msg)
+void tirowByNbmf(JNIEnv *fnv, donst dibr *nbmf, donst dibr *msg)
 {
-    jclass cls = (*env)->FindClass(env, name);
+    jdlbss dls = (*fnv)->FindClbss(fnv, nbmf);
 
-    if (cls != 0) /* Otherwise an exception has already been thrown */
-        (*env)->ThrowNew(env, cls, msg);
+    if (dls != 0) /* Otifrwisf bn fxdfption ibs blrfbdy bffn tirown */
+        (*fnv)->TirowNfw(fnv, dls, msg);
 }
 
 /*
- * Throws java.lang.OutOfMemoryError
+ * Tirows jbvb.lbng.OutOfMfmoryError
  */
-void throwOutOfMemoryError(JNIEnv *env, const char *msg)
+void tirowOutOfMfmoryError(JNIEnv *fnv, donst dibr *msg)
 {
-    throwByName(env, "java/lang/OutOfMemoryError", msg);
+    tirowByNbmf(fnv, "jbvb/lbng/OutOfMfmoryError", msg);
 }
 
 /*
- * Throws java.lang.NullPointerException
+ * Tirows jbvb.lbng.NullPointfrExdfption
  */
-void throwNullPointerException(JNIEnv *env, const char *msg)
+void tirowNullPointfrExdfption(JNIEnv *fnv, donst dibr *msg)
 {
-    throwByName(env, "java/lang/NullPointerException", msg);
+    tirowByNbmf(fnv, "jbvb/lbng/NullPointfrExdfption", msg);
 }
 
 /*
- * Throws java.io.IOException
+ * Tirows jbvb.io.IOExdfption
  */
-void throwIOException(JNIEnv *env, const char *msg)
+void tirowIOExdfption(JNIEnv *fnv, donst dibr *msg)
 {
-    throwByName(env, "java/io/IOException", msg);
+    tirowByNbmf(fnv, "jbvb/io/IOExdfption", msg);
 }
 
 /*
- * This function simply throws a PKCS#11RuntimeException with the given
- * string as its message.
+ * Tiis fundtion simply tirows b PKCS#11RuntimfExdfption witi tif givfn
+ * string bs its mfssbgf.
  *
- * @param env Used to call JNI funktions and to get the Exception class.
- * @param jmessage The message string of the Exception object.
+ * @pbrbm fnv Usfd to dbll JNI funktions bnd to gft tif Exdfption dlbss.
+ * @pbrbm jmfssbgf Tif mfssbgf string of tif Exdfption objfdt.
  */
-void throwPKCS11RuntimeException(JNIEnv *env, const char *message)
+void tirowPKCS11RuntimfExdfption(JNIEnv *fnv, donst dibr *mfssbgf)
 {
-    throwByName(env, CLASS_PKCS11RUNTIMEEXCEPTION, message);
+    tirowByNbmf(fnv, CLASS_PKCS11RUNTIMEEXCEPTION, mfssbgf);
 }
 
 /*
- * This function simply throws a PKCS#11RuntimeException. The message says that
- * the object is not connected to the module.
+ * Tiis fundtion simply tirows b PKCS#11RuntimfExdfption. Tif mfssbgf sbys tibt
+ * tif objfdt is not donnfdtfd to tif modulf.
  *
- * @param env Used to call JNI funktions and to get the Exception class.
+ * @pbrbm fnv Usfd to dbll JNI funktions bnd to gft tif Exdfption dlbss.
  */
-void throwDisconnectedRuntimeException(JNIEnv *env)
+void tirowDisdonnfdtfdRuntimfExdfption(JNIEnv *fnv)
 {
-    throwPKCS11RuntimeException(env, "This object is not connected to a module.");
+    tirowPKCS11RuntimfExdfption(fnv, "Tiis objfdt is not donnfdtfd to b modulf.");
 }
 
-/* This function frees the specified CK_ATTRIBUTE array.
+/* Tiis fundtion frffs tif spfdififd CK_ATTRIBUTE brrby.
  *
- * @param attrPtr pointer to the to-be-freed CK_ATTRIBUTE array.
- * @param len the length of the array
+ * @pbrbm bttrPtr pointfr to tif to-bf-frffd CK_ATTRIBUTE brrby.
+ * @pbrbm lfn tif lfngti of tif brrby
  */
-void freeCKAttributeArray(CK_ATTRIBUTE_PTR attrPtr, int len)
+void frffCKAttributfArrby(CK_ATTRIBUTE_PTR bttrPtr, int lfn)
 {
     int i;
 
-    for (i=0; i<len; i++) {
-        if (attrPtr[i].pValue != NULL_PTR) {
-            free(attrPtr[i].pValue);
+    for (i=0; i<lfn; i++) {
+        if (bttrPtr[i].pVbluf != NULL_PTR) {
+            frff(bttrPtr[i].pVbluf);
         }
     }
-    free(attrPtr);
+    frff(bttrPtr);
 }
 
 /*
- * the following functions convert Java arrays to PKCS#11 array pointers and
- * their array length and vice versa
+ * tif following fundtions donvfrt Jbvb brrbys to PKCS#11 brrby pointfrs bnd
+ * tifir brrby lfngti bnd vidf vfrsb
  *
- * void j<Type>ArrayToCK<Type>Array(JNIEnv *env,
- *                                  const j<Type>Array jArray,
- *                                  CK_<Type>_PTR *ckpArray,
- *                                  CK_ULONG_PTR ckLength);
+ * void j<Typf>ArrbyToCK<Typf>Arrby(JNIEnv *fnv,
+ *                                  donst j<Typf>Arrby jArrby,
+ *                                  CK_<Typf>_PTR *dkpArrby,
+ *                                  CK_ULONG_PTR dkLfngti);
  *
- * j<Type>Array ck<Type>ArrayToJ<Type>Array(JNIEnv *env,
- *                                          const CK_<Type>_PTR ckpArray,
- *                                          CK_ULONG ckLength);
+ * j<Typf>Arrby dk<Typf>ArrbyToJ<Typf>Arrby(JNIEnv *fnv,
+ *                                          donst CK_<Typf>_PTR dkpArrby,
+ *                                          CK_ULONG dkLfngti);
  *
- * PKCS#11 arrays consist always of a pointer to the beginning of the array and
- * the array length whereas Java arrays carry their array length.
+ * PKCS#11 brrbys donsist blwbys of b pointfr to tif bfginning of tif brrby bnd
+ * tif brrby lfngti wifrfbs Jbvb brrbys dbrry tifir brrby lfngti.
  *
- * The Functions to convert a Java array to a PKCS#11 array are void functions.
- * Their arguments are the Java array object to convert, the reference to the
- * array pointer, where the new PKCS#11 array should be stored and the reference
- * to the array length where the PKCS#11 array length should be stored. These two
- * references must not be NULL_PTR.
+ * Tif Fundtions to donvfrt b Jbvb brrby to b PKCS#11 brrby brf void fundtions.
+ * Tifir brgumfnts brf tif Jbvb brrby objfdt to donvfrt, tif rfffrfndf to tif
+ * brrby pointfr, wifrf tif nfw PKCS#11 brrby siould bf storfd bnd tif rfffrfndf
+ * to tif brrby lfngti wifrf tif PKCS#11 brrby lfngti siould bf storfd. Tifsf two
+ * rfffrfndfs must not bf NULL_PTR.
  *
- * The functions first obtain the array length of the Java array and then allocate
- * the memory for the PKCS#11 array and set the array length. Then each element
- * gets converted depending on their type. After use the allocated memory of the
- * PKCS#11 array has to be explicitly freed.
+ * Tif fundtions first obtbin tif brrby lfngti of tif Jbvb brrby bnd tifn bllodbtf
+ * tif mfmory for tif PKCS#11 brrby bnd sft tif brrby lfngti. Tifn fbdi flfmfnt
+ * gfts donvfrtfd dfpfnding on tifir typf. Aftfr usf tif bllodbtfd mfmory of tif
+ * PKCS#11 brrby ibs to bf fxpliditly frffd.
  *
- * The Functions to convert a PKCS#11 array to a Java array get the PKCS#11 array
- * pointer and the array length and they return the new Java array object. The
- * Java array does not need to get freed after use.
+ * Tif Fundtions to donvfrt b PKCS#11 brrby to b Jbvb brrby gft tif PKCS#11 brrby
+ * pointfr bnd tif brrby lfngti bnd tify rfturn tif nfw Jbvb brrby objfdt. Tif
+ * Jbvb brrby dofs not nffd to gft frffd bftfr usf.
  */
 
 /*
- * converts a jbooleanArray to a CK_BBOOL array. The allocated memory has to be freed after use!
+ * donvfrts b jboolfbnArrby to b CK_BBOOL brrby. Tif bllodbtfd mfmory ibs to bf frffd bftfr usf!
  *
- * @param env - used to call JNI funktions to get the array informtaion
- * @param jArray - the Java array to convert
- * @param ckpArray - the reference, where the pointer to the new CK_BBOOL array will be stored
- * @param ckpLength - the reference, where the array length will be stored
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif brrby informtbion
+ * @pbrbm jArrby - tif Jbvb brrby to donvfrt
+ * @pbrbm dkpArrby - tif rfffrfndf, wifrf tif pointfr to tif nfw CK_BBOOL brrby will bf storfd
+ * @pbrbm dkpLfngti - tif rfffrfndf, wifrf tif brrby lfngti will bf storfd
  */
-void jBooleanArrayToCKBBoolArray(JNIEnv *env, const jbooleanArray jArray, CK_BBOOL **ckpArray, CK_ULONG_PTR ckpLength)
+void jBoolfbnArrbyToCKBBoolArrby(JNIEnv *fnv, donst jboolfbnArrby jArrby, CK_BBOOL **dkpArrby, CK_ULONG_PTR dkpLfngti)
 {
-    jboolean* jpTemp;
+    jboolfbn* jpTfmp;
     CK_ULONG i;
 
-    if(jArray == NULL) {
-        *ckpArray = NULL_PTR;
-        *ckpLength = 0L;
-        return;
+    if(jArrby == NULL) {
+        *dkpArrby = NULL_PTR;
+        *dkpLfngti = 0L;
+        rfturn;
     }
-    *ckpLength = (*env)->GetArrayLength(env, jArray);
-    jpTemp = (jboolean*) malloc((*ckpLength) * sizeof(jboolean));
-    if (jpTemp == NULL) {
-        throwOutOfMemoryError(env, 0);
-        return;
+    *dkpLfngti = (*fnv)->GftArrbyLfngti(fnv, jArrby);
+    jpTfmp = (jboolfbn*) mbllod((*dkpLfngti) * sizfof(jboolfbn));
+    if (jpTfmp == NULL) {
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn;
     }
-    (*env)->GetBooleanArrayRegion(env, jArray, 0, *ckpLength, jpTemp);
-    if ((*env)->ExceptionCheck(env)) {
-        free(jpTemp);
-        return;
+    (*fnv)->GftBoolfbnArrbyRfgion(fnv, jArrby, 0, *dkpLfngti, jpTfmp);
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        frff(jpTfmp);
+        rfturn;
     }
 
-    *ckpArray = (CK_BBOOL*) malloc ((*ckpLength) * sizeof(CK_BBOOL));
-    if (*ckpArray == NULL) {
-        free(jpTemp);
-        throwOutOfMemoryError(env, 0);
-        return;
+    *dkpArrby = (CK_BBOOL*) mbllod ((*dkpLfngti) * sizfof(CK_BBOOL));
+    if (*dkpArrby == NULL) {
+        frff(jpTfmp);
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn;
     }
-    for (i=0; i<(*ckpLength); i++) {
-        (*ckpArray)[i] = jBooleanToCKBBool(jpTemp[i]);
+    for (i=0; i<(*dkpLfngti); i++) {
+        (*dkpArrby)[i] = jBoolfbnToCKBBool(jpTfmp[i]);
     }
-    free(jpTemp);
+    frff(jpTfmp);
 }
 
 /*
- * converts a jbyteArray to a CK_BYTE array. The allocated memory has to be freed after use!
+ * donvfrts b jbytfArrby to b CK_BYTE brrby. Tif bllodbtfd mfmory ibs to bf frffd bftfr usf!
  *
- * @param env - used to call JNI funktions to get the array informtaion
- * @param jArray - the Java array to convert
- * @param ckpArray - the reference, where the pointer to the new CK_BYTE array will be stored
- * @param ckpLength - the reference, where the array length will be stored
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif brrby informtbion
+ * @pbrbm jArrby - tif Jbvb brrby to donvfrt
+ * @pbrbm dkpArrby - tif rfffrfndf, wifrf tif pointfr to tif nfw CK_BYTE brrby will bf storfd
+ * @pbrbm dkpLfngti - tif rfffrfndf, wifrf tif brrby lfngti will bf storfd
  */
-void jByteArrayToCKByteArray(JNIEnv *env, const jbyteArray jArray, CK_BYTE_PTR *ckpArray, CK_ULONG_PTR ckpLength)
+void jBytfArrbyToCKBytfArrby(JNIEnv *fnv, donst jbytfArrby jArrby, CK_BYTE_PTR *dkpArrby, CK_ULONG_PTR dkpLfngti)
 {
-    jbyte* jpTemp;
+    jbytf* jpTfmp;
     CK_ULONG i;
 
-    if(jArray == NULL) {
-        *ckpArray = NULL_PTR;
-        *ckpLength = 0L;
-        return;
+    if(jArrby == NULL) {
+        *dkpArrby = NULL_PTR;
+        *dkpLfngti = 0L;
+        rfturn;
     }
-    *ckpLength = (*env)->GetArrayLength(env, jArray);
-    jpTemp = (jbyte*) malloc((*ckpLength) * sizeof(jbyte));
-    if (jpTemp == NULL) {
-        throwOutOfMemoryError(env, 0);
-        return;
+    *dkpLfngti = (*fnv)->GftArrbyLfngti(fnv, jArrby);
+    jpTfmp = (jbytf*) mbllod((*dkpLfngti) * sizfof(jbytf));
+    if (jpTfmp == NULL) {
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn;
     }
-    (*env)->GetByteArrayRegion(env, jArray, 0, *ckpLength, jpTemp);
-    if ((*env)->ExceptionCheck(env)) {
-        free(jpTemp);
-        return;
+    (*fnv)->GftBytfArrbyRfgion(fnv, jArrby, 0, *dkpLfngti, jpTfmp);
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        frff(jpTfmp);
+        rfturn;
     }
 
-    /* if CK_BYTE is the same size as jbyte, we save an additional copy */
-    if (sizeof(CK_BYTE) == sizeof(jbyte)) {
-        *ckpArray = (CK_BYTE_PTR) jpTemp;
-    } else {
-        *ckpArray = (CK_BYTE_PTR) malloc ((*ckpLength) * sizeof(CK_BYTE));
-        if (*ckpArray == NULL) {
-            free(jpTemp);
-            throwOutOfMemoryError(env, 0);
-            return;
+    /* if CK_BYTE is tif sbmf sizf bs jbytf, wf sbvf bn bdditionbl dopy */
+    if (sizfof(CK_BYTE) == sizfof(jbytf)) {
+        *dkpArrby = (CK_BYTE_PTR) jpTfmp;
+    } flsf {
+        *dkpArrby = (CK_BYTE_PTR) mbllod ((*dkpLfngti) * sizfof(CK_BYTE));
+        if (*dkpArrby == NULL) {
+            frff(jpTfmp);
+            tirowOutOfMfmoryError(fnv, 0);
+            rfturn;
         }
-        for (i=0; i<(*ckpLength); i++) {
-            (*ckpArray)[i] = jByteToCKByte(jpTemp[i]);
+        for (i=0; i<(*dkpLfngti); i++) {
+            (*dkpArrby)[i] = jBytfToCKBytf(jpTfmp[i]);
         }
-        free(jpTemp);
+        frff(jpTfmp);
     }
 }
 
 /*
- * converts a jlongArray to a CK_ULONG array. The allocated memory has to be freed after use!
+ * donvfrts b jlongArrby to b CK_ULONG brrby. Tif bllodbtfd mfmory ibs to bf frffd bftfr usf!
  *
- * @param env - used to call JNI funktions to get the array informtaion
- * @param jArray - the Java array to convert
- * @param ckpArray - the reference, where the pointer to the new CK_ULONG array will be stored
- * @param ckpLength - the reference, where the array length will be stored
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif brrby informtbion
+ * @pbrbm jArrby - tif Jbvb brrby to donvfrt
+ * @pbrbm dkpArrby - tif rfffrfndf, wifrf tif pointfr to tif nfw CK_ULONG brrby will bf storfd
+ * @pbrbm dkpLfngti - tif rfffrfndf, wifrf tif brrby lfngti will bf storfd
  */
-void jLongArrayToCKULongArray(JNIEnv *env, const jlongArray jArray, CK_ULONG_PTR *ckpArray, CK_ULONG_PTR ckpLength)
+void jLongArrbyToCKULongArrby(JNIEnv *fnv, donst jlongArrby jArrby, CK_ULONG_PTR *dkpArrby, CK_ULONG_PTR dkpLfngti)
 {
-    jlong* jTemp;
+    jlong* jTfmp;
     CK_ULONG i;
 
-    if(jArray == NULL) {
-        *ckpArray = NULL_PTR;
-        *ckpLength = 0L;
-        return;
+    if(jArrby == NULL) {
+        *dkpArrby = NULL_PTR;
+        *dkpLfngti = 0L;
+        rfturn;
     }
-    *ckpLength = (*env)->GetArrayLength(env, jArray);
-    jTemp = (jlong*) malloc((*ckpLength) * sizeof(jlong));
-    if (jTemp == NULL) {
-        throwOutOfMemoryError(env, 0);
-        return;
+    *dkpLfngti = (*fnv)->GftArrbyLfngti(fnv, jArrby);
+    jTfmp = (jlong*) mbllod((*dkpLfngti) * sizfof(jlong));
+    if (jTfmp == NULL) {
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn;
     }
-    (*env)->GetLongArrayRegion(env, jArray, 0, *ckpLength, jTemp);
-    if ((*env)->ExceptionCheck(env)) {
-        free(jTemp);
-        return;
+    (*fnv)->GftLongArrbyRfgion(fnv, jArrby, 0, *dkpLfngti, jTfmp);
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        frff(jTfmp);
+        rfturn;
     }
 
-    *ckpArray = (CK_ULONG_PTR) malloc (*ckpLength * sizeof(CK_ULONG));
-    if (*ckpArray == NULL) {
-        free(jTemp);
-        throwOutOfMemoryError(env, 0);
-        return;
+    *dkpArrby = (CK_ULONG_PTR) mbllod (*dkpLfngti * sizfof(CK_ULONG));
+    if (*dkpArrby == NULL) {
+        frff(jTfmp);
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn;
     }
-    for (i=0; i<(*ckpLength); i++) {
-        (*ckpArray)[i] = jLongToCKULong(jTemp[i]);
+    for (i=0; i<(*dkpLfngti); i++) {
+        (*dkpArrby)[i] = jLongToCKULong(jTfmp[i]);
     }
-    free(jTemp);
+    frff(jTfmp);
 }
 
 /*
- * converts a jcharArray to a CK_CHAR array. The allocated memory has to be freed after use!
+ * donvfrts b jdibrArrby to b CK_CHAR brrby. Tif bllodbtfd mfmory ibs to bf frffd bftfr usf!
  *
- * @param env - used to call JNI funktions to get the array informtaion
- * @param jArray - the Java array to convert
- * @param ckpArray - the reference, where the pointer to the new CK_CHAR array will be stored
- * @param ckpLength - the reference, where the array length will be stored
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif brrby informtbion
+ * @pbrbm jArrby - tif Jbvb brrby to donvfrt
+ * @pbrbm dkpArrby - tif rfffrfndf, wifrf tif pointfr to tif nfw CK_CHAR brrby will bf storfd
+ * @pbrbm dkpLfngti - tif rfffrfndf, wifrf tif brrby lfngti will bf storfd
  */
-void jCharArrayToCKCharArray(JNIEnv *env, const jcharArray jArray, CK_CHAR_PTR *ckpArray, CK_ULONG_PTR ckpLength)
+void jCibrArrbyToCKCibrArrby(JNIEnv *fnv, donst jdibrArrby jArrby, CK_CHAR_PTR *dkpArrby, CK_ULONG_PTR dkpLfngti)
 {
-    jchar* jpTemp;
+    jdibr* jpTfmp;
     CK_ULONG i;
 
-    if(jArray == NULL) {
-        *ckpArray = NULL_PTR;
-        *ckpLength = 0L;
-        return;
+    if(jArrby == NULL) {
+        *dkpArrby = NULL_PTR;
+        *dkpLfngti = 0L;
+        rfturn;
     }
-    *ckpLength = (*env)->GetArrayLength(env, jArray);
-    jpTemp = (jchar*) malloc((*ckpLength) * sizeof(jchar));
-    if (jpTemp == NULL) {
-        throwOutOfMemoryError(env, 0);
-        return;
+    *dkpLfngti = (*fnv)->GftArrbyLfngti(fnv, jArrby);
+    jpTfmp = (jdibr*) mbllod((*dkpLfngti) * sizfof(jdibr));
+    if (jpTfmp == NULL) {
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn;
     }
-    (*env)->GetCharArrayRegion(env, jArray, 0, *ckpLength, jpTemp);
-    if ((*env)->ExceptionCheck(env)) {
-        free(jpTemp);
-        return;
+    (*fnv)->GftCibrArrbyRfgion(fnv, jArrby, 0, *dkpLfngti, jpTfmp);
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        frff(jpTfmp);
+        rfturn;
     }
 
-    *ckpArray = (CK_CHAR_PTR) malloc (*ckpLength * sizeof(CK_CHAR));
-    if (*ckpArray == NULL) {
-        free(jpTemp);
-        throwOutOfMemoryError(env, 0);
-        return;
+    *dkpArrby = (CK_CHAR_PTR) mbllod (*dkpLfngti * sizfof(CK_CHAR));
+    if (*dkpArrby == NULL) {
+        frff(jpTfmp);
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn;
     }
-    for (i=0; i<(*ckpLength); i++) {
-        (*ckpArray)[i] = jCharToCKChar(jpTemp[i]);
+    for (i=0; i<(*dkpLfngti); i++) {
+        (*dkpArrby)[i] = jCibrToCKCibr(jpTfmp[i]);
     }
-    free(jpTemp);
+    frff(jpTfmp);
 }
 
 /*
- * converts a jcharArray to a CK_UTF8CHAR array. The allocated memory has to be freed after use!
+ * donvfrts b jdibrArrby to b CK_UTF8CHAR brrby. Tif bllodbtfd mfmory ibs to bf frffd bftfr usf!
  *
- * @param env - used to call JNI funktions to get the array informtaion
- * @param jArray - the Java array to convert
- * @param ckpArray - the reference, where the pointer to the new CK_UTF8CHAR array will be stored
- * @param ckpLength - the reference, where the array length will be stored
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif brrby informtbion
+ * @pbrbm jArrby - tif Jbvb brrby to donvfrt
+ * @pbrbm dkpArrby - tif rfffrfndf, wifrf tif pointfr to tif nfw CK_UTF8CHAR brrby will bf storfd
+ * @pbrbm dkpLfngti - tif rfffrfndf, wifrf tif brrby lfngti will bf storfd
  */
-void jCharArrayToCKUTF8CharArray(JNIEnv *env, const jcharArray jArray, CK_UTF8CHAR_PTR *ckpArray, CK_ULONG_PTR ckpLength)
+void jCibrArrbyToCKUTF8CibrArrby(JNIEnv *fnv, donst jdibrArrby jArrby, CK_UTF8CHAR_PTR *dkpArrby, CK_ULONG_PTR dkpLfngti)
 {
-    jchar* jTemp;
+    jdibr* jTfmp;
     CK_ULONG i;
 
-    if(jArray == NULL) {
-        *ckpArray = NULL_PTR;
-        *ckpLength = 0L;
-        return;
+    if(jArrby == NULL) {
+        *dkpArrby = NULL_PTR;
+        *dkpLfngti = 0L;
+        rfturn;
     }
-    *ckpLength = (*env)->GetArrayLength(env, jArray);
-    jTemp = (jchar*) malloc((*ckpLength) * sizeof(jchar));
-    if (jTemp == NULL) {
-        throwOutOfMemoryError(env, 0);
-        return;
+    *dkpLfngti = (*fnv)->GftArrbyLfngti(fnv, jArrby);
+    jTfmp = (jdibr*) mbllod((*dkpLfngti) * sizfof(jdibr));
+    if (jTfmp == NULL) {
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn;
     }
-    (*env)->GetCharArrayRegion(env, jArray, 0, *ckpLength, jTemp);
-    if ((*env)->ExceptionCheck(env)) {
-        free(jTemp);
-        return;
+    (*fnv)->GftCibrArrbyRfgion(fnv, jArrby, 0, *dkpLfngti, jTfmp);
+    if ((*fnv)->ExdfptionCifdk(fnv)) {
+        frff(jTfmp);
+        rfturn;
     }
 
-    *ckpArray = (CK_UTF8CHAR_PTR) malloc (*ckpLength * sizeof(CK_UTF8CHAR));
-    if (*ckpArray == NULL) {
-        free(jTemp);
-        throwOutOfMemoryError(env, 0);
-        return;
+    *dkpArrby = (CK_UTF8CHAR_PTR) mbllod (*dkpLfngti * sizfof(CK_UTF8CHAR));
+    if (*dkpArrby == NULL) {
+        frff(jTfmp);
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn;
     }
-    for (i=0; i<(*ckpLength); i++) {
-        (*ckpArray)[i] = jCharToCKUTF8Char(jTemp[i]);
+    for (i=0; i<(*dkpLfngti); i++) {
+        (*dkpArrby)[i] = jCibrToCKUTF8Cibr(jTfmp[i]);
     }
-    free(jTemp);
+    frff(jTfmp);
 }
 
 /*
- * converts a jstring to a CK_CHAR array. The allocated memory has to be freed after use!
+ * donvfrts b jstring to b CK_CHAR brrby. Tif bllodbtfd mfmory ibs to bf frffd bftfr usf!
  *
- * @param env - used to call JNI funktions to get the array informtaion
- * @param jArray - the Java array to convert
- * @param ckpArray - the reference, where the pointer to the new CK_CHAR array will be stored
- * @param ckpLength - the reference, where the array length will be stored
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif brrby informtbion
+ * @pbrbm jArrby - tif Jbvb brrby to donvfrt
+ * @pbrbm dkpArrby - tif rfffrfndf, wifrf tif pointfr to tif nfw CK_CHAR brrby will bf storfd
+ * @pbrbm dkpLfngti - tif rfffrfndf, wifrf tif brrby lfngti will bf storfd
  */
-void jStringToCKUTF8CharArray(JNIEnv *env, const jstring jArray, CK_UTF8CHAR_PTR *ckpArray, CK_ULONG_PTR ckpLength)
+void jStringToCKUTF8CibrArrby(JNIEnv *fnv, donst jstring jArrby, CK_UTF8CHAR_PTR *dkpArrby, CK_ULONG_PTR dkpLfngti)
 {
-    const char* pCharArray;
-    jboolean isCopy;
+    donst dibr* pCibrArrby;
+    jboolfbn isCopy;
 
-    if(jArray == NULL) {
-        *ckpArray = NULL_PTR;
-        *ckpLength = 0L;
-        return;
+    if(jArrby == NULL) {
+        *dkpArrby = NULL_PTR;
+        *dkpLfngti = 0L;
+        rfturn;
     }
 
-    pCharArray = (*env)->GetStringUTFChars(env, jArray, &isCopy);
-    if (pCharArray == NULL) { return; }
+    pCibrArrby = (*fnv)->GftStringUTFCibrs(fnv, jArrby, &isCopy);
+    if (pCibrArrby == NULL) { rfturn; }
 
-    *ckpLength = strlen(pCharArray);
-    *ckpArray = (CK_UTF8CHAR_PTR) malloc((*ckpLength + 1) * sizeof(CK_UTF8CHAR));
-    if (*ckpArray == NULL) {
-        (*env)->ReleaseStringUTFChars(env, (jstring) jArray, pCharArray);
-        throwOutOfMemoryError(env, 0);
-        return;
+    *dkpLfngti = strlfn(pCibrArrby);
+    *dkpArrby = (CK_UTF8CHAR_PTR) mbllod((*dkpLfngti + 1) * sizfof(CK_UTF8CHAR));
+    if (*dkpArrby == NULL) {
+        (*fnv)->RflfbsfStringUTFCibrs(fnv, (jstring) jArrby, pCibrArrby);
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn;
     }
-    strcpy((char*)*ckpArray, pCharArray);
-    (*env)->ReleaseStringUTFChars(env, (jstring) jArray, pCharArray);
+    strdpy((dibr*)*dkpArrby, pCibrArrby);
+    (*fnv)->RflfbsfStringUTFCibrs(fnv, (jstring) jArrby, pCibrArrby);
 }
 
 /*
- * converts a jobjectArray with Java Attributes to a CK_ATTRIBUTE array. The allocated memory
- * has to be freed after use!
+ * donvfrts b jobjfdtArrby witi Jbvb Attributfs to b CK_ATTRIBUTE brrby. Tif bllodbtfd mfmory
+ * ibs to bf frffd bftfr usf!
  *
- * @param env - used to call JNI funktions to get the array informtaion
- * @param jArray - the Java Attribute array (template) to convert
- * @param ckpArray - the reference, where the pointer to the new CK_ATTRIBUTE array will be
- *                   stored
- * @param ckpLength - the reference, where the array length will be stored
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif brrby informtbion
+ * @pbrbm jArrby - tif Jbvb Attributf brrby (tfmplbtf) to donvfrt
+ * @pbrbm dkpArrby - tif rfffrfndf, wifrf tif pointfr to tif nfw CK_ATTRIBUTE brrby will bf
+ *                   storfd
+ * @pbrbm dkpLfngti - tif rfffrfndf, wifrf tif brrby lfngti will bf storfd
  */
-void jAttributeArrayToCKAttributeArray(JNIEnv *env, jobjectArray jArray, CK_ATTRIBUTE_PTR *ckpArray, CK_ULONG_PTR ckpLength)
+void jAttributfArrbyToCKAttributfArrby(JNIEnv *fnv, jobjfdtArrby jArrby, CK_ATTRIBUTE_PTR *dkpArrby, CK_ULONG_PTR dkpLfngti)
 {
     CK_ULONG i;
-    jlong jLength;
-    jobject jAttribute;
+    jlong jLfngti;
+    jobjfdt jAttributf;
 
-    TRACE0("\nDEBUG: jAttributeArrayToCKAttributeArray");
-    if (jArray == NULL) {
-        *ckpArray = NULL_PTR;
-        *ckpLength = 0L;
-        return;
+    TRACE0("\nDEBUG: jAttributfArrbyToCKAttributfArrby");
+    if (jArrby == NULL) {
+        *dkpArrby = NULL_PTR;
+        *dkpLfngti = 0L;
+        rfturn;
     }
-    jLength = (*env)->GetArrayLength(env, jArray);
-    *ckpLength = jLongToCKULong(jLength);
-    *ckpArray = (CK_ATTRIBUTE_PTR) malloc(*ckpLength * sizeof(CK_ATTRIBUTE));
-    if (*ckpArray == NULL) {
-        throwOutOfMemoryError(env, 0);
-        return;
+    jLfngti = (*fnv)->GftArrbyLfngti(fnv, jArrby);
+    *dkpLfngti = jLongToCKULong(jLfngti);
+    *dkpArrby = (CK_ATTRIBUTE_PTR) mbllod(*dkpLfngti * sizfof(CK_ATTRIBUTE));
+    if (*dkpArrby == NULL) {
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn;
     }
-    TRACE1(", converting %d attributes", jLength);
-    for (i=0; i<(*ckpLength); i++) {
-        TRACE1(", getting %d. attribute", i);
-        jAttribute = (*env)->GetObjectArrayElement(env, jArray, i);
-        if ((*env)->ExceptionCheck(env)) {
-            freeCKAttributeArray(*ckpArray, i);
-            return;
+    TRACE1(", donvfrting %d bttributfs", jLfngti);
+    for (i=0; i<(*dkpLfngti); i++) {
+        TRACE1(", gftting %d. bttributf", i);
+        jAttributf = (*fnv)->GftObjfdtArrbyElfmfnt(fnv, jArrby, i);
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            frffCKAttributfArrby(*dkpArrby, i);
+            rfturn;
         }
-        TRACE1(", jAttribute = %d", jAttribute);
-        TRACE1(", converting %d. attribute", i);
-        (*ckpArray)[i] = jAttributeToCKAttribute(env, jAttribute);
-        if ((*env)->ExceptionCheck(env)) {
-            freeCKAttributeArray(*ckpArray, i);
-            return;
+        TRACE1(", jAttributf = %d", jAttributf);
+        TRACE1(", donvfrting %d. bttributf", i);
+        (*dkpArrby)[i] = jAttributfToCKAttributf(fnv, jAttributf);
+        if ((*fnv)->ExdfptionCifdk(fnv)) {
+            frffCKAttributfArrby(*dkpArrby, i);
+            rfturn;
         }
     }
     TRACE0("FINISHED\n");
 }
 
 /*
- * converts a CK_BYTE array and its length to a jbyteArray.
+ * donvfrts b CK_BYTE brrby bnd its lfngti to b jbytfArrby.
  *
- * @param env - used to call JNI funktions to create the new Java array
- * @param ckpArray - the pointer to the CK_BYTE array to convert
- * @param ckpLength - the length of the array to convert
- * @return - the new Java byte array or NULL if error occurred
+ * @pbrbm fnv - usfd to dbll JNI funktions to drfbtf tif nfw Jbvb brrby
+ * @pbrbm dkpArrby - tif pointfr to tif CK_BYTE brrby to donvfrt
+ * @pbrbm dkpLfngti - tif lfngti of tif brrby to donvfrt
+ * @rfturn - tif nfw Jbvb bytf brrby or NULL if frror oddurrfd
  */
-jbyteArray ckByteArrayToJByteArray(JNIEnv *env, const CK_BYTE_PTR ckpArray, CK_ULONG ckLength)
+jbytfArrby dkBytfArrbyToJBytfArrby(JNIEnv *fnv, donst CK_BYTE_PTR dkpArrby, CK_ULONG dkLfngti)
 {
     CK_ULONG i;
-    jbyte* jpTemp;
-    jbyteArray jArray;
+    jbytf* jpTfmp;
+    jbytfArrby jArrby;
 
-    /* if CK_BYTE is the same size as jbyte, we save an additional copy */
-    if (sizeof(CK_BYTE) == sizeof(jbyte)) {
-        jpTemp = (jbyte*) ckpArray;
-    } else {
-        jpTemp = (jbyte*) malloc((ckLength) * sizeof(jbyte));
-        if (jpTemp == NULL) {
-            throwOutOfMemoryError(env, 0);
-            return NULL;
+    /* if CK_BYTE is tif sbmf sizf bs jbytf, wf sbvf bn bdditionbl dopy */
+    if (sizfof(CK_BYTE) == sizfof(jbytf)) {
+        jpTfmp = (jbytf*) dkpArrby;
+    } flsf {
+        jpTfmp = (jbytf*) mbllod((dkLfngti) * sizfof(jbytf));
+        if (jpTfmp == NULL) {
+            tirowOutOfMfmoryError(fnv, 0);
+            rfturn NULL;
         }
-        for (i=0; i<ckLength; i++) {
-            jpTemp[i] = ckByteToJByte(ckpArray[i]);
+        for (i=0; i<dkLfngti; i++) {
+            jpTfmp[i] = dkBytfToJBytf(dkpArrby[i]);
         }
     }
 
-    jArray = (*env)->NewByteArray(env, ckULongToJSize(ckLength));
-    if (jArray != NULL) {
-        (*env)->SetByteArrayRegion(env, jArray, 0, ckULongToJSize(ckLength), jpTemp);
+    jArrby = (*fnv)->NfwBytfArrby(fnv, dkULongToJSizf(dkLfngti));
+    if (jArrby != NULL) {
+        (*fnv)->SftBytfArrbyRfgion(fnv, jArrby, 0, dkULongToJSizf(dkLfngti), jpTfmp);
     }
 
-    if (sizeof(CK_BYTE) != sizeof(jbyte)) { free(jpTemp); }
+    if (sizfof(CK_BYTE) != sizfof(jbytf)) { frff(jpTfmp); }
 
-    return jArray ;
+    rfturn jArrby ;
 }
 
 /*
- * converts a CK_ULONG array and its length to a jlongArray.
+ * donvfrts b CK_ULONG brrby bnd its lfngti to b jlongArrby.
  *
- * @param env - used to call JNI funktions to create the new Java array
- * @param ckpArray - the pointer to the CK_ULONG array to convert
- * @param ckpLength - the length of the array to convert
- * @return - the new Java long array
+ * @pbrbm fnv - usfd to dbll JNI funktions to drfbtf tif nfw Jbvb brrby
+ * @pbrbm dkpArrby - tif pointfr to tif CK_ULONG brrby to donvfrt
+ * @pbrbm dkpLfngti - tif lfngti of tif brrby to donvfrt
+ * @rfturn - tif nfw Jbvb long brrby
  */
-jlongArray ckULongArrayToJLongArray(JNIEnv *env, const CK_ULONG_PTR ckpArray, CK_ULONG ckLength)
+jlongArrby dkULongArrbyToJLongArrby(JNIEnv *fnv, donst CK_ULONG_PTR dkpArrby, CK_ULONG dkLfngti)
 {
     CK_ULONG i;
-    jlong* jpTemp;
-    jlongArray jArray;
+    jlong* jpTfmp;
+    jlongArrby jArrby;
 
-    jpTemp = (jlong*) malloc((ckLength) * sizeof(jlong));
-    if (jpTemp == NULL) {
-        throwOutOfMemoryError(env, 0);
-        return NULL;
+    jpTfmp = (jlong*) mbllod((dkLfngti) * sizfof(jlong));
+    if (jpTfmp == NULL) {
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn NULL;
     }
-    for (i=0; i<ckLength; i++) {
-        jpTemp[i] = ckLongToJLong(ckpArray[i]);
+    for (i=0; i<dkLfngti; i++) {
+        jpTfmp[i] = dkLongToJLong(dkpArrby[i]);
     }
-    jArray = (*env)->NewLongArray(env, ckULongToJSize(ckLength));
-    if (jArray != NULL) {
-        (*env)->SetLongArrayRegion(env, jArray, 0, ckULongToJSize(ckLength), jpTemp);
+    jArrby = (*fnv)->NfwLongArrby(fnv, dkULongToJSizf(dkLfngti));
+    if (jArrby != NULL) {
+        (*fnv)->SftLongArrbyRfgion(fnv, jArrby, 0, dkULongToJSizf(dkLfngti), jpTfmp);
     }
-    free(jpTemp);
+    frff(jpTfmp);
 
-    return jArray ;
+    rfturn jArrby ;
 }
 
 /*
- * converts a CK_CHAR array and its length to a jcharArray.
+ * donvfrts b CK_CHAR brrby bnd its lfngti to b jdibrArrby.
  *
- * @param env - used to call JNI funktions to create the new Java array
- * @param ckpArray - the pointer to the CK_CHAR array to convert
- * @param ckpLength - the length of the array to convert
- * @return - the new Java char array
+ * @pbrbm fnv - usfd to dbll JNI funktions to drfbtf tif nfw Jbvb brrby
+ * @pbrbm dkpArrby - tif pointfr to tif CK_CHAR brrby to donvfrt
+ * @pbrbm dkpLfngti - tif lfngti of tif brrby to donvfrt
+ * @rfturn - tif nfw Jbvb dibr brrby
  */
-jcharArray ckCharArrayToJCharArray(JNIEnv *env, const CK_CHAR_PTR ckpArray, CK_ULONG ckLength)
+jdibrArrby dkCibrArrbyToJCibrArrby(JNIEnv *fnv, donst CK_CHAR_PTR dkpArrby, CK_ULONG dkLfngti)
 {
     CK_ULONG i;
-    jchar* jpTemp;
-    jcharArray jArray;
+    jdibr* jpTfmp;
+    jdibrArrby jArrby;
 
-    jpTemp = (jchar*) malloc(ckLength * sizeof(jchar));
-    if (jpTemp == NULL) {
-        throwOutOfMemoryError(env, 0);
-        return NULL;
+    jpTfmp = (jdibr*) mbllod(dkLfngti * sizfof(jdibr));
+    if (jpTfmp == NULL) {
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn NULL;
     }
-    for (i=0; i<ckLength; i++) {
-        jpTemp[i] = ckCharToJChar(ckpArray[i]);
+    for (i=0; i<dkLfngti; i++) {
+        jpTfmp[i] = dkCibrToJCibr(dkpArrby[i]);
     }
-    jArray = (*env)->NewCharArray(env, ckULongToJSize(ckLength));
-    if (jArray != NULL) {
-        (*env)->SetCharArrayRegion(env, jArray, 0, ckULongToJSize(ckLength), jpTemp);
+    jArrby = (*fnv)->NfwCibrArrby(fnv, dkULongToJSizf(dkLfngti));
+    if (jArrby != NULL) {
+        (*fnv)->SftCibrArrbyRfgion(fnv, jArrby, 0, dkULongToJSizf(dkLfngti), jpTfmp);
     }
-    free(jpTemp);
+    frff(jpTfmp);
 
-    return jArray ;
+    rfturn jArrby ;
 }
 
 /*
- * converts a CK_UTF8CHAR array and its length to a jcharArray.
+ * donvfrts b CK_UTF8CHAR brrby bnd its lfngti to b jdibrArrby.
  *
- * @param env - used to call JNI funktions to create the new Java array
- * @param ckpArray - the pointer to the CK_UTF8CHAR array to convert
- * @param ckpLength - the length of the array to convert
- * @return - the new Java char array
+ * @pbrbm fnv - usfd to dbll JNI funktions to drfbtf tif nfw Jbvb brrby
+ * @pbrbm dkpArrby - tif pointfr to tif CK_UTF8CHAR brrby to donvfrt
+ * @pbrbm dkpLfngti - tif lfngti of tif brrby to donvfrt
+ * @rfturn - tif nfw Jbvb dibr brrby
  */
-jcharArray ckUTF8CharArrayToJCharArray(JNIEnv *env, const CK_UTF8CHAR_PTR ckpArray, CK_ULONG ckLength)
+jdibrArrby dkUTF8CibrArrbyToJCibrArrby(JNIEnv *fnv, donst CK_UTF8CHAR_PTR dkpArrby, CK_ULONG dkLfngti)
 {
     CK_ULONG i;
-    jchar* jpTemp;
-    jcharArray jArray;
+    jdibr* jpTfmp;
+    jdibrArrby jArrby;
 
-    jpTemp = (jchar*) malloc(ckLength * sizeof(jchar));
-    if (jpTemp == NULL) {
-        throwOutOfMemoryError(env, 0);
-        return NULL;
+    jpTfmp = (jdibr*) mbllod(dkLfngti * sizfof(jdibr));
+    if (jpTfmp == NULL) {
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn NULL;
     }
-    for (i=0; i<ckLength; i++) {
-        jpTemp[i] = ckUTF8CharToJChar(ckpArray[i]);
+    for (i=0; i<dkLfngti; i++) {
+        jpTfmp[i] = dkUTF8CibrToJCibr(dkpArrby[i]);
     }
-    jArray = (*env)->NewCharArray(env, ckULongToJSize(ckLength));
-    if (jArray != NULL) {
-        (*env)->SetCharArrayRegion(env, jArray, 0, ckULongToJSize(ckLength), jpTemp);
+    jArrby = (*fnv)->NfwCibrArrby(fnv, dkULongToJSizf(dkLfngti));
+    if (jArrby != NULL) {
+        (*fnv)->SftCibrArrbyRfgion(fnv, jArrby, 0, dkULongToJSizf(dkLfngti), jpTfmp);
     }
-    free(jpTemp);
+    frff(jpTfmp);
 
-    return jArray ;
+    rfturn jArrby ;
 }
 
 /*
- * the following functions convert Java objects to PKCS#11 pointers and the
- * length in bytes and vice versa
+ * tif following fundtions donvfrt Jbvb objfdts to PKCS#11 pointfrs bnd tif
+ * lfngti in bytfs bnd vidf vfrsb
  *
- * CK_<Type>_PTR j<Object>ToCK<Type>Ptr(JNIEnv *env, jobject jObject);
+ * CK_<Typf>_PTR j<Objfdt>ToCK<Typf>Ptr(JNIEnv *fnv, jobjfdt jObjfdt);
  *
- * jobject ck<Type>PtrToJ<Object>(JNIEnv *env, const CK_<Type>_PTR ckpValue);
+ * jobjfdt dk<Typf>PtrToJ<Objfdt>(JNIEnv *fnv, donst CK_<Typf>_PTR dkpVbluf);
  *
- * The functions that convert a Java object to a PKCS#11 pointer first allocate
- * the memory for the PKCS#11 pointer. Then they set each element corresponding
- * to the fields in the Java object to convert. After use the allocated memory of
- * the PKCS#11 pointer has to be explicitly freed.
+ * Tif fundtions tibt donvfrt b Jbvb objfdt to b PKCS#11 pointfr first bllodbtf
+ * tif mfmory for tif PKCS#11 pointfr. Tifn tify sft fbdi flfmfnt dorrfsponding
+ * to tif fiflds in tif Jbvb objfdt to donvfrt. Aftfr usf tif bllodbtfd mfmory of
+ * tif PKCS#11 pointfr ibs to bf fxpliditly frffd.
  *
- * The functions to convert a PKCS#11 pointer to a Java object create a new Java
- * object first and than they set all fields in the object depending on the values
- * of the type or structure where the PKCS#11 pointer points to.
+ * Tif fundtions to donvfrt b PKCS#11 pointfr to b Jbvb objfdt drfbtf b nfw Jbvb
+ * objfdt first bnd tibn tify sft bll fiflds in tif objfdt dfpfnding on tif vblufs
+ * of tif typf or strudturf wifrf tif PKCS#11 pointfr points to.
  */
 
 /*
- * converts a CK_BBOOL pointer to a Java boolean Object.
+ * donvfrts b CK_BBOOL pointfr to b Jbvb boolfbn Objfdt.
  *
- * @param env - used to call JNI funktions to create the new Java object
- * @param ckpValue - the pointer to the CK_BBOOL value
- * @return - the new Java boolean object with the boolean value
+ * @pbrbm fnv - usfd to dbll JNI funktions to drfbtf tif nfw Jbvb objfdt
+ * @pbrbm dkpVbluf - tif pointfr to tif CK_BBOOL vbluf
+ * @rfturn - tif nfw Jbvb boolfbn objfdt witi tif boolfbn vbluf
  */
-jobject ckBBoolPtrToJBooleanObject(JNIEnv *env, const CK_BBOOL *ckpValue)
+jobjfdt dkBBoolPtrToJBoolfbnObjfdt(JNIEnv *fnv, donst CK_BBOOL *dkpVbluf)
 {
-    jclass jValueObjectClass;
-    jmethodID jConstructor;
-    jobject jValueObject;
-    jboolean jValue;
+    jdlbss jVblufObjfdtClbss;
+    jmftiodID jConstrudtor;
+    jobjfdt jVblufObjfdt;
+    jboolfbn jVbluf;
 
-    jValueObjectClass = (*env)->FindClass(env, "java/lang/Boolean");
-    if (jValueObjectClass == NULL) { return NULL; }
-    jConstructor = (*env)->GetMethodID(env, jValueObjectClass, "<init>", "(Z)V");
-    if (jConstructor == NULL) { return NULL; }
-    jValue = ckBBoolToJBoolean(*ckpValue);
-    jValueObject = (*env)->NewObject(env, jValueObjectClass, jConstructor, jValue);
+    jVblufObjfdtClbss = (*fnv)->FindClbss(fnv, "jbvb/lbng/Boolfbn");
+    if (jVblufObjfdtClbss == NULL) { rfturn NULL; }
+    jConstrudtor = (*fnv)->GftMftiodID(fnv, jVblufObjfdtClbss, "<init>", "(Z)V");
+    if (jConstrudtor == NULL) { rfturn NULL; }
+    jVbluf = dkBBoolToJBoolfbn(*dkpVbluf);
+    jVblufObjfdt = (*fnv)->NfwObjfdt(fnv, jVblufObjfdtClbss, jConstrudtor, jVbluf);
 
-    return jValueObject ;
+    rfturn jVblufObjfdt ;
 }
 
 /*
- * converts a CK_ULONG pointer to a Java long Object.
+ * donvfrts b CK_ULONG pointfr to b Jbvb long Objfdt.
  *
- * @param env - used to call JNI funktions to create the new Java object
- * @param ckpValue - the pointer to the CK_ULONG value
- * @return - the new Java long object with the long value
+ * @pbrbm fnv - usfd to dbll JNI funktions to drfbtf tif nfw Jbvb objfdt
+ * @pbrbm dkpVbluf - tif pointfr to tif CK_ULONG vbluf
+ * @rfturn - tif nfw Jbvb long objfdt witi tif long vbluf
  */
-jobject ckULongPtrToJLongObject(JNIEnv *env, const CK_ULONG_PTR ckpValue)
+jobjfdt dkULongPtrToJLongObjfdt(JNIEnv *fnv, donst CK_ULONG_PTR dkpVbluf)
 {
-    jclass jValueObjectClass;
-    jmethodID jConstructor;
-    jobject jValueObject;
-    jlong jValue;
+    jdlbss jVblufObjfdtClbss;
+    jmftiodID jConstrudtor;
+    jobjfdt jVblufObjfdt;
+    jlong jVbluf;
 
-    jValueObjectClass = (*env)->FindClass(env, "java/lang/Long");
-    if (jValueObjectClass == NULL) { return NULL; }
-    jConstructor = (*env)->GetMethodID(env, jValueObjectClass, "<init>", "(J)V");
-    if (jConstructor == NULL) { return NULL; }
-    jValue = ckULongToJLong(*ckpValue);
-    jValueObject = (*env)->NewObject(env, jValueObjectClass, jConstructor, jValue);
+    jVblufObjfdtClbss = (*fnv)->FindClbss(fnv, "jbvb/lbng/Long");
+    if (jVblufObjfdtClbss == NULL) { rfturn NULL; }
+    jConstrudtor = (*fnv)->GftMftiodID(fnv, jVblufObjfdtClbss, "<init>", "(J)V");
+    if (jConstrudtor == NULL) { rfturn NULL; }
+    jVbluf = dkULongToJLong(*dkpVbluf);
+    jVblufObjfdt = (*fnv)->NfwObjfdt(fnv, jVblufObjfdtClbss, jConstrudtor, jVbluf);
 
-    return jValueObject ;
+    rfturn jVblufObjfdt ;
 }
 
 /*
- * converts a Java boolean object into a pointer to a CK_BBOOL value. The memory has to be
- * freed after use!
+ * donvfrts b Jbvb boolfbn objfdt into b pointfr to b CK_BBOOL vbluf. Tif mfmory ibs to bf
+ * frffd bftfr usf!
  *
- * @param env - used to call JNI funktions to get the value out of the Java object
- * @param jObject - the "java/lang/Boolean" object to convert
- * @return - the pointer to the new CK_BBOOL value
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif vbluf out of tif Jbvb objfdt
+ * @pbrbm jObjfdt - tif "jbvb/lbng/Boolfbn" objfdt to donvfrt
+ * @rfturn - tif pointfr to tif nfw CK_BBOOL vbluf
  */
-CK_BBOOL* jBooleanObjectToCKBBoolPtr(JNIEnv *env, jobject jObject)
+CK_BBOOL* jBoolfbnObjfdtToCKBBoolPtr(JNIEnv *fnv, jobjfdt jObjfdt)
 {
-    jclass jObjectClass;
-    jmethodID jValueMethod;
-    jboolean jValue;
-    CK_BBOOL *ckpValue;
+    jdlbss jObjfdtClbss;
+    jmftiodID jVblufMftiod;
+    jboolfbn jVbluf;
+    CK_BBOOL *dkpVbluf;
 
-    jObjectClass = (*env)->FindClass(env, "java/lang/Boolean");
-    if (jObjectClass == NULL) { return NULL; }
-    jValueMethod = (*env)->GetMethodID(env, jObjectClass, "booleanValue", "()Z");
-    if (jValueMethod == NULL) { return NULL; }
-    jValue = (*env)->CallBooleanMethod(env, jObject, jValueMethod);
-    ckpValue = (CK_BBOOL *) malloc(sizeof(CK_BBOOL));
-    if (ckpValue == NULL) {
-        throwOutOfMemoryError(env, 0);
-        return NULL;
+    jObjfdtClbss = (*fnv)->FindClbss(fnv, "jbvb/lbng/Boolfbn");
+    if (jObjfdtClbss == NULL) { rfturn NULL; }
+    jVblufMftiod = (*fnv)->GftMftiodID(fnv, jObjfdtClbss, "boolfbnVbluf", "()Z");
+    if (jVblufMftiod == NULL) { rfturn NULL; }
+    jVbluf = (*fnv)->CbllBoolfbnMftiod(fnv, jObjfdt, jVblufMftiod);
+    dkpVbluf = (CK_BBOOL *) mbllod(sizfof(CK_BBOOL));
+    if (dkpVbluf == NULL) {
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn NULL;
     }
-    *ckpValue = jBooleanToCKBBool(jValue);
+    *dkpVbluf = jBoolfbnToCKBBool(jVbluf);
 
-    return ckpValue ;
+    rfturn dkpVbluf ;
 }
 
 /*
- * converts a Java byte object into a pointer to a CK_BYTE value. The memory has to be
- * freed after use!
+ * donvfrts b Jbvb bytf objfdt into b pointfr to b CK_BYTE vbluf. Tif mfmory ibs to bf
+ * frffd bftfr usf!
  *
- * @param env - used to call JNI funktions to get the value out of the Java object
- * @param jObject - the "java/lang/Byte" object to convert
- * @return - the pointer to the new CK_BYTE value
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif vbluf out of tif Jbvb objfdt
+ * @pbrbm jObjfdt - tif "jbvb/lbng/Bytf" objfdt to donvfrt
+ * @rfturn - tif pointfr to tif nfw CK_BYTE vbluf
  */
-CK_BYTE_PTR jByteObjectToCKBytePtr(JNIEnv *env, jobject jObject)
+CK_BYTE_PTR jBytfObjfdtToCKBytfPtr(JNIEnv *fnv, jobjfdt jObjfdt)
 {
-    jclass jObjectClass;
-    jmethodID jValueMethod;
-    jbyte jValue;
-    CK_BYTE_PTR ckpValue;
+    jdlbss jObjfdtClbss;
+    jmftiodID jVblufMftiod;
+    jbytf jVbluf;
+    CK_BYTE_PTR dkpVbluf;
 
-    jObjectClass = (*env)->FindClass(env, "java/lang/Byte");
-    if (jObjectClass == NULL) { return NULL; }
-    jValueMethod = (*env)->GetMethodID(env, jObjectClass, "byteValue", "()B");
-    if (jValueMethod == NULL) { return NULL; }
-    jValue = (*env)->CallByteMethod(env, jObject, jValueMethod);
-    ckpValue = (CK_BYTE_PTR) malloc(sizeof(CK_BYTE));
-    if (ckpValue == NULL) {
-        throwOutOfMemoryError(env, 0);
-        return NULL;
+    jObjfdtClbss = (*fnv)->FindClbss(fnv, "jbvb/lbng/Bytf");
+    if (jObjfdtClbss == NULL) { rfturn NULL; }
+    jVblufMftiod = (*fnv)->GftMftiodID(fnv, jObjfdtClbss, "bytfVbluf", "()B");
+    if (jVblufMftiod == NULL) { rfturn NULL; }
+    jVbluf = (*fnv)->CbllBytfMftiod(fnv, jObjfdt, jVblufMftiod);
+    dkpVbluf = (CK_BYTE_PTR) mbllod(sizfof(CK_BYTE));
+    if (dkpVbluf == NULL) {
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn NULL;
     }
-    *ckpValue = jByteToCKByte(jValue);
-    return ckpValue ;
+    *dkpVbluf = jBytfToCKBytf(jVbluf);
+    rfturn dkpVbluf ;
 }
 
 /*
- * converts a Java integer object into a pointer to a CK_ULONG value. The memory has to be
- * freed after use!
+ * donvfrts b Jbvb intfgfr objfdt into b pointfr to b CK_ULONG vbluf. Tif mfmory ibs to bf
+ * frffd bftfr usf!
  *
- * @param env - used to call JNI funktions to get the value out of the Java object
- * @param jObject - the "java/lang/Integer" object to convert
- * @return - the pointer to the new CK_ULONG value
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif vbluf out of tif Jbvb objfdt
+ * @pbrbm jObjfdt - tif "jbvb/lbng/Intfgfr" objfdt to donvfrt
+ * @rfturn - tif pointfr to tif nfw CK_ULONG vbluf
  */
-CK_ULONG* jIntegerObjectToCKULongPtr(JNIEnv *env, jobject jObject)
+CK_ULONG* jIntfgfrObjfdtToCKULongPtr(JNIEnv *fnv, jobjfdt jObjfdt)
 {
-    jclass jObjectClass;
-    jmethodID jValueMethod;
-    jint jValue;
-    CK_ULONG *ckpValue;
+    jdlbss jObjfdtClbss;
+    jmftiodID jVblufMftiod;
+    jint jVbluf;
+    CK_ULONG *dkpVbluf;
 
-    jObjectClass = (*env)->FindClass(env, "java/lang/Integer");
-    if (jObjectClass == NULL) { return NULL; }
-    jValueMethod = (*env)->GetMethodID(env, jObjectClass, "intValue", "()I");
-    if (jValueMethod == NULL) { return NULL; }
-    jValue = (*env)->CallIntMethod(env, jObject, jValueMethod);
-    ckpValue = (CK_ULONG *) malloc(sizeof(CK_ULONG));
-    if (ckpValue == NULL) {
-        throwOutOfMemoryError(env, 0);
-        return NULL;
+    jObjfdtClbss = (*fnv)->FindClbss(fnv, "jbvb/lbng/Intfgfr");
+    if (jObjfdtClbss == NULL) { rfturn NULL; }
+    jVblufMftiod = (*fnv)->GftMftiodID(fnv, jObjfdtClbss, "intVbluf", "()I");
+    if (jVblufMftiod == NULL) { rfturn NULL; }
+    jVbluf = (*fnv)->CbllIntMftiod(fnv, jObjfdt, jVblufMftiod);
+    dkpVbluf = (CK_ULONG *) mbllod(sizfof(CK_ULONG));
+    if (dkpVbluf == NULL) {
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn NULL;
     }
-    *ckpValue = jLongToCKLong(jValue);
-    return ckpValue ;
+    *dkpVbluf = jLongToCKLong(jVbluf);
+    rfturn dkpVbluf ;
 }
 
 /*
- * converts a Java long object into a pointer to a CK_ULONG value. The memory has to be
- * freed after use!
+ * donvfrts b Jbvb long objfdt into b pointfr to b CK_ULONG vbluf. Tif mfmory ibs to bf
+ * frffd bftfr usf!
  *
- * @param env - used to call JNI funktions to get the value out of the Java object
- * @param jObject - the "java/lang/Long" object to convert
- * @return - the pointer to the new CK_ULONG value
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif vbluf out of tif Jbvb objfdt
+ * @pbrbm jObjfdt - tif "jbvb/lbng/Long" objfdt to donvfrt
+ * @rfturn - tif pointfr to tif nfw CK_ULONG vbluf
  */
-CK_ULONG* jLongObjectToCKULongPtr(JNIEnv *env, jobject jObject)
+CK_ULONG* jLongObjfdtToCKULongPtr(JNIEnv *fnv, jobjfdt jObjfdt)
 {
-    jclass jObjectClass;
-    jmethodID jValueMethod;
-    jlong jValue;
-    CK_ULONG *ckpValue;
+    jdlbss jObjfdtClbss;
+    jmftiodID jVblufMftiod;
+    jlong jVbluf;
+    CK_ULONG *dkpVbluf;
 
-    jObjectClass = (*env)->FindClass(env, "java/lang/Long");
-    if (jObjectClass == NULL) { return NULL; }
-    jValueMethod = (*env)->GetMethodID(env, jObjectClass, "longValue", "()J");
-    if (jValueMethod == NULL) { return NULL; }
-    jValue = (*env)->CallLongMethod(env, jObject, jValueMethod);
-    ckpValue = (CK_ULONG *) malloc(sizeof(CK_ULONG));
-    if (ckpValue == NULL) {
-        throwOutOfMemoryError(env, 0);
-        return NULL;
+    jObjfdtClbss = (*fnv)->FindClbss(fnv, "jbvb/lbng/Long");
+    if (jObjfdtClbss == NULL) { rfturn NULL; }
+    jVblufMftiod = (*fnv)->GftMftiodID(fnv, jObjfdtClbss, "longVbluf", "()J");
+    if (jVblufMftiod == NULL) { rfturn NULL; }
+    jVbluf = (*fnv)->CbllLongMftiod(fnv, jObjfdt, jVblufMftiod);
+    dkpVbluf = (CK_ULONG *) mbllod(sizfof(CK_ULONG));
+    if (dkpVbluf == NULL) {
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn NULL;
     }
-    *ckpValue = jLongToCKULong(jValue);
+    *dkpVbluf = jLongToCKULong(jVbluf);
 
-    return ckpValue ;
+    rfturn dkpVbluf ;
 }
 
 /*
- * converts a Java char object into a pointer to a CK_CHAR value. The memory has to be
- * freed after use!
+ * donvfrts b Jbvb dibr objfdt into b pointfr to b CK_CHAR vbluf. Tif mfmory ibs to bf
+ * frffd bftfr usf!
  *
- * @param env - used to call JNI funktions to get the value out of the Java object
- * @param jObject - the "java/lang/Char" object to convert
- * @return - the pointer to the new CK_CHAR value
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif vbluf out of tif Jbvb objfdt
+ * @pbrbm jObjfdt - tif "jbvb/lbng/Cibr" objfdt to donvfrt
+ * @rfturn - tif pointfr to tif nfw CK_CHAR vbluf
  */
-CK_CHAR_PTR jCharObjectToCKCharPtr(JNIEnv *env, jobject jObject)
+CK_CHAR_PTR jCibrObjfdtToCKCibrPtr(JNIEnv *fnv, jobjfdt jObjfdt)
 {
-    jclass jObjectClass;
-    jmethodID jValueMethod;
-    jchar jValue;
-    CK_CHAR_PTR ckpValue;
+    jdlbss jObjfdtClbss;
+    jmftiodID jVblufMftiod;
+    jdibr jVbluf;
+    CK_CHAR_PTR dkpVbluf;
 
-    jObjectClass = (*env)->FindClass(env, "java/lang/Char");
-    if (jObjectClass == NULL) { return NULL; }
-    jValueMethod = (*env)->GetMethodID(env, jObjectClass, "charValue", "()C");
-    if (jValueMethod == NULL) { return NULL; }
-    jValue = (*env)->CallCharMethod(env, jObject, jValueMethod);
-    ckpValue = (CK_CHAR_PTR) malloc(sizeof(CK_CHAR));
-    if (ckpValue == NULL) {
-        throwOutOfMemoryError(env, 0);
-        return NULL;
+    jObjfdtClbss = (*fnv)->FindClbss(fnv, "jbvb/lbng/Cibr");
+    if (jObjfdtClbss == NULL) { rfturn NULL; }
+    jVblufMftiod = (*fnv)->GftMftiodID(fnv, jObjfdtClbss, "dibrVbluf", "()C");
+    if (jVblufMftiod == NULL) { rfturn NULL; }
+    jVbluf = (*fnv)->CbllCibrMftiod(fnv, jObjfdt, jVblufMftiod);
+    dkpVbluf = (CK_CHAR_PTR) mbllod(sizfof(CK_CHAR));
+    if (dkpVbluf == NULL) {
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn NULL;
     }
-    *ckpValue = jCharToCKChar(jValue);
+    *dkpVbluf = jCibrToCKCibr(jVbluf);
 
-    return ckpValue ;
+    rfturn dkpVbluf ;
 }
 
 /*
- * converts a Java object into a pointer to CK-type or a CK-structure with the length in Bytes.
- * The memory of *ckpObjectPtr to be freed after use! This function is only used by
- * jAttributeToCKAttribute by now.
+ * donvfrts b Jbvb objfdt into b pointfr to CK-typf or b CK-strudturf witi tif lfngti in Bytfs.
+ * Tif mfmory of *dkpObjfdtPtr to bf frffd bftfr usf! Tiis fundtion is only usfd by
+ * jAttributfToCKAttributf by now.
  *
- * @param env - used to call JNI funktions to get the Java classes and objects
- * @param jObject - the Java object to convert
- * @param ckpObjectPtr - the reference of the new pointer to the new CK-value or CK-structure
- * @param ckpLength - the reference of the length in bytes of the new CK-value or CK-structure
+ * @pbrbm fnv - usfd to dbll JNI funktions to gft tif Jbvb dlbssfs bnd objfdts
+ * @pbrbm jObjfdt - tif Jbvb objfdt to donvfrt
+ * @pbrbm dkpObjfdtPtr - tif rfffrfndf of tif nfw pointfr to tif nfw CK-vbluf or CK-strudturf
+ * @pbrbm dkpLfngti - tif rfffrfndf of tif lfngti in bytfs of tif nfw CK-vbluf or CK-strudturf
  */
-void jObjectToPrimitiveCKObjectPtrPtr(JNIEnv *env, jobject jObject, CK_VOID_PTR *ckpObjectPtr, CK_ULONG *ckpLength)
+void jObjfdtToPrimitivfCKObjfdtPtrPtr(JNIEnv *fnv, jobjfdt jObjfdt, CK_VOID_PTR *dkpObjfdtPtr, CK_ULONG *dkpLfngti)
 {
-    jclass jLongClass, jBooleanClass, jByteArrayClass, jCharArrayClass;
-    jclass jByteClass, jDateClass, jCharacterClass, jIntegerClass;
-    jclass jBooleanArrayClass, jIntArrayClass, jLongArrayClass;
-    jclass jStringClass;
-    jclass jObjectClass, jClassClass;
-    CK_VOID_PTR ckpVoid = *ckpObjectPtr;
-    jmethodID jMethod;
-    jobject jClassObject;
-    jstring jClassNameString;
-    char *classNameString, *exceptionMsgPrefix, *exceptionMsg;
+    jdlbss jLongClbss, jBoolfbnClbss, jBytfArrbyClbss, jCibrArrbyClbss;
+    jdlbss jBytfClbss, jDbtfClbss, jCibrbdtfrClbss, jIntfgfrClbss;
+    jdlbss jBoolfbnArrbyClbss, jIntArrbyClbss, jLongArrbyClbss;
+    jdlbss jStringClbss;
+    jdlbss jObjfdtClbss, jClbssClbss;
+    CK_VOID_PTR dkpVoid = *dkpObjfdtPtr;
+    jmftiodID jMftiod;
+    jobjfdt jClbssObjfdt;
+    jstring jClbssNbmfString;
+    dibr *dlbssNbmfString, *fxdfptionMsgPrffix, *fxdfptionMsg;
 
-    TRACE0("\nDEBUG: jObjectToPrimitiveCKObjectPtrPtr");
-    if (jObject == NULL) {
-        *ckpObjectPtr = NULL;
-        *ckpLength = 0;
-        return;
+    TRACE0("\nDEBUG: jObjfdtToPrimitivfCKObjfdtPtrPtr");
+    if (jObjfdt == NULL) {
+        *dkpObjfdtPtr = NULL;
+        *dkpLfngti = 0;
+        rfturn;
     }
 
-    jLongClass = (*env)->FindClass(env, "java/lang/Long");
-    if (jLongClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jObject, jLongClass)) {
-        *ckpObjectPtr = jLongObjectToCKULongPtr(env, jObject);
-        *ckpLength = sizeof(CK_ULONG);
-        TRACE1("<converted long value %X>", *((CK_ULONG *) *ckpObjectPtr));
-        return;
+    jLongClbss = (*fnv)->FindClbss(fnv, "jbvb/lbng/Long");
+    if (jLongClbss == NULL) { rfturn; }
+    if ((*fnv)->IsInstbndfOf(fnv, jObjfdt, jLongClbss)) {
+        *dkpObjfdtPtr = jLongObjfdtToCKULongPtr(fnv, jObjfdt);
+        *dkpLfngti = sizfof(CK_ULONG);
+        TRACE1("<donvfrtfd long vbluf %X>", *((CK_ULONG *) *dkpObjfdtPtr));
+        rfturn;
     }
 
-    jBooleanClass = (*env)->FindClass(env, "java/lang/Boolean");
-    if (jBooleanClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jObject, jBooleanClass)) {
-        *ckpObjectPtr = jBooleanObjectToCKBBoolPtr(env, jObject);
-        *ckpLength = sizeof(CK_BBOOL);
-        TRACE0(" <converted boolean value ");
-        TRACE0((*((CK_BBOOL *) *ckpObjectPtr) == TRUE) ? "TRUE>" : "FALSE>");
-        return;
+    jBoolfbnClbss = (*fnv)->FindClbss(fnv, "jbvb/lbng/Boolfbn");
+    if (jBoolfbnClbss == NULL) { rfturn; }
+    if ((*fnv)->IsInstbndfOf(fnv, jObjfdt, jBoolfbnClbss)) {
+        *dkpObjfdtPtr = jBoolfbnObjfdtToCKBBoolPtr(fnv, jObjfdt);
+        *dkpLfngti = sizfof(CK_BBOOL);
+        TRACE0(" <donvfrtfd boolfbn vbluf ");
+        TRACE0((*((CK_BBOOL *) *dkpObjfdtPtr) == TRUE) ? "TRUE>" : "FALSE>");
+        rfturn;
     }
 
-    jByteArrayClass = (*env)->FindClass(env, "[B");
-    if (jByteArrayClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jObject, jByteArrayClass)) {
-        jByteArrayToCKByteArray(env, jObject, (CK_BYTE_PTR*)ckpObjectPtr, ckpLength);
-        return;
+    jBytfArrbyClbss = (*fnv)->FindClbss(fnv, "[B");
+    if (jBytfArrbyClbss == NULL) { rfturn; }
+    if ((*fnv)->IsInstbndfOf(fnv, jObjfdt, jBytfArrbyClbss)) {
+        jBytfArrbyToCKBytfArrby(fnv, jObjfdt, (CK_BYTE_PTR*)dkpObjfdtPtr, dkpLfngti);
+        rfturn;
     }
 
-    jCharArrayClass = (*env)->FindClass(env, "[C");
-    if (jCharArrayClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jObject, jCharArrayClass)) {
-        jCharArrayToCKUTF8CharArray(env, jObject, (CK_UTF8CHAR_PTR*)ckpObjectPtr, ckpLength);
-        return;
+    jCibrArrbyClbss = (*fnv)->FindClbss(fnv, "[C");
+    if (jCibrArrbyClbss == NULL) { rfturn; }
+    if ((*fnv)->IsInstbndfOf(fnv, jObjfdt, jCibrArrbyClbss)) {
+        jCibrArrbyToCKUTF8CibrArrby(fnv, jObjfdt, (CK_UTF8CHAR_PTR*)dkpObjfdtPtr, dkpLfngti);
+        rfturn;
     }
 
-    jByteClass = (*env)->FindClass(env, "java/lang/Byte");
-    if (jByteClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jObject, jByteClass)) {
-        *ckpObjectPtr = jByteObjectToCKBytePtr(env, jObject);
-        *ckpLength = sizeof(CK_BYTE);
-        TRACE1("<converted byte value %X>", *((CK_BYTE *) *ckpObjectPtr));
-        return;
+    jBytfClbss = (*fnv)->FindClbss(fnv, "jbvb/lbng/Bytf");
+    if (jBytfClbss == NULL) { rfturn; }
+    if ((*fnv)->IsInstbndfOf(fnv, jObjfdt, jBytfClbss)) {
+        *dkpObjfdtPtr = jBytfObjfdtToCKBytfPtr(fnv, jObjfdt);
+        *dkpLfngti = sizfof(CK_BYTE);
+        TRACE1("<donvfrtfd bytf vbluf %X>", *((CK_BYTE *) *dkpObjfdtPtr));
+        rfturn;
     }
 
-    jDateClass = (*env)->FindClass(env, CLASS_DATE);
-    if (jDateClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jObject, jDateClass)) {
-        *ckpObjectPtr = jDateObjectPtrToCKDatePtr(env, jObject);
-        *ckpLength = sizeof(CK_DATE);
-        TRACE3("<converted date value %.4s-%.2s-%.2s>", (*((CK_DATE *) *ckpObjectPtr)).year, (*((CK_DATE *) *ckpObjectPtr)).month, (*((CK_DATE *) *ckpObjectPtr)).day);
-        return;
+    jDbtfClbss = (*fnv)->FindClbss(fnv, CLASS_DATE);
+    if (jDbtfClbss == NULL) { rfturn; }
+    if ((*fnv)->IsInstbndfOf(fnv, jObjfdt, jDbtfClbss)) {
+        *dkpObjfdtPtr = jDbtfObjfdtPtrToCKDbtfPtr(fnv, jObjfdt);
+        *dkpLfngti = sizfof(CK_DATE);
+        TRACE3("<donvfrtfd dbtf vbluf %.4s-%.2s-%.2s>", (*((CK_DATE *) *dkpObjfdtPtr)).yfbr, (*((CK_DATE *) *dkpObjfdtPtr)).monti, (*((CK_DATE *) *dkpObjfdtPtr)).dby);
+        rfturn;
     }
 
-    jCharacterClass = (*env)->FindClass(env, "java/lang/Character");
-    if (jCharacterClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jObject, jCharacterClass)) {
-        *ckpObjectPtr = jCharObjectToCKCharPtr(env, jObject);
-        *ckpLength = sizeof(CK_UTF8CHAR);
-        TRACE1("<converted char value %c>", *((CK_CHAR *) *ckpObjectPtr));
-        return;
+    jCibrbdtfrClbss = (*fnv)->FindClbss(fnv, "jbvb/lbng/Cibrbdtfr");
+    if (jCibrbdtfrClbss == NULL) { rfturn; }
+    if ((*fnv)->IsInstbndfOf(fnv, jObjfdt, jCibrbdtfrClbss)) {
+        *dkpObjfdtPtr = jCibrObjfdtToCKCibrPtr(fnv, jObjfdt);
+        *dkpLfngti = sizfof(CK_UTF8CHAR);
+        TRACE1("<donvfrtfd dibr vbluf %d>", *((CK_CHAR *) *dkpObjfdtPtr));
+        rfturn;
     }
 
-    jIntegerClass = (*env)->FindClass(env, "java/lang/Integer");
-    if (jIntegerClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jObject, jIntegerClass)) {
-        *ckpObjectPtr = jIntegerObjectToCKULongPtr(env, jObject);
-        *ckpLength = sizeof(CK_ULONG);
-        TRACE1("<converted integer value %X>", *((CK_ULONG *) *ckpObjectPtr));
-        return;
+    jIntfgfrClbss = (*fnv)->FindClbss(fnv, "jbvb/lbng/Intfgfr");
+    if (jIntfgfrClbss == NULL) { rfturn; }
+    if ((*fnv)->IsInstbndfOf(fnv, jObjfdt, jIntfgfrClbss)) {
+        *dkpObjfdtPtr = jIntfgfrObjfdtToCKULongPtr(fnv, jObjfdt);
+        *dkpLfngti = sizfof(CK_ULONG);
+        TRACE1("<donvfrtfd intfgfr vbluf %X>", *((CK_ULONG *) *dkpObjfdtPtr));
+        rfturn;
     }
 
-    jBooleanArrayClass = (*env)->FindClass(env, "[Z");
-    if (jBooleanArrayClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jObject, jBooleanArrayClass)) {
-        jBooleanArrayToCKBBoolArray(env, jObject, (CK_BBOOL**)ckpObjectPtr, ckpLength);
-        return;
+    jBoolfbnArrbyClbss = (*fnv)->FindClbss(fnv, "[Z");
+    if (jBoolfbnArrbyClbss == NULL) { rfturn; }
+    if ((*fnv)->IsInstbndfOf(fnv, jObjfdt, jBoolfbnArrbyClbss)) {
+        jBoolfbnArrbyToCKBBoolArrby(fnv, jObjfdt, (CK_BBOOL**)dkpObjfdtPtr, dkpLfngti);
+        rfturn;
     }
 
-    jIntArrayClass = (*env)->FindClass(env, "[I");
-    if (jIntArrayClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jObject, jIntArrayClass)) {
-        jLongArrayToCKULongArray(env, jObject, (CK_ULONG_PTR*)ckpObjectPtr, ckpLength);
-        return;
+    jIntArrbyClbss = (*fnv)->FindClbss(fnv, "[I");
+    if (jIntArrbyClbss == NULL) { rfturn; }
+    if ((*fnv)->IsInstbndfOf(fnv, jObjfdt, jIntArrbyClbss)) {
+        jLongArrbyToCKULongArrby(fnv, jObjfdt, (CK_ULONG_PTR*)dkpObjfdtPtr, dkpLfngti);
+        rfturn;
     }
 
-    jLongArrayClass = (*env)->FindClass(env, "[J");
-    if (jLongArrayClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jObject, jLongArrayClass)) {
-        jLongArrayToCKULongArray(env, jObject, (CK_ULONG_PTR*)ckpObjectPtr, ckpLength);
-        return;
+    jLongArrbyClbss = (*fnv)->FindClbss(fnv, "[J");
+    if (jLongArrbyClbss == NULL) { rfturn; }
+    if ((*fnv)->IsInstbndfOf(fnv, jObjfdt, jLongArrbyClbss)) {
+        jLongArrbyToCKULongArrby(fnv, jObjfdt, (CK_ULONG_PTR*)dkpObjfdtPtr, dkpLfngti);
+        rfturn;
     }
 
-    jStringClass = (*env)->FindClass(env, "java/lang/String");
-    if (jStringClass == NULL) { return; }
-    if ((*env)->IsInstanceOf(env, jObject, jStringClass)) {
-        jStringToCKUTF8CharArray(env, jObject, (CK_UTF8CHAR_PTR*)ckpObjectPtr, ckpLength);
-        return;
+    jStringClbss = (*fnv)->FindClbss(fnv, "jbvb/lbng/String");
+    if (jStringClbss == NULL) { rfturn; }
+    if ((*fnv)->IsInstbndfOf(fnv, jObjfdt, jStringClbss)) {
+        jStringToCKUTF8CibrArrby(fnv, jObjfdt, (CK_UTF8CHAR_PTR*)dkpObjfdtPtr, dkpLfngti);
+        rfturn;
     }
 
-    /* type of jObject unknown, throw PKCS11RuntimeException */
-    jObjectClass = (*env)->FindClass(env, "java/lang/Object");
-    if (jObjectClass == NULL) { return; }
-    jMethod = (*env)->GetMethodID(env, jObjectClass, "getClass", "()Ljava/lang/Class;");
-    if (jMethod == NULL) { return; }
-    jClassObject = (*env)->CallObjectMethod(env, jObject, jMethod);
-    assert(jClassObject != 0);
-    jClassClass = (*env)->FindClass(env, "java/lang/Class");
-    if (jClassClass == NULL) { return; }
-    jMethod = (*env)->GetMethodID(env, jClassClass, "getName", "()Ljava/lang/String;");
-    if (jMethod == NULL) { return; }
-    jClassNameString = (jstring)
-        (*env)->CallObjectMethod(env, jClassObject, jMethod);
-    assert(jClassNameString != 0);
-    classNameString = (char*)
-        (*env)->GetStringUTFChars(env, jClassNameString, NULL);
-    if (classNameString == NULL) { return; }
-    exceptionMsgPrefix = "Java object of this class cannot be converted to native PKCS#11 type: ";
-    exceptionMsg = (char *)
-        malloc((strlen(exceptionMsgPrefix) + strlen(classNameString) + 1));
-    if (exceptionMsg == NULL) {
-        (*env)->ReleaseStringUTFChars(env, jClassNameString, classNameString);
-        throwOutOfMemoryError(env, 0);
-        return;
+    /* typf of jObjfdt unknown, tirow PKCS11RuntimfExdfption */
+    jObjfdtClbss = (*fnv)->FindClbss(fnv, "jbvb/lbng/Objfdt");
+    if (jObjfdtClbss == NULL) { rfturn; }
+    jMftiod = (*fnv)->GftMftiodID(fnv, jObjfdtClbss, "gftClbss", "()Ljbvb/lbng/Clbss;");
+    if (jMftiod == NULL) { rfturn; }
+    jClbssObjfdt = (*fnv)->CbllObjfdtMftiod(fnv, jObjfdt, jMftiod);
+    bssfrt(jClbssObjfdt != 0);
+    jClbssClbss = (*fnv)->FindClbss(fnv, "jbvb/lbng/Clbss");
+    if (jClbssClbss == NULL) { rfturn; }
+    jMftiod = (*fnv)->GftMftiodID(fnv, jClbssClbss, "gftNbmf", "()Ljbvb/lbng/String;");
+    if (jMftiod == NULL) { rfturn; }
+    jClbssNbmfString = (jstring)
+        (*fnv)->CbllObjfdtMftiod(fnv, jClbssObjfdt, jMftiod);
+    bssfrt(jClbssNbmfString != 0);
+    dlbssNbmfString = (dibr*)
+        (*fnv)->GftStringUTFCibrs(fnv, jClbssNbmfString, NULL);
+    if (dlbssNbmfString == NULL) { rfturn; }
+    fxdfptionMsgPrffix = "Jbvb objfdt of tiis dlbss dbnnot bf donvfrtfd to nbtivf PKCS#11 typf: ";
+    fxdfptionMsg = (dibr *)
+        mbllod((strlfn(fxdfptionMsgPrffix) + strlfn(dlbssNbmfString) + 1));
+    if (fxdfptionMsg == NULL) {
+        (*fnv)->RflfbsfStringUTFCibrs(fnv, jClbssNbmfString, dlbssNbmfString);
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn;
     }
-    strcpy(exceptionMsg, exceptionMsgPrefix);
-    strcat(exceptionMsg, classNameString);
-    (*env)->ReleaseStringUTFChars(env, jClassNameString, classNameString);
-    throwPKCS11RuntimeException(env, exceptionMsg);
-    free(exceptionMsg);
-    *ckpObjectPtr = NULL;
-    *ckpLength = 0;
+    strdpy(fxdfptionMsg, fxdfptionMsgPrffix);
+    strdbt(fxdfptionMsg, dlbssNbmfString);
+    (*fnv)->RflfbsfStringUTFCibrs(fnv, jClbssNbmfString, dlbssNbmfString);
+    tirowPKCS11RuntimfExdfption(fnv, fxdfptionMsg);
+    frff(fxdfptionMsg);
+    *dkpObjfdtPtr = NULL;
+    *dkpLfngti = 0;
 
     TRACE0("FINISHED\n");
 }
 
-#ifdef P11_MEMORYDEBUG
+#ifdff P11_MEMORYDEBUG
 
-#undef malloc
-#undef free
+#undff mbllod
+#undff frff
 
-void *p11malloc(size_t c, char *file, int line) {
-    void *p = malloc(c);
-    printf("malloc\t%08x\t%d\t%s:%d\n", p, c, file, line); fflush(stdout);
-    return p;
+void *p11mbllod(sizf_t d, dibr *filf, int linf) {
+    void *p = mbllod(d);
+    printf("mbllod\t%08x\t%d\t%s:%d\n", p, d, filf, linf); fflusi(stdout);
+    rfturn p;
 }
 
-void p11free(void *p, char *file, int line) {
-    printf("free\t%08x\t\t%s:%d\n", p, file, line); fflush(stdout);
-    free(p);
+void p11frff(void *p, dibr *filf, int linf) {
+    printf("frff\t%08x\t\t%s:%d\n", p, filf, linf); fflusi(stdout);
+    frff(p);
 }
 
-#endif
+#fndif
 

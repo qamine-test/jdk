@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.security.auth;
+pbdkbgf dom.sun.sfdurity.buti;
 
-import java.security.Principal;
+import jbvb.sfdurity.Prindipbl;
 
 /**
- * A user principal identified by a username or account name.
+ * A usfr prindipbl idfntififd by b usfrnbmf or bddount nbmf.
  *
  * <p>
- * After successful authentication, a user {@link java.security.Principal}
- * can be associated with a particular {@link javax.security.auth.Subject}
- * to augment that <code>Subject</code> with an additional identity.
- * Authorization decisions can then be based upon the
- * <code>Principal</code>s that are associated with a <code>Subject</code>.
+ * Aftfr suddfssful butifntidbtion, b usfr {@link jbvb.sfdurity.Prindipbl}
+ * dbn bf bssodibtfd witi b pbrtidulbr {@link jbvbx.sfdurity.buti.Subjfdt}
+ * to bugmfnt tibt <dodf>Subjfdt</dodf> witi bn bdditionbl idfntity.
+ * Autiorizbtion dfdisions dbn tifn bf bbsfd upon tif
+ * <dodf>Prindipbl</dodf>s tibt brf bssodibtfd witi b <dodf>Subjfdt</dodf>.
  *
  * <p>
- * This class is immutable.
+ * Tiis dlbss is immutbblf.
  *
- * @since 1.6
+ * @sindf 1.6
  */
-@jdk.Exported
-public final class UserPrincipal implements Principal, java.io.Serializable {
+@jdk.Exportfd
+publid finbl dlbss UsfrPrindipbl implfmfnts Prindipbl, jbvb.io.Sfriblizbblf {
 
-    private static final long serialVersionUID = 892106070870210969L;
-
-    /**
-     * The principal's name
-     *
-     * @serial
-     */
-    private final String name;
+    privbtf stbtid finbl long sfriblVfrsionUID = 892106070870210969L;
 
     /**
-     * Creates a principal.
+     * Tif prindipbl's nbmf
      *
-     * @param name The principal's string name.
-     * @exception NullPointerException If the <code>name</code> is
-     * <code>null</code>.
+     * @sfribl
      */
-    public UserPrincipal(String name) {
-        if (name == null) {
-            throw new NullPointerException("null name is illegal");
+    privbtf finbl String nbmf;
+
+    /**
+     * Crfbtfs b prindipbl.
+     *
+     * @pbrbm nbmf Tif prindipbl's string nbmf.
+     * @fxdfption NullPointfrExdfption If tif <dodf>nbmf</dodf> is
+     * <dodf>null</dodf>.
+     */
+    publid UsfrPrindipbl(String nbmf) {
+        if (nbmf == null) {
+            tirow nfw NullPointfrExdfption("null nbmf is illfgbl");
         }
-        this.name = name;
+        tiis.nbmf = nbmf;
     }
 
     /**
-     * Compares this principal to the specified object.
+     * Compbrfs tiis prindipbl to tif spfdififd objfdt.
      *
-     * @param object The object to compare this principal against.
-     * @return true if they are equal; false otherwise.
+     * @pbrbm objfdt Tif objfdt to dompbrf tiis prindipbl bgbinst.
+     * @rfturn truf if tify brf fqubl; fblsf otifrwisf.
      */
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
+    publid boolfbn fqubls(Objfdt objfdt) {
+        if (tiis == objfdt) {
+            rfturn truf;
         }
-        if (object instanceof UserPrincipal) {
-            return name.equals(((UserPrincipal)object).getName());
+        if (objfdt instbndfof UsfrPrindipbl) {
+            rfturn nbmf.fqubls(((UsfrPrindipbl)objfdt).gftNbmf());
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns a hash code for this principal.
+     * Rfturns b ibsi dodf for tiis prindipbl.
      *
-     * @return The principal's hash code.
+     * @rfturn Tif prindipbl's ibsi dodf.
      */
-    public int hashCode() {
-        return name.hashCode();
+    publid int ibsiCodf() {
+        rfturn nbmf.ibsiCodf();
     }
 
     /**
-     * Returns the name of this principal.
+     * Rfturns tif nbmf of tiis prindipbl.
      *
-     * @return The principal's name.
+     * @rfturn Tif prindipbl's nbmf.
      */
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Returns a string representation of this principal.
+     * Rfturns b string rfprfsfntbtion of tiis prindipbl.
      *
-     * @return The principal's name.
+     * @rfturn Tif prindipbl's nbmf.
      */
-    public String toString() {
-        return name;
+    publid String toString() {
+        rfturn nbmf;
     }
 }

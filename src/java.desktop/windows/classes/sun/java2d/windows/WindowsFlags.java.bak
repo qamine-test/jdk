@@ -1,338 +1,338 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.windows;
+pbdkbgf sun.jbvb2d.windows;
 
-import sun.awt.windows.WToolkit;
-import sun.java2d.opengl.WGLGraphicsConfig;
+import sun.bwt.windows.WToolkit;
+import sun.jbvb2d.opfngl.WGLGrbpiidsConfig;
 
-public class WindowsFlags {
+publid dlbss WindowsFlbgs {
 
     /**
-     * Description of command-line flags.  All flags with [true|false]
-     * values (where both have possible meanings, such as with ddlock)
-     * have an associated variable that indicates whether this flag
-     * was set by the user.  For example, d3d is on by default, but
-     * may be disabled at runtime by internal settings unless the user
-     * has forced it on with d3d=true.  These associated variables have
-     * the same base (eg, d3d) but end in "Set" (eg, d3dEnabled and
-     * d3dSet).
-     *      ddEnabled: usage: "-Dsun.java2d.noddraw[=false|true]"
-     *               turns on/off all usage of Direct3D
-     *      ddOffscreenEnabled: equivalent of sun.java2d.noddraw
-     *      gdiBlitEnabled: usage: "-Dsun.java2d.gdiblit=false"
-     *               turns off Blit loops that use GDI for copying to
-     *               the screen from certain image types.  Copies will,
-     *               instead, happen via ddraw locking or temporary GDI DIB
-     *               creation/copying (depending on OS and other flags)
-     *      d3dEnabled: usage: "-Dsun.java2d.d3d=[true|false]"
-     *               Forces our use of Direct3D on or off.  Direct3D is on
-     *               by default, but may be disabled in some situations, such
-     *               as on a card with bad d3d line quality, or on a video card
-     *               that we have had bad experience with (e.g., Trident).
-     *               This flag can force us to use d3d
-     *               anyway in these situations.  Or, this flag can force us to
-     *               not use d3d in a situation where we would use it otherwise.
-     *      translAccelEnabled: usage: "-Dsun.java2d.translaccel=true"
-     *               equivalent to sun.java2d.d3d=true
-     *      offscreenSharingEnabled: usage: "-Dsun.java2d.offscreenSharing=true"
-     *               Turns on the ability to share a hardware-accelerated
-     *               offscreen surface through the JAWT interface.  See
-     *               src/windows/native/sun/windows/awt_DrawingSurface.* for
-     *               more information.  This capability is disabled by default
-     *               pending more testing and time to work out the right
-     *               solution; we do not want to expose more public JAWT api
-     *               without being very sure that we will be willing to support
-     *               that API in the future regardless of other native
-     *               rendering pipeline changes.
-     *      accelReset: usage: "-Dsun.java2d.accelReset"
-     *               This flag tells us to reset any persistent information
-     *               the display device acceleration characteristics so that
-     *               we are forced to retest these characteristics.  This flag
-     *               is primarily used for debugging purposes (to allow testing
-     *               of the persistent storage mechanisms) but may also be
-     *               needed by some users if, for example, a driver upgrade
-     *               may change the runtime characteristics and they want the
-     *               tests to be re-run.
-     *      checkRegistry: usage: "-Dsun.java2d.checkRegistry"
-     *               This flag tells us to output the current registry settings
-     *               (after our initialization) to the console.
-     *      disableRegistry: usage: "-Dsun.java2d.disableRegistry"
-     *               This flag tells us to disable all registry-related
-     *               activities.  It is mainly here for debugging purposes,
-     *               to allow us to see whether any runtime bugs are caused
-     *               by or related to registry problems.
-     *      magPresent: usage: "-Djavax.accessibility.screen_magnifier_present"
-     *               This flag is set either on the command line or in the
-     *               properties file.  It tells Swing whether the user is
-     *               currently using a screen magnifying application.  These
-     *               applications tend to conflict with ddraw (which assumes
-     *               it owns the entire display), so the presence of these
-     *               applications implies that we should disable ddraw.
-     *               So if magPresent is true, we set ddEnabled and associated
-     *               variables to false and do not initialize the native
-     *               hardware acceleration for these properties.
-     *      opengl: usage: "-Dsun.java2d.opengl=[true|True]"
-     *               Enables the use of the OpenGL-pipeline.  If the
-     *               OpenGL flag is specified and WGL initialization is
-     *               successful, we implicitly disable the use of DirectDraw
-     *               and Direct3D, as those pipelines may interfere with the
-     *               OGL pipeline.  (If "True" is specified, a message will
-     *               appear on the console stating whether or not the OGL
-     *               was successfully initialized.)
-     * setHighDPIAware: Property usage: "-Dsun.java2d.dpiaware=[true|false]"
-     *               This property flag "sun.java2d.dpiaware" is used to
-     *               override the default behavior, which is:
-     *               On Windows Vista, if the java process is launched from a
-     *               known launcher (java, javaw, javaws, etc) - which is
-     *               determined by whether a -Dsun.java.launcher property is set
-     *               to "SUN_STANDARD" - the "high-DPI aware" property will be
-     *               set on the native level prior to initializing the display.
+     * Dfsdription of dommbnd-linf flbgs.  All flbgs witi [truf|fblsf]
+     * vblufs (wifrf boti ibvf possiblf mfbnings, sudi bs witi ddlodk)
+     * ibvf bn bssodibtfd vbribblf tibt indidbtfs wiftifr tiis flbg
+     * wbs sft by tif usfr.  For fxbmplf, d3d is on by dffbult, but
+     * mby bf disbblfd bt runtimf by intfrnbl sfttings unlfss tif usfr
+     * ibs fordfd it on witi d3d=truf.  Tifsf bssodibtfd vbribblfs ibvf
+     * tif sbmf bbsf (fg, d3d) but fnd in "Sft" (fg, d3dEnbblfd bnd
+     * d3dSft).
+     *      ddEnbblfd: usbgf: "-Dsun.jbvb2d.noddrbw[=fblsf|truf]"
+     *               turns on/off bll usbgf of Dirfdt3D
+     *      ddOffsdrffnEnbblfd: fquivblfnt of sun.jbvb2d.noddrbw
+     *      gdiBlitEnbblfd: usbgf: "-Dsun.jbvb2d.gdiblit=fblsf"
+     *               turns off Blit loops tibt usf GDI for dopying to
+     *               tif sdrffn from dfrtbin imbgf typfs.  Copifs will,
+     *               instfbd, ibppfn vib ddrbw lodking or tfmporbry GDI DIB
+     *               drfbtion/dopying (dfpfnding on OS bnd otifr flbgs)
+     *      d3dEnbblfd: usbgf: "-Dsun.jbvb2d.d3d=[truf|fblsf]"
+     *               Fordfs our usf of Dirfdt3D on or off.  Dirfdt3D is on
+     *               by dffbult, but mby bf disbblfd in somf situbtions, sudi
+     *               bs on b dbrd witi bbd d3d linf qublity, or on b vidfo dbrd
+     *               tibt wf ibvf ibd bbd fxpfrifndf witi (f.g., Tridfnt).
+     *               Tiis flbg dbn fordf us to usf d3d
+     *               bnywby in tifsf situbtions.  Or, tiis flbg dbn fordf us to
+     *               not usf d3d in b situbtion wifrf wf would usf it otifrwisf.
+     *      trbnslAddflEnbblfd: usbgf: "-Dsun.jbvb2d.trbnslbddfl=truf"
+     *               fquivblfnt to sun.jbvb2d.d3d=truf
+     *      offsdrffnSibringEnbblfd: usbgf: "-Dsun.jbvb2d.offsdrffnSibring=truf"
+     *               Turns on tif bbility to sibrf b ibrdwbrf-bddflfrbtfd
+     *               offsdrffn surfbdf tirougi tif JAWT intfrfbdf.  Sff
+     *               srd/windows/nbtivf/sun/windows/bwt_DrbwingSurfbdf.* for
+     *               morf informbtion.  Tiis dbpbbility is disbblfd by dffbult
+     *               pfnding morf tfsting bnd timf to work out tif rigit
+     *               solution; wf do not wbnt to fxposf morf publid JAWT bpi
+     *               witiout bfing vfry surf tibt wf will bf willing to support
+     *               tibt API in tif futurf rfgbrdlfss of otifr nbtivf
+     *               rfndfring pipflinf dibngfs.
+     *      bddflRfsft: usbgf: "-Dsun.jbvb2d.bddflRfsft"
+     *               Tiis flbg tflls us to rfsft bny pfrsistfnt informbtion
+     *               tif displby dfvidf bddflfrbtion dibrbdtfristids so tibt
+     *               wf brf fordfd to rftfst tifsf dibrbdtfristids.  Tiis flbg
+     *               is primbrily usfd for dfbugging purposfs (to bllow tfsting
+     *               of tif pfrsistfnt storbgf mfdibnisms) but mby blso bf
+     *               nffdfd by somf usfrs if, for fxbmplf, b drivfr upgrbdf
+     *               mby dibngf tif runtimf dibrbdtfristids bnd tify wbnt tif
+     *               tfsts to bf rf-run.
+     *      difdkRfgistry: usbgf: "-Dsun.jbvb2d.difdkRfgistry"
+     *               Tiis flbg tflls us to output tif durrfnt rfgistry sfttings
+     *               (bftfr our initiblizbtion) to tif donsolf.
+     *      disbblfRfgistry: usbgf: "-Dsun.jbvb2d.disbblfRfgistry"
+     *               Tiis flbg tflls us to disbblf bll rfgistry-rflbtfd
+     *               bdtivitifs.  It is mbinly ifrf for dfbugging purposfs,
+     *               to bllow us to sff wiftifr bny runtimf bugs brf dbusfd
+     *               by or rflbtfd to rfgistry problfms.
+     *      mbgPrfsfnt: usbgf: "-Djbvbx.bddfssibility.sdrffn_mbgnififr_prfsfnt"
+     *               Tiis flbg is sft fitifr on tif dommbnd linf or in tif
+     *               propfrtifs filf.  It tflls Swing wiftifr tif usfr is
+     *               durrfntly using b sdrffn mbgnifying bpplidbtion.  Tifsf
+     *               bpplidbtions tfnd to donflidt witi ddrbw (wiidi bssumfs
+     *               it owns tif fntirf displby), so tif prfsfndf of tifsf
+     *               bpplidbtions implifs tibt wf siould disbblf ddrbw.
+     *               So if mbgPrfsfnt is truf, wf sft ddEnbblfd bnd bssodibtfd
+     *               vbribblfs to fblsf bnd do not initiblizf tif nbtivf
+     *               ibrdwbrf bddflfrbtion for tifsf propfrtifs.
+     *      opfngl: usbgf: "-Dsun.jbvb2d.opfngl=[truf|Truf]"
+     *               Enbblfs tif usf of tif OpfnGL-pipflinf.  If tif
+     *               OpfnGL flbg is spfdififd bnd WGL initiblizbtion is
+     *               suddfssful, wf impliditly disbblf tif usf of DirfdtDrbw
+     *               bnd Dirfdt3D, bs tiosf pipflinfs mby intfrffrf witi tif
+     *               OGL pipflinf.  (If "Truf" is spfdififd, b mfssbgf will
+     *               bppfbr on tif donsolf stbting wiftifr or not tif OGL
+     *               wbs suddfssfully initiblizfd.)
+     * sftHigiDPIAwbrf: Propfrty usbgf: "-Dsun.jbvb2d.dpibwbrf=[truf|fblsf]"
+     *               Tiis propfrty flbg "sun.jbvb2d.dpibwbrf" is usfd to
+     *               ovfrridf tif dffbult bfibvior, wiidi is:
+     *               On Windows Vistb, if tif jbvb prodfss is lbundifd from b
+     *               known lbundifr (jbvb, jbvbw, jbvbws, ftd) - wiidi is
+     *               dftfrminfd by wiftifr b -Dsun.jbvb.lbundifr propfrty is sft
+     *               to "SUN_STANDARD" - tif "iigi-DPI bwbrf" propfrty will bf
+     *               sft on tif nbtivf lfvfl prior to initiblizing tif displby.
      *
      */
 
-    private static boolean gdiBlitEnabled;
-    private static boolean d3dEnabled;
-    private static boolean d3dVerbose;
-    private static boolean d3dSet;
-    private static boolean d3dOnScreenEnabled;
-    private static boolean oglEnabled;
-    private static boolean oglVerbose;
-    private static boolean offscreenSharingEnabled;
-    private static boolean accelReset;
-    private static boolean checkRegistry;
-    private static boolean disableRegistry;
-    private static boolean magPresent;
-    private static boolean setHighDPIAware;
-    private static String javaVersion;
-    // TODO: other flags, including nopixfmt
+    privbtf stbtid boolfbn gdiBlitEnbblfd;
+    privbtf stbtid boolfbn d3dEnbblfd;
+    privbtf stbtid boolfbn d3dVfrbosf;
+    privbtf stbtid boolfbn d3dSft;
+    privbtf stbtid boolfbn d3dOnSdrffnEnbblfd;
+    privbtf stbtid boolfbn oglEnbblfd;
+    privbtf stbtid boolfbn oglVfrbosf;
+    privbtf stbtid boolfbn offsdrffnSibringEnbblfd;
+    privbtf stbtid boolfbn bddflRfsft;
+    privbtf stbtid boolfbn difdkRfgistry;
+    privbtf stbtid boolfbn disbblfRfgistry;
+    privbtf stbtid boolfbn mbgPrfsfnt;
+    privbtf stbtid boolfbn sftHigiDPIAwbrf;
+    privbtf stbtid String jbvbVfrsion;
+    // TODO: otifr flbgs, indluding nopixfmt
 
-    static {
-        // Ensure awt is loaded already.  Also, this forces static init
-        // of WToolkit and Toolkit, which we depend upon.
-        WToolkit.loadLibraries();
-        // First, init all Java level flags
-        initJavaFlags();
-        // Now, init things on the native side.  This may call up through
-        // JNI to get/set the Java level flags based on native capabilities
-        // and environment variables
-        initNativeFlags();
+    stbtid {
+        // Ensurf bwt is lobdfd blrfbdy.  Also, tiis fordfs stbtid init
+        // of WToolkit bnd Toolkit, wiidi wf dfpfnd upon.
+        WToolkit.lobdLibrbrifs();
+        // First, init bll Jbvb lfvfl flbgs
+        initJbvbFlbgs();
+        // Now, init tiings on tif nbtivf sidf.  Tiis mby dbll up tirougi
+        // JNI to gft/sft tif Jbvb lfvfl flbgs bbsfd on nbtivf dbpbbilitifs
+        // bnd fnvironmfnt vbribblfs
+        initNbtivfFlbgs();
     }
 
-    private static native boolean initNativeFlags();
+    privbtf stbtid nbtivf boolfbn initNbtivfFlbgs();
 
-    // Noop: this method is just here as a convenient calling place when
-    // we are initialized by Win32GraphicsEnv.  Calling this will force
-    // us to run through the static block below, which is where the
-    // real work occurs.
-    public static void initFlags() {}
+    // Noop: tiis mftiod is just ifrf bs b donvfnifnt dblling plbdf wifn
+    // wf brf initiblizfd by Win32GrbpiidsEnv.  Cblling tiis will fordf
+    // us to run tirougi tif stbtid blodk bflow, wiidi is wifrf tif
+    // rfbl work oddurs.
+    publid stbtid void initFlbgs() {}
 
-    private static boolean getBooleanProp(String p, boolean defaultVal) {
-        String propString = System.getProperty(p);
-        boolean returnVal = defaultVal;
+    privbtf stbtid boolfbn gftBoolfbnProp(String p, boolfbn dffbultVbl) {
+        String propString = Systfm.gftPropfrty(p);
+        boolfbn rfturnVbl = dffbultVbl;
         if (propString != null) {
-            if (propString.equals("true") ||
-                propString.equals("t") ||
-                propString.equals("True") ||
-                propString.equals("T") ||
-                propString.equals("")) // having the prop name alone
-            {                          // is equivalent to true
-                returnVal = true;
-            } else if (propString.equals("false") ||
-                       propString.equals("f") ||
-                       propString.equals("False") ||
-                       propString.equals("F"))
+            if (propString.fqubls("truf") ||
+                propString.fqubls("t") ||
+                propString.fqubls("Truf") ||
+                propString.fqubls("T") ||
+                propString.fqubls("")) // ibving tif prop nbmf blonf
+            {                          // is fquivblfnt to truf
+                rfturnVbl = truf;
+            } flsf if (propString.fqubls("fblsf") ||
+                       propString.fqubls("f") ||
+                       propString.fqubls("Fblsf") ||
+                       propString.fqubls("F"))
             {
-                returnVal = false;
+                rfturnVbl = fblsf;
             }
         }
-        return returnVal;
+        rfturn rfturnVbl;
     }
 
-    private static boolean isBooleanPropTrueVerbose(String p) {
-        String propString = System.getProperty(p);
+    privbtf stbtid boolfbn isBoolfbnPropTrufVfrbosf(String p) {
+        String propString = Systfm.gftPropfrty(p);
         if (propString != null) {
-            if (propString.equals("True") ||
-                propString.equals("T"))
+            if (propString.fqubls("Truf") ||
+                propString.fqubls("T"))
             {
-                return true;
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private static int getIntProp(String p, int defaultVal) {
-        String propString = System.getProperty(p);
-        int returnVal = defaultVal;
+    privbtf stbtid int gftIntProp(String p, int dffbultVbl) {
+        String propString = Systfm.gftPropfrty(p);
+        int rfturnVbl = dffbultVbl;
         if (propString != null) {
             try {
-                returnVal = Integer.parseInt(propString);
-            } catch (NumberFormatException e) {}
+                rfturnVbl = Intfgfr.pbrsfInt(propString);
+            } dbtdi (NumbfrFormbtExdfption f) {}
         }
-        return returnVal;
+        rfturn rfturnVbl;
     }
 
-    private static boolean getPropertySet(String p) {
-        String propString = System.getProperty(p);
-        return (propString != null) ? true : false;
+    privbtf stbtid boolfbn gftPropfrtySft(String p) {
+        String propString = Systfm.gftPropfrty(p);
+        rfturn (propString != null) ? truf : fblsf;
     }
 
-    private static void initJavaFlags() {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Object>()
+    privbtf stbtid void initJbvbFlbgs() {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>()
         {
-            public Object run() {
-                magPresent = getBooleanProp(
-                    "javax.accessibility.screen_magnifier_present", false);
-                boolean ddEnabled =
-                    !getBooleanProp("sun.java2d.noddraw", magPresent);
-                boolean ddOffscreenEnabled =
-                    getBooleanProp("sun.java2d.ddoffscreen", ddEnabled);
-                d3dEnabled = getBooleanProp("sun.java2d.d3d",
-                    ddEnabled && ddOffscreenEnabled);
-                d3dOnScreenEnabled =
-                    getBooleanProp("sun.java2d.d3d.onscreen", d3dEnabled);
-                oglEnabled = getBooleanProp("sun.java2d.opengl", false);
-                if (oglEnabled) {
-                    oglVerbose = isBooleanPropTrueVerbose("sun.java2d.opengl");
-                    if (WGLGraphicsConfig.isWGLAvailable()) {
-                        d3dEnabled = false;
-                    } else {
-                        if (oglVerbose) {
-                            System.out.println(
-                                "Could not enable OpenGL pipeline " +
-                                "(WGL not available)");
+            publid Objfdt run() {
+                mbgPrfsfnt = gftBoolfbnProp(
+                    "jbvbx.bddfssibility.sdrffn_mbgnififr_prfsfnt", fblsf);
+                boolfbn ddEnbblfd =
+                    !gftBoolfbnProp("sun.jbvb2d.noddrbw", mbgPrfsfnt);
+                boolfbn ddOffsdrffnEnbblfd =
+                    gftBoolfbnProp("sun.jbvb2d.ddoffsdrffn", ddEnbblfd);
+                d3dEnbblfd = gftBoolfbnProp("sun.jbvb2d.d3d",
+                    ddEnbblfd && ddOffsdrffnEnbblfd);
+                d3dOnSdrffnEnbblfd =
+                    gftBoolfbnProp("sun.jbvb2d.d3d.onsdrffn", d3dEnbblfd);
+                oglEnbblfd = gftBoolfbnProp("sun.jbvb2d.opfngl", fblsf);
+                if (oglEnbblfd) {
+                    oglVfrbosf = isBoolfbnPropTrufVfrbosf("sun.jbvb2d.opfngl");
+                    if (WGLGrbpiidsConfig.isWGLAvbilbblf()) {
+                        d3dEnbblfd = fblsf;
+                    } flsf {
+                        if (oglVfrbosf) {
+                            Systfm.out.println(
+                                "Could not fnbblf OpfnGL pipflinf " +
+                                "(WGL not bvbilbblf)");
                         }
-                        oglEnabled = false;
+                        oglEnbblfd = fblsf;
                     }
                 }
-                gdiBlitEnabled = getBooleanProp("sun.java2d.gdiBlit", true);
-                d3dSet = getPropertySet("sun.java2d.d3d");
-                if (d3dSet) {
-                    d3dVerbose = isBooleanPropTrueVerbose("sun.java2d.d3d");
+                gdiBlitEnbblfd = gftBoolfbnProp("sun.jbvb2d.gdiBlit", truf);
+                d3dSft = gftPropfrtySft("sun.jbvb2d.d3d");
+                if (d3dSft) {
+                    d3dVfrbosf = isBoolfbnPropTrufVfrbosf("sun.jbvb2d.d3d");
                 }
-                offscreenSharingEnabled =
-                    getBooleanProp("sun.java2d.offscreenSharing", false);
-                accelReset = getBooleanProp("sun.java2d.accelReset", false);
-                checkRegistry =
-                    getBooleanProp("sun.java2d.checkRegistry", false);
-                disableRegistry =
-                    getBooleanProp("sun.java2d.disableRegistry", false);
-                javaVersion = System.getProperty("java.version");
-                if (javaVersion == null) {
-                    // Cannot be true, nonetheless...
-                    javaVersion = "default";
-                } else {
-                    int dashIndex = javaVersion.indexOf('-');
-                    if (dashIndex >= 0) {
-                        // an interim release; use only the part preceding the -
-                        javaVersion = javaVersion.substring(0, dashIndex);
+                offsdrffnSibringEnbblfd =
+                    gftBoolfbnProp("sun.jbvb2d.offsdrffnSibring", fblsf);
+                bddflRfsft = gftBoolfbnProp("sun.jbvb2d.bddflRfsft", fblsf);
+                difdkRfgistry =
+                    gftBoolfbnProp("sun.jbvb2d.difdkRfgistry", fblsf);
+                disbblfRfgistry =
+                    gftBoolfbnProp("sun.jbvb2d.disbblfRfgistry", fblsf);
+                jbvbVfrsion = Systfm.gftPropfrty("jbvb.vfrsion");
+                if (jbvbVfrsion == null) {
+                    // Cbnnot bf truf, nonftiflfss...
+                    jbvbVfrsion = "dffbult";
+                } flsf {
+                    int dbsiIndfx = jbvbVfrsion.indfxOf('-');
+                    if (dbsiIndfx >= 0) {
+                        // bn intfrim rflfbsf; usf only tif pbrt prfdfding tif -
+                        jbvbVfrsion = jbvbVfrsion.substring(0, dbsiIndfx);
                     }
                 }
-                String dpiOverride = System.getProperty("sun.java2d.dpiaware");
-                if (dpiOverride != null) {
-                    setHighDPIAware = dpiOverride.equalsIgnoreCase("true");
-                } else {
-                    String sunLauncherProperty =
-                        System.getProperty("sun.java.launcher", "unknown");
-                    setHighDPIAware =
-                        sunLauncherProperty.equalsIgnoreCase("SUN_STANDARD");
+                String dpiOvfrridf = Systfm.gftPropfrty("sun.jbvb2d.dpibwbrf");
+                if (dpiOvfrridf != null) {
+                    sftHigiDPIAwbrf = dpiOvfrridf.fqublsIgnorfCbsf("truf");
+                } flsf {
+                    String sunLbundifrPropfrty =
+                        Systfm.gftPropfrty("sun.jbvb.lbundifr", "unknown");
+                    sftHigiDPIAwbrf =
+                        sunLbundifrPropfrty.fqublsIgnorfCbsf("SUN_STANDARD");
                 }
                 /*
-                // Output info based on some non-default flags:
-                if (offscreenSharingEnabled) {
-                    System.out.println(
-                        "Warning: offscreenSharing has been enabled. " +
-                        "The use of this capability will change in future " +
-                        "releases and applications that depend on it " +
-                        "may not work correctly");
+                // Output info bbsfd on somf non-dffbult flbgs:
+                if (offsdrffnSibringEnbblfd) {
+                    Systfm.out.println(
+                        "Wbrning: offsdrffnSibring ibs bffn fnbblfd. " +
+                        "Tif usf of tiis dbpbbility will dibngf in futurf " +
+                        "rflfbsfs bnd bpplidbtions tibt dfpfnd on it " +
+                        "mby not work dorrfdtly");
                 }
                 */
-                return null;
+                rfturn null;
             }
         });
         /*
-        System.out.println("WindowsFlags (Java):");
-        System.out.println("  ddEnabled: " + ddEnabled + "\n" +
-                           "  ddOffscreenEnabled: " + ddOffscreenEnabled + "\n" +
-                           "  ddVramForced: " + ddVramForced + "\n" +
-                           "  ddLockEnabled: " + ddLockEnabled + "\n" +
-                           "  ddLockSet: " + ddLockSet + "\n" +
-                           "  ddBlitEnabled: " + ddBlitEnabled + "\n" +
-                           "  ddScaleEnabled: " + ddScaleEnabled + "\n" +
-                           "  d3dEnabled: " + d3dEnabled + "\n" +
-                           "  d3dSet: " + d3dSet + "\n" +
-                           "  oglEnabled: " + oglEnabled + "\n" +
-                           "  oglVerbose: " + oglVerbose + "\n" +
-                           "  gdiBlitEnabled: " + gdiBlitEnabled + "\n" +
-                           "  translAccelEnabled: " + translAccelEnabled + "\n" +
-                           "  offscreenSharingEnabled: " + offscreenSharingEnabled + "\n" +
-                           "  accelReset: " + accelReset + "\n" +
-                           "  checkRegistry: " + checkRegistry + "\n" +
-                           "  disableRegistry: " + disableRegistry + "\n" +
-                           "  d3dTexBPP: " + d3dTexBpp);
+        Systfm.out.println("WindowsFlbgs (Jbvb):");
+        Systfm.out.println("  ddEnbblfd: " + ddEnbblfd + "\n" +
+                           "  ddOffsdrffnEnbblfd: " + ddOffsdrffnEnbblfd + "\n" +
+                           "  ddVrbmFordfd: " + ddVrbmFordfd + "\n" +
+                           "  ddLodkEnbblfd: " + ddLodkEnbblfd + "\n" +
+                           "  ddLodkSft: " + ddLodkSft + "\n" +
+                           "  ddBlitEnbblfd: " + ddBlitEnbblfd + "\n" +
+                           "  ddSdblfEnbblfd: " + ddSdblfEnbblfd + "\n" +
+                           "  d3dEnbblfd: " + d3dEnbblfd + "\n" +
+                           "  d3dSft: " + d3dSft + "\n" +
+                           "  oglEnbblfd: " + oglEnbblfd + "\n" +
+                           "  oglVfrbosf: " + oglVfrbosf + "\n" +
+                           "  gdiBlitEnbblfd: " + gdiBlitEnbblfd + "\n" +
+                           "  trbnslAddflEnbblfd: " + trbnslAddflEnbblfd + "\n" +
+                           "  offsdrffnSibringEnbblfd: " + offsdrffnSibringEnbblfd + "\n" +
+                           "  bddflRfsft: " + bddflRfsft + "\n" +
+                           "  difdkRfgistry: " + difdkRfgistry + "\n" +
+                           "  disbblfRfgistry: " + disbblfRfgistry + "\n" +
+                           "  d3dTfxBPP: " + d3dTfxBpp);
         */
     }
 
-    public static boolean isD3DEnabled() {
-        return d3dEnabled;
+    publid stbtid boolfbn isD3DEnbblfd() {
+        rfturn d3dEnbblfd;
     }
 
-    public static boolean isD3DSet() {
-        return d3dSet;
+    publid stbtid boolfbn isD3DSft() {
+        rfturn d3dSft;
     }
 
-    public static boolean isD3DOnScreenEnabled() {
-        return d3dOnScreenEnabled;
+    publid stbtid boolfbn isD3DOnSdrffnEnbblfd() {
+        rfturn d3dOnSdrffnEnbblfd;
     }
 
-    public static boolean isD3DVerbose() {
-        return d3dVerbose;
+    publid stbtid boolfbn isD3DVfrbosf() {
+        rfturn d3dVfrbosf;
     }
 
-    public static boolean isGdiBlitEnabled() {
-        return gdiBlitEnabled;
+    publid stbtid boolfbn isGdiBlitEnbblfd() {
+        rfturn gdiBlitEnbblfd;
     }
 
-    public static boolean isTranslucentAccelerationEnabled() {
-        return d3dEnabled;
+    publid stbtid boolfbn isTrbnsludfntAddflfrbtionEnbblfd() {
+        rfturn d3dEnbblfd;
     }
 
-    public static boolean isOffscreenSharingEnabled() {
-        return offscreenSharingEnabled;
+    publid stbtid boolfbn isOffsdrffnSibringEnbblfd() {
+        rfturn offsdrffnSibringEnbblfd;
     }
 
-    public static boolean isMagPresent() {
-        return magPresent;
+    publid stbtid boolfbn isMbgPrfsfnt() {
+        rfturn mbgPrfsfnt;
     }
 
-    public static boolean isOGLEnabled() {
-        return oglEnabled;
+    publid stbtid boolfbn isOGLEnbblfd() {
+        rfturn oglEnbblfd;
     }
 
-    public static boolean isOGLVerbose() {
-        return oglVerbose;
+    publid stbtid boolfbn isOGLVfrbosf() {
+        rfturn oglVfrbosf;
     }
 }

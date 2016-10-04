@@ -1,0 +1,164 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.io.*;
+import jbvb.sfdurity.*;
+
+import jbvbx.drypto.*;
+
+import jbvbx.nft.ssl.*;
+
+import sun.sfdurity.intfrnbl.spfd.TlsRsbPrfmbstfrSfdrftPbrbmftfrSpfd;
+import sun.sfdurity.util.KfyUtil;
+
+/**
+ * This is thf dlifnt kfy fxdhbngf mfssbgf (CLIENT --> SERVER) usfd with
+ * bll RSA kfy fxdhbngfs; it holds thf RSA-fndryptfd prf-mbstfr sfdrft.
+ *
+ * Thf mfssbgf is fndryptfd using PKCS #1 blodk typf 02 fndryption with thf
+ * sfrvfr's publid kfy.  Thf pbdding bnd rfsulting mfssbgf sizf is b fundtion
+ * of this sfrvfr's publid kfy modulus sizf, but thf prf-mbstfr sfdrft is
+ * blwbys fxbdtly 48 bytfs.
+ *
+ */
+finbl dlbss RSAClifntKfyExdhbngf fxtfnds HbndshbkfMfssbgf {
+
+    /*
+     * Thf following fifld vblufs wfrf fndryptfd with thf sfrvfr's publid
+     * kfy (or tfmp kfy from sfrvfr kfy fxdhbngf msg) bnd brf prfsfntfd
+     * hfrf in DECRYPTED form.
+     */
+    privbtf ProtodolVfrsion protodolVfrsion; // prfMbstfr [0,1]
+    SfdrftKfy prfMbstfr;
+    privbtf bytf[] fndryptfd;           // sbmf sizf bs publid modulus
+
+    /*
+     * Clifnt rbndomly drfbtfs b prf-mbstfr sfdrft bnd fndrypts it
+     * using thf sfrvfr's RSA publid kfy; only thf sfrvfr dbn dfdrypt
+     * it, using its RSA privbtf kfy.  Rfsult is thf sbmf sizf bs thf
+     * sfrvfr's publid kfy, bnd usfs PKCS #1 blodk formbt 02.
+     */
+    RSAClifntKfyExdhbngf(ProtodolVfrsion protodolVfrsion,
+            ProtodolVfrsion mbxVfrsion,
+            SfdurfRbndom gfnfrbtor, PublidKfy publidKfy) throws IOExdfption {
+        if (publidKfy.gftAlgorithm().fqubls("RSA") == fblsf) {
+            throw nfw SSLKfyExdfption("Publid kfy not of typf RSA");
+        }
+        this.protodolVfrsion = protodolVfrsion;
+
+        try {
+            String s = ((protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) ?
+                "SunTls12RsbPrfmbstfrSfdrft" : "SunTlsRsbPrfmbstfrSfdrft");
+            KfyGfnfrbtor kg = JssfJdf.gftKfyGfnfrbtor(s);
+            kg.init(nfw TlsRsbPrfmbstfrSfdrftPbrbmftfrSpfd(
+                    mbxVfrsion.v, protodolVfrsion.v), gfnfrbtor);
+            prfMbstfr = kg.gfnfrbtfKfy();
+
+            Ciphfr diphfr = JssfJdf.gftCiphfr(JssfJdf.CIPHER_RSA_PKCS1);
+            diphfr.init(Ciphfr.WRAP_MODE, publidKfy, gfnfrbtor);
+            fndryptfd = diphfr.wrbp(prfMbstfr);
+        } dbtdh (GfnfrblSfdurityExdfption f) {
+            throw (SSLKfyExdfption)nfw SSLKfyExdfption
+                                ("RSA prfmbstfr sfdrft frror").initCbusf(f);
+        }
+    }
+
+    /*
+     * Sfrvfr gfts thf PKCS #1 (blodk formbt 02) dbtb, dfdrypts
+     * it with its privbtf kfy.
+     */
+    RSAClifntKfyExdhbngf(ProtodolVfrsion durrfntVfrsion,
+            ProtodolVfrsion mbxVfrsion,
+            SfdurfRbndom gfnfrbtor, HbndshbkfInStrfbm input,
+            int mfssbgfSizf, PrivbtfKfy privbtfKfy) throws IOExdfption {
+
+        if (privbtfKfy.gftAlgorithm().fqubls("RSA") == fblsf) {
+            throw nfw SSLKfyExdfption("Privbtf kfy not of typf RSA");
+        }
+
+        if (durrfntVfrsion.v >= ProtodolVfrsion.TLS10.v) {
+            fndryptfd = input.gftBytfs16();
+        } flsf {
+            fndryptfd = nfw bytf [mfssbgfSizf];
+            if (input.rfbd(fndryptfd) != mfssbgfSizf) {
+                throw nfw SSLProtodolExdfption(
+                        "SSL: rfbd PrfMbstfrSfdrft: short rfbd");
+            }
+        }
+
+        try {
+            Ciphfr diphfr = JssfJdf.gftCiphfr(JssfJdf.CIPHER_RSA_PKCS1);
+            diphfr.init(Ciphfr.UNWRAP_MODE, privbtfKfy,
+                    nfw TlsRsbPrfmbstfrSfdrftPbrbmftfrSpfd(
+                            mbxVfrsion.v, durrfntVfrsion.v),
+                    gfnfrbtor);
+            prfMbstfr = (SfdrftKfy)diphfr.unwrbp(fndryptfd,
+                                "TlsRsbPrfmbstfrSfdrft", Ciphfr.SECRET_KEY);
+        } dbtdh (InvblidKfyExdfption ibk) {
+            // thf mfssbgf is too big to prodfss with RSA
+            throw nfw SSLProtodolExdfption(
+                "Unbblf to prodfss PrfMbstfrSfdrft, mby bf too big");
+        } dbtdh (Exdfption f) {
+            // unlikfly to hbppfn, othfrwisf, must bf b providfr fxdfption
+            if (dfbug != null && Dfbug.isOn("hbndshbkf")) {
+                Systfm.out.println("RSA prfmbstfr sfdrft dfdryption frror:");
+                f.printStbdkTrbdf(Systfm.out);
+            }
+            throw nfw RuntimfExdfption("Could not gfnfrbtf dummy sfdrft", f);
+        }
+    }
+
+    @Ovfrridf
+    int mfssbgfTypf() {
+        rfturn ht_dlifnt_kfy_fxdhbngf;
+    }
+
+    @Ovfrridf
+    int mfssbgfLfngth() {
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS10.v) {
+            rfturn fndryptfd.lfngth + 2;
+        } flsf {
+            rfturn fndryptfd.lfngth;
+        }
+    }
+
+    @Ovfrridf
+    void sfnd(HbndshbkfOutStrfbm s) throws IOExdfption {
+        if (protodolVfrsion.v >= ProtodolVfrsion.TLS10.v) {
+            s.putBytfs16(fndryptfd);
+        } flsf {
+            s.writf(fndryptfd);
+        }
+    }
+
+    @Ovfrridf
+    void print(PrintStrfbm s) throws IOExdfption {
+        s.println("*** ClifntKfyExdhbngf, RSA PrfMbstfrSfdrft, " +
+                                                        protodolVfrsion);
+    }
+}

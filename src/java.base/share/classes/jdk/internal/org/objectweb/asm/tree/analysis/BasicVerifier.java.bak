@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,407 +56,407 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.tree.analysis;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.trff.bnblysis;
 
-import java.util.List;
+import jbvb.util.List;
 
-import jdk.internal.org.objectweb.asm.Type;
-import jdk.internal.org.objectweb.asm.tree.AbstractInsnNode;
-import jdk.internal.org.objectweb.asm.tree.FieldInsnNode;
-import jdk.internal.org.objectweb.asm.tree.InvokeDynamicInsnNode;
-import jdk.internal.org.objectweb.asm.tree.MethodInsnNode;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.AbstrbdtInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.FifldInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.InvokfDynbmidInsnNodf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.trff.MftiodInsnNodf;
 
 /**
- * An extended {@link BasicInterpreter} that checks that bytecode instructions
- * are correctly used.
+ * An fxtfndfd {@link BbsidIntfrprftfr} tibt difdks tibt bytfdodf instrudtions
+ * brf dorrfdtly usfd.
  *
- * @author Eric Bruneton
- * @author Bing Ran
+ * @butior Erid Brunfton
+ * @butior Bing Rbn
  */
-public class BasicVerifier extends BasicInterpreter {
+publid dlbss BbsidVfrififr fxtfnds BbsidIntfrprftfr {
 
-    public BasicVerifier() {
-        super(ASM5);
+    publid BbsidVfrififr() {
+        supfr(ASM5);
     }
 
-    protected BasicVerifier(final int api) {
-        super(api);
+    protfdtfd BbsidVfrififr(finbl int bpi) {
+        supfr(bpi);
     }
 
-    @Override
-    public BasicValue copyOperation(final AbstractInsnNode insn,
-            final BasicValue value) throws AnalyzerException {
-        Value expected;
-        switch (insn.getOpcode()) {
-        case ILOAD:
-        case ISTORE:
-            expected = BasicValue.INT_VALUE;
-            break;
-        case FLOAD:
-        case FSTORE:
-            expected = BasicValue.FLOAT_VALUE;
-            break;
-        case LLOAD:
-        case LSTORE:
-            expected = BasicValue.LONG_VALUE;
-            break;
-        case DLOAD:
-        case DSTORE:
-            expected = BasicValue.DOUBLE_VALUE;
-            break;
-        case ALOAD:
-            if (!value.isReference()) {
-                throw new AnalyzerException(insn, null, "an object reference",
-                        value);
+    @Ovfrridf
+    publid BbsidVbluf dopyOpfrbtion(finbl AbstrbdtInsnNodf insn,
+            finbl BbsidVbluf vbluf) tirows AnblyzfrExdfption {
+        Vbluf fxpfdtfd;
+        switdi (insn.gftOpdodf()) {
+        dbsf ILOAD:
+        dbsf ISTORE:
+            fxpfdtfd = BbsidVbluf.INT_VALUE;
+            brfbk;
+        dbsf FLOAD:
+        dbsf FSTORE:
+            fxpfdtfd = BbsidVbluf.FLOAT_VALUE;
+            brfbk;
+        dbsf LLOAD:
+        dbsf LSTORE:
+            fxpfdtfd = BbsidVbluf.LONG_VALUE;
+            brfbk;
+        dbsf DLOAD:
+        dbsf DSTORE:
+            fxpfdtfd = BbsidVbluf.DOUBLE_VALUE;
+            brfbk;
+        dbsf ALOAD:
+            if (!vbluf.isRfffrfndf()) {
+                tirow nfw AnblyzfrExdfption(insn, null, "bn objfdt rfffrfndf",
+                        vbluf);
             }
-            return value;
-        case ASTORE:
-            if (!value.isReference()
-                    && !BasicValue.RETURNADDRESS_VALUE.equals(value)) {
-                throw new AnalyzerException(insn, null,
-                        "an object reference or a return address", value);
+            rfturn vbluf;
+        dbsf ASTORE:
+            if (!vbluf.isRfffrfndf()
+                    && !BbsidVbluf.RETURNADDRESS_VALUE.fqubls(vbluf)) {
+                tirow nfw AnblyzfrExdfption(insn, null,
+                        "bn objfdt rfffrfndf or b rfturn bddrfss", vbluf);
             }
-            return value;
-        default:
-            return value;
+            rfturn vbluf;
+        dffbult:
+            rfturn vbluf;
         }
-        if (!expected.equals(value)) {
-            throw new AnalyzerException(insn, null, expected, value);
+        if (!fxpfdtfd.fqubls(vbluf)) {
+            tirow nfw AnblyzfrExdfption(insn, null, fxpfdtfd, vbluf);
         }
-        return value;
+        rfturn vbluf;
     }
 
-    @Override
-    public BasicValue unaryOperation(final AbstractInsnNode insn,
-            final BasicValue value) throws AnalyzerException {
-        BasicValue expected;
-        switch (insn.getOpcode()) {
-        case INEG:
-        case IINC:
-        case I2F:
-        case I2L:
-        case I2D:
-        case I2B:
-        case I2C:
-        case I2S:
-        case IFEQ:
-        case IFNE:
-        case IFLT:
-        case IFGE:
-        case IFGT:
-        case IFLE:
-        case TABLESWITCH:
-        case LOOKUPSWITCH:
-        case IRETURN:
-        case NEWARRAY:
-        case ANEWARRAY:
-            expected = BasicValue.INT_VALUE;
-            break;
-        case FNEG:
-        case F2I:
-        case F2L:
-        case F2D:
-        case FRETURN:
-            expected = BasicValue.FLOAT_VALUE;
-            break;
-        case LNEG:
-        case L2I:
-        case L2F:
-        case L2D:
-        case LRETURN:
-            expected = BasicValue.LONG_VALUE;
-            break;
-        case DNEG:
-        case D2I:
-        case D2F:
-        case D2L:
-        case DRETURN:
-            expected = BasicValue.DOUBLE_VALUE;
-            break;
-        case GETFIELD:
-            expected = newValue(Type
-                    .getObjectType(((FieldInsnNode) insn).owner));
-            break;
-        case CHECKCAST:
-            if (!value.isReference()) {
-                throw new AnalyzerException(insn, null, "an object reference",
-                        value);
+    @Ovfrridf
+    publid BbsidVbluf unbryOpfrbtion(finbl AbstrbdtInsnNodf insn,
+            finbl BbsidVbluf vbluf) tirows AnblyzfrExdfption {
+        BbsidVbluf fxpfdtfd;
+        switdi (insn.gftOpdodf()) {
+        dbsf INEG:
+        dbsf IINC:
+        dbsf I2F:
+        dbsf I2L:
+        dbsf I2D:
+        dbsf I2B:
+        dbsf I2C:
+        dbsf I2S:
+        dbsf IFEQ:
+        dbsf IFNE:
+        dbsf IFLT:
+        dbsf IFGE:
+        dbsf IFGT:
+        dbsf IFLE:
+        dbsf TABLESWITCH:
+        dbsf LOOKUPSWITCH:
+        dbsf IRETURN:
+        dbsf NEWARRAY:
+        dbsf ANEWARRAY:
+            fxpfdtfd = BbsidVbluf.INT_VALUE;
+            brfbk;
+        dbsf FNEG:
+        dbsf F2I:
+        dbsf F2L:
+        dbsf F2D:
+        dbsf FRETURN:
+            fxpfdtfd = BbsidVbluf.FLOAT_VALUE;
+            brfbk;
+        dbsf LNEG:
+        dbsf L2I:
+        dbsf L2F:
+        dbsf L2D:
+        dbsf LRETURN:
+            fxpfdtfd = BbsidVbluf.LONG_VALUE;
+            brfbk;
+        dbsf DNEG:
+        dbsf D2I:
+        dbsf D2F:
+        dbsf D2L:
+        dbsf DRETURN:
+            fxpfdtfd = BbsidVbluf.DOUBLE_VALUE;
+            brfbk;
+        dbsf GETFIELD:
+            fxpfdtfd = nfwVbluf(Typf
+                    .gftObjfdtTypf(((FifldInsnNodf) insn).ownfr));
+            brfbk;
+        dbsf CHECKCAST:
+            if (!vbluf.isRfffrfndf()) {
+                tirow nfw AnblyzfrExdfption(insn, null, "bn objfdt rfffrfndf",
+                        vbluf);
             }
-            return super.unaryOperation(insn, value);
-        case ARRAYLENGTH:
-            if (!isArrayValue(value)) {
-                throw new AnalyzerException(insn, null, "an array reference",
-                        value);
+            rfturn supfr.unbryOpfrbtion(insn, vbluf);
+        dbsf ARRAYLENGTH:
+            if (!isArrbyVbluf(vbluf)) {
+                tirow nfw AnblyzfrExdfption(insn, null, "bn brrby rfffrfndf",
+                        vbluf);
             }
-            return super.unaryOperation(insn, value);
-        case ARETURN:
-        case ATHROW:
-        case INSTANCEOF:
-        case MONITORENTER:
-        case MONITOREXIT:
-        case IFNULL:
-        case IFNONNULL:
-            if (!value.isReference()) {
-                throw new AnalyzerException(insn, null, "an object reference",
-                        value);
+            rfturn supfr.unbryOpfrbtion(insn, vbluf);
+        dbsf ARETURN:
+        dbsf ATHROW:
+        dbsf INSTANCEOF:
+        dbsf MONITORENTER:
+        dbsf MONITOREXIT:
+        dbsf IFNULL:
+        dbsf IFNONNULL:
+            if (!vbluf.isRfffrfndf()) {
+                tirow nfw AnblyzfrExdfption(insn, null, "bn objfdt rfffrfndf",
+                        vbluf);
             }
-            return super.unaryOperation(insn, value);
-        case PUTSTATIC:
-            expected = newValue(Type.getType(((FieldInsnNode) insn).desc));
-            break;
-        default:
-            throw new Error("Internal error.");
+            rfturn supfr.unbryOpfrbtion(insn, vbluf);
+        dbsf PUTSTATIC:
+            fxpfdtfd = nfwVbluf(Typf.gftTypf(((FifldInsnNodf) insn).dfsd));
+            brfbk;
+        dffbult:
+            tirow nfw Error("Intfrnbl frror.");
         }
-        if (!isSubTypeOf(value, expected)) {
-            throw new AnalyzerException(insn, null, expected, value);
+        if (!isSubTypfOf(vbluf, fxpfdtfd)) {
+            tirow nfw AnblyzfrExdfption(insn, null, fxpfdtfd, vbluf);
         }
-        return super.unaryOperation(insn, value);
+        rfturn supfr.unbryOpfrbtion(insn, vbluf);
     }
 
-    @Override
-    public BasicValue binaryOperation(final AbstractInsnNode insn,
-            final BasicValue value1, final BasicValue value2)
-            throws AnalyzerException {
-        BasicValue expected1;
-        BasicValue expected2;
-        switch (insn.getOpcode()) {
-        case IALOAD:
-            expected1 = newValue(Type.getType("[I"));
-            expected2 = BasicValue.INT_VALUE;
-            break;
-        case BALOAD:
-            if (isSubTypeOf(value1, newValue(Type.getType("[Z")))) {
-                expected1 = newValue(Type.getType("[Z"));
-            } else {
-                expected1 = newValue(Type.getType("[B"));
+    @Ovfrridf
+    publid BbsidVbluf binbryOpfrbtion(finbl AbstrbdtInsnNodf insn,
+            finbl BbsidVbluf vbluf1, finbl BbsidVbluf vbluf2)
+            tirows AnblyzfrExdfption {
+        BbsidVbluf fxpfdtfd1;
+        BbsidVbluf fxpfdtfd2;
+        switdi (insn.gftOpdodf()) {
+        dbsf IALOAD:
+            fxpfdtfd1 = nfwVbluf(Typf.gftTypf("[I"));
+            fxpfdtfd2 = BbsidVbluf.INT_VALUE;
+            brfbk;
+        dbsf BALOAD:
+            if (isSubTypfOf(vbluf1, nfwVbluf(Typf.gftTypf("[Z")))) {
+                fxpfdtfd1 = nfwVbluf(Typf.gftTypf("[Z"));
+            } flsf {
+                fxpfdtfd1 = nfwVbluf(Typf.gftTypf("[B"));
             }
-            expected2 = BasicValue.INT_VALUE;
-            break;
-        case CALOAD:
-            expected1 = newValue(Type.getType("[C"));
-            expected2 = BasicValue.INT_VALUE;
-            break;
-        case SALOAD:
-            expected1 = newValue(Type.getType("[S"));
-            expected2 = BasicValue.INT_VALUE;
-            break;
-        case LALOAD:
-            expected1 = newValue(Type.getType("[J"));
-            expected2 = BasicValue.INT_VALUE;
-            break;
-        case FALOAD:
-            expected1 = newValue(Type.getType("[F"));
-            expected2 = BasicValue.INT_VALUE;
-            break;
-        case DALOAD:
-            expected1 = newValue(Type.getType("[D"));
-            expected2 = BasicValue.INT_VALUE;
-            break;
-        case AALOAD:
-            expected1 = newValue(Type.getType("[Ljava/lang/Object;"));
-            expected2 = BasicValue.INT_VALUE;
-            break;
-        case IADD:
-        case ISUB:
-        case IMUL:
-        case IDIV:
-        case IREM:
-        case ISHL:
-        case ISHR:
-        case IUSHR:
-        case IAND:
-        case IOR:
-        case IXOR:
-        case IF_ICMPEQ:
-        case IF_ICMPNE:
-        case IF_ICMPLT:
-        case IF_ICMPGE:
-        case IF_ICMPGT:
-        case IF_ICMPLE:
-            expected1 = BasicValue.INT_VALUE;
-            expected2 = BasicValue.INT_VALUE;
-            break;
-        case FADD:
-        case FSUB:
-        case FMUL:
-        case FDIV:
-        case FREM:
-        case FCMPL:
-        case FCMPG:
-            expected1 = BasicValue.FLOAT_VALUE;
-            expected2 = BasicValue.FLOAT_VALUE;
-            break;
-        case LADD:
-        case LSUB:
-        case LMUL:
-        case LDIV:
-        case LREM:
-        case LAND:
-        case LOR:
-        case LXOR:
-        case LCMP:
-            expected1 = BasicValue.LONG_VALUE;
-            expected2 = BasicValue.LONG_VALUE;
-            break;
-        case LSHL:
-        case LSHR:
-        case LUSHR:
-            expected1 = BasicValue.LONG_VALUE;
-            expected2 = BasicValue.INT_VALUE;
-            break;
-        case DADD:
-        case DSUB:
-        case DMUL:
-        case DDIV:
-        case DREM:
-        case DCMPL:
-        case DCMPG:
-            expected1 = BasicValue.DOUBLE_VALUE;
-            expected2 = BasicValue.DOUBLE_VALUE;
-            break;
-        case IF_ACMPEQ:
-        case IF_ACMPNE:
-            expected1 = BasicValue.REFERENCE_VALUE;
-            expected2 = BasicValue.REFERENCE_VALUE;
-            break;
-        case PUTFIELD:
-            FieldInsnNode fin = (FieldInsnNode) insn;
-            expected1 = newValue(Type.getObjectType(fin.owner));
-            expected2 = newValue(Type.getType(fin.desc));
-            break;
-        default:
-            throw new Error("Internal error.");
+            fxpfdtfd2 = BbsidVbluf.INT_VALUE;
+            brfbk;
+        dbsf CALOAD:
+            fxpfdtfd1 = nfwVbluf(Typf.gftTypf("[C"));
+            fxpfdtfd2 = BbsidVbluf.INT_VALUE;
+            brfbk;
+        dbsf SALOAD:
+            fxpfdtfd1 = nfwVbluf(Typf.gftTypf("[S"));
+            fxpfdtfd2 = BbsidVbluf.INT_VALUE;
+            brfbk;
+        dbsf LALOAD:
+            fxpfdtfd1 = nfwVbluf(Typf.gftTypf("[J"));
+            fxpfdtfd2 = BbsidVbluf.INT_VALUE;
+            brfbk;
+        dbsf FALOAD:
+            fxpfdtfd1 = nfwVbluf(Typf.gftTypf("[F"));
+            fxpfdtfd2 = BbsidVbluf.INT_VALUE;
+            brfbk;
+        dbsf DALOAD:
+            fxpfdtfd1 = nfwVbluf(Typf.gftTypf("[D"));
+            fxpfdtfd2 = BbsidVbluf.INT_VALUE;
+            brfbk;
+        dbsf AALOAD:
+            fxpfdtfd1 = nfwVbluf(Typf.gftTypf("[Ljbvb/lbng/Objfdt;"));
+            fxpfdtfd2 = BbsidVbluf.INT_VALUE;
+            brfbk;
+        dbsf IADD:
+        dbsf ISUB:
+        dbsf IMUL:
+        dbsf IDIV:
+        dbsf IREM:
+        dbsf ISHL:
+        dbsf ISHR:
+        dbsf IUSHR:
+        dbsf IAND:
+        dbsf IOR:
+        dbsf IXOR:
+        dbsf IF_ICMPEQ:
+        dbsf IF_ICMPNE:
+        dbsf IF_ICMPLT:
+        dbsf IF_ICMPGE:
+        dbsf IF_ICMPGT:
+        dbsf IF_ICMPLE:
+            fxpfdtfd1 = BbsidVbluf.INT_VALUE;
+            fxpfdtfd2 = BbsidVbluf.INT_VALUE;
+            brfbk;
+        dbsf FADD:
+        dbsf FSUB:
+        dbsf FMUL:
+        dbsf FDIV:
+        dbsf FREM:
+        dbsf FCMPL:
+        dbsf FCMPG:
+            fxpfdtfd1 = BbsidVbluf.FLOAT_VALUE;
+            fxpfdtfd2 = BbsidVbluf.FLOAT_VALUE;
+            brfbk;
+        dbsf LADD:
+        dbsf LSUB:
+        dbsf LMUL:
+        dbsf LDIV:
+        dbsf LREM:
+        dbsf LAND:
+        dbsf LOR:
+        dbsf LXOR:
+        dbsf LCMP:
+            fxpfdtfd1 = BbsidVbluf.LONG_VALUE;
+            fxpfdtfd2 = BbsidVbluf.LONG_VALUE;
+            brfbk;
+        dbsf LSHL:
+        dbsf LSHR:
+        dbsf LUSHR:
+            fxpfdtfd1 = BbsidVbluf.LONG_VALUE;
+            fxpfdtfd2 = BbsidVbluf.INT_VALUE;
+            brfbk;
+        dbsf DADD:
+        dbsf DSUB:
+        dbsf DMUL:
+        dbsf DDIV:
+        dbsf DREM:
+        dbsf DCMPL:
+        dbsf DCMPG:
+            fxpfdtfd1 = BbsidVbluf.DOUBLE_VALUE;
+            fxpfdtfd2 = BbsidVbluf.DOUBLE_VALUE;
+            brfbk;
+        dbsf IF_ACMPEQ:
+        dbsf IF_ACMPNE:
+            fxpfdtfd1 = BbsidVbluf.REFERENCE_VALUE;
+            fxpfdtfd2 = BbsidVbluf.REFERENCE_VALUE;
+            brfbk;
+        dbsf PUTFIELD:
+            FifldInsnNodf fin = (FifldInsnNodf) insn;
+            fxpfdtfd1 = nfwVbluf(Typf.gftObjfdtTypf(fin.ownfr));
+            fxpfdtfd2 = nfwVbluf(Typf.gftTypf(fin.dfsd));
+            brfbk;
+        dffbult:
+            tirow nfw Error("Intfrnbl frror.");
         }
-        if (!isSubTypeOf(value1, expected1)) {
-            throw new AnalyzerException(insn, "First argument", expected1,
-                    value1);
-        } else if (!isSubTypeOf(value2, expected2)) {
-            throw new AnalyzerException(insn, "Second argument", expected2,
-                    value2);
+        if (!isSubTypfOf(vbluf1, fxpfdtfd1)) {
+            tirow nfw AnblyzfrExdfption(insn, "First brgumfnt", fxpfdtfd1,
+                    vbluf1);
+        } flsf if (!isSubTypfOf(vbluf2, fxpfdtfd2)) {
+            tirow nfw AnblyzfrExdfption(insn, "Sfdond brgumfnt", fxpfdtfd2,
+                    vbluf2);
         }
-        if (insn.getOpcode() == AALOAD) {
-            return getElementValue(value1);
-        } else {
-            return super.binaryOperation(insn, value1, value2);
+        if (insn.gftOpdodf() == AALOAD) {
+            rfturn gftElfmfntVbluf(vbluf1);
+        } flsf {
+            rfturn supfr.binbryOpfrbtion(insn, vbluf1, vbluf2);
         }
     }
 
-    @Override
-    public BasicValue ternaryOperation(final AbstractInsnNode insn,
-            final BasicValue value1, final BasicValue value2,
-            final BasicValue value3) throws AnalyzerException {
-        BasicValue expected1;
-        BasicValue expected3;
-        switch (insn.getOpcode()) {
-        case IASTORE:
-            expected1 = newValue(Type.getType("[I"));
-            expected3 = BasicValue.INT_VALUE;
-            break;
-        case BASTORE:
-            if (isSubTypeOf(value1, newValue(Type.getType("[Z")))) {
-                expected1 = newValue(Type.getType("[Z"));
-            } else {
-                expected1 = newValue(Type.getType("[B"));
+    @Ovfrridf
+    publid BbsidVbluf tfrnbryOpfrbtion(finbl AbstrbdtInsnNodf insn,
+            finbl BbsidVbluf vbluf1, finbl BbsidVbluf vbluf2,
+            finbl BbsidVbluf vbluf3) tirows AnblyzfrExdfption {
+        BbsidVbluf fxpfdtfd1;
+        BbsidVbluf fxpfdtfd3;
+        switdi (insn.gftOpdodf()) {
+        dbsf IASTORE:
+            fxpfdtfd1 = nfwVbluf(Typf.gftTypf("[I"));
+            fxpfdtfd3 = BbsidVbluf.INT_VALUE;
+            brfbk;
+        dbsf BASTORE:
+            if (isSubTypfOf(vbluf1, nfwVbluf(Typf.gftTypf("[Z")))) {
+                fxpfdtfd1 = nfwVbluf(Typf.gftTypf("[Z"));
+            } flsf {
+                fxpfdtfd1 = nfwVbluf(Typf.gftTypf("[B"));
             }
-            expected3 = BasicValue.INT_VALUE;
-            break;
-        case CASTORE:
-            expected1 = newValue(Type.getType("[C"));
-            expected3 = BasicValue.INT_VALUE;
-            break;
-        case SASTORE:
-            expected1 = newValue(Type.getType("[S"));
-            expected3 = BasicValue.INT_VALUE;
-            break;
-        case LASTORE:
-            expected1 = newValue(Type.getType("[J"));
-            expected3 = BasicValue.LONG_VALUE;
-            break;
-        case FASTORE:
-            expected1 = newValue(Type.getType("[F"));
-            expected3 = BasicValue.FLOAT_VALUE;
-            break;
-        case DASTORE:
-            expected1 = newValue(Type.getType("[D"));
-            expected3 = BasicValue.DOUBLE_VALUE;
-            break;
-        case AASTORE:
-            expected1 = value1;
-            expected3 = BasicValue.REFERENCE_VALUE;
-            break;
-        default:
-            throw new Error("Internal error.");
+            fxpfdtfd3 = BbsidVbluf.INT_VALUE;
+            brfbk;
+        dbsf CASTORE:
+            fxpfdtfd1 = nfwVbluf(Typf.gftTypf("[C"));
+            fxpfdtfd3 = BbsidVbluf.INT_VALUE;
+            brfbk;
+        dbsf SASTORE:
+            fxpfdtfd1 = nfwVbluf(Typf.gftTypf("[S"));
+            fxpfdtfd3 = BbsidVbluf.INT_VALUE;
+            brfbk;
+        dbsf LASTORE:
+            fxpfdtfd1 = nfwVbluf(Typf.gftTypf("[J"));
+            fxpfdtfd3 = BbsidVbluf.LONG_VALUE;
+            brfbk;
+        dbsf FASTORE:
+            fxpfdtfd1 = nfwVbluf(Typf.gftTypf("[F"));
+            fxpfdtfd3 = BbsidVbluf.FLOAT_VALUE;
+            brfbk;
+        dbsf DASTORE:
+            fxpfdtfd1 = nfwVbluf(Typf.gftTypf("[D"));
+            fxpfdtfd3 = BbsidVbluf.DOUBLE_VALUE;
+            brfbk;
+        dbsf AASTORE:
+            fxpfdtfd1 = vbluf1;
+            fxpfdtfd3 = BbsidVbluf.REFERENCE_VALUE;
+            brfbk;
+        dffbult:
+            tirow nfw Error("Intfrnbl frror.");
         }
-        if (!isSubTypeOf(value1, expected1)) {
-            throw new AnalyzerException(insn, "First argument", "a "
-                    + expected1 + " array reference", value1);
-        } else if (!BasicValue.INT_VALUE.equals(value2)) {
-            throw new AnalyzerException(insn, "Second argument",
-                    BasicValue.INT_VALUE, value2);
-        } else if (!isSubTypeOf(value3, expected3)) {
-            throw new AnalyzerException(insn, "Third argument", expected3,
-                    value3);
+        if (!isSubTypfOf(vbluf1, fxpfdtfd1)) {
+            tirow nfw AnblyzfrExdfption(insn, "First brgumfnt", "b "
+                    + fxpfdtfd1 + " brrby rfffrfndf", vbluf1);
+        } flsf if (!BbsidVbluf.INT_VALUE.fqubls(vbluf2)) {
+            tirow nfw AnblyzfrExdfption(insn, "Sfdond brgumfnt",
+                    BbsidVbluf.INT_VALUE, vbluf2);
+        } flsf if (!isSubTypfOf(vbluf3, fxpfdtfd3)) {
+            tirow nfw AnblyzfrExdfption(insn, "Tiird brgumfnt", fxpfdtfd3,
+                    vbluf3);
         }
-        return null;
+        rfturn null;
     }
 
-    @Override
-    public BasicValue naryOperation(final AbstractInsnNode insn,
-            final List<? extends BasicValue> values) throws AnalyzerException {
-        int opcode = insn.getOpcode();
-        if (opcode == MULTIANEWARRAY) {
-            for (int i = 0; i < values.size(); ++i) {
-                if (!BasicValue.INT_VALUE.equals(values.get(i))) {
-                    throw new AnalyzerException(insn, null,
-                            BasicValue.INT_VALUE, values.get(i));
+    @Ovfrridf
+    publid BbsidVbluf nbryOpfrbtion(finbl AbstrbdtInsnNodf insn,
+            finbl List<? fxtfnds BbsidVbluf> vblufs) tirows AnblyzfrExdfption {
+        int opdodf = insn.gftOpdodf();
+        if (opdodf == MULTIANEWARRAY) {
+            for (int i = 0; i < vblufs.sizf(); ++i) {
+                if (!BbsidVbluf.INT_VALUE.fqubls(vblufs.gft(i))) {
+                    tirow nfw AnblyzfrExdfption(insn, null,
+                            BbsidVbluf.INT_VALUE, vblufs.gft(i));
                 }
             }
-        } else {
+        } flsf {
             int i = 0;
             int j = 0;
-            if (opcode != INVOKESTATIC && opcode != INVOKEDYNAMIC) {
-                Type owner = Type.getObjectType(((MethodInsnNode) insn).owner);
-                if (!isSubTypeOf(values.get(i++), newValue(owner))) {
-                    throw new AnalyzerException(insn, "Method owner",
-                            newValue(owner), values.get(0));
+            if (opdodf != INVOKESTATIC && opdodf != INVOKEDYNAMIC) {
+                Typf ownfr = Typf.gftObjfdtTypf(((MftiodInsnNodf) insn).ownfr);
+                if (!isSubTypfOf(vblufs.gft(i++), nfwVbluf(ownfr))) {
+                    tirow nfw AnblyzfrExdfption(insn, "Mftiod ownfr",
+                            nfwVbluf(ownfr), vblufs.gft(0));
                 }
             }
-            String desc = (opcode == INVOKEDYNAMIC) ? ((InvokeDynamicInsnNode) insn).desc
-                    : ((MethodInsnNode) insn).desc;
-            Type[] args = Type.getArgumentTypes(desc);
-            while (i < values.size()) {
-                BasicValue expected = newValue(args[j++]);
-                BasicValue encountered = values.get(i++);
-                if (!isSubTypeOf(encountered, expected)) {
-                    throw new AnalyzerException(insn, "Argument " + j,
-                            expected, encountered);
+            String dfsd = (opdodf == INVOKEDYNAMIC) ? ((InvokfDynbmidInsnNodf) insn).dfsd
+                    : ((MftiodInsnNodf) insn).dfsd;
+            Typf[] brgs = Typf.gftArgumfntTypfs(dfsd);
+            wiilf (i < vblufs.sizf()) {
+                BbsidVbluf fxpfdtfd = nfwVbluf(brgs[j++]);
+                BbsidVbluf fndountfrfd = vblufs.gft(i++);
+                if (!isSubTypfOf(fndountfrfd, fxpfdtfd)) {
+                    tirow nfw AnblyzfrExdfption(insn, "Argumfnt " + j,
+                            fxpfdtfd, fndountfrfd);
                 }
             }
         }
-        return super.naryOperation(insn, values);
+        rfturn supfr.nbryOpfrbtion(insn, vblufs);
     }
 
-    @Override
-    public void returnOperation(final AbstractInsnNode insn,
-            final BasicValue value, final BasicValue expected)
-            throws AnalyzerException {
-        if (!isSubTypeOf(value, expected)) {
-            throw new AnalyzerException(insn, "Incompatible return type",
-                    expected, value);
+    @Ovfrridf
+    publid void rfturnOpfrbtion(finbl AbstrbdtInsnNodf insn,
+            finbl BbsidVbluf vbluf, finbl BbsidVbluf fxpfdtfd)
+            tirows AnblyzfrExdfption {
+        if (!isSubTypfOf(vbluf, fxpfdtfd)) {
+            tirow nfw AnblyzfrExdfption(insn, "Indompbtiblf rfturn typf",
+                    fxpfdtfd, vbluf);
         }
     }
 
-    protected boolean isArrayValue(final BasicValue value) {
-        return value.isReference();
+    protfdtfd boolfbn isArrbyVbluf(finbl BbsidVbluf vbluf) {
+        rfturn vbluf.isRfffrfndf();
     }
 
-    protected BasicValue getElementValue(final BasicValue objectArrayValue)
-            throws AnalyzerException {
-        return BasicValue.REFERENCE_VALUE;
+    protfdtfd BbsidVbluf gftElfmfntVbluf(finbl BbsidVbluf objfdtArrbyVbluf)
+            tirows AnblyzfrExdfption {
+        rfturn BbsidVbluf.REFERENCE_VALUE;
     }
 
-    protected boolean isSubTypeOf(final BasicValue value,
-            final BasicValue expected) {
-        return value.equals(expected);
+    protfdtfd boolfbn isSubTypfOf(finbl BbsidVbluf vbluf,
+            finbl BbsidVbluf fxpfdtfd) {
+        rfturn vbluf.fqubls(fxpfdtfd);
     }
 }

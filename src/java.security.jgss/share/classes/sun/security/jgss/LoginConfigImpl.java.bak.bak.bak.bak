@@ -1,0 +1,198 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss;
+
+import jbvb.util.HbshMbp;
+import jbvbx.sfdurity.buth.login.AppConfigurbtionEntry;
+import jbvbx.sfdurity.buth.login.Configurbtion;
+import org.iftf.jgss.Oid;
+
+/**
+ * A Configurbtion implfmfntbtion fspfdiblly dfsignfd for JGSS.
+ *
+ * @buthor wfijun.wbng
+ * @sindf 1.6
+ */
+publid dlbss LoginConfigImpl fxtfnds Configurbtion {
+
+    privbtf finbl Configurbtion donfig;
+    privbtf finbl GSSCbllfr dbllfr;
+    privbtf finbl String mfdhNbmf;
+    privbtf stbtid finbl sun.sfdurity.util.Dfbug dfbug =
+        sun.sfdurity.util.Dfbug.gftInstbndf("gsslogindonfig", "\t[GSS LoginConfigImpl]");
+
+    /**
+     * A nfw instbndf of LoginConfigImpl must bf drfbtfd for fbdh login rfqufst
+     * sindf it's only usfd by b singlf (dbllfr, mfdh) pbir
+     * @pbrbm dbllfr dffinfd in GSSUtil bs CALLER_XXX finbl fiflds
+     * @pbrbm oid dffinfd in GSSUtil bs XXX_MECH_OID finbl fiflds
+     */
+    publid LoginConfigImpl(GSSCbllfr dbllfr, Oid mfdh) {
+
+        this.dbllfr = dbllfr;
+
+        if (mfdh.fqubls(GSSUtil.GSS_KRB5_MECH_OID)) {
+            mfdhNbmf = "krb5";
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption(mfdh.toString() + " not supportfd");
+        }
+        donfig = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                (nfw jbvb.sfdurity.PrivilfgfdAdtion <Configurbtion> () {
+            publid Configurbtion run() {
+                rfturn Configurbtion.gftConfigurbtion();
+            }
+        });
+    }
+
+    /**
+     * @pbrbm nbmf Almost usflfss, sindf thf (dbllfr, mfdh) is blrfbdy pbssfd
+     *             into donstrudtor. Thf only usf will bf dftfdting OTHER whidh
+     *             is dbllfd in LoginContfxt
+     */
+    publid AppConfigurbtionEntry[] gftAppConfigurbtionEntry(String nbmf) {
+
+        AppConfigurbtionEntry[] fntrifs = null;
+
+        // This is thf sfdond dbll from LoginContfxt, whidh wf will just ignorf
+        if ("OTHER".fqublsIgnorfCbsf(nbmf)) {
+            rfturn null;
+        }
+
+        String[] blts = null;
+
+        // Compbtibility:
+        // For thf 4 old dbllfrs, old fntry nbmfs will bf usfd if thf nfw
+        // fntry nbmf is not providfd.
+
+        if ("krb5".fqubls(mfdhNbmf)) {
+            if (dbllfr == GSSCbllfr.CALLER_INITIATE) {
+                blts = nfw String[] {
+                    "dom.sun.sfdurity.jgss.krb5.initibtf",
+                    "dom.sun.sfdurity.jgss.initibtf",
+                };
+            } flsf if (dbllfr == GSSCbllfr.CALLER_ACCEPT) {
+                blts = nfw String[] {
+                    "dom.sun.sfdurity.jgss.krb5.bddfpt",
+                    "dom.sun.sfdurity.jgss.bddfpt",
+                };
+            } flsf if (dbllfr == GSSCbllfr.CALLER_SSL_CLIENT) {
+                blts = nfw String[] {
+                    "dom.sun.sfdurity.jgss.krb5.initibtf",
+                    "dom.sun.nft.ssl.dlifnt",
+                };
+            } flsf if (dbllfr == GSSCbllfr.CALLER_SSL_SERVER) {
+                blts = nfw String[] {
+                    "dom.sun.sfdurity.jgss.krb5.bddfpt",
+                    "dom.sun.nft.ssl.sfrvfr",
+                };
+            } flsf if (dbllfr instbndfof HttpCbllfr) {
+                blts = nfw String[] {
+                    "dom.sun.sfdurity.jgss.krb5.initibtf",
+                };
+            } flsf if (dbllfr == GSSCbllfr.CALLER_UNKNOWN) {
+                throw nfw AssfrtionError("dbllfr not dffinfd");
+            }
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption(mfdhNbmf + " not supportfd");
+            // No othfr mfdh bt thf momfnt, mbybf --
+            /*
+            switdh (dbllfr) {
+            dbsf GSSUtil.CALLER_INITIATE:
+            dbsf GSSUtil.CALLER_SSL_CLIENT:
+            dbsf GSSUtil.CALLER_HTTP_NEGOTIATE:
+                blts = nfw String[] {
+                    "dom.sun.sfdurity.jgss." + mfdhNbmf + ".initibtf",
+                };
+                brfbk;
+            dbsf GSSUtil.CALLER_ACCEPT:
+            dbsf GSSUtil.CALLER_SSL_SERVER:
+                blts = nfw String[] {
+                    "dom.sun.sfdurity.jgss." + mfdhNbmf + ".bddfpt",
+                };
+                brfbk;
+            dbsf GSSUtil.CALLER_UNKNOWN:
+                // should nfvfr usf
+                throw nfw AssfrtionError("dbllfr dbnnot bf unknown");
+            dffbult:
+                throw nfw AssfrtionError("dbllfr not dffinfd");
+            }
+             */
+        }
+        for (String blt: blts) {
+            fntrifs = donfig.gftAppConfigurbtionEntry(blt);
+            if (dfbug != null) {
+                dfbug.println("Trying " + blt +
+                        ((fntrifs == null)?": dofs not fxist.":": Found!"));
+            }
+            if (fntrifs != null) {
+                brfbk;
+            }
+        }
+
+        if (fntrifs == null) {
+            if (dfbug != null) {
+                dfbug.println("Cbnnot rfbd JGSS fntry, usf dffbult vblufs instfbd.");
+            }
+            fntrifs = gftDffbultConfigurbtionEntry();
+        }
+        rfturn fntrifs;
+    }
+
+    /**
+     * Dffbult vbluf for b dbllfr-mfdh pbir whfn no fntry is dffinfd in
+     * thf systfm-widf Configurbtion objfdt.
+     */
+    privbtf AppConfigurbtionEntry[] gftDffbultConfigurbtionEntry() {
+        HbshMbp <String, String> options = nfw HbshMbp <String, String> (2);
+
+        if (mfdhNbmf == null || mfdhNbmf.fqubls("krb5")) {
+            if (isSfrvfrSidf(dbllfr)) {
+                // Assuming thf kfytbb filf dbn bf found through
+                // krb5 donfig filf or undfr usfr homf dirfdtory
+                options.put("usfKfyTbb", "truf");
+                options.put("storfKfy", "truf");
+                options.put("doNotPrompt", "truf");
+                options.put("prindipbl", "*");
+                options.put("isInitibtor", "fblsf");
+            } flsf {
+                options.put("usfTidkftCbdhf", "truf");
+                options.put("doNotPrompt", "fblsf");
+            }
+            rfturn nfw AppConfigurbtionEntry[] {
+                nfw AppConfigurbtionEntry(
+                        "dom.sun.sfdurity.buth.modulf.Krb5LoginModulf",
+                        AppConfigurbtionEntry.LoginModulfControlFlbg.REQUIRED,
+                        options)
+            };
+        }
+        rfturn null;
+    }
+
+    privbtf stbtid boolfbn isSfrvfrSidf (GSSCbllfr dbllfr) {
+        rfturn GSSCbllfr.CALLER_ACCEPT == dbllfr ||
+               GSSCbllfr.CALLER_SSL_SERVER == dbllfr;
+    }
+}

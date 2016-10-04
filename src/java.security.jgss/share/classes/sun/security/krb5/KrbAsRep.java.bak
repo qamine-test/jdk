@@ -1,184 +1,184 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5;
+pbdkbgf sun.sfdurity.krb5;
 
-import sun.security.krb5.internal.*;
-import sun.security.krb5.internal.crypto.KeyUsage;
-import sun.security.krb5.internal.crypto.EType;
-import sun.security.util.*;
-import java.io.IOException;
-import java.util.Objects;
-import javax.security.auth.kerberos.KeyTab;
-import sun.security.jgss.krb5.Krb5Util;
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.krb5.intfrnbl.drypto.KfyUsbgf;
+import sun.sfdurity.krb5.intfrnbl.drypto.ETypf;
+import sun.sfdurity.util.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.Objfdts;
+import jbvbx.sfdurity.buti.kfrbfros.KfyTbb;
+import sun.sfdurity.jgss.krb5.Krb5Util;
 
 /**
- * This class encapsulates a AS-REP message that the KDC sends to the
- * client.
+ * Tiis dlbss fndbpsulbtfs b AS-REP mfssbgf tibt tif KDC sfnds to tif
+ * dlifnt.
  */
-class KrbAsRep extends KrbKdcRep {
+dlbss KrbAsRfp fxtfnds KrbKddRfp {
 
-    private ASRep rep;  // The AS-REP message
-    private Credentials creds;  // The Credentials provide by the AS-REP
-                                // message, created by initiator after calling
-                                // the decrypt() method
+    privbtf ASRfp rfp;  // Tif AS-REP mfssbgf
+    privbtf Crfdfntibls drfds;  // Tif Crfdfntibls providf by tif AS-REP
+                                // mfssbgf, drfbtfd by initibtor bftfr dblling
+                                // tif dfdrypt() mftiod
 
-    private boolean DEBUG = Krb5.DEBUG;
+    privbtf boolfbn DEBUG = Krb5.DEBUG;
 
-    KrbAsRep(byte[] ibuf) throws
-            KrbException, Asn1Exception, IOException {
-        DerValue encoding = new DerValue(ibuf);
+    KrbAsRfp(bytf[] ibuf) tirows
+            KrbExdfption, Asn1Exdfption, IOExdfption {
+        DfrVbluf fndoding = nfw DfrVbluf(ibuf);
         try {
-            rep = new ASRep(encoding);
-        } catch (Asn1Exception e) {
-            rep = null;
-            KRBError err = new KRBError(encoding);
-            String errStr = err.getErrorString();
-            String eText = null; // pick up text sent by the server (if any)
+            rfp = nfw ASRfp(fndoding);
+        } dbtdi (Asn1Exdfption f) {
+            rfp = null;
+            KRBError frr = nfw KRBError(fndoding);
+            String frrStr = frr.gftErrorString();
+            String fTfxt = null; // pidk up tfxt sfnt by tif sfrvfr (if bny)
 
-            if (errStr != null && errStr.length() > 0) {
-                if (errStr.charAt(errStr.length() - 1) == 0)
-                    eText = errStr.substring(0, errStr.length() - 1);
-                else
-                    eText = errStr;
+            if (frrStr != null && frrStr.lfngti() > 0) {
+                if (frrStr.dibrAt(frrStr.lfngti() - 1) == 0)
+                    fTfxt = frrStr.substring(0, frrStr.lfngti() - 1);
+                flsf
+                    fTfxt = frrStr;
             }
-            KrbException ke;
-            if (eText == null) {
-                // no text sent from server
-                ke = new KrbException(err);
-            } else {
+            KrbExdfption kf;
+            if (fTfxt == null) {
+                // no tfxt sfnt from sfrvfr
+                kf = nfw KrbExdfption(frr);
+            } flsf {
                 if (DEBUG) {
-                    System.out.println("KRBError received: " + eText);
+                    Systfm.out.println("KRBError rfdfivfd: " + fTfxt);
                 }
-                // override default text with server text
-                ke = new KrbException(err, eText);
+                // ovfrridf dffbult tfxt witi sfrvfr tfxt
+                kf = nfw KrbExdfption(frr, fTfxt);
             }
-            ke.initCause(e);
-            throw ke;
+            kf.initCbusf(f);
+            tirow kf;
         }
     }
 
-    // KrbAsReqBuilder need to read back the PA for key generation
-    PAData[] getPA() {
-        return rep.pAData;
+    // KrbAsRfqBuildfr nffd to rfbd bbdk tif PA for kfy gfnfrbtion
+    PADbtb[] gftPA() {
+        rfturn rfp.pADbtb;
     }
 
     /**
-     * Called by KrbAsReqBuilder to resolve a AS-REP message using a keytab.
-     * @param ktab the keytab, not null
-     * @param asReq the original AS-REQ sent, used to validate AS-REP
-     * @param cname the user principal name, used to locate keys in ktab
+     * Cbllfd by KrbAsRfqBuildfr to rfsolvf b AS-REP mfssbgf using b kfytbb.
+     * @pbrbm ktbb tif kfytbb, not null
+     * @pbrbm bsRfq tif originbl AS-REQ sfnt, usfd to vblidbtf AS-REP
+     * @pbrbm dnbmf tif usfr prindipbl nbmf, usfd to lodbtf kfys in ktbb
      */
-    void decryptUsingKeyTab(KeyTab ktab, KrbAsReq asReq, PrincipalName cname)
-            throws KrbException, Asn1Exception, IOException {
-        EncryptionKey dkey = null;
-        int encPartKeyType = rep.encPart.getEType();
-        Integer encPartKvno = rep.encPart.kvno;
+    void dfdryptUsingKfyTbb(KfyTbb ktbb, KrbAsRfq bsRfq, PrindipblNbmf dnbmf)
+            tirows KrbExdfption, Asn1Exdfption, IOExdfption {
+        EndryptionKfy dkfy = null;
+        int fndPbrtKfyTypf = rfp.fndPbrt.gftETypf();
+        Intfgfr fndPbrtKvno = rfp.fndPbrt.kvno;
             try {
-                dkey = EncryptionKey.findKey(encPartKeyType, encPartKvno,
-                        Krb5Util.keysFromJavaxKeyTab(ktab, cname));
-            } catch (KrbException ke) {
-                if (ke.returnCode() == Krb5.KRB_AP_ERR_BADKEYVER) {
-                    // Fallback to no kvno. In some cases, keytab is generated
-                    // not by sysadmin but Java's ktab command
-                    dkey = EncryptionKey.findKey(encPartKeyType,
-                            Krb5Util.keysFromJavaxKeyTab(ktab, cname));
+                dkfy = EndryptionKfy.findKfy(fndPbrtKfyTypf, fndPbrtKvno,
+                        Krb5Util.kfysFromJbvbxKfyTbb(ktbb, dnbmf));
+            } dbtdi (KrbExdfption kf) {
+                if (kf.rfturnCodf() == Krb5.KRB_AP_ERR_BADKEYVER) {
+                    // Fbllbbdk to no kvno. In somf dbsfs, kfytbb is gfnfrbtfd
+                    // not by sysbdmin but Jbvb's ktbb dommbnd
+                    dkfy = EndryptionKfy.findKfy(fndPbrtKfyTypf,
+                            Krb5Util.kfysFromJbvbxKfyTbb(ktbb, dnbmf));
                 }
             }
-            if (dkey == null) {
-                throw new KrbException(Krb5.API_INVALID_ARG,
-                    "Cannot find key for type/kvno to decrypt AS REP - " +
-                    EType.toString(encPartKeyType) + "/" + encPartKvno);
+            if (dkfy == null) {
+                tirow nfw KrbExdfption(Krb5.API_INVALID_ARG,
+                    "Cbnnot find kfy for typf/kvno to dfdrypt AS REP - " +
+                    ETypf.toString(fndPbrtKfyTypf) + "/" + fndPbrtKvno);
             }
-        decrypt(dkey, asReq);
+        dfdrypt(dkfy, bsRfq);
     }
 
     /**
-     * Called by KrbAsReqBuilder to resolve a AS-REP message using a password.
-     * @param password user provided password. not null
-     * @param asReq the original AS-REQ sent, used to validate AS-REP
-     * @param cname the user principal name, used to provide salt
+     * Cbllfd by KrbAsRfqBuildfr to rfsolvf b AS-REP mfssbgf using b pbssword.
+     * @pbrbm pbssword usfr providfd pbssword. not null
+     * @pbrbm bsRfq tif originbl AS-REQ sfnt, usfd to vblidbtf AS-REP
+     * @pbrbm dnbmf tif usfr prindipbl nbmf, usfd to providf sblt
      */
-    void decryptUsingPassword(char[] password,
-            KrbAsReq asReq, PrincipalName cname)
-            throws KrbException, Asn1Exception, IOException {
-        int encPartKeyType = rep.encPart.getEType();
-        EncryptionKey dkey = EncryptionKey.acquireSecretKey(
-                cname,
-                password,
-                encPartKeyType,
-                PAData.getSaltAndParams(encPartKeyType, rep.pAData));
-        decrypt(dkey, asReq);
+    void dfdryptUsingPbssword(dibr[] pbssword,
+            KrbAsRfq bsRfq, PrindipblNbmf dnbmf)
+            tirows KrbExdfption, Asn1Exdfption, IOExdfption {
+        int fndPbrtKfyTypf = rfp.fndPbrt.gftETypf();
+        EndryptionKfy dkfy = EndryptionKfy.bdquirfSfdrftKfy(
+                dnbmf,
+                pbssword,
+                fndPbrtKfyTypf,
+                PADbtb.gftSbltAndPbrbms(fndPbrtKfyTypf, rfp.pADbtb));
+        dfdrypt(dkfy, bsRfq);
     }
 
     /**
-     * Decrypts encrypted content inside AS-REP. Called by initiator.
-     * @param dkey the decryption key to use
-     * @param asReq the original AS-REQ sent, used to validate AS-REP
+     * Dfdrypts fndryptfd dontfnt insidf AS-REP. Cbllfd by initibtor.
+     * @pbrbm dkfy tif dfdryption kfy to usf
+     * @pbrbm bsRfq tif originbl AS-REQ sfnt, usfd to vblidbtf AS-REP
      */
-    private void decrypt(EncryptionKey dkey, KrbAsReq asReq)
-            throws KrbException, Asn1Exception, IOException {
-        byte[] enc_as_rep_bytes = rep.encPart.decrypt(dkey,
-            KeyUsage.KU_ENC_AS_REP_PART);
-        byte[] enc_as_rep_part = rep.encPart.reset(enc_as_rep_bytes);
+    privbtf void dfdrypt(EndryptionKfy dkfy, KrbAsRfq bsRfq)
+            tirows KrbExdfption, Asn1Exdfption, IOExdfption {
+        bytf[] fnd_bs_rfp_bytfs = rfp.fndPbrt.dfdrypt(dkfy,
+            KfyUsbgf.KU_ENC_AS_REP_PART);
+        bytf[] fnd_bs_rfp_pbrt = rfp.fndPbrt.rfsft(fnd_bs_rfp_bytfs);
 
-        DerValue encoding = new DerValue(enc_as_rep_part);
-        EncASRepPart enc_part = new EncASRepPart(encoding);
-        rep.encKDCRepPart = enc_part;
+        DfrVbluf fndoding = nfw DfrVbluf(fnd_bs_rfp_pbrt);
+        EndASRfpPbrt fnd_pbrt = nfw EndASRfpPbrt(fndoding);
+        rfp.fndKDCRfpPbrt = fnd_pbrt;
 
-        ASReq req = asReq.getMessage();
-        check(true, req, rep);
+        ASRfq rfq = bsRfq.gftMfssbgf();
+        difdk(truf, rfq, rfp);
 
-        creds = new Credentials(
-                                rep.ticket,
-                                req.reqBody.cname,
-                                rep.ticket.sname,
-                                enc_part.key,
-                                enc_part.flags,
-                                enc_part.authtime,
-                                enc_part.starttime,
-                                enc_part.endtime,
-                                enc_part.renewTill,
-                                enc_part.caddr);
+        drfds = nfw Crfdfntibls(
+                                rfp.tidkft,
+                                rfq.rfqBody.dnbmf,
+                                rfp.tidkft.snbmf,
+                                fnd_pbrt.kfy,
+                                fnd_pbrt.flbgs,
+                                fnd_pbrt.butitimf,
+                                fnd_pbrt.stbrttimf,
+                                fnd_pbrt.fndtimf,
+                                fnd_pbrt.rfnfwTill,
+                                fnd_pbrt.dbddr);
         if (DEBUG) {
-            System.out.println(">>> KrbAsRep cons in KrbAsReq.getReply " +
-                               req.reqBody.cname.getNameString());
+            Systfm.out.println(">>> KrbAsRfp dons in KrbAsRfq.gftRfply " +
+                               rfq.rfqBody.dnbmf.gftNbmfString());
         }
     }
 
-    Credentials getCreds() {
-        return Objects.requireNonNull(creds, "Creds not available yet.");
+    Crfdfntibls gftCrfds() {
+        rfturn Objfdts.rfquirfNonNull(drfds, "Crfds not bvbilbblf yft.");
     }
 
-    sun.security.krb5.internal.ccache.Credentials getCCreds() {
-        return new sun.security.krb5.internal.ccache.Credentials(rep);
+    sun.sfdurity.krb5.intfrnbl.ddbdif.Crfdfntibls gftCCrfds() {
+        rfturn nfw sun.sfdurity.krb5.intfrnbl.ddbdif.Crfdfntibls(rfp);
     }
 }

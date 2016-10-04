@@ -1,0 +1,898 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio.mftbdbtb;
+
+import org.w3d.dom.Nodf;
+import jbvb.lbng.rfflfdt.Mfthod;
+
+/**
+ * An bbstrbdt dlbss to bf fxtfndfd by objfdts thbt rfprfsfnt mftbdbtb
+ * (non-imbgf dbtb) bssodibtfd with imbgfs bnd strfbms.  Plug-ins
+ * rfprfsfnt mftbdbtb using opbquf, plug-in spfdifid objfdts.  Thfsf
+ * objfdts, howfvfr, providf thf bbility to bddfss thfir intfrnbl
+ * informbtion bs b trff of <dodf>IIOMftbdbtbNodf</dodf> objfdts thbt
+ * support thf XML DOM intfrfbdfs bs wfll bs bdditionbl intfrfbdfs for
+ * storing non-tfxtubl dbtb bnd rftrifving informbtion bbout lfgbl
+ * dbtb vblufs.  Thf formbt of sudh trffs is plug-in dfpfndfnt, but
+ * plug-ins mby dhoosf to support b plug-in nfutrbl formbt dfsdribfd
+ * bflow.  A singlf plug-in mby support multiplf mftbdbtb formbts,
+ * whosf nbmfs mbybf dftfrminfd by dblling
+ * <dodf>gftMftbdbtbFormbtNbmfs</dodf>.  Thf plug-in mby blso support
+ * b singlf spfdibl formbt, rfffrrfd to bs thf "nbtivf" formbt, whidh
+ * is dfsignfd to fndodf its mftbdbtb losslfssly.  This formbt will
+ * typidblly bf dfsignfd spfdifidblly to work with b spfdifid filf
+ * formbt, so thbt imbgfs mby bf lobdfd bnd sbvfd in thf sbmf formbt
+ * with no loss of mftbdbtb, but mby bf lfss usfful for trbnsffrring
+ * mftbdbtb bftwffn bn <dodf>ImbgfRfbdfr</dodf> bnd bn
+ * <dodf>ImbgfWritfr</dodf> for difffrfnt imbgf formbts.  To donvfrt
+ * bftwffn two nbtivf formbts bs losslfssly bs thf imbgf filf formbts
+ * will bllow, bn <dodf>ImbgfTrbnsdodfr</dodf> objfdt must bf usfd.
+ *
+ * @sff jbvbx.imbgfio.ImbgfRfbdfr#gftImbgfMftbdbtb
+ * @sff jbvbx.imbgfio.ImbgfRfbdfr#gftStrfbmMftbdbtb
+ * @sff jbvbx.imbgfio.ImbgfRfbdfr#rfbdAll
+ * @sff jbvbx.imbgfio.ImbgfWritfr#gftDffbultStrfbmMftbdbtb
+ * @sff jbvbx.imbgfio.ImbgfWritfr#gftDffbultImbgfMftbdbtb
+ * @sff jbvbx.imbgfio.ImbgfWritfr#writf
+ * @sff jbvbx.imbgfio.ImbgfWritfr#donvfrtImbgfMftbdbtb
+ * @sff jbvbx.imbgfio.ImbgfWritfr#donvfrtStrfbmMftbdbtb
+ * @sff jbvbx.imbgfio.IIOImbgf
+ * @sff jbvbx.imbgfio.ImbgfTrbnsdodfr
+ *
+ */
+publid bbstrbdt dlbss IIOMftbdbtb {
+
+    /**
+     * A boolfbn indidbting whfthfr thf dondrftf subdlbss supports thf
+     * stbndbrd mftbdbtb formbt, sft vib thf donstrudtor.
+     */
+    protfdtfd boolfbn stbndbrdFormbtSupportfd;
+
+    /**
+     * Thf nbmf of thf nbtivf mftbdbtb formbt for this objfdt,
+     * initiblizfd to <dodf>null</dodf> bnd sft vib thf donstrudtor.
+     */
+    protfdtfd String nbtivfMftbdbtbFormbtNbmf = null;
+
+    /**
+     * Thf nbmf of thf dlbss implfmfnting <dodf>IIOMftbdbtbFormbt</dodf>
+     * bnd rfprfsfnting thf nbtivf mftbdbtb formbt, initiblizfd to
+     * <dodf>null</dodf> bnd sft vib thf donstrudtor.
+     */
+    protfdtfd String nbtivfMftbdbtbFormbtClbssNbmf = null;
+
+    /**
+     * An brrby of nbmfs of formbts, othfr thbn thf stbndbrd bnd
+     * nbtivf formbts, thbt brf supportfd by this plug-in,
+     * initiblizfd to <dodf>null</dodf> bnd sft vib thf donstrudtor.
+     */
+    protfdtfd String[] fxtrbMftbdbtbFormbtNbmfs = null;
+
+    /**
+     * An brrby of nbmfs of dlbssfs implfmfnting <dodf>IIOMftbdbtbFormbt</dodf>
+     * bnd rfprfsfnting thf mftbdbtb formbts, othfr thbn thf stbndbrd bnd
+     * nbtivf formbts, thbt brf supportfd by this plug-in,
+     * initiblizfd to <dodf>null</dodf> bnd sft vib thf donstrudtor.
+     */
+    protfdtfd String[] fxtrbMftbdbtbFormbtClbssNbmfs = null;
+
+    /**
+     * An <dodf>IIOMftbdbtbControllfr</dodf> thbt is suggfstfd for usf
+     * bs thf dontrollfr for this <dodf>IIOMftbdbtb</dodf> objfdt.  It
+     * mby bf rftrifvfd vib <dodf>gftDffbultControllfr</dodf>.  To
+     * instbll thf dffbult dontrollfr, dbll
+     * <dodf>sftControllfr(gftDffbultControllfr())</dodf>.  This
+     * instbndf vbribblf should bf sft by subdlbssfs thbt dhoosf to
+     * providf thfir own dffbult dontrollfr, usublly b GUI, for
+     * sftting pbrbmftfrs.
+     *
+     * @sff IIOMftbdbtbControllfr
+     * @sff #gftDffbultControllfr
+     */
+    protfdtfd IIOMftbdbtbControllfr dffbultControllfr = null;
+
+    /**
+     * Thf <dodf>IIOMftbdbtbControllfr</dodf> thbt will bf
+     * usfd to providf sfttings for this <dodf>IIOMftbdbtb</dodf>
+     * objfdt whfn thf <dodf>bdtivbtfControllfr</dodf> mfthod
+     * is dbllfd.  This vbluf ovfrridfs bny dffbult dontrollfr,
+     * fvfn whfn <dodf>null</dodf>.
+     *
+     * @sff IIOMftbdbtbControllfr
+     * @sff #sftControllfr(IIOMftbdbtbControllfr)
+     * @sff #hbsControllfr()
+     * @sff #bdtivbtfControllfr()
+     */
+    protfdtfd IIOMftbdbtbControllfr dontrollfr = null;
+
+    /**
+     * Construdts bn fmpty <dodf>IIOMftbdbtb</dodf> objfdt.  Thf
+     * subdlbss is rfsponsiblf for supplying vblufs for bll protfdtfd
+     * instbndf vbribblfs thbt will bllow bny non-ovfrriddfn dffbult
+     * implfmfntbtions of mfthods to sbtisfy thfir dontrbdts.  For fxbmplf,
+     * <dodf>fxtrbMftbdbtbFormbtNbmfs</dodf> should not hbvf lfngth 0.
+     */
+    protfdtfd IIOMftbdbtb() {}
+
+    /**
+     * Construdts bn <dodf>IIOMftbdbtb</dodf> objfdt with thf givfn
+     * formbt nbmfs bnd formbt dlbss nbmfs, bs wfll bs b boolfbn
+     * indidbting whfthfr thf stbndbrd formbt is supportfd.
+     *
+     * <p> This donstrudtor dofs not bttfmpt to dhfdk thf dlbss nbmfs
+     * for vblidity.  Invblid dlbss nbmfs mby dbusf fxdfptions in
+     * subsfqufnt dblls to <dodf>gftMftbdbtbFormbt</dodf>.
+     *
+     * @pbrbm stbndbrdMftbdbtbFormbtSupportfd <dodf>truf</dodf> if
+     * this objfdt dbn rfturn or bddfpt b DOM trff using thf stbndbrd
+     * mftbdbtb formbt.
+     * @pbrbm nbtivfMftbdbtbFormbtNbmf thf nbmf of thf nbtivf mftbdbtb
+     * formbt, bs b <dodf>String</dodf>, or <dodf>null</dodf> if thfrf
+     * is no nbtivf formbt.
+     * @pbrbm nbtivfMftbdbtbFormbtClbssNbmf thf nbmf of thf dlbss of
+     * thf nbtivf mftbdbtb formbt, or <dodf>null</dodf> if thfrf is
+     * no nbtivf formbt.
+     * @pbrbm fxtrbMftbdbtbFormbtNbmfs bn brrby of <dodf>String</dodf>s
+     * indidbting bdditionbl formbts supportfd by this objfdt, or
+     * <dodf>null</dodf> if thfrf brf nonf.
+     * @pbrbm fxtrbMftbdbtbFormbtClbssNbmfs bn brrby of <dodf>String</dodf>s
+     * indidbting thf dlbss nbmfs of bny bdditionbl formbts supportfd by
+     * this objfdt, or <dodf>null</dodf> if thfrf brf nonf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>fxtrbMftbdbtbFormbtNbmfs</dodf> hbs lfngth 0.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>fxtrbMftbdbtbFormbtNbmfs</dodf> bnd
+     * <dodf>fxtrbMftbdbtbFormbtClbssNbmfs</dodf> brf nfithfr both
+     * <dodf>null</dodf>, nor of thf sbmf lfngth.
+     */
+    protfdtfd IIOMftbdbtb(boolfbn stbndbrdMftbdbtbFormbtSupportfd,
+                          String nbtivfMftbdbtbFormbtNbmf,
+                          String nbtivfMftbdbtbFormbtClbssNbmf,
+                          String[] fxtrbMftbdbtbFormbtNbmfs,
+                          String[] fxtrbMftbdbtbFormbtClbssNbmfs) {
+        this.stbndbrdFormbtSupportfd = stbndbrdMftbdbtbFormbtSupportfd;
+        this.nbtivfMftbdbtbFormbtNbmf = nbtivfMftbdbtbFormbtNbmf;
+        this.nbtivfMftbdbtbFormbtClbssNbmf = nbtivfMftbdbtbFormbtClbssNbmf;
+        if (fxtrbMftbdbtbFormbtNbmfs != null) {
+            if (fxtrbMftbdbtbFormbtNbmfs.lfngth == 0) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("fxtrbMftbdbtbFormbtNbmfs.lfngth == 0!");
+            }
+            if (fxtrbMftbdbtbFormbtClbssNbmfs == null) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("fxtrbMftbdbtbFormbtNbmfs != null && fxtrbMftbdbtbFormbtClbssNbmfs == null!");
+            }
+            if (fxtrbMftbdbtbFormbtClbssNbmfs.lfngth !=
+                fxtrbMftbdbtbFormbtNbmfs.lfngth) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("fxtrbMftbdbtbFormbtClbssNbmfs.lfngth != fxtrbMftbdbtbFormbtNbmfs.lfngth!");
+            }
+            this.fxtrbMftbdbtbFormbtNbmfs = fxtrbMftbdbtbFormbtNbmfs.dlonf();
+            this.fxtrbMftbdbtbFormbtClbssNbmfs = fxtrbMftbdbtbFormbtClbssNbmfs.dlonf();
+        } flsf {
+            if (fxtrbMftbdbtbFormbtClbssNbmfs != null) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("fxtrbMftbdbtbFormbtNbmfs == null && fxtrbMftbdbtbFormbtClbssNbmfs != null!");
+            }
+        }
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf stbndbrd mftbdbtb formbt is
+     * supportfd by <dodf>gftMftbdbtbFormbt</dodf>,
+     * <dodf>gftAsTrff</dodf>, <dodf>sftFromTrff</dodf>, bnd
+     * <dodf>mfrgfTrff</dodf>.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns thf vbluf of thf
+     * <dodf>stbndbrdFormbtSupportfd</dodf> instbndf vbribblf.
+     *
+     * @rfturn <dodf>truf</dodf> if thf stbndbrd mftbdbtb formbt
+     * is supportfd.
+     *
+     * @sff #gftAsTrff
+     * @sff #sftFromTrff
+     * @sff #mfrgfTrff
+     * @sff #gftMftbdbtbFormbt
+     */
+    publid boolfbn isStbndbrdMftbdbtbFormbtSupportfd() {
+        rfturn stbndbrdFormbtSupportfd;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if this objfdt dofs not support thf
+     * <dodf>mfrgfTrff</dodf>, <dodf>sftFromTrff</dodf>, bnd
+     * <dodf>rfsft</dodf> mfthods.
+     *
+     * @rfturn truf if this <dodf>IIOMftbdbtb</dodf> objfdt dbnnot bf
+     * modififd.
+     */
+    publid bbstrbdt boolfbn isRfbdOnly();
+
+    /**
+     * Rfturns thf nbmf of thf "nbtivf" mftbdbtb formbt for this
+     * plug-in, whidh typidblly bllows for losslfss fndoding bnd
+     * trbnsmission of thf mftbdbtb storfd in thf formbt hbndlfd by
+     * this plug-in.  If no sudh formbt is supportfd,
+     * <dodf>null</dodf>will bf rfturnfd.
+     *
+     * <p> Thf strudturf bnd dontfnts of thf "nbtivf" mftbdbtb formbt
+     * brf dffinfd by thf plug-in thbt drfbtfd this
+     * <dodf>IIOMftbdbtb</dodf> objfdt.  Plug-ins for simplf formbts
+     * will usublly drfbtf b dummy nodf for thf root, bnd thfn b
+     * sfrifs of dhild nodfs rfprfsfnting individubl tbgs, dhunks, or
+     * kfyword/vbluf pbirs.  A plug-in mby dhoosf whfthfr or not to
+     * dodumfnt its nbtivf formbt.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns thf vbluf of thf
+     * <dodf>nbtivfMftbdbtbFormbtNbmf</dodf> instbndf vbribblf.
+     *
+     * @rfturn thf nbmf of thf nbtivf formbt, or <dodf>null</dodf>.
+     *
+     * @sff #gftExtrbMftbdbtbFormbtNbmfs
+     * @sff #gftMftbdbtbFormbtNbmfs
+     */
+    publid String gftNbtivfMftbdbtbFormbtNbmf() {
+        rfturn nbtivfMftbdbtbFormbtNbmf;
+    }
+
+    /**
+     * Rfturns bn brrby of <dodf>String</dodf>s dontbining thf nbmfs
+     * of bdditionbl mftbdbtb formbts, othfr thbn thf nbtivf bnd stbndbrd
+     * formbts, rfdognizfd by this plug-in's
+     * <dodf>gftAsTrff</dodf>, <dodf>sftFromTrff</dodf>, bnd
+     * <dodf>mfrgfTrff</dodf> mfthods.  If thfrf brf no sudh bdditionbl
+     * formbts, <dodf>null</dodf> is rfturnfd.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns b dlonf of thf
+     * <dodf>fxtrbMftbdbtbFormbtNbmfs</dodf> instbndf vbribblf.
+     *
+     * @rfturn bn brrby of <dodf>String</dodf>s with lfngth bt lfbst
+     * 1, or <dodf>null</dodf>.
+     *
+     * @sff #gftAsTrff
+     * @sff #sftFromTrff
+     * @sff #mfrgfTrff
+     * @sff #gftNbtivfMftbdbtbFormbtNbmf
+     * @sff #gftMftbdbtbFormbtNbmfs
+     */
+    publid String[] gftExtrbMftbdbtbFormbtNbmfs() {
+        if (fxtrbMftbdbtbFormbtNbmfs == null) {
+            rfturn null;
+        }
+        rfturn fxtrbMftbdbtbFormbtNbmfs.dlonf();
+    }
+
+    /**
+     * Rfturns bn brrby of <dodf>String</dodf>s dontbining thf nbmfs
+     * of bll mftbdbtb formbts, indluding thf nbtivf bnd stbndbrd
+     * formbts, rfdognizfd by this plug-in's <dodf>gftAsTrff</dodf>,
+     * <dodf>sftFromTrff</dodf>, bnd <dodf>mfrgfTrff</dodf> mfthods.
+     * If thfrf brf no sudh formbts, <dodf>null</dodf> is rfturnfd.
+     *
+     * <p> Thf dffbult implfmfntbtion dblls
+     * <dodf>gftNbtivfMftbdbtbFormbtNbmf</dodf>,
+     * <dodf>isStbndbrdMftbdbtbFormbtSupportfd</dodf>, bnd
+     * <dodf>gftExtrbMftbdbtbFormbtNbmfs</dodf> bnd rfturns thf
+     * dombinfd rfsults.
+     *
+     * @rfturn bn brrby of <dodf>String</dodf>s.
+     *
+     * @sff #gftNbtivfMftbdbtbFormbtNbmf
+     * @sff #isStbndbrdMftbdbtbFormbtSupportfd
+     * @sff #gftExtrbMftbdbtbFormbtNbmfs
+     */
+    publid String[] gftMftbdbtbFormbtNbmfs() {
+        String nbtivfNbmf = gftNbtivfMftbdbtbFormbtNbmf();
+        String stbndbrdNbmf = isStbndbrdMftbdbtbFormbtSupportfd() ?
+            IIOMftbdbtbFormbtImpl.stbndbrdMftbdbtbFormbtNbmf : null;
+        String[] fxtrbNbmfs = gftExtrbMftbdbtbFormbtNbmfs();
+
+        int numFormbts = 0;
+        if (nbtivfNbmf != null) {
+            ++numFormbts;
+        }
+        if (stbndbrdNbmf != null) {
+            ++numFormbts;
+        }
+        if (fxtrbNbmfs != null) {
+            numFormbts += fxtrbNbmfs.lfngth;
+        }
+        if (numFormbts == 0) {
+            rfturn null;
+        }
+
+        String[] formbts = nfw String[numFormbts];
+        int indfx = 0;
+        if (nbtivfNbmf != null) {
+            formbts[indfx++] = nbtivfNbmf;
+        }
+        if (stbndbrdNbmf != null) {
+            formbts[indfx++] = stbndbrdNbmf;
+        }
+        if (fxtrbNbmfs != null) {
+            for (int i = 0; i < fxtrbNbmfs.lfngth; i++) {
+                formbts[indfx++] = fxtrbNbmfs[i];
+            }
+        }
+
+        rfturn formbts;
+    }
+
+    /**
+     * Rfturns bn <dodf>IIOMftbdbtbFormbt</dodf> objfdt dfsdribing thf
+     * givfn mftbdbtb formbt, or <dodf>null</dodf> if no dfsdription
+     * is bvbilbblf.  Thf supplifd nbmf must bf onf of thosf rfturnfd
+     * by <dodf>gftMftbdbtbFormbtNbmfs</dodf> (<i>i.f.</i>, fithfr thf
+     * nbtivf formbt nbmf, thf stbndbrd formbt nbmf, or onf of thosf
+     * rfturnfd by <dodf>gftExtrbMftbdbtbFormbtNbmfs</dodf>).
+     *
+     * <p> Thf dffbult implfmfntbtion dhfdks thf nbmf bgbinst thf
+     * globbl stbndbrd mftbdbtb formbt nbmf, bnd rfturns thbt formbt
+     * if it is supportfd.  Othfrwisf, it dhfdks bgbinst thf nbtivf
+     * formbt nbmfs followfd by bny bdditionbl formbt nbmfs.  If b
+     * mbtdh is found, it rftrifvfs thf nbmf of thf
+     * <dodf>IIOMftbdbtbFormbt</dodf> dlbss from
+     * <dodf>nbtivfMftbdbtbFormbtClbssNbmf</dodf> or
+     * <dodf>fxtrbMftbdbtbFormbtClbssNbmfs</dodf> bs bppropribtf, bnd
+     * donstrudts bn instbndf of thbt dlbss using its
+     * <dodf>gftInstbndf</dodf> mfthod.
+     *
+     * @pbrbm formbtNbmf thf dfsirfd mftbdbtb formbt.
+     *
+     * @rfturn bn <dodf>IIOMftbdbtbFormbt</dodf> objfdt.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>formbtNbmf</dodf>
+     * is <dodf>null</dodf> or is not onf of thf nbmfs rfdognizfd by
+     * thf plug-in.
+     * @fxdfption IllfgblStbtfExdfption if thf dlbss dorrfsponding to
+     * thf formbt nbmf dbnnot bf lobdfd.
+     */
+    publid IIOMftbdbtbFormbt gftMftbdbtbFormbt(String formbtNbmf) {
+        if (formbtNbmf == null) {
+            throw nfw IllfgblArgumfntExdfption("formbtNbmf == null!");
+        }
+        if (stbndbrdFormbtSupportfd
+            && formbtNbmf.fqubls
+                (IIOMftbdbtbFormbtImpl.stbndbrdMftbdbtbFormbtNbmf)) {
+            rfturn IIOMftbdbtbFormbtImpl.gftStbndbrdFormbtInstbndf();
+        }
+        String formbtClbssNbmf = null;
+        if (formbtNbmf.fqubls(nbtivfMftbdbtbFormbtNbmf)) {
+            formbtClbssNbmf = nbtivfMftbdbtbFormbtClbssNbmf;
+        } flsf if (fxtrbMftbdbtbFormbtNbmfs != null) {
+            for (int i = 0; i < fxtrbMftbdbtbFormbtNbmfs.lfngth; i++) {
+                if (formbtNbmf.fqubls(fxtrbMftbdbtbFormbtNbmfs[i])) {
+                    formbtClbssNbmf = fxtrbMftbdbtbFormbtClbssNbmfs[i];
+                    brfbk;  // out of for
+                }
+            }
+        }
+        if (formbtClbssNbmf == null) {
+            throw nfw IllfgblArgumfntExdfption("Unsupportfd formbt nbmf");
+        }
+        try {
+            Clbss<?> dls = null;
+            finbl Objfdt o = this;
+
+            // firstly wf try to usf dlbsslobdfr usfd for lobding
+            // thf IIOMftbdbtb implfmbntbtion for this plugin.
+            ClbssLobdfr lobdfr =
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                    nfw jbvb.sfdurity.PrivilfgfdAdtion<ClbssLobdfr>() {
+                            publid ClbssLobdfr run() {
+                                rfturn o.gftClbss().gftClbssLobdfr();
+                            }
+                        });
+
+            try {
+                dls = Clbss.forNbmf(formbtClbssNbmf, truf,
+                                    lobdfr);
+            } dbtdh (ClbssNotFoundExdfption f) {
+                // wf fbilfd to lobd IIOMftbdbtbFormbt dlbss by
+                // using IIOMftbdbtb dlbsslobdfr.Nfxt try is to
+                // usf thrfbd dontfxt dlbsslobdfr.
+                lobdfr =
+                    jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                        nfw jbvb.sfdurity.PrivilfgfdAdtion<ClbssLobdfr>() {
+                                publid ClbssLobdfr run() {
+                                    rfturn Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+                                }
+                        });
+                try {
+                    dls = Clbss.forNbmf(formbtClbssNbmf, truf,
+                                        lobdfr);
+                } dbtdh (ClbssNotFoundExdfption f1) {
+                    // finblly wf try to usf systfm dlbsslobdfr in dbsf
+                    // if wf fbilfd to lobd IIOMftbdbtbFormbt implfmfntbtion
+                    // dlbss bbovf.
+                    dls = Clbss.forNbmf(formbtClbssNbmf, truf,
+                                        ClbssLobdfr.gftSystfmClbssLobdfr());
+                }
+            }
+
+            Mfthod mfth = dls.gftMfthod("gftInstbndf");
+            rfturn (IIOMftbdbtbFormbt) mfth.invokf(null);
+        } dbtdh (Exdfption f) {
+            RuntimfExdfption fx =
+                nfw IllfgblStbtfExdfption ("Cbn't obtbin formbt");
+            fx.initCbusf(f);
+            throw fx;
+        }
+
+    }
+
+    /**
+     * Rfturns bn XML DOM <dodf>Nodf</dodf> objfdt thbt rfprfsfnts thf
+     * root of b trff of mftbdbtb dontbinfd within this objfdt
+     * bddording to thf donvfntions dffinfd by b givfn mftbdbtb
+     * formbt.
+     *
+     * <p> Thf nbmfs of thf bvbilbblf mftbdbtb formbts mby bf qufrifd
+     * using thf <dodf>gftMftbdbtbFormbtNbmfs</dodf> mfthod.
+     *
+     * @pbrbm formbtNbmf thf dfsirfd mftbdbtb formbt.
+     *
+     * @rfturn bn XML DOM <dodf>Nodf</dodf> objfdt forming thf
+     * root of b trff.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>formbtNbmf</dodf>
+     * is <dodf>null</dodf> or is not onf of thf nbmfs rfturnfd by
+     * <dodf>gftMftbdbtbFormbtNbmfs</dodf>.
+     *
+     * @sff #gftMftbdbtbFormbtNbmfs
+     * @sff #sftFromTrff
+     * @sff #mfrgfTrff
+     */
+    publid bbstrbdt Nodf gftAsTrff(String formbtNbmf);
+
+    /**
+     * Altfrs thf intfrnbl stbtf of this <dodf>IIOMftbdbtb</dodf>
+     * objfdt from b trff of XML DOM <dodf>Nodf</dodf>s whosf syntbx
+     * is dffinfd by thf givfn mftbdbtb formbt.  Thf prfvious stbtf is
+     * bltfrfd only bs nfdfssbry to bddommodbtf thf nodfs thbt brf
+     * prfsfnt in thf givfn trff.  If thf trff strudturf or dontfnts
+     * brf invblid, bn <dodf>IIOInvblidTrffExdfption</dodf> will bf
+     * thrown.
+     *
+     * <p> As thf sfmbntids of how b trff or subtrff mby bf mfrgfd with
+     * bnothfr trff brf domplftfly formbt-spfdifid, plug-in buthors mby
+     * implfmfnt this mfthod in whbtfvfr mbnnfr is most bppropribtf for
+     * thf formbt, indluding simply rfplbding bll fxisting stbtf with thf
+     * dontfnts of thf givfn trff.
+     *
+     * @pbrbm formbtNbmf thf dfsirfd mftbdbtb formbt.
+     * @pbrbm root bn XML DOM <dodf>Nodf</dodf> objfdt forming thf
+     * root of b trff.
+     *
+     * @fxdfption IllfgblStbtfExdfption if this objfdt is rfbd-only.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>formbtNbmf</dodf>
+     * is <dodf>null</dodf> or is not onf of thf nbmfs rfturnfd by
+     * <dodf>gftMftbdbtbFormbtNbmfs</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>root</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IIOInvblidTrffExdfption if thf trff dbnnot bf pbrsfd
+     * suddfssfully using thf rulfs of thf givfn formbt.
+     *
+     * @sff #gftMftbdbtbFormbtNbmfs
+     * @sff #gftAsTrff
+     * @sff #sftFromTrff
+     */
+    publid bbstrbdt void mfrgfTrff(String formbtNbmf, Nodf root)
+        throws IIOInvblidTrffExdfption;
+
+    /**
+     * Rfturns bn <dodf>IIOMftbdbtbNodf</dodf> rfprfsfnting thf dhromb
+     * informbtion of thf stbndbrd <dodf>jbvbx_imbgfio_1.0</dodf>
+     * mftbdbtb formbt, or <dodf>null</dodf> if no sudh informbtion is
+     * bvbilbblf.  This mfthod is intfndfd to bf dbllfd by thf utility
+     * routinf <dodf>gftStbndbrdTrff</dodf>.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns <dodf>null</dodf>.
+     *
+     * <p> Subdlbssfs should ovfrridf this mfthod to produdf bn
+     * bppropribtf subtrff if thfy wish to support thf stbndbrd
+     * mftbdbtb formbt.
+     *
+     * @rfturn bn <dodf>IIOMftbdbtbNodf</dodf>, or <dodf>null</dodf>.
+     *
+     * @sff #gftStbndbrdTrff
+     */
+    protfdtfd IIOMftbdbtbNodf gftStbndbrdChrombNodf() {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns bn <dodf>IIOMftbdbtbNodf</dodf> rfprfsfnting thf
+     * domprfssion informbtion of thf stbndbrd
+     * <dodf>jbvbx_imbgfio_1.0</dodf> mftbdbtb formbt, or
+     * <dodf>null</dodf> if no sudh informbtion is bvbilbblf.  This
+     * mfthod is intfndfd to bf dbllfd by thf utility routinf
+     * <dodf>gftStbndbrdTrff</dodf>.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns <dodf>null</dodf>.
+     *
+     * <p> Subdlbssfs should ovfrridf this mfthod to produdf bn
+     * bppropribtf subtrff if thfy wish to support thf stbndbrd
+     * mftbdbtb formbt.
+     *
+     * @rfturn bn <dodf>IIOMftbdbtbNodf</dodf>, or <dodf>null</dodf>.
+     *
+     * @sff #gftStbndbrdTrff
+     */
+    protfdtfd IIOMftbdbtbNodf gftStbndbrdComprfssionNodf() {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns bn <dodf>IIOMftbdbtbNodf</dodf> rfprfsfnting thf dbtb
+     * formbt informbtion of thf stbndbrd
+     * <dodf>jbvbx_imbgfio_1.0</dodf> mftbdbtb formbt, or
+     * <dodf>null</dodf> if no sudh informbtion is bvbilbblf.  This
+     * mfthod is intfndfd to bf dbllfd by thf utility routinf
+     * <dodf>gftStbndbrdTrff</dodf>.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns <dodf>null</dodf>.
+     *
+     * <p> Subdlbssfs should ovfrridf this mfthod to produdf bn
+     * bppropribtf subtrff if thfy wish to support thf stbndbrd
+     * mftbdbtb formbt.
+     *
+     * @rfturn bn <dodf>IIOMftbdbtbNodf</dodf>, or <dodf>null</dodf>.
+     *
+     * @sff #gftStbndbrdTrff
+     */
+    protfdtfd IIOMftbdbtbNodf gftStbndbrdDbtbNodf() {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns bn <dodf>IIOMftbdbtbNodf</dodf> rfprfsfnting thf
+     * dimfnsion informbtion of thf stbndbrd
+     * <dodf>jbvbx_imbgfio_1.0</dodf> mftbdbtb formbt, or
+     * <dodf>null</dodf> if no sudh informbtion is bvbilbblf.  This
+     * mfthod is intfndfd to bf dbllfd by thf utility routinf
+     * <dodf>gftStbndbrdTrff</dodf>.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns <dodf>null</dodf>.
+     *
+     * <p> Subdlbssfs should ovfrridf this mfthod to produdf bn
+     * bppropribtf subtrff if thfy wish to support thf stbndbrd
+     * mftbdbtb formbt.
+     *
+     * @rfturn bn <dodf>IIOMftbdbtbNodf</dodf>, or <dodf>null</dodf>.
+     *
+     * @sff #gftStbndbrdTrff
+     */
+    protfdtfd IIOMftbdbtbNodf gftStbndbrdDimfnsionNodf() {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns bn <dodf>IIOMftbdbtbNodf</dodf> rfprfsfnting thf dodumfnt
+     * informbtion of thf stbndbrd <dodf>jbvbx_imbgfio_1.0</dodf>
+     * mftbdbtb formbt, or <dodf>null</dodf> if no sudh informbtion is
+     * bvbilbblf.  This mfthod is intfndfd to bf dbllfd by thf utility
+     * routinf <dodf>gftStbndbrdTrff</dodf>.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns <dodf>null</dodf>.
+     *
+     * <p> Subdlbssfs should ovfrridf this mfthod to produdf bn
+     * bppropribtf subtrff if thfy wish to support thf stbndbrd
+     * mftbdbtb formbt.
+     *
+     * @rfturn bn <dodf>IIOMftbdbtbNodf</dodf>, or <dodf>null</dodf>.
+     *
+     * @sff #gftStbndbrdTrff
+     */
+    protfdtfd IIOMftbdbtbNodf gftStbndbrdDodumfntNodf() {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns bn <dodf>IIOMftbdbtbNodf</dodf> rfprfsfnting thf tfxtubl
+     * informbtion of thf stbndbrd <dodf>jbvbx_imbgfio_1.0</dodf>
+     * mftbdbtb formbt, or <dodf>null</dodf> if no sudh informbtion is
+     * bvbilbblf.  This mfthod is intfndfd to bf dbllfd by thf utility
+     * routinf <dodf>gftStbndbrdTrff</dodf>.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns <dodf>null</dodf>.
+     *
+     * <p> Subdlbssfs should ovfrridf this mfthod to produdf bn
+     * bppropribtf subtrff if thfy wish to support thf stbndbrd
+     * mftbdbtb formbt.
+     *
+     * @rfturn bn <dodf>IIOMftbdbtbNodf</dodf>, or <dodf>null</dodf>.
+     *
+     * @sff #gftStbndbrdTrff
+     */
+    protfdtfd IIOMftbdbtbNodf gftStbndbrdTfxtNodf() {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns bn <dodf>IIOMftbdbtbNodf</dodf> rfprfsfnting thf tiling
+     * informbtion of thf stbndbrd <dodf>jbvbx_imbgfio_1.0</dodf>
+     * mftbdbtb formbt, or <dodf>null</dodf> if no sudh informbtion is
+     * bvbilbblf.  This mfthod is intfndfd to bf dbllfd by thf utility
+     * routinf <dodf>gftStbndbrdTrff</dodf>.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns <dodf>null</dodf>.
+     *
+     * <p> Subdlbssfs should ovfrridf this mfthod to produdf bn
+     * bppropribtf subtrff if thfy wish to support thf stbndbrd
+     * mftbdbtb formbt.
+     *
+     * @rfturn bn <dodf>IIOMftbdbtbNodf</dodf>, or <dodf>null</dodf>.
+     *
+     * @sff #gftStbndbrdTrff
+     */
+    protfdtfd IIOMftbdbtbNodf gftStbndbrdTilfNodf() {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns bn <dodf>IIOMftbdbtbNodf</dodf> rfprfsfnting thf
+     * trbnspbrfndy informbtion of thf stbndbrd
+     * <dodf>jbvbx_imbgfio_1.0</dodf> mftbdbtb formbt, or
+     * <dodf>null</dodf> if no sudh informbtion is bvbilbblf.  This
+     * mfthod is intfndfd to bf dbllfd by thf utility routinf
+     * <dodf>gftStbndbrdTrff</dodf>.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns <dodf>null</dodf>.
+     *
+     * <p> Subdlbssfs should ovfrridf this mfthod to produdf bn
+     * bppropribtf subtrff if thfy wish to support thf stbndbrd
+     * mftbdbtb formbt.
+     *
+     * @rfturn bn <dodf>IIOMftbdbtbNodf</dodf>, or <dodf>null</dodf>.
+     */
+    protfdtfd IIOMftbdbtbNodf gftStbndbrdTrbnspbrfndyNodf() {
+        rfturn null;
+    }
+
+    /**
+     * Appfnds b nfw nodf to bn fxisting nodf, if thf nfw nodf is
+     * non-<dodf>null</dodf>.
+     */
+    privbtf void bppfnd(IIOMftbdbtbNodf root, IIOMftbdbtbNodf nodf) {
+        if (nodf != null) {
+            root.bppfndChild(nodf);
+        }
+    }
+
+    /**
+     * A utility mfthod to rfturn b trff of
+     * <dodf>IIOMftbdbtbNodf</dodf>s rfprfsfnting thf mftbdbtb
+     * dontbinfd within this objfdt bddording to thf donvfntions of
+     * thf stbndbrd <dodf>jbvbx_imbgfio_1.0</dodf> mftbdbtb formbt.
+     *
+     * <p> This mfthod dblls thf vbrious <dodf>gftStbndbrd*Nodf</dodf>
+     * mfthods to supply fbdh of thf subtrffs rootfd bt thf dhildrfn
+     * of thf root nodf.  If bny of thosf mfthods rfturns
+     * <dodf>null</dodf>, thf dorrfsponding subtrff will bf omittfd.
+     * If bll of thfm rfturn <dodf>null</dodf>, b trff donsisting of b
+     * singlf root nodf will bf rfturnfd.
+     *
+     * @rfturn bn <dodf>IIOMftbdbtbNodf</dodf> rfprfsfnting thf root
+     * of b mftbdbtb trff in thf <dodf>jbvbx_imbgfio_1.0</dodf>
+     * formbt.
+     *
+     * @sff #gftStbndbrdChrombNodf
+     * @sff #gftStbndbrdComprfssionNodf
+     * @sff #gftStbndbrdDbtbNodf
+     * @sff #gftStbndbrdDimfnsionNodf
+     * @sff #gftStbndbrdDodumfntNodf
+     * @sff #gftStbndbrdTfxtNodf
+     * @sff #gftStbndbrdTilfNodf
+     * @sff #gftStbndbrdTrbnspbrfndyNodf
+     */
+    protfdtfd finbl IIOMftbdbtbNodf gftStbndbrdTrff() {
+        IIOMftbdbtbNodf root = nfw IIOMftbdbtbNodf
+                (IIOMftbdbtbFormbtImpl.stbndbrdMftbdbtbFormbtNbmf);
+        bppfnd(root, gftStbndbrdChrombNodf());
+        bppfnd(root, gftStbndbrdComprfssionNodf());
+        bppfnd(root, gftStbndbrdDbtbNodf());
+        bppfnd(root, gftStbndbrdDimfnsionNodf());
+        bppfnd(root, gftStbndbrdDodumfntNodf());
+        bppfnd(root, gftStbndbrdTfxtNodf());
+        bppfnd(root, gftStbndbrdTilfNodf());
+        bppfnd(root, gftStbndbrdTrbnspbrfndyNodf());
+        rfturn root;
+    }
+
+    /**
+     * Sfts thf intfrnbl stbtf of this <dodf>IIOMftbdbtb</dodf> objfdt
+     * from b trff of XML DOM <dodf>Nodf</dodf>s whosf syntbx is
+     * dffinfd by thf givfn mftbdbtb formbt.  Thf prfvious stbtf is
+     * disdbrdfd.  If thf trff's strudturf or dontfnts brf invblid, bn
+     * <dodf>IIOInvblidTrffExdfption</dodf> will bf thrown.
+     *
+     * <p> Thf dffbult implfmfntbtion dblls <dodf>rfsft</dodf>
+     * followfd by <dodf>mfrgfTrff(formbtNbmf, root)</dodf>.
+     *
+     * @pbrbm formbtNbmf thf dfsirfd mftbdbtb formbt.
+     * @pbrbm root bn XML DOM <dodf>Nodf</dodf> objfdt forming thf
+     * root of b trff.
+     *
+     * @fxdfption IllfgblStbtfExdfption if this objfdt is rfbd-only.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>formbtNbmf</dodf>
+     * is <dodf>null</dodf> or is not onf of thf nbmfs rfturnfd by
+     * <dodf>gftMftbdbtbFormbtNbmfs</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>root</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IIOInvblidTrffExdfption if thf trff dbnnot bf pbrsfd
+     * suddfssfully using thf rulfs of thf givfn formbt.
+     *
+     * @sff #gftMftbdbtbFormbtNbmfs
+     * @sff #gftAsTrff
+     * @sff #mfrgfTrff
+     */
+    publid void sftFromTrff(String formbtNbmf, Nodf root)
+        throws IIOInvblidTrffExdfption {
+        rfsft();
+        mfrgfTrff(formbtNbmf, root);
+    }
+
+    /**
+     * Rfsfts bll thf dbtb storfd in this objfdt to dffbult vblufs,
+     * usublly to thf stbtf this objfdt wbs in immfdibtfly bftfr
+     * donstrudtion, though thf prfdisf sfmbntids brf plug-in spfdifid.
+     * Notf thbt thfrf brf mbny possiblf dffbult vblufs, dfpfnding on
+     * how thf objfdt wbs drfbtfd.
+     *
+     * @fxdfption IllfgblStbtfExdfption if this objfdt is rfbd-only.
+     *
+     * @sff jbvbx.imbgfio.ImbgfRfbdfr#gftStrfbmMftbdbtb
+     * @sff jbvbx.imbgfio.ImbgfRfbdfr#gftImbgfMftbdbtb
+     * @sff jbvbx.imbgfio.ImbgfWritfr#gftDffbultStrfbmMftbdbtb
+     * @sff jbvbx.imbgfio.ImbgfWritfr#gftDffbultImbgfMftbdbtb
+     */
+    publid bbstrbdt void rfsft();
+
+    /**
+     * Sfts thf <dodf>IIOMftbdbtbControllfr</dodf> to bf usfd
+     * to providf sfttings for this <dodf>IIOMftbdbtb</dodf>
+     * objfdt whfn thf <dodf>bdtivbtfControllfr</dodf> mfthod
+     * is dbllfd, ovfrriding bny dffbult dontrollfr.  If thf
+     * brgumfnt is <dodf>null</dodf>, no dontrollfr will bf
+     * usfd, indluding bny dffbult.  To rfstorf thf dffbult, usf
+     * <dodf>sftControllfr(gftDffbultControllfr())</dodf>.
+     *
+     * <p> Thf dffbult implfmfntbtion sfts thf <dodf>dontrollfr</dodf>
+     * instbndf vbribblf to thf supplifd vbluf.
+     *
+     * @pbrbm dontrollfr An bppropribtf
+     * <dodf>IIOMftbdbtbControllfr</dodf>, or <dodf>null</dodf>.
+     *
+     * @sff IIOMftbdbtbControllfr
+     * @sff #gftControllfr
+     * @sff #gftDffbultControllfr
+     * @sff #hbsControllfr
+     * @sff #bdtivbtfControllfr()
+     */
+    publid void sftControllfr(IIOMftbdbtbControllfr dontrollfr) {
+        this.dontrollfr = dontrollfr;
+    }
+
+    /**
+     * Rfturns whbtfvfr <dodf>IIOMftbdbtbControllfr</dodf> is durrfntly
+     * instbllfd.  This dould bf thf dffbult if thfrf is onf,
+     * <dodf>null</dodf>, or thf brgumfnt of thf most rfdfnt dbll
+     * to <dodf>sftControllfr</dodf>.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns thf vbluf of thf
+     * <dodf>dontrollfr</dodf> instbndf vbribblf.
+     *
+     * @rfturn thf durrfntly instbllfd
+     * <dodf>IIOMftbdbtbControllfr</dodf>, or <dodf>null</dodf>.
+     *
+     * @sff IIOMftbdbtbControllfr
+     * @sff #sftControllfr
+     * @sff #gftDffbultControllfr
+     * @sff #hbsControllfr
+     * @sff #bdtivbtfControllfr()
+     */
+    publid IIOMftbdbtbControllfr gftControllfr() {
+        rfturn dontrollfr;
+    }
+
+    /**
+     * Rfturns thf dffbult <dodf>IIOMftbdbtbControllfr</dodf>, if thfrf
+     * is onf, rfgbrdlfss of thf durrfntly instbllfd dontrollfr.  If
+     * thfrf is no dffbult dontrollfr, rfturns <dodf>null</dodf>.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns thf vbluf of thf
+     * <dodf>dffbultControllfr</dodf> instbndf vbribblf.
+     *
+     * @rfturn thf dffbult <dodf>IIOMftbdbtbControllfr</dodf>, or
+     * <dodf>null</dodf>.
+     *
+     * @sff IIOMftbdbtbControllfr
+     * @sff #sftControllfr(IIOMftbdbtbControllfr)
+     * @sff #gftControllfr
+     * @sff #hbsControllfr
+     * @sff #bdtivbtfControllfr()
+     */
+    publid IIOMftbdbtbControllfr gftDffbultControllfr() {
+        rfturn dffbultControllfr;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thfrf is b dontrollfr instbllfd
+     * for this <dodf>IIOMftbdbtb</dodf> objfdt.
+     *
+     * <p> Thf dffbult implfmfntbtion rfturns <dodf>truf</dodf> if thf
+     * <dodf>gftControllfr</dodf> mfthod rfturns b
+     * non-<dodf>null</dodf> vbluf.
+     *
+     * @rfturn <dodf>truf</dodf> if b dontrollfr is instbllfd.
+     *
+     * @sff IIOMftbdbtbControllfr
+     * @sff #sftControllfr(IIOMftbdbtbControllfr)
+     * @sff #gftControllfr
+     * @sff #gftDffbultControllfr
+     * @sff #bdtivbtfControllfr()
+     */
+    publid boolfbn hbsControllfr() {
+        rfturn (gftControllfr() != null);
+    }
+
+    /**
+     * Adtivbtfs thf instbllfd <dodf>IIOMftbdbtbControllfr</dodf> for
+     * this <dodf>IIOMftbdbtb</dodf> objfdt bnd rfturns thf rfsulting
+     * vbluf.  Whfn this mfthod rfturns <dodf>truf</dodf>, bll vblufs for this
+     * <dodf>IIOMftbdbtb</dodf> objfdt will bf rfbdy for thf nfxt writf
+     * opfrbtion.  If <dodf>fblsf</dodf> is
+     * rfturnfd, no sfttings in this objfdt will hbvf bffn disturbfd
+     * (<i>i.f.</i>, thf usfr dbndflfd thf opfrbtion).
+     *
+     * <p> Ordinbrily, thf dontrollfr will bf b GUI providing b usfr
+     * intfrfbdf for b subdlbss of <dodf>IIOMftbdbtb</dodf> for b
+     * pbrtidulbr plug-in.  Controllfrs nffd not bf GUIs, howfvfr.
+     *
+     * <p> Thf dffbult implfmfntbtion dblls <dodf>gftControllfr</dodf>
+     * bnd thf dblls <dodf>bdtivbtf</dodf> on thf rfturnfd objfdt if
+     * <dodf>hbsControllfr</dodf> rfturns <dodf>truf</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> if thf dontrollfr domplftfd normblly.
+     *
+     * @fxdfption IllfgblStbtfExdfption if thfrf is no dontrollfr
+     * durrfntly instbllfd.
+     *
+     * @sff IIOMftbdbtbControllfr
+     * @sff #sftControllfr(IIOMftbdbtbControllfr)
+     * @sff #gftControllfr
+     * @sff #gftDffbultControllfr
+     * @sff #hbsControllfr
+     */
+    publid boolfbn bdtivbtfControllfr() {
+        if (!hbsControllfr()) {
+            throw nfw IllfgblStbtfExdfption("hbsControllfr() == fblsf!");
+        }
+        rfturn gftControllfr().bdtivbtf(this);
+    }
+}

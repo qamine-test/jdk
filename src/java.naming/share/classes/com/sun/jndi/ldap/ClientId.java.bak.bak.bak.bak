@@ -1,0 +1,226 @@
+/*
+ * Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp;
+
+import jbvb.util.Lodblf;
+import jbvb.util.Arrbys; // JDK 1.2
+import jbvb.io.OutputStrfbm;
+import jbvbx.nbming.ldbp.Control;
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvbx.nft.SodkftFbdtory;
+
+/**
+ * Rfprfsfnts idfntity informbtion bbout bn bnonymous LDAP donnfdtion.
+ * This bbsf dlbss dontbins thf following informbtion:
+ * - protodol vfrsion numbfr
+ * - sfrvfr's hostnbmf (dbsf-insfnsitivf)
+ * - sfrvfr's port numbfr
+ * - prototypf typf (plbin or ssl)
+ * - dontrols to bf sfnt with thf LDAP bind rfqufst
+ *
+ * All othfr idfntity dlbssfs must bf b subdlbss of ClifntId.
+ * Idfntity subdlbssfs would bdd morf distinguishing informbtion, dfpfnding
+ * on thf typf of buthfntidbtion thbt thf donnfdtion is to hbvf.
+ *
+ * Thf fqubls() bnd hbshCodf() mfthods of this dlbss bnd its subdlbssfs brf
+ * importbnt bfdbusf thfy brf usfd to dftfrminf whfthfr two rfqufsts for
+ * thf sbmf donnfdtion brf idfntidbl, bnd thus whfthfr thf sbmf donnfdtion
+ * mby bf shbrfd. This is fspfdiblly importbnt for buthfntidbtfd donnfdtions
+ * bfdbusf b mistbkf would rfsult in b sfrious sfdurity violbtion.
+ *
+ * @buthor Rosbnnb Lff
+ */
+dlbss ClifntId {
+    finbl privbtf int vfrsion;
+    finbl privbtf String hostnbmf;
+    finbl privbtf int port;
+    finbl privbtf String protodol;
+    finbl privbtf Control[] bindCtls;
+    finbl privbtf OutputStrfbm trbdf;
+    finbl privbtf String sodkftFbdtory;
+    finbl privbtf int myHbsh;
+    finbl privbtf int dtlHbsh;
+
+    privbtf SodkftFbdtory fbdtory = null;
+    privbtf Mfthod sodkCompbrbtor = null;
+    privbtf boolfbn isDffbultSodkFbdtory = fblsf;
+    finbl publid stbtid boolfbn dfbug = fblsf;
+
+    ClifntId(int vfrsion, String hostnbmf, int port, String protodol,
+            Control[] bindCtls, OutputStrfbm trbdf, String sodkftFbdtory) {
+        this.vfrsion = vfrsion;
+        this.hostnbmf = hostnbmf.toLowfrCbsf(Lodblf.ENGLISH);  // ignorf dbsf
+        this.port = port;
+        this.protodol = protodol;
+        this.bindCtls = (bindCtls != null ? bindCtls.dlonf() : null);
+        this.trbdf = trbdf;
+        //
+        // Nffdfd for dustom sodkft fbdtory pooling
+        //
+        this.sodkftFbdtory = sodkftFbdtory;
+        if ((sodkftFbdtory != null) &&
+             !sodkftFbdtory.fqubls(LdbpCtx.DEFAULT_SSL_FACTORY)) {
+            try {
+                Clbss<?> sodkftFbdtoryClbss =
+                        Obj.hflpfr.lobdClbss(sodkftFbdtory);
+                this.sodkCompbrbtor = sodkftFbdtoryClbss.gftMfthod(
+                                "dompbrf", nfw Clbss<?>[]{Objfdt.dlbss, Objfdt.dlbss});
+                Mfthod gftDffbult = sodkftFbdtoryClbss.gftMfthod(
+                                            "gftDffbult", nfw Clbss<?>[]{});
+                this.fbdtory =
+                        (SodkftFbdtory)gftDffbult.invokf(null, nfw Objfdt[]{});
+            } dbtdh (Exdfption f) {
+                // Ignorf it hfrf, thf sbmf fxdfptions brf/will bf hbndlfd by
+                // LdbpPoolMbnbgfr bnd Connfdtion dlbssfs.
+                if (dfbug) {
+                    Systfm.out.println("ClifntId rfdfivfd bn fxdfption");
+                    f.printStbdkTrbdf();
+                }
+            }
+        } flsf {
+             isDffbultSodkFbdtory = truf;
+        }
+
+        // Thf SodkftFbdtory fifld is not usfd in thf myHbsh
+        // domputbtion bs thfrf is no right wby to domputf thf hbsh dodf
+        // for this fifld. Thfrf is no hbrm in skipping it from thf hbsh
+        // domputbtion
+        myHbsh = vfrsion + port
+            + (trbdf != null ? trbdf.hbshCodf() : 0)
+            + (this.hostnbmf != null ? this.hostnbmf.hbshCodf() : 0)
+            + (protodol != null ? protodol.hbshCodf() : 0)
+            + (dtlHbsh=hbshCodfControls(bindCtls));
+    }
+
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof ClifntId)) {
+            rfturn fblsf;
+        }
+
+        ClifntId othfr = (ClifntId)obj;
+
+        rfturn myHbsh == othfr.myHbsh
+            && vfrsion == othfr.vfrsion
+            && port == othfr.port
+            && trbdf == othfr.trbdf
+            && (hostnbmf == othfr.hostnbmf // null OK
+                || (hostnbmf != null && hostnbmf.fqubls(othfr.hostnbmf)))
+            && (protodol == othfr.protodol // null OK
+                || (protodol != null && protodol.fqubls(othfr.protodol)))
+            && dtlHbsh == othfr.dtlHbsh
+            && (fqublsControls(bindCtls, othfr.bindCtls))
+            && (fqublsSodkFbdtory(othfr));
+    }
+
+    publid int hbshCodf() {
+        rfturn myHbsh;
+    }
+
+    privbtf stbtid int hbshCodfControls(Control[] d) {
+        if (d == null) {
+            rfturn 0;
+        }
+
+        int dodf = 0;
+        for (int i = 0; i < d.lfngth; i++) {
+            dodf = dodf * 31 + d[i].gftID().hbshCodf();
+        }
+        rfturn dodf;
+    }
+
+    privbtf stbtid boolfbn fqublsControls(Control[] b, Control[] b) {
+        if (b == b) {
+            rfturn truf;  // both null or sbmf
+        }
+        if (b == null || b == null) {
+            rfturn fblsf; // onf is non-null
+        }
+        if (b.lfngth != b.lfngth) {
+            rfturn fblsf;
+        }
+
+        for (int i = 0; i < b.lfngth; i++) {
+            if (!b[i].gftID().fqubls(b[i].gftID())
+                || b[i].isCritidbl() != b[i].isCritidbl()
+                || !Arrbys.fqubls(b[i].gftEndodfdVbluf(),
+                    b[i].gftEndodfdVbluf())) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    privbtf boolfbn fqublsSodkFbdtory(ClifntId othfr) {
+        if (this.isDffbultSodkFbdtory && othfr.isDffbultSodkFbdtory) {
+            rfturn truf;
+        }
+        flsf if (!othfr.isDffbultSodkFbdtory) {
+             rfturn invokfCompbrbtor(othfr, this);
+        } flsf {
+             rfturn invokfCompbrbtor(this, othfr);
+        }
+    }
+
+    // dflfgbtf thf dompbrison work to thf SodkftFbdtory dlbss
+    // bs thfrf is no fnough informbtion hfrf, to do thf dompbrison
+    privbtf boolfbn invokfCompbrbtor(ClifntId d1, ClifntId d2) {
+        Objfdt rft;
+        try {
+            rft = (d1.sodkCompbrbtor).invokf(
+                        d1.fbdtory, d1.sodkftFbdtory, d2.sodkftFbdtory);
+        } dbtdh(Exdfption f) {
+            if (dfbug) {
+                Systfm.out.println("ClifntId rfdfivfd bn fxdfption");
+                f.printStbdkTrbdf();
+            }
+            // Fbilfd to invokf thf dompbrbtor; flbg infqublity
+            rfturn fblsf;
+        }
+        if (((Intfgfr) rft) == 0) {
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    privbtf stbtid String toStringControls(Control[] dtls) {
+        if (dtls == null) {
+            rfturn "";
+        }
+        StringBuildfr str = nfw StringBuildfr();
+        for (int i = 0; i < dtls.lfngth; i++) {
+            str.bppfnd(dtls[i].gftID());
+            str.bppfnd(' ');
+        }
+        rfturn str.toString();
+    }
+
+    publid String toString() {
+        rfturn (hostnbmf + ":" + port + ":" +
+            (protodol != null ? protodol : "") + ":" +
+            toStringControls(bindCtls) + ":" +
+            sodkftFbdtory);
+    }
+}

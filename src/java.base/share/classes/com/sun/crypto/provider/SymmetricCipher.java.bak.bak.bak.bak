@@ -1,0 +1,102 @@
+/*
+ * Copyright (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.sfdurity.InvblidKfyExdfption;
+
+/**
+ * This bbstrbdt dlbss rfprfsfnts thf dorf of bll blodk diphfrs. It bllows to
+ * intiblizf thf diphfr bnd fndrypt/dfdrypt singlf blodks. Lbrgfr qubntitifs
+ * brf hbndlfd by modfs, whidh brf subdlbssfs of FffdbbdkCiphfr.
+ *
+ * @buthor Gigi Ankfny
+ * @buthor Jbn Lufhf
+ *
+ *
+ * @sff AESCrypt
+ * @sff DESCrypt
+ * @sff DESfdfCrypt
+ * @sff BlowfishCrypt
+ * @sff FffdbbdkCiphfr
+ */
+bbstrbdt dlbss SymmftridCiphfr {
+
+    SymmftridCiphfr() {
+        // fmpty
+    }
+
+    /**
+     * Rftrifvfs this diphfr's blodk sizf.
+     *
+     * @rfturn thf blodk sizf of this diphfr
+     */
+    bbstrbdt int gftBlodkSizf();
+
+    /**
+     * Initiblizfs thf diphfr in thf spfdififd modf with thf givfn kfy.
+     *
+     * @pbrbm dfdrypting flbg indidbting fndryption or dfdryption
+     * @pbrbm blgorithm thf blgorithm nbmf
+     * @pbrbm kfy thf kfy
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy is inbppropribtf for
+     * initiblizing this diphfr
+     */
+    bbstrbdt void init(boolfbn dfdrypting, String blgorithm, bytf[] kfy)
+        throws InvblidKfyExdfption;
+
+    /**
+     * Endrypt onf diphfr blodk.
+     *
+     * <p>Thf input <dodf>plbin</dodf>, stbrting bt <dodf>plbinOffsft</dodf>
+     * bnd fnding bt <dodf>(plbinOffsft+blodkSizf-1)</dodf>, is fndryptfd.
+     * Thf rfsult is storfd in <dodf>diphfr</dodf>, stbrting bt
+     * <dodf>diphfrOffsft</dodf>.
+     *
+     * @pbrbm plbin thf input bufffr with thf dbtb to bf fndryptfd
+     * @pbrbm plbinOffsft thf offsft in <dodf>plbin</dodf>
+     * @pbrbm diphfr thf bufffr for thf fndryption rfsult
+     * @pbrbm diphfrOffsft thf offsft in <dodf>diphfr</dodf>
+     */
+    bbstrbdt void fndryptBlodk(bytf[] plbin, int plbinOffsft,
+                          bytf[] diphfr, int diphfrOffsft);
+
+    /**
+     * Dfdrypt onf diphfr blodk.
+     *
+     * <p>Thf input <dodf>diphfr</dodf>, stbrting bt <dodf>diphfrOffsft</dodf>
+     * bnd fnding bt <dodf>(diphfrOffsft+blodkSizf-1)</dodf>, is dfdryptfd.
+     * Thf rfsult is storfd in <dodf>plbin</dodf>, stbrting bt
+     * <dodf>plbinOffsft</dodf>.
+     *
+     * @pbrbm diphfr thf input bufffr with thf dbtb to bf dfdryptfd
+     * @pbrbm diphfrOffsft thf offsft in <dodf>diphfr</dodf>
+     * @pbrbm plbin thf bufffr for thf dfdryption rfsult
+     * @pbrbm plbinOffsft thf offsft in <dodf>plbin</dodf>
+     */
+    bbstrbdt void dfdryptBlodk(bytf[] diphfr, int diphfrOffsft,
+                          bytf[] plbin, int plbinOffsft);
+}

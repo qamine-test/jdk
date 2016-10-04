@@ -1,0 +1,95 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.fndryption;
+
+import org.w3d.dom.Attr;
+
+/**
+ * <dodf>CiphfrRfffrfndf</dodf> idfntififs b sourdf whidh, whfn prodfssfd,
+ * yiflds thf fndryptfd odtft sfqufndf.
+ * <p>
+ * Thf bdtubl vbluf is obtbinfd bs follows. Thf <dodf>CiphfrRfffrfndf URI</dodf>
+ * dontbins bn idfntififr thbt is dfrfffrfndfd. Should thf
+ * Trbnsforms, thf dbtb rfsulting from dfrfffrfnding thf <dodf>URI</dodf> is
+ * trbnsformfd bs spfdififd so bs to yifld thf intfndfd diphfr vbluf. For
+ * fxbmplf, if thf vbluf is bbsf64 fndodfd within bn XML dodumfnt; thf
+ * trbnsforms dould spfdify bn XPbth fxprfssion followfd by b bbsf64 dfdoding so
+ * bs to fxtrbdt thf odtfts.
+ * <p>
+ * Thf syntbx of thf <dodf>URI</dodf> bnd Trbnsforms is similbr to thbt of
+ * [XML-DSIG]. Howfvfr, thfrf is b difffrfndf bftwffn signbturf bnd fndryption
+ * prodfssing. In [XML-DSIG] both gfnfrbtion bnd vblidbtion prodfssing stbrt
+ * with thf sbmf sourdf dbtb bnd pfrform thbt trbnsform in thf sbmf ordfr. In
+ * fndryption, thf dfdryptor hbs only thf diphfr dbtb bnd thf spfdififd
+ * trbnsforms brf fnumfrbtfd for thf dfdryptor, in thf ordfr nfdfssbry to obtbin
+ * thf odtfts. Consfqufntly, bfdbusf it hbs difffrfnt sfmbntids Trbnsforms is in
+ * thf &xfnd; nbmfspbdf.
+ * <p>
+ * Thf sdhfmb dffinition is bs follows:
+ * <xmp>
+ * <flfmfnt nbmf='CiphfrRfffrfndf' typf='xfnd:CiphfrRfffrfndfTypf'/>
+ * <domplfxTypf nbmf='CiphfrRfffrfndfTypf'>
+ *     <sfqufndf>
+ *         <flfmfnt nbmf='Trbnsforms' typf='xfnd:TrbnsformsTypf' minOddurs='0'/>
+ *     </sfqufndf>
+ *     <bttributf nbmf='URI' typf='bnyURI' usf='rfquirfd'/>
+ * </domplfxTypf>
+ * </xmp>
+ *
+ * @buthor Axl Mbtthfus
+ */
+publid intfrfbdf CiphfrRfffrfndf {
+    /**
+     * Rfturns bn <dodf>URI</dodf> thbt dontbins bn idfntififr thbt should bf
+     * dfrfffrfndfd.
+     * @rfturn bn <dodf>URI</dodf> thbt dontbins bn idfntififr thbt should bf
+     * dfrfffrfndfd.
+     */
+    String gftURI();
+
+    /**
+     * Gfts thf URI bs bn Attributf nodf.  Usfd to mfld thf CiphfrRfffrfndf
+     * with thf XMLSignbturf RfsourdfRfsolvfrs
+     * @rfturn thf URI bs bn Attributf nodf
+     */
+    Attr gftURIAsAttr();
+
+    /**
+     * Rfturns thf <dodf>Trbnsforms</dodf> thbt spfdififs how to trbnsform thf
+     * <dodf>URI</dodf> to yifld thf bppropribtf diphfr vbluf.
+     *
+     * @rfturn thf trbnsform thbt spfdififs how to trbnsform thf rfffrfndf to
+     *   yifld thf intfndfd diphfr vbluf.
+     */
+    Trbnsforms gftTrbnsforms();
+
+    /**
+     * Sfts thf <dodf>Trbnsforms</dodf> thbt spfdififs how to trbnsform thf
+     * <dodf>URI</dodf> to yifld thf bppropribtf diphfr vbluf.
+     *
+     * @pbrbm trbnsforms thf sft of <dodf>Trbnsforms</dodf> thbt spfdififs how
+     *   to trbnsform thf rfffrfndf to yifld thf intfndfd diphfr vbluf.
+     */
+    void sftTrbnsforms(Trbnsforms trbnsforms);
+}
+

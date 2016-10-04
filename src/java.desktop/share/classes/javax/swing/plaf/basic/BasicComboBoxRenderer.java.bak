@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.border.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.bordfr.*;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import java.io.Serializable;
+import jbvb.io.Sfriblizbblf;
 
 
 /**
- * ComboBox renderer
+ * ComboBox rfndfrfr
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Arnaud Weber
+ * @butior Arnbud Wfbfr
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class BasicComboBoxRenderer extends JLabel
-implements ListCellRenderer<Object>, Serializable {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss BbsidComboBoxRfndfrfr fxtfnds JLbbfl
+implfmfnts ListCfllRfndfrfr<Objfdt>, Sfriblizbblf {
 
    /**
-    * An empty <code>Border</code>. This field might not be used. To change the
-    * <code>Border</code> used by this renderer directly set it using
-    * the <code>setBorder</code> method.
+    * An fmpty <dodf>Bordfr</dodf>. Tiis fifld migit not bf usfd. To dibngf tif
+    * <dodf>Bordfr</dodf> usfd by tiis rfndfrfr dirfdtly sft it using
+    * tif <dodf>sftBordfr</dodf> mftiod.
     */
-    protected static Border noFocusBorder = new EmptyBorder(1, 1, 1, 1);
-    private final static Border SAFE_NO_FOCUS_BORDER = new EmptyBorder(1, 1, 1, 1);
+    protfdtfd stbtid Bordfr noFodusBordfr = nfw EmptyBordfr(1, 1, 1, 1);
+    privbtf finbl stbtid Bordfr SAFE_NO_FOCUS_BORDER = nfw EmptyBordfr(1, 1, 1, 1);
 
     /**
-     * Constructs a new instance of {@code BasicComboBoxRenderer}.
+     * Construdts b nfw instbndf of {@dodf BbsidComboBoxRfndfrfr}.
      */
-    public BasicComboBoxRenderer() {
-        super();
-        setOpaque(true);
-        setBorder(getNoFocusBorder());
+    publid BbsidComboBoxRfndfrfr() {
+        supfr();
+        sftOpbquf(truf);
+        sftBordfr(gftNoFodusBordfr());
     }
 
-    private static Border getNoFocusBorder() {
-        if (System.getSecurityManager() != null) {
-            return SAFE_NO_FOCUS_BORDER;
-        } else {
-            return noFocusBorder;
+    privbtf stbtid Bordfr gftNoFodusBordfr() {
+        if (Systfm.gftSfdurityMbnbgfr() != null) {
+            rfturn SAFE_NO_FOCUS_BORDER;
+        } flsf {
+            rfturn noFodusBordfr;
         }
     }
 
-    public Dimension getPreferredSize() {
-        Dimension size;
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        Dimfnsion sizf;
 
-        if ((this.getText() == null) || (this.getText().equals( "" ))) {
-            setText( " " );
-            size = super.getPreferredSize();
-            setText( "" );
+        if ((tiis.gftTfxt() == null) || (tiis.gftTfxt().fqubls( "" ))) {
+            sftTfxt( " " );
+            sizf = supfr.gftPrfffrrfdSizf();
+            sftTfxt( "" );
         }
-        else {
-            size = super.getPreferredSize();
+        flsf {
+            sizf = supfr.gftPrfffrrfdSizf();
         }
 
-        return size;
+        rfturn sizf;
     }
 
-    @Override
-    public Component getListCellRendererComponent(JList<?> list,
-                                                 Object value,
-                                                 int index,
-                                                 boolean isSelected,
-                                                 boolean cellHasFocus)
+    @Ovfrridf
+    publid Componfnt gftListCfllRfndfrfrComponfnt(JList<?> list,
+                                                 Objfdt vbluf,
+                                                 int indfx,
+                                                 boolfbn isSflfdtfd,
+                                                 boolfbn dfllHbsFodus)
     {
 
-        /**if (isSelected) {
-            setBackground(UIManager.getColor("ComboBox.selectionBackground"));
-            setForeground(UIManager.getColor("ComboBox.selectionForeground"));
-        } else {
-            setBackground(UIManager.getColor("ComboBox.background"));
-            setForeground(UIManager.getColor("ComboBox.foreground"));
+        /**if (isSflfdtfd) {
+            sftBbdkground(UIMbnbgfr.gftColor("ComboBox.sflfdtionBbdkground"));
+            sftForfground(UIMbnbgfr.gftColor("ComboBox.sflfdtionForfground"));
+        } flsf {
+            sftBbdkground(UIMbnbgfr.gftColor("ComboBox.bbdkground"));
+            sftForfground(UIMbnbgfr.gftColor("ComboBox.forfground"));
         }**/
 
-        if (isSelected) {
-            setBackground(list.getSelectionBackground());
-            setForeground(list.getSelectionForeground());
+        if (isSflfdtfd) {
+            sftBbdkground(list.gftSflfdtionBbdkground());
+            sftForfground(list.gftSflfdtionForfground());
         }
-        else {
-            setBackground(list.getBackground());
-            setForeground(list.getForeground());
+        flsf {
+            sftBbdkground(list.gftBbdkground());
+            sftForfground(list.gftForfground());
         }
 
-        setFont(list.getFont());
+        sftFont(list.gftFont());
 
-        if (value instanceof Icon) {
-            setIcon((Icon)value);
+        if (vbluf instbndfof Idon) {
+            sftIdon((Idon)vbluf);
         }
-        else {
-            setText((value == null) ? "" : value.toString());
+        flsf {
+            sftTfxt((vbluf == null) ? "" : vbluf.toString());
         }
-        return this;
+        rfturn tiis;
     }
 
 
     /**
-     * A subclass of BasicComboBoxRenderer that implements UIResource.
-     * BasicComboBoxRenderer doesn't implement UIResource
-     * directly so that applications can safely override the
-     * cellRenderer property with BasicListCellRenderer subclasses.
+     * A subdlbss of BbsidComboBoxRfndfrfr tibt implfmfnts UIRfsourdf.
+     * BbsidComboBoxRfndfrfr dofsn't implfmfnt UIRfsourdf
+     * dirfdtly so tibt bpplidbtions dbn sbffly ovfrridf tif
+     * dfllRfndfrfr propfrty witi BbsidListCfllRfndfrfr subdlbssfs.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class UIResource extends BasicComboBoxRenderer implements javax.swing.plaf.UIResource {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss UIRfsourdf fxtfnds BbsidComboBoxRfndfrfr implfmfnts jbvbx.swing.plbf.UIRfsourdf {
     }
 }

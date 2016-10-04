@@ -1,1279 +1,1279 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider;
+pbdkbgf sun.sfdurity.providfr;
 
-import java.io.*;
-import java.lang.RuntimePermission;
-import java.net.SocketPermission;
-import java.net.URL;
-import java.security.GeneralSecurityException;
-import java.security.Principal;
-import java.text.MessageFormat;
-import java.util.*;
-import javax.security.auth.x500.X500Principal;
+import jbvb.io.*;
+import jbvb.lbng.RuntimfPfrmission;
+import jbvb.nft.SodkftPfrmission;
+import jbvb.nft.URL;
+import jbvb.sfdurity.GfnfrblSfdurityExdfption;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.util.*;
+import jbvbx.sfdurity.buti.x500.X500Prindipbl;
 
-import sun.security.util.Debug;
-import sun.security.util.PropertyExpander;
-import sun.security.util.ResourcesMgr;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.util.PropfrtyExpbndfr;
+import sun.sfdurity.util.RfsourdfsMgr;
 
 /**
- * The policy for a Java runtime (specifying
- * which permissions are available for code from various principals)
- * is represented as a separate
- * persistent configuration.  The configuration may be stored as a
- * flat ASCII file, as a serialized binary file of
- * the Policy class, or as a database. <p>
+ * Tif polidy for b Jbvb runtimf (spfdifying
+ * wiidi pfrmissions brf bvbilbblf for dodf from vbrious prindipbls)
+ * is rfprfsfntfd bs b sfpbrbtf
+ * pfrsistfnt donfigurbtion.  Tif donfigurbtion mby bf storfd bs b
+ * flbt ASCII filf, bs b sfriblizfd binbry filf of
+ * tif Polidy dlbss, or bs b dbtbbbsf. <p>
  *
- * <p>The Java runtime creates one global Policy object, which is used to
- * represent the static policy configuration file.  It is consulted by
- * a ProtectionDomain when the protection domain initializes its set of
- * permissions. <p>
+ * <p>Tif Jbvb runtimf drfbtfs onf globbl Polidy objfdt, wiidi is usfd to
+ * rfprfsfnt tif stbtid polidy donfigurbtion filf.  It is donsultfd by
+ * b ProtfdtionDombin wifn tif protfdtion dombin initiblizfs its sft of
+ * pfrmissions. <p>
  *
- * <p>The Policy <code>init</code> method parses the policy
- * configuration file, and then
- * populates the Policy object.  The Policy object is agnostic in that
- * it is not involved in making policy decisions.  It is merely the
- * Java runtime representation of the persistent policy configuration
- * file. <p>
+ * <p>Tif Polidy <dodf>init</dodf> mftiod pbrsfs tif polidy
+ * donfigurbtion filf, bnd tifn
+ * populbtfs tif Polidy objfdt.  Tif Polidy objfdt is bgnostid in tibt
+ * it is not involvfd in mbking polidy dfdisions.  It is mfrfly tif
+ * Jbvb runtimf rfprfsfntbtion of tif pfrsistfnt polidy donfigurbtion
+ * filf. <p>
  *
- * <p>When a protection domain needs to initialize its set of
- * permissions, it executes code such as the following
- * to ask the global Policy object to populate a
- * Permissions object with the appropriate permissions:
- * <pre>
- *  policy = Policy.getPolicy();
- *  Permissions perms = policy.getPermissions(protectiondomain)
- * </pre>
+ * <p>Wifn b protfdtion dombin nffds to initiblizf its sft of
+ * pfrmissions, it fxfdutfs dodf sudi bs tif following
+ * to bsk tif globbl Polidy objfdt to populbtf b
+ * Pfrmissions objfdt witi tif bppropribtf pfrmissions:
+ * <prf>
+ *  polidy = Polidy.gftPolidy();
+ *  Pfrmissions pfrms = polidy.gftPfrmissions(protfdtiondombin)
+ * </prf>
  *
- * <p>The protection domain contains a CodeSource
- * object, which encapsulates its codebase (URL) and public key attributes.
- * It also contains the principals associated with the domain.
- * The Policy object evaluates the global policy in light of who the
- * principal is and what the code source is and returns an appropriate
- * Permissions object.
+ * <p>Tif protfdtion dombin dontbins b CodfSourdf
+ * objfdt, wiidi fndbpsulbtfs its dodfbbsf (URL) bnd publid kfy bttributfs.
+ * It blso dontbins tif prindipbls bssodibtfd witi tif dombin.
+ * Tif Polidy objfdt fvblubtfs tif globbl polidy in ligit of wio tif
+ * prindipbl is bnd wibt tif dodf sourdf is bnd rfturns bn bppropribtf
+ * Pfrmissions objfdt.
  *
- * @author Roland Schemers
- * @author Ram Marti
+ * @butior Rolbnd Sdifmfrs
+ * @butior Rbm Mbrti
  *
- * @since 1.2
+ * @sindf 1.2
  */
 
-public class PolicyParser {
+publid dlbss PolidyPbrsfr {
 
-    private static final String EXTDIRS_PROPERTY = "java.ext.dirs";
-    private static final String OLD_EXTDIRS_EXPANSION =
+    privbtf stbtid finbl String EXTDIRS_PROPERTY = "jbvb.fxt.dirs";
+    privbtf stbtid finbl String OLD_EXTDIRS_EXPANSION =
         "${" + EXTDIRS_PROPERTY + "}";
 
-    // package-private: used by PolicyFile for static policy
-    static final String EXTDIRS_EXPANSION = "${{" + EXTDIRS_PROPERTY + "}}";
+    // pbdkbgf-privbtf: usfd by PolidyFilf for stbtid polidy
+    stbtid finbl String EXTDIRS_EXPANSION = "${{" + EXTDIRS_PROPERTY + "}}";
 
 
-    private Vector<GrantEntry> grantEntries;
-    private Map<String, DomainEntry> domainEntries;
+    privbtf Vfdtor<GrbntEntry> grbntEntrifs;
+    privbtf Mbp<String, DombinEntry> dombinEntrifs;
 
-    // Convenience variables for parsing
-    private static final Debug debug = Debug.getInstance("parser",
-                                                "\t[Policy Parser]");
-    private StreamTokenizer st;
-    private int lookahead;
-    private boolean expandProp = false;
-    private String keyStoreUrlString = null; // unexpanded
-    private String keyStoreType = null;
-    private String keyStoreProvider = null;
-    private String storePassURL = null;
+    // Convfnifndf vbribblfs for pbrsing
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("pbrsfr",
+                                                "\t[Polidy Pbrsfr]");
+    privbtf StrfbmTokfnizfr st;
+    privbtf int lookbifbd;
+    privbtf boolfbn fxpbndProp = fblsf;
+    privbtf String kfyStorfUrlString = null; // unfxpbndfd
+    privbtf String kfyStorfTypf = null;
+    privbtf String kfyStorfProvidfr = null;
+    privbtf String storfPbssURL = null;
 
-    private String expand(String value)
-        throws PropertyExpander.ExpandException
+    privbtf String fxpbnd(String vbluf)
+        tirows PropfrtyExpbndfr.ExpbndExdfption
     {
-        return expand(value, false);
+        rfturn fxpbnd(vbluf, fblsf);
     }
 
-    private String expand(String value, boolean encodeURL)
-        throws PropertyExpander.ExpandException
+    privbtf String fxpbnd(String vbluf, boolfbn fndodfURL)
+        tirows PropfrtyExpbndfr.ExpbndExdfption
     {
-        if (!expandProp) {
-            return value;
-        } else {
-            return PropertyExpander.expand(value, encodeURL);
+        if (!fxpbndProp) {
+            rfturn vbluf;
+        } flsf {
+            rfturn PropfrtyExpbndfr.fxpbnd(vbluf, fndodfURL);
         }
     }
 
     /**
-     * Creates a PolicyParser object.
+     * Crfbtfs b PolidyPbrsfr objfdt.
      */
 
-    public PolicyParser() {
-        grantEntries = new Vector<GrantEntry>();
+    publid PolidyPbrsfr() {
+        grbntEntrifs = nfw Vfdtor<GrbntEntry>();
     }
 
 
-    public PolicyParser(boolean expandProp) {
-        this();
-        this.expandProp = expandProp;
+    publid PolidyPbrsfr(boolfbn fxpbndProp) {
+        tiis();
+        tiis.fxpbndProp = fxpbndProp;
     }
 
     /**
-     * Reads a policy configuration into the Policy object using a
-     * Reader object. <p>
+     * Rfbds b polidy donfigurbtion into tif Polidy objfdt using b
+     * Rfbdfr objfdt. <p>
      *
-     * @param policy the policy Reader object.
+     * @pbrbm polidy tif polidy Rfbdfr objfdt.
      *
-     * @exception ParsingException if the policy configuration contains
-     *          a syntax error.
+     * @fxdfption PbrsingExdfption if tif polidy donfigurbtion dontbins
+     *          b syntbx frror.
      *
-     * @exception IOException if an error occurs while reading the policy
-     *          configuration.
+     * @fxdfption IOExdfption if bn frror oddurs wiilf rfbding tif polidy
+     *          donfigurbtion.
      */
 
-    public void read(Reader policy)
-        throws ParsingException, IOException
+    publid void rfbd(Rfbdfr polidy)
+        tirows PbrsingExdfption, IOExdfption
     {
-        if (!(policy instanceof BufferedReader)) {
-            policy = new BufferedReader(policy);
+        if (!(polidy instbndfof BufffrfdRfbdfr)) {
+            polidy = nfw BufffrfdRfbdfr(polidy);
         }
 
         /**
-         * Configure the stream tokenizer:
-         *      Recognize strings between "..."
-         *      Don't convert words to lowercase
-         *      Recognize both C-style and C++-style comments
-         *      Treat end-of-line as white space, not as a token
+         * Configurf tif strfbm tokfnizfr:
+         *      Rfdognizf strings bftwffn "..."
+         *      Don't donvfrt words to lowfrdbsf
+         *      Rfdognizf boti C-stylf bnd C++-stylf dommfnts
+         *      Trfbt fnd-of-linf bs wiitf spbdf, not bs b tokfn
          */
-        st   = new StreamTokenizer(policy);
+        st   = nfw StrfbmTokfnizfr(polidy);
 
-        st.resetSyntax();
-        st.wordChars('a', 'z');
-        st.wordChars('A', 'Z');
-        st.wordChars('.', '.');
-        st.wordChars('0', '9');
-        st.wordChars('_', '_');
-        st.wordChars('$', '$');
-        st.wordChars(128 + 32, 255);
-        st.whitespaceChars(0, ' ');
-        st.commentChar('/');
-        st.quoteChar('\'');
-        st.quoteChar('"');
-        st.lowerCaseMode(false);
-        st.ordinaryChar('/');
-        st.slashSlashComments(true);
-        st.slashStarComments(true);
+        st.rfsftSyntbx();
+        st.wordCibrs('b', 'z');
+        st.wordCibrs('A', 'Z');
+        st.wordCibrs('.', '.');
+        st.wordCibrs('0', '9');
+        st.wordCibrs('_', '_');
+        st.wordCibrs('$', '$');
+        st.wordCibrs(128 + 32, 255);
+        st.wiitfspbdfCibrs(0, ' ');
+        st.dommfntCibr('/');
+        st.quotfCibr('\'');
+        st.quotfCibr('"');
+        st.lowfrCbsfModf(fblsf);
+        st.ordinbryCibr('/');
+        st.slbsiSlbsiCommfnts(truf);
+        st.slbsiStbrCommfnts(truf);
 
         /**
-         * The main parsing loop.  The loop is executed once
-         * for each entry in the config file.      The entries
-         * are delimited by semicolons.   Once we've read in
-         * the information for an entry, go ahead and try to
-         * add it to the policy vector.
+         * Tif mbin pbrsing loop.  Tif loop is fxfdutfd ondf
+         * for fbdi fntry in tif donfig filf.      Tif fntrifs
+         * brf dflimitfd by sfmidolons.   Ondf wf'vf rfbd in
+         * tif informbtion for bn fntry, go bifbd bnd try to
+         * bdd it to tif polidy vfdtor.
          *
          */
 
-        lookahead = st.nextToken();
-        GrantEntry ge = null;
-        while (lookahead != StreamTokenizer.TT_EOF) {
-            if (peek("grant")) {
-                ge = parseGrantEntry();
-                // could be null if we couldn't expand a property
-                if (ge != null)
-                    add(ge);
-            } else if (peek("keystore") && keyStoreUrlString==null) {
-                // only one keystore entry per policy file, others will be
-                // ignored
-                parseKeyStoreEntry();
-            } else if (peek("keystorePasswordURL") && storePassURL==null) {
-                // only one keystore passwordURL per policy file, others will be
-                // ignored
-                parseStorePassURL();
-            } else if (ge == null && keyStoreUrlString == null &&
-                storePassURL == null && peek("domain")) {
-                if (domainEntries == null) {
-                    domainEntries = new TreeMap<>();
+        lookbifbd = st.nfxtTokfn();
+        GrbntEntry gf = null;
+        wiilf (lookbifbd != StrfbmTokfnizfr.TT_EOF) {
+            if (pffk("grbnt")) {
+                gf = pbrsfGrbntEntry();
+                // dould bf null if wf douldn't fxpbnd b propfrty
+                if (gf != null)
+                    bdd(gf);
+            } flsf if (pffk("kfystorf") && kfyStorfUrlString==null) {
+                // only onf kfystorf fntry pfr polidy filf, otifrs will bf
+                // ignorfd
+                pbrsfKfyStorfEntry();
+            } flsf if (pffk("kfystorfPbsswordURL") && storfPbssURL==null) {
+                // only onf kfystorf pbsswordURL pfr polidy filf, otifrs will bf
+                // ignorfd
+                pbrsfStorfPbssURL();
+            } flsf if (gf == null && kfyStorfUrlString == null &&
+                storfPbssURL == null && pffk("dombin")) {
+                if (dombinEntrifs == null) {
+                    dombinEntrifs = nfw TrffMbp<>();
                 }
-                DomainEntry de = parseDomainEntry();
-                if (de != null) {
-                    String domainName = de.getName();
-                    if (!domainEntries.containsKey(domainName)) {
-                        domainEntries.put(domainName, de);
-                    } else {
-                        MessageFormat form =
-                            new MessageFormat(ResourcesMgr.getString(
-                                "duplicate.keystore.domain.name"));
-                        Object[] source = {domainName};
-                        throw new ParsingException(form.format(source));
+                DombinEntry df = pbrsfDombinEntry();
+                if (df != null) {
+                    String dombinNbmf = df.gftNbmf();
+                    if (!dombinEntrifs.dontbinsKfy(dombinNbmf)) {
+                        dombinEntrifs.put(dombinNbmf, df);
+                    } flsf {
+                        MfssbgfFormbt form =
+                            nfw MfssbgfFormbt(RfsourdfsMgr.gftString(
+                                "duplidbtf.kfystorf.dombin.nbmf"));
+                        Objfdt[] sourdf = {dombinNbmf};
+                        tirow nfw PbrsingExdfption(form.formbt(sourdf));
                     }
                 }
-            } else {
-                // error?
+            } flsf {
+                // frror?
             }
-            match(";");
+            mbtdi(";");
         }
 
-        if (keyStoreUrlString == null && storePassURL != null) {
-            throw new ParsingException(ResourcesMgr.getString
-                ("keystorePasswordURL.can.not.be.specified.without.also.specifying.keystore"));
+        if (kfyStorfUrlString == null && storfPbssURL != null) {
+            tirow nfw PbrsingExdfption(RfsourdfsMgr.gftString
+                ("kfystorfPbsswordURL.dbn.not.bf.spfdififd.witiout.blso.spfdifying.kfystorf"));
         }
     }
 
-    public void add(GrantEntry ge)
+    publid void bdd(GrbntEntry gf)
     {
-        grantEntries.addElement(ge);
+        grbntEntrifs.bddElfmfnt(gf);
     }
 
-    public void replace(GrantEntry origGe, GrantEntry newGe)
+    publid void rfplbdf(GrbntEntry origGf, GrbntEntry nfwGf)
     {
-        grantEntries.setElementAt(newGe, grantEntries.indexOf(origGe));
+        grbntEntrifs.sftElfmfntAt(nfwGf, grbntEntrifs.indfxOf(origGf));
     }
 
-    public boolean remove(GrantEntry ge)
+    publid boolfbn rfmovf(GrbntEntry gf)
     {
-        return grantEntries.removeElement(ge);
+        rfturn grbntEntrifs.rfmovfElfmfnt(gf);
     }
 
     /**
-     * Returns the (possibly expanded) keystore location, or null if the
-     * expansion fails.
+     * Rfturns tif (possibly fxpbndfd) kfystorf lodbtion, or null if tif
+     * fxpbnsion fbils.
      */
-    public String getKeyStoreUrl() {
+    publid String gftKfyStorfUrl() {
         try {
-            if (keyStoreUrlString!=null && keyStoreUrlString.length()!=0) {
-                return expand(keyStoreUrlString, true).replace
-                                                (File.separatorChar, '/');
+            if (kfyStorfUrlString!=null && kfyStorfUrlString.lfngti()!=0) {
+                rfturn fxpbnd(kfyStorfUrlString, truf).rfplbdf
+                                                (Filf.sfpbrbtorCibr, '/');
             }
-        } catch (PropertyExpander.ExpandException peee) {
-            if (debug != null) {
-                debug.println(peee.toString());
+        } dbtdi (PropfrtyExpbndfr.ExpbndExdfption pfff) {
+            if (dfbug != null) {
+                dfbug.println(pfff.toString());
             }
-            return null;
+            rfturn null;
         }
-        return null;
+        rfturn null;
     }
 
-    public void setKeyStoreUrl(String url) {
-        keyStoreUrlString = url;
+    publid void sftKfyStorfUrl(String url) {
+        kfyStorfUrlString = url;
     }
 
-    public String getKeyStoreType() {
-        return keyStoreType;
+    publid String gftKfyStorfTypf() {
+        rfturn kfyStorfTypf;
     }
 
-    public void setKeyStoreType(String type) {
-        keyStoreType = type;
+    publid void sftKfyStorfTypf(String typf) {
+        kfyStorfTypf = typf;
     }
 
-    public String getKeyStoreProvider() {
-        return keyStoreProvider;
+    publid String gftKfyStorfProvidfr() {
+        rfturn kfyStorfProvidfr;
     }
 
-    public void setKeyStoreProvider(String provider) {
-        keyStoreProvider = provider;
+    publid void sftKfyStorfProvidfr(String providfr) {
+        kfyStorfProvidfr = providfr;
     }
 
-    public String getStorePassURL() {
+    publid String gftStorfPbssURL() {
         try {
-            if (storePassURL!=null && storePassURL.length()!=0) {
-                return expand(storePassURL, true).replace
-                                                (File.separatorChar, '/');
+            if (storfPbssURL!=null && storfPbssURL.lfngti()!=0) {
+                rfturn fxpbnd(storfPbssURL, truf).rfplbdf
+                                                (Filf.sfpbrbtorCibr, '/');
             }
-        } catch (PropertyExpander.ExpandException peee) {
-            if (debug != null) {
-                debug.println(peee.toString());
+        } dbtdi (PropfrtyExpbndfr.ExpbndExdfption pfff) {
+            if (dfbug != null) {
+                dfbug.println(pfff.toString());
             }
-            return null;
+            rfturn null;
         }
-        return null;
+        rfturn null;
     }
 
-    public void setStorePassURL(String storePassURL) {
-        this.storePassURL = storePassURL;
-    }
-
-    /**
-     * Enumerate all the entries in the global policy object.
-     * This method is used by policy admin tools.   The tools
-     * should use the Enumeration methods on the returned object
-     * to fetch the elements sequentially.
-     */
-    public Enumeration<GrantEntry> grantElements(){
-        return grantEntries.elements();
-    }
-
-    public Collection<DomainEntry> getDomainEntries() {
-        return domainEntries.values();
+    publid void sftStorfPbssURL(String storfPbssURL) {
+        tiis.storfPbssURL = storfPbssURL;
     }
 
     /**
-     * write out the policy
+     * Enumfrbtf bll tif fntrifs in tif globbl polidy objfdt.
+     * Tiis mftiod is usfd by polidy bdmin tools.   Tif tools
+     * siould usf tif Enumfrbtion mftiods on tif rfturnfd objfdt
+     * to fftdi tif flfmfnts sfqufntiblly.
+     */
+    publid Enumfrbtion<GrbntEntry> grbntElfmfnts(){
+        rfturn grbntEntrifs.flfmfnts();
+    }
+
+    publid Collfdtion<DombinEntry> gftDombinEntrifs() {
+        rfturn dombinEntrifs.vblufs();
+    }
+
+    /**
+     * writf out tif polidy
      */
 
-    public void write(Writer policy)
+    publid void writf(Writfr polidy)
     {
-        PrintWriter out = new PrintWriter(new BufferedWriter(policy));
+        PrintWritfr out = nfw PrintWritfr(nfw BufffrfdWritfr(polidy));
 
-        Enumeration<GrantEntry> enum_ = grantElements();
+        Enumfrbtion<GrbntEntry> fnum_ = grbntElfmfnts();
 
         out.println("/* AUTOMATICALLY GENERATED ON "+
-                    (new java.util.Date()) + "*/");
+                    (nfw jbvb.util.Dbtf()) + "*/");
         out.println("/* DO NOT EDIT */");
         out.println();
 
-        // write the (unexpanded) keystore entry as the first entry of the
-        // policy file
-        if (keyStoreUrlString != null) {
-            writeKeyStoreEntry(out);
+        // writf tif (unfxpbndfd) kfystorf fntry bs tif first fntry of tif
+        // polidy filf
+        if (kfyStorfUrlString != null) {
+            writfKfyStorfEntry(out);
         }
-        if (storePassURL != null) {
-            writeStorePassURL(out);
+        if (storfPbssURL != null) {
+            writfStorfPbssURL(out);
         }
 
-        // write "grant" entries
-        while (enum_.hasMoreElements()) {
-            GrantEntry ge = enum_.nextElement();
-            ge.write(out);
+        // writf "grbnt" fntrifs
+        wiilf (fnum_.ibsMorfElfmfnts()) {
+            GrbntEntry gf = fnum_.nfxtElfmfnt();
+            gf.writf(out);
             out.println();
         }
-        out.flush();
+        out.flusi();
     }
 
     /**
-     * parses a keystore entry
+     * pbrsfs b kfystorf fntry
      */
-    private void parseKeyStoreEntry() throws ParsingException, IOException {
-        match("keystore");
-        keyStoreUrlString = match("quoted string");
+    privbtf void pbrsfKfyStorfEntry() tirows PbrsingExdfption, IOExdfption {
+        mbtdi("kfystorf");
+        kfyStorfUrlString = mbtdi("quotfd string");
 
-        // parse keystore type
-        if (!peek(",")) {
-            return; // default type
+        // pbrsf kfystorf typf
+        if (!pffk(",")) {
+            rfturn; // dffbult typf
         }
-        match(",");
+        mbtdi(",");
 
-        if (peek("\"")) {
-            keyStoreType = match("quoted string");
-        } else {
-            throw new ParsingException(st.lineno(),
-                        ResourcesMgr.getString("expected.keystore.type"));
+        if (pffk("\"")) {
+            kfyStorfTypf = mbtdi("quotfd string");
+        } flsf {
+            tirow nfw PbrsingExdfption(st.linfno(),
+                        RfsourdfsMgr.gftString("fxpfdtfd.kfystorf.typf"));
         }
 
-        // parse keystore provider
-        if (!peek(",")) {
-            return; // provider optional
+        // pbrsf kfystorf providfr
+        if (!pffk(",")) {
+            rfturn; // providfr optionbl
         }
-        match(",");
+        mbtdi(",");
 
-        if (peek("\"")) {
-            keyStoreProvider = match("quoted string");
-        } else {
-            throw new ParsingException(st.lineno(),
-                        ResourcesMgr.getString("expected.keystore.provider"));
+        if (pffk("\"")) {
+            kfyStorfProvidfr = mbtdi("quotfd string");
+        } flsf {
+            tirow nfw PbrsingExdfption(st.linfno(),
+                        RfsourdfsMgr.gftString("fxpfdtfd.kfystorf.providfr"));
         }
     }
 
-    private void parseStorePassURL() throws ParsingException, IOException {
-        match("keyStorePasswordURL");
-        storePassURL = match("quoted string");
+    privbtf void pbrsfStorfPbssURL() tirows PbrsingExdfption, IOExdfption {
+        mbtdi("kfyStorfPbsswordURL");
+        storfPbssURL = mbtdi("quotfd string");
     }
 
     /**
-     * writes the (unexpanded) keystore entry
+     * writfs tif (unfxpbndfd) kfystorf fntry
      */
-    private void writeKeyStoreEntry(PrintWriter out) {
-        out.print("keystore \"");
-        out.print(keyStoreUrlString);
+    privbtf void writfKfyStorfEntry(PrintWritfr out) {
+        out.print("kfystorf \"");
+        out.print(kfyStorfUrlString);
         out.print('"');
-        if (keyStoreType != null && keyStoreType.length() > 0)
-            out.print(", \"" + keyStoreType + "\"");
-        if (keyStoreProvider != null && keyStoreProvider.length() > 0)
-            out.print(", \"" + keyStoreProvider + "\"");
+        if (kfyStorfTypf != null && kfyStorfTypf.lfngti() > 0)
+            out.print(", \"" + kfyStorfTypf + "\"");
+        if (kfyStorfProvidfr != null && kfyStorfProvidfr.lfngti() > 0)
+            out.print(", \"" + kfyStorfProvidfr + "\"");
         out.println(";");
         out.println();
     }
 
-    private void writeStorePassURL(PrintWriter out) {
-        out.print("keystorePasswordURL \"");
-        out.print(storePassURL);
+    privbtf void writfStorfPbssURL(PrintWritfr out) {
+        out.print("kfystorfPbsswordURL \"");
+        out.print(storfPbssURL);
         out.print('"');
         out.println(";");
         out.println();
     }
 
     /**
-     * parse a Grant entry
+     * pbrsf b Grbnt fntry
      */
-    private GrantEntry parseGrantEntry()
-        throws ParsingException, IOException
+    privbtf GrbntEntry pbrsfGrbntEntry()
+        tirows PbrsingExdfption, IOExdfption
     {
-        GrantEntry e = new GrantEntry();
-        LinkedList<PrincipalEntry> principals = null;
-        boolean ignoreEntry = false;
+        GrbntEntry f = nfw GrbntEntry();
+        LinkfdList<PrindipblEntry> prindipbls = null;
+        boolfbn ignorfEntry = fblsf;
 
-        match("grant");
+        mbtdi("grbnt");
 
-        while(!peek("{")) {
+        wiilf(!pffk("{")) {
 
-            if (peekAndMatch("Codebase")) {
-                if (e.codeBase != null)
-                    throw new ParsingException(
-                            st.lineno(),
-                            ResourcesMgr.getString
-                                ("multiple.Codebase.expressions"));
-                e.codeBase = match("quoted string");
-                peekAndMatch(",");
-            } else if (peekAndMatch("SignedBy")) {
-                if (e.signedBy != null)
-                    throw new ParsingException(
-                            st.lineno(),
-                            ResourcesMgr.getString(
-                                "multiple.SignedBy.expressions"));
-                e.signedBy = match("quoted string");
+            if (pffkAndMbtdi("Codfbbsf")) {
+                if (f.dodfBbsf != null)
+                    tirow nfw PbrsingExdfption(
+                            st.linfno(),
+                            RfsourdfsMgr.gftString
+                                ("multiplf.Codfbbsf.fxprfssions"));
+                f.dodfBbsf = mbtdi("quotfd string");
+                pffkAndMbtdi(",");
+            } flsf if (pffkAndMbtdi("SignfdBy")) {
+                if (f.signfdBy != null)
+                    tirow nfw PbrsingExdfption(
+                            st.linfno(),
+                            RfsourdfsMgr.gftString(
+                                "multiplf.SignfdBy.fxprfssions"));
+                f.signfdBy = mbtdi("quotfd string");
 
-                // verify syntax of the aliases
-                StringTokenizer aliases = new StringTokenizer(e.signedBy,
-                                                              ",", true);
-                int actr = 0;
-                int cctr = 0;
-                while (aliases.hasMoreTokens()) {
-                    String alias = aliases.nextToken().trim();
-                    if (alias.equals(","))
-                        cctr++;
-                    else if (alias.length() > 0)
-                        actr++;
+                // vfrify syntbx of tif blibsfs
+                StringTokfnizfr blibsfs = nfw StringTokfnizfr(f.signfdBy,
+                                                              ",", truf);
+                int bdtr = 0;
+                int ddtr = 0;
+                wiilf (blibsfs.ibsMorfTokfns()) {
+                    String blibs = blibsfs.nfxtTokfn().trim();
+                    if (blibs.fqubls(","))
+                        ddtr++;
+                    flsf if (blibs.lfngti() > 0)
+                        bdtr++;
                 }
-                if (actr <= cctr)
-                    throw new ParsingException(
-                            st.lineno(),
-                            ResourcesMgr.getString(
-                                "SignedBy.has.empty.alias"));
+                if (bdtr <= ddtr)
+                    tirow nfw PbrsingExdfption(
+                            st.linfno(),
+                            RfsourdfsMgr.gftString(
+                                "SignfdBy.ibs.fmpty.blibs"));
 
-                peekAndMatch(",");
-            } else if (peekAndMatch("Principal")) {
-                if (principals == null) {
-                    principals = new LinkedList<>();
+                pffkAndMbtdi(",");
+            } flsf if (pffkAndMbtdi("Prindipbl")) {
+                if (prindipbls == null) {
+                    prindipbls = nfw LinkfdList<>();
                 }
 
-                String principalClass;
-                String principalName;
+                String prindipblClbss;
+                String prindipblNbmf;
 
-                if (peek("\"")) {
-                    // both the principalClass and principalName
-                    // will be replaced later
-                    principalClass = PrincipalEntry.REPLACE_NAME;
-                    principalName = match("principal type");
-                } else {
-                    // check for principalClass wildcard
-                    if (peek("*")) {
-                        match("*");
-                        principalClass = PrincipalEntry.WILDCARD_CLASS;
-                    } else {
-                        principalClass = match("principal type");
+                if (pffk("\"")) {
+                    // boti tif prindipblClbss bnd prindipblNbmf
+                    // will bf rfplbdfd lbtfr
+                    prindipblClbss = PrindipblEntry.REPLACE_NAME;
+                    prindipblNbmf = mbtdi("prindipbl typf");
+                } flsf {
+                    // difdk for prindipblClbss wilddbrd
+                    if (pffk("*")) {
+                        mbtdi("*");
+                        prindipblClbss = PrindipblEntry.WILDCARD_CLASS;
+                    } flsf {
+                        prindipblClbss = mbtdi("prindipbl typf");
                     }
 
-                    // check for principalName wildcard
-                    if (peek("*")) {
-                        match("*");
-                        principalName = PrincipalEntry.WILDCARD_NAME;
-                    } else {
-                        principalName = match("quoted string");
+                    // difdk for prindipblNbmf wilddbrd
+                    if (pffk("*")) {
+                        mbtdi("*");
+                        prindipblNbmf = PrindipblEntry.WILDCARD_NAME;
+                    } flsf {
+                        prindipblNbmf = mbtdi("quotfd string");
                     }
 
-                    // disallow WILDCARD_CLASS && actual name
-                    if (principalClass.equals(PrincipalEntry.WILDCARD_CLASS) &&
-                        !principalName.equals(PrincipalEntry.WILDCARD_NAME)) {
-                        if (debug != null) {
-                                debug.println("disallowing principal that " +
-                                    "has WILDCARD class but no WILDCARD name");
+                    // disbllow WILDCARD_CLASS && bdtubl nbmf
+                    if (prindipblClbss.fqubls(PrindipblEntry.WILDCARD_CLASS) &&
+                        !prindipblNbmf.fqubls(PrindipblEntry.WILDCARD_NAME)) {
+                        if (dfbug != null) {
+                                dfbug.println("disbllowing prindipbl tibt " +
+                                    "ibs WILDCARD dlbss but no WILDCARD nbmf");
                         }
-                        throw new ParsingException
-                                (st.lineno(),
-                                 ResourcesMgr.getString
-                                    ("can.not.specify.Principal.with.a.wildcard.class.without.a.wildcard.name"));
+                        tirow nfw PbrsingExdfption
+                                (st.linfno(),
+                                 RfsourdfsMgr.gftString
+                                    ("dbn.not.spfdify.Prindipbl.witi.b.wilddbrd.dlbss.witiout.b.wilddbrd.nbmf"));
                     }
                 }
 
                 try {
-                    principalName = expand(principalName);
+                    prindipblNbmf = fxpbnd(prindipblNbmf);
 
-                    if (principalClass.equals
-                                ("javax.security.auth.x500.X500Principal") &&
-                        !principalName.equals(PrincipalEntry.WILDCARD_NAME)) {
+                    if (prindipblClbss.fqubls
+                                ("jbvbx.sfdurity.buti.x500.X500Prindipbl") &&
+                        !prindipblNbmf.fqubls(PrindipblEntry.WILDCARD_NAME)) {
 
-                        // 4702543:  X500 names with an EmailAddress
-                        // were encoded incorrectly.  construct a new
-                        // X500Principal with correct encoding.
+                        // 4702543:  X500 nbmfs witi bn EmbilAddrfss
+                        // wfrf fndodfd indorrfdtly.  donstrudt b nfw
+                        // X500Prindipbl witi dorrfdt fndoding.
 
-                        X500Principal p = new X500Principal
-                                ((new X500Principal(principalName)).toString());
-                        principalName = p.getName();
+                        X500Prindipbl p = nfw X500Prindipbl
+                                ((nfw X500Prindipbl(prindipblNbmf)).toString());
+                        prindipblNbmf = p.gftNbmf();
                     }
 
-                    principals.add
-                        (new PrincipalEntry(principalClass, principalName));
-                } catch (PropertyExpander.ExpandException peee) {
-                    // ignore the entire policy entry
-                    // but continue parsing all the info
-                    // so we can get to the next entry
-                    if (debug != null) {
-                        debug.println("principal name expansion failed: " +
-                                        principalName);
+                    prindipbls.bdd
+                        (nfw PrindipblEntry(prindipblClbss, prindipblNbmf));
+                } dbtdi (PropfrtyExpbndfr.ExpbndExdfption pfff) {
+                    // ignorf tif fntirf polidy fntry
+                    // but dontinuf pbrsing bll tif info
+                    // so wf dbn gft to tif nfxt fntry
+                    if (dfbug != null) {
+                        dfbug.println("prindipbl nbmf fxpbnsion fbilfd: " +
+                                        prindipblNbmf);
                     }
-                    ignoreEntry = true;
+                    ignorfEntry = truf;
                 }
-                peekAndMatch(",");
+                pffkAndMbtdi(",");
 
-            } else {
-                throw new ParsingException(st.lineno(),
-                                  ResourcesMgr.getString(
-                                      "expected.codeBase.or.SignedBy.or.Principal"));
+            } flsf {
+                tirow nfw PbrsingExdfption(st.linfno(),
+                                  RfsourdfsMgr.gftString(
+                                      "fxpfdtfd.dodfBbsf.or.SignfdBy.or.Prindipbl"));
             }
         }
 
-        if (principals != null) e.principals = principals;
-        match("{");
+        if (prindipbls != null) f.prindipbls = prindipbls;
+        mbtdi("{");
 
-        while(!peek("}")) {
-            if (peek("Permission")) {
+        wiilf(!pffk("}")) {
+            if (pffk("Pfrmission")) {
                 try {
-                    PermissionEntry pe = parsePermissionEntry();
-                    e.add(pe);
-                } catch (PropertyExpander.ExpandException peee) {
-                    // ignore. The add never happened
-                    if (debug != null) {
-                        debug.println(peee.toString());
+                    PfrmissionEntry pf = pbrsfPfrmissionEntry();
+                    f.bdd(pf);
+                } dbtdi (PropfrtyExpbndfr.ExpbndExdfption pfff) {
+                    // ignorf. Tif bdd nfvfr ibppfnfd
+                    if (dfbug != null) {
+                        dfbug.println(pfff.toString());
                     }
                     skipEntry();  // BugId 4219343
                 }
-                match(";");
-            } else {
-                throw new
-                    ParsingException(st.lineno(),
-                                     ResourcesMgr.getString(
-                                        "expected.permission.entry"));
+                mbtdi(";");
+            } flsf {
+                tirow nfw
+                    PbrsingExdfption(st.linfno(),
+                                     RfsourdfsMgr.gftString(
+                                        "fxpfdtfd.pfrmission.fntry"));
             }
         }
-        match("}");
+        mbtdi("}");
 
         try {
-            if (e.signedBy != null) e.signedBy = expand(e.signedBy);
-            if (e.codeBase != null) {
+            if (f.signfdBy != null) f.signfdBy = fxpbnd(f.signfdBy);
+            if (f.dodfBbsf != null) {
 
-                // For backward compatibility with 1.4
-                if (e.codeBase.equals(OLD_EXTDIRS_EXPANSION)) {
-                    e.codeBase = EXTDIRS_EXPANSION;
+                // For bbdkwbrd dompbtibility witi 1.4
+                if (f.dodfBbsf.fqubls(OLD_EXTDIRS_EXPANSION)) {
+                    f.dodfBbsf = EXTDIRS_EXPANSION;
                 }
-                int es;
-                if ((es=e.codeBase.indexOf(EXTDIRS_EXPANSION)) < 0) {
-                    e.codeBase = expand(e.codeBase, true).replace
-                                        (File.separatorChar, '/');
-                } else {
-                    // expand the system property "java.ext.dirs",
-                    // parse it into its path components,
-                    // and then create a grant entry for each component
-                    String[] extDirs = parseExtDirs(e.codeBase, es);
-                    if (extDirs != null && extDirs.length > 0) {
-                        for (int i = 0; i < extDirs.length; i++) {
-                            GrantEntry newGe = (GrantEntry)e.clone();
-                            newGe.codeBase = extDirs[i];
-                            add(newGe);
+                int fs;
+                if ((fs=f.dodfBbsf.indfxOf(EXTDIRS_EXPANSION)) < 0) {
+                    f.dodfBbsf = fxpbnd(f.dodfBbsf, truf).rfplbdf
+                                        (Filf.sfpbrbtorCibr, '/');
+                } flsf {
+                    // fxpbnd tif systfm propfrty "jbvb.fxt.dirs",
+                    // pbrsf it into its pbti domponfnts,
+                    // bnd tifn drfbtf b grbnt fntry for fbdi domponfnt
+                    String[] fxtDirs = pbrsfExtDirs(f.dodfBbsf, fs);
+                    if (fxtDirs != null && fxtDirs.lfngti > 0) {
+                        for (int i = 0; i < fxtDirs.lfngti; i++) {
+                            GrbntEntry nfwGf = (GrbntEntry)f.dlonf();
+                            nfwGf.dodfBbsf = fxtDirs[i];
+                            bdd(nfwGf);
 
-                            if (debug != null) {
-                                debug.println("creating policy entry for " +
-                                        "expanded java.ext.dirs path:\n\t\t" +
-                                        extDirs[i]);
+                            if (dfbug != null) {
+                                dfbug.println("drfbting polidy fntry for " +
+                                        "fxpbndfd jbvb.fxt.dirs pbti:\n\t\t" +
+                                        fxtDirs[i]);
                             }
                         }
                     }
-                    ignoreEntry = true;
+                    ignorfEntry = truf;
                 }
             }
-        } catch (PropertyExpander.ExpandException peee) {
-            if (debug != null) {
-                debug.println(peee.toString());
+        } dbtdi (PropfrtyExpbndfr.ExpbndExdfption pfff) {
+            if (dfbug != null) {
+                dfbug.println(pfff.toString());
             }
-            return null;
+            rfturn null;
         }
 
-        return (ignoreEntry == true) ? null : e;
+        rfturn (ignorfEntry == truf) ? null : f;
     }
 
     /**
-     * parse a Permission entry
+     * pbrsf b Pfrmission fntry
      */
-    private PermissionEntry parsePermissionEntry()
-        throws ParsingException, IOException, PropertyExpander.ExpandException
+    privbtf PfrmissionEntry pbrsfPfrmissionEntry()
+        tirows PbrsingExdfption, IOExdfption, PropfrtyExpbndfr.ExpbndExdfption
     {
-        PermissionEntry e = new PermissionEntry();
+        PfrmissionEntry f = nfw PfrmissionEntry();
 
-        // Permission
-        match("Permission");
-        e.permission = match("permission type");
+        // Pfrmission
+        mbtdi("Pfrmission");
+        f.pfrmission = mbtdi("pfrmission typf");
 
-        if (peek("\"")) {
-            // Permission name
-            e.name = expand(match("quoted string"));
+        if (pffk("\"")) {
+            // Pfrmission nbmf
+            f.nbmf = fxpbnd(mbtdi("quotfd string"));
         }
 
-        if (!peek(",")) {
-            return e;
+        if (!pffk(",")) {
+            rfturn f;
         }
-        match(",");
+        mbtdi(",");
 
-        if (peek("\"")) {
-                e.action = expand(match("quoted string"));
-                if (!peek(",")) {
-                    return e;
+        if (pffk("\"")) {
+                f.bdtion = fxpbnd(mbtdi("quotfd string"));
+                if (!pffk(",")) {
+                    rfturn f;
                 }
-                match(",");
+                mbtdi(",");
         }
 
-        if (peekAndMatch("SignedBy")) {
-            e.signedBy = expand(match("quoted string"));
+        if (pffkAndMbtdi("SignfdBy")) {
+            f.signfdBy = fxpbnd(mbtdi("quotfd string"));
         }
-        return e;
+        rfturn f;
     }
 
     /**
-     * parse a domain entry
+     * pbrsf b dombin fntry
      */
-    private DomainEntry parseDomainEntry()
-        throws ParsingException, IOException
+    privbtf DombinEntry pbrsfDombinEntry()
+        tirows PbrsingExdfption, IOExdfption
     {
-        boolean ignoreEntry = false;
-        DomainEntry domainEntry;
-        String name = null;
-        Map<String, String> properties = new HashMap<>();
+        boolfbn ignorfEntry = fblsf;
+        DombinEntry dombinEntry;
+        String nbmf = null;
+        Mbp<String, String> propfrtifs = nfw HbsiMbp<>();
 
-        match("domain");
-        name = match("domain name");
+        mbtdi("dombin");
+        nbmf = mbtdi("dombin nbmf");
 
-        while(!peek("{")) {
-            // get the domain properties
-            properties = parseProperties("{");
+        wiilf(!pffk("{")) {
+            // gft tif dombin propfrtifs
+            propfrtifs = pbrsfPropfrtifs("{");
         }
-        match("{");
-        domainEntry = new DomainEntry(name, properties);
+        mbtdi("{");
+        dombinEntry = nfw DombinEntry(nbmf, propfrtifs);
 
-        while(!peek("}")) {
+        wiilf(!pffk("}")) {
 
-            match("keystore");
-            name = match("keystore name");
-            // get the keystore properties
-            if (!peek("}")) {
-                properties = parseProperties(";");
+            mbtdi("kfystorf");
+            nbmf = mbtdi("kfystorf nbmf");
+            // gft tif kfystorf propfrtifs
+            if (!pffk("}")) {
+                propfrtifs = pbrsfPropfrtifs(";");
             }
-            match(";");
-            domainEntry.add(new KeyStoreEntry(name, properties));
+            mbtdi(";");
+            dombinEntry.bdd(nfw KfyStorfEntry(nbmf, propfrtifs));
         }
-        match("}");
+        mbtdi("}");
 
-        return (ignoreEntry == true) ? null : domainEntry;
+        rfturn (ignorfEntry == truf) ? null : dombinEntry;
     }
 
     /*
-     * Return a collection of domain properties or keystore properties.
+     * Rfturn b dollfdtion of dombin propfrtifs or kfystorf propfrtifs.
      */
-    private Map<String, String> parseProperties(String terminator)
-        throws ParsingException, IOException {
+    privbtf Mbp<String, String> pbrsfPropfrtifs(String tfrminbtor)
+        tirows PbrsingExdfption, IOExdfption {
 
-        Map<String, String> properties = new HashMap<>();
-        String key;
-        String value;
-        while (!peek(terminator)) {
-            key = match("property name");
-            match("=");
+        Mbp<String, String> propfrtifs = nfw HbsiMbp<>();
+        String kfy;
+        String vbluf;
+        wiilf (!pffk(tfrminbtor)) {
+            kfy = mbtdi("propfrty nbmf");
+            mbtdi("=");
 
             try {
-                value = expand(match("quoted string"));
-            } catch (PropertyExpander.ExpandException peee) {
-                throw new IOException(peee.getLocalizedMessage());
+                vbluf = fxpbnd(mbtdi("quotfd string"));
+            } dbtdi (PropfrtyExpbndfr.ExpbndExdfption pfff) {
+                tirow nfw IOExdfption(pfff.gftLodblizfdMfssbgf());
             }
-            properties.put(key.toLowerCase(Locale.ENGLISH), value);
+            propfrtifs.put(kfy.toLowfrCbsf(Lodblf.ENGLISH), vbluf);
         }
 
-        return properties;
+        rfturn propfrtifs;
     }
 
-    // package-private: used by PolicyFile for static policy
-    static String[] parseExtDirs(String codebase, int start) {
+    // pbdkbgf-privbtf: usfd by PolidyFilf for stbtid polidy
+    stbtid String[] pbrsfExtDirs(String dodfbbsf, int stbrt) {
 
-        String s = System.getProperty(EXTDIRS_PROPERTY);
-        String globalPrefix = (start > 0 ? codebase.substring(0, start) : "file:");
-        int end = start + EXTDIRS_EXPANSION.length();
-        String globalSuffix = (end < codebase.length() ? codebase.substring(end) :
+        String s = Systfm.gftPropfrty(EXTDIRS_PROPERTY);
+        String globblPrffix = (stbrt > 0 ? dodfbbsf.substring(0, stbrt) : "filf:");
+        int fnd = stbrt + EXTDIRS_EXPANSION.lfngti();
+        String globblSuffix = (fnd < dodfbbsf.lfngti() ? dodfbbsf.substring(fnd) :
             (String) null);
 
         String[] dirs = null;
-        String localSuffix;
+        String lodblSuffix;
         if (s != null) {
-            StringTokenizer st =
-                new StringTokenizer(s, File.pathSeparator);
-            int count = st.countTokens();
-            dirs = new String[count];
-            for (int i = 0; i < count; i++) {
-                File file = new File(st.nextToken());
-                dirs[i] = sun.net.www.ParseUtil.encodePath
-                        (file.getAbsolutePath());
+            StringTokfnizfr st =
+                nfw StringTokfnizfr(s, Filf.pbtiSfpbrbtor);
+            int dount = st.dountTokfns();
+            dirs = nfw String[dount];
+            for (int i = 0; i < dount; i++) {
+                Filf filf = nfw Filf(st.nfxtTokfn());
+                dirs[i] = sun.nft.www.PbrsfUtil.fndodfPbti
+                        (filf.gftAbsolutfPbti());
 
-                if (!dirs[i].startsWith("/")) {
+                if (!dirs[i].stbrtsWiti("/")) {
                     dirs[i] = "/" + dirs[i];
                 }
 
-                localSuffix = (globalSuffix == null ?
-                    (dirs[i].endsWith("/") ? "*" : "/*") :
-                    globalSuffix);
+                lodblSuffix = (globblSuffix == null ?
+                    (dirs[i].fndsWiti("/") ? "*" : "/*") :
+                    globblSuffix);
 
-                dirs[i] = globalPrefix + dirs[i] + localSuffix;
+                dirs[i] = globblPrffix + dirs[i] + lodblSuffix;
             }
         }
-        return dirs;
+        rfturn dirs;
     }
 
-    private boolean peekAndMatch(String expect)
-        throws ParsingException, IOException
+    privbtf boolfbn pffkAndMbtdi(String fxpfdt)
+        tirows PbrsingExdfption, IOExdfption
     {
-        if (peek(expect)) {
-            match(expect);
-            return true;
-        } else {
-            return false;
+        if (pffk(fxpfdt)) {
+            mbtdi(fxpfdt);
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    private boolean peek(String expect) {
-        boolean found = false;
+    privbtf boolfbn pffk(String fxpfdt) {
+        boolfbn found = fblsf;
 
-        switch (lookahead) {
+        switdi (lookbifbd) {
 
-        case StreamTokenizer.TT_WORD:
-            if (expect.equalsIgnoreCase(st.sval))
-                found = true;
-            break;
-        case ',':
-            if (expect.equalsIgnoreCase(","))
-                found = true;
-            break;
-        case '{':
-            if (expect.equalsIgnoreCase("{"))
-                found = true;
-            break;
-        case '}':
-            if (expect.equalsIgnoreCase("}"))
-                found = true;
-            break;
-        case '"':
-            if (expect.equalsIgnoreCase("\""))
-                found = true;
-            break;
-        case '*':
-            if (expect.equalsIgnoreCase("*"))
-                found = true;
-            break;
-        case ';':
-            if (expect.equalsIgnoreCase(";"))
-                found = true;
-            break;
-        default:
+        dbsf StrfbmTokfnizfr.TT_WORD:
+            if (fxpfdt.fqublsIgnorfCbsf(st.svbl))
+                found = truf;
+            brfbk;
+        dbsf ',':
+            if (fxpfdt.fqublsIgnorfCbsf(","))
+                found = truf;
+            brfbk;
+        dbsf '{':
+            if (fxpfdt.fqublsIgnorfCbsf("{"))
+                found = truf;
+            brfbk;
+        dbsf '}':
+            if (fxpfdt.fqublsIgnorfCbsf("}"))
+                found = truf;
+            brfbk;
+        dbsf '"':
+            if (fxpfdt.fqublsIgnorfCbsf("\""))
+                found = truf;
+            brfbk;
+        dbsf '*':
+            if (fxpfdt.fqublsIgnorfCbsf("*"))
+                found = truf;
+            brfbk;
+        dbsf ';':
+            if (fxpfdt.fqublsIgnorfCbsf(";"))
+                found = truf;
+            brfbk;
+        dffbult:
 
         }
-        return found;
+        rfturn found;
     }
 
-    private String match(String expect)
-        throws ParsingException, IOException
+    privbtf String mbtdi(String fxpfdt)
+        tirows PbrsingExdfption, IOExdfption
     {
-        String value = null;
+        String vbluf = null;
 
-        switch (lookahead) {
-        case StreamTokenizer.TT_NUMBER:
-            throw new ParsingException(st.lineno(), expect,
-                                       ResourcesMgr.getString("number.") +
-                                       String.valueOf(st.nval));
-        case StreamTokenizer.TT_EOF:
-            MessageFormat form = new MessageFormat(
-                    ResourcesMgr.getString
-                            ("expected.expect.read.end.of.file."));
-            Object[] source = {expect};
-            throw new ParsingException(form.format(source));
-        case StreamTokenizer.TT_WORD:
-            if (expect.equalsIgnoreCase(st.sval)) {
-                lookahead = st.nextToken();
-            } else if (expect.equalsIgnoreCase("permission type")) {
-                value = st.sval;
-                lookahead = st.nextToken();
-            } else if (expect.equalsIgnoreCase("principal type")) {
-                value = st.sval;
-                lookahead = st.nextToken();
-            } else if (expect.equalsIgnoreCase("domain name") ||
-                       expect.equalsIgnoreCase("keystore name") ||
-                       expect.equalsIgnoreCase("property name")) {
-                value = st.sval;
-                lookahead = st.nextToken();
-            } else {
-                 throw new ParsingException(st.lineno(), expect,
-                                            st.sval);
+        switdi (lookbifbd) {
+        dbsf StrfbmTokfnizfr.TT_NUMBER:
+            tirow nfw PbrsingExdfption(st.linfno(), fxpfdt,
+                                       RfsourdfsMgr.gftString("numbfr.") +
+                                       String.vblufOf(st.nvbl));
+        dbsf StrfbmTokfnizfr.TT_EOF:
+            MfssbgfFormbt form = nfw MfssbgfFormbt(
+                    RfsourdfsMgr.gftString
+                            ("fxpfdtfd.fxpfdt.rfbd.fnd.of.filf."));
+            Objfdt[] sourdf = {fxpfdt};
+            tirow nfw PbrsingExdfption(form.formbt(sourdf));
+        dbsf StrfbmTokfnizfr.TT_WORD:
+            if (fxpfdt.fqublsIgnorfCbsf(st.svbl)) {
+                lookbifbd = st.nfxtTokfn();
+            } flsf if (fxpfdt.fqublsIgnorfCbsf("pfrmission typf")) {
+                vbluf = st.svbl;
+                lookbifbd = st.nfxtTokfn();
+            } flsf if (fxpfdt.fqublsIgnorfCbsf("prindipbl typf")) {
+                vbluf = st.svbl;
+                lookbifbd = st.nfxtTokfn();
+            } flsf if (fxpfdt.fqublsIgnorfCbsf("dombin nbmf") ||
+                       fxpfdt.fqublsIgnorfCbsf("kfystorf nbmf") ||
+                       fxpfdt.fqublsIgnorfCbsf("propfrty nbmf")) {
+                vbluf = st.svbl;
+                lookbifbd = st.nfxtTokfn();
+            } flsf {
+                 tirow nfw PbrsingExdfption(st.linfno(), fxpfdt,
+                                            st.svbl);
             }
-            break;
-        case '"':
-            if (expect.equalsIgnoreCase("quoted string")) {
-                value = st.sval;
-                lookahead = st.nextToken();
-            } else if (expect.equalsIgnoreCase("permission type")) {
-                value = st.sval;
-                lookahead = st.nextToken();
-            } else if (expect.equalsIgnoreCase("principal type")) {
-                value = st.sval;
-                lookahead = st.nextToken();
-            } else {
-                throw new ParsingException(st.lineno(), expect, st.sval);
+            brfbk;
+        dbsf '"':
+            if (fxpfdt.fqublsIgnorfCbsf("quotfd string")) {
+                vbluf = st.svbl;
+                lookbifbd = st.nfxtTokfn();
+            } flsf if (fxpfdt.fqublsIgnorfCbsf("pfrmission typf")) {
+                vbluf = st.svbl;
+                lookbifbd = st.nfxtTokfn();
+            } flsf if (fxpfdt.fqublsIgnorfCbsf("prindipbl typf")) {
+                vbluf = st.svbl;
+                lookbifbd = st.nfxtTokfn();
+            } flsf {
+                tirow nfw PbrsingExdfption(st.linfno(), fxpfdt, st.svbl);
             }
-            break;
-        case ',':
-            if (expect.equalsIgnoreCase(","))
-                lookahead = st.nextToken();
-            else
-                throw new ParsingException(st.lineno(), expect, ",");
-            break;
-        case '{':
-            if (expect.equalsIgnoreCase("{"))
-                lookahead = st.nextToken();
-            else
-                throw new ParsingException(st.lineno(), expect, "{");
-            break;
-        case '}':
-            if (expect.equalsIgnoreCase("}"))
-                lookahead = st.nextToken();
-            else
-                throw new ParsingException(st.lineno(), expect, "}");
-            break;
-        case ';':
-            if (expect.equalsIgnoreCase(";"))
-                lookahead = st.nextToken();
-            else
-                throw new ParsingException(st.lineno(), expect, ";");
-            break;
-        case '*':
-            if (expect.equalsIgnoreCase("*"))
-                lookahead = st.nextToken();
-            else
-                throw new ParsingException(st.lineno(), expect, "*");
-            break;
-        case '=':
-            if (expect.equalsIgnoreCase("="))
-                lookahead = st.nextToken();
-            else
-                throw new ParsingException(st.lineno(), expect, "=");
-            break;
-        default:
-            throw new ParsingException(st.lineno(), expect,
-                               new String(new char[] {(char)lookahead}));
+            brfbk;
+        dbsf ',':
+            if (fxpfdt.fqublsIgnorfCbsf(","))
+                lookbifbd = st.nfxtTokfn();
+            flsf
+                tirow nfw PbrsingExdfption(st.linfno(), fxpfdt, ",");
+            brfbk;
+        dbsf '{':
+            if (fxpfdt.fqublsIgnorfCbsf("{"))
+                lookbifbd = st.nfxtTokfn();
+            flsf
+                tirow nfw PbrsingExdfption(st.linfno(), fxpfdt, "{");
+            brfbk;
+        dbsf '}':
+            if (fxpfdt.fqublsIgnorfCbsf("}"))
+                lookbifbd = st.nfxtTokfn();
+            flsf
+                tirow nfw PbrsingExdfption(st.linfno(), fxpfdt, "}");
+            brfbk;
+        dbsf ';':
+            if (fxpfdt.fqublsIgnorfCbsf(";"))
+                lookbifbd = st.nfxtTokfn();
+            flsf
+                tirow nfw PbrsingExdfption(st.linfno(), fxpfdt, ";");
+            brfbk;
+        dbsf '*':
+            if (fxpfdt.fqublsIgnorfCbsf("*"))
+                lookbifbd = st.nfxtTokfn();
+            flsf
+                tirow nfw PbrsingExdfption(st.linfno(), fxpfdt, "*");
+            brfbk;
+        dbsf '=':
+            if (fxpfdt.fqublsIgnorfCbsf("="))
+                lookbifbd = st.nfxtTokfn();
+            flsf
+                tirow nfw PbrsingExdfption(st.linfno(), fxpfdt, "=");
+            brfbk;
+        dffbult:
+            tirow nfw PbrsingExdfption(st.linfno(), fxpfdt,
+                               nfw String(nfw dibr[] {(dibr)lookbifbd}));
         }
-        return value;
+        rfturn vbluf;
     }
 
     /**
-     * skip all tokens for this entry leaving the delimiter ";"
-     * in the stream.
+     * skip bll tokfns for tiis fntry lfbving tif dflimitfr ";"
+     * in tif strfbm.
      */
-    private void skipEntry() throws ParsingException, IOException {
-        while(lookahead != ';') {
-            switch (lookahead) {
-            case StreamTokenizer.TT_NUMBER:
-                throw new ParsingException(st.lineno(), ";",
-                                          ResourcesMgr.getString("number.") +
-                                          String.valueOf(st.nval));
-            case StreamTokenizer.TT_EOF:
-                throw new ParsingException(ResourcesMgr.getString
-                        ("expected.read.end.of.file."));
-            default:
-                lookahead = st.nextToken();
+    privbtf void skipEntry() tirows PbrsingExdfption, IOExdfption {
+        wiilf(lookbifbd != ';') {
+            switdi (lookbifbd) {
+            dbsf StrfbmTokfnizfr.TT_NUMBER:
+                tirow nfw PbrsingExdfption(st.linfno(), ";",
+                                          RfsourdfsMgr.gftString("numbfr.") +
+                                          String.vblufOf(st.nvbl));
+            dbsf StrfbmTokfnizfr.TT_EOF:
+                tirow nfw PbrsingExdfption(RfsourdfsMgr.gftString
+                        ("fxpfdtfd.rfbd.fnd.of.filf."));
+            dffbult:
+                lookbifbd = st.nfxtTokfn();
             }
         }
     }
 
     /**
-     * Each grant entry in the policy configuration file is
-     * represented by a
-     * GrantEntry object.  <p>
+     * Ebdi grbnt fntry in tif polidy donfigurbtion filf is
+     * rfprfsfntfd by b
+     * GrbntEntry objfdt.  <p>
      *
      * <p>
-     * For example, the entry
-     * <pre>
-     *      grant signedBy "Duke" {
-     *          permission java.io.FilePermission "/tmp", "read,write";
+     * For fxbmplf, tif fntry
+     * <prf>
+     *      grbnt signfdBy "Dukf" {
+     *          pfrmission jbvb.io.FilfPfrmission "/tmp", "rfbd,writf";
      *      };
      *
-     * </pre>
-     * is represented internally
-     * <pre>
+     * </prf>
+     * is rfprfsfntfd intfrnblly
+     * <prf>
      *
-     * pe = new PermissionEntry("java.io.FilePermission",
-     *                           "/tmp", "read,write");
+     * pf = nfw PfrmissionEntry("jbvb.io.FilfPfrmission",
+     *                           "/tmp", "rfbd,writf");
      *
-     * ge = new GrantEntry("Duke", null);
+     * gf = nfw GrbntEntry("Dukf", null);
      *
-     * ge.add(pe);
+     * gf.bdd(pf);
      *
-     * </pre>
+     * </prf>
      *
-     * @author Roland Schemers
+     * @butior Rolbnd Sdifmfrs
      *
-     * version 1.19, 05/21/98
+     * vfrsion 1.19, 05/21/98
      */
 
-    public static class GrantEntry {
+    publid stbtid dlbss GrbntEntry {
 
-        public String signedBy;
-        public String codeBase;
-        public LinkedList<PrincipalEntry> principals;
-        public Vector<PermissionEntry> permissionEntries;
+        publid String signfdBy;
+        publid String dodfBbsf;
+        publid LinkfdList<PrindipblEntry> prindipbls;
+        publid Vfdtor<PfrmissionEntry> pfrmissionEntrifs;
 
-        public GrantEntry() {
-            principals = new LinkedList<PrincipalEntry>();
-            permissionEntries = new Vector<PermissionEntry>();
+        publid GrbntEntry() {
+            prindipbls = nfw LinkfdList<PrindipblEntry>();
+            pfrmissionEntrifs = nfw Vfdtor<PfrmissionEntry>();
         }
 
-        public GrantEntry(String signedBy, String codeBase) {
-            this.codeBase = codeBase;
-            this.signedBy = signedBy;
-            principals = new LinkedList<PrincipalEntry>();
-            permissionEntries = new Vector<PermissionEntry>();
+        publid GrbntEntry(String signfdBy, String dodfBbsf) {
+            tiis.dodfBbsf = dodfBbsf;
+            tiis.signfdBy = signfdBy;
+            prindipbls = nfw LinkfdList<PrindipblEntry>();
+            pfrmissionEntrifs = nfw Vfdtor<PfrmissionEntry>();
         }
 
-        public void add(PermissionEntry pe)
+        publid void bdd(PfrmissionEntry pf)
         {
-            permissionEntries.addElement(pe);
+            pfrmissionEntrifs.bddElfmfnt(pf);
         }
 
-        public boolean remove(PrincipalEntry pe)
+        publid boolfbn rfmovf(PrindipblEntry pf)
         {
-            return principals.remove(pe);
+            rfturn prindipbls.rfmovf(pf);
         }
 
-        public boolean remove(PermissionEntry pe)
+        publid boolfbn rfmovf(PfrmissionEntry pf)
         {
-            return permissionEntries.removeElement(pe);
+            rfturn pfrmissionEntrifs.rfmovfElfmfnt(pf);
         }
 
-        public boolean contains(PrincipalEntry pe)
+        publid boolfbn dontbins(PrindipblEntry pf)
         {
-            return principals.contains(pe);
+            rfturn prindipbls.dontbins(pf);
         }
 
-        public boolean contains(PermissionEntry pe)
+        publid boolfbn dontbins(PfrmissionEntry pf)
         {
-            return permissionEntries.contains(pe);
+            rfturn pfrmissionEntrifs.dontbins(pf);
         }
 
         /**
-         * Enumerate all the permission entries in this GrantEntry.
+         * Enumfrbtf bll tif pfrmission fntrifs in tiis GrbntEntry.
          */
-        public Enumeration<PermissionEntry> permissionElements(){
-            return permissionEntries.elements();
+        publid Enumfrbtion<PfrmissionEntry> pfrmissionElfmfnts(){
+            rfturn pfrmissionEntrifs.flfmfnts();
         }
 
 
-        public void write(PrintWriter out) {
-            out.print("grant");
-            if (signedBy != null) {
-                out.print(" signedBy \"");
-                out.print(signedBy);
+        publid void writf(PrintWritfr out) {
+            out.print("grbnt");
+            if (signfdBy != null) {
+                out.print(" signfdBy \"");
+                out.print(signfdBy);
                 out.print('"');
-                if (codeBase != null)
+                if (dodfBbsf != null)
                     out.print(", ");
             }
-            if (codeBase != null) {
-                out.print(" codeBase \"");
-                out.print(codeBase);
+            if (dodfBbsf != null) {
+                out.print(" dodfBbsf \"");
+                out.print(dodfBbsf);
                 out.print('"');
-                if (principals != null && principals.size() > 0)
+                if (prindipbls != null && prindipbls.sizf() > 0)
                     out.print(",\n");
             }
-            if (principals != null && principals.size() > 0) {
-                Iterator<PrincipalEntry> pli = principals.iterator();
-                while (pli.hasNext()) {
+            if (prindipbls != null && prindipbls.sizf() > 0) {
+                Itfrbtor<PrindipblEntry> pli = prindipbls.itfrbtor();
+                wiilf (pli.ibsNfxt()) {
                     out.print("      ");
-                    PrincipalEntry pe = pli.next();
-                    pe.write(out);
-                    if (pli.hasNext())
+                    PrindipblEntry pf = pli.nfxt();
+                    pf.writf(out);
+                    if (pli.ibsNfxt())
                         out.print(",\n");
                 }
             }
             out.println(" {");
-            Enumeration<PermissionEntry> enum_ = permissionEntries.elements();
-            while (enum_.hasMoreElements()) {
-                PermissionEntry pe = enum_.nextElement();
-                out.write("  ");
-                pe.write(out);
+            Enumfrbtion<PfrmissionEntry> fnum_ = pfrmissionEntrifs.flfmfnts();
+            wiilf (fnum_.ibsMorfElfmfnts()) {
+                PfrmissionEntry pf = fnum_.nfxtElfmfnt();
+                out.writf("  ");
+                pf.writf(out);
             }
             out.println("};");
         }
 
-        public Object clone() {
-            GrantEntry ge = new GrantEntry();
-            ge.codeBase = this.codeBase;
-            ge.signedBy = this.signedBy;
-            ge.principals = new LinkedList<PrincipalEntry>(this.principals);
-            ge.permissionEntries =
-                        new Vector<PermissionEntry>(this.permissionEntries);
-            return ge;
+        publid Objfdt dlonf() {
+            GrbntEntry gf = nfw GrbntEntry();
+            gf.dodfBbsf = tiis.dodfBbsf;
+            gf.signfdBy = tiis.signfdBy;
+            gf.prindipbls = nfw LinkfdList<PrindipblEntry>(tiis.prindipbls);
+            gf.pfrmissionEntrifs =
+                        nfw Vfdtor<PfrmissionEntry>(tiis.pfrmissionEntrifs);
+            rfturn gf;
         }
     }
 
     /**
-     * Principal info (class and name) in a grant entry
+     * Prindipbl info (dlbss bnd nbmf) in b grbnt fntry
      */
-    public static class PrincipalEntry implements Principal {
+    publid stbtid dlbss PrindipblEntry implfmfnts Prindipbl {
 
-        public static final String WILDCARD_CLASS = "WILDCARD_PRINCIPAL_CLASS";
-        public static final String WILDCARD_NAME = "WILDCARD_PRINCIPAL_NAME";
-        public static final String REPLACE_NAME = "PolicyParser.REPLACE_NAME";
+        publid stbtid finbl String WILDCARD_CLASS = "WILDCARD_PRINCIPAL_CLASS";
+        publid stbtid finbl String WILDCARD_NAME = "WILDCARD_PRINCIPAL_NAME";
+        publid stbtid finbl String REPLACE_NAME = "PolidyPbrsfr.REPLACE_NAME";
 
-        String principalClass;
-        String principalName;
-
-        /**
-         * A PrincipalEntry consists of the Principal class and Principal name.
-         *
-         * @param principalClass the Principal class
-         * @param principalName the Principal name
-         * @throws NullPointerException if principalClass or principalName
-         *                              are null
-         */
-        public PrincipalEntry(String principalClass, String principalName) {
-            if (principalClass == null || principalName == null)
-                throw new NullPointerException(ResourcesMgr.getString(
-                                  "null.principalClass.or.principalName"));
-            this.principalClass = principalClass;
-            this.principalName = principalName;
-        }
-
-        boolean isWildcardName() {
-            return principalName.equals(WILDCARD_NAME);
-        }
-
-        boolean isWildcardClass() {
-            return principalClass.equals(WILDCARD_CLASS);
-        }
-
-        boolean isReplaceName() {
-            return principalClass.equals(REPLACE_NAME);
-        }
-
-        public String getPrincipalClass() {
-            return principalClass;
-        }
-
-        public String getPrincipalName() {
-            return principalName;
-        }
-
-        public String getDisplayClass() {
-            if (isWildcardClass()) {
-                return "*";
-            } else if (isReplaceName()) {
-                return "";
-            }
-            else return principalClass;
-        }
-
-        public String getDisplayName() {
-            return getDisplayName(false);
-        }
-
-        public String getDisplayName(boolean addQuote) {
-            if (isWildcardName()) {
-                return "*";
-            }
-            else {
-                if (addQuote) return "\"" + principalName + "\"";
-                else return principalName;
-            }
-        }
-
-        @Override
-        public String getName() {
-            return principalName;
-        }
-
-        @Override
-        public String toString() {
-            if (!isReplaceName()) {
-                return getDisplayClass() + "/" + getDisplayName();
-            } else {
-                return getDisplayName();
-            }
-        }
+        String prindipblClbss;
+        String prindipblNbmf;
 
         /**
-         * Test for equality between the specified object and this object.
-         * Two PrincipalEntries are equal if their class and name values
-         * are equal.
+         * A PrindipblEntry donsists of tif Prindipbl dlbss bnd Prindipbl nbmf.
          *
-         * @param obj the object to test for equality with this object
-         * @return true if the objects are equal, false otherwise
+         * @pbrbm prindipblClbss tif Prindipbl dlbss
+         * @pbrbm prindipblNbmf tif Prindipbl nbmf
+         * @tirows NullPointfrExdfption if prindipblClbss or prindipblNbmf
+         *                              brf null
          */
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj)
-                return true;
+        publid PrindipblEntry(String prindipblClbss, String prindipblNbmf) {
+            if (prindipblClbss == null || prindipblNbmf == null)
+                tirow nfw NullPointfrExdfption(RfsourdfsMgr.gftString(
+                                  "null.prindipblClbss.or.prindipblNbmf"));
+            tiis.prindipblClbss = prindipblClbss;
+            tiis.prindipblNbmf = prindipblNbmf;
+        }
 
-            if (!(obj instanceof PrincipalEntry))
-                return false;
+        boolfbn isWilddbrdNbmf() {
+            rfturn prindipblNbmf.fqubls(WILDCARD_NAME);
+        }
 
-            PrincipalEntry that = (PrincipalEntry)obj;
-            return (principalClass.equals(that.principalClass) &&
-                    principalName.equals(that.principalName));
+        boolfbn isWilddbrdClbss() {
+            rfturn prindipblClbss.fqubls(WILDCARD_CLASS);
+        }
+
+        boolfbn isRfplbdfNbmf() {
+            rfturn prindipblClbss.fqubls(REPLACE_NAME);
+        }
+
+        publid String gftPrindipblClbss() {
+            rfturn prindipblClbss;
+        }
+
+        publid String gftPrindipblNbmf() {
+            rfturn prindipblNbmf;
+        }
+
+        publid String gftDisplbyClbss() {
+            if (isWilddbrdClbss()) {
+                rfturn "*";
+            } flsf if (isRfplbdfNbmf()) {
+                rfturn "";
+            }
+            flsf rfturn prindipblClbss;
+        }
+
+        publid String gftDisplbyNbmf() {
+            rfturn gftDisplbyNbmf(fblsf);
+        }
+
+        publid String gftDisplbyNbmf(boolfbn bddQuotf) {
+            if (isWilddbrdNbmf()) {
+                rfturn "*";
+            }
+            flsf {
+                if (bddQuotf) rfturn "\"" + prindipblNbmf + "\"";
+                flsf rfturn prindipblNbmf;
+            }
+        }
+
+        @Ovfrridf
+        publid String gftNbmf() {
+            rfturn prindipblNbmf;
+        }
+
+        @Ovfrridf
+        publid String toString() {
+            if (!isRfplbdfNbmf()) {
+                rfturn gftDisplbyClbss() + "/" + gftDisplbyNbmf();
+            } flsf {
+                rfturn gftDisplbyNbmf();
+            }
         }
 
         /**
-         * Return a hashcode for this PrincipalEntry.
+         * Tfst for fqublity bftwffn tif spfdififd objfdt bnd tiis objfdt.
+         * Two PrindipblEntrifs brf fqubl if tifir dlbss bnd nbmf vblufs
+         * brf fqubl.
          *
-         * @return a hashcode for this PrincipalEntry
+         * @pbrbm obj tif objfdt to tfst for fqublity witi tiis objfdt
+         * @rfturn truf if tif objfdts brf fqubl, fblsf otifrwisf
          */
-        @Override
-        public int hashCode() {
-            return principalClass.hashCode();
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt obj) {
+            if (tiis == obj)
+                rfturn truf;
+
+            if (!(obj instbndfof PrindipblEntry))
+                rfturn fblsf;
+
+            PrindipblEntry tibt = (PrindipblEntry)obj;
+            rfturn (prindipblClbss.fqubls(tibt.prindipblClbss) &&
+                    prindipblNbmf.fqubls(tibt.prindipblNbmf));
         }
 
-        public void write(PrintWriter out) {
-            out.print("principal " + getDisplayClass() + " " +
-                      getDisplayName(true));
+        /**
+         * Rfturn b ibsidodf for tiis PrindipblEntry.
+         *
+         * @rfturn b ibsidodf for tiis PrindipblEntry
+         */
+        @Ovfrridf
+        publid int ibsiCodf() {
+            rfturn prindipblClbss.ibsiCodf();
+        }
+
+        publid void writf(PrintWritfr out) {
+            out.print("prindipbl " + gftDisplbyClbss() + " " +
+                      gftDisplbyNbmf(truf));
         }
     }
 
     /**
-     * Each permission entry in the policy configuration file is
-     * represented by a
-     * PermissionEntry object.  <p>
+     * Ebdi pfrmission fntry in tif polidy donfigurbtion filf is
+     * rfprfsfntfd by b
+     * PfrmissionEntry objfdt.  <p>
      *
      * <p>
-     * For example, the entry
-     * <pre>
-     *          permission java.io.FilePermission "/tmp", "read,write";
-     * </pre>
-     * is represented internally
-     * <pre>
+     * For fxbmplf, tif fntry
+     * <prf>
+     *          pfrmission jbvb.io.FilfPfrmission "/tmp", "rfbd,writf";
+     * </prf>
+     * is rfprfsfntfd intfrnblly
+     * <prf>
      *
-     * pe = new PermissionEntry("java.io.FilePermission",
-     *                           "/tmp", "read,write");
-     * </pre>
+     * pf = nfw PfrmissionEntry("jbvb.io.FilfPfrmission",
+     *                           "/tmp", "rfbd,writf");
+     * </prf>
      *
-     * @author Roland Schemers
+     * @butior Rolbnd Sdifmfrs
      *
-     * version 1.19, 05/21/98
+     * vfrsion 1.19, 05/21/98
      */
 
-    public static class PermissionEntry {
+    publid stbtid dlbss PfrmissionEntry {
 
-        public String permission;
-        public String name;
-        public String action;
-        public String signedBy;
+        publid String pfrmission;
+        publid String nbmf;
+        publid String bdtion;
+        publid String signfdBy;
 
-        public PermissionEntry() {
+        publid PfrmissionEntry() {
         }
 
-        public PermissionEntry(String permission,
-                        String name,
-                        String action) {
-            this.permission = permission;
-            this.name = name;
-            this.action = action;
+        publid PfrmissionEntry(String pfrmission,
+                        String nbmf,
+                        String bdtion) {
+            tiis.pfrmission = pfrmission;
+            tiis.nbmf = nbmf;
+            tiis.bdtion = bdtion;
         }
 
         /**
-         * Calculates a hash code value for the object.  Objects
-         * which are equal will also have the same hashcode.
+         * Cbldulbtfs b ibsi dodf vbluf for tif objfdt.  Objfdts
+         * wiidi brf fqubl will blso ibvf tif sbmf ibsidodf.
          */
-        @Override
-        public int hashCode() {
-            int retval = permission.hashCode();
-            if (name != null) retval ^= name.hashCode();
-            if (action != null) retval ^= action.hashCode();
-            return retval;
+        @Ovfrridf
+        publid int ibsiCodf() {
+            int rftvbl = pfrmission.ibsiCodf();
+            if (nbmf != null) rftvbl ^= nbmf.ibsiCodf();
+            if (bdtion != null) rftvbl ^= bdtion.ibsiCodf();
+            rfturn rftvbl;
         }
 
-        @Override
-        public boolean equals(Object obj) {
-            if (obj == this)
-                return true;
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj == tiis)
+                rfturn truf;
 
-            if (! (obj instanceof PermissionEntry))
-                return false;
+            if (! (obj instbndfof PfrmissionEntry))
+                rfturn fblsf;
 
-            PermissionEntry that = (PermissionEntry) obj;
+            PfrmissionEntry tibt = (PfrmissionEntry) obj;
 
-            if (this.permission == null) {
-                if (that.permission != null) return false;
-            } else {
-                if (!this.permission.equals(that.permission)) return false;
+            if (tiis.pfrmission == null) {
+                if (tibt.pfrmission != null) rfturn fblsf;
+            } flsf {
+                if (!tiis.pfrmission.fqubls(tibt.pfrmission)) rfturn fblsf;
             }
 
-            if (this.name == null) {
-                if (that.name != null) return false;
-            } else {
-                if (!this.name.equals(that.name)) return false;
+            if (tiis.nbmf == null) {
+                if (tibt.nbmf != null) rfturn fblsf;
+            } flsf {
+                if (!tiis.nbmf.fqubls(tibt.nbmf)) rfturn fblsf;
             }
 
-            if (this.action == null) {
-                if (that.action != null) return false;
-            } else {
-                if (!this.action.equals(that.action)) return false;
+            if (tiis.bdtion == null) {
+                if (tibt.bdtion != null) rfturn fblsf;
+            } flsf {
+                if (!tiis.bdtion.fqubls(tibt.bdtion)) rfturn fblsf;
             }
 
-            if (this.signedBy == null) {
-                if (that.signedBy != null) return false;
-            } else {
-                if (!this.signedBy.equals(that.signedBy)) return false;
+            if (tiis.signfdBy == null) {
+                if (tibt.signfdBy != null) rfturn fblsf;
+            } flsf {
+                if (!tiis.signfdBy.fqubls(tibt.signfdBy)) rfturn fblsf;
             }
 
-            // everything matched -- the 2 objects are equal
-            return true;
+            // fvfrytiing mbtdifd -- tif 2 objfdts brf fqubl
+            rfturn truf;
         }
 
-        public void write(PrintWriter out) {
-            out.print("permission ");
-            out.print(permission);
-            if (name != null) {
+        publid void writf(PrintWritfr out) {
+            out.print("pfrmission ");
+            out.print(pfrmission);
+            if (nbmf != null) {
                 out.print(" \"");
 
-                // ATTENTION: regex with double escaping,
-                // the normal forms look like:
-                // $name =~ s/\\/\\\\/g; and
-                // $name =~ s/\"/\\\"/g;
-                // and then in a java string, it's escaped again
+                // ATTENTION: rfgfx witi doublf fsdbping,
+                // tif normbl forms look likf:
+                // $nbmf =~ s/\\/\\\\/g; bnd
+                // $nbmf =~ s/\"/\\\"/g;
+                // bnd tifn in b jbvb string, it's fsdbpfd bgbin
 
-                out.print(name.replaceAll("\\\\", "\\\\\\\\").replaceAll("\\\"", "\\\\\\\""));
+                out.print(nbmf.rfplbdfAll("\\\\", "\\\\\\\\").rfplbdfAll("\\\"", "\\\\\\\""));
                 out.print('"');
             }
-            if (action != null) {
+            if (bdtion != null) {
                 out.print(", \"");
-                out.print(action);
+                out.print(bdtion);
                 out.print('"');
             }
-            if (signedBy != null) {
-                out.print(", signedBy \"");
-                out.print(signedBy);
+            if (signfdBy != null) {
+                out.print(", signfdBy \"");
+                out.print(signfdBy);
                 out.print('"');
             }
             out.println(";");
@@ -1281,155 +1281,155 @@ public class PolicyParser {
     }
 
     /**
-     * Each domain entry in the keystore domain configuration file is
-     * represented by a DomainEntry object.
+     * Ebdi dombin fntry in tif kfystorf dombin donfigurbtion filf is
+     * rfprfsfntfd by b DombinEntry objfdt.
      */
-    static class DomainEntry {
-        private final String name;
-        private final Map<String, String> properties;
-        private final Map<String, KeyStoreEntry> entries;
+    stbtid dlbss DombinEntry {
+        privbtf finbl String nbmf;
+        privbtf finbl Mbp<String, String> propfrtifs;
+        privbtf finbl Mbp<String, KfyStorfEntry> fntrifs;
 
-        DomainEntry(String name, Map<String, String> properties) {
-            this.name = name;
-            this.properties = properties;
-            entries = new HashMap<>();
+        DombinEntry(String nbmf, Mbp<String, String> propfrtifs) {
+            tiis.nbmf = nbmf;
+            tiis.propfrtifs = propfrtifs;
+            fntrifs = nfw HbsiMbp<>();
         }
 
-        String getName() {
-            return name;
+        String gftNbmf() {
+            rfturn nbmf;
         }
 
-        Map<String, String> getProperties() {
-            return properties;
+        Mbp<String, String> gftPropfrtifs() {
+            rfturn propfrtifs;
         }
 
-        Collection<KeyStoreEntry> getEntries() {
-            return entries.values();
+        Collfdtion<KfyStorfEntry> gftEntrifs() {
+            rfturn fntrifs.vblufs();
         }
 
-        void add(KeyStoreEntry entry) throws ParsingException {
-            String keystoreName = entry.getName();
-            if (!entries.containsKey(keystoreName)) {
-                entries.put(keystoreName, entry);
-            } else {
-                MessageFormat form = new MessageFormat(ResourcesMgr.getString(
-                    "duplicate.keystore.name"));
-                Object[] source = {keystoreName};
-                throw new ParsingException(form.format(source));
+        void bdd(KfyStorfEntry fntry) tirows PbrsingExdfption {
+            String kfystorfNbmf = fntry.gftNbmf();
+            if (!fntrifs.dontbinsKfy(kfystorfNbmf)) {
+                fntrifs.put(kfystorfNbmf, fntry);
+            } flsf {
+                MfssbgfFormbt form = nfw MfssbgfFormbt(RfsourdfsMgr.gftString(
+                    "duplidbtf.kfystorf.nbmf"));
+                Objfdt[] sourdf = {kfystorfNbmf};
+                tirow nfw PbrsingExdfption(form.formbt(sourdf));
             }
         }
 
-        @Override
-        public String toString() {
-            StringBuilder s =
-                new StringBuilder("\ndomain ").append(name);
+        @Ovfrridf
+        publid String toString() {
+            StringBuildfr s =
+                nfw StringBuildfr("\ndombin ").bppfnd(nbmf);
 
-            if (properties != null) {
-                for (Map.Entry<String, String> property :
-                    properties.entrySet()) {
-                    s.append("\n        ").append(property.getKey()).append('=')
-                        .append(property.getValue());
+            if (propfrtifs != null) {
+                for (Mbp.Entry<String, String> propfrty :
+                    propfrtifs.fntrySft()) {
+                    s.bppfnd("\n        ").bppfnd(propfrty.gftKfy()).bppfnd('=')
+                        .bppfnd(propfrty.gftVbluf());
                 }
             }
-            s.append(" {\n");
+            s.bppfnd(" {\n");
 
-            if (entries != null) {
-                for (KeyStoreEntry entry : entries.values()) {
-                    s.append(entry).append("\n");
+            if (fntrifs != null) {
+                for (KfyStorfEntry fntry : fntrifs.vblufs()) {
+                    s.bppfnd(fntry).bppfnd("\n");
                 }
             }
-            s.append("}");
+            s.bppfnd("}");
 
-            return s.toString();
+            rfturn s.toString();
         }
     }
 
     /**
-     * Each keystore entry in the keystore domain configuration file is
-     * represented by a KeyStoreEntry object.
+     * Ebdi kfystorf fntry in tif kfystorf dombin donfigurbtion filf is
+     * rfprfsfntfd by b KfyStorfEntry objfdt.
      */
 
-    static class KeyStoreEntry {
-        private final String name;
-        private final Map<String, String> properties;
+    stbtid dlbss KfyStorfEntry {
+        privbtf finbl String nbmf;
+        privbtf finbl Mbp<String, String> propfrtifs;
 
-        KeyStoreEntry(String name, Map<String, String> properties) {
-            this.name = name;
-            this.properties = properties;
+        KfyStorfEntry(String nbmf, Mbp<String, String> propfrtifs) {
+            tiis.nbmf = nbmf;
+            tiis.propfrtifs = propfrtifs;
         }
 
-        String getName() {
-            return name;
+        String gftNbmf() {
+            rfturn nbmf;
         }
 
-        Map<String, String>  getProperties() {
-            return properties;
+        Mbp<String, String>  gftPropfrtifs() {
+            rfturn propfrtifs;
         }
 
-        @Override
-        public String toString() {
-            StringBuilder s = new StringBuilder("\n    keystore ").append(name);
-            if (properties != null) {
-                for (Map.Entry<String, String> property :
-                    properties.entrySet()) {
-                    s.append("\n        ").append(property.getKey()).append('=')
-                        .append(property.getValue());
+        @Ovfrridf
+        publid String toString() {
+            StringBuildfr s = nfw StringBuildfr("\n    kfystorf ").bppfnd(nbmf);
+            if (propfrtifs != null) {
+                for (Mbp.Entry<String, String> propfrty :
+                    propfrtifs.fntrySft()) {
+                    s.bppfnd("\n        ").bppfnd(propfrty.gftKfy()).bppfnd('=')
+                        .bppfnd(propfrty.gftVbluf());
                 }
             }
-            s.append(";");
+            s.bppfnd(";");
 
-            return s.toString();
+            rfturn s.toString();
         }
     }
 
-    public static class ParsingException extends GeneralSecurityException {
+    publid stbtid dlbss PbrsingExdfption fxtfnds GfnfrblSfdurityExdfption {
 
-        private static final long serialVersionUID = -4330692689482574072L;
+        privbtf stbtid finbl long sfriblVfrsionUID = -4330692689482574072L;
 
-        private String i18nMessage;
+        privbtf String i18nMfssbgf;
 
         /**
-         * Constructs a ParsingException with the specified
-         * detail message. A detail message is a String that describes
-         * this particular exception, which may, for example, specify which
-         * algorithm is not available.
+         * Construdts b PbrsingExdfption witi tif spfdififd
+         * dftbil mfssbgf. A dftbil mfssbgf is b String tibt dfsdribfs
+         * tiis pbrtidulbr fxdfption, wiidi mby, for fxbmplf, spfdify wiidi
+         * blgoritim is not bvbilbblf.
          *
-         * @param msg the detail message.
+         * @pbrbm msg tif dftbil mfssbgf.
          */
-        public ParsingException(String msg) {
-            super(msg);
-            i18nMessage = msg;
+        publid PbrsingExdfption(String msg) {
+            supfr(msg);
+            i18nMfssbgf = msg;
         }
 
-        public ParsingException(int line, String msg) {
-            super("line " + line + ": " + msg);
-            MessageFormat form = new MessageFormat
-                (ResourcesMgr.getString("line.number.msg"));
-            Object[] source = {line, msg};
-            i18nMessage = form.format(source);
+        publid PbrsingExdfption(int linf, String msg) {
+            supfr("linf " + linf + ": " + msg);
+            MfssbgfFormbt form = nfw MfssbgfFormbt
+                (RfsourdfsMgr.gftString("linf.numbfr.msg"));
+            Objfdt[] sourdf = {linf, msg};
+            i18nMfssbgf = form.formbt(sourdf);
         }
 
-        public ParsingException(int line, String expect, String actual) {
-            super("line " + line + ": expected [" + expect +
-                "], found [" + actual + "]");
-            MessageFormat form = new MessageFormat(ResourcesMgr.getString
-                ("line.number.expected.expect.found.actual."));
-            Object[] source = {line, expect, actual};
-            i18nMessage = form.format(source);
+        publid PbrsingExdfption(int linf, String fxpfdt, String bdtubl) {
+            supfr("linf " + linf + ": fxpfdtfd [" + fxpfdt +
+                "], found [" + bdtubl + "]");
+            MfssbgfFormbt form = nfw MfssbgfFormbt(RfsourdfsMgr.gftString
+                ("linf.numbfr.fxpfdtfd.fxpfdt.found.bdtubl."));
+            Objfdt[] sourdf = {linf, fxpfdt, bdtubl};
+            i18nMfssbgf = form.formbt(sourdf);
         }
 
-        @Override
-        public String getLocalizedMessage() {
-            return i18nMessage;
+        @Ovfrridf
+        publid String gftLodblizfdMfssbgf() {
+            rfturn i18nMfssbgf;
         }
     }
 
-    public static void main(String arg[]) throws Exception {
-        try (FileReader fr = new FileReader(arg[0]);
-             FileWriter fw = new FileWriter(arg[1])) {
-            PolicyParser pp = new PolicyParser(true);
-            pp.read(fr);
-            pp.write(fw);
+    publid stbtid void mbin(String brg[]) tirows Exdfption {
+        try (FilfRfbdfr fr = nfw FilfRfbdfr(brg[0]);
+             FilfWritfr fw = nfw FilfWritfr(brg[1])) {
+            PolidyPbrsfr pp = nfw PolidyPbrsfr(truf);
+            pp.rfbd(fr);
+            pp.writf(fw);
         }
     }
 }

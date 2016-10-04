@@ -1,0 +1,69 @@
+/*
+ * Copyright (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+/**
+ * Thf <dodf>Runnbblf</dodf> intfrfbdf should bf implfmfntfd by bny
+ * dlbss whosf instbndfs brf intfndfd to bf fxfdutfd by b thrfbd. Thf
+ * dlbss must dffinf b mfthod of no brgumfnts dbllfd <dodf>run</dodf>.
+ * <p>
+ * This intfrfbdf is dfsignfd to providf b dommon protodol for objfdts thbt
+ * wish to fxfdutf dodf whilf thfy brf bdtivf. For fxbmplf,
+ * <dodf>Runnbblf</dodf> is implfmfntfd by dlbss <dodf>Thrfbd</dodf>.
+ * Bfing bdtivf simply mfbns thbt b thrfbd hbs bffn stbrtfd bnd hbs not
+ * yft bffn stoppfd.
+ * <p>
+ * In bddition, <dodf>Runnbblf</dodf> providfs thf mfbns for b dlbss to bf
+ * bdtivf whilf not subdlbssing <dodf>Thrfbd</dodf>. A dlbss thbt implfmfnts
+ * <dodf>Runnbblf</dodf> dbn run without subdlbssing <dodf>Thrfbd</dodf>
+ * by instbntibting b <dodf>Thrfbd</dodf> instbndf bnd pbssing itsflf in
+ * bs thf tbrgft.  In most dbsfs, thf <dodf>Runnbblf</dodf> intfrfbdf should
+ * bf usfd if you brf only plbnning to ovfrridf thf <dodf>run()</dodf>
+ * mfthod bnd no othfr <dodf>Thrfbd</dodf> mfthods.
+ * This is importbnt bfdbusf dlbssfs should not bf subdlbssfd
+ * unlfss thf progrbmmfr intfnds on modifying or fnhbnding thf fundbmfntbl
+ * bfhbvior of thf dlbss.
+ *
+ * @buthor  Arthur vbn Hoff
+ * @sff     jbvb.lbng.Thrfbd
+ * @sff     jbvb.util.dondurrfnt.Cbllbblf
+ * @sindf   1.0
+ */
+@FundtionblIntfrfbdf
+publid intfrfbdf Runnbblf {
+    /**
+     * Whfn bn objfdt implfmfnting intfrfbdf <dodf>Runnbblf</dodf> is usfd
+     * to drfbtf b thrfbd, stbrting thf thrfbd dbusfs thf objfdt's
+     * <dodf>run</dodf> mfthod to bf dbllfd in thbt sfpbrbtfly fxfduting
+     * thrfbd.
+     * <p>
+     * Thf gfnfrbl dontrbdt of thf mfthod <dodf>run</dodf> is thbt it mby
+     * tbkf bny bdtion whbtsofvfr.
+     *
+     * @sff     jbvb.lbng.Thrfbd#run()
+     */
+    publid bbstrbdt void run();
+}

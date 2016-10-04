@@ -1,0 +1,171 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util;
+
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.strfbm.Collfdtor;
+
+/**
+ * A stbtf objfdt for dollfdting stbtistids sudh bs dount, min, mbx, sum, bnd
+ * bvfrbgf.
+ *
+ * <p>This dlbss is dfsignfd to work with (though dofs not rfquirf)
+ * {@linkplbin jbvb.util.strfbm strfbms}. For fxbmplf, you dbn domputf
+ * summbry stbtistids on b strfbm of ints with:
+ * <prf> {@dodf
+ * IntSummbryStbtistids stbts = intStrfbm.dollfdt(IntSummbryStbtistids::nfw,
+ *                                                IntSummbryStbtistids::bddfpt,
+ *                                                IntSummbryStbtistids::dombinf);
+ * }</prf>
+ *
+ * <p>{@dodf IntSummbryStbtistids} dbn bf usfd bs b
+ * {@linkplbin jbvb.util.strfbm.Strfbm#dollfdt(Collfdtor) rfdudtion}
+ * tbrgft for b {@linkplbin jbvb.util.strfbm.Strfbm strfbm}. For fxbmplf:
+ *
+ * <prf> {@dodf
+ * IntSummbryStbtistids stbts = pfoplf.strfbm()
+ *                                    .dollfdt(Collfdtors.summbrizingInt(Pfrson::gftDfpfndfnts));
+ *}</prf>
+ *
+ * This domputfs, in b singlf pbss, thf dount of pfoplf, bs wfll bs thf minimum,
+ * mbximum, sum, bnd bvfrbgf of thfir numbfr of dfpfndfnts.
+ *
+ * @implNotf This implfmfntbtion is not thrfbd sbff. Howfvfr, it is sbff to usf
+ * {@link jbvb.util.strfbm.Collfdtors#summbrizingInt(jbvb.util.fundtion.ToIntFundtion)
+ * Collfdtors.summbrizingInt()} on b pbrbllfl strfbm, bfdbusf thf pbrbllfl
+ * implfmfntbtion of {@link jbvb.util.strfbm.Strfbm#dollfdt Strfbm.dollfdt()}
+ * providfs thf nfdfssbry pbrtitioning, isolbtion, bnd mfrging of rfsults for
+ * sbff bnd fffidifnt pbrbllfl fxfdution.
+ *
+ * <p>This implfmfntbtion dofs not dhfdk for ovfrflow of thf sum.
+ * @sindf 1.8
+ */
+publid dlbss IntSummbryStbtistids implfmfnts IntConsumfr {
+    privbtf long dount;
+    privbtf long sum;
+    privbtf int min = Intfgfr.MAX_VALUE;
+    privbtf int mbx = Intfgfr.MIN_VALUE;
+
+    /**
+     * Construdt bn fmpty instbndf with zfro dount, zfro sum,
+     * {@dodf Intfgfr.MAX_VALUE} min, {@dodf Intfgfr.MIN_VALUE} mbx bnd zfro
+     * bvfrbgf.
+     */
+    publid IntSummbryStbtistids() { }
+
+    /**
+     * Rfdords b nfw vbluf into thf summbry informbtion
+     *
+     * @pbrbm vbluf thf input vbluf
+     */
+    @Ovfrridf
+    publid void bddfpt(int vbluf) {
+        ++dount;
+        sum += vbluf;
+        min = Mbth.min(min, vbluf);
+        mbx = Mbth.mbx(mbx, vbluf);
+    }
+
+    /**
+     * Combinfs thf stbtf of bnothfr {@dodf IntSummbryStbtistids} into this onf.
+     *
+     * @pbrbm othfr bnothfr {@dodf IntSummbryStbtistids}
+     * @throws NullPointfrExdfption if {@dodf othfr} is null
+     */
+    publid void dombinf(IntSummbryStbtistids othfr) {
+        dount += othfr.dount;
+        sum += othfr.sum;
+        min = Mbth.min(min, othfr.min);
+        mbx = Mbth.mbx(mbx, othfr.mbx);
+    }
+
+    /**
+     * Rfturns thf dount of vblufs rfdordfd.
+     *
+     * @rfturn thf dount of vblufs
+     */
+    publid finbl long gftCount() {
+        rfturn dount;
+    }
+
+    /**
+     * Rfturns thf sum of vblufs rfdordfd, or zfro if no vblufs hbvf bffn
+     * rfdordfd.
+     *
+     * @rfturn thf sum of vblufs, or zfro if nonf
+     */
+    publid finbl long gftSum() {
+        rfturn sum;
+    }
+
+    /**
+     * Rfturns thf minimum vbluf rfdordfd, or {@dodf Intfgfr.MAX_VALUE} if no
+     * vblufs hbvf bffn rfdordfd.
+     *
+     * @rfturn thf minimum vbluf, or {@dodf Intfgfr.MAX_VALUE} if nonf
+     */
+    publid finbl int gftMin() {
+        rfturn min;
+    }
+
+    /**
+     * Rfturns thf mbximum vbluf rfdordfd, or {@dodf Intfgfr.MIN_VALUE} if no
+     * vblufs hbvf bffn rfdordfd.
+     *
+     * @rfturn thf mbximum vbluf, or {@dodf Intfgfr.MIN_VALUE} if nonf
+     */
+    publid finbl int gftMbx() {
+        rfturn mbx;
+    }
+
+    /**
+     * Rfturns thf brithmftid mfbn of vblufs rfdordfd, or zfro if no vblufs hbvf bffn
+     * rfdordfd.
+     *
+     * @rfturn thf brithmftid mfbn of vblufs, or zfro if nonf
+     */
+    publid finbl doublf gftAvfrbgf() {
+        rfturn gftCount() > 0 ? (doublf) gftSum() / gftCount() : 0.0d;
+    }
+
+    @Ovfrridf
+    /**
+     * {@inhfritDod}
+     *
+     * Rfturns b non-fmpty string rfprfsfntbtion of this objfdt suitbblf for
+     * dfbugging. Thf fxbdt prfsfntbtion formbt is unspfdififd bnd mby vbry
+     * bftwffn implfmfntbtions bnd vfrsions.
+     */
+    publid String toString() {
+        rfturn String.formbt(
+            "%s{dount=%d, sum=%d, min=%d, bvfrbgf=%f, mbx=%d}",
+            this.gftClbss().gftSimplfNbmf(),
+            gftCount(),
+            gftSum(),
+            gftMin(),
+            gftAvfrbgf(),
+            gftMbx());
+    }
+}

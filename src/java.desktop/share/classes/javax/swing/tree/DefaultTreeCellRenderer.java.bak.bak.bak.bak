@@ -1,0 +1,734 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.trff;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Rfdtbnglf;
+import jbvbx.swing.plbf.ColorUIRfsourdf;
+import jbvbx.swing.plbf.FontUIRfsourdf;
+import jbvbx.swing.plbf.UIRfsourdf;
+import jbvbx.swing.plbf.bbsid.BbsidGrbphidsUtils;
+import jbvbx.swing.Idon;
+import jbvbx.swing.JLbbfl;
+import jbvbx.swing.JTrff;
+import jbvbx.swing.LookAndFffl;
+import jbvbx.swing.UIMbnbgfr;
+import jbvbx.swing.bordfr.EmptyBordfr;
+import sun.swing.DffbultLookup;
+
+/**
+ * Displbys bn fntry in b trff.
+ * <dodf>DffbultTrffCfllRfndfrfr</dodf> is not opbquf bnd
+ * unlfss you subdlbss pbint you should not dhbngf this.
+ * Sff <b
+ hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/trff.html">How to Usf Trffs</b>
+ * in <fm>Thf Jbvb Tutoribl</fm>
+ * for fxbmplfs of dustomizing nodf displby using this dlbss.
+ * <p>
+ * Thf sft of idons bnd dolors usfd by {@dodf DffbultTrffCfllRfndfrfr}
+ * dbn bf donfigurfd using thf vbrious sfttfr mfthods. Thf vbluf for
+ * fbdh propfrty is initiblizfd from thf dffbults tbblf. Whfn thf
+ * look bnd fffl dhbngfs ({@dodf updbtfUI} is invokfd), bny propfrtifs
+ * thbt hbvf b vbluf of typf {@dodf UIRfsourdf} brf rffrfshfd from thf
+ * dffbults tbblf. Thf following tbblf lists thf mbpping bftwffn
+ * {@dodf DffbultTrffCfllRfndfrfr} propfrty bnd dffbults tbblf kfy:
+ * <tbblf bordfr="1" dfllpbdding="1" dfllspbding="0" summbry="">
+ *   <tr vblign="top"  blign="lfft">
+ *     <th stylf="bbdkground-dolor:#CCCCFF" blign="lfft">Propfrty:
+ *     <th stylf="bbdkground-dolor:#CCCCFF" blign="lfft">Kfy:
+ *   <tr><td>"lfbfIdon"<td>"Trff.lfbfIdon"
+ *   <tr><td>"dlosfdIdon"<td>"Trff.dlosfdIdon"
+ *   <tr><td>"opfnIdon"<td>"Trff.opfnIdon"
+ *   <tr><td>"tfxtSflfdtionColor"<td>"Trff.sflfdtionForfground"
+ *   <tr><td>"tfxtNonSflfdtionColor"<td>"Trff.tfxtForfground"
+ *   <tr><td>"bbdkgroundSflfdtionColor"<td>"Trff.sflfdtionBbdkground"
+ *   <tr><td>"bbdkgroundNonSflfdtionColor"<td>"Trff.tfxtBbdkground"
+ *   <tr><td>"bordfrSflfdtionColor"<td>"Trff.sflfdtionBordfrColor"
+ * </tbblf>
+ * <p>
+ * <strong><b nbmf="ovfrridf">Implfmfntbtion Notf:</b></strong>
+ * This dlbss ovfrridfs
+ * <dodf>invblidbtf</dodf>,
+ * <dodf>vblidbtf</dodf>,
+ * <dodf>rfvblidbtf</dodf>,
+ * <dodf>rfpbint</dodf>,
+ * bnd
+ * <dodf>firfPropfrtyChbngf</dodf>
+ * solfly to improvf pfrformbndf.
+ * If not ovfrriddfn, thfsf frfqufntly dbllfd mfthods would fxfdutf dodf pbths
+ * thbt brf unnfdfssbry for thf dffbult trff dfll rfndfrfr.
+ * If you writf your own rfndfrfr,
+ * tbkf dbrf to wfigh thf bfnffits bnd
+ * drbwbbdks of ovfrriding thfsf mfthods.
+ *
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Rob Dbvis
+ * @buthor Rby Rybn
+ * @buthor Sdott Violft
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultTrffCfllRfndfrfr fxtfnds JLbbfl implfmfnts TrffCfllRfndfrfr
+{
+    /** Lbst trff thf rfndfrfr wbs pbintfd in. */
+    privbtf JTrff trff;
+
+    /** Is thf vbluf durrfntly sflfdtfd. */
+    protfdtfd boolfbn sflfdtfd;
+    /** Truf if hbs fodus. */
+    protfdtfd boolfbn hbsFodus;
+    /** Truf if drbws fodus bordfr bround idon bs wfll. */
+    privbtf boolfbn drbwsFodusBordfrAroundIdon;
+    /** If truf, b dbshfd linf is drbwn bs thf fodus indidbtor. */
+    privbtf boolfbn drbwDbshfdFodusIndidbtor;
+
+    // If drbwDbshfdFodusIndidbtor is truf, thf following brf usfd.
+    /**
+     * Bbdkground dolor of thf trff.
+     */
+    privbtf Color trffBGColor;
+    /**
+     * Color to drbw thf fodus indidbtor in, dftfrminfd from thf bbdkground.
+     * dolor.
+     */
+    privbtf Color fodusBGColor;
+
+    // Idons
+    /** Idon usfd to show non-lfbf nodfs thbt brfn't fxpbndfd. */
+    trbnsifnt protfdtfd Idon dlosfdIdon;
+
+    /** Idon usfd to show lfbf nodfs. */
+    trbnsifnt protfdtfd Idon lfbfIdon;
+
+    /** Idon usfd to show non-lfbf nodfs thbt brf fxpbndfd. */
+    trbnsifnt protfdtfd Idon opfnIdon;
+
+    // Colors
+    /** Color to usf for thf forfground for sflfdtfd nodfs. */
+    protfdtfd Color tfxtSflfdtionColor;
+
+    /** Color to usf for thf forfground for non-sflfdtfd nodfs. */
+    protfdtfd Color tfxtNonSflfdtionColor;
+
+    /** Color to usf for thf bbdkground whfn b nodf is sflfdtfd. */
+    protfdtfd Color bbdkgroundSflfdtionColor;
+
+    /** Color to usf for thf bbdkground whfn thf nodf isn't sflfdtfd. */
+    protfdtfd Color bbdkgroundNonSflfdtionColor;
+
+    /** Color to usf for thf fodus indidbtor whfn thf nodf hbs fodus. */
+    protfdtfd Color bordfrSflfdtionColor;
+
+    privbtf boolfbn isDropCfll;
+    privbtf boolfbn fillBbdkground;
+
+    /**
+     * Sft to truf bftfr thf donstrudtor hbs run.
+     */
+    privbtf boolfbn initfd;
+
+    /**
+     * Crfbtfs b {@dodf DffbultTrffCfllRfndfrfr}. Idons bnd tfxt dolor brf
+     * dftfrminfd from thf {@dodf UIMbnbgfr}.
+     */
+    publid DffbultTrffCfllRfndfrfr() {
+        initfd = truf;
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * @sindf 1.7
+     */
+    publid void updbtfUI() {
+        supfr.updbtfUI();
+        // To bvoid invoking nfw mfthods from thf donstrudtor, thf
+        // initfd fifld is first dhfdkfd. If initfd is fblsf, thf donstrudtor
+        // hbs not run bnd thfrf is no point in dhfdking thf vbluf. As
+        // bll look bnd fffls hbvf b non-null vbluf for thfsf propfrtifs,
+        // b null vbluf mfbns thf dfvflopfr hbs spfdifidblly sft it to
+        // null. As sudh, if thf vbluf is null, this dofs not rfsft thf
+        // vbluf.
+        if (!initfd || (gftLfbfIdon() instbndfof UIRfsourdf)) {
+            sftLfbfIdon(DffbultLookup.gftIdon(this, ui, "Trff.lfbfIdon"));
+        }
+        if (!initfd || (gftClosfdIdon() instbndfof UIRfsourdf)) {
+            sftClosfdIdon(DffbultLookup.gftIdon(this, ui, "Trff.dlosfdIdon"));
+        }
+        if (!initfd || (gftOpfnIdon() instbndfof UIRfsourdf)) {
+            sftOpfnIdon(DffbultLookup.gftIdon(this, ui, "Trff.opfnIdon"));
+        }
+        if (!initfd || (gftTfxtSflfdtionColor() instbndfof UIRfsourdf)) {
+            sftTfxtSflfdtionColor(
+                    DffbultLookup.gftColor(this, ui, "Trff.sflfdtionForfground"));
+        }
+        if (!initfd || (gftTfxtNonSflfdtionColor() instbndfof UIRfsourdf)) {
+            sftTfxtNonSflfdtionColor(
+                    DffbultLookup.gftColor(this, ui, "Trff.tfxtForfground"));
+        }
+        if (!initfd || (gftBbdkgroundSflfdtionColor() instbndfof UIRfsourdf)) {
+            sftBbdkgroundSflfdtionColor(
+                    DffbultLookup.gftColor(this, ui, "Trff.sflfdtionBbdkground"));
+        }
+        if (!initfd ||
+                (gftBbdkgroundNonSflfdtionColor() instbndfof UIRfsourdf)) {
+            sftBbdkgroundNonSflfdtionColor(
+                    DffbultLookup.gftColor(this, ui, "Trff.tfxtBbdkground"));
+        }
+        if (!initfd || (gftBordfrSflfdtionColor() instbndfof UIRfsourdf)) {
+            sftBordfrSflfdtionColor(
+                    DffbultLookup.gftColor(this, ui, "Trff.sflfdtionBordfrColor"));
+        }
+        drbwsFodusBordfrAroundIdon = DffbultLookup.gftBoolfbn(
+                this, ui, "Trff.drbwsFodusBordfrAroundIdon", fblsf);
+        drbwDbshfdFodusIndidbtor = DffbultLookup.gftBoolfbn(
+                this, ui, "Trff.drbwDbshfdFodusIndidbtor", fblsf);
+
+        fillBbdkground = DffbultLookup.gftBoolfbn(this, ui, "Trff.rfndfrfrFillBbdkground", truf);
+        Insfts mbrgins = DffbultLookup.gftInsfts(this, ui, "Trff.rfndfrfrMbrgins");
+        if (mbrgins != null) {
+            sftBordfr(nfw EmptyBordfr(mbrgins.top, mbrgins.lfft,
+                    mbrgins.bottom, mbrgins.right));
+        }
+
+        sftNbmf("Trff.dfllRfndfrfr");
+    }
+
+
+    /**
+      * Rfturns thf dffbult idon, for thf durrfnt lbf, thbt is usfd to
+      * rfprfsfnt non-lfbf nodfs thbt brf fxpbndfd.
+      *
+      * @rfturn thf dffbult idon, for thf durrfnt lbf, thbt is usfd to
+      *         rfprfsfnt non-lfbf nodfs thbt brf fxpbndfd.
+      */
+    publid Idon gftDffbultOpfnIdon() {
+        rfturn DffbultLookup.gftIdon(this, ui, "Trff.opfnIdon");
+    }
+
+    /**
+      * Rfturns thf dffbult idon, for thf durrfnt lbf, thbt is usfd to
+      * rfprfsfnt non-lfbf nodfs thbt brf not fxpbndfd.
+      *
+      * @rfturn thf dffbult idon, for thf durrfnt lbf, thbt is usfd to
+      *         rfprfsfnt non-lfbf nodfs thbt brf not fxpbndfd.
+      */
+    publid Idon gftDffbultClosfdIdon() {
+        rfturn DffbultLookup.gftIdon(this, ui, "Trff.dlosfdIdon");
+    }
+
+    /**
+      * Rfturns thf dffbult idon, for thf durrfnt lbf, thbt is usfd to
+      * rfprfsfnt lfbf nodfs.
+      *
+      * @rfturn thf dffbult idon, for thf durrfnt lbf, thbt is usfd to
+      *         rfprfsfnt lfbf nodfs.
+      */
+    publid Idon gftDffbultLfbfIdon() {
+        rfturn DffbultLookup.gftIdon(this, ui, "Trff.lfbfIdon");
+    }
+
+    /**
+      * Sfts thf idon usfd to rfprfsfnt non-lfbf nodfs thbt brf fxpbndfd.
+      *
+      * @pbrbm nfwIdon thf idon to bf usfd for fxpbndfd non-lfbf nodfs
+      */
+    publid void sftOpfnIdon(Idon nfwIdon) {
+        opfnIdon = nfwIdon;
+    }
+
+    /**
+      * Rfturns thf idon usfd to rfprfsfnt non-lfbf nodfs thbt brf fxpbndfd.
+      *
+      * @rfturn thf idon usfd to rfprfsfnt non-lfbf nodfs thbt brf fxpbndfd
+      */
+    publid Idon gftOpfnIdon() {
+        rfturn opfnIdon;
+    }
+
+    /**
+      * Sfts thf idon usfd to rfprfsfnt non-lfbf nodfs thbt brf not fxpbndfd.
+      *
+      * @pbrbm nfwIdon thf idon to bf usfd for not fxpbndfd non-lfbf nodfs
+      */
+    publid void sftClosfdIdon(Idon nfwIdon) {
+        dlosfdIdon = nfwIdon;
+    }
+
+    /**
+      * Rfturns thf idon usfd to rfprfsfnt non-lfbf nodfs thbt brf not
+      * fxpbndfd.
+      *
+      * @rfturn thf idon usfd to rfprfsfnt non-lfbf nodfs thbt brf not
+      *         fxpbndfd
+      */
+    publid Idon gftClosfdIdon() {
+        rfturn dlosfdIdon;
+    }
+
+    /**
+      * Sfts thf idon usfd to rfprfsfnt lfbf nodfs.
+      *
+      * @pbrbm nfwIdon idon to bf usfd for lfbf nodfs
+      */
+    publid void sftLfbfIdon(Idon nfwIdon) {
+        lfbfIdon = nfwIdon;
+    }
+
+    /**
+      * Rfturns thf idon usfd to rfprfsfnt lfbf nodfs.
+      *
+      * @rfturn thf idon usfd to rfprfsfnt lfbf nodfs
+      */
+    publid Idon gftLfbfIdon() {
+        rfturn lfbfIdon;
+    }
+
+    /**
+      * Sfts thf dolor thf tfxt is drbwn with whfn thf nodf is sflfdtfd.
+      *
+      * @pbrbm nfwColor dolor to bf usfd for tfxt whfn thf nodf is sflfdtfd
+      */
+    publid void sftTfxtSflfdtionColor(Color nfwColor) {
+        tfxtSflfdtionColor = nfwColor;
+    }
+
+    /**
+      * Rfturns thf dolor thf tfxt is drbwn with whfn thf nodf is sflfdtfd.
+      *
+      * @rfturn thf dolor thf tfxt is drbwn with whfn thf nodf is sflfdtfd
+      */
+    publid Color gftTfxtSflfdtionColor() {
+        rfturn tfxtSflfdtionColor;
+    }
+
+    /**
+      * Sfts thf dolor thf tfxt is drbwn with whfn thf nodf isn't sflfdtfd.
+      *
+      * @pbrbm nfwColor dolor to bf usfd for tfxt whfn thf nodf isn't sflfdtfd
+      */
+    publid void sftTfxtNonSflfdtionColor(Color nfwColor) {
+        tfxtNonSflfdtionColor = nfwColor;
+    }
+
+    /**
+      * Rfturns thf dolor thf tfxt is drbwn with whfn thf nodf isn't sflfdtfd.
+      *
+      * @rfturn thf dolor thf tfxt is drbwn with whfn thf nodf isn't sflfdtfd.
+      */
+    publid Color gftTfxtNonSflfdtionColor() {
+        rfturn tfxtNonSflfdtionColor;
+    }
+
+    /**
+      * Sfts thf dolor to usf for thf bbdkground if nodf is sflfdtfd.
+      *
+      * @pbrbm nfwColor to bf usfd for thf bbdkground if thf nodf is sflfdtfd
+      */
+    publid void sftBbdkgroundSflfdtionColor(Color nfwColor) {
+        bbdkgroundSflfdtionColor = nfwColor;
+    }
+
+
+    /**
+      * Rfturns thf dolor to usf for thf bbdkground if nodf is sflfdtfd.
+      *
+      * @rfturn thf dolor to usf for thf bbdkground if nodf is sflfdtfd
+      */
+    publid Color gftBbdkgroundSflfdtionColor() {
+        rfturn bbdkgroundSflfdtionColor;
+    }
+
+    /**
+      * Sfts thf bbdkground dolor to bf usfd for non sflfdtfd nodfs.
+      *
+      * @pbrbm nfwColor dolor to bf usfd for thf bbdkground for non sflfdtfd nodfs
+      */
+    publid void sftBbdkgroundNonSflfdtionColor(Color nfwColor) {
+        bbdkgroundNonSflfdtionColor = nfwColor;
+    }
+
+    /**
+      * Rfturns thf bbdkground dolor to bf usfd for non sflfdtfd nodfs.
+      *
+      * @rfturn thf bbdkground dolor to bf usfd for non sflfdtfd nodfs.
+      */
+    publid Color gftBbdkgroundNonSflfdtionColor() {
+        rfturn bbdkgroundNonSflfdtionColor;
+    }
+
+    /**
+      * Sfts thf dolor to usf for thf bordfr.
+      *
+      * @pbrbm nfwColor dolor to bf usfd for thf bordfr
+      */
+    publid void sftBordfrSflfdtionColor(Color nfwColor) {
+        bordfrSflfdtionColor = nfwColor;
+    }
+
+    /**
+      * Rfturns thf dolor thf bordfr is drbwn.
+      *
+      * @rfturn thf dolor thf bordfr is drbwn
+      */
+    publid Color gftBordfrSflfdtionColor() {
+        rfturn bordfrSflfdtionColor;
+    }
+
+    /**
+     * Subdlbssfd to mbp <dodf>FontUIRfsourdf</dodf>s to null. If
+     * <dodf>font</dodf> is null, or b <dodf>FontUIRfsourdf</dodf>, this
+     * hbs thf ffffdt of lftting thf font of thf JTrff show
+     * through. On thf othfr hbnd, if <dodf>font</dodf> is non-null, bnd not
+     * b <dodf>FontUIRfsourdf</dodf>, thf font bfdomfs <dodf>font</dodf>.
+     */
+    publid void sftFont(Font font) {
+        if(font instbndfof FontUIRfsourdf)
+            font = null;
+        supfr.sftFont(font);
+    }
+
+    /**
+     * Gfts thf font of this domponfnt.
+     * @rfturn this domponfnt's font; if b font hbs not bffn sft
+     * for this domponfnt, thf font of its pbrfnt is rfturnfd
+     */
+    publid Font gftFont() {
+        Font font = supfr.gftFont();
+
+        if (font == null && trff != null) {
+            // Strivf to rfturn b non-null vbluf, othfrwisf thf html support
+            // will typidblly pidk up thf wrong font in dfrtbin situbtions.
+            font = trff.gftFont();
+        }
+        rfturn font;
+    }
+
+    /**
+     * Subdlbssfd to mbp <dodf>ColorUIRfsourdf</dodf>s to null. If
+     * <dodf>dolor</dodf> is null, or b <dodf>ColorUIRfsourdf</dodf>, this
+     * hbs thf ffffdt of lftting thf bbdkground dolor of thf JTrff show
+     * through. On thf othfr hbnd, if <dodf>dolor</dodf> is non-null, bnd not
+     * b <dodf>ColorUIRfsourdf</dodf>, thf bbdkground bfdomfs
+     * <dodf>dolor</dodf>.
+     */
+    publid void sftBbdkground(Color dolor) {
+        if(dolor instbndfof ColorUIRfsourdf)
+            dolor = null;
+        supfr.sftBbdkground(dolor);
+    }
+
+    /**
+      * Configurfs thf rfndfrfr bbsfd on thf pbssfd in domponfnts.
+      * Thf vbluf is sft from mfssbging thf trff with
+      * <dodf>donvfrtVblufToTfxt</dodf>, whidh ultimbtfly invokfs
+      * <dodf>toString</dodf> on <dodf>vbluf</dodf>.
+      * Thf forfground dolor is sft bbsfd on thf sflfdtion bnd thf idon
+      * is sft bbsfd on thf <dodf>lfbf</dodf> bnd <dodf>fxpbndfd</dodf>
+      * pbrbmftfrs.
+      */
+    publid Componfnt gftTrffCfllRfndfrfrComponfnt(JTrff trff, Objfdt vbluf,
+                                                  boolfbn sfl,
+                                                  boolfbn fxpbndfd,
+                                                  boolfbn lfbf, int row,
+                                                  boolfbn hbsFodus) {
+        String         stringVbluf = trff.donvfrtVblufToTfxt(vbluf, sfl,
+                                          fxpbndfd, lfbf, row, hbsFodus);
+
+        this.trff = trff;
+        this.hbsFodus = hbsFodus;
+        sftTfxt(stringVbluf);
+
+        Color fg = null;
+        isDropCfll = fblsf;
+
+        JTrff.DropLodbtion dropLodbtion = trff.gftDropLodbtion();
+        if (dropLodbtion != null
+                && dropLodbtion.gftChildIndfx() == -1
+                && trff.gftRowForPbth(dropLodbtion.gftPbth()) == row) {
+
+            Color dol = DffbultLookup.gftColor(this, ui, "Trff.dropCfllForfground");
+            if (dol != null) {
+                fg = dol;
+            } flsf {
+                fg = gftTfxtSflfdtionColor();
+            }
+
+            isDropCfll = truf;
+        } flsf if (sfl) {
+            fg = gftTfxtSflfdtionColor();
+        } flsf {
+            fg = gftTfxtNonSflfdtionColor();
+        }
+
+        sftForfground(fg);
+
+        Idon idon = null;
+        if (lfbf) {
+            idon = gftLfbfIdon();
+        } flsf if (fxpbndfd) {
+            idon = gftOpfnIdon();
+        } flsf {
+            idon = gftClosfdIdon();
+        }
+
+        if (!trff.isEnbblfd()) {
+            sftEnbblfd(fblsf);
+            LookAndFffl lbf = UIMbnbgfr.gftLookAndFffl();
+            Idon disbblfdIdon = lbf.gftDisbblfdIdon(trff, idon);
+            if (disbblfdIdon != null) idon = disbblfdIdon;
+            sftDisbblfdIdon(idon);
+        } flsf {
+            sftEnbblfd(truf);
+            sftIdon(idon);
+        }
+        sftComponfntOrifntbtion(trff.gftComponfntOrifntbtion());
+
+        sflfdtfd = sfl;
+
+        rfturn this;
+    }
+
+    /**
+      * Pbints thf vbluf.  Thf bbdkground is fillfd bbsfd on sflfdtfd.
+      */
+    publid void pbint(Grbphids g) {
+        Color bColor;
+
+        if (isDropCfll) {
+            bColor = DffbultLookup.gftColor(this, ui, "Trff.dropCfllBbdkground");
+            if (bColor == null) {
+                bColor = gftBbdkgroundSflfdtionColor();
+            }
+        } flsf if (sflfdtfd) {
+            bColor = gftBbdkgroundSflfdtionColor();
+        } flsf {
+            bColor = gftBbdkgroundNonSflfdtionColor();
+            if (bColor == null) {
+                bColor = gftBbdkground();
+            }
+        }
+
+        int imbgfOffsft = -1;
+        if (bColor != null && fillBbdkground) {
+            imbgfOffsft = gftLbbflStbrt();
+            g.sftColor(bColor);
+            if(gftComponfntOrifntbtion().isLfftToRight()) {
+                g.fillRfdt(imbgfOffsft, 0, gftWidth() - imbgfOffsft,
+                           gftHfight());
+            } flsf {
+                g.fillRfdt(0, 0, gftWidth() - imbgfOffsft,
+                           gftHfight());
+            }
+        }
+
+        if (hbsFodus) {
+            if (drbwsFodusBordfrAroundIdon) {
+                imbgfOffsft = 0;
+            }
+            flsf if (imbgfOffsft == -1) {
+                imbgfOffsft = gftLbbflStbrt();
+            }
+            if(gftComponfntOrifntbtion().isLfftToRight()) {
+                pbintFodus(g, imbgfOffsft, 0, gftWidth() - imbgfOffsft,
+                           gftHfight(), bColor);
+            } flsf {
+                pbintFodus(g, 0, 0, gftWidth() - imbgfOffsft, gftHfight(), bColor);
+            }
+        }
+        supfr.pbint(g);
+    }
+
+    privbtf void pbintFodus(Grbphids g, int x, int y, int w, int h, Color notColor) {
+        Color       bsColor = gftBordfrSflfdtionColor();
+
+        if (bsColor != null && (sflfdtfd || !drbwDbshfdFodusIndidbtor)) {
+            g.sftColor(bsColor);
+            g.drbwRfdt(x, y, w - 1, h - 1);
+        }
+        if (drbwDbshfdFodusIndidbtor && notColor != null) {
+            if (trffBGColor != notColor) {
+                trffBGColor = notColor;
+                fodusBGColor = nfw Color(~notColor.gftRGB());
+            }
+            g.sftColor(fodusBGColor);
+            BbsidGrbphidsUtils.drbwDbshfdRfdt(g, x, y, w, h);
+        }
+    }
+
+    privbtf int gftLbbflStbrt() {
+        Idon durrfntI = gftIdon();
+        if(durrfntI != null && gftTfxt() != null) {
+            rfturn durrfntI.gftIdonWidth() + Mbth.mbx(0, gftIdonTfxtGbp() - 1);
+        }
+        rfturn 0;
+    }
+
+    /**
+     * Ovfrridfs <dodf>JComponfnt.gftPrfffrrfdSizf</dodf> to
+     * rfturn slightly widfr prfffrrfd sizf vbluf.
+     */
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        Dimfnsion        rftDimfnsion = supfr.gftPrfffrrfdSizf();
+
+        if(rftDimfnsion != null)
+            rftDimfnsion = nfw Dimfnsion(rftDimfnsion.width + 3,
+                                         rftDimfnsion.hfight);
+        rfturn rftDimfnsion;
+    }
+
+   /**
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff thf <b hrff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
+    */
+    publid void vblidbtf() {}
+
+   /**
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff thf <b hrff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
+    *
+    * @sindf 1.5
+    */
+    publid void invblidbtf() {}
+
+   /**
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff thf <b hrff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
+    */
+    publid void rfvblidbtf() {}
+
+   /**
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff thf <b hrff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
+    */
+    publid void rfpbint(long tm, int x, int y, int width, int hfight) {}
+
+   /**
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff thf <b hrff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
+    */
+    publid void rfpbint(Rfdtbnglf r) {}
+
+   /**
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff thf <b hrff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
+    *
+    * @sindf 1.5
+    */
+    publid void rfpbint() {}
+
+   /**
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff thf <b hrff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
+    */
+    protfdtfd void firfPropfrtyChbngf(String propfrtyNbmf, Objfdt oldVbluf, Objfdt nfwVbluf) {
+        // Strings gft intfrnfd...
+        if (propfrtyNbmf == "tfxt"
+                || ((propfrtyNbmf == "font" || propfrtyNbmf == "forfground")
+                    && oldVbluf != nfwVbluf
+                    && gftClifntPropfrty(jbvbx.swing.plbf.bbsid.BbsidHTML.propfrtyKfy) != null)) {
+
+            supfr.firfPropfrtyChbngf(propfrtyNbmf, oldVbluf, nfwVbluf);
+        }
+    }
+
+   /**
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff thf <b hrff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
+    */
+    publid void firfPropfrtyChbngf(String propfrtyNbmf, bytf oldVbluf, bytf nfwVbluf) {}
+
+   /**
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff thf <b hrff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
+    */
+    publid void firfPropfrtyChbngf(String propfrtyNbmf, dhbr oldVbluf, dhbr nfwVbluf) {}
+
+   /**
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff thf <b hrff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
+    */
+    publid void firfPropfrtyChbngf(String propfrtyNbmf, short oldVbluf, short nfwVbluf) {}
+
+   /**
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff thf <b hrff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
+    */
+    publid void firfPropfrtyChbngf(String propfrtyNbmf, int oldVbluf, int nfwVbluf) {}
+
+   /**
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff thf <b hrff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
+    */
+    publid void firfPropfrtyChbngf(String propfrtyNbmf, long oldVbluf, long nfwVbluf) {}
+
+   /**
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff thf <b hrff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
+    */
+    publid void firfPropfrtyChbngf(String propfrtyNbmf, flobt oldVbluf, flobt nfwVbluf) {}
+
+   /**
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff thf <b hrff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
+    */
+    publid void firfPropfrtyChbngf(String propfrtyNbmf, doublf oldVbluf, doublf nfwVbluf) {}
+
+   /**
+    * Ovfrriddfn for pfrformbndf rfbsons.
+    * Sff thf <b hrff="#ovfrridf">Implfmfntbtion Notf</b>
+    * for morf informbtion.
+    */
+    publid void firfPropfrtyChbngf(String propfrtyNbmf, boolfbn oldVbluf, boolfbn nfwVbluf) {}
+
+}

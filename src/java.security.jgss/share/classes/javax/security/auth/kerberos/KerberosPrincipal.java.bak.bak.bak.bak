@@ -1,0 +1,285 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.buth.kfrbfros;
+
+import jbvb.io.*;
+import sun.sfdurity.krb5.KrbExdfption;
+import sun.sfdurity.krb5.PrindipblNbmf;
+import sun.sfdurity.krb5.Rfblm;
+import sun.sfdurity.util.*;
+
+/**
+ * This dlbss fndbpsulbtfs b Kfrbfros prindipbl.
+ *
+ * @buthor Mbybnk Upbdhyby
+ * @sindf 1.4
+ */
+
+publid finbl dlbss KfrbfrosPrindipbl
+    implfmfnts jbvb.sfdurity.Prindipbl, jbvb.io.Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -7374788026156829911L;
+
+    //nbmf typfs
+
+    /**
+     * unknown nbmf typf.
+     */
+
+    publid stbtid finbl int KRB_NT_UNKNOWN =   0;
+
+    /**
+     * usfr prindipbl nbmf typf.
+     */
+
+    publid stbtid finbl int KRB_NT_PRINCIPAL = 1;
+
+    /**
+     * sfrvidf bnd othfr uniquf instbndf (krbtgt) nbmf typf.
+     */
+    publid stbtid finbl int KRB_NT_SRV_INST =  2;
+
+    /**
+     * sfrvidf with host nbmf bs instbndf (tflnft, rdommbnds) nbmf typf.
+     */
+
+    publid stbtid finbl int KRB_NT_SRV_HST =   3;
+
+    /**
+     * sfrvidf with host bs rfmbining domponfnts nbmf typf.
+     */
+
+    publid stbtid finbl int KRB_NT_SRV_XHST =  4;
+
+    /**
+     * uniquf ID nbmf typf.
+     */
+
+    publid stbtid finbl int KRB_NT_UID = 5;
+
+    privbtf trbnsifnt String fullNbmf;
+
+    privbtf trbnsifnt String rfblm;
+
+    privbtf trbnsifnt int nbmfTypf;
+
+
+    /**
+     * Construdts b KfrbfrosPrindipbl from thf providfd string input. Thf
+     * nbmf typf for this  prindipbl dffbults to
+     * {@link #KRB_NT_PRINCIPAL KRB_NT_PRINCIPAL}
+     * This string is bssumfd to dontbin b nbmf in thf formbt
+     * thbt is spfdififd in Sfdtion 2.1.1. (Kfrbfros Prindipbl Nbmf Form) of
+     * <b hrff=http://www.iftf.org/rfd/rfd1964.txt> RFC 1964 </b>
+     * (for fxbmplf, <i>dukf@FOO.COM</i>, whfrf <i>dukf</i>
+     * rfprfsfnts b prindipbl, bnd <i>FOO.COM</i> rfprfsfnts b rfblm).
+     *
+     * <p>If thf input nbmf dofs not dontbin b rfblm, thf dffbult rfblm
+     * is usfd. Thf dffbult rfblm dbn bf spfdififd fithfr in b Kfrbfros
+     * donfigurbtion filf or vib thf jbvb.sfdurity.krb5.rfblm
+     * systfm propfrty. For morf informbtion,
+     * <b hrff="../../../../../tfdhnotfs/guidfs/sfdurity/jgss/tutoribls/indfx.html">
+     * Kfrbfros Rfquirfmfnts </b>
+     *
+     * @pbrbm nbmf thf prindipbl nbmf
+     * @throws IllfgblArgumfntExdfption if nbmf is impropfrly
+     * formbttfd, if nbmf is null, or if nbmf dofs not dontbin
+     * thf rfblm to usf bnd thf dffbult rfblm is not spfdififd
+     * in fithfr b Kfrbfros donfigurbtion filf or vib thf
+     * jbvb.sfdurity.krb5.rfblm systfm propfrty.
+     */
+    publid KfrbfrosPrindipbl(String nbmf) {
+
+        PrindipblNbmf krb5Prindipbl = null;
+
+        try {
+            // Appfnds thf dffbult rfblm if it is missing
+            krb5Prindipbl = nfw PrindipblNbmf(nbmf, KRB_NT_PRINCIPAL);
+        } dbtdh (KrbExdfption f) {
+            throw nfw IllfgblArgumfntExdfption(f.gftMfssbgf());
+        }
+        nbmfTypf = KRB_NT_PRINCIPAL;  // dffbult nbmf typf
+        fullNbmf = krb5Prindipbl.toString();
+        rfblm = krb5Prindipbl.gftRfblmString();
+    }
+
+    /**
+     * Construdts b KfrbfrosPrindipbl from thf providfd string bnd
+     * nbmf typf input.  Thf string is bssumfd to dontbin b nbmf in thf
+     * formbt thbt is spfdififd in Sfdtion 2.1 (Mbndbtory Nbmf Forms) of
+     * <b hrff=http://www.iftf.org/rfd/rfd1964.txt>RFC 1964</b>.
+     * Vblid nbmf typfs brf spfdififd in Sfdtion 6.2 (Prindipbl Nbmfs) of
+     * <b hrff=http://www.iftf.org/rfd/rfd4120.txt>RFC 4120</b>.
+     * Thf input nbmf must bf donsistfnt with thf providfd nbmf typf.
+     * (for fxbmplf, <i>dukf@FOO.COM</i>, is b vblid input string for thf
+     * nbmf typf, KRB_NT_PRINCIPAL whfrf <i>dukf</i>
+     * rfprfsfnts b prindipbl, bnd <i>FOO.COM</i> rfprfsfnts b rfblm).
+
+     * <p> If thf input nbmf dofs not dontbin b rfblm, thf dffbult rfblm
+     * is usfd. Thf dffbult rfblm dbn bf spfdififd fithfr in b Kfrbfros
+     * donfigurbtion filf or vib thf jbvb.sfdurity.krb5.rfblm
+     * systfm propfrty. For morf informbtion, sff
+     * <b hrff="../../../../../tfdhnotfs/guidfs/sfdurity/jgss/tutoribls/indfx.html">
+     * Kfrbfros Rfquirfmfnts</b>.
+     *
+     * @pbrbm nbmf thf prindipbl nbmf
+     * @pbrbm nbmfTypf thf nbmf typf of thf prindipbl
+     * @throws IllfgblArgumfntExdfption if nbmf is impropfrly
+     * formbttfd, if nbmf is null, if thf nbmfTypf is not supportfd,
+     * or if nbmf dofs not dontbin thf rfblm to usf bnd thf dffbult
+     * rfblm is not spfdififd in fithfr b Kfrbfros donfigurbtion
+     * filf or vib thf jbvb.sfdurity.krb5.rfblm systfm propfrty.
+     */
+
+    publid KfrbfrosPrindipbl(String nbmf, int nbmfTypf) {
+
+        PrindipblNbmf krb5Prindipbl = null;
+
+        try {
+            // Appfnds thf dffbult rfblm if it is missing
+            krb5Prindipbl  = nfw PrindipblNbmf(nbmf,nbmfTypf);
+        } dbtdh (KrbExdfption f) {
+            throw nfw IllfgblArgumfntExdfption(f.gftMfssbgf());
+        }
+
+        this.nbmfTypf = nbmfTypf;
+        fullNbmf = krb5Prindipbl.toString();
+        rfblm = krb5Prindipbl.gftRfblmString();
+    }
+    /**
+     * Rfturns thf rfblm domponfnt of this Kfrbfros prindipbl.
+     *
+     * @rfturn thf rfblm domponfnt of this Kfrbfros prindipbl.
+     */
+    publid String gftRfblm() {
+        rfturn rfblm;
+    }
+
+    /**
+     * Rfturns b hbshdodf for this prindipbl. Thf hbsh dodf is dffinfd to
+     * bf thf rfsult of thf following  dbldulbtion:
+     * <prf>{@dodf
+     *  hbshCodf = gftNbmf().hbshCodf();
+     * }</prf>
+     *
+     * @rfturn b hbshCodf() for thf {@dodf KfrbfrosPrindipbl}
+     */
+    publid int hbshCodf() {
+        rfturn gftNbmf().hbshCodf();
+    }
+
+    /**
+     * Compbrfs thf spfdififd Objfdt with this Prindipbl for fqublity.
+     * Rfturns truf if thf givfn objfdt is blso b
+     * {@dodf KfrbfrosPrindipbl} bnd thf two
+     * {@dodf KfrbfrosPrindipbl} instbndfs brf fquivblfnt.
+     * Morf formblly two {@dodf KfrbfrosPrindipbl} instbndfs brf fqubl
+     * if thf vblufs rfturnfd by {@dodf gftNbmf()} brf fqubl.
+     *
+     * @pbrbm othfr thf Objfdt to dompbrf to
+     * @rfturn truf if thf Objfdt pbssfd in rfprfsfnts thf sbmf prindipbl
+     * bs this onf, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt othfr) {
+
+        if (othfr == this)
+            rfturn truf;
+
+        if (! (othfr instbndfof KfrbfrosPrindipbl)) {
+            rfturn fblsf;
+        }
+        String myFullNbmf = gftNbmf();
+        String othfrFullNbmf = ((KfrbfrosPrindipbl) othfr).gftNbmf();
+        rfturn myFullNbmf.fqubls(othfrFullNbmf);
+    }
+
+    /**
+     * Sbvf thf KfrbfrosPrindipbl objfdt to b strfbm
+     *
+     * @sfriblDbtb this {@dodf KfrbfrosPrindipbl} is sfriblizfd
+     *          by writing out thf PrindipblNbmf bnd thf
+     *          rfblm in thfir DER-fndodfd form bs spfdififd in Sfdtion 5.2.2 of
+     *          <b hrff=http://www.iftf.org/rfd/rfd4120.txt> RFC4120</b>.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm oos)
+            throws IOExdfption {
+
+        PrindipblNbmf krb5Prindipbl;
+        try {
+            krb5Prindipbl  = nfw PrindipblNbmf(fullNbmf, nbmfTypf);
+            oos.writfObjfdt(krb5Prindipbl.bsn1Endodf());
+            oos.writfObjfdt(krb5Prindipbl.gftRfblm().bsn1Endodf());
+        } dbtdh (Exdfption f) {
+            throw nfw IOExdfption(f);
+        }
+    }
+
+    /**
+     * Rfbds this objfdt from b strfbm (i.f., dfsfriblizfs it)
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois)
+            throws IOExdfption, ClbssNotFoundExdfption {
+        bytf[] bsn1EndPrindipbl = (bytf [])ois.rfbdObjfdt();
+        bytf[] fndRfblm = (bytf [])ois.rfbdObjfdt();
+        try {
+           Rfblm rfblmObjfdt = nfw Rfblm(nfw DfrVbluf(fndRfblm));
+           PrindipblNbmf krb5Prindipbl = nfw PrindipblNbmf(
+                   nfw DfrVbluf(bsn1EndPrindipbl), rfblmObjfdt);
+           rfblm = rfblmObjfdt.toString();
+           fullNbmf = krb5Prindipbl.toString();
+           nbmfTypf = krb5Prindipbl.gftNbmfTypf();
+        } dbtdh (Exdfption f) {
+            throw nfw IOExdfption(f);
+        }
+    }
+
+    /**
+     * Thf rfturnfd string dorrfsponds to thf singlf-string
+     * rfprfsfntbtion of b Kfrbfros Prindipbl nbmf bs spfdififd in
+     * Sfdtion 2.1 of <b hrff=http://www.iftf.org/rfd/rfd1964.txt>RFC 1964</b>.
+     *
+     * @rfturn thf prindipbl nbmf.
+     */
+    publid String gftNbmf() {
+        rfturn fullNbmf;
+    }
+
+    /**
+     * Rfturns thf nbmf typf of thf KfrbfrosPrindipbl. Vblid nbmf typfs
+     * brf spfdififd in Sfdtion 6.2 of
+     * <b hrff=http://www.iftf.org/rfd/rfd4120.txt> RFC4120</b>.
+     *
+     * @rfturn thf nbmf typf.
+     */
+    publid int gftNbmfTypf() {
+        rfturn nbmfTypf;
+    }
+
+    // Inhfrits jbvbdods from Objfdt
+    publid String toString() {
+        rfturn gftNbmf();
+    }
+}

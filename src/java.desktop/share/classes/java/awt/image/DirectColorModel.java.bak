@@ -1,866 +1,866 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.image;
+pbdkbgf jbvb.bwt.imbgf;
 
-import java.awt.color.ColorSpace;
-import java.awt.Transparency;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.Trbnspbrfndy;
 
 /**
- * The <code>DirectColorModel</code> class is a <code>ColorModel</code>
- * class that works with pixel values that represent RGB
- * color and alpha information as separate samples and that pack all
- * samples for a single pixel into a single int, short, or byte quantity.
- * This class can be used only with ColorSpaces of type ColorSpace.TYPE_RGB.
- * In addition, for each component of the ColorSpace, the minimum
- * normalized component value obtained via the <code>getMinValue()</code>
- * method of ColorSpace must be 0.0, and the maximum value obtained via
- * the <code>getMaxValue()</code> method must be 1.0 (these min/max
- * values are typical for RGB spaces).
- * There must be three color samples in the pixel values and there can
- * be a single alpha sample.  For those methods that use a primitive array
- * pixel representation of type <code>transferType</code>, the array
- * length is always one.  The transfer
- * types supported are DataBuffer.TYPE_BYTE,
- * DataBuffer.TYPE_USHORT, and DataBuffer.TYPE_INT.
- * Color and alpha samples are stored in the single
- * element of the array in bits indicated by bit masks.  Each bit mask
- * must be contiguous and masks must not overlap.  The same masks apply to
- * the single int pixel representation used by other methods.  The
- * correspondence of masks and color/alpha samples is as follows:
+ * Tif <dodf>DirfdtColorModfl</dodf> dlbss is b <dodf>ColorModfl</dodf>
+ * dlbss tibt works witi pixfl vblufs tibt rfprfsfnt RGB
+ * dolor bnd blpib informbtion bs sfpbrbtf sbmplfs bnd tibt pbdk bll
+ * sbmplfs for b singlf pixfl into b singlf int, siort, or bytf qubntity.
+ * Tiis dlbss dbn bf usfd only witi ColorSpbdfs of typf ColorSpbdf.TYPE_RGB.
+ * In bddition, for fbdi domponfnt of tif ColorSpbdf, tif minimum
+ * normblizfd domponfnt vbluf obtbinfd vib tif <dodf>gftMinVbluf()</dodf>
+ * mftiod of ColorSpbdf must bf 0.0, bnd tif mbximum vbluf obtbinfd vib
+ * tif <dodf>gftMbxVbluf()</dodf> mftiod must bf 1.0 (tifsf min/mbx
+ * vblufs brf typidbl for RGB spbdfs).
+ * Tifrf must bf tirff dolor sbmplfs in tif pixfl vblufs bnd tifrf dbn
+ * bf b singlf blpib sbmplf.  For tiosf mftiods tibt usf b primitivf brrby
+ * pixfl rfprfsfntbtion of typf <dodf>trbnsffrTypf</dodf>, tif brrby
+ * lfngti is blwbys onf.  Tif trbnsffr
+ * typfs supportfd brf DbtbBufffr.TYPE_BYTE,
+ * DbtbBufffr.TYPE_USHORT, bnd DbtbBufffr.TYPE_INT.
+ * Color bnd blpib sbmplfs brf storfd in tif singlf
+ * flfmfnt of tif brrby in bits indidbtfd by bit mbsks.  Ebdi bit mbsk
+ * must bf dontiguous bnd mbsks must not ovfrlbp.  Tif sbmf mbsks bpply to
+ * tif singlf int pixfl rfprfsfntbtion usfd by otifr mftiods.  Tif
+ * dorrfspondfndf of mbsks bnd dolor/blpib sbmplfs is bs follows:
  * <ul>
- * <li> Masks are identified by indices running from 0 through 2
- * if no alpha is present, or 3 if an alpha is present.
- * <li> The first three indices refer to color samples;
- * index 0 corresponds to red, index 1 to green, and index 2 to blue.
- * <li> Index 3 corresponds to the alpha sample, if present.
+ * <li> Mbsks brf idfntififd by indidfs running from 0 tirougi 2
+ * if no blpib is prfsfnt, or 3 if bn blpib is prfsfnt.
+ * <li> Tif first tirff indidfs rfffr to dolor sbmplfs;
+ * indfx 0 dorrfsponds to rfd, indfx 1 to grffn, bnd indfx 2 to bluf.
+ * <li> Indfx 3 dorrfsponds to tif blpib sbmplf, if prfsfnt.
  * </ul>
  * <p>
- * The translation from pixel values to color/alpha components for
- * display or processing purposes is a one-to-one correspondence of
- * samples to components.  A <code>DirectColorModel</code> is
- * typically used with image data which uses masks to define packed
- * samples.  For example, a <code>DirectColorModel</code> can be used in
- * conjunction with a <code>SinglePixelPackedSampleModel</code> to
- * construct a {@link BufferedImage}.  Normally the masks used by the
- * {@link SampleModel} and the <code>ColorModel</code> would be the
- * same.  However, if they are different, the color interpretation
- * of pixel data will be done according to the masks of the
- * <code>ColorModel</code>.
+ * Tif trbnslbtion from pixfl vblufs to dolor/blpib domponfnts for
+ * displby or prodfssing purposfs is b onf-to-onf dorrfspondfndf of
+ * sbmplfs to domponfnts.  A <dodf>DirfdtColorModfl</dodf> is
+ * typidblly usfd witi imbgf dbtb wiidi usfs mbsks to dffinf pbdkfd
+ * sbmplfs.  For fxbmplf, b <dodf>DirfdtColorModfl</dodf> dbn bf usfd in
+ * donjundtion witi b <dodf>SinglfPixflPbdkfdSbmplfModfl</dodf> to
+ * donstrudt b {@link BufffrfdImbgf}.  Normblly tif mbsks usfd by tif
+ * {@link SbmplfModfl} bnd tif <dodf>ColorModfl</dodf> would bf tif
+ * sbmf.  Howfvfr, if tify brf difffrfnt, tif dolor intfrprftbtion
+ * of pixfl dbtb will bf donf bddording to tif mbsks of tif
+ * <dodf>ColorModfl</dodf>.
  * <p>
- * A single int pixel representation is valid for all objects of this
- * class, since it is always possible to represent pixel values used with
- * this class in a single int.  Therefore, methods which use this
- * representation will not throw an <code>IllegalArgumentException</code>
- * due to an invalid pixel value.
+ * A singlf int pixfl rfprfsfntbtion is vblid for bll objfdts of tiis
+ * dlbss, sindf it is blwbys possiblf to rfprfsfnt pixfl vblufs usfd witi
+ * tiis dlbss in b singlf int.  Tifrfforf, mftiods wiidi usf tiis
+ * rfprfsfntbtion will not tirow bn <dodf>IllfgblArgumfntExdfption</dodf>
+ * duf to bn invblid pixfl vbluf.
  * <p>
- * This color model is similar to an X11 TrueColor visual.
- * The default RGB ColorModel specified by the
- * {@link ColorModel#getRGBdefault() getRGBdefault} method is a
- * <code>DirectColorModel</code> with the following parameters:
- * <pre>
- * Number of bits:        32
- * Red mask:              0x00ff0000
- * Green mask:            0x0000ff00
- * Blue mask:             0x000000ff
- * Alpha mask:            0xff000000
- * Color space:           sRGB
- * isAlphaPremultiplied:  False
- * Transparency:          Transparency.TRANSLUCENT
- * transferType:          DataBuffer.TYPE_INT
- * </pre>
+ * Tiis dolor modfl is similbr to bn X11 TrufColor visubl.
+ * Tif dffbult RGB ColorModfl spfdififd by tif
+ * {@link ColorModfl#gftRGBdffbult() gftRGBdffbult} mftiod is b
+ * <dodf>DirfdtColorModfl</dodf> witi tif following pbrbmftfrs:
+ * <prf>
+ * Numbfr of bits:        32
+ * Rfd mbsk:              0x00ff0000
+ * Grffn mbsk:            0x0000ff00
+ * Bluf mbsk:             0x000000ff
+ * Alpib mbsk:            0xff000000
+ * Color spbdf:           sRGB
+ * isAlpibPrfmultiplifd:  Fblsf
+ * Trbnspbrfndy:          Trbnspbrfndy.TRANSLUCENT
+ * trbnsffrTypf:          DbtbBufffr.TYPE_INT
+ * </prf>
  * <p>
- * Many of the methods in this class are final. This is because the
- * underlying native graphics code makes assumptions about the layout
- * and operation of this class and those assumptions are reflected in
- * the implementations of the methods here that are marked final.  You
- * can subclass this class for other reasons, but you cannot override
- * or modify the behavior of those methods.
+ * Mbny of tif mftiods in tiis dlbss brf finbl. Tiis is bfdbusf tif
+ * undfrlying nbtivf grbpiids dodf mbkfs bssumptions bbout tif lbyout
+ * bnd opfrbtion of tiis dlbss bnd tiosf bssumptions brf rfflfdtfd in
+ * tif implfmfntbtions of tif mftiods ifrf tibt brf mbrkfd finbl.  You
+ * dbn subdlbss tiis dlbss for otifr rfbsons, but you dbnnot ovfrridf
+ * or modify tif bfibvior of tiosf mftiods.
  *
- * @see ColorModel
- * @see ColorSpace
- * @see SinglePixelPackedSampleModel
- * @see BufferedImage
- * @see ColorModel#getRGBdefault
+ * @sff ColorModfl
+ * @sff ColorSpbdf
+ * @sff SinglfPixflPbdkfdSbmplfModfl
+ * @sff BufffrfdImbgf
+ * @sff ColorModfl#gftRGBdffbult
  *
  */
-public class DirectColorModel extends PackedColorModel {
-    private int red_mask;
-    private int green_mask;
-    private int blue_mask;
-    private int alpha_mask;
-    private int red_offset;
-    private int green_offset;
-    private int blue_offset;
-    private int alpha_offset;
-    private int red_scale;
-    private int green_scale;
-    private int blue_scale;
-    private int alpha_scale;
-    private boolean is_LinearRGB;
-    private int lRGBprecision;
-    private byte[] tosRGB8LUT;
-    private byte[] fromsRGB8LUT8;
-    private short[] fromsRGB8LUT16;
+publid dlbss DirfdtColorModfl fxtfnds PbdkfdColorModfl {
+    privbtf int rfd_mbsk;
+    privbtf int grffn_mbsk;
+    privbtf int bluf_mbsk;
+    privbtf int blpib_mbsk;
+    privbtf int rfd_offsft;
+    privbtf int grffn_offsft;
+    privbtf int bluf_offsft;
+    privbtf int blpib_offsft;
+    privbtf int rfd_sdblf;
+    privbtf int grffn_sdblf;
+    privbtf int bluf_sdblf;
+    privbtf int blpib_sdblf;
+    privbtf boolfbn is_LinfbrRGB;
+    privbtf int lRGBprfdision;
+    privbtf bytf[] tosRGB8LUT;
+    privbtf bytf[] fromsRGB8LUT8;
+    privbtf siort[] fromsRGB8LUT16;
 
     /**
-     * Constructs a <code>DirectColorModel</code> from the specified masks
-     * that indicate which bits in an <code>int</code> pixel representation
-     * contain the red, green and blue color samples.  As pixel values do not
-     * contain alpha information, all pixels are treated as opaque, which
-     * means that alpha&nbsp;=&nbsp;1.0.  All of the bits
-     * in each mask must be contiguous and fit in the specified number
-     * of least significant bits of an <code>int</code> pixel representation.
-     *  The <code>ColorSpace</code> is the default sRGB space. The
-     * transparency value is Transparency.OPAQUE.  The transfer type
-     * is the smallest of DataBuffer.TYPE_BYTE, DataBuffer.TYPE_USHORT,
-     * or DataBuffer.TYPE_INT that can hold a single pixel.
-     * @param bits the number of bits in the pixel values; for example,
-     *         the sum of the number of bits in the masks.
-     * @param rmask specifies a mask indicating which bits in an
-     *         integer pixel contain the red component
-     * @param gmask specifies a mask indicating which bits in an
-     *         integer pixel contain the green component
-     * @param bmask specifies a mask indicating which bits in an
-     *         integer pixel contain the blue component
+     * Construdts b <dodf>DirfdtColorModfl</dodf> from tif spfdififd mbsks
+     * tibt indidbtf wiidi bits in bn <dodf>int</dodf> pixfl rfprfsfntbtion
+     * dontbin tif rfd, grffn bnd bluf dolor sbmplfs.  As pixfl vblufs do not
+     * dontbin blpib informbtion, bll pixfls brf trfbtfd bs opbquf, wiidi
+     * mfbns tibt blpib&nbsp;=&nbsp;1.0.  All of tif bits
+     * in fbdi mbsk must bf dontiguous bnd fit in tif spfdififd numbfr
+     * of lfbst signifidbnt bits of bn <dodf>int</dodf> pixfl rfprfsfntbtion.
+     *  Tif <dodf>ColorSpbdf</dodf> is tif dffbult sRGB spbdf. Tif
+     * trbnspbrfndy vbluf is Trbnspbrfndy.OPAQUE.  Tif trbnsffr typf
+     * is tif smbllfst of DbtbBufffr.TYPE_BYTE, DbtbBufffr.TYPE_USHORT,
+     * or DbtbBufffr.TYPE_INT tibt dbn iold b singlf pixfl.
+     * @pbrbm bits tif numbfr of bits in tif pixfl vblufs; for fxbmplf,
+     *         tif sum of tif numbfr of bits in tif mbsks.
+     * @pbrbm rmbsk spfdififs b mbsk indidbting wiidi bits in bn
+     *         intfgfr pixfl dontbin tif rfd domponfnt
+     * @pbrbm gmbsk spfdififs b mbsk indidbting wiidi bits in bn
+     *         intfgfr pixfl dontbin tif grffn domponfnt
+     * @pbrbm bmbsk spfdififs b mbsk indidbting wiidi bits in bn
+     *         intfgfr pixfl dontbin tif bluf domponfnt
      *
      */
-    public DirectColorModel(int bits,
-                            int rmask, int gmask, int bmask) {
-        this(bits, rmask, gmask, bmask, 0);
+    publid DirfdtColorModfl(int bits,
+                            int rmbsk, int gmbsk, int bmbsk) {
+        tiis(bits, rmbsk, gmbsk, bmbsk, 0);
     }
 
     /**
-     * Constructs a <code>DirectColorModel</code> from the specified masks
-     * that indicate which bits in an <code>int</code> pixel representation
-     * contain the red, green and blue color samples and the alpha sample,
-     * if present.  If <code>amask</code> is 0, pixel values do not contain
-     * alpha information and all pixels are treated as opaque, which means
-     * that alpha&nbsp;=&nbsp;1.0.  All of the bits in each mask must
-     * be contiguous and fit in the specified number of least significant bits
-     * of an <code>int</code> pixel representation.  Alpha, if present, is not
-     * premultiplied.  The <code>ColorSpace</code> is the default sRGB space.
-     * The transparency value is Transparency.OPAQUE if no alpha is
-     * present, or Transparency.TRANSLUCENT otherwise.  The transfer type
-     * is the smallest of DataBuffer.TYPE_BYTE, DataBuffer.TYPE_USHORT,
-     * or DataBuffer.TYPE_INT that can hold a single pixel.
-     * @param bits the number of bits in the pixel values; for example,
-     *         the sum of the number of bits in the masks.
-     * @param rmask specifies a mask indicating which bits in an
-     *         integer pixel contain the red component
-     * @param gmask specifies a mask indicating which bits in an
-     *         integer pixel contain the green component
-     * @param bmask specifies a mask indicating which bits in an
-     *         integer pixel contain the blue component
-     * @param amask specifies a mask indicating which bits in an
-     *         integer pixel contain the alpha component
+     * Construdts b <dodf>DirfdtColorModfl</dodf> from tif spfdififd mbsks
+     * tibt indidbtf wiidi bits in bn <dodf>int</dodf> pixfl rfprfsfntbtion
+     * dontbin tif rfd, grffn bnd bluf dolor sbmplfs bnd tif blpib sbmplf,
+     * if prfsfnt.  If <dodf>bmbsk</dodf> is 0, pixfl vblufs do not dontbin
+     * blpib informbtion bnd bll pixfls brf trfbtfd bs opbquf, wiidi mfbns
+     * tibt blpib&nbsp;=&nbsp;1.0.  All of tif bits in fbdi mbsk must
+     * bf dontiguous bnd fit in tif spfdififd numbfr of lfbst signifidbnt bits
+     * of bn <dodf>int</dodf> pixfl rfprfsfntbtion.  Alpib, if prfsfnt, is not
+     * prfmultiplifd.  Tif <dodf>ColorSpbdf</dodf> is tif dffbult sRGB spbdf.
+     * Tif trbnspbrfndy vbluf is Trbnspbrfndy.OPAQUE if no blpib is
+     * prfsfnt, or Trbnspbrfndy.TRANSLUCENT otifrwisf.  Tif trbnsffr typf
+     * is tif smbllfst of DbtbBufffr.TYPE_BYTE, DbtbBufffr.TYPE_USHORT,
+     * or DbtbBufffr.TYPE_INT tibt dbn iold b singlf pixfl.
+     * @pbrbm bits tif numbfr of bits in tif pixfl vblufs; for fxbmplf,
+     *         tif sum of tif numbfr of bits in tif mbsks.
+     * @pbrbm rmbsk spfdififs b mbsk indidbting wiidi bits in bn
+     *         intfgfr pixfl dontbin tif rfd domponfnt
+     * @pbrbm gmbsk spfdififs b mbsk indidbting wiidi bits in bn
+     *         intfgfr pixfl dontbin tif grffn domponfnt
+     * @pbrbm bmbsk spfdififs b mbsk indidbting wiidi bits in bn
+     *         intfgfr pixfl dontbin tif bluf domponfnt
+     * @pbrbm bmbsk spfdififs b mbsk indidbting wiidi bits in bn
+     *         intfgfr pixfl dontbin tif blpib domponfnt
      */
-    public DirectColorModel(int bits, int rmask, int gmask,
-                            int bmask, int amask) {
-        super (ColorSpace.getInstance(ColorSpace.CS_sRGB),
-               bits, rmask, gmask, bmask, amask, false,
-               amask == 0 ? Transparency.OPAQUE : Transparency.TRANSLUCENT,
-               ColorModel.getDefaultTransferType(bits));
-        setFields();
+    publid DirfdtColorModfl(int bits, int rmbsk, int gmbsk,
+                            int bmbsk, int bmbsk) {
+        supfr (ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB),
+               bits, rmbsk, gmbsk, bmbsk, bmbsk, fblsf,
+               bmbsk == 0 ? Trbnspbrfndy.OPAQUE : Trbnspbrfndy.TRANSLUCENT,
+               ColorModfl.gftDffbultTrbnsffrTypf(bits));
+        sftFiflds();
     }
 
     /**
-     * Constructs a <code>DirectColorModel</code> from the specified
-     * parameters.  Color components are in the specified
-     * <code>ColorSpace</code>, which must be of type ColorSpace.TYPE_RGB
-     * and have minimum normalized component values which are all 0.0
-     * and maximum values which are all 1.0.
-     * The masks specify which bits in an <code>int</code> pixel
-     * representation contain the red, green and blue color samples and
-     * the alpha sample, if present.  If <code>amask</code> is 0, pixel
-     * values do not contain alpha information and all pixels are treated
-     * as opaque, which means that alpha&nbsp;=&nbsp;1.0.  All of the
-     * bits in each mask must be contiguous and fit in the specified number
-     * of least significant bits of an <code>int</code> pixel
-     * representation.  If there is alpha, the <code>boolean</code>
-     * <code>isAlphaPremultiplied</code> specifies how to interpret
-     * color and alpha samples in pixel values.  If the <code>boolean</code>
-     * is <code>true</code>, color samples are assumed to have been
-     * multiplied by the alpha sample.  The transparency value is
-     * Transparency.OPAQUE, if no alpha is present, or
-     * Transparency.TRANSLUCENT otherwise.  The transfer type
-     * is the type of primitive array used to represent pixel values and
-     * must be one of DataBuffer.TYPE_BYTE, DataBuffer.TYPE_USHORT, or
-     * DataBuffer.TYPE_INT.
-     * @param space the specified <code>ColorSpace</code>
-     * @param bits the number of bits in the pixel values; for example,
-     *         the sum of the number of bits in the masks.
-     * @param rmask specifies a mask indicating which bits in an
-     *         integer pixel contain the red component
-     * @param gmask specifies a mask indicating which bits in an
-     *         integer pixel contain the green component
-     * @param bmask specifies a mask indicating which bits in an
-     *         integer pixel contain the blue component
-     * @param amask specifies a mask indicating which bits in an
-     *         integer pixel contain the alpha component
-     * @param isAlphaPremultiplied <code>true</code> if color samples are
-     *        premultiplied by the alpha sample; <code>false</code> otherwise
-     * @param transferType the type of array used to represent pixel values
-     * @throws IllegalArgumentException if <code>space</code> is not a
-     *         TYPE_RGB space or if the min/max normalized component
-     *         values are not 0.0/1.0.
+     * Construdts b <dodf>DirfdtColorModfl</dodf> from tif spfdififd
+     * pbrbmftfrs.  Color domponfnts brf in tif spfdififd
+     * <dodf>ColorSpbdf</dodf>, wiidi must bf of typf ColorSpbdf.TYPE_RGB
+     * bnd ibvf minimum normblizfd domponfnt vblufs wiidi brf bll 0.0
+     * bnd mbximum vblufs wiidi brf bll 1.0.
+     * Tif mbsks spfdify wiidi bits in bn <dodf>int</dodf> pixfl
+     * rfprfsfntbtion dontbin tif rfd, grffn bnd bluf dolor sbmplfs bnd
+     * tif blpib sbmplf, if prfsfnt.  If <dodf>bmbsk</dodf> is 0, pixfl
+     * vblufs do not dontbin blpib informbtion bnd bll pixfls brf trfbtfd
+     * bs opbquf, wiidi mfbns tibt blpib&nbsp;=&nbsp;1.0.  All of tif
+     * bits in fbdi mbsk must bf dontiguous bnd fit in tif spfdififd numbfr
+     * of lfbst signifidbnt bits of bn <dodf>int</dodf> pixfl
+     * rfprfsfntbtion.  If tifrf is blpib, tif <dodf>boolfbn</dodf>
+     * <dodf>isAlpibPrfmultiplifd</dodf> spfdififs iow to intfrprft
+     * dolor bnd blpib sbmplfs in pixfl vblufs.  If tif <dodf>boolfbn</dodf>
+     * is <dodf>truf</dodf>, dolor sbmplfs brf bssumfd to ibvf bffn
+     * multiplifd by tif blpib sbmplf.  Tif trbnspbrfndy vbluf is
+     * Trbnspbrfndy.OPAQUE, if no blpib is prfsfnt, or
+     * Trbnspbrfndy.TRANSLUCENT otifrwisf.  Tif trbnsffr typf
+     * is tif typf of primitivf brrby usfd to rfprfsfnt pixfl vblufs bnd
+     * must bf onf of DbtbBufffr.TYPE_BYTE, DbtbBufffr.TYPE_USHORT, or
+     * DbtbBufffr.TYPE_INT.
+     * @pbrbm spbdf tif spfdififd <dodf>ColorSpbdf</dodf>
+     * @pbrbm bits tif numbfr of bits in tif pixfl vblufs; for fxbmplf,
+     *         tif sum of tif numbfr of bits in tif mbsks.
+     * @pbrbm rmbsk spfdififs b mbsk indidbting wiidi bits in bn
+     *         intfgfr pixfl dontbin tif rfd domponfnt
+     * @pbrbm gmbsk spfdififs b mbsk indidbting wiidi bits in bn
+     *         intfgfr pixfl dontbin tif grffn domponfnt
+     * @pbrbm bmbsk spfdififs b mbsk indidbting wiidi bits in bn
+     *         intfgfr pixfl dontbin tif bluf domponfnt
+     * @pbrbm bmbsk spfdififs b mbsk indidbting wiidi bits in bn
+     *         intfgfr pixfl dontbin tif blpib domponfnt
+     * @pbrbm isAlpibPrfmultiplifd <dodf>truf</dodf> if dolor sbmplfs brf
+     *        prfmultiplifd by tif blpib sbmplf; <dodf>fblsf</dodf> otifrwisf
+     * @pbrbm trbnsffrTypf tif typf of brrby usfd to rfprfsfnt pixfl vblufs
+     * @tirows IllfgblArgumfntExdfption if <dodf>spbdf</dodf> is not b
+     *         TYPE_RGB spbdf or if tif min/mbx normblizfd domponfnt
+     *         vblufs brf not 0.0/1.0.
      */
-    public DirectColorModel(ColorSpace space, int bits, int rmask,
-                            int gmask, int bmask, int amask,
-                            boolean isAlphaPremultiplied,
-                            int transferType) {
-        super (space, bits, rmask, gmask, bmask, amask,
-               isAlphaPremultiplied,
-               amask == 0 ? Transparency.OPAQUE : Transparency.TRANSLUCENT,
-               transferType);
-        if (ColorModel.isLinearRGBspace(colorSpace)) {
-            is_LinearRGB = true;
-            if (maxBits <= 8) {
-                lRGBprecision = 8;
-                tosRGB8LUT = ColorModel.getLinearRGB8TosRGB8LUT();
-                fromsRGB8LUT8 = ColorModel.getsRGB8ToLinearRGB8LUT();
-            } else {
-                lRGBprecision = 16;
-                tosRGB8LUT = ColorModel.getLinearRGB16TosRGB8LUT();
-                fromsRGB8LUT16 = ColorModel.getsRGB8ToLinearRGB16LUT();
+    publid DirfdtColorModfl(ColorSpbdf spbdf, int bits, int rmbsk,
+                            int gmbsk, int bmbsk, int bmbsk,
+                            boolfbn isAlpibPrfmultiplifd,
+                            int trbnsffrTypf) {
+        supfr (spbdf, bits, rmbsk, gmbsk, bmbsk, bmbsk,
+               isAlpibPrfmultiplifd,
+               bmbsk == 0 ? Trbnspbrfndy.OPAQUE : Trbnspbrfndy.TRANSLUCENT,
+               trbnsffrTypf);
+        if (ColorModfl.isLinfbrRGBspbdf(dolorSpbdf)) {
+            is_LinfbrRGB = truf;
+            if (mbxBits <= 8) {
+                lRGBprfdision = 8;
+                tosRGB8LUT = ColorModfl.gftLinfbrRGB8TosRGB8LUT();
+                fromsRGB8LUT8 = ColorModfl.gftsRGB8ToLinfbrRGB8LUT();
+            } flsf {
+                lRGBprfdision = 16;
+                tosRGB8LUT = ColorModfl.gftLinfbrRGB16TosRGB8LUT();
+                fromsRGB8LUT16 = ColorModfl.gftsRGB8ToLinfbrRGB16LUT();
             }
-        } else if (!is_sRGB) {
+        } flsf if (!is_sRGB) {
             for (int i = 0; i < 3; i++) {
-                // super constructor checks that space is TYPE_RGB
-                // check here that min/max are all 0.0/1.0
-                if ((space.getMinValue(i) != 0.0f) ||
-                    (space.getMaxValue(i) != 1.0f)) {
-                    throw new IllegalArgumentException(
-                        "Illegal min/max RGB component value");
+                // supfr donstrudtor difdks tibt spbdf is TYPE_RGB
+                // difdk ifrf tibt min/mbx brf bll 0.0/1.0
+                if ((spbdf.gftMinVbluf(i) != 0.0f) ||
+                    (spbdf.gftMbxVbluf(i) != 1.0f)) {
+                    tirow nfw IllfgblArgumfntExdfption(
+                        "Illfgbl min/mbx RGB domponfnt vbluf");
                 }
             }
         }
-        setFields();
+        sftFiflds();
     }
 
     /**
-     * Returns the mask indicating which bits in an <code>int</code> pixel
-     * representation contain the red color component.
-     * @return the mask, which indicates which bits of the <code>int</code>
-     *         pixel representation contain the red color sample.
+     * Rfturns tif mbsk indidbting wiidi bits in bn <dodf>int</dodf> pixfl
+     * rfprfsfntbtion dontbin tif rfd dolor domponfnt.
+     * @rfturn tif mbsk, wiidi indidbtfs wiidi bits of tif <dodf>int</dodf>
+     *         pixfl rfprfsfntbtion dontbin tif rfd dolor sbmplf.
      */
-    final public int getRedMask() {
-        return maskArray[0];
+    finbl publid int gftRfdMbsk() {
+        rfturn mbskArrby[0];
     }
 
     /**
-     * Returns the mask indicating which bits in an <code>int</code> pixel
-     * representation contain the green color component.
-     * @return the mask, which indicates which bits of the <code>int</code>
-     *         pixel representation contain the green color sample.
+     * Rfturns tif mbsk indidbting wiidi bits in bn <dodf>int</dodf> pixfl
+     * rfprfsfntbtion dontbin tif grffn dolor domponfnt.
+     * @rfturn tif mbsk, wiidi indidbtfs wiidi bits of tif <dodf>int</dodf>
+     *         pixfl rfprfsfntbtion dontbin tif grffn dolor sbmplf.
      */
-    final public int getGreenMask() {
-        return maskArray[1];
+    finbl publid int gftGrffnMbsk() {
+        rfturn mbskArrby[1];
     }
 
     /**
-     * Returns the mask indicating which bits in an <code>int</code> pixel
-     * representation contain the blue color component.
-     * @return the mask, which indicates which bits of the <code>int</code>
-     *         pixel representation contain the blue color sample.
+     * Rfturns tif mbsk indidbting wiidi bits in bn <dodf>int</dodf> pixfl
+     * rfprfsfntbtion dontbin tif bluf dolor domponfnt.
+     * @rfturn tif mbsk, wiidi indidbtfs wiidi bits of tif <dodf>int</dodf>
+     *         pixfl rfprfsfntbtion dontbin tif bluf dolor sbmplf.
      */
-    final public int getBlueMask() {
-        return maskArray[2];
+    finbl publid int gftBlufMbsk() {
+        rfturn mbskArrby[2];
     }
 
     /**
-     * Returns the mask indicating which bits in an <code>int</code> pixel
-     * representation contain the alpha component.
-     * @return the mask, which indicates which bits of the <code>int</code>
-     *         pixel representation contain the alpha sample.
+     * Rfturns tif mbsk indidbting wiidi bits in bn <dodf>int</dodf> pixfl
+     * rfprfsfntbtion dontbin tif blpib domponfnt.
+     * @rfturn tif mbsk, wiidi indidbtfs wiidi bits of tif <dodf>int</dodf>
+     *         pixfl rfprfsfntbtion dontbin tif blpib sbmplf.
      */
-    final public int getAlphaMask() {
-        if (supportsAlpha) {
-            return maskArray[3];
-        } else {
-            return 0;
+    finbl publid int gftAlpibMbsk() {
+        if (supportsAlpib) {
+            rfturn mbskArrby[3];
+        } flsf {
+            rfturn 0;
         }
     }
 
 
     /*
-     * Given an int pixel in this ColorModel's ColorSpace, converts
-     * it to the default sRGB ColorSpace and returns the R, G, and B
-     * components as float values between 0.0 and 1.0.
+     * Givfn bn int pixfl in tiis ColorModfl's ColorSpbdf, donvfrts
+     * it to tif dffbult sRGB ColorSpbdf bnd rfturns tif R, G, bnd B
+     * domponfnts bs flobt vblufs bftwffn 0.0 bnd 1.0.
      */
-    private float[] getDefaultRGBComponents(int pixel) {
-        int components[] = getComponents(pixel, null, 0);
-        float norm[] = getNormalizedComponents(components, 0, null, 0);
-        // Note that getNormalizedComponents returns non-premultiplied values
-        return colorSpace.toRGB(norm);
+    privbtf flobt[] gftDffbultRGBComponfnts(int pixfl) {
+        int domponfnts[] = gftComponfnts(pixfl, null, 0);
+        flobt norm[] = gftNormblizfdComponfnts(domponfnts, 0, null, 0);
+        // Notf tibt gftNormblizfdComponfnts rfturns non-prfmultiplifd vblufs
+        rfturn dolorSpbdf.toRGB(norm);
     }
 
 
-    private int getsRGBComponentFromsRGB(int pixel, int idx) {
-        int c = ((pixel & maskArray[idx]) >>> maskOffsets[idx]);
-        if (isAlphaPremultiplied) {
-            int a = ((pixel & maskArray[3]) >>> maskOffsets[3]);
-            c = (a == 0) ? 0 :
-                         (int) (((c * scaleFactors[idx]) * 255.0f /
-                                 (a * scaleFactors[3])) + 0.5f);
-        } else if (scaleFactors[idx] != 1.0f) {
-            c = (int) ((c * scaleFactors[idx]) + 0.5f);
+    privbtf int gftsRGBComponfntFromsRGB(int pixfl, int idx) {
+        int d = ((pixfl & mbskArrby[idx]) >>> mbskOffsfts[idx]);
+        if (isAlpibPrfmultiplifd) {
+            int b = ((pixfl & mbskArrby[3]) >>> mbskOffsfts[3]);
+            d = (b == 0) ? 0 :
+                         (int) (((d * sdblfFbdtors[idx]) * 255.0f /
+                                 (b * sdblfFbdtors[3])) + 0.5f);
+        } flsf if (sdblfFbdtors[idx] != 1.0f) {
+            d = (int) ((d * sdblfFbdtors[idx]) + 0.5f);
         }
-        return c;
+        rfturn d;
     }
 
 
-    private int getsRGBComponentFromLinearRGB(int pixel, int idx) {
-        int c = ((pixel & maskArray[idx]) >>> maskOffsets[idx]);
-        if (isAlphaPremultiplied) {
-            float factor = (float) ((1 << lRGBprecision) - 1);
-            int a = ((pixel & maskArray[3]) >>> maskOffsets[3]);
-            c = (a == 0) ? 0 :
-                         (int) (((c * scaleFactors[idx]) * factor /
-                                 (a * scaleFactors[3])) + 0.5f);
-        } else if (nBits[idx] != lRGBprecision) {
-            if (lRGBprecision == 16) {
-                c = (int) ((c * scaleFactors[idx] * 257.0f) + 0.5f);
-            } else {
-                c = (int) ((c * scaleFactors[idx]) + 0.5f);
+    privbtf int gftsRGBComponfntFromLinfbrRGB(int pixfl, int idx) {
+        int d = ((pixfl & mbskArrby[idx]) >>> mbskOffsfts[idx]);
+        if (isAlpibPrfmultiplifd) {
+            flobt fbdtor = (flobt) ((1 << lRGBprfdision) - 1);
+            int b = ((pixfl & mbskArrby[3]) >>> mbskOffsfts[3]);
+            d = (b == 0) ? 0 :
+                         (int) (((d * sdblfFbdtors[idx]) * fbdtor /
+                                 (b * sdblfFbdtors[3])) + 0.5f);
+        } flsf if (nBits[idx] != lRGBprfdision) {
+            if (lRGBprfdision == 16) {
+                d = (int) ((d * sdblfFbdtors[idx] * 257.0f) + 0.5f);
+            } flsf {
+                d = (int) ((d * sdblfFbdtors[idx]) + 0.5f);
             }
         }
-        // now range of c is 0-255 or 0-65535, depending on lRGBprecision
-        return tosRGB8LUT[c] & 0xff;
+        // now rbngf of d is 0-255 or 0-65535, dfpfnding on lRGBprfdision
+        rfturn tosRGB8LUT[d] & 0xff;
     }
 
 
     /**
-     * Returns the red color component for the specified pixel, scaled
-     * from 0 to 255 in the default RGB <code>ColorSpace</code>, sRGB.  A
-     * color conversion is done if necessary.  The pixel value is specified
-     * as an <code>int</code>.
-     * The returned value is a non pre-multiplied value.  Thus, if the
-     * alpha is premultiplied, this method divides it out before returning
-     * the value.  If the alpha value is 0, for example, the red value
+     * Rfturns tif rfd dolor domponfnt for tif spfdififd pixfl, sdblfd
+     * from 0 to 255 in tif dffbult RGB <dodf>ColorSpbdf</dodf>, sRGB.  A
+     * dolor donvfrsion is donf if nfdfssbry.  Tif pixfl vbluf is spfdififd
+     * bs bn <dodf>int</dodf>.
+     * Tif rfturnfd vbluf is b non prf-multiplifd vbluf.  Tius, if tif
+     * blpib is prfmultiplifd, tiis mftiod dividfs it out bfforf rfturning
+     * tif vbluf.  If tif blpib vbluf is 0, for fxbmplf, tif rfd vbluf
      * is 0.
-     * @param pixel the specified pixel
-     * @return the red color component for the specified pixel, from
-     *         0 to 255 in the sRGB <code>ColorSpace</code>.
+     * @pbrbm pixfl tif spfdififd pixfl
+     * @rfturn tif rfd dolor domponfnt for tif spfdififd pixfl, from
+     *         0 to 255 in tif sRGB <dodf>ColorSpbdf</dodf>.
      */
-    final public int getRed(int pixel) {
+    finbl publid int gftRfd(int pixfl) {
         if (is_sRGB) {
-            return getsRGBComponentFromsRGB(pixel, 0);
-        } else if (is_LinearRGB) {
-            return getsRGBComponentFromLinearRGB(pixel, 0);
+            rfturn gftsRGBComponfntFromsRGB(pixfl, 0);
+        } flsf if (is_LinfbrRGB) {
+            rfturn gftsRGBComponfntFromLinfbrRGB(pixfl, 0);
         }
-        float rgb[] = getDefaultRGBComponents(pixel);
-        return (int) (rgb[0] * 255.0f + 0.5f);
+        flobt rgb[] = gftDffbultRGBComponfnts(pixfl);
+        rfturn (int) (rgb[0] * 255.0f + 0.5f);
     }
 
     /**
-     * Returns the green color component for the specified pixel, scaled
-     * from 0 to 255 in the default RGB <code>ColorSpace</code>, sRGB.  A
-     * color conversion is done if necessary.  The pixel value is specified
-     * as an <code>int</code>.
-     * The returned value is a non pre-multiplied value.  Thus, if the
-     * alpha is premultiplied, this method divides it out before returning
-     * the value.  If the alpha value is 0, for example, the green value
+     * Rfturns tif grffn dolor domponfnt for tif spfdififd pixfl, sdblfd
+     * from 0 to 255 in tif dffbult RGB <dodf>ColorSpbdf</dodf>, sRGB.  A
+     * dolor donvfrsion is donf if nfdfssbry.  Tif pixfl vbluf is spfdififd
+     * bs bn <dodf>int</dodf>.
+     * Tif rfturnfd vbluf is b non prf-multiplifd vbluf.  Tius, if tif
+     * blpib is prfmultiplifd, tiis mftiod dividfs it out bfforf rfturning
+     * tif vbluf.  If tif blpib vbluf is 0, for fxbmplf, tif grffn vbluf
      * is 0.
-     * @param pixel the specified pixel
-     * @return the green color component for the specified pixel, from
-     *         0 to 255 in the sRGB <code>ColorSpace</code>.
+     * @pbrbm pixfl tif spfdififd pixfl
+     * @rfturn tif grffn dolor domponfnt for tif spfdififd pixfl, from
+     *         0 to 255 in tif sRGB <dodf>ColorSpbdf</dodf>.
      */
-    final public int getGreen(int pixel) {
+    finbl publid int gftGrffn(int pixfl) {
         if (is_sRGB) {
-            return getsRGBComponentFromsRGB(pixel, 1);
-        } else if (is_LinearRGB) {
-            return getsRGBComponentFromLinearRGB(pixel, 1);
+            rfturn gftsRGBComponfntFromsRGB(pixfl, 1);
+        } flsf if (is_LinfbrRGB) {
+            rfturn gftsRGBComponfntFromLinfbrRGB(pixfl, 1);
         }
-        float rgb[] = getDefaultRGBComponents(pixel);
-        return (int) (rgb[1] * 255.0f + 0.5f);
+        flobt rgb[] = gftDffbultRGBComponfnts(pixfl);
+        rfturn (int) (rgb[1] * 255.0f + 0.5f);
     }
 
     /**
-     * Returns the blue color component for the specified pixel, scaled
-     * from 0 to 255 in the default RGB <code>ColorSpace</code>, sRGB.  A
-     * color conversion is done if necessary.  The pixel value is specified
-     * as an <code>int</code>.
-     * The returned value is a non pre-multiplied value.  Thus, if the
-     * alpha is premultiplied, this method divides it out before returning
-     * the value.  If the alpha value is 0, for example, the blue value
+     * Rfturns tif bluf dolor domponfnt for tif spfdififd pixfl, sdblfd
+     * from 0 to 255 in tif dffbult RGB <dodf>ColorSpbdf</dodf>, sRGB.  A
+     * dolor donvfrsion is donf if nfdfssbry.  Tif pixfl vbluf is spfdififd
+     * bs bn <dodf>int</dodf>.
+     * Tif rfturnfd vbluf is b non prf-multiplifd vbluf.  Tius, if tif
+     * blpib is prfmultiplifd, tiis mftiod dividfs it out bfforf rfturning
+     * tif vbluf.  If tif blpib vbluf is 0, for fxbmplf, tif bluf vbluf
      * is 0.
-     * @param pixel the specified pixel
-     * @return the blue color component for the specified pixel, from
-     *         0 to 255 in the sRGB <code>ColorSpace</code>.
+     * @pbrbm pixfl tif spfdififd pixfl
+     * @rfturn tif bluf dolor domponfnt for tif spfdififd pixfl, from
+     *         0 to 255 in tif sRGB <dodf>ColorSpbdf</dodf>.
      */
-    final public int getBlue(int pixel) {
+    finbl publid int gftBluf(int pixfl) {
         if (is_sRGB) {
-            return getsRGBComponentFromsRGB(pixel, 2);
-        } else if (is_LinearRGB) {
-            return getsRGBComponentFromLinearRGB(pixel, 2);
+            rfturn gftsRGBComponfntFromsRGB(pixfl, 2);
+        } flsf if (is_LinfbrRGB) {
+            rfturn gftsRGBComponfntFromLinfbrRGB(pixfl, 2);
         }
-        float rgb[] = getDefaultRGBComponents(pixel);
-        return (int) (rgb[2] * 255.0f + 0.5f);
+        flobt rgb[] = gftDffbultRGBComponfnts(pixfl);
+        rfturn (int) (rgb[2] * 255.0f + 0.5f);
     }
 
     /**
-     * Returns the alpha component for the specified pixel, scaled
-     * from 0 to 255.  The pixel value is specified as an <code>int</code>.
-     * @param pixel the specified pixel
-     * @return the value of the alpha component of <code>pixel</code>
+     * Rfturns tif blpib domponfnt for tif spfdififd pixfl, sdblfd
+     * from 0 to 255.  Tif pixfl vbluf is spfdififd bs bn <dodf>int</dodf>.
+     * @pbrbm pixfl tif spfdififd pixfl
+     * @rfturn tif vbluf of tif blpib domponfnt of <dodf>pixfl</dodf>
      *         from 0 to 255.
      */
-    final public int getAlpha(int pixel) {
-        if (!supportsAlpha) return 255;
-        int a = ((pixel & maskArray[3]) >>> maskOffsets[3]);
-        if (scaleFactors[3] != 1.0f) {
-            a = (int)(a * scaleFactors[3] + 0.5f);
+    finbl publid int gftAlpib(int pixfl) {
+        if (!supportsAlpib) rfturn 255;
+        int b = ((pixfl & mbskArrby[3]) >>> mbskOffsfts[3]);
+        if (sdblfFbdtors[3] != 1.0f) {
+            b = (int)(b * sdblfFbdtors[3] + 0.5f);
         }
-        return a;
+        rfturn b;
     }
 
     /**
-     * Returns the color/alpha components of the pixel in the default
-     * RGB color model format.  A color conversion is done if necessary.
-     * The pixel value is specified as an <code>int</code>.
-     * The returned value is in a non pre-multiplied format.  Thus, if
-     * the alpha is premultiplied, this method divides it out of the
-     * color components.  If the alpha value is 0, for example, the color
-     * values are each 0.
-     * @param pixel the specified pixel
-     * @return the RGB value of the color/alpha components of the specified
-     *         pixel.
-     * @see ColorModel#getRGBdefault
+     * Rfturns tif dolor/blpib domponfnts of tif pixfl in tif dffbult
+     * RGB dolor modfl formbt.  A dolor donvfrsion is donf if nfdfssbry.
+     * Tif pixfl vbluf is spfdififd bs bn <dodf>int</dodf>.
+     * Tif rfturnfd vbluf is in b non prf-multiplifd formbt.  Tius, if
+     * tif blpib is prfmultiplifd, tiis mftiod dividfs it out of tif
+     * dolor domponfnts.  If tif blpib vbluf is 0, for fxbmplf, tif dolor
+     * vblufs brf fbdi 0.
+     * @pbrbm pixfl tif spfdififd pixfl
+     * @rfturn tif RGB vbluf of tif dolor/blpib domponfnts of tif spfdififd
+     *         pixfl.
+     * @sff ColorModfl#gftRGBdffbult
      */
-    final public int getRGB(int pixel) {
-        if (is_sRGB || is_LinearRGB) {
-            return (getAlpha(pixel) << 24)
-                | (getRed(pixel) << 16)
-                | (getGreen(pixel) << 8)
-                | (getBlue(pixel) << 0);
+    finbl publid int gftRGB(int pixfl) {
+        if (is_sRGB || is_LinfbrRGB) {
+            rfturn (gftAlpib(pixfl) << 24)
+                | (gftRfd(pixfl) << 16)
+                | (gftGrffn(pixfl) << 8)
+                | (gftBluf(pixfl) << 0);
         }
-        float rgb[] = getDefaultRGBComponents(pixel);
-        return (getAlpha(pixel) << 24)
+        flobt rgb[] = gftDffbultRGBComponfnts(pixfl);
+        rfturn (gftAlpib(pixfl) << 24)
             | (((int) (rgb[0] * 255.0f + 0.5f)) << 16)
             | (((int) (rgb[1] * 255.0f + 0.5f)) << 8)
             | (((int) (rgb[2] * 255.0f + 0.5f)) << 0);
     }
 
     /**
-     * Returns the red color component for the specified pixel, scaled
-     * from 0 to 255 in the default RGB <code>ColorSpace</code>, sRGB.  A
-     * color conversion is done if necessary.  The pixel value is specified
-     * by an array of data elements of type <code>transferType</code> passed
-     * in as an object reference.
-     * The returned value is a non pre-multiplied value.  Thus, if the
-     * alpha is premultiplied, this method divides it out before returning
-     * the value.  If the alpha value is 0, for example, the red value
+     * Rfturns tif rfd dolor domponfnt for tif spfdififd pixfl, sdblfd
+     * from 0 to 255 in tif dffbult RGB <dodf>ColorSpbdf</dodf>, sRGB.  A
+     * dolor donvfrsion is donf if nfdfssbry.  Tif pixfl vbluf is spfdififd
+     * by bn brrby of dbtb flfmfnts of typf <dodf>trbnsffrTypf</dodf> pbssfd
+     * in bs bn objfdt rfffrfndf.
+     * Tif rfturnfd vbluf is b non prf-multiplifd vbluf.  Tius, if tif
+     * blpib is prfmultiplifd, tiis mftiod dividfs it out bfforf rfturning
+     * tif vbluf.  If tif blpib vbluf is 0, for fxbmplf, tif rfd vbluf
      * is 0.
-     * If <code>inData</code> is not a primitive array of type
-     * <code>transferType</code>, a <code>ClassCastException</code> is
-     * thrown.  An <code>ArrayIndexOutOfBoundsException</code> is
-     * thrown if <code>inData</code> is not large enough to hold a
-     * pixel value for this <code>ColorModel</code>.  Since
-     * <code>DirectColorModel</code> can be subclassed, subclasses inherit
-     * the implementation of this method and if they don't override it
-     * then they throw an exception if they use an unsupported
-     * <code>transferType</code>.
-     * An <code>UnsupportedOperationException</code> is thrown if this
-     * <code>transferType</code> is not supported by this
-     * <code>ColorModel</code>.
-     * @param inData the array containing the pixel value
-     * @return the value of the red component of the specified pixel.
-     * @throws ArrayIndexOutOfBoundsException if <code>inData</code> is not
-     *         large enough to hold a pixel value for this color model
-     * @throws ClassCastException if <code>inData</code> is not a
-     *         primitive array of type <code>transferType</code>
-     * @throws UnsupportedOperationException if this <code>transferType</code>
-     *         is not supported by this color model
+     * If <dodf>inDbtb</dodf> is not b primitivf brrby of typf
+     * <dodf>trbnsffrTypf</dodf>, b <dodf>ClbssCbstExdfption</dodf> is
+     * tirown.  An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is
+     * tirown if <dodf>inDbtb</dodf> is not lbrgf fnougi to iold b
+     * pixfl vbluf for tiis <dodf>ColorModfl</dodf>.  Sindf
+     * <dodf>DirfdtColorModfl</dodf> dbn bf subdlbssfd, subdlbssfs inifrit
+     * tif implfmfntbtion of tiis mftiod bnd if tify don't ovfrridf it
+     * tifn tify tirow bn fxdfption if tify usf bn unsupportfd
+     * <dodf>trbnsffrTypf</dodf>.
+     * An <dodf>UnsupportfdOpfrbtionExdfption</dodf> is tirown if tiis
+     * <dodf>trbnsffrTypf</dodf> is not supportfd by tiis
+     * <dodf>ColorModfl</dodf>.
+     * @pbrbm inDbtb tif brrby dontbining tif pixfl vbluf
+     * @rfturn tif vbluf of tif rfd domponfnt of tif spfdififd pixfl.
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if <dodf>inDbtb</dodf> is not
+     *         lbrgf fnougi to iold b pixfl vbluf for tiis dolor modfl
+     * @tirows ClbssCbstExdfption if <dodf>inDbtb</dodf> is not b
+     *         primitivf brrby of typf <dodf>trbnsffrTypf</dodf>
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis <dodf>trbnsffrTypf</dodf>
+     *         is not supportfd by tiis dolor modfl
      */
-    public int getRed(Object inData) {
-        int pixel=0;
-        switch (transferType) {
-            case DataBuffer.TYPE_BYTE:
-               byte bdata[] = (byte[])inData;
-               pixel = bdata[0] & 0xff;
-            break;
-            case DataBuffer.TYPE_USHORT:
-               short sdata[] = (short[])inData;
-               pixel = sdata[0] & 0xffff;
-            break;
-            case DataBuffer.TYPE_INT:
-               int idata[] = (int[])inData;
-               pixel = idata[0];
-            break;
-            default:
-               throw new UnsupportedOperationException("This method has not been "+
-                   "implemented for transferType " + transferType);
+    publid int gftRfd(Objfdt inDbtb) {
+        int pixfl=0;
+        switdi (trbnsffrTypf) {
+            dbsf DbtbBufffr.TYPE_BYTE:
+               bytf bdbtb[] = (bytf[])inDbtb;
+               pixfl = bdbtb[0] & 0xff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_USHORT:
+               siort sdbtb[] = (siort[])inDbtb;
+               pixfl = sdbtb[0] & 0xffff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_INT:
+               int idbtb[] = (int[])inDbtb;
+               pixfl = idbtb[0];
+            brfbk;
+            dffbult:
+               tirow nfw UnsupportfdOpfrbtionExdfption("Tiis mftiod ibs not bffn "+
+                   "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
         }
-        return getRed(pixel);
+        rfturn gftRfd(pixfl);
     }
 
 
     /**
-     * Returns the green color component for the specified pixel, scaled
-     * from 0 to 255 in the default RGB <code>ColorSpace</code>, sRGB.  A
-     * color conversion is done if necessary.  The pixel value is specified
-     * by an array of data elements of type <code>transferType</code> passed
-     * in as an object reference.
-     * The returned value is a non pre-multiplied value.  Thus, if the
-     * alpha is premultiplied, this method divides it out before returning
-     * the value.  If the alpha value is 0, for example, the green value
-     * is 0.  If <code>inData</code> is not a primitive array of type
-     * <code>transferType</code>, a <code>ClassCastException</code> is thrown.
-     *  An <code>ArrayIndexOutOfBoundsException</code> is
-     * thrown if <code>inData</code> is not large enough to hold a pixel
-     * value for this <code>ColorModel</code>.  Since
-     * <code>DirectColorModel</code> can be subclassed, subclasses inherit
-     * the implementation of this method and if they don't override it
-     * then they throw an exception if they use an unsupported
-     * <code>transferType</code>.
-     * An <code>UnsupportedOperationException</code> is
-     * thrown if this <code>transferType</code> is not supported by this
-     * <code>ColorModel</code>.
-     * @param inData the array containing the pixel value
-     * @return the value of the green component of the specified pixel.
-     * @throws ArrayIndexOutOfBoundsException if <code>inData</code> is not
-     *         large enough to hold a pixel value for this color model
-     * @throws ClassCastException if <code>inData</code> is not a
-     *         primitive array of type <code>transferType</code>
-     * @throws UnsupportedOperationException if this <code>transferType</code>
-     *         is not supported by this color model
+     * Rfturns tif grffn dolor domponfnt for tif spfdififd pixfl, sdblfd
+     * from 0 to 255 in tif dffbult RGB <dodf>ColorSpbdf</dodf>, sRGB.  A
+     * dolor donvfrsion is donf if nfdfssbry.  Tif pixfl vbluf is spfdififd
+     * by bn brrby of dbtb flfmfnts of typf <dodf>trbnsffrTypf</dodf> pbssfd
+     * in bs bn objfdt rfffrfndf.
+     * Tif rfturnfd vbluf is b non prf-multiplifd vbluf.  Tius, if tif
+     * blpib is prfmultiplifd, tiis mftiod dividfs it out bfforf rfturning
+     * tif vbluf.  If tif blpib vbluf is 0, for fxbmplf, tif grffn vbluf
+     * is 0.  If <dodf>inDbtb</dodf> is not b primitivf brrby of typf
+     * <dodf>trbnsffrTypf</dodf>, b <dodf>ClbssCbstExdfption</dodf> is tirown.
+     *  An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is
+     * tirown if <dodf>inDbtb</dodf> is not lbrgf fnougi to iold b pixfl
+     * vbluf for tiis <dodf>ColorModfl</dodf>.  Sindf
+     * <dodf>DirfdtColorModfl</dodf> dbn bf subdlbssfd, subdlbssfs inifrit
+     * tif implfmfntbtion of tiis mftiod bnd if tify don't ovfrridf it
+     * tifn tify tirow bn fxdfption if tify usf bn unsupportfd
+     * <dodf>trbnsffrTypf</dodf>.
+     * An <dodf>UnsupportfdOpfrbtionExdfption</dodf> is
+     * tirown if tiis <dodf>trbnsffrTypf</dodf> is not supportfd by tiis
+     * <dodf>ColorModfl</dodf>.
+     * @pbrbm inDbtb tif brrby dontbining tif pixfl vbluf
+     * @rfturn tif vbluf of tif grffn domponfnt of tif spfdififd pixfl.
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if <dodf>inDbtb</dodf> is not
+     *         lbrgf fnougi to iold b pixfl vbluf for tiis dolor modfl
+     * @tirows ClbssCbstExdfption if <dodf>inDbtb</dodf> is not b
+     *         primitivf brrby of typf <dodf>trbnsffrTypf</dodf>
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis <dodf>trbnsffrTypf</dodf>
+     *         is not supportfd by tiis dolor modfl
      */
-    public int getGreen(Object inData) {
-        int pixel=0;
-        switch (transferType) {
-            case DataBuffer.TYPE_BYTE:
-               byte bdata[] = (byte[])inData;
-               pixel = bdata[0] & 0xff;
-            break;
-            case DataBuffer.TYPE_USHORT:
-               short sdata[] = (short[])inData;
-               pixel = sdata[0] & 0xffff;
-            break;
-            case DataBuffer.TYPE_INT:
-               int idata[] = (int[])inData;
-               pixel = idata[0];
-            break;
-            default:
-               throw new UnsupportedOperationException("This method has not been "+
-                   "implemented for transferType " + transferType);
+    publid int gftGrffn(Objfdt inDbtb) {
+        int pixfl=0;
+        switdi (trbnsffrTypf) {
+            dbsf DbtbBufffr.TYPE_BYTE:
+               bytf bdbtb[] = (bytf[])inDbtb;
+               pixfl = bdbtb[0] & 0xff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_USHORT:
+               siort sdbtb[] = (siort[])inDbtb;
+               pixfl = sdbtb[0] & 0xffff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_INT:
+               int idbtb[] = (int[])inDbtb;
+               pixfl = idbtb[0];
+            brfbk;
+            dffbult:
+               tirow nfw UnsupportfdOpfrbtionExdfption("Tiis mftiod ibs not bffn "+
+                   "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
         }
-        return getGreen(pixel);
+        rfturn gftGrffn(pixfl);
     }
 
 
     /**
-     * Returns the blue color component for the specified pixel, scaled
-     * from 0 to 255 in the default RGB <code>ColorSpace</code>, sRGB.  A
-     * color conversion is done if necessary.  The pixel value is specified
-     * by an array of data elements of type <code>transferType</code> passed
-     * in as an object reference.
-     * The returned value is a non pre-multiplied value.  Thus, if the
-     * alpha is premultiplied, this method divides it out before returning
-     * the value.  If the alpha value is 0, for example, the blue value
-     * is 0.  If <code>inData</code> is not a primitive array of type
-     * <code>transferType</code>, a <code>ClassCastException</code> is thrown.
-     *  An <code>ArrayIndexOutOfBoundsException</code> is
-     * thrown if <code>inData</code> is not large enough to hold a pixel
-     * value for this <code>ColorModel</code>.  Since
-     * <code>DirectColorModel</code> can be subclassed, subclasses inherit
-     * the implementation of this method and if they don't override it
-     * then they throw an exception if they use an unsupported
-     * <code>transferType</code>.
-     * An <code>UnsupportedOperationException</code> is
-     * thrown if this <code>transferType</code> is not supported by this
-     * <code>ColorModel</code>.
-     * @param inData the array containing the pixel value
-     * @return the value of the blue component of the specified pixel.
-     * @throws ArrayIndexOutOfBoundsException if <code>inData</code> is not
-     *         large enough to hold a pixel value for this color model
-     * @throws ClassCastException if <code>inData</code> is not a
-     *         primitive array of type <code>transferType</code>
-     * @throws UnsupportedOperationException if this <code>transferType</code>
-     *         is not supported by this color model
+     * Rfturns tif bluf dolor domponfnt for tif spfdififd pixfl, sdblfd
+     * from 0 to 255 in tif dffbult RGB <dodf>ColorSpbdf</dodf>, sRGB.  A
+     * dolor donvfrsion is donf if nfdfssbry.  Tif pixfl vbluf is spfdififd
+     * by bn brrby of dbtb flfmfnts of typf <dodf>trbnsffrTypf</dodf> pbssfd
+     * in bs bn objfdt rfffrfndf.
+     * Tif rfturnfd vbluf is b non prf-multiplifd vbluf.  Tius, if tif
+     * blpib is prfmultiplifd, tiis mftiod dividfs it out bfforf rfturning
+     * tif vbluf.  If tif blpib vbluf is 0, for fxbmplf, tif bluf vbluf
+     * is 0.  If <dodf>inDbtb</dodf> is not b primitivf brrby of typf
+     * <dodf>trbnsffrTypf</dodf>, b <dodf>ClbssCbstExdfption</dodf> is tirown.
+     *  An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is
+     * tirown if <dodf>inDbtb</dodf> is not lbrgf fnougi to iold b pixfl
+     * vbluf for tiis <dodf>ColorModfl</dodf>.  Sindf
+     * <dodf>DirfdtColorModfl</dodf> dbn bf subdlbssfd, subdlbssfs inifrit
+     * tif implfmfntbtion of tiis mftiod bnd if tify don't ovfrridf it
+     * tifn tify tirow bn fxdfption if tify usf bn unsupportfd
+     * <dodf>trbnsffrTypf</dodf>.
+     * An <dodf>UnsupportfdOpfrbtionExdfption</dodf> is
+     * tirown if tiis <dodf>trbnsffrTypf</dodf> is not supportfd by tiis
+     * <dodf>ColorModfl</dodf>.
+     * @pbrbm inDbtb tif brrby dontbining tif pixfl vbluf
+     * @rfturn tif vbluf of tif bluf domponfnt of tif spfdififd pixfl.
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if <dodf>inDbtb</dodf> is not
+     *         lbrgf fnougi to iold b pixfl vbluf for tiis dolor modfl
+     * @tirows ClbssCbstExdfption if <dodf>inDbtb</dodf> is not b
+     *         primitivf brrby of typf <dodf>trbnsffrTypf</dodf>
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis <dodf>trbnsffrTypf</dodf>
+     *         is not supportfd by tiis dolor modfl
      */
-    public int getBlue(Object inData) {
-        int pixel=0;
-        switch (transferType) {
-            case DataBuffer.TYPE_BYTE:
-               byte bdata[] = (byte[])inData;
-               pixel = bdata[0] & 0xff;
-            break;
-            case DataBuffer.TYPE_USHORT:
-               short sdata[] = (short[])inData;
-               pixel = sdata[0] & 0xffff;
-            break;
-            case DataBuffer.TYPE_INT:
-               int idata[] = (int[])inData;
-               pixel = idata[0];
-            break;
-            default:
-               throw new UnsupportedOperationException("This method has not been "+
-                   "implemented for transferType " + transferType);
+    publid int gftBluf(Objfdt inDbtb) {
+        int pixfl=0;
+        switdi (trbnsffrTypf) {
+            dbsf DbtbBufffr.TYPE_BYTE:
+               bytf bdbtb[] = (bytf[])inDbtb;
+               pixfl = bdbtb[0] & 0xff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_USHORT:
+               siort sdbtb[] = (siort[])inDbtb;
+               pixfl = sdbtb[0] & 0xffff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_INT:
+               int idbtb[] = (int[])inDbtb;
+               pixfl = idbtb[0];
+            brfbk;
+            dffbult:
+               tirow nfw UnsupportfdOpfrbtionExdfption("Tiis mftiod ibs not bffn "+
+                   "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
         }
-        return getBlue(pixel);
+        rfturn gftBluf(pixfl);
     }
 
     /**
-     * Returns the alpha component for the specified pixel, scaled
-     * from 0 to 255.  The pixel value is specified by an array of data
-     * elements of type <code>transferType</code> passed in as an object
-     * reference.
-     * If <code>inData</code> is not a primitive array of type
-     * <code>transferType</code>, a <code>ClassCastException</code> is
-     * thrown.  An <code>ArrayIndexOutOfBoundsException</code> is
-     * thrown if <code>inData</code> is not large enough to hold a pixel
-     * value for this <code>ColorModel</code>.  Since
-     * <code>DirectColorModel</code> can be subclassed, subclasses inherit
-     * the implementation of this method and if they don't override it
-     * then they throw an exception if they use an unsupported
-     * <code>transferType</code>.
-     * If this <code>transferType</code> is not supported, an
-     * <code>UnsupportedOperationException</code> is thrown.
-     * @param inData the specified pixel
-     * @return the alpha component of the specified pixel, scaled from
+     * Rfturns tif blpib domponfnt for tif spfdififd pixfl, sdblfd
+     * from 0 to 255.  Tif pixfl vbluf is spfdififd by bn brrby of dbtb
+     * flfmfnts of typf <dodf>trbnsffrTypf</dodf> pbssfd in bs bn objfdt
+     * rfffrfndf.
+     * If <dodf>inDbtb</dodf> is not b primitivf brrby of typf
+     * <dodf>trbnsffrTypf</dodf>, b <dodf>ClbssCbstExdfption</dodf> is
+     * tirown.  An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is
+     * tirown if <dodf>inDbtb</dodf> is not lbrgf fnougi to iold b pixfl
+     * vbluf for tiis <dodf>ColorModfl</dodf>.  Sindf
+     * <dodf>DirfdtColorModfl</dodf> dbn bf subdlbssfd, subdlbssfs inifrit
+     * tif implfmfntbtion of tiis mftiod bnd if tify don't ovfrridf it
+     * tifn tify tirow bn fxdfption if tify usf bn unsupportfd
+     * <dodf>trbnsffrTypf</dodf>.
+     * If tiis <dodf>trbnsffrTypf</dodf> is not supportfd, bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> is tirown.
+     * @pbrbm inDbtb tif spfdififd pixfl
+     * @rfturn tif blpib domponfnt of tif spfdififd pixfl, sdblfd from
      *         0 to 255.
-     * @exception ClassCastException if <code>inData</code>
-     *  is not a primitive array of type <code>transferType</code>
-     * @exception ArrayIndexOutOfBoundsException if
-     *  <code>inData</code> is not large enough to hold a pixel value
-     *  for this <code>ColorModel</code>
-     * @exception UnsupportedOperationException if this
-     *  <code>tranferType</code> is not supported by this
-     *  <code>ColorModel</code>
+     * @fxdfption ClbssCbstExdfption if <dodf>inDbtb</dodf>
+     *  is not b primitivf brrby of typf <dodf>trbnsffrTypf</dodf>
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption if
+     *  <dodf>inDbtb</dodf> is not lbrgf fnougi to iold b pixfl vbluf
+     *  for tiis <dodf>ColorModfl</dodf>
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tiis
+     *  <dodf>trbnffrTypf</dodf> is not supportfd by tiis
+     *  <dodf>ColorModfl</dodf>
      */
-    public int getAlpha(Object inData) {
-        int pixel=0;
-        switch (transferType) {
-            case DataBuffer.TYPE_BYTE:
-               byte bdata[] = (byte[])inData;
-               pixel = bdata[0] & 0xff;
-            break;
-            case DataBuffer.TYPE_USHORT:
-               short sdata[] = (short[])inData;
-               pixel = sdata[0] & 0xffff;
-            break;
-            case DataBuffer.TYPE_INT:
-               int idata[] = (int[])inData;
-               pixel = idata[0];
-            break;
-            default:
-               throw new UnsupportedOperationException("This method has not been "+
-                   "implemented for transferType " + transferType);
+    publid int gftAlpib(Objfdt inDbtb) {
+        int pixfl=0;
+        switdi (trbnsffrTypf) {
+            dbsf DbtbBufffr.TYPE_BYTE:
+               bytf bdbtb[] = (bytf[])inDbtb;
+               pixfl = bdbtb[0] & 0xff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_USHORT:
+               siort sdbtb[] = (siort[])inDbtb;
+               pixfl = sdbtb[0] & 0xffff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_INT:
+               int idbtb[] = (int[])inDbtb;
+               pixfl = idbtb[0];
+            brfbk;
+            dffbult:
+               tirow nfw UnsupportfdOpfrbtionExdfption("Tiis mftiod ibs not bffn "+
+                   "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
         }
-        return getAlpha(pixel);
+        rfturn gftAlpib(pixfl);
     }
 
     /**
-     * Returns the color/alpha components for the specified pixel in the
-     * default RGB color model format.  A color conversion is done if
-     * necessary.  The pixel value is specified by an array of data
-     * elements of type <code>transferType</code> passed in as an object
-     * reference.  If <code>inData</code> is not a primitive array of type
-     * <code>transferType</code>, a <code>ClassCastException</code> is
-     * thrown.  An <code>ArrayIndexOutOfBoundsException</code> is
-     * thrown if <code>inData</code> is not large enough to hold a pixel
-     * value for this <code>ColorModel</code>.
-     * The returned value is in a non pre-multiplied format.  Thus, if
-     * the alpha is premultiplied, this method divides it out of the
-     * color components.  If the alpha value is 0, for example, the color
-     * values is 0.  Since <code>DirectColorModel</code> can be
-     * subclassed, subclasses inherit the implementation of this method
-     * and if they don't override it then
-     * they throw an exception if they use an unsupported
-     * <code>transferType</code>.
+     * Rfturns tif dolor/blpib domponfnts for tif spfdififd pixfl in tif
+     * dffbult RGB dolor modfl formbt.  A dolor donvfrsion is donf if
+     * nfdfssbry.  Tif pixfl vbluf is spfdififd by bn brrby of dbtb
+     * flfmfnts of typf <dodf>trbnsffrTypf</dodf> pbssfd in bs bn objfdt
+     * rfffrfndf.  If <dodf>inDbtb</dodf> is not b primitivf brrby of typf
+     * <dodf>trbnsffrTypf</dodf>, b <dodf>ClbssCbstExdfption</dodf> is
+     * tirown.  An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is
+     * tirown if <dodf>inDbtb</dodf> is not lbrgf fnougi to iold b pixfl
+     * vbluf for tiis <dodf>ColorModfl</dodf>.
+     * Tif rfturnfd vbluf is in b non prf-multiplifd formbt.  Tius, if
+     * tif blpib is prfmultiplifd, tiis mftiod dividfs it out of tif
+     * dolor domponfnts.  If tif blpib vbluf is 0, for fxbmplf, tif dolor
+     * vblufs is 0.  Sindf <dodf>DirfdtColorModfl</dodf> dbn bf
+     * subdlbssfd, subdlbssfs inifrit tif implfmfntbtion of tiis mftiod
+     * bnd if tify don't ovfrridf it tifn
+     * tify tirow bn fxdfption if tify usf bn unsupportfd
+     * <dodf>trbnsffrTypf</dodf>.
      *
-     * @param inData the specified pixel
-     * @return the color and alpha components of the specified pixel.
-     * @exception UnsupportedOperationException if this
-     *            <code>transferType</code> is not supported by this
-     *            <code>ColorModel</code>
-     * @see ColorModel#getRGBdefault
+     * @pbrbm inDbtb tif spfdififd pixfl
+     * @rfturn tif dolor bnd blpib domponfnts of tif spfdififd pixfl.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tiis
+     *            <dodf>trbnsffrTypf</dodf> is not supportfd by tiis
+     *            <dodf>ColorModfl</dodf>
+     * @sff ColorModfl#gftRGBdffbult
      */
-    public int getRGB(Object inData) {
-        int pixel=0;
-        switch (transferType) {
-            case DataBuffer.TYPE_BYTE:
-               byte bdata[] = (byte[])inData;
-               pixel = bdata[0] & 0xff;
-            break;
-            case DataBuffer.TYPE_USHORT:
-               short sdata[] = (short[])inData;
-               pixel = sdata[0] & 0xffff;
-            break;
-            case DataBuffer.TYPE_INT:
-               int idata[] = (int[])inData;
-               pixel = idata[0];
-            break;
-            default:
-               throw new UnsupportedOperationException("This method has not been "+
-                   "implemented for transferType " + transferType);
+    publid int gftRGB(Objfdt inDbtb) {
+        int pixfl=0;
+        switdi (trbnsffrTypf) {
+            dbsf DbtbBufffr.TYPE_BYTE:
+               bytf bdbtb[] = (bytf[])inDbtb;
+               pixfl = bdbtb[0] & 0xff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_USHORT:
+               siort sdbtb[] = (siort[])inDbtb;
+               pixfl = sdbtb[0] & 0xffff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_INT:
+               int idbtb[] = (int[])inDbtb;
+               pixfl = idbtb[0];
+            brfbk;
+            dffbult:
+               tirow nfw UnsupportfdOpfrbtionExdfption("Tiis mftiod ibs not bffn "+
+                   "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
         }
-        return getRGB(pixel);
+        rfturn gftRGB(pixfl);
     }
 
     /**
-     * Returns a data element array representation of a pixel in this
-     * <code>ColorModel</code>, given an integer pixel representation in the
-     * default RGB color model.
-     * This array can then be passed to the <code>setDataElements</code>
-     * method of a <code>WritableRaster</code> object.  If the pixel variable
-     * is <code>null</code>, a new array is allocated.  If <code>pixel</code>
-     * is not <code>null</code>, it must be a primitive array of type
-     * <code>transferType</code>; otherwise, a
-     * <code>ClassCastException</code> is thrown.  An
-     * <code>ArrayIndexOutOfBoundsException</code> is
-     * thrown if <code>pixel</code> is not large enough to hold a pixel
-     * value for this <code>ColorModel</code>.  The pixel array is returned.
-     * Since <code>DirectColorModel</code> can be subclassed, subclasses
-     * inherit the implementation of this method and if they don't
-     * override it then they throw an exception if they use an unsupported
-     * <code>transferType</code>.
+     * Rfturns b dbtb flfmfnt brrby rfprfsfntbtion of b pixfl in tiis
+     * <dodf>ColorModfl</dodf>, givfn bn intfgfr pixfl rfprfsfntbtion in tif
+     * dffbult RGB dolor modfl.
+     * Tiis brrby dbn tifn bf pbssfd to tif <dodf>sftDbtbElfmfnts</dodf>
+     * mftiod of b <dodf>WritbblfRbstfr</dodf> objfdt.  If tif pixfl vbribblf
+     * is <dodf>null</dodf>, b nfw brrby is bllodbtfd.  If <dodf>pixfl</dodf>
+     * is not <dodf>null</dodf>, it must bf b primitivf brrby of typf
+     * <dodf>trbnsffrTypf</dodf>; otifrwisf, b
+     * <dodf>ClbssCbstExdfption</dodf> is tirown.  An
+     * <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is
+     * tirown if <dodf>pixfl</dodf> is not lbrgf fnougi to iold b pixfl
+     * vbluf for tiis <dodf>ColorModfl</dodf>.  Tif pixfl brrby is rfturnfd.
+     * Sindf <dodf>DirfdtColorModfl</dodf> dbn bf subdlbssfd, subdlbssfs
+     * inifrit tif implfmfntbtion of tiis mftiod bnd if tify don't
+     * ovfrridf it tifn tify tirow bn fxdfption if tify usf bn unsupportfd
+     * <dodf>trbnsffrTypf</dodf>.
      *
-     * @param rgb the integer pixel representation in the default RGB
-     *            color model
-     * @param pixel the specified pixel
-     * @return an array representation of the specified pixel in this
-     *         <code>ColorModel</code>
-     * @exception ClassCastException if <code>pixel</code>
-     *  is not a primitive array of type <code>transferType</code>
-     * @exception ArrayIndexOutOfBoundsException if
-     *  <code>pixel</code> is not large enough to hold a pixel value
-     *  for this <code>ColorModel</code>
-     * @exception UnsupportedOperationException if this
-     *  <code>transferType</code> is not supported by this
-     *  <code>ColorModel</code>
-     * @see WritableRaster#setDataElements
-     * @see SampleModel#setDataElements
+     * @pbrbm rgb tif intfgfr pixfl rfprfsfntbtion in tif dffbult RGB
+     *            dolor modfl
+     * @pbrbm pixfl tif spfdififd pixfl
+     * @rfturn bn brrby rfprfsfntbtion of tif spfdififd pixfl in tiis
+     *         <dodf>ColorModfl</dodf>
+     * @fxdfption ClbssCbstExdfption if <dodf>pixfl</dodf>
+     *  is not b primitivf brrby of typf <dodf>trbnsffrTypf</dodf>
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption if
+     *  <dodf>pixfl</dodf> is not lbrgf fnougi to iold b pixfl vbluf
+     *  for tiis <dodf>ColorModfl</dodf>
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tiis
+     *  <dodf>trbnsffrTypf</dodf> is not supportfd by tiis
+     *  <dodf>ColorModfl</dodf>
+     * @sff WritbblfRbstfr#sftDbtbElfmfnts
+     * @sff SbmplfModfl#sftDbtbElfmfnts
      */
-    public Object getDataElements(int rgb, Object pixel) {
-        //REMIND: maybe more efficient not to use int array for
-        //DataBuffer.TYPE_USHORT and DataBuffer.TYPE_INT
-        int intpixel[] = null;
-        if (transferType == DataBuffer.TYPE_INT &&
-            pixel != null) {
-            intpixel = (int[])pixel;
-            intpixel[0] = 0;
-        } else {
-            intpixel = new int[1];
+    publid Objfdt gftDbtbElfmfnts(int rgb, Objfdt pixfl) {
+        //REMIND: mbybf morf fffidifnt not to usf int brrby for
+        //DbtbBufffr.TYPE_USHORT bnd DbtbBufffr.TYPE_INT
+        int intpixfl[] = null;
+        if (trbnsffrTypf == DbtbBufffr.TYPE_INT &&
+            pixfl != null) {
+            intpixfl = (int[])pixfl;
+            intpixfl[0] = 0;
+        } flsf {
+            intpixfl = nfw int[1];
         }
 
-        ColorModel defaultCM = ColorModel.getRGBdefault();
-        if (this == defaultCM || equals(defaultCM)) {
-            intpixel[0] = rgb;
-            return intpixel;
+        ColorModfl dffbultCM = ColorModfl.gftRGBdffbult();
+        if (tiis == dffbultCM || fqubls(dffbultCM)) {
+            intpixfl[0] = rgb;
+            rfturn intpixfl;
         }
 
-        int red, grn, blu, alp;
-        red = (rgb>>16) & 0xff;
+        int rfd, grn, blu, blp;
+        rfd = (rgb>>16) & 0xff;
         grn = (rgb>>8) & 0xff;
         blu = rgb & 0xff;
-        if (is_sRGB || is_LinearRGB) {
-            int precision;
-            float factor;
-            if (is_LinearRGB) {
-                if (lRGBprecision == 8) {
-                    red = fromsRGB8LUT8[red] & 0xff;
+        if (is_sRGB || is_LinfbrRGB) {
+            int prfdision;
+            flobt fbdtor;
+            if (is_LinfbrRGB) {
+                if (lRGBprfdision == 8) {
+                    rfd = fromsRGB8LUT8[rfd] & 0xff;
                     grn = fromsRGB8LUT8[grn] & 0xff;
                     blu = fromsRGB8LUT8[blu] & 0xff;
-                    precision = 8;
-                    factor = 1.0f / 255.0f;
-                } else {
-                    red = fromsRGB8LUT16[red] & 0xffff;
+                    prfdision = 8;
+                    fbdtor = 1.0f / 255.0f;
+                } flsf {
+                    rfd = fromsRGB8LUT16[rfd] & 0xffff;
                     grn = fromsRGB8LUT16[grn] & 0xffff;
                     blu = fromsRGB8LUT16[blu] & 0xffff;
-                    precision = 16;
-                    factor = 1.0f / 65535.0f;
+                    prfdision = 16;
+                    fbdtor = 1.0f / 65535.0f;
                 }
-            } else {
-                precision = 8;
-                factor = 1.0f / 255.0f;
+            } flsf {
+                prfdision = 8;
+                fbdtor = 1.0f / 255.0f;
             }
-            if (supportsAlpha) {
-                alp = (rgb>>24) & 0xff;
-                if (isAlphaPremultiplied) {
-                    factor *= (alp * (1.0f / 255.0f));
-                    precision = -1;  // force component calculations below
+            if (supportsAlpib) {
+                blp = (rgb>>24) & 0xff;
+                if (isAlpibPrfmultiplifd) {
+                    fbdtor *= (blp * (1.0f / 255.0f));
+                    prfdision = -1;  // fordf domponfnt dbldulbtions bflow
                 }
                 if (nBits[3] != 8) {
-                    alp = (int)
-                        ((alp * (1.0f / 255.0f) * ((1<<nBits[3]) - 1)) + 0.5f);
-                    if (alp > ((1<<nBits[3]) - 1)) {
-                        // fix 4412670 - see comment below
-                        alp = (1<<nBits[3]) - 1;
+                    blp = (int)
+                        ((blp * (1.0f / 255.0f) * ((1<<nBits[3]) - 1)) + 0.5f);
+                    if (blp > ((1<<nBits[3]) - 1)) {
+                        // fix 4412670 - sff dommfnt bflow
+                        blp = (1<<nBits[3]) - 1;
                     }
                 }
-                intpixel[0] = alp << maskOffsets[3];
+                intpixfl[0] = blp << mbskOffsfts[3];
             }
-            if (nBits[0] != precision) {
-                red = (int) ((red * factor * ((1<<nBits[0]) - 1)) + 0.5f);
+            if (nBits[0] != prfdision) {
+                rfd = (int) ((rfd * fbdtor * ((1<<nBits[0]) - 1)) + 0.5f);
             }
-            if (nBits[1] != precision) {
-                grn = (int) ((grn * factor * ((1<<nBits[1]) - 1)) + 0.5f);
+            if (nBits[1] != prfdision) {
+                grn = (int) ((grn * fbdtor * ((1<<nBits[1]) - 1)) + 0.5f);
             }
-            if (nBits[2] != precision) {
-                blu = (int) ((blu * factor * ((1<<nBits[2]) - 1)) + 0.5f);
+            if (nBits[2] != prfdision) {
+                blu = (int) ((blu * fbdtor * ((1<<nBits[2]) - 1)) + 0.5f);
             }
-        } else {
-            // Need to convert the color
-            float[] norm = new float[3];
-            float factor = 1.0f / 255.0f;
-            norm[0] = red * factor;
-            norm[1] = grn * factor;
-            norm[2] = blu * factor;
-            norm = colorSpace.fromRGB(norm);
-            if (supportsAlpha) {
-                alp = (rgb>>24) & 0xff;
-                if (isAlphaPremultiplied) {
-                    factor *= alp;
+        } flsf {
+            // Nffd to donvfrt tif dolor
+            flobt[] norm = nfw flobt[3];
+            flobt fbdtor = 1.0f / 255.0f;
+            norm[0] = rfd * fbdtor;
+            norm[1] = grn * fbdtor;
+            norm[2] = blu * fbdtor;
+            norm = dolorSpbdf.fromRGB(norm);
+            if (supportsAlpib) {
+                blp = (rgb>>24) & 0xff;
+                if (isAlpibPrfmultiplifd) {
+                    fbdtor *= blp;
                     for (int i = 0; i < 3; i++) {
-                        norm[i] *= factor;
+                        norm[i] *= fbdtor;
                     }
                 }
                 if (nBits[3] != 8) {
-                    alp = (int)
-                        ((alp * (1.0f / 255.0f) * ((1<<nBits[3]) - 1)) + 0.5f);
-                    if (alp > ((1<<nBits[3]) - 1)) {
-                        // fix 4412670 - see comment below
-                        alp = (1<<nBits[3]) - 1;
+                    blp = (int)
+                        ((blp * (1.0f / 255.0f) * ((1<<nBits[3]) - 1)) + 0.5f);
+                    if (blp > ((1<<nBits[3]) - 1)) {
+                        // fix 4412670 - sff dommfnt bflow
+                        blp = (1<<nBits[3]) - 1;
                     }
                 }
-                intpixel[0] = alp << maskOffsets[3];
+                intpixfl[0] = blp << mbskOffsfts[3];
             }
-            red = (int) ((norm[0] * ((1<<nBits[0]) - 1)) + 0.5f);
+            rfd = (int) ((norm[0] * ((1<<nBits[0]) - 1)) + 0.5f);
             grn = (int) ((norm[1] * ((1<<nBits[1]) - 1)) + 0.5f);
             blu = (int) ((norm[2] * ((1<<nBits[2]) - 1)) + 0.5f);
         }
 
-        if (maxBits > 23) {
-            // fix 4412670 - for components of 24 or more bits
-            // some calculations done above with float precision
-            // may lose enough precision that the integer result
-            // overflows nBits, so we need to clamp.
-            if (red > ((1<<nBits[0]) - 1)) {
-                red = (1<<nBits[0]) - 1;
+        if (mbxBits > 23) {
+            // fix 4412670 - for domponfnts of 24 or morf bits
+            // somf dbldulbtions donf bbovf witi flobt prfdision
+            // mby losf fnougi prfdision tibt tif intfgfr rfsult
+            // ovfrflows nBits, so wf nffd to dlbmp.
+            if (rfd > ((1<<nBits[0]) - 1)) {
+                rfd = (1<<nBits[0]) - 1;
             }
             if (grn > ((1<<nBits[1]) - 1)) {
                 grn = (1<<nBits[1]) - 1;
@@ -870,547 +870,547 @@ public class DirectColorModel extends PackedColorModel {
             }
         }
 
-        intpixel[0] |= (red << maskOffsets[0]) |
-                       (grn << maskOffsets[1]) |
-                       (blu << maskOffsets[2]);
+        intpixfl[0] |= (rfd << mbskOffsfts[0]) |
+                       (grn << mbskOffsfts[1]) |
+                       (blu << mbskOffsfts[2]);
 
-        switch (transferType) {
-            case DataBuffer.TYPE_BYTE: {
-               byte bdata[];
-               if (pixel == null) {
-                   bdata = new byte[1];
-               } else {
-                   bdata = (byte[])pixel;
+        switdi (trbnsffrTypf) {
+            dbsf DbtbBufffr.TYPE_BYTE: {
+               bytf bdbtb[];
+               if (pixfl == null) {
+                   bdbtb = nfw bytf[1];
+               } flsf {
+                   bdbtb = (bytf[])pixfl;
                }
-               bdata[0] = (byte)(0xff&intpixel[0]);
-               return bdata;
+               bdbtb[0] = (bytf)(0xff&intpixfl[0]);
+               rfturn bdbtb;
             }
-            case DataBuffer.TYPE_USHORT:{
-               short sdata[];
-               if (pixel == null) {
-                   sdata = new short[1];
-               } else {
-                   sdata = (short[])pixel;
+            dbsf DbtbBufffr.TYPE_USHORT:{
+               siort sdbtb[];
+               if (pixfl == null) {
+                   sdbtb = nfw siort[1];
+               } flsf {
+                   sdbtb = (siort[])pixfl;
                }
-               sdata[0] = (short)(intpixel[0]&0xffff);
-               return sdata;
+               sdbtb[0] = (siort)(intpixfl[0]&0xffff);
+               rfturn sdbtb;
             }
-            case DataBuffer.TYPE_INT:
-               return intpixel;
+            dbsf DbtbBufffr.TYPE_INT:
+               rfturn intpixfl;
         }
-        throw new UnsupportedOperationException("This method has not been "+
-                 "implemented for transferType " + transferType);
+        tirow nfw UnsupportfdOpfrbtionExdfption("Tiis mftiod ibs not bffn "+
+                 "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
 
     }
 
     /**
-     * Returns an array of unnormalized color/alpha components given a pixel
-     * in this <code>ColorModel</code>.  The pixel value is specified as an
-     * <code>int</code>.  If the <code>components</code> array is
-     * <code>null</code>, a new array is allocated.  The
-     * <code>components</code> array is returned.  Color/alpha components are
-     * stored in the <code>components</code> array starting at
-     * <code>offset</code>, even if the array is allocated by this method.
-     * An <code>ArrayIndexOutOfBoundsException</code> is thrown if the
-     * <code>components</code> array is not <code>null</code> and is not large
-     * enough to hold all the color and alpha components, starting at
-     * <code>offset</code>.
-     * @param pixel the specified pixel
-     * @param components the array to receive the color and alpha
-     * components of the specified pixel
-     * @param offset the offset into the <code>components</code> array at
-     * which to start storing the color and alpha components
-     * @return an array containing the color and alpha components of the
-     * specified pixel starting at the specified offset.
+     * Rfturns bn brrby of unnormblizfd dolor/blpib domponfnts givfn b pixfl
+     * in tiis <dodf>ColorModfl</dodf>.  Tif pixfl vbluf is spfdififd bs bn
+     * <dodf>int</dodf>.  If tif <dodf>domponfnts</dodf> brrby is
+     * <dodf>null</dodf>, b nfw brrby is bllodbtfd.  Tif
+     * <dodf>domponfnts</dodf> brrby is rfturnfd.  Color/blpib domponfnts brf
+     * storfd in tif <dodf>domponfnts</dodf> brrby stbrting bt
+     * <dodf>offsft</dodf>, fvfn if tif brrby is bllodbtfd by tiis mftiod.
+     * An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is tirown if tif
+     * <dodf>domponfnts</dodf> brrby is not <dodf>null</dodf> bnd is not lbrgf
+     * fnougi to iold bll tif dolor bnd blpib domponfnts, stbrting bt
+     * <dodf>offsft</dodf>.
+     * @pbrbm pixfl tif spfdififd pixfl
+     * @pbrbm domponfnts tif brrby to rfdfivf tif dolor bnd blpib
+     * domponfnts of tif spfdififd pixfl
+     * @pbrbm offsft tif offsft into tif <dodf>domponfnts</dodf> brrby bt
+     * wiidi to stbrt storing tif dolor bnd blpib domponfnts
+     * @rfturn bn brrby dontbining tif dolor bnd blpib domponfnts of tif
+     * spfdififd pixfl stbrting bt tif spfdififd offsft.
      */
-    final public int[] getComponents(int pixel, int[] components, int offset) {
-        if (components == null) {
-            components = new int[offset+numComponents];
+    finbl publid int[] gftComponfnts(int pixfl, int[] domponfnts, int offsft) {
+        if (domponfnts == null) {
+            domponfnts = nfw int[offsft+numComponfnts];
         }
 
-        for (int i=0; i < numComponents; i++) {
-            components[offset+i] = (pixel & maskArray[i]) >>> maskOffsets[i];
+        for (int i=0; i < numComponfnts; i++) {
+            domponfnts[offsft+i] = (pixfl & mbskArrby[i]) >>> mbskOffsfts[i];
         }
 
-        return components;
+        rfturn domponfnts;
     }
 
     /**
-     * Returns an array of unnormalized color/alpha components given a pixel
-     * in this <code>ColorModel</code>.  The pixel value is specified by an
-     * array of data elements of type <code>transferType</code> passed in as
-     * an object reference.  If <code>pixel</code> is not a primitive array
-     * of type <code>transferType</code>, a <code>ClassCastException</code>
-     * is thrown.  An <code>ArrayIndexOutOfBoundsException</code> is
-     * thrown if <code>pixel</code> is not large enough to hold a
-     * pixel value for this <code>ColorModel</code>.  If the
-     * <code>components</code> array is <code>null</code>, a new
-     * array is allocated.  The <code>components</code> array is returned.
-     * Color/alpha components are stored in the <code>components</code> array
-     * starting at <code>offset</code>, even if the array is allocated by
-     * this method.  An <code>ArrayIndexOutOfBoundsException</code>
-     * is thrown if the <code>components</code> array is not
-     * <code>null</code> and is not large enough to hold all the color and
-     * alpha components, starting at <code>offset</code>.
-     * Since <code>DirectColorModel</code> can be subclassed, subclasses
-     * inherit the implementation of this method and if they don't
-     * override it then they throw an exception if they use an unsupported
-     * <code>transferType</code>.
-     * @param pixel the specified pixel
-     * @param components the array to receive the color and alpha
-     *        components of the specified pixel
-     * @param offset the offset into the <code>components</code> array at
-     *        which to start storing the color and alpha components
-     * @return an array containing the color and alpha components of the
-     * specified pixel starting at the specified offset.
-     * @exception ClassCastException if <code>pixel</code>
-     *  is not a primitive array of type <code>transferType</code>
-     * @exception ArrayIndexOutOfBoundsException if
-     *  <code>pixel</code> is not large enough to hold a pixel value
-     *  for this <code>ColorModel</code>, or if <code>components</code>
-     *  is not <code>null</code> and is not large enough to hold all the
-     *  color and alpha components, starting at <code>offset</code>
-     * @exception UnsupportedOperationException if this
-     *            <code>transferType</code> is not supported by this
-     *            color model
+     * Rfturns bn brrby of unnormblizfd dolor/blpib domponfnts givfn b pixfl
+     * in tiis <dodf>ColorModfl</dodf>.  Tif pixfl vbluf is spfdififd by bn
+     * brrby of dbtb flfmfnts of typf <dodf>trbnsffrTypf</dodf> pbssfd in bs
+     * bn objfdt rfffrfndf.  If <dodf>pixfl</dodf> is not b primitivf brrby
+     * of typf <dodf>trbnsffrTypf</dodf>, b <dodf>ClbssCbstExdfption</dodf>
+     * is tirown.  An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is
+     * tirown if <dodf>pixfl</dodf> is not lbrgf fnougi to iold b
+     * pixfl vbluf for tiis <dodf>ColorModfl</dodf>.  If tif
+     * <dodf>domponfnts</dodf> brrby is <dodf>null</dodf>, b nfw
+     * brrby is bllodbtfd.  Tif <dodf>domponfnts</dodf> brrby is rfturnfd.
+     * Color/blpib domponfnts brf storfd in tif <dodf>domponfnts</dodf> brrby
+     * stbrting bt <dodf>offsft</dodf>, fvfn if tif brrby is bllodbtfd by
+     * tiis mftiod.  An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf>
+     * is tirown if tif <dodf>domponfnts</dodf> brrby is not
+     * <dodf>null</dodf> bnd is not lbrgf fnougi to iold bll tif dolor bnd
+     * blpib domponfnts, stbrting bt <dodf>offsft</dodf>.
+     * Sindf <dodf>DirfdtColorModfl</dodf> dbn bf subdlbssfd, subdlbssfs
+     * inifrit tif implfmfntbtion of tiis mftiod bnd if tify don't
+     * ovfrridf it tifn tify tirow bn fxdfption if tify usf bn unsupportfd
+     * <dodf>trbnsffrTypf</dodf>.
+     * @pbrbm pixfl tif spfdififd pixfl
+     * @pbrbm domponfnts tif brrby to rfdfivf tif dolor bnd blpib
+     *        domponfnts of tif spfdififd pixfl
+     * @pbrbm offsft tif offsft into tif <dodf>domponfnts</dodf> brrby bt
+     *        wiidi to stbrt storing tif dolor bnd blpib domponfnts
+     * @rfturn bn brrby dontbining tif dolor bnd blpib domponfnts of tif
+     * spfdififd pixfl stbrting bt tif spfdififd offsft.
+     * @fxdfption ClbssCbstExdfption if <dodf>pixfl</dodf>
+     *  is not b primitivf brrby of typf <dodf>trbnsffrTypf</dodf>
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption if
+     *  <dodf>pixfl</dodf> is not lbrgf fnougi to iold b pixfl vbluf
+     *  for tiis <dodf>ColorModfl</dodf>, or if <dodf>domponfnts</dodf>
+     *  is not <dodf>null</dodf> bnd is not lbrgf fnougi to iold bll tif
+     *  dolor bnd blpib domponfnts, stbrting bt <dodf>offsft</dodf>
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tiis
+     *            <dodf>trbnsffrTypf</dodf> is not supportfd by tiis
+     *            dolor modfl
      */
-    final public int[] getComponents(Object pixel, int[] components,
-                                     int offset) {
-        int intpixel=0;
-        switch (transferType) {
-            case DataBuffer.TYPE_BYTE:
-               byte bdata[] = (byte[])pixel;
-               intpixel = bdata[0] & 0xff;
-            break;
-            case DataBuffer.TYPE_USHORT:
-               short sdata[] = (short[])pixel;
-               intpixel = sdata[0] & 0xffff;
-            break;
-            case DataBuffer.TYPE_INT:
-               int idata[] = (int[])pixel;
-               intpixel = idata[0];
-            break;
-            default:
-               throw new UnsupportedOperationException("This method has not been "+
-                   "implemented for transferType " + transferType);
+    finbl publid int[] gftComponfnts(Objfdt pixfl, int[] domponfnts,
+                                     int offsft) {
+        int intpixfl=0;
+        switdi (trbnsffrTypf) {
+            dbsf DbtbBufffr.TYPE_BYTE:
+               bytf bdbtb[] = (bytf[])pixfl;
+               intpixfl = bdbtb[0] & 0xff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_USHORT:
+               siort sdbtb[] = (siort[])pixfl;
+               intpixfl = sdbtb[0] & 0xffff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_INT:
+               int idbtb[] = (int[])pixfl;
+               intpixfl = idbtb[0];
+            brfbk;
+            dffbult:
+               tirow nfw UnsupportfdOpfrbtionExdfption("Tiis mftiod ibs not bffn "+
+                   "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
         }
-        return getComponents(intpixel, components, offset);
+        rfturn gftComponfnts(intpixfl, domponfnts, offsft);
     }
 
     /**
-     * Creates a <code>WritableRaster</code> with the specified width and
-     * height that has a data layout (<code>SampleModel</code>) compatible
-     * with this <code>ColorModel</code>.
-     * @param w the width to apply to the new <code>WritableRaster</code>
-     * @param h the height to apply to the new <code>WritableRaster</code>
-     * @return a <code>WritableRaster</code> object with the specified
-     * width and height.
-     * @throws IllegalArgumentException if <code>w</code> or <code>h</code>
-     *         is less than or equal to zero
-     * @see WritableRaster
-     * @see SampleModel
+     * Crfbtfs b <dodf>WritbblfRbstfr</dodf> witi tif spfdififd widti bnd
+     * ifigit tibt ibs b dbtb lbyout (<dodf>SbmplfModfl</dodf>) dompbtiblf
+     * witi tiis <dodf>ColorModfl</dodf>.
+     * @pbrbm w tif widti to bpply to tif nfw <dodf>WritbblfRbstfr</dodf>
+     * @pbrbm i tif ifigit to bpply to tif nfw <dodf>WritbblfRbstfr</dodf>
+     * @rfturn b <dodf>WritbblfRbstfr</dodf> objfdt witi tif spfdififd
+     * widti bnd ifigit.
+     * @tirows IllfgblArgumfntExdfption if <dodf>w</dodf> or <dodf>i</dodf>
+     *         is lfss tibn or fqubl to zfro
+     * @sff WritbblfRbstfr
+     * @sff SbmplfModfl
      */
-    final public WritableRaster createCompatibleWritableRaster (int w,
-                                                                int h) {
-        if ((w <= 0) || (h <= 0)) {
-            throw new IllegalArgumentException("Width (" + w + ") and height (" + h +
-                                               ") cannot be <= 0");
+    finbl publid WritbblfRbstfr drfbtfCompbtiblfWritbblfRbstfr (int w,
+                                                                int i) {
+        if ((w <= 0) || (i <= 0)) {
+            tirow nfw IllfgblArgumfntExdfption("Widti (" + w + ") bnd ifigit (" + i +
+                                               ") dbnnot bf <= 0");
         }
-        int[] bandmasks;
-        if (supportsAlpha) {
-            bandmasks = new int[4];
-            bandmasks[3] = alpha_mask;
+        int[] bbndmbsks;
+        if (supportsAlpib) {
+            bbndmbsks = nfw int[4];
+            bbndmbsks[3] = blpib_mbsk;
         }
-        else {
-            bandmasks = new int[3];
+        flsf {
+            bbndmbsks = nfw int[3];
         }
-        bandmasks[0] = red_mask;
-        bandmasks[1] = green_mask;
-        bandmasks[2] = blue_mask;
+        bbndmbsks[0] = rfd_mbsk;
+        bbndmbsks[1] = grffn_mbsk;
+        bbndmbsks[2] = bluf_mbsk;
 
-        if (pixel_bits > 16) {
-            return Raster.createPackedRaster(DataBuffer.TYPE_INT,
-                                             w,h,bandmasks,null);
+        if (pixfl_bits > 16) {
+            rfturn Rbstfr.drfbtfPbdkfdRbstfr(DbtbBufffr.TYPE_INT,
+                                             w,i,bbndmbsks,null);
         }
-        else if (pixel_bits > 8) {
-            return Raster.createPackedRaster(DataBuffer.TYPE_USHORT,
-                                             w,h,bandmasks,null);
+        flsf if (pixfl_bits > 8) {
+            rfturn Rbstfr.drfbtfPbdkfdRbstfr(DbtbBufffr.TYPE_USHORT,
+                                             w,i,bbndmbsks,null);
         }
-        else {
-            return Raster.createPackedRaster(DataBuffer.TYPE_BYTE,
-                                             w,h,bandmasks,null);
+        flsf {
+            rfturn Rbstfr.drfbtfPbdkfdRbstfr(DbtbBufffr.TYPE_BYTE,
+                                             w,i,bbndmbsks,null);
         }
     }
 
     /**
-     * Returns a pixel value represented as an <code>int</code> in this
-     * <code>ColorModel</code>, given an array of unnormalized color/alpha
-     * components.   An <code>ArrayIndexOutOfBoundsException</code> is
-     * thrown if the <code>components</code> array is
-     * not large enough to hold all the color and alpha components, starting
-     * at <code>offset</code>.
-     * @param components an array of unnormalized color and alpha
-     * components
-     * @param offset the index into <code>components</code> at which to
-     * begin retrieving the color and alpha components
-     * @return an <code>int</code> pixel value in this
-     * <code>ColorModel</code> corresponding to the specified components.
-     * @exception ArrayIndexOutOfBoundsException if
-     *  the <code>components</code> array is not large enough to
-     *  hold all of the color and alpha components starting at
-     *  <code>offset</code>
+     * Rfturns b pixfl vbluf rfprfsfntfd bs bn <dodf>int</dodf> in tiis
+     * <dodf>ColorModfl</dodf>, givfn bn brrby of unnormblizfd dolor/blpib
+     * domponfnts.   An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is
+     * tirown if tif <dodf>domponfnts</dodf> brrby is
+     * not lbrgf fnougi to iold bll tif dolor bnd blpib domponfnts, stbrting
+     * bt <dodf>offsft</dodf>.
+     * @pbrbm domponfnts bn brrby of unnormblizfd dolor bnd blpib
+     * domponfnts
+     * @pbrbm offsft tif indfx into <dodf>domponfnts</dodf> bt wiidi to
+     * bfgin rftrifving tif dolor bnd blpib domponfnts
+     * @rfturn bn <dodf>int</dodf> pixfl vbluf in tiis
+     * <dodf>ColorModfl</dodf> dorrfsponding to tif spfdififd domponfnts.
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption if
+     *  tif <dodf>domponfnts</dodf> brrby is not lbrgf fnougi to
+     *  iold bll of tif dolor bnd blpib domponfnts stbrting bt
+     *  <dodf>offsft</dodf>
      */
-    public int getDataElement(int[] components, int offset) {
-        int pixel = 0;
-        for (int i=0; i < numComponents; i++) {
-            pixel |= ((components[offset+i]<<maskOffsets[i])&maskArray[i]);
+    publid int gftDbtbElfmfnt(int[] domponfnts, int offsft) {
+        int pixfl = 0;
+        for (int i=0; i < numComponfnts; i++) {
+            pixfl |= ((domponfnts[offsft+i]<<mbskOffsfts[i])&mbskArrby[i]);
         }
-        return pixel;
+        rfturn pixfl;
     }
 
     /**
-     * Returns a data element array representation of a pixel in this
-     * <code>ColorModel</code>, given an array of unnormalized color/alpha
-     * components.
-     * This array can then be passed to the <code>setDataElements</code>
-     * method of a <code>WritableRaster</code> object.
-     * An <code>ArrayIndexOutOfBoundsException</code> is thrown if the
-     * <code>components</code> array
-     * is not large enough to hold all the color and alpha components,
-     * starting at offset.  If the <code>obj</code> variable is
-     * <code>null</code>, a new array is allocated.  If <code>obj</code> is
-     * not <code>null</code>, it must be a primitive array
-     * of type <code>transferType</code>; otherwise, a
-     * <code>ClassCastException</code> is thrown.
-     * An <code>ArrayIndexOutOfBoundsException</code> is thrown if
-     * <code>obj</code> is not large enough to hold a pixel value for this
-     * <code>ColorModel</code>.
-     * Since <code>DirectColorModel</code> can be subclassed, subclasses
-     * inherit the implementation of this method and if they don't
-     * override it then they throw an exception if they use an unsupported
-     * <code>transferType</code>.
-     * @param components an array of unnormalized color and alpha
-     * components
-     * @param offset the index into <code>components</code> at which to
-     * begin retrieving color and alpha components
-     * @param obj the <code>Object</code> representing an array of color
-     * and alpha components
-     * @return an <code>Object</code> representing an array of color and
-     * alpha components.
-     * @exception ClassCastException if <code>obj</code>
-     *  is not a primitive array of type <code>transferType</code>
-     * @exception ArrayIndexOutOfBoundsException if
-     *  <code>obj</code> is not large enough to hold a pixel value
-     *  for this <code>ColorModel</code> or the <code>components</code>
-     *  array is not large enough to hold all of the color and alpha
-     *  components starting at <code>offset</code>
-     * @exception UnsupportedOperationException if this
-     *            <code>transferType</code> is not supported by this
-     *            color model
-     * @see WritableRaster#setDataElements
-     * @see SampleModel#setDataElements
+     * Rfturns b dbtb flfmfnt brrby rfprfsfntbtion of b pixfl in tiis
+     * <dodf>ColorModfl</dodf>, givfn bn brrby of unnormblizfd dolor/blpib
+     * domponfnts.
+     * Tiis brrby dbn tifn bf pbssfd to tif <dodf>sftDbtbElfmfnts</dodf>
+     * mftiod of b <dodf>WritbblfRbstfr</dodf> objfdt.
+     * An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is tirown if tif
+     * <dodf>domponfnts</dodf> brrby
+     * is not lbrgf fnougi to iold bll tif dolor bnd blpib domponfnts,
+     * stbrting bt offsft.  If tif <dodf>obj</dodf> vbribblf is
+     * <dodf>null</dodf>, b nfw brrby is bllodbtfd.  If <dodf>obj</dodf> is
+     * not <dodf>null</dodf>, it must bf b primitivf brrby
+     * of typf <dodf>trbnsffrTypf</dodf>; otifrwisf, b
+     * <dodf>ClbssCbstExdfption</dodf> is tirown.
+     * An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is tirown if
+     * <dodf>obj</dodf> is not lbrgf fnougi to iold b pixfl vbluf for tiis
+     * <dodf>ColorModfl</dodf>.
+     * Sindf <dodf>DirfdtColorModfl</dodf> dbn bf subdlbssfd, subdlbssfs
+     * inifrit tif implfmfntbtion of tiis mftiod bnd if tify don't
+     * ovfrridf it tifn tify tirow bn fxdfption if tify usf bn unsupportfd
+     * <dodf>trbnsffrTypf</dodf>.
+     * @pbrbm domponfnts bn brrby of unnormblizfd dolor bnd blpib
+     * domponfnts
+     * @pbrbm offsft tif indfx into <dodf>domponfnts</dodf> bt wiidi to
+     * bfgin rftrifving dolor bnd blpib domponfnts
+     * @pbrbm obj tif <dodf>Objfdt</dodf> rfprfsfnting bn brrby of dolor
+     * bnd blpib domponfnts
+     * @rfturn bn <dodf>Objfdt</dodf> rfprfsfnting bn brrby of dolor bnd
+     * blpib domponfnts.
+     * @fxdfption ClbssCbstExdfption if <dodf>obj</dodf>
+     *  is not b primitivf brrby of typf <dodf>trbnsffrTypf</dodf>
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption if
+     *  <dodf>obj</dodf> is not lbrgf fnougi to iold b pixfl vbluf
+     *  for tiis <dodf>ColorModfl</dodf> or tif <dodf>domponfnts</dodf>
+     *  brrby is not lbrgf fnougi to iold bll of tif dolor bnd blpib
+     *  domponfnts stbrting bt <dodf>offsft</dodf>
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tiis
+     *            <dodf>trbnsffrTypf</dodf> is not supportfd by tiis
+     *            dolor modfl
+     * @sff WritbblfRbstfr#sftDbtbElfmfnts
+     * @sff SbmplfModfl#sftDbtbElfmfnts
      */
-    public Object getDataElements(int[] components, int offset, Object obj) {
-        int pixel = 0;
-        for (int i=0; i < numComponents; i++) {
-            pixel |= ((components[offset+i]<<maskOffsets[i])&maskArray[i]);
+    publid Objfdt gftDbtbElfmfnts(int[] domponfnts, int offsft, Objfdt obj) {
+        int pixfl = 0;
+        for (int i=0; i < numComponfnts; i++) {
+            pixfl |= ((domponfnts[offsft+i]<<mbskOffsfts[i])&mbskArrby[i]);
         }
-        switch (transferType) {
-            case DataBuffer.TYPE_BYTE:
-               if (obj instanceof byte[]) {
-                   byte bdata[] = (byte[])obj;
-                   bdata[0] = (byte)(pixel&0xff);
-                   return bdata;
-               } else {
-                   byte bdata[] = {(byte)(pixel&0xff)};
-                   return bdata;
+        switdi (trbnsffrTypf) {
+            dbsf DbtbBufffr.TYPE_BYTE:
+               if (obj instbndfof bytf[]) {
+                   bytf bdbtb[] = (bytf[])obj;
+                   bdbtb[0] = (bytf)(pixfl&0xff);
+                   rfturn bdbtb;
+               } flsf {
+                   bytf bdbtb[] = {(bytf)(pixfl&0xff)};
+                   rfturn bdbtb;
                }
-            case DataBuffer.TYPE_USHORT:
-               if (obj instanceof short[]) {
-                   short sdata[] = (short[])obj;
-                   sdata[0] = (short)(pixel&0xffff);
-                   return sdata;
-               } else {
-                   short sdata[] = {(short)(pixel&0xffff)};
-                   return sdata;
+            dbsf DbtbBufffr.TYPE_USHORT:
+               if (obj instbndfof siort[]) {
+                   siort sdbtb[] = (siort[])obj;
+                   sdbtb[0] = (siort)(pixfl&0xffff);
+                   rfturn sdbtb;
+               } flsf {
+                   siort sdbtb[] = {(siort)(pixfl&0xffff)};
+                   rfturn sdbtb;
                }
-            case DataBuffer.TYPE_INT:
-               if (obj instanceof int[]) {
-                   int idata[] = (int[])obj;
-                   idata[0] = pixel;
-                   return idata;
-               } else {
-                   int idata[] = {pixel};
-                   return idata;
+            dbsf DbtbBufffr.TYPE_INT:
+               if (obj instbndfof int[]) {
+                   int idbtb[] = (int[])obj;
+                   idbtb[0] = pixfl;
+                   rfturn idbtb;
+               } flsf {
+                   int idbtb[] = {pixfl};
+                   rfturn idbtb;
                }
-            default:
-               throw new ClassCastException("This method has not been "+
-                   "implemented for transferType " + transferType);
+            dffbult:
+               tirow nfw ClbssCbstExdfption("Tiis mftiod ibs not bffn "+
+                   "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
         }
     }
 
     /**
-     * Forces the raster data to match the state specified in the
-     * <code>isAlphaPremultiplied</code> variable, assuming the data is
-     * currently correctly described by this <code>ColorModel</code>.  It
-     * may multiply or divide the color raster data by alpha, or do
-     * nothing if the data is in the correct state.  If the data needs to
-     * be coerced, this method will also return an instance of this
-     * <code>ColorModel</code> with the <code>isAlphaPremultiplied</code>
-     * flag set appropriately.  This method will throw a
-     * <code>UnsupportedOperationException</code> if this transferType is
-     * not supported by this <code>ColorModel</code>.  Since
-     * <code>ColorModel</code> can be subclassed, subclasses inherit the
-     * implementation of this method and if they don't override it then
-     * they throw an exception if they use an unsupported transferType.
+     * Fordfs tif rbstfr dbtb to mbtdi tif stbtf spfdififd in tif
+     * <dodf>isAlpibPrfmultiplifd</dodf> vbribblf, bssuming tif dbtb is
+     * durrfntly dorrfdtly dfsdribfd by tiis <dodf>ColorModfl</dodf>.  It
+     * mby multiply or dividf tif dolor rbstfr dbtb by blpib, or do
+     * notiing if tif dbtb is in tif dorrfdt stbtf.  If tif dbtb nffds to
+     * bf dofrdfd, tiis mftiod will blso rfturn bn instbndf of tiis
+     * <dodf>ColorModfl</dodf> witi tif <dodf>isAlpibPrfmultiplifd</dodf>
+     * flbg sft bppropribtfly.  Tiis mftiod will tirow b
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> if tiis trbnsffrTypf is
+     * not supportfd by tiis <dodf>ColorModfl</dodf>.  Sindf
+     * <dodf>ColorModfl</dodf> dbn bf subdlbssfd, subdlbssfs inifrit tif
+     * implfmfntbtion of tiis mftiod bnd if tify don't ovfrridf it tifn
+     * tify tirow bn fxdfption if tify usf bn unsupportfd trbnsffrTypf.
      *
-     * @param raster the <code>WritableRaster</code> data
-     * @param isAlphaPremultiplied <code>true</code> if the alpha is
-     * premultiplied; <code>false</code> otherwise
-     * @return a <code>ColorModel</code> object that represents the
-     * coerced data.
-     * @exception UnsupportedOperationException if this
-     *            <code>transferType</code> is not supported by this
-     *            color model
+     * @pbrbm rbstfr tif <dodf>WritbblfRbstfr</dodf> dbtb
+     * @pbrbm isAlpibPrfmultiplifd <dodf>truf</dodf> if tif blpib is
+     * prfmultiplifd; <dodf>fblsf</dodf> otifrwisf
+     * @rfturn b <dodf>ColorModfl</dodf> objfdt tibt rfprfsfnts tif
+     * dofrdfd dbtb.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tiis
+     *            <dodf>trbnsffrTypf</dodf> is not supportfd by tiis
+     *            dolor modfl
      */
-    final public ColorModel coerceData (WritableRaster raster,
-                                        boolean isAlphaPremultiplied)
+    finbl publid ColorModfl dofrdfDbtb (WritbblfRbstfr rbstfr,
+                                        boolfbn isAlpibPrfmultiplifd)
     {
-        if (!supportsAlpha ||
-            this.isAlphaPremultiplied() == isAlphaPremultiplied) {
-            return this;
+        if (!supportsAlpib ||
+            tiis.isAlpibPrfmultiplifd() == isAlpibPrfmultiplifd) {
+            rfturn tiis;
         }
 
-        int w = raster.getWidth();
-        int h = raster.getHeight();
-        int aIdx = numColorComponents;
-        float normAlpha;
-        float alphaScale = 1.0f / ((float) ((1 << nBits[aIdx]) - 1));
+        int w = rbstfr.gftWidti();
+        int i = rbstfr.gftHfigit();
+        int bIdx = numColorComponfnts;
+        flobt normAlpib;
+        flobt blpibSdblf = 1.0f / ((flobt) ((1 << nBits[bIdx]) - 1));
 
-        int rminX = raster.getMinX();
-        int rY = raster.getMinY();
+        int rminX = rbstfr.gftMinX();
+        int rY = rbstfr.gftMinY();
         int rX;
-        int pixel[] = null;
-        int zpixel[] = null;
+        int pixfl[] = null;
+        int zpixfl[] = null;
 
-        if (isAlphaPremultiplied) {
-            // Must mean that we are currently not premultiplied so
-            // multiply by alpha
-            switch (transferType) {
-                case DataBuffer.TYPE_BYTE: {
-                    for (int y = 0; y < h; y++, rY++) {
+        if (isAlpibPrfmultiplifd) {
+            // Must mfbn tibt wf brf durrfntly not prfmultiplifd so
+            // multiply by blpib
+            switdi (trbnsffrTypf) {
+                dbsf DbtbBufffr.TYPE_BYTE: {
+                    for (int y = 0; y < i; y++, rY++) {
                         rX = rminX;
                         for (int x = 0; x < w; x++, rX++) {
-                            pixel = raster.getPixel(rX, rY, pixel);
-                            normAlpha = pixel[aIdx] * alphaScale;
-                            if (normAlpha != 0.f) {
-                                for (int c=0; c < aIdx; c++) {
-                                    pixel[c] = (int) (pixel[c] * normAlpha +
+                            pixfl = rbstfr.gftPixfl(rX, rY, pixfl);
+                            normAlpib = pixfl[bIdx] * blpibSdblf;
+                            if (normAlpib != 0.f) {
+                                for (int d=0; d < bIdx; d++) {
+                                    pixfl[d] = (int) (pixfl[d] * normAlpib +
                                                       0.5f);
                                 }
-                                raster.setPixel(rX, rY, pixel);
-                            } else {
-                                if (zpixel == null) {
-                                    zpixel = new int[numComponents];
-                                    java.util.Arrays.fill(zpixel, 0);
+                                rbstfr.sftPixfl(rX, rY, pixfl);
+                            } flsf {
+                                if (zpixfl == null) {
+                                    zpixfl = nfw int[numComponfnts];
+                                    jbvb.util.Arrbys.fill(zpixfl, 0);
                                 }
-                                raster.setPixel(rX, rY, zpixel);
+                                rbstfr.sftPixfl(rX, rY, zpixfl);
                             }
                         }
                     }
                 }
-                break;
-                case DataBuffer.TYPE_USHORT: {
-                    for (int y = 0; y < h; y++, rY++) {
+                brfbk;
+                dbsf DbtbBufffr.TYPE_USHORT: {
+                    for (int y = 0; y < i; y++, rY++) {
                         rX = rminX;
                         for (int x = 0; x < w; x++, rX++) {
-                            pixel = raster.getPixel(rX, rY, pixel);
-                            normAlpha = pixel[aIdx] * alphaScale;
-                            if (normAlpha != 0.f) {
-                                for (int c=0; c < aIdx; c++) {
-                                    pixel[c] = (int) (pixel[c] * normAlpha +
+                            pixfl = rbstfr.gftPixfl(rX, rY, pixfl);
+                            normAlpib = pixfl[bIdx] * blpibSdblf;
+                            if (normAlpib != 0.f) {
+                                for (int d=0; d < bIdx; d++) {
+                                    pixfl[d] = (int) (pixfl[d] * normAlpib +
                                                       0.5f);
                                 }
-                                raster.setPixel(rX, rY, pixel);
-                            } else {
-                                if (zpixel == null) {
-                                    zpixel = new int[numComponents];
-                                    java.util.Arrays.fill(zpixel, 0);
+                                rbstfr.sftPixfl(rX, rY, pixfl);
+                            } flsf {
+                                if (zpixfl == null) {
+                                    zpixfl = nfw int[numComponfnts];
+                                    jbvb.util.Arrbys.fill(zpixfl, 0);
                                 }
-                                raster.setPixel(rX, rY, zpixel);
+                                rbstfr.sftPixfl(rX, rY, zpixfl);
                             }
                         }
                     }
                 }
-                break;
-                case DataBuffer.TYPE_INT: {
-                    for (int y = 0; y < h; y++, rY++) {
+                brfbk;
+                dbsf DbtbBufffr.TYPE_INT: {
+                    for (int y = 0; y < i; y++, rY++) {
                         rX = rminX;
                         for (int x = 0; x < w; x++, rX++) {
-                            pixel = raster.getPixel(rX, rY, pixel);
-                            normAlpha = pixel[aIdx] * alphaScale;
-                            if (normAlpha != 0.f) {
-                                for (int c=0; c < aIdx; c++) {
-                                    pixel[c] = (int) (pixel[c] * normAlpha +
+                            pixfl = rbstfr.gftPixfl(rX, rY, pixfl);
+                            normAlpib = pixfl[bIdx] * blpibSdblf;
+                            if (normAlpib != 0.f) {
+                                for (int d=0; d < bIdx; d++) {
+                                    pixfl[d] = (int) (pixfl[d] * normAlpib +
                                                       0.5f);
                                 }
-                                raster.setPixel(rX, rY, pixel);
-                            } else {
-                                if (zpixel == null) {
-                                    zpixel = new int[numComponents];
-                                    java.util.Arrays.fill(zpixel, 0);
+                                rbstfr.sftPixfl(rX, rY, pixfl);
+                            } flsf {
+                                if (zpixfl == null) {
+                                    zpixfl = nfw int[numComponfnts];
+                                    jbvb.util.Arrbys.fill(zpixfl, 0);
                                 }
-                                raster.setPixel(rX, rY, zpixel);
+                                rbstfr.sftPixfl(rX, rY, zpixfl);
                             }
                         }
                     }
                 }
-                break;
-                default:
-                    throw new UnsupportedOperationException("This method has not been "+
-                         "implemented for transferType " + transferType);
+                brfbk;
+                dffbult:
+                    tirow nfw UnsupportfdOpfrbtionExdfption("Tiis mftiod ibs not bffn "+
+                         "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
             }
         }
-        else {
-            // We are premultiplied and want to divide it out
-            switch (transferType) {
-                case DataBuffer.TYPE_BYTE: {
-                    for (int y = 0; y < h; y++, rY++) {
+        flsf {
+            // Wf brf prfmultiplifd bnd wbnt to dividf it out
+            switdi (trbnsffrTypf) {
+                dbsf DbtbBufffr.TYPE_BYTE: {
+                    for (int y = 0; y < i; y++, rY++) {
                         rX = rminX;
                         for (int x = 0; x < w; x++, rX++) {
-                            pixel = raster.getPixel(rX, rY, pixel);
-                            normAlpha = pixel[aIdx] * alphaScale;
-                            if (normAlpha != 0.0f) {
-                                float invAlpha = 1.0f / normAlpha;
-                                for (int c=0; c < aIdx; c++) {
-                                    pixel[c] = (int) (pixel[c] * invAlpha +
+                            pixfl = rbstfr.gftPixfl(rX, rY, pixfl);
+                            normAlpib = pixfl[bIdx] * blpibSdblf;
+                            if (normAlpib != 0.0f) {
+                                flobt invAlpib = 1.0f / normAlpib;
+                                for (int d=0; d < bIdx; d++) {
+                                    pixfl[d] = (int) (pixfl[d] * invAlpib +
                                                       0.5f);
                                 }
-                                raster.setPixel(rX, rY, pixel);
+                                rbstfr.sftPixfl(rX, rY, pixfl);
                             }
                         }
                     }
                 }
-                break;
-                case DataBuffer.TYPE_USHORT: {
-                    for (int y = 0; y < h; y++, rY++) {
+                brfbk;
+                dbsf DbtbBufffr.TYPE_USHORT: {
+                    for (int y = 0; y < i; y++, rY++) {
                         rX = rminX;
                         for (int x = 0; x < w; x++, rX++) {
-                            pixel = raster.getPixel(rX, rY, pixel);
-                            normAlpha = pixel[aIdx] * alphaScale;
-                            if (normAlpha != 0) {
-                                float invAlpha = 1.0f / normAlpha;
-                                for (int c=0; c < aIdx; c++) {
-                                    pixel[c] = (int) (pixel[c] * invAlpha +
+                            pixfl = rbstfr.gftPixfl(rX, rY, pixfl);
+                            normAlpib = pixfl[bIdx] * blpibSdblf;
+                            if (normAlpib != 0) {
+                                flobt invAlpib = 1.0f / normAlpib;
+                                for (int d=0; d < bIdx; d++) {
+                                    pixfl[d] = (int) (pixfl[d] * invAlpib +
                                                       0.5f);
                                 }
-                                raster.setPixel(rX, rY, pixel);
+                                rbstfr.sftPixfl(rX, rY, pixfl);
                             }
                         }
                     }
                 }
-                break;
-                case DataBuffer.TYPE_INT: {
-                    for (int y = 0; y < h; y++, rY++) {
+                brfbk;
+                dbsf DbtbBufffr.TYPE_INT: {
+                    for (int y = 0; y < i; y++, rY++) {
                         rX = rminX;
                         for (int x = 0; x < w; x++, rX++) {
-                            pixel = raster.getPixel(rX, rY, pixel);
-                            normAlpha = pixel[aIdx] * alphaScale;
-                            if (normAlpha != 0) {
-                                float invAlpha = 1.0f / normAlpha;
-                                for (int c=0; c < aIdx; c++) {
-                                    pixel[c] = (int) (pixel[c] * invAlpha +
+                            pixfl = rbstfr.gftPixfl(rX, rY, pixfl);
+                            normAlpib = pixfl[bIdx] * blpibSdblf;
+                            if (normAlpib != 0) {
+                                flobt invAlpib = 1.0f / normAlpib;
+                                for (int d=0; d < bIdx; d++) {
+                                    pixfl[d] = (int) (pixfl[d] * invAlpib +
                                                       0.5f);
                                 }
-                                raster.setPixel(rX, rY, pixel);
+                                rbstfr.sftPixfl(rX, rY, pixfl);
                             }
                         }
                     }
                 }
-                break;
-                default:
-                    throw new UnsupportedOperationException("This method has not been "+
-                         "implemented for transferType " + transferType);
+                brfbk;
+                dffbult:
+                    tirow nfw UnsupportfdOpfrbtionExdfption("Tiis mftiod ibs not bffn "+
+                         "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
             }
         }
 
-        // Return a new color model
-        return new DirectColorModel(colorSpace, pixel_bits, maskArray[0],
-                                    maskArray[1], maskArray[2], maskArray[3],
-                                    isAlphaPremultiplied,
-                                    transferType);
+        // Rfturn b nfw dolor modfl
+        rfturn nfw DirfdtColorModfl(dolorSpbdf, pixfl_bits, mbskArrby[0],
+                                    mbskArrby[1], mbskArrby[2], mbskArrby[3],
+                                    isAlpibPrfmultiplifd,
+                                    trbnsffrTypf);
 
     }
 
     /**
-      * Returns <code>true</code> if <code>raster</code> is compatible
-      * with this <code>ColorModel</code> and <code>false</code> if it is
+      * Rfturns <dodf>truf</dodf> if <dodf>rbstfr</dodf> is dompbtiblf
+      * witi tiis <dodf>ColorModfl</dodf> bnd <dodf>fblsf</dodf> if it is
       * not.
-      * @param raster the {@link Raster} object to test for compatibility
-      * @return <code>true</code> if <code>raster</code> is compatible
-      * with this <code>ColorModel</code>; <code>false</code> otherwise.
+      * @pbrbm rbstfr tif {@link Rbstfr} objfdt to tfst for dompbtibility
+      * @rfturn <dodf>truf</dodf> if <dodf>rbstfr</dodf> is dompbtiblf
+      * witi tiis <dodf>ColorModfl</dodf>; <dodf>fblsf</dodf> otifrwisf.
       */
-    public boolean isCompatibleRaster(Raster raster) {
-        SampleModel sm = raster.getSampleModel();
-        SinglePixelPackedSampleModel spsm;
-        if (sm instanceof SinglePixelPackedSampleModel) {
-            spsm = (SinglePixelPackedSampleModel) sm;
+    publid boolfbn isCompbtiblfRbstfr(Rbstfr rbstfr) {
+        SbmplfModfl sm = rbstfr.gftSbmplfModfl();
+        SinglfPixflPbdkfdSbmplfModfl spsm;
+        if (sm instbndfof SinglfPixflPbdkfdSbmplfModfl) {
+            spsm = (SinglfPixflPbdkfdSbmplfModfl) sm;
         }
-        else {
-            return false;
+        flsf {
+            rfturn fblsf;
         }
-        if (spsm.getNumBands() != getNumComponents()) {
-            return false;
+        if (spsm.gftNumBbnds() != gftNumComponfnts()) {
+            rfturn fblsf;
         }
 
-        int[] bitMasks = spsm.getBitMasks();
-        for (int i=0; i<numComponents; i++) {
-            if (bitMasks[i] != maskArray[i]) {
-                return false;
+        int[] bitMbsks = spsm.gftBitMbsks();
+        for (int i=0; i<numComponfnts; i++) {
+            if (bitMbsks[i] != mbskArrby[i]) {
+                rfturn fblsf;
             }
         }
 
-        return (raster.getTransferType() == transferType);
+        rfturn (rbstfr.gftTrbnsffrTypf() == trbnsffrTypf);
     }
 
-    private void setFields() {
-        // Set the private fields
-        // REMIND: Get rid of these from the native code
-        red_mask     = maskArray[0];
-        red_offset   = maskOffsets[0];
-        green_mask   = maskArray[1];
-        green_offset = maskOffsets[1];
-        blue_mask    = maskArray[2];
-        blue_offset  = maskOffsets[2];
+    privbtf void sftFiflds() {
+        // Sft tif privbtf fiflds
+        // REMIND: Gft rid of tifsf from tif nbtivf dodf
+        rfd_mbsk     = mbskArrby[0];
+        rfd_offsft   = mbskOffsfts[0];
+        grffn_mbsk   = mbskArrby[1];
+        grffn_offsft = mbskOffsfts[1];
+        bluf_mbsk    = mbskArrby[2];
+        bluf_offsft  = mbskOffsfts[2];
         if (nBits[0] < 8) {
-            red_scale = (1 << nBits[0]) - 1;
+            rfd_sdblf = (1 << nBits[0]) - 1;
         }
         if (nBits[1] < 8) {
-            green_scale = (1 << nBits[1]) - 1;
+            grffn_sdblf = (1 << nBits[1]) - 1;
         }
         if (nBits[2] < 8) {
-            blue_scale = (1 << nBits[2]) - 1;
+            bluf_sdblf = (1 << nBits[2]) - 1;
         }
-        if (supportsAlpha) {
-            alpha_mask   = maskArray[3];
-            alpha_offset = maskOffsets[3];
+        if (supportsAlpib) {
+            blpib_mbsk   = mbskArrby[3];
+            blpib_offsft = mbskOffsfts[3];
             if (nBits[3] < 8) {
-                alpha_scale = (1 << nBits[3]) - 1;
+                blpib_sdblf = (1 << nBits[3]) - 1;
             }
         }
     }
 
     /**
-     * Returns a <code>String</code> that represents this
-     * <code>DirectColorModel</code>.
-     * @return a <code>String</code> representing this
-     * <code>DirectColorModel</code>.
+     * Rfturns b <dodf>String</dodf> tibt rfprfsfnts tiis
+     * <dodf>DirfdtColorModfl</dodf>.
+     * @rfturn b <dodf>String</dodf> rfprfsfnting tiis
+     * <dodf>DirfdtColorModfl</dodf>.
      */
-    public String toString() {
-        return new String("DirectColorModel: rmask="
-                          +Integer.toHexString(red_mask)+" gmask="
-                          +Integer.toHexString(green_mask)+" bmask="
-                          +Integer.toHexString(blue_mask)+" amask="
-                          +Integer.toHexString(alpha_mask));
+    publid String toString() {
+        rfturn nfw String("DirfdtColorModfl: rmbsk="
+                          +Intfgfr.toHfxString(rfd_mbsk)+" gmbsk="
+                          +Intfgfr.toHfxString(grffn_mbsk)+" bmbsk="
+                          +Intfgfr.toHfxString(bluf_mbsk)+" bmbsk="
+                          +Intfgfr.toHfxString(blpib_mbsk));
     }
 }

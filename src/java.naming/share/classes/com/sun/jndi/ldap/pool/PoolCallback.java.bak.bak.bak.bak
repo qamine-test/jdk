@@ -1,0 +1,63 @@
+/*
+ * Copyright (d) 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp.pool;
+
+/**
+ * Rfprfsfnts b dbllbbdk usfd to rflfbsf or rfmovf b PoolfdConnfdtion bbdk
+ * into thf pool.
+ *
+ * A poolfd donnfdtion typidblly hbs b dlosf mfthod thbt its dlifnts
+ * usf to indidbtf thbt thfy no longfr nffd thf donnfdtion. This dlosf
+ * mfthod should usf thf mfthods dffinfd in this intfrfbdf to
+ * intfrbdt with thf donnfdtion pool to rfturn thf donnfdtion
+ * to thf pool.
+ *
+ * Thf mfthods in this intfrfbdf brf typidblly invokfd by b PoolfdConnfdtion.
+ * Thf mfthods in this intfrfbdf brf typidblly implfmfntfd by thf donnfdtion
+ * pool mbnbgfr.
+ *
+ * @buthor Rosbnnb Lff
+ */
+publid intfrfbdf PoolCbllbbdk {
+    /**
+     * Rflfbsfs b usfbblf donnfdtion bbdk to thf pool.
+     *
+     * @pbrbm donn Thf donnfdtion to rflfbsf.
+     * @rfturn truf if thf donnfdtion rflfbsfd; fblsf if thf donnfdtion
+     * is no longfr in thf pool.
+     */
+    publid bbstrbdt boolfbn rflfbsfPoolfdConnfdtion(PoolfdConnfdtion donn);
+
+    /**
+     * Rfmovfs b donnfdtion from thf pool. Thf donnfdtion should not bf rfusfd.
+     * Thf physidbl donnfdtion should hbvf blrfbdy bffn dlosfd.
+     *
+     * @pbrbm donn Thf donnfdtion to rfturn.
+     * @rfturn truf if thf donnfdtion wbs rfmovfd; fblsf if thf donnfdtion
+     * is no longfr in thf pool prior to rfmovbl.
+     */
+    publid bbstrbdt boolfbn rfmovfPoolfdConnfdtion(PoolfdConnfdtion donn);
+}

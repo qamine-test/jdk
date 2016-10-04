@@ -1,61 +1,61 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sql;
+pbdkbgf jbvbx.sql;
 
-import java.sql.*;
+import jbvb.sql.*;
 
 
 /**
- * An object that provides support for distributed
- * transactions.  An <code>XAConnection</code> object  may be enlisted
- * in a distributed transaction by means of an <code>XAResource</code> object.
- * A transaction manager, usually part of a middle tier server, manages an
- * <code>XAConnection</code> object through the <code>XAResource</code> object.
+ * An objfdt tibt providfs support for distributfd
+ * trbnsbdtions.  An <dodf>XAConnfdtion</dodf> objfdt  mby bf fnlistfd
+ * in b distributfd trbnsbdtion by mfbns of bn <dodf>XARfsourdf</dodf> objfdt.
+ * A trbnsbdtion mbnbgfr, usublly pbrt of b middlf tifr sfrvfr, mbnbgfs bn
+ * <dodf>XAConnfdtion</dodf> objfdt tirougi tif <dodf>XARfsourdf</dodf> objfdt.
  * <P>
- * An application programmer does not use this interface directly; rather,
- * it is used by a transaction manager working in the middle tier server.
+ * An bpplidbtion progrbmmfr dofs not usf tiis intfrfbdf dirfdtly; rbtifr,
+ * it is usfd by b trbnsbdtion mbnbgfr working in tif middlf tifr sfrvfr.
  *
- * @since 1.4
+ * @sindf 1.4
  */
 
-public interface XAConnection extends PooledConnection {
+publid intfrfbdf XAConnfdtion fxtfnds PoolfdConnfdtion {
 
 
   /**
-   * Retrieves an <code>XAResource</code> object that
-   * the transaction manager will use
-   * to manage this <code>XAConnection</code> object's participation in a
-   * distributed transaction.
+   * Rftrifvfs bn <dodf>XARfsourdf</dodf> objfdt tibt
+   * tif trbnsbdtion mbnbgfr will usf
+   * to mbnbgf tiis <dodf>XAConnfdtion</dodf> objfdt's pbrtidipbtion in b
+   * distributfd trbnsbdtion.
    *
-   * @return the <code>XAResource</code> object
-   * @exception SQLException if a database access error occurs
-   * @exception SQLFeatureNotSupportedException if the JDBC driver does not support
-   * this method
-   * @since 1.4
+   * @rfturn tif <dodf>XARfsourdf</dodf> objfdt
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if tif JDBC drivfr dofs not support
+   * tiis mftiod
+   * @sindf 1.4
    */
-  javax.transaction.xa.XAResource getXAResource() throws SQLException;
+  jbvbx.trbnsbdtion.xb.XARfsourdf gftXARfsourdf() tirows SQLExdfption;
 
  }

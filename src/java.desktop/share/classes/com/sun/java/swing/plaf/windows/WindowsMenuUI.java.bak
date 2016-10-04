@@ -1,295 +1,295 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.MousfEvfnt;
 
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicMenuUI;
-import javax.swing.event.MouseInputListener;
-import javax.swing.*;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.plbf.bbsid.BbsidMfnuUI;
+import jbvbx.swing.fvfnt.MousfInputListfnfr;
+import jbvbx.swing.*;
 
-import com.sun.java.swing.plaf.windows.TMSchema.Part;
-import com.sun.java.swing.plaf.windows.TMSchema.State;
+import dom.sun.jbvb.swing.plbf.windows.TMSdifmb.Pbrt;
+import dom.sun.jbvb.swing.plbf.windows.TMSdifmb.Stbtf;
 
 /**
- * Windows rendition of the component.
+ * Windows rfndition of tif domponfnt.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
- * long term persistence.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs.  Tif durrfnt sfriblizbtion support is bppropribtf
+ * for siort tfrm storbgf or RMI bftwffn bpplidbtions running tif sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
  */
-public class WindowsMenuUI extends BasicMenuUI {
-    protected Integer menuBarHeight;
-    protected boolean hotTrackingOn;
+publid dlbss WindowsMfnuUI fxtfnds BbsidMfnuUI {
+    protfdtfd Intfgfr mfnuBbrHfigit;
+    protfdtfd boolfbn iotTrbdkingOn;
 
-    final WindowsMenuItemUIAccessor accessor =
-        new WindowsMenuItemUIAccessor() {
+    finbl WindowsMfnuItfmUIAddfssor bddfssor =
+        nfw WindowsMfnuItfmUIAddfssor() {
 
-            public JMenuItem getMenuItem() {
-                return menuItem;
+            publid JMfnuItfm gftMfnuItfm() {
+                rfturn mfnuItfm;
             }
 
-            public State getState(JMenuItem menu) {
-                State state = menu.isEnabled() ? State.NORMAL
-                        : State.DISABLED;
-                ButtonModel model = menu.getModel();
-                if (model.isArmed() || model.isSelected()) {
-                    state = (menu.isEnabled()) ? State.PUSHED
-                            : State.DISABLEDPUSHED;
-                } else if (model.isRollover()
-                           && ((JMenu) menu).isTopLevelMenu()) {
+            publid Stbtf gftStbtf(JMfnuItfm mfnu) {
+                Stbtf stbtf = mfnu.isEnbblfd() ? Stbtf.NORMAL
+                        : Stbtf.DISABLED;
+                ButtonModfl modfl = mfnu.gftModfl();
+                if (modfl.isArmfd() || modfl.isSflfdtfd()) {
+                    stbtf = (mfnu.isEnbblfd()) ? Stbtf.PUSHED
+                            : Stbtf.DISABLEDPUSHED;
+                } flsf if (modfl.isRollovfr()
+                           && ((JMfnu) mfnu).isTopLfvflMfnu()) {
                     /*
-                     * Only paint rollover if no other menu on menubar is
-                     * selected
+                     * Only pbint rollovfr if no otifr mfnu on mfnubbr is
+                     * sflfdtfd
                      */
-                    State stateTmp = state;
-                    state = (menu.isEnabled()) ? State.HOT
-                            : State.DISABLEDHOT;
-                    for (MenuElement menuElement :
-                        ((JMenuBar) menu.getParent()).getSubElements()) {
-                        if (((JMenuItem) menuElement).isSelected()) {
-                            state = stateTmp;
-                            break;
+                    Stbtf stbtfTmp = stbtf;
+                    stbtf = (mfnu.isEnbblfd()) ? Stbtf.HOT
+                            : Stbtf.DISABLEDHOT;
+                    for (MfnuElfmfnt mfnuElfmfnt :
+                        ((JMfnuBbr) mfnu.gftPbrfnt()).gftSubElfmfnts()) {
+                        if (((JMfnuItfm) mfnuElfmfnt).isSflfdtfd()) {
+                            stbtf = stbtfTmp;
+                            brfbk;
                         }
                     }
                 }
 
-                //non top level menus have HOT state instead of PUSHED
-                if (!((JMenu) menu).isTopLevelMenu()) {
-                    if (state == State.PUSHED) {
-                        state = State.HOT;
-                    } else if (state == State.DISABLEDPUSHED) {
-                        state = State.DISABLEDHOT;
+                //non top lfvfl mfnus ibvf HOT stbtf instfbd of PUSHED
+                if (!((JMfnu) mfnu).isTopLfvflMfnu()) {
+                    if (stbtf == Stbtf.PUSHED) {
+                        stbtf = Stbtf.HOT;
+                    } flsf if (stbtf == Stbtf.DISABLEDPUSHED) {
+                        stbtf = Stbtf.DISABLEDHOT;
                     }
                 }
 
                 /*
-                 * on Vista top level menu for non active frame looks disabled
+                 * on Vistb top lfvfl mfnu for non bdtivf frbmf looks disbblfd
                  */
-                if (((JMenu) menu).isTopLevelMenu() && WindowsMenuItemUI.isVistaPainting()) {
-                    if (! WindowsMenuBarUI.isActive(menu)) {
-                        state = State.DISABLED;
+                if (((JMfnu) mfnu).isTopLfvflMfnu() && WindowsMfnuItfmUI.isVistbPbinting()) {
+                    if (! WindowsMfnuBbrUI.isAdtivf(mfnu)) {
+                        stbtf = Stbtf.DISABLED;
                     }
                 }
-                return state;
+                rfturn stbtf;
             }
 
-            public Part getPart(JMenuItem menuItem) {
-                return ((JMenu) menuItem).isTopLevelMenu() ? Part.MP_BARITEM
-                        : Part.MP_POPUPITEM;
+            publid Pbrt gftPbrt(JMfnuItfm mfnuItfm) {
+                rfturn ((JMfnu) mfnuItfm).isTopLfvflMfnu() ? Pbrt.MP_BARITEM
+                        : Pbrt.MP_POPUPITEM;
             }
     };
-    public static ComponentUI createUI(JComponent x) {
-        return new WindowsMenuUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt x) {
+        rfturn nfw WindowsMfnuUI();
     }
 
-    protected void installDefaults() {
-        super.installDefaults();
-        if (!WindowsLookAndFeel.isClassicWindows()) {
-            menuItem.setRolloverEnabled(true);
+    protfdtfd void instbllDffbults() {
+        supfr.instbllDffbults();
+        if (!WindowsLookAndFffl.isClbssidWindows()) {
+            mfnuItfm.sftRollovfrEnbblfd(truf);
         }
 
-        menuBarHeight = (Integer)UIManager.getInt("MenuBar.height");
+        mfnuBbrHfigit = (Intfgfr)UIMbnbgfr.gftInt("MfnuBbr.ifigit");
 
-        Object obj      = UIManager.get("MenuBar.rolloverEnabled");
-        hotTrackingOn = (obj instanceof Boolean) ? (Boolean)obj : true;
+        Objfdt obj      = UIMbnbgfr.gft("MfnuBbr.rollovfrEnbblfd");
+        iotTrbdkingOn = (obj instbndfof Boolfbn) ? (Boolfbn)obj : truf;
     }
 
     /**
-     * Draws the background of the menu.
-     * @since 1.4
+     * Drbws tif bbdkground of tif mfnu.
+     * @sindf 1.4
      */
-    protected void paintBackground(Graphics g, JMenuItem menuItem, Color bgColor) {
-        if (WindowsMenuItemUI.isVistaPainting()) {
-            WindowsMenuItemUI.paintBackground(accessor, g, menuItem, bgColor);
-            return;
+    protfdtfd void pbintBbdkground(Grbpiids g, JMfnuItfm mfnuItfm, Color bgColor) {
+        if (WindowsMfnuItfmUI.isVistbPbinting()) {
+            WindowsMfnuItfmUI.pbintBbdkground(bddfssor, g, mfnuItfm, bgColor);
+            rfturn;
         }
 
-        JMenu menu = (JMenu)menuItem;
-        ButtonModel model = menu.getModel();
+        JMfnu mfnu = (JMfnu)mfnuItfm;
+        ButtonModfl modfl = mfnu.gftModfl();
 
-        // Use superclass method for the old Windows LAF,
-        // for submenus, and for XP toplevel if selected or pressed
-        if (WindowsLookAndFeel.isClassicWindows() ||
-            !menu.isTopLevelMenu() ||
-            (XPStyle.getXP() != null && (model.isArmed() || model.isSelected()))) {
+        // Usf supfrdlbss mftiod for tif old Windows LAF,
+        // for submfnus, bnd for XP toplfvfl if sflfdtfd or prfssfd
+        if (WindowsLookAndFffl.isClbssidWindows() ||
+            !mfnu.isTopLfvflMfnu() ||
+            (XPStylf.gftXP() != null && (modfl.isArmfd() || modfl.isSflfdtfd()))) {
 
-            super.paintBackground(g, menu, bgColor);
-            return;
+            supfr.pbintBbdkground(g, mfnu, bgColor);
+            rfturn;
         }
 
-        Color oldColor = g.getColor();
-        int menuWidth = menu.getWidth();
-        int menuHeight = menu.getHeight();
+        Color oldColor = g.gftColor();
+        int mfnuWidti = mfnu.gftWidti();
+        int mfnuHfigit = mfnu.gftHfigit();
 
-        UIDefaults table = UIManager.getLookAndFeelDefaults();
-        Color highlight = table.getColor("controlLtHighlight");
-        Color shadow = table.getColor("controlShadow");
+        UIDffbults tbblf = UIMbnbgfr.gftLookAndFfflDffbults();
+        Color iigiligit = tbblf.gftColor("dontrolLtHigiligit");
+        Color sibdow = tbblf.gftColor("dontrolSibdow");
 
-        g.setColor(menu.getBackground());
-        g.fillRect(0,0, menuWidth, menuHeight);
+        g.sftColor(mfnu.gftBbdkground());
+        g.fillRfdt(0,0, mfnuWidti, mfnuHfigit);
 
-        if (menu.isOpaque()) {
-            if (model.isArmed() || model.isSelected()) {
-                // Draw a lowered bevel border
-                g.setColor(shadow);
-                g.drawLine(0,0, menuWidth - 1,0);
-                g.drawLine(0,0, 0,menuHeight - 2);
+        if (mfnu.isOpbquf()) {
+            if (modfl.isArmfd() || modfl.isSflfdtfd()) {
+                // Drbw b lowfrfd bfvfl bordfr
+                g.sftColor(sibdow);
+                g.drbwLinf(0,0, mfnuWidti - 1,0);
+                g.drbwLinf(0,0, 0,mfnuHfigit - 2);
 
-                g.setColor(highlight);
-                g.drawLine(menuWidth - 1,0, menuWidth - 1,menuHeight - 2);
-                g.drawLine(0,menuHeight - 2, menuWidth - 1,menuHeight - 2);
-            } else if (model.isRollover() && model.isEnabled()) {
-                // Only paint rollover if no other menu on menubar is selected
-                boolean otherMenuSelected = false;
-                MenuElement[] menus = ((JMenuBar)menu.getParent()).getSubElements();
-                for (int i = 0; i < menus.length; i++) {
-                    if (((JMenuItem)menus[i]).isSelected()) {
-                        otherMenuSelected = true;
-                        break;
+                g.sftColor(iigiligit);
+                g.drbwLinf(mfnuWidti - 1,0, mfnuWidti - 1,mfnuHfigit - 2);
+                g.drbwLinf(0,mfnuHfigit - 2, mfnuWidti - 1,mfnuHfigit - 2);
+            } flsf if (modfl.isRollovfr() && modfl.isEnbblfd()) {
+                // Only pbint rollovfr if no otifr mfnu on mfnubbr is sflfdtfd
+                boolfbn otifrMfnuSflfdtfd = fblsf;
+                MfnuElfmfnt[] mfnus = ((JMfnuBbr)mfnu.gftPbrfnt()).gftSubElfmfnts();
+                for (int i = 0; i < mfnus.lfngti; i++) {
+                    if (((JMfnuItfm)mfnus[i]).isSflfdtfd()) {
+                        otifrMfnuSflfdtfd = truf;
+                        brfbk;
                     }
                 }
-                if (!otherMenuSelected) {
-                    if (XPStyle.getXP() != null) {
-                        g.setColor(selectionBackground); // Uses protected field.
-                        g.fillRect(0, 0, menuWidth, menuHeight);
-                    } else {
-                        // Draw a raised bevel border
-                        g.setColor(highlight);
-                        g.drawLine(0,0, menuWidth - 1,0);
-                        g.drawLine(0,0, 0,menuHeight - 2);
+                if (!otifrMfnuSflfdtfd) {
+                    if (XPStylf.gftXP() != null) {
+                        g.sftColor(sflfdtionBbdkground); // Usfs protfdtfd fifld.
+                        g.fillRfdt(0, 0, mfnuWidti, mfnuHfigit);
+                    } flsf {
+                        // Drbw b rbisfd bfvfl bordfr
+                        g.sftColor(iigiligit);
+                        g.drbwLinf(0,0, mfnuWidti - 1,0);
+                        g.drbwLinf(0,0, 0,mfnuHfigit - 2);
 
-                        g.setColor(shadow);
-                        g.drawLine(menuWidth - 1,0, menuWidth - 1,menuHeight - 2);
-                        g.drawLine(0,menuHeight - 2, menuWidth - 1,menuHeight - 2);
+                        g.sftColor(sibdow);
+                        g.drbwLinf(mfnuWidti - 1,0, mfnuWidti - 1,mfnuHfigit - 2);
+                        g.drbwLinf(0,mfnuHfigit - 2, mfnuWidti - 1,mfnuHfigit - 2);
                     }
                 }
             }
         }
-        g.setColor(oldColor);
+        g.sftColor(oldColor);
     }
 
     /**
-     * Method which renders the text of the current menu item.
+     * Mftiod wiidi rfndfrs tif tfxt of tif durrfnt mfnu itfm.
      * <p>
-     * @param g Graphics context
-     * @param menuItem Current menu item to render
-     * @param textRect Bounding rectangle to render the text.
-     * @param text String to render
-     * @since 1.4
+     * @pbrbm g Grbpiids dontfxt
+     * @pbrbm mfnuItfm Currfnt mfnu itfm to rfndfr
+     * @pbrbm tfxtRfdt Bounding rfdtbnglf to rfndfr tif tfxt.
+     * @pbrbm tfxt String to rfndfr
+     * @sindf 1.4
      */
-    protected void paintText(Graphics g, JMenuItem menuItem,
-                             Rectangle textRect, String text) {
-        if (WindowsMenuItemUI.isVistaPainting()) {
-            WindowsMenuItemUI.paintText(accessor, g, menuItem, textRect, text);
-            return;
+    protfdtfd void pbintTfxt(Grbpiids g, JMfnuItfm mfnuItfm,
+                             Rfdtbnglf tfxtRfdt, String tfxt) {
+        if (WindowsMfnuItfmUI.isVistbPbinting()) {
+            WindowsMfnuItfmUI.pbintTfxt(bddfssor, g, mfnuItfm, tfxtRfdt, tfxt);
+            rfturn;
         }
-        JMenu menu = (JMenu)menuItem;
-        ButtonModel model = menuItem.getModel();
-        Color oldColor = g.getColor();
+        JMfnu mfnu = (JMfnu)mfnuItfm;
+        ButtonModfl modfl = mfnuItfm.gftModfl();
+        Color oldColor = g.gftColor();
 
-        // Only paint rollover if no other menu on menubar is selected
-        boolean paintRollover = model.isRollover();
-        if (paintRollover && menu.isTopLevelMenu()) {
-            MenuElement[] menus = ((JMenuBar)menu.getParent()).getSubElements();
-            for (int i = 0; i < menus.length; i++) {
-                if (((JMenuItem)menus[i]).isSelected()) {
-                    paintRollover = false;
-                    break;
+        // Only pbint rollovfr if no otifr mfnu on mfnubbr is sflfdtfd
+        boolfbn pbintRollovfr = modfl.isRollovfr();
+        if (pbintRollovfr && mfnu.isTopLfvflMfnu()) {
+            MfnuElfmfnt[] mfnus = ((JMfnuBbr)mfnu.gftPbrfnt()).gftSubElfmfnts();
+            for (int i = 0; i < mfnus.lfngti; i++) {
+                if (((JMfnuItfm)mfnus[i]).isSflfdtfd()) {
+                    pbintRollovfr = fblsf;
+                    brfbk;
                 }
             }
         }
 
-        if ((model.isSelected() && (WindowsLookAndFeel.isClassicWindows() ||
-                                    !menu.isTopLevelMenu())) ||
-            (XPStyle.getXP() != null && (paintRollover ||
-                                         model.isArmed() ||
-                                         model.isSelected()))) {
-            g.setColor(selectionForeground); // Uses protected field.
+        if ((modfl.isSflfdtfd() && (WindowsLookAndFffl.isClbssidWindows() ||
+                                    !mfnu.isTopLfvflMfnu())) ||
+            (XPStylf.gftXP() != null && (pbintRollovfr ||
+                                         modfl.isArmfd() ||
+                                         modfl.isSflfdtfd()))) {
+            g.sftColor(sflfdtionForfground); // Usfs protfdtfd fifld.
         }
 
-        WindowsGraphicsUtils.paintText(g, menuItem, textRect, text, 0);
+        WindowsGrbpiidsUtils.pbintTfxt(g, mfnuItfm, tfxtRfdt, tfxt, 0);
 
-        g.setColor(oldColor);
+        g.sftColor(oldColor);
     }
 
-    protected MouseInputListener createMouseInputListener(JComponent c) {
-        return new WindowsMouseInputHandler();
+    protfdtfd MousfInputListfnfr drfbtfMousfInputListfnfr(JComponfnt d) {
+        rfturn nfw WindowsMousfInputHbndlfr();
     }
 
     /**
-     * This class implements a mouse handler that sets the rollover flag to
-     * true when the mouse enters the menu and false when it exits.
-     * @since 1.4
+     * Tiis dlbss implfmfnts b mousf ibndlfr tibt sfts tif rollovfr flbg to
+     * truf wifn tif mousf fntfrs tif mfnu bnd fblsf wifn it fxits.
+     * @sindf 1.4
      */
-    protected class WindowsMouseInputHandler extends BasicMenuUI.MouseInputHandler {
-        public void mouseEntered(MouseEvent evt) {
-            super.mouseEntered(evt);
+    protfdtfd dlbss WindowsMousfInputHbndlfr fxtfnds BbsidMfnuUI.MousfInputHbndlfr {
+        publid void mousfEntfrfd(MousfEvfnt fvt) {
+            supfr.mousfEntfrfd(fvt);
 
-            JMenu menu = (JMenu)evt.getSource();
-            if (hotTrackingOn && menu.isTopLevelMenu() && menu.isRolloverEnabled()) {
-                menu.getModel().setRollover(true);
-                menuItem.repaint();
+            JMfnu mfnu = (JMfnu)fvt.gftSourdf();
+            if (iotTrbdkingOn && mfnu.isTopLfvflMfnu() && mfnu.isRollovfrEnbblfd()) {
+                mfnu.gftModfl().sftRollovfr(truf);
+                mfnuItfm.rfpbint();
             }
         }
 
-        public void mouseExited(MouseEvent evt) {
-            super.mouseExited(evt);
+        publid void mousfExitfd(MousfEvfnt fvt) {
+            supfr.mousfExitfd(fvt);
 
-            JMenu menu = (JMenu)evt.getSource();
-            ButtonModel model = menu.getModel();
-            if (menu.isRolloverEnabled()) {
-                model.setRollover(false);
-                menuItem.repaint();
+            JMfnu mfnu = (JMfnu)fvt.gftSourdf();
+            ButtonModfl modfl = mfnu.gftModfl();
+            if (mfnu.isRollovfrEnbblfd()) {
+                modfl.sftRollovfr(fblsf);
+                mfnuItfm.rfpbint();
             }
         }
     }
 
-    protected Dimension getPreferredMenuItemSize(JComponent c,
-                                                     Icon checkIcon,
-                                                     Icon arrowIcon,
-                                                     int defaultTextIconGap) {
+    protfdtfd Dimfnsion gftPrfffrrfdMfnuItfmSizf(JComponfnt d,
+                                                     Idon difdkIdon,
+                                                     Idon brrowIdon,
+                                                     int dffbultTfxtIdonGbp) {
 
-        Dimension d = super.getPreferredMenuItemSize(c, checkIcon, arrowIcon,
-                                                     defaultTextIconGap);
+        Dimfnsion d = supfr.gftPrfffrrfdMfnuItfmSizf(d, difdkIdon, brrowIdon,
+                                                     dffbultTfxtIdonGbp);
 
-        // Note: When toolbar containers (rebars) are implemented, only do
-        // this if the JMenuBar is not in a rebar (i.e. ignore the desktop
-        // property win.menu.height if in a rebar.)
-        if (c instanceof JMenu && ((JMenu)c).isTopLevelMenu() &&
-            menuBarHeight != null && d.height < menuBarHeight) {
+        // Notf: Wifn toolbbr dontbinfrs (rfbbrs) brf implfmfntfd, only do
+        // tiis if tif JMfnuBbr is not in b rfbbr (i.f. ignorf tif dfsktop
+        // propfrty win.mfnu.ifigit if in b rfbbr.)
+        if (d instbndfof JMfnu && ((JMfnu)d).isTopLfvflMfnu() &&
+            mfnuBbrHfigit != null && d.ifigit < mfnuBbrHfigit) {
 
-            d.height = menuBarHeight;
+            d.ifigit = mfnuBbrHfigit;
         }
 
-        return d;
+        rfturn d;
     }
 }

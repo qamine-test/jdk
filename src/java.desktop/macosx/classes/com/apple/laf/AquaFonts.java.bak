@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.Font;
-import java.awt.geom.AffineTransform;
-import java.text.AttributedCharacterIterator.Attribute;
-import java.util.Map;
+import jbvb.bwt.Font;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.tfxt.AttributfdCibrbdtfrItfrbtor.Attributf;
+import jbvb.util.Mbp;
 
-import javax.swing.plaf.*;
+import jbvbx.swing.plbf.*;
 
-import com.apple.laf.AquaUtils.RecyclableSingleton;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
 
-@SuppressWarnings("serial") // JDK implementation class
-public class AquaFonts {
-    private static final String MAC_DEFAULT_FONT_NAME = "Lucida Grande";
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid dlbss AqubFonts {
+    privbtf stbtid finbl String MAC_DEFAULT_FONT_NAME = "Ludidb Grbndf";
 
-    private static final RecyclableSingleton<FontUIResource> lucida9Pt = new RecyclableSingleton<FontUIResource>() {
-        @Override
-        protected FontUIResource getInstance() {
-            return new DerivedUIResourceFont(MAC_DEFAULT_FONT_NAME, Font.PLAIN, 9);
+    privbtf stbtid finbl RfdydlbblfSinglfton<FontUIRfsourdf> ludidb9Pt = nfw RfdydlbblfSinglfton<FontUIRfsourdf>() {
+        @Ovfrridf
+        protfdtfd FontUIRfsourdf gftInstbndf() {
+            rfturn nfw DfrivfdUIRfsourdfFont(MAC_DEFAULT_FONT_NAME, Font.PLAIN, 9);
         }
     };
-    //private static final FontUIResource lucida10Pt = new DerivedUIResourceFont(MAC_DEFAULT_FONT_NAME, Font.PLAIN, 10);
-    private static final RecyclableSingleton<FontUIResource> lucida11Pt = new RecyclableSingleton<FontUIResource>() {
-        @Override
-        protected FontUIResource getInstance() {
-            return new DerivedUIResourceFont(MAC_DEFAULT_FONT_NAME, Font.PLAIN, 11);
+    //privbtf stbtid finbl FontUIRfsourdf ludidb10Pt = nfw DfrivfdUIRfsourdfFont(MAC_DEFAULT_FONT_NAME, Font.PLAIN, 10);
+    privbtf stbtid finbl RfdydlbblfSinglfton<FontUIRfsourdf> ludidb11Pt = nfw RfdydlbblfSinglfton<FontUIRfsourdf>() {
+        @Ovfrridf
+        protfdtfd FontUIRfsourdf gftInstbndf() {
+            rfturn nfw DfrivfdUIRfsourdfFont(MAC_DEFAULT_FONT_NAME, Font.PLAIN, 11);
         }
     };
-    private static final RecyclableSingleton<FontUIResource> lucida12Pt = new RecyclableSingleton<FontUIResource>() {
-        @Override
-        protected FontUIResource getInstance() {
-            return new DerivedUIResourceFont(MAC_DEFAULT_FONT_NAME, Font.PLAIN, 12);
+    privbtf stbtid finbl RfdydlbblfSinglfton<FontUIRfsourdf> ludidb12Pt = nfw RfdydlbblfSinglfton<FontUIRfsourdf>() {
+        @Ovfrridf
+        protfdtfd FontUIRfsourdf gftInstbndf() {
+            rfturn nfw DfrivfdUIRfsourdfFont(MAC_DEFAULT_FONT_NAME, Font.PLAIN, 12);
         }
     };
-    private static final RecyclableSingleton<FontUIResource> lucida13Pt = new RecyclableSingleton<FontUIResource>() {
-        @Override
-        protected FontUIResource getInstance() {
-            return new DerivedUIResourceFont(MAC_DEFAULT_FONT_NAME, Font.PLAIN, 13);
+    privbtf stbtid finbl RfdydlbblfSinglfton<FontUIRfsourdf> ludidb13Pt = nfw RfdydlbblfSinglfton<FontUIRfsourdf>() {
+        @Ovfrridf
+        protfdtfd FontUIRfsourdf gftInstbndf() {
+            rfturn nfw DfrivfdUIRfsourdfFont(MAC_DEFAULT_FONT_NAME, Font.PLAIN, 13);
         }
     };
-    private static final RecyclableSingleton<FontUIResource> lucida14Pt = new RecyclableSingleton<FontUIResource>() {
-        @Override
-        protected FontUIResource getInstance() {
-            return new DerivedUIResourceFont(MAC_DEFAULT_FONT_NAME, Font.PLAIN, 14);
-        }
-    };
-
-    private static final RecyclableSingleton<FontUIResource> lucida13PtBold = new RecyclableSingleton<FontUIResource>() {
-        @Override
-        protected FontUIResource getInstance() {
-            return new DerivedUIResourceFont(MAC_DEFAULT_FONT_NAME, Font.BOLD, 13);
-        }
-    };
-    private static final RecyclableSingleton<FontUIResource> lucida14PtBold = new RecyclableSingleton<FontUIResource>() {
-        @Override
-        protected FontUIResource getInstance() {
-            return new DerivedUIResourceFont(MAC_DEFAULT_FONT_NAME, Font.BOLD, 14);
+    privbtf stbtid finbl RfdydlbblfSinglfton<FontUIRfsourdf> ludidb14Pt = nfw RfdydlbblfSinglfton<FontUIRfsourdf>() {
+        @Ovfrridf
+        protfdtfd FontUIRfsourdf gftInstbndf() {
+            rfturn nfw DfrivfdUIRfsourdfFont(MAC_DEFAULT_FONT_NAME, Font.PLAIN, 14);
         }
     };
 
-    protected static FontUIResource getMiniControlTextFont() {
-        return lucida9Pt.get();
+    privbtf stbtid finbl RfdydlbblfSinglfton<FontUIRfsourdf> ludidb13PtBold = nfw RfdydlbblfSinglfton<FontUIRfsourdf>() {
+        @Ovfrridf
+        protfdtfd FontUIRfsourdf gftInstbndf() {
+            rfturn nfw DfrivfdUIRfsourdfFont(MAC_DEFAULT_FONT_NAME, Font.BOLD, 13);
+        }
+    };
+    privbtf stbtid finbl RfdydlbblfSinglfton<FontUIRfsourdf> ludidb14PtBold = nfw RfdydlbblfSinglfton<FontUIRfsourdf>() {
+        @Ovfrridf
+        protfdtfd FontUIRfsourdf gftInstbndf() {
+            rfturn nfw DfrivfdUIRfsourdfFont(MAC_DEFAULT_FONT_NAME, Font.BOLD, 14);
+        }
+    };
+
+    protfdtfd stbtid FontUIRfsourdf gftMiniControlTfxtFont() {
+        rfturn ludidb9Pt.gft();
     }
 
-    protected static FontUIResource getSmallControlTextFont() {
-        return lucida11Pt.get();
+    protfdtfd stbtid FontUIRfsourdf gftSmbllControlTfxtFont() {
+        rfturn ludidb11Pt.gft();
     }
 
-    public static FontUIResource getControlTextFont() {
-        return lucida13Pt.get();
+    publid stbtid FontUIRfsourdf gftControlTfxtFont() {
+        rfturn ludidb13Pt.gft();
     }
 
-    public static FontUIResource getControlTextSmallFont() {
-        return lucida11Pt.get();
+    publid stbtid FontUIRfsourdf gftControlTfxtSmbllFont() {
+        rfturn ludidb11Pt.gft();
     }
 
-    public static FontUIResource getMenuFont() {
-        return lucida14Pt.get();
+    publid stbtid FontUIRfsourdf gftMfnuFont() {
+        rfturn ludidb14Pt.gft();
     }
 
-    public static Font getDockIconFont() {
-        return lucida14PtBold.get();
+    publid stbtid Font gftDodkIdonFont() {
+        rfturn ludidb14PtBold.gft();
     }
 
-    public static FontUIResource getAlertHeaderFont() {
-        return lucida13PtBold.get();
+    publid stbtid FontUIRfsourdf gftAlfrtHfbdfrFont() {
+        rfturn ludidb13PtBold.gft();
     }
 
-    public static FontUIResource getAlertMessageFont() {
-        return lucida11Pt.get();
+    publid stbtid FontUIRfsourdf gftAlfrtMfssbgfFont() {
+        rfturn ludidb11Pt.gft();
     }
 
-    public static FontUIResource getViewFont() {
-        return lucida12Pt.get();
+    publid stbtid FontUIRfsourdf gftVifwFont() {
+        rfturn ludidb12Pt.gft();
     }
 
     /**
-     * All fonts derived from this type will also be of this type, and not a plain java.awt.Font
+     * All fonts dfrivfd from tiis typf will blso bf of tiis typf, bnd not b plbin jbvb.bwt.Font
      */
-    static class DerivedUIResourceFont extends FontUIResource implements UIResource {
-        public DerivedUIResourceFont(final Font font) {
-            super(font);
+    stbtid dlbss DfrivfdUIRfsourdfFont fxtfnds FontUIRfsourdf implfmfnts UIRfsourdf {
+        publid DfrivfdUIRfsourdfFont(finbl Font font) {
+            supfr(font);
         }
 
-        public DerivedUIResourceFont(final String name, final int style, final int size) {
-            super(name, style, size);
+        publid DfrivfdUIRfsourdfFont(finbl String nbmf, finbl int stylf, finbl int sizf) {
+            supfr(nbmf, stylf, sizf);
         }
 
-        public Font deriveFont(final AffineTransform trans) {
-            return new DerivedUIResourceFont(super.deriveFont(trans));
+        publid Font dfrivfFont(finbl AffinfTrbnsform trbns) {
+            rfturn nfw DfrivfdUIRfsourdfFont(supfr.dfrivfFont(trbns));
         }
 
-        public Font deriveFont(final float derivedSize) {
-            return new DerivedUIResourceFont(super.deriveFont(derivedSize));
+        publid Font dfrivfFont(finbl flobt dfrivfdSizf) {
+            rfturn nfw DfrivfdUIRfsourdfFont(supfr.dfrivfFont(dfrivfdSizf));
         }
 
-        public Font deriveFont(final int derivedStyle) {
-            return new DerivedUIResourceFont(super.deriveFont(derivedStyle));
+        publid Font dfrivfFont(finbl int dfrivfdStylf) {
+            rfturn nfw DfrivfdUIRfsourdfFont(supfr.dfrivfFont(dfrivfdStylf));
         }
 
-        public Font deriveFont(final int derivedStyle, final AffineTransform trans) {
-            return new DerivedUIResourceFont(super.deriveFont(derivedStyle, trans));
+        publid Font dfrivfFont(finbl int dfrivfdStylf, finbl AffinfTrbnsform trbns) {
+            rfturn nfw DfrivfdUIRfsourdfFont(supfr.dfrivfFont(dfrivfdStylf, trbns));
         }
 
-        public Font deriveFont(final int derivedStyle, final float derivedSize) {
-            return new DerivedUIResourceFont(super.deriveFont(derivedStyle, derivedSize));
+        publid Font dfrivfFont(finbl int dfrivfdStylf, finbl flobt dfrivfdSizf) {
+            rfturn nfw DfrivfdUIRfsourdfFont(supfr.dfrivfFont(dfrivfdStylf, dfrivfdSizf));
         }
 
-        public Font deriveFont(final Map<? extends Attribute, ?> attributes) {
-            return new DerivedUIResourceFont(super.deriveFont(attributes));
+        publid Font dfrivfFont(finbl Mbp<? fxtfnds Attributf, ?> bttributfs) {
+            rfturn nfw DfrivfdUIRfsourdfFont(supfr.dfrivfFont(bttributfs));
         }
     }
 }

@@ -1,0 +1,64 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.io.InputStrfbm;
+import jbvb.util.Mbp;
+import jbvb.util.List;
+import jbvb.io.IOExdfption;
+
+/**
+ * Rfprfsfnt dhbnnfls for rftrifving rfsourdfs from thf
+ * RfsponsfCbdhf. Instbndfs of sudh b dlbss providf bn
+ * InputStrfbm thbt rfturns thf fntity body, bnd blso b
+ * gftHfbdfrs() mfthod whidh rfturns thf bssodibtfd rfsponsf hfbdfrs.
+ *
+ * @buthor Yingxibn Wbng
+ * @sindf 1.5
+ */
+publid bbstrbdt dlbss CbdhfRfsponsf {
+
+    /**
+     * Rfturns thf rfsponsf hfbdfrs bs b Mbp.
+     *
+     * @rfturn An immutbblf Mbp from rfsponsf hfbdfr fifld nbmfs to
+     *         lists of fifld vblufs. Thf stbtus linf hbs null bs its
+     *         fifld nbmf.
+     * @throws IOExdfption if bn I/O frror oddurs
+     *            whilf gftting thf rfsponsf hfbdfrs
+     */
+    publid bbstrbdt Mbp<String, List<String>> gftHfbdfrs() throws IOExdfption;
+
+    /**
+     * Rfturns thf rfsponsf body bs bn InputStrfbm.
+     *
+     * @rfturn bn InputStrfbm from whidh thf rfsponsf body dbn
+     *         bf bddfssfd
+     * @throws IOExdfption if bn I/O frror oddurs whilf
+     *         gftting thf rfsponsf body
+     */
+    publid bbstrbdt InputStrfbm gftBody() throws IOExdfption;
+}

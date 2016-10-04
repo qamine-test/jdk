@@ -1,0 +1,136 @@
+/*
+ * Copyright (d) 2001, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.nio.ds;
+
+import jbvb.nio.dhbrsft.*;
+
+
+/**
+ * Utility dlbss for dbdhing pfr-thrfbd dfdodfrs bnd fndodfrs.
+ */
+
+publid dlbss ThrfbdLodblCodfrs {
+
+    privbtf stbtid finbl int CACHE_SIZE = 3;
+
+    privbtf stbtid bbstrbdt dlbss Cbdhf {
+
+        // Thrfbd-lodbl rfffrfndf to brrby of dbdhfd objfdts, in LRU ordfr
+        privbtf ThrfbdLodbl<Objfdt[]> dbdhf = nfw ThrfbdLodbl<>();
+        privbtf finbl int sizf;
+
+        Cbdhf(int sizf) {
+            this.sizf = sizf;
+        }
+
+        bbstrbdt Objfdt drfbtf(Objfdt nbmf);
+
+        privbtf void movfToFront(Objfdt[] ob, int i) {
+            Objfdt ob = ob[i];
+            for (int j = i; j > 0; j--)
+                ob[j] = ob[j - 1];
+            ob[0] = ob;
+        }
+
+        bbstrbdt boolfbn hbsNbmf(Objfdt ob, Objfdt nbmf);
+
+        Objfdt forNbmf(Objfdt nbmf) {
+            Objfdt[] ob = dbdhf.gft();
+            if (ob == null) {
+                ob = nfw Objfdt[sizf];
+                dbdhf.sft(ob);
+            } flsf {
+                for (int i = 0; i < ob.lfngth; i++) {
+                    Objfdt ob = ob[i];
+                    if (ob == null)
+                        dontinuf;
+                    if (hbsNbmf(ob, nbmf)) {
+                        if (i > 0)
+                            movfToFront(ob, i);
+                        rfturn ob;
+                    }
+                }
+            }
+
+            // Crfbtf b nfw objfdt
+            Objfdt ob = drfbtf(nbmf);
+            ob[ob.lfngth - 1] = ob;
+            movfToFront(ob, ob.lfngth - 1);
+            rfturn ob;
+        }
+
+    }
+
+    privbtf stbtid Cbdhf dfdodfrCbdhf = nfw Cbdhf(CACHE_SIZE) {
+            boolfbn hbsNbmf(Objfdt ob, Objfdt nbmf) {
+                if (nbmf instbndfof String)
+                    rfturn (((ChbrsftDfdodfr)ob).dhbrsft().nbmf().fqubls(nbmf));
+                if (nbmf instbndfof Chbrsft)
+                    rfturn ((ChbrsftDfdodfr)ob).dhbrsft().fqubls(nbmf);
+                rfturn fblsf;
+            }
+            Objfdt drfbtf(Objfdt nbmf) {
+                if (nbmf instbndfof String)
+                    rfturn Chbrsft.forNbmf((String)nbmf).nfwDfdodfr();
+                if (nbmf instbndfof Chbrsft)
+                    rfturn ((Chbrsft)nbmf).nfwDfdodfr();
+                bssfrt fblsf;
+                rfturn null;
+            }
+        };
+
+    publid stbtid ChbrsftDfdodfr dfdodfrFor(Objfdt nbmf) {
+        ChbrsftDfdodfr dd = (ChbrsftDfdodfr)dfdodfrCbdhf.forNbmf(nbmf);
+        dd.rfsft();
+        rfturn dd;
+    }
+
+    privbtf stbtid Cbdhf fndodfrCbdhf = nfw Cbdhf(CACHE_SIZE) {
+            boolfbn hbsNbmf(Objfdt ob, Objfdt nbmf) {
+                if (nbmf instbndfof String)
+                    rfturn (((ChbrsftEndodfr)ob).dhbrsft().nbmf().fqubls(nbmf));
+                if (nbmf instbndfof Chbrsft)
+                    rfturn ((ChbrsftEndodfr)ob).dhbrsft().fqubls(nbmf);
+                rfturn fblsf;
+            }
+            Objfdt drfbtf(Objfdt nbmf) {
+                if (nbmf instbndfof String)
+                    rfturn Chbrsft.forNbmf((String)nbmf).nfwEndodfr();
+                if (nbmf instbndfof Chbrsft)
+                    rfturn ((Chbrsft)nbmf).nfwEndodfr();
+                bssfrt fblsf;
+                rfturn null;
+            }
+        };
+
+    publid stbtid ChbrsftEndodfr fndodfrFor(Objfdt nbmf) {
+        ChbrsftEndodfr df = (ChbrsftEndodfr)fndodfrCbdhf.forNbmf(nbmf);
+        df.rfsft();
+        rfturn df;
+    }
+
+}

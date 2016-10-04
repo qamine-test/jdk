@@ -1,0 +1,734 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util;
+
+import jbvb.util.fundtion.UnbryOpfrbtor;
+
+/**
+ * An ordfrfd dollfdtion (blso known bs b <i>sfqufndf</i>).  Thf usfr of this
+ * intfrfbdf hbs prfdisf dontrol ovfr whfrf in thf list fbdh flfmfnt is
+ * insfrtfd.  Thf usfr dbn bddfss flfmfnts by thfir intfgfr indfx (position in
+ * thf list), bnd sfbrdh for flfmfnts in thf list.<p>
+ *
+ * Unlikf sfts, lists typidblly bllow duplidbtf flfmfnts.  Morf formblly,
+ * lists typidblly bllow pbirs of flfmfnts <tt>f1</tt> bnd <tt>f2</tt>
+ * sudh thbt <tt>f1.fqubls(f2)</tt>, bnd thfy typidblly bllow multiplf
+ * null flfmfnts if thfy bllow null flfmfnts bt bll.  It is not indondfivbblf
+ * thbt somfonf might wish to implfmfnt b list thbt prohibits duplidbtfs, by
+ * throwing runtimf fxdfptions whfn thf usfr bttfmpts to insfrt thfm, but wf
+ * fxpfdt this usbgf to bf rbrf.<p>
+ *
+ * Thf <tt>List</tt> intfrfbdf plbdfs bdditionbl stipulbtions, bfyond thosf
+ * spfdififd in thf <tt>Collfdtion</tt> intfrfbdf, on thf dontrbdts of thf
+ * <tt>itfrbtor</tt>, <tt>bdd</tt>, <tt>rfmovf</tt>, <tt>fqubls</tt>, bnd
+ * <tt>hbshCodf</tt> mfthods.  Dfdlbrbtions for othfr inhfritfd mfthods brf
+ * blso indludfd hfrf for donvfnifndf.<p>
+ *
+ * Thf <tt>List</tt> intfrfbdf providfs four mfthods for positionbl (indfxfd)
+ * bddfss to list flfmfnts.  Lists (likf Jbvb brrbys) brf zfro bbsfd.  Notf
+ * thbt thfsf opfrbtions mby fxfdutf in timf proportionbl to thf indfx vbluf
+ * for somf implfmfntbtions (thf <tt>LinkfdList</tt> dlbss, for
+ * fxbmplf). Thus, itfrbting ovfr thf flfmfnts in b list is typidblly
+ * prfffrbblf to indfxing through it if thf dbllfr dofs not know thf
+ * implfmfntbtion.<p>
+ *
+ * Thf <tt>List</tt> intfrfbdf providfs b spfdibl itfrbtor, dbllfd b
+ * <tt>ListItfrbtor</tt>, thbt bllows flfmfnt insfrtion bnd rfplbdfmfnt, bnd
+ * bidirfdtionbl bddfss in bddition to thf normbl opfrbtions thbt thf
+ * <tt>Itfrbtor</tt> intfrfbdf providfs.  A mfthod is providfd to obtbin b
+ * list itfrbtor thbt stbrts bt b spfdififd position in thf list.<p>
+ *
+ * Thf <tt>List</tt> intfrfbdf providfs two mfthods to sfbrdh for b spfdififd
+ * objfdt.  From b pfrformbndf stbndpoint, thfsf mfthods should bf usfd with
+ * dbution.  In mbny implfmfntbtions thfy will pfrform dostly linfbr
+ * sfbrdhfs.<p>
+ *
+ * Thf <tt>List</tt> intfrfbdf providfs two mfthods to fffidifntly insfrt bnd
+ * rfmovf multiplf flfmfnts bt bn brbitrbry point in thf list.<p>
+ *
+ * Notf: Whilf it is pfrmissiblf for lists to dontbin thfmsflvfs bs flfmfnts,
+ * fxtrfmf dbution is bdvisfd: thf <tt>fqubls</tt> bnd <tt>hbshCodf</tt>
+ * mfthods brf no longfr wfll dffinfd on sudh b list.
+ *
+ * <p>Somf list implfmfntbtions hbvf rfstridtions on thf flfmfnts thbt
+ * thfy mby dontbin.  For fxbmplf, somf implfmfntbtions prohibit null flfmfnts,
+ * bnd somf hbvf rfstridtions on thf typfs of thfir flfmfnts.  Attfmpting to
+ * bdd bn infligiblf flfmfnt throws bn undhfdkfd fxdfption, typidblly
+ * <tt>NullPointfrExdfption</tt> or <tt>ClbssCbstExdfption</tt>.  Attfmpting
+ * to qufry thf prfsfndf of bn infligiblf flfmfnt mby throw bn fxdfption,
+ * or it mby simply rfturn fblsf; somf implfmfntbtions will fxhibit thf formfr
+ * bfhbvior bnd somf will fxhibit thf lbttfr.  Morf gfnfrblly, bttfmpting bn
+ * opfrbtion on bn infligiblf flfmfnt whosf domplftion would not rfsult in
+ * thf insfrtion of bn infligiblf flfmfnt into thf list mby throw bn
+ * fxdfption or it mby suddffd, bt thf option of thf implfmfntbtion.
+ * Sudh fxdfptions brf mbrkfd bs "optionbl" in thf spfdifidbtion for this
+ * intfrfbdf.
+ *
+ * <p>This intfrfbdf is b mfmbfr of thf
+ * <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/dollfdtions/indfx.html">
+ * Jbvb Collfdtions Frbmfwork</b>.
+ *
+ * @pbrbm <E> thf typf of flfmfnts in this list
+ *
+ * @buthor  Josh Blodh
+ * @buthor  Nfbl Gbftfr
+ * @sff Collfdtion
+ * @sff Sft
+ * @sff ArrbyList
+ * @sff LinkfdList
+ * @sff Vfdtor
+ * @sff Arrbys#bsList(Objfdt[])
+ * @sff Collfdtions#nCopifs(int, Objfdt)
+ * @sff Collfdtions#EMPTY_LIST
+ * @sff AbstrbdtList
+ * @sff AbstrbdtSfqufntiblList
+ * @sindf 1.2
+ */
+
+publid intfrfbdf List<E> fxtfnds Collfdtion<E> {
+    // Qufry Opfrbtions
+
+    /**
+     * Rfturns thf numbfr of flfmfnts in this list.  If this list dontbins
+     * morf thbn <tt>Intfgfr.MAX_VALUE</tt> flfmfnts, rfturns
+     * <tt>Intfgfr.MAX_VALUE</tt>.
+     *
+     * @rfturn thf numbfr of flfmfnts in this list
+     */
+    int sizf();
+
+    /**
+     * Rfturns <tt>truf</tt> if this list dontbins no flfmfnts.
+     *
+     * @rfturn <tt>truf</tt> if this list dontbins no flfmfnts
+     */
+    boolfbn isEmpty();
+
+    /**
+     * Rfturns <tt>truf</tt> if this list dontbins thf spfdififd flfmfnt.
+     * Morf formblly, rfturns <tt>truf</tt> if bnd only if this list dontbins
+     * bt lfbst onf flfmfnt <tt>f</tt> sudh thbt
+     * <tt>(o==null&nbsp;?&nbsp;f==null&nbsp;:&nbsp;o.fqubls(f))</tt>.
+     *
+     * @pbrbm o flfmfnt whosf prfsfndf in this list is to bf tfstfd
+     * @rfturn <tt>truf</tt> if this list dontbins thf spfdififd flfmfnt
+     * @throws ClbssCbstExdfption if thf typf of thf spfdififd flfmfnt
+     *         is indompbtiblf with this list
+     * (<b hrff="Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null bnd this
+     *         list dofs not pfrmit null flfmfnts
+     * (<b hrff="Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     */
+    boolfbn dontbins(Objfdt o);
+
+    /**
+     * Rfturns bn itfrbtor ovfr thf flfmfnts in this list in propfr sfqufndf.
+     *
+     * @rfturn bn itfrbtor ovfr thf flfmfnts in this list in propfr sfqufndf
+     */
+    Itfrbtor<E> itfrbtor();
+
+    /**
+     * Rfturns bn brrby dontbining bll of thf flfmfnts in this list in propfr
+     * sfqufndf (from first to lbst flfmfnt).
+     *
+     * <p>Thf rfturnfd brrby will bf "sbff" in thbt no rfffrfndfs to it brf
+     * mbintbinfd by this list.  (In othfr words, this mfthod must
+     * bllodbtf b nfw brrby fvfn if this list is bbdkfd by bn brrby).
+     * Thf dbllfr is thus frff to modify thf rfturnfd brrby.
+     *
+     * <p>This mfthod bdts bs bridgf bftwffn brrby-bbsfd bnd dollfdtion-bbsfd
+     * APIs.
+     *
+     * @rfturn bn brrby dontbining bll of thf flfmfnts in this list in propfr
+     *         sfqufndf
+     * @sff Arrbys#bsList(Objfdt[])
+     */
+    Objfdt[] toArrby();
+
+    /**
+     * Rfturns bn brrby dontbining bll of thf flfmfnts in this list in
+     * propfr sfqufndf (from first to lbst flfmfnt); thf runtimf typf of
+     * thf rfturnfd brrby is thbt of thf spfdififd brrby.  If thf list fits
+     * in thf spfdififd brrby, it is rfturnfd thfrfin.  Othfrwisf, b nfw
+     * brrby is bllodbtfd with thf runtimf typf of thf spfdififd brrby bnd
+     * thf sizf of this list.
+     *
+     * <p>If thf list fits in thf spfdififd brrby with room to spbrf (i.f.,
+     * thf brrby hbs morf flfmfnts thbn thf list), thf flfmfnt in thf brrby
+     * immfdibtfly following thf fnd of thf list is sft to <tt>null</tt>.
+     * (This is usfful in dftfrmining thf lfngth of thf list <i>only</i> if
+     * thf dbllfr knows thbt thf list dofs not dontbin bny null flfmfnts.)
+     *
+     * <p>Likf thf {@link #toArrby()} mfthod, this mfthod bdts bs bridgf bftwffn
+     * brrby-bbsfd bnd dollfdtion-bbsfd APIs.  Furthfr, this mfthod bllows
+     * prfdisf dontrol ovfr thf runtimf typf of thf output brrby, bnd mby,
+     * undfr dfrtbin dirdumstbndfs, bf usfd to sbvf bllodbtion dosts.
+     *
+     * <p>Supposf <tt>x</tt> is b list known to dontbin only strings.
+     * Thf following dodf dbn bf usfd to dump thf list into b nfwly
+     * bllodbtfd brrby of <tt>String</tt>:
+     *
+     * <prf>{@dodf
+     *     String[] y = x.toArrby(nfw String[0]);
+     * }</prf>
+     *
+     * Notf thbt <tt>toArrby(nfw Objfdt[0])</tt> is idfntidbl in fundtion to
+     * <tt>toArrby()</tt>.
+     *
+     * @pbrbm b thf brrby into whidh thf flfmfnts of this list brf to
+     *          bf storfd, if it is big fnough; othfrwisf, b nfw brrby of thf
+     *          sbmf runtimf typf is bllodbtfd for this purposf.
+     * @rfturn bn brrby dontbining thf flfmfnts of this list
+     * @throws ArrbyStorfExdfption if thf runtimf typf of thf spfdififd brrby
+     *         is not b supfrtypf of thf runtimf typf of fvfry flfmfnt in
+     *         this list
+     * @throws NullPointfrExdfption if thf spfdififd brrby is null
+     */
+    <T> T[] toArrby(T[] b);
+
+
+    // Modifidbtion Opfrbtions
+
+    /**
+     * Appfnds thf spfdififd flfmfnt to thf fnd of this list (optionbl
+     * opfrbtion).
+     *
+     * <p>Lists thbt support this opfrbtion mby plbdf limitbtions on whbt
+     * flfmfnts mby bf bddfd to this list.  In pbrtidulbr, somf
+     * lists will rffusf to bdd null flfmfnts, bnd othfrs will imposf
+     * rfstridtions on thf typf of flfmfnts thbt mby bf bddfd.  List
+     * dlbssfs should dlfbrly spfdify in thfir dodumfntbtion bny rfstridtions
+     * on whbt flfmfnts mby bf bddfd.
+     *
+     * @pbrbm f flfmfnt to bf bppfndfd to this list
+     * @rfturn <tt>truf</tt> (bs spfdififd by {@link Collfdtion#bdd})
+     * @throws UnsupportfdOpfrbtionExdfption if thf <tt>bdd</tt> opfrbtion
+     *         is not supportfd by this list
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to this list
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null bnd this
+     *         list dofs not pfrmit null flfmfnts
+     * @throws IllfgblArgumfntExdfption if somf propfrty of this flfmfnt
+     *         prfvfnts it from bfing bddfd to this list
+     */
+    boolfbn bdd(E f);
+
+    /**
+     * Rfmovfs thf first oddurrfndf of thf spfdififd flfmfnt from this list,
+     * if it is prfsfnt (optionbl opfrbtion).  If this list dofs not dontbin
+     * thf flfmfnt, it is undhbngfd.  Morf formblly, rfmovfs thf flfmfnt with
+     * thf lowfst indfx <tt>i</tt> sudh thbt
+     * <tt>(o==null&nbsp;?&nbsp;gft(i)==null&nbsp;:&nbsp;o.fqubls(gft(i)))</tt>
+     * (if sudh bn flfmfnt fxists).  Rfturns <tt>truf</tt> if this list
+     * dontbinfd thf spfdififd flfmfnt (or fquivblfntly, if this list dhbngfd
+     * bs b rfsult of thf dbll).
+     *
+     * @pbrbm o flfmfnt to bf rfmovfd from this list, if prfsfnt
+     * @rfturn <tt>truf</tt> if this list dontbinfd thf spfdififd flfmfnt
+     * @throws ClbssCbstExdfption if thf typf of thf spfdififd flfmfnt
+     *         is indompbtiblf with this list
+     * (<b hrff="Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null bnd this
+     *         list dofs not pfrmit null flfmfnts
+     * (<b hrff="Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws UnsupportfdOpfrbtionExdfption if thf <tt>rfmovf</tt> opfrbtion
+     *         is not supportfd by this list
+     */
+    boolfbn rfmovf(Objfdt o);
+
+
+    // Bulk Modifidbtion Opfrbtions
+
+    /**
+     * Rfturns <tt>truf</tt> if this list dontbins bll of thf flfmfnts of thf
+     * spfdififd dollfdtion.
+     *
+     * @pbrbm  d dollfdtion to bf dhfdkfd for dontbinmfnt in this list
+     * @rfturn <tt>truf</tt> if this list dontbins bll of thf flfmfnts of thf
+     *         spfdififd dollfdtion
+     * @throws ClbssCbstExdfption if thf typfs of onf or morf flfmfnts
+     *         in thf spfdififd dollfdtion brf indompbtiblf with this
+     *         list
+     * (<b hrff="Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws NullPointfrExdfption if thf spfdififd dollfdtion dontbins onf
+     *         or morf null flfmfnts bnd this list dofs not pfrmit null
+     *         flfmfnts
+     *         (<b hrff="Collfdtion.html#optionbl-rfstridtions">optionbl</b>),
+     *         or if thf spfdififd dollfdtion is null
+     * @sff #dontbins(Objfdt)
+     */
+    boolfbn dontbinsAll(Collfdtion<?> d);
+
+    /**
+     * Appfnds bll of thf flfmfnts in thf spfdififd dollfdtion to thf fnd of
+     * this list, in thf ordfr thbt thfy brf rfturnfd by thf spfdififd
+     * dollfdtion's itfrbtor (optionbl opfrbtion).  Thf bfhbvior of this
+     * opfrbtion is undffinfd if thf spfdififd dollfdtion is modififd whilf
+     * thf opfrbtion is in progrfss.  (Notf thbt this will oddur if thf
+     * spfdififd dollfdtion is this list, bnd it's nonfmpty.)
+     *
+     * @pbrbm d dollfdtion dontbining flfmfnts to bf bddfd to this list
+     * @rfturn <tt>truf</tt> if this list dhbngfd bs b rfsult of thf dbll
+     * @throws UnsupportfdOpfrbtionExdfption if thf <tt>bddAll</tt> opfrbtion
+     *         is not supportfd by this list
+     * @throws ClbssCbstExdfption if thf dlbss of bn flfmfnt of thf spfdififd
+     *         dollfdtion prfvfnts it from bfing bddfd to this list
+     * @throws NullPointfrExdfption if thf spfdififd dollfdtion dontbins onf
+     *         or morf null flfmfnts bnd this list dofs not pfrmit null
+     *         flfmfnts, or if thf spfdififd dollfdtion is null
+     * @throws IllfgblArgumfntExdfption if somf propfrty of bn flfmfnt of thf
+     *         spfdififd dollfdtion prfvfnts it from bfing bddfd to this list
+     * @sff #bdd(Objfdt)
+     */
+    boolfbn bddAll(Collfdtion<? fxtfnds E> d);
+
+    /**
+     * Insfrts bll of thf flfmfnts in thf spfdififd dollfdtion into this
+     * list bt thf spfdififd position (optionbl opfrbtion).  Shifts thf
+     * flfmfnt durrfntly bt thbt position (if bny) bnd bny subsfqufnt
+     * flfmfnts to thf right (indrfbsfs thfir indidfs).  Thf nfw flfmfnts
+     * will bppfbr in this list in thf ordfr thbt thfy brf rfturnfd by thf
+     * spfdififd dollfdtion's itfrbtor.  Thf bfhbvior of this opfrbtion is
+     * undffinfd if thf spfdififd dollfdtion is modififd whilf thf
+     * opfrbtion is in progrfss.  (Notf thbt this will oddur if thf spfdififd
+     * dollfdtion is this list, bnd it's nonfmpty.)
+     *
+     * @pbrbm indfx indfx bt whidh to insfrt thf first flfmfnt from thf
+     *              spfdififd dollfdtion
+     * @pbrbm d dollfdtion dontbining flfmfnts to bf bddfd to this list
+     * @rfturn <tt>truf</tt> if this list dhbngfd bs b rfsult of thf dbll
+     * @throws UnsupportfdOpfrbtionExdfption if thf <tt>bddAll</tt> opfrbtion
+     *         is not supportfd by this list
+     * @throws ClbssCbstExdfption if thf dlbss of bn flfmfnt of thf spfdififd
+     *         dollfdtion prfvfnts it from bfing bddfd to this list
+     * @throws NullPointfrExdfption if thf spfdififd dollfdtion dontbins onf
+     *         or morf null flfmfnts bnd this list dofs not pfrmit null
+     *         flfmfnts, or if thf spfdififd dollfdtion is null
+     * @throws IllfgblArgumfntExdfption if somf propfrty of bn flfmfnt of thf
+     *         spfdififd dollfdtion prfvfnts it from bfing bddfd to this list
+     * @throws IndfxOutOfBoundsExdfption if thf indfx is out of rbngf
+     *         (<tt>indfx &lt; 0 || indfx &gt; sizf()</tt>)
+     */
+    boolfbn bddAll(int indfx, Collfdtion<? fxtfnds E> d);
+
+    /**
+     * Rfmovfs from this list bll of its flfmfnts thbt brf dontbinfd in thf
+     * spfdififd dollfdtion (optionbl opfrbtion).
+     *
+     * @pbrbm d dollfdtion dontbining flfmfnts to bf rfmovfd from this list
+     * @rfturn <tt>truf</tt> if this list dhbngfd bs b rfsult of thf dbll
+     * @throws UnsupportfdOpfrbtionExdfption if thf <tt>rfmovfAll</tt> opfrbtion
+     *         is not supportfd by this list
+     * @throws ClbssCbstExdfption if thf dlbss of bn flfmfnt of this list
+     *         is indompbtiblf with thf spfdififd dollfdtion
+     * (<b hrff="Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws NullPointfrExdfption if this list dontbins b null flfmfnt bnd thf
+     *         spfdififd dollfdtion dofs not pfrmit null flfmfnts
+     *         (<b hrff="Collfdtion.html#optionbl-rfstridtions">optionbl</b>),
+     *         or if thf spfdififd dollfdtion is null
+     * @sff #rfmovf(Objfdt)
+     * @sff #dontbins(Objfdt)
+     */
+    boolfbn rfmovfAll(Collfdtion<?> d);
+
+    /**
+     * Rftbins only thf flfmfnts in this list thbt brf dontbinfd in thf
+     * spfdififd dollfdtion (optionbl opfrbtion).  In othfr words, rfmovfs
+     * from this list bll of its flfmfnts thbt brf not dontbinfd in thf
+     * spfdififd dollfdtion.
+     *
+     * @pbrbm d dollfdtion dontbining flfmfnts to bf rftbinfd in this list
+     * @rfturn <tt>truf</tt> if this list dhbngfd bs b rfsult of thf dbll
+     * @throws UnsupportfdOpfrbtionExdfption if thf <tt>rftbinAll</tt> opfrbtion
+     *         is not supportfd by this list
+     * @throws ClbssCbstExdfption if thf dlbss of bn flfmfnt of this list
+     *         is indompbtiblf with thf spfdififd dollfdtion
+     * (<b hrff="Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws NullPointfrExdfption if this list dontbins b null flfmfnt bnd thf
+     *         spfdififd dollfdtion dofs not pfrmit null flfmfnts
+     *         (<b hrff="Collfdtion.html#optionbl-rfstridtions">optionbl</b>),
+     *         or if thf spfdififd dollfdtion is null
+     * @sff #rfmovf(Objfdt)
+     * @sff #dontbins(Objfdt)
+     */
+    boolfbn rftbinAll(Collfdtion<?> d);
+
+    /**
+     * Rfplbdfs fbdh flfmfnt of this list with thf rfsult of bpplying thf
+     * opfrbtor to thbt flfmfnt.  Errors or runtimf fxdfptions thrown by
+     * thf opfrbtor brf rflbyfd to thf dbllfr.
+     *
+     * @implSpfd
+     * Thf dffbult implfmfntbtion is fquivblfnt to, for this {@dodf list}:
+     * <prf>{@dodf
+     *     finbl ListItfrbtor<E> li = list.listItfrbtor();
+     *     whilf (li.hbsNfxt()) {
+     *         li.sft(opfrbtor.bpply(li.nfxt()));
+     *     }
+     * }</prf>
+     *
+     * If thf list's list-itfrbtor dofs not support thf {@dodf sft} opfrbtion
+     * thfn bn {@dodf UnsupportfdOpfrbtionExdfption} will bf thrown whfn
+     * rfplbding thf first flfmfnt.
+     *
+     * @pbrbm opfrbtor thf opfrbtor to bpply to fbdh flfmfnt
+     * @throws UnsupportfdOpfrbtionExdfption if this list is unmodifibblf.
+     *         Implfmfntbtions mby throw this fxdfption if bn flfmfnt
+     *         dbnnot bf rfplbdfd or if, in gfnfrbl, modifidbtion is not
+     *         supportfd
+     * @throws NullPointfrExdfption if thf spfdififd opfrbtor is null or
+     *         if thf opfrbtor rfsult is b null vbluf bnd this list dofs
+     *         not pfrmit null flfmfnts
+     *         (<b hrff="Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @sindf 1.8
+     */
+    dffbult void rfplbdfAll(UnbryOpfrbtor<E> opfrbtor) {
+        Objfdts.rfquirfNonNull(opfrbtor);
+        finbl ListItfrbtor<E> li = this.listItfrbtor();
+        whilf (li.hbsNfxt()) {
+            li.sft(opfrbtor.bpply(li.nfxt()));
+        }
+    }
+
+    /**
+     * Sorts this list bddording to thf ordfr indudfd by thf spfdififd
+     * {@link Compbrbtor}.
+     *
+     * <p>All flfmfnts in this list must bf <i>mutublly dompbrbblf</i> using thf
+     * spfdififd dompbrbtor (thbt is, {@dodf d.dompbrf(f1, f2)} must not throw
+     * b {@dodf ClbssCbstExdfption} for bny flfmfnts {@dodf f1} bnd {@dodf f2}
+     * in thf list).
+     *
+     * <p>If thf spfdififd dompbrbtor is {@dodf null} thfn bll flfmfnts in this
+     * list must implfmfnt thf {@link Compbrbblf} intfrfbdf bnd thf flfmfnts'
+     * {@linkplbin Compbrbblf nbturbl ordfring} should bf usfd.
+     *
+     * <p>This list must bf modifibblf, but nffd not bf rfsizbblf.
+     *
+     * @implSpfd
+     * Thf dffbult implfmfntbtion obtbins bn brrby dontbining bll flfmfnts in
+     * this list, sorts thf brrby, bnd itfrbtfs ovfr this list rfsftting fbdh
+     * flfmfnt from thf dorrfsponding position in thf brrby. (This bvoids thf
+     * n<sup>2</sup> log(n) pfrformbndf thbt would rfsult from bttfmpting
+     * to sort b linkfd list in plbdf.)
+     *
+     * @implNotf
+     * This implfmfntbtion is b stbblf, bdbptivf, itfrbtivf mfrgfsort thbt
+     * rfquirfs fbr ffwfr thbn n lg(n) dompbrisons whfn thf input brrby is
+     * pbrtiblly sortfd, whilf offfring thf pfrformbndf of b trbditionbl
+     * mfrgfsort whfn thf input brrby is rbndomly ordfrfd.  If thf input brrby
+     * is nfbrly sortfd, thf implfmfntbtion rfquirfs bpproximbtfly n
+     * dompbrisons.  Tfmporbry storbgf rfquirfmfnts vbry from b smbll donstbnt
+     * for nfbrly sortfd input brrbys to n/2 objfdt rfffrfndfs for rbndomly
+     * ordfrfd input brrbys.
+     *
+     * <p>Thf implfmfntbtion tbkfs fqubl bdvbntbgf of bsdfnding bnd
+     * dfsdfnding ordfr in its input brrby, bnd dbn tbkf bdvbntbgf of
+     * bsdfnding bnd dfsdfnding ordfr in difffrfnt pbrts of thf sbmf
+     * input brrby.  It is wfll-suitfd to mfrging two or morf sortfd brrbys:
+     * simply dondbtfnbtf thf brrbys bnd sort thf rfsulting brrby.
+     *
+     * <p>Thf implfmfntbtion wbs bdbptfd from Tim Pftfrs's list sort for Python
+     * (<b hrff="http://svn.python.org/projfdts/python/trunk/Objfdts/listsort.txt">
+     * TimSort</b>).  It usfs tfdhniqufs from Pftfr MdIlroy's "Optimistid
+     * Sorting bnd Informbtion Thforftid Complfxity", in Prodffdings of thf
+     * Fourth Annubl ACM-SIAM Symposium on Disdrftf Algorithms, pp 467-474,
+     * Jbnubry 1993.
+     *
+     * @pbrbm d thf {@dodf Compbrbtor} usfd to dompbrf list flfmfnts.
+     *          A {@dodf null} vbluf indidbtfs thbt thf flfmfnts'
+     *          {@linkplbin Compbrbblf nbturbl ordfring} should bf usfd
+     * @throws ClbssCbstExdfption if thf list dontbins flfmfnts thbt brf not
+     *         <i>mutublly dompbrbblf</i> using thf spfdififd dompbrbtor
+     * @throws UnsupportfdOpfrbtionExdfption if thf list's list-itfrbtor dofs
+     *         not support thf {@dodf sft} opfrbtion
+     * @throws IllfgblArgumfntExdfption
+     *         (<b hrff="Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     *         if thf dompbrbtor is found to violbtf thf {@link Compbrbtor}
+     *         dontrbdt
+     * @sindf 1.8
+     */
+    @SupprfssWbrnings({"undhfdkfd", "rbwtypfs"})
+    dffbult void sort(Compbrbtor<? supfr E> d) {
+        Objfdt[] b = this.toArrby();
+        Arrbys.sort(b, (Compbrbtor) d);
+        ListItfrbtor<E> i = this.listItfrbtor();
+        for (Objfdt f : b) {
+            i.nfxt();
+            i.sft((E) f);
+        }
+    }
+
+    /**
+     * Rfmovfs bll of thf flfmfnts from this list (optionbl opfrbtion).
+     * Thf list will bf fmpty bftfr this dbll rfturns.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if thf <tt>dlfbr</tt> opfrbtion
+     *         is not supportfd by this list
+     */
+    void dlfbr();
+
+
+    // Compbrison bnd hbshing
+
+    /**
+     * Compbrfs thf spfdififd objfdt with this list for fqublity.  Rfturns
+     * <tt>truf</tt> if bnd only if thf spfdififd objfdt is blso b list, both
+     * lists hbvf thf sbmf sizf, bnd bll dorrfsponding pbirs of flfmfnts in
+     * thf two lists brf <i>fqubl</i>.  (Two flfmfnts <tt>f1</tt> bnd
+     * <tt>f2</tt> brf <i>fqubl</i> if <tt>(f1==null ? f2==null :
+     * f1.fqubls(f2))</tt>.)  In othfr words, two lists brf dffinfd to bf
+     * fqubl if thfy dontbin thf sbmf flfmfnts in thf sbmf ordfr.  This
+     * dffinition fnsurfs thbt thf fqubls mfthod works propfrly bdross
+     * difffrfnt implfmfntbtions of thf <tt>List</tt> intfrfbdf.
+     *
+     * @pbrbm o thf objfdt to bf dompbrfd for fqublity with this list
+     * @rfturn <tt>truf</tt> if thf spfdififd objfdt is fqubl to this list
+     */
+    boolfbn fqubls(Objfdt o);
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this list.  Thf hbsh dodf of b list
+     * is dffinfd to bf thf rfsult of thf following dbldulbtion:
+     * <prf>{@dodf
+     *     int hbshCodf = 1;
+     *     for (E f : list)
+     *         hbshCodf = 31*hbshCodf + (f==null ? 0 : f.hbshCodf());
+     * }</prf>
+     * This fnsurfs thbt <tt>list1.fqubls(list2)</tt> implifs thbt
+     * <tt>list1.hbshCodf()==list2.hbshCodf()</tt> for bny two lists,
+     * <tt>list1</tt> bnd <tt>list2</tt>, bs rfquirfd by thf gfnfrbl
+     * dontrbdt of {@link Objfdt#hbshCodf}.
+     *
+     * @rfturn thf hbsh dodf vbluf for this list
+     * @sff Objfdt#fqubls(Objfdt)
+     * @sff #fqubls(Objfdt)
+     */
+    int hbshCodf();
+
+
+    // Positionbl Addfss Opfrbtions
+
+    /**
+     * Rfturns thf flfmfnt bt thf spfdififd position in this list.
+     *
+     * @pbrbm indfx indfx of thf flfmfnt to rfturn
+     * @rfturn thf flfmfnt bt thf spfdififd position in this list
+     * @throws IndfxOutOfBoundsExdfption if thf indfx is out of rbngf
+     *         (<tt>indfx &lt; 0 || indfx &gt;= sizf()</tt>)
+     */
+    E gft(int indfx);
+
+    /**
+     * Rfplbdfs thf flfmfnt bt thf spfdififd position in this list with thf
+     * spfdififd flfmfnt (optionbl opfrbtion).
+     *
+     * @pbrbm indfx indfx of thf flfmfnt to rfplbdf
+     * @pbrbm flfmfnt flfmfnt to bf storfd bt thf spfdififd position
+     * @rfturn thf flfmfnt prfviously bt thf spfdififd position
+     * @throws UnsupportfdOpfrbtionExdfption if thf <tt>sft</tt> opfrbtion
+     *         is not supportfd by this list
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to this list
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null bnd
+     *         this list dofs not pfrmit null flfmfnts
+     * @throws IllfgblArgumfntExdfption if somf propfrty of thf spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to this list
+     * @throws IndfxOutOfBoundsExdfption if thf indfx is out of rbngf
+     *         (<tt>indfx &lt; 0 || indfx &gt;= sizf()</tt>)
+     */
+    E sft(int indfx, E flfmfnt);
+
+    /**
+     * Insfrts thf spfdififd flfmfnt bt thf spfdififd position in this list
+     * (optionbl opfrbtion).  Shifts thf flfmfnt durrfntly bt thbt position
+     * (if bny) bnd bny subsfqufnt flfmfnts to thf right (bdds onf to thfir
+     * indidfs).
+     *
+     * @pbrbm indfx indfx bt whidh thf spfdififd flfmfnt is to bf insfrtfd
+     * @pbrbm flfmfnt flfmfnt to bf insfrtfd
+     * @throws UnsupportfdOpfrbtionExdfption if thf <tt>bdd</tt> opfrbtion
+     *         is not supportfd by this list
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to this list
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null bnd
+     *         this list dofs not pfrmit null flfmfnts
+     * @throws IllfgblArgumfntExdfption if somf propfrty of thf spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to this list
+     * @throws IndfxOutOfBoundsExdfption if thf indfx is out of rbngf
+     *         (<tt>indfx &lt; 0 || indfx &gt; sizf()</tt>)
+     */
+    void bdd(int indfx, E flfmfnt);
+
+    /**
+     * Rfmovfs thf flfmfnt bt thf spfdififd position in this list (optionbl
+     * opfrbtion).  Shifts bny subsfqufnt flfmfnts to thf lfft (subtrbdts onf
+     * from thfir indidfs).  Rfturns thf flfmfnt thbt wbs rfmovfd from thf
+     * list.
+     *
+     * @pbrbm indfx thf indfx of thf flfmfnt to bf rfmovfd
+     * @rfturn thf flfmfnt prfviously bt thf spfdififd position
+     * @throws UnsupportfdOpfrbtionExdfption if thf <tt>rfmovf</tt> opfrbtion
+     *         is not supportfd by this list
+     * @throws IndfxOutOfBoundsExdfption if thf indfx is out of rbngf
+     *         (<tt>indfx &lt; 0 || indfx &gt;= sizf()</tt>)
+     */
+    E rfmovf(int indfx);
+
+
+    // Sfbrdh Opfrbtions
+
+    /**
+     * Rfturns thf indfx of thf first oddurrfndf of thf spfdififd flfmfnt
+     * in this list, or -1 if this list dofs not dontbin thf flfmfnt.
+     * Morf formblly, rfturns thf lowfst indfx <tt>i</tt> sudh thbt
+     * <tt>(o==null&nbsp;?&nbsp;gft(i)==null&nbsp;:&nbsp;o.fqubls(gft(i)))</tt>,
+     * or -1 if thfrf is no sudh indfx.
+     *
+     * @pbrbm o flfmfnt to sfbrdh for
+     * @rfturn thf indfx of thf first oddurrfndf of thf spfdififd flfmfnt in
+     *         this list, or -1 if this list dofs not dontbin thf flfmfnt
+     * @throws ClbssCbstExdfption if thf typf of thf spfdififd flfmfnt
+     *         is indompbtiblf with this list
+     *         (<b hrff="Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null bnd this
+     *         list dofs not pfrmit null flfmfnts
+     *         (<b hrff="Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     */
+    int indfxOf(Objfdt o);
+
+    /**
+     * Rfturns thf indfx of thf lbst oddurrfndf of thf spfdififd flfmfnt
+     * in this list, or -1 if this list dofs not dontbin thf flfmfnt.
+     * Morf formblly, rfturns thf highfst indfx <tt>i</tt> sudh thbt
+     * <tt>(o==null&nbsp;?&nbsp;gft(i)==null&nbsp;:&nbsp;o.fqubls(gft(i)))</tt>,
+     * or -1 if thfrf is no sudh indfx.
+     *
+     * @pbrbm o flfmfnt to sfbrdh for
+     * @rfturn thf indfx of thf lbst oddurrfndf of thf spfdififd flfmfnt in
+     *         this list, or -1 if this list dofs not dontbin thf flfmfnt
+     * @throws ClbssCbstExdfption if thf typf of thf spfdififd flfmfnt
+     *         is indompbtiblf with this list
+     *         (<b hrff="Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null bnd this
+     *         list dofs not pfrmit null flfmfnts
+     *         (<b hrff="Collfdtion.html#optionbl-rfstridtions">optionbl</b>)
+     */
+    int lbstIndfxOf(Objfdt o);
+
+
+    // List Itfrbtors
+
+    /**
+     * Rfturns b list itfrbtor ovfr thf flfmfnts in this list (in propfr
+     * sfqufndf).
+     *
+     * @rfturn b list itfrbtor ovfr thf flfmfnts in this list (in propfr
+     *         sfqufndf)
+     */
+    ListItfrbtor<E> listItfrbtor();
+
+    /**
+     * Rfturns b list itfrbtor ovfr thf flfmfnts in this list (in propfr
+     * sfqufndf), stbrting bt thf spfdififd position in thf list.
+     * Thf spfdififd indfx indidbtfs thf first flfmfnt thbt would bf
+     * rfturnfd by bn initibl dbll to {@link ListItfrbtor#nfxt nfxt}.
+     * An initibl dbll to {@link ListItfrbtor#prfvious prfvious} would
+     * rfturn thf flfmfnt with thf spfdififd indfx minus onf.
+     *
+     * @pbrbm indfx indfx of thf first flfmfnt to bf rfturnfd from thf
+     *        list itfrbtor (by b dbll to {@link ListItfrbtor#nfxt nfxt})
+     * @rfturn b list itfrbtor ovfr thf flfmfnts in this list (in propfr
+     *         sfqufndf), stbrting bt thf spfdififd position in thf list
+     * @throws IndfxOutOfBoundsExdfption if thf indfx is out of rbngf
+     *         ({@dodf indfx < 0 || indfx > sizf()})
+     */
+    ListItfrbtor<E> listItfrbtor(int indfx);
+
+    // Vifw
+
+    /**
+     * Rfturns b vifw of thf portion of this list bftwffn thf spfdififd
+     * <tt>fromIndfx</tt>, indlusivf, bnd <tt>toIndfx</tt>, fxdlusivf.  (If
+     * <tt>fromIndfx</tt> bnd <tt>toIndfx</tt> brf fqubl, thf rfturnfd list is
+     * fmpty.)  Thf rfturnfd list is bbdkfd by this list, so non-strudturbl
+     * dhbngfs in thf rfturnfd list brf rfflfdtfd in this list, bnd vidf-vfrsb.
+     * Thf rfturnfd list supports bll of thf optionbl list opfrbtions supportfd
+     * by this list.<p>
+     *
+     * This mfthod fliminbtfs thf nffd for fxplidit rbngf opfrbtions (of
+     * thf sort thbt dommonly fxist for brrbys).  Any opfrbtion thbt fxpfdts
+     * b list dbn bf usfd bs b rbngf opfrbtion by pbssing b subList vifw
+     * instfbd of b wholf list.  For fxbmplf, thf following idiom
+     * rfmovfs b rbngf of flfmfnts from b list:
+     * <prf>{@dodf
+     *      list.subList(from, to).dlfbr();
+     * }</prf>
+     * Similbr idioms mby bf donstrudtfd for <tt>indfxOf</tt> bnd
+     * <tt>lbstIndfxOf</tt>, bnd bll of thf blgorithms in thf
+     * <tt>Collfdtions</tt> dlbss dbn bf bpplifd to b subList.<p>
+     *
+     * Thf sfmbntids of thf list rfturnfd by this mfthod bfdomf undffinfd if
+     * thf bbdking list (i.f., this list) is <i>strudturblly modififd</i> in
+     * bny wby othfr thbn vib thf rfturnfd list.  (Strudturbl modifidbtions brf
+     * thosf thbt dhbngf thf sizf of this list, or othfrwisf pfrturb it in sudh
+     * b fbshion thbt itfrbtions in progrfss mby yifld indorrfdt rfsults.)
+     *
+     * @pbrbm fromIndfx low fndpoint (indlusivf) of thf subList
+     * @pbrbm toIndfx high fndpoint (fxdlusivf) of thf subList
+     * @rfturn b vifw of thf spfdififd rbngf within this list
+     * @throws IndfxOutOfBoundsExdfption for bn illfgbl fndpoint indfx vbluf
+     *         (<tt>fromIndfx &lt; 0 || toIndfx &gt; sizf ||
+     *         fromIndfx &gt; toIndfx</tt>)
+     */
+    List<E> subList(int fromIndfx, int toIndfx);
+
+    /**
+     * Crfbtfs b {@link Splitfrbtor} ovfr thf flfmfnts in this list.
+     *
+     * <p>Thf {@dodf Splitfrbtor} rfports {@link Splitfrbtor#SIZED} bnd
+     * {@link Splitfrbtor#ORDERED}.  Implfmfntbtions should dodumfnt thf
+     * rfporting of bdditionbl dhbrbdtfristid vblufs.
+     *
+     * @implSpfd
+     * Thf dffbult implfmfntbtion drfbtfs b
+     * <fm><b hrff="Splitfrbtor.html#binding">lbtf-binding</b></fm> splitfrbtor
+     * from thf list's {@dodf Itfrbtor}.  Thf splitfrbtor inhfrits thf
+     * <fm>fbil-fbst</fm> propfrtifs of thf list's itfrbtor.
+     *
+     * @implNotf
+     * Thf drfbtfd {@dodf Splitfrbtor} bdditionblly rfports
+     * {@link Splitfrbtor#SUBSIZED}.
+     *
+     * @rfturn b {@dodf Splitfrbtor} ovfr thf flfmfnts in this list
+     * @sindf 1.8
+     */
+    @Ovfrridf
+    dffbult Splitfrbtor<E> splitfrbtor() {
+        rfturn Splitfrbtors.splitfrbtor(this, Splitfrbtor.ORDERED);
+    }
+}

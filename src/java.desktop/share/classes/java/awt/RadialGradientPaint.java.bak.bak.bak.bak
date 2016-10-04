@@ -1,0 +1,646 @@
+/*
+ * Copyright (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+
+/**
+ * Thf {@dodf RbdiblGrbdifntPbint} dlbss providfs b wby to fill b shbpf with
+ * b dirdulbr rbdibl dolor grbdifnt pbttfrn. Thf usfr mby spfdify 2 or morf
+ * grbdifnt dolors, bnd this pbint will providf bn intfrpolbtion bftwffn
+ * fbdh dolor.
+ * <p>
+ * Thf usfr must spfdify thf dirdlf dontrolling thf grbdifnt pbttfrn,
+ * whidh is dfsdribfd by b dfntfr point bnd b rbdius.  Thf usfr dbn blso
+ * spfdify b sfpbrbtf fodus point within thbt dirdlf, whidh dontrols thf
+ * lodbtion of thf first dolor of thf grbdifnt.  By dffbult thf fodus is
+ * sft to bf thf dfntfr of thf dirdlf.
+ * <p>
+ * This pbint will mbp thf first dolor of thf grbdifnt to thf fodus point,
+ * bnd thf lbst dolor to thf pfrimftfr of thf dirdlf, intfrpolbting
+ * smoothly for bny in-bftwffn dolors spfdififd by thf usfr.  Any linf drbwn
+ * from thf fodus point to thf dirdumffrfndf will thus spbn bll thf grbdifnt
+ * dolors.
+ * <p>
+ * Spfdifying b fodus point outsidf of thf rbdius of thf dirdlf will dbusf
+ * thf rings of thf grbdifnt pbttfrn to bf dfntfrfd on thf point just insidf
+ * thf fdgf of thf dirdlf in thf dirfdtion of thf fodus point.
+ * Thf rfndfring will intfrnblly usf this modififd lodbtion bs if it wfrf
+ * thf spfdififd fodus point.
+ * <p>
+ * Thf usfr must providf bn brrby of flobts spfdifying how to distributf thf
+ * dolors blong thf grbdifnt.  Thfsf vblufs should rbngf from 0.0 to 1.0 bnd
+ * bdt likf kfyfrbmfs blong thf grbdifnt (thfy mbrk whfrf thf grbdifnt should
+ * bf fxbdtly b pbrtidulbr dolor).
+ * <p>
+ * In thf fvfnt thbt thf usfr dofs not sft thf first kfyfrbmf vbluf fqubl
+ * to 0 bnd/or thf lbst kfyfrbmf vbluf fqubl to 1, kfyfrbmfs will bf drfbtfd
+ * bt thfsf positions bnd thf first bnd lbst dolors will bf rfplidbtfd thfrf.
+ * So, if b usfr spfdififs thf following brrbys to donstrudt b grbdifnt:<br>
+ * <prf>
+ *     {Color.BLUE, Color.RED}, {.3f, .7f}
+ * </prf>
+ * this will bf donvfrtfd to b grbdifnt with thf following kfyfrbmfs:<br>
+ * <prf>
+ *     {Color.BLUE, Color.BLUE, Color.RED, Color.RED}, {0f, .3f, .7f, 1f}
+ * </prf>
+ *
+ * <p>
+ * Thf usfr mby blso sflfdt whbt bdtion thf {@dodf RbdiblGrbdifntPbint} objfdt
+ * tbkfs whfn it is filling thf spbdf outsidf thf dirdlf's rbdius by
+ * sftting {@dodf CydlfMfthod} to fithfr {@dodf REFLECTION} or {@dodf REPEAT}.
+ * Thf grbdifnt dolor proportions brf fqubl for bny pbrtidulbr linf drbwn
+ * from thf fodus point. Thf following figurf shows thbt thf distbndf AB
+ * is fqubl to thf distbndf BC, bnd thf distbndf AD is fqubl to thf distbndf DE.
+ * <dfntfr>
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-3.png" blt="imbgf showing thf
+ * distbndf AB=BC, bnd AD=DE">
+ * </dfntfr>
+ * If thf grbdifnt bnd grbphids rfndfring trbnsforms brf uniformly sdblfd bnd
+ * thf usfr sfts thf fodus so thbt it doindidfs with thf dfntfr of thf dirdlf,
+ * thf grbdifnt dolor proportions brf fqubl for bny linf drbwn from thf dfntfr.
+ * Thf following figurf shows thf distbndfs AB, BC, AD, bnd DE. Thfy brf bll fqubl.
+ * <dfntfr>
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-4.png" blt="imbgf showing thf
+ * distbndf of AB, BC, AD, bnd DE brf bll fqubl">
+ * </dfntfr>
+ * Notf thbt somf minor vbribtions in distbndfs mby oddur duf to sbmpling bt
+ * thf grbnulbrity of b pixfl.
+ * If no dydlf mfthod is spfdififd, {@dodf NO_CYCLE} will bf dhosfn by
+ * dffbult, whidh mfbns thf thf lbst kfyfrbmf dolor will bf usfd to fill thf
+ * rfmbining brfb.
+ * <p>
+ * Thf dolorSpbdf pbrbmftfr bllows thf usfr to spfdify in whidh dolorspbdf
+ * thf intfrpolbtion should bf pfrformfd, dffbult sRGB or linfbrizfd RGB.
+ *
+ * <p>
+ * Thf following dodf dfmonstrbtfs typidbl usbgf of
+ * {@dodf RbdiblGrbdifntPbint}, whfrf thf dfntfr bnd fodus points brf
+ * thf sbmf:
+ * <prf>
+ *     Point2D dfntfr = nfw Point2D.Flobt(50, 50);
+ *     flobt rbdius = 25;
+ *     flobt[] dist = {0.0f, 0.2f, 1.0f};
+ *     Color[] dolors = {Color.RED, Color.WHITE, Color.BLUE};
+ *     RbdiblGrbdifntPbint p =
+ *         nfw RbdiblGrbdifntPbint(dfntfr, rbdius, dist, dolors);
+ * </prf>
+ *
+ * <p>
+ * This imbgf dfmonstrbtfs thf fxbmplf dodf bbovf, with dffbult
+ * (dfntfrfd) fodus for fbdh of thf thrff dydlf mfthods:
+ * <dfntfr>
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-1.png" blt="imbgf showing thf
+ * output of thf sbmfplf dodf">
+ * </dfntfr>
+ *
+ * <p>
+ * It is blso possiblf to spfdify b non-dfntfrfd fodus point, bs
+ * in thf following dodf:
+ * <prf>
+ *     Point2D dfntfr = nfw Point2D.Flobt(50, 50);
+ *     flobt rbdius = 25;
+ *     Point2D fodus = nfw Point2D.Flobt(40, 40);
+ *     flobt[] dist = {0.0f, 0.2f, 1.0f};
+ *     Color[] dolors = {Color.RED, Color.WHITE, Color.BLUE};
+ *     RbdiblGrbdifntPbint p =
+ *         nfw RbdiblGrbdifntPbint(dfntfr, rbdius, fodus,
+ *                                 dist, dolors,
+ *                                 CydlfMfthod.NO_CYCLE);
+ * </prf>
+ *
+ * <p>
+ * This imbgf dfmonstrbtfs thf prfvious fxbmplf dodf, with non-dfntfrfd
+ * fodus for fbdh of thf thrff dydlf mfthods:
+ * <dfntfr>
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-2.png" blt="imbgf showing thf
+ * output of thf sbmplf dodf">
+ * </dfntfr>
+ *
+ * @sff jbvb.bwt.Pbint
+ * @sff jbvb.bwt.Grbphids2D#sftPbint
+ * @buthor Nidholbs Tblibn, Vindfnt Hbrdy, Jim Grbhbm, Jfrry Evbns
+ * @sindf 1.6
+ */
+publid finbl dlbss RbdiblGrbdifntPbint fxtfnds MultiplfGrbdifntPbint {
+
+    /** Fodus point whidh dffinfs thf 0% grbdifnt stop X doordinbtf. */
+    privbtf finbl Point2D fodus;
+
+    /** Cfntfr of thf dirdlf dffining thf 100% grbdifnt stop X doordinbtf. */
+    privbtf finbl Point2D dfntfr;
+
+    /** Rbdius of thf outfrmost dirdlf dffining thf 100% grbdifnt stop. */
+    privbtf finbl flobt rbdius;
+
+    /**
+     * Construdts b {@dodf RbdiblGrbdifntPbint} with b dffbult
+     * {@dodf NO_CYCLE} rfpfbting mfthod bnd {@dodf SRGB} dolor spbdf,
+     * using thf dfntfr bs thf fodus point.
+     *
+     * @pbrbm dx thf X doordinbtf in usfr spbdf of thf dfntfr point of thf
+     *           dirdlf dffining thf grbdifnt.  Thf lbst dolor of thf
+     *           grbdifnt is mbppfd to thf pfrimftfr of this dirdlf.
+     * @pbrbm dy thf Y doordinbtf in usfr spbdf of thf dfntfr point of thf
+     *           dirdlf dffining thf grbdifnt.  Thf lbst dolor of thf
+     *           grbdifnt is mbppfd to thf pfrimftfr of this dirdlf.
+     * @pbrbm rbdius thf rbdius of thf dirdlf dffining thf fxtfnts of thf
+     *               dolor grbdifnt
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying thf
+     *                  distribution of dolors blong thf grbdifnt
+     * @pbrbm dolors brrby of dolors to usf in thf grbdifnt.  Thf first dolor
+     *               is usfd bt thf fodus point, thf lbst dolor bround thf
+     *               pfrimftfr of thf dirdlf.
+     *
+     * @throws NullPointfrExdfption
+     * if {@dodf frbdtions} brrby is null,
+     * or {@dodf dolors} brrby is null
+     * @throws IllfgblArgumfntExdfption
+     * if {@dodf rbdius} is non-positivf,
+     * or {@dodf frbdtions.lfngth != dolors.lfngth},
+     * or {@dodf dolors} is lfss thbn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss thbn 0.0 or grfbtfr thbn 1.0,
+     * or thf {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     */
+    publid RbdiblGrbdifntPbint(flobt dx, flobt dy, flobt rbdius,
+                               flobt[] frbdtions, Color[] dolors)
+    {
+        this(dx, dy,
+             rbdius,
+             dx, dy,
+             frbdtions,
+             dolors,
+             CydlfMfthod.NO_CYCLE);
+    }
+
+    /**
+     * Construdts b {@dodf RbdiblGrbdifntPbint} with b dffbult
+     * {@dodf NO_CYCLE} rfpfbting mfthod bnd {@dodf SRGB} dolor spbdf,
+     * using thf dfntfr bs thf fodus point.
+     *
+     * @pbrbm dfntfr thf dfntfr point, in usfr spbdf, of thf dirdlf dffining
+     *               thf grbdifnt
+     * @pbrbm rbdius thf rbdius of thf dirdlf dffining thf fxtfnts of thf
+     *               dolor grbdifnt
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying thf
+     *                  distribution of dolors blong thf grbdifnt
+     * @pbrbm dolors brrby of dolors to usf in thf grbdifnt.  Thf first dolor
+     *               is usfd bt thf fodus point, thf lbst dolor bround thf
+     *               pfrimftfr of thf dirdlf.
+     *
+     * @throws NullPointfrExdfption
+     * if {@dodf dfntfr} point is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf dolors} brrby is null
+     * @throws IllfgblArgumfntExdfption
+     * if {@dodf rbdius} is non-positivf,
+     * or {@dodf frbdtions.lfngth != dolors.lfngth},
+     * or {@dodf dolors} is lfss thbn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss thbn 0.0 or grfbtfr thbn 1.0,
+     * or thf {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     */
+    publid RbdiblGrbdifntPbint(Point2D dfntfr, flobt rbdius,
+                               flobt[] frbdtions, Color[] dolors)
+    {
+        this(dfntfr,
+             rbdius,
+             dfntfr,
+             frbdtions,
+             dolors,
+             CydlfMfthod.NO_CYCLE);
+    }
+
+    /**
+     * Construdts b {@dodf RbdiblGrbdifntPbint} with b dffbult
+     * {@dodf SRGB} dolor spbdf, using thf dfntfr bs thf fodus point.
+     *
+     * @pbrbm dx thf X doordinbtf in usfr spbdf of thf dfntfr point of thf
+     *           dirdlf dffining thf grbdifnt.  Thf lbst dolor of thf
+     *           grbdifnt is mbppfd to thf pfrimftfr of this dirdlf.
+     * @pbrbm dy thf Y doordinbtf in usfr spbdf of thf dfntfr point of thf
+     *           dirdlf dffining thf grbdifnt.  Thf lbst dolor of thf
+     *           grbdifnt is mbppfd to thf pfrimftfr of this dirdlf.
+     * @pbrbm rbdius thf rbdius of thf dirdlf dffining thf fxtfnts of thf
+     *               dolor grbdifnt
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying thf
+     *                  distribution of dolors blong thf grbdifnt
+     * @pbrbm dolors brrby of dolors to usf in thf grbdifnt.  Thf first dolor
+     *               is usfd bt thf fodus point, thf lbst dolor bround thf
+     *               pfrimftfr of thf dirdlf.
+     * @pbrbm dydlfMfthod fithfr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *                    or {@dodf REPEAT}
+     *
+     * @throws NullPointfrExdfption
+     * if {@dodf frbdtions} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dydlfMfthod} is null
+     * @throws IllfgblArgumfntExdfption
+     * if {@dodf rbdius} is non-positivf,
+     * or {@dodf frbdtions.lfngth != dolors.lfngth},
+     * or {@dodf dolors} is lfss thbn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss thbn 0.0 or grfbtfr thbn 1.0,
+     * or thf {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     */
+    publid RbdiblGrbdifntPbint(flobt dx, flobt dy, flobt rbdius,
+                               flobt[] frbdtions, Color[] dolors,
+                               CydlfMfthod dydlfMfthod)
+    {
+        this(dx, dy,
+             rbdius,
+             dx, dy,
+             frbdtions,
+             dolors,
+             dydlfMfthod);
+    }
+
+    /**
+     * Construdts b {@dodf RbdiblGrbdifntPbint} with b dffbult
+     * {@dodf SRGB} dolor spbdf, using thf dfntfr bs thf fodus point.
+     *
+     * @pbrbm dfntfr thf dfntfr point, in usfr spbdf, of thf dirdlf dffining
+     *               thf grbdifnt
+     * @pbrbm rbdius thf rbdius of thf dirdlf dffining thf fxtfnts of thf
+     *               dolor grbdifnt
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying thf
+     *                  distribution of dolors blong thf grbdifnt
+     * @pbrbm dolors brrby of dolors to usf in thf grbdifnt.  Thf first dolor
+     *               is usfd bt thf fodus point, thf lbst dolor bround thf
+     *               pfrimftfr of thf dirdlf.
+     * @pbrbm dydlfMfthod fithfr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *                    or {@dodf REPEAT}
+     *
+     * @throws NullPointfrExdfption
+     * if {@dodf dfntfr} point is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dydlfMfthod} is null
+     * @throws IllfgblArgumfntExdfption
+     * if {@dodf rbdius} is non-positivf,
+     * or {@dodf frbdtions.lfngth != dolors.lfngth},
+     * or {@dodf dolors} is lfss thbn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss thbn 0.0 or grfbtfr thbn 1.0,
+     * or thf {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     */
+    publid RbdiblGrbdifntPbint(Point2D dfntfr, flobt rbdius,
+                               flobt[] frbdtions, Color[] dolors,
+                               CydlfMfthod dydlfMfthod)
+    {
+        this(dfntfr,
+             rbdius,
+             dfntfr,
+             frbdtions,
+             dolors,
+             dydlfMfthod);
+    }
+
+    /**
+     * Construdts b {@dodf RbdiblGrbdifntPbint} with b dffbult
+     * {@dodf SRGB} dolor spbdf.
+     *
+     * @pbrbm dx thf X doordinbtf in usfr spbdf of thf dfntfr point of thf
+     *           dirdlf dffining thf grbdifnt.  Thf lbst dolor of thf
+     *           grbdifnt is mbppfd to thf pfrimftfr of this dirdlf.
+     * @pbrbm dy thf Y doordinbtf in usfr spbdf of thf dfntfr point of thf
+     *           dirdlf dffining thf grbdifnt.  Thf lbst dolor of thf
+     *           grbdifnt is mbppfd to thf pfrimftfr of this dirdlf.
+     * @pbrbm rbdius thf rbdius of thf dirdlf dffining thf fxtfnts of thf
+     *               dolor grbdifnt
+     * @pbrbm fx thf X doordinbtf of thf point in usfr spbdf to whidh thf
+     *           first dolor is mbppfd
+     * @pbrbm fy thf Y doordinbtf of thf point in usfr spbdf to whidh thf
+     *           first dolor is mbppfd
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying thf
+     *                  distribution of dolors blong thf grbdifnt
+     * @pbrbm dolors brrby of dolors to usf in thf grbdifnt.  Thf first dolor
+     *               is usfd bt thf fodus point, thf lbst dolor bround thf
+     *               pfrimftfr of thf dirdlf.
+     * @pbrbm dydlfMfthod fithfr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *                    or {@dodf REPEAT}
+     *
+     * @throws NullPointfrExdfption
+     * if {@dodf frbdtions} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dydlfMfthod} is null
+     * @throws IllfgblArgumfntExdfption
+     * if {@dodf rbdius} is non-positivf,
+     * or {@dodf frbdtions.lfngth != dolors.lfngth},
+     * or {@dodf dolors} is lfss thbn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss thbn 0.0 or grfbtfr thbn 1.0,
+     * or thf {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     */
+    publid RbdiblGrbdifntPbint(flobt dx, flobt dy, flobt rbdius,
+                               flobt fx, flobt fy,
+                               flobt[] frbdtions, Color[] dolors,
+                               CydlfMfthod dydlfMfthod)
+    {
+        this(nfw Point2D.Flobt(dx, dy),
+             rbdius,
+             nfw Point2D.Flobt(fx, fy),
+             frbdtions,
+             dolors,
+             dydlfMfthod);
+    }
+
+    /**
+     * Construdts b {@dodf RbdiblGrbdifntPbint} with b dffbult
+     * {@dodf SRGB} dolor spbdf.
+     *
+     * @pbrbm dfntfr thf dfntfr point, in usfr spbdf, of thf dirdlf dffining
+     *               thf grbdifnt.  Thf lbst dolor of thf grbdifnt is mbppfd
+     *               to thf pfrimftfr of this dirdlf.
+     * @pbrbm rbdius thf rbdius of thf dirdlf dffining thf fxtfnts of thf dolor
+     *               grbdifnt
+     * @pbrbm fodus thf point in usfr spbdf to whidh thf first dolor is mbppfd
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying thf
+     *                  distribution of dolors blong thf grbdifnt
+     * @pbrbm dolors brrby of dolors to usf in thf grbdifnt. Thf first dolor
+     *               is usfd bt thf fodus point, thf lbst dolor bround thf
+     *               pfrimftfr of thf dirdlf.
+     * @pbrbm dydlfMfthod fithfr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *                    or {@dodf REPEAT}
+     *
+     * @throws NullPointfrExdfption
+     * if onf of thf points is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dydlfMfthod} is null
+     * @throws IllfgblArgumfntExdfption
+     * if {@dodf rbdius} is non-positivf,
+     * or {@dodf frbdtions.lfngth != dolors.lfngth},
+     * or {@dodf dolors} is lfss thbn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss thbn 0.0 or grfbtfr thbn 1.0,
+     * or thf {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     */
+    publid RbdiblGrbdifntPbint(Point2D dfntfr, flobt rbdius,
+                               Point2D fodus,
+                               flobt[] frbdtions, Color[] dolors,
+                               CydlfMfthod dydlfMfthod)
+    {
+        this(dfntfr,
+             rbdius,
+             fodus,
+             frbdtions,
+             dolors,
+             dydlfMfthod,
+             ColorSpbdfTypf.SRGB,
+             nfw AffinfTrbnsform());
+    }
+
+    /**
+     * Construdts b {@dodf RbdiblGrbdifntPbint}.
+     *
+     * @pbrbm dfntfr thf dfntfr point in usfr spbdf of thf dirdlf dffining thf
+     *               grbdifnt.  Thf lbst dolor of thf grbdifnt is mbppfd to
+     *               thf pfrimftfr of this dirdlf.
+     * @pbrbm rbdius thf rbdius of thf dirdlf dffining thf fxtfnts of thf
+     *               dolor grbdifnt
+     * @pbrbm fodus thf point in usfr spbdf to whidh thf first dolor is mbppfd
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying thf
+     *                  distribution of dolors blong thf grbdifnt
+     * @pbrbm dolors brrby of dolors to usf in thf grbdifnt.  Thf first dolor
+     *               is usfd bt thf fodus point, thf lbst dolor bround thf
+     *               pfrimftfr of thf dirdlf.
+     * @pbrbm dydlfMfthod fithfr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *                    or {@dodf REPEAT}
+     * @pbrbm dolorSpbdf whidh dolor spbdf to usf for intfrpolbtion,
+     *                   fithfr {@dodf SRGB} or {@dodf LINEAR_RGB}
+     * @pbrbm grbdifntTrbnsform trbnsform to bpply to thf grbdifnt
+     *
+     * @throws NullPointfrExdfption
+     * if onf of thf points is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dydlfMfthod} is null,
+     * or {@dodf dolorSpbdf} is null,
+     * or {@dodf grbdifntTrbnsform} is null
+     * @throws IllfgblArgumfntExdfption
+     * if {@dodf rbdius} is non-positivf,
+     * or {@dodf frbdtions.lfngth != dolors.lfngth},
+     * or {@dodf dolors} is lfss thbn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss thbn 0.0 or grfbtfr thbn 1.0,
+     * or thf {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     */
+    @ConstrudtorPropfrtifs({ "dfntfrPoint", "rbdius", "fodusPoint", "frbdtions", "dolors", "dydlfMfthod", "dolorSpbdf", "trbnsform" })
+    publid RbdiblGrbdifntPbint(Point2D dfntfr,
+                               flobt rbdius,
+                               Point2D fodus,
+                               flobt[] frbdtions, Color[] dolors,
+                               CydlfMfthod dydlfMfthod,
+                               ColorSpbdfTypf dolorSpbdf,
+                               AffinfTrbnsform grbdifntTrbnsform)
+    {
+        supfr(frbdtions, dolors, dydlfMfthod, dolorSpbdf, grbdifntTrbnsform);
+
+        // dhfdk input brgumfnts
+        if (dfntfr == null) {
+            throw nfw NullPointfrExdfption("Cfntfr point must bf non-null");
+        }
+
+        if (fodus == null) {
+            throw nfw NullPointfrExdfption("Fodus point must bf non-null");
+        }
+
+        if (rbdius <= 0) {
+            throw nfw IllfgblArgumfntExdfption("Rbdius must bf grfbtfr " +
+                                               "thbn zfro");
+        }
+
+        // dopy pbrbmftfrs
+        this.dfntfr = nfw Point2D.Doublf(dfntfr.gftX(), dfntfr.gftY());
+        this.fodus = nfw Point2D.Doublf(fodus.gftX(), fodus.gftY());
+        this.rbdius = rbdius;
+    }
+
+    /**
+     * Construdts b {@dodf RbdiblGrbdifntPbint} with b dffbult
+     * {@dodf SRGB} dolor spbdf.
+     * Thf grbdifnt dirdlf of thf {@dodf RbdiblGrbdifntPbint} is dffinfd
+     * by thf givfn bounding box.
+     * <p>
+     * This donstrudtor is b morf donvfnifnt wby to fxprfss thf
+     * following (fquivblfnt) dodf:<br>
+     *
+     * <prf>
+     *     doublf gw = grbdifntBounds.gftWidth();
+     *     doublf gh = grbdifntBounds.gftHfight();
+     *     doublf dx = grbdifntBounds.gftCfntfrX();
+     *     doublf dy = grbdifntBounds.gftCfntfrY();
+     *     Point2D dfntfr = nfw Point2D.Doublf(dx, dy);
+     *
+     *     AffinfTrbnsform grbdifntTrbnsform = nfw AffinfTrbnsform();
+     *     grbdifntTrbnsform.trbnslbtf(dx, dy);
+     *     grbdifntTrbnsform.sdblf(gw / 2, gh / 2);
+     *     grbdifntTrbnsform.trbnslbtf(-dx, -dy);
+     *
+     *     RbdiblGrbdifntPbint gp =
+     *         nfw RbdiblGrbdifntPbint(dfntfr, 1.0f, dfntfr,
+     *                                 frbdtions, dolors,
+     *                                 dydlfMfthod,
+     *                                 ColorSpbdfTypf.SRGB,
+     *                                 grbdifntTrbnsform);
+     * </prf>
+     *
+     * @pbrbm grbdifntBounds thf bounding box, in usfr spbdf, of thf dirdlf
+     *                       dffining thf outfrmost fxtfnt of thf grbdifnt
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying thf
+     *                  distribution of dolors blong thf grbdifnt
+     * @pbrbm dolors brrby of dolors to usf in thf grbdifnt.  Thf first dolor
+     *               is usfd bt thf fodus point, thf lbst dolor bround thf
+     *               pfrimftfr of thf dirdlf.
+     * @pbrbm dydlfMfthod fithfr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *                    or {@dodf REPEAT}
+     *
+     * @throws NullPointfrExdfption
+     * if {@dodf grbdifntBounds} is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dydlfMfthod} is null
+     * @throws IllfgblArgumfntExdfption
+     * if {@dodf grbdifntBounds} is fmpty,
+     * or {@dodf frbdtions.lfngth != dolors.lfngth},
+     * or {@dodf dolors} is lfss thbn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss thbn 0.0 or grfbtfr thbn 1.0,
+     * or thf {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
+     */
+    publid RbdiblGrbdifntPbint(Rfdtbnglf2D grbdifntBounds,
+                               flobt[] frbdtions, Color[] dolors,
+                               CydlfMfthod dydlfMfthod)
+    {
+        // grbdifnt dfntfr/fodbl point is thf dfntfr of thf bounding box,
+        // rbdius is sft to 1.0, bnd thfn wf sft b sdblf trbnsform
+        // to bdhifvf bn flliptidbl grbdifnt dffinfd by thf bounding box
+        this(nfw Point2D.Doublf(grbdifntBounds.gftCfntfrX(),
+                                grbdifntBounds.gftCfntfrY()),
+             1.0f,
+             nfw Point2D.Doublf(grbdifntBounds.gftCfntfrX(),
+                                grbdifntBounds.gftCfntfrY()),
+             frbdtions,
+             dolors,
+             dydlfMfthod,
+             ColorSpbdfTypf.SRGB,
+             drfbtfGrbdifntTrbnsform(grbdifntBounds));
+
+        if (grbdifntBounds.isEmpty()) {
+            throw nfw IllfgblArgumfntExdfption("Grbdifnt bounds must bf " +
+                                               "non-fmpty");
+        }
+    }
+
+    privbtf stbtid AffinfTrbnsform drfbtfGrbdifntTrbnsform(Rfdtbnglf2D r) {
+        doublf dx = r.gftCfntfrX();
+        doublf dy = r.gftCfntfrY();
+        AffinfTrbnsform xform = AffinfTrbnsform.gftTrbnslbtfInstbndf(dx, dy);
+        xform.sdblf(r.gftWidth()/2, r.gftHfight()/2);
+        xform.trbnslbtf(-dx, -dy);
+        rfturn xform;
+    }
+
+    /**
+     * Crfbtfs bnd rfturns b {@link PbintContfxt} usfd to
+     * gfnfrbtf b dirdulbr rbdibl dolor grbdifnt pbttfrn.
+     * Sff thf dfsdription of thf {@link Pbint#drfbtfContfxt drfbtfContfxt} mfthod
+     * for informbtion on null pbrbmftfr hbndling.
+     *
+     * @pbrbm dm thf prfffrrfd {@link ColorModfl} whidh rfprfsfnts thf most donvfnifnt
+     *           formbt for thf dbllfr to rfdfivf thf pixfl dbtb, or {@dodf null}
+     *           if thfrf is no prfffrfndf.
+     * @pbrbm dfvidfBounds thf dfvidf spbdf bounding box
+     *                     of thf grbphids primitivf bfing rfndfrfd.
+     * @pbrbm usfrBounds thf usfr spbdf bounding box
+     *                   of thf grbphids primitivf bfing rfndfrfd.
+     * @pbrbm trbnsform thf {@link AffinfTrbnsform} from usfr
+     *              spbdf into dfvidf spbdf.
+     * @pbrbm hints thf sft of hints thbt thf dontfxt objfdt dbn usf to
+     *              dhoosf bftwffn rfndfring bltfrnbtivfs.
+     * @rfturn thf {@dodf PbintContfxt} for
+     *         gfnfrbting dolor pbttfrns.
+     * @sff Pbint
+     * @sff PbintContfxt
+     * @sff ColorModfl
+     * @sff Rfdtbnglf
+     * @sff Rfdtbnglf2D
+     * @sff AffinfTrbnsform
+     * @sff RfndfringHints
+     */
+    publid PbintContfxt drfbtfContfxt(ColorModfl dm,
+                                      Rfdtbnglf dfvidfBounds,
+                                      Rfdtbnglf2D usfrBounds,
+                                      AffinfTrbnsform trbnsform,
+                                      RfndfringHints hints)
+    {
+        // bvoid modifying thf usfr's trbnsform...
+        trbnsform = nfw AffinfTrbnsform(trbnsform);
+        // indorporbtf thf grbdifnt trbnsform
+        trbnsform.dondbtfnbtf(grbdifntTrbnsform);
+
+        rfturn nfw RbdiblGrbdifntPbintContfxt(this, dm,
+                                              dfvidfBounds, usfrBounds,
+                                              trbnsform, hints,
+                                              (flobt)dfntfr.gftX(),
+                                              (flobt)dfntfr.gftY(),
+                                              rbdius,
+                                              (flobt)fodus.gftX(),
+                                              (flobt)fodus.gftY(),
+                                              frbdtions, dolors,
+                                              dydlfMfthod, dolorSpbdf);
+    }
+
+    /**
+     * Rfturns b dopy of thf dfntfr point of thf rbdibl grbdifnt.
+     *
+     * @rfturn b {@dodf Point2D} objfdt thbt is b dopy of thf dfntfr point
+     */
+    publid Point2D gftCfntfrPoint() {
+        rfturn nfw Point2D.Doublf(dfntfr.gftX(), dfntfr.gftY());
+    }
+
+    /**
+     * Rfturns b dopy of thf fodus point of thf rbdibl grbdifnt.
+     * Notf thbt if thf fodus point spfdififd whfn thf rbdibl grbdifnt
+     * wbs donstrudtfd lifs outsidf of thf rbdius of thf dirdlf, this
+     * mfthod will still rfturn thf originbl fodus point fvfn though
+     * thf rfndfring mby dfntfr thf rings of dolor on b difffrfnt
+     * point thbt lifs insidf thf rbdius.
+     *
+     * @rfturn b {@dodf Point2D} objfdt thbt is b dopy of thf fodus point
+     */
+    publid Point2D gftFodusPoint() {
+        rfturn nfw Point2D.Doublf(fodus.gftX(), fodus.gftY());
+    }
+
+    /**
+     * Rfturns thf rbdius of thf dirdlf dffining thf rbdibl grbdifnt.
+     *
+     * @rfturn thf rbdius of thf dirdlf dffining thf rbdibl grbdifnt
+     */
+    publid flobt gftRbdius() {
+        rfturn rbdius;
+    }
+}

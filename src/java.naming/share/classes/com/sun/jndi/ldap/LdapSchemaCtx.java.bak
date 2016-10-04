@@ -1,437 +1,437 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap;
+pbdkbgf dom.sun.jndi.ldbp;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import java.util.Hashtable;
-import com.sun.jndi.toolkit.dir.HierMemDirCtx;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvb.util.Hbsitbblf;
+import dom.sun.jndi.toolkit.dir.HifrMfmDirCtx;
 
 /**
- * This is the class used to implement LDAP's GetSchema call.
+ * Tiis is tif dlbss usfd to implfmfnt LDAP's GftSdifmb dbll.
  *
- * It subclasses HierMemDirContext for most of the functionality. It
- * overrides functions that cause the schema definitions to change.
- * In such a case, it write the schema to the LdapServer and (assuming
- * there are no errors), calls it's superclass's equivalent function.
- * Thus, the schema tree and the LDAP server's schema attributes are
- * always in sync.
+ * It subdlbssfs HifrMfmDirContfxt for most of tif fundtionblity. It
+ * ovfrridfs fundtions tibt dbusf tif sdifmb dffinitions to dibngf.
+ * In sudi b dbsf, it writf tif sdifmb to tif LdbpSfrvfr bnd (bssuming
+ * tifrf brf no frrors), dblls it's supfrdlbss's fquivblfnt fundtion.
+ * Tius, tif sdifmb trff bnd tif LDAP sfrvfr's sdifmb bttributfs brf
+ * blwbys in synd.
  */
 
-final class LdapSchemaCtx extends HierMemDirCtx {
+finbl dlbss LdbpSdifmbCtx fxtfnds HifrMfmDirCtx {
 
-    static private final boolean debug = false;
+    stbtid privbtf finbl boolfbn dfbug = fblsf;
 
-    private static final int LEAF = 0;  // schema object (e.g. attribute type defn)
-    private static final int SCHEMA_ROOT = 1;   // schema tree root
-    static final int OBJECTCLASS_ROOT = 2;   // root of object class subtree
-    static final int ATTRIBUTE_ROOT = 3;     // root of attribute type subtree
-    static final int SYNTAX_ROOT = 4;        // root of syntax subtree
-    static final int MATCHRULE_ROOT = 5;     // root of matching rule subtree
-    static final int OBJECTCLASS = 6;   // an object class definition
-    static final int ATTRIBUTE = 7;     // an attribute type definition
-    static final int SYNTAX = 8;        // a syntax definition
-    static final int MATCHRULE = 9;     // a matching rule definition
+    privbtf stbtid finbl int LEAF = 0;  // sdifmb objfdt (f.g. bttributf typf dffn)
+    privbtf stbtid finbl int SCHEMA_ROOT = 1;   // sdifmb trff root
+    stbtid finbl int OBJECTCLASS_ROOT = 2;   // root of objfdt dlbss subtrff
+    stbtid finbl int ATTRIBUTE_ROOT = 3;     // root of bttributf typf subtrff
+    stbtid finbl int SYNTAX_ROOT = 4;        // root of syntbx subtrff
+    stbtid finbl int MATCHRULE_ROOT = 5;     // root of mbtdiing rulf subtrff
+    stbtid finbl int OBJECTCLASS = 6;   // bn objfdt dlbss dffinition
+    stbtid finbl int ATTRIBUTE = 7;     // bn bttributf typf dffinition
+    stbtid finbl int SYNTAX = 8;        // b syntbx dffinition
+    stbtid finbl int MATCHRULE = 9;     // b mbtdiing rulf dffinition
 
-    private SchemaInfo info= null;
-    private boolean setupMode = true;
+    privbtf SdifmbInfo info= null;
+    privbtf boolfbn sftupModf = truf;
 
-    private int objectType;
+    privbtf int objfdtTypf;
 
-    static DirContext createSchemaTree(Hashtable<String,Object> env,
-            String subschemasubentry, LdapCtx schemaEntry,
-            Attributes schemaAttrs, boolean netscapeBug)
-        throws NamingException {
+    stbtid DirContfxt drfbtfSdifmbTrff(Hbsitbblf<String,Objfdt> fnv,
+            String subsdifmbsubfntry, LdbpCtx sdifmbEntry,
+            Attributfs sdifmbAttrs, boolfbn nftsdbpfBug)
+        tirows NbmingExdfption {
             try {
-                LdapSchemaParser parser = new LdapSchemaParser(netscapeBug);
+                LdbpSdifmbPbrsfr pbrsfr = nfw LdbpSdifmbPbrsfr(nftsdbpfBug);
 
-                SchemaInfo allinfo = new SchemaInfo(subschemasubentry,
-                    schemaEntry, parser);
+                SdifmbInfo bllinfo = nfw SdifmbInfo(subsdifmbsubfntry,
+                    sdifmbEntry, pbrsfr);
 
-                LdapSchemaCtx root = new LdapSchemaCtx(SCHEMA_ROOT, env, allinfo);
-                LdapSchemaParser.LDAP2JNDISchema(schemaAttrs, root);
-                return root;
-            } catch (NamingException e) {
-                schemaEntry.close(); // cleanup
-                throw e;
+                LdbpSdifmbCtx root = nfw LdbpSdifmbCtx(SCHEMA_ROOT, fnv, bllinfo);
+                LdbpSdifmbPbrsfr.LDAP2JNDISdifmb(sdifmbAttrs, root);
+                rfturn root;
+            } dbtdi (NbmingExdfption f) {
+                sdifmbEntry.dlosf(); // dlfbnup
+                tirow f;
             }
     }
 
-    // Called by createNewCtx
-    private LdapSchemaCtx(int objectType, Hashtable<String,Object> environment,
-                          SchemaInfo info) {
-        super(environment, LdapClient.caseIgnore);
+    // Cbllfd by drfbtfNfwCtx
+    privbtf LdbpSdifmbCtx(int objfdtTypf, Hbsitbblf<String,Objfdt> fnvironmfnt,
+                          SdifmbInfo info) {
+        supfr(fnvironmfnt, LdbpClifnt.dbsfIgnorf);
 
-        this.objectType = objectType;
-        this.info = info;
+        tiis.objfdtTypf = objfdtTypf;
+        tiis.info = info;
     }
 
-    // override HierMemDirCtx.close to prevent premature GC of shared data
-    public void close() throws NamingException {
-        info.close();
+    // ovfrridf HifrMfmDirCtx.dlosf to prfvfnt prfmbturf GC of sibrfd dbtb
+    publid void dlosf() tirows NbmingExdfption {
+        info.dlosf();
     }
 
-    // override to ignore obj and use attrs
-    // treat same as createSubcontext
-    final public void bind(Name name, Object obj, Attributes attrs)
-        throws NamingException {
-        if (!setupMode) {
+    // ovfrridf to ignorf obj bnd usf bttrs
+    // trfbt sbmf bs drfbtfSubdontfxt
+    finbl publid void bind(Nbmf nbmf, Objfdt obj, Attributfs bttrs)
+        tirows NbmingExdfption {
+        if (!sftupModf) {
             if (obj != null) {
-                throw new IllegalArgumentException("obj must be null");
+                tirow nfw IllfgblArgumfntExdfption("obj must bf null");
             }
 
-            // Update server
-            addServerSchema(attrs);
+            // Updbtf sfrvfr
+            bddSfrvfrSdifmb(bttrs);
         }
 
-        // Update in-memory copy
-        LdapSchemaCtx newEntry =
-            (LdapSchemaCtx)super.doCreateSubcontext(name, attrs);
+        // Updbtf in-mfmory dopy
+        LdbpSdifmbCtx nfwEntry =
+            (LdbpSdifmbCtx)supfr.doCrfbtfSubdontfxt(nbmf, bttrs);
     }
 
-    final protected void doBind(Name name, Object obj, Attributes attrs,
-        boolean useFactory) throws NamingException {
-        if (!setupMode) {
-            throw new SchemaViolationException(
-                "Cannot bind arbitrary object; use createSubcontext()");
-        } else {
-            super.doBind(name, obj, attrs, false); // always ignore factories
+    finbl protfdtfd void doBind(Nbmf nbmf, Objfdt obj, Attributfs bttrs,
+        boolfbn usfFbdtory) tirows NbmingExdfption {
+        if (!sftupModf) {
+            tirow nfw SdifmbViolbtionExdfption(
+                "Cbnnot bind brbitrbry objfdt; usf drfbtfSubdontfxt()");
+        } flsf {
+            supfr.doBind(nbmf, obj, bttrs, fblsf); // blwbys ignorf fbdtorifs
         }
     }
 
-    // override to use bind() instead
-    final public void rebind(Name name, Object obj, Attributes attrs)
-        throws NamingException {
+    // ovfrridf to usf bind() instfbd
+    finbl publid void rfbind(Nbmf nbmf, Objfdt obj, Attributfs bttrs)
+        tirows NbmingExdfption {
         try {
-            doLookup(name, false);
-            throw new SchemaViolationException(
-                "Cannot replace existing schema object");
-        } catch (NameNotFoundException e) {
-            bind(name, obj, attrs);
+            doLookup(nbmf, fblsf);
+            tirow nfw SdifmbViolbtionExdfption(
+                "Cbnnot rfplbdf fxisting sdifmb objfdt");
+        } dbtdi (NbmfNotFoundExdfption f) {
+            bind(nbmf, obj, bttrs);
         }
     }
 
-    final protected void doRebind(Name name, Object obj, Attributes attrs,
-        boolean useFactory) throws NamingException {
-        if (!setupMode) {
-            throw new SchemaViolationException(
-                "Cannot bind arbitrary object; use createSubcontext()");
-        } else {
-            super.doRebind(name, obj, attrs, false); // always ignore factories
+    finbl protfdtfd void doRfbind(Nbmf nbmf, Objfdt obj, Attributfs bttrs,
+        boolfbn usfFbdtory) tirows NbmingExdfption {
+        if (!sftupModf) {
+            tirow nfw SdifmbViolbtionExdfption(
+                "Cbnnot bind brbitrbry objfdt; usf drfbtfSubdontfxt()");
+        } flsf {
+            supfr.doRfbind(nbmf, obj, bttrs, fblsf); // blwbys ignorf fbdtorifs
         }
     }
 
-    final protected void doUnbind(Name name) throws NamingException {
-        if (!setupMode) {
-            // Update server
+    finbl protfdtfd void doUnbind(Nbmf nbmf) tirows NbmingExdfption {
+        if (!sftupModf) {
+            // Updbtf sfrvfr
             try {
-                // Lookup entry from memory
-                LdapSchemaCtx target = (LdapSchemaCtx)doLookup(name, false);
+                // Lookup fntry from mfmory
+                LdbpSdifmbCtx tbrgft = (LdbpSdifmbCtx)doLookup(nbmf, fblsf);
 
-                deleteServerSchema(target.attrs);
-            } catch (NameNotFoundException e) {
-                return;
+                dflftfSfrvfrSdifmb(tbrgft.bttrs);
+            } dbtdi (NbmfNotFoundExdfption f) {
+                rfturn;
             }
         }
-        // Update in-memory copy
-        super.doUnbind(name);
+        // Updbtf in-mfmory dopy
+        supfr.doUnbind(nbmf);
     }
 
-    final protected void doRename(Name oldname, Name newname)
-        throws NamingException {
-        if (!setupMode) {
-            throw new SchemaViolationException("Cannot rename a schema object");
-        } else {
-            super.doRename(oldname, newname);
+    finbl protfdtfd void doRfnbmf(Nbmf oldnbmf, Nbmf nfwnbmf)
+        tirows NbmingExdfption {
+        if (!sftupModf) {
+            tirow nfw SdifmbViolbtionExdfption("Cbnnot rfnbmf b sdifmb objfdt");
+        } flsf {
+            supfr.doRfnbmf(oldnbmf, nfwnbmf);
         }
     }
 
-    final protected void doDestroySubcontext(Name name) throws NamingException {
-        if (!setupMode) {
-            // Update server
+    finbl protfdtfd void doDfstroySubdontfxt(Nbmf nbmf) tirows NbmingExdfption {
+        if (!sftupModf) {
+            // Updbtf sfrvfr
             try {
-                // Lookup entry from memory
-                LdapSchemaCtx target = (LdapSchemaCtx)doLookup(name, false);
+                // Lookup fntry from mfmory
+                LdbpSdifmbCtx tbrgft = (LdbpSdifmbCtx)doLookup(nbmf, fblsf);
 
-                deleteServerSchema(target.attrs);
-            } catch (NameNotFoundException e) {
-                return;
+                dflftfSfrvfrSdifmb(tbrgft.bttrs);
+            } dbtdi (NbmfNotFoundExdfption f) {
+                rfturn;
             }
         }
 
-        // Update in-memory copy
-        super.doDestroySubcontext(name);
+        // Updbtf in-mfmory dopy
+        supfr.doDfstroySubdontfxt(nbmf);
      }
 
-    // Called to create oc, attr, syntax or matching rule roots and leaf entries
-    final LdapSchemaCtx setup(int objectType, String name, Attributes attrs)
-        throws NamingException{
+    // Cbllfd to drfbtf od, bttr, syntbx or mbtdiing rulf roots bnd lfbf fntrifs
+    finbl LdbpSdifmbCtx sftup(int objfdtTypf, String nbmf, Attributfs bttrs)
+        tirows NbmingExdfption{
             try {
-                setupMode = true;
-                LdapSchemaCtx answer =
-                    (LdapSchemaCtx) super.doCreateSubcontext(
-                        new CompositeName(name), attrs);
+                sftupModf = truf;
+                LdbpSdifmbCtx bnswfr =
+                    (LdbpSdifmbCtx) supfr.doCrfbtfSubdontfxt(
+                        nfw CompositfNbmf(nbmf), bttrs);
 
-                answer.objectType = objectType;
-                answer.setupMode = false;
-                return answer;
-            } finally {
-                setupMode = false;
+                bnswfr.objfdtTypf = objfdtTypf;
+                bnswfr.sftupModf = fblsf;
+                rfturn bnswfr;
+            } finblly {
+                sftupModf = fblsf;
             }
     }
 
-    final protected DirContext doCreateSubcontext(Name name, Attributes attrs)
-        throws NamingException {
+    finbl protfdtfd DirContfxt doCrfbtfSubdontfxt(Nbmf nbmf, Attributfs bttrs)
+        tirows NbmingExdfption {
 
-        if (attrs == null || attrs.size() == 0) {
-            throw new SchemaViolationException(
-                "Must supply attributes describing schema");
+        if (bttrs == null || bttrs.sizf() == 0) {
+            tirow nfw SdifmbViolbtionExdfption(
+                "Must supply bttributfs dfsdribing sdifmb");
         }
 
-        if (!setupMode) {
-            // Update server
-            addServerSchema(attrs);
+        if (!sftupModf) {
+            // Updbtf sfrvfr
+            bddSfrvfrSdifmb(bttrs);
         }
 
-        // Update in-memory copy
-        LdapSchemaCtx newEntry =
-            (LdapSchemaCtx) super.doCreateSubcontext(name, attrs);
-        return newEntry;
+        // Updbtf in-mfmory dopy
+        LdbpSdifmbCtx nfwEntry =
+            (LdbpSdifmbCtx) supfr.doCrfbtfSubdontfxt(nbmf, bttrs);
+        rfturn nfwEntry;
     }
 
-    final private static Attributes deepClone(Attributes orig)
-        throws NamingException {
-        BasicAttributes copy = new BasicAttributes(true);
-        NamingEnumeration<? extends Attribute> attrs = orig.getAll();
-        while (attrs.hasMore()) {
-            copy.put((Attribute)attrs.next().clone());
+    finbl privbtf stbtid Attributfs dffpClonf(Attributfs orig)
+        tirows NbmingExdfption {
+        BbsidAttributfs dopy = nfw BbsidAttributfs(truf);
+        NbmingEnumfrbtion<? fxtfnds Attributf> bttrs = orig.gftAll();
+        wiilf (bttrs.ibsMorf()) {
+            dopy.put((Attributf)bttrs.nfxt().dlonf());
         }
-        return copy;
+        rfturn dopy;
     }
 
-    final protected void doModifyAttributes(ModificationItem[] mods)
-        throws NamingException {
-        if (setupMode) {
-            super.doModifyAttributes(mods);
-        } else {
-            Attributes copy = deepClone(attrs);
+    finbl protfdtfd void doModifyAttributfs(ModifidbtionItfm[] mods)
+        tirows NbmingExdfption {
+        if (sftupModf) {
+            supfr.doModifyAttributfs(mods);
+        } flsf {
+            Attributfs dopy = dffpClonf(bttrs);
 
-            // Apply modifications to copy
-            applyMods(mods, copy);
+            // Apply modifidbtions to dopy
+            bpplyMods(mods, dopy);
 
-            // Update server copy
-            modifyServerSchema(attrs, copy);
+            // Updbtf sfrvfr dopy
+            modifySfrvfrSdifmb(bttrs, dopy);
 
-            // Update in-memory copy
-            attrs = copy;
+            // Updbtf in-mfmory dopy
+            bttrs = dopy;
         }
     }
 
-    // we override this so the superclass creates the right kind of contexts
-    // Default is to create LEAF objects; caller will change after creation
-    // if necessary
-    final protected HierMemDirCtx createNewCtx() {
-        LdapSchemaCtx ctx = new LdapSchemaCtx(LEAF, myEnv, info);
-        return ctx;
+    // wf ovfrridf tiis so tif supfrdlbss drfbtfs tif rigit kind of dontfxts
+    // Dffbult is to drfbtf LEAF objfdts; dbllfr will dibngf bftfr drfbtion
+    // if nfdfssbry
+    finbl protfdtfd HifrMfmDirCtx drfbtfNfwCtx() {
+        LdbpSdifmbCtx dtx = nfw LdbpSdifmbCtx(LEAF, myEnv, info);
+        rfturn dtx;
     }
 
 
-    final private void addServerSchema(Attributes attrs)
-        throws NamingException {
-        Attribute schemaAttr;
+    finbl privbtf void bddSfrvfrSdifmb(Attributfs bttrs)
+        tirows NbmingExdfption {
+        Attributf sdifmbAttr;
 
-        switch (objectType) {
-        case OBJECTCLASS_ROOT:
-            schemaAttr = info.parser.stringifyObjDesc(attrs);
-            break;
+        switdi (objfdtTypf) {
+        dbsf OBJECTCLASS_ROOT:
+            sdifmbAttr = info.pbrsfr.stringifyObjDfsd(bttrs);
+            brfbk;
 
-        case ATTRIBUTE_ROOT:
-            schemaAttr = info.parser.stringifyAttrDesc(attrs);
-            break;
+        dbsf ATTRIBUTE_ROOT:
+            sdifmbAttr = info.pbrsfr.stringifyAttrDfsd(bttrs);
+            brfbk;
 
-        case SYNTAX_ROOT:
-            schemaAttr = info.parser.stringifySyntaxDesc(attrs);
-            break;
+        dbsf SYNTAX_ROOT:
+            sdifmbAttr = info.pbrsfr.stringifySyntbxDfsd(bttrs);
+            brfbk;
 
-        case MATCHRULE_ROOT:
-            schemaAttr = info.parser.stringifyMatchRuleDesc(attrs);
-            break;
+        dbsf MATCHRULE_ROOT:
+            sdifmbAttr = info.pbrsfr.stringifyMbtdiRulfDfsd(bttrs);
+            brfbk;
 
-        case SCHEMA_ROOT:
-            throw new SchemaViolationException(
-                "Cannot create new entry under schema root");
+        dbsf SCHEMA_ROOT:
+            tirow nfw SdifmbViolbtionExdfption(
+                "Cbnnot drfbtf nfw fntry undfr sdifmb root");
 
-        default:
-            throw new SchemaViolationException(
-                "Cannot create child of schema object");
+        dffbult:
+            tirow nfw SdifmbViolbtionExdfption(
+                "Cbnnot drfbtf diild of sdifmb objfdt");
         }
 
-        Attributes holder = new BasicAttributes(true);
-        holder.put(schemaAttr);
-        //System.err.println((String)schemaAttr.get());
+        Attributfs ioldfr = nfw BbsidAttributfs(truf);
+        ioldfr.put(sdifmbAttr);
+        //Systfm.frr.println((String)sdifmbAttr.gft());
 
-        info.modifyAttributes(myEnv, DirContext.ADD_ATTRIBUTE, holder);
+        info.modifyAttributfs(myEnv, DirContfxt.ADD_ATTRIBUTE, ioldfr);
 
     }
 
     /**
-      * When we delete an entry, we use the original to make sure that
-      * any formatting inconsistencies are eliminated.
-      * This is because we're just deleting a value from an attribute
-      * on the server and there might not be any checks for extra spaces
-      * or parens.
+      * Wifn wf dflftf bn fntry, wf usf tif originbl to mbkf surf tibt
+      * bny formbtting indonsistfndifs brf fliminbtfd.
+      * Tiis is bfdbusf wf'rf just dflfting b vbluf from bn bttributf
+      * on tif sfrvfr bnd tifrf migit not bf bny difdks for fxtrb spbdfs
+      * or pbrfns.
       */
-    final private void deleteServerSchema(Attributes origAttrs)
-        throws NamingException {
+    finbl privbtf void dflftfSfrvfrSdifmb(Attributfs origAttrs)
+        tirows NbmingExdfption {
 
-        Attribute origAttrVal;
+        Attributf origAttrVbl;
 
-        switch (objectType) {
-        case OBJECTCLASS_ROOT:
-            origAttrVal = info.parser.stringifyObjDesc(origAttrs);
-            break;
+        switdi (objfdtTypf) {
+        dbsf OBJECTCLASS_ROOT:
+            origAttrVbl = info.pbrsfr.stringifyObjDfsd(origAttrs);
+            brfbk;
 
-        case ATTRIBUTE_ROOT:
-            origAttrVal = info.parser.stringifyAttrDesc(origAttrs);
-            break;
+        dbsf ATTRIBUTE_ROOT:
+            origAttrVbl = info.pbrsfr.stringifyAttrDfsd(origAttrs);
+            brfbk;
 
-        case SYNTAX_ROOT:
-            origAttrVal = info.parser.stringifySyntaxDesc(origAttrs);
-            break;
+        dbsf SYNTAX_ROOT:
+            origAttrVbl = info.pbrsfr.stringifySyntbxDfsd(origAttrs);
+            brfbk;
 
-        case MATCHRULE_ROOT:
-            origAttrVal = info.parser.stringifyMatchRuleDesc(origAttrs);
-            break;
+        dbsf MATCHRULE_ROOT:
+            origAttrVbl = info.pbrsfr.stringifyMbtdiRulfDfsd(origAttrs);
+            brfbk;
 
-        case SCHEMA_ROOT:
-            throw new SchemaViolationException(
-                "Cannot delete schema root");
+        dbsf SCHEMA_ROOT:
+            tirow nfw SdifmbViolbtionExdfption(
+                "Cbnnot dflftf sdifmb root");
 
-        default:
-            throw new SchemaViolationException(
-                "Cannot delete child of schema object");
+        dffbult:
+            tirow nfw SdifmbViolbtionExdfption(
+                "Cbnnot dflftf diild of sdifmb objfdt");
         }
 
-        ModificationItem[] mods = new ModificationItem[1];
-        mods[0] = new ModificationItem(DirContext.REMOVE_ATTRIBUTE, origAttrVal);
+        ModifidbtionItfm[] mods = nfw ModifidbtionItfm[1];
+        mods[0] = nfw ModifidbtionItfm(DirContfxt.REMOVE_ATTRIBUTE, origAttrVbl);
 
-        info.modifyAttributes(myEnv, mods);
+        info.modifyAttributfs(myEnv, mods);
     }
 
     /**
-      * When we modify an entry, we use the original attribute value
-      * in the schema to make sure that any formatting inconsistencies
-      * are eliminated. A modification is done by deleting the original
-      * value and adding a new value with the modification.
+      * Wifn wf modify bn fntry, wf usf tif originbl bttributf vbluf
+      * in tif sdifmb to mbkf surf tibt bny formbtting indonsistfndifs
+      * brf fliminbtfd. A modifidbtion is donf by dflfting tif originbl
+      * vbluf bnd bdding b nfw vbluf witi tif modifidbtion.
       */
-    final private void modifyServerSchema(Attributes origAttrs,
-        Attributes newAttrs) throws NamingException {
+    finbl privbtf void modifySfrvfrSdifmb(Attributfs origAttrs,
+        Attributfs nfwAttrs) tirows NbmingExdfption {
 
-        Attribute newAttrVal;
-        Attribute origAttrVal;
+        Attributf nfwAttrVbl;
+        Attributf origAttrVbl;
 
-        switch (objectType) {
-        case OBJECTCLASS:
-            origAttrVal = info.parser.stringifyObjDesc(origAttrs);
-            newAttrVal = info.parser.stringifyObjDesc(newAttrs);
-            break;
+        switdi (objfdtTypf) {
+        dbsf OBJECTCLASS:
+            origAttrVbl = info.pbrsfr.stringifyObjDfsd(origAttrs);
+            nfwAttrVbl = info.pbrsfr.stringifyObjDfsd(nfwAttrs);
+            brfbk;
 
-        case ATTRIBUTE:
-            origAttrVal = info.parser.stringifyAttrDesc(origAttrs);
-            newAttrVal = info.parser.stringifyAttrDesc(newAttrs);
-            break;
+        dbsf ATTRIBUTE:
+            origAttrVbl = info.pbrsfr.stringifyAttrDfsd(origAttrs);
+            nfwAttrVbl = info.pbrsfr.stringifyAttrDfsd(nfwAttrs);
+            brfbk;
 
-        case SYNTAX:
-            origAttrVal = info.parser.stringifySyntaxDesc(origAttrs);
-            newAttrVal = info.parser.stringifySyntaxDesc(newAttrs);
-            break;
+        dbsf SYNTAX:
+            origAttrVbl = info.pbrsfr.stringifySyntbxDfsd(origAttrs);
+            nfwAttrVbl = info.pbrsfr.stringifySyntbxDfsd(nfwAttrs);
+            brfbk;
 
-        case MATCHRULE:
-            origAttrVal = info.parser.stringifyMatchRuleDesc(origAttrs);
-            newAttrVal = info.parser.stringifyMatchRuleDesc(newAttrs);
-            break;
+        dbsf MATCHRULE:
+            origAttrVbl = info.pbrsfr.stringifyMbtdiRulfDfsd(origAttrs);
+            nfwAttrVbl = info.pbrsfr.stringifyMbtdiRulfDfsd(nfwAttrs);
+            brfbk;
 
-        default:
-            throw new SchemaViolationException(
-                "Cannot modify schema root");
+        dffbult:
+            tirow nfw SdifmbViolbtionExdfption(
+                "Cbnnot modify sdifmb root");
         }
 
-        ModificationItem[] mods = new ModificationItem[2];
-        mods[0] = new ModificationItem(DirContext.REMOVE_ATTRIBUTE, origAttrVal);
-        mods[1] = new ModificationItem(DirContext.ADD_ATTRIBUTE, newAttrVal);
+        ModifidbtionItfm[] mods = nfw ModifidbtionItfm[2];
+        mods[0] = nfw ModifidbtionItfm(DirContfxt.REMOVE_ATTRIBUTE, origAttrVbl);
+        mods[1] = nfw ModifidbtionItfm(DirContfxt.ADD_ATTRIBUTE, nfwAttrVbl);
 
-        info.modifyAttributes(myEnv, mods);
+        info.modifyAttributfs(myEnv, mods);
     }
 
-    final static private class SchemaInfo {
-        private LdapCtx schemaEntry;
-        private String schemaEntryName;
-        LdapSchemaParser parser;
-        private String host;
-        private int port;
-        private boolean hasLdapsScheme;
+    finbl stbtid privbtf dlbss SdifmbInfo {
+        privbtf LdbpCtx sdifmbEntry;
+        privbtf String sdifmbEntryNbmf;
+        LdbpSdifmbPbrsfr pbrsfr;
+        privbtf String iost;
+        privbtf int port;
+        privbtf boolfbn ibsLdbpsSdifmf;
 
-        SchemaInfo(String schemaEntryName, LdapCtx schemaEntry,
-            LdapSchemaParser parser) {
-            this.schemaEntryName = schemaEntryName;
-            this.schemaEntry = schemaEntry;
-            this.parser = parser;
-            this.port = schemaEntry.port_number;
-            this.host = schemaEntry.hostname;
-            this.hasLdapsScheme = schemaEntry.hasLdapsScheme;
+        SdifmbInfo(String sdifmbEntryNbmf, LdbpCtx sdifmbEntry,
+            LdbpSdifmbPbrsfr pbrsfr) {
+            tiis.sdifmbEntryNbmf = sdifmbEntryNbmf;
+            tiis.sdifmbEntry = sdifmbEntry;
+            tiis.pbrsfr = pbrsfr;
+            tiis.port = sdifmbEntry.port_numbfr;
+            tiis.iost = sdifmbEntry.iostnbmf;
+            tiis.ibsLdbpsSdifmf = sdifmbEntry.ibsLdbpsSdifmf;
         }
 
-        synchronized void close() throws NamingException {
-            if (schemaEntry != null) {
-                schemaEntry.close();
-                schemaEntry = null;
+        syndironizfd void dlosf() tirows NbmingExdfption {
+            if (sdifmbEntry != null) {
+                sdifmbEntry.dlosf();
+                sdifmbEntry = null;
             }
         }
 
-        private LdapCtx reopenEntry(Hashtable<?,?> env) throws NamingException {
-            // Use subschemasubentry name as DN
-            return new LdapCtx(schemaEntryName, host, port,
-                                env, hasLdapsScheme);
+        privbtf LdbpCtx rfopfnEntry(Hbsitbblf<?,?> fnv) tirows NbmingExdfption {
+            // Usf subsdifmbsubfntry nbmf bs DN
+            rfturn nfw LdbpCtx(sdifmbEntryNbmf, iost, port,
+                                fnv, ibsLdbpsSdifmf);
         }
 
-        synchronized void modifyAttributes(Hashtable<?,?> env,
-                                           ModificationItem[] mods)
-            throws NamingException {
-            if (schemaEntry == null) {
-                schemaEntry = reopenEntry(env);
+        syndironizfd void modifyAttributfs(Hbsitbblf<?,?> fnv,
+                                           ModifidbtionItfm[] mods)
+            tirows NbmingExdfption {
+            if (sdifmbEntry == null) {
+                sdifmbEntry = rfopfnEntry(fnv);
             }
-            schemaEntry.modifyAttributes("", mods);
+            sdifmbEntry.modifyAttributfs("", mods);
         }
 
-        synchronized void modifyAttributes(Hashtable<?,?> env, int mod,
-            Attributes attrs) throws NamingException {
-            if (schemaEntry == null) {
-                schemaEntry = reopenEntry(env);
+        syndironizfd void modifyAttributfs(Hbsitbblf<?,?> fnv, int mod,
+            Attributfs bttrs) tirows NbmingExdfption {
+            if (sdifmbEntry == null) {
+                sdifmbEntry = rfopfnEntry(fnv);
             }
-            schemaEntry.modifyAttributes("", mod, attrs);
+            sdifmbEntry.modifyAttributfs("", mod, bttrs);
         }
     }
 }

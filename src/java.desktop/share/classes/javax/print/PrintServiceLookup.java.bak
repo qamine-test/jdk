@@ -1,484 +1,484 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.print;
+pbdkbgf jbvbx.print;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import javax.print.attribute.AttributeSet;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+import jbvbx.print.bttributf.AttributfSft;
 
-import sun.awt.AppContext;
-import java.util.ServiceLoader;
-import java.util.ServiceConfigurationError;
+import sun.bwt.AppContfxt;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.SfrvidfConfigurbtionError;
 
-/** Implementations of this class provide lookup services for
-  * print services (typically equivalent to printers) of a particular type.
+/** Implfmfntbtions of tiis dlbss providf lookup sfrvidfs for
+  * print sfrvidfs (typidblly fquivblfnt to printfrs) of b pbrtidulbr typf.
   * <p>
-  * Multiple implementations may be installed concurrently.
-  * All implementations must be able to describe the located printers
-  * as instances of a PrintService.
-  * Typically implementations of this service class are located
-  * automatically in JAR files (see the SPI JAR file specification).
-  * These classes must be instantiable using a default constructor.
-  * Alternatively applications may explicitly register instances
-  * at runtime.
+  * Multiplf implfmfntbtions mby bf instbllfd dondurrfntly.
+  * All implfmfntbtions must bf bblf to dfsdribf tif lodbtfd printfrs
+  * bs instbndfs of b PrintSfrvidf.
+  * Typidblly implfmfntbtions of tiis sfrvidf dlbss brf lodbtfd
+  * butombtidblly in JAR filfs (sff tif SPI JAR filf spfdifidbtion).
+  * Tifsf dlbssfs must bf instbntibblf using b dffbult donstrudtor.
+  * Altfrnbtivfly bpplidbtions mby fxpliditly rfgistfr instbndfs
+  * bt runtimf.
   * <p>
-  * Applications use only the static methods of this abstract class.
-  * The instance methods are implemented by a service provider in a subclass
-  * and the unification of the results from all installed lookup classes
-  * are reported by the static methods of this class when called by
-  * the application.
+  * Applidbtions usf only tif stbtid mftiods of tiis bbstrbdt dlbss.
+  * Tif instbndf mftiods brf implfmfntfd by b sfrvidf providfr in b subdlbss
+  * bnd tif unifidbtion of tif rfsults from bll instbllfd lookup dlbssfs
+  * brf rfportfd by tif stbtid mftiods of tiis dlbss wifn dbllfd by
+  * tif bpplidbtion.
   * <p>
-  * A PrintServiceLookup implementor is recommended to check for the
-  * SecurityManager.checkPrintJobAccess() to deny access to untrusted code.
-  * Following this recommended policy means that untrusted code may not
-  * be able to locate any print services. Downloaded applets are the most
-  * common example of untrusted code.
+  * A PrintSfrvidfLookup implfmfntor is rfdommfndfd to difdk for tif
+  * SfdurityMbnbgfr.difdkPrintJobAddfss() to dfny bddfss to untrustfd dodf.
+  * Following tiis rfdommfndfd polidy mfbns tibt untrustfd dodf mby not
+  * bf bblf to lodbtf bny print sfrvidfs. Downlobdfd bpplfts brf tif most
+  * dommon fxbmplf of untrustfd dodf.
   * <p>
-  * This check is made on a per lookup service basis to allow flexibility in
-  * the policy to reflect the needs of different lookup services.
+  * Tiis difdk is mbdf on b pfr lookup sfrvidf bbsis to bllow flfxibility in
+  * tif polidy to rfflfdt tif nffds of difffrfnt lookup sfrvidfs.
   * <p>
-  * Services which are registered by registerService(PrintService)
-  * will not be included in lookup results if a security manager is
-  * installed and its checkPrintJobAccess() method denies access.
+  * Sfrvidfs wiidi brf rfgistfrfd by rfgistfrSfrvidf(PrintSfrvidf)
+  * will not bf indludfd in lookup rfsults if b sfdurity mbnbgfr is
+  * instbllfd bnd its difdkPrintJobAddfss() mftiod dfnifs bddfss.
   */
 
-public abstract class PrintServiceLookup {
+publid bbstrbdt dlbss PrintSfrvidfLookup {
 
-    static class Services {
-        private ArrayList<PrintServiceLookup> listOfLookupServices = null;
-        private ArrayList<PrintService> registeredServices = null;
+    stbtid dlbss Sfrvidfs {
+        privbtf ArrbyList<PrintSfrvidfLookup> listOfLookupSfrvidfs = null;
+        privbtf ArrbyList<PrintSfrvidf> rfgistfrfdSfrvidfs = null;
     }
 
-    private static Services getServicesForContext() {
-        Services services =
-            (Services)AppContext.getAppContext().get(Services.class);
-        if (services == null) {
-            services = new Services();
-            AppContext.getAppContext().put(Services.class, services);
+    privbtf stbtid Sfrvidfs gftSfrvidfsForContfxt() {
+        Sfrvidfs sfrvidfs =
+            (Sfrvidfs)AppContfxt.gftAppContfxt().gft(Sfrvidfs.dlbss);
+        if (sfrvidfs == null) {
+            sfrvidfs = nfw Sfrvidfs();
+            AppContfxt.gftAppContfxt().put(Sfrvidfs.dlbss, sfrvidfs);
         }
-        return services;
+        rfturn sfrvidfs;
     }
 
-    private static ArrayList<PrintServiceLookup> getListOfLookupServices() {
-        return getServicesForContext().listOfLookupServices;
+    privbtf stbtid ArrbyList<PrintSfrvidfLookup> gftListOfLookupSfrvidfs() {
+        rfturn gftSfrvidfsForContfxt().listOfLookupSfrvidfs;
     }
 
-    private static ArrayList<PrintServiceLookup> initListOfLookupServices() {
-        ArrayList<PrintServiceLookup> listOfLookupServices = new ArrayList<>();
-        getServicesForContext().listOfLookupServices = listOfLookupServices;
-        return listOfLookupServices;
+    privbtf stbtid ArrbyList<PrintSfrvidfLookup> initListOfLookupSfrvidfs() {
+        ArrbyList<PrintSfrvidfLookup> listOfLookupSfrvidfs = nfw ArrbyList<>();
+        gftSfrvidfsForContfxt().listOfLookupSfrvidfs = listOfLookupSfrvidfs;
+        rfturn listOfLookupSfrvidfs;
     }
 
 
-    private static ArrayList<PrintService> getRegisteredServices() {
-        return getServicesForContext().registeredServices;
+    privbtf stbtid ArrbyList<PrintSfrvidf> gftRfgistfrfdSfrvidfs() {
+        rfturn gftSfrvidfsForContfxt().rfgistfrfdSfrvidfs;
     }
 
-    private static ArrayList<PrintService> initRegisteredServices() {
-        ArrayList<PrintService> registeredServices = new ArrayList<>();
-        getServicesForContext().registeredServices = registeredServices;
-        return registeredServices;
+    privbtf stbtid ArrbyList<PrintSfrvidf> initRfgistfrfdSfrvidfs() {
+        ArrbyList<PrintSfrvidf> rfgistfrfdSfrvidfs = nfw ArrbyList<>();
+        gftSfrvidfsForContfxt().rfgistfrfdSfrvidfs = rfgistfrfdSfrvidfs;
+        rfturn rfgistfrfdSfrvidfs;
     }
 
     /**
-     * Locates print services capable of printing the specified
-     * {@link DocFlavor}.
+     * Lodbtfs print sfrvidfs dbpbblf of printing tif spfdififd
+     * {@link DodFlbvor}.
      *
-     * @param flavor the flavor to print. If null, this constraint is not
-     *        used.
-     * @param attributes attributes that the print service must support.
-     * If null this constraint is not used.
+     * @pbrbm flbvor tif flbvor to print. If null, tiis donstrbint is not
+     *        usfd.
+     * @pbrbm bttributfs bttributfs tibt tif print sfrvidf must support.
+     * If null tiis donstrbint is not usfd.
      *
-     * @return array of matching <code>PrintService</code> objects
-     * representing print services that support the specified flavor
-     * attributes.  If no services match, the array is zero-length.
+     * @rfturn brrby of mbtdiing <dodf>PrintSfrvidf</dodf> objfdts
+     * rfprfsfnting print sfrvidfs tibt support tif spfdififd flbvor
+     * bttributfs.  If no sfrvidfs mbtdi, tif brrby is zfro-lfngti.
      */
-    public static final PrintService[]
-        lookupPrintServices(DocFlavor flavor,
-                            AttributeSet attributes) {
-        ArrayList<PrintService> list = getServices(flavor, attributes);
-        return list.toArray(new PrintService[list.size()]);
+    publid stbtid finbl PrintSfrvidf[]
+        lookupPrintSfrvidfs(DodFlbvor flbvor,
+                            AttributfSft bttributfs) {
+        ArrbyList<PrintSfrvidf> list = gftSfrvidfs(flbvor, bttributfs);
+        rfturn list.toArrby(nfw PrintSfrvidf[list.sizf()]);
     }
 
 
     /**
-     * Locates MultiDoc print Services capable of printing MultiDocs
-     * containing all the specified doc flavors.
-     * <P> This method is useful to help locate a service that can print
-     * a <code>MultiDoc</code> in which the elements may be different
-     * flavors. An application could perform this itself by multiple lookups
-     * on each <code>DocFlavor</code> in turn and collating the results,
-     * but the lookup service may be able to do this more efficiently.
+     * Lodbtfs MultiDod print Sfrvidfs dbpbblf of printing MultiDods
+     * dontbining bll tif spfdififd dod flbvors.
+     * <P> Tiis mftiod is usfful to iflp lodbtf b sfrvidf tibt dbn print
+     * b <dodf>MultiDod</dodf> in wiidi tif flfmfnts mby bf difffrfnt
+     * flbvors. An bpplidbtion dould pfrform tiis itsflf by multiplf lookups
+     * on fbdi <dodf>DodFlbvor</dodf> in turn bnd dollbting tif rfsults,
+     * but tif lookup sfrvidf mby bf bblf to do tiis morf fffidifntly.
      *
-     * @param flavors the flavors to print. If null or empty this
-     *        constraint is not used.
-     * Otherwise return only multidoc print services that can print all
-     * specified doc flavors.
-     * @param attributes attributes that the print service must
-     * support.  If null this constraint is not used.
+     * @pbrbm flbvors tif flbvors to print. If null or fmpty tiis
+     *        donstrbint is not usfd.
+     * Otifrwisf rfturn only multidod print sfrvidfs tibt dbn print bll
+     * spfdififd dod flbvors.
+     * @pbrbm bttributfs bttributfs tibt tif print sfrvidf must
+     * support.  If null tiis donstrbint is not usfd.
      *
-     * @return array of matching {@link MultiDocPrintService} objects.
-     * If no services match, the array is zero-length.
+     * @rfturn brrby of mbtdiing {@link MultiDodPrintSfrvidf} objfdts.
+     * If no sfrvidfs mbtdi, tif brrby is zfro-lfngti.
      *
      */
-    public static final MultiDocPrintService[]
-        lookupMultiDocPrintServices(DocFlavor[] flavors,
-                                    AttributeSet attributes) {
-        ArrayList<MultiDocPrintService> list = getMultiDocServices(flavors, attributes);
-        return list.toArray(new MultiDocPrintService[list.size()]);
+    publid stbtid finbl MultiDodPrintSfrvidf[]
+        lookupMultiDodPrintSfrvidfs(DodFlbvor[] flbvors,
+                                    AttributfSft bttributfs) {
+        ArrbyList<MultiDodPrintSfrvidf> list = gftMultiDodSfrvidfs(flbvors, bttributfs);
+        rfturn list.toArrby(nfw MultiDodPrintSfrvidf[list.sizf()]);
     }
 
 
     /**
-     * Locates the default print service for this environment.
-     * This may return null.
-     * If multiple lookup services each specify a default, the
-     * chosen service is not precisely defined, but a
-     * platform native service, rather than an installed service,
-     * is usually returned as the default.  If there is no clearly
-     * identifiable
-     * platform native default print service, the default is the first
-     * to be located in an implementation-dependent manner.
+     * Lodbtfs tif dffbult print sfrvidf for tiis fnvironmfnt.
+     * Tiis mby rfturn null.
+     * If multiplf lookup sfrvidfs fbdi spfdify b dffbult, tif
+     * diosfn sfrvidf is not prfdisfly dffinfd, but b
+     * plbtform nbtivf sfrvidf, rbtifr tibn bn instbllfd sfrvidf,
+     * is usublly rfturnfd bs tif dffbult.  If tifrf is no dlfbrly
+     * idfntifibblf
+     * plbtform nbtivf dffbult print sfrvidf, tif dffbult is tif first
+     * to bf lodbtfd in bn implfmfntbtion-dfpfndfnt mbnnfr.
      * <p>
-     * This may include making use of any preferences API that is available
-     * as part of the Java or native platform.
-     * This algorithm may be overridden by a user setting the property
-     * javax.print.defaultPrinter.
-     * A service specified must be discovered to be valid and currently
-     * available to be returned as the default.
+     * Tiis mby indludf mbking usf of bny prfffrfndfs API tibt is bvbilbblf
+     * bs pbrt of tif Jbvb or nbtivf plbtform.
+     * Tiis blgoritim mby bf ovfrriddfn by b usfr sftting tif propfrty
+     * jbvbx.print.dffbultPrintfr.
+     * A sfrvidf spfdififd must bf disdovfrfd to bf vblid bnd durrfntly
+     * bvbilbblf to bf rfturnfd bs tif dffbult.
      *
-     * @return the default PrintService.
+     * @rfturn tif dffbult PrintSfrvidf.
      */
 
-    public static final PrintService lookupDefaultPrintService() {
+    publid stbtid finbl PrintSfrvidf lookupDffbultPrintSfrvidf() {
 
-        Iterator<PrintServiceLookup> psIterator = getAllLookupServices().iterator();
-        while (psIterator.hasNext()) {
+        Itfrbtor<PrintSfrvidfLookup> psItfrbtor = gftAllLookupSfrvidfs().itfrbtor();
+        wiilf (psItfrbtor.ibsNfxt()) {
             try {
-                PrintServiceLookup lus = psIterator.next();
-                PrintService service = lus.getDefaultPrintService();
-                if (service != null) {
-                    return service;
+                PrintSfrvidfLookup lus = psItfrbtor.nfxt();
+                PrintSfrvidf sfrvidf = lus.gftDffbultPrintSfrvidf();
+                if (sfrvidf != null) {
+                    rfturn sfrvidf;
                 }
-            } catch (Exception e) {
+            } dbtdi (Exdfption f) {
             }
         }
-        return null;
+        rfturn null;
     }
 
 
     /**
-     * Allows an application to explicitly register a class that
-     * implements lookup services. The registration will not persist
-     * across VM invocations.
-     * This is useful if an application needs to make a new service
-     * available that is not part of the installation.
-     * If the lookup service is already registered, or cannot be registered,
-     * the method returns false.
+     * Allows bn bpplidbtion to fxpliditly rfgistfr b dlbss tibt
+     * implfmfnts lookup sfrvidfs. Tif rfgistrbtion will not pfrsist
+     * bdross VM invodbtions.
+     * Tiis is usfful if bn bpplidbtion nffds to mbkf b nfw sfrvidf
+     * bvbilbblf tibt is not pbrt of tif instbllbtion.
+     * If tif lookup sfrvidf is blrfbdy rfgistfrfd, or dbnnot bf rfgistfrfd,
+     * tif mftiod rfturns fblsf.
      *
-     * @param sp an implementation of a lookup service.
-     * @return <code>true</code> if the new lookup service is newly
-     *         registered; <code>false</code> otherwise.
+     * @pbrbm sp bn implfmfntbtion of b lookup sfrvidf.
+     * @rfturn <dodf>truf</dodf> if tif nfw lookup sfrvidf is nfwly
+     *         rfgistfrfd; <dodf>fblsf</dodf> otifrwisf.
      */
-    public static boolean registerServiceProvider(PrintServiceLookup sp) {
-        synchronized (PrintServiceLookup.class) {
-            Iterator<PrintServiceLookup> psIterator =
-                getAllLookupServices().iterator();
-            while (psIterator.hasNext()) {
+    publid stbtid boolfbn rfgistfrSfrvidfProvidfr(PrintSfrvidfLookup sp) {
+        syndironizfd (PrintSfrvidfLookup.dlbss) {
+            Itfrbtor<PrintSfrvidfLookup> psItfrbtor =
+                gftAllLookupSfrvidfs().itfrbtor();
+            wiilf (psItfrbtor.ibsNfxt()) {
                 try {
-                    Object lus = psIterator.next();
-                    if (lus.getClass() == sp.getClass()) {
-                        return false;
+                    Objfdt lus = psItfrbtor.nfxt();
+                    if (lus.gftClbss() == sp.gftClbss()) {
+                        rfturn fblsf;
                     }
-                } catch (Exception e) {
+                } dbtdi (Exdfption f) {
                 }
             }
-            getListOfLookupServices().add(sp);
-            return true;
+            gftListOfLookupSfrvidfs().bdd(sp);
+            rfturn truf;
         }
 
     }
 
 
     /**
-     * Allows an application to directly register an instance of a
-     * class which implements a print service.
-     * The lookup operations for this service will be
-     * performed by the PrintServiceLookup class using the attribute
-     * values and classes reported by the service.
-     * This may be less efficient than a lookup
-     * service tuned for that service.
-     * Therefore registering a <code>PrintServiceLookup</code> instance
-     * instead is recommended.
-     * The method returns true if this service is not previously
-     * registered and is now successfully registered.
-     * This method should not be called with StreamPrintService instances.
-     * They will always fail to register and the method will return false.
-     * @param service an implementation of a print service.
-     * @return <code>true</code> if the service is newly
-     *         registered; <code>false</code> otherwise.
+     * Allows bn bpplidbtion to dirfdtly rfgistfr bn instbndf of b
+     * dlbss wiidi implfmfnts b print sfrvidf.
+     * Tif lookup opfrbtions for tiis sfrvidf will bf
+     * pfrformfd by tif PrintSfrvidfLookup dlbss using tif bttributf
+     * vblufs bnd dlbssfs rfportfd by tif sfrvidf.
+     * Tiis mby bf lfss fffidifnt tibn b lookup
+     * sfrvidf tunfd for tibt sfrvidf.
+     * Tifrfforf rfgistfring b <dodf>PrintSfrvidfLookup</dodf> instbndf
+     * instfbd is rfdommfndfd.
+     * Tif mftiod rfturns truf if tiis sfrvidf is not prfviously
+     * rfgistfrfd bnd is now suddfssfully rfgistfrfd.
+     * Tiis mftiod siould not bf dbllfd witi StrfbmPrintSfrvidf instbndfs.
+     * Tify will blwbys fbil to rfgistfr bnd tif mftiod will rfturn fblsf.
+     * @pbrbm sfrvidf bn implfmfntbtion of b print sfrvidf.
+     * @rfturn <dodf>truf</dodf> if tif sfrvidf is nfwly
+     *         rfgistfrfd; <dodf>fblsf</dodf> otifrwisf.
      */
 
-    public static boolean registerService(PrintService service) {
-        synchronized (PrintServiceLookup.class) {
-            if (service instanceof StreamPrintService) {
-                return false;
+    publid stbtid boolfbn rfgistfrSfrvidf(PrintSfrvidf sfrvidf) {
+        syndironizfd (PrintSfrvidfLookup.dlbss) {
+            if (sfrvidf instbndfof StrfbmPrintSfrvidf) {
+                rfturn fblsf;
             }
-            ArrayList<PrintService> registeredServices = getRegisteredServices();
-            if (registeredServices == null) {
-                registeredServices = initRegisteredServices();
+            ArrbyList<PrintSfrvidf> rfgistfrfdSfrvidfs = gftRfgistfrfdSfrvidfs();
+            if (rfgistfrfdSfrvidfs == null) {
+                rfgistfrfdSfrvidfs = initRfgistfrfdSfrvidfs();
             }
-            else {
-              if (registeredServices.contains(service)) {
-                return false;
+            flsf {
+              if (rfgistfrfdSfrvidfs.dontbins(sfrvidf)) {
+                rfturn fblsf;
               }
             }
-            registeredServices.add(service);
-            return true;
+            rfgistfrfdSfrvidfs.bdd(sfrvidf);
+            rfturn truf;
         }
     }
 
 
    /**
-    * Locates services that can be positively confirmed to support
-    * the combination of attributes and DocFlavors specified.
-    * This method is not called directly by applications.
+    * Lodbtfs sfrvidfs tibt dbn bf positivfly donfirmfd to support
+    * tif dombinbtion of bttributfs bnd DodFlbvors spfdififd.
+    * Tiis mftiod is not dbllfd dirfdtly by bpplidbtions.
     * <p>
-    * Implemented by a service provider, used by the static methods
-    * of this class.
+    * Implfmfntfd by b sfrvidf providfr, usfd by tif stbtid mftiods
+    * of tiis dlbss.
     * <p>
-    * The results should be the same as obtaining all the PrintServices
-    * and querying each one individually on its support for the
-    * specified attributes and flavors, but the process can be more
-    * efficient by taking advantage of the capabilities of lookup services
-    * for the print services.
+    * Tif rfsults siould bf tif sbmf bs obtbining bll tif PrintSfrvidfs
+    * bnd qufrying fbdi onf individublly on its support for tif
+    * spfdififd bttributfs bnd flbvors, but tif prodfss dbn bf morf
+    * fffidifnt by tbking bdvbntbgf of tif dbpbbilitifs of lookup sfrvidfs
+    * for tif print sfrvidfs.
     *
-    * @param flavor of document required.  If null it is ignored.
-    * @param attributes required to be supported. If null this
-    * constraint is not used.
-    * @return array of matching PrintServices. If no services match, the
-    * array is zero-length.
+    * @pbrbm flbvor of dodumfnt rfquirfd.  If null it is ignorfd.
+    * @pbrbm bttributfs rfquirfd to bf supportfd. If null tiis
+    * donstrbint is not usfd.
+    * @rfturn brrby of mbtdiing PrintSfrvidfs. If no sfrvidfs mbtdi, tif
+    * brrby is zfro-lfngti.
     */
-    public abstract PrintService[] getPrintServices(DocFlavor flavor,
-                                                    AttributeSet attributes);
+    publid bbstrbdt PrintSfrvidf[] gftPrintSfrvidfs(DodFlbvor flbvor,
+                                                    AttributfSft bttributfs);
 
     /**
-     * Not called directly by applications.
-     * Implemented by a service provider, used by the static methods
-     * of this class.
-     * @return array of all PrintServices known to this lookup service
-     * class. If none are found, the array is zero-length.
+     * Not dbllfd dirfdtly by bpplidbtions.
+     * Implfmfntfd by b sfrvidf providfr, usfd by tif stbtid mftiods
+     * of tiis dlbss.
+     * @rfturn brrby of bll PrintSfrvidfs known to tiis lookup sfrvidf
+     * dlbss. If nonf brf found, tif brrby is zfro-lfngti.
      */
-    public abstract PrintService[] getPrintServices() ;
+    publid bbstrbdt PrintSfrvidf[] gftPrintSfrvidfs() ;
 
 
    /**
-    * Not called directly by applications.
+    * Not dbllfd dirfdtly by bpplidbtions.
     * <p>
-    * Implemented by a service provider, used by the static methods
-    * of this class.
+    * Implfmfntfd by b sfrvidf providfr, usfd by tif stbtid mftiods
+    * of tiis dlbss.
     * <p>
-    * Locates MultiDoc print services which can be positively confirmed
-    * to support the combination of attributes and DocFlavors specified.
+    * Lodbtfs MultiDod print sfrvidfs wiidi dbn bf positivfly donfirmfd
+    * to support tif dombinbtion of bttributfs bnd DodFlbvors spfdififd.
     *
-    * @param flavors of documents required. If null or empty it is ignored.
-    * @param attributes required to be supported. If null this
-     * constraint is not used.
-    * @return array of matching PrintServices. If no services match, the
-    * array is zero-length.
+    * @pbrbm flbvors of dodumfnts rfquirfd. If null or fmpty it is ignorfd.
+    * @pbrbm bttributfs rfquirfd to bf supportfd. If null tiis
+     * donstrbint is not usfd.
+    * @rfturn brrby of mbtdiing PrintSfrvidfs. If no sfrvidfs mbtdi, tif
+    * brrby is zfro-lfngti.
     */
-    public abstract MultiDocPrintService[]
-        getMultiDocPrintServices(DocFlavor[] flavors,
-                                 AttributeSet attributes);
+    publid bbstrbdt MultiDodPrintSfrvidf[]
+        gftMultiDodPrintSfrvidfs(DodFlbvor[] flbvors,
+                                 AttributfSft bttributfs);
 
     /**
-     * Not called directly by applications.
-     * Implemented by a service provider, and called by the print lookup
-     * service
-     * @return the default PrintService for this lookup service.
-     * If there is no default, returns null.
+     * Not dbllfd dirfdtly by bpplidbtions.
+     * Implfmfntfd by b sfrvidf providfr, bnd dbllfd by tif print lookup
+     * sfrvidf
+     * @rfturn tif dffbult PrintSfrvidf for tiis lookup sfrvidf.
+     * If tifrf is no dffbult, rfturns null.
      */
-    public abstract PrintService getDefaultPrintService();
+    publid bbstrbdt PrintSfrvidf gftDffbultPrintSfrvidf();
 
-    private static ArrayList<PrintServiceLookup> getAllLookupServices() {
-        synchronized (PrintServiceLookup.class) {
-            ArrayList<PrintServiceLookup> listOfLookupServices = getListOfLookupServices();
-            if (listOfLookupServices != null) {
-                return listOfLookupServices;
-            } else {
-                listOfLookupServices = initListOfLookupServices();
+    privbtf stbtid ArrbyList<PrintSfrvidfLookup> gftAllLookupSfrvidfs() {
+        syndironizfd (PrintSfrvidfLookup.dlbss) {
+            ArrbyList<PrintSfrvidfLookup> listOfLookupSfrvidfs = gftListOfLookupSfrvidfs();
+            if (listOfLookupSfrvidfs != null) {
+                rfturn listOfLookupSfrvidfs;
+            } flsf {
+                listOfLookupSfrvidfs = initListOfLookupSfrvidfs();
             }
             try {
-                java.security.AccessController.doPrivileged(
-                     new java.security.PrivilegedExceptionAction<Object>() {
-                        public Object run() {
-                            Iterator<PrintServiceLookup> iterator =
-                                ServiceLoader.load(PrintServiceLookup.class).
-                                iterator();
-                            ArrayList<PrintServiceLookup> los = getListOfLookupServices();
-                            while (iterator.hasNext()) {
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                     nfw jbvb.sfdurity.PrivilfgfdExdfptionAdtion<Objfdt>() {
+                        publid Objfdt run() {
+                            Itfrbtor<PrintSfrvidfLookup> itfrbtor =
+                                SfrvidfLobdfr.lobd(PrintSfrvidfLookup.dlbss).
+                                itfrbtor();
+                            ArrbyList<PrintSfrvidfLookup> los = gftListOfLookupSfrvidfs();
+                            wiilf (itfrbtor.ibsNfxt()) {
                                 try {
-                                    los.add(iterator.next());
-                                }  catch (ServiceConfigurationError err) {
-                                    /* In the applet case, we continue */
-                                    if (System.getSecurityManager() != null) {
-                                        err.printStackTrace();
-                                    } else {
-                                        throw err;
+                                    los.bdd(itfrbtor.nfxt());
+                                }  dbtdi (SfrvidfConfigurbtionError frr) {
+                                    /* In tif bpplft dbsf, wf dontinuf */
+                                    if (Systfm.gftSfdurityMbnbgfr() != null) {
+                                        frr.printStbdkTrbdf();
+                                    } flsf {
+                                        tirow frr;
                                     }
                                 }
                             }
-                            return null;
+                            rfturn null;
                         }
                 });
-            } catch (java.security.PrivilegedActionException e) {
+            } dbtdi (jbvb.sfdurity.PrivilfgfdAdtionExdfption f) {
             }
 
-            return listOfLookupServices;
+            rfturn listOfLookupSfrvidfs;
         }
     }
 
-    private static ArrayList<PrintService> getServices(DocFlavor flavor,
-                                                       AttributeSet attributes) {
+    privbtf stbtid ArrbyList<PrintSfrvidf> gftSfrvidfs(DodFlbvor flbvor,
+                                                       AttributfSft bttributfs) {
 
-        ArrayList<PrintService> listOfServices = new ArrayList<>();
-        Iterator<PrintServiceLookup> psIterator = getAllLookupServices().iterator();
-        while (psIterator.hasNext()) {
+        ArrbyList<PrintSfrvidf> listOfSfrvidfs = nfw ArrbyList<>();
+        Itfrbtor<PrintSfrvidfLookup> psItfrbtor = gftAllLookupSfrvidfs().itfrbtor();
+        wiilf (psItfrbtor.ibsNfxt()) {
             try {
-                PrintServiceLookup lus = psIterator.next();
-                PrintService[] services=null;
-                if (flavor == null && attributes == null) {
+                PrintSfrvidfLookup lus = psItfrbtor.nfxt();
+                PrintSfrvidf[] sfrvidfs=null;
+                if (flbvor == null && bttributfs == null) {
                     try {
-                    services = lus.getPrintServices();
-                    } catch (Throwable tr) {
+                    sfrvidfs = lus.gftPrintSfrvidfs();
+                    } dbtdi (Tirowbblf tr) {
                     }
-                } else {
-                    services = lus.getPrintServices(flavor, attributes);
+                } flsf {
+                    sfrvidfs = lus.gftPrintSfrvidfs(flbvor, bttributfs);
                 }
-                if (services == null) {
-                    continue;
+                if (sfrvidfs == null) {
+                    dontinuf;
                 }
-                for (int i=0; i<services.length; i++) {
-                    listOfServices.add(services[i]);
+                for (int i=0; i<sfrvidfs.lfngti; i++) {
+                    listOfSfrvidfs.bdd(sfrvidfs[i]);
                 }
-            } catch (Exception e) {
+            } dbtdi (Exdfption f) {
             }
         }
-        /* add any directly registered services */
-        ArrayList<PrintService> registeredServices = null;
+        /* bdd bny dirfdtly rfgistfrfd sfrvidfs */
+        ArrbyList<PrintSfrvidf> rfgistfrfdSfrvidfs = null;
         try {
-          SecurityManager security = System.getSecurityManager();
-          if (security != null) {
-            security.checkPrintJobAccess();
+          SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+          if (sfdurity != null) {
+            sfdurity.difdkPrintJobAddfss();
           }
-          registeredServices = getRegisteredServices();
-        } catch (SecurityException se) {
+          rfgistfrfdSfrvidfs = gftRfgistfrfdSfrvidfs();
+        } dbtdi (SfdurityExdfption sf) {
         }
-        if (registeredServices != null) {
-            PrintService[] services = registeredServices.toArray(
-                           new PrintService[registeredServices.size()]);
-            for (int i=0; i<services.length; i++) {
-                if (!listOfServices.contains(services[i])) {
-                    if (flavor == null && attributes == null) {
-                        listOfServices.add(services[i]);
-                    } else if (((flavor != null &&
-                                 services[i].isDocFlavorSupported(flavor)) ||
-                                flavor == null) &&
-                               null == services[i].getUnsupportedAttributes(
-                                                      flavor, attributes)) {
-                        listOfServices.add(services[i]);
+        if (rfgistfrfdSfrvidfs != null) {
+            PrintSfrvidf[] sfrvidfs = rfgistfrfdSfrvidfs.toArrby(
+                           nfw PrintSfrvidf[rfgistfrfdSfrvidfs.sizf()]);
+            for (int i=0; i<sfrvidfs.lfngti; i++) {
+                if (!listOfSfrvidfs.dontbins(sfrvidfs[i])) {
+                    if (flbvor == null && bttributfs == null) {
+                        listOfSfrvidfs.bdd(sfrvidfs[i]);
+                    } flsf if (((flbvor != null &&
+                                 sfrvidfs[i].isDodFlbvorSupportfd(flbvor)) ||
+                                flbvor == null) &&
+                               null == sfrvidfs[i].gftUnsupportfdAttributfs(
+                                                      flbvor, bttributfs)) {
+                        listOfSfrvidfs.bdd(sfrvidfs[i]);
                     }
                 }
             }
         }
-        return listOfServices;
+        rfturn listOfSfrvidfs;
     }
 
-    private static ArrayList<MultiDocPrintService> getMultiDocServices(DocFlavor[] flavors,
-                                                                       AttributeSet attributes) {
+    privbtf stbtid ArrbyList<MultiDodPrintSfrvidf> gftMultiDodSfrvidfs(DodFlbvor[] flbvors,
+                                                                       AttributfSft bttributfs) {
 
 
-        ArrayList<MultiDocPrintService> listOfServices = new ArrayList<>();
-        Iterator<PrintServiceLookup> psIterator = getAllLookupServices().iterator();
-        while (psIterator.hasNext()) {
+        ArrbyList<MultiDodPrintSfrvidf> listOfSfrvidfs = nfw ArrbyList<>();
+        Itfrbtor<PrintSfrvidfLookup> psItfrbtor = gftAllLookupSfrvidfs().itfrbtor();
+        wiilf (psItfrbtor.ibsNfxt()) {
             try {
-                PrintServiceLookup lus = psIterator.next();
-                MultiDocPrintService[] services  =
-                    lus.getMultiDocPrintServices(flavors, attributes);
-                if (services == null) {
-                    continue;
+                PrintSfrvidfLookup lus = psItfrbtor.nfxt();
+                MultiDodPrintSfrvidf[] sfrvidfs  =
+                    lus.gftMultiDodPrintSfrvidfs(flbvors, bttributfs);
+                if (sfrvidfs == null) {
+                    dontinuf;
                 }
-                for (int i=0; i<services.length; i++) {
-                    listOfServices.add(services[i]);
+                for (int i=0; i<sfrvidfs.lfngti; i++) {
+                    listOfSfrvidfs.bdd(sfrvidfs[i]);
                 }
-            } catch (Exception e) {
+            } dbtdi (Exdfption f) {
             }
         }
-        /* add any directly registered services */
-        ArrayList<PrintService> registeredServices = null;
+        /* bdd bny dirfdtly rfgistfrfd sfrvidfs */
+        ArrbyList<PrintSfrvidf> rfgistfrfdSfrvidfs = null;
         try {
-          SecurityManager security = System.getSecurityManager();
-          if (security != null) {
-            security.checkPrintJobAccess();
+          SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+          if (sfdurity != null) {
+            sfdurity.difdkPrintJobAddfss();
           }
-          registeredServices = getRegisteredServices();
-        } catch (Exception e) {
+          rfgistfrfdSfrvidfs = gftRfgistfrfdSfrvidfs();
+        } dbtdi (Exdfption f) {
         }
-        if (registeredServices != null) {
-            PrintService[] services =
-                registeredServices.toArray(new PrintService[registeredServices.size()]);
-            for (int i=0; i<services.length; i++) {
-                if (services[i] instanceof MultiDocPrintService &&
-                    !listOfServices.contains(services[i])) {
-                    if (flavors == null || flavors.length == 0) {
-                        listOfServices.add((MultiDocPrintService)services[i]);
-                    } else {
-                        boolean supported = true;
-                        for (int f=0; f<flavors.length; f++) {
-                            if (services[i].isDocFlavorSupported(flavors[f])) {
+        if (rfgistfrfdSfrvidfs != null) {
+            PrintSfrvidf[] sfrvidfs =
+                rfgistfrfdSfrvidfs.toArrby(nfw PrintSfrvidf[rfgistfrfdSfrvidfs.sizf()]);
+            for (int i=0; i<sfrvidfs.lfngti; i++) {
+                if (sfrvidfs[i] instbndfof MultiDodPrintSfrvidf &&
+                    !listOfSfrvidfs.dontbins(sfrvidfs[i])) {
+                    if (flbvors == null || flbvors.lfngti == 0) {
+                        listOfSfrvidfs.bdd((MultiDodPrintSfrvidf)sfrvidfs[i]);
+                    } flsf {
+                        boolfbn supportfd = truf;
+                        for (int f=0; f<flbvors.lfngti; f++) {
+                            if (sfrvidfs[i].isDodFlbvorSupportfd(flbvors[f])) {
 
-                                if (services[i].getUnsupportedAttributes(
-                                     flavors[f], attributes) != null) {
-                                        supported = false;
-                                        break;
+                                if (sfrvidfs[i].gftUnsupportfdAttributfs(
+                                     flbvors[f], bttributfs) != null) {
+                                        supportfd = fblsf;
+                                        brfbk;
                                 }
-                            } else {
-                                supported = false;
-                                break;
+                            } flsf {
+                                supportfd = fblsf;
+                                brfbk;
                             }
                         }
-                        if (supported) {
-                            listOfServices.add((MultiDocPrintService)services[i]);
+                        if (supportfd) {
+                            listOfSfrvidfs.bdd((MultiDodPrintSfrvidf)sfrvidfs[i]);
                         }
                     }
                 }
             }
         }
-        return listOfServices;
+        rfturn listOfSfrvidfs;
     }
 
 }

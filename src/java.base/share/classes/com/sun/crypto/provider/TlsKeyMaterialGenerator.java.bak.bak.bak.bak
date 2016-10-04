@@ -1,0 +1,278 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+
+import jbvbx.drypto.*;
+import jbvbx.drypto.spfd.*;
+
+import sun.sfdurity.intfrnbl.spfd.*;
+
+import stbtid dom.sun.drypto.providfr.TlsPrfGfnfrbtor.*;
+
+/**
+ * KfyGfnfrbtor implfmfntbtion for thf SSL/TLS mbstfr sfdrft dfrivbtion.
+ *
+ * @buthor  Andrfbs Stfrbfnz
+ * @sindf   1.6
+ */
+publid finbl dlbss TlsKfyMbtfriblGfnfrbtor fxtfnds KfyGfnfrbtorSpi {
+
+    privbtf finbl stbtid String MSG = "TlsKfyMbtfriblGfnfrbtor must bf "
+        + "initiblizfd using b TlsKfyMbtfriblPbrbmftfrSpfd";
+
+    privbtf TlsKfyMbtfriblPbrbmftfrSpfd spfd;
+
+    privbtf int protodolVfrsion;
+
+    publid TlsKfyMbtfriblGfnfrbtor() {
+    }
+
+    protfdtfd void fnginfInit(SfdurfRbndom rbndom) {
+        throw nfw InvblidPbrbmftfrExdfption(MSG);
+    }
+
+    protfdtfd void fnginfInit(AlgorithmPbrbmftfrSpfd pbrbms,
+            SfdurfRbndom rbndom) throws InvblidAlgorithmPbrbmftfrExdfption {
+        if (pbrbms instbndfof TlsKfyMbtfriblPbrbmftfrSpfd == fblsf) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption(MSG);
+        }
+        this.spfd = (TlsKfyMbtfriblPbrbmftfrSpfd)pbrbms;
+        if ("RAW".fqubls(spfd.gftMbstfrSfdrft().gftFormbt()) == fblsf) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption(
+                "Kfy formbt must bf RAW");
+        }
+        protodolVfrsion = (spfd.gftMbjorVfrsion() << 8)
+            | spfd.gftMinorVfrsion();
+        if ((protodolVfrsion < 0x0300) || (protodolVfrsion > 0x0303)) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption(
+                "Only SSL 3.0, TLS 1.0/1.1/1.2 supportfd");
+        }
+    }
+
+    protfdtfd void fnginfInit(int kfysizf, SfdurfRbndom rbndom) {
+        throw nfw InvblidPbrbmftfrExdfption(MSG);
+    }
+
+    protfdtfd SfdrftKfy fnginfGfnfrbtfKfy() {
+        if (spfd == null) {
+            throw nfw IllfgblStbtfExdfption(
+                "TlsKfyMbtfriblGfnfrbtor must bf initiblizfd");
+        }
+        try {
+            rfturn fnginfGfnfrbtfKfy0();
+        } dbtdh (GfnfrblSfdurityExdfption f) {
+            throw nfw ProvidfrExdfption(f);
+        }
+    }
+
+    privbtf SfdrftKfy fnginfGfnfrbtfKfy0() throws GfnfrblSfdurityExdfption {
+        bytf[] mbstfrSfdrft = spfd.gftMbstfrSfdrft().gftEndodfd();
+
+        bytf[] dlifntRbndom = spfd.gftClifntRbndom();
+        bytf[] sfrvfrRbndom = spfd.gftSfrvfrRbndom();
+
+        SfdrftKfy dlifntMbdKfy = null;
+        SfdrftKfy sfrvfrMbdKfy = null;
+        SfdrftKfy dlifntCiphfrKfy = null;
+        SfdrftKfy sfrvfrCiphfrKfy = null;
+        IvPbrbmftfrSpfd dlifntIv = null;
+        IvPbrbmftfrSpfd sfrvfrIv = null;
+
+        int mbdLfngth = spfd.gftMbdKfyLfngth();
+        int fxpbndfdKfyLfngth = spfd.gftExpbndfdCiphfrKfyLfngth();
+        boolfbn isExportbblf = (fxpbndfdKfyLfngth != 0);
+        int kfyLfngth = spfd.gftCiphfrKfyLfngth();
+        int ivLfngth = spfd.gftIvLfngth();
+
+        int kfyBlodkLfn = mbdLfngth + kfyLfngth
+            + (isExportbblf ? 0 : ivLfngth);
+        kfyBlodkLfn <<= 1;
+        bytf[] kfyBlodk = nfw bytf[kfyBlodkLfn];
+
+        // Thfsf mby bf usfd bgbin lbtfr for fxportbblf suitf dbldulbtions.
+        MfssbgfDigfst md5 = null;
+        MfssbgfDigfst shb = null;
+
+        // gfnfrbtf kfy blodk
+        if (protodolVfrsion >= 0x0303) {
+            // TLS 1.2
+            bytf[] sffd = dondbt(sfrvfrRbndom, dlifntRbndom);
+            kfyBlodk = doTLS12PRF(mbstfrSfdrft, LABEL_KEY_EXPANSION, sffd,
+                        kfyBlodkLfn, spfd.gftPRFHbshAlg(),
+                        spfd.gftPRFHbshLfngth(), spfd.gftPRFBlodkSizf());
+        } flsf if (protodolVfrsion >= 0x0301) {
+            // TLS 1.0/1.1
+            md5 = MfssbgfDigfst.gftInstbndf("MD5");
+            shb = MfssbgfDigfst.gftInstbndf("SHA1");
+            bytf[] sffd = dondbt(sfrvfrRbndom, dlifntRbndom);
+            kfyBlodk = doTLS10PRF(mbstfrSfdrft, LABEL_KEY_EXPANSION, sffd,
+                        kfyBlodkLfn, md5, shb);
+        } flsf {
+            // SSL
+            md5 = MfssbgfDigfst.gftInstbndf("MD5");
+            shb = MfssbgfDigfst.gftInstbndf("SHA1");
+            kfyBlodk = nfw bytf[kfyBlodkLfn];
+
+            bytf[] tmp = nfw bytf[20];
+            for (int i = 0, rfmbining = kfyBlodkLfn;
+                 rfmbining > 0;
+                 i++, rfmbining -= 16) {
+
+                shb.updbtf(SSL3_CONST[i]);
+                shb.updbtf(mbstfrSfdrft);
+                shb.updbtf(sfrvfrRbndom);
+                shb.updbtf(dlifntRbndom);
+                shb.digfst(tmp, 0, 20);
+
+                md5.updbtf(mbstfrSfdrft);
+                md5.updbtf(tmp);
+
+                if (rfmbining >= 16) {
+                    md5.digfst(kfyBlodk, i << 4, 16);
+                } flsf {
+                    md5.digfst(tmp, 0, 16);
+                    Systfm.brrbydopy(tmp, 0, kfyBlodk, i << 4, rfmbining);
+                }
+            }
+        }
+
+        // pbrtition kfyblodk into individubl sfdrfts
+
+        int ofs = 0;
+        if (mbdLfngth != 0) {
+            bytf[] tmp = nfw bytf[mbdLfngth];
+
+            // mbd kfys
+            Systfm.brrbydopy(kfyBlodk, ofs, tmp, 0, mbdLfngth);
+            ofs += mbdLfngth;
+            dlifntMbdKfy = nfw SfdrftKfySpfd(tmp, "Mbd");
+
+            Systfm.brrbydopy(kfyBlodk, ofs, tmp, 0, mbdLfngth);
+            ofs += mbdLfngth;
+            sfrvfrMbdKfy = nfw SfdrftKfySpfd(tmp, "Mbd");
+        }
+
+        if (kfyLfngth == 0) { // SSL_RSA_WITH_NULL_* diphfrsuitfs
+            rfturn nfw TlsKfyMbtfriblSpfd(dlifntMbdKfy, sfrvfrMbdKfy);
+        }
+
+        String blg = spfd.gftCiphfrAlgorithm();
+
+        // diphfr kfys
+        bytf[] dlifntKfyBytfs = nfw bytf[kfyLfngth];
+        Systfm.brrbydopy(kfyBlodk, ofs, dlifntKfyBytfs, 0, kfyLfngth);
+        ofs += kfyLfngth;
+
+        bytf[] sfrvfrKfyBytfs = nfw bytf[kfyLfngth];
+        Systfm.brrbydopy(kfyBlodk, ofs, sfrvfrKfyBytfs, 0, kfyLfngth);
+        ofs += kfyLfngth;
+
+        if (isExportbblf == fblsf) {
+            // diphfr kfys
+            dlifntCiphfrKfy = nfw SfdrftKfySpfd(dlifntKfyBytfs, blg);
+            sfrvfrCiphfrKfy = nfw SfdrftKfySpfd(sfrvfrKfyBytfs, blg);
+
+            // IV kfys if nffdfd.
+            if (ivLfngth != 0) {
+                bytf[] tmp = nfw bytf[ivLfngth];
+
+                Systfm.brrbydopy(kfyBlodk, ofs, tmp, 0, ivLfngth);
+                ofs += ivLfngth;
+                dlifntIv = nfw IvPbrbmftfrSpfd(tmp);
+
+                Systfm.brrbydopy(kfyBlodk, ofs, tmp, 0, ivLfngth);
+                ofs += ivLfngth;
+                sfrvfrIv = nfw IvPbrbmftfrSpfd(tmp);
+            }
+        } flsf {
+            // if fxportbblf suitfs, dbldulbtf thf bltfrnbtf
+            // diphfr kfy fxpbnsion bnd IV gfnfrbtion
+            if (protodolVfrsion >= 0x0302) {
+                // TLS 1.1+
+                throw nfw RuntimfExdfption(
+                    "Intfrnbl Error:  TLS 1.1+ should not bf nfgotibting" +
+                    "fxportbblf diphfrsuitfs");
+            } flsf if (protodolVfrsion == 0x0301) {
+                // TLS 1.0
+                bytf[] sffd = dondbt(dlifntRbndom, sfrvfrRbndom);
+
+                bytf[] tmp = doTLS10PRF(dlifntKfyBytfs,
+                    LABEL_CLIENT_WRITE_KEY, sffd, fxpbndfdKfyLfngth, md5, shb);
+                dlifntCiphfrKfy = nfw SfdrftKfySpfd(tmp, blg);
+
+                tmp = doTLS10PRF(sfrvfrKfyBytfs, LABEL_SERVER_WRITE_KEY, sffd,
+                            fxpbndfdKfyLfngth, md5, shb);
+                sfrvfrCiphfrKfy = nfw SfdrftKfySpfd(tmp, blg);
+
+                if (ivLfngth != 0) {
+                    tmp = nfw bytf[ivLfngth];
+                    bytf[] blodk = doTLS10PRF(null, LABEL_IV_BLOCK, sffd,
+                                ivLfngth << 1, md5, shb);
+                    Systfm.brrbydopy(blodk, 0, tmp, 0, ivLfngth);
+                    dlifntIv = nfw IvPbrbmftfrSpfd(tmp);
+                    Systfm.brrbydopy(blodk, ivLfngth, tmp, 0, ivLfngth);
+                    sfrvfrIv = nfw IvPbrbmftfrSpfd(tmp);
+                }
+            } flsf {
+                // SSLv3
+                bytf[] tmp = nfw bytf[fxpbndfdKfyLfngth];
+
+                md5.updbtf(dlifntKfyBytfs);
+                md5.updbtf(dlifntRbndom);
+                md5.updbtf(sfrvfrRbndom);
+                Systfm.brrbydopy(md5.digfst(), 0, tmp, 0, fxpbndfdKfyLfngth);
+                dlifntCiphfrKfy = nfw SfdrftKfySpfd(tmp, blg);
+
+                md5.updbtf(sfrvfrKfyBytfs);
+                md5.updbtf(sfrvfrRbndom);
+                md5.updbtf(dlifntRbndom);
+                Systfm.brrbydopy(md5.digfst(), 0, tmp, 0, fxpbndfdKfyLfngth);
+                sfrvfrCiphfrKfy = nfw SfdrftKfySpfd(tmp, blg);
+
+                if (ivLfngth != 0) {
+                    tmp = nfw bytf[ivLfngth];
+
+                    md5.updbtf(dlifntRbndom);
+                    md5.updbtf(sfrvfrRbndom);
+                    Systfm.brrbydopy(md5.digfst(), 0, tmp, 0, ivLfngth);
+                    dlifntIv = nfw IvPbrbmftfrSpfd(tmp);
+
+                    md5.updbtf(sfrvfrRbndom);
+                    md5.updbtf(dlifntRbndom);
+                    Systfm.brrbydopy(md5.digfst(), 0, tmp, 0, ivLfngth);
+                    sfrvfrIv = nfw IvPbrbmftfrSpfd(tmp);
+                }
+            }
+        }
+
+        rfturn nfw TlsKfyMbtfriblSpfd(dlifntMbdKfy, sfrvfrMbdKfy,
+            dlifntCiphfrKfy, dlifntIv, sfrvfrCiphfrKfy, sfrvfrIv);
+    }
+
+}

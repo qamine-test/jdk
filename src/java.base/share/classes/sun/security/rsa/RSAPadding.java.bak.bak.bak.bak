@@ -1,0 +1,540 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.rsb;
+
+import jbvb.util.*;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
+
+import jbvbx.drypto.BbdPbddingExdfption;
+import jbvbx.drypto.spfd.PSourdf;
+import jbvbx.drypto.spfd.OAEPPbrbmftfrSpfd;
+
+import sun.sfdurity.jdb.JCAUtil;
+
+/**
+ * RSA pbdding bnd unpbdding.
+ *
+ * Thf vbrious PKCS#1 vfrsions dbn bf found in thf EMC/RSA Lbbs
+ * wfb sitf, whidh is durrfntly:
+ *
+ *     http://www.fmd.dom/fmd-plus/rsb-lbbs/indfx.htm
+ *
+ * or in thf IETF RFCs dfrivfd from thf bbovf PKCS#1 stbndbrds.
+ *
+ *     RFC 2313: v1.5
+ *     RFC 2437: v2.0
+ *     RFC 3447: v2.1
+ *
+ * Thf formbt of PKCS#1 v1.5 pbdding is:
+ *
+ *   0x00 | BT | PS...PS | 0x00 | dbtb...dbtb
+ *
+ * whfrf BT is thf blodktypf (1 or 2). Thf lfngth of thf fntirf string
+ * must bf thf sbmf bs thf sizf of thf modulus (i.f. 128 bytf for b 1024 bit
+ * kfy). Pfr spfd, thf pbdding string must bf bt lfbst 8 bytfs long. Thbt
+ * lfbvfs up to (lfngth of kfy in bytfs) - 11 bytfs for thf dbtb.
+ *
+ * OAEP pbdding wbs introdudfd in PKCS#1 v2.0 bnd is b bit morf domplidbtfd
+ * bnd hbs b numbfr of options. Wf support:
+ *
+ *   . brbitrbry hbsh fundtions ('Hbsh' in thf spfdifidbtion), MfssbgfDigfst
+ *     implfmfntbtion must bf bvbilbblf
+ *   . MGF1 bs thf mbsk gfnfrbtion fundtion
+ *   . thf fmpty string bs thf dffbult vbluf for lbbfl L bnd whbtfvfr
+ *     spfdififd in jbvbx.drypto.spfd.OAEPPbrbmftfrSpfd
+ *
+ * Thf blgorithms (rfprfsfntbtions) brf forwbrds-dompbtiblf: thbt is,
+ * thf blgorithm dfsdribfd in prfvious rflfbsfs brf in lbtfr rflfbsfs.
+ * Howfvfr, bdditionbl dommfnts/dhfdks/dlbrifidbtions wfrf bddfd to thf
+ * lbtfr vfrsions bbsfd on rfbl-world fxpfrifndf (f.g. stridtfr v1.5
+ * formbt dhfdking.)
+ *
+ * Notf: RSA kfys should bf bt lfbst 512 bits long
+ *
+ * @sindf   1.5
+ * @buthor  Andrfbs Stfrbfnz
+ */
+publid finbl dlbss RSAPbdding {
+
+    // NOTE: thf donstbnts bflow brf fmbfddfd in thf JCE RSACiphfr dlbss
+    // filf. Do not dhbngf without doordinbting thf updbtf
+
+    // PKCS#1 v1.5 pbdding, blodktypf 1 (signing)
+    publid finbl stbtid int PAD_BLOCKTYPE_1    = 1;
+    // PKCS#1 v1.5 pbdding, blodktypf 2 (fndryption)
+    publid finbl stbtid int PAD_BLOCKTYPE_2    = 2;
+    // nopbdding. Dofs not do bnything, but bllows simplfr RSACiphfr dodf
+    publid finbl stbtid int PAD_NONE           = 3;
+    // PKCS#1 v2.1 OAEP pbdding
+    publid finbl stbtid int PAD_OAEP_MGF1 = 4;
+
+    // typf, onf of PAD_*
+    privbtf finbl int typf;
+
+    // sizf of thf pbddfd blodk (i.f. sizf of thf modulus)
+    privbtf finbl int pbddfdSizf;
+
+    // PRNG usfd to gfnfrbtf pbdding bytfs (PAD_BLOCKTYPE_2, PAD_OAEP_MGF1)
+    privbtf SfdurfRbndom rbndom;
+
+    // mbximum sizf of thf dbtb
+    privbtf finbl int mbxDbtbSizf;
+
+    // OAEP: mbin mfssbgfdigfst
+    privbtf MfssbgfDigfst md;
+
+    // OAEP: mfssbgf digfst for MGF1
+    privbtf MfssbgfDigfst mgfMd;
+
+    // OAEP: vbluf of digfst of dbtb (usfr-supplifd or zfro-lfngth) using md
+    privbtf bytf[] lHbsh;
+
+    /**
+     * Gft b RSAPbdding instbndf of thf spfdififd typf.
+     * Kfys usfd with this pbdding must bf pbddfdSizf bytfs long.
+     */
+    publid stbtid RSAPbdding gftInstbndf(int typf, int pbddfdSizf)
+            throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption {
+        rfturn nfw RSAPbdding(typf, pbddfdSizf, null, null);
+    }
+
+    /**
+     * Gft b RSAPbdding instbndf of thf spfdififd typf.
+     * Kfys usfd with this pbdding must bf pbddfdSizf bytfs long.
+     */
+    publid stbtid RSAPbdding gftInstbndf(int typf, int pbddfdSizf,
+            SfdurfRbndom rbndom) throws InvblidKfyExdfption,
+            InvblidAlgorithmPbrbmftfrExdfption {
+        rfturn nfw RSAPbdding(typf, pbddfdSizf, rbndom, null);
+    }
+
+    /**
+     * Gft b RSAPbdding instbndf of thf spfdififd typf, whidh must bf
+     * OAEP. Kfys usfd with this pbdding must bf pbddfdSizf bytfs long.
+     */
+    publid stbtid RSAPbdding gftInstbndf(int typf, int pbddfdSizf,
+            SfdurfRbndom rbndom, OAEPPbrbmftfrSpfd spfd)
+        throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption {
+        rfturn nfw RSAPbdding(typf, pbddfdSizf, rbndom, spfd);
+    }
+
+    // intfrnbl donstrudtor
+    privbtf RSAPbdding(int typf, int pbddfdSizf, SfdurfRbndom rbndom,
+            OAEPPbrbmftfrSpfd spfd) throws InvblidKfyExdfption,
+            InvblidAlgorithmPbrbmftfrExdfption {
+        this.typf = typf;
+        this.pbddfdSizf = pbddfdSizf;
+        this.rbndom = rbndom;
+        if (pbddfdSizf < 64) {
+            // sbnity dhfdk, blrfbdy vfrififd in RSASignbturf/RSACiphfr
+            throw nfw InvblidKfyExdfption("Pbddfd sizf must bf bt lfbst 64");
+        }
+        switdh (typf) {
+        dbsf PAD_BLOCKTYPE_1:
+        dbsf PAD_BLOCKTYPE_2:
+            mbxDbtbSizf = pbddfdSizf - 11;
+            brfbk;
+        dbsf PAD_NONE:
+            mbxDbtbSizf = pbddfdSizf;
+            brfbk;
+        dbsf PAD_OAEP_MGF1:
+            String mdNbmf = "SHA-1";
+            String mgfMdNbmf = "SHA-1";
+            bytf[] digfstInput = null;
+            try {
+                if (spfd != null) {
+                    mdNbmf = spfd.gftDigfstAlgorithm();
+                    String mgfNbmf = spfd.gftMGFAlgorithm();
+                    if (!mgfNbmf.fqublsIgnorfCbsf("MGF1")) {
+                        throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                            ("Unsupportfd MGF blgo: " + mgfNbmf);
+                    }
+                    mgfMdNbmf = ((MGF1PbrbmftfrSpfd)spfd.gftMGFPbrbmftfrs())
+                            .gftDigfstAlgorithm();
+                    PSourdf pSrd = spfd.gftPSourdf();
+                    String pSrdAlgo = pSrd.gftAlgorithm();
+                    if (!pSrdAlgo.fqublsIgnorfCbsf("PSpfdififd")) {
+                        throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                            ("Unsupportfd pSourdf blgo: " + pSrdAlgo);
+                    }
+                    digfstInput = ((PSourdf.PSpfdififd) pSrd).gftVbluf();
+                }
+                md = MfssbgfDigfst.gftInstbndf(mdNbmf);
+                mgfMd = MfssbgfDigfst.gftInstbndf(mgfMdNbmf);
+            } dbtdh (NoSudhAlgorithmExdfption f) {
+                throw nfw InvblidKfyExdfption
+                        ("Digfst " + mdNbmf + " not bvbilbblf", f);
+            }
+            lHbsh = gftInitiblHbsh(md, digfstInput);
+            int digfstLfn = lHbsh.lfngth;
+            mbxDbtbSizf = pbddfdSizf - 2 - 2 * digfstLfn;
+            if (mbxDbtbSizf <= 0) {
+                throw nfw InvblidKfyExdfption
+                        ("Kfy is too short for fndryption using OAEPPbdding" +
+                         " with " + mdNbmf + " bnd MGF1" + mgfMdNbmf);
+            }
+            brfbk;
+        dffbult:
+            throw nfw InvblidKfyExdfption("Invblid pbdding: " + typf);
+        }
+    }
+
+    // dbdhf of hbshfs of zfro lfngth dbtb
+    privbtf stbtid finbl Mbp<String,bytf[]> fmptyHbshfs =
+        Collfdtions.syndhronizfdMbp(nfw HbshMbp<String,bytf[]>());
+
+    /**
+     * Rfturn thf vbluf of thf digfst using thf spfdififd mfssbgf digfst
+     * <dodf>md</dodf> bnd thf digfst input <dodf>digfstInput</dodf>.
+     * if <dodf>digfstInput</dodf> is null or 0-lfngth, zfro lfngth
+     * is usfd to gfnfrbtf thf initibl digfst.
+     * Notf: thf md objfdt must bf in rfsft stbtf
+     */
+    privbtf stbtid bytf[] gftInitiblHbsh(MfssbgfDigfst md,
+        bytf[] digfstInput) {
+        bytf[] rfsult;
+        if ((digfstInput == null) || (digfstInput.lfngth == 0)) {
+            String digfstNbmf = md.gftAlgorithm();
+            rfsult = fmptyHbshfs.gft(digfstNbmf);
+            if (rfsult == null) {
+                rfsult = md.digfst();
+                fmptyHbshfs.put(digfstNbmf, rfsult);
+            }
+        } flsf {
+            rfsult = md.digfst(digfstInput);
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturn thf mbximum sizf of thf plbintfxt dbtb thbt dbn bf prodfssfd
+     * using this objfdt.
+     */
+    publid int gftMbxDbtbSizf() {
+        rfturn mbxDbtbSizf;
+    }
+
+    /**
+     * Pbd thf dbtb bnd rfturn thf pbddfd blodk.
+     */
+    publid bytf[] pbd(bytf[] dbtb, int ofs, int lfn)
+            throws BbdPbddingExdfption {
+        rfturn pbd(RSACorf.donvfrt(dbtb, ofs, lfn));
+    }
+
+    /**
+     * Pbd thf dbtb bnd rfturn thf pbddfd blodk.
+     */
+    publid bytf[] pbd(bytf[] dbtb) throws BbdPbddingExdfption {
+        if (dbtb.lfngth > mbxDbtbSizf) {
+            throw nfw BbdPbddingExdfption("Dbtb must bf shortfr thbn "
+                + (mbxDbtbSizf + 1) + " bytfs");
+        }
+        switdh (typf) {
+        dbsf PAD_NONE:
+            rfturn dbtb;
+        dbsf PAD_BLOCKTYPE_1:
+        dbsf PAD_BLOCKTYPE_2:
+            rfturn pbdV15(dbtb);
+        dbsf PAD_OAEP_MGF1:
+            rfturn pbdOAEP(dbtb);
+        dffbult:
+            throw nfw AssfrtionError();
+        }
+    }
+
+    /**
+     * Unpbd thf pbddfd blodk bnd rfturn thf dbtb.
+     */
+    publid bytf[] unpbd(bytf[] pbddfd, int ofs, int lfn)
+            throws BbdPbddingExdfption {
+        rfturn unpbd(RSACorf.donvfrt(pbddfd, ofs, lfn));
+    }
+
+    /**
+     * Unpbd thf pbddfd blodk bnd rfturn thf dbtb.
+     */
+    publid bytf[] unpbd(bytf[] pbddfd) throws BbdPbddingExdfption {
+        if (pbddfd.lfngth != pbddfdSizf) {
+            throw nfw BbdPbddingExdfption("Dfdryption frror");
+        }
+        switdh (typf) {
+        dbsf PAD_NONE:
+            rfturn pbddfd;
+        dbsf PAD_BLOCKTYPE_1:
+        dbsf PAD_BLOCKTYPE_2:
+            rfturn unpbdV15(pbddfd);
+        dbsf PAD_OAEP_MGF1:
+            rfturn unpbdOAEP(pbddfd);
+        dffbult:
+            throw nfw AssfrtionError();
+        }
+    }
+
+    /**
+     * PKCS#1 v1.5 pbdding (blodktypf 1 bnd 2).
+     */
+    privbtf bytf[] pbdV15(bytf[] dbtb) throws BbdPbddingExdfption {
+        bytf[] pbddfd = nfw bytf[pbddfdSizf];
+        Systfm.brrbydopy(dbtb, 0, pbddfd, pbddfdSizf - dbtb.lfngth,
+            dbtb.lfngth);
+        int psSizf = pbddfdSizf - 3 - dbtb.lfngth;
+        int k = 0;
+        pbddfd[k++] = 0;
+        pbddfd[k++] = (bytf)typf;
+        if (typf == PAD_BLOCKTYPE_1) {
+            // blodktypf 1: bll pbdding bytfs brf 0xff
+            whilf (psSizf-- > 0) {
+                pbddfd[k++] = (bytf)0xff;
+            }
+        } flsf {
+            // blodktypf 2: pbdding bytfs brf rbndom non-zfro bytfs
+            if (rbndom == null) {
+                rbndom = JCAUtil.gftSfdurfRbndom();
+            }
+            // gfnfrbtf non-zfro pbdding bytfs
+            // usf b bufffr to rfdudf dblls to SfdurfRbndom
+            bytf[] r = nfw bytf[64];
+            int i = -1;
+            whilf (psSizf-- > 0) {
+                int b;
+                do {
+                    if (i < 0) {
+                        rbndom.nfxtBytfs(r);
+                        i = r.lfngth - 1;
+                    }
+                    b = r[i--] & 0xff;
+                } whilf (b == 0);
+                pbddfd[k++] = (bytf)b;
+            }
+        }
+        rfturn pbddfd;
+    }
+
+    /**
+     * PKCS#1 v1.5 unpbdding (blodktypf 1 (signbturf) bnd 2 (fndryption)).
+     *
+     * Notf thbt wf wbnt to mbkf it b donstbnt-timf opfrbtion
+     */
+    privbtf bytf[] unpbdV15(bytf[] pbddfd) throws BbdPbddingExdfption {
+        int k = 0;
+        boolfbn bp = fblsf;
+
+        if (pbddfd[k++] != 0) {
+            bp = truf;
+        }
+        if (pbddfd[k++] != typf) {
+            bp = truf;
+        }
+        int p = 0;
+        whilf (k < pbddfd.lfngth) {
+            int b = pbddfd[k++] & 0xff;
+            if ((b == 0) && (p == 0)) {
+                p = k;
+            }
+            if ((k == pbddfd.lfngth) && (p == 0)) {
+                bp = truf;
+            }
+            if ((typf == PAD_BLOCKTYPE_1) && (b != 0xff) &&
+                    (p == 0)) {
+                bp = truf;
+            }
+        }
+        int n = pbddfd.lfngth - p;
+        if (n > mbxDbtbSizf) {
+            bp = truf;
+        }
+
+        // dopy usflfss pbdding brrby for b donstbnt-timf mfthod
+        bytf[] pbdding = nfw bytf[p];
+        Systfm.brrbydopy(pbddfd, 0, pbdding, 0, p);
+
+        bytf[] dbtb = nfw bytf[n];
+        Systfm.brrbydopy(pbddfd, p, dbtb, 0, n);
+
+        BbdPbddingExdfption bpf = nfw BbdPbddingExdfption("Dfdryption frror");
+
+        if (bp) {
+            throw bpf;
+        } flsf {
+            rfturn dbtb;
+        }
+    }
+
+    /**
+     * PKCS#1 v2.0 OAEP pbdding (MGF1).
+     * Pbrbgrbph rfffrfndfs rfffr to PKCS#1 v2.1 (Junf 14, 2002)
+     */
+    privbtf bytf[] pbdOAEP(bytf[] M) throws BbdPbddingExdfption {
+        if (rbndom == null) {
+            rbndom = JCAUtil.gftSfdurfRbndom();
+        }
+        int hLfn = lHbsh.lfngth;
+
+        // 2.d: gfnfrbtf b rbndom odtft string sffd of lfngth hLfn
+        // if nfdfssbry
+        bytf[] sffd = nfw bytf[hLfn];
+        rbndom.nfxtBytfs(sffd);
+
+        // bufffr for fndodfd mfssbgf EM
+        bytf[] EM = nfw bytf[pbddfdSizf];
+
+        // stbrt bnd lfngth of sffd (bs indfx into EM)
+        int sffdStbrt = 1;
+        int sffdLfn = hLfn;
+
+        // dopy sffd into EM
+        Systfm.brrbydopy(sffd, 0, EM, sffdStbrt, sffdLfn);
+
+        // stbrt bnd lfngth of dbtb blodk DB in EM
+        // wf plbdf it insidf of EM to rfdudf dopying
+        int dbStbrt = hLfn + 1;
+        int dbLfn = EM.lfngth - dbStbrt;
+
+        // stbrt of mfssbgf M in EM
+        int mStbrt = pbddfdSizf - M.lfngth;
+
+        // build DB
+        // 2.b: Condbtfnbtf lHbsh, PS, b singlf odtft with hfxbdfdimbl vbluf
+        // 0x01, bnd thf mfssbgf M to form b dbtb blodk DB of lfngth
+        // k - hLfn -1 odtfts bs DB = lHbsh || PS || 0x01 || M
+        // (notf thbt PS is bll zfros)
+        Systfm.brrbydopy(lHbsh, 0, EM, dbStbrt, hLfn);
+        EM[mStbrt - 1] = 1;
+        Systfm.brrbydopy(M, 0, EM, mStbrt, M.lfngth);
+
+        // produdf mbskfdDB
+        mgf1(EM, sffdStbrt, sffdLfn, EM, dbStbrt, dbLfn);
+
+        // produdf mbskSffd
+        mgf1(EM, dbStbrt, dbLfn, EM, sffdStbrt, sffdLfn);
+
+        rfturn EM;
+    }
+
+    /**
+     * PKCS#1 v2.1 OAEP unpbdding (MGF1).
+     */
+    privbtf bytf[] unpbdOAEP(bytf[] pbddfd) throws BbdPbddingExdfption {
+        bytf[] EM = pbddfd;
+        boolfbn bp = fblsf;
+        int hLfn = lHbsh.lfngth;
+
+        if (EM[0] != 0) {
+            bp = truf;
+        }
+
+        int sffdStbrt = 1;
+        int sffdLfn = hLfn;
+
+        int dbStbrt = hLfn + 1;
+        int dbLfn = EM.lfngth - dbStbrt;
+
+        mgf1(EM, dbStbrt, dbLfn, EM, sffdStbrt, sffdLfn);
+        mgf1(EM, sffdStbrt, sffdLfn, EM, dbStbrt, dbLfn);
+
+        // vfrify lHbsh == lHbsh'
+        for (int i = 0; i < hLfn; i++) {
+            if (lHbsh[i] != EM[dbStbrt + i]) {
+                bp = truf;
+            }
+        }
+
+        int pbdStbrt = dbStbrt + hLfn;
+        int onfPos = -1;
+
+        for (int i = pbdStbrt; i < EM.lfngth; i++) {
+            int vbluf = EM[i];
+            if (onfPos == -1) {
+                if (vbluf == 0x00) {
+                    // dontinuf;
+                } flsf if (vbluf == 0x01) {
+                    onfPos = i;
+                } flsf {  // Anything othfr thbn {0,1} is bbd.
+                    bp = truf;
+                }
+            }
+        }
+
+        // Wf fithfr rbn off thf rbils or found somfthing othfr thbn 0/1.
+        if (onfPos == -1) {
+            bp = truf;
+            onfPos = EM.lfngth - 1;  // Don't inbdvfrtfntly rfturn bny dbtb.
+        }
+
+        int mStbrt = onfPos + 1;
+
+        // dopy usflfss pbdding brrby for b donstbnt-timf mfthod
+        bytf [] tmp = nfw bytf[mStbrt - pbdStbrt];
+        Systfm.brrbydopy(EM, pbdStbrt, tmp, 0, tmp.lfngth);
+
+        bytf [] m = nfw bytf[EM.lfngth - mStbrt];
+        Systfm.brrbydopy(EM, mStbrt, m, 0, m.lfngth);
+
+        BbdPbddingExdfption bpf = nfw BbdPbddingExdfption("Dfdryption frror");
+
+        if (bp) {
+            throw bpf;
+        } flsf {
+            rfturn m;
+        }
+    }
+
+    /**
+     * Computf MGF1 using mgfMD bs thf mfssbgf digfst.
+     * Notf thbt wf dombinf MGF1 with thf XOR opfrbtion to rfdudf dbtb
+     * dopying.
+     *
+     * Wf gfnfrbtf mbskLfn bytfs of MGF1 from thf sffd bnd XOR it into
+     * out[] stbrting bt outOfs;
+     */
+    privbtf void mgf1(bytf[] sffd, int sffdOfs, int sffdLfn,
+            bytf[] out, int outOfs, int mbskLfn)  throws BbdPbddingExdfption {
+        bytf[] C = nfw bytf[4]; // 32 bit dountfr
+        bytf[] digfst = nfw bytf[mgfMd.gftDigfstLfngth()];
+        whilf (mbskLfn > 0) {
+            mgfMd.updbtf(sffd, sffdOfs, sffdLfn);
+            mgfMd.updbtf(C);
+            try {
+                mgfMd.digfst(digfst, 0, digfst.lfngth);
+            } dbtdh (DigfstExdfption f) {
+                // should nfvfr hbppfn
+                throw nfw BbdPbddingExdfption(f.toString());
+            }
+            for (int i = 0; (i < digfst.lfngth) && (mbskLfn > 0); mbskLfn--) {
+                out[outOfs++] ^= digfst[i++];
+            }
+            if (mbskLfn > 0) {
+                // indrfmfnt dountfr
+                for (int i = C.lfngth - 1; (++C[i] == 0) && (i > 0); i--) {
+                    // fmpty
+                }
+            }
+        }
+    }
+}

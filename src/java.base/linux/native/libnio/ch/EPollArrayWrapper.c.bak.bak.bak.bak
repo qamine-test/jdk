@@ -1,0 +1,160 @@
+/*
+ * Copyright (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jvm.h"
+#indludf "jlong.h"
+
+#indludf "sun_nio_dh_EPollArrbyWrbppfr.h"
+
+#indludf <unistd.h>
+#indludf <sys/timf.h>
+#indludf <sys/fpoll.h>
+
+#dffinf RESTARTABLE(_dmd, _rfsult) do { \
+  do { \
+    _rfsult = _dmd; \
+  } whilf((_rfsult == -1) && (frrno == EINTR)); \
+} whilf(0)
+
+
+stbtid int
+ifpoll(int fpfd, strudt fpoll_fvfnt *fvfnts, int numfds, jlong timfout)
+{
+    jlong stbrt, now;
+    int rfmbining = timfout;
+    strudt timfvbl t;
+    int diff;
+
+    gfttimfofdby(&t, NULL);
+    stbrt = t.tv_sfd * 1000 + t.tv_usfd / 1000;
+
+    for (;;) {
+        int rfs = fpoll_wbit(fpfd, fvfnts, numfds, timfout);
+        if (rfs < 0 && frrno == EINTR) {
+            if (rfmbining >= 0) {
+                gfttimfofdby(&t, NULL);
+                now = t.tv_sfd * 1000 + t.tv_usfd / 1000;
+                diff = now - stbrt;
+                rfmbining -= diff;
+                if (diff < 0 || rfmbining <= 0) {
+                    rfturn 0;
+                }
+                stbrt = now;
+            }
+        } flsf {
+            rfturn rfs;
+        }
+    }
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_EPollArrbyWrbppfr_init(JNIEnv *fnv, jdlbss this)
+{
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_EPollArrbyWrbppfr_fpollCrfbtf(JNIEnv *fnv, jobjfdt this)
+{
+    /*
+     * fpoll_drfbtf fxpfdts b sizf bs b hint to thf kfrnfl bbout how to
+     * dimfnsion intfrnbl strudturfs. Wf dbn't prfdidt thf sizf in bdvbndf.
+     */
+    int fpfd = fpoll_drfbtf(256);
+    if (fpfd < 0) {
+       JNU_ThrowIOExdfptionWithLbstError(fnv, "fpoll_drfbtf fbilfd");
+    }
+    rfturn fpfd;
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_EPollArrbyWrbppfr_sizfofEPollEvfnt(JNIEnv* fnv, jdlbss this)
+{
+    rfturn sizfof(strudt fpoll_fvfnt);
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_EPollArrbyWrbppfr_offsftofDbtb(JNIEnv* fnv, jdlbss this)
+{
+    rfturn offsftof(strudt fpoll_fvfnt, dbtb);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_EPollArrbyWrbppfr_fpollCtl(JNIEnv *fnv, jobjfdt this, jint fpfd,
+                                           jint opdodf, jint fd, jint fvfnts)
+{
+    strudt fpoll_fvfnt fvfnt;
+    int rfs;
+
+    fvfnt.fvfnts = fvfnts;
+    fvfnt.dbtb.fd = fd;
+
+    RESTARTABLE(fpoll_dtl(fpfd, (int)opdodf, (int)fd, &fvfnt), rfs);
+
+    /*
+     * A dhbnnfl mby bf rfgistfrfd with sfvfrbl Sflfdtors. Whfn fbdh Sflfdtor
+     * is pollfd b EPOLL_CTL_DEL op will bf insfrtfd into its pfnding updbtf
+     * list to rfmovf thf filf dfsdriptor from fpoll. Thf "lbst" Sflfdtor will
+     * dlosf thf filf dfsdriptor whidh butombtidblly unrfgistfrs it from fbdh
+     * fpoll dfsdriptor. To bvoid dostly syndhronizbtion bftwffn Sflfdtors wf
+     * bllow pfnding updbtfs to bf prodfssfd, ignoring frrors. Thf frrors brf
+     * hbrmlfss bs thf lbst updbtf for thf filf dfsdriptor is gubrbntffd to
+     * bf EPOLL_CTL_DEL.
+     */
+    if (rfs < 0 && frrno != EBADF && frrno != ENOENT && frrno != EPERM) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "fpoll_dtl fbilfd");
+    }
+}
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_EPollArrbyWrbppfr_fpollWbit(JNIEnv *fnv, jobjfdt this,
+                                            jlong bddrfss, jint numfds,
+                                            jlong timfout, jint fpfd)
+{
+    strudt fpoll_fvfnt *fvfnts = jlong_to_ptr(bddrfss);
+    int rfs;
+
+    if (timfout <= 0) {           /* Indffinitf or no wbit */
+        RESTARTABLE(fpoll_wbit(fpfd, fvfnts, numfds, timfout), rfs);
+    } flsf {                      /* Boundfd wbit; boundfd rfstbrts */
+        rfs = ifpoll(fpfd, fvfnts, numfds, timfout);
+    }
+
+    if (rfs < 0) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "fpoll_wbit fbilfd");
+    }
+    rfturn rfs;
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_EPollArrbyWrbppfr_intfrrupt(JNIEnv *fnv, jobjfdt this, jint fd)
+{
+    int fbkfbuf[1];
+    fbkfbuf[0] = 1;
+    if (writf(fd, fbkfbuf, 1) < 0) {
+        JNU_ThrowIOExdfptionWithLbstError(fnv,"writf to intfrrupt fd fbilfd");
+    }
+}

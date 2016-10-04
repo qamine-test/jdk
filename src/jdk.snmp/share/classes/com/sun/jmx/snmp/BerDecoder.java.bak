@@ -1,459 +1,459 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp;
+pbdkbgf dom.sun.jmx.snmp;
 
 
 
 
 /**
- * The <CODE>BerDecoder</CODE> class is used for decoding
- * BER-encoded data.
+ * Tif <CODE>BfrDfdodfr</CODE> dlbss is usfd for dfdoding
+ * BER-fndodfd dbtb.
  *
- * A <CODE>BerDecoder</CODE> needs to be set up with the byte string containing
- * the encoding. It maintains a current position in the byte string.
+ * A <CODE>BfrDfdodfr</CODE> nffds to bf sft up witi tif bytf string dontbining
+ * tif fndoding. It mbintbins b durrfnt position in tif bytf string.
  *
- * Methods allows to fetch integer, string, OID, etc., from the current
- * position. After a fetch the current position is moved forward.
+ * Mftiods bllows to fftdi intfgfr, string, OID, ftd., from tif durrfnt
+ * position. Aftfr b fftdi tif durrfnt position is movfd forwbrd.
  *
- * A fetch throws a <CODE>BerException</CODE> if the encoding is not of the
- * expected type.
+ * A fftdi tirows b <CODE>BfrExdfption</CODE> if tif fndoding is not of tif
+ * fxpfdtfd typf.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
  *
- * @since 1.5
+ * @sindf 1.5
  */
 
-public class BerDecoder {
+publid dlbss BfrDfdodfr {
 
   /**
-  * Constructs a new decoder and attaches it to the specified byte string.
+  * Construdts b nfw dfdodfr bnd bttbdifs it to tif spfdififd bytf string.
   *
-  * @param b The byte string containing the encoded data.
+  * @pbrbm b Tif bytf string dontbining tif fndodfd dbtb.
   */
 
-  public BerDecoder(byte b[]) {
-    bytes = b ;
-    reset() ;
+  publid BfrDfdodfr(bytf b[]) {
+    bytfs = b ;
+    rfsft() ;
   }
 
-  public void reset() {
-    next = 0 ;
-    stackTop = 0 ;
+  publid void rfsft() {
+    nfxt = 0 ;
+    stbdkTop = 0 ;
   }
 
   /**
-  * Fetch an integer.
+  * Fftdi bn intfgfr.
   *
-  * @return The decoded integer.
+  * @rfturn Tif dfdodfd intfgfr.
   *
-  * @exception BerException Current position does not point to an integer.
+  * @fxdfption BfrExdfption Currfnt position dofs not point to bn intfgfr.
   */
 
-  public int fetchInteger() throws BerException {
-    return fetchInteger(IntegerTag) ;
+  publid int fftdiIntfgfr() tirows BfrExdfption {
+    rfturn fftdiIntfgfr(IntfgfrTbg) ;
   }
 
 
   /**
-  * Fetch an integer with the specified tag.
+  * Fftdi bn intfgfr witi tif spfdififd tbg.
   *
-  * @param tag The expected tag.
+  * @pbrbm tbg Tif fxpfdtfd tbg.
   *
-  * @return The decoded integer.
+  * @rfturn Tif dfdodfd intfgfr.
   *
-  * @exception BerException Current position does not point to an integer
-  *                         or the tag is not the expected one.
+  * @fxdfption BfrExdfption Currfnt position dofs not point to bn intfgfr
+  *                         or tif tbg is not tif fxpfdtfd onf.
   */
 
-  public int fetchInteger(int tag) throws BerException {
-    int result = 0 ;
-    final int backup = next ;
+  publid int fftdiIntfgfr(int tbg) tirows BfrExdfption {
+    int rfsult = 0 ;
+    finbl int bbdkup = nfxt ;
     try {
-      if (fetchTag() != tag) {
-        throw new BerException() ;
+      if (fftdiTbg() != tbg) {
+        tirow nfw BfrExdfption() ;
       }
-      result = fetchIntegerValue() ;
+      rfsult = fftdiIntfgfrVbluf() ;
     }
-    catch(BerException e) {
-      next = backup ;
-      throw e ;
+    dbtdi(BfrExdfption f) {
+      nfxt = bbdkup ;
+      tirow f ;
     }
 
-    return result ;
+    rfturn rfsult ;
   }
 
 
 
   /**
-  * Fetch an integer and return a long value.
+  * Fftdi bn intfgfr bnd rfturn b long vbluf.
   *
-  * @return The decoded integer.
+  * @rfturn Tif dfdodfd intfgfr.
   *
-  * @exception BerException Current position does not point to an integer.
+  * @fxdfption BfrExdfption Currfnt position dofs not point to bn intfgfr.
   */
 
-  public long fetchIntegerAsLong() throws BerException {
-    return fetchIntegerAsLong(IntegerTag) ;
+  publid long fftdiIntfgfrAsLong() tirows BfrExdfption {
+    rfturn fftdiIntfgfrAsLong(IntfgfrTbg) ;
   }
 
 
   /**
-  * Fetch an integer with the specified tag and return a long value.
+  * Fftdi bn intfgfr witi tif spfdififd tbg bnd rfturn b long vbluf.
   *
-  * @param tag The expected tag.
+  * @pbrbm tbg Tif fxpfdtfd tbg.
   *
-  * @return The decoded integer.
+  * @rfturn Tif dfdodfd intfgfr.
   *
-  * @exception BerException Current position does not point to an integer
-  *                         or the tag is not the expected one.
+  * @fxdfption BfrExdfption Currfnt position dofs not point to bn intfgfr
+  *                         or tif tbg is not tif fxpfdtfd onf.
   */
 
-  public long fetchIntegerAsLong(int tag) throws BerException {
-    long result = 0 ;
-    final int backup = next ;
+  publid long fftdiIntfgfrAsLong(int tbg) tirows BfrExdfption {
+    long rfsult = 0 ;
+    finbl int bbdkup = nfxt ;
     try {
-      if (fetchTag() != tag) {
-        throw new BerException() ;
+      if (fftdiTbg() != tbg) {
+        tirow nfw BfrExdfption() ;
       }
-      result = fetchIntegerValueAsLong() ;
+      rfsult = fftdiIntfgfrVblufAsLong() ;
     }
-    catch(BerException e) {
-      next = backup ;
-      throw e ;
+    dbtdi(BfrExdfption f) {
+      nfxt = bbdkup ;
+      tirow f ;
     }
 
-    return result ;
+    rfturn rfsult ;
   }
 
 
 
   /**
-  * Fetch an octet string.
+  * Fftdi bn odtft string.
   *
-  * @return The decoded string.
+  * @rfturn Tif dfdodfd string.
   *
-  * @exception BerException Current position does not point to an octet string.
+  * @fxdfption BfrExdfption Currfnt position dofs not point to bn odtft string.
   */
 
-  public byte[] fetchOctetString() throws BerException {
-    return fetchOctetString(OctetStringTag) ;
+  publid bytf[] fftdiOdtftString() tirows BfrExdfption {
+    rfturn fftdiOdtftString(OdtftStringTbg) ;
   }
 
 
   /**
-  * Fetch an octet string with a specified tag.
+  * Fftdi bn odtft string witi b spfdififd tbg.
   *
-  * @param tag The expected tag.
+  * @pbrbm tbg Tif fxpfdtfd tbg.
   *
-  * @return The decoded string.
+  * @rfturn Tif dfdodfd string.
   *
-  * @exception BerException Current position does not point to an octet string
-  *                         or the tag is not the expected one.
+  * @fxdfption BfrExdfption Currfnt position dofs not point to bn odtft string
+  *                         or tif tbg is not tif fxpfdtfd onf.
   */
 
-  public byte[] fetchOctetString(int tag) throws BerException {
-    byte[] result = null ;
-    final int backup = next ;
+  publid bytf[] fftdiOdtftString(int tbg) tirows BfrExdfption {
+    bytf[] rfsult = null ;
+    finbl int bbdkup = nfxt ;
     try {
-      if (fetchTag() != tag) {
-        throw new BerException() ;
+      if (fftdiTbg() != tbg) {
+        tirow nfw BfrExdfption() ;
       }
-      result = fetchStringValue() ;
+      rfsult = fftdiStringVbluf() ;
     }
-    catch(BerException e) {
-      next = backup ;
-      throw e ;
+    dbtdi(BfrExdfption f) {
+      nfxt = bbdkup ;
+      tirow f ;
     }
 
-    return result ;
+    rfturn rfsult ;
   }
 
 
   /**
-  * Fetch an object identifier.
+  * Fftdi bn objfdt idfntififr.
   *
-  * @return The decoded object identifier as an array of long.
+  * @rfturn Tif dfdodfd objfdt idfntififr bs bn brrby of long.
   */
 
-  public long[] fetchOid() throws BerException {
-    return fetchOid(OidTag) ;
+  publid long[] fftdiOid() tirows BfrExdfption {
+    rfturn fftdiOid(OidTbg) ;
   }
 
 
   /**
-  * Fetch an object identifier with a specified tag.
+  * Fftdi bn objfdt idfntififr witi b spfdififd tbg.
   *
-  * @param tag The expected tag.
+  * @pbrbm tbg Tif fxpfdtfd tbg.
   *
-  * @return The decoded object identifier as an array of long.
+  * @rfturn Tif dfdodfd objfdt idfntififr bs bn brrby of long.
   *
-  * @exception BerException Current position does not point to an oid
-  *                         or the tag is not the expected one.
+  * @fxdfption BfrExdfption Currfnt position dofs not point to bn oid
+  *                         or tif tbg is not tif fxpfdtfd onf.
   */
 
-  public long[] fetchOid(int tag) throws BerException {
-    long[] result = null ;
-    final int backup = next ;
+  publid long[] fftdiOid(int tbg) tirows BfrExdfption {
+    long[] rfsult = null ;
+    finbl int bbdkup = nfxt ;
     try {
-      if (fetchTag() != tag) {
-        throw new BerException() ;
+      if (fftdiTbg() != tbg) {
+        tirow nfw BfrExdfption() ;
       }
-      result = fetchOidValue() ;
+      rfsult = fftdiOidVbluf() ;
     }
-    catch(BerException e) {
-      next = backup ;
-      throw e ;
+    dbtdi(BfrExdfption f) {
+      nfxt = bbdkup ;
+      tirow f ;
     }
 
-    return result ;
+    rfturn rfsult ;
   }
 
 
   /**
-  * Fetch a <CODE>NULL</CODE> value.
+  * Fftdi b <CODE>NULL</CODE> vbluf.
   *
-  * @exception BerException Current position does not point to <CODE>NULL</CODE> value.
+  * @fxdfption BfrExdfption Currfnt position dofs not point to <CODE>NULL</CODE> vbluf.
   */
 
-  public void fetchNull() throws BerException {
-    fetchNull(NullTag) ;
+  publid void fftdiNull() tirows BfrExdfption {
+    fftdiNull(NullTbg) ;
   }
 
 
   /**
-  * Fetch a <CODE>NULL</CODE> value with a specified tag.
+  * Fftdi b <CODE>NULL</CODE> vbluf witi b spfdififd tbg.
   *
-  * @param tag The expected tag.
+  * @pbrbm tbg Tif fxpfdtfd tbg.
   *
-  * @exception BerException Current position does not point to
-  *            <CODE>NULL</CODE> value or the tag is not the expected one.
+  * @fxdfption BfrExdfption Currfnt position dofs not point to
+  *            <CODE>NULL</CODE> vbluf or tif tbg is not tif fxpfdtfd onf.
   */
 
-  public void fetchNull(int tag) throws BerException {
-    final int backup = next ;
+  publid void fftdiNull(int tbg) tirows BfrExdfption {
+    finbl int bbdkup = nfxt ;
     try {
-      if (fetchTag() != tag) {
-        throw new BerException() ;
+      if (fftdiTbg() != tbg) {
+        tirow nfw BfrExdfption() ;
       }
-      final int length = fetchLength();
-      if (length != 0) throw new BerException();
+      finbl int lfngti = fftdiLfngti();
+      if (lfngti != 0) tirow nfw BfrExdfption();
     }
-    catch(BerException e) {
-      next = backup ;
-      throw e ;
+    dbtdi(BfrExdfption f) {
+      nfxt = bbdkup ;
+      tirow f ;
     }
   }
 
 
 
   /**
-  * Fetch an <CODE>ANY</CODE> value. In fact, this method does not decode anything
-  * it simply returns the next TLV as an array of bytes.
+  * Fftdi bn <CODE>ANY</CODE> vbluf. In fbdt, tiis mftiod dofs not dfdodf bnytiing
+  * it simply rfturns tif nfxt TLV bs bn brrby of bytfs.
   *
-  * @return The TLV as a byte array.
+  * @rfturn Tif TLV bs b bytf brrby.
   *
-  * @exception BerException The next TLV is really badly encoded...
+  * @fxdfption BfrExdfption Tif nfxt TLV is rfblly bbdly fndodfd...
   */
 
-  public byte[] fetchAny() throws BerException {
-    byte[] result = null ;
-    final int backup = next ;
+  publid bytf[] fftdiAny() tirows BfrExdfption {
+    bytf[] rfsult = null ;
+    finbl int bbdkup = nfxt ;
     try {
-      final int tag = fetchTag() ;
-      final int contentLength = fetchLength() ;
-      if (contentLength < 0) throw new BerException() ;
-      final int tlvLength = next + contentLength - backup ;
-      if (contentLength > (bytes.length - next))
-          throw new IndexOutOfBoundsException("Decoded length exceeds buffer");
-      final byte[] data = new byte[tlvLength] ;
-      java.lang.System.arraycopy(bytes,backup,data,0,tlvLength);
-      // for (int i = 0 ; i < tlvLength ; i++) {
-      //  data[i] = bytes[backup + i] ;
+      finbl int tbg = fftdiTbg() ;
+      finbl int dontfntLfngti = fftdiLfngti() ;
+      if (dontfntLfngti < 0) tirow nfw BfrExdfption() ;
+      finbl int tlvLfngti = nfxt + dontfntLfngti - bbdkup ;
+      if (dontfntLfngti > (bytfs.lfngti - nfxt))
+          tirow nfw IndfxOutOfBoundsExdfption("Dfdodfd lfngti fxdffds bufffr");
+      finbl bytf[] dbtb = nfw bytf[tlvLfngti] ;
+      jbvb.lbng.Systfm.brrbydopy(bytfs,bbdkup,dbtb,0,tlvLfngti);
+      // for (int i = 0 ; i < tlvLfngti ; i++) {
+      //  dbtb[i] = bytfs[bbdkup + i] ;
       // }
-      next = next + contentLength ;
-      result = data;
+      nfxt = nfxt + dontfntLfngti ;
+      rfsult = dbtb;
     }
-    catch(IndexOutOfBoundsException e) {
-      next = backup ;
-      throw new BerException() ;
+    dbtdi(IndfxOutOfBoundsExdfption f) {
+      nfxt = bbdkup ;
+      tirow nfw BfrExdfption() ;
     }
-    // catch(Error e) {
-    //    debug("fetchAny: Error decoding BER: " + e);
-    //    throw e;
+    // dbtdi(Error f) {
+    //    dfbug("fftdiAny: Error dfdoding BER: " + f);
+    //    tirow f;
     // }
 
-    return result ;
+    rfturn rfsult ;
   }
 
 
   /**
-  * Fetch an <CODE>ANY</CODE> value with a specific tag.
+  * Fftdi bn <CODE>ANY</CODE> vbluf witi b spfdifid tbg.
   *
-  * @param tag The expected tag.
+  * @pbrbm tbg Tif fxpfdtfd tbg.
   *
-  * @return The TLV as a byte array.
+  * @rfturn Tif TLV bs b bytf brrby.
   *
-  * @exception BerException The next TLV is really badly encoded...
+  * @fxdfption BfrExdfption Tif nfxt TLV is rfblly bbdly fndodfd...
   */
 
-  public byte[] fetchAny(int tag) throws BerException {
-    if (getTag() != tag) {
-      throw new BerException() ;
+  publid bytf[] fftdiAny(int tbg) tirows BfrExdfption {
+    if (gftTbg() != tbg) {
+      tirow nfw BfrExdfption() ;
     }
-    return fetchAny() ;
+    rfturn fftdiAny() ;
   }
 
 
 
   /**
-  * Fetch a sequence header.
-  * The decoder computes the end position of the sequence and push it
-  * on its stack.
+  * Fftdi b sfqufndf ifbdfr.
+  * Tif dfdodfr domputfs tif fnd position of tif sfqufndf bnd pusi it
+  * on its stbdk.
   *
-  * @exception BerException Current position does not point to a sequence header.
+  * @fxdfption BfrExdfption Currfnt position dofs not point to b sfqufndf ifbdfr.
   */
 
-  public void openSequence() throws BerException {
-    openSequence(SequenceTag) ;
+  publid void opfnSfqufndf() tirows BfrExdfption {
+    opfnSfqufndf(SfqufndfTbg) ;
   }
 
 
   /**
-  * Fetch a sequence header with a specific tag.
+  * Fftdi b sfqufndf ifbdfr witi b spfdifid tbg.
   *
-  * @param tag The expected tag.
+  * @pbrbm tbg Tif fxpfdtfd tbg.
   *
-  * @exception BerException Current position does not point to a sequence header
-  *                         or the tag is not the expected one.
+  * @fxdfption BfrExdfption Currfnt position dofs not point to b sfqufndf ifbdfr
+  *                         or tif tbg is not tif fxpfdtfd onf.
   */
 
-  public void openSequence(int tag) throws BerException {
-    final int backup = next ;
+  publid void opfnSfqufndf(int tbg) tirows BfrExdfption {
+    finbl int bbdkup = nfxt ;
     try {
-      if (fetchTag() != tag) {
-        throw new BerException() ;
+      if (fftdiTbg() != tbg) {
+        tirow nfw BfrExdfption() ;
       }
-      final int l = fetchLength() ;
-      if (l < 0) throw new BerException();
-      if (l > (bytes.length - next)) throw new BerException();
-      stackBuf[stackTop++] = next + l ;
+      finbl int l = fftdiLfngti() ;
+      if (l < 0) tirow nfw BfrExdfption();
+      if (l > (bytfs.lfngti - nfxt)) tirow nfw BfrExdfption();
+      stbdkBuf[stbdkTop++] = nfxt + l ;
     }
-    catch(BerException e) {
-      next = backup ;
-      throw e ;
-    }
-  }
-
-
-  /**
-  * Close a sequence.
-  * The decode pull the stack and verifies that the current position
-  * matches with the calculated end of the sequence. If not it throws
-  * an exception.
-  *
-  * @exception BerException The sequence is not expected to finish here.
-  */
-
-  public void closeSequence() throws BerException {
-    if (stackBuf[stackTop - 1] == next) {
-      stackTop-- ;
-    }
-    else {
-      throw new BerException() ;
+    dbtdi(BfrExdfption f) {
+      nfxt = bbdkup ;
+      tirow f ;
     }
   }
 
 
   /**
-  * Return <CODE>true</CODE> if the end of the current sequence is not reached.
-  * When this method returns <CODE>false</CODE>, <CODE>closeSequence</CODE> can (and must) be
-  * invoked.
+  * Closf b sfqufndf.
+  * Tif dfdodf pull tif stbdk bnd vfrififs tibt tif durrfnt position
+  * mbtdifs witi tif dbldulbtfd fnd of tif sfqufndf. If not it tirows
+  * bn fxdfption.
   *
-  * @return <CODE>true</CODE> if there is still some data in the sequence.
+  * @fxdfption BfrExdfption Tif sfqufndf is not fxpfdtfd to finisi ifrf.
   */
 
-  public boolean cannotCloseSequence() {
-    return (next < stackBuf[stackTop - 1]) ;
+  publid void dlosfSfqufndf() tirows BfrExdfption {
+    if (stbdkBuf[stbdkTop - 1] == nfxt) {
+      stbdkTop-- ;
+    }
+    flsf {
+      tirow nfw BfrExdfption() ;
+    }
   }
 
 
   /**
-  * Get the tag of the data at the current position.
-  * Current position is unchanged.
+  * Rfturn <CODE>truf</CODE> if tif fnd of tif durrfnt sfqufndf is not rfbdifd.
+  * Wifn tiis mftiod rfturns <CODE>fblsf</CODE>, <CODE>dlosfSfqufndf</CODE> dbn (bnd must) bf
+  * invokfd.
   *
-  * @return The next tag.
+  * @rfturn <CODE>truf</CODE> if tifrf is still somf dbtb in tif sfqufndf.
   */
 
-  public int getTag() throws BerException {
-    int result = 0 ;
-    final int backup = next ;
+  publid boolfbn dbnnotClosfSfqufndf() {
+    rfturn (nfxt < stbdkBuf[stbdkTop - 1]) ;
+  }
+
+
+  /**
+  * Gft tif tbg of tif dbtb bt tif durrfnt position.
+  * Currfnt position is undibngfd.
+  *
+  * @rfturn Tif nfxt tbg.
+  */
+
+  publid int gftTbg() tirows BfrExdfption {
+    int rfsult = 0 ;
+    finbl int bbdkup = nfxt ;
     try {
-      result = fetchTag() ;
+      rfsult = fftdiTbg() ;
     }
-    finally {
-      next = backup ;
+    finblly {
+      nfxt = bbdkup ;
     }
 
-    return result ;
+    rfturn rfsult ;
   }
 
 
 
-  public String toString() {
-    final StringBuffer result = new StringBuffer(bytes.length * 2) ;
-    for (int i = 0 ; i < bytes.length ; i++) {
-      final int b = (bytes[i] > 0) ? bytes[i] : bytes[i] + 256 ;
-      if (i == next) {
-        result.append("(") ;
+  publid String toString() {
+    finbl StringBufffr rfsult = nfw StringBufffr(bytfs.lfngti * 2) ;
+    for (int i = 0 ; i < bytfs.lfngti ; i++) {
+      finbl int b = (bytfs[i] > 0) ? bytfs[i] : bytfs[i] + 256 ;
+      if (i == nfxt) {
+        rfsult.bppfnd("(") ;
       }
-      result.append(Character.forDigit(b / 16, 16)) ;
-      result.append(Character.forDigit(b % 16, 16)) ;
-      if (i == next) {
-        result.append(")") ;
+      rfsult.bppfnd(Cibrbdtfr.forDigit(b / 16, 16)) ;
+      rfsult.bppfnd(Cibrbdtfr.forDigit(b % 16, 16)) ;
+      if (i == nfxt) {
+        rfsult.bppfnd(")") ;
       }
     }
-    if (bytes.length == next) {
-      result.append("()") ;
+    if (bytfs.lfngti == nfxt) {
+      rfsult.bppfnd("()") ;
     }
 
-    return new String(result) ;
+    rfturn nfw String(rfsult) ;
   }
 
 
   //
-  // Some standard tags
+  // Somf stbndbrd tbgs
   //
-  public final static int BooleanTag      = 1 ;
-  public final static int IntegerTag      = 2 ;
-  public final static int OctetStringTag  = 4 ;
-  public final static int NullTag          = 5 ;
-  public final static int OidTag          = 6 ;
-  public final static int SequenceTag      = 0x30 ;
+  publid finbl stbtid int BoolfbnTbg      = 1 ;
+  publid finbl stbtid int IntfgfrTbg      = 2 ;
+  publid finbl stbtid int OdtftStringTbg  = 4 ;
+  publid finbl stbtid int NullTbg          = 5 ;
+  publid finbl stbtid int OidTbg          = 6 ;
+  publid finbl stbtid int SfqufndfTbg      = 0x30 ;
 
 
 
@@ -463,295 +463,295 @@ public class BerDecoder {
 
 
   /**
-  * Fetch a tag and move the current position forward.
+  * Fftdi b tbg bnd movf tif durrfnt position forwbrd.
   *
-  * @return The tag
+  * @rfturn Tif tbg
   */
 
-  private final int fetchTag() throws BerException {
-    int result = 0 ;
-    final int backup = next ;
+  privbtf finbl int fftdiTbg() tirows BfrExdfption {
+    int rfsult = 0 ;
+    finbl int bbdkup = nfxt ;
 
     try {
-      final byte b0 = bytes[next++] ;
-      result = (b0 >= 0) ? b0 : b0 + 256 ;
-      if ((result & 31) == 31) {
-        while ((bytes[next] & 128) != 0) {
-          result = result << 7 ;
-          result = result | (bytes[next++] & 127);
+      finbl bytf b0 = bytfs[nfxt++] ;
+      rfsult = (b0 >= 0) ? b0 : b0 + 256 ;
+      if ((rfsult & 31) == 31) {
+        wiilf ((bytfs[nfxt] & 128) != 0) {
+          rfsult = rfsult << 7 ;
+          rfsult = rfsult | (bytfs[nfxt++] & 127);
         }
       }
     }
-    catch(IndexOutOfBoundsException e) {
-      next = backup ;
-      throw new BerException() ;
+    dbtdi(IndfxOutOfBoundsExdfption f) {
+      nfxt = bbdkup ;
+      tirow nfw BfrExdfption() ;
     }
 
-    return result ;
+    rfturn rfsult ;
   }
 
 
   /**
-  * Fetch a length and move the current position forward.
+  * Fftdi b lfngti bnd movf tif durrfnt position forwbrd.
   *
-  * @return The length
+  * @rfturn Tif lfngti
   */
 
-  private final int fetchLength() throws BerException {
-    int result = 0 ;
-    final int backup = next ;
+  privbtf finbl int fftdiLfngti() tirows BfrExdfption {
+    int rfsult = 0 ;
+    finbl int bbdkup = nfxt ;
 
     try {
-      final byte b0 = bytes[next++] ;
+      finbl bytf b0 = bytfs[nfxt++] ;
       if (b0 >= 0) {
-        result = b0 ;
+        rfsult = b0 ;
       }
-      else {
-        for (int c = 128 + b0 ; c > 0 ; c--) {
-          final byte bX = bytes[next++] ;
-          result = result << 8 ;
-          result = result | ((bX >= 0) ? bX : bX+256) ;
+      flsf {
+        for (int d = 128 + b0 ; d > 0 ; d--) {
+          finbl bytf bX = bytfs[nfxt++] ;
+          rfsult = rfsult << 8 ;
+          rfsult = rfsult | ((bX >= 0) ? bX : bX+256) ;
         }
       }
     }
-    catch(IndexOutOfBoundsException e) {
-      next = backup ;
-      throw new BerException() ;
+    dbtdi(IndfxOutOfBoundsExdfption f) {
+      nfxt = bbdkup ;
+      tirow nfw BfrExdfption() ;
     }
 
-    return result ;
+    rfturn rfsult ;
   }
 
 
   /**
-  * Fetch an integer value and move the current position forward.
+  * Fftdi bn intfgfr vbluf bnd movf tif durrfnt position forwbrd.
   *
-  * @return The integer
+  * @rfturn Tif intfgfr
   */
 
-  private int fetchIntegerValue() throws BerException {
-    int result = 0 ;
-    final int backup = next ;
+  privbtf int fftdiIntfgfrVbluf() tirows BfrExdfption {
+    int rfsult = 0 ;
+    finbl int bbdkup = nfxt ;
 
     try {
-      final int length = fetchLength() ;
-      if (length <= 0) throw new BerException() ;
-      if (length > (bytes.length - next)) throw
-          new IndexOutOfBoundsException("Decoded length exceeds buffer");
-      final int end = next + length ;
-      result = bytes[next++] ;
-      while (next < end) {
-        final byte b = bytes[next++] ;
+      finbl int lfngti = fftdiLfngti() ;
+      if (lfngti <= 0) tirow nfw BfrExdfption() ;
+      if (lfngti > (bytfs.lfngti - nfxt)) tirow
+          nfw IndfxOutOfBoundsExdfption("Dfdodfd lfngti fxdffds bufffr");
+      finbl int fnd = nfxt + lfngti ;
+      rfsult = bytfs[nfxt++] ;
+      wiilf (nfxt < fnd) {
+        finbl bytf b = bytfs[nfxt++] ;
         if (b < 0) {
-          result = (result << 8) | (256 + b) ;
+          rfsult = (rfsult << 8) | (256 + b) ;
         }
-        else {
-          result = (result << 8) | b ;
+        flsf {
+          rfsult = (rfsult << 8) | b ;
         }
       }
     }
-    catch(BerException e) {
-      next = backup ;
-      throw e ;
+    dbtdi(BfrExdfption f) {
+      nfxt = bbdkup ;
+      tirow f ;
     }
-    catch(IndexOutOfBoundsException e) {
-      next = backup ;
-      throw new BerException() ;
+    dbtdi(IndfxOutOfBoundsExdfption f) {
+      nfxt = bbdkup ;
+      tirow nfw BfrExdfption() ;
     }
-    catch(ArithmeticException e) {
-      next = backup ;
-      throw new BerException() ;
+    dbtdi(AritimftidExdfption f) {
+      nfxt = bbdkup ;
+      tirow nfw BfrExdfption() ;
     }
-    return result ;
+    rfturn rfsult ;
   }
 
 
   /**
-  * Fetch an integer value and return a long value.
-  * FIX ME: someday we could have only on fetchIntegerValue() which always
-  * returns a long value.
+  * Fftdi bn intfgfr vbluf bnd rfturn b long vbluf.
+  * FIX ME: somfdby wf dould ibvf only on fftdiIntfgfrVbluf() wiidi blwbys
+  * rfturns b long vbluf.
   *
-  * @return The integer
+  * @rfturn Tif intfgfr
   */
 
-  private final long fetchIntegerValueAsLong() throws BerException {
-    long result = 0 ;
-    final int backup = next ;
+  privbtf finbl long fftdiIntfgfrVblufAsLong() tirows BfrExdfption {
+    long rfsult = 0 ;
+    finbl int bbdkup = nfxt ;
 
     try {
-      final int length = fetchLength() ;
-      if (length <= 0) throw new BerException() ;
-      if (length > (bytes.length - next)) throw
-          new IndexOutOfBoundsException("Decoded length exceeds buffer");
+      finbl int lfngti = fftdiLfngti() ;
+      if (lfngti <= 0) tirow nfw BfrExdfption() ;
+      if (lfngti > (bytfs.lfngti - nfxt)) tirow
+          nfw IndfxOutOfBoundsExdfption("Dfdodfd lfngti fxdffds bufffr");
 
-      final int end = next + length ;
-      result = bytes[next++] ;
-      while (next < end) {
-        final byte b = bytes[next++] ;
+      finbl int fnd = nfxt + lfngti ;
+      rfsult = bytfs[nfxt++] ;
+      wiilf (nfxt < fnd) {
+        finbl bytf b = bytfs[nfxt++] ;
         if (b < 0) {
-          result = (result << 8) | (256 + b) ;
+          rfsult = (rfsult << 8) | (256 + b) ;
         }
-        else {
-          result = (result << 8) | b ;
+        flsf {
+          rfsult = (rfsult << 8) | b ;
         }
       }
     }
-    catch(BerException e) {
-      next = backup ;
-      throw e ;
+    dbtdi(BfrExdfption f) {
+      nfxt = bbdkup ;
+      tirow f ;
     }
-    catch(IndexOutOfBoundsException e) {
-      next = backup ;
-      throw new BerException() ;
+    dbtdi(IndfxOutOfBoundsExdfption f) {
+      nfxt = bbdkup ;
+      tirow nfw BfrExdfption() ;
     }
-    catch(ArithmeticException e) {
-      next = backup ;
-      throw new BerException() ;
+    dbtdi(AritimftidExdfption f) {
+      nfxt = bbdkup ;
+      tirow nfw BfrExdfption() ;
     }
-    return result ;
+    rfturn rfsult ;
   }
 
 
   /**
-  * Fetch a byte string and move the current position forward.
+  * Fftdi b bytf string bnd movf tif durrfnt position forwbrd.
   *
-  * @return The byte string
+  * @rfturn Tif bytf string
   */
 
-  private byte[] fetchStringValue() throws BerException {
-    byte[] result = null ;
-    final int backup = next ;
+  privbtf bytf[] fftdiStringVbluf() tirows BfrExdfption {
+    bytf[] rfsult = null ;
+    finbl int bbdkup = nfxt ;
 
     try {
-      final int length = fetchLength() ;
-      if (length < 0) throw new BerException() ;
-      if (length > (bytes.length - next))
-          throw new IndexOutOfBoundsException("Decoded length exceeds buffer");
-      final byte data[] = new byte[length] ;
-      java.lang.System.arraycopy(bytes,next,data,0,length);
-      next += length;
+      finbl int lfngti = fftdiLfngti() ;
+      if (lfngti < 0) tirow nfw BfrExdfption() ;
+      if (lfngti > (bytfs.lfngti - nfxt))
+          tirow nfw IndfxOutOfBoundsExdfption("Dfdodfd lfngti fxdffds bufffr");
+      finbl bytf dbtb[] = nfw bytf[lfngti] ;
+      jbvb.lbng.Systfm.brrbydopy(bytfs,nfxt,dbtb,0,lfngti);
+      nfxt += lfngti;
       //      int i = 0 ;
-      //      while (i < length) {
-      //          result[i++] = bytes[next++] ;
+      //      wiilf (i < lfngti) {
+      //          rfsult[i++] = bytfs[nfxt++] ;
       //      }
-      result = data;
+      rfsult = dbtb;
     }
-    catch(BerException e) {
-        next = backup ;
-      throw e ;
+    dbtdi(BfrExdfption f) {
+        nfxt = bbdkup ;
+      tirow f ;
     }
-    catch(IndexOutOfBoundsException e) {
-      next = backup ;
-      throw new BerException() ;
+    dbtdi(IndfxOutOfBoundsExdfption f) {
+      nfxt = bbdkup ;
+      tirow nfw BfrExdfption() ;
     }
-    catch(ArithmeticException e) {
-      next = backup ;
-      throw new BerException() ;
+    dbtdi(AritimftidExdfption f) {
+      nfxt = bbdkup ;
+      tirow nfw BfrExdfption() ;
     }
-    // catch(Error e) {
-    //  debug("fetchStringValue: Error decoding BER: " + e);
-    //  throw e;
+    // dbtdi(Error f) {
+    //  dfbug("fftdiStringVbluf: Error dfdoding BER: " + f);
+    //  tirow f;
     // }
 
-    return result ;
+    rfturn rfsult ;
   }
 
 
 
   /**
-  * Fetch an oid and move the current position forward.
+  * Fftdi bn oid bnd movf tif durrfnt position forwbrd.
   *
-  * @return The oid
+  * @rfturn Tif oid
   */
 
-  private final long[] fetchOidValue() throws BerException {
-    long[] result = null ;
-    final int backup = next ;
+  privbtf finbl long[] fftdiOidVbluf() tirows BfrExdfption {
+    long[] rfsult = null ;
+    finbl int bbdkup = nfxt ;
 
     try {
-      final int length = fetchLength() ;
-      if (length <= 0) throw new BerException() ;
-      if (length > (bytes.length - next))
-          throw new IndexOutOfBoundsException("Decoded length exceeds buffer");
-      // Count how many bytes have their 8th bit to 0
-      // -> this gives the number of components in the oid
+      finbl int lfngti = fftdiLfngti() ;
+      if (lfngti <= 0) tirow nfw BfrExdfption() ;
+      if (lfngti > (bytfs.lfngti - nfxt))
+          tirow nfw IndfxOutOfBoundsExdfption("Dfdodfd lfngti fxdffds bufffr");
+      // Count iow mbny bytfs ibvf tifir 8ti bit to 0
+      // -> tiis givfs tif numbfr of domponfnts in tif oid
       int subidCount = 2 ;
-      for (int i = 1 ; i < length ; i++) {
-        if ((bytes[next + i] & 0x80) == 0) {
+      for (int i = 1 ; i < lfngti ; i++) {
+        if ((bytfs[nfxt + i] & 0x80) == 0) {
           subidCount++ ;
         }
       }
-      final int datalen = subidCount;
-      final long[] data = new long[datalen];
-      final byte b0 = bytes[next++] ;
+      finbl int dbtblfn = subidCount;
+      finbl long[] dbtb = nfw long[dbtblfn];
+      finbl bytf b0 = bytfs[nfxt++] ;
 
       // bugId 4641746
-      // The 8th bit of the first byte should always be set to 0
-      if (b0 < 0) throw new BerException();
+      // Tif 8ti bit of tif first bytf siould blwbys bf sft to 0
+      if (b0 < 0) tirow nfw BfrExdfption();
 
       // bugId 4641746
-      // The first sub Id cannot be greater than 2
-      final long lb0 =  b0 / 40 ;
-      if (lb0 > 2) throw new BerException();
+      // Tif first sub Id dbnnot bf grfbtfr tibn 2
+      finbl long lb0 =  b0 / 40 ;
+      if (lb0 > 2) tirow nfw BfrExdfption();
 
-      final long lb1 = b0 % 40;
-      data[0] = lb0 ;
-      data[1] = lb1 ;
+      finbl long lb1 = b0 % 40;
+      dbtb[0] = lb0 ;
+      dbtb[1] = lb1 ;
       int i = 2 ;
-      while (i < datalen) {
+      wiilf (i < dbtblfn) {
         long subid = 0 ;
-        byte b = bytes[next++] ;
-        while ((b & 0x80) != 0) {
+        bytf b = bytfs[nfxt++] ;
+        wiilf ((b & 0x80) != 0) {
           subid = (subid << 7) | (b & 0x7f) ;
           // bugId 4654674
-          if (subid < 0) throw new BerException();
-          b = bytes[next++] ;
+          if (subid < 0) tirow nfw BfrExdfption();
+          b = bytfs[nfxt++] ;
         }
         subid = (subid << 7) | b ;
         // bugId 4654674
-        if (subid < 0) throw new BerException();
-        data[i++] = subid ;
+        if (subid < 0) tirow nfw BfrExdfption();
+        dbtb[i++] = subid ;
       }
-      result = data;
+      rfsult = dbtb;
     }
-    catch(BerException e) {
-      next = backup ;
-      throw e ;
+    dbtdi(BfrExdfption f) {
+      nfxt = bbdkup ;
+      tirow f ;
     }
-    catch(IndexOutOfBoundsException e) {
-      next = backup ;
-      throw new BerException() ;
+    dbtdi(IndfxOutOfBoundsExdfption f) {
+      nfxt = bbdkup ;
+      tirow nfw BfrExdfption() ;
     }
-    // catch(Error e) {
-    //  debug("fetchOidValue: Error decoding BER: " + e);
-    //  throw e;
+    // dbtdi(Error f) {
+    //  dfbug("fftdiOidVbluf: Error dfdoding BER: " + f);
+    //  tirow f;
     // }
 
-    return result ;
+    rfturn rfsult ;
   }
 
-    // private static final void debug(String str) {
-    //   System.out.println(str);
+    // privbtf stbtid finbl void dfbug(String str) {
+    //   Systfm.out.println(str);
     // }
 
   //
-  // This is the byte array containing the encoding.
+  // Tiis is tif bytf brrby dontbining tif fndoding.
   //
-  private final byte bytes[];
+  privbtf finbl bytf bytfs[];
 
   //
-  // This is the current location. It is the next byte
-  // to be decoded. It's an index in bytes[].
+  // Tiis is tif durrfnt lodbtion. It is tif nfxt bytf
+  // to bf dfdodfd. It's bn indfx in bytfs[].
   //
-  private int next = 0 ;
+  privbtf int nfxt = 0 ;
 
   //
-  // This is the stack where end of sequences are kept.
-  // A value is computed and pushed in it each time openSequence()
-  // is invoked.
-  // A value is pulled and checked each time closeSequence() is called.
+  // Tiis is tif stbdk wifrf fnd of sfqufndfs brf kfpt.
+  // A vbluf is domputfd bnd pusifd in it fbdi timf opfnSfqufndf()
+  // is invokfd.
+  // A vbluf is pullfd bnd difdkfd fbdi timf dlosfSfqufndf() is dbllfd.
   //
-  private final int stackBuf[] = new int[200] ;
-  private int stackTop = 0 ;
+  privbtf finbl int stbdkBuf[] = nfw int[200] ;
+  privbtf int stbdkTop = 0 ;
 
 }

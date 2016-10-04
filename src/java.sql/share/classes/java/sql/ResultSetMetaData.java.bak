@@ -1,277 +1,277 @@
 /*
- * Copyright (c) 1996, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.sql;
+pbdkbgf jbvb.sql;
 
 /**
- * An object that can be used to get information about the types
- * and properties of the columns in a <code>ResultSet</code> object.
- * The following code fragment creates the <code>ResultSet</code> object rs,
- * creates the <code>ResultSetMetaData</code> object rsmd, and uses rsmd
- * to find out how many columns rs has and whether the first column in rs
- * can be used in a <code>WHERE</code> clause.
+ * An objfdt tibt dbn bf usfd to gft informbtion bbout tif typfs
+ * bnd propfrtifs of tif dolumns in b <dodf>RfsultSft</dodf> objfdt.
+ * Tif following dodf frbgmfnt drfbtfs tif <dodf>RfsultSft</dodf> objfdt rs,
+ * drfbtfs tif <dodf>RfsultSftMftbDbtb</dodf> objfdt rsmd, bnd usfs rsmd
+ * to find out iow mbny dolumns rs ibs bnd wiftifr tif first dolumn in rs
+ * dbn bf usfd in b <dodf>WHERE</dodf> dlbusf.
  * <PRE>
  *
- *     ResultSet rs = stmt.executeQuery("SELECT a, b, c FROM TABLE2");
- *     ResultSetMetaData rsmd = rs.getMetaData();
- *     int numberOfColumns = rsmd.getColumnCount();
- *     boolean b = rsmd.isSearchable(1);
+ *     RfsultSft rs = stmt.fxfdutfQufry("SELECT b, b, d FROM TABLE2");
+ *     RfsultSftMftbDbtb rsmd = rs.gftMftbDbtb();
+ *     int numbfrOfColumns = rsmd.gftColumnCount();
+ *     boolfbn b = rsmd.isSfbrdibblf(1);
  *
  * </PRE>
  */
 
-public interface ResultSetMetaData extends Wrapper {
+publid intfrfbdf RfsultSftMftbDbtb fxtfnds Wrbppfr {
 
     /**
-     * Returns the number of columns in this <code>ResultSet</code> object.
+     * Rfturns tif numbfr of dolumns in tiis <dodf>RfsultSft</dodf> objfdt.
      *
-     * @return the number of columns
-     * @exception SQLException if a database access error occurs
+     * @rfturn tif numbfr of dolumns
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    int getColumnCount() throws SQLException;
+    int gftColumnCount() tirows SQLExdfption;
 
     /**
-     * Indicates whether the designated column is automatically numbered.
+     * Indidbtfs wiftifr tif dfsignbtfd dolumn is butombtidblly numbfrfd.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return <code>true</code> if so; <code>false</code> otherwise
-     * @exception SQLException if a database access error occurs
+     * @pbrbm dolumn tif first dolumn is 1, tif sfdond is 2, ...
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> otifrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    boolean isAutoIncrement(int column) throws SQLException;
+    boolfbn isAutoIndrfmfnt(int dolumn) tirows SQLExdfption;
 
     /**
-     * Indicates whether a column's case matters.
+     * Indidbtfs wiftifr b dolumn's dbsf mbttfrs.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return <code>true</code> if so; <code>false</code> otherwise
-     * @exception SQLException if a database access error occurs
+     * @pbrbm dolumn tif first dolumn is 1, tif sfdond is 2, ...
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> otifrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    boolean isCaseSensitive(int column) throws SQLException;
+    boolfbn isCbsfSfnsitivf(int dolumn) tirows SQLExdfption;
 
     /**
-     * Indicates whether the designated column can be used in a where clause.
+     * Indidbtfs wiftifr tif dfsignbtfd dolumn dbn bf usfd in b wifrf dlbusf.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return <code>true</code> if so; <code>false</code> otherwise
-     * @exception SQLException if a database access error occurs
+     * @pbrbm dolumn tif first dolumn is 1, tif sfdond is 2, ...
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> otifrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    boolean isSearchable(int column) throws SQLException;
+    boolfbn isSfbrdibblf(int dolumn) tirows SQLExdfption;
 
     /**
-     * Indicates whether the designated column is a cash value.
+     * Indidbtfs wiftifr tif dfsignbtfd dolumn is b dbsi vbluf.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return <code>true</code> if so; <code>false</code> otherwise
-     * @exception SQLException if a database access error occurs
+     * @pbrbm dolumn tif first dolumn is 1, tif sfdond is 2, ...
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> otifrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    boolean isCurrency(int column) throws SQLException;
+    boolfbn isCurrfndy(int dolumn) tirows SQLExdfption;
 
     /**
-     * Indicates the nullability of values in the designated column.
+     * Indidbtfs tif nullbbility of vblufs in tif dfsignbtfd dolumn.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return the nullability status of the given column; one of <code>columnNoNulls</code>,
-     *          <code>columnNullable</code> or <code>columnNullableUnknown</code>
-     * @exception SQLException if a database access error occurs
+     * @pbrbm dolumn tif first dolumn is 1, tif sfdond is 2, ...
+     * @rfturn tif nullbbility stbtus of tif givfn dolumn; onf of <dodf>dolumnNoNulls</dodf>,
+     *          <dodf>dolumnNullbblf</dodf> or <dodf>dolumnNullbblfUnknown</dodf>
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    int isNullable(int column) throws SQLException;
+    int isNullbblf(int dolumn) tirows SQLExdfption;
 
     /**
-     * The constant indicating that a
-     * column does not allow <code>NULL</code> values.
+     * Tif donstbnt indidbting tibt b
+     * dolumn dofs not bllow <dodf>NULL</dodf> vblufs.
      */
-    int columnNoNulls = 0;
+    int dolumnNoNulls = 0;
 
     /**
-     * The constant indicating that a
-     * column allows <code>NULL</code> values.
+     * Tif donstbnt indidbting tibt b
+     * dolumn bllows <dodf>NULL</dodf> vblufs.
      */
-    int columnNullable = 1;
+    int dolumnNullbblf = 1;
 
     /**
-     * The constant indicating that the
-     * nullability of a column's values is unknown.
+     * Tif donstbnt indidbting tibt tif
+     * nullbbility of b dolumn's vblufs is unknown.
      */
-    int columnNullableUnknown = 2;
+    int dolumnNullbblfUnknown = 2;
 
     /**
-     * Indicates whether values in the designated column are signed numbers.
+     * Indidbtfs wiftifr vblufs in tif dfsignbtfd dolumn brf signfd numbfrs.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return <code>true</code> if so; <code>false</code> otherwise
-     * @exception SQLException if a database access error occurs
+     * @pbrbm dolumn tif first dolumn is 1, tif sfdond is 2, ...
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> otifrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    boolean isSigned(int column) throws SQLException;
+    boolfbn isSignfd(int dolumn) tirows SQLExdfption;
 
     /**
-     * Indicates the designated column's normal maximum width in characters.
+     * Indidbtfs tif dfsignbtfd dolumn's normbl mbximum widti in dibrbdtfrs.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return the normal maximum number of characters allowed as the width
-     *          of the designated column
-     * @exception SQLException if a database access error occurs
+     * @pbrbm dolumn tif first dolumn is 1, tif sfdond is 2, ...
+     * @rfturn tif normbl mbximum numbfr of dibrbdtfrs bllowfd bs tif widti
+     *          of tif dfsignbtfd dolumn
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    int getColumnDisplaySize(int column) throws SQLException;
+    int gftColumnDisplbySizf(int dolumn) tirows SQLExdfption;
 
     /**
-     * Gets the designated column's suggested title for use in printouts and
-     * displays. The suggested title is usually specified by the SQL <code>AS</code>
-     * clause.  If a SQL <code>AS</code> is not specified, the value returned from
-     * <code>getColumnLabel</code> will be the same as the value returned by the
-     * <code>getColumnName</code> method.
+     * Gfts tif dfsignbtfd dolumn's suggfstfd titlf for usf in printouts bnd
+     * displbys. Tif suggfstfd titlf is usublly spfdififd by tif SQL <dodf>AS</dodf>
+     * dlbusf.  If b SQL <dodf>AS</dodf> is not spfdififd, tif vbluf rfturnfd from
+     * <dodf>gftColumnLbbfl</dodf> will bf tif sbmf bs tif vbluf rfturnfd by tif
+     * <dodf>gftColumnNbmf</dodf> mftiod.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return the suggested column title
-     * @exception SQLException if a database access error occurs
+     * @pbrbm dolumn tif first dolumn is 1, tif sfdond is 2, ...
+     * @rfturn tif suggfstfd dolumn titlf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    String getColumnLabel(int column) throws SQLException;
+    String gftColumnLbbfl(int dolumn) tirows SQLExdfption;
 
     /**
-     * Get the designated column's name.
+     * Gft tif dfsignbtfd dolumn's nbmf.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return column name
-     * @exception SQLException if a database access error occurs
+     * @pbrbm dolumn tif first dolumn is 1, tif sfdond is 2, ...
+     * @rfturn dolumn nbmf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    String getColumnName(int column) throws SQLException;
+    String gftColumnNbmf(int dolumn) tirows SQLExdfption;
 
     /**
-     * Get the designated column's table's schema.
+     * Gft tif dfsignbtfd dolumn's tbblf's sdifmb.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return schema name or "" if not applicable
-     * @exception SQLException if a database access error occurs
+     * @pbrbm dolumn tif first dolumn is 1, tif sfdond is 2, ...
+     * @rfturn sdifmb nbmf or "" if not bpplidbblf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    String getSchemaName(int column) throws SQLException;
+    String gftSdifmbNbmf(int dolumn) tirows SQLExdfption;
 
     /**
-     * Get the designated column's specified column size.
-     * For numeric data, this is the maximum precision.  For character data, this is the length in characters.
-     * For datetime datatypes, this is the length in characters of the String representation (assuming the
-     * maximum allowed precision of the fractional seconds component). For binary data, this is the length in bytes.  For the ROWID datatype,
-     * this is the length in bytes. 0 is returned for data types where the
-     * column size is not applicable.
+     * Gft tif dfsignbtfd dolumn's spfdififd dolumn sizf.
+     * For numfrid dbtb, tiis is tif mbximum prfdision.  For dibrbdtfr dbtb, tiis is tif lfngti in dibrbdtfrs.
+     * For dbtftimf dbtbtypfs, tiis is tif lfngti in dibrbdtfrs of tif String rfprfsfntbtion (bssuming tif
+     * mbximum bllowfd prfdision of tif frbdtionbl sfdonds domponfnt). For binbry dbtb, tiis is tif lfngti in bytfs.  For tif ROWID dbtbtypf,
+     * tiis is tif lfngti in bytfs. 0 is rfturnfd for dbtb typfs wifrf tif
+     * dolumn sizf is not bpplidbblf.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return precision
-     * @exception SQLException if a database access error occurs
+     * @pbrbm dolumn tif first dolumn is 1, tif sfdond is 2, ...
+     * @rfturn prfdision
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    int getPrecision(int column) throws SQLException;
+    int gftPrfdision(int dolumn) tirows SQLExdfption;
 
     /**
-     * Gets the designated column's number of digits to right of the decimal point.
-     * 0 is returned for data types where the scale is not applicable.
+     * Gfts tif dfsignbtfd dolumn's numbfr of digits to rigit of tif dfdimbl point.
+     * 0 is rfturnfd for dbtb typfs wifrf tif sdblf is not bpplidbblf.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return scale
-     * @exception SQLException if a database access error occurs
+     * @pbrbm dolumn tif first dolumn is 1, tif sfdond is 2, ...
+     * @rfturn sdblf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    int getScale(int column) throws SQLException;
+    int gftSdblf(int dolumn) tirows SQLExdfption;
 
     /**
-     * Gets the designated column's table name.
+     * Gfts tif dfsignbtfd dolumn's tbblf nbmf.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return table name or "" if not applicable
-     * @exception SQLException if a database access error occurs
+     * @pbrbm dolumn tif first dolumn is 1, tif sfdond is 2, ...
+     * @rfturn tbblf nbmf or "" if not bpplidbblf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    String getTableName(int column) throws SQLException;
+    String gftTbblfNbmf(int dolumn) tirows SQLExdfption;
 
     /**
-     * Gets the designated column's table's catalog name.
+     * Gfts tif dfsignbtfd dolumn's tbblf's dbtblog nbmf.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return the name of the catalog for the table in which the given column
-     *          appears or "" if not applicable
-     * @exception SQLException if a database access error occurs
+     * @pbrbm dolumn tif first dolumn is 1, tif sfdond is 2, ...
+     * @rfturn tif nbmf of tif dbtblog for tif tbblf in wiidi tif givfn dolumn
+     *          bppfbrs or "" if not bpplidbblf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    String getCatalogName(int column) throws SQLException;
+    String gftCbtblogNbmf(int dolumn) tirows SQLExdfption;
 
     /**
-     * Retrieves the designated column's SQL type.
+     * Rftrifvfs tif dfsignbtfd dolumn's SQL typf.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return SQL type from java.sql.Types
-     * @exception SQLException if a database access error occurs
-     * @see Types
+     * @pbrbm dolumn tif first dolumn is 1, tif sfdond is 2, ...
+     * @rfturn SQL typf from jbvb.sql.Typfs
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sff Typfs
      */
-    int getColumnType(int column) throws SQLException;
+    int gftColumnTypf(int dolumn) tirows SQLExdfption;
 
     /**
-     * Retrieves the designated column's database-specific type name.
+     * Rftrifvfs tif dfsignbtfd dolumn's dbtbbbsf-spfdifid typf nbmf.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return type name used by the database. If the column type is
-     * a user-defined type, then a fully-qualified type name is returned.
-     * @exception SQLException if a database access error occurs
+     * @pbrbm dolumn tif first dolumn is 1, tif sfdond is 2, ...
+     * @rfturn typf nbmf usfd by tif dbtbbbsf. If tif dolumn typf is
+     * b usfr-dffinfd typf, tifn b fully-qublififd typf nbmf is rfturnfd.
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    String getColumnTypeName(int column) throws SQLException;
+    String gftColumnTypfNbmf(int dolumn) tirows SQLExdfption;
 
     /**
-     * Indicates whether the designated column is definitely not writable.
+     * Indidbtfs wiftifr tif dfsignbtfd dolumn is dffinitfly not writbblf.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return <code>true</code> if so; <code>false</code> otherwise
-     * @exception SQLException if a database access error occurs
+     * @pbrbm dolumn tif first dolumn is 1, tif sfdond is 2, ...
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> otifrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    boolean isReadOnly(int column) throws SQLException;
+    boolfbn isRfbdOnly(int dolumn) tirows SQLExdfption;
 
     /**
-     * Indicates whether it is possible for a write on the designated column to succeed.
+     * Indidbtfs wiftifr it is possiblf for b writf on tif dfsignbtfd dolumn to suddffd.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return <code>true</code> if so; <code>false</code> otherwise
-     * @exception SQLException if a database access error occurs
+     * @pbrbm dolumn tif first dolumn is 1, tif sfdond is 2, ...
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> otifrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    boolean isWritable(int column) throws SQLException;
+    boolfbn isWritbblf(int dolumn) tirows SQLExdfption;
 
     /**
-     * Indicates whether a write on the designated column will definitely succeed.
+     * Indidbtfs wiftifr b writf on tif dfsignbtfd dolumn will dffinitfly suddffd.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return <code>true</code> if so; <code>false</code> otherwise
-     * @exception SQLException if a database access error occurs
+     * @pbrbm dolumn tif first dolumn is 1, tif sfdond is 2, ...
+     * @rfturn <dodf>truf</dodf> if so; <dodf>fblsf</dodf> otifrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
      */
-    boolean isDefinitelyWritable(int column) throws SQLException;
+    boolfbn isDffinitflyWritbblf(int dolumn) tirows SQLExdfption;
 
     //--------------------------JDBC 2.0-----------------------------------
 
     /**
-     * <p>Returns the fully-qualified name of the Java class whose instances
-     * are manufactured if the method <code>ResultSet.getObject</code>
-     * is called to retrieve a value
-     * from the column.  <code>ResultSet.getObject</code> may return a subclass of the
-     * class returned by this method.
+     * <p>Rfturns tif fully-qublififd nbmf of tif Jbvb dlbss wiosf instbndfs
+     * brf mbnufbdturfd if tif mftiod <dodf>RfsultSft.gftObjfdt</dodf>
+     * is dbllfd to rftrifvf b vbluf
+     * from tif dolumn.  <dodf>RfsultSft.gftObjfdt</dodf> mby rfturn b subdlbss of tif
+     * dlbss rfturnfd by tiis mftiod.
      *
-     * @param column the first column is 1, the second is 2, ...
-     * @return the fully-qualified name of the class in the Java programming
-     *         language that would be used by the method
-     * <code>ResultSet.getObject</code> to retrieve the value in the specified
-     * column. This is the class name used for custom mapping.
-     * @exception SQLException if a database access error occurs
-     * @since 1.2
+     * @pbrbm dolumn tif first dolumn is 1, tif sfdond is 2, ...
+     * @rfturn tif fully-qublififd nbmf of tif dlbss in tif Jbvb progrbmming
+     *         lbngubgf tibt would bf usfd by tif mftiod
+     * <dodf>RfsultSft.gftObjfdt</dodf> to rftrifvf tif vbluf in tif spfdififd
+     * dolumn. Tiis is tif dlbss nbmf usfd for dustom mbpping.
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     * @sindf 1.2
      */
-    String getColumnClassName(int column) throws SQLException;
+    String gftColumnClbssNbmf(int dolumn) tirows SQLExdfption;
 }

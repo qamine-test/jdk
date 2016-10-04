@@ -1,593 +1,593 @@
 /*
 *
-* Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+* Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 *
-* This code is free software; you can redistribute it and/or modify it
-* under the terms of the GNU General Public License version 2 only, as
-* published by the Free Software Foundation.  Oracle designates this
-* particular file as subject to the "Classpath" exception as provided
-* by Oracle in the LICENSE file that accompanied this code.
+* Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+* undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+* publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+* pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+* by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 *
-* This code is distributed in the hope that it will be useful, but WITHOUT
-* ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-* FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-* version 2 for more details (a copy is included in the LICENSE file that
-* accompanied this code).
+* Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+* ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+* FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+* vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+* bddompbnifd tiis dodf).
 *
-* You should have received a copy of the GNU General Public License version
-* 2 along with this work; if not, write to the Free Software Foundation,
-* Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+* You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+* 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+* Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 *
-* Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-* or visit www.oracle.com if you need additional information or have any
-* questions.
+* Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+* or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+* qufstions.
 */
 
 /*
- * This file provides the mappings for renamed counters. The key for the
- * mapping is the counter name of the counter in the latest release, and
- * follows the reserved word 'alias'. Following the key counter name is
- * a white space separated list of counter names from previous releases.
- * The convention is to order these alias names from newest to oldest
- * releases, but this is only a convention.
+ * Tiis filf providfs tif mbppings for rfnbmfd dountfrs. Tif kfy for tif
+ * mbpping is tif dountfr nbmf of tif dountfr in tif lbtfst rflfbsf, bnd
+ * follows tif rfsfrvfd word 'blibs'. Following tif kfy dountfr nbmf is
+ * b wiitf spbdf sfpbrbtfd list of dountfr nbmfs from prfvious rflfbsfs.
+ * Tif donvfntion is to ordfr tifsf blibs nbmfs from nfwfst to oldfst
+ * rflfbsfs, but tiis is only b donvfntion.
  *
- * The counter name aliasing mechanism does not provide for aliases that
- * are dynamcially generated based on some JVM configuration parameters.
- * For such cases, the largest possible set of counter names must be
- * explicitly enumerated in this file. It does not provide for aliases
- * that have dependencies on the values of other counters, resulting in
- * one-to-many mappings.
+ * Tif dountfr nbmf blibsing mfdibnism dofs not providf for blibsfs tibt
+ * brf dynbmdiblly gfnfrbtfd bbsfd on somf JVM donfigurbtion pbrbmftfrs.
+ * For sudi dbsfs, tif lbrgfst possiblf sft of dountfr nbmfs must bf
+ * fxpliditly fnumfrbtfd in tiis filf. It dofs not providf for blibsfs
+ * tibt ibvf dfpfndfndifs on tif vblufs of otifr dountfrs, rfsulting in
+ * onf-to-mbny mbppings.
  */
 
-/***************************** java.* counters *****************************/
-// java.ci
-alias java.ci.totalTime                           // 1.5.0 b39
-	hotspot.ci.total.time                     // 1.4.1
+/***************************** jbvb.* dountfrs *****************************/
+// jbvb.di
+blibs jbvb.di.totblTimf                           // 1.5.0 b39
+	iotspot.di.totbl.timf                     // 1.4.1
 
-// java.cls
-alias java.cls.loadedClasses                      // 1.5.0 b39
-	hotspot.rt.cl.classes.loaded              // 1.4.1
-alias java.cls.unloadedClasses                    // 1.5.0 b39
-	hotspot.rt.cl.classes.unloaded            // 1.4.1
+// jbvb.dls
+blibs jbvb.dls.lobdfdClbssfs                      // 1.5.0 b39
+	iotspot.rt.dl.dlbssfs.lobdfd              // 1.4.1
+blibs jbvb.dls.unlobdfdClbssfs                    // 1.5.0 b39
+	iotspot.rt.dl.dlbssfs.unlobdfd            // 1.4.1
 
-// java.property
-alias java.property.java.class.path               // 1.5.0 b39
-	java.class.path                           // 1.4.1
-alias java.property.java.endorsed.dirs            // 1.5.0 b39
-	java.endorsed.dirs                        // 1.4.1
-alias java.property.java.ext.dirs                 // 1.5.0 b39
-	java.ext.dirs                             // 1.4.1
-alias java.property.java.home                     // 1.5.0 b39
-	java.home                                 // 1.4.1
-alias java.property.java.library.path             // 1.5.0 b39
-	java.library.path                         // 1.4.1
-alias java.property.java.vm.info                  // 1.5.0 b39
-	java.vm.info                              // 1.4.1
-alias java.property.java.vm.name                  // 1.5.0 b39
-	java.vm.name                              // 1.4.1
-alias java.property.java.vm.specification.name    // 1.5.0 b39
-	java.vm.specification.name                // 1.4.1
-alias java.property.java.vm.specification.vendor  // 1.5.0 b39
-	java.vm.specification.vendor              // 1.4.1
-alias java.property.java.vm.specification.version // 1.5.0 b39
-	java.vm.specification.version             // 1.4.1
-alias java.property.java.vm.vendor                // 1.5.0 b39
-	java.vm.vendor                            // 1.4.1
-alias java.property.java.vm.version               // 1.5.0 b39
-	java.vm.version                           // 1.4.1
+// jbvb.propfrty
+blibs jbvb.propfrty.jbvb.dlbss.pbti               // 1.5.0 b39
+	jbvb.dlbss.pbti                           // 1.4.1
+blibs jbvb.propfrty.jbvb.fndorsfd.dirs            // 1.5.0 b39
+	jbvb.fndorsfd.dirs                        // 1.4.1
+blibs jbvb.propfrty.jbvb.fxt.dirs                 // 1.5.0 b39
+	jbvb.fxt.dirs                             // 1.4.1
+blibs jbvb.propfrty.jbvb.iomf                     // 1.5.0 b39
+	jbvb.iomf                                 // 1.4.1
+blibs jbvb.propfrty.jbvb.librbry.pbti             // 1.5.0 b39
+	jbvb.librbry.pbti                         // 1.4.1
+blibs jbvb.propfrty.jbvb.vm.info                  // 1.5.0 b39
+	jbvb.vm.info                              // 1.4.1
+blibs jbvb.propfrty.jbvb.vm.nbmf                  // 1.5.0 b39
+	jbvb.vm.nbmf                              // 1.4.1
+blibs jbvb.propfrty.jbvb.vm.spfdifidbtion.nbmf    // 1.5.0 b39
+	jbvb.vm.spfdifidbtion.nbmf                // 1.4.1
+blibs jbvb.propfrty.jbvb.vm.spfdifidbtion.vfndor  // 1.5.0 b39
+	jbvb.vm.spfdifidbtion.vfndor              // 1.4.1
+blibs jbvb.propfrty.jbvb.vm.spfdifidbtion.vfrsion // 1.5.0 b39
+	jbvb.vm.spfdifidbtion.vfrsion             // 1.4.1
+blibs jbvb.propfrty.jbvb.vm.vfndor                // 1.5.0 b39
+	jbvb.vm.vfndor                            // 1.4.1
+blibs jbvb.propfrty.jbvb.vm.vfrsion               // 1.5.0 b39
+	jbvb.vm.vfrsion                           // 1.4.1
 
-// java.rt
-alias java.rt.vmArgs                              // 1.5.0 b39
-	hotspot.vm.args                           // 1.4.1
-alias java.rt.vmFlags                             // 1.5.0 b39
-	hotspot.vm.flags                          // 1.4.1
+// jbvb.rt
+blibs jbvb.rt.vmArgs                              // 1.5.0 b39
+	iotspot.vm.brgs                           // 1.4.1
+blibs jbvb.rt.vmFlbgs                             // 1.5.0 b39
+	iotspot.vm.flbgs                          // 1.4.1
 
-// java.threads
-alias java.threads.daemon                         // 1.5.0 b39
-	hotspot.threads.daemon.count              // 1.4.1
-alias java.threads.live                           // 1.5.0 b39
-	hotspot.threads.live.count                // 1.4.1
-alias java.threads.livePeak                       // 1.5.0 b39
-	hotspot.threads.live.peak                 // 1.4.1
-alias java.threads.started                        // 1.5.0 b39
-	hotspot.threads.total.created             // 1.4.1
+// jbvb.tirfbds
+blibs jbvb.tirfbds.dbfmon                         // 1.5.0 b39
+	iotspot.tirfbds.dbfmon.dount              // 1.4.1
+blibs jbvb.tirfbds.livf                           // 1.5.0 b39
+	iotspot.tirfbds.livf.dount                // 1.4.1
+blibs jbvb.tirfbds.livfPfbk                       // 1.5.0 b39
+	iotspot.tirfbds.livf.pfbk                 // 1.4.1
+blibs jbvb.tirfbds.stbrtfd                        // 1.5.0 b39
+	iotspot.tirfbds.totbl.drfbtfd             // 1.4.1
 
-/***************************** com.sun.* counters **************************/
+/***************************** dom.sun.* dountfrs **************************/
 
-/***************************** sun.* counters ******************************/
-// sun.ci
-alias sun.ci.adapterThread.compiles               // 1.5.0 b39
-	hotspot.ci.AdapterThread.compiles         // 1.4.2
-alias sun.ci.adapterThread.method                 // 1.5.0 b39
-	hotspot.ci.AdapterThread.method           // 1.4.2
-alias sun.ci.adapterThread.time                   // 1.5.0 b39
-	hotspot.ci.AdapterThread.time             // 1.4.2
-alias sun.ci.adapterThread.type                   // 1.5.0 b39
-	hotspot.ci.AdapterThread.type             // 1.4.2
-alias sun.ci.compilerThread.0.compiles            // 1.5.0 b39
-	hotspot.ci.CompilerThread0.compiles       // 1.4.2
-alias sun.ci.compilerThread.0.method              // 1.5.0 b39
-	hotspot.ci.CompilerThread0.method         // 1.4.2
-alias sun.ci.compilerThread.0.time                // 1.5.0 b39
-	hotspot.ci.CompilerThread0.time           // 1.4.2
-alias sun.ci.compilerThread.0.type                // 1.5.0 b39
-	hotspot.ci.CompilerThread0.type           // 1.4.2
-alias sun.ci.compilerThread.1.compiles            // 1.5.0 b39
-	hotspot.ci.CompilerThread1.compiles       // 1.4.2
-alias sun.ci.compilerThread.1.method              // 1.5.0 b39
-	hotspot.ci.CompilerThread1.method         // 1.4.2
-alias sun.ci.compilerThread.1.time                // 1.5.0 b39
-	hotspot.ci.CompilerThread1.time           // 1.4.2
-alias sun.ci.compilerThread.1.type                // 1.5.0 b39
-	hotspot.ci.CompilerThread1.type           // 1.4.2
-alias sun.ci.compilerThread.2.compiles            // 1.5.0 b39
-	hotspot.ci.CompilerThread2.compiles       // 1.4.2
-alias sun.ci.compilerThread.2.method              // 1.5.0 b39
-	hotspot.ci.CompilerThread2.method         // 1.4.2
-alias sun.ci.compilerThread.2.time                // 1.5.0 b39
-	hotspot.ci.CompilerThread2.time           // 1.4.2
-alias sun.ci.compilerThread.2.type                // 1.5.0 b39
-	hotspot.ci.CompilerThread2.type           // 1.4.2
-alias sun.ci.compilerThread.3.compiles            // 1.5.0 b39
-	hotspot.ci.CompilerThread3.compiles       // 1.4.2
-alias sun.ci.compilerThread.3.method              // 1.5.0 b39
-	hotspot.ci.CompilerThread3.method         // 1.4.2
-alias sun.ci.compilerThread.3.time                // 1.5.0 b39
-	hotspot.ci.CompilerThread3.time           // 1.4.2
-alias sun.ci.compilerThread.3.type                // 1.5.0 b39
-	hotspot.ci.CompilerThread3.type           // 1.4.2
-alias sun.ci.lastFailedMethod                     // 1.5.0 b39
-	hotspot.ci.failed.method                  // 1.4.2
-alias sun.ci.lastFailedType                       // 1.5.0 b39
-	hotspot.ci.failed.type                    // 1.4.2
-alias sun.ci.lastInvalidatedMethod                // 1.5.0 b39
-	hotspot.ci.invalidated.method             // 1.4.2
-alias sun.ci.lastInvalidatedType                  // 1.5.0 b39
-	hotspot.ci.invalidated.type               // 1.4.2
-alias sun.ci.lastMethod                           // 1.5.0 b39
-	hotspot.ci.last.method                    // 1.4.2
-alias sun.ci.lastSize                             // 1.5.0 b39
-	hotspot.ci.last.size                      // 1.4.2
-alias sun.ci.lastType                             // 1.5.0 b39
-	hotspot.ci.last.type                      // 1.4.2
-alias sun.ci.nativeCompiles                       // 1.5.0 b39
-        hotspot.ci.native.compiles                // 1.4.2
-alias sun.ci.nativeTime                           // 1.5.0 b39
-        hotspot.ci.native.time                    // 1.4.2
-alias sun.ci.nmethodCodeSize                      // 1.5.0 b39
-        hotspot.ci.nmethod.codesize               // 1.4.2
-alias sun.ci.nmethodSize                          // 1.5.0 b39
-        hotspot.ci.nmethod.size                   // 1.4.2
-alias sun.ci.osrBytes                             // 1.5.0 b39
-        hotspot.ci.osr.bytes                      // 1.4.2
-alias sun.ci.osrCompiles                          // 1.5.0 b39
-        hotspot.ci.osr.compiles                   // 1.4.2
-alias sun.ci.osrTime                              // 1.5.0 b39
-        hotspot.ci.osr.time                       // 1.4.2
-alias sun.ci.standardBytes                        // 1.5.0 b39
-        hotspot.ci.standard.bytes                 // 1.4.2
-alias sun.ci.standardCompiles                     // 1.5.0 b39
-        hotspot.ci.standard.compiles              // 1.4.2
-alias sun.ci.standardTime                         // 1.5.0 b39
-        hotspot.ci.standard.time                  // 1.4.2
-alias sun.ci.threads                              // 1.5.0 b39
-        hotspot.ci.threads                        // 1.4.2
-alias sun.ci.totalBailouts                        // 1.5.0 b39
-        hotspot.ci.total.bailout                  // 1.4.2
-alias sun.ci.totalCompiles                        // 1.5.0 b39
-        hotspot.ci.total.compiles                 // 1.4.2
-alias sun.ci.totalInvalidates                     // 1.5.0 b39
-        hotspot.ci.total.invalid                  // 1.4.2
+/***************************** sun.* dountfrs ******************************/
+// sun.di
+blibs sun.di.bdbptfrTirfbd.dompilfs               // 1.5.0 b39
+	iotspot.di.AdbptfrTirfbd.dompilfs         // 1.4.2
+blibs sun.di.bdbptfrTirfbd.mftiod                 // 1.5.0 b39
+	iotspot.di.AdbptfrTirfbd.mftiod           // 1.4.2
+blibs sun.di.bdbptfrTirfbd.timf                   // 1.5.0 b39
+	iotspot.di.AdbptfrTirfbd.timf             // 1.4.2
+blibs sun.di.bdbptfrTirfbd.typf                   // 1.5.0 b39
+	iotspot.di.AdbptfrTirfbd.typf             // 1.4.2
+blibs sun.di.dompilfrTirfbd.0.dompilfs            // 1.5.0 b39
+	iotspot.di.CompilfrTirfbd0.dompilfs       // 1.4.2
+blibs sun.di.dompilfrTirfbd.0.mftiod              // 1.5.0 b39
+	iotspot.di.CompilfrTirfbd0.mftiod         // 1.4.2
+blibs sun.di.dompilfrTirfbd.0.timf                // 1.5.0 b39
+	iotspot.di.CompilfrTirfbd0.timf           // 1.4.2
+blibs sun.di.dompilfrTirfbd.0.typf                // 1.5.0 b39
+	iotspot.di.CompilfrTirfbd0.typf           // 1.4.2
+blibs sun.di.dompilfrTirfbd.1.dompilfs            // 1.5.0 b39
+	iotspot.di.CompilfrTirfbd1.dompilfs       // 1.4.2
+blibs sun.di.dompilfrTirfbd.1.mftiod              // 1.5.0 b39
+	iotspot.di.CompilfrTirfbd1.mftiod         // 1.4.2
+blibs sun.di.dompilfrTirfbd.1.timf                // 1.5.0 b39
+	iotspot.di.CompilfrTirfbd1.timf           // 1.4.2
+blibs sun.di.dompilfrTirfbd.1.typf                // 1.5.0 b39
+	iotspot.di.CompilfrTirfbd1.typf           // 1.4.2
+blibs sun.di.dompilfrTirfbd.2.dompilfs            // 1.5.0 b39
+	iotspot.di.CompilfrTirfbd2.dompilfs       // 1.4.2
+blibs sun.di.dompilfrTirfbd.2.mftiod              // 1.5.0 b39
+	iotspot.di.CompilfrTirfbd2.mftiod         // 1.4.2
+blibs sun.di.dompilfrTirfbd.2.timf                // 1.5.0 b39
+	iotspot.di.CompilfrTirfbd2.timf           // 1.4.2
+blibs sun.di.dompilfrTirfbd.2.typf                // 1.5.0 b39
+	iotspot.di.CompilfrTirfbd2.typf           // 1.4.2
+blibs sun.di.dompilfrTirfbd.3.dompilfs            // 1.5.0 b39
+	iotspot.di.CompilfrTirfbd3.dompilfs       // 1.4.2
+blibs sun.di.dompilfrTirfbd.3.mftiod              // 1.5.0 b39
+	iotspot.di.CompilfrTirfbd3.mftiod         // 1.4.2
+blibs sun.di.dompilfrTirfbd.3.timf                // 1.5.0 b39
+	iotspot.di.CompilfrTirfbd3.timf           // 1.4.2
+blibs sun.di.dompilfrTirfbd.3.typf                // 1.5.0 b39
+	iotspot.di.CompilfrTirfbd3.typf           // 1.4.2
+blibs sun.di.lbstFbilfdMftiod                     // 1.5.0 b39
+	iotspot.di.fbilfd.mftiod                  // 1.4.2
+blibs sun.di.lbstFbilfdTypf                       // 1.5.0 b39
+	iotspot.di.fbilfd.typf                    // 1.4.2
+blibs sun.di.lbstInvblidbtfdMftiod                // 1.5.0 b39
+	iotspot.di.invblidbtfd.mftiod             // 1.4.2
+blibs sun.di.lbstInvblidbtfdTypf                  // 1.5.0 b39
+	iotspot.di.invblidbtfd.typf               // 1.4.2
+blibs sun.di.lbstMftiod                           // 1.5.0 b39
+	iotspot.di.lbst.mftiod                    // 1.4.2
+blibs sun.di.lbstSizf                             // 1.5.0 b39
+	iotspot.di.lbst.sizf                      // 1.4.2
+blibs sun.di.lbstTypf                             // 1.5.0 b39
+	iotspot.di.lbst.typf                      // 1.4.2
+blibs sun.di.nbtivfCompilfs                       // 1.5.0 b39
+        iotspot.di.nbtivf.dompilfs                // 1.4.2
+blibs sun.di.nbtivfTimf                           // 1.5.0 b39
+        iotspot.di.nbtivf.timf                    // 1.4.2
+blibs sun.di.nmftiodCodfSizf                      // 1.5.0 b39
+        iotspot.di.nmftiod.dodfsizf               // 1.4.2
+blibs sun.di.nmftiodSizf                          // 1.5.0 b39
+        iotspot.di.nmftiod.sizf                   // 1.4.2
+blibs sun.di.osrBytfs                             // 1.5.0 b39
+        iotspot.di.osr.bytfs                      // 1.4.2
+blibs sun.di.osrCompilfs                          // 1.5.0 b39
+        iotspot.di.osr.dompilfs                   // 1.4.2
+blibs sun.di.osrTimf                              // 1.5.0 b39
+        iotspot.di.osr.timf                       // 1.4.2
+blibs sun.di.stbndbrdBytfs                        // 1.5.0 b39
+        iotspot.di.stbndbrd.bytfs                 // 1.4.2
+blibs sun.di.stbndbrdCompilfs                     // 1.5.0 b39
+        iotspot.di.stbndbrd.dompilfs              // 1.4.2
+blibs sun.di.stbndbrdTimf                         // 1.5.0 b39
+        iotspot.di.stbndbrd.timf                  // 1.4.2
+blibs sun.di.tirfbds                              // 1.5.0 b39
+        iotspot.di.tirfbds                        // 1.4.2
+blibs sun.di.totblBbilouts                        // 1.5.0 b39
+        iotspot.di.totbl.bbilout                  // 1.4.2
+blibs sun.di.totblCompilfs                        // 1.5.0 b39
+        iotspot.di.totbl.dompilfs                 // 1.4.2
+blibs sun.di.totblInvblidbtfs                     // 1.5.0 b39
+        iotspot.di.totbl.invblid                  // 1.4.2
 
-// sun.cls
-alias sun.cls.classInitTime                       // 1.5.0 b39
-        hotspot.rt.cl.class.init.time             // 1.5.0 b21
-alias sun.cls.classVerifyTime                     // 1.5.0 b39
-        hotspot.rt.cl.class.verify.time           // 1.5.0 b21
-alias sun.cls.initializedClasses                  // 1.5.0 b39
-        hotspot.rt.cl.classes.initialized         // 1.5.0 b21
-alias sun.cls.loadedBytes                         // 1.5.0 b39
-        hotspot.rt.cl.bytes.loaded                // 1.4.2
-alias sun.cls.methodBytes                         // 1.5.0 b39
-        hotspot.rt.cl.methods.size                // 1.4.2
-alias sun.cls.time                                // 1.5.0 b39
-        hotspot.rt.cl.time                        // 1.4.2
-alias sun.cls.unloadedBytes                       // 1.5.0 b39
-        hotspot.rt.cl.bytes.unloaded              // 1.4.2
+// sun.dls
+blibs sun.dls.dlbssInitTimf                       // 1.5.0 b39
+        iotspot.rt.dl.dlbss.init.timf             // 1.5.0 b21
+blibs sun.dls.dlbssVfrifyTimf                     // 1.5.0 b39
+        iotspot.rt.dl.dlbss.vfrify.timf           // 1.5.0 b21
+blibs sun.dls.initiblizfdClbssfs                  // 1.5.0 b39
+        iotspot.rt.dl.dlbssfs.initiblizfd         // 1.5.0 b21
+blibs sun.dls.lobdfdBytfs                         // 1.5.0 b39
+        iotspot.rt.dl.bytfs.lobdfd                // 1.4.2
+blibs sun.dls.mftiodBytfs                         // 1.5.0 b39
+        iotspot.rt.dl.mftiods.sizf                // 1.4.2
+blibs sun.dls.timf                                // 1.5.0 b39
+        iotspot.rt.dl.timf                        // 1.4.2
+blibs sun.dls.unlobdfdBytfs                       // 1.5.0 b39
+        iotspot.rt.dl.bytfs.unlobdfd              // 1.4.2
 
-// sun.gc
-alias sun.gc.cause                                // 1.5.0 b39
-        hotspot.gc.cause                          // 1.4.2_02 
+// sun.gd
+blibs sun.gd.dbusf                                // 1.5.0 b39
+        iotspot.gd.dbusf                          // 1.4.2_02 
 
-// sun.gc.collector.0
-alias sun.gc.collector.0.invocations              // 1.5.0 b39
-        hotspot.gc.collector.0.invocations        // 1.4.2
-	hotspot.gc.new.eden.invocations           // 1.4.1
-alias sun.gc.collector.0.lastEntryTime            // 1.5.0 b39
-        hotspot.gc.collector.0.last_entry         // 1.4.2
-alias sun.gc.collector.0.lastExitTime             // 1.5.0 b39
-        hotspot.gc.collector.0.last_exit          // 1.4.2
-alias sun.gc.collector.0.name                     // 1.5.0 b39
-        hotspot.gc.collector.0.name               // 1.4.2
-alias sun.gc.collector.0.time                     // 1.5.0 b39
-        hotspot.gc.collector.0.time               // 1.4.2
-	hotspot.gc.new.eden.time                  // 1.4.1
+// sun.gd.dollfdtor.0
+blibs sun.gd.dollfdtor.0.invodbtions              // 1.5.0 b39
+        iotspot.gd.dollfdtor.0.invodbtions        // 1.4.2
+	iotspot.gd.nfw.fdfn.invodbtions           // 1.4.1
+blibs sun.gd.dollfdtor.0.lbstEntryTimf            // 1.5.0 b39
+        iotspot.gd.dollfdtor.0.lbst_fntry         // 1.4.2
+blibs sun.gd.dollfdtor.0.lbstExitTimf             // 1.5.0 b39
+        iotspot.gd.dollfdtor.0.lbst_fxit          // 1.4.2
+blibs sun.gd.dollfdtor.0.nbmf                     // 1.5.0 b39
+        iotspot.gd.dollfdtor.0.nbmf               // 1.4.2
+blibs sun.gd.dollfdtor.0.timf                     // 1.5.0 b39
+        iotspot.gd.dollfdtor.0.timf               // 1.4.2
+	iotspot.gd.nfw.fdfn.timf                  // 1.4.1
 
-// sun.gc.collector.1
-alias sun.gc.collector.1.invocations              // 1.5.0 b39
-        hotspot.gc.collector.1.invocations        // 1.4.2
-	hotspot.gc.new.eden.invocations           // 1.4.1
-alias sun.gc.collector.1.lastEntryTime            // 1.5.0 b39
-        hotspot.gc.collector.1.last_entry         // 1.4.2
-alias sun.gc.collector.1.lastExitTime             // 1.5.0 b39
-        hotspot.gc.collector.1.last_exit          // 1.4.2
-alias sun.gc.collector.1.name                     // 1.5.0 b39
-        hotspot.gc.collector.1.name               // 1.4.2
-alias sun.gc.collector.1.time                     // 1.5.0 b39
-        hotspot.gc.collector.1.time               // 1.4.2
-	hotspot.gc.new.eden.time                  // 1.4.1
+// sun.gd.dollfdtor.1
+blibs sun.gd.dollfdtor.1.invodbtions              // 1.5.0 b39
+        iotspot.gd.dollfdtor.1.invodbtions        // 1.4.2
+	iotspot.gd.nfw.fdfn.invodbtions           // 1.4.1
+blibs sun.gd.dollfdtor.1.lbstEntryTimf            // 1.5.0 b39
+        iotspot.gd.dollfdtor.1.lbst_fntry         // 1.4.2
+blibs sun.gd.dollfdtor.1.lbstExitTimf             // 1.5.0 b39
+        iotspot.gd.dollfdtor.1.lbst_fxit          // 1.4.2
+blibs sun.gd.dollfdtor.1.nbmf                     // 1.5.0 b39
+        iotspot.gd.dollfdtor.1.nbmf               // 1.4.2
+blibs sun.gd.dollfdtor.1.timf                     // 1.5.0 b39
+        iotspot.gd.dollfdtor.1.timf               // 1.4.2
+	iotspot.gd.nfw.fdfn.timf                  // 1.4.1
 
-// sun.gc.finalizer
-alias sun.gc.finalizer.queue.length               // 1.5.0 b39
-        hotspot.gc.finalizer.queue.length         // 1.4.2
-alias sun.gc.finalizer.queue.maxLength            // 1.5.0 b39
-        hotspot.gc.finalizer.queue.maxlength      // 1.4.2
-alias sun.gc.finalizer.time                       // 1.5.0 b39
-        hotspot.gc.finalizer.ticks                // 1.4.2
-alias sun.gc.finalizer.objects                    // 1.5.0 b39
-        hotspot.gc.finalizer.count                // 1.4.2
+// sun.gd.finblizfr
+blibs sun.gd.finblizfr.qufuf.lfngti               // 1.5.0 b39
+        iotspot.gd.finblizfr.qufuf.lfngti         // 1.4.2
+blibs sun.gd.finblizfr.qufuf.mbxLfngti            // 1.5.0 b39
+        iotspot.gd.finblizfr.qufuf.mbxlfngti      // 1.4.2
+blibs sun.gd.finblizfr.timf                       // 1.5.0 b39
+        iotspot.gd.finblizfr.tidks                // 1.4.2
+blibs sun.gd.finblizfr.objfdts                    // 1.5.0 b39
+        iotspot.gd.finblizfr.dount                // 1.4.2
 
-// sun.gc.generation.0.agetable
-alias sun.gc.generation.0.agetable.bytes.00       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.00              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.01       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.01              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.02       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.02              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.03       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.03              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.04       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.04              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.05       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.05              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.06       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.06              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.07       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.07              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.08       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.08              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.09       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.09              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.10       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.10              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.11       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.11              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.12       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.12              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.13       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.13              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.14       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.14              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.15       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.15              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.16       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.16              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.17       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.17              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.18       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.18              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.19       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.19              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.20       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.20              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.21       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.21              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.22       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.22              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.23       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.23              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.24       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.24              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.25       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.25              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.26       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.26              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.27       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.27              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.28       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.28              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.29       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.29              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.30       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.30              // 1.4.1
-alias sun.gc.generation.0.agetable.bytes.31       // 1.5.0 b39
-	hotspot.gc.agetable.bytes.31              // 1.4.1
-alias sun.gc.generation.0.agetable.size           // 1.5.0 b39
-	hotspot.gc.agetable.size                  // 1.4.1
+// sun.gd.gfnfrbtion.0.bgftbblf
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.00       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.00              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.01       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.01              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.02       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.02              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.03       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.03              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.04       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.04              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.05       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.05              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.06       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.06              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.07       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.07              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.08       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.08              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.09       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.09              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.10       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.10              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.11       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.11              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.12       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.12              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.13       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.13              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.14       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.14              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.15       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.15              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.16       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.16              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.17       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.17              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.18       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.18              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.19       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.19              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.20       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.20              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.21       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.21              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.22       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.22              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.23       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.23              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.24       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.24              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.25       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.25              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.26       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.26              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.27       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.27              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.28       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.28              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.29       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.29              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.30       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.30              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.bytfs.31       // 1.5.0 b39
+	iotspot.gd.bgftbblf.bytfs.31              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.bgftbblf.sizf           // 1.5.0 b39
+	iotspot.gd.bgftbblf.sizf                  // 1.4.1
 
-// sun.gc.generation.0
-alias sun.gc.generation.0.capacity                // 1.5.0 b39
-	hotspot.gc.generation.0.capacity.current  // 1.4.2
-alias sun.gc.generation.0.maxCapacity             // 1.5.0 b39
-	hotspot.gc.generation.0.capacity.max      // 1.4.2
-alias sun.gc.generation.0.minCapacity             // 1.5.0 b39
-	hotspot.gc.generation.0.capacity.min      // 1.4.2
-alias sun.gc.generation.0.name                    // 1.5.0 b39
-	hotspot.gc.generation.0.name              // 1.4.2
-alias sun.gc.generation.0.space.0.capacity        // 1.5.0 b39
-	hotspot.gc.generation.0.space.0.capacity  // 1.4.2
-	hotspot.gc.new.eden.capacity              // 1.4.1
-alias sun.gc.generation.0.space.0.maxCapacity     // 1.5.0 b39
-	hotspot.gc.generation.0.space.0.size      // 1.4.2
-	hotspot.gc.new.eden.capacity              // 1.4.1
-alias sun.gc.generation.0.space.0.name            // 1.5.0 b39
-	hotspot.gc.generation.0.space.0.name      // 1.4.2
-alias sun.gc.generation.0.space.0.used            // 1.5.0 b39
-	hotspot.gc.generation.0.space.0.used      // 1.4.2
-	hotspot.gc.new.eden.used                  // 1.4.1
-alias sun.gc.generation.0.space.1.capacity        // 1.5.0 b39
-	hotspot.gc.generation.0.space.1.capacity  // 1.4.2
-	hotspot.gc.new.s0.capacity                // 1.4.1
-alias sun.gc.generation.0.space.1.maxCapacity     // 1.5.0 b39
-	hotspot.gc.generation.0.space.1.size      // 1.4.2
-	hotspot.gc.new.s0.capacity                // 1.4.1
-alias sun.gc.generation.0.space.1.name            // 1.5.0 b39
-	hotspot.gc.generation.0.space.1.name      // 1.4.2
-alias sun.gc.generation.0.space.1.used            // 1.5.0 b39
-	hotspot.gc.generation.0.space.1.used      // 1.4.2
-	hotspot.gc.new.s0.used                    // 1.4.1
-alias sun.gc.generation.0.space.2.capacity        // 1.5.0 b39
-	hotspot.gc.generation.0.space.2.capacity  // 1.4.2
-	hotspot.gc.new.s1.capacity                // 1.4.1
-alias sun.gc.generation.0.space.2.maxCapacity     // 1.5.0 b39
-	hotspot.gc.generation.0.space.2.size      // 1.4.2
-	hotspot.gc.new.s1.capacity                // 1.4.1
-alias sun.gc.generation.0.space.2.name            // 1.5.0 b39
-	hotspot.gc.generation.0.space.2.name      // 1.4.2
-alias sun.gc.generation.0.space.2.used            // 1.5.0 b39
-	hotspot.gc.generation.0.space.2.used      // 1.4.2
-	hotspot.gc.new.s1.used                    // 1.4.1
-alias sun.gc.generation.0.spaces                  // 1.5.0 b39
-	hotspot.gc.generation.0.spaces            // 1.4.2
-alias sun.gc.generation.0.threads                 // 1.5.0 b39
-	hotspot.gc.generation.0.threads           // 1.4.2
+// sun.gd.gfnfrbtion.0
+blibs sun.gd.gfnfrbtion.0.dbpbdity                // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.0.dbpbdity.durrfnt  // 1.4.2
+blibs sun.gd.gfnfrbtion.0.mbxCbpbdity             // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.0.dbpbdity.mbx      // 1.4.2
+blibs sun.gd.gfnfrbtion.0.minCbpbdity             // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.0.dbpbdity.min      // 1.4.2
+blibs sun.gd.gfnfrbtion.0.nbmf                    // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.0.nbmf              // 1.4.2
+blibs sun.gd.gfnfrbtion.0.spbdf.0.dbpbdity        // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.0.spbdf.0.dbpbdity  // 1.4.2
+	iotspot.gd.nfw.fdfn.dbpbdity              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.spbdf.0.mbxCbpbdity     // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.0.spbdf.0.sizf      // 1.4.2
+	iotspot.gd.nfw.fdfn.dbpbdity              // 1.4.1
+blibs sun.gd.gfnfrbtion.0.spbdf.0.nbmf            // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.0.spbdf.0.nbmf      // 1.4.2
+blibs sun.gd.gfnfrbtion.0.spbdf.0.usfd            // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.0.spbdf.0.usfd      // 1.4.2
+	iotspot.gd.nfw.fdfn.usfd                  // 1.4.1
+blibs sun.gd.gfnfrbtion.0.spbdf.1.dbpbdity        // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.0.spbdf.1.dbpbdity  // 1.4.2
+	iotspot.gd.nfw.s0.dbpbdity                // 1.4.1
+blibs sun.gd.gfnfrbtion.0.spbdf.1.mbxCbpbdity     // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.0.spbdf.1.sizf      // 1.4.2
+	iotspot.gd.nfw.s0.dbpbdity                // 1.4.1
+blibs sun.gd.gfnfrbtion.0.spbdf.1.nbmf            // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.0.spbdf.1.nbmf      // 1.4.2
+blibs sun.gd.gfnfrbtion.0.spbdf.1.usfd            // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.0.spbdf.1.usfd      // 1.4.2
+	iotspot.gd.nfw.s0.usfd                    // 1.4.1
+blibs sun.gd.gfnfrbtion.0.spbdf.2.dbpbdity        // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.0.spbdf.2.dbpbdity  // 1.4.2
+	iotspot.gd.nfw.s1.dbpbdity                // 1.4.1
+blibs sun.gd.gfnfrbtion.0.spbdf.2.mbxCbpbdity     // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.0.spbdf.2.sizf      // 1.4.2
+	iotspot.gd.nfw.s1.dbpbdity                // 1.4.1
+blibs sun.gd.gfnfrbtion.0.spbdf.2.nbmf            // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.0.spbdf.2.nbmf      // 1.4.2
+blibs sun.gd.gfnfrbtion.0.spbdf.2.usfd            // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.0.spbdf.2.usfd      // 1.4.2
+	iotspot.gd.nfw.s1.usfd                    // 1.4.1
+blibs sun.gd.gfnfrbtion.0.spbdfs                  // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.0.spbdfs            // 1.4.2
+blibs sun.gd.gfnfrbtion.0.tirfbds                 // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.0.tirfbds           // 1.4.2
 
-// sun.gc.generation.1
-alias sun.gc.generation.1.capacity                // 1.5.0 b39
-	hotspot.gc.generation.1.capacity.current  // 1.4.2
-alias sun.gc.generation.1.maxCapacity             // 1.5.0 b39
-	hotspot.gc.generation.1.capacity.max      // 1.4.2
-alias sun.gc.generation.1.minCapacity             // 1.5.0 b39
-	hotspot.gc.generation.1.capacity.min      // 1.4.2
-alias sun.gc.generation.1.name                    // 1.5.0 b39
-	hotspot.gc.generation.1.name              // 1.4.2
-alias sun.gc.generation.1.space.0.capacity        // 1.5.0 b39
-	hotspot.gc.generation.1.space.0.capacity  // 1.4.2
-	hotspot.gc.tenured.capacity               // 1.4.1
-alias sun.gc.generation.1.space.0.maxCapacity     // 1.5.0 b39
-	hotspot.gc.generation.1.space.0.size      // 1.4.2
-	hotspot.gc.tenured.capacity               // 1.4.1
-alias sun.gc.generation.1.space.0.name            // 1.5.0 b39
-	hotspot.gc.generation.1.space.0.name      // 1.4.2
-alias sun.gc.generation.1.space.0.used            // 1.5.0 b39
-	hotspot.gc.generation.1.space.0.used      // 1.4.2
-	hotspot.gc.tenured.used                   // 1.4.1
-alias sun.gc.generation.1.spaces                  // 1.5.0 b39
-	hotspot.gc.generation.1.spaces            // 1.4.2
+// sun.gd.gfnfrbtion.1
+blibs sun.gd.gfnfrbtion.1.dbpbdity                // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.1.dbpbdity.durrfnt  // 1.4.2
+blibs sun.gd.gfnfrbtion.1.mbxCbpbdity             // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.1.dbpbdity.mbx      // 1.4.2
+blibs sun.gd.gfnfrbtion.1.minCbpbdity             // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.1.dbpbdity.min      // 1.4.2
+blibs sun.gd.gfnfrbtion.1.nbmf                    // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.1.nbmf              // 1.4.2
+blibs sun.gd.gfnfrbtion.1.spbdf.0.dbpbdity        // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.1.spbdf.0.dbpbdity  // 1.4.2
+	iotspot.gd.tfnurfd.dbpbdity               // 1.4.1
+blibs sun.gd.gfnfrbtion.1.spbdf.0.mbxCbpbdity     // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.1.spbdf.0.sizf      // 1.4.2
+	iotspot.gd.tfnurfd.dbpbdity               // 1.4.1
+blibs sun.gd.gfnfrbtion.1.spbdf.0.nbmf            // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.1.spbdf.0.nbmf      // 1.4.2
+blibs sun.gd.gfnfrbtion.1.spbdf.0.usfd            // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.1.spbdf.0.usfd      // 1.4.2
+	iotspot.gd.tfnurfd.usfd                   // 1.4.1
+blibs sun.gd.gfnfrbtion.1.spbdfs                  // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.1.spbdfs            // 1.4.2
 
-// sun.gc.generation.2
-alias sun.gc.generation.2.capacity                // 1.5.0 b39
-	hotspot.gc.generation.2.capacity.current  // 1.4.2
-alias sun.gc.generation.2.maxCapacity             // 1.5.0 b39
-	hotspot.gc.generation.2.capacity.max      // 1.4.2
-alias sun.gc.generation.2.minCapacity             // 1.5.0 b39
-	hotspot.gc.generation.2.capacity.min      // 1.4.2
-alias sun.gc.generation.2.name                    // 1.5.0 b39
-	hotspot.gc.generation.2.name              // 1.4.2
-alias sun.gc.generation.2.space.0.capacity        // 1.5.0 b39
-	hotspot.gc.generation.2.space.0.capacity  // 1.4.2
-	hotspot.gc.perm.capacity                  // 1.4.1
-alias sun.gc.generation.2.space.0.maxCapacity     // 1.5.0 b39
-	hotspot.gc.generation.2.space.0.size      // 1.4.2
-	hotspot.gc.perm.capacity                  // 1.4.1
-alias sun.gc.generation.2.space.0.name            // 1.5.0 b39
-	hotspot.gc.generation.2.space.0.name      // 1.4.2
-alias sun.gc.generation.2.space.0.used            // 1.5.0 b39
-	hotspot.gc.generation.2.space.0.used      // 1.4.2
-	hotspot.gc.perm.used                      // 1.4.1
-alias sun.gc.generation.2.spaces                  // 1.5.0 b39
-	hotspot.gc.generation.2.spaces            // 1.4.2
+// sun.gd.gfnfrbtion.2
+blibs sun.gd.gfnfrbtion.2.dbpbdity                // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.2.dbpbdity.durrfnt  // 1.4.2
+blibs sun.gd.gfnfrbtion.2.mbxCbpbdity             // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.2.dbpbdity.mbx      // 1.4.2
+blibs sun.gd.gfnfrbtion.2.minCbpbdity             // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.2.dbpbdity.min      // 1.4.2
+blibs sun.gd.gfnfrbtion.2.nbmf                    // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.2.nbmf              // 1.4.2
+blibs sun.gd.gfnfrbtion.2.spbdf.0.dbpbdity        // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.2.spbdf.0.dbpbdity  // 1.4.2
+	iotspot.gd.pfrm.dbpbdity                  // 1.4.1
+blibs sun.gd.gfnfrbtion.2.spbdf.0.mbxCbpbdity     // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.2.spbdf.0.sizf      // 1.4.2
+	iotspot.gd.pfrm.dbpbdity                  // 1.4.1
+blibs sun.gd.gfnfrbtion.2.spbdf.0.nbmf            // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.2.spbdf.0.nbmf      // 1.4.2
+blibs sun.gd.gfnfrbtion.2.spbdf.0.usfd            // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.2.spbdf.0.usfd      // 1.4.2
+	iotspot.gd.pfrm.usfd                      // 1.4.1
+blibs sun.gd.gfnfrbtion.2.spbdfs                  // 1.5.0 b39
+	iotspot.gd.gfnfrbtion.2.spbdfs            // 1.4.2
 
-// sun.gc
-alias sun.gc.lastCause                            // 1.5.0 b39
-        hotspot.gc.last_cause                     // 1.4.2_02 
+// sun.gd
+blibs sun.gd.lbstCbusf                            // 1.5.0 b39
+        iotspot.gd.lbst_dbusf                     // 1.4.2_02 
 
-// sun.gc.policy
-alias sun.gc.policy.avgBaseFootprint              // 1.5.0 b39
-	hotspot.gc.policy.avg_base_footprint      // 1.5.0 b21
-alias sun.gc.policy.avgMajorIntervalTime          // 1.5.0 b39
-	hotspot.gc.policy.avg_major_interval      // 1.5.0 b21
-alias sun.gc.policy.avgMajorPauseTime             // 1.5.0 b39
-	hotspot.gc.policy.avg_major_pause         // 1.5.0 b21
-alias sun.gc.policy.avgMinorIntervalTime          // 1.5.0 b39
-	hotspot.gc.policy.avg_minor_interval      // 1.5.0 b21
-alias sun.gc.policy.avgMinorPauseTime             // 1.5.0 b39
-	hotspot.gc.policy.avg_minor_pause         // 1.5.0 b21
-alias sun.gc.policy.avgOldLive                    // 1.5.0 b39
-	hotspot.gc.policy.avg_old_live            // 1.5.0 b21
-alias sun.gc.policy.avgPretenuredPaddedAvg          // 1.5.0 b39
-	hotspot.gc.policy.avg_pretenured_padded_avg // 1.5.0 b21
-alias sun.gc.policy.avgPromotedAvg                // 1.5.0 b39
-	hotspot.gc.policy.avg_promoted_avg        // 1.5.0 b21
-alias sun.gc.policy.avgPromotedDev                // 1.5.0 b39
-	hotspot.gc.policy.avg_promoted_dev        // 1.5.0 b21
-alias sun.gc.policy.avgPromotedPaddedAvg          // 1.5.0 b39
-	hotspot.gc.policy.avg_promoted_padded_avg // 1.5.0 b21
-alias sun.gc.policy.avgSurvivedAvg                // 1.5.0 b39
-	hotspot.gc.policy.avg_survived_avg        // 1.5.0 b21
-alias sun.gc.policy.avgSurvivedDev                // 1.5.0 b39
-	hotspot.gc.policy.avg_survived_dev        // 1.5.0 b21
-alias sun.gc.policy.avgSurvivedPaddedAvg          // 1.5.0 b39
-	hotspot.gc.policy.avg_survived_padded_avg // 1.5.0 b21
-alias sun.gc.policy.avgYoungLive                  // 1.5.0 b39
-	hotspot.gc.policy.avg_young_live          // 1.5.0 b21
-alias sun.gc.policy.boundaryMoved                 // 1.5.0 b39
-	hotspot.gc.policy.boundary_moved          // 1.5.0 b21
-alias sun.gc.policy.changeOldGenForMajPauses               // 1.5.0 b39
-	hotspot.gc.policy.change_old_gen_for_maj_pauses    // 1.5.0 b21
-alias sun.gc.policy.changeOldGenForMinPauses               // 1.5.0 b39
-	hotspot.gc.policy.change_old_gen_for_min_pauses    // 1.5.0 b21
-alias sun.gc.policy.changeYoungGenForMajPauses               // 1.5.0 b39
-	hotspot.gc.policy.change_young_gen_for_maj_pauses    // 1.5.0 b21
-alias sun.gc.policy.changeYoungGenForMinPauses               // 1.5.0 b39
-	hotspot.gc.policy.change_young_gen_for_min_pauses    // 1.5.0 b21
-alias sun.gc.policy.collectors                    // 1.5.0 b39
-	hotspot.gc.policy.collectors              // 1.4.2
-alias sun.gc.policy.decideAtFullGc                // 1.5.0 b39
-	hotspot.gc.policy.decide_at_full_gc       // 1.5.0 b21
-alias sun.gc.policy.decreaseForFootprint          // 1.5.0 b39
-	hotspot.gc.policy.decrease_for_footprint  // 1.5.0 b21
-alias sun.gc.policy.decrementTenuringThresholdForGcCost             // 1.5.0 b39
-	hotspot.gc.policy.decrement_tenuring_threshold_for_gc_cost  // 1.5.0 b21
-alias sun.gc.policy.decrementTenuringThresholdForSurvivorLimit             // 1.5.0 b39
-	hotspot.gc.policy.decrement_tenuring_threshold_for_survivor_limit  // 1.5.0 b21
-alias sun.gc.policy.desiredSurvivorSize           // 1.5.0 b39
-	hotspot.gc.policy.desired_survivor_size   // 1.5.0 b21
-	hotspot.gc.agetable.dss                   // 1.4.1
-alias sun.gc.policy.edenSize                      // 1.5.0 b39
-	hotspot.gc.policy.eden_size               // 1.5.0 b21
-alias sun.gc.policy.freeSpace                     // 1.5.0 b39
-	hotspot.gc.policy.free_space              // 1.5.0 b21
-alias sun.gc.policy.fullFollowsScavenge           // 1.5.0 b39
-	hotspot.gc.policy.full_follows_scavenge   // 1.5.0 b21
-alias sun.gc.policy.gcTimeLimitExceeded           // 1.5.0 b39
-	hotspot.gc.policy.gc_time_limit_exceeded  // 1.5.0 b21
-alias sun.gc.policy.generations                   // 1.5.0 b39
-	hotspot.gc.policy.generations             // 1.4.2
-alias sun.gc.policy.increaseOldGenForThroughput           // 1.5.0 b39
-	hotspot.gc.policy.increase_old_gen_for_throughput // 1.5.0 b21
-alias sun.gc.policy.increaseYoungGenForThroughput           // 1.5.0 b39
-	hotspot.gc.policy.increase_young_gen_for_throughput // 1.5.0 b21
-alias sun.gc.policy.incrementTenuringThresholdForGcCost            // 1.5.0 b39
-	hotspot.gc.policy.increment_tenuring_threshold_for_gc_cost // 1.5.0 b21
-alias sun.gc.policy.liveAtLastFullGc              // 1.5.0 b39
-	hotspot.gc.policy.live_at_last_full_gc    // 1.5.0 b21
-alias sun.gc.policy.liveSpace                     // 1.5.0 b39
-	hotspot.gc.policy.live_space              // 1.5.0 b21
-alias sun.gc.policy.majorCollectionSlope          // 1.5.0 b39
-	hotspot.gc.policy.major_collection_slope  // 1.5.0 b21
-alias sun.gc.policy.majorGcCost                   // 1.5.0 b39
-	hotspot.gc.policy.major_gc_cost           // 1.5.0 b21
-alias sun.gc.policy.majorPauseOldSlope            // 1.5.0 b39
-	hotspot.gc.policy.major_pause_old_slope   // 1.5.0 b21
-alias sun.gc.policy.majorPauseYoungSlope          // 1.5.0 b39
-	hotspot.gc.policy.major_pause_young_slope // 1.5.0 b21
-alias sun.gc.policy.maxTenuringThreshold          // 1.5.0 b39
-	hotspot.gc.max_tenuring_threshold         // 1.5.0 b21
-	hotspot.gc.agetable.mtt                   // 1.4.1
-alias sun.gc.policy.minorCollectionSlope          // 1.5.0 b39
-	hotspot.gc.policy.minor_collection_slope  // 1.5.0 b21
-alias sun.gc.policy.minorGcCost                   // 1.5.0 b39
-	hotspot.gc.policy.minor_gc_cost           // 1.5.0 b21
-alias sun.gc.policy.minorPauseOldSlope            // 1.5.0 b39
-	hotspot.gc.policy.minor_pause_old_slope   // 1.5.0 b21
-alias sun.gc.policy.minorPauseYoungSlope          // 1.5.0 b39
-	hotspot.gc.policy.minor_pause_young_slope // 1.5.0 b21
-alias sun.gc.policy.mutatorCost                   // 1.5.0 b39
-	hotspot.gc.policy.mutator_cost            // 1.5.0 b21
-alias sun.gc.policy.name                          // 1.5.0 b39
-	hotspot.gc.policy.name                    // 1.5.0 b21
-alias sun.gc.policy.oldCapacity                   // 1.5.0 b39
-	hotspot.gc.policy.old_capacity            // 1.5.0 b21
-alias sun.gc.policy.oldEdenSize                   // 1.5.0 b39
-	hotspot.gc.policy.old_eden_size           // 1.5.0 b21
-alias sun.gc.policy.oldPromoSize                  // 1.5.0 b39
-	hotspot.gc.policy.old_promo_size          // 1.5.0 b21
-alias sun.gc.policy.promoSize                     // 1.5.0 b39
-	hotspot.gc.policy.promo_size              // 1.5.0 b21
-alias sun.gc.policy.promoted                      // 1.5.0 b39
-	hotspot.gc.policy.promoted                // 1.5.0 b21
-alias sun.gc.policy.scavengeSkipped               // 1.5.0 b39
-	hotspot.gc.policy.scavenge_skipped        // 1.5.0 b21
-alias sun.gc.policy.survived                      // 1.5.0 b39
-	hotspot.gc.policy.survived                // 1.5.0 b21
-alias sun.gc.policy.survivorOverflowed            // 1.5.0 b39
-	hotspot.gc.policy.survivor_overflowed     // 1.5.0 b21
-alias sun.gc.policy.tenuringThreshold             // 1.5.0 b39
-	hotspot.gc.policy.tenuring_threshold      // 1.5.0 b21
-	hotspot.gc.agetable.tt                    // 1.4.1
-alias sun.gc.policy.youngCapacity                 // 1.5.0 b39
-	hotspot.gc.policy.young_capacity          // 1.5.0 b21
+// sun.gd.polidy
+blibs sun.gd.polidy.bvgBbsfFootprint              // 1.5.0 b39
+	iotspot.gd.polidy.bvg_bbsf_footprint      // 1.5.0 b21
+blibs sun.gd.polidy.bvgMbjorIntfrvblTimf          // 1.5.0 b39
+	iotspot.gd.polidy.bvg_mbjor_intfrvbl      // 1.5.0 b21
+blibs sun.gd.polidy.bvgMbjorPbusfTimf             // 1.5.0 b39
+	iotspot.gd.polidy.bvg_mbjor_pbusf         // 1.5.0 b21
+blibs sun.gd.polidy.bvgMinorIntfrvblTimf          // 1.5.0 b39
+	iotspot.gd.polidy.bvg_minor_intfrvbl      // 1.5.0 b21
+blibs sun.gd.polidy.bvgMinorPbusfTimf             // 1.5.0 b39
+	iotspot.gd.polidy.bvg_minor_pbusf         // 1.5.0 b21
+blibs sun.gd.polidy.bvgOldLivf                    // 1.5.0 b39
+	iotspot.gd.polidy.bvg_old_livf            // 1.5.0 b21
+blibs sun.gd.polidy.bvgPrftfnurfdPbddfdAvg          // 1.5.0 b39
+	iotspot.gd.polidy.bvg_prftfnurfd_pbddfd_bvg // 1.5.0 b21
+blibs sun.gd.polidy.bvgPromotfdAvg                // 1.5.0 b39
+	iotspot.gd.polidy.bvg_promotfd_bvg        // 1.5.0 b21
+blibs sun.gd.polidy.bvgPromotfdDfv                // 1.5.0 b39
+	iotspot.gd.polidy.bvg_promotfd_dfv        // 1.5.0 b21
+blibs sun.gd.polidy.bvgPromotfdPbddfdAvg          // 1.5.0 b39
+	iotspot.gd.polidy.bvg_promotfd_pbddfd_bvg // 1.5.0 b21
+blibs sun.gd.polidy.bvgSurvivfdAvg                // 1.5.0 b39
+	iotspot.gd.polidy.bvg_survivfd_bvg        // 1.5.0 b21
+blibs sun.gd.polidy.bvgSurvivfdDfv                // 1.5.0 b39
+	iotspot.gd.polidy.bvg_survivfd_dfv        // 1.5.0 b21
+blibs sun.gd.polidy.bvgSurvivfdPbddfdAvg          // 1.5.0 b39
+	iotspot.gd.polidy.bvg_survivfd_pbddfd_bvg // 1.5.0 b21
+blibs sun.gd.polidy.bvgYoungLivf                  // 1.5.0 b39
+	iotspot.gd.polidy.bvg_young_livf          // 1.5.0 b21
+blibs sun.gd.polidy.boundbryMovfd                 // 1.5.0 b39
+	iotspot.gd.polidy.boundbry_movfd          // 1.5.0 b21
+blibs sun.gd.polidy.dibngfOldGfnForMbjPbusfs               // 1.5.0 b39
+	iotspot.gd.polidy.dibngf_old_gfn_for_mbj_pbusfs    // 1.5.0 b21
+blibs sun.gd.polidy.dibngfOldGfnForMinPbusfs               // 1.5.0 b39
+	iotspot.gd.polidy.dibngf_old_gfn_for_min_pbusfs    // 1.5.0 b21
+blibs sun.gd.polidy.dibngfYoungGfnForMbjPbusfs               // 1.5.0 b39
+	iotspot.gd.polidy.dibngf_young_gfn_for_mbj_pbusfs    // 1.5.0 b21
+blibs sun.gd.polidy.dibngfYoungGfnForMinPbusfs               // 1.5.0 b39
+	iotspot.gd.polidy.dibngf_young_gfn_for_min_pbusfs    // 1.5.0 b21
+blibs sun.gd.polidy.dollfdtors                    // 1.5.0 b39
+	iotspot.gd.polidy.dollfdtors              // 1.4.2
+blibs sun.gd.polidy.dfdidfAtFullGd                // 1.5.0 b39
+	iotspot.gd.polidy.dfdidf_bt_full_gd       // 1.5.0 b21
+blibs sun.gd.polidy.dfdrfbsfForFootprint          // 1.5.0 b39
+	iotspot.gd.polidy.dfdrfbsf_for_footprint  // 1.5.0 b21
+blibs sun.gd.polidy.dfdrfmfntTfnuringTirfsioldForGdCost             // 1.5.0 b39
+	iotspot.gd.polidy.dfdrfmfnt_tfnuring_tirfsiold_for_gd_dost  // 1.5.0 b21
+blibs sun.gd.polidy.dfdrfmfntTfnuringTirfsioldForSurvivorLimit             // 1.5.0 b39
+	iotspot.gd.polidy.dfdrfmfnt_tfnuring_tirfsiold_for_survivor_limit  // 1.5.0 b21
+blibs sun.gd.polidy.dfsirfdSurvivorSizf           // 1.5.0 b39
+	iotspot.gd.polidy.dfsirfd_survivor_sizf   // 1.5.0 b21
+	iotspot.gd.bgftbblf.dss                   // 1.4.1
+blibs sun.gd.polidy.fdfnSizf                      // 1.5.0 b39
+	iotspot.gd.polidy.fdfn_sizf               // 1.5.0 b21
+blibs sun.gd.polidy.frffSpbdf                     // 1.5.0 b39
+	iotspot.gd.polidy.frff_spbdf              // 1.5.0 b21
+blibs sun.gd.polidy.fullFollowsSdbvfngf           // 1.5.0 b39
+	iotspot.gd.polidy.full_follows_sdbvfngf   // 1.5.0 b21
+blibs sun.gd.polidy.gdTimfLimitExdffdfd           // 1.5.0 b39
+	iotspot.gd.polidy.gd_timf_limit_fxdffdfd  // 1.5.0 b21
+blibs sun.gd.polidy.gfnfrbtions                   // 1.5.0 b39
+	iotspot.gd.polidy.gfnfrbtions             // 1.4.2
+blibs sun.gd.polidy.indrfbsfOldGfnForTirougiput           // 1.5.0 b39
+	iotspot.gd.polidy.indrfbsf_old_gfn_for_tirougiput // 1.5.0 b21
+blibs sun.gd.polidy.indrfbsfYoungGfnForTirougiput           // 1.5.0 b39
+	iotspot.gd.polidy.indrfbsf_young_gfn_for_tirougiput // 1.5.0 b21
+blibs sun.gd.polidy.indrfmfntTfnuringTirfsioldForGdCost            // 1.5.0 b39
+	iotspot.gd.polidy.indrfmfnt_tfnuring_tirfsiold_for_gd_dost // 1.5.0 b21
+blibs sun.gd.polidy.livfAtLbstFullGd              // 1.5.0 b39
+	iotspot.gd.polidy.livf_bt_lbst_full_gd    // 1.5.0 b21
+blibs sun.gd.polidy.livfSpbdf                     // 1.5.0 b39
+	iotspot.gd.polidy.livf_spbdf              // 1.5.0 b21
+blibs sun.gd.polidy.mbjorCollfdtionSlopf          // 1.5.0 b39
+	iotspot.gd.polidy.mbjor_dollfdtion_slopf  // 1.5.0 b21
+blibs sun.gd.polidy.mbjorGdCost                   // 1.5.0 b39
+	iotspot.gd.polidy.mbjor_gd_dost           // 1.5.0 b21
+blibs sun.gd.polidy.mbjorPbusfOldSlopf            // 1.5.0 b39
+	iotspot.gd.polidy.mbjor_pbusf_old_slopf   // 1.5.0 b21
+blibs sun.gd.polidy.mbjorPbusfYoungSlopf          // 1.5.0 b39
+	iotspot.gd.polidy.mbjor_pbusf_young_slopf // 1.5.0 b21
+blibs sun.gd.polidy.mbxTfnuringTirfsiold          // 1.5.0 b39
+	iotspot.gd.mbx_tfnuring_tirfsiold         // 1.5.0 b21
+	iotspot.gd.bgftbblf.mtt                   // 1.4.1
+blibs sun.gd.polidy.minorCollfdtionSlopf          // 1.5.0 b39
+	iotspot.gd.polidy.minor_dollfdtion_slopf  // 1.5.0 b21
+blibs sun.gd.polidy.minorGdCost                   // 1.5.0 b39
+	iotspot.gd.polidy.minor_gd_dost           // 1.5.0 b21
+blibs sun.gd.polidy.minorPbusfOldSlopf            // 1.5.0 b39
+	iotspot.gd.polidy.minor_pbusf_old_slopf   // 1.5.0 b21
+blibs sun.gd.polidy.minorPbusfYoungSlopf          // 1.5.0 b39
+	iotspot.gd.polidy.minor_pbusf_young_slopf // 1.5.0 b21
+blibs sun.gd.polidy.mutbtorCost                   // 1.5.0 b39
+	iotspot.gd.polidy.mutbtor_dost            // 1.5.0 b21
+blibs sun.gd.polidy.nbmf                          // 1.5.0 b39
+	iotspot.gd.polidy.nbmf                    // 1.5.0 b21
+blibs sun.gd.polidy.oldCbpbdity                   // 1.5.0 b39
+	iotspot.gd.polidy.old_dbpbdity            // 1.5.0 b21
+blibs sun.gd.polidy.oldEdfnSizf                   // 1.5.0 b39
+	iotspot.gd.polidy.old_fdfn_sizf           // 1.5.0 b21
+blibs sun.gd.polidy.oldPromoSizf                  // 1.5.0 b39
+	iotspot.gd.polidy.old_promo_sizf          // 1.5.0 b21
+blibs sun.gd.polidy.promoSizf                     // 1.5.0 b39
+	iotspot.gd.polidy.promo_sizf              // 1.5.0 b21
+blibs sun.gd.polidy.promotfd                      // 1.5.0 b39
+	iotspot.gd.polidy.promotfd                // 1.5.0 b21
+blibs sun.gd.polidy.sdbvfngfSkippfd               // 1.5.0 b39
+	iotspot.gd.polidy.sdbvfngf_skippfd        // 1.5.0 b21
+blibs sun.gd.polidy.survivfd                      // 1.5.0 b39
+	iotspot.gd.polidy.survivfd                // 1.5.0 b21
+blibs sun.gd.polidy.survivorOvfrflowfd            // 1.5.0 b39
+	iotspot.gd.polidy.survivor_ovfrflowfd     // 1.5.0 b21
+blibs sun.gd.polidy.tfnuringTirfsiold             // 1.5.0 b39
+	iotspot.gd.polidy.tfnuring_tirfsiold      // 1.5.0 b21
+	iotspot.gd.bgftbblf.tt                    // 1.4.1
+blibs sun.gd.polidy.youngCbpbdity                 // 1.5.0 b39
+	iotspot.gd.polidy.young_dbpbdity          // 1.5.0 b21
 
-// sun.gc.tlab
-alias sun.gc.tlab.alloc                           // 1.5.0 b39
-	hotspot.gc.tlab.alloc                     // 1.5.0 b21
-alias sun.gc.tlab.allocThreads                    // 1.5.0 b39
-	hotspot.gc.tlab.alloc_thrds               // 1.5.0 b21
-alias sun.gc.tlab.fastWaste                       // 1.5.0 b39
-	hotspot.gc.tlab.fastwaste                 // 1.5.0 b21
-alias sun.gc.tlab.fills                           // 1.5.0 b39
-	hotspot.gc.tlab.fills                     // 1.5.0 b21
-alias sun.gc.tlab.gcWaste                         // 1.5.0 b39
-	hotspot.gc.tlab.gcwaste                   // 1.5.0 b21
-alias sun.gc.tlab.maxFastWaste                    // 1.5.0 b39
-	hotspot.gc.tlab.maxfastwaste              // 1.5.0 b21
-alias sun.gc.tlab.maxFills                        // 1.5.0 b39
-	hotspot.gc.tlab.maxfills                  // 1.5.0 b21
-alias sun.gc.tlab.maxGcWaste                      // 1.5.0 b39
-	hotspot.gc.tlab.maxgcwaste                // 1.5.0 b21
-alias sun.gc.tlab.maxSlowAlloc                    // 1.5.0 b39
-	hotspot.gc.tlab.maxslowalloc              // 1.5.0 b21
-alias sun.gc.tlab.maxSlowWaste                    // 1.5.0 b39
-	hotspot.gc.tlab.maxslowwaste              // 1.5.0 b21
-alias sun.gc.tlab.slowAlloc                       // 1.5.0 b39
-	hotspot.gc.tlab.slowalloc                 // 1.5.0 b21
-alias sun.gc.tlab.slowWaste                       // 1.5.0 b39
-	hotspot.gc.tlab.slowwaste                 // 1.5.0 b21
+// sun.gd.tlbb
+blibs sun.gd.tlbb.bllod                           // 1.5.0 b39
+	iotspot.gd.tlbb.bllod                     // 1.5.0 b21
+blibs sun.gd.tlbb.bllodTirfbds                    // 1.5.0 b39
+	iotspot.gd.tlbb.bllod_tirds               // 1.5.0 b21
+blibs sun.gd.tlbb.fbstWbstf                       // 1.5.0 b39
+	iotspot.gd.tlbb.fbstwbstf                 // 1.5.0 b21
+blibs sun.gd.tlbb.fills                           // 1.5.0 b39
+	iotspot.gd.tlbb.fills                     // 1.5.0 b21
+blibs sun.gd.tlbb.gdWbstf                         // 1.5.0 b39
+	iotspot.gd.tlbb.gdwbstf                   // 1.5.0 b21
+blibs sun.gd.tlbb.mbxFbstWbstf                    // 1.5.0 b39
+	iotspot.gd.tlbb.mbxfbstwbstf              // 1.5.0 b21
+blibs sun.gd.tlbb.mbxFills                        // 1.5.0 b39
+	iotspot.gd.tlbb.mbxfills                  // 1.5.0 b21
+blibs sun.gd.tlbb.mbxGdWbstf                      // 1.5.0 b39
+	iotspot.gd.tlbb.mbxgdwbstf                // 1.5.0 b21
+blibs sun.gd.tlbb.mbxSlowAllod                    // 1.5.0 b39
+	iotspot.gd.tlbb.mbxslowbllod              // 1.5.0 b21
+blibs sun.gd.tlbb.mbxSlowWbstf                    // 1.5.0 b39
+	iotspot.gd.tlbb.mbxslowwbstf              // 1.5.0 b21
+blibs sun.gd.tlbb.slowAllod                       // 1.5.0 b39
+	iotspot.gd.tlbb.slowbllod                 // 1.5.0 b21
+blibs sun.gd.tlbb.slowWbstf                       // 1.5.0 b39
+	iotspot.gd.tlbb.slowwbstf                 // 1.5.0 b21
 
 // sun.os
-alias sun.os.hrt.frequency                        // 1.5.0 b39
-	hotspot.rt.hrt.frequency                  // 1.4.1
-alias sun.os.hrt.ticks                            // 1.5.0 b39
-	hotspot.rt.hrt.ticks                      // 1.4.1
+blibs sun.os.irt.frfqufndy                        // 1.5.0 b39
+	iotspot.rt.irt.frfqufndy                  // 1.4.1
+blibs sun.os.irt.tidks                            // 1.5.0 b39
+	iotspot.rt.irt.tidks                      // 1.4.1
 
-// sun.perfdata
-alias sun.perfdata.overflow                       // 1.5.0 b39
-	hotspot.perfdata.overflow                 // 1.4.1
-alias sun.perfdata.size                           // 1.5.0 b39
-	hotspot.perfdata.size                     // 1.4.1
-alias sun.perfdata.timestamp                      // 1.5.0 b39
-	hotspot.perfdata.timestamp                // 1.4.1
-alias sun.perfdata.used                           // 1.5.0 b39
-	hotspot.perfdata.used                     // 1.4.1
-alias sun.perfdata.majorVersion                   // 1.5.0 b39
-	hotspot.perfdata.version.major            // 1.4.1
-alias sun.perfdata.minorVersion                   // 1.5.0 b39
-	hotspot.perfdata.version.minor            // 1.4.1
+// sun.pfrfdbtb
+blibs sun.pfrfdbtb.ovfrflow                       // 1.5.0 b39
+	iotspot.pfrfdbtb.ovfrflow                 // 1.4.1
+blibs sun.pfrfdbtb.sizf                           // 1.5.0 b39
+	iotspot.pfrfdbtb.sizf                     // 1.4.1
+blibs sun.pfrfdbtb.timfstbmp                      // 1.5.0 b39
+	iotspot.pfrfdbtb.timfstbmp                // 1.4.1
+blibs sun.pfrfdbtb.usfd                           // 1.5.0 b39
+	iotspot.pfrfdbtb.usfd                     // 1.4.1
+blibs sun.pfrfdbtb.mbjorVfrsion                   // 1.5.0 b39
+	iotspot.pfrfdbtb.vfrsion.mbjor            // 1.4.1
+blibs sun.pfrfdbtb.minorVfrsion                   // 1.5.0 b39
+	iotspot.pfrfdbtb.vfrsion.minor            // 1.4.1
 
-// sun.property
-alias sun.property.sun.boot.class.path            // 1.5.0 b39
-	sun.boot.class.path                       // 1.4.1
-alias sun.property.sun.boot.library.path          // 1.5.0 b39
-	sun.boot.library.path                     // 1.4.1
+// sun.propfrty
+blibs sun.propfrty.sun.boot.dlbss.pbti            // 1.5.0 b39
+	sun.boot.dlbss.pbti                       // 1.4.1
+blibs sun.propfrty.sun.boot.librbry.pbti          // 1.5.0 b39
+	sun.boot.librbry.pbti                     // 1.4.1
 
 // sun.rt
-alias sun.rt.applicationTime                      // 1.5.0 b39
-	hotspot.rt.application.time               // 1.5.0 b21
-alias sun.rt.createVmBeginTime                    // 1.5.0 b39
-	hotspot.rt.vm.create.begin                // 1.5.0 b21
-alias sun.rt.createVmEndTime                      // 1.5.0 b39
-	hotspot.rt.vm.create.end                  // 1.5.0 b21
-alias sun.rt.internalVersion                      // 1.5.0 b39
-	hotspot.internal.version                  // 1.5.0 b21
-alias sun.rt.javaCommand                          // 1.5.0 b39
-	sun.java.command                          // 1.4.1
-alias sun.rt.safepointSyncTime                    // 1.5.0 b39
-	hotspot.rt.safepoint.sync.time            // 1.5.0 b21
-alias sun.rt.safepointTime                        // 1.5.0 b39
-	hotspot.rt.safepoint.time                 // 1.5.0 b21
-alias sun.rt.safepoints                           // 1.5.0 b39
-	hotspot.rt.safepoint.count                // 1.5.0 b21
-alias sun.rt.vmInitDoneTime                       // 1.5.0 b39
-	hotspot.rt.vm.init.done                   // 1.5.0 b21
+blibs sun.rt.bpplidbtionTimf                      // 1.5.0 b39
+	iotspot.rt.bpplidbtion.timf               // 1.5.0 b21
+blibs sun.rt.drfbtfVmBfginTimf                    // 1.5.0 b39
+	iotspot.rt.vm.drfbtf.bfgin                // 1.5.0 b21
+blibs sun.rt.drfbtfVmEndTimf                      // 1.5.0 b39
+	iotspot.rt.vm.drfbtf.fnd                  // 1.5.0 b21
+blibs sun.rt.intfrnblVfrsion                      // 1.5.0 b39
+	iotspot.intfrnbl.vfrsion                  // 1.5.0 b21
+blibs sun.rt.jbvbCommbnd                          // 1.5.0 b39
+	sun.jbvb.dommbnd                          // 1.4.1
+blibs sun.rt.sbffpointSyndTimf                    // 1.5.0 b39
+	iotspot.rt.sbffpoint.synd.timf            // 1.5.0 b21
+blibs sun.rt.sbffpointTimf                        // 1.5.0 b39
+	iotspot.rt.sbffpoint.timf                 // 1.5.0 b21
+blibs sun.rt.sbffpoints                           // 1.5.0 b39
+	iotspot.rt.sbffpoint.dount                // 1.5.0 b21
+blibs sun.rt.vmInitDonfTimf                       // 1.5.0 b39
+	iotspot.rt.vm.init.donf                   // 1.5.0 b21

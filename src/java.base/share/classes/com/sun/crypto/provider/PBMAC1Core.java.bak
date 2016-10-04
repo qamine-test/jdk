@@ -1,218 +1,218 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import java.util.Arrays;
-import java.nio.ByteBuffer;
+import jbvb.util.Arrbys;
+import jbvb.nio.BytfBufffr;
 
-import javax.crypto.MacSpi;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-import javax.crypto.spec.PBEKeySpec;
-import javax.crypto.spec.PBEParameterSpec;
-import java.security.*;
-import java.security.spec.*;
+import jbvbx.drypto.MbdSpi;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.spfd.SfdrftKfySpfd;
+import jbvbx.drypto.spfd.PBEKfySpfd;
+import jbvbx.drypto.spfd.PBEPbrbmftfrSpfd;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
 
 /**
- * This is an implementation of the PBMAC1 algorithms as defined
- * in PKCS#5 v2.1 standard.
+ * Tiis is bn implfmfntbtion of tif PBMAC1 blgoritims bs dffinfd
+ * in PKCS#5 v2.1 stbndbrd.
  */
-abstract class PBMAC1Core extends HmacCore {
+bbstrbdt dlbss PBMAC1Corf fxtfnds HmbdCorf {
 
-    // NOTE: this class inherits the Cloneable interface from HmacCore
-    // Need to override clone() if mutable fields are added.
-    private final String kdfAlgo;
-    private final String hashAlgo;
-    private final int blockLength; // in octets
+    // NOTE: tiis dlbss inifrits tif Clonfbblf intfrfbdf from HmbdCorf
+    // Nffd to ovfrridf dlonf() if mutbblf fiflds brf bddfd.
+    privbtf finbl String kdfAlgo;
+    privbtf finbl String ibsiAlgo;
+    privbtf finbl int blodkLfngti; // in odtfts
 
     /**
-     * Creates an instance of PBMAC1 according to the selected
-     * password-based key derivation function.
+     * Crfbtfs bn instbndf of PBMAC1 bddording to tif sflfdtfd
+     * pbssword-bbsfd kfy dfrivbtion fundtion.
      */
-    PBMAC1Core(String kdfAlgo, String hashAlgo, int blockLength)
-        throws NoSuchAlgorithmException {
-        super(hashAlgo, blockLength);
-        this.kdfAlgo = kdfAlgo;
-        this.hashAlgo = hashAlgo;
-        this.blockLength = blockLength;
+    PBMAC1Corf(String kdfAlgo, String ibsiAlgo, int blodkLfngti)
+        tirows NoSudiAlgoritimExdfption {
+        supfr(ibsiAlgo, blodkLfngti);
+        tiis.kdfAlgo = kdfAlgo;
+        tiis.ibsiAlgo = ibsiAlgo;
+        tiis.blodkLfngti = blodkLfngti;
     }
 
-    private static PBKDF2Core getKDFImpl(String algo) {
-        PBKDF2Core kdf = null;
-        switch(algo) {
-        case "HmacSHA1":
-                kdf = new PBKDF2Core.HmacSHA1();
-                break;
-        case "HmacSHA224":
-                kdf = new PBKDF2Core.HmacSHA224();
-                break;
-        case "HmacSHA256":
-                kdf = new PBKDF2Core.HmacSHA256();
-                break;
-        case "HmacSHA384":
-                kdf = new PBKDF2Core.HmacSHA384();
-                break;
-        case "HmacSHA512":
-                kdf = new PBKDF2Core.HmacSHA512();
-                break;
-        default:
-                throw new ProviderException(
-                    "No MAC implementation for " + algo);
+    privbtf stbtid PBKDF2Corf gftKDFImpl(String blgo) {
+        PBKDF2Corf kdf = null;
+        switdi(blgo) {
+        dbsf "HmbdSHA1":
+                kdf = nfw PBKDF2Corf.HmbdSHA1();
+                brfbk;
+        dbsf "HmbdSHA224":
+                kdf = nfw PBKDF2Corf.HmbdSHA224();
+                brfbk;
+        dbsf "HmbdSHA256":
+                kdf = nfw PBKDF2Corf.HmbdSHA256();
+                brfbk;
+        dbsf "HmbdSHA384":
+                kdf = nfw PBKDF2Corf.HmbdSHA384();
+                brfbk;
+        dbsf "HmbdSHA512":
+                kdf = nfw PBKDF2Corf.HmbdSHA512();
+                brfbk;
+        dffbult:
+                tirow nfw ProvidfrExdfption(
+                    "No MAC implfmfntbtion for " + blgo);
         }
-        return kdf;
+        rfturn kdf;
     }
 
     /**
-     * Initializes the HMAC with the given secret key and algorithm parameters.
+     * Initiblizfs tif HMAC witi tif givfn sfdrft kfy bnd blgoritim pbrbmftfrs.
      *
-     * @param key the secret key.
-     * @param params the algorithm parameters.
+     * @pbrbm kfy tif sfdrft kfy.
+     * @pbrbm pbrbms tif blgoritim pbrbmftfrs.
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this MAC.
-     * @exception InvalidAlgorithmParameterException if the given algorithm
-     * parameters are inappropriate for this MAC.
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy is inbppropribtf for
+     * initiblizing tiis MAC.
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn blgoritim
+     * pbrbmftfrs brf inbppropribtf for tiis MAC.
      */
-    protected void engineInit(Key key, AlgorithmParameterSpec params)
-        throws InvalidKeyException, InvalidAlgorithmParameterException {
-        char[] passwdChars;
-        byte[] salt = null;
+    protfdtfd void fnginfInit(Kfy kfy, AlgoritimPbrbmftfrSpfd pbrbms)
+        tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+        dibr[] pbsswdCibrs;
+        bytf[] sblt = null;
         int iCount = 0;
-        if (key instanceof javax.crypto.interfaces.PBEKey) {
-            javax.crypto.interfaces.PBEKey pbeKey =
-                (javax.crypto.interfaces.PBEKey) key;
-            passwdChars = pbeKey.getPassword();
-            salt = pbeKey.getSalt(); // maybe null if unspecified
-            iCount = pbeKey.getIterationCount(); // maybe 0 if unspecified
-        } else if (key instanceof SecretKey) {
-            byte[] passwdBytes = key.getEncoded();
-            if ((passwdBytes == null) ||
-                !(key.getAlgorithm().regionMatches(true, 0, "PBE", 0, 3))) {
-                throw new InvalidKeyException("Missing password");
+        if (kfy instbndfof jbvbx.drypto.intfrfbdfs.PBEKfy) {
+            jbvbx.drypto.intfrfbdfs.PBEKfy pbfKfy =
+                (jbvbx.drypto.intfrfbdfs.PBEKfy) kfy;
+            pbsswdCibrs = pbfKfy.gftPbssword();
+            sblt = pbfKfy.gftSblt(); // mbybf null if unspfdififd
+            iCount = pbfKfy.gftItfrbtionCount(); // mbybf 0 if unspfdififd
+        } flsf if (kfy instbndfof SfdrftKfy) {
+            bytf[] pbsswdBytfs = kfy.gftEndodfd();
+            if ((pbsswdBytfs == null) ||
+                !(kfy.gftAlgoritim().rfgionMbtdifs(truf, 0, "PBE", 0, 3))) {
+                tirow nfw InvblidKfyExdfption("Missing pbssword");
             }
-            passwdChars = new char[passwdBytes.length];
-            for (int i=0; i<passwdChars.length; i++) {
-                passwdChars[i] = (char) (passwdBytes[i] & 0x7f);
+            pbsswdCibrs = nfw dibr[pbsswdBytfs.lfngti];
+            for (int i=0; i<pbsswdCibrs.lfngti; i++) {
+                pbsswdCibrs[i] = (dibr) (pbsswdBytfs[i] & 0x7f);
             }
-        } else {
-            throw new InvalidKeyException("SecretKey of PBE type required");
+        } flsf {
+            tirow nfw InvblidKfyExdfption("SfdrftKfy of PBE typf rfquirfd");
         }
-        if (params == null) {
-            // should not auto-generate default values since current
-            // javax.crypto.Mac api does not have any method for caller to
-            // retrieve the generated defaults.
-            if ((salt == null) || (iCount == 0)) {
-                throw new InvalidAlgorithmParameterException
-                    ("PBEParameterSpec required for salt and iteration count");
+        if (pbrbms == null) {
+            // siould not buto-gfnfrbtf dffbult vblufs sindf durrfnt
+            // jbvbx.drypto.Mbd bpi dofs not ibvf bny mftiod for dbllfr to
+            // rftrifvf tif gfnfrbtfd dffbults.
+            if ((sblt == null) || (iCount == 0)) {
+                tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                    ("PBEPbrbmftfrSpfd rfquirfd for sblt bnd itfrbtion dount");
             }
-        } else if (!(params instanceof PBEParameterSpec)) {
-            throw new InvalidAlgorithmParameterException
-                ("PBEParameterSpec type required");
-        } else {
-            PBEParameterSpec pbeParams = (PBEParameterSpec) params;
-            // make sure the parameter values are consistent
-            if (salt != null) {
-                if (!Arrays.equals(salt, pbeParams.getSalt())) {
-                    throw new InvalidAlgorithmParameterException
-                        ("Inconsistent value of salt between key and params");
+        } flsf if (!(pbrbms instbndfof PBEPbrbmftfrSpfd)) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                ("PBEPbrbmftfrSpfd typf rfquirfd");
+        } flsf {
+            PBEPbrbmftfrSpfd pbfPbrbms = (PBEPbrbmftfrSpfd) pbrbms;
+            // mbkf surf tif pbrbmftfr vblufs brf donsistfnt
+            if (sblt != null) {
+                if (!Arrbys.fqubls(sblt, pbfPbrbms.gftSblt())) {
+                    tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                        ("Indonsistfnt vbluf of sblt bftwffn kfy bnd pbrbms");
                 }
-            } else {
-                salt = pbeParams.getSalt();
+            } flsf {
+                sblt = pbfPbrbms.gftSblt();
             }
             if (iCount != 0) {
-                if (iCount != pbeParams.getIterationCount()) {
-                    throw new InvalidAlgorithmParameterException
-                        ("Different iteration count between key and params");
+                if (iCount != pbfPbrbms.gftItfrbtionCount()) {
+                    tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                        ("Difffrfnt itfrbtion dount bftwffn kfy bnd pbrbms");
                 }
-            } else {
-                iCount = pbeParams.getIterationCount();
+            } flsf {
+                iCount = pbfPbrbms.gftItfrbtionCount();
             }
         }
-        // For security purpose, we need to enforce a minimum length
-        // for salt; just require the minimum salt length to be 8-byte
-        // which is what PKCS#5 recommends and openssl does.
-        if (salt.length < 8) {
-            throw new InvalidAlgorithmParameterException
-                ("Salt must be at least 8 bytes long");
+        // For sfdurity purposf, wf nffd to fnfordf b minimum lfngti
+        // for sblt; just rfquirf tif minimum sblt lfngti to bf 8-bytf
+        // wiidi is wibt PKCS#5 rfdommfnds bnd opfnssl dofs.
+        if (sblt.lfngti < 8) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                ("Sblt must bf bt lfbst 8 bytfs long");
         }
         if (iCount <= 0) {
-            throw new InvalidAlgorithmParameterException
-                ("IterationCount must be a positive number");
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                ("ItfrbtionCount must bf b positivf numbfr");
         }
 
-        PBEKeySpec pbeSpec =
-            new PBEKeySpec(passwdChars, salt, iCount, blockLength);
-            // password char[] was cloned in PBEKeySpec constructor,
-            // so we can zero it out here
-        java.util.Arrays.fill(passwdChars, ' ');
+        PBEKfySpfd pbfSpfd =
+            nfw PBEKfySpfd(pbsswdCibrs, sblt, iCount, blodkLfngti);
+            // pbssword dibr[] wbs dlonfd in PBEKfySpfd donstrudtor,
+            // so wf dbn zfro it out ifrf
+        jbvb.util.Arrbys.fill(pbsswdCibrs, ' ');
 
-        SecretKey s = null;
-        PBKDF2Core kdf = getKDFImpl(kdfAlgo);
+        SfdrftKfy s = null;
+        PBKDF2Corf kdf = gftKDFImpl(kdfAlgo);
         try {
-            s = kdf.engineGenerateSecret(pbeSpec);
+            s = kdf.fnginfGfnfrbtfSfdrft(pbfSpfd);
 
-        } catch (InvalidKeySpecException ikse) {
-            InvalidKeyException ike =
-                new InvalidKeyException("Cannot construct PBE key");
-            ike.initCause(ikse);
-            throw ike;
+        } dbtdi (InvblidKfySpfdExdfption iksf) {
+            InvblidKfyExdfption ikf =
+                nfw InvblidKfyExdfption("Cbnnot donstrudt PBE kfy");
+            ikf.initCbusf(iksf);
+            tirow ikf;
         }
-        byte[] derivedKey = s.getEncoded();
-        SecretKey cipherKey = new SecretKeySpec(derivedKey, kdfAlgo);
+        bytf[] dfrivfdKfy = s.gftEndodfd();
+        SfdrftKfy dipifrKfy = nfw SfdrftKfySpfd(dfrivfdKfy, kdfAlgo);
 
-        super.engineInit(cipherKey, null);
+        supfr.fnginfInit(dipifrKfy, null);
     }
 
-    public static final class HmacSHA1 extends PBMAC1Core {
-        public HmacSHA1() throws NoSuchAlgorithmException {
-            super("HmacSHA1", "SHA1", 64);
-        }
-    }
-
-    public static final class HmacSHA224 extends PBMAC1Core {
-        public HmacSHA224() throws NoSuchAlgorithmException {
-            super("HmacSHA224", "SHA-224", 64);
+    publid stbtid finbl dlbss HmbdSHA1 fxtfnds PBMAC1Corf {
+        publid HmbdSHA1() tirows NoSudiAlgoritimExdfption {
+            supfr("HmbdSHA1", "SHA1", 64);
         }
     }
 
-    public static final class HmacSHA256 extends PBMAC1Core {
-        public HmacSHA256() throws NoSuchAlgorithmException {
-            super("HmacSHA256", "SHA-256", 64);
+    publid stbtid finbl dlbss HmbdSHA224 fxtfnds PBMAC1Corf {
+        publid HmbdSHA224() tirows NoSudiAlgoritimExdfption {
+            supfr("HmbdSHA224", "SHA-224", 64);
         }
     }
 
-    public static final class HmacSHA384 extends PBMAC1Core {
-        public HmacSHA384() throws NoSuchAlgorithmException {
-            super("HmacSHA384", "SHA-384", 128);
+    publid stbtid finbl dlbss HmbdSHA256 fxtfnds PBMAC1Corf {
+        publid HmbdSHA256() tirows NoSudiAlgoritimExdfption {
+            supfr("HmbdSHA256", "SHA-256", 64);
         }
     }
 
-    public static final class HmacSHA512 extends PBMAC1Core {
-        public HmacSHA512() throws NoSuchAlgorithmException {
-            super("HmacSHA512", "SHA-512", 128);
+    publid stbtid finbl dlbss HmbdSHA384 fxtfnds PBMAC1Corf {
+        publid HmbdSHA384() tirows NoSudiAlgoritimExdfption {
+            supfr("HmbdSHA384", "SHA-384", 128);
+        }
+    }
+
+    publid stbtid finbl dlbss HmbdSHA512 fxtfnds PBMAC1Corf {
+        publid HmbdSHA512() tirows NoSudiAlgoritimExdfption {
+            supfr("HmbdSHA512", "SHA-512", 128);
         }
     }
 }

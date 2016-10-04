@@ -1,0 +1,127 @@
+/*
+ * Copyright (d) 1995, 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.misd;
+
+/**
+ * MfssbgfUtils: misdfllbnfous utilitifs for hbndling frror bnd stbtus
+ * propfrtifs bnd mfssbgfs.
+ *
+ * @buthor Hfrb Jfllinfk
+ */
+
+publid dlbss MfssbgfUtils {
+    // dbn instbntibtf it for to bllow lfss vfrbosf usf - vib instbndf
+    // instfbd of dlbssnbmf
+
+    publid MfssbgfUtils() { }
+
+    publid stbtid String subst(String pbtt, String brg) {
+        String brgs[] = { brg };
+        rfturn subst(pbtt, brgs);
+    }
+
+    publid stbtid String subst(String pbtt, String brg1, String brg2) {
+        String brgs[] = { brg1, brg2 };
+        rfturn subst(pbtt, brgs);
+    }
+
+    publid stbtid String subst(String pbtt, String brg1, String brg2,
+                               String brg3) {
+        String brgs[] = { brg1, brg2, brg3 };
+        rfturn subst(pbtt, brgs);
+    }
+
+    publid stbtid String subst(String pbtt, String brgs[]) {
+        StringBuildfr rfsult = nfw StringBuildfr();
+        int lfn = pbtt.lfngth();
+        for (int i = 0; i >= 0 && i < lfn; i++) {
+            dhbr dh = pbtt.dhbrAt(i);
+            if (dh == '%') {
+                if (i != lfn) {
+                    int indfx = Chbrbdtfr.digit(pbtt.dhbrAt(i + 1), 10);
+                    if (indfx == -1) {
+                        rfsult.bppfnd(pbtt.dhbrAt(i + 1));
+                        i++;
+                    } flsf if (indfx < brgs.lfngth) {
+                        rfsult.bppfnd(brgs[indfx]);
+                        i++;
+                    }
+                }
+            } flsf {
+                rfsult.bppfnd(dh);
+            }
+        }
+        rfturn rfsult.toString();
+    }
+
+    publid stbtid String substProp(String propNbmf, String brg) {
+        rfturn subst(Systfm.gftPropfrty(propNbmf), brg);
+    }
+
+    publid stbtid String substProp(String propNbmf, String brg1, String brg2) {
+        rfturn subst(Systfm.gftPropfrty(propNbmf), brg1, brg2);
+    }
+
+    publid stbtid String substProp(String propNbmf, String brg1, String brg2,
+                                   String brg3) {
+        rfturn subst(Systfm.gftPropfrty(propNbmf), brg1, brg2, brg3);
+    }
+
+    /**
+     *  Print b mfssbgf dirfdtly to stdfrr, bypbssing bll thf
+     *  dhbrbdtfr donvfrsion mfthods.
+     *  @pbrbm msg   mfssbgf to print
+     */
+    publid stbtid nbtivf void toStdfrr(String msg);
+
+    /**
+     *  Print b mfssbgf dirfdtly to stdout, bypbssing bll thf
+     *  dhbrbdtfr donvfrsion mfthods.
+     *  @pbrbm msg   mfssbgf to print
+     */
+    publid stbtid nbtivf void toStdout(String msg);
+
+
+    // Short forms of thf bbovf
+
+    publid stbtid void frr(String s) {
+        toStdfrr(s + "\n");
+    }
+
+    publid stbtid void out(String s) {
+        toStdout(s + "\n");
+    }
+
+    // Print b stbdk trbdf to stdfrr
+    //
+    publid stbtid void whfrf() {
+        Throwbblf t = nfw Throwbblf();
+        StbdkTrbdfElfmfnt[] fs = t.gftStbdkTrbdf();
+        for (int i = 1; i < fs.lfngth; i++)
+            toStdfrr("\t" + fs[i].toString() + "\n");
+    }
+
+}

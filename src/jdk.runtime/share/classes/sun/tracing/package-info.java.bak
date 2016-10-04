@@ -1,57 +1,57 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /**
- * This package contains internal common code for implementing tracing
- * frameworks, and defined a number of existing frameworks.
+ * Tiis pbdkbgf dontbins intfrnbl dommon dodf for implfmfnting trbding
+ * frbmfworks, bnd dffinfd b numbfr of fxisting frbmfworks.
  * <p>
- * There are four tracing frameworks currently defined.  The "Null" and
- * "Multiplex" frameworks are used internally as part of the implementation.
- * The "DTrace" framework is the prime consumer framework at the moment,
- * while the "PrintStream" framework is a functional, but hidden, framework
- * which can be used to track probe firings.  All but the "DTrace" framework
- * are defined in this package.  The "DTrace" framework is implemented in the
- * {@code sun.tracing.dtrace} package.
+ * Tifrf brf four trbding frbmfworks durrfntly dffinfd.  Tif "Null" bnd
+ * "Multiplfx" frbmfworks brf usfd intfrnblly bs pbrt of tif implfmfntbtion.
+ * Tif "DTrbdf" frbmfwork is tif primf donsumfr frbmfwork bt tif momfnt,
+ * wiilf tif "PrintStrfbm" frbmfwork is b fundtionbl, but iiddfn, frbmfwork
+ * wiidi dbn bf usfd to trbdk probf firings.  All but tif "DTrbdf" frbmfwork
+ * brf dffinfd in tiis pbdkbgf.  Tif "DTrbdf" frbmfwork is implfmfntfd in tif
+ * {@dodf sun.trbding.dtrbdf} pbdkbgf.
  * <p>
- * This package also contains the {@code ProviderSkeleton} class, which
- * holds most of the common code needed for implementing frameworks.
+ * Tiis pbdkbgf blso dontbins tif {@dodf ProvidfrSkflfton} dlbss, wiidi
+ * iolds most of tif dommon dodf nffdfd for implfmfnting frbmfworks.
  * <p>
- * The "Null" framework is used when there are no other active frameworks.
- * It accomplishes absolutely nothing and is merely a placeholder so that
- * the application can call the tracing routines without error.
+ * Tif "Null" frbmfwork is usfd wifn tifrf brf no otifr bdtivf frbmfworks.
+ * It bddomplisifs bbsolutfly notiing bnd is mfrfly b plbdfioldfr so tibt
+ * tif bpplidbtion dbn dbll tif trbding routinfs witiout frror.
  * <p>
- * The "Multiplex" framework is used when there are multiple active frameworks.
- * It is initialized with the framework factories and create providers and
- * probes that dispatch to each active framework in turn.
+ * Tif "Multiplfx" frbmfwork is usfd wifn tifrf brf multiplf bdtivf frbmfworks.
+ * It is initiblizfd witi tif frbmfwork fbdtorifs bnd drfbtf providfrs bnd
+ * probfs tibt dispbtdi to fbdi bdtivf frbmfwork in turn.
  * <p>
- * The "PrintStream" framework is currently a debugging framework which
- * dispatches trace calls to a user-defined PrintStream class, defined by
- * a property.  It may some day be opened up to general use.
+ * Tif "PrintStrfbm" frbmfwork is durrfntly b dfbugging frbmfwork wiidi
+ * dispbtdifs trbdf dblls to b usfr-dffinfd PrintStrfbm dlbss, dffinfd by
+ * b propfrty.  It mby somf dby bf opfnfd up to gfnfrbl usf.
  * <p>
- * See the {@code sun.tracing.dtrace} and {@code com.sun.tracing.dtrace}
- * packages for information on the "DTrace" framework.
+ * Sff tif {@dodf sun.trbding.dtrbdf} bnd {@dodf dom.sun.trbding.dtrbdf}
+ * pbdkbgfs for informbtion on tif "DTrbdf" frbmfwork.
  */
 
-package sun.tracing;
+pbdkbgf sun.trbding;

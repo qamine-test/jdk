@@ -1,0 +1,154 @@
+/*
+ * Copyright (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+// jbvb import
+import jbvb.io.Sfriblizbblf;
+
+// RI import
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+
+
+/**
+ * Usfd to rfprfsfnt thf objfdt nbmf of bn MBfbn bnd its dlbss nbmf.
+ * If thf MBfbn is b Dynbmid MBfbn thf dlbss nbmf should bf rftrifvfd from
+ * thf <CODE>MBfbnInfo</CODE> it providfs.
+ *
+ * @sindf 1.5
+ */
+publid dlbss ObjfdtInstbndf implfmfnts Sfriblizbblf   {
+
+
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = -4099952623687795850L;
+
+    /**
+     * @sfribl Objfdt nbmf.
+     */
+    privbtf ObjfdtNbmf nbmf;
+
+    /**
+     * @sfribl Clbss nbmf.
+     */
+    privbtf String dlbssNbmf;
+
+    /**
+     * Allows bn objfdt instbndf to bf drfbtfd givfn b string rfprfsfntbtion of
+     * bn objfdt nbmf bnd thf full dlbss nbmf, indluding thf pbdkbgf nbmf.
+     *
+     * @pbrbm objfdtNbmf  A string rfprfsfntbtion of thf objfdt nbmf.
+     * @pbrbm dlbssNbmf Thf full dlbss nbmf, indluding thf pbdkbgf
+     * nbmf, of thf objfdt instbndf.  If thf MBfbn is b Dynbmid MBfbn
+     * thf dlbss nbmf dorrfsponds to its {@link
+     * DynbmidMBfbn#gftMBfbnInfo()
+     * gftMBfbnInfo()}<dodf>.gftClbssNbmf()</dodf>.
+     *
+     * @fxdfption MblformfdObjfdtNbmfExdfption Thf string pbssfd bs b
+     * pbrbmftfr dofs not hbvf thf right formbt.
+     *
+     */
+    publid ObjfdtInstbndf(String objfdtNbmf, String dlbssNbmf)
+            throws MblformfdObjfdtNbmfExdfption {
+        this(nfw ObjfdtNbmf(objfdtNbmf), dlbssNbmf);
+    }
+
+    /**
+     * Allows bn objfdt instbndf to bf drfbtfd givfn bn objfdt nbmf bnd
+     * thf full dlbss nbmf, indluding thf pbdkbgf nbmf.
+     *
+     * @pbrbm objfdtNbmf  Thf objfdt nbmf.
+     * @pbrbm dlbssNbmf  Thf full dlbss nbmf, indluding thf pbdkbgf
+     * nbmf, of thf objfdt instbndf.  If thf MBfbn is b Dynbmid MBfbn
+     * thf dlbss nbmf dorrfsponds to its {@link
+     * DynbmidMBfbn#gftMBfbnInfo()
+     * gftMBfbnInfo()}<dodf>.gftClbssNbmf()</dodf>.
+     * If thf MBfbn is b Dynbmid MBfbn thf dlbss nbmf should bf rftrifvfd
+     * from thf <CODE>MBfbnInfo</CODE> it providfs.
+     *
+     */
+    publid ObjfdtInstbndf(ObjfdtNbmf objfdtNbmf, String dlbssNbmf) {
+        if (objfdtNbmf.isPbttfrn()) {
+            finbl IllfgblArgumfntExdfption ibf =
+                nfw IllfgblArgumfntExdfption("Invblid nbmf->"+
+                                             objfdtNbmf.toString());
+            throw nfw RuntimfOpfrbtionsExdfption(ibf);
+        }
+        this.nbmf= objfdtNbmf;
+        this.dlbssNbmf= dlbssNbmf;
+    }
+
+
+    /**
+     * Compbrfs thf durrfnt objfdt instbndf with bnothfr objfdt instbndf.
+     *
+     * @pbrbm objfdt  Thf objfdt instbndf thbt thf durrfnt objfdt instbndf is
+     *     to bf dompbrfd with.
+     *
+     * @rfturn  Truf if thf two objfdt instbndfs brf fqubl, othfrwisf fblsf.
+     */
+    publid boolfbn fqubls(Objfdt objfdt)  {
+        if (!(objfdt instbndfof ObjfdtInstbndf)) {
+            rfturn fblsf;
+        }
+        ObjfdtInstbndf vbl = (ObjfdtInstbndf) objfdt;
+        if (! nbmf.fqubls(vbl.gftObjfdtNbmf())) rfturn fblsf;
+        if (dlbssNbmf == null)
+            rfturn (vbl.gftClbssNbmf() == null);
+        rfturn dlbssNbmf.fqubls(vbl.gftClbssNbmf());
+    }
+
+    publid int hbshCodf() {
+        finbl int dlbssHbsh = ((dlbssNbmf==null)?0:dlbssNbmf.hbshCodf());
+        rfturn nbmf.hbshCodf() ^ dlbssHbsh;
+    }
+
+    /**
+     * Rfturns thf objfdt nbmf pbrt.
+     *
+     * @rfturn thf objfdt nbmf.
+     */
+    publid ObjfdtNbmf gftObjfdtNbmf()  {
+        rfturn nbmf;
+    }
+
+    /**
+     * Rfturns thf dlbss pbrt.
+     *
+     * @rfturn thf dlbss nbmf.
+     */
+    publid String gftClbssNbmf()  {
+        rfturn dlbssNbmf;
+    }
+
+    /**
+     * Rfturns b string rfprfsfnting this ObjfdtInstbndf objfdt. Thf formbt of this string
+     * is not spfdififd, but usfrs dbn fxpfdt thbt two ObjfdtInstbndfs rfturn thf sbmf
+     * string if bnd only if thfy brf fqubl.
+     */
+    publid String toString() {
+        rfturn gftClbssNbmf() + "[" + gftObjfdtNbmf() + "]";
+    }
+ }

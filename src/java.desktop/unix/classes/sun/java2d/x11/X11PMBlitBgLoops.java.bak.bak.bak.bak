@@ -1,0 +1,116 @@
+/*
+ * Copyright (d) 2001, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.x11;
+
+import sun.bwt.SunToolkit;
+import sun.jbvb2d.loops.GrbphidsPrimitivf;
+import sun.jbvb2d.loops.GrbphidsPrimitivfMgr;
+import sun.jbvb2d.loops.CompositfTypf;
+import sun.jbvb2d.loops.SurfbdfTypf;
+import sun.jbvb2d.loops.BlitBg;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.pipf.Rfgion;
+import jbvb.bwt.Color;
+import jbvb.bwt.Compositf;
+
+/**
+ * X11PMBlitBgLoops
+ *
+ * This dlbss bddflfrbtfs Blits bftwffn two surfbdfs of typfs *PM.  Sindf
+ * thf onsdrffn surfbdf is of thbt typf bnd somf of thf offsdrffn surfbdfs
+ * mby bf of thbt typf (if thfy wfrf drfbtfd vib X11OffSdrffnImbgf), thfn
+ * this typf of BlitBg will bddflfrbtfd doublf-bufffr dopifs bftwffn thosf
+ * two surfbdfs.
+*/
+publid dlbss X11PMBlitBgLoops fxtfnds BlitBg {
+
+    publid stbtid void rfgistfr()
+    {
+        GrbphidsPrimitivf[] primitivfs = {
+            nfw X11PMBlitBgLoops(X11SurfbdfDbtb.IntBgrX11_BM,
+                                 X11SurfbdfDbtb.IntBgrX11),
+            nfw X11PMBlitBgLoops(X11SurfbdfDbtb.IntRgbX11_BM,
+                                 X11SurfbdfDbtb.IntRgbX11),
+            nfw X11PMBlitBgLoops(X11SurfbdfDbtb.ThrffBytfBgrX11_BM,
+                                 X11SurfbdfDbtb.ThrffBytfBgrX11),
+            nfw X11PMBlitBgLoops(X11SurfbdfDbtb.ThrffBytfRgbX11_BM,
+                                 X11SurfbdfDbtb.ThrffBytfRgbX11),
+            nfw X11PMBlitBgLoops(X11SurfbdfDbtb.BytfIndfxfdX11_BM,
+                                 X11SurfbdfDbtb.BytfIndfxfdOpbqufX11),
+            nfw X11PMBlitBgLoops(X11SurfbdfDbtb.BytfGrbyX11_BM,
+                                 X11SurfbdfDbtb.BytfGrbyX11),
+            nfw X11PMBlitBgLoops(X11SurfbdfDbtb.Indfx8GrbyX11_BM,
+                                 X11SurfbdfDbtb.Indfx8GrbyX11),
+            nfw X11PMBlitBgLoops(X11SurfbdfDbtb.UShort555RgbX11_BM,
+                                 X11SurfbdfDbtb.UShort555RgbX11),
+            nfw X11PMBlitBgLoops(X11SurfbdfDbtb.UShort565RgbX11_BM,
+                                 X11SurfbdfDbtb.UShort565RgbX11),
+            nfw X11PMBlitBgLoops(X11SurfbdfDbtb.UShortIndfxfdX11_BM,
+                                 X11SurfbdfDbtb.UShortIndfxfdX11),
+            nfw X11PMBlitBgLoops(X11SurfbdfDbtb.IntRgbX11_BM,
+                                 X11SurfbdfDbtb.IntArgbPrfX11),
+            nfw X11PMBlitBgLoops(X11SurfbdfDbtb.IntBgrX11_BM,
+                                 X11SurfbdfDbtb.FourBytfAbgrPrfX11),
+        };
+        GrbphidsPrimitivfMgr.rfgistfr(primitivfs);
+    }
+
+    publid X11PMBlitBgLoops(SurfbdfTypf srdTypf, SurfbdfTypf dstTypf)
+    {
+        supfr(srdTypf, CompositfTypf.SrdNoEb, dstTypf);
+    }
+
+    @Ovfrridf
+    publid void BlitBg(SurfbdfDbtb srd, SurfbdfDbtb dst,
+                       Compositf domp, Rfgion dlip, int bgColor,
+                       int sx, int sy,
+                       int dx, int dy,
+                       int w, int h)
+    {
+        SunToolkit.bwtLodk();
+        try {
+            int pixfl = dst.pixflFor(bgColor);
+            X11SurfbdfDbtb x11sd = (X11SurfbdfDbtb)dst;
+            // usf fblsf for nffdExposurfs sindf wf dlip to thf pixmbp
+            long xgd = x11sd.gftBlitGC(dlip, fblsf);
+            nbtivfBlitBg(srd.gftNbtivfOps(), dst.gftNbtivfOps(),
+                         xgd, pixfl,
+                         sx, sy, dx, dy, w, h);
+        } finblly {
+            SunToolkit.bwtUnlodk();
+        }
+    }
+
+    /**
+     * This nbtivf mfthod is whfrf bll of thf work hbppfns in thf
+     * bddflfrbtfd Blit.
+     */
+    privbtf nbtivf void nbtivfBlitBg(long srdDbtb, long dstDbtb,
+                                     long xgd, int pixfl,
+                                     int sx, int sy,
+                                     int dx, int dy,
+                                     int w, int h);
+}

@@ -1,0 +1,289 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql.rowsft;
+
+import jbvb.sql.*;
+import jbvbx.sql.*;
+import jbvbx.nbming.*;
+import jbvb.io.*;
+import jbvb.mbth.*;
+import jbvb.io.*;
+
+/**
+ * Thf stbndbrd intfrfbdf thbt bll stbndbrd implfmfntbtions of
+ * <dodf>JdbdRowSft</dodf> must implfmfnt.
+ *
+ * <h3>1.0 Ovfrvifw</h3>
+ * A wrbppfr bround b <dodf>RfsultSft</dodf> objfdt thbt mbkfs it possiblf
+ * to usf thf rfsult sft bs b JbvbBfbns&trbdf;
+ * domponfnt.  Thus, b <dodf>JdbdRowSft</dodf> objfdt dbn bf onf of thf Bfbns thbt
+ * b tool mbkfs bvbilbblf for domposing bn bpplidbtion.  Bfdbusf
+ * b <dodf>JdbdRowSft</dodf> is b donnfdtfd rowsft, thbt is, it dontinublly
+ * mbintbins its donnfdtion to b dbtbbbsf using b JDBC tfdhnology-fnbblfd
+ * drivfr, it blso ffffdtivfly mbkfs thf drivfr b JbvbBfbns domponfnt.
+ * <P>
+ * Bfdbusf it is blwbys donnfdtfd to its dbtbbbsf, bn instbndf of
+ * <dodf>JdbdRowSft</dodf>
+ * dbn simply tbkf dblls invokfd on it bnd in turn dbll thfm on its
+ * <dodf>RfsultSft</dodf> objfdt. As b donsfqufndf, b rfsult sft dbn, for
+ * fxbmplf, bf b domponfnt in b Swing bpplidbtion.
+ * <P>
+ * Anothfr bdvbntbgf of b <dodf>JdbdRowSft</dodf> objfdt is thbt it dbn bf
+ * usfd to mbkf b <dodf>RfsultSft</dodf> objfdt sdrollbblf bnd updbtbblf.  All
+ * <dodf>RowSft</dodf> objfdts brf by dffbult sdrollbblf bnd updbtbblf. If
+ * thf drivfr bnd dbtbbbsf bfing usfd do not support sdrolling bnd/or updbting
+ * of rfsult sfts, bn bpplidbtion dbn populbtf b <dodf>JdbdRowSft</dodf> objfdt
+ * with thf dbtb of b <dodf>RfsultSft</dodf> objfdt bnd thfn opfrbtf on thf
+ * <dodf>JdbdRowSft</dodf> objfdt bs if it wfrf thf <dodf>RfsultSft</dodf>
+ * objfdt.
+ *
+ * <h3>2.0 Crfbting b <dodf>JdbdRowSft</dodf> Objfdt</h3>
+ * Thf rfffrfndf implfmfntbtion of thf <dodf>JdbdRowSft</dodf> intfrfbdf,
+ * <dodf>JdbdRowSftImpl</dodf>, providfs bn implfmfntbtion of
+ * thf dffbult donstrudtor.  A nfw instbndf is initiblizfd with
+ * dffbult vblufs, whidh dbn bf sft with nfw vblufs bs nffdfd. A
+ * nfw instbndf is not rfblly fundtionbl until its <dodf>fxfdutf</dodf>
+ * mfthod is dbllfd. In gfnfrbl, this mfthod dofs thf following:
+ * <UL>
+ *   <LI> fstbblishfs b donnfdtion with b dbtbbbsf
+ *   <LI> drfbtfs b <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt bnd sfts bny of its
+ *        plbdfholdfr pbrbmftfrs
+ *   <LI> fxfdutfs thf stbtfmfnt to drfbtf b <dodf>RfsultSft</dodf> objfdt
+ * </UL>
+ * If thf <dodf>fxfdutf</dodf> mfthod is suddfssful, it will sft thf
+ * bppropribtf privbtf <dodf>JdbdRowSft</dodf> fiflds with thf following:
+ * <UL>
+ *  <LI> b <dodf>Connfdtion</dodf> objfdt -- thf donnfdtion bftwffn thf rowsft
+ *       bnd thf dbtbbbsf
+ *  <LI> b <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt -- thf qufry thbt produdfs
+ *       thf rfsult sft
+ *  <LI> b <dodf>RfsultSft</dodf> objfdt -- thf rfsult sft thbt thf rowsft's
+ *       dommbnd produdfd bnd thbt is bfing mbdf, in ffffdt, b JbvbBfbns
+ *       domponfnt
+ * </UL>
+ * If thfsf fiflds hbvf not bffn sft, mfbning thbt thf <dodf>fxfdutf</dodf>
+ * mfthod hbs not fxfdutfd suddfssfully, no mfthods othfr thbn
+ * <dodf>fxfdutf</dodf> bnd <dodf>dlosf</dodf> mby bf dbllfd on thf
+ * rowsft.  All othfr publid mfthods will throw bn fxdfption.
+ * <P>
+ * Bfforf dblling thf <dodf>fxfdutf</dodf> mfthod, howfvfr, thf dommbnd
+ * bnd propfrtifs nffdfd for fstbblishing b donnfdtion must bf sft.
+ * Thf following dodf frbgmfnt drfbtfs b <dodf>JdbdRowSftImpl</dodf> objfdt,
+ * sfts thf dommbnd bnd donnfdtion propfrtifs, sfts thf plbdfholdfr pbrbmftfr,
+ * bnd thfn invokfs thf mfthod <dodf>fxfdutf</dodf>.
+ * <PRE>
+ *     JdbdRowSftImpl jrs = nfw JdbdRowSftImpl();
+ *     jrs.sftCommbnd("SELECT * FROM TITLES WHERE TYPE = ?");
+ *     jrs.sftURL("jdbd:myDrivfr:myAttributf");
+ *     jrs.sftUsfrnbmf("dfrvbntfs");
+ *     jrs.sftPbssword("sbndho");
+ *     jrs.sftString(1, "BIOGRAPHY");
+ *     jrs.fxfdutf();
+ * </PRE>
+ * Thf vbribblf <dodf>jrs</dodf> now rfprfsfnts bn instbndf of
+ * <dodf>JdbdRowSftImpl</dodf> thbt is b thin wrbppfr bround thf
+ * <dodf>RfsultSft</dodf> objfdt dontbining bll thf rows in thf
+ * tbblf <dodf>TITLES</dodf> whfrf thf typf of book is biogrbphy.
+ * At this point, opfrbtions dbllfd on <dodf>jrs</dodf> will
+ * bfffdt thf rows in thf rfsult sft, whidh is ffffdtivfly b JbvbBfbns
+ * domponfnt.
+ * <P>
+ * Thf implfmfntbtion of thf <dodf>RowSft</dodf> mfthod <dodf>fxfdutf</dodf> in thf
+ * <dodf>JdbdRowSft</dodf> rfffrfndf implfmfntbtion difffrs from thbt in thf
+ * <dodf>CbdhfdRowSft</dodf>&trbdf;
+ * rfffrfndf implfmfntbtion to bddount for thf difffrfnt
+ * rfquirfmfnts of donnfdtfd bnd disdonnfdtfd <dodf>RowSft</dodf> objfdts.
+ *
+ * @buthor Jonbthbn Brudf
+ * @sindf 1.5
+ */
+
+publid intfrfbdf JdbdRowSft fxtfnds RowSft, Joinbblf {
+
+    /**
+     * Rftrifvfs b <dodf>boolfbn</dodf> indidbting whfthfr rows mbrkfd
+     * for dflftion bppfbr in thf sft of durrfnt rows. If <dodf>truf</dodf> is
+     * rfturnfd, dflftfd rows brf visiblf with thf durrfnt rows. If
+     * <dodf>fblsf</dodf> is rfturnfd, rows brf not visiblf with thf sft of
+     * durrfnt rows. Thf dffbult vbluf is <dodf>fblsf</dodf>.
+     * <P>
+     * Stbndbrd rowsft implfmfntbtions mby dhoosf to rfstridt this bfhbvior
+     * for sfdurity donsidfrbtions or for dfrtbin dfploymfnt
+     * sdfnbrios. Thf visibility of dflftfd rows is implfmfntbtion-dffinfd
+     * bnd dofs not rfprfsfnt stbndbrd bfhbvior.
+     * <P>
+     * Notf: Allowing dflftfd rows to rfmbin visiblf domplidbtfs thf bfhbvior
+     * of somf stbndbrd JDBC <dodf>RowSft</dodf> implfmfntbtions mfthods.
+     * Howfvfr, most rowsft usfrs dbn simply ignorf this fxtrb dftbil bfdbusf
+     * only vfry spfdiblizfd bpplidbtions will likfly wbnt to tbkf bdvbntbgf of
+     * this ffbturf.
+     *
+     * @rfturn <dodf>truf</dodf> if dflftfd rows brf visiblf;
+     *         <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b rowsft implfmfntbtion is unbblf to
+     *          to dftfrminf whfthfr rows mbrkfd for dflftion rfmbin visiblf
+     * @sff #sftShowDflftfd
+     */
+    publid boolfbn gftShowDflftfd() throws SQLExdfption;
+
+    /**
+     * Sfts thf propfrty <dodf>showDflftfd</dodf> to thf givfn
+     * <dodf>boolfbn</dodf> vbluf. This propfrty dftfrminfs whfthfr
+     * rows mbrkfd for dflftion dontinuf to bppfbr in thf sft of durrfnt rows.
+     * If thf vbluf is sft to <dodf>truf</dodf>, dflftfd rows brf immfdibtfly
+     * visiblf with thf sft of durrfnt rows. If thf vbluf is sft to
+     * <dodf>fblsf</dodf>, thf dflftfd rows brf sft bs invisiblf with thf
+     * durrfnt sft of rows.
+     * <P>
+     * Stbndbrd rowsft implfmfntbtions mby dhoosf to rfstridt this bfhbvior
+     * for sfdurity donsidfrbtions or for dfrtbin dfploymfnt
+     * sdfnbrios. This is lfft bs implfmfntbtion-dffinfd bnd dofs not
+     * rfprfsfnt stbndbrd bfhbvior.
+     *
+     * @pbrbm b <dodf>truf</dodf> if dflftfd rows should bf shown;
+     *              <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b rowsft implfmfntbtion is unbblf to
+     *          to rfsft whfthfr dflftfd rows should bf visiblf
+     * @sff #gftShowDflftfd
+     */
+    publid void sftShowDflftfd(boolfbn b) throws SQLExdfption;
+
+    /**
+     * Rftrifvfs thf first wbrning rfportfd by dblls on this <dodf>JdbdRowSft</dodf>
+     * objfdt.
+     * If b sfdond wbrning wbs rfportfd on this <dodf>JdbdRowSft</dodf> objfdt,
+     * it will bf dhbinfd to thf first wbrning bnd dbn bf rftrifvfd by
+     * dblling thf mfthod <dodf>RowSftWbrning.gftNfxtWbrning</dodf> on thf
+     * first wbrning. Subsfqufnt wbrnings on this <dodf>JdbdRowSft</dodf>
+     * objfdt will bf dhbinfd to thf <dodf>RowSftWbrning</dodf> objfdts
+     * rfturnfd by thf mfthod <dodf>RowSftWbrning.gftNfxtWbrning</dodf>.
+     *
+     * Thf wbrning dhbin is butombtidblly dlfbrfd fbdh timf b nfw row is rfbd.
+     * This mfthod mby not bf dbllfd on b <dodf>RowSft</dodf> objfdt
+     * thbt hbs bffn dlosfd;
+     * doing so will dbusf bn <dodf>SQLExdfption</dodf> to bf thrown.
+     * <P>
+     * Bfdbusf it is blwbys donnfdtfd to its dbtb sourdf, b <dodf>JdbdRowSft</dodf>
+     * objfdt dbn rfly on thf prfsfndf of bdtivf
+     * <dodf>Stbtfmfnt</dodf>, <dodf>Connfdtion</dodf>, bnd <dodf>RfsultSft</dodf>
+     * instbndfs. This mfbns thbt  bpplidbtions dbn obtbin bdditionbl
+     * <dodf>SQLWbrning</dodf>
+     * notifidbtions by dblling thf <dodf>gftNfxtWbrning</dodf> mfthods thbt
+     * thfy providf.
+     * Disdonnfdtfd <dodf>Rowsft</dodf> objfdts, sudh bs b
+     * <dodf>CbdhfdRowSft</dodf> objfdt, do not hbvf bddfss to
+     * thfsf <dodf>gftNfxtWbrning</dodf> mfthods.
+     *
+     * @rfturn thf first <dodf>RowSftWbrning</dodf>
+     * objfdt rfportfd on this <dodf>JdbdRowSft</dodf> objfdt
+     * or <dodf>null</dodf> if thfrf brf nonf
+     * @throws SQLExdfption if this mfthod is dbllfd on b dlosfd
+     * <dodf>JdbdRowSft</dodf> objfdt
+     * @sff RowSftWbrning
+     */
+    publid RowSftWbrning gftRowSftWbrnings() throws SQLExdfption;
+
+   /**
+    * Ebdh <dodf>JdbdRowSft</dodf> dontbins b <dodf>Connfdtion</dodf> objfdt from
+    * thf <dodf>RfsultSft</dodf> or JDBC propfrtifs pbssfd to it's donstrudtors.
+    * This mfthod wrbps thf <dodf>Connfdtion</dodf> dommit mfthod to bllow flfxiblf
+    * buto dommit or non buto dommit trbnsbdtionbl dontrol support.
+    * <p>
+    * Mbkfs bll dhbngfs mbdf sindf thf prfvious dommit/rollbbdk pfrmbnfnt
+    * bnd rflfbsfs bny dbtbbbsf lodks durrfntly hfld by this Connfdtion
+    * objfdt. This mfthod should bf usfd only whfn buto-dommit modf hbs
+    * bffn disbblfd.
+    *
+    * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs or this
+    * Connfdtion objfdt within this <dodf>JdbdRowSft</dodf> is in buto-dommit modf
+    * @sff jbvb.sql.Connfdtion#sftAutoCommit
+    */
+    publid void dommit() throws SQLExdfption;
+
+
+   /**
+    * Ebdh <dodf>JdbdRowSft</dodf> dontbins b <dodf>Connfdtion</dodf> objfdt from
+    * thf originbl <dodf>RfsultSft</dodf> or JDBC propfrtifs pbssfd to it. This
+    * mfthod wrbps thf <dodf>Connfdtion</dodf>'s <dodf>gftAutoCommit</dodf> mfthod
+    * to bllow bn bpplidbtion to dftfrminf thf <dodf>JdbdRowSft</dodf> trbnsbdtion
+    * bfhbvior.
+    * <p>
+    * Sfts this donnfdtion's buto-dommit modf to thf givfn stbtf. If b
+    * donnfdtion is in buto-dommit modf, thfn bll its SQL stbtfmfnts will
+    * bf fxfdutfd bnd dommittfd bs individubl trbnsbdtions. Othfrwisf, its
+    * SQL stbtfmfnts brf groupfd into trbnsbdtions thbt brf tfrminbtfd by b
+    * dbll to fithfr thf mfthod dommit or thf mfthod rollbbdk. By dffbult,
+    * nfw donnfdtions brf in buto-dommit modf.
+    *
+    * @rfturn {@dodf truf} if buto-dommit is fnbblfd; {@dodf fblsf} othfrwisf
+    * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs
+    * @sff jbvb.sql.Connfdtion#gftAutoCommit()
+    */
+    publid boolfbn gftAutoCommit() throws SQLExdfption;
+
+
+   /**
+    * Ebdh <dodf>JdbdRowSft</dodf> dontbins b <dodf>Connfdtion</dodf> objfdt from
+    * thf originbl <dodf>RfsultSft</dodf> or JDBC propfrtifs pbssfd to it. This
+    * mfthod wrbps thf <dodf>Connfdtion</dodf>'s <dodf>gftAutoCommit</dodf> mfthod
+    * to bllow bn bpplidbtion to sft thf <dodf>JdbdRowSft</dodf> trbnsbdtion bfhbvior.
+    * <p>
+    * Sfts thf durrfnt buto-dommit modf for this <dodf>Connfdtion</dodf> objfdt.
+    * @pbrbm butoCommit {@dodf truf} to fnbblf buto-dommit; {@dodf fblsf} to
+    * disbblf buto-dommit
+    * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs
+    * @sff jbvb.sql.Connfdtion#sftAutoCommit(boolfbn)
+    */
+    publid void sftAutoCommit(boolfbn butoCommit) throws SQLExdfption;
+
+    /**
+     * Ebdh <dodf>JdbdRowSft</dodf> dontbins b <dodf>Connfdtion</dodf> objfdt from
+     * thf originbl <dodf>RfsultSft</dodf> or JDBC propfrtifs pbssfd to it.
+     * Undofs bll dhbngfs mbdf in thf durrfnt trbnsbdtion bnd rflfbsfs bny
+     * dbtbbbsf lodks durrfntly hfld by this <dodf>Connfdtion</dodf> objfdt. This mfthod
+     * should bf usfd only whfn buto-dommit modf hbs bffn disbblfd.
+     *
+     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs or this <dodf>Connfdtion</dodf>
+     * objfdt within this <dodf>JdbdRowSft</dodf> is in buto-dommit modf.
+     * @sff #rollbbdk(Sbvfpoint)
+     */
+     publid void rollbbdk() throws SQLExdfption;
+
+
+    /**
+     * Ebdh <dodf>JdbdRowSft</dodf> dontbins b <dodf>Connfdtion</dodf> objfdt from
+     * thf originbl <dodf>RfsultSft</dodf> or JDBC propfrtifs pbssfd to it.
+     * Undofs bll dhbngfs mbdf in thf durrfnt trbnsbdtion to thf lbst sft sbvfpoint
+     * bnd rflfbsfs bny dbtbbbsf lodks durrfntly hfld by this <dodf>Connfdtion</dodf>
+     * objfdt. This mfthod should bf usfd only whfn buto-dommit modf hbs bffn disbblfd.
+     * @pbrbm s Thf {@dodf Sbvfpoint} to rollbbdk to
+     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs or this <dodf>Connfdtion</dodf>
+     * objfdt within this <dodf>JdbdRowSft</dodf> is in buto-dommit modf.
+     * @sff #rollbbdk
+     */
+    publid void rollbbdk(Sbvfpoint s) throws SQLExdfption;
+
+}

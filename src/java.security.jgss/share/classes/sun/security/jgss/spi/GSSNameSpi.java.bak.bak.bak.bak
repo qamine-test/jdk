@@ -1,0 +1,115 @@
+/*
+ * Copyright (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss.spi;
+
+import org.iftf.jgss.*;
+import jbvb.sfdurity.Providfr;
+
+/**
+ * This intfrfbdf is implfmfntfd by b mfdhbnism spfdifid nbmf flfmfnt. A
+ * GSSNbmf is dondfptublly b dontbinfr dlbss of sfvfrbl nbmf flfmfnts from
+ * difffrfnt mfdhbnisms.
+ *
+ * @buthor Mbybnk Upbdhyby
+ */
+
+publid intfrfbdf GSSNbmfSpi {
+
+    publid Providfr gftProvidfr();
+
+    /**
+     * Equbls mfthod for thf GSSNbmfSpi objfdts.
+     * If fithfr nbmf dfnotfs bn bnonymous prindipbl, thf dbll should
+     * rfturn fblsf.
+     *
+     * @pbrbm nbmf to bf dompbrfd with
+     * @rfturns truf if thfy both rfffr to thf sbmf fntity, flsf fblsf
+     * @fxdfption GSSExdfption with mbjor dodfs of BAD_NAMETYPE,
+     *    BAD_NAME, FAILURE
+     */
+    publid boolfbn fqubls(GSSNbmfSpi nbmf) throws GSSExdfption;
+
+    /**
+     * Compbrfs this <dodf>GSSNbmfSpi</dodf> objfdt to bnothfr Objfdt
+     * thbt might bf b <dodf>GSSNbmfSpi</dodf>. Thf bfhbviour is fxbdtly
+     * thf sbmf bs in {@link #fqubls(GSSNbmfSpi) fqubls} fxdfpt thbt
+     * no GSSExdfption is thrown; instfbd, fblsf will bf rfturnfd in thf
+     * situbtion whfrf bn frror oddurs.
+     *
+     * @pbrbm bnothfr thf objfdt to bf dompbrfd to
+     * @rfturns truf if thfy both rfffr to thf sbmf fntity, flsf fblsf
+     * @sff #fqubls(GSSNbmfSpi)
+     */
+    publid boolfbn fqubls(Objfdt bnothfr);
+
+    /**
+     * Rfturns b hbshdodf vbluf for this GSSNbmfSpi.
+     *
+     * @rfturn b hbshCodf vbluf
+     */
+    publid int hbshCodf();
+
+    /**
+     * Rfturns b flbt nbmf rfprfsfntbtion for this objfdt. Thf nbmf
+     * formbt is dffinfd in RFC 2078.
+     *
+     * @rfturn thf flbt nbmf rfprfsfntbtion for this objfdt
+     * @fxdfption GSSExdfption with mbjor dodfs NAME_NOT_MN, BAD_NAME,
+     *    BAD_NAME, FAILURE.
+     */
+    publid bytf[] fxport() throws GSSExdfption;
+
+
+    /**
+     * Gft thf mfdhbnism typf thbt this NbmfElfmfnt dorrfsponds to.
+     *
+     * @rfturn thf Oid of thf mfdhbnism typf
+     */
+    publid Oid gftMfdhbnism();
+
+    /**
+     * Rfturns b string rfprfsfntbtion for this nbmf. Thf printfd
+     * nbmf typf dbn bf obtbinfd by dblling gftStringNbmfTypf().
+     *
+     * @rfturn string form of this nbmf
+     * @sff #gftStringNbmfTypf()
+     * @ovfrridfs Objfdt#toString
+     */
+    publid String toString();
+
+
+    /**
+     * Rfturns thf oid dfsdribing thf formbt of thf printbblf nbmf.
+     *
+     * @rfturn thf Oid for thf formbt of thf printfd nbmf
+     */
+    publid Oid gftStringNbmfTypf();
+
+    /**
+     * Indidbtfs if this nbmf objfdt rfprfsfnts bn Anonymous nbmf.
+     */
+    publid boolfbn isAnonymousNbmf();
+}

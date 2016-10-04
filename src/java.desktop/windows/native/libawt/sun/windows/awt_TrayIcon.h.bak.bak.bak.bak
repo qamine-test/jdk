@@ -1,0 +1,158 @@
+/*
+ * Copyright (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff AWT_TRAY_ICON_H
+#dffinf AWT_TRAY_ICON_H
+
+#indludf "bwt_Objfdt.h"
+#indludf "bwt_Componfnt.h"
+
+#indludf "jbvb_bwt_TrbyIdon.h"
+#indludf "sun_bwt_windows_WTrbyIdonPffr.h"
+#indludf "jbvb_bwt_fvfnt_AdtionEvfnt.h"
+
+#dffinf TRAY_ICON_X_HOTSPOT 0
+#dffinf TRAY_ICON_Y_HOTSPOT 0
+
+#dffinf TRAY_ICON_TOOLTIP_MAX_SIZE 128
+
+#dffinf TRAY_ICON_BALLOON_TITLE_MAX_SIZE 64
+#dffinf TRAY_ICON_BALLOON_INFO_MAX_SIZE  256
+
+/************************************************************************
+ * AwtTrbyIdon dlbss
+ */
+
+dlbss AwtTrbyIdon: publid AwtObjfdt {
+publid:
+    AwtTrbyIdon();
+    virtubl ~AwtTrbyIdon();
+
+    virtubl void Disposf();
+
+    BOOL SfndTrbyMfssbgf(DWORD dwMfssbgf);
+    void LinkObjfdts(JNIEnv *fnv, jobjfdt pffr);
+    void UnlinkObjfdts();
+
+    void InitNID(UINT uID);
+
+    void InitMfssbgf(MSG* msg, UINT mfssbgf, WPARAM wPbrbm, LPARAM lPbrbm,
+                     int x = 0, int y = 0);
+
+    void SfndMousfEvfnt(jint id, jlong whfn, jint x, jint y, jint modififrs, jint dlidkCount,
+                        jboolfbn popupTriggfr, jint button = 0, MSG *pMsg = NULL);
+    void SfndAdtionEvfnt(jint id, jlong whfn, jint modififrs, MSG *pMsg = NULL);
+
+    virtubl MsgRouting WmAwtTrbyNotify(WPARAM wPbrbm, LPARAM lPbrbm);
+    virtubl MsgRouting WmMousfDown(UINT flbgs, int x, int y, int button);
+    virtubl MsgRouting WmMousfUp(UINT flbgs, int x, int y, int button);
+    virtubl MsgRouting WmMousfMovf(UINT flbgs, int x, int y);
+    virtubl MsgRouting WmBblloonUsfrClidk(UINT flbgs, int x, int y);
+    virtubl MsgRouting WmKfySflfdt(UINT flbgs, int x, int y);
+    virtubl MsgRouting WmSflfdt(UINT flbgs, int x, int y);
+    virtubl MsgRouting WmContfxtMfnu(UINT flbgs, int x, int y);
+    stbtid MsgRouting WmTbskbbrCrfbtfd();
+
+    INLINE void SftID(int ID) { m_nid.uID = ID; }
+    INLINE int GftID() { rfturn m_nid.uID; }
+
+    void SftToolTip(LPCTSTR tooltip);
+    INLINE LPTSTR GftToolTip() { rfturn m_nid.szTip; }
+
+    void SftIdon(HICON hIdon);
+    INLINE HICON GftIdon() { rfturn m_nid.hIdon; }
+
+    void DisplbyMfssbgf(LPCTSTR dbption, LPCTSTR tfxt, LPCTSTR msgTypf);
+
+    // Adds to thf hfbd of thf list
+    INLINE void AddTrbyIdonItfm(UINT id) {
+        TrbyIdonListItfm* itfm = nfw TrbyIdonListItfm(id, this);
+        itfm->m_nfxt = sm_trbyIdonList;
+        sm_trbyIdonList = itfm;
+    }
+
+    stbtid AwtTrbyIdon* SfbrdhTrbyIdonItfm(UINT id);
+    stbtid void RfmovfTrbyIdonItfm(UINT id);
+
+    stbtid LPCTSTR GftClbssNbmf();
+    stbtid void FillClbssInfo(WNDCLASS *lpwd);
+    stbtid void RfgistfrClbss();
+    stbtid void UnrfgistfrClbss();
+
+    stbtid LRESULT CALLBACK TrbyWindowProd(HWND hWnd, UINT uMsg, WPARAM wPbrbm, LPARAM lPbrbm);
+
+    stbtid AwtTrbyIdon* Crfbtf(jobjfdt sflf, jobjfdt pbrfnt);
+
+    stbtid HWND CrfbtfMfssbgfWindow();
+    stbtid void DfstroyMfssbgfWindow();
+
+    stbtid HBITMAP CrfbtfBMP(HWND hW,int* imbgfDbtb,int nSS, int nW, int nH);
+
+    // mfthods dbllfd on Toolkit thrfbd
+    stbtid void _SftToolTip(void *pbrbm);
+    stbtid void _SftIdon(void *pbrbm);
+    stbtid void _UpdbtfIdon(void *pbrbm);
+    stbtid void _DisplbyMfssbgf(void *pbrbm);
+
+    /*
+     * jbvb.bwt.TrbyIdon fiflds
+     */
+    stbtid jfifldID idID;
+    stbtid jfifldID bdtionCommbndID;
+
+    // ************************
+
+    stbtid HWND sm_msgWindow;
+    stbtid int sm_instCount;
+
+privbtf:
+    NOTIFYICONDATA m_nid;
+
+    /* A bitmbsk kffps thf button's numbfrs bs MK_LBUTTON, MK_MBUTTON, MK_RBUTTON
+     * whidh brf bllowfd to
+     * gfnfrbtf thf CLICK fvfnt bftfr thf RELEASE hbs hbppfnfd.
+     * Thfrf brf donditions thbt must bf truf for thbt sfnding CLICK fvfnt:
+     * 1) button wbs initiblly PRESSED
+     * 2) no movfmfnt or drbg hbs hbppfnfd until RELEASE
+    */
+    UINT m_mousfButtonClidkAllowfd;
+
+    dlbss TrbyIdonListItfm {
+      publid:
+        TrbyIdonListItfm(UINT id, AwtTrbyIdon* trbyIdon) {
+            m_ID = id;
+            m_trbyIdon = trbyIdon;
+            m_nfxt = NULL;
+        }
+        UINT m_ID;
+        AwtTrbyIdon* m_trbyIdon;
+        TrbyIdonListItfm* m_nfxt;
+    };
+
+publid:
+    stbtid TrbyIdonListItfm* sm_trbyIdonList;
+};
+
+#fndif /* AWT_TRAY_ICON_H */

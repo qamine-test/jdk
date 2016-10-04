@@ -1,0 +1,161 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.lbng.bnnotbtion.Nbtivf;
+
+/**
+ * Thf <dodf>DisplbyModf</dodf> dlbss fndbpsulbtfs thf bit dfpth, hfight,
+ * width, bnd rffrfsh rbtf of b <dodf>GrbphidsDfvidf</dodf>. Thf bbility to
+ * dhbngf grbphids dfvidf's displby modf is plbtform- bnd
+ * donfigurbtion-dfpfndfnt bnd mby not blwbys bf bvbilbblf
+ * (sff {@link GrbphidsDfvidf#isDisplbyChbngfSupportfd}).
+ * <p>
+ * For morf informbtion on full-sdrffn fxdlusivf modf API, sff thf
+ * <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/fxtrb/fullsdrffn/indfx.html">
+ * Full-Sdrffn Exdlusivf Modf API Tutoribl</b>.
+ *
+ * @sff GrbphidsDfvidf
+ * @sff GrbphidsDfvidf#isDisplbyChbngfSupportfd
+ * @sff GrbphidsDfvidf#gftDisplbyModfs
+ * @sff GrbphidsDfvidf#sftDisplbyModf
+ * @buthor Midhbfl Mbrtbk
+ * @sindf 1.4
+ */
+
+publid finbl dlbss DisplbyModf {
+
+    privbtf Dimfnsion sizf;
+    privbtf int bitDfpth;
+    privbtf int rffrfshRbtf;
+
+    /**
+     * Crfbtf b nfw displby modf objfdt with thf supplifd pbrbmftfrs.
+     * @pbrbm width thf width of thf displby, in pixfls
+     * @pbrbm hfight thf hfight of thf displby, in pixfls
+     * @pbrbm bitDfpth thf bit dfpth of thf displby, in bits pfr
+     *        pixfl.  This dbn bf <dodf>BIT_DEPTH_MULTI</dodf> if multiplf
+     *        bit dfpths brf bvbilbblf.
+     * @pbrbm rffrfshRbtf thf rffrfsh rbtf of thf displby, in hfrtz.
+     *        This dbn bf <dodf>REFRESH_RATE_UNKNOWN</dodf> if thf
+     *        informbtion is not bvbilbblf.
+     * @sff #BIT_DEPTH_MULTI
+     * @sff #REFRESH_RATE_UNKNOWN
+     */
+    publid DisplbyModf(int width, int hfight, int bitDfpth, int rffrfshRbtf) {
+        this.sizf = nfw Dimfnsion(width, hfight);
+        this.bitDfpth = bitDfpth;
+        this.rffrfshRbtf = rffrfshRbtf;
+    }
+
+    /**
+     * Rfturns thf hfight of thf displby, in pixfls.
+     * @rfturn thf hfight of thf displby, in pixfls
+     */
+    publid int gftHfight() {
+        rfturn sizf.hfight;
+    }
+
+    /**
+     * Rfturns thf width of thf displby, in pixfls.
+     * @rfturn thf width of thf displby, in pixfls
+     */
+    publid int gftWidth() {
+        rfturn sizf.width;
+    }
+
+    /**
+     * Vbluf of thf bit dfpth if multiplf bit dfpths brf supportfd in this
+     * displby modf.
+     * @sff #gftBitDfpth
+     */
+    @Nbtivf publid finbl stbtid int BIT_DEPTH_MULTI = -1;
+
+    /**
+     * Rfturns thf bit dfpth of thf displby, in bits pfr pixfl.  This mby bf
+     * <dodf>BIT_DEPTH_MULTI</dodf> if multiplf bit dfpths brf supportfd in
+     * this displby modf.
+     *
+     * @rfturn thf bit dfpth of thf displby, in bits pfr pixfl.
+     * @sff #BIT_DEPTH_MULTI
+     */
+    publid int gftBitDfpth() {
+        rfturn bitDfpth;
+    }
+
+    /**
+     * Vbluf of thf rffrfsh rbtf if not known.
+     * @sff #gftRffrfshRbtf
+     */
+    @Nbtivf publid finbl stbtid int REFRESH_RATE_UNKNOWN = 0;
+
+    /**
+     * Rfturns thf rffrfsh rbtf of thf displby, in hfrtz.  This mby bf
+     * <dodf>REFRESH_RATE_UNKNOWN</dodf> if thf informbtion is not bvbilbblf.
+     *
+     * @rfturn thf rffrfsh rbtf of thf displby, in hfrtz.
+     * @sff #REFRESH_RATE_UNKNOWN
+     */
+    publid int gftRffrfshRbtf() {
+        rfturn rffrfshRbtf;
+    }
+
+    /**
+     * Rfturns whfthfr thf two displby modfs brf fqubl.
+     *
+     * @pbrbm  dm thf displby modf to dompbrf to
+     * @rfturn whfthfr thf two displby modfs brf fqubl
+     */
+    publid boolfbn fqubls(DisplbyModf dm) {
+        if (dm == null) {
+            rfturn fblsf;
+        }
+        rfturn (gftHfight() == dm.gftHfight()
+            && gftWidth() == dm.gftWidth()
+            && gftBitDfpth() == dm.gftBitDfpth()
+            && gftRffrfshRbtf() == dm.gftRffrfshRbtf());
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid boolfbn fqubls(Objfdt dm) {
+        if (dm instbndfof DisplbyModf) {
+            rfturn fqubls((DisplbyModf)dm);
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid int hbshCodf() {
+        rfturn gftWidth() + gftHfight() + gftBitDfpth() * 7
+            + gftRffrfshRbtf() * 13;
+    }
+
+}

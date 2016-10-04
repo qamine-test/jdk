@@ -1,0 +1,1039 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.dirfdtory;
+
+import jbvbx.nbming.*;
+
+/**
+ * Thf dirfdtory sfrvidf intfrfbdf, dontbining
+ * mfthods for fxbmining bnd updbting bttributfs
+ * bssodibtfd with objfdts, bnd for sfbrdhing thf dirfdtory.
+ *
+ * <h1>Nbmfs</h1>
+ * Ebdh nbmf pbssfd bs bn brgumfnt to b <tt>DirContfxt</tt> mfthod is rflbtivf
+ * to thbt dontfxt.  Thf fmpty nbmf is usfd to nbmf thf dontfxt itsflf.
+ * Thf nbmf pbrbmftfr mby nfvfr bf null.
+ * <p>
+ * Most of thf mfthods hbvf ovfrlobdfd vfrsions with onf tbking b
+ * <dodf>Nbmf</dodf> pbrbmftfr bnd onf tbking b <dodf>String</dodf>.
+ * Thfsf ovfrlobdfd vfrsions brf fquivblfnt in thbt if
+ * thf <dodf>Nbmf</dodf> bnd <dodf>String</dodf> pbrbmftfrs brf just
+ * difffrfnt rfprfsfntbtions of thf sbmf nbmf, thfn thf ovfrlobdfd
+ * vfrsions of thf sbmf mfthods bfhbvf thf sbmf.
+ * In thf mfthod dfsdriptions bflow, only onf vfrsion is dodumfntfd.
+ * Thf sfdond vfrsion instfbd hbs b link to thf first:  thf sbmf
+ * dodumfntbtion bpplifs to both.
+ * <p>
+ * Sff <tt>Contfxt</tt> for b disdussion on thf intfrprftbtion of thf
+ * nbmf brgumfnt to thf <tt>Contfxt</tt> mfthods. Thfsf sbmf rulfs
+ * bpply to thf nbmf brgumfnt to thf <tt>DirContfxt</tt> mfthods.
+ *
+ * <h1>Attributf Modfls</h1>
+ * Thfrf brf two bbsid modfls of whbt bttributfs should bf
+ * bssodibtfd with.  First, bttributfs mby bf dirfdtly bssodibtfd with b
+ * DirContfxt objfdt.
+ * In this modfl, bn bttributf opfrbtion on thf nbmfd objfdt is
+ * roughly fquivblfnt
+ * to b lookup on thf nbmf (whidh rfturns thf DirContfxt objfdt),
+ * followfd by thf bttributf opfrbtion invokfd on thf DirContfxt objfdt
+ * in whidh thf dbllfr supplifs bn fmpty nbmf. Thf bttributfs dbn bf vifwfd
+ * bs bfing storfd blong with thf objfdt (notf thbt this dofs not imply thbt
+ * thf implfmfntbtion must do so).
+ * <p>
+ * Thf sfdond modfl is thbt bttributfs brf bssodibtfd with b
+ * nbmf (typidblly bn btomid nbmf) in b DirContfxt.
+ * In this modfl, bn bttributf opfrbtion on thf nbmfd objfdt is
+ * roughly fquivblfnt to b lookup on thf nbmf of thf pbrfnt DirContfxt of thf
+ * nbmfd objfdt, followfd by thf bttributf opfrbtion invokfd on thf pbrfnt
+ * in whidh thf dbllfr supplifs thf tfrminbl btomid nbmf.
+ * Thf bttributfs dbn bf vifwfd bs bfing storfd in thf pbrfnt DirContfxt
+ * (bgbin, this dofs not imply thbt thf implfmfntbtion must do so).
+ * Objfdts thbt brf not DirContfxts dbn hbvf bttributfs, bs long bs
+ * thfir pbrfnts brf DirContfxts.
+ * <p>
+ * JNDI support both of thfsf modfls.
+ * It is up to thf individubl sfrvidf providfrs to dfdidf whfrf to
+ * "storf" bttributfs.
+ * JNDI dlifnts brf sbffst whfn thfy do not mbkf bssumptions bbout
+ * whfthfr bn objfdt's bttributfs brf storfd bs pbrt of thf objfdt, or storfd
+ * within thf pbrfnt objfdt bnd bssodibtfd with thf objfdt's nbmf.
+ *
+ * <h1>Attributf Typf Nbmfs</h1>
+ * In thf <tt>gftAttributfs()</tt> bnd <tt>sfbrdh()</tt> mfthods,
+ * you dbn supply thf bttributfs to rfturn by supplying b list of
+ * bttributf nbmfs (strings).
+ * Thf bttributfs thbt you gft bbdk might not hbvf thf sbmf nbmfs bs thf
+ * bttributf nbmfs you hbvf spfdififd. This is bfdbusf somf dirfdtorifs
+ * support ffbturfs thbt dbusf thfm to rfturn othfr bttributfs.  Sudh
+ * ffbturfs indludf bttributf subdlbssing, bttributf nbmf synonyms, bnd
+ * bttributf lbngubgf dodfs.
+ * <p>
+ * In bttributf subdlbssing, bttributfs brf dffinfd in b dlbss hifrbrdhy.
+ * In somf dirfdtorifs, for fxbmplf, thf "nbmf" bttributf might bf thf
+ * supfrdlbss of bll nbmf-rflbtfd bttributfs, indluding "dommonNbmf" bnd
+ * "surNbmf".  Asking for thf "nbmf" bttributf might rfturn both thf
+ * "dommonNbmf" bnd "surNbmf" bttributfs.
+ * <p>
+ * With bttributf typf synonyms, b dirfdtory dbn bssign multiplf nbmfs to
+ * thf sbmf bttributf. For fxbmplf, "dn" bnd "dommonNbmf" might both
+ * rfffr to thf sbmf bttributf. Asking for "dn" might rfturn thf
+ * "dommonNbmf" bttributf.
+ * <p>
+ * Somf dirfdtorifs support thf lbngubgf dodfs for bttributfs.
+ * Asking sudh b dirfdtory for thf "dfsdription" bttributf, for fxbmplf,
+ * might rfturn bll of thf following bttributfs:
+ * <ul>
+ * <li>dfsdription
+ * <li>dfsdription;lbng-fn
+ * <li>dfsdription;lbng-df
+ * <li>dfsdription;lbng-fr
+ * </ul>
+ *
+ *
+ *<h1>Opfrbtionbl Attributfs</h1>
+ *<p>
+ * Somf dirfdtorifs hbvf thf notion of "opfrbtionbl bttributfs" whidh brf
+ * bttributfs bssodibtfd with b dirfdtory objfdt for bdministrbtivf
+ * purposfs. An fxbmplf of opfrbtionbl bttributfs is thf bddfss dontrol
+ * list for bn objfdt.
+ * <p>
+ * In thf <tt>gftAttributfs()</tt> bnd <tt>sfbrdh()</tt> mfthods,
+ * you dbn spfdify thbt bll bttributfs bssodibtfd with thf rfqufstfd objfdts
+ * bf rfturnfd by supply <tt>null</tt> bs thf list of bttributfs to rfturn.
+ * Thf bttributfs rfturnfd do <fm>not</fm> indludf opfrbtionbl bttributfs.
+ * In ordfr to rftrifvf opfrbtionbl bttributfs, you must nbmf thfm fxpliditly.
+ *
+ *
+ * <h1>Nbmfd Contfxt</h1>
+ * <p>
+ * Thfrf brf dfrtbin mfthods in whidh thf nbmf must rfsolvf to b dontfxt
+ * (for fxbmplf, whfn sfbrdhing b singlf lfvfl dontfxt). Thf dodumfntbtion
+ * of sudh mfthods
+ * usf thf tfrm <fm>nbmfd dontfxt</fm> to dfsdribf thfir nbmf pbrbmftfr.
+ * For thfsf mfthods, if thf nbmfd objfdt is not b DirContfxt,
+ * <dodf>NotContfxtExdfption</dodf> is thrown.
+ * Asidf from thfsf mfthods, thfrf is no rfquirfmfnt thbt thf
+ * <fm>nbmfd objfdt</fm> bf b DirContfxt.
+ *
+ *<h1>Pbrbmftfrs</h1>
+ *<p>
+ * An <tt>Attributfs</tt>, <tt>SfbrdhControls</tt>, or brrby objfdt
+ * pbssfd bs b pbrbmftfr to bny mfthod will not bf modififd by thf
+ * sfrvidf providfr.  Thf sfrvidf providfr mby kffp b rfffrfndf to it
+ * for thf durbtion of thf opfrbtion, indluding bny fnumfrbtion of thf
+ * mfthod's rfsults bnd thf prodfssing of bny rfffrrbls gfnfrbtfd.
+ * Thf dbllfr should not modify thf objfdt during this timf.
+ * An <tt>Attributfs</tt> objfdt rfturnfd by bny mfthod is ownfd by
+ * thf dbllfr.  Thf dbllfr mby subsfqufntly modify it; thf sfrvidf
+ * providfr will not.
+ *
+ *<h1>Exdfptions</h1>
+ *<p>
+ * All thf mfthods in this intfrfbdf dbn throw b NbmingExdfption or
+ * bny of its subdlbssfs. Sff NbmingExdfption bnd thfir subdlbssfs
+ * for dftbils on fbdh fxdfption.
+ *
+ * @buthor Rosbnnb Lff
+ * @buthor Sdott Sfligmbn
+ * @buthor R. Vbsudfvbn
+ *
+ * @sff jbvbx.nbming.Contfxt
+ * @sindf 1.3
+ */
+
+publid intfrfbdf DirContfxt fxtfnds Contfxt {
+
+    /**
+     * Rftrifvfs bll of thf bttributfs bssodibtfd with b nbmfd objfdt.
+     * Sff thf dlbss dfsdription rfgbrding bttributf modfls, bttributf
+     * typf nbmfs, bnd opfrbtionbl bttributfs.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf objfdt from whidh to rftrifvf bttributfs
+     * @rfturn  thf sft of bttributfs bssodibtfd with <dodf>nbmf</dodf>.
+     *          Rfturns bn fmpty bttributf sft if nbmf hbs no bttributfs;
+     *          nfvfr null.
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff #gftAttributfs(String)
+     * @sff #gftAttributfs(Nbmf, String[])
+     */
+    publid Attributfs gftAttributfs(Nbmf nbmf) throws NbmingExdfption;
+
+    /**
+     * Rftrifvfs bll of thf bttributfs bssodibtfd with b nbmfd objfdt.
+     * Sff {@link #gftAttributfs(Nbmf)} for dftbils.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf objfdt from whidh to rftrifvf bttributfs
+     * @rfturn  thf sft of bttributfs bssodibtfd with <dodf>nbmf</dodf>
+     *
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid Attributfs gftAttributfs(String nbmf) throws NbmingExdfption;
+
+    /**
+     * Rftrifvfs sflfdtfd bttributfs bssodibtfd with b nbmfd objfdt.
+     * Sff thf dlbss dfsdription rfgbrding bttributf modfls, bttributf
+     * typf nbmfs, bnd opfrbtionbl bttributfs.
+     *
+     * <p> If thf objfdt dofs not hbvf bn bttributf
+     * spfdififd, thf dirfdtory will ignorf thf nonfxistfnt bttributf
+     * bnd rfturn thosf rfqufstfd bttributfs thbt thf objfdt dofs hbvf.
+     *
+     * <p> A dirfdtory might rfturn morf bttributfs thbn wbs rfqufstfd
+     * (sff <strong>Attributf Typf Nbmfs</strong> in thf dlbss dfsdription),
+     * but is not bllowfd to rfturn brbitrbry, unrflbtfd bttributfs.
+     *
+     * <p> Sff blso <strong>Opfrbtionbl Attributfs</strong> in thf dlbss
+     * dfsdription.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf objfdt from whidh to rftrifvf bttributfs
+     * @pbrbm bttrIds
+     *          thf idfntififrs of thf bttributfs to rftrifvf.
+     *          null indidbtfs thbt bll bttributfs should bf rftrifvfd;
+     *          bn fmpty brrby indidbtfs thbt nonf should bf rftrifvfd.
+     * @rfturn  thf rfqufstfd bttributfs; nfvfr null
+     *
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid Attributfs gftAttributfs(Nbmf nbmf, String[] bttrIds)
+            throws NbmingExdfption;
+
+    /**
+     * Rftrifvfs sflfdtfd bttributfs bssodibtfd with b nbmfd objfdt.
+     * Sff {@link #gftAttributfs(Nbmf, String[])} for dftbils.
+     *
+     * @pbrbm nbmf
+     *          Thf nbmf of thf objfdt from whidh to rftrifvf bttributfs
+     * @pbrbm bttrIds
+     *          thf idfntififrs of thf bttributfs to rftrifvf.
+     *          null indidbtfs thbt bll bttributfs should bf rftrifvfd;
+     *          bn fmpty brrby indidbtfs thbt nonf should bf rftrifvfd.
+     * @rfturn  thf rfqufstfd bttributfs; nfvfr null
+     *
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid Attributfs gftAttributfs(String nbmf, String[] bttrIds)
+            throws NbmingExdfption;
+
+    /**
+     * This donstbnt spfdififs to bdd bn bttributf with thf spfdififd vblufs.
+     * <p>
+     * If bttributf dofs not fxist,
+     * drfbtf thf bttributf.  Thf rfsulting bttributf hbs b union of thf
+     * spfdififd vbluf sft bnd thf prior vbluf sft.
+     * Adding bn bttributf with no vbluf will throw
+     * <dodf>InvblidAttributfVblufExdfption</dodf> if thf bttributf must hbvf
+     * bt lfbst  onf vbluf.  For b singlf-vblufd bttributf whfrf thbt bttributf
+     * blrfbdy fxists, throws <dodf>AttributfInUsfExdfption</dodf>.
+     * If bttfmpting to bdd morf thbn onf vbluf to b singlf-vblufd bttributf,
+     * throws <dodf>InvblidAttributfVblufExdfption</dodf>.
+     * <p>
+     * Thf vbluf of this donstbnt is <tt>1</tt>.
+     *
+     * @sff ModifidbtionItfm
+     * @sff #modifyAttributfs
+     */
+    publid finbl stbtid int ADD_ATTRIBUTE = 1;
+
+    /**
+     * This donstbnt spfdififs to rfplbdf bn bttributf with spfdififd vblufs.
+     *<p>
+     * If bttributf blrfbdy fxists,
+     * rfplbdfs bll fxisting vblufs with nfw spfdififd vblufs.  If thf
+     * bttributf dofs not fxist, drfbtfs it.  If no vbluf is spfdififd,
+     * dflftfs bll thf vblufs of thf bttributf.
+     * Rfmovbl of thf lbst vbluf will rfmovf thf bttributf if thf bttributf
+     * is rfquirfd to hbvf bt lfbst onf vbluf.  If
+     * bttfmpting to bdd morf thbn onf vbluf to b singlf-vblufd bttributf,
+     * throws <dodf>InvblidAttributfVblufExdfption</dodf>.
+     * <p>
+     * Thf vbluf of this donstbnt is <tt>2</tt>.
+     *
+     * @sff ModifidbtionItfm
+     * @sff #modifyAttributfs
+     */
+    publid finbl stbtid int REPLACE_ATTRIBUTE = 2;
+
+    /**
+     * This donstbnt spfdififs to dflftf
+     * thf spfdififd bttributf vblufs from thf bttributf.
+     *<p>
+     * Thf rfsulting bttributf hbs thf sft difffrfndf of its prior vbluf sft
+     * bnd thf spfdififd vbluf sft.
+     * If no vblufs brf spfdififd, dflftfs thf fntirf bttributf.
+     * If thf bttributf dofs not fxist, or if somf or bll mfmbfrs of thf
+     * spfdififd vbluf sft do not fxist, this bbsfndf mby bf ignorfd
+     * bnd thf opfrbtion suddffds, or b NbmingExdfption mby bf thrown to
+     * indidbtf thf bbsfndf.
+     * Rfmovbl of thf lbst vbluf will rfmovf thf bttributf if thf
+     * bttributf is rfquirfd to hbvf bt lfbst onf vbluf.
+     * <p>
+     * Thf vbluf of this donstbnt is <tt>3</tt>.
+     *
+     * @sff ModifidbtionItfm
+     * @sff #modifyAttributfs
+     */
+    publid finbl stbtid int REMOVE_ATTRIBUTE = 3;
+
+    /**
+     * Modififs thf bttributfs bssodibtfd with b nbmfd objfdt.
+     * Thf ordfr of thf modifidbtions is not spfdififd.  Whfrf
+     * possiblf, thf modifidbtions brf pfrformfd btomidblly.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf objfdt whosf bttributfs will bf updbtfd
+     * @pbrbm mod_op
+     *          thf modifidbtion opfrbtion, onf of:
+     *                  <dodf>ADD_ATTRIBUTE</dodf>,
+     *                  <dodf>REPLACE_ATTRIBUTE</dodf>,
+     *                  <dodf>REMOVE_ATTRIBUTE</dodf>.
+     * @pbrbm bttrs
+     *          thf bttributfs to bf usfd for thf modifidbtion; mby not bf null
+     *
+     * @throws  AttributfModifidbtionExdfption if thf modifidbtion dbnnot
+     *          bf domplftfd suddfssfully
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff #modifyAttributfs(Nbmf, ModifidbtionItfm[])
+     */
+    publid void modifyAttributfs(Nbmf nbmf, int mod_op, Attributfs bttrs)
+            throws NbmingExdfption;
+
+    /**
+     * Modififs thf bttributfs bssodibtfd with b nbmfd objfdt.
+     * Sff {@link #modifyAttributfs(Nbmf, int, Attributfs)} for dftbils.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf objfdt whosf bttributfs will bf updbtfd
+     * @pbrbm mod_op
+     *          thf modifidbtion opfrbtion, onf of:
+     *                  <dodf>ADD_ATTRIBUTE</dodf>,
+     *                  <dodf>REPLACE_ATTRIBUTE</dodf>,
+     *                  <dodf>REMOVE_ATTRIBUTE</dodf>.
+     * @pbrbm bttrs
+     *          thf bttributfs to bf usfd for thf modifidbtion; mby not bf null
+     *
+     * @throws  AttributfModifidbtionExdfption if thf modifidbtion dbnnot
+     *          bf domplftfd suddfssfully
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid void modifyAttributfs(String nbmf, int mod_op, Attributfs bttrs)
+            throws NbmingExdfption;
+
+    /**
+     * Modififs thf bttributfs bssodibtfd with b nbmfd objfdt using
+     * bn ordfrfd list of modifidbtions.
+     * Thf modifidbtions brf pfrformfd
+     * in thf ordfr spfdififd.  Ebdh modifidbtion spfdififs b
+     * modifidbtion opfrbtion dodf bnd bn bttributf on whidh to
+     * opfrbtf.  Whfrf possiblf, thf modifidbtions brf
+     * pfrformfd btomidblly.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf objfdt whosf bttributfs will bf updbtfd
+     * @pbrbm mods
+     *          bn ordfrfd sfqufndf of modifidbtions to bf pfrformfd;
+     *          mby not bf null
+     *
+     * @throws  AttributfModifidbtionExdfption if thf modifidbtions
+     *          dbnnot bf domplftfd suddfssfully
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff #modifyAttributfs(Nbmf, int, Attributfs)
+     * @sff ModifidbtionItfm
+     */
+    publid void modifyAttributfs(Nbmf nbmf, ModifidbtionItfm[] mods)
+            throws NbmingExdfption;
+
+    /**
+     * Modififs thf bttributfs bssodibtfd with b nbmfd objfdt using
+     * bn ordfrfd list of modifidbtions.
+     * Sff {@link #modifyAttributfs(Nbmf, ModifidbtionItfm[])} for dftbils.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf objfdt whosf bttributfs will bf updbtfd
+     * @pbrbm mods
+     *          bn ordfrfd sfqufndf of modifidbtions to bf pfrformfd;
+     *          mby not bf null
+     *
+     * @throws  AttributfModifidbtionExdfption if thf modifidbtions
+     *          dbnnot bf domplftfd suddfssfully
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid void modifyAttributfs(String nbmf, ModifidbtionItfm[] mods)
+            throws NbmingExdfption;
+
+    /**
+     * Binds b nbmf to bn objfdt, blong with bssodibtfd bttributfs.
+     * If <tt>bttrs</tt> is null, thf rfsulting binding will hbvf
+     * thf bttributfs bssodibtfd with <tt>obj</tt> if <tt>obj</tt> is b
+     * <tt>DirContfxt</tt>, bnd no bttributfs othfrwisf.
+     * If <tt>bttrs</tt> is non-null, thf rfsulting binding will hbvf
+     * <tt>bttrs</tt> bs its bttributfs; bny bttributfs bssodibtfd with
+     * <tt>obj</tt> brf ignorfd.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf to bind; mby not bf fmpty
+     * @pbrbm obj
+     *          thf objfdt to bind; possibly null
+     * @pbrbm bttrs
+     *          thf bttributfs to bssodibtf with thf binding
+     *
+     * @throws  NbmfAlrfbdyBoundExdfption if nbmf is blrfbdy bound
+     * @throws  InvblidAttributfsExdfption if somf "mbndbtory" bttributfs
+     *          of thf binding brf not supplifd
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff Contfxt#bind(Nbmf, Objfdt)
+     * @sff #rfbind(Nbmf, Objfdt, Attributfs)
+     */
+    publid void bind(Nbmf nbmf, Objfdt obj, Attributfs bttrs)
+            throws NbmingExdfption;
+
+    /**
+     * Binds b nbmf to bn objfdt, blong with bssodibtfd bttributfs.
+     * Sff {@link #bind(Nbmf, Objfdt, Attributfs)} for dftbils.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf to bind; mby not bf fmpty
+     * @pbrbm obj
+     *          thf objfdt to bind; possibly null
+     * @pbrbm bttrs
+     *          thf bttributfs to bssodibtf with thf binding
+     *
+     * @throws  NbmfAlrfbdyBoundExdfption if nbmf is blrfbdy bound
+     * @throws  InvblidAttributfsExdfption if somf "mbndbtory" bttributfs
+     *          of thf binding brf not supplifd
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid void bind(String nbmf, Objfdt obj, Attributfs bttrs)
+            throws NbmingExdfption;
+
+    /**
+     * Binds b nbmf to bn objfdt, blong with bssodibtfd bttributfs,
+     * ovfrwriting bny fxisting binding.
+     * If <tt>bttrs</tt> is null bnd <tt>obj</tt> is b <tt>DirContfxt</tt>,
+     * thf bttributfs from <tt>obj</tt> brf usfd.
+     * If <tt>bttrs</tt> is null bnd <tt>obj</tt> is not b <tt>DirContfxt</tt>,
+     * bny fxisting bttributfs bssodibtfd with thf objfdt blrfbdy bound
+     * in thf dirfdtory rfmbin undhbngfd.
+     * If <tt>bttrs</tt> is non-null, bny fxisting bttributfs bssodibtfd with
+     * thf objfdt blrfbdy bound in thf dirfdtory brf rfmovfd bnd <tt>bttrs</tt>
+     * is bssodibtfd with thf nbmfd objfdt.  If <tt>obj</tt> is b
+     * <tt>DirContfxt</tt> bnd <tt>bttrs</tt> is non-null, thf bttributfs
+     * of <tt>obj</tt> brf ignorfd.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf to bind; mby not bf fmpty
+     * @pbrbm obj
+     *          thf objfdt to bind; possibly null
+     * @pbrbm bttrs
+     *          thf bttributfs to bssodibtf with thf binding
+     *
+     * @throws  InvblidAttributfsExdfption if somf "mbndbtory" bttributfs
+     *          of thf binding brf not supplifd
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff Contfxt#bind(Nbmf, Objfdt)
+     * @sff #bind(Nbmf, Objfdt, Attributfs)
+     */
+    publid void rfbind(Nbmf nbmf, Objfdt obj, Attributfs bttrs)
+            throws NbmingExdfption;
+
+    /**
+     * Binds b nbmf to bn objfdt, blong with bssodibtfd bttributfs,
+     * ovfrwriting bny fxisting binding.
+     * Sff {@link #rfbind(Nbmf, Objfdt, Attributfs)} for dftbils.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf to bind; mby not bf fmpty
+     * @pbrbm obj
+     *          thf objfdt to bind; possibly null
+     * @pbrbm bttrs
+     *          thf bttributfs to bssodibtf with thf binding
+     *
+     * @throws  InvblidAttributfsExdfption if somf "mbndbtory" bttributfs
+     *          of thf binding brf not supplifd
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid void rfbind(String nbmf, Objfdt obj, Attributfs bttrs)
+            throws NbmingExdfption;
+
+    /**
+     * Crfbtfs bnd binds b nfw dontfxt, blong with bssodibtfd bttributfs.
+     * This mfthod drfbtfs b nfw subdontfxt with thf givfn nbmf, binds it in
+     * thf tbrgft dontfxt (thbt nbmfd by bll but tfrminbl btomid
+     * domponfnt of thf nbmf), bnd bssodibtfs thf supplifd bttributfs
+     * with thf nfwly drfbtfd objfdt.
+     * All intfrmfdibtf bnd tbrgft dontfxts must blrfbdy fxist.
+     * If <tt>bttrs</tt> is null, this mfthod is fquivblfnt to
+     * <tt>Contfxt.drfbtfSubdontfxt()</tt>.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf dontfxt to drfbtf; mby not bf fmpty
+     * @pbrbm bttrs
+     *          thf bttributfs to bssodibtf with thf nfwly drfbtfd dontfxt
+     * @rfturn  thf nfwly drfbtfd dontfxt
+     *
+     * @throws  NbmfAlrfbdyBoundExdfption if thf nbmf is blrfbdy bound
+     * @throws  InvblidAttributfsExdfption if <dodf>bttrs</dodf> dofs not
+     *          dontbin bll thf mbndbtory bttributfs rfquirfd for drfbtion
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff Contfxt#drfbtfSubdontfxt(Nbmf)
+     */
+    publid DirContfxt drfbtfSubdontfxt(Nbmf nbmf, Attributfs bttrs)
+            throws NbmingExdfption;
+
+    /**
+     * Crfbtfs bnd binds b nfw dontfxt, blong with bssodibtfd bttributfs.
+     * Sff {@link #drfbtfSubdontfxt(Nbmf, Attributfs)} for dftbils.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf dontfxt to drfbtf; mby not bf fmpty
+     * @pbrbm bttrs
+     *          thf bttributfs to bssodibtf with thf nfwly drfbtfd dontfxt
+     * @rfturn  thf nfwly drfbtfd dontfxt
+     *
+     * @throws  NbmfAlrfbdyBoundExdfption if thf nbmf is blrfbdy bound
+     * @throws  InvblidAttributfsExdfption if <dodf>bttrs</dodf> dofs not
+     *          dontbin bll thf mbndbtory bttributfs rfquirfd for drfbtion
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid DirContfxt drfbtfSubdontfxt(String nbmf, Attributfs bttrs)
+            throws NbmingExdfption;
+
+// -------------------- sdhfmb opfrbtions
+
+    /**
+     * Rftrifvfs thf sdhfmb bssodibtfd with thf nbmfd objfdt.
+     * Thf sdhfmb dfsdribfs rulfs rfgbrding thf strudturf of thf nbmfspbdf
+     * bnd thf bttributfs storfd within it.  Thf sdhfmb
+     * spfdififs whbt typfs of objfdts dbn bf bddfd to thf dirfdtory bnd whfrf
+     * thfy dbn bf bddfd; whbt mbndbtory bnd optionbl bttributfs bn objfdt
+     * dbn hbvf. Thf rbngf of support for sdhfmbs is dirfdtory-spfdifid.
+     *
+     * <p> This mfthod rfturns thf root of thf sdhfmb informbtion trff
+     * thbt is bpplidbblf to thf nbmfd objfdt. Sfvfrbl nbmfd objfdts
+     * (or fvfn bn fntirf dirfdtory) might shbrf thf sbmf sdhfmb.
+     *
+     * <p> Issufs sudh bs strudturf bnd dontfnts of thf sdhfmb trff,
+     * pfrmission to modify to thf dontfnts of thf sdhfmb
+     * trff, bnd thf ffffdt of sudh modifidbtions on thf dirfdtory
+     * brf dfpfndfnt on thf undfrlying dirfdtory.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf objfdt whosf sdhfmb is to bf rftrifvfd
+     * @rfturn  thf sdhfmb bssodibtfd with thf dontfxt; nfvfr null
+     * @throws  OpfrbtionNotSupportfdExdfption if sdhfmb not supportfd
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid DirContfxt gftSdhfmb(Nbmf nbmf) throws NbmingExdfption;
+
+    /**
+     * Rftrifvfs thf sdhfmb bssodibtfd with thf nbmfd objfdt.
+     * Sff {@link #gftSdhfmb(Nbmf)} for dftbils.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf objfdt whosf sdhfmb is to bf rftrifvfd
+     * @rfturn  thf sdhfmb bssodibtfd with thf dontfxt; nfvfr null
+     * @throws  OpfrbtionNotSupportfdExdfption if sdhfmb not supportfd
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid DirContfxt gftSdhfmb(String nbmf) throws NbmingExdfption;
+
+    /**
+     * Rftrifvfs b dontfxt dontbining thf sdhfmb objfdts of thf
+     * nbmfd objfdt's dlbss dffinitions.
+     *<p>
+     * Onf dbtfgory of informbtion found in dirfdtory sdhfmbs is
+     * <fm>dlbss dffinitions</fm>.  An "objfdt dlbss" dffinition
+     * spfdififs thf objfdt's <fm>typf</fm> bnd whbt bttributfs (mbndbtory
+     * bnd optionbl) thf objfdt must/dbn hbvf. Notf thbt thf tfrm
+     * "objfdt dlbss" bfing rfffrrfd to hfrf is in thf dirfdtory sfnsf
+     * rbthfr thbn in thf Jbvb sfnsf.
+     * For fxbmplf, if thf nbmfd objfdt is b dirfdtory objfdt of
+     * "Pfrson" dlbss, <tt>gftSdhfmbClbssDffinition()</tt> would rfturn b
+     * <tt>DirContfxt</tt> rfprfsfnting thf (dirfdtory's) objfdt dlbss
+     * dffinition of "Pfrson".
+     *<p>
+     * Thf informbtion thbt dbn bf rftrifvfd from bn objfdt dlbss dffinition
+     * is dirfdtory-dfpfndfnt.
+     *<p>
+     * Prior to JNDI 1.2, this mfthod
+     * rfturnfd b singlf sdhfmb objfdt rfprfsfnting thf dlbss dffinition of
+     * thf nbmfd objfdt.
+     * Sindf JNDI 1.2, this mfthod rfturns b <tt>DirContfxt</tt> dontbining
+     * bll of thf nbmfd objfdt's dlbss dffinitions.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf objfdt whosf objfdt dlbss
+     *          dffinition is to bf rftrifvfd
+     * @rfturn  thf <tt>DirContfxt</tt> dontbining thf nbmfd
+     *          objfdt's dlbss dffinitions; nfvfr null
+     *
+     * @throws  OpfrbtionNotSupportfdExdfption if sdhfmb not supportfd
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid DirContfxt gftSdhfmbClbssDffinition(Nbmf nbmf)
+            throws NbmingExdfption;
+
+    /**
+     * Rftrifvfs b dontfxt dontbining thf sdhfmb objfdts of thf
+     * nbmfd objfdt's dlbss dffinitions.
+     * Sff {@link #gftSdhfmbClbssDffinition(Nbmf)} for dftbils.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf objfdt whosf objfdt dlbss
+     *          dffinition is to bf rftrifvfd
+     * @rfturn  thf <tt>DirContfxt</tt> dontbining thf nbmfd
+     *          objfdt's dlbss dffinitions; nfvfr null
+     *
+     * @throws  OpfrbtionNotSupportfdExdfption if sdhfmb not supportfd
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid DirContfxt gftSdhfmbClbssDffinition(String nbmf)
+            throws NbmingExdfption;
+
+// -------------------- sfbrdh opfrbtions
+
+    /**
+     * Sfbrdhfs in b singlf dontfxt for objfdts thbt dontbin b
+     * spfdififd sft of bttributfs, bnd rftrifvfs sflfdtfd bttributfs.
+     * Thf sfbrdh is pfrformfd using thf dffbult
+     * <dodf>SfbrdhControls</dodf> sfttings.
+     * <p>
+     * For bn objfdt to bf sflfdtfd, fbdh bttributf in
+     * <dodf>mbtdhingAttributfs</dodf> must mbtdh somf bttributf of thf
+     * objfdt.  If <dodf>mbtdhingAttributfs</dodf> is fmpty or
+     * null, bll objfdts in thf tbrgft dontfxt brf rfturnfd.
+     *<p>
+     * An bttributf <fm>A</fm><sub>1</sub> in
+     * <dodf>mbtdhingAttributfs</dodf> is donsidfrfd to mbtdh bn
+     * bttributf <fm>A</fm><sub>2</sub> of bn objfdt if
+     * <fm>A</fm><sub>1</sub> bnd <fm>A</fm><sub>2</sub> hbvf thf sbmf
+     * idfntififr, bnd fbdh vbluf of <fm>A</fm><sub>1</sub> is fqubl
+     * to somf vbluf of <fm>A</fm><sub>2</sub>.  This implifs thbt thf
+     * ordfr of vblufs is not signifidbnt, bnd thbt
+     * <fm>A</fm><sub>2</sub> mby dontbin "fxtrb" vblufs not found in
+     * <fm>A</fm><sub>1</sub> without bfffdting thf dompbrison.  It
+     * blso implifs thbt if <fm>A</fm><sub>1</sub> hbs no vblufs, thfn
+     * tfsting for b mbtdh is fquivblfnt to tfsting for thf prfsfndf
+     * of bn bttributf <fm>A</fm><sub>2</sub> with thf sbmf
+     * idfntififr.
+     *<p>
+     * Thf prfdisf dffinition of "fqublity" usfd in dompbring bttributf vblufs
+     * is dffinfd by thf undfrlying dirfdtory sfrvidf.  It might usf thf
+     * <dodf>Objfdt.fqubls</dodf> mfthod, for fxbmplf, or might usf b sdhfmb
+     * to spfdify b difffrfnt fqublity opfrbtion.
+     * For mbtdhing bbsfd on opfrbtions othfr thbn fqublity (sudh bs
+     * substring dompbrison) usf thf vfrsion of thf <dodf>sfbrdh</dodf>
+     * mfthod thbt tbkfs b filtfr brgumfnt.
+     * <p>
+     * Whfn dhbngfs brf mbdf to this <tt>DirContfxt</tt>,
+     * thf ffffdt on fnumfrbtions rfturnfd by prior dblls to this mfthod
+     * is undffinfd.
+     *<p>
+     * If thf objfdt dofs not hbvf thf bttributf
+     * spfdififd, thf dirfdtory will ignorf thf nonfxistfnt bttributf
+     * bnd rfturn thf rfqufstfd bttributfs thbt thf objfdt dofs hbvf.
+     *<p>
+     * A dirfdtory might rfturn morf bttributfs thbn wbs rfqufstfd
+     * (sff <strong>Attributf Typf Nbmfs</strong> in thf dlbss dfsdription),
+     * but is not bllowfd to rfturn brbitrbry, unrflbtfd bttributfs.
+     *<p>
+     * Sff blso <strong>Opfrbtionbl Attributfs</strong> in thf dlbss
+     * dfsdription.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf dontfxt to sfbrdh
+     * @pbrbm mbtdhingAttributfs
+     *          thf bttributfs to sfbrdh for.  If fmpty or null,
+     *          bll objfdts in thf tbrgft dontfxt brf rfturnfd.
+     * @pbrbm bttributfsToRfturn
+     *          thf bttributfs to rfturn.  null indidbtfs thbt
+     *          bll bttributfs brf to bf rfturnfd;
+     *          bn fmpty brrby indidbtfs thbt nonf brf to bf rfturnfd.
+     * @rfturn
+     *          b non-null fnumfrbtion of <tt>SfbrdhRfsult</tt> objfdts.
+     *          Ebdh <tt>SfbrdhRfsult</tt> dontbins thf bttributfs
+     *          idfntififd by <dodf>bttributfsToRfturn</dodf>
+     *          bnd thf nbmf of thf dorrfsponding objfdt, nbmfd rflbtivf
+     *          to thf dontfxt nbmfd by <dodf>nbmf</dodf>.
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff SfbrdhControls
+     * @sff SfbrdhRfsult
+     * @sff #sfbrdh(Nbmf, String, Objfdt[], SfbrdhControls)
+     */
+    publid NbmingEnumfrbtion<SfbrdhRfsult>
+        sfbrdh(Nbmf nbmf,
+               Attributfs mbtdhingAttributfs,
+               String[] bttributfsToRfturn)
+        throws NbmingExdfption;
+
+    /**
+     * Sfbrdhfs in b singlf dontfxt for objfdts thbt dontbin b
+     * spfdififd sft of bttributfs, bnd rftrifvfs sflfdtfd bttributfs.
+     * Sff {@link #sfbrdh(Nbmf, Attributfs, String[])} for dftbils.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf dontfxt to sfbrdh
+     * @pbrbm mbtdhingAttributfs
+     *          thf bttributfs to sfbrdh for
+     * @pbrbm bttributfsToRfturn
+     *          thf bttributfs to rfturn
+     * @rfturn  b non-null fnumfrbtion of <tt>SfbrdhRfsult</tt> objfdts
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid NbmingEnumfrbtion<SfbrdhRfsult>
+        sfbrdh(String nbmf,
+               Attributfs mbtdhingAttributfs,
+               String[] bttributfsToRfturn)
+        throws NbmingExdfption;
+
+    /**
+     * Sfbrdhfs in b singlf dontfxt for objfdts thbt dontbin b
+     * spfdififd sft of bttributfs.
+     * This mfthod rfturns bll thf bttributfs of sudh objfdts.
+     * It is fquivblfnt to supplying null bs
+     * thf <tt>bttributfsToRfturn</tt> pbrbmftfr to thf mfthod
+     * <dodf>sfbrdh(Nbmf, Attributfs, String[])</dodf>.
+     * <br>
+     * Sff {@link #sfbrdh(Nbmf, Attributfs, String[])} for b full dfsdription.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf dontfxt to sfbrdh
+     * @pbrbm mbtdhingAttributfs
+     *          thf bttributfs to sfbrdh for
+     * @rfturn  bn fnumfrbtion of <tt>SfbrdhRfsult</tt> objfdts
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff #sfbrdh(Nbmf, Attributfs, String[])
+     */
+    publid NbmingEnumfrbtion<SfbrdhRfsult>
+        sfbrdh(Nbmf nbmf, Attributfs mbtdhingAttributfs)
+        throws NbmingExdfption;
+
+    /**
+     * Sfbrdhfs in b singlf dontfxt for objfdts thbt dontbin b
+     * spfdififd sft of bttributfs.
+     * Sff {@link #sfbrdh(Nbmf, Attributfs)} for dftbils.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf dontfxt to sfbrdh
+     * @pbrbm mbtdhingAttributfs
+     *          thf bttributfs to sfbrdh for
+     * @rfturn  bn fnumfrbtion of <tt>SfbrdhRfsult</tt> objfdts
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid NbmingEnumfrbtion<SfbrdhRfsult>
+        sfbrdh(String nbmf, Attributfs mbtdhingAttributfs)
+        throws NbmingExdfption;
+
+    /**
+     * Sfbrdhfs in thf nbmfd dontfxt or objfdt for fntrifs thbt sbtisfy thf
+     * givfn sfbrdh filtfr.  Pfrforms thf sfbrdh bs spfdififd by
+     * thf sfbrdh dontrols.
+     * <p>
+     * Thf formbt bnd intfrprftbtion of <dodf>filtfr</dodf> follows RFC 2254
+     * with thf
+     * following intfrprftbtions for <dodf>bttr</dodf> bnd <dodf>vbluf</dodf>
+     * mfntionfd in thf RFC.
+     * <p>
+     * <dodf>bttr</dodf> is thf bttributf's idfntififr.
+     * <p>
+     * <dodf>vbluf</dodf> is thf string rfprfsfntbtion thf bttributf's vbluf.
+     * Thf trbnslbtion of this string rfprfsfntbtion into thf bttributf's vbluf
+     * is dirfdtory-spfdifid.
+     * <p>
+     * For thf bssfrtion "somfCount=127", for fxbmplf, <dodf>bttr</dodf>
+     * is "somfCount" bnd <dodf>vbluf</dodf> is "127".
+     * Thf providfr dftfrminfs, bbsfd on thf bttributf ID ("somfCount")
+     * (bnd possibly its sdhfmb), thbt thf bttributf's vbluf is bn intfgfr.
+     * It thfn pbrsfs thf string "127" bppropribtfly.
+     *<p>
+     * Any non-ASCII dhbrbdtfrs in thf filtfr string should bf
+     * rfprfsfntfd by thf bppropribtf Jbvb (Unidodf) dhbrbdtfrs, bnd
+     * not fndodfd bs UTF-8 odtfts.  Altfrnbtfly, thf
+     * "bbdkslbsh-hfxdodf" notbtion dfsdribfd in RFC 2254 mby bf usfd.
+     *<p>
+     * If thf dirfdtory dofs not support b string rfprfsfntbtion of
+     * somf or bll of its bttributfs, thf form of <dodf>sfbrdh</dodf> thbt
+     * bddfpts filtfr brgumfnts in thf form of Objfdts dbn bf usfd instfbd.
+     * Thf sfrvidf providfr for sudh b dirfdtory would thfn trbnslbtf
+     * thf filtfr brgumfnts to its sfrvidf-spfdifid rfprfsfntbtion
+     * for filtfr fvblubtion.
+     * Sff <dodf>sfbrdh(Nbmf, String, Objfdt[], SfbrdhControls)</dodf>.
+     * <p>
+     * RFC 2254 dffinfs dfrtbin opfrbtors for thf filtfr, indluding substring
+     * mbtdhfs, fqublity, bpproximbtf mbtdh, grfbtfr thbn, lfss thbn.  Thfsf
+     * opfrbtors brf mbppfd to opfrbtors with dorrfsponding sfmbntids in thf
+     * undfrlying dirfdtory. For fxbmplf, for thf fqubls opfrbtor, supposf
+     * thf dirfdtory hbs b mbtdhing rulf dffining "fqublity" of thf
+     * bttributfs in thf filtfr. This rulf would bf usfd for dhfdking
+     * fqublity of thf bttributfs spfdififd in thf filtfr with thf bttributfs
+     * of objfdts in thf dirfdtory. Similbrly, if thf dirfdtory hbs b
+     * mbtdhing rulf for ordfring, this rulf would bf usfd for
+     * mbking "grfbtfr thbn" bnd "lfss thbn" dompbrisons.
+     *<p>
+     * Not bll of thf opfrbtors dffinfd in RFC 2254 brf bpplidbblf to bll
+     * bttributfs.  Whfn bn opfrbtor is not bpplidbblf, thf fxdfption
+     * <dodf>InvblidSfbrdhFiltfrExdfption</dodf> is thrown.
+     * <p>
+     * Thf rfsult is rfturnfd in bn fnumfrbtion of <tt>SfbrdhRfsult</tt>s.
+     * Ebdh <tt>SfbrdhRfsult</tt> dontbins thf nbmf of thf objfdt
+     * bnd othfr informbtion bbout thf objfdt (sff SfbrdhRfsult).
+     * Thf nbmf is fithfr rflbtivf to thf tbrgft dontfxt of thf sfbrdh
+     * (whidh is nbmfd by thf <dodf>nbmf</dodf> pbrbmftfr), or
+     * it is b URL string. If thf tbrgft dontfxt is indludfd in
+     * thf fnumfrbtion (bs is possiblf whfn
+     * <dodf>dons</dodf> spfdififs b sfbrdh sdopf of
+     * <dodf>SfbrdhControls.OBJECT_SCOPE</dodf> or
+     * <dodf>SfbrdhControls.SUBSTREE_SCOPE</dodf>), its nbmf is thf fmpty
+     * string. Thf <tt>SfbrdhRfsult</tt> mby blso dontbin bttributfs of thf
+     * mbtdhing objfdt if thf <tt>dons</tt> brgumfnt spfdififd thbt bttributfs
+     * bf rfturnfd.
+     *<p>
+     * If thf objfdt dofs not hbvf b rfqufstfd bttributf, thbt
+     * nonfxistfnt bttributf will bf ignorfd.  Thosf rfqufstfd
+     * bttributfs thbt thf objfdt dofs hbvf will bf rfturnfd.
+     *<p>
+     * A dirfdtory might rfturn morf bttributfs thbn wfrf rfqufstfd
+     * (sff <strong>Attributf Typf Nbmfs</strong> in thf dlbss dfsdription)
+     * but is not bllowfd to rfturn brbitrbry, unrflbtfd bttributfs.
+     *<p>
+     * Sff blso <strong>Opfrbtionbl Attributfs</strong> in thf dlbss
+     * dfsdription.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf dontfxt or objfdt to sfbrdh
+     * @pbrbm filtfr
+     *          thf filtfr fxprfssion to usf for thf sfbrdh; mby not bf null
+     * @pbrbm dons
+     *          thf sfbrdh dontrols thbt dontrol thf sfbrdh.  If null,
+     *          thf dffbult sfbrdh dontrols brf usfd (fquivblfnt
+     *          to <tt>(nfw SfbrdhControls())</tt>).
+     * @rfturn  bn fnumfrbtion of <tt>SfbrdhRfsult</tt>s of
+     *          thf objfdts thbt sbtisfy thf filtfr; nfvfr null
+     *
+     * @throws  InvblidSfbrdhFiltfrExdfption if thf sfbrdh filtfr spfdififd is
+     *          not supportfd or undfrstood by thf undfrlying dirfdtory
+     * @throws  InvblidSfbrdhControlsExdfption if thf sfbrdh dontrols
+     *          dontbin invblid sfttings
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff #sfbrdh(Nbmf, String, Objfdt[], SfbrdhControls)
+     * @sff SfbrdhControls
+     * @sff SfbrdhRfsult
+     */
+    publid NbmingEnumfrbtion<SfbrdhRfsult>
+        sfbrdh(Nbmf nbmf,
+               String filtfr,
+               SfbrdhControls dons)
+        throws NbmingExdfption;
+
+    /**
+     * Sfbrdhfs in thf nbmfd dontfxt or objfdt for fntrifs thbt sbtisfy thf
+     * givfn sfbrdh filtfr.  Pfrforms thf sfbrdh bs spfdififd by
+     * thf sfbrdh dontrols.
+     * Sff {@link #sfbrdh(Nbmf, String, SfbrdhControls)} for dftbils.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf dontfxt or objfdt to sfbrdh
+     * @pbrbm filtfr
+     *          thf filtfr fxprfssion to usf for thf sfbrdh; mby not bf null
+     * @pbrbm dons
+     *          thf sfbrdh dontrols thbt dontrol thf sfbrdh.  If null,
+     *          thf dffbult sfbrdh dontrols brf usfd (fquivblfnt
+     *          to <tt>(nfw SfbrdhControls())</tt>).
+     *
+     * @rfturn  bn fnumfrbtion of <tt>SfbrdhRfsult</tt>s for
+     *          thf objfdts thbt sbtisfy thf filtfr.
+     * @throws  InvblidSfbrdhFiltfrExdfption if thf sfbrdh filtfr spfdififd is
+     *          not supportfd or undfrstood by thf undfrlying dirfdtory
+     * @throws  InvblidSfbrdhControlsExdfption if thf sfbrdh dontrols
+     *          dontbin invblid sfttings
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid NbmingEnumfrbtion<SfbrdhRfsult>
+        sfbrdh(String nbmf,
+               String filtfr,
+               SfbrdhControls dons)
+        throws NbmingExdfption;
+
+    /**
+     * Sfbrdhfs in thf nbmfd dontfxt or objfdt for fntrifs thbt sbtisfy thf
+     * givfn sfbrdh filtfr.  Pfrforms thf sfbrdh bs spfdififd by
+     * thf sfbrdh dontrols.
+     *<p>
+     * Thf intfrprftbtion of <dodf>filtfrExpr</dodf> is bbsfd on RFC
+     * 2254.  It mby bdditionblly dontbin vbribblfs of thf form
+     * <dodf>{i}</dodf> -- whfrf <dodf>i</dodf> is bn intfgfr -- thbt
+     * rfffr to objfdts in thf <dodf>filtfrArgs</dodf> brrby.  Thf
+     * intfrprftbtion of <dodf>filtfrExpr</dodf> is othfrwisf
+     * idfntidbl to thbt of thf <dodf>filtfr</dodf> pbrbmftfr of thf
+     * mfthod <dodf>sfbrdh(Nbmf, String, SfbrdhControls)</dodf>.
+     *<p>
+     * Whfn b vbribblf <dodf>{i}</dodf> bppfbrs in b sfbrdh filtfr, it
+     * indidbtfs thbt thf filtfr brgumfnt <dodf>filtfrArgs[i]</dodf>
+     * is to bf usfd in thbt plbdf.  Sudh vbribblfs mby bf usfd
+     * whfrfvfr bn <fm>bttr</fm>, <fm>vbluf</fm>, or
+     * <fm>mbtdhingrulf</fm> produdtion bppfbrs in thf filtfr grbmmbr
+     * of RFC 2254, sfdtion 4.  Whfn b string-vblufd filtfr brgumfnt
+     * is substitutfd for b vbribblf, thf filtfr is intfrprftfd bs if
+     * thf string wfrf givfn in plbdf of thf vbribblf, with bny
+     * dhbrbdtfrs hbving spfdibl signifidbndf within filtfrs (sudh bs
+     * <dodf>'*'</dodf>) hbving bffn fsdbpfd bddording to thf rulfs of
+     * RFC 2254.
+     *<p>
+     * For dirfdtorifs thbt do not usf b string rfprfsfntbtion for
+     * somf or bll of thfir bttributfs, thf filtfr brgumfnt
+     * dorrfsponding to bn bttributf vbluf mby bf of b typf othfr thbn
+     * String.  Dirfdtorifs thbt support unstrudturfd binbry-vblufd
+     * bttributfs, for fxbmplf, should bddfpt bytf brrbys bs filtfr
+     * brgumfnts.  Thf intfrprftbtion (if bny) of filtfr brgumfnts of
+     * bny othfr typf is dftfrminfd by thf sfrvidf providfr for thbt
+     * dirfdtory, whidh mbps thf filtfr opfrbtions onto opfrbtions with
+     * dorrfsponding sfmbntids in thf undfrlying dirfdtory.
+     *<p>
+     * This mfthod rfturns bn fnumfrbtion of thf rfsults.
+     * Ebdh flfmfnt in thf fnumfrbtion dontbins thf nbmf of thf objfdt
+     * bnd othfr informbtion bbout thf objfdt (sff <dodf>SfbrdhRfsult</dodf>).
+     * Thf nbmf is fithfr rflbtivf to thf tbrgft dontfxt of thf sfbrdh
+     * (whidh is nbmfd by thf <dodf>nbmf</dodf> pbrbmftfr), or
+     * it is b URL string. If thf tbrgft dontfxt is indludfd in
+     * thf fnumfrbtion (bs is possiblf whfn
+     * <dodf>dons</dodf> spfdififs b sfbrdh sdopf of
+     * <dodf>SfbrdhControls.OBJECT_SCOPE</dodf> or
+     * <dodf>SfbrdhControls.SUBSTREE_SCOPE</dodf>),
+     * its nbmf is thf fmpty string.
+     *<p>
+     * Thf <tt>SfbrdhRfsult</tt> mby blso dontbin bttributfs of thf mbtdhing
+     * objfdt if thf <tt>dons</tt> brgumfnt spfdififs thbt bttributfs bf
+     * rfturnfd.
+     *<p>
+     * If thf objfdt dofs not hbvf b rfqufstfd bttributf, thbt
+     * nonfxistfnt bttributf will bf ignorfd.  Thosf rfqufstfd
+     * bttributfs thbt thf objfdt dofs hbvf will bf rfturnfd.
+     *<p>
+     * A dirfdtory might rfturn morf bttributfs thbn wfrf rfqufstfd
+     * (sff <strong>Attributf Typf Nbmfs</strong> in thf dlbss dfsdription)
+     * but is not bllowfd to rfturn brbitrbry, unrflbtfd bttributfs.
+     *<p>
+     * If b sfbrdh filtfr with invblid vbribblf substitutions is providfd
+     * to this mfthod, thf rfsult is undffinfd.
+     * Whfn dhbngfs brf mbdf to this DirContfxt,
+     * thf ffffdt on fnumfrbtions rfturnfd by prior dblls to this mfthod
+     * is undffinfd.
+     *<p>
+     * Sff blso <strong>Opfrbtionbl Attributfs</strong> in thf dlbss
+     * dfsdription.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf dontfxt or objfdt to sfbrdh
+     * @pbrbm filtfrExpr
+     *          thf filtfr fxprfssion to usf for thf sfbrdh.
+     *          Thf fxprfssion mby dontbin vbribblfs of thf
+     *          form "<dodf>{i}</dodf>" whfrf <dodf>i</dodf>
+     *          is b nonnfgbtivf intfgfr.  Mby not bf null.
+     * @pbrbm filtfrArgs
+     *          thf brrby of brgumfnts to substitutf for thf vbribblfs
+     *          in <dodf>filtfrExpr</dodf>.  Thf vbluf of
+     *          <dodf>filtfrArgs[i]</dodf> will rfplbdf fbdh
+     *          oddurrfndf of "<dodf>{i}</dodf>".
+     *          If null, fquivblfnt to bn fmpty brrby.
+     * @pbrbm dons
+     *          thf sfbrdh dontrols thbt dontrol thf sfbrdh.  If null,
+     *          thf dffbult sfbrdh dontrols brf usfd (fquivblfnt
+     *          to <tt>(nfw SfbrdhControls())</tt>).
+     * @rfturn  bn fnumfrbtion of <tt>SfbrdhRfsult</tt>s of thf objfdts
+     *          thbt sbtisfy thf filtfr; nfvfr null
+     *
+     * @throws  ArrbyIndfxOutOfBoundsExdfption if <tt>filtfrExpr</tt> dontbins
+     *          <dodf>{i}</dodf> fxprfssions whfrf <dodf>i</dodf> is outsidf
+     *          thf bounds of thf brrby <dodf>filtfrArgs</dodf>
+     * @throws  InvblidSfbrdhControlsExdfption if <tt>dons</tt> dontbins
+     *          invblid sfttings
+     * @throws  InvblidSfbrdhFiltfrExdfption if <tt>filtfrExpr</tt> with
+     *          <tt>filtfrArgs</tt> rfprfsfnts bn invblid sfbrdh filtfr
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     *
+     * @sff #sfbrdh(Nbmf, Attributfs, String[])
+     * @sff jbvb.tfxt.MfssbgfFormbt
+     */
+    publid NbmingEnumfrbtion<SfbrdhRfsult>
+        sfbrdh(Nbmf nbmf,
+               String filtfrExpr,
+               Objfdt[] filtfrArgs,
+               SfbrdhControls dons)
+        throws NbmingExdfption;
+
+    /**
+     * Sfbrdhfs in thf nbmfd dontfxt or objfdt for fntrifs thbt sbtisfy thf
+     * givfn sfbrdh filtfr.  Pfrforms thf sfbrdh bs spfdififd by
+     * thf sfbrdh dontrols.
+     * Sff {@link #sfbrdh(Nbmf, String, Objfdt[], SfbrdhControls)} for dftbils.
+     *
+     * @pbrbm nbmf
+     *          thf nbmf of thf dontfxt or objfdt to sfbrdh
+     * @pbrbm filtfrExpr
+     *          thf filtfr fxprfssion to usf for thf sfbrdh.
+     *          Thf fxprfssion mby dontbin vbribblfs of thf
+     *          form "<dodf>{i}</dodf>" whfrf <dodf>i</dodf>
+     *          is b nonnfgbtivf intfgfr.  Mby not bf null.
+     * @pbrbm filtfrArgs
+     *          thf brrby of brgumfnts to substitutf for thf vbribblfs
+     *          in <dodf>filtfrExpr</dodf>.  Thf vbluf of
+     *          <dodf>filtfrArgs[i]</dodf> will rfplbdf fbdh
+     *          oddurrfndf of "<dodf>{i}</dodf>".
+     *          If null, fquivblfnt to bn fmpty brrby.
+     * @pbrbm dons
+     *          thf sfbrdh dontrols thbt dontrol thf sfbrdh.  If null,
+     *          thf dffbult sfbrdh dontrols brf usfd (fquivblfnt
+     *          to <tt>(nfw SfbrdhControls())</tt>).
+     * @rfturn  bn fnumfrbtion of <tt>SfbrdhRfsult</tt>s of thf objfdts
+     *          thbt sbtisfy thf filtfr; nfvfr null
+     *
+     * @throws  ArrbyIndfxOutOfBoundsExdfption if <tt>filtfrExpr</tt> dontbins
+     *          <dodf>{i}</dodf> fxprfssions whfrf <dodf>i</dodf> is outsidf
+     *          thf bounds of thf brrby <dodf>filtfrArgs</dodf>
+     * @throws  InvblidSfbrdhControlsExdfption if <tt>dons</tt> dontbins
+     *          invblid sfttings
+     * @throws  InvblidSfbrdhFiltfrExdfption if <tt>filtfrExpr</tt> with
+     *          <tt>filtfrArgs</tt> rfprfsfnts bn invblid sfbrdh filtfr
+     * @throws  NbmingExdfption if b nbming fxdfption is fndountfrfd
+     */
+    publid NbmingEnumfrbtion<SfbrdhRfsult>
+        sfbrdh(String nbmf,
+               String filtfrExpr,
+               Objfdt[] filtfrArgs,
+               SfbrdhControls dons)
+        throws NbmingExdfption;
+}

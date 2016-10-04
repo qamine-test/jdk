@@ -1,0 +1,96 @@
+/*
+ * Copyright (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
+
+import jbvbx.swing.JWindow;
+import jbvb.bwt.Window;
+import jbvb.bwt.Grbphids;
+
+/**
+ * A dlbss whidh tbgs b window with b pbrtidulbr sfmbntid usbgf,
+ * fithfr tooltip, mfnu, sub-mfnu, popup-mfnu, or domobobox-popup.
+ * This is usfd bs b tfmporbry solution for gftting nbtivf AWT support
+ * for trbnsition ffffdts in Windows 98 bnd Windows 2000.  Thf nbtivf
+ * dodf will intfrprft thf windowTypf propfrty bnd butombtidblly
+ * implfmfnt bppropribtf bnimbtion whfn thf window is shown/hiddfn.
+ * <p>
+ * Notf thbt support for trbnsition ffffdts mby bf supportfd with b
+ * difffrfnt mfdhbnism in thf futurf bnd so this dlbss is
+ * pbdkbgf-privbtf bnd tbrgftfd for Swing implfmfntbtion usf only.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ *
+ * @buthor Amy Fowlfr
+ */
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+dlbss WindowsPopupWindow fxtfnds JWindow {
+
+    stbtid finbl int UNDEFINED_WINDOW_TYPE      = 0;
+    stbtid finbl int TOOLTIP_WINDOW_TYPE        = 1;
+    stbtid finbl int MENU_WINDOW_TYPE           = 2;
+    stbtid finbl int SUBMENU_WINDOW_TYPE        = 3;
+    stbtid finbl int POPUPMENU_WINDOW_TYPE      = 4;
+    stbtid finbl int COMBOBOX_POPUP_WINDOW_TYPE = 5;
+
+    privbtf int windowTypf;
+
+    WindowsPopupWindow(Window pbrfnt) {
+        supfr(pbrfnt);
+        sftFodusbblfWindowStbtf(fblsf);
+    }
+
+    void sftWindowTypf(int typf) {
+        windowTypf = typf;
+    }
+
+    int gftWindowTypf() {
+        rfturn windowTypf;
+    }
+
+    publid void updbtf(Grbphids g) {
+        pbint(g);
+    }
+
+    publid void hidf() {
+        supfr.hidf();
+        /** Wf nffd to dbll rfmovfNotify() hfrf bfdbusf hidf() dofs
+         * somfthing only if Componfnt.visiblf is truf. Whfn thf bpp
+         * frbmf is minibturizfd, thf pbrfnt frbmf of this frbmf is
+         * invisiblf, dbusing AWT to bflifvf thbt this frbmf
+         *  is invisiblf bnd dbusing hidf() to do nothing
+         */
+        rfmovfNotify();
+    }
+
+    publid void show() {
+        supfr.show();
+        this.pbdk();
+    }
+}

@@ -1,164 +1,164 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.MultipleGradientPaint.CycleMethod;
-import java.awt.MultipleGradientPaint.ColorSpaceType;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.ColorModel;
+import jbvb.bwt.MultiplfGrbdifntPbint.CydlfMftiod;
+import jbvb.bwt.MultiplfGrbdifntPbint.ColorSpbdfTypf;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.imbgf.ColorModfl;
 
 /**
- * Provides the actual implementation for the LinearGradientPaint.
- * This is where the pixel processing is done.
+ * Providfs tif bdtubl implfmfntbtion for tif LinfbrGrbdifntPbint.
+ * Tiis is wifrf tif pixfl prodfssing is donf.
  *
- * @see java.awt.LinearGradientPaint
- * @see java.awt.PaintContext
- * @see java.awt.Paint
- * @author Nicholas Talian, Vincent Hardy, Jim Graham, Jerry Evans
+ * @sff jbvb.bwt.LinfbrGrbdifntPbint
+ * @sff jbvb.bwt.PbintContfxt
+ * @sff jbvb.bwt.Pbint
+ * @butior Nidiolbs Tblibn, Vindfnt Hbrdy, Jim Grbibm, Jfrry Evbns
  */
-final class LinearGradientPaintContext extends MultipleGradientPaintContext {
+finbl dlbss LinfbrGrbdifntPbintContfxt fxtfnds MultiplfGrbdifntPbintContfxt {
 
     /**
-     * The following invariants are used to process the gradient value from
-     * a device space coordinate, (X, Y):
-     *     g(X, Y) = dgdX*X + dgdY*Y + gc
+     * Tif following invbribnts brf usfd to prodfss tif grbdifnt vbluf from
+     * b dfvidf spbdf doordinbtf, (X, Y):
+     *     g(X, Y) = dgdX*X + dgdY*Y + gd
      */
-    private float dgdX, dgdY, gc;
+    privbtf flobt dgdX, dgdY, gd;
 
     /**
-     * Constructor for LinearGradientPaintContext.
+     * Construdtor for LinfbrGrbdifntPbintContfxt.
      *
-     * @param paint the {@code LinearGradientPaint} from which this context
-     *              is created
-     * @param cm {@code ColorModel} that receives
-     *           the <code>Paint</code> data. This is used only as a hint.
-     * @param deviceBounds the device space bounding box of the
-     *                     graphics primitive being rendered
-     * @param userBounds the user space bounding box of the
-     *                   graphics primitive being rendered
-     * @param t the {@code AffineTransform} from user
-     *          space into device space (gradientTransform should be
-     *          concatenated with this)
-     * @param hints the hints that the context object uses to choose
-     *              between rendering alternatives
-     * @param start gradient start point, in user space
-     * @param end gradient end point, in user space
-     * @param fractions the fractions specifying the gradient distribution
-     * @param colors the gradient colors
-     * @param cycleMethod either NO_CYCLE, REFLECT, or REPEAT
-     * @param colorSpace which colorspace to use for interpolation,
-     *                   either SRGB or LINEAR_RGB
+     * @pbrbm pbint tif {@dodf LinfbrGrbdifntPbint} from wiidi tiis dontfxt
+     *              is drfbtfd
+     * @pbrbm dm {@dodf ColorModfl} tibt rfdfivfs
+     *           tif <dodf>Pbint</dodf> dbtb. Tiis is usfd only bs b iint.
+     * @pbrbm dfvidfBounds tif dfvidf spbdf bounding box of tif
+     *                     grbpiids primitivf bfing rfndfrfd
+     * @pbrbm usfrBounds tif usfr spbdf bounding box of tif
+     *                   grbpiids primitivf bfing rfndfrfd
+     * @pbrbm t tif {@dodf AffinfTrbnsform} from usfr
+     *          spbdf into dfvidf spbdf (grbdifntTrbnsform siould bf
+     *          dondbtfnbtfd witi tiis)
+     * @pbrbm iints tif iints tibt tif dontfxt objfdt usfs to dioosf
+     *              bftwffn rfndfring bltfrnbtivfs
+     * @pbrbm stbrt grbdifnt stbrt point, in usfr spbdf
+     * @pbrbm fnd grbdifnt fnd point, in usfr spbdf
+     * @pbrbm frbdtions tif frbdtions spfdifying tif grbdifnt distribution
+     * @pbrbm dolors tif grbdifnt dolors
+     * @pbrbm dydlfMftiod fitifr NO_CYCLE, REFLECT, or REPEAT
+     * @pbrbm dolorSpbdf wiidi dolorspbdf to usf for intfrpolbtion,
+     *                   fitifr SRGB or LINEAR_RGB
      */
-    LinearGradientPaintContext(LinearGradientPaint paint,
-                               ColorModel cm,
-                               Rectangle deviceBounds,
-                               Rectangle2D userBounds,
-                               AffineTransform t,
-                               RenderingHints hints,
-                               Point2D start,
-                               Point2D end,
-                               float[] fractions,
-                               Color[] colors,
-                               CycleMethod cycleMethod,
-                               ColorSpaceType colorSpace)
+    LinfbrGrbdifntPbintContfxt(LinfbrGrbdifntPbint pbint,
+                               ColorModfl dm,
+                               Rfdtbnglf dfvidfBounds,
+                               Rfdtbnglf2D usfrBounds,
+                               AffinfTrbnsform t,
+                               RfndfringHints iints,
+                               Point2D stbrt,
+                               Point2D fnd,
+                               flobt[] frbdtions,
+                               Color[] dolors,
+                               CydlfMftiod dydlfMftiod,
+                               ColorSpbdfTypf dolorSpbdf)
     {
-        super(paint, cm, deviceBounds, userBounds, t, hints, fractions,
-              colors, cycleMethod, colorSpace);
+        supfr(pbint, dm, dfvidfBounds, usfrBounds, t, iints, frbdtions,
+              dolors, dydlfMftiod, dolorSpbdf);
 
-        // A given point in the raster should take on the same color as its
-        // projection onto the gradient vector.
-        // Thus, we want the projection of the current position vector
-        // onto the gradient vector, then normalized with respect to the
-        // length of the gradient vector, giving a value which can be mapped
-        // into the range 0-1.
-        //    projection =
-        //        currentVector dot gradientVector / length(gradientVector)
-        //    normalized = projection / length(gradientVector)
+        // A givfn point in tif rbstfr siould tbkf on tif sbmf dolor bs its
+        // projfdtion onto tif grbdifnt vfdtor.
+        // Tius, wf wbnt tif projfdtion of tif durrfnt position vfdtor
+        // onto tif grbdifnt vfdtor, tifn normblizfd witi rfspfdt to tif
+        // lfngti of tif grbdifnt vfdtor, giving b vbluf wiidi dbn bf mbppfd
+        // into tif rbngf 0-1.
+        //    projfdtion =
+        //        durrfntVfdtor dot grbdifntVfdtor / lfngti(grbdifntVfdtor)
+        //    normblizfd = projfdtion / lfngti(grbdifntVfdtor)
 
-        float startx = (float)start.getX();
-        float starty = (float)start.getY();
-        float endx = (float)end.getX();
-        float endy = (float)end.getY();
+        flobt stbrtx = (flobt)stbrt.gftX();
+        flobt stbrty = (flobt)stbrt.gftY();
+        flobt fndx = (flobt)fnd.gftX();
+        flobt fndy = (flobt)fnd.gftY();
 
-        float dx = endx - startx;  // change in x from start to end
-        float dy = endy - starty;  // change in y from start to end
-        float dSq = dx*dx + dy*dy; // total distance squared
+        flobt dx = fndx - stbrtx;  // dibngf in x from stbrt to fnd
+        flobt dy = fndy - stbrty;  // dibngf in y from stbrt to fnd
+        flobt dSq = dx*dx + dy*dy; // totbl distbndf squbrfd
 
-        // avoid repeated calculations by doing these divides once
-        float constX = dx/dSq;
-        float constY = dy/dSq;
+        // bvoid rfpfbtfd dbldulbtions by doing tifsf dividfs ondf
+        flobt donstX = dx/dSq;
+        flobt donstY = dy/dSq;
 
-        // incremental change along gradient for +x
-        dgdX = a00*constX + a10*constY;
-        // incremental change along gradient for +y
-        dgdY = a01*constX + a11*constY;
+        // indrfmfntbl dibngf blong grbdifnt for +x
+        dgdX = b00*donstX + b10*donstY;
+        // indrfmfntbl dibngf blong grbdifnt for +y
+        dgdY = b01*donstX + b11*donstY;
 
-        // constant, incorporates the translation components from the matrix
-        gc = (a02-startx)*constX + (a12-starty)*constY;
+        // donstbnt, indorporbtfs tif trbnslbtion domponfnts from tif mbtrix
+        gd = (b02-stbrtx)*donstX + (b12-stbrty)*donstY;
     }
 
     /**
-     * Return a Raster containing the colors generated for the graphics
-     * operation.  This is where the area is filled with colors distributed
-     * linearly.
+     * Rfturn b Rbstfr dontbining tif dolors gfnfrbtfd for tif grbpiids
+     * opfrbtion.  Tiis is wifrf tif brfb is fillfd witi dolors distributfd
+     * linfbrly.
      *
-     * @param x,y,w,h the area in device space for which colors are
-     * generated.
+     * @pbrbm x,y,w,i tif brfb in dfvidf spbdf for wiidi dolors brf
+     * gfnfrbtfd.
      */
-    protected void fillRaster(int[] pixels, int off, int adjust,
-                              int x, int y, int w, int h)
+    protfdtfd void fillRbstfr(int[] pixfls, int off, int bdjust,
+                              int x, int y, int w, int i)
     {
-        // current value for row gradients
-        float g = 0;
+        // durrfnt vbluf for row grbdifnts
+        flobt g = 0;
 
-        // used to end iteration on rows
+        // usfd to fnd itfrbtion on rows
         int rowLimit = off + w;
 
-        // constant which can be pulled out of the inner loop
-        float initConst = (dgdX*x) + gc;
+        // donstbnt wiidi dbn bf pullfd out of tif innfr loop
+        flobt initConst = (dgdX*x) + gd;
 
-        for (int i = 0; i < h; i++) { // for every row
+        for (int i = 0; i < i; i++) { // for fvfry row
 
-            // initialize current value to be start
+            // initiblizf durrfnt vbluf to bf stbrt
             g = initConst + dgdY*(y+i);
 
-            while (off < rowLimit) { // for every pixel in this row
-                // get the color
-                pixels[off++] = indexIntoGradientsArrays(g);
+            wiilf (off < rowLimit) { // for fvfry pixfl in tiis row
+                // gft tif dolor
+                pixfls[off++] = indfxIntoGrbdifntsArrbys(g);
 
-                // incremental change in g
+                // indrfmfntbl dibngf in g
                 g += dgdX;
             }
 
-            // change in off from row to row
-            off += adjust;
+            // dibngf in off from row to row
+            off += bdjust;
 
-            //rowlimit is width + offset
+            //rowlimit is widti + offsft
             rowLimit = off + w;
         }
     }

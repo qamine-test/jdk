@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,44 +30,44 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-// To ensure winsock2.h is used, it has to be included ahead of
-// windows.h, which includes winsock.h by default.
-#include <winsock2.h>
-#include <windows.h>
-#include <io.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <mmsystem.h>
-#include <fcntl.h>
-#include <process.h>
+// To fnsurf winsodk2.i is usfd, it ibs to bf indludfd bifbd of
+// windows.i, wiidi indludfs winsodk.i by dffbult.
+#indludf <winsodk2.i>
+#indludf <windows.i>
+#indludf <io.i>
+#indludf <sys/typfs.i>
+#indludf <sys/stbt.i>
+#indludf <mmsystfm.i>
+#indludf <fdntl.i>
+#indludf <prodfss.i>
 
-#include "jni.h"
-#include "hprof.h"
+#indludf "jni.i"
+#indludf "iprof.i"
 
 int
-md_getpid(void)
+md_gftpid(void)
 {
-    static int pid = -1;
+    stbtid int pid = -1;
 
     if ( pid >= 0 ) {
-        return pid;
+        rfturn pid;
     }
-    pid = getpid();
-    return pid;
+    pid = gftpid();
+    rfturn pid;
 }
 
 void
-md_sleep(unsigned seconds)
+md_slffp(unsignfd sfdonds)
 {
-    Sleep((DWORD)seconds*1000);
+    Slffp((DWORD)sfdonds*1000);
 }
 
 void
@@ -76,228 +76,228 @@ md_init(void)
 }
 
 int
-md_connect(char *hostname, unsigned short port)
+md_donnfdt(dibr *iostnbmf, unsignfd siort port)
 {
-    struct hostent *hentry;
-    struct sockaddr_in s;
+    strudt iostfnt *ifntry;
+    strudt sodkbddr_in s;
     int fd;
 
-    /* find remote host's addr from name */
-    if ((hentry = gethostbyname(hostname)) == NULL) {
-        return -1;
+    /* find rfmotf iost's bddr from nbmf */
+    if ((ifntry = gftiostbynbmf(iostnbmf)) == NULL) {
+        rfturn -1;
     }
-    (void)memset((char *)&s, 0, sizeof(s));
-    /* set remote host's addr; its already in network byte order */
-    (void)memcpy(&s.sin_addr.s_addr, *(hentry->h_addr_list),
-           (int)sizeof(s.sin_addr.s_addr));
-    /* set remote host's port */
-    s.sin_port = htons(port);
-    s.sin_family = AF_INET;
+    (void)mfmsft((dibr *)&s, 0, sizfof(s));
+    /* sft rfmotf iost's bddr; its blrfbdy in nftwork bytf ordfr */
+    (void)mfmdpy(&s.sin_bddr.s_bddr, *(ifntry->i_bddr_list),
+           (int)sizfof(s.sin_bddr.s_bddr));
+    /* sft rfmotf iost's port */
+    s.sin_port = itons(port);
+    s.sin_fbmily = AF_INET;
 
-    /* create a socket */
-    fd = (int)socket(AF_INET, SOCK_STREAM, 0);
+    /* drfbtf b sodkft */
+    fd = (int)sodkft(AF_INET, SOCK_STREAM, 0);
     if (INVALID_SOCKET == fd) {
-        return 0;
+        rfturn 0;
     }
 
-    /* now try connecting */
-    if (SOCKET_ERROR == connect(fd, (struct sockaddr*)&s, sizeof(s))) {
-        closesocket(fd);
-        return 0;
+    /* now try donnfdting */
+    if (SOCKET_ERROR == donnfdt(fd, (strudt sodkbddr*)&s, sizfof(s))) {
+        dlosfsodkft(fd);
+        rfturn 0;
     }
-    return fd;
+    rfturn fd;
 }
 
 int
-md_recv(int f, char *buf, int len, int option)
+md_rfdv(int f, dibr *buf, int lfn, int option)
 {
-    return recv(f, buf, len, option);
+    rfturn rfdv(f, buf, lfn, option);
 }
 
 int
-md_shutdown(int filedes, int option)
+md_siutdown(int filfdfs, int option)
 {
-    return shutdown(filedes, option);
+    rfturn siutdown(filfdfs, option);
 }
 
 int
-md_open(const char *filename)
+md_opfn(donst dibr *filfnbmf)
 {
-    return open(filename, O_RDONLY);
+    rfturn opfn(filfnbmf, O_RDONLY);
 }
 
 int
-md_open_binary(const char *filename)
+md_opfn_binbry(donst dibr *filfnbmf)
 {
-    return open(filename, O_RDONLY|O_BINARY);
+    rfturn opfn(filfnbmf, O_RDONLY|O_BINARY);
 }
 
 int
-md_creat(const char *filename)
+md_drfbt(donst dibr *filfnbmf)
 {
-    return open(filename, O_CREAT | O_WRONLY | O_TRUNC,
+    rfturn opfn(filfnbmf, O_CREAT | O_WRONLY | O_TRUNC,
                              _S_IREAD | _S_IWRITE);
 }
 
 int
-md_creat_binary(const char *filename)
+md_drfbt_binbry(donst dibr *filfnbmf)
 {
-    return open(filename, O_CREAT | O_WRONLY | O_TRUNC | O_BINARY,
+    rfturn opfn(filfnbmf, O_CREAT | O_WRONLY | O_TRUNC | O_BINARY,
                             _S_IREAD | _S_IWRITE);
 }
 
 jlong
-md_seek(int filedes, jlong pos)
+md_sffk(int filfdfs, jlong pos)
 {
-    jlong new_pos;
+    jlong nfw_pos;
 
     if ( pos == (jlong)-1 ) {
-        new_pos = _lseeki64(filedes, 0L, SEEK_END);
-    } else {
-        new_pos = _lseeki64(filedes, pos, SEEK_SET);
+        nfw_pos = _lsffki64(filfdfs, 0L, SEEK_END);
+    } flsf {
+        nfw_pos = _lsffki64(filfdfs, pos, SEEK_SET);
     }
-    return new_pos;
+    rfturn nfw_pos;
 }
 
 void
-md_close(int filedes)
+md_dlosf(int filfdfs)
 {
-    (void)closesocket(filedes);
+    (void)dlosfsodkft(filfdfs);
 }
 
 int
-md_send(int s, const char *msg, int len, int flags)
+md_sfnd(int s, donst dibr *msg, int lfn, int flbgs)
 {
-    return send(s, msg, len, flags);
+    rfturn sfnd(s, msg, lfn, flbgs);
 }
 
 int
-md_read(int filedes, void *buf, int nbyte)
+md_rfbd(int filfdfs, void *buf, int nbytf)
 {
-    return read(filedes, buf, nbyte);
+    rfturn rfbd(filfdfs, buf, nbytf);
 }
 
 int
-md_write(int filedes, const void *buf, int nbyte)
+md_writf(int filfdfs, donst void *buf, int nbytf)
 {
-    return write(filedes, buf, nbyte);
+    rfturn writf(filfdfs, buf, nbytf);
 }
 
 jlong
-md_get_microsecs(void)
+md_gft_midrosfds(void)
 {
-    return (jlong)(timeGetTime())*(jlong)1000;
+    rfturn (jlong)(timfGftTimf())*(jlong)1000;
 }
 
-#define FT2JLONG(ft) \
-        ((jlong)(ft).dwHighDateTime << 32 | (jlong)(ft).dwLowDateTime)
+#dffinf FT2JLONG(ft) \
+        ((jlong)(ft).dwHigiDbtfTimf << 32 | (jlong)(ft).dwLowDbtfTimf)
 
 jlong
-md_get_timemillis(void)
+md_gft_timfmillis(void)
 {
-    static jlong fileTime_1_1_70 = 0;
+    stbtid jlong filfTimf_1_1_70 = 0;
     SYSTEMTIME st0;
     FILETIME   ft0;
 
-    if (fileTime_1_1_70 == 0) {
-        /* Initialize fileTime_1_1_70 -- the Win32 file time of midnight
+    if (filfTimf_1_1_70 == 0) {
+        /* Initiblizf filfTimf_1_1_70 -- tif Win32 filf timf of midnigit
          * 1/1/70.
          */
 
-        memset(&st0, 0, sizeof(st0));
-        st0.wYear  = 1970;
-        st0.wMonth = 1;
-        st0.wDay   = 1;
-        SystemTimeToFileTime(&st0, &ft0);
-        fileTime_1_1_70 = FT2JLONG(ft0);
+        mfmsft(&st0, 0, sizfof(st0));
+        st0.wYfbr  = 1970;
+        st0.wMonti = 1;
+        st0.wDby   = 1;
+        SystfmTimfToFilfTimf(&st0, &ft0);
+        filfTimf_1_1_70 = FT2JLONG(ft0);
     }
 
-    GetSystemTime(&st0);
-    SystemTimeToFileTime(&st0, &ft0);
+    GftSystfmTimf(&st0);
+    SystfmTimfToFilfTimf(&st0, &ft0);
 
-    return (FT2JLONG(ft0) - fileTime_1_1_70) / 10000;
+    rfturn (FT2JLONG(ft0) - filfTimf_1_1_70) / 10000;
 }
 
 jlong
-md_get_thread_cpu_timemillis(void)
+md_gft_tirfbd_dpu_timfmillis(void)
 {
-    return md_get_timemillis();
+    rfturn md_gft_timfmillis();
 }
 
-HINSTANCE hJavaInst;
-static int nError = 0;
+HINSTANCE iJbvbInst;
+stbtid int nError = 0;
 
 BOOL WINAPI
-DllMain(HINSTANCE hinst, DWORD reason, LPVOID reserved)
+DllMbin(HINSTANCE iinst, DWORD rfbson, LPVOID rfsfrvfd)
 {
-    WSADATA wsaData;
-    switch (reason) {
-        case DLL_PROCESS_ATTACH:
-            hJavaInst = hinst;
-            nError = WSAStartup(MAKEWORD(2,0), &wsaData);
-            break;
-        case DLL_PROCESS_DETACH:
-            WSACleanup();
-            hJavaInst = NULL;
-        default:
-            break;
+    WSADATA wsbDbtb;
+    switdi (rfbson) {
+        dbsf DLL_PROCESS_ATTACH:
+            iJbvbInst = iinst;
+            nError = WSAStbrtup(MAKEWORD(2,0), &wsbDbtb);
+            brfbk;
+        dbsf DLL_PROCESS_DETACH:
+            WSAClfbnup();
+            iJbvbInst = NULL;
+        dffbult:
+            brfbk;
     }
-    return TRUE;
+    rfturn TRUE;
 }
 
 void
-md_get_prelude_path(char *path, int path_len, char *filename)
+md_gft_prfludf_pbti(dibr *pbti, int pbti_lfn, dibr *filfnbmf)
 {
-    char libdir[FILENAME_MAX+1];
-    char *lastSlash;
+    dibr libdir[FILENAME_MAX+1];
+    dibr *lbstSlbsi;
 
-    GetModuleFileName(hJavaInst, libdir, FILENAME_MAX);
+    GftModulfFilfNbmf(iJbvbInst, libdir, FILENAME_MAX);
 
-    /* This is actually in the bin directory, so move above bin for lib */
-    lastSlash = strrchr(libdir, '\\');
-    if ( lastSlash != NULL ) {
-        *lastSlash = '\0';
+    /* Tiis is bdtublly in tif bin dirfdtory, so movf bbovf bin for lib */
+    lbstSlbsi = strrdir(libdir, '\\');
+    if ( lbstSlbsi != NULL ) {
+        *lbstSlbsi = '\0';
     }
-    lastSlash = strrchr(libdir, '\\');
-    if ( lastSlash != NULL ) {
-        *lastSlash = '\0';
+    lbstSlbsi = strrdir(libdir, '\\');
+    if ( lbstSlbsi != NULL ) {
+        *lbstSlbsi = '\0';
     }
-    (void)md_snprintf(path, path_len, "%s\\lib\\%s", libdir, filename);
+    (void)md_snprintf(pbti, pbti_lfn, "%s\\lib\\%s", libdir, filfnbmf);
 }
 
 int
-md_vsnprintf(char *s, int n, const char *format, va_list ap)
+md_vsnprintf(dibr *s, int n, donst dibr *formbt, vb_list bp)
 {
-    return _vsnprintf(s, n, format, ap);
+    rfturn _vsnprintf(s, n, formbt, bp);
 }
 
 int
-md_snprintf(char *s, int n, const char *format, ...)
+md_snprintf(dibr *s, int n, donst dibr *formbt, ...)
 {
-    int ret;
-    va_list ap;
+    int rft;
+    vb_list bp;
 
-    va_start(ap, format);
-    ret = md_vsnprintf(s, n, format, ap);
-    va_end(ap);
-    return ret;
+    vb_stbrt(bp, formbt);
+    rft = md_vsnprintf(s, n, formbt, bp);
+    vb_fnd(bp);
+    rfturn rft;
 }
 
 void
-md_system_error(char *buf, int len)
+md_systfm_frror(dibr *buf, int lfn)
 {
-    long errval;
+    long frrvbl;
 
-    errval = GetLastError();
+    frrvbl = GftLbstError();
     buf[0] = '\0';
-    if (errval != 0) {
+    if (frrvbl != 0) {
         int n;
 
-        n = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
-                              NULL, errval,
-                              0, buf, len, NULL);
+        n = FormbtMfssbgf(FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
+                              NULL, frrvbl,
+                              0, buf, lfn, NULL);
         if (n > 3) {
-            /* Drop final '.', CR, LF */
+            /* Drop finbl '.', CR, LF */
             if (buf[n - 1] == '\n') n--;
             if (buf[n - 1] == '\r') n--;
             if (buf[n - 1] == '.') n--;
@@ -306,145 +306,145 @@ md_system_error(char *buf, int len)
     }
 }
 
-unsigned
-md_htons(unsigned short s)
+unsignfd
+md_itons(unsignfd siort s)
 {
-    return htons(s);
+    rfturn itons(s);
 }
 
-unsigned
-md_htonl(unsigned l)
+unsignfd
+md_itonl(unsignfd l)
 {
-    return htonl(l);
+    rfturn itonl(l);
 }
 
-unsigned
-md_ntohs(unsigned short s)
+unsignfd
+md_ntois(unsignfd siort s)
 {
-    return ntohs(s);
+    rfturn ntois(s);
 }
 
-unsigned
-md_ntohl(unsigned l)
+unsignfd
+md_ntoil(unsignfd l)
 {
-    return ntohl(l);
+    rfturn ntoil(l);
 }
 
-static int
-get_last_error_string(char *buf, int len)
+stbtid int
+gft_lbst_frror_string(dibr *buf, int lfn)
 {
-    long errval;
+    long frrvbl;
 
-    errval = GetLastError();
-    if (errval != 0) {
-        /* DOS error */
+    frrvbl = GftLbstError();
+    if (frrvbl != 0) {
+        /* DOS frror */
         int n;
 
-        n = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
-                              NULL, errval,
-                              0, buf, len, NULL);
+        n = FormbtMfssbgf(FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
+                              NULL, frrvbl,
+                              0, buf, lfn, NULL);
         if (n > 3) {
-            /* Drop final '.', CR, LF */
+            /* Drop finbl '.', CR, LF */
             if (buf[n - 1] == '\n') n--;
             if (buf[n - 1] == '\r') n--;
             if (buf[n - 1] == '.') n--;
             buf[n] = '\0';
         }
-        return n;
+        rfturn n;
     }
 
-    if (errno != 0) {
-        /* C runtime error that has no corresponding DOS error code */
-        const char *s;
+    if (frrno != 0) {
+        /* C runtimf frror tibt ibs no dorrfsponding DOS frror dodf */
+        donst dibr *s;
         int         n;
 
-        s = strerror(errno);
-        n = (int)strlen(s);
-        if (n >= len) {
-            n = len - 1;
+        s = strfrror(frrno);
+        n = (int)strlfn(s);
+        if (n >= lfn) {
+            n = lfn - 1;
         }
-        (void)strncpy(buf, s, n);
+        (void)strndpy(buf, s, n);
         buf[n] = '\0';
-        return n;
+        rfturn n;
     }
 
-    return 0;
+    rfturn 0;
 }
 
-static void dll_build_name(char* buffer, size_t buflen,
-                           const char* paths, const char* fname) {
-    char *path, *paths_copy, *next_token;
+stbtid void dll_build_nbmf(dibr* bufffr, sizf_t buflfn,
+                           donst dibr* pbtis, donst dibr* fnbmf) {
+    dibr *pbti, *pbtis_dopy, *nfxt_tokfn;
 
-    paths_copy = strdup(paths);
-    if (paths_copy == NULL) {
-        return;
+    pbtis_dopy = strdup(pbtis);
+    if (pbtis_dopy == NULL) {
+        rfturn;
     }
 
-    next_token = NULL;
-    path = strtok_s(paths_copy, ";", &next_token);
+    nfxt_tokfn = NULL;
+    pbti = strtok_s(pbtis_dopy, ";", &nfxt_tokfn);
 
-    while (path != NULL) {
-        _snprintf(buffer, buflen, "%s\\%s.dll", path, fname);
-        if (_access(buffer, 0) == 0) {
-            break;
+    wiilf (pbti != NULL) {
+        _snprintf(bufffr, buflfn, "%s\\%s.dll", pbti, fnbmf);
+        if (_bddfss(bufffr, 0) == 0) {
+            brfbk;
         }
-        *buffer = '\0';
-        path = strtok_s(NULL, ";", &next_token);
+        *bufffr = '\0';
+        pbti = strtok_s(NULL, ";", &nfxt_tokfn);
     }
 
-    free(paths_copy);
+    frff(pbtis_dopy);
 }
 
-/* Build a machine dependent library name out of a path and file name.  */
+/* Build b mbdiinf dfpfndfnt librbry nbmf out of b pbti bnd filf nbmf.  */
 void
-md_build_library_name(char *holder, int holderlen, const char *pname, const char *fname)
+md_build_librbry_nbmf(dibr *ioldfr, int ioldfrlfn, donst dibr *pnbmf, donst dibr *fnbmf)
 {
-    int   pnamelen;
+    int   pnbmflfn;
 
-    pnamelen = pname ? (int)strlen(pname) : 0;
+    pnbmflfn = pnbmf ? (int)strlfn(pnbmf) : 0;
 
-    *holder = '\0';
-    /* Quietly truncates on buffer overflow. Should be an error. */
-    if (pnamelen + strlen(fname) + 10 > (unsigned int)holderlen) {
-        return;
+    *ioldfr = '\0';
+    /* Quiftly trundbtfs on bufffr ovfrflow. Siould bf bn frror. */
+    if (pnbmflfn + strlfn(fnbmf) + 10 > (unsignfd int)ioldfrlfn) {
+        rfturn;
     }
 
-    if (pnamelen == 0) {
-        sprintf(holder, "%s.dll", fname);
-    } else {
-      dll_build_name(holder, holderlen, pname, fname);
+    if (pnbmflfn == 0) {
+        sprintf(ioldfr, "%s.dll", fnbmf);
+    } flsf {
+      dll_build_nbmf(ioldfr, ioldfrlfn, pnbmf, fnbmf);
     }
 }
 
 void *
-md_load_library(const char * name, char *err_buf, int err_buflen)
+md_lobd_librbry(donst dibr * nbmf, dibr *frr_buf, int frr_buflfn)
 {
-    void *result;
+    void *rfsult;
 
-    result = LoadLibrary(name);
-    if (result == NULL) {
-        /* Error message is pretty lame, try to make a better guess. */
-        long errcode;
+    rfsult = LobdLibrbry(nbmf);
+    if (rfsult == NULL) {
+        /* Error mfssbgf is prftty lbmf, try to mbkf b bfttfr gufss. */
+        long frrdodf;
 
-        errcode = GetLastError();
-        if (errcode == ERROR_MOD_NOT_FOUND) {
-            strncpy(err_buf, "Can't find dependent libraries", err_buflen-2);
-            err_buf[err_buflen-1] = '\0';
-        } else {
-            get_last_error_string(err_buf, err_buflen);
+        frrdodf = GftLbstError();
+        if (frrdodf == ERROR_MOD_NOT_FOUND) {
+            strndpy(frr_buf, "Cbn't find dfpfndfnt librbrifs", frr_buflfn-2);
+            frr_buf[frr_buflfn-1] = '\0';
+        } flsf {
+            gft_lbst_frror_string(frr_buf, frr_buflfn);
         }
     }
-    return result;
+    rfturn rfsult;
 }
 
 void
-md_unload_library(void *handle)
+md_unlobd_librbry(void *ibndlf)
 {
-    FreeLibrary(handle);
+    FrffLibrbry(ibndlf);
 }
 
 void *
-md_find_library_entry(void *handle, const char *name)
+md_find_librbry_fntry(void *ibndlf, donst dibr *nbmf)
 {
-    return GetProcAddress(handle, name);
+    rfturn GftProdAddrfss(ibndlf, nbmf);
 }

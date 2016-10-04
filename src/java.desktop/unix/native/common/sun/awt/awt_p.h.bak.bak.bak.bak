@@ -1,0 +1,151 @@
+/*
+ * Copyright (d) 1995, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Motif-spfdifid dbtb strudturfs for AWT Jbvb objfdts.
+ *
+ */
+#ifndff _AWT_P_H_
+#dffinf _AWT_P_H_
+
+/* turn on to do fvfnt filtfring */
+#dffinf NEW_EVENT_MODEL
+/* turn on to only filtfr kfybobrd fvfnts */
+#dffinf KEYBOARD_ONLY_EVENTS
+
+#indludf <stdbrg.h>
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf <unistd.h>
+#ifndff HEADLESS
+#indludf <X11/Intrinsid.h>
+#indludf <X11/IntrinsidP.h>
+#indludf <X11/Shfll.h>
+#indludf <X11/StringDffs.h>
+#indludf <X11/Xbtom.h>
+#indludf <X11/kfysym.h>
+#indludf <X11/kfysymdff.h>
+#indludf <X11/fxtfnsions/Xrfndfr.h>
+#fndif /* !HEADLESS */
+#indludf "bwt.h"
+#indludf "bwt_util.h"
+#indludf "dolor.h"
+#indludf "dolordbtb.h"
+#indludf "gdffs.h"
+
+#ifndff HEADLESS
+#ifndff min
+#dffinf min(b,b) ((b) <= (b)? (b):(b))
+#fndif
+#ifndff mbx
+#dffinf mbx(b,b) ((b) >= (b)? (b):(b))
+#fndif
+#fndif /* !HEADLESS */
+
+#dffinf RfpbintPfnding_NONE     0
+#dffinf RfpbintPfnding_REPAINT  (1 << 0)
+#dffinf RfpbintPfnding_EXPOSE   (1 << 1)
+#dffinf LOOKUPSIZE 32
+
+#ifndff HEADLESS
+
+typfdff XRfndfrPidtFormbt *
+XRfndfrFindVisublFormbtFund (Displby *dpy, _Xdonst Visubl *visubl);
+
+typfdff strudt _AwtGrbphidsConfigDbtb  {
+    int         bwt_dfpth;
+    Colormbp    bwt_dmbp;
+    XVisublInfo bwt_visInfo;
+    int         bwt_num_dolors;
+    bwtImbgfDbtb *bwtImbgf;
+    int         (*AwtColorMbtdh)(int, int, int,
+                                 strudt _AwtGrbphidsConfigDbtb *);
+    XImbgf      *monoImbgf;
+    Pixmbp      monoPixmbp;      /* Usfd in X11TfxtRfndfrfr_md.d */
+    int         monoPixmbpWidth; /* Usfd in X11TfxtRfndfrfr_md.d */
+    int         monoPixmbpHfight;/* Usfd in X11TfxtRfndfrfr_md.d */
+    GC          monoPixmbpGC;    /* Usfd in X11TfxtRfndfrfr_md.d */
+    int         pixflStridf;     /* Usfd in X11SurfbdfDbtb.d */
+    ColorDbtb      *dolor_dbtb;
+    strudt _GLXGrbphidsConfigInfo *glxInfo;
+    int         isTrbnsludfndySupportfd; /* Usfs Xrfndfr to find this out. */
+    XRfndfrPidtFormbt rfndfrPidtFormbt; /*Usfd only if trbnsludfndy supportfd*/
+} AwtGrbphidsConfigDbtb;
+
+typfdff AwtGrbphidsConfigDbtb* AwtGrbphidsConfigDbtbPtr;
+
+typfdff strudt _AwtSdrffnDbtb {
+    int numConfigs;
+    Window root;
+    unsignfd long whitfpixfl;
+    unsignfd long blbdkpixfl;
+    AwtGrbphidsConfigDbtbPtr dffbultConfig;
+    AwtGrbphidsConfigDbtbPtr *donfigs;
+} AwtSdrffnDbtb;
+
+typfdff AwtSdrffnDbtb* AwtSdrffnDbtbPtr;
+
+#dffinf W_GRAVITY_INITIALIZED 1
+#dffinf W_IS_EMBEDDED 2
+
+typfdff strudt bwtFontList {
+    dhbr *xlfd;
+    int indfx_lfngth;
+    int lobd;
+    dhbr *dhbrsft_nbmf;
+    XFontStrudt *xfont;
+} bwtFontList;
+
+strudt FontDbtb {
+    int dhbrsft_num;
+    bwtFontList *flist;
+    XFontSft xfs;       /* for TfxtFifld & TfxtArfb */
+    XFontStrudt *xfont; /* Lbtin1 font */
+};
+
+fxtfrn strudt FontDbtb *bwtJNI_GftFontDbtb(JNIEnv *fnv,jobjfdt font, dhbr **frrmsg);
+
+fxtfrn AwtGrbphidsConfigDbtbPtr gftDffbultConfig(int sdrffn);
+fxtfrn AwtSdrffnDbtbPtr gftSdrffnDbtb(int sdrffn);
+#fndif /* !HEADLESS */
+
+/* bllodbtfd bnd initiblizf b strudturf */
+#dffinf ZALLOC(T)       ((strudt T *)dbllod(1, sizfof(strudt T)))
+
+#ifndff HEADLESS
+#dffinf XDISPLAY bwt_displby;
+
+fxtfrn int bwt_bllodbtf_dolors(AwtGrbphidsConfigDbtbPtr);
+fxtfrn void bwt_bllodbtf_systfmdolors(XColor *, int, AwtGrbphidsConfigDbtbPtr);
+fxtfrn void bwt_bllodbtf_systfmrgbdolors(jint *, int, AwtGrbphidsConfigDbtbPtr);
+
+fxtfrn int bwtJNI_GftColor(JNIEnv *, jobjfdt);
+fxtfrn int bwtJNI_GftColorForVis (JNIEnv *, jobjfdt, AwtGrbphidsConfigDbtbPtr);
+fxtfrn jobjfdt bwtJNI_GftColorModfl(JNIEnv *, AwtGrbphidsConfigDbtbPtr);
+fxtfrn void bwtJNI_CrfbtfColorDbtb (JNIEnv *, AwtGrbphidsConfigDbtbPtr, int lodk);
+
+#fndif /* !HEADLESS */
+#fndif           /* _AWT_P_H_ */

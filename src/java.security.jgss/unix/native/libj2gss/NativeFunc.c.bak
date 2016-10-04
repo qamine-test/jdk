@@ -1,288 +1,288 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <dlfcn.h>
-#include "NativeFunc.h"
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <dlfdn.i>
+#indludf "NbtivfFund.i"
 
-/* standard GSS method names (ordering is from mapfile) */
-static const char RELEASE_NAME[]                = "gss_release_name";
-static const char IMPORT_NAME[]                 = "gss_import_name";
-static const char COMPARE_NAME[]                = "gss_compare_name";
-static const char CANONICALIZE_NAME[]           = "gss_canonicalize_name";
-static const char EXPORT_NAME[]                 = "gss_export_name";
-static const char DISPLAY_NAME[]                = "gss_display_name";
-static const char ACQUIRE_CRED[]                = "gss_acquire_cred";
-static const char RELEASE_CRED[]                = "gss_release_cred";
-static const char INQUIRE_CRED[]                = "gss_inquire_cred";
-static const char IMPORT_SEC_CONTEXT[]          = "gss_import_sec_context";
-static const char INIT_SEC_CONTEXT[]            = "gss_init_sec_context";
-static const char ACCEPT_SEC_CONTEXT[]          = "gss_accept_sec_context";
-static const char INQUIRE_CONTEXT[]             = "gss_inquire_context";
-static const char DELETE_SEC_CONTEXT[]          = "gss_delete_sec_context";
-static const char CONTEXT_TIME[]                = "gss_context_time";
-static const char WRAP_SIZE_LIMIT[]             = "gss_wrap_size_limit";
-static const char EXPORT_SEC_CONTEXT[]          = "gss_export_sec_context";
-static const char GET_MIC[]                     = "gss_get_mic";
-static const char VERIFY_MIC[]                  = "gss_verify_mic";
-static const char WRAP[]                        = "gss_wrap";
-static const char UNWRAP[]                      = "gss_unwrap";
-static const char INDICATE_MECHS[]              = "gss_indicate_mechs";
-static const char INQUIRE_NAMES_FOR_MECH[]      = "gss_inquire_names_for_mech";
+/* stbndbrd GSS mftiod nbmfs (ordfring is from mbpfilf) */
+stbtid donst dibr RELEASE_NAME[]                = "gss_rflfbsf_nbmf";
+stbtid donst dibr IMPORT_NAME[]                 = "gss_import_nbmf";
+stbtid donst dibr COMPARE_NAME[]                = "gss_dompbrf_nbmf";
+stbtid donst dibr CANONICALIZE_NAME[]           = "gss_dbnonidblizf_nbmf";
+stbtid donst dibr EXPORT_NAME[]                 = "gss_fxport_nbmf";
+stbtid donst dibr DISPLAY_NAME[]                = "gss_displby_nbmf";
+stbtid donst dibr ACQUIRE_CRED[]                = "gss_bdquirf_drfd";
+stbtid donst dibr RELEASE_CRED[]                = "gss_rflfbsf_drfd";
+stbtid donst dibr INQUIRE_CRED[]                = "gss_inquirf_drfd";
+stbtid donst dibr IMPORT_SEC_CONTEXT[]          = "gss_import_sfd_dontfxt";
+stbtid donst dibr INIT_SEC_CONTEXT[]            = "gss_init_sfd_dontfxt";
+stbtid donst dibr ACCEPT_SEC_CONTEXT[]          = "gss_bddfpt_sfd_dontfxt";
+stbtid donst dibr INQUIRE_CONTEXT[]             = "gss_inquirf_dontfxt";
+stbtid donst dibr DELETE_SEC_CONTEXT[]          = "gss_dflftf_sfd_dontfxt";
+stbtid donst dibr CONTEXT_TIME[]                = "gss_dontfxt_timf";
+stbtid donst dibr WRAP_SIZE_LIMIT[]             = "gss_wrbp_sizf_limit";
+stbtid donst dibr EXPORT_SEC_CONTEXT[]          = "gss_fxport_sfd_dontfxt";
+stbtid donst dibr GET_MIC[]                     = "gss_gft_mid";
+stbtid donst dibr VERIFY_MIC[]                  = "gss_vfrify_mid";
+stbtid donst dibr WRAP[]                        = "gss_wrbp";
+stbtid donst dibr UNWRAP[]                      = "gss_unwrbp";
+stbtid donst dibr INDICATE_MECHS[]              = "gss_indidbtf_mfdis";
+stbtid donst dibr INQUIRE_NAMES_FOR_MECH[]      = "gss_inquirf_nbmfs_for_mfdi";
 
-/* additional GSS methods not public thru mapfile */
+/* bdditionbl GSS mftiods not publid tiru mbpfilf */
 
-static const char ADD_OID_SET_MEMBER[]          = "gss_add_oid_set_member";
-static const char DISPLAY_STATUS[]              = "gss_display_status";
-static const char CREATE_EMPTY_OID_SET[]        = "gss_create_empty_oid_set";
-static const char RELEASE_OID_SET[]             = "gss_release_oid_set";
-static const char RELEASE_BUFFER[]              = "gss_release_buffer";
+stbtid donst dibr ADD_OID_SET_MEMBER[]          = "gss_bdd_oid_sft_mfmbfr";
+stbtid donst dibr DISPLAY_STATUS[]              = "gss_displby_stbtus";
+stbtid donst dibr CREATE_EMPTY_OID_SET[]        = "gss_drfbtf_fmpty_oid_sft";
+stbtid donst dibr RELEASE_OID_SET[]             = "gss_rflfbsf_oid_sft";
+stbtid donst dibr RELEASE_BUFFER[]              = "gss_rflfbsf_bufffr";
 
 /**
- * Initialize native GSS function pointers
+ * Initiblizf nbtivf GSS fundtion pointfrs
  */
-char* loadNative(const char *libName) {
+dibr* lobdNbtivf(donst dibr *libNbmf) {
 
-    char *error;
+    dibr *frror;
     void *gssLib;
-    int failed;
-    OM_uint32 minor, major;
+    int fbilfd;
+    OM_uint32 minor, mbjor;
 
-    ftab = NULL;
-    failed = FALSE;
-    error = NULL;
+    ftbb = NULL;
+    fbilfd = FALSE;
+    frror = NULL;
 
-    gssLib = dlopen(libName, RTLD_NOW);
+    gssLib = dlopfn(libNbmf, RTLD_NOW);
     if (gssLib == NULL) {
-        failed = TRUE;
+        fbilfd = TRUE;
         goto out;
     }
 
-    /* global function table instance */
-    ftab = (GSS_FUNCTION_TABLE_PTR)malloc(sizeof(GSS_FUNCTION_TABLE));
-    if (ftab == NULL) {
-        failed = TRUE;
+    /* globbl fundtion tbblf instbndf */
+    ftbb = (GSS_FUNCTION_TABLE_PTR)mbllod(sizfof(GSS_FUNCTION_TABLE));
+    if (ftbb == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->releaseName = (RELEASE_NAME_FN_PTR)dlsym(gssLib, RELEASE_NAME);
-    if (ftab->releaseName == NULL) {
-        failed = TRUE;
+    ftbb->rflfbsfNbmf = (RELEASE_NAME_FN_PTR)dlsym(gssLib, RELEASE_NAME);
+    if (ftbb->rflfbsfNbmf == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->importName = (IMPORT_NAME_FN_PTR)dlsym(gssLib, IMPORT_NAME);
-    if (ftab->importName == NULL) {
-        failed = TRUE;
+    ftbb->importNbmf = (IMPORT_NAME_FN_PTR)dlsym(gssLib, IMPORT_NAME);
+    if (ftbb->importNbmf == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->compareName = (COMPARE_NAME_FN_PTR)dlsym(gssLib, COMPARE_NAME);
-    if (ftab->compareName == NULL) {
-        failed = TRUE;
+    ftbb->dompbrfNbmf = (COMPARE_NAME_FN_PTR)dlsym(gssLib, COMPARE_NAME);
+    if (ftbb->dompbrfNbmf == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->canonicalizeName = (CANONICALIZE_NAME_FN_PTR)
+    ftbb->dbnonidblizfNbmf = (CANONICALIZE_NAME_FN_PTR)
                                 dlsym(gssLib, CANONICALIZE_NAME);
-    if (ftab->canonicalizeName == NULL) {
-        failed = TRUE;
+    if (ftbb->dbnonidblizfNbmf == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->exportName = (EXPORT_NAME_FN_PTR)dlsym(gssLib, EXPORT_NAME);
-    if (ftab->exportName == NULL) {
-        failed = TRUE;
+    ftbb->fxportNbmf = (EXPORT_NAME_FN_PTR)dlsym(gssLib, EXPORT_NAME);
+    if (ftbb->fxportNbmf == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->displayName = (DISPLAY_NAME_FN_PTR)dlsym(gssLib, DISPLAY_NAME);
-    if (ftab->displayName == NULL) {
-        failed = TRUE;
+    ftbb->displbyNbmf = (DISPLAY_NAME_FN_PTR)dlsym(gssLib, DISPLAY_NAME);
+    if (ftbb->displbyNbmf == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->acquireCred = (ACQUIRE_CRED_FN_PTR)dlsym(gssLib, ACQUIRE_CRED);
-    if (ftab->acquireCred == NULL) {
-        failed = TRUE;
+    ftbb->bdquirfCrfd = (ACQUIRE_CRED_FN_PTR)dlsym(gssLib, ACQUIRE_CRED);
+    if (ftbb->bdquirfCrfd == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->releaseCred = (RELEASE_CRED_FN_PTR)dlsym(gssLib, RELEASE_CRED);
-    if (ftab->releaseCred == NULL) {
-        failed = TRUE;
+    ftbb->rflfbsfCrfd = (RELEASE_CRED_FN_PTR)dlsym(gssLib, RELEASE_CRED);
+    if (ftbb->rflfbsfCrfd == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->inquireCred = (INQUIRE_CRED_FN_PTR)dlsym(gssLib, INQUIRE_CRED);
-    if (ftab->inquireCred == NULL) {
-        failed = TRUE;
+    ftbb->inquirfCrfd = (INQUIRE_CRED_FN_PTR)dlsym(gssLib, INQUIRE_CRED);
+    if (ftbb->inquirfCrfd == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->importSecContext = (IMPORT_SEC_CONTEXT_FN_PTR)
+    ftbb->importSfdContfxt = (IMPORT_SEC_CONTEXT_FN_PTR)
                         dlsym(gssLib, IMPORT_SEC_CONTEXT);
-    if (ftab->importSecContext == NULL) {
-        failed = TRUE;
+    if (ftbb->importSfdContfxt == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->initSecContext = (INIT_SEC_CONTEXT_FN_PTR)
+    ftbb->initSfdContfxt = (INIT_SEC_CONTEXT_FN_PTR)
                         dlsym(gssLib, INIT_SEC_CONTEXT);
-    if (ftab->initSecContext == NULL) {
-        failed = TRUE;
+    if (ftbb->initSfdContfxt == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->acceptSecContext = (ACCEPT_SEC_CONTEXT_FN_PTR)
+    ftbb->bddfptSfdContfxt = (ACCEPT_SEC_CONTEXT_FN_PTR)
                         dlsym(gssLib, ACCEPT_SEC_CONTEXT);
-    if (ftab->acceptSecContext == NULL) {
-        failed = TRUE;
+    if (ftbb->bddfptSfdContfxt == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->inquireContext = (INQUIRE_CONTEXT_FN_PTR)
+    ftbb->inquirfContfxt = (INQUIRE_CONTEXT_FN_PTR)
                         dlsym(gssLib, INQUIRE_CONTEXT);
-    if (ftab->inquireContext == NULL) {
-        failed = TRUE;
+    if (ftbb->inquirfContfxt == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->deleteSecContext = (DELETE_SEC_CONTEXT_FN_PTR)
+    ftbb->dflftfSfdContfxt = (DELETE_SEC_CONTEXT_FN_PTR)
                         dlsym(gssLib, DELETE_SEC_CONTEXT);
-    if (ftab->deleteSecContext == NULL) {
-        failed = TRUE;
+    if (ftbb->dflftfSfdContfxt == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->contextTime = (CONTEXT_TIME_FN_PTR)dlsym(gssLib, CONTEXT_TIME);
-    if (ftab->contextTime == NULL) {
-        failed = TRUE;
+    ftbb->dontfxtTimf = (CONTEXT_TIME_FN_PTR)dlsym(gssLib, CONTEXT_TIME);
+    if (ftbb->dontfxtTimf == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->wrapSizeLimit = (WRAP_SIZE_LIMIT_FN_PTR)
+    ftbb->wrbpSizfLimit = (WRAP_SIZE_LIMIT_FN_PTR)
                         dlsym(gssLib, WRAP_SIZE_LIMIT);
-    if (ftab->wrapSizeLimit == NULL) {
-        failed = TRUE;
+    if (ftbb->wrbpSizfLimit == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->exportSecContext = (EXPORT_SEC_CONTEXT_FN_PTR)
+    ftbb->fxportSfdContfxt = (EXPORT_SEC_CONTEXT_FN_PTR)
                         dlsym(gssLib, EXPORT_SEC_CONTEXT);
-    if (ftab->exportSecContext == NULL) {
-        failed = TRUE;
+    if (ftbb->fxportSfdContfxt == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->getMic = (GET_MIC_FN_PTR)dlsym(gssLib, GET_MIC);
-    if (ftab->getMic == NULL) {
-        failed = TRUE;
+    ftbb->gftMid = (GET_MIC_FN_PTR)dlsym(gssLib, GET_MIC);
+    if (ftbb->gftMid == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->verifyMic = (VERIFY_MIC_FN_PTR)dlsym(gssLib, VERIFY_MIC);
-    if (ftab->verifyMic == NULL) {
-        failed = TRUE;
+    ftbb->vfrifyMid = (VERIFY_MIC_FN_PTR)dlsym(gssLib, VERIFY_MIC);
+    if (ftbb->vfrifyMid == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->wrap = (WRAP_FN_PTR)dlsym(gssLib, WRAP);
-    if (ftab->wrap == NULL) {
-        failed = TRUE;
+    ftbb->wrbp = (WRAP_FN_PTR)dlsym(gssLib, WRAP);
+    if (ftbb->wrbp == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->unwrap = (UNWRAP_FN_PTR)dlsym(gssLib, UNWRAP);
-    if (ftab->unwrap == NULL) {
-        failed = TRUE;
+    ftbb->unwrbp = (UNWRAP_FN_PTR)dlsym(gssLib, UNWRAP);
+    if (ftbb->unwrbp == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->indicateMechs = (INDICATE_MECHS_FN_PTR)dlsym(gssLib, INDICATE_MECHS);
-    if (ftab->indicateMechs == NULL) {
-        failed = TRUE;
+    ftbb->indidbtfMfdis = (INDICATE_MECHS_FN_PTR)dlsym(gssLib, INDICATE_MECHS);
+    if (ftbb->indidbtfMfdis == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->inquireNamesForMech = (INQUIRE_NAMES_FOR_MECH_FN_PTR)
+    ftbb->inquirfNbmfsForMfdi = (INQUIRE_NAMES_FOR_MECH_FN_PTR)
                         dlsym(gssLib, INQUIRE_NAMES_FOR_MECH);
-    if (ftab->inquireNamesForMech == NULL) {
-        failed = TRUE;
+    if (ftbb->inquirfNbmfsForMfdi == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->addOidSetMember = (ADD_OID_SET_MEMBER_FN_PTR)
+    ftbb->bddOidSftMfmbfr = (ADD_OID_SET_MEMBER_FN_PTR)
                         dlsym(gssLib, ADD_OID_SET_MEMBER);
-    if (ftab->addOidSetMember == NULL) {
-        failed = TRUE;
+    if (ftbb->bddOidSftMfmbfr == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->displayStatus = (DISPLAY_STATUS_FN_PTR)
+    ftbb->displbyStbtus = (DISPLAY_STATUS_FN_PTR)
                         dlsym(gssLib, DISPLAY_STATUS);
-    if (ftab->displayStatus == NULL) {
-        failed = TRUE;
+    if (ftbb->displbyStbtus == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->createEmptyOidSet = (CREATE_EMPTY_OID_SET_FN_PTR)
+    ftbb->drfbtfEmptyOidSft = (CREATE_EMPTY_OID_SET_FN_PTR)
                         dlsym(gssLib, CREATE_EMPTY_OID_SET);
-    if (ftab->createEmptyOidSet == NULL) {
-        failed = TRUE;
+    if (ftbb->drfbtfEmptyOidSft == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->releaseOidSet = (RELEASE_OID_SET_FN_PTR)
+    ftbb->rflfbsfOidSft = (RELEASE_OID_SET_FN_PTR)
                         dlsym(gssLib, RELEASE_OID_SET);
-    if (ftab->releaseOidSet == NULL) {
-        failed = TRUE;
+    if (ftbb->rflfbsfOidSft == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->releaseBuffer = (RELEASE_BUFFER_FN_PTR)
+    ftbb->rflfbsfBufffr = (RELEASE_BUFFER_FN_PTR)
                         dlsym(gssLib, RELEASE_BUFFER);
-    if (ftab->releaseBuffer == NULL) {
-        failed = TRUE;
+    if (ftbb->rflfbsfBufffr == NULL) {
+        fbilfd = TRUE;
         goto out;
     }
 
-    ftab->mechs = GSS_C_NO_OID_SET;
-    major = (*ftab->indicateMechs)(&minor, &(ftab->mechs));
-    if (ftab->mechs == NULL || ftab->mechs == GSS_C_NO_OID_SET) {
-        failed = TRUE;
+    ftbb->mfdis = GSS_C_NO_OID_SET;
+    mbjor = (*ftbb->indidbtfMfdis)(&minor, &(ftbb->mfdis));
+    if (ftbb->mfdis == NULL || ftbb->mfdis == GSS_C_NO_OID_SET) {
+        fbilfd = TRUE;
         goto out;
     }
 
 
 out:
-    if (failed == TRUE) {
-        error = dlerror();
-        if (gssLib != NULL) dlclose(gssLib);
-        if (ftab != NULL) free(ftab);
+    if (fbilfd == TRUE) {
+        frror = dlfrror();
+        if (gssLib != NULL) dldlosf(gssLib);
+        if (ftbb != NULL) frff(ftbb);
     }
-    return error;
+    rfturn frror;
 }

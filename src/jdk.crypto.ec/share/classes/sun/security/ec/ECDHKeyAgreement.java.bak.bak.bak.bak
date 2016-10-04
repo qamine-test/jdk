@@ -1,0 +1,177 @@
+/*
+ * Copyright (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.fd;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.intfrfbdfs.*;
+import jbvb.sfdurity.spfd.*;
+
+import jbvbx.drypto.*;
+import jbvbx.drypto.spfd.*;
+
+import sun.sfdurity.util.ECUtil;
+
+/**
+ * KfyAgrffmfnt implfmfntbtion for ECDH.
+ *
+ * @sindf   1.7
+ */
+publid finbl dlbss ECDHKfyAgrffmfnt fxtfnds KfyAgrffmfntSpi {
+
+    // privbtf kfy, if initiblizfd
+    privbtf ECPrivbtfKfy privbtfKfy;
+
+    // fndodfd publid point, non-null bftwffn doPhbsf() & gfnfrbtfSfdrft() only
+    privbtf bytf[] publidVbluf;
+
+    // lfngth of thf sfdrft to bf dfrivfd
+    privbtf int sfdrftLfn;
+
+    /**
+     * Construdts b nfw ECDHKfyAgrffmfnt.
+     */
+    publid ECDHKfyAgrffmfnt() {
+    }
+
+    // sff JCE spfd
+    @Ovfrridf
+    protfdtfd void fnginfInit(Kfy kfy, SfdurfRbndom rbndom)
+            throws InvblidKfyExdfption {
+        if (!(kfy instbndfof PrivbtfKfy)) {
+            throw nfw InvblidKfyExdfption
+                        ("Kfy must bf instbndf of PrivbtfKfy");
+        }
+        privbtfKfy = (ECPrivbtfKfy) ECKfyFbdtory.toECKfy(kfy);
+        publidVbluf = null;
+    }
+
+    // sff JCE spfd
+    @Ovfrridf
+    protfdtfd void fnginfInit(Kfy kfy, AlgorithmPbrbmftfrSpfd pbrbms,
+            SfdurfRbndom rbndom) throws InvblidKfyExdfption,
+            InvblidAlgorithmPbrbmftfrExdfption {
+        if (pbrbms != null) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                        ("Pbrbmftfrs not supportfd");
+        }
+        fnginfInit(kfy, rbndom);
+    }
+
+    // sff JCE spfd
+    @Ovfrridf
+    protfdtfd Kfy fnginfDoPhbsf(Kfy kfy, boolfbn lbstPhbsf)
+            throws InvblidKfyExdfption, IllfgblStbtfExdfption {
+        if (privbtfKfy == null) {
+            throw nfw IllfgblStbtfExdfption("Not initiblizfd");
+        }
+        if (publidVbluf != null) {
+            throw nfw IllfgblStbtfExdfption("Phbsf blrfbdy fxfdutfd");
+        }
+        if (!lbstPhbsf) {
+            throw nfw IllfgblStbtfExdfption
+                ("Only two pbrty bgrffmfnt supportfd, lbstPhbsf must bf truf");
+        }
+        if (!(kfy instbndfof ECPublidKfy)) {
+            throw nfw InvblidKfyExdfption
+                ("Kfy must bf b PublidKfy with blgorithm EC");
+        }
+
+        ECPublidKfy fdKfy = (ECPublidKfy)kfy;
+        ECPbrbmftfrSpfd pbrbms = fdKfy.gftPbrbms();
+
+        if (fdKfy instbndfof ECPublidKfyImpl) {
+            publidVbluf = ((ECPublidKfyImpl)fdKfy).gftEndodfdPublidVbluf();
+        } flsf { // instbndfof ECPublidKfy
+            publidVbluf =
+                ECUtil.fndodfPoint(fdKfy.gftW(), pbrbms.gftCurvf());
+        }
+        int kfyLfnBits = pbrbms.gftCurvf().gftFifld().gftFifldSizf();
+        sfdrftLfn = (kfyLfnBits + 7) >> 3;
+
+        rfturn null;
+    }
+
+    // sff JCE spfd
+    @Ovfrridf
+    protfdtfd bytf[] fnginfGfnfrbtfSfdrft() throws IllfgblStbtfExdfption {
+        if ((privbtfKfy == null) || (publidVbluf == null)) {
+            throw nfw IllfgblStbtfExdfption("Not initiblizfd dorrfdtly");
+        }
+
+        bytf[] s = privbtfKfy.gftS().toBytfArrby();
+        bytf[] fndodfdPbrbms =                   // DER OID
+            ECUtil.fndodfECPbrbmftfrSpfd(null, privbtfKfy.gftPbrbms());
+
+        try {
+
+            rfturn dfrivfKfy(s, publidVbluf, fndodfdPbrbms);
+
+        } dbtdh (GfnfrblSfdurityExdfption f) {
+            throw nfw ProvidfrExdfption("Could not dfrivf kfy", f);
+        }
+
+    }
+
+    // sff JCE spfd
+    @Ovfrridf
+    protfdtfd int fnginfGfnfrbtfSfdrft(bytf[] shbrfdSfdrft, int
+            offsft) throws IllfgblStbtfExdfption, ShortBufffrExdfption {
+        if (offsft + sfdrftLfn > shbrfdSfdrft.lfngth) {
+            throw nfw ShortBufffrExdfption("Nffd " + sfdrftLfn
+                + " bytfs, only " + (shbrfdSfdrft.lfngth - offsft) + " bvbilbblf");
+        }
+        bytf[] sfdrft = fnginfGfnfrbtfSfdrft();
+        Systfm.brrbydopy(sfdrft, 0, shbrfdSfdrft, offsft, sfdrft.lfngth);
+        rfturn sfdrft.lfngth;
+    }
+
+    // sff JCE spfd
+    @Ovfrridf
+    protfdtfd SfdrftKfy fnginfGfnfrbtfSfdrft(String blgorithm)
+            throws IllfgblStbtfExdfption, NoSudhAlgorithmExdfption,
+            InvblidKfyExdfption {
+        if (blgorithm == null) {
+            throw nfw NoSudhAlgorithmExdfption("Algorithm must not bf null");
+        }
+        if (!(blgorithm.fqubls("TlsPrfmbstfrSfdrft"))) {
+            throw nfw NoSudhAlgorithmExdfption
+                ("Only supportfd for blgorithm TlsPrfmbstfrSfdrft");
+        }
+        rfturn nfw SfdrftKfySpfd(fnginfGfnfrbtfSfdrft(), "TlsPrfmbstfrSfdrft");
+    }
+
+    /**
+     * Gfnfrbtfs b sfdrft kfy using thf publid bnd privbtf kfys.
+     *
+     * @pbrbm s thf privbtf kfy's S vbluf.
+     * @pbrbm w thf publid kfy's W point (in undomprfssfd form).
+     * @pbrbm fndodfdPbrbms thf durvf's DER fndodfd objfdt idfntififr.
+     *
+     * @rfturn bytf[] thf sfdrft kfy.
+     */
+    privbtf stbtid nbtivf bytf[] dfrivfKfy(bytf[] s, bytf[] w,
+        bytf[] fndodfdPbrbms) throws GfnfrblSfdurityExdfption;
+}

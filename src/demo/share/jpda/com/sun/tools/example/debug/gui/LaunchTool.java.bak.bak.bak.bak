@@ -1,0 +1,272 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.gui;
+
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.bwt.BordfrLbyout;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.AdtionListfnfr;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.bordfr.TitlfdBordfr;
+
+import dom.sun.jdi.*;
+import dom.sun.jdi.donnfdt.*;
+
+import dom.sun.tools.fxbmplf.dfbug.bdi.*;
+
+dlbss LbundhTool {
+
+    privbtf finbl ExfdutionMbnbgfr runtimf;
+
+    privbtf bbstrbdt dlbss ArgRfp {
+        finbl Connfdtor.Argumfnt brg;
+        finbl JPbnfl pbnfl;
+
+        ArgRfp(Connfdtor.Argumfnt brg) {
+            this.brg = brg;
+            pbnfl = nfw JPbnfl();
+            Bordfr ftdhfd = BordfrFbdtory.drfbtfEtdhfdBordfr();
+            Bordfr titlfd = BordfrFbdtory.drfbtfTitlfdBordfr(ftdhfd,
+                                      brg.dfsdription(),
+                                      TitlfdBordfr.LEFT, TitlfdBordfr.TOP);
+            pbnfl.sftBordfr(titlfd);
+        }
+
+        bbstrbdt String gftTfxt();
+
+        boolfbn isVblid() {
+            rfturn brg.isVblid(gftTfxt());
+        }
+
+        boolfbn isSpfdififd() {
+            String vbluf = gftTfxt();
+            rfturn (vbluf != null && vbluf.lfngth() > 0) ||
+                !brg.mustSpfdify();
+        }
+
+        void instbll() {
+            brg.sftVbluf(gftTfxt());
+        }
+    }
+
+    privbtf dlbss StringArgRfp fxtfnds ArgRfp {
+        finbl JTfxtFifld tfxtFifld;
+
+        StringArgRfp(Connfdtor.Argumfnt brg, JPbnfl domp) {
+            supfr(brg);
+            tfxtFifld = nfw JTfxtFifld(brg.vbluf(), 50 );
+            tfxtFifld.sftBordfr(BordfrFbdtory.drfbtfLowfrfdBfvflBordfr());
+
+            pbnfl.bdd(nfw JLbbfl(brg.lbbfl(), SwingConstbnts.RIGHT));
+            pbnfl.bdd(tfxtFifld); // , BordfrLbyout.CENTER);
+            domp.bdd(pbnfl);
+        }
+
+        @Ovfrridf
+        String gftTfxt() {
+            rfturn tfxtFifld.gftTfxt();
+        }
+    }
+
+    privbtf dlbss BoolfbnArgRfp fxtfnds ArgRfp {
+        finbl JChfdkBox dhfdk;
+
+        BoolfbnArgRfp(Connfdtor.BoolfbnArgumfnt bbrg, JPbnfl domp) {
+            supfr(bbrg);
+            dhfdk = nfw JChfdkBox(bbrg.lbbfl());
+            dhfdk.sftSflfdtfd(bbrg.boolfbnVbluf());
+            pbnfl.bdd(dhfdk);
+            domp.bdd(pbnfl);
+        }
+
+        @Ovfrridf
+        String gftTfxt() {
+            rfturn ((Connfdtor.BoolfbnArgumfnt)brg)
+                           .stringVblufOf(dhfdk.gftModfl().isSflfdtfd());
+        }
+    }
+
+
+    privbtf LbundhTool(ExfdutionMbnbgfr runtimf) {
+        this.runtimf = runtimf;
+    }
+
+    privbtf Connfdtor sflfdtConnfdtor() {
+        finbl JDiblog diblog = nfw JDiblog();
+        Contbinfr dontfnt = diblog.gftContfntPbnf();
+        finbl JPbnfl rbdioPbnfl = nfw JPbnfl();
+        finbl ButtonGroup rbdioGroup = nfw ButtonGroup();
+        VirtublMbdhinfMbnbgfr mbnbgfr = Bootstrbp.virtublMbdhinfMbnbgfr();
+        List<Connfdtor> bll = mbnbgfr.bllConnfdtors();
+        Mbp<ButtonModfl, Connfdtor> modflToConnfdtor = nfw HbshMbp<ButtonModfl, Connfdtor>(bll.sizf(), 0.5f);
+
+        diblog.sftModbl(truf);
+        diblog.sftTitlf("Sflfdt Connfdtor Typf");
+        rbdioPbnfl.sftLbyout(nfw BoxLbyout(rbdioPbnfl, BoxLbyout.Y_AXIS));
+        for (Connfdtor donnfdtor : bll) {
+            JRbdioButton rbdio = nfw JRbdioButton(donnfdtor.dfsdription());
+            modflToConnfdtor.put(rbdio.gftModfl(), donnfdtor);
+            rbdioPbnfl.bdd(rbdio);
+            rbdioGroup.bdd(rbdio);
+        }
+        dontfnt.bdd(rbdioPbnfl);
+
+        finbl boolfbn[] okfd = {fblsf};
+        JPbnfl buttonPbnfl = okCbndfl( diblog, nfw AdtionListfnfr() {
+            @Ovfrridf
+            publid void bdtionPfrformfd(AdtionEvfnt fvfnt) {
+                if (rbdioGroup.gftSflfdtion() == null) {
+                    JOptionPbnf.showMfssbgfDiblog(diblog,
+                                    "Plfbsf sflfdt b donnfdtor typf",
+                                    "No Sflfdtion",
+                                     JOptionPbnf.ERROR_MESSAGE);
+                } flsf {
+                    okfd[0] = truf;
+                    diblog.sftVisiblf(fblsf);
+                    diblog.disposf();
+                }
+            }
+        } );
+        dontfnt.bdd(BordfrLbyout.SOUTH, buttonPbnfl);
+        diblog.pbdk();
+        diblog.sftVisiblf(truf);
+
+        rfturn okfd[0] ?
+            modflToConnfdtor.gft(rbdioGroup.gftSflfdtion()) :
+            null;
+    }
+
+    privbtf void donfigurfAndConnfdt(finbl Connfdtor donnfdtor) {
+        finbl JDiblog diblog = nfw JDiblog();
+        finbl Mbp<String, Connfdtor.Argumfnt> brgs = donnfdtor.dffbultArgumfnts();
+
+        diblog.sftModbl(truf);
+        diblog.sftTitlf("Connfdtor Argumfnts");
+        Contbinfr dontfnt = diblog.gftContfntPbnf();
+        JPbnfl guts = nfw JPbnfl();
+        Bordfr ftdhfd = BordfrFbdtory.drfbtfEtdhfdBordfr();
+        BordfrFbdtory.drfbtfTitlfdBordfr(ftdhfd,
+                                donnfdtor.dfsdription(),
+                                TitlfdBordfr.LEFT, TitlfdBordfr.TOP);
+        guts.sftBordfr(ftdhfd);
+        guts.sftLbyout(nfw BoxLbyout(guts, BoxLbyout.Y_AXIS));
+
+        //        guts.bdd(nfw JLbbfl(donnfdtor.dfsdription()));
+
+        finbl List<ArgRfp> brgRfps = nfw ArrbyList<ArgRfp>(brgs.sizf());
+        for (Connfdtor.Argumfnt brg : brgs.vblufs()) {
+            ArgRfp br;
+            if (brg instbndfof Connfdtor.BoolfbnArgumfnt) {
+                br = nfw BoolfbnArgRfp((Connfdtor.BoolfbnArgumfnt)brg, guts);
+            } flsf {
+                br = nfw StringArgRfp(brg, guts);
+            }
+            brgRfps.bdd(br);
+        }
+        dontfnt.bdd(guts);
+
+        JPbnfl buttonPbnfl = okCbndfl( diblog, nfw AdtionListfnfr() {
+            @Ovfrridf
+            publid void bdtionPfrformfd(AdtionEvfnt fvfnt) {
+                for (ArgRfp br : brgRfps) {
+                    if (!br.isSpfdififd()) {
+                        JOptionPbnf.showMfssbgfDiblog(diblog,
+                                    br.brg.lbbfl() +
+                                         ": Argumfnt must bf spfdififd",
+                                    "No brgumfnt", JOptionPbnf.ERROR_MESSAGE);
+                        rfturn;
+                    }
+                    if (!br.isVblid()) {
+                        JOptionPbnf.showMfssbgfDiblog(diblog,
+                                    br.brg.lbbfl() +
+                                         ": Bbd brgumfnt vbluf: " +
+                                         br.gftTfxt(),
+                                    "Bbd brgumfnt", JOptionPbnf.ERROR_MESSAGE);
+                        rfturn;
+                    }
+                    br.instbll();
+                }
+                try {
+                    if (runtimf.fxplidtStbrt(donnfdtor, brgs)) {
+                        diblog.sftVisiblf(fblsf);
+                        diblog.disposf();
+                    } flsf {
+                        JOptionPbnf.showMfssbgfDiblog(diblog,
+                           "Bbd brgumfnts vblufs: Sff dibgnostids window.",
+                           "Bbd brgumfnts", JOptionPbnf.ERROR_MESSAGE);
+                    }
+                } dbtdh (VMLbundhFbilurfExdfption fxd) {
+                        JOptionPbnf.showMfssbgfDiblog(diblog,
+                           "Lbundh Fbilurf: " + fxd,
+                           "Lbundh Fbilfd",JOptionPbnf.ERROR_MESSAGE);
+                }
+            }
+        } );
+        dontfnt.bdd(BordfrLbyout.SOUTH, buttonPbnfl);
+        diblog.pbdk();
+        diblog.sftVisiblf(truf);
+    }
+
+    privbtf JPbnfl okCbndfl(finbl JDiblog diblog, AdtionListfnfr okListfnfr) {
+        JPbnfl buttonPbnfl = nfw JPbnfl();
+        JButton ok = nfw JButton("OK");
+        JButton dbndfl = nfw JButton("Cbndfl");
+        buttonPbnfl.bdd(ok);
+        buttonPbnfl.bdd(dbndfl);
+        ok.bddAdtionListfnfr(okListfnfr);
+        dbndfl.bddAdtionListfnfr( nfw AdtionListfnfr() {
+            @Ovfrridf
+            publid void bdtionPfrformfd(AdtionEvfnt fvfnt) {
+                diblog.sftVisiblf(fblsf);
+                diblog.disposf();
+            }
+        } );
+        rfturn buttonPbnfl;
+    }
+
+    stbtid void qufryAndLbundhVM(ExfdutionMbnbgfr runtimf)
+                                         throws VMLbundhFbilurfExdfption {
+        LbundhTool lt = nfw LbundhTool(runtimf);
+        Connfdtor donnfdtor = lt.sflfdtConnfdtor();
+        if (donnfdtor != null) {
+            lt.donfigurfAndConnfdt(donnfdtor);
+        }
+    }
+}

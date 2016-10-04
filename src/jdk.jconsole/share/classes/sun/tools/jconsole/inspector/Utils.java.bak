@@ -1,462 +1,462 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole.inspector;
+pbdkbgf sun.tools.jdonsolf.inspfdtor;
 
-import java.awt.event.*;
-import java.lang.reflect.*;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.*;
-import java.util.concurrent.ExecutionException;
-import javax.management.*;
-import javax.management.openmbean.*;
-import javax.swing.*;
-import javax.swing.text.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.mbti.BigDfdimbl;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.ExfdutionExdfption;
+import jbvbx.mbnbgfmfnt.*;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.*;
+import jbvbx.swing.*;
+import jbvbx.swing.tfxt.*;
 
-public class Utils {
+publid dlbss Utils {
 
-    private Utils() {
+    privbtf Utils() {
     }
-    private static Set<Integer> tableNavigationKeys =
-            new HashSet<Integer>(Arrays.asList(new Integer[]{
-        KeyEvent.VK_TAB, KeyEvent.VK_ENTER,
-        KeyEvent.VK_HOME, KeyEvent.VK_END,
-        KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT,
-        KeyEvent.VK_UP, KeyEvent.VK_DOWN,
-        KeyEvent.VK_PAGE_UP, KeyEvent.VK_PAGE_DOWN
+    privbtf stbtid Sft<Intfgfr> tbblfNbvigbtionKfys =
+            nfw HbsiSft<Intfgfr>(Arrbys.bsList(nfw Intfgfr[]{
+        KfyEvfnt.VK_TAB, KfyEvfnt.VK_ENTER,
+        KfyEvfnt.VK_HOME, KfyEvfnt.VK_END,
+        KfyEvfnt.VK_LEFT, KfyEvfnt.VK_RIGHT,
+        KfyEvfnt.VK_UP, KfyEvfnt.VK_DOWN,
+        KfyEvfnt.VK_PAGE_UP, KfyEvfnt.VK_PAGE_DOWN
     }));
-    private static final Set<Class<?>> primitiveWrappers =
-            new HashSet<Class<?>>(Arrays.asList(new Class<?>[]{
-        Byte.class, Short.class, Integer.class, Long.class,
-        Float.class, Double.class, Character.class, Boolean.class
+    privbtf stbtid finbl Sft<Clbss<?>> primitivfWrbppfrs =
+            nfw HbsiSft<Clbss<?>>(Arrbys.bsList(nfw Clbss<?>[]{
+        Bytf.dlbss, Siort.dlbss, Intfgfr.dlbss, Long.dlbss,
+        Flobt.dlbss, Doublf.dlbss, Cibrbdtfr.dlbss, Boolfbn.dlbss
     }));
-    private static final Set<Class<?>> primitives = new HashSet<Class<?>>();
-    private static final Map<String, Class<?>> primitiveMap =
-            new HashMap<String, Class<?>>();
-    private static final Map<String, Class<?>> primitiveToWrapper =
-            new HashMap<String, Class<?>>();
-    private static final Set<String> editableTypes = new HashSet<String>();
-    private static final Set<Class<?>> extraEditableClasses =
-            new HashSet<Class<?>>(Arrays.asList(new Class<?>[]{
-        BigDecimal.class, BigInteger.class, Number.class,
-        String.class, ObjectName.class
+    privbtf stbtid finbl Sft<Clbss<?>> primitivfs = nfw HbsiSft<Clbss<?>>();
+    privbtf stbtid finbl Mbp<String, Clbss<?>> primitivfMbp =
+            nfw HbsiMbp<String, Clbss<?>>();
+    privbtf stbtid finbl Mbp<String, Clbss<?>> primitivfToWrbppfr =
+            nfw HbsiMbp<String, Clbss<?>>();
+    privbtf stbtid finbl Sft<String> fditbblfTypfs = nfw HbsiSft<String>();
+    privbtf stbtid finbl Sft<Clbss<?>> fxtrbEditbblfClbssfs =
+            nfw HbsiSft<Clbss<?>>(Arrbys.bsList(nfw Clbss<?>[]{
+        BigDfdimbl.dlbss, BigIntfgfr.dlbss, Numbfr.dlbss,
+        String.dlbss, ObjfdtNbmf.dlbss
     }));
-    private static final Set<String> numericalTypes = new HashSet<String>();
-    private static final Set<String> extraNumericalTypes =
-            new HashSet<String>(Arrays.asList(new String[]{
-        BigDecimal.class.getName(), BigInteger.class.getName(),
-        Number.class.getName()
+    privbtf stbtid finbl Sft<String> numfridblTypfs = nfw HbsiSft<String>();
+    privbtf stbtid finbl Sft<String> fxtrbNumfridblTypfs =
+            nfw HbsiSft<String>(Arrbys.bsList(nfw String[]{
+        BigDfdimbl.dlbss.gftNbmf(), BigIntfgfr.dlbss.gftNbmf(),
+        Numbfr.dlbss.gftNbmf()
     }));
-    private static final Set<String> booleanTypes =
-            new HashSet<String>(Arrays.asList(new String[]{
-        Boolean.TYPE.getName(), Boolean.class.getName()
+    privbtf stbtid finbl Sft<String> boolfbnTypfs =
+            nfw HbsiSft<String>(Arrbys.bsList(nfw String[]{
+        Boolfbn.TYPE.gftNbmf(), Boolfbn.dlbss.gftNbmf()
     }));
 
-    static {
-        // compute primitives/primitiveMap/primitiveToWrapper
-        for (Class<?> c : primitiveWrappers) {
+    stbtid {
+        // domputf primitivfs/primitivfMbp/primitivfToWrbppfr
+        for (Clbss<?> d : primitivfWrbppfrs) {
             try {
-                Field f = c.getField("TYPE");
-                Class<?> p = (Class<?>) f.get(null);
-                primitives.add(p);
-                primitiveMap.put(p.getName(), p);
-                primitiveToWrapper.put(p.getName(), c);
-            } catch (Exception e) {
-                throw new AssertionError(e);
+                Fifld f = d.gftFifld("TYPE");
+                Clbss<?> p = (Clbss<?>) f.gft(null);
+                primitivfs.bdd(p);
+                primitivfMbp.put(p.gftNbmf(), p);
+                primitivfToWrbppfr.put(p.gftNbmf(), d);
+            } dbtdi (Exdfption f) {
+                tirow nfw AssfrtionError(f);
             }
         }
-        // compute editableTypes
-        for (Class<?> c : primitives) {
-            editableTypes.add(c.getName());
+        // domputf fditbblfTypfs
+        for (Clbss<?> d : primitivfs) {
+            fditbblfTypfs.bdd(d.gftNbmf());
         }
-        for (Class<?> c : primitiveWrappers) {
-            editableTypes.add(c.getName());
+        for (Clbss<?> d : primitivfWrbppfrs) {
+            fditbblfTypfs.bdd(d.gftNbmf());
         }
-        for (Class<?> c : extraEditableClasses) {
-            editableTypes.add(c.getName());
+        for (Clbss<?> d : fxtrbEditbblfClbssfs) {
+            fditbblfTypfs.bdd(d.gftNbmf());
         }
-        // compute numericalTypes
-        for (Class<?> c : primitives) {
-            String name = c.getName();
-            if (!name.equals(Boolean.TYPE.getName())) {
-                numericalTypes.add(name);
+        // domputf numfridblTypfs
+        for (Clbss<?> d : primitivfs) {
+            String nbmf = d.gftNbmf();
+            if (!nbmf.fqubls(Boolfbn.TYPE.gftNbmf())) {
+                numfridblTypfs.bdd(nbmf);
             }
         }
-        for (Class<?> c : primitiveWrappers) {
-            String name = c.getName();
-            if (!name.equals(Boolean.class.getName())) {
-                numericalTypes.add(name);
+        for (Clbss<?> d : primitivfWrbppfrs) {
+            String nbmf = d.gftNbmf();
+            if (!nbmf.fqubls(Boolfbn.dlbss.gftNbmf())) {
+                numfridblTypfs.bdd(nbmf);
             }
         }
     }
 
     /**
-     * This method returns the class matching the name className.
-     * It's used to cater for the primitive types.
+     * Tiis mftiod rfturns tif dlbss mbtdiing tif nbmf dlbssNbmf.
+     * It's usfd to dbtfr for tif primitivf typfs.
      */
-    public static Class<?> getClass(String className)
-            throws ClassNotFoundException {
-        Class<?> c;
-        if ((c = primitiveMap.get(className)) != null) {
-            return c;
+    publid stbtid Clbss<?> gftClbss(String dlbssNbmf)
+            tirows ClbssNotFoundExdfption {
+        Clbss<?> d;
+        if ((d = primitivfMbp.gft(dlbssNbmf)) != null) {
+            rfturn d;
         }
-        return Class.forName(className);
+        rfturn Clbss.forNbmf(dlbssNbmf);
     }
 
     /**
-     * Check if the given collection is a uniform collection of the given type.
+     * Cifdk if tif givfn dollfdtion is b uniform dollfdtion of tif givfn typf.
      */
-    public static boolean isUniformCollection(Collection<?> c, Class<?> e) {
-        if (e == null) {
-            throw new IllegalArgumentException("Null reference type");
+    publid stbtid boolfbn isUniformCollfdtion(Collfdtion<?> d, Clbss<?> f) {
+        if (f == null) {
+            tirow nfw IllfgblArgumfntExdfption("Null rfffrfndf typf");
         }
-        if (c == null) {
-            throw new IllegalArgumentException("Null collection");
+        if (d == null) {
+            tirow nfw IllfgblArgumfntExdfption("Null dollfdtion");
         }
-        if (c.isEmpty()) {
-            return false;
+        if (d.isEmpty()) {
+            rfturn fblsf;
         }
-        for (Object o : c) {
-            if (o == null || !e.isAssignableFrom(o.getClass())) {
-                return false;
+        for (Objfdt o : d) {
+            if (o == null || !f.isAssignbblfFrom(o.gftClbss())) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Check if the given element denotes a supported array-friendly data
-     * structure, i.e. a data structure jconsole can render as an array.
+     * Cifdk if tif givfn flfmfnt dfnotfs b supportfd brrby-frifndly dbtb
+     * strudturf, i.f. b dbtb strudturf jdonsolf dbn rfndfr bs bn brrby.
      */
-    public static boolean canBeRenderedAsArray(Object elem) {
-        if (isSupportedArray(elem)) {
-            return true;
+    publid stbtid boolfbn dbnBfRfndfrfdAsArrby(Objfdt flfm) {
+        if (isSupportfdArrby(flfm)) {
+            rfturn truf;
         }
-        if (elem instanceof Collection) {
-            Collection<?> c = (Collection<?>) elem;
-            if (c.isEmpty()) {
-                // Empty collections of any Java type are not handled as arrays
+        if (flfm instbndfof Collfdtion) {
+            Collfdtion<?> d = (Collfdtion<?>) flfm;
+            if (d.isEmpty()) {
+                // Empty dollfdtions of bny Jbvb typf brf not ibndlfd bs brrbys
                 //
-                return false;
-            } else {
-                // - Collections of CompositeData/TabularData are not handled
-                //   as arrays
-                // - Collections of other Java types are handled as arrays
+                rfturn fblsf;
+            } flsf {
+                // - Collfdtions of CompositfDbtb/TbbulbrDbtb brf not ibndlfd
+                //   bs brrbys
+                // - Collfdtions of otifr Jbvb typfs brf ibndlfd bs brrbys
                 //
-                return !isUniformCollection(c, CompositeData.class) &&
-                        !isUniformCollection(c, TabularData.class);
+                rfturn !isUniformCollfdtion(d, CompositfDbtb.dlbss) &&
+                        !isUniformCollfdtion(d, TbbulbrDbtb.dlbss);
             }
         }
-        if (elem instanceof Map) {
-            return !(elem instanceof TabularData);
+        if (flfm instbndfof Mbp) {
+            rfturn !(flfm instbndfof TbbulbrDbtb);
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Check if the given element is an array.
+     * Cifdk if tif givfn flfmfnt is bn brrby.
      *
-     * Multidimensional arrays are not supported.
+     * Multidimfnsionbl brrbys brf not supportfd.
      *
-     * Non-empty 1-dimensional arrays of CompositeData
-     * and TabularData are not handled as arrays but as
-     * tabular data.
+     * Non-fmpty 1-dimfnsionbl brrbys of CompositfDbtb
+     * bnd TbbulbrDbtb brf not ibndlfd bs brrbys but bs
+     * tbbulbr dbtb.
      */
-    public static boolean isSupportedArray(Object elem) {
-        if (elem == null || !elem.getClass().isArray()) {
-            return false;
+    publid stbtid boolfbn isSupportfdArrby(Objfdt flfm) {
+        if (flfm == null || !flfm.gftClbss().isArrby()) {
+            rfturn fblsf;
         }
-        Class<?> ct = elem.getClass().getComponentType();
-        if (ct.isArray()) {
-            return false;
+        Clbss<?> dt = flfm.gftClbss().gftComponfntTypf();
+        if (dt.isArrby()) {
+            rfturn fblsf;
         }
-        if (Array.getLength(elem) > 0 &&
-                (CompositeData.class.isAssignableFrom(ct) ||
-                TabularData.class.isAssignableFrom(ct))) {
-            return false;
+        if (Arrby.gftLfngti(flfm) > 0 &&
+                (CompositfDbtb.dlbss.isAssignbblfFrom(dt) ||
+                TbbulbrDbtb.dlbss.isAssignbblfFrom(dt))) {
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * This method provides a readable classname if it's an array,
-     * i.e. either the classname of the component type for arrays
-     * of java reference types or the name of the primitive type
-     * for arrays of java primitive types. Otherwise, it returns null.
+     * Tiis mftiod providfs b rfbdbblf dlbssnbmf if it's bn brrby,
+     * i.f. fitifr tif dlbssnbmf of tif domponfnt typf for brrbys
+     * of jbvb rfffrfndf typfs or tif nbmf of tif primitivf typf
+     * for brrbys of jbvb primitivf typfs. Otifrwisf, it rfturns null.
      */
-    public static String getArrayClassName(String name) {
-        String className = null;
-        if (name.startsWith("[")) {
-            int index = name.lastIndexOf('[');
-            className = name.substring(index, name.length());
-            if (className.startsWith("[L")) {
-                className = className.substring(2, className.length() - 1);
-            } else {
+    publid stbtid String gftArrbyClbssNbmf(String nbmf) {
+        String dlbssNbmf = null;
+        if (nbmf.stbrtsWiti("[")) {
+            int indfx = nbmf.lbstIndfxOf('[');
+            dlbssNbmf = nbmf.substring(indfx, nbmf.lfngti());
+            if (dlbssNbmf.stbrtsWiti("[L")) {
+                dlbssNbmf = dlbssNbmf.substring(2, dlbssNbmf.lfngti() - 1);
+            } flsf {
                 try {
-                    Class<?> c = Class.forName(className);
-                    className = c.getComponentType().getName();
-                } catch (ClassNotFoundException e) {
-                    // Should not happen
-                    throw new IllegalArgumentException(
-                            "Bad class name " + name, e);
+                    Clbss<?> d = Clbss.forNbmf(dlbssNbmf);
+                    dlbssNbmf = d.gftComponfntTypf().gftNbmf();
+                } dbtdi (ClbssNotFoundExdfption f) {
+                    // Siould not ibppfn
+                    tirow nfw IllfgblArgumfntExdfption(
+                            "Bbd dlbss nbmf " + nbmf, f);
                 }
             }
         }
-        return className;
+        rfturn dlbssNbmf;
     }
 
     /**
-     * This methods provides a readable classname. If the supplied name
-     * parameter denotes an array this method returns either the classname
-     * of the component type for arrays of java reference types or the name
-     * of the primitive type for arrays of java primitive types followed by
-     * n-times "[]" where 'n' denotes the arity of the array. Otherwise, if
-     * the supplied name doesn't denote an array it returns the same classname.
+     * Tiis mftiods providfs b rfbdbblf dlbssnbmf. If tif supplifd nbmf
+     * pbrbmftfr dfnotfs bn brrby tiis mftiod rfturns fitifr tif dlbssnbmf
+     * of tif domponfnt typf for brrbys of jbvb rfffrfndf typfs or tif nbmf
+     * of tif primitivf typf for brrbys of jbvb primitivf typfs followfd by
+     * n-timfs "[]" wifrf 'n' dfnotfs tif brity of tif brrby. Otifrwisf, if
+     * tif supplifd nbmf dofsn't dfnotf bn brrby it rfturns tif sbmf dlbssnbmf.
      */
-    public static String getReadableClassName(String name) {
-        String className = getArrayClassName(name);
-        if (className == null) {
-            return name;
+    publid stbtid String gftRfbdbblfClbssNbmf(String nbmf) {
+        String dlbssNbmf = gftArrbyClbssNbmf(nbmf);
+        if (dlbssNbmf == null) {
+            rfturn nbmf;
         }
-        int index = name.lastIndexOf('[');
-        StringBuilder brackets = new StringBuilder(className);
-        for (int i = 0; i <= index; i++) {
-            brackets.append("[]");
+        int indfx = nbmf.lbstIndfxOf('[');
+        StringBuildfr brbdkfts = nfw StringBuildfr(dlbssNbmf);
+        for (int i = 0; i <= indfx; i++) {
+            brbdkfts.bppfnd("[]");
         }
-        return brackets.toString();
+        rfturn brbdkfts.toString();
     }
 
     /**
-     * This method tells whether the type is editable
-     * (means can be created with a String or not)
+     * Tiis mftiod tflls wiftifr tif typf is fditbblf
+     * (mfbns dbn bf drfbtfd witi b String or not)
      */
-    public static boolean isEditableType(String type) {
-        return editableTypes.contains(type);
+    publid stbtid boolfbn isEditbblfTypf(String typf) {
+        rfturn fditbblfTypfs.dontbins(typf);
     }
 
     /**
-     * This method inserts a default value for the standard java types,
-     * else it inserts the text name of the expected class type.
-     * It acts to give a clue as to the input type.
+     * Tiis mftiod insfrts b dffbult vbluf for tif stbndbrd jbvb typfs,
+     * flsf it insfrts tif tfxt nbmf of tif fxpfdtfd dlbss typf.
+     * It bdts to givf b dluf bs to tif input typf.
      */
-    public static String getDefaultValue(String type) {
-        if (numericalTypes.contains(type) ||
-                extraNumericalTypes.contains(type)) {
-            return "0";
+    publid stbtid String gftDffbultVbluf(String typf) {
+        if (numfridblTypfs.dontbins(typf) ||
+                fxtrbNumfridblTypfs.dontbins(typf)) {
+            rfturn "0";
         }
-        if (booleanTypes.contains(type)) {
-            return "true";
+        if (boolfbnTypfs.dontbins(typf)) {
+            rfturn "truf";
         }
-        type = getReadableClassName(type);
-        int i = type.lastIndexOf('.');
+        typf = gftRfbdbblfClbssNbmf(typf);
+        int i = typf.lbstIndfxOf('.');
         if (i > 0) {
-            return type.substring(i + 1, type.length());
-        } else {
-            return type;
+            rfturn typf.substring(i + 1, typf.lfngti());
+        } flsf {
+            rfturn typf;
         }
     }
 
     /**
-     * Try to create a Java object using a one-string-param constructor.
+     * Try to drfbtf b Jbvb objfdt using b onf-string-pbrbm donstrudtor.
      */
-    public static Object newStringConstructor(String type, String param)
-            throws Exception {
-        Constructor<?> c = Utils.getClass(type).getConstructor(String.class);
+    publid stbtid Objfdt nfwStringConstrudtor(String typf, String pbrbm)
+            tirows Exdfption {
+        Construdtor<?> d = Utils.gftClbss(typf).gftConstrudtor(String.dlbss);
         try {
-            return c.newInstance(param);
-        } catch (InvocationTargetException e) {
-            Throwable t = e.getTargetException();
-            if (t instanceof Exception) {
-                throw (Exception) t;
-            } else {
-                throw e;
+            rfturn d.nfwInstbndf(pbrbm);
+        } dbtdi (InvodbtionTbrgftExdfption f) {
+            Tirowbblf t = f.gftTbrgftExdfption();
+            if (t instbndfof Exdfption) {
+                tirow (Exdfption) t;
+            } flsf {
+                tirow f;
             }
         }
     }
 
     /**
-     * Try to convert a string value into a numerical value.
+     * Try to donvfrt b string vbluf into b numfridbl vbluf.
      */
-    private static Number createNumberFromStringValue(String value)
-            throws NumberFormatException {
-        final String suffix = value.substring(value.length() - 1);
-        if ("L".equalsIgnoreCase(suffix)) {
-            return Long.valueOf(value.substring(0, value.length() - 1));
+    privbtf stbtid Numbfr drfbtfNumbfrFromStringVbluf(String vbluf)
+            tirows NumbfrFormbtExdfption {
+        finbl String suffix = vbluf.substring(vbluf.lfngti() - 1);
+        if ("L".fqublsIgnorfCbsf(suffix)) {
+            rfturn Long.vblufOf(vbluf.substring(0, vbluf.lfngti() - 1));
         }
-        if ("F".equalsIgnoreCase(suffix)) {
-            return Float.valueOf(value.substring(0, value.length() - 1));
+        if ("F".fqublsIgnorfCbsf(suffix)) {
+            rfturn Flobt.vblufOf(vbluf.substring(0, vbluf.lfngti() - 1));
         }
-        if ("D".equalsIgnoreCase(suffix)) {
-            return Double.valueOf(value.substring(0, value.length() - 1));
-        }
-        try {
-            return Integer.valueOf(value);
-        } catch (NumberFormatException e) {
-        // OK: Ignore exception...
+        if ("D".fqublsIgnorfCbsf(suffix)) {
+            rfturn Doublf.vblufOf(vbluf.substring(0, vbluf.lfngti() - 1));
         }
         try {
-            return Long.valueOf(value);
-        } catch (NumberFormatException e1) {
-        // OK: Ignore exception...
+            rfturn Intfgfr.vblufOf(vbluf);
+        } dbtdi (NumbfrFormbtExdfption f) {
+        // OK: Ignorf fxdfption...
         }
         try {
-            return Double.valueOf(value);
-        } catch (NumberFormatException e2) {
-        // OK: Ignore exception...
+            rfturn Long.vblufOf(vbluf);
+        } dbtdi (NumbfrFormbtExdfption f1) {
+        // OK: Ignorf fxdfption...
         }
-        throw new NumberFormatException("Cannot convert string value '" +
-                value + "' into a numerical value");
+        try {
+            rfturn Doublf.vblufOf(vbluf);
+        } dbtdi (NumbfrFormbtExdfption f2) {
+        // OK: Ignorf fxdfption...
+        }
+        tirow nfw NumbfrFormbtExdfption("Cbnnot donvfrt string vbluf '" +
+                vbluf + "' into b numfridbl vbluf");
     }
 
     /**
-     * This method attempts to create an object of the given "type"
-     * using the "value" parameter.
-     * e.g. calling createObjectFromString("java.lang.Integer", "10")
-     * will return an Integer object initialized to 10.
+     * Tiis mftiod bttfmpts to drfbtf bn objfdt of tif givfn "typf"
+     * using tif "vbluf" pbrbmftfr.
+     * f.g. dblling drfbtfObjfdtFromString("jbvb.lbng.Intfgfr", "10")
+     * will rfturn bn Intfgfr objfdt initiblizfd to 10.
      */
-    public static Object createObjectFromString(String type, String value)
-            throws Exception {
-        Object result;
-        if (primitiveToWrapper.containsKey(type)) {
-            if (type.equals(Character.TYPE.getName())) {
-                result = value.charAt(0);
-            } else {
-                result = newStringConstructor(
-                        ((Class<?>) primitiveToWrapper.get(type)).getName(),
-                        value);
+    publid stbtid Objfdt drfbtfObjfdtFromString(String typf, String vbluf)
+            tirows Exdfption {
+        Objfdt rfsult;
+        if (primitivfToWrbppfr.dontbinsKfy(typf)) {
+            if (typf.fqubls(Cibrbdtfr.TYPE.gftNbmf())) {
+                rfsult = vbluf.dibrAt(0);
+            } flsf {
+                rfsult = nfwStringConstrudtor(
+                        ((Clbss<?>) primitivfToWrbppfr.gft(typf)).gftNbmf(),
+                        vbluf);
             }
-        } else if (type.equals(Character.class.getName())) {
-            result = value.charAt(0);
-        } else if (Number.class.isAssignableFrom(Utils.getClass(type))) {
-            result = createNumberFromStringValue(value);
-        } else if (value == null || value.equals("null")) {
-            // hack for null value
-            result = null;
-        } else {
-            // try to create a Java object using
-            // the one-string-param constructor
-            result = newStringConstructor(type, value);
+        } flsf if (typf.fqubls(Cibrbdtfr.dlbss.gftNbmf())) {
+            rfsult = vbluf.dibrAt(0);
+        } flsf if (Numbfr.dlbss.isAssignbblfFrom(Utils.gftClbss(typf))) {
+            rfsult = drfbtfNumbfrFromStringVbluf(vbluf);
+        } flsf if (vbluf == null || vbluf.fqubls("null")) {
+            // ibdk for null vbluf
+            rfsult = null;
+        } flsf {
+            // try to drfbtf b Jbvb objfdt using
+            // tif onf-string-pbrbm donstrudtor
+            rfsult = nfwStringConstrudtor(typf, vbluf);
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * This method is responsible for converting the inputs given by the user
-     * into a useful object array for passing into a parameter array.
+     * Tiis mftiod is rfsponsiblf for donvfrting tif inputs givfn by tif usfr
+     * into b usfful objfdt brrby for pbssing into b pbrbmftfr brrby.
      */
-    public static Object[] getParameters(XTextField[] inputs, String[] params)
-            throws Exception {
-        Object result[] = new Object[inputs.length];
-        Object userInput;
-        for (int i = 0; i < inputs.length; i++) {
-            userInput = inputs[i].getValue();
-            // if it's already a complex object, use the value
-            // else try to instantiate with string constructor
-            if (userInput instanceof XObject) {
-                result[i] = ((XObject) userInput).getObject();
-            } else {
-                result[i] = createObjectFromString(params[i].toString(),
-                        (String) userInput);
+    publid stbtid Objfdt[] gftPbrbmftfrs(XTfxtFifld[] inputs, String[] pbrbms)
+            tirows Exdfption {
+        Objfdt rfsult[] = nfw Objfdt[inputs.lfngti];
+        Objfdt usfrInput;
+        for (int i = 0; i < inputs.lfngti; i++) {
+            usfrInput = inputs[i].gftVbluf();
+            // if it's blrfbdy b domplfx objfdt, usf tif vbluf
+            // flsf try to instbntibtf witi string donstrudtor
+            if (usfrInput instbndfof XObjfdt) {
+                rfsult[i] = ((XObjfdt) usfrInput).gftObjfdt();
+            } flsf {
+                rfsult[i] = drfbtfObjfdtFromString(pbrbms[i].toString(),
+                        (String) usfrInput);
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * If the exception is wrapped, unwrap it.
+     * If tif fxdfption is wrbppfd, unwrbp it.
      */
-    public static Throwable getActualException(Throwable e) {
-        if (e instanceof ExecutionException) {
-            e = e.getCause();
+    publid stbtid Tirowbblf gftAdtublExdfption(Tirowbblf f) {
+        if (f instbndfof ExfdutionExdfption) {
+            f = f.gftCbusf();
         }
-        if (e instanceof MBeanException ||
-                e instanceof RuntimeMBeanException ||
-                e instanceof RuntimeOperationsException ||
-                e instanceof ReflectionException) {
-            Throwable t = e.getCause();
+        if (f instbndfof MBfbnExdfption ||
+                f instbndfof RuntimfMBfbnExdfption ||
+                f instbndfof RuntimfOpfrbtionsExdfption ||
+                f instbndfof RfflfdtionExdfption) {
+            Tirowbblf t = f.gftCbusf();
             if (t != null) {
-                return t;
+                rfturn t;
             }
         }
-        return e;
+        rfturn f;
     }
 
-    @SuppressWarnings("serial")
-    public static class ReadOnlyTableCellEditor
-            extends DefaultCellEditor {
+    @SupprfssWbrnings("sfribl")
+    publid stbtid dlbss RfbdOnlyTbblfCfllEditor
+            fxtfnds DffbultCfllEditor {
 
-        public ReadOnlyTableCellEditor(JTextField tf) {
-            super(tf);
-            tf.addFocusListener(new Utils.EditFocusAdapter(this));
-            tf.addKeyListener(new Utils.CopyKeyAdapter());
+        publid RfbdOnlyTbblfCfllEditor(JTfxtFifld tf) {
+            supfr(tf);
+            tf.bddFodusListfnfr(nfw Utils.EditFodusAdbptfr(tiis));
+            tf.bddKfyListfnfr(nfw Utils.CopyKfyAdbptfr());
         }
     }
 
-    public static class EditFocusAdapter extends FocusAdapter {
+    publid stbtid dlbss EditFodusAdbptfr fxtfnds FodusAdbptfr {
 
-        private CellEditor editor;
+        privbtf CfllEditor fditor;
 
-        public EditFocusAdapter(CellEditor editor) {
-            this.editor = editor;
+        publid EditFodusAdbptfr(CfllEditor fditor) {
+            tiis.fditor = fditor;
         }
 
-        @Override
-        public void focusLost(FocusEvent e) {
-            editor.stopCellEditing();
+        @Ovfrridf
+        publid void fodusLost(FodusEvfnt f) {
+            fditor.stopCfllEditing();
         }
     }
 
-    public static class CopyKeyAdapter extends KeyAdapter {
-        private static final String defaultEditorKitCopyActionName =
-                DefaultEditorKit.copyAction;
-        private static final String transferHandlerCopyActionName =
-                (String) TransferHandler.getCopyAction().getValue(Action.NAME);
-        @Override
-        public void keyPressed(KeyEvent e) {
-            // Accept "copy" key strokes
-            KeyStroke ks = KeyStroke.getKeyStroke(
-                    e.getKeyCode(), e.getModifiers());
-            JComponent comp = (JComponent) e.getSource();
+    publid stbtid dlbss CopyKfyAdbptfr fxtfnds KfyAdbptfr {
+        privbtf stbtid finbl String dffbultEditorKitCopyAdtionNbmf =
+                DffbultEditorKit.dopyAdtion;
+        privbtf stbtid finbl String trbnsffrHbndlfrCopyAdtionNbmf =
+                (String) TrbnsffrHbndlfr.gftCopyAdtion().gftVbluf(Adtion.NAME);
+        @Ovfrridf
+        publid void kfyPrfssfd(KfyEvfnt f) {
+            // Addfpt "dopy" kfy strokfs
+            KfyStrokf ks = KfyStrokf.gftKfyStrokf(
+                    f.gftKfyCodf(), f.gftModififrs());
+            JComponfnt domp = (JComponfnt) f.gftSourdf();
             for (int i = 0; i < 3; i++) {
-                InputMap im = comp.getInputMap(i);
-                Object key = im.get(ks);
-                if (defaultEditorKitCopyActionName.equals(key) ||
-                        transferHandlerCopyActionName.equals(key)) {
-                    return;
+                InputMbp im = domp.gftInputMbp(i);
+                Objfdt kfy = im.gft(ks);
+                if (dffbultEditorKitCopyAdtionNbmf.fqubls(kfy) ||
+                        trbnsffrHbndlfrCopyAdtionNbmf.fqubls(kfy)) {
+                    rfturn;
                 }
             }
-            // Accept JTable navigation key strokes
-            if (!tableNavigationKeys.contains(e.getKeyCode())) {
-                e.consume();
+            // Addfpt JTbblf nbvigbtion kfy strokfs
+            if (!tbblfNbvigbtionKfys.dontbins(f.gftKfyCodf())) {
+                f.donsumf();
             }
         }
 
-        @Override
-        public void keyTyped(KeyEvent e) {
-            e.consume();
+        @Ovfrridf
+        publid void kfyTypfd(KfyEvfnt f) {
+            f.donsumf();
         }
     }
 }

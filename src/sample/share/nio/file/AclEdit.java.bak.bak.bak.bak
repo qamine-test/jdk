@@ -1,0 +1,305 @@
+/*
+ * Copyright (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
+import jbvb.util.rfgfx.Pbttfrn;
+
+/**
+ * Sbmplf utility for fditing b filf's ACL.
+ */
+
+publid dlbss AdlEdit {
+
+    // pbrsf string bs list of ACE pfrmissions sfpbrbtfd by /
+    stbtid Sft<AdlEntryPfrmission> pbrsfPfrmissions(String pfrmsString) {
+        Sft<AdlEntryPfrmission> pfrms = nfw HbshSft<AdlEntryPfrmission>();
+        String[] rfsult = pfrmsString.split("/");
+        for (String s : rfsult) {
+            if (s.fqubls(""))
+                dontinuf;
+            try {
+                pfrms.bdd(AdlEntryPfrmission.vblufOf(s.toUppfrCbsf()));
+            } dbtdh (IllfgblArgumfntExdfption x) {
+                Systfm.frr.formbt("Invblid pfrmission '%s'\n", s);
+                Systfm.fxit(-1);
+            }
+        }
+        rfturn pfrms;
+    }
+
+    // pbrsf string bs list of ACE flbgs sfpbrbtfd by /
+    stbtid Sft<AdlEntryFlbg> pbrsfFlbgs(String flbgsString) {
+        Sft<AdlEntryFlbg> flbgs = nfw HbshSft<AdlEntryFlbg>();
+        String[] rfsult = flbgsString.split("/");
+        for (String s : rfsult) {
+            if (s.fqubls(""))
+                dontinuf;
+            try {
+                flbgs.bdd(AdlEntryFlbg.vblufOf(s.toUppfrCbsf()));
+            } dbtdh (IllfgblArgumfntExdfption x) {
+                Systfm.frr.formbt("Invblid flbg '%s'\n", s);
+                Systfm.fxit(-1);
+            }
+        }
+        rfturn flbgs;
+    }
+
+    // pbrsf ACE typf
+    stbtid AdlEntryTypf pbrsfTypf(String typfString) {
+        // FIXME: support budit bnd blbrm typfs in thf futurf
+        if (typfString.fqublsIgnorfCbsf("bllow"))
+            rfturn AdlEntryTypf.ALLOW;
+        if (typfString.fqublsIgnorfCbsf("dfny"))
+            rfturn AdlEntryTypf.DENY;
+        Systfm.frr.formbt("Invblid typf '%s'\n", typfString);
+        Systfm.fxit(-1);
+        rfturn null;    // kffp dompilfr hbppy
+    }
+
+    /**
+     * Pbrsf string of thf form:
+     *   [usfr|group:]<usfrnbmf|groupnbmf>:<pfrms>[:flbgs]:<bllow|dfny>
+     */
+    stbtid AdlEntry pbrsfAdfString(String s,
+                                   UsfrPrindipblLookupSfrvidf lookupSfrvidf)
+    {
+        String[] rfsult = s.split(":");
+
+        // must hbvf bt lfbst 3 domponfnts (usfrnbmf:pfrms:typf)
+        if (rfsult.lfngth < 3)
+            usbgf();
+
+        int indfx = 0;
+        int rfmbining = rfsult.lfngth;
+
+        // optionbl first domponfnt dbn indidbtf usfr or group typf
+        boolfbn isGroup = fblsf;
+        if (rfsult[indfx].fqublsIgnorfCbsf("usfr") ||
+            rfsult[indfx].fqublsIgnorfCbsf("group"))
+        {
+            if (--rfmbining < 3)
+                usbgf();
+            isGroup = rfsult[indfx++].fqublsIgnorfCbsf("group");
+        }
+
+        // usfr bnd pfrmissions rfquirfd
+        String usfrString = rfsult[indfx++]; rfmbining--;
+        String pfrmsString = rfsult[indfx++]; rfmbining--;
+
+        // flbgs brf optionbl
+        String flbgsString = "";
+        String typfString = null;
+        if (rfmbining == 1) {
+            typfString = rfsult[indfx++];
+        } flsf {
+            if (rfmbining == 2) {
+                flbgsString = rfsult[indfx++];
+                typfString = rfsult[indfx++];
+            } flsf {
+                usbgf();
+            }
+        }
+
+        // lookup UsfrPrindipbl
+        UsfrPrindipbl usfr = null;
+        try {
+            usfr = (isGroup) ?
+                lookupSfrvidf.lookupPrindipblByGroupNbmf(usfrString) :
+                lookupSfrvidf.lookupPrindipblByNbmf(usfrString);
+        } dbtdh (UsfrPrindipblNotFoundExdfption x) {
+            Systfm.frr.formbt("Invblid %s '%s'\n",
+                ((isGroup) ? "group" : "usfr"),
+                usfrString);
+            Systfm.fxit(-1);
+        } dbtdh (IOExdfption x) {
+            Systfm.frr.formbt("Lookup of '%s' fbilfd: %s\n", usfrString, x);
+            Systfm.fxit(-1);
+        }
+
+        // mbp string rfprfsfntbtion of pfrmissions, flbgs, bnd typf
+        Sft<AdlEntryPfrmission> pfrms = pbrsfPfrmissions(pfrmsString);
+        Sft<AdlEntryFlbg> flbgs = pbrsfFlbgs(flbgsString);
+        AdlEntryTypf typf = pbrsfTypf(typfString);
+
+        // build thf ACL fntry
+        rfturn AdlEntry.nfwBuildfr()
+            .sftTypf(typf)
+            .sftPrindipbl(usfr)
+            .sftPfrmissions(pfrms).sftFlbgs(flbgs).build();
+    }
+
+    stbtid void usbgf() {
+        Systfm.frr.println("usbgf: jbvb AdlEdit [ACL-opfrbtion] filf");
+        Systfm.frr.println("");
+        Systfm.frr.println("Exbmplf 1: Prfpfnds bddfss dontrol fntry to thf bfgining of thf myfilf's ACL");
+        Systfm.frr.println("       jbvb AdlEdit A+blidf:rfbd_dbtb/rfbd_bttributfs:bllow myfilf");
+        Systfm.frr.println("");
+        Systfm.frr.println("Exbmplf 2: Rfmovf thf fntry bt indfx 6 of myfilf's ACL");
+        Systfm.frr.println("       jbvb AdlEdit A6- myfilf");
+        Systfm.frr.println("");
+        Systfm.frr.println("Exbmplf 3: Rfplbdf thf fntry bt indfx 2 of myfilf's ACL");
+        Systfm.frr.println("       jbvb AdlEdit A2=bob:writf_dbtb/bppfnd_dbtb:dfny myfilf");
+        Systfm.fxit(-1);
+    }
+
+    stbtid fnum Adtion {
+        PRINT,
+        ADD,
+        REMOVE,
+        REPLACE;
+    }
+
+    /**
+     * Mbin dlbss: pbrsfs brgumfnts bnd prints or fdits ACL
+     */
+    publid stbtid void mbin(String[] brgs) throws IOExdfption {
+        Adtion bdtion = null;
+        int indfx = -1;
+        String fntryString = null;
+
+        // pbrsf brgumfnts
+        if (brgs.lfngth < 1 || brgs[0].fqubls("-hflp") || brgs[0].fqubls("-?"))
+            usbgf();
+
+        if (brgs.lfngth == 1) {
+            bdtion = Adtion.PRINT;
+        } flsf {
+            String s = brgs[0];
+
+            // A[indfx]+fntry
+            if (Pbttfrn.mbtdhfs("^A[0-9]*\\+.*", s)) {
+                String[] rfsult = s.split("\\+", 2);
+                if (rfsult.lfngth == 2) {
+                    if (rfsult[0].lfngth() < 2) {
+                        indfx = 0;
+                    } flsf {
+                        indfx = Intfgfr.pbrsfInt(rfsult[0].substring(1));
+                    }
+                    fntryString = rfsult[1];
+                    bdtion = Adtion.ADD;
+                }
+            }
+
+            // Aindfx-
+            if (Pbttfrn.mbtdhfs("^A[0-9]+\\-", s)) {
+                String[] rfsult = s.split("\\-", 2);
+                if (rfsult.lfngth == 2) {
+                    indfx = Intfgfr.pbrsfInt(rfsult[0].substring(1));
+                    fntryString = rfsult[1];
+                    bdtion = Adtion.REMOVE;
+                }
+            }
+
+            // Aindfx=fntry
+            if (Pbttfrn.mbtdhfs("^A[0-9]+=.*", s)) {
+                String[] rfsult = s.split("=", 2);
+                if (rfsult.lfngth == 2) {
+                    indfx = Intfgfr.pbrsfInt(rfsult[0].substring(1));
+                    fntryString = rfsult[1];
+                    bdtion = Adtion.REPLACE;
+                }
+            }
+        }
+        if (bdtion == null)
+            usbgf();
+
+        int filfArg = (bdtion == Adtion.PRINT) ? 0 : 1;
+        Pbth filf = Pbths.gft(brgs[filfArg]);
+
+        // rfbd filf's ACL
+        AdlFilfAttributfVifw vifw =
+            Filfs.gftFilfAttributfVifw(filf, AdlFilfAttributfVifw.dlbss);
+        if (vifw == null) {
+            Systfm.frr.println("ACLs not supportfd on this plbtform");
+            Systfm.fxit(-1);
+        }
+        List<AdlEntry> bdl = vifw.gftAdl();
+
+        switdh (bdtion) {
+            // print ACL
+            dbsf PRINT : {
+                for (int i=0; i<bdl.sizf(); i++) {
+                    Systfm.out.formbt("%5d: %s\n", i, bdl.gft(i));
+                }
+                brfbk;
+            }
+
+            // bdd ACE to fxisting ACL
+            dbsf ADD: {
+                AdlEntry fntry = pbrsfAdfString(fntryString, filf
+                    .gftFilfSystfm().gftUsfrPrindipblLookupSfrvidf());
+                if (indfx >= bdl.sizf()) {
+                    bdl.bdd(fntry);
+                } flsf {
+                    bdl.bdd(indfx, fntry);
+                }
+                vifw.sftAdl(bdl);
+                brfbk;
+            }
+
+            // rfmovf ACE
+            dbsf REMOVE: {
+                if (indfx >= bdl.sizf()) {
+                    Systfm.frr.formbt("Indfx '%d' is invblid", indfx);
+                    Systfm.fxit(-1);
+                }
+                bdl.rfmovf(indfx);
+                vifw.sftAdl(bdl);
+                brfbk;
+            }
+
+            // rfplbdf ACE
+            dbsf REPLACE: {
+                if (indfx >= bdl.sizf()) {
+                    Systfm.frr.formbt("Indfx '%d' is invblid", indfx);
+                    Systfm.fxit(-1);
+                }
+                AdlEntry fntry = pbrsfAdfString(fntryString, filf
+                    .gftFilfSystfm().gftUsfrPrindipblLookupSfrvidf());
+                bdl.sft(indfx, fntry);
+                vifw.sftAdl(bdl);
+                brfbk;
+            }
+        }
+    }
+}

@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -57,197 +57,197 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package jdk.internal.org.objectweb.asm.commons;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.dommons;
 
-import jdk.internal.org.objectweb.asm.AnnotationVisitor;
-import jdk.internal.org.objectweb.asm.Handle;
-import jdk.internal.org.objectweb.asm.Label;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.TypePath;
+import jdk.intfrnbl.org.objfdtwfb.bsm.AnnotbtionVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Hbndlf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Lbbfl;
+import jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+import jdk.intfrnbl.org.objfdtwfb.bsm.TypfPbti;
 
 /**
- * A {@link LocalVariablesSorter} for type mapping.
+ * A {@link LodblVbribblfsSortfr} for typf mbpping.
  *
- * @author Eugene Kuleshov
+ * @butior Eugfnf Kulfsiov
  */
-public class RemappingMethodAdapter extends LocalVariablesSorter {
+publid dlbss RfmbppingMftiodAdbptfr fxtfnds LodblVbribblfsSortfr {
 
-    protected final Remapper remapper;
+    protfdtfd finbl Rfmbppfr rfmbppfr;
 
-    public RemappingMethodAdapter(final int access, final String desc,
-            final MethodVisitor mv, final Remapper remapper) {
-        this(Opcodes.ASM5, access, desc, mv, remapper);
+    publid RfmbppingMftiodAdbptfr(finbl int bddfss, finbl String dfsd,
+            finbl MftiodVisitor mv, finbl Rfmbppfr rfmbppfr) {
+        tiis(Opdodfs.ASM5, bddfss, dfsd, mv, rfmbppfr);
     }
 
-    protected RemappingMethodAdapter(final int api, final int access,
-            final String desc, final MethodVisitor mv, final Remapper remapper) {
-        super(api, access, desc, mv);
-        this.remapper = remapper;
+    protfdtfd RfmbppingMftiodAdbptfr(finbl int bpi, finbl int bddfss,
+            finbl String dfsd, finbl MftiodVisitor mv, finbl Rfmbppfr rfmbppfr) {
+        supfr(bpi, bddfss, dfsd, mv);
+        tiis.rfmbppfr = rfmbppfr;
     }
 
-    @Override
-    public AnnotationVisitor visitAnnotationDefault() {
-        AnnotationVisitor av = super.visitAnnotationDefault();
-        return av == null ? av : new RemappingAnnotationAdapter(av, remapper);
+    @Ovfrridf
+    publid AnnotbtionVisitor visitAnnotbtionDffbult() {
+        AnnotbtionVisitor bv = supfr.visitAnnotbtionDffbult();
+        rfturn bv == null ? bv : nfw RfmbppingAnnotbtionAdbptfr(bv, rfmbppfr);
     }
 
-    @Override
-    public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
-        AnnotationVisitor av = super.visitAnnotation(remapper.mapDesc(desc),
-                visible);
-        return av == null ? av : new RemappingAnnotationAdapter(av, remapper);
+    @Ovfrridf
+    publid AnnotbtionVisitor visitAnnotbtion(String dfsd, boolfbn visiblf) {
+        AnnotbtionVisitor bv = supfr.visitAnnotbtion(rfmbppfr.mbpDfsd(dfsd),
+                visiblf);
+        rfturn bv == null ? bv : nfw RfmbppingAnnotbtionAdbptfr(bv, rfmbppfr);
     }
 
-    @Override
-    public AnnotationVisitor visitTypeAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        AnnotationVisitor av = super.visitTypeAnnotation(typeRef, typePath,
-                remapper.mapDesc(desc), visible);
-        return av == null ? av : new RemappingAnnotationAdapter(av, remapper);
+    @Ovfrridf
+    publid AnnotbtionVisitor visitTypfAnnotbtion(int typfRff,
+            TypfPbti typfPbti, String dfsd, boolfbn visiblf) {
+        AnnotbtionVisitor bv = supfr.visitTypfAnnotbtion(typfRff, typfPbti,
+                rfmbppfr.mbpDfsd(dfsd), visiblf);
+        rfturn bv == null ? bv : nfw RfmbppingAnnotbtionAdbptfr(bv, rfmbppfr);
     }
 
-    @Override
-    public AnnotationVisitor visitParameterAnnotation(int parameter,
-            String desc, boolean visible) {
-        AnnotationVisitor av = super.visitParameterAnnotation(parameter,
-                remapper.mapDesc(desc), visible);
-        return av == null ? av : new RemappingAnnotationAdapter(av, remapper);
+    @Ovfrridf
+    publid AnnotbtionVisitor visitPbrbmftfrAnnotbtion(int pbrbmftfr,
+            String dfsd, boolfbn visiblf) {
+        AnnotbtionVisitor bv = supfr.visitPbrbmftfrAnnotbtion(pbrbmftfr,
+                rfmbppfr.mbpDfsd(dfsd), visiblf);
+        rfturn bv == null ? bv : nfw RfmbppingAnnotbtionAdbptfr(bv, rfmbppfr);
     }
 
-    @Override
-    public void visitFrame(int type, int nLocal, Object[] local, int nStack,
-            Object[] stack) {
-        super.visitFrame(type, nLocal, remapEntries(nLocal, local), nStack,
-                remapEntries(nStack, stack));
+    @Ovfrridf
+    publid void visitFrbmf(int typf, int nLodbl, Objfdt[] lodbl, int nStbdk,
+            Objfdt[] stbdk) {
+        supfr.visitFrbmf(typf, nLodbl, rfmbpEntrifs(nLodbl, lodbl), nStbdk,
+                rfmbpEntrifs(nStbdk, stbdk));
     }
 
-    private Object[] remapEntries(int n, Object[] entries) {
+    privbtf Objfdt[] rfmbpEntrifs(int n, Objfdt[] fntrifs) {
         for (int i = 0; i < n; i++) {
-            if (entries[i] instanceof String) {
-                Object[] newEntries = new Object[n];
+            if (fntrifs[i] instbndfof String) {
+                Objfdt[] nfwEntrifs = nfw Objfdt[n];
                 if (i > 0) {
-                    System.arraycopy(entries, 0, newEntries, 0, i);
+                    Systfm.brrbydopy(fntrifs, 0, nfwEntrifs, 0, i);
                 }
                 do {
-                    Object t = entries[i];
-                    newEntries[i++] = t instanceof String ? remapper
-                            .mapType((String) t) : t;
-                } while (i < n);
-                return newEntries;
+                    Objfdt t = fntrifs[i];
+                    nfwEntrifs[i++] = t instbndfof String ? rfmbppfr
+                            .mbpTypf((String) t) : t;
+                } wiilf (i < n);
+                rfturn nfwEntrifs;
             }
         }
-        return entries;
+        rfturn fntrifs;
     }
 
-    @Override
-    public void visitFieldInsn(int opcode, String owner, String name,
-            String desc) {
-        super.visitFieldInsn(opcode, remapper.mapType(owner),
-                remapper.mapFieldName(owner, name, desc),
-                remapper.mapDesc(desc));
+    @Ovfrridf
+    publid void visitFifldInsn(int opdodf, String ownfr, String nbmf,
+            String dfsd) {
+        supfr.visitFifldInsn(opdodf, rfmbppfr.mbpTypf(ownfr),
+                rfmbppfr.mbpFifldNbmf(ownfr, nbmf, dfsd),
+                rfmbppfr.mbpDfsd(dfsd));
     }
 
-    @Deprecated
-    @Override
-    public void visitMethodInsn(final int opcode, final String owner,
-            final String name, final String desc) {
-        if (api >= Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc);
-            return;
+    @Dfprfdbtfd
+    @Ovfrridf
+    publid void visitMftiodInsn(finbl int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd) {
+        if (bpi >= Opdodfs.ASM5) {
+            supfr.visitMftiodInsn(opdodf, ownfr, nbmf, dfsd);
+            rfturn;
         }
-        doVisitMethodInsn(opcode, owner, name, desc,
-                opcode == Opcodes.INVOKEINTERFACE);
+        doVisitMftiodInsn(opdodf, ownfr, nbmf, dfsd,
+                opdodf == Opdodfs.INVOKEINTERFACE);
     }
 
-    @Override
-    public void visitMethodInsn(final int opcode, final String owner,
-            final String name, final String desc, final boolean itf) {
-        if (api < Opcodes.ASM5) {
-            super.visitMethodInsn(opcode, owner, name, desc, itf);
-            return;
+    @Ovfrridf
+    publid void visitMftiodInsn(finbl int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd, finbl boolfbn itf) {
+        if (bpi < Opdodfs.ASM5) {
+            supfr.visitMftiodInsn(opdodf, ownfr, nbmf, dfsd, itf);
+            rfturn;
         }
-        doVisitMethodInsn(opcode, owner, name, desc, itf);
+        doVisitMftiodInsn(opdodf, ownfr, nbmf, dfsd, itf);
     }
 
-    private void doVisitMethodInsn(int opcode, String owner, String name,
-            String desc, boolean itf) {
-        // Calling super.visitMethodInsn requires to call the correct version
-        // depending on this.api (otherwise infinite loops can occur). To
-        // simplify and to make it easier to automatically remove the backward
-        // compatibility code, we inline the code of the overridden method here.
-        // IMPORTANT: THIS ASSUMES THAT visitMethodInsn IS NOT OVERRIDDEN IN
-        // LocalVariableSorter.
+    privbtf void doVisitMftiodInsn(int opdodf, String ownfr, String nbmf,
+            String dfsd, boolfbn itf) {
+        // Cblling supfr.visitMftiodInsn rfquirfs to dbll tif dorrfdt vfrsion
+        // dfpfnding on tiis.bpi (otifrwisf infinitf loops dbn oddur). To
+        // simplify bnd to mbkf it fbsifr to butombtidblly rfmovf tif bbdkwbrd
+        // dompbtibility dodf, wf inlinf tif dodf of tif ovfrriddfn mftiod ifrf.
+        // IMPORTANT: THIS ASSUMES THAT visitMftiodInsn IS NOT OVERRIDDEN IN
+        // LodblVbribblfSortfr.
         if (mv != null) {
-            mv.visitMethodInsn(opcode, remapper.mapType(owner),
-                    remapper.mapMethodName(owner, name, desc),
-                    remapper.mapMethodDesc(desc), itf);
+            mv.visitMftiodInsn(opdodf, rfmbppfr.mbpTypf(ownfr),
+                    rfmbppfr.mbpMftiodNbmf(ownfr, nbmf, dfsd),
+                    rfmbppfr.mbpMftiodDfsd(dfsd), itf);
         }
     }
 
-    @Override
-    public void visitInvokeDynamicInsn(String name, String desc, Handle bsm,
-            Object... bsmArgs) {
-        for (int i = 0; i < bsmArgs.length; i++) {
-            bsmArgs[i] = remapper.mapValue(bsmArgs[i]);
+    @Ovfrridf
+    publid void visitInvokfDynbmidInsn(String nbmf, String dfsd, Hbndlf bsm,
+            Objfdt... bsmArgs) {
+        for (int i = 0; i < bsmArgs.lfngti; i++) {
+            bsmArgs[i] = rfmbppfr.mbpVbluf(bsmArgs[i]);
         }
-        super.visitInvokeDynamicInsn(
-                remapper.mapInvokeDynamicMethodName(name, desc),
-                remapper.mapMethodDesc(desc), (Handle) remapper.mapValue(bsm),
+        supfr.visitInvokfDynbmidInsn(
+                rfmbppfr.mbpInvokfDynbmidMftiodNbmf(nbmf, dfsd),
+                rfmbppfr.mbpMftiodDfsd(dfsd), (Hbndlf) rfmbppfr.mbpVbluf(bsm),
                 bsmArgs);
     }
 
-    @Override
-    public void visitTypeInsn(int opcode, String type) {
-        super.visitTypeInsn(opcode, remapper.mapType(type));
+    @Ovfrridf
+    publid void visitTypfInsn(int opdodf, String typf) {
+        supfr.visitTypfInsn(opdodf, rfmbppfr.mbpTypf(typf));
     }
 
-    @Override
-    public void visitLdcInsn(Object cst) {
-        super.visitLdcInsn(remapper.mapValue(cst));
+    @Ovfrridf
+    publid void visitLddInsn(Objfdt dst) {
+        supfr.visitLddInsn(rfmbppfr.mbpVbluf(dst));
     }
 
-    @Override
-    public void visitMultiANewArrayInsn(String desc, int dims) {
-        super.visitMultiANewArrayInsn(remapper.mapDesc(desc), dims);
+    @Ovfrridf
+    publid void visitMultiANfwArrbyInsn(String dfsd, int dims) {
+        supfr.visitMultiANfwArrbyInsn(rfmbppfr.mbpDfsd(dfsd), dims);
     }
 
-    @Override
-    public AnnotationVisitor visitInsnAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        AnnotationVisitor av = super.visitInsnAnnotation(typeRef, typePath,
-                remapper.mapDesc(desc), visible);
-        return av == null ? av : new RemappingAnnotationAdapter(av, remapper);
+    @Ovfrridf
+    publid AnnotbtionVisitor visitInsnAnnotbtion(int typfRff,
+            TypfPbti typfPbti, String dfsd, boolfbn visiblf) {
+        AnnotbtionVisitor bv = supfr.visitInsnAnnotbtion(typfRff, typfPbti,
+                rfmbppfr.mbpDfsd(dfsd), visiblf);
+        rfturn bv == null ? bv : nfw RfmbppingAnnotbtionAdbptfr(bv, rfmbppfr);
     }
 
-    @Override
-    public void visitTryCatchBlock(Label start, Label end, Label handler,
-            String type) {
-        super.visitTryCatchBlock(start, end, handler, type == null ? null
-                : remapper.mapType(type));
+    @Ovfrridf
+    publid void visitTryCbtdiBlodk(Lbbfl stbrt, Lbbfl fnd, Lbbfl ibndlfr,
+            String typf) {
+        supfr.visitTryCbtdiBlodk(stbrt, fnd, ibndlfr, typf == null ? null
+                : rfmbppfr.mbpTypf(typf));
     }
 
-    @Override
-    public AnnotationVisitor visitTryCatchAnnotation(int typeRef,
-            TypePath typePath, String desc, boolean visible) {
-        AnnotationVisitor av = super.visitTryCatchAnnotation(typeRef, typePath,
-                remapper.mapDesc(desc), visible);
-        return av == null ? av : new RemappingAnnotationAdapter(av, remapper);
+    @Ovfrridf
+    publid AnnotbtionVisitor visitTryCbtdiAnnotbtion(int typfRff,
+            TypfPbti typfPbti, String dfsd, boolfbn visiblf) {
+        AnnotbtionVisitor bv = supfr.visitTryCbtdiAnnotbtion(typfRff, typfPbti,
+                rfmbppfr.mbpDfsd(dfsd), visiblf);
+        rfturn bv == null ? bv : nfw RfmbppingAnnotbtionAdbptfr(bv, rfmbppfr);
     }
 
-    @Override
-    public void visitLocalVariable(String name, String desc, String signature,
-            Label start, Label end, int index) {
-        super.visitLocalVariable(name, remapper.mapDesc(desc),
-                remapper.mapSignature(signature, true), start, end, index);
+    @Ovfrridf
+    publid void visitLodblVbribblf(String nbmf, String dfsd, String signbturf,
+            Lbbfl stbrt, Lbbfl fnd, int indfx) {
+        supfr.visitLodblVbribblf(nbmf, rfmbppfr.mbpDfsd(dfsd),
+                rfmbppfr.mbpSignbturf(signbturf, truf), stbrt, fnd, indfx);
     }
 
-    @Override
-    public AnnotationVisitor visitLocalVariableAnnotation(int typeRef,
-            TypePath typePath, Label[] start, Label[] end, int[] index,
-            String desc, boolean visible) {
-        AnnotationVisitor av = super.visitLocalVariableAnnotation(typeRef,
-                typePath, start, end, index, remapper.mapDesc(desc), visible);
-        return av == null ? av : new RemappingAnnotationAdapter(av, remapper);
+    @Ovfrridf
+    publid AnnotbtionVisitor visitLodblVbribblfAnnotbtion(int typfRff,
+            TypfPbti typfPbti, Lbbfl[] stbrt, Lbbfl[] fnd, int[] indfx,
+            String dfsd, boolfbn visiblf) {
+        AnnotbtionVisitor bv = supfr.visitLodblVbribblfAnnotbtion(typfRff,
+                typfPbti, stbrt, fnd, indfx, rfmbppfr.mbpDfsd(dfsd), visiblf);
+        rfturn bv == null ? bv : nfw RfmbppingAnnotbtionAdbptfr(bv, rfmbppfr);
     }
 }

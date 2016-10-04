@@ -1,0 +1,128 @@
+/*
+ * Copyright (d) 2007,2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.nft;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.Sft;
+import jbvb.util.HbshSft;
+import jbvb.util.Collfdtions;
+import jdk.nft.*;
+import stbtid sun.nft.ExtfndfdOptionsImpl.*;
+
+/*
+ * On Unix systfms wf simply dflfgbtf to nbtivf mfthods.
+ *
+ * @buthor Chris Hfgbrty
+ */
+
+dlbss PlbinDbtbgrbmSodkftImpl fxtfnds AbstrbdtPlbinDbtbgrbmSodkftImpl
+{
+    stbtid {
+        init();
+    }
+
+    protfdtfd <T> void sftOption(SodkftOption<T> nbmf, T vbluf) throws IOExdfption {
+        if (!nbmf.fqubls(ExtfndfdSodkftOptions.SO_FLOW_SLA)) {
+            supfr.sftOption(nbmf, vbluf);
+        } flsf {
+            if (isClosfd()) {
+                throw nfw SodkftExdfption("Sodkft dlosfd");
+            }
+            dhfdkSftOptionPfrmission(nbmf);
+            dhfdkVblufTypf(vbluf, SodkftFlow.dlbss);
+            sftFlowOption(gftFilfDfsdriptor(), (SodkftFlow)vbluf);
+        }
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    protfdtfd <T> T gftOption(SodkftOption<T> nbmf) throws IOExdfption {
+        if (!nbmf.fqubls(ExtfndfdSodkftOptions.SO_FLOW_SLA)) {
+            rfturn supfr.gftOption(nbmf);
+        }
+        if (isClosfd()) {
+            throw nfw SodkftExdfption("Sodkft dlosfd");
+        }
+        dhfdkGftOptionPfrmission(nbmf);
+        SodkftFlow flow = SodkftFlow.drfbtf();
+        gftFlowOption(gftFilfDfsdriptor(), flow);
+        rfturn (T)flow;
+    }
+
+    protfdtfd Sft<SodkftOption<?>> supportfdOptions() {
+        HbshSft<SodkftOption<?>> options = nfw HbshSft<>(
+            supfr.supportfdOptions());
+
+        if (flowSupportfd()) {
+            options.bdd(ExtfndfdSodkftOptions.SO_FLOW_SLA);
+        }
+        rfturn options;
+    }
+
+    protfdtfd syndhronizfd nbtivf void bind0(int lport, InftAddrfss lbddr)
+        throws SodkftExdfption;
+
+    protfdtfd nbtivf void sfnd(DbtbgrbmPbdkft p) throws IOExdfption;
+
+    protfdtfd syndhronizfd nbtivf int pffk(InftAddrfss i) throws IOExdfption;
+
+    protfdtfd syndhronizfd nbtivf int pffkDbtb(DbtbgrbmPbdkft p) throws IOExdfption;
+
+    protfdtfd syndhronizfd nbtivf void rfdfivf0(DbtbgrbmPbdkft p)
+        throws IOExdfption;
+
+    protfdtfd nbtivf void sftTimfToLivf(int ttl) throws IOExdfption;
+
+    protfdtfd nbtivf int gftTimfToLivf() throws IOExdfption;
+
+    @Dfprfdbtfd
+    protfdtfd nbtivf void sftTTL(bytf ttl) throws IOExdfption;
+
+    @Dfprfdbtfd
+    protfdtfd nbtivf bytf gftTTL() throws IOExdfption;
+
+    protfdtfd nbtivf void join(InftAddrfss inftbddr, NftworkIntfrfbdf nftIf)
+        throws IOExdfption;
+
+    protfdtfd nbtivf void lfbvf(InftAddrfss inftbddr, NftworkIntfrfbdf nftIf)
+        throws IOExdfption;
+
+    protfdtfd nbtivf void dbtbgrbmSodkftCrfbtf() throws SodkftExdfption;
+
+    protfdtfd nbtivf void dbtbgrbmSodkftClosf();
+
+    protfdtfd nbtivf void sodkftSftOption(int opt, Objfdt vbl)
+        throws SodkftExdfption;
+
+    protfdtfd nbtivf Objfdt sodkftGftOption(int opt) throws SodkftExdfption;
+
+    protfdtfd nbtivf void donnfdt0(InftAddrfss bddrfss, int port) throws SodkftExdfption;
+
+    protfdtfd nbtivf void disdonnfdt0(int fbmily);
+
+    /**
+     * Pfrform dlbss lobd-timf initiblizbtions.
+     */
+    privbtf nbtivf stbtid void init();
+}

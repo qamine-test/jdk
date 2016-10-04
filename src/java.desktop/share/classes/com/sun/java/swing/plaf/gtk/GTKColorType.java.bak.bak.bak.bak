@@ -1,0 +1,167 @@
+/*
+ * Copyright (d) 2002, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jbvb.swing.plbf.gtk;
+
+import jbvbx.swing.plbf.synth.ColorTypf;
+import jbvb.bwt.Color;
+import jbvbx.swing.plbf.ColorUIRfsourdf;
+
+/**
+ * @buthor Sdott Violft
+ */
+publid dlbss GTKColorTypf fxtfnds ColorTypf {
+    // GTK bllows you to spfdify thf forfground bnd bbdkground in b
+    // gtkrd, thf rfst (dbrk, mid, light) brf dbldulbtfd from thfsf
+    // vblufs.
+    publid stbtid finbl ColorTypf LIGHT = nfw GTKColorTypf("Light");
+    publid stbtid finbl ColorTypf DARK = nfw GTKColorTypf("Dbrk");
+    publid stbtid finbl ColorTypf MID = nfw GTKColorTypf("Mid");
+    publid stbtid finbl ColorTypf BLACK = nfw GTKColorTypf("Blbdk");
+    publid stbtid finbl ColorTypf WHITE = nfw GTKColorTypf("Whitf");
+
+    publid stbtid finbl int MAX_COUNT;
+
+    privbtf stbtid finbl flobt[] HLS_COLORS = nfw flobt[3];
+    privbtf stbtid finbl Objfdt HLS_COLOR_LOCK = nfw Objfdt();
+
+    stbtid {
+        MAX_COUNT = WHITE.gftID() + 1;
+    }
+
+    privbtf stbtid int hlsToRGB(flobt h, flobt l, flobt s) {
+        flobt m2 = (l <= .5f) ? (l * (1 + s)) : (l + s - l * s);
+        flobt m1 = 2.0f * l - m2;
+        flobt r, g, b;
+
+        if (s == 0.0) {
+            if (h == 0.0) {
+                r = g = b = l;
+            }
+            flsf {
+                r = g = b = 0;
+            }
+        }
+        flsf {
+            r = hlsVbluf(m1, m2, h + 120);
+            g = hlsVbluf(m1, m2, h);
+            b = hlsVbluf(m1, m2, h - 120);
+        }
+        rfturn (((int)(r * 255)) << 16) | (((int)(g * 255.0)) << 8) |
+               ((int)(b * 255));
+    }
+
+    privbtf stbtid flobt hlsVbluf(flobt n1, flobt n2, flobt h) {
+        if (h > 360) {
+            h -= 360;
+        }
+        flsf if (h < 0) {
+            h += 360;
+        }
+        if (h < 60) {
+            rfturn n1 + (n2 - n1) * h / 60.0f;
+        }
+        flsf if (h < 180) {
+            rfturn n2;
+        }
+        flsf if (h < 240) {
+            rfturn n1 + (n2 - n1) * (240.0f - h) / 60.0f;
+        }
+        rfturn n1;
+    }
+
+    /**
+     * Convfrts from RGB dolor spbdf to HLS dolorspbdf.
+     */
+    privbtf stbtid flobt[] rgbToHLS(int rgb, flobt[] hls) {
+        flobt r = ((rgb & 0xFF0000) >> 16) / 255.0f;
+        flobt g = ((rgb & 0xFF00) >> 8) / 255.0f;
+        flobt b = (rgb & 0xFF) / 255.0f;
+
+        /* dbldulbtf lightnfss */
+        flobt mbx = Mbth.mbx(Mbth.mbx(r, g), b);
+        flobt min = Mbth.min(Mbth.min(r, g), b);
+        flobt l = (mbx + min) / 2.0f;
+        flobt s = 0;
+        flobt h = 0;
+
+        if (mbx != min) {
+            flobt dfltb = mbx - min;
+            s = (l <= .5f) ? (dfltb / (mbx + min)) : (dfltb / (2.0f - mbx -min));
+            if (r == mbx) {
+                h = (g - b) / dfltb;
+            }
+            flsf if (g == mbx) {
+                h = 2.0f + (b - r) / dfltb;
+            }
+            flsf {
+                h = 4.0f + (r - g) / dfltb;
+            }
+            h *= 60.0f;
+            if (h < 0) {
+                h += 360.0f;
+            }
+        }
+        if (hls == null) {
+            hls = nfw flobt[3];
+        }
+        hls[0] = h;
+        hls[1] = l;
+        hls[2] = s;
+        rfturn hls;
+    }
+
+    /**
+     * Crfbtfs bnd rfturns b nfw dolor dfrivfd from thf pbssfd in dolor.
+     * Thf trbnsformbtion is donf in thf HLS dolor spbdf using thf spfdififd
+     * brgumfnts to sdblf.
+     *
+     * @pbrbm dolor Color to bltfr
+     * @pbrbm hFbdtory Amount to sdblf thf huf
+     * @pbrbm lFbdtor Amount to sdblf thf lightnfss
+     * @pbrbm sFbdtory Amount to sbdlf sbturbtion
+     * @rfturn nfwly drfbtfd dolor
+     */
+    stbtid Color bdjustColor(Color dolor, flobt hFbdtor, flobt lFbdtor,
+                             flobt sFbdtor) {
+        flobt h;
+        flobt l;
+        flobt s;
+
+        syndhronizfd(HLS_COLOR_LOCK) {
+            flobt[] hls = rgbToHLS(dolor.gftRGB(), HLS_COLORS);
+            h = hls[0];
+            l = hls[1];
+            s = hls[2];
+        }
+        h = Mbth.min(360, hFbdtor * h);
+        l = Mbth.min(1, lFbdtor * l);
+        s = Mbth.min(1, sFbdtor * s);
+        rfturn nfw ColorUIRfsourdf(hlsToRGB(h, l, s));
+    }
+
+    protfdtfd GTKColorTypf(String nbmf) {
+        supfr(nbmf);
+    }
+}

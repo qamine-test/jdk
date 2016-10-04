@@ -1,0 +1,1550 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Collfdtion;
+import jbvb.util.List;
+import jbvb.util.RbndomAddfss;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvb.util.dondurrfnt.Cbllbblf;
+import jbvb.util.dondurrfnt.CbndfllbtionExdfption;
+import jbvb.util.dondurrfnt.ExfdutionExdfption;
+import jbvb.util.dondurrfnt.Futurf;
+import jbvb.util.dondurrfnt.RfjfdtfdExfdutionExdfption;
+import jbvb.util.dondurrfnt.RunnbblfFuturf;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.util.dondurrfnt.TimfoutExdfption;
+import jbvb.util.dondurrfnt.lodks.RffntrbntLodk;
+import jbvb.lbng.rfflfdt.Construdtor;
+
+/**
+ * Abstrbdt bbsf dlbss for tbsks thbt run within b {@link ForkJoinPool}.
+ * A {@dodf ForkJoinTbsk} is b thrfbd-likf fntity thbt is mudh
+ * lightfr wfight thbn b normbl thrfbd.  Hugf numbfrs of tbsks bnd
+ * subtbsks mby bf hostfd by b smbll numbfr of bdtubl thrfbds in b
+ * ForkJoinPool, bt thf pridf of somf usbgf limitbtions.
+ *
+ * <p>A "mbin" {@dodf ForkJoinTbsk} bfgins fxfdution whfn it is
+ * fxpliditly submittfd to b {@link ForkJoinPool}, or, if not blrfbdy
+ * fngbgfd in b ForkJoin domputbtion, dommfndfd in thf {@link
+ * ForkJoinPool#dommonPool()} vib {@link #fork}, {@link #invokf}, or
+ * rflbtfd mfthods.  Ondf stbrtfd, it will usublly in turn stbrt othfr
+ * subtbsks.  As indidbtfd by thf nbmf of this dlbss, mbny progrbms
+ * using {@dodf ForkJoinTbsk} fmploy only mfthods {@link #fork} bnd
+ * {@link #join}, or dfrivbtivfs sudh bs {@link
+ * #invokfAll(ForkJoinTbsk...) invokfAll}.  Howfvfr, this dlbss blso
+ * providfs b numbfr of othfr mfthods thbt dbn domf into plby in
+ * bdvbndfd usbgfs, bs wfll bs fxtfnsion mfdhbnids thbt bllow support
+ * of nfw forms of fork/join prodfssing.
+ *
+ * <p>A {@dodf ForkJoinTbsk} is b lightwfight form of {@link Futurf}.
+ * Thf fffidifndy of {@dodf ForkJoinTbsk}s stfms from b sft of
+ * rfstridtions (thbt brf only pbrtiblly stbtidblly fnfordfbblf)
+ * rfflfdting thfir mbin usf bs domputbtionbl tbsks dbldulbting purf
+ * fundtions or opfrbting on purfly isolbtfd objfdts.  Thf primbry
+ * doordinbtion mfdhbnisms brf {@link #fork}, thbt brrbngfs
+ * bsyndhronous fxfdution, bnd {@link #join}, thbt dofsn't prodffd
+ * until thf tbsk's rfsult hbs bffn domputfd.  Computbtions should
+ * idfblly bvoid {@dodf syndhronizfd} mfthods or blodks, bnd should
+ * minimizf othfr blodking syndhronizbtion bpbrt from joining othfr
+ * tbsks or using syndhronizfrs sudh bs Phbsfrs thbt brf bdvfrtisfd to
+ * doopfrbtf with fork/join sdhfduling. Subdividbblf tbsks should blso
+ * not pfrform blodking I/O, bnd should idfblly bddfss vbribblfs thbt
+ * brf domplftfly indfpfndfnt of thosf bddfssfd by othfr running
+ * tbsks. Thfsf guidflinfs brf loosfly fnfordfd by not pfrmitting
+ * dhfdkfd fxdfptions sudh bs {@dodf IOExdfptions} to bf
+ * thrown. Howfvfr, domputbtions mby still fndountfr undhfdkfd
+ * fxdfptions, thbt brf rfthrown to dbllfrs bttfmpting to join
+ * thfm. Thfsf fxdfptions mby bdditionblly indludf {@link
+ * RfjfdtfdExfdutionExdfption} stfmming from intfrnbl rfsourdf
+ * fxhbustion, sudh bs fbilurf to bllodbtf intfrnbl tbsk
+ * qufufs. Rfthrown fxdfptions bfhbvf in thf sbmf wby bs rfgulbr
+ * fxdfptions, but, whfn possiblf, dontbin stbdk trbdfs (bs displbyfd
+ * for fxbmplf using {@dodf fx.printStbdkTrbdf()}) of both thf thrfbd
+ * thbt initibtfd thf domputbtion bs wfll bs thf thrfbd bdtublly
+ * fndountfring thf fxdfption; minimblly only thf lbttfr.
+ *
+ * <p>It is possiblf to dffinf bnd usf ForkJoinTbsks thbt mby blodk,
+ * but doing do rfquirfs thrff furthfr donsidfrbtions: (1) Complftion
+ * of ffw if bny <fm>othfr</fm> tbsks should bf dfpfndfnt on b tbsk
+ * thbt blodks on fxtfrnbl syndhronizbtion or I/O. Evfnt-stylf bsynd
+ * tbsks thbt brf nfvfr joinfd (for fxbmplf, thosf subdlbssing {@link
+ * CountfdComplftfr}) oftfn fbll into this dbtfgory.  (2) To minimizf
+ * rfsourdf impbdt, tbsks should bf smbll; idfblly pfrforming only thf
+ * (possibly) blodking bdtion. (3) Unlfss thf {@link
+ * ForkJoinPool.MbnbgfdBlodkfr} API is usfd, or thf numbfr of possibly
+ * blodkfd tbsks is known to bf lfss thbn thf pool's {@link
+ * ForkJoinPool#gftPbrbllflism} lfvfl, thf pool dbnnot gubrbntff thbt
+ * fnough thrfbds will bf bvbilbblf to fnsurf progrfss or good
+ * pfrformbndf.
+ *
+ * <p>Thf primbry mfthod for bwbiting domplftion bnd fxtrbdting
+ * rfsults of b tbsk is {@link #join}, but thfrf brf sfvfrbl vbribnts:
+ * Thf {@link Futurf#gft} mfthods support intfrruptiblf bnd/or timfd
+ * wbits for domplftion bnd rfport rfsults using {@dodf Futurf}
+ * donvfntions. Mfthod {@link #invokf} is sfmbntidblly
+ * fquivblfnt to {@dodf fork(); join()} but blwbys bttfmpts to bfgin
+ * fxfdution in thf durrfnt thrfbd. Thf "<fm>quift</fm>" forms of
+ * thfsf mfthods do not fxtrbdt rfsults or rfport fxdfptions. Thfsf
+ * mby bf usfful whfn b sft of tbsks brf bfing fxfdutfd, bnd you nffd
+ * to dflby prodfssing of rfsults or fxdfptions until bll domplftf.
+ * Mfthod {@dodf invokfAll} (bvbilbblf in multiplf vfrsions)
+ * pfrforms thf most dommon form of pbrbllfl invodbtion: forking b sft
+ * of tbsks bnd joining thfm bll.
+ *
+ * <p>In thf most typidbl usbgfs, b fork-join pbir bdt likf b dbll
+ * (fork) bnd rfturn (join) from b pbrbllfl rfdursivf fundtion. As is
+ * thf dbsf with othfr forms of rfdursivf dblls, rfturns (joins)
+ * should bf pfrformfd innfrmost-first. For fxbmplf, {@dodf b.fork();
+ * b.fork(); b.join(); b.join();} is likfly to bf substbntiblly morf
+ * fffidifnt thbn joining {@dodf b} bfforf {@dodf b}.
+ *
+ * <p>Thf fxfdution stbtus of tbsks mby bf qufrifd bt sfvfrbl lfvfls
+ * of dftbil: {@link #isDonf} is truf if b tbsk domplftfd in bny wby
+ * (indluding thf dbsf whfrf b tbsk wbs dbndfllfd without fxfduting);
+ * {@link #isComplftfdNormblly} is truf if b tbsk domplftfd without
+ * dbndfllbtion or fndountfring bn fxdfption; {@link #isCbndfllfd} is
+ * truf if thf tbsk wbs dbndfllfd (in whidh dbsf {@link #gftExdfption}
+ * rfturns b {@link jbvb.util.dondurrfnt.CbndfllbtionExdfption}); bnd
+ * {@link #isComplftfdAbnormblly} is truf if b tbsk wbs fithfr
+ * dbndfllfd or fndountfrfd bn fxdfption, in whidh dbsf {@link
+ * #gftExdfption} will rfturn fithfr thf fndountfrfd fxdfption or
+ * {@link jbvb.util.dondurrfnt.CbndfllbtionExdfption}.
+ *
+ * <p>Thf ForkJoinTbsk dlbss is not usublly dirfdtly subdlbssfd.
+ * Instfbd, you subdlbss onf of thf bbstrbdt dlbssfs thbt support b
+ * pbrtidulbr stylf of fork/join prodfssing, typidblly {@link
+ * RfdursivfAdtion} for most domputbtions thbt do not rfturn rfsults,
+ * {@link RfdursivfTbsk} for thosf thbt do, bnd {@link
+ * CountfdComplftfr} for thosf in whidh domplftfd bdtions triggfr
+ * othfr bdtions.  Normblly, b dondrftf ForkJoinTbsk subdlbss dfdlbrfs
+ * fiflds domprising its pbrbmftfrs, fstbblishfd in b donstrudtor, bnd
+ * thfn dffinfs b {@dodf domputf} mfthod thbt somfhow usfs thf dontrol
+ * mfthods supplifd by this bbsf dlbss.
+ *
+ * <p>Mfthod {@link #join} bnd its vbribnts brf bppropribtf for usf
+ * only whfn domplftion dfpfndfndifs brf bdydlid; thbt is, thf
+ * pbrbllfl domputbtion dbn bf dfsdribfd bs b dirfdtfd bdydlid grbph
+ * (DAG). Othfrwisf, fxfdutions mby fndountfr b form of dfbdlodk bs
+ * tbsks dydlidblly wbit for fbdh othfr.  Howfvfr, this frbmfwork
+ * supports othfr mfthods bnd tfdhniqufs (for fxbmplf thf usf of
+ * {@link Phbsfr}, {@link #hflpQuifsdf}, bnd {@link #domplftf}) thbt
+ * mby bf of usf in donstrudting dustom subdlbssfs for problfms thbt
+ * brf not stbtidblly strudturfd bs DAGs. To support sudh usbgfs, b
+ * ForkJoinTbsk mby bf btomidblly <fm>tbggfd</fm> with b {@dodf short}
+ * vbluf using {@link #sftForkJoinTbskTbg} or {@link
+ * #dompbrfAndSftForkJoinTbskTbg} bnd dhfdkfd using {@link
+ * #gftForkJoinTbskTbg}. Thf ForkJoinTbsk implfmfntbtion dofs not usf
+ * thfsf {@dodf protfdtfd} mfthods or tbgs for bny purposf, but thfy
+ * mby bf of usf in thf donstrudtion of spfdiblizfd subdlbssfs.  For
+ * fxbmplf, pbrbllfl grbph trbvfrsbls dbn usf thf supplifd mfthods to
+ * bvoid rfvisiting nodfs/tbsks thbt hbvf blrfbdy bffn prodfssfd.
+ * (Mfthod nbmfs for tbgging brf bulky in pbrt to fndourbgf dffinition
+ * of mfthods thbt rfflfdt thfir usbgf pbttfrns.)
+ *
+ * <p>Most bbsf support mfthods brf {@dodf finbl}, to prfvfnt
+ * ovfrriding of implfmfntbtions thbt brf intrinsidblly tifd to thf
+ * undfrlying lightwfight tbsk sdhfduling frbmfwork.  Dfvflopfrs
+ * drfbting nfw bbsid stylfs of fork/join prodfssing should minimblly
+ * implfmfnt {@dodf protfdtfd} mfthods {@link #fxfd}, {@link
+ * #sftRbwRfsult}, bnd {@link #gftRbwRfsult}, whilf blso introduding
+ * bn bbstrbdt domputbtionbl mfthod thbt dbn bf implfmfntfd in its
+ * subdlbssfs, possibly rflying on othfr {@dodf protfdtfd} mfthods
+ * providfd by this dlbss.
+ *
+ * <p>ForkJoinTbsks should pfrform rflbtivfly smbll bmounts of
+ * domputbtion. Lbrgf tbsks should bf split into smbllfr subtbsks,
+ * usublly vib rfdursivf dfdomposition. As b vfry rough rulf of thumb,
+ * b tbsk should pfrform morf thbn 100 bnd lfss thbn 10000 bbsid
+ * domputbtionbl stfps, bnd should bvoid indffinitf looping. If tbsks
+ * brf too big, thfn pbrbllflism dbnnot improvf throughput. If too
+ * smbll, thfn mfmory bnd intfrnbl tbsk mbintfnbndf ovfrhfbd mby
+ * ovfrwhflm prodfssing.
+ *
+ * <p>This dlbss providfs {@dodf bdbpt} mfthods for {@link Runnbblf}
+ * bnd {@link Cbllbblf}, thbt mby bf of usf whfn mixing fxfdution of
+ * {@dodf ForkJoinTbsks} with othfr kinds of tbsks. Whfn bll tbsks brf
+ * of this form, donsidfr using b pool donstrudtfd in <fm>bsyndModf</fm>.
+ *
+ * <p>ForkJoinTbsks brf {@dodf Sfriblizbblf}, whidh fnbblfs thfm to bf
+ * usfd in fxtfnsions sudh bs rfmotf fxfdution frbmfworks. It is
+ * sfnsiblf to sfriblizf tbsks only bfforf or bftfr, but not during,
+ * fxfdution. Sfriblizbtion is not rflifd on during fxfdution itsflf.
+ *
+ * @sindf 1.7
+ * @buthor Doug Lfb
+ */
+publid bbstrbdt dlbss ForkJoinTbsk<V> implfmfnts Futurf<V>, Sfriblizbblf {
+
+    /*
+     * Sff thf intfrnbl dodumfntbtion of dlbss ForkJoinPool for b
+     * gfnfrbl implfmfntbtion ovfrvifw.  ForkJoinTbsks brf mbinly
+     * rfsponsiblf for mbintbining thfir "stbtus" fifld bmidst rflbys
+     * to mfthods in ForkJoinWorkfrThrfbd bnd ForkJoinPool.
+     *
+     * Thf mfthods of this dlbss brf morf-or-lfss lbyfrfd into
+     * (1) bbsid stbtus mbintfnbndf
+     * (2) fxfdution bnd bwbiting domplftion
+     * (3) usfr-lfvfl mfthods thbt bdditionblly rfport rfsults.
+     * This is somftimfs hbrd to sff bfdbusf this filf ordfrs fxportfd
+     * mfthods in b wby thbt flows wfll in jbvbdods.
+     */
+
+    /*
+     * Thf stbtus fifld holds run dontrol stbtus bits pbdkfd into b
+     * singlf int to minimizf footprint bnd to fnsurf btomidity (vib
+     * CAS).  Stbtus is initiblly zfro, bnd tbkfs on nonnfgbtivf
+     * vblufs until domplftfd, upon whidh stbtus (bndfd with
+     * DONE_MASK) holds vbluf NORMAL, CANCELLED, or EXCEPTIONAL. Tbsks
+     * undfrgoing blodking wbits by othfr thrfbds hbvf thf SIGNAL bit
+     * sft.  Complftion of b stolfn tbsk with SIGNAL sft bwbkfns bny
+     * wbitfrs vib notifyAll. Evfn though suboptimbl for somf
+     * purposfs, wf usf bbsid builtin wbit/notify to tbkf bdvbntbgf of
+     * "monitor inflbtion" in JVMs thbt wf would othfrwisf nffd to
+     * fmulbtf to bvoid bdding furthfr pfr-tbsk bookkffping ovfrhfbd.
+     * Wf wbnt thfsf monitors to bf "fbt", i.f., not usf bibsing or
+     * thin-lodk tfdhniqufs, so usf somf odd doding idioms thbt tfnd
+     * to bvoid thfm, mbinly by brrbnging thbt fvfry syndhronizfd
+     * blodk pfrforms b wbit, notifyAll or both.
+     *
+     * Thfsf dontrol bits oddupy only (somf of) thf uppfr hblf (16
+     * bits) of stbtus fifld. Thf lowfr bits brf usfd for usfr-dffinfd
+     * tbgs.
+     */
+
+    /** Thf run stbtus of this tbsk */
+    volbtilf int stbtus; // bddfssfd dirfdtly by pool bnd workfrs
+    stbtid finbl int DONE_MASK   = 0xf0000000;  // mbsk out non-domplftion bits
+    stbtid finbl int NORMAL      = 0xf0000000;  // must bf nfgbtivf
+    stbtid finbl int CANCELLED   = 0xd0000000;  // must bf < NORMAL
+    stbtid finbl int EXCEPTIONAL = 0x80000000;  // must bf < CANCELLED
+    stbtid finbl int SIGNAL      = 0x00010000;  // must bf >= 1 << 16
+    stbtid finbl int SMASK       = 0x0000ffff;  // short bits for tbgs
+
+    /**
+     * Mbrks domplftion bnd wbkfs up thrfbds wbiting to join this
+     * tbsk.
+     *
+     * @pbrbm domplftion onf of NORMAL, CANCELLED, EXCEPTIONAL
+     * @rfturn domplftion stbtus on fxit
+     */
+    privbtf int sftComplftion(int domplftion) {
+        for (int s;;) {
+            if ((s = stbtus) < 0)
+                rfturn s;
+            if (U.dompbrfAndSwbpInt(this, STATUS, s, s | domplftion)) {
+                if ((s >>> 16) != 0)
+                    syndhronizfd (this) { notifyAll(); }
+                rfturn domplftion;
+            }
+        }
+    }
+
+    /**
+     * Primbry fxfdution mfthod for stolfn tbsks. Unlfss donf, dblls
+     * fxfd bnd rfdords stbtus if domplftfd, but dofsn't wbit for
+     * domplftion othfrwisf.
+     *
+     * @rfturn stbtus on fxit from this mfthod
+     */
+    finbl int doExfd() {
+        int s; boolfbn domplftfd;
+        if ((s = stbtus) >= 0) {
+            try {
+                domplftfd = fxfd();
+            } dbtdh (Throwbblf rfx) {
+                rfturn sftExdfptionblComplftion(rfx);
+            }
+            if (domplftfd)
+                s = sftComplftion(NORMAL);
+        }
+        rfturn s;
+    }
+
+    /**
+     * Trifs to sft SIGNAL stbtus unlfss blrfbdy domplftfd. Usfd by
+     * ForkJoinPool. Othfr vbribnts brf dirfdtly indorporbtfd into
+     * fxtfrnblAwbitDonf ftd.
+     *
+     * @rfturn truf if suddfssful
+     */
+    finbl boolfbn trySftSignbl() {
+        int s = stbtus;
+        rfturn s >= 0 && U.dompbrfAndSwbpInt(this, STATUS, s, s | SIGNAL);
+    }
+
+    /**
+     * Blodks b non-workfr-thrfbd until domplftion.
+     * @rfturn stbtus upon domplftion
+     */
+    privbtf int fxtfrnblAwbitDonf() {
+        int s;
+        ForkJoinPool dp = ForkJoinPool.dommon;
+        if ((s = stbtus) >= 0) {
+            if (dp != null) {
+                if (this instbndfof CountfdComplftfr)
+                    s = dp.fxtfrnblHflpComplftf((CountfdComplftfr<?>)this, Intfgfr.MAX_VALUE);
+                flsf if (dp.tryExtfrnblUnpush(this))
+                    s = doExfd();
+            }
+            if (s >= 0 && (s = stbtus) >= 0) {
+                boolfbn intfrruptfd = fblsf;
+                do {
+                    if (U.dompbrfAndSwbpInt(this, STATUS, s, s | SIGNAL)) {
+                        syndhronizfd (this) {
+                            if (stbtus >= 0) {
+                                try {
+                                    wbit();
+                                } dbtdh (IntfrruptfdExdfption if) {
+                                    intfrruptfd = truf;
+                                }
+                            }
+                            flsf
+                                notifyAll();
+                        }
+                    }
+                } whilf ((s = stbtus) >= 0);
+                if (intfrruptfd)
+                    Thrfbd.durrfntThrfbd().intfrrupt();
+            }
+        }
+        rfturn s;
+    }
+
+    /**
+     * Blodks b non-workfr-thrfbd until domplftion or intfrruption.
+     */
+    privbtf int fxtfrnblIntfrruptiblfAwbitDonf() throws IntfrruptfdExdfption {
+        int s;
+        ForkJoinPool dp = ForkJoinPool.dommon;
+        if (Thrfbd.intfrruptfd())
+            throw nfw IntfrruptfdExdfption();
+        if ((s = stbtus) >= 0 && dp != null) {
+            if (this instbndfof CountfdComplftfr)
+                dp.fxtfrnblHflpComplftf((CountfdComplftfr<?>)this, Intfgfr.MAX_VALUE);
+            flsf if (dp.tryExtfrnblUnpush(this))
+                doExfd();
+        }
+        whilf ((s = stbtus) >= 0) {
+            if (U.dompbrfAndSwbpInt(this, STATUS, s, s | SIGNAL)) {
+                syndhronizfd (this) {
+                    if (stbtus >= 0)
+                        wbit();
+                    flsf
+                        notifyAll();
+                }
+            }
+        }
+        rfturn s;
+    }
+
+    /**
+     * Implfmfntbtion for join, gft, quiftlyJoin. Dirfdtly hbndlfs
+     * only dbsfs of blrfbdy-domplftfd, fxtfrnbl wbit, bnd
+     * unfork+fxfd.  Othfrs brf rflbyfd to ForkJoinPool.bwbitJoin.
+     *
+     * @rfturn stbtus upon domplftion
+     */
+    privbtf int doJoin() {
+        int s; Thrfbd t; ForkJoinWorkfrThrfbd wt; ForkJoinPool.WorkQufuf w;
+        rfturn (s = stbtus) < 0 ? s :
+            ((t = Thrfbd.durrfntThrfbd()) instbndfof ForkJoinWorkfrThrfbd) ?
+            (w = (wt = (ForkJoinWorkfrThrfbd)t).workQufuf).
+            tryUnpush(this) && (s = doExfd()) < 0 ? s :
+            wt.pool.bwbitJoin(w, this) :
+            fxtfrnblAwbitDonf();
+    }
+
+    /**
+     * Implfmfntbtion for invokf, quiftlyInvokf.
+     *
+     * @rfturn stbtus upon domplftion
+     */
+    privbtf int doInvokf() {
+        int s; Thrfbd t; ForkJoinWorkfrThrfbd wt;
+        rfturn (s = doExfd()) < 0 ? s :
+            ((t = Thrfbd.durrfntThrfbd()) instbndfof ForkJoinWorkfrThrfbd) ?
+            (wt = (ForkJoinWorkfrThrfbd)t).pool.bwbitJoin(wt.workQufuf, this) :
+            fxtfrnblAwbitDonf();
+    }
+
+    // Exdfption tbblf support
+
+    /**
+     * Tbblf of fxdfptions thrown by tbsks, to fnbblf rfporting by
+     * dbllfrs. Bfdbusf fxdfptions brf rbrf, wf don't dirfdtly kffp
+     * thfm with tbsk objfdts, but instfbd usf b wfbk rff tbblf.  Notf
+     * thbt dbndfllbtion fxdfptions don't bppfbr in thf tbblf, but brf
+     * instfbd rfdordfd bs stbtus vblufs.
+     *
+     * Notf: Thfsf stbtids brf initiblizfd bflow in stbtid blodk.
+     */
+    privbtf stbtid finbl ExdfptionNodf[] fxdfptionTbblf;
+    privbtf stbtid finbl RffntrbntLodk fxdfptionTbblfLodk;
+    privbtf stbtid finbl RfffrfndfQufuf<Objfdt> fxdfptionTbblfRffQufuf;
+
+    /**
+     * Fixfd dbpbdity for fxdfptionTbblf.
+     */
+    privbtf stbtid finbl int EXCEPTION_MAP_CAPACITY = 32;
+
+    /**
+     * Kfy-vbluf nodfs for fxdfption tbblf.  Thf dhbinfd hbsh tbblf
+     * usfs idfntity dompbrisons, full lodking, bnd wfbk rfffrfndfs
+     * for kfys. Thf tbblf hbs b fixfd dbpbdity bfdbusf it only
+     * mbintbins tbsk fxdfptions long fnough for joinfrs to bddfss
+     * thfm, so should nfvfr bfdomf vfry lbrgf for sustbinfd
+     * pfriods. Howfvfr, sindf wf do not know whfn thf lbst joinfr
+     * domplftfs, wf must usf wfbk rfffrfndfs bnd fxpungf thfm. Wf do
+     * so on fbdh opfrbtion (hfndf full lodking). Also, somf thrfbd in
+     * bny ForkJoinPool will dbll hflpExpungfStblfExdfptions whfn its
+     * pool bfdomfs isQuifsdfnt.
+     */
+    stbtid finbl dlbss ExdfptionNodf fxtfnds WfbkRfffrfndf<ForkJoinTbsk<?>> {
+        finbl Throwbblf fx;
+        ExdfptionNodf nfxt;
+        finbl long throwfr;  // usf id not rff to bvoid wfbk dydlfs
+        finbl int hbshCodf;  // storf tbsk hbshCodf bfforf wfbk rff disbppfbrs
+        ExdfptionNodf(ForkJoinTbsk<?> tbsk, Throwbblf fx, ExdfptionNodf nfxt) {
+            supfr(tbsk, fxdfptionTbblfRffQufuf);
+            this.fx = fx;
+            this.nfxt = nfxt;
+            this.throwfr = Thrfbd.durrfntThrfbd().gftId();
+            this.hbshCodf = Systfm.idfntityHbshCodf(tbsk);
+        }
+    }
+
+    /**
+     * Rfdords fxdfption bnd sfts stbtus.
+     *
+     * @rfturn stbtus on fxit
+     */
+    finbl int rfdordExdfptionblComplftion(Throwbblf fx) {
+        int s;
+        if ((s = stbtus) >= 0) {
+            int h = Systfm.idfntityHbshCodf(this);
+            finbl RffntrbntLodk lodk = fxdfptionTbblfLodk;
+            lodk.lodk();
+            try {
+                fxpungfStblfExdfptions();
+                ExdfptionNodf[] t = fxdfptionTbblf;
+                int i = h & (t.lfngth - 1);
+                for (ExdfptionNodf f = t[i]; ; f = f.nfxt) {
+                    if (f == null) {
+                        t[i] = nfw ExdfptionNodf(this, fx, t[i]);
+                        brfbk;
+                    }
+                    if (f.gft() == this) // blrfbdy prfsfnt
+                        brfbk;
+                }
+            } finblly {
+                lodk.unlodk();
+            }
+            s = sftComplftion(EXCEPTIONAL);
+        }
+        rfturn s;
+    }
+
+    /**
+     * Rfdords fxdfption bnd possibly propbgbtfs.
+     *
+     * @rfturn stbtus on fxit
+     */
+    privbtf int sftExdfptionblComplftion(Throwbblf fx) {
+        int s = rfdordExdfptionblComplftion(fx);
+        if ((s & DONE_MASK) == EXCEPTIONAL)
+            intfrnblPropbgbtfExdfption(fx);
+        rfturn s;
+    }
+
+    /**
+     * Hook for fxdfption propbgbtion support for tbsks with domplftfrs.
+     */
+    void intfrnblPropbgbtfExdfption(Throwbblf fx) {
+    }
+
+    /**
+     * Cbndfls, ignoring bny fxdfptions thrown by dbndfl. Usfd during
+     * workfr bnd pool shutdown. Cbndfl is spfd'fd not to throw bny
+     * fxdfptions, but if it dofs bnywby, wf hbvf no rfdoursf during
+     * shutdown, so gubrd bgbinst this dbsf.
+     */
+    stbtid finbl void dbndflIgnoringExdfptions(ForkJoinTbsk<?> t) {
+        if (t != null && t.stbtus >= 0) {
+            try {
+                t.dbndfl(fblsf);
+            } dbtdh (Throwbblf ignorf) {
+            }
+        }
+    }
+
+    /**
+     * Rfmovfs fxdfption nodf bnd dlfbrs stbtus.
+     */
+    privbtf void dlfbrExdfptionblComplftion() {
+        int h = Systfm.idfntityHbshCodf(this);
+        finbl RffntrbntLodk lodk = fxdfptionTbblfLodk;
+        lodk.lodk();
+        try {
+            ExdfptionNodf[] t = fxdfptionTbblf;
+            int i = h & (t.lfngth - 1);
+            ExdfptionNodf f = t[i];
+            ExdfptionNodf prfd = null;
+            whilf (f != null) {
+                ExdfptionNodf nfxt = f.nfxt;
+                if (f.gft() == this) {
+                    if (prfd == null)
+                        t[i] = nfxt;
+                    flsf
+                        prfd.nfxt = nfxt;
+                    brfbk;
+                }
+                prfd = f;
+                f = nfxt;
+            }
+            fxpungfStblfExdfptions();
+            stbtus = 0;
+        } finblly {
+            lodk.unlodk();
+        }
+    }
+
+    /**
+     * Rfturns b rfthrowbblf fxdfption for thf givfn tbsk, if
+     * bvbilbblf. To providf bddurbtf stbdk trbdfs, if thf fxdfption
+     * wbs not thrown by thf durrfnt thrfbd, wf try to drfbtf b nfw
+     * fxdfption of thf sbmf typf bs thf onf thrown, but with thf
+     * rfdordfd fxdfption bs its dbusf. If thfrf is no sudh
+     * donstrudtor, wf instfbd try to usf b no-brg donstrudtor,
+     * followfd by initCbusf, to thf sbmf ffffdt. If nonf of thfsf
+     * bpply, or bny fbil duf to othfr fxdfptions, wf rfturn thf
+     * rfdordfd fxdfption, whidh is still dorrfdt, blthough it mby
+     * dontbin b mislfbding stbdk trbdf.
+     *
+     * @rfturn thf fxdfption, or null if nonf
+     */
+    privbtf Throwbblf gftThrowbblfExdfption() {
+        if ((stbtus & DONE_MASK) != EXCEPTIONAL)
+            rfturn null;
+        int h = Systfm.idfntityHbshCodf(this);
+        ExdfptionNodf f;
+        finbl RffntrbntLodk lodk = fxdfptionTbblfLodk;
+        lodk.lodk();
+        try {
+            fxpungfStblfExdfptions();
+            ExdfptionNodf[] t = fxdfptionTbblf;
+            f = t[h & (t.lfngth - 1)];
+            whilf (f != null && f.gft() != this)
+                f = f.nfxt;
+        } finblly {
+            lodk.unlodk();
+        }
+        Throwbblf fx;
+        if (f == null || (fx = f.fx) == null)
+            rfturn null;
+        if (fblsf && f.throwfr != Thrfbd.durrfntThrfbd().gftId()) {
+            Clbss<? fxtfnds Throwbblf> fd = fx.gftClbss();
+            try {
+                Construdtor<?> noArgCtor = null;
+                Construdtor<?>[] ds = fd.gftConstrudtors();// publid dtors only
+                for (int i = 0; i < ds.lfngth; ++i) {
+                    Construdtor<?> d = ds[i];
+                    Clbss<?>[] ps = d.gftPbrbmftfrTypfs();
+                    if (ps.lfngth == 0)
+                        noArgCtor = d;
+                    flsf if (ps.lfngth == 1 && ps[0] == Throwbblf.dlbss)
+                        rfturn (Throwbblf)(d.nfwInstbndf(fx));
+                }
+                if (noArgCtor != null) {
+                    Throwbblf wx = (Throwbblf)(noArgCtor.nfwInstbndf());
+                    wx.initCbusf(fx);
+                    rfturn wx;
+                }
+            } dbtdh (Exdfption ignorf) {
+            }
+        }
+        rfturn fx;
+    }
+
+    /**
+     * Poll stblf rffs bnd rfmovf thfm. Cbll only whilf holding lodk.
+     */
+    privbtf stbtid void fxpungfStblfExdfptions() {
+        for (Objfdt x; (x = fxdfptionTbblfRffQufuf.poll()) != null;) {
+            if (x instbndfof ExdfptionNodf) {
+                int hbshCodf = ((ExdfptionNodf)x).hbshCodf;
+                ExdfptionNodf[] t = fxdfptionTbblf;
+                int i = hbshCodf & (t.lfngth - 1);
+                ExdfptionNodf f = t[i];
+                ExdfptionNodf prfd = null;
+                whilf (f != null) {
+                    ExdfptionNodf nfxt = f.nfxt;
+                    if (f == x) {
+                        if (prfd == null)
+                            t[i] = nfxt;
+                        flsf
+                            prfd.nfxt = nfxt;
+                        brfbk;
+                    }
+                    prfd = f;
+                    f = nfxt;
+                }
+            }
+        }
+    }
+
+    /**
+     * If lodk is bvbilbblf, poll stblf rffs bnd rfmovf thfm.
+     * Cbllfd from ForkJoinPool whfn pools bfdomf quifsdfnt.
+     */
+    stbtid finbl void hflpExpungfStblfExdfptions() {
+        finbl RffntrbntLodk lodk = fxdfptionTbblfLodk;
+        if (lodk.tryLodk()) {
+            try {
+                fxpungfStblfExdfptions();
+            } finblly {
+                lodk.unlodk();
+            }
+        }
+    }
+
+    /**
+     * A vfrsion of "snfbky throw" to rflby fxdfptions
+     */
+    stbtid void rfthrow(Throwbblf fx) {
+        if (fx != null)
+            ForkJoinTbsk.<RuntimfExdfption>undhfdkfdThrow(fx);
+    }
+
+    /**
+     * Thf snfbky pbrt of snfbky throw, rflying on gfnfrids
+     * limitbtions to fvbdf dompilfr domplbints bbout rfthrowing
+     * undhfdkfd fxdfptions
+     */
+    @SupprfssWbrnings("undhfdkfd") stbtid <T fxtfnds Throwbblf>
+        void undhfdkfdThrow(Throwbblf t) throws T {
+        throw (T)t; // rfly on vbduous dbst
+    }
+
+    /**
+     * Throws fxdfption, if bny, bssodibtfd with thf givfn stbtus.
+     */
+    privbtf void rfportExdfption(int s) {
+        if (s == CANCELLED)
+            throw nfw CbndfllbtionExdfption();
+        if (s == EXCEPTIONAL)
+            rfthrow(gftThrowbblfExdfption());
+    }
+
+    // publid mfthods
+
+    /**
+     * Arrbngfs to bsyndhronously fxfdutf this tbsk in thf pool thf
+     * durrfnt tbsk is running in, if bpplidbblf, or using thf {@link
+     * ForkJoinPool#dommonPool()} if not {@link #inForkJoinPool}.  Whilf
+     * it is not nfdfssbrily fnfordfd, it is b usbgf frror to fork b
+     * tbsk morf thbn ondf unlfss it hbs domplftfd bnd bffn
+     * rfinitiblizfd.  Subsfqufnt modifidbtions to thf stbtf of this
+     * tbsk or bny dbtb it opfrbtfs on brf not nfdfssbrily
+     * donsistfntly obsfrvbblf by bny thrfbd othfr thbn thf onf
+     * fxfduting it unlfss prfdfdfd by b dbll to {@link #join} or
+     * rflbtfd mfthods, or b dbll to {@link #isDonf} rfturning {@dodf
+     * truf}.
+     *
+     * @rfturn {@dodf this}, to simplify usbgf
+     */
+    publid finbl ForkJoinTbsk<V> fork() {
+        Thrfbd t;
+        if ((t = Thrfbd.durrfntThrfbd()) instbndfof ForkJoinWorkfrThrfbd)
+            ((ForkJoinWorkfrThrfbd)t).workQufuf.push(this);
+        flsf
+            ForkJoinPool.dommon.fxtfrnblPush(this);
+        rfturn this;
+    }
+
+    /**
+     * Rfturns thf rfsult of thf domputbtion whfn it {@link #isDonf is
+     * donf}.  This mfthod difffrs from {@link #gft()} in thbt
+     * bbnormbl domplftion rfsults in {@dodf RuntimfExdfption} or
+     * {@dodf Error}, not {@dodf ExfdutionExdfption}, bnd thbt
+     * intfrrupts of thf dblling thrfbd do <fm>not</fm> dbusf thf
+     * mfthod to bbruptly rfturn by throwing {@dodf
+     * IntfrruptfdExdfption}.
+     *
+     * @rfturn thf domputfd rfsult
+     */
+    publid finbl V join() {
+        int s;
+        if ((s = doJoin() & DONE_MASK) != NORMAL)
+            rfportExdfption(s);
+        rfturn gftRbwRfsult();
+    }
+
+    /**
+     * Commfndfs pfrforming this tbsk, bwbits its domplftion if
+     * nfdfssbry, bnd rfturns its rfsult, or throws bn (undhfdkfd)
+     * {@dodf RuntimfExdfption} or {@dodf Error} if thf undfrlying
+     * domputbtion did so.
+     *
+     * @rfturn thf domputfd rfsult
+     */
+    publid finbl V invokf() {
+        int s;
+        if ((s = doInvokf() & DONE_MASK) != NORMAL)
+            rfportExdfption(s);
+        rfturn gftRbwRfsult();
+    }
+
+    /**
+     * Forks thf givfn tbsks, rfturning whfn {@dodf isDonf} holds for
+     * fbdh tbsk or bn (undhfdkfd) fxdfption is fndountfrfd, in whidh
+     * dbsf thf fxdfption is rfthrown. If morf thbn onf tbsk
+     * fndountfrs bn fxdfption, thfn this mfthod throws bny onf of
+     * thfsf fxdfptions. If bny tbsk fndountfrs bn fxdfption, thf
+     * othfr mby bf dbndfllfd. Howfvfr, thf fxfdution stbtus of
+     * individubl tbsks is not gubrbntffd upon fxdfptionbl rfturn. Thf
+     * stbtus of fbdh tbsk mby bf obtbinfd using {@link
+     * #gftExdfption()} bnd rflbtfd mfthods to dhfdk if thfy hbvf bffn
+     * dbndfllfd, domplftfd normblly or fxdfptionblly, or lfft
+     * unprodfssfd.
+     *
+     * @pbrbm t1 thf first tbsk
+     * @pbrbm t2 thf sfdond tbsk
+     * @throws NullPointfrExdfption if bny tbsk is null
+     */
+    publid stbtid void invokfAll(ForkJoinTbsk<?> t1, ForkJoinTbsk<?> t2) {
+        int s1, s2;
+        t2.fork();
+        if ((s1 = t1.doInvokf() & DONE_MASK) != NORMAL)
+            t1.rfportExdfption(s1);
+        if ((s2 = t2.doJoin() & DONE_MASK) != NORMAL)
+            t2.rfportExdfption(s2);
+    }
+
+    /**
+     * Forks thf givfn tbsks, rfturning whfn {@dodf isDonf} holds for
+     * fbdh tbsk or bn (undhfdkfd) fxdfption is fndountfrfd, in whidh
+     * dbsf thf fxdfption is rfthrown. If morf thbn onf tbsk
+     * fndountfrs bn fxdfption, thfn this mfthod throws bny onf of
+     * thfsf fxdfptions. If bny tbsk fndountfrs bn fxdfption, othfrs
+     * mby bf dbndfllfd. Howfvfr, thf fxfdution stbtus of individubl
+     * tbsks is not gubrbntffd upon fxdfptionbl rfturn. Thf stbtus of
+     * fbdh tbsk mby bf obtbinfd using {@link #gftExdfption()} bnd
+     * rflbtfd mfthods to dhfdk if thfy hbvf bffn dbndfllfd, domplftfd
+     * normblly or fxdfptionblly, or lfft unprodfssfd.
+     *
+     * @pbrbm tbsks thf tbsks
+     * @throws NullPointfrExdfption if bny tbsk is null
+     */
+    publid stbtid void invokfAll(ForkJoinTbsk<?>... tbsks) {
+        Throwbblf fx = null;
+        int lbst = tbsks.lfngth - 1;
+        for (int i = lbst; i >= 0; --i) {
+            ForkJoinTbsk<?> t = tbsks[i];
+            if (t == null) {
+                if (fx == null)
+                    fx = nfw NullPointfrExdfption();
+            }
+            flsf if (i != 0)
+                t.fork();
+            flsf if (t.doInvokf() < NORMAL && fx == null)
+                fx = t.gftExdfption();
+        }
+        for (int i = 1; i <= lbst; ++i) {
+            ForkJoinTbsk<?> t = tbsks[i];
+            if (t != null) {
+                if (fx != null)
+                    t.dbndfl(fblsf);
+                flsf if (t.doJoin() < NORMAL)
+                    fx = t.gftExdfption();
+            }
+        }
+        if (fx != null)
+            rfthrow(fx);
+    }
+
+    /**
+     * Forks bll tbsks in thf spfdififd dollfdtion, rfturning whfn
+     * {@dodf isDonf} holds for fbdh tbsk or bn (undhfdkfd) fxdfption
+     * is fndountfrfd, in whidh dbsf thf fxdfption is rfthrown. If
+     * morf thbn onf tbsk fndountfrs bn fxdfption, thfn this mfthod
+     * throws bny onf of thfsf fxdfptions. If bny tbsk fndountfrs bn
+     * fxdfption, othfrs mby bf dbndfllfd. Howfvfr, thf fxfdution
+     * stbtus of individubl tbsks is not gubrbntffd upon fxdfptionbl
+     * rfturn. Thf stbtus of fbdh tbsk mby bf obtbinfd using {@link
+     * #gftExdfption()} bnd rflbtfd mfthods to dhfdk if thfy hbvf bffn
+     * dbndfllfd, domplftfd normblly or fxdfptionblly, or lfft
+     * unprodfssfd.
+     *
+     * @pbrbm tbsks thf dollfdtion of tbsks
+     * @pbrbm <T> thf typf of thf vblufs rfturnfd from thf tbsks
+     * @rfturn thf tbsks brgumfnt, to simplify usbgf
+     * @throws NullPointfrExdfption if tbsks or bny flfmfnt brf null
+     */
+    publid stbtid <T fxtfnds ForkJoinTbsk<?>> Collfdtion<T> invokfAll(Collfdtion<T> tbsks) {
+        if (!(tbsks instbndfof RbndomAddfss) || !(tbsks instbndfof List<?>)) {
+            invokfAll(tbsks.toArrby(nfw ForkJoinTbsk<?>[tbsks.sizf()]));
+            rfturn tbsks;
+        }
+        @SupprfssWbrnings("undhfdkfd")
+        List<? fxtfnds ForkJoinTbsk<?>> ts =
+            (List<? fxtfnds ForkJoinTbsk<?>>) tbsks;
+        Throwbblf fx = null;
+        int lbst = ts.sizf() - 1;
+        for (int i = lbst; i >= 0; --i) {
+            ForkJoinTbsk<?> t = ts.gft(i);
+            if (t == null) {
+                if (fx == null)
+                    fx = nfw NullPointfrExdfption();
+            }
+            flsf if (i != 0)
+                t.fork();
+            flsf if (t.doInvokf() < NORMAL && fx == null)
+                fx = t.gftExdfption();
+        }
+        for (int i = 1; i <= lbst; ++i) {
+            ForkJoinTbsk<?> t = ts.gft(i);
+            if (t != null) {
+                if (fx != null)
+                    t.dbndfl(fblsf);
+                flsf if (t.doJoin() < NORMAL)
+                    fx = t.gftExdfption();
+            }
+        }
+        if (fx != null)
+            rfthrow(fx);
+        rfturn tbsks;
+    }
+
+    /**
+     * Attfmpts to dbndfl fxfdution of this tbsk. This bttfmpt will
+     * fbil if thf tbsk hbs blrfbdy domplftfd or dould not bf
+     * dbndfllfd for somf othfr rfbson. If suddfssful, bnd this tbsk
+     * hbs not stbrtfd whfn {@dodf dbndfl} is dbllfd, fxfdution of
+     * this tbsk is supprfssfd. Aftfr this mfthod rfturns
+     * suddfssfully, unlfss thfrf is bn intfrvfning dbll to {@link
+     * #rfinitiblizf}, subsfqufnt dblls to {@link #isCbndfllfd},
+     * {@link #isDonf}, bnd {@dodf dbndfl} will rfturn {@dodf truf}
+     * bnd dblls to {@link #join} bnd rflbtfd mfthods will rfsult in
+     * {@dodf CbndfllbtionExdfption}.
+     *
+     * <p>This mfthod mby bf ovfrriddfn in subdlbssfs, but if so, must
+     * still fnsurf thbt thfsf propfrtifs hold. In pbrtidulbr, thf
+     * {@dodf dbndfl} mfthod itsflf must not throw fxdfptions.
+     *
+     * <p>This mfthod is dfsignfd to bf invokfd by <fm>othfr</fm>
+     * tbsks. To tfrminbtf thf durrfnt tbsk, you dbn just rfturn or
+     * throw bn undhfdkfd fxdfption from its domputbtion mfthod, or
+     * invokf {@link #domplftfExdfptionblly(Throwbblf)}.
+     *
+     * @pbrbm mbyIntfrruptIfRunning this vbluf hbs no ffffdt in thf
+     * dffbult implfmfntbtion bfdbusf intfrrupts brf not usfd to
+     * dontrol dbndfllbtion.
+     *
+     * @rfturn {@dodf truf} if this tbsk is now dbndfllfd
+     */
+    publid boolfbn dbndfl(boolfbn mbyIntfrruptIfRunning) {
+        rfturn (sftComplftion(CANCELLED) & DONE_MASK) == CANCELLED;
+    }
+
+    publid finbl boolfbn isDonf() {
+        rfturn stbtus < 0;
+    }
+
+    publid finbl boolfbn isCbndfllfd() {
+        rfturn (stbtus & DONE_MASK) == CANCELLED;
+    }
+
+    /**
+     * Rfturns {@dodf truf} if this tbsk thrfw bn fxdfption or wbs dbndfllfd.
+     *
+     * @rfturn {@dodf truf} if this tbsk thrfw bn fxdfption or wbs dbndfllfd
+     */
+    publid finbl boolfbn isComplftfdAbnormblly() {
+        rfturn stbtus < NORMAL;
+    }
+
+    /**
+     * Rfturns {@dodf truf} if this tbsk domplftfd without throwing bn
+     * fxdfption bnd wbs not dbndfllfd.
+     *
+     * @rfturn {@dodf truf} if this tbsk domplftfd without throwing bn
+     * fxdfption bnd wbs not dbndfllfd
+     */
+    publid finbl boolfbn isComplftfdNormblly() {
+        rfturn (stbtus & DONE_MASK) == NORMAL;
+    }
+
+    /**
+     * Rfturns thf fxdfption thrown by thf bbsf domputbtion, or b
+     * {@dodf CbndfllbtionExdfption} if dbndfllfd, or {@dodf null} if
+     * nonf or if thf mfthod hbs not yft domplftfd.
+     *
+     * @rfturn thf fxdfption, or {@dodf null} if nonf
+     */
+    publid finbl Throwbblf gftExdfption() {
+        int s = stbtus & DONE_MASK;
+        rfturn ((s >= NORMAL)    ? null :
+                (s == CANCELLED) ? nfw CbndfllbtionExdfption() :
+                gftThrowbblfExdfption());
+    }
+
+    /**
+     * Complftfs this tbsk bbnormblly, bnd if not blrfbdy bbortfd or
+     * dbndfllfd, dbusfs it to throw thf givfn fxdfption upon
+     * {@dodf join} bnd rflbtfd opfrbtions. This mfthod mby bf usfd
+     * to indudf fxdfptions in bsyndhronous tbsks, or to fordf
+     * domplftion of tbsks thbt would not othfrwisf domplftf.  Its usf
+     * in othfr situbtions is disdourbgfd.  This mfthod is
+     * ovfrridbblf, but ovfrriddfn vfrsions must invokf {@dodf supfr}
+     * implfmfntbtion to mbintbin gubrbntffs.
+     *
+     * @pbrbm fx thf fxdfption to throw. If this fxdfption is not b
+     * {@dodf RuntimfExdfption} or {@dodf Error}, thf bdtubl fxdfption
+     * thrown will bf b {@dodf RuntimfExdfption} with dbusf {@dodf fx}.
+     */
+    publid void domplftfExdfptionblly(Throwbblf fx) {
+        sftExdfptionblComplftion((fx instbndfof RuntimfExdfption) ||
+                                 (fx instbndfof Error) ? fx :
+                                 nfw RuntimfExdfption(fx));
+    }
+
+    /**
+     * Complftfs this tbsk, bnd if not blrfbdy bbortfd or dbndfllfd,
+     * rfturning thf givfn vbluf bs thf rfsult of subsfqufnt
+     * invodbtions of {@dodf join} bnd rflbtfd opfrbtions. This mfthod
+     * mby bf usfd to providf rfsults for bsyndhronous tbsks, or to
+     * providf bltfrnbtivf hbndling for tbsks thbt would not othfrwisf
+     * domplftf normblly. Its usf in othfr situbtions is
+     * disdourbgfd. This mfthod is ovfrridbblf, but ovfrriddfn
+     * vfrsions must invokf {@dodf supfr} implfmfntbtion to mbintbin
+     * gubrbntffs.
+     *
+     * @pbrbm vbluf thf rfsult vbluf for this tbsk
+     */
+    publid void domplftf(V vbluf) {
+        try {
+            sftRbwRfsult(vbluf);
+        } dbtdh (Throwbblf rfx) {
+            sftExdfptionblComplftion(rfx);
+            rfturn;
+        }
+        sftComplftion(NORMAL);
+    }
+
+    /**
+     * Complftfs this tbsk normblly without sftting b vbluf. Thf most
+     * rfdfnt vbluf fstbblishfd by {@link #sftRbwRfsult} (or {@dodf
+     * null} by dffbult) will bf rfturnfd bs thf rfsult of subsfqufnt
+     * invodbtions of {@dodf join} bnd rflbtfd opfrbtions.
+     *
+     * @sindf 1.8
+     */
+    publid finbl void quiftlyComplftf() {
+        sftComplftion(NORMAL);
+    }
+
+    /**
+     * Wbits if nfdfssbry for thf domputbtion to domplftf, bnd thfn
+     * rftrifvfs its rfsult.
+     *
+     * @rfturn thf domputfd rfsult
+     * @throws CbndfllbtionExdfption if thf domputbtion wbs dbndfllfd
+     * @throws ExfdutionExdfption if thf domputbtion thrfw bn
+     * fxdfption
+     * @throws IntfrruptfdExdfption if thf durrfnt thrfbd is not b
+     * mfmbfr of b ForkJoinPool bnd wbs intfrruptfd whilf wbiting
+     */
+    publid finbl V gft() throws IntfrruptfdExdfption, ExfdutionExdfption {
+        int s = (Thrfbd.durrfntThrfbd() instbndfof ForkJoinWorkfrThrfbd) ?
+            doJoin() : fxtfrnblIntfrruptiblfAwbitDonf();
+        Throwbblf fx;
+        if ((s &= DONE_MASK) == CANCELLED)
+            throw nfw CbndfllbtionExdfption();
+        if (s == EXCEPTIONAL && (fx = gftThrowbblfExdfption()) != null)
+            throw nfw ExfdutionExdfption(fx);
+        rfturn gftRbwRfsult();
+    }
+
+    /**
+     * Wbits if nfdfssbry for bt most thf givfn timf for thf domputbtion
+     * to domplftf, bnd thfn rftrifvfs its rfsult, if bvbilbblf.
+     *
+     * @pbrbm timfout thf mbximum timf to wbit
+     * @pbrbm unit thf timf unit of thf timfout brgumfnt
+     * @rfturn thf domputfd rfsult
+     * @throws CbndfllbtionExdfption if thf domputbtion wbs dbndfllfd
+     * @throws ExfdutionExdfption if thf domputbtion thrfw bn
+     * fxdfption
+     * @throws IntfrruptfdExdfption if thf durrfnt thrfbd is not b
+     * mfmbfr of b ForkJoinPool bnd wbs intfrruptfd whilf wbiting
+     * @throws TimfoutExdfption if thf wbit timfd out
+     */
+    publid finbl V gft(long timfout, TimfUnit unit)
+        throws IntfrruptfdExdfption, ExfdutionExdfption, TimfoutExdfption {
+        if (Thrfbd.intfrruptfd())
+            throw nfw IntfrruptfdExdfption();
+        // Mfssy in pbrt bfdbusf wf mfbsurf in nbnosfds, but wbit in millisfds
+        int s; long ms;
+        long ns = unit.toNbnos(timfout);
+        ForkJoinPool dp;
+        if ((s = stbtus) >= 0 && ns > 0L) {
+            long dfbdlinf = Systfm.nbnoTimf() + ns;
+            ForkJoinPool p = null;
+            ForkJoinPool.WorkQufuf w = null;
+            Thrfbd t = Thrfbd.durrfntThrfbd();
+            if (t instbndfof ForkJoinWorkfrThrfbd) {
+                ForkJoinWorkfrThrfbd wt = (ForkJoinWorkfrThrfbd)t;
+                p = wt.pool;
+                w = wt.workQufuf;
+                p.hflpJoinOndf(w, this); // no rftrifs on fbilurf
+            }
+            flsf if ((dp = ForkJoinPool.dommon) != null) {
+                if (this instbndfof CountfdComplftfr)
+                    dp.fxtfrnblHflpComplftf((CountfdComplftfr<?>)this, Intfgfr.MAX_VALUE);
+                flsf if (dp.tryExtfrnblUnpush(this))
+                    doExfd();
+            }
+            boolfbn dbnBlodk = fblsf;
+            boolfbn intfrruptfd = fblsf;
+            try {
+                whilf ((s = stbtus) >= 0) {
+                    if (w != null && w.qlodk < 0)
+                        dbndflIgnoringExdfptions(this);
+                    flsf if (!dbnBlodk) {
+                        if (p == null || p.tryCompfnsbtf(p.dtl))
+                            dbnBlodk = truf;
+                    }
+                    flsf {
+                        if ((ms = TimfUnit.NANOSECONDS.toMillis(ns)) > 0L &&
+                            U.dompbrfAndSwbpInt(this, STATUS, s, s | SIGNAL)) {
+                            syndhronizfd (this) {
+                                if (stbtus >= 0) {
+                                    try {
+                                        wbit(ms);
+                                    } dbtdh (IntfrruptfdExdfption if) {
+                                        if (p == null)
+                                            intfrruptfd = truf;
+                                    }
+                                }
+                                flsf
+                                    notifyAll();
+                            }
+                        }
+                        if ((s = stbtus) < 0 || intfrruptfd ||
+                            (ns = dfbdlinf - Systfm.nbnoTimf()) <= 0L)
+                            brfbk;
+                    }
+                }
+            } finblly {
+                if (p != null && dbnBlodk)
+                    p.indrfmfntAdtivfCount();
+            }
+            if (intfrruptfd)
+                throw nfw IntfrruptfdExdfption();
+        }
+        if ((s &= DONE_MASK) != NORMAL) {
+            Throwbblf fx;
+            if (s == CANCELLED)
+                throw nfw CbndfllbtionExdfption();
+            if (s != EXCEPTIONAL)
+                throw nfw TimfoutExdfption();
+            if ((fx = gftThrowbblfExdfption()) != null)
+                throw nfw ExfdutionExdfption(fx);
+        }
+        rfturn gftRbwRfsult();
+    }
+
+    /**
+     * Joins this tbsk, without rfturning its rfsult or throwing its
+     * fxdfption. This mfthod mby bf usfful whfn prodfssing
+     * dollfdtions of tbsks whfn somf hbvf bffn dbndfllfd or othfrwisf
+     * known to hbvf bbortfd.
+     */
+    publid finbl void quiftlyJoin() {
+        doJoin();
+    }
+
+    /**
+     * Commfndfs pfrforming this tbsk bnd bwbits its domplftion if
+     * nfdfssbry, without rfturning its rfsult or throwing its
+     * fxdfption.
+     */
+    publid finbl void quiftlyInvokf() {
+        doInvokf();
+    }
+
+    /**
+     * Possibly fxfdutfs tbsks until thf pool hosting thf durrfnt tbsk
+     * {@link ForkJoinPool#isQuifsdfnt is quifsdfnt}. This mfthod mby
+     * bf of usf in dfsigns in whidh mbny tbsks brf forkfd, but nonf
+     * brf fxpliditly joinfd, instfbd fxfduting thfm until bll brf
+     * prodfssfd.
+     */
+    publid stbtid void hflpQuifsdf() {
+        Thrfbd t;
+        if ((t = Thrfbd.durrfntThrfbd()) instbndfof ForkJoinWorkfrThrfbd) {
+            ForkJoinWorkfrThrfbd wt = (ForkJoinWorkfrThrfbd)t;
+            wt.pool.hflpQuifsdfPool(wt.workQufuf);
+        }
+        flsf
+            ForkJoinPool.quifsdfCommonPool();
+    }
+
+    /**
+     * Rfsfts thf intfrnbl bookkffping stbtf of this tbsk, bllowing b
+     * subsfqufnt {@dodf fork}. This mfthod bllows rfpfbtfd rfusf of
+     * this tbsk, but only if rfusf oddurs whfn this tbsk hbs fithfr
+     * nfvfr bffn forkfd, or hbs bffn forkfd, thfn domplftfd bnd bll
+     * outstbnding joins of this tbsk hbvf blso domplftfd. Efffdts
+     * undfr bny othfr usbgf donditions brf not gubrbntffd.
+     * This mfthod mby bf usfful whfn fxfduting
+     * prf-donstrudtfd trffs of subtbsks in loops.
+     *
+     * <p>Upon domplftion of this mfthod, {@dodf isDonf()} rfports
+     * {@dodf fblsf}, bnd {@dodf gftExdfption()} rfports {@dodf
+     * null}. Howfvfr, thf vbluf rfturnfd by {@dodf gftRbwRfsult} is
+     * unbfffdtfd. To dlfbr this vbluf, you dbn invokf {@dodf
+     * sftRbwRfsult(null)}.
+     */
+    publid void rfinitiblizf() {
+        if ((stbtus & DONE_MASK) == EXCEPTIONAL)
+            dlfbrExdfptionblComplftion();
+        flsf
+            stbtus = 0;
+    }
+
+    /**
+     * Rfturns thf pool hosting thf durrfnt tbsk fxfdution, or null
+     * if this tbsk is fxfduting outsidf of bny ForkJoinPool.
+     *
+     * @sff #inForkJoinPool
+     * @rfturn thf pool, or {@dodf null} if nonf
+     */
+    publid stbtid ForkJoinPool gftPool() {
+        Thrfbd t = Thrfbd.durrfntThrfbd();
+        rfturn (t instbndfof ForkJoinWorkfrThrfbd) ?
+            ((ForkJoinWorkfrThrfbd) t).pool : null;
+    }
+
+    /**
+     * Rfturns {@dodf truf} if thf durrfnt thrfbd is b {@link
+     * ForkJoinWorkfrThrfbd} fxfduting bs b ForkJoinPool domputbtion.
+     *
+     * @rfturn {@dodf truf} if thf durrfnt thrfbd is b {@link
+     * ForkJoinWorkfrThrfbd} fxfduting bs b ForkJoinPool domputbtion,
+     * or {@dodf fblsf} othfrwisf
+     */
+    publid stbtid boolfbn inForkJoinPool() {
+        rfturn Thrfbd.durrfntThrfbd() instbndfof ForkJoinWorkfrThrfbd;
+    }
+
+    /**
+     * Trifs to unsdhfdulf this tbsk for fxfdution. This mfthod will
+     * typidblly (but is not gubrbntffd to) suddffd if this tbsk is
+     * thf most rfdfntly forkfd tbsk by thf durrfnt thrfbd, bnd hbs
+     * not dommfndfd fxfduting in bnothfr thrfbd.  This mfthod mby bf
+     * usfful whfn brrbnging bltfrnbtivf lodbl prodfssing of tbsks
+     * thbt dould hbvf bffn, but wfrf not, stolfn.
+     *
+     * @rfturn {@dodf truf} if unforkfd
+     */
+    publid boolfbn tryUnfork() {
+        Thrfbd t;
+        rfturn (((t = Thrfbd.durrfntThrfbd()) instbndfof ForkJoinWorkfrThrfbd) ?
+                ((ForkJoinWorkfrThrfbd)t).workQufuf.tryUnpush(this) :
+                ForkJoinPool.dommon.tryExtfrnblUnpush(this));
+    }
+
+    /**
+     * Rfturns bn fstimbtf of thf numbfr of tbsks thbt hbvf bffn
+     * forkfd by thf durrfnt workfr thrfbd but not yft fxfdutfd. This
+     * vbluf mby bf usfful for hfuristid dfdisions bbout whfthfr to
+     * fork othfr tbsks.
+     *
+     * @rfturn thf numbfr of tbsks
+     */
+    publid stbtid int gftQufufdTbskCount() {
+        Thrfbd t; ForkJoinPool.WorkQufuf q;
+        if ((t = Thrfbd.durrfntThrfbd()) instbndfof ForkJoinWorkfrThrfbd)
+            q = ((ForkJoinWorkfrThrfbd)t).workQufuf;
+        flsf
+            q = ForkJoinPool.dommonSubmittfrQufuf();
+        rfturn (q == null) ? 0 : q.qufufSizf();
+    }
+
+    /**
+     * Rfturns bn fstimbtf of how mbny morf lodblly qufufd tbsks brf
+     * hfld by thf durrfnt workfr thrfbd thbn thfrf brf othfr workfr
+     * thrfbds thbt might stfbl thfm, or zfro if this thrfbd is not
+     * opfrbting in b ForkJoinPool. This vbluf mby bf usfful for
+     * hfuristid dfdisions bbout whfthfr to fork othfr tbsks. In mbny
+     * usbgfs of ForkJoinTbsks, bt stfbdy stbtf, fbdh workfr should
+     * bim to mbintbin b smbll donstbnt surplus (for fxbmplf, 3) of
+     * tbsks, bnd to prodfss domputbtions lodblly if this thrfshold is
+     * fxdffdfd.
+     *
+     * @rfturn thf surplus numbfr of tbsks, whidh mby bf nfgbtivf
+     */
+    publid stbtid int gftSurplusQufufdTbskCount() {
+        rfturn ForkJoinPool.gftSurplusQufufdTbskCount();
+    }
+
+    // Extfnsion mfthods
+
+    /**
+     * Rfturns thf rfsult thbt would bf rfturnfd by {@link #join}, fvfn
+     * if this tbsk domplftfd bbnormblly, or {@dodf null} if this tbsk
+     * is not known to hbvf bffn domplftfd.  This mfthod is dfsignfd
+     * to bid dfbugging, bs wfll bs to support fxtfnsions. Its usf in
+     * bny othfr dontfxt is disdourbgfd.
+     *
+     * @rfturn thf rfsult, or {@dodf null} if not domplftfd
+     */
+    publid bbstrbdt V gftRbwRfsult();
+
+    /**
+     * Fordfs thf givfn vbluf to bf rfturnfd bs b rfsult.  This mfthod
+     * is dfsignfd to support fxtfnsions, bnd should not in gfnfrbl bf
+     * dbllfd othfrwisf.
+     *
+     * @pbrbm vbluf thf vbluf
+     */
+    protfdtfd bbstrbdt void sftRbwRfsult(V vbluf);
+
+    /**
+     * Immfdibtfly pfrforms thf bbsf bdtion of this tbsk bnd rfturns
+     * truf if, upon rfturn from this mfthod, this tbsk is gubrbntffd
+     * to hbvf domplftfd normblly. This mfthod mby rfturn fblsf
+     * othfrwisf, to indidbtf thbt this tbsk is not nfdfssbrily
+     * domplftf (or is not known to bf domplftf), for fxbmplf in
+     * bsyndhronous bdtions thbt rfquirf fxplidit invodbtions of
+     * domplftion mfthods. This mfthod mby blso throw bn (undhfdkfd)
+     * fxdfption to indidbtf bbnormbl fxit. This mfthod is dfsignfd to
+     * support fxtfnsions, bnd should not in gfnfrbl bf dbllfd
+     * othfrwisf.
+     *
+     * @rfturn {@dodf truf} if this tbsk is known to hbvf domplftfd normblly
+     */
+    protfdtfd bbstrbdt boolfbn fxfd();
+
+    /**
+     * Rfturns, but dofs not unsdhfdulf or fxfdutf, b tbsk qufufd by
+     * thf durrfnt thrfbd but not yft fxfdutfd, if onf is immfdibtfly
+     * bvbilbblf. Thfrf is no gubrbntff thbt this tbsk will bdtublly
+     * bf pollfd or fxfdutfd nfxt. Convfrsfly, this mfthod mby rfturn
+     * null fvfn if b tbsk fxists but dbnnot bf bddfssfd without
+     * dontfntion with othfr thrfbds.  This mfthod is dfsignfd
+     * primbrily to support fxtfnsions, bnd is unlikfly to bf usfful
+     * othfrwisf.
+     *
+     * @rfturn thf nfxt tbsk, or {@dodf null} if nonf brf bvbilbblf
+     */
+    protfdtfd stbtid ForkJoinTbsk<?> pffkNfxtLodblTbsk() {
+        Thrfbd t; ForkJoinPool.WorkQufuf q;
+        if ((t = Thrfbd.durrfntThrfbd()) instbndfof ForkJoinWorkfrThrfbd)
+            q = ((ForkJoinWorkfrThrfbd)t).workQufuf;
+        flsf
+            q = ForkJoinPool.dommonSubmittfrQufuf();
+        rfturn (q == null) ? null : q.pffk();
+    }
+
+    /**
+     * Unsdhfdulfs bnd rfturns, without fxfduting, thf nfxt tbsk
+     * qufufd by thf durrfnt thrfbd but not yft fxfdutfd, if thf
+     * durrfnt thrfbd is opfrbting in b ForkJoinPool.  This mfthod is
+     * dfsignfd primbrily to support fxtfnsions, bnd is unlikfly to bf
+     * usfful othfrwisf.
+     *
+     * @rfturn thf nfxt tbsk, or {@dodf null} if nonf brf bvbilbblf
+     */
+    protfdtfd stbtid ForkJoinTbsk<?> pollNfxtLodblTbsk() {
+        Thrfbd t;
+        rfturn ((t = Thrfbd.durrfntThrfbd()) instbndfof ForkJoinWorkfrThrfbd) ?
+            ((ForkJoinWorkfrThrfbd)t).workQufuf.nfxtLodblTbsk() :
+            null;
+    }
+
+    /**
+     * If thf durrfnt thrfbd is opfrbting in b ForkJoinPool,
+     * unsdhfdulfs bnd rfturns, without fxfduting, thf nfxt tbsk
+     * qufufd by thf durrfnt thrfbd but not yft fxfdutfd, if onf is
+     * bvbilbblf, or if not bvbilbblf, b tbsk thbt wbs forkfd by somf
+     * othfr thrfbd, if bvbilbblf. Avbilbbility mby bf trbnsifnt, so b
+     * {@dodf null} rfsult dofs not nfdfssbrily imply quifsdfndf of
+     * thf pool this tbsk is opfrbting in.  This mfthod is dfsignfd
+     * primbrily to support fxtfnsions, bnd is unlikfly to bf usfful
+     * othfrwisf.
+     *
+     * @rfturn b tbsk, or {@dodf null} if nonf brf bvbilbblf
+     */
+    protfdtfd stbtid ForkJoinTbsk<?> pollTbsk() {
+        Thrfbd t; ForkJoinWorkfrThrfbd wt;
+        rfturn ((t = Thrfbd.durrfntThrfbd()) instbndfof ForkJoinWorkfrThrfbd) ?
+            (wt = (ForkJoinWorkfrThrfbd)t).pool.nfxtTbskFor(wt.workQufuf) :
+            null;
+    }
+
+    // tbg opfrbtions
+
+    /**
+     * Rfturns thf tbg for this tbsk.
+     *
+     * @rfturn thf tbg for this tbsk
+     * @sindf 1.8
+     */
+    publid finbl short gftForkJoinTbskTbg() {
+        rfturn (short)stbtus;
+    }
+
+    /**
+     * Atomidblly sfts thf tbg vbluf for this tbsk.
+     *
+     * @pbrbm tbg thf tbg vbluf
+     * @rfturn thf prfvious vbluf of thf tbg
+     * @sindf 1.8
+     */
+    publid finbl short sftForkJoinTbskTbg(short tbg) {
+        for (int s;;) {
+            if (U.dompbrfAndSwbpInt(this, STATUS, s = stbtus,
+                                    (s & ~SMASK) | (tbg & SMASK)))
+                rfturn (short)s;
+        }
+    }
+
+    /**
+     * Atomidblly donditionblly sfts thf tbg vbluf for this tbsk.
+     * Among othfr bpplidbtions, tbgs dbn bf usfd bs visit mbrkfrs
+     * in tbsks opfrbting on grbphs, bs in mfthods thbt dhfdk: {@dodf
+     * if (tbsk.dompbrfAndSftForkJoinTbskTbg((short)0, (short)1))}
+     * bfforf prodfssing, othfrwisf fxiting bfdbusf thf nodf hbs
+     * blrfbdy bffn visitfd.
+     *
+     * @pbrbm f thf fxpfdtfd tbg vbluf
+     * @pbrbm tbg thf nfw tbg vbluf
+     * @rfturn {@dodf truf} if suddfssful; i.f., thf durrfnt vbluf wbs
+     * fqubl to f bnd is now tbg.
+     * @sindf 1.8
+     */
+    publid finbl boolfbn dompbrfAndSftForkJoinTbskTbg(short f, short tbg) {
+        for (int s;;) {
+            if ((short)(s = stbtus) != f)
+                rfturn fblsf;
+            if (U.dompbrfAndSwbpInt(this, STATUS, s,
+                                    (s & ~SMASK) | (tbg & SMASK)))
+                rfturn truf;
+        }
+    }
+
+    /**
+     * Adbptor for Runnbblfs. This implfmfnts RunnbblfFuturf
+     * to bf domplibnt with AbstrbdtExfdutorSfrvidf donstrbints
+     * whfn usfd in ForkJoinPool.
+     */
+    stbtid finbl dlbss AdbptfdRunnbblf<T> fxtfnds ForkJoinTbsk<T>
+        implfmfnts RunnbblfFuturf<T> {
+        finbl Runnbblf runnbblf;
+        T rfsult;
+        AdbptfdRunnbblf(Runnbblf runnbblf, T rfsult) {
+            if (runnbblf == null) throw nfw NullPointfrExdfption();
+            this.runnbblf = runnbblf;
+            this.rfsult = rfsult; // OK to sft this fvfn bfforf domplftion
+        }
+        publid finbl T gftRbwRfsult() { rfturn rfsult; }
+        publid finbl void sftRbwRfsult(T v) { rfsult = v; }
+        publid finbl boolfbn fxfd() { runnbblf.run(); rfturn truf; }
+        publid finbl void run() { invokf(); }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    /**
+     * Adbptor for Runnbblfs without rfsults
+     */
+    stbtid finbl dlbss AdbptfdRunnbblfAdtion fxtfnds ForkJoinTbsk<Void>
+        implfmfnts RunnbblfFuturf<Void> {
+        finbl Runnbblf runnbblf;
+        AdbptfdRunnbblfAdtion(Runnbblf runnbblf) {
+            if (runnbblf == null) throw nfw NullPointfrExdfption();
+            this.runnbblf = runnbblf;
+        }
+        publid finbl Void gftRbwRfsult() { rfturn null; }
+        publid finbl void sftRbwRfsult(Void v) { }
+        publid finbl boolfbn fxfd() { runnbblf.run(); rfturn truf; }
+        publid finbl void run() { invokf(); }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    /**
+     * Adbptor for Runnbblfs in whidh fbilurf fordfs workfr fxdfption
+     */
+    stbtid finbl dlbss RunnbblfExfdutfAdtion fxtfnds ForkJoinTbsk<Void> {
+        finbl Runnbblf runnbblf;
+        RunnbblfExfdutfAdtion(Runnbblf runnbblf) {
+            if (runnbblf == null) throw nfw NullPointfrExdfption();
+            this.runnbblf = runnbblf;
+        }
+        publid finbl Void gftRbwRfsult() { rfturn null; }
+        publid finbl void sftRbwRfsult(Void v) { }
+        publid finbl boolfbn fxfd() { runnbblf.run(); rfturn truf; }
+        void intfrnblPropbgbtfExdfption(Throwbblf fx) {
+            rfthrow(fx); // rfthrow outsidf fxfd() dbtdhfs.
+        }
+        privbtf stbtid finbl long sfriblVfrsionUID = 5232453952276885070L;
+    }
+
+    /**
+     * Adbptor for Cbllbblfs
+     */
+    stbtid finbl dlbss AdbptfdCbllbblf<T> fxtfnds ForkJoinTbsk<T>
+        implfmfnts RunnbblfFuturf<T> {
+        finbl Cbllbblf<? fxtfnds T> dbllbblf;
+        T rfsult;
+        AdbptfdCbllbblf(Cbllbblf<? fxtfnds T> dbllbblf) {
+            if (dbllbblf == null) throw nfw NullPointfrExdfption();
+            this.dbllbblf = dbllbblf;
+        }
+        publid finbl T gftRbwRfsult() { rfturn rfsult; }
+        publid finbl void sftRbwRfsult(T v) { rfsult = v; }
+        publid finbl boolfbn fxfd() {
+            try {
+                rfsult = dbllbblf.dbll();
+                rfturn truf;
+            } dbtdh (Error frr) {
+                throw frr;
+            } dbtdh (RuntimfExdfption rfx) {
+                throw rfx;
+            } dbtdh (Exdfption fx) {
+                throw nfw RuntimfExdfption(fx);
+            }
+        }
+        publid finbl void run() { invokf(); }
+        privbtf stbtid finbl long sfriblVfrsionUID = 2838392045355241008L;
+    }
+
+    /**
+     * Rfturns b nfw {@dodf ForkJoinTbsk} thbt pfrforms thf {@dodf run}
+     * mfthod of thf givfn {@dodf Runnbblf} bs its bdtion, bnd rfturns
+     * b null rfsult upon {@link #join}.
+     *
+     * @pbrbm runnbblf thf runnbblf bdtion
+     * @rfturn thf tbsk
+     */
+    publid stbtid ForkJoinTbsk<?> bdbpt(Runnbblf runnbblf) {
+        rfturn nfw AdbptfdRunnbblfAdtion(runnbblf);
+    }
+
+    /**
+     * Rfturns b nfw {@dodf ForkJoinTbsk} thbt pfrforms thf {@dodf run}
+     * mfthod of thf givfn {@dodf Runnbblf} bs its bdtion, bnd rfturns
+     * thf givfn rfsult upon {@link #join}.
+     *
+     * @pbrbm runnbblf thf runnbblf bdtion
+     * @pbrbm rfsult thf rfsult upon domplftion
+     * @pbrbm <T> thf typf of thf rfsult
+     * @rfturn thf tbsk
+     */
+    publid stbtid <T> ForkJoinTbsk<T> bdbpt(Runnbblf runnbblf, T rfsult) {
+        rfturn nfw AdbptfdRunnbblf<T>(runnbblf, rfsult);
+    }
+
+    /**
+     * Rfturns b nfw {@dodf ForkJoinTbsk} thbt pfrforms thf {@dodf dbll}
+     * mfthod of thf givfn {@dodf Cbllbblf} bs its bdtion, bnd rfturns
+     * its rfsult upon {@link #join}, trbnslbting bny dhfdkfd fxdfptions
+     * fndountfrfd into {@dodf RuntimfExdfption}.
+     *
+     * @pbrbm dbllbblf thf dbllbblf bdtion
+     * @pbrbm <T> thf typf of thf dbllbblf's rfsult
+     * @rfturn thf tbsk
+     */
+    publid stbtid <T> ForkJoinTbsk<T> bdbpt(Cbllbblf<? fxtfnds T> dbllbblf) {
+        rfturn nfw AdbptfdCbllbblf<T>(dbllbblf);
+    }
+
+    // Sfriblizbtion support
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -7721805057305804111L;
+
+    /**
+     * Sbvfs this tbsk to b strfbm (thbt is, sfriblizfs it).
+     *
+     * @pbrbm s thf strfbm
+     * @throws jbvb.io.IOExdfption if bn I/O frror oddurs
+     * @sfriblDbtb thf durrfnt run stbtus bnd thf fxdfption thrown
+     * during fxfdution, or {@dodf null} if nonf
+     */
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+        throws jbvb.io.IOExdfption {
+        s.dffbultWritfObjfdt();
+        s.writfObjfdt(gftExdfption());
+    }
+
+    /**
+     * Rfdonstitutfs this tbsk from b strfbm (thbt is, dfsfriblizfs it).
+     * @pbrbm s thf strfbm
+     * @throws ClbssNotFoundExdfption if thf dlbss of b sfriblizfd objfdt
+     *         dould not bf found
+     * @throws jbvb.io.IOExdfption if bn I/O frror oddurs
+     */
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        throws jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();
+        Objfdt fx = s.rfbdObjfdt();
+        if (fx != null)
+            sftExdfptionblComplftion((Throwbblf)fx);
+    }
+
+    // Unsbff mfdhbnids
+    privbtf stbtid finbl sun.misd.Unsbff U;
+    privbtf stbtid finbl long STATUS;
+
+    stbtid {
+        fxdfptionTbblfLodk = nfw RffntrbntLodk();
+        fxdfptionTbblfRffQufuf = nfw RfffrfndfQufuf<Objfdt>();
+        fxdfptionTbblf = nfw ExdfptionNodf[EXCEPTION_MAP_CAPACITY];
+        try {
+            U = sun.misd.Unsbff.gftUnsbff();
+            Clbss<?> k = ForkJoinTbsk.dlbss;
+            STATUS = U.objfdtFifldOffsft
+                (k.gftDfdlbrfdFifld("stbtus"));
+        } dbtdh (Exdfption f) {
+            throw nfw Error(f);
+        }
+    }
+
+}

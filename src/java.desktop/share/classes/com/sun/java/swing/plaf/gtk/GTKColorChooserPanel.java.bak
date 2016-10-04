@@ -1,1306 +1,1306 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.java.swing.plaf.gtk;
+pbdkbgf dom.sun.jbvb.swing.plbf.gtk;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
-import javax.swing.*;
-import javax.swing.colorchooser.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.imbgf.*;
+import jbvbx.swing.*;
+import jbvbx.swing.dolordioosfr.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
 
 /**
- * A color chooser panel mimicking that of GTK's: a color wheel showing
- * hue and a triangle that varies saturation and brightness.
+ * A dolor dioosfr pbnfl mimidking tibt of GTK's: b dolor wiffl siowing
+ * iuf bnd b tribnglf tibt vbrifs sbturbtion bnd brigitnfss.
  *
- * @author Scott Violet
+ * @butior Sdott Violft
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class GTKColorChooserPanel extends AbstractColorChooserPanel implements
-              ChangeListener {
-    private static final float PI_3 = (float)(Math.PI / 3);
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+dlbss GTKColorCioosfrPbnfl fxtfnds AbstrbdtColorCioosfrPbnfl implfmfnts
+              CibngfListfnfr {
+    privbtf stbtid finbl flobt PI_3 = (flobt)(Mbti.PI / 3);
 
-    private ColorTriangle triangle;
-    private JLabel lastLabel;
-    private JLabel label;
+    privbtf ColorTribnglf tribnglf;
+    privbtf JLbbfl lbstLbbfl;
+    privbtf JLbbfl lbbfl;
 
-    private JSpinner hueSpinner;
-    private JSpinner saturationSpinner;
-    private JSpinner valueSpinner;
+    privbtf JSpinnfr iufSpinnfr;
+    privbtf JSpinnfr sbturbtionSpinnfr;
+    privbtf JSpinnfr vblufSpinnfr;
 
-    private JSpinner redSpinner;
-    private JSpinner greenSpinner;
-    private JSpinner blueSpinner;
+    privbtf JSpinnfr rfdSpinnfr;
+    privbtf JSpinnfr grffnSpinnfr;
+    privbtf JSpinnfr blufSpinnfr;
 
-    private JTextField colorNameTF;
+    privbtf JTfxtFifld dolorNbmfTF;
 
-    private boolean settingColor;
+    privbtf boolfbn sfttingColor;
 
-    // The colors are mirrored to avoid creep in adjusting an individual
-    // value.
-    private float hue;
-    private float saturation;
-    private float brightness;
+    // Tif dolors brf mirrorfd to bvoid drffp in bdjusting bn individubl
+    // vbluf.
+    privbtf flobt iuf;
+    privbtf flobt sbturbtion;
+    privbtf flobt brigitnfss;
 
 
 
     /**
-     * Convenience method to transfer focus to the next child of component.
+     * Convfnifndf mftiod to trbnsffr fodus to tif nfxt diild of domponfnt.
      */
-    // PENDING: remove this when a variant of this is added to awt.
-    static void compositeRequestFocus(Component component, boolean direction) {
-        if (component instanceof Container) {
-            Container container = (Container)component;
-            if (container.isFocusCycleRoot()) {
-                FocusTraversalPolicy policy = container.
-                                              getFocusTraversalPolicy();
-                Component comp = policy.getDefaultComponent(container);
-                if (comp!=null) {
-                    comp.requestFocus();
-                    return;
+    // PENDING: rfmovf tiis wifn b vbribnt of tiis is bddfd to bwt.
+    stbtid void dompositfRfqufstFodus(Componfnt domponfnt, boolfbn dirfdtion) {
+        if (domponfnt instbndfof Contbinfr) {
+            Contbinfr dontbinfr = (Contbinfr)domponfnt;
+            if (dontbinfr.isFodusCydlfRoot()) {
+                FodusTrbvfrsblPolidy polidy = dontbinfr.
+                                              gftFodusTrbvfrsblPolidy();
+                Componfnt domp = polidy.gftDffbultComponfnt(dontbinfr);
+                if (domp!=null) {
+                    domp.rfqufstFodus();
+                    rfturn;
                 }
             }
-            Container rootAncestor = container.getFocusCycleRootAncestor();
-            if (rootAncestor!=null) {
-                FocusTraversalPolicy policy = rootAncestor.
-                                                  getFocusTraversalPolicy();
-                Component comp;
+            Contbinfr rootAndfstor = dontbinfr.gftFodusCydlfRootAndfstor();
+            if (rootAndfstor!=null) {
+                FodusTrbvfrsblPolidy polidy = rootAndfstor.
+                                                  gftFodusTrbvfrsblPolidy();
+                Componfnt domp;
 
-                if (direction) {
-                    comp = policy.getComponentAfter(rootAncestor, container);
+                if (dirfdtion) {
+                    domp = polidy.gftComponfntAftfr(rootAndfstor, dontbinfr);
                 }
-                else {
-                    comp = policy.getComponentBefore(rootAncestor, container);
+                flsf {
+                    domp = polidy.gftComponfntBfforf(rootAndfstor, dontbinfr);
                 }
-                if (comp != null) {
-                    comp.requestFocus();
-                    return;
+                if (domp != null) {
+                    domp.rfqufstFodus();
+                    rfturn;
                 }
             }
         }
-        component.requestFocus();
+        domponfnt.rfqufstFodus();
     }
 
 
     /**
-     * Returns a user presentable description of this GTKColorChooserPane.
+     * Rfturns b usfr prfsfntbblf dfsdription of tiis GTKColorCioosfrPbnf.
      */
-    public String getDisplayName() {
-        return (String)UIManager.get("GTKColorChooserPanel.nameText");
+    publid String gftDisplbyNbmf() {
+        rfturn (String)UIMbnbgfr.gft("GTKColorCioosfrPbnfl.nbmfTfxt");
     }
 
     /**
-     * Returns the mnemonic to use with <code>getDisplayName</code>.
+     * Rfturns tif mnfmonid to usf witi <dodf>gftDisplbyNbmf</dodf>.
      */
-    public int getMnemonic() {
-        String m = (String)UIManager.get("GTKColorChooserPanel.mnemonic");
+    publid int gftMnfmonid() {
+        String m = (String)UIMbnbgfr.gft("GTKColorCioosfrPbnfl.mnfmonid");
 
         if (m != null) {
             try {
-                int value = Integer.parseInt(m);
+                int vbluf = Intfgfr.pbrsfInt(m);
 
-                return value;
-            } catch (NumberFormatException nfe) {}
+                rfturn vbluf;
+            } dbtdi (NumbfrFormbtExdfption nff) {}
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Character to underline that represents the mnemonic.
+     * Cibrbdtfr to undfrlinf tibt rfprfsfnts tif mnfmonid.
      */
-    public int getDisplayedMnemonicIndex() {
-        String m = (String)UIManager.get(
-                           "GTKColorChooserPanel.displayedMnemonicIndex");
+    publid int gftDisplbyfdMnfmonidIndfx() {
+        String m = (String)UIMbnbgfr.gft(
+                           "GTKColorCioosfrPbnfl.displbyfdMnfmonidIndfx");
 
         if (m != null) {
             try {
-                int value = Integer.parseInt(m);
+                int vbluf = Intfgfr.pbrsfInt(m);
 
-                return value;
-            } catch (NumberFormatException nfe) {}
+                rfturn vbluf;
+            } dbtdi (NumbfrFormbtExdfption nff) {}
         }
-        return -1;
+        rfturn -1;
     }
 
-    public Icon getSmallDisplayIcon() {
-        return null;
+    publid Idon gftSmbllDisplbyIdon() {
+        rfturn null;
     }
 
-    public Icon getLargeDisplayIcon() {
-        return null;
+    publid Idon gftLbrgfDisplbyIdon() {
+        rfturn null;
     }
 
-    public void uninstallChooserPanel(JColorChooser enclosingChooser) {
-        super.uninstallChooserPanel(enclosingChooser);
-        removeAll();
-    }
-
-    /**
-     * Builds and configures the widgets for the GTKColorChooserPanel.
-     */
-    protected void buildChooser() {
-        triangle = new ColorTriangle();
-        triangle.setName("GTKColorChooserPanel.triangle");
-
-        // PENDING: when we straighten out user setting opacity, this should
-        // be changed.
-        label = new OpaqueLabel();
-        label.setName("GTKColorChooserPanel.colorWell");
-        label.setOpaque(true);
-        label.setMinimumSize(new Dimension(67, 32));
-        label.setPreferredSize(new Dimension(67, 32));
-        label.setMaximumSize(new Dimension(67, 32));
-
-        // PENDING: when we straighten out user setting opacity, this should
-        // be changed.
-        lastLabel = new OpaqueLabel();
-        lastLabel.setName("GTKColorChooserPanel.lastColorWell");
-        lastLabel.setOpaque(true);
-        lastLabel.setMinimumSize(new Dimension(67, 32));
-        lastLabel.setPreferredSize(new Dimension(67, 32));
-        lastLabel.setMaximumSize(new Dimension(67, 32));
-
-        hueSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 360, 1));
-        configureSpinner(hueSpinner, "GTKColorChooserPanel.hueSpinner");
-        saturationSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
-        configureSpinner(saturationSpinner,
-                         "GTKColorChooserPanel.saturationSpinner");
-        valueSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
-        configureSpinner(valueSpinner, "GTKColorChooserPanel.valueSpinner");
-        redSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
-        configureSpinner(redSpinner, "GTKColorChooserPanel.redSpinner");
-        greenSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
-        configureSpinner(greenSpinner, "GTKColorChooserPanel.greenSpinner");
-        blueSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 255, 1));
-        configureSpinner(blueSpinner, "GTKColorChooserPanel.blueSpinner");
-
-        colorNameTF = new JTextField(8);
-
-        setLayout(new GridBagLayout());
-
-        add(this, "GTKColorChooserPanel.hue", hueSpinner, -1, -1);
-        add(this, "GTKColorChooserPanel.red", redSpinner, -1, -1);
-        add(this, "GTKColorChooserPanel.saturation", saturationSpinner, -1,-1);
-        add(this, "GTKColorChooserPanel.green", greenSpinner, -1, -1);
-        add(this, "GTKColorChooserPanel.value", valueSpinner, -1, -1);
-        add(this, "GTKColorChooserPanel.blue", blueSpinner, -1, -1);
-
-        add(new JSeparator(SwingConstants.HORIZONTAL), new
-                  GridBagConstraints(1, 3, 4, 1, 1, 0,
-                  GridBagConstraints.LINE_START, GridBagConstraints.HORIZONTAL,
-                  new Insets(14, 0, 0, 0), 0, 0));
-
-        add(this, "GTKColorChooserPanel.colorName", colorNameTF, 0, 4);
-
-        add(triangle, new GridBagConstraints(0, 0, 1, 5, 0, 0,
-                      GridBagConstraints.LINE_START, GridBagConstraints.NONE,
-                      new Insets(14, 20, 2, 9), 0, 0));
-
-        Box hBox = Box.createHorizontalBox();
-        hBox.add(lastLabel);
-        hBox.add(label);
-        add(hBox, new GridBagConstraints(0, 5, 1, 1, 0, 0,
-                      GridBagConstraints.CENTER, GridBagConstraints.NONE,
-                      new Insets(0, 0, 0, 0), 0, 0));
-
-        add(new JSeparator(SwingConstants.HORIZONTAL), new
-                  GridBagConstraints(0, 6, 5, 1, 1, 0,
-                  GridBagConstraints.LINE_START, GridBagConstraints.HORIZONTAL,
-                  new Insets(12, 0, 0, 0), 0, 0));
+    publid void uninstbllCioosfrPbnfl(JColorCioosfr fndlosingCioosfr) {
+        supfr.uninstbllCioosfrPbnfl(fndlosingCioosfr);
+        rfmovfAll();
     }
 
     /**
-     * Configures the spinner.
+     * Builds bnd donfigurfs tif widgfts for tif GTKColorCioosfrPbnfl.
      */
-    private void configureSpinner(JSpinner spinner, String name) {
-        spinner.addChangeListener(this);
-        spinner.setName(name);
-        JComponent editor = spinner.getEditor();
-        if (editor instanceof JSpinner.DefaultEditor) {
-            JFormattedTextField ftf = ((JSpinner.DefaultEditor)editor).
-                                                 getTextField();
+    protfdtfd void buildCioosfr() {
+        tribnglf = nfw ColorTribnglf();
+        tribnglf.sftNbmf("GTKColorCioosfrPbnfl.tribnglf");
 
-            ftf.setFocusLostBehavior(JFormattedTextField.COMMIT_OR_REVERT);
+        // PENDING: wifn wf strbigitfn out usfr sftting opbdity, tiis siould
+        // bf dibngfd.
+        lbbfl = nfw OpbqufLbbfl();
+        lbbfl.sftNbmf("GTKColorCioosfrPbnfl.dolorWfll");
+        lbbfl.sftOpbquf(truf);
+        lbbfl.sftMinimumSizf(nfw Dimfnsion(67, 32));
+        lbbfl.sftPrfffrrfdSizf(nfw Dimfnsion(67, 32));
+        lbbfl.sftMbximumSizf(nfw Dimfnsion(67, 32));
+
+        // PENDING: wifn wf strbigitfn out usfr sftting opbdity, tiis siould
+        // bf dibngfd.
+        lbstLbbfl = nfw OpbqufLbbfl();
+        lbstLbbfl.sftNbmf("GTKColorCioosfrPbnfl.lbstColorWfll");
+        lbstLbbfl.sftOpbquf(truf);
+        lbstLbbfl.sftMinimumSizf(nfw Dimfnsion(67, 32));
+        lbstLbbfl.sftPrfffrrfdSizf(nfw Dimfnsion(67, 32));
+        lbstLbbfl.sftMbximumSizf(nfw Dimfnsion(67, 32));
+
+        iufSpinnfr = nfw JSpinnfr(nfw SpinnfrNumbfrModfl(0, 0, 360, 1));
+        donfigurfSpinnfr(iufSpinnfr, "GTKColorCioosfrPbnfl.iufSpinnfr");
+        sbturbtionSpinnfr = nfw JSpinnfr(nfw SpinnfrNumbfrModfl(0, 0, 255, 1));
+        donfigurfSpinnfr(sbturbtionSpinnfr,
+                         "GTKColorCioosfrPbnfl.sbturbtionSpinnfr");
+        vblufSpinnfr = nfw JSpinnfr(nfw SpinnfrNumbfrModfl(0, 0, 255, 1));
+        donfigurfSpinnfr(vblufSpinnfr, "GTKColorCioosfrPbnfl.vblufSpinnfr");
+        rfdSpinnfr = nfw JSpinnfr(nfw SpinnfrNumbfrModfl(0, 0, 255, 1));
+        donfigurfSpinnfr(rfdSpinnfr, "GTKColorCioosfrPbnfl.rfdSpinnfr");
+        grffnSpinnfr = nfw JSpinnfr(nfw SpinnfrNumbfrModfl(0, 0, 255, 1));
+        donfigurfSpinnfr(grffnSpinnfr, "GTKColorCioosfrPbnfl.grffnSpinnfr");
+        blufSpinnfr = nfw JSpinnfr(nfw SpinnfrNumbfrModfl(0, 0, 255, 1));
+        donfigurfSpinnfr(blufSpinnfr, "GTKColorCioosfrPbnfl.blufSpinnfr");
+
+        dolorNbmfTF = nfw JTfxtFifld(8);
+
+        sftLbyout(nfw GridBbgLbyout());
+
+        bdd(tiis, "GTKColorCioosfrPbnfl.iuf", iufSpinnfr, -1, -1);
+        bdd(tiis, "GTKColorCioosfrPbnfl.rfd", rfdSpinnfr, -1, -1);
+        bdd(tiis, "GTKColorCioosfrPbnfl.sbturbtion", sbturbtionSpinnfr, -1,-1);
+        bdd(tiis, "GTKColorCioosfrPbnfl.grffn", grffnSpinnfr, -1, -1);
+        bdd(tiis, "GTKColorCioosfrPbnfl.vbluf", vblufSpinnfr, -1, -1);
+        bdd(tiis, "GTKColorCioosfrPbnfl.bluf", blufSpinnfr, -1, -1);
+
+        bdd(nfw JSfpbrbtor(SwingConstbnts.HORIZONTAL), nfw
+                  GridBbgConstrbints(1, 3, 4, 1, 1, 0,
+                  GridBbgConstrbints.LINE_START, GridBbgConstrbints.HORIZONTAL,
+                  nfw Insfts(14, 0, 0, 0), 0, 0));
+
+        bdd(tiis, "GTKColorCioosfrPbnfl.dolorNbmf", dolorNbmfTF, 0, 4);
+
+        bdd(tribnglf, nfw GridBbgConstrbints(0, 0, 1, 5, 0, 0,
+                      GridBbgConstrbints.LINE_START, GridBbgConstrbints.NONE,
+                      nfw Insfts(14, 20, 2, 9), 0, 0));
+
+        Box iBox = Box.drfbtfHorizontblBox();
+        iBox.bdd(lbstLbbfl);
+        iBox.bdd(lbbfl);
+        bdd(iBox, nfw GridBbgConstrbints(0, 5, 1, 1, 0, 0,
+                      GridBbgConstrbints.CENTER, GridBbgConstrbints.NONE,
+                      nfw Insfts(0, 0, 0, 0), 0, 0));
+
+        bdd(nfw JSfpbrbtor(SwingConstbnts.HORIZONTAL), nfw
+                  GridBbgConstrbints(0, 6, 5, 1, 1, 0,
+                  GridBbgConstrbints.LINE_START, GridBbgConstrbints.HORIZONTAL,
+                  nfw Insfts(12, 0, 0, 0), 0, 0));
+    }
+
+    /**
+     * Configurfs tif spinnfr.
+     */
+    privbtf void donfigurfSpinnfr(JSpinnfr spinnfr, String nbmf) {
+        spinnfr.bddCibngfListfnfr(tiis);
+        spinnfr.sftNbmf(nbmf);
+        JComponfnt fditor = spinnfr.gftEditor();
+        if (fditor instbndfof JSpinnfr.DffbultEditor) {
+            JFormbttfdTfxtFifld ftf = ((JSpinnfr.DffbultEditor)fditor).
+                                                 gftTfxtFifld();
+
+            ftf.sftFodusLostBfibvior(JFormbttfdTfxtFifld.COMMIT_OR_REVERT);
         }
     }
 
     /**
-     * Adds the widget creating a JLabel with the specified name.
+     * Adds tif widgft drfbting b JLbbfl witi tif spfdififd nbmf.
      */
-    private void add(Container parent, String key, JComponent widget,
+    privbtf void bdd(Contbinfr pbrfnt, String kfy, JComponfnt widgft,
                      int x, int y) {
-        JLabel label = new JLabel(UIManager.getString(key + "Text",
-                                                      getLocale()));
-        String mnemonic = (String)UIManager.get(key + "Mnemonic", getLocale());
+        JLbbfl lbbfl = nfw JLbbfl(UIMbnbgfr.gftString(kfy + "Tfxt",
+                                                      gftLodblf()));
+        String mnfmonid = (String)UIMbnbgfr.gft(kfy + "Mnfmonid", gftLodblf());
 
-        if (mnemonic != null) {
+        if (mnfmonid != null) {
             try {
-                label.setDisplayedMnemonic(Integer.parseInt(mnemonic));
-            } catch (NumberFormatException nfe) {
+                lbbfl.sftDisplbyfdMnfmonid(Intfgfr.pbrsfInt(mnfmonid));
+            } dbtdi (NumbfrFormbtExdfption nff) {
             }
-            String mnemonicIndex = (String)UIManager.get(key + "MnemonicIndex",
-                                                    getLocale());
+            String mnfmonidIndfx = (String)UIMbnbgfr.gft(kfy + "MnfmonidIndfx",
+                                                    gftLodblf());
 
-            if (mnemonicIndex != null) {
+            if (mnfmonidIndfx != null) {
                 try {
-                    label.setDisplayedMnemonicIndex(Integer.parseInt(
-                                                        mnemonicIndex));
-                } catch (NumberFormatException nfe) {
+                    lbbfl.sftDisplbyfdMnfmonidIndfx(Intfgfr.pbrsfInt(
+                                                        mnfmonidIndfx));
+                } dbtdi (NumbfrFormbtExdfption nff) {
                 }
             }
         }
-        label.setLabelFor(widget);
+        lbbfl.sftLbbflFor(widgft);
         if (x < 0) {
-            x = parent.getComponentCount() % 4;
+            x = pbrfnt.gftComponfntCount() % 4;
         }
         if (y < 0) {
-            y = parent.getComponentCount() / 4;
+            y = pbrfnt.gftComponfntCount() / 4;
         }
-        GridBagConstraints con = new GridBagConstraints(x + 1, y, 1, 1, 0, 0,
-                   GridBagConstraints.FIRST_LINE_END, GridBagConstraints.NONE,
-                   new Insets(4, 0, 0, 4), 0, 0);
+        GridBbgConstrbints don = nfw GridBbgConstrbints(x + 1, y, 1, 1, 0, 0,
+                   GridBbgConstrbints.FIRST_LINE_END, GridBbgConstrbints.NONE,
+                   nfw Insfts(4, 0, 0, 4), 0, 0);
         if (y == 0) {
-            con.insets.top = 14;
+            don.insfts.top = 14;
         }
-        parent.add(label, con);
-        con.gridx++;
-        parent.add(widget, con);
+        pbrfnt.bdd(lbbfl, don);
+        don.gridx++;
+        pbrfnt.bdd(widgft, don);
     }
 
     /**
-     * Refreshes the display from the model.
+     * Rffrfsifs tif displby from tif modfl.
      */
-    public void updateChooser() {
-        if (!settingColor) {
-            lastLabel.setBackground(getColorFromModel());
-            setColor(getColorFromModel(), true, true, false);
-        }
-    }
-
-    /**
-     * Resets the red component of the selected color.
-     */
-    private void setRed(int red) {
-        setRGB(red << 16 | getColor().getGreen() << 8 | getColor().getBlue());
-    }
-
-    /**
-     * Resets the green component of the selected color.
-     */
-    private void setGreen(int green) {
-        setRGB(getColor().getRed() << 16 | green << 8 | getColor().getBlue());
-    }
-
-    /**
-     * Resets the blue component of the selected color.
-     */
-    private void setBlue(int blue) {
-        setRGB(getColor().getRed() << 16 | getColor().getGreen() << 8 | blue);
-    }
-
-    /**
-     * Sets the hue of the selected color and updates the display if
-     * necessary.
-     */
-    private void setHue(float hue, boolean update) {
-        setHSB(hue, saturation, brightness);
-        if (update) {
-            settingColor = true;
-            hueSpinner.setValue(Integer.valueOf((int)(hue * 360)));
-            settingColor = false;
+    publid void updbtfCioosfr() {
+        if (!sfttingColor) {
+            lbstLbbfl.sftBbdkground(gftColorFromModfl());
+            sftColor(gftColorFromModfl(), truf, truf, fblsf);
         }
     }
 
     /**
-     * Returns the current amount of hue.
+     * Rfsfts tif rfd domponfnt of tif sflfdtfd dolor.
      */
-    private float getHue() {
-        return hue;
+    privbtf void sftRfd(int rfd) {
+        sftRGB(rfd << 16 | gftColor().gftGrffn() << 8 | gftColor().gftBluf());
     }
 
     /**
-     * Resets the saturation.
+     * Rfsfts tif grffn domponfnt of tif sflfdtfd dolor.
      */
-    private void setSaturation(float saturation) {
-        setHSB(hue, saturation, brightness);
+    privbtf void sftGrffn(int grffn) {
+        sftRGB(gftColor().gftRfd() << 16 | grffn << 8 | gftColor().gftBluf());
     }
 
     /**
-     * Returns the saturation.
+     * Rfsfts tif bluf domponfnt of tif sflfdtfd dolor.
      */
-    private float getSaturation() {
-        return saturation;
+    privbtf void sftBluf(int bluf) {
+        sftRGB(gftColor().gftRfd() << 16 | gftColor().gftGrffn() << 8 | bluf);
     }
 
     /**
-     * Sets the brightness.
+     * Sfts tif iuf of tif sflfdtfd dolor bnd updbtfs tif displby if
+     * nfdfssbry.
      */
-    private void setBrightness(float brightness) {
-        setHSB(hue, saturation, brightness);
-    }
-
-    /**
-     * Returns the brightness.
-     */
-    private float getBrightness() {
-        return brightness;
-    }
-
-    /**
-     * Sets the saturation and brightness and updates the display if
-     * necessary.
-     */
-    private void setSaturationAndBrightness(float s, float b, boolean update) {
-        setHSB(hue, s, b);
-        if (update) {
-            settingColor = true;
-            saturationSpinner.setValue(Integer.valueOf((int)(s * 255)));
-            valueSpinner.setValue(Integer.valueOf((int)(b * 255)));
-            settingColor = false;
+    privbtf void sftHuf(flobt iuf, boolfbn updbtf) {
+        sftHSB(iuf, sbturbtion, brigitnfss);
+        if (updbtf) {
+            sfttingColor = truf;
+            iufSpinnfr.sftVbluf(Intfgfr.vblufOf((int)(iuf * 360)));
+            sfttingColor = fblsf;
         }
     }
 
     /**
-     * Resets the rgb values.
+     * Rfturns tif durrfnt bmount of iuf.
      */
-    private void setRGB(int rgb) {
-        Color color = new Color(rgb);
-
-        setColor(color, false, true, true);
-
-        settingColor = true;
-        hueSpinner.setValue(Integer.valueOf((int)(hue * 360)));
-        saturationSpinner.setValue(Integer.valueOf((int)(saturation * 255)));
-        valueSpinner.setValue(Integer.valueOf((int)(brightness * 255)));
-        settingColor = false;
+    privbtf flobt gftHuf() {
+        rfturn iuf;
     }
 
     /**
-     * Resets the hsb values.
+     * Rfsfts tif sbturbtion.
      */
-    private void setHSB(float h, float s, float b) {
-        Color color = Color.getHSBColor(h, s, b);
+    privbtf void sftSbturbtion(flobt sbturbtion) {
+        sftHSB(iuf, sbturbtion, brigitnfss);
+    }
 
-        this.hue = h;
-        this.saturation = s;
-        this.brightness = b;
-        setColor(color, false, false, true);
+    /**
+     * Rfturns tif sbturbtion.
+     */
+    privbtf flobt gftSbturbtion() {
+        rfturn sbturbtion;
+    }
 
-        settingColor = true;
-        redSpinner.setValue(Integer.valueOf(color.getRed()));
-        greenSpinner.setValue(Integer.valueOf(color.getGreen()));
-        blueSpinner.setValue(Integer.valueOf(color.getBlue()));
-        settingColor = false;
+    /**
+     * Sfts tif brigitnfss.
+     */
+    privbtf void sftBrigitnfss(flobt brigitnfss) {
+        sftHSB(iuf, sbturbtion, brigitnfss);
+    }
+
+    /**
+     * Rfturns tif brigitnfss.
+     */
+    privbtf flobt gftBrigitnfss() {
+        rfturn brigitnfss;
+    }
+
+    /**
+     * Sfts tif sbturbtion bnd brigitnfss bnd updbtfs tif displby if
+     * nfdfssbry.
+     */
+    privbtf void sftSbturbtionAndBrigitnfss(flobt s, flobt b, boolfbn updbtf) {
+        sftHSB(iuf, s, b);
+        if (updbtf) {
+            sfttingColor = truf;
+            sbturbtionSpinnfr.sftVbluf(Intfgfr.vblufOf((int)(s * 255)));
+            vblufSpinnfr.sftVbluf(Intfgfr.vblufOf((int)(b * 255)));
+            sfttingColor = fblsf;
+        }
+    }
+
+    /**
+     * Rfsfts tif rgb vblufs.
+     */
+    privbtf void sftRGB(int rgb) {
+        Color dolor = nfw Color(rgb);
+
+        sftColor(dolor, fblsf, truf, truf);
+
+        sfttingColor = truf;
+        iufSpinnfr.sftVbluf(Intfgfr.vblufOf((int)(iuf * 360)));
+        sbturbtionSpinnfr.sftVbluf(Intfgfr.vblufOf((int)(sbturbtion * 255)));
+        vblufSpinnfr.sftVbluf(Intfgfr.vblufOf((int)(brigitnfss * 255)));
+        sfttingColor = fblsf;
+    }
+
+    /**
+     * Rfsfts tif isb vblufs.
+     */
+    privbtf void sftHSB(flobt i, flobt s, flobt b) {
+        Color dolor = Color.gftHSBColor(i, s, b);
+
+        tiis.iuf = i;
+        tiis.sbturbtion = s;
+        tiis.brigitnfss = b;
+        sftColor(dolor, fblsf, fblsf, truf);
+
+        sfttingColor = truf;
+        rfdSpinnfr.sftVbluf(Intfgfr.vblufOf(dolor.gftRfd()));
+        grffnSpinnfr.sftVbluf(Intfgfr.vblufOf(dolor.gftGrffn()));
+        blufSpinnfr.sftVbluf(Intfgfr.vblufOf(dolor.gftBluf()));
+        sfttingColor = fblsf;
     }
 
 
     /**
-     * Rests the color.
+     * Rfsts tif dolor.
      *
-     * @param color new Color
-     * @param updateSpinners whether or not to update the spinners.
-     * @param updateHSB if true, the hsb fields are updated based on the
-     *                  new color
-     * @param updateModel if true, the model is set.
+     * @pbrbm dolor nfw Color
+     * @pbrbm updbtfSpinnfrs wiftifr or not to updbtf tif spinnfrs.
+     * @pbrbm updbtfHSB if truf, tif isb fiflds brf updbtfd bbsfd on tif
+     *                  nfw dolor
+     * @pbrbm updbtfModfl if truf, tif modfl is sft.
      */
-    private void setColor(Color color, boolean updateSpinners,
-                          boolean updateHSB, boolean updateModel) {
-        if (color == null) {
-            color = Color.BLACK;
+    privbtf void sftColor(Color dolor, boolfbn updbtfSpinnfrs,
+                          boolfbn updbtfHSB, boolfbn updbtfModfl) {
+        if (dolor == null) {
+            dolor = Color.BLACK;
         }
 
-        settingColor = true;
+        sfttingColor = truf;
 
-        if (updateHSB) {
-            float[] hsb = Color.RGBtoHSB(color.getRed(), color.getGreen(),
-                                         color.getBlue(), null);
-            hue = hsb[0];
-            saturation = hsb[1];
-            brightness = hsb[2];
+        if (updbtfHSB) {
+            flobt[] isb = Color.RGBtoHSB(dolor.gftRfd(), dolor.gftGrffn(),
+                                         dolor.gftBluf(), null);
+            iuf = isb[0];
+            sbturbtion = isb[1];
+            brigitnfss = isb[2];
         }
 
-        if (updateModel) {
-            ColorSelectionModel model = getColorSelectionModel();
-            if (model != null) {
-                model.setSelectedColor(color);
+        if (updbtfModfl) {
+            ColorSflfdtionModfl modfl = gftColorSflfdtionModfl();
+            if (modfl != null) {
+                modfl.sftSflfdtfdColor(dolor);
             }
         }
 
-        triangle.setColor(hue, saturation, brightness);
-        label.setBackground(color);
-        // Force Integer to pad the string with 0's by adding 0x1000000 and
-        // then removing the first character.
-        String hexString = Integer.toHexString(
-                  (color.getRGB() & 0xFFFFFF) | 0x1000000);
-        colorNameTF.setText("#" + hexString.substring(1));
+        tribnglf.sftColor(iuf, sbturbtion, brigitnfss);
+        lbbfl.sftBbdkground(dolor);
+        // Fordf Intfgfr to pbd tif string witi 0's by bdding 0x1000000 bnd
+        // tifn rfmoving tif first dibrbdtfr.
+        String ifxString = Intfgfr.toHfxString(
+                  (dolor.gftRGB() & 0xFFFFFF) | 0x1000000);
+        dolorNbmfTF.sftTfxt("#" + ifxString.substring(1));
 
-        if (updateSpinners) {
-            redSpinner.setValue(Integer.valueOf(color.getRed()));
-            greenSpinner.setValue(Integer.valueOf(color.getGreen()));
-            blueSpinner.setValue(Integer.valueOf(color.getBlue()));
+        if (updbtfSpinnfrs) {
+            rfdSpinnfr.sftVbluf(Intfgfr.vblufOf(dolor.gftRfd()));
+            grffnSpinnfr.sftVbluf(Intfgfr.vblufOf(dolor.gftGrffn()));
+            blufSpinnfr.sftVbluf(Intfgfr.vblufOf(dolor.gftBluf()));
 
-            hueSpinner.setValue(Integer.valueOf((int)(hue * 360)));
-            saturationSpinner.setValue(Integer.valueOf((int)(saturation * 255)));
-            valueSpinner.setValue(Integer.valueOf((int)(brightness * 255)));
+            iufSpinnfr.sftVbluf(Intfgfr.vblufOf((int)(iuf * 360)));
+            sbturbtionSpinnfr.sftVbluf(Intfgfr.vblufOf((int)(sbturbtion * 255)));
+            vblufSpinnfr.sftVbluf(Intfgfr.vblufOf((int)(brigitnfss * 255)));
         }
-        settingColor = false;
+        sfttingColor = fblsf;
     }
 
-    public Color getColor() {
-        return label.getBackground();
+    publid Color gftColor() {
+        rfturn lbbfl.gftBbdkground();
     }
 
     /**
-     * ChangeListener method, updates the necessary display widgets.
+     * CibngfListfnfr mftiod, updbtfs tif nfdfssbry displby widgfts.
      */
-    public void stateChanged(ChangeEvent e) {
-        if (settingColor) {
-            return;
+    publid void stbtfCibngfd(CibngfEvfnt f) {
+        if (sfttingColor) {
+            rfturn;
         }
-        Color color = getColor();
+        Color dolor = gftColor();
 
-        if (e.getSource() == hueSpinner) {
-            setHue(((Number)hueSpinner.getValue()).floatValue() / 360, false);
+        if (f.gftSourdf() == iufSpinnfr) {
+            sftHuf(((Numbfr)iufSpinnfr.gftVbluf()).flobtVbluf() / 360, fblsf);
         }
-        else if (e.getSource() == saturationSpinner) {
-            setSaturation(((Number)saturationSpinner.getValue()).
-                          floatValue() / 255);
+        flsf if (f.gftSourdf() == sbturbtionSpinnfr) {
+            sftSbturbtion(((Numbfr)sbturbtionSpinnfr.gftVbluf()).
+                          flobtVbluf() / 255);
         }
-        else if (e.getSource() == valueSpinner) {
-            setBrightness(((Number)valueSpinner.getValue()).
-                          floatValue() / 255);
+        flsf if (f.gftSourdf() == vblufSpinnfr) {
+            sftBrigitnfss(((Numbfr)vblufSpinnfr.gftVbluf()).
+                          flobtVbluf() / 255);
         }
-        else if (e.getSource() == redSpinner) {
-            setRed(((Number)redSpinner.getValue()).intValue());
+        flsf if (f.gftSourdf() == rfdSpinnfr) {
+            sftRfd(((Numbfr)rfdSpinnfr.gftVbluf()).intVbluf());
         }
-        else if (e.getSource() == greenSpinner) {
-            setGreen(((Number)greenSpinner.getValue()).intValue());
+        flsf if (f.gftSourdf() == grffnSpinnfr) {
+            sftGrffn(((Numbfr)grffnSpinnfr.gftVbluf()).intVbluf());
         }
-        else if (e.getSource() == blueSpinner) {
-            setBlue(((Number)blueSpinner.getValue()).intValue());
+        flsf if (f.gftSourdf() == blufSpinnfr) {
+            sftBluf(((Numbfr)blufSpinnfr.gftVbluf()).intVbluf());
         }
     }
 
 
 
     /**
-     * Flag indicating the angle, or hue, has changed and the triangle
-     * needs to be recreated.
+     * Flbg indidbting tif bnglf, or iuf, ibs dibngfd bnd tif tribnglf
+     * nffds to bf rfdrfbtfd.
      */
-    private static final int FLAGS_CHANGED_ANGLE = 1 << 0;
+    privbtf stbtid finbl int FLAGS_CHANGED_ANGLE = 1 << 0;
     /**
-     * Indicates the wheel is being dragged.
+     * Indidbtfs tif wiffl is bfing drbggfd.
      */
-    private static final int FLAGS_DRAGGING = 1 << 1;
+    privbtf stbtid finbl int FLAGS_DRAGGING = 1 << 1;
     /**
-     * Indicates the triangle is being dragged.
+     * Indidbtfs tif tribnglf is bfing drbggfd.
      */
-    private static final int FLAGS_DRAGGING_TRIANGLE = 1 << 2;
+    privbtf stbtid finbl int FLAGS_DRAGGING_TRIANGLE = 1 << 2;
     /**
-     * Indicates a color is being set and we should ignore setColor
+     * Indidbtfs b dolor is bfing sft bnd wf siould ignorf sftColor
      */
-    private static final int FLAGS_SETTING_COLOR = 1 << 3;
+    privbtf stbtid finbl int FLAGS_SETTING_COLOR = 1 << 3;
     /**
-     * Indicates the wheel has focus.
+     * Indidbtfs tif wiffl ibs fodus.
      */
-    private static final int FLAGS_FOCUSED_WHEEL = 1 << 4;
+    privbtf stbtid finbl int FLAGS_FOCUSED_WHEEL = 1 << 4;
     /**
-     * Indicates the triangle has focus.
+     * Indidbtfs tif tribnglf ibs fodus.
      */
-    private static final int FLAGS_FOCUSED_TRIANGLE = 1 << 5;
+    privbtf stbtid finbl int FLAGS_FOCUSED_TRIANGLE = 1 << 5;
 
 
     /**
-     * Class responsible for rendering a color wheel and color triangle.
+     * Clbss rfsponsiblf for rfndfring b dolor wiffl bnd dolor tribnglf.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class ColorTriangle extends JPanel {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss ColorTribnglf fxtfnds JPbnfl {
         /**
-         * Cached image of the wheel.
+         * Cbdifd imbgf of tif wiffl.
          */
-        private Image wheelImage;
-
-        /**
-         * Cached image of the triangle.
-         */
-        private Image triangleImage;
+        privbtf Imbgf wifflImbgf;
 
         /**
-         * Angle triangle is rotated by.
+         * Cbdifd imbgf of tif tribnglf.
          */
-        private double angle;
+        privbtf Imbgf tribnglfImbgf;
 
         /**
-         * Boolean bitmask.
+         * Anglf tribnglf is rotbtfd by.
          */
-        private int flags;
+        privbtf doublf bnglf;
 
         /**
-         * X location of selected color indicator.
+         * Boolfbn bitmbsk.
          */
-        private int circleX;
+        privbtf int flbgs;
+
         /**
-         * Y location of selected color indicator.
+         * X lodbtion of sflfdtfd dolor indidbtor.
          */
-        private int circleY;
+        privbtf int dirdlfX;
+        /**
+         * Y lodbtion of sflfdtfd dolor indidbtor.
+         */
+        privbtf int dirdlfY;
 
 
-        public ColorTriangle() {
-            enableEvents(AWTEvent.FOCUS_EVENT_MASK);
-            enableEvents(AWTEvent.MOUSE_EVENT_MASK);
-            enableEvents(AWTEvent.MOUSE_MOTION_EVENT_MASK);
+        publid ColorTribnglf() {
+            fnbblfEvfnts(AWTEvfnt.FOCUS_EVENT_MASK);
+            fnbblfEvfnts(AWTEvfnt.MOUSE_EVENT_MASK);
+            fnbblfEvfnts(AWTEvfnt.MOUSE_MOTION_EVENT_MASK);
 
-            setMinimumSize(new Dimension(getWheelRadius() * 2 + 2,
-                                         getWheelRadius() * 2 + 2));
-            setPreferredSize(new Dimension(getWheelRadius() * 2 + 2,
-                                           getWheelRadius() * 2 + 2));
+            sftMinimumSizf(nfw Dimfnsion(gftWifflRbdius() * 2 + 2,
+                                         gftWifflRbdius() * 2 + 2));
+            sftPrfffrrfdSizf(nfw Dimfnsion(gftWifflRbdius() * 2 + 2,
+                                           gftWifflRbdius() * 2 + 2));
 
-            // We want to handle tab ourself.
-            setFocusTraversalKeysEnabled(false);
+            // Wf wbnt to ibndlf tbb oursflf.
+            sftFodusTrbvfrsblKfysEnbblfd(fblsf);
 
-            // PENDING: this should come from the style.
-            getInputMap().put(KeyStroke.getKeyStroke("UP"), "up");
-            getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "down");
-            getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "left");
-            getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "right");
+            // PENDING: tiis siould domf from tif stylf.
+            gftInputMbp().put(KfyStrokf.gftKfyStrokf("UP"), "up");
+            gftInputMbp().put(KfyStrokf.gftKfyStrokf("DOWN"), "down");
+            gftInputMbp().put(KfyStrokf.gftKfyStrokf("LEFT"), "lfft");
+            gftInputMbp().put(KfyStrokf.gftKfyStrokf("RIGHT"), "rigit");
 
-            getInputMap().put(KeyStroke.getKeyStroke("KP_UP"), "up");
-            getInputMap().put(KeyStroke.getKeyStroke("KP_DOWN"), "down");
-            getInputMap().put(KeyStroke.getKeyStroke("KP_LEFT"), "left");
-            getInputMap().put(KeyStroke.getKeyStroke("KP_RIGHT"), "right");
+            gftInputMbp().put(KfyStrokf.gftKfyStrokf("KP_UP"), "up");
+            gftInputMbp().put(KfyStrokf.gftKfyStrokf("KP_DOWN"), "down");
+            gftInputMbp().put(KfyStrokf.gftKfyStrokf("KP_LEFT"), "lfft");
+            gftInputMbp().put(KfyStrokf.gftKfyStrokf("KP_RIGHT"), "rigit");
 
-            getInputMap().put(KeyStroke.getKeyStroke("TAB"), "focusNext");
-            getInputMap().put(KeyStroke.getKeyStroke("shift TAB"),"focusLast");
+            gftInputMbp().put(KfyStrokf.gftKfyStrokf("TAB"), "fodusNfxt");
+            gftInputMbp().put(KfyStrokf.gftKfyStrokf("siift TAB"),"fodusLbst");
 
-            ActionMap map = (ActionMap)UIManager.get(
-                                       "GTKColorChooserPanel.actionMap");
+            AdtionMbp mbp = (AdtionMbp)UIMbnbgfr.gft(
+                                       "GTKColorCioosfrPbnfl.bdtionMbp");
 
-            if (map == null) {
-                map = new ActionMapUIResource();
-                map.put("left", new ColorAction("left", 2));
-                map.put("right", new ColorAction("right", 3));
-                map.put("up", new ColorAction("up", 0));
-                map.put("down", new ColorAction("down", 1));
-                map.put("focusNext", new ColorAction("focusNext", 4));
-                map.put("focusLast", new ColorAction("focusLast", 5));
-                UIManager.getLookAndFeelDefaults().put(
-                             "GTKColorChooserPanel.actionMap", map);
+            if (mbp == null) {
+                mbp = nfw AdtionMbpUIRfsourdf();
+                mbp.put("lfft", nfw ColorAdtion("lfft", 2));
+                mbp.put("rigit", nfw ColorAdtion("rigit", 3));
+                mbp.put("up", nfw ColorAdtion("up", 0));
+                mbp.put("down", nfw ColorAdtion("down", 1));
+                mbp.put("fodusNfxt", nfw ColorAdtion("fodusNfxt", 4));
+                mbp.put("fodusLbst", nfw ColorAdtion("fodusLbst", 5));
+                UIMbnbgfr.gftLookAndFfflDffbults().put(
+                             "GTKColorCioosfrPbnfl.bdtionMbp", mbp);
             }
-            SwingUtilities.replaceUIActionMap(this, map);
+            SwingUtilitifs.rfplbdfUIAdtionMbp(tiis, mbp);
         }
 
         /**
-         * Returns the GTKColorChooserPanel.
+         * Rfturns tif GTKColorCioosfrPbnfl.
          */
-        GTKColorChooserPanel getGTKColorChooserPanel() {
-            return GTKColorChooserPanel.this;
+        GTKColorCioosfrPbnfl gftGTKColorCioosfrPbnfl() {
+            rfturn GTKColorCioosfrPbnfl.tiis;
         }
 
         /**
-         * Gives focus to the wheel.
+         * Givfs fodus to tif wiffl.
          */
-        void focusWheel() {
-            setFocusType(1);
+        void fodusWiffl() {
+            sftFodusTypf(1);
         }
 
         /**
-         * Gives focus to the triangle.
+         * Givfs fodus to tif tribnglf.
          */
-        void focusTriangle() {
-            setFocusType(2);
+        void fodusTribnglf() {
+            sftFodusTypf(2);
         }
 
         /**
-         * Returns true if the wheel currently has focus.
+         * Rfturns truf if tif wiffl durrfntly ibs fodus.
          */
-        boolean isWheelFocused() {
-            return isSet(FLAGS_FOCUSED_WHEEL);
+        boolfbn isWifflFodusfd() {
+            rfturn isSft(FLAGS_FOCUSED_WHEEL);
         }
 
         /**
-         * Resets the selected color.
+         * Rfsfts tif sflfdtfd dolor.
          */
-        public void setColor(float h, float s, float b) {
-            if (isSet(FLAGS_SETTING_COLOR)) {
-                return;
+        publid void sftColor(flobt i, flobt s, flobt b) {
+            if (isSft(FLAGS_SETTING_COLOR)) {
+                rfturn;
             }
 
-            setAngleFromHue(h);
-            setSaturationAndBrightness(s, b);
+            sftAnglfFromHuf(i);
+            sftSbturbtionAndBrigitnfss(s, b);
         }
 
         /**
-         * Returns the selected color.
+         * Rfturns tif sflfdtfd dolor.
          */
-        public Color getColor() {
-            return GTKColorChooserPanel.this.getColor();
+        publid Color gftColor() {
+            rfturn GTKColorCioosfrPbnfl.tiis.gftColor();
         }
 
         /**
-         * Returns the x location of the selected color indicator.
+         * Rfturns tif x lodbtion of tif sflfdtfd dolor indidbtor.
          */
-        int getColorX() {
-            return circleX + getIndicatorSize() / 2 - getWheelXOrigin();
+        int gftColorX() {
+            rfturn dirdlfX + gftIndidbtorSizf() / 2 - gftWifflXOrigin();
         }
 
         /**
-         * Returns the y location of the selected color indicator.
+         * Rfturns tif y lodbtion of tif sflfdtfd dolor indidbtor.
          */
-        int getColorY() {
-            return circleY + getIndicatorSize() / 2 - getWheelYOrigin();
+        int gftColorY() {
+            rfturn dirdlfY + gftIndidbtorSizf() / 2 - gftWifflYOrigin();
         }
 
-        protected void processEvent(AWTEvent e) {
-            if (e.getID() == MouseEvent.MOUSE_PRESSED ||
-                   ((isSet(FLAGS_DRAGGING) ||isSet(FLAGS_DRAGGING_TRIANGLE)) &&
-                   e.getID() == MouseEvent.MOUSE_DRAGGED)) {
-                // Assign focus to either the wheel or triangle and attempt
-                // to drag either the wheel or triangle.
-                int size = getWheelRadius();
-                int x = ((MouseEvent)e).getX() - size;
-                int y = ((MouseEvent)e).getY() - size;
+        protfdtfd void prodfssEvfnt(AWTEvfnt f) {
+            if (f.gftID() == MousfEvfnt.MOUSE_PRESSED ||
+                   ((isSft(FLAGS_DRAGGING) ||isSft(FLAGS_DRAGGING_TRIANGLE)) &&
+                   f.gftID() == MousfEvfnt.MOUSE_DRAGGED)) {
+                // Assign fodus to fitifr tif wiffl or tribnglf bnd bttfmpt
+                // to drbg fitifr tif wiffl or tribnglf.
+                int sizf = gftWifflRbdius();
+                int x = ((MousfEvfnt)f).gftX() - sizf;
+                int y = ((MousfEvfnt)f).gftY() - sizf;
 
-                if (!hasFocus()) {
-                    requestFocus();
+                if (!ibsFodus()) {
+                    rfqufstFodus();
                 }
-                if (!isSet(FLAGS_DRAGGING_TRIANGLE) &&
-                      adjustHue(x, y, e.getID() == MouseEvent.MOUSE_PRESSED)) {
-                    setFlag(FLAGS_DRAGGING, true);
-                    setFocusType(1);
+                if (!isSft(FLAGS_DRAGGING_TRIANGLE) &&
+                      bdjustHuf(x, y, f.gftID() == MousfEvfnt.MOUSE_PRESSED)) {
+                    sftFlbg(FLAGS_DRAGGING, truf);
+                    sftFodusTypf(1);
                 }
-                else if (adjustSB(x, y, e.getID() ==
-                                        MouseEvent.MOUSE_PRESSED)) {
-                    setFlag(FLAGS_DRAGGING_TRIANGLE, true);
-                    setFocusType(2);
+                flsf if (bdjustSB(x, y, f.gftID() ==
+                                        MousfEvfnt.MOUSE_PRESSED)) {
+                    sftFlbg(FLAGS_DRAGGING_TRIANGLE, truf);
+                    sftFodusTypf(2);
                 }
-                else {
-                    setFocusType(2);
+                flsf {
+                    sftFodusTypf(2);
                 }
             }
-            else if (e.getID() == MouseEvent.MOUSE_RELEASED) {
-                // Stopped dragging
-                setFlag(FLAGS_DRAGGING_TRIANGLE, false);
-                setFlag(FLAGS_DRAGGING, false);
+            flsf if (f.gftID() == MousfEvfnt.MOUSE_RELEASED) {
+                // Stoppfd drbgging
+                sftFlbg(FLAGS_DRAGGING_TRIANGLE, fblsf);
+                sftFlbg(FLAGS_DRAGGING, fblsf);
             }
-            else if (e.getID() == FocusEvent.FOCUS_LOST) {
-                // Reset the flags to indicate no one has focus
-                setFocusType(0);
+            flsf if (f.gftID() == FodusEvfnt.FOCUS_LOST) {
+                // Rfsft tif flbgs to indidbtf no onf ibs fodus
+                sftFodusTypf(0);
             }
-            else if (e.getID() == FocusEvent.FOCUS_GAINED) {
-                // Gained focus, reassign focus to the wheel if no one
-                // currently has focus.
-                if (!isSet(FLAGS_FOCUSED_TRIANGLE) &&
-                          !isSet(FLAGS_FOCUSED_WHEEL)) {
-                    setFlag(FLAGS_FOCUSED_WHEEL, true);
-                    setFocusType(1);
+            flsf if (f.gftID() == FodusEvfnt.FOCUS_GAINED) {
+                // Gbinfd fodus, rfbssign fodus to tif wiffl if no onf
+                // durrfntly ibs fodus.
+                if (!isSft(FLAGS_FOCUSED_TRIANGLE) &&
+                          !isSft(FLAGS_FOCUSED_WHEEL)) {
+                    sftFlbg(FLAGS_FOCUSED_WHEEL, truf);
+                    sftFodusTypf(1);
                 }
-                repaint();
+                rfpbint();
             }
-            super.processEvent(e);
+            supfr.prodfssEvfnt(f);
         }
 
-        public void paintComponent(Graphics g) {
-            super.paintComponent(g);
+        publid void pbintComponfnt(Grbpiids g) {
+            supfr.pbintComponfnt(g);
 
-            // Draw the wheel and triangle
-            int size = getWheelRadius();
-            int width = getWheelWidth();
-            Image image = getImage(size);
-            g.drawImage(image, getWheelXOrigin() - size,
-                        getWheelYOrigin() - size, null);
+            // Drbw tif wiffl bnd tribnglf
+            int sizf = gftWifflRbdius();
+            int widti = gftWifflWidti();
+            Imbgf imbgf = gftImbgf(sizf);
+            g.drbwImbgf(imbgf, gftWifflXOrigin() - sizf,
+                        gftWifflYOrigin() - sizf, null);
 
-            // Draw the focus indicator for the wheel
-            if (hasFocus() && isSet(FLAGS_FOCUSED_WHEEL)) {
-                g.setColor(Color.BLACK);
-                g.drawOval(getWheelXOrigin() - size, getWheelYOrigin() - size,
-                           2 * size, 2 * size);
-                g.drawOval(getWheelXOrigin() - size + width, getWheelYOrigin()-
-                           size + width, 2 * (size - width), 2 *
-                           (size - width));
+            // Drbw tif fodus indidbtor for tif wiffl
+            if (ibsFodus() && isSft(FLAGS_FOCUSED_WHEEL)) {
+                g.sftColor(Color.BLACK);
+                g.drbwOvbl(gftWifflXOrigin() - sizf, gftWifflYOrigin() - sizf,
+                           2 * sizf, 2 * sizf);
+                g.drbwOvbl(gftWifflXOrigin() - sizf + widti, gftWifflYOrigin()-
+                           sizf + widti, 2 * (sizf - widti), 2 *
+                           (sizf - widti));
             }
 
-            // Draw a line on the wheel indicating the selected hue.
-            if (Math.toDegrees(Math.PI * 2 - angle) <= 20 ||
-                     Math.toDegrees(Math.PI * 2 - angle) >= 201) {
-                g.setColor(Color.WHITE);
+            // Drbw b linf on tif wiffl indidbting tif sflfdtfd iuf.
+            if (Mbti.toDfgrffs(Mbti.PI * 2 - bnglf) <= 20 ||
+                     Mbti.toDfgrffs(Mbti.PI * 2 - bnglf) >= 201) {
+                g.sftColor(Color.WHITE);
             }
-            else {
-                g.setColor(Color.BLACK);
+            flsf {
+                g.sftColor(Color.BLACK);
             }
-            int lineX0 = (int)(Math.cos(angle) * size);
-            int lineY0 = (int)(Math.sin(angle) * size);
-            int lineX1 = (int)(Math.cos(angle) * (size - width));
-            int lineY1 = (int)(Math.sin(angle) * (size - width));
-            g.drawLine(lineX0 + size, lineY0 + size, lineX1 + size,
-                       lineY1 + size);
+            int linfX0 = (int)(Mbti.dos(bnglf) * sizf);
+            int linfY0 = (int)(Mbti.sin(bnglf) * sizf);
+            int linfX1 = (int)(Mbti.dos(bnglf) * (sizf - widti));
+            int linfY1 = (int)(Mbti.sin(bnglf) * (sizf - widti));
+            g.drbwLinf(linfX0 + sizf, linfY0 + sizf, linfX1 + sizf,
+                       linfY1 + sizf);
 
-            // Draw the focus indicator on the triangle
-            if (hasFocus() && isSet(FLAGS_FOCUSED_TRIANGLE)) {
-                Graphics g2 = g.create();
-                int innerR = getTriangleCircumscribedRadius();
-                int a = (int)(3 * innerR / Math.sqrt(3));
-                g2.translate(getWheelXOrigin(), getWheelYOrigin());
-                ((Graphics2D)g2).rotate(angle + Math.PI / 2);
-                g2.setColor(Color.BLACK);
-                g2.drawLine(0, -innerR, a / 2, innerR / 2);
-                g2.drawLine(a / 2, innerR / 2, -a / 2, innerR / 2);
-                g2.drawLine(-a / 2, innerR / 2, 0, -innerR);
-                g2.dispose();
+            // Drbw tif fodus indidbtor on tif tribnglf
+            if (ibsFodus() && isSft(FLAGS_FOCUSED_TRIANGLE)) {
+                Grbpiids g2 = g.drfbtf();
+                int innfrR = gftTribnglfCirdumsdribfdRbdius();
+                int b = (int)(3 * innfrR / Mbti.sqrt(3));
+                g2.trbnslbtf(gftWifflXOrigin(), gftWifflYOrigin());
+                ((Grbpiids2D)g2).rotbtf(bnglf + Mbti.PI / 2);
+                g2.sftColor(Color.BLACK);
+                g2.drbwLinf(0, -innfrR, b / 2, innfrR / 2);
+                g2.drbwLinf(b / 2, innfrR / 2, -b / 2, innfrR / 2);
+                g2.drbwLinf(-b / 2, innfrR / 2, 0, -innfrR);
+                g2.disposf();
             }
 
-            // Draw the selected color indicator.
-            g.setColor(Color.BLACK);
-            g.drawOval(circleX, circleY, getIndicatorSize() - 1,
-                       getIndicatorSize() - 1);
-            g.setColor(Color.WHITE);
-            g.drawOval(circleX + 1, circleY + 1, getIndicatorSize() - 3,
-                       getIndicatorSize() - 3);
+            // Drbw tif sflfdtfd dolor indidbtor.
+            g.sftColor(Color.BLACK);
+            g.drbwOvbl(dirdlfX, dirdlfY, gftIndidbtorSizf() - 1,
+                       gftIndidbtorSizf() - 1);
+            g.sftColor(Color.WHITE);
+            g.drbwOvbl(dirdlfX + 1, dirdlfY + 1, gftIndidbtorSizf() - 3,
+                       gftIndidbtorSizf() - 3);
         }
 
         /**
-         * Returns an image representing the triangle and wheel.
+         * Rfturns bn imbgf rfprfsfnting tif tribnglf bnd wiffl.
          */
-        private Image getImage(int size) {
-            if (!isSet(FLAGS_CHANGED_ANGLE) && wheelImage != null &&
-                        wheelImage.getWidth(null) == size * 2) {
-                return wheelImage;
+        privbtf Imbgf gftImbgf(int sizf) {
+            if (!isSft(FLAGS_CHANGED_ANGLE) && wifflImbgf != null &&
+                        wifflImbgf.gftWidti(null) == sizf * 2) {
+                rfturn wifflImbgf;
             }
-            if (wheelImage == null || wheelImage.getWidth(null) != size) {
-                wheelImage = getWheelImage(size);
+            if (wifflImbgf == null || wifflImbgf.gftWidti(null) != sizf) {
+                wifflImbgf = gftWifflImbgf(sizf);
             }
-            int innerR = getTriangleCircumscribedRadius();
-            int triangleSize = (int)(innerR * 3.0 / 2.0);
-            int a = (int)(2 * triangleSize / Math.sqrt(3));
-            if (triangleImage == null || triangleImage.getWidth(null) != a) {
-                triangleImage = new BufferedImage(a, a,
-                                                  BufferedImage.TYPE_INT_ARGB);
+            int innfrR = gftTribnglfCirdumsdribfdRbdius();
+            int tribnglfSizf = (int)(innfrR * 3.0 / 2.0);
+            int b = (int)(2 * tribnglfSizf / Mbti.sqrt(3));
+            if (tribnglfImbgf == null || tribnglfImbgf.gftWidti(null) != b) {
+                tribnglfImbgf = nfw BufffrfdImbgf(b, b,
+                                                  BufffrfdImbgf.TYPE_INT_ARGB);
             }
-            Graphics g = triangleImage.getGraphics();
-            g.setColor(new Color(0, 0, 0, 0));
-            g.fillRect(0, 0, a, a);
-            g.translate(a / 2, 0);
-            paintTriangle(g, triangleSize, getColor());
-            g.translate(-a / 2, 0);
-            g.dispose();
+            Grbpiids g = tribnglfImbgf.gftGrbpiids();
+            g.sftColor(nfw Color(0, 0, 0, 0));
+            g.fillRfdt(0, 0, b, b);
+            g.trbnslbtf(b / 2, 0);
+            pbintTribnglf(g, tribnglfSizf, gftColor());
+            g.trbnslbtf(-b / 2, 0);
+            g.disposf();
 
-            g = wheelImage.getGraphics();
-            g.setColor(new Color(0, 0, 0, 0));
-            g.fillOval(getWheelWidth(), getWheelWidth(),
-                       2 * (size - getWheelWidth()),
-                       2 * (size - getWheelWidth()));
+            g = wifflImbgf.gftGrbpiids();
+            g.sftColor(nfw Color(0, 0, 0, 0));
+            g.fillOvbl(gftWifflWidti(), gftWifflWidti(),
+                       2 * (sizf - gftWifflWidti()),
+                       2 * (sizf - gftWifflWidti()));
 
-            double rotate = Math.toRadians(-30.0) + angle;
-            g.translate(size, size);
-            ((Graphics2D)g).rotate(rotate);
-            g.drawImage(triangleImage, -a / 2,
-                        getWheelWidth() - size, null);
-            ((Graphics2D)g).rotate(-rotate);
-            g.translate(a / 2, size - getWheelWidth());
+            doublf rotbtf = Mbti.toRbdibns(-30.0) + bnglf;
+            g.trbnslbtf(sizf, sizf);
+            ((Grbpiids2D)g).rotbtf(rotbtf);
+            g.drbwImbgf(tribnglfImbgf, -b / 2,
+                        gftWifflWidti() - sizf, null);
+            ((Grbpiids2D)g).rotbtf(-rotbtf);
+            g.trbnslbtf(b / 2, sizf - gftWifflWidti());
 
-            setFlag(FLAGS_CHANGED_ANGLE, false);
+            sftFlbg(FLAGS_CHANGED_ANGLE, fblsf);
 
-            return wheelImage;
+            rfturn wifflImbgf;
         }
 
-        private void paintTriangle(Graphics g, int size, Color color) {
-            float[] colors = Color.RGBtoHSB(color.getRed(),
-                                            color.getGreen(),
-                                            color.getBlue(), null);
-            float hue = colors[0];
-            double dSize = (double)size;
-            for (int y = 0; y < size; y++) {
-                int maxX = (int)(y * Math.tan(Math.toRadians(30.0)));
-                float factor = maxX * 2;
-                if (maxX > 0) {
-                    float value = (float)(y / dSize);
-                    for (int x = -maxX; x <= maxX; x++) {
-                        float saturation = (float)x / factor + .5f;
-                        g.setColor(Color.getHSBColor(hue, saturation, value));
-                        g.fillRect(x, y, 1, 1);
+        privbtf void pbintTribnglf(Grbpiids g, int sizf, Color dolor) {
+            flobt[] dolors = Color.RGBtoHSB(dolor.gftRfd(),
+                                            dolor.gftGrffn(),
+                                            dolor.gftBluf(), null);
+            flobt iuf = dolors[0];
+            doublf dSizf = (doublf)sizf;
+            for (int y = 0; y < sizf; y++) {
+                int mbxX = (int)(y * Mbti.tbn(Mbti.toRbdibns(30.0)));
+                flobt fbdtor = mbxX * 2;
+                if (mbxX > 0) {
+                    flobt vbluf = (flobt)(y / dSizf);
+                    for (int x = -mbxX; x <= mbxX; x++) {
+                        flobt sbturbtion = (flobt)x / fbdtor + .5f;
+                        g.sftColor(Color.gftHSBColor(iuf, sbturbtion, vbluf));
+                        g.fillRfdt(x, y, 1, 1);
                     }
                 }
-                else {
-                    g.setColor(color);
-                    g.fillRect(0, y, 1, 1);
+                flsf {
+                    g.sftColor(dolor);
+                    g.fillRfdt(0, y, 1, 1);
                 }
             }
         }
 
         /**
-         * Returns a color wheel image for the specified size.
+         * Rfturns b dolor wiffl imbgf for tif spfdififd sizf.
          *
-         * @param size Integer giving size of color wheel.
-         * @return Color wheel image
+         * @pbrbm sizf Intfgfr giving sizf of dolor wiffl.
+         * @rfturn Color wiffl imbgf
          */
-        private Image getWheelImage(int size) {
-            int minSize = size - getWheelWidth();
-            int doubleSize = size * 2;
-            BufferedImage image = new BufferedImage(doubleSize, doubleSize,
-                                              BufferedImage.TYPE_INT_ARGB);
+        privbtf Imbgf gftWifflImbgf(int sizf) {
+            int minSizf = sizf - gftWifflWidti();
+            int doublfSizf = sizf * 2;
+            BufffrfdImbgf imbgf = nfw BufffrfdImbgf(doublfSizf, doublfSizf,
+                                              BufffrfdImbgf.TYPE_INT_ARGB);
 
-            for (int y = -size; y < size; y++) {
-                int ySquared = y * y;
-                for (int x = -size; x < size; x++) {
-                    double rad = Math.sqrt(ySquared + x * x);
+            for (int y = -sizf; y < sizf; y++) {
+                int ySqubrfd = y * y;
+                for (int x = -sizf; x < sizf; x++) {
+                    doublf rbd = Mbti.sqrt(ySqubrfd + x * x);
 
-                    if (rad < size && rad > minSize) {
-                        int rgb = colorWheelLocationToRGB(x, y, rad) |
+                    if (rbd < sizf && rbd > minSizf) {
+                        int rgb = dolorWifflLodbtionToRGB(x, y, rbd) |
                               0xFF000000;
-                        image.setRGB(x + size, y + size, rgb);
+                        imbgf.sftRGB(x + sizf, y + sizf, rgb);
                     }
                 }
             }
-            wheelImage = image;
-            return wheelImage;
+            wifflImbgf = imbgf;
+            rfturn wifflImbgf;
         }
 
         /**
-         * Adjusts the saturation and brightness. <code>x</code> and
-         * <code>y</code> give the location to adjust to and are relative
-         * to the origin of the wheel/triangle.
+         * Adjusts tif sbturbtion bnd brigitnfss. <dodf>x</dodf> bnd
+         * <dodf>y</dodf> givf tif lodbtion to bdjust to bnd brf rflbtivf
+         * to tif origin of tif wiffl/tribnglf.
          *
-         * @param x X coordinate on the triangle to adjust to
-         * @param y Y coordinate on the triangle to adjust to
-         * @param checkLoc if true the location is checked to make sure
-         *        it is contained in the triangle, if false the location is
-         *        constrained to fit in the triangle.
-         * @return true if the location is valid
+         * @pbrbm x X doordinbtf on tif tribnglf to bdjust to
+         * @pbrbm y Y doordinbtf on tif tribnglf to bdjust to
+         * @pbrbm difdkLod if truf tif lodbtion is difdkfd to mbkf surf
+         *        it is dontbinfd in tif tribnglf, if fblsf tif lodbtion is
+         *        donstrbinfd to fit in tif tribnglf.
+         * @rfturn truf if tif lodbtion is vblid
          */
-        boolean adjustSB(int x, int y, boolean checkLoc) {
-            int innerR = getWheelRadius() - getWheelWidth();
-            boolean resetXY = false;
-            // Invert the axis.
+        boolfbn bdjustSB(int x, int y, boolfbn difdkLod) {
+            int innfrR = gftWifflRbdius() - gftWifflWidti();
+            boolfbn rfsftXY = fblsf;
+            // Invfrt tif bxis.
             y = -y;
-            if (checkLoc && (x < -innerR || x > innerR || y < -innerR ||
-                             y > innerR)) {
-                return false;
+            if (difdkLod && (x < -innfrR || x > innfrR || y < -innfrR ||
+                             y > innfrR)) {
+                rfturn fblsf;
             }
-            // Rotate to origin and and verify x is valid.
-            int triangleSize = innerR * 3 / 2;
-            double x1 = Math.cos(angle) * x - Math.sin(angle) * y;
-            double y1 = Math.sin(angle) * x + Math.cos(angle) * y;
-            if (x1 < -(innerR / 2)) {
-                if (checkLoc) {
-                    return false;
+            // Rotbtf to origin bnd bnd vfrify x is vblid.
+            int tribnglfSizf = innfrR * 3 / 2;
+            doublf x1 = Mbti.dos(bnglf) * x - Mbti.sin(bnglf) * y;
+            doublf y1 = Mbti.sin(bnglf) * x + Mbti.dos(bnglf) * y;
+            if (x1 < -(innfrR / 2)) {
+                if (difdkLod) {
+                    rfturn fblsf;
                 }
-                x1 = -innerR / 2;
-                resetXY = true;
+                x1 = -innfrR / 2;
+                rfsftXY = truf;
             }
-            else if ((int)x1 > innerR) {
-                if (checkLoc) {
-                    return false;
+            flsf if ((int)x1 > innfrR) {
+                if (difdkLod) {
+                    rfturn fblsf;
                 }
-                x1 = innerR;
-                resetXY = true;
+                x1 = innfrR;
+                rfsftXY = truf;
             }
-            // Verify y location is valid.
-            int maxY = (int)((triangleSize - x1 - innerR / 2.0) *
-                             Math.tan(Math.toRadians(30.0)));
-            if (y1 <= -maxY) {
-                if (checkLoc) {
-                    return false;
+            // Vfrify y lodbtion is vblid.
+            int mbxY = (int)((tribnglfSizf - x1 - innfrR / 2.0) *
+                             Mbti.tbn(Mbti.toRbdibns(30.0)));
+            if (y1 <= -mbxY) {
+                if (difdkLod) {
+                    rfturn fblsf;
                 }
-                y1 = -maxY;
-                resetXY = true;
+                y1 = -mbxY;
+                rfsftXY = truf;
             }
-            else if (y1 > maxY) {
-                if (checkLoc) {
-                    return false;
+            flsf if (y1 > mbxY) {
+                if (difdkLod) {
+                    rfturn fblsf;
                 }
-                y1 = maxY;
-                resetXY = true;
+                y1 = mbxY;
+                rfsftXY = truf;
             }
-            // Rotate again to determine value and scale
-            double x2 = Math.cos(Math.toRadians(-30.0)) * x1 -
-                 Math.sin(Math.toRadians(-30.0)) * y1;
-            double y2 = Math.sin(Math.toRadians(-30.0)) * x1 +
-                 Math.cos(Math.toRadians(-30.0)) * y1;
-            float value = Math.min(1.0f, (float)((innerR - y2) /
-                                                (double)triangleSize));
-            float maxX = (float)(Math.tan(Math.toRadians(30)) * (innerR - y2));
-            float saturation = Math.min(1.0f, (float)(x2 / maxX / 2 + .5));
+            // Rotbtf bgbin to dftfrminf vbluf bnd sdblf
+            doublf x2 = Mbti.dos(Mbti.toRbdibns(-30.0)) * x1 -
+                 Mbti.sin(Mbti.toRbdibns(-30.0)) * y1;
+            doublf y2 = Mbti.sin(Mbti.toRbdibns(-30.0)) * x1 +
+                 Mbti.dos(Mbti.toRbdibns(-30.0)) * y1;
+            flobt vbluf = Mbti.min(1.0f, (flobt)((innfrR - y2) /
+                                                (doublf)tribnglfSizf));
+            flobt mbxX = (flobt)(Mbti.tbn(Mbti.toRbdibns(30)) * (innfrR - y2));
+            flobt sbturbtion = Mbti.min(1.0f, (flobt)(x2 / mbxX / 2 + .5));
 
-            setFlag(FLAGS_SETTING_COLOR, true);
-            if (resetXY) {
-                setSaturationAndBrightness(saturation, value);
+            sftFlbg(FLAGS_SETTING_COLOR, truf);
+            if (rfsftXY) {
+                sftSbturbtionAndBrigitnfss(sbturbtion, vbluf);
             }
-            else {
-                setSaturationAndBrightness(saturation, value, x +
-                                      getWheelXOrigin(),getWheelYOrigin() - y);
+            flsf {
+                sftSbturbtionAndBrigitnfss(sbturbtion, vbluf, x +
+                                      gftWifflXOrigin(),gftWifflYOrigin() - y);
             }
-            GTKColorChooserPanel.this.setSaturationAndBrightness(saturation,
-                                                                 value, true);
-            setFlag(FLAGS_SETTING_COLOR, false);
-            return true;
+            GTKColorCioosfrPbnfl.tiis.sftSbturbtionAndBrigitnfss(sbturbtion,
+                                                                 vbluf, truf);
+            sftFlbg(FLAGS_SETTING_COLOR, fblsf);
+            rfturn truf;
         }
 
         /**
-         * Sets the saturation and brightness.
+         * Sfts tif sbturbtion bnd brigitnfss.
          */
-        private void setSaturationAndBrightness(float s, float b) {
-            int innerR = getTriangleCircumscribedRadius();
-            int triangleSize = innerR * 3 / 2;
-            double x = b * triangleSize;
-            double maxY = x * Math.tan(Math.toRadians(30.0));
-            double y = 2 * maxY * s - maxY;
-            x = x - innerR;
-            double x1 = Math.cos(Math.toRadians(-60.0) - angle) *
-                        x - Math.sin(Math.toRadians(-60.0) - angle) * y;
-            double y1 = Math.sin(Math.toRadians(-60.0) - angle) * x +
-                        Math.cos(Math.toRadians(-60.0) - angle) * y;
-            int newCircleX = (int)x1 + getWheelXOrigin();
-            int newCircleY = getWheelYOrigin() - (int)y1;
+        privbtf void sftSbturbtionAndBrigitnfss(flobt s, flobt b) {
+            int innfrR = gftTribnglfCirdumsdribfdRbdius();
+            int tribnglfSizf = innfrR * 3 / 2;
+            doublf x = b * tribnglfSizf;
+            doublf mbxY = x * Mbti.tbn(Mbti.toRbdibns(30.0));
+            doublf y = 2 * mbxY * s - mbxY;
+            x = x - innfrR;
+            doublf x1 = Mbti.dos(Mbti.toRbdibns(-60.0) - bnglf) *
+                        x - Mbti.sin(Mbti.toRbdibns(-60.0) - bnglf) * y;
+            doublf y1 = Mbti.sin(Mbti.toRbdibns(-60.0) - bnglf) * x +
+                        Mbti.dos(Mbti.toRbdibns(-60.0) - bnglf) * y;
+            int nfwCirdlfX = (int)x1 + gftWifflXOrigin();
+            int nfwCirdlfY = gftWifflYOrigin() - (int)y1;
 
-            setSaturationAndBrightness(s, b, newCircleX, newCircleY);
+            sftSbturbtionAndBrigitnfss(s, b, nfwCirdlfX, nfwCirdlfY);
         }
 
 
         /**
-         * Sets the saturation and brightness.
+         * Sfts tif sbturbtion bnd brigitnfss.
          */
-        private void setSaturationAndBrightness(float s, float b,
-                                             int newCircleX, int newCircleY) {
-            newCircleX -= getIndicatorSize() / 2;
-            newCircleY -= getIndicatorSize() / 2;
+        privbtf void sftSbturbtionAndBrigitnfss(flobt s, flobt b,
+                                             int nfwCirdlfX, int nfwCirdlfY) {
+            nfwCirdlfX -= gftIndidbtorSizf() / 2;
+            nfwCirdlfY -= gftIndidbtorSizf() / 2;
 
-            int minX = Math.min(newCircleX, circleX);
-            int minY = Math.min(newCircleY, circleY);
+            int minX = Mbti.min(nfwCirdlfX, dirdlfX);
+            int minY = Mbti.min(nfwCirdlfY, dirdlfY);
 
-            repaint(minX, minY, Math.max(circleX, newCircleX) - minX +
-                    getIndicatorSize() + 1, Math.max(circleY, newCircleY) -
-                    minY + getIndicatorSize() + 1);
-            circleX = newCircleX;
-            circleY = newCircleY;
+            rfpbint(minX, minY, Mbti.mbx(dirdlfX, nfwCirdlfX) - minX +
+                    gftIndidbtorSizf() + 1, Mbti.mbx(dirdlfY, nfwCirdlfY) -
+                    minY + gftIndidbtorSizf() + 1);
+            dirdlfX = nfwCirdlfX;
+            dirdlfY = nfwCirdlfY;
         }
 
         /**
-         * Adjusts the hue based on the passed in location.
+         * Adjusts tif iuf bbsfd on tif pbssfd in lodbtion.
          *
-         * @param x X location to adjust to, relative to the origin of the
-         *        wheel
-         * @param y Y location to adjust to, relative to the origin of the
-         *        wheel
-         * @param check if true the location is checked to make sure
-         *        it is contained in the wheel, if false the location is
-         *        constrained to fit in the wheel
-         * @return true if the location is valid.
+         * @pbrbm x X lodbtion to bdjust to, rflbtivf to tif origin of tif
+         *        wiffl
+         * @pbrbm y Y lodbtion to bdjust to, rflbtivf to tif origin of tif
+         *        wiffl
+         * @pbrbm difdk if truf tif lodbtion is difdkfd to mbkf surf
+         *        it is dontbinfd in tif wiffl, if fblsf tif lodbtion is
+         *        donstrbinfd to fit in tif wiffl
+         * @rfturn truf if tif lodbtion is vblid.
          */
-        private boolean adjustHue(int x, int y, boolean check) {
-            double rad = Math.sqrt(x * x + y * y);
-            int size = getWheelRadius();
+        privbtf boolfbn bdjustHuf(int x, int y, boolfbn difdk) {
+            doublf rbd = Mbti.sqrt(x * x + y * y);
+            int sizf = gftWifflRbdius();
 
-            if (!check || (rad >= size - getWheelWidth() && rad < size)) {
-                // Map the location to an angle and reset hue
-                double angle;
+            if (!difdk || (rbd >= sizf - gftWifflWidti() && rbd < sizf)) {
+                // Mbp tif lodbtion to bn bnglf bnd rfsft iuf
+                doublf bnglf;
                 if (x == 0) {
                     if (y > 0) {
-                        angle = Math.PI / 2.0;
+                        bnglf = Mbti.PI / 2.0;
                     }
-                    else {
-                        angle = Math.PI + Math.PI / 2.0;
+                    flsf {
+                        bnglf = Mbti.PI + Mbti.PI / 2.0;
                     }
                 }
-                else {
-                    angle = Math.atan((double)y / (double)x);
+                flsf {
+                    bnglf = Mbti.btbn((doublf)y / (doublf)x);
                     if (x < 0) {
-                        angle += Math.PI;
+                        bnglf += Mbti.PI;
                     }
-                    else if (angle < 0) {
-                        angle += 2 * Math.PI;
+                    flsf if (bnglf < 0) {
+                        bnglf += 2 * Mbti.PI;
                     }
                 }
-                setFlag(FLAGS_SETTING_COLOR, true);
-                setHue((float)(1.0 - angle / Math.PI / 2), true);
-                setFlag(FLAGS_SETTING_COLOR, false);
-                setHueAngle(angle);
-                setSaturationAndBrightness(getSaturation(), getBrightness());
-                return true;
+                sftFlbg(FLAGS_SETTING_COLOR, truf);
+                sftHuf((flobt)(1.0 - bnglf / Mbti.PI / 2), truf);
+                sftFlbg(FLAGS_SETTING_COLOR, fblsf);
+                sftHufAnglf(bnglf);
+                sftSbturbtionAndBrigitnfss(gftSbturbtion(), gftBrigitnfss());
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
         /**
-         * Rotates the triangle to accommodate the passed in hue.
+         * Rotbtfs tif tribnglf to bddommodbtf tif pbssfd in iuf.
          */
-        private void setAngleFromHue(float hue) {
-            setHueAngle((1.0 - hue) * Math.PI * 2);
+        privbtf void sftAnglfFromHuf(flobt iuf) {
+            sftHufAnglf((1.0 - iuf) * Mbti.PI * 2);
         }
 
         /**
-         * Sets the angle representing the hue.
+         * Sfts tif bnglf rfprfsfnting tif iuf.
          */
-        private void setHueAngle(double angle) {
-            double oldAngle = this.angle;
+        privbtf void sftHufAnglf(doublf bnglf) {
+            doublf oldAnglf = tiis.bnglf;
 
-            this.angle = angle;
-            if (angle != oldAngle) {
-                setFlag(FLAGS_CHANGED_ANGLE, true);
-                repaint();
+            tiis.bnglf = bnglf;
+            if (bnglf != oldAnglf) {
+                sftFlbg(FLAGS_CHANGED_ANGLE, truf);
+                rfpbint();
             }
         }
 
         /**
-         * Returns the size of the color indicator.
+         * Rfturns tif sizf of tif dolor indidbtor.
          */
-        private int getIndicatorSize() {
-            return 8;
+        privbtf int gftIndidbtorSizf() {
+            rfturn 8;
         }
 
         /**
-         * Returns the circumscribed radius of the triangle.
+         * Rfturns tif dirdumsdribfd rbdius of tif tribnglf.
          */
-        private int getTriangleCircumscribedRadius() {
-            return 72;
+        privbtf int gftTribnglfCirdumsdribfdRbdius() {
+            rfturn 72;
         }
 
         /**
-         * Returns the x origin of the wheel and triangle.
+         * Rfturns tif x origin of tif wiffl bnd tribnglf.
          */
-        private int getWheelXOrigin() {
-            return 85;
+        privbtf int gftWifflXOrigin() {
+            rfturn 85;
         }
 
         /**
-         * Returns y origin of the wheel and triangle.
+         * Rfturns y origin of tif wiffl bnd tribnglf.
          */
-        private int getWheelYOrigin() {
-            return 85;
+        privbtf int gftWifflYOrigin() {
+            rfturn 85;
         }
 
         /**
-         * Returns the width of the wheel.
+         * Rfturns tif widti of tif wiffl.
          */
-        private int getWheelWidth() {
-            return 13;
+        privbtf int gftWifflWidti() {
+            rfturn 13;
         }
 
         /**
-         * Sets the focus to one of: 0 no one, 1 the wheel or 2 the triangle.
+         * Sfts tif fodus to onf of: 0 no onf, 1 tif wiffl or 2 tif tribnglf.
          */
-        private void setFocusType(int type) {
-            if (type == 0) {
-                setFlag(FLAGS_FOCUSED_WHEEL, false);
-                setFlag(FLAGS_FOCUSED_TRIANGLE, false);
-                repaint();
+        privbtf void sftFodusTypf(int typf) {
+            if (typf == 0) {
+                sftFlbg(FLAGS_FOCUSED_WHEEL, fblsf);
+                sftFlbg(FLAGS_FOCUSED_TRIANGLE, fblsf);
+                rfpbint();
             }
-            else {
-                int toSet = FLAGS_FOCUSED_WHEEL;
-                int toUnset = FLAGS_FOCUSED_TRIANGLE;
+            flsf {
+                int toSft = FLAGS_FOCUSED_WHEEL;
+                int toUnsft = FLAGS_FOCUSED_TRIANGLE;
 
-                if (type == 2) {
-                    toSet = FLAGS_FOCUSED_TRIANGLE;
-                    toUnset = FLAGS_FOCUSED_WHEEL;
+                if (typf == 2) {
+                    toSft = FLAGS_FOCUSED_TRIANGLE;
+                    toUnsft = FLAGS_FOCUSED_WHEEL;
                 }
-                if (!isSet(toSet)) {
-                    setFlag(toSet, true);
-                    repaint();
-                    setFlag(toUnset, false);
+                if (!isSft(toSft)) {
+                    sftFlbg(toSft, truf);
+                    rfpbint();
+                    sftFlbg(toUnsft, fblsf);
                 }
             }
         }
 
         /**
-         * Returns the radius of the wheel.
+         * Rfturns tif rbdius of tif wiffl.
          */
-        private int getWheelRadius() {
-            // As far as I can tell, GTK doesn't allow stretching this
-            // widget
-            return 85;
+        privbtf int gftWifflRbdius() {
+            // As fbr bs I dbn tfll, GTK dofsn't bllow strftdiing tiis
+            // widgft
+            rfturn 85;
         }
 
         /**
-         * Updates the flags bitmask.
+         * Updbtfs tif flbgs bitmbsk.
          */
-        private void setFlag(int flag, boolean value) {
-            if (value) {
-                flags |= flag;
+        privbtf void sftFlbg(int flbg, boolfbn vbluf) {
+            if (vbluf) {
+                flbgs |= flbg;
             }
-            else {
-                flags &= ~flag;
+            flsf {
+                flbgs &= ~flbg;
             }
         }
 
         /**
-         * Returns true if a particular flag has been set.
+         * Rfturns truf if b pbrtidulbr flbg ibs bffn sft.
          */
-        private boolean isSet(int flag) {
-            return ((flags & flag) == flag);
+        privbtf boolfbn isSft(int flbg) {
+            rfturn ((flbgs & flbg) == flbg);
         }
 
         /**
-         * Returns the RGB color to use for the specified location. The
-         * passed in point must be on the color wheel and be relative to the
-         * origin of the color wheel.
+         * Rfturns tif RGB dolor to usf for tif spfdififd lodbtion. Tif
+         * pbssfd in point must bf on tif dolor wiffl bnd bf rflbtivf to tif
+         * origin of tif dolor wiffl.
          *
-         * @param x X location to get color for
-         * @param y Y location to get color for
-         * @param rad Radius from center of color wheel
-         * @return integer with red, green and blue components
+         * @pbrbm x X lodbtion to gft dolor for
+         * @pbrbm y Y lodbtion to gft dolor for
+         * @pbrbm rbd Rbdius from dfntfr of dolor wiffl
+         * @rfturn intfgfr witi rfd, grffn bnd bluf domponfnts
          */
-        private int colorWheelLocationToRGB(int x, int y, double rad) {
-            double angle = Math.acos((double)x / rad);
+        privbtf int dolorWifflLodbtionToRGB(int x, int y, doublf rbd) {
+            doublf bnglf = Mbti.bdos((doublf)x / rbd);
             int rgb;
 
-            if (angle < PI_3) {
+            if (bnglf < PI_3) {
                 if (y < 0) {
                     // FFFF00 - FF0000
-                    rgb = 0xFF0000 | Math.min(255,
-                                           (int)(255 * angle / PI_3)) << 8;
+                    rgb = 0xFF0000 | Mbti.min(255,
+                                           (int)(255 * bnglf / PI_3)) << 8;
                 }
-                else {
+                flsf {
                     // FF0000 - FF00FF
-                    rgb = 0xFF0000 | Math.min(255,
-                                           (int)(255 * angle / PI_3));
+                    rgb = 0xFF0000 | Mbti.min(255,
+                                           (int)(255 * bnglf / PI_3));
                 }
             }
-            else if (angle < 2 * PI_3) {
-                angle -= PI_3;
+            flsf if (bnglf < 2 * PI_3) {
+                bnglf -= PI_3;
                 if (y < 0) {
                     // 00FF00 - FFFF00
-                    rgb = 0x00FF00 | Math.max(0, 255 -
-                                           (int)(255 * angle / PI_3)) << 16;
+                    rgb = 0x00FF00 | Mbti.mbx(0, 255 -
+                                           (int)(255 * bnglf / PI_3)) << 16;
                 }
-                else {
+                flsf {
                     // FF00FF - 0000FF
-                    rgb = 0x0000FF | Math.max(0, 255 -
-                                           (int)(255 * angle / PI_3)) << 16;
+                    rgb = 0x0000FF | Mbti.mbx(0, 255 -
+                                           (int)(255 * bnglf / PI_3)) << 16;
                 }
             }
-            else {
-                angle -= 2 * PI_3;
+            flsf {
+                bnglf -= 2 * PI_3;
                 if (y < 0) {
                     // 00FFFF - 00FF00
-                    rgb = 0x00FF00 | Math.min(255,
-                                           (int)(255 * angle / PI_3));
+                    rgb = 0x00FF00 | Mbti.min(255,
+                                           (int)(255 * bnglf / PI_3));
                 }
-                else {
+                flsf {
                     // 0000FF - 00FFFF
-                    rgb = 0x0000FF | Math.min(255,
-                                           (int)(255 * angle / PI_3)) << 8;
+                    rgb = 0x0000FF | Mbti.min(255,
+                                           (int)(255 * bnglf / PI_3)) << 8;
                 }
             }
-            return rgb;
+            rfturn rgb;
         }
 
         /**
-         * Increments the hue.
+         * Indrfmfnts tif iuf.
          */
-        void incrementHue(boolean positive) {
-            float hue = triangle.getGTKColorChooserPanel().getHue();
+        void indrfmfntHuf(boolfbn positivf) {
+            flobt iuf = tribnglf.gftGTKColorCioosfrPbnfl().gftHuf();
 
-            if (positive) {
-                hue += 1.0f / 360.0f;
+            if (positivf) {
+                iuf += 1.0f / 360.0f;
             }
-            else {
-                hue -= 1.0f / 360.0f;
+            flsf {
+                iuf -= 1.0f / 360.0f;
             }
-            if (hue > 1) {
-                hue -= 1;
+            if (iuf > 1) {
+                iuf -= 1;
             }
-            else if (hue < 0) {
-                hue += 1;
+            flsf if (iuf < 0) {
+                iuf += 1;
             }
-            getGTKColorChooserPanel().setHue(hue, true);
+            gftGTKColorCioosfrPbnfl().sftHuf(iuf, truf);
         }
     }
 
 
     /**
-     * Action class used for colors.
+     * Adtion dlbss usfd for dolors.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private static class ColorAction extends AbstractAction {
-        private int type;
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf stbtid dlbss ColorAdtion fxtfnds AbstrbdtAdtion {
+        privbtf int typf;
 
-        ColorAction(String name, int type) {
-            super(name);
-            this.type = type;
+        ColorAdtion(String nbmf, int typf) {
+            supfr(nbmf);
+            tiis.typf = typf;
         }
 
-        public void actionPerformed(ActionEvent e) {
-            ColorTriangle triangle = (ColorTriangle)e.getSource();
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            ColorTribnglf tribnglf = (ColorTribnglf)f.gftSourdf();
 
-            if (triangle.isWheelFocused()) {
-                float hue = triangle.getGTKColorChooserPanel().getHue();
+            if (tribnglf.isWifflFodusfd()) {
+                flobt iuf = tribnglf.gftGTKColorCioosfrPbnfl().gftHuf();
 
-                switch (type) {
-                case 0:
-                case 2:
-                    triangle.incrementHue(true);
-                    break;
-                case 1:
-                case 3:
-                    triangle.incrementHue(false);
-                    break;
-                case 4:
-                    triangle.focusTriangle();
-                    break;
-                case 5:
-                    compositeRequestFocus(triangle, false);
-                    break;
+                switdi (typf) {
+                dbsf 0:
+                dbsf 2:
+                    tribnglf.indrfmfntHuf(truf);
+                    brfbk;
+                dbsf 1:
+                dbsf 3:
+                    tribnglf.indrfmfntHuf(fblsf);
+                    brfbk;
+                dbsf 4:
+                    tribnglf.fodusTribnglf();
+                    brfbk;
+                dbsf 5:
+                    dompositfRfqufstFodus(tribnglf, fblsf);
+                    brfbk;
                 }
             }
-            else {
-                int xDelta = 0;
-                int yDelta = 0;
+            flsf {
+                int xDfltb = 0;
+                int yDfltb = 0;
 
-                switch (type) {
-                case 0:
+                switdi (typf) {
+                dbsf 0:
                     // up
-                    yDelta--;
-                    break;
-                case 1:
+                    yDfltb--;
+                    brfbk;
+                dbsf 1:
                     // down
-                    yDelta++;
-                    break;
-                case 2:
-                    // left
-                    xDelta--;
-                    break;
-                case 3:
-                    // right
-                    xDelta++;
-                    break;
-                case 4:
-                    compositeRequestFocus(triangle, true);
-                    return;
-                case 5:
-                    triangle.focusWheel();
-                    return;
+                    yDfltb++;
+                    brfbk;
+                dbsf 2:
+                    // lfft
+                    xDfltb--;
+                    brfbk;
+                dbsf 3:
+                    // rigit
+                    xDfltb++;
+                    brfbk;
+                dbsf 4:
+                    dompositfRfqufstFodus(tribnglf, truf);
+                    rfturn;
+                dbsf 5:
+                    tribnglf.fodusWiffl();
+                    rfturn;
                 }
-                triangle.adjustSB(triangle.getColorX() + xDelta,
-                                  triangle.getColorY() + yDelta, true);
+                tribnglf.bdjustSB(tribnglf.gftColorX() + xDfltb,
+                                  tribnglf.gftColorY() + yDfltb, truf);
             }
         }
     }
 
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class OpaqueLabel extends JLabel {
-        public boolean isOpaque() {
-            return true;
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss OpbqufLbbfl fxtfnds JLbbfl {
+        publid boolfbn isOpbquf() {
+            rfturn truf;
         }
     }
 }

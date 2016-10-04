@@ -1,419 +1,419 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.FocusEvent;
-import java.awt.event.InputEvent;
-import java.beans.PropertyChangeEvent;
-import java.io.Reader;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
-import javax.swing.plaf.*;
-import sun.swing.DefaultLookup;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.fvfnt.FodusEvfnt;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.io.Rfbdfr;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.plbf.*;
+import sun.swing.DffbultLookup;
 
 /**
- * Basis of a look and feel for a JTextField.
+ * Bbsis of b look bnd fffl for b JTfxtFifld.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author  Timothy Prinzing
+ * @butior  Timotiy Prinzing
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class BasicTextFieldUI extends BasicTextUI {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss BbsidTfxtFifldUI fxtfnds BbsidTfxtUI {
 
     /**
-     * Creates a UI for a JTextField.
+     * Crfbtfs b UI for b JTfxtFifld.
      *
-     * @param c the text field
-     * @return the UI
+     * @pbrbm d tif tfxt fifld
+     * @rfturn tif UI
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new BasicTextFieldUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw BbsidTfxtFifldUI();
     }
 
     /**
-     * Creates a new BasicTextFieldUI.
+     * Crfbtfs b nfw BbsidTfxtFifldUI.
      */
-    public BasicTextFieldUI() {
-        super();
+    publid BbsidTfxtFifldUI() {
+        supfr();
     }
 
     /**
-     * Fetches the name used as a key to lookup properties through the
-     * UIManager.  This is used as a prefix to all the standard
-     * text properties.
+     * Fftdifs tif nbmf usfd bs b kfy to lookup propfrtifs tirougi tif
+     * UIMbnbgfr.  Tiis is usfd bs b prffix to bll tif stbndbrd
+     * tfxt propfrtifs.
      *
-     * @return the name ("TextField")
+     * @rfturn tif nbmf ("TfxtFifld")
      */
-    protected String getPropertyPrefix() {
-        return "TextField";
+    protfdtfd String gftPropfrtyPrffix() {
+        rfturn "TfxtFifld";
     }
 
     /**
-     * Creates a view (FieldView) based on an element.
+     * Crfbtfs b vifw (FifldVifw) bbsfd on bn flfmfnt.
      *
-     * @param elem the element
-     * @return the view
+     * @pbrbm flfm tif flfmfnt
+     * @rfturn tif vifw
      */
-    public View create(Element elem) {
-        Document doc = elem.getDocument();
-        Object i18nFlag = doc.getProperty("i18n"/*AbstractDocument.I18NProperty*/);
-        if (Boolean.TRUE.equals(i18nFlag)) {
-            // To support bidirectional text, we build a more heavyweight
-            // representation of the field.
-            String kind = elem.getName();
+    publid Vifw drfbtf(Elfmfnt flfm) {
+        Dodumfnt dod = flfm.gftDodumfnt();
+        Objfdt i18nFlbg = dod.gftPropfrty("i18n"/*AbstrbdtDodumfnt.I18NPropfrty*/);
+        if (Boolfbn.TRUE.fqubls(i18nFlbg)) {
+            // To support bidirfdtionbl tfxt, wf build b morf ifbvywfigit
+            // rfprfsfntbtion of tif fifld.
+            String kind = flfm.gftNbmf();
             if (kind != null) {
-                if (kind.equals(AbstractDocument.ContentElementName)) {
-                    return new GlyphView(elem);
-                } else if (kind.equals(AbstractDocument.ParagraphElementName)) {
-                    return new I18nFieldView(elem);
+                if (kind.fqubls(AbstrbdtDodumfnt.ContfntElfmfntNbmf)) {
+                    rfturn nfw GlypiVifw(flfm);
+                } flsf if (kind.fqubls(AbstrbdtDodumfnt.PbrbgrbpiElfmfntNbmf)) {
+                    rfturn nfw I18nFifldVifw(flfm);
                 }
             }
-            // this shouldn't happen, should probably throw in this case.
+            // tiis siouldn't ibppfn, siould probbbly tirow in tiis dbsf.
         }
-        return new FieldView(elem);
+        rfturn nfw FifldVifw(flfm);
     }
 
     /**
-     * Returns the baseline.
+     * Rfturns tif bbsflinf.
      *
-     * @throws NullPointerException {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
-     * @since 1.6
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
+     * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int, int)
+     * @sindf 1.6
      */
-    public int getBaseline(JComponent c, int width, int height) {
-        super.getBaseline(c, width, height);
-        View rootView = getRootView((JTextComponent)c);
-        if (rootView.getViewCount() > 0) {
-            Insets insets = c.getInsets();
-            height = height - insets.top - insets.bottom;
-            if (height > 0) {
-                int baseline = insets.top;
-                View fieldView = rootView.getView(0);
-                int vspan = (int)fieldView.getPreferredSpan(View.Y_AXIS);
-                if (height != vspan) {
-                    int slop = height - vspan;
-                    baseline += slop / 2;
+    publid int gftBbsflinf(JComponfnt d, int widti, int ifigit) {
+        supfr.gftBbsflinf(d, widti, ifigit);
+        Vifw rootVifw = gftRootVifw((JTfxtComponfnt)d);
+        if (rootVifw.gftVifwCount() > 0) {
+            Insfts insfts = d.gftInsfts();
+            ifigit = ifigit - insfts.top - insfts.bottom;
+            if (ifigit > 0) {
+                int bbsflinf = insfts.top;
+                Vifw fifldVifw = rootVifw.gftVifw(0);
+                int vspbn = (int)fifldVifw.gftPrfffrrfdSpbn(Vifw.Y_AXIS);
+                if (ifigit != vspbn) {
+                    int slop = ifigit - vspbn;
+                    bbsflinf += slop / 2;
                 }
-                if (fieldView instanceof I18nFieldView) {
-                    int fieldBaseline = BasicHTML.getBaseline(
-                            fieldView, width - insets.left - insets.right,
-                            height);
-                    if (fieldBaseline < 0) {
-                        return -1;
+                if (fifldVifw instbndfof I18nFifldVifw) {
+                    int fifldBbsflinf = BbsidHTML.gftBbsflinf(
+                            fifldVifw, widti - insfts.lfft - insfts.rigit,
+                            ifigit);
+                    if (fifldBbsflinf < 0) {
+                        rfturn -1;
                     }
-                    baseline += fieldBaseline;
+                    bbsflinf += fifldBbsflinf;
                 }
-                else {
-                    FontMetrics fm = c.getFontMetrics(c.getFont());
-                    baseline += fm.getAscent();
+                flsf {
+                    FontMftrids fm = d.gftFontMftrids(d.gftFont());
+                    bbsflinf += fm.gftAsdfnt();
                 }
-                return baseline;
+                rfturn bbsflinf;
             }
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Returns an enum indicating how the baseline of the component
-     * changes as the size changes.
+     * Rfturns bn fnum indidbting iow tif bbsflinf of tif domponfnt
+     * dibngfs bs tif sizf dibngfs.
      *
-     * @throws NullPointerException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
-     * @since 1.6
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int, int)
+     * @sindf 1.6
      */
-    public Component.BaselineResizeBehavior getBaselineResizeBehavior(
-            JComponent c) {
-        super.getBaselineResizeBehavior(c);
-        return Component.BaselineResizeBehavior.CENTER_OFFSET;
+    publid Componfnt.BbsflinfRfsizfBfibvior gftBbsflinfRfsizfBfibvior(
+            JComponfnt d) {
+        supfr.gftBbsflinfRfsizfBfibvior(d);
+        rfturn Componfnt.BbsflinfRfsizfBfibvior.CENTER_OFFSET;
     }
 
 
     /**
-     * A field view that support bidirectional text via the
-     * support provided by ParagraphView.
+     * A fifld vifw tibt support bidirfdtionbl tfxt vib tif
+     * support providfd by PbrbgrbpiVifw.
      */
-    static class I18nFieldView extends ParagraphView {
+    stbtid dlbss I18nFifldVifw fxtfnds PbrbgrbpiVifw {
 
-        I18nFieldView(Element elem) {
-            super(elem);
+        I18nFifldVifw(Elfmfnt flfm) {
+            supfr(flfm);
         }
 
         /**
-         * Fetch the constraining span to flow against for
-         * the given child index.  There is no limit for
-         * a field since it scrolls, so this is implemented to
-         * return <code>Integer.MAX_VALUE</code>.
+         * Fftdi tif donstrbining spbn to flow bgbinst for
+         * tif givfn diild indfx.  Tifrf is no limit for
+         * b fifld sindf it sdrolls, so tiis is implfmfntfd to
+         * rfturn <dodf>Intfgfr.MAX_VALUE</dodf>.
          */
-        public int getFlowSpan(int index) {
-            return Integer.MAX_VALUE;
+        publid int gftFlowSpbn(int indfx) {
+            rfturn Intfgfr.MAX_VALUE;
         }
 
-        protected void setJustification(int j) {
-            // Justification is done in adjustAllocation(), so disable
-            // ParagraphView's justification handling by doing nothing here.
+        protfdtfd void sftJustifidbtion(int j) {
+            // Justifidbtion is donf in bdjustAllodbtion(), so disbblf
+            // PbrbgrbpiVifw's justifidbtion ibndling by doing notiing ifrf.
         }
 
-        static boolean isLeftToRight( java.awt.Component c ) {
-            return c.getComponentOrientation().isLeftToRight();
+        stbtid boolfbn isLfftToRigit( jbvb.bwt.Componfnt d ) {
+            rfturn d.gftComponfntOrifntbtion().isLfftToRigit();
         }
 
         /**
-         * Adjusts the allocation given to the view
-         * to be a suitable allocation for a text field.
-         * If the view has been allocated more than the
-         * preferred span vertically, the allocation is
-         * changed to be centered vertically.  Horizontally
-         * the view is adjusted according to the horizontal
-         * alignment property set on the associated JTextField
-         * (if that is the type of the hosting component).
+         * Adjusts tif bllodbtion givfn to tif vifw
+         * to bf b suitbblf bllodbtion for b tfxt fifld.
+         * If tif vifw ibs bffn bllodbtfd morf tibn tif
+         * prfffrrfd spbn vfrtidblly, tif bllodbtion is
+         * dibngfd to bf dfntfrfd vfrtidblly.  Horizontblly
+         * tif vifw is bdjustfd bddording to tif iorizontbl
+         * blignmfnt propfrty sft on tif bssodibtfd JTfxtFifld
+         * (if tibt is tif typf of tif iosting domponfnt).
          *
-         * @param a the allocation given to the view, which may need
-         *  to be adjusted.
-         * @return the allocation that the superclass should use.
+         * @pbrbm b tif bllodbtion givfn to tif vifw, wiidi mby nffd
+         *  to bf bdjustfd.
+         * @rfturn tif bllodbtion tibt tif supfrdlbss siould usf.
          */
-        Shape adjustAllocation(Shape a) {
-            if (a != null) {
-                Rectangle bounds = a.getBounds();
-                int vspan = (int) getPreferredSpan(Y_AXIS);
-                int hspan = (int) getPreferredSpan(X_AXIS);
-                if (bounds.height != vspan) {
-                    int slop = bounds.height - vspan;
+        Sibpf bdjustAllodbtion(Sibpf b) {
+            if (b != null) {
+                Rfdtbnglf bounds = b.gftBounds();
+                int vspbn = (int) gftPrfffrrfdSpbn(Y_AXIS);
+                int ispbn = (int) gftPrfffrrfdSpbn(X_AXIS);
+                if (bounds.ifigit != vspbn) {
+                    int slop = bounds.ifigit - vspbn;
                     bounds.y += slop / 2;
-                    bounds.height -= slop;
+                    bounds.ifigit -= slop;
                 }
 
-                // horizontal adjustments
-                Component c = getContainer();
-                if (c instanceof JTextField) {
-                    JTextField field = (JTextField) c;
-                    BoundedRangeModel vis = field.getHorizontalVisibility();
-                    int max = Math.max(hspan, bounds.width);
-                    int value = vis.getValue();
-                    int extent = Math.min(max, bounds.width - 1);
-                    if ((value + extent) > max) {
-                        value = max - extent;
+                // iorizontbl bdjustmfnts
+                Componfnt d = gftContbinfr();
+                if (d instbndfof JTfxtFifld) {
+                    JTfxtFifld fifld = (JTfxtFifld) d;
+                    BoundfdRbngfModfl vis = fifld.gftHorizontblVisibility();
+                    int mbx = Mbti.mbx(ispbn, bounds.widti);
+                    int vbluf = vis.gftVbluf();
+                    int fxtfnt = Mbti.min(mbx, bounds.widti - 1);
+                    if ((vbluf + fxtfnt) > mbx) {
+                        vbluf = mbx - fxtfnt;
                     }
-                    vis.setRangeProperties(value, extent, vis.getMinimum(),
-                                           max, false);
-                    if (hspan < bounds.width) {
-                        // horizontally align the interior
-                        int slop = bounds.width - 1 - hspan;
+                    vis.sftRbngfPropfrtifs(vbluf, fxtfnt, vis.gftMinimum(),
+                                           mbx, fblsf);
+                    if (ispbn < bounds.widti) {
+                        // iorizontblly blign tif intfrior
+                        int slop = bounds.widti - 1 - ispbn;
 
-                        int align = ((JTextField)c).getHorizontalAlignment();
-                        if(isLeftToRight(c)) {
-                            if(align==LEADING) {
-                                align = LEFT;
+                        int blign = ((JTfxtFifld)d).gftHorizontblAlignmfnt();
+                        if(isLfftToRigit(d)) {
+                            if(blign==LEADING) {
+                                blign = LEFT;
                             }
-                            else if(align==TRAILING) {
-                                align = RIGHT;
+                            flsf if(blign==TRAILING) {
+                                blign = RIGHT;
                             }
                         }
-                        else {
-                            if(align==LEADING) {
-                                align = RIGHT;
+                        flsf {
+                            if(blign==LEADING) {
+                                blign = RIGHT;
                             }
-                            else if(align==TRAILING) {
-                                align = LEFT;
+                            flsf if(blign==TRAILING) {
+                                blign = LEFT;
                             }
                         }
 
-                        switch (align) {
-                        case SwingConstants.CENTER:
+                        switdi (blign) {
+                        dbsf SwingConstbnts.CENTER:
                             bounds.x += slop / 2;
-                            bounds.width -= slop;
-                            break;
-                        case SwingConstants.RIGHT:
+                            bounds.widti -= slop;
+                            brfbk;
+                        dbsf SwingConstbnts.RIGHT:
                             bounds.x += slop;
-                            bounds.width -= slop;
-                            break;
+                            bounds.widti -= slop;
+                            brfbk;
                         }
-                    } else {
-                        // adjust the allocation to match the bounded range.
-                        bounds.width = hspan;
-                        bounds.x -= vis.getValue();
+                    } flsf {
+                        // bdjust tif bllodbtion to mbtdi tif boundfd rbngf.
+                        bounds.widti = ispbn;
+                        bounds.x -= vis.gftVbluf();
                     }
                 }
-                return bounds;
+                rfturn bounds;
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Update the visibility model with the associated JTextField
-         * (if there is one) to reflect the current visibility as a
-         * result of changes to the document model.  The bounded
-         * range properties are updated.  If the view hasn't yet been
-         * shown the extent will be zero and we just set it to be full
-         * until determined otherwise.
+         * Updbtf tif visibility modfl witi tif bssodibtfd JTfxtFifld
+         * (if tifrf is onf) to rfflfdt tif durrfnt visibility bs b
+         * rfsult of dibngfs to tif dodumfnt modfl.  Tif boundfd
+         * rbngf propfrtifs brf updbtfd.  If tif vifw ibsn't yft bffn
+         * siown tif fxtfnt will bf zfro bnd wf just sft it to bf full
+         * until dftfrminfd otifrwisf.
          */
-        void updateVisibilityModel() {
-            Component c = getContainer();
-            if (c instanceof JTextField) {
-                JTextField field = (JTextField) c;
-                BoundedRangeModel vis = field.getHorizontalVisibility();
-                int hspan = (int) getPreferredSpan(X_AXIS);
-                int extent = vis.getExtent();
-                int maximum = Math.max(hspan, extent);
-                extent = (extent == 0) ? maximum : extent;
-                int value = maximum - extent;
-                int oldValue = vis.getValue();
-                if ((oldValue + extent) > maximum) {
-                    oldValue = maximum - extent;
+        void updbtfVisibilityModfl() {
+            Componfnt d = gftContbinfr();
+            if (d instbndfof JTfxtFifld) {
+                JTfxtFifld fifld = (JTfxtFifld) d;
+                BoundfdRbngfModfl vis = fifld.gftHorizontblVisibility();
+                int ispbn = (int) gftPrfffrrfdSpbn(X_AXIS);
+                int fxtfnt = vis.gftExtfnt();
+                int mbximum = Mbti.mbx(ispbn, fxtfnt);
+                fxtfnt = (fxtfnt == 0) ? mbximum : fxtfnt;
+                int vbluf = mbximum - fxtfnt;
+                int oldVbluf = vis.gftVbluf();
+                if ((oldVbluf + fxtfnt) > mbximum) {
+                    oldVbluf = mbximum - fxtfnt;
                 }
-                value = Math.max(0, Math.min(value, oldValue));
-                vis.setRangeProperties(value, extent, 0, maximum, false);
+                vbluf = Mbti.mbx(0, Mbti.min(vbluf, oldVbluf));
+                vis.sftRbngfPropfrtifs(vbluf, fxtfnt, 0, mbximum, fblsf);
             }
         }
 
-        // --- View methods -------------------------------------------
+        // --- Vifw mftiods -------------------------------------------
 
         /**
-         * Renders using the given rendering surface and area on that surface.
-         * The view may need to do layout and create child views to enable
-         * itself to render into the given allocation.
+         * Rfndfrs using tif givfn rfndfring surfbdf bnd brfb on tibt surfbdf.
+         * Tif vifw mby nffd to do lbyout bnd drfbtf diild vifws to fnbblf
+         * itsflf to rfndfr into tif givfn bllodbtion.
          *
-         * @param g the rendering surface to use
-         * @param a the allocated region to render into
+         * @pbrbm g tif rfndfring surfbdf to usf
+         * @pbrbm b tif bllodbtfd rfgion to rfndfr into
          *
-         * @see View#paint
+         * @sff Vifw#pbint
          */
-        public void paint(Graphics g, Shape a) {
-            Rectangle r = (Rectangle) a;
-            g.clipRect(r.x, r.y, r.width, r.height);
-            super.paint(g, adjustAllocation(a));
+        publid void pbint(Grbpiids g, Sibpf b) {
+            Rfdtbnglf r = (Rfdtbnglf) b;
+            g.dlipRfdt(r.x, r.y, r.widti, r.ifigit);
+            supfr.pbint(g, bdjustAllodbtion(b));
         }
 
         /**
-         * Determines the resizability of the view along the
-         * given axis.  A value of 0 or less is not resizable.
+         * Dftfrminfs tif rfsizbbility of tif vifw blong tif
+         * givfn bxis.  A vbluf of 0 or lfss is not rfsizbblf.
          *
-         * @param axis View.X_AXIS or View.Y_AXIS
-         * @return the weight -> 1 for View.X_AXIS, else 0
+         * @pbrbm bxis Vifw.X_AXIS or Vifw.Y_AXIS
+         * @rfturn tif wfigit -> 1 for Vifw.X_AXIS, flsf 0
          */
-        public int getResizeWeight(int axis) {
-            if (axis == View.X_AXIS) {
-                return 1;
+        publid int gftRfsizfWfigit(int bxis) {
+            if (bxis == Vifw.X_AXIS) {
+                rfturn 1;
             }
-            return 0;
+            rfturn 0;
         }
 
         /**
-         * Provides a mapping from the document model coordinate space
-         * to the coordinate space of the view mapped to it.
+         * Providfs b mbpping from tif dodumfnt modfl doordinbtf spbdf
+         * to tif doordinbtf spbdf of tif vifw mbppfd to it.
          *
-         * @param pos the position to convert >= 0
-         * @param a the allocated region to render into
-         * @return the bounding box of the given position
-         * @exception BadLocationException  if the given position does not
-         *   represent a valid location in the associated document
-         * @see View#modelToView
+         * @pbrbm pos tif position to donvfrt >= 0
+         * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+         * @rfturn tif bounding box of tif givfn position
+         * @fxdfption BbdLodbtionExdfption  if tif givfn position dofs not
+         *   rfprfsfnt b vblid lodbtion in tif bssodibtfd dodumfnt
+         * @sff Vifw#modflToVifw
          */
-        public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
-            return super.modelToView(pos, adjustAllocation(a), b);
+        publid Sibpf modflToVifw(int pos, Sibpf b, Position.Bibs b) tirows BbdLodbtionExdfption {
+            rfturn supfr.modflToVifw(pos, bdjustAllodbtion(b), b);
         }
 
         /**
-         * Provides a mapping from the document model coordinate space
-         * to the coordinate space of the view mapped to it.
+         * Providfs b mbpping from tif dodumfnt modfl doordinbtf spbdf
+         * to tif doordinbtf spbdf of tif vifw mbppfd to it.
          *
-         * @param p0 the position to convert >= 0
-         * @param b0 the bias toward the previous character or the
-         *  next character represented by p0, in case the
-         *  position is a boundary of two views.
-         * @param p1 the position to convert >= 0
-         * @param b1 the bias toward the previous character or the
-         *  next character represented by p1, in case the
-         *  position is a boundary of two views.
-         * @param a the allocated region to render into
-         * @return the bounding box of the given position is returned
-         * @exception BadLocationException  if the given position does
-         *   not represent a valid location in the associated document
-         * @exception IllegalArgumentException for an invalid bias argument
-         * @see View#viewToModel
+         * @pbrbm p0 tif position to donvfrt >= 0
+         * @pbrbm b0 tif bibs towbrd tif prfvious dibrbdtfr or tif
+         *  nfxt dibrbdtfr rfprfsfntfd by p0, in dbsf tif
+         *  position is b boundbry of two vifws.
+         * @pbrbm p1 tif position to donvfrt >= 0
+         * @pbrbm b1 tif bibs towbrd tif prfvious dibrbdtfr or tif
+         *  nfxt dibrbdtfr rfprfsfntfd by p1, in dbsf tif
+         *  position is b boundbry of two vifws.
+         * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+         * @rfturn tif bounding box of tif givfn position is rfturnfd
+         * @fxdfption BbdLodbtionExdfption  if tif givfn position dofs
+         *   not rfprfsfnt b vblid lodbtion in tif bssodibtfd dodumfnt
+         * @fxdfption IllfgblArgumfntExdfption for bn invblid bibs brgumfnt
+         * @sff Vifw#vifwToModfl
          */
-        public Shape modelToView(int p0, Position.Bias b0,
-                                 int p1, Position.Bias b1, Shape a)
-            throws BadLocationException
+        publid Sibpf modflToVifw(int p0, Position.Bibs b0,
+                                 int p1, Position.Bibs b1, Sibpf b)
+            tirows BbdLodbtionExdfption
         {
-            return super.modelToView(p0, b0, p1, b1, adjustAllocation(a));
+            rfturn supfr.modflToVifw(p0, b0, p1, b1, bdjustAllodbtion(b));
         }
 
         /**
-         * Provides a mapping from the view coordinate space to the logical
-         * coordinate space of the model.
+         * Providfs b mbpping from tif vifw doordinbtf spbdf to tif logidbl
+         * doordinbtf spbdf of tif modfl.
          *
-         * @param fx the X coordinate >= 0.0f
-         * @param fy the Y coordinate >= 0.0f
-         * @param a the allocated region to render into
-         * @return the location within the model that best represents the
-         *  given point in the view
-         * @see View#viewToModel
+         * @pbrbm fx tif X doordinbtf >= 0.0f
+         * @pbrbm fy tif Y doordinbtf >= 0.0f
+         * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+         * @rfturn tif lodbtion witiin tif modfl tibt bfst rfprfsfnts tif
+         *  givfn point in tif vifw
+         * @sff Vifw#vifwToModfl
          */
-        public int viewToModel(float fx, float fy, Shape a, Position.Bias[] bias) {
-            return super.viewToModel(fx, fy, adjustAllocation(a), bias);
+        publid int vifwToModfl(flobt fx, flobt fy, Sibpf b, Position.Bibs[] bibs) {
+            rfturn supfr.vifwToModfl(fx, fy, bdjustAllodbtion(b), bibs);
         }
 
         /**
-         * Gives notification that something was inserted into the document
-         * in a location that this view is responsible for.
+         * Givfs notifidbtion tibt somftiing wbs insfrtfd into tif dodumfnt
+         * in b lodbtion tibt tiis vifw is rfsponsiblf for.
          *
-         * @param changes the change information from the associated document
-         * @param a the current allocation of the view
-         * @param f the factory to use to rebuild if the view has children
-         * @see View#insertUpdate
+         * @pbrbm dibngfs tif dibngf informbtion from tif bssodibtfd dodumfnt
+         * @pbrbm b tif durrfnt bllodbtion of tif vifw
+         * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+         * @sff Vifw#insfrtUpdbtf
          */
-        public void insertUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
-            super.insertUpdate(changes, adjustAllocation(a), f);
-            updateVisibilityModel();
+        publid void insfrtUpdbtf(DodumfntEvfnt dibngfs, Sibpf b, VifwFbdtory f) {
+            supfr.insfrtUpdbtf(dibngfs, bdjustAllodbtion(b), f);
+            updbtfVisibilityModfl();
         }
 
         /**
-         * Gives notification that something was removed from the document
-         * in a location that this view is responsible for.
+         * Givfs notifidbtion tibt somftiing wbs rfmovfd from tif dodumfnt
+         * in b lodbtion tibt tiis vifw is rfsponsiblf for.
          *
-         * @param changes the change information from the associated document
-         * @param a the current allocation of the view
-         * @param f the factory to use to rebuild if the view has children
-         * @see View#removeUpdate
+         * @pbrbm dibngfs tif dibngf informbtion from tif bssodibtfd dodumfnt
+         * @pbrbm b tif durrfnt bllodbtion of tif vifw
+         * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+         * @sff Vifw#rfmovfUpdbtf
          */
-        public void removeUpdate(DocumentEvent changes, Shape a, ViewFactory f) {
-            super.removeUpdate(changes, adjustAllocation(a), f);
-            updateVisibilityModel();
+        publid void rfmovfUpdbtf(DodumfntEvfnt dibngfs, Sibpf b, VifwFbdtory f) {
+            supfr.rfmovfUpdbtf(dibngfs, bdjustAllodbtion(b), f);
+            updbtfVisibilityModfl();
         }
 
     }

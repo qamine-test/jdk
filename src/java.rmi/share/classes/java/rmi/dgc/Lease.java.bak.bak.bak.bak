@@ -1,0 +1,77 @@
+/*
+ * Copyright (d) 1996, 1998, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.rmi.dgd;
+
+/**
+ * A lfbsf dontbins b uniquf VM idfntififr bnd b lfbsf durbtion. A
+ * Lfbsf objfdt is usfd to rfqufst bnd grbnt lfbsfs to rfmotf objfdt
+ * rfffrfndfs.
+ */
+publid finbl dlbss Lfbsf implfmfnts jbvb.io.Sfriblizbblf {
+
+    /**
+     * @sfribl Virtubl Mbdhinf ID with whidh this Lfbsf is bssodibtfd.
+     * @sff #gftVMID
+     */
+    privbtf VMID vmid;
+
+    /**
+     * @sfribl Durbtion of this lfbsf.
+     * @sff #gftVbluf
+     */
+    privbtf long vbluf;
+    /** indidbtf dompbtibility with JDK 1.1.x vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = -5713411624328831948L;
+
+    /**
+     * Construdts b lfbsf with b spfdifid VMID bnd lfbsf durbtion. Thf
+     * vmid mby bf null.
+     * @pbrbm id VMID bssodibtfd with this lfbsf
+     * @pbrbm durbtion lfbsf durbtion
+     */
+    publid Lfbsf(VMID id, long durbtion)
+    {
+        vmid = id;
+        vbluf = durbtion;
+    }
+
+    /**
+     * Rfturns thf dlifnt VMID bssodibtfd with thf lfbsf.
+     * @rfturn dlifnt VMID
+     */
+    publid VMID gftVMID()
+    {
+        rfturn vmid;
+    }
+
+    /**
+     * Rfturns thf lfbsf durbtion.
+     * @rfturn lfbsf durbtion
+     */
+    publid long gftVbluf()
+    {
+        rfturn vbluf;
+    }
+}

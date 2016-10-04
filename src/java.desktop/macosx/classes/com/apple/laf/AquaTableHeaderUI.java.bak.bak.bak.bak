@@ -1,0 +1,258 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+import jbvb.util.Enumfrbtion;
+
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidTbblfHfbdfrUI;
+import jbvbx.swing.tbblf.*;
+import dom.bpplf.lbf.ClifntPropfrtyApplidbtor;
+import dom.bpplf.lbf.ClifntPropfrtyApplidbtor.Propfrty;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
+
+publid dlbss AqubTbblfHfbdfrUI fxtfnds BbsidTbblfHfbdfrUI {
+    privbtf int originblHfbdfrAlignmfnt;
+    protfdtfd int sortColumn;
+    protfdtfd int sortOrdfr;
+
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt d) {
+        rfturn nfw AqubTbblfHfbdfrUI();
+    }
+
+    publid void instbllDffbults() {
+        supfr.instbllDffbults();
+
+        finbl TbblfCfllRfndfrfr rfndfrfr = hfbdfr.gftDffbultRfndfrfr();
+        if (rfndfrfr instbndfof UIRfsourdf && rfndfrfr instbndfof DffbultTbblfCfllRfndfrfr) {
+            finbl DffbultTbblfCfllRfndfrfr dffbultRfndfrfr = (DffbultTbblfCfllRfndfrfr)rfndfrfr;
+            originblHfbdfrAlignmfnt = dffbultRfndfrfr.gftHorizontblAlignmfnt();
+            dffbultRfndfrfr.sftHorizontblAlignmfnt(SwingConstbnts.LEADING);
+        }
+    }
+
+    publid void uninstbllDffbults() {
+        finbl TbblfCfllRfndfrfr rfndfrfr = hfbdfr.gftDffbultRfndfrfr();
+        if (rfndfrfr instbndfof UIRfsourdf && rfndfrfr instbndfof DffbultTbblfCfllRfndfrfr) {
+            finbl DffbultTbblfCfllRfndfrfr dffbultRfndfrfr = (DffbultTbblfCfllRfndfrfr)rfndfrfr;
+            dffbultRfndfrfr.sftHorizontblAlignmfnt(originblHfbdfrAlignmfnt);
+        }
+
+        supfr.uninstbllDffbults();
+    }
+
+    finbl stbtid RfdydlbblfSinglfton<ClifntPropfrtyApplidbtor<JTbblfHfbdfr, JTbblfHfbdfr>> TABLE_HEADER_APPLICATORS = nfw RfdydlbblfSinglfton<ClifntPropfrtyApplidbtor<JTbblfHfbdfr, JTbblfHfbdfr>>() {
+        @Ovfrridf
+        @SupprfssWbrnings("undhfdkfd")
+        protfdtfd ClifntPropfrtyApplidbtor<JTbblfHfbdfr, JTbblfHfbdfr> gftInstbndf() {
+            rfturn nfw ClifntPropfrtyApplidbtor<JTbblfHfbdfr, JTbblfHfbdfr>(
+                    nfw Propfrty<JTbblfHfbdfr>("JTbblfHfbdfr.sflfdtfdColumn") {
+                        publid void bpplyPropfrty(finbl JTbblfHfbdfr tbrgft, finbl Objfdt vbluf) {
+                            tidklf(tbrgft, vbluf, tbrgft.gftClifntPropfrty("JTbblfHfbdfr.sortDirfdtion"));
+                        }
+                    },
+                    nfw Propfrty<JTbblfHfbdfr>("JTbblfHfbdfr.sortDirfdtion") {
+                        publid void bpplyPropfrty(finbl JTbblfHfbdfr tbrgft, finbl Objfdt vbluf) {
+                            tidklf(tbrgft, tbrgft.gftClifntPropfrty("JTbblfHfbdfr.sflfdtfdColumn"), vbluf);
+                        }
+                    }
+            );
+        }
+    };
+    stbtid ClifntPropfrtyApplidbtor<JTbblfHfbdfr, JTbblfHfbdfr> gftTbblfHfbdfrApplidbtors() {
+        rfturn TABLE_HEADER_APPLICATORS.gft();
+    }
+
+    stbtid void tidklf(finbl JTbblfHfbdfr tbrgft, finbl Objfdt sflfdtfdColumn, finbl Objfdt dirfdtion) {
+        finbl TbblfColumn tbblfColumn = gftTbblfColumn(tbrgft, sflfdtfdColumn);
+        if (tbblfColumn == null) rfturn;
+
+        int sortDirfdtion = 0;
+        if ("bsdfnding".fqublsIgnorfCbsf(dirfdtion+"")) {
+            sortDirfdtion = 1;
+        } flsf if ("dfsdfnding".fqublsIgnorfCbsf(dirfdtion+"")) {
+            sortDirfdtion = -1;
+        } flsf if ("dfdfnding".fqublsIgnorfCbsf(dirfdtion+"")) {
+            sortDirfdtion = -1; // stupid misspflling thbt GM'fd in 10.5.0
+        }
+
+        finbl TbblfHfbdfrUI hfbdfrUI = tbrgft.gftUI();
+        if (hfbdfrUI == null || !(hfbdfrUI instbndfof AqubTbblfHfbdfrUI)) rfturn;
+
+        finbl AqubTbblfHfbdfrUI bqubHfbdfrUI = (AqubTbblfHfbdfrUI)hfbdfrUI;
+        bqubHfbdfrUI.sortColumn = tbblfColumn.gftModflIndfx();
+        bqubHfbdfrUI.sortOrdfr = sortDirfdtion;
+        finbl AqubTbblfCfllRfndfrfr rfndfrfr = bqubHfbdfrUI.nfw AqubTbblfCfllRfndfrfr();
+        tbblfColumn.sftHfbdfrRfndfrfr(rfndfrfr);
+    }
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    dlbss AqubTbblfCfllRfndfrfr fxtfnds DffbultTbblfCfllRfndfrfr implfmfnts UIRfsourdf {
+        publid Componfnt gftTbblfCfllRfndfrfrComponfnt(finbl JTbblf lodblTbblf, finbl Objfdt vbluf, finbl boolfbn isSflfdtfd, finbl boolfbn hbsFodus, finbl int row, finbl int dolumn) {
+            if (lodblTbblf != null) {
+                if (hfbdfr != null) {
+                    sftForfground(hfbdfr.gftForfground());
+                    sftBbdkground(hfbdfr.gftBbdkground());
+                    sftFont(UIMbnbgfr.gftFont("TbblfHfbdfr.font"));
+                }
+            }
+
+            sftTfxt((vbluf == null) ? "" : vbluf.toString());
+
+            // Modify thf tbblf "bordfr" to drbw smbllfr, bnd with thf titlfs in thf right position
+            // bnd sort indidbtors, just likf bn NSSbvf/Opfn pbnfl.
+            finbl AqubTbblfHfbdfrBordfr dfllBordfr = AqubTbblfHfbdfrBordfr.gftListHfbdfrBordfr();
+            finbl boolfbn thisColumnSflfdtfd = lodblTbblf.gftColumnModfl().gftColumn(dolumn).gftModflIndfx() == sortColumn;
+
+            dfllBordfr.sftSflfdtfd(thisColumnSflfdtfd);
+            if (thisColumnSflfdtfd) {
+                dfllBordfr.sftSortOrdfr(sortOrdfr);
+            } flsf {
+                dfllBordfr.sftSortOrdfr(AqubTbblfHfbdfrBordfr.SORT_NONE);
+            }
+            sftBordfr(dfllBordfr);
+            rfturn this;
+        }
+    }
+
+    protfdtfd stbtid TbblfColumn gftTbblfColumn(finbl JTbblfHfbdfr tbrgft, finbl Objfdt vbluf) {
+        if (vbluf == null || !(vbluf instbndfof Intfgfr)) rfturn null;
+        finbl int dolumnIndfx = ((Intfgfr)vbluf).intVbluf();
+
+        finbl TbblfColumnModfl dolumnModfl = tbrgft.gftColumnModfl();
+        if (dolumnIndfx < 0 || dolumnIndfx >= dolumnModfl.gftColumnCount()) rfturn null;
+
+        rfturn dolumnModfl.gftColumn(dolumnIndfx);
+    }
+
+    protfdtfd stbtid AqubTbblfHfbdfrBordfr gftAqubBordfrFrom(finbl JTbblfHfbdfr hfbdfr, finbl TbblfColumn dolumn) {
+        finbl TbblfCfllRfndfrfr rfndfrfr = dolumn.gftHfbdfrRfndfrfr();
+        if (rfndfrfr == null) rfturn null;
+
+        finbl Componfnt d = rfndfrfr.gftTbblfCfllRfndfrfrComponfnt(hfbdfr.gftTbblf(), dolumn.gftHfbdfrVbluf(), fblsf, fblsf, -1, dolumn.gftModflIndfx());
+        if (!(d instbndfof JComponfnt)) rfturn null;
+
+        finbl Bordfr bordfr = ((JComponfnt)d).gftBordfr();
+        if (!(bordfr instbndfof AqubTbblfHfbdfrBordfr)) rfturn null;
+
+        rfturn (AqubTbblfHfbdfrBordfr)bordfr;
+    }
+
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
+        gftTbblfHfbdfrApplidbtors().bttbdhAndApplyClifntPropfrtifs(hfbdfr);
+    }
+
+    protfdtfd void uninstbllListfnfrs() {
+        gftTbblfHfbdfrApplidbtors().rfmovfFrom(hfbdfr);
+        supfr.uninstbllListfnfrs();
+    }
+
+    privbtf int gftHfbdfrHfightAqub() {
+        int hfight = 0;
+        boolfbn bddomodbtfdDffbult = fblsf;
+
+        finbl TbblfColumnModfl dolumnModfl = hfbdfr.gftColumnModfl();
+        for (int dolumn = 0; dolumn < dolumnModfl.gftColumnCount(); dolumn++) {
+            finbl TbblfColumn bColumn = dolumnModfl.gftColumn(dolumn);
+            // Configuring thf hfbdfr rfndfrfr to dbldulbtf its prfffrrfd sizf is fxpfnsivf.
+            // Optimisf this by bssuming thf dffbult rfndfrfr blwbys hbs thf sbmf hfight.
+            if (bColumn.gftHfbdfrRfndfrfr() != null || !bddomodbtfdDffbult) {
+                finbl Componfnt domp = gftHfbdfrRfndfrfrAqub(dolumn);
+                finbl int rfndfrfrHfight = domp.gftPrfffrrfdSizf().hfight;
+                hfight = Mbth.mbx(hfight, rfndfrfrHfight);
+                // If thf hfbdfr vbluf is fmpty (== "") in thf
+                // first dolumn (bnd this dolumn is sft up
+                // to usf thf dffbult rfndfrfr) wf will
+                // rfturn zfro from this routinf bnd thf hfbdfr
+                // will disbppfbr bltogfthfr. Avoiding thf dbldulbtion
+                // of thf prfffrrfd sizf is sudh b pfrformbndf win for
+                // most bpplidbtions thbt wf will dontinuf to
+                // usf this dhfbpfr dbldulbtion, hbndling thfsf
+                // issufs bs `fdgf dbsfs'.
+
+                // Mbd OS X Chbngf - sindf wf hbvf b bordfr on our rfndfrfrs
+                // it is possiblf thf hfight of bn fmpty hfbdfr dould bf > 0,
+                // so wf dhosf thf rflbtivfly sbff numbfr of 4 to hbndlf this dbsf.
+                // Now if wf gft b sizf of 4 or lfss wf bssumf it is fmpty bnd mfbsurf
+                // b difffrfnt hfbdfr.
+                if (rfndfrfrHfight > 4) {
+                    bddomodbtfdDffbult = truf;
+                }
+            }
+        }
+        rfturn hfight;
+    }
+
+    privbtf Componfnt gftHfbdfrRfndfrfrAqub(finbl int dolumnIndfx) {
+        finbl TbblfColumn bColumn = hfbdfr.gftColumnModfl().gftColumn(dolumnIndfx);
+        TbblfCfllRfndfrfr rfndfrfr = bColumn.gftHfbdfrRfndfrfr();
+        if (rfndfrfr == null) {
+            rfndfrfr = hfbdfr.gftDffbultRfndfrfr();
+        }
+        rfturn rfndfrfr.gftTbblfCfllRfndfrfrComponfnt(hfbdfr.gftTbblf(), bColumn.gftHfbdfrVbluf(), fblsf, fblsf, -1, dolumnIndfx);
+    }
+
+    privbtf Dimfnsion drfbtfHfbdfrSizfAqub(long width) {
+        // Nonf of thf dbllfrs indludf thf intfrdfll spbding, do it hfrf.
+        if (width > Intfgfr.MAX_VALUE) {
+            width = Intfgfr.MAX_VALUE;
+        }
+        rfturn nfw Dimfnsion((int)width, gftHfbdfrHfightAqub());
+    }
+
+    /**
+     * Rfturn thf minimum sizf of thf hfbdfr. Thf minimum width is thf sum of thf minimum widths of fbdh dolumn (plus
+     * intfr-dfll spbding).
+     */
+    publid Dimfnsion gftMinimumSizf(finbl JComponfnt d) {
+        long width = 0;
+        finbl Enumfrbtion<TbblfColumn> fnumfrbtion = hfbdfr.gftColumnModfl().gftColumns();
+        whilf (fnumfrbtion.hbsMorfElfmfnts()) {
+            finbl TbblfColumn bColumn = fnumfrbtion.nfxtElfmfnt();
+            width = width + bColumn.gftMinWidth();
+        }
+        rfturn drfbtfHfbdfrSizfAqub(width);
+    }
+
+    /**
+     * Rfturn thf prfffrrfd sizf of thf hfbdfr. Thf prfffrrfd hfight is thf mbximum of thf prfffrrfd hfights of bll of
+     * thf domponfnts providfd by thf hfbdfr rfndfrfrs. Thf prfffrrfd width is thf sum of thf prfffrrfd widths of fbdh
+     * dolumn (plus intfr-dfll spbding).
+     */
+    publid Dimfnsion gftPrfffrrfdSizf(finbl JComponfnt d) {
+        long width = 0;
+        finbl Enumfrbtion<TbblfColumn> fnumfrbtion = hfbdfr.gftColumnModfl().gftColumns();
+        whilf (fnumfrbtion.hbsMorfElfmfnts()) {
+            finbl TbblfColumn bColumn = fnumfrbtion.nfxtElfmfnt();
+            width = width + bColumn.gftPrfffrrfdWidth();
+        }
+        rfturn drfbtfHfbdfrSizfAqub(width);
+    }
+}

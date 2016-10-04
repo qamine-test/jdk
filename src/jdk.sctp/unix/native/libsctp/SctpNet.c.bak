@@ -1,756 +1,756 @@
 /*
- * Copyright (c) 2009, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdlib.h>
-#include <string.h>
-#include <dlfcn.h>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <dlfdn.i>
 
-#include "Sctp.h"
-#include "jni.h"
-#include "jni_util.h"
-#include "nio_util.h"
-#include "nio.h"
-#include "net_util.h"
-#include "net_util_md.h"
-#include "sun_nio_ch_sctp_SctpNet.h"
-#include "sun_nio_ch_sctp_SctpStdSocketOption.h"
+#indludf "Sdtp.i"
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "nio_util.i"
+#indludf "nio.i"
+#indludf "nft_util.i"
+#indludf "nft_util_md.i"
+#indludf "sun_nio_di_sdtp_SdtpNft.i"
+#indludf "sun_nio_di_sdtp_SdtpStdSodkftOption.i"
 
-static jclass isaCls = 0;
-static jmethodID isaCtrID = 0;
+stbtid jdlbss isbCls = 0;
+stbtid jmftiodID isbCtrID = 0;
 
-static const char* nativeSctpLib = "libsctp.so.1";
-static jboolean funcsLoaded = JNI_FALSE;
+stbtid donst dibr* nbtivfSdtpLib = "libsdtp.so.1";
+stbtid jboolfbn fundsLobdfd = JNI_FALSE;
 
-JNIEXPORT jint JNICALL JNI_OnLoad
-  (JavaVM *vm, void *reserved) {
-    return JNI_VERSION_1_2;
+JNIEXPORT jint JNICALL JNI_OnLobd
+  (JbvbVM *vm, void *rfsfrvfd) {
+    rfturn JNI_VERSION_1_2;
 }
 
-static int preCloseFD = -1;     /* File descriptor to which we dup other fd's
-                                   before closing them for real */
+stbtid int prfClosfFD = -1;     /* Filf dfsdriptor to wiidi wf dup otifr fd's
+                                   bfforf dlosing tifm for rfbl */
 
 /**
- * Loads the native sctp library that contains the socket extension
- * functions, as well as locating the individual functions.
- * There will be a pending exception if this method returns false.
+ * Lobds tif nbtivf sdtp librbry tibt dontbins tif sodkft fxtfnsion
+ * fundtions, bs wfll bs lodbting tif individubl fundtions.
+ * Tifrf will bf b pfnding fxdfption if tiis mftiod rfturns fblsf.
  */
-jboolean loadSocketExtensionFuncs
-  (JNIEnv* env) {
-    if (dlopen(nativeSctpLib, RTLD_GLOBAL | RTLD_LAZY) == NULL) {
-        JNU_ThrowByName(env, "java/lang/UnsupportedOperationException",
-              dlerror());
-        return JNI_FALSE;
+jboolfbn lobdSodkftExtfnsionFunds
+  (JNIEnv* fnv) {
+    if (dlopfn(nbtivfSdtpLib, RTLD_GLOBAL | RTLD_LAZY) == NULL) {
+        JNU_TirowByNbmf(fnv, "jbvb/lbng/UnsupportfdOpfrbtionExdfption",
+              dlfrror());
+        rfturn JNI_FALSE;
     }
 
-    if ((nio_sctp_getladdrs = (sctp_getladdrs_func*)
-            dlsym(RTLD_DEFAULT, "sctp_getladdrs")) == NULL) {
-        JNU_ThrowByName(env, "java/lang/UnsupportedOperationException",
-              dlerror());
-        return JNI_FALSE;
+    if ((nio_sdtp_gftlbddrs = (sdtp_gftlbddrs_fund*)
+            dlsym(RTLD_DEFAULT, "sdtp_gftlbddrs")) == NULL) {
+        JNU_TirowByNbmf(fnv, "jbvb/lbng/UnsupportfdOpfrbtionExdfption",
+              dlfrror());
+        rfturn JNI_FALSE;
     }
 
-    if ((nio_sctp_freeladdrs = (sctp_freeladdrs_func*)
-            dlsym(RTLD_DEFAULT, "sctp_freeladdrs")) == NULL) {
-        JNU_ThrowByName(env, "java/lang/UnsupportedOperationException",
-              dlerror());
-        return JNI_FALSE;
+    if ((nio_sdtp_frfflbddrs = (sdtp_frfflbddrs_fund*)
+            dlsym(RTLD_DEFAULT, "sdtp_frfflbddrs")) == NULL) {
+        JNU_TirowByNbmf(fnv, "jbvb/lbng/UnsupportfdOpfrbtionExdfption",
+              dlfrror());
+        rfturn JNI_FALSE;
     }
 
-    if ((nio_sctp_getpaddrs = (sctp_getpaddrs_func*)
-            dlsym(RTLD_DEFAULT, "sctp_getpaddrs")) == NULL) {
-        JNU_ThrowByName(env, "java/lang/UnsupportedOperationException",
-              dlerror());
-        return JNI_FALSE;
+    if ((nio_sdtp_gftpbddrs = (sdtp_gftpbddrs_fund*)
+            dlsym(RTLD_DEFAULT, "sdtp_gftpbddrs")) == NULL) {
+        JNU_TirowByNbmf(fnv, "jbvb/lbng/UnsupportfdOpfrbtionExdfption",
+              dlfrror());
+        rfturn JNI_FALSE;
     }
 
-    if ((nio_sctp_freepaddrs = (sctp_freepaddrs_func*)
-            dlsym(RTLD_DEFAULT, "sctp_freepaddrs")) == NULL) {
-        JNU_ThrowByName(env, "java/lang/UnsupportedOperationException",
-              dlerror());
-        return JNI_FALSE;
+    if ((nio_sdtp_frffpbddrs = (sdtp_frffpbddrs_fund*)
+            dlsym(RTLD_DEFAULT, "sdtp_frffpbddrs")) == NULL) {
+        JNU_TirowByNbmf(fnv, "jbvb/lbng/UnsupportfdOpfrbtionExdfption",
+              dlfrror());
+        rfturn JNI_FALSE;
     }
 
-    if ((nio_sctp_bindx = (sctp_bindx_func*)
-            dlsym(RTLD_DEFAULT, "sctp_bindx")) == NULL) {
-        JNU_ThrowByName(env, "java/lang/UnsupportedOperationException",
-              dlerror());
-        return JNI_FALSE;
+    if ((nio_sdtp_bindx = (sdtp_bindx_fund*)
+            dlsym(RTLD_DEFAULT, "sdtp_bindx")) == NULL) {
+        JNU_TirowByNbmf(fnv, "jbvb/lbng/UnsupportfdOpfrbtionExdfption",
+              dlfrror());
+        rfturn JNI_FALSE;
     }
 
-    if ((nio_sctp_peeloff = (sctp_peeloff_func*)
-            dlsym(RTLD_DEFAULT, "sctp_peeloff")) == NULL) {
-        JNU_ThrowByName(env, "java/lang/UnsupportedOperationException",
-              dlerror());
-        return JNI_FALSE;
+    if ((nio_sdtp_pffloff = (sdtp_pffloff_fund*)
+            dlsym(RTLD_DEFAULT, "sdtp_pffloff")) == NULL) {
+        JNU_TirowByNbmf(fnv, "jbvb/lbng/UnsupportfdOpfrbtionExdfption",
+              dlfrror());
+        rfturn JNI_FALSE;
     }
 
-    funcsLoaded = JNI_TRUE;
-    return JNI_TRUE;
+    fundsLobdfd = JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
 jint
-handleSocketError(JNIEnv *env, jint errorValue)
+ibndlfSodkftError(JNIEnv *fnv, jint frrorVbluf)
 {
-    char *xn;
-    switch (errorValue) {
-        case EINPROGRESS:     /* Non-blocking connect */
-            return 0;
-        case EPROTO:
-            xn= JNU_JAVANETPKG "ProtocolException";
-            break;
-        case ECONNREFUSED:
-            xn = JNU_JAVANETPKG "ConnectException";
-            break;
-        case ETIMEDOUT:
-            xn = JNU_JAVANETPKG "ConnectException";
-            break;
-        case EHOSTUNREACH:
-            xn = JNU_JAVANETPKG "NoRouteToHostException";
-            break;
-        case EADDRINUSE:  /* Fall through */
-        case EADDRNOTAVAIL:
-            xn = JNU_JAVANETPKG "BindException";
-            break;
-        default:
-            xn = JNU_JAVANETPKG "SocketException";
-            break;
+    dibr *xn;
+    switdi (frrorVbluf) {
+        dbsf EINPROGRESS:     /* Non-blodking donnfdt */
+            rfturn 0;
+        dbsf EPROTO:
+            xn= JNU_JAVANETPKG "ProtodolExdfption";
+            brfbk;
+        dbsf ECONNREFUSED:
+            xn = JNU_JAVANETPKG "ConnfdtExdfption";
+            brfbk;
+        dbsf ETIMEDOUT:
+            xn = JNU_JAVANETPKG "ConnfdtExdfption";
+            brfbk;
+        dbsf EHOSTUNREACH:
+            xn = JNU_JAVANETPKG "NoRoutfToHostExdfption";
+            brfbk;
+        dbsf EADDRINUSE:  /* Fbll tirougi */
+        dbsf EADDRNOTAVAIL:
+            xn = JNU_JAVANETPKG "BindExdfption";
+            brfbk;
+        dffbult:
+            xn = JNU_JAVANETPKG "SodkftExdfption";
+            brfbk;
     }
-    errno = errorValue;
-    JNU_ThrowByNameWithLastError(env, xn, "NioSocketError");
-    return IOS_THROWN;
+    frrno = frrorVbluf;
+    JNU_TirowByNbmfWitiLbstError(fnv, xn, "NioSodkftError");
+    rfturn IOS_THROWN;
 }
 
 /*
- * Class:     sun_nio_ch_sctp_SctpNet
- * Method:    init
- * Signature: ()V
+ * Clbss:     sun_nio_di_sdtp_SdtpNft
+ * Mftiod:    init
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_sctp_SctpNet_init
-  (JNIEnv *env, jclass cl) {
+Jbvb_sun_nio_di_sdtp_SdtpNft_init
+  (JNIEnv *fnv, jdlbss dl) {
     int sp[2];
-    if (socketpair(PF_UNIX, SOCK_STREAM, 0, sp) < 0) {
-        JNU_ThrowIOExceptionWithLastError(env, "socketpair failed");
-        return;
+    if (sodkftpbir(PF_UNIX, SOCK_STREAM, 0, sp) < 0) {
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "sodkftpbir fbilfd");
+        rfturn;
     }
-    preCloseFD = sp[0];
-    close(sp[1]);
-    initInetAddressIDs(env);
+    prfClosfFD = sp[0];
+    dlosf(sp[1]);
+    initInftAddrfssIDs(fnv);
 }
 
 /*
- * Class:     sun_nio_ch_sctp_SctpNet
- * Method:    socket0
- * Signature: (Z)I
+ * Clbss:     sun_nio_di_sdtp_SdtpNft
+ * Mftiod:    sodkft0
+ * Signbturf: (Z)I
  */
-JNIEXPORT jint JNICALL Java_sun_nio_ch_sctp_SctpNet_socket0
-  (JNIEnv *env, jclass klass, jboolean oneToOne) {
+JNIEXPORT jint JNICALL Jbvb_sun_nio_di_sdtp_SdtpNft_sodkft0
+  (JNIEnv *fnv, jdlbss klbss, jboolfbn onfToOnf) {
     int fd;
-    struct sctp_event_subscribe event;
-#ifdef AF_INET6
-    int domain = ipv6_available() ? AF_INET6 : AF_INET;
-#else
-    int domain = AF_INET;
-#endif
+    strudt sdtp_fvfnt_subsdribf fvfnt;
+#ifdff AF_INET6
+    int dombin = ipv6_bvbilbblf() ? AF_INET6 : AF_INET;
+#flsf
+    int dombin = AF_INET;
+#fndif
 
-    /* Try to load the socket API extension functions */
-    if (!funcsLoaded && !loadSocketExtensionFuncs(env)) {
-        return 0;
+    /* Try to lobd tif sodkft API fxtfnsion fundtions */
+    if (!fundsLobdfd && !lobdSodkftExtfnsionFunds(fnv)) {
+        rfturn 0;
     }
 
-    fd = socket(domain, (oneToOne ? SOCK_STREAM : SOCK_SEQPACKET), IPPROTO_SCTP);
+    fd = sodkft(dombin, (onfToOnf ? SOCK_STREAM : SOCK_SEQPACKET), IPPROTO_SCTP);
 
     if (fd < 0) {
-        return handleSocketError(env, errno);
+        rfturn ibndlfSodkftError(fnv, frrno);
     }
 
-    /* Enable events */
-    memset(&event, 0, sizeof(event));
-    event.sctp_data_io_event = 1;
-    event.sctp_association_event = 1;
-    event.sctp_address_event = 1;
-    event.sctp_send_failure_event = 1;
-    //event.sctp_peer_error_event = 1;
-    event.sctp_shutdown_event = 1;
-    //event.sctp_partial_delivery_event = 1;
-    //event.sctp_adaptation_layer_event = 1;
-    if (setsockopt(fd, IPPROTO_SCTP, SCTP_EVENTS, &event, sizeof(event)) != 0) {
-       handleSocketError(env, errno);
+    /* Enbblf fvfnts */
+    mfmsft(&fvfnt, 0, sizfof(fvfnt));
+    fvfnt.sdtp_dbtb_io_fvfnt = 1;
+    fvfnt.sdtp_bssodibtion_fvfnt = 1;
+    fvfnt.sdtp_bddrfss_fvfnt = 1;
+    fvfnt.sdtp_sfnd_fbilurf_fvfnt = 1;
+    //fvfnt.sdtp_pffr_frror_fvfnt = 1;
+    fvfnt.sdtp_siutdown_fvfnt = 1;
+    //fvfnt.sdtp_pbrtibl_dflivfry_fvfnt = 1;
+    //fvfnt.sdtp_bdbptbtion_lbyfr_fvfnt = 1;
+    if (sftsodkopt(fd, IPPROTO_SCTP, SCTP_EVENTS, &fvfnt, sizfof(fvfnt)) != 0) {
+       ibndlfSodkftError(fnv, frrno);
     }
-    return fd;
+    rfturn fd;
 }
 
 /*
- * Class:     sun_nio_ch_sctp_SctpNet
- * Method:    bindx
- * Signature: (I[Ljava/net/InetAddress;IIZ)V
+ * Clbss:     sun_nio_di_sdtp_SdtpNft
+ * Mftiod:    bindx
+ * Signbturf: (I[Ljbvb/nft/InftAddrfss;IIZ)V
  */
-JNIEXPORT void JNICALL Java_sun_nio_ch_sctp_SctpNet_bindx
-  (JNIEnv *env, jclass klass, jint fd, jobjectArray addrs, jint port,
-   jint addrsLength, jboolean add, jboolean preferIPv6) {
-    SOCKADDR *sap, *tmpSap;
-    int i, sa_len = sizeof(SOCKADDR);
-    jobject ia;
+JNIEXPORT void JNICALL Jbvb_sun_nio_di_sdtp_SdtpNft_bindx
+  (JNIEnv *fnv, jdlbss klbss, jint fd, jobjfdtArrby bddrs, jint port,
+   jint bddrsLfngti, jboolfbn bdd, jboolfbn prfffrIPv6) {
+    SOCKADDR *sbp, *tmpSbp;
+    int i, sb_lfn = sizfof(SOCKADDR);
+    jobjfdt ib;
 
-    if (addrsLength < 1)
-        return;
+    if (bddrsLfngti < 1)
+        rfturn;
 
-    if ((sap = calloc(addrsLength,  sa_len)) == NULL) {
-          JNU_ThrowOutOfMemoryError(env, "heap allocation failure");
-        return;
+    if ((sbp = dbllod(bddrsLfngti,  sb_lfn)) == NULL) {
+          JNU_TirowOutOfMfmoryError(fnv, "ifbp bllodbtion fbilurf");
+        rfturn;
     }
 
-    tmpSap = sap;
-    for (i=0; i<addrsLength; i++) {
-        ia = (*env)->GetObjectArrayElement(env, addrs, i);
-        if (NET_InetAddressToSockaddr(env, ia, port, (struct sockaddr*)tmpSap,
-                                      &sa_len, preferIPv6) != 0) {
-            free(sap);
-            return;
+    tmpSbp = sbp;
+    for (i=0; i<bddrsLfngti; i++) {
+        ib = (*fnv)->GftObjfdtArrbyElfmfnt(fnv, bddrs, i);
+        if (NET_InftAddrfssToSodkbddr(fnv, ib, port, (strudt sodkbddr*)tmpSbp,
+                                      &sb_lfn, prfffrIPv6) != 0) {
+            frff(sbp);
+            rfturn;
         }
-        tmpSap++;
+        tmpSbp++;
     }
 
-    if (nio_sctp_bindx(fd, (void*)sap, addrsLength, add ? SCTP_BINDX_ADD_ADDR :
+    if (nio_sdtp_bindx(fd, (void*)sbp, bddrsLfngti, bdd ? SCTP_BINDX_ADD_ADDR :
                        SCTP_BINDX_REM_ADDR) != 0) {
-        handleSocketError(env, errno);
+        ibndlfSodkftError(fnv, frrno);
     }
 
-    free(sap);
+    frff(sbp);
 }
 
 /*
- * Class:     sun_nio_ch_sctp_SctpNet
- * Method:    listen0
- * Signature: (II)V
+ * Clbss:     sun_nio_di_sdtp_SdtpNft
+ * Mftiod:    listfn0
+ * Signbturf: (II)V
  */
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_sctp_SctpNet_listen0
-  (JNIEnv *env, jclass cl, jint fd, jint backlog) {
-    if (listen(fd, backlog) < 0)
-        handleSocketError(env, errno);
+Jbvb_sun_nio_di_sdtp_SdtpNft_listfn0
+  (JNIEnv *fnv, jdlbss dl, jint fd, jint bbdklog) {
+    if (listfn(fd, bbdklog) < 0)
+        ibndlfSodkftError(fnv, frrno);
 }
 
 /*
- * Class:     sun_nio_ch_sctp_SctpNet
- * Method:    connect0
- * Signature: (ILjava/net/InetAddress;I)I
+ * Clbss:     sun_nio_di_sdtp_SdtpNft
+ * Mftiod:    donnfdt0
+ * Signbturf: (ILjbvb/nft/InftAddrfss;I)I
  */
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_sctp_SctpNet_connect0
-  (JNIEnv *env, jclass clazz, int fd, jobject iao, jint port) {
-    SOCKADDR sa;
-    int sa_len = SOCKADDR_LEN;
+Jbvb_sun_nio_di_sdtp_SdtpNft_donnfdt0
+  (JNIEnv *fnv, jdlbss dlbzz, int fd, jobjfdt ibo, jint port) {
+    SOCKADDR sb;
+    int sb_lfn = SOCKADDR_LEN;
     int rv;
 
-    if (NET_InetAddressToSockaddr(env, iao, port, (struct sockaddr *) &sa,
-                                  &sa_len, JNI_TRUE) != 0) {
-        return IOS_THROWN;
+    if (NET_InftAddrfssToSodkbddr(fnv, ibo, port, (strudt sodkbddr *) &sb,
+                                  &sb_lfn, JNI_TRUE) != 0) {
+        rfturn IOS_THROWN;
     }
 
-    rv = connect(fd, (struct sockaddr *)&sa, sa_len);
+    rv = donnfdt(fd, (strudt sodkbddr *)&sb, sb_lfn);
     if (rv != 0) {
-        if (errno == EINPROGRESS) {
-            return IOS_UNAVAILABLE;
-        } else if (errno == EINTR) {
-            return IOS_INTERRUPTED;
+        if (frrno == EINPROGRESS) {
+            rfturn IOS_UNAVAILABLE;
+        } flsf if (frrno == EINTR) {
+            rfturn IOS_INTERRUPTED;
         }
-        return handleSocketError(env, errno);
+        rfturn ibndlfSodkftError(fnv, frrno);
     }
-    return 1;
+    rfturn 1;
 }
 
 /*
- * Class:     sun_nio_ch_sctp_SctpNet
- * Method:    close0
- * Signature: (I)V
+ * Clbss:     sun_nio_di_sdtp_SdtpNft
+ * Mftiod:    dlosf0
+ * Signbturf: (I)V
  */
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_sctp_SctpNet_close0
-  (JNIEnv *env, jclass clazz, jint fd) {
+Jbvb_sun_nio_di_sdtp_SdtpNft_dlosf0
+  (JNIEnv *fnv, jdlbss dlbzz, jint fd) {
     if (fd != -1) {
-        int rv = close(fd);
+        int rv = dlosf(fd);
         if (rv < 0)
-            JNU_ThrowIOExceptionWithLastError(env, "Close failed");
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "Closf fbilfd");
     }
 }
 
 /*
- * Class:     sun_nio_ch_sctp_SctpNet
- * Method:    preClose0
- * Signature: (I)V
+ * Clbss:     sun_nio_di_sdtp_SdtpNft
+ * Mftiod:    prfClosf0
+ * Signbturf: (I)V
  */
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_sctp_SctpNet_preClose0
-  (JNIEnv *env, jclass clazz, jint fd) {
-    if (preCloseFD >= 0) {
-        if (dup2(preCloseFD, fd) < 0)
-            JNU_ThrowIOExceptionWithLastError(env, "dup2 failed");
+Jbvb_sun_nio_di_sdtp_SdtpNft_prfClosf0
+  (JNIEnv *fnv, jdlbss dlbzz, jint fd) {
+    if (prfClosfFD >= 0) {
+        if (dup2(prfClosfFD, fd) < 0)
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "dup2 fbilfd");
     }
 }
 
-void initializeISA
-  (JNIEnv* env) {
-    if (isaCls == 0) {
-        jclass c = (*env)->FindClass(env, "java/net/InetSocketAddress");
-        CHECK_NULL(c);
-        isaCls = (*env)->NewGlobalRef(env, c);
-        CHECK_NULL(isaCls);
-        (*env)->DeleteLocalRef(env, c);
-        isaCtrID = (*env)->GetMethodID(env, isaCls, "<init>",
-                                     "(Ljava/net/InetAddress;I)V");
+void initiblizfISA
+  (JNIEnv* fnv) {
+    if (isbCls == 0) {
+        jdlbss d = (*fnv)->FindClbss(fnv, "jbvb/nft/InftSodkftAddrfss");
+        CHECK_NULL(d);
+        isbCls = (*fnv)->NfwGlobblRff(fnv, d);
+        CHECK_NULL(isbCls);
+        (*fnv)->DflftfLodblRff(fnv, d);
+        isbCtrID = (*fnv)->GftMftiodID(fnv, isbCls, "<init>",
+                                     "(Ljbvb/nft/InftAddrfss;I)V");
     }
 }
 
-jobject SockAddrToInetSocketAddress
-  (JNIEnv *env, struct sockaddr* sap) {
+jobjfdt SodkAddrToInftSodkftAddrfss
+  (JNIEnv *fnv, strudt sodkbddr* sbp) {
     int port = 0;
 
-    jobject ia = NET_SockaddrToInetAddress(env, sap, &port);
-    if (ia == NULL)
-        return NULL;
+    jobjfdt ib = NET_SodkbddrToInftAddrfss(fnv, sbp, &port);
+    if (ib == NULL)
+        rfturn NULL;
 
-    if (isaCls == 0) {
-        initializeISA(env);
-        CHECK_NULL_RETURN(isaCls, NULL);
+    if (isbCls == 0) {
+        initiblizfISA(fnv);
+        CHECK_NULL_RETURN(isbCls, NULL);
     }
 
-    return (*env)->NewObject(env, isaCls, isaCtrID, ia, port);
+    rfturn (*fnv)->NfwObjfdt(fnv, isbCls, isbCtrID, ib, port);
 }
 
 /*
- * Class:     sun_nio_ch_sctp_SctpNet
- * Method:    getLocalAddresses0
- * Signature: (I)[Ljava/net/SocketAddress;
+ * Clbss:     sun_nio_di_sdtp_SdtpNft
+ * Mftiod:    gftLodblAddrfssfs0
+ * Signbturf: (I)[Ljbvb/nft/SodkftAddrfss;
  */
-JNIEXPORT jobjectArray JNICALL Java_sun_nio_ch_sctp_SctpNet_getLocalAddresses0
-  (JNIEnv *env, jclass klass, jint fd) {
-    void *addr_buf, *laddr;
-    struct sockaddr* sap;
-    int i, addrCount;
-    jobjectArray isaa;
+JNIEXPORT jobjfdtArrby JNICALL Jbvb_sun_nio_di_sdtp_SdtpNft_gftLodblAddrfssfs0
+  (JNIEnv *fnv, jdlbss klbss, jint fd) {
+    void *bddr_buf, *lbddr;
+    strudt sodkbddr* sbp;
+    int i, bddrCount;
+    jobjfdtArrby isbb;
 
-#ifdef __solaris__
-    if ((addrCount = nio_sctp_getladdrs(fd, 0, (void **)&addr_buf)) == -1) {
-#else /* __linux__ */
-    if ((addrCount = nio_sctp_getladdrs(fd, 0, (struct sockaddr **)&addr_buf)) == -1) {
-#endif
-        handleSocketError(env, errno);
-        return NULL;
+#ifdff __solbris__
+    if ((bddrCount = nio_sdtp_gftlbddrs(fd, 0, (void **)&bddr_buf)) == -1) {
+#flsf /* __linux__ */
+    if ((bddrCount = nio_sdtp_gftlbddrs(fd, 0, (strudt sodkbddr **)&bddr_buf)) == -1) {
+#fndif
+        ibndlfSodkftError(fnv, frrno);
+        rfturn NULL;
     }
 
-    if (addrCount < 1)
-        return NULL;
+    if (bddrCount < 1)
+        rfturn NULL;
 
-    if (isaCls == 0) {
-        initializeISA(env);
-        CHECK_NULL_RETURN(isaCls, NULL);
+    if (isbCls == 0) {
+        initiblizfISA(fnv);
+        CHECK_NULL_RETURN(isbCls, NULL);
     }
 
-    isaa = (*env)->NewObjectArray(env, addrCount, isaCls, NULL);
-    if (isaa == NULL) {
-        nio_sctp_freeladdrs(addr_buf);
-        return NULL;
+    isbb = (*fnv)->NfwObjfdtArrby(fnv, bddrCount, isbCls, NULL);
+    if (isbb == NULL) {
+        nio_sdtp_frfflbddrs(bddr_buf);
+        rfturn NULL;
     }
 
-    laddr = addr_buf;
-    for (i=0; i<addrCount; i++) {
+    lbddr = bddr_buf;
+    for (i=0; i<bddrCount; i++) {
         int port = 0;
-        jobject isa = NULL, ia;
-        sap = (struct sockaddr*)addr_buf;
-        ia = NET_SockaddrToInetAddress(env, sap, &port);
-        if (ia != NULL)
-            isa = (*env)->NewObject(env, isaCls, isaCtrID, ia, port);
-        if (isa == NULL)
-            break;
-        (*env)->SetObjectArrayElement(env, isaa, i, isa);
+        jobjfdt isb = NULL, ib;
+        sbp = (strudt sodkbddr*)bddr_buf;
+        ib = NET_SodkbddrToInftAddrfss(fnv, sbp, &port);
+        if (ib != NULL)
+            isb = (*fnv)->NfwObjfdt(fnv, isbCls, isbCtrID, ib, port);
+        if (isb == NULL)
+            brfbk;
+        (*fnv)->SftObjfdtArrbyElfmfnt(fnv, isbb, i, isb);
 
-        if (sap->sa_family == AF_INET)
-            addr_buf = ((struct sockaddr_in*)addr_buf) + 1;
-        else
-            addr_buf = ((struct sockaddr_in6*)addr_buf) + 1;
+        if (sbp->sb_fbmily == AF_INET)
+            bddr_buf = ((strudt sodkbddr_in*)bddr_buf) + 1;
+        flsf
+            bddr_buf = ((strudt sodkbddr_in6*)bddr_buf) + 1;
     }
 
-    nio_sctp_freeladdrs(laddr);
-    return isaa;
+    nio_sdtp_frfflbddrs(lbddr);
+    rfturn isbb;
 }
 
-jobjectArray getRemoteAddresses
-  (JNIEnv *env, jint fd, sctp_assoc_t id) {
-    void *addr_buf, *paddr;
-    struct sockaddr* sap;
-    int i, addrCount;
-    jobjectArray isaa;
+jobjfdtArrby gftRfmotfAddrfssfs
+  (JNIEnv *fnv, jint fd, sdtp_bssod_t id) {
+    void *bddr_buf, *pbddr;
+    strudt sodkbddr* sbp;
+    int i, bddrCount;
+    jobjfdtArrby isbb;
 
-#if __solaris__
-    if ((addrCount = nio_sctp_getpaddrs(fd, id, (void **)&addr_buf)) == -1) {
-#else /* __linux__ */
-    if ((addrCount = nio_sctp_getpaddrs(fd, id, (struct sockaddr**)&addr_buf)) == -1) {
-#endif
-        handleSocketError(env, errno);
-        return NULL;
+#if __solbris__
+    if ((bddrCount = nio_sdtp_gftpbddrs(fd, id, (void **)&bddr_buf)) == -1) {
+#flsf /* __linux__ */
+    if ((bddrCount = nio_sdtp_gftpbddrs(fd, id, (strudt sodkbddr**)&bddr_buf)) == -1) {
+#fndif
+        ibndlfSodkftError(fnv, frrno);
+        rfturn NULL;
     }
 
-    if (addrCount < 1)
-        return NULL;
+    if (bddrCount < 1)
+        rfturn NULL;
 
-    if (isaCls == 0) {
-        initializeISA(env);
-        CHECK_NULL_RETURN(isaCls, NULL);
+    if (isbCls == 0) {
+        initiblizfISA(fnv);
+        CHECK_NULL_RETURN(isbCls, NULL);
     }
 
-    isaa = (*env)->NewObjectArray(env, addrCount, isaCls, NULL);
-    if (isaa == NULL) {
-        nio_sctp_freepaddrs(addr_buf);
-        return NULL;
+    isbb = (*fnv)->NfwObjfdtArrby(fnv, bddrCount, isbCls, NULL);
+    if (isbb == NULL) {
+        nio_sdtp_frffpbddrs(bddr_buf);
+        rfturn NULL;
     }
 
-    paddr = addr_buf;
-    for (i=0; i<addrCount; i++) {
-        jobject ia, isa = NULL;
+    pbddr = bddr_buf;
+    for (i=0; i<bddrCount; i++) {
+        jobjfdt ib, isb = NULL;
         int port;
-        sap = (struct sockaddr*)addr_buf;
-        ia = NET_SockaddrToInetAddress(env, sap, &port);
-        if (ia != NULL)
-            isa = (*env)->NewObject(env, isaCls, isaCtrID, ia, port);
-        if (isa == NULL)
-            break;
-        (*env)->SetObjectArrayElement(env, isaa, i, isa);
+        sbp = (strudt sodkbddr*)bddr_buf;
+        ib = NET_SodkbddrToInftAddrfss(fnv, sbp, &port);
+        if (ib != NULL)
+            isb = (*fnv)->NfwObjfdt(fnv, isbCls, isbCtrID, ib, port);
+        if (isb == NULL)
+            brfbk;
+        (*fnv)->SftObjfdtArrbyElfmfnt(fnv, isbb, i, isb);
 
-        if (sap->sa_family == AF_INET)
-            addr_buf = ((struct sockaddr_in*)addr_buf) + 1;
-        else
-            addr_buf = ((struct sockaddr_in6*)addr_buf) + 1;
+        if (sbp->sb_fbmily == AF_INET)
+            bddr_buf = ((strudt sodkbddr_in*)bddr_buf) + 1;
+        flsf
+            bddr_buf = ((strudt sodkbddr_in6*)bddr_buf) + 1;
     }
 
-    nio_sctp_freepaddrs(paddr);
+    nio_sdtp_frffpbddrs(pbddr);
 
-    return isaa;
+    rfturn isbb;
 }
 
  /*
- * Class:     sun_nio_ch_sctp_SctpNet
- * Method:    getRemoteAddresses0
- * Signature: (II)[Ljava/net/SocketAddress;
+ * Clbss:     sun_nio_di_sdtp_SdtpNft
+ * Mftiod:    gftRfmotfAddrfssfs0
+ * Signbturf: (II)[Ljbvb/nft/SodkftAddrfss;
  */
-JNIEXPORT jobjectArray JNICALL Java_sun_nio_ch_sctp_SctpNet_getRemoteAddresses0
-  (JNIEnv *env, jclass klass, jint fd, jint assocId) {
-    return getRemoteAddresses(env, fd, assocId);
+JNIEXPORT jobjfdtArrby JNICALL Jbvb_sun_nio_di_sdtp_SdtpNft_gftRfmotfAddrfssfs0
+  (JNIEnv *fnv, jdlbss klbss, jint fd, jint bssodId) {
+    rfturn gftRfmotfAddrfssfs(fnv, fd, bssodId);
 }
 
-/* Map the Java level option to the native level */
-int mapSocketOption
-  (jint cmd, int *level, int *optname) {
-    static struct {
-        jint cmd;
-        int level;
-        int optname;
-    } const opts[] = {
-        { sun_nio_ch_sctp_SctpStdSocketOption_SCTP_DISABLE_FRAGMENTS,   IPPROTO_SCTP, SCTP_DISABLE_FRAGMENTS },
-        { sun_nio_ch_sctp_SctpStdSocketOption_SCTP_EXPLICIT_COMPLETE,   IPPROTO_SCTP, SCTP_EXPLICIT_EOR },
-        { sun_nio_ch_sctp_SctpStdSocketOption_SCTP_FRAGMENT_INTERLEAVE, IPPROTO_SCTP, SCTP_FRAGMENT_INTERLEAVE },
-        { sun_nio_ch_sctp_SctpStdSocketOption_SCTP_NODELAY,             IPPROTO_SCTP, SCTP_NODELAY },
-        { sun_nio_ch_sctp_SctpStdSocketOption_SO_SNDBUF,                SOL_SOCKET,   SO_SNDBUF },
-        { sun_nio_ch_sctp_SctpStdSocketOption_SO_RCVBUF,                SOL_SOCKET,   SO_RCVBUF },
-        { sun_nio_ch_sctp_SctpStdSocketOption_SO_LINGER,                SOL_SOCKET,   SO_LINGER } };
+/* Mbp tif Jbvb lfvfl option to tif nbtivf lfvfl */
+int mbpSodkftOption
+  (jint dmd, int *lfvfl, int *optnbmf) {
+    stbtid strudt {
+        jint dmd;
+        int lfvfl;
+        int optnbmf;
+    } donst opts[] = {
+        { sun_nio_di_sdtp_SdtpStdSodkftOption_SCTP_DISABLE_FRAGMENTS,   IPPROTO_SCTP, SCTP_DISABLE_FRAGMENTS },
+        { sun_nio_di_sdtp_SdtpStdSodkftOption_SCTP_EXPLICIT_COMPLETE,   IPPROTO_SCTP, SCTP_EXPLICIT_EOR },
+        { sun_nio_di_sdtp_SdtpStdSodkftOption_SCTP_FRAGMENT_INTERLEAVE, IPPROTO_SCTP, SCTP_FRAGMENT_INTERLEAVE },
+        { sun_nio_di_sdtp_SdtpStdSodkftOption_SCTP_NODELAY,             IPPROTO_SCTP, SCTP_NODELAY },
+        { sun_nio_di_sdtp_SdtpStdSodkftOption_SO_SNDBUF,                SOL_SOCKET,   SO_SNDBUF },
+        { sun_nio_di_sdtp_SdtpStdSodkftOption_SO_RCVBUF,                SOL_SOCKET,   SO_RCVBUF },
+        { sun_nio_di_sdtp_SdtpStdSodkftOption_SO_LINGER,                SOL_SOCKET,   SO_LINGER } };
 
     int i;
-    for (i=0; i<(int)(sizeof(opts) / sizeof(opts[0])); i++) {
-        if (cmd == opts[i].cmd) {
-            *level = opts[i].level;
-            *optname = opts[i].optname;
-            return 0;
+    for (i=0; i<(int)(sizfof(opts) / sizfof(opts[0])); i++) {
+        if (dmd == opts[i].dmd) {
+            *lfvfl = opts[i].lfvfl;
+            *optnbmf = opts[i].optnbmf;
+            rfturn 0;
         }
     }
 
     /* not found */
-    return -1;
+    rfturn -1;
 }
 
 /*
- * Class:     sun_nio_ch_sctp_SctpNet
- * Method:    setIntOption0
- * Signature: (III)V
+ * Clbss:     sun_nio_di_sdtp_SdtpNft
+ * Mftiod:    sftIntOption0
+ * Signbturf: (III)V
  */
-JNIEXPORT void JNICALL Java_sun_nio_ch_sctp_SctpNet_setIntOption0
-  (JNIEnv *env, jclass klass, jint fd, jint opt, int arg) {
-    int klevel, kopt;
-    int result;
-    struct linger linger;
-    void *parg;
-    int arglen;
+JNIEXPORT void JNICALL Jbvb_sun_nio_di_sdtp_SdtpNft_sftIntOption0
+  (JNIEnv *fnv, jdlbss klbss, jint fd, jint opt, int brg) {
+    int klfvfl, kopt;
+    int rfsult;
+    strudt lingfr lingfr;
+    void *pbrg;
+    int brglfn;
 
-    if (mapSocketOption(opt, &klevel, &kopt) < 0) {
-        JNU_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException",
-                                     "Unsupported socket option");
-        return;
+    if (mbpSodkftOption(opt, &klfvfl, &kopt) < 0) {
+        JNU_TirowByNbmfWitiLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                                     "Unsupportfd sodkft option");
+        rfturn;
     }
 
-    if (opt == sun_nio_ch_sctp_SctpStdSocketOption_SO_LINGER) {
-        parg = (void *)&linger;
-        arglen = sizeof(linger);
-        if (arg >= 0) {
-            linger.l_onoff = 1;
-            linger.l_linger = arg;
-        } else {
-            linger.l_onoff = 0;
-            linger.l_linger = 0;
+    if (opt == sun_nio_di_sdtp_SdtpStdSodkftOption_SO_LINGER) {
+        pbrg = (void *)&lingfr;
+        brglfn = sizfof(lingfr);
+        if (brg >= 0) {
+            lingfr.l_onoff = 1;
+            lingfr.l_lingfr = brg;
+        } flsf {
+            lingfr.l_onoff = 0;
+            lingfr.l_lingfr = 0;
         }
-    } else {
-        parg = (void *)&arg;
-        arglen = sizeof(arg);
+    } flsf {
+        pbrg = (void *)&brg;
+        brglfn = sizfof(brg);
     }
 
-    if (NET_SetSockOpt(fd, klevel, kopt, parg, arglen) < 0) {
-        JNU_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException",
-                                     "sun_nio_ch_sctp_SctpNet.setIntOption0");
-    }
-}
-
-/*
- * Class:     sun_nio_ch_sctp_SctpNet
- * Method:    getIntOption0
- * Signature: (II)I
- */
-JNIEXPORT int JNICALL Java_sun_nio_ch_sctp_SctpNet_getIntOption0
-  (JNIEnv *env, jclass klass, jint fd, jint opt) {
-    int klevel, kopt;
-    int result;
-    struct linger linger;
-    void *arg;
-    int arglen;
-
-    if (mapSocketOption(opt, &klevel, &kopt) < 0) {
-        JNU_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException",
-                                     "Unsupported socket option");
-        return -1;
-    }
-
-    if (opt == sun_nio_ch_sctp_SctpStdSocketOption_SO_LINGER) {
-        arg = (void *)&linger;
-        arglen = sizeof(linger);
-    } else {
-        arg = (void *)&result;
-        arglen = sizeof(result);
-    }
-
-    if (NET_GetSockOpt(fd, klevel, kopt, arg, &arglen) < 0) {
-        JNU_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException",
-                                     "sun.nio.ch.Net.getIntOption");
-        return -1;
-    }
-
-    if (opt == sun_nio_ch_sctp_SctpStdSocketOption_SO_LINGER)
-        return linger.l_onoff ? linger.l_linger : -1;
-    else
-        return result;
-}
-
-/*
- * Class:     sun_nio_ch_sctp_SctpNet
- * Method:    getPrimAddrOption0
- * Signature: (II)Ljava/net/SocketAddress;
- */
-JNIEXPORT jobject JNICALL Java_sun_nio_ch_sctp_SctpNet_getPrimAddrOption0
-  (JNIEnv *env, jclass klass, jint fd, jint assocId) {
-    struct sctp_setprim prim;
-    unsigned int prim_len = sizeof(prim);
-    struct sockaddr* sap = (struct sockaddr*)&prim.ssp_addr;
-
-    prim.ssp_assoc_id = assocId;
-
-    if (getsockopt(fd, IPPROTO_SCTP, SCTP_PRIMARY_ADDR, &prim, &prim_len) < 0) {
-        JNU_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException",
-                                     "sun.nio.ch.SctpNet.getPrimAddrOption0");
-        return NULL;
-    }
-
-    return SockAddrToInetSocketAddress(env, sap);
-}
-
-/*
- * Class:     sun_nio_ch_sctp_SctpNet
- * Method:    setPrimAddrOption0
- * Signature: (IILjava/net/InetAddress;I)V
- */
-JNIEXPORT void JNICALL Java_sun_nio_ch_sctp_SctpNet_setPrimAddrOption0
-  (JNIEnv *env, jclass klass, jint fd, jint assocId, jobject iaObj, jint port) {
-    struct sctp_setprim prim;
-    struct sockaddr* sap = (struct sockaddr*)&prim.ssp_addr;
-    int sap_len;
-
-    if (NET_InetAddressToSockaddr(env, iaObj, port, sap,
-                                  &sap_len, JNI_TRUE) != 0) {
-        return;
-    }
-
-    prim.ssp_assoc_id = assocId;
-
-    if (setsockopt(fd, IPPROTO_SCTP, SCTP_PRIMARY_ADDR, &prim, sizeof(prim)) < 0) {
-        JNU_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException",
-                                     "sun.nio.ch.SctpNet.setPrimAddrOption0");
+    if (NET_SftSodkOpt(fd, klfvfl, kopt, pbrg, brglfn) < 0) {
+        JNU_TirowByNbmfWitiLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                                     "sun_nio_di_sdtp_SdtpNft.sftIntOption0");
     }
 }
 
 /*
- * Class:     sun_nio_ch_sctp_SctpNet
- * Method:    setPeerPrimAddrOption0
- * Signature: (IILjava/net/InetAddress;I)V
+ * Clbss:     sun_nio_di_sdtp_SdtpNft
+ * Mftiod:    gftIntOption0
+ * Signbturf: (II)I
  */
-JNIEXPORT void JNICALL Java_sun_nio_ch_sctp_SctpNet_setPeerPrimAddrOption0
-  (JNIEnv *env, jclass klass, jint fd, jint assocId,
-   jobject iaObj, jint port, jboolean preferIPv6) {
-    struct sctp_setpeerprim prim;
-    struct sockaddr* sap = (struct sockaddr*)&prim.sspp_addr;
-    int sap_len;
+JNIEXPORT int JNICALL Jbvb_sun_nio_di_sdtp_SdtpNft_gftIntOption0
+  (JNIEnv *fnv, jdlbss klbss, jint fd, jint opt) {
+    int klfvfl, kopt;
+    int rfsult;
+    strudt lingfr lingfr;
+    void *brg;
+    int brglfn;
 
-    if (NET_InetAddressToSockaddr(env, iaObj, port, sap,
-                                  &sap_len, preferIPv6) != 0) {
-        return;
+    if (mbpSodkftOption(opt, &klfvfl, &kopt) < 0) {
+        JNU_TirowByNbmfWitiLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                                     "Unsupportfd sodkft option");
+        rfturn -1;
     }
 
-    prim.sspp_assoc_id = assocId;
+    if (opt == sun_nio_di_sdtp_SdtpStdSodkftOption_SO_LINGER) {
+        brg = (void *)&lingfr;
+        brglfn = sizfof(lingfr);
+    } flsf {
+        brg = (void *)&rfsult;
+        brglfn = sizfof(rfsult);
+    }
 
-    if (setsockopt(fd, IPPROTO_SCTP, SCTP_SET_PEER_PRIMARY_ADDR, &prim,
-            sizeof(prim)) < 0) {
-        JNU_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException",
-                                     "sun.nio.ch.SctpNet.setPeerPrimAddrOption0");
+    if (NET_GftSodkOpt(fd, klfvfl, kopt, brg, &brglfn) < 0) {
+        JNU_TirowByNbmfWitiLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                                     "sun.nio.di.Nft.gftIntOption");
+        rfturn -1;
+    }
+
+    if (opt == sun_nio_di_sdtp_SdtpStdSodkftOption_SO_LINGER)
+        rfturn lingfr.l_onoff ? lingfr.l_lingfr : -1;
+    flsf
+        rfturn rfsult;
+}
+
+/*
+ * Clbss:     sun_nio_di_sdtp_SdtpNft
+ * Mftiod:    gftPrimAddrOption0
+ * Signbturf: (II)Ljbvb/nft/SodkftAddrfss;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_nio_di_sdtp_SdtpNft_gftPrimAddrOption0
+  (JNIEnv *fnv, jdlbss klbss, jint fd, jint bssodId) {
+    strudt sdtp_sftprim prim;
+    unsignfd int prim_lfn = sizfof(prim);
+    strudt sodkbddr* sbp = (strudt sodkbddr*)&prim.ssp_bddr;
+
+    prim.ssp_bssod_id = bssodId;
+
+    if (gftsodkopt(fd, IPPROTO_SCTP, SCTP_PRIMARY_ADDR, &prim, &prim_lfn) < 0) {
+        JNU_TirowByNbmfWitiLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                                     "sun.nio.di.SdtpNft.gftPrimAddrOption0");
+        rfturn NULL;
+    }
+
+    rfturn SodkAddrToInftSodkftAddrfss(fnv, sbp);
+}
+
+/*
+ * Clbss:     sun_nio_di_sdtp_SdtpNft
+ * Mftiod:    sftPrimAddrOption0
+ * Signbturf: (IILjbvb/nft/InftAddrfss;I)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_nio_di_sdtp_SdtpNft_sftPrimAddrOption0
+  (JNIEnv *fnv, jdlbss klbss, jint fd, jint bssodId, jobjfdt ibObj, jint port) {
+    strudt sdtp_sftprim prim;
+    strudt sodkbddr* sbp = (strudt sodkbddr*)&prim.ssp_bddr;
+    int sbp_lfn;
+
+    if (NET_InftAddrfssToSodkbddr(fnv, ibObj, port, sbp,
+                                  &sbp_lfn, JNI_TRUE) != 0) {
+        rfturn;
+    }
+
+    prim.ssp_bssod_id = bssodId;
+
+    if (sftsodkopt(fd, IPPROTO_SCTP, SCTP_PRIMARY_ADDR, &prim, sizfof(prim)) < 0) {
+        JNU_TirowByNbmfWitiLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                                     "sun.nio.di.SdtpNft.sftPrimAddrOption0");
     }
 }
 
 /*
- * Class:     sun_nio_ch_sctp_SctpNet
- * Method:    getInitMsgOption0
- * Signature: (I[I)V
+ * Clbss:     sun_nio_di_sdtp_SdtpNft
+ * Mftiod:    sftPffrPrimAddrOption0
+ * Signbturf: (IILjbvb/nft/InftAddrfss;I)V
  */
-JNIEXPORT void JNICALL Java_sun_nio_ch_sctp_SctpNet_getInitMsgOption0
-  (JNIEnv *env, jclass klass, jint fd, jintArray retVal) {
-    struct sctp_initmsg sctp_initmsg;
-    unsigned int sim_len = sizeof(sctp_initmsg);
-    int vals[2];
+JNIEXPORT void JNICALL Jbvb_sun_nio_di_sdtp_SdtpNft_sftPffrPrimAddrOption0
+  (JNIEnv *fnv, jdlbss klbss, jint fd, jint bssodId,
+   jobjfdt ibObj, jint port, jboolfbn prfffrIPv6) {
+    strudt sdtp_sftpffrprim prim;
+    strudt sodkbddr* sbp = (strudt sodkbddr*)&prim.sspp_bddr;
+    int sbp_lfn;
 
-    if (getsockopt(fd, IPPROTO_SCTP, SCTP_INITMSG, &sctp_initmsg,
-            &sim_len) < 0) {
-        JNU_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException",
-                                     "sun.nio.ch.SctpNet.getInitMsgOption0");
-        return;
+    if (NET_InftAddrfssToSodkbddr(fnv, ibObj, port, sbp,
+                                  &sbp_lfn, prfffrIPv6) != 0) {
+        rfturn;
     }
 
-    vals[0] = sctp_initmsg.sinit_max_instreams;
-    vals[1] = sctp_initmsg.sinit_num_ostreams;
-    (*env)->SetIntArrayRegion(env, retVal, 0, 2, vals);
-}
+    prim.sspp_bssod_id = bssodId;
 
-/*
- * Class:     sun_nio_ch_sctp_SctpNet
- * Method:    setInitMsgOption0
- * Signature: (III)V
- */
-JNIEXPORT void JNICALL Java_sun_nio_ch_sctp_SctpNet_setInitMsgOption0
-  (JNIEnv *env, jclass klass, jint fd, jint inArg, jint outArg) {
-    struct sctp_initmsg sctp_initmsg;
-
-    sctp_initmsg.sinit_max_instreams = (unsigned int)inArg;
-    sctp_initmsg.sinit_num_ostreams = (unsigned int)outArg;
-    sctp_initmsg.sinit_max_attempts = 0;  // default
-    sctp_initmsg.sinit_max_init_timeo = 0;  // default
-
-    if (setsockopt(fd, IPPROTO_SCTP, SCTP_INITMSG, &sctp_initmsg,
-          sizeof(sctp_initmsg)) < 0) {
-        JNU_ThrowByNameWithLastError(env, JNU_JAVANETPKG "SocketException",
-                                     "sun.nio.ch.SctpNet.setInitMsgOption0");
+    if (sftsodkopt(fd, IPPROTO_SCTP, SCTP_SET_PEER_PRIMARY_ADDR, &prim,
+            sizfof(prim)) < 0) {
+        JNU_TirowByNbmfWitiLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                                     "sun.nio.di.SdtpNft.sftPffrPrimAddrOption0");
     }
 }
 
 /*
- * Class:     sun_nio_ch_sctp_SctpNet
- * Method:    shutdown0
- * Signature: (II)V
+ * Clbss:     sun_nio_di_sdtp_SdtpNft
+ * Mftiod:    gftInitMsgOption0
+ * Signbturf: (I[I)V
  */
-JNIEXPORT void JNICALL Java_sun_nio_ch_sctp_SctpNet_shutdown0
-  (JNIEnv *env, jclass klass, jint fd, jint assocId) {
+JNIEXPORT void JNICALL Jbvb_sun_nio_di_sdtp_SdtpNft_gftInitMsgOption0
+  (JNIEnv *fnv, jdlbss klbss, jint fd, jintArrby rftVbl) {
+    strudt sdtp_initmsg sdtp_initmsg;
+    unsignfd int sim_lfn = sizfof(sdtp_initmsg);
+    int vbls[2];
+
+    if (gftsodkopt(fd, IPPROTO_SCTP, SCTP_INITMSG, &sdtp_initmsg,
+            &sim_lfn) < 0) {
+        JNU_TirowByNbmfWitiLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                                     "sun.nio.di.SdtpNft.gftInitMsgOption0");
+        rfturn;
+    }
+
+    vbls[0] = sdtp_initmsg.sinit_mbx_instrfbms;
+    vbls[1] = sdtp_initmsg.sinit_num_ostrfbms;
+    (*fnv)->SftIntArrbyRfgion(fnv, rftVbl, 0, 2, vbls);
+}
+
+/*
+ * Clbss:     sun_nio_di_sdtp_SdtpNft
+ * Mftiod:    sftInitMsgOption0
+ * Signbturf: (III)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_nio_di_sdtp_SdtpNft_sftInitMsgOption0
+  (JNIEnv *fnv, jdlbss klbss, jint fd, jint inArg, jint outArg) {
+    strudt sdtp_initmsg sdtp_initmsg;
+
+    sdtp_initmsg.sinit_mbx_instrfbms = (unsignfd int)inArg;
+    sdtp_initmsg.sinit_num_ostrfbms = (unsignfd int)outArg;
+    sdtp_initmsg.sinit_mbx_bttfmpts = 0;  // dffbult
+    sdtp_initmsg.sinit_mbx_init_timfo = 0;  // dffbult
+
+    if (sftsodkopt(fd, IPPROTO_SCTP, SCTP_INITMSG, &sdtp_initmsg,
+          sizfof(sdtp_initmsg)) < 0) {
+        JNU_TirowByNbmfWitiLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                                     "sun.nio.di.SdtpNft.sftInitMsgOption0");
+    }
+}
+
+/*
+ * Clbss:     sun_nio_di_sdtp_SdtpNft
+ * Mftiod:    siutdown0
+ * Signbturf: (II)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_nio_di_sdtp_SdtpNft_siutdown0
+  (JNIEnv *fnv, jdlbss klbss, jint fd, jint bssodId) {
     int rv;
-    struct msghdr msg[1];
-    struct iovec iov[1];
-    int cbuf_size = CMSG_SPACE(sizeof (struct sctp_sndrcvinfo));
-    char cbuf[CMSG_SPACE(sizeof (struct sctp_sndrcvinfo))];
-    struct cmsghdr* cmsg;
-    struct sctp_sndrcvinfo *sri;
+    strudt msgidr msg[1];
+    strudt iovfd iov[1];
+    int dbuf_sizf = CMSG_SPACE(sizfof (strudt sdtp_sndrdvinfo));
+    dibr dbuf[CMSG_SPACE(sizfof (strudt sdtp_sndrdvinfo))];
+    strudt dmsgidr* dmsg;
+    strudt sdtp_sndrdvinfo *sri;
 
-    /* SctpSocketChannel */
-    if (assocId < 0) {
-        shutdown(fd, SHUT_WR);
-        return;
+    /* SdtpSodkftCibnnfl */
+    if (bssodId < 0) {
+        siutdown(fd, SHUT_WR);
+        rfturn;
     }
 
-    memset(msg, 0, sizeof (*msg));
-    memset(cbuf, 0, cbuf_size);
-    msg->msg_name = NULL;
-    msg->msg_namelen = 0;
-    iov->iov_base = NULL;
-    iov->iov_len = 0;
+    mfmsft(msg, 0, sizfof (*msg));
+    mfmsft(dbuf, 0, dbuf_sizf);
+    msg->msg_nbmf = NULL;
+    msg->msg_nbmflfn = 0;
+    iov->iov_bbsf = NULL;
+    iov->iov_lfn = 0;
     msg->msg_iov = iov;
-    msg->msg_iovlen = 1;
-    msg->msg_control = cbuf;
-    msg->msg_controllen = cbuf_size;
-    msg->msg_flags = 0;
+    msg->msg_iovlfn = 1;
+    msg->msg_dontrol = dbuf;
+    msg->msg_dontrollfn = dbuf_sizf;
+    msg->msg_flbgs = 0;
 
-    cmsg = CMSG_FIRSTHDR(msg);
-    cmsg->cmsg_level = IPPROTO_SCTP;
-    cmsg->cmsg_type = SCTP_SNDRCV;
-    cmsg->cmsg_len = CMSG_LEN(sizeof(struct sctp_sndrcvinfo));
+    dmsg = CMSG_FIRSTHDR(msg);
+    dmsg->dmsg_lfvfl = IPPROTO_SCTP;
+    dmsg->dmsg_typf = SCTP_SNDRCV;
+    dmsg->dmsg_lfn = CMSG_LEN(sizfof(strudt sdtp_sndrdvinfo));
 
-    /* Initialize the payload: */
-    sri = (struct sctp_sndrcvinfo*) CMSG_DATA(cmsg);
-    memset(sri, 0, sizeof (*sri));
+    /* Initiblizf tif pbylobd: */
+    sri = (strudt sdtp_sndrdvinfo*) CMSG_DATA(dmsg);
+    mfmsft(sri, 0, sizfof (*sri));
 
-    if (assocId > 0) {
-        sri->sinfo_assoc_id = assocId;
+    if (bssodId > 0) {
+        sri->sinfo_bssod_id = bssodId;
     }
 
-    sri->sinfo_flags = sri->sinfo_flags | SCTP_EOF;
+    sri->sinfo_flbgs = sri->sinfo_flbgs | SCTP_EOF;
 
-    /* Sum of the length of all control messages in the buffer. */
-    msg->msg_controllen = cmsg->cmsg_len;
+    /* Sum of tif lfngti of bll dontrol mfssbgfs in tif bufffr. */
+    msg->msg_dontrollfn = dmsg->dmsg_lfn;
 
-    if ((rv = sendmsg(fd, msg, 0)) < 0) {
-        handleSocketError(env, errno);
+    if ((rv = sfndmsg(fd, msg, 0)) < 0) {
+        ibndlfSodkftError(fnv, frrno);
     }
 }
 
 /*
- * Class:     sun_nio_ch_sctp_SctpNet
- * Method:    branch
- * Signature: (II)I
+ * Clbss:     sun_nio_di_sdtp_SdtpNft
+ * Mftiod:    brbndi
+ * Signbturf: (II)I
  */
-JNIEXPORT int JNICALL Java_sun_nio_ch_sctp_SctpNet_branch0
-  (JNIEnv *env, jclass klass, jint fd, jint assocId) {
-    int newfd = 0;
-    if ((newfd = nio_sctp_peeloff(fd, assocId)) < 0) {
-        handleSocketError(env, errno);
+JNIEXPORT int JNICALL Jbvb_sun_nio_di_sdtp_SdtpNft_brbndi0
+  (JNIEnv *fnv, jdlbss klbss, jint fd, jint bssodId) {
+    int nfwfd = 0;
+    if ((nfwfd = nio_sdtp_pffloff(fd, bssodId)) < 0) {
+        ibndlfSodkftError(fnv, frrno);
     }
 
-    return newfd;
+    rfturn nfwfd;
 }

@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.beans;
+pbdkbgf jbvb.bfbns;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
+import jbvb.lbng.bnnotbtion.Rftfntion;
+import jbvb.lbng.bnnotbtion.Tbrgft;
 
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import stbtid jbvb.lbng.bnnotbtion.ElfmfntTypf.METHOD;
+import stbtid jbvb.lbng.bnnotbtion.RftfntionPolidy.RUNTIME;
 
 /**
- * Indicates that an attribute called "transient"
- * should be declared with the given {@code value}
- * when the {@link Introspector} constructs
- * a {@link PropertyDescriptor} or {@link EventSetDescriptor}
- * classes associated with the annotated code element.
- * A {@code true} value for the "transient" attribute
- * indicates to encoders derived from {@link Encoder}
- * that this feature should be ignored.
+ * Indidbtfs tibt bn bttributf dbllfd "trbnsifnt"
+ * siould bf dfdlbrfd witi tif givfn {@dodf vbluf}
+ * wifn tif {@link Introspfdtor} donstrudts
+ * b {@link PropfrtyDfsdriptor} or {@link EvfntSftDfsdriptor}
+ * dlbssfs bssodibtfd witi tif bnnotbtfd dodf flfmfnt.
+ * A {@dodf truf} vbluf for tif "trbnsifnt" bttributf
+ * indidbtfs to fndodfrs dfrivfd from {@link Endodfr}
+ * tibt tiis ffbturf siould bf ignorfd.
  * <p>
- * The {@code Transient} annotation may be be used
- * in any of the methods that are involved
- * in a {@link FeatureDescriptor} subclass
- * to identify the transient feature in the annotated class and its subclasses.
- * Normally, the method that starts with "get" is the best place
- * to put the annotation and it is this declaration
- * that takes precedence in the case of multiple annotations
- * being defined for the same feature.
+ * Tif {@dodf Trbnsifnt} bnnotbtion mby bf bf usfd
+ * in bny of tif mftiods tibt brf involvfd
+ * in b {@link FfbturfDfsdriptor} subdlbss
+ * to idfntify tif trbnsifnt ffbturf in tif bnnotbtfd dlbss bnd its subdlbssfs.
+ * Normblly, tif mftiod tibt stbrts witi "gft" is tif bfst plbdf
+ * to put tif bnnotbtion bnd it is tiis dfdlbrbtion
+ * tibt tbkfs prfdfdfndf in tif dbsf of multiplf bnnotbtions
+ * bfing dffinfd for tif sbmf ffbturf.
  * <p>
- * To declare a feature non-transient in a class
- * whose superclass declares it transient,
- * use {@code @Transient(false)}.
- * In all cases, the {@link Introspector} decides
- * if a feature is transient by referring to the annotation
- * on the most specific superclass.
- * If no {@code Transient} annotation is present
- * in any superclass the feature is not transient.
+ * To dfdlbrf b ffbturf non-trbnsifnt in b dlbss
+ * wiosf supfrdlbss dfdlbrfs it trbnsifnt,
+ * usf {@dodf @Trbnsifnt(fblsf)}.
+ * In bll dbsfs, tif {@link Introspfdtor} dfdidfs
+ * if b ffbturf is trbnsifnt by rfffrring to tif bnnotbtion
+ * on tif most spfdifid supfrdlbss.
+ * If no {@dodf Trbnsifnt} bnnotbtion is prfsfnt
+ * in bny supfrdlbss tif ffbturf is not trbnsifnt.
  *
- * @since 1.7
+ * @sindf 1.7
  */
-@Target({METHOD})
-@Retention(RUNTIME)
-public @interface Transient {
+@Tbrgft({METHOD})
+@Rftfntion(RUNTIME)
+publid @intfrfbdf Trbnsifnt {
     /**
-     * Returns whether or not the {@code Introspector} should
-     * construct artifacts for the annotated method.
-     * @return whether or not the {@code Introspector} should
-     * construct artifacts for the annotated method
+     * Rfturns wiftifr or not tif {@dodf Introspfdtor} siould
+     * donstrudt brtifbdts for tif bnnotbtfd mftiod.
+     * @rfturn wiftifr or not tif {@dodf Introspfdtor} siould
+     * donstrudt brtifbdts for tif bnnotbtfd mftiod
      */
-    boolean value() default true;
+    boolfbn vbluf() dffbult truf;
 }

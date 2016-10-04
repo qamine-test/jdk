@@ -1,404 +1,404 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.lang.ref.SoftReference;
-import java.lang.reflect.*;
-import java.io.IOException;
-import java.io.FileDescriptor;
-import java.nio.ByteBuffer;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.*;
-import sun.misc.Unsafe;
-import sun.misc.Cleaner;
-import sun.security.action.GetPropertyAction;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.MbppfdBytfBufffr;
+import jbvb.nio.dibnnfls.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.*;
+import sun.misd.Unsbff;
+import sun.misd.Clfbnfr;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
 
-public class Util {
+publid dlbss Util {
 
-    // -- Caches --
+    // -- Cbdifs --
 
-    // The number of temp buffers in our pool
-    private static final int TEMP_BUF_POOL_SIZE = IOUtil.IOV_MAX;
+    // Tif numbfr of tfmp bufffrs in our pool
+    privbtf stbtid finbl int TEMP_BUF_POOL_SIZE = IOUtil.IOV_MAX;
 
-    // Per-thread cache of temporary direct buffers
-    private static ThreadLocal<BufferCache> bufferCache =
-        new ThreadLocal<BufferCache>()
+    // Pfr-tirfbd dbdif of tfmporbry dirfdt bufffrs
+    privbtf stbtid TirfbdLodbl<BufffrCbdif> bufffrCbdif =
+        nfw TirfbdLodbl<BufffrCbdif>()
     {
-        @Override
-        protected BufferCache initialValue() {
-            return new BufferCache();
+        @Ovfrridf
+        protfdtfd BufffrCbdif initiblVbluf() {
+            rfturn nfw BufffrCbdif();
         }
     };
 
     /**
-     * A simple cache of direct buffers.
+     * A simplf dbdif of dirfdt bufffrs.
      */
-    private static class BufferCache {
-        // the array of buffers
-        private ByteBuffer[] buffers;
+    privbtf stbtid dlbss BufffrCbdif {
+        // tif brrby of bufffrs
+        privbtf BytfBufffr[] bufffrs;
 
-        // the number of buffers in the cache
-        private int count;
+        // tif numbfr of bufffrs in tif dbdif
+        privbtf int dount;
 
-        // the index of the first valid buffer (undefined if count == 0)
-        private int start;
+        // tif indfx of tif first vblid bufffr (undffinfd if dount == 0)
+        privbtf int stbrt;
 
-        private int next(int i) {
-            return (i + 1) % TEMP_BUF_POOL_SIZE;
+        privbtf int nfxt(int i) {
+            rfturn (i + 1) % TEMP_BUF_POOL_SIZE;
         }
 
-        BufferCache() {
-            buffers = new ByteBuffer[TEMP_BUF_POOL_SIZE];
+        BufffrCbdif() {
+            bufffrs = nfw BytfBufffr[TEMP_BUF_POOL_SIZE];
         }
 
         /**
-         * Removes and returns a buffer from the cache of at least the given
-         * size (or null if no suitable buffer is found).
+         * Rfmovfs bnd rfturns b bufffr from tif dbdif of bt lfbst tif givfn
+         * sizf (or null if no suitbblf bufffr is found).
          */
-        ByteBuffer get(int size) {
-            if (count == 0)
-                return null;  // cache is empty
+        BytfBufffr gft(int sizf) {
+            if (dount == 0)
+                rfturn null;  // dbdif is fmpty
 
-            ByteBuffer[] buffers = this.buffers;
+            BytfBufffr[] bufffrs = tiis.bufffrs;
 
-            // search for suitable buffer (often the first buffer will do)
-            ByteBuffer buf = buffers[start];
-            if (buf.capacity() < size) {
+            // sfbrdi for suitbblf bufffr (oftfn tif first bufffr will do)
+            BytfBufffr buf = bufffrs[stbrt];
+            if (buf.dbpbdity() < sizf) {
                 buf = null;
-                int i = start;
-                while ((i = next(i)) != start) {
-                    ByteBuffer bb = buffers[i];
+                int i = stbrt;
+                wiilf ((i = nfxt(i)) != stbrt) {
+                    BytfBufffr bb = bufffrs[i];
                     if (bb == null)
-                        break;
-                    if (bb.capacity() >= size) {
+                        brfbk;
+                    if (bb.dbpbdity() >= sizf) {
                         buf = bb;
-                        break;
+                        brfbk;
                     }
                 }
                 if (buf == null)
-                    return null;
-                // move first element to here to avoid re-packing
-                buffers[i] = buffers[start];
+                    rfturn null;
+                // movf first flfmfnt to ifrf to bvoid rf-pbdking
+                bufffrs[i] = bufffrs[stbrt];
             }
 
-            // remove first element
-            buffers[start] = null;
-            start = next(start);
-            count--;
+            // rfmovf first flfmfnt
+            bufffrs[stbrt] = null;
+            stbrt = nfxt(stbrt);
+            dount--;
 
-            // prepare the buffer and return it
-            buf.rewind();
-            buf.limit(size);
-            return buf;
+            // prfpbrf tif bufffr bnd rfturn it
+            buf.rfwind();
+            buf.limit(sizf);
+            rfturn buf;
         }
 
-        boolean offerFirst(ByteBuffer buf) {
-            if (count >= TEMP_BUF_POOL_SIZE) {
-                return false;
-            } else {
-                start = (start + TEMP_BUF_POOL_SIZE - 1) % TEMP_BUF_POOL_SIZE;
-                buffers[start] = buf;
-                count++;
-                return true;
-            }
-        }
-
-        boolean offerLast(ByteBuffer buf) {
-            if (count >= TEMP_BUF_POOL_SIZE) {
-                return false;
-            } else {
-                int next = (start + count) % TEMP_BUF_POOL_SIZE;
-                buffers[next] = buf;
-                count++;
-                return true;
+        boolfbn offfrFirst(BytfBufffr buf) {
+            if (dount >= TEMP_BUF_POOL_SIZE) {
+                rfturn fblsf;
+            } flsf {
+                stbrt = (stbrt + TEMP_BUF_POOL_SIZE - 1) % TEMP_BUF_POOL_SIZE;
+                bufffrs[stbrt] = buf;
+                dount++;
+                rfturn truf;
             }
         }
 
-        boolean isEmpty() {
-            return count == 0;
+        boolfbn offfrLbst(BytfBufffr buf) {
+            if (dount >= TEMP_BUF_POOL_SIZE) {
+                rfturn fblsf;
+            } flsf {
+                int nfxt = (stbrt + dount) % TEMP_BUF_POOL_SIZE;
+                bufffrs[nfxt] = buf;
+                dount++;
+                rfturn truf;
+            }
         }
 
-        ByteBuffer removeFirst() {
-            assert count > 0;
-            ByteBuffer buf = buffers[start];
-            buffers[start] = null;
-            start = next(start);
-            count--;
-            return buf;
+        boolfbn isEmpty() {
+            rfturn dount == 0;
+        }
+
+        BytfBufffr rfmovfFirst() {
+            bssfrt dount > 0;
+            BytfBufffr buf = bufffrs[stbrt];
+            bufffrs[stbrt] = null;
+            stbrt = nfxt(stbrt);
+            dount--;
+            rfturn buf;
         }
     }
 
     /**
-     * Returns a temporary buffer of at least the given size
+     * Rfturns b tfmporbry bufffr of bt lfbst tif givfn sizf
      */
-    public static ByteBuffer getTemporaryDirectBuffer(int size) {
-        BufferCache cache = bufferCache.get();
-        ByteBuffer buf = cache.get(size);
+    publid stbtid BytfBufffr gftTfmporbryDirfdtBufffr(int sizf) {
+        BufffrCbdif dbdif = bufffrCbdif.gft();
+        BytfBufffr buf = dbdif.gft(sizf);
         if (buf != null) {
-            return buf;
-        } else {
-            // No suitable buffer in the cache so we need to allocate a new
-            // one. To avoid the cache growing then we remove the first
-            // buffer from the cache and free it.
-            if (!cache.isEmpty()) {
-                buf = cache.removeFirst();
-                free(buf);
+            rfturn buf;
+        } flsf {
+            // No suitbblf bufffr in tif dbdif so wf nffd to bllodbtf b nfw
+            // onf. To bvoid tif dbdif growing tifn wf rfmovf tif first
+            // bufffr from tif dbdif bnd frff it.
+            if (!dbdif.isEmpty()) {
+                buf = dbdif.rfmovfFirst();
+                frff(buf);
             }
-            return ByteBuffer.allocateDirect(size);
+            rfturn BytfBufffr.bllodbtfDirfdt(sizf);
         }
     }
 
     /**
-     * Releases a temporary buffer by returning to the cache or freeing it.
+     * Rflfbsfs b tfmporbry bufffr by rfturning to tif dbdif or frffing it.
      */
-    public static void releaseTemporaryDirectBuffer(ByteBuffer buf) {
-        offerFirstTemporaryDirectBuffer(buf);
+    publid stbtid void rflfbsfTfmporbryDirfdtBufffr(BytfBufffr buf) {
+        offfrFirstTfmporbryDirfdtBufffr(buf);
     }
 
     /**
-     * Releases a temporary buffer by returning to the cache or freeing it. If
-     * returning to the cache then insert it at the start so that it is
-     * likely to be returned by a subsequent call to getTemporaryDirectBuffer.
+     * Rflfbsfs b tfmporbry bufffr by rfturning to tif dbdif or frffing it. If
+     * rfturning to tif dbdif tifn insfrt it bt tif stbrt so tibt it is
+     * likfly to bf rfturnfd by b subsfqufnt dbll to gftTfmporbryDirfdtBufffr.
      */
-    static void offerFirstTemporaryDirectBuffer(ByteBuffer buf) {
-        assert buf != null;
-        BufferCache cache = bufferCache.get();
-        if (!cache.offerFirst(buf)) {
-            // cache is full
-            free(buf);
+    stbtid void offfrFirstTfmporbryDirfdtBufffr(BytfBufffr buf) {
+        bssfrt buf != null;
+        BufffrCbdif dbdif = bufffrCbdif.gft();
+        if (!dbdif.offfrFirst(buf)) {
+            // dbdif is full
+            frff(buf);
         }
     }
 
     /**
-     * Releases a temporary buffer by returning to the cache or freeing it. If
-     * returning to the cache then insert it at the end. This makes it
-     * suitable for scatter/gather operations where the buffers are returned to
-     * cache in same order that they were obtained.
+     * Rflfbsfs b tfmporbry bufffr by rfturning to tif dbdif or frffing it. If
+     * rfturning to tif dbdif tifn insfrt it bt tif fnd. Tiis mbkfs it
+     * suitbblf for sdbttfr/gbtifr opfrbtions wifrf tif bufffrs brf rfturnfd to
+     * dbdif in sbmf ordfr tibt tify wfrf obtbinfd.
      */
-    static void offerLastTemporaryDirectBuffer(ByteBuffer buf) {
-        assert buf != null;
-        BufferCache cache = bufferCache.get();
-        if (!cache.offerLast(buf)) {
-            // cache is full
-            free(buf);
+    stbtid void offfrLbstTfmporbryDirfdtBufffr(BytfBufffr buf) {
+        bssfrt buf != null;
+        BufffrCbdif dbdif = bufffrCbdif.gft();
+        if (!dbdif.offfrLbst(buf)) {
+            // dbdif is full
+            frff(buf);
         }
     }
 
     /**
-     * Frees the memory for the given direct buffer
+     * Frffs tif mfmory for tif givfn dirfdt bufffr
      */
-    private static void free(ByteBuffer buf) {
-        ((DirectBuffer)buf).cleaner().clean();
+    privbtf stbtid void frff(BytfBufffr buf) {
+        ((DirfdtBufffr)buf).dlfbnfr().dlfbn();
     }
 
 
-    // -- Random stuff --
+    // -- Rbndom stuff --
 
-    static ByteBuffer[] subsequence(ByteBuffer[] bs, int offset, int length) {
-        if ((offset == 0) && (length == bs.length))
-            return bs;
-        int n = length;
-        ByteBuffer[] bs2 = new ByteBuffer[n];
+    stbtid BytfBufffr[] subsfqufndf(BytfBufffr[] bs, int offsft, int lfngti) {
+        if ((offsft == 0) && (lfngti == bs.lfngti))
+            rfturn bs;
+        int n = lfngti;
+        BytfBufffr[] bs2 = nfw BytfBufffr[n];
         for (int i = 0; i < n; i++)
-            bs2[i] = bs[offset + i];
-        return bs2;
+            bs2[i] = bs[offsft + i];
+        rfturn bs2;
     }
 
-    static <E> Set<E> ungrowableSet(final Set<E> s) {
-        return new Set<E>() {
+    stbtid <E> Sft<E> ungrowbblfSft(finbl Sft<E> s) {
+        rfturn nfw Sft<E>() {
 
-                public int size()                 { return s.size(); }
-                public boolean isEmpty()          { return s.isEmpty(); }
-                public boolean contains(Object o) { return s.contains(o); }
-                public Object[] toArray()         { return s.toArray(); }
-                public <T> T[] toArray(T[] a)     { return s.toArray(a); }
-                public String toString()          { return s.toString(); }
-                public Iterator<E> iterator()     { return s.iterator(); }
-                public boolean equals(Object o)   { return s.equals(o); }
-                public int hashCode()             { return s.hashCode(); }
-                public void clear()               { s.clear(); }
-                public boolean remove(Object o)   { return s.remove(o); }
+                publid int sizf()                 { rfturn s.sizf(); }
+                publid boolfbn isEmpty()          { rfturn s.isEmpty(); }
+                publid boolfbn dontbins(Objfdt o) { rfturn s.dontbins(o); }
+                publid Objfdt[] toArrby()         { rfturn s.toArrby(); }
+                publid <T> T[] toArrby(T[] b)     { rfturn s.toArrby(b); }
+                publid String toString()          { rfturn s.toString(); }
+                publid Itfrbtor<E> itfrbtor()     { rfturn s.itfrbtor(); }
+                publid boolfbn fqubls(Objfdt o)   { rfturn s.fqubls(o); }
+                publid int ibsiCodf()             { rfturn s.ibsiCodf(); }
+                publid void dlfbr()               { s.dlfbr(); }
+                publid boolfbn rfmovf(Objfdt o)   { rfturn s.rfmovf(o); }
 
-                public boolean containsAll(Collection<?> coll) {
-                    return s.containsAll(coll);
+                publid boolfbn dontbinsAll(Collfdtion<?> doll) {
+                    rfturn s.dontbinsAll(doll);
                 }
-                public boolean removeAll(Collection<?> coll) {
-                    return s.removeAll(coll);
+                publid boolfbn rfmovfAll(Collfdtion<?> doll) {
+                    rfturn s.rfmovfAll(doll);
                 }
-                public boolean retainAll(Collection<?> coll) {
-                    return s.retainAll(coll);
+                publid boolfbn rftbinAll(Collfdtion<?> doll) {
+                    rfturn s.rftbinAll(doll);
                 }
 
-                public boolean add(E o){
-                    throw new UnsupportedOperationException();
+                publid boolfbn bdd(E o){
+                    tirow nfw UnsupportfdOpfrbtionExdfption();
                 }
-                public boolean addAll(Collection<? extends E> coll) {
-                    throw new UnsupportedOperationException();
+                publid boolfbn bddAll(Collfdtion<? fxtfnds E> doll) {
+                    tirow nfw UnsupportfdOpfrbtionExdfption();
                 }
 
         };
     }
 
 
-    // -- Unsafe access --
+    // -- Unsbff bddfss --
 
-    private static Unsafe unsafe = Unsafe.getUnsafe();
+    privbtf stbtid Unsbff unsbff = Unsbff.gftUnsbff();
 
-    private static byte _get(long a) {
-        return unsafe.getByte(a);
+    privbtf stbtid bytf _gft(long b) {
+        rfturn unsbff.gftBytf(b);
     }
 
-    private static void _put(long a, byte b) {
-        unsafe.putByte(a, b);
+    privbtf stbtid void _put(long b, bytf b) {
+        unsbff.putBytf(b, b);
     }
 
-    static void erase(ByteBuffer bb) {
-        unsafe.setMemory(((DirectBuffer)bb).address(), bb.capacity(), (byte)0);
+    stbtid void frbsf(BytfBufffr bb) {
+        unsbff.sftMfmory(((DirfdtBufffr)bb).bddrfss(), bb.dbpbdity(), (bytf)0);
     }
 
-    static Unsafe unsafe() {
-        return unsafe;
+    stbtid Unsbff unsbff() {
+        rfturn unsbff;
     }
 
-    private static int pageSize = -1;
+    privbtf stbtid int pbgfSizf = -1;
 
-    static int pageSize() {
-        if (pageSize == -1)
-            pageSize = unsafe().pageSize();
-        return pageSize;
+    stbtid int pbgfSizf() {
+        if (pbgfSizf == -1)
+            pbgfSizf = unsbff().pbgfSizf();
+        rfturn pbgfSizf;
     }
 
-    private static volatile Constructor<?> directByteBufferConstructor = null;
+    privbtf stbtid volbtilf Construdtor<?> dirfdtBytfBufffrConstrudtor = null;
 
-    private static void initDBBConstructor() {
-        AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                public Void run() {
+    privbtf stbtid void initDBBConstrudtor() {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
                     try {
-                        Class<?> cl = Class.forName("java.nio.DirectByteBuffer");
-                        Constructor<?> ctor = cl.getDeclaredConstructor(
-                            new Class<?>[] { int.class,
-                                             long.class,
-                                             FileDescriptor.class,
-                                             Runnable.class });
-                        ctor.setAccessible(true);
-                        directByteBufferConstructor = ctor;
-                    } catch (ClassNotFoundException   |
-                             NoSuchMethodException    |
-                             IllegalArgumentException |
-                             ClassCastException x) {
-                        throw new InternalError(x);
+                        Clbss<?> dl = Clbss.forNbmf("jbvb.nio.DirfdtBytfBufffr");
+                        Construdtor<?> dtor = dl.gftDfdlbrfdConstrudtor(
+                            nfw Clbss<?>[] { int.dlbss,
+                                             long.dlbss,
+                                             FilfDfsdriptor.dlbss,
+                                             Runnbblf.dlbss });
+                        dtor.sftAddfssiblf(truf);
+                        dirfdtBytfBufffrConstrudtor = dtor;
+                    } dbtdi (ClbssNotFoundExdfption   |
+                             NoSudiMftiodExdfption    |
+                             IllfgblArgumfntExdfption |
+                             ClbssCbstExdfption x) {
+                        tirow nfw IntfrnblError(x);
                     }
-                    return null;
+                    rfturn null;
                 }});
     }
 
-    static MappedByteBuffer newMappedByteBuffer(int size, long addr,
-                                                FileDescriptor fd,
-                                                Runnable unmapper)
+    stbtid MbppfdBytfBufffr nfwMbppfdBytfBufffr(int sizf, long bddr,
+                                                FilfDfsdriptor fd,
+                                                Runnbblf unmbppfr)
     {
-        MappedByteBuffer dbb;
-        if (directByteBufferConstructor == null)
-            initDBBConstructor();
+        MbppfdBytfBufffr dbb;
+        if (dirfdtBytfBufffrConstrudtor == null)
+            initDBBConstrudtor();
         try {
-            dbb = (MappedByteBuffer)directByteBufferConstructor.newInstance(
-              new Object[] { size,
-                             addr,
+            dbb = (MbppfdBytfBufffr)dirfdtBytfBufffrConstrudtor.nfwInstbndf(
+              nfw Objfdt[] { sizf,
+                             bddr,
                              fd,
-                             unmapper });
-        } catch (InstantiationException |
-                 IllegalAccessException |
-                 InvocationTargetException e) {
-            throw new InternalError(e);
+                             unmbppfr });
+        } dbtdi (InstbntibtionExdfption |
+                 IllfgblAddfssExdfption |
+                 InvodbtionTbrgftExdfption f) {
+            tirow nfw IntfrnblError(f);
         }
-        return dbb;
+        rfturn dbb;
     }
 
-    private static volatile Constructor<?> directByteBufferRConstructor = null;
+    privbtf stbtid volbtilf Construdtor<?> dirfdtBytfBufffrRConstrudtor = null;
 
-    private static void initDBBRConstructor() {
-        AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                public Void run() {
+    privbtf stbtid void initDBBRConstrudtor() {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
                     try {
-                        Class<?> cl = Class.forName("java.nio.DirectByteBufferR");
-                        Constructor<?> ctor = cl.getDeclaredConstructor(
-                            new Class<?>[] { int.class,
-                                             long.class,
-                                             FileDescriptor.class,
-                                             Runnable.class });
-                        ctor.setAccessible(true);
-                        directByteBufferRConstructor = ctor;
-                    } catch (ClassNotFoundException |
-                             NoSuchMethodException |
-                             IllegalArgumentException |
-                             ClassCastException x) {
-                        throw new InternalError(x);
+                        Clbss<?> dl = Clbss.forNbmf("jbvb.nio.DirfdtBytfBufffrR");
+                        Construdtor<?> dtor = dl.gftDfdlbrfdConstrudtor(
+                            nfw Clbss<?>[] { int.dlbss,
+                                             long.dlbss,
+                                             FilfDfsdriptor.dlbss,
+                                             Runnbblf.dlbss });
+                        dtor.sftAddfssiblf(truf);
+                        dirfdtBytfBufffrRConstrudtor = dtor;
+                    } dbtdi (ClbssNotFoundExdfption |
+                             NoSudiMftiodExdfption |
+                             IllfgblArgumfntExdfption |
+                             ClbssCbstExdfption x) {
+                        tirow nfw IntfrnblError(x);
                     }
-                    return null;
+                    rfturn null;
                 }});
     }
 
-    static MappedByteBuffer newMappedByteBufferR(int size, long addr,
-                                                 FileDescriptor fd,
-                                                 Runnable unmapper)
+    stbtid MbppfdBytfBufffr nfwMbppfdBytfBufffrR(int sizf, long bddr,
+                                                 FilfDfsdriptor fd,
+                                                 Runnbblf unmbppfr)
     {
-        MappedByteBuffer dbb;
-        if (directByteBufferRConstructor == null)
-            initDBBRConstructor();
+        MbppfdBytfBufffr dbb;
+        if (dirfdtBytfBufffrRConstrudtor == null)
+            initDBBRConstrudtor();
         try {
-            dbb = (MappedByteBuffer)directByteBufferRConstructor.newInstance(
-              new Object[] { size,
-                             addr,
+            dbb = (MbppfdBytfBufffr)dirfdtBytfBufffrRConstrudtor.nfwInstbndf(
+              nfw Objfdt[] { sizf,
+                             bddr,
                              fd,
-                             unmapper });
-        } catch (InstantiationException |
-                 IllegalAccessException |
-                 InvocationTargetException e) {
-            throw new InternalError(e);
+                             unmbppfr });
+        } dbtdi (InstbntibtionExdfption |
+                 IllfgblAddfssExdfption |
+                 InvodbtionTbrgftExdfption f) {
+            tirow nfw IntfrnblError(f);
         }
-        return dbb;
+        rfturn dbb;
     }
 
 
-    // -- Bug compatibility --
+    // -- Bug dompbtibility --
 
-    private static volatile String bugLevel = null;
+    privbtf stbtid volbtilf String bugLfvfl = null;
 
-    static boolean atBugLevel(String bl) {              // package-private
-        if (bugLevel == null) {
-            if (!sun.misc.VM.isBooted())
-                return false;
-            String value = AccessController.doPrivileged(
-                new GetPropertyAction("sun.nio.ch.bugLevel"));
-            bugLevel = (value != null) ? value : "";
+    stbtid boolfbn btBugLfvfl(String bl) {              // pbdkbgf-privbtf
+        if (bugLfvfl == null) {
+            if (!sun.misd.VM.isBootfd())
+                rfturn fblsf;
+            String vbluf = AddfssControllfr.doPrivilfgfd(
+                nfw GftPropfrtyAdtion("sun.nio.di.bugLfvfl"));
+            bugLfvfl = (vbluf != null) ? vbluf : "";
         }
-        return bugLevel.equals(bl);
+        rfturn bugLfvfl.fqubls(bl);
     }
 
 }

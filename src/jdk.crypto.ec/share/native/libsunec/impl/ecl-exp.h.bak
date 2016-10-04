@@ -1,195 +1,195 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
- * Use is subject to license terms.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * Tiis librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr tif tfrms of tif GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publisifd by tif Frff Softwbrf Foundbtion; fitifr
+ * vfrsion 2.1 of tif Lidfnsf, or (bt your option) bny lbtfr vfrsion.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Tiis librbry is distributfd in tif iopf tibt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong witi tiis librbry; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the elliptic curve math library.
+ * Tif Originbl Codf is tif flliptid durvf mbti librbry.
  *
- * The Initial Developer of the Original Code is
- * Sun Microsystems, Inc.
- * Portions created by the Initial Developer are Copyright (C) 2003
- * the Initial Developer. All Rights Reserved.
+ * Tif Initibl Dfvflopfr of tif Originbl Codf is
+ * Sun Midrosystfms, Ind.
+ * Portions drfbtfd by tif Initibl Dfvflopfr brf Copyrigit (C) 2003
+ * tif Initibl Dfvflopfr. All Rigits Rfsfrvfd.
  *
  * Contributor(s):
- *   Douglas Stebila <douglas@stebila.ca>, Sun Microsystems Laboratories
+ *   Douglbs Stfbilb <douglbs@stfbilb.db>, Sun Midrosystfms Lbborbtorifs
  *
  *********************************************************************** */
 
-#ifndef _ECL_EXP_H
-#define _ECL_EXP_H
+#ifndff _ECL_EXP_H
+#dffinf _ECL_EXP_H
 
-/* Curve field type */
-typedef enum {
-        ECField_GFp,
-        ECField_GF2m
-} ECField;
+/* Curvf fifld typf */
+typfdff fnum {
+        ECFifld_GFp,
+        ECFifld_GF2m
+} ECFifld;
 
-/* Hexadecimal encoding of curve parameters */
-struct ECCurveParamsStr {
-        char *text;
-        ECField field;
-        unsigned int size;
-        char *irr;
-        char *curvea;
-        char *curveb;
-        char *genx;
-        char *geny;
-        char *order;
-        int cofactor;
+/* Hfxbdfdimbl fndoding of durvf pbrbmftfrs */
+strudt ECCurvfPbrbmsStr {
+        dibr *tfxt;
+        ECFifld fifld;
+        unsignfd int sizf;
+        dibr *irr;
+        dibr *durvfb;
+        dibr *durvfb;
+        dibr *gfnx;
+        dibr *gfny;
+        dibr *ordfr;
+        int dofbdtor;
 };
-typedef struct ECCurveParamsStr ECCurveParams;
+typfdff strudt ECCurvfPbrbmsStr ECCurvfPbrbms;
 
-/* Named curve parameters */
-typedef enum {
+/* Nbmfd durvf pbrbmftfrs */
+typfdff fnum {
 
-        ECCurve_noName = 0,
+        ECCurvf_noNbmf = 0,
 
-        /* NIST prime curves */
-        ECCurve_NIST_P192,
-        ECCurve_NIST_P224,
-        ECCurve_NIST_P256,
-        ECCurve_NIST_P384,
-        ECCurve_NIST_P521,
+        /* NIST primf durvfs */
+        ECCurvf_NIST_P192,
+        ECCurvf_NIST_P224,
+        ECCurvf_NIST_P256,
+        ECCurvf_NIST_P384,
+        ECCurvf_NIST_P521,
 
-        /* NIST binary curves */
-        ECCurve_NIST_K163,
-        ECCurve_NIST_B163,
-        ECCurve_NIST_K233,
-        ECCurve_NIST_B233,
-        ECCurve_NIST_K283,
-        ECCurve_NIST_B283,
-        ECCurve_NIST_K409,
-        ECCurve_NIST_B409,
-        ECCurve_NIST_K571,
-        ECCurve_NIST_B571,
+        /* NIST binbry durvfs */
+        ECCurvf_NIST_K163,
+        ECCurvf_NIST_B163,
+        ECCurvf_NIST_K233,
+        ECCurvf_NIST_B233,
+        ECCurvf_NIST_K283,
+        ECCurvf_NIST_B283,
+        ECCurvf_NIST_K409,
+        ECCurvf_NIST_B409,
+        ECCurvf_NIST_K571,
+        ECCurvf_NIST_B571,
 
-        /* ANSI X9.62 prime curves */
-        /* ECCurve_X9_62_PRIME_192V1 == ECCurve_NIST_P192 */
-        ECCurve_X9_62_PRIME_192V2,
-        ECCurve_X9_62_PRIME_192V3,
-        ECCurve_X9_62_PRIME_239V1,
-        ECCurve_X9_62_PRIME_239V2,
-        ECCurve_X9_62_PRIME_239V3,
-        /* ECCurve_X9_62_PRIME_256V1 == ECCurve_NIST_P256 */
+        /* ANSI X9.62 primf durvfs */
+        /* ECCurvf_X9_62_PRIME_192V1 == ECCurvf_NIST_P192 */
+        ECCurvf_X9_62_PRIME_192V2,
+        ECCurvf_X9_62_PRIME_192V3,
+        ECCurvf_X9_62_PRIME_239V1,
+        ECCurvf_X9_62_PRIME_239V2,
+        ECCurvf_X9_62_PRIME_239V3,
+        /* ECCurvf_X9_62_PRIME_256V1 == ECCurvf_NIST_P256 */
 
-        /* ANSI X9.62 binary curves */
-        ECCurve_X9_62_CHAR2_PNB163V1,
-        ECCurve_X9_62_CHAR2_PNB163V2,
-        ECCurve_X9_62_CHAR2_PNB163V3,
-        ECCurve_X9_62_CHAR2_PNB176V1,
-        ECCurve_X9_62_CHAR2_TNB191V1,
-        ECCurve_X9_62_CHAR2_TNB191V2,
-        ECCurve_X9_62_CHAR2_TNB191V3,
-        ECCurve_X9_62_CHAR2_PNB208W1,
-        ECCurve_X9_62_CHAR2_TNB239V1,
-        ECCurve_X9_62_CHAR2_TNB239V2,
-        ECCurve_X9_62_CHAR2_TNB239V3,
-        ECCurve_X9_62_CHAR2_PNB272W1,
-        ECCurve_X9_62_CHAR2_PNB304W1,
-        ECCurve_X9_62_CHAR2_TNB359V1,
-        ECCurve_X9_62_CHAR2_PNB368W1,
-        ECCurve_X9_62_CHAR2_TNB431R1,
+        /* ANSI X9.62 binbry durvfs */
+        ECCurvf_X9_62_CHAR2_PNB163V1,
+        ECCurvf_X9_62_CHAR2_PNB163V2,
+        ECCurvf_X9_62_CHAR2_PNB163V3,
+        ECCurvf_X9_62_CHAR2_PNB176V1,
+        ECCurvf_X9_62_CHAR2_TNB191V1,
+        ECCurvf_X9_62_CHAR2_TNB191V2,
+        ECCurvf_X9_62_CHAR2_TNB191V3,
+        ECCurvf_X9_62_CHAR2_PNB208W1,
+        ECCurvf_X9_62_CHAR2_TNB239V1,
+        ECCurvf_X9_62_CHAR2_TNB239V2,
+        ECCurvf_X9_62_CHAR2_TNB239V3,
+        ECCurvf_X9_62_CHAR2_PNB272W1,
+        ECCurvf_X9_62_CHAR2_PNB304W1,
+        ECCurvf_X9_62_CHAR2_TNB359V1,
+        ECCurvf_X9_62_CHAR2_PNB368W1,
+        ECCurvf_X9_62_CHAR2_TNB431R1,
 
-        /* SEC2 prime curves */
-        ECCurve_SECG_PRIME_112R1,
-        ECCurve_SECG_PRIME_112R2,
-        ECCurve_SECG_PRIME_128R1,
-        ECCurve_SECG_PRIME_128R2,
-        ECCurve_SECG_PRIME_160K1,
-        ECCurve_SECG_PRIME_160R1,
-        ECCurve_SECG_PRIME_160R2,
-        ECCurve_SECG_PRIME_192K1,
-        /* ECCurve_SECG_PRIME_192R1 == ECCurve_NIST_P192 */
-        ECCurve_SECG_PRIME_224K1,
-        /* ECCurve_SECG_PRIME_224R1 == ECCurve_NIST_P224 */
-        ECCurve_SECG_PRIME_256K1,
-        /* ECCurve_SECG_PRIME_256R1 == ECCurve_NIST_P256 */
-        /* ECCurve_SECG_PRIME_384R1 == ECCurve_NIST_P384 */
-        /* ECCurve_SECG_PRIME_521R1 == ECCurve_NIST_P521 */
+        /* SEC2 primf durvfs */
+        ECCurvf_SECG_PRIME_112R1,
+        ECCurvf_SECG_PRIME_112R2,
+        ECCurvf_SECG_PRIME_128R1,
+        ECCurvf_SECG_PRIME_128R2,
+        ECCurvf_SECG_PRIME_160K1,
+        ECCurvf_SECG_PRIME_160R1,
+        ECCurvf_SECG_PRIME_160R2,
+        ECCurvf_SECG_PRIME_192K1,
+        /* ECCurvf_SECG_PRIME_192R1 == ECCurvf_NIST_P192 */
+        ECCurvf_SECG_PRIME_224K1,
+        /* ECCurvf_SECG_PRIME_224R1 == ECCurvf_NIST_P224 */
+        ECCurvf_SECG_PRIME_256K1,
+        /* ECCurvf_SECG_PRIME_256R1 == ECCurvf_NIST_P256 */
+        /* ECCurvf_SECG_PRIME_384R1 == ECCurvf_NIST_P384 */
+        /* ECCurvf_SECG_PRIME_521R1 == ECCurvf_NIST_P521 */
 
-        /* SEC2 binary curves */
-        ECCurve_SECG_CHAR2_113R1,
-        ECCurve_SECG_CHAR2_113R2,
-        ECCurve_SECG_CHAR2_131R1,
-        ECCurve_SECG_CHAR2_131R2,
-        /* ECCurve_SECG_CHAR2_163K1 == ECCurve_NIST_K163 */
-        ECCurve_SECG_CHAR2_163R1,
-        /* ECCurve_SECG_CHAR2_163R2 == ECCurve_NIST_B163 */
-        ECCurve_SECG_CHAR2_193R1,
-        ECCurve_SECG_CHAR2_193R2,
-        /* ECCurve_SECG_CHAR2_233K1 == ECCurve_NIST_K233 */
-        /* ECCurve_SECG_CHAR2_233R1 == ECCurve_NIST_B233 */
-        ECCurve_SECG_CHAR2_239K1,
-        /* ECCurve_SECG_CHAR2_283K1 == ECCurve_NIST_K283 */
-        /* ECCurve_SECG_CHAR2_283R1 == ECCurve_NIST_B283 */
-        /* ECCurve_SECG_CHAR2_409K1 == ECCurve_NIST_K409 */
-        /* ECCurve_SECG_CHAR2_409R1 == ECCurve_NIST_B409 */
-        /* ECCurve_SECG_CHAR2_571K1 == ECCurve_NIST_K571 */
-        /* ECCurve_SECG_CHAR2_571R1 == ECCurve_NIST_B571 */
+        /* SEC2 binbry durvfs */
+        ECCurvf_SECG_CHAR2_113R1,
+        ECCurvf_SECG_CHAR2_113R2,
+        ECCurvf_SECG_CHAR2_131R1,
+        ECCurvf_SECG_CHAR2_131R2,
+        /* ECCurvf_SECG_CHAR2_163K1 == ECCurvf_NIST_K163 */
+        ECCurvf_SECG_CHAR2_163R1,
+        /* ECCurvf_SECG_CHAR2_163R2 == ECCurvf_NIST_B163 */
+        ECCurvf_SECG_CHAR2_193R1,
+        ECCurvf_SECG_CHAR2_193R2,
+        /* ECCurvf_SECG_CHAR2_233K1 == ECCurvf_NIST_K233 */
+        /* ECCurvf_SECG_CHAR2_233R1 == ECCurvf_NIST_B233 */
+        ECCurvf_SECG_CHAR2_239K1,
+        /* ECCurvf_SECG_CHAR2_283K1 == ECCurvf_NIST_K283 */
+        /* ECCurvf_SECG_CHAR2_283R1 == ECCurvf_NIST_B283 */
+        /* ECCurvf_SECG_CHAR2_409K1 == ECCurvf_NIST_K409 */
+        /* ECCurvf_SECG_CHAR2_409R1 == ECCurvf_NIST_B409 */
+        /* ECCurvf_SECG_CHAR2_571K1 == ECCurvf_NIST_K571 */
+        /* ECCurvf_SECG_CHAR2_571R1 == ECCurvf_NIST_B571 */
 
-        /* WTLS curves */
-        ECCurve_WTLS_1,
-        /* there is no WTLS 2 curve */
-        /* ECCurve_WTLS_3 == ECCurve_NIST_K163 */
-        /* ECCurve_WTLS_4 == ECCurve_SECG_CHAR2_113R1 */
-        /* ECCurve_WTLS_5 == ECCurve_X9_62_CHAR2_PNB163V1 */
-        /* ECCurve_WTLS_6 == ECCurve_SECG_PRIME_112R1 */
-        /* ECCurve_WTLS_7 == ECCurve_SECG_PRIME_160R1 */
-        ECCurve_WTLS_8,
-        ECCurve_WTLS_9,
-        /* ECCurve_WTLS_10 == ECCurve_NIST_K233 */
-        /* ECCurve_WTLS_11 == ECCurve_NIST_B233 */
-        /* ECCurve_WTLS_12 == ECCurve_NIST_P224 */
+        /* WTLS durvfs */
+        ECCurvf_WTLS_1,
+        /* tifrf is no WTLS 2 durvf */
+        /* ECCurvf_WTLS_3 == ECCurvf_NIST_K163 */
+        /* ECCurvf_WTLS_4 == ECCurvf_SECG_CHAR2_113R1 */
+        /* ECCurvf_WTLS_5 == ECCurvf_X9_62_CHAR2_PNB163V1 */
+        /* ECCurvf_WTLS_6 == ECCurvf_SECG_PRIME_112R1 */
+        /* ECCurvf_WTLS_7 == ECCurvf_SECG_PRIME_160R1 */
+        ECCurvf_WTLS_8,
+        ECCurvf_WTLS_9,
+        /* ECCurvf_WTLS_10 == ECCurvf_NIST_K233 */
+        /* ECCurvf_WTLS_11 == ECCurvf_NIST_B233 */
+        /* ECCurvf_WTLS_12 == ECCurvf_NIST_P224 */
 
-        ECCurve_pastLastCurve
-} ECCurveName;
+        ECCurvf_pbstLbstCurvf
+} ECCurvfNbmf;
 
-/* Aliased named curves */
+/* Alibsfd nbmfd durvfs */
 
-#define ECCurve_X9_62_PRIME_192V1 ECCurve_NIST_P192
-#define ECCurve_X9_62_PRIME_256V1 ECCurve_NIST_P256
-#define ECCurve_SECG_PRIME_192R1 ECCurve_NIST_P192
-#define ECCurve_SECG_PRIME_224R1 ECCurve_NIST_P224
-#define ECCurve_SECG_PRIME_256R1 ECCurve_NIST_P256
-#define ECCurve_SECG_PRIME_384R1 ECCurve_NIST_P384
-#define ECCurve_SECG_PRIME_521R1 ECCurve_NIST_P521
-#define ECCurve_SECG_CHAR2_163K1 ECCurve_NIST_K163
-#define ECCurve_SECG_CHAR2_163R2 ECCurve_NIST_B163
-#define ECCurve_SECG_CHAR2_233K1 ECCurve_NIST_K233
-#define ECCurve_SECG_CHAR2_233R1 ECCurve_NIST_B233
-#define ECCurve_SECG_CHAR2_283K1 ECCurve_NIST_K283
-#define ECCurve_SECG_CHAR2_283R1 ECCurve_NIST_B283
-#define ECCurve_SECG_CHAR2_409K1 ECCurve_NIST_K409
-#define ECCurve_SECG_CHAR2_409R1 ECCurve_NIST_B409
-#define ECCurve_SECG_CHAR2_571K1 ECCurve_NIST_K571
-#define ECCurve_SECG_CHAR2_571R1 ECCurve_NIST_B571
-#define ECCurve_WTLS_3 ECCurve_NIST_K163
-#define ECCurve_WTLS_4 ECCurve_SECG_CHAR2_113R1
-#define ECCurve_WTLS_5 ECCurve_X9_62_CHAR2_PNB163V1
-#define ECCurve_WTLS_6 ECCurve_SECG_PRIME_112R1
-#define ECCurve_WTLS_7 ECCurve_SECG_PRIME_160R1
-#define ECCurve_WTLS_10 ECCurve_NIST_K233
-#define ECCurve_WTLS_11 ECCurve_NIST_B233
-#define ECCurve_WTLS_12 ECCurve_NIST_P224
+#dffinf ECCurvf_X9_62_PRIME_192V1 ECCurvf_NIST_P192
+#dffinf ECCurvf_X9_62_PRIME_256V1 ECCurvf_NIST_P256
+#dffinf ECCurvf_SECG_PRIME_192R1 ECCurvf_NIST_P192
+#dffinf ECCurvf_SECG_PRIME_224R1 ECCurvf_NIST_P224
+#dffinf ECCurvf_SECG_PRIME_256R1 ECCurvf_NIST_P256
+#dffinf ECCurvf_SECG_PRIME_384R1 ECCurvf_NIST_P384
+#dffinf ECCurvf_SECG_PRIME_521R1 ECCurvf_NIST_P521
+#dffinf ECCurvf_SECG_CHAR2_163K1 ECCurvf_NIST_K163
+#dffinf ECCurvf_SECG_CHAR2_163R2 ECCurvf_NIST_B163
+#dffinf ECCurvf_SECG_CHAR2_233K1 ECCurvf_NIST_K233
+#dffinf ECCurvf_SECG_CHAR2_233R1 ECCurvf_NIST_B233
+#dffinf ECCurvf_SECG_CHAR2_283K1 ECCurvf_NIST_K283
+#dffinf ECCurvf_SECG_CHAR2_283R1 ECCurvf_NIST_B283
+#dffinf ECCurvf_SECG_CHAR2_409K1 ECCurvf_NIST_K409
+#dffinf ECCurvf_SECG_CHAR2_409R1 ECCurvf_NIST_B409
+#dffinf ECCurvf_SECG_CHAR2_571K1 ECCurvf_NIST_K571
+#dffinf ECCurvf_SECG_CHAR2_571R1 ECCurvf_NIST_B571
+#dffinf ECCurvf_WTLS_3 ECCurvf_NIST_K163
+#dffinf ECCurvf_WTLS_4 ECCurvf_SECG_CHAR2_113R1
+#dffinf ECCurvf_WTLS_5 ECCurvf_X9_62_CHAR2_PNB163V1
+#dffinf ECCurvf_WTLS_6 ECCurvf_SECG_PRIME_112R1
+#dffinf ECCurvf_WTLS_7 ECCurvf_SECG_PRIME_160R1
+#dffinf ECCurvf_WTLS_10 ECCurvf_NIST_K233
+#dffinf ECCurvf_WTLS_11 ECCurvf_NIST_B233
+#dffinf ECCurvf_WTLS_12 ECCurvf_NIST_P224
 
-#endif /* _ECL_EXP_H */
+#fndif /* _ECL_EXP_H */

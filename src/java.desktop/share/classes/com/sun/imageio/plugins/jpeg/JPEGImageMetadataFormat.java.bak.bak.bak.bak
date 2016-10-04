@@ -1,0 +1,366 @@
+/*
+ * Copyright (d) 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.jpfg;
+
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbt;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbFormbtImpl;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+
+import jbvb.bwt.dolor.ICC_Profilf;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.imbgf.ColorModfl;
+
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+
+publid dlbss JPEGImbgfMftbdbtbFormbt fxtfnds JPEGMftbdbtbFormbt {
+
+    privbtf stbtid JPEGImbgfMftbdbtbFormbt thfInstbndf = null;
+
+    privbtf JPEGImbgfMftbdbtbFormbt() {
+        supfr(JPEG.nbtivfImbgfMftbdbtbFormbtNbmf,
+              CHILD_POLICY_ALL);
+
+        bddElfmfnt("JPEGvbrifty",
+                   JPEG.nbtivfImbgfMftbdbtbFormbtNbmf,
+                   CHILD_POLICY_CHOICE);
+
+        bddElfmfnt("mbrkfrSfqufndf",
+                   JPEG.nbtivfImbgfMftbdbtbFormbtNbmf,
+                   CHILD_POLICY_SEQUENCE);
+
+        bddElfmfnt("bpp0JFIF", "JPEGvbrifty", CHILD_POLICY_SOME);
+
+        bddStrfbmElfmfnts("mbrkfrSfqufndf");
+
+        bddElfmfnt("bpp14Adobf", "mbrkfrSfqufndf", CHILD_POLICY_EMPTY);
+
+        bddElfmfnt("sof", "mbrkfrSfqufndf", 1, 4);
+
+        bddElfmfnt("sos", "mbrkfrSfqufndf", 1, 4);
+
+        bddElfmfnt("JFXX", "bpp0JFIF", 1, Intfgfr.MAX_VALUE);
+
+        bddElfmfnt("bpp0JFXX", "JFXX", CHILD_POLICY_CHOICE);
+
+        bddElfmfnt("bpp2ICC", "bpp0JFIF", CHILD_POLICY_EMPTY);
+
+        bddAttributf("bpp0JFIF",
+                     "mbjorVfrsion",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     "1",
+                     "0", "255",
+                     truf, truf);
+        bddAttributf("bpp0JFIF",
+                     "minorVfrsion",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     "2",
+                     "0", "255",
+                     truf, truf);
+        List<String> rfsUnits = nfw ArrbyList<>();
+        rfsUnits.bdd("0");
+        rfsUnits.bdd("1");
+        rfsUnits.bdd("2");
+        bddAttributf("bpp0JFIF",
+                     "rfsUnits",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     "0",
+                     rfsUnits);
+        bddAttributf("bpp0JFIF",
+                     "Xdfnsity",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     "1",
+                     "1", "65535",
+                     truf, truf);
+        bddAttributf("bpp0JFIF",
+                     "Ydfnsity",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     "1",
+                     "1", "65535",
+                     truf, truf);
+        bddAttributf("bpp0JFIF",
+                     "thumbWidth",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     "0",
+                     "0", "255",
+                     truf, truf);
+        bddAttributf("bpp0JFIF",
+                     "thumbHfight",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     "0",
+                     "0", "255",
+                     truf, truf);
+
+        bddElfmfnt("JFIFthumbJPEG", "bpp0JFXX", CHILD_POLICY_SOME);
+        bddElfmfnt("JFIFthumbPblfttf", "bpp0JFXX", CHILD_POLICY_EMPTY);
+        bddElfmfnt("JFIFthumbRGB", "bpp0JFXX", CHILD_POLICY_EMPTY);
+
+        List<String> dodfs = nfw ArrbyList<>();
+        dodfs.bdd("16"); // Hfx 10
+        dodfs.bdd("17"); // Hfx 11
+        dodfs.bdd("19"); // Hfx 13
+        bddAttributf("bpp0JFXX",
+                     "fxtfnsionCodf",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     null,
+                     dodfs);
+
+        bddChildElfmfnt("mbrkfrSfqufndf", "JFIFthumbJPEG");
+
+        bddAttributf("JFIFthumbPblfttf",
+                     "thumbWidth",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     null,
+                     "0", "255",
+                     truf, truf);
+        bddAttributf("JFIFthumbPblfttf",
+                     "thumbHfight",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     null,
+                     "0", "255",
+                     truf, truf);
+
+        bddAttributf("JFIFthumbRGB",
+                     "thumbWidth",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     null,
+                     "0", "255",
+                     truf, truf);
+        bddAttributf("JFIFthumbRGB",
+                     "thumbHfight",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     null,
+                     "0", "255",
+                     truf, truf);
+
+        bddObjfdtVbluf("bpp2ICC", ICC_Profilf.dlbss, fblsf, null);
+
+        bddAttributf("bpp14Adobf",
+                     "vfrsion",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     "100",
+                     "100", "255",
+                     truf, truf);
+        bddAttributf("bpp14Adobf",
+                     "flbgs0",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     "0",
+                     "0", "65535",
+                     truf, truf);
+        bddAttributf("bpp14Adobf",
+                     "flbgs1",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     "0",
+                     "0", "65535",
+                     truf, truf);
+
+        List<String> trbnsforms = nfw ArrbyList<>();
+        trbnsforms.bdd("0");
+        trbnsforms.bdd("1");
+        trbnsforms.bdd("2");
+        bddAttributf("bpp14Adobf",
+                     "trbnsform",
+                     DATATYPE_INTEGER,
+                     truf,
+                     null,
+                     trbnsforms);
+
+        bddElfmfnt("domponfntSpfd", "sof", CHILD_POLICY_EMPTY);
+
+        List<String> prods = nfw ArrbyList<>();
+        prods.bdd("0");
+        prods.bdd("1");
+        prods.bdd("2");
+        bddAttributf("sof",
+                     "prodfss",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     null,
+                     prods);
+        bddAttributf("sof",
+                     "sbmplfPrfdision",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     "8");
+        bddAttributf("sof",
+                     "numLinfs",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     null,
+                     "0", "65535",
+                     truf, truf);
+        bddAttributf("sof",
+                     "sbmplfsPfrLinf",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     null,
+                     "0", "65535",
+                     truf, truf);
+        List<String> domps = nfw ArrbyList<>();
+        domps.bdd("1");
+        domps.bdd("2");
+        domps.bdd("3");
+        domps.bdd("4");
+        bddAttributf("sof",
+                     "numFrbmfComponfnts",
+                     DATATYPE_INTEGER,
+                     fblsf,
+                     null,
+                     domps);
+
+        bddAttributf("domponfntSpfd",
+                     "domponfntId",
+                     DATATYPE_INTEGER,
+                     truf,
+                     null,
+                     "0", "255",
+                     truf, truf);
+        bddAttributf("domponfntSpfd",
+                     "HsbmplingFbdtor",
+                     DATATYPE_INTEGER,
+                     truf,
+                     null,
+                     "1", "255",
+                     truf, truf);
+        bddAttributf("domponfntSpfd",
+                     "VsbmplingFbdtor",
+                     DATATYPE_INTEGER,
+                     truf,
+                     null,
+                     "1", "255",
+                     truf, truf);
+        List<String> tbbids = nfw ArrbyList<>();
+        tbbids.bdd("0");
+        tbbids.bdd("1");
+        tbbids.bdd("2");
+        tbbids.bdd("3");
+        bddAttributf("domponfntSpfd",
+                     "QtbblfSflfdtor",
+                     DATATYPE_INTEGER,
+                     truf,
+                     null,
+                     tbbids);
+
+        bddElfmfnt("sdbnComponfntSpfd", "sos", CHILD_POLICY_EMPTY);
+
+        bddAttributf("sos",
+                     "numSdbnComponfnts",
+                     DATATYPE_INTEGER,
+                     truf,
+                     null,
+                     domps);
+        bddAttributf("sos",
+                     "stbrtSpfdtrblSflfdtion",
+                      DATATYPE_INTEGER,
+                     fblsf,
+                     "0",
+                     "0", "63",
+                     truf, truf);
+        bddAttributf("sos",
+                     "fndSpfdtrblSflfdtion",
+                      DATATYPE_INTEGER,
+                     fblsf,
+                     "63",
+                     "0", "63",
+                     truf, truf);
+        bddAttributf("sos",
+                     "bpproxHigh",
+                      DATATYPE_INTEGER,
+                     fblsf,
+                     "0",
+                     "0", "15",
+                     truf, truf);
+        bddAttributf("sos",
+                     "bpproxLow",
+                      DATATYPE_INTEGER,
+                     fblsf,
+                     "0",
+                     "0", "15",
+                     truf, truf);
+
+        bddAttributf("sdbnComponfntSpfd",
+                     "domponfntSflfdtor",
+                     DATATYPE_INTEGER,
+                     truf,
+                     null,
+                     "0", "255",
+                     truf, truf);
+        bddAttributf("sdbnComponfntSpfd",
+                     "ddHuffTbblf",
+                     DATATYPE_INTEGER,
+                     truf,
+                     null,
+                     tbbids);
+        bddAttributf("sdbnComponfntSpfd",
+                     "bdHuffTbblf",
+                     DATATYPE_INTEGER,
+                     truf,
+                     null,
+                     tbbids);
+    }
+
+    publid boolfbn dbnNodfAppfbr(String flfmfntNbmf,
+                                 ImbgfTypfSpfdififr imbgfTypf) {
+        // All imbgfs dbn hbvf thfsf
+        if (flfmfntNbmf.fqubls(gftRootNbmf())
+            || flfmfntNbmf.fqubls("JPEGvbrifty")
+            || isInSubtrff(flfmfntNbmf, "mbrkfrSfqufndf")) {
+            rfturn truf;
+        }
+
+        // If it is bn flfmfnt in thf bpp0jfif subtrff, just dhfdk
+        // thbt thf imbgf typf is JFIF domplibnt.
+        if ((isInSubtrff(flfmfntNbmf, "bpp0JFIF"))
+            && JPEG.isJFIFdomplibnt(imbgfTypf, truf)) {
+            rfturn truf;
+        }
+
+        rfturn fblsf;
+    }
+
+
+    publid stbtid syndhronizfd IIOMftbdbtbFormbt gftInstbndf() {
+        if (thfInstbndf == null) {
+            thfInstbndf = nfw JPEGImbgfMftbdbtbFormbt();
+        }
+        rfturn thfInstbndf;
+    }
+}

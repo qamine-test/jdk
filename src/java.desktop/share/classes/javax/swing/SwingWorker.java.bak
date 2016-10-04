@@ -1,804 +1,804 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.lang.ref.WeakReference;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-import java.beans.PropertyChangeEvent;
-import java.util.List;
-import java.util.concurrent.*;
-import java.util.concurrent.locks.*;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bfbns.PropfrtyCibngfSupport;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.util.List;
+import jbvb.util.dondurrfnt.*;
+import jbvb.util.dondurrfnt.lodks.*;
 
-import java.awt.event.*;
+import jbvb.bwt.fvfnt.*;
 
-import javax.swing.SwingUtilities;
+import jbvbx.swing.SwingUtilitifs;
 
-import sun.awt.AppContext;
-import sun.swing.AccumulativeRunnable;
+import sun.bwt.AppContfxt;
+import sun.swing.AddumulbtivfRunnbblf;
 
 /**
- * An abstract class to perform lengthy GUI-interaction tasks in a
- * background thread. Several background threads can be used to execute such
- * tasks. However, the exact strategy of choosing a thread for any particular
- * {@code SwingWorker} is unspecified and should not be relied on.
+ * An bbstrbdt dlbss to pfrform lfngtiy GUI-intfrbdtion tbsks in b
+ * bbdkground tirfbd. Sfvfrbl bbdkground tirfbds dbn bf usfd to fxfdutf sudi
+ * tbsks. Howfvfr, tif fxbdt strbtfgy of dioosing b tirfbd for bny pbrtidulbr
+ * {@dodf SwingWorkfr} is unspfdififd bnd siould not bf rflifd on.
  * <p>
- * When writing a multi-threaded application using Swing, there are
- * two constraints to keep in mind:
- * (refer to
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">
- *   Concurrency in Swing
- * </a> for more details):
+ * Wifn writing b multi-tirfbdfd bpplidbtion using Swing, tifrf brf
+ * two donstrbints to kffp in mind:
+ * (rfffr to
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dondurrfndy/indfx.itml">
+ *   Condurrfndy in Swing
+ * </b> for morf dftbils):
  * <ul>
- *   <li> Time-consuming tasks should not be run on the <i>Event
- *        Dispatch Thread</i>. Otherwise the application becomes unresponsive.
+ *   <li> Timf-donsuming tbsks siould not bf run on tif <i>Evfnt
+ *        Dispbtdi Tirfbd</i>. Otifrwisf tif bpplidbtion bfdomfs unrfsponsivf.
  *   </li>
- *   <li> Swing components should be accessed  on the <i>Event
- *        Dispatch Thread</i> only.
+ *   <li> Swing domponfnts siould bf bddfssfd  on tif <i>Evfnt
+ *        Dispbtdi Tirfbd</i> only.
  *   </li>
  * </ul>
  *
  *
  * <p>
- * These constraints mean that a GUI application with time intensive
- * computing needs at least two threads:  1) a thread to perform the lengthy
- * task and 2) the <i>Event Dispatch Thread</i> (EDT) for all GUI-related
- * activities.  This involves inter-thread communication which can be
- * tricky to implement.
+ * Tifsf donstrbints mfbn tibt b GUI bpplidbtion witi timf intfnsivf
+ * domputing nffds bt lfbst two tirfbds:  1) b tirfbd to pfrform tif lfngtiy
+ * tbsk bnd 2) tif <i>Evfnt Dispbtdi Tirfbd</i> (EDT) for bll GUI-rflbtfd
+ * bdtivitifs.  Tiis involvfs intfr-tirfbd dommunidbtion wiidi dbn bf
+ * tridky to implfmfnt.
  *
  * <p>
- * {@code SwingWorker} is designed for situations where you need to have a long
- * running task run in a background thread and provide updates to the UI
- * either when done, or while processing.
- * Subclasses of {@code SwingWorker} must implement
- * the {@link #doInBackground} method to perform the background computation.
+ * {@dodf SwingWorkfr} is dfsignfd for situbtions wifrf you nffd to ibvf b long
+ * running tbsk run in b bbdkground tirfbd bnd providf updbtfs to tif UI
+ * fitifr wifn donf, or wiilf prodfssing.
+ * Subdlbssfs of {@dodf SwingWorkfr} must implfmfnt
+ * tif {@link #doInBbdkground} mftiod to pfrform tif bbdkground domputbtion.
  *
  *
  * <p>
  * <b>Workflow</b>
  * <p>
- * There are three threads involved in the life cycle of a
- * {@code SwingWorker} :
+ * Tifrf brf tirff tirfbds involvfd in tif liff dydlf of b
+ * {@dodf SwingWorkfr} :
  * <ul>
  * <li>
  * <p>
- * <i>Current</i> thread: The {@link #execute} method is
- * called on this thread. It schedules {@code SwingWorker} for the execution on a
- * <i>worker</i>
- * thread and returns immediately. One can wait for the {@code SwingWorker} to
- * complete using the {@link #get get} methods.
+ * <i>Currfnt</i> tirfbd: Tif {@link #fxfdutf} mftiod is
+ * dbllfd on tiis tirfbd. It sdifdulfs {@dodf SwingWorkfr} for tif fxfdution on b
+ * <i>workfr</i>
+ * tirfbd bnd rfturns immfdibtfly. Onf dbn wbit for tif {@dodf SwingWorkfr} to
+ * domplftf using tif {@link #gft gft} mftiods.
  * <li>
  * <p>
- * <i>Worker</i> thread: The {@link #doInBackground}
- * method is called on this thread.
- * This is where all background activities should happen. To notify
- * {@code PropertyChangeListeners} about bound properties changes use the
- * {@link #firePropertyChange firePropertyChange} and
- * {@link #getPropertyChangeSupport} methods. By default there are two bound
- * properties available: {@code state} and {@code progress}.
+ * <i>Workfr</i> tirfbd: Tif {@link #doInBbdkground}
+ * mftiod is dbllfd on tiis tirfbd.
+ * Tiis is wifrf bll bbdkground bdtivitifs siould ibppfn. To notify
+ * {@dodf PropfrtyCibngfListfnfrs} bbout bound propfrtifs dibngfs usf tif
+ * {@link #firfPropfrtyCibngf firfPropfrtyCibngf} bnd
+ * {@link #gftPropfrtyCibngfSupport} mftiods. By dffbult tifrf brf two bound
+ * propfrtifs bvbilbblf: {@dodf stbtf} bnd {@dodf progrfss}.
  * <li>
  * <p>
- * <i>Event Dispatch Thread</i>:  All Swing related activities occur
- * on this thread. {@code SwingWorker} invokes the
- * {@link #process process} and {@link #done} methods and notifies
- * any {@code PropertyChangeListeners} on this thread.
+ * <i>Evfnt Dispbtdi Tirfbd</i>:  All Swing rflbtfd bdtivitifs oddur
+ * on tiis tirfbd. {@dodf SwingWorkfr} invokfs tif
+ * {@link #prodfss prodfss} bnd {@link #donf} mftiods bnd notififs
+ * bny {@dodf PropfrtyCibngfListfnfrs} on tiis tirfbd.
  * </ul>
  *
  * <p>
- * Often, the <i>Current</i> thread is the <i>Event Dispatch
- * Thread</i>.
+ * Oftfn, tif <i>Currfnt</i> tirfbd is tif <i>Evfnt Dispbtdi
+ * Tirfbd</i>.
  *
  *
  * <p>
- * Before the {@code doInBackground} method is invoked on a <i>worker</i> thread,
- * {@code SwingWorker} notifies any {@code PropertyChangeListeners} about the
- * {@code state} property change to {@code StateValue.STARTED}.  After the
- * {@code doInBackground} method is finished the {@code done} method is
- * executed.  Then {@code SwingWorker} notifies any {@code PropertyChangeListeners}
- * about the {@code state} property change to {@code StateValue.DONE}.
+ * Bfforf tif {@dodf doInBbdkground} mftiod is invokfd on b <i>workfr</i> tirfbd,
+ * {@dodf SwingWorkfr} notififs bny {@dodf PropfrtyCibngfListfnfrs} bbout tif
+ * {@dodf stbtf} propfrty dibngf to {@dodf StbtfVbluf.STARTED}.  Aftfr tif
+ * {@dodf doInBbdkground} mftiod is finisifd tif {@dodf donf} mftiod is
+ * fxfdutfd.  Tifn {@dodf SwingWorkfr} notififs bny {@dodf PropfrtyCibngfListfnfrs}
+ * bbout tif {@dodf stbtf} propfrty dibngf to {@dodf StbtfVbluf.DONE}.
  *
  * <p>
- * {@code SwingWorker} is only designed to be executed once.  Executing a
- * {@code SwingWorker} more than once will not result in invoking the
- * {@code doInBackground} method twice.
+ * {@dodf SwingWorkfr} is only dfsignfd to bf fxfdutfd ondf.  Exfduting b
+ * {@dodf SwingWorkfr} morf tibn ondf will not rfsult in invoking tif
+ * {@dodf doInBbdkground} mftiod twidf.
  *
  * <p>
- * <b>Sample Usage</b>
+ * <b>Sbmplf Usbgf</b>
  * <p>
- * The following example illustrates the simplest use case.  Some
- * processing is done in the background and when done you update a Swing
- * component.
+ * Tif following fxbmplf illustrbtfs tif simplfst usf dbsf.  Somf
+ * prodfssing is donf in tif bbdkground bnd wifn donf you updbtf b Swing
+ * domponfnt.
  *
  * <p>
- * Say we want to find the "Meaning of Life" and display the result in
- * a {@code JLabel}.
+ * Sby wf wbnt to find tif "Mfbning of Liff" bnd displby tif rfsult in
+ * b {@dodf JLbbfl}.
  *
- * <pre>
- *   final JLabel label;
- *   class MeaningOfLifeFinder extends SwingWorker&lt;String, Object&gt; {
- *       {@code @Override}
- *       public String doInBackground() {
- *           return findTheMeaningOfLife();
+ * <prf>
+ *   finbl JLbbfl lbbfl;
+ *   dlbss MfbningOfLiffFindfr fxtfnds SwingWorkfr&lt;String, Objfdt&gt; {
+ *       {@dodf @Ovfrridf}
+ *       publid String doInBbdkground() {
+ *           rfturn findTifMfbningOfLiff();
  *       }
  *
- *       {@code @Override}
- *       protected void done() {
+ *       {@dodf @Ovfrridf}
+ *       protfdtfd void donf() {
  *           try {
- *               label.setText(get());
- *           } catch (Exception ignore) {
+ *               lbbfl.sftTfxt(gft());
+ *           } dbtdi (Exdfption ignorf) {
  *           }
  *       }
  *   }
  *
- *   (new MeaningOfLifeFinder()).execute();
- * </pre>
+ *   (nfw MfbningOfLiffFindfr()).fxfdutf();
+ * </prf>
  *
  * <p>
- * The next example is useful in situations where you wish to process data
- * as it is ready on the <i>Event Dispatch Thread</i>.
+ * Tif nfxt fxbmplf is usfful in situbtions wifrf you wisi to prodfss dbtb
+ * bs it is rfbdy on tif <i>Evfnt Dispbtdi Tirfbd</i>.
  *
  * <p>
- * Now we want to find the first N prime numbers and display the results in a
- * {@code JTextArea}.  While this is computing, we want to update our
- * progress in a {@code JProgressBar}.  Finally, we also want to print
- * the prime numbers to {@code System.out}.
- * <pre>
- * class PrimeNumbersTask extends
- *         SwingWorker&lt;List&lt;Integer&gt;, Integer&gt; {
- *     PrimeNumbersTask(JTextArea textArea, int numbersToFind) {
- *         //initialize
+ * Now wf wbnt to find tif first N primf numbfrs bnd displby tif rfsults in b
+ * {@dodf JTfxtArfb}.  Wiilf tiis is domputing, wf wbnt to updbtf our
+ * progrfss in b {@dodf JProgrfssBbr}.  Finblly, wf blso wbnt to print
+ * tif primf numbfrs to {@dodf Systfm.out}.
+ * <prf>
+ * dlbss PrimfNumbfrsTbsk fxtfnds
+ *         SwingWorkfr&lt;List&lt;Intfgfr&gt;, Intfgfr&gt; {
+ *     PrimfNumbfrsTbsk(JTfxtArfb tfxtArfb, int numbfrsToFind) {
+ *         //initiblizf
  *     }
  *
- *     {@code @Override}
- *     public List&lt;Integer&gt; doInBackground() {
- *         while (! enough &amp;&amp; ! isCancelled()) {
- *                 number = nextPrimeNumber();
- *                 publish(number);
- *                 setProgress(100 * numbers.size() / numbersToFind);
+ *     {@dodf @Ovfrridf}
+ *     publid List&lt;Intfgfr&gt; doInBbdkground() {
+ *         wiilf (! fnougi &bmp;&bmp; ! isCbndfllfd()) {
+ *                 numbfr = nfxtPrimfNumbfr();
+ *                 publisi(numbfr);
+ *                 sftProgrfss(100 * numbfrs.sizf() / numbfrsToFind);
  *             }
  *         }
- *         return numbers;
+ *         rfturn numbfrs;
  *     }
  *
- *     {@code @Override}
- *     protected void process(List&lt;Integer&gt; chunks) {
- *         for (int number : chunks) {
- *             textArea.append(number + &quot;\n&quot;);
+ *     {@dodf @Ovfrridf}
+ *     protfdtfd void prodfss(List&lt;Intfgfr&gt; diunks) {
+ *         for (int numbfr : diunks) {
+ *             tfxtArfb.bppfnd(numbfr + &quot;\n&quot;);
  *         }
  *     }
  * }
  *
- * JTextArea textArea = new JTextArea();
- * final JProgressBar progressBar = new JProgressBar(0, 100);
- * PrimeNumbersTask task = new PrimeNumbersTask(textArea, N);
- * task.addPropertyChangeListener(
- *     new PropertyChangeListener() {
- *         public  void propertyChange(PropertyChangeEvent evt) {
- *             if (&quot;progress&quot;.equals(evt.getPropertyName())) {
- *                 progressBar.setValue((Integer)evt.getNewValue());
+ * JTfxtArfb tfxtArfb = nfw JTfxtArfb();
+ * finbl JProgrfssBbr progrfssBbr = nfw JProgrfssBbr(0, 100);
+ * PrimfNumbfrsTbsk tbsk = nfw PrimfNumbfrsTbsk(tfxtArfb, N);
+ * tbsk.bddPropfrtyCibngfListfnfr(
+ *     nfw PropfrtyCibngfListfnfr() {
+ *         publid  void propfrtyCibngf(PropfrtyCibngfEvfnt fvt) {
+ *             if (&quot;progrfss&quot;.fqubls(fvt.gftPropfrtyNbmf())) {
+ *                 progrfssBbr.sftVbluf((Intfgfr)fvt.gftNfwVbluf());
  *             }
  *         }
  *     });
  *
- * task.execute();
- * System.out.println(task.get()); //prints all prime numbers we have got
- * </pre>
+ * tbsk.fxfdutf();
+ * Systfm.out.println(tbsk.gft()); //prints bll primf numbfrs wf ibvf got
+ * </prf>
  *
  * <p>
- * Because {@code SwingWorker} implements {@code Runnable}, a
- * {@code SwingWorker} can be submitted to an
- * {@link java.util.concurrent.Executor} for execution.
+ * Bfdbusf {@dodf SwingWorkfr} implfmfnts {@dodf Runnbblf}, b
+ * {@dodf SwingWorkfr} dbn bf submittfd to bn
+ * {@link jbvb.util.dondurrfnt.Exfdutor} for fxfdution.
  *
- * @author Igor Kushnirskiy
+ * @butior Igor Kusinirskiy
  *
- * @param <T> the result type returned by this {@code SwingWorker's}
- *        {@code doInBackground} and {@code get} methods
- * @param <V> the type used for carrying out intermediate results by this
- *        {@code SwingWorker's} {@code publish} and {@code process} methods
+ * @pbrbm <T> tif rfsult typf rfturnfd by tiis {@dodf SwingWorkfr's}
+ *        {@dodf doInBbdkground} bnd {@dodf gft} mftiods
+ * @pbrbm <V> tif typf usfd for dbrrying out intfrmfdibtf rfsults by tiis
+ *        {@dodf SwingWorkfr's} {@dodf publisi} bnd {@dodf prodfss} mftiods
  *
- * @since 1.6
+ * @sindf 1.6
  */
-public abstract class SwingWorker<T, V> implements RunnableFuture<T> {
+publid bbstrbdt dlbss SwingWorkfr<T, V> implfmfnts RunnbblfFuturf<T> {
     /**
-     * number of worker threads.
+     * numbfr of workfr tirfbds.
      */
-    private static final int MAX_WORKER_THREADS = 10;
+    privbtf stbtid finbl int MAX_WORKER_THREADS = 10;
 
     /**
-     * current progress.
+     * durrfnt progrfss.
      */
-    private volatile int progress;
+    privbtf volbtilf int progrfss;
 
     /**
-     * current state.
+     * durrfnt stbtf.
      */
-    private volatile StateValue state;
+    privbtf volbtilf StbtfVbluf stbtf;
 
     /**
-     * everything is run inside this FutureTask. Also it is used as
-     * a delegatee for the Future API.
+     * fvfrytiing is run insidf tiis FuturfTbsk. Also it is usfd bs
+     * b dflfgbtff for tif Futurf API.
      */
-    private final FutureTask<T> future;
+    privbtf finbl FuturfTbsk<T> futurf;
 
     /**
-     * all propertyChangeSupport goes through this.
+     * bll propfrtyCibngfSupport gofs tirougi tiis.
      */
-    private final PropertyChangeSupport propertyChangeSupport;
+    privbtf finbl PropfrtyCibngfSupport propfrtyCibngfSupport;
 
     /**
-     * handler for {@code process} mehtod.
+     * ibndlfr for {@dodf prodfss} mfitod.
      */
-    private AccumulativeRunnable<V> doProcess;
+    privbtf AddumulbtivfRunnbblf<V> doProdfss;
 
     /**
-     * handler for progress property change notifications.
+     * ibndlfr for progrfss propfrty dibngf notifidbtions.
      */
-    private AccumulativeRunnable<Integer> doNotifyProgressChange;
+    privbtf AddumulbtivfRunnbblf<Intfgfr> doNotifyProgrfssCibngf;
 
-    private final AccumulativeRunnable<Runnable> doSubmit = getDoSubmit();
+    privbtf finbl AddumulbtivfRunnbblf<Runnbblf> doSubmit = gftDoSubmit();
 
     /**
-     * Values for the {@code state} bound property.
-     * @since 1.6
+     * Vblufs for tif {@dodf stbtf} bound propfrty.
+     * @sindf 1.6
      */
-    public enum StateValue {
+    publid fnum StbtfVbluf {
         /**
-         * Initial {@code SwingWorker} state.
+         * Initibl {@dodf SwingWorkfr} stbtf.
          */
         PENDING,
         /**
-         * {@code SwingWorker} is {@code STARTED}
-         * before invoking {@code doInBackground}.
+         * {@dodf SwingWorkfr} is {@dodf STARTED}
+         * bfforf invoking {@dodf doInBbdkground}.
          */
         STARTED,
 
         /**
-         * {@code SwingWorker} is {@code DONE}
-         * after {@code doInBackground} method
-         * is finished.
+         * {@dodf SwingWorkfr} is {@dodf DONE}
+         * bftfr {@dodf doInBbdkground} mftiod
+         * is finisifd.
          */
         DONE
     }
 
     /**
-     * Constructs this {@code SwingWorker}.
+     * Construdts tiis {@dodf SwingWorkfr}.
      */
-    public SwingWorker() {
-        Callable<T> callable =
-                new Callable<T>() {
-                    public T call() throws Exception {
-                        setState(StateValue.STARTED);
-                        return doInBackground();
+    publid SwingWorkfr() {
+        Cbllbblf<T> dbllbblf =
+                nfw Cbllbblf<T>() {
+                    publid T dbll() tirows Exdfption {
+                        sftStbtf(StbtfVbluf.STARTED);
+                        rfturn doInBbdkground();
                     }
                 };
 
-        future = new FutureTask<T>(callable) {
-                       @Override
-                       protected void done() {
-                           doneEDT();
-                           setState(StateValue.DONE);
+        futurf = nfw FuturfTbsk<T>(dbllbblf) {
+                       @Ovfrridf
+                       protfdtfd void donf() {
+                           donfEDT();
+                           sftStbtf(StbtfVbluf.DONE);
                        }
                    };
 
-       state = StateValue.PENDING;
-       propertyChangeSupport = new SwingWorkerPropertyChangeSupport(this);
-       doProcess = null;
-       doNotifyProgressChange = null;
+       stbtf = StbtfVbluf.PENDING;
+       propfrtyCibngfSupport = nfw SwingWorkfrPropfrtyCibngfSupport(tiis);
+       doProdfss = null;
+       doNotifyProgrfssCibngf = null;
     }
 
     /**
-     * Computes a result, or throws an exception if unable to do so.
+     * Computfs b rfsult, or tirows bn fxdfption if unbblf to do so.
      *
      * <p>
-     * Note that this method is executed only once.
+     * Notf tibt tiis mftiod is fxfdutfd only ondf.
      *
      * <p>
-     * Note: this method is executed in a background thread.
+     * Notf: tiis mftiod is fxfdutfd in b bbdkground tirfbd.
      *
      *
-     * @return the computed result
-     * @throws Exception if unable to compute a result
+     * @rfturn tif domputfd rfsult
+     * @tirows Exdfption if unbblf to domputf b rfsult
      *
      */
-    protected abstract T doInBackground() throws Exception ;
+    protfdtfd bbstrbdt T doInBbdkground() tirows Exdfption ;
 
     /**
-     * Sets this {@code Future} to the result of computation unless
-     * it has been cancelled.
+     * Sfts tiis {@dodf Futurf} to tif rfsult of domputbtion unlfss
+     * it ibs bffn dbndfllfd.
      */
-    public final void run() {
-        future.run();
+    publid finbl void run() {
+        futurf.run();
     }
 
     /**
-     * Sends data chunks to the {@link #process} method. This method is to be
-     * used from inside the {@code doInBackground} method to deliver
-     * intermediate results
-     * for processing on the <i>Event Dispatch Thread</i> inside the
-     * {@code process} method.
+     * Sfnds dbtb diunks to tif {@link #prodfss} mftiod. Tiis mftiod is to bf
+     * usfd from insidf tif {@dodf doInBbdkground} mftiod to dflivfr
+     * intfrmfdibtf rfsults
+     * for prodfssing on tif <i>Evfnt Dispbtdi Tirfbd</i> insidf tif
+     * {@dodf prodfss} mftiod.
      *
      * <p>
-     * Because the {@code process} method is invoked asynchronously on
-     * the <i>Event Dispatch Thread</i>
-     * multiple invocations to the {@code publish} method
-     * might occur before the {@code process} method is executed. For
-     * performance purposes all these invocations are coalesced into one
-     * invocation with concatenated arguments.
+     * Bfdbusf tif {@dodf prodfss} mftiod is invokfd bsyndironously on
+     * tif <i>Evfnt Dispbtdi Tirfbd</i>
+     * multiplf invodbtions to tif {@dodf publisi} mftiod
+     * migit oddur bfforf tif {@dodf prodfss} mftiod is fxfdutfd. For
+     * pfrformbndf purposfs bll tifsf invodbtions brf doblfsdfd into onf
+     * invodbtion witi dondbtfnbtfd brgumfnts.
      *
      * <p>
-     * For example:
+     * For fxbmplf:
      *
-     * <pre>
-     * publish(&quot;1&quot;);
-     * publish(&quot;2&quot;, &quot;3&quot;);
-     * publish(&quot;4&quot;, &quot;5&quot;, &quot;6&quot;);
-     * </pre>
+     * <prf>
+     * publisi(&quot;1&quot;);
+     * publisi(&quot;2&quot;, &quot;3&quot;);
+     * publisi(&quot;4&quot;, &quot;5&quot;, &quot;6&quot;);
+     * </prf>
      *
-     * might result in:
+     * migit rfsult in:
      *
-     * <pre>
-     * process(&quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;)
-     * </pre>
+     * <prf>
+     * prodfss(&quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;)
+     * </prf>
      *
      * <p>
-     * <b>Sample Usage</b>. This code snippet loads some tabular data and
-     * updates {@code DefaultTableModel} with it. Note that it safe to mutate
-     * the tableModel from inside the {@code process} method because it is
-     * invoked on the <i>Event Dispatch Thread</i>.
+     * <b>Sbmplf Usbgf</b>. Tiis dodf snippft lobds somf tbbulbr dbtb bnd
+     * updbtfs {@dodf DffbultTbblfModfl} witi it. Notf tibt it sbff to mutbtf
+     * tif tbblfModfl from insidf tif {@dodf prodfss} mftiod bfdbusf it is
+     * invokfd on tif <i>Evfnt Dispbtdi Tirfbd</i>.
      *
-     * <pre>
-     * class TableSwingWorker extends
-     *         SwingWorker&lt;DefaultTableModel, Object[]&gt; {
-     *     private final DefaultTableModel tableModel;
+     * <prf>
+     * dlbss TbblfSwingWorkfr fxtfnds
+     *         SwingWorkfr&lt;DffbultTbblfModfl, Objfdt[]&gt; {
+     *     privbtf finbl DffbultTbblfModfl tbblfModfl;
      *
-     *     public TableSwingWorker(DefaultTableModel tableModel) {
-     *         this.tableModel = tableModel;
+     *     publid TbblfSwingWorkfr(DffbultTbblfModfl tbblfModfl) {
+     *         tiis.tbblfModfl = tbblfModfl;
      *     }
      *
-     *     {@code @Override}
-     *     protected DefaultTableModel doInBackground() throws Exception {
-     *         for (Object[] row = loadData();
-     *                  ! isCancelled() &amp;&amp; row != null;
-     *                  row = loadData()) {
-     *             publish((Object[]) row);
+     *     {@dodf @Ovfrridf}
+     *     protfdtfd DffbultTbblfModfl doInBbdkground() tirows Exdfption {
+     *         for (Objfdt[] row = lobdDbtb();
+     *                  ! isCbndfllfd() &bmp;&bmp; row != null;
+     *                  row = lobdDbtb()) {
+     *             publisi((Objfdt[]) row);
      *         }
-     *         return tableModel;
+     *         rfturn tbblfModfl;
      *     }
      *
-     *     {@code @Override}
-     *     protected void process(List&lt;Object[]&gt; chunks) {
-     *         for (Object[] row : chunks) {
-     *             tableModel.addRow(row);
+     *     {@dodf @Ovfrridf}
+     *     protfdtfd void prodfss(List&lt;Objfdt[]&gt; diunks) {
+     *         for (Objfdt[] row : diunks) {
+     *             tbblfModfl.bddRow(row);
      *         }
      *     }
      * }
-     * </pre>
+     * </prf>
      *
-     * @param chunks intermediate results to process
+     * @pbrbm diunks intfrmfdibtf rfsults to prodfss
      *
-     * @see #process
+     * @sff #prodfss
      *
      */
-    @SafeVarargs
-    @SuppressWarnings("varargs") // Passing chunks to add is safe
-    protected final void publish(V... chunks) {
-        synchronized (this) {
-            if (doProcess == null) {
-                doProcess = new AccumulativeRunnable<V>() {
-                    @Override
-                    public void run(List<V> args) {
-                        process(args);
+    @SbffVbrbrgs
+    @SupprfssWbrnings("vbrbrgs") // Pbssing diunks to bdd is sbff
+    protfdtfd finbl void publisi(V... diunks) {
+        syndironizfd (tiis) {
+            if (doProdfss == null) {
+                doProdfss = nfw AddumulbtivfRunnbblf<V>() {
+                    @Ovfrridf
+                    publid void run(List<V> brgs) {
+                        prodfss(brgs);
                     }
-                    @Override
-                    protected void submit() {
-                        doSubmit.add(this);
+                    @Ovfrridf
+                    protfdtfd void submit() {
+                        doSubmit.bdd(tiis);
                     }
                 };
             }
         }
-        doProcess.add(chunks);
+        doProdfss.bdd(diunks);
     }
 
     /**
-     * Receives data chunks from the {@code publish} method asynchronously on the
-     * <i>Event Dispatch Thread</i>.
+     * Rfdfivfs dbtb diunks from tif {@dodf publisi} mftiod bsyndironously on tif
+     * <i>Evfnt Dispbtdi Tirfbd</i>.
      *
      * <p>
-     * Please refer to the {@link #publish} method for more details.
+     * Plfbsf rfffr to tif {@link #publisi} mftiod for morf dftbils.
      *
-     * @param chunks intermediate results to process
+     * @pbrbm diunks intfrmfdibtf rfsults to prodfss
      *
-     * @see #publish
+     * @sff #publisi
      *
      */
-    protected void process(List<V> chunks) {
+    protfdtfd void prodfss(List<V> diunks) {
     }
 
     /**
-     * Executed on the <i>Event Dispatch Thread</i> after the {@code doInBackground}
-     * method is finished. The default
-     * implementation does nothing. Subclasses may override this method to
-     * perform completion actions on the <i>Event Dispatch Thread</i>. Note
-     * that you can query status inside the implementation of this method to
-     * determine the result of this task or whether this task has been cancelled.
+     * Exfdutfd on tif <i>Evfnt Dispbtdi Tirfbd</i> bftfr tif {@dodf doInBbdkground}
+     * mftiod is finisifd. Tif dffbult
+     * implfmfntbtion dofs notiing. Subdlbssfs mby ovfrridf tiis mftiod to
+     * pfrform domplftion bdtions on tif <i>Evfnt Dispbtdi Tirfbd</i>. Notf
+     * tibt you dbn qufry stbtus insidf tif implfmfntbtion of tiis mftiod to
+     * dftfrminf tif rfsult of tiis tbsk or wiftifr tiis tbsk ibs bffn dbndfllfd.
      *
-     * @see #doInBackground
-     * @see #isCancelled()
-     * @see #get
+     * @sff #doInBbdkground
+     * @sff #isCbndfllfd()
+     * @sff #gft
      */
-    protected void done() {
+    protfdtfd void donf() {
     }
 
     /**
-     * Sets the {@code progress} bound property.
-     * The value should be from 0 to 100.
+     * Sfts tif {@dodf progrfss} bound propfrty.
+     * Tif vbluf siould bf from 0 to 100.
      *
      * <p>
-     * Because {@code PropertyChangeListener}s are notified asynchronously on
-     * the <i>Event Dispatch Thread</i> multiple invocations to the
-     * {@code setProgress} method might occur before any
-     * {@code PropertyChangeListeners} are invoked. For performance purposes
-     * all these invocations are coalesced into one invocation with the last
-     * invocation argument only.
+     * Bfdbusf {@dodf PropfrtyCibngfListfnfr}s brf notififd bsyndironously on
+     * tif <i>Evfnt Dispbtdi Tirfbd</i> multiplf invodbtions to tif
+     * {@dodf sftProgrfss} mftiod migit oddur bfforf bny
+     * {@dodf PropfrtyCibngfListfnfrs} brf invokfd. For pfrformbndf purposfs
+     * bll tifsf invodbtions brf doblfsdfd into onf invodbtion witi tif lbst
+     * invodbtion brgumfnt only.
      *
      * <p>
-     * For example, the following invokations:
+     * For fxbmplf, tif following invokbtions:
      *
-     * <pre>
-     * setProgress(1);
-     * setProgress(2);
-     * setProgress(3);
-     * </pre>
+     * <prf>
+     * sftProgrfss(1);
+     * sftProgrfss(2);
+     * sftProgrfss(3);
+     * </prf>
      *
-     * might result in a single {@code PropertyChangeListener} notification with
-     * the value {@code 3}.
+     * migit rfsult in b singlf {@dodf PropfrtyCibngfListfnfr} notifidbtion witi
+     * tif vbluf {@dodf 3}.
      *
-     * @param progress the progress value to set
-     * @throws IllegalArgumentException is value not from 0 to 100
+     * @pbrbm progrfss tif progrfss vbluf to sft
+     * @tirows IllfgblArgumfntExdfption is vbluf not from 0 to 100
      */
-    protected final void setProgress(int progress) {
-        if (progress < 0 || progress > 100) {
-            throw new IllegalArgumentException("the value should be from 0 to 100");
+    protfdtfd finbl void sftProgrfss(int progrfss) {
+        if (progrfss < 0 || progrfss > 100) {
+            tirow nfw IllfgblArgumfntExdfption("tif vbluf siould bf from 0 to 100");
         }
-        if (this.progress == progress) {
-            return;
+        if (tiis.progrfss == progrfss) {
+            rfturn;
         }
-        int oldProgress = this.progress;
-        this.progress = progress;
-        if (! getPropertyChangeSupport().hasListeners("progress")) {
-            return;
+        int oldProgrfss = tiis.progrfss;
+        tiis.progrfss = progrfss;
+        if (! gftPropfrtyCibngfSupport().ibsListfnfrs("progrfss")) {
+            rfturn;
         }
-        synchronized (this) {
-            if (doNotifyProgressChange == null) {
-                doNotifyProgressChange =
-                    new AccumulativeRunnable<Integer>() {
-                        @Override
-                        public void run(List<Integer> args) {
-                            firePropertyChange("progress",
-                               args.get(0),
-                               args.get(args.size() - 1));
+        syndironizfd (tiis) {
+            if (doNotifyProgrfssCibngf == null) {
+                doNotifyProgrfssCibngf =
+                    nfw AddumulbtivfRunnbblf<Intfgfr>() {
+                        @Ovfrridf
+                        publid void run(List<Intfgfr> brgs) {
+                            firfPropfrtyCibngf("progrfss",
+                               brgs.gft(0),
+                               brgs.gft(brgs.sizf() - 1));
                         }
-                        @Override
-                        protected void submit() {
-                            doSubmit.add(this);
+                        @Ovfrridf
+                        protfdtfd void submit() {
+                            doSubmit.bdd(tiis);
                         }
                     };
             }
         }
-        doNotifyProgressChange.add(oldProgress, progress);
+        doNotifyProgrfssCibngf.bdd(oldProgrfss, progrfss);
     }
 
     /**
-     * Returns the {@code progress} bound property.
+     * Rfturns tif {@dodf progrfss} bound propfrty.
      *
-     * @return the progress bound property.
+     * @rfturn tif progrfss bound propfrty.
      */
-    public final int getProgress() {
-        return progress;
+    publid finbl int gftProgrfss() {
+        rfturn progrfss;
     }
 
     /**
-     * Schedules this {@code SwingWorker} for execution on a <i>worker</i>
-     * thread. There are a number of <i>worker</i> threads available. In the
-     * event all <i>worker</i> threads are busy handling other
-     * {@code SwingWorkers} this {@code SwingWorker} is placed in a waiting
-     * queue.
+     * Sdifdulfs tiis {@dodf SwingWorkfr} for fxfdution on b <i>workfr</i>
+     * tirfbd. Tifrf brf b numbfr of <i>workfr</i> tirfbds bvbilbblf. In tif
+     * fvfnt bll <i>workfr</i> tirfbds brf busy ibndling otifr
+     * {@dodf SwingWorkfrs} tiis {@dodf SwingWorkfr} is plbdfd in b wbiting
+     * qufuf.
      *
      * <p>
-     * Note:
-     * {@code SwingWorker} is only designed to be executed once.  Executing a
-     * {@code SwingWorker} more than once will not result in invoking the
-     * {@code doInBackground} method twice.
+     * Notf:
+     * {@dodf SwingWorkfr} is only dfsignfd to bf fxfdutfd ondf.  Exfduting b
+     * {@dodf SwingWorkfr} morf tibn ondf will not rfsult in invoking tif
+     * {@dodf doInBbdkground} mftiod twidf.
      */
-    public final void execute() {
-        getWorkersExecutorService().execute(this);
+    publid finbl void fxfdutf() {
+        gftWorkfrsExfdutorSfrvidf().fxfdutf(tiis);
     }
 
-    // Future methods START
+    // Futurf mftiods START
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public final boolean cancel(boolean mayInterruptIfRunning) {
-        return future.cancel(mayInterruptIfRunning);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public final boolean isCancelled() {
-        return future.isCancelled();
+    publid finbl boolfbn dbndfl(boolfbn mbyIntfrruptIfRunning) {
+        rfturn futurf.dbndfl(mbyIntfrruptIfRunning);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public final boolean isDone() {
-        return future.isDone();
+    publid finbl boolfbn isCbndfllfd() {
+        rfturn futurf.isCbndfllfd();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
+     */
+    publid finbl boolfbn isDonf() {
+        rfturn futurf.isDonf();
+    }
+
+    /**
+     * {@inifritDod}
      * <p>
-     * Note: calling {@code get} on the <i>Event Dispatch Thread</i> blocks
-     * <i>all</i> events, including repaints, from being processed until this
-     * {@code SwingWorker} is complete.
-     *
-     * <p>
-     * When you want the {@code SwingWorker} to block on the <i>Event
-     * Dispatch Thread</i> we recommend that you use a <i>modal dialog</i>.
+     * Notf: dblling {@dodf gft} on tif <i>Evfnt Dispbtdi Tirfbd</i> blodks
+     * <i>bll</i> fvfnts, indluding rfpbints, from bfing prodfssfd until tiis
+     * {@dodf SwingWorkfr} is domplftf.
      *
      * <p>
-     * For example:
+     * Wifn you wbnt tif {@dodf SwingWorkfr} to blodk on tif <i>Evfnt
+     * Dispbtdi Tirfbd</i> wf rfdommfnd tibt you usf b <i>modbl diblog</i>.
      *
-     * <pre>
-     * class SwingWorkerCompletionWaiter extends PropertyChangeListener {
-     *     private JDialog dialog;
+     * <p>
+     * For fxbmplf:
      *
-     *     public SwingWorkerCompletionWaiter(JDialog dialog) {
-     *         this.dialog = dialog;
+     * <prf>
+     * dlbss SwingWorkfrComplftionWbitfr fxtfnds PropfrtyCibngfListfnfr {
+     *     privbtf JDiblog diblog;
+     *
+     *     publid SwingWorkfrComplftionWbitfr(JDiblog diblog) {
+     *         tiis.diblog = diblog;
      *     }
      *
-     *     public void propertyChange(PropertyChangeEvent event) {
-     *         if (&quot;state&quot;.equals(event.getPropertyName())
-     *                 &amp;&amp; SwingWorker.StateValue.DONE == event.getNewValue()) {
-     *             dialog.setVisible(false);
-     *             dialog.dispose();
+     *     publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvfnt) {
+     *         if (&quot;stbtf&quot;.fqubls(fvfnt.gftPropfrtyNbmf())
+     *                 &bmp;&bmp; SwingWorkfr.StbtfVbluf.DONE == fvfnt.gftNfwVbluf()) {
+     *             diblog.sftVisiblf(fblsf);
+     *             diblog.disposf();
      *         }
      *     }
      * }
-     * JDialog dialog = new JDialog(owner, true);
-     * swingWorker.addPropertyChangeListener(
-     *     new SwingWorkerCompletionWaiter(dialog));
-     * swingWorker.execute();
-     * //the dialog will be visible until the SwingWorker is done
-     * dialog.setVisible(true);
-     * </pre>
+     * JDiblog diblog = nfw JDiblog(ownfr, truf);
+     * swingWorkfr.bddPropfrtyCibngfListfnfr(
+     *     nfw SwingWorkfrComplftionWbitfr(diblog));
+     * swingWorkfr.fxfdutf();
+     * //tif diblog will bf visiblf until tif SwingWorkfr is donf
+     * diblog.sftVisiblf(truf);
+     * </prf>
      */
-    public final T get() throws InterruptedException, ExecutionException {
-        return future.get();
+    publid finbl T gft() tirows IntfrruptfdExdfption, ExfdutionExdfption {
+        rfturn futurf.gft();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      * <p>
-     * Please refer to {@link #get} for more details.
+     * Plfbsf rfffr to {@link #gft} for morf dftbils.
      */
-    public final T get(long timeout, TimeUnit unit) throws InterruptedException,
-            ExecutionException, TimeoutException {
-        return future.get(timeout, unit);
+    publid finbl T gft(long timfout, TimfUnit unit) tirows IntfrruptfdExdfption,
+            ExfdutionExdfption, TimfoutExdfption {
+        rfturn futurf.gft(timfout, unit);
     }
 
-    // Future methods END
+    // Futurf mftiods END
 
-    // PropertyChangeSupports methods START
+    // PropfrtyCibngfSupports mftiods START
     /**
-     * Adds a {@code PropertyChangeListener} to the listener list. The listener
-     * is registered for all properties. The same listener object may be added
-     * more than once, and will be called as many times as it is added. If
-     * {@code listener} is {@code null}, no exception is thrown and no action is taken.
+     * Adds b {@dodf PropfrtyCibngfListfnfr} to tif listfnfr list. Tif listfnfr
+     * is rfgistfrfd for bll propfrtifs. Tif sbmf listfnfr objfdt mby bf bddfd
+     * morf tibn ondf, bnd will bf dbllfd bs mbny timfs bs it is bddfd. If
+     * {@dodf listfnfr} is {@dodf null}, no fxdfption is tirown bnd no bdtion is tbkfn.
      *
      * <p>
-     * Note: This is merely a convenience wrapper. All work is delegated to
-     * {@code PropertyChangeSupport} from {@link #getPropertyChangeSupport}.
+     * Notf: Tiis is mfrfly b donvfnifndf wrbppfr. All work is dflfgbtfd to
+     * {@dodf PropfrtyCibngfSupport} from {@link #gftPropfrtyCibngfSupport}.
      *
-     * @param listener the {@code PropertyChangeListener} to be added
+     * @pbrbm listfnfr tif {@dodf PropfrtyCibngfListfnfr} to bf bddfd
      */
-    public final void addPropertyChangeListener(PropertyChangeListener listener) {
-        getPropertyChangeSupport().addPropertyChangeListener(listener);
-    }
-
-    /**
-     * Removes a {@code PropertyChangeListener} from the listener list. This
-     * removes a {@code PropertyChangeListener} that was registered for all
-     * properties. If {@code listener} was added more than once to the same
-     * event source, it will be notified one less time after being removed. If
-     * {@code listener} is {@code null}, or was never added, no exception is
-     * thrown and no action is taken.
-     *
-     * <p>
-     * Note: This is merely a convenience wrapper. All work is delegated to
-     * {@code PropertyChangeSupport} from {@link #getPropertyChangeSupport}.
-     *
-     * @param listener the {@code PropertyChangeListener} to be removed
-     */
-    public final void removePropertyChangeListener(PropertyChangeListener listener) {
-        getPropertyChangeSupport().removePropertyChangeListener(listener);
+    publid finbl void bddPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr listfnfr) {
+        gftPropfrtyCibngfSupport().bddPropfrtyCibngfListfnfr(listfnfr);
     }
 
     /**
-     * Reports a bound property update to any registered listeners. No event is
-     * fired if {@code old} and {@code new} are equal and non-null.
+     * Rfmovfs b {@dodf PropfrtyCibngfListfnfr} from tif listfnfr list. Tiis
+     * rfmovfs b {@dodf PropfrtyCibngfListfnfr} tibt wbs rfgistfrfd for bll
+     * propfrtifs. If {@dodf listfnfr} wbs bddfd morf tibn ondf to tif sbmf
+     * fvfnt sourdf, it will bf notififd onf lfss timf bftfr bfing rfmovfd. If
+     * {@dodf listfnfr} is {@dodf null}, or wbs nfvfr bddfd, no fxdfption is
+     * tirown bnd no bdtion is tbkfn.
      *
      * <p>
-     * This {@code SwingWorker} will be the source for
-     * any generated events.
+     * Notf: Tiis is mfrfly b donvfnifndf wrbppfr. All work is dflfgbtfd to
+     * {@dodf PropfrtyCibngfSupport} from {@link #gftPropfrtyCibngfSupport}.
      *
-     * <p>
-     * When called off the <i>Event Dispatch Thread</i>
-     * {@code PropertyChangeListeners} are notified asynchronously on
-     * the <i>Event Dispatch Thread</i>.
-     * <p>
-     * Note: This is merely a convenience wrapper. All work is delegated to
-     * {@code PropertyChangeSupport} from {@link #getPropertyChangeSupport}.
-     *
-     *
-     * @param propertyName the programmatic name of the property that was
-     *        changed
-     * @param oldValue the old value of the property
-     * @param newValue the new value of the property
+     * @pbrbm listfnfr tif {@dodf PropfrtyCibngfListfnfr} to bf rfmovfd
      */
-    public final void firePropertyChange(String propertyName, Object oldValue,
-            Object newValue) {
-        getPropertyChangeSupport().firePropertyChange(propertyName,
-            oldValue, newValue);
+    publid finbl void rfmovfPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr listfnfr) {
+        gftPropfrtyCibngfSupport().rfmovfPropfrtyCibngfListfnfr(listfnfr);
     }
 
     /**
-     * Returns the {@code PropertyChangeSupport} for this {@code SwingWorker}.
-     * This method is used when flexible access to bound properties support is
-     * needed.
-     * <p>
-     * This {@code SwingWorker} will be the source for
-     * any generated events.
+     * Rfports b bound propfrty updbtf to bny rfgistfrfd listfnfrs. No fvfnt is
+     * firfd if {@dodf old} bnd {@dodf nfw} brf fqubl bnd non-null.
      *
      * <p>
-     * Note: The returned {@code PropertyChangeSupport} notifies any
-     * {@code PropertyChangeListener}s asynchronously on the <i>Event Dispatch
-     * Thread</i> in the event that {@code firePropertyChange} or
-     * {@code fireIndexedPropertyChange} are called off the <i>Event Dispatch
-     * Thread</i>.
+     * Tiis {@dodf SwingWorkfr} will bf tif sourdf for
+     * bny gfnfrbtfd fvfnts.
      *
-     * @return {@code PropertyChangeSupport} for this {@code SwingWorker}
+     * <p>
+     * Wifn dbllfd off tif <i>Evfnt Dispbtdi Tirfbd</i>
+     * {@dodf PropfrtyCibngfListfnfrs} brf notififd bsyndironously on
+     * tif <i>Evfnt Dispbtdi Tirfbd</i>.
+     * <p>
+     * Notf: Tiis is mfrfly b donvfnifndf wrbppfr. All work is dflfgbtfd to
+     * {@dodf PropfrtyCibngfSupport} from {@link #gftPropfrtyCibngfSupport}.
+     *
+     *
+     * @pbrbm propfrtyNbmf tif progrbmmbtid nbmf of tif propfrty tibt wbs
+     *        dibngfd
+     * @pbrbm oldVbluf tif old vbluf of tif propfrty
+     * @pbrbm nfwVbluf tif nfw vbluf of tif propfrty
      */
-    public final PropertyChangeSupport getPropertyChangeSupport() {
-        return propertyChangeSupport;
+    publid finbl void firfPropfrtyCibngf(String propfrtyNbmf, Objfdt oldVbluf,
+            Objfdt nfwVbluf) {
+        gftPropfrtyCibngfSupport().firfPropfrtyCibngf(propfrtyNbmf,
+            oldVbluf, nfwVbluf);
     }
 
-    // PropertyChangeSupports methods END
+    /**
+     * Rfturns tif {@dodf PropfrtyCibngfSupport} for tiis {@dodf SwingWorkfr}.
+     * Tiis mftiod is usfd wifn flfxiblf bddfss to bound propfrtifs support is
+     * nffdfd.
+     * <p>
+     * Tiis {@dodf SwingWorkfr} will bf tif sourdf for
+     * bny gfnfrbtfd fvfnts.
+     *
+     * <p>
+     * Notf: Tif rfturnfd {@dodf PropfrtyCibngfSupport} notififs bny
+     * {@dodf PropfrtyCibngfListfnfr}s bsyndironously on tif <i>Evfnt Dispbtdi
+     * Tirfbd</i> in tif fvfnt tibt {@dodf firfPropfrtyCibngf} or
+     * {@dodf firfIndfxfdPropfrtyCibngf} brf dbllfd off tif <i>Evfnt Dispbtdi
+     * Tirfbd</i>.
+     *
+     * @rfturn {@dodf PropfrtyCibngfSupport} for tiis {@dodf SwingWorkfr}
+     */
+    publid finbl PropfrtyCibngfSupport gftPropfrtyCibngfSupport() {
+        rfturn propfrtyCibngfSupport;
+    }
+
+    // PropfrtyCibngfSupports mftiods END
 
     /**
-     * Returns the {@code SwingWorker} state bound property.
+     * Rfturns tif {@dodf SwingWorkfr} stbtf bound propfrty.
      *
-     * @return the current state
+     * @rfturn tif durrfnt stbtf
      */
-    public final StateValue getState() {
+    publid finbl StbtfVbluf gftStbtf() {
         /*
-         * DONE is a speacial case
-         * to keep getState and isDone is sync
+         * DONE is b spfbdibl dbsf
+         * to kffp gftStbtf bnd isDonf is synd
          */
-        if (isDone()) {
-            return StateValue.DONE;
-        } else {
-            return state;
+        if (isDonf()) {
+            rfturn StbtfVbluf.DONE;
+        } flsf {
+            rfturn stbtf;
         }
     }
 
     /**
-     * Sets this {@code SwingWorker} state bound property.
-     * @param state the state to set
+     * Sfts tiis {@dodf SwingWorkfr} stbtf bound propfrty.
+     * @pbrbm stbtf tif stbtf to sft
      */
-    private void setState(StateValue state) {
-        StateValue old = this.state;
-        this.state = state;
-        firePropertyChange("state", old, state);
+    privbtf void sftStbtf(StbtfVbluf stbtf) {
+        StbtfVbluf old = tiis.stbtf;
+        tiis.stbtf = stbtf;
+        firfPropfrtyCibngf("stbtf", old, stbtf);
     }
 
     /**
-     * Invokes {@code done} on the EDT.
+     * Invokfs {@dodf donf} on tif EDT.
      */
-    private void doneEDT() {
-        Runnable doDone =
-            new Runnable() {
-                public void run() {
-                    done();
+    privbtf void donfEDT() {
+        Runnbblf doDonf =
+            nfw Runnbblf() {
+                publid void run() {
+                    donf();
                 }
             };
-        if (SwingUtilities.isEventDispatchThread()) {
-            doDone.run();
-        } else {
-            doSubmit.add(doDone);
+        if (SwingUtilitifs.isEvfntDispbtdiTirfbd()) {
+            doDonf.run();
+        } flsf {
+            doSubmit.bdd(doDonf);
         }
     }
 
 
     /**
-     * returns workersExecutorService.
+     * rfturns workfrsExfdutorSfrvidf.
      *
-     * returns the service stored in the appContext or creates it if
-     * necessary.
+     * rfturns tif sfrvidf storfd in tif bppContfxt or drfbtfs it if
+     * nfdfssbry.
      *
-     * @return ExecutorService for the {@code SwingWorkers}
+     * @rfturn ExfdutorSfrvidf for tif {@dodf SwingWorkfrs}
      */
-    private static synchronized ExecutorService getWorkersExecutorService() {
-        final AppContext appContext = AppContext.getAppContext();
-        ExecutorService executorService =
-            (ExecutorService) appContext.get(SwingWorker.class);
-        if (executorService == null) {
-            //this creates daemon threads.
-            ThreadFactory threadFactory =
-                new ThreadFactory() {
-                    final ThreadFactory defaultFactory =
-                        Executors.defaultThreadFactory();
-                    public Thread newThread(final Runnable r) {
-                        Thread thread =
-                            defaultFactory.newThread(r);
-                        thread.setName("SwingWorker-"
-                            + thread.getName());
-                        thread.setDaemon(true);
-                        return thread;
+    privbtf stbtid syndironizfd ExfdutorSfrvidf gftWorkfrsExfdutorSfrvidf() {
+        finbl AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+        ExfdutorSfrvidf fxfdutorSfrvidf =
+            (ExfdutorSfrvidf) bppContfxt.gft(SwingWorkfr.dlbss);
+        if (fxfdutorSfrvidf == null) {
+            //tiis drfbtfs dbfmon tirfbds.
+            TirfbdFbdtory tirfbdFbdtory =
+                nfw TirfbdFbdtory() {
+                    finbl TirfbdFbdtory dffbultFbdtory =
+                        Exfdutors.dffbultTirfbdFbdtory();
+                    publid Tirfbd nfwTirfbd(finbl Runnbblf r) {
+                        Tirfbd tirfbd =
+                            dffbultFbdtory.nfwTirfbd(r);
+                        tirfbd.sftNbmf("SwingWorkfr-"
+                            + tirfbd.gftNbmf());
+                        tirfbd.sftDbfmon(truf);
+                        rfturn tirfbd;
                     }
                 };
 
-            executorService =
-                new ThreadPoolExecutor(MAX_WORKER_THREADS, MAX_WORKER_THREADS,
-                                       10L, TimeUnit.MINUTES,
-                                       new LinkedBlockingQueue<Runnable>(),
-                                       threadFactory);
-            appContext.put(SwingWorker.class, executorService);
+            fxfdutorSfrvidf =
+                nfw TirfbdPoolExfdutor(MAX_WORKER_THREADS, MAX_WORKER_THREADS,
+                                       10L, TimfUnit.MINUTES,
+                                       nfw LinkfdBlodkingQufuf<Runnbblf>(),
+                                       tirfbdFbdtory);
+            bppContfxt.put(SwingWorkfr.dlbss, fxfdutorSfrvidf);
 
-            // Don't use ShutdownHook here as it's not enough. We should track
-            // AppContext disposal instead of JVM shutdown, see 6799345 for details
-            final ExecutorService es = executorService;
-            appContext.addPropertyChangeListener(AppContext.DISPOSED_PROPERTY_NAME,
-                new PropertyChangeListener() {
-                    @Override
-                    public void propertyChange(PropertyChangeEvent pce) {
-                        boolean disposed = (Boolean)pce.getNewValue();
-                        if (disposed) {
-                            final WeakReference<ExecutorService> executorServiceRef =
-                                new WeakReference<ExecutorService>(es);
-                            final ExecutorService executorService =
-                                executorServiceRef.get();
-                            if (executorService != null) {
-                                AccessController.doPrivileged(
-                                    new PrivilegedAction<Void>() {
-                                        public Void run() {
-                                            executorService.shutdown();
-                                            return null;
+            // Don't usf SiutdownHook ifrf bs it's not fnougi. Wf siould trbdk
+            // AppContfxt disposbl instfbd of JVM siutdown, sff 6799345 for dftbils
+            finbl ExfdutorSfrvidf fs = fxfdutorSfrvidf;
+            bppContfxt.bddPropfrtyCibngfListfnfr(AppContfxt.DISPOSED_PROPERTY_NAME,
+                nfw PropfrtyCibngfListfnfr() {
+                    @Ovfrridf
+                    publid void propfrtyCibngf(PropfrtyCibngfEvfnt pdf) {
+                        boolfbn disposfd = (Boolfbn)pdf.gftNfwVbluf();
+                        if (disposfd) {
+                            finbl WfbkRfffrfndf<ExfdutorSfrvidf> fxfdutorSfrvidfRff =
+                                nfw WfbkRfffrfndf<ExfdutorSfrvidf>(fs);
+                            finbl ExfdutorSfrvidf fxfdutorSfrvidf =
+                                fxfdutorSfrvidfRff.gft();
+                            if (fxfdutorSfrvidf != null) {
+                                AddfssControllfr.doPrivilfgfd(
+                                    nfw PrivilfgfdAdtion<Void>() {
+                                        publid Void run() {
+                                            fxfdutorSfrvidf.siutdown();
+                                            rfturn null;
                                         }
                                     }
                                 );
@@ -808,59 +808,59 @@ public abstract class SwingWorker<T, V> implements RunnableFuture<T> {
                 }
             );
         }
-        return executorService;
+        rfturn fxfdutorSfrvidf;
     }
 
-    private static final Object DO_SUBMIT_KEY = new StringBuilder("doSubmit");
-    private static AccumulativeRunnable<Runnable> getDoSubmit() {
-        synchronized (DO_SUBMIT_KEY) {
-            final AppContext appContext = AppContext.getAppContext();
-            Object doSubmit = appContext.get(DO_SUBMIT_KEY);
+    privbtf stbtid finbl Objfdt DO_SUBMIT_KEY = nfw StringBuildfr("doSubmit");
+    privbtf stbtid AddumulbtivfRunnbblf<Runnbblf> gftDoSubmit() {
+        syndironizfd (DO_SUBMIT_KEY) {
+            finbl AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+            Objfdt doSubmit = bppContfxt.gft(DO_SUBMIT_KEY);
             if (doSubmit == null) {
-                doSubmit = new DoSubmitAccumulativeRunnable();
-                appContext.put(DO_SUBMIT_KEY, doSubmit);
+                doSubmit = nfw DoSubmitAddumulbtivfRunnbblf();
+                bppContfxt.put(DO_SUBMIT_KEY, doSubmit);
             }
-            @SuppressWarnings("unchecked")
-            AccumulativeRunnable<Runnable> tmp = (AccumulativeRunnable<Runnable>) doSubmit;
-            return tmp;
+            @SupprfssWbrnings("undifdkfd")
+            AddumulbtivfRunnbblf<Runnbblf> tmp = (AddumulbtivfRunnbblf<Runnbblf>) doSubmit;
+            rfturn tmp;
         }
     }
-    private static class DoSubmitAccumulativeRunnable
-          extends AccumulativeRunnable<Runnable> implements ActionListener {
-        private final static int DELAY = 1000 / 30;
-        @Override
-        protected void run(List<Runnable> args) {
-            for (Runnable runnable : args) {
-                runnable.run();
+    privbtf stbtid dlbss DoSubmitAddumulbtivfRunnbblf
+          fxtfnds AddumulbtivfRunnbblf<Runnbblf> implfmfnts AdtionListfnfr {
+        privbtf finbl stbtid int DELAY = 1000 / 30;
+        @Ovfrridf
+        protfdtfd void run(List<Runnbblf> brgs) {
+            for (Runnbblf runnbblf : brgs) {
+                runnbblf.run();
             }
         }
-        @Override
-        protected void submit() {
-            Timer timer = new Timer(DELAY, this);
-            timer.setRepeats(false);
-            timer.start();
+        @Ovfrridf
+        protfdtfd void submit() {
+            Timfr timfr = nfw Timfr(DELAY, tiis);
+            timfr.sftRfpfbts(fblsf);
+            timfr.stbrt();
         }
-        public void actionPerformed(ActionEvent event) {
+        publid void bdtionPfrformfd(AdtionEvfnt fvfnt) {
             run();
         }
     }
 
-    @SuppressWarnings("serial") // JDK-implementation class
-    private class SwingWorkerPropertyChangeSupport
-            extends PropertyChangeSupport {
-        SwingWorkerPropertyChangeSupport(Object source) {
-            super(source);
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    privbtf dlbss SwingWorkfrPropfrtyCibngfSupport
+            fxtfnds PropfrtyCibngfSupport {
+        SwingWorkfrPropfrtyCibngfSupport(Objfdt sourdf) {
+            supfr(sourdf);
         }
-        @Override
-        public void firePropertyChange(final PropertyChangeEvent evt) {
-            if (SwingUtilities.isEventDispatchThread()) {
-                super.firePropertyChange(evt);
-            } else {
-                doSubmit.add(
-                    new Runnable() {
-                        public void run() {
-                            SwingWorkerPropertyChangeSupport.this
-                                .firePropertyChange(evt);
+        @Ovfrridf
+        publid void firfPropfrtyCibngf(finbl PropfrtyCibngfEvfnt fvt) {
+            if (SwingUtilitifs.isEvfntDispbtdiTirfbd()) {
+                supfr.firfPropfrtyCibngf(fvt);
+            } flsf {
+                doSubmit.bdd(
+                    nfw Runnbblf() {
+                        publid void run() {
+                            SwingWorkfrPropfrtyCibngfSupport.tiis
+                                .firfPropfrtyCibngf(fvt);
                         }
                     });
             }

@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.management;
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
 
 /**
- * The management interface for the operating system on which
- * the Java virtual machine is running.
+ * Tif mbnbgfmfnt intfrfbdf for tif opfrbting systfm on wiidi
+ * tif Jbvb virtubl mbdiinf is running.
  *
- * <p> A Java virtual machine has a single instance of the implementation
- * class of this interface.  This instance implementing this interface is
- * an <a href="ManagementFactory.html#MXBean">MXBean</a>
- * that can be obtained by calling
- * the {@link ManagementFactory#getOperatingSystemMXBean} method or
- * from the {@link ManagementFactory#getPlatformMBeanServer
- * platform <tt>MBeanServer</tt>} method.
+ * <p> A Jbvb virtubl mbdiinf ibs b singlf instbndf of tif implfmfntbtion
+ * dlbss of tiis intfrfbdf.  Tiis instbndf implfmfnting tiis intfrfbdf is
+ * bn <b irff="MbnbgfmfntFbdtory.itml#MXBfbn">MXBfbn</b>
+ * tibt dbn bf obtbinfd by dblling
+ * tif {@link MbnbgfmfntFbdtory#gftOpfrbtingSystfmMXBfbn} mftiod or
+ * from tif {@link MbnbgfmfntFbdtory#gftPlbtformMBfbnSfrvfr
+ * plbtform <tt>MBfbnSfrvfr</tt>} mftiod.
  *
- * <p>The <tt>ObjectName</tt> for uniquely identifying the MXBean for
- * the operating system within an MBeanServer is:
- * <blockquote>
- *    {@link ManagementFactory#OPERATING_SYSTEM_MXBEAN_NAME
- *      <tt>java.lang:type=OperatingSystem</tt>}
- * </blockquote>
+ * <p>Tif <tt>ObjfdtNbmf</tt> for uniqufly idfntifying tif MXBfbn for
+ * tif opfrbting systfm witiin bn MBfbnSfrvfr is:
+ * <blodkquotf>
+ *    {@link MbnbgfmfntFbdtory#OPERATING_SYSTEM_MXBEAN_NAME
+ *      <tt>jbvb.lbng:typf=OpfrbtingSystfm</tt>}
+ * </blodkquotf>
  *
- * It can be obtained by calling the
- * {@link PlatformManagedObject#getObjectName} method.
+ * It dbn bf obtbinfd by dblling tif
+ * {@link PlbtformMbnbgfdObjfdt#gftObjfdtNbmf} mftiod.
  *
- * <p> This interface defines several convenient methods for accessing
- * system properties about the operating system on which the Java
- * virtual machine is running.
+ * <p> Tiis intfrfbdf dffinfs sfvfrbl donvfnifnt mftiods for bddfssing
+ * systfm propfrtifs bbout tif opfrbting systfm on wiidi tif Jbvb
+ * virtubl mbdiinf is running.
  *
- * @see ManagementFactory#getPlatformMXBeans(Class)
- * @see <a href="../../../javax/management/package-summary.html">
- *      JMX Specification.</a>
- * @see <a href="package-summary.html#examples">
- *      Ways to Access MXBeans</a>
+ * @sff MbnbgfmfntFbdtory#gftPlbtformMXBfbns(Clbss)
+ * @sff <b irff="../../../jbvbx/mbnbgfmfnt/pbdkbgf-summbry.itml">
+ *      JMX Spfdifidbtion.</b>
+ * @sff <b irff="pbdkbgf-summbry.itml#fxbmplfs">
+ *      Wbys to Addfss MXBfbns</b>
  *
- * @author  Mandy Chung
- * @since   1.5
+ * @butior  Mbndy Ciung
+ * @sindf   1.5
  */
-public interface OperatingSystemMXBean extends PlatformManagedObject {
+publid intfrfbdf OpfrbtingSystfmMXBfbn fxtfnds PlbtformMbnbgfdObjfdt {
     /**
-     * Returns the operating system name.
-     * This method is equivalent to <tt>System.getProperty("os.name")</tt>.
+     * Rfturns tif opfrbting systfm nbmf.
+     * Tiis mftiod is fquivblfnt to <tt>Systfm.gftPropfrty("os.nbmf")</tt>.
      *
-     * @return the operating system name.
+     * @rfturn tif opfrbting systfm nbmf.
      *
-     * @throws  java.lang.SecurityException
-     *     if a security manager exists and its
-     *     <code>checkPropertiesAccess</code> method doesn't allow access
-     *     to this system property.
-     * @see java.lang.SecurityManager#checkPropertyAccess(java.lang.String)
-     * @see java.lang.System#getProperty
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     to tiis systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.Systfm#gftPropfrty
      */
-    public String getName();
+    publid String gftNbmf();
 
     /**
-     * Returns the operating system architecture.
-     * This method is equivalent to <tt>System.getProperty("os.arch")</tt>.
+     * Rfturns tif opfrbting systfm brdiitfdturf.
+     * Tiis mftiod is fquivblfnt to <tt>Systfm.gftPropfrty("os.brdi")</tt>.
      *
-     * @return the operating system architecture.
+     * @rfturn tif opfrbting systfm brdiitfdturf.
      *
-     * @throws  java.lang.SecurityException
-     *     if a security manager exists and its
-     *     <code>checkPropertiesAccess</code> method doesn't allow access
-     *     to this system property.
-     * @see java.lang.SecurityManager#checkPropertyAccess(java.lang.String)
-     * @see java.lang.System#getProperty
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     to tiis systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.Systfm#gftPropfrty
      */
-    public String getArch();
+    publid String gftArdi();
 
     /**
-     * Returns the operating system version.
-     * This method is equivalent to <tt>System.getProperty("os.version")</tt>.
+     * Rfturns tif opfrbting systfm vfrsion.
+     * Tiis mftiod is fquivblfnt to <tt>Systfm.gftPropfrty("os.vfrsion")</tt>.
      *
-     * @return the operating system version.
+     * @rfturn tif opfrbting systfm vfrsion.
      *
-     * @throws  java.lang.SecurityException
-     *     if a security manager exists and its
-     *     <code>checkPropertiesAccess</code> method doesn't allow access
-     *     to this system property.
-     * @see java.lang.SecurityManager#checkPropertyAccess(java.lang.String)
-     * @see java.lang.System#getProperty
+     * @tirows  jbvb.lbng.SfdurityExdfption
+     *     if b sfdurity mbnbgfr fxists bnd its
+     *     <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow bddfss
+     *     to tiis systfm propfrty.
+     * @sff jbvb.lbng.SfdurityMbnbgfr#difdkPropfrtyAddfss(jbvb.lbng.String)
+     * @sff jbvb.lbng.Systfm#gftPropfrty
      */
-    public String getVersion();
+    publid String gftVfrsion();
 
     /**
-     * Returns the number of processors available to the Java virtual machine.
-     * This method is equivalent to the {@link Runtime#availableProcessors()}
-     * method.
-     * <p> This value may change during a particular invocation of
-     * the virtual machine.
+     * Rfturns tif numbfr of prodfssors bvbilbblf to tif Jbvb virtubl mbdiinf.
+     * Tiis mftiod is fquivblfnt to tif {@link Runtimf#bvbilbblfProdfssors()}
+     * mftiod.
+     * <p> Tiis vbluf mby dibngf during b pbrtidulbr invodbtion of
+     * tif virtubl mbdiinf.
      *
-     * @return  the number of processors available to the virtual
-     *          machine; never smaller than one.
+     * @rfturn  tif numbfr of prodfssors bvbilbblf to tif virtubl
+     *          mbdiinf; nfvfr smbllfr tibn onf.
      */
-    public int getAvailableProcessors();
+    publid int gftAvbilbblfProdfssors();
 
     /**
-     * Returns the system load average for the last minute.
-     * The system load average is the sum of the number of runnable entities
-     * queued to the {@linkplain #getAvailableProcessors available processors}
-     * and the number of runnable entities running on the available processors
-     * averaged over a period of time.
-     * The way in which the load average is calculated is operating system
-     * specific but is typically a damped time-dependent average.
+     * Rfturns tif systfm lobd bvfrbgf for tif lbst minutf.
+     * Tif systfm lobd bvfrbgf is tif sum of tif numbfr of runnbblf fntitifs
+     * qufufd to tif {@linkplbin #gftAvbilbblfProdfssors bvbilbblf prodfssors}
+     * bnd tif numbfr of runnbblf fntitifs running on tif bvbilbblf prodfssors
+     * bvfrbgfd ovfr b pfriod of timf.
+     * Tif wby in wiidi tif lobd bvfrbgf is dbldulbtfd is opfrbting systfm
+     * spfdifid but is typidblly b dbmpfd timf-dfpfndfnt bvfrbgf.
      * <p>
-     * If the load average is not available, a negative value is returned.
+     * If tif lobd bvfrbgf is not bvbilbblf, b nfgbtivf vbluf is rfturnfd.
      * <p>
-     * This method is designed to provide a hint about the system load
-     * and may be queried frequently.
-     * The load average may be unavailable on some platform where it is
-     * expensive to implement this method.
+     * Tiis mftiod is dfsignfd to providf b iint bbout tif systfm lobd
+     * bnd mby bf qufrifd frfqufntly.
+     * Tif lobd bvfrbgf mby bf unbvbilbblf on somf plbtform wifrf it is
+     * fxpfnsivf to implfmfnt tiis mftiod.
      *
-     * @return the system load average; or a negative value if not available.
+     * @rfturn tif systfm lobd bvfrbgf; or b nfgbtivf vbluf if not bvbilbblf.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public double getSystemLoadAverage();
+    publid doublf gftSystfmLobdAvfrbgf();
 }

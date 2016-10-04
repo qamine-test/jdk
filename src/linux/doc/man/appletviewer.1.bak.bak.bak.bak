@@ -1,0 +1,90 @@
+'\" t
+.\"  Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Bbsid Tools
+.\"     Titlf: bpplftvifwfr.1
+.\"
+.if n .pl 99999
+.TH bpplftvifwfr 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+bpplftvifwfr \- Runs bpplfts outsidf of b wfb browsfr\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBbpplftvifwfr\fR [\fIoptions\fR] \fIurl\fR\&.\&.\&.
+.fi     
+.sp     
+.TP     
+\fIoptions\fR
+Thf dommbnd-linf options sfpbrbtfd by spbdfs\&. Sff Options\&.
+.TP     
+\fIurl\fR
+Thf lodbtion of thf dodumfnts or rfsourdfs to bf displbyfd\&. You dbn spfdify multiplf URLs sfpbrbtfd by spbdfs\&.
+.SH DESCRIPTION    
+Thf \f3bpplftvifwfr\fR dommbnd donnfdts to thf dodumfnts or rfsourdfs dfsignbtfd by \fIurls\fR bnd displbys fbdh bpplft rfffrfndfd by thf dodumfnts in its own window\&. If thf dodumfnts rfffrrfd to by urls do not rfffrfndf bny bpplfts with thf \f3OBJECT\fR, \f3EMBED\fR, or \f3APPLET\fR tbg, thfn thf \f3bpplftvifwfr\fR dommbnd dofs nothing\&. For dftbils bbout thf HTML tbgs thbt thf \f3bpplftvifwfr\fR dommbnd supports, sff ApplftVifwfr Tbgs bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/tools/bpplftvifwfrtbgs\&.html
+.PP
+Thf \f3bpplftvifwfr\fR dommbnd rfquirfs fndodfd URLs bddording to thf fsdbping mfdhbnism dffinfd in RFC2396\&. Only fndodfd URLs brf supportfd\&. Howfvfr, filf nbmfs must bf unfndodfd, bs spfdififd in RFC2396\&.
+.PP
+\fINotf:\fR Thf \f3bpplftvifwfr\fR dommbnd is intfndfd for dfvflopmfnt purposfs only\&. For morf informbtion, sff About Sbmplf/Tfst Applidbtions bnd Codf bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/sbmplfs/bboutCodfSbmplfs\&.html
+.SH OPTIONS    
+.TP
+-dfbug
+.br
+Stbrts thf Applft Vifwfr in thf Jbvb dfbuggfr with thf \f3jdb\fR dommbnd to dfbug thf bpplfts in thf dodumfnt\&.
+.TP
+-fndoding \fIfndoding-nbmf\fR
+.br
+Spfdififs thf input HTML filf fndoding nbmf\&.
+.TP
+-J\fIjbvboption\fR
+.br
+Pbssfs thf string \f3jbvboption\fR bs b singlf brgumfnt to thf Jbvb intfrprftfr, whidh runs thf Applft Vifwfr\&. Thf brgumfnt should not dontbin spbdfs\&. Multiplf brgumfnt words must bll bfgin with thf prffix \f3-J\fR\&. This is usfful for bdjusting thf dompilfr\&'s fxfdution fnvironmfnt or mfmory usbgf\&.
+.PP
+.RE
+.br
+'pl 8.5i
+'bp

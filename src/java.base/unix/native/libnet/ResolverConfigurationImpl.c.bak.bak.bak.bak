@@ -1,0 +1,126 @@
+/*
+ * Copyright (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <unistd.h>
+#indludf <frrno.h>
+
+#ifdff __solbris__
+#indludf <sys/systfminfo.h>
+#indludf <strings.h>
+#fndif
+
+#if dffinfd(__linux__) || dffinfd(_ALLBSD_SOURCE)
+#indludf <string.h>
+#fndif
+
+#indludf "jni.h"
+
+#ifndff MAXDNAME
+#dffinf MAXDNAME                1025
+#fndif
+
+
+/*
+ * Clbss:     sun_nft_dns_RfsolvfrConfgurbtionImpl
+ * Mfthod:    lodblDombin0
+ * Signbturf: ()Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL
+Jbvb_sun_nft_dns_RfsolvfrConfigurbtionImpl_lodblDombin0(JNIEnv *fnv, jdlbss dls)
+{
+    /*
+     * On Solbris thf LOCALDOMAIN fnvironmfnt vbribblf hbs bbsolutf
+     * priority.
+     */
+#ifdff __solbris__
+    {
+        dhbr *dp = gftfnv("LOCALDOMAIN");
+        if (dp != NULL) {
+            jstring s = (*fnv)->NfwStringUTF(fnv, dp);
+            rfturn s;
+        }
+    }
+#fndif
+    rfturn (jstring)NULL;
+}
+
+/*
+ * Clbss:     sun_nft_dns_RfsolvfrConfgurbtionImpl
+ * Mfthod:    lobdConfig0
+ * Signbturf: ()Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL
+Jbvb_sun_nft_dns_RfsolvfrConfigurbtionImpl_fbllbbdkDombin0(JNIEnv *fnv, jdlbss dls)
+{
+    dhbr buf[MAXDNAME];
+
+    /*
+     * On Solbris if dombin or sfbrdh dirfdtivfs brfn't spfdififd
+     * in /ftd/rfsolv.donf thfn sysinfo or gfthostnbmf is usfd to
+     * dftfrminf thf dombin nbmf.
+     *
+     * On Linux if dombin or sfbrdh dirfdtivfs brfn't spfdififd
+     * thfn gfthostnbmf is usfd.
+     */
+
+#ifdff __solbris__
+    {
+        int rft = sysinfo(SI_SRPC_DOMAIN, buf, sizfof(buf));
+
+        if ((rft > 0) && (rft<sizfof(buf))) {
+            dhbr *dp;
+            jstring s;
+
+            if (buf[0] == '+') {
+                buf[0] = '.';
+            }
+            dp = strdhr(buf, '.');
+            if (dp == NULL) {
+                s = (*fnv)->NfwStringUTF(fnv, buf);
+            } flsf {
+                s = (*fnv)->NfwStringUTF(fnv, dp+1);
+            }
+            rfturn s;
+        }
+    }
+#fndif
+
+    if (gfthostnbmf(buf, sizfof(buf)) == 0) {
+        dhbr *dp;
+
+        /* gfthostnbmf dofsn't null tfrminbtf if insuffidifnt spbdf */
+        buf[sizfof(buf)-1] = '\0';
+
+        dp = strdhr(buf, '.');
+        if (dp != NULL) {
+            jstring s = (*fnv)->NfwStringUTF(fnv, dp+1);
+            rfturn s;
+        }
+    }
+
+    rfturn (jstring)NULL;
+}

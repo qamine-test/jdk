@@ -1,2450 +1,2450 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.Transient;
-import java.util.*;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bfbns.Trbnsifnt;
+import jbvb.util.*;
 
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
 
-import java.io.Serializable;
-import java.io.ObjectOutputStream;
-import java.io.IOException;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.IOExdfption;
 
-import javax.swing.event.*;
-import javax.swing.plaf.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
 
-import javax.accessibility.*;
+import jbvbx.bddfssibility.*;
 
 /**
- * A component that combines a button or editable field and a drop-down list.
- * The user can select a value from the drop-down list, which appears at the
- * user's request. If you make the combo box editable, then the combo box
- * includes an editable field into which the user can type a value.
+ * A domponfnt tibt dombinfs b button or fditbblf fifld bnd b drop-down list.
+ * Tif usfr dbn sflfdt b vbluf from tif drop-down list, wiidi bppfbrs bt tif
+ * usfr's rfqufst. If you mbkf tif dombo box fditbblf, tifn tif dombo box
+ * indludfs bn fditbblf fifld into wiidi tif usfr dbn typf b vbluf.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
  * <p>
- * See <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/combobox.html">How to Use Combo Boxes</a>
- * in <a href="http://docs.oracle.com/javase/tutorial/"><em>The Java Tutorial</em></a>
- * for further information.
+ * Sff <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/dombobox.itml">How to Usf Combo Boxfs</b>
+ * in <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/"><fm>Tif Jbvb Tutoribl</fm></b>
+ * for furtifr informbtion.
  *
- * @see ComboBoxModel
- * @see DefaultComboBoxModel
+ * @sff ComboBoxModfl
+ * @sff DffbultComboBoxModfl
  *
- * @param <E> the type of the elements of this combo box
+ * @pbrbm <E> tif typf of tif flfmfnts of tiis dombo box
  *
- * @beaninfo
- *   attribute: isContainer false
- * description: A combination of a text field and a drop-down list.
+ * @bfbninfo
+ *   bttributf: isContbinfr fblsf
+ * dfsdription: A dombinbtion of b tfxt fifld bnd b drop-down list.
  *
- * @author Arnaud Weber
- * @author Mark Davidson
- * @since 1.2
+ * @butior Arnbud Wfbfr
+ * @butior Mbrk Dbvidson
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JComboBox<E> extends JComponent
-implements ItemSelectable,ListDataListener,ActionListener, Accessible {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JComboBox<E> fxtfnds JComponfnt
+implfmfnts ItfmSflfdtbblf,ListDbtbListfnfr,AdtionListfnfr, Addfssiblf {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
      */
-    private static final String uiClassID = "ComboBoxUI";
+    privbtf stbtid finbl String uiClbssID = "ComboBoxUI";
 
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the accessor methods instead.
+     * Tiis protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf tif bddfssor mftiods instfbd.
      *
-     * @see #getModel
-     * @see #setModel
+     * @sff #gftModfl
+     * @sff #sftModfl
      */
-    protected ComboBoxModel<E>    dataModel;
+    protfdtfd ComboBoxModfl<E>    dbtbModfl;
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the accessor methods instead.
+     * Tiis protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf tif bddfssor mftiods instfbd.
      *
-     * @see #getRenderer
-     * @see #setRenderer
+     * @sff #gftRfndfrfr
+     * @sff #sftRfndfrfr
      */
-    protected ListCellRenderer<? super E> renderer;
+    protfdtfd ListCfllRfndfrfr<? supfr E> rfndfrfr;
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the accessor methods instead.
+     * Tiis protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf tif bddfssor mftiods instfbd.
      *
-     * @see #getEditor
-     * @see #setEditor
+     * @sff #gftEditor
+     * @sff #sftEditor
      */
-    protected ComboBoxEditor       editor;
+    protfdtfd ComboBoxEditor       fditor;
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the accessor methods instead.
+     * Tiis protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf tif bddfssor mftiods instfbd.
      *
-     * @see #getMaximumRowCount
-     * @see #setMaximumRowCount
+     * @sff #gftMbximumRowCount
+     * @sff #sftMbximumRowCount
      */
-    protected int maximumRowCount = 8;
+    protfdtfd int mbximumRowCount = 8;
 
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the accessor methods instead.
+     * Tiis protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf tif bddfssor mftiods instfbd.
      *
-     * @see #isEditable
-     * @see #setEditable
+     * @sff #isEditbblf
+     * @sff #sftEditbblf
      */
-    protected boolean isEditable  = false;
+    protfdtfd boolfbn isEditbblf  = fblsf;
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the accessor methods instead.
+     * Tiis protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf tif bddfssor mftiods instfbd.
      *
-     * @see #setKeySelectionManager
-     * @see #getKeySelectionManager
+     * @sff #sftKfySflfdtionMbnbgfr
+     * @sff #gftKfySflfdtionMbnbgfr
      */
-    protected KeySelectionManager keySelectionManager = null;
+    protfdtfd KfySflfdtionMbnbgfr kfySflfdtionMbnbgfr = null;
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the accessor methods instead.
+     * Tiis protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf tif bddfssor mftiods instfbd.
      *
-     * @see #setActionCommand
-     * @see #getActionCommand
+     * @sff #sftAdtionCommbnd
+     * @sff #gftAdtionCommbnd
      */
-    protected String actionCommand = "comboBoxChanged";
+    protfdtfd String bdtionCommbnd = "domboBoxCibngfd";
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the accessor methods instead.
+     * Tiis protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf tif bddfssor mftiods instfbd.
      *
-     * @see #setLightWeightPopupEnabled
-     * @see #isLightWeightPopupEnabled
+     * @sff #sftLigitWfigitPopupEnbblfd
+     * @sff #isLigitWfigitPopupEnbblfd
      */
-    protected boolean lightWeightPopupEnabled = JPopupMenu.getDefaultLightWeightPopupEnabled();
+    protfdtfd boolfbn ligitWfigitPopupEnbblfd = JPopupMfnu.gftDffbultLigitWfigitPopupEnbblfd();
 
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override.
+     * Tiis protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf.
      */
-    protected Object selectedItemReminder = null;
+    protfdtfd Objfdt sflfdtfdItfmRfmindfr = null;
 
-    private E prototypeDisplayValue;
+    privbtf E prototypfDisplbyVbluf;
 
-    // Flag to ensure that infinite loops do not occur with ActionEvents.
-    private boolean firingActionEvent = false;
+    // Flbg to fnsurf tibt infinitf loops do not oddur witi AdtionEvfnts.
+    privbtf boolfbn firingAdtionEvfnt = fblsf;
 
-    // Flag to ensure the we don't get multiple ActionEvents on item selection.
-    private boolean selectingItem = false;
+    // Flbg to fnsurf tif wf don't gft multiplf AdtionEvfnts on itfm sflfdtion.
+    privbtf boolfbn sflfdtingItfm = fblsf;
 
     /**
-     * Creates a <code>JComboBox</code> that takes its items from an
-     * existing <code>ComboBoxModel</code>.  Since the
-     * <code>ComboBoxModel</code> is provided, a combo box created using
-     * this constructor does not create a default combo box model and
-     * may impact how the insert, remove and add methods behave.
+     * Crfbtfs b <dodf>JComboBox</dodf> tibt tbkfs its itfms from bn
+     * fxisting <dodf>ComboBoxModfl</dodf>.  Sindf tif
+     * <dodf>ComboBoxModfl</dodf> is providfd, b dombo box drfbtfd using
+     * tiis donstrudtor dofs not drfbtf b dffbult dombo box modfl bnd
+     * mby impbdt iow tif insfrt, rfmovf bnd bdd mftiods bfibvf.
      *
-     * @param aModel the <code>ComboBoxModel</code> that provides the
-     *          displayed list of items
-     * @see DefaultComboBoxModel
+     * @pbrbm bModfl tif <dodf>ComboBoxModfl</dodf> tibt providfs tif
+     *          displbyfd list of itfms
+     * @sff DffbultComboBoxModfl
      */
-    public JComboBox(ComboBoxModel<E> aModel) {
-        super();
-        setModel(aModel);
+    publid JComboBox(ComboBoxModfl<E> bModfl) {
+        supfr();
+        sftModfl(bModfl);
         init();
     }
 
     /**
-     * Creates a <code>JComboBox</code> that contains the elements
-     * in the specified array.  By default the first item in the array
-     * (and therefore the data model) becomes selected.
+     * Crfbtfs b <dodf>JComboBox</dodf> tibt dontbins tif flfmfnts
+     * in tif spfdififd brrby.  By dffbult tif first itfm in tif brrby
+     * (bnd tifrfforf tif dbtb modfl) bfdomfs sflfdtfd.
      *
-     * @param items  an array of objects to insert into the combo box
-     * @see DefaultComboBoxModel
+     * @pbrbm itfms  bn brrby of objfdts to insfrt into tif dombo box
+     * @sff DffbultComboBoxModfl
      */
-    public JComboBox(E[] items) {
-        super();
-        setModel(new DefaultComboBoxModel<E>(items));
+    publid JComboBox(E[] itfms) {
+        supfr();
+        sftModfl(nfw DffbultComboBoxModfl<E>(itfms));
         init();
     }
 
     /**
-     * Creates a <code>JComboBox</code> that contains the elements
-     * in the specified Vector.  By default the first item in the vector
-     * (and therefore the data model) becomes selected.
+     * Crfbtfs b <dodf>JComboBox</dodf> tibt dontbins tif flfmfnts
+     * in tif spfdififd Vfdtor.  By dffbult tif first itfm in tif vfdtor
+     * (bnd tifrfforf tif dbtb modfl) bfdomfs sflfdtfd.
      *
-     * @param items  an array of vectors to insert into the combo box
-     * @see DefaultComboBoxModel
+     * @pbrbm itfms  bn brrby of vfdtors to insfrt into tif dombo box
+     * @sff DffbultComboBoxModfl
      */
-    public JComboBox(Vector<E> items) {
-        super();
-        setModel(new DefaultComboBoxModel<E>(items));
+    publid JComboBox(Vfdtor<E> itfms) {
+        supfr();
+        sftModfl(nfw DffbultComboBoxModfl<E>(itfms));
         init();
     }
 
     /**
-     * Creates a <code>JComboBox</code> with a default data model.
-     * The default data model is an empty list of objects.
-     * Use <code>addItem</code> to add items.  By default the first item
-     * in the data model becomes selected.
+     * Crfbtfs b <dodf>JComboBox</dodf> witi b dffbult dbtb modfl.
+     * Tif dffbult dbtb modfl is bn fmpty list of objfdts.
+     * Usf <dodf>bddItfm</dodf> to bdd itfms.  By dffbult tif first itfm
+     * in tif dbtb modfl bfdomfs sflfdtfd.
      *
-     * @see DefaultComboBoxModel
+     * @sff DffbultComboBoxModfl
      */
-    public JComboBox() {
-        super();
-        setModel(new DefaultComboBoxModel<E>());
+    publid JComboBox() {
+        supfr();
+        sftModfl(nfw DffbultComboBoxModfl<E>());
         init();
     }
 
-    private void init() {
-        installAncestorListener();
-        setUIProperty("opaque",true);
-        updateUI();
+    privbtf void init() {
+        instbllAndfstorListfnfr();
+        sftUIPropfrty("opbquf",truf);
+        updbtfUI();
     }
 
     /**
-     * Registers ancestor listener so that it will receive
-     * {@code AncestorEvents} when it or any of its ancestors
-     * move or are made visible or invisible.
-     * Events are also sent when the component or its ancestors are added
-     * or removed from the containment hierarchy.
+     * Rfgistfrs bndfstor listfnfr so tibt it will rfdfivf
+     * {@dodf AndfstorEvfnts} wifn it or bny of its bndfstors
+     * movf or brf mbdf visiblf or invisiblf.
+     * Evfnts brf blso sfnt wifn tif domponfnt or its bndfstors brf bddfd
+     * or rfmovfd from tif dontbinmfnt iifrbrdiy.
      */
-    protected void installAncestorListener() {
-        addAncestorListener(new AncestorListener(){
-                                public void ancestorAdded(AncestorEvent event){ hidePopup();}
-                                public void ancestorRemoved(AncestorEvent event){ hidePopup();}
-                                public void ancestorMoved(AncestorEvent event){
-                                    if (event.getSource() != JComboBox.this)
-                                        hidePopup();
+    protfdtfd void instbllAndfstorListfnfr() {
+        bddAndfstorListfnfr(nfw AndfstorListfnfr(){
+                                publid void bndfstorAddfd(AndfstorEvfnt fvfnt){ iidfPopup();}
+                                publid void bndfstorRfmovfd(AndfstorEvfnt fvfnt){ iidfPopup();}
+                                publid void bndfstorMovfd(AndfstorEvfnt fvfnt){
+                                    if (fvfnt.gftSourdf() != JComboBox.tiis)
+                                        iidfPopup();
                                 }});
     }
 
     /**
-     * Sets the L&amp;F object that renders this component.
+     * Sfts tif L&bmp;F objfdt tibt rfndfrs tiis domponfnt.
      *
-     * @param ui  the <code>ComboBoxUI</code> L&amp;F object
-     * @see UIDefaults#getUI
+     * @pbrbm ui  tif <dodf>ComboBoxUI</dodf> L&bmp;F objfdt
+     * @sff UIDffbults#gftUI
      *
-     * @beaninfo
-     *        bound: true
-     *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel.
+     * @bfbninfo
+     *        bound: truf
+     *       iiddfn: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif UI objfdt tibt implfmfnts tif Componfnt's LookAndFffl.
      */
-    public void setUI(ComboBoxUI ui) {
-        super.setUI(ui);
+    publid void sftUI(ComboBoxUI ui) {
+        supfr.sftUI(ui);
     }
 
     /**
-     * Resets the UI property to a value from the current look and feel.
+     * Rfsfts tif UI propfrty to b vbluf from tif durrfnt look bnd fffl.
      *
-     * @see JComponent#updateUI
+     * @sff JComponfnt#updbtfUI
      */
-    public void updateUI() {
-        setUI((ComboBoxUI)UIManager.getUI(this));
+    publid void updbtfUI() {
+        sftUI((ComboBoxUI)UIMbnbgfr.gftUI(tiis));
 
-        ListCellRenderer<? super E> renderer = getRenderer();
-        if (renderer instanceof Component) {
-            SwingUtilities.updateComponentTreeUI((Component)renderer);
+        ListCfllRfndfrfr<? supfr E> rfndfrfr = gftRfndfrfr();
+        if (rfndfrfr instbndfof Componfnt) {
+            SwingUtilitifs.updbtfComponfntTrffUI((Componfnt)rfndfrfr);
         }
     }
 
 
     /**
-     * Returns the name of the L&amp;F class that renders this component.
+     * Rfturns tif nbmf of tif L&bmp;F dlbss tibt rfndfrs tiis domponfnt.
      *
-     * @return the string "ComboBoxUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @rfturn tif string "ComboBoxUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
     }
 
 
     /**
-     * Returns the L&amp;F object that renders this component.
+     * Rfturns tif L&bmp;F objfdt tibt rfndfrs tiis domponfnt.
      *
-     * @return the ComboBoxUI object that renders this component
+     * @rfturn tif ComboBoxUI objfdt tibt rfndfrs tiis domponfnt
      */
-    public ComboBoxUI getUI() {
-        return(ComboBoxUI)ui;
+    publid ComboBoxUI gftUI() {
+        rfturn(ComboBoxUI)ui;
     }
 
     /**
-     * Sets the data model that the <code>JComboBox</code> uses to obtain
-     * the list of items.
+     * Sfts tif dbtb modfl tibt tif <dodf>JComboBox</dodf> usfs to obtbin
+     * tif list of itfms.
      *
-     * @param aModel the <code>ComboBoxModel</code> that provides the
-     *  displayed list of items
+     * @pbrbm bModfl tif <dodf>ComboBoxModfl</dodf> tibt providfs tif
+     *  displbyfd list of itfms
      *
-     * @beaninfo
-     *        bound: true
-     *  description: Model that the combo box uses to get data to display.
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: Modfl tibt tif dombo box usfs to gft dbtb to displby.
      */
-    public void setModel(ComboBoxModel<E> aModel) {
-        ComboBoxModel<E> oldModel = dataModel;
-        if (oldModel != null) {
-            oldModel.removeListDataListener(this);
+    publid void sftModfl(ComboBoxModfl<E> bModfl) {
+        ComboBoxModfl<E> oldModfl = dbtbModfl;
+        if (oldModfl != null) {
+            oldModfl.rfmovfListDbtbListfnfr(tiis);
         }
-        dataModel = aModel;
-        dataModel.addListDataListener(this);
+        dbtbModfl = bModfl;
+        dbtbModfl.bddListDbtbListfnfr(tiis);
 
-        // set the current selected item.
-        selectedItemReminder = dataModel.getSelectedItem();
+        // sft tif durrfnt sflfdtfd itfm.
+        sflfdtfdItfmRfmindfr = dbtbModfl.gftSflfdtfdItfm();
 
-        firePropertyChange( "model", oldModel, dataModel);
+        firfPropfrtyCibngf( "modfl", oldModfl, dbtbModfl);
     }
 
     /**
-     * Returns the data model currently used by the <code>JComboBox</code>.
+     * Rfturns tif dbtb modfl durrfntly usfd by tif <dodf>JComboBox</dodf>.
      *
-     * @return the <code>ComboBoxModel</code> that provides the displayed
-     *                  list of items
+     * @rfturn tif <dodf>ComboBoxModfl</dodf> tibt providfs tif displbyfd
+     *                  list of itfms
      */
-    public ComboBoxModel<E> getModel() {
-        return dataModel;
+    publid ComboBoxModfl<E> gftModfl() {
+        rfturn dbtbModfl;
     }
 
     /*
-     * Properties
+     * Propfrtifs
      */
 
     /**
-     * Sets the <code>lightWeightPopupEnabled</code> property, which
-     * provides a hint as to whether or not a lightweight
-     * <code>Component</code> should be used to contain the
-     * <code>JComboBox</code>, versus a heavyweight
-     * <code>Component</code> such as a <code>Panel</code>
-     * or a <code>Window</code>.  The decision of lightweight
-     * versus heavyweight is ultimately up to the
-     * <code>JComboBox</code>.  Lightweight windows are more
-     * efficient than heavyweight windows, but lightweight
-     * and heavyweight components do not mix well in a GUI.
-     * If your application mixes lightweight and heavyweight
-     * components, you should disable lightweight popups.
-     * The default value for the <code>lightWeightPopupEnabled</code>
-     * property is <code>true</code>, unless otherwise specified
-     * by the look and feel.  Some look and feels always use
-     * heavyweight popups, no matter what the value of this property.
+     * Sfts tif <dodf>ligitWfigitPopupEnbblfd</dodf> propfrty, wiidi
+     * providfs b iint bs to wiftifr or not b ligitwfigit
+     * <dodf>Componfnt</dodf> siould bf usfd to dontbin tif
+     * <dodf>JComboBox</dodf>, vfrsus b ifbvywfigit
+     * <dodf>Componfnt</dodf> sudi bs b <dodf>Pbnfl</dodf>
+     * or b <dodf>Window</dodf>.  Tif dfdision of ligitwfigit
+     * vfrsus ifbvywfigit is ultimbtfly up to tif
+     * <dodf>JComboBox</dodf>.  Ligitwfigit windows brf morf
+     * fffidifnt tibn ifbvywfigit windows, but ligitwfigit
+     * bnd ifbvywfigit domponfnts do not mix wfll in b GUI.
+     * If your bpplidbtion mixfs ligitwfigit bnd ifbvywfigit
+     * domponfnts, you siould disbblf ligitwfigit popups.
+     * Tif dffbult vbluf for tif <dodf>ligitWfigitPopupEnbblfd</dodf>
+     * propfrty is <dodf>truf</dodf>, unlfss otifrwisf spfdififd
+     * by tif look bnd fffl.  Somf look bnd fffls blwbys usf
+     * ifbvywfigit popups, no mbttfr wibt tif vbluf of tiis propfrty.
      * <p>
-     * See the article <a href="http://www.oracle.com/technetwork/articles/java/mixing-components-433992.html">Mixing Heavy and Light Components</a>
-     * This method fires a property changed event.
+     * Sff tif brtidlf <b irff="ittp://www.orbdlf.dom/tfdinftwork/brtidlfs/jbvb/mixing-domponfnts-433992.itml">Mixing Hfbvy bnd Ligit Componfnts</b>
+     * Tiis mftiod firfs b propfrty dibngfd fvfnt.
      *
-     * @param aFlag if <code>true</code>, lightweight popups are desired
+     * @pbrbm bFlbg if <dodf>truf</dodf>, ligitwfigit popups brf dfsirfd
      *
-     * @beaninfo
-     *        bound: true
-     *       expert: true
-     *  description: Set to <code>false</code> to require heavyweight popups.
+     * @bfbninfo
+     *        bound: truf
+     *       fxpfrt: truf
+     *  dfsdription: Sft to <dodf>fblsf</dodf> to rfquirf ifbvywfigit popups.
      */
-    public void setLightWeightPopupEnabled(boolean aFlag) {
-        boolean oldFlag = lightWeightPopupEnabled;
-        lightWeightPopupEnabled = aFlag;
-        firePropertyChange("lightWeightPopupEnabled", oldFlag, lightWeightPopupEnabled);
+    publid void sftLigitWfigitPopupEnbblfd(boolfbn bFlbg) {
+        boolfbn oldFlbg = ligitWfigitPopupEnbblfd;
+        ligitWfigitPopupEnbblfd = bFlbg;
+        firfPropfrtyCibngf("ligitWfigitPopupEnbblfd", oldFlbg, ligitWfigitPopupEnbblfd);
     }
 
     /**
-     * Gets the value of the <code>lightWeightPopupEnabled</code>
-     * property.
+     * Gfts tif vbluf of tif <dodf>ligitWfigitPopupEnbblfd</dodf>
+     * propfrty.
      *
-     * @return the value of the <code>lightWeightPopupEnabled</code>
-     *    property
-     * @see #setLightWeightPopupEnabled
+     * @rfturn tif vbluf of tif <dodf>ligitWfigitPopupEnbblfd</dodf>
+     *    propfrty
+     * @sff #sftLigitWfigitPopupEnbblfd
      */
-    public boolean isLightWeightPopupEnabled() {
-        return lightWeightPopupEnabled;
+    publid boolfbn isLigitWfigitPopupEnbblfd() {
+        rfturn ligitWfigitPopupEnbblfd;
     }
 
     /**
-     * Determines whether the <code>JComboBox</code> field is editable.
-     * An editable <code>JComboBox</code> allows the user to type into the
-     * field or selected an item from the list to initialize the field,
-     * after which it can be edited. (The editing affects only the field,
-     * the list item remains intact.) A non editable <code>JComboBox</code>
-     * displays the selected item in the field,
-     * but the selection cannot be modified.
+     * Dftfrminfs wiftifr tif <dodf>JComboBox</dodf> fifld is fditbblf.
+     * An fditbblf <dodf>JComboBox</dodf> bllows tif usfr to typf into tif
+     * fifld or sflfdtfd bn itfm from tif list to initiblizf tif fifld,
+     * bftfr wiidi it dbn bf fditfd. (Tif fditing bfffdts only tif fifld,
+     * tif list itfm rfmbins intbdt.) A non fditbblf <dodf>JComboBox</dodf>
+     * displbys tif sflfdtfd itfm in tif fifld,
+     * but tif sflfdtion dbnnot bf modififd.
      *
-     * @param aFlag a boolean value, where true indicates that the
-     *                  field is editable
+     * @pbrbm bFlbg b boolfbn vbluf, wifrf truf indidbtfs tibt tif
+     *                  fifld is fditbblf
      *
-     * @beaninfo
-     *        bound: true
-     *    preferred: true
-     *  description: If true, the user can type a new value in the combo box.
+     * @bfbninfo
+     *        bound: truf
+     *    prfffrrfd: truf
+     *  dfsdription: If truf, tif usfr dbn typf b nfw vbluf in tif dombo box.
      */
-    public void setEditable(boolean aFlag) {
-        boolean oldFlag = isEditable;
-        isEditable = aFlag;
-        firePropertyChange( "editable", oldFlag, isEditable );
+    publid void sftEditbblf(boolfbn bFlbg) {
+        boolfbn oldFlbg = isEditbblf;
+        isEditbblf = bFlbg;
+        firfPropfrtyCibngf( "fditbblf", oldFlbg, isEditbblf );
     }
 
     /**
-     * Returns true if the <code>JComboBox</code> is editable.
-     * By default, a combo box is not editable.
+     * Rfturns truf if tif <dodf>JComboBox</dodf> is fditbblf.
+     * By dffbult, b dombo box is not fditbblf.
      *
-     * @return true if the <code>JComboBox</code> is editable, else false
+     * @rfturn truf if tif <dodf>JComboBox</dodf> is fditbblf, flsf fblsf
      */
-    public boolean isEditable() {
-        return isEditable;
+    publid boolfbn isEditbblf() {
+        rfturn isEditbblf;
     }
 
     /**
-     * Sets the maximum number of rows the <code>JComboBox</code> displays.
-     * If the number of objects in the model is greater than count,
-     * the combo box uses a scrollbar.
+     * Sfts tif mbximum numbfr of rows tif <dodf>JComboBox</dodf> displbys.
+     * If tif numbfr of objfdts in tif modfl is grfbtfr tibn dount,
+     * tif dombo box usfs b sdrollbbr.
      *
-     * @param count an integer specifying the maximum number of items to
-     *              display in the list before using a scrollbar
-     * @beaninfo
-     *        bound: true
-     *    preferred: true
-     *  description: The maximum number of rows the popup should have
+     * @pbrbm dount bn intfgfr spfdifying tif mbximum numbfr of itfms to
+     *              displby in tif list bfforf using b sdrollbbr
+     * @bfbninfo
+     *        bound: truf
+     *    prfffrrfd: truf
+     *  dfsdription: Tif mbximum numbfr of rows tif popup siould ibvf
      */
-    public void setMaximumRowCount(int count) {
-        int oldCount = maximumRowCount;
-        maximumRowCount = count;
-        firePropertyChange( "maximumRowCount", oldCount, maximumRowCount );
+    publid void sftMbximumRowCount(int dount) {
+        int oldCount = mbximumRowCount;
+        mbximumRowCount = dount;
+        firfPropfrtyCibngf( "mbximumRowCount", oldCount, mbximumRowCount );
     }
 
     /**
-     * Returns the maximum number of items the combo box can display
-     * without a scrollbar
+     * Rfturns tif mbximum numbfr of itfms tif dombo box dbn displby
+     * witiout b sdrollbbr
      *
-     * @return an integer specifying the maximum number of items that are
-     *         displayed in the list before using a scrollbar
+     * @rfturn bn intfgfr spfdifying tif mbximum numbfr of itfms tibt brf
+     *         displbyfd in tif list bfforf using b sdrollbbr
      */
-    public int getMaximumRowCount() {
-        return maximumRowCount;
+    publid int gftMbximumRowCount() {
+        rfturn mbximumRowCount;
     }
 
     /**
-     * Sets the renderer that paints the list items and the item selected from the list in
-     * the JComboBox field. The renderer is used if the JComboBox is not
-     * editable. If it is editable, the editor is used to render and edit
-     * the selected item.
+     * Sfts tif rfndfrfr tibt pbints tif list itfms bnd tif itfm sflfdtfd from tif list in
+     * tif JComboBox fifld. Tif rfndfrfr is usfd if tif JComboBox is not
+     * fditbblf. If it is fditbblf, tif fditor is usfd to rfndfr bnd fdit
+     * tif sflfdtfd itfm.
      * <p>
-     * The default renderer displays a string or an icon.
-     * Other renderers can handle graphic images and composite items.
+     * Tif dffbult rfndfrfr displbys b string or bn idon.
+     * Otifr rfndfrfrs dbn ibndlf grbpiid imbgfs bnd dompositf itfms.
      * <p>
-     * To display the selected item,
-     * <code>aRenderer.getListCellRendererComponent</code>
-     * is called, passing the list object and an index of -1.
+     * To displby tif sflfdtfd itfm,
+     * <dodf>bRfndfrfr.gftListCfllRfndfrfrComponfnt</dodf>
+     * is dbllfd, pbssing tif list objfdt bnd bn indfx of -1.
      *
-     * @param aRenderer  the <code>ListCellRenderer</code> that
-     *                  displays the selected item
-     * @see #setEditor
-     * @beaninfo
-     *      bound: true
-     *     expert: true
-     *  description: The renderer that paints the item selected in the list.
+     * @pbrbm bRfndfrfr  tif <dodf>ListCfllRfndfrfr</dodf> tibt
+     *                  displbys tif sflfdtfd itfm
+     * @sff #sftEditor
+     * @bfbninfo
+     *      bound: truf
+     *     fxpfrt: truf
+     *  dfsdription: Tif rfndfrfr tibt pbints tif itfm sflfdtfd in tif list.
      */
-    public void setRenderer(ListCellRenderer<? super E> aRenderer) {
-        ListCellRenderer<? super E> oldRenderer = renderer;
-        renderer = aRenderer;
-        firePropertyChange( "renderer", oldRenderer, renderer );
-        invalidate();
+    publid void sftRfndfrfr(ListCfllRfndfrfr<? supfr E> bRfndfrfr) {
+        ListCfllRfndfrfr<? supfr E> oldRfndfrfr = rfndfrfr;
+        rfndfrfr = bRfndfrfr;
+        firfPropfrtyCibngf( "rfndfrfr", oldRfndfrfr, rfndfrfr );
+        invblidbtf();
     }
 
     /**
-     * Returns the renderer used to display the selected item in the
-     * <code>JComboBox</code> field.
+     * Rfturns tif rfndfrfr usfd to displby tif sflfdtfd itfm in tif
+     * <dodf>JComboBox</dodf> fifld.
      *
-     * @return  the <code>ListCellRenderer</code> that displays
-     *                  the selected item.
+     * @rfturn  tif <dodf>ListCfllRfndfrfr</dodf> tibt displbys
+     *                  tif sflfdtfd itfm.
      */
-    public ListCellRenderer<? super E> getRenderer() {
-        return renderer;
+    publid ListCfllRfndfrfr<? supfr E> gftRfndfrfr() {
+        rfturn rfndfrfr;
     }
 
     /**
-     * Sets the editor used to paint and edit the selected item in the
-     * <code>JComboBox</code> field.  The editor is used only if the
-     * receiving <code>JComboBox</code> is editable. If not editable,
-     * the combo box uses the renderer to paint the selected item.
+     * Sfts tif fditor usfd to pbint bnd fdit tif sflfdtfd itfm in tif
+     * <dodf>JComboBox</dodf> fifld.  Tif fditor is usfd only if tif
+     * rfdfiving <dodf>JComboBox</dodf> is fditbblf. If not fditbblf,
+     * tif dombo box usfs tif rfndfrfr to pbint tif sflfdtfd itfm.
      *
-     * @param anEditor  the <code>ComboBoxEditor</code> that
-     *                  displays the selected item
-     * @see #setRenderer
-     * @beaninfo
-     *     bound: true
-     *    expert: true
-     *  description: The editor that combo box uses to edit the current value
+     * @pbrbm bnEditor  tif <dodf>ComboBoxEditor</dodf> tibt
+     *                  displbys tif sflfdtfd itfm
+     * @sff #sftRfndfrfr
+     * @bfbninfo
+     *     bound: truf
+     *    fxpfrt: truf
+     *  dfsdription: Tif fditor tibt dombo box usfs to fdit tif durrfnt vbluf
      */
-    public void setEditor(ComboBoxEditor anEditor) {
-        ComboBoxEditor oldEditor = editor;
+    publid void sftEditor(ComboBoxEditor bnEditor) {
+        ComboBoxEditor oldEditor = fditor;
 
-        if ( editor != null ) {
-            editor.removeActionListener(this);
+        if ( fditor != null ) {
+            fditor.rfmovfAdtionListfnfr(tiis);
         }
-        editor = anEditor;
-        if ( editor != null ) {
-            editor.addActionListener(this);
+        fditor = bnEditor;
+        if ( fditor != null ) {
+            fditor.bddAdtionListfnfr(tiis);
         }
-        firePropertyChange( "editor", oldEditor, editor );
+        firfPropfrtyCibngf( "fditor", oldEditor, fditor );
     }
 
     /**
-     * Returns the editor used to paint and edit the selected item in the
-     * <code>JComboBox</code> field.
+     * Rfturns tif fditor usfd to pbint bnd fdit tif sflfdtfd itfm in tif
+     * <dodf>JComboBox</dodf> fifld.
      *
-     * @return the <code>ComboBoxEditor</code> that displays the selected item
+     * @rfturn tif <dodf>ComboBoxEditor</dodf> tibt displbys tif sflfdtfd itfm
      */
-    public ComboBoxEditor getEditor() {
-        return editor;
+    publid ComboBoxEditor gftEditor() {
+        rfturn fditor;
     }
 
     //
-    // Selection
+    // Sflfdtion
     //
 
     /**
-     * Sets the selected item in the combo box display area to the object in
-     * the argument.
-     * If <code>anObject</code> is in the list, the display area shows
-     * <code>anObject</code> selected.
+     * Sfts tif sflfdtfd itfm in tif dombo box displby brfb to tif objfdt in
+     * tif brgumfnt.
+     * If <dodf>bnObjfdt</dodf> is in tif list, tif displby brfb siows
+     * <dodf>bnObjfdt</dodf> sflfdtfd.
      * <p>
-     * If <code>anObject</code> is <i>not</i> in the list and the combo box is
-     * uneditable, it will not change the current selection. For editable
-     * combo boxes, the selection will change to <code>anObject</code>.
+     * If <dodf>bnObjfdt</dodf> is <i>not</i> in tif list bnd tif dombo box is
+     * unfditbblf, it will not dibngf tif durrfnt sflfdtion. For fditbblf
+     * dombo boxfs, tif sflfdtion will dibngf to <dodf>bnObjfdt</dodf>.
      * <p>
-     * If this constitutes a change in the selected item,
-     * <code>ItemListener</code>s added to the combo box will be notified with
-     * one or two <code>ItemEvent</code>s.
-     * If there is a current selected item, an <code>ItemEvent</code> will be
-     * fired and the state change will be <code>ItemEvent.DESELECTED</code>.
-     * If <code>anObject</code> is in the list and is not currently selected
-     * then an <code>ItemEvent</code> will be fired and the state change will
-     * be <code>ItemEvent.SELECTED</code>.
+     * If tiis donstitutfs b dibngf in tif sflfdtfd itfm,
+     * <dodf>ItfmListfnfr</dodf>s bddfd to tif dombo box will bf notififd witi
+     * onf or two <dodf>ItfmEvfnt</dodf>s.
+     * If tifrf is b durrfnt sflfdtfd itfm, bn <dodf>ItfmEvfnt</dodf> will bf
+     * firfd bnd tif stbtf dibngf will bf <dodf>ItfmEvfnt.DESELECTED</dodf>.
+     * If <dodf>bnObjfdt</dodf> is in tif list bnd is not durrfntly sflfdtfd
+     * tifn bn <dodf>ItfmEvfnt</dodf> will bf firfd bnd tif stbtf dibngf will
+     * bf <dodf>ItfmEvfnt.SELECTED</dodf>.
      * <p>
-     * <code>ActionListener</code>s added to the combo box will be notified
-     * with an <code>ActionEvent</code> when this method is called.
+     * <dodf>AdtionListfnfr</dodf>s bddfd to tif dombo box will bf notififd
+     * witi bn <dodf>AdtionEvfnt</dodf> wifn tiis mftiod is dbllfd.
      *
-     * @param anObject  the list object to select; use <code>null</code> to
-                        clear the selection
-     * @beaninfo
-     *    preferred:   true
-     *    description: Sets the selected item in the JComboBox.
+     * @pbrbm bnObjfdt  tif list objfdt to sflfdt; usf <dodf>null</dodf> to
+                        dlfbr tif sflfdtion
+     * @bfbninfo
+     *    prfffrrfd:   truf
+     *    dfsdription: Sfts tif sflfdtfd itfm in tif JComboBox.
      */
-    public void setSelectedItem(Object anObject) {
-        Object oldSelection = selectedItemReminder;
-        Object objectToSelect = anObject;
-        if (oldSelection == null || !oldSelection.equals(anObject)) {
+    publid void sftSflfdtfdItfm(Objfdt bnObjfdt) {
+        Objfdt oldSflfdtion = sflfdtfdItfmRfmindfr;
+        Objfdt objfdtToSflfdt = bnObjfdt;
+        if (oldSflfdtion == null || !oldSflfdtion.fqubls(bnObjfdt)) {
 
-            if (anObject != null && !isEditable()) {
-                // For non editable combo boxes, an invalid selection
-                // will be rejected.
-                boolean found = false;
-                for (int i = 0; i < dataModel.getSize(); i++) {
-                    E element = dataModel.getElementAt(i);
-                    if (anObject.equals(element)) {
-                        found = true;
-                        objectToSelect = element;
-                        break;
+            if (bnObjfdt != null && !isEditbblf()) {
+                // For non fditbblf dombo boxfs, bn invblid sflfdtion
+                // will bf rfjfdtfd.
+                boolfbn found = fblsf;
+                for (int i = 0; i < dbtbModfl.gftSizf(); i++) {
+                    E flfmfnt = dbtbModfl.gftElfmfntAt(i);
+                    if (bnObjfdt.fqubls(flfmfnt)) {
+                        found = truf;
+                        objfdtToSflfdt = flfmfnt;
+                        brfbk;
                     }
                 }
                 if (!found) {
-                    return;
+                    rfturn;
                 }
             }
 
-            // Must toggle the state of this flag since this method
-            // call may result in ListDataEvents being fired.
-            selectingItem = true;
-            dataModel.setSelectedItem(objectToSelect);
-            selectingItem = false;
+            // Must togglf tif stbtf of tiis flbg sindf tiis mftiod
+            // dbll mby rfsult in ListDbtbEvfnts bfing firfd.
+            sflfdtingItfm = truf;
+            dbtbModfl.sftSflfdtfdItfm(objfdtToSflfdt);
+            sflfdtingItfm = fblsf;
 
-            if (selectedItemReminder != dataModel.getSelectedItem()) {
-                // in case a users implementation of ComboBoxModel
-                // doesn't fire a ListDataEvent when the selection
-                // changes.
-                selectedItemChanged();
+            if (sflfdtfdItfmRfmindfr != dbtbModfl.gftSflfdtfdItfm()) {
+                // in dbsf b usfrs implfmfntbtion of ComboBoxModfl
+                // dofsn't firf b ListDbtbEvfnt wifn tif sflfdtion
+                // dibngfs.
+                sflfdtfdItfmCibngfd();
             }
         }
-        fireActionEvent();
+        firfAdtionEvfnt();
     }
 
     /**
-     * Returns the current selected item.
+     * Rfturns tif durrfnt sflfdtfd itfm.
      * <p>
-     * If the combo box is editable, then this value may not have been added
-     * to the combo box with <code>addItem</code>, <code>insertItemAt</code>
-     * or the data constructors.
+     * If tif dombo box is fditbblf, tifn tiis vbluf mby not ibvf bffn bddfd
+     * to tif dombo box witi <dodf>bddItfm</dodf>, <dodf>insfrtItfmAt</dodf>
+     * or tif dbtb donstrudtors.
      *
-     * @return the current selected Object
-     * @see #setSelectedItem
+     * @rfturn tif durrfnt sflfdtfd Objfdt
+     * @sff #sftSflfdtfdItfm
      */
-    public Object getSelectedItem() {
-        return dataModel.getSelectedItem();
+    publid Objfdt gftSflfdtfdItfm() {
+        rfturn dbtbModfl.gftSflfdtfdItfm();
     }
 
     /**
-     * Selects the item at index <code>anIndex</code>.
+     * Sflfdts tif itfm bt indfx <dodf>bnIndfx</dodf>.
      *
-     * @param anIndex an integer specifying the list item to select,
-     *                  where 0 specifies the first item in the list and -1 indicates no selection
-     * @exception IllegalArgumentException if <code>anIndex</code> &lt; -1 or
-     *                  <code>anIndex</code> is greater than or equal to size
-     * @beaninfo
-     *   preferred: true
-     *  description: The item at index is selected.
+     * @pbrbm bnIndfx bn intfgfr spfdifying tif list itfm to sflfdt,
+     *                  wifrf 0 spfdififs tif first itfm in tif list bnd -1 indidbtfs no sflfdtion
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bnIndfx</dodf> &lt; -1 or
+     *                  <dodf>bnIndfx</dodf> is grfbtfr tibn or fqubl to sizf
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *  dfsdription: Tif itfm bt indfx is sflfdtfd.
      */
-    public void setSelectedIndex(int anIndex) {
-        int size = dataModel.getSize();
+    publid void sftSflfdtfdIndfx(int bnIndfx) {
+        int sizf = dbtbModfl.gftSizf();
 
-        if ( anIndex == -1 ) {
-            setSelectedItem( null );
-        } else if ( anIndex < -1 || anIndex >= size ) {
-            throw new IllegalArgumentException("setSelectedIndex: " + anIndex + " out of bounds");
-        } else {
-            setSelectedItem(dataModel.getElementAt(anIndex));
+        if ( bnIndfx == -1 ) {
+            sftSflfdtfdItfm( null );
+        } flsf if ( bnIndfx < -1 || bnIndfx >= sizf ) {
+            tirow nfw IllfgblArgumfntExdfption("sftSflfdtfdIndfx: " + bnIndfx + " out of bounds");
+        } flsf {
+            sftSflfdtfdItfm(dbtbModfl.gftElfmfntAt(bnIndfx));
         }
     }
 
     /**
-     * Returns the first item in the list that matches the given item.
-     * The result is not always defined if the <code>JComboBox</code>
-     * allows selected items that are not in the list.
-     * Returns -1 if there is no selected item or if the user specified
-     * an item which is not in the list.
+     * Rfturns tif first itfm in tif list tibt mbtdifs tif givfn itfm.
+     * Tif rfsult is not blwbys dffinfd if tif <dodf>JComboBox</dodf>
+     * bllows sflfdtfd itfms tibt brf not in tif list.
+     * Rfturns -1 if tifrf is no sflfdtfd itfm or if tif usfr spfdififd
+     * bn itfm wiidi is not in tif list.
 
-     * @return an integer specifying the currently selected list item,
-     *                  where 0 specifies
-     *                  the first item in the list;
-     *                  or -1 if no item is selected or if
-     *                  the currently selected item is not in the list
+     * @rfturn bn intfgfr spfdifying tif durrfntly sflfdtfd list itfm,
+     *                  wifrf 0 spfdififs
+     *                  tif first itfm in tif list;
+     *                  or -1 if no itfm is sflfdtfd or if
+     *                  tif durrfntly sflfdtfd itfm is not in tif list
      */
-    @Transient
-    public int getSelectedIndex() {
-        Object sObject = dataModel.getSelectedItem();
-        int i,c;
+    @Trbnsifnt
+    publid int gftSflfdtfdIndfx() {
+        Objfdt sObjfdt = dbtbModfl.gftSflfdtfdItfm();
+        int i,d;
         E obj;
 
-        for ( i=0,c=dataModel.getSize();i<c;i++ ) {
-            obj = dataModel.getElementAt(i);
-            if ( obj != null && obj.equals(sObject) )
-                return i;
+        for ( i=0,d=dbtbModfl.gftSizf();i<d;i++ ) {
+            obj = dbtbModfl.gftElfmfntAt(i);
+            if ( obj != null && obj.fqubls(sObjfdt) )
+                rfturn i;
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Returns the "prototypical display" value - an Object used
-     * for the calculation of the display height and width.
+     * Rfturns tif "prototypidbl displby" vbluf - bn Objfdt usfd
+     * for tif dbldulbtion of tif displby ifigit bnd widti.
      *
-     * @return the value of the <code>prototypeDisplayValue</code> property
-     * @see #setPrototypeDisplayValue
-     * @since 1.4
+     * @rfturn tif vbluf of tif <dodf>prototypfDisplbyVbluf</dodf> propfrty
+     * @sff #sftPrototypfDisplbyVbluf
+     * @sindf 1.4
      */
-    public E getPrototypeDisplayValue() {
-        return prototypeDisplayValue;
+    publid E gftPrototypfDisplbyVbluf() {
+        rfturn prototypfDisplbyVbluf;
     }
 
     /**
-     * Sets the prototype display value used to calculate the size of the display
-     * for the UI portion.
+     * Sfts tif prototypf displby vbluf usfd to dbldulbtf tif sizf of tif displby
+     * for tif UI portion.
      * <p>
-     * If a prototype display value is specified, the preferred size of
-     * the combo box is calculated by configuring the renderer with the
-     * prototype display value and obtaining its preferred size. Specifying
-     * the preferred display value is often useful when the combo box will be
-     * displaying large amounts of data. If no prototype display value has
-     * been specified, the renderer must be configured for each value from
-     * the model and its preferred size obtained, which can be
-     * relatively expensive.
+     * If b prototypf displby vbluf is spfdififd, tif prfffrrfd sizf of
+     * tif dombo box is dbldulbtfd by donfiguring tif rfndfrfr witi tif
+     * prototypf displby vbluf bnd obtbining its prfffrrfd sizf. Spfdifying
+     * tif prfffrrfd displby vbluf is oftfn usfful wifn tif dombo box will bf
+     * displbying lbrgf bmounts of dbtb. If no prototypf displby vbluf ibs
+     * bffn spfdififd, tif rfndfrfr must bf donfigurfd for fbdi vbluf from
+     * tif modfl bnd its prfffrrfd sizf obtbinfd, wiidi dbn bf
+     * rflbtivfly fxpfnsivf.
      *
-     * @param prototypeDisplayValue the prototype display value
-     * @see #getPrototypeDisplayValue
-     * @since 1.4
-     * @beaninfo
-     *       bound: true
-     *   attribute: visualUpdate true
-     * description: The display prototype value, used to compute display width and height.
+     * @pbrbm prototypfDisplbyVbluf tif prototypf displby vbluf
+     * @sff #gftPrototypfDisplbyVbluf
+     * @sindf 1.4
+     * @bfbninfo
+     *       bound: truf
+     *   bttributf: visublUpdbtf truf
+     * dfsdription: Tif displby prototypf vbluf, usfd to domputf displby widti bnd ifigit.
      */
-    public void setPrototypeDisplayValue(E prototypeDisplayValue) {
-        Object oldValue = this.prototypeDisplayValue;
-        this.prototypeDisplayValue = prototypeDisplayValue;
-        firePropertyChange("prototypeDisplayValue", oldValue, prototypeDisplayValue);
+    publid void sftPrototypfDisplbyVbluf(E prototypfDisplbyVbluf) {
+        Objfdt oldVbluf = tiis.prototypfDisplbyVbluf;
+        tiis.prototypfDisplbyVbluf = prototypfDisplbyVbluf;
+        firfPropfrtyCibngf("prototypfDisplbyVbluf", oldVbluf, prototypfDisplbyVbluf);
     }
 
     /**
-     * Adds an item to the item list.
-     * This method works only if the <code>JComboBox</code> uses a
-     * mutable data model.
+     * Adds bn itfm to tif itfm list.
+     * Tiis mftiod works only if tif <dodf>JComboBox</dodf> usfs b
+     * mutbblf dbtb modfl.
      * <p>
-     * <strong>Warning:</strong>
-     * Focus and keyboard navigation problems may arise if you add duplicate
-     * String objects. A workaround is to add new objects instead of String
-     * objects and make sure that the toString() method is defined.
-     * For example:
-     * <pre>
-     *   comboBox.addItem(makeObj("Item 1"));
-     *   comboBox.addItem(makeObj("Item 1"));
+     * <strong>Wbrning:</strong>
+     * Fodus bnd kfybobrd nbvigbtion problfms mby brisf if you bdd duplidbtf
+     * String objfdts. A workbround is to bdd nfw objfdts instfbd of String
+     * objfdts bnd mbkf surf tibt tif toString() mftiod is dffinfd.
+     * For fxbmplf:
+     * <prf>
+     *   domboBox.bddItfm(mbkfObj("Itfm 1"));
+     *   domboBox.bddItfm(mbkfObj("Itfm 1"));
      *   ...
-     *   private Object makeObj(final String item)  {
-     *     return new Object() { public String toString() { return item; } };
+     *   privbtf Objfdt mbkfObj(finbl String itfm)  {
+     *     rfturn nfw Objfdt() { publid String toString() { rfturn itfm; } };
      *   }
-     * </pre>
+     * </prf>
      *
-     * @param item the item to add to the list
-     * @see MutableComboBoxModel
+     * @pbrbm itfm tif itfm to bdd to tif list
+     * @sff MutbblfComboBoxModfl
      */
-    public void addItem(E item) {
-        checkMutableComboBoxModel();
-        ((MutableComboBoxModel<E>)dataModel).addElement(item);
+    publid void bddItfm(E itfm) {
+        difdkMutbblfComboBoxModfl();
+        ((MutbblfComboBoxModfl<E>)dbtbModfl).bddElfmfnt(itfm);
     }
 
     /**
-     * Inserts an item into the item list at a given index.
-     * This method works only if the <code>JComboBox</code> uses a
-     * mutable data model.
+     * Insfrts bn itfm into tif itfm list bt b givfn indfx.
+     * Tiis mftiod works only if tif <dodf>JComboBox</dodf> usfs b
+     * mutbblf dbtb modfl.
      *
-     * @param item the item to add to the list
-     * @param index    an integer specifying the position at which
-     *                  to add the item
-     * @see MutableComboBoxModel
+     * @pbrbm itfm tif itfm to bdd to tif list
+     * @pbrbm indfx    bn intfgfr spfdifying tif position bt wiidi
+     *                  to bdd tif itfm
+     * @sff MutbblfComboBoxModfl
      */
-    public void insertItemAt(E item, int index) {
-        checkMutableComboBoxModel();
-        ((MutableComboBoxModel<E>)dataModel).insertElementAt(item,index);
+    publid void insfrtItfmAt(E itfm, int indfx) {
+        difdkMutbblfComboBoxModfl();
+        ((MutbblfComboBoxModfl<E>)dbtbModfl).insfrtElfmfntAt(itfm,indfx);
     }
 
     /**
-     * Removes an item from the item list.
-     * This method works only if the <code>JComboBox</code> uses a
-     * mutable data model.
+     * Rfmovfs bn itfm from tif itfm list.
+     * Tiis mftiod works only if tif <dodf>JComboBox</dodf> usfs b
+     * mutbblf dbtb modfl.
      *
-     * @param anObject  the object to remove from the item list
-     * @see MutableComboBoxModel
+     * @pbrbm bnObjfdt  tif objfdt to rfmovf from tif itfm list
+     * @sff MutbblfComboBoxModfl
      */
-    public void removeItem(Object anObject) {
-        checkMutableComboBoxModel();
-        ((MutableComboBoxModel)dataModel).removeElement(anObject);
+    publid void rfmovfItfm(Objfdt bnObjfdt) {
+        difdkMutbblfComboBoxModfl();
+        ((MutbblfComboBoxModfl)dbtbModfl).rfmovfElfmfnt(bnObjfdt);
     }
 
     /**
-     * Removes the item at <code>anIndex</code>
-     * This method works only if the <code>JComboBox</code> uses a
-     * mutable data model.
+     * Rfmovfs tif itfm bt <dodf>bnIndfx</dodf>
+     * Tiis mftiod works only if tif <dodf>JComboBox</dodf> usfs b
+     * mutbblf dbtb modfl.
      *
-     * @param anIndex  an int specifying the index of the item to remove,
-     *                  where 0
-     *                  indicates the first item in the list
-     * @see MutableComboBoxModel
+     * @pbrbm bnIndfx  bn int spfdifying tif indfx of tif itfm to rfmovf,
+     *                  wifrf 0
+     *                  indidbtfs tif first itfm in tif list
+     * @sff MutbblfComboBoxModfl
      */
-    public void removeItemAt(int anIndex) {
-        checkMutableComboBoxModel();
-        ((MutableComboBoxModel<E>)dataModel).removeElementAt( anIndex );
+    publid void rfmovfItfmAt(int bnIndfx) {
+        difdkMutbblfComboBoxModfl();
+        ((MutbblfComboBoxModfl<E>)dbtbModfl).rfmovfElfmfntAt( bnIndfx );
     }
 
     /**
-     * Removes all items from the item list.
+     * Rfmovfs bll itfms from tif itfm list.
      */
-    public void removeAllItems() {
-        checkMutableComboBoxModel();
-        MutableComboBoxModel<E> model = (MutableComboBoxModel<E>)dataModel;
-        int size = model.getSize();
+    publid void rfmovfAllItfms() {
+        difdkMutbblfComboBoxModfl();
+        MutbblfComboBoxModfl<E> modfl = (MutbblfComboBoxModfl<E>)dbtbModfl;
+        int sizf = modfl.gftSizf();
 
-        if ( model instanceof DefaultComboBoxModel ) {
-            ((DefaultComboBoxModel)model).removeAllElements();
+        if ( modfl instbndfof DffbultComboBoxModfl ) {
+            ((DffbultComboBoxModfl)modfl).rfmovfAllElfmfnts();
         }
-        else {
-            for ( int i = 0; i < size; ++i ) {
-                E element = model.getElementAt( 0 );
-                model.removeElement( element );
+        flsf {
+            for ( int i = 0; i < sizf; ++i ) {
+                E flfmfnt = modfl.gftElfmfntAt( 0 );
+                modfl.rfmovfElfmfnt( flfmfnt );
             }
         }
-        selectedItemReminder = null;
-        if (isEditable()) {
-            editor.setItem(null);
+        sflfdtfdItfmRfmindfr = null;
+        if (isEditbblf()) {
+            fditor.sftItfm(null);
         }
     }
 
     /**
-     * Checks that the <code>dataModel</code> is an instance of
-     * <code>MutableComboBoxModel</code>.  If not, it throws an exception.
-     * @exception RuntimeException if <code>dataModel</code> is not an
-     *          instance of <code>MutableComboBoxModel</code>.
+     * Cifdks tibt tif <dodf>dbtbModfl</dodf> is bn instbndf of
+     * <dodf>MutbblfComboBoxModfl</dodf>.  If not, it tirows bn fxdfption.
+     * @fxdfption RuntimfExdfption if <dodf>dbtbModfl</dodf> is not bn
+     *          instbndf of <dodf>MutbblfComboBoxModfl</dodf>.
      */
-    void checkMutableComboBoxModel() {
-        if ( !(dataModel instanceof MutableComboBoxModel) )
-            throw new RuntimeException("Cannot use this method with a non-Mutable data model.");
+    void difdkMutbblfComboBoxModfl() {
+        if ( !(dbtbModfl instbndfof MutbblfComboBoxModfl) )
+            tirow nfw RuntimfExdfption("Cbnnot usf tiis mftiod witi b non-Mutbblf dbtb modfl.");
     }
 
     /**
-     * Causes the combo box to display its popup window.
-     * @see #setPopupVisible
+     * Cbusfs tif dombo box to displby its popup window.
+     * @sff #sftPopupVisiblf
      */
-    public void showPopup() {
-        setPopupVisible(true);
+    publid void siowPopup() {
+        sftPopupVisiblf(truf);
     }
 
     /**
-     * Causes the combo box to close its popup window.
-     * @see #setPopupVisible
+     * Cbusfs tif dombo box to dlosf its popup window.
+     * @sff #sftPopupVisiblf
      */
-    public void hidePopup() {
-        setPopupVisible(false);
+    publid void iidfPopup() {
+        sftPopupVisiblf(fblsf);
     }
 
     /**
-     * Sets the visibility of the popup.
+     * Sfts tif visibility of tif popup.
      *
-     * @param v if {@code true} shows the popup, otherwise, hides the popup.
+     * @pbrbm v if {@dodf truf} siows tif popup, otifrwisf, iidfs tif popup.
      */
-    public void setPopupVisible(boolean v) {
-        getUI().setPopupVisible(this, v);
+    publid void sftPopupVisiblf(boolfbn v) {
+        gftUI().sftPopupVisiblf(tiis, v);
     }
 
     /**
-     * Determines the visibility of the popup.
+     * Dftfrminfs tif visibility of tif popup.
      *
-     * @return true if the popup is visible, otherwise returns false
+     * @rfturn truf if tif popup is visiblf, otifrwisf rfturns fblsf
      */
-    public boolean isPopupVisible() {
-        return getUI().isPopupVisible(this);
+    publid boolfbn isPopupVisiblf() {
+        rfturn gftUI().isPopupVisiblf(tiis);
     }
 
-    /** Selection **/
+    /** Sflfdtion **/
 
     /**
-     * Adds an <code>ItemListener</code>.
+     * Adds bn <dodf>ItfmListfnfr</dodf>.
      * <p>
-     * <code>aListener</code> will receive one or two <code>ItemEvent</code>s when
-     * the selected item changes.
+     * <dodf>bListfnfr</dodf> will rfdfivf onf or two <dodf>ItfmEvfnt</dodf>s wifn
+     * tif sflfdtfd itfm dibngfs.
      *
-     * @param aListener the <code>ItemListener</code> that is to be notified
-     * @see #setSelectedItem
+     * @pbrbm bListfnfr tif <dodf>ItfmListfnfr</dodf> tibt is to bf notififd
+     * @sff #sftSflfdtfdItfm
      */
-    public void addItemListener(ItemListener aListener) {
-        listenerList.add(ItemListener.class,aListener);
+    publid void bddItfmListfnfr(ItfmListfnfr bListfnfr) {
+        listfnfrList.bdd(ItfmListfnfr.dlbss,bListfnfr);
     }
 
-    /** Removes an <code>ItemListener</code>.
+    /** Rfmovfs bn <dodf>ItfmListfnfr</dodf>.
      *
-     * @param aListener  the <code>ItemListener</code> to remove
+     * @pbrbm bListfnfr  tif <dodf>ItfmListfnfr</dodf> to rfmovf
      */
-    public void removeItemListener(ItemListener aListener) {
-        listenerList.remove(ItemListener.class,aListener);
-    }
-
-    /**
-     * Returns an array of all the <code>ItemListener</code>s added
-     * to this JComboBox with addItemListener().
-     *
-     * @return all of the <code>ItemListener</code>s added or an empty
-     *         array if no listeners have been added
-     * @since 1.4
-     */
-    public ItemListener[] getItemListeners() {
-        return listenerList.getListeners(ItemListener.class);
+    publid void rfmovfItfmListfnfr(ItfmListfnfr bListfnfr) {
+        listfnfrList.rfmovf(ItfmListfnfr.dlbss,bListfnfr);
     }
 
     /**
-     * Adds an <code>ActionListener</code>.
+     * Rfturns bn brrby of bll tif <dodf>ItfmListfnfr</dodf>s bddfd
+     * to tiis JComboBox witi bddItfmListfnfr().
+     *
+     * @rfturn bll of tif <dodf>ItfmListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs ibvf bffn bddfd
+     * @sindf 1.4
+     */
+    publid ItfmListfnfr[] gftItfmListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(ItfmListfnfr.dlbss);
+    }
+
+    /**
+     * Adds bn <dodf>AdtionListfnfr</dodf>.
      * <p>
-     * The <code>ActionListener</code> will receive an <code>ActionEvent</code>
-     * when a selection has been made. If the combo box is editable, then
-     * an <code>ActionEvent</code> will be fired when editing has stopped.
+     * Tif <dodf>AdtionListfnfr</dodf> will rfdfivf bn <dodf>AdtionEvfnt</dodf>
+     * wifn b sflfdtion ibs bffn mbdf. If tif dombo box is fditbblf, tifn
+     * bn <dodf>AdtionEvfnt</dodf> will bf firfd wifn fditing ibs stoppfd.
      *
-     * @param l  the <code>ActionListener</code> that is to be notified
-     * @see #setSelectedItem
+     * @pbrbm l  tif <dodf>AdtionListfnfr</dodf> tibt is to bf notififd
+     * @sff #sftSflfdtfdItfm
      */
-    public void addActionListener(ActionListener l) {
-        listenerList.add(ActionListener.class,l);
+    publid void bddAdtionListfnfr(AdtionListfnfr l) {
+        listfnfrList.bdd(AdtionListfnfr.dlbss,l);
     }
 
-    /** Removes an <code>ActionListener</code>.
+    /** Rfmovfs bn <dodf>AdtionListfnfr</dodf>.
      *
-     * @param l  the <code>ActionListener</code> to remove
+     * @pbrbm l  tif <dodf>AdtionListfnfr</dodf> to rfmovf
      */
-    public void removeActionListener(ActionListener l) {
-        if ((l != null) && (getAction() == l)) {
-            setAction(null);
-        } else {
-            listenerList.remove(ActionListener.class, l);
+    publid void rfmovfAdtionListfnfr(AdtionListfnfr l) {
+        if ((l != null) && (gftAdtion() == l)) {
+            sftAdtion(null);
+        } flsf {
+            listfnfrList.rfmovf(AdtionListfnfr.dlbss, l);
         }
     }
 
     /**
-     * Returns an array of all the <code>ActionListener</code>s added
-     * to this JComboBox with addActionListener().
+     * Rfturns bn brrby of bll tif <dodf>AdtionListfnfr</dodf>s bddfd
+     * to tiis JComboBox witi bddAdtionListfnfr().
      *
-     * @return all of the <code>ActionListener</code>s added or an empty
-     *         array if no listeners have been added
-     * @since 1.4
+     * @rfturn bll of tif <dodf>AdtionListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs ibvf bffn bddfd
+     * @sindf 1.4
      */
-    public ActionListener[] getActionListeners() {
-        return listenerList.getListeners(ActionListener.class);
+    publid AdtionListfnfr[] gftAdtionListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(AdtionListfnfr.dlbss);
     }
 
     /**
-     * Adds a <code>PopupMenu</code> listener which will listen to notification
-     * messages from the popup portion of the combo box.
+     * Adds b <dodf>PopupMfnu</dodf> listfnfr wiidi will listfn to notifidbtion
+     * mfssbgfs from tif popup portion of tif dombo box.
      * <p>
-     * For all standard look and feels shipped with Java, the popup list
-     * portion of combo box is implemented as a <code>JPopupMenu</code>.
-     * A custom look and feel may not implement it this way and will
-     * therefore not receive the notification.
+     * For bll stbndbrd look bnd fffls siippfd witi Jbvb, tif popup list
+     * portion of dombo box is implfmfntfd bs b <dodf>JPopupMfnu</dodf>.
+     * A dustom look bnd fffl mby not implfmfnt it tiis wby bnd will
+     * tifrfforf not rfdfivf tif notifidbtion.
      *
-     * @param l  the <code>PopupMenuListener</code> to add
-     * @since 1.4
+     * @pbrbm l  tif <dodf>PopupMfnuListfnfr</dodf> to bdd
+     * @sindf 1.4
      */
-    public void addPopupMenuListener(PopupMenuListener l) {
-        listenerList.add(PopupMenuListener.class,l);
+    publid void bddPopupMfnuListfnfr(PopupMfnuListfnfr l) {
+        listfnfrList.bdd(PopupMfnuListfnfr.dlbss,l);
     }
 
     /**
-     * Removes a <code>PopupMenuListener</code>.
+     * Rfmovfs b <dodf>PopupMfnuListfnfr</dodf>.
      *
-     * @param l  the <code>PopupMenuListener</code> to remove
-     * @see #addPopupMenuListener
-     * @since 1.4
+     * @pbrbm l  tif <dodf>PopupMfnuListfnfr</dodf> to rfmovf
+     * @sff #bddPopupMfnuListfnfr
+     * @sindf 1.4
      */
-    public void removePopupMenuListener(PopupMenuListener l) {
-        listenerList.remove(PopupMenuListener.class,l);
+    publid void rfmovfPopupMfnuListfnfr(PopupMfnuListfnfr l) {
+        listfnfrList.rfmovf(PopupMfnuListfnfr.dlbss,l);
     }
 
     /**
-     * Returns an array of all the <code>PopupMenuListener</code>s added
-     * to this JComboBox with addPopupMenuListener().
+     * Rfturns bn brrby of bll tif <dodf>PopupMfnuListfnfr</dodf>s bddfd
+     * to tiis JComboBox witi bddPopupMfnuListfnfr().
      *
-     * @return all of the <code>PopupMenuListener</code>s added or an empty
-     *         array if no listeners have been added
-     * @since 1.4
+     * @rfturn bll of tif <dodf>PopupMfnuListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs ibvf bffn bddfd
+     * @sindf 1.4
      */
-    public PopupMenuListener[] getPopupMenuListeners() {
-        return listenerList.getListeners(PopupMenuListener.class);
+    publid PopupMfnuListfnfr[] gftPopupMfnuListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(PopupMfnuListfnfr.dlbss);
     }
 
     /**
-     * Notifies <code>PopupMenuListener</code>s that the popup portion of the
-     * combo box will become visible.
+     * Notififs <dodf>PopupMfnuListfnfr</dodf>s tibt tif popup portion of tif
+     * dombo box will bfdomf visiblf.
      * <p>
-     * This method is public but should not be called by anything other than
-     * the UI delegate.
-     * @see #addPopupMenuListener
-     * @since 1.4
+     * Tiis mftiod is publid but siould not bf dbllfd by bnytiing otifr tibn
+     * tif UI dflfgbtf.
+     * @sff #bddPopupMfnuListfnfr
+     * @sindf 1.4
      */
-    public void firePopupMenuWillBecomeVisible() {
-        Object[] listeners = listenerList.getListenerList();
-        PopupMenuEvent e=null;
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==PopupMenuListener.class) {
-                if (e == null)
-                    e = new PopupMenuEvent(this);
-                ((PopupMenuListener)listeners[i+1]).popupMenuWillBecomeVisible(e);
-            }
-        }
-    }
-
-    /**
-     * Notifies <code>PopupMenuListener</code>s that the popup portion of the
-     * combo box has become invisible.
-     * <p>
-     * This method is public but should not be called by anything other than
-     * the UI delegate.
-     * @see #addPopupMenuListener
-     * @since 1.4
-     */
-    public void firePopupMenuWillBecomeInvisible() {
-        Object[] listeners = listenerList.getListenerList();
-        PopupMenuEvent e=null;
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==PopupMenuListener.class) {
-                if (e == null)
-                    e = new PopupMenuEvent(this);
-                ((PopupMenuListener)listeners[i+1]).popupMenuWillBecomeInvisible(e);
+    publid void firfPopupMfnuWillBfdomfVisiblf() {
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        PopupMfnuEvfnt f=null;
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==PopupMfnuListfnfr.dlbss) {
+                if (f == null)
+                    f = nfw PopupMfnuEvfnt(tiis);
+                ((PopupMfnuListfnfr)listfnfrs[i+1]).popupMfnuWillBfdomfVisiblf(f);
             }
         }
     }
 
     /**
-     * Notifies <code>PopupMenuListener</code>s that the popup portion of the
-     * combo box has been canceled.
+     * Notififs <dodf>PopupMfnuListfnfr</dodf>s tibt tif popup portion of tif
+     * dombo box ibs bfdomf invisiblf.
      * <p>
-     * This method is public but should not be called by anything other than
-     * the UI delegate.
-     * @see #addPopupMenuListener
-     * @since 1.4
+     * Tiis mftiod is publid but siould not bf dbllfd by bnytiing otifr tibn
+     * tif UI dflfgbtf.
+     * @sff #bddPopupMfnuListfnfr
+     * @sindf 1.4
      */
-    public void firePopupMenuCanceled() {
-        Object[] listeners = listenerList.getListenerList();
-        PopupMenuEvent e=null;
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==PopupMenuListener.class) {
-                if (e == null)
-                    e = new PopupMenuEvent(this);
-                ((PopupMenuListener)listeners[i+1]).popupMenuCanceled(e);
+    publid void firfPopupMfnuWillBfdomfInvisiblf() {
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        PopupMfnuEvfnt f=null;
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==PopupMfnuListfnfr.dlbss) {
+                if (f == null)
+                    f = nfw PopupMfnuEvfnt(tiis);
+                ((PopupMfnuListfnfr)listfnfrs[i+1]).popupMfnuWillBfdomfInvisiblf(f);
             }
         }
     }
 
     /**
-     * Sets the action command that should be included in the event
-     * sent to action listeners.
-     *
-     * @param aCommand  a string containing the "command" that is sent
-     *                  to action listeners; the same listener can then
-     *                  do different things depending on the command it
-     *                  receives
-     */
-    public void setActionCommand(String aCommand) {
-        actionCommand = aCommand;
-    }
-
-    /**
-     * Returns the action command that is included in the event sent to
-     * action listeners.
-     *
-     * @return  the string containing the "command" that is sent
-     *          to action listeners.
-     */
-    public String getActionCommand() {
-        return actionCommand;
-    }
-
-    private Action action;
-    private PropertyChangeListener actionPropertyChangeListener;
-
-    /**
-     * Sets the <code>Action</code> for the <code>ActionEvent</code> source.
-     * The new <code>Action</code> replaces any previously set
-     * <code>Action</code> but does not affect <code>ActionListeners</code>
-     * independently added with <code>addActionListener</code>.
-     * If the <code>Action</code> is already a registered
-     * <code>ActionListener</code> for the <code>ActionEvent</code> source,
-     * it is not re-registered.
+     * Notififs <dodf>PopupMfnuListfnfr</dodf>s tibt tif popup portion of tif
+     * dombo box ibs bffn dbndflfd.
      * <p>
-     * Setting the <code>Action</code> results in immediately changing
-     * all the properties described in <a href="Action.html#buttonActions">
-     * Swing Components Supporting <code>Action</code></a>.
-     * Subsequently, the combobox's properties are automatically updated
-     * as the <code>Action</code>'s properties change.
-     * <p>
-     * This method uses three other methods to set
-     * and help track the <code>Action</code>'s property values.
-     * It uses the <code>configurePropertiesFromAction</code> method
-     * to immediately change the combobox's properties.
-     * To track changes in the <code>Action</code>'s property values,
-     * this method registers the <code>PropertyChangeListener</code>
-     * returned by <code>createActionPropertyChangeListener</code>. The
-     * default {@code PropertyChangeListener} invokes the
-     * {@code actionPropertyChanged} method when a property in the
-     * {@code Action} changes.
-     *
-     * @param a the <code>Action</code> for the <code>JComboBox</code>,
-     *                  or <code>null</code>.
-     * @since 1.3
-     * @see Action
-     * @see #getAction
-     * @see #configurePropertiesFromAction
-     * @see #createActionPropertyChangeListener
-     * @see #actionPropertyChanged
-     * @beaninfo
-     *        bound: true
-     *    attribute: visualUpdate true
-     *  description: the Action instance connected with this ActionEvent source
+     * Tiis mftiod is publid but siould not bf dbllfd by bnytiing otifr tibn
+     * tif UI dflfgbtf.
+     * @sff #bddPopupMfnuListfnfr
+     * @sindf 1.4
      */
-    public void setAction(Action a) {
-        Action oldValue = getAction();
-        if (action==null || !action.equals(a)) {
-            action = a;
-            if (oldValue!=null) {
-                removeActionListener(oldValue);
-                oldValue.removePropertyChangeListener(actionPropertyChangeListener);
-                actionPropertyChangeListener = null;
+    publid void firfPopupMfnuCbndflfd() {
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        PopupMfnuEvfnt f=null;
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==PopupMfnuListfnfr.dlbss) {
+                if (f == null)
+                    f = nfw PopupMfnuEvfnt(tiis);
+                ((PopupMfnuListfnfr)listfnfrs[i+1]).popupMfnuCbndflfd(f);
             }
-            configurePropertiesFromAction(action);
-            if (action!=null) {
-                // Don't add if it is already a listener
-                if (!isListener(ActionListener.class, action)) {
-                    addActionListener(action);
+        }
+    }
+
+    /**
+     * Sfts tif bdtion dommbnd tibt siould bf indludfd in tif fvfnt
+     * sfnt to bdtion listfnfrs.
+     *
+     * @pbrbm bCommbnd  b string dontbining tif "dommbnd" tibt is sfnt
+     *                  to bdtion listfnfrs; tif sbmf listfnfr dbn tifn
+     *                  do difffrfnt tiings dfpfnding on tif dommbnd it
+     *                  rfdfivfs
+     */
+    publid void sftAdtionCommbnd(String bCommbnd) {
+        bdtionCommbnd = bCommbnd;
+    }
+
+    /**
+     * Rfturns tif bdtion dommbnd tibt is indludfd in tif fvfnt sfnt to
+     * bdtion listfnfrs.
+     *
+     * @rfturn  tif string dontbining tif "dommbnd" tibt is sfnt
+     *          to bdtion listfnfrs.
+     */
+    publid String gftAdtionCommbnd() {
+        rfturn bdtionCommbnd;
+    }
+
+    privbtf Adtion bdtion;
+    privbtf PropfrtyCibngfListfnfr bdtionPropfrtyCibngfListfnfr;
+
+    /**
+     * Sfts tif <dodf>Adtion</dodf> for tif <dodf>AdtionEvfnt</dodf> sourdf.
+     * Tif nfw <dodf>Adtion</dodf> rfplbdfs bny prfviously sft
+     * <dodf>Adtion</dodf> but dofs not bfffdt <dodf>AdtionListfnfrs</dodf>
+     * indfpfndfntly bddfd witi <dodf>bddAdtionListfnfr</dodf>.
+     * If tif <dodf>Adtion</dodf> is blrfbdy b rfgistfrfd
+     * <dodf>AdtionListfnfr</dodf> for tif <dodf>AdtionEvfnt</dodf> sourdf,
+     * it is not rf-rfgistfrfd.
+     * <p>
+     * Sftting tif <dodf>Adtion</dodf> rfsults in immfdibtfly dibnging
+     * bll tif propfrtifs dfsdribfd in <b irff="Adtion.itml#buttonAdtions">
+     * Swing Componfnts Supporting <dodf>Adtion</dodf></b>.
+     * Subsfqufntly, tif dombobox's propfrtifs brf butombtidblly updbtfd
+     * bs tif <dodf>Adtion</dodf>'s propfrtifs dibngf.
+     * <p>
+     * Tiis mftiod usfs tirff otifr mftiods to sft
+     * bnd iflp trbdk tif <dodf>Adtion</dodf>'s propfrty vblufs.
+     * It usfs tif <dodf>donfigurfPropfrtifsFromAdtion</dodf> mftiod
+     * to immfdibtfly dibngf tif dombobox's propfrtifs.
+     * To trbdk dibngfs in tif <dodf>Adtion</dodf>'s propfrty vblufs,
+     * tiis mftiod rfgistfrs tif <dodf>PropfrtyCibngfListfnfr</dodf>
+     * rfturnfd by <dodf>drfbtfAdtionPropfrtyCibngfListfnfr</dodf>. Tif
+     * dffbult {@dodf PropfrtyCibngfListfnfr} invokfs tif
+     * {@dodf bdtionPropfrtyCibngfd} mftiod wifn b propfrty in tif
+     * {@dodf Adtion} dibngfs.
+     *
+     * @pbrbm b tif <dodf>Adtion</dodf> for tif <dodf>JComboBox</dodf>,
+     *                  or <dodf>null</dodf>.
+     * @sindf 1.3
+     * @sff Adtion
+     * @sff #gftAdtion
+     * @sff #donfigurfPropfrtifsFromAdtion
+     * @sff #drfbtfAdtionPropfrtyCibngfListfnfr
+     * @sff #bdtionPropfrtyCibngfd
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: tif Adtion instbndf donnfdtfd witi tiis AdtionEvfnt sourdf
+     */
+    publid void sftAdtion(Adtion b) {
+        Adtion oldVbluf = gftAdtion();
+        if (bdtion==null || !bdtion.fqubls(b)) {
+            bdtion = b;
+            if (oldVbluf!=null) {
+                rfmovfAdtionListfnfr(oldVbluf);
+                oldVbluf.rfmovfPropfrtyCibngfListfnfr(bdtionPropfrtyCibngfListfnfr);
+                bdtionPropfrtyCibngfListfnfr = null;
+            }
+            donfigurfPropfrtifsFromAdtion(bdtion);
+            if (bdtion!=null) {
+                // Don't bdd if it is blrfbdy b listfnfr
+                if (!isListfnfr(AdtionListfnfr.dlbss, bdtion)) {
+                    bddAdtionListfnfr(bdtion);
                 }
-                // Reverse linkage:
-                actionPropertyChangeListener = createActionPropertyChangeListener(action);
-                action.addPropertyChangeListener(actionPropertyChangeListener);
+                // Rfvfrsf linkbgf:
+                bdtionPropfrtyCibngfListfnfr = drfbtfAdtionPropfrtyCibngfListfnfr(bdtion);
+                bdtion.bddPropfrtyCibngfListfnfr(bdtionPropfrtyCibngfListfnfr);
             }
-            firePropertyChange("action", oldValue, action);
+            firfPropfrtyCibngf("bdtion", oldVbluf, bdtion);
         }
     }
 
-    private boolean isListener(Class<?> c, ActionListener a) {
-        boolean isListener = false;
-        Object[] listeners = listenerList.getListenerList();
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==c && listeners[i+1]==a) {
-                    isListener=true;
+    privbtf boolfbn isListfnfr(Clbss<?> d, AdtionListfnfr b) {
+        boolfbn isListfnfr = fblsf;
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==d && listfnfrs[i+1]==b) {
+                    isListfnfr=truf;
             }
         }
-        return isListener;
+        rfturn isListfnfr;
     }
 
     /**
-     * Returns the currently set <code>Action</code> for this
-     * <code>ActionEvent</code> source, or <code>null</code> if no
-     * <code>Action</code> is set.
+     * Rfturns tif durrfntly sft <dodf>Adtion</dodf> for tiis
+     * <dodf>AdtionEvfnt</dodf> sourdf, or <dodf>null</dodf> if no
+     * <dodf>Adtion</dodf> is sft.
      *
-     * @return the <code>Action</code> for this <code>ActionEvent</code>
-     *          source; or <code>null</code>
-     * @since 1.3
-     * @see Action
-     * @see #setAction
+     * @rfturn tif <dodf>Adtion</dodf> for tiis <dodf>AdtionEvfnt</dodf>
+     *          sourdf; or <dodf>null</dodf>
+     * @sindf 1.3
+     * @sff Adtion
+     * @sff #sftAdtion
      */
-    public Action getAction() {
-        return action;
+    publid Adtion gftAdtion() {
+        rfturn bdtion;
     }
 
     /**
-     * Sets the properties on this combobox to match those in the specified
-     * <code>Action</code>.  Refer to <a href="Action.html#buttonActions">
-     * Swing Components Supporting <code>Action</code></a> for more
-     * details as to which properties this sets.
+     * Sfts tif propfrtifs on tiis dombobox to mbtdi tiosf in tif spfdififd
+     * <dodf>Adtion</dodf>.  Rfffr to <b irff="Adtion.itml#buttonAdtions">
+     * Swing Componfnts Supporting <dodf>Adtion</dodf></b> for morf
+     * dftbils bs to wiidi propfrtifs tiis sfts.
      *
-     * @param a the <code>Action</code> from which to get the properties,
-     *          or <code>null</code>
-     * @since 1.3
-     * @see Action
-     * @see #setAction
+     * @pbrbm b tif <dodf>Adtion</dodf> from wiidi to gft tif propfrtifs,
+     *          or <dodf>null</dodf>
+     * @sindf 1.3
+     * @sff Adtion
+     * @sff #sftAdtion
      */
-    protected void configurePropertiesFromAction(Action a) {
-        AbstractAction.setEnabledFromAction(this, a);
-        AbstractAction.setToolTipTextFromAction(this, a);
-        setActionCommandFromAction(a);
+    protfdtfd void donfigurfPropfrtifsFromAdtion(Adtion b) {
+        AbstrbdtAdtion.sftEnbblfdFromAdtion(tiis, b);
+        AbstrbdtAdtion.sftToolTipTfxtFromAdtion(tiis, b);
+        sftAdtionCommbndFromAdtion(b);
     }
 
     /**
-     * Creates and returns a <code>PropertyChangeListener</code> that is
-     * responsible for listening for changes from the specified
-     * <code>Action</code> and updating the appropriate properties.
+     * Crfbtfs bnd rfturns b <dodf>PropfrtyCibngfListfnfr</dodf> tibt is
+     * rfsponsiblf for listfning for dibngfs from tif spfdififd
+     * <dodf>Adtion</dodf> bnd updbting tif bppropribtf propfrtifs.
      * <p>
-     * <b>Warning:</b> If you subclass this do not create an anonymous
-     * inner class.  If you do the lifetime of the combobox will be tied to
-     * that of the <code>Action</code>.
+     * <b>Wbrning:</b> If you subdlbss tiis do not drfbtf bn bnonymous
+     * innfr dlbss.  If you do tif lifftimf of tif dombobox will bf tifd to
+     * tibt of tif <dodf>Adtion</dodf>.
      *
-     * @param a the combobox's action
-     * @return the {@code PropertyChangeListener}
-     * @since 1.3
-     * @see Action
-     * @see #setAction
+     * @pbrbm b tif dombobox's bdtion
+     * @rfturn tif {@dodf PropfrtyCibngfListfnfr}
+     * @sindf 1.3
+     * @sff Adtion
+     * @sff #sftAdtion
      */
-    protected PropertyChangeListener createActionPropertyChangeListener(Action a) {
-        return new ComboBoxActionPropertyChangeListener(this, a);
+    protfdtfd PropfrtyCibngfListfnfr drfbtfAdtionPropfrtyCibngfListfnfr(Adtion b) {
+        rfturn nfw ComboBoxAdtionPropfrtyCibngfListfnfr(tiis, b);
     }
 
     /**
-     * Updates the combobox's state in response to property changes in
-     * associated action. This method is invoked from the
-     * {@code PropertyChangeListener} returned from
-     * {@code createActionPropertyChangeListener}. Subclasses do not normally
-     * need to invoke this. Subclasses that support additional {@code Action}
-     * properties should override this and
-     * {@code configurePropertiesFromAction}.
+     * Updbtfs tif dombobox's stbtf in rfsponsf to propfrty dibngfs in
+     * bssodibtfd bdtion. Tiis mftiod is invokfd from tif
+     * {@dodf PropfrtyCibngfListfnfr} rfturnfd from
+     * {@dodf drfbtfAdtionPropfrtyCibngfListfnfr}. Subdlbssfs do not normblly
+     * nffd to invokf tiis. Subdlbssfs tibt support bdditionbl {@dodf Adtion}
+     * propfrtifs siould ovfrridf tiis bnd
+     * {@dodf donfigurfPropfrtifsFromAdtion}.
      * <p>
-     * Refer to the table at <a href="Action.html#buttonActions">
-     * Swing Components Supporting <code>Action</code></a> for a list of
-     * the properties this method sets.
+     * Rfffr to tif tbblf bt <b irff="Adtion.itml#buttonAdtions">
+     * Swing Componfnts Supporting <dodf>Adtion</dodf></b> for b list of
+     * tif propfrtifs tiis mftiod sfts.
      *
-     * @param action the <code>Action</code> associated with this combobox
-     * @param propertyName the name of the property that changed
-     * @since 1.6
-     * @see Action
-     * @see #configurePropertiesFromAction
+     * @pbrbm bdtion tif <dodf>Adtion</dodf> bssodibtfd witi tiis dombobox
+     * @pbrbm propfrtyNbmf tif nbmf of tif propfrty tibt dibngfd
+     * @sindf 1.6
+     * @sff Adtion
+     * @sff #donfigurfPropfrtifsFromAdtion
      */
-    protected void actionPropertyChanged(Action action, String propertyName) {
-        if (propertyName == Action.ACTION_COMMAND_KEY) {
-            setActionCommandFromAction(action);
-        } else if (propertyName == "enabled") {
-            AbstractAction.setEnabledFromAction(this, action);
-        } else if (Action.SHORT_DESCRIPTION == propertyName) {
-            AbstractAction.setToolTipTextFromAction(this, action);
+    protfdtfd void bdtionPropfrtyCibngfd(Adtion bdtion, String propfrtyNbmf) {
+        if (propfrtyNbmf == Adtion.ACTION_COMMAND_KEY) {
+            sftAdtionCommbndFromAdtion(bdtion);
+        } flsf if (propfrtyNbmf == "fnbblfd") {
+            AbstrbdtAdtion.sftEnbblfdFromAdtion(tiis, bdtion);
+        } flsf if (Adtion.SHORT_DESCRIPTION == propfrtyNbmf) {
+            AbstrbdtAdtion.sftToolTipTfxtFromAdtion(tiis, bdtion);
         }
     }
 
-    private void setActionCommandFromAction(Action a) {
-        setActionCommand((a != null) ?
-                             (String)a.getValue(Action.ACTION_COMMAND_KEY) :
+    privbtf void sftAdtionCommbndFromAdtion(Adtion b) {
+        sftAdtionCommbnd((b != null) ?
+                             (String)b.gftVbluf(Adtion.ACTION_COMMAND_KEY) :
                              null);
     }
 
 
-    private static class ComboBoxActionPropertyChangeListener
-                 extends ActionPropertyChangeListener<JComboBox<?>> {
-        ComboBoxActionPropertyChangeListener(JComboBox<?> b, Action a) {
-            super(b, a);
+    privbtf stbtid dlbss ComboBoxAdtionPropfrtyCibngfListfnfr
+                 fxtfnds AdtionPropfrtyCibngfListfnfr<JComboBox<?>> {
+        ComboBoxAdtionPropfrtyCibngfListfnfr(JComboBox<?> b, Adtion b) {
+            supfr(b, b);
         }
-        protected void actionPropertyChanged(JComboBox<?> cb,
-                                             Action action,
-                                             PropertyChangeEvent e) {
-            if (AbstractAction.shouldReconfigure(e)) {
-                cb.configurePropertiesFromAction(action);
-            } else {
-                cb.actionPropertyChanged(action, e.getPropertyName());
+        protfdtfd void bdtionPropfrtyCibngfd(JComboBox<?> db,
+                                             Adtion bdtion,
+                                             PropfrtyCibngfEvfnt f) {
+            if (AbstrbdtAdtion.siouldRfdonfigurf(f)) {
+                db.donfigurfPropfrtifsFromAdtion(bdtion);
+            } flsf {
+                db.bdtionPropfrtyCibngfd(bdtion, f.gftPropfrtyNbmf());
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.
-     * @param e  the event of interest
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.
+     * @pbrbm f  tif fvfnt of intfrfst
      *
-     * @see EventListenerList
+     * @sff EvfntListfnfrList
      */
-    protected void fireItemStateChanged(ItemEvent e) {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for ( int i = listeners.length-2; i>=0; i-=2 ) {
-            if ( listeners[i]==ItemListener.class ) {
-                // Lazily create the event:
-                // if (changeEvent == null)
-                // changeEvent = new ChangeEvent(this);
-                ((ItemListener)listeners[i+1]).itemStateChanged(e);
+    protfdtfd void firfItfmStbtfCibngfd(ItfmEvfnt f) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for ( int i = listfnfrs.lfngti-2; i>=0; i-=2 ) {
+            if ( listfnfrs[i]==ItfmListfnfr.dlbss ) {
+                // Lbzily drfbtf tif fvfnt:
+                // if (dibngfEvfnt == null)
+                // dibngfEvfnt = nfw CibngfEvfnt(tiis);
+                ((ItfmListfnfr)listfnfrs[i+1]).itfmStbtfCibngfd(f);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.
      *
-     * @see EventListenerList
+     * @sff EvfntListfnfrList
      */
-    protected void fireActionEvent() {
-        if (!firingActionEvent) {
-            // Set flag to ensure that an infinite loop is not created
-            firingActionEvent = true;
-            ActionEvent e = null;
-            // Guaranteed to return a non-null array
-            Object[] listeners = listenerList.getListenerList();
-            long mostRecentEventTime = EventQueue.getMostRecentEventTime();
-            int modifiers = 0;
-            AWTEvent currentEvent = EventQueue.getCurrentEvent();
-            if (currentEvent instanceof InputEvent) {
-                modifiers = ((InputEvent)currentEvent).getModifiers();
-            } else if (currentEvent instanceof ActionEvent) {
-                modifiers = ((ActionEvent)currentEvent).getModifiers();
+    protfdtfd void firfAdtionEvfnt() {
+        if (!firingAdtionEvfnt) {
+            // Sft flbg to fnsurf tibt bn infinitf loop is not drfbtfd
+            firingAdtionEvfnt = truf;
+            AdtionEvfnt f = null;
+            // Gubrbntffd to rfturn b non-null brrby
+            Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+            long mostRfdfntEvfntTimf = EvfntQufuf.gftMostRfdfntEvfntTimf();
+            int modififrs = 0;
+            AWTEvfnt durrfntEvfnt = EvfntQufuf.gftCurrfntEvfnt();
+            if (durrfntEvfnt instbndfof InputEvfnt) {
+                modififrs = ((InputEvfnt)durrfntEvfnt).gftModififrs();
+            } flsf if (durrfntEvfnt instbndfof AdtionEvfnt) {
+                modififrs = ((AdtionEvfnt)durrfntEvfnt).gftModififrs();
             }
-            // Process the listeners last to first, notifying
-            // those that are interested in this event
-            for ( int i = listeners.length-2; i>=0; i-=2 ) {
-                if ( listeners[i]==ActionListener.class ) {
-                    // Lazily create the event:
-                    if ( e == null )
-                        e = new ActionEvent(this,ActionEvent.ACTION_PERFORMED,
-                                            getActionCommand(),
-                                            mostRecentEventTime, modifiers);
-                    ((ActionListener)listeners[i+1]).actionPerformed(e);
+            // Prodfss tif listfnfrs lbst to first, notifying
+            // tiosf tibt brf intfrfstfd in tiis fvfnt
+            for ( int i = listfnfrs.lfngti-2; i>=0; i-=2 ) {
+                if ( listfnfrs[i]==AdtionListfnfr.dlbss ) {
+                    // Lbzily drfbtf tif fvfnt:
+                    if ( f == null )
+                        f = nfw AdtionEvfnt(tiis,AdtionEvfnt.ACTION_PERFORMED,
+                                            gftAdtionCommbnd(),
+                                            mostRfdfntEvfntTimf, modififrs);
+                    ((AdtionListfnfr)listfnfrs[i+1]).bdtionPfrformfd(f);
                 }
             }
-            firingActionEvent = false;
+            firingAdtionEvfnt = fblsf;
         }
     }
 
     /**
-     * This protected method is implementation specific. Do not access directly
-     * or override.
+     * Tiis protfdtfd mftiod is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf.
      */
-    protected void selectedItemChanged() {
-        if (selectedItemReminder != null ) {
-            fireItemStateChanged(new ItemEvent(this,ItemEvent.ITEM_STATE_CHANGED,
-                                               selectedItemReminder,
-                                               ItemEvent.DESELECTED));
+    protfdtfd void sflfdtfdItfmCibngfd() {
+        if (sflfdtfdItfmRfmindfr != null ) {
+            firfItfmStbtfCibngfd(nfw ItfmEvfnt(tiis,ItfmEvfnt.ITEM_STATE_CHANGED,
+                                               sflfdtfdItfmRfmindfr,
+                                               ItfmEvfnt.DESELECTED));
         }
 
-        // set the new selected item.
-        selectedItemReminder = dataModel.getSelectedItem();
+        // sft tif nfw sflfdtfd itfm.
+        sflfdtfdItfmRfmindfr = dbtbModfl.gftSflfdtfdItfm();
 
-        if (selectedItemReminder != null ) {
-            fireItemStateChanged(new ItemEvent(this,ItemEvent.ITEM_STATE_CHANGED,
-                                               selectedItemReminder,
-                                               ItemEvent.SELECTED));
+        if (sflfdtfdItfmRfmindfr != null ) {
+            firfItfmStbtfCibngfd(nfw ItfmEvfnt(tiis,ItfmEvfnt.ITEM_STATE_CHANGED,
+                                               sflfdtfdItfmRfmindfr,
+                                               ItfmEvfnt.SELECTED));
         }
     }
 
     /**
-     * Returns an array containing the selected item.
-     * This method is implemented for compatibility with
-     * <code>ItemSelectable</code>.
+     * Rfturns bn brrby dontbining tif sflfdtfd itfm.
+     * Tiis mftiod is implfmfntfd for dompbtibility witi
+     * <dodf>ItfmSflfdtbblf</dodf>.
      *
-     * @return an array of <code>Objects</code> containing one
-     *          element -- the selected item
+     * @rfturn bn brrby of <dodf>Objfdts</dodf> dontbining onf
+     *          flfmfnt -- tif sflfdtfd itfm
      */
-    public Object[] getSelectedObjects() {
-        Object selectedObject = getSelectedItem();
-        if ( selectedObject == null )
-            return new Object[0];
-        else {
-            Object result[] = new Object[1];
-            result[0] = selectedObject;
-            return result;
+    publid Objfdt[] gftSflfdtfdObjfdts() {
+        Objfdt sflfdtfdObjfdt = gftSflfdtfdItfm();
+        if ( sflfdtfdObjfdt == null )
+            rfturn nfw Objfdt[0];
+        flsf {
+            Objfdt rfsult[] = nfw Objfdt[1];
+            rfsult[0] = sflfdtfdObjfdt;
+            rfturn rfsult;
         }
     }
 
     /**
-     * This method is public as an implementation side effect.
-     * do not call or override.
+     * Tiis mftiod is publid bs bn implfmfntbtion sidf ffffdt.
+     * do not dbll or ovfrridf.
      */
-    public void actionPerformed(ActionEvent e) {
-        ComboBoxEditor editor = getEditor();
-        if ((editor != null) && (e != null) && (editor == e.getSource())) {
-            setPopupVisible(false);
-            getModel().setSelectedItem(editor.getItem());
-            String oldCommand = getActionCommand();
-            setActionCommand("comboBoxEdited");
-            fireActionEvent();
-            setActionCommand(oldCommand);
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+        ComboBoxEditor fditor = gftEditor();
+        if ((fditor != null) && (f != null) && (fditor == f.gftSourdf())) {
+            sftPopupVisiblf(fblsf);
+            gftModfl().sftSflfdtfdItfm(fditor.gftItfm());
+            String oldCommbnd = gftAdtionCommbnd();
+            sftAdtionCommbnd("domboBoxEditfd");
+            firfAdtionEvfnt();
+            sftAdtionCommbnd(oldCommbnd);
         }
     }
 
     /**
-     * This method is public as an implementation side effect.
-     * do not call or override.
+     * Tiis mftiod is publid bs bn implfmfntbtion sidf ffffdt.
+     * do not dbll or ovfrridf.
      */
-    public void contentsChanged(ListDataEvent e) {
-        Object oldSelection = selectedItemReminder;
-        Object newSelection = dataModel.getSelectedItem();
-        if (oldSelection == null || !oldSelection.equals(newSelection)) {
-            selectedItemChanged();
-            if (!selectingItem) {
-                fireActionEvent();
+    publid void dontfntsCibngfd(ListDbtbEvfnt f) {
+        Objfdt oldSflfdtion = sflfdtfdItfmRfmindfr;
+        Objfdt nfwSflfdtion = dbtbModfl.gftSflfdtfdItfm();
+        if (oldSflfdtion == null || !oldSflfdtion.fqubls(nfwSflfdtion)) {
+            sflfdtfdItfmCibngfd();
+            if (!sflfdtingItfm) {
+                firfAdtionEvfnt();
             }
         }
     }
 
     /**
-     * This method is public as an implementation side effect.
-     * do not call or override.
+     * Tiis mftiod is publid bs bn implfmfntbtion sidf ffffdt.
+     * do not dbll or ovfrridf.
      */
-    public void intervalAdded(ListDataEvent e) {
-        if (selectedItemReminder != dataModel.getSelectedItem()) {
-            selectedItemChanged();
+    publid void intfrvblAddfd(ListDbtbEvfnt f) {
+        if (sflfdtfdItfmRfmindfr != dbtbModfl.gftSflfdtfdItfm()) {
+            sflfdtfdItfmCibngfd();
         }
     }
 
     /**
-     * This method is public as an implementation side effect.
-     * do not call or override.
+     * Tiis mftiod is publid bs bn implfmfntbtion sidf ffffdt.
+     * do not dbll or ovfrridf.
      */
-    public void intervalRemoved(ListDataEvent e) {
-        contentsChanged(e);
+    publid void intfrvblRfmovfd(ListDbtbEvfnt f) {
+        dontfntsCibngfd(f);
     }
 
     /**
-     * Selects the list item that corresponds to the specified keyboard
-     * character and returns true, if there is an item corresponding
-     * to that character.  Otherwise, returns false.
+     * Sflfdts tif list itfm tibt dorrfsponds to tif spfdififd kfybobrd
+     * dibrbdtfr bnd rfturns truf, if tifrf is bn itfm dorrfsponding
+     * to tibt dibrbdtfr.  Otifrwisf, rfturns fblsf.
      *
-     * @param keyChar a char, typically this is a keyboard key
-     *                  typed by the user
-     * @return {@code true} if there is an item corresponding to that character.
-     *         Otherwise, returns {@code false}.
+     * @pbrbm kfyCibr b dibr, typidblly tiis is b kfybobrd kfy
+     *                  typfd by tif usfr
+     * @rfturn {@dodf truf} if tifrf is bn itfm dorrfsponding to tibt dibrbdtfr.
+     *         Otifrwisf, rfturns {@dodf fblsf}.
      */
-    public boolean selectWithKeyChar(char keyChar) {
-        int index;
+    publid boolfbn sflfdtWitiKfyCibr(dibr kfyCibr) {
+        int indfx;
 
-        if ( keySelectionManager == null )
-            keySelectionManager = createDefaultKeySelectionManager();
+        if ( kfySflfdtionMbnbgfr == null )
+            kfySflfdtionMbnbgfr = drfbtfDffbultKfySflfdtionMbnbgfr();
 
-        index = keySelectionManager.selectionForKey(keyChar,getModel());
-        if ( index != -1 ) {
-            setSelectedIndex(index);
-            return true;
+        indfx = kfySflfdtionMbnbgfr.sflfdtionForKfy(kfyCibr,gftModfl());
+        if ( indfx != -1 ) {
+            sftSflfdtfdIndfx(indfx);
+            rfturn truf;
         }
-        else
-            return false;
+        flsf
+            rfturn fblsf;
     }
 
     /**
-     * Enables the combo box so that items can be selected. When the
-     * combo box is disabled, items cannot be selected and values
-     * cannot be typed into its field (if it is editable).
+     * Enbblfs tif dombo box so tibt itfms dbn bf sflfdtfd. Wifn tif
+     * dombo box is disbblfd, itfms dbnnot bf sflfdtfd bnd vblufs
+     * dbnnot bf typfd into its fifld (if it is fditbblf).
      *
-     * @param b a boolean value, where true enables the component and
-     *          false disables it
-     * @beaninfo
-     *        bound: true
-     *    preferred: true
-     *  description: Whether the combo box is enabled.
+     * @pbrbm b b boolfbn vbluf, wifrf truf fnbblfs tif domponfnt bnd
+     *          fblsf disbblfs it
+     * @bfbninfo
+     *        bound: truf
+     *    prfffrrfd: truf
+     *  dfsdription: Wiftifr tif dombo box is fnbblfd.
      */
-    public void setEnabled(boolean b) {
-        super.setEnabled(b);
-        firePropertyChange( "enabled", !isEnabled(), isEnabled() );
+    publid void sftEnbblfd(boolfbn b) {
+        supfr.sftEnbblfd(b);
+        firfPropfrtyCibngf( "fnbblfd", !isEnbblfd(), isEnbblfd() );
     }
 
     /**
-     * Initializes the editor with the specified item.
+     * Initiblizfs tif fditor witi tif spfdififd itfm.
      *
-     * @param anEditor the <code>ComboBoxEditor</code> that displays
-     *                  the list item in the
-     *                  combo box field and allows it to be edited
-     * @param anItem   the object to display and edit in the field
+     * @pbrbm bnEditor tif <dodf>ComboBoxEditor</dodf> tibt displbys
+     *                  tif list itfm in tif
+     *                  dombo box fifld bnd bllows it to bf fditfd
+     * @pbrbm bnItfm   tif objfdt to displby bnd fdit in tif fifld
      */
-    public void configureEditor(ComboBoxEditor anEditor, Object anItem) {
-        anEditor.setItem(anItem);
+    publid void donfigurfEditor(ComboBoxEditor bnEditor, Objfdt bnItfm) {
+        bnEditor.sftItfm(bnItfm);
     }
 
     /**
-     * Handles <code>KeyEvent</code>s, looking for the Tab key.
-     * If the Tab key is found, the popup window is closed.
+     * Hbndlfs <dodf>KfyEvfnt</dodf>s, looking for tif Tbb kfy.
+     * If tif Tbb kfy is found, tif popup window is dlosfd.
      *
-     * @param e  the <code>KeyEvent</code> containing the keyboard
-     *          key that was pressed
+     * @pbrbm f  tif <dodf>KfyEvfnt</dodf> dontbining tif kfybobrd
+     *          kfy tibt wbs prfssfd
      */
-    public void processKeyEvent(KeyEvent e) {
-        if ( e.getKeyCode() == KeyEvent.VK_TAB ) {
-            hidePopup();
+    publid void prodfssKfyEvfnt(KfyEvfnt f) {
+        if ( f.gftKfyCodf() == KfyEvfnt.VK_TAB ) {
+            iidfPopup();
         }
-        super.processKeyEvent(e);
+        supfr.prodfssKfyEvfnt(f);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected boolean processKeyBinding(KeyStroke ks, KeyEvent e, int condition, boolean pressed) {
-        if (super.processKeyBinding(ks, e, condition, pressed)) {
-            return true;
-        }
-
-        if (!isEditable() || condition != WHEN_FOCUSED || getEditor() == null
-                || !Boolean.TRUE.equals(getClientProperty("JComboBox.isTableCellEditor"))) {
-            return false;
+    @Ovfrridf
+    protfdtfd boolfbn prodfssKfyBinding(KfyStrokf ks, KfyEvfnt f, int dondition, boolfbn prfssfd) {
+        if (supfr.prodfssKfyBinding(ks, f, dondition, prfssfd)) {
+            rfturn truf;
         }
 
-        Component editorComponent = getEditor().getEditorComponent();
-        if (editorComponent instanceof JComponent) {
-            JComponent component = (JComponent) editorComponent;
-            return component.processKeyBinding(ks, e, WHEN_FOCUSED, pressed);
+        if (!isEditbblf() || dondition != WHEN_FOCUSED || gftEditor() == null
+                || !Boolfbn.TRUE.fqubls(gftClifntPropfrty("JComboBox.isTbblfCfllEditor"))) {
+            rfturn fblsf;
         }
-        return false;
+
+        Componfnt fditorComponfnt = gftEditor().gftEditorComponfnt();
+        if (fditorComponfnt instbndfof JComponfnt) {
+            JComponfnt domponfnt = (JComponfnt) fditorComponfnt;
+            rfturn domponfnt.prodfssKfyBinding(ks, f, WHEN_FOCUSED, prfssfd);
+        }
+        rfturn fblsf;
     }
 
     /**
-     * Sets the object that translates a keyboard character into a list
-     * selection. Typically, the first selection with a matching first
-     * character becomes the selected item.
+     * Sfts tif objfdt tibt trbnslbtfs b kfybobrd dibrbdtfr into b list
+     * sflfdtion. Typidblly, tif first sflfdtion witi b mbtdiing first
+     * dibrbdtfr bfdomfs tif sflfdtfd itfm.
      *
-     * @param aManager a key selection manager
-     * @beaninfo
-     *       expert: true
-     *  description: The objects that changes the selection when a key is pressed.
+     * @pbrbm bMbnbgfr b kfy sflfdtion mbnbgfr
+     * @bfbninfo
+     *       fxpfrt: truf
+     *  dfsdription: Tif objfdts tibt dibngfs tif sflfdtion wifn b kfy is prfssfd.
      */
-    public void setKeySelectionManager(KeySelectionManager aManager) {
-        keySelectionManager = aManager;
+    publid void sftKfySflfdtionMbnbgfr(KfySflfdtionMbnbgfr bMbnbgfr) {
+        kfySflfdtionMbnbgfr = bMbnbgfr;
     }
 
     /**
-     * Returns the list's key-selection manager.
+     * Rfturns tif list's kfy-sflfdtion mbnbgfr.
      *
-     * @return the <code>KeySelectionManager</code> currently in use
+     * @rfturn tif <dodf>KfySflfdtionMbnbgfr</dodf> durrfntly in usf
      */
-    public KeySelectionManager getKeySelectionManager() {
-        return keySelectionManager;
+    publid KfySflfdtionMbnbgfr gftKfySflfdtionMbnbgfr() {
+        rfturn kfySflfdtionMbnbgfr;
     }
 
-    /* Accessing the model */
+    /* Addfssing tif modfl */
     /**
-     * Returns the number of items in the list.
+     * Rfturns tif numbfr of itfms in tif list.
      *
-     * @return an integer equal to the number of items in the list
+     * @rfturn bn intfgfr fqubl to tif numbfr of itfms in tif list
      */
-    public int getItemCount() {
-        return dataModel.getSize();
+    publid int gftItfmCount() {
+        rfturn dbtbModfl.gftSizf();
     }
 
     /**
-     * Returns the list item at the specified index.  If <code>index</code>
-     * is out of range (less than zero or greater than or equal to size)
-     * it will return <code>null</code>.
+     * Rfturns tif list itfm bt tif spfdififd indfx.  If <dodf>indfx</dodf>
+     * is out of rbngf (lfss tibn zfro or grfbtfr tibn or fqubl to sizf)
+     * it will rfturn <dodf>null</dodf>.
      *
-     * @param index  an integer indicating the list position, where the first
-     *               item starts at zero
-     * @return the item at that list position; or
-     *                  <code>null</code> if out of range
+     * @pbrbm indfx  bn intfgfr indidbting tif list position, wifrf tif first
+     *               itfm stbrts bt zfro
+     * @rfturn tif itfm bt tibt list position; or
+     *                  <dodf>null</dodf> if out of rbngf
      */
-    public E getItemAt(int index) {
-        return dataModel.getElementAt(index);
+    publid E gftItfmAt(int indfx) {
+        rfturn dbtbModfl.gftElfmfntAt(indfx);
     }
 
     /**
-     * Returns an instance of the default key-selection manager.
+     * Rfturns bn instbndf of tif dffbult kfy-sflfdtion mbnbgfr.
      *
-     * @return the <code>KeySelectionManager</code> currently used by the list
-     * @see #setKeySelectionManager
+     * @rfturn tif <dodf>KfySflfdtionMbnbgfr</dodf> durrfntly usfd by tif list
+     * @sff #sftKfySflfdtionMbnbgfr
      */
-    protected KeySelectionManager createDefaultKeySelectionManager() {
-        return new DefaultKeySelectionManager();
+    protfdtfd KfySflfdtionMbnbgfr drfbtfDffbultKfySflfdtionMbnbgfr() {
+        rfturn nfw DffbultKfySflfdtionMbnbgfr();
     }
 
 
     /**
-     * The interface that defines a <code>KeySelectionManager</code>.
-     * To qualify as a <code>KeySelectionManager</code>,
-     * the class needs to implement the method
-     * that identifies the list index given a character and the
-     * combo box data model.
+     * Tif intfrfbdf tibt dffinfs b <dodf>KfySflfdtionMbnbgfr</dodf>.
+     * To qublify bs b <dodf>KfySflfdtionMbnbgfr</dodf>,
+     * tif dlbss nffds to implfmfnt tif mftiod
+     * tibt idfntififs tif list indfx givfn b dibrbdtfr bnd tif
+     * dombo box dbtb modfl.
      */
-    public interface KeySelectionManager {
-        /** Given <code>aKey</code> and the model, returns the row
-         *  that should become selected. Return -1 if no match was
+    publid intfrfbdf KfySflfdtionMbnbgfr {
+        /** Givfn <dodf>bKfy</dodf> bnd tif modfl, rfturns tif row
+         *  tibt siould bfdomf sflfdtfd. Rfturn -1 if no mbtdi wbs
          *  found.
          *
-         * @param  aKey  a char value, usually indicating a keyboard key that
-         *               was pressed
-         * @param aModel a ComboBoxModel -- the component's data model, containing
-         *               the list of selectable items
-         * @return an int equal to the selected row, where 0 is the
-         *         first item and -1 is none.
+         * @pbrbm  bKfy  b dibr vbluf, usublly indidbting b kfybobrd kfy tibt
+         *               wbs prfssfd
+         * @pbrbm bModfl b ComboBoxModfl -- tif domponfnt's dbtb modfl, dontbining
+         *               tif list of sflfdtbblf itfms
+         * @rfturn bn int fqubl to tif sflfdtfd row, wifrf 0 is tif
+         *         first itfm bnd -1 is nonf.
          */
-        int selectionForKey(char aKey,ComboBoxModel<?> aModel);
+        int sflfdtionForKfy(dibr bKfy,ComboBoxModfl<?> bModfl);
     }
 
-    class DefaultKeySelectionManager implements KeySelectionManager, Serializable {
-        public int selectionForKey(char aKey,ComboBoxModel<?> aModel) {
-            int i,c;
-            int currentSelection = -1;
-            Object selectedItem = aModel.getSelectedItem();
+    dlbss DffbultKfySflfdtionMbnbgfr implfmfnts KfySflfdtionMbnbgfr, Sfriblizbblf {
+        publid int sflfdtionForKfy(dibr bKfy,ComboBoxModfl<?> bModfl) {
+            int i,d;
+            int durrfntSflfdtion = -1;
+            Objfdt sflfdtfdItfm = bModfl.gftSflfdtfdItfm();
             String v;
-            String pattern;
+            String pbttfrn;
 
-            if ( selectedItem != null ) {
-                for ( i=0,c=aModel.getSize();i<c;i++ ) {
-                    if ( selectedItem == aModel.getElementAt(i) ) {
-                        currentSelection  =  i;
-                        break;
+            if ( sflfdtfdItfm != null ) {
+                for ( i=0,d=bModfl.gftSizf();i<d;i++ ) {
+                    if ( sflfdtfdItfm == bModfl.gftElfmfntAt(i) ) {
+                        durrfntSflfdtion  =  i;
+                        brfbk;
                     }
                 }
             }
 
-            pattern = ("" + aKey).toLowerCase();
-            aKey = pattern.charAt(0);
+            pbttfrn = ("" + bKfy).toLowfrCbsf();
+            bKfy = pbttfrn.dibrAt(0);
 
-            for ( i = ++currentSelection, c = aModel.getSize() ; i < c ; i++ ) {
-                Object elem = aModel.getElementAt(i);
-                if (elem != null && elem.toString() != null) {
-                    v = elem.toString().toLowerCase();
-                    if ( v.length() > 0 && v.charAt(0) == aKey )
-                        return i;
+            for ( i = ++durrfntSflfdtion, d = bModfl.gftSizf() ; i < d ; i++ ) {
+                Objfdt flfm = bModfl.gftElfmfntAt(i);
+                if (flfm != null && flfm.toString() != null) {
+                    v = flfm.toString().toLowfrCbsf();
+                    if ( v.lfngti() > 0 && v.dibrAt(0) == bKfy )
+                        rfturn i;
                 }
             }
 
-            for ( i = 0 ; i < currentSelection ; i ++ ) {
-                Object elem = aModel.getElementAt(i);
-                if (elem != null && elem.toString() != null) {
-                    v = elem.toString().toLowerCase();
-                    if ( v.length() > 0 && v.charAt(0) == aKey )
-                        return i;
+            for ( i = 0 ; i < durrfntSflfdtion ; i ++ ) {
+                Objfdt flfm = bModfl.gftElfmfntAt(i);
+                if (flfm != null && flfm.toString() != null) {
+                    v = flfm.toString().toLowfrCbsf();
+                    if ( v.lfngti() > 0 && v.dibrAt(0) == bKfy )
+                        rfturn i;
                 }
             }
-            return -1;
+            rfturn -1;
         }
     }
 
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code> in
-     * <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * Sff <dodf>rfbdObjfdt</dodf> bnd <dodf>writfObjfdt</dodf> in
+     * <dodf>JComponfnt</dodf> for morf
+     * informbtion bbout sfriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
-            byte count = JComponent.getWriteObjCounter(this);
-            JComponent.setWriteObjCounter(this, --count);
-            if (count == 0 && ui != null) {
-                ui.installUI(this);
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(tiis);
+            JComponfnt.sftWritfObjCountfr(tiis, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(tiis);
             }
         }
     }
 
 
     /**
-     * Returns a string representation of this <code>JComboBox</code>.
-     * This method is intended to be used only for debugging purposes,
-     * and the content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>JComboBox</dodf>.
+     * Tiis mftiod is intfndfd to bf usfd only for dfbugging purposfs,
+     * bnd tif dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
      *
-     * @return  a string representation of this <code>JComboBox</code>
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>JComboBox</dodf>
      */
-    protected String paramString() {
-        String selectedItemReminderString = (selectedItemReminder != null ?
-                                             selectedItemReminder.toString() :
+    protfdtfd String pbrbmString() {
+        String sflfdtfdItfmRfmindfrString = (sflfdtfdItfmRfmindfr != null ?
+                                             sflfdtfdItfmRfmindfr.toString() :
                                              "");
-        String isEditableString = (isEditable ? "true" : "false");
-        String lightWeightPopupEnabledString = (lightWeightPopupEnabled ?
-                                                "true" : "false");
+        String isEditbblfString = (isEditbblf ? "truf" : "fblsf");
+        String ligitWfigitPopupEnbblfdString = (ligitWfigitPopupEnbblfd ?
+                                                "truf" : "fblsf");
 
-        return super.paramString() +
-        ",isEditable=" + isEditableString +
-        ",lightWeightPopupEnabled=" + lightWeightPopupEnabledString +
-        ",maximumRowCount=" + maximumRowCount +
-        ",selectedItemReminder=" + selectedItemReminderString;
+        rfturn supfr.pbrbmString() +
+        ",isEditbblf=" + isEditbblfString +
+        ",ligitWfigitPopupEnbblfd=" + ligitWfigitPopupEnbblfdString +
+        ",mbximumRowCount=" + mbximumRowCount +
+        ",sflfdtfdItfmRfmindfr=" + sflfdtfdItfmRfmindfrString;
     }
 
 
 ///////////////////
-// Accessibility support
+// Addfssibility support
 ///////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JComboBox.
-     * For combo boxes, the AccessibleContext takes the form of an
-     * AccessibleJComboBox.
-     * A new AccessibleJComboBox instance is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis JComboBox.
+     * For dombo boxfs, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfJComboBox.
+     * A nfw AddfssiblfJComboBox instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleJComboBox that serves as the
-     *         AccessibleContext of this JComboBox
+     * @rfturn bn AddfssiblfJComboBox tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis JComboBox
      */
-    public AccessibleContext getAccessibleContext() {
-        if ( accessibleContext == null ) {
-            accessibleContext = new AccessibleJComboBox();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if ( bddfssiblfContfxt == null ) {
+            bddfssiblfContfxt = nfw AddfssiblfJComboBox();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JComboBox</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to Combo Box user-interface elements.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>JComboBox</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to Combo Box usfr-intfrfbdf flfmfnts.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJComboBox extends AccessibleJComponent
-    implements AccessibleAction, AccessibleSelection {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJComboBox fxtfnds AddfssiblfJComponfnt
+    implfmfnts AddfssiblfAdtion, AddfssiblfSflfdtion {
 
 
-        private JList<?> popupList; // combo box popup list
-        private Accessible previousSelectedAccessible = null;
+        privbtf JList<?> popupList; // dombo box popup list
+        privbtf Addfssiblf prfviousSflfdtfdAddfssiblf = null;
 
         /**
-         * Returns an AccessibleJComboBox instance
-         * @since 1.4
+         * Rfturns bn AddfssiblfJComboBox instbndf
+         * @sindf 1.4
          */
-        public AccessibleJComboBox() {
-            // set the combo box editor's accessible name and description
-            JComboBox.this.addPropertyChangeListener(new AccessibleJComboBoxPropertyChangeListener());
-            setEditorNameAndDescription();
+        publid AddfssiblfJComboBox() {
+            // sft tif dombo box fditor's bddfssiblf nbmf bnd dfsdription
+            JComboBox.tiis.bddPropfrtyCibngfListfnfr(nfw AddfssiblfJComboBoxPropfrtyCibngfListfnfr());
+            sftEditorNbmfAndDfsdription();
 
-            // Get the popup list
-            Accessible a = getUI().getAccessibleChild(JComboBox.this, 0);
-            if (a instanceof javax.swing.plaf.basic.ComboPopup) {
-                // Listen for changes to the popup menu selection.
-                popupList = ((javax.swing.plaf.basic.ComboPopup)a).getList();
-                popupList.addListSelectionListener(
-                    new AccessibleJComboBoxListSelectionListener());
+            // Gft tif popup list
+            Addfssiblf b = gftUI().gftAddfssiblfCiild(JComboBox.tiis, 0);
+            if (b instbndfof jbvbx.swing.plbf.bbsid.ComboPopup) {
+                // Listfn for dibngfs to tif popup mfnu sflfdtion.
+                popupList = ((jbvbx.swing.plbf.bbsid.ComboPopup)b).gftList();
+                popupList.bddListSflfdtionListfnfr(
+                    nfw AddfssiblfJComboBoxListSflfdtionListfnfr());
             }
-            // Listen for popup menu show/hide events
-            JComboBox.this.addPopupMenuListener(
-              new AccessibleJComboBoxPopupMenuListener());
+            // Listfn for popup mfnu siow/iidf fvfnts
+            JComboBox.tiis.bddPopupMfnuListfnfr(
+              nfw AddfssiblfJComboBoxPopupMfnuListfnfr());
         }
 
         /*
-         * JComboBox PropertyChangeListener
+         * JComboBox PropfrtyCibngfListfnfr
          */
-        private class AccessibleJComboBoxPropertyChangeListener
-            implements PropertyChangeListener {
+        privbtf dlbss AddfssiblfJComboBoxPropfrtyCibngfListfnfr
+            implfmfnts PropfrtyCibngfListfnfr {
 
-            public void propertyChange(PropertyChangeEvent e) {
-                if (e.getPropertyName() == "editor") {
-                    // set the combo box editor's accessible name
-                    // and description
-                    setEditorNameAndDescription();
+            publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+                if (f.gftPropfrtyNbmf() == "fditor") {
+                    // sft tif dombo box fditor's bddfssiblf nbmf
+                    // bnd dfsdription
+                    sftEditorNbmfAndDfsdription();
                 }
             }
         }
 
         /*
-         * Sets the combo box editor's accessible name and descripton
+         * Sfts tif dombo box fditor's bddfssiblf nbmf bnd dfsdripton
          */
-        private void setEditorNameAndDescription() {
-            ComboBoxEditor editor = JComboBox.this.getEditor();
-            if (editor != null) {
-                Component comp = editor.getEditorComponent();
-                if (comp instanceof Accessible) {
-                    AccessibleContext ac = comp.getAccessibleContext();
-                    if (ac != null) { // may be null
-                        ac.setAccessibleName(getAccessibleName());
-                        ac.setAccessibleDescription(getAccessibleDescription());
+        privbtf void sftEditorNbmfAndDfsdription() {
+            ComboBoxEditor fditor = JComboBox.tiis.gftEditor();
+            if (fditor != null) {
+                Componfnt domp = fditor.gftEditorComponfnt();
+                if (domp instbndfof Addfssiblf) {
+                    AddfssiblfContfxt bd = domp.gftAddfssiblfContfxt();
+                    if (bd != null) { // mby bf null
+                        bd.sftAddfssiblfNbmf(gftAddfssiblfNbmf());
+                        bd.sftAddfssiblfDfsdription(gftAddfssiblfDfsdription());
                     }
                 }
             }
         }
 
         /*
-         * Listener for combo box popup menu
+         * Listfnfr for dombo box popup mfnu
          * TIGER - 4669379 4894434
          */
-        private class AccessibleJComboBoxPopupMenuListener
-            implements PopupMenuListener {
+        privbtf dlbss AddfssiblfJComboBoxPopupMfnuListfnfr
+            implfmfnts PopupMfnuListfnfr {
 
             /**
-             *  This method is called before the popup menu becomes visible
+             *  Tiis mftiod is dbllfd bfforf tif popup mfnu bfdomfs visiblf
              */
-            public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-                // save the initial selection
+            publid void popupMfnuWillBfdomfVisiblf(PopupMfnuEvfnt f) {
+                // sbvf tif initibl sflfdtion
                 if (popupList == null) {
-                    return;
+                    rfturn;
                 }
-                int selectedIndex = popupList.getSelectedIndex();
-                if (selectedIndex < 0) {
-                    return;
+                int sflfdtfdIndfx = popupList.gftSflfdtfdIndfx();
+                if (sflfdtfdIndfx < 0) {
+                    rfturn;
                 }
-                previousSelectedAccessible =
-                    popupList.getAccessibleContext().getAccessibleChild(selectedIndex);
+                prfviousSflfdtfdAddfssiblf =
+                    popupList.gftAddfssiblfContfxt().gftAddfssiblfCiild(sflfdtfdIndfx);
             }
 
             /**
-             * This method is called before the popup menu becomes invisible
-             * Note that a JPopupMenu can become invisible any time
+             * Tiis mftiod is dbllfd bfforf tif popup mfnu bfdomfs invisiblf
+             * Notf tibt b JPopupMfnu dbn bfdomf invisiblf bny timf
              */
-            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-                // ignore
+            publid void popupMfnuWillBfdomfInvisiblf(PopupMfnuEvfnt f) {
+                // ignorf
             }
 
             /**
-             * This method is called when the popup menu is canceled
+             * Tiis mftiod is dbllfd wifn tif popup mfnu is dbndflfd
              */
-            public void popupMenuCanceled(PopupMenuEvent e) {
-                // ignore
+            publid void popupMfnuCbndflfd(PopupMfnuEvfnt f) {
+                // ignorf
             }
         }
 
         /*
-         * Handles changes to the popup list selection.
+         * Hbndlfs dibngfs to tif popup list sflfdtion.
          * TIGER - 4669379 4894434 4933143
          */
-        private class AccessibleJComboBoxListSelectionListener
-            implements ListSelectionListener {
+        privbtf dlbss AddfssiblfJComboBoxListSflfdtionListfnfr
+            implfmfnts ListSflfdtionListfnfr {
 
-            public void valueChanged(ListSelectionEvent e) {
+            publid void vblufCibngfd(ListSflfdtionEvfnt f) {
                 if (popupList == null) {
-                    return;
+                    rfturn;
                 }
 
-                // Get the selected popup list item.
-                int selectedIndex = popupList.getSelectedIndex();
-                if (selectedIndex < 0) {
-                    return;
+                // Gft tif sflfdtfd popup list itfm.
+                int sflfdtfdIndfx = popupList.gftSflfdtfdIndfx();
+                if (sflfdtfdIndfx < 0) {
+                    rfturn;
                 }
-                Accessible selectedAccessible =
-                    popupList.getAccessibleContext().getAccessibleChild(selectedIndex);
-                if (selectedAccessible == null) {
-                    return;
+                Addfssiblf sflfdtfdAddfssiblf =
+                    popupList.gftAddfssiblfContfxt().gftAddfssiblfCiild(sflfdtfdIndfx);
+                if (sflfdtfdAddfssiblf == null) {
+                    rfturn;
                 }
 
-                // Fire a FOCUSED lost PropertyChangeEvent for the
-                // previously selected list item.
-                PropertyChangeEvent pce;
+                // Firf b FOCUSED lost PropfrtyCibngfEvfnt for tif
+                // prfviously sflfdtfd list itfm.
+                PropfrtyCibngfEvfnt pdf;
 
-                if (previousSelectedAccessible != null) {
-                    pce = new PropertyChangeEvent(previousSelectedAccessible,
-                        AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                        AccessibleState.FOCUSED, null);
-                    firePropertyChange(AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                                       null, pce);
+                if (prfviousSflfdtfdAddfssiblf != null) {
+                    pdf = nfw PropfrtyCibngfEvfnt(prfviousSflfdtfdAddfssiblf,
+                        AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                        AddfssiblfStbtf.FOCUSED, null);
+                    firfPropfrtyCibngf(AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                                       null, pdf);
                 }
-                // Fire a FOCUSED gained PropertyChangeEvent for the
-                // currently selected list item.
-                pce = new PropertyChangeEvent(selectedAccessible,
-                    AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                    null, AccessibleState.FOCUSED);
-                firePropertyChange(AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                                   null, pce);
+                // Firf b FOCUSED gbinfd PropfrtyCibngfEvfnt for tif
+                // durrfntly sflfdtfd list itfm.
+                pdf = nfw PropfrtyCibngfEvfnt(sflfdtfdAddfssiblf,
+                    AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                    null, AddfssiblfStbtf.FOCUSED);
+                firfPropfrtyCibngf(AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                                   null, pdf);
 
-                // Fire the ACCESSIBLE_ACTIVE_DESCENDANT_PROPERTY event
-                // for the combo box.
-                firePropertyChange(AccessibleContext.ACCESSIBLE_ACTIVE_DESCENDANT_PROPERTY,
-                                   previousSelectedAccessible, selectedAccessible);
+                // Firf tif ACCESSIBLE_ACTIVE_DESCENDANT_PROPERTY fvfnt
+                // for tif dombo box.
+                firfPropfrtyCibngf(AddfssiblfContfxt.ACCESSIBLE_ACTIVE_DESCENDANT_PROPERTY,
+                                   prfviousSflfdtfdAddfssiblf, sflfdtfdAddfssiblf);
 
-                // Save the previous selection.
-                previousSelectedAccessible = selectedAccessible;
+                // Sbvf tif prfvious sflfdtion.
+                prfviousSflfdtfdAddfssiblf = sflfdtfdAddfssiblf;
             }
         }
 
 
         /**
-         * Returns the number of accessible children in the object.  If all
-         * of the children of this object implement Accessible, than this
-         * method should return the number of children of this object.
+         * Rfturns tif numbfr of bddfssiblf diildrfn in tif objfdt.  If bll
+         * of tif diildrfn of tiis objfdt implfmfnt Addfssiblf, tibn tiis
+         * mftiod siould rfturn tif numbfr of diildrfn of tiis objfdt.
          *
-         * @return the number of accessible children in the object.
+         * @rfturn tif numbfr of bddfssiblf diildrfn in tif objfdt.
          */
-        public int getAccessibleChildrenCount() {
-            // Always delegate to the UI if it exists
+        publid int gftAddfssiblfCiildrfnCount() {
+            // Alwbys dflfgbtf to tif UI if it fxists
             if (ui != null) {
-                return ui.getAccessibleChildrenCount(JComboBox.this);
-            } else {
-                return super.getAccessibleChildrenCount();
+                rfturn ui.gftAddfssiblfCiildrfnCount(JComboBox.tiis);
+            } flsf {
+                rfturn supfr.gftAddfssiblfCiildrfnCount();
             }
         }
 
         /**
-         * Returns the nth Accessible child of the object.
-         * The child at index zero represents the popup.
-         * If the combo box is editable, the child at index one
-         * represents the editor.
+         * Rfturns tif nti Addfssiblf diild of tif objfdt.
+         * Tif diild bt indfx zfro rfprfsfnts tif popup.
+         * If tif dombo box is fditbblf, tif diild bt indfx onf
+         * rfprfsfnts tif fditor.
          *
-         * @param i zero-based index of child
-         * @return the nth Accessible child of the object
+         * @pbrbm i zfro-bbsfd indfx of diild
+         * @rfturn tif nti Addfssiblf diild of tif objfdt
          */
-        public Accessible getAccessibleChild(int i) {
-            // Always delegate to the UI if it exists
+        publid Addfssiblf gftAddfssiblfCiild(int i) {
+            // Alwbys dflfgbtf to tif UI if it fxists
             if (ui != null) {
-                return ui.getAccessibleChild(JComboBox.this, i);
-            } else {
-               return super.getAccessibleChild(i);
+                rfturn ui.gftAddfssiblfCiild(JComboBox.tiis, i);
+            } flsf {
+               rfturn supfr.gftAddfssiblfCiild(i);
             }
         }
 
         /**
-         * Get the role of this object.
+         * Gft tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of the
-         * object
-         * @see AccessibleRole
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         * objfdt
+         * @sff AddfssiblfRolf
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.COMBO_BOX;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.COMBO_BOX;
         }
 
         /**
-         * Gets the state set of this object.  The AccessibleStateSet of
-         * an object is composed of a set of unique AccessibleStates.
-         * A change in the AccessibleStateSet of an object will cause a
-         * PropertyChangeEvent to be fired for the ACCESSIBLE_STATE_PROPERTY
-         * property.
+         * Gfts tif stbtf sft of tiis objfdt.  Tif AddfssiblfStbtfSft of
+         * bn objfdt is domposfd of b sft of uniquf AddfssiblfStbtfs.
+         * A dibngf in tif AddfssiblfStbtfSft of bn objfdt will dbusf b
+         * PropfrtyCibngfEvfnt to bf firfd for tif ACCESSIBLE_STATE_PROPERTY
+         * propfrty.
          *
-         * @return an instance of AccessibleStateSet containing the
-         * current state set of the object
-         * @see AccessibleStateSet
-         * @see AccessibleState
-         * @see #addPropertyChangeListener
+         * @rfturn bn instbndf of AddfssiblfStbtfSft dontbining tif
+         * durrfnt stbtf sft of tif objfdt
+         * @sff AddfssiblfStbtfSft
+         * @sff AddfssiblfStbtf
+         * @sff #bddPropfrtyCibngfListfnfr
          *
          */
-        public AccessibleStateSet getAccessibleStateSet() {
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
             // TIGER - 4489748
-            AccessibleStateSet ass = super.getAccessibleStateSet();
-            if (ass == null) {
-                ass = new AccessibleStateSet();
+            AddfssiblfStbtfSft bss = supfr.gftAddfssiblfStbtfSft();
+            if (bss == null) {
+                bss = nfw AddfssiblfStbtfSft();
             }
-            if (JComboBox.this.isPopupVisible()) {
-                ass.add(AccessibleState.EXPANDED);
-            } else {
-                ass.add(AccessibleState.COLLAPSED);
+            if (JComboBox.tiis.isPopupVisiblf()) {
+                bss.bdd(AddfssiblfStbtf.EXPANDED);
+            } flsf {
+                bss.bdd(AddfssiblfStbtf.COLLAPSED);
             }
-            return ass;
+            rfturn bss;
         }
 
         /**
-         * Get the AccessibleAction associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
-         * return this object, which is responsible for implementing the
-         * AccessibleAction interface on behalf of itself.
+         * Gft tif AddfssiblfAdtion bssodibtfd witi tiis objfdt.  In tif
+         * implfmfntbtion of tif Jbvb Addfssibility API for tiis dlbss,
+         * rfturn tiis objfdt, wiidi is rfsponsiblf for implfmfnting tif
+         * AddfssiblfAdtion intfrfbdf on bfiblf of itsflf.
          *
-         * @return this object
+         * @rfturn tiis objfdt
          */
-        public AccessibleAction getAccessibleAction() {
-            return this;
+        publid AddfssiblfAdtion gftAddfssiblfAdtion() {
+            rfturn tiis;
         }
 
         /**
-         * Return a description of the specified action of the object.
+         * Rfturn b dfsdription of tif spfdififd bdtion of tif objfdt.
          *
-         * @param i zero-based index of the actions
+         * @pbrbm i zfro-bbsfd indfx of tif bdtions
          */
-        public String getAccessibleActionDescription(int i) {
+        publid String gftAddfssiblfAdtionDfsdription(int i) {
             if (i == 0) {
-                return UIManager.getString("ComboBox.togglePopupText");
+                rfturn UIMbnbgfr.gftString("ComboBox.togglfPopupTfxt");
             }
-            else {
-                return null;
+            flsf {
+                rfturn null;
             }
         }
 
         /**
-         * Returns the number of Actions available in this object.  The
-         * default behavior of a combo box is to have one action.
+         * Rfturns tif numbfr of Adtions bvbilbblf in tiis objfdt.  Tif
+         * dffbult bfibvior of b dombo box is to ibvf onf bdtion.
          *
-         * @return 1, the number of Actions in this object
+         * @rfturn 1, tif numbfr of Adtions in tiis objfdt
          */
-        public int getAccessibleActionCount() {
-            return 1;
+        publid int gftAddfssiblfAdtionCount() {
+            rfturn 1;
         }
 
         /**
-         * Perform the specified Action on the object
+         * Pfrform tif spfdififd Adtion on tif objfdt
          *
-         * @param i zero-based index of actions
-         * @return true if the the action was performed; else false.
+         * @pbrbm i zfro-bbsfd indfx of bdtions
+         * @rfturn truf if tif tif bdtion wbs pfrformfd; flsf fblsf.
          */
-        public boolean doAccessibleAction(int i) {
+        publid boolfbn doAddfssiblfAdtion(int i) {
             if (i == 0) {
-                setPopupVisible(!isPopupVisible());
-                return true;
+                sftPopupVisiblf(!isPopupVisiblf());
+                rfturn truf;
             }
-            else {
-                return false;
+            flsf {
+                rfturn fblsf;
             }
         }
 
 
         /**
-         * Get the AccessibleSelection associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
-         * return this object, which is responsible for implementing the
-         * AccessibleSelection interface on behalf of itself.
+         * Gft tif AddfssiblfSflfdtion bssodibtfd witi tiis objfdt.  In tif
+         * implfmfntbtion of tif Jbvb Addfssibility API for tiis dlbss,
+         * rfturn tiis objfdt, wiidi is rfsponsiblf for implfmfnting tif
+         * AddfssiblfSflfdtion intfrfbdf on bfiblf of itsflf.
          *
-         * @return this object
+         * @rfturn tiis objfdt
          */
-        public AccessibleSelection getAccessibleSelection() {
-            return this;
+        publid AddfssiblfSflfdtion gftAddfssiblfSflfdtion() {
+            rfturn tiis;
         }
 
         /**
-         * Returns the number of Accessible children currently selected.
-         * If no children are selected, the return value will be 0.
+         * Rfturns tif numbfr of Addfssiblf diildrfn durrfntly sflfdtfd.
+         * If no diildrfn brf sflfdtfd, tif rfturn vbluf will bf 0.
          *
-         * @return the number of items currently selected.
-         * @since 1.3
+         * @rfturn tif numbfr of itfms durrfntly sflfdtfd.
+         * @sindf 1.3
          */
-        public int getAccessibleSelectionCount() {
-            Object o = JComboBox.this.getSelectedItem();
+        publid int gftAddfssiblfSflfdtionCount() {
+            Objfdt o = JComboBox.tiis.gftSflfdtfdItfm();
             if (o != null) {
-                return 1;
-            } else {
-                return 0;
+                rfturn 1;
+            } flsf {
+                rfturn 0;
             }
         }
 
         /**
-         * Returns an Accessible representing the specified selected child
-         * in the popup.  If there isn't a selection, or there are
-         * fewer children selected than the integer passed in, the return
-         * value will be null.
-         * <p>Note that the index represents the i-th selected child, which
-         * is different from the i-th child.
+         * Rfturns bn Addfssiblf rfprfsfnting tif spfdififd sflfdtfd diild
+         * in tif popup.  If tifrf isn't b sflfdtion, or tifrf brf
+         * ffwfr diildrfn sflfdtfd tibn tif intfgfr pbssfd in, tif rfturn
+         * vbluf will bf null.
+         * <p>Notf tibt tif indfx rfprfsfnts tif i-ti sflfdtfd diild, wiidi
+         * is difffrfnt from tif i-ti diild.
          *
-         * @param i the zero-based index of selected children
-         * @return the i-th selected child
-         * @see #getAccessibleSelectionCount
-         * @since 1.3
+         * @pbrbm i tif zfro-bbsfd indfx of sflfdtfd diildrfn
+         * @rfturn tif i-ti sflfdtfd diild
+         * @sff #gftAddfssiblfSflfdtionCount
+         * @sindf 1.3
          */
-        public Accessible getAccessibleSelection(int i) {
-            // Get the popup
-            Accessible a =
-                JComboBox.this.getUI().getAccessibleChild(JComboBox.this, 0);
-            if (a != null &&
-                a instanceof javax.swing.plaf.basic.ComboPopup) {
+        publid Addfssiblf gftAddfssiblfSflfdtion(int i) {
+            // Gft tif popup
+            Addfssiblf b =
+                JComboBox.tiis.gftUI().gftAddfssiblfCiild(JComboBox.tiis, 0);
+            if (b != null &&
+                b instbndfof jbvbx.swing.plbf.bbsid.ComboPopup) {
 
-                // get the popup list
-                JList<?> list = ((javax.swing.plaf.basic.ComboPopup)a).getList();
+                // gft tif popup list
+                JList<?> list = ((jbvbx.swing.plbf.bbsid.ComboPopup)b).gftList();
 
-                // return the i-th selection in the popup list
-                AccessibleContext ac = list.getAccessibleContext();
-                if (ac != null) {
-                    AccessibleSelection as = ac.getAccessibleSelection();
-                    if (as != null) {
-                        return as.getAccessibleSelection(i);
+                // rfturn tif i-ti sflfdtion in tif popup list
+                AddfssiblfContfxt bd = list.gftAddfssiblfContfxt();
+                if (bd != null) {
+                    AddfssiblfSflfdtion bs = bd.gftAddfssiblfSflfdtion();
+                    if (bs != null) {
+                        rfturn bs.gftAddfssiblfSflfdtion(i);
                     }
                 }
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Determines if the current child of this object is selected.
+         * Dftfrminfs if tif durrfnt diild of tiis objfdt is sflfdtfd.
          *
-         * @return true if the current child of this object is selected;
-         *              else false
-         * @param i the zero-based index of the child in this Accessible
-         * object.
-         * @see AccessibleContext#getAccessibleChild
-         * @since 1.3
+         * @rfturn truf if tif durrfnt diild of tiis objfdt is sflfdtfd;
+         *              flsf fblsf
+         * @pbrbm i tif zfro-bbsfd indfx of tif diild in tiis Addfssiblf
+         * objfdt.
+         * @sff AddfssiblfContfxt#gftAddfssiblfCiild
+         * @sindf 1.3
          */
-        public boolean isAccessibleChildSelected(int i) {
-            return JComboBox.this.getSelectedIndex() == i;
+        publid boolfbn isAddfssiblfCiildSflfdtfd(int i) {
+            rfturn JComboBox.tiis.gftSflfdtfdIndfx() == i;
         }
 
         /**
-         * Adds the specified Accessible child of the object to the object's
-         * selection.  If the object supports multiple selections,
-         * the specified child is added to any existing selection, otherwise
-         * it replaces any existing selection in the object.  If the
-         * specified child is already selected, this method has no effect.
+         * Adds tif spfdififd Addfssiblf diild of tif objfdt to tif objfdt's
+         * sflfdtion.  If tif objfdt supports multiplf sflfdtions,
+         * tif spfdififd diild is bddfd to bny fxisting sflfdtion, otifrwisf
+         * it rfplbdfs bny fxisting sflfdtion in tif objfdt.  If tif
+         * spfdififd diild is blrfbdy sflfdtfd, tiis mftiod ibs no ffffdt.
          *
-         * @param i the zero-based index of the child
-         * @see AccessibleContext#getAccessibleChild
-         * @since 1.3
+         * @pbrbm i tif zfro-bbsfd indfx of tif diild
+         * @sff AddfssiblfContfxt#gftAddfssiblfCiild
+         * @sindf 1.3
          */
-        public void addAccessibleSelection(int i) {
+        publid void bddAddfssiblfSflfdtion(int i) {
             // TIGER - 4856195
-            clearAccessibleSelection();
-            JComboBox.this.setSelectedIndex(i);
+            dlfbrAddfssiblfSflfdtion();
+            JComboBox.tiis.sftSflfdtfdIndfx(i);
         }
 
         /**
-         * Removes the specified child of the object from the object's
-         * selection.  If the specified item isn't currently selected, this
-         * method has no effect.
+         * Rfmovfs tif spfdififd diild of tif objfdt from tif objfdt's
+         * sflfdtion.  If tif spfdififd itfm isn't durrfntly sflfdtfd, tiis
+         * mftiod ibs no ffffdt.
          *
-         * @param i the zero-based index of the child
-         * @see AccessibleContext#getAccessibleChild
-         * @since 1.3
+         * @pbrbm i tif zfro-bbsfd indfx of tif diild
+         * @sff AddfssiblfContfxt#gftAddfssiblfCiild
+         * @sindf 1.3
          */
-        public void removeAccessibleSelection(int i) {
-            if (JComboBox.this.getSelectedIndex() == i) {
-                clearAccessibleSelection();
+        publid void rfmovfAddfssiblfSflfdtion(int i) {
+            if (JComboBox.tiis.gftSflfdtfdIndfx() == i) {
+                dlfbrAddfssiblfSflfdtion();
             }
         }
 
         /**
-         * Clears the selection in the object, so that no children in the
-         * object are selected.
-         * @since 1.3
+         * Clfbrs tif sflfdtion in tif objfdt, so tibt no diildrfn in tif
+         * objfdt brf sflfdtfd.
+         * @sindf 1.3
          */
-        public void clearAccessibleSelection() {
-            JComboBox.this.setSelectedIndex(-1);
+        publid void dlfbrAddfssiblfSflfdtion() {
+            JComboBox.tiis.sftSflfdtfdIndfx(-1);
         }
 
         /**
-         * Causes every child of the object to be selected
-         * if the object supports multiple selections.
-         * @since 1.3
+         * Cbusfs fvfry diild of tif objfdt to bf sflfdtfd
+         * if tif objfdt supports multiplf sflfdtions.
+         * @sindf 1.3
          */
-        public void selectAllAccessibleSelection() {
-            // do nothing since multiple selection is not supported
+        publid void sflfdtAllAddfssiblfSflfdtion() {
+            // do notiing sindf multiplf sflfdtion is not supportfd
         }
 
-//        public Accessible getAccessibleAt(Point p) {
-//            Accessible a = getAccessibleChild(1);
-//            if ( a != null ) {
-//                return a; // the editor
+//        publid Addfssiblf gftAddfssiblfAt(Point p) {
+//            Addfssiblf b = gftAddfssiblfCiild(1);
+//            if ( b != null ) {
+//                rfturn b; // tif fditor
 //            }
-//            else {
-//                return getAccessibleChild(0); // the list
+//            flsf {
+//                rfturn gftAddfssiblfCiild(0); // tif list
 //            }
 //        }
-        private EditorAccessibleContext editorAccessibleContext = null;
+        privbtf EditorAddfssiblfContfxt fditorAddfssiblfContfxt = null;
 
-        private class AccessibleEditor implements Accessible {
-            public AccessibleContext getAccessibleContext() {
-                if (editorAccessibleContext == null) {
-                    Component c = JComboBox.this.getEditor().getEditorComponent();
-                    if (c instanceof Accessible) {
-                        editorAccessibleContext =
-                            new EditorAccessibleContext((Accessible)c);
+        privbtf dlbss AddfssiblfEditor implfmfnts Addfssiblf {
+            publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+                if (fditorAddfssiblfContfxt == null) {
+                    Componfnt d = JComboBox.tiis.gftEditor().gftEditorComponfnt();
+                    if (d instbndfof Addfssiblf) {
+                        fditorAddfssiblfContfxt =
+                            nfw EditorAddfssiblfContfxt((Addfssiblf)d);
                     }
                 }
-                return editorAccessibleContext;
+                rfturn fditorAddfssiblfContfxt;
             }
         }
 
         /*
-         * Wrapper class for the AccessibleContext implemented by the
-         * combo box editor.  Delegates all method calls except
-         * getAccessibleIndexInParent to the editor.  The
-         * getAccessibleIndexInParent method returns the selected
-         * index in the combo box.
+         * Wrbppfr dlbss for tif AddfssiblfContfxt implfmfntfd by tif
+         * dombo box fditor.  Dflfgbtfs bll mftiod dblls fxdfpt
+         * gftAddfssiblfIndfxInPbrfnt to tif fditor.  Tif
+         * gftAddfssiblfIndfxInPbrfnt mftiod rfturns tif sflfdtfd
+         * indfx in tif dombo box.
          */
-        private class EditorAccessibleContext extends AccessibleContext {
+        privbtf dlbss EditorAddfssiblfContfxt fxtfnds AddfssiblfContfxt {
 
-            private AccessibleContext ac;
+            privbtf AddfssiblfContfxt bd;
 
-            private EditorAccessibleContext() {
+            privbtf EditorAddfssiblfContfxt() {
             }
 
             /*
-             * @param a the AccessibleContext implemented by the
-             * combo box editor
+             * @pbrbm b tif AddfssiblfContfxt implfmfntfd by tif
+             * dombo box fditor
              */
-            EditorAccessibleContext(Accessible a) {
-                this.ac = a.getAccessibleContext();
+            EditorAddfssiblfContfxt(Addfssiblf b) {
+                tiis.bd = b.gftAddfssiblfContfxt();
             }
 
             /**
-             * Gets the accessibleName property of this object.  The accessibleName
-             * property of an object is a localized String that designates the purpose
-             * of the object.  For example, the accessibleName property of a label
-             * or button might be the text of the label or button itself.  In the
-             * case of an object that doesn't display its name, the accessibleName
-             * should still be set.  For example, in the case of a text field used
-             * to enter the name of a city, the accessibleName for the en_US locale
-             * could be 'city.'
+             * Gfts tif bddfssiblfNbmf propfrty of tiis objfdt.  Tif bddfssiblfNbmf
+             * propfrty of bn objfdt is b lodblizfd String tibt dfsignbtfs tif purposf
+             * of tif objfdt.  For fxbmplf, tif bddfssiblfNbmf propfrty of b lbbfl
+             * or button migit bf tif tfxt of tif lbbfl or button itsflf.  In tif
+             * dbsf of bn objfdt tibt dofsn't displby its nbmf, tif bddfssiblfNbmf
+             * siould still bf sft.  For fxbmplf, in tif dbsf of b tfxt fifld usfd
+             * to fntfr tif nbmf of b dity, tif bddfssiblfNbmf for tif fn_US lodblf
+             * dould bf 'dity.'
              *
-             * @return the localized name of the object; null if this
-             * object does not have a name
+             * @rfturn tif lodblizfd nbmf of tif objfdt; null if tiis
+             * objfdt dofs not ibvf b nbmf
              *
-             * @see #setAccessibleName
+             * @sff #sftAddfssiblfNbmf
              */
-            public String getAccessibleName() {
-                return ac.getAccessibleName();
+            publid String gftAddfssiblfNbmf() {
+                rfturn bd.gftAddfssiblfNbmf();
             }
 
             /**
-             * Sets the localized accessible name of this object.  Changing the
-             * name will cause a PropertyChangeEvent to be fired for the
-             * ACCESSIBLE_NAME_PROPERTY property.
+             * Sfts tif lodblizfd bddfssiblf nbmf of tiis objfdt.  Cibnging tif
+             * nbmf will dbusf b PropfrtyCibngfEvfnt to bf firfd for tif
+             * ACCESSIBLE_NAME_PROPERTY propfrty.
              *
-             * @param s the new localized name of the object.
+             * @pbrbm s tif nfw lodblizfd nbmf of tif objfdt.
              *
-             * @see #getAccessibleName
-             * @see #addPropertyChangeListener
+             * @sff #gftAddfssiblfNbmf
+             * @sff #bddPropfrtyCibngfListfnfr
              *
-             * @beaninfo
-             *    preferred:   true
-             *    description: Sets the accessible name for the component.
+             * @bfbninfo
+             *    prfffrrfd:   truf
+             *    dfsdription: Sfts tif bddfssiblf nbmf for tif domponfnt.
              */
-            public void setAccessibleName(String s) {
-                ac.setAccessibleName(s);
+            publid void sftAddfssiblfNbmf(String s) {
+                bd.sftAddfssiblfNbmf(s);
             }
 
             /**
-             * Gets the accessibleDescription property of this object.  The
-             * accessibleDescription property of this object is a short localized
-             * phrase describing the purpose of the object.  For example, in the
-             * case of a 'Cancel' button, the accessibleDescription could be
-             * 'Ignore changes and close dialog box.'
+             * Gfts tif bddfssiblfDfsdription propfrty of tiis objfdt.  Tif
+             * bddfssiblfDfsdription propfrty of tiis objfdt is b siort lodblizfd
+             * pirbsf dfsdribing tif purposf of tif objfdt.  For fxbmplf, in tif
+             * dbsf of b 'Cbndfl' button, tif bddfssiblfDfsdription dould bf
+             * 'Ignorf dibngfs bnd dlosf diblog box.'
              *
-             * @return the localized description of the object; null if
-             * this object does not have a description
+             * @rfturn tif lodblizfd dfsdription of tif objfdt; null if
+             * tiis objfdt dofs not ibvf b dfsdription
              *
-             * @see #setAccessibleDescription
+             * @sff #sftAddfssiblfDfsdription
              */
-            public String getAccessibleDescription() {
-                return ac.getAccessibleDescription();
+            publid String gftAddfssiblfDfsdription() {
+                rfturn bd.gftAddfssiblfDfsdription();
             }
 
             /**
-             * Sets the accessible description of this object.  Changing the
-             * name will cause a PropertyChangeEvent to be fired for the
-             * ACCESSIBLE_DESCRIPTION_PROPERTY property.
+             * Sfts tif bddfssiblf dfsdription of tiis objfdt.  Cibnging tif
+             * nbmf will dbusf b PropfrtyCibngfEvfnt to bf firfd for tif
+             * ACCESSIBLE_DESCRIPTION_PROPERTY propfrty.
              *
-             * @param s the new localized description of the object
+             * @pbrbm s tif nfw lodblizfd dfsdription of tif objfdt
              *
-             * @see #setAccessibleName
-             * @see #addPropertyChangeListener
+             * @sff #sftAddfssiblfNbmf
+             * @sff #bddPropfrtyCibngfListfnfr
              *
-             * @beaninfo
-             *    preferred:   true
-             *    description: Sets the accessible description for the component.
+             * @bfbninfo
+             *    prfffrrfd:   truf
+             *    dfsdription: Sfts tif bddfssiblf dfsdription for tif domponfnt.
              */
-            public void setAccessibleDescription(String s) {
-                ac.setAccessibleDescription(s);
+            publid void sftAddfssiblfDfsdription(String s) {
+                bd.sftAddfssiblfDfsdription(s);
             }
 
             /**
-             * Gets the role of this object.  The role of the object is the generic
-             * purpose or use of the class of this object.  For example, the role
-             * of a push button is AccessibleRole.PUSH_BUTTON.  The roles in
-             * AccessibleRole are provided so component developers can pick from
-             * a set of predefined roles.  This enables assistive technologies to
-             * provide a consistent interface to various tweaked subclasses of
-             * components (e.g., use AccessibleRole.PUSH_BUTTON for all components
-             * that act like a push button) as well as distinguish between subclasses
-             * that behave differently (e.g., AccessibleRole.CHECK_BOX for check boxes
-             * and AccessibleRole.RADIO_BUTTON for radio buttons).
-             * <p>Note that the AccessibleRole class is also extensible, so
-             * custom component developers can define their own AccessibleRole's
-             * if the set of predefined roles is inadequate.
+             * Gfts tif rolf of tiis objfdt.  Tif rolf of tif objfdt is tif gfnfrid
+             * purposf or usf of tif dlbss of tiis objfdt.  For fxbmplf, tif rolf
+             * of b pusi button is AddfssiblfRolf.PUSH_BUTTON.  Tif rolfs in
+             * AddfssiblfRolf brf providfd so domponfnt dfvflopfrs dbn pidk from
+             * b sft of prfdffinfd rolfs.  Tiis fnbblfs bssistivf tfdinologifs to
+             * providf b donsistfnt intfrfbdf to vbrious twfbkfd subdlbssfs of
+             * domponfnts (f.g., usf AddfssiblfRolf.PUSH_BUTTON for bll domponfnts
+             * tibt bdt likf b pusi button) bs wfll bs distinguisi bftwffn subdlbssfs
+             * tibt bfibvf difffrfntly (f.g., AddfssiblfRolf.CHECK_BOX for difdk boxfs
+             * bnd AddfssiblfRolf.RADIO_BUTTON for rbdio buttons).
+             * <p>Notf tibt tif AddfssiblfRolf dlbss is blso fxtfnsiblf, so
+             * dustom domponfnt dfvflopfrs dbn dffinf tifir own AddfssiblfRolf's
+             * if tif sft of prfdffinfd rolfs is inbdfqubtf.
              *
-             * @return an instance of AccessibleRole describing the role of the object
-             * @see AccessibleRole
+             * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif objfdt
+             * @sff AddfssiblfRolf
              */
-            public AccessibleRole getAccessibleRole() {
-                return ac.getAccessibleRole();
+            publid AddfssiblfRolf gftAddfssiblfRolf() {
+                rfturn bd.gftAddfssiblfRolf();
             }
 
             /**
-             * Gets the state set of this object.  The AccessibleStateSet of an object
-             * is composed of a set of unique AccessibleStates.  A change in the
-             * AccessibleStateSet of an object will cause a PropertyChangeEvent to
-             * be fired for the ACCESSIBLE_STATE_PROPERTY property.
+             * Gfts tif stbtf sft of tiis objfdt.  Tif AddfssiblfStbtfSft of bn objfdt
+             * is domposfd of b sft of uniquf AddfssiblfStbtfs.  A dibngf in tif
+             * AddfssiblfStbtfSft of bn objfdt will dbusf b PropfrtyCibngfEvfnt to
+             * bf firfd for tif ACCESSIBLE_STATE_PROPERTY propfrty.
              *
-             * @return an instance of AccessibleStateSet containing the
-             * current state set of the object
-             * @see AccessibleStateSet
-             * @see AccessibleState
-             * @see #addPropertyChangeListener
+             * @rfturn bn instbndf of AddfssiblfStbtfSft dontbining tif
+             * durrfnt stbtf sft of tif objfdt
+             * @sff AddfssiblfStbtfSft
+             * @sff AddfssiblfStbtf
+             * @sff #bddPropfrtyCibngfListfnfr
              */
-            public AccessibleStateSet getAccessibleStateSet() {
-                return ac.getAccessibleStateSet();
+            publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+                rfturn bd.gftAddfssiblfStbtfSft();
             }
 
             /**
-             * Gets the Accessible parent of this object.
+             * Gfts tif Addfssiblf pbrfnt of tiis objfdt.
              *
-             * @return the Accessible parent of this object; null if this
-             * object does not have an Accessible parent
+             * @rfturn tif Addfssiblf pbrfnt of tiis objfdt; null if tiis
+             * objfdt dofs not ibvf bn Addfssiblf pbrfnt
              */
-            public Accessible getAccessibleParent() {
-                return ac.getAccessibleParent();
+            publid Addfssiblf gftAddfssiblfPbrfnt() {
+                rfturn bd.gftAddfssiblfPbrfnt();
             }
 
             /**
-             * Sets the Accessible parent of this object.  This is meant to be used
-             * only in the situations where the actual component's parent should
-             * not be treated as the component's accessible parent and is a method
-             * that should only be called by the parent of the accessible child.
+             * Sfts tif Addfssiblf pbrfnt of tiis objfdt.  Tiis is mfbnt to bf usfd
+             * only in tif situbtions wifrf tif bdtubl domponfnt's pbrfnt siould
+             * not bf trfbtfd bs tif domponfnt's bddfssiblf pbrfnt bnd is b mftiod
+             * tibt siould only bf dbllfd by tif pbrfnt of tif bddfssiblf diild.
              *
-             * @param a - Accessible to be set as the parent
+             * @pbrbm b - Addfssiblf to bf sft bs tif pbrfnt
              */
-            public void setAccessibleParent(Accessible a) {
-                ac.setAccessibleParent(a);
+            publid void sftAddfssiblfPbrfnt(Addfssiblf b) {
+                bd.sftAddfssiblfPbrfnt(b);
             }
 
             /**
-             * Gets the 0-based index of this object in its accessible parent.
+             * Gfts tif 0-bbsfd indfx of tiis objfdt in its bddfssiblf pbrfnt.
              *
-             * @return the 0-based index of this object in its parent; -1 if this
-             * object does not have an accessible parent.
+             * @rfturn tif 0-bbsfd indfx of tiis objfdt in its pbrfnt; -1 if tiis
+             * objfdt dofs not ibvf bn bddfssiblf pbrfnt.
              *
-             * @see #getAccessibleParent
-             * @see #getAccessibleChildrenCount
-             * @see #getAccessibleChild
+             * @sff #gftAddfssiblfPbrfnt
+             * @sff #gftAddfssiblfCiildrfnCount
+             * @sff #gftAddfssiblfCiild
              */
-            public int getAccessibleIndexInParent() {
-                return JComboBox.this.getSelectedIndex();
+            publid int gftAddfssiblfIndfxInPbrfnt() {
+                rfturn JComboBox.tiis.gftSflfdtfdIndfx();
             }
 
             /**
-             * Returns the number of accessible children of the object.
+             * Rfturns tif numbfr of bddfssiblf diildrfn of tif objfdt.
              *
-             * @return the number of accessible children of the object.
+             * @rfturn tif numbfr of bddfssiblf diildrfn of tif objfdt.
              */
-            public int getAccessibleChildrenCount() {
-                return ac.getAccessibleChildrenCount();
+            publid int gftAddfssiblfCiildrfnCount() {
+                rfturn bd.gftAddfssiblfCiildrfnCount();
             }
 
             /**
-             * Returns the specified Accessible child of the object.  The Accessible
-             * children of an Accessible object are zero-based, so the first child
-             * of an Accessible child is at index 0, the second child is at index 1,
-             * and so on.
+             * Rfturns tif spfdififd Addfssiblf diild of tif objfdt.  Tif Addfssiblf
+             * diildrfn of bn Addfssiblf objfdt brf zfro-bbsfd, so tif first diild
+             * of bn Addfssiblf diild is bt indfx 0, tif sfdond diild is bt indfx 1,
+             * bnd so on.
              *
-             * @param i zero-based index of child
-             * @return the Accessible child of the object
-             * @see #getAccessibleChildrenCount
+             * @pbrbm i zfro-bbsfd indfx of diild
+             * @rfturn tif Addfssiblf diild of tif objfdt
+             * @sff #gftAddfssiblfCiildrfnCount
              */
-            public Accessible getAccessibleChild(int i) {
-                return ac.getAccessibleChild(i);
+            publid Addfssiblf gftAddfssiblfCiild(int i) {
+                rfturn bd.gftAddfssiblfCiild(i);
             }
 
             /**
-             * Gets the locale of the component. If the component does not have a
-             * locale, then the locale of its parent is returned.
+             * Gfts tif lodblf of tif domponfnt. If tif domponfnt dofs not ibvf b
+             * lodblf, tifn tif lodblf of its pbrfnt is rfturnfd.
              *
-             * @return this component's locale.  If this component does not have
-             * a locale, the locale of its parent is returned.
+             * @rfturn tiis domponfnt's lodblf.  If tiis domponfnt dofs not ibvf
+             * b lodblf, tif lodblf of its pbrfnt is rfturnfd.
              *
-             * @exception IllegalComponentStateException
-             * If the Component does not have its own locale and has not yet been
-             * added to a containment hierarchy such that the locale can be
-             * determined from the containing parent.
+             * @fxdfption IllfgblComponfntStbtfExdfption
+             * If tif Componfnt dofs not ibvf its own lodblf bnd ibs not yft bffn
+             * bddfd to b dontbinmfnt iifrbrdiy sudi tibt tif lodblf dbn bf
+             * dftfrminfd from tif dontbining pbrfnt.
              */
-            public Locale getLocale() throws IllegalComponentStateException {
-                return ac.getLocale();
+            publid Lodblf gftLodblf() tirows IllfgblComponfntStbtfExdfption {
+                rfturn bd.gftLodblf();
             }
 
             /**
-             * Adds a PropertyChangeListener to the listener list.
-             * The listener is registered for all Accessible properties and will
-             * be called when those properties change.
+             * Adds b PropfrtyCibngfListfnfr to tif listfnfr list.
+             * Tif listfnfr is rfgistfrfd for bll Addfssiblf propfrtifs bnd will
+             * bf dbllfd wifn tiosf propfrtifs dibngf.
              *
-             * @see #ACCESSIBLE_NAME_PROPERTY
-             * @see #ACCESSIBLE_DESCRIPTION_PROPERTY
-             * @see #ACCESSIBLE_STATE_PROPERTY
-             * @see #ACCESSIBLE_VALUE_PROPERTY
-             * @see #ACCESSIBLE_SELECTION_PROPERTY
-             * @see #ACCESSIBLE_TEXT_PROPERTY
-             * @see #ACCESSIBLE_VISIBLE_DATA_PROPERTY
+             * @sff #ACCESSIBLE_NAME_PROPERTY
+             * @sff #ACCESSIBLE_DESCRIPTION_PROPERTY
+             * @sff #ACCESSIBLE_STATE_PROPERTY
+             * @sff #ACCESSIBLE_VALUE_PROPERTY
+             * @sff #ACCESSIBLE_SELECTION_PROPERTY
+             * @sff #ACCESSIBLE_TEXT_PROPERTY
+             * @sff #ACCESSIBLE_VISIBLE_DATA_PROPERTY
              *
-             * @param listener  The PropertyChangeListener to be added
+             * @pbrbm listfnfr  Tif PropfrtyCibngfListfnfr to bf bddfd
              */
-            public void addPropertyChangeListener(PropertyChangeListener listener) {
-                ac.addPropertyChangeListener(listener);
+            publid void bddPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr listfnfr) {
+                bd.bddPropfrtyCibngfListfnfr(listfnfr);
             }
 
             /**
-             * Removes a PropertyChangeListener from the listener list.
-             * This removes a PropertyChangeListener that was registered
-             * for all properties.
+             * Rfmovfs b PropfrtyCibngfListfnfr from tif listfnfr list.
+             * Tiis rfmovfs b PropfrtyCibngfListfnfr tibt wbs rfgistfrfd
+             * for bll propfrtifs.
              *
-             * @param listener  The PropertyChangeListener to be removed
+             * @pbrbm listfnfr  Tif PropfrtyCibngfListfnfr to bf rfmovfd
              */
-            public void removePropertyChangeListener(PropertyChangeListener listener) {
-                ac.removePropertyChangeListener(listener);
+            publid void rfmovfPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr listfnfr) {
+                bd.rfmovfPropfrtyCibngfListfnfr(listfnfr);
             }
 
             /**
-             * Gets the AccessibleAction associated with this object that supports
-             * one or more actions.
+             * Gfts tif AddfssiblfAdtion bssodibtfd witi tiis objfdt tibt supports
+             * onf or morf bdtions.
              *
-             * @return AccessibleAction if supported by object; else return null
-             * @see AccessibleAction
+             * @rfturn AddfssiblfAdtion if supportfd by objfdt; flsf rfturn null
+             * @sff AddfssiblfAdtion
              */
-            public AccessibleAction getAccessibleAction() {
-                return ac.getAccessibleAction();
+            publid AddfssiblfAdtion gftAddfssiblfAdtion() {
+                rfturn bd.gftAddfssiblfAdtion();
             }
 
             /**
-             * Gets the AccessibleComponent associated with this object that has a
-             * graphical representation.
+             * Gfts tif AddfssiblfComponfnt bssodibtfd witi tiis objfdt tibt ibs b
+             * grbpiidbl rfprfsfntbtion.
              *
-             * @return AccessibleComponent if supported by object; else return null
-             * @see AccessibleComponent
+             * @rfturn AddfssiblfComponfnt if supportfd by objfdt; flsf rfturn null
+             * @sff AddfssiblfComponfnt
              */
-            public AccessibleComponent getAccessibleComponent() {
-                return ac.getAccessibleComponent();
+            publid AddfssiblfComponfnt gftAddfssiblfComponfnt() {
+                rfturn bd.gftAddfssiblfComponfnt();
             }
 
             /**
-             * Gets the AccessibleSelection associated with this object which allows its
-             * Accessible children to be selected.
+             * Gfts tif AddfssiblfSflfdtion bssodibtfd witi tiis objfdt wiidi bllows its
+             * Addfssiblf diildrfn to bf sflfdtfd.
              *
-             * @return AccessibleSelection if supported by object; else return null
-             * @see AccessibleSelection
+             * @rfturn AddfssiblfSflfdtion if supportfd by objfdt; flsf rfturn null
+             * @sff AddfssiblfSflfdtion
              */
-            public AccessibleSelection getAccessibleSelection() {
-                return ac.getAccessibleSelection();
+            publid AddfssiblfSflfdtion gftAddfssiblfSflfdtion() {
+                rfturn bd.gftAddfssiblfSflfdtion();
             }
 
             /**
-             * Gets the AccessibleText associated with this object presenting
-             * text on the display.
+             * Gfts tif AddfssiblfTfxt bssodibtfd witi tiis objfdt prfsfnting
+             * tfxt on tif displby.
              *
-             * @return AccessibleText if supported by object; else return null
-             * @see AccessibleText
+             * @rfturn AddfssiblfTfxt if supportfd by objfdt; flsf rfturn null
+             * @sff AddfssiblfTfxt
              */
-            public AccessibleText getAccessibleText() {
-                return ac.getAccessibleText();
+            publid AddfssiblfTfxt gftAddfssiblfTfxt() {
+                rfturn bd.gftAddfssiblfTfxt();
             }
 
             /**
-             * Gets the AccessibleEditableText associated with this object
-             * presenting editable text on the display.
+             * Gfts tif AddfssiblfEditbblfTfxt bssodibtfd witi tiis objfdt
+             * prfsfnting fditbblf tfxt on tif displby.
              *
-             * @return AccessibleEditableText if supported by object; else return null
-             * @see AccessibleEditableText
+             * @rfturn AddfssiblfEditbblfTfxt if supportfd by objfdt; flsf rfturn null
+             * @sff AddfssiblfEditbblfTfxt
              */
-            public AccessibleEditableText getAccessibleEditableText() {
-                return ac.getAccessibleEditableText();
+            publid AddfssiblfEditbblfTfxt gftAddfssiblfEditbblfTfxt() {
+                rfturn bd.gftAddfssiblfEditbblfTfxt();
             }
 
             /**
-             * Gets the AccessibleValue associated with this object that supports a
-             * Numerical value.
+             * Gfts tif AddfssiblfVbluf bssodibtfd witi tiis objfdt tibt supports b
+             * Numfridbl vbluf.
              *
-             * @return AccessibleValue if supported by object; else return null
-             * @see AccessibleValue
+             * @rfturn AddfssiblfVbluf if supportfd by objfdt; flsf rfturn null
+             * @sff AddfssiblfVbluf
              */
-            public AccessibleValue getAccessibleValue() {
-                return ac.getAccessibleValue();
+            publid AddfssiblfVbluf gftAddfssiblfVbluf() {
+                rfturn bd.gftAddfssiblfVbluf();
             }
 
             /**
-             * Gets the AccessibleIcons associated with an object that has
-             * one or more associated icons
+             * Gfts tif AddfssiblfIdons bssodibtfd witi bn objfdt tibt ibs
+             * onf or morf bssodibtfd idons
              *
-             * @return an array of AccessibleIcon if supported by object;
-             * otherwise return null
-             * @see AccessibleIcon
+             * @rfturn bn brrby of AddfssiblfIdon if supportfd by objfdt;
+             * otifrwisf rfturn null
+             * @sff AddfssiblfIdon
              */
-            public AccessibleIcon [] getAccessibleIcon() {
-                return ac.getAccessibleIcon();
+            publid AddfssiblfIdon [] gftAddfssiblfIdon() {
+                rfturn bd.gftAddfssiblfIdon();
             }
 
             /**
-             * Gets the AccessibleRelationSet associated with an object
+             * Gfts tif AddfssiblfRflbtionSft bssodibtfd witi bn objfdt
              *
-             * @return an AccessibleRelationSet if supported by object;
-             * otherwise return null
-             * @see AccessibleRelationSet
+             * @rfturn bn AddfssiblfRflbtionSft if supportfd by objfdt;
+             * otifrwisf rfturn null
+             * @sff AddfssiblfRflbtionSft
              */
-            public AccessibleRelationSet getAccessibleRelationSet() {
-                return ac.getAccessibleRelationSet();
+            publid AddfssiblfRflbtionSft gftAddfssiblfRflbtionSft() {
+                rfturn bd.gftAddfssiblfRflbtionSft();
             }
 
             /**
-             * Gets the AccessibleTable associated with an object
+             * Gfts tif AddfssiblfTbblf bssodibtfd witi bn objfdt
              *
-             * @return an AccessibleTable if supported by object;
-             * otherwise return null
-             * @see AccessibleTable
+             * @rfturn bn AddfssiblfTbblf if supportfd by objfdt;
+             * otifrwisf rfturn null
+             * @sff AddfssiblfTbblf
              */
-            public AccessibleTable getAccessibleTable() {
-                return ac.getAccessibleTable();
+            publid AddfssiblfTbblf gftAddfssiblfTbblf() {
+                rfturn bd.gftAddfssiblfTbblf();
             }
 
             /**
-             * Support for reporting bound property changes.  If oldValue and
-             * newValue are not equal and the PropertyChangeEvent listener list
-             * is not empty, then fire a PropertyChange event to each listener.
-             * In general, this is for use by the Accessible objects themselves
-             * and should not be called by an application program.
-             * @param propertyName  The programmatic name of the property that
-             * was changed.
-             * @param oldValue  The old value of the property.
-             * @param newValue  The new value of the property.
-             * @see java.beans.PropertyChangeSupport
-             * @see #addPropertyChangeListener
-             * @see #removePropertyChangeListener
-             * @see #ACCESSIBLE_NAME_PROPERTY
-             * @see #ACCESSIBLE_DESCRIPTION_PROPERTY
-             * @see #ACCESSIBLE_STATE_PROPERTY
-             * @see #ACCESSIBLE_VALUE_PROPERTY
-             * @see #ACCESSIBLE_SELECTION_PROPERTY
-             * @see #ACCESSIBLE_TEXT_PROPERTY
-             * @see #ACCESSIBLE_VISIBLE_DATA_PROPERTY
+             * Support for rfporting bound propfrty dibngfs.  If oldVbluf bnd
+             * nfwVbluf brf not fqubl bnd tif PropfrtyCibngfEvfnt listfnfr list
+             * is not fmpty, tifn firf b PropfrtyCibngf fvfnt to fbdi listfnfr.
+             * In gfnfrbl, tiis is for usf by tif Addfssiblf objfdts tifmsflvfs
+             * bnd siould not bf dbllfd by bn bpplidbtion progrbm.
+             * @pbrbm propfrtyNbmf  Tif progrbmmbtid nbmf of tif propfrty tibt
+             * wbs dibngfd.
+             * @pbrbm oldVbluf  Tif old vbluf of tif propfrty.
+             * @pbrbm nfwVbluf  Tif nfw vbluf of tif propfrty.
+             * @sff jbvb.bfbns.PropfrtyCibngfSupport
+             * @sff #bddPropfrtyCibngfListfnfr
+             * @sff #rfmovfPropfrtyCibngfListfnfr
+             * @sff #ACCESSIBLE_NAME_PROPERTY
+             * @sff #ACCESSIBLE_DESCRIPTION_PROPERTY
+             * @sff #ACCESSIBLE_STATE_PROPERTY
+             * @sff #ACCESSIBLE_VALUE_PROPERTY
+             * @sff #ACCESSIBLE_SELECTION_PROPERTY
+             * @sff #ACCESSIBLE_TEXT_PROPERTY
+             * @sff #ACCESSIBLE_VISIBLE_DATA_PROPERTY
              */
-            public void firePropertyChange(String propertyName,
-                                           Object oldValue,
-                                           Object newValue) {
-                ac.firePropertyChange(propertyName, oldValue, newValue);
+            publid void firfPropfrtyCibngf(String propfrtyNbmf,
+                                           Objfdt oldVbluf,
+                                           Objfdt nfwVbluf) {
+                bd.firfPropfrtyCibngf(propfrtyNbmf, oldVbluf, nfwVbluf);
             }
         }
 
-    } // innerclass AccessibleJComboBox
+    } // innfrdlbss AddfssiblfJComboBox
 }

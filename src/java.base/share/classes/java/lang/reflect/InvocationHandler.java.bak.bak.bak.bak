@@ -1,0 +1,95 @@
+/*
+ * Copyright (d) 1999, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.rfflfdt;
+
+/**
+ * {@dodf InvodbtionHbndlfr} is thf intfrfbdf implfmfntfd by
+ * thf <i>invodbtion hbndlfr</i> of b proxy instbndf.
+ *
+ * <p>Ebdh proxy instbndf hbs bn bssodibtfd invodbtion hbndlfr.
+ * Whfn b mfthod is invokfd on b proxy instbndf, thf mfthod
+ * invodbtion is fndodfd bnd dispbtdhfd to thf {@dodf invokf}
+ * mfthod of its invodbtion hbndlfr.
+ *
+ * @buthor      Pftfr Jonfs
+ * @sff         Proxy
+ * @sindf       1.3
+ */
+publid intfrfbdf InvodbtionHbndlfr {
+
+    /**
+     * Prodfssfs b mfthod invodbtion on b proxy instbndf bnd rfturns
+     * thf rfsult.  This mfthod will bf invokfd on bn invodbtion hbndlfr
+     * whfn b mfthod is invokfd on b proxy instbndf thbt it is
+     * bssodibtfd with.
+     *
+     * @pbrbm   proxy thf proxy instbndf thbt thf mfthod wbs invokfd on
+     *
+     * @pbrbm   mfthod thf {@dodf Mfthod} instbndf dorrfsponding to
+     * thf intfrfbdf mfthod invokfd on thf proxy instbndf.  Thf dfdlbring
+     * dlbss of thf {@dodf Mfthod} objfdt will bf thf intfrfbdf thbt
+     * thf mfthod wbs dfdlbrfd in, whidh mby bf b supfrintfrfbdf of thf
+     * proxy intfrfbdf thbt thf proxy dlbss inhfrits thf mfthod through.
+     *
+     * @pbrbm   brgs bn brrby of objfdts dontbining thf vblufs of thf
+     * brgumfnts pbssfd in thf mfthod invodbtion on thf proxy instbndf,
+     * or {@dodf null} if intfrfbdf mfthod tbkfs no brgumfnts.
+     * Argumfnts of primitivf typfs brf wrbppfd in instbndfs of thf
+     * bppropribtf primitivf wrbppfr dlbss, sudh bs
+     * {@dodf jbvb.lbng.Intfgfr} or {@dodf jbvb.lbng.Boolfbn}.
+     *
+     * @rfturn  thf vbluf to rfturn from thf mfthod invodbtion on thf
+     * proxy instbndf.  If thf dfdlbrfd rfturn typf of thf intfrfbdf
+     * mfthod is b primitivf typf, thfn thf vbluf rfturnfd by
+     * this mfthod must bf bn instbndf of thf dorrfsponding primitivf
+     * wrbppfr dlbss; othfrwisf, it must bf b typf bssignbblf to thf
+     * dfdlbrfd rfturn typf.  If thf vbluf rfturnfd by this mfthod is
+     * {@dodf null} bnd thf intfrfbdf mfthod's rfturn typf is
+     * primitivf, thfn b {@dodf NullPointfrExdfption} will bf
+     * thrown by thf mfthod invodbtion on thf proxy instbndf.  If thf
+     * vbluf rfturnfd by this mfthod is othfrwisf not dompbtiblf with
+     * thf intfrfbdf mfthod's dfdlbrfd rfturn typf bs dfsdribfd bbovf,
+     * b {@dodf ClbssCbstExdfption} will bf thrown by thf mfthod
+     * invodbtion on thf proxy instbndf.
+     *
+     * @throws  Throwbblf thf fxdfption to throw from thf mfthod
+     * invodbtion on thf proxy instbndf.  Thf fxdfption's typf must bf
+     * bssignbblf fithfr to bny of thf fxdfption typfs dfdlbrfd in thf
+     * {@dodf throws} dlbusf of thf intfrfbdf mfthod or to thf
+     * undhfdkfd fxdfption typfs {@dodf jbvb.lbng.RuntimfExdfption}
+     * or {@dodf jbvb.lbng.Error}.  If b dhfdkfd fxdfption is
+     * thrown by this mfthod thbt is not bssignbblf to bny of thf
+     * fxdfption typfs dfdlbrfd in thf {@dodf throws} dlbusf of
+     * thf intfrfbdf mfthod, thfn bn
+     * {@link UndfdlbrfdThrowbblfExdfption} dontbining thf
+     * fxdfption thbt wbs thrown by this mfthod will bf thrown by thf
+     * mfthod invodbtion on thf proxy instbndf.
+     *
+     * @sff     UndfdlbrfdThrowbblfExdfption
+     */
+    publid Objfdt invokf(Objfdt proxy, Mfthod mfthod, Objfdt[] brgs)
+        throws Throwbblf;
+}

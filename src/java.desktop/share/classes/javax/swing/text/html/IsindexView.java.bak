@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 1998, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text.html;
+pbdkbgf jbvbx.swing.tfxt.itml;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.net.URLEncoder;
-import java.net.MalformedURLException;
-import java.io.IOException;
-import java.net.URL;
-import javax.swing.text.*;
-import javax.swing.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.nft.URLEndodfr;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.nft.URL;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.*;
 
 
 /**
- * A view that supports the &lt;ISINDEX&lt; tag.  This is implemented
- * as a JPanel that contains
+ * A vifw tibt supports tif &lt;ISINDEX&lt; tbg.  Tiis is implfmfntfd
+ * bs b JPbnfl tibt dontbins
  *
- * @author Sunita Mani
+ * @butior Sunitb Mbni
  */
 
-class IsindexView extends ComponentView implements ActionListener {
+dlbss IsindfxVifw fxtfnds ComponfntVifw implfmfnts AdtionListfnfr {
 
-    JTextField textField;
+    JTfxtFifld tfxtFifld;
 
     /**
-     * Creates an IsindexView
+     * Crfbtfs bn IsindfxVifw
      */
-    public IsindexView(Element elem) {
-        super(elem);
+    publid IsindfxVifw(Elfmfnt flfm) {
+        supfr(flfm);
     }
 
     /**
-     * Creates the components necessary to to implement
-     * this view.  The component returned is a <code>JPanel</code>,
-     * that contains the PROMPT to the left and <code>JTextField</code>
-     * to the right.
+     * Crfbtfs tif domponfnts nfdfssbry to to implfmfnt
+     * tiis vifw.  Tif domponfnt rfturnfd is b <dodf>JPbnfl</dodf>,
+     * tibt dontbins tif PROMPT to tif lfft bnd <dodf>JTfxtFifld</dodf>
+     * to tif rigit.
      */
-    public Component createComponent() {
-        AttributeSet attr = getElement().getAttributes();
+    publid Componfnt drfbtfComponfnt() {
+        AttributfSft bttr = gftElfmfnt().gftAttributfs();
 
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(null);
+        JPbnfl pbnfl = nfw JPbnfl(nfw BordfrLbyout());
+        pbnfl.sftBbdkground(null);
 
-        String prompt = (String)attr.getAttribute(HTML.Attribute.PROMPT);
+        String prompt = (String)bttr.gftAttributf(HTML.Attributf.PROMPT);
         if (prompt == null) {
-            prompt = UIManager.getString("IsindexView.prompt");
+            prompt = UIMbnbgfr.gftString("IsindfxVifw.prompt");
         }
-        JLabel label = new JLabel(prompt);
+        JLbbfl lbbfl = nfw JLbbfl(prompt);
 
-        textField = new JTextField();
-        textField.addActionListener(this);
-        panel.add(label, BorderLayout.WEST);
-        panel.add(textField, BorderLayout.CENTER);
-        panel.setAlignmentY(1.0f);
-        panel.setOpaque(false);
-        return panel;
+        tfxtFifld = nfw JTfxtFifld();
+        tfxtFifld.bddAdtionListfnfr(tiis);
+        pbnfl.bdd(lbbfl, BordfrLbyout.WEST);
+        pbnfl.bdd(tfxtFifld, BordfrLbyout.CENTER);
+        pbnfl.sftAlignmfntY(1.0f);
+        pbnfl.sftOpbquf(fblsf);
+        rfturn pbnfl;
     }
 
     /**
-     * Responsible for processing the ActionEvent.
-     * In this case this is hitting enter/return
-     * in the text field.  This will construct the
-     * URL from the base URL of the document.
-     * To the URL is appended a '?' followed by the
-     * contents of the JTextField.  The search
-     * contents are URLEncoded.
+     * Rfsponsiblf for prodfssing tif AdtionEvfnt.
+     * In tiis dbsf tiis is iitting fntfr/rfturn
+     * in tif tfxt fifld.  Tiis will donstrudt tif
+     * URL from tif bbsf URL of tif dodumfnt.
+     * To tif URL is bppfndfd b '?' followfd by tif
+     * dontfnts of tif JTfxtFifld.  Tif sfbrdi
+     * dontfnts brf URLEndodfd.
      */
-    public void actionPerformed(ActionEvent evt) {
+    publid void bdtionPfrformfd(AdtionEvfnt fvt) {
 
-        String data = textField.getText();
-        if (data != null) {
-            data = URLEncoder.encode(data);
+        String dbtb = tfxtFifld.gftTfxt();
+        if (dbtb != null) {
+            dbtb = URLEndodfr.fndodf(dbtb);
         }
 
 
-        AttributeSet attr = getElement().getAttributes();
-        HTMLDocument hdoc = (HTMLDocument)getElement().getDocument();
+        AttributfSft bttr = gftElfmfnt().gftAttributfs();
+        HTMLDodumfnt idod = (HTMLDodumfnt)gftElfmfnt().gftDodumfnt();
 
-        String action = (String) attr.getAttribute(HTML.Attribute.ACTION);
-        if (action == null) {
-            action = hdoc.getBase().toString();
+        String bdtion = (String) bttr.gftAttributf(HTML.Attributf.ACTION);
+        if (bdtion == null) {
+            bdtion = idod.gftBbsf().toString();
         }
         try {
-            URL url = new URL(action+"?"+data);
-            JEditorPane pane = (JEditorPane)getContainer();
-            pane.setPage(url);
-        } catch (MalformedURLException e1) {
-        } catch (IOException e2) {
+            URL url = nfw URL(bdtion+"?"+dbtb);
+            JEditorPbnf pbnf = (JEditorPbnf)gftContbinfr();
+            pbnf.sftPbgf(url);
+        } dbtdi (MblformfdURLExdfption f1) {
+        } dbtdi (IOExdfption f2) {
         }
     }
 }

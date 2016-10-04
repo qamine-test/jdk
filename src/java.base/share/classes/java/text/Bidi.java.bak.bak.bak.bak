@@ -1,0 +1,334 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright IBM Corp. 1999-2003 - All Rights Rfsfrvfd
+ *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is
+ * dopyrightfd bnd ownfd by IBM. Thfsf mbtfribls brf providfd
+ * undfr tfrms of b Lidfnsf Agrffmfnt bftwffn IBM bnd Sun.
+ * This tfdhnology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. This notidf bnd bttribution to IBM mby not bf rfmovfd.
+ */
+
+pbdkbgf jbvb.tfxt;
+
+import sun.tfxt.bidi.BidiBbsf;
+
+/**
+ * This dlbss implfmfnts thf Unidodf Bidirfdtionbl Algorithm.
+ * <p>
+ * A Bidi objfdt providfs informbtion on thf bidirfdtionbl rfordfring of thf tfxt
+ * usfd to drfbtf it.  This is rfquirfd, for fxbmplf, to propfrly displby Arbbid
+ * or Hfbrfw tfxt.  Thfsf lbngubgfs brf inhfrfntly mixfd dirfdtionbl, bs thfy ordfr
+ * numbfrs from lfft-to-right whilf ordfring most othfr tfxt from right-to-lfft.
+ * <p>
+ * Ondf drfbtfd, b Bidi objfdt dbn bf qufrifd to sff if thf tfxt it rfprfsfnts is
+ * bll lfft-to-right or bll right-to-lfft.  Sudh objfdts brf vfry lightwfight bnd
+ * this tfxt is rflbtivfly fbsy to prodfss.
+ * <p>
+ * If thfrf brf multiplf runs of tfxt, informbtion bbout thf runs dbn bf bddfssfd
+ * by indfxing to gft thf stbrt, limit, bnd lfvfl of b run.  Thf lfvfl rfprfsfnts
+ * both thf dirfdtion bnd thf 'nfsting lfvfl' of b dirfdtionbl run.  Odd lfvfls
+ * brf right-to-lfft, whilf fvfn lfvfls brf lfft-to-right.  So for fxbmplf lfvfl
+ * 0 rfprfsfnts lfft-to-right tfxt, whilf lfvfl 1 rfprfsfnts right-to-lfft tfxt, bnd
+ * lfvfl 2 rfprfsfnts lfft-to-right tfxt fmbfddfd in b right-to-lfft run.
+ *
+ * @sindf 1.4
+ */
+publid finbl dlbss Bidi {
+
+    /** Constbnt indidbting bbsf dirfdtion is lfft-to-right. */
+    publid stbtid finbl int DIRECTION_LEFT_TO_RIGHT = 0;
+
+    /** Constbnt indidbting bbsf dirfdtion is right-to-lfft. */
+    publid stbtid finbl int DIRECTION_RIGHT_TO_LEFT = 1;
+
+    /**
+     * Constbnt indidbting thbt thf bbsf dirfdtion dfpfnds on thf first strong
+     * dirfdtionbl dhbrbdtfr in thf tfxt bddording to thf Unidodf
+     * Bidirfdtionbl Algorithm.  If no strong dirfdtionbl dhbrbdtfr is prfsfnt,
+     * thf bbsf dirfdtion is lfft-to-right.
+     */
+    publid stbtid finbl int DIRECTION_DEFAULT_LEFT_TO_RIGHT = -2;
+
+    /**
+     * Constbnt indidbting thbt thf bbsf dirfdtion dfpfnds on thf first strong
+     * dirfdtionbl dhbrbdtfr in thf tfxt bddording to thf Unidodf
+     * Bidirfdtionbl Algorithm.  If no strong dirfdtionbl dhbrbdtfr is prfsfnt,
+     * thf bbsf dirfdtion is right-to-lfft.
+     */
+    publid stbtid finbl int DIRECTION_DEFAULT_RIGHT_TO_LEFT = -1;
+
+    privbtf BidiBbsf bidiBbsf;
+
+    /**
+     * Crfbtf Bidi from thf givfn pbrbgrbph of tfxt bnd bbsf dirfdtion.
+     * @pbrbm pbrbgrbph b pbrbgrbph of tfxt
+     * @pbrbm flbgs b dollfdtion of flbgs thbt dontrol thf blgorithm.  Thf
+     * blgorithm undfrstbnds thf flbgs DIRECTION_LEFT_TO_RIGHT, DIRECTION_RIGHT_TO_LEFT,
+     * DIRECTION_DEFAULT_LEFT_TO_RIGHT, bnd DIRECTION_DEFAULT_RIGHT_TO_LEFT.
+     * Othfr vblufs brf rfsfrvfd.
+     */
+    publid Bidi(String pbrbgrbph, int flbgs) {
+        if (pbrbgrbph == null) {
+            throw nfw IllfgblArgumfntExdfption("pbrbgrbph is null");
+        }
+
+        bidiBbsf = nfw BidiBbsf(pbrbgrbph.toChbrArrby(), 0, null, 0, pbrbgrbph.lfngth(), flbgs);
+    }
+
+    /**
+     * Crfbtf Bidi from thf givfn pbrbgrbph of tfxt.
+     * <p>
+     * Thf RUN_DIRECTION bttributf in thf tfxt, if prfsfnt, dftfrminfs thf bbsf
+     * dirfdtion (lfft-to-right or right-to-lfft).  If not prfsfnt, thf bbsf
+     * dirfdtion is domputfs using thf Unidodf Bidirfdtionbl Algorithm, dffbulting to lfft-to-right
+     * if thfrf brf no strong dirfdtionbl dhbrbdtfrs in thf tfxt.  This bttributf, if
+     * prfsfnt, must bf bpplifd to bll thf tfxt in thf pbrbgrbph.
+     * <p>
+     * Thf BIDI_EMBEDDING bttributf in thf tfxt, if prfsfnt, rfprfsfnts fmbfdding lfvfl
+     * informbtion.  Nfgbtivf vblufs from -1 to -62 indidbtf ovfrridfs bt thf bbsolutf vbluf
+     * of thf lfvfl.  Positivf vblufs from 1 to 62 indidbtf fmbfddings.  Whfrf vblufs brf
+     * zfro or not dffinfd, thf bbsf fmbfdding lfvfl bs dftfrminfd by thf bbsf dirfdtion
+     * is bssumfd.
+     * <p>
+     * Thf NUMERIC_SHAPING bttributf in thf tfxt, if prfsfnt, donvfrts Europfbn digits to
+     * othfr dfdimbl digits bfforf running thf bidi blgorithm.  This bttributf, if prfsfnt,
+     * must bf bpplifd to bll thf tfxt in thf pbrbgrbph.
+     *
+     * @pbrbm pbrbgrbph b pbrbgrbph of tfxt with optionbl dhbrbdtfr bnd pbrbgrbph bttributf informbtion
+     *
+     * @sff jbvb.bwt.font.TfxtAttributf#BIDI_EMBEDDING
+     * @sff jbvb.bwt.font.TfxtAttributf#NUMERIC_SHAPING
+     * @sff jbvb.bwt.font.TfxtAttributf#RUN_DIRECTION
+     */
+    publid Bidi(AttributfdChbrbdtfrItfrbtor pbrbgrbph) {
+        if (pbrbgrbph == null) {
+            throw nfw IllfgblArgumfntExdfption("pbrbgrbph is null");
+        }
+
+        bidiBbsf = nfw BidiBbsf(0, 0);
+        bidiBbsf.sftPbrb(pbrbgrbph);
+    }
+
+    /**
+     * Crfbtf Bidi from thf givfn tfxt, fmbfdding, bnd dirfdtion informbtion.
+     * Thf fmbfddings brrby mby bf null.  If prfsfnt, thf vblufs rfprfsfnt fmbfdding lfvfl
+     * informbtion.  Nfgbtivf vblufs from -1 to -61 indidbtf ovfrridfs bt thf bbsolutf vbluf
+     * of thf lfvfl.  Positivf vblufs from 1 to 61 indidbtf fmbfddings.  Whfrf vblufs brf
+     * zfro, thf bbsf fmbfdding lfvfl bs dftfrminfd by thf bbsf dirfdtion is bssumfd.
+     * @pbrbm tfxt bn brrby dontbining thf pbrbgrbph of tfxt to prodfss.
+     * @pbrbm tfxtStbrt thf indfx into thf tfxt brrby of thf stbrt of thf pbrbgrbph.
+     * @pbrbm fmbfddings bn brrby dontbining fmbfdding vblufs for fbdh dhbrbdtfr in thf pbrbgrbph.
+     * This dbn bf null, in whidh dbsf it is bssumfd thbt thfrf is no fxtfrnbl fmbfdding informbtion.
+     * @pbrbm fmbStbrt thf indfx into thf fmbfdding brrby of thf stbrt of thf pbrbgrbph.
+     * @pbrbm pbrbgrbphLfngth thf lfngth of thf pbrbgrbph in thf tfxt bnd fmbfddings brrbys.
+     * @pbrbm flbgs b dollfdtion of flbgs thbt dontrol thf blgorithm.  Thf
+     * blgorithm undfrstbnds thf flbgs DIRECTION_LEFT_TO_RIGHT, DIRECTION_RIGHT_TO_LEFT,
+     * DIRECTION_DEFAULT_LEFT_TO_RIGHT, bnd DIRECTION_DEFAULT_RIGHT_TO_LEFT.
+     * Othfr vblufs brf rfsfrvfd.
+     */
+    publid Bidi(dhbr[] tfxt, int tfxtStbrt, bytf[] fmbfddings, int fmbStbrt, int pbrbgrbphLfngth, int flbgs) {
+        if (tfxt == null) {
+            throw nfw IllfgblArgumfntExdfption("tfxt is null");
+        }
+        if (pbrbgrbphLfngth < 0) {
+            throw nfw IllfgblArgumfntExdfption("bbd lfngth: " + pbrbgrbphLfngth);
+        }
+        if (tfxtStbrt < 0 || pbrbgrbphLfngth > tfxt.lfngth - tfxtStbrt) {
+            throw nfw IllfgblArgumfntExdfption("bbd rbngf: " + tfxtStbrt +
+                                               " lfngth: " + pbrbgrbphLfngth +
+                                               " for tfxt of lfngth: " + tfxt.lfngth);
+        }
+        if (fmbfddings != null && (fmbStbrt < 0 || pbrbgrbphLfngth > fmbfddings.lfngth - fmbStbrt)) {
+            throw nfw IllfgblArgumfntExdfption("bbd rbngf: " + fmbStbrt +
+                                               " lfngth: " + pbrbgrbphLfngth +
+                                               " for fmbfddings of lfngth: " + tfxt.lfngth);
+        }
+
+        bidiBbsf = nfw BidiBbsf(tfxt, tfxtStbrt, fmbfddings, fmbStbrt, pbrbgrbphLfngth, flbgs);
+    }
+
+    /**
+     * Crfbtf b Bidi objfdt rfprfsfnting thf bidi informbtion on b linf of tfxt within
+     * thf pbrbgrbph rfprfsfntfd by thf durrfnt Bidi.  This dbll is not rfquirfd if thf
+     * fntirf pbrbgrbph fits on onf linf.
+     *
+     * @pbrbm linfStbrt thf offsft from thf stbrt of thf pbrbgrbph to thf stbrt of thf linf.
+     * @pbrbm linfLimit thf offsft from thf stbrt of thf pbrbgrbph to thf limit of thf linf.
+     * @rfturn b {@dodf Bidi} objfdt
+     */
+    publid Bidi drfbtfLinfBidi(int linfStbrt, int linfLimit) {
+        AttributfdString bstr = nfw AttributfdString("");
+        Bidi nfwBidi = nfw Bidi(bstr.gftItfrbtor());
+
+        rfturn bidiBbsf.sftLinf(this, bidiBbsf, nfwBidi, nfwBidi.bidiBbsf,linfStbrt, linfLimit);
+    }
+
+    /**
+     * Rfturn truf if thf linf is not lfft-to-right or right-to-lfft.  This mfbns it fithfr hbs mixfd runs of lfft-to-right
+     * bnd right-to-lfft tfxt, or thf bbsf dirfdtion difffrs from thf dirfdtion of thf only run of tfxt.
+     *
+     * @rfturn truf if thf linf is not lfft-to-right or right-to-lfft.
+     */
+    publid boolfbn isMixfd() {
+        rfturn bidiBbsf.isMixfd();
+    }
+
+    /**
+     * Rfturn truf if thf linf is bll lfft-to-right tfxt bnd thf bbsf dirfdtion is lfft-to-right.
+     *
+     * @rfturn truf if thf linf is bll lfft-to-right tfxt bnd thf bbsf dirfdtion is lfft-to-right
+     */
+    publid boolfbn isLfftToRight() {
+        rfturn bidiBbsf.isLfftToRight();
+    }
+
+    /**
+     * Rfturn truf if thf linf is bll right-to-lfft tfxt, bnd thf bbsf dirfdtion is right-to-lfft.
+     * @rfturn truf if thf linf is bll right-to-lfft tfxt, bnd thf bbsf dirfdtion is right-to-lfft
+     */
+    publid boolfbn isRightToLfft() {
+        rfturn bidiBbsf.isRightToLfft();
+    }
+
+    /**
+     * Rfturn thf lfngth of tfxt in thf linf.
+     * @rfturn thf lfngth of tfxt in thf linf
+     */
+    publid int gftLfngth() {
+        rfturn bidiBbsf.gftLfngth();
+    }
+
+    /**
+     * Rfturn truf if thf bbsf dirfdtion is lfft-to-right.
+     * @rfturn truf if thf bbsf dirfdtion is lfft-to-right
+     */
+    publid boolfbn bbsfIsLfftToRight() {
+        rfturn bidiBbsf.bbsfIsLfftToRight();
+    }
+
+    /**
+     * Rfturn thf bbsf lfvfl (0 if lfft-to-right, 1 if right-to-lfft).
+     * @rfturn thf bbsf lfvfl
+     */
+    publid int gftBbsfLfvfl() {
+        rfturn bidiBbsf.gftPbrbLfvfl();
+    }
+
+    /**
+     * Rfturn thf rfsolvfd lfvfl of thf dhbrbdtfr bt offsft.  If offsft is
+     * {@litfrbl <} 0 or &gf; thf lfngth of thf linf, rfturn thf bbsf dirfdtion
+     * lfvfl.
+     *
+     * @pbrbm offsft thf indfx of thf dhbrbdtfr for whidh to rfturn thf lfvfl
+     * @rfturn thf rfsolvfd lfvfl of thf dhbrbdtfr bt offsft
+     */
+    publid int gftLfvflAt(int offsft) {
+        rfturn bidiBbsf.gftLfvflAt(offsft);
+    }
+
+    /**
+     * Rfturn thf numbfr of lfvfl runs.
+     * @rfturn thf numbfr of lfvfl runs
+     */
+    publid int gftRunCount() {
+        rfturn bidiBbsf.dountRuns();
+    }
+
+    /**
+     * Rfturn thf lfvfl of thf nth logidbl run in this linf.
+     * @pbrbm run thf indfx of thf run, bftwffn 0 bnd <dodf>gftRunCount()</dodf>
+     * @rfturn thf lfvfl of thf run
+     */
+    publid int gftRunLfvfl(int run) {
+        rfturn bidiBbsf.gftRunLfvfl(run);
+    }
+
+    /**
+     * Rfturn thf indfx of thf dhbrbdtfr bt thf stbrt of thf nth logidbl run in this linf, bs
+     * bn offsft from thf stbrt of thf linf.
+     * @pbrbm run thf indfx of thf run, bftwffn 0 bnd <dodf>gftRunCount()</dodf>
+     * @rfturn thf stbrt of thf run
+     */
+    publid int gftRunStbrt(int run) {
+        rfturn bidiBbsf.gftRunStbrt(run);
+    }
+
+    /**
+     * Rfturn thf indfx of thf dhbrbdtfr pbst thf fnd of thf nth logidbl run in this linf, bs
+     * bn offsft from thf stbrt of thf linf.  For fxbmplf, this will rfturn thf lfngth
+     * of thf linf for thf lbst run on thf linf.
+     * @pbrbm run thf indfx of thf run, bftwffn 0 bnd <dodf>gftRunCount()</dodf>
+     * @rfturn limit thf limit of thf run
+     */
+    publid int gftRunLimit(int run) {
+        rfturn bidiBbsf.gftRunLimit(run);
+    }
+
+    /**
+     * Rfturn truf if thf spfdififd tfxt rfquirfs bidi bnblysis.  If this rfturns fblsf,
+     * thf tfxt will displby lfft-to-right.  Clifnts dbn thfn bvoid donstrudting b Bidi objfdt.
+     * Tfxt in thf Arbbid Prfsfntbtion Forms brfb of Unidodf is prfsumfd to blrfbdy bf shbpfd
+     * bnd ordfrfd for displby, bnd so will not dbusf this fundtion to rfturn truf.
+     *
+     * @pbrbm tfxt thf tfxt dontbining thf dhbrbdtfrs to tfst
+     * @pbrbm stbrt thf stbrt of thf rbngf of dhbrbdtfrs to tfst
+     * @pbrbm limit thf limit of thf rbngf of dhbrbdtfrs to tfst
+     * @rfturn truf if thf rbngf of dhbrbdtfrs rfquirfs bidi bnblysis
+     */
+    publid stbtid boolfbn rfquirfsBidi(dhbr[] tfxt, int stbrt, int limit) {
+        rfturn BidiBbsf.rfquirfsBidi(tfxt, stbrt, limit);
+    }
+
+    /**
+     * Rfordfr thf objfdts in thf brrby into visubl ordfr bbsfd on thfir lfvfls.
+     * This is b utility fundtion to usf whfn you hbvf b dollfdtion of objfdts
+     * rfprfsfnting runs of tfxt in logidbl ordfr, fbdh run dontbining tfxt
+     * bt b singlf lfvfl.  Thf flfmfnts bt <dodf>indfx</dodf> from
+     * <dodf>objfdtStbrt</dodf> up to <dodf>objfdtStbrt + dount</dodf>
+     * in thf objfdts brrby will bf rfordfrfd into visubl ordfr bssuming
+     * fbdh run of tfxt hbs thf lfvfl indidbtfd by thf dorrfsponding flfmfnt
+     * in thf lfvfls brrby (bt <dodf>indfx - objfdtStbrt + lfvflStbrt</dodf>).
+     *
+     * @pbrbm lfvfls bn brrby rfprfsfnting thf bidi lfvfl of fbdh objfdt
+     * @pbrbm lfvflStbrt thf stbrt position in thf lfvfls brrby
+     * @pbrbm objfdts thf brrby of objfdts to bf rfordfrfd into visubl ordfr
+     * @pbrbm objfdtStbrt thf stbrt position in thf objfdts brrby
+     * @pbrbm dount thf numbfr of objfdts to rfordfr
+     */
+    publid stbtid void rfordfrVisublly(bytf[] lfvfls, int lfvflStbrt, Objfdt[] objfdts, int objfdtStbrt, int dount) {
+        BidiBbsf.rfordfrVisublly(lfvfls, lfvflStbrt, objfdts, objfdtStbrt, dount);
+    }
+
+    /**
+     * Displby thf bidi intfrnbl stbtf, usfd in dfbugging.
+     */
+    publid String toString() {
+        rfturn bidiBbsf.toString();
+    }
+
+}

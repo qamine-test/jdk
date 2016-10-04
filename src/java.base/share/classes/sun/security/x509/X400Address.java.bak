@@ -1,423 +1,423 @@
 /*
- * Copyright (c) 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import sun.security.util.DerValue;
-import sun.security.util.DerOutputStream;
+import jbvb.io.IOExdfption;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.DfrOutputStrfbm;
 
 /**
- * This class defines the X400Address of the GeneralName choice.
+ * Tiis dlbss dffinfs tif X400Addrfss of tif GfnfrblNbmf dioidf.
  * <p>
- * The ASN.1 syntax for this is:
- * <pre>
- * ORAddress ::= SEQUENCE {
- *    built-in-standard-attributes BuiltInStandardAttributes,
- *    built-in-domain-defined-attributes
- *                         BuiltInDomainDefinedAttributes OPTIONAL,
- *    -- see also teletex-domain-defined-attributes
- *    extension-attributes ExtensionAttributes OPTIONAL }
- * --      The OR-address is semantically absent from the OR-name if the
- * --      built-in-standard-attribute sequence is empty and the
- * --      built-in-domain-defined-attributes and extension-attributes are
- * --      both omitted.
+ * Tif ASN.1 syntbx for tiis is:
+ * <prf>
+ * ORAddrfss ::= SEQUENCE {
+ *    built-in-stbndbrd-bttributfs BuiltInStbndbrdAttributfs,
+ *    built-in-dombin-dffinfd-bttributfs
+ *                         BuiltInDombinDffinfdAttributfs OPTIONAL,
+ *    -- sff blso tflftfx-dombin-dffinfd-bttributfs
+ *    fxtfnsion-bttributfs ExtfnsionAttributfs OPTIONAL }
+ * --      Tif OR-bddrfss is sfmbntidblly bbsfnt from tif OR-nbmf if tif
+ * --      built-in-stbndbrd-bttributf sfqufndf is fmpty bnd tif
+ * --      built-in-dombin-dffinfd-bttributfs bnd fxtfnsion-bttributfs brf
+ * --      boti omittfd.
  *
- * --      Built-in Standard Attributes
+ * --      Built-in Stbndbrd Attributfs
  *
- * BuiltInStandardAttributes ::= SEQUENCE {
- *    country-name CountryName OPTIONAL,
- *    administration-domain-name AdministrationDomainName OPTIONAL,
- *    network-address      [0] NetworkAddress OPTIONAL,
- *    -- see also extended-network-address
- *    terminal-identifier  [1] TerminalIdentifier OPTIONAL,
- *    private-domain-name  [2] PrivateDomainName OPTIONAL,
- *    organization-name    [3] OrganizationName OPTIONAL,
- *    -- see also teletex-organization-name
- *    numeric-user-identifier      [4] NumericUserIdentifier OPTIONAL,
- *    personal-name        [5] PersonalName OPTIONAL,
- *    -- see also teletex-personal-name
- *    organizational-unit-names    [6] OrganizationalUnitNames OPTIONAL
- *    -- see also teletex-organizational-unit-names -- }
+ * BuiltInStbndbrdAttributfs ::= SEQUENCE {
+ *    dountry-nbmf CountryNbmf OPTIONAL,
+ *    bdministrbtion-dombin-nbmf AdministrbtionDombinNbmf OPTIONAL,
+ *    nftwork-bddrfss      [0] NftworkAddrfss OPTIONAL,
+ *    -- sff blso fxtfndfd-nftwork-bddrfss
+ *    tfrminbl-idfntififr  [1] TfrminblIdfntififr OPTIONAL,
+ *    privbtf-dombin-nbmf  [2] PrivbtfDombinNbmf OPTIONAL,
+ *    orgbnizbtion-nbmf    [3] OrgbnizbtionNbmf OPTIONAL,
+ *    -- sff blso tflftfx-orgbnizbtion-nbmf
+ *    numfrid-usfr-idfntififr      [4] NumfridUsfrIdfntififr OPTIONAL,
+ *    pfrsonbl-nbmf        [5] PfrsonblNbmf OPTIONAL,
+ *    -- sff blso tflftfx-pfrsonbl-nbmf
+ *    orgbnizbtionbl-unit-nbmfs    [6] OrgbnizbtionblUnitNbmfs OPTIONAL
+ *    -- sff blso tflftfx-orgbnizbtionbl-unit-nbmfs -- }
  *
- * CountryName ::= [APPLICATION 1] CHOICE {
- *    x121-dcc-code NumericString
- *                 (SIZE (ub-country-name-numeric-length)),
- *    iso-3166-alpha2-code PrintableString
- *                 (SIZE (ub-country-name-alpha-length)) }
+ * CountryNbmf ::= [APPLICATION 1] CHOICE {
+ *    x121-ddd-dodf NumfridString
+ *                 (SIZE (ub-dountry-nbmf-numfrid-lfngti)),
+ *    iso-3166-blpib2-dodf PrintbblfString
+ *                 (SIZE (ub-dountry-nbmf-blpib-lfngti)) }
  *
- * AdministrationDomainName ::= [APPLICATION 2] CHOICE {
- *    numeric NumericString (SIZE (0..ub-domain-name-length)),
- *    printable PrintableString (SIZE (0..ub-domain-name-length)) }
+ * AdministrbtionDombinNbmf ::= [APPLICATION 2] CHOICE {
+ *    numfrid NumfridString (SIZE (0..ub-dombin-nbmf-lfngti)),
+ *    printbblf PrintbblfString (SIZE (0..ub-dombin-nbmf-lfngti)) }
  *
- * NetworkAddress ::= X121Address  -- see also extended-network-address
+ * NftworkAddrfss ::= X121Addrfss  -- sff blso fxtfndfd-nftwork-bddrfss
  *
- * X121Address ::= NumericString (SIZE (1..ub-x121-address-length))
+ * X121Addrfss ::= NumfridString (SIZE (1..ub-x121-bddrfss-lfngti))
  *
- * TerminalIdentifier ::= PrintableString (SIZE (1..ub-terminal-id-length))
+ * TfrminblIdfntififr ::= PrintbblfString (SIZE (1..ub-tfrminbl-id-lfngti))
  *
- * PrivateDomainName ::= CHOICE {
- *    numeric NumericString (SIZE (1..ub-domain-name-length)),
- *    printable PrintableString (SIZE (1..ub-domain-name-length)) }
+ * PrivbtfDombinNbmf ::= CHOICE {
+ *    numfrid NumfridString (SIZE (1..ub-dombin-nbmf-lfngti)),
+ *    printbblf PrintbblfString (SIZE (1..ub-dombin-nbmf-lfngti)) }
  *
- * OrganizationName ::= PrintableString
- *                             (SIZE (1..ub-organization-name-length))
- * -- see also teletex-organization-name
+ * OrgbnizbtionNbmf ::= PrintbblfString
+ *                             (SIZE (1..ub-orgbnizbtion-nbmf-lfngti))
+ * -- sff blso tflftfx-orgbnizbtion-nbmf
  *
- * NumericUserIdentifier ::= NumericString
- *                             (SIZE (1..ub-numeric-user-id-length))
+ * NumfridUsfrIdfntififr ::= NumfridString
+ *                             (SIZE (1..ub-numfrid-usfr-id-lfngti))
  *
- * PersonalName ::= SET {
- *    surname [0] PrintableString (SIZE (1..ub-surname-length)),
- *    given-name [1] PrintableString
- *                         (SIZE (1..ub-given-name-length)) OPTIONAL,
- *    initials [2] PrintableString (SIZE (1..ub-initials-length)) OPTIONAL,
- *    generation-qualifier [3] PrintableString
- *                 (SIZE (1..ub-generation-qualifier-length)) OPTIONAL }
- * -- see also teletex-personal-name
+ * PfrsonblNbmf ::= SET {
+ *    surnbmf [0] PrintbblfString (SIZE (1..ub-surnbmf-lfngti)),
+ *    givfn-nbmf [1] PrintbblfString
+ *                         (SIZE (1..ub-givfn-nbmf-lfngti)) OPTIONAL,
+ *    initibls [2] PrintbblfString (SIZE (1..ub-initibls-lfngti)) OPTIONAL,
+ *    gfnfrbtion-qublififr [3] PrintbblfString
+ *                 (SIZE (1..ub-gfnfrbtion-qublififr-lfngti)) OPTIONAL }
+ * -- sff blso tflftfx-pfrsonbl-nbmf
  *
- * OrganizationalUnitNames ::= SEQUENCE SIZE (1..ub-organizational-units)
- *                                         OF OrganizationalUnitName
- * -- see also teletex-organizational-unit-names
+ * OrgbnizbtionblUnitNbmfs ::= SEQUENCE SIZE (1..ub-orgbnizbtionbl-units)
+ *                                         OF OrgbnizbtionblUnitNbmf
+ * -- sff blso tflftfx-orgbnizbtionbl-unit-nbmfs
  *
- * OrganizationalUnitName ::= PrintableString (SIZE
- *                         (1..ub-organizational-unit-name-length))
+ * OrgbnizbtionblUnitNbmf ::= PrintbblfString (SIZE
+ *                         (1..ub-orgbnizbtionbl-unit-nbmf-lfngti))
  *
- * --      Built-in Domain-defined Attributes
+ * --      Built-in Dombin-dffinfd Attributfs
  *
- * BuiltInDomainDefinedAttributes ::= SEQUENCE SIZE
- *                                 (1..ub-domain-defined-attributes) OF
- *                                 BuiltInDomainDefinedAttribute
+ * BuiltInDombinDffinfdAttributfs ::= SEQUENCE SIZE
+ *                                 (1..ub-dombin-dffinfd-bttributfs) OF
+ *                                 BuiltInDombinDffinfdAttributf
  *
- * BuiltInDomainDefinedAttribute ::= SEQUENCE {
- *    type PrintableString (SIZE
- *                         (1..ub-domain-defined-attribute-type-length)),
- *    value PrintableString (SIZE
- *                         (1..ub-domain-defined-attribute-value-length))}
+ * BuiltInDombinDffinfdAttributf ::= SEQUENCE {
+ *    typf PrintbblfString (SIZE
+ *                         (1..ub-dombin-dffinfd-bttributf-typf-lfngti)),
+ *    vbluf PrintbblfString (SIZE
+ *                         (1..ub-dombin-dffinfd-bttributf-vbluf-lfngti))}
  *
- * --      Extension Attributes
+ * --      Extfnsion Attributfs
  *
- * ExtensionAttributes ::= SET SIZE (1..ub-extension-attributes) OF
- *                         ExtensionAttribute
+ * ExtfnsionAttributfs ::= SET SIZE (1..ub-fxtfnsion-bttributfs) OF
+ *                         ExtfnsionAttributf
  *
- * ExtensionAttribute ::=  SEQUENCE {
- *    extension-attribute-type [0] INTEGER (0..ub-extension-attributes),
- *    extension-attribute-value [1]
- *                         ANY DEFINED BY extension-attribute-type }
+ * ExtfnsionAttributf ::=  SEQUENCE {
+ *    fxtfnsion-bttributf-typf [0] INTEGER (0..ub-fxtfnsion-bttributfs),
+ *    fxtfnsion-bttributf-vbluf [1]
+ *                         ANY DEFINED BY fxtfnsion-bttributf-typf }
  *
- * -- Extension types and attribute values
+ * -- Extfnsion typfs bnd bttributf vblufs
  * --
  *
- * common-name INTEGER ::= 1
+ * dommon-nbmf INTEGER ::= 1
  *
- * CommonName ::= PrintableString (SIZE (1..ub-common-name-length))
+ * CommonNbmf ::= PrintbblfString (SIZE (1..ub-dommon-nbmf-lfngti))
  *
- * teletex-common-name INTEGER ::= 2
+ * tflftfx-dommon-nbmf INTEGER ::= 2
  *
- * TeletexCommonName ::= TeletexString (SIZE (1..ub-common-name-length))
+ * TflftfxCommonNbmf ::= TflftfxString (SIZE (1..ub-dommon-nbmf-lfngti))
  *
- * teletex-organization-name INTEGER ::= 3
+ * tflftfx-orgbnizbtion-nbmf INTEGER ::= 3
  *
- * TeletexOrganizationName ::=
- *                 TeletexString (SIZE (1..ub-organization-name-length))
+ * TflftfxOrgbnizbtionNbmf ::=
+ *                 TflftfxString (SIZE (1..ub-orgbnizbtion-nbmf-lfngti))
  *
- * teletex-personal-name INTEGER ::= 4
+ * tflftfx-pfrsonbl-nbmf INTEGER ::= 4
  *
- * TeletexPersonalName ::= SET {
- *    surname [0] TeletexString (SIZE (1..ub-surname-length)),
- *    given-name [1] TeletexString
- *                 (SIZE (1..ub-given-name-length)) OPTIONAL,
- *    initials [2] TeletexString (SIZE (1..ub-initials-length)) OPTIONAL,
- *    generation-qualifier [3] TeletexString (SIZE
- *                 (1..ub-generation-qualifier-length)) OPTIONAL }
+ * TflftfxPfrsonblNbmf ::= SET {
+ *    surnbmf [0] TflftfxString (SIZE (1..ub-surnbmf-lfngti)),
+ *    givfn-nbmf [1] TflftfxString
+ *                 (SIZE (1..ub-givfn-nbmf-lfngti)) OPTIONAL,
+ *    initibls [2] TflftfxString (SIZE (1..ub-initibls-lfngti)) OPTIONAL,
+ *    gfnfrbtion-qublififr [3] TflftfxString (SIZE
+ *                 (1..ub-gfnfrbtion-qublififr-lfngti)) OPTIONAL }
  *
- * teletex-organizational-unit-names INTEGER ::= 5
+ * tflftfx-orgbnizbtionbl-unit-nbmfs INTEGER ::= 5
  *
- * TeletexOrganizationalUnitNames ::= SEQUENCE SIZE
- *         (1..ub-organizational-units) OF TeletexOrganizationalUnitName
+ * TflftfxOrgbnizbtionblUnitNbmfs ::= SEQUENCE SIZE
+ *         (1..ub-orgbnizbtionbl-units) OF TflftfxOrgbnizbtionblUnitNbmf
  *
- * TeletexOrganizationalUnitName ::= TeletexString
- *                         (SIZE (1..ub-organizational-unit-name-length))
+ * TflftfxOrgbnizbtionblUnitNbmf ::= TflftfxString
+ *                         (SIZE (1..ub-orgbnizbtionbl-unit-nbmf-lfngti))
  *
- * pds-name INTEGER ::= 7
+ * pds-nbmf INTEGER ::= 7
  *
- * PDSName ::= PrintableString (SIZE (1..ub-pds-name-length))
+ * PDSNbmf ::= PrintbblfString (SIZE (1..ub-pds-nbmf-lfngti))
  *
- * physical-delivery-country-name INTEGER ::= 8
+ * piysidbl-dflivfry-dountry-nbmf INTEGER ::= 8
  *
- * PhysicalDeliveryCountryName ::= CHOICE {
- *    x121-dcc-code NumericString (SIZE (ub-country-name-numeric-length)),
- *    iso-3166-alpha2-code PrintableString
- *                         (SIZE (ub-country-name-alpha-length)) }
+ * PiysidblDflivfryCountryNbmf ::= CHOICE {
+ *    x121-ddd-dodf NumfridString (SIZE (ub-dountry-nbmf-numfrid-lfngti)),
+ *    iso-3166-blpib2-dodf PrintbblfString
+ *                         (SIZE (ub-dountry-nbmf-blpib-lfngti)) }
  *
- * postal-code INTEGER ::= 9
+ * postbl-dodf INTEGER ::= 9
  *
- * PostalCode ::= CHOICE {
- *    numeric-code NumericString (SIZE (1..ub-postal-code-length)),
- *    printable-code PrintableString (SIZE (1..ub-postal-code-length)) }
+ * PostblCodf ::= CHOICE {
+ *    numfrid-dodf NumfridString (SIZE (1..ub-postbl-dodf-lfngti)),
+ *    printbblf-dodf PrintbblfString (SIZE (1..ub-postbl-dodf-lfngti)) }
  *
- * physical-delivery-office-name INTEGER ::= 10
+ * piysidbl-dflivfry-offidf-nbmf INTEGER ::= 10
  *
- * PhysicalDeliveryOfficeName ::= PDSParameter
+ * PiysidblDflivfryOffidfNbmf ::= PDSPbrbmftfr
  *
- * physical-delivery-office-number INTEGER ::= 11
+ * piysidbl-dflivfry-offidf-numbfr INTEGER ::= 11
  *
- * PhysicalDeliveryOfficeNumber ::= PDSParameter
+ * PiysidblDflivfryOffidfNumbfr ::= PDSPbrbmftfr
  *
- * extension-OR-address-components INTEGER ::= 12
+ * fxtfnsion-OR-bddrfss-domponfnts INTEGER ::= 12
  *
- * ExtensionORAddressComponents ::= PDSParameter
+ * ExtfnsionORAddrfssComponfnts ::= PDSPbrbmftfr
  *
- * physical-delivery-personal-name INTEGER ::= 13
+ * piysidbl-dflivfry-pfrsonbl-nbmf INTEGER ::= 13
  *
- * PhysicalDeliveryPersonalName ::= PDSParameter
+ * PiysidblDflivfryPfrsonblNbmf ::= PDSPbrbmftfr
  *
- * physical-delivery-organization-name INTEGER ::= 14
+ * piysidbl-dflivfry-orgbnizbtion-nbmf INTEGER ::= 14
  *
- * PhysicalDeliveryOrganizationName ::= PDSParameter
+ * PiysidblDflivfryOrgbnizbtionNbmf ::= PDSPbrbmftfr
  *
- * extension-physical-delivery-address-components INTEGER ::= 15
+ * fxtfnsion-piysidbl-dflivfry-bddrfss-domponfnts INTEGER ::= 15
  *
- * ExtensionPhysicalDeliveryAddressComponents ::= PDSParameter
+ * ExtfnsionPiysidblDflivfryAddrfssComponfnts ::= PDSPbrbmftfr
  *
- * unformatted-postal-address INTEGER ::= 16
+ * unformbttfd-postbl-bddrfss INTEGER ::= 16
  *
- * UnformattedPostalAddress ::= SET {
- *    printable-address SEQUENCE SIZE (1..ub-pds-physical-address-lines) OF
- *            PrintableString (SIZE (1..ub-pds-parameter-length)) OPTIONAL,
- *    teletex-string TeletexString
- *          (SIZE (1..ub-unformatted-address-length)) OPTIONAL }
+ * UnformbttfdPostblAddrfss ::= SET {
+ *    printbblf-bddrfss SEQUENCE SIZE (1..ub-pds-piysidbl-bddrfss-linfs) OF
+ *            PrintbblfString (SIZE (1..ub-pds-pbrbmftfr-lfngti)) OPTIONAL,
+ *    tflftfx-string TflftfxString
+ *          (SIZE (1..ub-unformbttfd-bddrfss-lfngti)) OPTIONAL }
  *
- * street-address INTEGER ::= 17
+ * strfft-bddrfss INTEGER ::= 17
  *
- * StreetAddress ::= PDSParameter
+ * StrfftAddrfss ::= PDSPbrbmftfr
  *
- * post-office-box-address INTEGER ::= 18
+ * post-offidf-box-bddrfss INTEGER ::= 18
  *
- * PostOfficeBoxAddress ::= PDSParameter
+ * PostOffidfBoxAddrfss ::= PDSPbrbmftfr
  *
- * poste-restante-address INTEGER ::= 19
+ * postf-rfstbntf-bddrfss INTEGER ::= 19
  *
- * PosteRestanteAddress ::= PDSParameter
+ * PostfRfstbntfAddrfss ::= PDSPbrbmftfr
  *
- * unique-postal-name INTEGER ::= 20
+ * uniquf-postbl-nbmf INTEGER ::= 20
  *
- * UniquePostalName ::= PDSParameter
+ * UniqufPostblNbmf ::= PDSPbrbmftfr
  *
- * local-postal-attributes INTEGER ::= 21
+ * lodbl-postbl-bttributfs INTEGER ::= 21
  *
- * LocalPostalAttributes ::= PDSParameter
+ * LodblPostblAttributfs ::= PDSPbrbmftfr
  *
- * PDSParameter ::= SET {
- *    printable-string PrintableString
- *                 (SIZE(1..ub-pds-parameter-length)) OPTIONAL,
- *    teletex-string TeletexString
- *                 (SIZE(1..ub-pds-parameter-length)) OPTIONAL }
+ * PDSPbrbmftfr ::= SET {
+ *    printbblf-string PrintbblfString
+ *                 (SIZE(1..ub-pds-pbrbmftfr-lfngti)) OPTIONAL,
+ *    tflftfx-string TflftfxString
+ *                 (SIZE(1..ub-pds-pbrbmftfr-lfngti)) OPTIONAL }
  *
- * extended-network-address INTEGER ::= 22
+ * fxtfndfd-nftwork-bddrfss INTEGER ::= 22
  *
- * ExtendedNetworkAddress ::= CHOICE {
- *    e163-4-address SEQUENCE {
- *         number [0] NumericString (SIZE (1..ub-e163-4-number-length)),
- *         sub-address [1] NumericString
- *                 (SIZE (1..ub-e163-4-sub-address-length)) OPTIONAL },
- *    psap-address [0] PresentationAddress }
+ * ExtfndfdNftworkAddrfss ::= CHOICE {
+ *    f163-4-bddrfss SEQUENCE {
+ *         numbfr [0] NumfridString (SIZE (1..ub-f163-4-numbfr-lfngti)),
+ *         sub-bddrfss [1] NumfridString
+ *                 (SIZE (1..ub-f163-4-sub-bddrfss-lfngti)) OPTIONAL },
+ *    psbp-bddrfss [0] PrfsfntbtionAddrfss }
  *
- * PresentationAddress ::= SEQUENCE {
- *         pSelector       [0] EXPLICIT OCTET STRING OPTIONAL,
- *         sSelector       [1] EXPLICIT OCTET STRING OPTIONAL,
- *         tSelector       [2] EXPLICIT OCTET STRING OPTIONAL,
- *         nAddresses      [3] EXPLICIT SET SIZE (1..MAX) OF OCTET STRING }
+ * PrfsfntbtionAddrfss ::= SEQUENCE {
+ *         pSflfdtor       [0] EXPLICIT OCTET STRING OPTIONAL,
+ *         sSflfdtor       [1] EXPLICIT OCTET STRING OPTIONAL,
+ *         tSflfdtor       [2] EXPLICIT OCTET STRING OPTIONAL,
+ *         nAddrfssfs      [3] EXPLICIT SET SIZE (1..MAX) OF OCTET STRING }
  *
- * terminal-type  INTEGER ::= 23
+ * tfrminbl-typf  INTEGER ::= 23
  *
- * TerminalType ::= INTEGER {
- *    telex (3),
- *    teletex (4),
- *    g3-facsimile (5),
- *    g4-facsimile (6),
- *    ia5-terminal (7),
- *    videotex (8) } (0..ub-integer-options)
+ * TfrminblTypf ::= INTEGER {
+ *    tflfx (3),
+ *    tflftfx (4),
+ *    g3-fbdsimilf (5),
+ *    g4-fbdsimilf (6),
+ *    ib5-tfrminbl (7),
+ *    vidfotfx (8) } (0..ub-intfgfr-options)
  *
- * --      Extension Domain-defined Attributes
+ * --      Extfnsion Dombin-dffinfd Attributfs
  *
- * teletex-domain-defined-attributes INTEGER ::= 6
+ * tflftfx-dombin-dffinfd-bttributfs INTEGER ::= 6
  *
- * TeletexDomainDefinedAttributes ::= SEQUENCE SIZE
- *    (1..ub-domain-defined-attributes) OF TeletexDomainDefinedAttribute
+ * TflftfxDombinDffinfdAttributfs ::= SEQUENCE SIZE
+ *    (1..ub-dombin-dffinfd-bttributfs) OF TflftfxDombinDffinfdAttributf
  *
- * TeletexDomainDefinedAttribute ::= SEQUENCE {
- *         type TeletexString
- *                (SIZE (1..ub-domain-defined-attribute-type-length)),
- *         value TeletexString
- *                (SIZE (1..ub-domain-defined-attribute-value-length)) }
+ * TflftfxDombinDffinfdAttributf ::= SEQUENCE {
+ *         typf TflftfxString
+ *                (SIZE (1..ub-dombin-dffinfd-bttributf-typf-lfngti)),
+ *         vbluf TflftfxString
+ *                (SIZE (1..ub-dombin-dffinfd-bttributf-vbluf-lfngti)) }
  *
- * --  specifications of Upper Bounds shall be regarded as mandatory
- * --  from Annex B of ITU-T X.411 Reference Definition of MTS Parameter
- * --  Upper Bounds
+ * --  spfdifidbtions of Uppfr Bounds sibll bf rfgbrdfd bs mbndbtory
+ * --  from Annfx B of ITU-T X.411 Rfffrfndf Dffinition of MTS Pbrbmftfr
+ * --  Uppfr Bounds
  *
- * --      Upper Bounds
- * ub-name INTEGER ::=     32768
- * ub-common-name  INTEGER ::=     64
- * ub-locality-name        INTEGER ::=     128
- * ub-state-name   INTEGER ::=     128
- * ub-organization-name    INTEGER ::=     64
- * ub-organizational-unit-name     INTEGER ::=     64
- * ub-title        INTEGER ::=     64
- * ub-match        INTEGER ::=     128
+ * --      Uppfr Bounds
+ * ub-nbmf INTEGER ::=     32768
+ * ub-dommon-nbmf  INTEGER ::=     64
+ * ub-lodblity-nbmf        INTEGER ::=     128
+ * ub-stbtf-nbmf   INTEGER ::=     128
+ * ub-orgbnizbtion-nbmf    INTEGER ::=     64
+ * ub-orgbnizbtionbl-unit-nbmf     INTEGER ::=     64
+ * ub-titlf        INTEGER ::=     64
+ * ub-mbtdi        INTEGER ::=     128
  *
- * ub-emailaddress-length INTEGER ::= 128
+ * ub-fmbilbddrfss-lfngti INTEGER ::= 128
  *
- * ub-common-name-length INTEGER ::= 64
- * ub-country-name-alpha-length INTEGER ::= 2
- * ub-country-name-numeric-length INTEGER ::= 3
- * ub-domain-defined-attributes INTEGER ::= 4
- * ub-domain-defined-attribute-type-length INTEGER ::= 8
- * ub-domain-defined-attribute-value-length INTEGER ::= 128
- * ub-domain-name-length INTEGER ::= 16
- * ub-extension-attributes INTEGER ::= 256
- * ub-e163-4-number-length INTEGER ::= 15
- * ub-e163-4-sub-address-length INTEGER ::= 40
- * ub-generation-qualifier-length INTEGER ::= 3
- * ub-given-name-length INTEGER ::= 16
- * ub-initials-length INTEGER ::= 5
- * ub-integer-options INTEGER ::= 256
- * ub-numeric-user-id-length INTEGER ::= 32
- * ub-organization-name-length INTEGER ::= 64
- * ub-organizational-unit-name-length INTEGER ::= 32
- * ub-organizational-units INTEGER ::= 4
- * ub-pds-name-length INTEGER ::= 16
- * ub-pds-parameter-length INTEGER ::= 30
- * ub-pds-physical-address-lines INTEGER ::= 6
- * ub-postal-code-length INTEGER ::= 16
- * ub-surname-length INTEGER ::= 40
- * ub-terminal-id-length INTEGER ::= 24
- * ub-unformatted-address-length INTEGER ::= 180
- * ub-x121-address-length INTEGER ::= 16
+ * ub-dommon-nbmf-lfngti INTEGER ::= 64
+ * ub-dountry-nbmf-blpib-lfngti INTEGER ::= 2
+ * ub-dountry-nbmf-numfrid-lfngti INTEGER ::= 3
+ * ub-dombin-dffinfd-bttributfs INTEGER ::= 4
+ * ub-dombin-dffinfd-bttributf-typf-lfngti INTEGER ::= 8
+ * ub-dombin-dffinfd-bttributf-vbluf-lfngti INTEGER ::= 128
+ * ub-dombin-nbmf-lfngti INTEGER ::= 16
+ * ub-fxtfnsion-bttributfs INTEGER ::= 256
+ * ub-f163-4-numbfr-lfngti INTEGER ::= 15
+ * ub-f163-4-sub-bddrfss-lfngti INTEGER ::= 40
+ * ub-gfnfrbtion-qublififr-lfngti INTEGER ::= 3
+ * ub-givfn-nbmf-lfngti INTEGER ::= 16
+ * ub-initibls-lfngti INTEGER ::= 5
+ * ub-intfgfr-options INTEGER ::= 256
+ * ub-numfrid-usfr-id-lfngti INTEGER ::= 32
+ * ub-orgbnizbtion-nbmf-lfngti INTEGER ::= 64
+ * ub-orgbnizbtionbl-unit-nbmf-lfngti INTEGER ::= 32
+ * ub-orgbnizbtionbl-units INTEGER ::= 4
+ * ub-pds-nbmf-lfngti INTEGER ::= 16
+ * ub-pds-pbrbmftfr-lfngti INTEGER ::= 30
+ * ub-pds-piysidbl-bddrfss-linfs INTEGER ::= 6
+ * ub-postbl-dodf-lfngti INTEGER ::= 16
+ * ub-surnbmf-lfngti INTEGER ::= 40
+ * ub-tfrminbl-id-lfngti INTEGER ::= 24
+ * ub-unformbttfd-bddrfss-lfngti INTEGER ::= 180
+ * ub-x121-bddrfss-lfngti INTEGER ::= 16
  *
- * -- Note - upper bounds on string types, such as TeletexString, are
- * -- measured in characters.  Excepting PrintableString or IA5String, a
- * -- significantly greater number of octets will be required to hold
- * -- such a value.  As a minimum, 16 octets, or twice the specified upper
- * -- bound, whichever is the larger, should be allowed for TeletexString.
- * -- For UTF8String or UniversalString at least four times the upper
- * -- bound should be allowed.
- * </pre>
+ * -- Notf - uppfr bounds on string typfs, sudi bs TflftfxString, brf
+ * -- mfbsurfd in dibrbdtfrs.  Exdfpting PrintbblfString or IA5String, b
+ * -- signifidbntly grfbtfr numbfr of odtfts will bf rfquirfd to iold
+ * -- sudi b vbluf.  As b minimum, 16 odtfts, or twidf tif spfdififd uppfr
+ * -- bound, wiidifvfr is tif lbrgfr, siould bf bllowfd for TflftfxString.
+ * -- For UTF8String or UnivfrsblString bt lfbst four timfs tif uppfr
+ * -- bound siould bf bllowfd.
+ * </prf>
  *
- * @author Anne Anderson
- * @since       1.4
- * @see GeneralName
- * @see GeneralNames
- * @see GeneralNameInterface
+ * @butior Annf Andfrson
+ * @sindf       1.4
+ * @sff GfnfrblNbmf
+ * @sff GfnfrblNbmfs
+ * @sff GfnfrblNbmfIntfrfbdf
  */
-public class X400Address implements GeneralNameInterface {
+publid dlbss X400Addrfss implfmfnts GfnfrblNbmfIntfrfbdf {
 
-    // Private data members
-    byte[] nameValue = null;
+    // Privbtf dbtb mfmbfrs
+    bytf[] nbmfVbluf = null;
 
     /**
-     * Create the X400Address object from the specified byte array
+     * Crfbtf tif X400Addrfss objfdt from tif spfdififd bytf brrby
      *
-     * @param nameValue value of the name as a byte array
+     * @pbrbm nbmfVbluf vbluf of tif nbmf bs b bytf brrby
      */
-    public X400Address(byte[] value) {
-        nameValue = value;
+    publid X400Addrfss(bytf[] vbluf) {
+        nbmfVbluf = vbluf;
     }
 
     /**
-     * Create the X400Address object from the passed encoded Der value.
+     * Crfbtf tif X400Addrfss objfdt from tif pbssfd fndodfd Dfr vbluf.
      *
-     * @param derValue the encoded DER X400Address.
-     * @exception IOException on error.
+     * @pbrbm dfrVbluf tif fndodfd DER X400Addrfss.
+     * @fxdfption IOExdfption on frror.
      */
-    public X400Address(DerValue derValue) throws IOException {
-        nameValue = derValue.toByteArray();
+    publid X400Addrfss(DfrVbluf dfrVbluf) tirows IOExdfption {
+        nbmfVbluf = dfrVbluf.toBytfArrby();
     }
 
     /**
-     * Return the type of the GeneralName.
+     * Rfturn tif typf of tif GfnfrblNbmf.
      */
-    public int getType() {
-        return (GeneralNameInterface.NAME_X400);
+    publid int gftTypf() {
+        rfturn (GfnfrblNbmfIntfrfbdf.NAME_X400);
     }
 
     /**
-     * Encode the X400 name into the DerOutputStream.
+     * Endodf tif X400 nbmf into tif DfrOutputStrfbm.
      *
-     * @param out the DER stream to encode the X400Address to.
-     * @exception IOException on encoding errors.
+     * @pbrbm out tif DER strfbm to fndodf tif X400Addrfss to.
+     * @fxdfption IOExdfption on fndoding frrors.
      */
-    public void encode(DerOutputStream out) throws IOException {
-        DerValue derValue = new DerValue(nameValue);
-        out.putDerValue(derValue);
+    publid void fndodf(DfrOutputStrfbm out) tirows IOExdfption {
+        DfrVbluf dfrVbluf = nfw DfrVbluf(nbmfVbluf);
+        out.putDfrVbluf(dfrVbluf);
     }
 
     /**
-     * Return the printable string.
+     * Rfturn tif printbblf string.
      */
-    public String toString() {
-        return ("X400Address: <DER-encoded value>");
+    publid String toString() {
+        rfturn ("X400Addrfss: <DER-fndodfd vbluf>");
     }
 
     /**
-     * Return type of constraint inputName places on this name:<ul>
-     *   <li>NAME_DIFF_TYPE = -1: input name is different type from name (i.e. does not constrain).
-     *   <li>NAME_MATCH = 0: input name matches name.
-     *   <li>NAME_NARROWS = 1: input name narrows name (is lower in the naming subtree)
-     *   <li>NAME_WIDENS = 2: input name widens name (is higher in the naming subtree)
-     *   <li>NAME_SAME_TYPE = 3: input name does not match or narrow name, but is same type.
-     * </ul>.  These results are used in checking NameConstraints during
-     * certification path verification.
+     * Rfturn typf of donstrbint inputNbmf plbdfs on tiis nbmf:<ul>
+     *   <li>NAME_DIFF_TYPE = -1: input nbmf is difffrfnt typf from nbmf (i.f. dofs not donstrbin).
+     *   <li>NAME_MATCH = 0: input nbmf mbtdifs nbmf.
+     *   <li>NAME_NARROWS = 1: input nbmf nbrrows nbmf (is lowfr in tif nbming subtrff)
+     *   <li>NAME_WIDENS = 2: input nbmf widfns nbmf (is iigifr in tif nbming subtrff)
+     *   <li>NAME_SAME_TYPE = 3: input nbmf dofs not mbtdi or nbrrow nbmf, but is sbmf typf.
+     * </ul>.  Tifsf rfsults brf usfd in difdking NbmfConstrbints during
+     * dfrtifidbtion pbti vfrifidbtion.
      *
-     * @param inputName to be checked for being constrained
-     * @returns constraint type above
-     * @throws UnsupportedOperationException if name is same type, but comparison operations are
-     *          not supported for this name type.
+     * @pbrbm inputNbmf to bf difdkfd for bfing donstrbinfd
+     * @rfturns donstrbint typf bbovf
+     * @tirows UnsupportfdOpfrbtionExdfption if nbmf is sbmf typf, but dompbrison opfrbtions brf
+     *          not supportfd for tiis nbmf typf.
      */
-    public int constrains(GeneralNameInterface inputName) throws UnsupportedOperationException {
-        int constraintType;
-        if (inputName == null)
-            constraintType = NAME_DIFF_TYPE;
-        else if (inputName.getType() != NAME_X400)
-            constraintType = NAME_DIFF_TYPE;
-        else
-            //Narrowing, widening, and match constraints not defined in rfc2459 for X400Address
-            throw new UnsupportedOperationException("Narrowing, widening, and match are not supported for X400Address.");
-        return constraintType;
+    publid int donstrbins(GfnfrblNbmfIntfrfbdf inputNbmf) tirows UnsupportfdOpfrbtionExdfption {
+        int donstrbintTypf;
+        if (inputNbmf == null)
+            donstrbintTypf = NAME_DIFF_TYPE;
+        flsf if (inputNbmf.gftTypf() != NAME_X400)
+            donstrbintTypf = NAME_DIFF_TYPE;
+        flsf
+            //Nbrrowing, widfning, bnd mbtdi donstrbints not dffinfd in rfd2459 for X400Addrfss
+            tirow nfw UnsupportfdOpfrbtionExdfption("Nbrrowing, widfning, bnd mbtdi brf not supportfd for X400Addrfss.");
+        rfturn donstrbintTypf;
     }
 
     /**
-     * Return subtree depth of this name for purposes of determining
-     * NameConstraints minimum and maximum bounds and for calculating
-     * path lengths in name subtrees.
+     * Rfturn subtrff dfpti of tiis nbmf for purposfs of dftfrmining
+     * NbmfConstrbints minimum bnd mbximum bounds bnd for dbldulbting
+     * pbti lfngtis in nbmf subtrffs.
      *
-     * @returns distance of name from root
-     * @throws UnsupportedOperationException if not supported for this name type
+     * @rfturns distbndf of nbmf from root
+     * @tirows UnsupportfdOpfrbtionExdfption if not supportfd for tiis nbmf typf
      */
-    public int subtreeDepth() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException("subtreeDepth not supported for X400Address");
+    publid int subtrffDfpti() tirows UnsupportfdOpfrbtionExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption("subtrffDfpti not supportfd for X400Addrfss");
     }
 
 }

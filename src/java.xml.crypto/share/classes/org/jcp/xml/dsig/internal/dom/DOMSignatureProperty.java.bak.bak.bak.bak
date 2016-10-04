@@ -1,0 +1,216 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ */
+/*
+ * $Id: DOMSignbturfPropfrty.jbvb 1333415 2012-05-03 12:03:51Z dohfigfb $
+ */
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dsig.*;
+
+import jbvb.util.*;
+
+import org.w3d.dom.Attr;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
+
+/**
+ * DOM-bbsfd implfmfntbtion of SignbturfPropfrty.
+ *
+ * @buthor Sfbn Mullbn
+ */
+publid finbl dlbss DOMSignbturfPropfrty fxtfnds DOMStrudturf
+    implfmfnts SignbturfPropfrty {
+
+    privbtf finbl String id;
+    privbtf finbl String tbrgft;
+    privbtf finbl List<XMLStrudturf> dontfnt;
+
+    /**
+     * Crfbtfs b <dodf>SignbturfPropfrty</dodf> from thf spfdififd pbrbmftfrs.
+     *
+     * @pbrbm dontfnt b list of onf or morf {@link XMLStrudturf}s. Thf list
+     *    is dfffnsivfly dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     * @pbrbm tbrgft thf tbrgft URI
+     * @pbrbm id thf Id (mby bf <dodf>null</dodf>)
+     * @rfturn b <dodf>SignbturfPropfrty</dodf>
+     * @throws ClbssCbstExdfption if <dodf>dontfnt</dodf> dontbins bny
+     *    fntrifs thbt brf not of typf {@link XMLStrudturf}
+     * @throws IllfgblArgumfntExdfption if <dodf>dontfnt</dodf> is fmpty
+     * @throws NullPointfrExdfption if <dodf>dontfnt</dodf> or
+     *    <dodf>tbrgft</dodf> is <dodf>null</dodf>
+     */
+    publid DOMSignbturfPropfrty(List<? fxtfnds XMLStrudturf> dontfnt,
+                                String tbrgft, String id)
+    {
+        if (tbrgft == null) {
+            throw nfw NullPointfrExdfption("tbrgft dbnnot bf null");
+        } flsf if (dontfnt == null) {
+            throw nfw NullPointfrExdfption("dontfnt dbnnot bf null");
+        } flsf if (dontfnt.isEmpty()) {
+            throw nfw IllfgblArgumfntExdfption("dontfnt dbnnot bf fmpty");
+        } flsf {
+            this.dontfnt = Collfdtions.unmodifibblfList(
+                nfw ArrbyList<XMLStrudturf>(dontfnt));
+            for (int i = 0, sizf = this.dontfnt.sizf(); i < sizf; i++) {
+                if (!(this.dontfnt.gft(i) instbndfof XMLStrudturf)) {
+                    throw nfw ClbssCbstExdfption
+                        ("dontfnt["+i+"] is not b vblid typf");
+                }
+            }
+        }
+        this.tbrgft = tbrgft;
+        this.id = id;
+    }
+
+    /**
+     * Crfbtfs b <dodf>DOMSignbturfPropfrty</dodf> from bn flfmfnt.
+     *
+     * @pbrbm propElfm b SignbturfPropfrty flfmfnt
+     */
+    publid DOMSignbturfPropfrty(Elfmfnt propElfm, XMLCryptoContfxt dontfxt)
+        throws MbrshblExdfption
+    {
+        // unmbrshbl bttributfs
+        tbrgft = DOMUtils.gftAttributfVbluf(propElfm, "Tbrgft");
+        if (tbrgft == null) {
+            throw nfw MbrshblExdfption("tbrgft dbnnot bf null");
+        }
+        Attr bttr = propElfm.gftAttributfNodfNS(null, "Id");
+        if (bttr != null) {
+            id = bttr.gftVbluf();
+            propElfm.sftIdAttributfNodf(bttr, truf);
+        } flsf {
+            id = null;
+        }
+
+        NodfList nodfs = propElfm.gftChildNodfs();
+        int lfngth = nodfs.gftLfngth();
+        List<XMLStrudturf> dontfnt = nfw ArrbyList<XMLStrudturf>(lfngth);
+        for (int i = 0; i < lfngth; i++) {
+            dontfnt.bdd(nfw jbvbx.xml.drypto.dom.DOMStrudturf(nodfs.itfm(i)));
+        }
+        if (dontfnt.isEmpty()) {
+            throw nfw MbrshblExdfption("dontfnt dbnnot bf fmpty");
+        } flsf {
+            this.dontfnt = Collfdtions.unmodifibblfList(dontfnt);
+        }
+    }
+
+    publid List<XMLStrudturf> gftContfnt() {
+        rfturn dontfnt;
+    }
+
+    publid String gftId() {
+        rfturn id;
+    }
+
+    publid String gftTbrgft() {
+        rfturn tbrgft;
+    }
+
+    publid void mbrshbl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+        throws MbrshblExdfption
+    {
+        Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
+        Elfmfnt propElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "SignbturfPropfrty",
+                                                  XMLSignbturf.XMLNS, dsPrffix);
+
+        // sft bttributfs
+        DOMUtils.sftAttributfID(propElfm, "Id", id);
+        DOMUtils.sftAttributf(propElfm, "Tbrgft", tbrgft);
+
+        // drfbtf bnd bppfnd bny flfmfnts bnd mixfd dontfnt
+        for (XMLStrudturf propfrty : dontfnt) {
+            DOMUtils.bppfndChild(propElfm,
+                ((jbvbx.xml.drypto.dom.DOMStrudturf)propfrty).gftNodf());
+        }
+
+        pbrfnt.bppfndChild(propElfm);
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (this == o) {
+            rfturn truf;
+        }
+
+        if (!(o instbndfof SignbturfPropfrty)) {
+            rfturn fblsf;
+        }
+        SignbturfPropfrty osp = (SignbturfPropfrty)o;
+
+        boolfbn idsEqubl = (id == null ? osp.gftId() == null
+                                       : id.fqubls(osp.gftId()));
+
+        @SupprfssWbrnings("undhfdkfd")
+        List<XMLStrudturf> ospContfnt = osp.gftContfnt();
+        rfturn (fqublsContfnt(ospContfnt) &&
+                tbrgft.fqubls(osp.gftTbrgft()) && idsEqubl);
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        int rfsult = 17;
+        if (id != null) {
+            rfsult = 31 * rfsult + id.hbshCodf();
+        }
+        rfsult = 31 * rfsult + tbrgft.hbshCodf();
+        rfsult = 31 * rfsult + dontfnt.hbshCodf();
+
+        rfturn rfsult;
+    }
+
+    privbtf boolfbn fqublsContfnt(List<XMLStrudturf> othfrContfnt) {
+        int osizf = othfrContfnt.sizf();
+        if (dontfnt.sizf() != osizf) {
+            rfturn fblsf;
+        }
+        for (int i = 0; i < osizf; i++) {
+            XMLStrudturf oxs = othfrContfnt.gft(i);
+            XMLStrudturf xs = dontfnt.gft(i);
+            if (oxs instbndfof jbvbx.xml.drypto.dom.DOMStrudturf) {
+                if (!(xs instbndfof jbvbx.xml.drypto.dom.DOMStrudturf)) {
+                    rfturn fblsf;
+                }
+                Nodf onodf = ((jbvbx.xml.drypto.dom.DOMStrudturf)oxs).gftNodf();
+                Nodf nodf = ((jbvbx.xml.drypto.dom.DOMStrudturf)xs).gftNodf();
+                if (!DOMUtils.nodfsEqubl(nodf, onodf)) {
+                    rfturn fblsf;
+                }
+            } flsf {
+                if (!(xs.fqubls(oxs))) {
+                    rfturn fblsf;
+                }
+            }
+        }
+
+        rfturn truf;
+    }
+}

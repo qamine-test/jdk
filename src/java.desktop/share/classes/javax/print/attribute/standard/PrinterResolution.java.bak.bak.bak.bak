@@ -1,0 +1,149 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
+
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.RfsolutionSyntbx;
+import jbvbx.print.bttributf.DodAttributf;
+import jbvbx.print.bttributf.PrintRfqufstAttributf;
+import jbvbx.print.bttributf.PrintJobAttributf;
+
+/**
+ * Clbss PrintfrRfsolution is b printing bttributf dlbss thbt spfdififs bn
+ * fxbdt rfsolution supportfd by b printfr or to bf usfd for b print job.
+ * This bttributf bssumfs thbt printfrs hbvf b smbll sft of dfvidf rfsolutions
+ * bt whidh thfy dbn opfrbtf rbthfr thbn b dontinuum.
+ * <p>
+ * PrintfrRfsolution is usfd in multiplf wbys:
+ * <OL TYPE=1>
+ * <LI>
+ * Whfn b dlifnt sfbrdhfs looking for b printfr thbt supports thf dlifnt's
+ * dfsirfd rfsolution fxbdtly (no morf, no lfss), thf dlifnt spfdififs
+ * bn instbndf of dlbss PrintfrRfsolution indidbting thf fxbdt rfsolution thf
+ * dlifnt wbnts. Only printfrs supporting thbt fxbdt rfsolution will mbtdh thf
+ * sfbrdh.
+ *
+ * <LI>
+ * Whfn b dlifnt nffds to print b job using thf dlifnt's dfsirfd rfsolution
+ * fxbdtly (no morf, no lfss), thf dlifnt spfdififs bn instbndf of dlbss
+ * PrintfrRfsolution bs bn bttributf of thf Print Job. This will fbil if thf
+ * Print Job dofsn't support thbt fxbdt rfsolution, bnd Fidflity is sft to
+ * truf.
+ * </OL>
+ * If b dlifnt wbnts to lodbtf b printfr supporting b rfsolution
+ * grfbtfr thbn somf rfquirfd minimum, thfn it mby bf nfdfssbry to fxdludf
+ * this bttributf from b lookup rfqufst bnd to dirfdtly qufry thf sft of
+ * supportfd rfsolutions, bnd spfdify thf onf thbt most dlosfly mffts
+ * thf dlifnt's rfquirfmfnts.
+ * In somf dbsfs this mby bf morf simply bdhifvfd by spfdifying b
+ * PrintQublity bttributf whidh oftfn dontrols rfsolution.
+ * <P>
+ * <B>IPP Compbtibility:</B> Thf informbtion nffdfd to donstrudt bn IPP
+ * <CODE>"printfr-rfsolution"</CODE> bttributf dbn bf obtbinfd by dblling
+ * mfthods on thf PrintfrRfsolution objfdt. Thf dbtfgory nbmf rfturnfd by
+ * <CODE>gftNbmf()</CODE> givfs thf IPP bttributf nbmf.
+ *
+ * @buthor  Dbvid Mfndfnhbll
+ * @buthor  Albn Kbminsky
+ */
+publid finbl dlbss PrintfrRfsolution    fxtfnds RfsolutionSyntbx
+        implfmfnts DodAttributf, PrintRfqufstAttributf, PrintJobAttributf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 13090306561090558L;
+
+    /**
+     * Construdt b nfw printfr rfsolution bttributf from thf givfn itfms.
+     *
+     * @pbrbm  drossFffdRfsolution
+     *     Cross fffd dirfdtion rfsolution.
+     * @pbrbm  fffdRfsolution
+     *     Fffd dirfdtion rfsolution.
+     * @pbrbm  units
+     *    Unit donvfrsion fbdtor, f.g. <dodf>RfsolutionSyntbx.DPI</CODE>
+     * or <dodf>RfsolutionSyntbx.DPCM</CODE>.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undhfdkfd fxdfption) Thrown if {@dodf drossFffdRfsolution < 1} or
+     *     {@dodf fffdRfsolution < 1} or {@dodf units < 1}.
+     */
+    publid PrintfrRfsolution(int drossFffdRfsolution, int fffdRfsolution,
+                             int units) {
+        supfr (drossFffdRfsolution, fffdRfsolution, units);
+    }
+
+    /**
+     * Rfturns whfthfr this printfr rfsolution bttributf is fquivblfnt to thf
+     * pbssfd in objfdt. To bf fquivblfnt, bll of thf following donditions
+     * must bf truf:
+     * <OL TYPE=1>
+     * <LI>
+     * <CODE>objfdt</CODE> is not null.
+     * <LI>
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss PrintfrRfsolution.
+     * <LI>
+     * This bttributf's dross fffd dirfdtion rfsolution is fqubl to
+     * <CODE>objfdt</CODE>'s dross fffd dirfdtion rfsolution.
+     * <LI>
+     * This bttributf's fffd dirfdtion rfsolution is fqubl to
+     * <CODE>objfdt</CODE>'s fffd dirfdtion rfsolution.
+     * </OL>
+     *
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
+     *
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to this printfr
+     *          rfsolution bttributf, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn (supfr.fqubls (objfdt) &&
+                objfdt instbndfof PrintfrRfsolution);
+    }
+
+    /**
+     * Gft thf printing bttributf dlbss whidh is to bf usfd bs thf "dbtfgory"
+     * for this printing bttributf vbluf.
+     * <P>
+     * For dlbss PrintfrRfsolution, thf dbtfgory is dlbss PrintfrRfsolution itsflf.
+     *
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
+     */
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn PrintfrRfsolution.dlbss;
+                }
+
+    /**
+     * Gft thf nbmf of thf dbtfgory of whidh this bttributf vbluf is bn
+     * instbndf.
+     * <P>
+     * For dlbss PrintfrRfsolution, thf
+     * dbtfgory nbmf is <CODE>"printfr-rfsolution"</CODE>.
+     *
+     * @rfturn  Attributf dbtfgory nbmf.
+     */
+    publid finbl String gftNbmf() {
+        rfturn "printfr-rfsolution";
+    }
+
+}

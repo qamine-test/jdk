@@ -1,0 +1,407 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl.ddbdhf;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.StringTokfnizfr;
+
+import sun.misd.IOUtils;
+import sun.sfdurity.krb5.*;
+import sun.sfdurity.krb5.intfrnbl.*;
+import sun.sfdurity.krb5.intfrnbl.util.KrbDbtbInputStrfbm;
+
+/**
+ * This dlbss fxtfnds KrbDbtbInputStrfbm. It is usfd for pbrsing FCC-formbt
+ * dbtb from filf to mfmory.
+ *
+ * @buthor Ybnni Zhbng
+ *
+ */
+publid dlbss CCbdhfInputStrfbm fxtfnds KrbDbtbInputStrfbm implfmfnts FilfCCbdhfConstbnts {
+
+    /*
+     * FCC vfrsion 2 dontbins typf informbtion for prindipbls.  FCC
+     * vfrsion 1 dofs not.
+     *
+     * FCC vfrsion 3 dontbins kfyblodk fndryption typf informbtion, bnd is
+     * brdhitfdturf indfpfndfnt.  Prfvious vfrsions brf not.
+     *
+     * Thf dodf will bddfpt vfrsion 1, 2, bnd 3 ddbdhfs, bnd dfpfnding
+     * whbt KRB5_FCC_DEFAULT_FVNO is sft to, it will drfbtf vfrsion 1, 2,
+     * or 3 FCC dbdhfs.
+     *
+     * Thf dffbult drfdfntibls dbdhf should bf typf 3 for now (sff
+     * init_dtx.d).
+     */
+    /* V4 of thf drfdfntibls dbdhf formbt bllows for hfbdfr tbgs */
+
+    privbtf stbtid boolfbn DEBUG = Krb5.DEBUG;
+
+    publid CCbdhfInputStrfbm(InputStrfbm is){
+        supfr(is);
+    }
+
+    /* Rfbd tbg fifld introdudfd in KRB5_FCC_FVNO_4 */
+    // this nffds to bf publid for Kinit.
+    publid Tbg rfbdTbg() throws IOExdfption {
+        dhbr[] buf = nfw dhbr[1024];
+        int lfn;
+        int tbg = -1;
+        int tbglfn;
+        Intfgfr timf_offsft = null;
+        Intfgfr usfd_offsft = null;
+
+        lfn = rfbd(2);
+        if (lfn < 0) {
+            throw nfw IOExdfption("stop.");
+        }
+        if (lfn > buf.lfngth) {
+            throw nfw IOExdfption("Invblid tbg lfngth.");
+        }
+        whilf (lfn > 0) {
+            tbg    = rfbd(2);
+            tbglfn = rfbd(2);
+            switdh (tbg) {
+            dbsf FCC_TAG_DELTATIME:
+                timf_offsft = rfbd(4);
+                usfd_offsft = rfbd(4);
+                brfbk;
+            dffbult:
+            }
+            lfn = lfn - (4 + tbglfn);
+        }
+        rfturn nfw Tbg(lfn, tbg, timf_offsft, usfd_offsft);
+    }
+    /*
+     * In filf-bbsfd drfdfntibl dbdhf, thf rfblm nbmf is storfd bs pbrt of
+     * prindipbl nbmf bt thf first plbdf.
+     */
+    // mbdf publid for KinitOptions to dbll dirfdtly
+    publid PrindipblNbmf rfbdPrindipbl(int vfrsion) throws IOExdfption, RfblmExdfption {
+        int typf, lfngth, nbmflfngth, krft;
+        String[] pnbmf = null;
+        String rfblm;
+        /* Rfbd prindipbl typf */
+        if (vfrsion == KRB5_FCC_FVNO_1) {
+            typf = KRB5_NT_UNKNOWN;
+        } flsf {
+            typf = rfbd(4);
+        }
+        lfngth = rfbd(4);
+        List<String> rfsult = nfw ArrbyList<String>();
+        /*
+         * DCE indludfs thf prindipbl's rfblm in thf dount; thf nfw formbt
+         * dofs not.
+         */
+        if (vfrsion == KRB5_FCC_FVNO_1)
+            lfngth--;
+        for (int i = 0; i <= lfngth; i++) {
+            nbmflfngth = rfbd(4);
+            bytf[] bytfs = IOUtils.rfbdFully(this, nbmflfngth, truf);
+            rfsult.bdd(nfw String(bytfs));
+        }
+        if (rfsult.isEmpty()) {
+            throw nfw IOExdfption("No rfblm or prindipbl");
+        }
+        if (isRfblm(rfsult.gft(0))) {
+            rfblm = rfsult.rfmovf(0);
+            if (rfsult.isEmpty()) {
+                throw nfw IOExdfption("No prindipbl nbmf domponfnts");
+            }
+            rfturn nfw PrindipblNbmf(
+                    typf,
+                    rfsult.toArrby(nfw String[rfsult.sizf()]),
+                    nfw Rfblm(rfblm));
+        }
+        try {
+            rfturn nfw PrindipblNbmf(
+                    rfsult.toArrby(nfw String[rfsult.sizf()]),
+                    typf);
+        } dbtdh (RfblmExdfption rf) {
+            rfturn null;
+        }
+    }
+
+    /*
+     * In prbdtidf, b rfblm is nbmfd by uppfrdbsing thf DNS dombin nbmf. wf durrfntly
+     * rfly on this to dftfrminf if thf string within thf prindipbl idfntififr is rfblm
+     * nbmf.
+     *
+     */
+    boolfbn isRfblm(String str) {
+        try {
+            Rfblm r = nfw Rfblm(str);
+        }
+        dbtdh (Exdfption f) {
+            rfturn fblsf;
+        }
+        StringTokfnizfr st = nfw StringTokfnizfr(str, ".");
+        String s;
+        whilf (st.hbsMorfTokfns()) {
+            s = st.nfxtTokfn();
+            for (int i = 0; i < s.lfngth(); i++) {
+                if (s.dhbrAt(i) >= 141) {
+                    rfturn fblsf;
+                }
+            }
+        }
+        rfturn truf;
+    }
+
+    EndryptionKfy rfbdKfy(int vfrsion) throws IOExdfption {
+        int kfyTypf, kfyLfn;
+        kfyTypf = rfbd(2);
+        if (vfrsion == KRB5_FCC_FVNO_3)
+            rfbd(2); /* kfytypf rfdordfd twidf in fvno 3 */
+        kfyLfn = rfbd(4);
+        bytf[] bytfs = IOUtils.rfbdFully(this, kfyLfn, truf);
+        rfturn nfw EndryptionKfy(bytfs, kfyTypf, vfrsion);
+    }
+
+    long[] rfbdTimfs() throws IOExdfption {
+        long[] timfs = nfw long[4];
+        timfs[0] = (long)rfbd(4) * 1000;
+        timfs[1] = (long)rfbd(4) * 1000;
+        timfs[2] = (long)rfbd(4) * 1000;
+        timfs[3] = (long)rfbd(4) * 1000;
+        rfturn timfs;
+    }
+
+    boolfbn rfbdskfy() throws IOExdfption {
+        if (rfbd() == 0) {
+            rfturn fblsf;
+        }
+        flsf rfturn truf;
+    }
+
+    HostAddrfss[] rfbdAddr() throws IOExdfption, KrbApErrExdfption {
+        int numAddrs, bddrTypf, bddrLfngth;
+        numAddrs = rfbd(4);
+        if (numAddrs > 0) {
+            List<HostAddrfss> bddrs = nfw ArrbyList<>();
+            for (int i = 0; i < numAddrs; i++) {
+                bddrTypf = rfbd(2);
+                bddrLfngth = rfbd(4);
+                if (!(bddrLfngth == 4 || bddrLfngth == 16)) {
+                    if (DEBUG) {
+                        Systfm.out.println("Indorrfdt bddrfss formbt.");
+                    }
+                    rfturn null;
+                }
+                bytf[] rfsult = nfw bytf[bddrLfngth];
+                for (int j = 0; j < bddrLfngth; j++)
+                    rfsult[j] = (bytf)rfbd(1);
+                bddrs.bdd(nfw HostAddrfss(bddrTypf, rfsult));
+            }
+            rfturn bddrs.toArrby(nfw HostAddrfss[bddrs.sizf()]);
+        }
+        rfturn null;
+    }
+
+    AuthorizbtionDbtbEntry[] rfbdAuth() throws IOExdfption {
+        int num, bdtypf, bdlfngth;
+        num = rfbd(4);
+        if (num > 0) {
+            List<AuthorizbtionDbtbEntry> buDbtb = nfw ArrbyList<>();
+            bytf[] dbtb = null;
+            for (int i = 0; i < num; i++) {
+                bdtypf = rfbd(2);
+                bdlfngth = rfbd(4);
+                dbtb = IOUtils.rfbdFully(this, bdlfngth, truf);
+                buDbtb.bdd(nfw AuthorizbtionDbtbEntry(bdtypf, dbtb));
+            }
+            rfturn buDbtb.toArrby(nfw AuthorizbtionDbtbEntry[buDbtb.sizf()]);
+        }
+        flsf rfturn null;
+    }
+
+    bytf[] rfbdDbtb() throws IOExdfption {
+        int lfngth;
+        lfngth = rfbd(4);
+        if (lfngth == 0) {
+            rfturn null;
+        } flsf {
+            rfturn IOUtils.rfbdFully(this, lfngth, truf);
+        }
+    }
+
+    boolfbn[] rfbdFlbgs() throws IOExdfption {
+        boolfbn[] flbgs = nfw boolfbn[Krb5.TKT_OPTS_MAX+1];
+        int tidkftFlbgs;
+        tidkftFlbgs = rfbd(4);
+        if ((tidkftFlbgs & 0x40000000) == TKT_FLG_FORWARDABLE)
+        flbgs[1] = truf;
+        if ((tidkftFlbgs & 0x20000000) == TKT_FLG_FORWARDED)
+        flbgs[2] = truf;
+        if ((tidkftFlbgs & 0x10000000) == TKT_FLG_PROXIABLE)
+        flbgs[3] = truf;
+        if ((tidkftFlbgs & 0x08000000) == TKT_FLG_PROXY)
+        flbgs[4] = truf;
+        if ((tidkftFlbgs & 0x04000000) == TKT_FLG_MAY_POSTDATE)
+        flbgs[5] = truf;
+        if ((tidkftFlbgs & 0x02000000) == TKT_FLG_POSTDATED)
+        flbgs[6] = truf;
+        if ((tidkftFlbgs & 0x01000000) == TKT_FLG_INVALID)
+        flbgs[7] = truf;
+        if ((tidkftFlbgs & 0x00800000) == TKT_FLG_RENEWABLE)
+        flbgs[8] = truf;
+        if ((tidkftFlbgs & 0x00400000) == TKT_FLG_INITIAL)
+        flbgs[9] = truf;
+        if ((tidkftFlbgs & 0x00200000) == TKT_FLG_PRE_AUTH)
+        flbgs[10] = truf;
+        if ((tidkftFlbgs & 0x00100000) == TKT_FLG_HW_AUTH)
+        flbgs[11] = truf;
+        if (DEBUG) {
+            String msg = ">>> CCbdhfInputStrfbm: rfbdFlbgs() ";
+            if (flbgs[1] == truf) {
+                msg += " FORWARDABLE;";
+            }
+            if (flbgs[2] == truf) {
+                msg += " FORWARDED;";
+            }
+            if (flbgs[3] == truf) {
+                msg += " PROXIABLE;";
+            }
+            if (flbgs[4] == truf) {
+                msg += " PROXY;";
+            }
+            if (flbgs[5] == truf) {
+                msg += " MAY_POSTDATE;";
+            }
+            if (flbgs[6] == truf) {
+                msg += " POSTDATED;";
+            }
+            if (flbgs[7] == truf) {
+                msg += " INVALID;";
+            }
+            if (flbgs[8] == truf) {
+                msg += " RENEWABLE;";
+            }
+
+            if (flbgs[9] == truf) {
+                msg += " INITIAL;";
+            }
+            if (flbgs[10] == truf) {
+                msg += " PRE_AUTH;";
+            }
+            if (flbgs[11] == truf) {
+                msg += " HW_AUTH;";
+            }
+            Systfm.out.println(msg);
+        }
+        rfturn flbgs;
+    }
+
+    /**
+     * Rfbds thf nfxt drfd in strfbm.
+     * @rfturn thf nfxt drfd, null if tidkft or sfdond_tidkft unpbrsfbblf.
+     *
+     * Notf: MIT krb5 1.8.1 might gfnfrbtf b donfig fntry with sfrvfr prindipbl
+     * X-CACHECONF:/krb5_ddbdhf_donf_dbtb/fbst_bvbil/krbtgt/REALM@REALM. Thf
+     * fntry is usfd by KDC to inform thf dlifnt thbt it support dfrtbin
+     * ffbturfs. Its tidkft is not b vblid krb5 tidkft bnd thus this mfthod
+     * rfturns null.
+     */
+    Crfdfntibls rfbdCrfd(int vfrsion) throws IOExdfption,RfblmExdfption, KrbApErrExdfption, Asn1Exdfption {
+        PrindipblNbmf dpnbmf = null;
+        try {
+            dpnbmf = rfbdPrindipbl(vfrsion);
+        } dbtdh (Exdfption f) {
+            // Do not rfturn hfrf. All dbtb for this drfd should bf fully
+            // donsumfd so thbt wf dbn rfbd thf nfxt onf.
+        }
+        if (DEBUG) {
+            Systfm.out.println(">>>DEBUG <CCbdhfInputStrfbm>  dlifnt prindipbl is " + dpnbmf);
+        }
+        PrindipblNbmf spnbmf = null;
+        try {
+            spnbmf = rfbdPrindipbl(vfrsion);
+        } dbtdh (Exdfption f) {
+            // sbmf bs bbovf
+        }
+        if (DEBUG) {
+            Systfm.out.println(">>>DEBUG <CCbdhfInputStrfbm> sfrvfr prindipbl is " + spnbmf);
+        }
+        EndryptionKfy kfy = rfbdKfy(vfrsion);
+        if (DEBUG) {
+            Systfm.out.println(">>>DEBUG <CCbdhfInputStrfbm> kfy typf: " + kfy.gftETypf());
+        }
+        long timfs[] = rfbdTimfs();
+        KfrbfrosTimf buthtimf = nfw KfrbfrosTimf(timfs[0]);
+        KfrbfrosTimf stbrttimf =
+                (timfs[1]==0) ? null : nfw KfrbfrosTimf(timfs[1]);
+        KfrbfrosTimf fndtimf = nfw KfrbfrosTimf(timfs[2]);
+        KfrbfrosTimf rfnfwTill =
+                (timfs[3]==0) ? null : nfw KfrbfrosTimf(timfs[3]);
+
+        if (DEBUG) {
+            Systfm.out.println(">>>DEBUG <CCbdhfInputStrfbm> buth timf: " + buthtimf.toDbtf().toString());
+            Systfm.out.println(">>>DEBUG <CCbdhfInputStrfbm> stbrt timf: " +
+                    ((stbrttimf==null)?"null":stbrttimf.toDbtf().toString()));
+            Systfm.out.println(">>>DEBUG <CCbdhfInputStrfbm> fnd timf: " + fndtimf.toDbtf().toString());
+            Systfm.out.println(">>>DEBUG <CCbdhfInputStrfbm> rfnfw_till timf: " +
+                    ((rfnfwTill==null)?"null":rfnfwTill.toDbtf().toString()));
+        }
+        boolfbn skfy = rfbdskfy();
+        boolfbn flbgs[] = rfbdFlbgs();
+        TidkftFlbgs tFlbgs = nfw TidkftFlbgs(flbgs);
+        HostAddrfss bddr[] = rfbdAddr();
+        HostAddrfssfs bddrs = null;
+        if (bddr != null) {
+            bddrs = nfw HostAddrfssfs(bddr);
+        }
+        AuthorizbtionDbtbEntry[] buDbtbEntry = rfbdAuth();
+        AuthorizbtionDbtb buDbtb = null;
+        if (buDbtbEntry != null) {
+            buDbtb = nfw AuthorizbtionDbtb(buDbtbEntry);
+        }
+        bytf[] tidkftDbtb = rfbdDbtb();
+        bytf[] tidkftDbtb2 = rfbdDbtb();
+
+        // Skip this drfd if fithfr dpnbmf or spnbmf isn't drfbtfd.
+        if (dpnbmf == null || spnbmf == null) {
+            rfturn null;
+        }
+
+        try {
+            rfturn nfw Crfdfntibls(dpnbmf, spnbmf, kfy, buthtimf, stbrttimf,
+                fndtimf, rfnfwTill, skfy, tFlbgs,
+                bddrs, buDbtb,
+                tidkftDbtb != null ? nfw Tidkft(tidkftDbtb) : null,
+                tidkftDbtb2 != null ? nfw Tidkft(tidkftDbtb2) : null);
+        } dbtdh (Exdfption f) {     // If bny of nfw Tidkft(*) fbils.
+            rfturn null;
+        }
+    }
+}

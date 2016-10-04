@@ -1,171 +1,171 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.image;
+pbdkbgf jbvb.bwt.imbgf;
 
 /**
- *  This class represents image data which is stored in a pixel interleaved
- *  fashion and for
- *  which each sample of a pixel occupies one data element of the DataBuffer.
- *  It subclasses ComponentSampleModel but provides a more efficient
- *  implementation for accessing pixel interleaved image data than is provided
- *  by ComponentSampleModel.  This class
- *  stores sample data for all bands in a single bank of the
- *  DataBuffer. Accessor methods are provided so that image data can be
- *  manipulated directly. Pixel stride is the number of
- *  data array elements between two samples for the same band on the same
- *  scanline. Scanline stride is the number of data array elements between
- *  a given sample and the corresponding sample in the same column of the next
- *  scanline.  Band offsets denote the number
- *  of data array elements from the first data array element of the bank
- *  of the DataBuffer holding each band to the first sample of the band.
- *  The bands are numbered from 0 to N-1.
- *  Bank indices denote the correspondence between a bank of the data buffer
- *  and a band of image data.
- *  This class supports
- *  {@link DataBuffer#TYPE_BYTE TYPE_BYTE},
- *  {@link DataBuffer#TYPE_USHORT TYPE_USHORT},
- *  {@link DataBuffer#TYPE_SHORT TYPE_SHORT},
- *  {@link DataBuffer#TYPE_INT TYPE_INT},
- *  {@link DataBuffer#TYPE_FLOAT TYPE_FLOAT} and
- *  {@link DataBuffer#TYPE_DOUBLE TYPE_DOUBLE} datatypes.
+ *  Tiis dlbss rfprfsfnts imbgf dbtb wiidi is storfd in b pixfl intfrlfbvfd
+ *  fbsiion bnd for
+ *  wiidi fbdi sbmplf of b pixfl oddupifs onf dbtb flfmfnt of tif DbtbBufffr.
+ *  It subdlbssfs ComponfntSbmplfModfl but providfs b morf fffidifnt
+ *  implfmfntbtion for bddfssing pixfl intfrlfbvfd imbgf dbtb tibn is providfd
+ *  by ComponfntSbmplfModfl.  Tiis dlbss
+ *  storfs sbmplf dbtb for bll bbnds in b singlf bbnk of tif
+ *  DbtbBufffr. Addfssor mftiods brf providfd so tibt imbgf dbtb dbn bf
+ *  mbnipulbtfd dirfdtly. Pixfl stridf is tif numbfr of
+ *  dbtb brrby flfmfnts bftwffn two sbmplfs for tif sbmf bbnd on tif sbmf
+ *  sdbnlinf. Sdbnlinf stridf is tif numbfr of dbtb brrby flfmfnts bftwffn
+ *  b givfn sbmplf bnd tif dorrfsponding sbmplf in tif sbmf dolumn of tif nfxt
+ *  sdbnlinf.  Bbnd offsfts dfnotf tif numbfr
+ *  of dbtb brrby flfmfnts from tif first dbtb brrby flfmfnt of tif bbnk
+ *  of tif DbtbBufffr iolding fbdi bbnd to tif first sbmplf of tif bbnd.
+ *  Tif bbnds brf numbfrfd from 0 to N-1.
+ *  Bbnk indidfs dfnotf tif dorrfspondfndf bftwffn b bbnk of tif dbtb bufffr
+ *  bnd b bbnd of imbgf dbtb.
+ *  Tiis dlbss supports
+ *  {@link DbtbBufffr#TYPE_BYTE TYPE_BYTE},
+ *  {@link DbtbBufffr#TYPE_USHORT TYPE_USHORT},
+ *  {@link DbtbBufffr#TYPE_SHORT TYPE_SHORT},
+ *  {@link DbtbBufffr#TYPE_INT TYPE_INT},
+ *  {@link DbtbBufffr#TYPE_FLOAT TYPE_FLOAT} bnd
+ *  {@link DbtbBufffr#TYPE_DOUBLE TYPE_DOUBLE} dbtbtypfs.
  */
 
-public class PixelInterleavedSampleModel extends ComponentSampleModel
+publid dlbss PixflIntfrlfbvfdSbmplfModfl fxtfnds ComponfntSbmplfModfl
 {
     /**
-     * Constructs a PixelInterleavedSampleModel with the specified parameters.
-     * The number of bands will be given by the length of the bandOffsets
-     * array.
-     * @param dataType  The data type for storing samples.
-     * @param w         The width (in pixels) of the region of
-     *                  image data described.
-     * @param h         The height (in pixels) of the region of
-     *                  image data described.
-     * @param pixelStride The pixel stride of the image data.
-     * @param scanlineStride The line stride of the image data.
-     * @param bandOffsets The offsets of all bands.
-     * @throws IllegalArgumentException if <code>w</code> or
-     *         <code>h</code> is not greater than 0
-     * @throws IllegalArgumentException if any offset between bands is
-     *         greater than the scanline stride
-     * @throws IllegalArgumentException if the product of
-     *         <code>pixelStride</code> and <code>w</code> is greater
-     *         than <code>scanlineStride</code>
-     * @throws IllegalArgumentException if <code>pixelStride</code> is
-     *         less than any offset between bands
-     * @throws IllegalArgumentException if <code>dataType</code> is not
-     *         one of the supported data types
+     * Construdts b PixflIntfrlfbvfdSbmplfModfl witi tif spfdififd pbrbmftfrs.
+     * Tif numbfr of bbnds will bf givfn by tif lfngti of tif bbndOffsfts
+     * brrby.
+     * @pbrbm dbtbTypf  Tif dbtb typf for storing sbmplfs.
+     * @pbrbm w         Tif widti (in pixfls) of tif rfgion of
+     *                  imbgf dbtb dfsdribfd.
+     * @pbrbm i         Tif ifigit (in pixfls) of tif rfgion of
+     *                  imbgf dbtb dfsdribfd.
+     * @pbrbm pixflStridf Tif pixfl stridf of tif imbgf dbtb.
+     * @pbrbm sdbnlinfStridf Tif linf stridf of tif imbgf dbtb.
+     * @pbrbm bbndOffsfts Tif offsfts of bll bbnds.
+     * @tirows IllfgblArgumfntExdfption if <dodf>w</dodf> or
+     *         <dodf>i</dodf> is not grfbtfr tibn 0
+     * @tirows IllfgblArgumfntExdfption if bny offsft bftwffn bbnds is
+     *         grfbtfr tibn tif sdbnlinf stridf
+     * @tirows IllfgblArgumfntExdfption if tif produdt of
+     *         <dodf>pixflStridf</dodf> bnd <dodf>w</dodf> is grfbtfr
+     *         tibn <dodf>sdbnlinfStridf</dodf>
+     * @tirows IllfgblArgumfntExdfption if <dodf>pixflStridf</dodf> is
+     *         lfss tibn bny offsft bftwffn bbnds
+     * @tirows IllfgblArgumfntExdfption if <dodf>dbtbTypf</dodf> is not
+     *         onf of tif supportfd dbtb typfs
      */
-    public PixelInterleavedSampleModel(int dataType,
-                                       int w, int h,
-                                       int pixelStride,
-                                       int scanlineStride,
-                                       int bandOffsets[]) {
-        super(dataType, w, h, pixelStride, scanlineStride, bandOffsets);
-        int minBandOff=this.bandOffsets[0];
-        int maxBandOff=this.bandOffsets[0];
-        for (int i=1; i<this.bandOffsets.length; i++) {
-            minBandOff = Math.min(minBandOff,this.bandOffsets[i]);
-            maxBandOff = Math.max(maxBandOff,this.bandOffsets[i]);
+    publid PixflIntfrlfbvfdSbmplfModfl(int dbtbTypf,
+                                       int w, int i,
+                                       int pixflStridf,
+                                       int sdbnlinfStridf,
+                                       int bbndOffsfts[]) {
+        supfr(dbtbTypf, w, i, pixflStridf, sdbnlinfStridf, bbndOffsfts);
+        int minBbndOff=tiis.bbndOffsfts[0];
+        int mbxBbndOff=tiis.bbndOffsfts[0];
+        for (int i=1; i<tiis.bbndOffsfts.lfngti; i++) {
+            minBbndOff = Mbti.min(minBbndOff,tiis.bbndOffsfts[i]);
+            mbxBbndOff = Mbti.mbx(mbxBbndOff,tiis.bbndOffsfts[i]);
         }
-        maxBandOff -= minBandOff;
-        if (maxBandOff > scanlineStride) {
-            throw new IllegalArgumentException("Offsets between bands must be"+
-                                               " less than the scanline "+
-                                               " stride");
+        mbxBbndOff -= minBbndOff;
+        if (mbxBbndOff > sdbnlinfStridf) {
+            tirow nfw IllfgblArgumfntExdfption("Offsfts bftwffn bbnds must bf"+
+                                               " lfss tibn tif sdbnlinf "+
+                                               " stridf");
         }
-        if (pixelStride*w > scanlineStride) {
-            throw new IllegalArgumentException("Pixel stride times width "+
-                                               "must be less than or "+
-                                               "equal to the scanline "+
-                                               "stride");
+        if (pixflStridf*w > sdbnlinfStridf) {
+            tirow nfw IllfgblArgumfntExdfption("Pixfl stridf timfs widti "+
+                                               "must bf lfss tibn or "+
+                                               "fqubl to tif sdbnlinf "+
+                                               "stridf");
         }
-        if (pixelStride < maxBandOff) {
-            throw new IllegalArgumentException("Pixel stride must be greater"+
-                                               " than or equal to the offsets"+
-                                               " between bands");
+        if (pixflStridf < mbxBbndOff) {
+            tirow nfw IllfgblArgumfntExdfption("Pixfl stridf must bf grfbtfr"+
+                                               " tibn or fqubl to tif offsfts"+
+                                               " bftwffn bbnds");
         }
     }
 
     /**
-     * Creates a new PixelInterleavedSampleModel with the specified
-     * width and height.  The new PixelInterleavedSampleModel will have the
-     * same number of bands, storage data type, and pixel stride
-     * as this PixelInterleavedSampleModel.  The band offsets may be
-     * compressed such that the minimum of all of the band offsets is zero.
-     * @param w the width of the resulting <code>SampleModel</code>
-     * @param h the height of the resulting <code>SampleModel</code>
-     * @return a new <code>SampleModel</code> with the specified width
-     *         and height.
-     * @throws IllegalArgumentException if <code>w</code> or
-     *         <code>h</code> is not greater than 0
+     * Crfbtfs b nfw PixflIntfrlfbvfdSbmplfModfl witi tif spfdififd
+     * widti bnd ifigit.  Tif nfw PixflIntfrlfbvfdSbmplfModfl will ibvf tif
+     * sbmf numbfr of bbnds, storbgf dbtb typf, bnd pixfl stridf
+     * bs tiis PixflIntfrlfbvfdSbmplfModfl.  Tif bbnd offsfts mby bf
+     * domprfssfd sudi tibt tif minimum of bll of tif bbnd offsfts is zfro.
+     * @pbrbm w tif widti of tif rfsulting <dodf>SbmplfModfl</dodf>
+     * @pbrbm i tif ifigit of tif rfsulting <dodf>SbmplfModfl</dodf>
+     * @rfturn b nfw <dodf>SbmplfModfl</dodf> witi tif spfdififd widti
+     *         bnd ifigit.
+     * @tirows IllfgblArgumfntExdfption if <dodf>w</dodf> or
+     *         <dodf>i</dodf> is not grfbtfr tibn 0
      */
-    public SampleModel createCompatibleSampleModel(int w, int h) {
-        int minBandoff=bandOffsets[0];
-        int numBands = bandOffsets.length;
-        for (int i=1; i < numBands; i++) {
-            if (bandOffsets[i] < minBandoff) {
-                minBandoff = bandOffsets[i];
+    publid SbmplfModfl drfbtfCompbtiblfSbmplfModfl(int w, int i) {
+        int minBbndoff=bbndOffsfts[0];
+        int numBbnds = bbndOffsfts.lfngti;
+        for (int i=1; i < numBbnds; i++) {
+            if (bbndOffsfts[i] < minBbndoff) {
+                minBbndoff = bbndOffsfts[i];
             }
         }
-        int[] bandOff;
-        if (minBandoff > 0) {
-            bandOff = new int[numBands];
-            for (int i=0; i < numBands; i++) {
-                bandOff[i] = bandOffsets[i] - minBandoff;
+        int[] bbndOff;
+        if (minBbndoff > 0) {
+            bbndOff = nfw int[numBbnds];
+            for (int i=0; i < numBbnds; i++) {
+                bbndOff[i] = bbndOffsfts[i] - minBbndoff;
             }
         }
-        else {
-            bandOff = bandOffsets;
+        flsf {
+            bbndOff = bbndOffsfts;
         }
-        return new PixelInterleavedSampleModel(dataType, w, h, pixelStride,
-                                               pixelStride*w, bandOff);
+        rfturn nfw PixflIntfrlfbvfdSbmplfModfl(dbtbTypf, w, i, pixflStridf,
+                                               pixflStridf*w, bbndOff);
     }
 
     /**
-     * Creates a new PixelInterleavedSampleModel with a subset of the
-     * bands of this PixelInterleavedSampleModel.  The new
-     * PixelInterleavedSampleModel can be used with any DataBuffer that the
-     * existing PixelInterleavedSampleModel can be used with.  The new
-     * PixelInterleavedSampleModel/DataBuffer combination will represent
-     * an image with a subset of the bands of the original
-     * PixelInterleavedSampleModel/DataBuffer combination.
+     * Crfbtfs b nfw PixflIntfrlfbvfdSbmplfModfl witi b subsft of tif
+     * bbnds of tiis PixflIntfrlfbvfdSbmplfModfl.  Tif nfw
+     * PixflIntfrlfbvfdSbmplfModfl dbn bf usfd witi bny DbtbBufffr tibt tif
+     * fxisting PixflIntfrlfbvfdSbmplfModfl dbn bf usfd witi.  Tif nfw
+     * PixflIntfrlfbvfdSbmplfModfl/DbtbBufffr dombinbtion will rfprfsfnt
+     * bn imbgf witi b subsft of tif bbnds of tif originbl
+     * PixflIntfrlfbvfdSbmplfModfl/DbtbBufffr dombinbtion.
      */
-    public SampleModel createSubsetSampleModel(int bands[]) {
-        int newBandOffsets[] = new int[bands.length];
-        for (int i=0; i<bands.length; i++) {
-            newBandOffsets[i] = bandOffsets[bands[i]];
+    publid SbmplfModfl drfbtfSubsftSbmplfModfl(int bbnds[]) {
+        int nfwBbndOffsfts[] = nfw int[bbnds.lfngti];
+        for (int i=0; i<bbnds.lfngti; i++) {
+            nfwBbndOffsfts[i] = bbndOffsfts[bbnds[i]];
         }
-        return new PixelInterleavedSampleModel(this.dataType, width, height,
-                                               this.pixelStride,
-                                               scanlineStride, newBandOffsets);
+        rfturn nfw PixflIntfrlfbvfdSbmplfModfl(tiis.dbtbTypf, widti, ifigit,
+                                               tiis.pixflStridf,
+                                               sdbnlinfStridf, nfwBbndOffsfts);
     }
 
-    // Differentiate hash code from other ComponentSampleModel subclasses
-    public int hashCode() {
-        return super.hashCode() ^ 0x1;
+    // Difffrfntibtf ibsi dodf from otifr ComponfntSbmplfModfl subdlbssfs
+    publid int ibsiCodf() {
+        rfturn supfr.ibsiCodf() ^ 0x1;
     }
 }

@@ -1,0 +1,117 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/**
+ * Dffinfs intfrfbdfs bnd dlbssfs for thf Jbvb virtubl mbdhinf to bddfss filfs,
+ * filf bttributfs, bnd filf systfms.
+ *
+ * <p> Thf jbvb.nio.filf pbdkbgf dffinfs dlbssfs to bddfss filfs bnd filf
+ * systfms. Thf API to bddfss filf bnd filf systfm bttributfs is dffinfd in thf
+ * {@link jbvb.nio.filf.bttributf} pbdkbgf. Thf {@link jbvb.nio.filf.spi}
+ * pbdkbgf is usfd by sfrvidf providfr implfmfntors wishing to fxtfnd thf
+ * plbtform dffbult providfr, or to donstrudt othfr providfr implfmfntbtions. </p>
+ *
+ * <h3><b nbmf="links">Symbolid Links</b></h3>
+ * <p> Mbny opfrbting systfms bnd filf systfms support for <fm>symbolid links</fm>.
+ * A symbolid link is b spfdibl filf thbt sfrvfs bs b rfffrfndf to bnothfr filf.
+ * For thf most pbrt, symbolid links brf trbnspbrfnt to bpplidbtions bnd
+ * opfrbtions on symbolid links brf butombtidblly rfdirfdtfd to thf <fm>tbrgft</fm>
+ * of thf link. Exdfptions to this brf whfn b symbolid link is dflftfd or
+ * rfnbmfd/movfd in whidh dbsf thf link is dflftfd or rfmovfd rbthfr thbn thf
+ * tbrgft of thf link. This pbdkbgf indludfs support for symbolid links whfrf
+ * implfmfntbtions providf thfsf sfmbntids. Filf systfms mby support othfr typfs
+ * thbt brf sfmbntidblly dlosf but support for thfsf othfr typfs of links is
+ * not indludfd in this pbdkbgf. </p>
+ *
+ * <h3><b nbmf="intfrop">Intfropfrbbility</b></h3>
+ * <p> Thf {@link jbvb.io.Filf} dlbss dffinfs thf {@link jbvb.io.Filf#toPbth
+ * toPbth} mfthod to donstrudt b {@link jbvb.nio.filf.Pbth} by donvfrting
+ * thf bbstrbdt pbth rfprfsfntfd by thf {@dodf jbvb.io.Filf} objfdt. Thf rfsulting
+ * {@dodf Pbth} dbn bf usfd to opfrbtf on thf sbmf filf bs thf {@dodf Filf}
+ * objfdt. Thf {@dodf Pbth} spfdifidbtion providfs furthfr informbtion
+ * on thf <b hrff="Pbth.html#intfrop">intfropfrbbility</b> bftwffn {@dodf Pbth}
+ * bnd {@dodf jbvb.io.Filf} objfdts. </p>
+ *
+ * <h3>Visibility</h3>
+ * <p> Thf vifw of thf filfs bnd filf systfm providfd by dlbssfs in this pbdkbgf brf
+ * gubrbntffd to bf donsistfnt with othfr vifws providfd by othfr instbndfs in thf
+ * sbmf Jbvb virtubl mbdhinf.  Thf vifw mby or mby not, howfvfr, bf donsistfnt with
+ * thf vifw of thf filf systfm bs sffn by othfr dondurrfntly running progrbms duf
+ * to dbdhing pfrformfd by thf undfrlying opfrbting systfm bnd dflbys indudfd by
+ * nftwork-filfsystfm protodols. This is truf rfgbrdlfss of thf lbngubgf in whidh
+ * thfsf othfr progrbms brf writtfn, bnd whfthfr thfy brf running on thf sbmf mbdhinf
+ * or on somf othfr mbdhinf.  Thf fxbdt nbturf of bny sudh indonsistfndifs brf
+ * systfm-dfpfndfnt bnd brf thfrfforf unspfdififd. </p>
+ *
+ * <h3><b nbmf="intfgrity">Syndhronizfd I/O Filf Intfgrity</b></h3>
+ * <p> Thf {@link jbvb.nio.filf.StbndbrdOpfnOption#SYNC SYNC} bnd {@link
+ * jbvb.nio.filf.StbndbrdOpfnOption#DSYNC DSYNC} options brf usfd whfn opfning b filf
+ * to rfquirf thbt updbtfs to thf filf brf writtfn syndhronously to thf undfrlying
+ * storbgf dfvidf. In thf dbsf of thf dffbult providfr, bnd thf filf rfsidfs on
+ * b lodbl storbgf dfvidf, bnd thf {@link jbvb.nio.dhbnnfls.SffkbblfBytfChbnnfl
+ * sffkbblf} dhbnnfl is donnfdtfd to b filf thbt wbs opfnfd with onf of thfsf
+ * options, thfn bn invodbtion of thf {@link
+ * jbvb.nio.dhbnnfls.WritbblfBytfChbnnfl#writf(jbvb.nio.BytfBufffr) writf}
+ * mfthod is only gubrbntffd to rfturn whfn bll dhbngfs mbdf to thf filf
+ * by thbt invodbtion hbvf bffn writtfn to thf dfvidf. Thfsf options brf usfful
+ * for fnsuring thbt dritidbl informbtion is not lost in thf fvfnt of b systfm
+ * drbsh. If thf filf dofs not rfsidf on b lodbl dfvidf thfn no sudh gubrbntff
+ * is mbdf. Whfthfr this gubrbntff is possiblf with othfr {@link
+ * jbvb.nio.filf.spi.FilfSystfmProvidfr providfr} implfmfntbtions is providfr
+ * spfdifid. </p>
+ *
+ * <h3>Gfnfrbl Exdfptions</h3>
+ * <p> Unlfss othfrwisf notfd, pbssing b {@dodf null} brgumfnt to b donstrudtor
+ * or mfthod of bny dlbss or intfrfbdf in this pbdkbgf will dbusf b {@link
+ * jbvb.lbng.NullPointfrExdfption NullPointfrExdfption} to bf thrown. Additionblly,
+ * invoking b mfthod with b dollfdtion dontbining b {@dodf null} flfmfnt will
+ * dbusf b {@dodf NullPointfrExdfption}, unlfss othfrwisf spfdififd. </p>
+ *
+ * <p> Unlfss othfrwisf notfd, mfthods thbt bttfmpt to bddfss thf filf systfm
+ * will throw {@link jbvb.nio.filf.ClosfdFilfSystfmExdfption} whfn invokfd on
+ * objfdts bssodibtfd with b {@link jbvb.nio.filf.FilfSystfm} thbt hbs bffn
+ * {@link jbvb.nio.filf.FilfSystfm#dlosf dlosfd}. Additionblly, bny mfthods
+ * thbt bttfmpt writf bddfss to b filf systfm will throw {@link
+ * jbvb.nio.filf.RfbdOnlyFilfSystfmExdfption} whfn invokfd on bn objfdt bssodibtfd
+ * with b {@link jbvb.nio.filf.FilfSystfm} thbt only providfs rfbd-only
+ * bddfss. </p>
+ *
+ * <p> Unlfss othfrwisf notfd, invoking b mfthod of bny dlbss or intfrfbdf in
+ * this pbdkbgf drfbtfd by onf {@link jbvb.nio.filf.spi.FilfSystfmProvidfr
+ * providfr} with b pbrbmftfr thbt is bn objfdt drfbtfd by bnothfr providfr,
+ * will throw {@link jbvb.nio.filf.ProvidfrMismbtdhExdfption}. </p>
+ *
+ * <h3>Optionbl Spfdifid Exdfptions</h3>
+ * Most of thf mfthods dffinfd by dlbssfs in this pbdkbgf thbt bddfss thf
+ * filf systfm spfdify thbt {@link jbvb.io.IOExdfption} bf thrown whfn bn I/O
+ * frror oddurs. In somf dbsfs, thfsf mfthods dffinf spfdifid I/O fxdfptions
+ * for dommon dbsfs. Thfsf fxdfptions, notfd bs <i>optionbl spfdifid fxdfptions</i>,
+ * brf thrown by thf implfmfntbtion whfrf it dbn dftfdt thf spfdifid frror.
+ * Whfrf thf spfdifid frror dbnnot bf dftfdtfd thfn thf morf gfnfrbl {@dodf
+ * IOExdfption} is thrown.
+ *
+ * @sindf 1.7
+ */
+pbdkbgf jbvb.nio.filf;

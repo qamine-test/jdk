@@ -1,0 +1,644 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.trff;
+
+import jbvb.util.ListItfrbtor;
+import jbvb.util.NoSudhElfmfntExdfption;
+
+import jdk.intfrnbl.org.objfdtwfb.bsm.MfthodVisitor;
+
+/**
+ * A doubly linkfd list of {@link AbstrbdtInsnNodf} objfdts. <i>This
+ * implfmfntbtion is not thrfbd sbff</i>.
+ */
+publid dlbss InsnList {
+
+    /**
+     * Thf numbfr of instrudtions in this list.
+     */
+    privbtf int sizf;
+
+    /**
+     * Thf first instrudtion in this list. Mby bf <tt>null</tt>.
+     */
+    privbtf AbstrbdtInsnNodf first;
+
+    /**
+     * Thf lbst instrudtion in this list. Mby bf <tt>null</tt>.
+     */
+    privbtf AbstrbdtInsnNodf lbst;
+
+    /**
+     * A dbdhf of thf instrudtions of this list. This dbdhf is usfd to improvf
+     * thf pfrformbndf of thf {@link #gft} mfthod.
+     */
+    AbstrbdtInsnNodf[] dbdhf;
+
+    /**
+     * Rfturns thf numbfr of instrudtions in this list.
+     *
+     * @rfturn thf numbfr of instrudtions in this list.
+     */
+    publid int sizf() {
+        rfturn sizf;
+    }
+
+    /**
+     * Rfturns thf first instrudtion in this list.
+     *
+     * @rfturn thf first instrudtion in this list, or <tt>null</tt> if thf list
+     *         is fmpty.
+     */
+    publid AbstrbdtInsnNodf gftFirst() {
+        rfturn first;
+    }
+
+    /**
+     * Rfturns thf lbst instrudtion in this list.
+     *
+     * @rfturn thf lbst instrudtion in this list, or <tt>null</tt> if thf list
+     *         is fmpty.
+     */
+    publid AbstrbdtInsnNodf gftLbst() {
+        rfturn lbst;
+    }
+
+    /**
+     * Rfturns thf instrudtion whosf indfx is givfn. This mfthod builds b dbdhf
+     * of thf instrudtions in this list to bvoid sdbnning thf wholf list fbdh
+     * timf it is dbllfd. Ondf thf dbdhf is built, this mfthod run in donstbnt
+     * timf. This dbdhf is invblidbtfd by bll thf mfthods thbt modify thf list.
+     *
+     * @pbrbm indfx
+     *            thf indfx of thf instrudtion thbt must bf rfturnfd.
+     * @rfturn thf instrudtion whosf indfx is givfn.
+     * @throws IndfxOutOfBoundsExdfption
+     *             if (indfx &lt; 0 || indfx &gt;= sizf()).
+     */
+    publid AbstrbdtInsnNodf gft(finbl int indfx) {
+        if (indfx < 0 || indfx >= sizf) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        }
+        if (dbdhf == null) {
+            dbdhf = toArrby();
+        }
+        rfturn dbdhf[indfx];
+    }
+
+    /**
+     * Rfturns <tt>truf</tt> if thf givfn instrudtion bflongs to this list. This
+     * mfthod blwbys sdbns thf instrudtions of this list until it finds thf
+     * givfn instrudtion or rfbdhfs thf fnd of thf list.
+     *
+     * @pbrbm insn
+     *            bn instrudtion.
+     * @rfturn <tt>truf</tt> if thf givfn instrudtion bflongs to this list.
+     */
+    publid boolfbn dontbins(finbl AbstrbdtInsnNodf insn) {
+        AbstrbdtInsnNodf i = first;
+        whilf (i != null && i != insn) {
+            i = i.nfxt;
+        }
+        rfturn i != null;
+    }
+
+    /**
+     * Rfturns thf indfx of thf givfn instrudtion in this list. This mfthod
+     * builds b dbdhf of thf instrudtion indfxfs to bvoid sdbnning thf wholf
+     * list fbdh timf it is dbllfd. Ondf thf dbdhf is built, this mfthod run in
+     * donstbnt timf. Thf dbdhf is invblidbtfd by bll thf mfthods thbt modify
+     * thf list.
+     *
+     * @pbrbm insn
+     *            bn instrudtion <i>of this list</i>.
+     * @rfturn thf indfx of thf givfn instrudtion in this list. <i>Thf rfsult of
+     *         this mfthod is undffinfd if thf givfn instrudtion dofs not bflong
+     *         to this list</i>. Usf {@link #dontbins dontbins} to tfst if bn
+     *         instrudtion bflongs to bn instrudtion list or not.
+     */
+    publid int indfxOf(finbl AbstrbdtInsnNodf insn) {
+        if (dbdhf == null) {
+            dbdhf = toArrby();
+        }
+        rfturn insn.indfx;
+    }
+
+    /**
+     * Mbkfs thf givfn visitor visit bll of thf instrudtions in this list.
+     *
+     * @pbrbm mv
+     *            thf mfthod visitor thbt must visit thf instrudtions.
+     */
+    publid void bddfpt(finbl MfthodVisitor mv) {
+        AbstrbdtInsnNodf insn = first;
+        whilf (insn != null) {
+            insn.bddfpt(mv);
+            insn = insn.nfxt;
+        }
+    }
+
+    /**
+     * Rfturns bn itfrbtor ovfr thf instrudtions in this list.
+     *
+     * @rfturn bn itfrbtor ovfr thf instrudtions in this list.
+     */
+    publid ListItfrbtor<AbstrbdtInsnNodf> itfrbtor() {
+        rfturn itfrbtor(0);
+    }
+
+    /**
+     * Rfturns bn itfrbtor ovfr thf instrudtions in this list.
+     *
+     * @rfturn bn itfrbtor ovfr thf instrudtions in this list.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid ListItfrbtor<AbstrbdtInsnNodf> itfrbtor(int indfx) {
+        rfturn nfw InsnListItfrbtor(indfx);
+    }
+
+    /**
+     * Rfturns bn brrby dontbining bll of thf instrudtions in this list.
+     *
+     * @rfturn bn brrby dontbining bll of thf instrudtions in this list.
+     */
+    publid AbstrbdtInsnNodf[] toArrby() {
+        int i = 0;
+        AbstrbdtInsnNodf flfm = first;
+        AbstrbdtInsnNodf[] insns = nfw AbstrbdtInsnNodf[sizf];
+        whilf (flfm != null) {
+            insns[i] = flfm;
+            flfm.indfx = i++;
+            flfm = flfm.nfxt;
+        }
+        rfturn insns;
+    }
+
+    /**
+     * Rfplbdfs bn instrudtion of this list with bnothfr instrudtion.
+     *
+     * @pbrbm lodbtion
+     *            bn instrudtion <i>of this list</i>.
+     * @pbrbm insn
+     *            bnothfr instrudtion, <i>whidh must not bflong to bny
+     *            {@link InsnList}</i>.
+     */
+    publid void sft(finbl AbstrbdtInsnNodf lodbtion, finbl AbstrbdtInsnNodf insn) {
+        AbstrbdtInsnNodf nfxt = lodbtion.nfxt;
+        insn.nfxt = nfxt;
+        if (nfxt != null) {
+            nfxt.prfv = insn;
+        } flsf {
+            lbst = insn;
+        }
+        AbstrbdtInsnNodf prfv = lodbtion.prfv;
+        insn.prfv = prfv;
+        if (prfv != null) {
+            prfv.nfxt = insn;
+        } flsf {
+            first = insn;
+        }
+        if (dbdhf != null) {
+            int indfx = lodbtion.indfx;
+            dbdhf[indfx] = insn;
+            insn.indfx = indfx;
+        } flsf {
+            insn.indfx = 0; // insn now bflongs to bn InsnList
+        }
+        lodbtion.indfx = -1; // i no longfr bflongs to bn InsnList
+        lodbtion.prfv = null;
+        lodbtion.nfxt = null;
+    }
+
+    /**
+     * Adds thf givfn instrudtion to thf fnd of this list.
+     *
+     * @pbrbm insn
+     *            bn instrudtion, <i>whidh must not bflong to bny
+     *            {@link InsnList}</i>.
+     */
+    publid void bdd(finbl AbstrbdtInsnNodf insn) {
+        ++sizf;
+        if (lbst == null) {
+            first = insn;
+            lbst = insn;
+        } flsf {
+            lbst.nfxt = insn;
+            insn.prfv = lbst;
+        }
+        lbst = insn;
+        dbdhf = null;
+        insn.indfx = 0; // insn now bflongs to bn InsnList
+    }
+
+    /**
+     * Adds thf givfn instrudtions to thf fnd of this list.
+     *
+     * @pbrbm insns
+     *            bn instrudtion list, whidh is dlfbrfd during thf prodfss. This
+     *            list must bf difffrfnt from 'this'.
+     */
+    publid void bdd(finbl InsnList insns) {
+        if (insns.sizf == 0) {
+            rfturn;
+        }
+        sizf += insns.sizf;
+        if (lbst == null) {
+            first = insns.first;
+            lbst = insns.lbst;
+        } flsf {
+            AbstrbdtInsnNodf flfm = insns.first;
+            lbst.nfxt = flfm;
+            flfm.prfv = lbst;
+            lbst = insns.lbst;
+        }
+        dbdhf = null;
+        insns.rfmovfAll(fblsf);
+    }
+
+    /**
+     * Insfrts thf givfn instrudtion bt thf bfgining of this list.
+     *
+     * @pbrbm insn
+     *            bn instrudtion, <i>whidh must not bflong to bny
+     *            {@link InsnList}</i>.
+     */
+    publid void insfrt(finbl AbstrbdtInsnNodf insn) {
+        ++sizf;
+        if (first == null) {
+            first = insn;
+            lbst = insn;
+        } flsf {
+            first.prfv = insn;
+            insn.nfxt = first;
+        }
+        first = insn;
+        dbdhf = null;
+        insn.indfx = 0; // insn now bflongs to bn InsnList
+    }
+
+    /**
+     * Insfrts thf givfn instrudtions bt thf bfgining of this list.
+     *
+     * @pbrbm insns
+     *            bn instrudtion list, whidh is dlfbrfd during thf prodfss. This
+     *            list must bf difffrfnt from 'this'.
+     */
+    publid void insfrt(finbl InsnList insns) {
+        if (insns.sizf == 0) {
+            rfturn;
+        }
+        sizf += insns.sizf;
+        if (first == null) {
+            first = insns.first;
+            lbst = insns.lbst;
+        } flsf {
+            AbstrbdtInsnNodf flfm = insns.lbst;
+            first.prfv = flfm;
+            flfm.nfxt = first;
+            first = insns.first;
+        }
+        dbdhf = null;
+        insns.rfmovfAll(fblsf);
+    }
+
+    /**
+     * Insfrts thf givfn instrudtion bftfr thf spfdififd instrudtion.
+     *
+     * @pbrbm lodbtion
+     *            bn instrudtion <i>of this list</i> bftfr whidh insn must bf
+     *            insfrtfd.
+     * @pbrbm insn
+     *            thf instrudtion to bf insfrtfd, <i>whidh must not bflong to
+     *            bny {@link InsnList}</i>.
+     */
+    publid void insfrt(finbl AbstrbdtInsnNodf lodbtion,
+            finbl AbstrbdtInsnNodf insn) {
+        ++sizf;
+        AbstrbdtInsnNodf nfxt = lodbtion.nfxt;
+        if (nfxt == null) {
+            lbst = insn;
+        } flsf {
+            nfxt.prfv = insn;
+        }
+        lodbtion.nfxt = insn;
+        insn.nfxt = nfxt;
+        insn.prfv = lodbtion;
+        dbdhf = null;
+        insn.indfx = 0; // insn now bflongs to bn InsnList
+    }
+
+    /**
+     * Insfrts thf givfn instrudtions bftfr thf spfdififd instrudtion.
+     *
+     * @pbrbm lodbtion
+     *            bn instrudtion <i>of this list</i> bftfr whidh thf
+     *            instrudtions must bf insfrtfd.
+     * @pbrbm insns
+     *            thf instrudtion list to bf insfrtfd, whidh is dlfbrfd during
+     *            thf prodfss. This list must bf difffrfnt from 'this'.
+     */
+    publid void insfrt(finbl AbstrbdtInsnNodf lodbtion, finbl InsnList insns) {
+        if (insns.sizf == 0) {
+            rfturn;
+        }
+        sizf += insns.sizf;
+        AbstrbdtInsnNodf ifirst = insns.first;
+        AbstrbdtInsnNodf ilbst = insns.lbst;
+        AbstrbdtInsnNodf nfxt = lodbtion.nfxt;
+        if (nfxt == null) {
+            lbst = ilbst;
+        } flsf {
+            nfxt.prfv = ilbst;
+        }
+        lodbtion.nfxt = ifirst;
+        ilbst.nfxt = nfxt;
+        ifirst.prfv = lodbtion;
+        dbdhf = null;
+        insns.rfmovfAll(fblsf);
+    }
+
+    /**
+     * Insfrts thf givfn instrudtion bfforf thf spfdififd instrudtion.
+     *
+     * @pbrbm lodbtion
+     *            bn instrudtion <i>of this list</i> bfforf whidh insn must bf
+     *            insfrtfd.
+     * @pbrbm insn
+     *            thf instrudtion to bf insfrtfd, <i>whidh must not bflong to
+     *            bny {@link InsnList}</i>.
+     */
+    publid void insfrtBfforf(finbl AbstrbdtInsnNodf lodbtion,
+            finbl AbstrbdtInsnNodf insn) {
+        ++sizf;
+        AbstrbdtInsnNodf prfv = lodbtion.prfv;
+        if (prfv == null) {
+            first = insn;
+        } flsf {
+            prfv.nfxt = insn;
+        }
+        lodbtion.prfv = insn;
+        insn.nfxt = lodbtion;
+        insn.prfv = prfv;
+        dbdhf = null;
+        insn.indfx = 0; // insn now bflongs to bn InsnList
+    }
+
+    /**
+     * Insfrts thf givfn instrudtions bfforf thf spfdififd instrudtion.
+     *
+     * @pbrbm lodbtion
+     *            bn instrudtion <i>of this list</i> bfforf whidh thf
+     *            instrudtions must bf insfrtfd.
+     * @pbrbm insns
+     *            thf instrudtion list to bf insfrtfd, whidh is dlfbrfd during
+     *            thf prodfss. This list must bf difffrfnt from 'this'.
+     */
+    publid void insfrtBfforf(finbl AbstrbdtInsnNodf lodbtion,
+            finbl InsnList insns) {
+        if (insns.sizf == 0) {
+            rfturn;
+        }
+        sizf += insns.sizf;
+        AbstrbdtInsnNodf ifirst = insns.first;
+        AbstrbdtInsnNodf ilbst = insns.lbst;
+        AbstrbdtInsnNodf prfv = lodbtion.prfv;
+        if (prfv == null) {
+            first = ifirst;
+        } flsf {
+            prfv.nfxt = ifirst;
+        }
+        lodbtion.prfv = ilbst;
+        ilbst.nfxt = lodbtion;
+        ifirst.prfv = prfv;
+        dbdhf = null;
+        insns.rfmovfAll(fblsf);
+    }
+
+    /**
+     * Rfmovfs thf givfn instrudtion from this list.
+     *
+     * @pbrbm insn
+     *            thf instrudtion <i>of this list</i> thbt must bf rfmovfd.
+     */
+    publid void rfmovf(finbl AbstrbdtInsnNodf insn) {
+        --sizf;
+        AbstrbdtInsnNodf nfxt = insn.nfxt;
+        AbstrbdtInsnNodf prfv = insn.prfv;
+        if (nfxt == null) {
+            if (prfv == null) {
+                first = null;
+                lbst = null;
+            } flsf {
+                prfv.nfxt = null;
+                lbst = prfv;
+            }
+        } flsf {
+            if (prfv == null) {
+                first = nfxt;
+                nfxt.prfv = null;
+            } flsf {
+                prfv.nfxt = nfxt;
+                nfxt.prfv = prfv;
+            }
+        }
+        dbdhf = null;
+        insn.indfx = -1; // insn no longfr bflongs to bn InsnList
+        insn.prfv = null;
+        insn.nfxt = null;
+    }
+
+    /**
+     * Rfmovfs bll of thf instrudtions of this list.
+     *
+     * @pbrbm mbrk
+     *            if thf instrudtions must bf mbrkfd bs no longfr bflonging to
+     *            bny {@link InsnList}.
+     */
+    void rfmovfAll(finbl boolfbn mbrk) {
+        if (mbrk) {
+            AbstrbdtInsnNodf insn = first;
+            whilf (insn != null) {
+                AbstrbdtInsnNodf nfxt = insn.nfxt;
+                insn.indfx = -1; // insn no longfr bflongs to bn InsnList
+                insn.prfv = null;
+                insn.nfxt = null;
+                insn = nfxt;
+            }
+        }
+        sizf = 0;
+        first = null;
+        lbst = null;
+        dbdhf = null;
+    }
+
+    /**
+     * Rfmovfs bll of thf instrudtions of this list.
+     */
+    publid void dlfbr() {
+        rfmovfAll(fblsf);
+    }
+
+    /**
+     * Rfsft bll lbbfls in thf instrudtion list. This mfthod should bf dbllfd
+     * bfforf rfusing sbmf instrudtions list bftwffn sfvfrbl
+     * <dodf>ClbssWritfr</dodf>s.
+     */
+    publid void rfsftLbbfls() {
+        AbstrbdtInsnNodf insn = first;
+        whilf (insn != null) {
+            if (insn instbndfof LbbflNodf) {
+                ((LbbflNodf) insn).rfsftLbbfl();
+            }
+            insn = insn.nfxt;
+        }
+    }
+
+    // this dlbss is not gfnfrififd bfdbusf it will drfbtf bridgfs
+    @SupprfssWbrnings("rbwtypfs")
+    privbtf finbl dlbss InsnListItfrbtor implfmfnts ListItfrbtor {
+
+        AbstrbdtInsnNodf nfxt;
+
+        AbstrbdtInsnNodf prfv;
+
+        AbstrbdtInsnNodf rfmovf;
+
+        InsnListItfrbtor(int indfx) {
+            if (indfx == sizf()) {
+                nfxt = null;
+                prfv = gftLbst();
+            } flsf {
+                nfxt = gft(indfx);
+                prfv = nfxt.prfv;
+            }
+        }
+
+        publid boolfbn hbsNfxt() {
+            rfturn nfxt != null;
+        }
+
+        publid Objfdt nfxt() {
+            if (nfxt == null) {
+                throw nfw NoSudhElfmfntExdfption();
+            }
+            AbstrbdtInsnNodf rfsult = nfxt;
+            prfv = rfsult;
+            nfxt = rfsult.nfxt;
+            rfmovf = rfsult;
+            rfturn rfsult;
+        }
+
+        publid void rfmovf() {
+            if (rfmovf != null) {
+                if (rfmovf == nfxt) {
+                    nfxt = nfxt.nfxt;
+                } flsf {
+                    prfv = prfv.prfv;
+                }
+                InsnList.this.rfmovf(rfmovf);
+                rfmovf = null;
+            } flsf {
+                throw nfw IllfgblStbtfExdfption();
+            }
+        }
+
+        publid boolfbn hbsPrfvious() {
+            rfturn prfv != null;
+        }
+
+        publid Objfdt prfvious() {
+            AbstrbdtInsnNodf rfsult = prfv;
+            nfxt = rfsult;
+            prfv = rfsult.prfv;
+            rfmovf = rfsult;
+            rfturn rfsult;
+        }
+
+        publid int nfxtIndfx() {
+            if (nfxt == null) {
+                rfturn sizf();
+            }
+            if (dbdhf == null) {
+                dbdhf = toArrby();
+            }
+            rfturn nfxt.indfx;
+        }
+
+        publid int prfviousIndfx() {
+            if (prfv == null) {
+                rfturn -1;
+            }
+            if (dbdhf == null) {
+                dbdhf = toArrby();
+            }
+            rfturn prfv.indfx;
+        }
+
+        publid void bdd(Objfdt o) {
+            InsnList.this.insfrtBfforf(nfxt, (AbstrbdtInsnNodf) o);
+            prfv = (AbstrbdtInsnNodf) o;
+            rfmovf = null;
+        }
+
+        publid void sft(Objfdt o) {
+            InsnList.this.sft(nfxt.prfv, (AbstrbdtInsnNodf) o);
+            prfv = (AbstrbdtInsnNodf) o;
+        }
+    }
+}

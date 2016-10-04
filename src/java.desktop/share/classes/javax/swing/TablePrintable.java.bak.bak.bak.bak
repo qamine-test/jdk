@@ -1,0 +1,521 @@
+/*
+ * Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvbx.swing.tbblf.*;
+import jbvb.bwt.*;
+import jbvb.bwt.print.*;
+import jbvb.bwt.gfom.*;
+import jbvb.tfxt.MfssbgfFormbt;
+
+/**
+ * An implfmfntbtion of <dodf>Printbblf</dodf> for printing
+ * <dodf>JTbblf</dodf>s.
+ * <p>
+ * This implfmfntbtion sprfbds tbblf rows nbturblly in sfqufndf
+ * bdross multiplf pbgfs, fitting bs mbny rows bs possiblf pfr pbgf.
+ * Thf distribution of dolumns, on thf othfr hbnd, is dontrollfd by b
+ * printing modf pbrbmftfr pbssfd to thf donstrudtor. Whfn
+ * <dodf>JTbblf.PrintModf.NORMAL</dodf> is usfd, thf implfmfntbtion
+ * hbndlfs dolumns in b similbr mbnnfr to how it hbndlfs rows, sprfbding thfm
+ * bdross multiplf pbgfs (in bn ordfr donsistfnt with thf tbblf's
+ * <dodf>ComponfntOrifntbtion</dodf>).
+ * Whfn <dodf>JTbblf.PrintModf.FIT_WIDTH</dodf> is givfn, thf implfmfntbtion
+ * sdblfs thf output smbllfr if nfdfssbry, to fnsurf thbt bll dolumns fit on
+ * thf pbgf. (Notf thbt width bnd hfight brf sdblfd fqublly, fnsuring thbt thf
+ * bspfdt rbtio rfmbins thf sbmf).
+ * <p>
+ * Thf portion of tbblf printfd on fbdh pbgf is hfbdfd by thf
+ * bppropribtf sfdtion of thf tbblf's <dodf>JTbblfHfbdfr</dodf>.
+ * <p>
+ * Hfbdfr bnd footfr tfxt dbn bf bddfd to thf output by providing
+ * <dodf>MfssbgfFormbt</dodf> instbndfs to thf donstrudtor. Thf
+ * printing dodf rfqufsts Strings from thf formbts by dblling
+ * thfir <dodf>formbt</dodf> mfthod with b singlf pbrbmftfr:
+ * bn <dodf>Objfdt</dodf> brrby dontbining b singlf flfmfnt of typf
+ * <dodf>Intfgfr</dodf>, rfprfsfnting thf durrfnt pbgf numbfr.
+ * <p>
+ * Thfrf brf dfrtbin dirdumstbndfs whfrf this <dodf>Printbblf</dodf>
+ * dbnnot fit itfms bppropribtfly, rfsulting in dlippfd output.
+ * Thfsf brf:
+ * <ul>
+ *   <li>In bny modf, whfn thf hfbdfr or footfr tfxt is too widf to
+ *       fit domplftfly in thf printbblf brfb. Thf implfmfntbtion
+ *       prints bs mudh of thf tfxt bs possiblf stbrting from thf bfginning,
+ *       bs dftfrminfd by thf tbblf's <dodf>ComponfntOrifntbtion</dodf>.
+ *   <li>In bny modf, whfn b row is too tbll to fit in thf
+ *       printbblf brfb. Thf uppfr most portion of thf row
+ *       is printfd bnd no lowfr bordfr is shown.
+ *   <li>In <dodf>JTbblf.PrintModf.NORMAL</dodf> whfn b dolumn
+ *       is too widf to fit in thf printbblf brfb. Thf dfntfr of thf
+ *       dolumn is printfd bnd no lfft bnd right bordfrs brf shown.
+ * </ul>
+ * <p>
+ * It is fntirfly vblid for b dfvflopfr to wrbp this <dodf>Printbblf</dodf>
+ * insidf bnothfr in ordfr to drfbtf domplfx rfports bnd dodumfnts. Thfy mby
+ * fvfn rfqufst thbt difffrfnt pbgfs bf rfndfrfd into difffrfnt sizfd
+ * printbblf brfbs. Thf implfmfntbtion wbs dfsignfd to hbndlf this by
+ * pfrforming most of its dbldulbtions on thf fly. Howfvfr, providing difffrfnt
+ * sizfs works bfst whfn <dodf>JTbblf.PrintModf.FIT_WIDTH</dodf> is usfd, or
+ * whfn only thf printbblf width is dhbngfd bftwffn pbgfs. This is bfdbusf whfn
+ * it is printing b sft of rows in <dodf>JTbblf.PrintModf.NORMAL</dodf> bnd thf
+ * implfmfntbtion dftfrminfs b nffd to distributf dolumns bdross pbgfs,
+ * it bssumfs thbt bll of thosf rows will fit on fbdh subsfqufnt pbgf nffdfd
+ * to fit thf dolumns.
+ * <p>
+ * It is thf rfsponsibility of thf dfvflopfr to fnsurf thbt thf tbblf is not
+ * modififd in bny wby bftfr this <dodf>Printbblf</dodf> is drfbtfd (invblid
+ * modifidbtions indludf dhbngfs in: sizf, rfndfrfrs, or undfrlying dbtb).
+ * Thf bfhbvior of this <dodf>Printbblf</dodf> is undffinfd if thf tbblf is
+ * dhbngfd bt bny timf bftfr drfbtion.
+ *
+ * @buthor  Shbnnon Hidkfy
+ */
+dlbss TbblfPrintbblf implfmfnts Printbblf {
+
+    /** Thf tbblf to print. */
+    privbtf JTbblf tbblf;
+
+    /** For quidk rfffrfndf to thf tbblf's hfbdfr. */
+    privbtf JTbblfHfbdfr hfbdfr;
+
+    /** For quidk rfffrfndf to thf tbblf's dolumn modfl. */
+    privbtf TbblfColumnModfl dolModfl;
+
+    /** To sbvf multiplf dbldulbtions of totbl dolumn width. */
+    privbtf int totblColWidth;
+
+    /** Thf printing modf of this printbblf. */
+    privbtf JTbblf.PrintModf printModf;
+
+    /** Providfs thf hfbdfr tfxt for thf tbblf. */
+    privbtf MfssbgfFormbt hfbdfrFormbt;
+
+    /** Providfs thf footfr tfxt for thf tbblf. */
+    privbtf MfssbgfFormbt footfrFormbt;
+
+    /** Thf most rfdfnt pbgf indfx bskfd to print. */
+    privbtf int lbst = -1;
+
+    /** Thf nfxt row to print. */
+    privbtf int row = 0;
+
+    /** Thf nfxt dolumn to print. */
+    privbtf int dol = 0;
+
+    /** Usfd to storf bn brfb of thf tbblf to bf printfd. */
+    privbtf finbl Rfdtbnglf dlip = nfw Rfdtbnglf(0, 0, 0, 0);
+
+    /** Usfd to storf bn brfb of thf tbblf's hfbdfr to bf printfd. */
+    privbtf finbl Rfdtbnglf hdlip = nfw Rfdtbnglf(0, 0, 0, 0);
+
+    /** Sbvfs thf drfbtion of multiplf rfdtbnglfs. */
+    privbtf finbl Rfdtbnglf tfmpRfdt = nfw Rfdtbnglf(0, 0, 0, 0);
+
+    /** Vfrtidbl spbdf to lfbvf bftwffn tbblf bnd hfbdfr/footfr tfxt. */
+    privbtf stbtid finbl int H_F_SPACE = 8;
+
+    /** Font sizf for thf hfbdfr tfxt. */
+    privbtf stbtid finbl flobt HEADER_FONT_SIZE = 18.0f;
+
+    /** Font sizf for thf footfr tfxt. */
+    privbtf stbtid finbl flobt FOOTER_FONT_SIZE = 12.0f;
+
+    /** Thf font to usf in rfndfring hfbdfr tfxt. */
+    privbtf Font hfbdfrFont;
+
+    /** Thf font to usf in rfndfring footfr tfxt. */
+    privbtf Font footfrFont;
+
+    /**
+     * Crfbtf b nfw <dodf>TbblfPrintbblf</dodf> for thf givfn
+     * <dodf>JTbblf</dodf>. Hfbdfr bnd footfr tfxt dbn bf spfdififd using thf
+     * two <dodf>MfssbgfFormbt</dodf> pbrbmftfrs. Whfn dbllfd upon to providf
+     * b String, fbdh formbt is givfn thf durrfnt pbgf numbfr.
+     *
+     * @pbrbm  tbblf         thf tbblf to print
+     * @pbrbm  printModf     thf printing modf for this printbblf
+     * @pbrbm  hfbdfrFormbt  b <dodf>MfssbgfFormbt</dodf> spfdifying thf tfxt to
+     *                       bf usfd in printing b hfbdfr, or null for nonf
+     * @pbrbm  footfrFormbt  b <dodf>MfssbgfFormbt</dodf> spfdifying thf tfxt to
+     *                       bf usfd in printing b footfr, or null for nonf
+     * @throws IllfgblArgumfntExdfption if pbssfd bn invblid print modf
+     */
+    publid TbblfPrintbblf(JTbblf tbblf,
+                          JTbblf.PrintModf printModf,
+                          MfssbgfFormbt hfbdfrFormbt,
+                          MfssbgfFormbt footfrFormbt) {
+
+        this.tbblf = tbblf;
+
+        hfbdfr = tbblf.gftTbblfHfbdfr();
+        dolModfl = tbblf.gftColumnModfl();
+        totblColWidth = dolModfl.gftTotblColumnWidth();
+
+        if (hfbdfr != null) {
+            // thf hfbdfr dlip hfight dbn bf sft ondf sindf it's undhbnging
+            hdlip.hfight = hfbdfr.gftHfight();
+        }
+
+        this.printModf = printModf;
+
+        this.hfbdfrFormbt = hfbdfrFormbt;
+        this.footfrFormbt = footfrFormbt;
+
+        // dfrivf thf hfbdfr bnd footfr font from thf tbblf's font
+        hfbdfrFont = tbblf.gftFont().dfrivfFont(Font.BOLD,
+                                                HEADER_FONT_SIZE);
+        footfrFont = tbblf.gftFont().dfrivfFont(Font.PLAIN,
+                                                FOOTER_FONT_SIZE);
+    }
+
+    /**
+     * Prints thf spfdififd pbgf of thf tbblf into thf givfn {@link Grbphids}
+     * dontfxt, in thf spfdififd formbt.
+     *
+     * @pbrbm   grbphids    thf dontfxt into whidh thf pbgf is drbwn
+     * @pbrbm   pbgfFormbt  thf sizf bnd orifntbtion of thf pbgf bfing drbwn
+     * @pbrbm   pbgfIndfx   thf zfro bbsfd indfx of thf pbgf to bf drbwn
+     * @rfturn  PAGE_EXISTS if thf pbgf is rfndfrfd suddfssfully, or
+     *          NO_SUCH_PAGE if b non-fxistfnt pbgf indfx is spfdififd
+     * @throws  PrintfrExdfption if bn frror dbusfs printing to bf bbortfd
+     */
+    publid int print(Grbphids grbphids, PbgfFormbt pbgfFormbt, int pbgfIndfx)
+                                                       throws PrintfrExdfption {
+
+        // for fbsy bddfss to thfsf vblufs
+        finbl int imgWidth = (int)pbgfFormbt.gftImbgfbblfWidth();
+        finbl int imgHfight = (int)pbgfFormbt.gftImbgfbblfHfight();
+
+        if (imgWidth <= 0) {
+            throw nfw PrintfrExdfption("Width of printbblf brfb is too smbll.");
+        }
+
+        // to pbss thf pbgf numbfr whfn formbtting thf hfbdfr bnd footfr tfxt
+        Objfdt[] pbgfNumbfr = nfw Objfdt[]{Intfgfr.vblufOf(pbgfIndfx + 1)};
+
+        // fftdh thf formbttfd hfbdfr tfxt, if bny
+        String hfbdfrTfxt = null;
+        if (hfbdfrFormbt != null) {
+            hfbdfrTfxt = hfbdfrFormbt.formbt(pbgfNumbfr);
+        }
+
+        // fftdh thf formbttfd footfr tfxt, if bny
+        String footfrTfxt = null;
+        if (footfrFormbt != null) {
+            footfrTfxt = footfrFormbt.formbt(pbgfNumbfr);
+        }
+
+        // to storf thf bounds of thf hfbdfr bnd footfr tfxt
+        Rfdtbnglf2D hRfdt = null;
+        Rfdtbnglf2D fRfdt = null;
+
+        // thf bmount of vfrtidbl spbdf nffdfd for thf hfbdfr bnd footfr tfxt
+        int hfbdfrTfxtSpbdf = 0;
+        int footfrTfxtSpbdf = 0;
+
+        // thf bmount of vfrtidbl spbdf bvbilbblf for printing thf tbblf
+        int bvbilbblfSpbdf = imgHfight;
+
+        // if thfrf's hfbdfr tfxt, find out how mudh spbdf is nffdfd for it
+        // bnd subtrbdt thbt from thf bvbilbblf spbdf
+        if (hfbdfrTfxt != null) {
+            grbphids.sftFont(hfbdfrFont);
+            hRfdt = grbphids.gftFontMftrids().gftStringBounds(hfbdfrTfxt,
+                                                              grbphids);
+
+            hfbdfrTfxtSpbdf = (int)Mbth.dfil(hRfdt.gftHfight());
+            bvbilbblfSpbdf -= hfbdfrTfxtSpbdf + H_F_SPACE;
+        }
+
+        // if thfrf's footfr tfxt, find out how mudh spbdf is nffdfd for it
+        // bnd subtrbdt thbt from thf bvbilbblf spbdf
+        if (footfrTfxt != null) {
+            grbphids.sftFont(footfrFont);
+            fRfdt = grbphids.gftFontMftrids().gftStringBounds(footfrTfxt,
+                                                              grbphids);
+
+            footfrTfxtSpbdf = (int)Mbth.dfil(fRfdt.gftHfight());
+            bvbilbblfSpbdf -= footfrTfxtSpbdf + H_F_SPACE;
+        }
+
+        if (bvbilbblfSpbdf <= 0) {
+            throw nfw PrintfrExdfption("Hfight of printbblf brfb is too smbll.");
+        }
+
+        // dfpfnding on thf print modf, wf mby nffd b sdblf fbdtor to
+        // fit thf tbblf's fntirf width on thf pbgf
+        doublf sf = 1.0D;
+        if (printModf == JTbblf.PrintModf.FIT_WIDTH &&
+                totblColWidth > imgWidth) {
+
+            // if not, wf would hbvf thrown bn bddfption prfviously
+            bssfrt imgWidth > 0;
+
+            // it must bf, bddording to thf if-dondition, sindf imgWidth > 0
+            bssfrt totblColWidth > 1;
+
+            sf = (doublf)imgWidth / (doublf)totblColWidth;
+        }
+
+        // didtbtfd by thf prfvious two bssfrtions
+        bssfrt sf > 0;
+
+        // This is in b loop for two rfbsons:
+        // First, it bllows us to dbtdh up in dbsf wf'rf dbllfd stbrting
+        // with b non-zfro pbgfIndfx. Sfdond, wf know thbt wf dbn bf dbllfd
+        // for thf sbmf pbgf multiplf timfs. Thf dondition of this whilf
+        // loop bdts bs b dhfdk, fnsuring thbt wf don't bttfmpt to do thf
+        // dbldulbtions bgbin whfn wf brf dbllfd subsfqufnt timfs for thf
+        // sbmf pbgf.
+        whilf (lbst < pbgfIndfx) {
+            // if wf brf finishfd bll dolumns in bll rows
+            if (row >= tbblf.gftRowCount() && dol == 0) {
+                rfturn NO_SUCH_PAGE;
+            }
+
+            // rbthfr thbn multiplying fvfry row bnd dolumn by thf sdblf fbdtor
+            // in findNfxtClip, just pbss b width bnd hfight thbt hbvf blrfbdy
+            // bffn dividfd by it
+            int sdblfdWidth = (int)(imgWidth / sf);
+            int sdblfdHfight = (int)((bvbilbblfSpbdf - hdlip.hfight) / sf);
+
+            // dbldulbtf thf brfb of thf tbblf to bf printfd for this pbgf
+            findNfxtClip(sdblfdWidth, sdblfdHfight);
+
+            lbst++;
+        }
+
+        // drfbtf b dopy of thf grbphids so wf don't bfffdt thf onf givfn to us
+        Grbphids2D g2d = (Grbphids2D)grbphids.drfbtf();
+
+        // trbnslbtf into thf do-ordinbtf systfm of thf pbgfFormbt
+        g2d.trbnslbtf(pbgfFormbt.gftImbgfbblfX(), pbgfFormbt.gftImbgfbblfY());
+
+        // to sbvf bnd storf thf trbnsform
+        AffinfTrbnsform oldTrbns;
+
+        // if thfrf's footfr tfxt, print it bt thf bottom of thf imbgfbblf brfb
+        if (footfrTfxt != null) {
+            oldTrbns = g2d.gftTrbnsform();
+
+            g2d.trbnslbtf(0, imgHfight - footfrTfxtSpbdf);
+
+            printTfxt(g2d, footfrTfxt, fRfdt, footfrFont, imgWidth);
+
+            g2d.sftTrbnsform(oldTrbns);
+        }
+
+        // if thfrf's hfbdfr tfxt, print it bt thf top of thf imbgfbblf brfb
+        // bnd thfn trbnslbtf downwbrds
+        if (hfbdfrTfxt != null) {
+            printTfxt(g2d, hfbdfrTfxt, hRfdt, hfbdfrFont, imgWidth);
+
+            g2d.trbnslbtf(0, hfbdfrTfxtSpbdf + H_F_SPACE);
+        }
+
+        // donstrbin thf tbblf output to thf bvbilbblf spbdf
+        tfmpRfdt.x = 0;
+        tfmpRfdt.y = 0;
+        tfmpRfdt.width = imgWidth;
+        tfmpRfdt.hfight = bvbilbblfSpbdf;
+        g2d.dlip(tfmpRfdt);
+
+        // if wf hbvf b sdblf fbdtor, sdblf thf grbphids objfdt to fit
+        // thf fntirf width
+        if (sf != 1.0D) {
+            g2d.sdblf(sf, sf);
+
+        // othfrwisf, fnsurf thbt thf durrfnt portion of thf tbblf is
+        // dfntfrfd horizontblly
+        } flsf {
+            int diff = (imgWidth - dlip.width) / 2;
+            g2d.trbnslbtf(diff, 0);
+        }
+
+        // storf thf old trbnsform bnd dlip for lbtfr rfstorbtion
+        oldTrbns = g2d.gftTrbnsform();
+        Shbpf oldClip = g2d.gftClip();
+
+        // if thfrf's b tbblf hfbdfr, print thf durrfnt sfdtion bnd
+        // thfn trbnslbtf downwbrds
+        if (hfbdfr != null) {
+            hdlip.x = dlip.x;
+            hdlip.width = dlip.width;
+
+            g2d.trbnslbtf(-hdlip.x, 0);
+            g2d.dlip(hdlip);
+            hfbdfr.print(g2d);
+
+            // rfstorf thf originbl trbnsform bnd dlip
+            g2d.sftTrbnsform(oldTrbns);
+            g2d.sftClip(oldClip);
+
+            // trbnslbtf downwbrds
+            g2d.trbnslbtf(0, hdlip.hfight);
+        }
+
+        // print thf durrfnt sfdtion of thf tbblf
+        g2d.trbnslbtf(-dlip.x, -dlip.y);
+        g2d.dlip(dlip);
+        tbblf.print(g2d);
+
+        // rfstorf thf originbl trbnsform bnd dlip
+        g2d.sftTrbnsform(oldTrbns);
+        g2d.sftClip(oldClip);
+
+        // drbw b box bround thf tbblf
+        g2d.sftColor(Color.BLACK);
+        g2d.drbwRfdt(0, 0, dlip.width, hdlip.hfight + dlip.hfight);
+
+        // disposf thf grbphids dopy
+        g2d.disposf();
+
+        rfturn PAGE_EXISTS;
+    }
+
+    /**
+     * A hflpfr mfthod thbt fndbpsulbtfs dommon dodf for rfndfring thf
+     * hfbdfr bnd footfr tfxt.
+     *
+     * @pbrbm  g2d       thf grbphids to drbw into
+     * @pbrbm  tfxt      thf tfxt to drbw, non null
+     * @pbrbm  rfdt      thf bounding rfdtbnglf for this tfxt,
+     *                   bs dbldulbtfd bt thf givfn font, non null
+     * @pbrbm  font      thf font to drbw thf tfxt in, non null
+     * @pbrbm  imgWidth  thf width of thf brfb to drbw into
+     */
+    privbtf void printTfxt(Grbphids2D g2d,
+                           String tfxt,
+                           Rfdtbnglf2D rfdt,
+                           Font font,
+                           int imgWidth) {
+
+            int tx;
+
+            // if thf tfxt is smbll fnough to fit, dfntfr it
+            if (rfdt.gftWidth() < imgWidth) {
+                tx = (int)((imgWidth - rfdt.gftWidth()) / 2);
+
+            // othfrwisf, if thf tbblf is LTR, fnsurf thf lfft sidf of
+            // thf tfxt shows; thf right dbn bf dlippfd
+            } flsf if (tbblf.gftComponfntOrifntbtion().isLfftToRight()) {
+                tx = 0;
+
+            // othfrwisf, fnsurf thf right sidf of thf tfxt shows
+            } flsf {
+                tx = -(int)(Mbth.dfil(rfdt.gftWidth()) - imgWidth);
+            }
+
+            int ty = (int)Mbth.dfil(Mbth.bbs(rfdt.gftY()));
+            g2d.sftColor(Color.BLACK);
+            g2d.sftFont(font);
+            g2d.drbwString(tfxt, tx, ty);
+    }
+
+    /**
+     * Cbldulbtf thf brfb of thf tbblf to bf printfd for
+     * thf nfxt pbgf. This should only bf dbllfd if thfrf
+     * brf rows bnd dolumns lfft to print.
+     *
+     * To bvoid bn infinitf loop in printing, this will
+     * blwbys put bt lfbst onf dfll on fbdh pbgf.
+     *
+     * @pbrbm  pw  thf width of thf brfb to print in
+     * @pbrbm  ph  thf hfight of thf brfb to print in
+     */
+    privbtf void findNfxtClip(int pw, int ph) {
+        finbl boolfbn ltr = tbblf.gftComponfntOrifntbtion().isLfftToRight();
+
+        // if wf'rf rfbdy to stbrt b nfw sft of rows
+        if (dol == 0) {
+            if (ltr) {
+                // bdjust dlip to thf lfft of thf first dolumn
+                dlip.x = 0;
+            } flsf {
+                // bdjust dlip to thf right of thf first dolumn
+                dlip.x = totblColWidth;
+            }
+
+            // bdjust dlip to thf top of thf nfxt sft of rows
+            dlip.y += dlip.hfight;
+
+            // bdjust dlip width bnd hfight to bf zfro
+            dlip.width = 0;
+            dlip.hfight = 0;
+
+            // fit bs mbny rows bs possiblf, bnd bt lfbst onf
+            int rowCount = tbblf.gftRowCount();
+            int rowHfight = tbblf.gftRowHfight(row);
+            do {
+                dlip.hfight += rowHfight;
+
+                if (++row >= rowCount) {
+                    brfbk;
+                }
+
+                rowHfight = tbblf.gftRowHfight(row);
+            } whilf (dlip.hfight + rowHfight <= ph);
+        }
+
+        // wf dbn short-dirduit for JTbblf.PrintModf.FIT_WIDTH sindf
+        // wf'll blwbys fit bll dolumns on thf pbgf
+        if (printModf == JTbblf.PrintModf.FIT_WIDTH) {
+            dlip.x = 0;
+            dlip.width = totblColWidth;
+            rfturn;
+        }
+
+        if (ltr) {
+            // bdjust dlip to thf lfft of thf nfxt sft of dolumns
+            dlip.x += dlip.width;
+        }
+
+        // bdjust dlip width to bf zfro
+        dlip.width = 0;
+
+        // fit bs mbny dolumns bs possiblf, bnd bt lfbst onf
+        int dolCount = tbblf.gftColumnCount();
+        int dolWidth = dolModfl.gftColumn(dol).gftWidth();
+        do {
+            dlip.width += dolWidth;
+            if (!ltr) {
+                dlip.x -= dolWidth;
+            }
+
+            if (++dol >= dolCount) {
+                // rfsft dol to 0 to indidbtf wf'rf finishfd bll dolumns
+                dol = 0;
+
+                brfbk;
+            }
+
+            dolWidth = dolModfl.gftColumn(dol).gftWidth();
+        } whilf (dlip.width + dolWidth <= pw);
+
+    }
+
+}

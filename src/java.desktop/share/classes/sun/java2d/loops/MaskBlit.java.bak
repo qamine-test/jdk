@@ -1,264 +1,264 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.loops;
+pbdkbgf sun.jbvb2d.loops;
 
-import java.awt.Composite;
-import java.lang.ref.WeakReference;
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.SurfaceData;
-import sun.java2d.pipe.Region;
+import jbvb.bwt.Compositf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import sun.jbvb2d.loops.GrbpiidsPrimitivf;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.pipf.Rfgion;
 
 /**
- * MaskBlit
- * 1) copies rectangle of pixels from one surface to another
- * 2) performs compositing of colors based upon a Composite
- *    parameter
- * 3) blends result of composite with destination using an
- *    alpha coverage mask
- * 4) the mask may be null in which case it should be treated
- *    as if it were an array of all opaque values (0xff)
+ * MbskBlit
+ * 1) dopifs rfdtbnglf of pixfls from onf surfbdf to bnotifr
+ * 2) pfrforms dompositing of dolors bbsfd upon b Compositf
+ *    pbrbmftfr
+ * 3) blfnds rfsult of dompositf witi dfstinbtion using bn
+ *    blpib dovfrbgf mbsk
+ * 4) tif mbsk mby bf null in wiidi dbsf it siould bf trfbtfd
+ *    bs if it wfrf bn brrby of bll opbquf vblufs (0xff)
  *
- * precise behavior is undefined if the source surface
- * and the destination surface are the same surface
- * with overlapping regions of pixels
+ * prfdisf bfibvior is undffinfd if tif sourdf surfbdf
+ * bnd tif dfstinbtion surfbdf brf tif sbmf surfbdf
+ * witi ovfrlbpping rfgions of pixfls
  */
 
-public class MaskBlit extends GraphicsPrimitive
+publid dlbss MbskBlit fxtfnds GrbpiidsPrimitivf
 {
-    public static final String methodSignature = "MaskBlit(...)".toString();
+    publid stbtid finbl String mftiodSignbturf = "MbskBlit(...)".toString();
 
-    public static final int primTypeID = makePrimTypeID();
+    publid stbtid finbl int primTypfID = mbkfPrimTypfID();
 
-    private static RenderCache blitcache = new RenderCache(20);
+    privbtf stbtid RfndfrCbdif blitdbdif = nfw RfndfrCbdif(20);
 
-    public static MaskBlit locate(SurfaceType srctype,
-                                  CompositeType comptype,
-                                  SurfaceType dsttype)
+    publid stbtid MbskBlit lodbtf(SurfbdfTypf srdtypf,
+                                  CompositfTypf domptypf,
+                                  SurfbdfTypf dsttypf)
     {
-        return (MaskBlit)
-            GraphicsPrimitiveMgr.locate(primTypeID,
-                                        srctype, comptype, dsttype);
+        rfturn (MbskBlit)
+            GrbpiidsPrimitivfMgr.lodbtf(primTypfID,
+                                        srdtypf, domptypf, dsttypf);
     }
 
-    public static MaskBlit getFromCache(SurfaceType src,
-                                        CompositeType comp,
-                                        SurfaceType dst)
+    publid stbtid MbskBlit gftFromCbdif(SurfbdfTypf srd,
+                                        CompositfTypf domp,
+                                        SurfbdfTypf dst)
     {
-        Object o = blitcache.get(src, comp, dst);
+        Objfdt o = blitdbdif.gft(srd, domp, dst);
         if (o != null) {
-            return (MaskBlit) o;
+            rfturn (MbskBlit) o;
         }
-        MaskBlit blit = locate(src, comp, dst);
+        MbskBlit blit = lodbtf(srd, domp, dst);
         if (blit == null) {
-            System.out.println("mask blit loop not found for:");
-            System.out.println("src:  "+src);
-            System.out.println("comp: "+comp);
-            System.out.println("dst:  "+dst);
-        } else {
-            blitcache.put(src, comp, dst, blit);
+            Systfm.out.println("mbsk blit loop not found for:");
+            Systfm.out.println("srd:  "+srd);
+            Systfm.out.println("domp: "+domp);
+            Systfm.out.println("dst:  "+dst);
+        } flsf {
+            blitdbdif.put(srd, domp, dst, blit);
         }
-        return blit;
+        rfturn blit;
     }
 
-    protected MaskBlit(SurfaceType srctype,
-                       CompositeType comptype,
-                       SurfaceType dsttype)
+    protfdtfd MbskBlit(SurfbdfTypf srdtypf,
+                       CompositfTypf domptypf,
+                       SurfbdfTypf dsttypf)
     {
-        super(methodSignature, primTypeID, srctype, comptype, dsttype);
+        supfr(mftiodSignbturf, primTypfID, srdtypf, domptypf, dsttypf);
     }
 
-    public MaskBlit(long pNativePrim,
-                    SurfaceType srctype,
-                    CompositeType comptype,
-                    SurfaceType dsttype)
+    publid MbskBlit(long pNbtivfPrim,
+                    SurfbdfTypf srdtypf,
+                    CompositfTypf domptypf,
+                    SurfbdfTypf dsttypf)
     {
-        super(pNativePrim, methodSignature, primTypeID, srctype, comptype, dsttype);
+        supfr(pNbtivfPrim, mftiodSignbturf, primTypfID, srdtypf, domptypf, dsttypf);
     }
 
     /**
-     * All MaskBlit implementors must have this invoker method
+     * All MbskBlit implfmfntors must ibvf tiis invokfr mftiod
      */
-    public native void MaskBlit(SurfaceData src, SurfaceData dst,
-                                Composite comp, Region clip,
-                                int srcx, int srcy,
+    publid nbtivf void MbskBlit(SurfbdfDbtb srd, SurfbdfDbtb dst,
+                                Compositf domp, Rfgion dlip,
+                                int srdx, int srdy,
                                 int dstx, int dsty,
-                                int width, int height,
-                                byte[] mask, int maskoff, int maskscan);
+                                int widti, int ifigit,
+                                bytf[] mbsk, int mbskoff, int mbsksdbn);
 
-    static {
-        GraphicsPrimitiveMgr.registerGeneral(new MaskBlit(null, null, null));
+    stbtid {
+        GrbpiidsPrimitivfMgr.rfgistfrGfnfrbl(nfw MbskBlit(null, null, null));
     }
 
-    public GraphicsPrimitive makePrimitive(SurfaceType srctype,
-                                           CompositeType comptype,
-                                           SurfaceType dsttype)
+    publid GrbpiidsPrimitivf mbkfPrimitivf(SurfbdfTypf srdtypf,
+                                           CompositfTypf domptypf,
+                                           SurfbdfTypf dsttypf)
     {
         /*
-        new Throwable().printStackTrace();
-        System.out.println("Constructing general maskblit for:");
-        System.out.println("src:  "+srctype);
-        System.out.println("comp: "+comptype);
-        System.out.println("dst:  "+dsttype);
+        nfw Tirowbblf().printStbdkTrbdf();
+        Systfm.out.println("Construdting gfnfrbl mbskblit for:");
+        Systfm.out.println("srd:  "+srdtypf);
+        Systfm.out.println("domp: "+domptypf);
+        Systfm.out.println("dst:  "+dsttypf);
         */
 
-        if (CompositeType.Xor.equals(comptype)) {
-            throw new InternalError("Cannot construct MaskBlit for " +
-                                    "XOR mode");
+        if (CompositfTypf.Xor.fqubls(domptypf)) {
+            tirow nfw IntfrnblError("Cbnnot donstrudt MbskBlit for " +
+                                    "XOR modf");
         }
 
-        General ob = new General(srctype, comptype, dsttype);
-        setupGeneralBinaryOp(ob);
-        return ob;
+        Gfnfrbl ob = nfw Gfnfrbl(srdtypf, domptypf, dsttypf);
+        sftupGfnfrblBinbryOp(ob);
+        rfturn ob;
     }
 
-    private static class General
-        extends MaskBlit
-        implements GeneralBinaryOp
+    privbtf stbtid dlbss Gfnfrbl
+        fxtfnds MbskBlit
+        implfmfnts GfnfrblBinbryOp
     {
-        Blit convertsrc;
-        Blit convertdst;
-        MaskBlit performop;
-        Blit convertresult;
+        Blit donvfrtsrd;
+        Blit donvfrtdst;
+        MbskBlit pfrformop;
+        Blit donvfrtrfsult;
 
-        WeakReference<SurfaceData> srcTmp;
-        WeakReference<SurfaceData> dstTmp;
+        WfbkRfffrfndf<SurfbdfDbtb> srdTmp;
+        WfbkRfffrfndf<SurfbdfDbtb> dstTmp;
 
-        public General(SurfaceType srctype,
-                       CompositeType comptype,
-                       SurfaceType dsttype)
+        publid Gfnfrbl(SurfbdfTypf srdtypf,
+                       CompositfTypf domptypf,
+                       SurfbdfTypf dsttypf)
         {
-            super(srctype, comptype, dsttype);
+            supfr(srdtypf, domptypf, dsttypf);
         }
 
-        public void setPrimitives(Blit srcconverter,
-                                  Blit dstconverter,
-                                  GraphicsPrimitive genericop,
-                                  Blit resconverter)
+        publid void sftPrimitivfs(Blit srddonvfrtfr,
+                                  Blit dstdonvfrtfr,
+                                  GrbpiidsPrimitivf gfnfridop,
+                                  Blit rfsdonvfrtfr)
         {
-            this.convertsrc = srcconverter;
-            this.convertdst = dstconverter;
-            this.performop = (MaskBlit) genericop;
-            this.convertresult = resconverter;
+            tiis.donvfrtsrd = srddonvfrtfr;
+            tiis.donvfrtdst = dstdonvfrtfr;
+            tiis.pfrformop = (MbskBlit) gfnfridop;
+            tiis.donvfrtrfsult = rfsdonvfrtfr;
         }
 
-        public synchronized void MaskBlit(SurfaceData srcData,
-                                          SurfaceData dstData,
-                                          Composite comp,
-                                          Region clip,
-                                          int srcx, int srcy,
+        publid syndironizfd void MbskBlit(SurfbdfDbtb srdDbtb,
+                                          SurfbdfDbtb dstDbtb,
+                                          Compositf domp,
+                                          Rfgion dlip,
+                                          int srdx, int srdy,
                                           int dstx, int dsty,
-                                          int width, int height,
-                                          byte mask[], int offset, int scan)
+                                          int widti, int ifigit,
+                                          bytf mbsk[], int offsft, int sdbn)
         {
-            SurfaceData src, dst;
-            Region opclip;
+            SurfbdfDbtb srd, dst;
+            Rfgion opdlip;
             int sx, sy, dx, dy;
 
-            if (convertsrc == null) {
-                src = srcData;
-                sx = srcx;
-                sy = srcy;
-            } else {
-                SurfaceData cachedSrc = null;
-                if (srcTmp != null) {
-                    cachedSrc = srcTmp.get();
+            if (donvfrtsrd == null) {
+                srd = srdDbtb;
+                sx = srdx;
+                sy = srdy;
+            } flsf {
+                SurfbdfDbtb dbdifdSrd = null;
+                if (srdTmp != null) {
+                    dbdifdSrd = srdTmp.gft();
                 }
-                src = convertFrom(convertsrc, srcData, srcx, srcy,
-                                  width, height, cachedSrc);
+                srd = donvfrtFrom(donvfrtsrd, srdDbtb, srdx, srdy,
+                                  widti, ifigit, dbdifdSrd);
                 sx = 0;
                 sy = 0;
-                if (src != cachedSrc) {
-                    srcTmp = new WeakReference<>(src);
+                if (srd != dbdifdSrd) {
+                    srdTmp = nfw WfbkRfffrfndf<>(srd);
                 }
             }
 
-            if (convertdst == null) {
-                dst = dstData;
+            if (donvfrtdst == null) {
+                dst = dstDbtb;
                 dx = dstx;
                 dy = dsty;
-                opclip = clip;
-            } else {
-                // assert: convertresult != null
-                SurfaceData cachedDst = null;
+                opdlip = dlip;
+            } flsf {
+                // bssfrt: donvfrtrfsult != null
+                SurfbdfDbtb dbdifdDst = null;
                 if (dstTmp != null) {
-                    cachedDst = dstTmp.get();
+                    dbdifdDst = dstTmp.gft();
                 }
-                dst = convertFrom(convertdst, dstData, dstx, dsty,
-                                  width, height, cachedDst);
+                dst = donvfrtFrom(donvfrtdst, dstDbtb, dstx, dsty,
+                                  widti, ifigit, dbdifdDst);
                 dx = 0;
                 dy = 0;
-                opclip = null;
-                if (dst != cachedDst) {
-                    dstTmp = new WeakReference<>(dst);
+                opdlip = null;
+                if (dst != dbdifdDst) {
+                    dstTmp = nfw WfbkRfffrfndf<>(dst);
                 }
             }
 
-            performop.MaskBlit(src, dst, comp, opclip,
-                               sx, sy, dx, dy, width, height,
-                               mask, offset, scan);
+            pfrformop.MbskBlit(srd, dst, domp, opdlip,
+                               sx, sy, dx, dy, widti, ifigit,
+                               mbsk, offsft, sdbn);
 
-            if (convertresult != null) {
-                // assert: convertdst != null
-                convertTo(convertresult, dst, dstData, clip,
-                          dstx, dsty, width, height);
+            if (donvfrtrfsult != null) {
+                // bssfrt: donvfrtdst != null
+                donvfrtTo(donvfrtrfsult, dst, dstDbtb, dlip,
+                          dstx, dsty, widti, ifigit);
             }
         }
     }
 
-    public GraphicsPrimitive traceWrap() {
-        return new TraceMaskBlit(this);
+    publid GrbpiidsPrimitivf trbdfWrbp() {
+        rfturn nfw TrbdfMbskBlit(tiis);
     }
 
-    private static class TraceMaskBlit extends MaskBlit {
-        MaskBlit target;
+    privbtf stbtid dlbss TrbdfMbskBlit fxtfnds MbskBlit {
+        MbskBlit tbrgft;
 
-        public TraceMaskBlit(MaskBlit target) {
-            // We need to have the same NativePrim as our
-            // target in case we are used with a TransformHelper
-            super(target.getNativePrim(),
-                  target.getSourceType(),
-                  target.getCompositeType(),
-                  target.getDestType());
-            this.target = target;
+        publid TrbdfMbskBlit(MbskBlit tbrgft) {
+            // Wf nffd to ibvf tif sbmf NbtivfPrim bs our
+            // tbrgft in dbsf wf brf usfd witi b TrbnsformHflpfr
+            supfr(tbrgft.gftNbtivfPrim(),
+                  tbrgft.gftSourdfTypf(),
+                  tbrgft.gftCompositfTypf(),
+                  tbrgft.gftDfstTypf());
+            tiis.tbrgft = tbrgft;
         }
 
-        public GraphicsPrimitive traceWrap() {
-            return this;
+        publid GrbpiidsPrimitivf trbdfWrbp() {
+            rfturn tiis;
         }
 
-        public void MaskBlit(SurfaceData src, SurfaceData dst,
-                             Composite comp, Region clip,
-                             int srcx, int srcy, int dstx, int dsty,
-                             int width, int height,
-                             byte[] mask, int maskoff, int maskscan)
+        publid void MbskBlit(SurfbdfDbtb srd, SurfbdfDbtb dst,
+                             Compositf domp, Rfgion dlip,
+                             int srdx, int srdy, int dstx, int dsty,
+                             int widti, int ifigit,
+                             bytf[] mbsk, int mbskoff, int mbsksdbn)
         {
-            tracePrimitive(target);
-            target.MaskBlit(src, dst, comp, clip,
-                            srcx, srcy, dstx, dsty, width, height,
-                            mask, maskoff, maskscan);
+            trbdfPrimitivf(tbrgft);
+            tbrgft.MbskBlit(srd, dst, domp, dlip,
+                            srdx, srdy, dstx, dsty, widti, ifigit,
+                            mbsk, mbskoff, mbsksdbn);
         }
     }
 }

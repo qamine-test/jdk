@@ -1,270 +1,270 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import "CGGlyphOutlines.h"
+#import "CGGlypiOutlinfs.i"
 
-static void
-AWTPathGetMoreSpaceIfNecessary(AWTPathRef path)
+stbtid void
+AWTPbtiGftMorfSpbdfIfNfdfssbry(AWTPbtiRff pbti)
 {
-    while ((path->fAllocatedSegmentTypeSpace - path->fNumberOfSegments) < 1) {
-        size_t growth = sizeof(jbyte)*path->fAllocatedSegmentTypeSpace*kStorageSizeChangeOnGetMoreFactor;
-        path->fSegmentType = (jbyte*) realloc(path->fSegmentType, growth);
-        path->fAllocatedSegmentTypeSpace *= kStorageSizeChangeOnGetMoreFactor;
+    wiilf ((pbti->fAllodbtfdSfgmfntTypfSpbdf - pbti->fNumbfrOfSfgmfnts) < 1) {
+        sizf_t growti = sizfof(jbytf)*pbti->fAllodbtfdSfgmfntTypfSpbdf*kStorbgfSizfCibngfOnGftMorfFbdtor;
+        pbti->fSfgmfntTypf = (jbytf*) rfbllod(pbti->fSfgmfntTypf, growti);
+        pbti->fAllodbtfdSfgmfntTypfSpbdf *= kStorbgfSizfCibngfOnGftMorfFbdtor;
     }
 
-    while ((path->fAllocatedSegmentDataSpace - path->fNumberOfDataElements) < 7) {
-        size_t growth = sizeof(jfloat)*path->fAllocatedSegmentDataSpace*kStorageSizeChangeOnGetMoreFactor;
-        path->fSegmentData = (jfloat*) realloc(path->fSegmentData, growth);
-        path->fAllocatedSegmentDataSpace *= kStorageSizeChangeOnGetMoreFactor;
+    wiilf ((pbti->fAllodbtfdSfgmfntDbtbSpbdf - pbti->fNumbfrOfDbtbElfmfnts) < 7) {
+        sizf_t growti = sizfof(jflobt)*pbti->fAllodbtfdSfgmfntDbtbSpbdf*kStorbgfSizfCibngfOnGftMorfFbdtor;
+        pbti->fSfgmfntDbtb = (jflobt*) rfbllod(pbti->fSfgmfntDbtb, growti);
+        pbti->fAllodbtfdSfgmfntDbtbSpbdf *= kStorbgfSizfCibngfOnGftMorfFbdtor;
     }
 }
 
-static void
-AWTPathMoveTo(void* data, CGPoint p)
+stbtid void
+AWTPbtiMovfTo(void* dbtb, CGPoint p)
 {
-    CGFloat x = p.x;
-    CGFloat y = p.y;
+    CGFlobt x = p.x;
+    CGFlobt y = p.y;
 
-    AWTPathRef path = (AWTPathRef)data;
-    CGFloat tx    = path->fTranslate.width;
-    CGFloat ty    = path->fTranslate.height;
-    CGFloat pathX =  x+tx;
-    CGFloat pathY = -y+ty;
+    AWTPbtiRff pbti = (AWTPbtiRff)dbtb;
+    CGFlobt tx    = pbti->fTrbnslbtf.widti;
+    CGFlobt ty    = pbti->fTrbnslbtf.ifigit;
+    CGFlobt pbtiX =  x+tx;
+    CGFlobt pbtiY = -y+ty;
 
-#ifdef AWT_GV_DEBUG
-    fprintf(stderr, "eMoveTo \n");
-    fprintf(stderr, "    tx=%f, ty=%f\n", tx, ty);
-    fprintf(stderr, "    x=%f, y=%f\n", x, y);
-    fprintf(stderr, "    pathX=%f, pathY=%f\n", pathX, pathY);
-#endif
+#ifdff AWT_GV_DEBUG
+    fprintf(stdfrr, "fMovfTo \n");
+    fprintf(stdfrr, "    tx=%f, ty=%f\n", tx, ty);
+    fprintf(stdfrr, "    x=%f, y=%f\n", x, y);
+    fprintf(stdfrr, "    pbtiX=%f, pbtiY=%f\n", pbtiX, pbtiY);
+#fndif
 
-    AWTPathGetMoreSpaceIfNecessary(path);
+    AWTPbtiGftMorfSpbdfIfNfdfssbry(pbti);
 
-    path->fSegmentType[path->fNumberOfSegments++] = (jbyte)eMoveTo;
+    pbti->fSfgmfntTypf[pbti->fNumbfrOfSfgmfnts++] = (jbytf)fMovfTo;
 
-    path->fSegmentData[path->fNumberOfDataElements++] = pathX;
-    path->fSegmentData[path->fNumberOfDataElements++] = pathY;
+    pbti->fSfgmfntDbtb[pbti->fNumbfrOfDbtbElfmfnts++] = pbtiX;
+    pbti->fSfgmfntDbtb[pbti->fNumbfrOfDbtbElfmfnts++] = pbtiY;
 }
 
-static void
-AWTPathLineTo(void* data, CGPoint p)
+stbtid void
+AWTPbtiLinfTo(void* dbtb, CGPoint p)
 {
-    CGFloat x = p.x;
-    CGFloat y = p.y;
+    CGFlobt x = p.x;
+    CGFlobt y = p.y;
 
-    AWTPathRef path = (AWTPathRef)data;
-    CGFloat tx    = path->fTranslate.width;
-    CGFloat ty    = path->fTranslate.height;
-    CGFloat pathX =  x+tx;
-    CGFloat pathY = -y+ty;
+    AWTPbtiRff pbti = (AWTPbtiRff)dbtb;
+    CGFlobt tx    = pbti->fTrbnslbtf.widti;
+    CGFlobt ty    = pbti->fTrbnslbtf.ifigit;
+    CGFlobt pbtiX =  x+tx;
+    CGFlobt pbtiY = -y+ty;
 
-#ifdef AWT_GV_DEBUG
-    fprintf(stderr, "eLineTo \n");
-    fprintf(stderr, "    tx=%f, ty=%f\n", tx, ty);
-    fprintf(stderr, "    x=%f, y=%f\n", x, y);
-    fprintf(stderr, "    pathX=%f, pathY=%f\n", pathX, pathY);
-#endif
+#ifdff AWT_GV_DEBUG
+    fprintf(stdfrr, "fLinfTo \n");
+    fprintf(stdfrr, "    tx=%f, ty=%f\n", tx, ty);
+    fprintf(stdfrr, "    x=%f, y=%f\n", x, y);
+    fprintf(stdfrr, "    pbtiX=%f, pbtiY=%f\n", pbtiX, pbtiY);
+#fndif
 
-    AWTPathGetMoreSpaceIfNecessary(path);
+    AWTPbtiGftMorfSpbdfIfNfdfssbry(pbti);
 
-    path->fSegmentType[path->fNumberOfSegments++] = (jbyte)eLineTo;
+    pbti->fSfgmfntTypf[pbti->fNumbfrOfSfgmfnts++] = (jbytf)fLinfTo;
 
-    path->fSegmentData[path->fNumberOfDataElements++] = pathX;
-    path->fSegmentData[path->fNumberOfDataElements++] = pathY;
+    pbti->fSfgmfntDbtb[pbti->fNumbfrOfDbtbElfmfnts++] = pbtiX;
+    pbti->fSfgmfntDbtb[pbti->fNumbfrOfDbtbElfmfnts++] = pbtiY;
 }
 
-static void
-AWTPathQuadTo(void* data, CGPoint p1, CGPoint p2)
+stbtid void
+AWTPbtiQubdTo(void* dbtb, CGPoint p1, CGPoint p2)
 {
-    CGFloat x1 = p1.x;
-    CGFloat y1 = p1.y;
-    CGFloat x2 = p2.x;
-    CGFloat y2 = p2.y;
+    CGFlobt x1 = p1.x;
+    CGFlobt y1 = p1.y;
+    CGFlobt x2 = p2.x;
+    CGFlobt y2 = p2.y;
 
-    AWTPathRef path = (AWTPathRef)data;
-    CGFloat tx     = path->fTranslate.width;
-    CGFloat ty     = path->fTranslate.height;
-    CGFloat pathX1 =  x1+tx;
-    CGFloat pathY1 = -y1+ty;
-    CGFloat pathX2 =  x2+tx;
-    CGFloat pathY2 = -y2+ty;
+    AWTPbtiRff pbti = (AWTPbtiRff)dbtb;
+    CGFlobt tx     = pbti->fTrbnslbtf.widti;
+    CGFlobt ty     = pbti->fTrbnslbtf.ifigit;
+    CGFlobt pbtiX1 =  x1+tx;
+    CGFlobt pbtiY1 = -y1+ty;
+    CGFlobt pbtiX2 =  x2+tx;
+    CGFlobt pbtiY2 = -y2+ty;
 
-#ifdef AWT_GV_DEBUG
-    fprintf(stderr, "eQuadTo \n");
-    fprintf(stderr, "    tx=%f, ty=%f\n", tx, ty);
-    fprintf(stderr, "    x1=%f, y1=%f\n", x1, y1);
-    fprintf(stderr, "    x2=%f, y2=%f\n", x2, y2);
-    fprintf(stderr, "    pathX1=%f, path1Y=%f\n", pathX1, pathY1);
-    fprintf(stderr, "    pathX2=%f, pathY2=%f\n", pathX2, pathY2);
-#endif
+#ifdff AWT_GV_DEBUG
+    fprintf(stdfrr, "fQubdTo \n");
+    fprintf(stdfrr, "    tx=%f, ty=%f\n", tx, ty);
+    fprintf(stdfrr, "    x1=%f, y1=%f\n", x1, y1);
+    fprintf(stdfrr, "    x2=%f, y2=%f\n", x2, y2);
+    fprintf(stdfrr, "    pbtiX1=%f, pbti1Y=%f\n", pbtiX1, pbtiY1);
+    fprintf(stdfrr, "    pbtiX2=%f, pbtiY2=%f\n", pbtiX2, pbtiY2);
+#fndif
 
-    AWTPathGetMoreSpaceIfNecessary(path);
+    AWTPbtiGftMorfSpbdfIfNfdfssbry(pbti);
 
-    path->fSegmentType[path->fNumberOfSegments++] = (jbyte)eQuadTo;
+    pbti->fSfgmfntTypf[pbti->fNumbfrOfSfgmfnts++] = (jbytf)fQubdTo;
 
-    path->fSegmentData[path->fNumberOfDataElements++] = pathX1;
-    path->fSegmentData[path->fNumberOfDataElements++] = pathY1;
-    path->fSegmentData[path->fNumberOfDataElements++] = pathX2;
-    path->fSegmentData[path->fNumberOfDataElements++] = pathY2;
+    pbti->fSfgmfntDbtb[pbti->fNumbfrOfDbtbElfmfnts++] = pbtiX1;
+    pbti->fSfgmfntDbtb[pbti->fNumbfrOfDbtbElfmfnts++] = pbtiY1;
+    pbti->fSfgmfntDbtb[pbti->fNumbfrOfDbtbElfmfnts++] = pbtiX2;
+    pbti->fSfgmfntDbtb[pbti->fNumbfrOfDbtbElfmfnts++] = pbtiY2;
 }
 
-static void
-AWTPathCubicTo(void* data, CGPoint p1, CGPoint p2, CGPoint p3)
+stbtid void
+AWTPbtiCubidTo(void* dbtb, CGPoint p1, CGPoint p2, CGPoint p3)
 {
-    CGFloat x1 = p1.x;
-    CGFloat y1 = p1.y;
-    CGFloat x2 = p2.x;
-    CGFloat y2 = p2.y;
-    CGFloat x3 = p3.x;
-    CGFloat y3 = p3.y;
+    CGFlobt x1 = p1.x;
+    CGFlobt y1 = p1.y;
+    CGFlobt x2 = p2.x;
+    CGFlobt y2 = p2.y;
+    CGFlobt x3 = p3.x;
+    CGFlobt y3 = p3.y;
 
-    AWTPathRef path = (AWTPathRef)data;
-    CGFloat tx     = path->fTranslate.width;
-    CGFloat ty     = path->fTranslate.height;
-    CGFloat pathX1 =  x1+tx;
-    CGFloat pathY1 = -y1+ty;
-    CGFloat pathX2 =  x2+tx;
-    CGFloat pathY2 = -y2+ty;
-    CGFloat pathX3 =  x3+tx;
-    CGFloat pathY3 = -y3+ty;
+    AWTPbtiRff pbti = (AWTPbtiRff)dbtb;
+    CGFlobt tx     = pbti->fTrbnslbtf.widti;
+    CGFlobt ty     = pbti->fTrbnslbtf.ifigit;
+    CGFlobt pbtiX1 =  x1+tx;
+    CGFlobt pbtiY1 = -y1+ty;
+    CGFlobt pbtiX2 =  x2+tx;
+    CGFlobt pbtiY2 = -y2+ty;
+    CGFlobt pbtiX3 =  x3+tx;
+    CGFlobt pbtiY3 = -y3+ty;
 
-#ifdef AWT_GV_DEBUG
-    fprintf(stderr, "eCubicTo \n");
-    fprintf(stderr, "    tx=%f, ty=%f\n", tx, ty);
-    fprintf(stderr, "    x1=%f, y1=%f\n", x1, y1);
-    fprintf(stderr, "    x2=%f, y2=%f\n", x2, y2);
-    fprintf(stderr, "    x3=%f, y3=%f\n", x3, y3);
-    fprintf(stderr, "    pathX1=%f, path1Y=%f\n", pathX1, pathY1);
-    fprintf(stderr, "    pathX2=%f, pathY2=%f\n", pathX2, pathY2);
-    fprintf(stderr, "    pathX3=%f, pathY3=%f\n", pathX3, pathY3);
-#endif
+#ifdff AWT_GV_DEBUG
+    fprintf(stdfrr, "fCubidTo \n");
+    fprintf(stdfrr, "    tx=%f, ty=%f\n", tx, ty);
+    fprintf(stdfrr, "    x1=%f, y1=%f\n", x1, y1);
+    fprintf(stdfrr, "    x2=%f, y2=%f\n", x2, y2);
+    fprintf(stdfrr, "    x3=%f, y3=%f\n", x3, y3);
+    fprintf(stdfrr, "    pbtiX1=%f, pbti1Y=%f\n", pbtiX1, pbtiY1);
+    fprintf(stdfrr, "    pbtiX2=%f, pbtiY2=%f\n", pbtiX2, pbtiY2);
+    fprintf(stdfrr, "    pbtiX3=%f, pbtiY3=%f\n", pbtiX3, pbtiY3);
+#fndif
 
-    AWTPathGetMoreSpaceIfNecessary(path);
+    AWTPbtiGftMorfSpbdfIfNfdfssbry(pbti);
 
-    path->fSegmentType[path->fNumberOfSegments++] = (jbyte)eCubicTo;
+    pbti->fSfgmfntTypf[pbti->fNumbfrOfSfgmfnts++] = (jbytf)fCubidTo;
 
-    path->fSegmentData[path->fNumberOfDataElements++] = pathX1;
-    path->fSegmentData[path->fNumberOfDataElements++] = pathY1;
-    path->fSegmentData[path->fNumberOfDataElements++] = pathX2;
-    path->fSegmentData[path->fNumberOfDataElements++] = pathY2;
-    path->fSegmentData[path->fNumberOfDataElements++] = pathX3;
-    path->fSegmentData[path->fNumberOfDataElements++] = pathY3;
+    pbti->fSfgmfntDbtb[pbti->fNumbfrOfDbtbElfmfnts++] = pbtiX1;
+    pbti->fSfgmfntDbtb[pbti->fNumbfrOfDbtbElfmfnts++] = pbtiY1;
+    pbti->fSfgmfntDbtb[pbti->fNumbfrOfDbtbElfmfnts++] = pbtiX2;
+    pbti->fSfgmfntDbtb[pbti->fNumbfrOfDbtbElfmfnts++] = pbtiY2;
+    pbti->fSfgmfntDbtb[pbti->fNumbfrOfDbtbElfmfnts++] = pbtiX3;
+    pbti->fSfgmfntDbtb[pbti->fNumbfrOfDbtbElfmfnts++] = pbtiY3;
 }
 
-static void
-AWTPathClose(void* data)
+stbtid void
+AWTPbtiClosf(void* dbtb)
 {
-#ifdef AWT_GV_DEBUG
-    fprintf(stderr, "GVGlyphPathCallBackClosePath \n");
-#endif
+#ifdff AWT_GV_DEBUG
+    fprintf(stdfrr, "GVGlypiPbtiCbllBbdkClosfPbti \n");
+#fndif
 
-    AWTPathRef path = (AWTPathRef) data;
-    AWTPathGetMoreSpaceIfNecessary(path);
+    AWTPbtiRff pbti = (AWTPbtiRff) dbtb;
+    AWTPbtiGftMorfSpbdfIfNfdfssbry(pbti);
 
-    path->fSegmentType[path->fNumberOfSegments++] = (jbyte)eClosePath;
+    pbti->fSfgmfntTypf[pbti->fNumbfrOfSfgmfnts++] = (jbytf)fClosfPbti;
 }
 
-AWTPathRef
-AWTPathCreate(CGSize translate)
+AWTPbtiRff
+AWTPbtiCrfbtf(CGSizf trbnslbtf)
 {
-#ifdef AWT_GV_DEBUG
-    fprintf(stderr, "AWTPathCreate \n");
-    fprintf(stderr, "    translate.width=%f \n", translate.width);
-    fprintf(stderr, "    translate.height=%f \n", translate.height);
-#endif
+#ifdff AWT_GV_DEBUG
+    fprintf(stdfrr, "AWTPbtiCrfbtf \n");
+    fprintf(stdfrr, "    trbnslbtf.widti=%f \n", trbnslbtf.widti);
+    fprintf(stdfrr, "    trbnslbtf.ifigit=%f \n", trbnslbtf.ifigit);
+#fndif
 
-    AWTPathRef path = (AWTPathRef) malloc(sizeof(AWTPath));
-    path->fTranslate    = translate;
-    path->fSegmentData  = (jfloat*)malloc(sizeof(jfloat) * kInitialAllocatedPathSegments);
-    path->fSegmentType  = (jbyte*)malloc(sizeof(jbyte) * kInitialAllocatedPathSegments);
-    path->fNumberOfDataElements = 0;
-    path->fNumberOfSegments = 0;
-    path->fAllocatedSegmentTypeSpace = kInitialAllocatedPathSegments;
-    path->fAllocatedSegmentDataSpace = kInitialAllocatedPathSegments;
+    AWTPbtiRff pbti = (AWTPbtiRff) mbllod(sizfof(AWTPbti));
+    pbti->fTrbnslbtf    = trbnslbtf;
+    pbti->fSfgmfntDbtb  = (jflobt*)mbllod(sizfof(jflobt) * kInitiblAllodbtfdPbtiSfgmfnts);
+    pbti->fSfgmfntTypf  = (jbytf*)mbllod(sizfof(jbytf) * kInitiblAllodbtfdPbtiSfgmfnts);
+    pbti->fNumbfrOfDbtbElfmfnts = 0;
+    pbti->fNumbfrOfSfgmfnts = 0;
+    pbti->fAllodbtfdSfgmfntTypfSpbdf = kInitiblAllodbtfdPbtiSfgmfnts;
+    pbti->fAllodbtfdSfgmfntDbtbSpbdf = kInitiblAllodbtfdPbtiSfgmfnts;
 
-    return path;
+    rfturn pbti;
 }
 
 void
-AWTPathFree(AWTPathRef pathRef)
+AWTPbtiFrff(AWTPbtiRff pbtiRff)
 {
-#ifdef AWT_GV_DEBUG
-    fprintf(stderr, "--B--AWTPathFree\n");
-    fprintf(stderr, "pathRef->fSegmentData (%p)\n",pathRef->fSegmentData);
-#endif
+#ifdff AWT_GV_DEBUG
+    fprintf(stdfrr, "--B--AWTPbtiFrff\n");
+    fprintf(stdfrr, "pbtiRff->fSfgmfntDbtb (%p)\n",pbtiRff->fSfgmfntDbtb);
+#fndif
 
-    free(pathRef->fSegmentData);
-    //fprintf(stderr, "pathRef->fSegmentType (%d)\n",pathRef->fSegmentType);
-    free(pathRef->fSegmentType);
-    //fprintf(stderr, "pathRef (%d)\n", pathRef);
-    free(pathRef);
-    //fprintf(stderr, "--E--AWTPathFree\n");
+    frff(pbtiRff->fSfgmfntDbtb);
+    //fprintf(stdfrr, "pbtiRff->fSfgmfntTypf (%d)\n",pbtiRff->fSfgmfntTypf);
+    frff(pbtiRff->fSfgmfntTypf);
+    //fprintf(stdfrr, "pbtiRff (%d)\n", pbtiRff);
+    frff(pbtiRff);
+    //fprintf(stdfrr, "--E--AWTPbtiFrff\n");
 }
 
-static void
-AWTPathApplierCallback(void *info, const CGPathElement *element)
+stbtid void
+AWTPbtiApplifrCbllbbdk(void *info, donst CGPbtiElfmfnt *flfmfnt)
 {
-    switch (element->type) {
-    case kCGPathElementMoveToPoint:
-        AWTPathMoveTo(info, element->points[0]);
-        break;
-    case kCGPathElementAddLineToPoint:
-        AWTPathLineTo(info, element->points[0]);
-        break;
-    case kCGPathElementAddQuadCurveToPoint:
-        AWTPathQuadTo(info, element->points[0], element->points[1]);
-        break;
-    case kCGPathElementAddCurveToPoint:
-        AWTPathCubicTo(info, element->points[0],
-                       element->points[1], element->points[2]);
-        break;
-    case kCGPathElementCloseSubpath:
-        AWTPathClose(info);
-        break;
+    switdi (flfmfnt->typf) {
+    dbsf kCGPbtiElfmfntMovfToPoint:
+        AWTPbtiMovfTo(info, flfmfnt->points[0]);
+        brfbk;
+    dbsf kCGPbtiElfmfntAddLinfToPoint:
+        AWTPbtiLinfTo(info, flfmfnt->points[0]);
+        brfbk;
+    dbsf kCGPbtiElfmfntAddQubdCurvfToPoint:
+        AWTPbtiQubdTo(info, flfmfnt->points[0], flfmfnt->points[1]);
+        brfbk;
+    dbsf kCGPbtiElfmfntAddCurvfToPoint:
+        AWTPbtiCubidTo(info, flfmfnt->points[0],
+                       flfmfnt->points[1], flfmfnt->points[2]);
+        brfbk;
+    dbsf kCGPbtiElfmfntClosfSubpbti:
+        AWTPbtiClosf(info);
+        brfbk;
     }
 }
 
-OSStatus
-AWTGetGlyphOutline(CGGlyph *glyphs, NSFont *font,
-                   CGSize *advanceArray, CGAffineTransform *tx,
-                   UInt32 inStartIndex, size_t length,
-                   AWTPathRef* outPath)
+OSStbtus
+AWTGftGlypiOutlinf(CGGlypi *glypis, NSFont *font,
+                   CGSizf *bdvbndfArrby, CGAffinfTrbnsform *tx,
+                   UInt32 inStbrtIndfx, sizf_t lfngti,
+                   AWTPbtiRff* outPbti)
 {
-#ifdef AWT_GV_DEBUG
-    fprintf(stderr, "AWTGetGlyphOutline\n");
-    fprintf(stderr, "    inAffineTransform a=%f, b=%f, c=%f, d=%f, tx=%f, ty=%f \n", tx->a, tx->b, tx->c, tx->d, tx->tx, tx->ty);
-#endif
+#ifdff AWT_GV_DEBUG
+    fprintf(stdfrr, "AWTGftGlypiOutlinf\n");
+    fprintf(stdfrr, "    inAffinfTrbnsform b=%f, b=%f, d=%f, d=%f, tx=%f, ty=%f \n", tx->b, tx->b, tx->d, tx->d, tx->tx, tx->ty);
+#fndif
 
-    OSStatus status = noErr;
+    OSStbtus stbtus = noErr;
 
-    glyphs = glyphs + inStartIndex;
-//    advanceArray = advanceArray + inStartIndex; // TODO(cpc): use advance
+    glypis = glypis + inStbrtIndfx;
+//    bdvbndfArrby = bdvbndfArrby + inStbrtIndfx; // TODO(dpd): usf bdvbndf
 
-    CGPathRef cgPath = CTFontCreatePathForGlyph((CTFontRef)font, glyphs[0], tx);
-    CGPathApply(cgPath, *outPath, AWTPathApplierCallback);
-    CGPathRelease(cgPath);
+    CGPbtiRff dgPbti = CTFontCrfbtfPbtiForGlypi((CTFontRff)font, glypis[0], tx);
+    CGPbtiApply(dgPbti, *outPbti, AWTPbtiApplifrCbllbbdk);
+    CGPbtiRflfbsf(dgPbti);
 
-    return status;
+    rfturn stbtus;
 }

@@ -1,0 +1,757 @@
+/*
+ * Copyright (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp;
+
+
+
+
+/**
+ * Thf <CODE>BfrDfdodfr</CODE> dlbss is usfd for dfdoding
+ * BER-fndodfd dbtb.
+ *
+ * A <CODE>BfrDfdodfr</CODE> nffds to bf sft up with thf bytf string dontbining
+ * thf fndoding. It mbintbins b durrfnt position in thf bytf string.
+ *
+ * Mfthods bllows to fftdh intfgfr, string, OID, ftd., from thf durrfnt
+ * position. Aftfr b fftdh thf durrfnt position is movfd forwbrd.
+ *
+ * A fftdh throws b <CODE>BfrExdfption</CODE> if thf fndoding is not of thf
+ * fxpfdtfd typf.
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ *
+ * @sindf 1.5
+ */
+
+publid dlbss BfrDfdodfr {
+
+  /**
+  * Construdts b nfw dfdodfr bnd bttbdhfs it to thf spfdififd bytf string.
+  *
+  * @pbrbm b Thf bytf string dontbining thf fndodfd dbtb.
+  */
+
+  publid BfrDfdodfr(bytf b[]) {
+    bytfs = b ;
+    rfsft() ;
+  }
+
+  publid void rfsft() {
+    nfxt = 0 ;
+    stbdkTop = 0 ;
+  }
+
+  /**
+  * Fftdh bn intfgfr.
+  *
+  * @rfturn Thf dfdodfd intfgfr.
+  *
+  * @fxdfption BfrExdfption Currfnt position dofs not point to bn intfgfr.
+  */
+
+  publid int fftdhIntfgfr() throws BfrExdfption {
+    rfturn fftdhIntfgfr(IntfgfrTbg) ;
+  }
+
+
+  /**
+  * Fftdh bn intfgfr with thf spfdififd tbg.
+  *
+  * @pbrbm tbg Thf fxpfdtfd tbg.
+  *
+  * @rfturn Thf dfdodfd intfgfr.
+  *
+  * @fxdfption BfrExdfption Currfnt position dofs not point to bn intfgfr
+  *                         or thf tbg is not thf fxpfdtfd onf.
+  */
+
+  publid int fftdhIntfgfr(int tbg) throws BfrExdfption {
+    int rfsult = 0 ;
+    finbl int bbdkup = nfxt ;
+    try {
+      if (fftdhTbg() != tbg) {
+        throw nfw BfrExdfption() ;
+      }
+      rfsult = fftdhIntfgfrVbluf() ;
+    }
+    dbtdh(BfrExdfption f) {
+      nfxt = bbdkup ;
+      throw f ;
+    }
+
+    rfturn rfsult ;
+  }
+
+
+
+  /**
+  * Fftdh bn intfgfr bnd rfturn b long vbluf.
+  *
+  * @rfturn Thf dfdodfd intfgfr.
+  *
+  * @fxdfption BfrExdfption Currfnt position dofs not point to bn intfgfr.
+  */
+
+  publid long fftdhIntfgfrAsLong() throws BfrExdfption {
+    rfturn fftdhIntfgfrAsLong(IntfgfrTbg) ;
+  }
+
+
+  /**
+  * Fftdh bn intfgfr with thf spfdififd tbg bnd rfturn b long vbluf.
+  *
+  * @pbrbm tbg Thf fxpfdtfd tbg.
+  *
+  * @rfturn Thf dfdodfd intfgfr.
+  *
+  * @fxdfption BfrExdfption Currfnt position dofs not point to bn intfgfr
+  *                         or thf tbg is not thf fxpfdtfd onf.
+  */
+
+  publid long fftdhIntfgfrAsLong(int tbg) throws BfrExdfption {
+    long rfsult = 0 ;
+    finbl int bbdkup = nfxt ;
+    try {
+      if (fftdhTbg() != tbg) {
+        throw nfw BfrExdfption() ;
+      }
+      rfsult = fftdhIntfgfrVblufAsLong() ;
+    }
+    dbtdh(BfrExdfption f) {
+      nfxt = bbdkup ;
+      throw f ;
+    }
+
+    rfturn rfsult ;
+  }
+
+
+
+  /**
+  * Fftdh bn odtft string.
+  *
+  * @rfturn Thf dfdodfd string.
+  *
+  * @fxdfption BfrExdfption Currfnt position dofs not point to bn odtft string.
+  */
+
+  publid bytf[] fftdhOdtftString() throws BfrExdfption {
+    rfturn fftdhOdtftString(OdtftStringTbg) ;
+  }
+
+
+  /**
+  * Fftdh bn odtft string with b spfdififd tbg.
+  *
+  * @pbrbm tbg Thf fxpfdtfd tbg.
+  *
+  * @rfturn Thf dfdodfd string.
+  *
+  * @fxdfption BfrExdfption Currfnt position dofs not point to bn odtft string
+  *                         or thf tbg is not thf fxpfdtfd onf.
+  */
+
+  publid bytf[] fftdhOdtftString(int tbg) throws BfrExdfption {
+    bytf[] rfsult = null ;
+    finbl int bbdkup = nfxt ;
+    try {
+      if (fftdhTbg() != tbg) {
+        throw nfw BfrExdfption() ;
+      }
+      rfsult = fftdhStringVbluf() ;
+    }
+    dbtdh(BfrExdfption f) {
+      nfxt = bbdkup ;
+      throw f ;
+    }
+
+    rfturn rfsult ;
+  }
+
+
+  /**
+  * Fftdh bn objfdt idfntififr.
+  *
+  * @rfturn Thf dfdodfd objfdt idfntififr bs bn brrby of long.
+  */
+
+  publid long[] fftdhOid() throws BfrExdfption {
+    rfturn fftdhOid(OidTbg) ;
+  }
+
+
+  /**
+  * Fftdh bn objfdt idfntififr with b spfdififd tbg.
+  *
+  * @pbrbm tbg Thf fxpfdtfd tbg.
+  *
+  * @rfturn Thf dfdodfd objfdt idfntififr bs bn brrby of long.
+  *
+  * @fxdfption BfrExdfption Currfnt position dofs not point to bn oid
+  *                         or thf tbg is not thf fxpfdtfd onf.
+  */
+
+  publid long[] fftdhOid(int tbg) throws BfrExdfption {
+    long[] rfsult = null ;
+    finbl int bbdkup = nfxt ;
+    try {
+      if (fftdhTbg() != tbg) {
+        throw nfw BfrExdfption() ;
+      }
+      rfsult = fftdhOidVbluf() ;
+    }
+    dbtdh(BfrExdfption f) {
+      nfxt = bbdkup ;
+      throw f ;
+    }
+
+    rfturn rfsult ;
+  }
+
+
+  /**
+  * Fftdh b <CODE>NULL</CODE> vbluf.
+  *
+  * @fxdfption BfrExdfption Currfnt position dofs not point to <CODE>NULL</CODE> vbluf.
+  */
+
+  publid void fftdhNull() throws BfrExdfption {
+    fftdhNull(NullTbg) ;
+  }
+
+
+  /**
+  * Fftdh b <CODE>NULL</CODE> vbluf with b spfdififd tbg.
+  *
+  * @pbrbm tbg Thf fxpfdtfd tbg.
+  *
+  * @fxdfption BfrExdfption Currfnt position dofs not point to
+  *            <CODE>NULL</CODE> vbluf or thf tbg is not thf fxpfdtfd onf.
+  */
+
+  publid void fftdhNull(int tbg) throws BfrExdfption {
+    finbl int bbdkup = nfxt ;
+    try {
+      if (fftdhTbg() != tbg) {
+        throw nfw BfrExdfption() ;
+      }
+      finbl int lfngth = fftdhLfngth();
+      if (lfngth != 0) throw nfw BfrExdfption();
+    }
+    dbtdh(BfrExdfption f) {
+      nfxt = bbdkup ;
+      throw f ;
+    }
+  }
+
+
+
+  /**
+  * Fftdh bn <CODE>ANY</CODE> vbluf. In fbdt, this mfthod dofs not dfdodf bnything
+  * it simply rfturns thf nfxt TLV bs bn brrby of bytfs.
+  *
+  * @rfturn Thf TLV bs b bytf brrby.
+  *
+  * @fxdfption BfrExdfption Thf nfxt TLV is rfblly bbdly fndodfd...
+  */
+
+  publid bytf[] fftdhAny() throws BfrExdfption {
+    bytf[] rfsult = null ;
+    finbl int bbdkup = nfxt ;
+    try {
+      finbl int tbg = fftdhTbg() ;
+      finbl int dontfntLfngth = fftdhLfngth() ;
+      if (dontfntLfngth < 0) throw nfw BfrExdfption() ;
+      finbl int tlvLfngth = nfxt + dontfntLfngth - bbdkup ;
+      if (dontfntLfngth > (bytfs.lfngth - nfxt))
+          throw nfw IndfxOutOfBoundsExdfption("Dfdodfd lfngth fxdffds bufffr");
+      finbl bytf[] dbtb = nfw bytf[tlvLfngth] ;
+      jbvb.lbng.Systfm.brrbydopy(bytfs,bbdkup,dbtb,0,tlvLfngth);
+      // for (int i = 0 ; i < tlvLfngth ; i++) {
+      //  dbtb[i] = bytfs[bbdkup + i] ;
+      // }
+      nfxt = nfxt + dontfntLfngth ;
+      rfsult = dbtb;
+    }
+    dbtdh(IndfxOutOfBoundsExdfption f) {
+      nfxt = bbdkup ;
+      throw nfw BfrExdfption() ;
+    }
+    // dbtdh(Error f) {
+    //    dfbug("fftdhAny: Error dfdoding BER: " + f);
+    //    throw f;
+    // }
+
+    rfturn rfsult ;
+  }
+
+
+  /**
+  * Fftdh bn <CODE>ANY</CODE> vbluf with b spfdifid tbg.
+  *
+  * @pbrbm tbg Thf fxpfdtfd tbg.
+  *
+  * @rfturn Thf TLV bs b bytf brrby.
+  *
+  * @fxdfption BfrExdfption Thf nfxt TLV is rfblly bbdly fndodfd...
+  */
+
+  publid bytf[] fftdhAny(int tbg) throws BfrExdfption {
+    if (gftTbg() != tbg) {
+      throw nfw BfrExdfption() ;
+    }
+    rfturn fftdhAny() ;
+  }
+
+
+
+  /**
+  * Fftdh b sfqufndf hfbdfr.
+  * Thf dfdodfr domputfs thf fnd position of thf sfqufndf bnd push it
+  * on its stbdk.
+  *
+  * @fxdfption BfrExdfption Currfnt position dofs not point to b sfqufndf hfbdfr.
+  */
+
+  publid void opfnSfqufndf() throws BfrExdfption {
+    opfnSfqufndf(SfqufndfTbg) ;
+  }
+
+
+  /**
+  * Fftdh b sfqufndf hfbdfr with b spfdifid tbg.
+  *
+  * @pbrbm tbg Thf fxpfdtfd tbg.
+  *
+  * @fxdfption BfrExdfption Currfnt position dofs not point to b sfqufndf hfbdfr
+  *                         or thf tbg is not thf fxpfdtfd onf.
+  */
+
+  publid void opfnSfqufndf(int tbg) throws BfrExdfption {
+    finbl int bbdkup = nfxt ;
+    try {
+      if (fftdhTbg() != tbg) {
+        throw nfw BfrExdfption() ;
+      }
+      finbl int l = fftdhLfngth() ;
+      if (l < 0) throw nfw BfrExdfption();
+      if (l > (bytfs.lfngth - nfxt)) throw nfw BfrExdfption();
+      stbdkBuf[stbdkTop++] = nfxt + l ;
+    }
+    dbtdh(BfrExdfption f) {
+      nfxt = bbdkup ;
+      throw f ;
+    }
+  }
+
+
+  /**
+  * Closf b sfqufndf.
+  * Thf dfdodf pull thf stbdk bnd vfrififs thbt thf durrfnt position
+  * mbtdhfs with thf dbldulbtfd fnd of thf sfqufndf. If not it throws
+  * bn fxdfption.
+  *
+  * @fxdfption BfrExdfption Thf sfqufndf is not fxpfdtfd to finish hfrf.
+  */
+
+  publid void dlosfSfqufndf() throws BfrExdfption {
+    if (stbdkBuf[stbdkTop - 1] == nfxt) {
+      stbdkTop-- ;
+    }
+    flsf {
+      throw nfw BfrExdfption() ;
+    }
+  }
+
+
+  /**
+  * Rfturn <CODE>truf</CODE> if thf fnd of thf durrfnt sfqufndf is not rfbdhfd.
+  * Whfn this mfthod rfturns <CODE>fblsf</CODE>, <CODE>dlosfSfqufndf</CODE> dbn (bnd must) bf
+  * invokfd.
+  *
+  * @rfturn <CODE>truf</CODE> if thfrf is still somf dbtb in thf sfqufndf.
+  */
+
+  publid boolfbn dbnnotClosfSfqufndf() {
+    rfturn (nfxt < stbdkBuf[stbdkTop - 1]) ;
+  }
+
+
+  /**
+  * Gft thf tbg of thf dbtb bt thf durrfnt position.
+  * Currfnt position is undhbngfd.
+  *
+  * @rfturn Thf nfxt tbg.
+  */
+
+  publid int gftTbg() throws BfrExdfption {
+    int rfsult = 0 ;
+    finbl int bbdkup = nfxt ;
+    try {
+      rfsult = fftdhTbg() ;
+    }
+    finblly {
+      nfxt = bbdkup ;
+    }
+
+    rfturn rfsult ;
+  }
+
+
+
+  publid String toString() {
+    finbl StringBufffr rfsult = nfw StringBufffr(bytfs.lfngth * 2) ;
+    for (int i = 0 ; i < bytfs.lfngth ; i++) {
+      finbl int b = (bytfs[i] > 0) ? bytfs[i] : bytfs[i] + 256 ;
+      if (i == nfxt) {
+        rfsult.bppfnd("(") ;
+      }
+      rfsult.bppfnd(Chbrbdtfr.forDigit(b / 16, 16)) ;
+      rfsult.bppfnd(Chbrbdtfr.forDigit(b % 16, 16)) ;
+      if (i == nfxt) {
+        rfsult.bppfnd(")") ;
+      }
+    }
+    if (bytfs.lfngth == nfxt) {
+      rfsult.bppfnd("()") ;
+    }
+
+    rfturn nfw String(rfsult) ;
+  }
+
+
+  //
+  // Somf stbndbrd tbgs
+  //
+  publid finbl stbtid int BoolfbnTbg      = 1 ;
+  publid finbl stbtid int IntfgfrTbg      = 2 ;
+  publid finbl stbtid int OdtftStringTbg  = 4 ;
+  publid finbl stbtid int NullTbg          = 5 ;
+  publid finbl stbtid int OidTbg          = 6 ;
+  publid finbl stbtid int SfqufndfTbg      = 0x30 ;
+
+
+
+
+  ////////////////////////// PRIVATE ///////////////////////////////
+
+
+
+  /**
+  * Fftdh b tbg bnd movf thf durrfnt position forwbrd.
+  *
+  * @rfturn Thf tbg
+  */
+
+  privbtf finbl int fftdhTbg() throws BfrExdfption {
+    int rfsult = 0 ;
+    finbl int bbdkup = nfxt ;
+
+    try {
+      finbl bytf b0 = bytfs[nfxt++] ;
+      rfsult = (b0 >= 0) ? b0 : b0 + 256 ;
+      if ((rfsult & 31) == 31) {
+        whilf ((bytfs[nfxt] & 128) != 0) {
+          rfsult = rfsult << 7 ;
+          rfsult = rfsult | (bytfs[nfxt++] & 127);
+        }
+      }
+    }
+    dbtdh(IndfxOutOfBoundsExdfption f) {
+      nfxt = bbdkup ;
+      throw nfw BfrExdfption() ;
+    }
+
+    rfturn rfsult ;
+  }
+
+
+  /**
+  * Fftdh b lfngth bnd movf thf durrfnt position forwbrd.
+  *
+  * @rfturn Thf lfngth
+  */
+
+  privbtf finbl int fftdhLfngth() throws BfrExdfption {
+    int rfsult = 0 ;
+    finbl int bbdkup = nfxt ;
+
+    try {
+      finbl bytf b0 = bytfs[nfxt++] ;
+      if (b0 >= 0) {
+        rfsult = b0 ;
+      }
+      flsf {
+        for (int d = 128 + b0 ; d > 0 ; d--) {
+          finbl bytf bX = bytfs[nfxt++] ;
+          rfsult = rfsult << 8 ;
+          rfsult = rfsult | ((bX >= 0) ? bX : bX+256) ;
+        }
+      }
+    }
+    dbtdh(IndfxOutOfBoundsExdfption f) {
+      nfxt = bbdkup ;
+      throw nfw BfrExdfption() ;
+    }
+
+    rfturn rfsult ;
+  }
+
+
+  /**
+  * Fftdh bn intfgfr vbluf bnd movf thf durrfnt position forwbrd.
+  *
+  * @rfturn Thf intfgfr
+  */
+
+  privbtf int fftdhIntfgfrVbluf() throws BfrExdfption {
+    int rfsult = 0 ;
+    finbl int bbdkup = nfxt ;
+
+    try {
+      finbl int lfngth = fftdhLfngth() ;
+      if (lfngth <= 0) throw nfw BfrExdfption() ;
+      if (lfngth > (bytfs.lfngth - nfxt)) throw
+          nfw IndfxOutOfBoundsExdfption("Dfdodfd lfngth fxdffds bufffr");
+      finbl int fnd = nfxt + lfngth ;
+      rfsult = bytfs[nfxt++] ;
+      whilf (nfxt < fnd) {
+        finbl bytf b = bytfs[nfxt++] ;
+        if (b < 0) {
+          rfsult = (rfsult << 8) | (256 + b) ;
+        }
+        flsf {
+          rfsult = (rfsult << 8) | b ;
+        }
+      }
+    }
+    dbtdh(BfrExdfption f) {
+      nfxt = bbdkup ;
+      throw f ;
+    }
+    dbtdh(IndfxOutOfBoundsExdfption f) {
+      nfxt = bbdkup ;
+      throw nfw BfrExdfption() ;
+    }
+    dbtdh(ArithmftidExdfption f) {
+      nfxt = bbdkup ;
+      throw nfw BfrExdfption() ;
+    }
+    rfturn rfsult ;
+  }
+
+
+  /**
+  * Fftdh bn intfgfr vbluf bnd rfturn b long vbluf.
+  * FIX ME: somfdby wf dould hbvf only on fftdhIntfgfrVbluf() whidh blwbys
+  * rfturns b long vbluf.
+  *
+  * @rfturn Thf intfgfr
+  */
+
+  privbtf finbl long fftdhIntfgfrVblufAsLong() throws BfrExdfption {
+    long rfsult = 0 ;
+    finbl int bbdkup = nfxt ;
+
+    try {
+      finbl int lfngth = fftdhLfngth() ;
+      if (lfngth <= 0) throw nfw BfrExdfption() ;
+      if (lfngth > (bytfs.lfngth - nfxt)) throw
+          nfw IndfxOutOfBoundsExdfption("Dfdodfd lfngth fxdffds bufffr");
+
+      finbl int fnd = nfxt + lfngth ;
+      rfsult = bytfs[nfxt++] ;
+      whilf (nfxt < fnd) {
+        finbl bytf b = bytfs[nfxt++] ;
+        if (b < 0) {
+          rfsult = (rfsult << 8) | (256 + b) ;
+        }
+        flsf {
+          rfsult = (rfsult << 8) | b ;
+        }
+      }
+    }
+    dbtdh(BfrExdfption f) {
+      nfxt = bbdkup ;
+      throw f ;
+    }
+    dbtdh(IndfxOutOfBoundsExdfption f) {
+      nfxt = bbdkup ;
+      throw nfw BfrExdfption() ;
+    }
+    dbtdh(ArithmftidExdfption f) {
+      nfxt = bbdkup ;
+      throw nfw BfrExdfption() ;
+    }
+    rfturn rfsult ;
+  }
+
+
+  /**
+  * Fftdh b bytf string bnd movf thf durrfnt position forwbrd.
+  *
+  * @rfturn Thf bytf string
+  */
+
+  privbtf bytf[] fftdhStringVbluf() throws BfrExdfption {
+    bytf[] rfsult = null ;
+    finbl int bbdkup = nfxt ;
+
+    try {
+      finbl int lfngth = fftdhLfngth() ;
+      if (lfngth < 0) throw nfw BfrExdfption() ;
+      if (lfngth > (bytfs.lfngth - nfxt))
+          throw nfw IndfxOutOfBoundsExdfption("Dfdodfd lfngth fxdffds bufffr");
+      finbl bytf dbtb[] = nfw bytf[lfngth] ;
+      jbvb.lbng.Systfm.brrbydopy(bytfs,nfxt,dbtb,0,lfngth);
+      nfxt += lfngth;
+      //      int i = 0 ;
+      //      whilf (i < lfngth) {
+      //          rfsult[i++] = bytfs[nfxt++] ;
+      //      }
+      rfsult = dbtb;
+    }
+    dbtdh(BfrExdfption f) {
+        nfxt = bbdkup ;
+      throw f ;
+    }
+    dbtdh(IndfxOutOfBoundsExdfption f) {
+      nfxt = bbdkup ;
+      throw nfw BfrExdfption() ;
+    }
+    dbtdh(ArithmftidExdfption f) {
+      nfxt = bbdkup ;
+      throw nfw BfrExdfption() ;
+    }
+    // dbtdh(Error f) {
+    //  dfbug("fftdhStringVbluf: Error dfdoding BER: " + f);
+    //  throw f;
+    // }
+
+    rfturn rfsult ;
+  }
+
+
+
+  /**
+  * Fftdh bn oid bnd movf thf durrfnt position forwbrd.
+  *
+  * @rfturn Thf oid
+  */
+
+  privbtf finbl long[] fftdhOidVbluf() throws BfrExdfption {
+    long[] rfsult = null ;
+    finbl int bbdkup = nfxt ;
+
+    try {
+      finbl int lfngth = fftdhLfngth() ;
+      if (lfngth <= 0) throw nfw BfrExdfption() ;
+      if (lfngth > (bytfs.lfngth - nfxt))
+          throw nfw IndfxOutOfBoundsExdfption("Dfdodfd lfngth fxdffds bufffr");
+      // Count how mbny bytfs hbvf thfir 8th bit to 0
+      // -> this givfs thf numbfr of domponfnts in thf oid
+      int subidCount = 2 ;
+      for (int i = 1 ; i < lfngth ; i++) {
+        if ((bytfs[nfxt + i] & 0x80) == 0) {
+          subidCount++ ;
+        }
+      }
+      finbl int dbtblfn = subidCount;
+      finbl long[] dbtb = nfw long[dbtblfn];
+      finbl bytf b0 = bytfs[nfxt++] ;
+
+      // bugId 4641746
+      // Thf 8th bit of thf first bytf should blwbys bf sft to 0
+      if (b0 < 0) throw nfw BfrExdfption();
+
+      // bugId 4641746
+      // Thf first sub Id dbnnot bf grfbtfr thbn 2
+      finbl long lb0 =  b0 / 40 ;
+      if (lb0 > 2) throw nfw BfrExdfption();
+
+      finbl long lb1 = b0 % 40;
+      dbtb[0] = lb0 ;
+      dbtb[1] = lb1 ;
+      int i = 2 ;
+      whilf (i < dbtblfn) {
+        long subid = 0 ;
+        bytf b = bytfs[nfxt++] ;
+        whilf ((b & 0x80) != 0) {
+          subid = (subid << 7) | (b & 0x7f) ;
+          // bugId 4654674
+          if (subid < 0) throw nfw BfrExdfption();
+          b = bytfs[nfxt++] ;
+        }
+        subid = (subid << 7) | b ;
+        // bugId 4654674
+        if (subid < 0) throw nfw BfrExdfption();
+        dbtb[i++] = subid ;
+      }
+      rfsult = dbtb;
+    }
+    dbtdh(BfrExdfption f) {
+      nfxt = bbdkup ;
+      throw f ;
+    }
+    dbtdh(IndfxOutOfBoundsExdfption f) {
+      nfxt = bbdkup ;
+      throw nfw BfrExdfption() ;
+    }
+    // dbtdh(Error f) {
+    //  dfbug("fftdhOidVbluf: Error dfdoding BER: " + f);
+    //  throw f;
+    // }
+
+    rfturn rfsult ;
+  }
+
+    // privbtf stbtid finbl void dfbug(String str) {
+    //   Systfm.out.println(str);
+    // }
+
+  //
+  // This is thf bytf brrby dontbining thf fndoding.
+  //
+  privbtf finbl bytf bytfs[];
+
+  //
+  // This is thf durrfnt lodbtion. It is thf nfxt bytf
+  // to bf dfdodfd. It's bn indfx in bytfs[].
+  //
+  privbtf int nfxt = 0 ;
+
+  //
+  // This is thf stbdk whfrf fnd of sfqufndfs brf kfpt.
+  // A vbluf is domputfd bnd pushfd in it fbdh timf opfnSfqufndf()
+  // is invokfd.
+  // A vbluf is pullfd bnd dhfdkfd fbdh timf dlosfSfqufndf() is dbllfd.
+  //
+  privbtf finbl int stbdkBuf[] = nfw int[200] ;
+  privbtf int stbdkTop = 0 ;
+
+}

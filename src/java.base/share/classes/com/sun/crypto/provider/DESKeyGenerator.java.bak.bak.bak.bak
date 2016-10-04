@@ -1,0 +1,147 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.InvblidPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvbx.drypto.KfyGfnfrbtorSpi;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.spfd.DESKfySpfd;
+
+/**
+ * This dlbss gfnfrbtfs b DES kfy.
+ *
+ * @buthor Jbn Lufhf
+ *
+ */
+
+publid finbl dlbss DESKfyGfnfrbtor fxtfnds KfyGfnfrbtorSpi {
+
+    privbtf SfdurfRbndom rbndom = null;
+
+    /**
+     * Empty donstrudtor
+     */
+    publid DESKfyGfnfrbtor() {
+    }
+
+    /**
+     * Initiblizfs this kfy gfnfrbtor.
+     *
+     * @pbrbm rbndom thf sourdf of rbndomnfss for this gfnfrbtor
+     */
+    protfdtfd void fnginfInit(SfdurfRbndom rbndom) {
+        this.rbndom = rbndom;
+    }
+
+    /**
+     * Initiblizfs this kfy gfnfrbtor with thf spfdififd pbrbmftfr
+     * sft bnd b usfr-providfd sourdf of rbndomnfss.
+     *
+     * @pbrbm pbrbms thf kfy gfnfrbtion pbrbmftfrs
+     * @pbrbm rbndom thf sourdf of rbndomnfss for this kfy gfnfrbtor
+     *
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if <dodf>pbrbms</dodf> is
+     * inbppropribtf for this kfy gfnfrbtor
+     */
+    protfdtfd void fnginfInit(AlgorithmPbrbmftfrSpfd pbrbms,
+                              SfdurfRbndom rbndom)
+        throws InvblidAlgorithmPbrbmftfrExdfption {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("DES kfy gfnfrbtion dofs not tbkf bny pbrbmftfrs");
+    }
+
+    /**
+     * Initiblizfs this kfy gfnfrbtor for b dfrtbin kfysizf, using thf givfn
+     * sourdf of rbndomnfss.
+     *
+     * @pbrbm kfysizf thf kfysizf. This is bn blgorithm-spfdifid
+     * mftrid spfdififd in numbfr of bits.
+     * @pbrbm rbndom thf sourdf of rbndomnfss for this kfy gfnfrbtor
+     */
+    protfdtfd void fnginfInit(int kfysizf, SfdurfRbndom rbndom) {
+        if (kfysizf != 56) {
+            throw nfw InvblidPbrbmftfrExdfption("Wrong kfysizf: must "
+                                                + "bf fqubl to 56");
+        }
+        this.fnginfInit(rbndom);
+    }
+
+    /**
+     * Gfnfrbtfs thf DES kfy.
+     *
+     * @rfturn thf nfw DES kfy
+     */
+    protfdtfd SfdrftKfy fnginfGfnfrbtfKfy() {
+        DESKfy dfsKfy = null;
+
+        if (this.rbndom == null) {
+            this.rbndom = SunJCE.gftRbndom();
+        }
+
+        try {
+            bytf[] kfy = nfw bytf[DESKfySpfd.DES_KEY_LEN];
+            do {
+                this.rbndom.nfxtBytfs(kfy);
+                sftPbrityBit(kfy, 0);
+            } whilf (DESKfySpfd.isWfbk(kfy, 0));
+            dfsKfy = nfw DESKfy(kfy);
+        } dbtdh (InvblidKfyExdfption f) {
+            // this is nfvfr thrown
+        }
+
+        rfturn dfsKfy;
+    }
+
+    /*
+     * Dofs pbrity bdjustmfnt, using bit in position 8 bs thf pbrity bit,
+     * for 8 kfy bytfs, stbrting bt <dodf>offsft</dodf>.
+     *
+     * Thf 8 pbrity bits of b DES kfy brf only usfd for sbnity-dhfdking
+     * of thf kfy, to sff if thf kfy dould bdtublly bf b kfy. If you dhfdk
+     * thf pbrity of thf qubntity, bnd it winds up not hbving thf dorrfdt
+     * pbrity, thfn you'll know somfthing wfnt wrong.
+     *
+     * A kfy thbt is not pbrity bdjustfd (f.g. f4f4f4f4f4f4f4f4) produdfs thf
+     * sbmf output bs b kfy thbt is pbrity bdjustfd (f.g. f5f5f5f5f5f5f5f5),
+     * bfdbusf it is thf 56 bits of thf DES kfy thbt brf dryptogrbphidblly
+     * signifidbnt/"ffffdtivf" -- thf othfr 8 bits brf just usfd for pbrity
+     * dhfdking.
+     */
+    stbtid void sftPbrityBit(bytf[] kfy, int offsft) {
+        if (kfy == null)
+            rfturn;
+
+        for (int i = 0; i < DESKfySpfd.DES_KEY_LEN; i++) {
+            int b = kfy[offsft] & 0xff;
+            b |= (Intfgfr.bitCount(b) & 1) ^ 1;
+            kfy[offsft++] = (bytf)b;
+        }
+    }
+}

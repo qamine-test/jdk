@@ -1,310 +1,310 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateParsingException;
-import java.security.cert.CertificateExpiredException;
-import java.security.cert.CertificateNotYetValidException;
-import java.util.Date;
-import java.util.Enumeration;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfPbrsingExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExpirfdExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfNotYftVblidExdfption;
+import jbvb.util.Dbtf;
+import jbvb.util.Enumfrbtion;
 
-import sun.security.util.*;
+import sun.sfdurity.util.*;
 
 /**
- * This class defines the Private Key Usage Extension.
+ * Tiis dlbss dffinfs tif Privbtf Kfy Usbgf Extfnsion.
  *
- * <p>The Private Key Usage Period extension allows the certificate issuer
- * to specify a different validity period for the private key than the
- * certificate. This extension is intended for use with digital
- * signature keys.  This extension consists of two optional components
- * notBefore and notAfter.  The private key associated with the
- * certificate should not be used to sign objects before or after the
- * times specified by the two components, respectively.
+ * <p>Tif Privbtf Kfy Usbgf Pfriod fxtfnsion bllows tif dfrtifidbtf issufr
+ * to spfdify b difffrfnt vblidity pfriod for tif privbtf kfy tibn tif
+ * dfrtifidbtf. Tiis fxtfnsion is intfndfd for usf witi digitbl
+ * signbturf kfys.  Tiis fxtfnsion donsists of two optionbl domponfnts
+ * notBfforf bnd notAftfr.  Tif privbtf kfy bssodibtfd witi tif
+ * dfrtifidbtf siould not bf usfd to sign objfdts bfforf or bftfr tif
+ * timfs spfdififd by tif two domponfnts, rfspfdtivfly.
  *
- * <pre>
- * PrivateKeyUsagePeriod ::= SEQUENCE {
- *     notBefore  [0]  GeneralizedTime OPTIONAL,
- *     notAfter   [1]  GeneralizedTime OPTIONAL }
- * </pre>
+ * <prf>
+ * PrivbtfKfyUsbgfPfriod ::= SEQUENCE {
+ *     notBfforf  [0]  GfnfrblizfdTimf OPTIONAL,
+ *     notAftfr   [1]  GfnfrblizfdTimf OPTIONAL }
+ * </prf>
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
- * @see Extension
- * @see CertAttrSet
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
+ * @sff Extfnsion
+ * @sff CfrtAttrSft
  */
-public class PrivateKeyUsageExtension extends Extension
-implements CertAttrSet<String> {
+publid dlbss PrivbtfKfyUsbgfExtfnsion fxtfnds Extfnsion
+implfmfnts CfrtAttrSft<String> {
     /**
-     * Identifier for this attribute, to be used with the
-     * get, set, delete methods of Certificate, x509 type.
+     * Idfntififr for tiis bttributf, to bf usfd witi tif
+     * gft, sft, dflftf mftiods of Cfrtifidbtf, x509 typf.
      */
-    public static final String IDENT = "x509.info.extensions.PrivateKeyUsage";
+    publid stbtid finbl String IDENT = "x509.info.fxtfnsions.PrivbtfKfyUsbgf";
     /**
-     * Sub attributes name for this CertAttrSet.
+     * Sub bttributfs nbmf for tiis CfrtAttrSft.
      */
-    public static final String NAME = "PrivateKeyUsage";
-    public static final String NOT_BEFORE = "not_before";
-    public static final String NOT_AFTER = "not_after";
+    publid stbtid finbl String NAME = "PrivbtfKfyUsbgf";
+    publid stbtid finbl String NOT_BEFORE = "not_bfforf";
+    publid stbtid finbl String NOT_AFTER = "not_bftfr";
 
-    // Private data members
-    private static final byte TAG_BEFORE = 0;
-    private static final byte TAG_AFTER = 1;
+    // Privbtf dbtb mfmbfrs
+    privbtf stbtid finbl bytf TAG_BEFORE = 0;
+    privbtf stbtid finbl bytf TAG_AFTER = 1;
 
-    private Date        notBefore = null;
-    private Date        notAfter = null;
+    privbtf Dbtf        notBfforf = null;
+    privbtf Dbtf        notAftfr = null;
 
-    // Encode this extension value.
-    private void encodeThis() throws IOException {
-        if (notBefore == null && notAfter == null) {
-            this.extensionValue = null;
-            return;
+    // Endodf tiis fxtfnsion vbluf.
+    privbtf void fndodfTiis() tirows IOExdfption {
+        if (notBfforf == null && notAftfr == null) {
+            tiis.fxtfnsionVbluf = null;
+            rfturn;
         }
-        DerOutputStream seq = new DerOutputStream();
+        DfrOutputStrfbm sfq = nfw DfrOutputStrfbm();
 
-        DerOutputStream tagged = new DerOutputStream();
-        if (notBefore != null) {
-            DerOutputStream tmp = new DerOutputStream();
-            tmp.putGeneralizedTime(notBefore);
-            tagged.writeImplicit(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                 false, TAG_BEFORE), tmp);
+        DfrOutputStrfbm tbggfd = nfw DfrOutputStrfbm();
+        if (notBfforf != null) {
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            tmp.putGfnfrblizfdTimf(notBfforf);
+            tbggfd.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                 fblsf, TAG_BEFORE), tmp);
         }
-        if (notAfter != null) {
-            DerOutputStream tmp = new DerOutputStream();
-            tmp.putGeneralizedTime(notAfter);
-            tagged.writeImplicit(DerValue.createTag(DerValue.TAG_CONTEXT,
-                                 false, TAG_AFTER), tmp);
+        if (notAftfr != null) {
+            DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+            tmp.putGfnfrblizfdTimf(notAftfr);
+            tbggfd.writfImplidit(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                 fblsf, TAG_AFTER), tmp);
         }
-        seq.write(DerValue.tag_Sequence, tagged);
-        this.extensionValue = seq.toByteArray();
+        sfq.writf(DfrVbluf.tbg_Sfqufndf, tbggfd);
+        tiis.fxtfnsionVbluf = sfq.toBytfArrby();
     }
 
     /**
-     * The default constructor for PrivateKeyUsageExtension.
+     * Tif dffbult donstrudtor for PrivbtfKfyUsbgfExtfnsion.
      *
-     * @param notBefore the date/time before which the private key
-     *         should not be used.
-     * @param notAfter the date/time after which the private key
-     *         should not be used.
+     * @pbrbm notBfforf tif dbtf/timf bfforf wiidi tif privbtf kfy
+     *         siould not bf usfd.
+     * @pbrbm notAftfr tif dbtf/timf bftfr wiidi tif privbtf kfy
+     *         siould not bf usfd.
      */
-    public PrivateKeyUsageExtension(Date notBefore, Date notAfter)
-    throws IOException {
-        this.notBefore = notBefore;
-        this.notAfter = notAfter;
+    publid PrivbtfKfyUsbgfExtfnsion(Dbtf notBfforf, Dbtf notAftfr)
+    tirows IOExdfption {
+        tiis.notBfforf = notBfforf;
+        tiis.notAftfr = notAftfr;
 
-        this.extensionId = PKIXExtensions.PrivateKeyUsage_Id;
-        this.critical = false;
-        encodeThis();
+        tiis.fxtfnsionId = PKIXExtfnsions.PrivbtfKfyUsbgf_Id;
+        tiis.dritidbl = fblsf;
+        fndodfTiis();
     }
 
     /**
-     * Create the extension from the passed DER encoded value.
+     * Crfbtf tif fxtfnsion from tif pbssfd DER fndodfd vbluf.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value an array of DER encoded bytes of the actual value.
-     * @exception ClassCastException if value is not an array of bytes
-     * @exception CertificateException on certificate parsing errors.
-     * @exception IOException on error.
+     * @pbrbm dritidbl truf if tif fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm vbluf bn brrby of DER fndodfd bytfs of tif bdtubl vbluf.
+     * @fxdfption ClbssCbstExdfption if vbluf is not bn brrby of bytfs
+     * @fxdfption CfrtifidbtfExdfption on dfrtifidbtf pbrsing frrors.
+     * @fxdfption IOExdfption on frror.
      */
-    public PrivateKeyUsageExtension(Boolean critical, Object value)
-    throws CertificateException, IOException {
-        this.extensionId = PKIXExtensions.PrivateKeyUsage_Id;
-        this.critical = critical.booleanValue();
+    publid PrivbtfKfyUsbgfExtfnsion(Boolfbn dritidbl, Objfdt vbluf)
+    tirows CfrtifidbtfExdfption, IOExdfption {
+        tiis.fxtfnsionId = PKIXExtfnsions.PrivbtfKfyUsbgf_Id;
+        tiis.dritidbl = dritidbl.boolfbnVbluf();
 
-        this.extensionValue = (byte[]) value;
-        DerInputStream str = new DerInputStream(this.extensionValue);
-        DerValue[] seq = str.getSequence(2);
+        tiis.fxtfnsionVbluf = (bytf[]) vbluf;
+        DfrInputStrfbm str = nfw DfrInputStrfbm(tiis.fxtfnsionVbluf);
+        DfrVbluf[] sfq = str.gftSfqufndf(2);
 
-        // NB. this is always encoded with the IMPLICIT tag
-        // The checks only make sense if we assume implicit tagging,
-        // with explicit tagging the form is always constructed.
-        for (int i = 0; i < seq.length; i++) {
-            DerValue opt = seq[i];
+        // NB. tiis is blwbys fndodfd witi tif IMPLICIT tbg
+        // Tif difdks only mbkf sfnsf if wf bssumf implidit tbgging,
+        // witi fxplidit tbgging tif form is blwbys donstrudtfd.
+        for (int i = 0; i < sfq.lfngti; i++) {
+            DfrVbluf opt = sfq[i];
 
-            if (opt.isContextSpecific(TAG_BEFORE) &&
-                !opt.isConstructed()) {
-                if (notBefore != null) {
-                    throw new CertificateParsingException(
-                        "Duplicate notBefore in PrivateKeyUsage.");
+            if (opt.isContfxtSpfdifid(TAG_BEFORE) &&
+                !opt.isConstrudtfd()) {
+                if (notBfforf != null) {
+                    tirow nfw CfrtifidbtfPbrsingExdfption(
+                        "Duplidbtf notBfforf in PrivbtfKfyUsbgf.");
                 }
-                opt.resetTag(DerValue.tag_GeneralizedTime);
-                str = new DerInputStream(opt.toByteArray());
-                notBefore = str.getGeneralizedTime();
+                opt.rfsftTbg(DfrVbluf.tbg_GfnfrblizfdTimf);
+                str = nfw DfrInputStrfbm(opt.toBytfArrby());
+                notBfforf = str.gftGfnfrblizfdTimf();
 
-            } else if (opt.isContextSpecific(TAG_AFTER) &&
-                       !opt.isConstructed()) {
-                if (notAfter != null) {
-                    throw new CertificateParsingException(
-                        "Duplicate notAfter in PrivateKeyUsage.");
+            } flsf if (opt.isContfxtSpfdifid(TAG_AFTER) &&
+                       !opt.isConstrudtfd()) {
+                if (notAftfr != null) {
+                    tirow nfw CfrtifidbtfPbrsingExdfption(
+                        "Duplidbtf notAftfr in PrivbtfKfyUsbgf.");
                 }
-                opt.resetTag(DerValue.tag_GeneralizedTime);
-                str = new DerInputStream(opt.toByteArray());
-                notAfter = str.getGeneralizedTime();
-            } else
-                throw new IOException("Invalid encoding of " +
-                                      "PrivateKeyUsageExtension");
+                opt.rfsftTbg(DfrVbluf.tbg_GfnfrblizfdTimf);
+                str = nfw DfrInputStrfbm(opt.toBytfArrby());
+                notAftfr = str.gftGfnfrblizfdTimf();
+            } flsf
+                tirow nfw IOExdfption("Invblid fndoding of " +
+                                      "PrivbtfKfyUsbgfExtfnsion");
         }
     }
 
     /**
-     * Return the printable string.
+     * Rfturn tif printbblf string.
      */
-    public String toString() {
-        return(super.toString() +
-                "PrivateKeyUsage: [\n" +
-                ((notBefore == null) ? "" : "From: " + notBefore.toString() + ", ")
-                + ((notAfter == null) ? "" : "To: " + notAfter.toString())
+    publid String toString() {
+        rfturn(supfr.toString() +
+                "PrivbtfKfyUsbgf: [\n" +
+                ((notBfforf == null) ? "" : "From: " + notBfforf.toString() + ", ")
+                + ((notAftfr == null) ? "" : "To: " + notAftfr.toString())
                 + "]\n");
     }
 
     /**
-     * Verify that that the current time is within the validity period.
+     * Vfrify tibt tibt tif durrfnt timf is witiin tif vblidity pfriod.
      *
-     * @exception CertificateExpiredException if the certificate has expired.
-     * @exception CertificateNotYetValidException if the certificate is not
-     * yet valid.
+     * @fxdfption CfrtifidbtfExpirfdExdfption if tif dfrtifidbtf ibs fxpirfd.
+     * @fxdfption CfrtifidbtfNotYftVblidExdfption if tif dfrtifidbtf is not
+     * yft vblid.
      */
-    public void valid()
-    throws CertificateNotYetValidException, CertificateExpiredException {
-        Date now = new Date();
-        valid(now);
+    publid void vblid()
+    tirows CfrtifidbtfNotYftVblidExdfption, CfrtifidbtfExpirfdExdfption {
+        Dbtf now = nfw Dbtf();
+        vblid(now);
     }
 
     /**
-     * Verify that that the passed time is within the validity period.
+     * Vfrify tibt tibt tif pbssfd timf is witiin tif vblidity pfriod.
      *
-     * @exception CertificateExpiredException if the certificate has expired
-     * with respect to the <code>Date</code> supplied.
-     * @exception CertificateNotYetValidException if the certificate is not
-     * yet valid with respect to the <code>Date</code> supplied.
+     * @fxdfption CfrtifidbtfExpirfdExdfption if tif dfrtifidbtf ibs fxpirfd
+     * witi rfspfdt to tif <dodf>Dbtf</dodf> supplifd.
+     * @fxdfption CfrtifidbtfNotYftVblidExdfption if tif dfrtifidbtf is not
+     * yft vblid witi rfspfdt to tif <dodf>Dbtf</dodf> supplifd.
      *
      */
-    public void valid(Date now)
-    throws CertificateNotYetValidException, CertificateExpiredException {
+    publid void vblid(Dbtf now)
+    tirows CfrtifidbtfNotYftVblidExdfption, CfrtifidbtfExpirfdExdfption {
         /*
-         * we use the internal Dates rather than the passed in Date
-         * because someone could override the Date methods after()
-         * and before() to do something entirely different.
+         * wf usf tif intfrnbl Dbtfs rbtifr tibn tif pbssfd in Dbtf
+         * bfdbusf somfonf dould ovfrridf tif Dbtf mftiods bftfr()
+         * bnd bfforf() to do somftiing fntirfly difffrfnt.
          */
-        if (notBefore.after(now)) {
-            throw new CertificateNotYetValidException("NotBefore: " +
-                                                      notBefore.toString());
+        if (notBfforf.bftfr(now)) {
+            tirow nfw CfrtifidbtfNotYftVblidExdfption("NotBfforf: " +
+                                                      notBfforf.toString());
         }
-        if (notAfter.before(now)) {
-            throw new CertificateExpiredException("NotAfter: " +
-                                                  notAfter.toString());
+        if (notAftfr.bfforf(now)) {
+            tirow nfw CfrtifidbtfExpirfdExdfption("NotAftfr: " +
+                                                  notAftfr.toString());
         }
     }
 
     /**
-     * Write the extension to the OutputStream.
+     * Writf tif fxtfnsion to tif OutputStrfbm.
      *
-     * @param out the OutputStream to write the extension to.
-     * @exception IOException on encoding errors.
+     * @pbrbm out tif OutputStrfbm to writf tif fxtfnsion to.
+     * @fxdfption IOExdfption on fndoding frrors.
      */
-    public void encode(OutputStream out) throws IOException {
-        DerOutputStream tmp = new DerOutputStream();
-        if (extensionValue == null) {
-            extensionId = PKIXExtensions.PrivateKeyUsage_Id;
-            critical = false;
-            encodeThis();
+    publid void fndodf(OutputStrfbm out) tirows IOExdfption {
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        if (fxtfnsionVbluf == null) {
+            fxtfnsionId = PKIXExtfnsions.PrivbtfKfyUsbgf_Id;
+            dritidbl = fblsf;
+            fndodfTiis();
         }
-        super.encode(tmp);
-        out.write(tmp.toByteArray());
+        supfr.fndodf(tmp);
+        out.writf(tmp.toBytfArrby());
     }
 
     /**
-     * Set the attribute value.
-     * @exception CertificateException on attribute handling errors.
+     * Sft tif bttributf vbluf.
+     * @fxdfption CfrtifidbtfExdfption on bttributf ibndling frrors.
      */
-    public void set(String name, Object obj)
-    throws CertificateException, IOException {
-        if (!(obj instanceof Date)) {
-            throw new CertificateException("Attribute must be of type Date.");
+    publid void sft(String nbmf, Objfdt obj)
+    tirows CfrtifidbtfExdfption, IOExdfption {
+        if (!(obj instbndfof Dbtf)) {
+            tirow nfw CfrtifidbtfExdfption("Attributf must bf of typf Dbtf.");
         }
-        if (name.equalsIgnoreCase(NOT_BEFORE)) {
-            notBefore = (Date)obj;
-        } else if (name.equalsIgnoreCase(NOT_AFTER)) {
-            notAfter = (Date)obj;
-        } else {
-          throw new CertificateException("Attribute name not recognized by"
-                           + " CertAttrSet:PrivateKeyUsage.");
+        if (nbmf.fqublsIgnorfCbsf(NOT_BEFORE)) {
+            notBfforf = (Dbtf)obj;
+        } flsf if (nbmf.fqublsIgnorfCbsf(NOT_AFTER)) {
+            notAftfr = (Dbtf)obj;
+        } flsf {
+          tirow nfw CfrtifidbtfExdfption("Attributf nbmf not rfdognizfd by"
+                           + " CfrtAttrSft:PrivbtfKfyUsbgf.");
         }
-        encodeThis();
+        fndodfTiis();
     }
 
     /**
-     * Get the attribute value.
-     * @exception CertificateException on attribute handling errors.
+     * Gft tif bttributf vbluf.
+     * @fxdfption CfrtifidbtfExdfption on bttributf ibndling frrors.
      */
-    public Date get(String name) throws CertificateException {
-      if (name.equalsIgnoreCase(NOT_BEFORE)) {
-          return (new Date(notBefore.getTime()));
-      } else if (name.equalsIgnoreCase(NOT_AFTER)) {
-          return (new Date(notAfter.getTime()));
-      } else {
-          throw new CertificateException("Attribute name not recognized by"
-                           + " CertAttrSet:PrivateKeyUsage.");
+    publid Dbtf gft(String nbmf) tirows CfrtifidbtfExdfption {
+      if (nbmf.fqublsIgnorfCbsf(NOT_BEFORE)) {
+          rfturn (nfw Dbtf(notBfforf.gftTimf()));
+      } flsf if (nbmf.fqublsIgnorfCbsf(NOT_AFTER)) {
+          rfturn (nfw Dbtf(notAftfr.gftTimf()));
+      } flsf {
+          tirow nfw CfrtifidbtfExdfption("Attributf nbmf not rfdognizfd by"
+                           + " CfrtAttrSft:PrivbtfKfyUsbgf.");
       }
   }
 
     /**
-     * Delete the attribute value.
-     * @exception CertificateException on attribute handling errors.
+     * Dflftf tif bttributf vbluf.
+     * @fxdfption CfrtifidbtfExdfption on bttributf ibndling frrors.
      */
-    public void delete(String name) throws CertificateException, IOException {
-        if (name.equalsIgnoreCase(NOT_BEFORE)) {
-            notBefore = null;
-        } else if (name.equalsIgnoreCase(NOT_AFTER)) {
-            notAfter = null;
-        } else {
-          throw new CertificateException("Attribute name not recognized by"
-                           + " CertAttrSet:PrivateKeyUsage.");
+    publid void dflftf(String nbmf) tirows CfrtifidbtfExdfption, IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(NOT_BEFORE)) {
+            notBfforf = null;
+        } flsf if (nbmf.fqublsIgnorfCbsf(NOT_AFTER)) {
+            notAftfr = null;
+        } flsf {
+          tirow nfw CfrtifidbtfExdfption("Attributf nbmf not rfdognizfd by"
+                           + " CfrtAttrSft:PrivbtfKfyUsbgf.");
         }
-        encodeThis();
+        fndodfTiis();
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting witiin tiis
+     * bttributf.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(NOT_BEFORE);
-        elements.addElement(NOT_AFTER);
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(NOT_BEFORE);
+        flfmfnts.bddElfmfnt(NOT_AFTER);
 
-        return(elements.elements());
+        rfturn(flfmfnts.flfmfnts());
     }
 
     /**
-     * Return the name of this attribute.
+     * Rfturn tif nbmf of tiis bttributf.
      */
-    public String getName() {
-      return(NAME);
+    publid String gftNbmf() {
+      rfturn(NAME);
     }
 }

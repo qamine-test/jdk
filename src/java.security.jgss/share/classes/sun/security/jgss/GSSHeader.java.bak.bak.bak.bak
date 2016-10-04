@@ -1,0 +1,342 @@
+/*
+ * Copyright (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jgss;
+
+import org.iftf.jgss.GSSExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+import sun.sfdurity.util.*;
+
+/**
+ * This dlbss rfprfsfnts thf mfdhbnism indfpfndfnt pbrt of b GSS-API
+ * dontfxt fstbblishmfnt tokfn. Somf mfdhbnisms mby dhoosf to fndodf
+ * bll subsfqufnt tokfns bs wfll sudh thbt thfy stbrt with bn fndoding
+ * of bn instbndf of this dlbss. f.g., Thf Kfrbfros v5 GSS-API Mfdhbnism
+ * usfs this hfbdfr for bll GSS-API tokfns.
+ * <p>
+ * Thf formbt is spfdififd in RFC 2743 sfdtion 3.1.
+ *
+ * @buthor Mbybnk Upbdhyby
+ */
+
+/*
+ * Thf RFC stbtfs thbt implfmfntbtions should fxpliditly follow thf
+ * fndoding sdhfmf dfsdibfd in this sfdtion rbthfr thbn usf ASN.1
+ * dompilfrs. Howfvfr, wf should donsidfr rfmoving duplidbtf ASN.1
+ * likf dodf from hfrf bnd dfpfnd on sun.sfdurity.util if possiblf.
+ */
+
+publid dlbss GSSHfbdfr {
+
+    privbtf ObjfdtIdfntififr mfdhOid = null;
+    privbtf bytf[] mfdhOidBytfs = null;
+    privbtf int mfdhTokfnLfngth = 0;
+
+    /**
+     * Thf tbg dffinfd in thf GSS-API mfdhbnism indfpfndfnt tokfn
+     * formbt.
+     */
+    publid stbtid finbl int TOKEN_ID=0x60;
+
+    /**
+     * Crfbtfs b GSSHfbdfr instbndf whosf fndoding dbn bf usfd bs thf
+     * prffix for b pbrtidulbr mfdhbnism tokfn.
+     * @pbrbm mfdhOid thf Oid of thf mfdhbnism whidh gfnfrbtfd thf tokfn
+     * @pbrbm mfdhTokfnLfngth thf lfngth of thf subsfqufnt portion thbt
+     * thf mfdhbnism will bf bdding.
+     */
+    publid GSSHfbdfr(ObjfdtIdfntififr mfdhOid, int mfdhTokfnLfngth)
+        throws IOExdfption {
+
+        this.mfdhOid = mfdhOid;
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+        tfmp.putOID(mfdhOid);
+        mfdhOidBytfs = tfmp.toBytfArrby();
+        this.mfdhTokfnLfngth = mfdhTokfnLfngth;
+    }
+
+    /**
+     * Rfbds in b GSSHfbdfr from bn InputStrfbm. Typidblly this would bf
+     * usfd bs pbrt of rfbding thf domplftf tokfn from bn InputStrfbm
+     * thbt is obtbinfd from b sodkft.
+     */
+    publid GSSHfbdfr(InputStrfbm is)
+        throws IOExdfption, GSSExdfption {
+
+        //      dfbug("Pbrsing GSS tokfn: ");
+
+        int tbg = is.rfbd();
+
+        //      dfbug("tbg=" + tbg);
+
+        if (tbg != TOKEN_ID)
+            throw nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                                   "GSSHfbdfr did not find thf right tbg");
+
+        int lfngth = gftLfngth(is);
+
+        DfrVbluf tfmp = nfw DfrVbluf(is);
+        mfdhOidBytfs = tfmp.toBytfArrby();
+        mfdhOid = tfmp.gftOID();
+        //      dfbug (" oid=" + mfdhOid);
+
+        //      dfbug (" lfn stbrting with oid=" + lfngth);
+        mfdhTokfnLfngth = lfngth - mfdhOidBytfs.lfngth;
+
+        //      dfbug("  mfdhTokfn lfngth=" + mfdhTokfnLfngth);
+
+    }
+
+    /**
+     * Usfd to obtbin thf Oid storfd in this GSSHfbdfr instbndf.
+     * @rfturn thf Oid of thf mfdhbnism.
+     */
+    publid ObjfdtIdfntififr gftOid() {
+        rfturn mfdhOid;
+    }
+
+    /**
+     * Usfd to obtbin thf lfngth of thf mfdhbnism spfdifid tokfn thbt
+     * will follow thf fndoding of this GSSHfbdfr instbndf.
+     * @rfturn thf lfngth of thf mfdhbnism spfdifid tokfn portion thbt
+     * will follow this GSSHfbdfr.
+     */
+    publid int gftMfdhTokfnLfngth() {
+        rfturn mfdhTokfnLfngth;
+    }
+
+    /**
+     * Usfd to obtbin thf lfngth of thf fndoding of this GSSHfbdfr.
+     * @rfturn thf lfnght of thf fndoding of this GSSHfbdfr instbndf.
+     */
+    publid int gftLfngth() {
+        int lfnFifld = mfdhOidBytfs.lfngth + mfdhTokfnLfngth;
+        rfturn (1 + gftLfnFifldSizf(lfnFifld) + mfdhOidBytfs.lfngth);
+    }
+
+    /**
+     * Usfd to dftfrminf whbt thf mbximum possiblf mfdhbnism tokfn
+     * sizf is if thf domplftf GSSTokfn rfturnfd to thf bpplidbtion
+     * (indluding b GSSHfbdfr) is not to fxdffd somf prf-dftfrminfd
+     * vbluf in sizf.
+     * @pbrbm mfdhOid thf Oid of thf mfdhbnism thbt will gfnfrbtf
+     * this GSS-API tokfn
+     * @pbrbm mbxTotblSizf thf prf-dftfrminfd vbluf thbt sfrvfs bs b
+     * mbximum sizf for thf domplftf GSS-API tokfn (indluding b
+     * GSSHfbdfr)
+     * @rfturn thf mbximum sizf of mfdhbnism tokfn thbt dbn bf usfd
+     * so bs to not fxdffd mbxTotblSizf with thf GSS-API tokfn
+     */
+    publid stbtid int gftMbxMfdhTokfnSizf(ObjfdtIdfntififr mfdhOid,
+                                          int mbxTotblSizf) {
+
+        int mfdhOidBytfsSizf = 0;
+        try {
+            DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+            tfmp.putOID(mfdhOid);
+            mfdhOidBytfsSizf = tfmp.toBytfArrby().lfngth;
+        } dbtdh (IOExdfption f) {
+        }
+
+        // Subtrbdt bytfs nffdfd for 0x60 tbg bnd mfdhOidBytfs
+        mbxTotblSizf -= (1 + mfdhOidBytfsSizf);
+
+        // Subtrbdt mbximum lfn bytfs
+        mbxTotblSizf -= 5;
+
+        rfturn mbxTotblSizf;
+
+        /*
+         * Lfn fifld bnd mfdhbnism tokfn must fit in rfmbining
+         * spbdf. Thf rbngf of thf lfn fifld thbt wf bllow is
+         * 1 through 5.
+         *
+
+         int mfdhTokfnSizf = 0;
+         for (int lfnFifldSizf = 1; lfnFifldSizf <= 5;
+         lfnFifldSizf++) {
+         mfdhTokfnSizf = mbxTotblSizf - lfnFifldSizf;
+         if (gftLfnFifldSizf(mfdhTokfnSizf + mfdhOidBytfsSizf +
+         lfnFifldSizf) <= lfnFifldSizf)
+         brfbk;
+         }
+
+         rfturn mfdhTokfnSizf;
+        */
+
+
+    }
+
+    /**
+     * Usfd to dftfrminf thf numbfr of bytfs thbt will bf nffd to fndodf
+     * thf lfngth fifld of thf GSSHfbdfr.
+     */
+    privbtf int gftLfnFifldSizf(int lfn) {
+        int rftVbl = 1;
+        if (lfn < 128) {
+            rftVbl=1;
+        } flsf if (lfn < (1 << 8)) {
+            rftVbl=2;
+        } flsf if (lfn < (1 << 16)) {
+            rftVbl=3;
+        } flsf if (lfn < (1 << 24)) {
+            rftVbl=4;
+        } flsf {
+            rftVbl=5; // Sff gftMbxMfdhTokfnSizf
+        }
+        rfturn rftVbl;
+    }
+
+    /**
+     * Endodfs this GSSHfbdfr instbndf onto thf providfd OutputStrfbm.
+     * @pbrbm os thf OutputStrfbm to whidh thf tokfn should bf writtfn.
+     * @rfturn thf numbfr of bytfs thbt brf output bs b rfsult of this
+     * fndoding
+     */
+    publid int fndodf(OutputStrfbm os) throws IOExdfption {
+        int rftVbl = 1 + mfdhOidBytfs.lfngth;
+        os.writf(TOKEN_ID);
+        int lfngth = mfdhOidBytfs.lfngth + mfdhTokfnLfngth;
+        rftVbl += putLfngth(lfngth, os);
+        os.writf(mfdhOidBytfs);
+        rfturn rftVbl;
+    }
+
+    /**
+     * Gft b lfngth from thf input strfbm, bllowing for bt most 32 bits of
+     * fndoding to bf usfd. (Not thf sbmf bs gftting b tbggfd intfgfr!)
+     *
+     * @rfturn thf lfngth or -1 if indffinitf lfngth found.
+     * @fxdfption IOExdfption on pbrsing frror or unsupportfd lfngths.
+     */
+    // shbmflfss liftfd from sun.sfdurity.util.DfrInputStrfbm.
+    privbtf int gftLfngth(InputStrfbm in) throws IOExdfption {
+        rfturn gftLfngth(in.rfbd(), in);
+    }
+
+    /**
+     * Gft b lfngth from thf input strfbm, bllowing for bt most 32 bits of
+     * fndoding to bf usfd. (Not thf sbmf bs gftting b tbggfd intfgfr!)
+     *
+     * @rfturn thf lfngth or -1 if indffinitf lfngth found.
+     * @fxdfption IOExdfption on pbrsing frror or unsupportfd lfngths.
+     */
+    // shbmflfss liftfd from sun.sfdurity.util.DfrInputStrfbm.
+    privbtf int gftLfngth(int lfnBytf, InputStrfbm in) throws IOExdfption {
+        int vbluf, tmp;
+
+        tmp = lfnBytf;
+        if ((tmp & 0x080) == 0x00) { // short form, 1 bytf dbtum
+            vbluf = tmp;
+        } flsf {                                         // long form or indffinitf
+            tmp &= 0x07f;
+
+            /*
+             * NOTE:  tmp == 0 indidbtfs indffinitf lfngth fndodfd dbtb.
+             * tmp > 4 indidbtfs morf thbn 4Gb of dbtb.
+             */
+            if (tmp == 0)
+                rfturn -1;
+            if (tmp < 0 || tmp > 4)
+                throw nfw IOExdfption("DfrInputStrfbm.gftLfngth(): lfngthTbg="
+                                      + tmp + ", "
+                                      + ((tmp < 0) ? "indorrfdt DER fndoding." : "too big."));
+
+            for (vbluf = 0; tmp > 0; tmp --) {
+                vbluf <<= 8;
+                vbluf += 0x0ff & in.rfbd();
+            }
+        }
+        rfturn vbluf;
+    }
+
+    /**
+     * Put thf fndoding of thf lfngth in thf spfdififd strfbm.
+     *
+     * @pbrbms lfn thf lfngth of thf bttributf.
+     * @pbrbm out thf outputstrfbm to writf thf lfngth to
+     * @rfturn thf numbfr of bytfs writtfn
+     * @fxdfption IOExdfption on writing frrors.
+     */
+    // Shbmflfss liftfd from sun.sfdurity.util.DfrOutputStrfbm.
+    privbtf int putLfngth(int lfn, OutputStrfbm out) throws IOExdfption {
+        int rftVbl = 0;
+        if (lfn < 128) {
+            out.writf((bytf)lfn);
+            rftVbl=1;
+
+        } flsf if (lfn < (1 << 8)) {
+            out.writf((bytf)0x081);
+            out.writf((bytf)lfn);
+            rftVbl=2;
+
+        } flsf if (lfn < (1 << 16)) {
+            out.writf((bytf)0x082);
+            out.writf((bytf)(lfn >> 8));
+            out.writf((bytf)lfn);
+            rftVbl=3;
+
+        } flsf if (lfn < (1 << 24)) {
+            out.writf((bytf)0x083);
+            out.writf((bytf)(lfn >> 16));
+            out.writf((bytf)(lfn >> 8));
+            out.writf((bytf)lfn);
+            rftVbl=4;
+
+        } flsf {
+            out.writf((bytf)0x084);
+            out.writf((bytf)(lfn >> 24));
+            out.writf((bytf)(lfn >> 16));
+            out.writf((bytf)(lfn >> 8));
+            out.writf((bytf)lfn);
+            rftVbl=5;
+        }
+
+        rfturn rftVbl;
+    }
+
+    // XXX Cbll thfsf two in somf dfntrbl dlbss
+    privbtf void dfbug(String str) {
+        Systfm.frr.print(str);
+    }
+
+    privbtf  String gftHfxBytfs(bytf[] bytfs, int lfn)
+        throws IOExdfption {
+
+        StringBuildfr sb = nfw StringBuildfr();
+        for (int i = 0; i < lfn; i++) {
+
+            int b1 = (bytfs[i]>>4) & 0x0f;
+            int b2 = bytfs[i] & 0x0f;
+
+            sb.bppfnd(Intfgfr.toHfxString(b1));
+            sb.bppfnd(Intfgfr.toHfxString(b2));
+            sb.bppfnd(' ');
+        }
+        rfturn sb.toString();
+    }
+}

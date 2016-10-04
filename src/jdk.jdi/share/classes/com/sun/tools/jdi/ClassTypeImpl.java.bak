@@ -1,296 +1,296 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.*;
+import dom.sun.jdi.*;
 
-import java.util.*;
+import jbvb.util.*;
 
-final public class ClassTypeImpl extends InvokableTypeImpl
-    implements ClassType
+finbl publid dlbss ClbssTypfImpl fxtfnds InvokbblfTypfImpl
+    implfmfnts ClbssTypf
 {
-    private static class IResult implements InvocationResult {
-        final private JDWP.ClassType.InvokeMethod rslt;
+    privbtf stbtid dlbss IRfsult implfmfnts InvodbtionRfsult {
+        finbl privbtf JDWP.ClbssTypf.InvokfMftiod rslt;
 
-        public IResult(JDWP.ClassType.InvokeMethod rslt) {
-            this.rslt = rslt;
+        publid IRfsult(JDWP.ClbssTypf.InvokfMftiod rslt) {
+            tiis.rslt = rslt;
         }
 
-        @Override
-        public ObjectReferenceImpl getException() {
-            return rslt.exception;
+        @Ovfrridf
+        publid ObjfdtRfffrfndfImpl gftExdfption() {
+            rfturn rslt.fxdfption;
         }
 
-        @Override
-        public ValueImpl getResult() {
-            return rslt.returnValue;
+        @Ovfrridf
+        publid VblufImpl gftRfsult() {
+            rfturn rslt.rfturnVbluf;
         }
     }
 
-    private boolean cachedSuperclass = false;
-    private ClassType superclass = null;
-    private int lastLine = -1;
-    private List<InterfaceType> interfaces = null;
+    privbtf boolfbn dbdifdSupfrdlbss = fblsf;
+    privbtf ClbssTypf supfrdlbss = null;
+    privbtf int lbstLinf = -1;
+    privbtf List<IntfrfbdfTypf> intfrfbdfs = null;
 
-    protected ClassTypeImpl(VirtualMachine aVm,long aRef) {
-        super(aVm, aRef);
+    protfdtfd ClbssTypfImpl(VirtublMbdiinf bVm,long bRff) {
+        supfr(bVm, bRff);
     }
 
-    public ClassType superclass() {
-        if(!cachedSuperclass)  {
-            ClassTypeImpl sup = null;
+    publid ClbssTypf supfrdlbss() {
+        if(!dbdifdSupfrdlbss)  {
+            ClbssTypfImpl sup = null;
             try {
-                sup = JDWP.ClassType.Superclass.
-                    process(vm, this).superclass;
-            } catch (JDWPException exc) {
-                throw exc.toJDIException();
+                sup = JDWP.ClbssTypf.Supfrdlbss.
+                    prodfss(vm, tiis).supfrdlbss;
+            } dbtdi (JDWPExdfption fxd) {
+                tirow fxd.toJDIExdfption();
             }
 
             /*
-             * If there is a superclass, cache its
-             * ClassType here. Otherwise,
-             * leave the cache reference null.
+             * If tifrf is b supfrdlbss, dbdif its
+             * ClbssTypf ifrf. Otifrwisf,
+             * lfbvf tif dbdif rfffrfndf null.
              */
             if (sup != null) {
-                superclass = sup;
+                supfrdlbss = sup;
             }
-            cachedSuperclass = true;
+            dbdifdSupfrdlbss = truf;
         }
 
-        return superclass;
+        rfturn supfrdlbss;
     }
 
-    @Override
-    public List<InterfaceType> interfaces()  {
-        if (interfaces == null) {
-            interfaces = getInterfaces();
+    @Ovfrridf
+    publid List<IntfrfbdfTypf> intfrfbdfs()  {
+        if (intfrfbdfs == null) {
+            intfrfbdfs = gftIntfrfbdfs();
         }
-        return interfaces;
+        rfturn intfrfbdfs;
     }
 
-    @Override
-    public List<InterfaceType> allInterfaces() {
-        return getAllInterfaces();
+    @Ovfrridf
+    publid List<IntfrfbdfTypf> bllIntfrfbdfs() {
+        rfturn gftAllIntfrfbdfs();
     }
 
-    public List<ClassType> subclasses() {
-        List<ClassType> subs = new ArrayList<ClassType>();
-        for (ReferenceType refType : vm.allClasses()) {
-            if (refType instanceof ClassType) {
-                ClassType clazz = (ClassType)refType;
-                ClassType superclass = clazz.superclass();
-                if ((superclass != null) && superclass.equals(this)) {
-                    subs.add((ClassType)refType);
+    publid List<ClbssTypf> subdlbssfs() {
+        List<ClbssTypf> subs = nfw ArrbyList<ClbssTypf>();
+        for (RfffrfndfTypf rffTypf : vm.bllClbssfs()) {
+            if (rffTypf instbndfof ClbssTypf) {
+                ClbssTypf dlbzz = (ClbssTypf)rffTypf;
+                ClbssTypf supfrdlbss = dlbzz.supfrdlbss();
+                if ((supfrdlbss != null) && supfrdlbss.fqubls(tiis)) {
+                    subs.bdd((ClbssTypf)rffTypf);
                 }
             }
         }
 
-        return subs;
+        rfturn subs;
     }
 
-    public boolean isEnum() {
-        ClassType superclass = superclass();
-        if (superclass != null &&
-            superclass.name().equals("java.lang.Enum")) {
-            return true;
+    publid boolfbn isEnum() {
+        ClbssTypf supfrdlbss = supfrdlbss();
+        if (supfrdlbss != null &&
+            supfrdlbss.nbmf().fqubls("jbvb.lbng.Enum")) {
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    public void setValue(Field field, Value value)
-        throws InvalidTypeException, ClassNotLoadedException {
+    publid void sftVbluf(Fifld fifld, Vbluf vbluf)
+        tirows InvblidTypfExdfption, ClbssNotLobdfdExdfption {
 
-        validateMirror(field);
-        validateMirrorOrNull(value);
-        validateFieldSet(field);
+        vblidbtfMirror(fifld);
+        vblidbtfMirrorOrNull(vbluf);
+        vblidbtfFifldSft(fifld);
 
-        // More validation specific to setting from a ClassType
-        if(!field.isStatic()) {
-            throw new IllegalArgumentException(
-                            "Must set non-static field through an instance");
+        // Morf vblidbtion spfdifid to sftting from b ClbssTypf
+        if(!fifld.isStbtid()) {
+            tirow nfw IllfgblArgumfntExdfption(
+                            "Must sft non-stbtid fifld tirougi bn instbndf");
         }
 
         try {
-            JDWP.ClassType.SetValues.FieldValue[] values =
-                          new JDWP.ClassType.SetValues.FieldValue[1];
-            values[0] = new JDWP.ClassType.SetValues.FieldValue(
-                    ((FieldImpl)field).ref(),
-                    // validate and convert if necessary
-                    ValueImpl.prepareForAssignment(value, (FieldImpl)field));
+            JDWP.ClbssTypf.SftVblufs.FifldVbluf[] vblufs =
+                          nfw JDWP.ClbssTypf.SftVblufs.FifldVbluf[1];
+            vblufs[0] = nfw JDWP.ClbssTypf.SftVblufs.FifldVbluf(
+                    ((FifldImpl)fifld).rff(),
+                    // vblidbtf bnd donvfrt if nfdfssbry
+                    VblufImpl.prfpbrfForAssignmfnt(vbluf, (FifldImpl)fifld));
 
             try {
-                JDWP.ClassType.SetValues.process(vm, this, values);
-            } catch (JDWPException exc) {
-                throw exc.toJDIException();
+                JDWP.ClbssTypf.SftVblufs.prodfss(vm, tiis, vblufs);
+            } dbtdi (JDWPExdfption fxd) {
+                tirow fxd.toJDIExdfption();
             }
-        } catch (ClassNotLoadedException e) {
+        } dbtdi (ClbssNotLobdfdExdfption f) {
             /*
-             * Since we got this exception,
-             * the field type must be a reference type. The value
-             * we're trying to set is null, but if the field's
-             * class has not yet been loaded through the enclosing
-             * class loader, then setting to null is essentially a
-             * no-op, and we should allow it without an exception.
+             * Sindf wf got tiis fxdfption,
+             * tif fifld typf must bf b rfffrfndf typf. Tif vbluf
+             * wf'rf trying to sft is null, but if tif fifld's
+             * dlbss ibs not yft bffn lobdfd tirougi tif fndlosing
+             * dlbss lobdfr, tifn sftting to null is fssfntiblly b
+             * no-op, bnd wf siould bllow it witiout bn fxdfption.
              */
-            if (value != null) {
-                throw e;
+            if (vbluf != null) {
+                tirow f;
             }
         }
     }
 
-    PacketStream sendNewInstanceCommand(final ThreadReferenceImpl thread,
-                                   final MethodImpl method,
-                                   final ValueImpl[] args,
-                                   final int options) {
-        CommandSender sender =
-            new CommandSender() {
-                public PacketStream send() {
-                    return JDWP.ClassType.NewInstance.enqueueCommand(
-                                          vm, ClassTypeImpl.this, thread,
-                                          method.ref(), args, options);
+    PbdkftStrfbm sfndNfwInstbndfCommbnd(finbl TirfbdRfffrfndfImpl tirfbd,
+                                   finbl MftiodImpl mftiod,
+                                   finbl VblufImpl[] brgs,
+                                   finbl int options) {
+        CommbndSfndfr sfndfr =
+            nfw CommbndSfndfr() {
+                publid PbdkftStrfbm sfnd() {
+                    rfturn JDWP.ClbssTypf.NfwInstbndf.fnqufufCommbnd(
+                                          vm, ClbssTypfImpl.tiis, tirfbd,
+                                          mftiod.rff(), brgs, options);
                 }
         };
 
-        PacketStream stream;
+        PbdkftStrfbm strfbm;
         if ((options & INVOKE_SINGLE_THREADED) != 0) {
-            stream = thread.sendResumingCommand(sender);
-        } else {
-            stream = vm.sendResumingCommand(sender);
+            strfbm = tirfbd.sfndRfsumingCommbnd(sfndfr);
+        } flsf {
+            strfbm = vm.sfndRfsumingCommbnd(sfndfr);
         }
-        return stream;
+        rfturn strfbm;
     }
 
-    public ObjectReference newInstance(ThreadReference threadIntf,
-                                       Method methodIntf,
-                                       List<? extends Value> origArguments,
+    publid ObjfdtRfffrfndf nfwInstbndf(TirfbdRfffrfndf tirfbdIntf,
+                                       Mftiod mftiodIntf,
+                                       List<? fxtfnds Vbluf> origArgumfnts,
                                        int options)
-                                   throws InvalidTypeException,
-                                          ClassNotLoadedException,
-                                          IncompatibleThreadStateException,
-                                          InvocationException {
-        validateMirror(threadIntf);
-        validateMirror(methodIntf);
-        validateMirrorsOrNulls(origArguments);
+                                   tirows InvblidTypfExdfption,
+                                          ClbssNotLobdfdExdfption,
+                                          IndompbtiblfTirfbdStbtfExdfption,
+                                          InvodbtionExdfption {
+        vblidbtfMirror(tirfbdIntf);
+        vblidbtfMirror(mftiodIntf);
+        vblidbtfMirrorsOrNulls(origArgumfnts);
 
-        MethodImpl method = (MethodImpl)methodIntf;
-        ThreadReferenceImpl thread = (ThreadReferenceImpl)threadIntf;
+        MftiodImpl mftiod = (MftiodImpl)mftiodIntf;
+        TirfbdRfffrfndfImpl tirfbd = (TirfbdRfffrfndfImpl)tirfbdIntf;
 
-        validateConstructorInvocation(method);
+        vblidbtfConstrudtorInvodbtion(mftiod);
 
-        List<Value> arguments = method.validateAndPrepareArgumentsForInvoke(
-                                                       origArguments);
-        ValueImpl[] args = arguments.toArray(new ValueImpl[0]);
-        JDWP.ClassType.NewInstance ret = null;
+        List<Vbluf> brgumfnts = mftiod.vblidbtfAndPrfpbrfArgumfntsForInvokf(
+                                                       origArgumfnts);
+        VblufImpl[] brgs = brgumfnts.toArrby(nfw VblufImpl[0]);
+        JDWP.ClbssTypf.NfwInstbndf rft = null;
         try {
-            PacketStream stream =
-                sendNewInstanceCommand(thread, method, args, options);
-            ret = JDWP.ClassType.NewInstance.waitForReply(vm, stream);
-        } catch (JDWPException exc) {
-            if (exc.errorCode() == JDWP.Error.INVALID_THREAD) {
-                throw new IncompatibleThreadStateException();
-            } else {
-                throw exc.toJDIException();
+            PbdkftStrfbm strfbm =
+                sfndNfwInstbndfCommbnd(tirfbd, mftiod, brgs, options);
+            rft = JDWP.ClbssTypf.NfwInstbndf.wbitForRfply(vm, strfbm);
+        } dbtdi (JDWPExdfption fxd) {
+            if (fxd.frrorCodf() == JDWP.Error.INVALID_THREAD) {
+                tirow nfw IndompbtiblfTirfbdStbtfExdfption();
+            } flsf {
+                tirow fxd.toJDIExdfption();
             }
         }
 
         /*
-         * There is an implict VM-wide suspend at the conclusion
-         * of a normal (non-single-threaded) method invoke
+         * Tifrf is bn implidt VM-widf suspfnd bt tif dondlusion
+         * of b normbl (non-singlf-tirfbdfd) mftiod invokf
          */
         if ((options & INVOKE_SINGLE_THREADED) == 0) {
-            vm.notifySuspend();
+            vm.notifySuspfnd();
         }
 
-        if (ret.exception != null) {
-            throw new InvocationException(ret.exception);
-        } else {
-            return ret.newObject;
+        if (rft.fxdfption != null) {
+            tirow nfw InvodbtionExdfption(rft.fxdfption);
+        } flsf {
+            rfturn rft.nfwObjfdt;
         }
     }
 
-    public Method concreteMethodByName(String name, String signature)  {
-       Method method = null;
-       for (Method candidate : visibleMethods()) {
-           if (candidate.name().equals(name) &&
-               candidate.signature().equals(signature) &&
-               !candidate.isAbstract()) {
+    publid Mftiod dondrftfMftiodByNbmf(String nbmf, String signbturf)  {
+       Mftiod mftiod = null;
+       for (Mftiod dbndidbtf : visiblfMftiods()) {
+           if (dbndidbtf.nbmf().fqubls(nbmf) &&
+               dbndidbtf.signbturf().fqubls(signbturf) &&
+               !dbndidbtf.isAbstrbdt()) {
 
-               method = candidate;
-               break;
+               mftiod = dbndidbtf;
+               brfbk;
            }
        }
-       return method;
+       rfturn mftiod;
    }
 
-    void validateConstructorInvocation(Method method)
-                                   throws InvalidTypeException,
-                                          InvocationException {
+    void vblidbtfConstrudtorInvodbtion(Mftiod mftiod)
+                                   tirows InvblidTypfExdfption,
+                                          InvodbtionExdfption {
         /*
-         * Method must be in this class.
+         * Mftiod must bf in tiis dlbss.
          */
-        ReferenceTypeImpl declType = (ReferenceTypeImpl)method.declaringType();
-        if (!declType.equals(this)) {
-            throw new IllegalArgumentException("Invalid constructor");
+        RfffrfndfTypfImpl dfdlTypf = (RfffrfndfTypfImpl)mftiod.dfdlbringTypf();
+        if (!dfdlTypf.fqubls(tiis)) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid donstrudtor");
         }
 
         /*
-         * Method must be a constructor
+         * Mftiod must bf b donstrudtor
          */
-        if (!method.isConstructor()) {
-            throw new IllegalArgumentException("Cannot create instance with non-constructor");
+        if (!mftiod.isConstrudtor()) {
+            tirow nfw IllfgblArgumfntExdfption("Cbnnot drfbtf instbndf witi non-donstrudtor");
         }
     }
 
 
-    public String toString() {
-       return "class " + name() + " (" + loaderString() + ")";
+    publid String toString() {
+       rfturn "dlbss " + nbmf() + " (" + lobdfrString() + ")";
     }
 
-    @Override
-    CommandSender getInvokeMethodSender(ThreadReferenceImpl thread,
-                                        MethodImpl method,
-                                        ValueImpl[] args,
+    @Ovfrridf
+    CommbndSfndfr gftInvokfMftiodSfndfr(TirfbdRfffrfndfImpl tirfbd,
+                                        MftiodImpl mftiod,
+                                        VblufImpl[] brgs,
                                         int options) {
-        return () ->
-            JDWP.ClassType.InvokeMethod.enqueueCommand(vm,
-                                                       ClassTypeImpl.this,
-                                                       thread,
-                                                       method.ref(),
-                                                       args,
+        rfturn () ->
+            JDWP.ClbssTypf.InvokfMftiod.fnqufufCommbnd(vm,
+                                                       ClbssTypfImpl.tiis,
+                                                       tirfbd,
+                                                       mftiod.rff(),
+                                                       brgs,
                                                        options);
     }
 
-    @Override
-    InvocationResult waitForReply(PacketStream stream) throws JDWPException {
-        return new IResult(JDWP.ClassType.InvokeMethod.waitForReply(vm, stream));
+    @Ovfrridf
+    InvodbtionRfsult wbitForRfply(PbdkftStrfbm strfbm) tirows JDWPExdfption {
+        rfturn nfw IRfsult(JDWP.ClbssTypf.InvokfMftiod.wbitForRfply(vm, strfbm));
     }
 
-    @Override
-    boolean canInvoke(Method method) {
-        // Method must be in this class or a superclass.
-        return ((ReferenceTypeImpl)method.declaringType()).isAssignableFrom(this);
+    @Ovfrridf
+    boolfbn dbnInvokf(Mftiod mftiod) {
+        // Mftiod must bf in tiis dlbss or b supfrdlbss.
+        rfturn ((RfffrfndfTypfImpl)mftiod.dfdlbringTypf()).isAssignbblfFrom(tiis);
     }
 }

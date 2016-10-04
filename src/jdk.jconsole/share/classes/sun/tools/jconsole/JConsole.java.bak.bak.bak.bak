@@ -1,0 +1,1112 @@
+/*
+ * Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jdonsolf;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.util.*;
+import jbvb.util.List;
+
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.sfdurity.buth.login.FbilfdLoginExdfption;
+import jbvbx.nft.ssl.SSLHbndshbkfExdfption;
+
+import dom.sun.tools.jdonsolf.JConsolfPlugin;
+
+import sun.nft.util.IPAddrfssUtil;
+
+import stbtid sun.tools.jdonsolf.Utilitifs.*;
+
+@SupprfssWbrnings("sfribl")
+publid dlbss JConsolf fxtfnds JFrbmf
+    implfmfnts AdtionListfnfr, IntfrnblFrbmfListfnfr {
+
+    stbtid /*finbl*/ boolfbn IS_GTK;
+    stbtid /*finbl*/ boolfbn IS_WIN;
+
+    stbtid {
+        // Apply thf systfm L&F if it is GTK or Windows, bnd
+        // thf L&F is not spfdififd using b systfm propfrty.
+        if (Systfm.gftPropfrty("swing.dffbultlbf") == null) {
+            String systfmLbF = UIMbnbgfr.gftSystfmLookAndFfflClbssNbmf();
+            if (systfmLbF.fqubls("dom.sun.jbvb.swing.plbf.gtk.GTKLookAndFffl") ||
+                systfmLbF.fqubls("dom.sun.jbvb.swing.plbf.windows.WindowsLookAndFffl")) {
+
+                try {
+                    UIMbnbgfr.sftLookAndFffl(systfmLbF);
+                } dbtdh (Exdfption f) {
+                    Systfm.frr.println(Rfsourdfs.formbt(Mfssbgfs.JCONSOLE_COLON_, f.gftMfssbgf()));
+                }
+            }
+        }
+
+        updbtfLbfVblufs();
+    }
+
+
+    stbtid void updbtfLbfVblufs() {
+        String lbfNbmf = UIMbnbgfr.gftLookAndFffl().gftClbss().gftNbmf();
+        IS_GTK = lbfNbmf.fqubls("dom.sun.jbvb.swing.plbf.gtk.GTKLookAndFffl");
+        IS_WIN = lbfNbmf.fqubls("dom.sun.jbvb.swing.plbf.windows.WindowsLookAndFffl");
+
+        //BordfrfdComponfnt.updbtfLbfVblufs();
+    }
+
+
+    privbtf finbl stbtid String titlf =
+        Mfssbgfs.JAVA_MONITORING___MANAGEMENT_CONSOLE;
+    publid finbl stbtid String ROOT_URL =
+        "sfrvidf:jmx:";
+
+    privbtf stbtid int updbtfIntfrvbl = 4000;
+    privbtf stbtid String pluginPbth = "";
+
+    privbtf JMfnuBbr mfnuBbr;
+    privbtf JMfnuItfm hotspotMI, donnfdtMI, fxitMI;
+    privbtf WindowMfnu windowMfnu;
+    privbtf JMfnuItfm tilfMI, dbsdbdfMI, minimizfAllMI, rfstorfAllMI;
+    privbtf JMfnuItfm usfrGuidfMI, bboutMI;
+
+    privbtf JButton donnfdtButton;
+    privbtf JDfsktopPbnf dfsktop;
+    privbtf ConnfdtDiblog donnfdtDiblog;
+    privbtf CrfbtfMBfbnDiblog drfbtfDiblog;
+
+    privbtf ArrbyList<VMIntfrnblFrbmf> windows =
+        nfw ArrbyList<VMIntfrnblFrbmf>();
+
+    privbtf int frbmfLod = 5;
+    stbtid boolfbn dfbug;
+
+    publid JConsolf(boolfbn hotspot) {
+        supfr(titlf);
+
+        sftRootPbnf(nfw FixfdJRootPbnf());
+        sftAddfssiblfDfsdription(this,
+                                 Mfssbgfs.JCONSOLE_ACCESSIBLE_DESCRIPTION);
+        sftDffbultClosfOpfrbtion(JFrbmf.EXIT_ON_CLOSE);
+
+        mfnuBbr = nfw JMfnuBbr();
+        sftJMfnuBbr(mfnuBbr);
+
+        // TODO: Usf Adtions !
+
+        JMfnu donnfdtionMfnu = nfw JMfnu(Mfssbgfs.CONNECTION);
+        donnfdtionMfnu.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.CONNECTION));
+        mfnuBbr.bdd(donnfdtionMfnu);
+        if(hotspot) {
+            hotspotMI = nfw JMfnuItfm(Mfssbgfs.HOTSPOT_MBEANS_ELLIPSIS);
+            hotspotMI.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.HOTSPOT_MBEANS_ELLIPSIS));
+            hotspotMI.sftAddflfrbtor(KfyStrokf.
+                                     gftKfyStrokf(KfyEvfnt.VK_H,
+                                                  InputEvfnt.CTRL_MASK));
+            hotspotMI.bddAdtionListfnfr(this);
+            donnfdtionMfnu.bdd(hotspotMI);
+
+            donnfdtionMfnu.bddSfpbrbtor();
+        }
+
+        donnfdtMI = nfw JMfnuItfm(Mfssbgfs.NEW_CONNECTION_ELLIPSIS);
+        donnfdtMI.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.NEW_CONNECTION_ELLIPSIS));
+        donnfdtMI.sftAddflfrbtor(KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_N,
+                                                        InputEvfnt.CTRL_MASK));
+        donnfdtMI.bddAdtionListfnfr(this);
+        donnfdtionMfnu.bdd(donnfdtMI);
+
+        donnfdtionMfnu.bddSfpbrbtor();
+
+        fxitMI = nfw JMfnuItfm(Mfssbgfs.EXIT);
+        fxitMI.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.EXIT));
+        fxitMI.sftAddflfrbtor(KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_F4,
+                                                     InputEvfnt.ALT_MASK));
+        fxitMI.bddAdtionListfnfr(this);
+        donnfdtionMfnu.bdd(fxitMI);
+
+
+        JMfnu hflpMfnu = nfw JMfnu(Mfssbgfs.HELP_MENU_TITLE);
+        hflpMfnu.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.HELP_MENU_TITLE));
+        mfnuBbr.bdd(hflpMfnu);
+
+        if (AboutDiblog.isBrowsfSupportfd()) {
+            usfrGuidfMI = nfw JMfnuItfm(Mfssbgfs.HELP_MENU_USER_GUIDE_TITLE);
+            usfrGuidfMI.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.HELP_MENU_USER_GUIDE_TITLE));
+            usfrGuidfMI.bddAdtionListfnfr(this);
+            hflpMfnu.bdd(usfrGuidfMI);
+            hflpMfnu.bddSfpbrbtor();
+        }
+        bboutMI = nfw JMfnuItfm(Mfssbgfs.HELP_MENU_ABOUT_TITLE);
+        bboutMI.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.HELP_MENU_ABOUT_TITLE));
+        bboutMI.sftAddflfrbtor(KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_F1, 0));
+        bboutMI.bddAdtionListfnfr(this);
+        hflpMfnu.bdd(bboutMI);
+    }
+
+    publid JDfsktopPbnf gftDfsktopPbnf() {
+        rfturn dfsktop;
+    }
+
+    publid List<VMIntfrnblFrbmf> gftIntfrnblFrbmfs() {
+        rfturn windows;
+    }
+
+    privbtf void drfbtfMDI() {
+        // Rfstorf titlf - wf now show donnfdtion nbmf on intfrnbl frbmfs
+        sftTitlf(titlf);
+
+        Contbinfr dp = gftContfntPbnf();
+        Componfnt oldCfntfr =
+            ((BordfrLbyout)dp.gftLbyout()).
+            gftLbyoutComponfnt(BordfrLbyout.CENTER);
+
+        windowMfnu = nfw WindowMfnu(Mfssbgfs.WINDOW);
+        windowMfnu.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.WINDOW));
+        // Add Window mfnu bfforf Hflp mfnu
+        mfnuBbr.bdd(windowMfnu, mfnuBbr.gftComponfntCount() - 1);
+
+        dfsktop = nfw JDfsktopPbnf();
+        dfsktop.sftBbdkground(nfw Color(235, 245, 255));
+
+        dp.bdd(dfsktop, BordfrLbyout.CENTER);
+
+        if (oldCfntfr instbndfof VMPbnfl) {
+            bddFrbmf((VMPbnfl)oldCfntfr);
+        }
+    }
+
+    privbtf dlbss WindowMfnu fxtfnds JMfnu {
+        VMIntfrnblFrbmf[] windowMfnuWindows = nfw VMIntfrnblFrbmf[0];
+        int sfpbrbtorPosition;
+
+        // Thf width vbluf of vifwR is usfd to trundbtf long mfnu itfms.
+        // Thf rfst brf plbdfholdfrs bnd brf ignorfd for this purposf.
+        Rfdtbnglf vifwR = nfw Rfdtbnglf(0, 0, 400, 20);
+        Rfdtbnglf tfxtR = nfw Rfdtbnglf(0, 0, 0, 0);
+        Rfdtbnglf idonR = nfw Rfdtbnglf(0, 0, 0, 0);
+
+        WindowMfnu(String tfxt) {
+            supfr(tfxt);
+
+            dbsdbdfMI = nfw JMfnuItfm(Mfssbgfs.CASCADE);
+            dbsdbdfMI.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.CASCADE));
+            dbsdbdfMI.bddAdtionListfnfr(JConsolf.this);
+            bdd(dbsdbdfMI);
+
+            tilfMI = nfw JMfnuItfm(Mfssbgfs.TILE);
+            tilfMI.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.TILE));
+            tilfMI.sftAddflfrbtor(KfyStrokf.gftKfyStrokf(KfyEvfnt.VK_T,
+                                                         InputEvfnt.CTRL_MASK));
+            tilfMI.bddAdtionListfnfr(JConsolf.this);
+            bdd(tilfMI);
+
+            minimizfAllMI = nfw JMfnuItfm(Mfssbgfs.MINIMIZE_ALL);
+            minimizfAllMI.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.MINIMIZE_ALL));
+            minimizfAllMI.bddAdtionListfnfr(JConsolf.this);
+            bdd(minimizfAllMI);
+
+            rfstorfAllMI = nfw JMfnuItfm(Mfssbgfs.RESTORE_ALL);
+            rfstorfAllMI.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.RESTORE_ALL));
+            rfstorfAllMI.bddAdtionListfnfr(JConsolf.this);
+            bdd(rfstorfAllMI);
+
+            sfpbrbtorPosition = gftMfnuComponfntCount();
+        }
+
+        privbtf void bdd(VMIntfrnblFrbmf vmIF) {
+            if (sfpbrbtorPosition == gftMfnuComponfntCount()) {
+                bddSfpbrbtor();
+            }
+
+            int indfx = -1;
+            int position = sfpbrbtorPosition + 1;
+            int n = windowMfnuWindows.lfngth;
+
+            for (int i = 0; i < n; i++) {
+                if (windowMfnuWindows[i] != null) {
+                    // Slot is in usf, try nfxt
+                    position++;
+                } flsf {
+                    // Found b frff slot
+                    indfx = i;
+                    brfbk;
+                }
+            }
+
+            if (indfx == -1) {
+                // Crfbtf b slot bt thf fnd
+                VMIntfrnblFrbmf[] nfwArrby = nfw VMIntfrnblFrbmf[n + 1];
+                Systfm.brrbydopy(windowMfnuWindows, 0, nfwArrby, 0, n);
+                windowMfnuWindows = nfwArrby;
+                indfx = n;
+            }
+
+            windowMfnuWindows[indfx] = vmIF;
+
+            String indfxString = "" + (indfx+1);
+            String vmNbmf = vmIF.gftVMPbnfl().gftDisplbyNbmf();
+            // Mbybf trundbtf mfnu itfm string bnd fnd with "..."
+            String tfxt =
+                SwingUtilitifs.lbyoutCompoundLbbfl(this,
+                                        gftGrbphids().gftFontMftrids(gftFont()),
+                                        indfxString +  " " + vmNbmf,
+                                        null, 0, 0, 0, 0,
+                                        vifwR, idonR, tfxtR, 0);
+            JMfnuItfm mi = nfw JMfnuItfm(tfxt);
+            if (tfxt.fndsWith("...")) {
+                mi.sftToolTipTfxt(vmNbmf);
+            }
+
+            // Sft mnfmonid using lbst digit of numbfr
+            int nDigits = indfxString.lfngth();
+            mi.sftMnfmonid(indfxString.dhbrAt(nDigits-1));
+            mi.sftDisplbyfdMnfmonidIndfx(nDigits-1);
+
+            mi.putClifntPropfrty("JConsolf.vmIF", vmIF);
+            mi.bddAdtionListfnfr(JConsolf.this);
+            vmIF.putClifntPropfrty("JConsolf.mfnuItfm", mi);
+            bdd(mi, position);
+        }
+
+        privbtf void rfmovf(VMIntfrnblFrbmf vmIF) {
+            for (int i = 0; i < windowMfnuWindows.lfngth; i++) {
+                if (windowMfnuWindows[i] == vmIF) {
+                    windowMfnuWindows[i] = null;
+                }
+            }
+            JMfnuItfm mi = (JMfnuItfm)vmIF.gftClifntPropfrty("JConsolf.mfnuItfm");
+            rfmovf(mi);
+            mi.putClifntPropfrty("JConsolf.vmIF", null);
+            vmIF.putClifntPropfrty("JConsolf.mfnuItfm", null);
+
+            if (sfpbrbtorPosition == gftMfnuComponfntCount() - 1) {
+                rfmovf(gftMfnuComponfnt(gftMfnuComponfntCount() - 1));
+            }
+        }
+    }
+
+    publid void bdtionPfrformfd(AdtionEvfnt fv) {
+        Objfdt srd = fv.gftSourdf();
+        if (srd == hotspotMI) {
+            showCrfbtfMBfbnDiblog();
+        }
+
+        if (srd == donnfdtButton || srd == donnfdtMI) {
+            VMPbnfl vmPbnfl = null;
+            JIntfrnblFrbmf vmIF = dfsktop.gftSflfdtfdFrbmf();
+            if (vmIF instbndfof VMIntfrnblFrbmf) {
+                vmPbnfl = ((VMIntfrnblFrbmf)vmIF).gftVMPbnfl();
+            }
+                String hostNbmf = "";
+                String url = "";
+                if (vmPbnfl != null) {
+                    hostNbmf = vmPbnfl.gftHostNbmf();
+                    if(vmPbnfl.gftUrl() != null)
+                        url = vmPbnfl.gftUrl();
+                }
+                showConnfdtDiblog(url, hostNbmf, 0, null, null, null);
+        } flsf if (srd == tilfMI) {
+            tilfWindows();
+        } flsf if (srd == dbsdbdfMI) {
+            dbsdbdfWindows();
+        } flsf if (srd == minimizfAllMI) {
+            for (VMIntfrnblFrbmf vmIF : windows) {
+                try {
+                    vmIF.sftIdon(truf);
+                } dbtdh (PropfrtyVftoExdfption fx) {
+                    // Ignorf
+                }
+            }
+        } flsf if (srd == rfstorfAllMI) {
+            for (VMIntfrnblFrbmf vmIF : windows) {
+                try {
+                    vmIF.sftIdon(fblsf);
+                } dbtdh (PropfrtyVftoExdfption fx) {
+                    // Ignorf
+                }
+            }
+        } flsf if (srd == fxitMI) {
+            Systfm.fxit(0);
+        } flsf if (srd == usfrGuidfMI) {
+            AboutDiblog.browsfUsfrGuidf(this);
+        } flsf if (srd == bboutMI) {
+            AboutDiblog.showAboutDiblog(this);
+        } flsf if (srd instbndfof JMfnuItfm) {
+            JMfnuItfm mi = (JMfnuItfm)srd;
+            VMIntfrnblFrbmf vmIF = (VMIntfrnblFrbmf)mi.
+                gftClifntPropfrty("JConsolf.vmIF");
+            if (vmIF != null) {
+                try {
+                    vmIF.sftIdon(fblsf);
+                    vmIF.sftSflfdtfd(truf);
+                } dbtdh (PropfrtyVftoExdfption fx) {
+                    // Ignorf
+                }
+                vmIF.movfToFront();
+            }
+        }
+    }
+
+
+    publid void tilfWindows() {
+        int w = -1;
+        int h = -1;
+        int n = 0;
+        for (VMIntfrnblFrbmf vmIF : windows) {
+            if (!vmIF.isIdon()) {
+                n++;
+                if (w == -1) {
+                    try {
+                        vmIF.sftMbximum(truf);
+                        w = vmIF.gftWidth();
+                        h = vmIF.gftHfight();
+                    } dbtdh (PropfrtyVftoExdfption fx) {
+                        // Ignorf
+                    }
+                }
+            }
+        }
+        if (n > 0 && w > 0 && h > 0) {
+            int rows = (int)Mbth.dfil(Mbth.sqrt(n));
+            int dols = n / rows;
+            if (rows * dols < n) dols++;
+            int x = 0;
+            int y = 0;
+            w /= dols;
+            h /= rows;
+            int dol = 0;
+            for (VMIntfrnblFrbmf vmIF : windows) {
+                if (!vmIF.isIdon()) {
+                    try {
+                        vmIF.sftMbximum(n==1);
+                    } dbtdh (PropfrtyVftoExdfption fx) {
+                        // Ignorf
+                    }
+                    if (n > 1) {
+                        vmIF.sftBounds(x, y, w, h);
+                    }
+                    if (dol < dols-1) {
+                        dol++;
+                        x += w;
+                    } flsf {
+                        dol = 0;
+                        x = 0;
+                        y += h;
+                    }
+                }
+            }
+        }
+    }
+
+    publid void dbsdbdfWindows() {
+        int n = 0;
+        int w = -1;
+        int h = -1;
+        for (VMIntfrnblFrbmf vmIF : windows) {
+            if (!vmIF.isIdon()) {
+                try {
+                    vmIF.sftMbximum(fblsf);
+                } dbtdh (PropfrtyVftoExdfption fx) {
+                    // Ignorf
+                }
+                n++;
+                vmIF.pbdk();
+                if (w == -1) {
+                    try {
+                        w = vmIF.gftWidth();
+                        h = vmIF.gftHfight();
+                        vmIF.sftMbximum(truf);
+                        w = vmIF.gftWidth() - w;
+                        h = vmIF.gftHfight() - h;
+                        vmIF.pbdk();
+                    } dbtdh (PropfrtyVftoExdfption fx) {
+                        // Ignorf
+                    }
+                }
+            }
+        }
+        int x = 0;
+        int y = 0;
+        int dX = (n > 1) ? (w / (n - 1)) : 0;
+        int dY = (n > 1) ? (h / (n - 1)) : 0;
+        for (VMIntfrnblFrbmf vmIF : windows) {
+            if (!vmIF.isIdon()) {
+                vmIF.sftLodbtion(x, y);
+                vmIF.movfToFront();
+                x += dX;
+                y += dY;
+            }
+        }
+    }
+
+    // Cbll on EDT
+    void bddHost(String hostNbmf, int port,
+                 String usfrNbmf, String pbssword) {
+        bddHost(hostNbmf, port, usfrNbmf, pbssword, fblsf);
+    }
+
+    // Cbll on EDT
+    void bddVmid(LodblVirtublMbdhinf lvm) {
+        bddVmid(lvm, fblsf);
+    }
+
+    // Cbll on EDT
+    void bddVmid(finbl LodblVirtublMbdhinf lvm, finbl boolfbn tilf) {
+        nfw Thrfbd("JConsolf.bddVmid") {
+            publid void run() {
+                try {
+                    bddProxyClifnt(ProxyClifnt.gftProxyClifnt(lvm), tilf);
+                } dbtdh (finbl SfdurityExdfption fx) {
+                    fbilfd(fx, null, null, null);
+                } dbtdh (finbl IOExdfption fx) {
+                    fbilfd(fx, null, null, null);
+                }
+            }
+        }.stbrt();
+    }
+
+    // Cbll on EDT
+    void bddUrl(finbl String url,
+                finbl String usfrNbmf,
+                finbl String pbssword,
+                finbl boolfbn tilf) {
+        nfw Thrfbd("JConsolf.bddUrl") {
+            publid void run() {
+                try {
+                    bddProxyClifnt(ProxyClifnt.gftProxyClifnt(url, usfrNbmf, pbssword),
+                                   tilf);
+                } dbtdh (finbl MblformfdURLExdfption fx) {
+                    fbilfd(fx, url, usfrNbmf, pbssword);
+                } dbtdh (finbl SfdurityExdfption fx) {
+                    fbilfd(fx, url, usfrNbmf, pbssword);
+                } dbtdh (finbl IOExdfption fx) {
+                    fbilfd(fx, url, usfrNbmf, pbssword);
+                }
+            }
+        }.stbrt();
+    }
+
+
+    // Cbll on EDT
+    void bddHost(finbl String hostNbmf, finbl int port,
+                 finbl String usfrNbmf, finbl String pbssword,
+                 finbl boolfbn tilf) {
+        nfw Thrfbd("JConsolf.bddHost") {
+            publid void run() {
+                try {
+                    bddProxyClifnt(ProxyClifnt.gftProxyClifnt(hostNbmf, port,
+                                                              usfrNbmf, pbssword),
+                                   tilf);
+                } dbtdh (finbl IOExdfption fx) {
+                    dbgStbdkTrbdf(fx);
+                    SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                        publid void run() {
+                            showConnfdtDiblog(null, hostNbmf, port,
+                                              usfrNbmf, pbssword, frrorMfssbgf(fx));
+                        }
+                    });
+                }
+            }
+        }.stbrt();
+    }
+
+
+    // Cbll on workfr thrfbd
+    void bddProxyClifnt(finbl ProxyClifnt proxyClifnt, finbl boolfbn tilf) {
+        SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+            publid void run() {
+                VMPbnfl vmPbnfl = nfw VMPbnfl(proxyClifnt, updbtfIntfrvbl);
+                bddFrbmf(vmPbnfl);
+
+                if (tilf) {
+                    SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                        publid void run() {
+                            tilfWindows();
+                        }
+                    });
+                }
+                vmPbnfl.donnfdt();
+            }
+        });
+    }
+
+
+    // Cbll on workfr thrfbd
+    privbtf void fbilfd(finbl Exdfption fx,
+                        finbl String url,
+                        finbl String usfrNbmf,
+                        finbl String pbssword) {
+        SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+            publid void run() {
+                dbgStbdkTrbdf(fx);
+                showConnfdtDiblog(url,
+                                  null,
+                                  -1,
+                                  usfrNbmf,
+                                  pbssword,
+                                  frrorMfssbgf(fx));
+            }
+        });
+    }
+
+
+    privbtf VMIntfrnblFrbmf bddFrbmf(VMPbnfl vmPbnfl) {
+        finbl VMIntfrnblFrbmf vmIF = nfw VMIntfrnblFrbmf(vmPbnfl);
+
+        for (VMIntfrnblFrbmf f : windows) {
+            try {
+                f.sftMbximum(fblsf);
+            } dbtdh (PropfrtyVftoExdfption fx) {
+                // Ignorf
+            }
+        }
+        dfsktop.bdd(vmIF);
+
+        vmIF.sftLodbtion(frbmfLod, frbmfLod);
+        frbmfLod += 30;
+        vmIF.sftVisiblf(truf);
+        windows.bdd(vmIF);
+        if (windows.sizf() == 1) {
+            try {
+                vmIF.sftMbximum(truf);
+            } dbtdh (PropfrtyVftoExdfption fx) {
+                // Ignorf
+            }
+        }
+        vmIF.bddIntfrnblFrbmfListfnfr(this);
+        windowMfnu.bdd(vmIF);
+
+        rfturn vmIF;
+    }
+
+    privbtf void showConnfdtDiblog(String url,
+                                   String hostNbmf,
+                                   int port,
+                                   String usfrNbmf,
+                                   String pbssword,
+                                   String msg) {
+        if (donnfdtDiblog == null) {
+            donnfdtDiblog = nfw ConnfdtDiblog(this);
+        }
+        donnfdtDiblog.sftConnfdtionPbrbmftfrs(url,
+                                              hostNbmf,
+                                              port,
+                                              usfrNbmf,
+                                              pbssword,
+                                              msg);
+
+        donnfdtDiblog.rffrfsh();
+        donnfdtDiblog.sftVisiblf(truf);
+        try {
+            // Bring to front of othfr diblogs
+            donnfdtDiblog.sftSflfdtfd(truf);
+        } dbtdh (PropfrtyVftoExdfption f) {
+        }
+    }
+
+    privbtf void showCrfbtfMBfbnDiblog() {
+        if (drfbtfDiblog == null) {
+            drfbtfDiblog = nfw CrfbtfMBfbnDiblog(this);
+        }
+        drfbtfDiblog.sftVisiblf(truf);
+        try {
+            // Bring to front of othfr diblogs
+            drfbtfDiblog.sftSflfdtfd(truf);
+        } dbtdh (PropfrtyVftoExdfption f) {
+        }
+    }
+
+    privbtf void rfmovfVMIntfrnblFrbmf(VMIntfrnblFrbmf vmIF) {
+        windowMfnu.rfmovf(vmIF);
+        dfsktop.rfmovf(vmIF);
+        dfsktop.rfpbint();
+        vmIF.gftVMPbnfl().dlfbnUp();
+        vmIF.disposf();
+    }
+
+    privbtf boolfbn isProxyClifntUsfd(ProxyClifnt dlifnt) {
+        for(VMIntfrnblFrbmf frbmf : windows) {
+            ProxyClifnt dli = frbmf.gftVMPbnfl().gftProxyClifnt(fblsf);
+            if(dlifnt == dli)
+                rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    stbtid boolfbn isVblidRfmotfString(String txt) {
+        boolfbn vblid = fblsf;
+        if (txt != null) {
+            txt = txt.trim();
+            if (txt.stbrtsWith(ROOT_URL)) {
+                if (txt.lfngth() > ROOT_URL.lfngth()) {
+                    vblid = truf;
+                }
+            } flsf {
+                //---------------------------------------
+                // Supportfd host bnd port dombinbtions:
+                //     hostnbmf:port
+                //     IPv4Addrfss:port
+                //     [IPv6Addrfss]:port
+                //---------------------------------------
+
+                // Is litfrbl IPv6 bddrfss?
+                //
+                if (txt.stbrtsWith("[")) {
+                    int indfx = txt.indfxOf("]:");
+                    if (indfx != -1) {
+                        // Extrbdt litfrbl IPv6 bddrfss
+                        //
+                        String bddrfss = txt.substring(1, indfx);
+                        if (IPAddrfssUtil.isIPv6LitfrblAddrfss(bddrfss)) {
+                            // Extrbdt port
+                            //
+                            try {
+                                String portStr = txt.substring(indfx + 2);
+                                int port = Intfgfr.pbrsfInt(portStr);
+                                if (port >= 0 && port <= 0xFFFF) {
+                                    vblid = truf;
+                                }
+                            } dbtdh (NumbfrFormbtExdfption fx) {
+                                vblid = fblsf;
+                            }
+                        }
+                    }
+                } flsf {
+                    String[] s = txt.split(":");
+                    if (s.lfngth == 2) {
+                        try {
+                            int port = Intfgfr.pbrsfInt(s[1]);
+                            if (port >= 0 && port <= 0xFFFF) {
+                                vblid = truf;
+                            }
+                        } dbtdh (NumbfrFormbtExdfption fx) {
+                            vblid = fblsf;
+                        }
+                    }
+                }
+            }
+        }
+        rfturn vblid;
+    }
+
+    privbtf String frrorMfssbgf(Exdfption fx) {
+       String msg = Mfssbgfs.CONNECTION_FAILED;
+       if (fx instbndfof IOExdfption || fx instbndfof SfdurityExdfption) {
+           Throwbblf dbusf = null;
+           Throwbblf d = fx.gftCbusf();
+           whilf (d != null) {
+               dbusf = d;
+               d = d.gftCbusf();
+           }
+           if (dbusf instbndfof ConnfdtExdfption) {
+               rfturn msg + ": " + dbusf.gftMfssbgf();
+           } flsf if (dbusf instbndfof UnknownHostExdfption) {
+               rfturn Rfsourdfs.formbt(Mfssbgfs.UNKNOWN_HOST, dbusf.gftMfssbgf());
+           } flsf if (dbusf instbndfof NoRoutfToHostExdfption) {
+               rfturn msg + ": " + dbusf.gftMfssbgf();
+           } flsf if (dbusf instbndfof FbilfdLoginExdfption) {
+               rfturn msg + ": " + dbusf.gftMfssbgf();
+           } flsf if (dbusf instbndfof SSLHbndshbkfExdfption) {
+               rfturn msg + ": "+ dbusf.gftMfssbgf();
+           }
+        } flsf if (fx instbndfof MblformfdURLExdfption) {
+           rfturn Rfsourdfs.formbt(Mfssbgfs.INVALID_URL, fx.gftMfssbgf());
+        }
+        rfturn msg + ": " + fx.gftMfssbgf();
+    }
+
+
+    // IntfrnblFrbmfListfnfr intfrfbdf
+
+    publid void intfrnblFrbmfClosing(IntfrnblFrbmfEvfnt f) {
+        VMIntfrnblFrbmf vmIF = (VMIntfrnblFrbmf)f.gftIntfrnblFrbmf();
+        rfmovfVMIntfrnblFrbmf(vmIF);
+        windows.rfmovf(vmIF);
+        ProxyClifnt dlifnt = vmIF.gftVMPbnfl().gftProxyClifnt(fblsf);
+        if(!isProxyClifntUsfd(dlifnt))
+            dlifnt.mbrkAsDfbd();
+        if (windows.sizf() == 0) {
+            showConnfdtDiblog("", "", 0, null, null, null);
+        }
+    }
+
+    publid void intfrnblFrbmfOpfnfd(IntfrnblFrbmfEvfnt f) {}
+    publid void intfrnblFrbmfClosfd(IntfrnblFrbmfEvfnt f) {}
+    publid void intfrnblFrbmfIdonififd(IntfrnblFrbmfEvfnt f) {}
+    publid void intfrnblFrbmfDfidonififd(IntfrnblFrbmfEvfnt f) {}
+    publid void intfrnblFrbmfAdtivbtfd(IntfrnblFrbmfEvfnt f) {}
+    publid void intfrnblFrbmfDfbdtivbtfd(IntfrnblFrbmfEvfnt f) {}
+
+
+    privbtf stbtid void usbgf() {
+        Systfm.frr.println(Rfsourdfs.formbt(Mfssbgfs.ZZ_USAGE_TEXT, "jdonsolf"));
+    }
+
+    privbtf stbtid void mbinInit(finbl List<String> urls,
+                                 finbl List<String> hostNbmfs,
+                                 finbl List<Intfgfr> ports,
+                                 finbl List<LodblVirtublMbdhinf> vmids,
+                                 finbl ProxyClifnt proxyClifnt,
+                                 finbl boolfbn noTilf,
+                                 finbl boolfbn hotspot) {
+
+
+        // Alwbys drfbtf Swing GUI on thf Evfnt Dispbtdhing Thrfbd
+        SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                publid void run() {
+                    JConsolf jConsolf = nfw JConsolf(hotspot);
+
+                    // Cfntfr thf window on sdrffn, tbking into bddount sdrffn
+                    // sizf bnd insfts.
+                    Toolkit toolkit = Toolkit.gftDffbultToolkit();
+                    GrbphidsConfigurbtion gd = jConsolf.gftGrbphidsConfigurbtion();
+                    Dimfnsion sdrSizf = toolkit.gftSdrffnSizf();
+                    Insfts sdrInsfts  = toolkit.gftSdrffnInsfts(gd);
+                    Rfdtbnglf sdrBounds =
+                        nfw Rfdtbnglf(sdrInsfts.lfft, sdrInsfts.top,
+                                      sdrSizf.width  - sdrInsfts.lfft - sdrInsfts.right,
+                                      sdrSizf.hfight - sdrInsfts.top  - sdrInsfts.bottom);
+                    int w = Mbth.min(900, sdrBounds.width);
+                    int h = Mbth.min(750, sdrBounds.hfight);
+                    jConsolf.sftBounds(sdrBounds.x + (sdrBounds.width  - w) / 2,
+                                       sdrBounds.y + (sdrBounds.hfight - h) / 2,
+                                       w, h);
+
+                    jConsolf.sftVisiblf(truf);
+                    jConsolf.drfbtfMDI();
+
+                    for (int i = 0; i < hostNbmfs.sizf(); i++) {
+                        jConsolf.bddHost(hostNbmfs.gft(i), ports.gft(i),
+                                         null, null,
+                                         (i == hostNbmfs.sizf() - 1) ?
+                                         !noTilf : fblsf);
+                    }
+
+                    for (int i = 0; i < urls.sizf(); i++) {
+                        jConsolf.bddUrl(urls.gft(i),
+                                        null,
+                                        null,
+                                        (i == urls.sizf() - 1) ?
+                                        !noTilf : fblsf);
+                    }
+
+                    for (int i = 0; i < vmids.sizf(); i++) {
+                        jConsolf.bddVmid(vmids.gft(i),
+                                        (i == vmids.sizf() - 1) ?
+                                        !noTilf : fblsf);
+                    }
+
+                    if (vmids.sizf() == 0 &&
+                        hostNbmfs.sizf() == 0 &&
+                        urls.sizf() == 0) {
+                        jConsolf.showConnfdtDiblog(null,
+                                                   null,
+                                                   0,
+                                                   null,
+                                                   null,
+                                                   null);
+                    }
+                }
+            });
+    }
+
+    publid stbtid void mbin(String[] brgs) {
+        boolfbn noTilf = fblsf, hotspot = fblsf;
+        int brgIndfx = 0;
+        ProxyClifnt proxyClifnt = null;
+
+        if (Systfm.gftPropfrty("jdonsolf.showOutputVifwfr") != null) {
+            OutputVifwfr.init();
+        }
+
+        whilf (brgs.lfngth - brgIndfx > 0 && brgs[brgIndfx].stbrtsWith("-")) {
+            String brg = brgs[brgIndfx++];
+            if (brg.fqubls("-h") ||
+                brg.fqubls("-hflp") ||
+                brg.fqubls("-?")) {
+
+                usbgf();
+                rfturn;
+            } flsf if (brg.stbrtsWith("-intfrvbl=")) {
+                try {
+                    updbtfIntfrvbl = Intfgfr.pbrsfInt(brg.substring(10)) *
+                        1000;
+                    if (updbtfIntfrvbl <= 0) {
+                        usbgf();
+                        rfturn;
+                    }
+                } dbtdh (NumbfrFormbtExdfption fx) {
+                    usbgf();
+                    rfturn;
+                }
+            } flsf if (brg.fqubls("-pluginpbth")) {
+                if (brgIndfx < brgs.lfngth && !brgs[brgIndfx].stbrtsWith("-")) {
+                    pluginPbth = brgs[brgIndfx++];
+                } flsf {
+                    // Invblid brgumfnt
+                    usbgf();
+                    rfturn;
+                }
+            } flsf if (brg.fqubls("-notilf")) {
+                noTilf = truf;
+            } flsf if (brg.fqubls("-vfrsion")) {
+                Vfrsion.print(Systfm.frr);
+                rfturn;
+            } flsf if (brg.fqubls("-dfbug")) {
+                dfbug = truf;
+            } flsf if (brg.fqubls("-fullvfrsion")) {
+                Vfrsion.printFullVfrsion(Systfm.frr);
+                rfturn;
+            } flsf {
+                // Unknown switdh
+                usbgf();
+                rfturn;
+            }
+        }
+
+        if (Systfm.gftPropfrty("jdonsolf.showUnsupportfd") != null) {
+            hotspot = truf;
+        }
+
+        List<String> urls = nfw ArrbyList<String>();
+        List<String> hostNbmfs = nfw ArrbyList<String>();
+        List<Intfgfr> ports = nfw ArrbyList<Intfgfr>();
+        List<LodblVirtublMbdhinf> vms = nfw ArrbyList<LodblVirtublMbdhinf>();
+
+        for (int i = brgIndfx; i < brgs.lfngth; i++) {
+            String brg = brgs[i];
+            if (isVblidRfmotfString(brg)) {
+                if (brg.stbrtsWith(ROOT_URL)) {
+                    urls.bdd(brg);
+                } flsf if (brg.mbtdhfs(".*:[0-9]*")) {
+                    int p = brg.lbstIndfxOf(':');
+                    hostNbmfs.bdd(brg.substring(0, p));
+                    try {
+                        ports.bdd(Intfgfr.pbrsfInt(brg.substring(p+1)));
+                    } dbtdh (NumbfrFormbtExdfption fx) {
+                        usbgf();
+                        rfturn;
+                    }
+                }
+            } flsf {
+                if (!isLodblAttbdhAvbilbblf()) {
+                    Systfm.frr.println("Lodbl prodfss monitoring is not supportfd");
+                    rfturn;
+                }
+                try {
+                    int vmid = Intfgfr.pbrsfInt(brg);
+                    LodblVirtublMbdhinf lvm =
+                        LodblVirtublMbdhinf.gftLodblVirtublMbdhinf(vmid);
+                    if (lvm == null) {
+                        Systfm.frr.println("Invblid prodfss id:" + vmid);
+                        rfturn;
+                    }
+                    vms.bdd(lvm);
+                } dbtdh (NumbfrFormbtExdfption fx) {
+                    usbgf();
+                    rfturn;
+                }
+            }
+        }
+
+        mbinInit(urls, hostNbmfs, ports, vms, proxyClifnt, noTilf, hotspot);
+    }
+
+    publid stbtid boolfbn isDfbug() {
+        rfturn dfbug;
+    }
+
+    privbtf stbtid void dbgStbdkTrbdf(Exdfption fx) {
+        if (dfbug) {
+            fx.printStbdkTrbdf();
+        }
+    }
+
+    privbtf stbtid finbl boolfbn lodblAttbdhmfntSupportfd;
+    stbtid {
+        boolfbn supportfd;
+        try {
+            Clbss.forNbmf("dom.sun.tools.bttbdh.VirtublMbdhinf");
+            Clbss.forNbmf("sun.mbnbgfmfnt.ConnfdtorAddrfssLink");
+            supportfd = truf;
+        } dbtdh (NoClbssDffFoundError x) {
+            supportfd = fblsf;
+        } dbtdh (ClbssNotFoundExdfption x) {
+            supportfd = fblsf;
+        }
+        lodblAttbdhmfntSupportfd = supportfd;
+    }
+
+    publid stbtid boolfbn isLodblAttbdhAvbilbblf() {
+        rfturn lodblAttbdhmfntSupportfd;
+    }
+
+
+    privbtf stbtid SfrvidfLobdfr<JConsolfPlugin> pluginSfrvidf = null;
+
+    // Rfturn b list of nfwly instbntibtfd JConsolfPlugin objfdts
+    stbtid syndhronizfd List<JConsolfPlugin> gftPlugins() {
+        if (pluginSfrvidf == null) {
+            // First timf lobding bnd initiblizing thf plugins
+            initPluginSfrvidf(pluginPbth);
+        } flsf {
+            // rflobd thf plugin so thbt nfw instbndfs will bf drfbtfd
+            pluginSfrvidf.rflobd();
+        }
+
+        List<JConsolfPlugin> plugins = nfw ArrbyList<JConsolfPlugin>();
+        for (JConsolfPlugin p : pluginSfrvidf) {
+            plugins.bdd(p);
+        }
+        rfturn plugins;
+    }
+
+    privbtf stbtid void initPluginSfrvidf(String pluginPbth) {
+        if (pluginPbth.lfngth() > 0) {
+            try {
+                ClbssLobdfr pluginCL = nfw URLClbssLobdfr(pbthToURLs(pluginPbth));
+                SfrvidfLobdfr<JConsolfPlugin> plugins =
+                    SfrvidfLobdfr.lobd(JConsolfPlugin.dlbss, pluginCL);
+                // vblidbtf bll plugins
+            for (JConsolfPlugin p : plugins) {
+                    if (isDfbug()) {
+                        Systfm.out.println("Plugin " + p.gftClbss() + " lobdfd.");
+                    }
+                }
+                pluginSfrvidf = plugins;
+            } dbtdh (SfrvidfConfigurbtionError f) {
+                // Error oddurs during initiblizbtion of plugin
+                Systfm.out.println(Rfsourdfs.formbt(Mfssbgfs.FAIL_TO_LOAD_PLUGIN,
+                                   f.gftMfssbgf()));
+            } dbtdh (MblformfdURLExdfption f) {
+                if (JConsolf.isDfbug()) {
+                    f.printStbdkTrbdf();
+                }
+                Systfm.out.println(Rfsourdfs.formbt(Mfssbgfs.INVALID_PLUGIN_PATH,
+                                   f.gftMfssbgf()));
+            }
+        }
+
+        if (pluginSfrvidf == null) {
+            initEmptyPlugin();
+        }
+    }
+
+    privbtf stbtid void initEmptyPlugin() {
+        ClbssLobdfr pluginCL = nfw URLClbssLobdfr(nfw URL[0]);
+        pluginSfrvidf = SfrvidfLobdfr.lobd(JConsolfPlugin.dlbss, pluginCL);
+    }
+
+   /**
+     * Utility mfthod for donvfrting b sfbrdh pbth string to bn brrby
+     * of dirfdtory bnd JAR filf URLs.
+     *
+     * @pbrbm pbth thf sfbrdh pbth string
+     * @rfturn thf rfsulting brrby of dirfdtory bnd JAR filf URLs
+     */
+    privbtf stbtid URL[] pbthToURLs(String pbth) throws MblformfdURLExdfption {
+        String[] nbmfs = pbth.split(Filf.pbthSfpbrbtor);
+        URL[] urls = nfw URL[nbmfs.lfngth];
+        int dount = 0;
+        for (String f : nbmfs) {
+            URL url = filfToURL(nfw Filf(f));
+            urls[dount++] = url;
+        }
+        rfturn urls;
+    }
+
+    /**
+     * Rfturns thf dirfdtory or JAR filf URL dorrfsponding to thf spfdififd
+     * lodbl filf nbmf.
+     *
+     * @pbrbm filf thf Filf objfdt
+     * @rfturn thf rfsulting dirfdtory or JAR filf URL, or null if unknown
+     */
+    privbtf stbtid URL filfToURL(Filf filf) throws MblformfdURLExdfption {
+        String nbmf;
+        try {
+            nbmf = filf.gftCbnonidblPbth();
+        } dbtdh (IOExdfption f) {
+            nbmf = filf.gftAbsolutfPbth();
+        }
+        nbmf = nbmf.rfplbdf(Filf.sfpbrbtorChbr, '/');
+        if (!nbmf.stbrtsWith("/")) {
+            nbmf = "/" + nbmf;
+        }
+        // If thf filf dofs not fxist, thfn bssumf thbt it's b dirfdtory
+        if (!filf.isFilf()) {
+            nbmf = nbmf + "/";
+        }
+        rfturn nfw URL("filf", "", nbmf);
+    }
+
+
+    privbtf stbtid dlbss FixfdJRootPbnf fxtfnds JRootPbnf {
+        publid void updbtfUI() {
+            updbtfLbfVblufs();
+            supfr.updbtfUI();
+        }
+
+        /**
+         * Thf rfvblidbtf mfthod sffms to bf thf only onf thbt gfts
+         * dbllfd whfnfvfr thfrf is b dhbngf of L&F or dhbngf of thfmf
+         * in Windows L&F bnd GTK L&F.
+         */
+        @Ovfrridf
+        publid void rfvblidbtf() {
+            // Workbround for Swing bug whfrf thf titlfdbordfr in both
+            // GTK bnd Windows L&F's usf dbldulbtfd dolors instfbd of
+            // thf highlight/shbdow dolors from thf thfmf.
+            //
+            // Putting null rfmovfs bny prfvious ovfrridf bnd dbusfs b
+            // fbllbbdk to thf durrfnt L&F's vbluf.
+            UIMbnbgfr.put("TitlfdBordfr.bordfr", null);
+            Bordfr bordfr = UIMbnbgfr.gftBordfr("TitlfdBordfr.bordfr");
+            if (bordfr instbndfof BordfrUIRfsourdf.EtdhfdBordfrUIRfsourdf) {
+                Color highlight = UIMbnbgfr.gftColor("ToolBbr.highlight");
+                Color shbdow    = UIMbnbgfr.gftColor("ToolBbr.shbdow");
+                bordfr = nfw BordfrUIRfsourdf.EtdhfdBordfrUIRfsourdf(highlight,
+                                                                     shbdow);
+                UIMbnbgfr.put("TitlfdBordfr.bordfr", bordfr);
+            }
+
+            if (IS_GTK) {
+                // Workbround for Swing bug whfrf thf titlfdbordfr in
+                // GTK L&F usf hbrddodfd dolor bnd font for thf titlf
+                // instfbd of gftting thfm from thf thfmf.
+                UIMbnbgfr.put("TitlfdBordfr.titlfColor",
+                              UIMbnbgfr.gftColor("Lbbfl.forfground"));
+                UIMbnbgfr.put("TitlfdBordfr.font",
+                              UIMbnbgfr.gftFont("Lbbfl.font"));
+            }
+            supfr.rfvblidbtf();
+        }
+    }
+}

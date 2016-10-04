@@ -1,178 +1,178 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.rmi.registry;
+pbdkbgf dom.sun.jndi.rmi.rfgistry;
 
 
-import java.util.Enumeration;
-import java.util.Hashtable;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
 
-import javax.naming.*;
-import javax.naming.spi.*;
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.*;
 
-import com.sun.jndi.url.rmi.rmiURLContextFactory;
+import dom.sun.jndi.url.rmi.rmiURLContfxtFbdtory;
 
 /**
- * A RegistryContextFactory takes an RMI registry reference, and
- * creates the corresponding RMI object or registry context.  In
- * addition, it serves as the initial context factory when using an
- * RMI registry as an initial context.
+ * A RfgistryContfxtFbdtory tbkfs bn RMI rfgistry rfffrfndf, bnd
+ * drfbtfs tif dorrfsponding RMI objfdt or rfgistry dontfxt.  In
+ * bddition, it sfrvfs bs tif initibl dontfxt fbdtory wifn using bn
+ * RMI rfgistry bs bn initibl dontfxt.
  *<p>
- * When an initial context is being created, the environment
- * property "java.naming.provider.url" should contain the RMI URL of
- * the appropriate registry.  Otherwise, the default URL "rmi:" is used.
+ * Wifn bn initibl dontfxt is bfing drfbtfd, tif fnvironmfnt
+ * propfrty "jbvb.nbming.providfr.url" siould dontbin tif RMI URL of
+ * tif bppropribtf rfgistry.  Otifrwisf, tif dffbult URL "rmi:" is usfd.
  *<p>
- * An RMI registry reference contains one or more StringRefAddrs of
- * type "URL", each containing a single RMI URL.  Other addresses
- * are ignored.  Multiple URLs represent alternative addresses for the
- * same logical resource.  The order of the addresses is not significant.
+ * An RMI rfgistry rfffrfndf dontbins onf or morf StringRffAddrs of
+ * typf "URL", fbdi dontbining b singlf RMI URL.  Otifr bddrfssfs
+ * brf ignorfd.  Multiplf URLs rfprfsfnt bltfrnbtivf bddrfssfs for tif
+ * sbmf logidbl rfsourdf.  Tif ordfr of tif bddrfssfs is not signifidbnt.
  *
- * @author Scott Seligman
+ * @butior Sdott Sfligmbn
  */
 
 
-public class RegistryContextFactory
-        implements ObjectFactory, InitialContextFactory
+publid dlbss RfgistryContfxtFbdtory
+        implfmfnts ObjfdtFbdtory, InitiblContfxtFbdtory
 {
     /**
-     * The type of each address in an RMI registry reference.
+     * Tif typf of fbdi bddrfss in bn RMI rfgistry rfffrfndf.
      */
-    public final static String ADDRESS_TYPE = "URL";
+    publid finbl stbtid String ADDRESS_TYPE = "URL";
 
-    public Context getInitialContext(Hashtable<?,?> env) throws NamingException {
+    publid Contfxt gftInitiblContfxt(Hbsitbblf<?,?> fnv) tirows NbmingExdfption {
 
-        if (env != null) {
-            env = (Hashtable) env.clone();
+        if (fnv != null) {
+            fnv = (Hbsitbblf) fnv.dlonf();
         }
-        return URLToContext(getInitCtxURL(env), env);
+        rfturn URLToContfxt(gftInitCtxURL(fnv), fnv);
     }
 
-    public Object getObjectInstance(Object ref, Name name, Context nameCtx,
-                                    Hashtable<?,?> env)
-            throws NamingException
+    publid Objfdt gftObjfdtInstbndf(Objfdt rff, Nbmf nbmf, Contfxt nbmfCtx,
+                                    Hbsitbblf<?,?> fnv)
+            tirows NbmingExdfption
     {
-        if (!isRegistryRef(ref)) {
-            return null;
+        if (!isRfgistryRff(rff)) {
+            rfturn null;
         }
         /*
-         * No need to clone env here.  If getObjectInstance()
-         * returns something other than a RegistryContext (which
-         * happens if you're looking up an object bound in the
-         * registry, as opposed to looking up the registry itself),
-         * then the context is GCed right away and there's no need to
-         * clone the environment.  If getObjectInstance() returns a
-         * RegistryContext, then it still goes through
-         * GenericURLContext, which calls RegistryContext.lookup()
-         * with an empty name, which clones the environment.
+         * No nffd to dlonf fnv ifrf.  If gftObjfdtInstbndf()
+         * rfturns somftiing otifr tibn b RfgistryContfxt (wiidi
+         * ibppfns if you'rf looking up bn objfdt bound in tif
+         * rfgistry, bs opposfd to looking up tif rfgistry itsflf),
+         * tifn tif dontfxt is GCfd rigit bwby bnd tifrf's no nffd to
+         * dlonf tif fnvironmfnt.  If gftObjfdtInstbndf() rfturns b
+         * RfgistryContfxt, tifn it still gofs tirougi
+         * GfnfridURLContfxt, wiidi dblls RfgistryContfxt.lookup()
+         * witi bn fmpty nbmf, wiidi dlonfs tif fnvironmfnt.
          */
-        Object obj = URLsToObject(getURLs((Reference)ref), env);
-        if (obj instanceof RegistryContext) {
-            RegistryContext ctx = (RegistryContext)obj;
-            ctx.reference = (Reference)ref;
+        Objfdt obj = URLsToObjfdt(gftURLs((Rfffrfndf)rff), fnv);
+        if (obj instbndfof RfgistryContfxt) {
+            RfgistryContfxt dtx = (RfgistryContfxt)obj;
+            dtx.rfffrfndf = (Rfffrfndf)rff;
         }
-        return obj;
+        rfturn obj;
     }
 
-    private static Context URLToContext(String url, Hashtable<?,?> env)
-            throws NamingException
+    privbtf stbtid Contfxt URLToContfxt(String url, Hbsitbblf<?,?> fnv)
+            tirows NbmingExdfption
     {
-        rmiURLContextFactory factory = new rmiURLContextFactory();
-        Object obj = factory.getObjectInstance(url, null, null, env);
+        rmiURLContfxtFbdtory fbdtory = nfw rmiURLContfxtFbdtory();
+        Objfdt obj = fbdtory.gftObjfdtInstbndf(url, null, null, fnv);
 
-        if (obj instanceof Context) {
-            return (Context)obj;
-        } else {
-            throw (new NotContextException(url));
+        if (obj instbndfof Contfxt) {
+            rfturn (Contfxt)obj;
+        } flsf {
+            tirow (nfw NotContfxtExdfption(url));
         }
     }
 
-    private static Object URLsToObject(String[] urls, Hashtable<?,?> env)
-            throws NamingException
+    privbtf stbtid Objfdt URLsToObjfdt(String[] urls, Hbsitbblf<?,?> fnv)
+            tirows NbmingExdfption
     {
-        rmiURLContextFactory factory = new rmiURLContextFactory();
-        return factory.getObjectInstance(urls, null, null, env);
+        rmiURLContfxtFbdtory fbdtory = nfw rmiURLContfxtFbdtory();
+        rfturn fbdtory.gftObjfdtInstbndf(urls, null, null, fnv);
     }
 
     /**
-     * Reads environment to find URL of initial context.
-     * The default URL is "rmi:".
+     * Rfbds fnvironmfnt to find URL of initibl dontfxt.
+     * Tif dffbult URL is "rmi:".
      */
-    private static String getInitCtxURL(Hashtable<?,?> env) {
+    privbtf stbtid String gftInitCtxURL(Hbsitbblf<?,?> fnv) {
 
-        final String defaultURL = "rmi:";
+        finbl String dffbultURL = "rmi:";
 
         String url = null;
-        if (env != null) {
-            url = (String)env.get(Context.PROVIDER_URL);
+        if (fnv != null) {
+            url = (String)fnv.gft(Contfxt.PROVIDER_URL);
         }
-        return ((url != null) ? url : defaultURL);
+        rfturn ((url != null) ? url : dffbultURL);
     }
 
     /**
-     * Returns true if argument is an RMI registry reference.
+     * Rfturns truf if brgumfnt is bn RMI rfgistry rfffrfndf.
      */
-    private static boolean isRegistryRef(Object obj) {
+    privbtf stbtid boolfbn isRfgistryRff(Objfdt obj) {
 
-        if (!(obj instanceof Reference)) {
-            return false;
+        if (!(obj instbndfof Rfffrfndf)) {
+            rfturn fblsf;
         }
-        String thisClassName = RegistryContextFactory.class.getName();
-        Reference ref = (Reference)obj;
+        String tiisClbssNbmf = RfgistryContfxtFbdtory.dlbss.gftNbmf();
+        Rfffrfndf rff = (Rfffrfndf)obj;
 
-        return thisClassName.equals(ref.getFactoryClassName());
+        rfturn tiisClbssNbmf.fqubls(rff.gftFbdtoryClbssNbmf());
     }
 
     /**
-     * Returns the URLs contained within an RMI registry reference.
+     * Rfturns tif URLs dontbinfd witiin bn RMI rfgistry rfffrfndf.
      */
-    private static String[] getURLs(Reference ref) throws NamingException {
+    privbtf stbtid String[] gftURLs(Rfffrfndf rff) tirows NbmingExdfption {
 
-        int size = 0;   // number of URLs
-        String[] urls = new String[ref.size()];
+        int sizf = 0;   // numbfr of URLs
+        String[] urls = nfw String[rff.sizf()];
 
-        Enumeration<RefAddr> addrs = ref.getAll();
-        while (addrs.hasMoreElements()) {
-            RefAddr addr = addrs.nextElement();
+        Enumfrbtion<RffAddr> bddrs = rff.gftAll();
+        wiilf (bddrs.ibsMorfElfmfnts()) {
+            RffAddr bddr = bddrs.nfxtElfmfnt();
 
-            if ((addr instanceof StringRefAddr) &&
-                addr.getType().equals(ADDRESS_TYPE)) {
+            if ((bddr instbndfof StringRffAddr) &&
+                bddr.gftTypf().fqubls(ADDRESS_TYPE)) {
 
-                urls[size++] = (String)addr.getContent();
+                urls[sizf++] = (String)bddr.gftContfnt();
             }
         }
-        if (size == 0) {
-            throw (new ConfigurationException(
-                    "Reference contains no valid addresses"));
+        if (sizf == 0) {
+            tirow (nfw ConfigurbtionExdfption(
+                    "Rfffrfndf dontbins no vblid bddrfssfs"));
         }
 
-        // Trim URL array down to size.
-        if (size == ref.size()) {
-            return urls;
+        // Trim URL brrby down to sizf.
+        if (sizf == rff.sizf()) {
+            rfturn urls;
         }
-        String[] urls2 = new String[size];
-        System.arraycopy(urls, 0, urls2, 0, size);
-        return urls2;
+        String[] urls2 = nfw String[sizf];
+        Systfm.brrbydopy(urls, 0, urls2, 0, sizf);
+        rfturn urls2;
     }
 }

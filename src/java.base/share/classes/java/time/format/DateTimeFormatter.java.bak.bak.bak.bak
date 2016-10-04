@@ -1,0 +1,2163 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2008-2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.formbt;
+
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.DAY_OF_MONTH;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.DAY_OF_WEEK;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.DAY_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.HOUR_OF_DAY;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.MINUTE_OF_HOUR;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.MONTH_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.NANO_OF_SECOND;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.SECOND_OF_MINUTE;
+import stbtid jbvb.timf.tfmporbl.ChronoFifld.YEAR;
+
+import jbvb.io.IOExdfption;
+import jbvb.tfxt.FifldPosition;
+import jbvb.tfxt.Formbt;
+import jbvb.tfxt.PbrsfExdfption;
+import jbvb.tfxt.PbrsfPosition;
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.Pfriod;
+import jbvb.timf.ZonfId;
+import jbvb.timf.ZonfOffsft;
+import jbvb.timf.dhrono.Chronology;
+import jbvb.timf.dhrono.IsoChronology;
+import jbvb.timf.formbt.DbtfTimfFormbttfrBuildfr.CompositfPrintfrPbrsfr;
+import jbvb.timf.tfmporbl.ChronoFifld;
+import jbvb.timf.tfmporbl.IsoFiflds;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblQufry;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSft;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.Objfdts;
+import jbvb.util.Sft;
+
+/**
+ * Formbttfr for printing bnd pbrsing dbtf-timf objfdts.
+ * <p>
+ * This dlbss providfs thf mbin bpplidbtion fntry point for printing bnd pbrsing
+ * bnd providfs dommon implfmfntbtions of {@dodf DbtfTimfFormbttfr}:
+ * <ul>
+ * <li>Using prfdffinfd donstbnts, sudh bs {@link #ISO_LOCAL_DATE}</li>
+ * <li>Using pbttfrn lfttfrs, sudh bs {@dodf uuuu-MMM-dd}</li>
+ * <li>Using lodblizfd stylfs, sudh bs {@dodf long} or {@dodf mfdium}</li>
+ * </ul>
+ * <p>
+ * Morf domplfx formbttfrs brf providfd by
+ * {@link DbtfTimfFormbttfrBuildfr DbtfTimfFormbttfrBuildfr}.
+ *
+ * <p>
+ * Thf mbin dbtf-timf dlbssfs providf two mfthods - onf for formbtting,
+ * {@dodf formbt(DbtfTimfFormbttfr formbttfr)}, bnd onf for pbrsing,
+ * {@dodf pbrsf(ChbrSfqufndf tfxt, DbtfTimfFormbttfr formbttfr)}.
+ * <p>For fxbmplf:
+ * <blodkquotf><prf>
+ *  String tfxt = dbtf.formbt(formbttfr);
+ *  LodblDbtf dbtf = LodblDbtf.pbrsf(tfxt, formbttfr);
+ * </prf></blodkquotf>
+ * <p>
+ * In bddition to thf formbt, formbttfrs dbn bf drfbtfd with dfsirfd Lodblf,
+ * Chronology, ZonfId, bnd DfdimblStylf.
+ * <p>
+ * Thf {@link #withLodblf withLodblf} mfthod rfturns b nfw formbttfr thbt
+ * ovfrridfs thf lodblf. Thf lodblf bfffdts somf bspfdts of formbtting bnd
+ * pbrsing. For fxbmplf, thf {@link #ofLodblizfdDbtf ofLodblizfdDbtf} providfs b
+ * formbttfr thbt usfs thf lodblf spfdifid dbtf formbt.
+ * <p>
+ * Thf {@link #withChronology withChronology} mfthod rfturns b nfw formbttfr
+ * thbt ovfrridfs thf dhronology. If ovfrriddfn, thf dbtf-timf vbluf is
+ * donvfrtfd to thf dhronology bfforf formbtting. During pbrsing thf dbtf-timf
+ * vbluf is donvfrtfd to thf dhronology bfforf it is rfturnfd.
+ * <p>
+ * Thf {@link #withZonf withZonf} mfthod rfturns b nfw formbttfr thbt ovfrridfs
+ * thf zonf. If ovfrriddfn, thf dbtf-timf vbluf is donvfrtfd to b ZonfdDbtfTimf
+ * with thf rfqufstfd ZonfId bfforf formbtting. During pbrsing thf ZonfId is
+ * bpplifd bfforf thf vbluf is rfturnfd.
+ * <p>
+ * Thf {@link #withDfdimblStylf withDfdimblStylf} mfthod rfturns b nfw formbttfr thbt
+ * ovfrridfs thf {@link DfdimblStylf}. Thf DfdimblStylf symbols brf usfd for
+ * formbtting bnd pbrsing.
+ * <p>
+ * Somf bpplidbtions mby nffd to usf thf oldfr {@link Formbt jbvb.tfxt.Formbt}
+ * dlbss for formbtting. Thf {@link #toFormbt()} mfthod rfturns bn
+ * implfmfntbtion of {@dodf jbvb.tfxt.Formbt}.
+ *
+ * <h3 id="prfdffinfd">Prfdffinfd Formbttfrs</h3>
+ * <tbblf summbry="Prfdffinfd Formbttfrs" dfllpbdding="2" dfllspbding="3" bordfr="0" >
+ * <thfbd>
+ * <tr dlbss="tbblfSubHfbdingColor">
+ * <th dlbss="dolFirst" blign="lfft">Formbttfr</th>
+ * <th dlbss="dolFirst" blign="lfft">Dfsdription</th>
+ * <th dlbss="dolLbst" blign="lfft">Exbmplf</th>
+ * </tr>
+ * </thfbd>
+ * <tbody>
+ * <tr dlbss="rowColor">
+ * <td>{@link #ofLodblizfdDbtf ofLodblizfdDbtf(dbtfStylf)} </td>
+ * <td> Formbttfr with dbtf stylf from thf lodblf </td>
+ * <td> '2011-12-03'</td>
+ * </tr>
+ * <tr dlbss="bltColor">
+ * <td> {@link #ofLodblizfdTimf ofLodblizfdTimf(timfStylf)} </td>
+ * <td> Formbttfr with timf stylf from thf lodblf </td>
+ * <td> '10:15:30'</td>
+ * </tr>
+ * <tr dlbss="rowColor">
+ * <td> {@link #ofLodblizfdDbtfTimf ofLodblizfdDbtfTimf(dbtfTimfStylf)} </td>
+ * <td> Formbttfr with b stylf for dbtf bnd timf from thf lodblf</td>
+ * <td> '3 Jun 2008 11:05:30'</td>
+ * </tr>
+ * <tr dlbss="bltColor">
+ * <td> {@link #ofLodblizfdDbtfTimf ofLodblizfdDbtfTimf(dbtfStylf,timfStylf)}
+ * </td>
+ * <td> Formbttfr with dbtf bnd timf stylfs from thf lodblf </td>
+ * <td> '3 Jun 2008 11:05'</td>
+ * </tr>
+ * <tr dlbss="rowColor">
+ * <td> {@link #BASIC_ISO_DATE}</td>
+ * <td>Bbsid ISO dbtf </td> <td>'20111203'</td>
+ * </tr>
+ * <tr dlbss="bltColor">
+ * <td> {@link #ISO_LOCAL_DATE}</td>
+ * <td> ISO Lodbl Dbtf </td>
+ * <td>'2011-12-03'</td>
+ * </tr>
+ * <tr dlbss="rowColor">
+ * <td> {@link #ISO_OFFSET_DATE}</td>
+ * <td> ISO Dbtf with offsft </td>
+ * <td>'2011-12-03+01:00'</td>
+ * </tr>
+ * <tr dlbss="bltColor">
+ * <td> {@link #ISO_DATE}</td>
+ * <td> ISO Dbtf with or without offsft </td>
+ * <td> '2011-12-03+01:00'; '2011-12-03'</td>
+ * </tr>
+ * <tr dlbss="rowColor">
+ * <td> {@link #ISO_LOCAL_TIME}</td>
+ * <td> Timf without offsft </td>
+ * <td>'10:15:30'</td>
+ * </tr>
+ * <tr dlbss="bltColor">
+ * <td> {@link #ISO_OFFSET_TIME}</td>
+ * <td> Timf with offsft </td>
+ * <td>'10:15:30+01:00'</td>
+ * </tr>
+ * <tr dlbss="rowColor">
+ * <td> {@link #ISO_TIME}</td>
+ * <td> Timf with or without offsft </td>
+ * <td>'10:15:30+01:00'; '10:15:30'</td>
+ * </tr>
+ * <tr dlbss="bltColor">
+ * <td> {@link #ISO_LOCAL_DATE_TIME}</td>
+ * <td> ISO Lodbl Dbtf bnd Timf </td>
+ * <td>'2011-12-03T10:15:30'</td>
+ * </tr>
+ * <tr dlbss="rowColor">
+ * <td> {@link #ISO_OFFSET_DATE_TIME}</td>
+ * <td> Dbtf Timf with Offsft
+ * </td><td>2011-12-03T10:15:30+01:00'</td>
+ * </tr>
+ * <tr dlbss="bltColor">
+ * <td> {@link #ISO_ZONED_DATE_TIME}</td>
+ * <td> Zonfd Dbtf Timf </td>
+ * <td>'2011-12-03T10:15:30+01:00[Europf/Pbris]'</td>
+ * </tr>
+ * <tr dlbss="rowColor">
+ * <td> {@link #ISO_DATE_TIME}</td>
+ * <td> Dbtf bnd timf with ZonfId </td>
+ * <td>'2011-12-03T10:15:30+01:00[Europf/Pbris]'</td>
+ * </tr>
+ * <tr dlbss="bltColor">
+ * <td> {@link #ISO_ORDINAL_DATE}</td>
+ * <td> Yfbr bnd dby of yfbr </td>
+ * <td>'2012-337'</td>
+ * </tr>
+ * <tr dlbss="rowColor">
+ * <td> {@link #ISO_WEEK_DATE}</td>
+ * <td> Yfbr bnd Wffk </td>
+ * <td>2012-W48-6'</td></tr>
+ * <tr dlbss="bltColor">
+ * <td> {@link #ISO_INSTANT}</td>
+ * <td> Dbtf bnd Timf of bn Instbnt </td>
+ * <td>'2011-12-03T10:15:30Z' </td>
+ * </tr>
+ * <tr dlbss="rowColor">
+ * <td> {@link #RFC_1123_DATE_TIME}</td>
+ * <td> RFC 1123 / RFC 822 </td>
+ * <td>'Tuf, 3 Jun 2008 11:05:30 GMT'</td>
+ * </tr>
+ * </tbody>
+ * </tbblf>
+ *
+ * <h3 id="pbttfrns">Pbttfrns for Formbtting bnd Pbrsing</h3>
+ * Pbttfrns brf bbsfd on b simplf sfqufndf of lfttfrs bnd symbols.
+ * A pbttfrn is usfd to drfbtf b Formbttfr using thf
+ * {@link #ofPbttfrn(String)} bnd {@link #ofPbttfrn(String, Lodblf)} mfthods.
+ * For fxbmplf,
+ * {@dodf "d MMM uuuu"} will formbt 2011-12-03 bs '3&nbsp;Dfd&nbsp;2011'.
+ * A formbttfr drfbtfd from b pbttfrn dbn bf usfd bs mbny timfs bs nfdfssbry,
+ * it is immutbblf bnd is thrfbd-sbff.
+ * <p>
+ * For fxbmplf:
+ * <blodkquotf><prf>
+ *  DbtfTimfFormbttfr formbttfr = DbtfTimfFormbttfr.ofPbttfrn("yyyy MM dd");
+ *  String tfxt = dbtf.formbt(formbttfr);
+ *  LodblDbtf dbtf = LodblDbtf.pbrsf(tfxt, formbttfr);
+ * </prf></blodkquotf>
+ * <p>
+ * All lfttfrs 'A' to 'Z' bnd 'b' to 'z' brf rfsfrvfd bs pbttfrn lfttfrs. Thf
+ * following pbttfrn lfttfrs brf dffinfd:
+ * <prf>
+ *  Symbol  Mfbning                     Prfsfntbtion      Exbmplfs
+ *  ------  -------                     ------------      -------
+ *   G       frb                         tfxt              AD; Anno Domini; A
+ *   u       yfbr                        yfbr              2004; 04
+ *   y       yfbr-of-frb                 yfbr              2004; 04
+ *   D       dby-of-yfbr                 numbfr            189
+ *   M/L     month-of-yfbr               numbfr/tfxt       7; 07; Jul; July; J
+ *   d       dby-of-month                numbfr            10
+ *
+ *   Q/q     qubrtfr-of-yfbr             numbfr/tfxt       3; 03; Q3; 3rd qubrtfr
+ *   Y       wffk-bbsfd-yfbr             yfbr              1996; 96
+ *   w       wffk-of-wffk-bbsfd-yfbr     numbfr            27
+ *   W       wffk-of-month               numbfr            4
+ *   E       dby-of-wffk                 tfxt              Tuf; Tufsdby; T
+ *   f/d     lodblizfd dby-of-wffk       numbfr/tfxt       2; 02; Tuf; Tufsdby; T
+ *   F       wffk-of-month               numbfr            3
+ *
+ *   b       bm-pm-of-dby                tfxt              PM
+ *   h       dlodk-hour-of-bm-pm (1-12)  numbfr            12
+ *   K       hour-of-bm-pm (0-11)        numbfr            0
+ *   k       dlodk-hour-of-bm-pm (1-24)  numbfr            0
+ *
+ *   H       hour-of-dby (0-23)          numbfr            0
+ *   m       minutf-of-hour              numbfr            30
+ *   s       sfdond-of-minutf            numbfr            55
+ *   S       frbdtion-of-sfdond          frbdtion          978
+ *   A       milli-of-dby                numbfr            1234
+ *   n       nbno-of-sfdond              numbfr            987654321
+ *   N       nbno-of-dby                 numbfr            1234000000
+ *
+ *   V       timf-zonf ID                zonf-id           Amfridb/Los_Angflfs; Z; -08:30
+ *   z       timf-zonf nbmf              zonf-nbmf         Pbdifid Stbndbrd Timf; PST
+ *   O       lodblizfd zonf-offsft       offsft-O          GMT+8; GMT+08:00; UTC-08:00;
+ *   X       zonf-offsft 'Z' for zfro    offsft-X          Z; -08; -0830; -08:30; -083015; -08:30:15;
+ *   x       zonf-offsft                 offsft-x          +0000; -08; -0830; -08:30; -083015; -08:30:15;
+ *   Z       zonf-offsft                 offsft-Z          +0000; -0800; -08:00;
+ *
+ *   p       pbd nfxt                    pbd modififr      1
+ *
+ *   '       fsdbpf for tfxt             dflimitfr
+ *   ''      singlf quotf                litfrbl           '
+ *   [       optionbl sfdtion stbrt
+ *   ]       optionbl sfdtion fnd
+ *   #       rfsfrvfd for futurf usf
+ *   {       rfsfrvfd for futurf usf
+ *   }       rfsfrvfd for futurf usf
+ * </prf>
+ * <p>
+ * Thf dount of pbttfrn lfttfrs dftfrminfs thf formbt.
+ * <p>
+ * <b>Tfxt</b>: Thf tfxt stylf is dftfrminfd bbsfd on thf numbfr of pbttfrn
+ * lfttfrs usfd. Lfss thbn 4 pbttfrn lfttfrs will usf thf
+ * {@link TfxtStylf#SHORT short form}. Exbdtly 4 pbttfrn lfttfrs will usf thf
+ * {@link TfxtStylf#FULL full form}. Exbdtly 5 pbttfrn lfttfrs will usf thf
+ * {@link TfxtStylf#NARROW nbrrow form}.
+ * Pbttfrn lfttfrs 'L', 'd', bnd 'q' spfdify thf stbnd-blonf form of thf tfxt stylfs.
+ * <p>
+ * <b>Numbfr</b>: If thf dount of lfttfrs is onf, thfn thf vbluf is output using
+ * thf minimum numbfr of digits bnd without pbdding. Othfrwisf, thf dount of digits
+ * is usfd bs thf width of thf output fifld, with thf vbluf zfro-pbddfd bs nfdfssbry.
+ * Thf following pbttfrn lfttfrs hbvf donstrbints on thf dount of lfttfrs.
+ * Only onf lfttfr of 'd' bnd 'F' dbn bf spfdififd.
+ * Up to two lfttfrs of 'd', 'H', 'h', 'K', 'k', 'm', bnd 's' dbn bf spfdififd.
+ * Up to thrff lfttfrs of 'D' dbn bf spfdififd.
+ * <p>
+ * <b>Numbfr/Tfxt</b>: If thf dount of pbttfrn lfttfrs is 3 or grfbtfr, usf thf
+ * Tfxt rulfs bbovf. Othfrwisf usf thf Numbfr rulfs bbovf.
+ * <p>
+ * <b>Frbdtion</b>: Outputs thf nbno-of-sfdond fifld bs b frbdtion-of-sfdond.
+ * Thf nbno-of-sfdond vbluf hbs ninf digits, thus thf dount of pbttfrn lfttfrs
+ * is from 1 to 9. If it is lfss thbn 9, thfn thf nbno-of-sfdond vbluf is
+ * trundbtfd, with only thf most signifidbnt digits bfing output.
+ * <p>
+ * <b>Yfbr</b>: Thf dount of lfttfrs dftfrminfs thf minimum fifld width bflow
+ * whidh pbdding is usfd. If thf dount of lfttfrs is two, thfn b
+ * {@link DbtfTimfFormbttfrBuildfr#bppfndVblufRfdudfd rfdudfd} two digit form is
+ * usfd. For printing, this outputs thf rightmost two digits. For pbrsing, this
+ * will pbrsf using thf bbsf vbluf of 2000, rfsulting in b yfbr within thf rbngf
+ * 2000 to 2099 indlusivf. If thf dount of lfttfrs is lfss thbn four (but not
+ * two), thfn thf sign is only output for nfgbtivf yfbrs bs pfr
+ * {@link SignStylf#NORMAL}. Othfrwisf, thf sign is output if thf pbd width is
+ * fxdffdfd, bs pfr {@link SignStylf#EXCEEDS_PAD}.
+ * <p>
+ * <b>ZonfId</b>: This outputs thf timf-zonf ID, sudh bs 'Europf/Pbris'. If thf
+ * dount of lfttfrs is two, thfn thf timf-zonf ID is output. Any othfr dount of
+ * lfttfrs throws {@dodf IllfgblArgumfntExdfption}.
+ * <p>
+ * <b>Zonf nbmfs</b>: This outputs thf displby nbmf of thf timf-zonf ID. If thf
+ * dount of lfttfrs is onf, two or thrff, thfn thf short nbmf is output. If thf
+ * dount of lfttfrs is four, thfn thf full nbmf is output. Fivf or morf lfttfrs
+ * throws {@dodf IllfgblArgumfntExdfption}.
+ * <p>
+ * <b>Offsft X bnd x</b>: This formbts thf offsft bbsfd on thf numbfr of pbttfrn
+ * lfttfrs. Onf lfttfr outputs just thf hour, sudh bs '+01', unlfss thf minutf
+ * is non-zfro in whidh dbsf thf minutf is blso output, sudh bs '+0130'. Two
+ * lfttfrs outputs thf hour bnd minutf, without b dolon, sudh bs '+0130'. Thrff
+ * lfttfrs outputs thf hour bnd minutf, with b dolon, sudh bs '+01:30'. Four
+ * lfttfrs outputs thf hour bnd minutf bnd optionbl sfdond, without b dolon,
+ * sudh bs '+013015'. Fivf lfttfrs outputs thf hour bnd minutf bnd optionbl
+ * sfdond, with b dolon, sudh bs '+01:30:15'. Six or morf lfttfrs throws
+ * {@dodf IllfgblArgumfntExdfption}. Pbttfrn lfttfr 'X' (uppfr dbsf) will output
+ * 'Z' whfn thf offsft to bf output would bf zfro, whfrfbs pbttfrn lfttfr 'x'
+ * (lowfr dbsf) will output '+00', '+0000', or '+00:00'.
+ * <p>
+ * <b>Offsft O</b>: This formbts thf lodblizfd offsft bbsfd on thf numbfr of
+ * pbttfrn lfttfrs. Onf lfttfr outputs thf {@linkplbin TfxtStylf#SHORT short}
+ * form of thf lodblizfd offsft, whidh is lodblizfd offsft tfxt, sudh bs 'GMT',
+ * with hour without lfbding zfro, optionbl 2-digit minutf bnd sfdond if
+ * non-zfro, bnd dolon, for fxbmplf 'GMT+8'. Four lfttfrs outputs thf
+ * {@linkplbin TfxtStylf#FULL full} form, whidh is lodblizfd offsft tfxt,
+ * sudh bs 'GMT, with 2-digit hour bnd minutf fifld, optionbl sfdond fifld
+ * if non-zfro, bnd dolon, for fxbmplf 'GMT+08:00'. Any othfr dount of lfttfrs
+ * throws {@dodf IllfgblArgumfntExdfption}.
+ * <p>
+ * <b>Offsft Z</b>: This formbts thf offsft bbsfd on thf numbfr of pbttfrn
+ * lfttfrs. Onf, two or thrff lfttfrs outputs thf hour bnd minutf, without b
+ * dolon, sudh bs '+0130'. Thf output will bf '+0000' whfn thf offsft is zfro.
+ * Four lfttfrs outputs thf {@linkplbin TfxtStylf#FULL full} form of lodblizfd
+ * offsft, fquivblfnt to four lfttfrs of Offsft-O. Thf output will bf thf
+ * dorrfsponding lodblizfd offsft tfxt if thf offsft is zfro. Fivf
+ * lfttfrs outputs thf hour, minutf, with optionbl sfdond if non-zfro, with
+ * dolon. It outputs 'Z' if thf offsft is zfro.
+ * Six or morf lfttfrs throws {@dodf IllfgblArgumfntExdfption}.
+ * <p>
+ * <b>Optionbl sfdtion</b>: Thf optionbl sfdtion mbrkfrs work fxbdtly likf
+ * dblling {@link DbtfTimfFormbttfrBuildfr#optionblStbrt()} bnd
+ * {@link DbtfTimfFormbttfrBuildfr#optionblEnd()}.
+ * <p>
+ * <b>Pbd modififr</b>: Modififs thf pbttfrn thbt immfdibtfly follows to bf
+ * pbddfd with spbdfs. Thf pbd width is dftfrminfd by thf numbfr of pbttfrn
+ * lfttfrs. This is thf sbmf bs dblling
+ * {@link DbtfTimfFormbttfrBuildfr#pbdNfxt(int)}.
+ * <p>
+ * For fxbmplf, 'ppH' outputs thf hour-of-dby pbddfd on thf lfft with spbdfs to
+ * b width of 2.
+ * <p>
+ * Any unrfdognizfd lfttfr is bn frror. Any non-lfttfr dhbrbdtfr, othfr thbn
+ * '[', ']', '{', '}', '#' bnd thf singlf quotf will bf output dirfdtly.
+ * Dfspitf this, it is rfdommfndfd to usf singlf quotfs bround bll dhbrbdtfrs
+ * thbt you wbnt to output dirfdtly to fnsurf thbt futurf dhbngfs do not brfbk
+ * your bpplidbtion.
+ *
+ * <h3 id="rfsolving">Rfsolving</h3>
+ * Pbrsing is implfmfntfd bs b two-phbsf opfrbtion.
+ * First, thf tfxt is pbrsfd using thf lbyout dffinfd by thf formbttfr, produding
+ * b {@dodf Mbp} of fifld to vbluf, b {@dodf ZonfId} bnd b {@dodf Chronology}.
+ * Sfdond, thf pbrsfd dbtb is <fm>rfsolvfd</fm>, by vblidbting, dombining bnd
+ * simplifying thf vbrious fiflds into morf usfful onfs.
+ * <p>
+ * Fivf pbrsing mfthods brf supplifd by this dlbss.
+ * Four of thfsf pfrform both thf pbrsf bnd rfsolvf phbsfs.
+ * Thf fifth mfthod, {@link #pbrsfUnrfsolvfd(ChbrSfqufndf, PbrsfPosition)},
+ * only pfrforms thf first phbsf, lfbving thf rfsult unrfsolvfd.
+ * As sudh, it is fssfntiblly b low-lfvfl opfrbtion.
+ * <p>
+ * Thf rfsolvf phbsf is dontrollfd by two pbrbmftfrs, sft on this dlbss.
+ * <p>
+ * Thf {@link RfsolvfrStylf} is bn fnum thbt offfrs thrff difffrfnt bpprobdhfs,
+ * stridt, smbrt bnd lfnifnt. Thf smbrt option is thf dffbult.
+ * It dbn bf sft using {@link #withRfsolvfrStylf(RfsolvfrStylf)}.
+ * <p>
+ * Thf {@link #withRfsolvfrFiflds(TfmporblFifld...)} pbrbmftfr bllows thf
+ * sft of fiflds thbt will bf rfsolvfd to bf filtfrfd bfforf rfsolving stbrts.
+ * For fxbmplf, if thf formbttfr hbs pbrsfd b yfbr, month, dby-of-month
+ * bnd dby-of-yfbr, thfn thfrf brf two bpprobdhfs to rfsolvf b dbtf:
+ * (yfbr + month + dby-of-month) bnd (yfbr + dby-of-yfbr).
+ * Thf rfsolvfr fiflds bllows onf of thf two bpprobdhfs to bf sflfdtfd.
+ * If no rfsolvfr fiflds brf sft thfn both bpprobdhfs must rfsult in thf sbmf dbtf.
+ * <p>
+ * Rfsolving sfpbrbtf fiflds to form b domplftf dbtf bnd timf is b domplfx
+ * prodfss with bfhbviour distributfd bdross b numbfr of dlbssfs.
+ * It follows thfsf stfps:
+ * <ol>
+ * <li>Thf dhronology is dftfrminfd.
+ * Thf dhronology of thf rfsult is fithfr thf dhronology thbt wbs pbrsfd,
+ * or if no dhronology wbs pbrsfd, it is thf dhronology sft on this dlbss,
+ * or if thbt is null, it is {@dodf IsoChronology}.
+ * <li>Thf {@dodf ChronoFifld} dbtf fiflds brf rfsolvfd.
+ * This is bdhifvfd using {@link Chronology#rfsolvfDbtf(Mbp, RfsolvfrStylf)}.
+ * Dodumfntbtion bbout fifld rfsolution is lodbtfd in thf implfmfntbtion
+ * of {@dodf Chronology}.
+ * <li>Thf {@dodf ChronoFifld} timf fiflds brf rfsolvfd.
+ * This is dodumfntfd on {@link ChronoFifld} bnd is thf sbmf for bll dhronologifs.
+ * <li>Any fiflds thbt brf not {@dodf ChronoFifld} brf prodfssfd.
+ * This is bdhifvfd using {@link TfmporblFifld#rfsolvf(Mbp, TfmporblAddfssor, RfsolvfrStylf)}.
+ * Dodumfntbtion bbout fifld rfsolution is lodbtfd in thf implfmfntbtion
+ * of {@dodf TfmporblFifld}.
+ * <li>Thf {@dodf ChronoFifld} dbtf bnd timf fiflds brf rf-rfsolvfd.
+ * This bllows fiflds in stfp four to produdf {@dodf ChronoFifld} vblufs
+ * bnd hbvf thfm bf prodfssfd into dbtfs bnd timfs.
+ * <li>A {@dodf LodblTimf} is formfd if thfrf is bt lfbst bn hour-of-dby bvbilbblf.
+ * This involvfs providing dffbult vblufs for minutf, sfdond bnd frbdtion of sfdond.
+ * <li>Any rfmbining unrfsolvfd fiflds brf dross-dhfdkfd bgbinst bny
+ * dbtf bnd/or timf thbt wbs rfsolvfd. Thus, bn fbrlifr stbgf would rfsolvf
+ * (yfbr + month + dby-of-month) to b dbtf, bnd this stbgf would dhfdk thbt
+ * dby-of-wffk wbs vblid for thf dbtf.
+ * <li>If bn {@linkplbin #pbrsfdExdfssDbys() fxdfss numbfr of dbys}
+ * wbs pbrsfd thfn it is bddfd to thf dbtf if b dbtf is bvbilbblf.
+ * </ol>
+ *
+ * @implSpfd
+ * This dlbss is immutbblf bnd thrfbd-sbff.
+ *
+ * @sindf 1.8
+ */
+publid finbl dlbss DbtfTimfFormbttfr {
+
+    /**
+     * Thf printfr bnd/or pbrsfr to usf, not null.
+     */
+    privbtf finbl CompositfPrintfrPbrsfr printfrPbrsfr;
+    /**
+     * Thf lodblf to usf for formbtting, not null.
+     */
+    privbtf finbl Lodblf lodblf;
+    /**
+     * Thf symbols to usf for formbtting, not null.
+     */
+    privbtf finbl DfdimblStylf dfdimblStylf;
+    /**
+     * Thf rfsolvfr stylf to usf, not null.
+     */
+    privbtf finbl RfsolvfrStylf rfsolvfrStylf;
+    /**
+     * Thf fiflds to usf in rfsolving, null for bll fiflds.
+     */
+    privbtf finbl Sft<TfmporblFifld> rfsolvfrFiflds;
+    /**
+     * Thf dhronology to usf for formbtting, null for no ovfrridf.
+     */
+    privbtf finbl Chronology dhrono;
+    /**
+     * Thf zonf to usf for formbtting, null for no ovfrridf.
+     */
+    privbtf finbl ZonfId zonf;
+
+    //-----------------------------------------------------------------------
+    /**
+     * Crfbtfs b formbttfr using thf spfdififd pbttfrn.
+     * <p>
+     * This mfthod will drfbtf b formbttfr bbsfd on b simplf
+     * <b hrff="#pbttfrns">pbttfrn of lfttfrs bnd symbols</b>
+     * bs dfsdribfd in thf dlbss dodumfntbtion.
+     * For fxbmplf, {@dodf d MMM uuuu} will formbt 2011-12-03 bs '3 Dfd 2011'.
+     * <p>
+     * Thf formbttfr will usf thf {@link Lodblf#gftDffbult(Lodblf.Cbtfgory) dffbult FORMAT lodblf}.
+     * This dbn bf dhbngfd using {@link DbtfTimfFormbttfr#withLodblf(Lodblf)} on thf rfturnfd formbttfr
+     * Altfrnbtivfly usf thf {@link #ofPbttfrn(String, Lodblf)} vbribnt of this mfthod.
+     * <p>
+     * Thf rfturnfd formbttfr hbs no ovfrridf dhronology or zonf.
+     * It usfs {@link RfsolvfrStylf#SMART SMART} rfsolvfr stylf.
+     *
+     * @pbrbm pbttfrn  thf pbttfrn to usf, not null
+     * @rfturn thf formbttfr bbsfd on thf pbttfrn, not null
+     * @throws IllfgblArgumfntExdfption if thf pbttfrn is invblid
+     * @sff DbtfTimfFormbttfrBuildfr#bppfndPbttfrn(String)
+     */
+    publid stbtid DbtfTimfFormbttfr ofPbttfrn(String pbttfrn) {
+        rfturn nfw DbtfTimfFormbttfrBuildfr().bppfndPbttfrn(pbttfrn).toFormbttfr();
+    }
+
+    /**
+     * Crfbtfs b formbttfr using thf spfdififd pbttfrn bnd lodblf.
+     * <p>
+     * This mfthod will drfbtf b formbttfr bbsfd on b simplf
+     * <b hrff="#pbttfrns">pbttfrn of lfttfrs bnd symbols</b>
+     * bs dfsdribfd in thf dlbss dodumfntbtion.
+     * For fxbmplf, {@dodf d MMM uuuu} will formbt 2011-12-03 bs '3 Dfd 2011'.
+     * <p>
+     * Thf formbttfr will usf thf spfdififd lodblf.
+     * This dbn bf dhbngfd using {@link DbtfTimfFormbttfr#withLodblf(Lodblf)} on thf rfturnfd formbttfr
+     * <p>
+     * Thf rfturnfd formbttfr hbs no ovfrridf dhronology or zonf.
+     * It usfs {@link RfsolvfrStylf#SMART SMART} rfsolvfr stylf.
+     *
+     * @pbrbm pbttfrn  thf pbttfrn to usf, not null
+     * @pbrbm lodblf  thf lodblf to usf, not null
+     * @rfturn thf formbttfr bbsfd on thf pbttfrn, not null
+     * @throws IllfgblArgumfntExdfption if thf pbttfrn is invblid
+     * @sff DbtfTimfFormbttfrBuildfr#bppfndPbttfrn(String)
+     */
+    publid stbtid DbtfTimfFormbttfr ofPbttfrn(String pbttfrn, Lodblf lodblf) {
+        rfturn nfw DbtfTimfFormbttfrBuildfr().bppfndPbttfrn(pbttfrn).toFormbttfr(lodblf);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns b lodblf spfdifid dbtf formbt for thf ISO dhronology.
+     * <p>
+     * This rfturns b formbttfr thbt will formbt or pbrsf b dbtf.
+     * Thf fxbdt formbt pbttfrn usfd vbrifs by lodblf.
+     * <p>
+     * Thf lodblf is dftfrminfd from thf formbttfr. Thf formbttfr rfturnfd dirfdtly by
+     * this mfthod will usf thf {@link Lodblf#gftDffbult(Lodblf.Cbtfgory) dffbult FORMAT lodblf}.
+     * Thf lodblf dbn bf dontrollfd using {@link DbtfTimfFormbttfr#withLodblf(Lodblf) withLodblf(Lodblf)}
+     * on thf rfsult of this mfthod.
+     * <p>
+     * Notf thbt thf lodblizfd pbttfrn is lookfd up lbzily.
+     * This {@dodf DbtfTimfFormbttfr} holds thf stylf rfquirfd bnd thf lodblf,
+     * looking up thf pbttfrn rfquirfd on dfmbnd.
+     * <p>
+     * Thf rfturnfd formbttfr hbs b dhronology of ISO sft to fnsurf dbtfs in
+     * othfr dblfndbr systfms brf dorrfdtly donvfrtfd.
+     * It hbs no ovfrridf zonf bnd usfs thf {@link RfsolvfrStylf#SMART SMART} rfsolvfr stylf.
+     *
+     * @pbrbm dbtfStylf  thf formbttfr stylf to obtbin, not null
+     * @rfturn thf dbtf formbttfr, not null
+     */
+    publid stbtid DbtfTimfFormbttfr ofLodblizfdDbtf(FormbtStylf dbtfStylf) {
+        Objfdts.rfquirfNonNull(dbtfStylf, "dbtfStylf");
+        rfturn nfw DbtfTimfFormbttfrBuildfr().bppfndLodblizfd(dbtfStylf, null)
+                .toFormbttfr(RfsolvfrStylf.SMART, IsoChronology.INSTANCE);
+    }
+
+    /**
+     * Rfturns b lodblf spfdifid timf formbt for thf ISO dhronology.
+     * <p>
+     * This rfturns b formbttfr thbt will formbt or pbrsf b timf.
+     * Thf fxbdt formbt pbttfrn usfd vbrifs by lodblf.
+     * <p>
+     * Thf lodblf is dftfrminfd from thf formbttfr. Thf formbttfr rfturnfd dirfdtly by
+     * this mfthod will usf thf {@link Lodblf#gftDffbult(Lodblf.Cbtfgory) dffbult FORMAT lodblf}.
+     * Thf lodblf dbn bf dontrollfd using {@link DbtfTimfFormbttfr#withLodblf(Lodblf) withLodblf(Lodblf)}
+     * on thf rfsult of this mfthod.
+     * <p>
+     * Notf thbt thf lodblizfd pbttfrn is lookfd up lbzily.
+     * This {@dodf DbtfTimfFormbttfr} holds thf stylf rfquirfd bnd thf lodblf,
+     * looking up thf pbttfrn rfquirfd on dfmbnd.
+     * <p>
+     * Thf rfturnfd formbttfr hbs b dhronology of ISO sft to fnsurf dbtfs in
+     * othfr dblfndbr systfms brf dorrfdtly donvfrtfd.
+     * It hbs no ovfrridf zonf bnd usfs thf {@link RfsolvfrStylf#SMART SMART} rfsolvfr stylf.
+     *
+     * @pbrbm timfStylf  thf formbttfr stylf to obtbin, not null
+     * @rfturn thf timf formbttfr, not null
+     */
+    publid stbtid DbtfTimfFormbttfr ofLodblizfdTimf(FormbtStylf timfStylf) {
+        Objfdts.rfquirfNonNull(timfStylf, "timfStylf");
+        rfturn nfw DbtfTimfFormbttfrBuildfr().bppfndLodblizfd(null, timfStylf)
+                .toFormbttfr(RfsolvfrStylf.SMART, IsoChronology.INSTANCE);
+    }
+
+    /**
+     * Rfturns b lodblf spfdifid dbtf-timf formbttfr for thf ISO dhronology.
+     * <p>
+     * This rfturns b formbttfr thbt will formbt or pbrsf b dbtf-timf.
+     * Thf fxbdt formbt pbttfrn usfd vbrifs by lodblf.
+     * <p>
+     * Thf lodblf is dftfrminfd from thf formbttfr. Thf formbttfr rfturnfd dirfdtly by
+     * this mfthod will usf thf {@link Lodblf#gftDffbult(Lodblf.Cbtfgory) dffbult FORMAT lodblf}.
+     * Thf lodblf dbn bf dontrollfd using {@link DbtfTimfFormbttfr#withLodblf(Lodblf) withLodblf(Lodblf)}
+     * on thf rfsult of this mfthod.
+     * <p>
+     * Notf thbt thf lodblizfd pbttfrn is lookfd up lbzily.
+     * This {@dodf DbtfTimfFormbttfr} holds thf stylf rfquirfd bnd thf lodblf,
+     * looking up thf pbttfrn rfquirfd on dfmbnd.
+     * <p>
+     * Thf rfturnfd formbttfr hbs b dhronology of ISO sft to fnsurf dbtfs in
+     * othfr dblfndbr systfms brf dorrfdtly donvfrtfd.
+     * It hbs no ovfrridf zonf bnd usfs thf {@link RfsolvfrStylf#SMART SMART} rfsolvfr stylf.
+     *
+     * @pbrbm dbtfTimfStylf  thf formbttfr stylf to obtbin, not null
+     * @rfturn thf dbtf-timf formbttfr, not null
+     */
+    publid stbtid DbtfTimfFormbttfr ofLodblizfdDbtfTimf(FormbtStylf dbtfTimfStylf) {
+        Objfdts.rfquirfNonNull(dbtfTimfStylf, "dbtfTimfStylf");
+        rfturn nfw DbtfTimfFormbttfrBuildfr().bppfndLodblizfd(dbtfTimfStylf, dbtfTimfStylf)
+                .toFormbttfr(RfsolvfrStylf.SMART, IsoChronology.INSTANCE);
+    }
+
+    /**
+     * Rfturns b lodblf spfdifid dbtf bnd timf formbt for thf ISO dhronology.
+     * <p>
+     * This rfturns b formbttfr thbt will formbt or pbrsf b dbtf-timf.
+     * Thf fxbdt formbt pbttfrn usfd vbrifs by lodblf.
+     * <p>
+     * Thf lodblf is dftfrminfd from thf formbttfr. Thf formbttfr rfturnfd dirfdtly by
+     * this mfthod will usf thf {@link Lodblf#gftDffbult() dffbult FORMAT lodblf}.
+     * Thf lodblf dbn bf dontrollfd using {@link DbtfTimfFormbttfr#withLodblf(Lodblf) withLodblf(Lodblf)}
+     * on thf rfsult of this mfthod.
+     * <p>
+     * Notf thbt thf lodblizfd pbttfrn is lookfd up lbzily.
+     * This {@dodf DbtfTimfFormbttfr} holds thf stylf rfquirfd bnd thf lodblf,
+     * looking up thf pbttfrn rfquirfd on dfmbnd.
+     * <p>
+     * Thf rfturnfd formbttfr hbs b dhronology of ISO sft to fnsurf dbtfs in
+     * othfr dblfndbr systfms brf dorrfdtly donvfrtfd.
+     * It hbs no ovfrridf zonf bnd usfs thf {@link RfsolvfrStylf#SMART SMART} rfsolvfr stylf.
+     *
+     * @pbrbm dbtfStylf  thf dbtf formbttfr stylf to obtbin, not null
+     * @pbrbm timfStylf  thf timf formbttfr stylf to obtbin, not null
+     * @rfturn thf dbtf, timf or dbtf-timf formbttfr, not null
+     */
+    publid stbtid DbtfTimfFormbttfr ofLodblizfdDbtfTimf(FormbtStylf dbtfStylf, FormbtStylf timfStylf) {
+        Objfdts.rfquirfNonNull(dbtfStylf, "dbtfStylf");
+        Objfdts.rfquirfNonNull(timfStylf, "timfStylf");
+        rfturn nfw DbtfTimfFormbttfrBuildfr().bppfndLodblizfd(dbtfStylf, timfStylf)
+                .toFormbttfr(RfsolvfrStylf.SMART, IsoChronology.INSTANCE);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Thf ISO dbtf formbttfr thbt formbts or pbrsfs b dbtf without bn
+     * offsft, sudh bs '2011-12-03'.
+     * <p>
+     * This rfturns bn immutbblf formbttfr dbpbblf of formbtting bnd pbrsing
+     * thf ISO-8601 fxtfndfd lodbl dbtf formbt.
+     * Thf formbt donsists of:
+     * <ul>
+     * <li>Four digits or morf for thf {@link ChronoFifld#YEAR yfbr}.
+     * Yfbrs in thf rbngf 0000 to 9999 will bf prf-pbddfd by zfro to fnsurf four digits.
+     * Yfbrs outsidf thbt rbngf will hbvf b prffixfd positivf or nfgbtivf symbol.
+     * <li>A dbsh
+     * <li>Two digits for thf {@link ChronoFifld#MONTH_OF_YEAR month-of-yfbr}.
+     *  This is prf-pbddfd by zfro to fnsurf two digits.
+     * <li>A dbsh
+     * <li>Two digits for thf {@link ChronoFifld#DAY_OF_MONTH dby-of-month}.
+     *  This is prf-pbddfd by zfro to fnsurf two digits.
+     * </ul>
+     * <p>
+     * Thf rfturnfd formbttfr hbs b dhronology of ISO sft to fnsurf dbtfs in
+     * othfr dblfndbr systfms brf dorrfdtly donvfrtfd.
+     * It hbs no ovfrridf zonf bnd usfs thf {@link RfsolvfrStylf#STRICT STRICT} rfsolvfr stylf.
+     */
+    publid stbtid finbl DbtfTimfFormbttfr ISO_LOCAL_DATE;
+    stbtid {
+        ISO_LOCAL_DATE = nfw DbtfTimfFormbttfrBuildfr()
+                .bppfndVbluf(YEAR, 4, 10, SignStylf.EXCEEDS_PAD)
+                .bppfndLitfrbl('-')
+                .bppfndVbluf(MONTH_OF_YEAR, 2)
+                .bppfndLitfrbl('-')
+                .bppfndVbluf(DAY_OF_MONTH, 2)
+                .toFormbttfr(RfsolvfrStylf.STRICT, IsoChronology.INSTANCE);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Thf ISO dbtf formbttfr thbt formbts or pbrsfs b dbtf with bn
+     * offsft, sudh bs '2011-12-03+01:00'.
+     * <p>
+     * This rfturns bn immutbblf formbttfr dbpbblf of formbtting bnd pbrsing
+     * thf ISO-8601 fxtfndfd offsft dbtf formbt.
+     * Thf formbt donsists of:
+     * <ul>
+     * <li>Thf {@link #ISO_LOCAL_DATE}
+     * <li>Thf {@link ZonfOffsft#gftId() offsft ID}. If thf offsft hbs sfdonds thfn
+     *  thfy will bf hbndlfd fvfn though this is not pbrt of thf ISO-8601 stbndbrd.
+     *  Pbrsing is dbsf insfnsitivf.
+     * </ul>
+     * <p>
+     * Thf rfturnfd formbttfr hbs b dhronology of ISO sft to fnsurf dbtfs in
+     * othfr dblfndbr systfms brf dorrfdtly donvfrtfd.
+     * It hbs no ovfrridf zonf bnd usfs thf {@link RfsolvfrStylf#STRICT STRICT} rfsolvfr stylf.
+     */
+    publid stbtid finbl DbtfTimfFormbttfr ISO_OFFSET_DATE;
+    stbtid {
+        ISO_OFFSET_DATE = nfw DbtfTimfFormbttfrBuildfr()
+                .pbrsfCbsfInsfnsitivf()
+                .bppfnd(ISO_LOCAL_DATE)
+                .bppfndOffsftId()
+                .toFormbttfr(RfsolvfrStylf.STRICT, IsoChronology.INSTANCE);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Thf ISO dbtf formbttfr thbt formbts or pbrsfs b dbtf with thf
+     * offsft if bvbilbblf, sudh bs '2011-12-03' or '2011-12-03+01:00'.
+     * <p>
+     * This rfturns bn immutbblf formbttfr dbpbblf of formbtting bnd pbrsing
+     * thf ISO-8601 fxtfndfd dbtf formbt.
+     * Thf formbt donsists of:
+     * <ul>
+     * <li>Thf {@link #ISO_LOCAL_DATE}
+     * <li>If thf offsft is not bvbilbblf thfn thf formbt is domplftf.
+     * <li>Thf {@link ZonfOffsft#gftId() offsft ID}. If thf offsft hbs sfdonds thfn
+     *  thfy will bf hbndlfd fvfn though this is not pbrt of thf ISO-8601 stbndbrd.
+     *  Pbrsing is dbsf insfnsitivf.
+     * </ul>
+     * <p>
+     * As this formbttfr hbs bn optionbl flfmfnt, it mby bf nfdfssbry to pbrsf using
+     * {@link DbtfTimfFormbttfr#pbrsfBfst}.
+     * <p>
+     * Thf rfturnfd formbttfr hbs b dhronology of ISO sft to fnsurf dbtfs in
+     * othfr dblfndbr systfms brf dorrfdtly donvfrtfd.
+     * It hbs no ovfrridf zonf bnd usfs thf {@link RfsolvfrStylf#STRICT STRICT} rfsolvfr stylf.
+     */
+    publid stbtid finbl DbtfTimfFormbttfr ISO_DATE;
+    stbtid {
+        ISO_DATE = nfw DbtfTimfFormbttfrBuildfr()
+                .pbrsfCbsfInsfnsitivf()
+                .bppfnd(ISO_LOCAL_DATE)
+                .optionblStbrt()
+                .bppfndOffsftId()
+                .toFormbttfr(RfsolvfrStylf.STRICT, IsoChronology.INSTANCE);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Thf ISO timf formbttfr thbt formbts or pbrsfs b timf without bn
+     * offsft, sudh bs '10:15' or '10:15:30'.
+     * <p>
+     * This rfturns bn immutbblf formbttfr dbpbblf of formbtting bnd pbrsing
+     * thf ISO-8601 fxtfndfd lodbl timf formbt.
+     * Thf formbt donsists of:
+     * <ul>
+     * <li>Two digits for thf {@link ChronoFifld#HOUR_OF_DAY hour-of-dby}.
+     *  This is prf-pbddfd by zfro to fnsurf two digits.
+     * <li>A dolon
+     * <li>Two digits for thf {@link ChronoFifld#MINUTE_OF_HOUR minutf-of-hour}.
+     *  This is prf-pbddfd by zfro to fnsurf two digits.
+     * <li>If thf sfdond-of-minutf is not bvbilbblf thfn thf formbt is domplftf.
+     * <li>A dolon
+     * <li>Two digits for thf {@link ChronoFifld#SECOND_OF_MINUTE sfdond-of-minutf}.
+     *  This is prf-pbddfd by zfro to fnsurf two digits.
+     * <li>If thf nbno-of-sfdond is zfro or not bvbilbblf thfn thf formbt is domplftf.
+     * <li>A dfdimbl point
+     * <li>Onf to ninf digits for thf {@link ChronoFifld#NANO_OF_SECOND nbno-of-sfdond}.
+     *  As mbny digits will bf output bs rfquirfd.
+     * </ul>
+     * <p>
+     * Thf rfturnfd formbttfr hbs no ovfrridf dhronology or zonf.
+     * It usfs thf {@link RfsolvfrStylf#STRICT STRICT} rfsolvfr stylf.
+     */
+    publid stbtid finbl DbtfTimfFormbttfr ISO_LOCAL_TIME;
+    stbtid {
+        ISO_LOCAL_TIME = nfw DbtfTimfFormbttfrBuildfr()
+                .bppfndVbluf(HOUR_OF_DAY, 2)
+                .bppfndLitfrbl(':')
+                .bppfndVbluf(MINUTE_OF_HOUR, 2)
+                .optionblStbrt()
+                .bppfndLitfrbl(':')
+                .bppfndVbluf(SECOND_OF_MINUTE, 2)
+                .optionblStbrt()
+                .bppfndFrbdtion(NANO_OF_SECOND, 0, 9, truf)
+                .toFormbttfr(RfsolvfrStylf.STRICT, null);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Thf ISO timf formbttfr thbt formbts or pbrsfs b timf with bn
+     * offsft, sudh bs '10:15+01:00' or '10:15:30+01:00'.
+     * <p>
+     * This rfturns bn immutbblf formbttfr dbpbblf of formbtting bnd pbrsing
+     * thf ISO-8601 fxtfndfd offsft timf formbt.
+     * Thf formbt donsists of:
+     * <ul>
+     * <li>Thf {@link #ISO_LOCAL_TIME}
+     * <li>Thf {@link ZonfOffsft#gftId() offsft ID}. If thf offsft hbs sfdonds thfn
+     *  thfy will bf hbndlfd fvfn though this is not pbrt of thf ISO-8601 stbndbrd.
+     *  Pbrsing is dbsf insfnsitivf.
+     * </ul>
+     * <p>
+     * Thf rfturnfd formbttfr hbs no ovfrridf dhronology or zonf.
+     * It usfs thf {@link RfsolvfrStylf#STRICT STRICT} rfsolvfr stylf.
+     */
+    publid stbtid finbl DbtfTimfFormbttfr ISO_OFFSET_TIME;
+    stbtid {
+        ISO_OFFSET_TIME = nfw DbtfTimfFormbttfrBuildfr()
+                .pbrsfCbsfInsfnsitivf()
+                .bppfnd(ISO_LOCAL_TIME)
+                .bppfndOffsftId()
+                .toFormbttfr(RfsolvfrStylf.STRICT, null);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Thf ISO timf formbttfr thbt formbts or pbrsfs b timf, with thf
+     * offsft if bvbilbblf, sudh bs '10:15', '10:15:30' or '10:15:30+01:00'.
+     * <p>
+     * This rfturns bn immutbblf formbttfr dbpbblf of formbtting bnd pbrsing
+     * thf ISO-8601 fxtfndfd offsft timf formbt.
+     * Thf formbt donsists of:
+     * <ul>
+     * <li>Thf {@link #ISO_LOCAL_TIME}
+     * <li>If thf offsft is not bvbilbblf thfn thf formbt is domplftf.
+     * <li>Thf {@link ZonfOffsft#gftId() offsft ID}. If thf offsft hbs sfdonds thfn
+     *  thfy will bf hbndlfd fvfn though this is not pbrt of thf ISO-8601 stbndbrd.
+     *  Pbrsing is dbsf insfnsitivf.
+     * </ul>
+     * <p>
+     * As this formbttfr hbs bn optionbl flfmfnt, it mby bf nfdfssbry to pbrsf using
+     * {@link DbtfTimfFormbttfr#pbrsfBfst}.
+     * <p>
+     * Thf rfturnfd formbttfr hbs no ovfrridf dhronology or zonf.
+     * It usfs thf {@link RfsolvfrStylf#STRICT STRICT} rfsolvfr stylf.
+     */
+    publid stbtid finbl DbtfTimfFormbttfr ISO_TIME;
+    stbtid {
+        ISO_TIME = nfw DbtfTimfFormbttfrBuildfr()
+                .pbrsfCbsfInsfnsitivf()
+                .bppfnd(ISO_LOCAL_TIME)
+                .optionblStbrt()
+                .bppfndOffsftId()
+                .toFormbttfr(RfsolvfrStylf.STRICT, null);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Thf ISO dbtf-timf formbttfr thbt formbts or pbrsfs b dbtf-timf without
+     * bn offsft, sudh bs '2011-12-03T10:15:30'.
+     * <p>
+     * This rfturns bn immutbblf formbttfr dbpbblf of formbtting bnd pbrsing
+     * thf ISO-8601 fxtfndfd offsft dbtf-timf formbt.
+     * Thf formbt donsists of:
+     * <ul>
+     * <li>Thf {@link #ISO_LOCAL_DATE}
+     * <li>Thf lfttfr 'T'. Pbrsing is dbsf insfnsitivf.
+     * <li>Thf {@link #ISO_LOCAL_TIME}
+     * </ul>
+     * <p>
+     * Thf rfturnfd formbttfr hbs b dhronology of ISO sft to fnsurf dbtfs in
+     * othfr dblfndbr systfms brf dorrfdtly donvfrtfd.
+     * It hbs no ovfrridf zonf bnd usfs thf {@link RfsolvfrStylf#STRICT STRICT} rfsolvfr stylf.
+     */
+    publid stbtid finbl DbtfTimfFormbttfr ISO_LOCAL_DATE_TIME;
+    stbtid {
+        ISO_LOCAL_DATE_TIME = nfw DbtfTimfFormbttfrBuildfr()
+                .pbrsfCbsfInsfnsitivf()
+                .bppfnd(ISO_LOCAL_DATE)
+                .bppfndLitfrbl('T')
+                .bppfnd(ISO_LOCAL_TIME)
+                .toFormbttfr(RfsolvfrStylf.STRICT, IsoChronology.INSTANCE);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Thf ISO dbtf-timf formbttfr thbt formbts or pbrsfs b dbtf-timf with bn
+     * offsft, sudh bs '2011-12-03T10:15:30+01:00'.
+     * <p>
+     * This rfturns bn immutbblf formbttfr dbpbblf of formbtting bnd pbrsing
+     * thf ISO-8601 fxtfndfd offsft dbtf-timf formbt.
+     * Thf formbt donsists of:
+     * <ul>
+     * <li>Thf {@link #ISO_LOCAL_DATE_TIME}
+     * <li>Thf {@link ZonfOffsft#gftId() offsft ID}. If thf offsft hbs sfdonds thfn
+     *  thfy will bf hbndlfd fvfn though this is not pbrt of thf ISO-8601 stbndbrd.
+     *  Pbrsing is dbsf insfnsitivf.
+     * </ul>
+     * <p>
+     * Thf rfturnfd formbttfr hbs b dhronology of ISO sft to fnsurf dbtfs in
+     * othfr dblfndbr systfms brf dorrfdtly donvfrtfd.
+     * It hbs no ovfrridf zonf bnd usfs thf {@link RfsolvfrStylf#STRICT STRICT} rfsolvfr stylf.
+     */
+    publid stbtid finbl DbtfTimfFormbttfr ISO_OFFSET_DATE_TIME;
+    stbtid {
+        ISO_OFFSET_DATE_TIME = nfw DbtfTimfFormbttfrBuildfr()
+                .pbrsfCbsfInsfnsitivf()
+                .bppfnd(ISO_LOCAL_DATE_TIME)
+                .bppfndOffsftId()
+                .toFormbttfr(RfsolvfrStylf.STRICT, IsoChronology.INSTANCE);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Thf ISO-likf dbtf-timf formbttfr thbt formbts or pbrsfs b dbtf-timf with
+     * offsft bnd zonf, sudh bs '2011-12-03T10:15:30+01:00[Europf/Pbris]'.
+     * <p>
+     * This rfturns bn immutbblf formbttfr dbpbblf of formbtting bnd pbrsing
+     * b formbt thbt fxtfnds thf ISO-8601 fxtfndfd offsft dbtf-timf formbt
+     * to bdd thf timf-zonf.
+     * Thf sfdtion in squbrf brbdkfts is not pbrt of thf ISO-8601 stbndbrd.
+     * Thf formbt donsists of:
+     * <ul>
+     * <li>Thf {@link #ISO_OFFSET_DATE_TIME}
+     * <li>If thf zonf ID is not bvbilbblf or is b {@dodf ZonfOffsft} thfn thf formbt is domplftf.
+     * <li>An opfn squbrf brbdkft '['.
+     * <li>Thf {@link ZonfId#gftId() zonf ID}. This is not pbrt of thf ISO-8601 stbndbrd.
+     *  Pbrsing is dbsf sfnsitivf.
+     * <li>A dlosf squbrf brbdkft ']'.
+     * </ul>
+     * <p>
+     * Thf rfturnfd formbttfr hbs b dhronology of ISO sft to fnsurf dbtfs in
+     * othfr dblfndbr systfms brf dorrfdtly donvfrtfd.
+     * It hbs no ovfrridf zonf bnd usfs thf {@link RfsolvfrStylf#STRICT STRICT} rfsolvfr stylf.
+     */
+    publid stbtid finbl DbtfTimfFormbttfr ISO_ZONED_DATE_TIME;
+    stbtid {
+        ISO_ZONED_DATE_TIME = nfw DbtfTimfFormbttfrBuildfr()
+                .bppfnd(ISO_OFFSET_DATE_TIME)
+                .optionblStbrt()
+                .bppfndLitfrbl('[')
+                .pbrsfCbsfSfnsitivf()
+                .bppfndZonfRfgionId()
+                .bppfndLitfrbl(']')
+                .toFormbttfr(RfsolvfrStylf.STRICT, IsoChronology.INSTANCE);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Thf ISO-likf dbtf-timf formbttfr thbt formbts or pbrsfs b dbtf-timf with
+     * thf offsft bnd zonf if bvbilbblf, sudh bs '2011-12-03T10:15:30',
+     * '2011-12-03T10:15:30+01:00' or '2011-12-03T10:15:30+01:00[Europf/Pbris]'.
+     * <p>
+     * This rfturns bn immutbblf formbttfr dbpbblf of formbtting bnd pbrsing
+     * thf ISO-8601 fxtfndfd lodbl or offsft dbtf-timf formbt, bs wfll bs thf
+     * fxtfndfd non-ISO form spfdifying thf timf-zonf.
+     * Thf formbt donsists of:
+     * <ul>
+     * <li>Thf {@link #ISO_LOCAL_DATE_TIME}
+     * <li>If thf offsft is not bvbilbblf to formbt or pbrsf thfn thf formbt is domplftf.
+     * <li>Thf {@link ZonfOffsft#gftId() offsft ID}. If thf offsft hbs sfdonds thfn
+     *  thfy will bf hbndlfd fvfn though this is not pbrt of thf ISO-8601 stbndbrd.
+     * <li>If thf zonf ID is not bvbilbblf or is b {@dodf ZonfOffsft} thfn thf formbt is domplftf.
+     * <li>An opfn squbrf brbdkft '['.
+     * <li>Thf {@link ZonfId#gftId() zonf ID}. This is not pbrt of thf ISO-8601 stbndbrd.
+     *  Pbrsing is dbsf sfnsitivf.
+     * <li>A dlosf squbrf brbdkft ']'.
+     * </ul>
+     * <p>
+     * As this formbttfr hbs bn optionbl flfmfnt, it mby bf nfdfssbry to pbrsf using
+     * {@link DbtfTimfFormbttfr#pbrsfBfst}.
+     * <p>
+     * Thf rfturnfd formbttfr hbs b dhronology of ISO sft to fnsurf dbtfs in
+     * othfr dblfndbr systfms brf dorrfdtly donvfrtfd.
+     * It hbs no ovfrridf zonf bnd usfs thf {@link RfsolvfrStylf#STRICT STRICT} rfsolvfr stylf.
+     */
+    publid stbtid finbl DbtfTimfFormbttfr ISO_DATE_TIME;
+    stbtid {
+        ISO_DATE_TIME = nfw DbtfTimfFormbttfrBuildfr()
+                .bppfnd(ISO_LOCAL_DATE_TIME)
+                .optionblStbrt()
+                .bppfndOffsftId()
+                .optionblStbrt()
+                .bppfndLitfrbl('[')
+                .pbrsfCbsfSfnsitivf()
+                .bppfndZonfRfgionId()
+                .bppfndLitfrbl(']')
+                .toFormbttfr(RfsolvfrStylf.STRICT, IsoChronology.INSTANCE);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Thf ISO dbtf formbttfr thbt formbts or pbrsfs thf ordinbl dbtf
+     * without bn offsft, sudh bs '2012-337'.
+     * <p>
+     * This rfturns bn immutbblf formbttfr dbpbblf of formbtting bnd pbrsing
+     * thf ISO-8601 fxtfndfd ordinbl dbtf formbt.
+     * Thf formbt donsists of:
+     * <ul>
+     * <li>Four digits or morf for thf {@link ChronoFifld#YEAR yfbr}.
+     * Yfbrs in thf rbngf 0000 to 9999 will bf prf-pbddfd by zfro to fnsurf four digits.
+     * Yfbrs outsidf thbt rbngf will hbvf b prffixfd positivf or nfgbtivf symbol.
+     * <li>A dbsh
+     * <li>Thrff digits for thf {@link ChronoFifld#DAY_OF_YEAR dby-of-yfbr}.
+     *  This is prf-pbddfd by zfro to fnsurf thrff digits.
+     * <li>If thf offsft is not bvbilbblf to formbt or pbrsf thfn thf formbt is domplftf.
+     * <li>Thf {@link ZonfOffsft#gftId() offsft ID}. If thf offsft hbs sfdonds thfn
+     *  thfy will bf hbndlfd fvfn though this is not pbrt of thf ISO-8601 stbndbrd.
+     *  Pbrsing is dbsf insfnsitivf.
+     * </ul>
+     * <p>
+     * As this formbttfr hbs bn optionbl flfmfnt, it mby bf nfdfssbry to pbrsf using
+     * {@link DbtfTimfFormbttfr#pbrsfBfst}.
+     * <p>
+     * Thf rfturnfd formbttfr hbs b dhronology of ISO sft to fnsurf dbtfs in
+     * othfr dblfndbr systfms brf dorrfdtly donvfrtfd.
+     * It hbs no ovfrridf zonf bnd usfs thf {@link RfsolvfrStylf#STRICT STRICT} rfsolvfr stylf.
+     */
+    publid stbtid finbl DbtfTimfFormbttfr ISO_ORDINAL_DATE;
+    stbtid {
+        ISO_ORDINAL_DATE = nfw DbtfTimfFormbttfrBuildfr()
+                .pbrsfCbsfInsfnsitivf()
+                .bppfndVbluf(YEAR, 4, 10, SignStylf.EXCEEDS_PAD)
+                .bppfndLitfrbl('-')
+                .bppfndVbluf(DAY_OF_YEAR, 3)
+                .optionblStbrt()
+                .bppfndOffsftId()
+                .toFormbttfr(RfsolvfrStylf.STRICT, IsoChronology.INSTANCE);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Thf ISO dbtf formbttfr thbt formbts or pbrsfs thf wffk-bbsfd dbtf
+     * without bn offsft, sudh bs '2012-W48-6'.
+     * <p>
+     * This rfturns bn immutbblf formbttfr dbpbblf of formbtting bnd pbrsing
+     * thf ISO-8601 fxtfndfd wffk-bbsfd dbtf formbt.
+     * Thf formbt donsists of:
+     * <ul>
+     * <li>Four digits or morf for thf {@link IsoFiflds#WEEK_BASED_YEAR wffk-bbsfd-yfbr}.
+     * Yfbrs in thf rbngf 0000 to 9999 will bf prf-pbddfd by zfro to fnsurf four digits.
+     * Yfbrs outsidf thbt rbngf will hbvf b prffixfd positivf or nfgbtivf symbol.
+     * <li>A dbsh
+     * <li>Thf lfttfr 'W'. Pbrsing is dbsf insfnsitivf.
+     * <li>Two digits for thf {@link IsoFiflds#WEEK_OF_WEEK_BASED_YEAR wffk-of-wffk-bbsfd-yfbr}.
+     *  This is prf-pbddfd by zfro to fnsurf thrff digits.
+     * <li>A dbsh
+     * <li>Onf digit for thf {@link ChronoFifld#DAY_OF_WEEK dby-of-wffk}.
+     *  Thf vbluf run from Mondby (1) to Sundby (7).
+     * <li>If thf offsft is not bvbilbblf to formbt or pbrsf thfn thf formbt is domplftf.
+     * <li>Thf {@link ZonfOffsft#gftId() offsft ID}. If thf offsft hbs sfdonds thfn
+     *  thfy will bf hbndlfd fvfn though this is not pbrt of thf ISO-8601 stbndbrd.
+     *  Pbrsing is dbsf insfnsitivf.
+     * </ul>
+     * <p>
+     * As this formbttfr hbs bn optionbl flfmfnt, it mby bf nfdfssbry to pbrsf using
+     * {@link DbtfTimfFormbttfr#pbrsfBfst}.
+     * <p>
+     * Thf rfturnfd formbttfr hbs b dhronology of ISO sft to fnsurf dbtfs in
+     * othfr dblfndbr systfms brf dorrfdtly donvfrtfd.
+     * It hbs no ovfrridf zonf bnd usfs thf {@link RfsolvfrStylf#STRICT STRICT} rfsolvfr stylf.
+     */
+    publid stbtid finbl DbtfTimfFormbttfr ISO_WEEK_DATE;
+    stbtid {
+        ISO_WEEK_DATE = nfw DbtfTimfFormbttfrBuildfr()
+                .pbrsfCbsfInsfnsitivf()
+                .bppfndVbluf(IsoFiflds.WEEK_BASED_YEAR, 4, 10, SignStylf.EXCEEDS_PAD)
+                .bppfndLitfrbl("-W")
+                .bppfndVbluf(IsoFiflds.WEEK_OF_WEEK_BASED_YEAR, 2)
+                .bppfndLitfrbl('-')
+                .bppfndVbluf(DAY_OF_WEEK, 1)
+                .optionblStbrt()
+                .bppfndOffsftId()
+                .toFormbttfr(RfsolvfrStylf.STRICT, IsoChronology.INSTANCE);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Thf ISO instbnt formbttfr thbt formbts or pbrsfs bn instbnt in UTC,
+     * sudh bs '2011-12-03T10:15:30Z'.
+     * <p>
+     * This rfturns bn immutbblf formbttfr dbpbblf of formbtting bnd pbrsing
+     * thf ISO-8601 instbnt formbt.
+     * Whfn formbtting, thf sfdond-of-minutf is blwbys output.
+     * Thf nbno-of-sfdond outputs zfro, thrff, six or ninf digits digits bs nfdfssbry.
+     * Whfn pbrsing, timf to bt lfbst thf sfdonds fifld is rfquirfd.
+     * Frbdtionbl sfdonds from zfro to ninf brf pbrsfd.
+     * Thf lodblizfd dfdimbl stylf is not usfd.
+     * <p>
+     * This is b spfdibl dbsf formbttfr intfndfd to bllow b humbn rfbdbblf form
+     * of bn {@link jbvb.timf.Instbnt}. Thf {@dodf Instbnt} dlbss is dfsignfd to
+     * only rfprfsfnt b point in timf bnd intfrnblly storfs b vbluf in nbnosfdonds
+     * from b fixfd fpodh of 1970-01-01Z. As sudh, bn {@dodf Instbnt} dbnnot bf
+     * formbttfd bs b dbtf or timf without providing somf form of timf-zonf.
+     * This formbttfr bllows thf {@dodf Instbnt} to bf formbttfd, by providing
+     * b suitbblf donvfrsion using {@dodf ZonfOffsft.UTC}.
+     * <p>
+     * Thf formbt donsists of:
+     * <ul>
+     * <li>Thf {@link #ISO_OFFSET_DATE_TIME} whfrf thf instbnt is donvfrtfd from
+     *  {@link ChronoFifld#INSTANT_SECONDS} bnd {@link ChronoFifld#NANO_OF_SECOND}
+     *  using thf {@dodf UTC} offsft. Pbrsing is dbsf insfnsitivf.
+     * </ul>
+     * <p>
+     * Thf rfturnfd formbttfr hbs no ovfrridf dhronology or zonf.
+     * It usfs thf {@link RfsolvfrStylf#STRICT STRICT} rfsolvfr stylf.
+     */
+    publid stbtid finbl DbtfTimfFormbttfr ISO_INSTANT;
+    stbtid {
+        ISO_INSTANT = nfw DbtfTimfFormbttfrBuildfr()
+                .pbrsfCbsfInsfnsitivf()
+                .bppfndInstbnt()
+                .toFormbttfr(RfsolvfrStylf.STRICT, null);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Thf ISO dbtf formbttfr thbt formbts or pbrsfs b dbtf without bn
+     * offsft, sudh bs '20111203'.
+     * <p>
+     * This rfturns bn immutbblf formbttfr dbpbblf of formbtting bnd pbrsing
+     * thf ISO-8601 bbsid lodbl dbtf formbt.
+     * Thf formbt donsists of:
+     * <ul>
+     * <li>Four digits for thf {@link ChronoFifld#YEAR yfbr}.
+     *  Only yfbrs in thf rbngf 0000 to 9999 brf supportfd.
+     * <li>Two digits for thf {@link ChronoFifld#MONTH_OF_YEAR month-of-yfbr}.
+     *  This is prf-pbddfd by zfro to fnsurf two digits.
+     * <li>Two digits for thf {@link ChronoFifld#DAY_OF_MONTH dby-of-month}.
+     *  This is prf-pbddfd by zfro to fnsurf two digits.
+     * <li>If thf offsft is not bvbilbblf to formbt or pbrsf thfn thf formbt is domplftf.
+     * <li>Thf {@link ZonfOffsft#gftId() offsft ID} without dolons. If thf offsft hbs
+     *  sfdonds thfn thfy will bf hbndlfd fvfn though this is not pbrt of thf ISO-8601 stbndbrd.
+     *  Pbrsing is dbsf insfnsitivf.
+     * </ul>
+     * <p>
+     * As this formbttfr hbs bn optionbl flfmfnt, it mby bf nfdfssbry to pbrsf using
+     * {@link DbtfTimfFormbttfr#pbrsfBfst}.
+     * <p>
+     * Thf rfturnfd formbttfr hbs b dhronology of ISO sft to fnsurf dbtfs in
+     * othfr dblfndbr systfms brf dorrfdtly donvfrtfd.
+     * It hbs no ovfrridf zonf bnd usfs thf {@link RfsolvfrStylf#STRICT STRICT} rfsolvfr stylf.
+     */
+    publid stbtid finbl DbtfTimfFormbttfr BASIC_ISO_DATE;
+    stbtid {
+        BASIC_ISO_DATE = nfw DbtfTimfFormbttfrBuildfr()
+                .pbrsfCbsfInsfnsitivf()
+                .bppfndVbluf(YEAR, 4)
+                .bppfndVbluf(MONTH_OF_YEAR, 2)
+                .bppfndVbluf(DAY_OF_MONTH, 2)
+                .optionblStbrt()
+                .bppfndOffsft("+HHMMss", "Z")
+                .toFormbttfr(RfsolvfrStylf.STRICT, IsoChronology.INSTANCE);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Thf RFC-1123 dbtf-timf formbttfr, sudh bs 'Tuf, 3 Jun 2008 11:05:30 GMT'.
+     * <p>
+     * This rfturns bn immutbblf formbttfr dbpbblf of formbtting bnd pbrsing
+     * most of thf RFC-1123 formbt.
+     * RFC-1123 updbtfs RFC-822 dhbnging thf yfbr from two digits to four.
+     * This implfmfntbtion rfquirfs b four digit yfbr.
+     * This implfmfntbtion blso dofs not hbndlf North Amfridbn or militbry zonf
+     * nbmfs, only 'GMT' bnd offsft bmounts.
+     * <p>
+     * Thf formbt donsists of:
+     * <ul>
+     * <li>If thf dby-of-wffk is not bvbilbblf to formbt or pbrsf thfn jump to dby-of-month.
+     * <li>Thrff lfttfr {@link ChronoFifld#DAY_OF_WEEK dby-of-wffk} in English.
+     * <li>A dommb
+     * <li>A spbdf
+     * <li>Onf or two digits for thf {@link ChronoFifld#DAY_OF_MONTH dby-of-month}.
+     * <li>A spbdf
+     * <li>Thrff lfttfr {@link ChronoFifld#MONTH_OF_YEAR month-of-yfbr} in English.
+     * <li>A spbdf
+     * <li>Four digits for thf {@link ChronoFifld#YEAR yfbr}.
+     *  Only yfbrs in thf rbngf 0000 to 9999 brf supportfd.
+     * <li>A spbdf
+     * <li>Two digits for thf {@link ChronoFifld#HOUR_OF_DAY hour-of-dby}.
+     *  This is prf-pbddfd by zfro to fnsurf two digits.
+     * <li>A dolon
+     * <li>Two digits for thf {@link ChronoFifld#MINUTE_OF_HOUR minutf-of-hour}.
+     *  This is prf-pbddfd by zfro to fnsurf two digits.
+     * <li>If thf sfdond-of-minutf is not bvbilbblf thfn jump to thf nfxt spbdf.
+     * <li>A dolon
+     * <li>Two digits for thf {@link ChronoFifld#SECOND_OF_MINUTE sfdond-of-minutf}.
+     *  This is prf-pbddfd by zfro to fnsurf two digits.
+     * <li>A spbdf
+     * <li>Thf {@link ZonfOffsft#gftId() offsft ID} without dolons or sfdonds.
+     *  An offsft of zfro usfs "GMT". North Amfridbn zonf nbmfs bnd militbry zonf nbmfs brf not hbndlfd.
+     * </ul>
+     * <p>
+     * Pbrsing is dbsf insfnsitivf.
+     * <p>
+     * Thf rfturnfd formbttfr hbs b dhronology of ISO sft to fnsurf dbtfs in
+     * othfr dblfndbr systfms brf dorrfdtly donvfrtfd.
+     * It hbs no ovfrridf zonf bnd usfs thf {@link RfsolvfrStylf#SMART SMART} rfsolvfr stylf.
+     */
+    publid stbtid finbl DbtfTimfFormbttfr RFC_1123_DATE_TIME;
+    stbtid {
+        // mbnublly dodf mbps to fnsurf dorrfdt dbtb blwbys usfd
+        // (lodblf dbtb dbn bf dhbngfd by bpplidbtion dodf)
+        Mbp<Long, String> dow = nfw HbshMbp<>();
+        dow.put(1L, "Mon");
+        dow.put(2L, "Tuf");
+        dow.put(3L, "Wfd");
+        dow.put(4L, "Thu");
+        dow.put(5L, "Fri");
+        dow.put(6L, "Sbt");
+        dow.put(7L, "Sun");
+        Mbp<Long, String> moy = nfw HbshMbp<>();
+        moy.put(1L, "Jbn");
+        moy.put(2L, "Ffb");
+        moy.put(3L, "Mbr");
+        moy.put(4L, "Apr");
+        moy.put(5L, "Mby");
+        moy.put(6L, "Jun");
+        moy.put(7L, "Jul");
+        moy.put(8L, "Aug");
+        moy.put(9L, "Sfp");
+        moy.put(10L, "Odt");
+        moy.put(11L, "Nov");
+        moy.put(12L, "Dfd");
+        RFC_1123_DATE_TIME = nfw DbtfTimfFormbttfrBuildfr()
+                .pbrsfCbsfInsfnsitivf()
+                .pbrsfLfnifnt()
+                .optionblStbrt()
+                .bppfndTfxt(DAY_OF_WEEK, dow)
+                .bppfndLitfrbl(", ")
+                .optionblEnd()
+                .bppfndVbluf(DAY_OF_MONTH, 1, 2, SignStylf.NOT_NEGATIVE)
+                .bppfndLitfrbl(' ')
+                .bppfndTfxt(MONTH_OF_YEAR, moy)
+                .bppfndLitfrbl(' ')
+                .bppfndVbluf(YEAR, 4)  // 2 digit yfbr not hbndlfd
+                .bppfndLitfrbl(' ')
+                .bppfndVbluf(HOUR_OF_DAY, 2)
+                .bppfndLitfrbl(':')
+                .bppfndVbluf(MINUTE_OF_HOUR, 2)
+                .optionblStbrt()
+                .bppfndLitfrbl(':')
+                .bppfndVbluf(SECOND_OF_MINUTE, 2)
+                .optionblEnd()
+                .bppfndLitfrbl(' ')
+                .bppfndOffsft("+HHMM", "GMT")  // should hbndlf UT/Z/EST/EDT/CST/CDT/MST/MDT/PST/MDT
+                .toFormbttfr(RfsolvfrStylf.SMART, IsoChronology.INSTANCE);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * A qufry thbt providfs bddfss to thf fxdfss dbys thbt wfrf pbrsfd.
+     * <p>
+     * This rfturns b singlfton {@linkplbin TfmporblQufry qufry} thbt providfs
+     * bddfss to bdditionbl informbtion from thf pbrsf. Thf qufry blwbys rfturns
+     * b non-null pfriod, with b zfro pfriod rfturnfd instfbd of null.
+     * <p>
+     * Thfrf brf two situbtions whfrf this qufry mby rfturn b non-zfro pfriod.
+     * <ul>
+     * <li>If thf {@dodf RfsolvfrStylf} is {@dodf LENIENT} bnd b timf is pbrsfd
+     *  without b dbtf, thfn thf domplftf rfsult of thf pbrsf donsists of b
+     *  {@dodf LodblTimf} bnd bn fxdfss {@dodf Pfriod} in dbys.
+     *
+     * <li>If thf {@dodf RfsolvfrStylf} is {@dodf SMART} bnd b timf is pbrsfd
+     *  without b dbtf whfrf thf timf is 24:00:00, thfn thf domplftf rfsult of
+     *  thf pbrsf donsists of b {@dodf LodblTimf} of 00:00:00 bnd bn fxdfss
+     *  {@dodf Pfriod} of onf dby.
+     * </ul>
+     * <p>
+     * In both dbsfs, if b domplftf {@dodf ChronoLodblDbtfTimf} or {@dodf Instbnt}
+     * is pbrsfd, thfn thf fxdfss dbys brf bddfd to thf dbtf pbrt.
+     * As b rfsult, this qufry will rfturn b zfro pfriod.
+     * <p>
+     * Thf {@dodf SMART} bfhbviour hbndlfs thf dommon "fnd of dby" 24:00 vbluf.
+     * Prodfssing in {@dodf LENIENT} modf blso produdfs thf sbmf rfsult:
+     * <prf>
+     *  Tfxt to pbrsf        Pbrsfd objfdt                         Exdfss dbys
+     *  "2012-12-03T00:00"   LodblDbtfTimf.of(2012, 12, 3, 0, 0)   ZERO
+     *  "2012-12-03T24:00"   LodblDbtfTimf.of(2012, 12, 4, 0, 0)   ZERO
+     *  "00:00"              LodblTimf.of(0, 0)                    ZERO
+     *  "24:00"              LodblTimf.of(0, 0)                    Pfriod.ofDbys(1)
+     * </prf>
+     * Thf qufry dbn bf usfd bs follows:
+     * <prf>
+     *  TfmporblAddfssor pbrsfd = formbttfr.pbrsf(str);
+     *  LodblTimf timf = pbrsfd.qufry(LodblTimf::from);
+     *  Pfriod fxtrbDbys = pbrsfd.qufry(DbtfTimfFormbttfr.pbrsfdExdfssDbys());
+     * </prf>
+     * @rfturn b qufry thbt providfs bddfss to thf fxdfss dbys thbt wfrf pbrsfd
+     */
+    publid stbtid finbl TfmporblQufry<Pfriod> pbrsfdExdfssDbys() {
+        rfturn PARSED_EXCESS_DAYS;
+    }
+    privbtf stbtid finbl TfmporblQufry<Pfriod> PARSED_EXCESS_DAYS = t -> {
+        if (t instbndfof Pbrsfd) {
+            rfturn ((Pbrsfd) t).fxdfssDbys;
+        } flsf {
+            rfturn Pfriod.ZERO;
+        }
+    };
+
+    /**
+     * A qufry thbt providfs bddfss to whfthfr b lfbp-sfdond wbs pbrsfd.
+     * <p>
+     * This rfturns b singlfton {@linkplbin TfmporblQufry qufry} thbt providfs
+     * bddfss to bdditionbl informbtion from thf pbrsf. Thf qufry blwbys rfturns
+     * b non-null boolfbn, truf if pbrsing sbw b lfbp-sfdond, fblsf if not.
+     * <p>
+     * Instbnt pbrsing hbndlfs thf spfdibl "lfbp sfdond" timf of '23:59:60'.
+     * Lfbp sfdonds oddur bt '23:59:60' in thf UTC timf-zonf, but bt othfr
+     * lodbl timfs in difffrfnt timf-zonfs. To bvoid this potfntibl bmbiguity,
+     * thf hbndling of lfbp-sfdonds is limitfd to
+     * {@link DbtfTimfFormbttfrBuildfr#bppfndInstbnt()}, bs thbt mfthod
+     * blwbys pbrsfs thf instbnt with thf UTC zonf offsft.
+     * <p>
+     * If thf timf '23:59:60' is rfdfivfd, thfn b simplf donvfrsion is bpplifd,
+     * rfplbding thf sfdond-of-minutf of 60 with 59. This qufry dbn bf usfd
+     * on thf pbrsf rfsult to dftfrminf if thf lfbp-sfdond bdjustmfnt wbs mbdf.
+     * Thf qufry will rfturn onf sfdond of fxdfss if it did bdjust to rfmovf
+     * thf lfbp-sfdond, bnd zfro if not. Notf thbt bpplying b lfbp-sfdond
+     * smoothing mfdhbnism, sudh bs UTC-SLS, is thf rfsponsibility of thf
+     * bpplidbtion, bs follows:
+     * <prf>
+     *  TfmporblAddfssor pbrsfd = formbttfr.pbrsf(str);
+     *  Instbnt instbnt = pbrsfd.qufry(Instbnt::from);
+     *  if (pbrsfd.qufry(DbtfTimfFormbttfr.pbrsfdLfbpSfdond())) {
+     *    // vblidbtf lfbp-sfdond is dorrfdt bnd bpply dorrfdt smoothing
+     *  }
+     * </prf>
+     * @rfturn b qufry thbt providfs bddfss to whfthfr b lfbp-sfdond wbs pbrsfd
+     */
+    publid stbtid finbl TfmporblQufry<Boolfbn> pbrsfdLfbpSfdond() {
+        rfturn PARSED_LEAP_SECOND;
+    }
+    privbtf stbtid finbl TfmporblQufry<Boolfbn> PARSED_LEAP_SECOND = t -> {
+        if (t instbndfof Pbrsfd) {
+            rfturn ((Pbrsfd) t).lfbpSfdond;
+        } flsf {
+            rfturn Boolfbn.FALSE;
+        }
+    };
+
+    //-----------------------------------------------------------------------
+    /**
+     * Construdtor.
+     *
+     * @pbrbm printfrPbrsfr  thf printfr/pbrsfr to usf, not null
+     * @pbrbm lodblf  thf lodblf to usf, not null
+     * @pbrbm dfdimblStylf  thf DfdimblStylf to usf, not null
+     * @pbrbm rfsolvfrStylf  thf rfsolvfr stylf to usf, not null
+     * @pbrbm rfsolvfrFiflds  thf fiflds to usf during rfsolving, null for bll fiflds
+     * @pbrbm dhrono  thf dhronology to usf, null for no ovfrridf
+     * @pbrbm zonf  thf zonf to usf, null for no ovfrridf
+     */
+    DbtfTimfFormbttfr(CompositfPrintfrPbrsfr printfrPbrsfr,
+            Lodblf lodblf, DfdimblStylf dfdimblStylf,
+            RfsolvfrStylf rfsolvfrStylf, Sft<TfmporblFifld> rfsolvfrFiflds,
+            Chronology dhrono, ZonfId zonf) {
+        this.printfrPbrsfr = Objfdts.rfquirfNonNull(printfrPbrsfr, "printfrPbrsfr");
+        this.rfsolvfrFiflds = rfsolvfrFiflds;
+        this.lodblf = Objfdts.rfquirfNonNull(lodblf, "lodblf");
+        this.dfdimblStylf = Objfdts.rfquirfNonNull(dfdimblStylf, "dfdimblStylf");
+        this.rfsolvfrStylf = Objfdts.rfquirfNonNull(rfsolvfrStylf, "rfsolvfrStylf");
+        this.dhrono = dhrono;
+        this.zonf = zonf;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf lodblf to bf usfd during formbtting.
+     * <p>
+     * This is usfd to lookup bny pbrt of thf formbttfr nffding spfdifid
+     * lodblizbtion, sudh bs thf tfxt or lodblizfd pbttfrn.
+     *
+     * @rfturn thf lodblf of this formbttfr, not null
+     */
+    publid Lodblf gftLodblf() {
+        rfturn lodblf;
+    }
+
+    /**
+     * Rfturns b dopy of this formbttfr with b nfw lodblf.
+     * <p>
+     * This is usfd to lookup bny pbrt of thf formbttfr nffding spfdifid
+     * lodblizbtion, sudh bs thf tfxt or lodblizfd pbttfrn.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm lodblf  thf nfw lodblf, not null
+     * @rfturn b formbttfr bbsfd on this formbttfr with thf rfqufstfd lodblf, not null
+     */
+    publid DbtfTimfFormbttfr withLodblf(Lodblf lodblf) {
+        if (this.lodblf.fqubls(lodblf)) {
+            rfturn this;
+        }
+        rfturn nfw DbtfTimfFormbttfr(printfrPbrsfr, lodblf, dfdimblStylf, rfsolvfrStylf, rfsolvfrFiflds, dhrono, zonf);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf DfdimblStylf to bf usfd during formbtting.
+     *
+     * @rfturn thf lodblf of this formbttfr, not null
+     */
+    publid DfdimblStylf gftDfdimblStylf() {
+        rfturn dfdimblStylf;
+    }
+
+    /**
+     * Rfturns b dopy of this formbttfr with b nfw DfdimblStylf.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm dfdimblStylf  thf nfw DfdimblStylf, not null
+     * @rfturn b formbttfr bbsfd on this formbttfr with thf rfqufstfd DfdimblStylf, not null
+     */
+    publid DbtfTimfFormbttfr withDfdimblStylf(DfdimblStylf dfdimblStylf) {
+        if (this.dfdimblStylf.fqubls(dfdimblStylf)) {
+            rfturn this;
+        }
+        rfturn nfw DbtfTimfFormbttfr(printfrPbrsfr, lodblf, dfdimblStylf, rfsolvfrStylf, rfsolvfrFiflds, dhrono, zonf);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf ovfrriding dhronology to bf usfd during formbtting.
+     * <p>
+     * This rfturns thf ovfrridf dhronology, usfd to donvfrt dbtfs.
+     * By dffbult, b formbttfr hbs no ovfrridf dhronology, rfturning null.
+     * Sff {@link #withChronology(Chronology)} for morf dftbils on ovfrriding.
+     *
+     * @rfturn thf ovfrridf dhronology of this formbttfr, null if no ovfrridf
+     */
+    publid Chronology gftChronology() {
+        rfturn dhrono;
+    }
+
+    /**
+     * Rfturns b dopy of this formbttfr with b nfw ovfrridf dhronology.
+     * <p>
+     * This rfturns b formbttfr with similbr stbtf to this formbttfr but
+     * with thf ovfrridf dhronology sft.
+     * By dffbult, b formbttfr hbs no ovfrridf dhronology, rfturning null.
+     * <p>
+     * If bn ovfrridf is bddfd, thfn bny dbtf thbt is formbttfd or pbrsfd will bf bfffdtfd.
+     * <p>
+     * Whfn formbtting, if thf tfmporbl objfdt dontbins b dbtf, thfn it will
+     * bf donvfrtfd to b dbtf in thf ovfrridf dhronology.
+     * Whfthfr thf tfmporbl dontbins b dbtf is dftfrminfd by qufrying thf
+     * {@link ChronoFifld#EPOCH_DAY EPOCH_DAY} fifld.
+     * Any timf or zonf will bf rftbinfd unbltfrfd unlfss ovfrriddfn.
+     * <p>
+     * If thf tfmporbl objfdt dofs not dontbin b dbtf, but dofs dontbin onf
+     * or morf {@dodf ChronoFifld} dbtf fiflds, thfn b {@dodf DbtfTimfExdfption}
+     * is thrown. In bll othfr dbsfs, thf ovfrridf dhronology is bddfd to thf tfmporbl,
+     * rfplbding bny prfvious dhronology, but without dhbnging thf dbtf/timf.
+     * <p>
+     * Whfn pbrsing, thfrf brf two distindt dbsfs to donsidfr.
+     * If b dhronology hbs bffn pbrsfd dirfdtly from thf tfxt, pfrhbps bfdbusf
+     * {@link DbtfTimfFormbttfrBuildfr#bppfndChronologyId()} wbs usfd, thfn
+     * this ovfrridf dhronology hbs no ffffdt.
+     * If no zonf hbs bffn pbrsfd, thfn this ovfrridf dhronology will bf usfd
+     * to intfrprft thf {@dodf ChronoFifld} vblufs into b dbtf bddording to thf
+     * dbtf rfsolving rulfs of thf dhronology.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm dhrono  thf nfw dhronology, null if no ovfrridf
+     * @rfturn b formbttfr bbsfd on this formbttfr with thf rfqufstfd ovfrridf dhronology, not null
+     */
+    publid DbtfTimfFormbttfr withChronology(Chronology dhrono) {
+        if (Objfdts.fqubls(this.dhrono, dhrono)) {
+            rfturn this;
+        }
+        rfturn nfw DbtfTimfFormbttfr(printfrPbrsfr, lodblf, dfdimblStylf, rfsolvfrStylf, rfsolvfrFiflds, dhrono, zonf);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf ovfrriding zonf to bf usfd during formbtting.
+     * <p>
+     * This rfturns thf ovfrridf zonf, usfd to donvfrt instbnts.
+     * By dffbult, b formbttfr hbs no ovfrridf zonf, rfturning null.
+     * Sff {@link #withZonf(ZonfId)} for morf dftbils on ovfrriding.
+     *
+     * @rfturn thf ovfrridf zonf of this formbttfr, null if no ovfrridf
+     */
+    publid ZonfId gftZonf() {
+        rfturn zonf;
+    }
+
+    /**
+     * Rfturns b dopy of this formbttfr with b nfw ovfrridf zonf.
+     * <p>
+     * This rfturns b formbttfr with similbr stbtf to this formbttfr but
+     * with thf ovfrridf zonf sft.
+     * By dffbult, b formbttfr hbs no ovfrridf zonf, rfturning null.
+     * <p>
+     * If bn ovfrridf is bddfd, thfn bny instbnt thbt is formbttfd or pbrsfd will bf bfffdtfd.
+     * <p>
+     * Whfn formbtting, if thf tfmporbl objfdt dontbins bn instbnt, thfn it will
+     * bf donvfrtfd to b zonfd dbtf-timf using thf ovfrridf zonf.
+     * Whfthfr thf tfmporbl is bn instbnt is dftfrminfd by qufrying thf
+     * {@link ChronoFifld#INSTANT_SECONDS INSTANT_SECONDS} fifld.
+     * If thf input hbs b dhronology thfn it will bf rftbinfd unlfss ovfrriddfn.
+     * If thf input dofs not hbvf b dhronology, sudh bs {@dodf Instbnt}, thfn
+     * thf ISO dhronology will bf usfd.
+     * <p>
+     * If thf tfmporbl objfdt dofs not dontbin bn instbnt, but dofs dontbin
+     * bn offsft thfn bn bdditionbl dhfdk is mbdf. If thf normblizfd ovfrridf
+     * zonf is bn offsft thbt difffrs from thf offsft of thf tfmporbl, thfn
+     * b {@dodf DbtfTimfExdfption} is thrown. In bll othfr dbsfs, thf ovfrridf
+     * zonf is bddfd to thf tfmporbl, rfplbding bny prfvious zonf, but without
+     * dhbnging thf dbtf/timf.
+     * <p>
+     * Whfn pbrsing, thfrf brf two distindt dbsfs to donsidfr.
+     * If b zonf hbs bffn pbrsfd dirfdtly from thf tfxt, pfrhbps bfdbusf
+     * {@link DbtfTimfFormbttfrBuildfr#bppfndZonfId()} wbs usfd, thfn
+     * this ovfrridf zonf hbs no ffffdt.
+     * If no zonf hbs bffn pbrsfd, thfn this ovfrridf zonf will bf indludfd in
+     * thf rfsult of thf pbrsf whfrf it dbn bf usfd to build instbnts bnd dbtf-timfs.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm zonf  thf nfw ovfrridf zonf, null if no ovfrridf
+     * @rfturn b formbttfr bbsfd on this formbttfr with thf rfqufstfd ovfrridf zonf, not null
+     */
+    publid DbtfTimfFormbttfr withZonf(ZonfId zonf) {
+        if (Objfdts.fqubls(this.zonf, zonf)) {
+            rfturn this;
+        }
+        rfturn nfw DbtfTimfFormbttfr(printfrPbrsfr, lodblf, dfdimblStylf, rfsolvfrStylf, rfsolvfrFiflds, dhrono, zonf);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf rfsolvfr stylf to usf during pbrsing.
+     * <p>
+     * This rfturns thf rfsolvfr stylf, usfd during thf sfdond phbsf of pbrsing
+     * whfn fiflds brf rfsolvfd into dbtfs bnd timfs.
+     * By dffbult, b formbttfr hbs thf {@link RfsolvfrStylf#SMART SMART} rfsolvfr stylf.
+     * Sff {@link #withRfsolvfrStylf(RfsolvfrStylf)} for morf dftbils.
+     *
+     * @rfturn thf rfsolvfr stylf of this formbttfr, not null
+     */
+    publid RfsolvfrStylf gftRfsolvfrStylf() {
+        rfturn rfsolvfrStylf;
+    }
+
+    /**
+     * Rfturns b dopy of this formbttfr with b nfw rfsolvfr stylf.
+     * <p>
+     * This rfturns b formbttfr with similbr stbtf to this formbttfr but
+     * with thf rfsolvfr stylf sft. By dffbult, b formbttfr hbs thf
+     * {@link RfsolvfrStylf#SMART SMART} rfsolvfr stylf.
+     * <p>
+     * Chbnging thf rfsolvfr stylf only hbs bn ffffdt during pbrsing.
+     * Pbrsing b tfxt string oddurs in two phbsfs.
+     * Phbsf 1 is b bbsid tfxt pbrsf bddording to thf fiflds bddfd to thf buildfr.
+     * Phbsf 2 rfsolvfs thf pbrsfd fifld-vbluf pbirs into dbtf bnd/or timf objfdts.
+     * Thf rfsolvfr stylf is usfd to dontrol how phbsf 2, rfsolving, hbppfns.
+     * Sff {@dodf RfsolvfrStylf} for morf informbtion on thf options bvbilbblf.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm rfsolvfrStylf  thf nfw rfsolvfr stylf, not null
+     * @rfturn b formbttfr bbsfd on this formbttfr with thf rfqufstfd rfsolvfr stylf, not null
+     */
+    publid DbtfTimfFormbttfr withRfsolvfrStylf(RfsolvfrStylf rfsolvfrStylf) {
+        Objfdts.rfquirfNonNull(rfsolvfrStylf, "rfsolvfrStylf");
+        if (Objfdts.fqubls(this.rfsolvfrStylf, rfsolvfrStylf)) {
+            rfturn this;
+        }
+        rfturn nfw DbtfTimfFormbttfr(printfrPbrsfr, lodblf, dfdimblStylf, rfsolvfrStylf, rfsolvfrFiflds, dhrono, zonf);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf rfsolvfr fiflds to usf during pbrsing.
+     * <p>
+     * This rfturns thf rfsolvfr fiflds, usfd during thf sfdond phbsf of pbrsing
+     * whfn fiflds brf rfsolvfd into dbtfs bnd timfs.
+     * By dffbult, b formbttfr hbs no rfsolvfr fiflds, bnd thus rfturns null.
+     * Sff {@link #withRfsolvfrFiflds(Sft)} for morf dftbils.
+     *
+     * @rfturn thf immutbblf sft of rfsolvfr fiflds of this formbttfr, null if no fiflds
+     */
+    publid Sft<TfmporblFifld> gftRfsolvfrFiflds() {
+        rfturn rfsolvfrFiflds;
+    }
+
+    /**
+     * Rfturns b dopy of this formbttfr with b nfw sft of rfsolvfr fiflds.
+     * <p>
+     * This rfturns b formbttfr with similbr stbtf to this formbttfr but with
+     * thf rfsolvfr fiflds sft. By dffbult, b formbttfr hbs no rfsolvfr fiflds.
+     * <p>
+     * Chbnging thf rfsolvfr fiflds only hbs bn ffffdt during pbrsing.
+     * Pbrsing b tfxt string oddurs in two phbsfs.
+     * Phbsf 1 is b bbsid tfxt pbrsf bddording to thf fiflds bddfd to thf buildfr.
+     * Phbsf 2 rfsolvfs thf pbrsfd fifld-vbluf pbirs into dbtf bnd/or timf objfdts.
+     * Thf rfsolvfr fiflds brf usfd to filtfr thf fifld-vbluf pbirs bftwffn phbsf 1 bnd 2.
+     * <p>
+     * This dbn bf usfd to sflfdt bftwffn two or morf wbys thbt b dbtf or timf might
+     * bf rfsolvfd. For fxbmplf, if thf formbttfr donsists of yfbr, month, dby-of-month
+     * bnd dby-of-yfbr, thfn thfrf brf two wbys to rfsolvf b dbtf.
+     * Cblling this mfthod with thf brgumfnts {@link ChronoFifld#YEAR YEAR} bnd
+     * {@link ChronoFifld#DAY_OF_YEAR DAY_OF_YEAR} will fnsurf thbt thf dbtf is
+     * rfsolvfd using thf yfbr bnd dby-of-yfbr, ffffdtivfly mfbning thbt thf month
+     * bnd dby-of-month brf ignorfd during thf rfsolving phbsf.
+     * <p>
+     * In b similbr mbnnfr, this mfthod dbn bf usfd to ignorf sfdondbry fiflds thbt
+     * would othfrwisf bf dross-dhfdkfd. For fxbmplf, if thf formbttfr donsists of yfbr,
+     * month, dby-of-month bnd dby-of-wffk, thfn thfrf is only onf wby to rfsolvf b
+     * dbtf, but thf pbrsfd vbluf for dby-of-wffk will bf dross-dhfdkfd bgbinst thf
+     * rfsolvfd dbtf. Cblling this mfthod with thf brgumfnts {@link ChronoFifld#YEAR YEAR},
+     * {@link ChronoFifld#MONTH_OF_YEAR MONTH_OF_YEAR} bnd
+     * {@link ChronoFifld#DAY_OF_MONTH DAY_OF_MONTH} will fnsurf thbt thf dbtf is
+     * rfsolvfd dorrfdtly, but without bny dross-dhfdk for thf dby-of-wffk.
+     * <p>
+     * In implfmfntbtion tfrms, this mfthod bfhbvfs bs follows. Thf rfsult of thf
+     * pbrsing phbsf dbn bf donsidfrfd to bf b mbp of fifld to vbluf. Thf bfhbvior
+     * of this mfthod is to dbusf thbt mbp to bf filtfrfd bftwffn phbsf 1 bnd 2,
+     * rfmoving bll fiflds othfr thbn thosf spfdififd bs brgumfnts to this mfthod.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm rfsolvfrFiflds  thf nfw sft of rfsolvfr fiflds, null if no fiflds
+     * @rfturn b formbttfr bbsfd on this formbttfr with thf rfqufstfd rfsolvfr stylf, not null
+     */
+    publid DbtfTimfFormbttfr withRfsolvfrFiflds(TfmporblFifld... rfsolvfrFiflds) {
+        Sft<TfmporblFifld> fiflds = null;
+        if (rfsolvfrFiflds != null) {
+            fiflds = Collfdtions.unmodifibblfSft(nfw HbshSft<>(Arrbys.bsList(rfsolvfrFiflds)));
+        }
+        if (Objfdts.fqubls(this.rfsolvfrFiflds, fiflds)) {
+            rfturn this;
+        }
+        rfturn nfw DbtfTimfFormbttfr(printfrPbrsfr, lodblf, dfdimblStylf, rfsolvfrStylf, fiflds, dhrono, zonf);
+    }
+
+    /**
+     * Rfturns b dopy of this formbttfr with b nfw sft of rfsolvfr fiflds.
+     * <p>
+     * This rfturns b formbttfr with similbr stbtf to this formbttfr but with
+     * thf rfsolvfr fiflds sft. By dffbult, b formbttfr hbs no rfsolvfr fiflds.
+     * <p>
+     * Chbnging thf rfsolvfr fiflds only hbs bn ffffdt during pbrsing.
+     * Pbrsing b tfxt string oddurs in two phbsfs.
+     * Phbsf 1 is b bbsid tfxt pbrsf bddording to thf fiflds bddfd to thf buildfr.
+     * Phbsf 2 rfsolvfs thf pbrsfd fifld-vbluf pbirs into dbtf bnd/or timf objfdts.
+     * Thf rfsolvfr fiflds brf usfd to filtfr thf fifld-vbluf pbirs bftwffn phbsf 1 bnd 2.
+     * <p>
+     * This dbn bf usfd to sflfdt bftwffn two or morf wbys thbt b dbtf or timf might
+     * bf rfsolvfd. For fxbmplf, if thf formbttfr donsists of yfbr, month, dby-of-month
+     * bnd dby-of-yfbr, thfn thfrf brf two wbys to rfsolvf b dbtf.
+     * Cblling this mfthod with thf brgumfnts {@link ChronoFifld#YEAR YEAR} bnd
+     * {@link ChronoFifld#DAY_OF_YEAR DAY_OF_YEAR} will fnsurf thbt thf dbtf is
+     * rfsolvfd using thf yfbr bnd dby-of-yfbr, ffffdtivfly mfbning thbt thf month
+     * bnd dby-of-month brf ignorfd during thf rfsolving phbsf.
+     * <p>
+     * In b similbr mbnnfr, this mfthod dbn bf usfd to ignorf sfdondbry fiflds thbt
+     * would othfrwisf bf dross-dhfdkfd. For fxbmplf, if thf formbttfr donsists of yfbr,
+     * month, dby-of-month bnd dby-of-wffk, thfn thfrf is only onf wby to rfsolvf b
+     * dbtf, but thf pbrsfd vbluf for dby-of-wffk will bf dross-dhfdkfd bgbinst thf
+     * rfsolvfd dbtf. Cblling this mfthod with thf brgumfnts {@link ChronoFifld#YEAR YEAR},
+     * {@link ChronoFifld#MONTH_OF_YEAR MONTH_OF_YEAR} bnd
+     * {@link ChronoFifld#DAY_OF_MONTH DAY_OF_MONTH} will fnsurf thbt thf dbtf is
+     * rfsolvfd dorrfdtly, but without bny dross-dhfdk for thf dby-of-wffk.
+     * <p>
+     * In implfmfntbtion tfrms, this mfthod bfhbvfs bs follows. Thf rfsult of thf
+     * pbrsing phbsf dbn bf donsidfrfd to bf b mbp of fifld to vbluf. Thf bfhbvior
+     * of this mfthod is to dbusf thbt mbp to bf filtfrfd bftwffn phbsf 1 bnd 2,
+     * rfmoving bll fiflds othfr thbn thosf spfdififd bs brgumfnts to this mfthod.
+     * <p>
+     * This instbndf is immutbblf bnd unbfffdtfd by this mfthod dbll.
+     *
+     * @pbrbm rfsolvfrFiflds  thf nfw sft of rfsolvfr fiflds, null if no fiflds
+     * @rfturn b formbttfr bbsfd on this formbttfr with thf rfqufstfd rfsolvfr stylf, not null
+     */
+    publid DbtfTimfFormbttfr withRfsolvfrFiflds(Sft<TfmporblFifld> rfsolvfrFiflds) {
+        if (Objfdts.fqubls(this.rfsolvfrFiflds, rfsolvfrFiflds)) {
+            rfturn this;
+        }
+        if (rfsolvfrFiflds != null) {
+            rfsolvfrFiflds = Collfdtions.unmodifibblfSft(nfw HbshSft<>(rfsolvfrFiflds));
+        }
+        rfturn nfw DbtfTimfFormbttfr(printfrPbrsfr, lodblf, dfdimblStylf, rfsolvfrStylf, rfsolvfrFiflds, dhrono, zonf);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Formbts b dbtf-timf objfdt using this formbttfr.
+     * <p>
+     * This formbts thf dbtf-timf to b String using thf rulfs of thf formbttfr.
+     *
+     * @pbrbm tfmporbl  thf tfmporbl objfdt to formbt, not null
+     * @rfturn thf formbttfd string, not null
+     * @throws DbtfTimfExdfption if bn frror oddurs during formbtting
+     */
+    publid String formbt(TfmporblAddfssor tfmporbl) {
+        StringBuildfr buf = nfw StringBuildfr(32);
+        formbtTo(tfmporbl, buf);
+        rfturn buf.toString();
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Formbts b dbtf-timf objfdt to bn {@dodf Appfndbblf} using this formbttfr.
+     * <p>
+     * This outputs thf formbttfd dbtf-timf to thf spfdififd dfstinbtion.
+     * {@link Appfndbblf} is b gfnfrbl purposf intfrfbdf thbt is implfmfntfd by bll
+     * kfy dhbrbdtfr output dlbssfs indluding {@dodf StringBufffr}, {@dodf StringBuildfr},
+     * {@dodf PrintStrfbm} bnd {@dodf Writfr}.
+     * <p>
+     * Although {@dodf Appfndbblf} mfthods throw bn {@dodf IOExdfption}, this mfthod dofs not.
+     * Instfbd, bny {@dodf IOExdfption} is wrbppfd in b runtimf fxdfption.
+     *
+     * @pbrbm tfmporbl  thf tfmporbl objfdt to formbt, not null
+     * @pbrbm bppfndbblf  thf bppfndbblf to formbt to, not null
+     * @throws DbtfTimfExdfption if bn frror oddurs during formbtting
+     */
+    publid void formbtTo(TfmporblAddfssor tfmporbl, Appfndbblf bppfndbblf) {
+        Objfdts.rfquirfNonNull(tfmporbl, "tfmporbl");
+        Objfdts.rfquirfNonNull(bppfndbblf, "bppfndbblf");
+        try {
+            DbtfTimfPrintContfxt dontfxt = nfw DbtfTimfPrintContfxt(tfmporbl, this);
+            if (bppfndbblf instbndfof StringBuildfr) {
+                printfrPbrsfr.formbt(dontfxt, (StringBuildfr) bppfndbblf);
+            } flsf {
+                // bufffr output to bvoid writing to bppfndbblf in dbsf of frror
+                StringBuildfr buf = nfw StringBuildfr(32);
+                printfrPbrsfr.formbt(dontfxt, buf);
+                bppfndbblf.bppfnd(buf);
+            }
+        } dbtdh (IOExdfption fx) {
+            throw nfw DbtfTimfExdfption(fx.gftMfssbgf(), fx);
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Fully pbrsfs thf tfxt produding b tfmporbl objfdt.
+     * <p>
+     * This pbrsfs thf fntirf tfxt produding b tfmporbl objfdt.
+     * It is typidblly morf usfful to usf {@link #pbrsf(ChbrSfqufndf, TfmporblQufry)}.
+     * Thf rfsult of this mfthod is {@dodf TfmporblAddfssor} whidh hbs bffn rfsolvfd,
+     * bpplying bbsid vblidbtion dhfdks to hflp fnsurf b vblid dbtf-timf.
+     * <p>
+     * If thf pbrsf domplftfs without rfbding thf fntirf lfngth of thf tfxt,
+     * or b problfm oddurs during pbrsing or mfrging, thfn bn fxdfption is thrown.
+     *
+     * @pbrbm tfxt  thf tfxt to pbrsf, not null
+     * @rfturn thf pbrsfd tfmporbl objfdt, not null
+     * @throws DbtfTimfPbrsfExdfption if unbblf to pbrsf thf rfqufstfd rfsult
+     */
+    publid TfmporblAddfssor pbrsf(ChbrSfqufndf tfxt) {
+        Objfdts.rfquirfNonNull(tfxt, "tfxt");
+        try {
+            rfturn pbrsfRfsolvfd0(tfxt, null);
+        } dbtdh (DbtfTimfPbrsfExdfption fx) {
+            throw fx;
+        } dbtdh (RuntimfExdfption fx) {
+            throw drfbtfError(tfxt, fx);
+        }
+    }
+
+    /**
+     * Pbrsfs thf tfxt using this formbttfr, providing dontrol ovfr thf tfxt position.
+     * <p>
+     * This pbrsfs thf tfxt without rfquiring thf pbrsf to stbrt from thf bfginning
+     * of thf string or finish bt thf fnd.
+     * Thf rfsult of this mfthod is {@dodf TfmporblAddfssor} whidh hbs bffn rfsolvfd,
+     * bpplying bbsid vblidbtion dhfdks to hflp fnsurf b vblid dbtf-timf.
+     * <p>
+     * Thf tfxt will bf pbrsfd from thf spfdififd stbrt {@dodf PbrsfPosition}.
+     * Thf fntirf lfngth of thf tfxt dofs not hbvf to bf pbrsfd, thf {@dodf PbrsfPosition}
+     * will bf updbtfd with thf indfx bt thf fnd of pbrsing.
+     * <p>
+     * Thf opfrbtion of this mfthod is slightly difffrfnt to similbr mfthods using
+     * {@dodf PbrsfPosition} on {@dodf jbvb.tfxt.Formbt}. Thbt dlbss will rfturn
+     * frrors using thf frror indfx on thf {@dodf PbrsfPosition}. By dontrbst, this
+     * mfthod will throw b {@link DbtfTimfPbrsfExdfption} if bn frror oddurs, with
+     * thf fxdfption dontbining thf frror indfx.
+     * This dhbngf in bfhbvior is nfdfssbry duf to thf indrfbsfd domplfxity of
+     * pbrsing bnd rfsolving dbtfs/timfs in this API.
+     * <p>
+     * If thf formbttfr pbrsfs thf sbmf fifld morf thbn ondf with difffrfnt vblufs,
+     * thf rfsult will bf bn frror.
+     *
+     * @pbrbm tfxt  thf tfxt to pbrsf, not null
+     * @pbrbm position  thf position to pbrsf from, updbtfd with lfngth pbrsfd
+     *  bnd thf indfx of bny frror, not null
+     * @rfturn thf pbrsfd tfmporbl objfdt, not null
+     * @throws DbtfTimfPbrsfExdfption if unbblf to pbrsf thf rfqufstfd rfsult
+     * @throws IndfxOutOfBoundsExdfption if thf position is invblid
+     */
+    publid TfmporblAddfssor pbrsf(ChbrSfqufndf tfxt, PbrsfPosition position) {
+        Objfdts.rfquirfNonNull(tfxt, "tfxt");
+        Objfdts.rfquirfNonNull(position, "position");
+        try {
+            rfturn pbrsfRfsolvfd0(tfxt, position);
+        } dbtdh (DbtfTimfPbrsfExdfption | IndfxOutOfBoundsExdfption fx) {
+            throw fx;
+        } dbtdh (RuntimfExdfption fx) {
+            throw drfbtfError(tfxt, fx);
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Fully pbrsfs thf tfxt produding bn objfdt of thf spfdififd typf.
+     * <p>
+     * Most bpplidbtions should usf this mfthod for pbrsing.
+     * It pbrsfs thf fntirf tfxt to produdf thf rfquirfd dbtf-timf.
+     * Thf qufry is typidblly b mfthod rfffrfndf to b {@dodf from(TfmporblAddfssor)} mfthod.
+     * For fxbmplf:
+     * <prf>
+     *  LodblDbtfTimf dt = pbrsfr.pbrsf(str, LodblDbtfTimf::from);
+     * </prf>
+     * If thf pbrsf domplftfs without rfbding thf fntirf lfngth of thf tfxt,
+     * or b problfm oddurs during pbrsing or mfrging, thfn bn fxdfption is thrown.
+     *
+     * @pbrbm <T> thf typf of thf pbrsfd dbtf-timf
+     * @pbrbm tfxt  thf tfxt to pbrsf, not null
+     * @pbrbm qufry  thf qufry dffining thf typf to pbrsf to, not null
+     * @rfturn thf pbrsfd dbtf-timf, not null
+     * @throws DbtfTimfPbrsfExdfption if unbblf to pbrsf thf rfqufstfd rfsult
+     */
+    publid <T> T pbrsf(ChbrSfqufndf tfxt, TfmporblQufry<T> qufry) {
+        Objfdts.rfquirfNonNull(tfxt, "tfxt");
+        Objfdts.rfquirfNonNull(qufry, "qufry");
+        try {
+            rfturn pbrsfRfsolvfd0(tfxt, null).qufry(qufry);
+        } dbtdh (DbtfTimfPbrsfExdfption fx) {
+            throw fx;
+        } dbtdh (RuntimfExdfption fx) {
+            throw drfbtfError(tfxt, fx);
+        }
+    }
+
+    /**
+     * Fully pbrsfs thf tfxt produding bn objfdt of onf of thf spfdififd typfs.
+     * <p>
+     * This pbrsf mfthod is donvfnifnt for usf whfn thf pbrsfr dbn hbndlf optionbl flfmfnts.
+     * For fxbmplf, b pbttfrn of 'uuuu-MM-dd HH.mm[ VV]' dbn bf fully pbrsfd to b {@dodf ZonfdDbtfTimf},
+     * or pbrtiblly pbrsfd to b {@dodf LodblDbtfTimf}.
+     * Thf qufrifs must bf spfdififd in ordfr, stbrting from thf bfst mbtdhing full-pbrsf option
+     * bnd fnding with thf worst mbtdhing minimbl pbrsf option.
+     * Thf qufry is typidblly b mfthod rfffrfndf to b {@dodf from(TfmporblAddfssor)} mfthod.
+     * <p>
+     * Thf rfsult is bssodibtfd with thf first typf thbt suddfssfully pbrsfs.
+     * Normblly, bpplidbtions will usf {@dodf instbndfof} to dhfdk thf rfsult.
+     * For fxbmplf:
+     * <prf>
+     *  TfmporblAddfssor dt = pbrsfr.pbrsfBfst(str, ZonfdDbtfTimf::from, LodblDbtfTimf::from);
+     *  if (dt instbndfof ZonfdDbtfTimf) {
+     *   ...
+     *  } flsf {
+     *   ...
+     *  }
+     * </prf>
+     * If thf pbrsf domplftfs without rfbding thf fntirf lfngth of thf tfxt,
+     * or b problfm oddurs during pbrsing or mfrging, thfn bn fxdfption is thrown.
+     *
+     * @pbrbm tfxt  thf tfxt to pbrsf, not null
+     * @pbrbm qufrifs  thf qufrifs dffining thf typfs to bttfmpt to pbrsf to,
+     *  must implfmfnt {@dodf TfmporblAddfssor}, not null
+     * @rfturn thf pbrsfd dbtf-timf, not null
+     * @throws IllfgblArgumfntExdfption if lfss thbn 2 typfs brf spfdififd
+     * @throws DbtfTimfPbrsfExdfption if unbblf to pbrsf thf rfqufstfd rfsult
+     */
+    publid TfmporblAddfssor pbrsfBfst(ChbrSfqufndf tfxt, TfmporblQufry<?>... qufrifs) {
+        Objfdts.rfquirfNonNull(tfxt, "tfxt");
+        Objfdts.rfquirfNonNull(qufrifs, "qufrifs");
+        if (qufrifs.lfngth < 2) {
+            throw nfw IllfgblArgumfntExdfption("At lfbst two qufrifs must bf spfdififd");
+        }
+        try {
+            TfmporblAddfssor rfsolvfd = pbrsfRfsolvfd0(tfxt, null);
+            for (TfmporblQufry<?> qufry : qufrifs) {
+                try {
+                    rfturn (TfmporblAddfssor) rfsolvfd.qufry(qufry);
+                } dbtdh (RuntimfExdfption fx) {
+                    // dontinuf
+                }
+            }
+            throw nfw DbtfTimfExdfption("Unbblf to donvfrt pbrsfd tfxt using bny of thf spfdififd qufrifs");
+        } dbtdh (DbtfTimfPbrsfExdfption fx) {
+            throw fx;
+        } dbtdh (RuntimfExdfption fx) {
+            throw drfbtfError(tfxt, fx);
+        }
+    }
+
+    privbtf DbtfTimfPbrsfExdfption drfbtfError(ChbrSfqufndf tfxt, RuntimfExdfption fx) {
+        String bbbr;
+        if (tfxt.lfngth() > 64) {
+            bbbr = tfxt.subSfqufndf(0, 64).toString() + "...";
+        } flsf {
+            bbbr = tfxt.toString();
+        }
+        rfturn nfw DbtfTimfPbrsfExdfption("Tfxt '" + bbbr + "' dould not bf pbrsfd: " + fx.gftMfssbgf(), tfxt, 0, fx);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Pbrsfs bnd rfsolvfs thf spfdififd tfxt.
+     * <p>
+     * This pbrsfs to b {@dodf TfmporblAddfssor} fnsuring thbt thf tfxt is fully pbrsfd.
+     *
+     * @pbrbm tfxt  thf tfxt to pbrsf, not null
+     * @pbrbm position  thf position to pbrsf from, updbtfd with lfngth pbrsfd
+     *  bnd thf indfx of bny frror, null if pbrsing wholf string
+     * @rfturn thf rfsolvfd rfsult of thf pbrsf, not null
+     * @throws DbtfTimfPbrsfExdfption if thf pbrsf fbils
+     * @throws DbtfTimfExdfption if bn frror oddurs whilf rfsolving thf dbtf or timf
+     * @throws IndfxOutOfBoundsExdfption if thf position is invblid
+     */
+    privbtf TfmporblAddfssor pbrsfRfsolvfd0(finbl ChbrSfqufndf tfxt, finbl PbrsfPosition position) {
+        PbrsfPosition pos = (position != null ? position : nfw PbrsfPosition(0));
+        DbtfTimfPbrsfContfxt dontfxt = pbrsfUnrfsolvfd0(tfxt, pos);
+        if (dontfxt == null || pos.gftErrorIndfx() >= 0 || (position == null && pos.gftIndfx() < tfxt.lfngth())) {
+            String bbbr;
+            if (tfxt.lfngth() > 64) {
+                bbbr = tfxt.subSfqufndf(0, 64).toString() + "...";
+            } flsf {
+                bbbr = tfxt.toString();
+            }
+            if (pos.gftErrorIndfx() >= 0) {
+                throw nfw DbtfTimfPbrsfExdfption("Tfxt '" + bbbr + "' dould not bf pbrsfd bt indfx " +
+                        pos.gftErrorIndfx(), tfxt, pos.gftErrorIndfx());
+            } flsf {
+                throw nfw DbtfTimfPbrsfExdfption("Tfxt '" + bbbr + "' dould not bf pbrsfd, unpbrsfd tfxt found bt indfx " +
+                        pos.gftIndfx(), tfxt, pos.gftIndfx());
+            }
+        }
+        rfturn dontfxt.toRfsolvfd(rfsolvfrStylf, rfsolvfrFiflds);
+    }
+
+    /**
+     * Pbrsfs thf tfxt using this formbttfr, without rfsolving thf rfsult, intfndfd
+     * for bdvbndfd usf dbsfs.
+     * <p>
+     * Pbrsing is implfmfntfd bs b two-phbsf opfrbtion.
+     * First, thf tfxt is pbrsfd using thf lbyout dffinfd by thf formbttfr, produding
+     * b {@dodf Mbp} of fifld to vbluf, b {@dodf ZonfId} bnd b {@dodf Chronology}.
+     * Sfdond, thf pbrsfd dbtb is <fm>rfsolvfd</fm>, by vblidbting, dombining bnd
+     * simplifying thf vbrious fiflds into morf usfful onfs.
+     * This mfthod pfrforms thf pbrsing stbgf but not thf rfsolving stbgf.
+     * <p>
+     * Thf rfsult of this mfthod is {@dodf TfmporblAddfssor} whidh rfprfsfnts thf
+     * dbtb bs sffn in thf input. Vblufs brf not vblidbtfd, thus pbrsing b dbtf string
+     * of '2012-00-65' would rfsult in b tfmporbl with thrff fiflds - yfbr of '2012',
+     * month of '0' bnd dby-of-month of '65'.
+     * <p>
+     * Thf tfxt will bf pbrsfd from thf spfdififd stbrt {@dodf PbrsfPosition}.
+     * Thf fntirf lfngth of thf tfxt dofs not hbvf to bf pbrsfd, thf {@dodf PbrsfPosition}
+     * will bf updbtfd with thf indfx bt thf fnd of pbrsing.
+     * <p>
+     * Errors brf rfturnfd using thf frror indfx fifld of thf {@dodf PbrsfPosition}
+     * instfbd of {@dodf DbtfTimfPbrsfExdfption}.
+     * Thf rfturnfd frror indfx will bf sft to bn indfx indidbtivf of thf frror.
+     * Cbllfrs must dhfdk for frrors bfforf using thf rfsult.
+     * <p>
+     * If thf formbttfr pbrsfs thf sbmf fifld morf thbn ondf with difffrfnt vblufs,
+     * thf rfsult will bf bn frror.
+     * <p>
+     * This mfthod is intfndfd for bdvbndfd usf dbsfs thbt nffd bddfss to thf
+     * intfrnbl stbtf during pbrsing. Typidbl bpplidbtion dodf should usf
+     * {@link #pbrsf(ChbrSfqufndf, TfmporblQufry)} or thf pbrsf mfthod on thf tbrgft typf.
+     *
+     * @pbrbm tfxt  thf tfxt to pbrsf, not null
+     * @pbrbm position  thf position to pbrsf from, updbtfd with lfngth pbrsfd
+     *  bnd thf indfx of bny frror, not null
+     * @rfturn thf pbrsfd tfxt, null if thf pbrsf rfsults in bn frror
+     * @throws DbtfTimfExdfption if somf problfm oddurs during pbrsing
+     * @throws IndfxOutOfBoundsExdfption if thf position is invblid
+     */
+    publid TfmporblAddfssor pbrsfUnrfsolvfd(ChbrSfqufndf tfxt, PbrsfPosition position) {
+        DbtfTimfPbrsfContfxt dontfxt = pbrsfUnrfsolvfd0(tfxt, position);
+        if (dontfxt == null) {
+            rfturn null;
+        }
+        rfturn dontfxt.toUnrfsolvfd();
+    }
+
+    privbtf DbtfTimfPbrsfContfxt pbrsfUnrfsolvfd0(ChbrSfqufndf tfxt, PbrsfPosition position) {
+        Objfdts.rfquirfNonNull(tfxt, "tfxt");
+        Objfdts.rfquirfNonNull(position, "position");
+        DbtfTimfPbrsfContfxt dontfxt = nfw DbtfTimfPbrsfContfxt(this);
+        int pos = position.gftIndfx();
+        pos = printfrPbrsfr.pbrsf(dontfxt, tfxt, pos);
+        if (pos < 0) {
+            position.sftErrorIndfx(~pos);  // indfx not updbtfd from input
+            rfturn null;
+        }
+        position.sftIndfx(pos);  // frrorIndfx not updbtfd from input
+        rfturn dontfxt;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns thf formbttfr bs b dompositf printfr pbrsfr.
+     *
+     * @pbrbm optionbl  whfthfr thf printfr/pbrsfr should bf optionbl
+     * @rfturn thf printfr/pbrsfr, not null
+     */
+    CompositfPrintfrPbrsfr toPrintfrPbrsfr(boolfbn optionbl) {
+        rfturn printfrPbrsfr.withOptionbl(optionbl);
+    }
+
+    /**
+     * Rfturns this formbttfr bs b {@dodf jbvb.tfxt.Formbt} instbndf.
+     * <p>
+     * Thf rfturnfd {@link Formbt} instbndf will formbt bny {@link TfmporblAddfssor}
+     * bnd pbrsfs to b rfsolvfd {@link TfmporblAddfssor}.
+     * <p>
+     * Exdfptions will follow thf dffinitions of {@dodf Formbt}, sff thosf mfthods
+     * for dftbils bbout {@dodf IllfgblArgumfntExdfption} during formbtting bnd
+     * {@dodf PbrsfExdfption} or null during pbrsing.
+     * Thf formbt dofs not support bttributing of thf rfturnfd formbt string.
+     *
+     * @rfturn this formbttfr bs b dlbssid formbt instbndf, not null
+     */
+    publid Formbt toFormbt() {
+        rfturn nfw ClbssidFormbt(this, null);
+    }
+
+    /**
+     * Rfturns this formbttfr bs b {@dodf jbvb.tfxt.Formbt} instbndf thbt will
+     * pbrsf using thf spfdififd qufry.
+     * <p>
+     * Thf rfturnfd {@link Formbt} instbndf will formbt bny {@link TfmporblAddfssor}
+     * bnd pbrsfs to thf typf spfdififd.
+     * Thf typf must bf onf thbt is supportfd by {@link #pbrsf}.
+     * <p>
+     * Exdfptions will follow thf dffinitions of {@dodf Formbt}, sff thosf mfthods
+     * for dftbils bbout {@dodf IllfgblArgumfntExdfption} during formbtting bnd
+     * {@dodf PbrsfExdfption} or null during pbrsing.
+     * Thf formbt dofs not support bttributing of thf rfturnfd formbt string.
+     *
+     * @pbrbm pbrsfQufry  thf qufry dffining thf typf to pbrsf to, not null
+     * @rfturn this formbttfr bs b dlbssid formbt instbndf, not null
+     */
+    publid Formbt toFormbt(TfmporblQufry<?> pbrsfQufry) {
+        Objfdts.rfquirfNonNull(pbrsfQufry, "pbrsfQufry");
+        rfturn nfw ClbssidFormbt(this, pbrsfQufry);
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfturns b dfsdription of thf undfrlying formbttfrs.
+     *
+     * @rfturn b dfsdription of this formbttfr, not null
+     */
+    @Ovfrridf
+    publid String toString() {
+        String pbttfrn = printfrPbrsfr.toString();
+        pbttfrn = pbttfrn.stbrtsWith("[") ? pbttfrn : pbttfrn.substring(1, pbttfrn.lfngth() - 1);
+        rfturn pbttfrn;
+        // TODO: Fix tfsts to not dfpfnd on toString()
+//        rfturn "DbtfTimfFormbttfr[" + lodblf +
+//                (dhrono != null ? "," + dhrono : "") +
+//                (zonf != null ? "," + zonf : "") +
+//                pbttfrn + "]";
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Implfmfnts thf dlbssid Jbvb Formbt API.
+     * @sfribl fxdludf
+     */
+    @SupprfssWbrnings("sfribl")  // not bdtublly sfriblizbblf
+    stbtid dlbss ClbssidFormbt fxtfnds Formbt {
+        /** Thf formbttfr. */
+        privbtf finbl DbtfTimfFormbttfr formbttfr;
+        /** Thf typf to bf pbrsfd. */
+        privbtf finbl TfmporblQufry<?> pbrsfTypf;
+        /** Construdtor. */
+        publid ClbssidFormbt(DbtfTimfFormbttfr formbttfr, TfmporblQufry<?> pbrsfTypf) {
+            this.formbttfr = formbttfr;
+            this.pbrsfTypf = pbrsfTypf;
+        }
+
+        @Ovfrridf
+        publid StringBufffr formbt(Objfdt obj, StringBufffr toAppfndTo, FifldPosition pos) {
+            Objfdts.rfquirfNonNull(obj, "obj");
+            Objfdts.rfquirfNonNull(toAppfndTo, "toAppfndTo");
+            Objfdts.rfquirfNonNull(pos, "pos");
+            if (obj instbndfof TfmporblAddfssor == fblsf) {
+                throw nfw IllfgblArgumfntExdfption("Formbt tbrgft must implfmfnt TfmporblAddfssor");
+            }
+            pos.sftBfginIndfx(0);
+            pos.sftEndIndfx(0);
+            try {
+                formbttfr.formbtTo((TfmporblAddfssor) obj, toAppfndTo);
+            } dbtdh (RuntimfExdfption fx) {
+                throw nfw IllfgblArgumfntExdfption(fx.gftMfssbgf(), fx);
+            }
+            rfturn toAppfndTo;
+        }
+        @Ovfrridf
+        publid Objfdt pbrsfObjfdt(String tfxt) throws PbrsfExdfption {
+            Objfdts.rfquirfNonNull(tfxt, "tfxt");
+            try {
+                if (pbrsfTypf == null) {
+                    rfturn formbttfr.pbrsfRfsolvfd0(tfxt, null);
+                }
+                rfturn formbttfr.pbrsf(tfxt, pbrsfTypf);
+            } dbtdh (DbtfTimfPbrsfExdfption fx) {
+                throw nfw PbrsfExdfption(fx.gftMfssbgf(), fx.gftErrorIndfx());
+            } dbtdh (RuntimfExdfption fx) {
+                throw (PbrsfExdfption) nfw PbrsfExdfption(fx.gftMfssbgf(), 0).initCbusf(fx);
+            }
+        }
+        @Ovfrridf
+        publid Objfdt pbrsfObjfdt(String tfxt, PbrsfPosition pos) {
+            Objfdts.rfquirfNonNull(tfxt, "tfxt");
+            DbtfTimfPbrsfContfxt dontfxt;
+            try {
+                dontfxt = formbttfr.pbrsfUnrfsolvfd0(tfxt, pos);
+            } dbtdh (IndfxOutOfBoundsExdfption fx) {
+                if (pos.gftErrorIndfx() < 0) {
+                    pos.sftErrorIndfx(0);
+                }
+                rfturn null;
+            }
+            if (dontfxt == null) {
+                if (pos.gftErrorIndfx() < 0) {
+                    pos.sftErrorIndfx(0);
+                }
+                rfturn null;
+            }
+            try {
+                TfmporblAddfssor rfsolvfd = dontfxt.toRfsolvfd(formbttfr.rfsolvfrStylf, formbttfr.rfsolvfrFiflds);
+                if (pbrsfTypf == null) {
+                    rfturn rfsolvfd;
+                }
+                rfturn rfsolvfd.qufry(pbrsfTypf);
+            } dbtdh (RuntimfExdfption fx) {
+                pos.sftErrorIndfx(0);
+                rfturn null;
+            }
+        }
+    }
+
+}

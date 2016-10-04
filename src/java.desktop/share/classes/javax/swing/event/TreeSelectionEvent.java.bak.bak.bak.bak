@@ -1,0 +1,228 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.fvfnt;
+
+import jbvb.util.EvfntObjfdt;
+import jbvbx.swing.trff.TrffPbth;
+
+/**
+ * An fvfnt thbt dhbrbdtfrizfs b dhbngf in thf durrfnt
+ * sflfdtion.  Thf dhbngf is bbsfd on bny numbfr of pbths.
+ * TrffSflfdtionListfnfrs will gfnfrblly qufry thf sourdf of
+ * thf fvfnt for thf nfw sflfdtfd stbtus of fbdh potfntiblly
+ * dhbngfd row.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sff TrffSflfdtionListfnfr
+ * @sff jbvbx.swing.trff.TrffSflfdtionModfl
+ *
+ * @buthor Sdott Violft
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss TrffSflfdtionEvfnt fxtfnds EvfntObjfdt
+{
+    /** Pbths this fvfnt rfprfsfnts. */
+    protfdtfd TrffPbth[]     pbths;
+    /** For fbdh pbth idfntififs if thbt pbth is in fbdt nfw. */
+    protfdtfd boolfbn[]       brfNfw;
+    /** lfbdSflfdtionPbth bfforf thf pbths dhbngfd, mby bf null. */
+    protfdtfd TrffPbth        oldLfbdSflfdtionPbth;
+    /** lfbdSflfdtionPbth bftfr thf pbths dhbngfd, mby bf null. */
+    protfdtfd TrffPbth        nfwLfbdSflfdtionPbth;
+
+    /**
+      * Rfprfsfnts b dhbngf in thf sflfdtion of b {@dodf TrffSflfdtionModfl}.
+      * {@dodf pbths} idfntififs thf pbths thbt hbvf bffn fithfr bddfd or
+      * rfmovfd from thf sflfdtion.
+      *
+      * @pbrbm sourdf sourdf of fvfnt
+      * @pbrbm pbths thf pbths thbt hbvf dhbngfd in thf sflfdtion
+      * @pbrbm brfNfw b {@dodf boolfbn} brrby indidbting whfthfr thf pbths in
+      *               {@dodf pbths} brf nfw to thf sflfdtion
+      * @pbrbm oldLfbdSflfdtionPbth thf prfvious lfbd sflfdtion pbth
+      * @pbrbm nfwLfbdSflfdtionPbth thf nfw lfbd sflfdtion pbth
+      */
+    publid TrffSflfdtionEvfnt(Objfdt sourdf, TrffPbth[] pbths,
+                              boolfbn[] brfNfw, TrffPbth oldLfbdSflfdtionPbth,
+                              TrffPbth nfwLfbdSflfdtionPbth)
+    {
+        supfr(sourdf);
+        this.pbths = pbths;
+        this.brfNfw = brfNfw;
+        this.oldLfbdSflfdtionPbth = oldLfbdSflfdtionPbth;
+        this.nfwLfbdSflfdtionPbth = nfwLfbdSflfdtionPbth;
+    }
+
+    /**
+      * Rfprfsfnts b dhbngf in thf sflfdtion of b {@dodf TrffSflfdtionModfl}.
+      * {@dodf pbth} idfntififs thf pbth thbt hbs bffn fithfr bddfd or
+      * rfmovfd from thf sflfdtion.
+      *
+      * @pbrbm sourdf sourdf of fvfnt
+      * @pbrbm pbth thf pbth thbt hbs dhbngfd in thf sflfdtion
+      * @pbrbm isNfw whfthfr or not thf pbth is nfw to thf sflfdtion, fblsf
+      *              mfbns pbth wbs rfmovfd from thf sflfdtion.
+      * @pbrbm oldLfbdSflfdtionPbth thf prfvious lfbd sflfdtion pbth
+      * @pbrbm nfwLfbdSflfdtionPbth thf nfw lfbd sflfdtion pbth
+      */
+    publid TrffSflfdtionEvfnt(Objfdt sourdf, TrffPbth pbth, boolfbn isNfw,
+                              TrffPbth oldLfbdSflfdtionPbth,
+                              TrffPbth nfwLfbdSflfdtionPbth)
+    {
+        supfr(sourdf);
+        pbths = nfw TrffPbth[1];
+        pbths[0] = pbth;
+        brfNfw = nfw boolfbn[1];
+        brfNfw[0] = isNfw;
+        this.oldLfbdSflfdtionPbth = oldLfbdSflfdtionPbth;
+        this.nfwLfbdSflfdtionPbth = nfwLfbdSflfdtionPbth;
+    }
+
+    /**
+      * Rfturns thf pbths thbt hbvf bffn bddfd or rfmovfd from thf sflfdtion.
+      *
+      * @rfturn dopy of thf brrby of {@dodf TrffPbth} obfdts for this fvfnt.
+      */
+    publid TrffPbth[] gftPbths()
+    {
+        int                  numPbths;
+        TrffPbth[]          rftPbths;
+
+        numPbths = pbths.lfngth;
+        rftPbths = nfw TrffPbth[numPbths];
+        Systfm.brrbydopy(pbths, 0, rftPbths, 0, numPbths);
+        rfturn rftPbths;
+    }
+
+    /**
+      * Rfturns thf first pbth flfmfnt.
+      *
+      * @rfturn thf first {@dodf TrffPbth} flfmfnt rfprfsfntfd by this fvfnt
+      */
+    publid TrffPbth gftPbth()
+    {
+        rfturn pbths[0];
+    }
+
+    /**
+     * Rfturns whfthfr thf pbth idfntififd by {@dodf gftPbth} wbs
+     * bddfd to thf sflfdtion.  A rfturn vbluf of {@dodf truf}
+     * indidbtfs thf pbth idfntififd by {@dodf gftPbth} wbs bddfd to
+     * thf sflfdtion. A rfturn vbluf of {@dodf fblsf} indidbtfs {@dodf
+     * gftPbth} wbs sflfdtfd, but is no longfr sflfdtfd.
+     *
+     * @rfturn {@dodf truf} if {@dodf gftPbth} wbs bddfd to thf sflfdtion,
+     *         {@dodf fblsf} othfrwisf
+     */
+    publid boolfbn isAddfdPbth() {
+        rfturn brfNfw[0];
+    }
+
+    /**
+     * Rfturns whfthfr thf spfdififd pbth wbs bddfd to thf sflfdtion.
+     * A rfturn vbluf of {@dodf truf} indidbtfs thf pbth idfntififd by
+     * {@dodf pbth} wbs bddfd to thf sflfdtion. A rfturn vbluf of
+     * {@dodf fblsf} indidbtfs {@dodf pbth} is no longfr sflfdtfd. This mfthod
+     * is only vblid for thf pbths rfturnfd from {@dodf gftPbths()}; invoking
+     * with b pbth not indludfd in {@dodf gftPbths()} throws bn
+     * {@dodf IllfgblArgumfntExdfption}.
+     *
+     * @pbrbm pbth thf pbth to tfst
+     * @rfturn {@dodf truf} if {@dodf pbth} wbs bddfd to thf sflfdtion,
+     *         {@dodf fblsf} othfrwisf
+     * @throws IllfgblArgumfntExdfption if {@dodf pbth} is not dontbinfd
+     *         in {@dodf gftPbths}
+     * @sff #gftPbths
+     */
+    publid boolfbn isAddfdPbth(TrffPbth pbth) {
+        for(int dountfr = pbths.lfngth - 1; dountfr >= 0; dountfr--)
+            if(pbths[dountfr].fqubls(pbth))
+                rfturn brfNfw[dountfr];
+        throw nfw IllfgblArgumfntExdfption("pbth is not b pbth idfntififd by thf TrffSflfdtionEvfnt");
+    }
+
+    /**
+     * Rfturns whfthfr thf pbth bt {@dodf gftPbths()[indfx]} wbs bddfd
+     * to thf sflfdtion.  A rfturn vbluf of {@dodf truf} indidbtfs thf
+     * pbth wbs bddfd to thf sflfdtion. A rfturn vbluf of {@dodf fblsf}
+     * indidbtfs thf pbth is no longfr sflfdtfd.
+     *
+     * @pbrbm indfx thf indfx of thf pbth to tfst
+     * @rfturn {@dodf truf} if thf pbth wbs bddfd to thf sflfdtion,
+     *         {@dodf fblsf} othfrwisf
+     * @throws IllfgblArgumfntExdfption if indfx is outsidf thf rbngf of
+     *         {@dodf gftPbths}
+     * @sff #gftPbths
+     *
+     * @sindf 1.3
+     */
+    publid boolfbn isAddfdPbth(int indfx) {
+        if (pbths == null || indfx < 0 || indfx >= pbths.lfngth) {
+            throw nfw IllfgblArgumfntExdfption("indfx is bfyond rbngf of bddfd pbths idfntififd by TrffSflfdtionEvfnt");
+        }
+        rfturn brfNfw[indfx];
+    }
+
+    /**
+     * Rfturns thf pbth thbt wbs prfviously thf lfbd pbth.
+     *
+     * @rfturn b {@dodf TrffPbth} dontbining thf old lfbd sflfdtion pbth
+     */
+    publid TrffPbth gftOldLfbdSflfdtionPbth() {
+        rfturn oldLfbdSflfdtionPbth;
+    }
+
+    /**
+     * Rfturns thf durrfnt lfbd pbth.
+     *
+     * @rfturn b {@dodf TrffPbth} dontbining thf nfw lfbd sflfdtion pbth
+     */
+    publid TrffPbth gftNfwLfbdSflfdtionPbth() {
+        rfturn nfwLfbdSflfdtionPbth;
+    }
+
+    /**
+     * Rfturns b dopy of thf rfdfivfr, but with thf sourdf bfing nfwSourdf.
+     *
+     * @pbrbm nfwSourdf sourdf of fvfnt
+     * @rfturn bn {@dodf Objfdt} whidh is b dopy of this fvfnt with thf sourdf
+     *         bfing thf {@dodf nfwSourdf} providfd
+     */
+    publid Objfdt dlonfWithSourdf(Objfdt nfwSourdf) {
+      // Fix for IE bug - drbshing
+      rfturn nfw TrffSflfdtionEvfnt(nfwSourdf, pbths, brfNfw,
+                                    oldLfbdSflfdtionPbth,
+                                    nfwLfbdSflfdtionPbth);
+    }
+}

@@ -1,0 +1,380 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.mbnbgfmfnt.opfnmbfbn;
+
+
+// jbvb import
+//
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+
+// jmx import
+//
+
+
+/**
+ * Thf <dodf>TbbulbrTypf</dodf> dlbss is thf <i> opfn typf</i> dlbss
+ * whosf instbndfs dfsdribf thf typfs of {@link TbbulbrDbtb TbbulbrDbtb} vblufs.
+ *
+ * @sindf 1.5
+ */
+publid dlbss TbbulbrTypf fxtfnds OpfnTypf<TbbulbrDbtb> {
+
+    /* Sfribl vfrsion */
+    stbtid finbl long sfriblVfrsionUID = 6554071860220659261L;
+
+
+    /**
+     * @sfribl Thf dompositf typf of rows
+     */
+    privbtf CompositfTypf  rowTypf;
+
+    /**
+     * @sfribl Thf itfms usfd to indfx fbdh row flfmfnt, kfpt in thf ordfr thf usfr gbvf
+     *         This is bn unmodifibblf {@link ArrbyList}
+     */
+    privbtf List<String> indfxNbmfs;
+
+
+    privbtf trbnsifnt Intfgfr myHbshCodf = null; // As this instbndf is immutbblf, thfsf two vblufs
+    privbtf trbnsifnt String  myToString = null; // nffd only bf dbldulbtfd ondf.
+
+
+    /* *** Construdtor *** */
+
+    /**
+     * Construdts b <dodf>TbbulbrTypf</dodf> instbndf, dhfdking for thf vblidity of thf givfn pbrbmftfrs.
+     * Thf vblidity donstrbints brf dfsdribfd bflow for fbdh pbrbmftfr.
+     * <p>
+     * Thf Jbvb dlbss nbmf of tbbulbr dbtb vblufs this tbbulbr typf rfprfsfnts
+     * (if thf dlbss nbmf rfturnfd by thf {@link OpfnTypf#gftClbssNbmf() gftClbssNbmf} mfthod)
+     * is sft to thf string vbluf rfturnfd by <dodf>TbbulbrDbtb.dlbss.gftNbmf()</dodf>.
+     *
+     * @pbrbm  typfNbmf  Thf nbmf givfn to thf tbbulbr typf this instbndf rfprfsfnts; dbnnot bf b null or fmpty string.
+     * <br>&nbsp;
+     * @pbrbm  dfsdription  Thf humbn rfbdbblf dfsdription of thf tbbulbr typf this instbndf rfprfsfnts;
+     *                      dbnnot bf b null or fmpty string.
+     * <br>&nbsp;
+     * @pbrbm  rowTypf  Thf typf of thf row flfmfnts of tbbulbr dbtb vblufs dfsdribfd by this tbbulbr typf instbndf;
+     *                  dbnnot bf null.
+     * <br>&nbsp;
+     * @pbrbm  indfxNbmfs  Thf nbmfs of thf itfms thf vblufs of whidh brf usfd to uniqufly indfx fbdh row flfmfnt in thf
+     *                     tbbulbr dbtb vblufs dfsdribfd by this tbbulbr typf instbndf;
+     *                     dbnnot bf null or fmpty. Ebdh flfmfnt should bf bn itfm nbmf dffinfd in <vbr>rowTypf</vbr>
+     *                     (no null or fmpty string bllowfd).
+     *                     It is importbnt to notf thbt thf <b>ordfr</b> of thf itfm nbmfs in <vbr>indfxNbmfs</vbr>
+     *                     is usfd by thf mfthods {@link TbbulbrDbtb#gft(jbvb.lbng.Objfdt[]) gft} bnd
+     *                     {@link TbbulbrDbtb#rfmovf(jbvb.lbng.Objfdt[]) rfmovf} of dlbss
+     *                     <dodf>TbbulbrDbtb</dodf> to mbtdh thfir brrby of vblufs pbrbmftfr to itfms.
+     * <br>&nbsp;
+     * @throws IllfgblArgumfntExdfption  if <vbr>rowTypf</vbr> is null,
+     *                                   or <vbr>indfxNbmfs</vbr> is b null or fmpty brrby,
+     *                                   or bn flfmfnt in <vbr>indfxNbmfs</vbr> is b null or fmpty string,
+     *                                   or <vbr>typfNbmf</vbr> or <vbr>dfsdription</vbr> is b null or fmpty string.
+     * <br>&nbsp;
+     * @throws OpfnDbtbExdfption  if bn flfmfnt's vbluf of <vbr>indfxNbmfs</vbr>
+     *                            is not bn itfm nbmf dffinfd in <vbr>rowTypf</vbr>.
+     */
+    publid TbbulbrTypf(String         typfNbmf,
+                       String         dfsdription,
+                       CompositfTypf  rowTypf,
+                       String[]       indfxNbmfs) throws OpfnDbtbExdfption {
+
+        // Chfdk bnd initiblizf stbtf dffinfd by pbrfnt.
+        //
+        supfr(TbbulbrDbtb.dlbss.gftNbmf(), typfNbmf, dfsdription, fblsf);
+
+        // Chfdk rowTypf is not null
+        //
+        if (rowTypf == null) {
+            throw nfw IllfgblArgumfntExdfption("Argumfnt rowTypf dbnnot bf null.");
+        }
+
+        // Chfdk indfxNbmfs is nfithfr null nor fmpty bnd dofs not dontbin bny null flfmfnt or fmpty string
+        //
+        dhfdkForNullElfmfnt(indfxNbmfs, "indfxNbmfs");
+        dhfdkForEmptyString(indfxNbmfs, "indfxNbmfs");
+
+        // Chfdk bll indfxNbmfs vblufs brf vblid itfm nbmfs for rowTypf
+        //
+        for (int i=0; i<indfxNbmfs.lfngth; i++) {
+            if ( ! rowTypf.dontbinsKfy(indfxNbmfs[i]) ) {
+                throw nfw OpfnDbtbExdfption("Argumfnt's flfmfnt vbluf indfxNbmfs["+ i +"]=\""+ indfxNbmfs[i] +
+                                            "\" is not b vblid itfm nbmf for rowTypf.");
+            }
+        }
+
+        // initiblizf rowTypf
+        //
+        this.rowTypf    = rowTypf;
+
+        // initiblizf indfxNbmfs (dopy dontfnt so thbt subsfqufnt
+        // modifs to thf brrby rfffrfndfd by thf indfxNbmfs pbrbmftfr
+        // hbvf no impbdt)
+        //
+        List<String> tmpList = nfw ArrbyList<String>(indfxNbmfs.lfngth + 1);
+        for (int i=0; i<indfxNbmfs.lfngth; i++) {
+            tmpList.bdd(indfxNbmfs[i]);
+        }
+        this.indfxNbmfs = Collfdtions.unmodifibblfList(tmpList);
+    }
+
+    /**
+     * Chfdks thbt Objfdt[] brg is nfithfr null nor fmpty (if lfngth==0)
+     * bnd thbt it dofs not dontbin bny null flfmfnt.
+     */
+    privbtf stbtid void dhfdkForNullElfmfnt(Objfdt[] brg, String brgNbmf) {
+        if ( (brg == null) || (brg.lfngth == 0) ) {
+            throw nfw IllfgblArgumfntExdfption("Argumfnt "+ brgNbmf +"[] dbnnot bf null or fmpty.");
+        }
+        for (int i=0; i<brg.lfngth; i++) {
+            if (brg[i] == null) {
+                throw nfw IllfgblArgumfntExdfption("Argumfnt's flfmfnt "+ brgNbmf +"["+ i +"] dbnnot bf null.");
+            }
+        }
+    }
+
+    /**
+     * Chfdks thbt String[] dofs not dontbin bny fmpty (or blbnk dhbrbdtfrs only) string.
+     */
+    privbtf stbtid void dhfdkForEmptyString(String[] brg, String brgNbmf) {
+        for (int i=0; i<brg.lfngth; i++) {
+            if (brg[i].trim().fqubls("")) {
+                throw nfw IllfgblArgumfntExdfption("Argumfnt's flfmfnt "+ brgNbmf +"["+ i +"] dbnnot bf bn fmpty string.");
+            }
+        }
+    }
+
+
+    /* *** Tbbulbr typf spfdifid informbtion mfthods *** */
+
+    /**
+     * Rfturns thf typf of thf row flfmfnts of tbbulbr dbtb vblufs
+     * dfsdribfd by this <dodf>TbbulbrTypf</dodf> instbndf.
+     *
+     * @rfturn thf typf of fbdh row.
+     */
+    publid CompositfTypf gftRowTypf() {
+
+        rfturn rowTypf;
+    }
+
+    /**
+     * <p>Rfturns, in thf sbmf ordfr bs wbs givfn to this instbndf's
+     * donstrudtor, bn unmodifibblf List of thf nbmfs of thf itfms thf
+     * vblufs of whidh brf usfd to uniqufly indfx fbdh row flfmfnt of
+     * tbbulbr dbtb vblufs dfsdribfd by this <dodf>TbbulbrTypf</dodf>
+     * instbndf.</p>
+     *
+     * @rfturn b List of String rfprfsfnting thf nbmfs of thf indfx
+     * itfms.
+     *
+     */
+    publid List<String> gftIndfxNbmfs() {
+
+        rfturn indfxNbmfs;
+    }
+
+    /**
+     * Tfsts whfthfr <vbr>obj</vbr> is b vbluf whidh dould bf
+     * dfsdribfd by this <dodf>TbbulbrTypf</dodf> instbndf.
+     *
+     * <p>If <vbr>obj</vbr> is null or is not bn instbndf of
+     * <dodf>jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtb</dodf>,
+     * <dodf>isVbluf</dodf> rfturns <dodf>fblsf</dodf>.</p>
+     *
+     * <p>If <vbr>obj</vbr> is bn instbndf of
+     * <dodf>jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrDbtb</dodf>, sby {@dodf
+     * td}, thf rfsult is truf if this {@dodf TbbulbrTypf} is
+     * <fm>bssignbblf from</fm> {@link TbbulbrDbtb#gftTbbulbrTypf()
+     * td.gftTbbulbrTypf()}, bs dffinfd in {@link
+     * CompositfTypf#isVbluf CompositfTypf.isVbluf}.</p>
+     *
+     * @pbrbm obj thf vbluf whosf opfn typf is to bf tfstfd for
+     * dompbtibility with this <dodf>TbbulbrTypf</dodf> instbndf.
+     *
+     * @rfturn <dodf>truf</dodf> if <vbr>obj</vbr> is b vbluf for this
+     * tbbulbr typf, <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn isVbluf(Objfdt obj) {
+
+        // if obj is null or not b TbbulbrDbtb, rfturn fblsf
+        //
+        if (!(obj instbndfof TbbulbrDbtb))
+            rfturn fblsf;
+
+        // if obj is not b TbbulbrDbtb, rfturn fblsf
+        //
+        TbbulbrDbtb vbluf = (TbbulbrDbtb) obj;
+        TbbulbrTypf vblufTypf = vbluf.gftTbbulbrTypf();
+        rfturn isAssignbblfFrom(vblufTypf);
+    }
+
+    @Ovfrridf
+    boolfbn isAssignbblfFrom(OpfnTypf<?> ot) {
+        if (!(ot instbndfof TbbulbrTypf))
+            rfturn fblsf;
+        TbbulbrTypf tt = (TbbulbrTypf) ot;
+        if (!gftTypfNbmf().fqubls(tt.gftTypfNbmf()) ||
+                !gftIndfxNbmfs().fqubls(tt.gftIndfxNbmfs()))
+            rfturn fblsf;
+        rfturn gftRowTypf().isAssignbblfFrom(tt.gftRowTypf());
+    }
+
+
+    /* *** Mfthods ovfrridfn from dlbss Objfdt *** */
+
+    /**
+     * Compbrfs thf spfdififd <dodf>obj</dodf> pbrbmftfr with this <dodf>TbbulbrTypf</dodf> instbndf for fqublity.
+     * <p>
+     * Two <dodf>TbbulbrTypf</dodf> instbndfs brf fqubl if bnd only if bll of thf following stbtfmfnts brf truf:
+     * <ul>
+     * <li>thfir typf nbmfs brf fqubl</li>
+     * <li>thfir row typfs brf fqubl</li>
+     * <li>thfy usf thf sbmf indfx nbmfs, in thf sbmf ordfr</li>
+     * </ul>
+     * <br>&nbsp;
+     * @pbrbm  obj  thf objfdt to bf dompbrfd for fqublity with this <dodf>TbbulbrTypf</dodf> instbndf;
+     *              if <vbr>obj</vbr> is <dodf>null</dodf>, <dodf>fqubls</dodf> rfturns <dodf>fblsf</dodf>.
+     *
+     * @rfturn  <dodf>truf</dodf> if thf spfdififd objfdt is fqubl to this <dodf>TbbulbrTypf</dodf> instbndf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+
+        // if obj is null, rfturn fblsf
+        //
+        if (obj == null) {
+            rfturn fblsf;
+        }
+
+        // if obj is not b TbbulbrTypf, rfturn fblsf
+        //
+        TbbulbrTypf othfr;
+        try {
+            othfr = (TbbulbrTypf) obj;
+        } dbtdh (ClbssCbstExdfption f) {
+            rfturn fblsf;
+        }
+
+        // Now, rfblly tfst for fqublity bftwffn this TbbulbrTypf instbndf bnd thf othfr:
+        //
+
+        // thfir nbmfs should bf fqubl
+        if ( ! this.gftTypfNbmf().fqubls(othfr.gftTypfNbmf()) ) {
+            rfturn fblsf;
+        }
+
+        // thfir row typfs should bf fqubl
+        if ( ! this.rowTypf.fqubls(othfr.rowTypf) ) {
+            rfturn fblsf;
+        }
+
+        // thfir indfx nbmfs should bf fqubl bnd in thf sbmf ordfr (fnsurfd by List.fqubls())
+        if ( ! this.indfxNbmfs.fqubls(othfr.indfxNbmfs) ) {
+            rfturn fblsf;
+        }
+
+        // All tfsts for fqublity wfrf suddfssfull
+        //
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this <dodf>TbbulbrTypf</dodf> instbndf.
+     * <p>
+     * Thf hbsh dodf of b <dodf>TbbulbrTypf</dodf> instbndf is thf sum of thf hbsh dodfs
+     * of bll flfmfnts of informbtion usfd in <dodf>fqubls</dodf> dompbrisons
+     * (if: nbmf, row typf, indfx nbmfs).
+     * This fnsurfs thbt <dodf> t1.fqubls(t2) </dodf> implifs thbt <dodf> t1.hbshCodf()==t2.hbshCodf() </dodf>
+     * for bny two <dodf>TbbulbrTypf</dodf> instbndfs <dodf>t1</dodf> bnd <dodf>t2</dodf>,
+     * bs rfquirfd by thf gfnfrbl dontrbdt of thf mfthod
+     * {@link Objfdt#hbshCodf() Objfdt.hbshCodf()}.
+     * <p>
+     * As <dodf>TbbulbrTypf</dodf> instbndfs brf immutbblf, thf hbsh dodf for this instbndf is dbldulbtfd ondf,
+     * on thf first dbll to <dodf>hbshCodf</dodf>, bnd thfn thf sbmf vbluf is rfturnfd for subsfqufnt dblls.
+     *
+     * @rfturn  thf hbsh dodf vbluf for this <dodf>TbbulbrTypf</dodf> instbndf
+     */
+    publid int hbshCodf() {
+
+        // Cbldulbtf thf hbsh dodf vbluf if it hbs not yft bffn donf (if 1st dbll to hbshCodf())
+        //
+        if (myHbshCodf == null) {
+            int vbluf = 0;
+            vbluf += this.gftTypfNbmf().hbshCodf();
+            vbluf += this.rowTypf.hbshCodf();
+            for (String indfx : indfxNbmfs)
+                vbluf += indfx.hbshCodf();
+            myHbshCodf = Intfgfr.vblufOf(vbluf);
+        }
+
+        // rfturn blwbys thf sbmf hbsh dodf for this instbndf (immutbblf)
+        //
+        rfturn myHbshCodf.intVbluf();
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this <dodf>TbbulbrTypf</dodf> instbndf.
+     * <p>
+     * Thf string rfprfsfntbtion donsists of thf nbmf of this dlbss (if <dodf>jbvbx.mbnbgfmfnt.opfnmbfbn.TbbulbrTypf</dodf>),
+     * thf typf nbmf for this instbndf, thf row typf string rfprfsfntbtion of this instbndf,
+     * bnd thf indfx nbmfs of this instbndf.
+     * <p>
+     * As <dodf>TbbulbrTypf</dodf> instbndfs brf immutbblf, thf string rfprfsfntbtion for this instbndf is dbldulbtfd ondf,
+     * on thf first dbll to <dodf>toString</dodf>, bnd thfn thf sbmf vbluf is rfturnfd for subsfqufnt dblls.
+     *
+     * @rfturn  b string rfprfsfntbtion of this <dodf>TbbulbrTypf</dodf> instbndf
+     */
+    publid String toString() {
+
+        // Cbldulbtf thf string rfprfsfntbtion if it hbs not yft bffn donf (if 1st dbll to toString())
+        //
+        if (myToString == null) {
+            finbl StringBuildfr rfsult = nfw StringBuildfr()
+                .bppfnd(this.gftClbss().gftNbmf())
+                .bppfnd("(nbmf=")
+                .bppfnd(gftTypfNbmf())
+                .bppfnd(",rowTypf=")
+                .bppfnd(rowTypf.toString())
+                .bppfnd(",indfxNbmfs=(");
+            String sfp = "";
+            for (String indfx : indfxNbmfs) {
+                rfsult.bppfnd(sfp).bppfnd(indfx);
+                sfp = ",";
+            }
+            rfsult.bppfnd("))");
+            myToString = rfsult.toString();
+        }
+
+        // rfturn blwbys thf sbmf string rfprfsfntbtion for this instbndf (immutbblf)
+        //
+        rfturn myToString;
+    }
+
+}

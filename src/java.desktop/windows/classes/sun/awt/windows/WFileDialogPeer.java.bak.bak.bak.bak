@@ -1,0 +1,336 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt.windows;
+
+import jbvb.bwt.*;
+import jbvb.bwt.dnd.DropTbrgft;
+import jbvb.bwt.pffr.*;
+import jbvb.io.Filf;
+import jbvb.io.FilfnbmfFiltfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.Vfdtor;
+import sun.bwt.CbusfdFodusEvfnt;
+import sun.bwt.AWTAddfssor;
+
+finbl dlbss WFilfDiblogPffr fxtfnds WWindowPffr implfmfnts FilfDiblogPffr {
+
+    stbtid {
+        initIDs();
+    }
+
+    privbtf WComponfntPffr pbrfnt;
+    privbtf FilfnbmfFiltfr filfFiltfr;
+
+    privbtf Vfdtor<WWindowPffr> blodkfdWindows = nfw Vfdtor<>();
+
+    //Nffdfd to fix 4152317
+    privbtf stbtid nbtivf void sftFiltfrString(String bllFiltfr);
+
+    @Ovfrridf
+    publid void sftFilfnbmfFiltfr(FilfnbmfFiltfr filtfr) {
+        this.filfFiltfr = filtfr;
+    }
+
+    boolfbn dhfdkFilfnbmfFiltfr(String filfnbmf) {
+        FilfDiblog filfDiblog = (FilfDiblog)tbrgft;
+        if (filfFiltfr == null) {
+            rfturn truf;
+        }
+        Filf filf = nfw Filf(filfnbmf);
+        rfturn filfFiltfr.bddfpt(nfw Filf(filf.gftPbrfnt()), filf.gftNbmf());
+    }
+
+    // Toolkit & pffr intfrnbls
+    WFilfDiblogPffr(FilfDiblog tbrgft) {
+        supfr(tbrgft);
+    }
+
+    @Ovfrridf
+    void drfbtf(WComponfntPffr pbrfnt) {
+        this.pbrfnt = pbrfnt;
+    }
+
+    // don't usf dhfdkCrfbtion() from WComponfntPffr to bvoid hwnd dhfdk
+    @Ovfrridf
+    protfdtfd void dhfdkCrfbtion() {
+    }
+
+    @Ovfrridf
+    void initiblizf() {
+        sftFilfnbmfFiltfr(((FilfDiblog) tbrgft).gftFilfnbmfFiltfr());
+    }
+
+    privbtf nbtivf void _disposf();
+    @Ovfrridf
+    protfdtfd void disposfImpl() {
+        WToolkit.tbrgftDisposfdPffr(tbrgft, this);
+        _disposf();
+    }
+
+    privbtf nbtivf void _show();
+    privbtf nbtivf void _hidf();
+
+    @Ovfrridf
+    publid void show() {
+        nfw Thrfbd(nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
+                _show();
+            }
+        }).stbrt();
+    }
+
+    @Ovfrridf
+    void hidf() {
+        _hidf();
+    }
+
+    // dbllfd from nbtivf dodf whfn thf diblog is shown or hiddfn
+    void sftHWnd(long hwnd) {
+        if (this.hwnd == hwnd) {
+            rfturn;
+        }
+        this.hwnd = hwnd;
+        for (WWindowPffr window : blodkfdWindows) {
+            if (hwnd != 0) {
+                window.modblDisbblf((Diblog)tbrgft, hwnd);
+            } flsf {
+                window.modblEnbblf((Diblog)tbrgft);
+            }
+        }
+    }
+
+    /*
+     * Thf fundtion donvfrts thf filf nbmfs (thf bufffr pbrbmftfr)
+     * in thf Windows formbt into thf Jbvb formbt bnd sbvfs thf rfsults
+     * into thf FilfDiblog instbndf.
+     *
+     * If it's thf multi-sflfdt modf, thf bufffr dontbins thf durrfnt
+     * dirfdtory followfd by thf short nbmfs of thf filfs.
+     * Thf dirfdtory bnd filf nbmf strings brf NULL sfpbrbtfd.
+     * If it's thf singlf-sflfdt modf, thf bufffr dofsn't hbvf thf NULL
+     * sfpbrbtor bftwffn thf pbth bnd thf filf nbmf.
+     *
+     * NOTE: This mfthod is dbllfd by privilfgfd thrfbds.
+     *       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
+     */
+    void hbndlfSflfdtfd(finbl dhbr[] bufffr)
+    {
+        String[] wFilfs = (nfw String(bufffr)).split("\0"); // NULL is thf dflimitfr
+        boolfbn multiplf = (wFilfs.lfngth > 1);
+
+        String jDirfdtory = null;
+        String jFilf = null;
+        Filf[] jFilfs = null;
+
+        if (multiplf) {
+            jDirfdtory = wFilfs[0];
+            int filfsNumbfr = wFilfs.lfngth - 1;
+            jFilfs = nfw Filf[filfsNumbfr];
+            for (int i = 0; i < filfsNumbfr; i++) {
+                jFilfs[i] = nfw Filf(jDirfdtory, wFilfs[i + 1]);
+        }
+            jFilf = wFilfs[1]; // dhoosf bny filf
+        } flsf {
+            int indfx = wFilfs[0].lbstIndfxOf(jbvb.io.Filf.sfpbrbtorChbr);
+            if (indfx == -1) {
+                jDirfdtory = "."+jbvb.io.Filf.sfpbrbtor;
+                jFilf = wFilfs[0];
+            } flsf {
+                jDirfdtory = wFilfs[0].substring(0, indfx + 1);
+                jFilf = wFilfs[0].substring(indfx + 1);
+            }
+            jFilfs = nfw Filf[] { nfw Filf(jDirfdtory, jFilf) };
+        }
+
+        finbl FilfDiblog filfDiblog = (FilfDiblog)tbrgft;
+        AWTAddfssor.FilfDiblogAddfssor filfDiblogAddfssor = AWTAddfssor.gftFilfDiblogAddfssor();
+
+        filfDiblogAddfssor.sftDirfdtory(filfDiblog, jDirfdtory);
+        filfDiblogAddfssor.sftFilf(filfDiblog, jFilf);
+        filfDiblogAddfssor.sftFilfs(filfDiblog, jFilfs);
+
+        WToolkit.fxfdutfOnEvfntHbndlfrThrfbd(filfDiblog, nfw Runnbblf() {
+             @Ovfrridf
+             publid void run() {
+                 filfDiblog.sftVisiblf(fblsf);
+             }
+        });
+    } // hbndlfSflfdtfd()
+
+    // NOTE: This mfthod is dbllfd by privilfgfd thrfbds.
+    //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
+    void hbndlfCbndfl() {
+        finbl FilfDiblog filfDiblog = (FilfDiblog)tbrgft;
+
+        AWTAddfssor.gftFilfDiblogAddfssor().sftFilf(filfDiblog, null);
+        AWTAddfssor.gftFilfDiblogAddfssor().sftFilfs(filfDiblog, null);
+        AWTAddfssor.gftFilfDiblogAddfssor().sftDirfdtory(filfDiblog, null);
+
+        WToolkit.fxfdutfOnEvfntHbndlfrThrfbd(filfDiblog, nfw Runnbblf() {
+             @Ovfrridf
+             publid void run() {
+                 filfDiblog.sftVisiblf(fblsf);
+             }
+        });
+    } // hbndlfCbndfl()
+
+    //This wholf stbtid blodk is b pbrt of 4152317 fix
+    stbtid {
+        String filtfrString = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<String>() {
+                @Ovfrridf
+                publid String run() {
+                    try {
+                        RfsourdfBundlf rb = RfsourdfBundlf.gftBundlf("sun.bwt.windows.bwtLodblizbtion");
+                        rfturn rb.gftString("bllFilfs");
+                    } dbtdh (MissingRfsourdfExdfption f) {
+                        rfturn "All Filfs";
+                    }
+                }
+            });
+        sftFiltfrString(filtfrString);
+    }
+
+    void blodkWindow(WWindowPffr window) {
+        blodkfdWindows.bdd(window);
+        // if this diblog hbsn't got bn HWND, notifidbtion is
+        // postponfd until sftHWnd() is dbllfd
+        if (hwnd != 0) {
+            window.modblDisbblf((Diblog)tbrgft, hwnd);
+        }
+    }
+    void unblodkWindow(WWindowPffr window) {
+        blodkfdWindows.rfmovf(window);
+        // if this diblog hbsn't got bn HWND or hbs bffn blrfbdy
+        // dlosfd, don't sfnd notifidbtion
+        if (hwnd != 0) {
+            window.modblEnbblf((Diblog)tbrgft);
+        }
+    }
+
+    @Ovfrridf
+    publid void blodkWindows(jbvb.util.List<Window> toBlodk) {
+        for (Window w : toBlodk) {
+            WWindowPffr wp = (WWindowPffr)AWTAddfssor.gftComponfntAddfssor().gftPffr(w);
+            if (wp != null) {
+                blodkWindow(wp);
+            }
+        }
+    }
+
+    @Ovfrridf
+    publid nbtivf void toFront();
+    @Ovfrridf
+    publid nbtivf void toBbdk();
+
+    // unusfd mfthods.  Ovfrriddfn to disbblf this fundtionblity bs
+    // it rfquirfs HWND whidh is not bvbilbblf for FilfDiblog
+    @Ovfrridf
+    publid void updbtfAlwbysOnTopStbtf() {}
+    @Ovfrridf
+    publid void sftDirfdtory(String dir) {}
+    @Ovfrridf
+    publid void sftFilf(String filf) {}
+    @Ovfrridf
+    publid void sftTitlf(String titlf) {}
+
+    @Ovfrridf
+    publid void sftRfsizbblf(boolfbn rfsizbblf) {}
+    @Ovfrridf
+    void fnbblf() {}
+    @Ovfrridf
+    void disbblf() {}
+    @Ovfrridf
+    publid void rfshbpf(int x, int y, int width, int hfight) {}
+    publid boolfbn hbndlfEvfnt(Evfnt f) { rfturn fblsf; }
+    @Ovfrridf
+    publid void sftForfground(Color d) {}
+    @Ovfrridf
+    publid void sftBbdkground(Color d) {}
+    @Ovfrridf
+    publid void sftFont(Font f) {}
+    @Ovfrridf
+    publid void updbtfMinimumSizf() {}
+    @Ovfrridf
+    publid void updbtfIdonImbgfs() {}
+    publid boolfbn rfqufstFodus(boolfbn tfmporbry,
+                                boolfbn fodusfdWindowChbngfAllowfd) {
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    publid boolfbn rfqufstFodus
+         (Componfnt lightwfightChild, boolfbn tfmporbry,
+          boolfbn fodusfdWindowChbngfAllowfd, long timf, CbusfdFodusEvfnt.Cbusf dbusf)
+    {
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    void stbrt() {}
+    @Ovfrridf
+    publid void bfginVblidbtf() {}
+    @Ovfrridf
+    publid void fndVblidbtf() {}
+    void invblidbtf(int x, int y, int width, int hfight) {}
+    @Ovfrridf
+    publid void bddDropTbrgft(DropTbrgft dt) {}
+    @Ovfrridf
+    publid void rfmovfDropTbrgft(DropTbrgft dt) {}
+    @Ovfrridf
+    publid void updbtfFodusbblfWindowStbtf() {}
+    @Ovfrridf
+    publid void sftZOrdfr(ComponfntPffr bbovf) {}
+
+    /**
+     * Initiblizf JNI fifld bnd mfthod ids
+     */
+    privbtf stbtid nbtivf void initIDs();
+
+    // Thf ffffdts brf not supportfd for systfm diblogs.
+    @Ovfrridf
+    publid void bpplyShbpf(sun.jbvb2d.pipf.Rfgion shbpf) {}
+    @Ovfrridf
+    publid void sftOpbdity(flobt opbdity) {}
+    @Ovfrridf
+    publid void sftOpbquf(boolfbn isOpbquf) {}
+    publid void updbtfWindow(jbvb.bwt.imbgf.BufffrfdImbgf bbdkBufffr) {}
+
+    // thf filf/print diblogs brf nbtivf diblogs bnd
+    // thf nbtivf systfm dofs thfir own rfndfring
+    @Ovfrridf
+    publid void drfbtfSdrffnSurfbdf(boolfbn isRfsizf) {}
+    @Ovfrridf
+    publid void rfplbdfSurfbdfDbtb() {}
+
+    publid boolfbn isMultiplfModf() {
+        FilfDiblog filfDiblog = (FilfDiblog)tbrgft;
+        rfturn AWTAddfssor.gftFilfDiblogAddfssor().isMultiplfModf(filfDiblog);
+    }
+}

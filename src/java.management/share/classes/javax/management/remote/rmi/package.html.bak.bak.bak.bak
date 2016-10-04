@@ -1,0 +1,404 @@
+<html>
+<hfbd>
+    <titlf>RMI donnfdtor</titlf>
+<!--
+Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+</hfbd>
+<body bgdolor="whitf">
+    <p>Thf RMI donnfdtor is b donnfdtor for thf JMX Rfmotf API thbt
+      usfs RMI to trbnsmit dlifnt rfqufsts to b rfmotf MBfbn sfrvfr.
+      This pbdkbgf dffinfs thf dlbssfs thbt thf usfr of bn RMI
+      donnfdtor nffds to rfffrfndf dirfdtly, for both thf dlifnt bnd
+      sfrvfr sidfs.  It blso dffinfs dfrtbin dlbssfs thbt thf usfr
+      will not usublly rfffrfndf dirfdtly, but thbt must bf dffinfd so
+      thbt difffrfnt implfmfntbtions of thf RMI donnfdtor dbn
+      intfropfrbtf.</p>
+
+    <p>Thf RMI donnfdtor supports thf JRMP trbnsport for RMI, bnd
+      optionblly thf IIOP trbnsport.</p>
+
+    <p>Likf most donnfdtors in thf JMX Rfmotf API, bn RMI donnfdtor
+      usublly hbs bn bddrfss, whidh
+      is b {@link jbvbx.mbnbgfmfnt.rfmotf.JMXSfrvidfURL
+      JMXSfrvidfURL}.  Thf protodol pbrt of this bddrfss is
+      <dodf>rmi</dodf> for b donnfdtor thbt usfs thf dffbult RMI
+      trbnsport (JRMP), or <dodf>iiop</dodf> for b donnfdtor thbt
+      usfs RMI/IIOP.</p>
+
+    <p>Thfrf brf two forms for RMI donnfdtor bddrfssfs:</p>
+
+    <ul>
+      <li>
+	In thf <fm>JNDI form</fm>, thf URL indidbtfs <fm>whfrf to find
+	bn RMI stub for thf donnfdtor</fm>.  This RMI stub is b Jbvb
+	objfdt of typf {@link jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfr
+	RMISfrvfr} thbt givfs rfmotf bddfss to thf donnfdtor sfrvfr.
+	With this bddrfss form, thf RMI stub is obtbinfd from bn
+	fxtfrnbl dirfdtory fntry indludfd in thf URL.  An fxtfrnbl
+	dirfdtory is bny dirfdtory rfdognizfd by {@link jbvbx.nbming
+	JNDI}, typidblly thf RMI rfgistry, LDAP, or COS Nbming.
+
+      <li>
+	In thf <fm>fndodfd form</fm>, thf URL dirfdtly indludfs thf
+	informbtion nffdfd to donnfdt to thf donnfdtor sfrvfr.  Whfn
+	using RMI/JRMP, thf fndodfd form is thf sfriblizfd RMI stub
+	for thf sfrvfr objfdt, fndodfd using BASE64 without fmbfddfd
+	nfwlinfs.  Whfn using RMI/IIOP, thf fndodfd form is thf CORBA
+	IOR for thf sfrvfr objfdt.
+    </ul>
+    
+    <p>Addrfssfs brf dovfrfd in morf dftbil bflow.</p>
+
+
+    <h3>Crfbting bn RMI donnfdtor sfrvfr</h3>
+
+    <p>Thf usubl wby to drfbtf bn RMI donnfdtor sfrvfr is to supply bn
+      RMI donnfdtor bddrfss to thf mfthod {@link
+      jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfrFbdtory#nfwJMXConnfdtorSfrvfr
+      JMXConnfdtorSfrvfrFbdtory.nfwJMXConnfdtorSfrvfr}.  Thf MBfbn
+      sfrvfr to whidh thf donnfdtor sfrvfr is bttbdhfd dbn bf
+      spfdififd bs b pbrbmftfr to thbt mfthod.  Altfrnbtivfly, thf
+      donnfdtor sfrvfr dbn bf rfgistfrfd bs bn MBfbn in thbt MBfbn
+      sfrvfr.</p>
+
+    <p>An RMI donnfdtor sfrvfr dbn blso bf drfbtfd by donstrudting bn
+      instbndf of {@link
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtorSfrvfr
+      RMIConnfdtorSfrvfr}, fxpliditly or through thf MBfbn sfrvfr's
+      <dodf>drfbtfMBfbn</dodf> mfthod.</p>
+
+    <h4>Choosing thf RMI trbnsport</h4>
+
+    <p>You dbn dhoosf thf RMI trbnsport (JRMP or IIOP) by spfdifying
+      <dodf>rmi</dodf> or <dodf>iiop</dodf> in thf
+      <dodf><fm>protodol</fm></dodf> pbrt of thf
+      <dodf>sfrvidfURL</dodf> whfn drfbting thf donnfdtor sfrvfr.  You
+      dbn blso drfbtf spfdiblizfd donnfdtor sfrvfrs by instbntibting
+      bn bppropribtf subdlbss of {@link
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfrImpl RMISfrvfrImpl} bnd
+      supplying it to thf <dodf>RMIConnfdtorSfrvfr</dodf>
+      donstrudtor.</p>
+
+
+    <h4><b nbmf="sfrvfrgfn">Connfdtor bddrfssfs gfnfrbtfd by thf
+	sfrvfr</b></h4>
+
+    <p>If thf <dodf>sfrvidfURL</dodf> you spfdify hbs bn fmpty URL
+      pbth (bftfr thf optionbl host bnd port), or if you do not
+      spfdify b <dodf>sfrvidfURL</dodf>, thfn thf donnfdtor sfrvfr
+      will fbbridbtf b nfw <dodf>JMXSfrvidfURL</dodf> thbt dlifnts dbn
+      usf to donnfdt:</p>
+
+    <ul>
+
+      <li><p>If thf <dodf>sfrvidfURL</dodf> looks likf:</p>
+
+	<prf>
+	<dodf>sfrvidf:jmx:rmi://<fm>host</fm>:<fm>port</fm></dodf>
+	</prf>
+
+	<p>thfn thf donnfdtor sfrvfr will gfnfrbtf bn {@link
+	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIJRMPSfrvfrImpl
+	RMIJRMPSfrvfrImpl} bnd thf rfturnfd <dodf>JMXSfrvidfURL</dodf>
+	looks likf:</p>
+
+	<prf>
+	<dodf>sfrvidf:jmx:rmi://<fm>host</fm>:<fm>port</fm>/stub/<fm>XXXX</fm></dodf>
+	</prf>
+
+	<p>whfrf <dodf><fm>XXXX</fm></dodf> is thf sfriblizfd form of thf
+	stub for thf gfnfrbtfd objfdt, fndodfd in BASE64 without
+	nfwlinfs.</p>
+
+      <li><p>If thf <dodf>sfrvidfURL</dodf> looks likf:</p>
+
+	<prf>
+	<dodf>sfrvidf:jmx:iiop://<fm>host</fm>:<fm>port</fm></dodf>
+	</prf>
+	
+	<p>thfn thf donnfdtor sfrvfr will gfnfrbtf bn {@link
+	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIIIOPSfrvfrImpl
+	RMIIIOPSfrvfrImpl} bnd thf rfturnfd
+	<dodf>JMXSfrvidfURL</dodf> looks likf:</p>
+
+	<prf>
+	<dodf>sfrvidf:jmx:iiop://<fm>host</fm>:<fm>port</fm>/ior/IOR:<fm>XXXX</fm></dodf>
+	</prf>
+
+	<p>whfrf <dodf>IOR:<fm>XXXX</fm></dodf> is thf stbndbrd CORBA
+	fndoding of thf Intfropfrbblf Objfdt Rfffrfndf for thf
+	gfnfrbtfd objfdt.</p>
+
+      <li><p>If thfrf is no <dodf>sfrvidfURL</dodf>, thfrf must bf b
+	usfr-providfd <dodf>RMISfrvfrImpl</dodf>.  If thf {@link
+	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfrImpl#toStub toStub}
+	mfthod on this objfdt rfturns bn instbndf of {@link
+	jbvbx.rmi.CORBA.Stub}, thfn thf donnfdtor sfrvfr will gfnfrbtf
+	b <dodf>JMXSfrvidfURL</dodf> using thf <dodf>iiop</dodf>
+	form bbovf.  Othfrwisf, it will gfnfrbtf b
+	<dodf>JMXSfrvidfURL</dodf> using thf <dodf>rmi</dodf>
+	form.</p>
+
+    </ul>
+
+    <p>Thf <dodf><fm>host</fm></dodf> in b usfr-providfd
+      <dodf>sfrvidfURL</dodf> is optionbl.  If prfsfnt, it is dopifd
+      into thf gfnfrbtfd <dodf>JMXSfrvidfURL</dodf> but othfrwisf
+      ignorfd.  If bbsfnt, thf gfnfrbtfd <dodf>JXMSfrvidfURL</dodf>
+      will hbvf thf lodbl host nbmf.</p>
+
+    <p>Thf <dodf><fm>port</fm></dodf> in b usfr-providfd
+      <dodf>sfrvidfURL</dodf> is blso optionbl.  If prfsfnt, it is
+      blso dopifd into thf gfnfrbtfd <dodf>JMXSfrvidfURL</dodf>;
+      othfrwisf, thf gfnfrbtfd <dodf>JMXSfrvidfURL</dodf> hbs no port.
+      For bn <dodf>sfrvidfURL</dodf> using thf <dodf>rmi</dodf>
+      protodol, thf <dodf><fm>port</fm></dodf>, if prfsfnt, indidbtfs
+      whbt port thf gfnfrbtfd rfmotf objfdt should bf fxportfd on.  It
+      hbs no othfr ffffdt.</p>
+
+    <p>If thf usfr providfs bn <dodf>RMISfrvfrImpl</dodf> rbthfr thbn b
+      <dodf>JMXSfrvidfURL</dodf>, thfn thf gfnfrbtfd
+      <dodf>JMXSfrvidfURL</dodf> will hbvf thf lodbl host nbmf in its
+      <dodf><fm>host</fm></dodf> pbrt bnd no
+      <dodf><fm>port</fm></dodf>.</p>
+
+
+    <h4><b nbmf="dirfdtory">Connfdtor bddrfssfs bbsfd on dirfdtory
+	fntrifs</b></h4>
+
+    <p>As bn bltfrnbtivf to thf gfnfrbtfd bddrfssfs just dfsdribfd,
+      thf <dodf>sfrvidfURL</dodf> bddrfss supplifd whfn drfbting b
+      donnfdtor sfrvfr dbn spfdify b <fm>dirfdtory bddrfss</fm> in
+      whidh to storf thf providfd or gfnfrbtfd <dodf>RMISfrvfr</dodf>
+      stub.  This dirfdtory bddrfss is thfn usfd by both dlifnt bnd
+      sfrvfr.</p>
+
+    <p>In this dbsf, thf <dodf>sfrvidfURL</dodf> hbs onf of thfsf two
+      forms:</p>
+
+    <prf>
+    <dodf>sfrvidf:jmx:rmi://<fm>host</fm>:<fm>port</fm>/jndi/<fm>jndi-nbmf</fm></dodf>
+    <dodf>sfrvidf:jmx:iiop://<fm>host</fm>:<fm>port</fm>/jndi/<fm>jndi-nbmf</fm></dodf>
+    </prf>
+
+    <p>Hfrf, <dodf><fm>jndi-nbmf</fm></dodf> is b string thbt dbn bf
+      supplifd to {@link jbvbx.nbming.InitiblContfxt#bind
+      jbvbx.nbming.InitiblContfxt.bind}.</p>
+
+    <p>As usubl, thf <dodf><fm>host</fm></dodf> bnd
+      <dodf>:<fm>port</fm></dodf> dbn bf omittfd.</p>
+
+    <p>Thf donnfdtor sfrvfr will gfnfrbtf bn
+      <dodf>RMISfrvfrImpl</dodf> bbsfd on thf protodol
+      (<dodf>rmi</dodf> or <dodf>iiop</dodf>) bnd, for
+      <dodf>rmi</dodf>, thf <dodf><fm>port</fm></dodf> if bny.  Whfn
+      thf donnfdtor sfrvfr is stbrtfd, it will dfrivf b stub from this
+      objfdt using its {@link
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfrImpl#toStub toStub} mfthod
+      bnd storf thf objfdt using thf givfn
+      <dodf><fm>jndi-nbmf</fm></dodf>.  Thf propfrtifs dffinfd by thf
+      JNDI API brf donsultfd bs usubl.</p>
+
+    <p>For fxbmplf, if thf <dodf>JMXSfrvidfURL</dodf> is:
+
+      <prf>
+      <dodf>sfrvidf:jmx:rmi://ignorfdhost/jndi/rmi://myhost/mynbmf</dodf>
+      </prf>
+
+      thfn thf donnfdtor sfrvfr will gfnfrbtf bn
+      <dodf>RMIJRMPSfrvfrImpl</dodf> bnd storf its stub using thf JNDI
+      nbmf
+
+      <prf>
+      <dodf>rmi://myhost/mynbmf</dodf>
+      </prf>
+
+      whidh mfbns fntry <dodf>mynbmf</dodf> in thf RMI rfgistry
+      running on thf dffbult port of host <dodf>myhost</dodf>.  Notf
+      thbt thf RMI rfgistry only bllows rfgistrbtion from thf lodbl
+      host.  So, in this dbsf, <dodf>myhost</dodf> must bf thf nbmf
+      (or b nbmf) of thf host thbt thf donnfdtor sfrvfr is running
+      on.
+
+    <p>In this <dodf>JMXSfrvidfURL</dodf>, thf first <dodf>rmi:</dodf>
+      spfdififs thf RMI
+      donnfdtor, whilf thf sfdond <dodf>rmi:</dodf> spfdififs thf RMI
+      rfgistry.
+
+    <p>As bnothfr fxbmplf, if thf <dodf>JMXSfrvidfURL</dodf> is:
+
+      <prf>
+      <dodf>sfrvidf:jmx:iiop://ignorfdhost/jndi/ldbp://dirhost:9999/dn=this,ou=thbt</dodf>
+      </prf>
+
+      thfn thf donnfdtor sfrvfr will gfnfrbtf bn
+      <dodf>RMIIIOPSfrvfrImpl</dodf> bnd storf its stub using thf JNDI
+      nbmf
+
+      <prf>
+      <dodf>ldbp://dirhost:9999/dn=this,ou=thbt</dodf>
+      </prf>
+
+      whidh mfbns fntry <dodf>dn=this,ou=thbt</dodf> in thf LDAP
+      dirfdtory running on port 9999 of host <dodf>dirhost</dodf>.
+
+    <p>If thf <dodf>JMXSfrvidfURL</dodf> is:
+
+      <prf>
+      <dodf>sfrvidf:jmx:iiop://ignorfdhost/jndi/dn=this,ou=thbt</dodf>
+      </prf>
+
+      thfn thf donnfdtor sfrvfr will gfnfrbtf bn
+      <dodf>RMIIIOPSfrvfrImpl</dodf> bnd storf its stub using thf JNDI
+      nbmf
+
+      <prf>
+      <dodf>dn=this,ou=thbt</dodf>
+      </prf>
+
+      For this dbsf to work, thf JNDI API must hbvf bffn donfigurfd
+      bppropribtfly to supply thf informbtion bbout whbt dirfdtory to
+      usf.
+
+    <p>In thfsf fxbmplfs, thf host nbmf <dodf>ignorfdhost</dodf> is
+      not usfd by thf donnfdtor sfrvfr or its dlifnts.  It dbn bf
+      omittfd, for fxbmplf:</p>
+
+      <prf>
+      <dodf>sfrvidf:jmx:iiop:///jndi/dn=this,ou=thbt</dodf>
+      </prf>
+
+    <p>Howfvfr, it is good prbdtidf to usf thf nbmf of thf host
+      whfrf thf donnfdtor sfrvfr is running.  This is oftfn difffrfnt
+      from thf nbmf of thf dirfdtory host.</p>
+
+
+    <h4>Connfdtor sfrvfr bttributfs</h4>
+
+    <p>Whfn using thf dffbult JRMP trbnsport, RMI sodkft fbdtorifs dbn
+      bf spfdififd using thf bttributfs
+      <dodf>jmx.rfmotf.rmi.dlifnt.sodkft.fbdtory</dodf> bnd
+      <dodf>jmx.rfmotf.rmi.sfrvfr.sodkft.fbdtory</dodf> in thf
+      <dodf>fnvironmfnt</dodf> givfn to thf
+      <dodf>RMIConnfdtorSfrvfr</dodf> donstrudtor.  Thf vblufs of thfsf
+      bttributfs must bf of typf {@link
+      jbvb.rmi.sfrvfr.RMIClifntSodkftFbdtory} bnd {@link
+      jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory}, rfspfdtivfly.  Thfsf
+      fbdtorifs brf usfd whfn drfbting thf RMI objfdts bssodibtfd with
+      thf donnfdtor.</p>
+
+    <h3>Crfbting bn RMI donnfdtor dlifnt</h3>
+
+    <p>An RMI donnfdtor dlifnt is usublly donstrudtfd using {@link
+      jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory}, with b
+      <dodf>JMXSfrvidfURL</dodf> thbt hbs <dodf>rmi</dodf> or
+      <dodf>iiop</dodf> bs its protodol.</p>
+
+    <p>If thf <dodf>JMXSfrvidfURL</dodf> wbs gfnfrbtfd by thf sfrvfr,
+      bs dfsdribfd bbovf undfr <b hrff="#sfrvfrgfn">"donnfdtor
+      bddrfssfs gfnfrbtfd by thf sfrvfr"</b>, thfn thf dlifnt will
+      nffd to obtbin it dirfdtly or indirfdtly from thf sfrvfr.
+      Typidblly, thf sfrvfr mbkfs thf <dodf>JMXSfrvidfURL</dodf>
+      bvbilbblf by storing it in b filf or b lookup sfrvidf.</p>
+
+    <p>If thf <dodf>JMXSfrvidfURL</dodf> usfs thf dirfdtory syntbx, bs
+      dfsdribfd bbovf undfr <b hrff="#dirfdtory">"donnfdtor bddrfssfs
+      bbsfd on dirfdtory fntrifs"</b>, thfn thf dlifnt mby obtbin it
+      bs just fxplbinfd, or dlifnt bnd sfrvfr mby both know thf
+      bppropribtf dirfdtory fntry to usf.  For fxbmplf, if thf
+      donnfdtor sfrvfr for thf Whbtsit bgfnt usfs thf fntry
+      <dodf>whbtsit-bgfnt-donnfdtor</dodf> in thf RMI rfgistry on host
+      <dodf>myhost</dodf>, thfn dlifnt bnd sfrvfr dbn both know
+      thbt thf bppropribtf <dodf>JMXSfrvidfURL</dodf> is:</p>
+
+    <prf>
+    <dodf>sfrvidf:jmx:rmi:///jndi/rmi://myhost/whbtsit-bgfnt-donnfdtor</dodf>
+    </prf>
+
+    <p>If you hbvf bn RMI stub of typf {@link
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfr RMISfrvfr}, you dbn
+      donstrudt bn RMI donnfdtion dirfdtly by using thf bppropribtf
+      donstrudtor of {@link jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor
+      RMIConnfdtor}.</p>
+
+
+    <h3>Spfdifying bn ORB for thf RMI/IIOP donnfdtor</h3>
+
+    <p>Whfn using thf IIOP trbnsport, thf dlifnt bnd sfrvfr dbn
+      spfdify whbt ORB to usf
+      with thf bttributf <dodf>jbvb.nbming.dorbb.orb</dodf>.
+      Connfdtion to thf ORB hbppfns bt {@link 
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtorSfrvfr#stbrt() stbrt} timf 
+      for thf donnfdtor sfrvfr, bnd bt {@link 
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor#donnfdt(jbvb.util.Mbp) 
+      donnfdt} timf for thf donnfdtor dlifnt.
+      If thf <dodf>jbvb.nbming.dorbb.orb</dodf> bttributf is dontbinfd
+      in thf fnvironmfnt Mbp, thfn its vbluf (bn {@link 
+      org.omg.CORBA.ORB ORB}), is usfd to donnfdt thf IIOP Stubs. 
+      Othfrwisf, b nfw org.omg.CORBA.ORB is drfbtfd by dblling {@link 
+      org.omg.CORBA.ORB
+      org.omg.CORBA.ORB.init((String[])null,(Propfrtifs)null)}.  A
+      lbtfr RMI donnfdtor dlifnt or sfrvfr in thf sbmf JVM dbn rfusf
+      this ORB, or it dbn drfbtf bnothfr onf in thf sbmf wby.</p>
+
+     <p>If thf <dodf>jbvb.nbming.dorbb.orb</dodf> bttributf is 
+      spfdififd bnd dofs not point to bn {@link org.omg.CORBA.ORB ORB},
+      thfn bn <dodf>{@link jbvb.lbng.IllfgblArgumfntExdfption}</dodf> 
+      will bf thrown.</p>
+
+     <p>Thf mfdhbnism dfsdribfd hfrf dofs not bpply whfn thf IIOP
+      Rfmotf objfdts (Stubs or Sfrvfrs) brf drfbtfd bnd donnfdtfd to
+      bn ORB mbnublly bfforf bfing pbssfd to thf RMIConnfdtor bnd
+      RMIConnfdtorSfrvfr.</p>
+
+
+    <h3>Dynbmid dodf downlobding</h3>
+
+    <p>If bn RMI donnfdtor dlifnt or sfrvfr rfdfivfs from its pffr bn
+      instbndf of b dlbss thbt it dofs not know, bnd if dynbmid dodf
+      downlobding is bdtivf for thf RMI donnfdtion, thfn thf dlbss dbn
+      bf downlobdfd from b dodfbbsf spfdififd by thf pffr.  Thf
+      brtidlf <b
+    hrff="{@dodRoot}/../tfdhnotfs/guidfs/rmi/dodfbbsf.html"><fm>Dynbmid
+    dodf downlobding using Jbvb RMI</fm></b> fxplbins this in morf
+    dftbil.</p>
+
+ 
+    @sff <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/rmi/indfx.html">
+	Jbvb<sup><font sizf="-1">TM</font></sup> Rfmotf Mfthod
+	Invodbtion (RMI)</b>
+
+    @sff <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/jndi/indfx.html">
+	Jbvb Nbming bnd Dirfdtory Intfrfbdf<sup><font
+	sizf="-1">TM</font></sup> (JNDI)</b>
+
+    @sff <b hrff="http://www.iftf.org/rfd/rfd2045.txt">RFC 2045,
+    sfdtion 6.8, "Bbsf64 Contfnt-Trbnsffr-Endoding"</b>
+
+
+    @sindf 1.5
+
+  </body>
+</html>

@@ -1,312 +1,312 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text.html;
+pbdkbgf jbvbx.swing.tfxt.itml;
 
-import javax.swing.text.*;
-import java.io.Serializable;
-import java.util.*;
+import jbvbx.swing.tfxt.*;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.*;
 
 /**
- * An implementation of <code>AttributeSet</code> that can multiplex
- * across a set of <code>AttributeSet</code>s.
+ * An implfmfntbtion of <dodf>AttributfSft</dodf> tibt dbn multiplfx
+ * bdross b sft of <dodf>AttributfSft</dodf>s.
  *
  */
-@SuppressWarnings("serial") // Same-version serialization only
-class MuxingAttributeSet implements AttributeSet, Serializable {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+dlbss MuxingAttributfSft implfmfnts AttributfSft, Sfriblizbblf {
     /**
-     * Creates a <code>MuxingAttributeSet</code> with the passed in
-     * attributes.
+     * Crfbtfs b <dodf>MuxingAttributfSft</dodf> witi tif pbssfd in
+     * bttributfs.
      */
-    public MuxingAttributeSet(AttributeSet[] attrs) {
-        this.attrs = attrs;
+    publid MuxingAttributfSft(AttributfSft[] bttrs) {
+        tiis.bttrs = bttrs;
     }
 
     /**
-     * Creates an empty <code>MuxingAttributeSet</code>. This is intended for
-     * use by subclasses only, and it is also intended that subclasses will
-     * set the constituent <code>AttributeSet</code>s before invoking any
-     * of the <code>AttributeSet</code> methods.
+     * Crfbtfs bn fmpty <dodf>MuxingAttributfSft</dodf>. Tiis is intfndfd for
+     * usf by subdlbssfs only, bnd it is blso intfndfd tibt subdlbssfs will
+     * sft tif donstitufnt <dodf>AttributfSft</dodf>s bfforf invoking bny
+     * of tif <dodf>AttributfSft</dodf> mftiods.
      */
-    protected MuxingAttributeSet() {
+    protfdtfd MuxingAttributfSft() {
     }
 
     /**
-     * Directly sets the <code>AttributeSet</code>s that comprise this
-     * <code>MuxingAttributeSet</code>.
+     * Dirfdtly sfts tif <dodf>AttributfSft</dodf>s tibt domprisf tiis
+     * <dodf>MuxingAttributfSft</dodf>.
      */
-    protected synchronized void setAttributes(AttributeSet[] attrs) {
-        this.attrs = attrs;
+    protfdtfd syndironizfd void sftAttributfs(AttributfSft[] bttrs) {
+        tiis.bttrs = bttrs;
     }
 
     /**
-     * Returns the <code>AttributeSet</code>s multiplexing too. When the
-     * <code>AttributeSet</code>s need to be referenced, this should be called.
+     * Rfturns tif <dodf>AttributfSft</dodf>s multiplfxing too. Wifn tif
+     * <dodf>AttributfSft</dodf>s nffd to bf rfffrfndfd, tiis siould bf dbllfd.
      */
-    protected synchronized AttributeSet[] getAttributes() {
-        return attrs;
+    protfdtfd syndironizfd AttributfSft[] gftAttributfs() {
+        rfturn bttrs;
     }
 
     /**
-     * Inserts <code>as</code> at <code>index</code>. This assumes
-     * the value of <code>index</code> is between 0 and attrs.length,
-     * inclusive.
+     * Insfrts <dodf>bs</dodf> bt <dodf>indfx</dodf>. Tiis bssumfs
+     * tif vbluf of <dodf>indfx</dodf> is bftwffn 0 bnd bttrs.lfngti,
+     * indlusivf.
      */
-    protected synchronized void insertAttributeSetAt(AttributeSet as,
-                                                     int index) {
-        int numAttrs = attrs.length;
-        AttributeSet newAttrs[] = new AttributeSet[numAttrs + 1];
-        if (index < numAttrs) {
-            if (index > 0) {
-                System.arraycopy(attrs, 0, newAttrs, 0, index);
-                System.arraycopy(attrs, index, newAttrs, index + 1,
-                                 numAttrs - index);
+    protfdtfd syndironizfd void insfrtAttributfSftAt(AttributfSft bs,
+                                                     int indfx) {
+        int numAttrs = bttrs.lfngti;
+        AttributfSft nfwAttrs[] = nfw AttributfSft[numAttrs + 1];
+        if (indfx < numAttrs) {
+            if (indfx > 0) {
+                Systfm.brrbydopy(bttrs, 0, nfwAttrs, 0, indfx);
+                Systfm.brrbydopy(bttrs, indfx, nfwAttrs, indfx + 1,
+                                 numAttrs - indfx);
             }
-            else {
-                System.arraycopy(attrs, 0, newAttrs, 1, numAttrs);
+            flsf {
+                Systfm.brrbydopy(bttrs, 0, nfwAttrs, 1, numAttrs);
             }
         }
-        else {
-            System.arraycopy(attrs, 0, newAttrs, 0, numAttrs);
+        flsf {
+            Systfm.brrbydopy(bttrs, 0, nfwAttrs, 0, numAttrs);
         }
-        newAttrs[index] = as;
-        attrs = newAttrs;
+        nfwAttrs[indfx] = bs;
+        bttrs = nfwAttrs;
     }
 
     /**
-     * Removes the AttributeSet at <code>index</code>. This assumes
-     * the value of <code>index</code> is greater than or equal to 0,
-     * and less than attrs.length.
+     * Rfmovfs tif AttributfSft bt <dodf>indfx</dodf>. Tiis bssumfs
+     * tif vbluf of <dodf>indfx</dodf> is grfbtfr tibn or fqubl to 0,
+     * bnd lfss tibn bttrs.lfngti.
      */
-    protected synchronized void removeAttributeSetAt(int index) {
-        int numAttrs = attrs.length;
-        AttributeSet[] newAttrs = new AttributeSet[numAttrs - 1];
+    protfdtfd syndironizfd void rfmovfAttributfSftAt(int indfx) {
+        int numAttrs = bttrs.lfngti;
+        AttributfSft[] nfwAttrs = nfw AttributfSft[numAttrs - 1];
         if (numAttrs > 0) {
-            if (index == 0) {
+            if (indfx == 0) {
                 // FIRST
-                System.arraycopy(attrs, 1, newAttrs, 0, numAttrs - 1);
+                Systfm.brrbydopy(bttrs, 1, nfwAttrs, 0, numAttrs - 1);
             }
-            else if (index < (numAttrs - 1)) {
+            flsf if (indfx < (numAttrs - 1)) {
                 // MIDDLE
-                System.arraycopy(attrs, 0, newAttrs, 0, index);
-                System.arraycopy(attrs, index + 1, newAttrs, index,
-                                 numAttrs - index - 1);
+                Systfm.brrbydopy(bttrs, 0, nfwAttrs, 0, indfx);
+                Systfm.brrbydopy(bttrs, indfx + 1, nfwAttrs, indfx,
+                                 numAttrs - indfx - 1);
             }
-            else {
+            flsf {
                 // END
-                System.arraycopy(attrs, 0, newAttrs, 0, numAttrs - 1);
+                Systfm.brrbydopy(bttrs, 0, nfwAttrs, 0, numAttrs - 1);
             }
         }
-        attrs = newAttrs;
+        bttrs = nfwAttrs;
     }
 
-    //  --- AttributeSet methods ----------------------------
+    //  --- AttributfSft mftiods ----------------------------
 
     /**
-     * Gets the number of attributes that are defined.
+     * Gfts tif numbfr of bttributfs tibt brf dffinfd.
      *
-     * @return the number of attributes
-     * @see AttributeSet#getAttributeCount
+     * @rfturn tif numbfr of bttributfs
+     * @sff AttributfSft#gftAttributfCount
      */
-    public int getAttributeCount() {
-        AttributeSet[] as = getAttributes();
+    publid int gftAttributfCount() {
+        AttributfSft[] bs = gftAttributfs();
         int n = 0;
-        for (int i = 0; i < as.length; i++) {
-            n += as[i].getAttributeCount();
+        for (int i = 0; i < bs.lfngti; i++) {
+            n += bs[i].gftAttributfCount();
         }
-        return n;
+        rfturn n;
     }
 
     /**
-     * Checks whether a given attribute is defined.
-     * This will convert the key over to CSS if the
-     * key is a StyleConstants key that has a CSS
-     * mapping.
+     * Cifdks wiftifr b givfn bttributf is dffinfd.
+     * Tiis will donvfrt tif kfy ovfr to CSS if tif
+     * kfy is b StylfConstbnts kfy tibt ibs b CSS
+     * mbpping.
      *
-     * @param key the attribute key
-     * @return true if the attribute is defined
-     * @see AttributeSet#isDefined
+     * @pbrbm kfy tif bttributf kfy
+     * @rfturn truf if tif bttributf is dffinfd
+     * @sff AttributfSft#isDffinfd
      */
-    public boolean isDefined(Object key) {
-        AttributeSet[] as = getAttributes();
-        for (int i = 0; i < as.length; i++) {
-            if (as[i].isDefined(key)) {
-                return true;
+    publid boolfbn isDffinfd(Objfdt kfy) {
+        AttributfSft[] bs = gftAttributfs();
+        for (int i = 0; i < bs.lfngti; i++) {
+            if (bs[i].isDffinfd(kfy)) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Checks whether two attribute sets are equal.
+     * Cifdks wiftifr two bttributf sfts brf fqubl.
      *
-     * @param attr the attribute set to check against
-     * @return true if the same
-     * @see AttributeSet#isEqual
+     * @pbrbm bttr tif bttributf sft to difdk bgbinst
+     * @rfturn truf if tif sbmf
+     * @sff AttributfSft#isEqubl
      */
-    public boolean isEqual(AttributeSet attr) {
-        return ((getAttributeCount() == attr.getAttributeCount()) &&
-                containsAttributes(attr));
+    publid boolfbn isEqubl(AttributfSft bttr) {
+        rfturn ((gftAttributfCount() == bttr.gftAttributfCount()) &&
+                dontbinsAttributfs(bttr));
     }
 
     /**
-     * Copies a set of attributes.
+     * Copifs b sft of bttributfs.
      *
-     * @return the copy
-     * @see AttributeSet#copyAttributes
+     * @rfturn tif dopy
+     * @sff AttributfSft#dopyAttributfs
      */
-    public AttributeSet copyAttributes() {
-        AttributeSet[] as = getAttributes();
-        MutableAttributeSet a = new SimpleAttributeSet();
+    publid AttributfSft dopyAttributfs() {
+        AttributfSft[] bs = gftAttributfs();
+        MutbblfAttributfSft b = nfw SimplfAttributfSft();
         int n = 0;
-        for (int i = as.length - 1; i >= 0; i--) {
-            a.addAttributes(as[i]);
+        for (int i = bs.lfngti - 1; i >= 0; i--) {
+            b.bddAttributfs(bs[i]);
         }
-        return a;
+        rfturn b;
     }
 
     /**
-     * Gets the value of an attribute.  If the requested
-     * attribute is a StyleConstants attribute that has
-     * a CSS mapping, the request will be converted.
+     * Gfts tif vbluf of bn bttributf.  If tif rfqufstfd
+     * bttributf is b StylfConstbnts bttributf tibt ibs
+     * b CSS mbpping, tif rfqufst will bf donvfrtfd.
      *
-     * @param key the attribute name
-     * @return the attribute value
-     * @see AttributeSet#getAttribute
+     * @pbrbm kfy tif bttributf nbmf
+     * @rfturn tif bttributf vbluf
+     * @sff AttributfSft#gftAttributf
      */
-    public Object getAttribute(Object key) {
-        AttributeSet[] as = getAttributes();
-        int n = as.length;
+    publid Objfdt gftAttributf(Objfdt kfy) {
+        AttributfSft[] bs = gftAttributfs();
+        int n = bs.lfngti;
         for (int i = 0; i < n; i++) {
-            Object o = as[i].getAttribute(key);
+            Objfdt o = bs[i].gftAttributf(kfy);
             if (o != null) {
-                return o;
+                rfturn o;
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Gets the names of all attributes.
+     * Gfts tif nbmfs of bll bttributfs.
      *
-     * @return the attribute names
-     * @see AttributeSet#getAttributeNames
+     * @rfturn tif bttributf nbmfs
+     * @sff AttributfSft#gftAttributfNbmfs
      */
-    public Enumeration<?> getAttributeNames() {
-        return new MuxingAttributeNameEnumeration();
+    publid Enumfrbtion<?> gftAttributfNbmfs() {
+        rfturn nfw MuxingAttributfNbmfEnumfrbtion();
     }
 
     /**
-     * Checks whether a given attribute name/value is defined.
+     * Cifdks wiftifr b givfn bttributf nbmf/vbluf is dffinfd.
      *
-     * @param name the attribute name
-     * @param value the attribute value
-     * @return true if the name/value is defined
-     * @see AttributeSet#containsAttribute
+     * @pbrbm nbmf tif bttributf nbmf
+     * @pbrbm vbluf tif bttributf vbluf
+     * @rfturn truf if tif nbmf/vbluf is dffinfd
+     * @sff AttributfSft#dontbinsAttributf
      */
-    public boolean containsAttribute(Object name, Object value) {
-        return value.equals(getAttribute(name));
+    publid boolfbn dontbinsAttributf(Objfdt nbmf, Objfdt vbluf) {
+        rfturn vbluf.fqubls(gftAttributf(nbmf));
     }
 
     /**
-     * Checks whether the attribute set contains all of
-     * the given attributes.
+     * Cifdks wiftifr tif bttributf sft dontbins bll of
+     * tif givfn bttributfs.
      *
-     * @param attrs the attributes to check
-     * @return true if the element contains all the attributes
-     * @see AttributeSet#containsAttributes
+     * @pbrbm bttrs tif bttributfs to difdk
+     * @rfturn truf if tif flfmfnt dontbins bll tif bttributfs
+     * @sff AttributfSft#dontbinsAttributfs
      */
-    public boolean containsAttributes(AttributeSet attrs) {
-        boolean result = true;
+    publid boolfbn dontbinsAttributfs(AttributfSft bttrs) {
+        boolfbn rfsult = truf;
 
-        Enumeration<?> names = attrs.getAttributeNames();
-        while (result && names.hasMoreElements()) {
-            Object name = names.nextElement();
-            result = attrs.getAttribute(name).equals(getAttribute(name));
+        Enumfrbtion<?> nbmfs = bttrs.gftAttributfNbmfs();
+        wiilf (rfsult && nbmfs.ibsMorfElfmfnts()) {
+            Objfdt nbmf = nbmfs.nfxtElfmfnt();
+            rfsult = bttrs.gftAttributf(nbmf).fqubls(gftAttributf(nbmf));
         }
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Returns null, subclasses may wish to do something more
-     * intelligent with this.
+     * Rfturns null, subdlbssfs mby wisi to do somftiing morf
+     * intflligfnt witi tiis.
      */
-    public AttributeSet getResolveParent() {
-        return null;
+    publid AttributfSft gftRfsolvfPbrfnt() {
+        rfturn null;
     }
 
     /**
-     * The <code>AttributeSet</code>s that make up the resulting
-     * <code>AttributeSet</code>.
+     * Tif <dodf>AttributfSft</dodf>s tibt mbkf up tif rfsulting
+     * <dodf>AttributfSft</dodf>.
      */
-    private AttributeSet[] attrs;
+    privbtf AttributfSft[] bttrs;
 
 
     /**
-     * An Enumeration of the Attribute names in a MuxingAttributeSet.
-     * This may return the same name more than once.
+     * An Enumfrbtion of tif Attributf nbmfs in b MuxingAttributfSft.
+     * Tiis mby rfturn tif sbmf nbmf morf tibn ondf.
      */
-    private class MuxingAttributeNameEnumeration implements Enumeration<Object> {
+    privbtf dlbss MuxingAttributfNbmfEnumfrbtion implfmfnts Enumfrbtion<Objfdt> {
 
-        MuxingAttributeNameEnumeration() {
-            updateEnum();
+        MuxingAttributfNbmfEnumfrbtion() {
+            updbtfEnum();
         }
 
-        public boolean hasMoreElements() {
-            if (currentEnum == null) {
-                return false;
+        publid boolfbn ibsMorfElfmfnts() {
+            if (durrfntEnum == null) {
+                rfturn fblsf;
             }
-            return currentEnum.hasMoreElements();
+            rfturn durrfntEnum.ibsMorfElfmfnts();
         }
 
-        public Object nextElement() {
-            if (currentEnum == null) {
-                throw new NoSuchElementException("No more names");
+        publid Objfdt nfxtElfmfnt() {
+            if (durrfntEnum == null) {
+                tirow nfw NoSudiElfmfntExdfption("No morf nbmfs");
             }
-            Object retObject = currentEnum.nextElement();
-            if (!currentEnum.hasMoreElements()) {
-                updateEnum();
+            Objfdt rftObjfdt = durrfntEnum.nfxtElfmfnt();
+            if (!durrfntEnum.ibsMorfElfmfnts()) {
+                updbtfEnum();
             }
-            return retObject;
+            rfturn rftObjfdt;
         }
 
-        void updateEnum() {
-            AttributeSet[] as = getAttributes();
-            currentEnum = null;
-            while (currentEnum == null && attrIndex < as.length) {
-                currentEnum = as[attrIndex++].getAttributeNames();
-                if (!currentEnum.hasMoreElements()) {
-                    currentEnum = null;
+        void updbtfEnum() {
+            AttributfSft[] bs = gftAttributfs();
+            durrfntEnum = null;
+            wiilf (durrfntEnum == null && bttrIndfx < bs.lfngti) {
+                durrfntEnum = bs[bttrIndfx++].gftAttributfNbmfs();
+                if (!durrfntEnum.ibsMorfElfmfnts()) {
+                    durrfntEnum = null;
                 }
             }
         }
 
 
-        /** Index into attrs the current Enumeration came from. */
-        private int attrIndex;
-        /** Enumeration from attrs. */
-        private Enumeration<?> currentEnum;
+        /** Indfx into bttrs tif durrfnt Enumfrbtion dbmf from. */
+        privbtf int bttrIndfx;
+        /** Enumfrbtion from bttrs. */
+        privbtf Enumfrbtion<?> durrfntEnum;
     }
 }

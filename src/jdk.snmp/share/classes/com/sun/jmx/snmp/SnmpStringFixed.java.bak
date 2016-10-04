@@ -1,193 +1,193 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp;
+pbdkbgf dom.sun.jmx.snmp;
 
 
 
-// java imports
+// jbvb imports
 //
-import java.lang.Math;
+import jbvb.lbng.Mbti;
 
 /**
- * Represents an SNMP String defined with a fixed length.
- * The class is mainly used when dealing with table indexes for which one of the keys
- * is defined as a <CODE>String</CODE>.
+ * Rfprfsfnts bn SNMP String dffinfd witi b fixfd lfngti.
+ * Tif dlbss is mbinly usfd wifn dfbling witi tbblf indfxfs for wiidi onf of tif kfys
+ * is dffinfd bs b <CODE>String</CODE>.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
  */
 
-public class SnmpStringFixed extends SnmpString {
-    private static final long serialVersionUID = -9120939046874646063L;
+publid dlbss SnmpStringFixfd fxtfnds SnmpString {
+    privbtf stbtid finbl long sfriblVfrsionUID = -9120939046874646063L;
 
     // CONSTRUCTORS
     //-------------
     /**
-     * Constructs a new <CODE>SnmpStringFixed</CODE> from the specified bytes array.
-     * @param v The bytes composing the fixed-string value.
+     * Construdts b nfw <CODE>SnmpStringFixfd</CODE> from tif spfdififd bytfs brrby.
+     * @pbrbm v Tif bytfs domposing tif fixfd-string vbluf.
      */
-    public SnmpStringFixed(byte[] v) {
-        super(v) ;
+    publid SnmpStringFixfd(bytf[] v) {
+        supfr(v) ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpStringFixed</CODE> with the specified <CODE>Bytes</CODE> array.
-     * @param v The <CODE>Bytes</CODE> composing the fixed-string value.
+     * Construdts b nfw <CODE>SnmpStringFixfd</CODE> witi tif spfdififd <CODE>Bytfs</CODE> brrby.
+     * @pbrbm v Tif <CODE>Bytfs</CODE> domposing tif fixfd-string vbluf.
      */
-    public SnmpStringFixed(Byte[] v) {
-        super(v) ;
+    publid SnmpStringFixfd(Bytf[] v) {
+        supfr(v) ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpStringFixed</CODE> from the specified <CODE>String</CODE> value.
-     * @param v The initialization value.
+     * Construdts b nfw <CODE>SnmpStringFixfd</CODE> from tif spfdififd <CODE>String</CODE> vbluf.
+     * @pbrbm v Tif initiblizbtion vbluf.
      */
-    public SnmpStringFixed(String v) {
-        super(v) ;
+    publid SnmpStringFixfd(String v) {
+        supfr(v) ;
     }
 
     /**
-     * Constructs a new <CODE>SnmpStringFixed</CODE> from the specified <CODE>bytes</CODE> array
-     * with the specified length.
-     * @param l The length of the fixed-string.
-     * @param v The <CODE>bytes</CODE> composing the fixed-string value.
-     * @exception IllegalArgumentException Either the length or the <CODE>byte</CODE> array is not valid.
+     * Construdts b nfw <CODE>SnmpStringFixfd</CODE> from tif spfdififd <CODE>bytfs</CODE> brrby
+     * witi tif spfdififd lfngti.
+     * @pbrbm l Tif lfngti of tif fixfd-string.
+     * @pbrbm v Tif <CODE>bytfs</CODE> domposing tif fixfd-string vbluf.
+     * @fxdfption IllfgblArgumfntExdfption Eitifr tif lfngti or tif <CODE>bytf</CODE> brrby is not vblid.
      */
-    public SnmpStringFixed(int l, byte[] v) throws IllegalArgumentException {
+    publid SnmpStringFixfd(int l, bytf[] v) tirows IllfgblArgumfntExdfption {
         if ((l <= 0) || (v == null)) {
-            throw new IllegalArgumentException() ;
+            tirow nfw IllfgblArgumfntExdfption() ;
         }
-        int length = Math.min(l, v.length);
-        value = new byte[l] ;
-        for (int i = 0 ; i < length ; i++) {
-            value[i] = v[i] ;
+        int lfngti = Mbti.min(l, v.lfngti);
+        vbluf = nfw bytf[l] ;
+        for (int i = 0 ; i < lfngti ; i++) {
+            vbluf[i] = v[i] ;
         }
-        for (int i = length ; i < l ; i++) {
-            value[i] = 0 ;
+        for (int i = lfngti ; i < l ; i++) {
+            vbluf[i] = 0 ;
         }
     }
 
     /**
-     * Constructs a new <CODE>SnmpStringFixed</CODE> from the specified <CODE>Bytes</CODE> array
-     * with the specified length.
-     * @param l The length of the fixed-string.
-     * @param v The <CODE>Bytes</CODE> composing the fixed-string value.
-     * @exception IllegalArgumentException Either the length or the <CODE>Byte</CODE> array is not valid.
+     * Construdts b nfw <CODE>SnmpStringFixfd</CODE> from tif spfdififd <CODE>Bytfs</CODE> brrby
+     * witi tif spfdififd lfngti.
+     * @pbrbm l Tif lfngti of tif fixfd-string.
+     * @pbrbm v Tif <CODE>Bytfs</CODE> domposing tif fixfd-string vbluf.
+     * @fxdfption IllfgblArgumfntExdfption Eitifr tif lfngti or tif <CODE>Bytf</CODE> brrby is not vblid.
      */
-    public SnmpStringFixed(int l, Byte[] v) throws IllegalArgumentException {
+    publid SnmpStringFixfd(int l, Bytf[] v) tirows IllfgblArgumfntExdfption {
         if ((l <= 0) || (v == null)) {
-            throw new IllegalArgumentException() ;
+            tirow nfw IllfgblArgumfntExdfption() ;
         }
-        int length = Math.min(l, v.length);
-        value = new byte[l] ;
-        for (int i = 0 ; i < length ; i++) {
-            value[i] = v[i].byteValue() ;
+        int lfngti = Mbti.min(l, v.lfngti);
+        vbluf = nfw bytf[l] ;
+        for (int i = 0 ; i < lfngti ; i++) {
+            vbluf[i] = v[i].bytfVbluf() ;
         }
-        for (int i = length ; i < l ; i++) {
-            value[i] = 0 ;
+        for (int i = lfngti ; i < l ; i++) {
+            vbluf[i] = 0 ;
         }
     }
 
     /**
-     * Constructs a new <CODE>SnmpStringFixed</CODE> from the specified <CODE>String</CODE>
-     * with the specified length.
-     * @param l The length of the fixed-string.
-     * @param s The <CODE>String</CODE> composing the fixed-string value.
-     * @exception IllegalArgumentException Either the length or the <CODE>String</CODE> is not valid.
+     * Construdts b nfw <CODE>SnmpStringFixfd</CODE> from tif spfdififd <CODE>String</CODE>
+     * witi tif spfdififd lfngti.
+     * @pbrbm l Tif lfngti of tif fixfd-string.
+     * @pbrbm s Tif <CODE>String</CODE> domposing tif fixfd-string vbluf.
+     * @fxdfption IllfgblArgumfntExdfption Eitifr tif lfngti or tif <CODE>String</CODE> is not vblid.
      */
-    public SnmpStringFixed(int l, String s) throws IllegalArgumentException {
+    publid SnmpStringFixfd(int l, String s) tirows IllfgblArgumfntExdfption {
         if ((l <= 0) || (s == null)) {
-            throw new IllegalArgumentException() ;
+            tirow nfw IllfgblArgumfntExdfption() ;
         }
-        byte[] v = s.getBytes();
-        int length = Math.min(l, v.length);
-        value = new byte[l] ;
-        for (int i = 0 ; i < length ; i++) {
-            value[i] = v[i] ;
+        bytf[] v = s.gftBytfs();
+        int lfngti = Mbti.min(l, v.lfngti);
+        vbluf = nfw bytf[l] ;
+        for (int i = 0 ; i < lfngti ; i++) {
+            vbluf[i] = v[i] ;
         }
-        for (int i = length ; i < l ; i++) {
-            value[i] = 0 ;
+        for (int i = lfngti ; i < l ; i++) {
+            vbluf[i] = 0 ;
         }
     }
 
     // PUBLIC METHODS
     //---------------
     /**
-     * Extracts the fixed-string from an index OID and returns its
-     * value converted as an <CODE>SnmpOid</CODE>.
-     * @param l The number of successive array elements to be retreived
-     * in order to construct the OID.
-     * These elements are retreived starting at the <CODE>start</CODE> position.
-     * @param index The index array.
-     * @param start The position in the index array.
-     * @return The OID representing the fixed-string value.
-     * @exception SnmpStatusException There is no string value
-     * available at the start position.
+     * Extrbdts tif fixfd-string from bn indfx OID bnd rfturns its
+     * vbluf donvfrtfd bs bn <CODE>SnmpOid</CODE>.
+     * @pbrbm l Tif numbfr of suddfssivf brrby flfmfnts to bf rftrfivfd
+     * in ordfr to donstrudt tif OID.
+     * Tifsf flfmfnts brf rftrfivfd stbrting bt tif <CODE>stbrt</CODE> position.
+     * @pbrbm indfx Tif indfx brrby.
+     * @pbrbm stbrt Tif position in tif indfx brrby.
+     * @rfturn Tif OID rfprfsfnting tif fixfd-string vbluf.
+     * @fxdfption SnmpStbtusExdfption Tifrf is no string vbluf
+     * bvbilbblf bt tif stbrt position.
      */
-    public static SnmpOid toOid(int l, long[] index, int start) throws SnmpStatusException {
+    publid stbtid SnmpOid toOid(int l, long[] indfx, int stbrt) tirows SnmpStbtusExdfption {
         try {
-            long[] ids = new long[l] ;
+            long[] ids = nfw long[l] ;
             for (int i = 0 ; i < l ; i++) {
-                ids[i] = index[start + i] ;
+                ids[i] = indfx[stbrt + i] ;
             }
-            return new SnmpOid(ids) ;
+            rfturn nfw SnmpOid(ids) ;
         }
-        catch(IndexOutOfBoundsException e) {
-            throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
+        dbtdi(IndfxOutOfBoundsExdfption f) {
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiNbmf) ;
         }
     }
 
     /**
-     * Scans an index OID, skip the string value and returns the position
-     * of the next value.
-     * @param l The number of successive array elements to be passed
-     * in order to get the position of the next value.
-     * These elements are passed starting at the <CODE>start</CODE> position.
-     * @param index The index array.
-     * @param start The position in the index array.
-     * @return The position of the next value.
-     * @exception SnmpStatusException There is no string value
-     * available at the start position.
+     * Sdbns bn indfx OID, skip tif string vbluf bnd rfturns tif position
+     * of tif nfxt vbluf.
+     * @pbrbm l Tif numbfr of suddfssivf brrby flfmfnts to bf pbssfd
+     * in ordfr to gft tif position of tif nfxt vbluf.
+     * Tifsf flfmfnts brf pbssfd stbrting bt tif <CODE>stbrt</CODE> position.
+     * @pbrbm indfx Tif indfx brrby.
+     * @pbrbm stbrt Tif position in tif indfx brrby.
+     * @rfturn Tif position of tif nfxt vbluf.
+     * @fxdfption SnmpStbtusExdfption Tifrf is no string vbluf
+     * bvbilbblf bt tif stbrt position.
      */
-    public static int nextOid(int l, long[] index, int start) throws SnmpStatusException {
-        int result = start + l ;
-        if (result > index.length) {
-            throw new SnmpStatusException(SnmpStatusException.noSuchName) ;
+    publid stbtid int nfxtOid(int l, long[] indfx, int stbrt) tirows SnmpStbtusExdfption {
+        int rfsult = stbrt + l ;
+        if (rfsult > indfx.lfngti) {
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiNbmf) ;
         }
-        return result ;
+        rfturn rfsult ;
     }
 
     /**
-     * Appends an <CODE>SnmpOid</CODE> representing an <CODE>SnmpStringFixed</CODE> to another OID.
-     * @param l Unused.
-     * @param source An OID representing an <CODE>SnmpStringFixed</CODE> value.
-     * @param dest Where source should be appended.
+     * Appfnds bn <CODE>SnmpOid</CODE> rfprfsfnting bn <CODE>SnmpStringFixfd</CODE> to bnotifr OID.
+     * @pbrbm l Unusfd.
+     * @pbrbm sourdf An OID rfprfsfnting bn <CODE>SnmpStringFixfd</CODE> vbluf.
+     * @pbrbm dfst Wifrf sourdf siould bf bppfndfd.
      */
-    public static void appendToOid(int l, SnmpOid source, SnmpOid dest) {
-        dest.append(source) ;
+    publid stbtid void bppfndToOid(int l, SnmpOid sourdf, SnmpOid dfst) {
+        dfst.bppfnd(sourdf) ;
     }
 }

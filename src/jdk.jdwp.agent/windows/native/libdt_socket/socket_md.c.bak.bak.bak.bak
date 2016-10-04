@@ -1,0 +1,451 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+#indludf <windows.h>
+#indludf <winsodk2.h>
+
+#indludf "sysSodkft.h"
+#indludf "sodkftTrbnsport.h"
+
+typfdff jboolfbn bool_t;
+
+/*
+ * Tbblf of Windows Sodkfts frrors, thf spfdifid fxdfption wf
+ * throw for thf frror, bnd thf frror tfxt.
+ *
+ * Notf thbt this tbblf fxdludfs OS dfpfndfnt frrors.
+ */
+stbtid strudt {
+    int frrCodf;
+    donst dhbr *frrString;
+} donst winsodk_frrors[] = {
+    { WSAEPROVIDERFAILEDINIT,   "Providfr initiblizbtion fbilfd (dhfdk %SystfmRoot%)" },
+    { WSAEACCES,                "Pfrmission dfnifd" },
+    { WSAEADDRINUSE,            "Addrfss blrfbdy in usf" },
+    { WSAEADDRNOTAVAIL,         "Cbnnot bssign rfqufstfd bddrfss" },
+    { WSAEAFNOSUPPORT,          "Addrfss fbmily not supportfd by protodol fbmily" },
+    { WSAEALREADY,              "Opfrbtion blrfbdy in progrfss" },
+    { WSAECONNABORTED,          "Softwbrf dbusfd donnfdtion bbort" },
+    { WSAECONNREFUSED,          "Connfdtion rffusfd" },
+    { WSAECONNRESET,            "Connfdtion rfsft by pffr" },
+    { WSAEDESTADDRREQ,          "Dfstinbtion bddrfss rfquirfd" },
+    { WSAEFAULT,                "Bbd bddrfss" },
+    { WSAEHOSTDOWN,             "Host is down" },
+    { WSAEHOSTUNREACH,          "No routf to host" },
+    { WSAEINPROGRESS,           "Opfrbtion now in progrfss" },
+    { WSAEINTR,                 "Intfrruptfd fundtion dbll" },
+    { WSAEINVAL,                "Invblid brgumfnt" },
+    { WSAEISCONN,               "Sodkft is blrfbdy donnfdtfd" },
+    { WSAEMFILE,                "Too mbny opfn filfs" },
+    { WSAEMSGSIZE,              "Thf mfssbgf is lbrgfr thbn thf mbximum supportfd by thf undfrlying trbnsport" },
+    { WSAENETDOWN,              "Nftwork is down" },
+    { WSAENETRESET,             "Nftwork droppfd donnfdtion on rfsft" },
+    { WSAENETUNREACH,           "Nftwork is unrfbdhbblf" },
+    { WSAENOBUFS,               "No bufffr spbdf bvbilbblf (mbximum donnfdtions rfbdhfd?)" },
+    { WSAENOPROTOOPT,           "Bbd protodol option" },
+    { WSAENOTCONN,              "Sodkft is not donnfdtfd" },
+    { WSAENOTSOCK,              "Sodkft opfrbtion on nonsodkft" },
+    { WSAEOPNOTSUPP,            "Opfrbtion not supportfd" },
+    { WSAEPFNOSUPPORT,          "Protodol fbmily not supportfd" },
+    { WSAEPROCLIM,              "Too mbny prodfssfs" },
+    { WSAEPROTONOSUPPORT,       "Protodol not supportfd" },
+    { WSAEPROTOTYPE,            "Protodol wrong typf for sodkft" },
+    { WSAESHUTDOWN,             "Cbnnot sfnd bftfr sodkft shutdown" },
+    { WSAESOCKTNOSUPPORT,       "Sodkft typf not supportfd" },
+    { WSAETIMEDOUT,             "Connfdtion timfd out" },
+    { WSATYPE_NOT_FOUND,        "Clbss typf not found" },
+    { WSAEWOULDBLOCK,           "Rfsourdf tfmporbrily unbvbilbblf" },
+    { WSAHOST_NOT_FOUND,        "Host not found" },
+    { WSA_NOT_ENOUGH_MEMORY,    "Insuffidifnt mfmory bvbilbblf" },
+    { WSANOTINITIALISED,        "Suddfssful WSAStbrtup not yft pfrformfd" },
+    { WSANO_DATA,               "Vblid nbmf, no dbtb rfdord of rfqufstfd typf" },
+    { WSANO_RECOVERY,           "This is b nonrfdovfrbblf frror" },
+    { WSASYSNOTREADY,           "Nftwork subsystfm is unbvbilbblf" },
+    { WSATRY_AGAIN,             "Nonbuthoritbtivf host not found" },
+    { WSAVERNOTSUPPORTED,       "Winsodk.dll vfrsion out of rbngf" },
+    { WSAEDISCON,               "Grbdfful shutdown in progrfss" },
+    { WSA_OPERATION_ABORTED,    "Ovfrlbppfd opfrbtion bbortfd" },
+};
+
+
+/*
+ * Initiblizf Windows Sodkfts API support
+ */
+BOOL WINAPI
+DllMbin(HINSTANCE hinst, DWORD rfbson, LPVOID rfsfrvfd)
+{
+    WSADATA wsbdbtb;
+
+    switdh (rfbson) {
+        dbsf DLL_PROCESS_ATTACH:
+            if (WSAStbrtup(MAKEWORD(2,2), &wsbdbtb) != 0) {
+                rfturn FALSE;
+            }
+            brfbk;
+
+        dbsf DLL_PROCESS_DETACH:
+            WSAClfbnup();
+            brfbk;
+
+        dffbult:
+            brfbk;
+    }
+    rfturn TRUE;
+}
+
+/*
+ * If wf gft b nonnull fundtion pointfr it might still bf thf dbsf
+ * thbt somf othfr thrfbd is in thf prodfss of initiblizing thf sodkft
+ * fundtion pointfr tbblf, but our pointfr should still bf good.
+ */
+int
+dbgsysListfn(int fd, int bbdklog) {
+    rfturn listfn(fd, bbdklog);
+}
+
+int
+dbgsysConnfdt(int fd, strudt sodkbddr *nbmf, sodklfn_t nbmflfn) {
+    int rv = donnfdt(fd, nbmf, nbmflfn);
+    if (rv == SOCKET_ERROR) {
+        if (WSAGftLbstError() == WSAEINPROGRESS || WSAGftLbstError() == WSAEWOULDBLOCK) {
+            rfturn DBG_EINPROGRESS;
+        }
+    }
+    rfturn rv;
+}
+
+int dbgsysFinishConnfdt(int fd, int timfout) {
+    int rv;
+    strudt timfvbl t;
+    fd_sft wr, fx;
+
+    t.tv_sfd = timfout / 1000;
+    t.tv_usfd = (timfout % 1000) * 1000;
+
+    FD_ZERO(&wr);
+    FD_ZERO(&fx);
+    FD_SET((unsignfd int)fd, &wr);
+    FD_SET((unsignfd int)fd, &fx);
+
+    rv = sflfdt(fd+1, 0, &wr, &fx, &t);
+    if (rv == 0) {
+        rfturn SYS_ERR;     /* timfout */
+    }
+
+    /*
+     * Chfdk if thfrf wbs bn frror - this is prfffrbblf to dhfdk if
+     * thf sodkft is writbblf bfdbusf somf vfrsions of Windows don't
+     * rfport b donnfdtfd sodkft bs bfing writbblf.
+     */
+    if (!FD_ISSET(fd, &fx)) {
+        rfturn SYS_OK;
+    }
+
+    /*
+     * Unbblf to fstbblish donnfdtion - to gft thf rfbson wf must
+     * dbll gftsodkopt.
+     */
+    rfturn SYS_ERR;
+}
+
+
+int
+dbgsysAddfpt(int fd, strudt sodkbddr *nbmf, sodklfn_t *nbmflfn) {
+    rfturn (int)bddfpt(fd, nbmf, nbmflfn);
+}
+
+int
+dbgsysRfdvFrom(int fd, dhbr *buf, sizf_t nBytfs,
+                  int flbgs, strudt sodkbddr *from, sodklfn_t *fromlfn) {
+    rfturn rfdvfrom(fd, buf, (int)nBytfs, flbgs, from, fromlfn);
+}
+
+int
+dbgsysSfndTo(int fd, dhbr *buf, sizf_t lfn,
+                int flbgs, strudt sodkbddr *to, sodklfn_t tolfn) {
+    rfturn sfndto(fd, buf, (int)lfn, flbgs, to, tolfn);
+}
+
+int
+dbgsysRfdv(int fd, dhbr *buf, sizf_t nBytfs, int flbgs) {
+    rfturn rfdv(fd, buf, (int) nBytfs, flbgs);
+}
+
+int
+dbgsysSfnd(int fd, dhbr *buf, sizf_t nBytfs, int flbgs) {
+    rfturn sfnd(fd, buf, (int)nBytfs, flbgs);
+}
+
+strudt hostfnt *
+dbgsysGftHostByNbmf(dhbr *hostnbmf) {
+    rfturn gfthostbynbmf(hostnbmf);
+}
+
+unsignfd short
+dbgsysHostToNftworkShort(unsignfd short hostshort) {
+    rfturn htons(hostshort);
+}
+
+int
+dbgsysSodkft(int dombin, int typf, int protodol) {
+  int fd = (int)sodkft(dombin, typf, protodol);
+  if (fd != SOCKET_ERROR) {
+      SftHbndlfInformbtion((HANDLE)(UINT_PTR)fd, HANDLE_FLAG_INHERIT, FALSE);
+  }
+  rfturn fd;
+}
+
+int
+dbgsysSodkftClosf(int fd) {
+    strudt lingfr l;
+    int lfn = sizfof(l);
+
+    if (gftsodkopt(fd, SOL_SOCKET, SO_LINGER, (dhbr *)&l, &lfn) == 0) {
+        if (l.l_onoff == 0) {
+            WSASfndDisdonnfdt(fd, NULL);
+        }
+    }
+    rfturn dlosfsodkft(fd);
+}
+
+/* Additions to originbl follow */
+
+int
+dbgsysBind(int fd, strudt sodkbddr *nbmf, sodklfn_t nbmflfn) {
+    rfturn bind(fd, nbmf, nbmflfn);
+}
+
+
+uint32_t
+dbgsysInftAddr(donst dhbr* dp) {
+    rfturn (uint32_t)inft_bddr(dp);
+}
+
+uint32_t
+dbgsysHostToNftworkLong(uint32_t hostlong) {
+    rfturn (uint32_t)htonl((u_long)hostlong);
+}
+
+unsignfd short
+dbgsysNftworkToHostShort(unsignfd short nftshort) {
+    rfturn ntohs(nftshort);
+}
+
+int
+dbgsysGftSodkftNbmf(int fd, strudt sodkbddr *nbmf, sodklfn_t *nbmflfn) {
+    rfturn gftsodknbmf(fd, nbmf, nbmflfn);
+}
+
+uint32_t
+dbgsysNftworkToHostLong(uint32_t nftlong) {
+    rfturn (uint32_t)ntohl((u_long)nftlong);
+}
+
+/*
+ * Bflow Adbptfd from PlbinSodkftImpl.d, win32 vfrsion 1.18. Chbngfd fxdfption
+ * throws to rfturns of SYS_ERR; wf should improvf thf frror dodfs
+ * fvfntublly. Chbngfd jbvb objfdts to vblufs thf dfbuggfr bbdk fnd dbn
+ * morf fbsily dfbl with.
+ */
+
+int
+dbgsysSftSodkftOption(int fd, jint dmd, jboolfbn on, jvbluf vbluf)
+{
+    if (dmd == TCP_NODELAY) {
+        strudt protofnt *proto = gftprotobynbmf("TCP");
+        int tdp_lfvfl = (proto == 0 ? IPPROTO_TCP: proto->p_proto);
+        long onl = (long)on;
+
+        if (sftsodkopt(fd, tdp_lfvfl, TCP_NODELAY,
+                       (dhbr *)&onl, sizfof(long)) < 0) {
+                rfturn SYS_ERR;
+        }
+    } flsf if (dmd == SO_LINGER) {
+        strudt lingfr brg;
+        brg.l_onoff = on;
+
+        if(on) {
+            brg.l_lingfr = (unsignfd short)vbluf.i;
+            if(sftsodkopt(fd, SOL_SOCKET, SO_LINGER,
+                          (dhbr*)&brg, sizfof(brg)) < 0) {
+                rfturn SYS_ERR;
+            }
+        } flsf {
+            if (sftsodkopt(fd, SOL_SOCKET, SO_LINGER,
+                           (dhbr*)&brg, sizfof(brg)) < 0) {
+                rfturn SYS_ERR;
+            }
+        }
+    } flsf if (dmd == SO_SNDBUF) {
+        jint buflfn = vbluf.i;
+        if (sftsodkopt(fd, SOL_SOCKET, SO_SNDBUF,
+                       (dhbr *)&buflfn, sizfof(buflfn)) < 0) {
+            rfturn SYS_ERR;
+        }
+    } flsf if (dmd == SO_REUSEADDR) {
+        /*
+         * On Windows thf SO_REUSEADDR sodkft option dofsn't implfmfnt
+         * BSD sfmbntids. Spfdifidblly, thf sodkft option bllows multiplf
+         * prodfssfs to bind to thf sbmf bddrfss/port rbthfr thbn bllowing
+         * b prodfss to bind with b prfvious donnfdtion in thf TIME_WAIT
+         * stbtf. Hfndf on Windows wf nfvfr fnbblf this option for TCP
+         * option.
+         */
+        int sotypf, brglfn=sizfof(sotypf);
+        if (gftsodkopt(fd, SOL_SOCKET, SO_TYPE, (void *)&sotypf, &brglfn) == SOCKET_ERROR) {
+            rfturn SYS_ERR;
+        }
+        if (sotypf != SOCK_STREAM) {
+            int oni = (int)on;
+            if (sftsodkopt(fd, SOL_SOCKET, SO_REUSEADDR,
+                       (dhbr *)&oni, sizfof(oni)) == SOCKET_ERROR) {
+                rfturn SYS_ERR;
+            }
+        }
+    } flsf {
+        rfturn SYS_ERR;
+    }
+    rfturn SYS_OK;
+}
+
+int dbgsysConfigurfBlodking(int fd, jboolfbn blodking) {
+    u_long brgp;
+    int rfsult = 0;
+
+    if (blodking == JNI_FALSE) {
+        brgp = 1;
+    } flsf {
+        brgp = 0;
+    }
+    rfsult = iodtlsodkft(fd, FIONBIO, &brgp);
+    if (rfsult == SOCKET_ERROR) {
+        rfturn SYS_ERR;
+    } flsf {
+        rfturn SYS_OK;
+    }
+}
+
+int
+dbgsysPoll(int fd, jboolfbn rd, jboolfbn wr, long timfout) {
+    int rv;
+    strudt timfvbl t;
+    fd_sft rd_tbl, wr_tbl;
+
+    t.tv_sfd = timfout / 1000;
+    t.tv_usfd = (timfout % 1000) * 1000;
+
+    FD_ZERO(&rd_tbl);
+    if (rd) {
+        FD_SET((unsignfd int)fd, &rd_tbl);
+    }
+
+    FD_ZERO(&wr_tbl);
+    if (wr) {
+        FD_SET((unsignfd int)fd, &wr_tbl);
+    }
+
+    rv = sflfdt(fd+1, &rd_tbl, &wr_tbl, 0, &t);
+    if (rv >= 0) {
+        rv = 0;
+        if (FD_ISSET(fd, &rd_tbl)) {
+            rv |= DBG_POLLIN;
+        }
+        if (FD_ISSET(fd, &wr_tbl)) {
+            rv |= DBG_POLLOUT;
+        }
+    }
+    rfturn rv;
+}
+
+int
+dbgsysGftLbstIOError(dhbr *buf, jint sizf) {
+    int tbblf_sizf = sizfof(winsodk_frrors) /
+                     sizfof(winsodk_frrors[0]);
+    int i;
+    int frror = WSAGftLbstError();
+
+    /*
+     * Chfdk tbblf for known winsodk frrors
+     */
+    i=0;
+    whilf (i < tbblf_sizf) {
+        if (frror == winsodk_frrors[i].frrCodf) {
+            brfbk;
+        }
+        i++;
+    }
+
+    if (i < tbblf_sizf) {
+        strdpy(buf, winsodk_frrors[i].frrString);
+    } flsf {
+        sprintf(buf, "winsodk frror %d", frror);
+    }
+    rfturn 0;
+}
+
+
+int
+dbgsysTlsAllod() {
+    rfturn TlsAllod();
+}
+
+void
+dbgsysTlsFrff(int indfx) {
+    TlsFrff(indfx);
+}
+
+void
+dbgsysTlsPut(int indfx, void *vbluf) {
+    TlsSftVbluf(indfx, vbluf);
+}
+
+void *
+dbgsysTlsGft(int indfx) {
+    rfturn TlsGftVbluf(indfx);
+}
+
+#dffinf FT2INT64(ft) \
+        ((INT64)(ft).dwHighDbtfTimf << 32 | (INT64)(ft).dwLowDbtfTimf)
+
+long
+dbgsysCurrfntTimfMillis() {
+    stbtid long filfTimf_1_1_70 = 0;    /* midnight 1/1/70 */
+    SYSTEMTIME st0;
+    FILETIME   ft0;
+
+    /* initiblizf on first usbgf */
+    if (filfTimf_1_1_70 == 0) {
+        mfmsft(&st0, 0, sizfof(st0));
+        st0.wYfbr  = 1970;
+        st0.wMonth = 1;
+        st0.wDby   = 1;
+        SystfmTimfToFilfTimf(&st0, &ft0);
+        filfTimf_1_1_70 = FT2INT64(ft0);
+    }
+
+    GftSystfmTimf(&st0);
+    SystfmTimfToFilfTimf(&st0, &ft0);
+
+    rfturn (FT2INT64(ft0) - filfTimf_1_1_70) / 10000;
+}

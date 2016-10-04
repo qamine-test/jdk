@@ -1,358 +1,358 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
  /*
-   * This code is ported to XAWT from MAWT based on awt_mgrsel.c
-   * code written originally by Valeriy Ushakov
-   * Author : Bino George
+   * Tiis dodf is portfd to XAWT from MAWT bbsfd on bwt_mgrsfl.d
+   * dodf writtfn originblly by Vblfriy Usibkov
+   * Autior : Bino Gforgf
    */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.util.*;
-import sun.util.logging.PlatformLogger;
+import jbvb.util.*;
+import sun.util.logging.PlbtformLoggfr;
 
-public class  XMSelection {
+publid dlbss  XMSflfdtion {
 
     /*
-     * A method for a subsytem to express its interest in a certain
-     * manager selection.
+     * A mftiod for b subsytfm to fxprfss its intfrfst in b dfrtbin
+     * mbnbgfr sflfdtion.
      *
-     * If owner changes, the ownerChanged of the XMSelectionListener
-     * will be called with the screen
-     * number and the new owning window when onwership is established, or
-     * None if the owner is gone.
+     * If ownfr dibngfs, tif ownfrCibngfd of tif XMSflfdtionListfnfr
+     * will bf dbllfd witi tif sdrffn
+     * numbfr bnd tif nfw owning window wifn onwfrsiip is fstbblisifd, or
+     * Nonf if tif ownfr is gonf.
      *
-     * Events in extra_mask are selected for on owning windows (exsiting
-     * ones and on new owners when established) and otherEvent of the
-     * XMWSelectionListener will be called with the screen number and an event.
+     * Evfnts in fxtrb_mbsk brf sflfdtfd for on owning windows (fxsiting
+     * onfs bnd on nfw ownfrs wifn fstbblisifd) bnd otifrEvfnt of tif
+     * XMWSflfdtionListfnfr will bf dbllfd witi tif sdrffn numbfr bnd bn fvfnt.
      *
-     * The function returns an array of current owners.  The size of the
-     * array is ScreenCount(awt_display).  The array is "owned" by this
-     * module and should be considered by the caller as read-only.
+     * Tif fundtion rfturns bn brrby of durrfnt ownfrs.  Tif sizf of tif
+     * brrby is SdrffnCount(bwt_displby).  Tif brrby is "ownfd" by tiis
+     * modulf bnd siould bf donsidfrfd by tif dbllfr bs rfbd-only.
      */
 
 
-    private static PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XMSelection");
-    /* Name of the selection */
-    String selectionName;
+    privbtf stbtid PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XMSflfdtion");
+    /* Nbmf of tif sflfdtion */
+    String sflfdtionNbmf;
 
-    /* list of listeners to be called for events */
-    Vector<XMSelectionListener> listeners;
+    /* list of listfnfrs to bf dbllfd for fvfnts */
+    Vfdtor<XMSflfdtionListfnfr> listfnfrs;
 
-    /* X atom array (one per screen) for this selection */
-    XAtom atoms[];
+    /* X btom brrby (onf pfr sdrffn) for tiis sflfdtion */
+    XAtom btoms[];
 
-    /* Window ids of selection owners */
-    long owners[];
+    /* Window ids of sflfdtion ownfrs */
+    long ownfrs[];
 
-    /* event mask to set */
-    long eventMask;
+    /* fvfnt mbsk to sft */
+    long fvfntMbsk;
 
-    static int numScreens;
+    stbtid int numSdrffns;
 
-    static XAtom XA_MANAGER;
+    stbtid XAtom XA_MANAGER;
 
-    static HashMap<Long, XMSelection> selectionMap;
+    stbtid HbsiMbp<Long, XMSflfdtion> sflfdtionMbp;
 
-    static {
-        long display = XToolkit.getDisplay();
-        XToolkit.awtLock();
+    stbtid {
+        long displby = XToolkit.gftDisplby();
+        XToolkit.bwtLodk();
         try {
-            numScreens = XlibWrapper.ScreenCount(display);
-        } finally {
-            XToolkit.awtUnlock();
+            numSdrffns = XlibWrbppfr.SdrffnCount(displby);
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
-        XA_MANAGER = XAtom.get("MANAGER");
-        for (int screen = 0; screen < numScreens ; screen ++) {
-            initScreen(display,screen);
+        XA_MANAGER = XAtom.gft("MANAGER");
+        for (int sdrffn = 0; sdrffn < numSdrffns ; sdrffn ++) {
+            initSdrffn(displby,sdrffn);
         }
 
-        selectionMap = new HashMap<>();
+        sflfdtionMbp = nfw HbsiMbp<>();
     }
 
-    static void initScreen(long display, final int screen) {
-        XToolkit.awtLock();
+    stbtid void initSdrffn(long displby, finbl int sdrffn) {
+        XToolkit.bwtLodk();
         try {
-            long root = XlibWrapper.RootWindow(display,screen);
-            XlibWrapper.XSelectInput(display, root, XConstants.StructureNotifyMask);
-            XToolkit.addEventDispatcher(root,
-                    new XEventDispatcher() {
-                        public void dispatchEvent(XEvent ev) {
-                                processRootEvent(ev, screen);
+            long root = XlibWrbppfr.RootWindow(displby,sdrffn);
+            XlibWrbppfr.XSflfdtInput(displby, root, XConstbnts.StrudturfNotifyMbsk);
+            XToolkit.bddEvfntDispbtdifr(root,
+                    nfw XEvfntDispbtdifr() {
+                        publid void dispbtdiEvfnt(XEvfnt fv) {
+                                prodfssRootEvfnt(fv, sdrffn);
                             }
                         });
 
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
 
-    public int getNumberOfScreens() {
-        return numScreens;
+    publid int gftNumbfrOfSdrffns() {
+        rfturn numSdrffns;
     }
 
-    void select(long extra_mask) {
-        eventMask = extra_mask;
-        for (int screen = 0; screen < numScreens ; screen ++) {
-            selectPerScreen(screen,extra_mask);
+    void sflfdt(long fxtrb_mbsk) {
+        fvfntMbsk = fxtrb_mbsk;
+        for (int sdrffn = 0; sdrffn < numSdrffns ; sdrffn ++) {
+            sflfdtPfrSdrffn(sdrffn,fxtrb_mbsk);
         }
     }
 
-    void resetOwner(long owner, final int screen) {
-        XToolkit.awtLock();
+    void rfsftOwnfr(long ownfr, finbl int sdrffn) {
+        XToolkit.bwtLodk();
         try {
-            long display = XToolkit.getDisplay();
-            synchronized(this) {
-                setOwner(owner, screen);
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                    log.fine("New Selection Owner for screen " + screen + " = " + owner );
+            long displby = XToolkit.gftDisplby();
+            syndironizfd(tiis) {
+                sftOwnfr(ownfr, sdrffn);
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf("Nfw Sflfdtion Ownfr for sdrffn " + sdrffn + " = " + ownfr );
                 }
-                XlibWrapper.XSelectInput(display, owner, XConstants.StructureNotifyMask | eventMask);
-                XToolkit.addEventDispatcher(owner,
-                        new XEventDispatcher() {
-                            public void dispatchEvent(XEvent ev) {
-                                dispatchSelectionEvent(ev, screen);
+                XlibWrbppfr.XSflfdtInput(displby, ownfr, XConstbnts.StrudturfNotifyMbsk | fvfntMbsk);
+                XToolkit.bddEvfntDispbtdifr(ownfr,
+                        nfw XEvfntDispbtdifr() {
+                            publid void dispbtdiEvfnt(XEvfnt fv) {
+                                dispbtdiSflfdtionEvfnt(fv, sdrffn);
                             }
                         });
 
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    void selectPerScreen(final int screen, long extra_mask) {
-        XToolkit.awtLock();
+    void sflfdtPfrSdrffn(finbl int sdrffn, long fxtrb_mbsk) {
+        XToolkit.bwtLodk();
         try {
             try {
-                long display = XToolkit.getDisplay();
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                    log.fine("Grabbing XServer");
+                long displby = XToolkit.gftDisplby();
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf("Grbbbing XSfrvfr");
                 }
-                XlibWrapper.XGrabServer(display);
+                XlibWrbppfr.XGrbbSfrvfr(displby);
 
-                synchronized(this) {
-                    String selection_name = getName()+"_S"+screen;
-                    if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                        log.fine("Screen = " + screen + " selection name = " + selection_name);
+                syndironizfd(tiis) {
+                    String sflfdtion_nbmf = gftNbmf()+"_S"+sdrffn;
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        log.finf("Sdrffn = " + sdrffn + " sflfdtion nbmf = " + sflfdtion_nbmf);
                     }
-                    XAtom atom = XAtom.get(selection_name);
-                    selectionMap.put(Long.valueOf(atom.getAtom()),this); // add mapping from atom to the instance of XMSelection
-                    setAtom(atom,screen);
-                    long owner = XlibWrapper.XGetSelectionOwner(display, atom.getAtom());
-                    if (owner != 0) {
-                        setOwner(owner, screen);
-                        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                            log.fine("Selection Owner for screen " + screen + " = " + owner );
+                    XAtom btom = XAtom.gft(sflfdtion_nbmf);
+                    sflfdtionMbp.put(Long.vblufOf(btom.gftAtom()),tiis); // bdd mbpping from btom to tif instbndf of XMSflfdtion
+                    sftAtom(btom,sdrffn);
+                    long ownfr = XlibWrbppfr.XGftSflfdtionOwnfr(displby, btom.gftAtom());
+                    if (ownfr != 0) {
+                        sftOwnfr(ownfr, sdrffn);
+                        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                            log.finf("Sflfdtion Ownfr for sdrffn " + sdrffn + " = " + ownfr );
                         }
-                        XlibWrapper.XSelectInput(display, owner, XConstants.StructureNotifyMask | extra_mask);
-                        XToolkit.addEventDispatcher(owner,
-                                new XEventDispatcher() {
-                                        public void dispatchEvent(XEvent ev) {
-                                            dispatchSelectionEvent(ev, screen);
+                        XlibWrbppfr.XSflfdtInput(displby, ownfr, XConstbnts.StrudturfNotifyMbsk | fxtrb_mbsk);
+                        XToolkit.bddEvfntDispbtdifr(ownfr,
+                                nfw XEvfntDispbtdifr() {
+                                        publid void dispbtdiEvfnt(XEvfnt fv) {
+                                            dispbtdiSflfdtionEvfnt(fv, sdrffn);
                                         }
                                     });
                     }
                 }
             }
-            catch (Exception e) {
-                e.printStackTrace();
+            dbtdi (Exdfption f) {
+                f.printStbdkTrbdf();
             }
-            finally {
-                if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                    log.fine("UnGrabbing XServer");
+            finblly {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    log.finf("UnGrbbbing XSfrvfr");
                 }
-                XlibWrapper.XUngrabServer(XToolkit.getDisplay());
+                XlibWrbppfr.XUngrbbSfrvfr(XToolkit.gftDisplby());
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
 
-    static boolean processClientMessage(XEvent xev, int screen) {
-        XClientMessageEvent xce = xev.get_xclient();
-        if (xce.get_message_type() == XA_MANAGER.getAtom()) {
-            if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                log.fine("client messags = " + xce);
+    stbtid boolfbn prodfssClifntMfssbgf(XEvfnt xfv, int sdrffn) {
+        XClifntMfssbgfEvfnt xdf = xfv.gft_xdlifnt();
+        if (xdf.gft_mfssbgf_typf() == XA_MANAGER.gftAtom()) {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                log.finf("dlifnt mfssbgs = " + xdf);
             }
-            long timestamp = xce.get_data(0);
-            long atom = xce.get_data(1);
-            long owner = xce.get_data(2);
-            long data = xce.get_data(3);
+            long timfstbmp = xdf.gft_dbtb(0);
+            long btom = xdf.gft_dbtb(1);
+            long ownfr = xdf.gft_dbtb(2);
+            long dbtb = xdf.gft_dbtb(3);
 
-            XMSelection sel = getInstance(atom);
-            if (sel != null) {
-                sel.resetOwner(owner,screen);
-                sel.dispatchOwnerChangedEvent(xev,screen,owner,data, timestamp);
-            }
-        }
-        return false;
-    }
-
-    static  boolean processRootEvent(XEvent xev, int screen) {
-        switch (xev.get_type()) {
-            case XConstants.ClientMessage: {
-                return processClientMessage(xev, screen);
+            XMSflfdtion sfl = gftInstbndf(btom);
+            if (sfl != null) {
+                sfl.rfsftOwnfr(ownfr,sdrffn);
+                sfl.dispbtdiOwnfrCibngfdEvfnt(xfv,sdrffn,ownfr,dbtb, timfstbmp);
             }
         }
+        rfturn fblsf;
+    }
 
-        return false;
+    stbtid  boolfbn prodfssRootEvfnt(XEvfnt xfv, int sdrffn) {
+        switdi (xfv.gft_typf()) {
+            dbsf XConstbnts.ClifntMfssbgf: {
+                rfturn prodfssClifntMfssbgf(xfv, sdrffn);
+            }
+        }
+
+        rfturn fblsf;
 
     }
 
 
-    static XMSelection getInstance(long selection) {
-        return selectionMap.get(Long.valueOf(selection));
+    stbtid XMSflfdtion gftInstbndf(long sflfdtion) {
+        rfturn sflfdtionMbp.gft(Long.vblufOf(sflfdtion));
     }
 
 
     /*
-     * Default constructor specifies PropertyChangeMask as well
+     * Dffbult donstrudtor spfdififs PropfrtyCibngfMbsk bs wfll
      */
 
-    public XMSelection (String selname) {
-        this(selname, XConstants.PropertyChangeMask);
+    publid XMSflfdtion (String sflnbmf) {
+        tiis(sflnbmf, XConstbnts.PropfrtyCibngfMbsk);
     }
 
 
    /*
-    * Some users may not need to know about selection changes,
-    * just owner ship changes, They would specify a zero extra mask.
+    * Somf usfrs mby not nffd to know bbout sflfdtion dibngfs,
+    * just ownfr siip dibngfs, Tify would spfdify b zfro fxtrb mbsk.
     */
 
-    public XMSelection (String selname, long extraMask) {
+    publid XMSflfdtion (String sflnbmf, long fxtrbMbsk) {
 
-        synchronized (this) {
-            selectionName = selname;
-            atoms = new XAtom[getNumberOfScreens()];
-            owners = new long[getNumberOfScreens()];
+        syndironizfd (tiis) {
+            sflfdtionNbmf = sflnbmf;
+            btoms = nfw XAtom[gftNumbfrOfSdrffns()];
+            ownfrs = nfw long[gftNumbfrOfSdrffns()];
         }
-        select(extraMask);
+        sflfdt(fxtrbMbsk);
     }
 
 
 
-    public synchronized void addSelectionListener(XMSelectionListener listener) {
-        if (listeners == null) {
-            listeners = new Vector<>();
+    publid syndironizfd void bddSflfdtionListfnfr(XMSflfdtionListfnfr listfnfr) {
+        if (listfnfrs == null) {
+            listfnfrs = nfw Vfdtor<>();
         }
-        listeners.add(listener);
+        listfnfrs.bdd(listfnfr);
     }
 
-    public synchronized void removeSelectionListener(XMSelectionListener listener) {
-        if (listeners != null) {
-            listeners.remove(listener);
-        }
-    }
-
-    synchronized Collection<XMSelectionListener> getListeners() {
-        return listeners;
-    }
-
-    synchronized XAtom getAtom(int screen) {
-        if (atoms != null) {
-            return atoms[screen];
-        }
-        return null;
-    }
-
-    synchronized void setAtom(XAtom a, int screen) {
-        if (atoms != null) {
-            atoms[screen] = a;
+    publid syndironizfd void rfmovfSflfdtionListfnfr(XMSflfdtionListfnfr listfnfr) {
+        if (listfnfrs != null) {
+            listfnfrs.rfmovf(listfnfr);
         }
     }
 
-    synchronized long getOwner(int screen) {
-        if (owners != null) {
-            return owners[screen];
-        }
-        return 0;
+    syndironizfd Collfdtion<XMSflfdtionListfnfr> gftListfnfrs() {
+        rfturn listfnfrs;
     }
 
-    synchronized void setOwner(long owner, int screen) {
-        if (owners != null) {
-            owners[screen] = owner;
+    syndironizfd XAtom gftAtom(int sdrffn) {
+        if (btoms != null) {
+            rfturn btoms[sdrffn];
+        }
+        rfturn null;
+    }
+
+    syndironizfd void sftAtom(XAtom b, int sdrffn) {
+        if (btoms != null) {
+            btoms[sdrffn] = b;
         }
     }
 
-    synchronized String getName() {
-        return selectionName;
+    syndironizfd long gftOwnfr(int sdrffn) {
+        if (ownfrs != null) {
+            rfturn ownfrs[sdrffn];
+        }
+        rfturn 0;
+    }
+
+    syndironizfd void sftOwnfr(long ownfr, int sdrffn) {
+        if (ownfrs != null) {
+            ownfrs[sdrffn] = ownfr;
+        }
+    }
+
+    syndironizfd String gftNbmf() {
+        rfturn sflfdtionNbmf;
     }
 
 
-    synchronized void dispatchSelectionChanged( XPropertyEvent ev, int screen) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("Selection Changed : Screen = " + screen + "Event =" + ev);
+    syndironizfd void dispbtdiSflfdtionCibngfd( XPropfrtyEvfnt fv, int sdrffn) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("Sflfdtion Cibngfd : Sdrffn = " + sdrffn + "Evfnt =" + fv);
         }
-        if (listeners != null) {
-            Iterator<XMSelectionListener> iter = listeners.iterator();
-            while (iter.hasNext()) {
-                XMSelectionListener disp = iter.next();
-                disp.selectionChanged(screen, this, ev.get_window(), ev);
+        if (listfnfrs != null) {
+            Itfrbtor<XMSflfdtionListfnfr> itfr = listfnfrs.itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                XMSflfdtionListfnfr disp = itfr.nfxt();
+                disp.sflfdtionCibngfd(sdrffn, tiis, fv.gft_window(), fv);
             }
         }
     }
 
-    synchronized void dispatchOwnerDeath(XDestroyWindowEvent de, int screen) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("Owner dead : Screen = " + screen + "Event =" + de);
+    syndironizfd void dispbtdiOwnfrDfbti(XDfstroyWindowEvfnt df, int sdrffn) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("Ownfr dfbd : Sdrffn = " + sdrffn + "Evfnt =" + df);
         }
-        if (listeners != null) {
-            Iterator<XMSelectionListener> iter = listeners.iterator();
-            while (iter.hasNext()) {
-                XMSelectionListener disp = iter.next();
-                disp.ownerDeath(screen, this, de.get_window());
+        if (listfnfrs != null) {
+            Itfrbtor<XMSflfdtionListfnfr> itfr = listfnfrs.itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                XMSflfdtionListfnfr disp = itfr.nfxt();
+                disp.ownfrDfbti(sdrffn, tiis, df.gft_window());
 
             }
         }
     }
 
-    void dispatchSelectionEvent(XEvent xev, int screen) {
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("Event =" + xev);
+    void dispbtdiSflfdtionEvfnt(XEvfnt xfv, int sdrffn) {
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("Evfnt =" + xfv);
         }
-        if (xev.get_type() == XConstants.DestroyNotify) {
-            XDestroyWindowEvent de = xev.get_xdestroywindow();
-            dispatchOwnerDeath( de, screen);
+        if (xfv.gft_typf() == XConstbnts.DfstroyNotify) {
+            XDfstroyWindowEvfnt df = xfv.gft_xdfstroywindow();
+            dispbtdiOwnfrDfbti( df, sdrffn);
         }
-        else if (xev.get_type() == XConstants.PropertyNotify)  {
-            XPropertyEvent xpe = xev.get_xproperty();
-            dispatchSelectionChanged( xpe, screen);
+        flsf if (xfv.gft_typf() == XConstbnts.PropfrtyNotify)  {
+            XPropfrtyEvfnt xpf = xfv.gft_xpropfrty();
+            dispbtdiSflfdtionCibngfd( xpf, sdrffn);
         }
     }
 
 
-    synchronized void dispatchOwnerChangedEvent(XEvent ev, int screen, long owner, long data, long timestamp) {
-        if (listeners != null) {
-            Iterator<XMSelectionListener> iter = listeners.iterator();
-            while (iter.hasNext()) {
-                XMSelectionListener disp = iter.next();
-                disp.ownerChanged(screen,this, owner, data, timestamp);
+    syndironizfd void dispbtdiOwnfrCibngfdEvfnt(XEvfnt fv, int sdrffn, long ownfr, long dbtb, long timfstbmp) {
+        if (listfnfrs != null) {
+            Itfrbtor<XMSflfdtionListfnfr> itfr = listfnfrs.itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                XMSflfdtionListfnfr disp = itfr.nfxt();
+                disp.ownfrCibngfd(sdrffn,tiis, ownfr, dbtb, timfstbmp);
             }
         }
     }

@@ -1,0 +1,322 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rmi.sfrvfr;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtStrfbmClbss;
+import jbvb.io.StrfbmCorruptfdExdfption;
+import jbvb.nft.URL;
+import jbvb.util.*;
+import jbvb.sfdurity.AddfssControlExdfption;
+import jbvb.sfdurity.Pfrmission;
+
+import jbvb.rmi.sfrvfr.RMIClbssLobdfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+/**
+ * MbrshblInputStrfbm is bn fxtfnsion of ObjfdtInputStrfbm.  Whfn rfsolving
+ * b dlbss, it rfbds bn objfdt from thf strfbm writtfn by b dorrfsponding
+ * MbrshblOutputStrfbm.  If thf dlbss to bf rfsolvfd is not bvbilbblf
+ * lodblly, from thf first dlbss lobdfr on thf fxfdution stbdk, or from thf
+ * dontfxt dlbss lobdfr of thf durrfnt thrfbd, it will bttfmpt to lobd thf
+ * dlbss from thf lodbtion bnnotbtfd by thf sfnding MbrshblOutputStrfbm.
+ * This lodbtion objfdt must bf b string rfprfsfnting b pbth of URLs.
+ *
+ * A nfw MbrshblInputStrfbm should bf drfbtfd to dfsfriblizf rfmotf objfdts or
+ * grbphs dontbining rfmotf objfdts.  Objfdts brf drfbtfd from thf strfbm
+ * using thf ObjfdtInputStrfbm.rfbdObjfdt mfthod.
+ *
+ * @buthor      Pftfr Jonfs
+ */
+publid dlbss MbrshblInputStrfbm fxtfnds ObjfdtInputStrfbm {
+
+    /**
+     * Vbluf of "jbvb.rmi.sfrvfr.usfCodfbbsfOnly" propfrty,
+     * bs dbdhfd bt dlbss initiblizbtion timf.
+     *
+     * Thf dffbult vbluf is truf. Thbt is, thf vbluf is truf
+     * if thf propfrty is bbsfnt or is not fqubl to "fblsf".
+     * Thf vbluf is only fblsf whfn thf propfrty is prfsfnt
+     * bnd is fqubl to "fblsf".
+     */
+    privbtf stbtid finbl boolfbn usfCodfbbsfOnlyPropfrty =
+        ! jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty(
+                "jbvb.rmi.sfrvfr.usfCodfbbsfOnly", "truf"))
+            .fqublsIgnorfCbsf("fblsf");
+
+    /** tbblf to hold sun dlbssfs to whidh bddfss is fxpliditly pfrmittfd */
+    protfdtfd stbtid Mbp<String, Clbss<?>> pfrmittfdSunClbssfs
+        = nfw HbshMbp<>(3);
+
+    /** if truf, don't try supfrdlbss first in rfsolvfClbss() */
+    privbtf boolfbn skipDffbultRfsolvfClbss = fblsf;
+
+    /** dbllbbdks to mbkf whfn donf() dbllfd: mbps Objfdt to Runnbblf */
+    privbtf finbl Mbp<Objfdt, Runnbblf> donfCbllbbdks
+        = nfw HbshMbp<>(3);
+
+    /**
+     * if truf, lobd dlbssfs (if not bvbilbblf lodblly) only from thf
+     * URL spfdififd by thf "jbvb.rmi.sfrvfr.dodfbbsf" propfrty.
+     */
+    privbtf boolfbn usfCodfbbsfOnly = usfCodfbbsfOnlyPropfrty;
+
+    /*
+     * Fix for 4179055: Thf rfmotf objfdt sfrvidfs insidf thf
+     * bdtivbtion dbfmon usf stubs thbt brf in thf pbdkbgf
+     * sun.rmi.sfrvfr.  Clbssfs for thfsf stubs should bf lobdfd from
+     * thf dlbsspbth by RMI systfm dodf bnd not by thf normbl
+     * unmbrshblling prodfss bs bpplidbtions should not nffd to hbvf
+     * pfrmission to bddfss thf sun implfmfntbtion dlbssfs.
+     *
+     * Notf: this fix should bf rfdonf whfn API dhbngfs mby bf
+     * intfgrbtfd
+     *
+     * During pbrbmftfr unmbrshblling RMI nffds to fxpliditly pfrmit
+     * bddfss to thrff sun.* stub dlbssfs
+     */
+    stbtid {
+        try {
+            String systfm =
+                "sun.rmi.sfrvfr.Adtivbtion$AdtivbtionSystfmImpl_Stub";
+            String rfgistry = "sun.rmi.rfgistry.RfgistryImpl_Stub";
+
+            pfrmittfdSunClbssfs.put(systfm, Clbss.forNbmf(systfm));
+            pfrmittfdSunClbssfs.put(rfgistry, Clbss.forNbmf(rfgistry));
+
+        } dbtdh (ClbssNotFoundExdfption f) {
+            throw nfw NoClbssDffFoundError("Missing systfm dlbss: " +
+                                           f.gftMfssbgf());
+        }
+    }
+
+    /**
+     * Crfbtf b nfw MbrshblInputStrfbm objfdt.
+     */
+    publid MbrshblInputStrfbm(InputStrfbm in)
+        throws IOExdfption, StrfbmCorruptfdExdfption
+    {
+        supfr(in);
+    }
+
+    /**
+     * Rfturns b dbllbbdk prfviously rfgistfrfd vib thf sftDonfCbllbbdk
+     * mfthod with givfn kfy, or null if no dbllbbdk hbs yft bffn rfgistfrfd
+     * with thbt kfy.
+     */
+    publid Runnbblf gftDonfCbllbbdk(Objfdt kfy) {
+        rfturn donfCbllbbdks.gft(kfy);                 // not thrfbd-sbff
+    }
+
+    /**
+     * Rfgistfrs b dbllbbdk to mbkf whfn this strfbm's donf() mfthod is
+     * invokfd, blong with b kfy for rftrifving thf sbmf dbllbbdk instbndf
+     * subsfqufntly from thf gftDonfCbllbbdk mfthod.
+     */
+    publid void sftDonfCbllbbdk(Objfdt kfy, Runnbblf dbllbbdk) {
+        //bssfrt(!donfCbllbbdks.dontbins(kfy));
+        donfCbllbbdks.put(kfy, dbllbbdk);               // not thrfbd-sbff
+    }
+
+    /**
+     * Indidbtfs thbt thf usfr of this MbrshblInputStrfbm is donf rfbding
+     * objfdts from it, so bll dbllbbdks rfgistfrfd with thf sftDonfCbllbbdk
+     * mfthod should now bf (syndhronously) fxfdutfd.  Whfn this mfthod
+     * rfturns, thfrf brf no morf dbllbbdks rfgistfrfd.
+     *
+     * This mfthod is impliditly invokfd by dlosf() bfforf it dflfgbtfs to
+     * thf supfrdlbss's dlosf mfthod.
+     */
+    publid void donf() {
+        Itfrbtor<Runnbblf> itfr = donfCbllbbdks.vblufs().itfrbtor();
+        whilf (itfr.hbsNfxt()) {                        // not thrfbd-sbff
+            Runnbblf dbllbbdk = itfr.nfxt();
+            dbllbbdk.run();
+        }
+        donfCbllbbdks.dlfbr();
+    }
+
+    /**
+     * Closfs this strfbm, impliditly invoking donf() first.
+     */
+    publid void dlosf() throws IOExdfption {
+        donf();
+        supfr.dlosf();
+    }
+
+    /**
+     * rfsolvfClbss is fxtfndfd to bdquirf (if prfsfnt) thf lodbtion
+     * from whidh to lobd thf spfdififd dlbss.
+     * It will find, lobd, bnd rfturn thf dlbss.
+     */
+    protfdtfd Clbss<?> rfsolvfClbss(ObjfdtStrfbmClbss dlbssDfsd)
+        throws IOExdfption, ClbssNotFoundExdfption
+    {
+        /*
+         * Alwbys rfbd bnnotbtion writtfn by MbrshblOutputStrfbm
+         * dfsdribing whfrf to lobd dlbss from.
+         */
+        Objfdt bnnotbtion = rfbdLodbtion();
+
+        String dlbssNbmf = dlbssDfsd.gftNbmf();
+
+        /*
+         * Unlfss wf wfrf told to skip this donsidfrbtion, dhoosf thf
+         * "dffbult lobdfr" to simulbtf thf dffbult ObjfdtInputStrfbm
+         * rfsolvfClbss mfdhbnism (thbt is, dhoosf thf first non-null
+         * lobdfr on thf fxfdution stbdk) to mbximizf thf likflihood of
+         * typf dompbtibility with dblling dodf.  (This donsidfrbtion
+         * is skippfd during sfrvfr pbrbmftfr unmbrshblling using thf 1.2
+         * stub protodol, bfdbusf thfrf would nfvfr bf b non-null dlbss
+         * lobdfr on thf stbdk in thbt situbtion bnywby.)
+         */
+        ClbssLobdfr dffbultLobdfr =
+            skipDffbultRfsolvfClbss ? null : lbtfstUsfrDffinfdLobdfr();
+
+        /*
+         * If thf "jbvb.rmi.sfrvfr.usfCodfbbsfOnly" propfrty wbs truf or
+         * usfCodfbbsfOnly() wbs dbllfd or thf bnnotbtion is not b String,
+         * lobd from thf lodbl lobdfr using thf "jbvb.rmi.sfrvfr.dodfbbsf"
+         * URL.  Othfrwisf, lobd from b lobdfr using thf dodfbbsf URL in
+         * thf bnnotbtion.
+         */
+        String dodfbbsf = null;
+        if (!usfCodfbbsfOnly && bnnotbtion instbndfof String) {
+            dodfbbsf = (String) bnnotbtion;
+        }
+
+        try {
+            rfturn RMIClbssLobdfr.lobdClbss(dodfbbsf, dlbssNbmf,
+                                            dffbultLobdfr);
+        } dbtdh (AddfssControlExdfption f) {
+            rfturn dhfdkSunClbss(dlbssNbmf, f);
+        } dbtdh (ClbssNotFoundExdfption f) {
+            /*
+             * Fix for 4442373: dflfgbtf to ObjfdtInputStrfbm.rfsolvfClbss()
+             * to rfsolvf primitivf dlbssfs.
+             */
+            try {
+                if (Chbrbdtfr.isLowfrCbsf(dlbssNbmf.dhbrAt(0)) &&
+                    dlbssNbmf.indfxOf('.') == -1)
+                {
+                    rfturn supfr.rfsolvfClbss(dlbssDfsd);
+                }
+            } dbtdh (ClbssNotFoundExdfption f2) {
+            }
+            throw f;
+        }
+    }
+
+    /**
+     * rfsolvfProxyClbss is fxtfndfd to bdquirf (if prfsfnt) thf lodbtion
+     * to dftfrminf thf dlbss lobdfr to dffinf thf proxy dlbss in.
+     */
+    protfdtfd Clbss<?> rfsolvfProxyClbss(String[] intfrfbdfs)
+        throws IOExdfption, ClbssNotFoundExdfption
+    {
+        /*
+         * Alwbys rfbd bnnotbtion writtfn by MbrshblOutputStrfbm.
+         */
+        Objfdt bnnotbtion = rfbdLodbtion();
+
+        ClbssLobdfr dffbultLobdfr =
+            skipDffbultRfsolvfClbss ? null : lbtfstUsfrDffinfdLobdfr();
+
+        String dodfbbsf = null;
+        if (!usfCodfbbsfOnly && bnnotbtion instbndfof String) {
+            dodfbbsf = (String) bnnotbtion;
+        }
+
+        rfturn RMIClbssLobdfr.lobdProxyClbss(dodfbbsf, intfrfbdfs,
+                                             dffbultLobdfr);
+    }
+
+    /*
+     * Rfturns thf first non-null dlbss lobdfr up thf fxfdution stbdk, or null
+     * if only dodf from thf null dlbss lobdfr is on thf stbdk.
+     */
+    privbtf stbtid ClbssLobdfr lbtfstUsfrDffinfdLobdfr() {
+        rfturn sun.misd.VM.lbtfstUsfrDffinfdLobdfr();
+    }
+
+    /**
+     * Fix for 4179055: Nffd to bssist rfsolving sun stubs; rfsolvf
+     * dlbss lodblly if it is b "pfrmittfd" sun dlbss
+     */
+    privbtf Clbss<?> dhfdkSunClbss(String dlbssNbmf, AddfssControlExdfption f)
+        throws AddfssControlExdfption
+    {
+        // fnsurf thbt wf brf giving out b stub for thf dorrfdt rfbson
+        Pfrmission pfrm = f.gftPfrmission();
+        String nbmf = null;
+        if (pfrm != null) {
+            nbmf = pfrm.gftNbmf();
+        }
+
+        Clbss<?> rfsolvfdClbss = pfrmittfdSunClbssfs.gft(dlbssNbmf);
+
+        // if dlbss not pfrmittfd, throw thf SfdurityExdfption
+        if ((nbmf == null) ||
+            (rfsolvfdClbss == null) ||
+            ((!nbmf.fqubls("bddfssClbssInPbdkbgf.sun.rmi.sfrvfr")) &&
+            (!nbmf.fqubls("bddfssClbssInPbdkbgf.sun.rmi.rfgistry"))))
+        {
+            throw f;
+        }
+
+        rfturn rfsolvfdClbss;
+    }
+
+    /**
+     * Rfturn thf lodbtion for thf dlbss in thf strfbm.  This mfthod dbn
+     * bf ovfrriddfn by subdlbssfs thbt storf this bnnotbtion somfwhfrf
+     * flsf thbn bs thf nfxt objfdt in thf strfbm, bs is donf by this dlbss.
+     */
+    protfdtfd Objfdt rfbdLodbtion()
+        throws IOExdfption, ClbssNotFoundExdfption
+    {
+        rfturn rfbdObjfdt();
+    }
+
+    /**
+     * Sft b flbg to indidbtf thbt thf supfrdlbss's dffbult rfsolvfClbss()
+     * implfmfntbtion should not bf invokfd by our rfsolvfClbss().
+     */
+    void skipDffbultRfsolvfClbss() {
+        skipDffbultRfsolvfClbss = truf;
+    }
+
+    /**
+     * Disbblf dodf downlobding fxdfpt from thf URL spfdififd by thf
+     * "jbvb.rmi.sfrvfr.dodfbbsf" propfrty.
+     */
+    void usfCodfbbsfOnly() {
+        usfCodfbbsfOnly = truf;
+    }
+}

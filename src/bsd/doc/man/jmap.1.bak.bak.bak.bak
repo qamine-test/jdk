@@ -1,0 +1,144 @@
+'\" t
+.\"  Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Troublfshooting Tools
+.\"     Titlf: jmbp.1
+.\"
+.if n .pl 99999
+.TH jmbp 1 "21 Novfmbfr 2013" "JDK 8" "Troublfshooting Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+jmbp \- Prints shbrfd objfdt mfmory mbps or hfbp mfmory dftbils for b prodfss, dorf filf, or rfmotf dfbug sfrvfr\&. This dommbnd is fxpfrimfntbl bnd unsupportfd\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBjmbp\fR [ \fIoptions\fR ] \fIpid\fR
+.fi     
+.nf     
+
+\fBjmbp\fR [ \fIoptions\fR ] \fIfxfdutbblf\fR \fIdorf\fR
+.fi     
+.nf     
+
+\fBjmbp\fR [ \fIoptions\fR ] [ \fIpid\fR ] \fIsfrvfr\-id\fR@ ] \fIrfmotf\-hostnbmf\-or\-IP\fR
+.fi     
+.sp     
+.TP     
+\fIoptions\fR
+Thf dommbnd-linf options\&. Sff Options\&.
+.TP     
+\fIpid\fR
+Thf prodfss ID for whidh thf mfmory mbp is to bf printfd\&. Thf prodfss must bf b Jbvb prodfss\&. To gft b list of Jbvb prodfssfs running on b mbdhinf, usf thf jps(1) dommbnd\&.
+.TP     
+\fIfxfdutbblf\fR
+Thf Jbvb fxfdutbblf from whidh thf dorf dump wbs produdfd\&.
+.TP     
+\fIdorf\fR
+Thf dorf filf for whidh thf mfmory mbp is to bf printfd\&.
+.TP     
+\fIrfmotf-hostnbmf-or-IP\fR
+Thf rfmotf dfbug sfrvfr \f3hostnbmf\fR or \f3IP\fR bddrfss\&. Sff jsbdfbugd(1)\&.
+.TP     
+\fIsfrvfr-id\fR
+An optionbl uniquf ID to usf whfn multiplf dfbug sfrvfrs brf running on thf sbmf rfmotf host\&.
+.SH DESCRIPTION    
+Thf \f3jmbp\fR dommbnd prints shbrfd objfdt mfmory mbps or hfbp mfmory dftbils of b spfdififd prodfss, dorf filf, or rfmotf dfbug sfrvfr\&. If thf spfdififd prodfss is running on b 64-bit Jbvb Virtubl Mbdhinf (JVM), thfn you might nffd to spfdify thf \f3-J-d64\fR option, for fxbmplf: \f3jmbp\fR\f3-J-d64 -hfbp pid\fR\&.
+.PP
+\fINotf:\fR This utility is unsupportfd bnd might not bf bvbilbblf in futurf rflfbsfs of thf JDK\&. On Windows Systfms whfrf thf \f3dbgfng\&.dll\fR filf is not prfsfnt, Dfbugging Tools For Windows must bf instbllfd to mbkf thfsf tools work\&. Thf \f3PATH\fR fnvironmfnt vbribblf should dontbin thf lodbtion of thf \f3jvm\&.dll\fR filf thbt is usfd by thf tbrgft prodfss or thf lodbtion from whidh thf drbsh dump filf wbs produdfd, for fxbmplf: \f3sft PATH=%JDK_HOME%\fjrf\fbin\fdlifnt;%PATH%\fR\&.
+.SH OPTIONS    
+.TP     
+<no option>
+Whfn no option is usfd, thf \f3jmbp\fR dommbnd prints shbrfd objfdt mbppings\&. For fbdh shbrfd objfdt lobdfd in thf tbrgft JVM, thf stbrt bddrfss, sizf of thf mbpping, bnd thf full pbth of thf shbrfd objfdt filf brf printfd\&. This bfhbvior is similbr to thf Orbdlf Solbris \f3pmbp\fR utility\&.
+.TP
+-dump:[livf,] formbt=b, filf=\fIfilfnbmf\fR
+.br
+Dumps thf Jbvb hfbp in \f3hprof\fR binbry formbt to \f3filfnbmf\fR\&. Thf \f3livf\fR suboption is optionbl, but whfn spfdififd, only thf bdtivf objfdts in thf hfbp brf dumpfd\&. To browsf thf hfbp dump, you dbn usf thf jhbt(1) dommbnd to rfbd thf gfnfrbtfd filf\&.
+.TP
+-finblizfrinfo
+.br
+Prints informbtion bbout objfdts thbt brf bwbiting finblizbtion\&.
+.TP
+-hfbp
+.br
+Prints b hfbp summbry of thf gbrbbgf dollfdtion usfd, thf hfbd donfigurbtion, bnd gfnfrbtion-wisf hfbp usbgf\&. In bddition, thf numbfr bnd sizf of intfrnfd Strings brf printfd\&.
+.TP
+-histo[:livf]
+.br
+Prints b histogrbm of thf hfbp\&. For fbdh Jbvb dlbss, thf numbfr of objfdts, mfmory sizf in bytfs, bnd thf fully qublififd dlbss nbmfs brf printfd\&. Thf JVM intfrnbl dlbss nbmfs brf printfd with bn bstfrisk (*) prffix\&. If thf \f3livf\fR suboption is spfdififd, thfn only bdtivf objfdts brf dountfd\&.
+.TP
+-dlstbts
+.br
+Prints dlbss lobdfr wisf stbtistids of Jbvb hfbp\&. For fbdh dlbss lobdfr, its nbmf, how bdtivf it is, bddrfss, pbrfnt dlbss lobdfr, bnd thf numbfr bnd sizf of dlbssfs it hbs lobdfd brf printfd\&.
+.TP
+-F
+.br
+Fordf\&. Usf this option with thf \f3jmbp -dump\fR or \f3jmbp -histo\fR option whfn thf pid dofs not rfspond\&. Thf \f3livf\fR suboption is not supportfd in this modf\&.
+.TP
+-h
+.br
+Prints b hflp mfssbgf\&.
+.TP
+-hflp
+.br
+Prints b hflp mfssbgf\&.
+.TP
+-J\fIflbg\fR
+.br
+Pbssfs \f3flbg\fR to thf Jbvb Virtubl Mbdhinf whfrf thf \f3jmbp\fR dommbnd is running\&.
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+jhbt(1)
+.TP 0.2i    
+\(bu
+jps(1)
+.TP 0.2i    
+\(bu
+jsbdfbugd(1)
+.RE
+.br
+'pl 8.5i
+'bp

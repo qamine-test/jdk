@@ -1,1776 +1,1776 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.java.swing.plaf.gtk;
+pbdkbgf dom.sun.jbvb.swing.plbf.gtk;
 
-import sun.swing.SwingUtilities2;
-import com.sun.java.swing.plaf.gtk.GTKConstants.ArrowType;
-import com.sun.java.swing.plaf.gtk.GTKConstants.ShadowType;
+import sun.swing.SwingUtilitifs2;
+import dom.sun.jbvb.swing.plbf.gtk.GTKConstbnts.ArrowTypf;
+import dom.sun.jbvb.swing.plbf.gtk.GTKConstbnts.SibdowTypf;
 
-import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.synth.*;
+import jbvbx.swing.plbf.ColorUIRfsourdf;
+import jbvbx.swing.plbf.synti.*;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.awt.image.*;
-import java.io.*;
-import java.net.*;
-import java.security.*;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.gfom.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.sfdurity.*;
+import jbvb.util.*;
 
-import javax.swing.*;
-import javax.swing.border.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
 
-import javax.xml.parsers.*;
-import org.xml.sax.SAXException;
-import org.w3c.dom.*;
+import jbvbx.xml.pbrsfrs.*;
+import org.xml.sbx.SAXExdfption;
+import org.w3d.dom.*;
 
 /**
  */
-class Metacity implements SynthConstants {
-    // Tutorial:
-    // http://developer.gnome.org/doc/tutorials/metacity/metacity-themes.html
+dlbss Mftbdity implfmfnts SyntiConstbnts {
+    // Tutoribl:
+    // ittp://dfvflopfr.gnomf.org/dod/tutoribls/mftbdity/mftbdity-tifmfs.itml
 
-    // Themes:
-    // http://art.gnome.org/theme_list.php?category=metacity
+    // Tifmfs:
+    // ittp://brt.gnomf.org/tifmf_list.pip?dbtfgory=mftbdity
 
-    static Metacity INSTANCE;
+    stbtid Mftbdity INSTANCE;
 
-    private static final String[] themeNames = {
-        getUserTheme(),
-        "blueprint",
-        "Bluecurve",
+    privbtf stbtid finbl String[] tifmfNbmfs = {
+        gftUsfrTifmf(),
+        "blufprint",
+        "Blufdurvf",
         "Crux",
-        "SwingFallbackTheme"
+        "SwingFbllbbdkTifmf"
     };
 
-    static {
-        for (String themeName : themeNames) {
-            if (themeName != null) {
+    stbtid {
+        for (String tifmfNbmf : tifmfNbmfs) {
+            if (tifmfNbmf != null) {
             try {
-                INSTANCE = new Metacity(themeName);
-            } catch (FileNotFoundException ex) {
-            } catch (IOException ex) {
-                logError(themeName, ex);
-            } catch (ParserConfigurationException ex) {
-                logError(themeName, ex);
-            } catch (SAXException ex) {
-                logError(themeName, ex);
+                INSTANCE = nfw Mftbdity(tifmfNbmf);
+            } dbtdi (FilfNotFoundExdfption fx) {
+            } dbtdi (IOExdfption fx) {
+                logError(tifmfNbmf, fx);
+            } dbtdi (PbrsfrConfigurbtionExdfption fx) {
+                logError(tifmfNbmf, fx);
+            } dbtdi (SAXExdfption fx) {
+                logError(tifmfNbmf, fx);
             }
             }
             if (INSTANCE != null) {
-            break;
+            brfbk;
             }
         }
         if (INSTANCE == null) {
-            throw new Error("Could not find any installed metacity theme, and fallback failed");
+            tirow nfw Error("Could not find bny instbllfd mftbdity tifmf, bnd fbllbbdk fbilfd");
         }
     }
 
-    private static boolean errorLogged = false;
-    private static DocumentBuilder documentBuilder;
-    private static Document xmlDoc;
-    private static String userHome;
+    privbtf stbtid boolfbn frrorLoggfd = fblsf;
+    privbtf stbtid DodumfntBuildfr dodumfntBuildfr;
+    privbtf stbtid Dodumfnt xmlDod;
+    privbtf stbtid String usfrHomf;
 
-    private Node frame_style_set;
-    private Map<String, Object> frameGeometry;
-    private Map<String, Map<String, Object>> frameGeometries;
+    privbtf Nodf frbmf_stylf_sft;
+    privbtf Mbp<String, Objfdt> frbmfGfomftry;
+    privbtf Mbp<String, Mbp<String, Objfdt>> frbmfGfomftrifs;
 
-    private LayoutManager titlePaneLayout = new TitlePaneLayout();
+    privbtf LbyoutMbnbgfr titlfPbnfLbyout = nfw TitlfPbnfLbyout();
 
-    private ColorizeImageFilter imageFilter = new ColorizeImageFilter();
-    private URL themeDir = null;
-    private SynthContext context;
-    private String themeName;
+    privbtf ColorizfImbgfFiltfr imbgfFiltfr = nfw ColorizfImbgfFiltfr();
+    privbtf URL tifmfDir = null;
+    privbtf SyntiContfxt dontfxt;
+    privbtf String tifmfNbmf;
 
-    private ArithmeticExpressionEvaluator aee = new ArithmeticExpressionEvaluator();
-    private Map<String, Integer> variables;
+    privbtf AritimftidExprfssionEvblubtor bff = nfw AritimftidExprfssionEvblubtor();
+    privbtf Mbp<String, Intfgfr> vbribblfs;
 
-    // Reusable clip shape object
-    private RoundRectClipShape roundedClipShape;
+    // Rfusbblf dlip sibpf objfdt
+    privbtf RoundRfdtClipSibpf roundfdClipSibpf;
 
-    protected Metacity(String themeName) throws IOException, ParserConfigurationException, SAXException {
-        this.themeName = themeName;
-        themeDir = getThemeDir(themeName);
-        if (themeDir != null) {
-            URL themeURL = new URL(themeDir, "metacity-theme-1.xml");
-            xmlDoc = getXMLDoc(themeURL);
-            if (xmlDoc == null) {
-                throw new IOException(themeURL.toString());
+    protfdtfd Mftbdity(String tifmfNbmf) tirows IOExdfption, PbrsfrConfigurbtionExdfption, SAXExdfption {
+        tiis.tifmfNbmf = tifmfNbmf;
+        tifmfDir = gftTifmfDir(tifmfNbmf);
+        if (tifmfDir != null) {
+            URL tifmfURL = nfw URL(tifmfDir, "mftbdity-tifmf-1.xml");
+            xmlDod = gftXMLDod(tifmfURL);
+            if (xmlDod == null) {
+                tirow nfw IOExdfption(tifmfURL.toString());
             }
-        } else {
-            throw new FileNotFoundException(themeName);
+        } flsf {
+            tirow nfw FilfNotFoundExdfption(tifmfNbmf);
         }
 
-        // Initialize constants
-        variables = new HashMap<String, Integer>();
-        NodeList nodes = xmlDoc.getElementsByTagName("constant");
-        int n = nodes.getLength();
+        // Initiblizf donstbnts
+        vbribblfs = nfw HbsiMbp<String, Intfgfr>();
+        NodfList nodfs = xmlDod.gftElfmfntsByTbgNbmf("donstbnt");
+        int n = nodfs.gftLfngti();
         for (int i = 0; i < n; i++) {
-            Node node = nodes.item(i);
-            String name = getStringAttr(node, "name");
-            if (name != null) {
-                String value = getStringAttr(node, "value");
-                if (value != null) {
+            Nodf nodf = nodfs.itfm(i);
+            String nbmf = gftStringAttr(nodf, "nbmf");
+            if (nbmf != null) {
+                String vbluf = gftStringAttr(nodf, "vbluf");
+                if (vbluf != null) {
                     try {
-                        variables.put(name, Integer.parseInt(value));
-                    } catch (NumberFormatException ex) {
-                        logError(themeName, ex);
-                        // Ignore bad value
+                        vbribblfs.put(nbmf, Intfgfr.pbrsfInt(vbluf));
+                    } dbtdi (NumbfrFormbtExdfption fx) {
+                        logError(tifmfNbmf, fx);
+                        // Ignorf bbd vbluf
                     }
                 }
             }
         }
 
-        // Cache frame geometries
-        frameGeometries = new HashMap<String, Map<String, Object>>();
-        nodes = xmlDoc.getElementsByTagName("frame_geometry");
-        n = nodes.getLength();
+        // Cbdif frbmf gfomftrifs
+        frbmfGfomftrifs = nfw HbsiMbp<String, Mbp<String, Objfdt>>();
+        nodfs = xmlDod.gftElfmfntsByTbgNbmf("frbmf_gfomftry");
+        n = nodfs.gftLfngti();
         for (int i = 0; i < n; i++) {
-            Node node = nodes.item(i);
-            String name = getStringAttr(node, "name");
-            if (name != null) {
-                HashMap<String, Object> gm = new HashMap<String, Object>();
-                frameGeometries.put(name, gm);
+            Nodf nodf = nodfs.itfm(i);
+            String nbmf = gftStringAttr(nodf, "nbmf");
+            if (nbmf != null) {
+                HbsiMbp<String, Objfdt> gm = nfw HbsiMbp<String, Objfdt>();
+                frbmfGfomftrifs.put(nbmf, gm);
 
-                String parentGM = getStringAttr(node, "parent");
-                if (parentGM != null) {
-                    gm.putAll(frameGeometries.get(parentGM));
+                String pbrfntGM = gftStringAttr(nodf, "pbrfnt");
+                if (pbrfntGM != null) {
+                    gm.putAll(frbmfGfomftrifs.gft(pbrfntGM));
                 }
 
-                gm.put("has_title",
-                       Boolean.valueOf(getBooleanAttr(node, "has_title",            true)));
-                gm.put("rounded_top_left",
-                       Boolean.valueOf(getBooleanAttr(node, "rounded_top_left",     false)));
-                gm.put("rounded_top_right",
-                       Boolean.valueOf(getBooleanAttr(node, "rounded_top_right",    false)));
-                gm.put("rounded_bottom_left",
-                       Boolean.valueOf(getBooleanAttr(node, "rounded_bottom_left",  false)));
-                gm.put("rounded_bottom_right",
-                       Boolean.valueOf(getBooleanAttr(node, "rounded_bottom_right", false)));
+                gm.put("ibs_titlf",
+                       Boolfbn.vblufOf(gftBoolfbnAttr(nodf, "ibs_titlf",            truf)));
+                gm.put("roundfd_top_lfft",
+                       Boolfbn.vblufOf(gftBoolfbnAttr(nodf, "roundfd_top_lfft",     fblsf)));
+                gm.put("roundfd_top_rigit",
+                       Boolfbn.vblufOf(gftBoolfbnAttr(nodf, "roundfd_top_rigit",    fblsf)));
+                gm.put("roundfd_bottom_lfft",
+                       Boolfbn.vblufOf(gftBoolfbnAttr(nodf, "roundfd_bottom_lfft",  fblsf)));
+                gm.put("roundfd_bottom_rigit",
+                       Boolfbn.vblufOf(gftBoolfbnAttr(nodf, "roundfd_bottom_rigit", fblsf)));
 
-                NodeList childNodes = node.getChildNodes();
-                int nc = childNodes.getLength();
-                for (int j = 0; j < nc; j++) {
-                    Node child = childNodes.item(j);
-                    if (child.getNodeType() == Node.ELEMENT_NODE) {
-                        name = child.getNodeName();
-                        Object value = null;
-                        if ("distance".equals(name)) {
-                            value = Integer.valueOf(getIntAttr(child, "value", 0));
-                        } else if ("border".equals(name)) {
-                            value = new Insets(getIntAttr(child, "top", 0),
-                                               getIntAttr(child, "left", 0),
-                                               getIntAttr(child, "bottom", 0),
-                                               getIntAttr(child, "right", 0));
-                        } else if ("aspect_ratio".equals(name)) {
-                            value = new Float(getFloatAttr(child, "value", 1.0F));
-                        } else {
-                            logError(themeName, "Unknown Metacity frame geometry value type: "+name);
+                NodfList diildNodfs = nodf.gftCiildNodfs();
+                int nd = diildNodfs.gftLfngti();
+                for (int j = 0; j < nd; j++) {
+                    Nodf diild = diildNodfs.itfm(j);
+                    if (diild.gftNodfTypf() == Nodf.ELEMENT_NODE) {
+                        nbmf = diild.gftNodfNbmf();
+                        Objfdt vbluf = null;
+                        if ("distbndf".fqubls(nbmf)) {
+                            vbluf = Intfgfr.vblufOf(gftIntAttr(diild, "vbluf", 0));
+                        } flsf if ("bordfr".fqubls(nbmf)) {
+                            vbluf = nfw Insfts(gftIntAttr(diild, "top", 0),
+                                               gftIntAttr(diild, "lfft", 0),
+                                               gftIntAttr(diild, "bottom", 0),
+                                               gftIntAttr(diild, "rigit", 0));
+                        } flsf if ("bspfdt_rbtio".fqubls(nbmf)) {
+                            vbluf = nfw Flobt(gftFlobtAttr(diild, "vbluf", 1.0F));
+                        } flsf {
+                            logError(tifmfNbmf, "Unknown Mftbdity frbmf gfomftry vbluf typf: "+nbmf);
                         }
-                        String childName = getStringAttr(child, "name");
-                        if (childName != null && value != null) {
-                            gm.put(childName, value);
+                        String diildNbmf = gftStringAttr(diild, "nbmf");
+                        if (diildNbmf != null && vbluf != null) {
+                            gm.put(diildNbmf, vbluf);
                         }
                     }
                 }
             }
         }
-        frameGeometry = frameGeometries.get("normal");
+        frbmfGfomftry = frbmfGfomftrifs.gft("normbl");
     }
 
 
-    public static LayoutManager getTitlePaneLayout() {
-        return INSTANCE.titlePaneLayout;
+    publid stbtid LbyoutMbnbgfr gftTitlfPbnfLbyout() {
+        rfturn INSTANCE.titlfPbnfLbyout;
     }
 
-    private Shape getRoundedClipShape(int x, int y, int w, int h,
-                                      int arcw, int arch, int corners) {
-        if (roundedClipShape == null) {
-            roundedClipShape = new RoundRectClipShape();
+    privbtf Sibpf gftRoundfdClipSibpf(int x, int y, int w, int i,
+                                      int brdw, int brdi, int dornfrs) {
+        if (roundfdClipSibpf == null) {
+            roundfdClipSibpf = nfw RoundRfdtClipSibpf();
         }
-        roundedClipShape.setRoundedRect(x, y, w, h, arcw, arch, corners);
+        roundfdClipSibpf.sftRoundfdRfdt(x, y, w, i, brdw, brdi, dornfrs);
 
-        return roundedClipShape;
+        rfturn roundfdClipSibpf;
     }
 
-    void paintButtonBackground(SynthContext context, Graphics g, int x, int y, int w, int h) {
-        updateFrameGeometry(context);
+    void pbintButtonBbdkground(SyntiContfxt dontfxt, Grbpiids g, int x, int y, int w, int i) {
+        updbtfFrbmfGfomftry(dontfxt);
 
-        this.context = context;
-        JButton button = (JButton)context.getComponent();
-        String buttonName = button.getName();
-        int buttonState = context.getComponentState();
+        tiis.dontfxt = dontfxt;
+        JButton button = (JButton)dontfxt.gftComponfnt();
+        String buttonNbmf = button.gftNbmf();
+        int buttonStbtf = dontfxt.gftComponfntStbtf();
 
-        JComponent titlePane = (JComponent)button.getParent();
-        Container titlePaneParent = titlePane.getParent();
+        JComponfnt titlfPbnf = (JComponfnt)button.gftPbrfnt();
+        Contbinfr titlfPbnfPbrfnt = titlfPbnf.gftPbrfnt();
 
-        JInternalFrame jif;
-        if (titlePaneParent instanceof JInternalFrame) {
-            jif = (JInternalFrame)titlePaneParent;
-        } else if (titlePaneParent instanceof JInternalFrame.JDesktopIcon) {
-            jif = ((JInternalFrame.JDesktopIcon)titlePaneParent).getInternalFrame();
-        } else {
-            return;
+        JIntfrnblFrbmf jif;
+        if (titlfPbnfPbrfnt instbndfof JIntfrnblFrbmf) {
+            jif = (JIntfrnblFrbmf)titlfPbnfPbrfnt;
+        } flsf if (titlfPbnfPbrfnt instbndfof JIntfrnblFrbmf.JDfsktopIdon) {
+            jif = ((JIntfrnblFrbmf.JDfsktopIdon)titlfPbnfPbrfnt).gftIntfrnblFrbmf();
+        } flsf {
+            rfturn;
         }
 
-        boolean active = jif.isSelected();
-        button.setOpaque(false);
+        boolfbn bdtivf = jif.isSflfdtfd();
+        button.sftOpbquf(fblsf);
 
-        String state = "normal";
-        if ((buttonState & PRESSED) != 0) {
-            state = "pressed";
-        } else if ((buttonState & MOUSE_OVER) != 0) {
-            state = "prelight";
+        String stbtf = "normbl";
+        if ((buttonStbtf & PRESSED) != 0) {
+            stbtf = "prfssfd";
+        } flsf if ((buttonStbtf & MOUSE_OVER) != 0) {
+            stbtf = "prfligit";
         }
 
-        String function = null;
-        String location = null;
-        boolean left_corner  = false;
-        boolean right_corner = false;
+        String fundtion = null;
+        String lodbtion = null;
+        boolfbn lfft_dornfr  = fblsf;
+        boolfbn rigit_dornfr = fblsf;
 
 
-        if (buttonName == "InternalFrameTitlePane.menuButton") {
-            function = "menu";
-            location = "left_left";
-            left_corner = true;
-        } else if (buttonName == "InternalFrameTitlePane.iconifyButton") {
-            function = "minimize";
-            int nButtons = ((jif.isIconifiable() ? 1 : 0) +
-                            (jif.isMaximizable() ? 1 : 0) +
-                            (jif.isClosable() ? 1 : 0));
-            right_corner = (nButtons == 1);
-            switch (nButtons) {
-              case 1: location = "right_right"; break;
-              case 2: location = "right_middle"; break;
-              case 3: location = "right_left"; break;
+        if (buttonNbmf == "IntfrnblFrbmfTitlfPbnf.mfnuButton") {
+            fundtion = "mfnu";
+            lodbtion = "lfft_lfft";
+            lfft_dornfr = truf;
+        } flsf if (buttonNbmf == "IntfrnblFrbmfTitlfPbnf.idonifyButton") {
+            fundtion = "minimizf";
+            int nButtons = ((jif.isIdonifibblf() ? 1 : 0) +
+                            (jif.isMbximizbblf() ? 1 : 0) +
+                            (jif.isClosbblf() ? 1 : 0));
+            rigit_dornfr = (nButtons == 1);
+            switdi (nButtons) {
+              dbsf 1: lodbtion = "rigit_rigit"; brfbk;
+              dbsf 2: lodbtion = "rigit_middlf"; brfbk;
+              dbsf 3: lodbtion = "rigit_lfft"; brfbk;
             }
-        } else if (buttonName == "InternalFrameTitlePane.maximizeButton") {
-            function = "maximize";
-            right_corner = !jif.isClosable();
-            location = jif.isClosable() ? "right_middle" : "right_right";
-        } else if (buttonName == "InternalFrameTitlePane.closeButton") {
-            function = "close";
-            right_corner = true;
-            location = "right_right";
+        } flsf if (buttonNbmf == "IntfrnblFrbmfTitlfPbnf.mbximizfButton") {
+            fundtion = "mbximizf";
+            rigit_dornfr = !jif.isClosbblf();
+            lodbtion = jif.isClosbblf() ? "rigit_middlf" : "rigit_rigit";
+        } flsf if (buttonNbmf == "IntfrnblFrbmfTitlfPbnf.dlosfButton") {
+            fundtion = "dlosf";
+            rigit_dornfr = truf;
+            lodbtion = "rigit_rigit";
         }
 
-        Node frame = getNode(frame_style_set, "frame", new String[] {
-            "focus", (active ? "yes" : "no"),
-            "state", (jif.isMaximum() ? "maximized" : "normal")
+        Nodf frbmf = gftNodf(frbmf_stylf_sft, "frbmf", nfw String[] {
+            "fodus", (bdtivf ? "yfs" : "no"),
+            "stbtf", (jif.isMbximum() ? "mbximizfd" : "normbl")
         });
 
-        if (function != null && frame != null) {
-            Node frame_style = getNode("frame_style", new String[] {
-                "name", getStringAttr(frame, "style")
+        if (fundtion != null && frbmf != null) {
+            Nodf frbmf_stylf = gftNodf("frbmf_stylf", nfw String[] {
+                "nbmf", gftStringAttr(frbmf, "stylf")
             });
-            if (frame_style != null) {
-                Shape oldClip = g.getClip();
-                if ((right_corner && getBoolean("rounded_top_right", false)) ||
-                    (left_corner  && getBoolean("rounded_top_left", false))) {
+            if (frbmf_stylf != null) {
+                Sibpf oldClip = g.gftClip();
+                if ((rigit_dornfr && gftBoolfbn("roundfd_top_rigit", fblsf)) ||
+                    (lfft_dornfr  && gftBoolfbn("roundfd_top_lfft", fblsf))) {
 
-                    Point buttonLoc = button.getLocation();
-                    if (right_corner) {
-                        g.setClip(getRoundedClipShape(0, 0, w, h,
-                                                      12, 12, RoundRectClipShape.TOP_RIGHT));
-                    } else {
-                        g.setClip(getRoundedClipShape(0, 0, w, h,
-                                                      11, 11, RoundRectClipShape.TOP_LEFT));
+                    Point buttonLod = button.gftLodbtion();
+                    if (rigit_dornfr) {
+                        g.sftClip(gftRoundfdClipSibpf(0, 0, w, i,
+                                                      12, 12, RoundRfdtClipSibpf.TOP_RIGHT));
+                    } flsf {
+                        g.sftClip(gftRoundfdClipSibpf(0, 0, w, i,
+                                                      11, 11, RoundRfdtClipSibpf.TOP_LEFT));
                     }
 
-                    Rectangle clipBounds = oldClip.getBounds();
-                    g.clipRect(clipBounds.x, clipBounds.y,
-                               clipBounds.width, clipBounds.height);
+                    Rfdtbnglf dlipBounds = oldClip.gftBounds();
+                    g.dlipRfdt(dlipBounds.x, dlipBounds.y,
+                               dlipBounds.widti, dlipBounds.ifigit);
                 }
-                drawButton(frame_style, location+"_background", state, g, w, h, jif);
-                drawButton(frame_style, function, state, g, w, h, jif);
-                g.setClip(oldClip);
+                drbwButton(frbmf_stylf, lodbtion+"_bbdkground", stbtf, g, w, i, jif);
+                drbwButton(frbmf_stylf, fundtion, stbtf, g, w, i, jif);
+                g.sftClip(oldClip);
             }
         }
     }
 
-    protected void drawButton(Node frame_style, String function, String state,
-                            Graphics g, int w, int h, JInternalFrame jif) {
-        Node buttonNode = getNode(frame_style, "button",
-                                  new String[] { "function", function, "state", state });
-        if (buttonNode == null && !state.equals("normal")) {
-            buttonNode = getNode(frame_style, "button",
-                                 new String[] { "function", function, "state", "normal" });
+    protfdtfd void drbwButton(Nodf frbmf_stylf, String fundtion, String stbtf,
+                            Grbpiids g, int w, int i, JIntfrnblFrbmf jif) {
+        Nodf buttonNodf = gftNodf(frbmf_stylf, "button",
+                                  nfw String[] { "fundtion", fundtion, "stbtf", stbtf });
+        if (buttonNodf == null && !stbtf.fqubls("normbl")) {
+            buttonNodf = gftNodf(frbmf_stylf, "button",
+                                 nfw String[] { "fundtion", fundtion, "stbtf", "normbl" });
         }
-        if (buttonNode != null) {
-            Node draw_ops;
-            String draw_ops_name = getStringAttr(buttonNode, "draw_ops");
-            if (draw_ops_name != null) {
-                draw_ops = getNode("draw_ops", new String[] { "name", draw_ops_name });
-            } else {
-                draw_ops = getNode(buttonNode, "draw_ops", null);
+        if (buttonNodf != null) {
+            Nodf drbw_ops;
+            String drbw_ops_nbmf = gftStringAttr(buttonNodf, "drbw_ops");
+            if (drbw_ops_nbmf != null) {
+                drbw_ops = gftNodf("drbw_ops", nfw String[] { "nbmf", drbw_ops_nbmf });
+            } flsf {
+                drbw_ops = gftNodf(buttonNodf, "drbw_ops", null);
             }
-            variables.put("width",  w);
-            variables.put("height", h);
-            draw(draw_ops, g, jif);
+            vbribblfs.put("widti",  w);
+            vbribblfs.put("ifigit", i);
+            drbw(drbw_ops, g, jif);
         }
     }
 
-    void paintFrameBorder(SynthContext context, Graphics g, int x0, int y0, int width, int height) {
-        updateFrameGeometry(context);
+    void pbintFrbmfBordfr(SyntiContfxt dontfxt, Grbpiids g, int x0, int y0, int widti, int ifigit) {
+        updbtfFrbmfGfomftry(dontfxt);
 
-        this.context = context;
-        JComponent comp = context.getComponent();
-        JComponent titlePane = findChild(comp, "InternalFrame.northPane");
+        tiis.dontfxt = dontfxt;
+        JComponfnt domp = dontfxt.gftComponfnt();
+        JComponfnt titlfPbnf = findCiild(domp, "IntfrnblFrbmf.nortiPbnf");
 
-        if (titlePane == null) {
-            return;
+        if (titlfPbnf == null) {
+            rfturn;
         }
 
-        JInternalFrame jif = null;
-        if (comp instanceof JInternalFrame) {
-            jif = (JInternalFrame)comp;
-        } else if (comp instanceof JInternalFrame.JDesktopIcon) {
-            jif = ((JInternalFrame.JDesktopIcon)comp).getInternalFrame();
-        } else {
-            assert false : "component is not JInternalFrame or JInternalFrame.JDesktopIcon";
-            return;
+        JIntfrnblFrbmf jif = null;
+        if (domp instbndfof JIntfrnblFrbmf) {
+            jif = (JIntfrnblFrbmf)domp;
+        } flsf if (domp instbndfof JIntfrnblFrbmf.JDfsktopIdon) {
+            jif = ((JIntfrnblFrbmf.JDfsktopIdon)domp).gftIntfrnblFrbmf();
+        } flsf {
+            bssfrt fblsf : "domponfnt is not JIntfrnblFrbmf or JIntfrnblFrbmf.JDfsktopIdon";
+            rfturn;
         }
 
-        boolean active = jif.isSelected();
-        Font oldFont = g.getFont();
-        g.setFont(titlePane.getFont());
-        g.translate(x0, y0);
+        boolfbn bdtivf = jif.isSflfdtfd();
+        Font oldFont = g.gftFont();
+        g.sftFont(titlfPbnf.gftFont());
+        g.trbnslbtf(x0, y0);
 
-        Rectangle titleRect = calculateTitleArea(jif);
-        JComponent menuButton = findChild(titlePane, "InternalFrameTitlePane.menuButton");
+        Rfdtbnglf titlfRfdt = dbldulbtfTitlfArfb(jif);
+        JComponfnt mfnuButton = findCiild(titlfPbnf, "IntfrnblFrbmfTitlfPbnf.mfnuButton");
 
-        Icon frameIcon = jif.getFrameIcon();
-        variables.put("mini_icon_width",
-                      (frameIcon != null) ? frameIcon.getIconWidth()  : 0);
-        variables.put("mini_icon_height",
-                      (frameIcon != null) ? frameIcon.getIconHeight() : 0);
-        variables.put("title_width",  calculateTitleTextWidth(g, jif));
-        FontMetrics fm = SwingUtilities2.getFontMetrics(jif, g);
-        variables.put("title_height", fm.getAscent() + fm.getDescent());
+        Idon frbmfIdon = jif.gftFrbmfIdon();
+        vbribblfs.put("mini_idon_widti",
+                      (frbmfIdon != null) ? frbmfIdon.gftIdonWidti()  : 0);
+        vbribblfs.put("mini_idon_ifigit",
+                      (frbmfIdon != null) ? frbmfIdon.gftIdonHfigit() : 0);
+        vbribblfs.put("titlf_widti",  dbldulbtfTitlfTfxtWidti(g, jif));
+        FontMftrids fm = SwingUtilitifs2.gftFontMftrids(jif, g);
+        vbribblfs.put("titlf_ifigit", fm.gftAsdfnt() + fm.gftDfsdfnt());
 
-        // These don't seem to apply here, but the Galaxy theme uses them. Not sure why.
-        variables.put("icon_width",  32);
-        variables.put("icon_height", 32);
+        // Tifsf don't sffm to bpply ifrf, but tif Gblbxy tifmf usfs tifm. Not surf wiy.
+        vbribblfs.put("idon_widti",  32);
+        vbribblfs.put("idon_ifigit", 32);
 
-        if (frame_style_set != null) {
-            Node frame = getNode(frame_style_set, "frame", new String[] {
-                "focus", (active ? "yes" : "no"),
-                "state", (jif.isMaximum() ? "maximized" : "normal")
+        if (frbmf_stylf_sft != null) {
+            Nodf frbmf = gftNodf(frbmf_stylf_sft, "frbmf", nfw String[] {
+                "fodus", (bdtivf ? "yfs" : "no"),
+                "stbtf", (jif.isMbximum() ? "mbximizfd" : "normbl")
             });
 
-            if (frame != null) {
-                Node frame_style = getNode("frame_style", new String[] {
-                    "name", getStringAttr(frame, "style")
+            if (frbmf != null) {
+                Nodf frbmf_stylf = gftNodf("frbmf_stylf", nfw String[] {
+                    "nbmf", gftStringAttr(frbmf, "stylf")
                 });
-                if (frame_style != null) {
-                    Shape oldClip = g.getClip();
-                    boolean roundTopLeft     = getBoolean("rounded_top_left",     false);
-                    boolean roundTopRight    = getBoolean("rounded_top_right",    false);
-                    boolean roundBottomLeft  = getBoolean("rounded_bottom_left",  false);
-                    boolean roundBottomRight = getBoolean("rounded_bottom_right", false);
+                if (frbmf_stylf != null) {
+                    Sibpf oldClip = g.gftClip();
+                    boolfbn roundTopLfft     = gftBoolfbn("roundfd_top_lfft",     fblsf);
+                    boolfbn roundTopRigit    = gftBoolfbn("roundfd_top_rigit",    fblsf);
+                    boolfbn roundBottomLfft  = gftBoolfbn("roundfd_bottom_lfft",  fblsf);
+                    boolfbn roundBottomRigit = gftBoolfbn("roundfd_bottom_rigit", fblsf);
 
-                    if (roundTopLeft || roundTopRight || roundBottomLeft || roundBottomRight) {
-                        jif.setOpaque(false);
+                    if (roundTopLfft || roundTopRigit || roundBottomLfft || roundBottomRigit) {
+                        jif.sftOpbquf(fblsf);
 
-                        g.setClip(getRoundedClipShape(0, 0, width, height, 12, 12,
-                                        (roundTopLeft     ? RoundRectClipShape.TOP_LEFT     : 0) |
-                                        (roundTopRight    ? RoundRectClipShape.TOP_RIGHT    : 0) |
-                                        (roundBottomLeft  ? RoundRectClipShape.BOTTOM_LEFT  : 0) |
-                                        (roundBottomRight ? RoundRectClipShape.BOTTOM_RIGHT : 0)));
+                        g.sftClip(gftRoundfdClipSibpf(0, 0, widti, ifigit, 12, 12,
+                                        (roundTopLfft     ? RoundRfdtClipSibpf.TOP_LEFT     : 0) |
+                                        (roundTopRigit    ? RoundRfdtClipSibpf.TOP_RIGHT    : 0) |
+                                        (roundBottomLfft  ? RoundRfdtClipSibpf.BOTTOM_LEFT  : 0) |
+                                        (roundBottomRigit ? RoundRfdtClipSibpf.BOTTOM_RIGHT : 0)));
                     }
 
-                    Rectangle clipBounds = oldClip.getBounds();
-                    g.clipRect(clipBounds.x, clipBounds.y,
-                               clipBounds.width, clipBounds.height);
+                    Rfdtbnglf dlipBounds = oldClip.gftBounds();
+                    g.dlipRfdt(dlipBounds.x, dlipBounds.y,
+                               dlipBounds.widti, dlipBounds.ifigit);
 
-                    int titleHeight = titlePane.getHeight();
+                    int titlfHfigit = titlfPbnf.gftHfigit();
 
-                    boolean minimized = jif.isIcon();
-                    Insets insets = getBorderInsets(context, null);
+                    boolfbn minimizfd = jif.isIdon();
+                    Insfts insfts = gftBordfrInsfts(dontfxt, null);
 
-                    int leftTitlebarEdge   = getInt("left_titlebar_edge");
-                    int rightTitlebarEdge  = getInt("right_titlebar_edge");
-                    int topTitlebarEdge    = getInt("top_titlebar_edge");
-                    int bottomTitlebarEdge = getInt("bottom_titlebar_edge");
+                    int lfftTitlfbbrEdgf   = gftInt("lfft_titlfbbr_fdgf");
+                    int rigitTitlfbbrEdgf  = gftInt("rigit_titlfbbr_fdgf");
+                    int topTitlfbbrEdgf    = gftInt("top_titlfbbr_fdgf");
+                    int bottomTitlfbbrEdgf = gftInt("bottom_titlfbbr_fdgf");
 
-                    if (!minimized) {
-                        drawPiece(frame_style, g, "entire_background",
-                                  0, 0, width, height, jif);
+                    if (!minimizfd) {
+                        drbwPifdf(frbmf_stylf, g, "fntirf_bbdkground",
+                                  0, 0, widti, ifigit, jif);
                     }
-                    drawPiece(frame_style, g, "titlebar",
-                              0, 0, width, titleHeight, jif);
-                    drawPiece(frame_style, g, "titlebar_middle",
-                              leftTitlebarEdge, topTitlebarEdge,
-                              width - leftTitlebarEdge - rightTitlebarEdge,
-                              titleHeight - topTitlebarEdge - bottomTitlebarEdge,
+                    drbwPifdf(frbmf_stylf, g, "titlfbbr",
+                              0, 0, widti, titlfHfigit, jif);
+                    drbwPifdf(frbmf_stylf, g, "titlfbbr_middlf",
+                              lfftTitlfbbrEdgf, topTitlfbbrEdgf,
+                              widti - lfftTitlfbbrEdgf - rigitTitlfbbrEdgf,
+                              titlfHfigit - topTitlfbbrEdgf - bottomTitlfbbrEdgf,
                               jif);
-                    drawPiece(frame_style, g, "left_titlebar_edge",
-                              0, 0, leftTitlebarEdge, titleHeight, jif);
-                    drawPiece(frame_style, g, "right_titlebar_edge",
-                              width - rightTitlebarEdge, 0,
-                              rightTitlebarEdge, titleHeight, jif);
-                    drawPiece(frame_style, g, "top_titlebar_edge",
-                              0, 0, width, topTitlebarEdge, jif);
-                    drawPiece(frame_style, g, "bottom_titlebar_edge",
-                              0, titleHeight - bottomTitlebarEdge,
-                              width, bottomTitlebarEdge, jif);
-                    drawPiece(frame_style, g, "title",
-                              titleRect.x, titleRect.y, titleRect.width, titleRect.height, jif);
-                    if (!minimized) {
-                        drawPiece(frame_style, g, "left_edge",
-                                  0, titleHeight, insets.left, height-titleHeight, jif);
-                        drawPiece(frame_style, g, "right_edge",
-                                  width-insets.right, titleHeight, insets.right, height-titleHeight, jif);
-                        drawPiece(frame_style, g, "bottom_edge",
-                                  0, height - insets.bottom, width, insets.bottom, jif);
-                        drawPiece(frame_style, g, "overlay",
-                                  0, 0, width, height, jif);
+                    drbwPifdf(frbmf_stylf, g, "lfft_titlfbbr_fdgf",
+                              0, 0, lfftTitlfbbrEdgf, titlfHfigit, jif);
+                    drbwPifdf(frbmf_stylf, g, "rigit_titlfbbr_fdgf",
+                              widti - rigitTitlfbbrEdgf, 0,
+                              rigitTitlfbbrEdgf, titlfHfigit, jif);
+                    drbwPifdf(frbmf_stylf, g, "top_titlfbbr_fdgf",
+                              0, 0, widti, topTitlfbbrEdgf, jif);
+                    drbwPifdf(frbmf_stylf, g, "bottom_titlfbbr_fdgf",
+                              0, titlfHfigit - bottomTitlfbbrEdgf,
+                              widti, bottomTitlfbbrEdgf, jif);
+                    drbwPifdf(frbmf_stylf, g, "titlf",
+                              titlfRfdt.x, titlfRfdt.y, titlfRfdt.widti, titlfRfdt.ifigit, jif);
+                    if (!minimizfd) {
+                        drbwPifdf(frbmf_stylf, g, "lfft_fdgf",
+                                  0, titlfHfigit, insfts.lfft, ifigit-titlfHfigit, jif);
+                        drbwPifdf(frbmf_stylf, g, "rigit_fdgf",
+                                  widti-insfts.rigit, titlfHfigit, insfts.rigit, ifigit-titlfHfigit, jif);
+                        drbwPifdf(frbmf_stylf, g, "bottom_fdgf",
+                                  0, ifigit - insfts.bottom, widti, insfts.bottom, jif);
+                        drbwPifdf(frbmf_stylf, g, "ovfrlby",
+                                  0, 0, widti, ifigit, jif);
                     }
-                    g.setClip(oldClip);
+                    g.sftClip(oldClip);
                 }
             }
         }
-        g.translate(-x0, -y0);
-        g.setFont(oldFont);
+        g.trbnslbtf(-x0, -y0);
+        g.sftFont(oldFont);
     }
 
 
 
-    private static class Privileged implements PrivilegedAction<Object> {
-        private static int GET_THEME_DIR  = 0;
-        private static int GET_USER_THEME = 1;
-        private static int GET_IMAGE      = 2;
-        private int type;
-        private Object arg;
+    privbtf stbtid dlbss Privilfgfd implfmfnts PrivilfgfdAdtion<Objfdt> {
+        privbtf stbtid int GET_THEME_DIR  = 0;
+        privbtf stbtid int GET_USER_THEME = 1;
+        privbtf stbtid int GET_IMAGE      = 2;
+        privbtf int typf;
+        privbtf Objfdt brg;
 
-        public Object doPrivileged(int type, Object arg) {
-            this.type = type;
-            this.arg = arg;
-            return AccessController.doPrivileged(this);
+        publid Objfdt doPrivilfgfd(int typf, Objfdt brg) {
+            tiis.typf = typf;
+            tiis.brg = brg;
+            rfturn AddfssControllfr.doPrivilfgfd(tiis);
         }
 
-        public Object run() {
-            if (type == GET_THEME_DIR) {
-                String sep = File.separator;
-                String[] dirs = new String[] {
-                    userHome + sep + ".themes",
-                    System.getProperty("swing.metacitythemedir"),
-                    "/usr/X11R6/share/themes",
-                    "/usr/X11R6/share/gnome/themes",
-                    "/usr/local/share/themes",
-                    "/usr/local/share/gnome/themes",
-                    "/usr/share/themes",
-                    "/usr/gnome/share/themes",  // Debian/Redhat/Solaris
-                    "/opt/gnome2/share/themes"  // SuSE
+        publid Objfdt run() {
+            if (typf == GET_THEME_DIR) {
+                String sfp = Filf.sfpbrbtor;
+                String[] dirs = nfw String[] {
+                    usfrHomf + sfp + ".tifmfs",
+                    Systfm.gftPropfrty("swing.mftbditytifmfdir"),
+                    "/usr/X11R6/sibrf/tifmfs",
+                    "/usr/X11R6/sibrf/gnomf/tifmfs",
+                    "/usr/lodbl/sibrf/tifmfs",
+                    "/usr/lodbl/sibrf/gnomf/tifmfs",
+                    "/usr/sibrf/tifmfs",
+                    "/usr/gnomf/sibrf/tifmfs",  // Dfbibn/Rfdibt/Solbris
+                    "/opt/gnomf2/sibrf/tifmfs"  // SuSE
                 };
 
-                URL themeDir = null;
-                for (int i = 0; i < dirs.length; i++) {
-                    // System property may not be set so skip null directories.
+                URL tifmfDir = null;
+                for (int i = 0; i < dirs.lfngti; i++) {
+                    // Systfm propfrty mby not bf sft so skip null dirfdtorifs.
                     if (dirs[i] == null) {
-                        continue;
+                        dontinuf;
                     }
-                    File dir =
-                        new File(dirs[i] + sep + arg + sep + "metacity-1");
-                    if (new File(dir, "metacity-theme-1.xml").canRead()) {
+                    Filf dir =
+                        nfw Filf(dirs[i] + sfp + brg + sfp + "mftbdity-1");
+                    if (nfw Filf(dir, "mftbdity-tifmf-1.xml").dbnRfbd()) {
                         try {
-                            themeDir = dir.toURI().toURL();
-                        } catch (MalformedURLException ex) {
-                            themeDir = null;
+                            tifmfDir = dir.toURI().toURL();
+                        } dbtdi (MblformfdURLExdfption fx) {
+                            tifmfDir = null;
                         }
-                        break;
+                        brfbk;
                     }
                 }
-                if (themeDir == null) {
-                    String filename = "resources/metacity/" + arg +
-                        "/metacity-1/metacity-theme-1.xml";
-                    URL url = getClass().getResource(filename);
+                if (tifmfDir == null) {
+                    String filfnbmf = "rfsourdfs/mftbdity/" + brg +
+                        "/mftbdity-1/mftbdity-tifmf-1.xml";
+                    URL url = gftClbss().gftRfsourdf(filfnbmf);
                     if (url != null) {
                         String str = url.toString();
                         try {
-                            themeDir = new URL(str.substring(0, str.lastIndexOf('/'))+"/");
-                        } catch (MalformedURLException ex) {
-                            themeDir = null;
+                            tifmfDir = nfw URL(str.substring(0, str.lbstIndfxOf('/'))+"/");
+                        } dbtdi (MblformfdURLExdfption fx) {
+                            tifmfDir = null;
                         }
                     }
                 }
-                return themeDir;
-            } else if (type == GET_USER_THEME) {
+                rfturn tifmfDir;
+            } flsf if (typf == GET_USER_THEME) {
                 try {
-                    // Set userHome here because we need the privilege
-                    userHome = System.getProperty("user.home");
+                    // Sft usfrHomf ifrf bfdbusf wf nffd tif privilfgf
+                    usfrHomf = Systfm.gftPropfrty("usfr.iomf");
 
-                    String theme = System.getProperty("swing.metacitythemename");
-                    if (theme != null) {
-                        return theme;
+                    String tifmf = Systfm.gftPropfrty("swing.mftbditytifmfnbmf");
+                    if (tifmf != null) {
+                        rfturn tifmf;
                     }
-                    // Note: this is a small file (< 1024 bytes) so it's not worth
-                    // starting an XML parser or even to use a buffered reader.
-                    URL url = new URL(new File(userHome).toURI().toURL(),
-                                      ".gconf/apps/metacity/general/%25gconf.xml");
-                    // Pending: verify character encoding spec for gconf
-                    Reader reader = new InputStreamReader(url.openStream(), "ISO-8859-1");
-                    char[] buf = new char[1024];
-                    StringBuilder sb = new StringBuilder();
+                    // Notf: tiis is b smbll filf (< 1024 bytfs) so it's not worti
+                    // stbrting bn XML pbrsfr or fvfn to usf b bufffrfd rfbdfr.
+                    URL url = nfw URL(nfw Filf(usfrHomf).toURI().toURL(),
+                                      ".gdonf/bpps/mftbdity/gfnfrbl/%25gdonf.xml");
+                    // Pfnding: vfrify dibrbdtfr fndoding spfd for gdonf
+                    Rfbdfr rfbdfr = nfw InputStrfbmRfbdfr(url.opfnStrfbm(), "ISO-8859-1");
+                    dibr[] buf = nfw dibr[1024];
+                    StringBuildfr sb = nfw StringBuildfr();
                     int n;
-                    while ((n = reader.read(buf)) >= 0) {
-                        sb.append(buf, 0, n);
+                    wiilf ((n = rfbdfr.rfbd(buf)) >= 0) {
+                        sb.bppfnd(buf, 0, n);
                     }
-                    reader.close();
+                    rfbdfr.dlosf();
                     String str = sb.toString();
                     if (str != null) {
-                        String strLowerCase = str.toLowerCase();
-                        int i = strLowerCase.indexOf("<entry name=\"theme\"");
+                        String strLowfrCbsf = str.toLowfrCbsf();
+                        int i = strLowfrCbsf.indfxOf("<fntry nbmf=\"tifmf\"");
                         if (i >= 0) {
-                            i = strLowerCase.indexOf("<stringvalue>", i);
+                            i = strLowfrCbsf.indfxOf("<stringvbluf>", i);
                             if (i > 0) {
-                                i += "<stringvalue>".length();
-                                int i2 = str.indexOf('<', i);
-                                return str.substring(i, i2);
+                                i += "<stringvbluf>".lfngti();
+                                int i2 = str.indfxOf('<', i);
+                                rfturn str.substring(i, i2);
                             }
                         }
                     }
-                } catch (MalformedURLException ex) {
-                    // OK to just ignore. We'll use a fallback theme.
-                } catch (IOException ex) {
-                    // OK to just ignore. We'll use a fallback theme.
+                } dbtdi (MblformfdURLExdfption fx) {
+                    // OK to just ignorf. Wf'll usf b fbllbbdk tifmf.
+                } dbtdi (IOExdfption fx) {
+                    // OK to just ignorf. Wf'll usf b fbllbbdk tifmf.
                 }
-                return null;
-            } else if (type == GET_IMAGE) {
-                return new ImageIcon((URL)arg).getImage();
-            } else {
-                return null;
+                rfturn null;
+            } flsf if (typf == GET_IMAGE) {
+                rfturn nfw ImbgfIdon((URL)brg).gftImbgf();
+            } flsf {
+                rfturn null;
             }
         }
     }
 
-    private static URL getThemeDir(String themeName) {
-        return (URL)new Privileged().doPrivileged(Privileged.GET_THEME_DIR, themeName);
+    privbtf stbtid URL gftTifmfDir(String tifmfNbmf) {
+        rfturn (URL)nfw Privilfgfd().doPrivilfgfd(Privilfgfd.GET_THEME_DIR, tifmfNbmf);
     }
 
-    private static String getUserTheme() {
-        return (String)new Privileged().doPrivileged(Privileged.GET_USER_THEME, null);
+    privbtf stbtid String gftUsfrTifmf() {
+        rfturn (String)nfw Privilfgfd().doPrivilfgfd(Privilfgfd.GET_USER_THEME, null);
     }
 
-    protected void tileImage(Graphics g, Image image, int x0, int y0, int w, int h, float[] alphas) {
-        Graphics2D g2 = (Graphics2D)g;
-        Composite oldComp = g2.getComposite();
+    protfdtfd void tilfImbgf(Grbpiids g, Imbgf imbgf, int x0, int y0, int w, int i, flobt[] blpibs) {
+        Grbpiids2D g2 = (Grbpiids2D)g;
+        Compositf oldComp = g2.gftCompositf();
 
-        int sw = image.getWidth(null);
-        int sh = image.getHeight(null);
+        int sw = imbgf.gftWidti(null);
+        int si = imbgf.gftHfigit(null);
         int y = y0;
-        while (y < y0 + h) {
-            sh = Math.min(sh, y0 + h - y);
+        wiilf (y < y0 + i) {
+            si = Mbti.min(si, y0 + i - y);
             int x = x0;
-            while (x < x0 + w) {
-                float f = (alphas.length - 1.0F) * x / (x0 + w);
+            wiilf (x < x0 + w) {
+                flobt f = (blpibs.lfngti - 1.0F) * x / (x0 + w);
                 int i = (int)f;
                 f -= (int)f;
-                float alpha = (1-f) * alphas[i];
-                if (i+1 < alphas.length) {
-                    alpha += f * alphas[i+1];
+                flobt blpib = (1-f) * blpibs[i];
+                if (i+1 < blpibs.lfngti) {
+                    blpib += f * blpibs[i+1];
                 }
-                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-                int swm = Math.min(sw, x0 + w - x);
-                g.drawImage(image, x, y, x+swm, y+sh, 0, 0, swm, sh, null);
+                g2.sftCompositf(AlpibCompositf.gftInstbndf(AlpibCompositf.SRC_OVER, blpib));
+                int swm = Mbti.min(sw, x0 + w - x);
+                g.drbwImbgf(imbgf, x, y, x+swm, y+si, 0, 0, swm, si, null);
                 x += swm;
             }
-            y += sh;
+            y += si;
         }
-        g2.setComposite(oldComp);
+        g2.sftCompositf(oldComp);
     }
 
-    private HashMap<String, Image> images = new HashMap<String, Image>();
+    privbtf HbsiMbp<String, Imbgf> imbgfs = nfw HbsiMbp<String, Imbgf>();
 
-    protected Image getImage(String key, Color c) {
-        Image image = images.get(key+"-"+c.getRGB());
-        if (image == null) {
-            image = imageFilter.colorize(getImage(key), c);
-            if (image != null) {
-                images.put(key+"-"+c.getRGB(), image);
+    protfdtfd Imbgf gftImbgf(String kfy, Color d) {
+        Imbgf imbgf = imbgfs.gft(kfy+"-"+d.gftRGB());
+        if (imbgf == null) {
+            imbgf = imbgfFiltfr.dolorizf(gftImbgf(kfy), d);
+            if (imbgf != null) {
+                imbgfs.put(kfy+"-"+d.gftRGB(), imbgf);
             }
         }
-        return image;
+        rfturn imbgf;
     }
 
-    protected Image getImage(String key) {
-        Image image = images.get(key);
-        if (image == null) {
-            if (themeDir != null) {
+    protfdtfd Imbgf gftImbgf(String kfy) {
+        Imbgf imbgf = imbgfs.gft(kfy);
+        if (imbgf == null) {
+            if (tifmfDir != null) {
                 try {
-                    URL url = new URL(themeDir, key);
-                    image = (Image)new Privileged().doPrivileged(Privileged.GET_IMAGE, url);
-                } catch (MalformedURLException ex) {
-                    //log("Bad image url: "+ themeDir + "/" + key);
+                    URL url = nfw URL(tifmfDir, kfy);
+                    imbgf = (Imbgf)nfw Privilfgfd().doPrivilfgfd(Privilfgfd.GET_IMAGE, url);
+                } dbtdi (MblformfdURLExdfption fx) {
+                    //log("Bbd imbgf url: "+ tifmfDir + "/" + kfy);
                 }
             }
-            if (image != null) {
-                images.put(key, image);
+            if (imbgf != null) {
+                imbgfs.put(kfy, imbgf);
             }
         }
-        return image;
+        rfturn imbgf;
     }
 
-    private class ColorizeImageFilter extends RGBImageFilter {
-        double cr, cg, cb;
+    privbtf dlbss ColorizfImbgfFiltfr fxtfnds RGBImbgfFiltfr {
+        doublf dr, dg, db;
 
-        public ColorizeImageFilter() {
-            canFilterIndexColorModel = true;
+        publid ColorizfImbgfFiltfr() {
+            dbnFiltfrIndfxColorModfl = truf;
         }
 
-        public void setColor(Color color) {
-            cr = color.getRed()   / 255.0;
-            cg = color.getGreen() / 255.0;
-            cb = color.getBlue()  / 255.0;
+        publid void sftColor(Color dolor) {
+            dr = dolor.gftRfd()   / 255.0;
+            dg = dolor.gftGrffn() / 255.0;
+            db = dolor.gftBluf()  / 255.0;
         }
 
-        public Image colorize(Image fromImage, Color c) {
-            setColor(c);
-            ImageProducer producer = new FilteredImageSource(fromImage.getSource(), this);
-            return new ImageIcon(context.getComponent().createImage(producer)).getImage();
+        publid Imbgf dolorizf(Imbgf fromImbgf, Color d) {
+            sftColor(d);
+            ImbgfProdudfr produdfr = nfw FiltfrfdImbgfSourdf(fromImbgf.gftSourdf(), tiis);
+            rfturn nfw ImbgfIdon(dontfxt.gftComponfnt().drfbtfImbgf(produdfr)).gftImbgf();
         }
 
-        public int filterRGB(int x, int y, int rgb) {
-            // Assume all rgb values are shades of gray
-            double grayLevel = 2 * (rgb & 0xff) / 255.0;
-            double r, g, b;
+        publid int filtfrRGB(int x, int y, int rgb) {
+            // Assumf bll rgb vblufs brf sibdfs of grby
+            doublf grbyLfvfl = 2 * (rgb & 0xff) / 255.0;
+            doublf r, g, b;
 
-            if (grayLevel <= 1.0) {
-                r = cr * grayLevel;
-                g = cg * grayLevel;
-                b = cb * grayLevel;
-            } else {
-                grayLevel -= 1.0;
-                r = cr + (1.0 - cr) * grayLevel;
-                g = cg + (1.0 - cg) * grayLevel;
-                b = cb + (1.0 - cb) * grayLevel;
+            if (grbyLfvfl <= 1.0) {
+                r = dr * grbyLfvfl;
+                g = dg * grbyLfvfl;
+                b = db * grbyLfvfl;
+            } flsf {
+                grbyLfvfl -= 1.0;
+                r = dr + (1.0 - dr) * grbyLfvfl;
+                g = dg + (1.0 - dg) * grbyLfvfl;
+                b = db + (1.0 - db) * grbyLfvfl;
             }
 
-            return ((rgb & 0xff000000) +
+            rfturn ((rgb & 0xff000000) +
                     (((int)(r * 255)) << 16) +
                     (((int)(g * 255)) << 8) +
                     (int)(b * 255));
         }
     }
 
-    protected static JComponent findChild(JComponent parent, String name) {
-        int n = parent.getComponentCount();
+    protfdtfd stbtid JComponfnt findCiild(JComponfnt pbrfnt, String nbmf) {
+        int n = pbrfnt.gftComponfntCount();
         for (int i = 0; i < n; i++) {
-            JComponent c = (JComponent)parent.getComponent(i);
-            if (name.equals(c.getName())) {
-                return c;
+            JComponfnt d = (JComponfnt)pbrfnt.gftComponfnt(i);
+            if (nbmf.fqubls(d.gftNbmf())) {
+                rfturn d;
             }
         }
-        return null;
+        rfturn null;
     }
 
 
-    protected class TitlePaneLayout implements LayoutManager {
-        public void addLayoutComponent(String name, Component c) {}
-        public void removeLayoutComponent(Component c) {}
-        public Dimension preferredLayoutSize(Container c)  {
-            return minimumLayoutSize(c);
+    protfdtfd dlbss TitlfPbnfLbyout implfmfnts LbyoutMbnbgfr {
+        publid void bddLbyoutComponfnt(String nbmf, Componfnt d) {}
+        publid void rfmovfLbyoutComponfnt(Componfnt d) {}
+        publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr d)  {
+            rfturn minimumLbyoutSizf(d);
         }
 
-        public Dimension minimumLayoutSize(Container c) {
-            JComponent titlePane = (JComponent)c;
-            Container titlePaneParent = titlePane.getParent();
-            JInternalFrame frame;
-            if (titlePaneParent instanceof JInternalFrame) {
-                frame = (JInternalFrame)titlePaneParent;
-            } else if (titlePaneParent instanceof JInternalFrame.JDesktopIcon) {
-                frame = ((JInternalFrame.JDesktopIcon)titlePaneParent).getInternalFrame();
-            } else {
-                return null;
+        publid Dimfnsion minimumLbyoutSizf(Contbinfr d) {
+            JComponfnt titlfPbnf = (JComponfnt)d;
+            Contbinfr titlfPbnfPbrfnt = titlfPbnf.gftPbrfnt();
+            JIntfrnblFrbmf frbmf;
+            if (titlfPbnfPbrfnt instbndfof JIntfrnblFrbmf) {
+                frbmf = (JIntfrnblFrbmf)titlfPbnfPbrfnt;
+            } flsf if (titlfPbnfPbrfnt instbndfof JIntfrnblFrbmf.JDfsktopIdon) {
+                frbmf = ((JIntfrnblFrbmf.JDfsktopIdon)titlfPbnfPbrfnt).gftIntfrnblFrbmf();
+            } flsf {
+                rfturn null;
             }
 
-            Dimension buttonDim = calculateButtonSize(titlePane);
-            Insets title_border  = (Insets)getFrameGeometry().get("title_border");
-            Insets button_border = (Insets)getFrameGeometry().get("button_border");
+            Dimfnsion buttonDim = dbldulbtfButtonSizf(titlfPbnf);
+            Insfts titlf_bordfr  = (Insfts)gftFrbmfGfomftry().gft("titlf_bordfr");
+            Insfts button_bordfr = (Insfts)gftFrbmfGfomftry().gft("button_bordfr");
 
-            // Calculate width.
-            int width = getInt("left_titlebar_edge") + buttonDim.width + getInt("right_titlebar_edge");
-            if (title_border != null) {
-                width += title_border.left + title_border.right;
+            // Cbldulbtf widti.
+            int widti = gftInt("lfft_titlfbbr_fdgf") + buttonDim.widti + gftInt("rigit_titlfbbr_fdgf");
+            if (titlf_bordfr != null) {
+                widti += titlf_bordfr.lfft + titlf_bordfr.rigit;
             }
-            if (frame.isClosable()) {
-                width += buttonDim.width;
+            if (frbmf.isClosbblf()) {
+                widti += buttonDim.widti;
             }
-            if (frame.isMaximizable()) {
-                width += buttonDim.width;
+            if (frbmf.isMbximizbblf()) {
+                widti += buttonDim.widti;
             }
-            if (frame.isIconifiable()) {
-                width += buttonDim.width;
+            if (frbmf.isIdonifibblf()) {
+                widti += buttonDim.widti;
             }
-            FontMetrics fm = frame.getFontMetrics(titlePane.getFont());
-            String frameTitle = frame.getTitle();
-            int title_w = frameTitle != null ? SwingUtilities2.stringWidth(
-                               frame, fm, frameTitle) : 0;
-            int title_length = frameTitle != null ? frameTitle.length() : 0;
+            FontMftrids fm = frbmf.gftFontMftrids(titlfPbnf.gftFont());
+            String frbmfTitlf = frbmf.gftTitlf();
+            int titlf_w = frbmfTitlf != null ? SwingUtilitifs2.stringWidti(
+                               frbmf, fm, frbmfTitlf) : 0;
+            int titlf_lfngti = frbmfTitlf != null ? frbmfTitlf.lfngti() : 0;
 
-            // Leave room for three characters in the title.
-            if (title_length > 3) {
-                int subtitle_w = SwingUtilities2.stringWidth(
-                    frame, fm, frameTitle.substring(0, 3) + "...");
-                width += (title_w < subtitle_w) ? title_w : subtitle_w;
-            } else {
-                width += title_w;
+            // Lfbvf room for tirff dibrbdtfrs in tif titlf.
+            if (titlf_lfngti > 3) {
+                int subtitlf_w = SwingUtilitifs2.stringWidti(
+                    frbmf, fm, frbmfTitlf.substring(0, 3) + "...");
+                widti += (titlf_w < subtitlf_w) ? titlf_w : subtitlf_w;
+            } flsf {
+                widti += titlf_w;
             }
 
-            // Calculate height.
-            int titleHeight = fm.getHeight() + getInt("title_vertical_pad");
-            if (title_border != null) {
-                titleHeight += title_border.top + title_border.bottom;
+            // Cbldulbtf ifigit.
+            int titlfHfigit = fm.gftHfigit() + gftInt("titlf_vfrtidbl_pbd");
+            if (titlf_bordfr != null) {
+                titlfHfigit += titlf_bordfr.top + titlf_bordfr.bottom;
             }
-            int buttonHeight = buttonDim.height;
-            if (button_border != null) {
-                buttonHeight += button_border.top + button_border.bottom;
+            int buttonHfigit = buttonDim.ifigit;
+            if (button_bordfr != null) {
+                buttonHfigit += button_bordfr.top + button_bordfr.bottom;
             }
-            int height = Math.max(buttonHeight, titleHeight);
+            int ifigit = Mbti.mbx(buttonHfigit, titlfHfigit);
 
-            return new Dimension(width, height);
+            rfturn nfw Dimfnsion(widti, ifigit);
         }
 
-        public void layoutContainer(Container c) {
-            JComponent titlePane = (JComponent)c;
-            Container titlePaneParent = titlePane.getParent();
-            JInternalFrame frame;
-            if (titlePaneParent instanceof JInternalFrame) {
-                frame = (JInternalFrame)titlePaneParent;
-            } else if (titlePaneParent instanceof JInternalFrame.JDesktopIcon) {
-                frame = ((JInternalFrame.JDesktopIcon)titlePaneParent).getInternalFrame();
-            } else {
-                return;
+        publid void lbyoutContbinfr(Contbinfr d) {
+            JComponfnt titlfPbnf = (JComponfnt)d;
+            Contbinfr titlfPbnfPbrfnt = titlfPbnf.gftPbrfnt();
+            JIntfrnblFrbmf frbmf;
+            if (titlfPbnfPbrfnt instbndfof JIntfrnblFrbmf) {
+                frbmf = (JIntfrnblFrbmf)titlfPbnfPbrfnt;
+            } flsf if (titlfPbnfPbrfnt instbndfof JIntfrnblFrbmf.JDfsktopIdon) {
+                frbmf = ((JIntfrnblFrbmf.JDfsktopIdon)titlfPbnfPbrfnt).gftIntfrnblFrbmf();
+            } flsf {
+                rfturn;
             }
-            Map<String, Object> gm = getFrameGeometry();
+            Mbp<String, Objfdt> gm = gftFrbmfGfomftry();
 
-            int w = titlePane.getWidth();
-            int h = titlePane.getHeight();
+            int w = titlfPbnf.gftWidti();
+            int i = titlfPbnf.gftHfigit();
 
-            JComponent menuButton     = findChild(titlePane, "InternalFrameTitlePane.menuButton");
-            JComponent minimizeButton = findChild(titlePane, "InternalFrameTitlePane.iconifyButton");
-            JComponent maximizeButton = findChild(titlePane, "InternalFrameTitlePane.maximizeButton");
-            JComponent closeButton    = findChild(titlePane, "InternalFrameTitlePane.closeButton");
+            JComponfnt mfnuButton     = findCiild(titlfPbnf, "IntfrnblFrbmfTitlfPbnf.mfnuButton");
+            JComponfnt minimizfButton = findCiild(titlfPbnf, "IntfrnblFrbmfTitlfPbnf.idonifyButton");
+            JComponfnt mbximizfButton = findCiild(titlfPbnf, "IntfrnblFrbmfTitlfPbnf.mbximizfButton");
+            JComponfnt dlosfButton    = findCiild(titlfPbnf, "IntfrnblFrbmfTitlfPbnf.dlosfButton");
 
-            Insets button_border = (Insets)gm.get("button_border");
-            Dimension buttonDim = calculateButtonSize(titlePane);
+            Insfts button_bordfr = (Insfts)gm.gft("button_bordfr");
+            Dimfnsion buttonDim = dbldulbtfButtonSizf(titlfPbnf);
 
-            int y = (button_border != null) ? button_border.top : 0;
-            if (titlePaneParent.getComponentOrientation().isLeftToRight()) {
-                int x = getInt("left_titlebar_edge");
+            int y = (button_bordfr != null) ? button_bordfr.top : 0;
+            if (titlfPbnfPbrfnt.gftComponfntOrifntbtion().isLfftToRigit()) {
+                int x = gftInt("lfft_titlfbbr_fdgf");
 
-                menuButton.setBounds(x, y, buttonDim.width, buttonDim.height);
+                mfnuButton.sftBounds(x, y, buttonDim.widti, buttonDim.ifigit);
 
-                x = w - buttonDim.width - getInt("right_titlebar_edge");
-                if (button_border != null) {
-                    x -= button_border.right;
+                x = w - buttonDim.widti - gftInt("rigit_titlfbbr_fdgf");
+                if (button_bordfr != null) {
+                    x -= button_bordfr.rigit;
                 }
 
-                if (frame.isClosable()) {
-                    closeButton.setBounds(x, y, buttonDim.width, buttonDim.height);
-                    x -= buttonDim.width;
+                if (frbmf.isClosbblf()) {
+                    dlosfButton.sftBounds(x, y, buttonDim.widti, buttonDim.ifigit);
+                    x -= buttonDim.widti;
                 }
 
-                if (frame.isMaximizable()) {
-                    maximizeButton.setBounds(x, y, buttonDim.width, buttonDim.height);
-                    x -= buttonDim.width;
+                if (frbmf.isMbximizbblf()) {
+                    mbximizfButton.sftBounds(x, y, buttonDim.widti, buttonDim.ifigit);
+                    x -= buttonDim.widti;
                 }
 
-                if (frame.isIconifiable()) {
-                    minimizeButton.setBounds(x, y, buttonDim.width, buttonDim.height);
+                if (frbmf.isIdonifibblf()) {
+                    minimizfButton.sftBounds(x, y, buttonDim.widti, buttonDim.ifigit);
                 }
-            } else {
-                int x = w - buttonDim.width - getInt("right_titlebar_edge");
+            } flsf {
+                int x = w - buttonDim.widti - gftInt("rigit_titlfbbr_fdgf");
 
-                menuButton.setBounds(x, y, buttonDim.width, buttonDim.height);
+                mfnuButton.sftBounds(x, y, buttonDim.widti, buttonDim.ifigit);
 
-                x = getInt("left_titlebar_edge");
-                if (button_border != null) {
-                    x += button_border.left;
-                }
-
-                if (frame.isClosable()) {
-                    closeButton.setBounds(x, y, buttonDim.width, buttonDim.height);
-                    x += buttonDim.width;
+                x = gftInt("lfft_titlfbbr_fdgf");
+                if (button_bordfr != null) {
+                    x += button_bordfr.lfft;
                 }
 
-                if (frame.isMaximizable()) {
-                    maximizeButton.setBounds(x, y, buttonDim.width, buttonDim.height);
-                    x += buttonDim.width;
+                if (frbmf.isClosbblf()) {
+                    dlosfButton.sftBounds(x, y, buttonDim.widti, buttonDim.ifigit);
+                    x += buttonDim.widti;
                 }
 
-                if (frame.isIconifiable()) {
-                    minimizeButton.setBounds(x, y, buttonDim.width, buttonDim.height);
+                if (frbmf.isMbximizbblf()) {
+                    mbximizfButton.sftBounds(x, y, buttonDim.widti, buttonDim.ifigit);
+                    x += buttonDim.widti;
+                }
+
+                if (frbmf.isIdonifibblf()) {
+                    minimizfButton.sftBounds(x, y, buttonDim.widti, buttonDim.ifigit);
                 }
             }
         }
-    } // end TitlePaneLayout
+    } // fnd TitlfPbnfLbyout
 
-    protected Map<String, Object> getFrameGeometry() {
-        return frameGeometry;
+    protfdtfd Mbp<String, Objfdt> gftFrbmfGfomftry() {
+        rfturn frbmfGfomftry;
     }
 
-    protected void setFrameGeometry(JComponent titlePane, Map<String, Object> gm) {
-        this.frameGeometry = gm;
-        if (getInt("top_height") == 0 && titlePane != null) {
-            gm.put("top_height", Integer.valueOf(titlePane.getHeight()));
+    protfdtfd void sftFrbmfGfomftry(JComponfnt titlfPbnf, Mbp<String, Objfdt> gm) {
+        tiis.frbmfGfomftry = gm;
+        if (gftInt("top_ifigit") == 0 && titlfPbnf != null) {
+            gm.put("top_ifigit", Intfgfr.vblufOf(titlfPbnf.gftHfigit()));
         }
     }
 
-    protected int getInt(String key) {
-        Integer i = (Integer)frameGeometry.get(key);
+    protfdtfd int gftInt(String kfy) {
+        Intfgfr i = (Intfgfr)frbmfGfomftry.gft(kfy);
         if (i == null) {
-            i = variables.get(key);
+            i = vbribblfs.gft(kfy);
         }
-        return (i != null) ? i.intValue() : 0;
+        rfturn (i != null) ? i.intVbluf() : 0;
     }
 
-    protected boolean getBoolean(String key, boolean fallback) {
-        Boolean b = (Boolean)frameGeometry.get(key);
-        return (b != null) ? b.booleanValue() : fallback;
+    protfdtfd boolfbn gftBoolfbn(String kfy, boolfbn fbllbbdk) {
+        Boolfbn b = (Boolfbn)frbmfGfomftry.gft(kfy);
+        rfturn (b != null) ? b.boolfbnVbluf() : fbllbbdk;
     }
 
 
-    protected void drawArc(Node node, Graphics g) {
-        NamedNodeMap attrs = node.getAttributes();
-        Color color = parseColor(getStringAttr(attrs, "color"));
-        int x = aee.evaluate(getStringAttr(attrs, "x"));
-        int y = aee.evaluate(getStringAttr(attrs, "y"));
-        int w = aee.evaluate(getStringAttr(attrs, "width"));
-        int h = aee.evaluate(getStringAttr(attrs, "height"));
-        int start_angle = aee.evaluate(getStringAttr(attrs, "start_angle"));
-        int extent_angle = aee.evaluate(getStringAttr(attrs, "extent_angle"));
-        boolean filled = getBooleanAttr(node, "filled", false);
-        if (getInt("width") == -1) {
+    protfdtfd void drbwArd(Nodf nodf, Grbpiids g) {
+        NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+        Color dolor = pbrsfColor(gftStringAttr(bttrs, "dolor"));
+        int x = bff.fvblubtf(gftStringAttr(bttrs, "x"));
+        int y = bff.fvblubtf(gftStringAttr(bttrs, "y"));
+        int w = bff.fvblubtf(gftStringAttr(bttrs, "widti"));
+        int i = bff.fvblubtf(gftStringAttr(bttrs, "ifigit"));
+        int stbrt_bnglf = bff.fvblubtf(gftStringAttr(bttrs, "stbrt_bnglf"));
+        int fxtfnt_bnglf = bff.fvblubtf(gftStringAttr(bttrs, "fxtfnt_bnglf"));
+        boolfbn fillfd = gftBoolfbnAttr(nodf, "fillfd", fblsf);
+        if (gftInt("widti") == -1) {
             x -= w;
         }
-        if (getInt("height") == -1) {
-            y -= h;
+        if (gftInt("ifigit") == -1) {
+            y -= i;
         }
-        g.setColor(color);
-        if (filled) {
-            g.fillArc(x, y, w, h, start_angle, extent_angle);
-        } else {
-            g.drawArc(x, y, w, h, start_angle, extent_angle);
-        }
-    }
-
-    protected void drawLine(Node node, Graphics g) {
-        NamedNodeMap attrs = node.getAttributes();
-        Color color = parseColor(getStringAttr(attrs, "color"));
-        int x1 = aee.evaluate(getStringAttr(attrs, "x1"));
-        int y1 = aee.evaluate(getStringAttr(attrs, "y1"));
-        int x2 = aee.evaluate(getStringAttr(attrs, "x2"));
-        int y2 = aee.evaluate(getStringAttr(attrs, "y2"));
-        int lineWidth = aee.evaluate(getStringAttr(attrs, "width"), 1);
-        g.setColor(color);
-        if (lineWidth != 1) {
-            Graphics2D g2d = (Graphics2D)g;
-            Stroke stroke = g2d.getStroke();
-            g2d.setStroke(new BasicStroke((float)lineWidth));
-            g2d.drawLine(x1, y1, x2, y2);
-            g2d.setStroke(stroke);
-        } else {
-            g.drawLine(x1, y1, x2, y2);
+        g.sftColor(dolor);
+        if (fillfd) {
+            g.fillArd(x, y, w, i, stbrt_bnglf, fxtfnt_bnglf);
+        } flsf {
+            g.drbwArd(x, y, w, i, stbrt_bnglf, fxtfnt_bnglf);
         }
     }
 
-    protected void drawRectangle(Node node, Graphics g) {
-        NamedNodeMap attrs = node.getAttributes();
-        Color color = parseColor(getStringAttr(attrs, "color"));
-        boolean filled = getBooleanAttr(node, "filled", false);
-        int x = aee.evaluate(getStringAttr(attrs, "x"));
-        int y = aee.evaluate(getStringAttr(attrs, "y"));
-        int w = aee.evaluate(getStringAttr(attrs, "width"));
-        int h = aee.evaluate(getStringAttr(attrs, "height"));
-        g.setColor(color);
-        if (getInt("width") == -1) {
+    protfdtfd void drbwLinf(Nodf nodf, Grbpiids g) {
+        NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+        Color dolor = pbrsfColor(gftStringAttr(bttrs, "dolor"));
+        int x1 = bff.fvblubtf(gftStringAttr(bttrs, "x1"));
+        int y1 = bff.fvblubtf(gftStringAttr(bttrs, "y1"));
+        int x2 = bff.fvblubtf(gftStringAttr(bttrs, "x2"));
+        int y2 = bff.fvblubtf(gftStringAttr(bttrs, "y2"));
+        int linfWidti = bff.fvblubtf(gftStringAttr(bttrs, "widti"), 1);
+        g.sftColor(dolor);
+        if (linfWidti != 1) {
+            Grbpiids2D g2d = (Grbpiids2D)g;
+            Strokf strokf = g2d.gftStrokf();
+            g2d.sftStrokf(nfw BbsidStrokf((flobt)linfWidti));
+            g2d.drbwLinf(x1, y1, x2, y2);
+            g2d.sftStrokf(strokf);
+        } flsf {
+            g.drbwLinf(x1, y1, x2, y2);
+        }
+    }
+
+    protfdtfd void drbwRfdtbnglf(Nodf nodf, Grbpiids g) {
+        NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+        Color dolor = pbrsfColor(gftStringAttr(bttrs, "dolor"));
+        boolfbn fillfd = gftBoolfbnAttr(nodf, "fillfd", fblsf);
+        int x = bff.fvblubtf(gftStringAttr(bttrs, "x"));
+        int y = bff.fvblubtf(gftStringAttr(bttrs, "y"));
+        int w = bff.fvblubtf(gftStringAttr(bttrs, "widti"));
+        int i = bff.fvblubtf(gftStringAttr(bttrs, "ifigit"));
+        g.sftColor(dolor);
+        if (gftInt("widti") == -1) {
             x -= w;
         }
-        if (getInt("height") == -1) {
-            y -= h;
+        if (gftInt("ifigit") == -1) {
+            y -= i;
         }
-        if (filled) {
-            g.fillRect(x, y, w, h);
-        } else {
-            g.drawRect(x, y, w, h);
+        if (fillfd) {
+            g.fillRfdt(x, y, w, i);
+        } flsf {
+            g.drbwRfdt(x, y, w, i);
         }
     }
 
-    protected void drawTile(Node node, Graphics g, JInternalFrame jif) {
-        NamedNodeMap attrs = node.getAttributes();
-        int x0 = aee.evaluate(getStringAttr(attrs, "x"));
-        int y0 = aee.evaluate(getStringAttr(attrs, "y"));
-        int w = aee.evaluate(getStringAttr(attrs, "width"));
-        int h = aee.evaluate(getStringAttr(attrs, "height"));
-        int tw = aee.evaluate(getStringAttr(attrs, "tile_width"));
-        int th = aee.evaluate(getStringAttr(attrs, "tile_height"));
-        int width  = getInt("width");
-        int height = getInt("height");
-        if (width == -1) {
+    protfdtfd void drbwTilf(Nodf nodf, Grbpiids g, JIntfrnblFrbmf jif) {
+        NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+        int x0 = bff.fvblubtf(gftStringAttr(bttrs, "x"));
+        int y0 = bff.fvblubtf(gftStringAttr(bttrs, "y"));
+        int w = bff.fvblubtf(gftStringAttr(bttrs, "widti"));
+        int i = bff.fvblubtf(gftStringAttr(bttrs, "ifigit"));
+        int tw = bff.fvblubtf(gftStringAttr(bttrs, "tilf_widti"));
+        int ti = bff.fvblubtf(gftStringAttr(bttrs, "tilf_ifigit"));
+        int widti  = gftInt("widti");
+        int ifigit = gftInt("ifigit");
+        if (widti == -1) {
             x0 -= w;
         }
-        if (height == -1) {
-            y0 -= h;
+        if (ifigit == -1) {
+            y0 -= i;
         }
-        Shape oldClip = g.getClip();
-        if (g instanceof Graphics2D) {
-            ((Graphics2D)g).clip(new Rectangle(x0, y0, w, h));
+        Sibpf oldClip = g.gftClip();
+        if (g instbndfof Grbpiids2D) {
+            ((Grbpiids2D)g).dlip(nfw Rfdtbnglf(x0, y0, w, i));
         }
-        variables.put("width",  tw);
-        variables.put("height", th);
+        vbribblfs.put("widti",  tw);
+        vbribblfs.put("ifigit", ti);
 
-        Node draw_ops = getNode("draw_ops", new String[] { "name", getStringAttr(node, "name") });
+        Nodf drbw_ops = gftNodf("drbw_ops", nfw String[] { "nbmf", gftStringAttr(nodf, "nbmf") });
 
         int y = y0;
-        while (y < y0 + h) {
+        wiilf (y < y0 + i) {
             int x = x0;
-            while (x < x0 + w) {
-                g.translate(x, y);
-                draw(draw_ops, g, jif);
-                g.translate(-x, -y);
+            wiilf (x < x0 + w) {
+                g.trbnslbtf(x, y);
+                drbw(drbw_ops, g, jif);
+                g.trbnslbtf(-x, -y);
                 x += tw;
             }
-            y += th;
+            y += ti;
         }
 
-        variables.put("width",  width);
-        variables.put("height", height);
-        g.setClip(oldClip);
+        vbribblfs.put("widti",  widti);
+        vbribblfs.put("ifigit", ifigit);
+        g.sftClip(oldClip);
     }
 
-    protected void drawTint(Node node, Graphics g) {
-        NamedNodeMap attrs = node.getAttributes();
-        Color color = parseColor(getStringAttr(attrs, "color"));
-        float alpha = Float.parseFloat(getStringAttr(attrs, "alpha"));
-        int x = aee.evaluate(getStringAttr(attrs, "x"));
-        int y = aee.evaluate(getStringAttr(attrs, "y"));
-        int w = aee.evaluate(getStringAttr(attrs, "width"));
-        int h = aee.evaluate(getStringAttr(attrs, "height"));
-        if (getInt("width") == -1) {
+    protfdtfd void drbwTint(Nodf nodf, Grbpiids g) {
+        NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+        Color dolor = pbrsfColor(gftStringAttr(bttrs, "dolor"));
+        flobt blpib = Flobt.pbrsfFlobt(gftStringAttr(bttrs, "blpib"));
+        int x = bff.fvblubtf(gftStringAttr(bttrs, "x"));
+        int y = bff.fvblubtf(gftStringAttr(bttrs, "y"));
+        int w = bff.fvblubtf(gftStringAttr(bttrs, "widti"));
+        int i = bff.fvblubtf(gftStringAttr(bttrs, "ifigit"));
+        if (gftInt("widti") == -1) {
             x -= w;
         }
-        if (getInt("height") == -1) {
-            y -= h;
+        if (gftInt("ifigit") == -1) {
+            y -= i;
         }
-        if (g instanceof Graphics2D) {
-            Graphics2D g2 = (Graphics2D)g;
-            Composite oldComp = g2.getComposite();
-            AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
-            g2.setComposite(ac);
-            g2.setColor(color);
-            g2.fillRect(x, y, w, h);
-            g2.setComposite(oldComp);
+        if (g instbndfof Grbpiids2D) {
+            Grbpiids2D g2 = (Grbpiids2D)g;
+            Compositf oldComp = g2.gftCompositf();
+            AlpibCompositf bd = AlpibCompositf.gftInstbndf(AlpibCompositf.SRC_OVER, blpib);
+            g2.sftCompositf(bd);
+            g2.sftColor(dolor);
+            g2.fillRfdt(x, y, w, i);
+            g2.sftCompositf(oldComp);
         }
     }
 
-    protected void drawTitle(Node node, Graphics g, JInternalFrame jif) {
-        NamedNodeMap attrs = node.getAttributes();
-        String colorStr = getStringAttr(attrs, "color");
-        int i = colorStr.indexOf("gtk:fg[");
+    protfdtfd void drbwTitlf(Nodf nodf, Grbpiids g, JIntfrnblFrbmf jif) {
+        NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+        String dolorStr = gftStringAttr(bttrs, "dolor");
+        int i = dolorStr.indfxOf("gtk:fg[");
         if (i > 0) {
-            colorStr = colorStr.substring(0, i) + "gtk:text[" + colorStr.substring(i+7);
+            dolorStr = dolorStr.substring(0, i) + "gtk:tfxt[" + dolorStr.substring(i+7);
         }
-        Color color = parseColor(colorStr);
-        int x = aee.evaluate(getStringAttr(attrs, "x"));
-        int y = aee.evaluate(getStringAttr(attrs, "y"));
+        Color dolor = pbrsfColor(dolorStr);
+        int x = bff.fvblubtf(gftStringAttr(bttrs, "x"));
+        int y = bff.fvblubtf(gftStringAttr(bttrs, "y"));
 
-        String title = jif.getTitle();
-        if (title != null) {
-            FontMetrics fm = SwingUtilities2.getFontMetrics(jif, g);
-            title = SwingUtilities2.clipStringIfNecessary(jif, fm, title,
-                         calculateTitleArea(jif).width);
-            g.setColor(color);
-            SwingUtilities2.drawString(jif, g, title, x, y + fm.getAscent());
+        String titlf = jif.gftTitlf();
+        if (titlf != null) {
+            FontMftrids fm = SwingUtilitifs2.gftFontMftrids(jif, g);
+            titlf = SwingUtilitifs2.dlipStringIfNfdfssbry(jif, fm, titlf,
+                         dbldulbtfTitlfArfb(jif).widti);
+            g.sftColor(dolor);
+            SwingUtilitifs2.drbwString(jif, g, titlf, x, y + fm.gftAsdfnt());
         }
     }
 
-    protected Dimension calculateButtonSize(JComponent titlePane) {
-        int buttonHeight = getInt("button_height");
-        if (buttonHeight == 0) {
-            buttonHeight = titlePane.getHeight();
-            if (buttonHeight == 0) {
-                buttonHeight = 13;
-            } else {
-                Insets button_border = (Insets)frameGeometry.get("button_border");
-                if (button_border != null) {
-                    buttonHeight -= (button_border.top + button_border.bottom);
+    protfdtfd Dimfnsion dbldulbtfButtonSizf(JComponfnt titlfPbnf) {
+        int buttonHfigit = gftInt("button_ifigit");
+        if (buttonHfigit == 0) {
+            buttonHfigit = titlfPbnf.gftHfigit();
+            if (buttonHfigit == 0) {
+                buttonHfigit = 13;
+            } flsf {
+                Insfts button_bordfr = (Insfts)frbmfGfomftry.gft("button_bordfr");
+                if (button_bordfr != null) {
+                    buttonHfigit -= (button_bordfr.top + button_bordfr.bottom);
                 }
             }
         }
-        int buttonWidth = getInt("button_width");
-        if (buttonWidth == 0) {
-            buttonWidth = buttonHeight;
-            Float aspect_ratio = (Float)frameGeometry.get("aspect_ratio");
-            if (aspect_ratio != null) {
-                buttonWidth = (int)(buttonHeight / aspect_ratio.floatValue());
+        int buttonWidti = gftInt("button_widti");
+        if (buttonWidti == 0) {
+            buttonWidti = buttonHfigit;
+            Flobt bspfdt_rbtio = (Flobt)frbmfGfomftry.gft("bspfdt_rbtio");
+            if (bspfdt_rbtio != null) {
+                buttonWidti = (int)(buttonHfigit / bspfdt_rbtio.flobtVbluf());
             }
         }
-        return new Dimension(buttonWidth, buttonHeight);
+        rfturn nfw Dimfnsion(buttonWidti, buttonHfigit);
     }
 
-    protected Rectangle calculateTitleArea(JInternalFrame jif) {
-        JComponent titlePane = findChild(jif, "InternalFrame.northPane");
-        Dimension buttonDim = calculateButtonSize(titlePane);
-        Insets title_border = (Insets)frameGeometry.get("title_border");
-        Insets button_border = (Insets)getFrameGeometry().get("button_border");
+    protfdtfd Rfdtbnglf dbldulbtfTitlfArfb(JIntfrnblFrbmf jif) {
+        JComponfnt titlfPbnf = findCiild(jif, "IntfrnblFrbmf.nortiPbnf");
+        Dimfnsion buttonDim = dbldulbtfButtonSizf(titlfPbnf);
+        Insfts titlf_bordfr = (Insfts)frbmfGfomftry.gft("titlf_bordfr");
+        Insfts button_bordfr = (Insfts)gftFrbmfGfomftry().gft("button_bordfr");
 
-        Rectangle r = new Rectangle();
-        r.x = getInt("left_titlebar_edge");
+        Rfdtbnglf r = nfw Rfdtbnglf();
+        r.x = gftInt("lfft_titlfbbr_fdgf");
         r.y = 0;
-        r.height = titlePane.getHeight();
-        if (title_border != null) {
-            r.x += title_border.left;
-            r.y += title_border.top;
-            r.height -= (title_border.top + title_border.bottom);
+        r.ifigit = titlfPbnf.gftHfigit();
+        if (titlf_bordfr != null) {
+            r.x += titlf_bordfr.lfft;
+            r.y += titlf_bordfr.top;
+            r.ifigit -= (titlf_bordfr.top + titlf_bordfr.bottom);
         }
 
-        if (titlePane.getParent().getComponentOrientation().isLeftToRight()) {
-            r.x += buttonDim.width;
-            if (button_border != null) {
-                r.x += button_border.left;
+        if (titlfPbnf.gftPbrfnt().gftComponfntOrifntbtion().isLfftToRigit()) {
+            r.x += buttonDim.widti;
+            if (button_bordfr != null) {
+                r.x += button_bordfr.lfft;
             }
-            r.width = titlePane.getWidth() - r.x - getInt("right_titlebar_edge");
-            if (jif.isClosable()) {
-                r.width -= buttonDim.width;
+            r.widti = titlfPbnf.gftWidti() - r.x - gftInt("rigit_titlfbbr_fdgf");
+            if (jif.isClosbblf()) {
+                r.widti -= buttonDim.widti;
             }
-            if (jif.isMaximizable()) {
-                r.width -= buttonDim.width;
+            if (jif.isMbximizbblf()) {
+                r.widti -= buttonDim.widti;
             }
-            if (jif.isIconifiable()) {
-                r.width -= buttonDim.width;
+            if (jif.isIdonifibblf()) {
+                r.widti -= buttonDim.widti;
             }
-        } else {
-            if (jif.isClosable()) {
-                r.x += buttonDim.width;
+        } flsf {
+            if (jif.isClosbblf()) {
+                r.x += buttonDim.widti;
             }
-            if (jif.isMaximizable()) {
-                r.x += buttonDim.width;
+            if (jif.isMbximizbblf()) {
+                r.x += buttonDim.widti;
             }
-            if (jif.isIconifiable()) {
-                r.x += buttonDim.width;
+            if (jif.isIdonifibblf()) {
+                r.x += buttonDim.widti;
             }
-            r.width = titlePane.getWidth() - r.x - getInt("right_titlebar_edge")
-                    - buttonDim.width;
-            if (button_border != null) {
-                r.x -= button_border.right;
+            r.widti = titlfPbnf.gftWidti() - r.x - gftInt("rigit_titlfbbr_fdgf")
+                    - buttonDim.widti;
+            if (button_bordfr != null) {
+                r.x -= button_bordfr.rigit;
             }
         }
-        if (title_border != null) {
-            r.width -= title_border.right;
+        if (titlf_bordfr != null) {
+            r.widti -= titlf_bordfr.rigit;
         }
-        return r;
+        rfturn r;
     }
 
 
-    protected int calculateTitleTextWidth(Graphics g, JInternalFrame jif) {
-        String title = jif.getTitle();
-        if (title != null) {
-            Rectangle r = calculateTitleArea(jif);
-            return Math.min(SwingUtilities2.stringWidth(jif,
-                     SwingUtilities2.getFontMetrics(jif, g), title), r.width);
+    protfdtfd int dbldulbtfTitlfTfxtWidti(Grbpiids g, JIntfrnblFrbmf jif) {
+        String titlf = jif.gftTitlf();
+        if (titlf != null) {
+            Rfdtbnglf r = dbldulbtfTitlfArfb(jif);
+            rfturn Mbti.min(SwingUtilitifs2.stringWidti(jif,
+                     SwingUtilitifs2.gftFontMftrids(jif, g), titlf), r.widti);
         }
-        return 0;
+        rfturn 0;
     }
 
-    protected void setClip(Node node, Graphics g) {
-        NamedNodeMap attrs = node.getAttributes();
-        int x = aee.evaluate(getStringAttr(attrs, "x"));
-        int y = aee.evaluate(getStringAttr(attrs, "y"));
-        int w = aee.evaluate(getStringAttr(attrs, "width"));
-        int h = aee.evaluate(getStringAttr(attrs, "height"));
-        if (getInt("width") == -1) {
+    protfdtfd void sftClip(Nodf nodf, Grbpiids g) {
+        NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+        int x = bff.fvblubtf(gftStringAttr(bttrs, "x"));
+        int y = bff.fvblubtf(gftStringAttr(bttrs, "y"));
+        int w = bff.fvblubtf(gftStringAttr(bttrs, "widti"));
+        int i = bff.fvblubtf(gftStringAttr(bttrs, "ifigit"));
+        if (gftInt("widti") == -1) {
             x -= w;
         }
-        if (getInt("height") == -1) {
-            y -= h;
+        if (gftInt("ifigit") == -1) {
+            y -= i;
         }
-        if (g instanceof Graphics2D) {
-            ((Graphics2D)g).clip(new Rectangle(x, y, w, h));
+        if (g instbndfof Grbpiids2D) {
+            ((Grbpiids2D)g).dlip(nfw Rfdtbnglf(x, y, w, i));
         }
     }
 
-    protected void drawGTKArrow(Node node, Graphics g) {
-        NamedNodeMap attrs = node.getAttributes();
-        String arrow    = getStringAttr(attrs, "arrow");
-        String shadow   = getStringAttr(attrs, "shadow");
-        String stateStr = getStringAttr(attrs, "state").toUpperCase();
-        int x = aee.evaluate(getStringAttr(attrs, "x"));
-        int y = aee.evaluate(getStringAttr(attrs, "y"));
-        int w = aee.evaluate(getStringAttr(attrs, "width"));
-        int h = aee.evaluate(getStringAttr(attrs, "height"));
+    protfdtfd void drbwGTKArrow(Nodf nodf, Grbpiids g) {
+        NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+        String brrow    = gftStringAttr(bttrs, "brrow");
+        String sibdow   = gftStringAttr(bttrs, "sibdow");
+        String stbtfStr = gftStringAttr(bttrs, "stbtf").toUppfrCbsf();
+        int x = bff.fvblubtf(gftStringAttr(bttrs, "x"));
+        int y = bff.fvblubtf(gftStringAttr(bttrs, "y"));
+        int w = bff.fvblubtf(gftStringAttr(bttrs, "widti"));
+        int i = bff.fvblubtf(gftStringAttr(bttrs, "ifigit"));
 
-        int state = -1;
-        if ("NORMAL".equals(stateStr)) {
-            state = ENABLED;
-        } else if ("SELECTED".equals(stateStr)) {
-            state = SELECTED;
-        } else if ("INSENSITIVE".equals(stateStr)) {
-            state = DISABLED;
-        } else if ("PRELIGHT".equals(stateStr)) {
-            state = MOUSE_OVER;
+        int stbtf = -1;
+        if ("NORMAL".fqubls(stbtfStr)) {
+            stbtf = ENABLED;
+        } flsf if ("SELECTED".fqubls(stbtfStr)) {
+            stbtf = SELECTED;
+        } flsf if ("INSENSITIVE".fqubls(stbtfStr)) {
+            stbtf = DISABLED;
+        } flsf if ("PRELIGHT".fqubls(stbtfStr)) {
+            stbtf = MOUSE_OVER;
         }
 
-        ShadowType shadowType = null;
-        if ("in".equals(shadow)) {
-            shadowType = ShadowType.IN;
-        } else if ("out".equals(shadow)) {
-            shadowType = ShadowType.OUT;
-        } else if ("etched_in".equals(shadow)) {
-            shadowType = ShadowType.ETCHED_IN;
-        } else if ("etched_out".equals(shadow)) {
-            shadowType = ShadowType.ETCHED_OUT;
-        } else if ("none".equals(shadow)) {
-            shadowType = ShadowType.NONE;
+        SibdowTypf sibdowTypf = null;
+        if ("in".fqubls(sibdow)) {
+            sibdowTypf = SibdowTypf.IN;
+        } flsf if ("out".fqubls(sibdow)) {
+            sibdowTypf = SibdowTypf.OUT;
+        } flsf if ("ftdifd_in".fqubls(sibdow)) {
+            sibdowTypf = SibdowTypf.ETCHED_IN;
+        } flsf if ("ftdifd_out".fqubls(sibdow)) {
+            sibdowTypf = SibdowTypf.ETCHED_OUT;
+        } flsf if ("nonf".fqubls(sibdow)) {
+            sibdowTypf = SibdowTypf.NONE;
         }
 
-        ArrowType direction = null;
-        if ("up".equals(arrow)) {
-            direction = ArrowType.UP;
-        } else if ("down".equals(arrow)) {
-            direction = ArrowType.DOWN;
-        } else if ("left".equals(arrow)) {
-            direction = ArrowType.LEFT;
-        } else if ("right".equals(arrow)) {
-            direction = ArrowType.RIGHT;
+        ArrowTypf dirfdtion = null;
+        if ("up".fqubls(brrow)) {
+            dirfdtion = ArrowTypf.UP;
+        } flsf if ("down".fqubls(brrow)) {
+            dirfdtion = ArrowTypf.DOWN;
+        } flsf if ("lfft".fqubls(brrow)) {
+            dirfdtion = ArrowTypf.LEFT;
+        } flsf if ("rigit".fqubls(brrow)) {
+            dirfdtion = ArrowTypf.RIGHT;
         }
 
-        GTKPainter.INSTANCE.paintMetacityElement(context, g, state,
-                "metacity-arrow", x, y, w, h, shadowType, direction);
+        GTKPbintfr.INSTANCE.pbintMftbdityElfmfnt(dontfxt, g, stbtf,
+                "mftbdity-brrow", x, y, w, i, sibdowTypf, dirfdtion);
     }
 
-    protected void drawGTKBox(Node node, Graphics g) {
-        NamedNodeMap attrs = node.getAttributes();
-        String shadow   = getStringAttr(attrs, "shadow");
-        String stateStr = getStringAttr(attrs, "state").toUpperCase();
-        int x = aee.evaluate(getStringAttr(attrs, "x"));
-        int y = aee.evaluate(getStringAttr(attrs, "y"));
-        int w = aee.evaluate(getStringAttr(attrs, "width"));
-        int h = aee.evaluate(getStringAttr(attrs, "height"));
+    protfdtfd void drbwGTKBox(Nodf nodf, Grbpiids g) {
+        NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+        String sibdow   = gftStringAttr(bttrs, "sibdow");
+        String stbtfStr = gftStringAttr(bttrs, "stbtf").toUppfrCbsf();
+        int x = bff.fvblubtf(gftStringAttr(bttrs, "x"));
+        int y = bff.fvblubtf(gftStringAttr(bttrs, "y"));
+        int w = bff.fvblubtf(gftStringAttr(bttrs, "widti"));
+        int i = bff.fvblubtf(gftStringAttr(bttrs, "ifigit"));
 
-        int state = -1;
-        if ("NORMAL".equals(stateStr)) {
-            state = ENABLED;
-        } else if ("SELECTED".equals(stateStr)) {
-            state = SELECTED;
-        } else if ("INSENSITIVE".equals(stateStr)) {
-            state = DISABLED;
-        } else if ("PRELIGHT".equals(stateStr)) {
-            state = MOUSE_OVER;
+        int stbtf = -1;
+        if ("NORMAL".fqubls(stbtfStr)) {
+            stbtf = ENABLED;
+        } flsf if ("SELECTED".fqubls(stbtfStr)) {
+            stbtf = SELECTED;
+        } flsf if ("INSENSITIVE".fqubls(stbtfStr)) {
+            stbtf = DISABLED;
+        } flsf if ("PRELIGHT".fqubls(stbtfStr)) {
+            stbtf = MOUSE_OVER;
         }
 
-        ShadowType shadowType = null;
-        if ("in".equals(shadow)) {
-            shadowType = ShadowType.IN;
-        } else if ("out".equals(shadow)) {
-            shadowType = ShadowType.OUT;
-        } else if ("etched_in".equals(shadow)) {
-            shadowType = ShadowType.ETCHED_IN;
-        } else if ("etched_out".equals(shadow)) {
-            shadowType = ShadowType.ETCHED_OUT;
-        } else if ("none".equals(shadow)) {
-            shadowType = ShadowType.NONE;
+        SibdowTypf sibdowTypf = null;
+        if ("in".fqubls(sibdow)) {
+            sibdowTypf = SibdowTypf.IN;
+        } flsf if ("out".fqubls(sibdow)) {
+            sibdowTypf = SibdowTypf.OUT;
+        } flsf if ("ftdifd_in".fqubls(sibdow)) {
+            sibdowTypf = SibdowTypf.ETCHED_IN;
+        } flsf if ("ftdifd_out".fqubls(sibdow)) {
+            sibdowTypf = SibdowTypf.ETCHED_OUT;
+        } flsf if ("nonf".fqubls(sibdow)) {
+            sibdowTypf = SibdowTypf.NONE;
         }
-        GTKPainter.INSTANCE.paintMetacityElement(context, g, state,
-                "metacity-box", x, y, w, h, shadowType, null);
+        GTKPbintfr.INSTANCE.pbintMftbdityElfmfnt(dontfxt, g, stbtf,
+                "mftbdity-box", x, y, w, i, sibdowTypf, null);
     }
 
-    protected void drawGTKVLine(Node node, Graphics g) {
-        NamedNodeMap attrs = node.getAttributes();
-        String stateStr = getStringAttr(attrs, "state").toUpperCase();
+    protfdtfd void drbwGTKVLinf(Nodf nodf, Grbpiids g) {
+        NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+        String stbtfStr = gftStringAttr(bttrs, "stbtf").toUppfrCbsf();
 
-        int x  = aee.evaluate(getStringAttr(attrs, "x"));
-        int y1 = aee.evaluate(getStringAttr(attrs, "y1"));
-        int y2 = aee.evaluate(getStringAttr(attrs, "y2"));
+        int x  = bff.fvblubtf(gftStringAttr(bttrs, "x"));
+        int y1 = bff.fvblubtf(gftStringAttr(bttrs, "y1"));
+        int y2 = bff.fvblubtf(gftStringAttr(bttrs, "y2"));
 
-        int state = -1;
-        if ("NORMAL".equals(stateStr)) {
-            state = ENABLED;
-        } else if ("SELECTED".equals(stateStr)) {
-            state = SELECTED;
-        } else if ("INSENSITIVE".equals(stateStr)) {
-            state = DISABLED;
-        } else if ("PRELIGHT".equals(stateStr)) {
-            state = MOUSE_OVER;
+        int stbtf = -1;
+        if ("NORMAL".fqubls(stbtfStr)) {
+            stbtf = ENABLED;
+        } flsf if ("SELECTED".fqubls(stbtfStr)) {
+            stbtf = SELECTED;
+        } flsf if ("INSENSITIVE".fqubls(stbtfStr)) {
+            stbtf = DISABLED;
+        } flsf if ("PRELIGHT".fqubls(stbtfStr)) {
+            stbtf = MOUSE_OVER;
         }
 
-        GTKPainter.INSTANCE.paintMetacityElement(context, g, state,
-                "metacity-vline", x, y1, 1, y2 - y1, null, null);
+        GTKPbintfr.INSTANCE.pbintMftbdityElfmfnt(dontfxt, g, stbtf,
+                "mftbdity-vlinf", x, y1, 1, y2 - y1, null, null);
     }
 
-    protected void drawGradient(Node node, Graphics g) {
-        NamedNodeMap attrs = node.getAttributes();
-        String type = getStringAttr(attrs, "type");
-        float alpha = getFloatAttr(node, "alpha", -1F);
-        int x = aee.evaluate(getStringAttr(attrs, "x"));
-        int y = aee.evaluate(getStringAttr(attrs, "y"));
-        int w = aee.evaluate(getStringAttr(attrs, "width"));
-        int h = aee.evaluate(getStringAttr(attrs, "height"));
-        if (getInt("width") == -1) {
+    protfdtfd void drbwGrbdifnt(Nodf nodf, Grbpiids g) {
+        NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+        String typf = gftStringAttr(bttrs, "typf");
+        flobt blpib = gftFlobtAttr(nodf, "blpib", -1F);
+        int x = bff.fvblubtf(gftStringAttr(bttrs, "x"));
+        int y = bff.fvblubtf(gftStringAttr(bttrs, "y"));
+        int w = bff.fvblubtf(gftStringAttr(bttrs, "widti"));
+        int i = bff.fvblubtf(gftStringAttr(bttrs, "ifigit"));
+        if (gftInt("widti") == -1) {
             x -= w;
         }
-        if (getInt("height") == -1) {
-            y -= h;
+        if (gftInt("ifigit") == -1) {
+            y -= i;
         }
 
-        // Get colors from child nodes
-        Node[] colorNodes = getNodesByName(node, "color");
-        Color[] colors = new Color[colorNodes.length];
-        for (int i = 0; i < colorNodes.length; i++) {
-            colors[i] = parseColor(getStringAttr(colorNodes[i], "value"));
+        // Gft dolors from diild nodfs
+        Nodf[] dolorNodfs = gftNodfsByNbmf(nodf, "dolor");
+        Color[] dolors = nfw Color[dolorNodfs.lfngti];
+        for (int i = 0; i < dolorNodfs.lfngti; i++) {
+            dolors[i] = pbrsfColor(gftStringAttr(dolorNodfs[i], "vbluf"));
         }
 
-        boolean horizontal = ("diagonal".equals(type) || "horizontal".equals(type));
-        boolean vertical   = ("diagonal".equals(type) || "vertical".equals(type));
+        boolfbn iorizontbl = ("dibgonbl".fqubls(typf) || "iorizontbl".fqubls(typf));
+        boolfbn vfrtidbl   = ("dibgonbl".fqubls(typf) || "vfrtidbl".fqubls(typf));
 
-        if (g instanceof Graphics2D) {
-            Graphics2D g2 = (Graphics2D)g;
-            Composite oldComp = g2.getComposite();
-            if (alpha >= 0F) {
-                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+        if (g instbndfof Grbpiids2D) {
+            Grbpiids2D g2 = (Grbpiids2D)g;
+            Compositf oldComp = g2.gftCompositf();
+            if (blpib >= 0F) {
+                g2.sftCompositf(AlpibCompositf.gftInstbndf(AlpibCompositf.SRC_OVER, blpib));
             }
-            int n = colors.length - 1;
+            int n = dolors.lfngti - 1;
             for (int i = 0; i < n; i++) {
-                g2.setPaint(new GradientPaint(x + (horizontal ? (i*w/n) : 0),
-                                              y + (vertical   ? (i*h/n) : 0),
-                                              colors[i],
-                                              x + (horizontal ? ((i+1)*w/n) : 0),
-                                              y + (vertical   ? ((i+1)*h/n) : 0),
-                                              colors[i+1]));
-                g2.fillRect(x + (horizontal ? (i*w/n) : 0),
-                            y + (vertical   ? (i*h/n) : 0),
-                            (horizontal ? (w/n) : w),
-                            (vertical   ? (h/n) : h));
+                g2.sftPbint(nfw GrbdifntPbint(x + (iorizontbl ? (i*w/n) : 0),
+                                              y + (vfrtidbl   ? (i*i/n) : 0),
+                                              dolors[i],
+                                              x + (iorizontbl ? ((i+1)*w/n) : 0),
+                                              y + (vfrtidbl   ? ((i+1)*i/n) : 0),
+                                              dolors[i+1]));
+                g2.fillRfdt(x + (iorizontbl ? (i*w/n) : 0),
+                            y + (vfrtidbl   ? (i*i/n) : 0),
+                            (iorizontbl ? (w/n) : w),
+                            (vfrtidbl   ? (i/n) : i));
             }
-            g2.setComposite(oldComp);
+            g2.sftCompositf(oldComp);
         }
     }
 
-    protected void drawImage(Node node, Graphics g) {
-        NamedNodeMap attrs = node.getAttributes();
-        String filename = getStringAttr(attrs, "filename");
-        String colorizeStr = getStringAttr(attrs, "colorize");
-        Color colorize = (colorizeStr != null) ? parseColor(colorizeStr) : null;
-        String alpha = getStringAttr(attrs, "alpha");
-        Image object = (colorize != null) ? getImage(filename, colorize) : getImage(filename);
-        variables.put("object_width",  object.getWidth(null));
-        variables.put("object_height", object.getHeight(null));
-        String fill_type = getStringAttr(attrs, "fill_type");
-        int x = aee.evaluate(getStringAttr(attrs, "x"));
-        int y = aee.evaluate(getStringAttr(attrs, "y"));
-        int w = aee.evaluate(getStringAttr(attrs, "width"));
-        int h = aee.evaluate(getStringAttr(attrs, "height"));
-        if (getInt("width") == -1) {
+    protfdtfd void drbwImbgf(Nodf nodf, Grbpiids g) {
+        NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+        String filfnbmf = gftStringAttr(bttrs, "filfnbmf");
+        String dolorizfStr = gftStringAttr(bttrs, "dolorizf");
+        Color dolorizf = (dolorizfStr != null) ? pbrsfColor(dolorizfStr) : null;
+        String blpib = gftStringAttr(bttrs, "blpib");
+        Imbgf objfdt = (dolorizf != null) ? gftImbgf(filfnbmf, dolorizf) : gftImbgf(filfnbmf);
+        vbribblfs.put("objfdt_widti",  objfdt.gftWidti(null));
+        vbribblfs.put("objfdt_ifigit", objfdt.gftHfigit(null));
+        String fill_typf = gftStringAttr(bttrs, "fill_typf");
+        int x = bff.fvblubtf(gftStringAttr(bttrs, "x"));
+        int y = bff.fvblubtf(gftStringAttr(bttrs, "y"));
+        int w = bff.fvblubtf(gftStringAttr(bttrs, "widti"));
+        int i = bff.fvblubtf(gftStringAttr(bttrs, "ifigit"));
+        if (gftInt("widti") == -1) {
             x -= w;
         }
-        if (getInt("height") == -1) {
-            y -= h;
+        if (gftInt("ifigit") == -1) {
+            y -= i;
         }
 
-        if (alpha != null) {
-            if ("tile".equals(fill_type)) {
-                StringTokenizer tokenizer = new StringTokenizer(alpha, ":");
-                float[] alphas = new float[tokenizer.countTokens()];
-                for (int i = 0; i < alphas.length; i++) {
-                    alphas[i] = Float.parseFloat(tokenizer.nextToken());
+        if (blpib != null) {
+            if ("tilf".fqubls(fill_typf)) {
+                StringTokfnizfr tokfnizfr = nfw StringTokfnizfr(blpib, ":");
+                flobt[] blpibs = nfw flobt[tokfnizfr.dountTokfns()];
+                for (int i = 0; i < blpibs.lfngti; i++) {
+                    blpibs[i] = Flobt.pbrsfFlobt(tokfnizfr.nfxtTokfn());
                 }
-                tileImage(g, object, x, y, w, h, alphas);
-            } else {
-                float a = Float.parseFloat(alpha);
-                if (g instanceof Graphics2D) {
-                    Graphics2D g2 = (Graphics2D)g;
-                    Composite oldComp = g2.getComposite();
-                    g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, a));
-                    g2.drawImage(object, x, y, w, h, null);
-                    g2.setComposite(oldComp);
+                tilfImbgf(g, objfdt, x, y, w, i, blpibs);
+            } flsf {
+                flobt b = Flobt.pbrsfFlobt(blpib);
+                if (g instbndfof Grbpiids2D) {
+                    Grbpiids2D g2 = (Grbpiids2D)g;
+                    Compositf oldComp = g2.gftCompositf();
+                    g2.sftCompositf(AlpibCompositf.gftInstbndf(AlpibCompositf.SRC_OVER, b));
+                    g2.drbwImbgf(objfdt, x, y, w, i, null);
+                    g2.sftCompositf(oldComp);
                 }
             }
-        } else {
-            g.drawImage(object, x, y, w, h, null);
+        } flsf {
+            g.drbwImbgf(objfdt, x, y, w, i, null);
         }
     }
 
-    protected void drawIcon(Node node, Graphics g, JInternalFrame jif) {
-        Icon icon = jif.getFrameIcon();
-        if (icon == null) {
-            return;
+    protfdtfd void drbwIdon(Nodf nodf, Grbpiids g, JIntfrnblFrbmf jif) {
+        Idon idon = jif.gftFrbmfIdon();
+        if (idon == null) {
+            rfturn;
         }
 
-        NamedNodeMap attrs = node.getAttributes();
-        String alpha = getStringAttr(attrs, "alpha");
-        int x = aee.evaluate(getStringAttr(attrs, "x"));
-        int y = aee.evaluate(getStringAttr(attrs, "y"));
-        int w = aee.evaluate(getStringAttr(attrs, "width"));
-        int h = aee.evaluate(getStringAttr(attrs, "height"));
-        if (getInt("width") == -1) {
+        NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+        String blpib = gftStringAttr(bttrs, "blpib");
+        int x = bff.fvblubtf(gftStringAttr(bttrs, "x"));
+        int y = bff.fvblubtf(gftStringAttr(bttrs, "y"));
+        int w = bff.fvblubtf(gftStringAttr(bttrs, "widti"));
+        int i = bff.fvblubtf(gftStringAttr(bttrs, "ifigit"));
+        if (gftInt("widti") == -1) {
             x -= w;
         }
-        if (getInt("height") == -1) {
-            y -= h;
+        if (gftInt("ifigit") == -1) {
+            y -= i;
         }
 
-        if (alpha != null) {
-            float a = Float.parseFloat(alpha);
-            if (g instanceof Graphics2D) {
-                Graphics2D g2 = (Graphics2D)g;
-                Composite oldComp = g2.getComposite();
-                g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, a));
-                icon.paintIcon(jif, g, x, y);
-                g2.setComposite(oldComp);
+        if (blpib != null) {
+            flobt b = Flobt.pbrsfFlobt(blpib);
+            if (g instbndfof Grbpiids2D) {
+                Grbpiids2D g2 = (Grbpiids2D)g;
+                Compositf oldComp = g2.gftCompositf();
+                g2.sftCompositf(AlpibCompositf.gftInstbndf(AlpibCompositf.SRC_OVER, b));
+                idon.pbintIdon(jif, g, x, y);
+                g2.sftCompositf(oldComp);
             }
-        } else {
-            icon.paintIcon(jif, g, x, y);
+        } flsf {
+            idon.pbintIdon(jif, g, x, y);
         }
     }
 
-    protected void drawInclude(Node node, Graphics g, JInternalFrame jif) {
-        int oldWidth  = getInt("width");
-        int oldHeight = getInt("height");
+    protfdtfd void drbwIndludf(Nodf nodf, Grbpiids g, JIntfrnblFrbmf jif) {
+        int oldWidti  = gftInt("widti");
+        int oldHfigit = gftInt("ifigit");
 
-        NamedNodeMap attrs = node.getAttributes();
-        int x = aee.evaluate(getStringAttr(attrs, "x"),       0);
-        int y = aee.evaluate(getStringAttr(attrs, "y"),       0);
-        int w = aee.evaluate(getStringAttr(attrs, "width"),  -1);
-        int h = aee.evaluate(getStringAttr(attrs, "height"), -1);
+        NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+        int x = bff.fvblubtf(gftStringAttr(bttrs, "x"),       0);
+        int y = bff.fvblubtf(gftStringAttr(bttrs, "y"),       0);
+        int w = bff.fvblubtf(gftStringAttr(bttrs, "widti"),  -1);
+        int i = bff.fvblubtf(gftStringAttr(bttrs, "ifigit"), -1);
 
         if (w != -1) {
-            variables.put("width",  w);
+            vbribblfs.put("widti",  w);
         }
-        if (h != -1) {
-            variables.put("height", h);
+        if (i != -1) {
+            vbribblfs.put("ifigit", i);
         }
 
-        Node draw_ops = getNode("draw_ops", new String[] {
-            "name", getStringAttr(node, "name")
+        Nodf drbw_ops = gftNodf("drbw_ops", nfw String[] {
+            "nbmf", gftStringAttr(nodf, "nbmf")
         });
-        g.translate(x, y);
-        draw(draw_ops, g, jif);
-        g.translate(-x, -y);
+        g.trbnslbtf(x, y);
+        drbw(drbw_ops, g, jif);
+        g.trbnslbtf(-x, -y);
 
         if (w != -1) {
-            variables.put("width",  oldWidth);
+            vbribblfs.put("widti",  oldWidti);
         }
-        if (h != -1) {
-            variables.put("height", oldHeight);
+        if (i != -1) {
+            vbribblfs.put("ifigit", oldHfigit);
         }
     }
 
-    protected void draw(Node draw_ops, Graphics g, JInternalFrame jif) {
-        if (draw_ops != null) {
-            NodeList nodes = draw_ops.getChildNodes();
-            if (nodes != null) {
-                Shape oldClip = g.getClip();
-                for (int i = 0; i < nodes.getLength(); i++) {
-                    Node child = nodes.item(i);
-                    if (child.getNodeType() == Node.ELEMENT_NODE) {
+    protfdtfd void drbw(Nodf drbw_ops, Grbpiids g, JIntfrnblFrbmf jif) {
+        if (drbw_ops != null) {
+            NodfList nodfs = drbw_ops.gftCiildNodfs();
+            if (nodfs != null) {
+                Sibpf oldClip = g.gftClip();
+                for (int i = 0; i < nodfs.gftLfngti(); i++) {
+                    Nodf diild = nodfs.itfm(i);
+                    if (diild.gftNodfTypf() == Nodf.ELEMENT_NODE) {
                         try {
-                            String name = child.getNodeName();
-                            if ("include".equals(name)) {
-                                drawInclude(child, g, jif);
-                            } else if ("arc".equals(name)) {
-                                drawArc(child, g);
-                            } else if ("clip".equals(name)) {
-                                setClip(child, g);
-                            } else if ("gradient".equals(name)) {
-                                drawGradient(child, g);
-                            } else if ("gtk_arrow".equals(name)) {
-                                drawGTKArrow(child, g);
-                            } else if ("gtk_box".equals(name)) {
-                                drawGTKBox(child, g);
-                            } else if ("gtk_vline".equals(name)) {
-                                drawGTKVLine(child, g);
-                            } else if ("image".equals(name)) {
-                                drawImage(child, g);
-                            } else if ("icon".equals(name)) {
-                                drawIcon(child, g, jif);
-                            } else if ("line".equals(name)) {
-                                drawLine(child, g);
-                            } else if ("rectangle".equals(name)) {
-                                drawRectangle(child, g);
-                            } else if ("tint".equals(name)) {
-                                drawTint(child, g);
-                            } else if ("tile".equals(name)) {
-                                drawTile(child, g, jif);
-                            } else if ("title".equals(name)) {
-                                drawTitle(child, g, jif);
-                            } else {
-                                System.err.println("Unknown Metacity drawing op: "+child);
+                            String nbmf = diild.gftNodfNbmf();
+                            if ("indludf".fqubls(nbmf)) {
+                                drbwIndludf(diild, g, jif);
+                            } flsf if ("brd".fqubls(nbmf)) {
+                                drbwArd(diild, g);
+                            } flsf if ("dlip".fqubls(nbmf)) {
+                                sftClip(diild, g);
+                            } flsf if ("grbdifnt".fqubls(nbmf)) {
+                                drbwGrbdifnt(diild, g);
+                            } flsf if ("gtk_brrow".fqubls(nbmf)) {
+                                drbwGTKArrow(diild, g);
+                            } flsf if ("gtk_box".fqubls(nbmf)) {
+                                drbwGTKBox(diild, g);
+                            } flsf if ("gtk_vlinf".fqubls(nbmf)) {
+                                drbwGTKVLinf(diild, g);
+                            } flsf if ("imbgf".fqubls(nbmf)) {
+                                drbwImbgf(diild, g);
+                            } flsf if ("idon".fqubls(nbmf)) {
+                                drbwIdon(diild, g, jif);
+                            } flsf if ("linf".fqubls(nbmf)) {
+                                drbwLinf(diild, g);
+                            } flsf if ("rfdtbnglf".fqubls(nbmf)) {
+                                drbwRfdtbnglf(diild, g);
+                            } flsf if ("tint".fqubls(nbmf)) {
+                                drbwTint(diild, g);
+                            } flsf if ("tilf".fqubls(nbmf)) {
+                                drbwTilf(diild, g, jif);
+                            } flsf if ("titlf".fqubls(nbmf)) {
+                                drbwTitlf(diild, g, jif);
+                            } flsf {
+                                Systfm.frr.println("Unknown Mftbdity drbwing op: "+diild);
                             }
-                        } catch (NumberFormatException ex) {
-                            logError(themeName, ex);
+                        } dbtdi (NumbfrFormbtExdfption fx) {
+                            logError(tifmfNbmf, fx);
                         }
                     }
                 }
-                g.setClip(oldClip);
+                g.sftClip(oldClip);
             }
         }
     }
 
-    protected void drawPiece(Node frame_style, Graphics g, String position, int x, int y,
-                             int width, int height, JInternalFrame jif) {
-        Node piece = getNode(frame_style, "piece", new String[] { "position", position });
-        if (piece != null) {
-            Node draw_ops;
-            String draw_ops_name = getStringAttr(piece, "draw_ops");
-            if (draw_ops_name != null) {
-                draw_ops = getNode("draw_ops", new String[] { "name", draw_ops_name });
-            } else {
-                draw_ops = getNode(piece, "draw_ops", null);
+    protfdtfd void drbwPifdf(Nodf frbmf_stylf, Grbpiids g, String position, int x, int y,
+                             int widti, int ifigit, JIntfrnblFrbmf jif) {
+        Nodf pifdf = gftNodf(frbmf_stylf, "pifdf", nfw String[] { "position", position });
+        if (pifdf != null) {
+            Nodf drbw_ops;
+            String drbw_ops_nbmf = gftStringAttr(pifdf, "drbw_ops");
+            if (drbw_ops_nbmf != null) {
+                drbw_ops = gftNodf("drbw_ops", nfw String[] { "nbmf", drbw_ops_nbmf });
+            } flsf {
+                drbw_ops = gftNodf(pifdf, "drbw_ops", null);
             }
-            variables.put("width",  width);
-            variables.put("height", height);
-            g.translate(x, y);
-            draw(draw_ops, g, jif);
-            g.translate(-x, -y);
+            vbribblfs.put("widti",  widti);
+            vbribblfs.put("ifigit", ifigit);
+            g.trbnslbtf(x, y);
+            drbw(drbw_ops, g, jif);
+            g.trbnslbtf(-x, -y);
         }
     }
 
 
-    Insets getBorderInsets(SynthContext context, Insets insets) {
-        updateFrameGeometry(context);
+    Insfts gftBordfrInsfts(SyntiContfxt dontfxt, Insfts insfts) {
+        updbtfFrbmfGfomftry(dontfxt);
 
-        if (insets == null) {
-            insets = new Insets(0, 0, 0, 0);
+        if (insfts == null) {
+            insfts = nfw Insfts(0, 0, 0, 0);
         }
-        insets.top    = ((Insets)frameGeometry.get("title_border")).top;
-        insets.bottom = getInt("bottom_height");
-        insets.left   = getInt("left_width");
-        insets.right  = getInt("right_width");
-        return insets;
+        insfts.top    = ((Insfts)frbmfGfomftry.gft("titlf_bordfr")).top;
+        insfts.bottom = gftInt("bottom_ifigit");
+        insfts.lfft   = gftInt("lfft_widti");
+        insfts.rigit  = gftInt("rigit_widti");
+        rfturn insfts;
     }
 
 
-    private void updateFrameGeometry(SynthContext context) {
-        this.context = context;
-        JComponent comp = context.getComponent();
-        JComponent titlePane = findChild(comp, "InternalFrame.northPane");
+    privbtf void updbtfFrbmfGfomftry(SyntiContfxt dontfxt) {
+        tiis.dontfxt = dontfxt;
+        JComponfnt domp = dontfxt.gftComponfnt();
+        JComponfnt titlfPbnf = findCiild(domp, "IntfrnblFrbmf.nortiPbnf");
 
-        JInternalFrame jif = null;
-        if (comp instanceof JInternalFrame) {
-            jif = (JInternalFrame)comp;
-        } else if (comp instanceof JInternalFrame.JDesktopIcon) {
-            jif = ((JInternalFrame.JDesktopIcon)comp).getInternalFrame();
-        } else {
-            assert false : "component is not JInternalFrame or JInternalFrame.JDesktopIcon";
-            return;
+        JIntfrnblFrbmf jif = null;
+        if (domp instbndfof JIntfrnblFrbmf) {
+            jif = (JIntfrnblFrbmf)domp;
+        } flsf if (domp instbndfof JIntfrnblFrbmf.JDfsktopIdon) {
+            jif = ((JIntfrnblFrbmf.JDfsktopIdon)domp).gftIntfrnblFrbmf();
+        } flsf {
+            bssfrt fblsf : "domponfnt is not JIntfrnblFrbmf or JIntfrnblFrbmf.JDfsktopIdon";
+            rfturn;
         }
 
-        if (frame_style_set == null) {
-            Node window = getNode("window", new String[]{"type", "normal"});
+        if (frbmf_stylf_sft == null) {
+            Nodf window = gftNodf("window", nfw String[]{"typf", "normbl"});
 
             if (window != null) {
-                frame_style_set = getNode("frame_style_set",
-                        new String[] {"name", getStringAttr(window, "style_set")});
+                frbmf_stylf_sft = gftNodf("frbmf_stylf_sft",
+                        nfw String[] {"nbmf", gftStringAttr(window, "stylf_sft")});
             }
 
-            if (frame_style_set == null) {
-                frame_style_set = getNode("frame_style_set", new String[] {"name", "normal"});
+            if (frbmf_stylf_sft == null) {
+                frbmf_stylf_sft = gftNodf("frbmf_stylf_sft", nfw String[] {"nbmf", "normbl"});
             }
         }
 
-        if (frame_style_set != null) {
-            Node frame = getNode(frame_style_set, "frame", new String[] {
-                "focus", (jif.isSelected() ? "yes" : "no"),
-                "state", (jif.isMaximum() ? "maximized" : "normal")
+        if (frbmf_stylf_sft != null) {
+            Nodf frbmf = gftNodf(frbmf_stylf_sft, "frbmf", nfw String[] {
+                "fodus", (jif.isSflfdtfd() ? "yfs" : "no"),
+                "stbtf", (jif.isMbximum() ? "mbximizfd" : "normbl")
             });
 
-            if (frame != null) {
-                Node frame_style = getNode("frame_style", new String[] {
-                    "name", getStringAttr(frame, "style")
+            if (frbmf != null) {
+                Nodf frbmf_stylf = gftNodf("frbmf_stylf", nfw String[] {
+                    "nbmf", gftStringAttr(frbmf, "stylf")
                 });
-                if (frame_style != null) {
-                    Map<String, Object> gm = frameGeometries.get(getStringAttr(frame_style, "geometry"));
+                if (frbmf_stylf != null) {
+                    Mbp<String, Objfdt> gm = frbmfGfomftrifs.gft(gftStringAttr(frbmf_stylf, "gfomftry"));
 
-                    setFrameGeometry(titlePane, gm);
+                    sftFrbmfGfomftry(titlfPbnf, gm);
                 }
             }
         }
     }
 
 
-    protected static void logError(String themeName, Exception ex) {
-        logError(themeName, ex.toString());
+    protfdtfd stbtid void logError(String tifmfNbmf, Exdfption fx) {
+        logError(tifmfNbmf, fx.toString());
     }
 
-    protected static void logError(String themeName, String msg) {
-        if (!errorLogged) {
-            System.err.println("Exception in Metacity for theme \""+themeName+"\": "+msg);
-            errorLogged = true;
+    protfdtfd stbtid void logError(String tifmfNbmf, String msg) {
+        if (!frrorLoggfd) {
+            Systfm.frr.println("Exdfption in Mftbdity for tifmf \""+tifmfNbmf+"\": "+msg);
+            frrorLoggfd = truf;
         }
     }
 
 
-    // XML Parsing
+    // XML Pbrsing
 
 
-    protected static Document getXMLDoc(final URL xmlFile)
-                                throws IOException,
-                                       ParserConfigurationException,
-                                       SAXException {
-        if (documentBuilder == null) {
-            documentBuilder =
-                DocumentBuilderFactory.newInstance().newDocumentBuilder();
+    protfdtfd stbtid Dodumfnt gftXMLDod(finbl URL xmlFilf)
+                                tirows IOExdfption,
+                                       PbrsfrConfigurbtionExdfption,
+                                       SAXExdfption {
+        if (dodumfntBuildfr == null) {
+            dodumfntBuildfr =
+                DodumfntBuildfrFbdtory.nfwInstbndf().nfwDodumfntBuildfr();
         }
-        InputStream inputStream =
-            AccessController.doPrivileged(new PrivilegedAction<InputStream>() {
-                public InputStream run() {
+        InputStrfbm inputStrfbm =
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<InputStrfbm>() {
+                publid InputStrfbm run() {
                     try {
-                        return new BufferedInputStream(xmlFile.openStream());
-                    } catch (IOException ex) {
-                        return null;
+                        rfturn nfw BufffrfdInputStrfbm(xmlFilf.opfnStrfbm());
+                    } dbtdi (IOExdfption fx) {
+                        rfturn null;
                     }
                 }
             });
 
-        Document doc = null;
-        if (inputStream != null) {
-            doc = documentBuilder.parse(inputStream);
+        Dodumfnt dod = null;
+        if (inputStrfbm != null) {
+            dod = dodumfntBuildfr.pbrsf(inputStrfbm);
         }
-        return doc;
+        rfturn dod;
     }
 
 
-    protected Node[] getNodesByName(Node parent, String name) {
-        NodeList nodes = parent.getChildNodes(); // ElementNode
-        int n = nodes.getLength();
-        ArrayList<Node> list = new ArrayList<Node>();
+    protfdtfd Nodf[] gftNodfsByNbmf(Nodf pbrfnt, String nbmf) {
+        NodfList nodfs = pbrfnt.gftCiildNodfs(); // ElfmfntNodf
+        int n = nodfs.gftLfngti();
+        ArrbyList<Nodf> list = nfw ArrbyList<Nodf>();
         for (int i=0; i < n; i++) {
-            Node node = nodes.item(i);
-            if (name.equals(node.getNodeName())) {
-                list.add(node);
+            Nodf nodf = nodfs.itfm(i);
+            if (nbmf.fqubls(nodf.gftNodfNbmf())) {
+                list.bdd(nodf);
             }
         }
-        return list.toArray(new Node[list.size()]);
+        rfturn list.toArrby(nfw Nodf[list.sizf()]);
     }
 
 
 
-    protected Node getNode(String tagName, String[] attrs) {
-        NodeList nodes = xmlDoc.getElementsByTagName(tagName);
-        return (nodes != null) ? getNode(nodes, tagName, attrs) : null;
+    protfdtfd Nodf gftNodf(String tbgNbmf, String[] bttrs) {
+        NodfList nodfs = xmlDod.gftElfmfntsByTbgNbmf(tbgNbmf);
+        rfturn (nodfs != null) ? gftNodf(nodfs, tbgNbmf, bttrs) : null;
     }
 
-    protected Node getNode(Node parent, String name, String[] attrs) {
-        Node node = null;
-        NodeList nodes = parent.getChildNodes();
-        if (nodes != null) {
-            node = getNode(nodes, name, attrs);
+    protfdtfd Nodf gftNodf(Nodf pbrfnt, String nbmf, String[] bttrs) {
+        Nodf nodf = null;
+        NodfList nodfs = pbrfnt.gftCiildNodfs();
+        if (nodfs != null) {
+            nodf = gftNodf(nodfs, nbmf, bttrs);
         }
-        if (node == null) {
-            String inheritFrom = getStringAttr(parent, "parent");
-            if (inheritFrom != null) {
-                Node inheritFromNode = getNode(parent.getParentNode(),
-                                               parent.getNodeName(),
-                                               new String[] { "name", inheritFrom });
-                if (inheritFromNode != null) {
-                    node = getNode(inheritFromNode, name, attrs);
+        if (nodf == null) {
+            String inifritFrom = gftStringAttr(pbrfnt, "pbrfnt");
+            if (inifritFrom != null) {
+                Nodf inifritFromNodf = gftNodf(pbrfnt.gftPbrfntNodf(),
+                                               pbrfnt.gftNodfNbmf(),
+                                               nfw String[] { "nbmf", inifritFrom });
+                if (inifritFromNodf != null) {
+                    nodf = gftNodf(inifritFromNodf, nbmf, bttrs);
                 }
             }
         }
-        return node;
+        rfturn nodf;
     }
 
-    protected Node getNode(NodeList nodes, String name, String[] attrs) {
-        int n = nodes.getLength();
+    protfdtfd Nodf gftNodf(NodfList nodfs, String nbmf, String[] bttrs) {
+        int n = nodfs.gftLfngti();
         for (int i=0; i < n; i++) {
-            Node node = nodes.item(i);
-            if (name.equals(node.getNodeName())) {
-                if (attrs != null) {
-                    NamedNodeMap nodeAttrs = node.getAttributes();
-                    if (nodeAttrs != null) {
-                        boolean matches = true;
-                        int nAttrs = attrs.length / 2;
-                        for (int a = 0; a < nAttrs; a++) {
-                            String aName  = attrs[a * 2];
-                            String aValue = attrs[a * 2 + 1];
-                            Node attr = nodeAttrs.getNamedItem(aName);
-                            if (attr == null ||
-                                aValue != null && !aValue.equals(attr.getNodeValue())) {
-                                matches = false;
-                                break;
+            Nodf nodf = nodfs.itfm(i);
+            if (nbmf.fqubls(nodf.gftNodfNbmf())) {
+                if (bttrs != null) {
+                    NbmfdNodfMbp nodfAttrs = nodf.gftAttributfs();
+                    if (nodfAttrs != null) {
+                        boolfbn mbtdifs = truf;
+                        int nAttrs = bttrs.lfngti / 2;
+                        for (int b = 0; b < nAttrs; b++) {
+                            String bNbmf  = bttrs[b * 2];
+                            String bVbluf = bttrs[b * 2 + 1];
+                            Nodf bttr = nodfAttrs.gftNbmfdItfm(bNbmf);
+                            if (bttr == null ||
+                                bVbluf != null && !bVbluf.fqubls(bttr.gftNodfVbluf())) {
+                                mbtdifs = fblsf;
+                                brfbk;
                             }
                         }
-                        if (matches) {
-                            return node;
+                        if (mbtdifs) {
+                            rfturn nodf;
                         }
                     }
-                } else {
-                    return node;
+                } flsf {
+                    rfturn nodf;
                 }
             }
         }
-        return null;
+        rfturn null;
     }
 
-    protected String getStringAttr(Node node, String name) {
-        String value = null;
-        NamedNodeMap attrs = node.getAttributes();
-        if (attrs != null) {
-            value = getStringAttr(attrs, name);
-            if (value == null) {
-                String inheritFrom = getStringAttr(attrs, "parent");
-                if (inheritFrom != null) {
-                    Node inheritFromNode = getNode(node.getParentNode(),
-                                                   node.getNodeName(),
-                                                   new String[] { "name", inheritFrom });
-                    if (inheritFromNode != null) {
-                        value = getStringAttr(inheritFromNode, name);
+    protfdtfd String gftStringAttr(Nodf nodf, String nbmf) {
+        String vbluf = null;
+        NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+        if (bttrs != null) {
+            vbluf = gftStringAttr(bttrs, nbmf);
+            if (vbluf == null) {
+                String inifritFrom = gftStringAttr(bttrs, "pbrfnt");
+                if (inifritFrom != null) {
+                    Nodf inifritFromNodf = gftNodf(nodf.gftPbrfntNodf(),
+                                                   nodf.gftNodfNbmf(),
+                                                   nfw String[] { "nbmf", inifritFrom });
+                    if (inifritFromNodf != null) {
+                        vbluf = gftStringAttr(inifritFromNodf, nbmf);
                     }
                 }
             }
         }
-        return value;
+        rfturn vbluf;
     }
 
-    protected String getStringAttr(NamedNodeMap attrs, String name) {
-        Node item = attrs.getNamedItem(name);
-        return (item != null) ? item.getNodeValue() : null;
+    protfdtfd String gftStringAttr(NbmfdNodfMbp bttrs, String nbmf) {
+        Nodf itfm = bttrs.gftNbmfdItfm(nbmf);
+        rfturn (itfm != null) ? itfm.gftNodfVbluf() : null;
     }
 
-    protected boolean getBooleanAttr(Node node, String name, boolean fallback) {
-        String str = getStringAttr(node, name);
+    protfdtfd boolfbn gftBoolfbnAttr(Nodf nodf, String nbmf, boolfbn fbllbbdk) {
+        String str = gftStringAttr(nodf, nbmf);
         if (str != null) {
-            return Boolean.valueOf(str).booleanValue();
+            rfturn Boolfbn.vblufOf(str).boolfbnVbluf();
         }
-        return fallback;
+        rfturn fbllbbdk;
     }
 
-    protected int getIntAttr(Node node, String name, int fallback) {
-        String str = getStringAttr(node, name);
-        int value = fallback;
-        if (str != null) {
-            try {
-                value = Integer.parseInt(str);
-            } catch (NumberFormatException ex) {
-                logError(themeName, ex);
-            }
-        }
-        return value;
-    }
-
-    protected float getFloatAttr(Node node, String name, float fallback) {
-        String str = getStringAttr(node, name);
-        float value = fallback;
+    protfdtfd int gftIntAttr(Nodf nodf, String nbmf, int fbllbbdk) {
+        String str = gftStringAttr(nodf, nbmf);
+        int vbluf = fbllbbdk;
         if (str != null) {
             try {
-                value = Float.parseFloat(str);
-            } catch (NumberFormatException ex) {
-                logError(themeName, ex);
+                vbluf = Intfgfr.pbrsfInt(str);
+            } dbtdi (NumbfrFormbtExdfption fx) {
+                logError(tifmfNbmf, fx);
             }
         }
-        return value;
+        rfturn vbluf;
+    }
+
+    protfdtfd flobt gftFlobtAttr(Nodf nodf, String nbmf, flobt fbllbbdk) {
+        String str = gftStringAttr(nodf, nbmf);
+        flobt vbluf = fbllbbdk;
+        if (str != null) {
+            try {
+                vbluf = Flobt.pbrsfFlobt(str);
+            } dbtdi (NumbfrFormbtExdfption fx) {
+                logError(tifmfNbmf, fx);
+            }
+        }
+        rfturn vbluf;
     }
 
 
 
-    protected Color parseColor(String str) {
-        StringTokenizer tokenizer = new StringTokenizer(str, "/");
-        int n = tokenizer.countTokens();
+    protfdtfd Color pbrsfColor(String str) {
+        StringTokfnizfr tokfnizfr = nfw StringTokfnizfr(str, "/");
+        int n = tokfnizfr.dountTokfns();
         if (n > 1) {
-            String function = tokenizer.nextToken();
-            if ("shade".equals(function)) {
-                assert (n == 3);
-                Color c = parseColor2(tokenizer.nextToken());
-                float alpha = Float.parseFloat(tokenizer.nextToken());
-                return GTKColorType.adjustColor(c, 1.0F, alpha, alpha);
-            } else if ("blend".equals(function)) {
-                assert (n == 4);
-                Color  bg = parseColor2(tokenizer.nextToken());
-                Color  fg = parseColor2(tokenizer.nextToken());
-                float alpha = Float.parseFloat(tokenizer.nextToken());
-                if (alpha > 1.0f) {
-                    alpha = 1.0f / alpha;
+            String fundtion = tokfnizfr.nfxtTokfn();
+            if ("sibdf".fqubls(fundtion)) {
+                bssfrt (n == 3);
+                Color d = pbrsfColor2(tokfnizfr.nfxtTokfn());
+                flobt blpib = Flobt.pbrsfFlobt(tokfnizfr.nfxtTokfn());
+                rfturn GTKColorTypf.bdjustColor(d, 1.0F, blpib, blpib);
+            } flsf if ("blfnd".fqubls(fundtion)) {
+                bssfrt (n == 4);
+                Color  bg = pbrsfColor2(tokfnizfr.nfxtTokfn());
+                Color  fg = pbrsfColor2(tokfnizfr.nfxtTokfn());
+                flobt blpib = Flobt.pbrsfFlobt(tokfnizfr.nfxtTokfn());
+                if (blpib > 1.0f) {
+                    blpib = 1.0f / blpib;
                 }
 
-                return new Color((int)(bg.getRed() + ((fg.getRed() - bg.getRed()) * alpha)),
-                                 (int)(bg.getRed() + ((fg.getRed() - bg.getRed()) * alpha)),
-                                 (int)(bg.getRed() + ((fg.getRed() - bg.getRed()) * alpha)));
-            } else {
-                System.err.println("Unknown Metacity color function="+str);
-                return null;
+                rfturn nfw Color((int)(bg.gftRfd() + ((fg.gftRfd() - bg.gftRfd()) * blpib)),
+                                 (int)(bg.gftRfd() + ((fg.gftRfd() - bg.gftRfd()) * blpib)),
+                                 (int)(bg.gftRfd() + ((fg.gftRfd() - bg.gftRfd()) * blpib)));
+            } flsf {
+                Systfm.frr.println("Unknown Mftbdity dolor fundtion="+str);
+                rfturn null;
             }
-        } else {
-            return parseColor2(str);
+        } flsf {
+            rfturn pbrsfColor2(str);
         }
     }
 
-    protected Color parseColor2(String str) {
-        Color c = null;
-        if (str.startsWith("gtk:")) {
-            int i1 = str.indexOf('[');
+    protfdtfd Color pbrsfColor2(String str) {
+        Color d = null;
+        if (str.stbrtsWiti("gtk:")) {
+            int i1 = str.indfxOf('[');
             if (i1 > 3) {
-                String typeStr = str.substring(4, i1).toLowerCase();
-                int i2 = str.indexOf(']');
+                String typfStr = str.substring(4, i1).toLowfrCbsf();
+                int i2 = str.indfxOf(']');
                 if (i2 > i1+1) {
-                    String stateStr = str.substring(i1+1, i2).toUpperCase();
-                    int state = -1;
-                    if ("ACTIVE".equals(stateStr)) {
-                        state = PRESSED;
-                    } else if ("INSENSITIVE".equals(stateStr)) {
-                        state = DISABLED;
-                    } else if ("NORMAL".equals(stateStr)) {
-                        state = ENABLED;
-                    } else if ("PRELIGHT".equals(stateStr)) {
-                        state = MOUSE_OVER;
-                    } else if ("SELECTED".equals(stateStr)) {
-                        state = SELECTED;
+                    String stbtfStr = str.substring(i1+1, i2).toUppfrCbsf();
+                    int stbtf = -1;
+                    if ("ACTIVE".fqubls(stbtfStr)) {
+                        stbtf = PRESSED;
+                    } flsf if ("INSENSITIVE".fqubls(stbtfStr)) {
+                        stbtf = DISABLED;
+                    } flsf if ("NORMAL".fqubls(stbtfStr)) {
+                        stbtf = ENABLED;
+                    } flsf if ("PRELIGHT".fqubls(stbtfStr)) {
+                        stbtf = MOUSE_OVER;
+                    } flsf if ("SELECTED".fqubls(stbtfStr)) {
+                        stbtf = SELECTED;
                     }
-                    ColorType type = null;
-                    if ("fg".equals(typeStr)) {
-                        type = GTKColorType.FOREGROUND;
-                    } else if ("bg".equals(typeStr)) {
-                        type = GTKColorType.BACKGROUND;
-                    } else if ("base".equals(typeStr)) {
-                        type = GTKColorType.TEXT_BACKGROUND;
-                    } else if ("text".equals(typeStr)) {
-                        type = GTKColorType.TEXT_FOREGROUND;
-                    } else if ("dark".equals(typeStr)) {
-                        type = GTKColorType.DARK;
-                    } else if ("light".equals(typeStr)) {
-                        type = GTKColorType.LIGHT;
+                    ColorTypf typf = null;
+                    if ("fg".fqubls(typfStr)) {
+                        typf = GTKColorTypf.FOREGROUND;
+                    } flsf if ("bg".fqubls(typfStr)) {
+                        typf = GTKColorTypf.BACKGROUND;
+                    } flsf if ("bbsf".fqubls(typfStr)) {
+                        typf = GTKColorTypf.TEXT_BACKGROUND;
+                    } flsf if ("tfxt".fqubls(typfStr)) {
+                        typf = GTKColorTypf.TEXT_FOREGROUND;
+                    } flsf if ("dbrk".fqubls(typfStr)) {
+                        typf = GTKColorTypf.DARK;
+                    } flsf if ("ligit".fqubls(typfStr)) {
+                        typf = GTKColorTypf.LIGHT;
                     }
-                    if (state >= 0 && type != null) {
-                        c = ((GTKStyle)context.getStyle()).getGTKColor(context, state, type);
+                    if (stbtf >= 0 && typf != null) {
+                        d = ((GTKStylf)dontfxt.gftStylf()).gftGTKColor(dontfxt, stbtf, typf);
                     }
                 }
             }
         }
-        if (c == null) {
-            c = parseColorString(str);
+        if (d == null) {
+            d = pbrsfColorString(str);
         }
-        return c;
+        rfturn d;
     }
 
-    private static Color parseColorString(String str) {
-        if (str.charAt(0) == '#') {
+    privbtf stbtid Color pbrsfColorString(String str) {
+        if (str.dibrAt(0) == '#') {
             str = str.substring(1);
 
-            int i = str.length();
+            int i = str.lfngti();
 
             if (i < 3 || i > 12 || (i % 3) != 0) {
-                return null;
+                rfturn null;
             }
 
             i /= 3;
@@ -1780,379 +1780,379 @@ class Metacity implements SynthConstants {
             int b;
 
             try {
-                r = Integer.parseInt(str.substring(0, i), 16);
-                g = Integer.parseInt(str.substring(i, i * 2), 16);
-                b = Integer.parseInt(str.substring(i * 2, i * 3), 16);
-            } catch (NumberFormatException nfe) {
-                return null;
+                r = Intfgfr.pbrsfInt(str.substring(0, i), 16);
+                g = Intfgfr.pbrsfInt(str.substring(i, i * 2), 16);
+                b = Intfgfr.pbrsfInt(str.substring(i * 2, i * 3), 16);
+            } dbtdi (NumbfrFormbtExdfption nff) {
+                rfturn null;
             }
 
             if (i == 4) {
-                return new ColorUIResource(r / 65535.0f, g / 65535.0f, b / 65535.0f);
-            } else if (i == 1) {
-                return new ColorUIResource(r / 15.0f, g / 15.0f, b / 15.0f);
-            } else if (i == 2) {
-                return new ColorUIResource(r, g, b);
-            } else {
-                return new ColorUIResource(r / 4095.0f, g / 4095.0f, b / 4095.0f);
+                rfturn nfw ColorUIRfsourdf(r / 65535.0f, g / 65535.0f, b / 65535.0f);
+            } flsf if (i == 1) {
+                rfturn nfw ColorUIRfsourdf(r / 15.0f, g / 15.0f, b / 15.0f);
+            } flsf if (i == 2) {
+                rfturn nfw ColorUIRfsourdf(r, g, b);
+            } flsf {
+                rfturn nfw ColorUIRfsourdf(r / 4095.0f, g / 4095.0f, b / 4095.0f);
             }
-        } else {
-            return XColors.lookupColor(str);
+        } flsf {
+            rfturn XColors.lookupColor(str);
         }
     }
 
-    class ArithmeticExpressionEvaluator {
-        private PeekableStringTokenizer tokenizer;
+    dlbss AritimftidExprfssionEvblubtor {
+        privbtf PffkbblfStringTokfnizfr tokfnizfr;
 
-        int evaluate(String expr) {
-            tokenizer = new PeekableStringTokenizer(expr, " \t+-*/%()", true);
-            return Math.round(expression());
+        int fvblubtf(String fxpr) {
+            tokfnizfr = nfw PffkbblfStringTokfnizfr(fxpr, " \t+-*/%()", truf);
+            rfturn Mbti.round(fxprfssion());
         }
 
-        int evaluate(String expr, int fallback) {
-            return (expr != null) ? evaluate(expr) : fallback;
+        int fvblubtf(String fxpr, int fbllbbdk) {
+            rfturn (fxpr != null) ? fvblubtf(fxpr) : fbllbbdk;
         }
 
-        public float expression() {
-            float value = getTermValue();
-            boolean done = false;
-            while (!done && tokenizer.hasMoreTokens()) {
-                String next = tokenizer.peek();
-                if ("+".equals(next) ||
-                    "-".equals(next) ||
-                    "`max`".equals(next) ||
-                    "`min`".equals(next)) {
-                    tokenizer.nextToken();
-                    float value2 = getTermValue();
-                    if ("+".equals(next)) {
-                        value += value2;
-                    } else if ("-".equals(next)) {
-                        value -= value2;
-                    } else if ("`max`".equals(next)) {
-                        value = Math.max(value, value2);
-                    } else if ("`min`".equals(next)) {
-                        value = Math.min(value, value2);
+        publid flobt fxprfssion() {
+            flobt vbluf = gftTfrmVbluf();
+            boolfbn donf = fblsf;
+            wiilf (!donf && tokfnizfr.ibsMorfTokfns()) {
+                String nfxt = tokfnizfr.pffk();
+                if ("+".fqubls(nfxt) ||
+                    "-".fqubls(nfxt) ||
+                    "`mbx`".fqubls(nfxt) ||
+                    "`min`".fqubls(nfxt)) {
+                    tokfnizfr.nfxtTokfn();
+                    flobt vbluf2 = gftTfrmVbluf();
+                    if ("+".fqubls(nfxt)) {
+                        vbluf += vbluf2;
+                    } flsf if ("-".fqubls(nfxt)) {
+                        vbluf -= vbluf2;
+                    } flsf if ("`mbx`".fqubls(nfxt)) {
+                        vbluf = Mbti.mbx(vbluf, vbluf2);
+                    } flsf if ("`min`".fqubls(nfxt)) {
+                        vbluf = Mbti.min(vbluf, vbluf2);
                     }
-                } else {
-                    done = true;
+                } flsf {
+                    donf = truf;
                 }
             }
-            return value;
+            rfturn vbluf;
         }
 
-        public float getTermValue() {
-            float value = getFactorValue();
-            boolean done = false;
-            while (!done && tokenizer.hasMoreTokens()) {
-                String next = tokenizer.peek();
-                if ("*".equals(next) || "/".equals(next) || "%".equals(next)) {
-                    tokenizer.nextToken();
-                    float value2 = getFactorValue();
-                    if ("*".equals(next)) {
-                        value *= value2;
-                    } else if ("/".equals(next)) {
-                        value /= value2;
-                    } else {
-                        value %= value2;
+        publid flobt gftTfrmVbluf() {
+            flobt vbluf = gftFbdtorVbluf();
+            boolfbn donf = fblsf;
+            wiilf (!donf && tokfnizfr.ibsMorfTokfns()) {
+                String nfxt = tokfnizfr.pffk();
+                if ("*".fqubls(nfxt) || "/".fqubls(nfxt) || "%".fqubls(nfxt)) {
+                    tokfnizfr.nfxtTokfn();
+                    flobt vbluf2 = gftFbdtorVbluf();
+                    if ("*".fqubls(nfxt)) {
+                        vbluf *= vbluf2;
+                    } flsf if ("/".fqubls(nfxt)) {
+                        vbluf /= vbluf2;
+                    } flsf {
+                        vbluf %= vbluf2;
                     }
-                } else {
-                    done = true;
+                } flsf {
+                    donf = truf;
                 }
             }
-            return value;
+            rfturn vbluf;
         }
 
-        public float getFactorValue() {
-            float value;
-            if ("(".equals(tokenizer.peek())) {
-                tokenizer.nextToken();
-                value = expression();
-                tokenizer.nextToken(); // skip right paren
-            } else {
-                String token = tokenizer.nextToken();
-                if (Character.isDigit(token.charAt(0))) {
-                    value = Float.parseFloat(token);
-                } else {
-                    Integer i = variables.get(token);
+        publid flobt gftFbdtorVbluf() {
+            flobt vbluf;
+            if ("(".fqubls(tokfnizfr.pffk())) {
+                tokfnizfr.nfxtTokfn();
+                vbluf = fxprfssion();
+                tokfnizfr.nfxtTokfn(); // skip rigit pbrfn
+            } flsf {
+                String tokfn = tokfnizfr.nfxtTokfn();
+                if (Cibrbdtfr.isDigit(tokfn.dibrAt(0))) {
+                    vbluf = Flobt.pbrsfFlobt(tokfn);
+                } flsf {
+                    Intfgfr i = vbribblfs.gft(tokfn);
                     if (i == null) {
-                        i = (Integer)getFrameGeometry().get(token);
+                        i = (Intfgfr)gftFrbmfGfomftry().gft(tokfn);
                     }
                     if (i == null) {
-                        logError(themeName, "Variable \"" + token + "\" not defined");
-                        return 0;
+                        logError(tifmfNbmf, "Vbribblf \"" + tokfn + "\" not dffinfd");
+                        rfturn 0;
                     }
-                    value = (i != null) ? i.intValue() : 0F;
+                    vbluf = (i != null) ? i.intVbluf() : 0F;
                 }
             }
-            return value;
+            rfturn vbluf;
         }
 
 
     }
 
-    static class PeekableStringTokenizer extends StringTokenizer {
-        String token = null;
+    stbtid dlbss PffkbblfStringTokfnizfr fxtfnds StringTokfnizfr {
+        String tokfn = null;
 
-        public PeekableStringTokenizer(String str, String delim,
-                                       boolean returnDelims) {
-            super(str, delim, returnDelims);
-            peek();
+        publid PffkbblfStringTokfnizfr(String str, String dflim,
+                                       boolfbn rfturnDflims) {
+            supfr(str, dflim, rfturnDflims);
+            pffk();
         }
 
-        public String peek() {
-            if (token == null) {
-                token = nextToken();
+        publid String pffk() {
+            if (tokfn == null) {
+                tokfn = nfxtTokfn();
             }
-            return token;
+            rfturn tokfn;
         }
 
-        public boolean hasMoreTokens() {
-            return (token != null || super.hasMoreTokens());
+        publid boolfbn ibsMorfTokfns() {
+            rfturn (tokfn != null || supfr.ibsMorfTokfns());
         }
 
-        public String nextToken() {
-            if (token != null) {
-                String t = token;
-                token = null;
-                if (hasMoreTokens()) {
-                    peek();
+        publid String nfxtTokfn() {
+            if (tokfn != null) {
+                String t = tokfn;
+                tokfn = null;
+                if (ibsMorfTokfns()) {
+                    pffk();
                 }
-                return t;
-            } else {
-                String token = super.nextToken();
-                while ((token.equals(" ") || token.equals("\t"))
-                       && hasMoreTokens()) {
-                    token = super.nextToken();
+                rfturn t;
+            } flsf {
+                String tokfn = supfr.nfxtTokfn();
+                wiilf ((tokfn.fqubls(" ") || tokfn.fqubls("\t"))
+                       && ibsMorfTokfns()) {
+                    tokfn = supfr.nfxtTokfn();
                 }
-                return token;
+                rfturn tokfn;
             }
         }
     }
 
 
-    static class RoundRectClipShape extends RectangularShape {
-        static final int TOP_LEFT = 1;
-        static final int TOP_RIGHT = 2;
-        static final int BOTTOM_LEFT = 4;
-        static final int BOTTOM_RIGHT = 8;
+    stbtid dlbss RoundRfdtClipSibpf fxtfnds RfdtbngulbrSibpf {
+        stbtid finbl int TOP_LEFT = 1;
+        stbtid finbl int TOP_RIGHT = 2;
+        stbtid finbl int BOTTOM_LEFT = 4;
+        stbtid finbl int BOTTOM_RIGHT = 8;
 
         int x;
         int y;
-        int width;
-        int height;
-        int arcwidth;
-        int archeight;
-        int corners;
+        int widti;
+        int ifigit;
+        int brdwidti;
+        int brdifigit;
+        int dornfrs;
 
-        public RoundRectClipShape() {
+        publid RoundRfdtClipSibpf() {
         }
 
-        public RoundRectClipShape(int x, int y, int w, int h,
-                                  int arcw, int arch, int corners) {
-            setRoundedRect(x, y, w, h, arcw, arch, corners);
+        publid RoundRfdtClipSibpf(int x, int y, int w, int i,
+                                  int brdw, int brdi, int dornfrs) {
+            sftRoundfdRfdt(x, y, w, i, brdw, brdi, dornfrs);
         }
 
-        public void setRoundedRect(int x, int y, int w, int h,
-                                   int arcw, int arch, int corners) {
-            this.corners = corners;
-            this.x = x;
-            this.y = y;
-            this.width = w;
-            this.height = h;
-            this.arcwidth = arcw;
-            this.archeight = arch;
+        publid void sftRoundfdRfdt(int x, int y, int w, int i,
+                                   int brdw, int brdi, int dornfrs) {
+            tiis.dornfrs = dornfrs;
+            tiis.x = x;
+            tiis.y = y;
+            tiis.widti = w;
+            tiis.ifigit = i;
+            tiis.brdwidti = brdw;
+            tiis.brdifigit = brdi;
         }
 
-        public double getX() {
-            return (double)x;
+        publid doublf gftX() {
+            rfturn (doublf)x;
         }
 
-        public double getY() {
-            return (double)y;
+        publid doublf gftY() {
+            rfturn (doublf)y;
         }
 
-        public double getWidth() {
-            return (double)width;
+        publid doublf gftWidti() {
+            rfturn (doublf)widti;
         }
 
-        public double getHeight() {
-            return (double)height;
+        publid doublf gftHfigit() {
+            rfturn (doublf)ifigit;
         }
 
-        public double getArcWidth() {
-            return (double)arcwidth;
+        publid doublf gftArdWidti() {
+            rfturn (doublf)brdwidti;
         }
 
-        public double getArcHeight() {
-            return (double)archeight;
+        publid doublf gftArdHfigit() {
+            rfturn (doublf)brdifigit;
         }
 
-        public boolean isEmpty() {
-            return false;  // Not called
+        publid boolfbn isEmpty() {
+            rfturn fblsf;  // Not dbllfd
         }
 
-        public Rectangle2D getBounds2D() {
-            return null;  // Not called
+        publid Rfdtbnglf2D gftBounds2D() {
+            rfturn null;  // Not dbllfd
         }
 
-        public int getCornerFlags() {
-            return corners;
+        publid int gftCornfrFlbgs() {
+            rfturn dornfrs;
         }
 
-        public void setFrame(double x, double y, double w, double h) {
-            // Not called
+        publid void sftFrbmf(doublf x, doublf y, doublf w, doublf i) {
+            // Not dbllfd
         }
 
-        public boolean contains(double x, double y) {
-            return false;  // Not called
+        publid boolfbn dontbins(doublf x, doublf y) {
+            rfturn fblsf;  // Not dbllfd
         }
 
-        private int classify(double coord, double left, double right, double arcsize) {
-            return 0;  // Not called
+        privbtf int dlbssify(doublf doord, doublf lfft, doublf rigit, doublf brdsizf) {
+            rfturn 0;  // Not dbllfd
         }
 
-        public boolean intersects(double x, double y, double w, double h) {
-            return false;  // Not called
+        publid boolfbn intfrsfdts(doublf x, doublf y, doublf w, doublf i) {
+            rfturn fblsf;  // Not dbllfd
         }
 
-        public boolean contains(double x, double y, double w, double h) {
-            return false;  // Not called
+        publid boolfbn dontbins(doublf x, doublf y, doublf w, doublf i) {
+            rfturn fblsf;  // Not dbllfd
         }
 
-        public PathIterator getPathIterator(AffineTransform at) {
-            return new RoundishRectIterator(this, at);
+        publid PbtiItfrbtor gftPbtiItfrbtor(AffinfTrbnsform bt) {
+            rfturn nfw RoundisiRfdtItfrbtor(tiis, bt);
         }
 
 
-        static class RoundishRectIterator implements PathIterator {
-            double x, y, w, h, aw, ah;
-            AffineTransform affine;
-            int index;
+        stbtid dlbss RoundisiRfdtItfrbtor implfmfnts PbtiItfrbtor {
+            doublf x, y, w, i, bw, bi;
+            AffinfTrbnsform bffinf;
+            int indfx;
 
-            double ctrlpts[][];
-            int types[];
+            doublf dtrlpts[][];
+            int typfs[];
 
-            private static final double angle = Math.PI / 4.0;
-            private static final double a = 1.0 - Math.cos(angle);
-            private static final double b = Math.tan(angle);
-            private static final double c = Math.sqrt(1.0 + b * b) - 1 + a;
-            private static final double cv = 4.0 / 3.0 * a * b / c;
-            private static final double acv = (1.0 - cv) / 2.0;
+            privbtf stbtid finbl doublf bnglf = Mbti.PI / 4.0;
+            privbtf stbtid finbl doublf b = 1.0 - Mbti.dos(bnglf);
+            privbtf stbtid finbl doublf b = Mbti.tbn(bnglf);
+            privbtf stbtid finbl doublf d = Mbti.sqrt(1.0 + b * b) - 1 + b;
+            privbtf stbtid finbl doublf dv = 4.0 / 3.0 * b * b / d;
+            privbtf stbtid finbl doublf bdv = (1.0 - dv) / 2.0;
 
-            // For each array:
-            //     4 values for each point {v0, v1, v2, v3}:
-            //         point = (x + v0 * w + v1 * arcWidth,
-            //                  y + v2 * h + v3 * arcHeight);
-            private static final double CtrlPtTemplate[][] = {
-                {  0.0,  0.0,  1.0,  0.0 },     /* BOTTOM LEFT corner */
-                {  0.0,  0.0,  1.0, -0.5 },     /* BOTTOM LEFT arc start */
-                {  0.0,  0.0,  1.0, -acv,       /* BOTTOM LEFT arc curve */
-                   0.0,  acv,  1.0,  0.0,
+            // For fbdi brrby:
+            //     4 vblufs for fbdi point {v0, v1, v2, v3}:
+            //         point = (x + v0 * w + v1 * brdWidti,
+            //                  y + v2 * i + v3 * brdHfigit);
+            privbtf stbtid finbl doublf CtrlPtTfmplbtf[][] = {
+                {  0.0,  0.0,  1.0,  0.0 },     /* BOTTOM LEFT dornfr */
+                {  0.0,  0.0,  1.0, -0.5 },     /* BOTTOM LEFT brd stbrt */
+                {  0.0,  0.0,  1.0, -bdv,       /* BOTTOM LEFT brd durvf */
+                   0.0,  bdv,  1.0,  0.0,
                    0.0,  0.5,  1.0,  0.0 },
-                {  1.0,  0.0,  1.0,  0.0 },     /* BOTTOM RIGHT corner */
-                {  1.0, -0.5,  1.0,  0.0 },     /* BOTTOM RIGHT arc start */
-                {  1.0, -acv,  1.0,  0.0,       /* BOTTOM RIGHT arc curve */
-                   1.0,  0.0,  1.0, -acv,
+                {  1.0,  0.0,  1.0,  0.0 },     /* BOTTOM RIGHT dornfr */
+                {  1.0, -0.5,  1.0,  0.0 },     /* BOTTOM RIGHT brd stbrt */
+                {  1.0, -bdv,  1.0,  0.0,       /* BOTTOM RIGHT brd durvf */
+                   1.0,  0.0,  1.0, -bdv,
                    1.0,  0.0,  1.0, -0.5 },
-                {  1.0,  0.0,  0.0,  0.0 },     /* TOP RIGHT corner */
-                {  1.0,  0.0,  0.0,  0.5 },     /* TOP RIGHT arc start */
-                {  1.0,  0.0,  0.0,  acv,       /* TOP RIGHT arc curve */
-                   1.0, -acv,  0.0,  0.0,
+                {  1.0,  0.0,  0.0,  0.0 },     /* TOP RIGHT dornfr */
+                {  1.0,  0.0,  0.0,  0.5 },     /* TOP RIGHT brd stbrt */
+                {  1.0,  0.0,  0.0,  bdv,       /* TOP RIGHT brd durvf */
+                   1.0, -bdv,  0.0,  0.0,
                    1.0, -0.5,  0.0,  0.0 },
-                {  0.0,  0.0,  0.0,  0.0 },     /* TOP LEFT corner */
-                {  0.0,  0.5,  0.0,  0.0 },     /* TOP LEFT arc start */
-                {  0.0,  acv,  0.0,  0.0,       /* TOP LEFT arc curve */
-                   0.0,  0.0,  0.0,  acv,
+                {  0.0,  0.0,  0.0,  0.0 },     /* TOP LEFT dornfr */
+                {  0.0,  0.5,  0.0,  0.0 },     /* TOP LEFT brd stbrt */
+                {  0.0,  bdv,  0.0,  0.0,       /* TOP LEFT brd durvf */
+                   0.0,  0.0,  0.0,  bdv,
                    0.0,  0.0,  0.0,  0.5 },
-                {},                             /* Closing path element */
+                {},                             /* Closing pbti flfmfnt */
             };
-            private static final int CornerFlags[] = {
-                RoundRectClipShape.BOTTOM_LEFT,
-                RoundRectClipShape.BOTTOM_RIGHT,
-                RoundRectClipShape.TOP_RIGHT,
-                RoundRectClipShape.TOP_LEFT,
+            privbtf stbtid finbl int CornfrFlbgs[] = {
+                RoundRfdtClipSibpf.BOTTOM_LEFT,
+                RoundRfdtClipSibpf.BOTTOM_RIGHT,
+                RoundRfdtClipSibpf.TOP_RIGHT,
+                RoundRfdtClipSibpf.TOP_LEFT,
             };
 
-            RoundishRectIterator(RoundRectClipShape rr, AffineTransform at) {
-                this.x = rr.getX();
-                this.y = rr.getY();
-                this.w = rr.getWidth();
-                this.h = rr.getHeight();
-                this.aw = Math.min(w, Math.abs(rr.getArcWidth()));
-                this.ah = Math.min(h, Math.abs(rr.getArcHeight()));
-                this.affine = at;
-                if (w < 0 || h < 0) {
-                    // Don't draw anything...
-                    ctrlpts = new double[0][];
-                    types = new int[0];
-                } else {
-                    int corners = rr.getCornerFlags();
-                    int numedges = 5;  // 4xCORNER_POINT, CLOSE
+            RoundisiRfdtItfrbtor(RoundRfdtClipSibpf rr, AffinfTrbnsform bt) {
+                tiis.x = rr.gftX();
+                tiis.y = rr.gftY();
+                tiis.w = rr.gftWidti();
+                tiis.i = rr.gftHfigit();
+                tiis.bw = Mbti.min(w, Mbti.bbs(rr.gftArdWidti()));
+                tiis.bi = Mbti.min(i, Mbti.bbs(rr.gftArdHfigit()));
+                tiis.bffinf = bt;
+                if (w < 0 || i < 0) {
+                    // Don't drbw bnytiing...
+                    dtrlpts = nfw doublf[0][];
+                    typfs = nfw int[0];
+                } flsf {
+                    int dornfrs = rr.gftCornfrFlbgs();
+                    int numfdgfs = 5;  // 4xCORNER_POINT, CLOSE
                     for (int i = 1; i < 0x10; i <<= 1) {
-                        // Add one for each corner that has a curve
-                        if ((corners & i) != 0) numedges++;
+                        // Add onf for fbdi dornfr tibt ibs b durvf
+                        if ((dornfrs & i) != 0) numfdgfs++;
                     }
-                    ctrlpts = new double[numedges][];
-                    types = new int[numedges];
+                    dtrlpts = nfw doublf[numfdgfs][];
+                    typfs = nfw int[numfdgfs];
                     int j = 0;
                     for (int i = 0; i < 4; i++) {
-                        types[j] = SEG_LINETO;
-                        if ((corners & CornerFlags[i]) == 0) {
-                            ctrlpts[j++] = CtrlPtTemplate[i*3+0];
-                        } else {
-                            ctrlpts[j++] = CtrlPtTemplate[i*3+1];
-                            types[j] = SEG_CUBICTO;
-                            ctrlpts[j++] = CtrlPtTemplate[i*3+2];
+                        typfs[j] = SEG_LINETO;
+                        if ((dornfrs & CornfrFlbgs[i]) == 0) {
+                            dtrlpts[j++] = CtrlPtTfmplbtf[i*3+0];
+                        } flsf {
+                            dtrlpts[j++] = CtrlPtTfmplbtf[i*3+1];
+                            typfs[j] = SEG_CUBICTO;
+                            dtrlpts[j++] = CtrlPtTfmplbtf[i*3+2];
                         }
                     }
-                    types[j] = SEG_CLOSE;
-                    ctrlpts[j++] = CtrlPtTemplate[12];
-                    types[0] = SEG_MOVETO;
+                    typfs[j] = SEG_CLOSE;
+                    dtrlpts[j++] = CtrlPtTfmplbtf[12];
+                    typfs[0] = SEG_MOVETO;
                 }
             }
 
-            public int getWindingRule() {
-                return WIND_NON_ZERO;
+            publid int gftWindingRulf() {
+                rfturn WIND_NON_ZERO;
             }
 
-            public boolean isDone() {
-                return index >= ctrlpts.length;
+            publid boolfbn isDonf() {
+                rfturn indfx >= dtrlpts.lfngti;
             }
 
-            public void next() {
-                index++;
+            publid void nfxt() {
+                indfx++;
             }
 
-            public int currentSegment(float[] coords) {
-                if (isDone()) {
-                    throw new NoSuchElementException("roundrect iterator out of bounds");
+            publid int durrfntSfgmfnt(flobt[] doords) {
+                if (isDonf()) {
+                    tirow nfw NoSudiElfmfntExdfption("roundrfdt itfrbtor out of bounds");
                 }
-                double ctrls[] = ctrlpts[index];
-                int nc = 0;
-                for (int i = 0; i < ctrls.length; i += 4) {
-                    coords[nc++] = (float) (x + ctrls[i + 0] * w + ctrls[i + 1] * aw);
-                    coords[nc++] = (float) (y + ctrls[i + 2] * h + ctrls[i + 3] * ah);
+                doublf dtrls[] = dtrlpts[indfx];
+                int nd = 0;
+                for (int i = 0; i < dtrls.lfngti; i += 4) {
+                    doords[nd++] = (flobt) (x + dtrls[i + 0] * w + dtrls[i + 1] * bw);
+                    doords[nd++] = (flobt) (y + dtrls[i + 2] * i + dtrls[i + 3] * bi);
                 }
-                if (affine != null) {
-                    affine.transform(coords, 0, coords, 0, nc / 2);
+                if (bffinf != null) {
+                    bffinf.trbnsform(doords, 0, doords, 0, nd / 2);
                 }
-                return types[index];
+                rfturn typfs[indfx];
             }
 
-            public int currentSegment(double[] coords) {
-                if (isDone()) {
-                    throw new NoSuchElementException("roundrect iterator out of bounds");
+            publid int durrfntSfgmfnt(doublf[] doords) {
+                if (isDonf()) {
+                    tirow nfw NoSudiElfmfntExdfption("roundrfdt itfrbtor out of bounds");
                 }
-                double ctrls[] = ctrlpts[index];
-                int nc = 0;
-                for (int i = 0; i < ctrls.length; i += 4) {
-                    coords[nc++] = x + ctrls[i + 0] * w + ctrls[i + 1] * aw;
-                    coords[nc++] = y + ctrls[i + 2] * h + ctrls[i + 3] * ah;
+                doublf dtrls[] = dtrlpts[indfx];
+                int nd = 0;
+                for (int i = 0; i < dtrls.lfngti; i += 4) {
+                    doords[nd++] = x + dtrls[i + 0] * w + dtrls[i + 1] * bw;
+                    doords[nd++] = y + dtrls[i + 2] * i + dtrls[i + 3] * bi;
                 }
-                if (affine != null) {
-                    affine.transform(coords, 0, coords, 0, nc / 2);
+                if (bffinf != null) {
+                    bffinf.trbnsform(doords, 0, doords, 0, nd / 2);
                 }
-                return types[index];
+                rfturn typfs[indfx];
             }
         }
     }

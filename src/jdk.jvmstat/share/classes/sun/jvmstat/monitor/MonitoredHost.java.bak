@@ -1,363 +1,363 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.jvmstat.monitor;
+pbdkbgf sun.jvmstbt.monitor;
 
-import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ServiceLoader;
-import java.util.Set;
+import jbvb.nft.URISyntbxExdfption;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.Sft;
 
-import sun.jvmstat.monitor.event.HostListener;
+import sun.jvmstbt.monitor.fvfnt.HostListfnfr;
 
 /**
- * An abstraction for a host that contains instrumented Java Virtual
- * Machines. The class provides abstract factory methods for creating
- * concrete instances of this class and factory methods for creating
- * {@link MonitoredVm} instances. Concrete implementations of this class
- * provide methods for managing the communications protocols and provide
- * for event notification.
+ * An bbstrbdtion for b iost tibt dontbins instrumfntfd Jbvb Virtubl
+ * Mbdiinfs. Tif dlbss providfs bbstrbdt fbdtory mftiods for drfbting
+ * dondrftf instbndfs of tiis dlbss bnd fbdtory mftiods for drfbting
+ * {@link MonitorfdVm} instbndfs. Condrftf implfmfntbtions of tiis dlbss
+ * providf mftiods for mbnbging tif dommunidbtions protodols bnd providf
+ * for fvfnt notifidbtion.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  *
- * @see HostIdentifier
- * @see VmIdentifier
- * @see MonitoredVm
- * @see HostListener
+ * @sff HostIdfntififr
+ * @sff VmIdfntififr
+ * @sff MonitorfdVm
+ * @sff HostListfnfr
  */
-public abstract class MonitoredHost {
-    private static Map<HostIdentifier, MonitoredHost> monitoredHosts =
-                new HashMap<HostIdentifier, MonitoredHost>();
+publid bbstrbdt dlbss MonitorfdHost {
+    privbtf stbtid Mbp<HostIdfntififr, MonitorfdHost> monitorfdHosts =
+                nfw HbsiMbp<HostIdfntififr, MonitorfdHost>();
 
     /*
-     * The default optimized local protocol override mechanism. The value
-     * of this property is used to construct the default package name
-     * for the default optimized local protocol as follows:
+     * Tif dffbult optimizfd lodbl protodol ovfrridf mfdibnism. Tif vbluf
+     * of tiis propfrty is usfd to donstrudt tif dffbult pbdkbgf nbmf
+     * for tif dffbult optimizfd lodbl protodol bs follows:
      *        <IMPL_PACKAGE>.monitor.<LOCAL_PROTOCOL>
-     * This property is not expected to be set under normal circumstances.
+     * Tiis propfrty is not fxpfdtfd to bf sft undfr normbl dirdumstbndfs.
      */
-    private static final String LOCAL_PROTOCOL_PROP_NAME =
-            "sun.jvmstat.monitor.local";
-    private static final String LOCAL_PROTOCOL =
-            System.getProperty(LOCAL_PROTOCOL_PROP_NAME, "local");
+    privbtf stbtid finbl String LOCAL_PROTOCOL_PROP_NAME =
+            "sun.jvmstbt.monitor.lodbl";
+    privbtf stbtid finbl String LOCAL_PROTOCOL =
+            Systfm.gftPropfrty(LOCAL_PROTOCOL_PROP_NAME, "lodbl");
 
     /*
-     * The default remote protocol override mechanism. The value of
-     * this property is used to construct the default package name
-     * for the default remote protocol protocol as follows:
-     *        <IMPL_PACKAGE>.monitor.protocol.<REMOTE_PROTOCOL>
-     * This property is not expected to be set under normal circumstances.
+     * Tif dffbult rfmotf protodol ovfrridf mfdibnism. Tif vbluf of
+     * tiis propfrty is usfd to donstrudt tif dffbult pbdkbgf nbmf
+     * for tif dffbult rfmotf protodol protodol bs follows:
+     *        <IMPL_PACKAGE>.monitor.protodol.<REMOTE_PROTOCOL>
+     * Tiis propfrty is not fxpfdtfd to bf sft undfr normbl dirdumstbndfs.
      */
-    private static final String REMOTE_PROTOCOL_PROP_NAME =
-            "sun.jvmstat.monitor.remote";
-    private static final String REMOTE_PROTOCOL =
-            System.getProperty(REMOTE_PROTOCOL_PROP_NAME, "rmi");
+    privbtf stbtid finbl String REMOTE_PROTOCOL_PROP_NAME =
+            "sun.jvmstbt.monitor.rfmotf";
+    privbtf stbtid finbl String REMOTE_PROTOCOL =
+            Systfm.gftPropfrty(REMOTE_PROTOCOL_PROP_NAME, "rmi");
 
     /**
-     * The HostIdentifier for this MonitoredHost instance.
+     * Tif HostIdfntififr for tiis MonitorfdHost instbndf.
      */
-    protected HostIdentifier hostId;
+    protfdtfd HostIdfntififr iostId;
 
     /**
-     * The polling interval, in milliseconds, for this MonitoredHost instance.
+     * Tif polling intfrvbl, in millisfdonds, for tiis MonitorfdHost instbndf.
      */
-    protected int interval;
+    protfdtfd int intfrvbl;
 
     /**
-     * The last Exception encountered while polling this MonitoredHost.
+     * Tif lbst Exdfption fndountfrfd wiilf polling tiis MonitorfdHost.
      */
-    protected Exception lastException;
+    protfdtfd Exdfption lbstExdfption;
 
     /**
-     * Factory method to construct MonitoredHost instances to manage
-     * connections to the host indicated by <tt>hostIdString</tt>
+     * Fbdtory mftiod to donstrudt MonitorfdHost instbndfs to mbnbgf
+     * donnfdtions to tif iost indidbtfd by <tt>iostIdString</tt>
      *
-     * @param hostIdString a String representation of a {@link HostIdentifier}
-     * @return MonitoredHost - the MonitoredHost instance for communicating
-     *                         with the indicated host using the protocol
-     *                         specified in hostIdString.
-     * @throws MonitorException  Thrown if monitoring errors occur.
-     * @throws URISyntaxException Thrown when the hostIdString is poorly
-     *                            formed. This exception may get encapsulated
-     *                            into MonitorException in a future revision.
+     * @pbrbm iostIdString b String rfprfsfntbtion of b {@link HostIdfntififr}
+     * @rfturn MonitorfdHost - tif MonitorfdHost instbndf for dommunidbting
+     *                         witi tif indidbtfd iost using tif protodol
+     *                         spfdififd in iostIdString.
+     * @tirows MonitorExdfption  Tirown if monitoring frrors oddur.
+     * @tirows URISyntbxExdfption Tirown wifn tif iostIdString is poorly
+     *                            formfd. Tiis fxdfption mby gft fndbpsulbtfd
+     *                            into MonitorExdfption in b futurf rfvision.
      */
-    public static MonitoredHost getMonitoredHost(String hostIdString)
-                  throws MonitorException, URISyntaxException {
-        HostIdentifier hostId = new HostIdentifier(hostIdString);
-        return getMonitoredHost(hostId);
+    publid stbtid MonitorfdHost gftMonitorfdHost(String iostIdString)
+                  tirows MonitorExdfption, URISyntbxExdfption {
+        HostIdfntififr iostId = nfw HostIdfntififr(iostIdString);
+        rfturn gftMonitorfdHost(iostId);
     }
 
     /**
-     * Factory method to construct a MonitoredHost instance to manage the
-     * connection to the Java Virtual Machine indicated by <tt>vmid</tt>.
+     * Fbdtory mftiod to donstrudt b MonitorfdHost instbndf to mbnbgf tif
+     * donnfdtion to tif Jbvb Virtubl Mbdiinf indidbtfd by <tt>vmid</tt>.
      *
-     * This method provide a convenient short cut for attaching to a specific
-     * instrumented Java Virtual Machine. The information in the VmIdentifier
-     * is used to construct a corresponding HostIdentifier, which in turn is
-     * used to create the MonitoredHost instance.
+     * Tiis mftiod providf b donvfnifnt siort dut for bttbdiing to b spfdifid
+     * instrumfntfd Jbvb Virtubl Mbdiinf. Tif informbtion in tif VmIdfntififr
+     * is usfd to donstrudt b dorrfsponding HostIdfntififr, wiidi in turn is
+     * usfd to drfbtf tif MonitorfdHost instbndf.
      *
-     * @param vmid The identifier for the target Java Virtual Machine.
-     * @return MonitoredHost - The MonitoredHost object needed to attach to
-     *                         the target Java Virtual Machine.
+     * @pbrbm vmid Tif idfntififr for tif tbrgft Jbvb Virtubl Mbdiinf.
+     * @rfturn MonitorfdHost - Tif MonitorfdHost objfdt nffdfd to bttbdi to
+     *                         tif tbrgft Jbvb Virtubl Mbdiinf.
      *
-     * @throws MonitorException Thrown if monitoring errors occur.
+     * @tirows MonitorExdfption Tirown if monitoring frrors oddur.
      */
-    public static MonitoredHost getMonitoredHost(VmIdentifier vmid)
-                 throws MonitorException {
-        // use the VmIdentifier to construct the corresponding HostIdentifier
-        HostIdentifier hostId = new HostIdentifier(vmid);
-        return getMonitoredHost(hostId);
+    publid stbtid MonitorfdHost gftMonitorfdHost(VmIdfntififr vmid)
+                 tirows MonitorExdfption {
+        // usf tif VmIdfntififr to donstrudt tif dorrfsponding HostIdfntififr
+        HostIdfntififr iostId = nfw HostIdfntififr(vmid);
+        rfturn gftMonitorfdHost(iostId);
     }
 
 
     /*
-     * Load the MonitoredHostServices
+     * Lobd tif MonitorfdHostSfrvidfs
      */
-    private static ServiceLoader<MonitoredHostService> monitoredHostServiceLoader =
-        ServiceLoader.load(MonitoredHostService.class, MonitoredHostService.class.getClassLoader());
+    privbtf stbtid SfrvidfLobdfr<MonitorfdHostSfrvidf> monitorfdHostSfrvidfLobdfr =
+        SfrvidfLobdfr.lobd(MonitorfdHostSfrvidf.dlbss, MonitorfdHostSfrvidf.dlbss.gftClbssLobdfr());
 
     /**
-     * Factory method to construct a MonitoredHost instance to manage the
-     * connection to the host indicated by <tt>hostId</tt>.
+     * Fbdtory mftiod to donstrudt b MonitorfdHost instbndf to mbnbgf tif
+     * donnfdtion to tif iost indidbtfd by <tt>iostId</tt>.
      *
-     * @param hostId the identifier for the target host.
-     * @return MonitoredHost - The MonitoredHost object needed to attach to
-     *                         the target host.
+     * @pbrbm iostId tif idfntififr for tif tbrgft iost.
+     * @rfturn MonitorfdHost - Tif MonitorfdHost objfdt nffdfd to bttbdi to
+     *                         tif tbrgft iost.
      *
-     * @throws MonitorException Thrown if monitoring errors occur.
+     * @tirows MonitorExdfption Tirown if monitoring frrors oddur.
      */
-    public static MonitoredHost getMonitoredHost(HostIdentifier hostId)
-                  throws MonitorException {
-        MonitoredHost mh = null;
+    publid stbtid MonitorfdHost gftMonitorfdHost(HostIdfntififr iostId)
+                  tirows MonitorExdfption {
+        MonitorfdHost mi = null;
 
-        synchronized(monitoredHosts) {
-            mh = monitoredHosts.get(hostId);
-            if (mh != null) {
-                if (mh.isErrored()) {
-                    monitoredHosts.remove(hostId);
-                } else {
-                    return mh;
+        syndironizfd(monitorfdHosts) {
+            mi = monitorfdHosts.gft(iostId);
+            if (mi != null) {
+                if (mi.isErrorfd()) {
+                    monitorfdHosts.rfmovf(iostId);
+                } flsf {
+                    rfturn mi;
                 }
             }
         }
 
-        hostId = resolveHostId(hostId);
+        iostId = rfsolvfHostId(iostId);
 
-        for (MonitoredHostService mhs : monitoredHostServiceLoader) {
-            if (mhs.getScheme().equals(hostId.getScheme())) {
-                mh = mhs.getMonitoredHost(hostId);
+        for (MonitorfdHostSfrvidf mis : monitorfdHostSfrvidfLobdfr) {
+            if (mis.gftSdifmf().fqubls(iostId.gftSdifmf())) {
+                mi = mis.gftMonitorfdHost(iostId);
             }
         }
 
-        if (mh == null) {
-            throw new IllegalArgumentException("Could not find MonitoredHost for scheme: " + hostId.getScheme());
+        if (mi == null) {
+            tirow nfw IllfgblArgumfntExdfption("Could not find MonitorfdHost for sdifmf: " + iostId.gftSdifmf());
         }
 
-        synchronized(monitoredHosts) {
-            monitoredHosts.put(mh.hostId, mh);
+        syndironizfd(monitorfdHosts) {
+            monitorfdHosts.put(mi.iostId, mi);
         }
 
-        return mh;
+        rfturn mi;
     }
 
     /**
-     * Method to resolve unspecified components of the given HostIdentifier
-     * by constructing a new HostIdentifier that replaces the unspecified
-     * components with the default values.
+     * Mftiod to rfsolvf unspfdififd domponfnts of tif givfn HostIdfntififr
+     * by donstrudting b nfw HostIdfntififr tibt rfplbdfs tif unspfdififd
+     * domponfnts witi tif dffbult vblufs.
      *
-     * @param hostId the unresolved HostIdentifier.
-     * @return HostIdentifier - a resolved HostIdentifier.
+     * @pbrbm iostId tif unrfsolvfd HostIdfntififr.
+     * @rfturn HostIdfntififr - b rfsolvfd HostIdfntififr.
      *
-     * @throws MonitorException Thrown if monitoring errors occur.
+     * @tirows MonitorExdfption Tirown if monitoring frrors oddur.
      */
-    protected static HostIdentifier resolveHostId(HostIdentifier hostId)
-                     throws MonitorException {
-        String hostname = hostId.getHost();
-        String scheme = hostId.getScheme();
-        StringBuilder sb = new StringBuilder();
+    protfdtfd stbtid HostIdfntififr rfsolvfHostId(HostIdfntififr iostId)
+                     tirows MonitorExdfption {
+        String iostnbmf = iostId.gftHost();
+        String sdifmf = iostId.gftSdifmf();
+        StringBuildfr sb = nfw StringBuildfr();
 
-        assert hostname != null;
+        bssfrt iostnbmf != null;
 
-        if (scheme == null) {
-            if (hostname.compareTo("localhost") == 0) {
-                scheme = LOCAL_PROTOCOL;
-            } else {
-                scheme = REMOTE_PROTOCOL;
+        if (sdifmf == null) {
+            if (iostnbmf.dompbrfTo("lodbliost") == 0) {
+                sdifmf = LOCAL_PROTOCOL;
+            } flsf {
+                sdifmf = REMOTE_PROTOCOL;
             }
         }
 
-        sb.append(scheme).append(":").append(hostId.getSchemeSpecificPart());
+        sb.bppfnd(sdifmf).bppfnd(":").bppfnd(iostId.gftSdifmfSpfdifidPbrt());
 
-        String frag = hostId.getFragment();
-        if (frag != null) {
-            sb.append("#").append(frag);
+        String frbg = iostId.gftFrbgmfnt();
+        if (frbg != null) {
+            sb.bppfnd("#").bppfnd(frbg);
         }
 
         try {
-            return new HostIdentifier(sb.toString());
-        } catch (URISyntaxException e) {
-            // programming error - HostIdentifier was valid.
-            assert false;
-            throw new IllegalArgumentException("Malformed URI created: "
+            rfturn nfw HostIdfntififr(sb.toString());
+        } dbtdi (URISyntbxExdfption f) {
+            // progrbmming frror - HostIdfntififr wbs vblid.
+            bssfrt fblsf;
+            tirow nfw IllfgblArgumfntExdfption("Mblformfd URI drfbtfd: "
                                                + sb.toString());
         }
     }
 
     /**
-     * Return the resolved HostIdentifier for this MonitoredHost.
+     * Rfturn tif rfsolvfd HostIdfntififr for tiis MonitorfdHost.
      *
-     * @return HostIdentifier - the resolved HostIdentifier.
+     * @rfturn HostIdfntififr - tif rfsolvfd HostIdfntififr.
      */
-    public HostIdentifier getHostIdentifier() {
-        return hostId;
+    publid HostIdfntififr gftHostIdfntififr() {
+        rfturn iostId;
     }
 
-    /* ---- Methods to support polled MonitoredHost Implementations ----- */
+    /* ---- Mftiods to support pollfd MonitorfdHost Implfmfntbtions ----- */
 
     /**
-     * Set the polling interval for this MonitoredHost.
+     * Sft tif polling intfrvbl for tiis MonitorfdHost.
      *
-     * @param interval the polling interval, in milliseconds
+     * @pbrbm intfrvbl tif polling intfrvbl, in millisfdonds
      */
-    public void setInterval(int interval) {
-        this.interval = interval;
-    }
-
-    /**
-     * Get the polling interval.
-     *
-     * @return int - the polling interval in milliseconds for this MonitoredHost
-     */
-    public int getInterval() {
-        return interval;
+    publid void sftIntfrvbl(int intfrvbl) {
+        tiis.intfrvbl = intfrvbl;
     }
 
     /**
-     * Set the last exception encountered while polling this MonitoredHost.
+     * Gft tif polling intfrvbl.
      *
-     * @param lastException the last exception encountered;
+     * @rfturn int - tif polling intfrvbl in millisfdonds for tiis MonitorfdHost
      */
-    public void setLastException(Exception lastException) {
-        this.lastException = lastException;
+    publid int gftIntfrvbl() {
+        rfturn intfrvbl;
     }
 
     /**
-     * Get the last exception encountered while polling this MonitoredHost.
+     * Sft tif lbst fxdfption fndountfrfd wiilf polling tiis MonitorfdHost.
      *
-     * @return Exception - the last exception occurred while polling this
-     *                     MonitoredHost, or <tt>null</tt> if no exception
-     *                     has occurred or the exception has been cleared,
+     * @pbrbm lbstExdfption tif lbst fxdfption fndountfrfd;
      */
-    public Exception getLastException() {
-        return lastException;
+    publid void sftLbstExdfption(Exdfption lbstExdfption) {
+        tiis.lbstExdfption = lbstExdfption;
     }
 
     /**
-     * Clear the last exception.
+     * Gft tif lbst fxdfption fndountfrfd wiilf polling tiis MonitorfdHost.
+     *
+     * @rfturn Exdfption - tif lbst fxdfption oddurrfd wiilf polling tiis
+     *                     MonitorfdHost, or <tt>null</tt> if no fxdfption
+     *                     ibs oddurrfd or tif fxdfption ibs bffn dlfbrfd,
      */
-    public void clearLastException() {
-        lastException = null;
+    publid Exdfption gftLbstExdfption() {
+        rfturn lbstExdfption;
     }
 
     /**
-     * Test if this MonitoredHost is in the errored state. If this method
-     * returns true, then the Exception returned by getLastException()
-     * indicates the Exception that caused the error condition.
-     *
-     * @return boolean - true if the MonitoredHost instance has experienced
-     *                   an error, or false if it hasn't or if any past
-     *                   error has been cleared.
+     * Clfbr tif lbst fxdfption.
      */
-    public boolean isErrored() {
-        return lastException != null;
+    publid void dlfbrLbstExdfption() {
+        lbstExdfption = null;
     }
 
     /**
-     * Get the MonitoredVm for the given Java Virtual Machine. The default
-     * sampling interval is used for the MonitoredVm instance.
+     * Tfst if tiis MonitorfdHost is in tif frrorfd stbtf. If tiis mftiod
+     * rfturns truf, tifn tif Exdfption rfturnfd by gftLbstExdfption()
+     * indidbtfs tif Exdfption tibt dbusfd tif frror dondition.
      *
-     * @param id the VmIdentifier specifying the target Java Virtual Machine.
-     * @return MonitoredVm - the MonitoredVm instance for the target Java
-     *                       Virtual Machine.
-     * @throws MonitorException Thrown if monitoring errors occur.
+     * @rfturn boolfbn - truf if tif MonitorfdHost instbndf ibs fxpfrifndfd
+     *                   bn frror, or fblsf if it ibsn't or if bny pbst
+     *                   frror ibs bffn dlfbrfd.
      */
-    public abstract MonitoredVm getMonitoredVm(VmIdentifier id)
-                                throws MonitorException;
+    publid boolfbn isErrorfd() {
+        rfturn lbstExdfption != null;
+    }
 
     /**
-     * Get the MonitoredVm for the given Java Virtual Machine. The sampling
-     * interval is set to the given interval.
+     * Gft tif MonitorfdVm for tif givfn Jbvb Virtubl Mbdiinf. Tif dffbult
+     * sbmpling intfrvbl is usfd for tif MonitorfdVm instbndf.
      *
-     * @param id the VmIdentifier specifying the target Java Virtual Machine.
-     * @param interval the sampling interval for the target Java Virtual Machine.
-     * @return MonitoredVm - the MonitoredVm instance for the target Java
-     *                       Virtual Machine.
-     * @throws MonitorException Thrown if monitoring errors occur.
+     * @pbrbm id tif VmIdfntififr spfdifying tif tbrgft Jbvb Virtubl Mbdiinf.
+     * @rfturn MonitorfdVm - tif MonitorfdVm instbndf for tif tbrgft Jbvb
+     *                       Virtubl Mbdiinf.
+     * @tirows MonitorExdfption Tirown if monitoring frrors oddur.
      */
-    public abstract MonitoredVm getMonitoredVm(VmIdentifier id, int interval)
-                                throws MonitorException;
+    publid bbstrbdt MonitorfdVm gftMonitorfdVm(VmIdfntififr id)
+                                tirows MonitorExdfption;
 
     /**
-     * Detach from the indicated MonitoredVm.
+     * Gft tif MonitorfdVm for tif givfn Jbvb Virtubl Mbdiinf. Tif sbmpling
+     * intfrvbl is sft to tif givfn intfrvbl.
      *
-     * @param vm the monitored Java Virtual Machine.
-     * @throws MonitorException Thrown if monitoring errors occur.
+     * @pbrbm id tif VmIdfntififr spfdifying tif tbrgft Jbvb Virtubl Mbdiinf.
+     * @pbrbm intfrvbl tif sbmpling intfrvbl for tif tbrgft Jbvb Virtubl Mbdiinf.
+     * @rfturn MonitorfdVm - tif MonitorfdVm instbndf for tif tbrgft Jbvb
+     *                       Virtubl Mbdiinf.
+     * @tirows MonitorExdfption Tirown if monitoring frrors oddur.
      */
-    public abstract void detach(MonitoredVm vm) throws MonitorException;
+    publid bbstrbdt MonitorfdVm gftMonitorfdVm(VmIdfntififr id, int intfrvbl)
+                                tirows MonitorExdfption;
 
     /**
-     * Add a HostListener. The given listener is added to the list
-     * of HostListener objects to be notified of MonitoredHost related events.
+     * Dftbdi from tif indidbtfd MonitorfdVm.
      *
-     * @param listener the HostListener to add.
-     * @throws MonitorException Thrown if monitoring errors occur.
+     * @pbrbm vm tif monitorfd Jbvb Virtubl Mbdiinf.
+     * @tirows MonitorExdfption Tirown if monitoring frrors oddur.
      */
-    public abstract void addHostListener(HostListener listener)
-                         throws MonitorException;
+    publid bbstrbdt void dftbdi(MonitorfdVm vm) tirows MonitorExdfption;
 
     /**
-     * Remove a HostListener. The given listener is removed from the list
-     * of HostListener objects to be notified of MonitoredHost related events.
+     * Add b HostListfnfr. Tif givfn listfnfr is bddfd to tif list
+     * of HostListfnfr objfdts to bf notififd of MonitorfdHost rflbtfd fvfnts.
      *
-     * @param listener the HostListener to add.
-     * @throws MonitorException Thrown if monitoring errors occur.
+     * @pbrbm listfnfr tif HostListfnfr to bdd.
+     * @tirows MonitorExdfption Tirown if monitoring frrors oddur.
      */
-    public abstract void removeHostListener(HostListener listener)
-                         throws MonitorException;
+    publid bbstrbdt void bddHostListfnfr(HostListfnfr listfnfr)
+                         tirows MonitorExdfption;
 
     /**
-     * Return the current set of active Java Virtual Machines for this
-     * MonitoredHost. The returned Set contains {@link Integer} instances
-     * holding the local virtual machine identifier, or <em>lvmid</em>
-     * for each instrumented Java Virtual Machine currently available.
+     * Rfmovf b HostListfnfr. Tif givfn listfnfr is rfmovfd from tif list
+     * of HostListfnfr objfdts to bf notififd of MonitorfdHost rflbtfd fvfnts.
      *
-     * @return Set - the current set of active Java Virtual Machines associated
-     *               with this MonitoredHost, or the empty set of none.
-     * @throws MonitorException Thrown if monitoring errors occur.
+     * @pbrbm listfnfr tif HostListfnfr to bdd.
+     * @tirows MonitorExdfption Tirown if monitoring frrors oddur.
      */
-    public abstract Set<Integer> activeVms() throws MonitorException;
+    publid bbstrbdt void rfmovfHostListfnfr(HostListfnfr listfnfr)
+                         tirows MonitorExdfption;
+
+    /**
+     * Rfturn tif durrfnt sft of bdtivf Jbvb Virtubl Mbdiinfs for tiis
+     * MonitorfdHost. Tif rfturnfd Sft dontbins {@link Intfgfr} instbndfs
+     * iolding tif lodbl virtubl mbdiinf idfntififr, or <fm>lvmid</fm>
+     * for fbdi instrumfntfd Jbvb Virtubl Mbdiinf durrfntly bvbilbblf.
+     *
+     * @rfturn Sft - tif durrfnt sft of bdtivf Jbvb Virtubl Mbdiinfs bssodibtfd
+     *               witi tiis MonitorfdHost, or tif fmpty sft of nonf.
+     * @tirows MonitorExdfption Tirown if monitoring frrors oddur.
+     */
+    publid bbstrbdt Sft<Intfgfr> bdtivfVms() tirows MonitorExdfption;
 }

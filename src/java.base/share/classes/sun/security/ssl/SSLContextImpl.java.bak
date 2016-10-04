@@ -1,1228 +1,1228 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.net.Socket;
+import jbvb.nft.Sodkft;
 
-import java.io.*;
-import java.util.*;
-import java.security.*;
-import java.security.cert.*;
-import java.security.cert.Certificate;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.dfrt.*;
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
 
-import javax.net.ssl.*;
+import jbvbx.nft.ssl.*;
 
-import sun.security.provider.certpath.AlgorithmChecker;
-import sun.security.action.GetPropertyAction;
+import sun.sfdurity.providfr.dfrtpbti.AlgoritimCifdkfr;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
-public abstract class SSLContextImpl extends SSLContextSpi {
+publid bbstrbdt dlbss SSLContfxtImpl fxtfnds SSLContfxtSpi {
 
-    private static final Debug debug = Debug.getInstance("ssl");
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("ssl");
 
-    private final EphemeralKeyManager ephemeralKeyManager;
-    private final SSLSessionContextImpl clientCache;
-    private final SSLSessionContextImpl serverCache;
+    privbtf finbl EpifmfrblKfyMbnbgfr fpifmfrblKfyMbnbgfr;
+    privbtf finbl SSLSfssionContfxtImpl dlifntCbdif;
+    privbtf finbl SSLSfssionContfxtImpl sfrvfrCbdif;
 
-    private boolean isInitialized;
+    privbtf boolfbn isInitiblizfd;
 
-    private X509ExtendedKeyManager keyManager;
-    private X509TrustManager trustManager;
-    private SecureRandom secureRandom;
+    privbtf X509ExtfndfdKfyMbnbgfr kfyMbnbgfr;
+    privbtf X509TrustMbnbgfr trustMbnbgfr;
+    privbtf SfdurfRbndom sfdurfRbndom;
 
-    // The default algrithm constraints
-    private AlgorithmConstraints defaultAlgorithmConstraints =
-                                 new SSLAlgorithmConstraints(null);
+    // Tif dffbult blgritim donstrbints
+    privbtf AlgoritimConstrbints dffbultAlgoritimConstrbints =
+                                 nfw SSLAlgoritimConstrbints(null);
 
-    // supported and default protocols
-    private ProtocolList defaultServerProtocolList;
-    private ProtocolList defaultClientProtocolList;
-    private ProtocolList supportedProtocolList;
+    // supportfd bnd dffbult protodols
+    privbtf ProtodolList dffbultSfrvfrProtodolList;
+    privbtf ProtodolList dffbultClifntProtodolList;
+    privbtf ProtodolList supportfdProtodolList;
 
-    // supported and default cipher suites
-    private CipherSuiteList defaultServerCipherSuiteList;
-    private CipherSuiteList defaultClientCipherSuiteList;
-    private CipherSuiteList supportedCipherSuiteList;
+    // supportfd bnd dffbult dipifr suitfs
+    privbtf CipifrSuitfList dffbultSfrvfrCipifrSuitfList;
+    privbtf CipifrSuitfList dffbultClifntCipifrSuitfList;
+    privbtf CipifrSuitfList supportfdCipifrSuitfList;
 
-    SSLContextImpl() {
-        ephemeralKeyManager = new EphemeralKeyManager();
-        clientCache = new SSLSessionContextImpl();
-        serverCache = new SSLSessionContextImpl();
+    SSLContfxtImpl() {
+        fpifmfrblKfyMbnbgfr = nfw EpifmfrblKfyMbnbgfr();
+        dlifntCbdif = nfw SSLSfssionContfxtImpl();
+        sfrvfrCbdif = nfw SSLSfssionContfxtImpl();
     }
 
-    @Override
-    protected void engineInit(KeyManager[] km, TrustManager[] tm,
-                                SecureRandom sr) throws KeyManagementException {
-        isInitialized = false;
-        keyManager = chooseKeyManager(km);
+    @Ovfrridf
+    protfdtfd void fnginfInit(KfyMbnbgfr[] km, TrustMbnbgfr[] tm,
+                                SfdurfRbndom sr) tirows KfyMbnbgfmfntExdfption {
+        isInitiblizfd = fblsf;
+        kfyMbnbgfr = dioosfKfyMbnbgfr(km);
 
         if (tm == null) {
             try {
-                TrustManagerFactory tmf = TrustManagerFactory.getInstance(
-                        TrustManagerFactory.getDefaultAlgorithm());
-                tmf.init((KeyStore)null);
-                tm = tmf.getTrustManagers();
-            } catch (Exception e) {
-                // eat
+                TrustMbnbgfrFbdtory tmf = TrustMbnbgfrFbdtory.gftInstbndf(
+                        TrustMbnbgfrFbdtory.gftDffbultAlgoritim());
+                tmf.init((KfyStorf)null);
+                tm = tmf.gftTrustMbnbgfrs();
+            } dbtdi (Exdfption f) {
+                // fbt
             }
         }
-        trustManager = chooseTrustManager(tm);
+        trustMbnbgfr = dioosfTrustMbnbgfr(tm);
 
         if (sr == null) {
-            secureRandom = JsseJce.getSecureRandom();
-        } else {
+            sfdurfRbndom = JssfJdf.gftSfdurfRbndom();
+        } flsf {
             if (SunJSSE.isFIPS() &&
-                        (sr.getProvider() != SunJSSE.cryptoProvider)) {
-                throw new KeyManagementException
-                    ("FIPS mode: SecureRandom must be from provider "
-                    + SunJSSE.cryptoProvider.getName());
+                        (sr.gftProvidfr() != SunJSSE.dryptoProvidfr)) {
+                tirow nfw KfyMbnbgfmfntExdfption
+                    ("FIPS modf: SfdurfRbndom must bf from providfr "
+                    + SunJSSE.dryptoProvidfr.gftNbmf());
             }
-            secureRandom = sr;
+            sfdurfRbndom = sr;
         }
 
         /*
-         * The initial delay of seeding the random number generator
-         * could be long enough to cause the initial handshake on our
-         * first connection to timeout and fail. Make sure it is
-         * primed and ready by getting some initial output from it.
+         * Tif initibl dflby of sffding tif rbndom numbfr gfnfrbtor
+         * dould bf long fnougi to dbusf tif initibl ibndsibkf on our
+         * first donnfdtion to timfout bnd fbil. Mbkf surf it is
+         * primfd bnd rfbdy by gftting somf initibl output from it.
          */
-        if (debug != null && Debug.isOn("sslctx")) {
-            System.out.println("trigger seeding of SecureRandom");
+        if (dfbug != null && Dfbug.isOn("ssldtx")) {
+            Systfm.out.println("triggfr sffding of SfdurfRbndom");
         }
-        secureRandom.nextInt();
-        if (debug != null && Debug.isOn("sslctx")) {
-            System.out.println("done seeding SecureRandom");
+        sfdurfRbndom.nfxtInt();
+        if (dfbug != null && Dfbug.isOn("ssldtx")) {
+            Systfm.out.println("donf sffding SfdurfRbndom");
         }
-        isInitialized = true;
+        isInitiblizfd = truf;
     }
 
-    private X509TrustManager chooseTrustManager(TrustManager[] tm)
-            throws KeyManagementException {
-        // We only use the first instance of X509TrustManager passed to us.
-        for (int i = 0; tm != null && i < tm.length; i++) {
-            if (tm[i] instanceof X509TrustManager) {
+    privbtf X509TrustMbnbgfr dioosfTrustMbnbgfr(TrustMbnbgfr[] tm)
+            tirows KfyMbnbgfmfntExdfption {
+        // Wf only usf tif first instbndf of X509TrustMbnbgfr pbssfd to us.
+        for (int i = 0; tm != null && i < tm.lfngti; i++) {
+            if (tm[i] instbndfof X509TrustMbnbgfr) {
                 if (SunJSSE.isFIPS() &&
-                        !(tm[i] instanceof X509TrustManagerImpl)) {
-                    throw new KeyManagementException
-                        ("FIPS mode: only SunJSSE TrustManagers may be used");
+                        !(tm[i] instbndfof X509TrustMbnbgfrImpl)) {
+                    tirow nfw KfyMbnbgfmfntExdfption
+                        ("FIPS modf: only SunJSSE TrustMbnbgfrs mby bf usfd");
                 }
 
-                if (tm[i] instanceof X509ExtendedTrustManager) {
-                    return (X509TrustManager)tm[i];
-                } else {
-                    return new AbstractTrustManagerWrapper(
-                                        (X509TrustManager)tm[i]);
+                if (tm[i] instbndfof X509ExtfndfdTrustMbnbgfr) {
+                    rfturn (X509TrustMbnbgfr)tm[i];
+                } flsf {
+                    rfturn nfw AbstrbdtTrustMbnbgfrWrbppfr(
+                                        (X509TrustMbnbgfr)tm[i]);
                 }
             }
         }
 
-        // nothing found, return a dummy X509TrustManager.
-        return DummyX509TrustManager.INSTANCE;
+        // notiing found, rfturn b dummy X509TrustMbnbgfr.
+        rfturn DummyX509TrustMbnbgfr.INSTANCE;
     }
 
-    private X509ExtendedKeyManager chooseKeyManager(KeyManager[] kms)
-            throws KeyManagementException {
-        for (int i = 0; kms != null && i < kms.length; i++) {
-            KeyManager km = kms[i];
-            if (!(km instanceof X509KeyManager)) {
-                continue;
+    privbtf X509ExtfndfdKfyMbnbgfr dioosfKfyMbnbgfr(KfyMbnbgfr[] kms)
+            tirows KfyMbnbgfmfntExdfption {
+        for (int i = 0; kms != null && i < kms.lfngti; i++) {
+            KfyMbnbgfr km = kms[i];
+            if (!(km instbndfof X509KfyMbnbgfr)) {
+                dontinuf;
             }
             if (SunJSSE.isFIPS()) {
-                // In FIPS mode, require that one of SunJSSE's own keymanagers
-                // is used. Otherwise, we cannot be sure that only keys from
-                // the FIPS token are used.
-                if ((km instanceof X509KeyManagerImpl)
-                            || (km instanceof SunX509KeyManagerImpl)) {
-                    return (X509ExtendedKeyManager)km;
-                } else {
-                    // throw exception, we don't want to silently use the
-                    // dummy keymanager without telling the user.
-                    throw new KeyManagementException
-                        ("FIPS mode: only SunJSSE KeyManagers may be used");
+                // In FIPS modf, rfquirf tibt onf of SunJSSE's own kfymbnbgfrs
+                // is usfd. Otifrwisf, wf dbnnot bf surf tibt only kfys from
+                // tif FIPS tokfn brf usfd.
+                if ((km instbndfof X509KfyMbnbgfrImpl)
+                            || (km instbndfof SunX509KfyMbnbgfrImpl)) {
+                    rfturn (X509ExtfndfdKfyMbnbgfr)km;
+                } flsf {
+                    // tirow fxdfption, wf don't wbnt to silfntly usf tif
+                    // dummy kfymbnbgfr witiout tflling tif usfr.
+                    tirow nfw KfyMbnbgfmfntExdfption
+                        ("FIPS modf: only SunJSSE KfyMbnbgfrs mby bf usfd");
                 }
             }
-            if (km instanceof X509ExtendedKeyManager) {
-                return (X509ExtendedKeyManager)km;
+            if (km instbndfof X509ExtfndfdKfyMbnbgfr) {
+                rfturn (X509ExtfndfdKfyMbnbgfr)km;
             }
-            if (debug != null && Debug.isOn("sslctx")) {
-                System.out.println(
-                    "X509KeyManager passed to " +
-                    "SSLContext.init():  need an " +
-                    "X509ExtendedKeyManager for SSLEngine use");
+            if (dfbug != null && Dfbug.isOn("ssldtx")) {
+                Systfm.out.println(
+                    "X509KfyMbnbgfr pbssfd to " +
+                    "SSLContfxt.init():  nffd bn " +
+                    "X509ExtfndfdKfyMbnbgfr for SSLEnginf usf");
             }
-            return new AbstractKeyManagerWrapper((X509KeyManager)km);
+            rfturn nfw AbstrbdtKfyMbnbgfrWrbppfr((X509KfyMbnbgfr)km);
         }
 
-        // nothing found, return a dummy X509ExtendedKeyManager
-        return DummyX509KeyManager.INSTANCE;
+        // notiing found, rfturn b dummy X509ExtfndfdKfyMbnbgfr
+        rfturn DummyX509KfyMbnbgfr.INSTANCE;
     }
 
-    @Override
-    protected SSLSocketFactory engineGetSocketFactory() {
-        if (!isInitialized) {
-            throw new IllegalStateException(
-                "SSLContextImpl is not initialized");
+    @Ovfrridf
+    protfdtfd SSLSodkftFbdtory fnginfGftSodkftFbdtory() {
+        if (!isInitiblizfd) {
+            tirow nfw IllfgblStbtfExdfption(
+                "SSLContfxtImpl is not initiblizfd");
         }
-       return new SSLSocketFactoryImpl(this);
+       rfturn nfw SSLSodkftFbdtoryImpl(tiis);
     }
 
-    @Override
-    protected SSLServerSocketFactory engineGetServerSocketFactory() {
-        if (!isInitialized) {
-            throw new IllegalStateException("SSLContext is not initialized");
+    @Ovfrridf
+    protfdtfd SSLSfrvfrSodkftFbdtory fnginfGftSfrvfrSodkftFbdtory() {
+        if (!isInitiblizfd) {
+            tirow nfw IllfgblStbtfExdfption("SSLContfxt is not initiblizfd");
         }
-        return new SSLServerSocketFactoryImpl(this);
+        rfturn nfw SSLSfrvfrSodkftFbdtoryImpl(tiis);
     }
 
-    @Override
-    protected SSLEngine engineCreateSSLEngine() {
-        if (!isInitialized) {
-            throw new IllegalStateException(
-                "SSLContextImpl is not initialized");
+    @Ovfrridf
+    protfdtfd SSLEnginf fnginfCrfbtfSSLEnginf() {
+        if (!isInitiblizfd) {
+            tirow nfw IllfgblStbtfExdfption(
+                "SSLContfxtImpl is not initiblizfd");
         }
-        return new SSLEngineImpl(this);
+        rfturn nfw SSLEnginfImpl(tiis);
     }
 
-    @Override
-    protected SSLEngine engineCreateSSLEngine(String host, int port) {
-        if (!isInitialized) {
-            throw new IllegalStateException(
-                "SSLContextImpl is not initialized");
+    @Ovfrridf
+    protfdtfd SSLEnginf fnginfCrfbtfSSLEnginf(String iost, int port) {
+        if (!isInitiblizfd) {
+            tirow nfw IllfgblStbtfExdfption(
+                "SSLContfxtImpl is not initiblizfd");
         }
-        return new SSLEngineImpl(this, host, port);
+        rfturn nfw SSLEnginfImpl(tiis, iost, port);
     }
 
-    @Override
-    protected SSLSessionContext engineGetClientSessionContext() {
-        return clientCache;
+    @Ovfrridf
+    protfdtfd SSLSfssionContfxt fnginfGftClifntSfssionContfxt() {
+        rfturn dlifntCbdif;
     }
 
-    @Override
-    protected SSLSessionContext engineGetServerSessionContext() {
-        return serverCache;
+    @Ovfrridf
+    protfdtfd SSLSfssionContfxt fnginfGftSfrvfrSfssionContfxt() {
+        rfturn sfrvfrCbdif;
     }
 
-    SecureRandom getSecureRandom() {
-        return secureRandom;
+    SfdurfRbndom gftSfdurfRbndom() {
+        rfturn sfdurfRbndom;
     }
 
-    X509ExtendedKeyManager getX509KeyManager() {
-        return keyManager;
+    X509ExtfndfdKfyMbnbgfr gftX509KfyMbnbgfr() {
+        rfturn kfyMbnbgfr;
     }
 
-    X509TrustManager getX509TrustManager() {
-        return trustManager;
+    X509TrustMbnbgfr gftX509TrustMbnbgfr() {
+        rfturn trustMbnbgfr;
     }
 
-    EphemeralKeyManager getEphemeralKeyManager() {
-        return ephemeralKeyManager;
+    EpifmfrblKfyMbnbgfr gftEpifmfrblKfyMbnbgfr() {
+        rfturn fpifmfrblKfyMbnbgfr;
     }
 
-    abstract SSLParameters getDefaultServerSSLParams();
-    abstract SSLParameters getDefaultClientSSLParams();
-    abstract SSLParameters getSupportedSSLParams();
+    bbstrbdt SSLPbrbmftfrs gftDffbultSfrvfrSSLPbrbms();
+    bbstrbdt SSLPbrbmftfrs gftDffbultClifntSSLPbrbms();
+    bbstrbdt SSLPbrbmftfrs gftSupportfdSSLPbrbms();
 
-    // Get supported ProtocolList.
-    ProtocolList getSuportedProtocolList() {
-        if (supportedProtocolList == null) {
-            supportedProtocolList =
-                new ProtocolList(getSupportedSSLParams().getProtocols());
+    // Gft supportfd ProtodolList.
+    ProtodolList gftSuportfdProtodolList() {
+        if (supportfdProtodolList == null) {
+            supportfdProtodolList =
+                nfw ProtodolList(gftSupportfdSSLPbrbms().gftProtodols());
         }
 
-        return supportedProtocolList;
+        rfturn supportfdProtodolList;
     }
 
-    // Get default ProtocolList.
-    ProtocolList getDefaultProtocolList(boolean roleIsServer) {
-        if (roleIsServer) {
-            if (defaultServerProtocolList == null) {
-                defaultServerProtocolList = new ProtocolList(
-                        getDefaultServerSSLParams().getProtocols());
-            }
-
-            return defaultServerProtocolList;
-        } else {
-            if (defaultClientProtocolList == null) {
-                defaultClientProtocolList = new ProtocolList(
-                        getDefaultClientSSLParams().getProtocols());
+    // Gft dffbult ProtodolList.
+    ProtodolList gftDffbultProtodolList(boolfbn rolfIsSfrvfr) {
+        if (rolfIsSfrvfr) {
+            if (dffbultSfrvfrProtodolList == null) {
+                dffbultSfrvfrProtodolList = nfw ProtodolList(
+                        gftDffbultSfrvfrSSLPbrbms().gftProtodols());
             }
 
-            return defaultClientProtocolList;
-        }
-    }
-
-    // Get supported CipherSuiteList.
-    CipherSuiteList getSupportedCipherSuiteList() {
-        // The maintenance of cipher suites needs to be synchronized.
-        synchronized (this) {
-            // Clear cache of available ciphersuites.
-            clearAvailableCache();
-
-            if (supportedCipherSuiteList == null) {
-                supportedCipherSuiteList = getApplicableCipherSuiteList(
-                        getSuportedProtocolList(), false);
+            rfturn dffbultSfrvfrProtodolList;
+        } flsf {
+            if (dffbultClifntProtodolList == null) {
+                dffbultClifntProtodolList = nfw ProtodolList(
+                        gftDffbultClifntSSLPbrbms().gftProtodols());
             }
 
-            return supportedCipherSuiteList;
+            rfturn dffbultClifntProtodolList;
         }
     }
 
-    // Get default CipherSuiteList.
-    CipherSuiteList getDefaultCipherSuiteList(boolean roleIsServer) {
-        // The maintenance of cipher suites needs to be synchronized.
-        synchronized (this) {
-            // Clear cache of available ciphersuites.
-            clearAvailableCache();
+    // Gft supportfd CipifrSuitfList.
+    CipifrSuitfList gftSupportfdCipifrSuitfList() {
+        // Tif mbintfnbndf of dipifr suitfs nffds to bf syndironizfd.
+        syndironizfd (tiis) {
+            // Clfbr dbdif of bvbilbblf dipifrsuitfs.
+            dlfbrAvbilbblfCbdif();
 
-            if (roleIsServer) {
-                if (defaultServerCipherSuiteList == null) {
-                    defaultServerCipherSuiteList = getApplicableCipherSuiteList(
-                        getDefaultProtocolList(true), true);
+            if (supportfdCipifrSuitfList == null) {
+                supportfdCipifrSuitfList = gftApplidbblfCipifrSuitfList(
+                        gftSuportfdProtodolList(), fblsf);
+            }
+
+            rfturn supportfdCipifrSuitfList;
+        }
+    }
+
+    // Gft dffbult CipifrSuitfList.
+    CipifrSuitfList gftDffbultCipifrSuitfList(boolfbn rolfIsSfrvfr) {
+        // Tif mbintfnbndf of dipifr suitfs nffds to bf syndironizfd.
+        syndironizfd (tiis) {
+            // Clfbr dbdif of bvbilbblf dipifrsuitfs.
+            dlfbrAvbilbblfCbdif();
+
+            if (rolfIsSfrvfr) {
+                if (dffbultSfrvfrCipifrSuitfList == null) {
+                    dffbultSfrvfrCipifrSuitfList = gftApplidbblfCipifrSuitfList(
+                        gftDffbultProtodolList(truf), truf);
                 }
 
-                return defaultServerCipherSuiteList;
-            } else {
-                if (defaultClientCipherSuiteList == null) {
-                    defaultClientCipherSuiteList = getApplicableCipherSuiteList(
-                        getDefaultProtocolList(false), true);
+                rfturn dffbultSfrvfrCipifrSuitfList;
+            } flsf {
+                if (dffbultClifntCipifrSuitfList == null) {
+                    dffbultClifntCipifrSuitfList = gftApplidbblfCipifrSuitfList(
+                        gftDffbultProtodolList(fblsf), truf);
                 }
 
-                return defaultClientCipherSuiteList;
+                rfturn dffbultClifntCipifrSuitfList;
             }
         }
     }
 
     /**
-     * Return whether a protocol list is the original default enabled
-     * protocols.  See: SSLSocket/SSLEngine.setEnabledProtocols()
+     * Rfturn wiftifr b protodol list is tif originbl dffbult fnbblfd
+     * protodols.  Sff: SSLSodkft/SSLEnginf.sftEnbblfdProtodols()
      */
-    boolean isDefaultProtocolList(ProtocolList protocols) {
-        return (protocols == defaultServerProtocolList) ||
-               (protocols == defaultClientProtocolList);
+    boolfbn isDffbultProtodolList(ProtodolList protodols) {
+        rfturn (protodols == dffbultSfrvfrProtodolList) ||
+               (protodols == dffbultClifntProtodolList);
     }
 
 
     /*
-     * Return the list of all available CipherSuites with a priority of
-     * minPriority or above.
+     * Rfturn tif list of bll bvbilbblf CipifrSuitfs witi b priority of
+     * minPriority or bbovf.
      */
-    private CipherSuiteList getApplicableCipherSuiteList(
-            ProtocolList protocols, boolean onlyEnabled) {
+    privbtf CipifrSuitfList gftApplidbblfCipifrSuitfList(
+            ProtodolList protodols, boolfbn onlyEnbblfd) {
 
-        int minPriority = CipherSuite.SUPPORTED_SUITES_PRIORITY;
-        if (onlyEnabled) {
-            minPriority = CipherSuite.DEFAULT_SUITES_PRIORITY;
+        int minPriority = CipifrSuitf.SUPPORTED_SUITES_PRIORITY;
+        if (onlyEnbblfd) {
+            minPriority = CipifrSuitf.DEFAULT_SUITES_PRIORITY;
         }
 
-        Collection<CipherSuite> allowedCipherSuites =
-                                    CipherSuite.allowedCipherSuites();
+        Collfdtion<CipifrSuitf> bllowfdCipifrSuitfs =
+                                    CipifrSuitf.bllowfdCipifrSuitfs();
 
-        TreeSet<CipherSuite> suites = new TreeSet<>();
-        if (!(protocols.collection().isEmpty()) &&
-                protocols.min.v != ProtocolVersion.NONE.v) {
-            for (CipherSuite suite : allowedCipherSuites) {
-                if (!suite.allowed || suite.priority < minPriority) {
-                    continue;
+        TrffSft<CipifrSuitf> suitfs = nfw TrffSft<>();
+        if (!(protodols.dollfdtion().isEmpty()) &&
+                protodols.min.v != ProtodolVfrsion.NONE.v) {
+            for (CipifrSuitf suitf : bllowfdCipifrSuitfs) {
+                if (!suitf.bllowfd || suitf.priority < minPriority) {
+                    dontinuf;
                 }
 
-                if (suite.isAvailable() &&
-                        suite.obsoleted > protocols.min.v &&
-                        suite.supported <= protocols.max.v) {
-                    if (defaultAlgorithmConstraints.permits(
-                            EnumSet.of(CryptoPrimitive.KEY_AGREEMENT),
-                            suite.name, null)) {
-                        suites.add(suite);
+                if (suitf.isAvbilbblf() &&
+                        suitf.obsolftfd > protodols.min.v &&
+                        suitf.supportfd <= protodols.mbx.v) {
+                    if (dffbultAlgoritimConstrbints.pfrmits(
+                            EnumSft.of(CryptoPrimitivf.KEY_AGREEMENT),
+                            suitf.nbmf, null)) {
+                        suitfs.bdd(suitf);
                     }
-                } else if (debug != null &&
-                        Debug.isOn("sslctx") && Debug.isOn("verbose")) {
-                    if (suite.obsoleted <= protocols.min.v) {
-                        System.out.println(
-                            "Ignoring obsoleted cipher suite: " + suite);
-                    } else if (suite.supported > protocols.max.v) {
-                        System.out.println(
-                            "Ignoring unsupported cipher suite: " + suite);
-                    } else {
-                        System.out.println(
-                            "Ignoring unavailable cipher suite: " + suite);
+                } flsf if (dfbug != null &&
+                        Dfbug.isOn("ssldtx") && Dfbug.isOn("vfrbosf")) {
+                    if (suitf.obsolftfd <= protodols.min.v) {
+                        Systfm.out.println(
+                            "Ignoring obsolftfd dipifr suitf: " + suitf);
+                    } flsf if (suitf.supportfd > protodols.mbx.v) {
+                        Systfm.out.println(
+                            "Ignoring unsupportfd dipifr suitf: " + suitf);
+                    } flsf {
+                        Systfm.out.println(
+                            "Ignoring unbvbilbblf dipifr suitf: " + suitf);
                     }
                 }
             }
         }
 
-        return new CipherSuiteList(suites);
+        rfturn nfw CipifrSuitfList(suitfs);
     }
 
     /**
-     * Clear cache of available ciphersuites. If we support all ciphers
-     * internally, there is no need to clear the cache and calling this
-     * method has no effect.
+     * Clfbr dbdif of bvbilbblf dipifrsuitfs. If wf support bll dipifrs
+     * intfrnblly, tifrf is no nffd to dlfbr tif dbdif bnd dblling tiis
+     * mftiod ibs no ffffdt.
      *
-     * Note that every call to clearAvailableCache() and the maintenance of
-     * cipher suites need to be synchronized with this instance.
+     * Notf tibt fvfry dbll to dlfbrAvbilbblfCbdif() bnd tif mbintfnbndf of
+     * dipifr suitfs nffd to bf syndironizfd witi tiis instbndf.
      */
-    private void clearAvailableCache() {
-        if (CipherSuite.DYNAMIC_AVAILABILITY) {
-            supportedCipherSuiteList = null;
-            defaultServerCipherSuiteList = null;
-            defaultClientCipherSuiteList = null;
-            CipherSuite.BulkCipher.clearAvailableCache();
-            JsseJce.clearEcAvailable();
+    privbtf void dlfbrAvbilbblfCbdif() {
+        if (CipifrSuitf.DYNAMIC_AVAILABILITY) {
+            supportfdCipifrSuitfList = null;
+            dffbultSfrvfrCipifrSuitfList = null;
+            dffbultClifntCipifrSuitfList = null;
+            CipifrSuitf.BulkCipifr.dlfbrAvbilbblfCbdif();
+            JssfJdf.dlfbrEdAvbilbblf();
         }
     }
 
     /*
-     * The SSLContext implementation for TLS/SSL algorithm
+     * Tif SSLContfxt implfmfntbtion for TLS/SSL blgoritim
      *
-     * SSL/TLS protocols specify the forward compatibility and version
-     * roll-back attack protections, however, a number of SSL/TLS server
-     * vendors did not implement these aspects properly, and some current
-     * SSL/TLS servers may refuse to talk to a TLS 1.1 or later client.
+     * SSL/TLS protodols spfdify tif forwbrd dompbtibility bnd vfrsion
+     * roll-bbdk bttbdk protfdtions, iowfvfr, b numbfr of SSL/TLS sfrvfr
+     * vfndors did not implfmfnt tifsf bspfdts propfrly, bnd somf durrfnt
+     * SSL/TLS sfrvfrs mby rffusf to tblk to b TLS 1.1 or lbtfr dlifnt.
      *
-     * Considering above interoperability issues, SunJSSE will not set
-     * TLS 1.1 and TLS 1.2 as the enabled protocols for client by default.
+     * Considfring bbovf intfropfrbbility issufs, SunJSSE will not sft
+     * TLS 1.1 bnd TLS 1.2 bs tif fnbblfd protodols for dlifnt by dffbult.
      *
-     * For SSL/TLS servers, there is no such interoperability issues as
-     * SSL/TLS clients. In SunJSSE, TLS 1.1 or later version will be the
-     * enabled protocols for server by default.
+     * For SSL/TLS sfrvfrs, tifrf is no sudi intfropfrbbility issufs bs
+     * SSL/TLS dlifnts. In SunJSSE, TLS 1.1 or lbtfr vfrsion will bf tif
+     * fnbblfd protodols for sfrvfr by dffbult.
      *
-     * We may change the behavior when popular TLS/SSL vendors support TLS
-     * forward compatibility properly.
+     * Wf mby dibngf tif bfibvior wifn populbr TLS/SSL vfndors support TLS
+     * forwbrd dompbtibility propfrly.
      *
-     * SSLv2Hello is no longer necessary.  This interoperability option was
-     * put in place in the late 90's when SSLv3/TLS1.0 were relatively new
-     * and there were a fair number of SSLv2-only servers deployed.  Because
-     * of the security issues in SSLv2, it is rarely (if ever) used, as
-     * deployments should now be using SSLv3 and TLSv1.
+     * SSLv2Hfllo is no longfr nfdfssbry.  Tiis intfropfrbbility option wbs
+     * put in plbdf in tif lbtf 90's wifn SSLv3/TLS1.0 wfrf rflbtivfly nfw
+     * bnd tifrf wfrf b fbir numbfr of SSLv2-only sfrvfrs dfployfd.  Bfdbusf
+     * of tif sfdurity issufs in SSLv2, it is rbrfly (if fvfr) usfd, bs
+     * dfploymfnts siould now bf using SSLv3 bnd TLSv1.
      *
-     * Considering the issues of SSLv2Hello, we should not enable SSLv2Hello
-     * by default. Applications still can use it by enabling SSLv2Hello with
-     * the series of setEnabledProtocols APIs.
+     * Considfring tif issufs of SSLv2Hfllo, wf siould not fnbblf SSLv2Hfllo
+     * by dffbult. Applidbtions still dbn usf it by fnbbling SSLv2Hfllo witi
+     * tif sfrifs of sftEnbblfdProtodols APIs.
      */
 
     /*
-     * The base abstract SSLContext implementation.
+     * Tif bbsf bbstrbdt SSLContfxt implfmfntbtion.
      *
-     * This abstract class encapsulates supported and the default server
-     * SSL parameters.
+     * Tiis bbstrbdt dlbss fndbpsulbtfs supportfd bnd tif dffbult sfrvfr
+     * SSL pbrbmftfrs.
      *
-     * @see SSLContext
+     * @sff SSLContfxt
      */
-    private abstract static class AbstractSSLContext extends SSLContextImpl {
-        // parameters
-        private final static SSLParameters defaultServerSSLParams;
-        private final static SSLParameters supportedSSLParams;
+    privbtf bbstrbdt stbtid dlbss AbstrbdtSSLContfxt fxtfnds SSLContfxtImpl {
+        // pbrbmftfrs
+        privbtf finbl stbtid SSLPbrbmftfrs dffbultSfrvfrSSLPbrbms;
+        privbtf finbl stbtid SSLPbrbmftfrs supportfdSSLPbrbms;
 
-        static {
-            supportedSSLParams = new SSLParameters();
+        stbtid {
+            supportfdSSLPbrbms = nfw SSLPbrbmftfrs();
             if (SunJSSE.isFIPS()) {
-                supportedSSLParams.setProtocols(new String[] {
-                    ProtocolVersion.TLS10.name,
-                    ProtocolVersion.TLS11.name,
-                    ProtocolVersion.TLS12.name
+                supportfdSSLPbrbms.sftProtodols(nfw String[] {
+                    ProtodolVfrsion.TLS10.nbmf,
+                    ProtodolVfrsion.TLS11.nbmf,
+                    ProtodolVfrsion.TLS12.nbmf
                 });
 
-                defaultServerSSLParams = supportedSSLParams;
-            } else {
-                supportedSSLParams.setProtocols(new String[] {
-                    ProtocolVersion.SSL20Hello.name,
-                    ProtocolVersion.SSL30.name,
-                    ProtocolVersion.TLS10.name,
-                    ProtocolVersion.TLS11.name,
-                    ProtocolVersion.TLS12.name
+                dffbultSfrvfrSSLPbrbms = supportfdSSLPbrbms;
+            } flsf {
+                supportfdSSLPbrbms.sftProtodols(nfw String[] {
+                    ProtodolVfrsion.SSL20Hfllo.nbmf,
+                    ProtodolVfrsion.SSL30.nbmf,
+                    ProtodolVfrsion.TLS10.nbmf,
+                    ProtodolVfrsion.TLS11.nbmf,
+                    ProtodolVfrsion.TLS12.nbmf
                 });
 
-                defaultServerSSLParams = supportedSSLParams;
+                dffbultSfrvfrSSLPbrbms = supportfdSSLPbrbms;
             }
         }
 
-        @Override
-        SSLParameters getDefaultServerSSLParams() {
-            return defaultServerSSLParams;
+        @Ovfrridf
+        SSLPbrbmftfrs gftDffbultSfrvfrSSLPbrbms() {
+            rfturn dffbultSfrvfrSSLPbrbms;
         }
 
-        @Override
-        SSLParameters getSupportedSSLParams() {
-            return supportedSSLParams;
-        }
-    }
-
-    /*
-     * The SSLContext implementation for SSLv3 and TLS10 algorithm
-     *
-     * @see SSLContext
-     */
-    public static final class TLS10Context extends AbstractSSLContext {
-        private final static SSLParameters defaultClientSSLParams;
-
-        static {
-            defaultClientSSLParams = new SSLParameters();
-            if (SunJSSE.isFIPS()) {
-                defaultClientSSLParams.setProtocols(new String[] {
-                    ProtocolVersion.TLS10.name
-                });
-
-            } else {
-                defaultClientSSLParams.setProtocols(new String[] {
-                    ProtocolVersion.SSL30.name,
-                    ProtocolVersion.TLS10.name
-                });
-            }
-        }
-
-        @Override
-        SSLParameters getDefaultClientSSLParams() {
-            return defaultClientSSLParams;
+        @Ovfrridf
+        SSLPbrbmftfrs gftSupportfdSSLPbrbms() {
+            rfturn supportfdSSLPbrbms;
         }
     }
 
     /*
-     * The SSLContext implementation for TLS11 algorithm
+     * Tif SSLContfxt implfmfntbtion for SSLv3 bnd TLS10 blgoritim
      *
-     * @see SSLContext
+     * @sff SSLContfxt
      */
-    public static final class TLS11Context extends AbstractSSLContext {
-        private final static SSLParameters defaultClientSSLParams;
+    publid stbtid finbl dlbss TLS10Contfxt fxtfnds AbstrbdtSSLContfxt {
+        privbtf finbl stbtid SSLPbrbmftfrs dffbultClifntSSLPbrbms;
 
-        static {
-            defaultClientSSLParams = new SSLParameters();
+        stbtid {
+            dffbultClifntSSLPbrbms = nfw SSLPbrbmftfrs();
             if (SunJSSE.isFIPS()) {
-                defaultClientSSLParams.setProtocols(new String[] {
-                    ProtocolVersion.TLS10.name,
-                    ProtocolVersion.TLS11.name
+                dffbultClifntSSLPbrbms.sftProtodols(nfw String[] {
+                    ProtodolVfrsion.TLS10.nbmf
                 });
 
-            } else {
-                defaultClientSSLParams.setProtocols(new String[] {
-                    ProtocolVersion.SSL30.name,
-                    ProtocolVersion.TLS10.name,
-                    ProtocolVersion.TLS11.name
+            } flsf {
+                dffbultClifntSSLPbrbms.sftProtodols(nfw String[] {
+                    ProtodolVfrsion.SSL30.nbmf,
+                    ProtodolVfrsion.TLS10.nbmf
                 });
             }
         }
 
-        @Override
-        SSLParameters getDefaultClientSSLParams() {
-            return defaultClientSSLParams;
+        @Ovfrridf
+        SSLPbrbmftfrs gftDffbultClifntSSLPbrbms() {
+            rfturn dffbultClifntSSLPbrbms;
         }
     }
 
     /*
-     * The SSLContext implementation for TLS12 algorithm
+     * Tif SSLContfxt implfmfntbtion for TLS11 blgoritim
      *
-     * @see SSLContext
+     * @sff SSLContfxt
      */
-    public static final class TLS12Context extends AbstractSSLContext {
-        private final static SSLParameters defaultClientSSLParams;
+    publid stbtid finbl dlbss TLS11Contfxt fxtfnds AbstrbdtSSLContfxt {
+        privbtf finbl stbtid SSLPbrbmftfrs dffbultClifntSSLPbrbms;
 
-        static {
-            defaultClientSSLParams = new SSLParameters();
+        stbtid {
+            dffbultClifntSSLPbrbms = nfw SSLPbrbmftfrs();
             if (SunJSSE.isFIPS()) {
-                defaultClientSSLParams.setProtocols(new String[] {
-                    ProtocolVersion.TLS10.name,
-                    ProtocolVersion.TLS11.name,
-                    ProtocolVersion.TLS12.name
+                dffbultClifntSSLPbrbms.sftProtodols(nfw String[] {
+                    ProtodolVfrsion.TLS10.nbmf,
+                    ProtodolVfrsion.TLS11.nbmf
                 });
 
-            } else {
-                defaultClientSSLParams.setProtocols(new String[] {
-                    ProtocolVersion.SSL30.name,
-                    ProtocolVersion.TLS10.name,
-                    ProtocolVersion.TLS11.name,
-                    ProtocolVersion.TLS12.name
+            } flsf {
+                dffbultClifntSSLPbrbms.sftProtodols(nfw String[] {
+                    ProtodolVfrsion.SSL30.nbmf,
+                    ProtodolVfrsion.TLS10.nbmf,
+                    ProtodolVfrsion.TLS11.nbmf
                 });
             }
         }
 
-        @Override
-        SSLParameters getDefaultClientSSLParams() {
-            return defaultClientSSLParams;
+        @Ovfrridf
+        SSLPbrbmftfrs gftDffbultClifntSSLPbrbms() {
+            rfturn dffbultClifntSSLPbrbms;
         }
     }
 
     /*
-     * The SSLContext implementation for customized TLS protocols
+     * Tif SSLContfxt implfmfntbtion for TLS12 blgoritim
      *
-     * @see SSLContext
+     * @sff SSLContfxt
      */
-    private static class CustomizedSSLContext extends AbstractSSLContext {
-        private final static String PROPERTY_NAME = "jdk.tls.client.protocols";
-        private final static SSLParameters defaultClientSSLParams;
-        private static IllegalArgumentException reservedException = null;
+    publid stbtid finbl dlbss TLS12Contfxt fxtfnds AbstrbdtSSLContfxt {
+        privbtf finbl stbtid SSLPbrbmftfrs dffbultClifntSSLPbrbms;
 
-        // Don't want a java.lang.LinkageError for illegal system property.
+        stbtid {
+            dffbultClifntSSLPbrbms = nfw SSLPbrbmftfrs();
+            if (SunJSSE.isFIPS()) {
+                dffbultClifntSSLPbrbms.sftProtodols(nfw String[] {
+                    ProtodolVfrsion.TLS10.nbmf,
+                    ProtodolVfrsion.TLS11.nbmf,
+                    ProtodolVfrsion.TLS12.nbmf
+                });
+
+            } flsf {
+                dffbultClifntSSLPbrbms.sftProtodols(nfw String[] {
+                    ProtodolVfrsion.SSL30.nbmf,
+                    ProtodolVfrsion.TLS10.nbmf,
+                    ProtodolVfrsion.TLS11.nbmf,
+                    ProtodolVfrsion.TLS12.nbmf
+                });
+            }
+        }
+
+        @Ovfrridf
+        SSLPbrbmftfrs gftDffbultClifntSSLPbrbms() {
+            rfturn dffbultClifntSSLPbrbms;
+        }
+    }
+
+    /*
+     * Tif SSLContfxt implfmfntbtion for dustomizfd TLS protodols
+     *
+     * @sff SSLContfxt
+     */
+    privbtf stbtid dlbss CustomizfdSSLContfxt fxtfnds AbstrbdtSSLContfxt {
+        privbtf finbl stbtid String PROPERTY_NAME = "jdk.tls.dlifnt.protodols";
+        privbtf finbl stbtid SSLPbrbmftfrs dffbultClifntSSLPbrbms;
+        privbtf stbtid IllfgblArgumfntExdfption rfsfrvfdExdfption = null;
+
+        // Don't wbnt b jbvb.lbng.LinkbgfError for illfgbl systfm propfrty.
         //
-        // Please don't throw exception in this static block.  Otherwise,
-        // java.lang.LinkageError may be thrown during the instantiation of
-        // the provider service. Instead, let's handle the initialization
-        // exception in constructor.
-        static {
-            String property = AccessController.doPrivileged(
-                    new GetPropertyAction(PROPERTY_NAME));
-            defaultClientSSLParams = new SSLParameters();
-            if (property == null || property.length() == 0) {
-                // the default enabled client TLS protocols
+        // Plfbsf don't tirow fxdfption in tiis stbtid blodk.  Otifrwisf,
+        // jbvb.lbng.LinkbgfError mby bf tirown during tif instbntibtion of
+        // tif providfr sfrvidf. Instfbd, lft's ibndlf tif initiblizbtion
+        // fxdfption in donstrudtor.
+        stbtid {
+            String propfrty = AddfssControllfr.doPrivilfgfd(
+                    nfw GftPropfrtyAdtion(PROPERTY_NAME));
+            dffbultClifntSSLPbrbms = nfw SSLPbrbmftfrs();
+            if (propfrty == null || propfrty.lfngti() == 0) {
+                // tif dffbult fnbblfd dlifnt TLS protodols
                 if (SunJSSE.isFIPS()) {
-                    defaultClientSSLParams.setProtocols(new String[] {
-                        ProtocolVersion.TLS10.name,
-                        ProtocolVersion.TLS11.name,
-                        ProtocolVersion.TLS12.name
+                    dffbultClifntSSLPbrbms.sftProtodols(nfw String[] {
+                        ProtodolVfrsion.TLS10.nbmf,
+                        ProtodolVfrsion.TLS11.nbmf,
+                        ProtodolVfrsion.TLS12.nbmf
                     });
 
-                } else {
-                    defaultClientSSLParams.setProtocols(new String[] {
-                        ProtocolVersion.SSL30.name,
-                        ProtocolVersion.TLS10.name,
-                        ProtocolVersion.TLS11.name,
-                        ProtocolVersion.TLS12.name
+                } flsf {
+                    dffbultClifntSSLPbrbms.sftProtodols(nfw String[] {
+                        ProtodolVfrsion.SSL30.nbmf,
+                        ProtodolVfrsion.TLS10.nbmf,
+                        ProtodolVfrsion.TLS11.nbmf,
+                        ProtodolVfrsion.TLS12.nbmf
                     });
                 }
-            } else {
-                // remove double quote marks from beginning/end of the property
-                if (property.charAt(0) == '"' &&
-                        property.charAt(property.length() - 1) == '"') {
-                    property = property.substring(1, property.length() - 1);
+            } flsf {
+                // rfmovf doublf quotf mbrks from bfginning/fnd of tif propfrty
+                if (propfrty.dibrAt(0) == '"' &&
+                        propfrty.dibrAt(propfrty.lfngti() - 1) == '"') {
+                    propfrty = propfrty.substring(1, propfrty.lfngti() - 1);
                 }
 
-                String[] protocols = property.split(",");
-                for (int i = 0; i < protocols.length; i++) {
-                    protocols[i] = protocols[i].trim();
-                    // Is it a supported protocol name?
+                String[] protodols = propfrty.split(",");
+                for (int i = 0; i < protodols.lfngti; i++) {
+                    protodols[i] = protodols[i].trim();
+                    // Is it b supportfd protodol nbmf?
                     try {
-                        ProtocolVersion.valueOf(protocols[i]);
-                    } catch (IllegalArgumentException iae) {
-                        reservedException = new IllegalArgumentException(
-                                PROPERTY_NAME + ": " + protocols[i] +
-                                " is not a standard SSL protocol name", iae);
+                        ProtodolVfrsion.vblufOf(protodols[i]);
+                    } dbtdi (IllfgblArgumfntExdfption ibf) {
+                        rfsfrvfdExdfption = nfw IllfgblArgumfntExdfption(
+                                PROPERTY_NAME + ": " + protodols[i] +
+                                " is not b stbndbrd SSL protodol nbmf", ibf);
                     }
                 }
 
-                if ((reservedException == null) && SunJSSE.isFIPS()) {
-                    for (String protocol : protocols) {
-                        if (ProtocolVersion.SSL20Hello.name.equals(protocol) ||
-                                ProtocolVersion.SSL30.name.equals(protocol)) {
-                            reservedException = new IllegalArgumentException(
-                                    PROPERTY_NAME + ": " + protocol +
-                                    " is not FIPS compliant");
+                if ((rfsfrvfdExdfption == null) && SunJSSE.isFIPS()) {
+                    for (String protodol : protodols) {
+                        if (ProtodolVfrsion.SSL20Hfllo.nbmf.fqubls(protodol) ||
+                                ProtodolVfrsion.SSL30.nbmf.fqubls(protodol)) {
+                            rfsfrvfdExdfption = nfw IllfgblArgumfntExdfption(
+                                    PROPERTY_NAME + ": " + protodol +
+                                    " is not FIPS domplibnt");
                         }
                     }
                 }
 
-                if (reservedException == null) {
-                    defaultClientSSLParams.setProtocols(protocols);
+                if (rfsfrvfdExdfption == null) {
+                    dffbultClifntSSLPbrbms.sftProtodols(protodols);
                }
             }
         }
 
-        protected CustomizedSSLContext() {
-            if (reservedException != null) {
-                throw reservedException;
+        protfdtfd CustomizfdSSLContfxt() {
+            if (rfsfrvfdExdfption != null) {
+                tirow rfsfrvfdExdfption;
             }
         }
 
-        @Override
-        SSLParameters getDefaultClientSSLParams() {
-            return defaultClientSSLParams;
+        @Ovfrridf
+        SSLPbrbmftfrs gftDffbultClifntSSLPbrbms() {
+            rfturn dffbultClifntSSLPbrbms;
         }
     }
 
     /*
-     * The SSLContext implementation for default "TLS" algorithm
+     * Tif SSLContfxt implfmfntbtion for dffbult "TLS" blgoritim
      *
-     * @see SSLContext
+     * @sff SSLContfxt
      */
-    public static final class TLSContext extends CustomizedSSLContext {
-        // use the default constructor and methods
+    publid stbtid finbl dlbss TLSContfxt fxtfnds CustomizfdSSLContfxt {
+        // usf tif dffbult donstrudtor bnd mftiods
     }
 
     /*
-     * The SSLContext implementation for default "Default" algorithm
+     * Tif SSLContfxt implfmfntbtion for dffbult "Dffbult" blgoritim
      *
-     * @see SSLContext
+     * @sff SSLContfxt
      */
-    public static final class DefaultSSLContext extends CustomizedSSLContext {
-        private static final String NONE = "NONE";
-        private static final String P11KEYSTORE = "PKCS11";
+    publid stbtid finbl dlbss DffbultSSLContfxt fxtfnds CustomizfdSSLContfxt {
+        privbtf stbtid finbl String NONE = "NONE";
+        privbtf stbtid finbl String P11KEYSTORE = "PKCS11";
 
-        private static volatile SSLContextImpl defaultImpl;
+        privbtf stbtid volbtilf SSLContfxtImpl dffbultImpl;
 
-        private static TrustManager[] defaultTrustManagers;
-        private static KeyManager[] defaultKeyManagers;
+        privbtf stbtid TrustMbnbgfr[] dffbultTrustMbnbgfrs;
+        privbtf stbtid KfyMbnbgfr[] dffbultKfyMbnbgfrs;
 
-        public DefaultSSLContext() throws Exception {
+        publid DffbultSSLContfxt() tirows Exdfption {
             try {
-                super.engineInit(getDefaultKeyManager(),
-                        getDefaultTrustManager(), null);
-            } catch (Exception e) {
-                if (debug != null && Debug.isOn("defaultctx")) {
-                    System.out.println("default context init failed: " + e);
+                supfr.fnginfInit(gftDffbultKfyMbnbgfr(),
+                        gftDffbultTrustMbnbgfr(), null);
+            } dbtdi (Exdfption f) {
+                if (dfbug != null && Dfbug.isOn("dffbultdtx")) {
+                    Systfm.out.println("dffbult dontfxt init fbilfd: " + f);
                 }
-                throw e;
+                tirow f;
             }
 
-            if (defaultImpl == null) {
-                defaultImpl = this;
+            if (dffbultImpl == null) {
+                dffbultImpl = tiis;
             }
         }
 
-        @Override
-        protected void engineInit(KeyManager[] km, TrustManager[] tm,
-            SecureRandom sr) throws KeyManagementException {
-            throw new KeyManagementException
-                ("Default SSLContext is initialized automatically");
+        @Ovfrridf
+        protfdtfd void fnginfInit(KfyMbnbgfr[] km, TrustMbnbgfr[] tm,
+            SfdurfRbndom sr) tirows KfyMbnbgfmfntExdfption {
+            tirow nfw KfyMbnbgfmfntExdfption
+                ("Dffbult SSLContfxt is initiblizfd butombtidblly");
         }
 
-        static synchronized SSLContextImpl getDefaultImpl() throws Exception {
-            if (defaultImpl == null) {
-                new DefaultSSLContext();
+        stbtid syndironizfd SSLContfxtImpl gftDffbultImpl() tirows Exdfption {
+            if (dffbultImpl == null) {
+                nfw DffbultSSLContfxt();
             }
-            return defaultImpl;
+            rfturn dffbultImpl;
         }
 
-        private static synchronized TrustManager[] getDefaultTrustManager()
-                throws Exception {
-            if (defaultTrustManagers != null) {
-                return defaultTrustManagers;
+        privbtf stbtid syndironizfd TrustMbnbgfr[] gftDffbultTrustMbnbgfr()
+                tirows Exdfption {
+            if (dffbultTrustMbnbgfrs != null) {
+                rfturn dffbultTrustMbnbgfrs;
             }
 
-            KeyStore ks =
-                TrustManagerFactoryImpl.getCacertsKeyStore("defaultctx");
+            KfyStorf ks =
+                TrustMbnbgfrFbdtoryImpl.gftCbdfrtsKfyStorf("dffbultdtx");
 
-            TrustManagerFactory tmf = TrustManagerFactory.getInstance(
-                TrustManagerFactory.getDefaultAlgorithm());
+            TrustMbnbgfrFbdtory tmf = TrustMbnbgfrFbdtory.gftInstbndf(
+                TrustMbnbgfrFbdtory.gftDffbultAlgoritim());
             tmf.init(ks);
-            defaultTrustManagers = tmf.getTrustManagers();
-            return defaultTrustManagers;
+            dffbultTrustMbnbgfrs = tmf.gftTrustMbnbgfrs();
+            rfturn dffbultTrustMbnbgfrs;
         }
 
-        private static synchronized KeyManager[] getDefaultKeyManager()
-                throws Exception {
-            if (defaultKeyManagers != null) {
-                return defaultKeyManagers;
+        privbtf stbtid syndironizfd KfyMbnbgfr[] gftDffbultKfyMbnbgfr()
+                tirows Exdfption {
+            if (dffbultKfyMbnbgfrs != null) {
+                rfturn dffbultKfyMbnbgfrs;
             }
 
-            final Map<String,String> props = new HashMap<>();
-            AccessController.doPrivileged(
-                        new PrivilegedExceptionAction<Object>() {
-                @Override
-                public Object run() throws Exception {
-                    props.put("keyStore",  System.getProperty(
-                                "javax.net.ssl.keyStore", ""));
-                    props.put("keyStoreType", System.getProperty(
-                                "javax.net.ssl.keyStoreType",
-                                KeyStore.getDefaultType()));
-                    props.put("keyStoreProvider", System.getProperty(
-                                "javax.net.ssl.keyStoreProvider", ""));
-                    props.put("keyStorePasswd", System.getProperty(
-                                "javax.net.ssl.keyStorePassword", ""));
-                    return null;
+            finbl Mbp<String,String> props = nfw HbsiMbp<>();
+            AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdExdfptionAdtion<Objfdt>() {
+                @Ovfrridf
+                publid Objfdt run() tirows Exdfption {
+                    props.put("kfyStorf",  Systfm.gftPropfrty(
+                                "jbvbx.nft.ssl.kfyStorf", ""));
+                    props.put("kfyStorfTypf", Systfm.gftPropfrty(
+                                "jbvbx.nft.ssl.kfyStorfTypf",
+                                KfyStorf.gftDffbultTypf()));
+                    props.put("kfyStorfProvidfr", Systfm.gftPropfrty(
+                                "jbvbx.nft.ssl.kfyStorfProvidfr", ""));
+                    props.put("kfyStorfPbsswd", Systfm.gftPropfrty(
+                                "jbvbx.nft.ssl.kfyStorfPbssword", ""));
+                    rfturn null;
                 }
             });
 
-            final String defaultKeyStore = props.get("keyStore");
-            String defaultKeyStoreType = props.get("keyStoreType");
-            String defaultKeyStoreProvider = props.get("keyStoreProvider");
-            if (debug != null && Debug.isOn("defaultctx")) {
-                System.out.println("keyStore is : " + defaultKeyStore);
-                System.out.println("keyStore type is : " +
-                                        defaultKeyStoreType);
-                System.out.println("keyStore provider is : " +
-                                        defaultKeyStoreProvider);
+            finbl String dffbultKfyStorf = props.gft("kfyStorf");
+            String dffbultKfyStorfTypf = props.gft("kfyStorfTypf");
+            String dffbultKfyStorfProvidfr = props.gft("kfyStorfProvidfr");
+            if (dfbug != null && Dfbug.isOn("dffbultdtx")) {
+                Systfm.out.println("kfyStorf is : " + dffbultKfyStorf);
+                Systfm.out.println("kfyStorf typf is : " +
+                                        dffbultKfyStorfTypf);
+                Systfm.out.println("kfyStorf providfr is : " +
+                                        dffbultKfyStorfProvidfr);
             }
 
-            if (P11KEYSTORE.equals(defaultKeyStoreType) &&
-                    !NONE.equals(defaultKeyStore)) {
-                throw new IllegalArgumentException("if keyStoreType is "
-                    + P11KEYSTORE + ", then keyStore must be " + NONE);
+            if (P11KEYSTORE.fqubls(dffbultKfyStorfTypf) &&
+                    !NONE.fqubls(dffbultKfyStorf)) {
+                tirow nfw IllfgblArgumfntExdfption("if kfyStorfTypf is "
+                    + P11KEYSTORE + ", tifn kfyStorf must bf " + NONE);
             }
 
-            FileInputStream fs = null;
-            KeyStore ks = null;
-            char[] passwd = null;
+            FilfInputStrfbm fs = null;
+            KfyStorf ks = null;
+            dibr[] pbsswd = null;
             try {
-                if (defaultKeyStore.length() != 0 &&
-                        !NONE.equals(defaultKeyStore)) {
-                    fs = AccessController.doPrivileged(
-                            new PrivilegedExceptionAction<FileInputStream>() {
-                        @Override
-                        public FileInputStream run() throws Exception {
-                            return new FileInputStream(defaultKeyStore);
+                if (dffbultKfyStorf.lfngti() != 0 &&
+                        !NONE.fqubls(dffbultKfyStorf)) {
+                    fs = AddfssControllfr.doPrivilfgfd(
+                            nfw PrivilfgfdExdfptionAdtion<FilfInputStrfbm>() {
+                        @Ovfrridf
+                        publid FilfInputStrfbm run() tirows Exdfption {
+                            rfturn nfw FilfInputStrfbm(dffbultKfyStorf);
                         }
                     });
                 }
 
-                String defaultKeyStorePassword = props.get("keyStorePasswd");
-                if (defaultKeyStorePassword.length() != 0) {
-                    passwd = defaultKeyStorePassword.toCharArray();
+                String dffbultKfyStorfPbssword = props.gft("kfyStorfPbsswd");
+                if (dffbultKfyStorfPbssword.lfngti() != 0) {
+                    pbsswd = dffbultKfyStorfPbssword.toCibrArrby();
                 }
 
                 /**
-                 * Try to initialize key store.
+                 * Try to initiblizf kfy storf.
                  */
-                if ((defaultKeyStoreType.length()) != 0) {
-                    if (debug != null && Debug.isOn("defaultctx")) {
-                        System.out.println("init keystore");
+                if ((dffbultKfyStorfTypf.lfngti()) != 0) {
+                    if (dfbug != null && Dfbug.isOn("dffbultdtx")) {
+                        Systfm.out.println("init kfystorf");
                     }
-                    if (defaultKeyStoreProvider.length() == 0) {
-                        ks = KeyStore.getInstance(defaultKeyStoreType);
-                    } else {
-                        ks = KeyStore.getInstance(defaultKeyStoreType,
-                                            defaultKeyStoreProvider);
+                    if (dffbultKfyStorfProvidfr.lfngti() == 0) {
+                        ks = KfyStorf.gftInstbndf(dffbultKfyStorfTypf);
+                    } flsf {
+                        ks = KfyStorf.gftInstbndf(dffbultKfyStorfTypf,
+                                            dffbultKfyStorfProvidfr);
                     }
 
-                    // if defaultKeyStore is NONE, fs will be null
-                    ks.load(fs, passwd);
+                    // if dffbultKfyStorf is NONE, fs will bf null
+                    ks.lobd(fs, pbsswd);
                 }
-            } finally {
+            } finblly {
                 if (fs != null) {
-                    fs.close();
+                    fs.dlosf();
                     fs = null;
                 }
             }
 
             /*
-             * Try to initialize key manager.
+             * Try to initiblizf kfy mbnbgfr.
              */
-            if (debug != null && Debug.isOn("defaultctx")) {
-                System.out.println("init keymanager of type " +
-                    KeyManagerFactory.getDefaultAlgorithm());
+            if (dfbug != null && Dfbug.isOn("dffbultdtx")) {
+                Systfm.out.println("init kfymbnbgfr of typf " +
+                    KfyMbnbgfrFbdtory.gftDffbultAlgoritim());
             }
-            KeyManagerFactory kmf = KeyManagerFactory.getInstance(
-                KeyManagerFactory.getDefaultAlgorithm());
+            KfyMbnbgfrFbdtory kmf = KfyMbnbgfrFbdtory.gftInstbndf(
+                KfyMbnbgfrFbdtory.gftDffbultAlgoritim());
 
-            if (P11KEYSTORE.equals(defaultKeyStoreType)) {
-                kmf.init(ks, null); // do not pass key passwd if using token
-            } else {
-                kmf.init(ks, passwd);
+            if (P11KEYSTORE.fqubls(dffbultKfyStorfTypf)) {
+                kmf.init(ks, null); // do not pbss kfy pbsswd if using tokfn
+            } flsf {
+                kmf.init(ks, pbsswd);
             }
 
-            defaultKeyManagers = kmf.getKeyManagers();
-            return defaultKeyManagers;
+            dffbultKfyMbnbgfrs = kmf.gftKfyMbnbgfrs();
+            rfturn dffbultKfyMbnbgfrs;
         }
     }
 
 }
 
 
-final class AbstractTrustManagerWrapper extends X509ExtendedTrustManager
-            implements X509TrustManager {
+finbl dlbss AbstrbdtTrustMbnbgfrWrbppfr fxtfnds X509ExtfndfdTrustMbnbgfr
+            implfmfnts X509TrustMbnbgfr {
 
-    // the delegated trust manager
-    private final X509TrustManager tm;
+    // tif dflfgbtfd trust mbnbgfr
+    privbtf finbl X509TrustMbnbgfr tm;
 
-    AbstractTrustManagerWrapper(X509TrustManager tm) {
-        this.tm = tm;
+    AbstrbdtTrustMbnbgfrWrbppfr(X509TrustMbnbgfr tm) {
+        tiis.tm = tm;
     }
 
-    @Override
-    public void checkClientTrusted(X509Certificate[] chain, String authType)
-        throws CertificateException {
-        tm.checkClientTrusted(chain, authType);
+    @Ovfrridf
+    publid void difdkClifntTrustfd(X509Cfrtifidbtf[] dibin, String butiTypf)
+        tirows CfrtifidbtfExdfption {
+        tm.difdkClifntTrustfd(dibin, butiTypf);
     }
 
-    @Override
-    public void checkServerTrusted(X509Certificate[] chain, String authType)
-        throws CertificateException {
-        tm.checkServerTrusted(chain, authType);
+    @Ovfrridf
+    publid void difdkSfrvfrTrustfd(X509Cfrtifidbtf[] dibin, String butiTypf)
+        tirows CfrtifidbtfExdfption {
+        tm.difdkSfrvfrTrustfd(dibin, butiTypf);
     }
 
-    @Override
-    public X509Certificate[] getAcceptedIssuers() {
-        return tm.getAcceptedIssuers();
+    @Ovfrridf
+    publid X509Cfrtifidbtf[] gftAddfptfdIssufrs() {
+        rfturn tm.gftAddfptfdIssufrs();
     }
 
-    @Override
-    public void checkClientTrusted(X509Certificate[] chain, String authType,
-                Socket socket) throws CertificateException {
-        tm.checkClientTrusted(chain, authType);
-        checkAdditionalTrust(chain, authType, socket, true);
+    @Ovfrridf
+    publid void difdkClifntTrustfd(X509Cfrtifidbtf[] dibin, String butiTypf,
+                Sodkft sodkft) tirows CfrtifidbtfExdfption {
+        tm.difdkClifntTrustfd(dibin, butiTypf);
+        difdkAdditionblTrust(dibin, butiTypf, sodkft, truf);
     }
 
-    @Override
-    public void checkServerTrusted(X509Certificate[] chain, String authType,
-            Socket socket) throws CertificateException {
-        tm.checkServerTrusted(chain, authType);
-        checkAdditionalTrust(chain, authType, socket, false);
+    @Ovfrridf
+    publid void difdkSfrvfrTrustfd(X509Cfrtifidbtf[] dibin, String butiTypf,
+            Sodkft sodkft) tirows CfrtifidbtfExdfption {
+        tm.difdkSfrvfrTrustfd(dibin, butiTypf);
+        difdkAdditionblTrust(dibin, butiTypf, sodkft, fblsf);
     }
 
-    @Override
-    public void checkClientTrusted(X509Certificate[] chain, String authType,
-            SSLEngine engine) throws CertificateException {
-        tm.checkClientTrusted(chain, authType);
-        checkAdditionalTrust(chain, authType, engine, true);
+    @Ovfrridf
+    publid void difdkClifntTrustfd(X509Cfrtifidbtf[] dibin, String butiTypf,
+            SSLEnginf fnginf) tirows CfrtifidbtfExdfption {
+        tm.difdkClifntTrustfd(dibin, butiTypf);
+        difdkAdditionblTrust(dibin, butiTypf, fnginf, truf);
     }
 
-    @Override
-    public void checkServerTrusted(X509Certificate[] chain, String authType,
-            SSLEngine engine) throws CertificateException {
-        tm.checkServerTrusted(chain, authType);
-        checkAdditionalTrust(chain, authType, engine, false);
+    @Ovfrridf
+    publid void difdkSfrvfrTrustfd(X509Cfrtifidbtf[] dibin, String butiTypf,
+            SSLEnginf fnginf) tirows CfrtifidbtfExdfption {
+        tm.difdkSfrvfrTrustfd(dibin, butiTypf);
+        difdkAdditionblTrust(dibin, butiTypf, fnginf, fblsf);
     }
 
-    private void checkAdditionalTrust(X509Certificate[] chain, String authType,
-                Socket socket, boolean isClient) throws CertificateException {
-        if (socket != null && socket.isConnected() &&
-                                    socket instanceof SSLSocket) {
+    privbtf void difdkAdditionblTrust(X509Cfrtifidbtf[] dibin, String butiTypf,
+                Sodkft sodkft, boolfbn isClifnt) tirows CfrtifidbtfExdfption {
+        if (sodkft != null && sodkft.isConnfdtfd() &&
+                                    sodkft instbndfof SSLSodkft) {
 
-            SSLSocket sslSocket = (SSLSocket)socket;
-            SSLSession session = sslSocket.getHandshakeSession();
-            if (session == null) {
-                throw new CertificateException("No handshake session");
+            SSLSodkft sslSodkft = (SSLSodkft)sodkft;
+            SSLSfssion sfssion = sslSodkft.gftHbndsibkfSfssion();
+            if (sfssion == null) {
+                tirow nfw CfrtifidbtfExdfption("No ibndsibkf sfssion");
             }
 
-            // check endpoint identity
-            String identityAlg = sslSocket.getSSLParameters().
-                                        getEndpointIdentificationAlgorithm();
-            if (identityAlg != null && identityAlg.length() != 0) {
-                String hostname = session.getPeerHost();
-                X509TrustManagerImpl.checkIdentity(
-                                    hostname, chain[0], identityAlg);
+            // difdk fndpoint idfntity
+            String idfntityAlg = sslSodkft.gftSSLPbrbmftfrs().
+                                        gftEndpointIdfntifidbtionAlgoritim();
+            if (idfntityAlg != null && idfntityAlg.lfngti() != 0) {
+                String iostnbmf = sfssion.gftPffrHost();
+                X509TrustMbnbgfrImpl.difdkIdfntity(
+                                    iostnbmf, dibin[0], idfntityAlg);
             }
 
-            // try the best to check the algorithm constraints
-            ProtocolVersion protocolVersion =
-                ProtocolVersion.valueOf(session.getProtocol());
-            AlgorithmConstraints constraints = null;
-            if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-                if (session instanceof ExtendedSSLSession) {
-                    ExtendedSSLSession extSession =
-                                    (ExtendedSSLSession)session;
-                    String[] peerSupportedSignAlgs =
-                            extSession.getLocalSupportedSignatureAlgorithms();
+            // try tif bfst to difdk tif blgoritim donstrbints
+            ProtodolVfrsion protodolVfrsion =
+                ProtodolVfrsion.vblufOf(sfssion.gftProtodol());
+            AlgoritimConstrbints donstrbints = null;
+            if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+                if (sfssion instbndfof ExtfndfdSSLSfssion) {
+                    ExtfndfdSSLSfssion fxtSfssion =
+                                    (ExtfndfdSSLSfssion)sfssion;
+                    String[] pffrSupportfdSignAlgs =
+                            fxtSfssion.gftLodblSupportfdSignbturfAlgoritims();
 
-                    constraints = new SSLAlgorithmConstraints(
-                                    sslSocket, peerSupportedSignAlgs, true);
-                } else {
-                    constraints =
-                            new SSLAlgorithmConstraints(sslSocket, true);
+                    donstrbints = nfw SSLAlgoritimConstrbints(
+                                    sslSodkft, pffrSupportfdSignAlgs, truf);
+                } flsf {
+                    donstrbints =
+                            nfw SSLAlgoritimConstrbints(sslSodkft, truf);
                 }
-            } else {
-                constraints = new SSLAlgorithmConstraints(sslSocket, true);
+            } flsf {
+                donstrbints = nfw SSLAlgoritimConstrbints(sslSodkft, truf);
             }
 
-            checkAlgorithmConstraints(chain, constraints);
+            difdkAlgoritimConstrbints(dibin, donstrbints);
         }
     }
 
-    private void checkAdditionalTrust(X509Certificate[] chain, String authType,
-            SSLEngine engine, boolean isClient) throws CertificateException {
-        if (engine != null) {
-            SSLSession session = engine.getHandshakeSession();
-            if (session == null) {
-                throw new CertificateException("No handshake session");
+    privbtf void difdkAdditionblTrust(X509Cfrtifidbtf[] dibin, String butiTypf,
+            SSLEnginf fnginf, boolfbn isClifnt) tirows CfrtifidbtfExdfption {
+        if (fnginf != null) {
+            SSLSfssion sfssion = fnginf.gftHbndsibkfSfssion();
+            if (sfssion == null) {
+                tirow nfw CfrtifidbtfExdfption("No ibndsibkf sfssion");
             }
 
-            // check endpoint identity
-            String identityAlg = engine.getSSLParameters().
-                                        getEndpointIdentificationAlgorithm();
-            if (identityAlg != null && identityAlg.length() != 0) {
-                String hostname = session.getPeerHost();
-                X509TrustManagerImpl.checkIdentity(
-                                    hostname, chain[0], identityAlg);
+            // difdk fndpoint idfntity
+            String idfntityAlg = fnginf.gftSSLPbrbmftfrs().
+                                        gftEndpointIdfntifidbtionAlgoritim();
+            if (idfntityAlg != null && idfntityAlg.lfngti() != 0) {
+                String iostnbmf = sfssion.gftPffrHost();
+                X509TrustMbnbgfrImpl.difdkIdfntity(
+                                    iostnbmf, dibin[0], idfntityAlg);
             }
 
-            // try the best to check the algorithm constraints
-            ProtocolVersion protocolVersion =
-                ProtocolVersion.valueOf(session.getProtocol());
-            AlgorithmConstraints constraints = null;
-            if (protocolVersion.v >= ProtocolVersion.TLS12.v) {
-                if (session instanceof ExtendedSSLSession) {
-                    ExtendedSSLSession extSession =
-                                    (ExtendedSSLSession)session;
-                    String[] peerSupportedSignAlgs =
-                            extSession.getLocalSupportedSignatureAlgorithms();
+            // try tif bfst to difdk tif blgoritim donstrbints
+            ProtodolVfrsion protodolVfrsion =
+                ProtodolVfrsion.vblufOf(sfssion.gftProtodol());
+            AlgoritimConstrbints donstrbints = null;
+            if (protodolVfrsion.v >= ProtodolVfrsion.TLS12.v) {
+                if (sfssion instbndfof ExtfndfdSSLSfssion) {
+                    ExtfndfdSSLSfssion fxtSfssion =
+                                    (ExtfndfdSSLSfssion)sfssion;
+                    String[] pffrSupportfdSignAlgs =
+                            fxtSfssion.gftLodblSupportfdSignbturfAlgoritims();
 
-                    constraints = new SSLAlgorithmConstraints(
-                                    engine, peerSupportedSignAlgs, true);
-                } else {
-                    constraints =
-                            new SSLAlgorithmConstraints(engine, true);
+                    donstrbints = nfw SSLAlgoritimConstrbints(
+                                    fnginf, pffrSupportfdSignAlgs, truf);
+                } flsf {
+                    donstrbints =
+                            nfw SSLAlgoritimConstrbints(fnginf, truf);
                 }
-            } else {
-                constraints = new SSLAlgorithmConstraints(engine, true);
+            } flsf {
+                donstrbints = nfw SSLAlgoritimConstrbints(fnginf, truf);
             }
 
-            checkAlgorithmConstraints(chain, constraints);
+            difdkAlgoritimConstrbints(dibin, donstrbints);
         }
     }
 
-    private void checkAlgorithmConstraints(X509Certificate[] chain,
-            AlgorithmConstraints constraints) throws CertificateException {
+    privbtf void difdkAlgoritimConstrbints(X509Cfrtifidbtf[] dibin,
+            AlgoritimConstrbints donstrbints) tirows CfrtifidbtfExdfption {
 
         try {
-            // Does the certificate chain end with a trusted certificate?
-            int checkedLength = chain.length - 1;
+            // Dofs tif dfrtifidbtf dibin fnd witi b trustfd dfrtifidbtf?
+            int difdkfdLfngti = dibin.lfngti - 1;
 
-            Collection<X509Certificate> trustedCerts = new HashSet<>();
-            X509Certificate[] certs = tm.getAcceptedIssuers();
-            if ((certs != null) && (certs.length > 0)){
-                Collections.addAll(trustedCerts, certs);
+            Collfdtion<X509Cfrtifidbtf> trustfdCfrts = nfw HbsiSft<>();
+            X509Cfrtifidbtf[] dfrts = tm.gftAddfptfdIssufrs();
+            if ((dfrts != null) && (dfrts.lfngti > 0)){
+                Collfdtions.bddAll(trustfdCfrts, dfrts);
             }
 
-            if (trustedCerts.contains(chain[checkedLength])) {
-                    checkedLength--;
+            if (trustfdCfrts.dontbins(dibin[difdkfdLfngti])) {
+                    difdkfdLfngti--;
             }
 
-            // A forward checker, need to check from trust to target
-            if (checkedLength >= 0) {
-                AlgorithmChecker checker = new AlgorithmChecker(constraints);
-                checker.init(false);
-                for (int i = checkedLength; i >= 0; i--) {
-                    Certificate cert = chain[i];
-                    // We don't care about the unresolved critical extensions.
-                    checker.check(cert, Collections.<String>emptySet());
+            // A forwbrd difdkfr, nffd to difdk from trust to tbrgft
+            if (difdkfdLfngti >= 0) {
+                AlgoritimCifdkfr difdkfr = nfw AlgoritimCifdkfr(donstrbints);
+                difdkfr.init(fblsf);
+                for (int i = difdkfdLfngti; i >= 0; i--) {
+                    Cfrtifidbtf dfrt = dibin[i];
+                    // Wf don't dbrf bbout tif unrfsolvfd dritidbl fxtfnsions.
+                    difdkfr.difdk(dfrt, Collfdtions.<String>fmptySft());
                 }
             }
-        } catch (CertPathValidatorException cpve) {
-            throw new CertificateException(
-                "Certificates does not conform to algorithm constraints");
+        } dbtdi (CfrtPbtiVblidbtorExdfption dpvf) {
+            tirow nfw CfrtifidbtfExdfption(
+                "Cfrtifidbtfs dofs not donform to blgoritim donstrbints");
         }
     }
 }
 
-// Dummy X509TrustManager implementation, rejects all peer certificates.
-// Used if the application did not specify a proper X509TrustManager.
-final class DummyX509TrustManager extends X509ExtendedTrustManager
-            implements X509TrustManager {
+// Dummy X509TrustMbnbgfr implfmfntbtion, rfjfdts bll pffr dfrtifidbtfs.
+// Usfd if tif bpplidbtion did not spfdify b propfr X509TrustMbnbgfr.
+finbl dlbss DummyX509TrustMbnbgfr fxtfnds X509ExtfndfdTrustMbnbgfr
+            implfmfnts X509TrustMbnbgfr {
 
-    static final X509TrustManager INSTANCE = new DummyX509TrustManager();
+    stbtid finbl X509TrustMbnbgfr INSTANCE = nfw DummyX509TrustMbnbgfr();
 
-    private DummyX509TrustManager() {
-        // empty
+    privbtf DummyX509TrustMbnbgfr() {
+        // fmpty
     }
 
     /*
-     * Given the partial or complete certificate chain
-     * provided by the peer, build a certificate path
-     * to a trusted root and return if it can be
-     * validated and is trusted for client SSL authentication.
-     * If not, it throws an exception.
+     * Givfn tif pbrtibl or domplftf dfrtifidbtf dibin
+     * providfd by tif pffr, build b dfrtifidbtf pbti
+     * to b trustfd root bnd rfturn if it dbn bf
+     * vblidbtfd bnd is trustfd for dlifnt SSL butifntidbtion.
+     * If not, it tirows bn fxdfption.
      */
-    @Override
-    public void checkClientTrusted(X509Certificate[] chain, String authType)
-        throws CertificateException {
-        throw new CertificateException(
-            "No X509TrustManager implementation avaiable");
+    @Ovfrridf
+    publid void difdkClifntTrustfd(X509Cfrtifidbtf[] dibin, String butiTypf)
+        tirows CfrtifidbtfExdfption {
+        tirow nfw CfrtifidbtfExdfption(
+            "No X509TrustMbnbgfr implfmfntbtion bvbibblf");
     }
 
     /*
-     * Given the partial or complete certificate chain
-     * provided by the peer, build a certificate path
-     * to a trusted root and return if it can be
-     * validated and is trusted for server SSL authentication.
-     * If not, it throws an exception.
+     * Givfn tif pbrtibl or domplftf dfrtifidbtf dibin
+     * providfd by tif pffr, build b dfrtifidbtf pbti
+     * to b trustfd root bnd rfturn if it dbn bf
+     * vblidbtfd bnd is trustfd for sfrvfr SSL butifntidbtion.
+     * If not, it tirows bn fxdfption.
      */
-    @Override
-    public void checkServerTrusted(X509Certificate[] chain, String authType)
-        throws CertificateException {
-        throw new CertificateException(
-            "No X509TrustManager implementation available");
+    @Ovfrridf
+    publid void difdkSfrvfrTrustfd(X509Cfrtifidbtf[] dibin, String butiTypf)
+        tirows CfrtifidbtfExdfption {
+        tirow nfw CfrtifidbtfExdfption(
+            "No X509TrustMbnbgfr implfmfntbtion bvbilbblf");
     }
 
     /*
-     * Return an array of issuer certificates which are trusted
-     * for authenticating peers.
+     * Rfturn bn brrby of issufr dfrtifidbtfs wiidi brf trustfd
+     * for butifntidbting pffrs.
      */
-    @Override
-    public X509Certificate[] getAcceptedIssuers() {
-        return new X509Certificate[0];
+    @Ovfrridf
+    publid X509Cfrtifidbtf[] gftAddfptfdIssufrs() {
+        rfturn nfw X509Cfrtifidbtf[0];
     }
 
-    @Override
-    public void checkClientTrusted(X509Certificate[] chain, String authType,
-                Socket socket) throws CertificateException {
-        throw new CertificateException(
-            "No X509TrustManager implementation available");
+    @Ovfrridf
+    publid void difdkClifntTrustfd(X509Cfrtifidbtf[] dibin, String butiTypf,
+                Sodkft sodkft) tirows CfrtifidbtfExdfption {
+        tirow nfw CfrtifidbtfExdfption(
+            "No X509TrustMbnbgfr implfmfntbtion bvbilbblf");
     }
 
-    @Override
-    public void checkServerTrusted(X509Certificate[] chain, String authType,
-            Socket socket) throws CertificateException {
-        throw new CertificateException(
-            "No X509TrustManager implementation available");
+    @Ovfrridf
+    publid void difdkSfrvfrTrustfd(X509Cfrtifidbtf[] dibin, String butiTypf,
+            Sodkft sodkft) tirows CfrtifidbtfExdfption {
+        tirow nfw CfrtifidbtfExdfption(
+            "No X509TrustMbnbgfr implfmfntbtion bvbilbblf");
     }
 
-    @Override
-    public void checkClientTrusted(X509Certificate[] chain, String authType,
-            SSLEngine engine) throws CertificateException {
-        throw new CertificateException(
-            "No X509TrustManager implementation available");
+    @Ovfrridf
+    publid void difdkClifntTrustfd(X509Cfrtifidbtf[] dibin, String butiTypf,
+            SSLEnginf fnginf) tirows CfrtifidbtfExdfption {
+        tirow nfw CfrtifidbtfExdfption(
+            "No X509TrustMbnbgfr implfmfntbtion bvbilbblf");
     }
 
-    @Override
-    public void checkServerTrusted(X509Certificate[] chain, String authType,
-            SSLEngine engine) throws CertificateException {
-        throw new CertificateException(
-            "No X509TrustManager implementation available");
+    @Ovfrridf
+    publid void difdkSfrvfrTrustfd(X509Cfrtifidbtf[] dibin, String butiTypf,
+            SSLEnginf fnginf) tirows CfrtifidbtfExdfption {
+        tirow nfw CfrtifidbtfExdfption(
+            "No X509TrustMbnbgfr implfmfntbtion bvbilbblf");
     }
 }
 
 /*
- * A wrapper class to turn a X509KeyManager into an X509ExtendedKeyManager
+ * A wrbppfr dlbss to turn b X509KfyMbnbgfr into bn X509ExtfndfdKfyMbnbgfr
  */
-final class AbstractKeyManagerWrapper extends X509ExtendedKeyManager {
+finbl dlbss AbstrbdtKfyMbnbgfrWrbppfr fxtfnds X509ExtfndfdKfyMbnbgfr {
 
-    private final X509KeyManager km;
+    privbtf finbl X509KfyMbnbgfr km;
 
-    AbstractKeyManagerWrapper(X509KeyManager km) {
-        this.km = km;
+    AbstrbdtKfyMbnbgfrWrbppfr(X509KfyMbnbgfr km) {
+        tiis.km = km;
     }
 
-    @Override
-    public String[] getClientAliases(String keyType, Principal[] issuers) {
-        return km.getClientAliases(keyType, issuers);
+    @Ovfrridf
+    publid String[] gftClifntAlibsfs(String kfyTypf, Prindipbl[] issufrs) {
+        rfturn km.gftClifntAlibsfs(kfyTypf, issufrs);
     }
 
-    @Override
-    public String chooseClientAlias(String[] keyType, Principal[] issuers,
-            Socket socket) {
-        return km.chooseClientAlias(keyType, issuers, socket);
+    @Ovfrridf
+    publid String dioosfClifntAlibs(String[] kfyTypf, Prindipbl[] issufrs,
+            Sodkft sodkft) {
+        rfturn km.dioosfClifntAlibs(kfyTypf, issufrs, sodkft);
     }
 
-    @Override
-    public String[] getServerAliases(String keyType, Principal[] issuers) {
-        return km.getServerAliases(keyType, issuers);
+    @Ovfrridf
+    publid String[] gftSfrvfrAlibsfs(String kfyTypf, Prindipbl[] issufrs) {
+        rfturn km.gftSfrvfrAlibsfs(kfyTypf, issufrs);
     }
 
-    @Override
-    public String chooseServerAlias(String keyType, Principal[] issuers,
-            Socket socket) {
-        return km.chooseServerAlias(keyType, issuers, socket);
+    @Ovfrridf
+    publid String dioosfSfrvfrAlibs(String kfyTypf, Prindipbl[] issufrs,
+            Sodkft sodkft) {
+        rfturn km.dioosfSfrvfrAlibs(kfyTypf, issufrs, sodkft);
     }
 
-    @Override
-    public X509Certificate[] getCertificateChain(String alias) {
-        return km.getCertificateChain(alias);
+    @Ovfrridf
+    publid X509Cfrtifidbtf[] gftCfrtifidbtfCibin(String blibs) {
+        rfturn km.gftCfrtifidbtfCibin(blibs);
     }
 
-    @Override
-    public PrivateKey getPrivateKey(String alias) {
-        return km.getPrivateKey(alias);
+    @Ovfrridf
+    publid PrivbtfKfy gftPrivbtfKfy(String blibs) {
+        rfturn km.gftPrivbtfKfy(blibs);
     }
 
-    // Inherit chooseEngineClientAlias() and chooseEngineServerAlias() from
-    // X509ExtendedKeymanager. It defines them to return null;
+    // Inifrit dioosfEnginfClifntAlibs() bnd dioosfEnginfSfrvfrAlibs() from
+    // X509ExtfndfdKfymbnbgfr. It dffinfs tifm to rfturn null;
 }
 
 
-// Dummy X509KeyManager implementation, never returns any certificates/keys.
-// Used if the application did not specify a proper X509TrustManager.
-final class DummyX509KeyManager extends X509ExtendedKeyManager {
+// Dummy X509KfyMbnbgfr implfmfntbtion, nfvfr rfturns bny dfrtifidbtfs/kfys.
+// Usfd if tif bpplidbtion did not spfdify b propfr X509TrustMbnbgfr.
+finbl dlbss DummyX509KfyMbnbgfr fxtfnds X509ExtfndfdKfyMbnbgfr {
 
-    static final X509ExtendedKeyManager INSTANCE = new DummyX509KeyManager();
+    stbtid finbl X509ExtfndfdKfyMbnbgfr INSTANCE = nfw DummyX509KfyMbnbgfr();
 
-    private DummyX509KeyManager() {
-        // empty
+    privbtf DummyX509KfyMbnbgfr() {
+        // fmpty
     }
 
     /*
-     * Get the matching aliases for authenticating the client side of a secure
-     * socket given the public key type and the list of
-     * certificate issuer authorities recognized by the peer (if any).
+     * Gft tif mbtdiing blibsfs for butifntidbting tif dlifnt sidf of b sfdurf
+     * sodkft givfn tif publid kfy typf bnd tif list of
+     * dfrtifidbtf issufr butioritifs rfdognizfd by tif pffr (if bny).
      */
-    @Override
-    public String[] getClientAliases(String keyType, Principal[] issuers) {
-        return null;
+    @Ovfrridf
+    publid String[] gftClifntAlibsfs(String kfyTypf, Prindipbl[] issufrs) {
+        rfturn null;
     }
 
     /*
-     * Choose an alias to authenticate the client side of a secure
-     * socket given the public key type and the list of
-     * certificate issuer authorities recognized by the peer (if any).
+     * Cioosf bn blibs to butifntidbtf tif dlifnt sidf of b sfdurf
+     * sodkft givfn tif publid kfy typf bnd tif list of
+     * dfrtifidbtf issufr butioritifs rfdognizfd by tif pffr (if bny).
      */
-    @Override
-    public String chooseClientAlias(String[] keyTypes, Principal[] issuers,
-            Socket socket) {
-        return null;
+    @Ovfrridf
+    publid String dioosfClifntAlibs(String[] kfyTypfs, Prindipbl[] issufrs,
+            Sodkft sodkft) {
+        rfturn null;
     }
 
     /*
-     * Choose an alias to authenticate the client side of an
-     * engine given the public key type and the list of
-     * certificate issuer authorities recognized by the peer (if any).
+     * Cioosf bn blibs to butifntidbtf tif dlifnt sidf of bn
+     * fnginf givfn tif publid kfy typf bnd tif list of
+     * dfrtifidbtf issufr butioritifs rfdognizfd by tif pffr (if bny).
      */
-    @Override
-    public String chooseEngineClientAlias(
-            String[] keyTypes, Principal[] issuers, SSLEngine engine) {
-        return null;
+    @Ovfrridf
+    publid String dioosfEnginfClifntAlibs(
+            String[] kfyTypfs, Prindipbl[] issufrs, SSLEnginf fnginf) {
+        rfturn null;
     }
 
     /*
-     * Get the matching aliases for authenticating the server side of a secure
-     * socket given the public key type and the list of
-     * certificate issuer authorities recognized by the peer (if any).
+     * Gft tif mbtdiing blibsfs for butifntidbting tif sfrvfr sidf of b sfdurf
+     * sodkft givfn tif publid kfy typf bnd tif list of
+     * dfrtifidbtf issufr butioritifs rfdognizfd by tif pffr (if bny).
      */
-    @Override
-    public String[] getServerAliases(String keyType, Principal[] issuers) {
-        return null;
+    @Ovfrridf
+    publid String[] gftSfrvfrAlibsfs(String kfyTypf, Prindipbl[] issufrs) {
+        rfturn null;
     }
 
     /*
-     * Choose an alias to authenticate the server side of a secure
-     * socket given the public key type and the list of
-     * certificate issuer authorities recognized by the peer (if any).
+     * Cioosf bn blibs to butifntidbtf tif sfrvfr sidf of b sfdurf
+     * sodkft givfn tif publid kfy typf bnd tif list of
+     * dfrtifidbtf issufr butioritifs rfdognizfd by tif pffr (if bny).
      */
-    @Override
-    public String chooseServerAlias(String keyType, Principal[] issuers,
-            Socket socket) {
-        return null;
+    @Ovfrridf
+    publid String dioosfSfrvfrAlibs(String kfyTypf, Prindipbl[] issufrs,
+            Sodkft sodkft) {
+        rfturn null;
     }
 
     /*
-     * Choose an alias to authenticate the server side of an engine
-     * given the public key type and the list of
-     * certificate issuer authorities recognized by the peer (if any).
+     * Cioosf bn blibs to butifntidbtf tif sfrvfr sidf of bn fnginf
+     * givfn tif publid kfy typf bnd tif list of
+     * dfrtifidbtf issufr butioritifs rfdognizfd by tif pffr (if bny).
      */
-    @Override
-    public String chooseEngineServerAlias(
-            String keyType, Principal[] issuers, SSLEngine engine) {
-        return null;
+    @Ovfrridf
+    publid String dioosfEnginfSfrvfrAlibs(
+            String kfyTypf, Prindipbl[] issufrs, SSLEnginf fnginf) {
+        rfturn null;
     }
 
     /**
-     * Returns the certificate chain associated with the given alias.
+     * Rfturns tif dfrtifidbtf dibin bssodibtfd witi tif givfn blibs.
      *
-     * @param alias the alias name
+     * @pbrbm blibs tif blibs nbmf
      *
-     * @return the certificate chain (ordered with the user's certificate first
-     * and the root certificate authority last)
+     * @rfturn tif dfrtifidbtf dibin (ordfrfd witi tif usfr's dfrtifidbtf first
+     * bnd tif root dfrtifidbtf butiority lbst)
      */
-    @Override
-    public X509Certificate[] getCertificateChain(String alias) {
-        return null;
+    @Ovfrridf
+    publid X509Cfrtifidbtf[] gftCfrtifidbtfCibin(String blibs) {
+        rfturn null;
     }
 
     /*
-     * Returns the key associated with the given alias, using the given
-     * password to recover it.
+     * Rfturns tif kfy bssodibtfd witi tif givfn blibs, using tif givfn
+     * pbssword to rfdovfr it.
      *
-     * @param alias the alias name
+     * @pbrbm blibs tif blibs nbmf
      *
-     * @return the requested key
+     * @rfturn tif rfqufstfd kfy
      */
-    @Override
-    public PrivateKey getPrivateKey(String alias) {
-        return null;
+    @Ovfrridf
+    publid PrivbtfKfy gftPrivbtfKfy(String blibs) {
+        rfturn null;
     }
 }

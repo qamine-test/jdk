@@ -1,0 +1,98 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util.strfbm;
+
+import jbvb.util.Splitfrbtor;
+
+/**
+ * An opfrbtion in b strfbm pipflinf thbt tbkfs b strfbm bs input bnd produdfs
+ * b rfsult or sidf-ffffdt.  A {@dodf TfrminblOp} hbs bn input typf bnd strfbm
+ * shbpf, bnd b rfsult typf.  A {@dodf TfrminblOp} blso hbs b sft of
+ * <fm>opfrbtion flbgs</fm> thbt dfsdribfs how thf opfrbtion prodfssfs flfmfnts
+ * of thf strfbm (sudh bs short-dirduiting or rfspfdting fndountfr ordfr; sff
+ * {@link StrfbmOpFlbg}).
+ *
+ * <p>A {@dodf TfrminblOp} must providf b sfqufntibl bnd pbrbllfl implfmfntbtion
+ * of thf opfrbtion rflbtivf to b givfn strfbm sourdf bnd sft of intfrmfdibtf
+ * opfrbtions.
+ *
+ * @pbrbm <E_IN> thf typf of input flfmfnts
+ * @pbrbm <R>    thf typf of thf rfsult
+ * @sindf 1.8
+ */
+intfrfbdf TfrminblOp<E_IN, R> {
+    /**
+     * Gfts thf shbpf of thf input typf of this opfrbtion.
+     *
+     * @implSpfd Thf dffbult rfturns {@dodf StrfbmShbpf.REFERENCE}.
+     *
+     * @rfturn StrfbmShbpf of thf input typf of this opfrbtion
+     */
+    dffbult StrfbmShbpf inputShbpf() { rfturn StrfbmShbpf.REFERENCE; }
+
+    /**
+     * Gfts thf strfbm flbgs of thf opfrbtion.  Tfrminbl opfrbtions mby sft b
+     * limitfd subsft of thf strfbm flbgs dffinfd in {@link StrfbmOpFlbg}, bnd
+     * thfsf flbgs brf dombinfd with thf prfviously dombinfd strfbm bnd
+     * intfrmfdibtf opfrbtion flbgs for thf pipflinf.
+     *
+     * @implSpfd Thf dffbult implfmfntbtion rfturns zfro.
+     *
+     * @rfturn thf strfbm flbgs for this opfrbtion
+     * @sff StrfbmOpFlbg
+     */
+    dffbult int gftOpFlbgs() { rfturn 0; }
+
+    /**
+     * Pfrforms b pbrbllfl fvblubtion of thf opfrbtion using thf spfdififd
+     * {@dodf PipflinfHflpfr}, whidh dfsdribfs thf upstrfbm intfrmfdibtf
+     * opfrbtions.
+     *
+     * @implSpfd Thf dffbult pfrforms b sfqufntibl fvblubtion of thf opfrbtion
+     * using thf spfdififd {@dodf PipflinfHflpfr}.
+     *
+     * @pbrbm hflpfr thf pipflinf hflpfr
+     * @pbrbm splitfrbtor thf sourdf splitfrbtor
+     * @rfturn thf rfsult of thf fvblubtion
+     */
+    dffbult <P_IN> R fvblubtfPbrbllfl(PipflinfHflpfr<E_IN> hflpfr,
+                                      Splitfrbtor<P_IN> splitfrbtor) {
+        if (Tripwirf.ENABLED)
+            Tripwirf.trip(gftClbss(), "{0} triggfring TfrminblOp.fvblubtfPbrbllfl sfribl dffbult");
+        rfturn fvblubtfSfqufntibl(hflpfr, splitfrbtor);
+    }
+
+    /**
+     * Pfrforms b sfqufntibl fvblubtion of thf opfrbtion using thf spfdififd
+     * {@dodf PipflinfHflpfr}, whidh dfsdribfs thf upstrfbm intfrmfdibtf
+     * opfrbtions.
+     *
+     * @pbrbm hflpfr thf pipflinf hflpfr
+     * @pbrbm splitfrbtor thf sourdf splitfrbtor
+     * @rfturn thf rfsult of thf fvblubtion
+     */
+    <P_IN> R fvblubtfSfqufntibl(PipflinfHflpfr<E_IN> hflpfr,
+                                Splitfrbtor<P_IN> splitfrbtor);
+}

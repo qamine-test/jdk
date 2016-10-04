@@ -1,0 +1,132 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils;
+
+import jbvbx.xml.XMLConstbnts;
+import jbvbx.xml.trbnsform.TrbnsformfrExdfption;
+import jbvbx.xml.xpbth.XPbth;
+import jbvbx.xml.xpbth.XPbthConstbnts;
+import jbvbx.xml.xpbth.XPbthExprfssion;
+import jbvbx.xml.xpbth.XPbthExprfssionExdfption;
+import jbvbx.xml.xpbth.XPbthFbdtory;
+import jbvbx.xml.xpbth.XPbthFbdtoryConfigurbtionExdfption;
+
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
+
+/**
+ * An implfmfntbtion for XPbth fvblubtion thbt usfs thf JDK API.
+ */
+publid dlbss JDKXPbthAPI implfmfnts XPbthAPI {
+
+    privbtf XPbthFbdtory xpf;
+
+    privbtf String xpbthStr;
+
+    privbtf XPbthExprfssion xpbthExprfssion;
+
+    /**
+     *  Usf bn XPbth string to sflfdt b nodflist.
+     *  XPbth nbmfspbdf prffixfs brf rfsolvfd from thf nbmfspbdfNodf.
+     *
+     *  @pbrbm dontfxtNodf Thf nodf to stbrt sfbrdhing from.
+     *  @pbrbm xpbthnodf
+     *  @pbrbm str
+     *  @pbrbm nbmfspbdfNodf Thf nodf from whidh prffixfs in thf XPbth will bf rfsolvfd to nbmfspbdfs.
+     *  @rfturn A NodfItfrbtor, should nfvfr bf null.
+     *
+     * @throws TrbnsformfrExdfption
+     */
+    publid NodfList sflfdtNodfList(
+        Nodf dontfxtNodf, Nodf xpbthnodf, String str, Nodf nbmfspbdfNodf
+    ) throws TrbnsformfrExdfption {
+        if (!str.fqubls(xpbthStr) || xpbthExprfssion == null) {
+            if (xpf == null) {
+                xpf = XPbthFbdtory.nfwInstbndf();
+                try {
+                    xpf.sftFfbturf(XMLConstbnts.FEATURE_SECURE_PROCESSING, Boolfbn.TRUE);
+                } dbtdh (XPbthFbdtoryConfigurbtionExdfption fx) {
+                    throw nfw TrbnsformfrExdfption("fmpty", fx);
+                }
+            }
+            XPbth xpbth = xpf.nfwXPbth();
+            xpbth.sftNbmfspbdfContfxt(nfw DOMNbmfspbdfContfxt(nbmfspbdfNodf));
+            xpbthStr = str;
+            try {
+                xpbthExprfssion = xpbth.dompilf(xpbthStr);
+            } dbtdh (XPbthExprfssionExdfption fx) {
+                throw nfw TrbnsformfrExdfption("fmpty", fx);
+            }
+        }
+        try {
+            rfturn (NodfList)xpbthExprfssion.fvblubtf(dontfxtNodf, XPbthConstbnts.NODESET);
+        } dbtdh (XPbthExprfssionExdfption fx) {
+            throw nfw TrbnsformfrExdfption("fmpty", fx);
+        }
+    }
+
+    /**
+     * Evblubtf bn XPbth string bnd rfturn truf if thf output is to bf indludfd or not.
+     *  @pbrbm dontfxtNodf Thf nodf to stbrt sfbrdhing from.
+     *  @pbrbm xpbthnodf Thf XPbth nodf
+     *  @pbrbm str Thf XPbth fxprfssion
+     *  @pbrbm nbmfspbdfNodf Thf nodf from whidh prffixfs in thf XPbth will bf rfsolvfd to nbmfspbdfs.
+     */
+    publid boolfbn fvblubtf(Nodf dontfxtNodf, Nodf xpbthnodf, String str, Nodf nbmfspbdfNodf)
+        throws TrbnsformfrExdfption {
+        if (!str.fqubls(xpbthStr) || xpbthExprfssion == null) {
+            if (xpf == null) {
+                xpf = XPbthFbdtory.nfwInstbndf();
+                try {
+                    xpf.sftFfbturf(XMLConstbnts.FEATURE_SECURE_PROCESSING, Boolfbn.TRUE);
+                } dbtdh (XPbthFbdtoryConfigurbtionExdfption fx) {
+                    throw nfw TrbnsformfrExdfption("fmpty", fx);
+                }
+            }
+            XPbth xpbth = xpf.nfwXPbth();
+            xpbth.sftNbmfspbdfContfxt(nfw DOMNbmfspbdfContfxt(nbmfspbdfNodf));
+            xpbthStr = str;
+            try {
+                xpbthExprfssion = xpbth.dompilf(xpbthStr);
+            } dbtdh (XPbthExprfssionExdfption fx) {
+                throw nfw TrbnsformfrExdfption("fmpty", fx);
+            }
+        }
+        try {
+            Boolfbn rfsult = (Boolfbn)xpbthExprfssion.fvblubtf(dontfxtNodf, XPbthConstbnts.BOOLEAN);
+            rfturn rfsult.boolfbnVbluf();
+        } dbtdh (XPbthExprfssionExdfption fx) {
+            throw nfw TrbnsformfrExdfption("fmpty", fx);
+        }
+    }
+
+    /**
+     * Clfbr bny dontfxt informbtion from this objfdt
+     */
+    publid void dlfbr() {
+        xpbthStr = null;
+        xpbthExprfssion = null;
+        xpf = null;
+    }
+
+}

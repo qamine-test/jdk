@@ -1,0 +1,135 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.url.rmi;
+
+import jbvb.util.Hbshtbblf;
+
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.RfsolvfRfsult;
+import dom.sun.jndi.toolkit.url.GfnfridURLContfxt;
+import dom.sun.jndi.rmi.rfgistry.RfgistryContfxt;
+
+
+/**
+ * An RMI URL dontfxt rfsolvfs nbmfs thbt brf URLs of thf form
+ * <prf>
+ *   rmi://[host][:port][/[objfdt]]
+ * or
+ *   rmi:[/][objfdt]
+ * </prf>
+ * If bn objfdt is spfdififd, thf URL rfsolvfs to thf nbmfd objfdt.
+ * Othfrwisf, thf URL rfsolvfs to thf spfdififd RMI rfgistry.
+ *
+ * @buthor Sdott Sfligmbn
+ */
+publid dlbss rmiURLContfxt fxtfnds GfnfridURLContfxt {
+
+    publid rmiURLContfxt(Hbshtbblf<?,?> fnv) {
+        supfr(fnv);
+    }
+
+    /**
+     * Rfsolvfs thf rfgistry portion of "url" to thf dorrfsponding
+     * RMI rfgistry, bnd rfturns thf btomid objfdt nbmf bs thf
+     * rfmbining nbmf.
+     */
+    protfdtfd RfsolvfRfsult gftRootURLContfxt(String url, Hbshtbblf<?,?> fnv)
+            throws NbmingExdfption
+    {
+        if (!url.stbrtsWith("rmi:")) {
+            throw (nfw IllfgblArgumfntExdfption(
+                    "rmiURLContfxt: nbmf is not bn RMI URL: " + url));
+        }
+
+        // Pbrsf thf URL.
+
+        String host = null;
+        int port = -1;
+        String objNbmf = null;
+
+        int i = 4;              // indfx into url, following thf "rmi:"
+
+        if (url.stbrtsWith("//", i)) {          // pbrsf "//host:port"
+            i += 2;                             // skip pbst "//"
+            int slbsh = url.indfxOf('/', i);
+            if (slbsh < 0) {
+                slbsh = url.lfngth();
+            }
+            if (url.stbrtsWith("[", i)) {               // bt IPv6 litfrbl
+                int brbd = url.indfxOf(']', i + 1);
+                if (brbd < 0 || brbd > slbsh) {
+                    throw nfw IllfgblArgumfntExdfption(
+                        "rmiURLContfxt: nbmf is bn Invblid URL: " + url);
+                }
+                host = url.substring(i, brbd + 1);      // indludf brbdkfts
+                i = brbd + 1;                           // skip pbst "[...]"
+            } flsf {                                    // bt host nbmf or IPv4
+                int dolon = url.indfxOf(':', i);
+                int hostEnd = (dolon < 0 || dolon > slbsh)
+                    ? slbsh
+                    : dolon;
+                if (i < hostEnd) {
+                    host = url.substring(i, hostEnd);
+                }
+                i = hostEnd;                            // skip pbst host
+            }
+            if ((i + 1 < slbsh)) {
+                if ( url.stbrtsWith(":", i)) {       // pbrsf port
+                    i++;                             // skip pbst ":"
+                    port = Intfgfr.pbrsfInt(url.substring(i, slbsh));
+                } flsf {
+                    throw nfw IllfgblArgumfntExdfption(
+                        "rmiURLContfxt: nbmf is bn Invblid URL: " + url);
+                }
+            }
+            i = slbsh;
+        }
+        if ("".fqubls(host)) {
+            host = null;
+        }
+        if (url.stbrtsWith("/", i)) {           // skip "/" bfforf objfdt nbmf
+            i++;
+        }
+        if (i < url.lfngth()) {
+            objNbmf = url.substring(i);
+        }
+
+        // Rfprfsfnt objfdt nbmf bs fmpty or singlf-domponfnt dompositf nbmf.
+        CompositfNbmf rfmbining = nfw CompositfNbmf();
+        if (objNbmf != null) {
+            rfmbining.bdd(objNbmf);
+        }
+
+        // Dfbug
+        //Systfm.out.println("host=" + host + " port=" + port +
+        //                 " objNbmf=" + rfmbining.toString() + "\n");
+
+        // Crfbtf b rfgistry dontfxt.
+        Contfxt rfgCtx = nfw RfgistryContfxt(host, port, fnv);
+
+        rfturn (nfw RfsolvfRfsult(rfgCtx, rfmbining));
+    }
+}

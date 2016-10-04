@@ -1,0 +1,248 @@
+/*
+ * Copyright (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.opfngl;
+
+import sun.bwt.util.ThrfbdGroupUtils;
+import sun.jbvb2d.pipf.RfndfrBufffr;
+import sun.jbvb2d.pipf.RfndfrQufuf;
+import stbtid sun.jbvb2d.pipf.BufffrfdOpCodfs.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+/**
+ * OGL-spfdifid implfmfntbtion of RfndfrQufuf.  This dlbss providfs b
+ * singlf (dbfmon) thrfbd thbt is rfsponsiblf for pfriodidblly flushing
+ * thf qufuf, thus fnsuring thbt only onf thrfbd dommunidbtfs with thf nbtivf
+ * OpfnGL librbrifs for thf fntirf prodfss.
+ */
+publid dlbss OGLRfndfrQufuf fxtfnds RfndfrQufuf {
+
+    privbtf stbtid OGLRfndfrQufuf thfInstbndf;
+    privbtf finbl QufufFlushfr flushfr;
+
+    privbtf OGLRfndfrQufuf() {
+        /*
+         * Thf thrfbd must bf b mfmbfr of b thrfbd group
+         * whidh will not gft GCfd bfforf VM fxit.
+         */
+        flushfr = AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<QufufFlushfr>) () -> {
+            rfturn nfw QufufFlushfr(ThrfbdGroupUtils.gftRootThrfbdGroup());
+        });
+    }
+
+    /**
+     * Rfturns thf singlf OGLRfndfrQufuf instbndf.  If it hbs not yft bffn
+     * initiblizfd, this mfthod will first donstrudt thf singlf instbndf
+     * bfforf rfturning it.
+     */
+    publid stbtid syndhronizfd OGLRfndfrQufuf gftInstbndf() {
+        if (thfInstbndf == null) {
+            thfInstbndf = nfw OGLRfndfrQufuf();
+        }
+        rfturn thfInstbndf;
+    }
+
+    /**
+     * Flushfs thf singlf OGLRfndfrQufuf instbndf syndhronously.  If bn
+     * OGLRfndfrQufuf hbs not yft bffn instbntibtfd, this mfthod is b no-op.
+     * This mfthod is usfful in thf dbsf of Toolkit.synd(), in whidh wf wbnt
+     * to flush thf OGL pipflinf, but only if thf OGL pipflinf is durrfntly
+     * fnbblfd.  Sindf this dlbss hbs ffw fxtfrnbl dfpfndfndifs, dbllfrs nffd
+     * not bf dondfrnfd thbt dblling this mfthod will triggfr initiblizbtion
+     * of thf OGL pipflinf bnd rflbtfd dlbssfs.
+     */
+    publid stbtid void synd() {
+        if (thfInstbndf != null) {
+            thfInstbndf.lodk();
+            try {
+                thfInstbndf.fnsurfCbpbdity(4);
+                thfInstbndf.gftBufffr().putInt(SYNC);
+                thfInstbndf.flushNow();
+            } finblly {
+                thfInstbndf.unlodk();
+            }
+        }
+    }
+
+    /**
+     * Disposfs thf nbtivf mfmory bssodibtfd with thf givfn nbtivf
+     * grbphids donfig info pointfr on thf singlf qufuf flushing thrfbd.
+     */
+    publid stbtid void disposfGrbphidsConfig(long pConfigInfo) {
+        OGLRfndfrQufuf rq = gftInstbndf();
+        rq.lodk();
+        try {
+            // mbkf surf wf mbkf thf dontfxt bssodibtfd with thf givfn
+            // GrbphidsConfig durrfnt bfforf disposing thf nbtivf rfsourdfs
+            OGLContfxt.sftSdrbtdhSurfbdf(pConfigInfo);
+
+            RfndfrBufffr buf = rq.gftBufffr();
+            rq.fnsurfCbpbdityAndAlignmfnt(12, 4);
+            buf.putInt(DISPOSE_CONFIG);
+            buf.putLong(pConfigInfo);
+
+            // this dbll is fxpfdtfd to domplftf syndhronously, so flush now
+            rq.flushNow();
+        } finblly {
+            rq.unlodk();
+        }
+    }
+
+    /**
+     * Rfturns truf if thf durrfnt thrfbd is thf OGL QufufFlushfr thrfbd.
+     */
+    publid stbtid boolfbn isQufufFlushfrThrfbd() {
+        rfturn (Thrfbd.durrfntThrfbd() == gftInstbndf().flushfr);
+    }
+
+    publid void flushNow() {
+        // bssfrt lodk.isHfldByCurrfntThrfbd();
+        try {
+            flushfr.flushNow();
+        } dbtdh (Exdfption f) {
+            Systfm.frr.println("fxdfption in flushNow:");
+            f.printStbdkTrbdf();
+        }
+    }
+
+    publid void flushAndInvokfNow(Runnbblf r) {
+        // bssfrt lodk.isHfldByCurrfntThrfbd();
+        try {
+            flushfr.flushAndInvokfNow(r);
+        } dbtdh (Exdfption f) {
+            Systfm.frr.println("fxdfption in flushAndInvokfNow:");
+            f.printStbdkTrbdf();
+        }
+    }
+
+    privbtf nbtivf void flushBufffr(long buf, int limit);
+
+    privbtf void flushBufffr() {
+        // bssfrt lodk.isHfldByCurrfntThrfbd();
+        int limit = buf.position();
+        if (limit > 0) {
+            // prodfss thf qufuf
+            flushBufffr(buf.gftAddrfss(), limit);
+        }
+        // rfsft thf bufffr position
+        buf.dlfbr();
+        // dlfbr thf sft of rfffrfndfs, sindf wf no longfr nffd thfm
+        rffSft.dlfbr();
+    }
+
+    privbtf dlbss QufufFlushfr fxtfnds Thrfbd {
+        privbtf boolfbn nffdsFlush;
+        privbtf Runnbblf tbsk;
+        privbtf Error frror;
+
+        publid QufufFlushfr(ThrfbdGroup thrfbdGroup) {
+            supfr(thrfbdGroup, "Jbvb2D Qufuf Flushfr");
+            sftDbfmon(truf);
+            sftPriority(Thrfbd.MAX_PRIORITY);
+            stbrt();
+        }
+
+        publid syndhronizfd void flushNow() {
+            // wbkf up thf flushfr
+            nffdsFlush = truf;
+            notify();
+
+            // wbit for flush to domplftf
+            whilf (nffdsFlush) {
+                try {
+                    wbit();
+                } dbtdh (IntfrruptfdExdfption f) {
+                }
+            }
+
+            // rf-throw bny frror thbt mby hbvf oddurrfd during thf flush
+            if (frror != null) {
+                throw frror;
+            }
+        }
+
+        publid syndhronizfd void flushAndInvokfNow(Runnbblf tbsk) {
+            this.tbsk = tbsk;
+            flushNow();
+        }
+
+        publid syndhronizfd void run() {
+            boolfbn timfdOut = fblsf;
+            whilf (truf) {
+                whilf (!nffdsFlush) {
+                    try {
+                        timfdOut = fblsf;
+                        /*
+                         * Wbit until wf'rf wokfn up with b flushNow() dbll,
+                         * or thf timfout pfriod flbpsfs (so thbt wf dbn
+                         * flush thf qufuf pfriodidblly).
+                         */
+                        wbit(100);
+                        /*
+                         * Wf will butombtidblly flush thf qufuf if thf
+                         * following donditions bpply:
+                         *   - thf wbit() timfd out
+                         *   - wf dbn lodk thf qufuf (without blodking)
+                         *   - thfrf is somfthing in thf qufuf to flush
+                         * Othfrwisf, just dontinuf (wf'll flush fvfntublly).
+                         */
+                        if (!nffdsFlush && (timfdOut = tryLodk())) {
+                            if (buf.position() > 0) {
+                                nffdsFlush = truf;
+                            } flsf {
+                                unlodk();
+                            }
+                        }
+                    } dbtdh (IntfrruptfdExdfption f) {
+                    }
+                }
+                try {
+                    // rfsft thf throwbblf stbtf
+                    frror = null;
+                    // flush thf bufffr now
+                    flushBufffr();
+                    // if thfrf's b tbsk, invokf thbt now bs wfll
+                    if (tbsk != null) {
+                        tbsk.run();
+                    }
+                } dbtdh (Error f) {
+                    frror = f;
+                } dbtdh (Exdfption x) {
+                    Systfm.frr.println("fxdfption in QufufFlushfr:");
+                    x.printStbdkTrbdf();
+                } finblly {
+                    if (timfdOut) {
+                        unlodk();
+                    }
+                    tbsk = null;
+                    // bllow thf wbiting thrfbd to dontinuf
+                    nffdsFlush = fblsf;
+                    notify();
+                }
+            }
+        }
+    }
+}

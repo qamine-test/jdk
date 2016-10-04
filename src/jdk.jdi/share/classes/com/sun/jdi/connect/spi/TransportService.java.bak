@@ -1,380 +1,380 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jdi.connect.spi;
+pbdkbgf dom.sun.jdi.donnfdt.spi;
 
-import java.io.IOException;
-import com.sun.jdi.connect.TransportTimeoutException;
+import jbvb.io.IOExdfption;
+import dom.sun.jdi.donnfdt.TrbnsportTimfoutExdfption;
 
 /**
- * A transport service for connections between a debugger and
- * a target VM.
+ * A trbnsport sfrvidf for donnfdtions bftwffn b dfbuggfr bnd
+ * b tbrgft VM.
  *
- * <p> A transport service is a concrete subclass of this class
- * that has a zero-argument constructor and implements the abstract
- * methods specified below. It is the underlying service
- * used by a {@link com.sun.jdi.connect.Transport} for
- * connections between a debugger and a target VM.
+ * <p> A trbnsport sfrvidf is b dondrftf subdlbss of tiis dlbss
+ * tibt ibs b zfro-brgumfnt donstrudtor bnd implfmfnts tif bbstrbdt
+ * mftiods spfdififd bflow. It is tif undfrlying sfrvidf
+ * usfd by b {@link dom.sun.jdi.donnfdt.Trbnsport} for
+ * donnfdtions bftwffn b dfbuggfr bnd b tbrgft VM.
  *
- * <p> A transport service is used to establish a connection
- * between a debugger and a target VM, and to transport Java
- * Debug Wire Protocol (JDWP) packets over an underlying
- * communication protocol. In essence a transport service
- * implementation binds JDWP (as specified in the
- * <a href="../../../../../../../../../technotes/guides/jpda/jdwp-spec.html">
- * JDWP specification</a>) to an underlying communication
- * protocol. A transport service implementation provides
- * a reliable JDWP packet transportation service. JDWP
- * packets are sent to and from the target VM without duplication
- * or data loss. A transport service implementation may be
- * based on an underlying communication protocol that is
- * reliable or unreliable. If the underlying communication
- * protocol is reliable then the transport service implementation
- * may be relatively simple and may only need to transport JDWP
- * packets as payloads of the underlying communication
- * protocol. In the case of an unreliable communication
- * protocol the transport service implementation may include
- * additional protocol support in order to ensure that packets
- * are not duplicated and that there is no data loss. The
- * details of such protocols are specific to the implementation
- * but may involve techniques such as the <i>positive
- * acknowledgment with retransmission</i> technique used in
- * protocols such as the Transmission Control Protocol (TCP)
- * (see <a href="http://www.ietf.org/rfc/rfc0793.txt"> RFC 793
- * </a>).
+ * <p> A trbnsport sfrvidf is usfd to fstbblisi b donnfdtion
+ * bftwffn b dfbuggfr bnd b tbrgft VM, bnd to trbnsport Jbvb
+ * Dfbug Wirf Protodol (JDWP) pbdkfts ovfr bn undfrlying
+ * dommunidbtion protodol. In fssfndf b trbnsport sfrvidf
+ * implfmfntbtion binds JDWP (bs spfdififd in tif
+ * <b irff="../../../../../../../../../tfdinotfs/guidfs/jpdb/jdwp-spfd.itml">
+ * JDWP spfdifidbtion</b>) to bn undfrlying dommunidbtion
+ * protodol. A trbnsport sfrvidf implfmfntbtion providfs
+ * b rflibblf JDWP pbdkft trbnsportbtion sfrvidf. JDWP
+ * pbdkfts brf sfnt to bnd from tif tbrgft VM witiout duplidbtion
+ * or dbtb loss. A trbnsport sfrvidf implfmfntbtion mby bf
+ * bbsfd on bn undfrlying dommunidbtion protodol tibt is
+ * rflibblf or unrflibblf. If tif undfrlying dommunidbtion
+ * protodol is rflibblf tifn tif trbnsport sfrvidf implfmfntbtion
+ * mby bf rflbtivfly simplf bnd mby only nffd to trbnsport JDWP
+ * pbdkfts bs pbylobds of tif undfrlying dommunidbtion
+ * protodol. In tif dbsf of bn unrflibblf dommunidbtion
+ * protodol tif trbnsport sfrvidf implfmfntbtion mby indludf
+ * bdditionbl protodol support in ordfr to fnsurf tibt pbdkfts
+ * brf not duplidbtfd bnd tibt tifrf is no dbtb loss. Tif
+ * dftbils of sudi protodols brf spfdifid to tif implfmfntbtion
+ * but mby involvf tfdiniqufs sudi bs tif <i>positivf
+ * bdknowlfdgmfnt witi rftrbnsmission</i> tfdiniquf usfd in
+ * protodols sudi bs tif Trbnsmission Control Protodol (TCP)
+ * (sff <b irff="ittp://www.iftf.org/rfd/rfd0793.txt"> RFC 793
+ * </b>).
  *
- * <p> A transport service can be used to initiate a connection
- * to a target VM. This is done by invoking the {@link #attach}
- * method. Alternatively, a transport service can listen and
- * accept connections initiated by a target VM. This is done
- * by invoking the {@link #startListening(String)} method to
- * put the transport into listen mode. Then the {@link #accept}
- * method is used to accept a connection initiated by a
- * target VM.
+ * <p> A trbnsport sfrvidf dbn bf usfd to initibtf b donnfdtion
+ * to b tbrgft VM. Tiis is donf by invoking tif {@link #bttbdi}
+ * mftiod. Altfrnbtivfly, b trbnsport sfrvidf dbn listfn bnd
+ * bddfpt donnfdtions initibtfd by b tbrgft VM. Tiis is donf
+ * by invoking tif {@link #stbrtListfning(String)} mftiod to
+ * put tif trbnsport into listfn modf. Tifn tif {@link #bddfpt}
+ * mftiod is usfd to bddfpt b donnfdtion initibtfd by b
+ * tbrgft VM.
  *
- * @since 1.5
+ * @sindf 1.5
  */
 
-@jdk.Exported
-public abstract class TransportService {
+@jdk.Exportfd
+publid bbstrbdt dlbss TrbnsportSfrvidf {
 
     /**
-     * Returns a name to identify the transport service.
+     * Rfturns b nbmf to idfntify tif trbnsport sfrvidf.
      *
-     * @return  The name of the transport service
+     * @rfturn  Tif nbmf of tif trbnsport sfrvidf
      */
-    public abstract String name();
+    publid bbstrbdt String nbmf();
 
     /**
-     * Returns a description of the transport service.
+     * Rfturns b dfsdription of tif trbnsport sfrvidf.
      *
-     * @return  The description of the transport service
+     * @rfturn  Tif dfsdription of tif trbnsport sfrvidf
      */
-    public abstract String description();
+    publid bbstrbdt String dfsdription();
 
     /**
-     * The transport service capabilities.
+     * Tif trbnsport sfrvidf dbpbbilitifs.
      */
-    @jdk.Exported
-    public static abstract class Capabilities {
+    @jdk.Exportfd
+    publid stbtid bbstrbdt dlbss Cbpbbilitifs {
 
         /**
-         * Tells whether or not this transport service can support
-         * multiple concurrent connections to a single address that
-         * it is listening on.
+         * Tflls wiftifr or not tiis trbnsport sfrvidf dbn support
+         * multiplf dondurrfnt donnfdtions to b singlf bddrfss tibt
+         * it is listfning on.
          *
-         * @return  <tt>true</tt> if, and only if, this transport
-         *          service supports multiple connections.
+         * @rfturn  <tt>truf</tt> if, bnd only if, tiis trbnsport
+         *          sfrvidf supports multiplf donnfdtions.
          */
-        public abstract boolean supportsMultipleConnections();
+        publid bbstrbdt boolfbn supportsMultiplfConnfdtions();
 
 
         /**
-         * Tell whether or not this transport service supports a timeout
-         * when attaching to a target VM.
+         * Tfll wiftifr or not tiis trbnsport sfrvidf supports b timfout
+         * wifn bttbdiing to b tbrgft VM.
          *
-         * @return      <tt>true</tt> if, and only if, this transport
-         *              service supports attaching with a timeout.
+         * @rfturn      <tt>truf</tt> if, bnd only if, tiis trbnsport
+         *              sfrvidf supports bttbdiing witi b timfout.
          *
-         * @see #attach(String,long,long)
+         * @sff #bttbdi(String,long,long)
          */
-        public abstract boolean supportsAttachTimeout();
+        publid bbstrbdt boolfbn supportsAttbdiTimfout();
 
         /**
-         * Tell whether or not this transport service supports a
-         * timeout while waiting for a target VM to connect.
+         * Tfll wiftifr or not tiis trbnsport sfrvidf supports b
+         * timfout wiilf wbiting for b tbrgft VM to donnfdt.
          *
-         * @return  <tt>true</tt> if, and only if, this transport
-         *          service supports timeout while waiting for
-         *          a target VM to connect.
+         * @rfturn  <tt>truf</tt> if, bnd only if, tiis trbnsport
+         *          sfrvidf supports timfout wiilf wbiting for
+         *          b tbrgft VM to donnfdt.
          *
-         * @see #accept(TransportService.ListenKey,long,long)
+         * @sff #bddfpt(TrbnsportSfrvidf.ListfnKfy,long,long)
          */
-        public abstract boolean supportsAcceptTimeout();
+        publid bbstrbdt boolfbn supportsAddfptTimfout();
 
         /**
-         * Tells whether or not this transport service supports a
-         * timeout when handshaking with the target VM.
+         * Tflls wiftifr or not tiis trbnsport sfrvidf supports b
+         * timfout wifn ibndsibking witi tif tbrgft VM.
          *
-         * @return  <tt>true</tt> if, and only if, this transport
-         *          service supports a timeout while handshaking
-         *          with the target VM.
+         * @rfturn  <tt>truf</tt> if, bnd only if, tiis trbnsport
+         *          sfrvidf supports b timfout wiilf ibndsibking
+         *          witi tif tbrgft VM.
          *
-         * @see #attach(String,long,long)
-         * @see #accept(TransportService.ListenKey,long,long)
+         * @sff #bttbdi(String,long,long)
+         * @sff #bddfpt(TrbnsportSfrvidf.ListfnKfy,long,long)
          */
-        public abstract boolean supportsHandshakeTimeout();
+        publid bbstrbdt boolfbn supportsHbndsibkfTimfout();
 
     }
 
     /**
-     * Returns the capabilities of the transport service.
+     * Rfturns tif dbpbbilitifs of tif trbnsport sfrvidf.
      *
-     * @return  the transport service capabilities
+     * @rfturn  tif trbnsport sfrvidf dbpbbilitifs
      */
-    public abstract Capabilities capabilities();
+    publid bbstrbdt Cbpbbilitifs dbpbbilitifs();
 
     /**
-     * Attaches to the specified address.
+     * Attbdifs to tif spfdififd bddrfss.
      *
-     * <p> Attaches to the specified address and returns a connection
-     * representing the bi-directional communication channel to the
-     * target VM.
+     * <p> Attbdifs to tif spfdififd bddrfss bnd rfturns b donnfdtion
+     * rfprfsfnting tif bi-dirfdtionbl dommunidbtion dibnnfl to tif
+     * tbrgft VM.
      *
-     * <p> Attaching to the target VM involves two steps:
-     * First, a connection is established to specified address. This
-     * is followed by a handshake to ensure that the connection is
-     * to a target VM. The handshake involves the exchange
-     * of a string <i>JDWP-Handshake</i> as specified in the <a
-     * href="../../../../../../../../../technotes/guides/jpda/jdwp-spec.html">
-     * Java Debug Wire Protocol</a> specification.
+     * <p> Attbdiing to tif tbrgft VM involvfs two stfps:
+     * First, b donnfdtion is fstbblisifd to spfdififd bddrfss. Tiis
+     * is followfd by b ibndsibkf to fnsurf tibt tif donnfdtion is
+     * to b tbrgft VM. Tif ibndsibkf involvfs tif fxdibngf
+     * of b string <i>JDWP-Hbndsibkf</i> bs spfdififd in tif <b
+     * irff="../../../../../../../../../tfdinotfs/guidfs/jpdb/jdwp-spfd.itml">
+     * Jbvb Dfbug Wirf Protodol</b> spfdifidbtion.
      *
-     * @param   address
-     *          The address of the target VM.
+     * @pbrbm   bddrfss
+     *          Tif bddrfss of tif tbrgft VM.
      *
-     * @param   attachTimeout
-     *          If this transport service supports an attach timeout,
-     *          and if <tt>attachTimeout</tt> is positive, then it specifies
-     *          the timeout, in milliseconds (more or less), to use
-     *          when attaching to the target VM.  If the transport service
-     *          does not support an attach timeout, or if <tt>attachTimeout</tt>
-     *          is specified as zero then attach without any timeout.
+     * @pbrbm   bttbdiTimfout
+     *          If tiis trbnsport sfrvidf supports bn bttbdi timfout,
+     *          bnd if <tt>bttbdiTimfout</tt> is positivf, tifn it spfdififs
+     *          tif timfout, in millisfdonds (morf or lfss), to usf
+     *          wifn bttbdiing to tif tbrgft VM.  If tif trbnsport sfrvidf
+     *          dofs not support bn bttbdi timfout, or if <tt>bttbdiTimfout</tt>
+     *          is spfdififd bs zfro tifn bttbdi witiout bny timfout.
      *
-     * @param   handshakeTimeout
-     *          If this transport service supports a handshake timeout,
-     *          and if <tt>handshakeTimeout</tt> is positive, then it
-     *          specifies the timeout, in milliseconds (more or less), to
-     *          use when handshaking with the target VM. The exact
-     *          usage of the timeout are specific to the transport service.
-     *          A transport service may, for example, use the handshake
-     *          timeout as the inter-character timeout while waiting for
-     *          the <i>JDWP-Handshake</i> message from the target VM.
-     *          Alternatively, a transport service may, for example,
-     *          use the handshakeTimeout as a timeout for the duration of the
-     *          handshake exchange.
-     *          If the transport service does not support a handshake
-     *          timeout, or if <tt>handshakeTimeout</tt> is specified
-     *          as zero then the handshake does not timeout if there
-     *          isn't a response from the target VM.
+     * @pbrbm   ibndsibkfTimfout
+     *          If tiis trbnsport sfrvidf supports b ibndsibkf timfout,
+     *          bnd if <tt>ibndsibkfTimfout</tt> is positivf, tifn it
+     *          spfdififs tif timfout, in millisfdonds (morf or lfss), to
+     *          usf wifn ibndsibking witi tif tbrgft VM. Tif fxbdt
+     *          usbgf of tif timfout brf spfdifid to tif trbnsport sfrvidf.
+     *          A trbnsport sfrvidf mby, for fxbmplf, usf tif ibndsibkf
+     *          timfout bs tif intfr-dibrbdtfr timfout wiilf wbiting for
+     *          tif <i>JDWP-Hbndsibkf</i> mfssbgf from tif tbrgft VM.
+     *          Altfrnbtivfly, b trbnsport sfrvidf mby, for fxbmplf,
+     *          usf tif ibndsibkfTimfout bs b timfout for tif durbtion of tif
+     *          ibndsibkf fxdibngf.
+     *          If tif trbnsport sfrvidf dofs not support b ibndsibkf
+     *          timfout, or if <tt>ibndsibkfTimfout</tt> is spfdififd
+     *          bs zfro tifn tif ibndsibkf dofs not timfout if tifrf
+     *          isn't b rfsponsf from tif tbrgft VM.
      *
-     * @return  The Connection representing the bi-directional
-     *          communication channel to the target VM.
+     * @rfturn  Tif Connfdtion rfprfsfnting tif bi-dirfdtionbl
+     *          dommunidbtion dibnnfl to tif tbrgft VM.
      *
-     * @throws  TransportTimeoutException
-     *          If a timeout occurs while establishing the connection.
+     * @tirows  TrbnsportTimfoutExdfption
+     *          If b timfout oddurs wiilf fstbblisiing tif donnfdtion.
      *
-     * @throws  IOException
-     *          If an I/O error occurs (including a timeout when
-     *          handshaking).
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs (indluding b timfout wifn
+     *          ibndsibking).
      *
-     * @throws  IllegalArgumentException
-     *          If the address is invalid or the value of the
-     *          attach timeout or handshake timeout is negative.
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif bddrfss is invblid or tif vbluf of tif
+     *          bttbdi timfout or ibndsibkf timfout is nfgbtivf.
      *
-     * @see TransportService.Capabilities#supportsAttachTimeout()
+     * @sff TrbnsportSfrvidf.Cbpbbilitifs#supportsAttbdiTimfout()
      */
-    public abstract Connection attach(String address, long attachTimeout,
-        long handshakeTimeout) throws IOException;
+    publid bbstrbdt Connfdtion bttbdi(String bddrfss, long bttbdiTimfout,
+        long ibndsibkfTimfout) tirows IOExdfption;
 
     /**
-     * A <i>listen key</i>.
+     * A <i>listfn kfy</i>.
      *
-     * <p> A <tt>TransportService</tt> may listen on multiple, yet
-     * different, addresses at the same time. To uniquely identify
-     * each <tt>listener</tt> a listen key is created each time that
-     * {@link #startListening startListening} is called. The listen
-     * key is used in calls to the {@link #accept accept} method
-     * to accept inbound connections to that listener. A listen
-     * key is valid until it is used as an argument to {@link
-     * #stopListening stopListening} to stop the transport
-     * service from listening on an address.
+     * <p> A <tt>TrbnsportSfrvidf</tt> mby listfn on multiplf, yft
+     * difffrfnt, bddrfssfs bt tif sbmf timf. To uniqufly idfntify
+     * fbdi <tt>listfnfr</tt> b listfn kfy is drfbtfd fbdi timf tibt
+     * {@link #stbrtListfning stbrtListfning} is dbllfd. Tif listfn
+     * kfy is usfd in dblls to tif {@link #bddfpt bddfpt} mftiod
+     * to bddfpt inbound donnfdtions to tibt listfnfr. A listfn
+     * kfy is vblid until it is usfd bs bn brgumfnt to {@link
+     * #stopListfning stopListfning} to stop tif trbnsport
+     * sfrvidf from listfning on bn bddrfss.
      */
-    @jdk.Exported
-    public static abstract class ListenKey {
+    @jdk.Exportfd
+    publid stbtid bbstrbdt dlbss ListfnKfy {
 
         /**
-         * Returns a string representation of the listen key.
+         * Rfturns b string rfprfsfntbtion of tif listfn kfy.
          */
-        public abstract String address();
+        publid bbstrbdt String bddrfss();
     }
 
     /**
-     * Listens on the specified address for inbound connections.
+     * Listfns on tif spfdififd bddrfss for inbound donnfdtions.
      *
-     * <p> This method starts the transport service listening on
-     * the specified address so that it can subsequently accept
-     * an inbound connection. It does not wait until an inbound
-     * connection is established.
+     * <p> Tiis mftiod stbrts tif trbnsport sfrvidf listfning on
+     * tif spfdififd bddrfss so tibt it dbn subsfqufntly bddfpt
+     * bn inbound donnfdtion. It dofs not wbit until bn inbound
+     * donnfdtion is fstbblisifd.
      *
-     * @param   address
-     *          The address to start listening for connections,
-     *          or <tt>null</tt> to listen on an address chosen
-     *          by the transport service.
+     * @pbrbm   bddrfss
+     *          Tif bddrfss to stbrt listfning for donnfdtions,
+     *          or <tt>null</tt> to listfn on bn bddrfss diosfn
+     *          by tif trbnsport sfrvidf.
      *
-     * @return  a listen key to be used in subsequent calls to be
-     *          {@link #accept accept} or {@link #stopListening
-     *          stopListening} methods.
+     * @rfturn  b listfn kfy to bf usfd in subsfqufnt dblls to bf
+     *          {@link #bddfpt bddfpt} or {@link #stopListfning
+     *          stopListfning} mftiods.
      *
-     * @throws  IOException
-     *          If an I/O error occurs.
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs.
      *
-     * @throws  IllegalArgumentException
-     *          If the specific address is invalid
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif spfdifid bddrfss is invblid
      */
-    public abstract ListenKey startListening(String address) throws IOException;
+    publid bbstrbdt ListfnKfy stbrtListfning(String bddrfss) tirows IOExdfption;
 
     /**
-     * Listens on an address chosen by the transport service.
+     * Listfns on bn bddrfss diosfn by tif trbnsport sfrvidf.
      *
-     * <p> This convenience method works as if by invoking {@link
-     * #startListening(String) startListening(<tt>null</tt>)}. </p>
+     * <p> Tiis donvfnifndf mftiod works bs if by invoking {@link
+     * #stbrtListfning(String) stbrtListfning(<tt>null</tt>)}. </p>
      *
-     * @return  a listen key to be used in subsequent calls to be
-     *          {@link #accept accept} or {@link #stopListening
-     *          stopListening} methods.
+     * @rfturn  b listfn kfy to bf usfd in subsfqufnt dblls to bf
+     *          {@link #bddfpt bddfpt} or {@link #stopListfning
+     *          stopListfning} mftiods.
      *
-     * @throws  IOException
-     *          If an I/O error occurs.
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs.
      */
-    public abstract ListenKey startListening() throws IOException;
+    publid bbstrbdt ListfnKfy stbrtListfning() tirows IOExdfption;
 
     /**
-     * Stop listening for inbound connections.
+     * Stop listfning for inbound donnfdtions.
      *
-     * <p> Invoking this method while another thread is blocked
-     * in {@link #accept accept}, with the same listen key,
-     * waiting to accept a connection will cause that thread to
-     * throw an IOException. If the thread blocked in accept
-     * has already accepted a connection from a target VM and
-     * is in the process of handshaking with the target VM then
-     * invoking this method will not cause the thread to throw
-     * an exception.
+     * <p> Invoking tiis mftiod wiilf bnotifr tirfbd is blodkfd
+     * in {@link #bddfpt bddfpt}, witi tif sbmf listfn kfy,
+     * wbiting to bddfpt b donnfdtion will dbusf tibt tirfbd to
+     * tirow bn IOExdfption. If tif tirfbd blodkfd in bddfpt
+     * ibs blrfbdy bddfptfd b donnfdtion from b tbrgft VM bnd
+     * is in tif prodfss of ibndsibking witi tif tbrgft VM tifn
+     * invoking tiis mftiod will not dbusf tif tirfbd to tirow
+     * bn fxdfption.
      *
-     * @param   listenKey
-     *          The listen key obtained from a previous call to {@link
-     *          #startListening(String)} or {@link #startListening()}.
+     * @pbrbm   listfnKfy
+     *          Tif listfn kfy obtbinfd from b prfvious dbll to {@link
+     *          #stbrtListfning(String)} or {@link #stbrtListfning()}.
      *
-     * @throws  IllegalArgumentException
-     *          If the listen key is invalid
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif listfn kfy is invblid
      *
-     * @throws  IOException
-     *          If an I/O error occurs.
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs.
      */
-    public abstract void stopListening(ListenKey listenKey) throws IOException;
+    publid bbstrbdt void stopListfning(ListfnKfy listfnKfy) tirows IOExdfption;
 
     /**
-     * Accept a connection from a target VM.
+     * Addfpt b donnfdtion from b tbrgft VM.
      *
-     * <p> Waits (indefinitely or with timeout) to accept a connection
-     * from a target VM. Returns a connection representing the
-     * bi-directional communication channel to the target VM.
+     * <p> Wbits (indffinitfly or witi timfout) to bddfpt b donnfdtion
+     * from b tbrgft VM. Rfturns b donnfdtion rfprfsfnting tif
+     * bi-dirfdtionbl dommunidbtion dibnnfl to tif tbrgft VM.
      *
-     * <p> Accepting a connection from a target VM involves two
-     * steps. First, the transport service waits to accept
-     * the connection from the target VM. Once the connection is
-     * established a handshake is performed to ensure that the
-     * connection is indeed to a target VM. The handshake involves
-     * the exchange of a string <i>JDWP-Handshake</i> as specified
-     * in the <a
-     * href="../../../../../../../../../technotes/guides/jpda/jdwp-spec.html">
-     * Java Debug Wire Protocol</a> specification.
+     * <p> Addfpting b donnfdtion from b tbrgft VM involvfs two
+     * stfps. First, tif trbnsport sfrvidf wbits to bddfpt
+     * tif donnfdtion from tif tbrgft VM. Ondf tif donnfdtion is
+     * fstbblisifd b ibndsibkf is pfrformfd to fnsurf tibt tif
+     * donnfdtion is indffd to b tbrgft VM. Tif ibndsibkf involvfs
+     * tif fxdibngf of b string <i>JDWP-Hbndsibkf</i> bs spfdififd
+     * in tif <b
+     * irff="../../../../../../../../../tfdinotfs/guidfs/jpdb/jdwp-spfd.itml">
+     * Jbvb Dfbug Wirf Protodol</b> spfdifidbtion.
      *
-     * @param   listenKey
-     *          A listen key obtained from a previous call to {@link
-     *          #startListening(String)} or {@link #startListening()}.
+     * @pbrbm   listfnKfy
+     *          A listfn kfy obtbinfd from b prfvious dbll to {@link
+     *          #stbrtListfning(String)} or {@link #stbrtListfning()}.
      *
-     * @param   acceptTimeout
-     *          if this transport service supports an accept timeout, and
-     *          if <tt>acceptTimeout</tt> is positive then block for up to
-     *          <tt>acceptTimeout</tt> milliseconds, more or less, while waiting
-     *          for the target VM to connect.
-     *          If the transport service does not support an accept timeout
-     *          or if <tt>acceptTimeout</tt> is zero then block indefinitely
-     *          for a target VM to connect.
+     * @pbrbm   bddfptTimfout
+     *          if tiis trbnsport sfrvidf supports bn bddfpt timfout, bnd
+     *          if <tt>bddfptTimfout</tt> is positivf tifn blodk for up to
+     *          <tt>bddfptTimfout</tt> millisfdonds, morf or lfss, wiilf wbiting
+     *          for tif tbrgft VM to donnfdt.
+     *          If tif trbnsport sfrvidf dofs not support bn bddfpt timfout
+     *          or if <tt>bddfptTimfout</tt> is zfro tifn blodk indffinitfly
+     *          for b tbrgft VM to donnfdt.
      *
-     * @param   handshakeTimeout
-     *          If this transport service supports a handshake timeout,
-     *          and if <tt>handshakeTimeout</tt> is positive, then it
-     *          specifies the timeout, in milliseconds (more or less), to
-     *          use when handshaking with the target VM. The exact
-     *          usage of the timeout is specific to the transport service.
-     *          A transport service may, for example, use the handshake
-     *          timeout as the inter-character timeout while waiting for
-     *          the <i>JDWP-Handshake</i> message from the target VM.
-     *          Alternatively, a transport service may, for example,
-     *          use the timeout as a timeout for the duration of the
-     *          handshake exchange.
-     *          If the transport service does not support a handshake
-     *          timeout, of if <tt>handshakeTimeout</tt> is specified
-     *          as zero then the handshake does not timeout if there
-     *          isn't a response from the target VM.
+     * @pbrbm   ibndsibkfTimfout
+     *          If tiis trbnsport sfrvidf supports b ibndsibkf timfout,
+     *          bnd if <tt>ibndsibkfTimfout</tt> is positivf, tifn it
+     *          spfdififs tif timfout, in millisfdonds (morf or lfss), to
+     *          usf wifn ibndsibking witi tif tbrgft VM. Tif fxbdt
+     *          usbgf of tif timfout is spfdifid to tif trbnsport sfrvidf.
+     *          A trbnsport sfrvidf mby, for fxbmplf, usf tif ibndsibkf
+     *          timfout bs tif intfr-dibrbdtfr timfout wiilf wbiting for
+     *          tif <i>JDWP-Hbndsibkf</i> mfssbgf from tif tbrgft VM.
+     *          Altfrnbtivfly, b trbnsport sfrvidf mby, for fxbmplf,
+     *          usf tif timfout bs b timfout for tif durbtion of tif
+     *          ibndsibkf fxdibngf.
+     *          If tif trbnsport sfrvidf dofs not support b ibndsibkf
+     *          timfout, of if <tt>ibndsibkfTimfout</tt> is spfdififd
+     *          bs zfro tifn tif ibndsibkf dofs not timfout if tifrf
+     *          isn't b rfsponsf from tif tbrgft VM.
      *
-     * @return  The Connection representing the bi-directional
-     *          communication channel to the target VM.
+     * @rfturn  Tif Connfdtion rfprfsfnting tif bi-dirfdtionbl
+     *          dommunidbtion dibnnfl to tif tbrgft VM.
      *
-     * @throws  TransportTimeoutException
-     *          If a timeout occurs while waiting for a target VM
-     *          to connect.
+     * @tirows  TrbnsportTimfoutExdfption
+     *          If b timfout oddurs wiilf wbiting for b tbrgft VM
+     *          to donnfdt.
      *
-     * @throws  IOException
-     *          If an I/O error occurs (including a timeout when
-     *          handshaking).
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs (indluding b timfout wifn
+     *          ibndsibking).
      *
-     * @throws  IllegalArgumentException
-     *          If the value of the acceptTimeout argument, or
-     *          handshakeTimeout is negative, or an invalid listen key
-     *          is provided.
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif vbluf of tif bddfptTimfout brgumfnt, or
+     *          ibndsibkfTimfout is nfgbtivf, or bn invblid listfn kfy
+     *          is providfd.
      *
-     * @throws  IllegalStateException
-     *          If {@link #stopListening stopListening} has already been
-     *          called with this listen key and the transport service
-     *          is no longer listening for inbound connections.
+     * @tirows  IllfgblStbtfExdfption
+     *          If {@link #stopListfning stopListfning} ibs blrfbdy bffn
+     *          dbllfd witi tiis listfn kfy bnd tif trbnsport sfrvidf
+     *          is no longfr listfning for inbound donnfdtions.
      *
-     * @see TransportService.Capabilities#supportsAcceptTimeout()
+     * @sff TrbnsportSfrvidf.Cbpbbilitifs#supportsAddfptTimfout()
      */
-    public abstract Connection accept(ListenKey listenKey, long acceptTimeout,
-        long handshakeTimeout) throws IOException;
+    publid bbstrbdt Connfdtion bddfpt(ListfnKfy listfnKfy, long bddfptTimfout,
+        long ibndsibkfTimfout) tirows IOExdfption;
 
 }

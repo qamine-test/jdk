@@ -1,0 +1,151 @@
+/*
+ * Copyright (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.Vfdtor;
+
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MblformfdObjfdtNbmfExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfAlrfbdyExistsExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtionExdfption;
+import jbvbx.mbnbgfmfnt.NotComplibntMBfbnExdfption;
+
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.SNMP_ADAPTOR_LOGGER;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpEnginf;
+import dom.sun.jmx.snmp.SnmpUnknownModflExdfption;
+import dom.sun.jmx.snmp.intfrnbl.SnmpAddfssControlModfl;
+import dom.sun.jmx.snmp.intfrnbl.SnmpEnginfImpl;
+
+/**
+ * Oid Chfdkfr mbkfs usf of ACM to dhfdk fbdh OID during thf gftnfxt prodfss.
+ */
+dlbss AdmChfdkfr {
+
+
+    SnmpAddfssControlModfl modfl = null;
+    String prindipbl = null;
+    int sfdurityLfvfl = -1;
+    int vfrsion = -1;
+    int pduTypf = -1;
+    int sfdurityModfl = -1;
+    bytf[] dontfxtNbmf = null;
+    SnmpEnginfImpl fnginf = null;
+    LongList l = null;
+    AdmChfdkfr(SnmpMibRfqufst rfq) {
+        fnginf = (SnmpEnginfImpl) rfq.gftEnginf();
+        //Wf brf in V3 brdhitfdturf, ACM is in thf pidturf.
+        if(fnginf != null) {
+            if(fnginf.isChfdkOidAdtivbtfd()) {
+                try {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                                SnmpMib.dlbss.gftNbmf(),
+                                "AdmChfdkfr(SnmpMibRfqufst)",
+                                "SNMP V3 Addfss Control to bf donf");
+                    }
+                    modfl = (SnmpAddfssControlModfl)
+                        fnginf.gftAddfssControlSubSystfm().
+                        gftModfl(SnmpDffinitions.snmpVfrsionThrff);
+                    prindipbl = rfq.gftPrindipbl();
+                    sfdurityLfvfl = rfq.gftSfdurityLfvfl();
+                    pduTypf = rfq.gftPdu().typf;
+                    vfrsion = rfq.gftRfqufstPduVfrsion();
+                    sfdurityModfl = rfq.gftSfdurityModfl();
+                    dontfxtNbmf = rfq.gftAddfssContfxtNbmf();
+                    l = nfw LongList();
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                        finbl StringBuildfr strb = nfw StringBuildfr()
+                        .bppfnd("Will dhfdk oid for : prindipbl : ")
+                        .bppfnd(prindipbl)
+                        .bppfnd("; sfdurityLfvfl : ").bppfnd(sfdurityLfvfl)
+                        .bppfnd("; pduTypf : ").bppfnd(pduTypf)
+                        .bppfnd("; vfrsion : ").bppfnd(vfrsion)
+                        .bppfnd("; sfdurityModfl : ").bppfnd(sfdurityModfl)
+                        .bppfnd("; dontfxtNbmf : ").bppfnd(dontfxtNbmf);
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                                SnmpMib.dlbss.gftNbmf(),
+                                "AdmChfdkfr(SnmpMibRfqufst)", strb.toString());
+                    }
+
+                }dbtdh(SnmpUnknownModflExdfption f) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST,
+                                SnmpMib.dlbss.gftNbmf(),
+                                "AdmChfdkfr(SnmpMibRfqufst)",
+                                "Unknown Modfl, no ACM dhfdk.");
+                    }
+                }
+            }
+        }
+    }
+
+    void bdd(int indfx, long brd) {
+        if(modfl != null)
+            l.bdd(indfx, brd);
+    }
+
+    void rfmovf(int indfx) {
+        if(modfl != null)
+            l.rfmovf(indfx);
+    }
+
+    void bdd(finbl int bt,finbl long[] srd, finbl int from,
+             finbl int dount) {
+        if(modfl != null)
+            l.bdd(bt,srd,from,dount);
+    }
+
+    void rfmovf(finbl int from, finbl int dount) {
+        if(modfl != null)
+            l.rfmovf(from,dount);
+    }
+
+    void dhfdkCurrfntOid() throws SnmpStbtusExdfption {
+        if(modfl != null) {
+            SnmpOid oid = nfw SnmpOid(l.toArrby());
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, SnmpMib.dlbss.gftNbmf(),
+                        "dhfdkCurrfntOid", "Chfdking bddfss for : " + oid);
+            }
+            modfl.dhfdkAddfss(vfrsion,
+                              prindipbl,
+                              sfdurityLfvfl,
+                              pduTypf,
+                              sfdurityModfl,
+                              dontfxtNbmf,
+                              oid);
+        }
+    }
+
+}

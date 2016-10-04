@@ -1,0 +1,200 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.lwbwt.mbdosx;
+
+import jbvb.bwt.*;
+import jbvb.bwt.dnd.DropTbrgft;
+
+import sun.bwt.dnd.SunDropTbrgftContfxtPffr;
+import sun.bwt.dnd.SunDropTbrgftEvfnt;
+
+import jbvbx.swing.*;
+
+
+finbl dlbss CDropTbrgftContfxtPffr fxtfnds SunDropTbrgftContfxtPffr {
+
+    privbtf long    fNbtivfDropTrbnsffr = 0;
+    privbtf long    fNbtivfDbtbAvbilbblf = 0;
+    privbtf Objfdt  fNbtivfDbtb    = null;
+    privbtf DropTbrgft insidfTbrgft = null;
+
+    Objfdt bwtLodkAddfss = nfw Objfdt();
+
+    stbtid CDropTbrgftContfxtPffr gftDropTbrgftContfxtPffr() {
+        rfturn nfw CDropTbrgftContfxtPffr();
+    }
+
+    privbtf CDropTbrgftContfxtPffr() {
+        supfr();
+    }
+
+    // Wf blodk, wbiting for bn fmpty fvfnt to gft postfd (CToolkit.invokfAndWbit)
+    // This is so wf finish dispbtdhing DropTbrgft fvfnts bfforf wf dispbtdh thf drbgDropFinishfd fvfnt (whidh is b highfr priority).
+    privbtf void flushEvfnts(Componfnt d) {
+        try {
+            LWCToolkit.invokfAndWbit(nfw Runnbblf() {
+                publid syndhronizfd void run() {
+                }
+            }, d);
+        }
+        dbtdh(Exdfption f) {
+            f.printStbdkTrbdf();
+        }
+    }
+
+    protfdtfd Objfdt gftNbtivfDbtb(long formbt) {
+        long nbtivfDropTbrgft = this.gftNbtivfDrbgContfxt();
+
+        syndhronizfd (bwtLodkAddfss) {
+            fNbtivfDbtbAvbilbblf = 0;
+
+            if (fNbtivfDropTrbnsffr == 0) {
+                fNbtivfDropTrbnsffr = stbrtTrbnsffr(nbtivfDropTbrgft, formbt);
+            } flsf {
+                bddTrbnsffr(nbtivfDropTbrgft, fNbtivfDropTrbnsffr, formbt);
+            }
+
+            whilf (formbt != fNbtivfDbtbAvbilbblf) {
+                try {
+                    bwtLodkAddfss.wbit();
+                } dbtdh (Throwbblf f) {
+                    f.printStbdkTrbdf();
+                }
+            }
+        }
+
+        rfturn fNbtivfDbtb;
+    }
+
+    // Wf nffd to tbkf dbrf of drbgEntfr bnd drbgExit mfssbgfs bfdbusf
+    // nbtivf systfm gfnfrbtfs thfm only for hfbvywfights
+    @Ovfrridf
+    protfdtfd void prodfssMotionMfssbgf(SunDropTbrgftEvfnt fvfnt, boolfbn opfrbtionChbngfd) {
+        boolfbn fvfntInsidfTbrgft = isEvfntInsidfTbrgft(fvfnt);
+        if (fvfnt.gftComponfnt().gftDropTbrgft() == insidfTbrgft) {
+            if (!fvfntInsidfTbrgft) {
+                prodfssExitMfssbgf(fvfnt);
+                rfturn;
+            }
+        } flsf {
+            if (fvfntInsidfTbrgft) {
+                prodfssEntfrMfssbgf(fvfnt);
+            } flsf {
+                rfturn;
+            }
+        }
+        supfr.prodfssMotionMfssbgf(fvfnt, opfrbtionChbngfd);
+    }
+
+    /**
+     * Could bf dbllfd whfn DnD fntfrs b hfbvywfight or synthfsizfd in prodfssMotionMfssbgf
+     */
+    @Ovfrridf
+    protfdtfd void prodfssEntfrMfssbgf(SunDropTbrgftEvfnt fvfnt) {
+        Componfnt d = fvfnt.gftComponfnt();
+        DropTbrgft dt = fvfnt.gftComponfnt().gftDropTbrgft();
+        if (isEvfntInsidfTbrgft(fvfnt)
+                && dt != insidfTbrgft
+                && d.isShowing()
+                && dt != null
+                && dt.isAdtivf()) {
+            insidfTbrgft = dt;
+            supfr.prodfssEntfrMfssbgf(fvfnt);
+        }
+    }
+
+    /**
+     * Could bf dbllfd whfn DnD fxits b hfbvywfight or synthfsizfd in prodfssMotionMfssbgf
+     */
+    @Ovfrridf
+    protfdtfd void prodfssExitMfssbgf(SunDropTbrgftEvfnt fvfnt) {
+        if (fvfnt.gftComponfnt().gftDropTbrgft() == insidfTbrgft) {
+            insidfTbrgft = null;
+            supfr.prodfssExitMfssbgf(fvfnt);
+        }
+    }
+
+    @Ovfrridf
+    protfdtfd void prodfssDropMfssbgf(SunDropTbrgftEvfnt fvfnt) {
+        if (isEvfntInsidfTbrgft(fvfnt)) {
+            supfr.prodfssDropMfssbgf(fvfnt);
+            insidfTbrgft = null;
+        }
+    }
+
+    privbtf boolfbn isEvfntInsidfTbrgft(SunDropTbrgftEvfnt fvfnt) {
+        Componfnt fvfntSourdf = fvfnt.gftComponfnt();
+        Point sdrffnPoint = fvfnt.gftPoint();
+        SwingUtilitifs.donvfrtPointToSdrffn(sdrffnPoint, fvfntSourdf);
+        Point lodbtionOnSdrffn = fvfntSourdf.gftLodbtionOnSdrffn();
+        Rfdtbnglf sdrffnBounds = nfw Rfdtbnglf(lodbtionOnSdrffn.x,
+                                               lodbtionOnSdrffn.y,
+                                               fvfntSourdf.gftWidth(),
+                                               fvfntSourdf.gftHfight());
+        rfturn sdrffnBounds.dontbins(sdrffnPoint);
+    }
+
+    @Ovfrridf
+    protfdtfd int postDropTbrgftEvfnt(Componfnt domponfnt, int x, int y, int dropAdtion,
+                                      int bdtions, long[] formbts, long nbtivfCtxt, int fvfntID,
+                                      boolfbn dispbtdhTypf) {
+        // On MbdOS X bll thf DnD fvfnts should bf syndhronous
+        rfturn supfr.postDropTbrgftEvfnt(domponfnt, x, y, dropAdtion, bdtions, formbts, nbtivfCtxt,
+                fvfntID, SunDropTbrgftContfxtPffr.DISPATCH_SYNC);
+    }
+
+    // Signbl drop domplftf:
+    protfdtfd void doDropDonf(boolfbn suddfss, int dropAdtion, boolfbn isLodbl) {
+        long nbtivfDropTbrgft = this.gftNbtivfDrbgContfxt();
+
+        dropDonf(nbtivfDropTbrgft, fNbtivfDropTrbnsffr, isLodbl, suddfss, dropAdtion);
+    }
+
+    // Notify trbnsffr domplftf - this is bn updbll from gftNbtivfDbtb's nbtivf dblls:
+    privbtf void nfwDbtb(long formbt, bytf[] dbtb) {
+        fNbtivfDbtbAvbilbblf = formbt;
+        fNbtivfDbtb          = dbtb;
+
+        bwtLodkAddfss.notifyAll();
+    }
+
+    // Notify trbnsffr fbilfd - this is bn updbll from gftNbtivfDbtb's nbtivf dblls:
+    privbtf void trbnsffrFbilfd(long formbt) {
+        fNbtivfDbtbAvbilbblf = formbt;
+        fNbtivfDbtb          = null;
+
+        bwtLodkAddfss.notifyAll();
+    }
+
+    // Sdhfdulf b nbtivf dnd trbnsffr:
+    privbtf nbtivf long stbrtTrbnsffr(long nbtivfDropTbrgft, long formbt);
+
+    // Sdhfdulf b nbtivf dnd dbtb trbnsffr:
+    privbtf nbtivf void bddTrbnsffr(long nbtivfDropTbrgft, long nbtivfDropTrbnsffr, long formbt);
+
+    // Notify drop domplftfd:
+    privbtf nbtivf void dropDonf(long nbtivfDropTbrgft, long nbtivfDropTrbnsffr, boolfbn isLodbl, boolfbn suddfss, int dropAdtion);
+}

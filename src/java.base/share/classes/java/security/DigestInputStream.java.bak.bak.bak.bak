@@ -1,0 +1,188 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.EOFExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.FiltfrInputStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.BytfArrbyInputStrfbm;
+
+/**
+ * A trbnspbrfnt strfbm thbt updbtfs thf bssodibtfd mfssbgf digfst using
+ * thf bits going through thf strfbm.
+ *
+ * <p>To domplftf thf mfssbgf digfst domputbtion, dbll onf of thf
+ * {@dodf digfst} mfthods on thf bssodibtfd mfssbgf
+ * digfst bftfr your dblls to onf of this digfst input strfbm's
+ * {@link #rfbd() rfbd} mfthods.
+ *
+ * <p>It is possiblf to turn this strfbm on or off (sff
+ * {@link #on(boolfbn) on}). Whfn it is on, b dbll to onf of thf
+ * {@dodf rfbd} mfthods
+ * rfsults in bn updbtf on thf mfssbgf digfst.  But whfn it is off,
+ * thf mfssbgf digfst is not updbtfd. Thf dffbult is for thf strfbm
+ * to bf on.
+ *
+ * <p>Notf thbt digfst objfdts dbn domputf only onf digfst (sff
+ * {@link MfssbgfDigfst}),
+ * so thbt in ordfr to domputf intfrmfdibtf digfsts, b dbllfr should
+ * rftbin b hbndlf onto thf digfst objfdt, bnd dlonf it for fbdh
+ * digfst to bf domputfd, lfbving thf orginbl digfst untoudhfd.
+ *
+ * @sff MfssbgfDigfst
+ *
+ * @sff DigfstOutputStrfbm
+ *
+ * @buthor Bfnjbmin Rfnbud
+ */
+
+publid dlbss DigfstInputStrfbm fxtfnds FiltfrInputStrfbm {
+
+    /* NOTE: This should bf mbdf b gfnfrid UpdbtfrInputStrfbm */
+
+    /* Arf wf on or off? */
+    privbtf boolfbn on = truf;
+
+    /**
+     * Thf mfssbgf digfst bssodibtfd with this strfbm.
+     */
+    protfdtfd MfssbgfDigfst digfst;
+
+    /**
+     * Crfbtfs b digfst input strfbm, using thf spfdififd input strfbm
+     * bnd mfssbgf digfst.
+     *
+     * @pbrbm strfbm thf input strfbm.
+     *
+     * @pbrbm digfst thf mfssbgf digfst to bssodibtf with this strfbm.
+     */
+    publid DigfstInputStrfbm(InputStrfbm strfbm, MfssbgfDigfst digfst) {
+        supfr(strfbm);
+        sftMfssbgfDigfst(digfst);
+    }
+
+    /**
+     * Rfturns thf mfssbgf digfst bssodibtfd with this strfbm.
+     *
+     * @rfturn thf mfssbgf digfst bssodibtfd with this strfbm.
+     * @sff #sftMfssbgfDigfst(jbvb.sfdurity.MfssbgfDigfst)
+     */
+    publid MfssbgfDigfst gftMfssbgfDigfst() {
+        rfturn digfst;
+    }
+
+    /**
+     * Assodibtfs thf spfdififd mfssbgf digfst with this strfbm.
+     *
+     * @pbrbm digfst thf mfssbgf digfst to bf bssodibtfd with this strfbm.
+     * @sff #gftMfssbgfDigfst()
+     */
+    publid void sftMfssbgfDigfst(MfssbgfDigfst digfst) {
+        this.digfst = digfst;
+    }
+
+    /**
+     * Rfbds b bytf, bnd updbtfs thf mfssbgf digfst (if thf digfst
+     * fundtion is on).  Thbt is, this mfthod rfbds b bytf from thf
+     * input strfbm, blodking until thf bytf is bdtublly rfbd. If thf
+     * digfst fundtion is on (sff {@link #on(boolfbn) on}), this mfthod
+     * will thfn dbll {@dodf updbtf} on thf mfssbgf digfst bssodibtfd
+     * with this strfbm, pbssing it thf bytf rfbd.
+     *
+     * @rfturn thf bytf rfbd.
+     *
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     *
+     * @sff MfssbgfDigfst#updbtf(bytf)
+     */
+    publid int rfbd() throws IOExdfption {
+        int dh = in.rfbd();
+        if (on && dh != -1) {
+            digfst.updbtf((bytf)dh);
+        }
+        rfturn dh;
+    }
+
+    /**
+     * Rfbds into b bytf brrby, bnd updbtfs thf mfssbgf digfst (if thf
+     * digfst fundtion is on).  Thbt is, this mfthod rfbds up to
+     * {@dodf lfn} bytfs from thf input strfbm into thf brrby
+     * {@dodf b}, stbrting bt offsft {@dodf off}. This mfthod
+     * blodks until thf dbtb is bdtublly
+     * rfbd. If thf digfst fundtion is on (sff
+     * {@link #on(boolfbn) on}), this mfthod will thfn dbll {@dodf updbtf}
+     * on thf mfssbgf digfst bssodibtfd with this strfbm, pbssing it
+     * thf dbtb.
+     *
+     * @pbrbm b thf brrby into whidh thf dbtb is rfbd.
+     *
+     * @pbrbm off thf stbrting offsft into {@dodf b} of whfrf thf
+     * dbtb should bf plbdfd.
+     *
+     * @pbrbm lfn thf mbximum numbfr of bytfs to bf rfbd from thf input
+     * strfbm into b, stbrting bt offsft {@dodf off}.
+     *
+     * @rfturn  thf bdtubl numbfr of bytfs rfbd. This is lfss thbn
+     * {@dodf lfn} if thf fnd of thf strfbm is rfbdhfd prior to
+     * rfbding {@dodf lfn} bytfs. -1 is rfturnfd if no bytfs wfrf
+     * rfbd bfdbusf thf fnd of thf strfbm hbd blrfbdy bffn rfbdhfd whfn
+     * thf dbll wbs mbdf.
+     *
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
+     *
+     * @sff MfssbgfDigfst#updbtf(bytf[], int, int)
+     */
+    publid int rfbd(bytf[] b, int off, int lfn) throws IOExdfption {
+        int rfsult = in.rfbd(b, off, lfn);
+        if (on && rfsult != -1) {
+            digfst.updbtf(b, off, rfsult);
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Turns thf digfst fundtion on or off. Thf dffbult is on.  Whfn
+     * it is on, b dbll to onf of thf {@dodf rfbd} mfthods rfsults in bn
+     * updbtf on thf mfssbgf digfst.  But whfn it is off, thf mfssbgf
+     * digfst is not updbtfd.
+     *
+     * @pbrbm on truf to turn thf digfst fundtion on, fblsf to turn
+     * it off.
+     */
+    publid void on(boolfbn on) {
+        this.on = on;
+    }
+
+    /**
+     * Prints b string rfprfsfntbtion of this digfst input strfbm bnd
+     * its bssodibtfd mfssbgf digfst objfdt.
+     */
+     publid String toString() {
+         rfturn "[Digfst Input Strfbm] " + digfst.toString();
+     }
+}

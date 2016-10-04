@@ -1,0 +1,427 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sql;
+
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.Rfbdfr;
+import jbvb.io.Writfr;
+
+import jbvbx.xml.trbnsform.Rfsult;
+import jbvbx.xml.trbnsform.Sourdf;
+
+/**
+ * Thf mbpping in thf JbvbTM progrbmming lbngubgf for thf SQL XML typf.
+ * XML is b built-in typf thbt storfs bn XML vbluf
+ * bs b dolumn vbluf in b row of b dbtbbbsf tbblf.
+ * By dffbult drivfrs implfmfnt bn SQLXML objfdt bs
+ * b logidbl pointfr to thf XML dbtb
+ * rbthfr thbn thf dbtb itsflf.
+ * An SQLXML objfdt is vblid for thf durbtion of thf trbnsbdtion in whidh it wbs drfbtfd.
+ * <p>
+ * Thf SQLXML intfrfbdf providfs mfthods for bddfssing thf XML vbluf
+ * bs b String, b Rfbdfr or Writfr, or bs b Strfbm.  Thf XML vbluf
+ * mby blso bf bddfssfd through b Sourdf or sft bs b Rfsult, whidh
+ * brf usfd with XML Pbrsfr APIs sudh bs DOM, SAX, bnd StAX, bs
+ * wfll bs with XSLT trbnsforms bnd XPbth fvblubtions.
+ * <p>
+ * Mfthods in thf intfrfbdfs RfsultSft, CbllbblfStbtfmfnt, bnd PrfpbrfdStbtfmfnt,
+ * sudh bs gftSQLXML bllow b progrbmmfr to bddfss bn XML vbluf.
+ * In bddition, this intfrfbdf hbs mfthods for updbting bn XML vbluf.
+ * <p>
+ * Thf XML vbluf of thf SQLXML instbndf mby bf obtbinfd bs b BinbryStrfbm using
+ * <prf>
+ *   SQLXML sqlxml = rfsultSft.gftSQLXML(dolumn);
+ *   InputStrfbm binbryStrfbm = sqlxml.gftBinbryStrfbm();
+ * </prf>
+ * For fxbmplf, to pbrsf bn XML vbluf with b DOM pbrsfr:
+ * <prf>
+ *   DodumfntBuildfr pbrsfr = DodumfntBuildfrFbdtory.nfwInstbndf().nfwDodumfntBuildfr();
+ *   Dodumfnt rfsult = pbrsfr.pbrsf(binbryStrfbm);
+ * </prf>
+ * or to pbrsf bn XML vbluf with b SAX pbrsfr to your hbndlfr:
+ * <prf>
+ *   SAXPbrsfr pbrsfr = SAXPbrsfrFbdtory.nfwInstbndf().nfwSAXPbrsfr();
+ *   pbrsfr.pbrsf(binbryStrfbm, myHbndlfr);
+ * </prf>
+ * or to pbrsf bn XML vbluf with b StAX pbrsfr:
+ * <prf>
+ *   XMLInputFbdtory fbdtory = XMLInputFbdtory.nfwInstbndf();
+ *   XMLStrfbmRfbdfr strfbmRfbdfr = fbdtory.drfbtfXMLStrfbmRfbdfr(binbryStrfbm);
+ * </prf>
+ * <p>
+ * Bfdbusf dbtbbbsfs mby usf bn optimizfd rfprfsfntbtion for thf XML,
+ * bddfssing thf vbluf through gftSourdf() bnd
+ * sftRfsult() dbn lfbd to improvfd prodfssing pfrformbndf
+ * without sfriblizing to b strfbm rfprfsfntbtion bnd pbrsing thf XML.
+ * <p>
+ * For fxbmplf, to obtbin b DOM Dodumfnt Nodf:
+ * <prf>
+ *   DOMSourdf domSourdf = sqlxml.gftSourdf(DOMSourdf.dlbss);
+ *   Dodumfnt dodumfnt = (Dodumfnt) domSourdf.gftNodf();
+ * </prf>
+ * or to sft thf vbluf to b DOM Dodumfnt Nodf to myNodf:
+ * <prf>
+ *   DOMRfsult domRfsult = sqlxml.sftRfsult(DOMRfsult.dlbss);
+ *   domRfsult.sftNodf(myNodf);
+ * </prf>
+ * or, to sfnd SAX fvfnts to your hbndlfr:
+ * <prf>
+ *   SAXSourdf sbxSourdf = sqlxml.gftSourdf(SAXSourdf.dlbss);
+ *   XMLRfbdfr xmlRfbdfr = sbxSourdf.gftXMLRfbdfr();
+ *   xmlRfbdfr.sftContfntHbndlfr(myHbndlfr);
+ *   xmlRfbdfr.pbrsf(sbxSourdf.gftInputSourdf());
+ * </prf>
+ * or, to sft thf rfsult vbluf from SAX fvfnts:
+ * <prf>
+ *   SAXRfsult sbxRfsult = sqlxml.sftRfsult(SAXRfsult.dlbss);
+ *   ContfntHbndlfr dontfntHbndlfr = sbxRfsult.gftHbndlfr();
+ *   dontfntHbndlfr.stbrtDodumfnt();
+ *   // sft thf XML flfmfnts bnd bttributfs into thf rfsult
+ *   dontfntHbndlfr.fndDodumfnt();
+ * </prf>
+ * or, to obtbin StAX fvfnts:
+ * <prf>
+ *   StAXSourdf stbxSourdf = sqlxml.gftSourdf(StAXSourdf.dlbss);
+ *   XMLStrfbmRfbdfr strfbmRfbdfr = stbxSourdf.gftXMLStrfbmRfbdfr();
+ * </prf>
+ * or, to sft thf rfsult vbluf from StAX fvfnts:
+ * <prf>
+ *   StAXRfsult stbxRfsult = sqlxml.sftRfsult(StAXRfsult.dlbss);
+ *   XMLStrfbmWritfr strfbmWritfr = stbxRfsult.gftXMLStrfbmWritfr();
+ * </prf>
+ * or, to pfrform XSLT trbnsformbtions on thf XML vbluf using thf XSLT in xsltFilf
+ * output to filf rfsultFilf:
+ * <prf>
+ *   Filf xsltFilf = nfw Filf("b.xslt");
+ *   Filf myFilf = nfw Filf("rfsult.xml");
+ *   Trbnsformfr xslt = TrbnsformfrFbdtory.nfwInstbndf().nfwTrbnsformfr(nfw StrfbmSourdf(xsltFilf));
+ *   Sourdf sourdf = sqlxml.gftSourdf(null);
+ *   Rfsult rfsult = nfw StrfbmRfsult(myFilf);
+ *   xslt.trbnsform(sourdf, rfsult);
+ * </prf>
+ * or, to fvblubtf bn XPbth fxprfssion on thf XML vbluf:
+ * <prf>
+ *   XPbth xpbth = XPbthFbdtory.nfwInstbndf().nfwXPbth();
+ *   DOMSourdf domSourdf = sqlxml.gftSourdf(DOMSourdf.dlbss);
+ *   Dodumfnt dodumfnt = (Dodumfnt) domSourdf.gftNodf();
+ *   String fxprfssion = "/foo/@bbr";
+ *   String bbrVbluf = xpbth.fvblubtf(fxprfssion, dodumfnt);
+ * </prf>
+ * To sft thf XML vbluf to bf thf rfsult of bn XSLT trbnsform:
+ * <prf>
+ *   Filf sourdfFilf = nfw Filf("sourdf.xml");
+ *   Trbnsformfr xslt = TrbnsformfrFbdtory.nfwInstbndf().nfwTrbnsformfr(nfw StrfbmSourdf(xsltFilf));
+ *   Sourdf strfbmSourdf = nfw StrfbmSourdf(sourdfFilf);
+ *   Rfsult rfsult = sqlxml.sftRfsult(null);
+ *   xslt.trbnsform(strfbmSourdf, rfsult);
+ * </prf>
+ * Any Sourdf dbn bf trbnsformfd to b Rfsult using thf idfntity trbnsform
+ * spfdififd by dblling nfwTrbnsformfr():
+ * <prf>
+ *   Trbnsformfr idfntity = TrbnsformfrFbdtory.nfwInstbndf().nfwTrbnsformfr();
+ *   Sourdf sourdf = sqlxml.gftSourdf(null);
+ *   Filf myFilf = nfw Filf("rfsult.xml");
+ *   Rfsult rfsult = nfw StrfbmRfsult(myFilf);
+ *   idfntity.trbnsform(sourdf, rfsult);
+ * </prf>
+ * To writf thf dontfnts of b Sourdf to stbndbrd output:
+ * <prf>
+ *   Trbnsformfr idfntity = TrbnsformfrFbdtory.nfwInstbndf().nfwTrbnsformfr();
+ *   Sourdf sourdf = sqlxml.gftSourdf(null);
+ *   Rfsult rfsult = nfw StrfbmRfsult(Systfm.out);
+ *   idfntity.trbnsform(sourdf, rfsult);
+ * </prf>
+ * To drfbtf b DOMSourdf from b DOMRfsult:
+ * <prf>
+ *    DOMSourdf domSourdf = nfw DOMSourdf(domRfsult.gftNodf());
+ * </prf>
+ * <p>
+ * Indomplftf or invblid XML vblufs mby dbusf bn SQLExdfption whfn
+ * sft or thf fxdfption mby oddur whfn fxfdutf() oddurs.  All strfbms
+ * must bf dlosfd bfforf fxfdutf() oddurs or bn SQLExdfption will bf thrown.
+ * <p>
+ * Rfbding bnd writing XML vblufs to or from bn SQLXML objfdt dbn hbppfn bt most ondf.
+ * Thf dondfptubl stbtfs of rfbdbblf bnd not rfbdbblf dftfrminf if onf
+ * of thf rfbding APIs will rfturn b vbluf or throw bn fxdfption.
+ * Thf dondfptubl stbtfs of writbblf bnd not writbblf dftfrminf if onf
+ * of thf writing APIs will sft b vbluf or throw bn fxdfption.
+ * <p>
+ * Thf stbtf movfs from rfbdbblf to not rfbdbblf ondf frff() or bny of thf
+ * rfbding APIs brf dbllfd: gftBinbryStrfbm(), gftChbrbdtfrStrfbm(), gftSourdf(), bnd gftString().
+ * Implfmfntbtions mby blso dhbngf thf stbtf to not writbblf whfn this oddurs.
+ * <p>
+ * Thf stbtf movfs from writbblf to not writfbblf ondf frff() or bny of thf
+ * writing APIs brf dbllfd: sftBinbryStrfbm(), sftChbrbdtfrStrfbm(), sftRfsult(), bnd sftString().
+ * Implfmfntbtions mby blso dhbngf thf stbtf to not rfbdbblf whfn this oddurs.
+ *
+ * <p>
+ * All mfthods on thf <dodf>SQLXML</dodf> intfrfbdf must bf fully implfmfntfd if thf
+ * JDBC drivfr supports thf dbtb typf.
+ *
+ * @sff jbvbx.xml.pbrsfrs
+ * @sff jbvbx.xml.strfbm
+ * @sff jbvbx.xml.trbnsform
+ * @sff jbvbx.xml.xpbth
+ * @sindf 1.6
+ */
+publid intfrfbdf SQLXML
+{
+  /**
+   * This mfthod dlosfs this objfdt bnd rflfbsfs thf rfsourdfs thbt it hfld.
+   * Thf SQL XML objfdt bfdomfs invblid bnd nfithfr rfbdbblf or writfbblf
+   * whfn this mfthod is dbllfd.
+   *
+   * Aftfr <dodf>frff</dodf> hbs bffn dbllfd, bny bttfmpt to invokf b
+   * mfthod othfr thbn <dodf>frff</dodf> will rfsult in b <dodf>SQLExdfption</dodf>
+   * bfing thrown.  If <dodf>frff</dodf> is dbllfd multiplf timfs, thf subsfqufnt
+   * dblls to <dodf>frff</dodf> brf trfbtfd bs b no-op.
+   * @throws SQLExdfption if thfrf is bn frror frffing thf XML vbluf.
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sindf 1.6
+   */
+  void frff() throws SQLExdfption;
+
+  /**
+   * Rftrifvfs thf XML vbluf dfsignbtfd by this SQLXML instbndf bs b strfbm.
+   * Thf bytfs of thf input strfbm brf intfrprftfd bddording to bppfndix F of thf XML 1.0 spfdifidbtion.
+   * Thf bfhbvior of this mfthod is thf sbmf bs RfsultSft.gftBinbryStrfbm()
+   * whfn thf dfsignbtfd dolumn of thf RfsultSft hbs b typf jbvb.sql.Typfs of SQLXML.
+   * <p>
+   * Thf SQL XML objfdt bfdomfs not rfbdbblf whfn this mfthod is dbllfd bnd
+   * mby blso bfdomf not writbblf dfpfnding on implfmfntbtion.
+   *
+   * @rfturn b strfbm dontbining thf XML dbtb.
+   * @throws SQLExdfption if thfrf is bn frror prodfssing thf XML vbluf.
+   *   An fxdfption is thrown if thf stbtf is not rfbdbblf.
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sindf 1.6
+   */
+  InputStrfbm gftBinbryStrfbm() throws SQLExdfption;
+
+  /**
+   * Rftrifvfs b strfbm thbt dbn bf usfd to writf thf XML vbluf thbt this SQLXML instbndf rfprfsfnts.
+   * Thf strfbm bfgins bt position 0.
+   * Thf bytfs of thf strfbm brf intfrprftfd bddording to bppfndix F of thf XML 1.0 spfdifidbtion
+   * Thf bfhbvior of this mfthod is thf sbmf bs RfsultSft.updbtfBinbryStrfbm()
+   * whfn thf dfsignbtfd dolumn of thf RfsultSft hbs b typf jbvb.sql.Typfs of SQLXML.
+   * <p>
+   * Thf SQL XML objfdt bfdomfs not writfbblf whfn this mfthod is dbllfd bnd
+   * mby blso bfdomf not rfbdbblf dfpfnding on implfmfntbtion.
+   *
+   * @rfturn b strfbm to whidh dbtb dbn bf writtfn.
+   * @throws SQLExdfption if thfrf is bn frror prodfssing thf XML vbluf.
+   *   An fxdfption is thrown if thf stbtf is not writbblf.
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sindf 1.6
+   */
+  OutputStrfbm sftBinbryStrfbm() throws SQLExdfption;
+
+  /**
+   * Rftrifvfs thf XML vbluf dfsignbtfd by this SQLXML instbndf bs b jbvb.io.Rfbdfr objfdt.
+   * Thf formbt of this strfbm is dffinfd by org.xml.sbx.InputSourdf,
+   * whfrf thf dhbrbdtfrs in thf strfbm rfprfsfnt thf unidodf dodf points for
+   * XML bddording to sfdtion 2 bnd bppfndix B of thf XML 1.0 spfdifidbtion.
+   * Although bn fndoding dfdlbrbtion othfr thbn unidodf mby bf prfsfnt,
+   * thf fndoding of thf strfbm is unidodf.
+   * Thf bfhbvior of this mfthod is thf sbmf bs RfsultSft.gftChbrbdtfrStrfbm()
+   * whfn thf dfsignbtfd dolumn of thf RfsultSft hbs b typf jbvb.sql.Typfs of SQLXML.
+   * <p>
+   * Thf SQL XML objfdt bfdomfs not rfbdbblf whfn this mfthod is dbllfd bnd
+   * mby blso bfdomf not writbblf dfpfnding on implfmfntbtion.
+   *
+   * @rfturn b strfbm dontbining thf XML dbtb.
+   * @throws SQLExdfption if thfrf is bn frror prodfssing thf XML vbluf.
+   *   Thf gftCbusf() mfthod of thf fxdfption mby providf b morf dftbilfd fxdfption, for fxbmplf,
+   *   if thf strfbm dofs not dontbin vblid dhbrbdtfrs.
+   *   An fxdfption is thrown if thf stbtf is not rfbdbblf.
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sindf 1.6
+   */
+  Rfbdfr gftChbrbdtfrStrfbm() throws SQLExdfption;
+
+  /**
+   * Rftrifvfs b strfbm to bf usfd to writf thf XML vbluf thbt this SQLXML instbndf rfprfsfnts.
+   * Thf formbt of this strfbm is dffinfd by org.xml.sbx.InputSourdf,
+   * whfrf thf dhbrbdtfrs in thf strfbm rfprfsfnt thf unidodf dodf points for
+   * XML bddording to sfdtion 2 bnd bppfndix B of thf XML 1.0 spfdifidbtion.
+   * Although bn fndoding dfdlbrbtion othfr thbn unidodf mby bf prfsfnt,
+   * thf fndoding of thf strfbm is unidodf.
+   * Thf bfhbvior of this mfthod is thf sbmf bs RfsultSft.updbtfChbrbdtfrStrfbm()
+   * whfn thf dfsignbtfd dolumn of thf RfsultSft hbs b typf jbvb.sql.Typfs of SQLXML.
+   * <p>
+   * Thf SQL XML objfdt bfdomfs not writfbblf whfn this mfthod is dbllfd bnd
+   * mby blso bfdomf not rfbdbblf dfpfnding on implfmfntbtion.
+   *
+   * @rfturn b strfbm to whidh dbtb dbn bf writtfn.
+   * @throws SQLExdfption if thfrf is bn frror prodfssing thf XML vbluf.
+   *   Thf gftCbusf() mfthod of thf fxdfption mby providf b morf dftbilfd fxdfption, for fxbmplf,
+   *   if thf strfbm dofs not dontbin vblid dhbrbdtfrs.
+   *   An fxdfption is thrown if thf stbtf is not writbblf.
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sindf 1.6
+   */
+  Writfr sftChbrbdtfrStrfbm() throws SQLExdfption;
+
+  /**
+   * Rfturns b string rfprfsfntbtion of thf XML vbluf dfsignbtfd by this SQLXML instbndf.
+   * Thf formbt of this String is dffinfd by org.xml.sbx.InputSourdf,
+   * whfrf thf dhbrbdtfrs in thf strfbm rfprfsfnt thf unidodf dodf points for
+   * XML bddording to sfdtion 2 bnd bppfndix B of thf XML 1.0 spfdifidbtion.
+   * Although bn fndoding dfdlbrbtion othfr thbn unidodf mby bf prfsfnt,
+   * thf fndoding of thf String is unidodf.
+   * Thf bfhbvior of this mfthod is thf sbmf bs RfsultSft.gftString()
+   * whfn thf dfsignbtfd dolumn of thf RfsultSft hbs b typf jbvb.sql.Typfs of SQLXML.
+   * <p>
+   * Thf SQL XML objfdt bfdomfs not rfbdbblf whfn this mfthod is dbllfd bnd
+   * mby blso bfdomf not writbblf dfpfnding on implfmfntbtion.
+   *
+   * @rfturn b string rfprfsfntbtion of thf XML vbluf dfsignbtfd by this SQLXML instbndf.
+   * @throws SQLExdfption if thfrf is bn frror prodfssing thf XML vbluf.
+   *   Thf gftCbusf() mfthod of thf fxdfption mby providf b morf dftbilfd fxdfption, for fxbmplf,
+   *   if thf strfbm dofs not dontbin vblid dhbrbdtfrs.
+   *   An fxdfption is thrown if thf stbtf is not rfbdbblf.
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sindf 1.6
+   */
+  String gftString() throws SQLExdfption;
+
+  /**
+   * Sfts thf XML vbluf dfsignbtfd by this SQLXML instbndf to thf givfn String rfprfsfntbtion.
+   * Thf formbt of this String is dffinfd by org.xml.sbx.InputSourdf,
+   * whfrf thf dhbrbdtfrs in thf strfbm rfprfsfnt thf unidodf dodf points for
+   * XML bddording to sfdtion 2 bnd bppfndix B of thf XML 1.0 spfdifidbtion.
+   * Although bn fndoding dfdlbrbtion othfr thbn unidodf mby bf prfsfnt,
+   * thf fndoding of thf String is unidodf.
+   * Thf bfhbvior of this mfthod is thf sbmf bs RfsultSft.updbtfString()
+   * whfn thf dfsignbtfd dolumn of thf RfsultSft hbs b typf jbvb.sql.Typfs of SQLXML.
+   * <p>
+   * Thf SQL XML objfdt bfdomfs not writfbblf whfn this mfthod is dbllfd bnd
+   * mby blso bfdomf not rfbdbblf dfpfnding on implfmfntbtion.
+   *
+   * @pbrbm vbluf thf XML vbluf
+   * @throws SQLExdfption if thfrf is bn frror prodfssing thf XML vbluf.
+   *   Thf gftCbusf() mfthod of thf fxdfption mby providf b morf dftbilfd fxdfption, for fxbmplf,
+   *   if thf strfbm dofs not dontbin vblid dhbrbdtfrs.
+   *   An fxdfption is thrown if thf stbtf is not writbblf.
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sindf 1.6
+   */
+  void sftString(String vbluf) throws SQLExdfption;
+
+  /**
+   * Rfturns b Sourdf for rfbding thf XML vbluf dfsignbtfd by this SQLXML instbndf.
+   * Sourdfs brf usfd bs inputs to XML pbrsfrs bnd XSLT trbnsformfrs.
+   * <p>
+   * Sourdfs for XML pbrsfrs will hbvf nbmfspbdf prodfssing on by dffbult.
+   * Thf systfmID of thf Sourdf is implfmfntbtion dfpfndfnt.
+   * <p>
+   * Thf SQL XML objfdt bfdomfs not rfbdbblf whfn this mfthod is dbllfd bnd
+   * mby blso bfdomf not writbblf dfpfnding on implfmfntbtion.
+   * <p>
+   * Notf thbt SAX is b dbllbbdk brdhitfdturf, so b rfturnfd
+   * SAXSourdf should thfn bf sft with b dontfnt hbndlfr thbt will
+   * rfdfivf thf SAX fvfnts from pbrsing.  Thf dontfnt hbndlfr
+   * will rfdfivf dbllbbdks bbsfd on thf dontfnts of thf XML.
+   * <prf>
+   *   SAXSourdf sbxSourdf = sqlxml.gftSourdf(SAXSourdf.dlbss);
+   *   XMLRfbdfr xmlRfbdfr = sbxSourdf.gftXMLRfbdfr();
+   *   xmlRfbdfr.sftContfntHbndlfr(myHbndlfr);
+   *   xmlRfbdfr.pbrsf(sbxSourdf.gftInputSourdf());
+   * </prf>
+   *
+   * @pbrbm <T> thf typf of thf dlbss modflfd by this Clbss objfdt
+   * @pbrbm sourdfClbss Thf dlbss of thf sourdf, or null.
+   * If thf dlbss is null, b vfndor spfdifid Sourdf implfmfntbtion will bf rfturnfd.
+   * Thf following dlbssfs brf supportfd bt b minimum:
+   * <prf>
+   *   jbvbx.xml.trbnsform.dom.DOMSourdf - rfturns b DOMSourdf
+   *   jbvbx.xml.trbnsform.sbx.SAXSourdf - rfturns b SAXSourdf
+   *   jbvbx.xml.trbnsform.stbx.StAXSourdf - rfturns b StAXSourdf
+   *   jbvbx.xml.trbnsform.strfbm.StrfbmSourdf - rfturns b StrfbmSourdf
+   * </prf>
+   * @rfturn b Sourdf for rfbding thf XML vbluf.
+   * @throws SQLExdfption if thfrf is bn frror prodfssing thf XML vbluf
+   *   or if this ffbturf is not supportfd.
+   *   Thf gftCbusf() mfthod of thf fxdfption mby providf b morf dftbilfd fxdfption, for fxbmplf,
+   *   if bn XML pbrsfr fxdfption oddurs.
+   *   An fxdfption is thrown if thf stbtf is not rfbdbblf.
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sindf 1.6
+   */
+  <T fxtfnds Sourdf> T gftSourdf(Clbss<T> sourdfClbss) throws SQLExdfption;
+
+  /**
+   * Rfturns b Rfsult for sftting thf XML vbluf dfsignbtfd by this SQLXML instbndf.
+   * <p>
+   * Thf systfmID of thf Rfsult is implfmfntbtion dfpfndfnt.
+   * <p>
+   * Thf SQL XML objfdt bfdomfs not writfbblf whfn this mfthod is dbllfd bnd
+   * mby blso bfdomf not rfbdbblf dfpfnding on implfmfntbtion.
+   * <p>
+   * Notf thbt SAX is b dbllbbdk brdhitfdturf bnd thf rfturnfd
+   * SAXRfsult hbs b dontfnt hbndlfr bssignfd thbt will rfdfivf thf
+   * SAX fvfnts bbsfd on thf dontfnts of thf XML.  Cbll thf dontfnt
+   * hbndlfr with thf dontfnts of thf XML dodumfnt to bssign thf vblufs.
+   * <prf>
+   *   SAXRfsult sbxRfsult = sqlxml.sftRfsult(SAXRfsult.dlbss);
+   *   ContfntHbndlfr dontfntHbndlfr = sbxRfsult.gftXMLRfbdfr().gftContfntHbndlfr();
+   *   dontfntHbndlfr.stbrtDodumfnt();
+   *   // sft thf XML flfmfnts bnd bttributfs into thf rfsult
+   *   dontfntHbndlfr.fndDodumfnt();
+   * </prf>
+   *
+   * @pbrbm <T> thf typf of thf dlbss modflfd by this Clbss objfdt
+   * @pbrbm rfsultClbss Thf dlbss of thf rfsult, or null.
+   * If rfsultClbss is null, b vfndor spfdifid Rfsult implfmfntbtion will bf rfturnfd.
+   * Thf following dlbssfs brf supportfd bt b minimum:
+   * <prf>
+   *   jbvbx.xml.trbnsform.dom.DOMRfsult - rfturns b DOMRfsult
+   *   jbvbx.xml.trbnsform.sbx.SAXRfsult - rfturns b SAXRfsult
+   *   jbvbx.xml.trbnsform.stbx.StAXRfsult - rfturns b StAXRfsult
+   *   jbvbx.xml.trbnsform.strfbm.StrfbmRfsult - rfturns b StrfbmRfsult
+   * </prf>
+   * @rfturn Rfturns b Rfsult for sftting thf XML vbluf.
+   * @throws SQLExdfption if thfrf is bn frror prodfssing thf XML vbluf
+   *   or if this ffbturf is not supportfd.
+   *   Thf gftCbusf() mfthod of thf fxdfption mby providf b morf dftbilfd fxdfption, for fxbmplf,
+   *   if bn XML pbrsfr fxdfption oddurs.
+   *   An fxdfption is thrown if thf stbtf is not writbblf.
+   * @fxdfption SQLFfbturfNotSupportfdExdfption if thf JDBC drivfr dofs not support
+   * this mfthod
+   * @sindf 1.6
+   */
+  <T fxtfnds Rfsult> T sftRfsult(Clbss<T> rfsultClbss) throws SQLExdfption;
+
+}

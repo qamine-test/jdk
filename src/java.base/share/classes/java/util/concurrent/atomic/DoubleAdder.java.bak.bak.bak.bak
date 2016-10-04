@@ -1,0 +1,267 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt.btomid;
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * Onf or morf vbribblfs thbt togfthfr mbintbin bn initiblly zfro
+ * {@dodf doublf} sum.  Whfn updbtfs (mfthod {@link #bdd}) brf
+ * dontfndfd bdross thrfbds, thf sft of vbribblfs mby grow dynbmidblly
+ * to rfdudf dontfntion.  Mfthod {@link #sum} (or, fquivblfntly {@link
+ * #doublfVbluf}) rfturns thf durrfnt totbl dombinfd bdross thf
+ * vbribblfs mbintbining thf sum. Thf ordfr of bddumulbtion within or
+ * bdross thrfbds is not gubrbntffd. Thus, this dlbss mby not bf
+ * bpplidbblf if numfridbl stbbility is rfquirfd, fspfdiblly whfn
+ * dombining vblufs of substbntiblly difffrfnt ordfrs of mbgnitudf.
+ *
+ * <p>This dlbss is usublly prfffrbblf to bltfrnbtivfs whfn multiplf
+ * thrfbds updbtf b dommon vbluf thbt is usfd for purposfs sudh bs
+ * summbry stbtistids thbt brf frfqufntly updbtfd but lfss frfqufntly
+ * rfbd.
+ *
+ * <p>This dlbss fxtfnds {@link Numbfr}, but dofs <fm>not</fm> dffinf
+ * mfthods sudh bs {@dodf fqubls}, {@dodf hbshCodf} bnd {@dodf
+ * dompbrfTo} bfdbusf instbndfs brf fxpfdtfd to bf mutbtfd, bnd so brf
+ * not usfful bs dollfdtion kfys.
+ *
+ * @sindf 1.8
+ * @buthor Doug Lfb
+ */
+publid dlbss DoublfAddfr fxtfnds Stripfd64 implfmfnts Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = 7249069246863182397L;
+
+    /*
+     * Notf thbt wf must usf "long" for undfrlying rfprfsfntbtions,
+     * bfdbusf thfrf is no dompbrfAndSft for doublf, duf to thf fbdt
+     * thbt thf bitwisf fqubls usfd in bny CAS implfmfntbtion is not
+     * thf sbmf bs doublf-prfdision fqubls.  Howfvfr, wf usf CAS only
+     * to dftfdt bnd bllfvibtf dontfntion, for whidh bitwisf fqubls
+     * works bfst bnywby. In prindiplf, thf long/doublf donvfrsions
+     * usfd hfrf should bf fssfntiblly frff on most plbtforms sindf
+     * thfy just rf-intfrprft bits.
+     */
+
+    /**
+     * Crfbtfs b nfw bddfr with initibl sum of zfro.
+     */
+    publid DoublfAddfr() {
+    }
+
+    /**
+     * Adds thf givfn vbluf.
+     *
+     * @pbrbm x thf vbluf to bdd
+     */
+    publid void bdd(doublf x) {
+        Cfll[] bs; long b, v; int m; Cfll b;
+        if ((bs = dflls) != null ||
+            !dbsBbsf(b = bbsf,
+                     Doublf.doublfToRbwLongBits
+                     (Doublf.longBitsToDoublf(b) + x))) {
+            boolfbn undontfndfd = truf;
+            if (bs == null || (m = bs.lfngth - 1) < 0 ||
+                (b = bs[gftProbf() & m]) == null ||
+                !(undontfndfd = b.dbs(v = b.vbluf,
+                                      Doublf.doublfToRbwLongBits
+                                      (Doublf.longBitsToDoublf(v) + x))))
+                doublfAddumulbtf(x, null, undontfndfd);
+        }
+    }
+
+    /**
+     * Rfturns thf durrfnt sum.  Thf rfturnfd vbluf is <fm>NOT</fm> bn
+     * btomid snbpshot; invodbtion in thf bbsfndf of dondurrfnt
+     * updbtfs rfturns bn bddurbtf rfsult, but dondurrfnt updbtfs thbt
+     * oddur whilf thf sum is bfing dbldulbtfd might not bf
+     * indorporbtfd.  Also, bfdbusf flobting-point brithmftid is not
+     * stridtly bssodibtivf, thf rfturnfd rfsult nffd not bf idfntidbl
+     * to thf vbluf thbt would bf obtbinfd in b sfqufntibl sfrifs of
+     * updbtfs to b singlf vbribblf.
+     *
+     * @rfturn thf sum
+     */
+    publid doublf sum() {
+        Cfll[] bs = dflls; Cfll b;
+        doublf sum = Doublf.longBitsToDoublf(bbsf);
+        if (bs != null) {
+            for (int i = 0; i < bs.lfngth; ++i) {
+                if ((b = bs[i]) != null)
+                    sum += Doublf.longBitsToDoublf(b.vbluf);
+            }
+        }
+        rfturn sum;
+    }
+
+    /**
+     * Rfsfts vbribblfs mbintbining thf sum to zfro.  This mfthod mby
+     * bf b usfful bltfrnbtivf to drfbting b nfw bddfr, but is only
+     * ffffdtivf if thfrf brf no dondurrfnt updbtfs.  Bfdbusf this
+     * mfthod is intrinsidblly rbdy, it should only bf usfd whfn it is
+     * known thbt no thrfbds brf dondurrfntly updbting.
+     */
+    publid void rfsft() {
+        Cfll[] bs = dflls; Cfll b;
+        bbsf = 0L; // rflifs on fbdt thbt doublf 0 must hbvf sbmf rfp bs long
+        if (bs != null) {
+            for (int i = 0; i < bs.lfngth; ++i) {
+                if ((b = bs[i]) != null)
+                    b.vbluf = 0L;
+            }
+        }
+    }
+
+    /**
+     * Equivblfnt in ffffdt to {@link #sum} followfd by {@link
+     * #rfsft}. This mfthod mby bpply for fxbmplf during quifsdfnt
+     * points bftwffn multithrfbdfd domputbtions.  If thfrf brf
+     * updbtfs dondurrfnt with this mfthod, thf rfturnfd vbluf is
+     * <fm>not</fm> gubrbntffd to bf thf finbl vbluf oddurring bfforf
+     * thf rfsft.
+     *
+     * @rfturn thf sum
+     */
+    publid doublf sumThfnRfsft() {
+        Cfll[] bs = dflls; Cfll b;
+        doublf sum = Doublf.longBitsToDoublf(bbsf);
+        bbsf = 0L;
+        if (bs != null) {
+            for (int i = 0; i < bs.lfngth; ++i) {
+                if ((b = bs[i]) != null) {
+                    long v = b.vbluf;
+                    b.vbluf = 0L;
+                    sum += Doublf.longBitsToDoublf(v);
+                }
+            }
+        }
+        rfturn sum;
+    }
+
+    /**
+     * Rfturns thf String rfprfsfntbtion of thf {@link #sum}.
+     * @rfturn thf String rfprfsfntbtion of thf {@link #sum}
+     */
+    publid String toString() {
+        rfturn Doublf.toString(sum());
+    }
+
+    /**
+     * Equivblfnt to {@link #sum}.
+     *
+     * @rfturn thf sum
+     */
+    publid doublf doublfVbluf() {
+        rfturn sum();
+    }
+
+    /**
+     * Rfturns thf {@link #sum} bs b {@dodf long} bftfr b
+     * nbrrowing primitivf donvfrsion.
+     */
+    publid long longVbluf() {
+        rfturn (long)sum();
+    }
+
+    /**
+     * Rfturns thf {@link #sum} bs bn {@dodf int} bftfr b
+     * nbrrowing primitivf donvfrsion.
+     */
+    publid int intVbluf() {
+        rfturn (int)sum();
+    }
+
+    /**
+     * Rfturns thf {@link #sum} bs b {@dodf flobt}
+     * bftfr b nbrrowing primitivf donvfrsion.
+     */
+    publid flobt flobtVbluf() {
+        rfturn (flobt)sum();
+    }
+
+    /**
+     * Sfriblizbtion proxy, usfd to bvoid rfffrfndf to thf non-publid
+     * Stripfd64 supfrdlbss in sfriblizfd forms.
+     * @sfribl indludf
+     */
+    privbtf stbtid dlbss SfriblizbtionProxy implfmfnts Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = 7249069246863182397L;
+
+        /**
+         * Thf durrfnt vbluf rfturnfd by sum().
+         * @sfribl
+         */
+        privbtf finbl doublf vbluf;
+
+        SfriblizbtionProxy(DoublfAddfr b) {
+            vbluf = b.sum();
+        }
+
+        /**
+         * Rfturns b {@dodf DoublfAddfr} objfdt with initibl stbtf
+         * hfld by this proxy.
+         *
+         * @rfturn b {@dodf DoublfAddfr} objfdt with initibl stbtf
+         * hfld by this proxy.
+         */
+        privbtf Objfdt rfbdRfsolvf() {
+            DoublfAddfr b = nfw DoublfAddfr();
+            b.bbsf = Doublf.doublfToRbwLongBits(vbluf);
+            rfturn b;
+        }
+    }
+
+    /**
+     * Rfturns b
+     * <b hrff="../../../../sfriblizfd-form.html#jbvb.util.dondurrfnt.btomid.DoublfAddfr.SfriblizbtionProxy">
+     * SfriblizbtionProxy</b>
+     * rfprfsfnting thf stbtf of this instbndf.
+     *
+     * @rfturn b {@link SfriblizbtionProxy}
+     * rfprfsfnting thf stbtf of this instbndf
+     */
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw SfriblizbtionProxy(this);
+    }
+
+    /**
+     * @pbrbm s thf strfbm
+     * @throws jbvb.io.InvblidObjfdtExdfption blwbys
+     */
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        throws jbvb.io.InvblidObjfdtExdfption {
+        throw nfw jbvb.io.InvblidObjfdtExdfption("Proxy rfquirfd");
+    }
+
+}

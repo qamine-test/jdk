@@ -1,1048 +1,1048 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.print;
+pbdkbgf sun.print;
 
-import java.net.URI;
-import java.net.URL;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
-import java.util.Vector;
+import jbvb.nft.URI;
+import jbvb.nft.URL;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.BufffrfdOutputStrfbm;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.BufffrfdWritfr;
+import jbvb.io.Filf;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.OutputStrfbmWritfr;
+import jbvb.io.IOExdfption;
+import jbvb.io.PrintWritfr;
+import jbvb.io.Rfbdfr;
+import jbvb.io.StringWritfr;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.nio.filf.Filfs;
+import jbvb.util.Vfdtor;
 
-import javax.print.CancelablePrintJob;
-import javax.print.Doc;
-import javax.print.DocFlavor;
-import javax.print.DocPrintJob;
-import javax.print.PrintService;
-import javax.print.PrintException;
-import javax.print.event.PrintJobEvent;
-import javax.print.event.PrintJobListener;
-import javax.print.event.PrintJobAttributeListener;
+import jbvbx.print.CbndflbblfPrintJob;
+import jbvbx.print.Dod;
+import jbvbx.print.DodFlbvor;
+import jbvbx.print.DodPrintJob;
+import jbvbx.print.PrintSfrvidf;
+import jbvbx.print.PrintExdfption;
+import jbvbx.print.fvfnt.PrintJobEvfnt;
+import jbvbx.print.fvfnt.PrintJobListfnfr;
+import jbvbx.print.fvfnt.PrintJobAttributfListfnfr;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.AttributeSet;
-import javax.print.attribute.AttributeSetUtilities;
-import javax.print.attribute.DocAttributeSet;
-import javax.print.attribute.HashPrintJobAttributeSet;
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.PrintJobAttribute;
-import javax.print.attribute.PrintJobAttributeSet;
-import javax.print.attribute.PrintRequestAttribute;
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.PrintServiceAttributeSet;
-import javax.print.attribute.standard.Copies;
-import javax.print.attribute.standard.Destination;
-import javax.print.attribute.standard.DocumentName;
-import javax.print.attribute.standard.Fidelity;
-import javax.print.attribute.standard.JobName;
-import javax.print.attribute.standard.JobOriginatingUserName;
-import javax.print.attribute.standard.JobSheets;
-import javax.print.attribute.standard.Media;
-import javax.print.attribute.standard.MediaSize;
-import javax.print.attribute.standard.MediaSizeName;
-import javax.print.attribute.standard.OrientationRequested;
-import javax.print.attribute.standard.PrinterName;
-import javax.print.attribute.standard.RequestingUserName;
-import javax.print.attribute.standard.NumberUp;
-import javax.print.attribute.standard.Sides;
-import javax.print.attribute.standard.PrinterIsAcceptingJobs;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.AttributfSft;
+import jbvbx.print.bttributf.AttributfSftUtilitifs;
+import jbvbx.print.bttributf.DodAttributfSft;
+import jbvbx.print.bttributf.HbsiPrintJobAttributfSft;
+import jbvbx.print.bttributf.HbsiPrintRfqufstAttributfSft;
+import jbvbx.print.bttributf.PrintJobAttributf;
+import jbvbx.print.bttributf.PrintJobAttributfSft;
+import jbvbx.print.bttributf.PrintRfqufstAttributf;
+import jbvbx.print.bttributf.PrintRfqufstAttributfSft;
+import jbvbx.print.bttributf.PrintSfrvidfAttributfSft;
+import jbvbx.print.bttributf.stbndbrd.Copifs;
+import jbvbx.print.bttributf.stbndbrd.Dfstinbtion;
+import jbvbx.print.bttributf.stbndbrd.DodumfntNbmf;
+import jbvbx.print.bttributf.stbndbrd.Fidflity;
+import jbvbx.print.bttributf.stbndbrd.JobNbmf;
+import jbvbx.print.bttributf.stbndbrd.JobOriginbtingUsfrNbmf;
+import jbvbx.print.bttributf.stbndbrd.JobSiffts;
+import jbvbx.print.bttributf.stbndbrd.Mfdib;
+import jbvbx.print.bttributf.stbndbrd.MfdibSizf;
+import jbvbx.print.bttributf.stbndbrd.MfdibSizfNbmf;
+import jbvbx.print.bttributf.stbndbrd.OrifntbtionRfqufstfd;
+import jbvbx.print.bttributf.stbndbrd.PrintfrNbmf;
+import jbvbx.print.bttributf.stbndbrd.RfqufstingUsfrNbmf;
+import jbvbx.print.bttributf.stbndbrd.NumbfrUp;
+import jbvbx.print.bttributf.stbndbrd.Sidfs;
+import jbvbx.print.bttributf.stbndbrd.PrintfrIsAddfptingJobs;
 
-import java.awt.print.*;
+import jbvb.bwt.print.*;
 
 
 
-public class UnixPrintJob implements CancelablePrintJob {
-    private static String debugPrefix = "UnixPrintJob>> ";
+publid dlbss UnixPrintJob implfmfnts CbndflbblfPrintJob {
+    privbtf stbtid String dfbugPrffix = "UnixPrintJob>> ";
 
-    transient private Vector<PrintJobListener> jobListeners;
-    transient private Vector<PrintJobAttributeListener> attrListeners;
-    transient private Vector<PrintJobAttributeSet> listenedAttributeSets;
+    trbnsifnt privbtf Vfdtor<PrintJobListfnfr> jobListfnfrs;
+    trbnsifnt privbtf Vfdtor<PrintJobAttributfListfnfr> bttrListfnfrs;
+    trbnsifnt privbtf Vfdtor<PrintJobAttributfSft> listfnfdAttributfSfts;
 
-    private PrintService service;
-    private boolean fidelity;
-    private boolean printing = false;
-    private boolean printReturned = false;
-    private PrintRequestAttributeSet reqAttrSet = null;
-    private PrintJobAttributeSet jobAttrSet = null;
-    private PrinterJob job;
-    private Doc doc;
-    /* these variables used globally to store reference to the print
-     * data retrieved as a stream. On completion these are always closed
+    privbtf PrintSfrvidf sfrvidf;
+    privbtf boolfbn fidflity;
+    privbtf boolfbn printing = fblsf;
+    privbtf boolfbn printRfturnfd = fblsf;
+    privbtf PrintRfqufstAttributfSft rfqAttrSft = null;
+    privbtf PrintJobAttributfSft jobAttrSft = null;
+    privbtf PrintfrJob job;
+    privbtf Dod dod;
+    /* tifsf vbribblfs usfd globblly to storf rfffrfndf to tif print
+     * dbtb rftrifvfd bs b strfbm. On domplftion tifsf brf blwbys dlosfd
      * if non-null.
      */
-    private InputStream instream = null;
-    private Reader reader = null;
+    privbtf InputStrfbm instrfbm = null;
+    privbtf Rfbdfr rfbdfr = null;
 
-    /* default values overridden by those extracted from the attributes */
-    private String jobName = "Java Printing";
-    private int copies = 1;
-    private MediaSizeName mediaName = MediaSizeName.NA_LETTER;
-    private MediaSize     mediaSize = MediaSize.NA.LETTER;
-    private CustomMediaTray     customTray = null;
-    private OrientationRequested orient = OrientationRequested.PORTRAIT;
-    private NumberUp nUp = null;
-    private Sides sides = null;
+    /* dffbult vblufs ovfrriddfn by tiosf fxtrbdtfd from tif bttributfs */
+    privbtf String jobNbmf = "Jbvb Printing";
+    privbtf int dopifs = 1;
+    privbtf MfdibSizfNbmf mfdibNbmf = MfdibSizfNbmf.NA_LETTER;
+    privbtf MfdibSizf     mfdibSizf = MfdibSizf.NA.LETTER;
+    privbtf CustomMfdibTrby     dustomTrby = null;
+    privbtf OrifntbtionRfqufstfd orifnt = OrifntbtionRfqufstfd.PORTRAIT;
+    privbtf NumbfrUp nUp = null;
+    privbtf Sidfs sidfs = null;
 
-    UnixPrintJob(PrintService service) {
-        this.service = service;
-        mDestination = service.getName();
-        if (UnixPrintServiceLookup.isMac()) {
-            mDestination = ((IPPPrintService)service).getDest();
+    UnixPrintJob(PrintSfrvidf sfrvidf) {
+        tiis.sfrvidf = sfrvidf;
+        mDfstinbtion = sfrvidf.gftNbmf();
+        if (UnixPrintSfrvidfLookup.isMbd()) {
+            mDfstinbtion = ((IPPPrintSfrvidf)sfrvidf).gftDfst();
         }
-        mDestType = UnixPrintJob.DESTPRINTER;
+        mDfstTypf = UnixPrintJob.DESTPRINTER;
     }
 
-    public PrintService getPrintService() {
-        return service;
+    publid PrintSfrvidf gftPrintSfrvidf() {
+        rfturn sfrvidf;
     }
 
-    public PrintJobAttributeSet getAttributes() {
-        synchronized (this) {
-            if (jobAttrSet == null) {
-                /* just return an empty set until the job is submitted */
-                PrintJobAttributeSet jobSet = new HashPrintJobAttributeSet();
-                return AttributeSetUtilities.unmodifiableView(jobSet);
-            } else {
-              return jobAttrSet;
-            }
-        }
-    }
-
-    public void addPrintJobListener(PrintJobListener listener) {
-        synchronized (this) {
-            if (listener == null) {
-                return;
-            }
-            if (jobListeners == null) {
-                jobListeners = new Vector<>();
-            }
-            jobListeners.add(listener);
-        }
-    }
-
-    public void removePrintJobListener(PrintJobListener listener) {
-        synchronized (this) {
-            if (listener == null || jobListeners == null ) {
-                return;
-            }
-            jobListeners.remove(listener);
-            if (jobListeners.isEmpty()) {
-                jobListeners = null;
+    publid PrintJobAttributfSft gftAttributfs() {
+        syndironizfd (tiis) {
+            if (jobAttrSft == null) {
+                /* just rfturn bn fmpty sft until tif job is submittfd */
+                PrintJobAttributfSft jobSft = nfw HbsiPrintJobAttributfSft();
+                rfturn AttributfSftUtilitifs.unmodifibblfVifw(jobSft);
+            } flsf {
+              rfturn jobAttrSft;
             }
         }
     }
 
+    publid void bddPrintJobListfnfr(PrintJobListfnfr listfnfr) {
+        syndironizfd (tiis) {
+            if (listfnfr == null) {
+                rfturn;
+            }
+            if (jobListfnfrs == null) {
+                jobListfnfrs = nfw Vfdtor<>();
+            }
+            jobListfnfrs.bdd(listfnfr);
+        }
+    }
 
-    /* Closes any stream already retrieved for the data.
-     * We want to avoid unnecessarily asking the Doc to create a stream only
-     * to get a reference in order to close it because the job failed.
-     * If the representation class is itself a "stream", this
-     * closes that stream too.
+    publid void rfmovfPrintJobListfnfr(PrintJobListfnfr listfnfr) {
+        syndironizfd (tiis) {
+            if (listfnfr == null || jobListfnfrs == null ) {
+                rfturn;
+            }
+            jobListfnfrs.rfmovf(listfnfr);
+            if (jobListfnfrs.isEmpty()) {
+                jobListfnfrs = null;
+            }
+        }
+    }
+
+
+    /* Closfs bny strfbm blrfbdy rftrifvfd for tif dbtb.
+     * Wf wbnt to bvoid unnfdfssbrily bsking tif Dod to drfbtf b strfbm only
+     * to gft b rfffrfndf in ordfr to dlosf it bfdbusf tif job fbilfd.
+     * If tif rfprfsfntbtion dlbss is itsflf b "strfbm", tiis
+     * dlosfs tibt strfbm too.
      */
-    private void closeDataStreams() {
+    privbtf void dlosfDbtbStrfbms() {
 
-        if (doc == null) {
-            return;
+        if (dod == null) {
+            rfturn;
         }
 
-        Object data = null;
+        Objfdt dbtb = null;
 
         try {
-            data = doc.getPrintData();
-        } catch (IOException e) {
-            return;
+            dbtb = dod.gftPrintDbtb();
+        } dbtdi (IOExdfption f) {
+            rfturn;
         }
 
-        if (instream != null) {
+        if (instrfbm != null) {
             try {
-                instream.close();
-            } catch (IOException e) {
-            } finally {
-                instream = null;
+                instrfbm.dlosf();
+            } dbtdi (IOExdfption f) {
+            } finblly {
+                instrfbm = null;
             }
         }
-        else if (reader != null) {
+        flsf if (rfbdfr != null) {
             try {
-                reader.close();
-            } catch (IOException e) {
-            } finally {
-                reader = null;
+                rfbdfr.dlosf();
+            } dbtdi (IOExdfption f) {
+            } finblly {
+                rfbdfr = null;
             }
         }
-        else if (data instanceof InputStream) {
+        flsf if (dbtb instbndfof InputStrfbm) {
             try {
-                ((InputStream)data).close();
-            } catch (IOException e) {
+                ((InputStrfbm)dbtb).dlosf();
+            } dbtdi (IOExdfption f) {
             }
         }
-        else if (data instanceof Reader) {
+        flsf if (dbtb instbndfof Rfbdfr) {
             try {
-                ((Reader)data).close();
-            } catch (IOException e) {
+                ((Rfbdfr)dbtb).dlosf();
+            } dbtdi (IOExdfption f) {
             }
         }
     }
 
-    private void notifyEvent(int reason) {
+    privbtf void notifyEvfnt(int rfbson) {
 
-        /* since this method should always get called, here's where
-         * we will perform the clean up of any data stream supplied.
+        /* sindf tiis mftiod siould blwbys gft dbllfd, ifrf's wifrf
+         * wf will pfrform tif dlfbn up of bny dbtb strfbm supplifd.
          */
-        switch (reason) {
-            case PrintJobEvent.DATA_TRANSFER_COMPLETE:
-            case PrintJobEvent.JOB_CANCELED :
-            case PrintJobEvent.JOB_FAILED :
-            case PrintJobEvent.NO_MORE_EVENTS :
-            case PrintJobEvent.JOB_COMPLETE :
-                closeDataStreams();
+        switdi (rfbson) {
+            dbsf PrintJobEvfnt.DATA_TRANSFER_COMPLETE:
+            dbsf PrintJobEvfnt.JOB_CANCELED :
+            dbsf PrintJobEvfnt.JOB_FAILED :
+            dbsf PrintJobEvfnt.NO_MORE_EVENTS :
+            dbsf PrintJobEvfnt.JOB_COMPLETE :
+                dlosfDbtbStrfbms();
         }
 
-        synchronized (this) {
-            if (jobListeners != null) {
-                PrintJobListener listener;
-                PrintJobEvent event = new PrintJobEvent(this, reason);
-                for (int i = 0; i < jobListeners.size(); i++) {
-                    listener = jobListeners.elementAt(i);
-                    switch (reason) {
+        syndironizfd (tiis) {
+            if (jobListfnfrs != null) {
+                PrintJobListfnfr listfnfr;
+                PrintJobEvfnt fvfnt = nfw PrintJobEvfnt(tiis, rfbson);
+                for (int i = 0; i < jobListfnfrs.sizf(); i++) {
+                    listfnfr = jobListfnfrs.flfmfntAt(i);
+                    switdi (rfbson) {
 
-                        case PrintJobEvent.JOB_CANCELED :
-                            listener.printJobCanceled(event);
-                            break;
+                        dbsf PrintJobEvfnt.JOB_CANCELED :
+                            listfnfr.printJobCbndflfd(fvfnt);
+                            brfbk;
 
-                        case PrintJobEvent.JOB_FAILED :
-                            listener.printJobFailed(event);
-                            break;
+                        dbsf PrintJobEvfnt.JOB_FAILED :
+                            listfnfr.printJobFbilfd(fvfnt);
+                            brfbk;
 
-                        case PrintJobEvent.DATA_TRANSFER_COMPLETE :
-                            listener.printDataTransferCompleted(event);
-                            break;
+                        dbsf PrintJobEvfnt.DATA_TRANSFER_COMPLETE :
+                            listfnfr.printDbtbTrbnsffrComplftfd(fvfnt);
+                            brfbk;
 
-                        case PrintJobEvent.NO_MORE_EVENTS :
-                            listener.printJobNoMoreEvents(event);
-                            break;
+                        dbsf PrintJobEvfnt.NO_MORE_EVENTS :
+                            listfnfr.printJobNoMorfEvfnts(fvfnt);
+                            brfbk;
 
-                        default:
-                            break;
+                        dffbult:
+                            brfbk;
                     }
                 }
             }
        }
     }
 
-    public void addPrintJobAttributeListener(
-                                  PrintJobAttributeListener listener,
-                                  PrintJobAttributeSet attributes) {
-        synchronized (this) {
-            if (listener == null) {
-                return;
+    publid void bddPrintJobAttributfListfnfr(
+                                  PrintJobAttributfListfnfr listfnfr,
+                                  PrintJobAttributfSft bttributfs) {
+        syndironizfd (tiis) {
+            if (listfnfr == null) {
+                rfturn;
             }
-            if (attrListeners == null) {
-                attrListeners = new Vector<>();
-                listenedAttributeSets = new Vector<>();
+            if (bttrListfnfrs == null) {
+                bttrListfnfrs = nfw Vfdtor<>();
+                listfnfdAttributfSfts = nfw Vfdtor<>();
             }
-            attrListeners.add(listener);
-            if (attributes == null) {
-                attributes = new HashPrintJobAttributeSet();
+            bttrListfnfrs.bdd(listfnfr);
+            if (bttributfs == null) {
+                bttributfs = nfw HbsiPrintJobAttributfSft();
             }
-            listenedAttributeSets.add(attributes);
+            listfnfdAttributfSfts.bdd(bttributfs);
         }
     }
 
-    public void removePrintJobAttributeListener(
-                                        PrintJobAttributeListener listener) {
-        synchronized (this) {
-            if (listener == null || attrListeners == null ) {
-                return;
+    publid void rfmovfPrintJobAttributfListfnfr(
+                                        PrintJobAttributfListfnfr listfnfr) {
+        syndironizfd (tiis) {
+            if (listfnfr == null || bttrListfnfrs == null ) {
+                rfturn;
             }
-            int index = attrListeners.indexOf(listener);
-            if (index == -1) {
-                return;
-            } else {
-                attrListeners.remove(index);
-                listenedAttributeSets.remove(index);
-                if (attrListeners.isEmpty()) {
-                    attrListeners = null;
-                    listenedAttributeSets = null;
+            int indfx = bttrListfnfrs.indfxOf(listfnfr);
+            if (indfx == -1) {
+                rfturn;
+            } flsf {
+                bttrListfnfrs.rfmovf(indfx);
+                listfnfdAttributfSfts.rfmovf(indfx);
+                if (bttrListfnfrs.isEmpty()) {
+                    bttrListfnfrs = null;
+                    listfnfdAttributfSfts = null;
                 }
             }
         }
     }
 
-    public void print(Doc doc, PrintRequestAttributeSet attributes)
-        throws PrintException {
+    publid void print(Dod dod, PrintRfqufstAttributfSft bttributfs)
+        tirows PrintExdfption {
 
-        synchronized (this) {
+        syndironizfd (tiis) {
             if (printing) {
-                throw new PrintException("already printing");
-            } else {
-                printing = true;
+                tirow nfw PrintExdfption("blrfbdy printing");
+            } flsf {
+                printing = truf;
             }
         }
 
-        if ((service.getAttribute(PrinterIsAcceptingJobs.class)) ==
-                         PrinterIsAcceptingJobs.NOT_ACCEPTING_JOBS) {
-            throw new PrintException("Printer is not accepting job.");
+        if ((sfrvidf.gftAttributf(PrintfrIsAddfptingJobs.dlbss)) ==
+                         PrintfrIsAddfptingJobs.NOT_ACCEPTING_JOBS) {
+            tirow nfw PrintExdfption("Printfr is not bddfpting job.");
         }
 
-        this.doc = doc;
-        /* check if the parameters are valid before doing much processing */
-        DocFlavor flavor = doc.getDocFlavor();
+        tiis.dod = dod;
+        /* difdk if tif pbrbmftfrs brf vblid bfforf doing mudi prodfssing */
+        DodFlbvor flbvor = dod.gftDodFlbvor();
 
-        Object data;
+        Objfdt dbtb;
 
         try {
-            data = doc.getPrintData();
-        } catch (IOException e) {
-            notifyEvent(PrintJobEvent.JOB_FAILED);
-            throw new PrintException("can't get print data: " + e.toString());
+            dbtb = dod.gftPrintDbtb();
+        } dbtdi (IOExdfption f) {
+            notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+            tirow nfw PrintExdfption("dbn't gft print dbtb: " + f.toString());
         }
 
-        if (data == null) {
-            throw new PrintException("Null print data.");
+        if (dbtb == null) {
+            tirow nfw PrintExdfption("Null print dbtb.");
         }
 
-        if (flavor == null || (!service.isDocFlavorSupported(flavor))) {
-            notifyEvent(PrintJobEvent.JOB_FAILED);
-            throw new PrintJobFlavorException("invalid flavor", flavor);
+        if (flbvor == null || (!sfrvidf.isDodFlbvorSupportfd(flbvor))) {
+            notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+            tirow nfw PrintJobFlbvorExdfption("invblid flbvor", flbvor);
         }
 
-        initializeAttributeSets(doc, attributes);
+        initiblizfAttributfSfts(dod, bttributfs);
 
-        getAttributeValues(flavor);
+        gftAttributfVblufs(flbvor);
 
-        // set up mOptions
-        if ((service instanceof IPPPrintService) &&
-            CUPSPrinter.isCupsRunning()) {
+        // sft up mOptions
+        if ((sfrvidf instbndfof IPPPrintSfrvidf) &&
+            CUPSPrintfr.isCupsRunning()) {
 
-             IPPPrintService.debug_println(debugPrefix+
-                        "instanceof IPPPrintService");
+             IPPPrintSfrvidf.dfbug_println(dfbugPrffix+
+                        "instbndfof IPPPrintSfrvidf");
 
-             if (mediaName != null) {
-                 CustomMediaSizeName customMedia =
-                     ((IPPPrintService)service).findCustomMedia(mediaName);
-                 if (customMedia != null) {
-                     mOptions = " media="+ customMedia.getChoiceName();
+             if (mfdibNbmf != null) {
+                 CustomMfdibSizfNbmf dustomMfdib =
+                     ((IPPPrintSfrvidf)sfrvidf).findCustomMfdib(mfdibNbmf);
+                 if (dustomMfdib != null) {
+                     mOptions = " mfdib="+ dustomMfdib.gftCioidfNbmf();
                  }
              }
 
-             if (customTray != null &&
-                 customTray instanceof CustomMediaTray) {
-                 String choice = customTray.getChoiceName();
-                 if (choice != null) {
-                     mOptions += " media="+choice;
+             if (dustomTrby != null &&
+                 dustomTrby instbndfof CustomMfdibTrby) {
+                 String dioidf = dustomTrby.gftCioidfNbmf();
+                 if (dioidf != null) {
+                     mOptions += " mfdib="+dioidf;
                  }
              }
 
              if (nUp != null) {
-                 mOptions += " number-up="+nUp.getValue();
+                 mOptions += " numbfr-up="+nUp.gftVbluf();
              }
 
-             if (orient != OrientationRequested.PORTRAIT &&
-                 (flavor != null) &&
-                 !flavor.equals(DocFlavor.SERVICE_FORMATTED.PAGEABLE)) {
-                 mOptions += " orientation-requested="+orient.getValue();
+             if (orifnt != OrifntbtionRfqufstfd.PORTRAIT &&
+                 (flbvor != null) &&
+                 !flbvor.fqubls(DodFlbvor.SERVICE_FORMATTED.PAGEABLE)) {
+                 mOptions += " orifntbtion-rfqufstfd="+orifnt.gftVbluf();
              }
 
-             if (sides != null) {
-                 mOptions += " sides="+sides;
+             if (sidfs != null) {
+                 mOptions += " sidfs="+sidfs;
              }
 
         }
 
-        IPPPrintService.debug_println(debugPrefix+"mOptions "+mOptions);
-        String repClassName = flavor.getRepresentationClassName();
-        String val = flavor.getParameter("charset");
-        String encoding = "us-ascii";
-        if (val != null && !val.equals("")) {
-            encoding = val;
+        IPPPrintSfrvidf.dfbug_println(dfbugPrffix+"mOptions "+mOptions);
+        String rfpClbssNbmf = flbvor.gftRfprfsfntbtionClbssNbmf();
+        String vbl = flbvor.gftPbrbmftfr("dibrsft");
+        String fndoding = "us-bsdii";
+        if (vbl != null && !vbl.fqubls("")) {
+            fndoding = vbl;
         }
 
-        if (flavor.equals(DocFlavor.INPUT_STREAM.GIF) ||
-            flavor.equals(DocFlavor.INPUT_STREAM.JPEG) ||
-            flavor.equals(DocFlavor.INPUT_STREAM.PNG) ||
-            flavor.equals(DocFlavor.BYTE_ARRAY.GIF) ||
-            flavor.equals(DocFlavor.BYTE_ARRAY.JPEG) ||
-            flavor.equals(DocFlavor.BYTE_ARRAY.PNG)) {
+        if (flbvor.fqubls(DodFlbvor.INPUT_STREAM.GIF) ||
+            flbvor.fqubls(DodFlbvor.INPUT_STREAM.JPEG) ||
+            flbvor.fqubls(DodFlbvor.INPUT_STREAM.PNG) ||
+            flbvor.fqubls(DodFlbvor.BYTE_ARRAY.GIF) ||
+            flbvor.fqubls(DodFlbvor.BYTE_ARRAY.JPEG) ||
+            flbvor.fqubls(DodFlbvor.BYTE_ARRAY.PNG)) {
             try {
-                instream = doc.getStreamForBytes();
-                if (instream == null) {
-                    notifyEvent(PrintJobEvent.JOB_FAILED);
-                    throw new PrintException("No stream for data");
+                instrfbm = dod.gftStrfbmForBytfs();
+                if (instrfbm == null) {
+                    notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+                    tirow nfw PrintExdfption("No strfbm for dbtb");
                 }
-                if (!(service instanceof IPPPrintService &&
-                    ((IPPPrintService)service).isIPPSupportedImages(
-                                                flavor.getMimeType()))) {
-                    printableJob(new ImagePrinter(instream));
-                    if (service instanceof IPPPrintService) {
-                        ((IPPPrintService)service).wakeNotifier();
-                    } else {
-                        ((UnixPrintService)service).wakeNotifier();
+                if (!(sfrvidf instbndfof IPPPrintSfrvidf &&
+                    ((IPPPrintSfrvidf)sfrvidf).isIPPSupportfdImbgfs(
+                                                flbvor.gftMimfTypf()))) {
+                    printbblfJob(nfw ImbgfPrintfr(instrfbm));
+                    if (sfrvidf instbndfof IPPPrintSfrvidf) {
+                        ((IPPPrintSfrvidf)sfrvidf).wbkfNotififr();
+                    } flsf {
+                        ((UnixPrintSfrvidf)sfrvidf).wbkfNotififr();
                     }
-                    return;
+                    rfturn;
                 }
-            } catch (ClassCastException cce) {
-                notifyEvent(PrintJobEvent.JOB_FAILED);
-                throw new PrintException(cce);
-            } catch (IOException ioe) {
-                notifyEvent(PrintJobEvent.JOB_FAILED);
-                throw new PrintException(ioe);
+            } dbtdi (ClbssCbstExdfption ddf) {
+                notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+                tirow nfw PrintExdfption(ddf);
+            } dbtdi (IOExdfption iof) {
+                notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+                tirow nfw PrintExdfption(iof);
             }
-        } else if (flavor.equals(DocFlavor.URL.GIF) ||
-                   flavor.equals(DocFlavor.URL.JPEG) ||
-                   flavor.equals(DocFlavor.URL.PNG)) {
+        } flsf if (flbvor.fqubls(DodFlbvor.URL.GIF) ||
+                   flbvor.fqubls(DodFlbvor.URL.JPEG) ||
+                   flbvor.fqubls(DodFlbvor.URL.PNG)) {
             try {
-                URL url = (URL)data;
-                if ((service instanceof IPPPrintService) &&
-                    ((IPPPrintService)service).isIPPSupportedImages(
-                                               flavor.getMimeType())) {
-                    instream = url.openStream();
-                } else {
-                    printableJob(new ImagePrinter(url));
-                    if (service instanceof IPPPrintService) {
-                        ((IPPPrintService)service).wakeNotifier();
-                    } else {
-                        ((UnixPrintService)service).wakeNotifier();
+                URL url = (URL)dbtb;
+                if ((sfrvidf instbndfof IPPPrintSfrvidf) &&
+                    ((IPPPrintSfrvidf)sfrvidf).isIPPSupportfdImbgfs(
+                                               flbvor.gftMimfTypf())) {
+                    instrfbm = url.opfnStrfbm();
+                } flsf {
+                    printbblfJob(nfw ImbgfPrintfr(url));
+                    if (sfrvidf instbndfof IPPPrintSfrvidf) {
+                        ((IPPPrintSfrvidf)sfrvidf).wbkfNotififr();
+                    } flsf {
+                        ((UnixPrintSfrvidf)sfrvidf).wbkfNotififr();
                     }
-                    return;
+                    rfturn;
                 }
-            } catch (ClassCastException cce) {
-                notifyEvent(PrintJobEvent.JOB_FAILED);
-                throw new PrintException(cce);
-            } catch (IOException e) {
-                notifyEvent(PrintJobEvent.JOB_FAILED);
-                throw new PrintException(e.toString());
+            } dbtdi (ClbssCbstExdfption ddf) {
+                notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+                tirow nfw PrintExdfption(ddf);
+            } dbtdi (IOExdfption f) {
+                notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+                tirow nfw PrintExdfption(f.toString());
             }
-        } else if (flavor.equals(DocFlavor.CHAR_ARRAY.TEXT_PLAIN) ||
-                   flavor.equals(DocFlavor.READER.TEXT_PLAIN) ||
-                   flavor.equals(DocFlavor.STRING.TEXT_PLAIN)) {
+        } flsf if (flbvor.fqubls(DodFlbvor.CHAR_ARRAY.TEXT_PLAIN) ||
+                   flbvor.fqubls(DodFlbvor.READER.TEXT_PLAIN) ||
+                   flbvor.fqubls(DodFlbvor.STRING.TEXT_PLAIN)) {
             try {
-                reader = doc.getReaderForText();
-                if (reader == null) {
-                   notifyEvent(PrintJobEvent.JOB_FAILED);
-                   throw new PrintException("No reader for data");
+                rfbdfr = dod.gftRfbdfrForTfxt();
+                if (rfbdfr == null) {
+                   notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+                   tirow nfw PrintExdfption("No rfbdfr for dbtb");
                 }
-            } catch (IOException ioe) {
-                notifyEvent(PrintJobEvent.JOB_FAILED);
-                throw new PrintException(ioe.toString());
+            } dbtdi (IOExdfption iof) {
+                notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+                tirow nfw PrintExdfption(iof.toString());
             }
-        } else if (repClassName.equals("[B") ||
-                   repClassName.equals("java.io.InputStream")) {
+        } flsf if (rfpClbssNbmf.fqubls("[B") ||
+                   rfpClbssNbmf.fqubls("jbvb.io.InputStrfbm")) {
             try {
-                instream = doc.getStreamForBytes();
-                if (instream == null) {
-                    notifyEvent(PrintJobEvent.JOB_FAILED);
-                    throw new PrintException("No stream for data");
+                instrfbm = dod.gftStrfbmForBytfs();
+                if (instrfbm == null) {
+                    notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+                    tirow nfw PrintExdfption("No strfbm for dbtb");
                 }
-            } catch (IOException ioe) {
-                notifyEvent(PrintJobEvent.JOB_FAILED);
-                throw new PrintException(ioe.toString());
+            } dbtdi (IOExdfption iof) {
+                notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+                tirow nfw PrintExdfption(iof.toString());
             }
-        } else if  (repClassName.equals("java.net.URL")) {
+        } flsf if  (rfpClbssNbmf.fqubls("jbvb.nft.URL")) {
             /*
-             * This extracts the data from the URL and passes it the content
-             * directly to the print service as a file.
-             * This is appropriate for the current implementation where lp or
-             * lpr is always used to spool the data. We expect to revise the
-             * implementation to provide more complete IPP support (ie not just
-             * CUPS) and at that time the job will be spooled via IPP
-             * and the URL
-             * itself should be sent to the IPP print service not the content.
+             * Tiis fxtrbdts tif dbtb from tif URL bnd pbssfs it tif dontfnt
+             * dirfdtly to tif print sfrvidf bs b filf.
+             * Tiis is bppropribtf for tif durrfnt implfmfntbtion wifrf lp or
+             * lpr is blwbys usfd to spool tif dbtb. Wf fxpfdt to rfvisf tif
+             * implfmfntbtion to providf morf domplftf IPP support (if not just
+             * CUPS) bnd bt tibt timf tif job will bf spoolfd vib IPP
+             * bnd tif URL
+             * itsflf siould bf sfnt to tif IPP print sfrvidf not tif dontfnt.
              */
-            URL url = (URL)data;
+            URL url = (URL)dbtb;
             try {
-                instream = url.openStream();
-            } catch (IOException e) {
-                notifyEvent(PrintJobEvent.JOB_FAILED);
-                throw new PrintException(e.toString());
+                instrfbm = url.opfnStrfbm();
+            } dbtdi (IOExdfption f) {
+                notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+                tirow nfw PrintExdfption(f.toString());
             }
-        } else if (repClassName.equals("java.awt.print.Pageable")) {
+        } flsf if (rfpClbssNbmf.fqubls("jbvb.bwt.print.Pbgfbblf")) {
             try {
-                pageableJob((Pageable)doc.getPrintData());
-                if (service instanceof IPPPrintService) {
-                    ((IPPPrintService)service).wakeNotifier();
-                } else {
-                    ((UnixPrintService)service).wakeNotifier();
+                pbgfbblfJob((Pbgfbblf)dod.gftPrintDbtb());
+                if (sfrvidf instbndfof IPPPrintSfrvidf) {
+                    ((IPPPrintSfrvidf)sfrvidf).wbkfNotififr();
+                } flsf {
+                    ((UnixPrintSfrvidf)sfrvidf).wbkfNotififr();
                 }
-                return;
-            } catch (ClassCastException cce) {
-                notifyEvent(PrintJobEvent.JOB_FAILED);
-                throw new PrintException(cce);
-            } catch (IOException ioe) {
-                notifyEvent(PrintJobEvent.JOB_FAILED);
-                throw new PrintException(ioe);
+                rfturn;
+            } dbtdi (ClbssCbstExdfption ddf) {
+                notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+                tirow nfw PrintExdfption(ddf);
+            } dbtdi (IOExdfption iof) {
+                notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+                tirow nfw PrintExdfption(iof);
             }
-        } else if (repClassName.equals("java.awt.print.Printable")) {
+        } flsf if (rfpClbssNbmf.fqubls("jbvb.bwt.print.Printbblf")) {
             try {
-                printableJob((Printable)doc.getPrintData());
-                if (service instanceof IPPPrintService) {
-                    ((IPPPrintService)service).wakeNotifier();
-                } else {
-                    ((UnixPrintService)service).wakeNotifier();
+                printbblfJob((Printbblf)dod.gftPrintDbtb());
+                if (sfrvidf instbndfof IPPPrintSfrvidf) {
+                    ((IPPPrintSfrvidf)sfrvidf).wbkfNotififr();
+                } flsf {
+                    ((UnixPrintSfrvidf)sfrvidf).wbkfNotififr();
                 }
-                return;
-            } catch (ClassCastException cce) {
-                notifyEvent(PrintJobEvent.JOB_FAILED);
-                throw new PrintException(cce);
-            } catch (IOException ioe) {
-                notifyEvent(PrintJobEvent.JOB_FAILED);
-                throw new PrintException(ioe);
+                rfturn;
+            } dbtdi (ClbssCbstExdfption ddf) {
+                notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+                tirow nfw PrintExdfption(ddf);
+            } dbtdi (IOExdfption iof) {
+                notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+                tirow nfw PrintExdfption(iof);
             }
-        } else {
-            notifyEvent(PrintJobEvent.JOB_FAILED);
-            throw new PrintException("unrecognized class: "+repClassName);
+        } flsf {
+            notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+            tirow nfw PrintExdfption("unrfdognizfd dlbss: "+rfpClbssNbmf);
         }
 
-        // now spool the print data.
-        PrinterOpener po = new PrinterOpener();
-        java.security.AccessController.doPrivileged(po);
-        if (po.pex != null) {
-            throw po.pex;
+        // now spool tif print dbtb.
+        PrintfrOpfnfr po = nfw PrintfrOpfnfr();
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(po);
+        if (po.pfx != null) {
+            tirow po.pfx;
         }
-        OutputStream output = po.result;
+        OutputStrfbm output = po.rfsult;
 
-        /* There are three cases:
-         * 1) Text data from a Reader, just pass through.
-         * 2) Text data from an input stream which we must read using the
-         *    correct encoding
-         * 3) Raw byte data from an InputStream we don't interpret as text,
-         *    just pass through: eg postscript.
+        /* Tifrf brf tirff dbsfs:
+         * 1) Tfxt dbtb from b Rfbdfr, just pbss tirougi.
+         * 2) Tfxt dbtb from bn input strfbm wiidi wf must rfbd using tif
+         *    dorrfdt fndoding
+         * 3) Rbw bytf dbtb from bn InputStrfbm wf don't intfrprft bs tfxt,
+         *    just pbss tirougi: fg postsdript.
          */
 
-        BufferedWriter bw = null;
-        if ((instream == null && reader != null)) {
-            BufferedReader br = new BufferedReader(reader);
-            OutputStreamWriter osw = new OutputStreamWriter(output);
-            bw = new BufferedWriter(osw);
-            char []buffer = new char[1024];
-            int cread;
+        BufffrfdWritfr bw = null;
+        if ((instrfbm == null && rfbdfr != null)) {
+            BufffrfdRfbdfr br = nfw BufffrfdRfbdfr(rfbdfr);
+            OutputStrfbmWritfr osw = nfw OutputStrfbmWritfr(output);
+            bw = nfw BufffrfdWritfr(osw);
+            dibr []bufffr = nfw dibr[1024];
+            int drfbd;
 
             try {
-                while ((cread = br.read(buffer, 0, buffer.length)) >=0) {
-                    bw.write(buffer, 0, cread);
+                wiilf ((drfbd = br.rfbd(bufffr, 0, bufffr.lfngti)) >=0) {
+                    bw.writf(bufffr, 0, drfbd);
                 }
-                br.close();
-                bw.flush();
-                bw.close();
-            } catch (IOException e) {
-                notifyEvent(PrintJobEvent.JOB_FAILED);
-                throw new PrintException (e);
+                br.dlosf();
+                bw.flusi();
+                bw.dlosf();
+            } dbtdi (IOExdfption f) {
+                notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+                tirow nfw PrintExdfption (f);
             }
-        } else if (instream != null &&
-                   flavor.getMediaType().equalsIgnoreCase("text")) {
+        } flsf if (instrfbm != null &&
+                   flbvor.gftMfdibTypf().fqublsIgnorfCbsf("tfxt")) {
             try {
 
-                InputStreamReader isr = new InputStreamReader(instream,
-                                                              encoding);
-                BufferedReader br = new BufferedReader(isr);
-                OutputStreamWriter osw = new OutputStreamWriter(output);
-                bw = new BufferedWriter(osw);
-                char []buffer = new char[1024];
-                int cread;
+                InputStrfbmRfbdfr isr = nfw InputStrfbmRfbdfr(instrfbm,
+                                                              fndoding);
+                BufffrfdRfbdfr br = nfw BufffrfdRfbdfr(isr);
+                OutputStrfbmWritfr osw = nfw OutputStrfbmWritfr(output);
+                bw = nfw BufffrfdWritfr(osw);
+                dibr []bufffr = nfw dibr[1024];
+                int drfbd;
 
-                while ((cread = br.read(buffer, 0, buffer.length)) >=0) {
-                    bw.write(buffer, 0, cread);
+                wiilf ((drfbd = br.rfbd(bufffr, 0, bufffr.lfngti)) >=0) {
+                    bw.writf(bufffr, 0, drfbd);
                 }
-                bw.flush();
-            } catch (IOException e) {
-                notifyEvent(PrintJobEvent.JOB_FAILED);
-                throw new PrintException (e);
-            } finally {
+                bw.flusi();
+            } dbtdi (IOExdfption f) {
+                notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+                tirow nfw PrintExdfption (f);
+            } finblly {
                 try {
                     if (bw != null) {
-                        bw.close();
+                        bw.dlosf();
                     }
-                } catch (IOException e) {
+                } dbtdi (IOExdfption f) {
                 }
             }
-        } else if (instream != null) {
-            BufferedInputStream bin = new BufferedInputStream(instream);
-            BufferedOutputStream bout = new BufferedOutputStream(output);
-            byte[] buffer = new byte[1024];
-            int bread = 0;
+        } flsf if (instrfbm != null) {
+            BufffrfdInputStrfbm bin = nfw BufffrfdInputStrfbm(instrfbm);
+            BufffrfdOutputStrfbm bout = nfw BufffrfdOutputStrfbm(output);
+            bytf[] bufffr = nfw bytf[1024];
+            int brfbd = 0;
 
             try {
-                while ((bread = bin.read(buffer)) >= 0) {
-                    bout.write(buffer, 0, bread);
+                wiilf ((brfbd = bin.rfbd(bufffr)) >= 0) {
+                    bout.writf(bufffr, 0, brfbd);
                 }
-                bin.close();
-                bout.flush();
-                bout.close();
-            } catch (IOException e) {
-                notifyEvent(PrintJobEvent.JOB_FAILED);
-                throw new PrintException (e);
+                bin.dlosf();
+                bout.flusi();
+                bout.dlosf();
+            } dbtdi (IOExdfption f) {
+                notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+                tirow nfw PrintExdfption (f);
             }
         }
-        notifyEvent(PrintJobEvent.DATA_TRANSFER_COMPLETE);
+        notifyEvfnt(PrintJobEvfnt.DATA_TRANSFER_COMPLETE);
 
-        if (mDestType == UnixPrintJob.DESTPRINTER) {
-            PrinterSpooler spooler = new PrinterSpooler();
-            java.security.AccessController.doPrivileged(spooler);
-            if (spooler.pex != null) {
-                throw spooler.pex;
+        if (mDfstTypf == UnixPrintJob.DESTPRINTER) {
+            PrintfrSpoolfr spoolfr = nfw PrintfrSpoolfr();
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(spoolfr);
+            if (spoolfr.pfx != null) {
+                tirow spoolfr.pfx;
             }
         }
-        notifyEvent(PrintJobEvent.NO_MORE_EVENTS);
-        if (service instanceof IPPPrintService) {
-            ((IPPPrintService)service).wakeNotifier();
-        } else {
-            ((UnixPrintService)service).wakeNotifier();
+        notifyEvfnt(PrintJobEvfnt.NO_MORE_EVENTS);
+        if (sfrvidf instbndfof IPPPrintSfrvidf) {
+            ((IPPPrintSfrvidf)sfrvidf).wbkfNotififr();
+        } flsf {
+            ((UnixPrintSfrvidf)sfrvidf).wbkfNotififr();
         }
     }
 
-    public void printableJob(Printable printable) throws PrintException {
+    publid void printbblfJob(Printbblf printbblf) tirows PrintExdfption {
         try {
-            synchronized(this) {
-                if (job != null) { // shouldn't happen
-                    throw new PrintException("already printing");
-                } else {
-                    job = new PSPrinterJob();
+            syndironizfd(tiis) {
+                if (job != null) { // siouldn't ibppfn
+                    tirow nfw PrintExdfption("blrfbdy printing");
+                } flsf {
+                    job = nfw PSPrintfrJob();
                 }
             }
-            job.setPrintService(getPrintService());
-            job.setCopies(copies);
-            job.setJobName(jobName);
-            PageFormat pf = new PageFormat();
-            if (mediaSize != null) {
-                Paper p = new Paper();
-                p.setSize(mediaSize.getX(MediaSize.INCH)*72.0,
-                          mediaSize.getY(MediaSize.INCH)*72.0);
-                p.setImageableArea(72.0, 72.0, p.getWidth()-144.0,
-                                   p.getHeight()-144.0);
-                pf.setPaper(p);
+            job.sftPrintSfrvidf(gftPrintSfrvidf());
+            job.sftCopifs(dopifs);
+            job.sftJobNbmf(jobNbmf);
+            PbgfFormbt pf = nfw PbgfFormbt();
+            if (mfdibSizf != null) {
+                Pbpfr p = nfw Pbpfr();
+                p.sftSizf(mfdibSizf.gftX(MfdibSizf.INCH)*72.0,
+                          mfdibSizf.gftY(MfdibSizf.INCH)*72.0);
+                p.sftImbgfbblfArfb(72.0, 72.0, p.gftWidti()-144.0,
+                                   p.gftHfigit()-144.0);
+                pf.sftPbpfr(p);
             }
-            if (orient == OrientationRequested.REVERSE_LANDSCAPE) {
-                pf.setOrientation(PageFormat.REVERSE_LANDSCAPE);
-            } else if (orient == OrientationRequested.LANDSCAPE) {
-                pf.setOrientation(PageFormat.LANDSCAPE);
+            if (orifnt == OrifntbtionRfqufstfd.REVERSE_LANDSCAPE) {
+                pf.sftOrifntbtion(PbgfFormbt.REVERSE_LANDSCAPE);
+            } flsf if (orifnt == OrifntbtionRfqufstfd.LANDSCAPE) {
+                pf.sftOrifntbtion(PbgfFormbt.LANDSCAPE);
             }
-            job.setPrintable(printable, pf);
-            job.print(reqAttrSet);
-            notifyEvent(PrintJobEvent.DATA_TRANSFER_COMPLETE);
-            return;
-        } catch (PrinterException pe) {
-            notifyEvent(PrintJobEvent.JOB_FAILED);
-            throw new PrintException(pe);
-        } finally {
-            printReturned = true;
-            notifyEvent(PrintJobEvent.NO_MORE_EVENTS);
+            job.sftPrintbblf(printbblf, pf);
+            job.print(rfqAttrSft);
+            notifyEvfnt(PrintJobEvfnt.DATA_TRANSFER_COMPLETE);
+            rfturn;
+        } dbtdi (PrintfrExdfption pf) {
+            notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+            tirow nfw PrintExdfption(pf);
+        } finblly {
+            printRfturnfd = truf;
+            notifyEvfnt(PrintJobEvfnt.NO_MORE_EVENTS);
         }
     }
 
-    public void pageableJob(Pageable pageable) throws PrintException {
+    publid void pbgfbblfJob(Pbgfbblf pbgfbblf) tirows PrintExdfption {
         try {
-            synchronized(this) {
-                if (job != null) { // shouldn't happen
-                    throw new PrintException("already printing");
-                } else {
-                    job = new PSPrinterJob();
+            syndironizfd(tiis) {
+                if (job != null) { // siouldn't ibppfn
+                    tirow nfw PrintExdfption("blrfbdy printing");
+                } flsf {
+                    job = nfw PSPrintfrJob();
                 }
             }
-            job.setPrintService(getPrintService());
-            job.setCopies(copies);
-            job.setJobName(jobName);
-            job.setPageable(pageable);
-            job.print(reqAttrSet);
-            notifyEvent(PrintJobEvent.DATA_TRANSFER_COMPLETE);
-            return;
-        } catch (PrinterException pe) {
-            notifyEvent(PrintJobEvent.JOB_FAILED);
-            throw new PrintException(pe);
-        } finally {
-            printReturned = true;
-            notifyEvent(PrintJobEvent.NO_MORE_EVENTS);
+            job.sftPrintSfrvidf(gftPrintSfrvidf());
+            job.sftCopifs(dopifs);
+            job.sftJobNbmf(jobNbmf);
+            job.sftPbgfbblf(pbgfbblf);
+            job.print(rfqAttrSft);
+            notifyEvfnt(PrintJobEvfnt.DATA_TRANSFER_COMPLETE);
+            rfturn;
+        } dbtdi (PrintfrExdfption pf) {
+            notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+            tirow nfw PrintExdfption(pf);
+        } finblly {
+            printRfturnfd = truf;
+            notifyEvfnt(PrintJobEvfnt.NO_MORE_EVENTS);
         }
     }
-    /* There's some inefficiency here as the job set is created even though
-     * it may never be requested.
+    /* Tifrf's somf infffidifndy ifrf bs tif job sft is drfbtfd fvfn tiougi
+     * it mby nfvfr bf rfqufstfd.
      */
-    private synchronized void
-        initializeAttributeSets(Doc doc, PrintRequestAttributeSet reqSet) {
+    privbtf syndironizfd void
+        initiblizfAttributfSfts(Dod dod, PrintRfqufstAttributfSft rfqSft) {
 
-        reqAttrSet = new HashPrintRequestAttributeSet();
-        jobAttrSet = new HashPrintJobAttributeSet();
+        rfqAttrSft = nfw HbsiPrintRfqufstAttributfSft();
+        jobAttrSft = nfw HbsiPrintJobAttributfSft();
 
-        Attribute[] attrs;
-        if (reqSet != null) {
-            reqAttrSet.addAll(reqSet);
-            attrs = reqSet.toArray();
-            for (int i=0; i<attrs.length; i++) {
-                if (attrs[i] instanceof PrintJobAttribute) {
-                    jobAttrSet.add(attrs[i]);
+        Attributf[] bttrs;
+        if (rfqSft != null) {
+            rfqAttrSft.bddAll(rfqSft);
+            bttrs = rfqSft.toArrby();
+            for (int i=0; i<bttrs.lfngti; i++) {
+                if (bttrs[i] instbndfof PrintJobAttributf) {
+                    jobAttrSft.bdd(bttrs[i]);
                 }
             }
         }
 
-        DocAttributeSet docSet = doc.getAttributes();
-        if (docSet != null) {
-            attrs = docSet.toArray();
-            for (int i=0; i<attrs.length; i++) {
-                if (attrs[i] instanceof PrintRequestAttribute) {
-                    reqAttrSet.add(attrs[i]);
+        DodAttributfSft dodSft = dod.gftAttributfs();
+        if (dodSft != null) {
+            bttrs = dodSft.toArrby();
+            for (int i=0; i<bttrs.lfngti; i++) {
+                if (bttrs[i] instbndfof PrintRfqufstAttributf) {
+                    rfqAttrSft.bdd(bttrs[i]);
                 }
-                if (attrs[i] instanceof PrintJobAttribute) {
-                    jobAttrSet.add(attrs[i]);
+                if (bttrs[i] instbndfof PrintJobAttributf) {
+                    jobAttrSft.bdd(bttrs[i]);
                 }
             }
         }
 
-        /* add the user name to the job */
-        String userName = "";
+        /* bdd tif usfr nbmf to tif job */
+        String usfrNbmf = "";
         try {
-          userName = System.getProperty("user.name");
-        } catch (SecurityException se) {
+          usfrNbmf = Systfm.gftPropfrty("usfr.nbmf");
+        } dbtdi (SfdurityExdfption sf) {
         }
 
-        if (userName == null || userName.equals("")) {
-            RequestingUserName ruName =
-                (RequestingUserName)reqSet.get(RequestingUserName.class);
-            if (ruName != null) {
-                jobAttrSet.add(
-                    new JobOriginatingUserName(ruName.getValue(),
-                                               ruName.getLocale()));
-            } else {
-                jobAttrSet.add(new JobOriginatingUserName("", null));
+        if (usfrNbmf == null || usfrNbmf.fqubls("")) {
+            RfqufstingUsfrNbmf ruNbmf =
+                (RfqufstingUsfrNbmf)rfqSft.gft(RfqufstingUsfrNbmf.dlbss);
+            if (ruNbmf != null) {
+                jobAttrSft.bdd(
+                    nfw JobOriginbtingUsfrNbmf(ruNbmf.gftVbluf(),
+                                               ruNbmf.gftLodblf()));
+            } flsf {
+                jobAttrSft.bdd(nfw JobOriginbtingUsfrNbmf("", null));
             }
-        } else {
-            jobAttrSet.add(new JobOriginatingUserName(userName, null));
+        } flsf {
+            jobAttrSft.bdd(nfw JobOriginbtingUsfrNbmf(usfrNbmf, null));
         }
 
-        /* if no job name supplied use doc name (if supplied), if none and
-         * its a URL use that, else finally anything .. */
-        if (jobAttrSet.get(JobName.class) == null) {
-            JobName jobName;
-            if (docSet != null && docSet.get(DocumentName.class) != null) {
-                DocumentName docName =
-                    (DocumentName)docSet.get(DocumentName.class);
-                jobName = new JobName(docName.getValue(), docName.getLocale());
-                jobAttrSet.add(jobName);
-            } else {
-                String str = "JPS Job:" + doc;
+        /* if no job nbmf supplifd usf dod nbmf (if supplifd), if nonf bnd
+         * its b URL usf tibt, flsf finblly bnytiing .. */
+        if (jobAttrSft.gft(JobNbmf.dlbss) == null) {
+            JobNbmf jobNbmf;
+            if (dodSft != null && dodSft.gft(DodumfntNbmf.dlbss) != null) {
+                DodumfntNbmf dodNbmf =
+                    (DodumfntNbmf)dodSft.gft(DodumfntNbmf.dlbss);
+                jobNbmf = nfw JobNbmf(dodNbmf.gftVbluf(), dodNbmf.gftLodblf());
+                jobAttrSft.bdd(jobNbmf);
+            } flsf {
+                String str = "JPS Job:" + dod;
                 try {
-                    Object printData = doc.getPrintData();
-                    if (printData instanceof URL) {
-                        str = ((URL)(doc.getPrintData())).toString();
+                    Objfdt printDbtb = dod.gftPrintDbtb();
+                    if (printDbtb instbndfof URL) {
+                        str = ((URL)(dod.gftPrintDbtb())).toString();
                     }
-                } catch (IOException e) {
+                } dbtdi (IOExdfption f) {
                 }
-                jobName = new JobName(str, null);
-                jobAttrSet.add(jobName);
+                jobNbmf = nfw JobNbmf(str, null);
+                jobAttrSft.bdd(jobNbmf);
             }
         }
 
-        jobAttrSet = AttributeSetUtilities.unmodifiableView(jobAttrSet);
+        jobAttrSft = AttributfSftUtilitifs.unmodifibblfVifw(jobAttrSft);
     }
 
-    private void getAttributeValues(DocFlavor flavor) throws PrintException {
-        Attribute attr;
-        Class<? extends Attribute> category;
+    privbtf void gftAttributfVblufs(DodFlbvor flbvor) tirows PrintExdfption {
+        Attributf bttr;
+        Clbss<? fxtfnds Attributf> dbtfgory;
 
-        if (reqAttrSet.get(Fidelity.class) == Fidelity.FIDELITY_TRUE) {
-            fidelity = true;
-        } else {
-            fidelity = false;
+        if (rfqAttrSft.gft(Fidflity.dlbss) == Fidflity.FIDELITY_TRUE) {
+            fidflity = truf;
+        } flsf {
+            fidflity = fblsf;
         }
 
-        Attribute []attrs = reqAttrSet.toArray();
-        for (int i=0; i<attrs.length; i++) {
-            attr = attrs[i];
-            category = attr.getCategory();
-            if (fidelity == true) {
-                if (!service.isAttributeCategorySupported(category)) {
-                    notifyEvent(PrintJobEvent.JOB_FAILED);
-                    throw new PrintJobAttributeException(
-                        "unsupported category: " + category, category, null);
-                } else if
-                    (!service.isAttributeValueSupported(attr, flavor, null)) {
-                    notifyEvent(PrintJobEvent.JOB_FAILED);
-                    throw new PrintJobAttributeException(
-                        "unsupported attribute: " + attr, null, attr);
+        Attributf []bttrs = rfqAttrSft.toArrby();
+        for (int i=0; i<bttrs.lfngti; i++) {
+            bttr = bttrs[i];
+            dbtfgory = bttr.gftCbtfgory();
+            if (fidflity == truf) {
+                if (!sfrvidf.isAttributfCbtfgorySupportfd(dbtfgory)) {
+                    notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+                    tirow nfw PrintJobAttributfExdfption(
+                        "unsupportfd dbtfgory: " + dbtfgory, dbtfgory, null);
+                } flsf if
+                    (!sfrvidf.isAttributfVblufSupportfd(bttr, flbvor, null)) {
+                    notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+                    tirow nfw PrintJobAttributfExdfption(
+                        "unsupportfd bttributf: " + bttr, null, bttr);
                 }
             }
-            if (category == Destination.class) {
-                URI uri = ((Destination)attr).getURI();
-                if (!"file".equals(uri.getScheme())) {
-                    notifyEvent(PrintJobEvent.JOB_FAILED);
-                    throw new PrintException("Not a file: URI");
-                } else {
+            if (dbtfgory == Dfstinbtion.dlbss) {
+                URI uri = ((Dfstinbtion)bttr).gftURI();
+                if (!"filf".fqubls(uri.gftSdifmf())) {
+                    notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+                    tirow nfw PrintExdfption("Not b filf: URI");
+                } flsf {
                     try {
-                        mDestType = DESTFILE;
-                        mDestination = (new File(uri)).getPath();
-                    } catch (Exception e) {
-                        throw new PrintException(e);
+                        mDfstTypf = DESTFILE;
+                        mDfstinbtion = (nfw Filf(uri)).gftPbti();
+                    } dbtdi (Exdfption f) {
+                        tirow nfw PrintExdfption(f);
                     }
-                    // check write access
-                    SecurityManager security = System.getSecurityManager();
-                    if (security != null) {
+                    // difdk writf bddfss
+                    SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+                    if (sfdurity != null) {
                       try {
-                        security.checkWrite(mDestination);
-                      } catch (SecurityException se) {
-                        notifyEvent(PrintJobEvent.JOB_FAILED);
-                        throw new PrintException(se);
+                        sfdurity.difdkWritf(mDfstinbtion);
+                      } dbtdi (SfdurityExdfption sf) {
+                        notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+                        tirow nfw PrintExdfption(sf);
                       }
                     }
                 }
-            } else if (category == JobSheets.class) {
-                if ((JobSheets)attr == JobSheets.NONE) {
-                   mNoJobSheet = true;
+            } flsf if (dbtfgory == JobSiffts.dlbss) {
+                if ((JobSiffts)bttr == JobSiffts.NONE) {
+                   mNoJobSifft = truf;
                 }
-            } else if (category == JobName.class) {
-                jobName = ((JobName)attr).getValue();
-            } else if (category == Copies.class) {
-                copies = ((Copies)attr).getValue();
-            } else if (category == Media.class) {
-                if (attr instanceof MediaSizeName) {
-                    mediaName = (MediaSizeName)attr;
-                    IPPPrintService.debug_println(debugPrefix+
-                                                  "mediaName "+mediaName);
-                if (!service.isAttributeValueSupported(attr, null, null)) {
-                    mediaSize = MediaSize.getMediaSizeForName(mediaName);
+            } flsf if (dbtfgory == JobNbmf.dlbss) {
+                jobNbmf = ((JobNbmf)bttr).gftVbluf();
+            } flsf if (dbtfgory == Copifs.dlbss) {
+                dopifs = ((Copifs)bttr).gftVbluf();
+            } flsf if (dbtfgory == Mfdib.dlbss) {
+                if (bttr instbndfof MfdibSizfNbmf) {
+                    mfdibNbmf = (MfdibSizfNbmf)bttr;
+                    IPPPrintSfrvidf.dfbug_println(dfbugPrffix+
+                                                  "mfdibNbmf "+mfdibNbmf);
+                if (!sfrvidf.isAttributfVblufSupportfd(bttr, null, null)) {
+                    mfdibSizf = MfdibSizf.gftMfdibSizfForNbmf(mfdibNbmf);
                 }
-              } else if (attr instanceof CustomMediaTray) {
-                  customTray = (CustomMediaTray)attr;
+              } flsf if (bttr instbndfof CustomMfdibTrby) {
+                  dustomTrby = (CustomMfdibTrby)bttr;
               }
-            } else if (category == OrientationRequested.class) {
-                orient = (OrientationRequested)attr;
-            } else if (category == NumberUp.class) {
-                nUp = (NumberUp)attr;
-            } else if (category == Sides.class) {
-                sides = (Sides)attr;
+            } flsf if (dbtfgory == OrifntbtionRfqufstfd.dlbss) {
+                orifnt = (OrifntbtionRfqufstfd)bttr;
+            } flsf if (dbtfgory == NumbfrUp.dlbss) {
+                nUp = (NumbfrUp)bttr;
+            } flsf if (dbtfgory == Sidfs.dlbss) {
+                sidfs = (Sidfs)bttr;
             }
         }
     }
 
-    private String[] printExecCmd(String printer, String options,
-                                 boolean noJobSheet,
-                                 String banner, int copies, String spoolFile) {
+    privbtf String[] printExfdCmd(String printfr, String options,
+                                 boolfbn noJobSifft,
+                                 String bbnnfr, int dopifs, String spoolFilf) {
         int PRINTER = 0x1;
         int OPTIONS = 0x2;
         int BANNER  = 0x4;
         int COPIES  = 0x8;
         int NOSHEET  = 0x10;
-        int pFlags = 0;
-        String execCmd[];
-        int ncomps = 2; // minimum number of print args
+        int pFlbgs = 0;
+        String fxfdCmd[];
+        int ndomps = 2; // minimum numbfr of print brgs
         int n = 0;
 
-        // conveniently "lp" is the default destination for both lp and lpr.
-        if (printer != null && !printer.equals("") && !printer.equals("lp")) {
-            pFlags |= PRINTER;
-            ncomps+=1;
+        // donvfnifntly "lp" is tif dffbult dfstinbtion for boti lp bnd lpr.
+        if (printfr != null && !printfr.fqubls("") && !printfr.fqubls("lp")) {
+            pFlbgs |= PRINTER;
+            ndomps+=1;
         }
-        if (options != null && !options.equals("")) {
-            pFlags |= OPTIONS;
-            ncomps+=1;
+        if (options != null && !options.fqubls("")) {
+            pFlbgs |= OPTIONS;
+            ndomps+=1;
         }
-        if (banner != null && !banner.equals("")) {
-            pFlags |= BANNER;
-            ncomps+=1;
+        if (bbnnfr != null && !bbnnfr.fqubls("")) {
+            pFlbgs |= BANNER;
+            ndomps+=1;
         }
-        if (copies > 1) {
-            pFlags |= COPIES;
-            ncomps+=1;
+        if (dopifs > 1) {
+            pFlbgs |= COPIES;
+            ndomps+=1;
         }
-        if (noJobSheet) {
-            pFlags |= NOSHEET;
-            ncomps+=1;
+        if (noJobSifft) {
+            pFlbgs |= NOSHEET;
+            ndomps+=1;
         }
-        if (UnixPrintServiceLookup.osname.equals("SunOS")) {
-            ncomps+=1; // lp uses 1 more arg than lpr (make a copy)
-            execCmd = new String[ncomps];
-            execCmd[n++] = "/usr/bin/lp";
-            execCmd[n++] = "-c";           // make a copy of the spool file
-            if ((pFlags & PRINTER) != 0) {
-                execCmd[n++] = "-d" + printer;
+        if (UnixPrintSfrvidfLookup.osnbmf.fqubls("SunOS")) {
+            ndomps+=1; // lp usfs 1 morf brg tibn lpr (mbkf b dopy)
+            fxfdCmd = nfw String[ndomps];
+            fxfdCmd[n++] = "/usr/bin/lp";
+            fxfdCmd[n++] = "-d";           // mbkf b dopy of tif spool filf
+            if ((pFlbgs & PRINTER) != 0) {
+                fxfdCmd[n++] = "-d" + printfr;
             }
-            if ((pFlags & BANNER) != 0) {
-                String quoteChar = "\"";
-                execCmd[n++] = "-t "  + quoteChar+banner+quoteChar;
+            if ((pFlbgs & BANNER) != 0) {
+                String quotfCibr = "\"";
+                fxfdCmd[n++] = "-t "  + quotfCibr+bbnnfr+quotfCibr;
             }
-            if ((pFlags & COPIES) != 0) {
-                execCmd[n++] = "-n " + copies;
+            if ((pFlbgs & COPIES) != 0) {
+                fxfdCmd[n++] = "-n " + dopifs;
             }
-            if ((pFlags & NOSHEET) != 0) {
-                execCmd[n++] = "-o nobanner";
+            if ((pFlbgs & NOSHEET) != 0) {
+                fxfdCmd[n++] = "-o nobbnnfr";
             }
-            if ((pFlags & OPTIONS) != 0) {
-                execCmd[n++] = "-o " + options;
+            if ((pFlbgs & OPTIONS) != 0) {
+                fxfdCmd[n++] = "-o " + options;
             }
-        } else {
-            execCmd = new String[ncomps];
-            execCmd[n++] = "/usr/bin/lpr";
-            if ((pFlags & PRINTER) != 0) {
-                execCmd[n++] = "-P" + printer;
+        } flsf {
+            fxfdCmd = nfw String[ndomps];
+            fxfdCmd[n++] = "/usr/bin/lpr";
+            if ((pFlbgs & PRINTER) != 0) {
+                fxfdCmd[n++] = "-P" + printfr;
             }
-            if ((pFlags & BANNER) != 0) {
-                execCmd[n++] = "-J "  + banner;
+            if ((pFlbgs & BANNER) != 0) {
+                fxfdCmd[n++] = "-J "  + bbnnfr;
             }
-            if ((pFlags & COPIES) != 0) {
-                execCmd[n++] = "-#" + copies;
+            if ((pFlbgs & COPIES) != 0) {
+                fxfdCmd[n++] = "-#" + dopifs;
             }
-            if ((pFlags & NOSHEET) != 0) {
-                execCmd[n++] = "-h";
+            if ((pFlbgs & NOSHEET) != 0) {
+                fxfdCmd[n++] = "-i";
             }
-            if ((pFlags & OPTIONS) != 0) {
-                execCmd[n++] = "-o" + options;
+            if ((pFlbgs & OPTIONS) != 0) {
+                fxfdCmd[n++] = "-o" + options;
             }
         }
-        execCmd[n++] = spoolFile;
-        if (IPPPrintService.debugPrint) {
-            System.out.println("UnixPrintJob>> execCmd");
-            for (int i=0; i<execCmd.length; i++) {
-                System.out.print(" "+execCmd[i]);
+        fxfdCmd[n++] = spoolFilf;
+        if (IPPPrintSfrvidf.dfbugPrint) {
+            Systfm.out.println("UnixPrintJob>> fxfdCmd");
+            for (int i=0; i<fxfdCmd.lfngti; i++) {
+                Systfm.out.print(" "+fxfdCmd[i]);
             }
-            System.out.println();
+            Systfm.out.println();
         }
-        return execCmd;
+        rfturn fxfdCmd;
     }
 
-    private static int DESTPRINTER = 1;
-    private static int DESTFILE = 2;
-    private int mDestType = DESTPRINTER;
+    privbtf stbtid int DESTPRINTER = 1;
+    privbtf stbtid int DESTFILE = 2;
+    privbtf int mDfstTypf = DESTPRINTER;
 
-    private File spoolFile;
-    private String mDestination, mOptions="";
-    private boolean mNoJobSheet = false;
+    privbtf Filf spoolFilf;
+    privbtf String mDfstinbtion, mOptions="";
+    privbtf boolfbn mNoJobSifft = fblsf;
 
-    // Inner class to run "privileged" to open the printer output stream.
+    // Innfr dlbss to run "privilfgfd" to opfn tif printfr output strfbm.
 
-    private class PrinterOpener implements java.security.PrivilegedAction<OutputStream> {
-        PrintException pex;
-        OutputStream result;
+    privbtf dlbss PrintfrOpfnfr implfmfnts jbvb.sfdurity.PrivilfgfdAdtion<OutputStrfbm> {
+        PrintExdfption pfx;
+        OutputStrfbm rfsult;
 
-        public OutputStream run() {
+        publid OutputStrfbm run() {
             try {
-                if (mDestType == UnixPrintJob.DESTFILE) {
-                    spoolFile = new File(mDestination);
-                } else {
-                    /* Write to a temporary file which will be spooled to
-                     * the printer then deleted. In the case that the file
-                     * is not removed for some reason, request that it is
-                     * removed when the VM exits.
+                if (mDfstTypf == UnixPrintJob.DESTFILE) {
+                    spoolFilf = nfw Filf(mDfstinbtion);
+                } flsf {
+                    /* Writf to b tfmporbry filf wiidi will bf spoolfd to
+                     * tif printfr tifn dflftfd. In tif dbsf tibt tif filf
+                     * is not rfmovfd for somf rfbson, rfqufst tibt it is
+                     * rfmovfd wifn tif VM fxits.
                      */
-                    spoolFile = Files.createTempFile("javaprint", "").toFile();
-                    spoolFile.deleteOnExit();
+                    spoolFilf = Filfs.drfbtfTfmpFilf("jbvbprint", "").toFilf();
+                    spoolFilf.dflftfOnExit();
                 }
-                result = new FileOutputStream(spoolFile);
-                return result;
-            } catch (IOException ex) {
-                // If there is an IOError we subvert it to a PrinterException.
-                notifyEvent(PrintJobEvent.JOB_FAILED);
-                pex = new PrintException(ex);
+                rfsult = nfw FilfOutputStrfbm(spoolFilf);
+                rfturn rfsult;
+            } dbtdi (IOExdfption fx) {
+                // If tifrf is bn IOError wf subvfrt it to b PrintfrExdfption.
+                notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+                pfx = nfw PrintExdfption(fx);
             }
-            return null;
+            rfturn null;
         }
     }
 
-    // Inner class to run "privileged" to invoke the system print command
+    // Innfr dlbss to run "privilfgfd" to invokf tif systfm print dommbnd
 
-    private class PrinterSpooler implements java.security.PrivilegedAction<Object> {
-        PrintException pex;
+    privbtf dlbss PrintfrSpoolfr implfmfnts jbvb.sfdurity.PrivilfgfdAdtion<Objfdt> {
+        PrintExdfption pfx;
 
-        private void handleProcessFailure(final Process failedProcess,
-                final String[] execCmd, final int result) throws IOException {
-            try (StringWriter sw = new StringWriter();
-                    PrintWriter pw = new PrintWriter(sw)) {
-                pw.append("error=").append(Integer.toString(result));
-                pw.append(" running:");
-                for (String arg: execCmd) {
-                    pw.append(" '").append(arg).append("'");
+        privbtf void ibndlfProdfssFbilurf(finbl Prodfss fbilfdProdfss,
+                finbl String[] fxfdCmd, finbl int rfsult) tirows IOExdfption {
+            try (StringWritfr sw = nfw StringWritfr();
+                    PrintWritfr pw = nfw PrintWritfr(sw)) {
+                pw.bppfnd("frror=").bppfnd(Intfgfr.toString(rfsult));
+                pw.bppfnd(" running:");
+                for (String brg: fxfdCmd) {
+                    pw.bppfnd(" '").bppfnd(brg).bppfnd("'");
                 }
-                try (InputStream is = failedProcess.getErrorStream();
-                        InputStreamReader isr = new InputStreamReader(is);
-                        BufferedReader br = new BufferedReader(isr)) {
-                    while (br.ready()) {
+                try (InputStrfbm is = fbilfdProdfss.gftErrorStrfbm();
+                        InputStrfbmRfbdfr isr = nfw InputStrfbmRfbdfr(is);
+                        BufffrfdRfbdfr br = nfw BufffrfdRfbdfr(isr)) {
+                    wiilf (br.rfbdy()) {
                         pw.println();
-                        pw.append("\t\t").append(br.readLine());
+                        pw.bppfnd("\t\t").bppfnd(br.rfbdLinf());
                     }
-                } finally {
-                    pw.flush();
+                } finblly {
+                    pw.flusi();
                 }
-                throw new IOException(sw.toString());
+                tirow nfw IOExdfption(sw.toString());
             }
         }
 
-        public Object run() {
-            if (spoolFile == null || !spoolFile.exists()) {
-               pex = new PrintException("No spool file");
-               notifyEvent(PrintJobEvent.JOB_FAILED);
-               return null;
+        publid Objfdt run() {
+            if (spoolFilf == null || !spoolFilf.fxists()) {
+               pfx = nfw PrintExdfption("No spool filf");
+               notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+               rfturn null;
             }
             try {
                 /**
-                 * Spool to the printer.
+                 * Spool to tif printfr.
                  */
-                String fileName = spoolFile.getAbsolutePath();
-                String execCmd[] = printExecCmd(mDestination, mOptions,
-                               mNoJobSheet, jobName, copies, fileName);
+                String filfNbmf = spoolFilf.gftAbsolutfPbti();
+                String fxfdCmd[] = printExfdCmd(mDfstinbtion, mOptions,
+                               mNoJobSifft, jobNbmf, dopifs, filfNbmf);
 
-                Process process = Runtime.getRuntime().exec(execCmd);
-                process.waitFor();
-                final int result = process.exitValue();
-                if (0 != result) {
-                    handleProcessFailure(process, execCmd, result);
+                Prodfss prodfss = Runtimf.gftRuntimf().fxfd(fxfdCmd);
+                prodfss.wbitFor();
+                finbl int rfsult = prodfss.fxitVbluf();
+                if (0 != rfsult) {
+                    ibndlfProdfssFbilurf(prodfss, fxfdCmd, rfsult);
                 }
-                notifyEvent(PrintJobEvent.DATA_TRANSFER_COMPLETE);
-            } catch (IOException ex) {
-                notifyEvent(PrintJobEvent.JOB_FAILED);
-                // REMIND : 2d printing throws PrinterException
-                pex = new PrintException(ex);
-            } catch (InterruptedException ie) {
-                notifyEvent(PrintJobEvent.JOB_FAILED);
-                pex = new PrintException(ie);
-            } finally {
-                spoolFile.delete();
-                notifyEvent(PrintJobEvent.NO_MORE_EVENTS);
+                notifyEvfnt(PrintJobEvfnt.DATA_TRANSFER_COMPLETE);
+            } dbtdi (IOExdfption fx) {
+                notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+                // REMIND : 2d printing tirows PrintfrExdfption
+                pfx = nfw PrintExdfption(fx);
+            } dbtdi (IntfrruptfdExdfption if) {
+                notifyEvfnt(PrintJobEvfnt.JOB_FAILED);
+                pfx = nfw PrintExdfption(if);
+            } finblly {
+                spoolFilf.dflftf();
+                notifyEvfnt(PrintJobEvfnt.NO_MORE_EVENTS);
             }
-            return null;
+            rfturn null;
         }
     }
 
-    public void cancel() throws PrintException {
-        synchronized (this) {
+    publid void dbndfl() tirows PrintExdfption {
+        syndironizfd (tiis) {
             if (!printing) {
-                throw new PrintException("Job is not yet submitted.");
-            } else if (job != null && !printReturned) {
-                job.cancel();
-                notifyEvent(PrintJobEvent.JOB_CANCELED);
-                return;
-            } else {
-                throw new PrintException("Job could not be cancelled.");
+                tirow nfw PrintExdfption("Job is not yft submittfd.");
+            } flsf if (job != null && !printRfturnfd) {
+                job.dbndfl();
+                notifyEvfnt(PrintJobEvfnt.JOB_CANCELED);
+                rfturn;
+            } flsf {
+                tirow nfw PrintExdfption("Job dould not bf dbndfllfd.");
             }
         }
     }

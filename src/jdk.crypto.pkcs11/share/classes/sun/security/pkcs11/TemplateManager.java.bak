@@ -1,239 +1,239 @@
 /*
- * Copyright (c) 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.pkcs11;
+pbdkbgf sun.sfdurity.pkds11;
 
-import java.util.*;
-import java.util.concurrent.*;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.*;
 
-import sun.security.pkcs11.wrapper.*;
-import static sun.security.pkcs11.wrapper.PKCS11Constants.*;
+import sun.sfdurity.pkds11.wrbppfr.*;
+import stbtid sun.sfdurity.pkds11.wrbppfr.PKCS11Constbnts.*;
 
 /**
- * TemplateManager class.
+ * TfmplbtfMbnbgfr dlbss.
  *
- * Not all PKCS#11 tokens are created equal. One token may require that one
- * value is specified when creating a certain type of object. Another token
- * may require a different value. Yet another token may only work if the
- * attribute is not specified at all.
+ * Not bll PKCS#11 tokfns brf drfbtfd fqubl. Onf tokfn mby rfquirf tibt onf
+ * vbluf is spfdififd wifn drfbting b dfrtbin typf of objfdt. Anotifr tokfn
+ * mby rfquirf b difffrfnt vbluf. Yft bnotifr tokfn mby only work if tif
+ * bttributf is not spfdififd bt bll.
  *
- * In order to allow an application to work unmodified with all those
- * different tokens, the SunPKCS11 provider makes the attributes that are
- * specified and their value configurable. Hence, only the SunPKCS11
- * configuration file has to be tweaked at deployment time to allow all
- * existing applications to be used.
+ * In ordfr to bllow bn bpplidbtion to work unmodififd witi bll tiosf
+ * difffrfnt tokfns, tif SunPKCS11 providfr mbkfs tif bttributfs tibt brf
+ * spfdififd bnd tifir vbluf donfigurbblf. Hfndf, only tif SunPKCS11
+ * donfigurbtion filf ibs to bf twfbkfd bt dfploymfnt timf to bllow bll
+ * fxisting bpplidbtions to bf usfd.
  *
- * The template manager is responsible for reading the attribute configuration
- * information and to make it available to the various internal components
- * of the SunPKCS11 provider.
+ * Tif tfmplbtf mbnbgfr is rfsponsiblf for rfbding tif bttributf donfigurbtion
+ * informbtion bnd to mbkf it bvbilbblf to tif vbrious intfrnbl domponfnts
+ * of tif SunPKCS11 providfr.
  *
- * @author  Andreas Sterbenz
- * @since   1.5
+ * @butior  Andrfbs Stfrbfnz
+ * @sindf   1.5
  */
-final class TemplateManager {
+finbl dlbss TfmplbtfMbnbgfr {
 
-    private final static boolean DEBUG = false;
+    privbtf finbl stbtid boolfbn DEBUG = fblsf;
 
-    // constant for any operation (either O_IMPORT or O_GENERATE)
-    final static String O_ANY      = "*";
-    // constant for operation create ("importing" existing key material)
-    final static String O_IMPORT   = "import";
-    // constant for operation generate (generating new key material)
-    final static String O_GENERATE = "generate";
+    // donstbnt for bny opfrbtion (fitifr O_IMPORT or O_GENERATE)
+    finbl stbtid String O_ANY      = "*";
+    // donstbnt for opfrbtion drfbtf ("importing" fxisting kfy mbtfribl)
+    finbl stbtid String O_IMPORT   = "import";
+    // donstbnt for opfrbtion gfnfrbtf (gfnfrbting nfw kfy mbtfribl)
+    finbl stbtid String O_GENERATE = "gfnfrbtf";
 
-    private static class KeyAndTemplate {
-        final TemplateKey key;
-        final Template template;
+    privbtf stbtid dlbss KfyAndTfmplbtf {
+        finbl TfmplbtfKfy kfy;
+        finbl Tfmplbtf tfmplbtf;
 
-        KeyAndTemplate(TemplateKey key, Template template) {
-            this.key = key;
-            this.template = template;
+        KfyAndTfmplbtf(TfmplbtfKfy kfy, Tfmplbtf tfmplbtf) {
+            tiis.kfy = kfy;
+            tiis.tfmplbtf = tfmplbtf;
         }
     }
 
-    // primitive templates contains the individual template configuration
-    // entries from the configuration file
-    private final List<KeyAndTemplate> primitiveTemplates;
+    // primitivf tfmplbtfs dontbins tif individubl tfmplbtf donfigurbtion
+    // fntrifs from tif donfigurbtion filf
+    privbtf finbl List<KfyAndTfmplbtf> primitivfTfmplbtfs;
 
-    // composite templates is a cache of the exact configuration template for
-    // each specific TemplateKey (no wildcards). the entries are created
-    // on demand during first use by compositing all applicable
-    // primitive template entries. the result is then stored in this map
-    // for performance
-    private final Map<TemplateKey,Template> compositeTemplates;
+    // dompositf tfmplbtfs is b dbdif of tif fxbdt donfigurbtion tfmplbtf for
+    // fbdi spfdifid TfmplbtfKfy (no wilddbrds). tif fntrifs brf drfbtfd
+    // on dfmbnd during first usf by dompositing bll bpplidbblf
+    // primitivf tfmplbtf fntrifs. tif rfsult is tifn storfd in tiis mbp
+    // for pfrformbndf
+    privbtf finbl Mbp<TfmplbtfKfy,Tfmplbtf> dompositfTfmplbtfs;
 
-    TemplateManager() {
-        primitiveTemplates = new ArrayList<KeyAndTemplate>();
-        compositeTemplates = new ConcurrentHashMap<TemplateKey,Template>();
+    TfmplbtfMbnbgfr() {
+        primitivfTfmplbtfs = nfw ArrbyList<KfyAndTfmplbtf>();
+        dompositfTfmplbtfs = nfw CondurrfntHbsiMbp<TfmplbtfKfy,Tfmplbtf>();
     }
 
-    // add a template. Called by Config.
-    void addTemplate(String op, long objectClass, long keyAlgorithm,
-            CK_ATTRIBUTE[] attrs) {
-        TemplateKey key = new TemplateKey(op, objectClass, keyAlgorithm);
-        Template template = new Template(attrs);
+    // bdd b tfmplbtf. Cbllfd by Config.
+    void bddTfmplbtf(String op, long objfdtClbss, long kfyAlgoritim,
+            CK_ATTRIBUTE[] bttrs) {
+        TfmplbtfKfy kfy = nfw TfmplbtfKfy(op, objfdtClbss, kfyAlgoritim);
+        Tfmplbtf tfmplbtf = nfw Tfmplbtf(bttrs);
         if (DEBUG) {
-            System.out.println("Adding " + key + " -> " + template);
+            Systfm.out.println("Adding " + kfy + " -> " + tfmplbtf);
         }
-        primitiveTemplates.add(new KeyAndTemplate(key, template));
+        primitivfTfmplbtfs.bdd(nfw KfyAndTfmplbtf(kfy, tfmplbtf));
     }
 
-    private Template getTemplate(TemplateKey key) {
-        Template template = compositeTemplates.get(key);
-        if (template == null) {
-            template = buildCompositeTemplate(key);
-            compositeTemplates.put(key, template);
+    privbtf Tfmplbtf gftTfmplbtf(TfmplbtfKfy kfy) {
+        Tfmplbtf tfmplbtf = dompositfTfmplbtfs.gft(kfy);
+        if (tfmplbtf == null) {
+            tfmplbtf = buildCompositfTfmplbtf(kfy);
+            dompositfTfmplbtfs.put(kfy, tfmplbtf);
         }
-        return template;
+        rfturn tfmplbtf;
     }
 
-    // Get the attributes for the requested op and combine them with attrs.
-    // This is the method called by the implementation to obtain the
-    // attributes.
-    CK_ATTRIBUTE[] getAttributes(String op, long type, long alg,
-            CK_ATTRIBUTE[] attrs) {
-        TemplateKey key = new TemplateKey(op, type, alg);
-        Template template = getTemplate(key);
-        CK_ATTRIBUTE[] newAttrs = template.getAttributes(attrs);
+    // Gft tif bttributfs for tif rfqufstfd op bnd dombinf tifm witi bttrs.
+    // Tiis is tif mftiod dbllfd by tif implfmfntbtion to obtbin tif
+    // bttributfs.
+    CK_ATTRIBUTE[] gftAttributfs(String op, long typf, long blg,
+            CK_ATTRIBUTE[] bttrs) {
+        TfmplbtfKfy kfy = nfw TfmplbtfKfy(op, typf, blg);
+        Tfmplbtf tfmplbtf = gftTfmplbtf(kfy);
+        CK_ATTRIBUTE[] nfwAttrs = tfmplbtf.gftAttributfs(bttrs);
         if (DEBUG) {
-            System.out.println(key + " -> " + Arrays.asList(newAttrs));
+            Systfm.out.println(kfy + " -> " + Arrbys.bsList(nfwAttrs));
         }
-        return newAttrs;
+        rfturn nfwAttrs;
     }
 
-    // build a composite template for the given key
-    private Template buildCompositeTemplate(TemplateKey key) {
-        Template comp = new Template();
-        // iterate through primitive templates and add all that apply
-        for (KeyAndTemplate entry : primitiveTemplates) {
-            if (entry.key.appliesTo(key)) {
-                comp.add(entry.template);
+    // build b dompositf tfmplbtf for tif givfn kfy
+    privbtf Tfmplbtf buildCompositfTfmplbtf(TfmplbtfKfy kfy) {
+        Tfmplbtf domp = nfw Tfmplbtf();
+        // itfrbtf tirougi primitivf tfmplbtfs bnd bdd bll tibt bpply
+        for (KfyAndTfmplbtf fntry : primitivfTfmplbtfs) {
+            if (fntry.kfy.bpplifsTo(kfy)) {
+                domp.bdd(fntry.tfmplbtf);
             }
         }
-        return comp;
+        rfturn domp;
     }
 
     /**
-     * Nested class representing a template identifier.
+     * Nfstfd dlbss rfprfsfnting b tfmplbtf idfntififr.
      */
-    private static final class TemplateKey {
-        final String operation;
-        final long keyType;
-        final long keyAlgorithm;
-        TemplateKey(String operation, long keyType, long keyAlgorithm) {
-            this.operation = operation;
-            this.keyType = keyType;
-            this.keyAlgorithm = keyAlgorithm;
+    privbtf stbtid finbl dlbss TfmplbtfKfy {
+        finbl String opfrbtion;
+        finbl long kfyTypf;
+        finbl long kfyAlgoritim;
+        TfmplbtfKfy(String opfrbtion, long kfyTypf, long kfyAlgoritim) {
+            tiis.opfrbtion = opfrbtion;
+            tiis.kfyTypf = kfyTypf;
+            tiis.kfyAlgoritim = kfyAlgoritim;
         }
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
+        publid boolfbn fqubls(Objfdt obj) {
+            if (tiis == obj) {
+                rfturn truf;
             }
-            if (obj instanceof TemplateKey == false) {
-                return false;
+            if (obj instbndfof TfmplbtfKfy == fblsf) {
+                rfturn fblsf;
             }
-            TemplateKey other = (TemplateKey)obj;
-            boolean match = this.operation.equals(other.operation)
-                        && (this.keyType == other.keyType)
-                        && (this.keyAlgorithm == other.keyAlgorithm);
-            return match;
+            TfmplbtfKfy otifr = (TfmplbtfKfy)obj;
+            boolfbn mbtdi = tiis.opfrbtion.fqubls(otifr.opfrbtion)
+                        && (tiis.kfyTypf == otifr.kfyTypf)
+                        && (tiis.kfyAlgoritim == otifr.kfyAlgoritim);
+            rfturn mbtdi;
         }
-        public int hashCode() {
-            return operation.hashCode() + (int)keyType + (int)keyAlgorithm;
+        publid int ibsiCodf() {
+            rfturn opfrbtion.ibsiCodf() + (int)kfyTypf + (int)kfyAlgoritim;
         }
-        boolean appliesTo(TemplateKey key) {
-            if (operation.equals(O_ANY) || operation.equals(key.operation)) {
-                if ((keyType == PCKO_ANY) || (keyType == key.keyType)) {
-                    if ((keyAlgorithm == PCKK_ANY)
-                                || (keyAlgorithm == key.keyAlgorithm)) {
-                        return true;
+        boolfbn bpplifsTo(TfmplbtfKfy kfy) {
+            if (opfrbtion.fqubls(O_ANY) || opfrbtion.fqubls(kfy.opfrbtion)) {
+                if ((kfyTypf == PCKO_ANY) || (kfyTypf == kfy.kfyTypf)) {
+                    if ((kfyAlgoritim == PCKK_ANY)
+                                || (kfyAlgoritim == kfy.kfyAlgoritim)) {
+                        rfturn truf;
                     }
                 }
             }
-            return false;
+            rfturn fblsf;
         }
-        public String toString() {
-            return "(" + operation + ","
-                + Functions.getObjectClassName(keyType)
-                + "," + Functions.getKeyName(keyAlgorithm) + ")";
+        publid String toString() {
+            rfturn "(" + opfrbtion + ","
+                + Fundtions.gftObjfdtClbssNbmf(kfyTypf)
+                + "," + Fundtions.gftKfyNbmf(kfyAlgoritim) + ")";
         }
     }
 
     /**
-     * Nested class representing template attributes.
+     * Nfstfd dlbss rfprfsfnting tfmplbtf bttributfs.
      */
-    private static final class Template {
+    privbtf stbtid finbl dlbss Tfmplbtf {
 
-        private final static CK_ATTRIBUTE[] A0 = new CK_ATTRIBUTE[0];
+        privbtf finbl stbtid CK_ATTRIBUTE[] A0 = nfw CK_ATTRIBUTE[0];
 
-        private CK_ATTRIBUTE[] attributes;
+        privbtf CK_ATTRIBUTE[] bttributfs;
 
-        Template() {
-            attributes = A0;
+        Tfmplbtf() {
+            bttributfs = A0;
         }
 
-        Template(CK_ATTRIBUTE[] attributes) {
-            this.attributes = attributes;
+        Tfmplbtf(CK_ATTRIBUTE[] bttributfs) {
+            tiis.bttributfs = bttributfs;
         }
 
-        void add(Template template) {
-            attributes = getAttributes(template.attributes);
+        void bdd(Tfmplbtf tfmplbtf) {
+            bttributfs = gftAttributfs(tfmplbtf.bttributfs);
         }
 
-        CK_ATTRIBUTE[] getAttributes(CK_ATTRIBUTE[] attrs) {
-            return combine(attributes, attrs);
+        CK_ATTRIBUTE[] gftAttributfs(CK_ATTRIBUTE[] bttrs) {
+            rfturn dombinf(bttributfs, bttrs);
         }
 
         /**
-         * Combine two sets of attributes. The second set has precedence
-         * over the first and overrides its settings.
+         * Combinf two sfts of bttributfs. Tif sfdond sft ibs prfdfdfndf
+         * ovfr tif first bnd ovfrridfs its sfttings.
          */
-        private static CK_ATTRIBUTE[] combine(CK_ATTRIBUTE[] attrs1,
-                CK_ATTRIBUTE[] attrs2) {
-            List<CK_ATTRIBUTE> attrs = new ArrayList<CK_ATTRIBUTE>();
-            for (CK_ATTRIBUTE attr : attrs1) {
-                if (attr.pValue != null) {
-                    attrs.add(attr);
+        privbtf stbtid CK_ATTRIBUTE[] dombinf(CK_ATTRIBUTE[] bttrs1,
+                CK_ATTRIBUTE[] bttrs2) {
+            List<CK_ATTRIBUTE> bttrs = nfw ArrbyList<CK_ATTRIBUTE>();
+            for (CK_ATTRIBUTE bttr : bttrs1) {
+                if (bttr.pVbluf != null) {
+                    bttrs.bdd(bttr);
                 }
             }
-            for (CK_ATTRIBUTE attr2 : attrs2) {
-                long type = attr2.type;
-                for (CK_ATTRIBUTE attr1 : attrs1) {
-                    if (attr1.type == type) {
-                        attrs.remove(attr1);
+            for (CK_ATTRIBUTE bttr2 : bttrs2) {
+                long typf = bttr2.typf;
+                for (CK_ATTRIBUTE bttr1 : bttrs1) {
+                    if (bttr1.typf == typf) {
+                        bttrs.rfmovf(bttr1);
                     }
                 }
-                if (attr2.pValue != null) {
-                    attrs.add(attr2);
+                if (bttr2.pVbluf != null) {
+                    bttrs.bdd(bttr2);
                 }
             }
-            return attrs.toArray(A0);
+            rfturn bttrs.toArrby(A0);
         }
 
-        public String toString() {
-            return Arrays.asList(attributes).toString();
+        publid String toString() {
+            rfturn Arrbys.bsList(bttributfs).toString();
         }
 
     }

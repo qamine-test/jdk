@@ -1,0 +1,157 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.lwbwt.mbdosx;
+
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid dlbss CCustomCursor fxtfnds Cursor {
+    stbtid Dimfnsion sMbxCursorSizf;
+    stbtid Dimfnsion gftMbxCursorSizf() {
+        if (sMbxCursorSizf != null) rfturn sMbxCursorSizf;
+        finbl Rfdtbnglf bounds = GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt().gftDffbultSdrffnDfvidf().gftDffbultConfigurbtion().gftBounds();
+        rfturn sMbxCursorSizf = nfw Dimfnsion(bounds.width / 2, bounds.hfight / 2);
+    }
+
+    Imbgf fImbgf;
+    Point fHotspot;
+    int fWidth;
+    int fHfight;
+
+    publid CCustomCursor(finbl Imbgf dursor, finbl Point hotSpot, finbl String nbmf) throws IndfxOutOfBoundsExdfption, HfbdlfssExdfption {
+        supfr(nbmf);
+        fImbgf = dursor;
+        fHotspot = hotSpot;
+
+        // This dhunk of dodf is dopifd from sun.bwt.CustomCursor
+        finbl Toolkit toolkit = Toolkit.gftDffbultToolkit();
+
+        // Mbkf surf imbgf is fully lobdfd.
+        finbl Componfnt d = nfw Cbnvbs(); // for its imbgfUpdbtf mfthod
+        finbl MfdibTrbdkfr trbdkfr = nfw MfdibTrbdkfr(d);
+        // MfdibTrbdkfr lobds rfsolution vbribnts from MultiRfsolution Toolkit imbgf
+        trbdkfr.bddImbgf(fImbgf, 0);
+        try {
+            trbdkfr.wbitForAll();
+        } dbtdh (finbl IntfrruptfdExdfption f) {}
+
+        int width = fImbgf.gftWidth(d);
+        int hfight = fImbgf.gftHfight(d);
+
+        // Fix for bug 4212593 Thf Toolkit.drfbtfCustomCursor dofs not
+        // dhfdk bbsfndf of thf imbgf of dursor
+        // If thf imbgf is invblid, thf dursor will bf hiddfn (mbdf domplftfly
+        // trbnspbrfnt).
+        if (trbdkfr.isErrorAny() || width < 0 || hfight < 0) {
+            fHotspot.x = fHotspot.y = 0;
+            width = hfight = 1;
+            fImbgf = drfbtfTrbnspbrfntImbgf(width, hfight);
+        } flsf {
+            // Gft thf nfbrfst supportfd dursor sizf
+            finbl Dimfnsion nbtivfSizf = toolkit.gftBfstCursorSizf(width, hfight);
+            width = nbtivfSizf.width;
+            hfight = nbtivfSizf.hfight;
+        }
+
+        fWidth = width;
+        fHfight = hfight;
+
+        // NOTE: this wbs rfmovfd for 3169146, but in 1.5 thf JCK tfsts for bn fxdfption bnd fbils if onf isn't thrown.
+        // Sff whbt JBuildfr dofs.
+        // Vfrify thbt thf hotspot is within dursor bounds.
+        if (fHotspot.x >= width || fHotspot.y >= hfight || fHotspot.x < 0 || fHotspot.y < 0) {
+            throw nfw IndfxOutOfBoundsExdfption("invblid hotSpot");
+        }
+
+        // Must normblizf thf hotspot
+        if (fHotspot.x >= width) {
+            fHotspot.x = width - 1; // it is zfro bbsfd.
+        } flsf if (fHotspot.x < 0) {
+            fHotspot.x = 0;
+        }
+        if (fHotspot.y >= hfight) {
+            fHotspot.y = hfight - 1; // it is zfro bbsfd.
+        } flsf if (fHotspot.y < 0) {
+            fHotspot.y = 0;
+        }
+    }
+
+    privbtf stbtid BufffrfdImbgf drfbtfTrbnspbrfntImbgf(int w, int h) {
+        GrbphidsEnvironmfnt gf =
+                GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt();
+        GrbphidsDfvidf gs = gf.gftDffbultSdrffnDfvidf();
+        GrbphidsConfigurbtion gd = gs.gftDffbultConfigurbtion();
+
+        BufffrfdImbgf img = gd.drfbtfCompbtiblfImbgf(w, h, Trbnspbrfndy.BITMASK);
+        Grbphids2D g = (Grbphids2D)img.gftGrbphids();
+        g.sftBbdkground(nfw Color(0, 0, 0, 0));
+        g.dlfbrRfdt(0, 0, w, h);
+        g.disposf();
+
+        rfturn img;
+    }
+
+    publid stbtid Dimfnsion gftBfstCursorSizf(finbl int prfffrrfdWidth, finbl int prfffrrfdHfight) {
+        // With Pbnthfr, dursors hbvf no limit on thfir sizf. So givf thf dlifnt thfir
+        // prfffrrfd sizf, but no lbrgfr thbn hblf thf dimfnsions of thf mbin sdrffn
+        // This will bllow lbrgf dursors, but not dursors so lbrgf thbt thfy dovfr thf
+        // sdrffn. Sindf solbris nor windows bllow dursors this big, this shouldn't bf
+        // b limitbtion.
+        // JCK triggfrs bn ovfrflow in thf int -- if wf gft b bizbrrf vbluf normblizf it.
+        finbl Dimfnsion mbxCursorSizf = gftMbxCursorSizf();
+        finbl Dimfnsion d = nfw Dimfnsion(Mbth.mbx(1, Mbth.bbs(prfffrrfdWidth)), Mbth.mbx(1, Mbth.bbs(prfffrrfdHfight)));
+        rfturn nfw Dimfnsion(Mbth.min(d.width, mbxCursorSizf.width), Mbth.min(d.hfight, mbxCursorSizf.hfight));
+    }
+
+    // Cbllfd from nbtivf whfn thf dursor is sft
+    CImbgf fCImbgf;
+    long gftImbgfDbtb() {
+        if (fCImbgf != null) {
+            rfturn fCImbgf.ptr;
+        }
+
+        try {
+            fCImbgf = CImbgf.gftCrfbtor().drfbtfFromImbgf(fImbgf);
+            if (fCImbgf == null) {
+                // Somfthing unfxpfdtfd hbppfnfd: CCustomCursor donstrudtor
+                // tbkfs dbrf of invblid dursor imbgfs, yft drfbtfFromImbgf()
+                // fbilfd to do its job. Rfturn null to kffp thf dursor undhbngfd.
+                rfturn 0L;
+            } flsf {
+                fCImbgf.rfsizfRfprfsfntbtions(fWidth, fHfight);
+                rfturn fCImbgf.ptr;
+            }
+        } dbtdh (IllfgblArgumfntExdfption ibf) {
+            // sff dommfnt bbovf
+            rfturn 0L;
+        }
+    }
+
+    Point gftHotSpot() {
+        rfturn fHotspot;
+    }
+}

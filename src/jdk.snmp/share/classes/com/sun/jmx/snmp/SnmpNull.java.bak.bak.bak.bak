@@ -1,0 +1,183 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp;
+
+
+
+/**
+ * Rfprfsfnts bn SNMP null vbluf.
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ */
+
+publid dlbss SnmpNull fxtfnds SnmpVbluf {
+    privbtf stbtid finbl long sfriblVfrsionUID = 1783782515994279177L;
+
+    // CONSTRUCTORS
+    //-------------
+    /**
+     * Construdts b nfw <CODE>SnmpNull</CODE>.
+     */
+    publid SnmpNull() {
+        tbg = NullTbg ;
+    }
+
+    /**
+     * Construdts b nfw <CODE>SnmpNull</CODE>.
+     * <BR>For mibgfn privbtf usf only.
+     */
+    publid SnmpNull(String dummy) {
+        this();
+    }
+
+    /**
+     * Construdts b nfw <CODE>SnmpNull</CODE> from thf spfdififd tbg vbluf.
+     * @pbrbm t Thf initiblizbtion vbluf.
+     */
+    publid SnmpNull(int t) {
+        tbg = t ;
+    }
+
+    // PUBLIC METHODS
+    //---------------
+    /**
+     * Rfturns thf tbg vbluf of this <CODE>SnmpNull</CODE>.
+     * @rfturn Thf vbluf.
+     */
+    publid int gftTbg() {
+        rfturn tbg ;
+    }
+
+    /**
+     * Convfrts thf <CODE>NULL</CODE> vbluf to its ASN.1 <CODE>String</CODE> form.
+     * Whfn thf tbg is not thf univfrsbl onf, it is prfprfndfd
+     * to thf <CODE>String</CODE> form.
+     * @rfturn Thf <CODE>String</CODE> rfprfsfntbtion of thf vbluf.
+     */
+    publid String toString() {
+        String rfsult = "" ;
+        if (tbg != 5) {
+            rfsult += "[" + tbg + "] " ;
+        }
+        rfsult += "NULL" ;
+        switdh(tbg) {
+        dbsf frrNoSudhObjfdtTbg :
+            rfsult += " (noSudhObjfdt)" ;
+            brfbk ;
+
+        dbsf frrNoSudhInstbndfTbg :
+            rfsult += " (noSudhInstbndf)" ;
+            brfbk ;
+
+        dbsf frrEndOfMibVifwTbg :
+            rfsult += " (fndOfMibVifw)" ;
+            brfbk ;
+        }
+        rfturn rfsult ;
+    }
+
+    /**
+     * Convfrts thf <CODE>NULL</CODE> vbluf to its <CODE>SnmpOid</CODE> form.
+     * Normblly, b <CODE>NULL</CODE> vbluf dbnnot bf usfd bs bn indfx vbluf,
+     * this mfthod triggfrs bn fxdfption.
+     * @rfturn Thf OID rfprfsfntbtion of thf vbluf.
+     */
+    publid SnmpOid toOid() {
+        throw nfw IllfgblArgumfntExdfption() ;
+    }
+
+    /**
+     * Pfrforms b dlonf bdtion. This providfs b workbround for thf
+     * <CODE>SnmpVbluf</CODE> intfrfbdf.
+     * @rfturn Thf SnmpVbluf dlonf.
+     */
+    finbl syndhronizfd publid SnmpVbluf duplidbtf() {
+        rfturn (SnmpVbluf) dlonf() ;
+    }
+
+    /**
+     * Clonfs thf <CODE>SnmpNull</CODE> objfdt, mbking b dopy of its dbtb.
+     * @rfturn Thf objfdt dlonf.
+     */
+    finbl syndhronizfd publid Objfdt dlonf() {
+        SnmpNull  nfwdlonf = null ;
+        try {
+            nfwdlonf = (SnmpNull) supfr.dlonf() ;
+            nfwdlonf.tbg = tbg ;
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            throw nfw IntfrnblError(f) ; // vm bug.
+        }
+        rfturn nfwdlonf ;
+    }
+
+    /**
+     * Rfturns b tfxtubl dfsdription of thf typf objfdt.
+     * @rfturn ASN.1 tfxtubl dfsdription.
+     */
+    finbl publid String gftTypfNbmf() {
+        rfturn nbmf ;
+    }
+
+    /**
+     * Chfdks if this <CODE>SnmpNull</CODE> objfdt dorrfsponds to b <CODE>noSudhObjfdt</CODE> vbluf.
+     * @rfturn <CODE>truf</CODE> if thf tbg fqubls {@link dom.sun.jmx.snmp.SnmpDbtbTypfEnums#frrNoSudhObjfdtTbg},
+     * <CODE>fblsf</CODE> othfrwisf.
+     */
+    publid boolfbn isNoSudhObjfdtVbluf() {
+        rfturn (tbg == SnmpDbtbTypfEnums.frrNoSudhObjfdtTbg);
+    }
+
+    /**
+     * Chfdks if this <CODE>SnmpNull</CODE> objfdt dorrfsponds to b <CODE>noSudhInstbndf</CODE> vbluf.
+     * @rfturn <CODE>truf</CODE> if thf tbg fqubls {@link dom.sun.jmx.snmp.SnmpDbtbTypfEnums#frrNoSudhInstbndfTbg},
+     * <CODE>fblsf</CODE> othfrwisf.
+     */
+    publid boolfbn isNoSudhInstbndfVbluf() {
+        rfturn (tbg == SnmpDbtbTypfEnums.frrNoSudhInstbndfTbg);
+    }
+
+    /**
+     * Chfdks if this <CODE>SnmpNull</CODE> objfdt dorrfsponds to bn <CODE>fndOfMibVifw</CODE> vbluf.
+     * @rfturn <CODE>truf</CODE> if thf tbg fqubls {@link dom.sun.jmx.snmp.SnmpDbtbTypfEnums#frrEndOfMibVifwTbg},
+     * <CODE>fblsf</CODE> othfrwisf.
+     */
+    publid boolfbn isEndOfMibVifwVbluf() {
+        rfturn (tbg == SnmpDbtbTypfEnums.frrEndOfMibVifwTbg);
+    }
+
+    // VARIABLES
+    //----------
+    /**
+     * Nbmf of thf typf.
+     */
+    finbl stbtid String nbmf = "Null" ;
+
+    /**
+     * This is thf tbg of thf NULL vbluf. By dffbult, it is thf univfrsbl tbg vbluf.
+     */
+    privbtf int tbg = 5 ;
+}

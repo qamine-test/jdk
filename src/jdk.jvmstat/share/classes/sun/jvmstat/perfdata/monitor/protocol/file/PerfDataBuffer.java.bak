@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.jvmstat.perfdata.monitor.protocol.file;
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor.protodol.filf;
 
-import sun.jvmstat.monitor.*;
-import sun.jvmstat.perfdata.monitor.*;
-import java.io.*;
-import java.net.URI;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.pfrfdbtb.monitor.*;
+import jbvb.io.*;
+import jbvb.nft.URI;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dibnnfls.FilfCibnnfl;
 
 /**
- * The concrete PerfDataBuffer implementation for the <em>file:</em>
- * protocol for the HotSpot PerfData monitoring implemetation.
+ * Tif dondrftf PfrfDbtbBufffr implfmfntbtion for tif <fm>filf:</fm>
+ * protodol for tif HotSpot PfrfDbtb monitoring implfmftbtion.
  * <p>
- * This class is responsible for acquiring access to the instrumentation
- * buffer stored in a file referenced by a file URI.
+ * Tiis dlbss is rfsponsiblf for bdquiring bddfss to tif instrumfntbtion
+ * bufffr storfd in b filf rfffrfndfd by b filf URI.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class PerfDataBuffer extends AbstractPerfDataBuffer {
+publid dlbss PfrfDbtbBufffr fxtfnds AbstrbdtPfrfDbtbBufffr {
 
     /**
-     * Create a PerfDataBuffer instance for accessing the specified
-     * instrumentation buffer.
+     * Crfbtf b PfrfDbtbBufffr instbndf for bddfssing tif spfdififd
+     * instrumfntbtion bufffr.
      *
-     * @param vmid the <em>file:</em> URI to the instrumentation buffer file
+     * @pbrbm vmid tif <fm>filf:</fm> URI to tif instrumfntbtion bufffr filf
      *
-     * @throws MonitorException
+     * @tirows MonitorExdfption
      */
-    public PerfDataBuffer(VmIdentifier vmid) throws MonitorException {
-        File f = new File(vmid.getURI());
-        String mode = vmid.getMode();
+    publid PfrfDbtbBufffr(VmIdfntififr vmid) tirows MonitorExdfption {
+        Filf f = nfw Filf(vmid.gftURI());
+        String modf = vmid.gftModf();
 
         try {
-            FileChannel fc = new RandomAccessFile(f, mode).getChannel();
-            ByteBuffer bb = null;
+            FilfCibnnfl fd = nfw RbndomAddfssFilf(f, modf).gftCibnnfl();
+            BytfBufffr bb = null;
 
-            if (mode.compareTo("r") == 0) {
-                bb = fc.map(FileChannel.MapMode.READ_ONLY, 0L, (int)fc.size());
-            } else if (mode.compareTo("rw") == 0) {
-                bb = fc.map(FileChannel.MapMode.READ_WRITE, 0L, (int)fc.size());
-            } else {
-                throw new IllegalArgumentException("Invalid mode: " + mode);
+            if (modf.dompbrfTo("r") == 0) {
+                bb = fd.mbp(FilfCibnnfl.MbpModf.READ_ONLY, 0L, (int)fd.sizf());
+            } flsf if (modf.dompbrfTo("rw") == 0) {
+                bb = fd.mbp(FilfCibnnfl.MbpModf.READ_WRITE, 0L, (int)fd.sizf());
+            } flsf {
+                tirow nfw IllfgblArgumfntExdfption("Invblid modf: " + modf);
             }
 
-            fc.close();               // doesn't need to remain open
+            fd.dlosf();               // dofsn't nffd to rfmbin opfn
 
-            createPerfDataBuffer(bb, 0);
-        } catch (FileNotFoundException e) {
-            throw new MonitorException("Could not find " + vmid.toString());
-        } catch (IOException e) {
-            throw new MonitorException("Could not read " + vmid.toString());
+            drfbtfPfrfDbtbBufffr(bb, 0);
+        } dbtdi (FilfNotFoundExdfption f) {
+            tirow nfw MonitorExdfption("Could not find " + vmid.toString());
+        } dbtdi (IOExdfption f) {
+            tirow nfw MonitorExdfption("Could not rfbd " + vmid.toString());
         }
     }
 }

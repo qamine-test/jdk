@@ -1,609 +1,609 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.signature;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
 
-import javax.xml.parsers.ParserConfigurationException;
+import jbvbx.xml.pbrsfrs.PbrsfrConfigurbtionExdfption;
 
-import com.sun.org.apache.xml.internal.security.c14n.CanonicalizationException;
-import com.sun.org.apache.xml.internal.security.c14n.InvalidCanonicalizerException;
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.transforms.Transforms;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.I18n;
-import com.sun.org.apache.xml.internal.security.utils.SignatureElementProxy;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolver;
-import com.sun.org.apache.xml.internal.security.utils.resolver.ResourceResolverSpi;
-import org.w3c.dom.Attr;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.CbnonidblizbtionExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n.InvblidCbnonidblizfrExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.trbnsforms.Trbnsforms;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.I18n;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.SignbturfElfmfntProxy;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfr;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.rfsolvfr.RfsourdfRfsolvfrSpi;
+import org.w3d.dom.Attr;
+import org.w3d.dom.DOMExdfption;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+import org.xml.sbx.SAXExdfption;
 
 /**
- * Handles <code>&lt;ds:Manifest&gt;</code> elements.
- * <p> This element holds the <code>Reference</code> elements</p>
+ * Hbndlfs <dodf>&lt;ds:Mbniffst&gt;</dodf> flfmfnts.
+ * <p> Tiis flfmfnt iolds tif <dodf>Rfffrfndf</dodf> flfmfnts</p>
  */
-public class Manifest extends SignatureElementProxy {
+publid dlbss Mbniffst fxtfnds SignbturfElfmfntProxy {
 
     /**
-     * The maximum number of references per Manifest, if secure validation is enabled.
+     * Tif mbximum numbfr of rfffrfndfs pfr Mbniffst, if sfdurf vblidbtion is fnbblfd.
      */
-    public static final int MAXIMUM_REFERENCE_COUNT = 30;
+    publid stbtid finbl int MAXIMUM_REFERENCE_COUNT = 30;
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(Manifest.class.getName());
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(Mbniffst.dlbss.gftNbmf());
 
-    /** Field references */
-    private List<Reference> references;
-    private Element[] referencesEl;
+    /** Fifld rfffrfndfs */
+    privbtf List<Rfffrfndf> rfffrfndfs;
+    privbtf Elfmfnt[] rfffrfndfsEl;
 
-    /** Field verificationResults[] */
-    private boolean verificationResults[] = null;
+    /** Fifld vfrifidbtionRfsults[] */
+    privbtf boolfbn vfrifidbtionRfsults[] = null;
 
-    /** Field resolverProperties */
-    private Map<String, String> resolverProperties = null;
+    /** Fifld rfsolvfrPropfrtifs */
+    privbtf Mbp<String, String> rfsolvfrPropfrtifs = null;
 
-    /** Field perManifestResolvers */
-    private List<ResourceResolver> perManifestResolvers = null;
+    /** Fifld pfrMbniffstRfsolvfrs */
+    privbtf List<RfsourdfRfsolvfr> pfrMbniffstRfsolvfrs = null;
 
-    private boolean secureValidation;
+    privbtf boolfbn sfdurfVblidbtion;
 
     /**
-     * Constructs {@link Manifest}
+     * Construdts {@link Mbniffst}
      *
-     * @param doc the {@link Document} in which <code>XMLsignature</code> is placed
+     * @pbrbm dod tif {@link Dodumfnt} in wiidi <dodf>XMLsignbturf</dodf> is plbdfd
      */
-    public Manifest(Document doc) {
-        super(doc);
+    publid Mbniffst(Dodumfnt dod) {
+        supfr(dod);
 
-        XMLUtils.addReturnToElement(this.constructionElement);
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
 
-        this.references = new ArrayList<Reference>();
+        tiis.rfffrfndfs = nfw ArrbyList<Rfffrfndf>();
     }
 
     /**
-     * Constructor Manifest
+     * Construdtor Mbniffst
      *
-     * @param element
-     * @param baseURI
-     * @throws XMLSecurityException
+     * @pbrbm flfmfnt
+     * @pbrbm bbsfURI
+     * @tirows XMLSfdurityExdfption
      */
-    public Manifest(Element element, String baseURI) throws XMLSecurityException {
-        this(element, baseURI, false);
+    publid Mbniffst(Elfmfnt flfmfnt, String bbsfURI) tirows XMLSfdurityExdfption {
+        tiis(flfmfnt, bbsfURI, fblsf);
 
     }
     /**
-     * Constructor Manifest
+     * Construdtor Mbniffst
      *
-     * @param element
-     * @param baseURI
-     * @param secureValidation
-     * @throws XMLSecurityException
+     * @pbrbm flfmfnt
+     * @pbrbm bbsfURI
+     * @pbrbm sfdurfVblidbtion
+     * @tirows XMLSfdurityExdfption
      */
-    public Manifest(
-        Element element, String baseURI, boolean secureValidation
-    ) throws XMLSecurityException {
-        super(element, baseURI);
+    publid Mbniffst(
+        Elfmfnt flfmfnt, String bbsfURI, boolfbn sfdurfVblidbtion
+    ) tirows XMLSfdurityExdfption {
+        supfr(flfmfnt, bbsfURI);
 
-        Attr attr = element.getAttributeNodeNS(null, "Id");
-        if (attr != null) {
-            element.setIdAttributeNode(attr, true);
+        Attr bttr = flfmfnt.gftAttributfNodfNS(null, "Id");
+        if (bttr != null) {
+            flfmfnt.sftIdAttributfNodf(bttr, truf);
         }
-        this.secureValidation = secureValidation;
+        tiis.sfdurfVblidbtion = sfdurfVblidbtion;
 
-        // check out Reference children
-        this.referencesEl =
-            XMLUtils.selectDsNodes(
-                this.constructionElement.getFirstChild(), Constants._TAG_REFERENCE
+        // difdk out Rfffrfndf diildrfn
+        tiis.rfffrfndfsEl =
+            XMLUtils.sflfdtDsNodfs(
+                tiis.donstrudtionElfmfnt.gftFirstCiild(), Constbnts._TAG_REFERENCE
             );
-        int le = this.referencesEl.length;
-        if (le == 0) {
-            // At least one Reference must be present. Bad.
-            Object exArgs[] = { Constants._TAG_REFERENCE, Constants._TAG_MANIFEST };
+        int lf = tiis.rfffrfndfsEl.lfngti;
+        if (lf == 0) {
+            // At lfbst onf Rfffrfndf must bf prfsfnt. Bbd.
+            Objfdt fxArgs[] = { Constbnts._TAG_REFERENCE, Constbnts._TAG_MANIFEST };
 
-            throw new DOMException(DOMException.WRONG_DOCUMENT_ERR,
-                                   I18n.translate("xml.WrongContent", exArgs));
+            tirow nfw DOMExdfption(DOMExdfption.WRONG_DOCUMENT_ERR,
+                                   I18n.trbnslbtf("xml.WrongContfnt", fxArgs));
         }
 
-        if (secureValidation && le > MAXIMUM_REFERENCE_COUNT) {
-            Object exArgs[] = { le, MAXIMUM_REFERENCE_COUNT };
+        if (sfdurfVblidbtion && lf > MAXIMUM_REFERENCE_COUNT) {
+            Objfdt fxArgs[] = { lf, MAXIMUM_REFERENCE_COUNT };
 
-            throw new XMLSecurityException("signature.tooManyReferences", exArgs);
+            tirow nfw XMLSfdurityExdfption("signbturf.tooMbnyRfffrfndfs", fxArgs);
         }
 
-        // create List
-        this.references = new ArrayList<Reference>(le);
+        // drfbtf List
+        tiis.rfffrfndfs = nfw ArrbyList<Rfffrfndf>(lf);
 
-        for (int i = 0; i < le; i++) {
-            Element refElem = referencesEl[i];
-            Attr refAttr = refElem.getAttributeNodeNS(null, "Id");
-            if (refAttr != null) {
-                refElem.setIdAttributeNode(refAttr, true);
+        for (int i = 0; i < lf; i++) {
+            Elfmfnt rffElfm = rfffrfndfsEl[i];
+            Attr rffAttr = rffElfm.gftAttributfNodfNS(null, "Id");
+            if (rffAttr != null) {
+                rffElfm.sftIdAttributfNodf(rffAttr, truf);
             }
-            this.references.add(null);
+            tiis.rfffrfndfs.bdd(null);
         }
     }
 
     /**
-     * This <code>addDocument</code> method is used to add a new resource to the
-     * signed info. A {@link com.sun.org.apache.xml.internal.security.signature.Reference} is built
-     * from the supplied values.
+     * Tiis <dodf>bddDodumfnt</dodf> mftiod is usfd to bdd b nfw rfsourdf to tif
+     * signfd info. A {@link dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.Rfffrfndf} is built
+     * from tif supplifd vblufs.
      *
-     * @param baseURI the URI of the resource where the XML instance was stored
-     * @param referenceURI <code>URI</code> attribute in <code>Reference</code> for specifying
-     * where data is
-     * @param transforms com.sun.org.apache.xml.internal.security.signature.Transforms object with an ordered
-     * list of transformations to be performed.
-     * @param digestURI The digest algorithm URI to be used.
-     * @param referenceId
-     * @param referenceType
-     * @throws XMLSignatureException
+     * @pbrbm bbsfURI tif URI of tif rfsourdf wifrf tif XML instbndf wbs storfd
+     * @pbrbm rfffrfndfURI <dodf>URI</dodf> bttributf in <dodf>Rfffrfndf</dodf> for spfdifying
+     * wifrf dbtb is
+     * @pbrbm trbnsforms dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.Trbnsforms objfdt witi bn ordfrfd
+     * list of trbnsformbtions to bf pfrformfd.
+     * @pbrbm digfstURI Tif digfst blgoritim URI to bf usfd.
+     * @pbrbm rfffrfndfId
+     * @pbrbm rfffrfndfTypf
+     * @tirows XMLSignbturfExdfption
      */
-    public void addDocument(
-        String baseURI, String referenceURI, Transforms transforms,
-        String digestURI, String referenceId, String referenceType
-    ) throws XMLSignatureException {
-        // the this.doc is handed implicitly by the this.getOwnerDocument()
-        Reference ref =
-            new Reference(this.doc, baseURI, referenceURI, this, transforms, digestURI);
+    publid void bddDodumfnt(
+        String bbsfURI, String rfffrfndfURI, Trbnsforms trbnsforms,
+        String digfstURI, String rfffrfndfId, String rfffrfndfTypf
+    ) tirows XMLSignbturfExdfption {
+        // tif tiis.dod is ibndfd impliditly by tif tiis.gftOwnfrDodumfnt()
+        Rfffrfndf rff =
+            nfw Rfffrfndf(tiis.dod, bbsfURI, rfffrfndfURI, tiis, trbnsforms, digfstURI);
 
-        if (referenceId != null) {
-            ref.setId(referenceId);
+        if (rfffrfndfId != null) {
+            rff.sftId(rfffrfndfId);
         }
 
-        if (referenceType != null) {
-            ref.setType(referenceType);
+        if (rfffrfndfTypf != null) {
+            rff.sftTypf(rfffrfndfTypf);
         }
 
-        // add Reference object to our cache vector
-        this.references.add(ref);
+        // bdd Rfffrfndf objfdt to our dbdif vfdtor
+        tiis.rfffrfndfs.bdd(rff);
 
-        // add the Element of the Reference object to the Manifest/SignedInfo
-        this.constructionElement.appendChild(ref.getElement());
-        XMLUtils.addReturnToElement(this.constructionElement);
+        // bdd tif Elfmfnt of tif Rfffrfndf objfdt to tif Mbniffst/SignfdInfo
+        tiis.donstrudtionElfmfnt.bppfndCiild(rff.gftElfmfnt());
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
     }
 
     /**
-     * The calculation of the DigestValues in the References must be after the
-     * References are already added to the document and during the signing
-     * process. This ensures that all necessary data is in place.
+     * Tif dbldulbtion of tif DigfstVblufs in tif Rfffrfndfs must bf bftfr tif
+     * Rfffrfndfs brf blrfbdy bddfd to tif dodumfnt bnd during tif signing
+     * prodfss. Tiis fnsurfs tibt bll nfdfssbry dbtb is in plbdf.
      *
-     * @throws ReferenceNotInitializedException
-     * @throws XMLSignatureException
+     * @tirows RfffrfndfNotInitiblizfdExdfption
+     * @tirows XMLSignbturfExdfption
      */
-    public void generateDigestValues()
-        throws XMLSignatureException, ReferenceNotInitializedException {
-        for (int i = 0; i < this.getLength(); i++) {
-            // update the cached Reference object, the Element content is automatically updated
-            Reference currentRef = this.references.get(i);
-            currentRef.generateDigestValue();
+    publid void gfnfrbtfDigfstVblufs()
+        tirows XMLSignbturfExdfption, RfffrfndfNotInitiblizfdExdfption {
+        for (int i = 0; i < tiis.gftLfngti(); i++) {
+            // updbtf tif dbdifd Rfffrfndf objfdt, tif Elfmfnt dontfnt is butombtidblly updbtfd
+            Rfffrfndf durrfntRff = tiis.rfffrfndfs.gft(i);
+            durrfntRff.gfnfrbtfDigfstVbluf();
         }
     }
 
     /**
-     * Return the nonnegative number of added references.
+     * Rfturn tif nonnfgbtivf numbfr of bddfd rfffrfndfs.
      *
-     * @return the number of references
+     * @rfturn tif numbfr of rfffrfndfs
      */
-    public int getLength() {
-        return this.references.size();
+    publid int gftLfngti() {
+        rfturn tiis.rfffrfndfs.sizf();
     }
 
     /**
-     * Return the <it>i</it><sup>th</sup> reference. Valid <code>i</code>
-     * values are 0 to <code>{link@ getSize}-1</code>.
+     * Rfturn tif <it>i</it><sup>ti</sup> rfffrfndf. Vblid <dodf>i</dodf>
+     * vblufs brf 0 to <dodf>{link@ gftSizf}-1</dodf>.
      *
-     * @param i Index of the requested {@link Reference}
-     * @return the <it>i</it><sup>th</sup> reference
-     * @throws XMLSecurityException
+     * @pbrbm i Indfx of tif rfqufstfd {@link Rfffrfndf}
+     * @rfturn tif <it>i</it><sup>ti</sup> rfffrfndf
+     * @tirows XMLSfdurityExdfption
      */
-    public Reference item(int i) throws XMLSecurityException {
-        if (this.references.get(i) == null) {
-            // not yet constructed, so _we_ have to
-            Reference ref =
-                new Reference(referencesEl[i], this.baseURI, this, secureValidation);
+    publid Rfffrfndf itfm(int i) tirows XMLSfdurityExdfption {
+        if (tiis.rfffrfndfs.gft(i) == null) {
+            // not yft donstrudtfd, so _wf_ ibvf to
+            Rfffrfndf rff =
+                nfw Rfffrfndf(rfffrfndfsEl[i], tiis.bbsfURI, tiis, sfdurfVblidbtion);
 
-            this.references.set(i, ref);
+            tiis.rfffrfndfs.sft(i, rff);
         }
 
-        return this.references.get(i);
+        rfturn tiis.rfffrfndfs.gft(i);
     }
 
     /**
-     * Sets the <code>Id</code> attribute
+     * Sfts tif <dodf>Id</dodf> bttributf
      *
-     * @param Id the <code>Id</code> attribute in <code>ds:Manifest</code>
+     * @pbrbm Id tif <dodf>Id</dodf> bttributf in <dodf>ds:Mbniffst</dodf>
      */
-    public void setId(String Id) {
+    publid void sftId(String Id) {
         if (Id != null) {
-            this.constructionElement.setAttributeNS(null, Constants._ATT_ID, Id);
-            this.constructionElement.setIdAttributeNS(null, Constants._ATT_ID, true);
+            tiis.donstrudtionElfmfnt.sftAttributfNS(null, Constbnts._ATT_ID, Id);
+            tiis.donstrudtionElfmfnt.sftIdAttributfNS(null, Constbnts._ATT_ID, truf);
         }
     }
 
     /**
-     * Returns the <code>Id</code> attribute
+     * Rfturns tif <dodf>Id</dodf> bttributf
      *
-     * @return the <code>Id</code> attribute in <code>ds:Manifest</code>
+     * @rfturn tif <dodf>Id</dodf> bttributf in <dodf>ds:Mbniffst</dodf>
      */
-    public String getId() {
-        return this.constructionElement.getAttributeNS(null, Constants._ATT_ID);
+    publid String gftId() {
+        rfturn tiis.donstrudtionElfmfnt.gftAttributfNS(null, Constbnts._ATT_ID);
     }
 
     /**
-     * Used to do a <A HREF="http://www.w3.org/TR/xmldsig-core/#def-ValidationReference">reference
-     * validation</A> of all enclosed references using the {@link Reference#verify} method.
+     * Usfd to do b <A HREF="ittp://www.w3.org/TR/xmldsig-dorf/#dff-VblidbtionRfffrfndf">rfffrfndf
+     * vblidbtion</A> of bll fndlosfd rfffrfndfs using tif {@link Rfffrfndf#vfrify} mftiod.
      *
-     * <p>This step loops through all {@link Reference}s and does verify the hash
-     * values. If one or more verifications fail, the method returns
-     * <code>false</code>. If <i>all</i> verifications are successful,
-     * it returns <code>true</code>. The results of the individual reference
-     * validations are available by using the {@link #getVerificationResult(int)} method
+     * <p>Tiis stfp loops tirougi bll {@link Rfffrfndf}s bnd dofs vfrify tif ibsi
+     * vblufs. If onf or morf vfrifidbtions fbil, tif mftiod rfturns
+     * <dodf>fblsf</dodf>. If <i>bll</i> vfrifidbtions brf suddfssful,
+     * it rfturns <dodf>truf</dodf>. Tif rfsults of tif individubl rfffrfndf
+     * vblidbtions brf bvbilbblf by using tif {@link #gftVfrifidbtionRfsult(int)} mftiod
      *
-     * @return true if all References verify, false if one or more do not verify.
-     * @throws MissingResourceFailureException if a {@link Reference} does not verify
-     * (throws a {@link com.sun.org.apache.xml.internal.security.signature.ReferenceNotInitializedException}
-     * because of an uninitialized {@link XMLSignatureInput}
-     * @see com.sun.org.apache.xml.internal.security.signature.Reference#verify
-     * @see com.sun.org.apache.xml.internal.security.signature.SignedInfo#verify()
-     * @see com.sun.org.apache.xml.internal.security.signature.MissingResourceFailureException
-     * @throws XMLSecurityException
+     * @rfturn truf if bll Rfffrfndfs vfrify, fblsf if onf or morf do not vfrify.
+     * @tirows MissingRfsourdfFbilurfExdfption if b {@link Rfffrfndf} dofs not vfrify
+     * (tirows b {@link dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.RfffrfndfNotInitiblizfdExdfption}
+     * bfdbusf of bn uninitiblizfd {@link XMLSignbturfInput}
+     * @sff dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.Rfffrfndf#vfrify
+     * @sff dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.SignfdInfo#vfrify()
+     * @sff dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.MissingRfsourdfFbilurfExdfption
+     * @tirows XMLSfdurityExdfption
      */
-    public boolean verifyReferences()
-        throws MissingResourceFailureException, XMLSecurityException {
-        return this.verifyReferences(false);
+    publid boolfbn vfrifyRfffrfndfs()
+        tirows MissingRfsourdfFbilurfExdfption, XMLSfdurityExdfption {
+        rfturn tiis.vfrifyRfffrfndfs(fblsf);
     }
 
     /**
-     * Used to do a <A HREF="http://www.w3.org/TR/xmldsig-core/#def-ValidationReference">reference
-     * validation</A> of all enclosed references using the {@link Reference#verify} method.
+     * Usfd to do b <A HREF="ittp://www.w3.org/TR/xmldsig-dorf/#dff-VblidbtionRfffrfndf">rfffrfndf
+     * vblidbtion</A> of bll fndlosfd rfffrfndfs using tif {@link Rfffrfndf#vfrify} mftiod.
      *
-     * <p>This step loops through all {@link Reference}s and does verify the hash
-     * values. If one or more verifications fail, the method returns
-     * <code>false</code>. If <i>all</i> verifications are successful,
-     * it returns <code>true</code>. The results of the individual reference
-     * validations are available by using the {@link #getVerificationResult(int)} method
+     * <p>Tiis stfp loops tirougi bll {@link Rfffrfndf}s bnd dofs vfrify tif ibsi
+     * vblufs. If onf or morf vfrifidbtions fbil, tif mftiod rfturns
+     * <dodf>fblsf</dodf>. If <i>bll</i> vfrifidbtions brf suddfssful,
+     * it rfturns <dodf>truf</dodf>. Tif rfsults of tif individubl rfffrfndf
+     * vblidbtions brf bvbilbblf by using tif {@link #gftVfrifidbtionRfsult(int)} mftiod
      *
-     * @param followManifests
-     * @return true if all References verify, false if one or more do not verify.
-     * @throws MissingResourceFailureException if a {@link Reference} does not verify
-     * (throws a {@link com.sun.org.apache.xml.internal.security.signature.ReferenceNotInitializedException}
-     * because of an uninitialized {@link XMLSignatureInput}
-     * @see com.sun.org.apache.xml.internal.security.signature.Reference#verify
-     * @see com.sun.org.apache.xml.internal.security.signature.SignedInfo#verify(boolean)
-     * @see com.sun.org.apache.xml.internal.security.signature.MissingResourceFailureException
-     * @throws XMLSecurityException
+     * @pbrbm followMbniffsts
+     * @rfturn truf if bll Rfffrfndfs vfrify, fblsf if onf or morf do not vfrify.
+     * @tirows MissingRfsourdfFbilurfExdfption if b {@link Rfffrfndf} dofs not vfrify
+     * (tirows b {@link dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.RfffrfndfNotInitiblizfdExdfption}
+     * bfdbusf of bn uninitiblizfd {@link XMLSignbturfInput}
+     * @sff dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.Rfffrfndf#vfrify
+     * @sff dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.SignfdInfo#vfrify(boolfbn)
+     * @sff dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.MissingRfsourdfFbilurfExdfption
+     * @tirows XMLSfdurityExdfption
      */
-    public boolean verifyReferences(boolean followManifests)
-        throws MissingResourceFailureException, XMLSecurityException {
-        if (referencesEl == null) {
-            this.referencesEl =
-                XMLUtils.selectDsNodes(
-                    this.constructionElement.getFirstChild(), Constants._TAG_REFERENCE
+    publid boolfbn vfrifyRfffrfndfs(boolfbn followMbniffsts)
+        tirows MissingRfsourdfFbilurfExdfption, XMLSfdurityExdfption {
+        if (rfffrfndfsEl == null) {
+            tiis.rfffrfndfsEl =
+                XMLUtils.sflfdtDsNodfs(
+                    tiis.donstrudtionElfmfnt.gftFirstCiild(), Constbnts._TAG_REFERENCE
                 );
         }
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "verify " + referencesEl.length + " References");
-            log.log(java.util.logging.Level.FINE, "I am " + (followManifests
-                ? "" : "not") + " requested to follow nested Manifests");
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "vfrify " + rfffrfndfsEl.lfngti + " Rfffrfndfs");
+            log.log(jbvb.util.logging.Lfvfl.FINE, "I bm " + (followMbniffsts
+                ? "" : "not") + " rfqufstfd to follow nfstfd Mbniffsts");
         }
-        if (referencesEl.length == 0) {
-            throw new XMLSecurityException("empty");
+        if (rfffrfndfsEl.lfngti == 0) {
+            tirow nfw XMLSfdurityExdfption("fmpty");
         }
-        if (secureValidation && referencesEl.length > MAXIMUM_REFERENCE_COUNT) {
-            Object exArgs[] = { referencesEl.length, MAXIMUM_REFERENCE_COUNT };
+        if (sfdurfVblidbtion && rfffrfndfsEl.lfngti > MAXIMUM_REFERENCE_COUNT) {
+            Objfdt fxArgs[] = { rfffrfndfsEl.lfngti, MAXIMUM_REFERENCE_COUNT };
 
-            throw new XMLSecurityException("signature.tooManyReferences", exArgs);
+            tirow nfw XMLSfdurityExdfption("signbturf.tooMbnyRfffrfndfs", fxArgs);
         }
 
-        this.verificationResults = new boolean[referencesEl.length];
-        boolean verify = true;
-        for (int i = 0; i < this.referencesEl.length; i++) {
-            Reference currentRef =
-                new Reference(referencesEl[i], this.baseURI, this, secureValidation);
+        tiis.vfrifidbtionRfsults = nfw boolfbn[rfffrfndfsEl.lfngti];
+        boolfbn vfrify = truf;
+        for (int i = 0; i < tiis.rfffrfndfsEl.lfngti; i++) {
+            Rfffrfndf durrfntRff =
+                nfw Rfffrfndf(rfffrfndfsEl[i], tiis.bbsfURI, tiis, sfdurfVblidbtion);
 
-            this.references.set(i, currentRef);
+            tiis.rfffrfndfs.sft(i, durrfntRff);
 
-            // if only one item does not verify, the whole verification fails
+            // if only onf itfm dofs not vfrify, tif wiolf vfrifidbtion fbils
             try {
-                boolean currentRefVerified = currentRef.verify();
+                boolfbn durrfntRffVfrififd = durrfntRff.vfrify();
 
-                this.setVerificationResult(i, currentRefVerified);
+                tiis.sftVfrifidbtionRfsult(i, durrfntRffVfrififd);
 
-                if (!currentRefVerified) {
-                    verify = false;
+                if (!durrfntRffVfrififd) {
+                    vfrify = fblsf;
                 }
-                if (log.isLoggable(java.util.logging.Level.FINE)) {
-                    log.log(java.util.logging.Level.FINE, "The Reference has Type " + currentRef.getType());
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "Tif Rfffrfndf ibs Typf " + durrfntRff.gftTypf());
                 }
 
-                // was verification successful till now and do we want to verify the Manifest?
-                if (verify && followManifests && currentRef.typeIsReferenceToManifest()) {
-                    if (log.isLoggable(java.util.logging.Level.FINE)) {
-                        log.log(java.util.logging.Level.FINE, "We have to follow a nested Manifest");
+                // wbs vfrifidbtion suddfssful till now bnd do wf wbnt to vfrify tif Mbniffst?
+                if (vfrify && followMbniffsts && durrfntRff.typfIsRfffrfndfToMbniffst()) {
+                    if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                        log.log(jbvb.util.logging.Lfvfl.FINE, "Wf ibvf to follow b nfstfd Mbniffst");
                     }
 
                     try {
-                        XMLSignatureInput signedManifestNodes =
-                            currentRef.dereferenceURIandPerformTransforms(null);
-                        Set<Node> nl = signedManifestNodes.getNodeSet();
-                        Manifest referencedManifest = null;
-                        Iterator<Node> nlIterator = nl.iterator();
+                        XMLSignbturfInput signfdMbniffstNodfs =
+                            durrfntRff.dfrfffrfndfURIbndPfrformTrbnsforms(null);
+                        Sft<Nodf> nl = signfdMbniffstNodfs.gftNodfSft();
+                        Mbniffst rfffrfndfdMbniffst = null;
+                        Itfrbtor<Nodf> nlItfrbtor = nl.itfrbtor();
 
-                        findManifest: while (nlIterator.hasNext()) {
-                            Node n = nlIterator.next();
+                        findMbniffst: wiilf (nlItfrbtor.ibsNfxt()) {
+                            Nodf n = nlItfrbtor.nfxt();
 
-                            if ((n.getNodeType() == Node.ELEMENT_NODE)
-                                && ((Element) n).getNamespaceURI().equals(Constants.SignatureSpecNS)
-                                && ((Element) n).getLocalName().equals(Constants._TAG_MANIFEST)
+                            if ((n.gftNodfTypf() == Nodf.ELEMENT_NODE)
+                                && ((Elfmfnt) n).gftNbmfspbdfURI().fqubls(Constbnts.SignbturfSpfdNS)
+                                && ((Elfmfnt) n).gftLodblNbmf().fqubls(Constbnts._TAG_MANIFEST)
                             ) {
                                 try {
-                                    referencedManifest =
-                                        new Manifest(
-                                             (Element)n, signedManifestNodes.getSourceURI(), secureValidation
+                                    rfffrfndfdMbniffst =
+                                        nfw Mbniffst(
+                                             (Elfmfnt)n, signfdMbniffstNodfs.gftSourdfURI(), sfdurfVblidbtion
                                         );
-                                    break findManifest;
-                                } catch (XMLSecurityException ex) {
-                                    if (log.isLoggable(java.util.logging.Level.FINE)) {
-                                        log.log(java.util.logging.Level.FINE, ex.getMessage(), ex);
+                                    brfbk findMbniffst;
+                                } dbtdi (XMLSfdurityExdfption fx) {
+                                    if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                                        log.log(jbvb.util.logging.Lfvfl.FINE, fx.gftMfssbgf(), fx);
                                     }
-                                    // Hm, seems not to be a ds:Manifest
+                                    // Hm, sffms not to bf b ds:Mbniffst
                                 }
                             }
                         }
 
-                        if (referencedManifest == null) {
-                            // The Reference stated that it points to a ds:Manifest
-                            // but we did not find a ds:Manifest in the signed area
-                            throw new MissingResourceFailureException("empty", currentRef);
+                        if (rfffrfndfdMbniffst == null) {
+                            // Tif Rfffrfndf stbtfd tibt it points to b ds:Mbniffst
+                            // but wf did not find b ds:Mbniffst in tif signfd brfb
+                            tirow nfw MissingRfsourdfFbilurfExdfption("fmpty", durrfntRff);
                         }
 
-                        referencedManifest.perManifestResolvers = this.perManifestResolvers;
-                        referencedManifest.resolverProperties = this.resolverProperties;
+                        rfffrfndfdMbniffst.pfrMbniffstRfsolvfrs = tiis.pfrMbniffstRfsolvfrs;
+                        rfffrfndfdMbniffst.rfsolvfrPropfrtifs = tiis.rfsolvfrPropfrtifs;
 
-                        boolean referencedManifestValid =
-                            referencedManifest.verifyReferences(followManifests);
+                        boolfbn rfffrfndfdMbniffstVblid =
+                            rfffrfndfdMbniffst.vfrifyRfffrfndfs(followMbniffsts);
 
-                        if (!referencedManifestValid) {
-                            verify = false;
+                        if (!rfffrfndfdMbniffstVblid) {
+                            vfrify = fblsf;
 
-                            log.log(java.util.logging.Level.WARNING, "The nested Manifest was invalid (bad)");
-                        } else {
-                            if (log.isLoggable(java.util.logging.Level.FINE)) {
-                                log.log(java.util.logging.Level.FINE, "The nested Manifest was valid (good)");
+                            log.log(jbvb.util.logging.Lfvfl.WARNING, "Tif nfstfd Mbniffst wbs invblid (bbd)");
+                        } flsf {
+                            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                                log.log(jbvb.util.logging.Lfvfl.FINE, "Tif nfstfd Mbniffst wbs vblid (good)");
                             }
                         }
-                    } catch (IOException ex) {
-                        throw new ReferenceNotInitializedException("empty", ex);
-                    } catch (ParserConfigurationException ex) {
-                        throw new ReferenceNotInitializedException("empty", ex);
-                    } catch (SAXException ex) {
-                        throw new ReferenceNotInitializedException("empty", ex);
+                    } dbtdi (IOExdfption fx) {
+                        tirow nfw RfffrfndfNotInitiblizfdExdfption("fmpty", fx);
+                    } dbtdi (PbrsfrConfigurbtionExdfption fx) {
+                        tirow nfw RfffrfndfNotInitiblizfdExdfption("fmpty", fx);
+                    } dbtdi (SAXExdfption fx) {
+                        tirow nfw RfffrfndfNotInitiblizfdExdfption("fmpty", fx);
                     }
                 }
-            } catch (ReferenceNotInitializedException ex) {
-                Object exArgs[] = { currentRef.getURI() };
+            } dbtdi (RfffrfndfNotInitiblizfdExdfption fx) {
+                Objfdt fxArgs[] = { durrfntRff.gftURI() };
 
-                throw new MissingResourceFailureException(
-                    "signature.Verification.Reference.NoInput", exArgs, ex, currentRef
+                tirow nfw MissingRfsourdfFbilurfExdfption(
+                    "signbturf.Vfrifidbtion.Rfffrfndf.NoInput", fxArgs, fx, durrfntRff
                 );
             }
         }
 
-        return verify;
+        rfturn vfrify;
     }
 
     /**
-     * Method setVerificationResult
+     * Mftiod sftVfrifidbtionRfsult
      *
-     * @param index
-     * @param verify
+     * @pbrbm indfx
+     * @pbrbm vfrify
      */
-    private void setVerificationResult(int index, boolean verify) {
-        if (this.verificationResults == null) {
-            this.verificationResults = new boolean[this.getLength()];
+    privbtf void sftVfrifidbtionRfsult(int indfx, boolfbn vfrify) {
+        if (tiis.vfrifidbtionRfsults == null) {
+            tiis.vfrifidbtionRfsults = nfw boolfbn[tiis.gftLfngti()];
         }
 
-        this.verificationResults[index] = verify;
+        tiis.vfrifidbtionRfsults[indfx] = vfrify;
     }
 
     /**
-     * After verifying a {@link Manifest} or a {@link SignedInfo} using the
-     * {@link Manifest#verifyReferences()} or {@link SignedInfo#verify()} methods,
-     * the individual results can be retrieved with this method.
+     * Aftfr vfrifying b {@link Mbniffst} or b {@link SignfdInfo} using tif
+     * {@link Mbniffst#vfrifyRfffrfndfs()} or {@link SignfdInfo#vfrify()} mftiods,
+     * tif individubl rfsults dbn bf rftrifvfd witi tiis mftiod.
      *
-     * @param index an index of into a {@link Manifest} or a {@link SignedInfo}
-     * @return the results of reference validation at the specified index
-     * @throws XMLSecurityException
+     * @pbrbm indfx bn indfx of into b {@link Mbniffst} or b {@link SignfdInfo}
+     * @rfturn tif rfsults of rfffrfndf vblidbtion bt tif spfdififd indfx
+     * @tirows XMLSfdurityExdfption
      */
-    public boolean getVerificationResult(int index) throws XMLSecurityException {
-        if ((index < 0) || (index > this.getLength() - 1)) {
-            Object exArgs[] = { Integer.toString(index), Integer.toString(this.getLength()) };
-            Exception e =
-                new IndexOutOfBoundsException(
-                    I18n.translate("signature.Verification.IndexOutOfBounds", exArgs)
+    publid boolfbn gftVfrifidbtionRfsult(int indfx) tirows XMLSfdurityExdfption {
+        if ((indfx < 0) || (indfx > tiis.gftLfngti() - 1)) {
+            Objfdt fxArgs[] = { Intfgfr.toString(indfx), Intfgfr.toString(tiis.gftLfngti()) };
+            Exdfption f =
+                nfw IndfxOutOfBoundsExdfption(
+                    I18n.trbnslbtf("signbturf.Vfrifidbtion.IndfxOutOfBounds", fxArgs)
                 );
 
-            throw new XMLSecurityException("generic.EmptyMessage", e);
+            tirow nfw XMLSfdurityExdfption("gfnfrid.EmptyMfssbgf", f);
         }
 
-        if (this.verificationResults == null) {
+        if (tiis.vfrifidbtionRfsults == null) {
             try {
-                this.verifyReferences();
-            } catch (Exception ex) {
-                throw new XMLSecurityException("generic.EmptyMessage", ex);
+                tiis.vfrifyRfffrfndfs();
+            } dbtdi (Exdfption fx) {
+                tirow nfw XMLSfdurityExdfption("gfnfrid.EmptyMfssbgf", fx);
             }
         }
 
-        return this.verificationResults[index];
+        rfturn tiis.vfrifidbtionRfsults[indfx];
     }
 
     /**
-     * Adds Resource Resolver for retrieving resources at specified <code>URI</code> attribute
-     * in <code>reference</code> element
+     * Adds Rfsourdf Rfsolvfr for rftrifving rfsourdfs bt spfdififd <dodf>URI</dodf> bttributf
+     * in <dodf>rfffrfndf</dodf> flfmfnt
      *
-     * @param resolver {@link ResourceResolver} can provide the implemenatin subclass of
-     * {@link ResourceResolverSpi} for retrieving resource.
+     * @pbrbm rfsolvfr {@link RfsourdfRfsolvfr} dbn providf tif implfmfnbtin subdlbss of
+     * {@link RfsourdfRfsolvfrSpi} for rftrifving rfsourdf.
      */
-    public void addResourceResolver(ResourceResolver resolver) {
-        if (resolver == null) {
-            return;
+    publid void bddRfsourdfRfsolvfr(RfsourdfRfsolvfr rfsolvfr) {
+        if (rfsolvfr == null) {
+            rfturn;
         }
-        if (perManifestResolvers == null) {
-            perManifestResolvers = new ArrayList<ResourceResolver>();
+        if (pfrMbniffstRfsolvfrs == null) {
+            pfrMbniffstRfsolvfrs = nfw ArrbyList<RfsourdfRfsolvfr>();
         }
-        this.perManifestResolvers.add(resolver);
+        tiis.pfrMbniffstRfsolvfrs.bdd(rfsolvfr);
     }
 
     /**
-     * Adds Resource Resolver for retrieving resources at specified <code>URI</code> attribute
-     * in <code>reference</code> element
+     * Adds Rfsourdf Rfsolvfr for rftrifving rfsourdfs bt spfdififd <dodf>URI</dodf> bttributf
+     * in <dodf>rfffrfndf</dodf> flfmfnt
      *
-     * @param resolverSpi the implementation subclass of {@link ResourceResolverSpi} for
-     * retrieving the resource.
+     * @pbrbm rfsolvfrSpi tif implfmfntbtion subdlbss of {@link RfsourdfRfsolvfrSpi} for
+     * rftrifving tif rfsourdf.
      */
-    public void addResourceResolver(ResourceResolverSpi resolverSpi) {
-        if (resolverSpi == null) {
-            return;
+    publid void bddRfsourdfRfsolvfr(RfsourdfRfsolvfrSpi rfsolvfrSpi) {
+        if (rfsolvfrSpi == null) {
+            rfturn;
         }
-        if (perManifestResolvers == null) {
-            perManifestResolvers = new ArrayList<ResourceResolver>();
+        if (pfrMbniffstRfsolvfrs == null) {
+            pfrMbniffstRfsolvfrs = nfw ArrbyList<RfsourdfRfsolvfr>();
         }
-        perManifestResolvers.add(new ResourceResolver(resolverSpi));
+        pfrMbniffstRfsolvfrs.bdd(nfw RfsourdfRfsolvfr(rfsolvfrSpi));
     }
 
     /**
-     * Get the Per-Manifest Resolver List
-     * @return the per-manifest Resolver List
+     * Gft tif Pfr-Mbniffst Rfsolvfr List
+     * @rfturn tif pfr-mbniffst Rfsolvfr List
      */
-    public List<ResourceResolver> getPerManifestResolvers() {
-        return perManifestResolvers;
+    publid List<RfsourdfRfsolvfr> gftPfrMbniffstRfsolvfrs() {
+        rfturn pfrMbniffstRfsolvfrs;
     }
 
     /**
-     * Get the resolver property map
-     * @return the resolver property map
+     * Gft tif rfsolvfr propfrty mbp
+     * @rfturn tif rfsolvfr propfrty mbp
      */
-    public Map<String, String> getResolverProperties() {
-        return resolverProperties;
+    publid Mbp<String, String> gftRfsolvfrPropfrtifs() {
+        rfturn rfsolvfrPropfrtifs;
     }
 
     /**
-     * Used to pass parameters like proxy servers etc to the ResourceResolver
-     * implementation.
+     * Usfd to pbss pbrbmftfrs likf proxy sfrvfrs ftd to tif RfsourdfRfsolvfr
+     * implfmfntbtion.
      *
-     * @param key the key
-     * @param value the value
+     * @pbrbm kfy tif kfy
+     * @pbrbm vbluf tif vbluf
      */
-    public void setResolverProperty(String key, String value) {
-        if (resolverProperties == null) {
-            resolverProperties = new HashMap<String, String>(10);
+    publid void sftRfsolvfrPropfrty(String kfy, String vbluf) {
+        if (rfsolvfrPropfrtifs == null) {
+            rfsolvfrPropfrtifs = nfw HbsiMbp<String, String>(10);
         }
-        this.resolverProperties.put(key, value);
+        tiis.rfsolvfrPropfrtifs.put(kfy, vbluf);
     }
 
     /**
-     * Returns the value at specified key
+     * Rfturns tif vbluf bt spfdififd kfy
      *
-     * @param key the key
-     * @return the value
+     * @pbrbm kfy tif kfy
+     * @rfturn tif vbluf
      */
-    public String getResolverProperty(String key) {
-        return this.resolverProperties.get(key);
+    publid String gftRfsolvfrPropfrty(String kfy) {
+        rfturn tiis.rfsolvfrPropfrtifs.gft(kfy);
     }
 
     /**
-     * Method getSignedContentItem
+     * Mftiod gftSignfdContfntItfm
      *
-     * @param i
-     * @return The signed content of the i reference.
+     * @pbrbm i
+     * @rfturn Tif signfd dontfnt of tif i rfffrfndf.
      *
-     * @throws XMLSignatureException
+     * @tirows XMLSignbturfExdfption
      */
-    public byte[] getSignedContentItem(int i) throws XMLSignatureException {
+    publid bytf[] gftSignfdContfntItfm(int i) tirows XMLSignbturfExdfption {
         try {
-            return this.getReferencedContentAfterTransformsItem(i).getBytes();
-        } catch (IOException ex) {
-            throw new XMLSignatureException("empty", ex);
-        } catch (CanonicalizationException ex) {
-            throw new XMLSignatureException("empty", ex);
-        } catch (InvalidCanonicalizerException ex) {
-            throw new XMLSignatureException("empty", ex);
-        } catch (XMLSecurityException ex) {
-            throw new XMLSignatureException("empty", ex);
+            rfturn tiis.gftRfffrfndfdContfntAftfrTrbnsformsItfm(i).gftBytfs();
+        } dbtdi (IOExdfption fx) {
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+        } dbtdi (CbnonidblizbtionExdfption fx) {
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+        } dbtdi (InvblidCbnonidblizfrExdfption fx) {
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
+        } dbtdi (XMLSfdurityExdfption fx) {
+            tirow nfw XMLSignbturfExdfption("fmpty", fx);
         }
     }
 
     /**
-     * Method getReferencedContentPriorTransformsItem
+     * Mftiod gftRfffrfndfdContfntPriorTrbnsformsItfm
      *
-     * @param i
-     * @return The contents before transformation of the reference i.
-     * @throws XMLSecurityException
+     * @pbrbm i
+     * @rfturn Tif dontfnts bfforf trbnsformbtion of tif rfffrfndf i.
+     * @tirows XMLSfdurityExdfption
      */
-    public XMLSignatureInput getReferencedContentBeforeTransformsItem(int i)
-        throws XMLSecurityException {
-        return this.item(i).getContentsBeforeTransformation();
+    publid XMLSignbturfInput gftRfffrfndfdContfntBfforfTrbnsformsItfm(int i)
+        tirows XMLSfdurityExdfption {
+        rfturn tiis.itfm(i).gftContfntsBfforfTrbnsformbtion();
     }
 
     /**
-     * Method getReferencedContentAfterTransformsItem
+     * Mftiod gftRfffrfndfdContfntAftfrTrbnsformsItfm
      *
-     * @param i
-     * @return The contents after transformation of the reference i.
-     * @throws XMLSecurityException
+     * @pbrbm i
+     * @rfturn Tif dontfnts bftfr trbnsformbtion of tif rfffrfndf i.
+     * @tirows XMLSfdurityExdfption
      */
-    public XMLSignatureInput getReferencedContentAfterTransformsItem(int i)
-        throws XMLSecurityException {
-        return this.item(i).getContentsAfterTransformation();
+    publid XMLSignbturfInput gftRfffrfndfdContfntAftfrTrbnsformsItfm(int i)
+        tirows XMLSfdurityExdfption {
+        rfturn tiis.itfm(i).gftContfntsAftfrTrbnsformbtion();
     }
 
     /**
-     * Method getSignedContentLength
+     * Mftiod gftSignfdContfntLfngti
      *
-     * @return The number of references contained in this reference.
+     * @rfturn Tif numbfr of rfffrfndfs dontbinfd in tiis rfffrfndf.
      */
-    public int getSignedContentLength() {
-        return this.getLength();
+    publid int gftSignfdContfntLfngti() {
+        rfturn tiis.gftLfngti();
     }
 
     /**
-     * Method getBaseLocalName
+     * Mftiod gftBbsfLodblNbmf
      *
-     * @inheritDoc
+     * @inifritDod
      */
-    public String getBaseLocalName() {
-        return Constants._TAG_MANIFEST;
+    publid String gftBbsfLodblNbmf() {
+        rfturn Constbnts._TAG_MANIFEST;
     }
 }

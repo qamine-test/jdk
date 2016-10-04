@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 1996, 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 1998, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.rmi;
+pbdkbgf jbvb.rmi;
 
 /**
- * An <code>UnmarshalException</code> can be thrown while unmarshalling the
- * parameters or results of a remote method call if any of the following
- * conditions occur:
+ * An <dodf>UnmbrsiblExdfption</dodf> dbn bf tirown wiilf unmbrsiblling tif
+ * pbrbmftfrs or rfsults of b rfmotf mftiod dbll if bny of tif following
+ * donditions oddur:
  * <ul>
- * <li> if an exception occurs while unmarshalling the call header
- * <li> if the protocol for the return value is invalid
- * <li> if a <code>java.io.IOException</code> occurs unmarshalling
- * parameters (on the server side) or the return value (on the client side).
- * <li> if a <code>java.lang.ClassNotFoundException</code> occurs during
- * unmarshalling parameters or return values
- * <li> if no skeleton can be loaded on the server-side; note that skeletons
- * are required in the 1.1 stub protocol, but not in the 1.2 stub protocol.
- * <li> if the method hash is invalid (i.e., missing method).
- * <li> if there is a failure to create a remote reference object for
- * a remote object's stub when it is unmarshalled.
+ * <li> if bn fxdfption oddurs wiilf unmbrsiblling tif dbll ifbdfr
+ * <li> if tif protodol for tif rfturn vbluf is invblid
+ * <li> if b <dodf>jbvb.io.IOExdfption</dodf> oddurs unmbrsiblling
+ * pbrbmftfrs (on tif sfrvfr sidf) or tif rfturn vbluf (on tif dlifnt sidf).
+ * <li> if b <dodf>jbvb.lbng.ClbssNotFoundExdfption</dodf> oddurs during
+ * unmbrsiblling pbrbmftfrs or rfturn vblufs
+ * <li> if no skflfton dbn bf lobdfd on tif sfrvfr-sidf; notf tibt skflftons
+ * brf rfquirfd in tif 1.1 stub protodol, but not in tif 1.2 stub protodol.
+ * <li> if tif mftiod ibsi is invblid (i.f., missing mftiod).
+ * <li> if tifrf is b fbilurf to drfbtf b rfmotf rfffrfndf objfdt for
+ * b rfmotf objfdt's stub wifn it is unmbrsibllfd.
  * </ul>
  *
- * @author  Ann Wollrath
- * @since   1.1
+ * @butior  Ann Wollrbti
+ * @sindf   1.1
  */
-public class UnmarshalException extends RemoteException {
+publid dlbss UnmbrsiblExdfption fxtfnds RfmotfExdfption {
 
-    /* indicate compatibility with JDK 1.1.x version of class */
-    private static final long serialVersionUID = 594380845140740218L;
+    /* indidbtf dompbtibility witi JDK 1.1.x vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = 594380845140740218L;
 
     /**
-     * Constructs an <code>UnmarshalException</code> with the specified
-     * detail message.
+     * Construdts bn <dodf>UnmbrsiblExdfption</dodf> witi tif spfdififd
+     * dftbil mfssbgf.
      *
-     * @param s the detail message
-     * @since 1.1
+     * @pbrbm s tif dftbil mfssbgf
+     * @sindf 1.1
      */
-    public UnmarshalException(String s) {
-        super(s);
+    publid UnmbrsiblExdfption(String s) {
+        supfr(s);
     }
 
     /**
-     * Constructs an <code>UnmarshalException</code> with the specified
-     * detail message and nested exception.
+     * Construdts bn <dodf>UnmbrsiblExdfption</dodf> witi tif spfdififd
+     * dftbil mfssbgf bnd nfstfd fxdfption.
      *
-     * @param s the detail message
-     * @param ex the nested exception
-     * @since 1.1
+     * @pbrbm s tif dftbil mfssbgf
+     * @pbrbm fx tif nfstfd fxdfption
+     * @sindf 1.1
      */
-    public UnmarshalException(String s, Exception ex) {
-        super(s, ex);
+    publid UnmbrsiblExdfption(String s, Exdfption fx) {
+        supfr(s, fx);
     }
 }

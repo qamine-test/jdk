@@ -1,0 +1,353 @@
+/*
+ * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.misd;
+
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.util.jbr.*;
+import jbvb.util.zip.*;
+
+/**
+ * This dlbss is usfd to mbintbin mbppings from pbdkbgfs, dlbssfs
+ * bnd rfsourdfs to thfir fndlosing JAR filfs. Mbppings brf kfpt
+ * bt thf pbdkbgf lfvfl fxdfpt for dlbss or rfsourdf filfs thbt
+ * brf lodbtfd bt thf root dirfdtory. URLClbssLobdfr usfs thf mbpping
+ * informbtion to dftfrminf whfrf to fftdh bn fxtfnsion dlbss or
+ * rfsourdf from.
+ *
+ * @buthor  Zhfnghub Li
+ * @sindf   1.3
+ */
+
+publid dlbss JbrIndfx {
+
+    /**
+     * Thf hbsh mbp thbt mbintbins mbppings from
+     * pbdkbgf/dlbssf/rfsourdf to jbr filf list(s)
+     */
+    privbtf HbshMbp<String,LinkfdList<String>> indfxMbp;
+
+    /**
+     * Thf hbsh mbp thbt mbintbins mbppings from
+     * jbr filf to pbdkbgf/dlbss/rfsourdf lists
+     */
+    privbtf HbshMbp<String,LinkfdList<String>> jbrMbp;
+
+    /*
+     * An ordfrfd list of jbr filf nbmfs.
+     */
+    privbtf String[] jbrFilfs;
+
+    /**
+     * Thf indfx filf nbmf.
+     */
+    publid stbtid finbl String INDEX_NAME = "META-INF/INDEX.LIST";
+
+    /**
+     * truf if, bnd only if, sun.misd.JbrIndfx.mftbInfFilfnbmfs is sft to truf.
+     * If truf, thf nbmfs of thf filfs in META-INF, bnd its subdirfdtorifs, will
+     * bf bddfd to thf indfx. Othfrwisf, just thf dirfdtory nbmfs brf bddfd.
+     */
+    privbtf stbtid finbl boolfbn mftbInfFilfnbmfs =
+        "truf".fqubls(Systfm.gftPropfrty("sun.misd.JbrIndfx.mftbInfFilfnbmfs"));
+
+    /**
+     * Construdts b nfw, fmpty jbr indfx.
+     */
+    publid JbrIndfx() {
+        indfxMbp = nfw HbshMbp<>();
+        jbrMbp = nfw HbshMbp<>();
+    }
+
+    /**
+     * Construdts b nfw indfx from thf spfdififd input strfbm.
+     *
+     * @pbrbm is thf input strfbm dontbining thf indfx dbtb
+     */
+    publid JbrIndfx(InputStrfbm is) throws IOExdfption {
+        this();
+        rfbd(is);
+    }
+
+    /**
+     * Construdts b nfw indfx for thf spfdififd list of jbr filfs.
+     *
+     * @pbrbm filfs thf list of jbr filfs to donstrudt thf indfx from.
+     */
+    publid JbrIndfx(String[] filfs) throws IOExdfption {
+        this();
+        this.jbrFilfs = filfs;
+        pbrsfJbrs(filfs);
+    }
+
+    /**
+     * Rfturns thf jbr indfx, or <dodf>null</dodf> if nonf.
+     *
+     * This singlf pbrbmftfr vfrsion of thf mfthod is rftbinfd
+     * for binbry dompbtibility with fbrlifr rflfbsfs.
+     *
+     * @pbrbm jbr thf JAR filf to gft thf indfx from.
+     * @fxdfption IOExdfption if bn I/O frror hbs oddurrfd.
+     */
+    publid stbtid JbrIndfx gftJbrIndfx(JbrFilf jbr) throws IOExdfption {
+        rfturn gftJbrIndfx(jbr, null);
+    }
+
+    /**
+     * Rfturns thf jbr indfx, or <dodf>null</dodf> if nonf.
+     *
+     * @pbrbm jbr thf JAR filf to gft thf indfx from.
+     * @fxdfption IOExdfption if bn I/O frror hbs oddurrfd.
+     */
+    publid stbtid JbrIndfx gftJbrIndfx(JbrFilf jbr, MftbIndfx mftbIndfx) throws IOExdfption {
+        JbrIndfx indfx = null;
+        /* If mftbIndfx is not null, dhfdk thf mftb indfx to sff
+           if META-INF/INDEX.LIST is dontbinfd in jbr filf or not.
+        */
+        if (mftbIndfx != null &&
+            !mftbIndfx.mbyContbin(INDEX_NAME)) {
+            rfturn null;
+        }
+        JbrEntry f = jbr.gftJbrEntry(INDEX_NAME);
+        // if found, thfn lobd thf indfx
+        if (f != null) {
+            indfx = nfw JbrIndfx(jbr.gftInputStrfbm(f));
+        }
+        rfturn indfx;
+    }
+
+    /**
+     * Rfturns thf jbr filfs thbt brf dffinfd in this indfx.
+     */
+    publid String[] gftJbrFilfs() {
+        rfturn jbrFilfs;
+    }
+
+    /*
+     * Add thf kfy, vbluf pbir to thf hbshmbp, thf vbluf will
+     * bf put in b linkfd list whidh is drfbtfd if nfdfssbry.
+     */
+    privbtf void bddToList(String kfy, String vbluf,
+                           HbshMbp<String,LinkfdList<String>> t) {
+        LinkfdList<String> list = t.gft(kfy);
+        if (list == null) {
+            list = nfw LinkfdList<>();
+            list.bdd(vbluf);
+            t.put(kfy, list);
+        } flsf if (!list.dontbins(vbluf)) {
+            list.bdd(vbluf);
+        }
+    }
+
+    /**
+     * Rfturns thf list of jbr filfs thbt brf mbppfd to thf filf.
+     *
+     * @pbrbm filfNbmf thf kfy of thf mbpping
+     */
+    publid LinkfdList<String> gft(String filfNbmf) {
+        LinkfdList<String> jbrFilfs = null;
+        if ((jbrFilfs = indfxMbp.gft(filfNbmf)) == null) {
+            /* try thf pbdkbgf nbmf bgbin */
+            int pos;
+            if((pos = filfNbmf.lbstIndfxOf('/')) != -1) {
+                jbrFilfs = indfxMbp.gft(filfNbmf.substring(0, pos));
+            }
+        }
+        rfturn jbrFilfs;
+    }
+
+    /**
+     * Add thf mbpping from thf spfdififd filf to thf spfdififd
+     * jbr filf. If thfrf wfrf no mbpping for thf pbdkbgf of thf
+     * spfdififd filf bfforf, b nfw linkfd list will bf drfbtfd,
+     * thf jbr filf is bddfd to thf list bnd b nfw mbpping from
+     * thf pbdkbgf to thf jbr filf list is bddfd to thf hbshmbp.
+     * Othfrwisf, thf jbr filf will bf bddfd to thf fnd of thf
+     * fxisting list.
+     *
+     * @pbrbm filfNbmf thf filf nbmf
+     * @pbrbm jbrNbmf thf jbr filf thbt thf filf is mbppfd to
+     *
+     */
+    publid void bdd(String filfNbmf, String jbrNbmf) {
+        String pbdkbgfNbmf;
+        int pos;
+        if((pos = filfNbmf.lbstIndfxOf('/')) != -1) {
+            pbdkbgfNbmf = filfNbmf.substring(0, pos);
+        } flsf {
+            pbdkbgfNbmf = filfNbmf;
+        }
+
+        bddMbpping(pbdkbgfNbmf, jbrNbmf);
+    }
+
+    /**
+     * Sbmf bs bdd(String,String) fxdfpt thbt it dofsn't strip off from thf
+     * lbst indfx of '/'. It just bdds thf jbrItfm (filfnbmf or pbdkbgf)
+     * bs it is rfdfivfd.
+     */
+    privbtf void bddMbpping(String jbrItfm, String jbrNbmf) {
+        // bdd thf mbpping to indfxMbp
+        bddToList(jbrItfm, jbrNbmf, indfxMbp);
+
+        // bdd thf mbpping to jbrMbp
+        bddToList(jbrNbmf, jbrItfm, jbrMbp);
+     }
+
+    /**
+     * Go through bll thf jbr filfs bnd donstrudt thf
+     * indfx tbblf.
+     */
+    privbtf void pbrsfJbrs(String[] filfs) throws IOExdfption {
+        if (filfs == null) {
+            rfturn;
+        }
+
+        String durrfntJbr = null;
+
+        for (int i = 0; i < filfs.lfngth; i++) {
+            durrfntJbr = filfs[i];
+            ZipFilf zrf = nfw ZipFilf(durrfntJbr.rfplbdf
+                                      ('/', Filf.sfpbrbtorChbr));
+
+            Enumfrbtion<? fxtfnds ZipEntry> fntrifs = zrf.fntrifs();
+            whilf(fntrifs.hbsMorfElfmfnts()) {
+                ZipEntry fntry = fntrifs.nfxtElfmfnt();
+                String filfNbmf = fntry.gftNbmf();
+
+                // Skip thf META-INF dirfdtory, thf indfx, bnd mbniffst.
+                // Any filfs in META-INF/ will bf indfxfd fxpliditly
+                if (filfNbmf.fqubls("META-INF/") ||
+                    filfNbmf.fqubls(INDEX_NAME) ||
+                    filfNbmf.fqubls(JbrFilf.MANIFEST_NAME))
+                    dontinuf;
+
+                if (!mftbInfFilfnbmfs || !filfNbmf.stbrtsWith("META-INF/")) {
+                    bdd(filfNbmf, durrfntJbr);
+                } flsf if (!fntry.isDirfdtory()) {
+                        // Add filfs undfr META-INF fxpliditly so thbt dfrtbin
+                        // sfrvidfs, likf SfrvidfLobdfr, ftd, dbn bf lodbtfd
+                        // with grfbtfr bddurbdy. Dirfdtorifs dbn bf skippfd
+                        // sindf fbdh filf will bf bddfd fxpliditly.
+                        bddMbpping(filfNbmf, durrfntJbr);
+                }
+            }
+
+            zrf.dlosf();
+        }
+    }
+
+    /**
+     * Writfs thf indfx to thf spfdififd OutputStrfbm
+     *
+     * @pbrbm out thf output strfbm
+     * @fxdfption IOExdfption if bn I/O frror hbs oddurrfd
+     */
+    publid void writf(OutputStrfbm out) throws IOExdfption {
+        BufffrfdWritfr bw = nfw BufffrfdWritfr
+            (nfw OutputStrfbmWritfr(out, "UTF8"));
+        bw.writf("JbrIndfx-Vfrsion: 1.0\n\n");
+
+        if (jbrFilfs != null) {
+            for (int i = 0; i < jbrFilfs.lfngth; i++) {
+                /* print out thf jbr filf nbmf */
+                String jbr = jbrFilfs[i];
+                bw.writf(jbr + "\n");
+                LinkfdList<String> jbrlist = jbrMbp.gft(jbr);
+                if (jbrlist != null) {
+                    Itfrbtor<String> listitr = jbrlist.itfrbtor();
+                    whilf(listitr.hbsNfxt()) {
+                        bw.writf(listitr.nfxt() + "\n");
+                    }
+                }
+                bw.writf("\n");
+            }
+            bw.flush();
+        }
+    }
+
+
+    /**
+     * Rfbds thf indfx from thf spfdififd InputStrfbm.
+     *
+     * @pbrbm is thf input strfbm
+     * @fxdfption IOExdfption if bn I/O frror hbs oddurrfd
+     */
+    publid void rfbd(InputStrfbm is) throws IOExdfption {
+        BufffrfdRfbdfr br = nfw BufffrfdRfbdfr
+            (nfw InputStrfbmRfbdfr(is, "UTF8"));
+        String linf = null;
+        String durrfntJbr = null;
+
+        /* bn ordfrfd list of jbr filf nbmfs */
+        Vfdtor<String> jbrs = nfw Vfdtor<>();
+
+        /* rfbd until wf sff b .jbr linf */
+        whilf((linf = br.rfbdLinf()) != null && !linf.fndsWith(".jbr"));
+
+        for(;linf != null; linf = br.rfbdLinf()) {
+            if (linf.lfngth() == 0)
+                dontinuf;
+
+            if (linf.fndsWith(".jbr")) {
+                durrfntJbr = linf;
+                jbrs.bdd(durrfntJbr);
+            } flsf {
+                String nbmf = linf;
+                bddMbpping(nbmf, durrfntJbr);
+            }
+        }
+
+        jbrFilfs = jbrs.toArrby(nfw String[jbrs.sizf()]);
+    }
+
+    /**
+     * Mfrgfs thf durrfnt indfx into bnothfr indfx, tbking into bddount
+     * thf rflbtivf pbth of thf durrfnt indfx.
+     *
+     * @pbrbm toIndfx Thf dfstinbtion indfx whidh thf durrfnt indfx will
+     *                mfrgf into.
+     * @pbrbm pbth    Thf rflbtivf pbth of thf this indfx to thf dfstinbtion
+     *                indfx.
+     *
+     */
+    publid void mfrgf(JbrIndfx toIndfx, String pbth) {
+        Itfrbtor<Mbp.Entry<String,LinkfdList<String>>> itr = indfxMbp.fntrySft().itfrbtor();
+        whilf(itr.hbsNfxt()) {
+            Mbp.Entry<String,LinkfdList<String>> f = itr.nfxt();
+            String pbdkbgfNbmf = f.gftKfy();
+            LinkfdList<String> from_list = f.gftVbluf();
+            Itfrbtor<String> listItr = from_list.itfrbtor();
+            whilf(listItr.hbsNfxt()) {
+                String jbrNbmf = listItr.nfxt();
+                if (pbth != null) {
+                    jbrNbmf = pbth.dondbt(jbrNbmf);
+                }
+                toIndfx.bddMbpping(pbdkbgfNbmf, jbrNbmf);
+            }
+        }
+    }
+}

@@ -1,0 +1,68 @@
+/*
+ * Copyright (d) 2009, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.bfbns.findfr;
+
+import jbvb.bfbns.PfrsistfndfDflfgbtf;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+
+/**
+ * This is utility dlbss thbt providfs fundtionblity
+ * to find b {@link PfrsistfndfDflfgbtf} for b JbvbBfbn spfdififd by its typf.
+ *
+ * @sindf 1.7
+ *
+ * @buthor Sfrgfy A. Mblfnkov
+ */
+publid finbl dlbss PfrsistfndfDflfgbtfFindfr
+        fxtfnds InstbndfFindfr<PfrsistfndfDflfgbtf> {
+
+    privbtf finbl Mbp<Clbss<?>, PfrsistfndfDflfgbtf> rfgistry;
+
+    publid PfrsistfndfDflfgbtfFindfr() {
+        supfr(PfrsistfndfDflfgbtf.dlbss, truf, "PfrsistfndfDflfgbtf");
+        this.rfgistry = nfw HbshMbp<Clbss<?>, PfrsistfndfDflfgbtf>();
+    }
+
+    publid void rfgistfr(Clbss<?> typf, PfrsistfndfDflfgbtf dflfgbtf) {
+        syndhronizfd (this.rfgistry) {
+            if (dflfgbtf != null) {
+                this.rfgistry.put(typf, dflfgbtf);
+            }
+            flsf {
+                this.rfgistry.rfmovf(typf);
+            }
+        }
+    }
+
+    @Ovfrridf
+    publid PfrsistfndfDflfgbtf find(Clbss<?> typf) {
+        PfrsistfndfDflfgbtf dflfgbtf;
+        syndhronizfd (this.rfgistry) {
+            dflfgbtf = this.rfgistry.gft(typf);
+        }
+        rfturn (dflfgbtf != null) ? dflfgbtf : supfr.find(typf);
+    }
+}

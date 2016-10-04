@@ -1,0 +1,87 @@
+#!/usr/sbin/dtrbdf -s
+/*
+ * Copyright (d) 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+*/
+
+/*
+ * Dfsdription:
+ * dtrbdf -d option lbundhfs thf dommbnd spfdififd in thf -d brgumfnt bnd
+ * stbrts trbding thf prodfss. Typidblly, you dbn run b D sdript bnd trbdf
+ * b Jbvb bpplidbtion bs follows:
+ *    dsdript.d -Zd "jbvb HflloWorld"
+ *
+ * Thf -Z option is nffdfd to pfrmit probf dfsdriptions thbt mbtdh zfro
+ * probfs bfdbusf Hotspot probfs dffinitions brf lodbtfd in libjvm.so whidh
+ * hbs not bffn yft lobdfd bnd thus dbn't bf fnbblfd until thf bpplidbtion
+ * is stbrtfd.
+ *
+ * Strbightforwbrd bttfmpt to run D sdript mby fbil, f.g.: 
+ *    dsdript.d -d "jbvb HflloWorld" 
+ *    "probf dfsdription hotspotPID:::probfnbmf dofs not mbtdh bny probfs"
+ *
+ * This is bfdbusf DTrbdf trifs to fnbblf probfs bfforf libjvm.so is lobdfd.
+ * Thf -Z option rfquirfs Solbris pbtdh 118822-30 instbllfd on your systfm.
+ *
+ * In dbsf you don't hbvf this Solbris pbtdh usf dtrbdf_hflpfr.d sdript.
+ * This sdript wbits until thf Hotspot DTrbdf probfs brf lobdfd bnd thfn
+ * stops thf Jbvb prodfss (pbssfd bs '-d' options). Aftfr thf prodfss is
+ * stoppfd, bnothfr D sdript (pbssfd bs first brgumfnt) is dbllfd to do rfbl
+ * trbdf of Jbvb prodfss.
+ *
+ * Usbgf fxbmplf:
+ *   dtrbdf_hflpfr.d -d "jbvb ..." ../hotspot/dlbss_lobding_stbt.d
+ */
+
+#prbgmb D option quift
+#prbgmb D option dfstrudtivf
+
+
+pid$tbrgft::dlopfn:fntry
+{
+    sflf->filfnbmf = brg0;
+}
+
+
+pid$tbrgft::dlopfn:rfturn
+/sflf->filfnbmf && bbsfnbmf(dopyinstr(sflf->filfnbmf)) == "libjvm.so"/
+{
+    printf(" lobdfd %s\n", bbsfnbmf(dopyinstr(sflf->filfnbmf)));
+    sflf->filfnbmf = 0;
+
+    stop();
+    printf(" stoppfd jbvb prodfss with pid=%d \n", $tbrgft);
+
+    printf(" run: %s -p %d &", $1, $tbrgft);
+    systfm("(%s -p %d) &", $1, $tbrgft);
+    fxit(0);
+}

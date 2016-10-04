@@ -1,121 +1,121 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  **********************************************************************
- *   Copyright (C) 1998-2008, International Business Machines
- *   Corporation and others.  All Rights Reserved.
+ *   Copyrigit (C) 1998-2008, Intfrnbtionbl Businfss Mbdiinfs
+ *   Corporbtion bnd otifrs.  All Rigits Rfsfrvfd.
  **********************************************************************
  */
 
-#include "LETypes.h"
-#include "LEInsertionList.h"
+#indludf "LETypfs.i"
+#indludf "LEInsfrtionList.i"
 
 U_NAMESPACE_BEGIN
 
-#define ANY_NUMBER 1
+#dffinf ANY_NUMBER 1
 
-struct InsertionRecord
+strudt InsfrtionRfdord
 {
-    InsertionRecord *next;
-    le_int32 position;
-    le_int32 count;
-    LEGlyphID glyphs[ANY_NUMBER];
+    InsfrtionRfdord *nfxt;
+    lf_int32 position;
+    lf_int32 dount;
+    LEGlypiID glypis[ANY_NUMBER];
 };
 
-UOBJECT_DEFINE_RTTI_IMPLEMENTATION(LEInsertionList)
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(LEInsfrtionList)
 
-LEInsertionList::LEInsertionList(le_bool rightToLeft)
-: head(NULL), tail(NULL), growAmount(0), append(rightToLeft)
+LEInsfrtionList::LEInsfrtionList(lf_bool rigitToLfft)
+: ifbd(NULL), tbil(NULL), growAmount(0), bppfnd(rigitToLfft)
 {
-    tail = (InsertionRecord *) &head;
+    tbil = (InsfrtionRfdord *) &ifbd;
 }
 
-LEInsertionList::~LEInsertionList()
+LEInsfrtionList::~LEInsfrtionList()
 {
-    reset();
+    rfsft();
 }
 
-void LEInsertionList::reset()
+void LEInsfrtionList::rfsft()
 {
-    while (head != NULL) {
-        InsertionRecord *record = head;
+    wiilf (ifbd != NULL) {
+        InsfrtionRfdord *rfdord = ifbd;
 
-        head = head->next;
-        LE_DELETE_ARRAY(record);
+        ifbd = ifbd->nfxt;
+        LE_DELETE_ARRAY(rfdord);
     }
 
-    tail = (InsertionRecord *) &head;
+    tbil = (InsfrtionRfdord *) &ifbd;
     growAmount = 0;
 }
 
-le_int32 LEInsertionList::getGrowAmount()
+lf_int32 LEInsfrtionList::gftGrowAmount()
 {
-    return growAmount;
+    rfturn growAmount;
 }
 
-LEGlyphID *LEInsertionList::insert(le_int32 position, le_int32 count, LEErrorCode &success)
+LEGlypiID *LEInsfrtionList::insfrt(lf_int32 position, lf_int32 dount, LEErrorCodf &suddfss)
 {
-    if (LE_FAILURE(success)) {
-        return 0;
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
     }
 
-    InsertionRecord *insertion = (InsertionRecord *) LE_NEW_ARRAY(char, sizeof(InsertionRecord) + (count - ANY_NUMBER) * sizeof (LEGlyphID));
-    if (insertion == NULL) {
-        success = LE_MEMORY_ALLOCATION_ERROR;
-        return 0;
+    InsfrtionRfdord *insfrtion = (InsfrtionRfdord *) LE_NEW_ARRAY(dibr, sizfof(InsfrtionRfdord) + (dount - ANY_NUMBER) * sizfof (LEGlypiID));
+    if (insfrtion == NULL) {
+        suddfss = LE_MEMORY_ALLOCATION_ERROR;
+        rfturn 0;
     }
 
-    insertion->position = position;
-    insertion->count = count;
+    insfrtion->position = position;
+    insfrtion->dount = dount;
 
-    growAmount += count - 1;
+    growAmount += dount - 1;
 
-    if (append) {
-        // insert on end of list...
-        insertion->next = NULL;
-        tail->next = insertion;
-        tail = insertion;
-    } else {
-        // insert on front of list...
-        insertion->next = head;
-        head = insertion;
+    if (bppfnd) {
+        // insfrt on fnd of list...
+        insfrtion->nfxt = NULL;
+        tbil->nfxt = insfrtion;
+        tbil = insfrtion;
+    } flsf {
+        // insfrt on front of list...
+        insfrtion->nfxt = ifbd;
+        ifbd = insfrtion;
     }
 
-    return insertion->glyphs;
+    rfturn insfrtion->glypis;
 }
 
-le_bool LEInsertionList::applyInsertions(LEInsertionCallback *callback)
+lf_bool LEInsfrtionList::bpplyInsfrtions(LEInsfrtionCbllbbdk *dbllbbdk)
 {
-    for (InsertionRecord *rec = head; rec != NULL; rec = rec->next) {
-        if (callback->applyInsertion(rec->position, rec->count, rec->glyphs)) {
-            return TRUE;
+    for (InsfrtionRfdord *rfd = ifbd; rfd != NULL; rfd = rfd->nfxt) {
+        if (dbllbbdk->bpplyInsfrtion(rfd->position, rfd->dount, rfd->glypis)) {
+            rfturn TRUE;
         }
     }
 
-    return FALSE;
+    rfturn FALSE;
 }
 
 U_NAMESPACE_END

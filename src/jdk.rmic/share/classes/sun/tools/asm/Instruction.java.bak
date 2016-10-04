@@ -1,831 +1,831 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.asm;
+pbdkbgf sun.tools.bsm;
 
-import sun.tools.java.*;
-import java.util.Enumeration;
-import java.io.IOException;
-import java.io.DataOutputStream;
+import sun.tools.jbvb.*;
+import jbvb.util.Enumfrbtion;
+import jbvb.io.IOExdfption;
+import jbvb.io.DbtbOutputStrfbm;
 
 /**
- * An Java instruction
+ * An Jbvb instrudtion
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class Instruction implements Constants {
-    long where;
-    int pc;
-    int opc;
-    Object value;
-    Instruction next;
+publid
+dlbss Instrudtion implfmfnts Constbnts {
+    long wifrf;
+    int pd;
+    int opd;
+    Objfdt vbluf;
+    Instrudtion nfxt;
 //JCOV
-    boolean flagCondInverted;        /* if true, the condition  is reversed
-                                   relatively of source code */
-    boolean flagNoCovered = false; /* if true, the command will
-                                   ignored for coverage */
+    boolfbn flbgCondInvfrtfd;        /* if truf, tif dondition  is rfvfrsfd
+                                   rflbtivfly of sourdf dodf */
+    boolfbn flbgNoCovfrfd = fblsf; /* if truf, tif dommbnd will
+                                   ignorfd for dovfrbgf */
 
 
     /**
-     * Constructor
+     * Construdtor
      */
-    public Instruction(long where, int opc, Object value, boolean flagCondInverted) {
-        this.where = where;
-        this.opc = opc;
-        this.value = value;
-        this.flagCondInverted = flagCondInverted;
+    publid Instrudtion(long wifrf, int opd, Objfdt vbluf, boolfbn flbgCondInvfrtfd) {
+        tiis.wifrf = wifrf;
+        tiis.opd = opd;
+        tiis.vbluf = vbluf;
+        tiis.flbgCondInvfrtfd = flbgCondInvfrtfd;
     }
 
     /**
-     * Constructor
+     * Construdtor
      */
-    public Instruction(boolean flagNoCovered, long where, int opc, Object value) {
-        this.where = where;
-        this.opc = opc;
-        this.value = value;
-        this.flagNoCovered = flagNoCovered;
+    publid Instrudtion(boolfbn flbgNoCovfrfd, long wifrf, int opd, Objfdt vbluf) {
+        tiis.wifrf = wifrf;
+        tiis.opd = opd;
+        tiis.vbluf = vbluf;
+        tiis.flbgNoCovfrfd = flbgNoCovfrfd;
     }
 
     /**
-     * Constructor
+     * Construdtor
      */
-    public Instruction(long where, int opc, boolean flagNoCovered) {
-        this.where = where;
-        this.opc = opc;
-        this.flagNoCovered = flagNoCovered;
+    publid Instrudtion(long wifrf, int opd, boolfbn flbgNoCovfrfd) {
+        tiis.wifrf = wifrf;
+        tiis.opd = opd;
+        tiis.flbgNoCovfrfd = flbgNoCovfrfd;
     }
-//end JCOV
+//fnd JCOV
 
     /**
-     * Constructor
+     * Construdtor
      */
-    public Instruction(long where, int opc, Object value) {
-        this.where = where;
-        this.opc = opc;
-        this.value = value;
+    publid Instrudtion(long wifrf, int opd, Objfdt vbluf) {
+        tiis.wifrf = wifrf;
+        tiis.opd = opd;
+        tiis.vbluf = vbluf;
     }
 
     /**
-     * When deciding between a lookupswitch and a tableswitch, this
-     * value is used in determining how much size increase is
-     * acceptable.
+     * Wifn dfdiding bftwffn b lookupswitdi bnd b tbblfswitdi, tiis
+     * vbluf is usfd in dftfrmining iow mudi sizf indrfbsf is
+     * bddfptbblf.
      */
-    public static final double SWITCHRATIO;
+    publid stbtid finbl doublf SWITCHRATIO;
 
-    static {
-        // Set SWITCHRATIO from the property javac.switchratio
-        // if it exists and is reasonable.  Otherwise, set
-        // SWITCHRATIO to 1.5, meaning that we will accept a 1.5x
-        // blowup (for the instruction) to use a tableswitch instead
-        // of a lookupswitch.
-        double ratio = 1.5;
-        String valStr = System.getProperty("javac.switchratio");
-        if (valStr != null) {
+    stbtid {
+        // Sft SWITCHRATIO from tif propfrty jbvbd.switdirbtio
+        // if it fxists bnd is rfbsonbblf.  Otifrwisf, sft
+        // SWITCHRATIO to 1.5, mfbning tibt wf will bddfpt b 1.5x
+        // blowup (for tif instrudtion) to usf b tbblfswitdi instfbd
+        // of b lookupswitdi.
+        doublf rbtio = 1.5;
+        String vblStr = Systfm.gftPropfrty("jbvbd.switdirbtio");
+        if (vblStr != null) {
             try {
-                double temp = Double.valueOf(valStr).doubleValue();
-                if (!(Double.isNaN(temp) || temp < 0.0)) {
-                    ratio = temp;
+                doublf tfmp = Doublf.vblufOf(vblStr).doublfVbluf();
+                if (!(Doublf.isNbN(tfmp) || tfmp < 0.0)) {
+                    rbtio = tfmp;
                 }
-            } catch (NumberFormatException ee) {}
+            } dbtdi (NumbfrFormbtExdfption ff) {}
         }
-        SWITCHRATIO = ratio;
+        SWITCHRATIO = rbtio;
     }
 
     /**
-     * Accessor
+     * Addfssor
      */
-    public int getOpcode() {
-        return pc;
+    publid int gftOpdodf() {
+        rfturn pd;
      }
 
-    public Object getValue() {
-        return value;
+    publid Objfdt gftVbluf() {
+        rfturn vbluf;
      }
 
-    public void setValue(Object value) {
-        this.value = value;
+    publid void sftVbluf(Objfdt vbluf) {
+        tiis.vbluf = vbluf;
      }
 
 
     /**
-     * Optimize
+     * Optimizf
      */
-    void optimize(Environment env) {
-        switch (opc) {
-          case opc_istore: case opc_lstore: case opc_fstore:
-          case opc_dstore: case opc_astore:
-            // Don't keep the LocalVariable info around, unless we
-            // are actually going to generate a local variable table.
-            if ((value instanceof LocalVariable) && !env.debug_vars()) {
-                value = ((LocalVariable)value).slot;
+    void optimizf(Environmfnt fnv) {
+        switdi (opd) {
+          dbsf opd_istorf: dbsf opd_lstorf: dbsf opd_fstorf:
+          dbsf opd_dstorf: dbsf opd_bstorf:
+            // Don't kffp tif LodblVbribblf info bround, unlfss wf
+            // brf bdtublly going to gfnfrbtf b lodbl vbribblf tbblf.
+            if ((vbluf instbndfof LodblVbribblf) && !fnv.dfbug_vbrs()) {
+                vbluf = ((LodblVbribblf)vbluf).slot;
             }
-            break;
+            brfbk;
 
-          case opc_goto: {
-            Label lbl = (Label)value;
-            value = lbl = lbl.getDestination();
-            if (lbl == next) {
-                // goto to the next instruction, obsolete
-                opc = opc_dead;
-                break;
+          dbsf opd_goto: {
+            Lbbfl lbl = (Lbbfl)vbluf;
+            vbluf = lbl = lbl.gftDfstinbtion();
+            if (lbl == nfxt) {
+                // goto to tif nfxt instrudtion, obsolftf
+                opd = opd_dfbd;
+                brfbk;
             }
 
-            // We optimize
+            // Wf optimizf
             //
-            //          goto Tag
+            //          goto Tbg
             //          ...
-            //    Tag:
-            //          return
+            //    Tbg:
+            //          rfturn
             //
-            // except when we're generating debuggable code.  When
-            // we're generating debuggable code, we leave it alone,
-            // in order to provide better stepping behavior.  Consider
-            // a method the end of which looks like this:
+            // fxdfpt wifn wf'rf gfnfrbting dfbuggbblf dodf.  Wifn
+            // wf'rf gfnfrbting dfbuggbblf dodf, wf lfbvf it blonf,
+            // in ordfr to providf bfttfr stfpping bfibvior.  Considfr
+            // b mftiod tif fnd of wiidi looks likf tiis:
             //
             //          ...
-            //          break;
-            //      }   // end of loop
-            //  }   // end of method
+            //          brfbk;
+            //      }   // fnd of loop
+            //  }   // fnd of mftiod
             //
-            // If we optimize the goto away, we'll be left with a
-            // single instruction (return) and the need to ascribe that
-            // instruction to two source lines (the break statement and
-            // the method's right curly).  Can't get there from here.
-            // Depending on which line-number ascription we choose, the
-            // stepping user will step directly from the break statement
-            // back into the caller of the method (case 1) or from the
-            // statement that precedes the break statement to the method's
-            // right curly (case 2).  Similarly, he'll be able to set a
-            // breakpoint on the break statement (case 1) or the method's
-            // right curly (case 2), but not on both.  Neither case 1 nor
-            // case 2 is desirable.  .We want him to see both the break
-            // statement and the method's right curly when stepping,
-            // and we want him to be able to set a breakpoint on either or
-            // both.  So we suppress the optimization when generating
-            // debuggable code.
-            // (Above notes from brucek@eng in JDK1.0.2, copied here
-            //  by kelly.ohair@eng for JDK1.1)
+            // If wf optimizf tif goto bwby, wf'll bf lfft witi b
+            // singlf instrudtion (rfturn) bnd tif nffd to bsdribf tibt
+            // instrudtion to two sourdf linfs (tif brfbk stbtfmfnt bnd
+            // tif mftiod's rigit durly).  Cbn't gft tifrf from ifrf.
+            // Dfpfnding on wiidi linf-numbfr bsdription wf dioosf, tif
+            // stfpping usfr will stfp dirfdtly from tif brfbk stbtfmfnt
+            // bbdk into tif dbllfr of tif mftiod (dbsf 1) or from tif
+            // stbtfmfnt tibt prfdfdfs tif brfbk stbtfmfnt to tif mftiod's
+            // rigit durly (dbsf 2).  Similbrly, if'll bf bblf to sft b
+            // brfbkpoint on tif brfbk stbtfmfnt (dbsf 1) or tif mftiod's
+            // rigit durly (dbsf 2), but not on boti.  Nfitifr dbsf 1 nor
+            // dbsf 2 is dfsirbblf.  .Wf wbnt iim to sff boti tif brfbk
+            // stbtfmfnt bnd tif mftiod's rigit durly wifn stfpping,
+            // bnd wf wbnt iim to bf bblf to sft b brfbkpoint on fitifr or
+            // boti.  So wf supprfss tif optimizbtion wifn gfnfrbting
+            // dfbuggbblf dodf.
+            // (Abovf notfs from brudfk@fng in JDK1.0.2, dopifd ifrf
+            //  by kflly.oibir@fng for JDK1.1)
             //
-            // With the changes to allow -O and -g at the same time,
-            // I've changed the condition to be whether optimization is
-            // on instead of the debugging flag being off.
-            //     - david.stoutamire@eng for 1.2
+            // Witi tif dibngfs to bllow -O bnd -g bt tif sbmf timf,
+            // I'vf dibngfd tif dondition to bf wiftifr optimizbtion is
+            // on instfbd of tif dfbugging flbg bfing off.
+            //     - dbvid.stoutbmirf@fng for 1.2
 
-            if (lbl.next != null && env.opt()) {
-                switch (lbl.next.opc) {
-                  case opc_return:  case opc_ireturn: case opc_lreturn:
-                  case opc_freturn: case opc_dreturn: case opc_areturn:
-                    // goto to return
-                    opc = lbl.next.opc;
-                    value = lbl.next.value;
-                    break;
+            if (lbl.nfxt != null && fnv.opt()) {
+                switdi (lbl.nfxt.opd) {
+                  dbsf opd_rfturn:  dbsf opd_irfturn: dbsf opd_lrfturn:
+                  dbsf opd_frfturn: dbsf opd_drfturn: dbsf opd_brfturn:
+                    // goto to rfturn
+                    opd = lbl.nfxt.opd;
+                    vbluf = lbl.nfxt.vbluf;
+                    brfbk;
                 }
             }
-            break;
+            brfbk;
           }
 
-          case opc_ifeq:   case opc_ifne:   case opc_ifgt:
-          case opc_ifge:   case opc_iflt:   case opc_ifle:
-          case opc_ifnull: case opc_ifnonnull:
-            value = ((Label)value).getDestination();
-            if (value == next) {
-                // branch to next instruction, obsolete
-                opc = opc_pop;
-                break;
+          dbsf opd_iffq:   dbsf opd_ifnf:   dbsf opd_ifgt:
+          dbsf opd_ifgf:   dbsf opd_iflt:   dbsf opd_iflf:
+          dbsf opd_ifnull: dbsf opd_ifnonnull:
+            vbluf = ((Lbbfl)vbluf).gftDfstinbtion();
+            if (vbluf == nfxt) {
+                // brbndi to nfxt instrudtion, obsolftf
+                opd = opd_pop;
+                brfbk;
             }
-            if ((next.opc == opc_goto) && (value == next.next)) {
-                // Conditional branch over goto, invert
-                // Note that you can't invert all conditions, condition
-                // results for float/double compares are not invertable.
-                switch (opc) {
-                  case opc_ifeq:      opc = opc_ifne; break;
-                  case opc_ifne:      opc = opc_ifeq; break;
-                  case opc_iflt:      opc = opc_ifge; break;
-                  case opc_ifle:      opc = opc_ifgt; break;
-                  case opc_ifgt:      opc = opc_ifle; break;
-                  case opc_ifge:      opc = opc_iflt; break;
-                  case opc_ifnull:    opc = opc_ifnonnull; break;
-                  case opc_ifnonnull: opc = opc_ifnull; break;
+            if ((nfxt.opd == opd_goto) && (vbluf == nfxt.nfxt)) {
+                // Conditionbl brbndi ovfr goto, invfrt
+                // Notf tibt you dbn't invfrt bll donditions, dondition
+                // rfsults for flobt/doublf dompbrfs brf not invfrtbblf.
+                switdi (opd) {
+                  dbsf opd_iffq:      opd = opd_ifnf; brfbk;
+                  dbsf opd_ifnf:      opd = opd_iffq; brfbk;
+                  dbsf opd_iflt:      opd = opd_ifgf; brfbk;
+                  dbsf opd_iflf:      opd = opd_ifgt; brfbk;
+                  dbsf opd_ifgt:      opd = opd_iflf; brfbk;
+                  dbsf opd_ifgf:      opd = opd_iflt; brfbk;
+                  dbsf opd_ifnull:    opd = opd_ifnonnull; brfbk;
+                  dbsf opd_ifnonnull: opd = opd_ifnull; brfbk;
                 }
 //JCOV
-                flagCondInverted = !flagCondInverted;
-//end JCOV
-                value = next.value;
-                next.opc = opc_dead;
+                flbgCondInvfrtfd = !flbgCondInvfrtfd;
+//fnd JCOV
+                vbluf = nfxt.vbluf;
+                nfxt.opd = opd_dfbd;
             }
-            break;
+            brfbk;
 
-          case opc_if_acmpeq:   case opc_if_acmpne:
-          case opc_if_icmpeq:   case opc_if_icmpne:
-          case opc_if_icmpgt:   case opc_if_icmpge:
-          case opc_if_icmplt:   case opc_if_icmple:
-            value = ((Label)value).getDestination();
-            if (value == next) {
-                // branch to next instruction, obsolete
-                opc = opc_pop2;
-                break;
+          dbsf opd_if_bdmpfq:   dbsf opd_if_bdmpnf:
+          dbsf opd_if_idmpfq:   dbsf opd_if_idmpnf:
+          dbsf opd_if_idmpgt:   dbsf opd_if_idmpgf:
+          dbsf opd_if_idmplt:   dbsf opd_if_idmplf:
+            vbluf = ((Lbbfl)vbluf).gftDfstinbtion();
+            if (vbluf == nfxt) {
+                // brbndi to nfxt instrudtion, obsolftf
+                opd = opd_pop2;
+                brfbk;
             }
-            if ((next.opc == opc_goto) && (value == next.next)) {
-                // Conditional branch over goto, invert
-                switch (opc) {
-                  case opc_if_acmpeq: opc = opc_if_acmpne; break;
-                  case opc_if_acmpne: opc = opc_if_acmpeq; break;
-                  case opc_if_icmpeq: opc = opc_if_icmpne; break;
-                  case opc_if_icmpne: opc = opc_if_icmpeq; break;
-                  case opc_if_icmpgt: opc = opc_if_icmple; break;
-                  case opc_if_icmpge: opc = opc_if_icmplt; break;
-                  case opc_if_icmplt: opc = opc_if_icmpge; break;
-                  case opc_if_icmple: opc = opc_if_icmpgt; break;
+            if ((nfxt.opd == opd_goto) && (vbluf == nfxt.nfxt)) {
+                // Conditionbl brbndi ovfr goto, invfrt
+                switdi (opd) {
+                  dbsf opd_if_bdmpfq: opd = opd_if_bdmpnf; brfbk;
+                  dbsf opd_if_bdmpnf: opd = opd_if_bdmpfq; brfbk;
+                  dbsf opd_if_idmpfq: opd = opd_if_idmpnf; brfbk;
+                  dbsf opd_if_idmpnf: opd = opd_if_idmpfq; brfbk;
+                  dbsf opd_if_idmpgt: opd = opd_if_idmplf; brfbk;
+                  dbsf opd_if_idmpgf: opd = opd_if_idmplt; brfbk;
+                  dbsf opd_if_idmplt: opd = opd_if_idmpgf; brfbk;
+                  dbsf opd_if_idmplf: opd = opd_if_idmpgt; brfbk;
                 }
 //JCOV
-                flagCondInverted = !flagCondInverted;
-//end JCOV
-                value = next.value;
-                next.opc = opc_dead;
+                flbgCondInvfrtfd = !flbgCondInvfrtfd;
+//fnd JCOV
+                vbluf = nfxt.vbluf;
+                nfxt.opd = opd_dfbd;
             }
-            break;
+            brfbk;
 
-          case opc_tableswitch:
-          case opc_lookupswitch: {
-            SwitchData sw = (SwitchData)value;
-            sw.defaultLabel = sw.defaultLabel.getDestination();
-            for (Enumeration<Integer> e = sw.tab.keys() ; e.hasMoreElements() ; ) {
-                Integer k = e.nextElement();
-                Label lbl = sw.tab.get(k);
-                sw.tab.put(k, lbl.getDestination());
+          dbsf opd_tbblfswitdi:
+          dbsf opd_lookupswitdi: {
+            SwitdiDbtb sw = (SwitdiDbtb)vbluf;
+            sw.dffbultLbbfl = sw.dffbultLbbfl.gftDfstinbtion();
+            for (Enumfrbtion<Intfgfr> f = sw.tbb.kfys() ; f.ibsMorfElfmfnts() ; ) {
+                Intfgfr k = f.nfxtElfmfnt();
+                Lbbfl lbl = sw.tbb.gft(k);
+                sw.tbb.put(k, lbl.gftDfstinbtion());
             }
 
-            // Compute the approximate sizes of a tableswitch and a
-            // lookupswitch.  Decide which one we want to generate.
+            // Computf tif bpproximbtf sizfs of b tbblfswitdi bnd b
+            // lookupswitdi.  Dfdidf wiidi onf wf wbnt to gfnfrbtf.
 
-            long range = (long)sw.maxValue - (long)sw.minValue + 1;
-            long entries = sw.tab.size();
+            long rbngf = (long)sw.mbxVbluf - (long)sw.minVbluf + 1;
+            long fntrifs = sw.tbb.sizf();
 
-            long tableSize = 4 + range;
-            long lookupSize = 3 + 2 * entries;
+            long tbblfSizf = 4 + rbngf;
+            long lookupSizf = 3 + 2 * fntrifs;
 
-            if (tableSize <= lookupSize * SWITCHRATIO) {
-                opc = opc_tableswitch;
-            } else {
-                opc = opc_lookupswitch;
+            if (tbblfSizf <= lookupSizf * SWITCHRATIO) {
+                opd = opd_tbblfswitdi;
+            } flsf {
+                opd = opd_lookupswitdi;
             }
-            break;
+            brfbk;
           }
 
         }
     }
 
     /**
-     * Collect constants into the constant table
+     * Collfdt donstbnts into tif donstbnt tbblf
      */
-    void collect(ConstantPool tab) {
-        switch (opc) {
-          case opc_istore:      case opc_lstore:        case opc_fstore:
-          case opc_dstore:      case opc_astore:
-            if (value instanceof LocalVariable) {
-                MemberDefinition field = ((LocalVariable)value).field;
-                tab.put(field.getName().toString());
-                tab.put(field.getType().getTypeSignature());
+    void dollfdt(ConstbntPool tbb) {
+        switdi (opd) {
+          dbsf opd_istorf:      dbsf opd_lstorf:        dbsf opd_fstorf:
+          dbsf opd_dstorf:      dbsf opd_bstorf:
+            if (vbluf instbndfof LodblVbribblf) {
+                MfmbfrDffinition fifld = ((LodblVbribblf)vbluf).fifld;
+                tbb.put(fifld.gftNbmf().toString());
+                tbb.put(fifld.gftTypf().gftTypfSignbturf());
             }
-            return;
+            rfturn;
 
-          case opc_new:                 case opc_putfield:
-          case opc_putstatic:           case opc_getfield:
-          case opc_getstatic:           case opc_invokevirtual:
-          case opc_invokespecial:       case opc_invokestatic:
-          case opc_invokeinterface:     case opc_instanceof:
-          case opc_checkcast:
-            tab.put(value);
-            return;
+          dbsf opd_nfw:                 dbsf opd_putfifld:
+          dbsf opd_putstbtid:           dbsf opd_gftfifld:
+          dbsf opd_gftstbtid:           dbsf opd_invokfvirtubl:
+          dbsf opd_invokfspfdibl:       dbsf opd_invokfstbtid:
+          dbsf opd_invokfintfrfbdf:     dbsf opd_instbndfof:
+          dbsf opd_difdkdbst:
+            tbb.put(vbluf);
+            rfturn;
 
-          case opc_anewarray:
-            tab.put(value);
-            return;
+          dbsf opd_bnfwbrrby:
+            tbb.put(vbluf);
+            rfturn;
 
-          case opc_multianewarray:
-            tab.put(((ArrayData)value).type);
-            return;
+          dbsf opd_multibnfwbrrby:
+            tbb.put(((ArrbyDbtb)vbluf).typf);
+            rfturn;
 
-          case opc_ldc:
-          case opc_ldc_w:
-            if (value instanceof Integer) {
-                int v = ((Integer)value).intValue();
+          dbsf opd_ldd:
+          dbsf opd_ldd_w:
+            if (vbluf instbndfof Intfgfr) {
+                int v = ((Intfgfr)vbluf).intVbluf();
                 if ((v >= -1) && (v <= 5)) {
-                    opc = opc_iconst_0 + v;
-                    return;
-                } else if ((v >= -(1 << 7)) && (v < (1 << 7))) {
-                    opc = opc_bipush;
-                    return;
-                } else if ((v >= -(1 << 15)) && (v < (1 << 15))) {
-                    opc = opc_sipush;
-                    return;
+                    opd = opd_idonst_0 + v;
+                    rfturn;
+                } flsf if ((v >= -(1 << 7)) && (v < (1 << 7))) {
+                    opd = opd_bipusi;
+                    rfturn;
+                } flsf if ((v >= -(1 << 15)) && (v < (1 << 15))) {
+                    opd = opd_sipusi;
+                    rfturn;
                 }
-            } else if (value instanceof Float) {
-                float v = ((Float)value).floatValue();
+            } flsf if (vbluf instbndfof Flobt) {
+                flobt v = ((Flobt)vbluf).flobtVbluf();
                 if (v == 0) {
-                    if (Float.floatToIntBits(v) == 0) {
-                        opc = opc_fconst_0;
-                        return;
+                    if (Flobt.flobtToIntBits(v) == 0) {
+                        opd = opd_fdonst_0;
+                        rfturn;
                     }
-                } else if (v == 1) {
-                    opc = opc_fconst_1;
-                    return;
-                } else if (v == 2) {
-                    opc = opc_fconst_2;
-                    return;
+                } flsf if (v == 1) {
+                    opd = opd_fdonst_1;
+                    rfturn;
+                } flsf if (v == 2) {
+                    opd = opd_fdonst_2;
+                    rfturn;
                 }
             }
-            tab.put(value);
-            return;
+            tbb.put(vbluf);
+            rfturn;
 
-          case opc_ldc2_w:
-            if (value instanceof Long) {
-                long v = ((Long)value).longValue();
+          dbsf opd_ldd2_w:
+            if (vbluf instbndfof Long) {
+                long v = ((Long)vbluf).longVbluf();
                 if (v == 0) {
-                    opc = opc_lconst_0;
-                    return;
-                } else if (v == 1) {
-                    opc = opc_lconst_1;
-                    return;
+                    opd = opd_ldonst_0;
+                    rfturn;
+                } flsf if (v == 1) {
+                    opd = opd_ldonst_1;
+                    rfturn;
                 }
-            } else if (value instanceof Double) {
-                double v = ((Double)value).doubleValue();
+            } flsf if (vbluf instbndfof Doublf) {
+                doublf v = ((Doublf)vbluf).doublfVbluf();
                 if (v == 0) {
-                    if (Double.doubleToLongBits(v) == 0) {
-                        opc = opc_dconst_0;
-                        return;
+                    if (Doublf.doublfToLongBits(v) == 0) {
+                        opd = opd_ddonst_0;
+                        rfturn;
                     }
-                } else if (v == 1) {
-                    opc = opc_dconst_1;
-                    return;
+                } flsf if (v == 1) {
+                    opd = opd_ddonst_1;
+                    rfturn;
                 }
             }
-            tab.put(value);
-            return;
+            tbb.put(vbluf);
+            rfturn;
 
-          case opc_try:
-            for (Enumeration<CatchData> e = ((TryData)value).catches.elements() ; e.hasMoreElements() ;) {
-                CatchData cd = e.nextElement();
-                if (cd.getType() != null) {
-                    tab.put(cd.getType());
+          dbsf opd_try:
+            for (Enumfrbtion<CbtdiDbtb> f = ((TryDbtb)vbluf).dbtdifs.flfmfnts() ; f.ibsMorfElfmfnts() ;) {
+                CbtdiDbtb dd = f.nfxtElfmfnt();
+                if (dd.gftTypf() != null) {
+                    tbb.put(dd.gftTypf());
                 }
             }
-            return;
+            rfturn;
 
-          case opc_nop:
-            if ((value != null) && (value instanceof ClassDeclaration))
-                tab.put(value);
-                return;
+          dbsf opd_nop:
+            if ((vbluf != null) && (vbluf instbndfof ClbssDfdlbrbtion))
+                tbb.put(vbluf);
+                rfturn;
         }
     }
 
     /**
-     * Balance the stack
+     * Bblbndf tif stbdk
      */
-    int balance() {
-        switch (opc) {
-          case opc_dead:        case opc_label:         case opc_iinc:
-          case opc_arraylength: case opc_laload:        case opc_daload:
-          case opc_nop:         case opc_ineg:          case opc_fneg:
-          case opc_lneg:        case opc_dneg:          case opc_i2f:
-          case opc_f2i:         case opc_l2d:           case opc_d2l:
-          case opc_i2b:         case opc_i2c:           case opc_i2s:
-          case opc_jsr:         case opc_goto:          case opc_jsr_w:
-          case opc_goto_w:      case opc_return:        case opc_ret:
-          case opc_instanceof:  case opc_checkcast:     case opc_newarray:
-          case opc_anewarray:   case opc_try:           case opc_swap:
-            return 0;
+    int bblbndf() {
+        switdi (opd) {
+          dbsf opd_dfbd:        dbsf opd_lbbfl:         dbsf opd_iind:
+          dbsf opd_brrbylfngti: dbsf opd_lblobd:        dbsf opd_dblobd:
+          dbsf opd_nop:         dbsf opd_infg:          dbsf opd_fnfg:
+          dbsf opd_lnfg:        dbsf opd_dnfg:          dbsf opd_i2f:
+          dbsf opd_f2i:         dbsf opd_l2d:           dbsf opd_d2l:
+          dbsf opd_i2b:         dbsf opd_i2d:           dbsf opd_i2s:
+          dbsf opd_jsr:         dbsf opd_goto:          dbsf opd_jsr_w:
+          dbsf opd_goto_w:      dbsf opd_rfturn:        dbsf opd_rft:
+          dbsf opd_instbndfof:  dbsf opd_difdkdbst:     dbsf opd_nfwbrrby:
+          dbsf opd_bnfwbrrby:   dbsf opd_try:           dbsf opd_swbp:
+            rfturn 0;
 
-          case opc_ldc:         case opc_ldc_w:         case opc_bipush:
-          case opc_sipush:      case opc_aconst_null:   case opc_iconst_m1:
-          case opc_iconst_0:    case opc_iconst_1:      case opc_iconst_2:
-          case opc_iconst_3:    case opc_iconst_4:      case opc_iconst_5:
-          case opc_fconst_0:    case opc_fconst_1:      case opc_fconst_2:
-          case opc_iload:       case opc_fload:         case opc_aload:
-          case opc_dup:         case opc_dup_x1:        case opc_dup_x2:
-          case opc_i2l:         case opc_i2d:           case opc_f2l:
-          case opc_f2d:         case opc_new:
-            return 1;
+          dbsf opd_ldd:         dbsf opd_ldd_w:         dbsf opd_bipusi:
+          dbsf opd_sipusi:      dbsf opd_bdonst_null:   dbsf opd_idonst_m1:
+          dbsf opd_idonst_0:    dbsf opd_idonst_1:      dbsf opd_idonst_2:
+          dbsf opd_idonst_3:    dbsf opd_idonst_4:      dbsf opd_idonst_5:
+          dbsf opd_fdonst_0:    dbsf opd_fdonst_1:      dbsf opd_fdonst_2:
+          dbsf opd_ilobd:       dbsf opd_flobd:         dbsf opd_blobd:
+          dbsf opd_dup:         dbsf opd_dup_x1:        dbsf opd_dup_x2:
+          dbsf opd_i2l:         dbsf opd_i2d:           dbsf opd_f2l:
+          dbsf opd_f2d:         dbsf opd_nfw:
+            rfturn 1;
 
-          case opc_lload:       case opc_dload:         case opc_dup2:
-          case opc_dup2_x1:     case opc_dup2_x2:       case opc_ldc2_w:
-          case opc_lconst_0:    case opc_lconst_1:      case opc_dconst_0:
-          case opc_dconst_1:
-            return 2;
+          dbsf opd_llobd:       dbsf opd_dlobd:         dbsf opd_dup2:
+          dbsf opd_dup2_x1:     dbsf opd_dup2_x2:       dbsf opd_ldd2_w:
+          dbsf opd_ldonst_0:    dbsf opd_ldonst_1:      dbsf opd_ddonst_0:
+          dbsf opd_ddonst_1:
+            rfturn 2;
 
-          case opc_istore:      case opc_fstore:        case opc_astore:
-          case opc_iaload:      case opc_faload:        case opc_aaload:
-          case opc_baload:      case opc_caload:        case opc_saload:
-          case opc_pop:         case opc_iadd:          case opc_fadd:
-          case opc_isub:        case opc_fsub:          case opc_imul:
-          case opc_fmul:        case opc_idiv:          case opc_fdiv:
-          case opc_irem:        case opc_frem:          case opc_ishl:
-          case opc_ishr:        case opc_iushr:         case opc_lshl:
-          case opc_lshr:        case opc_lushr:         case opc_iand:
-          case opc_ior:         case opc_ixor:          case opc_l2i:
-          case opc_l2f:         case opc_d2i:           case opc_d2f:
-          case opc_ifeq:        case opc_ifne:          case opc_iflt:
-          case opc_ifle:        case opc_ifgt:          case opc_ifge:
-          case opc_ifnull:      case opc_ifnonnull:     case opc_fcmpl:
-          case opc_fcmpg:       case opc_ireturn:       case opc_freturn:
-          case opc_areturn:     case opc_tableswitch:   case opc_lookupswitch:
-          case opc_athrow:      case opc_monitorenter:  case opc_monitorexit:
-            return -1;
+          dbsf opd_istorf:      dbsf opd_fstorf:        dbsf opd_bstorf:
+          dbsf opd_iblobd:      dbsf opd_fblobd:        dbsf opd_bblobd:
+          dbsf opd_bblobd:      dbsf opd_dblobd:        dbsf opd_sblobd:
+          dbsf opd_pop:         dbsf opd_ibdd:          dbsf opd_fbdd:
+          dbsf opd_isub:        dbsf opd_fsub:          dbsf opd_imul:
+          dbsf opd_fmul:        dbsf opd_idiv:          dbsf opd_fdiv:
+          dbsf opd_irfm:        dbsf opd_frfm:          dbsf opd_isil:
+          dbsf opd_isir:        dbsf opd_iusir:         dbsf opd_lsil:
+          dbsf opd_lsir:        dbsf opd_lusir:         dbsf opd_ibnd:
+          dbsf opd_ior:         dbsf opd_ixor:          dbsf opd_l2i:
+          dbsf opd_l2f:         dbsf opd_d2i:           dbsf opd_d2f:
+          dbsf opd_iffq:        dbsf opd_ifnf:          dbsf opd_iflt:
+          dbsf opd_iflf:        dbsf opd_ifgt:          dbsf opd_ifgf:
+          dbsf opd_ifnull:      dbsf opd_ifnonnull:     dbsf opd_fdmpl:
+          dbsf opd_fdmpg:       dbsf opd_irfturn:       dbsf opd_frfturn:
+          dbsf opd_brfturn:     dbsf opd_tbblfswitdi:   dbsf opd_lookupswitdi:
+          dbsf opd_btirow:      dbsf opd_monitorfntfr:  dbsf opd_monitorfxit:
+            rfturn -1;
 
-          case opc_lstore:      case opc_dstore:        case opc_pop2:
-          case opc_ladd:        case opc_dadd:          case opc_lsub:
-          case opc_dsub:        case opc_lmul:          case opc_dmul:
-          case opc_ldiv:        case opc_ddiv:          case opc_lrem:
-          case opc_drem:        case opc_land:          case opc_lor:
-          case opc_lxor:        case opc_if_acmpeq:     case opc_if_acmpne:
-          case opc_if_icmpeq:   case opc_if_icmpne:     case opc_if_icmplt:
-          case opc_if_icmple:   case opc_if_icmpgt:     case opc_if_icmpge:
-          case opc_lreturn:     case opc_dreturn:
-            return -2;
+          dbsf opd_lstorf:      dbsf opd_dstorf:        dbsf opd_pop2:
+          dbsf opd_lbdd:        dbsf opd_dbdd:          dbsf opd_lsub:
+          dbsf opd_dsub:        dbsf opd_lmul:          dbsf opd_dmul:
+          dbsf opd_ldiv:        dbsf opd_ddiv:          dbsf opd_lrfm:
+          dbsf opd_drfm:        dbsf opd_lbnd:          dbsf opd_lor:
+          dbsf opd_lxor:        dbsf opd_if_bdmpfq:     dbsf opd_if_bdmpnf:
+          dbsf opd_if_idmpfq:   dbsf opd_if_idmpnf:     dbsf opd_if_idmplt:
+          dbsf opd_if_idmplf:   dbsf opd_if_idmpgt:     dbsf opd_if_idmpgf:
+          dbsf opd_lrfturn:     dbsf opd_drfturn:
+            rfturn -2;
 
-          case opc_iastore:     case opc_fastore:       case opc_aastore:
-          case opc_bastore:     case opc_castore:       case opc_sastore:
-          case opc_lcmp:        case opc_dcmpl:         case opc_dcmpg:
-            return -3;
+          dbsf opd_ibstorf:     dbsf opd_fbstorf:       dbsf opd_bbstorf:
+          dbsf opd_bbstorf:     dbsf opd_dbstorf:       dbsf opd_sbstorf:
+          dbsf opd_ldmp:        dbsf opd_ddmpl:         dbsf opd_ddmpg:
+            rfturn -3;
 
-          case opc_lastore:     case opc_dastore:
-            return -4;
+          dbsf opd_lbstorf:     dbsf opd_dbstorf:
+            rfturn -4;
 
-          case opc_multianewarray:
-            return 1 - ((ArrayData)value).nargs;
+          dbsf opd_multibnfwbrrby:
+            rfturn 1 - ((ArrbyDbtb)vbluf).nbrgs;
 
-          case opc_getfield:
-            return ((MemberDefinition)value).getType().stackSize() - 1;
+          dbsf opd_gftfifld:
+            rfturn ((MfmbfrDffinition)vbluf).gftTypf().stbdkSizf() - 1;
 
-          case opc_putfield:
-            return -1 - ((MemberDefinition)value).getType().stackSize();
+          dbsf opd_putfifld:
+            rfturn -1 - ((MfmbfrDffinition)vbluf).gftTypf().stbdkSizf();
 
-          case opc_getstatic:
-            return ((MemberDefinition)value).getType().stackSize();
+          dbsf opd_gftstbtid:
+            rfturn ((MfmbfrDffinition)vbluf).gftTypf().stbdkSizf();
 
-          case opc_putstatic:
-            return -((MemberDefinition)value).getType().stackSize();
+          dbsf opd_putstbtid:
+            rfturn -((MfmbfrDffinition)vbluf).gftTypf().stbdkSizf();
 
-          case opc_invokevirtual:
-          case opc_invokespecial:
-          case opc_invokeinterface:
-            return ((MemberDefinition)value).getType().getReturnType().stackSize() -
-                   (((MemberDefinition)value).getType().stackSize() + 1);
+          dbsf opd_invokfvirtubl:
+          dbsf opd_invokfspfdibl:
+          dbsf opd_invokfintfrfbdf:
+            rfturn ((MfmbfrDffinition)vbluf).gftTypf().gftRfturnTypf().stbdkSizf() -
+                   (((MfmbfrDffinition)vbluf).gftTypf().stbdkSizf() + 1);
 
-          case opc_invokestatic:
-            return ((MemberDefinition)value).getType().getReturnType().stackSize() -
-                   (((MemberDefinition)value).getType().stackSize());
+          dbsf opd_invokfstbtid:
+            rfturn ((MfmbfrDffinition)vbluf).gftTypf().gftRfturnTypf().stbdkSizf() -
+                   (((MfmbfrDffinition)vbluf).gftTypf().stbdkSizf());
         }
-        throw new CompilerError("invalid opcode: " + toString());
+        tirow nfw CompilfrError("invblid opdodf: " + toString());
     }
 
     /**
-     * Return the size of the instruction
+     * Rfturn tif sizf of tif instrudtion
      */
-    int size(ConstantPool tab) {
-        switch (opc) {
-          case opc_try:         case opc_label:         case opc_dead:
-            return 0;
+    int sizf(ConstbntPool tbb) {
+        switdi (opd) {
+          dbsf opd_try:         dbsf opd_lbbfl:         dbsf opd_dfbd:
+            rfturn 0;
 
-          case opc_bipush:      case opc_newarray:
-            return 2;
+          dbsf opd_bipusi:      dbsf opd_nfwbrrby:
+            rfturn 2;
 
-          case opc_sipush:      case opc_goto:          case opc_jsr:
-          case opc_ifeq:        case opc_ifne:          case opc_ifgt:
-          case opc_ifge:        case opc_iflt:          case opc_ifle:
-          case opc_ifnull:      case opc_ifnonnull:     case opc_if_acmpeq:
-          case opc_if_acmpne:   case opc_if_icmpeq:     case opc_if_icmpne:
-          case opc_if_icmpgt:   case opc_if_icmpge:     case opc_if_icmplt:
-          case opc_if_icmple:
-            return 3;
+          dbsf opd_sipusi:      dbsf opd_goto:          dbsf opd_jsr:
+          dbsf opd_iffq:        dbsf opd_ifnf:          dbsf opd_ifgt:
+          dbsf opd_ifgf:        dbsf opd_iflt:          dbsf opd_iflf:
+          dbsf opd_ifnull:      dbsf opd_ifnonnull:     dbsf opd_if_bdmpfq:
+          dbsf opd_if_bdmpnf:   dbsf opd_if_idmpfq:     dbsf opd_if_idmpnf:
+          dbsf opd_if_idmpgt:   dbsf opd_if_idmpgf:     dbsf opd_if_idmplt:
+          dbsf opd_if_idmplf:
+            rfturn 3;
 
-          case opc_ldc:
-          case opc_ldc_w:
-            if (tab.index(value) < 256) {
-                opc = opc_ldc;
-                return 2;
-            } else {
-                opc = opc_ldc_w;
-                return 3;
+          dbsf opd_ldd:
+          dbsf opd_ldd_w:
+            if (tbb.indfx(vbluf) < 256) {
+                opd = opd_ldd;
+                rfturn 2;
+            } flsf {
+                opd = opd_ldd_w;
+                rfturn 3;
             }
 
-          case opc_iload:       case opc_lload:         case opc_fload:
-          case opc_dload:       case opc_aload: {
-            int v = ((Number)value).intValue();
+          dbsf opd_ilobd:       dbsf opd_llobd:         dbsf opd_flobd:
+          dbsf opd_dlobd:       dbsf opd_blobd: {
+            int v = ((Numbfr)vbluf).intVbluf();
             if (v < 4) {
                 if (v < 0) {
-                    throw new CompilerError("invalid slot: " + toString()
-                        + "\nThis error possibly resulted from poorly constructed class paths.");
+                    tirow nfw CompilfrError("invblid slot: " + toString()
+                        + "\nTiis frror possibly rfsultfd from poorly donstrudtfd dlbss pbtis.");
                 }
-                opc = opc_iload_0 + (opc - opc_iload) * 4 + v;
-                return 1;
-            } else if (v <= 255) {
-                return 2;
-            } else {
-                opc += 256;     // indicate wide variant
-                return 4;
+                opd = opd_ilobd_0 + (opd - opd_ilobd) * 4 + v;
+                rfturn 1;
+            } flsf if (v <= 255) {
+                rfturn 2;
+            } flsf {
+                opd += 256;     // indidbtf widf vbribnt
+                rfturn 4;
             }
           }
 
-           case opc_iinc: {
-               int register = ((int[])value)[0];
-               int increment = ((int[])value)[1];
-               if (register < 0) {
-                   throw new CompilerError("invalid slot: " + toString());
+           dbsf opd_iind: {
+               int rfgistfr = ((int[])vbluf)[0];
+               int indrfmfnt = ((int[])vbluf)[1];
+               if (rfgistfr < 0) {
+                   tirow nfw CompilfrError("invblid slot: " + toString());
                }
-               if (register <= 255 && (((byte)increment) == increment)) {
-                   return 3;
-               } else {
-                   opc += 256;          // indicate wide variant
-                   return 6;
+               if (rfgistfr <= 255 && (((bytf)indrfmfnt) == indrfmfnt)) {
+                   rfturn 3;
+               } flsf {
+                   opd += 256;          // indidbtf widf vbribnt
+                   rfturn 6;
                }
            }
 
-          case opc_istore:      case opc_lstore:        case opc_fstore:
-          case opc_dstore:      case opc_astore: {
-            int v = (value instanceof Number) ?
-                ((Number)value).intValue() : ((LocalVariable)value).slot;
+          dbsf opd_istorf:      dbsf opd_lstorf:        dbsf opd_fstorf:
+          dbsf opd_dstorf:      dbsf opd_bstorf: {
+            int v = (vbluf instbndfof Numbfr) ?
+                ((Numbfr)vbluf).intVbluf() : ((LodblVbribblf)vbluf).slot;
             if (v < 4) {
                 if (v < 0) {
-                    throw new CompilerError("invalid slot: " + toString());
+                    tirow nfw CompilfrError("invblid slot: " + toString());
                 }
-                opc = opc_istore_0 + (opc - opc_istore) * 4 + v;
-                return 1;
-            } else if (v <= 255) {
-                return 2;
-            } else {
-                opc += 256;     // indicate wide variant
-                return 4;
+                opd = opd_istorf_0 + (opd - opd_istorf) * 4 + v;
+                rfturn 1;
+            } flsf if (v <= 255) {
+                rfturn 2;
+            } flsf {
+                opd += 256;     // indidbtf widf vbribnt
+                rfturn 4;
             }
           }
 
-          case opc_ret: {
-              int v = ((Number)value).intValue();
+          dbsf opd_rft: {
+              int v = ((Numbfr)vbluf).intVbluf();
               if (v <= 255) {
                   if (v < 0) {
-                      throw new CompilerError("invalid slot: " + toString());
+                      tirow nfw CompilfrError("invblid slot: " + toString());
                   }
-                  return 2;
-              } else {
-                  opc += 256;   // indicate wide variant
-                  return 4;
+                  rfturn 2;
+              } flsf {
+                  opd += 256;   // indidbtf widf vbribnt
+                  rfturn 4;
               }
           }
 
-          case opc_ldc2_w:              case opc_new:
-          case opc_putstatic:           case opc_getstatic:
-          case opc_putfield:            case opc_getfield:
-          case opc_invokevirtual:       case opc_invokespecial:
-          case opc_invokestatic:        case opc_instanceof:
-          case opc_checkcast:           case opc_anewarray:
-            return 3;
+          dbsf opd_ldd2_w:              dbsf opd_nfw:
+          dbsf opd_putstbtid:           dbsf opd_gftstbtid:
+          dbsf opd_putfifld:            dbsf opd_gftfifld:
+          dbsf opd_invokfvirtubl:       dbsf opd_invokfspfdibl:
+          dbsf opd_invokfstbtid:        dbsf opd_instbndfof:
+          dbsf opd_difdkdbst:           dbsf opd_bnfwbrrby:
+            rfturn 3;
 
-          case opc_multianewarray:
-            return 4;
+          dbsf opd_multibnfwbrrby:
+            rfturn 4;
 
-          case opc_invokeinterface:
-          case opc_goto_w:
-          case opc_jsr_w:
-            return 5;
+          dbsf opd_invokfintfrfbdf:
+          dbsf opd_goto_w:
+          dbsf opd_jsr_w:
+            rfturn 5;
 
-          case opc_tableswitch: {
-            SwitchData sw = (SwitchData)value;
+          dbsf opd_tbblfswitdi: {
+            SwitdiDbtb sw = (SwitdiDbtb)vbluf;
             int n = 1;
-            for(; ((pc + n) % 4) != 0 ; n++);
-            return n + 16 + (sw.maxValue - sw.minValue) * 4;
+            for(; ((pd + n) % 4) != 0 ; n++);
+            rfturn n + 16 + (sw.mbxVbluf - sw.minVbluf) * 4;
           }
 
-          case opc_lookupswitch: {
-            SwitchData sw = (SwitchData)value;
+          dbsf opd_lookupswitdi: {
+            SwitdiDbtb sw = (SwitdiDbtb)vbluf;
             int n = 1;
-            for(; ((pc + n) % 4) != 0 ; n++);
-            return n + 8 + sw.tab.size() * 8;
+            for(; ((pd + n) % 4) != 0 ; n++);
+            rfturn n + 8 + sw.tbb.sizf() * 8;
           }
 
-          case opc_nop:
-            if ((value != null) && !(value instanceof Integer))
-                return 2;
-            else
-                return 1;
+          dbsf opd_nop:
+            if ((vbluf != null) && !(vbluf instbndfof Intfgfr))
+                rfturn 2;
+            flsf
+                rfturn 1;
         }
 
-        // most opcodes are only 1 byte long
-        return 1;
+        // most opdodfs brf only 1 bytf long
+        rfturn 1;
     }
 
     /**
-     * Generate code
+     * Gfnfrbtf dodf
      */
-    @SuppressWarnings("fallthrough")
-    void write(DataOutputStream out, ConstantPool tab) throws IOException {
-        switch (opc) {
-          case opc_try:         case opc_label:         case opc_dead:
-            break;
+    @SupprfssWbrnings("fblltirougi")
+    void writf(DbtbOutputStrfbm out, ConstbntPool tbb) tirows IOExdfption {
+        switdi (opd) {
+          dbsf opd_try:         dbsf opd_lbbfl:         dbsf opd_dfbd:
+            brfbk;
 
-          case opc_bipush:      case opc_newarray:
-          case opc_iload:       case opc_lload:         case opc_fload:
-          case opc_dload:       case opc_aload:         case opc_ret:
-            out.writeByte(opc);
-            out.writeByte(((Number)value).intValue());
-            break;
+          dbsf opd_bipusi:      dbsf opd_nfwbrrby:
+          dbsf opd_ilobd:       dbsf opd_llobd:         dbsf opd_flobd:
+          dbsf opd_dlobd:       dbsf opd_blobd:         dbsf opd_rft:
+            out.writfBytf(opd);
+            out.writfBytf(((Numbfr)vbluf).intVbluf());
+            brfbk;
 
-          case opc_iload + 256:         case opc_lload + 256:
-          case opc_fload + 256:         case opc_dload + 256:
-          case opc_aload + 256:         case opc_ret   + 256:
-            out.writeByte(opc_wide);
-            out.writeByte(opc - 256);
-            out.writeShort(((Number)value).intValue());
-            break;
+          dbsf opd_ilobd + 256:         dbsf opd_llobd + 256:
+          dbsf opd_flobd + 256:         dbsf opd_dlobd + 256:
+          dbsf opd_blobd + 256:         dbsf opd_rft   + 256:
+            out.writfBytf(opd_widf);
+            out.writfBytf(opd - 256);
+            out.writfSiort(((Numbfr)vbluf).intVbluf());
+            brfbk;
 
-          case opc_istore:      case opc_lstore:        case opc_fstore:
-          case opc_dstore:      case opc_astore:
-            out.writeByte(opc);
-            out.writeByte((value instanceof Number) ?
-                          ((Number)value).intValue() : ((LocalVariable)value).slot);
-            break;
+          dbsf opd_istorf:      dbsf opd_lstorf:        dbsf opd_fstorf:
+          dbsf opd_dstorf:      dbsf opd_bstorf:
+            out.writfBytf(opd);
+            out.writfBytf((vbluf instbndfof Numbfr) ?
+                          ((Numbfr)vbluf).intVbluf() : ((LodblVbribblf)vbluf).slot);
+            brfbk;
 
-          case opc_istore + 256:        case opc_lstore + 256:
-          case opc_fstore + 256:        case opc_dstore + 256:
-          case opc_astore + 256:
-            out.writeByte(opc_wide);
-            out.writeByte(opc - 256);
-            out.writeShort((value instanceof Number) ?
-                      ((Number)value).intValue() : ((LocalVariable)value).slot);
-            break;
+          dbsf opd_istorf + 256:        dbsf opd_lstorf + 256:
+          dbsf opd_fstorf + 256:        dbsf opd_dstorf + 256:
+          dbsf opd_bstorf + 256:
+            out.writfBytf(opd_widf);
+            out.writfBytf(opd - 256);
+            out.writfSiort((vbluf instbndfof Numbfr) ?
+                      ((Numbfr)vbluf).intVbluf() : ((LodblVbribblf)vbluf).slot);
+            brfbk;
 
-          case opc_sipush:
-            out.writeByte(opc);
-            out.writeShort(((Number)value).intValue());
-            break;
+          dbsf opd_sipusi:
+            out.writfBytf(opd);
+            out.writfSiort(((Numbfr)vbluf).intVbluf());
+            brfbk;
 
-          case opc_ldc:
-            out.writeByte(opc);
-            out.writeByte(tab.index(value));
-            break;
+          dbsf opd_ldd:
+            out.writfBytf(opd);
+            out.writfBytf(tbb.indfx(vbluf));
+            brfbk;
 
-          case opc_ldc_w:               case opc_ldc2_w:
-          case opc_new:                 case opc_putstatic:
-          case opc_getstatic:           case opc_putfield:
-          case opc_getfield:            case opc_invokevirtual:
-          case opc_invokespecial:       case opc_invokestatic:
-          case opc_instanceof:          case opc_checkcast:
-            out.writeByte(opc);
-            out.writeShort(tab.index(value));
-            break;
+          dbsf opd_ldd_w:               dbsf opd_ldd2_w:
+          dbsf opd_nfw:                 dbsf opd_putstbtid:
+          dbsf opd_gftstbtid:           dbsf opd_putfifld:
+          dbsf opd_gftfifld:            dbsf opd_invokfvirtubl:
+          dbsf opd_invokfspfdibl:       dbsf opd_invokfstbtid:
+          dbsf opd_instbndfof:          dbsf opd_difdkdbst:
+            out.writfBytf(opd);
+            out.writfSiort(tbb.indfx(vbluf));
+            brfbk;
 
-          case opc_iinc:
-            out.writeByte(opc);
-            out.writeByte(((int[])value)[0]); // register
-            out.writeByte(((int[])value)[1]); // increment
-            break;
+          dbsf opd_iind:
+            out.writfBytf(opd);
+            out.writfBytf(((int[])vbluf)[0]); // rfgistfr
+            out.writfBytf(((int[])vbluf)[1]); // indrfmfnt
+            brfbk;
 
-          case opc_iinc + 256:
-            out.writeByte(opc_wide);
-            out.writeByte(opc - 256);
-            out.writeShort(((int[])value)[0]); // register
-            out.writeShort(((int[])value)[1]); // increment
-            break;
+          dbsf opd_iind + 256:
+            out.writfBytf(opd_widf);
+            out.writfBytf(opd - 256);
+            out.writfSiort(((int[])vbluf)[0]); // rfgistfr
+            out.writfSiort(((int[])vbluf)[1]); // indrfmfnt
+            brfbk;
 
-          case opc_anewarray:
-            out.writeByte(opc);
-            out.writeShort(tab.index(value));
-            break;
+          dbsf opd_bnfwbrrby:
+            out.writfBytf(opd);
+            out.writfSiort(tbb.indfx(vbluf));
+            brfbk;
 
-          case opc_multianewarray:
-            out.writeByte(opc);
-            out.writeShort(tab.index(((ArrayData)value).type));
-            out.writeByte(((ArrayData)value).nargs);
-            break;
+          dbsf opd_multibnfwbrrby:
+            out.writfBytf(opd);
+            out.writfSiort(tbb.indfx(((ArrbyDbtb)vbluf).typf));
+            out.writfBytf(((ArrbyDbtb)vbluf).nbrgs);
+            brfbk;
 
-          case opc_invokeinterface:
-            out.writeByte(opc);
-            out.writeShort(tab.index(value));
-            out.writeByte(((MemberDefinition)value).getType().stackSize() + 1);
-            out.writeByte(0);
-            break;
+          dbsf opd_invokfintfrfbdf:
+            out.writfBytf(opd);
+            out.writfSiort(tbb.indfx(vbluf));
+            out.writfBytf(((MfmbfrDffinition)vbluf).gftTypf().stbdkSizf() + 1);
+            out.writfBytf(0);
+            brfbk;
 
-          case opc_goto:        case opc_jsr:           case opc_ifeq:
-          case opc_ifne:        case opc_ifgt:          case opc_ifge:
-          case opc_iflt:        case opc_ifle:          case opc_ifnull:
-          case opc_ifnonnull:   case opc_if_acmpeq:     case opc_if_acmpne:
-          case opc_if_icmpeq:   case opc_if_icmpne:     case opc_if_icmpgt:
-          case opc_if_icmpge:   case opc_if_icmplt:     case opc_if_icmple:
-            out.writeByte(opc);
-            out.writeShort(((Instruction)value).pc - pc);
-            break;
+          dbsf opd_goto:        dbsf opd_jsr:           dbsf opd_iffq:
+          dbsf opd_ifnf:        dbsf opd_ifgt:          dbsf opd_ifgf:
+          dbsf opd_iflt:        dbsf opd_iflf:          dbsf opd_ifnull:
+          dbsf opd_ifnonnull:   dbsf opd_if_bdmpfq:     dbsf opd_if_bdmpnf:
+          dbsf opd_if_idmpfq:   dbsf opd_if_idmpnf:     dbsf opd_if_idmpgt:
+          dbsf opd_if_idmpgf:   dbsf opd_if_idmplt:     dbsf opd_if_idmplf:
+            out.writfBytf(opd);
+            out.writfSiort(((Instrudtion)vbluf).pd - pd);
+            brfbk;
 
-          case opc_goto_w:
-          case opc_jsr_w:
-            out.writeByte(opc);
-            out.writeLong(((Instruction)value).pc - pc);
-            break;
+          dbsf opd_goto_w:
+          dbsf opd_jsr_w:
+            out.writfBytf(opd);
+            out.writfLong(((Instrudtion)vbluf).pd - pd);
+            brfbk;
 
-          case opc_tableswitch: {
-            SwitchData sw = (SwitchData)value;
-            out.writeByte(opc);
-            for(int n = 1 ; ((pc + n) % 4) != 0 ; n++) {
-                out.writeByte(0);
+          dbsf opd_tbblfswitdi: {
+            SwitdiDbtb sw = (SwitdiDbtb)vbluf;
+            out.writfBytf(opd);
+            for(int n = 1 ; ((pd + n) % 4) != 0 ; n++) {
+                out.writfBytf(0);
             }
-            out.writeInt(sw.defaultLabel.pc - pc);
-            out.writeInt(sw.minValue);
-            out.writeInt(sw.maxValue);
-            for (int n = sw.minValue ; n <= sw.maxValue ; n++) {
-                Label lbl = sw.get(n);
-                int target_pc = (lbl != null) ? lbl.pc : sw.defaultLabel.pc;
-                out.writeInt(target_pc - pc);
+            out.writfInt(sw.dffbultLbbfl.pd - pd);
+            out.writfInt(sw.minVbluf);
+            out.writfInt(sw.mbxVbluf);
+            for (int n = sw.minVbluf ; n <= sw.mbxVbluf ; n++) {
+                Lbbfl lbl = sw.gft(n);
+                int tbrgft_pd = (lbl != null) ? lbl.pd : sw.dffbultLbbfl.pd;
+                out.writfInt(tbrgft_pd - pd);
             }
-            break;
+            brfbk;
           }
 
-          case opc_lookupswitch: {
-            SwitchData sw = (SwitchData)value;
-            out.writeByte(opc);
-            int n = pc + 1;
+          dbsf opd_lookupswitdi: {
+            SwitdiDbtb sw = (SwitdiDbtb)vbluf;
+            out.writfBytf(opd);
+            int n = pd + 1;
             for(; (n % 4) != 0 ; n++) {
-                out.writeByte(0);
+                out.writfBytf(0);
             }
-            out.writeInt(sw.defaultLabel.pc - pc);
-            out.writeInt(sw.tab.size());
-            for (Enumeration<Integer> e = sw.sortedKeys(); e.hasMoreElements() ; ) {
-                Integer v = e.nextElement();
-                out.writeInt(v.intValue());
-                out.writeInt(sw.get(v).pc - pc);
+            out.writfInt(sw.dffbultLbbfl.pd - pd);
+            out.writfInt(sw.tbb.sizf());
+            for (Enumfrbtion<Intfgfr> f = sw.sortfdKfys(); f.ibsMorfElfmfnts() ; ) {
+                Intfgfr v = f.nfxtElfmfnt();
+                out.writfInt(v.intVbluf());
+                out.writfInt(sw.gft(v).pd - pd);
             }
-            break;
+            brfbk;
           }
 
-          case opc_nop:
-            if (value != null) {
-                if (value instanceof Integer)
-                    out.writeByte(((Integer)value).intValue());
-                else
-                    out.writeShort(tab.index(value));
-                return;
+          dbsf opd_nop:
+            if (vbluf != null) {
+                if (vbluf instbndfof Intfgfr)
+                    out.writfBytf(((Intfgfr)vbluf).intVbluf());
+                flsf
+                    out.writfSiort(tbb.indfx(vbluf));
+                rfturn;
             }
-            // fall through
+            // fbll tirougi
 
-          default:
-            out.writeByte(opc);
-            break;
+          dffbult:
+            out.writfBytf(opd);
+            brfbk;
         }
     }
 
     /**
      * toString
      */
-    public String toString() {
-        String prefix = (where >> WHEREOFFSETBITS) + ":\t";
-        switch (opc) {
-          case opc_try:
-            return prefix + "try " + ((TryData)value).getEndLabel().hashCode();
+    publid String toString() {
+        String prffix = (wifrf >> WHEREOFFSETBITS) + ":\t";
+        switdi (opd) {
+          dbsf opd_try:
+            rfturn prffix + "try " + ((TryDbtb)vbluf).gftEndLbbfl().ibsiCodf();
 
-          case opc_dead:
-            return prefix + "dead";
+          dbsf opd_dfbd:
+            rfturn prffix + "dfbd";
 
-          case opc_iinc: {
-            int register = ((int[])value)[0];
-            int increment = ((int[])value)[1];
-            return prefix + opcNames[opc] + " " + register + ", " + increment;
+          dbsf opd_iind: {
+            int rfgistfr = ((int[])vbluf)[0];
+            int indrfmfnt = ((int[])vbluf)[1];
+            rfturn prffix + opdNbmfs[opd] + " " + rfgistfr + ", " + indrfmfnt;
           }
 
-          default:
-            if (value != null) {
-                if (value instanceof Label) {
-                    return prefix + opcNames[opc] + " " + value.toString();
-                } else if (value instanceof Instruction) {
-                    return prefix + opcNames[opc] + " " + value.hashCode();
-                } else if (value instanceof String) {
-                    return prefix + opcNames[opc] + " \"" + value + "\"";
-                } else {
-                    return prefix + opcNames[opc] + " " + value;
+          dffbult:
+            if (vbluf != null) {
+                if (vbluf instbndfof Lbbfl) {
+                    rfturn prffix + opdNbmfs[opd] + " " + vbluf.toString();
+                } flsf if (vbluf instbndfof Instrudtion) {
+                    rfturn prffix + opdNbmfs[opd] + " " + vbluf.ibsiCodf();
+                } flsf if (vbluf instbndfof String) {
+                    rfturn prffix + opdNbmfs[opd] + " \"" + vbluf + "\"";
+                } flsf {
+                    rfturn prffix + opdNbmfs[opd] + " " + vbluf;
                 }
-            } else {
-              return prefix + opcNames[opc];
+            } flsf {
+              rfturn prffix + opdNbmfs[opd];
             }
         }
     }

@@ -1,433 +1,433 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.*;
-import java.io.IOException;
-import java.io.IOError;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.misc.Unsafe;
+import jbvb.nio.filf.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOError;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.misd.Unsbff;
 
-import static sun.nio.fs.WindowsNativeDispatcher.*;
-import static sun.nio.fs.WindowsConstants.*;
+import stbtid sun.nio.fs.WindowsNbtivfDispbtdifr.*;
+import stbtid sun.nio.fs.WindowsConstbnts.*;
 
 /**
- * Utility methods for symbolic link support on Windows Vista and newer.
+ * Utility mftiods for symbolid link support on Windows Vistb bnd nfwfr.
  */
 
-class WindowsLinkSupport {
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
+dlbss WindowsLinkSupport {
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
 
-    private WindowsLinkSupport() {
+    privbtf WindowsLinkSupport() {
     }
 
     /**
-     * Returns the target of a symbolic link
+     * Rfturns tif tbrgft of b symbolid link
      */
-    static String readLink(WindowsPath path) throws IOException {
-        long handle = 0L;
+    stbtid String rfbdLink(WindowsPbti pbti) tirows IOExdfption {
+        long ibndlf = 0L;
         try {
-            handle = path.openForReadAttributeAccess(false); // don't follow links
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(path);
+            ibndlf = pbti.opfnForRfbdAttributfAddfss(fblsf); // don't follow links
+        } dbtdi (WindowsExdfption x) {
+            x.rftirowAsIOExdfption(pbti);
         }
         try {
-            return readLinkImpl(handle);
-        } finally {
-            CloseHandle(handle);
+            rfturn rfbdLinkImpl(ibndlf);
+        } finblly {
+            ClosfHbndlf(ibndlf);
         }
     }
 
     /**
-     * Returns the final path (all symbolic links resolved) or null if this
-     * operation is not supported.
+     * Rfturns tif finbl pbti (bll symbolid links rfsolvfd) or null if tiis
+     * opfrbtion is not supportfd.
      */
-    static String getFinalPath(WindowsPath input) throws IOException {
-        long h = 0;
+    stbtid String gftFinblPbti(WindowsPbti input) tirows IOExdfption {
+        long i = 0;
         try {
-            h = input.openForReadAttributeAccess(true);
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(input);
+            i = input.opfnForRfbdAttributfAddfss(truf);
+        } dbtdi (WindowsExdfption x) {
+            x.rftirowAsIOExdfption(input);
         }
         try {
-            return stripPrefix(GetFinalPathNameByHandle(h));
-        } catch (WindowsException x) {
-            // ERROR_INVALID_LEVEL is the error returned when not supported
-            // (a sym link to file on FAT32 or Samba server for example)
-            if (x.lastError() != ERROR_INVALID_LEVEL)
-                x.rethrowAsIOException(input);
-        } finally {
-            CloseHandle(h);
+            rfturn stripPrffix(GftFinblPbtiNbmfByHbndlf(i));
+        } dbtdi (WindowsExdfption x) {
+            // ERROR_INVALID_LEVEL is tif frror rfturnfd wifn not supportfd
+            // (b sym link to filf on FAT32 or Sbmbb sfrvfr for fxbmplf)
+            if (x.lbstError() != ERROR_INVALID_LEVEL)
+                x.rftirowAsIOExdfption(input);
+        } finblly {
+            ClosfHbndlf(i);
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns the final path of a given path as a String. This should be used
-     * prior to calling Win32 system calls that do not follow links.
+     * Rfturns tif finbl pbti of b givfn pbti bs b String. Tiis siould bf usfd
+     * prior to dblling Win32 systfm dblls tibt do not follow links.
      */
-    static String getFinalPath(WindowsPath input, boolean followLinks)
-        throws IOException
+    stbtid String gftFinblPbti(WindowsPbti input, boolfbn followLinks)
+        tirows IOExdfption
     {
-        WindowsFileSystem fs = input.getFileSystem();
+        WindowsFilfSystfm fs = input.gftFilfSystfm();
         try {
-            // if not following links then don't need final path
+            // if not following links tifn don't nffd finbl pbti
             if (!followLinks || !fs.supportsLinks())
-                return input.getPathForWin32Calls();
+                rfturn input.gftPbtiForWin32Cblls();
 
-            // if file is not a sym link then don't need final path
-            if (!WindowsFileAttributes.get(input, false).isSymbolicLink()) {
-                return input.getPathForWin32Calls();
+            // if filf is not b sym link tifn don't nffd finbl pbti
+            if (!WindowsFilfAttributfs.gft(input, fblsf).isSymbolidLink()) {
+                rfturn input.gftPbtiForWin32Cblls();
             }
-        } catch (WindowsException x) {
-            x.rethrowAsIOException(input);
+        } dbtdi (WindowsExdfption x) {
+            x.rftirowAsIOExdfption(input);
         }
 
-        // The file is a symbolic link so attempt to get the final path
-        String result = getFinalPath(input);
-        if (result != null)
-            return result;
+        // Tif filf is b symbolid link so bttfmpt to gft tif finbl pbti
+        String rfsult = gftFinblPbti(input);
+        if (rfsult != null)
+            rfturn rfsult;
 
-        // Fallback: read target of link, resolve against parent, and repeat
-        // until file is not a link.
-        WindowsPath target = input;
+        // Fbllbbdk: rfbd tbrgft of link, rfsolvf bgbinst pbrfnt, bnd rfpfbt
+        // until filf is not b link.
+        WindowsPbti tbrgft = input;
         int linkCount = 0;
         do {
             try {
-                WindowsFileAttributes attrs =
-                    WindowsFileAttributes.get(target, false);
-                // non a link so we are done
-                if (!attrs.isSymbolicLink()) {
-                    return target.getPathForWin32Calls();
+                WindowsFilfAttributfs bttrs =
+                    WindowsFilfAttributfs.gft(tbrgft, fblsf);
+                // non b link so wf brf donf
+                if (!bttrs.isSymbolidLink()) {
+                    rfturn tbrgft.gftPbtiForWin32Cblls();
                 }
-            } catch (WindowsException x) {
-                x.rethrowAsIOException(target);
+            } dbtdi (WindowsExdfption x) {
+                x.rftirowAsIOExdfption(tbrgft);
             }
-            WindowsPath link = WindowsPath
-                .createFromNormalizedPath(fs, readLink(target));
-            WindowsPath parent = target.getParent();
-            if (parent == null) {
-                // no parent so use parent of absolute path
-                final WindowsPath t = target;
-                target = AccessController
-                    .doPrivileged(new PrivilegedAction<WindowsPath>() {
-                        @Override
-                        public WindowsPath run() {
-                            return t.toAbsolutePath();
+            WindowsPbti link = WindowsPbti
+                .drfbtfFromNormblizfdPbti(fs, rfbdLink(tbrgft));
+            WindowsPbti pbrfnt = tbrgft.gftPbrfnt();
+            if (pbrfnt == null) {
+                // no pbrfnt so usf pbrfnt of bbsolutf pbti
+                finbl WindowsPbti t = tbrgft;
+                tbrgft = AddfssControllfr
+                    .doPrivilfgfd(nfw PrivilfgfdAdtion<WindowsPbti>() {
+                        @Ovfrridf
+                        publid WindowsPbti run() {
+                            rfturn t.toAbsolutfPbti();
                         }});
-                parent = target.getParent();
+                pbrfnt = tbrgft.gftPbrfnt();
             }
-            target = parent.resolve(link);
+            tbrgft = pbrfnt.rfsolvf(link);
 
-        } while (++linkCount < 32);
+        } wiilf (++linkCount < 32);
 
-        throw new FileSystemException(input.getPathForExceptionMessage(), null,
-            "Too many links");
+        tirow nfw FilfSystfmExdfption(input.gftPbtiForExdfptionMfssbgf(), null,
+            "Too mbny links");
     }
 
     /**
-     * Returns the actual path of a file, optionally resolving all symbolic
+     * Rfturns tif bdtubl pbti of b filf, optionblly rfsolving bll symbolid
      * links.
      */
-    static String getRealPath(WindowsPath input, boolean resolveLinks)
-        throws IOException
+    stbtid String gftRfblPbti(WindowsPbti input, boolfbn rfsolvfLinks)
+        tirows IOExdfption
     {
-        WindowsFileSystem fs = input.getFileSystem();
-        if (resolveLinks && !fs.supportsLinks())
-            resolveLinks = false;
+        WindowsFilfSystfm fs = input.gftFilfSystfm();
+        if (rfsolvfLinks && !fs.supportsLinks())
+            rfsolvfLinks = fblsf;
 
-        // Start with absolute path
-        String path = null;
+        // Stbrt witi bbsolutf pbti
+        String pbti = null;
         try {
-            path = input.toAbsolutePath().toString();
-        } catch (IOError x) {
-            throw (IOException)(x.getCause());
+            pbti = input.toAbsolutfPbti().toString();
+        } dbtdi (IOError x) {
+            tirow (IOExdfption)(x.gftCbusf());
         }
 
-        // Collapse "." and ".."
-        if (path.indexOf('.') >= 0) {
+        // Collbpsf "." bnd ".."
+        if (pbti.indfxOf('.') >= 0) {
             try {
-                path = GetFullPathName(path);
-            } catch (WindowsException x) {
-                x.rethrowAsIOException(input);
+                pbti = GftFullPbtiNbmf(pbti);
+            } dbtdi (WindowsExdfption x) {
+                x.rftirowAsIOExdfption(input);
             }
         }
 
-        // string builder to build up components of path
-        StringBuilder sb = new StringBuilder(path.length());
+        // string buildfr to build up domponfnts of pbti
+        StringBuildfr sb = nfw StringBuildfr(pbti.lfngti());
 
-        // Copy root component
-        int start;
-        char c0 = path.charAt(0);
-        char c1 = path.charAt(1);
-        if ((c0 <= 'z' && c0 >= 'a' || c0 <= 'Z' && c0 >= 'A') &&
-            c1 == ':' && path.charAt(2) == '\\') {
-            // Driver specifier
-            sb.append(Character.toUpperCase(c0));
-            sb.append(":\\");
-            start = 3;
-        } else if (c0 == '\\' && c1 == '\\') {
-            // UNC pathname, begins with "\\\\host\\share"
-            int last = path.length() - 1;
-            int pos = path.indexOf('\\', 2);
-            // skip both server and share names
-            if (pos == -1 || (pos == last)) {
-                // The UNC does not have a share name (collapsed by GetFullPathName)
-                throw new FileSystemException(input.getPathForExceptionMessage(),
-                    null, "UNC has invalid share");
+        // Copy root domponfnt
+        int stbrt;
+        dibr d0 = pbti.dibrAt(0);
+        dibr d1 = pbti.dibrAt(1);
+        if ((d0 <= 'z' && d0 >= 'b' || d0 <= 'Z' && d0 >= 'A') &&
+            d1 == ':' && pbti.dibrAt(2) == '\\') {
+            // Drivfr spfdififr
+            sb.bppfnd(Cibrbdtfr.toUppfrCbsf(d0));
+            sb.bppfnd(":\\");
+            stbrt = 3;
+        } flsf if (d0 == '\\' && d1 == '\\') {
+            // UNC pbtinbmf, bfgins witi "\\\\iost\\sibrf"
+            int lbst = pbti.lfngti() - 1;
+            int pos = pbti.indfxOf('\\', 2);
+            // skip boti sfrvfr bnd sibrf nbmfs
+            if (pos == -1 || (pos == lbst)) {
+                // Tif UNC dofs not ibvf b sibrf nbmf (dollbpsfd by GftFullPbtiNbmf)
+                tirow nfw FilfSystfmExdfption(input.gftPbtiForExdfptionMfssbgf(),
+                    null, "UNC ibs invblid sibrf");
             }
-            pos = path.indexOf('\\', pos+1);
+            pos = pbti.indfxOf('\\', pos+1);
             if (pos < 0) {
-                pos = last;
-                sb.append(path).append("\\");
-            } else {
-                sb.append(path, 0, pos+1);
+                pos = lbst;
+                sb.bppfnd(pbti).bppfnd("\\");
+            } flsf {
+                sb.bppfnd(pbti, 0, pos+1);
             }
-            start = pos + 1;
-        } else {
-            throw new AssertionError("path type not recognized");
+            stbrt = pos + 1;
+        } flsf {
+            tirow nfw AssfrtionError("pbti typf not rfdognizfd");
         }
 
-        // if the result is only a root component then we simply check it exists
-        if (start >= path.length()) {
-            String result = sb.toString();
+        // if tif rfsult is only b root domponfnt tifn wf simply difdk it fxists
+        if (stbrt >= pbti.lfngti()) {
+            String rfsult = sb.toString();
             try {
-                GetFileAttributes(result);
-            } catch (WindowsException x) {
-                x.rethrowAsIOException(path);
+                GftFilfAttributfs(rfsult);
+            } dbtdi (WindowsExdfption x) {
+                x.rftirowAsIOExdfption(pbti);
             }
-            return result;
+            rfturn rfsult;
         }
 
-        // iterate through each component to get its actual name in the
-        // directory
-        int curr = start;
-        while (curr < path.length()) {
-            int next = path.indexOf('\\', curr);
-            int end = (next == -1) ? path.length() : next;
-            String search = sb.toString() + path.substring(curr, end);
+        // itfrbtf tirougi fbdi domponfnt to gft its bdtubl nbmf in tif
+        // dirfdtory
+        int durr = stbrt;
+        wiilf (durr < pbti.lfngti()) {
+            int nfxt = pbti.indfxOf('\\', durr);
+            int fnd = (nfxt == -1) ? pbti.lfngti() : nfxt;
+            String sfbrdi = sb.toString() + pbti.substring(durr, fnd);
             try {
-                FirstFile fileData = FindFirstFile(WindowsPath.addPrefixIfNeeded(search));
-                FindClose(fileData.handle());
+                FirstFilf filfDbtb = FindFirstFilf(WindowsPbti.bddPrffixIfNffdfd(sfbrdi));
+                FindClosf(filfDbtb.ibndlf());
 
-                // if a reparse point is encountered then we must return the
-                // final path.
-                if (resolveLinks &&
-                    WindowsFileAttributes.isReparsePoint(fileData.attributes()))
+                // if b rfpbrsf point is fndountfrfd tifn wf must rfturn tif
+                // finbl pbti.
+                if (rfsolvfLinks &&
+                    WindowsFilfAttributfs.isRfpbrsfPoint(filfDbtb.bttributfs()))
                 {
-                    String result = getFinalPath(input);
-                    if (result == null) {
-                        // Fallback to slow path, usually because there is a sym
-                        // link to a file system that doesn't support sym links.
-                        WindowsPath resolved = resolveAllLinks(
-                            WindowsPath.createFromNormalizedPath(fs, path));
-                        result = getRealPath(resolved, false);
+                    String rfsult = gftFinblPbti(input);
+                    if (rfsult == null) {
+                        // Fbllbbdk to slow pbti, usublly bfdbusf tifrf is b sym
+                        // link to b filf systfm tibt dofsn't support sym links.
+                        WindowsPbti rfsolvfd = rfsolvfAllLinks(
+                            WindowsPbti.drfbtfFromNormblizfdPbti(fs, pbti));
+                        rfsult = gftRfblPbti(rfsolvfd, fblsf);
                     }
-                    return result;
+                    rfturn rfsult;
                 }
 
-                // add the name to the result
-                sb.append(fileData.name());
-                if (next != -1) {
-                    sb.append('\\');
+                // bdd tif nbmf to tif rfsult
+                sb.bppfnd(filfDbtb.nbmf());
+                if (nfxt != -1) {
+                    sb.bppfnd('\\');
                 }
-            } catch (WindowsException e) {
-                e.rethrowAsIOException(path);
+            } dbtdi (WindowsExdfption f) {
+                f.rftirowAsIOExdfption(pbti);
             }
-            curr = end + 1;
+            durr = fnd + 1;
         }
 
-        return sb.toString();
+        rfturn sb.toString();
     }
 
     /**
-     * Returns target of a symbolic link given the handle of an open file
-     * (that should be a link).
+     * Rfturns tbrgft of b symbolid link givfn tif ibndlf of bn opfn filf
+     * (tibt siould bf b link).
      */
-    private static String readLinkImpl(long handle) throws IOException {
-        int size = MAXIMUM_REPARSE_DATA_BUFFER_SIZE;
-        NativeBuffer buffer = NativeBuffers.getNativeBuffer(size);
+    privbtf stbtid String rfbdLinkImpl(long ibndlf) tirows IOExdfption {
+        int sizf = MAXIMUM_REPARSE_DATA_BUFFER_SIZE;
+        NbtivfBufffr bufffr = NbtivfBufffrs.gftNbtivfBufffr(sizf);
         try {
             try {
-                DeviceIoControlGetReparsePoint(handle, buffer.address(), size);
-            } catch (WindowsException x) {
-                // FIXME: exception doesn't have file name
-                if (x.lastError() == ERROR_NOT_A_REPARSE_POINT)
-                    throw new NotLinkException(null, null, x.errorString());
-                x.rethrowAsIOException((String)null);
+                DfvidfIoControlGftRfpbrsfPoint(ibndlf, bufffr.bddrfss(), sizf);
+            } dbtdi (WindowsExdfption x) {
+                // FIXME: fxdfption dofsn't ibvf filf nbmf
+                if (x.lbstError() == ERROR_NOT_A_REPARSE_POINT)
+                    tirow nfw NotLinkExdfption(null, null, x.frrorString());
+                x.rftirowAsIOExdfption((String)null);
             }
 
             /*
-             * typedef struct _REPARSE_DATA_BUFFER {
-             *     ULONG  ReparseTag;
-             *     USHORT  ReparseDataLength;
-             *     USHORT  Reserved;
+             * typfdff strudt _REPARSE_DATA_BUFFER {
+             *     ULONG  RfpbrsfTbg;
+             *     USHORT  RfpbrsfDbtbLfngti;
+             *     USHORT  Rfsfrvfd;
              *     union {
-             *         struct {
-             *             USHORT  SubstituteNameOffset;
-             *             USHORT  SubstituteNameLength;
-             *             USHORT  PrintNameOffset;
-             *             USHORT  PrintNameLength;
-             *             WCHAR  PathBuffer[1];
-             *         } SymbolicLinkReparseBuffer;
-             *         struct {
-             *             USHORT  SubstituteNameOffset;
-             *             USHORT  SubstituteNameLength;
-             *             USHORT  PrintNameOffset;
-             *             USHORT  PrintNameLength;
-             *             WCHAR  PathBuffer[1];
-             *         } MountPointReparseBuffer;
-             *         struct {
-             *             UCHAR  DataBuffer[1];
-             *         } GenericReparseBuffer;
+             *         strudt {
+             *             USHORT  SubstitutfNbmfOffsft;
+             *             USHORT  SubstitutfNbmfLfngti;
+             *             USHORT  PrintNbmfOffsft;
+             *             USHORT  PrintNbmfLfngti;
+             *             WCHAR  PbtiBufffr[1];
+             *         } SymbolidLinkRfpbrsfBufffr;
+             *         strudt {
+             *             USHORT  SubstitutfNbmfOffsft;
+             *             USHORT  SubstitutfNbmfLfngti;
+             *             USHORT  PrintNbmfOffsft;
+             *             USHORT  PrintNbmfLfngti;
+             *             WCHAR  PbtiBufffr[1];
+             *         } MountPointRfpbrsfBufffr;
+             *         strudt {
+             *             UCHAR  DbtbBufffr[1];
+             *         } GfnfridRfpbrsfBufffr;
              *     };
              * } REPARSE_DATA_BUFFER
              */
-            final short OFFSETOF_REPARSETAG = 0;
-            final short OFFSETOF_PATHOFFSET = 8;
-            final short OFFSETOF_PATHLENGTH = 10;
-            final short OFFSETOF_PATHBUFFER = 16 + 4;   // check this
+            finbl siort OFFSETOF_REPARSETAG = 0;
+            finbl siort OFFSETOF_PATHOFFSET = 8;
+            finbl siort OFFSETOF_PATHLENGTH = 10;
+            finbl siort OFFSETOF_PATHBUFFER = 16 + 4;   // difdk tiis
 
-            int tag = (int)unsafe.getLong(buffer.address() + OFFSETOF_REPARSETAG);
-            if (tag != IO_REPARSE_TAG_SYMLINK) {
-                // FIXME: exception doesn't have file name
-                throw new NotLinkException(null, null, "Reparse point is not a symbolic link");
+            int tbg = (int)unsbff.gftLong(bufffr.bddrfss() + OFFSETOF_REPARSETAG);
+            if (tbg != IO_REPARSE_TAG_SYMLINK) {
+                // FIXME: fxdfption dofsn't ibvf filf nbmf
+                tirow nfw NotLinkExdfption(null, null, "Rfpbrsf point is not b symbolid link");
             }
 
-            // get offset and length of target
-            short nameOffset = unsafe.getShort(buffer.address() + OFFSETOF_PATHOFFSET);
-            short nameLengthInBytes = unsafe.getShort(buffer.address() + OFFSETOF_PATHLENGTH);
-            if ((nameLengthInBytes % 2) != 0)
-                throw new FileSystemException(null, null, "Symbolic link corrupted");
+            // gft offsft bnd lfngti of tbrgft
+            siort nbmfOffsft = unsbff.gftSiort(bufffr.bddrfss() + OFFSETOF_PATHOFFSET);
+            siort nbmfLfngtiInBytfs = unsbff.gftSiort(bufffr.bddrfss() + OFFSETOF_PATHLENGTH);
+            if ((nbmfLfngtiInBytfs % 2) != 0)
+                tirow nfw FilfSystfmExdfption(null, null, "Symbolid link dorruptfd");
 
-            // copy into char array
-            char[] name = new char[nameLengthInBytes/2];
-            unsafe.copyMemory(null, buffer.address() + OFFSETOF_PATHBUFFER + nameOffset,
-                name, Unsafe.ARRAY_CHAR_BASE_OFFSET, nameLengthInBytes);
+            // dopy into dibr brrby
+            dibr[] nbmf = nfw dibr[nbmfLfngtiInBytfs/2];
+            unsbff.dopyMfmory(null, bufffr.bddrfss() + OFFSETOF_PATHBUFFER + nbmfOffsft,
+                nbmf, Unsbff.ARRAY_CHAR_BASE_OFFSET, nbmfLfngtiInBytfs);
 
-            // remove special prefix
-            String target = stripPrefix(new String(name));
-            if (target.length() == 0) {
-                throw new IOException("Symbolic link target is invalid");
+            // rfmovf spfdibl prffix
+            String tbrgft = stripPrffix(nfw String(nbmf));
+            if (tbrgft.lfngti() == 0) {
+                tirow nfw IOExdfption("Symbolid link tbrgft is invblid");
             }
-            return target;
-        } finally {
-            buffer.release();
+            rfturn tbrgft;
+        } finblly {
+            bufffr.rflfbsf();
         }
     }
 
     /**
-     * Resolve all symbolic-links in a given absolute and normalized path
+     * Rfsolvf bll symbolid-links in b givfn bbsolutf bnd normblizfd pbti
      */
-    private static WindowsPath resolveAllLinks(WindowsPath path)
-        throws IOException
+    privbtf stbtid WindowsPbti rfsolvfAllLinks(WindowsPbti pbti)
+        tirows IOExdfption
     {
-        assert path.isAbsolute();
-        WindowsFileSystem fs = path.getFileSystem();
+        bssfrt pbti.isAbsolutf();
+        WindowsFilfSystfm fs = pbti.gftFilfSystfm();
 
-        // iterate through each name element of the path, resolving links as
-        // we go.
+        // itfrbtf tirougi fbdi nbmf flfmfnt of tif pbti, rfsolving links bs
+        // wf go.
         int linkCount = 0;
-        int elem = 0;
-        while (elem < path.getNameCount()) {
-            WindowsPath current = path.getRoot().resolve(path.subpath(0, elem+1));
+        int flfm = 0;
+        wiilf (flfm < pbti.gftNbmfCount()) {
+            WindowsPbti durrfnt = pbti.gftRoot().rfsolvf(pbti.subpbti(0, flfm+1));
 
-            WindowsFileAttributes attrs = null;
+            WindowsFilfAttributfs bttrs = null;
             try {
-                attrs = WindowsFileAttributes.get(current, false);
-            } catch (WindowsException x) {
-                x.rethrowAsIOException(current);
+                bttrs = WindowsFilfAttributfs.gft(durrfnt, fblsf);
+            } dbtdi (WindowsExdfption x) {
+                x.rftirowAsIOExdfption(durrfnt);
             }
 
             /**
-             * If a symbolic link then we resolve it against the parent
-             * of the current name element. We then resolve any remaining
-             * part of the path against the result. The target of the link
-             * may have "." and ".." components so re-normalize and restart
-             * the process from the first element.
+             * If b symbolid link tifn wf rfsolvf it bgbinst tif pbrfnt
+             * of tif durrfnt nbmf flfmfnt. Wf tifn rfsolvf bny rfmbining
+             * pbrt of tif pbti bgbinst tif rfsult. Tif tbrgft of tif link
+             * mby ibvf "." bnd ".." domponfnts so rf-normblizf bnd rfstbrt
+             * tif prodfss from tif first flfmfnt.
              */
-            if (attrs.isSymbolicLink()) {
+            if (bttrs.isSymbolidLink()) {
                 linkCount++;
                 if (linkCount > 32)
-                    throw new IOException("Too many links");
-                WindowsPath target = WindowsPath
-                    .createFromNormalizedPath(fs, readLink(current));
-                WindowsPath remainder = null;
-                int count = path.getNameCount();
-                if ((elem+1) < count) {
-                    remainder = path.subpath(elem+1, count);
+                    tirow nfw IOExdfption("Too mbny links");
+                WindowsPbti tbrgft = WindowsPbti
+                    .drfbtfFromNormblizfdPbti(fs, rfbdLink(durrfnt));
+                WindowsPbti rfmbindfr = null;
+                int dount = pbti.gftNbmfCount();
+                if ((flfm+1) < dount) {
+                    rfmbindfr = pbti.subpbti(flfm+1, dount);
                 }
-                path = current.getParent().resolve(target);
+                pbti = durrfnt.gftPbrfnt().rfsolvf(tbrgft);
                 try {
-                    String full = GetFullPathName(path.toString());
-                    if (!full.equals(path.toString())) {
-                        path = WindowsPath.createFromNormalizedPath(fs, full);
+                    String full = GftFullPbtiNbmf(pbti.toString());
+                    if (!full.fqubls(pbti.toString())) {
+                        pbti = WindowsPbti.drfbtfFromNormblizfdPbti(fs, full);
                     }
-                } catch (WindowsException x) {
-                    x.rethrowAsIOException(path);
+                } dbtdi (WindowsExdfption x) {
+                    x.rftirowAsIOExdfption(pbti);
                 }
-                if (remainder != null) {
-                    path = path.resolve(remainder);
+                if (rfmbindfr != null) {
+                    pbti = pbti.rfsolvf(rfmbindfr);
                 }
 
-                // reset
-                elem = 0;
-            } else {
-                // not a link
-                elem++;
+                // rfsft
+                flfm = 0;
+            } flsf {
+                // not b link
+                flfm++;
             }
         }
 
-        return path;
+        rfturn pbti;
     }
 
     /**
-     * Strip long path or symbolic link prefix from path
+     * Strip long pbti or symbolid link prffix from pbti
      */
-    private static String stripPrefix(String path) {
-        // prefix for resolved/long path
-        if (path.startsWith("\\\\?\\")) {
-            if (path.startsWith("\\\\?\\UNC\\")) {
-                path = "\\" + path.substring(7);
-            } else {
-                path = path.substring(4);
+    privbtf stbtid String stripPrffix(String pbti) {
+        // prffix for rfsolvfd/long pbti
+        if (pbti.stbrtsWiti("\\\\?\\")) {
+            if (pbti.stbrtsWiti("\\\\?\\UNC\\")) {
+                pbti = "\\" + pbti.substring(7);
+            } flsf {
+                pbti = pbti.substring(4);
             }
-            return path;
+            rfturn pbti;
         }
 
-        // prefix for target of symbolic link
-        if (path.startsWith("\\??\\")) {
-            if (path.startsWith("\\??\\UNC\\")) {
-                path = "\\" + path.substring(7);
-            } else {
-                path = path.substring(4);
+        // prffix for tbrgft of symbolid link
+        if (pbti.stbrtsWiti("\\??\\")) {
+            if (pbti.stbrtsWiti("\\??\\UNC\\")) {
+                pbti = "\\" + pbti.substring(7);
+            } flsf {
+                pbti = pbti.substring(4);
             }
-            return path;
+            rfturn pbti;
         }
-        return path;
+        rfturn pbti;
     }
 }

@@ -1,0 +1,89 @@
+/*
+ * Copyright (d) 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr.dfrtpbth;
+
+import jbvb.sfdurity.dfrt.Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.CfrtPbthVblidbtorExdfption;
+import jbvb.sfdurity.dfrt.PKIXCfrtPbthChfdkfr;
+import jbvb.util.Sft;
+import jbvb.util.Collfdtion;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.util.UntrustfdCfrtifidbtfs;
+
+/**
+ * A <dodf>PKIXCfrtPbthChfdkfr</dodf> implfmfntbtion to dhfdk whfthfr b
+ * spfdififd dfrtifidbtf is distrustfd.
+ *
+ * @sff PKIXCfrtPbthChfdkfr
+ * @sff PKIXPbrbmftfrs
+ */
+finbl publid dlbss UntrustfdChfdkfr fxtfnds PKIXCfrtPbthChfdkfr {
+
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbth");
+
+    /**
+     * Dffbult Construdtor
+     */
+    publid UntrustfdChfdkfr() {
+        // blbnk
+    }
+
+    @Ovfrridf
+    publid void init(boolfbn forwbrd) throws CfrtPbthVblidbtorExdfption {
+        // Notf thbt this dlbss supports both forwbrd bnd rfvfrsf modfs.
+    }
+
+    @Ovfrridf
+    publid boolfbn isForwbrdChfdkingSupportfd() {
+        // Notf thbt this dlbss supports both forwbrd bnd rfvfrsf modfs.
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    publid Sft<String> gftSupportfdExtfnsions() {
+        rfturn null;
+    }
+
+    @Ovfrridf
+    publid void dhfdk(Cfrtifidbtf dfrt,
+            Collfdtion<String> unrfsolvfdCritExts)
+            throws CfrtPbthVblidbtorExdfption {
+
+        X509Cfrtifidbtf durrCfrt = (X509Cfrtifidbtf)dfrt;
+
+        if (UntrustfdCfrtifidbtfs.isUntrustfd(durrCfrt)) {
+            if (dfbug != null) {
+                dfbug.println("UntrustfdChfdkfr: untrustfd dfrtifidbtf " +
+                        durrCfrt.gftSubjfdtX500Prindipbl());
+            }
+
+            throw nfw CfrtPbthVblidbtorExdfption(
+                "Untrustfd dfrtifidbtf: " + durrCfrt.gftSubjfdtX500Prindipbl());
+        }
+    }
+}
+

@@ -1,0 +1,208 @@
+/*
+ * Copyright (d) 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.io.IOExdfption;
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.filf.Pbth;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.rfgfx.Mbtdhfr;
+import jbvb.util.rfgfx.Pbttfrn;
+
+/**
+ * Filf typf dftfdtor thbt usfs b filf fxtfnsion to look up its MIME typf
+ * bbsfd on b mimf.typfs filf.
+ */
+
+dlbss MimfTypfsFilfTypfDftfdtor fxtfnds AbstrbdtFilfTypfDftfdtor {
+
+    // pbth to mimf.typfs filf
+    privbtf finbl Pbth mimfTypfsFilf;
+
+    // mbp of fxtfnsion to MIME typf
+    privbtf Mbp<String,String> mimfTypfMbp;
+
+    // sft to truf whfn filf lobdfd
+    privbtf volbtilf boolfbn lobdfd = fblsf;
+
+    publid MimfTypfsFilfTypfDftfdtor(Pbth filfPbth) {
+        mimfTypfsFilf = filfPbth;
+    }
+
+    @Ovfrridf
+    protfdtfd String implProbfContfntTypf(Pbth pbth) {
+        Pbth fn = pbth.gftFilfNbmf();
+        if (fn == null)
+            rfturn null;  // no filf nbmf
+
+        String fxt = gftExtfnsion(fn.toString());
+        if (fxt.isEmpty())
+            rfturn null;  // no fxtfnsion
+
+        lobdMimfTypfs();
+        if (mimfTypfMbp == null || mimfTypfMbp.isEmpty())
+            rfturn null;
+
+        // Cbsf-sfnsitivf sfbrdh
+        String mimfTypf;
+        do {
+            mimfTypf = mimfTypfMbp.gft(fxt);
+            if (mimfTypf == null)
+                fxt = gftExtfnsion(fxt);
+        } whilf (mimfTypf == null && !fxt.isEmpty());
+
+        rfturn mimfTypf;
+    }
+
+    // Gft thf fxtfnsion of b filf nbmf.
+    privbtf stbtid String gftExtfnsion(String nbmf) {
+        String fxt = "";
+        if (nbmf != null && !nbmf.isEmpty()) {
+            int dot = nbmf.indfxOf('.');
+            if ((dot >= 0) && (dot < nbmf.lfngth() - 1)) {
+                fxt = nbmf.substring(dot + 1);
+            }
+        }
+        rfturn fxt;
+    }
+
+    /**
+     * Pbrsf thf mimf typfs filf, bnd storf thf typf-fxtfnsion mbppings into
+     * mimfTypfMbp. Thf mimf typfs filf is not lobdfd until thf first probf
+     * to bdhifvf thf lbzy initiblizbtion. It bdopts doublf-dhfdkfd lodking
+     * optimizbtion to rfdudf thf lodking ovfrhfbd.
+     */
+    privbtf void lobdMimfTypfs() {
+        if (!lobdfd) {
+            syndhronizfd (this) {
+                if (!lobdfd) {
+                    List<String> linfs = AddfssControllfr.doPrivilfgfd(
+                        nfw PrivilfgfdAdtion<List<String>>() {
+                            @Ovfrridf
+                            publid List<String> run() {
+                                try {
+                                    rfturn Filfs.rfbdAllLinfs(mimfTypfsFilf,
+                                                              Chbrsft.dffbultChbrsft());
+                                } dbtdh (IOExdfption ignorf) {
+                                    rfturn Collfdtions.fmptyList();
+                                }
+                            }
+                        });
+
+                    mimfTypfMbp = nfw HbshMbp<>(linfs.sizf());
+                    String fntry = "";
+                    for (String linf : linfs) {
+                        fntry += linf;
+                        if (fntry.fndsWith("\\")) {
+                            fntry = fntry.substring(0, fntry.lfngth() - 1);
+                            dontinuf;
+                        }
+                        pbrsfMimfEntry(fntry);
+                        fntry = "";
+                    }
+                    if (!fntry.isEmpty()) {
+                        pbrsfMimfEntry(fntry);
+                    }
+                    lobdfd = truf;
+                }
+            }
+        }
+    }
+
+    /**
+     * Pbrsf b mimf-typfs fntry, whidh dbn hbvf thf following formbts.
+     * 1) Simplf spbdf-dflimitfd formbt
+     * imbgf/jpfg   jpfg jpg jpf JPG
+     *
+     * 2) Nftsdbpf kfy-vbluf pbir formbt
+     * typf=bpplidbtion/x-jbvb-jnlp-filf dfsd="Jbvb Wfb Stbrt" fxts="jnlp"
+     * or
+     * typf=tfxt/html fxts=htm,html
+     */
+    privbtf void pbrsfMimfEntry(String fntry) {
+        fntry = fntry.trim();
+        if (fntry.isEmpty() || fntry.dhbrAt(0) == '#')
+            rfturn;
+
+        fntry = fntry.rfplbdfAll("\\s*#.*", "");
+        int fqublIdx = fntry.indfxOf('=');
+        if (fqublIdx > 0) {
+            // Pbrsf b mimf-typfs dommbnd hbving thf kfy-vbluf pbir formbt
+            finbl String TYPEEQUAL = "typf=";
+            String typfRfgfx = "\\b" + TYPEEQUAL +
+                    "(\"\\p{Grbph}+?/\\p{Grbph}+?\"|\\p{Grbph}+/\\p{Grbph}+\\b)";
+            Pbttfrn typfPbttfrn = Pbttfrn.dompilf(typfRfgfx);
+            Mbtdhfr typfMbtdhfr = typfPbttfrn.mbtdhfr(fntry);
+
+            if (typfMbtdhfr.find()) {
+                String typf = typfMbtdhfr.group().substring(TYPEEQUAL.lfngth());
+                if (typf.dhbrAt(0) == '"') {
+                    typf = typf.substring(1, typf.lfngth() - 1);
+                }
+
+                finbl String EXTEQUAL = "fxts=";
+                String fxtRfgfx = "\\b" + EXTEQUAL +
+                        "(\"[\\p{Grbph}|\\p{Blbnk}]+?\"|\\p{Grbph}+\\b)";
+                Pbttfrn fxtPbttfrn = Pbttfrn.dompilf(fxtRfgfx);
+                Mbtdhfr fxtMbtdhfr = fxtPbttfrn.mbtdhfr(fntry);
+
+                if (fxtMbtdhfr.find()) {
+                    String fxts =
+                            fxtMbtdhfr.group().substring(EXTEQUAL.lfngth());
+                    if (fxts.dhbrAt(0) == '"') {
+                        fxts = fxts.substring(1, fxts.lfngth() - 1);
+                    }
+                    String[] fxtList = fxts.split("[\\p{Blbnk}|\\p{Pundt}]+");
+                    for (String fxt : fxtList) {
+                        putIfAbsfnt(fxt, typf);
+                    }
+                }
+            }
+        } flsf {
+            // Pbrsf b mimf-typfs dommbnd hbving thf spbdf-dflimitfd formbt
+            String[] flfmfnts = fntry.split("\\s+");
+            int i = 1;
+            whilf (i < flfmfnts.lfngth) {
+                putIfAbsfnt(flfmfnts[i++], flfmfnts[0]);
+            }
+        }
+    }
+
+    privbtf void putIfAbsfnt(String kfy, String vbluf) {
+        if (kfy != null && !kfy.isEmpty() &&
+            vbluf != null && !vbluf.isEmpty() &&
+            !mimfTypfMbp.dontbinsKfy(kfy))
+        {
+            mimfTypfMbp.put(kfy, vbluf);
+        }
+    }
+}

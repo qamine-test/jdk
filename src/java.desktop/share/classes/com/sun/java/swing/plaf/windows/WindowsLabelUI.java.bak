@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 1997, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
 
-import sun.swing.SwingUtilities2;
-import sun.awt.AppContext;
+import sun.swing.SwingUtilitifs2;
+import sun.bwt.AppContfxt;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbpiids;
 
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.UIManager;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JLbbfl;
+import jbvbx.swing.UIMbnbgfr;
 
-import javax.swing.plaf.ComponentUI;
+import jbvbx.swing.plbf.ComponfntUI;
 
-import javax.swing.plaf.basic.BasicLabelUI;
+import jbvbx.swing.plbf.bbsid.BbsidLbbflUI;
 
 
 
 /**
- * Windows rendition of the component.
+ * Windows rfndition of tif domponfnt.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
- * long term persistence.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs.  Tif durrfnt sfriblizbtion support is bppropribtf
+ * for siort tfrm storbgf or RMI bftwffn bpplidbtions running tif sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
  */
-public class WindowsLabelUI extends BasicLabelUI {
+publid dlbss WindowsLbbflUI fxtfnds BbsidLbbflUI {
 
-    private static final Object WINDOWS_LABEL_UI_KEY = new Object();
+    privbtf stbtid finbl Objfdt WINDOWS_LABEL_UI_KEY = nfw Objfdt();
 
     // ********************************
-    //          Create PLAF
+    //          Crfbtf PLAF
     // ********************************
-    public static ComponentUI createUI(JComponent c) {
-        AppContext appContext = AppContext.getAppContext();
-        WindowsLabelUI windowsLabelUI =
-                (WindowsLabelUI) appContext.get(WINDOWS_LABEL_UI_KEY);
-        if (windowsLabelUI == null) {
-            windowsLabelUI = new WindowsLabelUI();
-            appContext.put(WINDOWS_LABEL_UI_KEY, windowsLabelUI);
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+        WindowsLbbflUI windowsLbbflUI =
+                (WindowsLbbflUI) bppContfxt.gft(WINDOWS_LABEL_UI_KEY);
+        if (windowsLbbflUI == null) {
+            windowsLbbflUI = nfw WindowsLbbflUI();
+            bppContfxt.put(WINDOWS_LABEL_UI_KEY, windowsLbbflUI);
         }
-        return windowsLabelUI;
+        rfturn windowsLbbflUI;
     }
 
-    protected void paintEnabledText(JLabel l, Graphics g, String s,
-                                    int textX, int textY) {
-        int mnemonicIndex = l.getDisplayedMnemonicIndex();
-        // W2K Feature: Check to see if the Underscore should be rendered.
-        if (WindowsLookAndFeel.isMnemonicHidden() == true) {
-            mnemonicIndex = -1;
+    protfdtfd void pbintEnbblfdTfxt(JLbbfl l, Grbpiids g, String s,
+                                    int tfxtX, int tfxtY) {
+        int mnfmonidIndfx = l.gftDisplbyfdMnfmonidIndfx();
+        // W2K Ffbturf: Cifdk to sff if tif Undfrsdorf siould bf rfndfrfd.
+        if (WindowsLookAndFffl.isMnfmonidHiddfn() == truf) {
+            mnfmonidIndfx = -1;
         }
 
-        g.setColor(l.getForeground());
-        SwingUtilities2.drawStringUnderlineCharAt(l, g, s, mnemonicIndex,
-                                                     textX, textY);
+        g.sftColor(l.gftForfground());
+        SwingUtilitifs2.drbwStringUndfrlinfCibrAt(l, g, s, mnfmonidIndfx,
+                                                     tfxtX, tfxtY);
     }
 
-    protected void paintDisabledText(JLabel l, Graphics g, String s,
-                                     int textX, int textY) {
-        int mnemonicIndex = l.getDisplayedMnemonicIndex();
-        // W2K Feature: Check to see if the Underscore should be rendered.
-        if (WindowsLookAndFeel.isMnemonicHidden() == true) {
-            mnemonicIndex = -1;
+    protfdtfd void pbintDisbblfdTfxt(JLbbfl l, Grbpiids g, String s,
+                                     int tfxtX, int tfxtY) {
+        int mnfmonidIndfx = l.gftDisplbyfdMnfmonidIndfx();
+        // W2K Ffbturf: Cifdk to sff if tif Undfrsdorf siould bf rfndfrfd.
+        if (WindowsLookAndFffl.isMnfmonidHiddfn() == truf) {
+            mnfmonidIndfx = -1;
         }
-        if ( UIManager.getColor("Label.disabledForeground") instanceof Color &&
-             UIManager.getColor("Label.disabledShadow") instanceof Color) {
-            g.setColor( UIManager.getColor("Label.disabledShadow") );
-            SwingUtilities2.drawStringUnderlineCharAt(l, g, s,
-                                                         mnemonicIndex,
-                                                         textX + 1, textY + 1);
-            g.setColor( UIManager.getColor("Label.disabledForeground") );
-            SwingUtilities2.drawStringUnderlineCharAt(l, g, s,
-                                                         mnemonicIndex,
-                                                         textX, textY);
-        } else {
-            Color background = l.getBackground();
-            g.setColor(background.brighter());
-            SwingUtilities2.drawStringUnderlineCharAt(l,g, s, mnemonicIndex,
-                                                         textX + 1, textY + 1);
-            g.setColor(background.darker());
-            SwingUtilities2.drawStringUnderlineCharAt(l,g, s, mnemonicIndex,
-                                                         textX, textY);
+        if ( UIMbnbgfr.gftColor("Lbbfl.disbblfdForfground") instbndfof Color &&
+             UIMbnbgfr.gftColor("Lbbfl.disbblfdSibdow") instbndfof Color) {
+            g.sftColor( UIMbnbgfr.gftColor("Lbbfl.disbblfdSibdow") );
+            SwingUtilitifs2.drbwStringUndfrlinfCibrAt(l, g, s,
+                                                         mnfmonidIndfx,
+                                                         tfxtX + 1, tfxtY + 1);
+            g.sftColor( UIMbnbgfr.gftColor("Lbbfl.disbblfdForfground") );
+            SwingUtilitifs2.drbwStringUndfrlinfCibrAt(l, g, s,
+                                                         mnfmonidIndfx,
+                                                         tfxtX, tfxtY);
+        } flsf {
+            Color bbdkground = l.gftBbdkground();
+            g.sftColor(bbdkground.brigitfr());
+            SwingUtilitifs2.drbwStringUndfrlinfCibrAt(l,g, s, mnfmonidIndfx,
+                                                         tfxtX + 1, tfxtY + 1);
+            g.sftColor(bbdkground.dbrkfr());
+            SwingUtilitifs2.drbwStringUndfrlinfCibrAt(l,g, s, mnfmonidIndfx,
+                                                         tfxtX, tfxtY);
         }
     }
 }

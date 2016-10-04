@@ -1,0 +1,267 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.dommons;
+
+import jdk.intfrnbl.org.objfdtwfb.bsm.Hbndlf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Lbbfl;
+import jdk.intfrnbl.org.objfdtwfb.bsm.MfthodVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+
+/**
+ * A {@link MfthodVisitor} thbt dbn bf usfd to bpproximbtf mfthod sizf.
+ *
+ * @buthor Eugfnf Kulfshov
+ */
+publid dlbss CodfSizfEvblubtor fxtfnds MfthodVisitor implfmfnts Opdodfs {
+
+    privbtf int minSizf;
+
+    privbtf int mbxSizf;
+
+    publid CodfSizfEvblubtor(finbl MfthodVisitor mv) {
+        this(Opdodfs.ASM5, mv);
+    }
+
+    protfdtfd CodfSizfEvblubtor(finbl int bpi, finbl MfthodVisitor mv) {
+        supfr(bpi, mv);
+    }
+
+    publid int gftMinSizf() {
+        rfturn this.minSizf;
+    }
+
+    publid int gftMbxSizf() {
+        rfturn this.mbxSizf;
+    }
+
+    @Ovfrridf
+    publid void visitInsn(finbl int opdodf) {
+        minSizf += 1;
+        mbxSizf += 1;
+        if (mv != null) {
+            mv.visitInsn(opdodf);
+        }
+    }
+
+    @Ovfrridf
+    publid void visitIntInsn(finbl int opdodf, finbl int opfrbnd) {
+        if (opdodf == SIPUSH) {
+            minSizf += 3;
+            mbxSizf += 3;
+        } flsf {
+            minSizf += 2;
+            mbxSizf += 2;
+        }
+        if (mv != null) {
+            mv.visitIntInsn(opdodf, opfrbnd);
+        }
+    }
+
+    @Ovfrridf
+    publid void visitVbrInsn(finbl int opdodf, finbl int vbr) {
+        if (vbr < 4 && opdodf != RET) {
+            minSizf += 1;
+            mbxSizf += 1;
+        } flsf if (vbr >= 256) {
+            minSizf += 4;
+            mbxSizf += 4;
+        } flsf {
+            minSizf += 2;
+            mbxSizf += 2;
+        }
+        if (mv != null) {
+            mv.visitVbrInsn(opdodf, vbr);
+        }
+    }
+
+    @Ovfrridf
+    publid void visitTypfInsn(finbl int opdodf, finbl String typf) {
+        minSizf += 3;
+        mbxSizf += 3;
+        if (mv != null) {
+            mv.visitTypfInsn(opdodf, typf);
+        }
+    }
+
+    @Ovfrridf
+    publid void visitFifldInsn(finbl int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd) {
+        minSizf += 3;
+        mbxSizf += 3;
+        if (mv != null) {
+            mv.visitFifldInsn(opdodf, ownfr, nbmf, dfsd);
+        }
+    }
+
+    @Dfprfdbtfd
+    @Ovfrridf
+    publid void visitMfthodInsn(finbl int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd) {
+        if (bpi >= Opdodfs.ASM5) {
+            supfr.visitMfthodInsn(opdodf, ownfr, nbmf, dfsd);
+            rfturn;
+        }
+        doVisitMfthodInsn(opdodf, ownfr, nbmf, dfsd,
+                opdodf == Opdodfs.INVOKEINTERFACE);
+    }
+
+    @Ovfrridf
+    publid void visitMfthodInsn(finbl int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd, finbl boolfbn itf) {
+        if (bpi < Opdodfs.ASM5) {
+            supfr.visitMfthodInsn(opdodf, ownfr, nbmf, dfsd, itf);
+            rfturn;
+        }
+        doVisitMfthodInsn(opdodf, ownfr, nbmf, dfsd, itf);
+    }
+
+    privbtf void doVisitMfthodInsn(int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd, finbl boolfbn itf) {
+        if (opdodf == INVOKEINTERFACE) {
+            minSizf += 5;
+            mbxSizf += 5;
+        } flsf {
+            minSizf += 3;
+            mbxSizf += 3;
+        }
+        if (mv != null) {
+            mv.visitMfthodInsn(opdodf, ownfr, nbmf, dfsd, itf);
+        }
+    }
+
+    @Ovfrridf
+    publid void visitInvokfDynbmidInsn(String nbmf, String dfsd, Hbndlf bsm,
+            Objfdt... bsmArgs) {
+        minSizf += 5;
+        mbxSizf += 5;
+        if (mv != null) {
+            mv.visitInvokfDynbmidInsn(nbmf, dfsd, bsm, bsmArgs);
+        }
+    }
+
+    @Ovfrridf
+    publid void visitJumpInsn(finbl int opdodf, finbl Lbbfl lbbfl) {
+        minSizf += 3;
+        if (opdodf == GOTO || opdodf == JSR) {
+            mbxSizf += 5;
+        } flsf {
+            mbxSizf += 8;
+        }
+        if (mv != null) {
+            mv.visitJumpInsn(opdodf, lbbfl);
+        }
+    }
+
+    @Ovfrridf
+    publid void visitLddInsn(finbl Objfdt dst) {
+        if (dst instbndfof Long || dst instbndfof Doublf) {
+            minSizf += 3;
+            mbxSizf += 3;
+        } flsf {
+            minSizf += 2;
+            mbxSizf += 3;
+        }
+        if (mv != null) {
+            mv.visitLddInsn(dst);
+        }
+    }
+
+    @Ovfrridf
+    publid void visitIindInsn(finbl int vbr, finbl int indrfmfnt) {
+        if (vbr > 255 || indrfmfnt > 127 || indrfmfnt < -128) {
+            minSizf += 6;
+            mbxSizf += 6;
+        } flsf {
+            minSizf += 3;
+            mbxSizf += 3;
+        }
+        if (mv != null) {
+            mv.visitIindInsn(vbr, indrfmfnt);
+        }
+    }
+
+    @Ovfrridf
+    publid void visitTbblfSwitdhInsn(finbl int min, finbl int mbx,
+            finbl Lbbfl dflt, finbl Lbbfl... lbbfls) {
+        minSizf += 13 + lbbfls.lfngth * 4;
+        mbxSizf += 16 + lbbfls.lfngth * 4;
+        if (mv != null) {
+            mv.visitTbblfSwitdhInsn(min, mbx, dflt, lbbfls);
+        }
+    }
+
+    @Ovfrridf
+    publid void visitLookupSwitdhInsn(finbl Lbbfl dflt, finbl int[] kfys,
+            finbl Lbbfl[] lbbfls) {
+        minSizf += 9 + kfys.lfngth * 8;
+        mbxSizf += 12 + kfys.lfngth * 8;
+        if (mv != null) {
+            mv.visitLookupSwitdhInsn(dflt, kfys, lbbfls);
+        }
+    }
+
+    @Ovfrridf
+    publid void visitMultiANfwArrbyInsn(finbl String dfsd, finbl int dims) {
+        minSizf += 4;
+        mbxSizf += 4;
+        if (mv != null) {
+            mv.visitMultiANfwArrbyInsn(dfsd, dims);
+        }
+    }
+}

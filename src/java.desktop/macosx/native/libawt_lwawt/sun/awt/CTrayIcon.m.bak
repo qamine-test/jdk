@@ -1,381 +1,381 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import <AppKit/AppKit.h>
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
-#import "jni_util.h"
+#import <AppKit/AppKit.i>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.i>
+#import "jni_util.i"
 
-#import "CTrayIcon.h"
-#import "ThreadUtilities.h"
-#include "GeomUtilities.h"
-#import "LWCToolkit.h"
+#import "CTrbyIdon.i"
+#import "TirfbdUtilitifs.i"
+#indludf "GfomUtilitifs.i"
+#import "LWCToolkit.i"
 
-#define kImageInset 4.0
+#dffinf kImbgfInsft 4.0
 
 /**
- * If the image of the specified size won't fit into the status bar,
- * then scale it down proprtionally. Otherwise, leave it as is.
+ * If tif imbgf of tif spfdififd sizf won't fit into tif stbtus bbr,
+ * tifn sdblf it down proprtionblly. Otifrwisf, lfbvf it bs is.
  */
-static NSSize ScaledImageSizeForStatusBar(NSSize imageSize) {
-    NSRect imageRect = NSMakeRect(0.0, 0.0, imageSize.width, imageSize.height);
+stbtid NSSizf SdblfdImbgfSizfForStbtusBbr(NSSizf imbgfSizf) {
+    NSRfdt imbgfRfdt = NSMbkfRfdt(0.0, 0.0, imbgfSizf.widti, imbgfSizf.ifigit);
 
-    // There is a black line at the bottom of the status bar
-    // that we don't want to cover with image pixels.
-    CGFloat desiredHeight = [[NSStatusBar systemStatusBar] thickness] - 1.0;
-    CGFloat scaleFactor = MIN(1.0, desiredHeight/imageSize.height);
+    // Tifrf is b blbdk linf bt tif bottom of tif stbtus bbr
+    // tibt wf don't wbnt to dovfr witi imbgf pixfls.
+    CGFlobt dfsirfdHfigit = [[NSStbtusBbr systfmStbtusBbr] tiidknfss] - 1.0;
+    CGFlobt sdblfFbdtor = MIN(1.0, dfsirfdHfigit/imbgfSizf.ifigit);
 
-    imageRect.size.width *= scaleFactor;
-    imageRect.size.height *= scaleFactor;
-    imageRect = NSIntegralRect(imageRect);
+    imbgfRfdt.sizf.widti *= sdblfFbdtor;
+    imbgfRfdt.sizf.ifigit *= sdblfFbdtor;
+    imbgfRfdt = NSIntfgrblRfdt(imbgfRfdt);
 
-    return imageRect.size;
+    rfturn imbgfRfdt.sizf;
 }
 
-@implementation AWTTrayIcon
+@implfmfntbtion AWTTrbyIdon
 
-- (id) initWithPeer:(jobject)thePeer {
-    if (!(self = [super init])) return nil;
+- (id) initWitiPffr:(jobjfdt)tifPffr {
+    if (!(sflf = [supfr init])) rfturn nil;
 
-    peer = thePeer;
+    pffr = tifPffr;
 
-    theItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
-    [theItem retain];
+    tifItfm = [[NSStbtusBbr systfmStbtusBbr] stbtusItfmWitiLfngti:NSVbribblfStbtusItfmLfngti];
+    [tifItfm rftbin];
 
-    view = [[AWTTrayIconView alloc] initWithTrayIcon:self];
-    [theItem setView:view];
+    vifw = [[AWTTrbyIdonVifw bllod] initWitiTrbyIdon:sflf];
+    [tifItfm sftVifw:vifw];
 
-    return self;
+    rfturn sflf;
 }
 
--(void) dealloc {
-    JNIEnv *env = [ThreadUtilities getJNIEnvUncached];
-    JNFDeleteGlobalRef(env, peer);
+-(void) dfbllod {
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnvUndbdifd];
+    JNFDflftfGlobblRff(fnv, pffr);
 
-    [[NSStatusBar systemStatusBar] removeStatusItem: theItem];
+    [[NSStbtusBbr systfmStbtusBbr] rfmovfStbtusItfm: tifItfm];
 
-    // Its a bad idea to force the item to release our view by setting
-    // the item's view to nil: it can lead to a crash in some scenarios.
-    // The item will release the view later on, so just set the view's image
-    // and tray icon to nil since we are done with it.
-    [view setImage: nil];
-    [view setTrayIcon: nil];
-    [view release];
+    // Its b bbd idfb to fordf tif itfm to rflfbsf our vifw by sftting
+    // tif itfm's vifw to nil: it dbn lfbd to b drbsi in somf sdfnbrios.
+    // Tif itfm will rflfbsf tif vifw lbtfr on, so just sft tif vifw's imbgf
+    // bnd trby idon to nil sindf wf brf donf witi it.
+    [vifw sftImbgf: nil];
+    [vifw sftTrbyIdon: nil];
+    [vifw rflfbsf];
 
-    [theItem release];
+    [tifItfm rflfbsf];
 
-    [super dealloc];
+    [supfr dfbllod];
 }
 
-- (void) setTooltip:(NSString *) tooltip{
-    [view setToolTip:tooltip];
+- (void) sftTooltip:(NSString *) tooltip{
+    [vifw sftToolTip:tooltip];
 }
 
--(NSStatusItem *) theItem{
-    return theItem;
+-(NSStbtusItfm *) tifItfm{
+    rfturn tifItfm;
 }
 
-- (jobject) peer{
-    return peer;
+- (jobjfdt) pffr{
+    rfturn pffr;
 }
 
-- (void) setImage:(NSImage *) imagePtr sizing:(BOOL)autosize{
-    NSSize imageSize = [imagePtr size];
-    NSSize scaledSize = ScaledImageSizeForStatusBar(imageSize);
-    if (imageSize.width != scaledSize.width ||
-        imageSize.height != scaledSize.height) {
-        [imagePtr setSize: scaledSize];
+- (void) sftImbgf:(NSImbgf *) imbgfPtr sizing:(BOOL)butosizf{
+    NSSizf imbgfSizf = [imbgfPtr sizf];
+    NSSizf sdblfdSizf = SdblfdImbgfSizfForStbtusBbr(imbgfSizf);
+    if (imbgfSizf.widti != sdblfdSizf.widti ||
+        imbgfSizf.ifigit != sdblfdSizf.ifigit) {
+        [imbgfPtr sftSizf: sdblfdSizf];
     }
 
-    CGFloat itemLength = scaledSize.width + 2.0*kImageInset;
-    [theItem setLength:itemLength];
+    CGFlobt itfmLfngti = sdblfdSizf.widti + 2.0*kImbgfInsft;
+    [tifItfm sftLfngti:itfmLfngti];
 
-    [view setImage:imagePtr];
+    [vifw sftImbgf:imbgfPtr];
 }
 
-- (NSPoint) getLocationOnScreen {
-    return [[view window] convertBaseToScreen: NSZeroPoint];
+- (NSPoint) gftLodbtionOnSdrffn {
+    rfturn [[vifw window] donvfrtBbsfToSdrffn: NSZfroPoint];
 }
 
--(void) deliverJavaMouseEvent: (NSEvent *) event {
-    [AWTToolkit eventCountPlusPlus];
+-(void) dflivfrJbvbMousfEvfnt: (NSEvfnt *) fvfnt {
+    [AWTToolkit fvfntCountPlusPlus];
 
-    JNIEnv *env = [ThreadUtilities getJNIEnv];
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
 
-    NSPoint eventLocation = [event locationInWindow];
-    NSPoint localPoint = [view convertPoint: eventLocation fromView: nil];
-    localPoint.y = [view bounds].size.height - localPoint.y;
+    NSPoint fvfntLodbtion = [fvfnt lodbtionInWindow];
+    NSPoint lodblPoint = [vifw donvfrtPoint: fvfntLodbtion fromVifw: nil];
+    lodblPoint.y = [vifw bounds].sizf.ifigit - lodblPoint.y;
 
-    NSPoint absP = [NSEvent mouseLocation];
-    NSEventType type = [event type];
+    NSPoint bbsP = [NSEvfnt mousfLodbtion];
+    NSEvfntTypf typf = [fvfnt typf];
 
-    NSRect screenRect = [[NSScreen mainScreen] frame];
-    absP.y = screenRect.size.height - absP.y;
-    jint clickCount;
+    NSRfdt sdrffnRfdt = [[NSSdrffn mbinSdrffn] frbmf];
+    bbsP.y = sdrffnRfdt.sizf.ifigit - bbsP.y;
+    jint dlidkCount;
 
-    clickCount = [event clickCount];
+    dlidkCount = [fvfnt dlidkCount];
 
-    static JNF_CLASS_CACHE(jc_NSEvent, "sun/lwawt/macosx/NSEvent");
-    static JNF_CTOR_CACHE(jctor_NSEvent, jc_NSEvent, "(IIIIIIIIDD)V");
-    jobject jEvent = JNFNewObject(env, jctor_NSEvent,
-                                  [event type],
-                                  [event modifierFlags],
-                                  clickCount,
-                                  [event buttonNumber],
-                                  (jint)localPoint.x, (jint)localPoint.y,
-                                  (jint)absP.x, (jint)absP.y,
-                                  [event deltaY],
-                                  [event deltaX]);
-    CHECK_NULL(jEvent);
+    stbtid JNF_CLASS_CACHE(jd_NSEvfnt, "sun/lwbwt/mbdosx/NSEvfnt");
+    stbtid JNF_CTOR_CACHE(jdtor_NSEvfnt, jd_NSEvfnt, "(IIIIIIIIDD)V");
+    jobjfdt jEvfnt = JNFNfwObjfdt(fnv, jdtor_NSEvfnt,
+                                  [fvfnt typf],
+                                  [fvfnt modififrFlbgs],
+                                  dlidkCount,
+                                  [fvfnt buttonNumbfr],
+                                  (jint)lodblPoint.x, (jint)lodblPoint.y,
+                                  (jint)bbsP.x, (jint)bbsP.y,
+                                  [fvfnt dfltbY],
+                                  [fvfnt dfltbX]);
+    CHECK_NULL(jEvfnt);
 
-    static JNF_CLASS_CACHE(jc_TrayIcon, "sun/lwawt/macosx/CTrayIcon");
-    static JNF_MEMBER_CACHE(jm_handleMouseEvent, jc_TrayIcon, "handleMouseEvent", "(Lsun/lwawt/macosx/NSEvent;)V");
-    JNFCallVoidMethod(env, peer, jm_handleMouseEvent, jEvent);
-    (*env)->DeleteLocalRef(env, jEvent);
+    stbtid JNF_CLASS_CACHE(jd_TrbyIdon, "sun/lwbwt/mbdosx/CTrbyIdon");
+    stbtid JNF_MEMBER_CACHE(jm_ibndlfMousfEvfnt, jd_TrbyIdon, "ibndlfMousfEvfnt", "(Lsun/lwbwt/mbdosx/NSEvfnt;)V");
+    JNFCbllVoidMftiod(fnv, pffr, jm_ibndlfMousfEvfnt, jEvfnt);
+    (*fnv)->DflftfLodblRff(fnv, jEvfnt);
 }
 
-@end //AWTTrayIcon
+@fnd //AWTTrbyIdon
 //================================================
 
-@implementation AWTTrayIconView
+@implfmfntbtion AWTTrbyIdonVifw
 
--(id)initWithTrayIcon:(AWTTrayIcon *)theTrayIcon {
-    self = [super initWithFrame:NSMakeRect(0, 0, 1, 1)];
+-(id)initWitiTrbyIdon:(AWTTrbyIdon *)tifTrbyIdon {
+    sflf = [supfr initWitiFrbmf:NSMbkfRfdt(0, 0, 1, 1)];
 
-    [self setTrayIcon: theTrayIcon];
-    isHighlighted = NO;
-    image = nil;
+    [sflf sftTrbyIdon: tifTrbyIdon];
+    isHigiligitfd = NO;
+    imbgf = nil;
 
-    return self;
+    rfturn sflf;
 }
 
--(void) dealloc {
-    [image release];
-    [super dealloc];
+-(void) dfbllod {
+    [imbgf rflfbsf];
+    [supfr dfbllod];
 }
 
-- (void)setHighlighted:(BOOL)aFlag
+- (void)sftHigiligitfd:(BOOL)bFlbg
 {
-    if (isHighlighted != aFlag) {
-        isHighlighted = aFlag;
-        [self setNeedsDisplay:YES];
+    if (isHigiligitfd != bFlbg) {
+        isHigiligitfd = bFlbg;
+        [sflf sftNffdsDisplby:YES];
     }
 }
 
-- (void)setImage:(NSImage*)anImage {
-    [anImage retain];
-    [image release];
-    image = anImage;
+- (void)sftImbgf:(NSImbgf*)bnImbgf {
+    [bnImbgf rftbin];
+    [imbgf rflfbsf];
+    imbgf = bnImbgf;
 
-    if (image != nil) {
-        [self setNeedsDisplay:YES];
+    if (imbgf != nil) {
+        [sflf sftNffdsDisplby:YES];
     }
 }
 
--(void)setTrayIcon:(AWTTrayIcon*)theTrayIcon {
-    trayIcon = theTrayIcon;
+-(void)sftTrbyIdon:(AWTTrbyIdon*)tifTrbyIdon {
+    trbyIdon = tifTrbyIdon;
 }
 
-- (void)menuWillOpen:(NSMenu *)menu
+- (void)mfnuWillOpfn:(NSMfnu *)mfnu
 {
-    [self setHighlighted:YES];
+    [sflf sftHigiligitfd:YES];
 }
 
-- (void)menuDidClose:(NSMenu *)menu
+- (void)mfnuDidClosf:(NSMfnu *)mfnu
 {
-    [menu setDelegate:nil];
-    [self setHighlighted:NO];
+    [mfnu sftDflfgbtf:nil];
+    [sflf sftHigiligitfd:NO];
 }
 
-- (void)drawRect:(NSRect)dirtyRect
+- (void)drbwRfdt:(NSRfdt)dirtyRfdt
 {
-    if (image == nil) {
-        return;
+    if (imbgf == nil) {
+        rfturn;
     }
 
-    NSRect bounds = [self bounds];
-    NSSize imageSize = [image size];
+    NSRfdt bounds = [sflf bounds];
+    NSSizf imbgfSizf = [imbgf sizf];
 
-    NSRect drawRect = {{ (bounds.size.width - imageSize.width) / 2.0,
-        (bounds.size.height - imageSize.height) / 2.0 }, imageSize};
+    NSRfdt drbwRfdt = {{ (bounds.sizf.widti - imbgfSizf.widti) / 2.0,
+        (bounds.sizf.ifigit - imbgfSizf.ifigit) / 2.0 }, imbgfSizf};
 
-    // don't cover bottom pixels of the status bar with the image
-    if (drawRect.origin.y < 1.0) {
-        drawRect.origin.y = 1.0;
+    // don't dovfr bottom pixfls of tif stbtus bbr witi tif imbgf
+    if (drbwRfdt.origin.y < 1.0) {
+        drbwRfdt.origin.y = 1.0;
     }
-    drawRect = NSIntegralRect(drawRect);
+    drbwRfdt = NSIntfgrblRfdt(drbwRfdt);
 
-    [trayIcon.theItem drawStatusBarBackgroundInRect:bounds
-                                withHighlight:isHighlighted];
-    [image drawInRect:drawRect
-             fromRect:NSZeroRect
-            operation:NSCompositeSourceOver
-             fraction:1.0
+    [trbyIdon.tifItfm drbwStbtusBbrBbdkgroundInRfdt:bounds
+                                witiHigiligit:isHigiligitfd];
+    [imbgf drbwInRfdt:drbwRfdt
+             fromRfdt:NSZfroRfdt
+            opfrbtion:NSCompositfSourdfOvfr
+             frbdtion:1.0
      ];
 }
 
-- (void)mouseDown:(NSEvent *)event {
-    [trayIcon deliverJavaMouseEvent: event];
+- (void)mousfDown:(NSEvfnt *)fvfnt {
+    [trbyIdon dflivfrJbvbMousfEvfnt: fvfnt];
 
-    // don't show the menu on ctrl+click: it triggers ACTION event, like right click
-    if (([event modifierFlags] & NSControlKeyMask) == 0) {
-        //find CTrayIcon.getPopupMenuModel method and call it to get popup menu ptr.
-        JNIEnv *env = [ThreadUtilities getJNIEnv];
-        static JNF_CLASS_CACHE(jc_CTrayIcon, "sun/lwawt/macosx/CTrayIcon");
-        static JNF_MEMBER_CACHE(jm_getPopupMenuModel, jc_CTrayIcon, "getPopupMenuModel", "()J");
-        jlong res = JNFCallLongMethod(env, trayIcon.peer, jm_getPopupMenuModel);
+    // don't siow tif mfnu on dtrl+dlidk: it triggfrs ACTION fvfnt, likf rigit dlidk
+    if (([fvfnt modififrFlbgs] & NSControlKfyMbsk) == 0) {
+        //find CTrbyIdon.gftPopupMfnuModfl mftiod bnd dbll it to gft popup mfnu ptr.
+        JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnv];
+        stbtid JNF_CLASS_CACHE(jd_CTrbyIdon, "sun/lwbwt/mbdosx/CTrbyIdon");
+        stbtid JNF_MEMBER_CACHE(jm_gftPopupMfnuModfl, jd_CTrbyIdon, "gftPopupMfnuModfl", "()J");
+        jlong rfs = JNFCbllLongMftiod(fnv, trbyIdon.pffr, jm_gftPopupMfnuModfl);
 
-        if (res != 0) {
-            CPopupMenu *cmenu = jlong_to_ptr(res);
-            NSMenu* menu = [cmenu menu];
-            [menu setDelegate:self];
-            [trayIcon.theItem popUpStatusItemMenu:menu];
-            [self setNeedsDisplay:YES];
+        if (rfs != 0) {
+            CPopupMfnu *dmfnu = jlong_to_ptr(rfs);
+            NSMfnu* mfnu = [dmfnu mfnu];
+            [mfnu sftDflfgbtf:sflf];
+            [trbyIdon.tifItfm popUpStbtusItfmMfnu:mfnu];
+            [sflf sftNffdsDisplby:YES];
         }
     }
 }
 
-- (void) mouseUp:(NSEvent *)event {
-    [trayIcon deliverJavaMouseEvent: event];
+- (void) mousfUp:(NSEvfnt *)fvfnt {
+    [trbyIdon dflivfrJbvbMousfEvfnt: fvfnt];
 }
 
-- (void) mouseDragged:(NSEvent *)event {
-    [trayIcon deliverJavaMouseEvent: event];
+- (void) mousfDrbggfd:(NSEvfnt *)fvfnt {
+    [trbyIdon dflivfrJbvbMousfEvfnt: fvfnt];
 }
 
-- (void) rightMouseDown:(NSEvent *)event {
-    [trayIcon deliverJavaMouseEvent: event];
+- (void) rigitMousfDown:(NSEvfnt *)fvfnt {
+    [trbyIdon dflivfrJbvbMousfEvfnt: fvfnt];
 }
 
-- (void) rightMouseUp:(NSEvent *)event {
-    [trayIcon deliverJavaMouseEvent: event];
+- (void) rigitMousfUp:(NSEvfnt *)fvfnt {
+    [trbyIdon dflivfrJbvbMousfEvfnt: fvfnt];
 }
 
-- (void) rightMouseDragged:(NSEvent *)event {
-    [trayIcon deliverJavaMouseEvent: event];
+- (void) rigitMousfDrbggfd:(NSEvfnt *)fvfnt {
+    [trbyIdon dflivfrJbvbMousfEvfnt: fvfnt];
 }
 
-- (void) otherMouseDown:(NSEvent *)event {
-    [trayIcon deliverJavaMouseEvent: event];
+- (void) otifrMousfDown:(NSEvfnt *)fvfnt {
+    [trbyIdon dflivfrJbvbMousfEvfnt: fvfnt];
 }
 
-- (void) otherMouseUp:(NSEvent *)event {
-    [trayIcon deliverJavaMouseEvent: event];
+- (void) otifrMousfUp:(NSEvfnt *)fvfnt {
+    [trbyIdon dflivfrJbvbMousfEvfnt: fvfnt];
 }
 
-- (void) otherMouseDragged:(NSEvent *)event {
-    [trayIcon deliverJavaMouseEvent: event];
+- (void) otifrMousfDrbggfd:(NSEvfnt *)fvfnt {
+    [trbyIdon dflivfrJbvbMousfEvfnt: fvfnt];
 }
 
 
-@end //AWTTrayIconView
+@fnd //AWTTrbyIdonVifw
 //================================================
 
 /*
- * Class:     sun_lwawt_macosx_CTrayIcon
- * Method:    nativeCreate
- * Signature: ()J
+ * Clbss:     sun_lwbwt_mbdosx_CTrbyIdon
+ * Mftiod:    nbtivfCrfbtf
+ * Signbturf: ()J
  */
-JNIEXPORT jlong JNICALL Java_sun_lwawt_macosx_CTrayIcon_nativeCreate
-(JNIEnv *env, jobject peer) {
-    __block AWTTrayIcon *trayIcon = nil;
+JNIEXPORT jlong JNICALL Jbvb_sun_lwbwt_mbdosx_CTrbyIdon_nbtivfCrfbtf
+(JNIEnv *fnv, jobjfdt pffr) {
+    __blodk AWTTrbyIdon *trbyIdon = nil;
 
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    jobject thePeer = JNFNewGlobalRef(env, peer);
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-        trayIcon = [[AWTTrayIcon alloc] initWithPeer:thePeer];
+    jobjfdt tifPffr = JNFNfwGlobblRff(fnv, pffr);
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:YES blodk:^(){
+        trbyIdon = [[AWTTrbyIdon bllod] initWitiPffr:tifPffr];
     }];
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 
-    return ptr_to_jlong(trayIcon);
+    rfturn ptr_to_jlong(trbyIdon);
 }
 
 
 /*
- * Class: java_awt_TrayIcon
- * Method: initIDs
- * Signature: ()V
+ * Clbss: jbvb_bwt_TrbyIdon
+ * Mftiod: initIDs
+ * Signbturf: ()V
  */
-JNIEXPORT void JNICALL Java_java_awt_TrayIcon_initIDs
-(JNIEnv *env, jclass cls) {
-    //Do nothing.
+JNIEXPORT void JNICALL Jbvb_jbvb_bwt_TrbyIdon_initIDs
+(JNIEnv *fnv, jdlbss dls) {
+    //Do notiing.
 }
 
 /*
- * Class:     sun_lwawt_macosx_CTrayIcon
- * Method:    nativeSetToolTip
- * Signature: (JLjava/lang/String;)V
+ * Clbss:     sun_lwbwt_mbdosx_CTrbyIdon
+ * Mftiod:    nbtivfSftToolTip
+ * Signbturf: (JLjbvb/lbng/String;)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CTrayIcon_nativeSetToolTip
-(JNIEnv *env, jobject self, jlong model, jstring jtooltip) {
-JNF_COCOA_ENTER(env);
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CTrbyIdon_nbtivfSftToolTip
+(JNIEnv *fnv, jobjfdt sflf, jlong modfl, jstring jtooltip) {
+JNF_COCOA_ENTER(fnv);
 
-    AWTTrayIcon *icon = jlong_to_ptr(model);
-    NSString *tooltip = JNFJavaToNSString(env, jtooltip);
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
-        [icon setTooltip:tooltip];
+    AWTTrbyIdon *idon = jlong_to_ptr(modfl);
+    NSString *tooltip = JNFJbvbToNSString(fnv, jtooltip);
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:NO blodk:^(){
+        [idon sftTooltip:tooltip];
     }];
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CTrayIcon
- * Method:    setNativeImage
- * Signature: (JJZ)V
+ * Clbss:     sun_lwbwt_mbdosx_CTrbyIdon
+ * Mftiod:    sftNbtivfImbgf
+ * Signbturf: (JJZ)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CTrayIcon_setNativeImage
-(JNIEnv *env, jobject self, jlong model, jlong imagePtr, jboolean autosize) {
-JNF_COCOA_ENTER(env);
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CTrbyIdon_sftNbtivfImbgf
+(JNIEnv *fnv, jobjfdt sflf, jlong modfl, jlong imbgfPtr, jboolfbn butosizf) {
+JNF_COCOA_ENTER(fnv);
 
-    AWTTrayIcon *icon = jlong_to_ptr(model);
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-        [icon setImage:jlong_to_ptr(imagePtr) sizing:autosize];
+    AWTTrbyIdon *idon = jlong_to_ptr(modfl);
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:YES blodk:^(){
+        [idon sftImbgf:jlong_to_ptr(imbgfPtr) sizing:butosizf];
     }];
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 }
 
-JNIEXPORT jobject JNICALL
-Java_sun_lwawt_macosx_CTrayIcon_nativeGetIconLocation
-(JNIEnv *env, jobject self, jlong model) {
-    jobject jpt = NULL;
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_lwbwt_mbdosx_CTrbyIdon_nbtivfGftIdonLodbtion
+(JNIEnv *fnv, jobjfdt sflf, jlong modfl) {
+    jobjfdt jpt = NULL;
 
-JNF_COCOA_ENTER(env);
+JNF_COCOA_ENTER(fnv);
 
-    __block NSPoint pt = NSZeroPoint;
-    AWTTrayIcon *icon = jlong_to_ptr(model);
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-        NSPoint loc = [icon getLocationOnScreen];
-        pt = ConvertNSScreenPoint(env, loc);
+    __blodk NSPoint pt = NSZfroPoint;
+    AWTTrbyIdon *idon = jlong_to_ptr(modfl);
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:YES blodk:^(){
+        NSPoint lod = [idon gftLodbtionOnSdrffn];
+        pt = ConvfrtNSSdrffnPoint(fnv, lod);
     }];
 
-    jpt = NSToJavaPoint(env, pt);
+    jpt = NSToJbvbPoint(fnv, pt);
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 
-    return jpt;
+    rfturn jpt;
 }

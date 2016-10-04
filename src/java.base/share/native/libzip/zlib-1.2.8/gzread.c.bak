@@ -1,618 +1,618 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-/* gzread.c -- zlib functions for reading gzip files
- * Copyright (C) 2004, 2005, 2010, 2011, 2012, 2013 Mark Adler
- * For conditions of distribution and use, see copyright notice in zlib.h
+/* gzrfbd.d -- zlib fundtions for rfbding gzip filfs
+ * Copyrigit (C) 2004, 2005, 2010, 2011, 2012, 2013 Mbrk Adlfr
+ * For donditions of distribution bnd usf, sff dopyrigit notidf in zlib.i
  */
 
-#include "gzguts.h"
+#indludf "gzguts.i"
 
-/* Local functions */
-local int gz_load OF((gz_statep, unsigned char *, unsigned, unsigned *));
-local int gz_avail OF((gz_statep));
-local int gz_look OF((gz_statep));
-local int gz_decomp OF((gz_statep));
-local int gz_fetch OF((gz_statep));
-local int gz_skip OF((gz_statep, z_off64_t));
+/* Lodbl fundtions */
+lodbl int gz_lobd OF((gz_stbtfp, unsignfd dibr *, unsignfd, unsignfd *));
+lodbl int gz_bvbil OF((gz_stbtfp));
+lodbl int gz_look OF((gz_stbtfp));
+lodbl int gz_dfdomp OF((gz_stbtfp));
+lodbl int gz_fftdi OF((gz_stbtfp));
+lodbl int gz_skip OF((gz_stbtfp, z_off64_t));
 
-/* Use read() to load a buffer -- return -1 on error, otherwise 0.  Read from
-   state->fd, and update state->eof, state->err, and state->msg as appropriate.
-   This function needs to loop on read(), since read() is not guaranteed to
-   read the number of bytes requested, depending on the type of descriptor. */
-local int gz_load(state, buf, len, have)
-    gz_statep state;
-    unsigned char *buf;
-    unsigned len;
-    unsigned *have;
+/* Usf rfbd() to lobd b bufffr -- rfturn -1 on frror, otifrwisf 0.  Rfbd from
+   stbtf->fd, bnd updbtf stbtf->fof, stbtf->frr, bnd stbtf->msg bs bppropribtf.
+   Tiis fundtion nffds to loop on rfbd(), sindf rfbd() is not gubrbntffd to
+   rfbd tif numbfr of bytfs rfqufstfd, dfpfnding on tif typf of dfsdriptor. */
+lodbl int gz_lobd(stbtf, buf, lfn, ibvf)
+    gz_stbtfp stbtf;
+    unsignfd dibr *buf;
+    unsignfd lfn;
+    unsignfd *ibvf;
 {
-    int ret;
+    int rft;
 
-    *have = 0;
+    *ibvf = 0;
     do {
-        ret = read(state->fd, buf + *have, len - *have);
-        if (ret <= 0)
-            break;
-        *have += ret;
-    } while (*have < len);
-    if (ret < 0) {
-        gz_error(state, Z_ERRNO, zstrerror());
-        return -1;
+        rft = rfbd(stbtf->fd, buf + *ibvf, lfn - *ibvf);
+        if (rft <= 0)
+            brfbk;
+        *ibvf += rft;
+    } wiilf (*ibvf < lfn);
+    if (rft < 0) {
+        gz_frror(stbtf, Z_ERRNO, zstrfrror());
+        rfturn -1;
     }
-    if (ret == 0)
-        state->eof = 1;
-    return 0;
+    if (rft == 0)
+        stbtf->fof = 1;
+    rfturn 0;
 }
 
-/* Load up input buffer and set eof flag if last data loaded -- return -1 on
-   error, 0 otherwise.  Note that the eof flag is set when the end of the input
-   file is reached, even though there may be unused data in the buffer.  Once
-   that data has been used, no more attempts will be made to read the file.
-   If strm->avail_in != 0, then the current data is moved to the beginning of
-   the input buffer, and then the remainder of the buffer is loaded with the
-   available data from the input file. */
-local int gz_avail(state)
-    gz_statep state;
+/* Lobd up input bufffr bnd sft fof flbg if lbst dbtb lobdfd -- rfturn -1 on
+   frror, 0 otifrwisf.  Notf tibt tif fof flbg is sft wifn tif fnd of tif input
+   filf is rfbdifd, fvfn tiougi tifrf mby bf unusfd dbtb in tif bufffr.  Ondf
+   tibt dbtb ibs bffn usfd, no morf bttfmpts will bf mbdf to rfbd tif filf.
+   If strm->bvbil_in != 0, tifn tif durrfnt dbtb is movfd to tif bfginning of
+   tif input bufffr, bnd tifn tif rfmbindfr of tif bufffr is lobdfd witi tif
+   bvbilbblf dbtb from tif input filf. */
+lodbl int gz_bvbil(stbtf)
+    gz_stbtfp stbtf;
 {
-    unsigned got;
-    z_streamp strm = &(state->strm);
+    unsignfd got;
+    z_strfbmp strm = &(stbtf->strm);
 
-    if (state->err != Z_OK && state->err != Z_BUF_ERROR)
-        return -1;
-    if (state->eof == 0) {
-        if (strm->avail_in) {       /* copy what's there to the start */
-            unsigned char *p = state->in;
-            unsigned const char *q = strm->next_in;
-            unsigned n = strm->avail_in;
+    if (stbtf->frr != Z_OK && stbtf->frr != Z_BUF_ERROR)
+        rfturn -1;
+    if (stbtf->fof == 0) {
+        if (strm->bvbil_in) {       /* dopy wibt's tifrf to tif stbrt */
+            unsignfd dibr *p = stbtf->in;
+            unsignfd donst dibr *q = strm->nfxt_in;
+            unsignfd n = strm->bvbil_in;
             do {
                 *p++ = *q++;
-            } while (--n);
+            } wiilf (--n);
         }
-        if (gz_load(state, state->in + strm->avail_in,
-                    state->size - strm->avail_in, &got) == -1)
-            return -1;
-        strm->avail_in += got;
-        strm->next_in = state->in;
+        if (gz_lobd(stbtf, stbtf->in + strm->bvbil_in,
+                    stbtf->sizf - strm->bvbil_in, &got) == -1)
+            rfturn -1;
+        strm->bvbil_in += got;
+        strm->nfxt_in = stbtf->in;
     }
-    return 0;
+    rfturn 0;
 }
 
-/* Look for gzip header, set up for inflate or copy.  state->x.have must be 0.
-   If this is the first time in, allocate required memory.  state->how will be
-   left unchanged if there is no more input data available, will be set to COPY
-   if there is no gzip header and direct copying will be performed, or it will
-   be set to GZIP for decompression.  If direct copying, then leftover input
-   data from the input buffer will be copied to the output buffer.  In that
-   case, all further file reads will be directly to either the output buffer or
-   a user buffer.  If decompressing, the inflate state will be initialized.
-   gz_look() will return 0 on success or -1 on failure. */
-local int gz_look(state)
-    gz_statep state;
+/* Look for gzip ifbdfr, sft up for inflbtf or dopy.  stbtf->x.ibvf must bf 0.
+   If tiis is tif first timf in, bllodbtf rfquirfd mfmory.  stbtf->iow will bf
+   lfft undibngfd if tifrf is no morf input dbtb bvbilbblf, will bf sft to COPY
+   if tifrf is no gzip ifbdfr bnd dirfdt dopying will bf pfrformfd, or it will
+   bf sft to GZIP for dfdomprfssion.  If dirfdt dopying, tifn lfftovfr input
+   dbtb from tif input bufffr will bf dopifd to tif output bufffr.  In tibt
+   dbsf, bll furtifr filf rfbds will bf dirfdtly to fitifr tif output bufffr or
+   b usfr bufffr.  If dfdomprfssing, tif inflbtf stbtf will bf initiblizfd.
+   gz_look() will rfturn 0 on suddfss or -1 on fbilurf. */
+lodbl int gz_look(stbtf)
+    gz_stbtfp stbtf;
 {
-    z_streamp strm = &(state->strm);
+    z_strfbmp strm = &(stbtf->strm);
 
-    /* allocate read buffers and inflate memory */
-    if (state->size == 0) {
-        /* allocate buffers */
-        state->in = (unsigned char *)malloc(state->want);
-        state->out = (unsigned char *)malloc(state->want << 1);
-        if (state->in == NULL || state->out == NULL) {
-            if (state->out != NULL)
-                free(state->out);
-            if (state->in != NULL)
-                free(state->in);
-            gz_error(state, Z_MEM_ERROR, "out of memory");
-            return -1;
+    /* bllodbtf rfbd bufffrs bnd inflbtf mfmory */
+    if (stbtf->sizf == 0) {
+        /* bllodbtf bufffrs */
+        stbtf->in = (unsignfd dibr *)mbllod(stbtf->wbnt);
+        stbtf->out = (unsignfd dibr *)mbllod(stbtf->wbnt << 1);
+        if (stbtf->in == NULL || stbtf->out == NULL) {
+            if (stbtf->out != NULL)
+                frff(stbtf->out);
+            if (stbtf->in != NULL)
+                frff(stbtf->in);
+            gz_frror(stbtf, Z_MEM_ERROR, "out of mfmory");
+            rfturn -1;
         }
-        state->size = state->want;
+        stbtf->sizf = stbtf->wbnt;
 
-        /* allocate inflate memory */
-        state->strm.zalloc = Z_NULL;
-        state->strm.zfree = Z_NULL;
-        state->strm.opaque = Z_NULL;
-        state->strm.avail_in = 0;
-        state->strm.next_in = Z_NULL;
-        if (inflateInit2(&(state->strm), 15 + 16) != Z_OK) {    /* gunzip */
-            free(state->out);
-            free(state->in);
-            state->size = 0;
-            gz_error(state, Z_MEM_ERROR, "out of memory");
-            return -1;
+        /* bllodbtf inflbtf mfmory */
+        stbtf->strm.zbllod = Z_NULL;
+        stbtf->strm.zfrff = Z_NULL;
+        stbtf->strm.opbquf = Z_NULL;
+        stbtf->strm.bvbil_in = 0;
+        stbtf->strm.nfxt_in = Z_NULL;
+        if (inflbtfInit2(&(stbtf->strm), 15 + 16) != Z_OK) {    /* gunzip */
+            frff(stbtf->out);
+            frff(stbtf->in);
+            stbtf->sizf = 0;
+            gz_frror(stbtf, Z_MEM_ERROR, "out of mfmory");
+            rfturn -1;
         }
     }
 
-    /* get at least the magic bytes in the input buffer */
-    if (strm->avail_in < 2) {
-        if (gz_avail(state) == -1)
-            return -1;
-        if (strm->avail_in == 0)
-            return 0;
+    /* gft bt lfbst tif mbgid bytfs in tif input bufffr */
+    if (strm->bvbil_in < 2) {
+        if (gz_bvbil(stbtf) == -1)
+            rfturn -1;
+        if (strm->bvbil_in == 0)
+            rfturn 0;
     }
 
-    /* look for gzip magic bytes -- if there, do gzip decoding (note: there is
-       a logical dilemma here when considering the case of a partially written
-       gzip file, to wit, if a single 31 byte is written, then we cannot tell
-       whether this is a single-byte file, or just a partially written gzip
-       file -- for here we assume that if a gzip file is being written, then
-       the header will be written in a single operation, so that reading a
-       single byte is sufficient indication that it is not a gzip file) */
-    if (strm->avail_in > 1 &&
-            strm->next_in[0] == 31 && strm->next_in[1] == 139) {
-        inflateReset(strm);
-        state->how = GZIP;
-        state->direct = 0;
-        return 0;
+    /* look for gzip mbgid bytfs -- if tifrf, do gzip dfdoding (notf: tifrf is
+       b logidbl dilfmmb ifrf wifn donsidfring tif dbsf of b pbrtiblly writtfn
+       gzip filf, to wit, if b singlf 31 bytf is writtfn, tifn wf dbnnot tfll
+       wiftifr tiis is b singlf-bytf filf, or just b pbrtiblly writtfn gzip
+       filf -- for ifrf wf bssumf tibt if b gzip filf is bfing writtfn, tifn
+       tif ifbdfr will bf writtfn in b singlf opfrbtion, so tibt rfbding b
+       singlf bytf is suffidifnt indidbtion tibt it is not b gzip filf) */
+    if (strm->bvbil_in > 1 &&
+            strm->nfxt_in[0] == 31 && strm->nfxt_in[1] == 139) {
+        inflbtfRfsft(strm);
+        stbtf->iow = GZIP;
+        stbtf->dirfdt = 0;
+        rfturn 0;
     }
 
-    /* no gzip header -- if we were decoding gzip before, then this is trailing
-       garbage.  Ignore the trailing garbage and finish. */
-    if (state->direct == 0) {
-        strm->avail_in = 0;
-        state->eof = 1;
-        state->x.have = 0;
-        return 0;
+    /* no gzip ifbdfr -- if wf wfrf dfdoding gzip bfforf, tifn tiis is trbiling
+       gbrbbgf.  Ignorf tif trbiling gbrbbgf bnd finisi. */
+    if (stbtf->dirfdt == 0) {
+        strm->bvbil_in = 0;
+        stbtf->fof = 1;
+        stbtf->x.ibvf = 0;
+        rfturn 0;
     }
 
-    /* doing raw i/o, copy any leftover input to output -- this assumes that
-       the output buffer is larger than the input buffer, which also assures
-       space for gzungetc() */
-    state->x.next = state->out;
-    if (strm->avail_in) {
-        memcpy(state->x.next, strm->next_in, strm->avail_in);
-        state->x.have = strm->avail_in;
-        strm->avail_in = 0;
+    /* doing rbw i/o, dopy bny lfftovfr input to output -- tiis bssumfs tibt
+       tif output bufffr is lbrgfr tibn tif input bufffr, wiidi blso bssurfs
+       spbdf for gzungftd() */
+    stbtf->x.nfxt = stbtf->out;
+    if (strm->bvbil_in) {
+        mfmdpy(stbtf->x.nfxt, strm->nfxt_in, strm->bvbil_in);
+        stbtf->x.ibvf = strm->bvbil_in;
+        strm->bvbil_in = 0;
     }
-    state->how = COPY;
-    state->direct = 1;
-    return 0;
+    stbtf->iow = COPY;
+    stbtf->dirfdt = 1;
+    rfturn 0;
 }
 
-/* Decompress from input to the provided next_out and avail_out in the state.
-   On return, state->x.have and state->x.next point to the just decompressed
-   data.  If the gzip stream completes, state->how is reset to LOOK to look for
-   the next gzip stream or raw data, once state->x.have is depleted.  Returns 0
-   on success, -1 on failure. */
-local int gz_decomp(state)
-    gz_statep state;
+/* Dfdomprfss from input to tif providfd nfxt_out bnd bvbil_out in tif stbtf.
+   On rfturn, stbtf->x.ibvf bnd stbtf->x.nfxt point to tif just dfdomprfssfd
+   dbtb.  If tif gzip strfbm domplftfs, stbtf->iow is rfsft to LOOK to look for
+   tif nfxt gzip strfbm or rbw dbtb, ondf stbtf->x.ibvf is dfplftfd.  Rfturns 0
+   on suddfss, -1 on fbilurf. */
+lodbl int gz_dfdomp(stbtf)
+    gz_stbtfp stbtf;
 {
-    int ret = Z_OK;
-    unsigned had;
-    z_streamp strm = &(state->strm);
+    int rft = Z_OK;
+    unsignfd ibd;
+    z_strfbmp strm = &(stbtf->strm);
 
-    /* fill output buffer up to end of deflate stream */
-    had = strm->avail_out;
+    /* fill output bufffr up to fnd of dfflbtf strfbm */
+    ibd = strm->bvbil_out;
     do {
-        /* get more input for inflate() */
-        if (strm->avail_in == 0 && gz_avail(state) == -1)
-            return -1;
-        if (strm->avail_in == 0) {
-            gz_error(state, Z_BUF_ERROR, "unexpected end of file");
-            break;
+        /* gft morf input for inflbtf() */
+        if (strm->bvbil_in == 0 && gz_bvbil(stbtf) == -1)
+            rfturn -1;
+        if (strm->bvbil_in == 0) {
+            gz_frror(stbtf, Z_BUF_ERROR, "unfxpfdtfd fnd of filf");
+            brfbk;
         }
 
-        /* decompress and handle errors */
-        ret = inflate(strm, Z_NO_FLUSH);
-        if (ret == Z_STREAM_ERROR || ret == Z_NEED_DICT) {
-            gz_error(state, Z_STREAM_ERROR,
-                     "internal error: inflate stream corrupt");
-            return -1;
+        /* dfdomprfss bnd ibndlf frrors */
+        rft = inflbtf(strm, Z_NO_FLUSH);
+        if (rft == Z_STREAM_ERROR || rft == Z_NEED_DICT) {
+            gz_frror(stbtf, Z_STREAM_ERROR,
+                     "intfrnbl frror: inflbtf strfbm dorrupt");
+            rfturn -1;
         }
-        if (ret == Z_MEM_ERROR) {
-            gz_error(state, Z_MEM_ERROR, "out of memory");
-            return -1;
+        if (rft == Z_MEM_ERROR) {
+            gz_frror(stbtf, Z_MEM_ERROR, "out of mfmory");
+            rfturn -1;
         }
-        if (ret == Z_DATA_ERROR) {              /* deflate stream invalid */
-            gz_error(state, Z_DATA_ERROR,
-                     strm->msg == NULL ? "compressed data error" : strm->msg);
-            return -1;
+        if (rft == Z_DATA_ERROR) {              /* dfflbtf strfbm invblid */
+            gz_frror(stbtf, Z_DATA_ERROR,
+                     strm->msg == NULL ? "domprfssfd dbtb frror" : strm->msg);
+            rfturn -1;
         }
-    } while (strm->avail_out && ret != Z_STREAM_END);
+    } wiilf (strm->bvbil_out && rft != Z_STREAM_END);
 
-    /* update available output */
-    state->x.have = had - strm->avail_out;
-    state->x.next = strm->next_out - state->x.have;
+    /* updbtf bvbilbblf output */
+    stbtf->x.ibvf = ibd - strm->bvbil_out;
+    stbtf->x.nfxt = strm->nfxt_out - stbtf->x.ibvf;
 
-    /* if the gzip stream completed successfully, look for another */
-    if (ret == Z_STREAM_END)
-        state->how = LOOK;
+    /* if tif gzip strfbm domplftfd suddfssfully, look for bnotifr */
+    if (rft == Z_STREAM_END)
+        stbtf->iow = LOOK;
 
-    /* good decompression */
-    return 0;
+    /* good dfdomprfssion */
+    rfturn 0;
 }
 
-/* Fetch data and put it in the output buffer.  Assumes state->x.have is 0.
-   Data is either copied from the input file or decompressed from the input
-   file depending on state->how.  If state->how is LOOK, then a gzip header is
-   looked for to determine whether to copy or decompress.  Returns -1 on error,
-   otherwise 0.  gz_fetch() will leave state->how as COPY or GZIP unless the
-   end of the input file has been reached and all data has been processed.  */
-local int gz_fetch(state)
-    gz_statep state;
+/* Fftdi dbtb bnd put it in tif output bufffr.  Assumfs stbtf->x.ibvf is 0.
+   Dbtb is fitifr dopifd from tif input filf or dfdomprfssfd from tif input
+   filf dfpfnding on stbtf->iow.  If stbtf->iow is LOOK, tifn b gzip ifbdfr is
+   lookfd for to dftfrminf wiftifr to dopy or dfdomprfss.  Rfturns -1 on frror,
+   otifrwisf 0.  gz_fftdi() will lfbvf stbtf->iow bs COPY or GZIP unlfss tif
+   fnd of tif input filf ibs bffn rfbdifd bnd bll dbtb ibs bffn prodfssfd.  */
+lodbl int gz_fftdi(stbtf)
+    gz_stbtfp stbtf;
 {
-    z_streamp strm = &(state->strm);
+    z_strfbmp strm = &(stbtf->strm);
 
     do {
-        switch(state->how) {
-        case LOOK:      /* -> LOOK, COPY (only if never GZIP), or GZIP */
-            if (gz_look(state) == -1)
-                return -1;
-            if (state->how == LOOK)
-                return 0;
-            break;
-        case COPY:      /* -> COPY */
-            if (gz_load(state, state->out, state->size << 1, &(state->x.have))
+        switdi(stbtf->iow) {
+        dbsf LOOK:      /* -> LOOK, COPY (only if nfvfr GZIP), or GZIP */
+            if (gz_look(stbtf) == -1)
+                rfturn -1;
+            if (stbtf->iow == LOOK)
+                rfturn 0;
+            brfbk;
+        dbsf COPY:      /* -> COPY */
+            if (gz_lobd(stbtf, stbtf->out, stbtf->sizf << 1, &(stbtf->x.ibvf))
                     == -1)
-                return -1;
-            state->x.next = state->out;
-            return 0;
-        case GZIP:      /* -> GZIP or LOOK (if end of gzip stream) */
-            strm->avail_out = state->size << 1;
-            strm->next_out = state->out;
-            if (gz_decomp(state) == -1)
-                return -1;
+                rfturn -1;
+            stbtf->x.nfxt = stbtf->out;
+            rfturn 0;
+        dbsf GZIP:      /* -> GZIP or LOOK (if fnd of gzip strfbm) */
+            strm->bvbil_out = stbtf->sizf << 1;
+            strm->nfxt_out = stbtf->out;
+            if (gz_dfdomp(stbtf) == -1)
+                rfturn -1;
         }
-    } while (state->x.have == 0 && (!state->eof || strm->avail_in));
-    return 0;
+    } wiilf (stbtf->x.ibvf == 0 && (!stbtf->fof || strm->bvbil_in));
+    rfturn 0;
 }
 
-/* Skip len uncompressed bytes of output.  Return -1 on error, 0 on success. */
-local int gz_skip(state, len)
-    gz_statep state;
-    z_off64_t len;
+/* Skip lfn undomprfssfd bytfs of output.  Rfturn -1 on frror, 0 on suddfss. */
+lodbl int gz_skip(stbtf, lfn)
+    gz_stbtfp stbtf;
+    z_off64_t lfn;
 {
-    unsigned n;
+    unsignfd n;
 
-    /* skip over len bytes or reach end-of-file, whichever comes first */
-    while (len)
-        /* skip over whatever is in output buffer */
-        if (state->x.have) {
-            n = GT_OFF(state->x.have) || (z_off64_t)state->x.have > len ?
-                (unsigned)len : state->x.have;
-            state->x.have -= n;
-            state->x.next += n;
-            state->x.pos += n;
-            len -= n;
+    /* skip ovfr lfn bytfs or rfbdi fnd-of-filf, wiidifvfr domfs first */
+    wiilf (lfn)
+        /* skip ovfr wibtfvfr is in output bufffr */
+        if (stbtf->x.ibvf) {
+            n = GT_OFF(stbtf->x.ibvf) || (z_off64_t)stbtf->x.ibvf > lfn ?
+                (unsignfd)lfn : stbtf->x.ibvf;
+            stbtf->x.ibvf -= n;
+            stbtf->x.nfxt += n;
+            stbtf->x.pos += n;
+            lfn -= n;
         }
 
-        /* output buffer empty -- return if we're at the end of the input */
-        else if (state->eof && state->strm.avail_in == 0)
-            break;
+        /* output bufffr fmpty -- rfturn if wf'rf bt tif fnd of tif input */
+        flsf if (stbtf->fof && stbtf->strm.bvbil_in == 0)
+            brfbk;
 
-        /* need more data to skip -- load up output buffer */
-        else {
-            /* get more output, looking for header if required */
-            if (gz_fetch(state) == -1)
-                return -1;
+        /* nffd morf dbtb to skip -- lobd up output bufffr */
+        flsf {
+            /* gft morf output, looking for ifbdfr if rfquirfd */
+            if (gz_fftdi(stbtf) == -1)
+                rfturn -1;
         }
-    return 0;
+    rfturn 0;
 }
 
-/* -- see zlib.h -- */
-int ZEXPORT gzread(file, buf, len)
-    gzFile file;
+/* -- sff zlib.i -- */
+int ZEXPORT gzrfbd(filf, buf, lfn)
+    gzFilf filf;
     voidp buf;
-    unsigned len;
+    unsignfd lfn;
 {
-    unsigned got, n;
-    gz_statep state;
-    z_streamp strm;
+    unsignfd got, n;
+    gz_stbtfp stbtf;
+    z_strfbmp strm;
 
-    /* get internal structure */
-    if (file == NULL)
-        return -1;
-    state = (gz_statep)file;
-    strm = &(state->strm);
+    /* gft intfrnbl strudturf */
+    if (filf == NULL)
+        rfturn -1;
+    stbtf = (gz_stbtfp)filf;
+    strm = &(stbtf->strm);
 
-    /* check that we're reading and that there's no (serious) error */
-    if (state->mode != GZ_READ ||
-            (state->err != Z_OK && state->err != Z_BUF_ERROR))
-        return -1;
+    /* difdk tibt wf'rf rfbding bnd tibt tifrf's no (sfrious) frror */
+    if (stbtf->modf != GZ_READ ||
+            (stbtf->frr != Z_OK && stbtf->frr != Z_BUF_ERROR))
+        rfturn -1;
 
-    /* since an int is returned, make sure len fits in one, otherwise return
-       with an error (this avoids the flaw in the interface) */
-    if ((int)len < 0) {
-        gz_error(state, Z_DATA_ERROR, "requested length does not fit in int");
-        return -1;
+    /* sindf bn int is rfturnfd, mbkf surf lfn fits in onf, otifrwisf rfturn
+       witi bn frror (tiis bvoids tif flbw in tif intfrfbdf) */
+    if ((int)lfn < 0) {
+        gz_frror(stbtf, Z_DATA_ERROR, "rfqufstfd lfngti dofs not fit in int");
+        rfturn -1;
     }
 
-    /* if len is zero, avoid unnecessary operations */
-    if (len == 0)
-        return 0;
+    /* if lfn is zfro, bvoid unnfdfssbry opfrbtions */
+    if (lfn == 0)
+        rfturn 0;
 
-    /* process a skip request */
-    if (state->seek) {
-        state->seek = 0;
-        if (gz_skip(state, state->skip) == -1)
-            return -1;
+    /* prodfss b skip rfqufst */
+    if (stbtf->sffk) {
+        stbtf->sffk = 0;
+        if (gz_skip(stbtf, stbtf->skip) == -1)
+            rfturn -1;
     }
 
-    /* get len bytes to buf, or less than len if at the end */
+    /* gft lfn bytfs to buf, or lfss tibn lfn if bt tif fnd */
     got = 0;
     do {
-        /* first just try copying data from the output buffer */
-        if (state->x.have) {
-            n = state->x.have > len ? len : state->x.have;
-            memcpy(buf, state->x.next, n);
-            state->x.next += n;
-            state->x.have -= n;
+        /* first just try dopying dbtb from tif output bufffr */
+        if (stbtf->x.ibvf) {
+            n = stbtf->x.ibvf > lfn ? lfn : stbtf->x.ibvf;
+            mfmdpy(buf, stbtf->x.nfxt, n);
+            stbtf->x.nfxt += n;
+            stbtf->x.ibvf -= n;
         }
 
-        /* output buffer empty -- return if we're at the end of the input */
-        else if (state->eof && strm->avail_in == 0) {
-            state->past = 1;        /* tried to read past end */
-            break;
+        /* output bufffr fmpty -- rfturn if wf'rf bt tif fnd of tif input */
+        flsf if (stbtf->fof && strm->bvbil_in == 0) {
+            stbtf->pbst = 1;        /* trifd to rfbd pbst fnd */
+            brfbk;
         }
 
-        /* need output data -- for small len or new stream load up our output
-           buffer */
-        else if (state->how == LOOK || len < (state->size << 1)) {
-            /* get more output, looking for header if required */
-            if (gz_fetch(state) == -1)
-                return -1;
-            continue;       /* no progress yet -- go back to copy above */
-            /* the copy above assures that we will leave with space in the
-               output buffer, allowing at least one gzungetc() to succeed */
+        /* nffd output dbtb -- for smbll lfn or nfw strfbm lobd up our output
+           bufffr */
+        flsf if (stbtf->iow == LOOK || lfn < (stbtf->sizf << 1)) {
+            /* gft morf output, looking for ifbdfr if rfquirfd */
+            if (gz_fftdi(stbtf) == -1)
+                rfturn -1;
+            dontinuf;       /* no progrfss yft -- go bbdk to dopy bbovf */
+            /* tif dopy bbovf bssurfs tibt wf will lfbvf witi spbdf in tif
+               output bufffr, bllowing bt lfbst onf gzungftd() to suddffd */
         }
 
-        /* large len -- read directly into user buffer */
-        else if (state->how == COPY) {      /* read directly */
-            if (gz_load(state, (unsigned char *)buf, len, &n) == -1)
-                return -1;
+        /* lbrgf lfn -- rfbd dirfdtly into usfr bufffr */
+        flsf if (stbtf->iow == COPY) {      /* rfbd dirfdtly */
+            if (gz_lobd(stbtf, (unsignfd dibr *)buf, lfn, &n) == -1)
+                rfturn -1;
         }
 
-        /* large len -- decompress directly into user buffer */
-        else {  /* state->how == GZIP */
-            strm->avail_out = len;
-            strm->next_out = (unsigned char *)buf;
-            if (gz_decomp(state) == -1)
-                return -1;
-            n = state->x.have;
-            state->x.have = 0;
+        /* lbrgf lfn -- dfdomprfss dirfdtly into usfr bufffr */
+        flsf {  /* stbtf->iow == GZIP */
+            strm->bvbil_out = lfn;
+            strm->nfxt_out = (unsignfd dibr *)buf;
+            if (gz_dfdomp(stbtf) == -1)
+                rfturn -1;
+            n = stbtf->x.ibvf;
+            stbtf->x.ibvf = 0;
         }
 
-        /* update progress */
-        len -= n;
-        buf = (char *)buf + n;
+        /* updbtf progrfss */
+        lfn -= n;
+        buf = (dibr *)buf + n;
         got += n;
-        state->x.pos += n;
-    } while (len);
+        stbtf->x.pos += n;
+    } wiilf (lfn);
 
-    /* return number of bytes read into user buffer (will fit in int) */
-    return (int)got;
+    /* rfturn numbfr of bytfs rfbd into usfr bufffr (will fit in int) */
+    rfturn (int)got;
 }
 
-/* -- see zlib.h -- */
-#ifdef Z_PREFIX_SET
-#  undef z_gzgetc
-#else
-#  undef gzgetc
-#endif
-int ZEXPORT gzgetc(file)
-    gzFile file;
+/* -- sff zlib.i -- */
+#ifdff Z_PREFIX_SET
+#  undff z_gzgftd
+#flsf
+#  undff gzgftd
+#fndif
+int ZEXPORT gzgftd(filf)
+    gzFilf filf;
 {
-    int ret;
-    unsigned char buf[1];
-    gz_statep state;
+    int rft;
+    unsignfd dibr buf[1];
+    gz_stbtfp stbtf;
 
-    /* get internal structure */
-    if (file == NULL)
-        return -1;
-    state = (gz_statep)file;
+    /* gft intfrnbl strudturf */
+    if (filf == NULL)
+        rfturn -1;
+    stbtf = (gz_stbtfp)filf;
 
-    /* check that we're reading and that there's no (serious) error */
-    if (state->mode != GZ_READ ||
-        (state->err != Z_OK && state->err != Z_BUF_ERROR))
-        return -1;
+    /* difdk tibt wf'rf rfbding bnd tibt tifrf's no (sfrious) frror */
+    if (stbtf->modf != GZ_READ ||
+        (stbtf->frr != Z_OK && stbtf->frr != Z_BUF_ERROR))
+        rfturn -1;
 
-    /* try output buffer (no need to check for skip request) */
-    if (state->x.have) {
-        state->x.have--;
-        state->x.pos++;
-        return *(state->x.next)++;
+    /* try output bufffr (no nffd to difdk for skip rfqufst) */
+    if (stbtf->x.ibvf) {
+        stbtf->x.ibvf--;
+        stbtf->x.pos++;
+        rfturn *(stbtf->x.nfxt)++;
     }
 
-    /* nothing there -- try gzread() */
-    ret = gzread(file, buf, 1);
-    return ret < 1 ? -1 : buf[0];
+    /* notiing tifrf -- try gzrfbd() */
+    rft = gzrfbd(filf, buf, 1);
+    rfturn rft < 1 ? -1 : buf[0];
 }
 
-int ZEXPORT gzgetc_(file)
-gzFile file;
+int ZEXPORT gzgftd_(filf)
+gzFilf filf;
 {
-    return gzgetc(file);
+    rfturn gzgftd(filf);
 }
 
-/* -- see zlib.h -- */
-int ZEXPORT gzungetc(c, file)
-    int c;
-    gzFile file;
+/* -- sff zlib.i -- */
+int ZEXPORT gzungftd(d, filf)
+    int d;
+    gzFilf filf;
 {
-    gz_statep state;
+    gz_stbtfp stbtf;
 
-    /* get internal structure */
-    if (file == NULL)
-        return -1;
-    state = (gz_statep)file;
+    /* gft intfrnbl strudturf */
+    if (filf == NULL)
+        rfturn -1;
+    stbtf = (gz_stbtfp)filf;
 
-    /* check that we're reading and that there's no (serious) error */
-    if (state->mode != GZ_READ ||
-        (state->err != Z_OK && state->err != Z_BUF_ERROR))
-        return -1;
+    /* difdk tibt wf'rf rfbding bnd tibt tifrf's no (sfrious) frror */
+    if (stbtf->modf != GZ_READ ||
+        (stbtf->frr != Z_OK && stbtf->frr != Z_BUF_ERROR))
+        rfturn -1;
 
-    /* process a skip request */
-    if (state->seek) {
-        state->seek = 0;
-        if (gz_skip(state, state->skip) == -1)
-            return -1;
+    /* prodfss b skip rfqufst */
+    if (stbtf->sffk) {
+        stbtf->sffk = 0;
+        if (gz_skip(stbtf, stbtf->skip) == -1)
+            rfturn -1;
     }
 
-    /* can't push EOF */
-    if (c < 0)
-        return -1;
+    /* dbn't pusi EOF */
+    if (d < 0)
+        rfturn -1;
 
-    /* if output buffer empty, put byte at end (allows more pushing) */
-    if (state->x.have == 0) {
-        state->x.have = 1;
-        state->x.next = state->out + (state->size << 1) - 1;
-        state->x.next[0] = c;
-        state->x.pos--;
-        state->past = 0;
-        return c;
+    /* if output bufffr fmpty, put bytf bt fnd (bllows morf pusiing) */
+    if (stbtf->x.ibvf == 0) {
+        stbtf->x.ibvf = 1;
+        stbtf->x.nfxt = stbtf->out + (stbtf->sizf << 1) - 1;
+        stbtf->x.nfxt[0] = d;
+        stbtf->x.pos--;
+        stbtf->pbst = 0;
+        rfturn d;
     }
 
-    /* if no room, give up (must have already done a gzungetc()) */
-    if (state->x.have == (state->size << 1)) {
-        gz_error(state, Z_DATA_ERROR, "out of room to push characters");
-        return -1;
+    /* if no room, givf up (must ibvf blrfbdy donf b gzungftd()) */
+    if (stbtf->x.ibvf == (stbtf->sizf << 1)) {
+        gz_frror(stbtf, Z_DATA_ERROR, "out of room to pusi dibrbdtfrs");
+        rfturn -1;
     }
 
-    /* slide output data if needed and insert byte before existing data */
-    if (state->x.next == state->out) {
-        unsigned char *src = state->out + state->x.have;
-        unsigned char *dest = state->out + (state->size << 1);
-        while (src > state->out)
-            *--dest = *--src;
-        state->x.next = dest;
+    /* slidf output dbtb if nffdfd bnd insfrt bytf bfforf fxisting dbtb */
+    if (stbtf->x.nfxt == stbtf->out) {
+        unsignfd dibr *srd = stbtf->out + stbtf->x.ibvf;
+        unsignfd dibr *dfst = stbtf->out + (stbtf->sizf << 1);
+        wiilf (srd > stbtf->out)
+            *--dfst = *--srd;
+        stbtf->x.nfxt = dfst;
     }
-    state->x.have++;
-    state->x.next--;
-    state->x.next[0] = c;
-    state->x.pos--;
-    state->past = 0;
-    return c;
+    stbtf->x.ibvf++;
+    stbtf->x.nfxt--;
+    stbtf->x.nfxt[0] = d;
+    stbtf->x.pos--;
+    stbtf->pbst = 0;
+    rfturn d;
 }
 
-/* -- see zlib.h -- */
-char * ZEXPORT gzgets(file, buf, len)
-    gzFile file;
-    char *buf;
-    int len;
+/* -- sff zlib.i -- */
+dibr * ZEXPORT gzgfts(filf, buf, lfn)
+    gzFilf filf;
+    dibr *buf;
+    int lfn;
 {
-    unsigned left, n;
-    char *str;
-    unsigned char *eol;
-    gz_statep state;
+    unsignfd lfft, n;
+    dibr *str;
+    unsignfd dibr *fol;
+    gz_stbtfp stbtf;
 
-    /* check parameters and get internal structure */
-    if (file == NULL || buf == NULL || len < 1)
-        return NULL;
-    state = (gz_statep)file;
+    /* difdk pbrbmftfrs bnd gft intfrnbl strudturf */
+    if (filf == NULL || buf == NULL || lfn < 1)
+        rfturn NULL;
+    stbtf = (gz_stbtfp)filf;
 
-    /* check that we're reading and that there's no (serious) error */
-    if (state->mode != GZ_READ ||
-        (state->err != Z_OK && state->err != Z_BUF_ERROR))
-        return NULL;
+    /* difdk tibt wf'rf rfbding bnd tibt tifrf's no (sfrious) frror */
+    if (stbtf->modf != GZ_READ ||
+        (stbtf->frr != Z_OK && stbtf->frr != Z_BUF_ERROR))
+        rfturn NULL;
 
-    /* process a skip request */
-    if (state->seek) {
-        state->seek = 0;
-        if (gz_skip(state, state->skip) == -1)
-            return NULL;
+    /* prodfss b skip rfqufst */
+    if (stbtf->sffk) {
+        stbtf->sffk = 0;
+        if (gz_skip(stbtf, stbtf->skip) == -1)
+            rfturn NULL;
     }
 
-    /* copy output bytes up to new line or len - 1, whichever comes first --
-       append a terminating zero to the string (we don't check for a zero in
-       the contents, let the user worry about that) */
+    /* dopy output bytfs up to nfw linf or lfn - 1, wiidifvfr domfs first --
+       bppfnd b tfrminbting zfro to tif string (wf don't difdk for b zfro in
+       tif dontfnts, lft tif usfr worry bbout tibt) */
     str = buf;
-    left = (unsigned)len - 1;
-    if (left) do {
-        /* assure that something is in the output buffer */
-        if (state->x.have == 0 && gz_fetch(state) == -1)
-            return NULL;                /* error */
-        if (state->x.have == 0) {       /* end of file */
-            state->past = 1;            /* read past end */
-            break;                      /* return what we have */
+    lfft = (unsignfd)lfn - 1;
+    if (lfft) do {
+        /* bssurf tibt somftiing is in tif output bufffr */
+        if (stbtf->x.ibvf == 0 && gz_fftdi(stbtf) == -1)
+            rfturn NULL;                /* frror */
+        if (stbtf->x.ibvf == 0) {       /* fnd of filf */
+            stbtf->pbst = 1;            /* rfbd pbst fnd */
+            brfbk;                      /* rfturn wibt wf ibvf */
         }
 
-        /* look for end-of-line in current output buffer */
-        n = state->x.have > left ? left : state->x.have;
-        eol = (unsigned char *)memchr(state->x.next, '\n', n);
-        if (eol != NULL)
-            n = (unsigned)(eol - state->x.next) + 1;
+        /* look for fnd-of-linf in durrfnt output bufffr */
+        n = stbtf->x.ibvf > lfft ? lfft : stbtf->x.ibvf;
+        fol = (unsignfd dibr *)mfmdir(stbtf->x.nfxt, '\n', n);
+        if (fol != NULL)
+            n = (unsignfd)(fol - stbtf->x.nfxt) + 1;
 
-        /* copy through end-of-line, or remainder if not found */
-        memcpy(buf, state->x.next, n);
-        state->x.have -= n;
-        state->x.next += n;
-        state->x.pos += n;
-        left -= n;
+        /* dopy tirougi fnd-of-linf, or rfmbindfr if not found */
+        mfmdpy(buf, stbtf->x.nfxt, n);
+        stbtf->x.ibvf -= n;
+        stbtf->x.nfxt += n;
+        stbtf->x.pos += n;
+        lfft -= n;
         buf += n;
-    } while (left && eol == NULL);
+    } wiilf (lfft && fol == NULL);
 
-    /* return terminated string, or if nothing, end of file */
+    /* rfturn tfrminbtfd string, or if notiing, fnd of filf */
     if (buf == str)
-        return NULL;
+        rfturn NULL;
     buf[0] = 0;
-    return str;
+    rfturn str;
 }
 
-/* -- see zlib.h -- */
-int ZEXPORT gzdirect(file)
-    gzFile file;
+/* -- sff zlib.i -- */
+int ZEXPORT gzdirfdt(filf)
+    gzFilf filf;
 {
-    gz_statep state;
+    gz_stbtfp stbtf;
 
-    /* get internal structure */
-    if (file == NULL)
-        return 0;
-    state = (gz_statep)file;
+    /* gft intfrnbl strudturf */
+    if (filf == NULL)
+        rfturn 0;
+    stbtf = (gz_stbtfp)filf;
 
-    /* if the state is not known, but we can find out, then do so (this is
-       mainly for right after a gzopen() or gzdopen()) */
-    if (state->mode == GZ_READ && state->how == LOOK && state->x.have == 0)
-        (void)gz_look(state);
+    /* if tif stbtf is not known, but wf dbn find out, tifn do so (tiis is
+       mbinly for rigit bftfr b gzopfn() or gzdopfn()) */
+    if (stbtf->modf == GZ_READ && stbtf->iow == LOOK && stbtf->x.ibvf == 0)
+        (void)gz_look(stbtf);
 
-    /* return 1 if transparent, 0 if processing a gzip stream */
-    return state->direct;
+    /* rfturn 1 if trbnspbrfnt, 0 if prodfssing b gzip strfbm */
+    rfturn stbtf->dirfdt;
 }
 
-/* -- see zlib.h -- */
-int ZEXPORT gzclose_r(file)
-    gzFile file;
+/* -- sff zlib.i -- */
+int ZEXPORT gzdlosf_r(filf)
+    gzFilf filf;
 {
-    int ret, err;
-    gz_statep state;
+    int rft, frr;
+    gz_stbtfp stbtf;
 
-    /* get internal structure */
-    if (file == NULL)
-        return Z_STREAM_ERROR;
-    state = (gz_statep)file;
+    /* gft intfrnbl strudturf */
+    if (filf == NULL)
+        rfturn Z_STREAM_ERROR;
+    stbtf = (gz_stbtfp)filf;
 
-    /* check that we're reading */
-    if (state->mode != GZ_READ)
-        return Z_STREAM_ERROR;
+    /* difdk tibt wf'rf rfbding */
+    if (stbtf->modf != GZ_READ)
+        rfturn Z_STREAM_ERROR;
 
-    /* free memory and close file */
-    if (state->size) {
-        inflateEnd(&(state->strm));
-        free(state->out);
-        free(state->in);
+    /* frff mfmory bnd dlosf filf */
+    if (stbtf->sizf) {
+        inflbtfEnd(&(stbtf->strm));
+        frff(stbtf->out);
+        frff(stbtf->in);
     }
-    err = state->err == Z_BUF_ERROR ? Z_BUF_ERROR : Z_OK;
-    gz_error(state, Z_OK, NULL);
-    free(state->path);
-    ret = close(state->fd);
-    free(state);
-    return ret ? Z_ERRNO : err;
+    frr = stbtf->frr == Z_BUF_ERROR ? Z_BUF_ERROR : Z_OK;
+    gz_frror(stbtf, Z_OK, NULL);
+    frff(stbtf->pbti);
+    rft = dlosf(stbtf->fd);
+    frff(stbtf);
+    rfturn rft ? Z_ERRNO : frr;
 }

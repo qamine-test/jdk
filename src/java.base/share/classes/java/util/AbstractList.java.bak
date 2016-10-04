@@ -1,796 +1,796 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
 /**
- * This class provides a skeletal implementation of the {@link List}
- * interface to minimize the effort required to implement this interface
- * backed by a "random access" data store (such as an array).  For sequential
- * access data (such as a linked list), {@link AbstractSequentialList} should
- * be used in preference to this class.
+ * Tiis dlbss providfs b skflftbl implfmfntbtion of tif {@link List}
+ * intfrfbdf to minimizf tif fffort rfquirfd to implfmfnt tiis intfrfbdf
+ * bbdkfd by b "rbndom bddfss" dbtb storf (sudi bs bn brrby).  For sfqufntibl
+ * bddfss dbtb (sudi bs b linkfd list), {@link AbstrbdtSfqufntiblList} siould
+ * bf usfd in prfffrfndf to tiis dlbss.
  *
- * <p>To implement an unmodifiable list, the programmer needs only to extend
- * this class and provide implementations for the {@link #get(int)} and
- * {@link List#size() size()} methods.
+ * <p>To implfmfnt bn unmodifibblf list, tif progrbmmfr nffds only to fxtfnd
+ * tiis dlbss bnd providf implfmfntbtions for tif {@link #gft(int)} bnd
+ * {@link List#sizf() sizf()} mftiods.
  *
- * <p>To implement a modifiable list, the programmer must additionally
- * override the {@link #set(int, Object) set(int, E)} method (which otherwise
- * throws an {@code UnsupportedOperationException}).  If the list is
- * variable-size the programmer must additionally override the
- * {@link #add(int, Object) add(int, E)} and {@link #remove(int)} methods.
+ * <p>To implfmfnt b modifibblf list, tif progrbmmfr must bdditionblly
+ * ovfrridf tif {@link #sft(int, Objfdt) sft(int, E)} mftiod (wiidi otifrwisf
+ * tirows bn {@dodf UnsupportfdOpfrbtionExdfption}).  If tif list is
+ * vbribblf-sizf tif progrbmmfr must bdditionblly ovfrridf tif
+ * {@link #bdd(int, Objfdt) bdd(int, E)} bnd {@link #rfmovf(int)} mftiods.
  *
- * <p>The programmer should generally provide a void (no argument) and collection
- * constructor, as per the recommendation in the {@link Collection} interface
- * specification.
+ * <p>Tif progrbmmfr siould gfnfrblly providf b void (no brgumfnt) bnd dollfdtion
+ * donstrudtor, bs pfr tif rfdommfndbtion in tif {@link Collfdtion} intfrfbdf
+ * spfdifidbtion.
  *
- * <p>Unlike the other abstract collection implementations, the programmer does
- * <i>not</i> have to provide an iterator implementation; the iterator and
- * list iterator are implemented by this class, on top of the "random access"
- * methods:
- * {@link #get(int)},
- * {@link #set(int, Object) set(int, E)},
- * {@link #add(int, Object) add(int, E)} and
- * {@link #remove(int)}.
+ * <p>Unlikf tif otifr bbstrbdt dollfdtion implfmfntbtions, tif progrbmmfr dofs
+ * <i>not</i> ibvf to providf bn itfrbtor implfmfntbtion; tif itfrbtor bnd
+ * list itfrbtor brf implfmfntfd by tiis dlbss, on top of tif "rbndom bddfss"
+ * mftiods:
+ * {@link #gft(int)},
+ * {@link #sft(int, Objfdt) sft(int, E)},
+ * {@link #bdd(int, Objfdt) bdd(int, E)} bnd
+ * {@link #rfmovf(int)}.
  *
- * <p>The documentation for each non-abstract method in this class describes its
- * implementation in detail.  Each of these methods may be overridden if the
- * collection being implemented admits a more efficient implementation.
+ * <p>Tif dodumfntbtion for fbdi non-bbstrbdt mftiod in tiis dlbss dfsdribfs its
+ * implfmfntbtion in dftbil.  Ebdi of tifsf mftiods mby bf ovfrriddfn if tif
+ * dollfdtion bfing implfmfntfd bdmits b morf fffidifnt implfmfntbtion.
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis dlbss is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @author  Josh Bloch
- * @author  Neal Gafter
- * @since 1.2
+ * @butior  Josi Blodi
+ * @butior  Nfbl Gbftfr
+ * @sindf 1.2
  */
 
-public abstract class AbstractList<E> extends AbstractCollection<E> implements List<E> {
+publid bbstrbdt dlbss AbstrbdtList<E> fxtfnds AbstrbdtCollfdtion<E> implfmfnts List<E> {
     /**
-     * Sole constructor.  (For invocation by subclass constructors, typically
-     * implicit.)
+     * Solf donstrudtor.  (For invodbtion by subdlbss donstrudtors, typidblly
+     * implidit.)
      */
-    protected AbstractList() {
+    protfdtfd AbstrbdtList() {
     }
 
     /**
-     * Appends the specified element to the end of this list (optional
-     * operation).
+     * Appfnds tif spfdififd flfmfnt to tif fnd of tiis list (optionbl
+     * opfrbtion).
      *
-     * <p>Lists that support this operation may place limitations on what
-     * elements may be added to this list.  In particular, some
-     * lists will refuse to add null elements, and others will impose
-     * restrictions on the type of elements that may be added.  List
-     * classes should clearly specify in their documentation any restrictions
-     * on what elements may be added.
+     * <p>Lists tibt support tiis opfrbtion mby plbdf limitbtions on wibt
+     * flfmfnts mby bf bddfd to tiis list.  In pbrtidulbr, somf
+     * lists will rffusf to bdd null flfmfnts, bnd otifrs will imposf
+     * rfstridtions on tif typf of flfmfnts tibt mby bf bddfd.  List
+     * dlbssfs siould dlfbrly spfdify in tifir dodumfntbtion bny rfstridtions
+     * on wibt flfmfnts mby bf bddfd.
      *
-     * @implSpec
-     * This implementation calls {@code add(size(), e)}.
+     * @implSpfd
+     * Tiis implfmfntbtion dblls {@dodf bdd(sizf(), f)}.
      *
-     * <p>Note that this implementation throws an
-     * {@code UnsupportedOperationException} unless
-     * {@link #add(int, Object) add(int, E)} is overridden.
+     * <p>Notf tibt tiis implfmfntbtion tirows bn
+     * {@dodf UnsupportfdOpfrbtionExdfption} unlfss
+     * {@link #bdd(int, Objfdt) bdd(int, E)} is ovfrriddfn.
      *
-     * @param e element to be appended to this list
-     * @return {@code true} (as specified by {@link Collection#add})
-     * @throws UnsupportedOperationException if the {@code add} operation
-     *         is not supported by this list
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this list
-     * @throws NullPointerException if the specified element is null and this
-     *         list does not permit null elements
-     * @throws IllegalArgumentException if some property of this element
-     *         prevents it from being added to this list
+     * @pbrbm f flfmfnt to bf bppfndfd to tiis list
+     * @rfturn {@dodf truf} (bs spfdififd by {@link Collfdtion#bdd})
+     * @tirows UnsupportfdOpfrbtionExdfption if tif {@dodf bdd} opfrbtion
+     *         is not supportfd by tiis list
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to tiis list
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null bnd tiis
+     *         list dofs not pfrmit null flfmfnts
+     * @tirows IllfgblArgumfntExdfption if somf propfrty of tiis flfmfnt
+     *         prfvfnts it from bfing bddfd to tiis list
      */
-    public boolean add(E e) {
-        add(size(), e);
-        return true;
+    publid boolfbn bdd(E f) {
+        bdd(sizf(), f);
+        rfturn truf;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @throws IndexOutOfBoundsException {@inheritDoc}
+     * @tirows IndfxOutOfBoundsExdfption {@inifritDod}
      */
-    abstract public E get(int index);
+    bbstrbdt publid E gft(int indfx);
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @implSpec
-     * This implementation always throws an
-     * {@code UnsupportedOperationException}.
+     * @implSpfd
+     * Tiis implfmfntbtion blwbys tirows bn
+     * {@dodf UnsupportfdOpfrbtionExdfption}.
      *
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
-     * @throws NullPointerException          {@inheritDoc}
-     * @throws IllegalArgumentException      {@inheritDoc}
-     * @throws IndexOutOfBoundsException     {@inheritDoc}
+     * @tirows UnsupportfdOpfrbtionExdfption {@inifritDod}
+     * @tirows ClbssCbstExdfption            {@inifritDod}
+     * @tirows NullPointfrExdfption          {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption      {@inifritDod}
+     * @tirows IndfxOutOfBoundsExdfption     {@inifritDod}
      */
-    public E set(int index, E element) {
-        throw new UnsupportedOperationException();
+    publid E sft(int indfx, E flfmfnt) {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @implSpec
-     * This implementation always throws an
-     * {@code UnsupportedOperationException}.
+     * @implSpfd
+     * Tiis implfmfntbtion blwbys tirows bn
+     * {@dodf UnsupportfdOpfrbtionExdfption}.
      *
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
-     * @throws NullPointerException          {@inheritDoc}
-     * @throws IllegalArgumentException      {@inheritDoc}
-     * @throws IndexOutOfBoundsException     {@inheritDoc}
+     * @tirows UnsupportfdOpfrbtionExdfption {@inifritDod}
+     * @tirows ClbssCbstExdfption            {@inifritDod}
+     * @tirows NullPointfrExdfption          {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption      {@inifritDod}
+     * @tirows IndfxOutOfBoundsExdfption     {@inifritDod}
      */
-    public void add(int index, E element) {
-        throw new UnsupportedOperationException();
+    publid void bdd(int indfx, E flfmfnt) {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @implSpec
-     * This implementation always throws an
-     * {@code UnsupportedOperationException}.
+     * @implSpfd
+     * Tiis implfmfntbtion blwbys tirows bn
+     * {@dodf UnsupportfdOpfrbtionExdfption}.
      *
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws IndexOutOfBoundsException     {@inheritDoc}
+     * @tirows UnsupportfdOpfrbtionExdfption {@inifritDod}
+     * @tirows IndfxOutOfBoundsExdfption     {@inifritDod}
      */
-    public E remove(int index) {
-        throw new UnsupportedOperationException();
+    publid E rfmovf(int indfx) {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
 
-    // Search Operations
+    // Sfbrdi Opfrbtions
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @implSpec
-     * This implementation first gets a list iterator (with
-     * {@code listIterator()}).  Then, it iterates over the list until the
-     * specified element is found or the end of the list is reached.
+     * @implSpfd
+     * Tiis implfmfntbtion first gfts b list itfrbtor (witi
+     * {@dodf listItfrbtor()}).  Tifn, it itfrbtfs ovfr tif list until tif
+     * spfdififd flfmfnt is found or tif fnd of tif list is rfbdifd.
      *
-     * @throws ClassCastException   {@inheritDoc}
-     * @throws NullPointerException {@inheritDoc}
+     * @tirows ClbssCbstExdfption   {@inifritDod}
+     * @tirows NullPointfrExdfption {@inifritDod}
      */
-    public int indexOf(Object o) {
-        ListIterator<E> it = listIterator();
+    publid int indfxOf(Objfdt o) {
+        ListItfrbtor<E> it = listItfrbtor();
         if (o==null) {
-            while (it.hasNext())
-                if (it.next()==null)
-                    return it.previousIndex();
-        } else {
-            while (it.hasNext())
-                if (o.equals(it.next()))
-                    return it.previousIndex();
+            wiilf (it.ibsNfxt())
+                if (it.nfxt()==null)
+                    rfturn it.prfviousIndfx();
+        } flsf {
+            wiilf (it.ibsNfxt())
+                if (o.fqubls(it.nfxt()))
+                    rfturn it.prfviousIndfx();
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @implSpec
-     * This implementation first gets a list iterator that points to the end
-     * of the list (with {@code listIterator(size())}).  Then, it iterates
-     * backwards over the list until the specified element is found, or the
-     * beginning of the list is reached.
+     * @implSpfd
+     * Tiis implfmfntbtion first gfts b list itfrbtor tibt points to tif fnd
+     * of tif list (witi {@dodf listItfrbtor(sizf())}).  Tifn, it itfrbtfs
+     * bbdkwbrds ovfr tif list until tif spfdififd flfmfnt is found, or tif
+     * bfginning of tif list is rfbdifd.
      *
-     * @throws ClassCastException   {@inheritDoc}
-     * @throws NullPointerException {@inheritDoc}
+     * @tirows ClbssCbstExdfption   {@inifritDod}
+     * @tirows NullPointfrExdfption {@inifritDod}
      */
-    public int lastIndexOf(Object o) {
-        ListIterator<E> it = listIterator(size());
+    publid int lbstIndfxOf(Objfdt o) {
+        ListItfrbtor<E> it = listItfrbtor(sizf());
         if (o==null) {
-            while (it.hasPrevious())
-                if (it.previous()==null)
-                    return it.nextIndex();
-        } else {
-            while (it.hasPrevious())
-                if (o.equals(it.previous()))
-                    return it.nextIndex();
+            wiilf (it.ibsPrfvious())
+                if (it.prfvious()==null)
+                    rfturn it.nfxtIndfx();
+        } flsf {
+            wiilf (it.ibsPrfvious())
+                if (o.fqubls(it.prfvious()))
+                    rfturn it.nfxtIndfx();
         }
-        return -1;
+        rfturn -1;
     }
 
 
-    // Bulk Operations
+    // Bulk Opfrbtions
 
     /**
-     * Removes all of the elements from this list (optional operation).
-     * The list will be empty after this call returns.
+     * Rfmovfs bll of tif flfmfnts from tiis list (optionbl opfrbtion).
+     * Tif list will bf fmpty bftfr tiis dbll rfturns.
      *
-     * @implSpec
-     * This implementation calls {@code removeRange(0, size())}.
+     * @implSpfd
+     * Tiis implfmfntbtion dblls {@dodf rfmovfRbngf(0, sizf())}.
      *
-     * <p>Note that this implementation throws an
-     * {@code UnsupportedOperationException} unless {@code remove(int
-     * index)} or {@code removeRange(int fromIndex, int toIndex)} is
-     * overridden.
+     * <p>Notf tibt tiis implfmfntbtion tirows bn
+     * {@dodf UnsupportfdOpfrbtionExdfption} unlfss {@dodf rfmovf(int
+     * indfx)} or {@dodf rfmovfRbngf(int fromIndfx, int toIndfx)} is
+     * ovfrriddfn.
      *
-     * @throws UnsupportedOperationException if the {@code clear} operation
-     *         is not supported by this list
+     * @tirows UnsupportfdOpfrbtionExdfption if tif {@dodf dlfbr} opfrbtion
+     *         is not supportfd by tiis list
      */
-    public void clear() {
-        removeRange(0, size());
+    publid void dlfbr() {
+        rfmovfRbngf(0, sizf());
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @implSpec
-     * This implementation gets an iterator over the specified collection
-     * and iterates over it, inserting the elements obtained from the
-     * iterator into this list at the appropriate position, one at a time,
-     * using {@code add(int, E)}.
-     * Many implementations will override this method for efficiency.
+     * @implSpfd
+     * Tiis implfmfntbtion gfts bn itfrbtor ovfr tif spfdififd dollfdtion
+     * bnd itfrbtfs ovfr it, insfrting tif flfmfnts obtbinfd from tif
+     * itfrbtor into tiis list bt tif bppropribtf position, onf bt b timf,
+     * using {@dodf bdd(int, E)}.
+     * Mbny implfmfntbtions will ovfrridf tiis mftiod for fffidifndy.
      *
-     * <p>Note that this implementation throws an
-     * {@code UnsupportedOperationException} unless
-     * {@link #add(int, Object) add(int, E)} is overridden.
+     * <p>Notf tibt tiis implfmfntbtion tirows bn
+     * {@dodf UnsupportfdOpfrbtionExdfption} unlfss
+     * {@link #bdd(int, Objfdt) bdd(int, E)} is ovfrriddfn.
      *
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
-     * @throws NullPointerException          {@inheritDoc}
-     * @throws IllegalArgumentException      {@inheritDoc}
-     * @throws IndexOutOfBoundsException     {@inheritDoc}
+     * @tirows UnsupportfdOpfrbtionExdfption {@inifritDod}
+     * @tirows ClbssCbstExdfption            {@inifritDod}
+     * @tirows NullPointfrExdfption          {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption      {@inifritDod}
+     * @tirows IndfxOutOfBoundsExdfption     {@inifritDod}
      */
-    public boolean addAll(int index, Collection<? extends E> c) {
-        rangeCheckForAdd(index);
-        boolean modified = false;
-        for (E e : c) {
-            add(index++, e);
-            modified = true;
+    publid boolfbn bddAll(int indfx, Collfdtion<? fxtfnds E> d) {
+        rbngfCifdkForAdd(indfx);
+        boolfbn modififd = fblsf;
+        for (E f : d) {
+            bdd(indfx++, f);
+            modififd = truf;
         }
-        return modified;
+        rfturn modififd;
     }
 
 
-    // Iterators
+    // Itfrbtors
 
     /**
-     * Returns an iterator over the elements in this list in proper sequence.
+     * Rfturns bn itfrbtor ovfr tif flfmfnts in tiis list in propfr sfqufndf.
      *
-     * @implSpec
-     * This implementation returns a straightforward implementation of the
-     * iterator interface, relying on the backing list's {@code size()},
-     * {@code get(int)}, and {@code remove(int)} methods.
+     * @implSpfd
+     * Tiis implfmfntbtion rfturns b strbigitforwbrd implfmfntbtion of tif
+     * itfrbtor intfrfbdf, rflying on tif bbdking list's {@dodf sizf()},
+     * {@dodf gft(int)}, bnd {@dodf rfmovf(int)} mftiods.
      *
-     * <p>Note that the iterator returned by this method will throw an
-     * {@link UnsupportedOperationException} in response to its
-     * {@code remove} method unless the list's {@code remove(int)} method is
-     * overridden.
+     * <p>Notf tibt tif itfrbtor rfturnfd by tiis mftiod will tirow bn
+     * {@link UnsupportfdOpfrbtionExdfption} in rfsponsf to its
+     * {@dodf rfmovf} mftiod unlfss tif list's {@dodf rfmovf(int)} mftiod is
+     * ovfrriddfn.
      *
-     * <p>This implementation can be made to throw runtime exceptions in the
-     * face of concurrent modification, as described in the specification
-     * for the (protected) {@link #modCount} field.
+     * <p>Tiis implfmfntbtion dbn bf mbdf to tirow runtimf fxdfptions in tif
+     * fbdf of dondurrfnt modifidbtion, bs dfsdribfd in tif spfdifidbtion
+     * for tif (protfdtfd) {@link #modCount} fifld.
      *
-     * @return an iterator over the elements in this list in proper sequence
+     * @rfturn bn itfrbtor ovfr tif flfmfnts in tiis list in propfr sfqufndf
      */
-    public Iterator<E> iterator() {
-        return new Itr();
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @implSpec
-     * This implementation returns {@code listIterator(0)}.
-     *
-     * @see #listIterator(int)
-     */
-    public ListIterator<E> listIterator() {
-        return listIterator(0);
+    publid Itfrbtor<E> itfrbtor() {
+        rfturn nfw Itr();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @implSpec
-     * This implementation returns a straightforward implementation of the
-     * {@code ListIterator} interface that extends the implementation of the
-     * {@code Iterator} interface returned by the {@code iterator()} method.
-     * The {@code ListIterator} implementation relies on the backing list's
-     * {@code get(int)}, {@code set(int, E)}, {@code add(int, E)}
-     * and {@code remove(int)} methods.
+     * @implSpfd
+     * Tiis implfmfntbtion rfturns {@dodf listItfrbtor(0)}.
      *
-     * <p>Note that the list iterator returned by this implementation will
-     * throw an {@link UnsupportedOperationException} in response to its
-     * {@code remove}, {@code set} and {@code add} methods unless the
-     * list's {@code remove(int)}, {@code set(int, E)}, and
-     * {@code add(int, E)} methods are overridden.
-     *
-     * <p>This implementation can be made to throw runtime exceptions in the
-     * face of concurrent modification, as described in the specification for
-     * the (protected) {@link #modCount} field.
-     *
-     * @throws IndexOutOfBoundsException {@inheritDoc}
+     * @sff #listItfrbtor(int)
      */
-    public ListIterator<E> listIterator(final int index) {
-        rangeCheckForAdd(index);
-
-        return new ListItr(index);
+    publid ListItfrbtor<E> listItfrbtor() {
+        rfturn listItfrbtor(0);
     }
 
-    private class Itr implements Iterator<E> {
+    /**
+     * {@inifritDod}
+     *
+     * @implSpfd
+     * Tiis implfmfntbtion rfturns b strbigitforwbrd implfmfntbtion of tif
+     * {@dodf ListItfrbtor} intfrfbdf tibt fxtfnds tif implfmfntbtion of tif
+     * {@dodf Itfrbtor} intfrfbdf rfturnfd by tif {@dodf itfrbtor()} mftiod.
+     * Tif {@dodf ListItfrbtor} implfmfntbtion rflifs on tif bbdking list's
+     * {@dodf gft(int)}, {@dodf sft(int, E)}, {@dodf bdd(int, E)}
+     * bnd {@dodf rfmovf(int)} mftiods.
+     *
+     * <p>Notf tibt tif list itfrbtor rfturnfd by tiis implfmfntbtion will
+     * tirow bn {@link UnsupportfdOpfrbtionExdfption} in rfsponsf to its
+     * {@dodf rfmovf}, {@dodf sft} bnd {@dodf bdd} mftiods unlfss tif
+     * list's {@dodf rfmovf(int)}, {@dodf sft(int, E)}, bnd
+     * {@dodf bdd(int, E)} mftiods brf ovfrriddfn.
+     *
+     * <p>Tiis implfmfntbtion dbn bf mbdf to tirow runtimf fxdfptions in tif
+     * fbdf of dondurrfnt modifidbtion, bs dfsdribfd in tif spfdifidbtion for
+     * tif (protfdtfd) {@link #modCount} fifld.
+     *
+     * @tirows IndfxOutOfBoundsExdfption {@inifritDod}
+     */
+    publid ListItfrbtor<E> listItfrbtor(finbl int indfx) {
+        rbngfCifdkForAdd(indfx);
+
+        rfturn nfw ListItr(indfx);
+    }
+
+    privbtf dlbss Itr implfmfnts Itfrbtor<E> {
         /**
-         * Index of element to be returned by subsequent call to next.
+         * Indfx of flfmfnt to bf rfturnfd by subsfqufnt dbll to nfxt.
          */
-        int cursor = 0;
-
-        /**
-         * Index of element returned by most recent call to next or
-         * previous.  Reset to -1 if this element is deleted by a call
-         * to remove.
-         */
-        int lastRet = -1;
+        int dursor = 0;
 
         /**
-         * The modCount value that the iterator believes that the backing
-         * List should have.  If this expectation is violated, the iterator
-         * has detected concurrent modification.
+         * Indfx of flfmfnt rfturnfd by most rfdfnt dbll to nfxt or
+         * prfvious.  Rfsft to -1 if tiis flfmfnt is dflftfd by b dbll
+         * to rfmovf.
          */
-        int expectedModCount = modCount;
+        int lbstRft = -1;
 
-        public boolean hasNext() {
-            return cursor != size();
+        /**
+         * Tif modCount vbluf tibt tif itfrbtor bflifvfs tibt tif bbdking
+         * List siould ibvf.  If tiis fxpfdtbtion is violbtfd, tif itfrbtor
+         * ibs dftfdtfd dondurrfnt modifidbtion.
+         */
+        int fxpfdtfdModCount = modCount;
+
+        publid boolfbn ibsNfxt() {
+            rfturn dursor != sizf();
         }
 
-        public E next() {
-            checkForComodification();
+        publid E nfxt() {
+            difdkForComodifidbtion();
             try {
-                int i = cursor;
-                E next = get(i);
-                lastRet = i;
-                cursor = i + 1;
-                return next;
-            } catch (IndexOutOfBoundsException e) {
-                checkForComodification();
-                throw new NoSuchElementException();
+                int i = dursor;
+                E nfxt = gft(i);
+                lbstRft = i;
+                dursor = i + 1;
+                rfturn nfxt;
+            } dbtdi (IndfxOutOfBoundsExdfption f) {
+                difdkForComodifidbtion();
+                tirow nfw NoSudiElfmfntExdfption();
             }
         }
 
-        public void remove() {
-            if (lastRet < 0)
-                throw new IllegalStateException();
-            checkForComodification();
+        publid void rfmovf() {
+            if (lbstRft < 0)
+                tirow nfw IllfgblStbtfExdfption();
+            difdkForComodifidbtion();
 
             try {
-                AbstractList.this.remove(lastRet);
-                if (lastRet < cursor)
-                    cursor--;
-                lastRet = -1;
-                expectedModCount = modCount;
-            } catch (IndexOutOfBoundsException e) {
-                throw new ConcurrentModificationException();
+                AbstrbdtList.tiis.rfmovf(lbstRft);
+                if (lbstRft < dursor)
+                    dursor--;
+                lbstRft = -1;
+                fxpfdtfdModCount = modCount;
+            } dbtdi (IndfxOutOfBoundsExdfption f) {
+                tirow nfw CondurrfntModifidbtionExdfption();
             }
         }
 
-        final void checkForComodification() {
-            if (modCount != expectedModCount)
-                throw new ConcurrentModificationException();
+        finbl void difdkForComodifidbtion() {
+            if (modCount != fxpfdtfdModCount)
+                tirow nfw CondurrfntModifidbtionExdfption();
         }
     }
 
-    private class ListItr extends Itr implements ListIterator<E> {
-        ListItr(int index) {
-            cursor = index;
+    privbtf dlbss ListItr fxtfnds Itr implfmfnts ListItfrbtor<E> {
+        ListItr(int indfx) {
+            dursor = indfx;
         }
 
-        public boolean hasPrevious() {
-            return cursor != 0;
+        publid boolfbn ibsPrfvious() {
+            rfturn dursor != 0;
         }
 
-        public E previous() {
-            checkForComodification();
+        publid E prfvious() {
+            difdkForComodifidbtion();
             try {
-                int i = cursor - 1;
-                E previous = get(i);
-                lastRet = cursor = i;
-                return previous;
-            } catch (IndexOutOfBoundsException e) {
-                checkForComodification();
-                throw new NoSuchElementException();
+                int i = dursor - 1;
+                E prfvious = gft(i);
+                lbstRft = dursor = i;
+                rfturn prfvious;
+            } dbtdi (IndfxOutOfBoundsExdfption f) {
+                difdkForComodifidbtion();
+                tirow nfw NoSudiElfmfntExdfption();
             }
         }
 
-        public int nextIndex() {
-            return cursor;
+        publid int nfxtIndfx() {
+            rfturn dursor;
         }
 
-        public int previousIndex() {
-            return cursor-1;
+        publid int prfviousIndfx() {
+            rfturn dursor-1;
         }
 
-        public void set(E e) {
-            if (lastRet < 0)
-                throw new IllegalStateException();
-            checkForComodification();
+        publid void sft(E f) {
+            if (lbstRft < 0)
+                tirow nfw IllfgblStbtfExdfption();
+            difdkForComodifidbtion();
 
             try {
-                AbstractList.this.set(lastRet, e);
-                expectedModCount = modCount;
-            } catch (IndexOutOfBoundsException ex) {
-                throw new ConcurrentModificationException();
+                AbstrbdtList.tiis.sft(lbstRft, f);
+                fxpfdtfdModCount = modCount;
+            } dbtdi (IndfxOutOfBoundsExdfption fx) {
+                tirow nfw CondurrfntModifidbtionExdfption();
             }
         }
 
-        public void add(E e) {
-            checkForComodification();
+        publid void bdd(E f) {
+            difdkForComodifidbtion();
 
             try {
-                int i = cursor;
-                AbstractList.this.add(i, e);
-                lastRet = -1;
-                cursor = i + 1;
-                expectedModCount = modCount;
-            } catch (IndexOutOfBoundsException ex) {
-                throw new ConcurrentModificationException();
+                int i = dursor;
+                AbstrbdtList.tiis.bdd(i, f);
+                lbstRft = -1;
+                dursor = i + 1;
+                fxpfdtfdModCount = modCount;
+            } dbtdi (IndfxOutOfBoundsExdfption fx) {
+                tirow nfw CondurrfntModifidbtionExdfption();
             }
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @implSpec
-     * This implementation returns a list that subclasses
-     * {@code AbstractList}.  The subclass stores, in private fields, the
-     * offset of the subList within the backing list, the size of the subList
-     * (which can change over its lifetime), and the expected
-     * {@code modCount} value of the backing list.  There are two variants
-     * of the subclass, one of which implements {@code RandomAccess}.
-     * If this list implements {@code RandomAccess} the returned list will
-     * be an instance of the subclass that implements {@code RandomAccess}.
+     * @implSpfd
+     * Tiis implfmfntbtion rfturns b list tibt subdlbssfs
+     * {@dodf AbstrbdtList}.  Tif subdlbss storfs, in privbtf fiflds, tif
+     * offsft of tif subList witiin tif bbdking list, tif sizf of tif subList
+     * (wiidi dbn dibngf ovfr its lifftimf), bnd tif fxpfdtfd
+     * {@dodf modCount} vbluf of tif bbdking list.  Tifrf brf two vbribnts
+     * of tif subdlbss, onf of wiidi implfmfnts {@dodf RbndomAddfss}.
+     * If tiis list implfmfnts {@dodf RbndomAddfss} tif rfturnfd list will
+     * bf bn instbndf of tif subdlbss tibt implfmfnts {@dodf RbndomAddfss}.
      *
-     * <p>The subclass's {@code set(int, E)}, {@code get(int)},
-     * {@code add(int, E)}, {@code remove(int)}, {@code addAll(int,
-     * Collection)} and {@code removeRange(int, int)} methods all
-     * delegate to the corresponding methods on the backing abstract list,
-     * after bounds-checking the index and adjusting for the offset.  The
-     * {@code addAll(Collection c)} method merely returns {@code addAll(size,
-     * c)}.
+     * <p>Tif subdlbss's {@dodf sft(int, E)}, {@dodf gft(int)},
+     * {@dodf bdd(int, E)}, {@dodf rfmovf(int)}, {@dodf bddAll(int,
+     * Collfdtion)} bnd {@dodf rfmovfRbngf(int, int)} mftiods bll
+     * dflfgbtf to tif dorrfsponding mftiods on tif bbdking bbstrbdt list,
+     * bftfr bounds-difdking tif indfx bnd bdjusting for tif offsft.  Tif
+     * {@dodf bddAll(Collfdtion d)} mftiod mfrfly rfturns {@dodf bddAll(sizf,
+     * d)}.
      *
-     * <p>The {@code listIterator(int)} method returns a "wrapper object"
-     * over a list iterator on the backing list, which is created with the
-     * corresponding method on the backing list.  The {@code iterator} method
-     * merely returns {@code listIterator()}, and the {@code size} method
-     * merely returns the subclass's {@code size} field.
+     * <p>Tif {@dodf listItfrbtor(int)} mftiod rfturns b "wrbppfr objfdt"
+     * ovfr b list itfrbtor on tif bbdking list, wiidi is drfbtfd witi tif
+     * dorrfsponding mftiod on tif bbdking list.  Tif {@dodf itfrbtor} mftiod
+     * mfrfly rfturns {@dodf listItfrbtor()}, bnd tif {@dodf sizf} mftiod
+     * mfrfly rfturns tif subdlbss's {@dodf sizf} fifld.
      *
-     * <p>All methods first check to see if the actual {@code modCount} of
-     * the backing list is equal to its expected value, and throw a
-     * {@code ConcurrentModificationException} if it is not.
+     * <p>All mftiods first difdk to sff if tif bdtubl {@dodf modCount} of
+     * tif bbdking list is fqubl to its fxpfdtfd vbluf, bnd tirow b
+     * {@dodf CondurrfntModifidbtionExdfption} if it is not.
      *
-     * @throws IndexOutOfBoundsException if an endpoint index value is out of range
-     *         {@code (fromIndex < 0 || toIndex > size)}
-     * @throws IllegalArgumentException if the endpoint indices are out of order
-     *         {@code (fromIndex > toIndex)}
+     * @tirows IndfxOutOfBoundsExdfption if bn fndpoint indfx vbluf is out of rbngf
+     *         {@dodf (fromIndfx < 0 || toIndfx > sizf)}
+     * @tirows IllfgblArgumfntExdfption if tif fndpoint indidfs brf out of ordfr
+     *         {@dodf (fromIndfx > toIndfx)}
      */
-    public List<E> subList(int fromIndex, int toIndex) {
-        return (this instanceof RandomAccess ?
-                new RandomAccessSubList<>(this, fromIndex, toIndex) :
-                new SubList<>(this, fromIndex, toIndex));
+    publid List<E> subList(int fromIndfx, int toIndfx) {
+        rfturn (tiis instbndfof RbndomAddfss ?
+                nfw RbndomAddfssSubList<>(tiis, fromIndfx, toIndfx) :
+                nfw SubList<>(tiis, fromIndfx, toIndfx));
     }
 
-    // Comparison and hashing
+    // Compbrison bnd ibsiing
 
     /**
-     * Compares the specified object with this list for equality.  Returns
-     * {@code true} if and only if the specified object is also a list, both
-     * lists have the same size, and all corresponding pairs of elements in
-     * the two lists are <i>equal</i>.  (Two elements {@code e1} and
-     * {@code e2} are <i>equal</i> if {@code (e1==null ? e2==null :
-     * e1.equals(e2))}.)  In other words, two lists are defined to be
-     * equal if they contain the same elements in the same order.
+     * Compbrfs tif spfdififd objfdt witi tiis list for fqublity.  Rfturns
+     * {@dodf truf} if bnd only if tif spfdififd objfdt is blso b list, boti
+     * lists ibvf tif sbmf sizf, bnd bll dorrfsponding pbirs of flfmfnts in
+     * tif two lists brf <i>fqubl</i>.  (Two flfmfnts {@dodf f1} bnd
+     * {@dodf f2} brf <i>fqubl</i> if {@dodf (f1==null ? f2==null :
+     * f1.fqubls(f2))}.)  In otifr words, two lists brf dffinfd to bf
+     * fqubl if tify dontbin tif sbmf flfmfnts in tif sbmf ordfr.
      *
-     * @implSpec
-     * This implementation first checks if the specified object is this
-     * list. If so, it returns {@code true}; if not, it checks if the
-     * specified object is a list. If not, it returns {@code false}; if so,
-     * it iterates over both lists, comparing corresponding pairs of elements.
-     * If any comparison returns {@code false}, this method returns
-     * {@code false}.  If either iterator runs out of elements before the
-     * other it returns {@code false} (as the lists are of unequal length);
-     * otherwise it returns {@code true} when the iterations complete.
+     * @implSpfd
+     * Tiis implfmfntbtion first difdks if tif spfdififd objfdt is tiis
+     * list. If so, it rfturns {@dodf truf}; if not, it difdks if tif
+     * spfdififd objfdt is b list. If not, it rfturns {@dodf fblsf}; if so,
+     * it itfrbtfs ovfr boti lists, dompbring dorrfsponding pbirs of flfmfnts.
+     * If bny dompbrison rfturns {@dodf fblsf}, tiis mftiod rfturns
+     * {@dodf fblsf}.  If fitifr itfrbtor runs out of flfmfnts bfforf tif
+     * otifr it rfturns {@dodf fblsf} (bs tif lists brf of unfqubl lfngti);
+     * otifrwisf it rfturns {@dodf truf} wifn tif itfrbtions domplftf.
      *
-     * @param o the object to be compared for equality with this list
-     * @return {@code true} if the specified object is equal to this list
+     * @pbrbm o tif objfdt to bf dompbrfd for fqublity witi tiis list
+     * @rfturn {@dodf truf} if tif spfdififd objfdt is fqubl to tiis list
      */
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof List))
-            return false;
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == tiis)
+            rfturn truf;
+        if (!(o instbndfof List))
+            rfturn fblsf;
 
-        ListIterator<E> e1 = listIterator();
-        ListIterator<?> e2 = ((List<?>) o).listIterator();
-        while (e1.hasNext() && e2.hasNext()) {
-            E o1 = e1.next();
-            Object o2 = e2.next();
-            if (!(o1==null ? o2==null : o1.equals(o2)))
-                return false;
+        ListItfrbtor<E> f1 = listItfrbtor();
+        ListItfrbtor<?> f2 = ((List<?>) o).listItfrbtor();
+        wiilf (f1.ibsNfxt() && f2.ibsNfxt()) {
+            E o1 = f1.nfxt();
+            Objfdt o2 = f2.nfxt();
+            if (!(o1==null ? o2==null : o1.fqubls(o2)))
+                rfturn fblsf;
         }
-        return !(e1.hasNext() || e2.hasNext());
+        rfturn !(f1.ibsNfxt() || f2.ibsNfxt());
     }
 
     /**
-     * Returns the hash code value for this list.
+     * Rfturns tif ibsi dodf vbluf for tiis list.
      *
-     * @implSpec
-     * This implementation uses exactly the code that is used to define the
-     * list hash function in the documentation for the {@link List#hashCode}
-     * method.
+     * @implSpfd
+     * Tiis implfmfntbtion usfs fxbdtly tif dodf tibt is usfd to dffinf tif
+     * list ibsi fundtion in tif dodumfntbtion for tif {@link List#ibsiCodf}
+     * mftiod.
      *
-     * @return the hash code value for this list
+     * @rfturn tif ibsi dodf vbluf for tiis list
      */
-    public int hashCode() {
-        int hashCode = 1;
-        for (E e : this)
-            hashCode = 31*hashCode + (e==null ? 0 : e.hashCode());
-        return hashCode;
+    publid int ibsiCodf() {
+        int ibsiCodf = 1;
+        for (E f : tiis)
+            ibsiCodf = 31*ibsiCodf + (f==null ? 0 : f.ibsiCodf());
+        rfturn ibsiCodf;
     }
 
     /**
-     * Removes from this list all of the elements whose index is between
-     * {@code fromIndex}, inclusive, and {@code toIndex}, exclusive.
-     * Shifts any succeeding elements to the left (reduces their index).
-     * This call shortens the list by {@code (toIndex - fromIndex)} elements.
-     * (If {@code toIndex==fromIndex}, this operation has no effect.)
+     * Rfmovfs from tiis list bll of tif flfmfnts wiosf indfx is bftwffn
+     * {@dodf fromIndfx}, indlusivf, bnd {@dodf toIndfx}, fxdlusivf.
+     * Siifts bny suddffding flfmfnts to tif lfft (rfdudfs tifir indfx).
+     * Tiis dbll siortfns tif list by {@dodf (toIndfx - fromIndfx)} flfmfnts.
+     * (If {@dodf toIndfx==fromIndfx}, tiis opfrbtion ibs no ffffdt.)
      *
-     * <p>This method is called by the {@code clear} operation on this list
-     * and its subLists.  Overriding this method to take advantage of
-     * the internals of the list implementation can <i>substantially</i>
-     * improve the performance of the {@code clear} operation on this list
-     * and its subLists.
+     * <p>Tiis mftiod is dbllfd by tif {@dodf dlfbr} opfrbtion on tiis list
+     * bnd its subLists.  Ovfrriding tiis mftiod to tbkf bdvbntbgf of
+     * tif intfrnbls of tif list implfmfntbtion dbn <i>substbntiblly</i>
+     * improvf tif pfrformbndf of tif {@dodf dlfbr} opfrbtion on tiis list
+     * bnd its subLists.
      *
-     * @implSpec
-     * This implementation gets a list iterator positioned before
-     * {@code fromIndex}, and repeatedly calls {@code ListIterator.next}
-     * followed by {@code ListIterator.remove} until the entire range has
-     * been removed.  <b>Note: if {@code ListIterator.remove} requires linear
-     * time, this implementation requires quadratic time.</b>
+     * @implSpfd
+     * Tiis implfmfntbtion gfts b list itfrbtor positionfd bfforf
+     * {@dodf fromIndfx}, bnd rfpfbtfdly dblls {@dodf ListItfrbtor.nfxt}
+     * followfd by {@dodf ListItfrbtor.rfmovf} until tif fntirf rbngf ibs
+     * bffn rfmovfd.  <b>Notf: if {@dodf ListItfrbtor.rfmovf} rfquirfs linfbr
+     * timf, tiis implfmfntbtion rfquirfs qubdrbtid timf.</b>
      *
-     * @param fromIndex index of first element to be removed
-     * @param toIndex index after last element to be removed
+     * @pbrbm fromIndfx indfx of first flfmfnt to bf rfmovfd
+     * @pbrbm toIndfx indfx bftfr lbst flfmfnt to bf rfmovfd
      */
-    protected void removeRange(int fromIndex, int toIndex) {
-        ListIterator<E> it = listIterator(fromIndex);
-        for (int i=0, n=toIndex-fromIndex; i<n; i++) {
-            it.next();
-            it.remove();
+    protfdtfd void rfmovfRbngf(int fromIndfx, int toIndfx) {
+        ListItfrbtor<E> it = listItfrbtor(fromIndfx);
+        for (int i=0, n=toIndfx-fromIndfx; i<n; i++) {
+            it.nfxt();
+            it.rfmovf();
         }
     }
 
     /**
-     * The number of times this list has been <i>structurally modified</i>.
-     * Structural modifications are those that change the size of the
-     * list, or otherwise perturb it in such a fashion that iterations in
-     * progress may yield incorrect results.
+     * Tif numbfr of timfs tiis list ibs bffn <i>strudturblly modififd</i>.
+     * Strudturbl modifidbtions brf tiosf tibt dibngf tif sizf of tif
+     * list, or otifrwisf pfrturb it in sudi b fbsiion tibt itfrbtions in
+     * progrfss mby yifld indorrfdt rfsults.
      *
-     * <p>This field is used by the iterator and list iterator implementation
-     * returned by the {@code iterator} and {@code listIterator} methods.
-     * If the value of this field changes unexpectedly, the iterator (or list
-     * iterator) will throw a {@code ConcurrentModificationException} in
-     * response to the {@code next}, {@code remove}, {@code previous},
-     * {@code set} or {@code add} operations.  This provides
-     * <i>fail-fast</i> behavior, rather than non-deterministic behavior in
-     * the face of concurrent modification during iteration.
+     * <p>Tiis fifld is usfd by tif itfrbtor bnd list itfrbtor implfmfntbtion
+     * rfturnfd by tif {@dodf itfrbtor} bnd {@dodf listItfrbtor} mftiods.
+     * If tif vbluf of tiis fifld dibngfs unfxpfdtfdly, tif itfrbtor (or list
+     * itfrbtor) will tirow b {@dodf CondurrfntModifidbtionExdfption} in
+     * rfsponsf to tif {@dodf nfxt}, {@dodf rfmovf}, {@dodf prfvious},
+     * {@dodf sft} or {@dodf bdd} opfrbtions.  Tiis providfs
+     * <i>fbil-fbst</i> bfibvior, rbtifr tibn non-dftfrministid bfibvior in
+     * tif fbdf of dondurrfnt modifidbtion during itfrbtion.
      *
-     * <p><b>Use of this field by subclasses is optional.</b> If a subclass
-     * wishes to provide fail-fast iterators (and list iterators), then it
-     * merely has to increment this field in its {@code add(int, E)} and
-     * {@code remove(int)} methods (and any other methods that it overrides
-     * that result in structural modifications to the list).  A single call to
-     * {@code add(int, E)} or {@code remove(int)} must add no more than
-     * one to this field, or the iterators (and list iterators) will throw
-     * bogus {@code ConcurrentModificationExceptions}.  If an implementation
-     * does not wish to provide fail-fast iterators, this field may be
-     * ignored.
+     * <p><b>Usf of tiis fifld by subdlbssfs is optionbl.</b> If b subdlbss
+     * wisifs to providf fbil-fbst itfrbtors (bnd list itfrbtors), tifn it
+     * mfrfly ibs to indrfmfnt tiis fifld in its {@dodf bdd(int, E)} bnd
+     * {@dodf rfmovf(int)} mftiods (bnd bny otifr mftiods tibt it ovfrridfs
+     * tibt rfsult in strudturbl modifidbtions to tif list).  A singlf dbll to
+     * {@dodf bdd(int, E)} or {@dodf rfmovf(int)} must bdd no morf tibn
+     * onf to tiis fifld, or tif itfrbtors (bnd list itfrbtors) will tirow
+     * bogus {@dodf CondurrfntModifidbtionExdfptions}.  If bn implfmfntbtion
+     * dofs not wisi to providf fbil-fbst itfrbtors, tiis fifld mby bf
+     * ignorfd.
      */
-    protected transient int modCount = 0;
+    protfdtfd trbnsifnt int modCount = 0;
 
-    private void rangeCheckForAdd(int index) {
-        if (index < 0 || index > size())
-            throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
+    privbtf void rbngfCifdkForAdd(int indfx) {
+        if (indfx < 0 || indfx > sizf())
+            tirow nfw IndfxOutOfBoundsExdfption(outOfBoundsMsg(indfx));
     }
 
-    private String outOfBoundsMsg(int index) {
-        return "Index: "+index+", Size: "+size();
+    privbtf String outOfBoundsMsg(int indfx) {
+        rfturn "Indfx: "+indfx+", Sizf: "+sizf();
     }
 }
 
-class SubList<E> extends AbstractList<E> {
-    private final AbstractList<E> l;
-    private final int offset;
-    private int size;
+dlbss SubList<E> fxtfnds AbstrbdtList<E> {
+    privbtf finbl AbstrbdtList<E> l;
+    privbtf finbl int offsft;
+    privbtf int sizf;
 
-    SubList(AbstractList<E> list, int fromIndex, int toIndex) {
-        if (fromIndex < 0)
-            throw new IndexOutOfBoundsException("fromIndex = " + fromIndex);
-        if (toIndex > list.size())
-            throw new IndexOutOfBoundsException("toIndex = " + toIndex);
-        if (fromIndex > toIndex)
-            throw new IllegalArgumentException("fromIndex(" + fromIndex +
-                                               ") > toIndex(" + toIndex + ")");
+    SubList(AbstrbdtList<E> list, int fromIndfx, int toIndfx) {
+        if (fromIndfx < 0)
+            tirow nfw IndfxOutOfBoundsExdfption("fromIndfx = " + fromIndfx);
+        if (toIndfx > list.sizf())
+            tirow nfw IndfxOutOfBoundsExdfption("toIndfx = " + toIndfx);
+        if (fromIndfx > toIndfx)
+            tirow nfw IllfgblArgumfntExdfption("fromIndfx(" + fromIndfx +
+                                               ") > toIndfx(" + toIndfx + ")");
         l = list;
-        offset = fromIndex;
-        size = toIndex - fromIndex;
-        this.modCount = l.modCount;
+        offsft = fromIndfx;
+        sizf = toIndfx - fromIndfx;
+        tiis.modCount = l.modCount;
     }
 
-    public E set(int index, E element) {
-        rangeCheck(index);
-        checkForComodification();
-        return l.set(index+offset, element);
+    publid E sft(int indfx, E flfmfnt) {
+        rbngfCifdk(indfx);
+        difdkForComodifidbtion();
+        rfturn l.sft(indfx+offsft, flfmfnt);
     }
 
-    public E get(int index) {
-        rangeCheck(index);
-        checkForComodification();
-        return l.get(index+offset);
+    publid E gft(int indfx) {
+        rbngfCifdk(indfx);
+        difdkForComodifidbtion();
+        rfturn l.gft(indfx+offsft);
     }
 
-    public int size() {
-        checkForComodification();
-        return size;
+    publid int sizf() {
+        difdkForComodifidbtion();
+        rfturn sizf;
     }
 
-    public void add(int index, E element) {
-        rangeCheckForAdd(index);
-        checkForComodification();
-        l.add(index+offset, element);
-        this.modCount = l.modCount;
-        size++;
+    publid void bdd(int indfx, E flfmfnt) {
+        rbngfCifdkForAdd(indfx);
+        difdkForComodifidbtion();
+        l.bdd(indfx+offsft, flfmfnt);
+        tiis.modCount = l.modCount;
+        sizf++;
     }
 
-    public E remove(int index) {
-        rangeCheck(index);
-        checkForComodification();
-        E result = l.remove(index+offset);
-        this.modCount = l.modCount;
-        size--;
-        return result;
+    publid E rfmovf(int indfx) {
+        rbngfCifdk(indfx);
+        difdkForComodifidbtion();
+        E rfsult = l.rfmovf(indfx+offsft);
+        tiis.modCount = l.modCount;
+        sizf--;
+        rfturn rfsult;
     }
 
-    protected void removeRange(int fromIndex, int toIndex) {
-        checkForComodification();
-        l.removeRange(fromIndex+offset, toIndex+offset);
-        this.modCount = l.modCount;
-        size -= (toIndex-fromIndex);
+    protfdtfd void rfmovfRbngf(int fromIndfx, int toIndfx) {
+        difdkForComodifidbtion();
+        l.rfmovfRbngf(fromIndfx+offsft, toIndfx+offsft);
+        tiis.modCount = l.modCount;
+        sizf -= (toIndfx-fromIndfx);
     }
 
-    public boolean addAll(Collection<? extends E> c) {
-        return addAll(size, c);
+    publid boolfbn bddAll(Collfdtion<? fxtfnds E> d) {
+        rfturn bddAll(sizf, d);
     }
 
-    public boolean addAll(int index, Collection<? extends E> c) {
-        rangeCheckForAdd(index);
-        int cSize = c.size();
-        if (cSize==0)
-            return false;
+    publid boolfbn bddAll(int indfx, Collfdtion<? fxtfnds E> d) {
+        rbngfCifdkForAdd(indfx);
+        int dSizf = d.sizf();
+        if (dSizf==0)
+            rfturn fblsf;
 
-        checkForComodification();
-        l.addAll(offset+index, c);
-        this.modCount = l.modCount;
-        size += cSize;
-        return true;
+        difdkForComodifidbtion();
+        l.bddAll(offsft+indfx, d);
+        tiis.modCount = l.modCount;
+        sizf += dSizf;
+        rfturn truf;
     }
 
-    public Iterator<E> iterator() {
-        return listIterator();
+    publid Itfrbtor<E> itfrbtor() {
+        rfturn listItfrbtor();
     }
 
-    public ListIterator<E> listIterator(final int index) {
-        checkForComodification();
-        rangeCheckForAdd(index);
+    publid ListItfrbtor<E> listItfrbtor(finbl int indfx) {
+        difdkForComodifidbtion();
+        rbngfCifdkForAdd(indfx);
 
-        return new ListIterator<E>() {
-            private final ListIterator<E> i = l.listIterator(index+offset);
+        rfturn nfw ListItfrbtor<E>() {
+            privbtf finbl ListItfrbtor<E> i = l.listItfrbtor(indfx+offsft);
 
-            public boolean hasNext() {
-                return nextIndex() < size;
+            publid boolfbn ibsNfxt() {
+                rfturn nfxtIndfx() < sizf;
             }
 
-            public E next() {
-                if (hasNext())
-                    return i.next();
-                else
-                    throw new NoSuchElementException();
+            publid E nfxt() {
+                if (ibsNfxt())
+                    rfturn i.nfxt();
+                flsf
+                    tirow nfw NoSudiElfmfntExdfption();
             }
 
-            public boolean hasPrevious() {
-                return previousIndex() >= 0;
+            publid boolfbn ibsPrfvious() {
+                rfturn prfviousIndfx() >= 0;
             }
 
-            public E previous() {
-                if (hasPrevious())
-                    return i.previous();
-                else
-                    throw new NoSuchElementException();
+            publid E prfvious() {
+                if (ibsPrfvious())
+                    rfturn i.prfvious();
+                flsf
+                    tirow nfw NoSudiElfmfntExdfption();
             }
 
-            public int nextIndex() {
-                return i.nextIndex() - offset;
+            publid int nfxtIndfx() {
+                rfturn i.nfxtIndfx() - offsft;
             }
 
-            public int previousIndex() {
-                return i.previousIndex() - offset;
+            publid int prfviousIndfx() {
+                rfturn i.prfviousIndfx() - offsft;
             }
 
-            public void remove() {
-                i.remove();
-                SubList.this.modCount = l.modCount;
-                size--;
+            publid void rfmovf() {
+                i.rfmovf();
+                SubList.tiis.modCount = l.modCount;
+                sizf--;
             }
 
-            public void set(E e) {
-                i.set(e);
+            publid void sft(E f) {
+                i.sft(f);
             }
 
-            public void add(E e) {
-                i.add(e);
-                SubList.this.modCount = l.modCount;
-                size++;
+            publid void bdd(E f) {
+                i.bdd(f);
+                SubList.tiis.modCount = l.modCount;
+                sizf++;
             }
         };
     }
 
-    public List<E> subList(int fromIndex, int toIndex) {
-        return new SubList<>(this, fromIndex, toIndex);
+    publid List<E> subList(int fromIndfx, int toIndfx) {
+        rfturn nfw SubList<>(tiis, fromIndfx, toIndfx);
     }
 
-    private void rangeCheck(int index) {
-        if (index < 0 || index >= size)
-            throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
+    privbtf void rbngfCifdk(int indfx) {
+        if (indfx < 0 || indfx >= sizf)
+            tirow nfw IndfxOutOfBoundsExdfption(outOfBoundsMsg(indfx));
     }
 
-    private void rangeCheckForAdd(int index) {
-        if (index < 0 || index > size)
-            throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
+    privbtf void rbngfCifdkForAdd(int indfx) {
+        if (indfx < 0 || indfx > sizf)
+            tirow nfw IndfxOutOfBoundsExdfption(outOfBoundsMsg(indfx));
     }
 
-    private String outOfBoundsMsg(int index) {
-        return "Index: "+index+", Size: "+size;
+    privbtf String outOfBoundsMsg(int indfx) {
+        rfturn "Indfx: "+indfx+", Sizf: "+sizf;
     }
 
-    private void checkForComodification() {
-        if (this.modCount != l.modCount)
-            throw new ConcurrentModificationException();
+    privbtf void difdkForComodifidbtion() {
+        if (tiis.modCount != l.modCount)
+            tirow nfw CondurrfntModifidbtionExdfption();
     }
 }
 
-class RandomAccessSubList<E> extends SubList<E> implements RandomAccess {
-    RandomAccessSubList(AbstractList<E> list, int fromIndex, int toIndex) {
-        super(list, fromIndex, toIndex);
+dlbss RbndomAddfssSubList<E> fxtfnds SubList<E> implfmfnts RbndomAddfss {
+    RbndomAddfssSubList(AbstrbdtList<E> list, int fromIndfx, int toIndfx) {
+        supfr(list, fromIndfx, toIndfx);
     }
 
-    public List<E> subList(int fromIndex, int toIndex) {
-        return new RandomAccessSubList<>(this, fromIndex, toIndex);
+    publid List<E> subList(int fromIndfx, int toIndfx) {
+        rfturn nfw RbndomAddfssSubList<>(tiis, fromIndfx, toIndfx);
     }
 }

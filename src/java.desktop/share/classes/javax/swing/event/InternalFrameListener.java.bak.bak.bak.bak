@@ -1,0 +1,106 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.fvfnt;
+
+import jbvb.util.EvfntListfnfr;
+
+/**
+ * Thf listfnfr intfrfbdf for rfdfiving intfrnbl frbmf fvfnts.
+ * This dlbss is fundtionblly fquivblfnt to thf WindowListfnfr dlbss
+ * in thf AWT.
+ * <p>
+ * Sff <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/fvfnts/intfrnblfrbmflistfnfr.html">How to Writf bn Intfrnbl Frbmf Listfnfr</b>
+ * in <fm>Thf Jbvb Tutoribl</fm> for furthfr dodumfntbtion.
+ *
+ * @sff jbvb.bwt.fvfnt.WindowListfnfr
+ *
+ * @buthor Thombs Bbll
+ */
+publid intfrfbdf IntfrnblFrbmfListfnfr fxtfnds EvfntListfnfr {
+    /**
+     * Invokfd whfn b intfrnbl frbmf hbs bffn opfnfd.
+     *
+     * @pbrbm f bn {@dodf IntfrnblFrbmfEvfnt} with informbtion bbout thf
+     *          {@dodf JIntfrblFrbmf} thbt originbtfd thf fvfnt
+     * @sff jbvbx.swing.JIntfrnblFrbmf#show
+     */
+    publid void intfrnblFrbmfOpfnfd(IntfrnblFrbmfEvfnt f);
+
+    /**
+     * Invokfd whfn bn intfrnbl frbmf is in thf prodfss of bfing dlosfd.
+     * Thf dlosf opfrbtion dbn bf ovfrriddfn bt this point.
+     *
+     * @pbrbm f bn {@dodf IntfrnblFrbmfEvfnt} with informbtion bbout thf
+     *          {@dodf JIntfrblFrbmf} thbt originbtfd thf fvfnt
+     * @sff jbvbx.swing.JIntfrnblFrbmf#sftDffbultClosfOpfrbtion
+     */
+    publid void intfrnblFrbmfClosing(IntfrnblFrbmfEvfnt f);
+
+    /**
+     * Invokfd whfn bn intfrnbl frbmf hbs bffn dlosfd.
+     *
+     * @pbrbm f bn {@dodf IntfrnblFrbmfEvfnt} with informbtion bbout thf
+     *          {@dodf JIntfrblFrbmf} thbt originbtfd thf fvfnt
+     * @sff jbvbx.swing.JIntfrnblFrbmf#sftClosfd
+     */
+    publid void intfrnblFrbmfClosfd(IntfrnblFrbmfEvfnt f);
+
+    /**
+     * Invokfd whfn bn intfrnbl frbmf is idonififd.
+     *
+     * @pbrbm f bn {@dodf IntfrnblFrbmfEvfnt} with informbtion bbout thf
+     *          {@dodf JIntfrblFrbmf} thbt originbtfd thf fvfnt
+     * @sff jbvbx.swing.JIntfrnblFrbmf#sftIdon
+     */
+    publid void intfrnblFrbmfIdonififd(IntfrnblFrbmfEvfnt f);
+
+    /**
+     * Invokfd whfn bn intfrnbl frbmf is df-idonififd.
+     *
+     * @pbrbm f bn {@dodf IntfrnblFrbmfEvfnt} with informbtion bbout thf
+     *          {@dodf JIntfrblFrbmf} thbt originbtfd thf fvfnt
+     * @sff jbvbx.swing.JIntfrnblFrbmf#sftIdon
+     */
+    publid void intfrnblFrbmfDfidonififd(IntfrnblFrbmfEvfnt f);
+
+    /**
+     * Invokfd whfn bn intfrnbl frbmf is bdtivbtfd.
+     *
+     * @pbrbm f bn {@dodf IntfrnblFrbmfEvfnt} with informbtion bbout thf
+     *          {@dodf JIntfrblFrbmf} thbt originbtfd thf fvfnt
+     * @sff jbvbx.swing.JIntfrnblFrbmf#sftSflfdtfd
+     */
+    publid void intfrnblFrbmfAdtivbtfd(IntfrnblFrbmfEvfnt f);
+
+    /**
+     * Invokfd whfn bn intfrnbl frbmf is df-bdtivbtfd.
+     *
+     * @pbrbm f bn {@dodf IntfrnblFrbmfEvfnt} with informbtion bbout thf
+     *          {@dodf JIntfrblFrbmf} thbt originbtfd thf fvfnt
+     * @sff jbvbx.swing.JIntfrnblFrbmf#sftSflfdtfd
+     */
+    publid void intfrnblFrbmfDfbdtivbtfd(IntfrnblFrbmfEvfnt f);
+}

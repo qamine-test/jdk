@@ -1,165 +1,165 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.datatransfer;
+pbdkbgf sun.bwt.dbtbtrbnsffr;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
+import jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsffr.Trbnsffrbblf;
+import jbvb.bwt.dbtbtrbnsffr.UnsupportfdFlbvorExdfption;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
 
 
 /**
- * Reads all of the data from the system Clipboard which the data transfer
- * subsystem knows how to translate. This includes all text data, File Lists,
- * Serializable objects, Remote objects, and properly registered, arbitrary
- * data as InputStreams. The data is stored in byte format until requested
- * by client code. At that point, the data is converted, if necessary, into
- * the proper format to deliver to the application.
+ * Rfbds bll of tif dbtb from tif systfm Clipbobrd wiidi tif dbtb trbnsffr
+ * subsystfm knows iow to trbnslbtf. Tiis indludfs bll tfxt dbtb, Filf Lists,
+ * Sfriblizbblf objfdts, Rfmotf objfdts, bnd propfrly rfgistfrfd, brbitrbry
+ * dbtb bs InputStrfbms. Tif dbtb is storfd in bytf formbt until rfqufstfd
+ * by dlifnt dodf. At tibt point, tif dbtb is donvfrtfd, if nfdfssbry, into
+ * tif propfr formbt to dflivfr to tif bpplidbtion.
  *
- * This hybrid pre-fetch/delayed-rendering approach allows us to circumvent
- * the API restriction that client code cannot lock the Clipboard to discover
- * its formats before requesting data in a particular format, while avoiding
- * the overhead of fully rendering all data ahead of time.
+ * Tiis iybrid prf-fftdi/dflbyfd-rfndfring bpprobdi bllows us to dirdumvfnt
+ * tif API rfstridtion tibt dlifnt dodf dbnnot lodk tif Clipbobrd to disdovfr
+ * its formbts bfforf rfqufsting dbtb in b pbrtidulbr formbt, wiilf bvoiding
+ * tif ovfrifbd of fully rfndfring bll dbtb bifbd of timf.
  *
- * @author David Mendenhall
- * @author Danila Sinopalnikov
+ * @butior Dbvid Mfndfnibll
+ * @butior Dbnilb Sinopblnikov
  *
- * @since 1.4 (appeared in modified form as FullyRenderedTransferable in 1.3.1)
+ * @sindf 1.4 (bppfbrfd in modififd form bs FullyRfndfrfdTrbnsffrbblf in 1.3.1)
  */
-public class ClipboardTransferable implements Transferable {
-    private final Map<DataFlavor, Object> flavorsToData = new HashMap<>();
-    private DataFlavor[] flavors = new DataFlavor[0];
+publid dlbss ClipbobrdTrbnsffrbblf implfmfnts Trbnsffrbblf {
+    privbtf finbl Mbp<DbtbFlbvor, Objfdt> flbvorsToDbtb = nfw HbsiMbp<>();
+    privbtf DbtbFlbvor[] flbvors = nfw DbtbFlbvor[0];
 
-    private final class DataFactory {
-        final long format;
-        final byte[] data;
-        DataFactory(long format, byte[] data) {
-            this.format = format;
-            this.data   = data;
+    privbtf finbl dlbss DbtbFbdtory {
+        finbl long formbt;
+        finbl bytf[] dbtb;
+        DbtbFbdtory(long formbt, bytf[] dbtb) {
+            tiis.formbt = formbt;
+            tiis.dbtb   = dbtb;
         }
 
-        public Object getTransferData(DataFlavor flavor) throws IOException {
-            return DataTransferer.getInstance().
-                translateBytes(data, flavor, format,
-                               ClipboardTransferable.this);
+        publid Objfdt gftTrbnsffrDbtb(DbtbFlbvor flbvor) tirows IOExdfption {
+            rfturn DbtbTrbnsffrfr.gftInstbndf().
+                trbnslbtfBytfs(dbtb, flbvor, formbt,
+                               ClipbobrdTrbnsffrbblf.tiis);
         }
     }
 
-    public ClipboardTransferable(SunClipboard clipboard) {
+    publid ClipbobrdTrbnsffrbblf(SunClipbobrd dlipbobrd) {
 
-        clipboard.openClipboard(null);
+        dlipbobrd.opfnClipbobrd(null);
 
         try {
-            long[] formats = clipboard.getClipboardFormats();
+            long[] formbts = dlipbobrd.gftClipbobrdFormbts();
 
-            if (formats != null && formats.length > 0) {
-                // Since the SystemFlavorMap will specify many DataFlavors
-                // which map to the same format, we should cache data as we
-                // read it.
-                Map<Long, Object> cached_data = new HashMap<>(formats.length, 1.0f);
-                DataTransferer.getInstance()
-                        .getFlavorsForFormats(formats, SunClipboard.getDefaultFlavorTable())
-                        .entrySet()
-                        .forEach(entry -> fetchOneFlavor(clipboard, entry.getKey(), entry.getValue(), cached_data));
-                flavors = DataTransferer.setToSortedDataFlavorArray(flavorsToData.keySet());
+            if (formbts != null && formbts.lfngti > 0) {
+                // Sindf tif SystfmFlbvorMbp will spfdify mbny DbtbFlbvors
+                // wiidi mbp to tif sbmf formbt, wf siould dbdif dbtb bs wf
+                // rfbd it.
+                Mbp<Long, Objfdt> dbdifd_dbtb = nfw HbsiMbp<>(formbts.lfngti, 1.0f);
+                DbtbTrbnsffrfr.gftInstbndf()
+                        .gftFlbvorsForFormbts(formbts, SunClipbobrd.gftDffbultFlbvorTbblf())
+                        .fntrySft()
+                        .forEbdi(fntry -> fftdiOnfFlbvor(dlipbobrd, fntry.gftKfy(), fntry.gftVbluf(), dbdifd_dbtb));
+                flbvors = DbtbTrbnsffrfr.sftToSortfdDbtbFlbvorArrby(flbvorsToDbtb.kfySft());
 
             }
-        } finally {
-            clipboard.closeClipboard();
+        } finblly {
+            dlipbobrd.dlosfClipbobrd();
         }
     }
 
-    private boolean fetchOneFlavor(SunClipboard clipboard, DataFlavor flavor,
-                                   long format, Map<Long, Object> cached_data)
+    privbtf boolfbn fftdiOnfFlbvor(SunClipbobrd dlipbobrd, DbtbFlbvor flbvor,
+                                   long formbt, Mbp<Long, Objfdt> dbdifd_dbtb)
     {
-        if (!flavorsToData.containsKey(flavor)) {
-            Object data = null;
+        if (!flbvorsToDbtb.dontbinsKfy(flbvor)) {
+            Objfdt dbtb = null;
 
-            if (!cached_data.containsKey(format)) {
+            if (!dbdifd_dbtb.dontbinsKfy(formbt)) {
                 try {
-                    data = clipboard.getClipboardData(format);
-                } catch (IOException e) {
-                    data = e;
-                } catch (Throwable e) {
-                    e.printStackTrace();
+                    dbtb = dlipbobrd.gftClipbobrdDbtb(formbt);
+                } dbtdi (IOExdfption f) {
+                    dbtb = f;
+                } dbtdi (Tirowbblf f) {
+                    f.printStbdkTrbdf();
                 }
 
-                // Cache this data, even if it's null, so we don't have to go
-                // to native code again for this format.
-                cached_data.put(format, data);
-            } else {
-                data = cached_data.get(format);
+                // Cbdif tiis dbtb, fvfn if it's null, so wf don't ibvf to go
+                // to nbtivf dodf bgbin for tiis formbt.
+                dbdifd_dbtb.put(formbt, dbtb);
+            } flsf {
+                dbtb = dbdifd_dbtb.gft(formbt);
             }
 
-            // Casting IOException to byte array causes ClassCastException.
-            // We should handle IOException separately - do not wrap them into
-            // DataFactory and report failure.
-            if (data instanceof IOException) {
-                flavorsToData.put(flavor, data);
-                return false;
-            } else if (data != null) {
-                flavorsToData.put(flavor, new DataFactory(format, (byte[])data));
-                return true;
+            // Cbsting IOExdfption to bytf brrby dbusfs ClbssCbstExdfption.
+            // Wf siould ibndlf IOExdfption sfpbrbtfly - do not wrbp tifm into
+            // DbtbFbdtory bnd rfport fbilurf.
+            if (dbtb instbndfof IOExdfption) {
+                flbvorsToDbtb.put(flbvor, dbtb);
+                rfturn fblsf;
+            } flsf if (dbtb != null) {
+                flbvorsToDbtb.put(flbvor, nfw DbtbFbdtory(formbt, (bytf[])dbtb));
+                rfturn truf;
             }
         }
 
-        return false;
+        rfturn fblsf;
     }
 
-    @Override
-    public DataFlavor[] getTransferDataFlavors() {
-        return flavors.clone();
+    @Ovfrridf
+    publid DbtbFlbvor[] gftTrbnsffrDbtbFlbvors() {
+        rfturn flbvors.dlonf();
     }
 
-    @Override
-    public boolean isDataFlavorSupported(DataFlavor flavor) {
-        return flavorsToData.containsKey(flavor);
+    @Ovfrridf
+    publid boolfbn isDbtbFlbvorSupportfd(DbtbFlbvor flbvor) {
+        rfturn flbvorsToDbtb.dontbinsKfy(flbvor);
     }
 
-    @Override
-    public Object getTransferData(DataFlavor flavor)
-        throws UnsupportedFlavorException, IOException
+    @Ovfrridf
+    publid Objfdt gftTrbnsffrDbtb(DbtbFlbvor flbvor)
+        tirows UnsupportfdFlbvorExdfption, IOExdfption
     {
-        if (!isDataFlavorSupported(flavor)) {
-            throw new UnsupportedFlavorException(flavor);
+        if (!isDbtbFlbvorSupportfd(flbvor)) {
+            tirow nfw UnsupportfdFlbvorExdfption(flbvor);
         }
-        Object ret = flavorsToData.get(flavor);
-        if (ret instanceof IOException) {
-            // rethrow IOExceptions generated while fetching data
-            throw new IOException("Exception fetching data: ", (IOException)ret);
-        } else if (ret instanceof DataFactory) {
-            // Now we can render the data
-            DataFactory factory = (DataFactory)ret;
-            ret = factory.getTransferData(flavor);
+        Objfdt rft = flbvorsToDbtb.gft(flbvor);
+        if (rft instbndfof IOExdfption) {
+            // rftirow IOExdfptions gfnfrbtfd wiilf fftdiing dbtb
+            tirow nfw IOExdfption("Exdfption fftdiing dbtb: ", (IOExdfption)rft);
+        } flsf if (rft instbndfof DbtbFbdtory) {
+            // Now wf dbn rfndfr tif dbtb
+            DbtbFbdtory fbdtory = (DbtbFbdtory)rft;
+            rft = fbdtory.gftTrbnsffrDbtb(flbvor);
         }
-        return ret;
+        rfturn rft;
     }
 
 }

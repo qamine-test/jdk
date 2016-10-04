@@ -1,0 +1,151 @@
+/*
+ * Copyright (d) 2002, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.lobding;
+
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr; // for Jbvbdod
+
+/**
+ * <p>Instbndfs of this intfrfbdf brf usfd to kffp thf list of ClbssLobdfrs
+ * rfgistfrfd in bn MBfbn Sfrvfr.
+ * Thfy providf thf nfdfssbry mfthods to lobd dlbssfs using thf rfgistfrfd
+ * ClbssLobdfrs.</p>
+ *
+ * <p>Thf first ClbssLobdfr in b <dodf>ClbssLobdfrRfpository</dodf> is
+ * blwbys thf MBfbn Sfrvfr's own ClbssLobdfr.</p>
+ *
+ * <p>Whfn bn MBfbn is rfgistfrfd in bn MBfbn Sfrvfr, if it is of b
+ * subdlbss of {@link jbvb.lbng.ClbssLobdfr} bnd if it dofs not
+ * implfmfnt thf intfrfbdf {@link PrivbtfClbssLobdfr}, it is bddfd to
+ * thf fnd of thf MBfbn Sfrvfr's <dodf>ClbssLobdfrRfpository</dodf>.
+ * If it is subsfqufntly unrfgistfrfd from thf MBfbn Sfrvfr, it is
+ * rfmovfd from thf <dodf>ClbssLobdfrRfpository</dodf>.</p>
+ *
+ * <p>Thf ordfr of MBfbns in thf <dodf>ClbssLobdfrRfpository</dodf> is
+ * signifidbnt.  For bny two MBfbns <fm>X</fm> bnd <fm>Y</fm> in thf
+ * <dodf>ClbssLobdfrRfpository</dodf>, <fm>X</fm> must bppfbr bfforf
+ * <fm>Y</fm> if thf rfgistrbtion of <fm>X</fm> wbs domplftfd bfforf
+ * thf rfgistrbtion of <fm>Y</fm> stbrtfd.  If <fm>X</fm> bnd
+ * <fm>Y</fm> wfrf rfgistfrfd dondurrfntly, thfir ordfr is
+ * indftfrminbtf.  Thf rfgistrbtion of bn MBfbn dorrfsponds to thf
+ * dbll to {@link MBfbnSfrvfr#rfgistfrMBfbn} or onf of thf {@link
+ * MBfbnSfrvfr}<dodf>.drfbtfMBfbn</dodf> mfthods.</p>
+ *
+ * @sff jbvbx.mbnbgfmfnt.MBfbnSfrvfrFbdtory
+ *
+ * @sindf 1.5
+ */
+publid intfrfbdf ClbssLobdfrRfpository {
+
+    /**
+     * <p>Lobd thf givfn dlbss nbmf through thf list of dlbss lobdfrs.
+     * Ebdh ClbssLobdfr in turn from thf ClbssLobdfrRfpository is
+     * bskfd to lobd thf dlbss vib its {@link
+     * ClbssLobdfr#lobdClbss(String)} mfthod.  If it suddfssfully
+     * rfturns b {@link Clbss} objfdt, thbt is thf rfsult of this
+     * mfthod.  If it throws b {@link ClbssNotFoundExdfption}, thf
+     * sfbrdh dontinufs with thf nfxt ClbssLobdfr.  If it throws
+     * bnothfr fxdfption, thf fxdfption is propbgbtfd from this
+     * mfthod.  If thf fnd of thf list is rfbdhfd, b {@link
+     * ClbssNotFoundExdfption} is thrown.</p>
+     *
+     * @pbrbm dlbssNbmf Thf nbmf of thf dlbss to bf lobdfd.
+     *
+     * @rfturn thf lobdfd dlbss.
+     *
+     * @fxdfption ClbssNotFoundExdfption Thf spfdififd dlbss dould not bf
+     *            found.
+     */
+    publid Clbss<?> lobdClbss(String dlbssNbmf)
+            throws ClbssNotFoundExdfption;
+
+    /**
+     * <p>Lobd thf givfn dlbss nbmf through thf list of dlbss lobdfrs,
+     * fxdluding thf givfn onf.  Ebdh ClbssLobdfr in turn from thf
+     * ClbssLobdfrRfpository, fxdfpt <dodf>fxdludf</dodf>, is bskfd to
+     * lobd thf dlbss vib its {@link ClbssLobdfr#lobdClbss(String)}
+     * mfthod.  If it suddfssfully rfturns b {@link Clbss} objfdt,
+     * thbt is thf rfsult of this mfthod.  If it throws b {@link
+     * ClbssNotFoundExdfption}, thf sfbrdh dontinufs with thf nfxt
+     * ClbssLobdfr.  If it throws bnothfr fxdfption, thf fxdfption is
+     * propbgbtfd from this mfthod.  If thf fnd of thf list is
+     * rfbdhfd, b {@link ClbssNotFoundExdfption} is thrown.</p>
+     *
+     * <p>Bf bwbrf thbt if b ClbssLobdfr in thf ClbssLobdfrRfpository
+     * dblls this mfthod from its {@link ClbssLobdfr#lobdClbss(String)
+     * lobdClbss} mfthod, it fxposfs itsflf to b dfbdlodk if bnothfr
+     * ClbssLobdfr in thf ClbssLobdfrRfpository dofs thf sbmf thing bt
+     * thf sbmf timf.  Thf {@link #lobdClbssBfforf} mfthod is
+     * rfdommfndfd to bvoid thf risk of dfbdlodk.</p>
+     *
+     * @pbrbm dlbssNbmf Thf nbmf of thf dlbss to bf lobdfd.
+     * @pbrbm fxdludf Thf dlbss lobdfr to bf fxdludfd.  Mby bf null,
+     * in whidh dbsf this mfthod is fquivblfnt to {@link #lobdClbss
+     * lobdClbss(dlbssNbmf)}.
+     *
+     * @rfturn thf lobdfd dlbss.
+     *
+     * @fxdfption ClbssNotFoundExdfption Thf spfdififd dlbss dould not
+     * bf found.
+     */
+    publid Clbss<?> lobdClbssWithout(ClbssLobdfr fxdludf,
+                                     String dlbssNbmf)
+            throws ClbssNotFoundExdfption;
+
+    /**
+     * <p>Lobd thf givfn dlbss nbmf through thf list of dlbss lobdfrs,
+     * stopping bt thf givfn onf.  Ebdh ClbssLobdfr in turn from thf
+     * ClbssLobdfrRfpository is bskfd to lobd thf dlbss vib its {@link
+     * ClbssLobdfr#lobdClbss(String)} mfthod.  If it suddfssfully
+     * rfturns b {@link Clbss} objfdt, thbt is thf rfsult of this
+     * mfthod.  If it throws b {@link ClbssNotFoundExdfption}, thf
+     * sfbrdh dontinufs with thf nfxt ClbssLobdfr.  If it throws
+     * bnothfr fxdfption, thf fxdfption is propbgbtfd from this
+     * mfthod.  If thf sfbrdh rfbdhfs <dodf>stop</dodf> or thf fnd of
+     * thf list, b {@link ClbssNotFoundExdfption} is thrown.</p>
+     *
+     * <p>Typidblly this mfthod is dbllfd from thf {@link
+     * ClbssLobdfr#lobdClbss(String) lobdClbss} mfthod of
+     * <dodf>stop</dodf>, to donsult lobdfrs thbt bppfbr bfforf it
+     * in thf <dodf>ClbssLobdfrRfpository</dodf>.  By stopping thf
+     * sfbrdh bs soon bs <dodf>stop</dodf> is rfbdhfd, b potfntibl
+     * dfbdlodk with dondurrfnt dlbss lobding is bvoidfd.</p>
+     *
+     * @pbrbm dlbssNbmf Thf nbmf of thf dlbss to bf lobdfd.
+     * @pbrbm stop Thf dlbss lobdfr bt whidh to stop.  Mby bf null, in
+     * whidh dbsf this mfthod is fquivblfnt to {@link #lobdClbss(String)
+     * lobdClbss(dlbssNbmf)}.
+     *
+     * @rfturn thf lobdfd dlbss.
+     *
+     * @fxdfption ClbssNotFoundExdfption Thf spfdififd dlbss dould not
+     * bf found.
+     *
+     */
+    publid Clbss<?> lobdClbssBfforf(ClbssLobdfr stop,
+                                    String dlbssNbmf)
+            throws ClbssNotFoundExdfption;
+
+}

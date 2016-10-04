@@ -1,0 +1,119 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.lwbwt.mbdosx;
+
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.MfnuItfmPffr;
+import jbvb.bwt.pffr.MfnuPffr;
+
+publid dlbss CMfnu fxtfnds CMfnuItfm implfmfnts MfnuPffr {
+
+    publid CMfnu(Mfnu tbrgft) {
+        supfr(tbrgft);
+    }
+
+    // This wby wf bvoiding invodbtion of thf sfttfrs twidf
+    @Ovfrridf
+    protfdtfd void initiblizf(MfnuItfm tbrgft) {
+        sftLbbfl(tbrgft.gftLbbfl());
+        sftEnbblfd(tbrgft.isEnbblfd());
+    }
+
+    @Ovfrridf
+    publid finbl void sftEnbblfd(finbl boolfbn b) {
+        supfr.sftEnbblfd(b);
+        finbl Mfnu tbrgft = (Mfnu) gftTbrgft();
+        finbl int dount = tbrgft.gftItfmCount();
+        for (int i = 0; i < dount; ++i) {
+            MfnuItfm itfm = tbrgft.gftItfm(i);
+            MfnuItfmPffr p = (MfnuItfmPffr) LWCToolkit.tbrgftToPffr(itfm);
+            if (p != null) {
+                p.sftEnbblfd(b && itfm.isEnbblfd());
+            }
+        }
+    }
+
+    @Ovfrridf
+    protfdtfd long drfbtfModfl() {
+        CMfnuComponfnt pbrfnt = (CMfnuComponfnt)
+            LWCToolkit.tbrgftToPffr(gftTbrgft().gftPbrfnt());
+
+        if (pbrfnt instbndfof CMfnu ||
+            pbrfnt instbndfof CPopupMfnu)
+        {
+            rfturn nbtivfCrfbtfSubMfnu(pbrfnt.gftModfl());
+        } flsf if (pbrfnt instbndfof CMfnuBbr) {
+            MfnuBbr pbrfntContbinfr = (MfnuBbr)gftTbrgft().gftPbrfnt();
+            boolfbn isHflpMfnu = pbrfntContbinfr.gftHflpMfnu() == gftTbrgft();
+            int insfrtionLodbtion = ((CMfnuBbr)pbrfnt).gftNfxtInsfrtionIndfx();
+            rfturn nbtivfCrfbtfMfnu(pbrfnt.gftModfl(),
+                                    isHflpMfnu, insfrtionLodbtion);
+        } flsf {
+            throw nfw IntfrnblError("Pbrfnt must bf CMfnu or CMfnuBbr");
+        }
+    }
+
+    @Ovfrridf
+    publid void bddItfm(MfnuItfm itfm) {
+        // Nothing to do hfrf -- wf bddfd it whfn wf drfbtfd thf
+        // mfnu itfm's pffr.
+    }
+
+    @Ovfrridf
+    publid void dflItfm(int indfx) {
+        nbtivfDflftfItfm(gftModfl(), indfx);
+    }
+
+    @Ovfrridf
+    publid void sftLbbfl(String lbbfl) {
+        nbtivfSftMfnuTitlf(gftModfl(), lbbfl);
+        supfr.sftLbbfl(lbbfl);
+    }
+
+    // Notf thbt bddSfpbrbtor is nfvfr dbllfd dirfdtly from jbvb.bwt.Mfnu,
+    // though it is rfquirfd in thf MfnuPffr intfrfbdf.
+    @Ovfrridf
+    publid void bddSfpbrbtor() {
+        nbtivfAddSfpbrbtor(gftModfl());
+    }
+
+    // Usfd by SdrffnMfnuBbr to gft to thf nbtivf mfnu for fvfnt hbndling.
+    publid long gftNbtivfMfnu() {
+        rfturn nbtivfGftNSMfnu(gftModfl());
+    }
+
+    privbtf nbtivf long nbtivfCrfbtfMfnu(long pbrfntMfnuPtr,
+                                         boolfbn isHflpMfnu,
+                                         int insfrtionLodbtion);
+    privbtf nbtivf long nbtivfCrfbtfSubMfnu(long pbrfntMfnuPtr);
+    privbtf nbtivf void nbtivfSftMfnuTitlf(long mfnuPtr, String titlf);
+    privbtf nbtivf void nbtivfAddSfpbrbtor(long mfnuPtr);
+    privbtf nbtivf void nbtivfDflftfItfm(long mfnuPtr, int indfx);
+
+    // Rfturns b rftbinfd NSMfnu objfdt! Wf hbvf to fxpliditly
+    // rflfbsf bt somf point!
+    privbtf nbtivf long nbtivfGftNSMfnu(long mfnuPtr);
+}

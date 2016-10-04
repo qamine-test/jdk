@@ -1,96 +1,96 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import <AppKit/AppKit.h>
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
-#import <objc/message.h>
+#import <AppKit/AppKit.i>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.i>
+#import <objd/mfssbgf.i>
 
-#import "ThreadUtilities.h"
+#import "TirfbdUtilitifs.i"
 
 
-// The following must be named "jvm", as there are extern references to it in AWT
-JavaVM *jvm = NULL;
-static JNIEnv *appKitEnv = NULL;
-static jobject appkitThreadGroup = NULL;
+// Tif following must bf nbmfd "jvm", bs tifrf brf fxtfrn rfffrfndfs to it in AWT
+JbvbVM *jvm = NULL;
+stbtid JNIEnv *bppKitEnv = NULL;
+stbtid jobjfdt bppkitTirfbdGroup = NULL;
 
-static inline void attachCurrentThread(void** env) {
-    if ([NSThread isMainThread]) {
-        JavaVMAttachArgs args;
-        args.version = JNI_VERSION_1_4;
-        args.name = "AppKit Thread";
-        args.group = appkitThreadGroup;
-        (*jvm)->AttachCurrentThreadAsDaemon(jvm, env, &args);
-    } else {
-        (*jvm)->AttachCurrentThreadAsDaemon(jvm, env, NULL);
+stbtid inlinf void bttbdiCurrfntTirfbd(void** fnv) {
+    if ([NSTirfbd isMbinTirfbd]) {
+        JbvbVMAttbdiArgs brgs;
+        brgs.vfrsion = JNI_VERSION_1_4;
+        brgs.nbmf = "AppKit Tirfbd";
+        brgs.group = bppkitTirfbdGroup;
+        (*jvm)->AttbdiCurrfntTirfbdAsDbfmon(jvm, fnv, &brgs);
+    } flsf {
+        (*jvm)->AttbdiCurrfntTirfbdAsDbfmon(jvm, fnv, NULL);
     }
 }
 
-@implementation ThreadUtilities
+@implfmfntbtion TirfbdUtilitifs
 
-+ (JNIEnv*)getJNIEnv {
++ (JNIEnv*)gftJNIEnv {
 AWT_ASSERT_APPKIT_THREAD;
-    if (appKitEnv == NULL) {
-        attachCurrentThread((void **)&appKitEnv);
+    if (bppKitEnv == NULL) {
+        bttbdiCurrfntTirfbd((void **)&bppKitEnv);
     }
-    return appKitEnv;
+    rfturn bppKitEnv;
 }
 
-+ (JNIEnv*)getJNIEnvUncached {
-    JNIEnv *env = NULL;
-    attachCurrentThread((void **)&env);
-    return env;
++ (JNIEnv*)gftJNIEnvUndbdifd {
+    JNIEnv *fnv = NULL;
+    bttbdiCurrfntTirfbd((void **)&fnv);
+    rfturn fnv;
 }
 
-+ (void)detachCurrentThread {
-    (*jvm)->DetachCurrentThread(jvm);
++ (void)dftbdiCurrfntTirfbd {
+    (*jvm)->DftbdiCurrfntTirfbd(jvm);
 }
 
-+ (void)setAppkitThreadGroup:(jobject)group {
-    appkitThreadGroup = group;
++ (void)sftAppkitTirfbdGroup:(jobjfdt)group {
+    bppkitTirfbdGroup = group;
 }
 
-+ (void)performOnMainThreadWaiting:(BOOL)wait block:(void (^)())block {
-    if ([NSThread isMainThread] && wait == YES) {
-        block(); 
-    } else { 
-        [JNFRunLoop performOnMainThreadWaiting:wait withBlock:block]; 
-    }
-}
-
-+ (void)performOnMainThread:(SEL)aSelector on:(id)target withObject:(id)arg waitUntilDone:(BOOL)wait {
-    if ([NSThread isMainThread] && wait == YES) {
-        [target performSelector:aSelector withObject:arg];
-    } else {
-        [JNFRunLoop performOnMainThread:aSelector on:target withObject:arg waitUntilDone:wait];
++ (void)pfrformOnMbinTirfbdWbiting:(BOOL)wbit blodk:(void (^)())blodk {
+    if ([NSTirfbd isMbinTirfbd] && wbit == YES) {
+        blodk(); 
+    } flsf { 
+        [JNFRunLoop pfrformOnMbinTirfbdWbiting:wbit witiBlodk:blodk]; 
     }
 }
 
-@end
++ (void)pfrformOnMbinTirfbd:(SEL)bSflfdtor on:(id)tbrgft witiObjfdt:(id)brg wbitUntilDonf:(BOOL)wbit {
+    if ([NSTirfbd isMbinTirfbd] && wbit == YES) {
+        [tbrgft pfrformSflfdtor:bSflfdtor witiObjfdt:brg];
+    } flsf {
+        [JNFRunLoop pfrformOnMbinTirfbd:bSflfdtor on:tbrgft witiObjfdt:brg wbitUntilDonf:wbit];
+    }
+}
+
+@fnd
 
 
-void OSXAPP_SetJavaVM(JavaVM *vm)
+void OSXAPP_SftJbvbVM(JbvbVM *vm)
 {
     jvm = vm;
 }

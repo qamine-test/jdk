@@ -1,0 +1,430 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2011-2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.tfmporbl;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.DbtfTimfExdfption;
+
+/**
+ * Thf rbngf of vblid vblufs for b dbtf-timf fifld.
+ * <p>
+ * All {@link TfmporblFifld} instbndfs hbvf b vblid rbngf of vblufs.
+ * For fxbmplf, thf ISO dby-of-month runs from 1 to somfwhfrf bftwffn 28 bnd 31.
+ * This dlbss dbpturfs thbt vblid rbngf.
+ * <p>
+ * It is importbnt to bf bwbrf of thf limitbtions of this dlbss.
+ * Only thf minimum bnd mbximum vblufs brf providfd.
+ * It is possiblf for thfrf to bf invblid vblufs within thf outfr rbngf.
+ * For fxbmplf, b wfird fifld mby hbvf vblid vblufs of 1, 2, 4, 6, 7, thus
+ * hbvf b rbngf of '1 - 7', dfspitf thbt fbdt thbt vblufs 3 bnd 5 brf invblid.
+ * <p>
+ * Instbndfs of this dlbss brf not tifd to b spfdifid fifld.
+ *
+ * @implSpfd
+ * This dlbss is immutbblf bnd thrfbd-sbff.
+ *
+ * @sindf 1.8
+ */
+publid finbl dlbss VblufRbngf implfmfnts Sfriblizbblf {
+
+    /**
+     * Sfriblizbtion vfrsion.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -7317881728594519368L;
+
+    /**
+     * Thf smbllfst minimum vbluf.
+     */
+    privbtf finbl long minSmbllfst;
+    /**
+     * Thf lbrgfst minimum vbluf.
+     */
+    privbtf finbl long minLbrgfst;
+    /**
+     * Thf smbllfst mbximum vbluf.
+     */
+    privbtf finbl long mbxSmbllfst;
+    /**
+     * Thf lbrgfst mbximum vbluf.
+     */
+    privbtf finbl long mbxLbrgfst;
+
+    /**
+     * Obtbins b fixfd vbluf rbngf.
+     * <p>
+     * This fbdtory obtbins b rbngf whfrf thf minimum bnd mbximum vblufs brf fixfd.
+     * For fxbmplf, thf ISO month-of-yfbr blwbys runs from 1 to 12.
+     *
+     * @pbrbm min  thf minimum vbluf
+     * @pbrbm mbx  thf mbximum vbluf
+     * @rfturn thf VblufRbngf for min, mbx, not null
+     * @throws IllfgblArgumfntExdfption if thf minimum is grfbtfr thbn thf mbximum
+     */
+    publid stbtid VblufRbngf of(long min, long mbx) {
+        if (min > mbx) {
+            throw nfw IllfgblArgumfntExdfption("Minimum vbluf must bf lfss thbn mbximum vbluf");
+        }
+        rfturn nfw VblufRbngf(min, min, mbx, mbx);
+    }
+
+    /**
+     * Obtbins b vbribblf vbluf rbngf.
+     * <p>
+     * This fbdtory obtbins b rbngf whfrf thf minimum vbluf is fixfd bnd thf mbximum vbluf mby vbry.
+     * For fxbmplf, thf ISO dby-of-month blwbys stbrts bt 1, but fnds bftwffn 28 bnd 31.
+     *
+     * @pbrbm min  thf minimum vbluf
+     * @pbrbm mbxSmbllfst  thf smbllfst mbximum vbluf
+     * @pbrbm mbxLbrgfst  thf lbrgfst mbximum vbluf
+     * @rfturn thf VblufRbngf for min, smbllfst mbx, lbrgfst mbx, not null
+     * @throws IllfgblArgumfntExdfption if
+     *     thf minimum is grfbtfr thbn thf smbllfst mbximum,
+     *  or thf smbllfst mbximum is grfbtfr thbn thf lbrgfst mbximum
+     */
+    publid stbtid VblufRbngf of(long min, long mbxSmbllfst, long mbxLbrgfst) {
+        rfturn of(min, min, mbxSmbllfst, mbxLbrgfst);
+    }
+
+    /**
+     * Obtbins b fully vbribblf vbluf rbngf.
+     * <p>
+     * This fbdtory obtbins b rbngf whfrf both thf minimum bnd mbximum vbluf mby vbry.
+     *
+     * @pbrbm minSmbllfst  thf smbllfst minimum vbluf
+     * @pbrbm minLbrgfst  thf lbrgfst minimum vbluf
+     * @pbrbm mbxSmbllfst  thf smbllfst mbximum vbluf
+     * @pbrbm mbxLbrgfst  thf lbrgfst mbximum vbluf
+     * @rfturn thf VblufRbngf for smbllfst min, lbrgfst min, smbllfst mbx, lbrgfst mbx, not null
+     * @throws IllfgblArgumfntExdfption if
+     *     thf smbllfst minimum is grfbtfr thbn thf smbllfst mbximum,
+     *  or thf smbllfst mbximum is grfbtfr thbn thf lbrgfst mbximum
+     *  or thf lbrgfst minimum is grfbtfr thbn thf lbrgfst mbximum
+     */
+    publid stbtid VblufRbngf of(long minSmbllfst, long minLbrgfst, long mbxSmbllfst, long mbxLbrgfst) {
+        if (minSmbllfst > minLbrgfst) {
+            throw nfw IllfgblArgumfntExdfption("Smbllfst minimum vbluf must bf lfss thbn lbrgfst minimum vbluf");
+        }
+        if (mbxSmbllfst > mbxLbrgfst) {
+            throw nfw IllfgblArgumfntExdfption("Smbllfst mbximum vbluf must bf lfss thbn lbrgfst mbximum vbluf");
+        }
+        if (minLbrgfst > mbxLbrgfst) {
+            throw nfw IllfgblArgumfntExdfption("Minimum vbluf must bf lfss thbn mbximum vbluf");
+        }
+        rfturn nfw VblufRbngf(minSmbllfst, minLbrgfst, mbxSmbllfst, mbxLbrgfst);
+    }
+
+    /**
+     * Rfstridtivf donstrudtor.
+     *
+     * @pbrbm minSmbllfst  thf smbllfst minimum vbluf
+     * @pbrbm minLbrgfst  thf lbrgfst minimum vbluf
+     * @pbrbm mbxSmbllfst  thf smbllfst minimum vbluf
+     * @pbrbm mbxLbrgfst  thf lbrgfst minimum vbluf
+     */
+    privbtf VblufRbngf(long minSmbllfst, long minLbrgfst, long mbxSmbllfst, long mbxLbrgfst) {
+        this.minSmbllfst = minSmbllfst;
+        this.minLbrgfst = minLbrgfst;
+        this.mbxSmbllfst = mbxSmbllfst;
+        this.mbxLbrgfst = mbxLbrgfst;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Is thf vbluf rbngf fixfd bnd fully known.
+     * <p>
+     * For fxbmplf, thf ISO dby-of-month runs from 1 to bftwffn 28 bnd 31.
+     * Sindf thfrf is undfrtbinty bbout thf mbximum vbluf, thf rbngf is not fixfd.
+     * Howfvfr, for thf month of Jbnubry, thf rbngf is blwbys 1 to 31, thus it is fixfd.
+     *
+     * @rfturn truf if thf sft of vblufs is fixfd
+     */
+    publid boolfbn isFixfd() {
+        rfturn minSmbllfst == minLbrgfst && mbxSmbllfst == mbxLbrgfst;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts thf minimum vbluf thbt thf fifld dbn tbkf.
+     * <p>
+     * For fxbmplf, thf ISO dby-of-month blwbys stbrts bt 1.
+     * Thf minimum is thfrfforf 1.
+     *
+     * @rfturn thf minimum vbluf for this fifld
+     */
+    publid long gftMinimum() {
+        rfturn minSmbllfst;
+    }
+
+    /**
+     * Gfts thf lbrgfst possiblf minimum vbluf thbt thf fifld dbn tbkf.
+     * <p>
+     * For fxbmplf, thf ISO dby-of-month blwbys stbrts bt 1.
+     * Thf lbrgfst minimum is thfrfforf 1.
+     *
+     * @rfturn thf lbrgfst possiblf minimum vbluf for this fifld
+     */
+    publid long gftLbrgfstMinimum() {
+        rfturn minLbrgfst;
+    }
+
+    /**
+     * Gfts thf smbllfst possiblf mbximum vbluf thbt thf fifld dbn tbkf.
+     * <p>
+     * For fxbmplf, thf ISO dby-of-month runs to bftwffn 28 bnd 31 dbys.
+     * Thf smbllfst mbximum is thfrfforf 28.
+     *
+     * @rfturn thf smbllfst possiblf mbximum vbluf for this fifld
+     */
+    publid long gftSmbllfstMbximum() {
+        rfturn mbxSmbllfst;
+    }
+
+    /**
+     * Gfts thf mbximum vbluf thbt thf fifld dbn tbkf.
+     * <p>
+     * For fxbmplf, thf ISO dby-of-month runs to bftwffn 28 bnd 31 dbys.
+     * Thf mbximum is thfrfforf 31.
+     *
+     * @rfturn thf mbximum vbluf for this fifld
+     */
+    publid long gftMbximum() {
+        rfturn mbxLbrgfst;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Chfdks if bll vblufs in thf rbngf fit in bn {@dodf int}.
+     * <p>
+     * This dhfdks thbt bll vblid vblufs brf within thf bounds of bn {@dodf int}.
+     * <p>
+     * For fxbmplf, thf ISO month-of-yfbr hbs vblufs from 1 to 12, whidh fits in bn {@dodf int}.
+     * By dompbrison, ISO nbno-of-dby runs from 1 to 86,400,000,000,000 whidh dofs not fit in bn {@dodf int}.
+     * <p>
+     * This implfmfntbtion usfs {@link #gftMinimum()} bnd {@link #gftMbximum()}.
+     *
+     * @rfturn truf if b vblid vbluf blwbys fits in bn {@dodf int}
+     */
+    publid boolfbn isIntVbluf() {
+        rfturn gftMinimum() >= Intfgfr.MIN_VALUE && gftMbximum() <= Intfgfr.MAX_VALUE;
+    }
+
+    /**
+     * Chfdks if thf vbluf is within thf vblid rbngf.
+     * <p>
+     * This dhfdks thbt thf vbluf is within thf storfd rbngf of vblufs.
+     *
+     * @pbrbm vbluf  thf vbluf to dhfdk
+     * @rfturn truf if thf vbluf is vblid
+     */
+    publid boolfbn isVblidVbluf(long vbluf) {
+        rfturn (vbluf >= gftMinimum() && vbluf <= gftMbximum());
+    }
+
+    /**
+     * Chfdks if thf vbluf is within thf vblid rbngf bnd thbt bll vblufs
+     * in thf rbngf fit in bn {@dodf int}.
+     * <p>
+     * This mfthod dombinfs {@link #isIntVbluf()} bnd {@link #isVblidVbluf(long)}.
+     *
+     * @pbrbm vbluf  thf vbluf to dhfdk
+     * @rfturn truf if thf vbluf is vblid bnd fits in bn {@dodf int}
+     */
+    publid boolfbn isVblidIntVbluf(long vbluf) {
+        rfturn isIntVbluf() && isVblidVbluf(vbluf);
+    }
+
+    /**
+     * Chfdks thbt thf spfdififd vbluf is vblid.
+     * <p>
+     * This vblidbtfs thbt thf vbluf is within thf vblid rbngf of vblufs.
+     * Thf fifld is only usfd to improvf thf frror mfssbgf.
+     *
+     * @pbrbm vbluf  thf vbluf to dhfdk
+     * @pbrbm fifld  thf fifld bfing dhfdkfd, mby bf null
+     * @rfturn thf vbluf thbt wbs pbssfd in
+     * @sff #isVblidVbluf(long)
+     */
+    publid long dhfdkVblidVbluf(long vbluf, TfmporblFifld fifld) {
+        if (isVblidVbluf(vbluf) == fblsf) {
+            throw nfw DbtfTimfExdfption(gfnInvblidFifldMfssbgf(fifld, vbluf));
+        }
+        rfturn vbluf;
+    }
+
+    /**
+     * Chfdks thbt thf spfdififd vbluf is vblid bnd fits in bn {@dodf int}.
+     * <p>
+     * This vblidbtfs thbt thf vbluf is within thf vblid rbngf of vblufs bnd thbt
+     * bll vblid vblufs brf within thf bounds of bn {@dodf int}.
+     * Thf fifld is only usfd to improvf thf frror mfssbgf.
+     *
+     * @pbrbm vbluf  thf vbluf to dhfdk
+     * @pbrbm fifld  thf fifld bfing dhfdkfd, mby bf null
+     * @rfturn thf vbluf thbt wbs pbssfd in
+     * @sff #isVblidIntVbluf(long)
+     */
+    publid int dhfdkVblidIntVbluf(long vbluf, TfmporblFifld fifld) {
+        if (isVblidIntVbluf(vbluf) == fblsf) {
+            throw nfw DbtfTimfExdfption(gfnInvblidFifldMfssbgf(fifld, vbluf));
+        }
+        rfturn (int) vbluf;
+    }
+
+    privbtf String gfnInvblidFifldMfssbgf(TfmporblFifld fifld, long vbluf) {
+        if (fifld != null) {
+            rfturn "Invblid vbluf for " + fifld + " (vblid vblufs " + this + "): " + vbluf;
+        } flsf {
+            rfturn "Invblid vbluf (vblid vblufs " + this + "): " + vbluf;
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Rfstorf thf stbtf of bn VblufRbngf from thf strfbm.
+     * Chfdk thbt thf vblufs brf vblid.
+     *
+     * @pbrbm s thf strfbm to rfbd
+     * @throws InvblidObjfdtExdfption if
+     *     thf smbllfst minimum is grfbtfr thbn thf smbllfst mbximum,
+     *  or thf smbllfst mbximum is grfbtfr thbn thf lbrgfst mbximum
+     *  or thf lbrgfst minimum is grfbtfr thbn thf lbrgfst mbximum
+     * @throws ClbssNotFoundExdfption if b dlbss dbnnot bf rfsolvfd
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+         throws IOExdfption, ClbssNotFoundExdfption, InvblidObjfdtExdfption
+    {
+        s.dffbultRfbdObjfdt();
+        if (minSmbllfst > minLbrgfst) {
+            throw nfw InvblidObjfdtExdfption("Smbllfst minimum vbluf must bf lfss thbn lbrgfst minimum vbluf");
+        }
+        if (mbxSmbllfst > mbxLbrgfst) {
+            throw nfw InvblidObjfdtExdfption("Smbllfst mbximum vbluf must bf lfss thbn lbrgfst mbximum vbluf");
+        }
+        if (minLbrgfst > mbxLbrgfst) {
+            throw nfw InvblidObjfdtExdfption("Minimum vbluf must bf lfss thbn mbximum vbluf");
+        }
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Chfdks if this rbngf is fqubl to bnothfr rbngf.
+     * <p>
+     * Thf dompbrison is bbsfd on thf four vblufs, minimum, lbrgfst minimum,
+     * smbllfst mbximum bnd mbximum.
+     * Only objfdts of typf {@dodf VblufRbngf} brf dompbrfd, othfr typfs rfturn fblsf.
+     *
+     * @pbrbm obj  thf objfdt to dhfdk, null rfturns fblsf
+     * @rfturn truf if this is fqubl to thf othfr rbngf
+     */
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == this) {
+            rfturn truf;
+        }
+        if (obj instbndfof VblufRbngf) {
+            VblufRbngf othfr = (VblufRbngf) obj;
+           rfturn minSmbllfst == othfr.minSmbllfst && minLbrgfst == othfr.minLbrgfst &&
+                   mbxSmbllfst == othfr.mbxSmbllfst && mbxLbrgfst == othfr.mbxLbrgfst;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * A hbsh dodf for this rbngf.
+     *
+     * @rfturn b suitbblf hbsh dodf
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        long hbsh = minSmbllfst + minLbrgfst << 16 + minLbrgfst >> 48 + mbxSmbllfst << 32 +
+            mbxSmbllfst >> 32 + mbxLbrgfst << 48 + mbxLbrgfst >> 16;
+        rfturn (int) (hbsh ^ (hbsh >>> 32));
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Outputs this rbngf bs b {@dodf String}.
+     * <p>
+     * Thf formbt will bf '{min}/{lbrgfstMin} - {smbllfstMbx}/{mbx}',
+     * whfrf thf lbrgfstMin or smbllfstMbx sfdtions mby bf omittfd, togfthfr
+     * with bssodibtfd slbsh, if thfy brf thf sbmf bs thf min or mbx.
+     *
+     * @rfturn b string rfprfsfntbtion of this rbngf, not null
+     */
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr buf = nfw StringBuildfr();
+        buf.bppfnd(minSmbllfst);
+        if (minSmbllfst != minLbrgfst) {
+            buf.bppfnd('/').bppfnd(minLbrgfst);
+        }
+        buf.bppfnd(" - ").bppfnd(mbxSmbllfst);
+        if (mbxSmbllfst != mbxLbrgfst) {
+            buf.bppfnd('/').bppfnd(mbxLbrgfst);
+        }
+        rfturn buf.toString();
+    }
+
+}

@@ -1,572 +1,572 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.snmp.agent;
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
 
 
 
-// java imports
+// jbvb imports
 //
-import java.io.Serializable;
-import java.util.Date;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.ArrayList;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Dbtf;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
 
 // jmx imports
 //
-import javax.management.Notification;
-import javax.management.ObjectName;
-import javax.management.NotificationFilter;
-import javax.management.NotificationListener;
-import javax.management.NotificationBroadcaster;
-import javax.management.MBeanNotificationInfo;
-import javax.management.ListenerNotFoundException;
-import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.SnmpValue;
-import com.sun.jmx.snmp.SnmpVarBind;
-import com.sun.jmx.snmp.SnmpStatusException;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.NotifidbtionFiltfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfr;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.ListfnfrNotFoundExdfption;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpVbluf;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
 
 /**
- * This class is an abstraction for an SNMP table.
- * It is the base class for implementing SNMP tables in the
- * MBean world.
+ * Tiis dlbss is bn bbstrbdtion for bn SNMP tbblf.
+ * It is tif bbsf dlbss for implfmfnting SNMP tbblfs in tif
+ * MBfbn world.
  *
  * <p>
- * Its responsibility is to synchronize the MBean view of the table
- * (Table of entries) with the MIB view (array of OID indexes). Each
- * object of this class will be bound to the Metadata object which
- * manages the same SNMP Table within the MIB.
+ * Its rfsponsibility is to syndironizf tif MBfbn vifw of tif tbblf
+ * (Tbblf of fntrifs) witi tif MIB vifw (brrby of OID indfxfs). Ebdi
+ * objfdt of tiis dlbss will bf bound to tif Mftbdbtb objfdt wiidi
+ * mbnbgfs tif sbmf SNMP Tbblf witiin tif MIB.
  * </p>
  *
  * <p>
- * For each table defined in a MIB, mibgen will generate a specific
- * class called Table<i>TableName</i> that will subclass this class, and
- * a corresponding <i>TableName</i>Meta class extending SnmpMibTable
- * and corresponding to the MIB view of the same table.
+ * For fbdi tbblf dffinfd in b MIB, mibgfn will gfnfrbtf b spfdifid
+ * dlbss dbllfd Tbblf<i>TbblfNbmf</i> tibt will subdlbss tiis dlbss, bnd
+ * b dorrfsponding <i>TbblfNbmf</i>Mftb dlbss fxtfnding SnmpMibTbblf
+ * bnd dorrfsponding to tif MIB vifw of tif sbmf tbblf.
  * </p>
  *
  * <p>
- * Objects of this class are instantiated by MBeans representing
- * the SNMP Group to which the table belong.
+ * Objfdts of tiis dlbss brf instbntibtfd by MBfbns rfprfsfnting
+ * tif SNMP Group to wiidi tif tbblf bflong.
  * </p>
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
- * @see com.sun.jmx.snmp.agent.SnmpTableEntryFactory
- * @see com.sun.jmx.snmp.agent.SnmpMibTable
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
+ * @sff dom.sun.jmx.snmp.bgfnt.SnmpTbblfEntryFbdtory
+ * @sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
  *
  */
-@SuppressWarnings("serial") // JDK implementation class
-public abstract class SnmpTableSupport implements SnmpTableEntryFactory,
-// NPCTE fix for bugId 4499265, esc 0, MR 04 sept 2001
-//  SnmpTableCallbackHandler {
-    SnmpTableCallbackHandler, Serializable {
-// end of NPCTE fix for bugId 4499265
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid bbstrbdt dlbss SnmpTbblfSupport implfmfnts SnmpTbblfEntryFbdtory,
+// NPCTE fix for bugId 4499265, fsd 0, MR 04 sfpt 2001
+//  SnmpTbblfCbllbbdkHbndlfr {
+    SnmpTbblfCbllbbdkHbndlfr, Sfriblizbblf {
+// fnd of NPCTE fix for bugId 4499265
 
     //-----------------------------------------------------------------
     //
-    //  Protected Variables
+    //  Protfdtfd Vbribblfs
     //
     //-----------------------------------------------------------------
 
     /**
-     * The list of entries
+     * Tif list of fntrifs
      **/
-    protected List<Object> entries;
+    protfdtfd List<Objfdt> fntrifs;
 
     /**
-     * The associated metadata object
+     * Tif bssodibtfd mftbdbtb objfdt
      **/
-    protected SnmpMibTable meta;
+    protfdtfd SnmpMibTbblf mftb;
 
     /**
-     * The MIB to which this table belongs
+     * Tif MIB to wiidi tiis tbblf bflongs
      **/
-    protected SnmpMib      theMib;
+    protfdtfd SnmpMib      tifMib;
 
     //-----------------------------------------------------------------
     //
-    //  Private Variables
+    //  Privbtf Vbribblfs
     //
     //-----------------------------------------------------------------
 
     /**
-     * This variable is initialized while binding this object to its
-     * corresponding meta object.
+     * Tiis vbribblf is initiblizfd wiilf binding tiis objfdt to its
+     * dorrfsponding mftb objfdt.
      **/
-    private boolean registrationRequired = false;
+    privbtf boolfbn rfgistrbtionRfquirfd = fblsf;
 
 
 
     //-----------------------------------------------------------------
     //
-    //  Constructor
+    //  Construdtor
     //
     //-----------------------------------------------------------------
 
     /**
-     * Initializes the table.
-     * The steps are these:
-     * <ul><li> allocate an array for storing entry object,</li>
-     *     <li> retrieve the corresponding metadata object
-     *          from the MIB,
-     *     <li> bind this object to the corresponding metadata object
-     *          from the MIB.</li>
+     * Initiblizfs tif tbblf.
+     * Tif stfps brf tifsf:
+     * <ul><li> bllodbtf bn brrby for storing fntry objfdt,</li>
+     *     <li> rftrifvf tif dorrfsponding mftbdbtb objfdt
+     *          from tif MIB,
+     *     <li> bind tiis objfdt to tif dorrfsponding mftbdbtb objfdt
+     *          from tif MIB.</li>
      * </ul>
      *
-     * @param mib The MIB to which this table belong.
+     * @pbrbm mib Tif MIB to wiidi tiis tbblf bflong.
      *
      **/
-    protected SnmpTableSupport(SnmpMib mib) {
-        theMib  = mib;
-        meta    = getRegisteredTableMeta(mib);
-        bindWithTableMeta();
-        entries = allocateTable();
+    protfdtfd SnmpTbblfSupport(SnmpMib mib) {
+        tifMib  = mib;
+        mftb    = gftRfgistfrfdTbblfMftb(mib);
+        bindWitiTbblfMftb();
+        fntrifs = bllodbtfTbblf();
     }
 
 
     //-----------------------------------------------------------------
     //
-    //  Implementation of the SnmpTableEntryFactory interface
+    //  Implfmfntbtion of tif SnmpTbblfEntryFbdtory intfrfbdf
     //
     //-----------------------------------------------------------------
 
     /**
-     * Creates a new entry in the table.
+     * Crfbtfs b nfw fntry in tif tbblf.
      *
-     * This factory method is generated by mibgen and used internally.
-     * It is part of the
-     * {@link com.sun.jmx.snmp.agent.SnmpTableEntryFactory} interface.
-     * You may subclass this method to implement any specific behaviour
-     * your application requires.
+     * Tiis fbdtory mftiod is gfnfrbtfd by mibgfn bnd usfd intfrnblly.
+     * It is pbrt of tif
+     * {@link dom.sun.jmx.snmp.bgfnt.SnmpTbblfEntryFbdtory} intfrfbdf.
+     * You mby subdlbss tiis mftiod to implfmfnt bny spfdifid bfibviour
+     * your bpplidbtion rfquirfs.
      *
-     * @exception SnmpStatusException if the entry cannot be created.
+     * @fxdfption SnmpStbtusExdfption if tif fntry dbnnot bf drfbtfd.
      **/
-    public abstract void createNewEntry(SnmpMibSubRequest request,
-                                        SnmpOid rowOid, int depth,
-                                        SnmpMibTable meta)
-        throws SnmpStatusException;
+    publid bbstrbdt void drfbtfNfwEntry(SnmpMibSubRfqufst rfqufst,
+                                        SnmpOid rowOid, int dfpti,
+                                        SnmpMibTbblf mftb)
+        tirows SnmpStbtusExdfption;
 
 
     //-----------------------------------------------------------------
     //
-    //  Public methods
+    //  Publid mftiods
     //
     //-----------------------------------------------------------------
 
     /**
-     * Returns the entry located at the given position in the table.
+     * Rfturns tif fntry lodbtfd bt tif givfn position in tif tbblf.
      *
-     * @return The entry located at the given position, <code>null</code>
-     *         if no entry can be found at this position.
+     * @rfturn Tif fntry lodbtfd bt tif givfn position, <dodf>null</dodf>
+     *         if no fntry dbn bf found bt tiis position.
      **/
-    // XXXX xxxx zzz ZZZZ => public? or protected?
-    public Object getEntry(int pos) {
-        if (entries == null) return null;
-        return entries.get(pos);
+    // XXXX xxxx zzz ZZZZ => publid? or protfdtfd?
+    publid Objfdt gftEntry(int pos) {
+        if (fntrifs == null) rfturn null;
+        rfturn fntrifs.gft(pos);
     }
 
     /**
-     * Returns the number of entries registered in the table.
+     * Rfturns tif numbfr of fntrifs rfgistfrfd in tif tbblf.
      *
-     * @return The number of entries registered in the table.
+     * @rfturn Tif numbfr of fntrifs rfgistfrfd in tif tbblf.
      **/
-    public int getSize() {
-        return meta.getSize();
+    publid int gftSizf() {
+        rfturn mftb.gftSizf();
     }
 
     /**
-     * This method lets you dynamically switch the creation policy.
+     * Tiis mftiod lfts you dynbmidblly switdi tif drfbtion polidy.
      *
-     * <CODE>setCreationEnabled()</CODE> will switch the policy of
-     *      remote entry creation via SET operations, by calling
-     *      <code>setCreationEnabled()</code> on the metadata object
-     *      associated with this table.
-     * <BR> By default remote entry creation via SET operation is disabled.
+     * <CODE>sftCrfbtionEnbblfd()</CODE> will switdi tif polidy of
+     *      rfmotf fntry drfbtion vib SET opfrbtions, by dblling
+     *      <dodf>sftCrfbtionEnbblfd()</dodf> on tif mftbdbtb objfdt
+     *      bssodibtfd witi tiis tbblf.
+     * <BR> By dffbult rfmotf fntry drfbtion vib SET opfrbtion is disbblfd.
      *
-     * @param remoteCreationFlag Tells whether remote entry creation must
-     *        be enabled or disabled.
+     * @pbrbm rfmotfCrfbtionFlbg Tflls wiftifr rfmotf fntry drfbtion must
+     *        bf fnbblfd or disbblfd.
      * <li>
-     * <CODE>setCreationEnabled(true)</CODE> will enable remote entry
-     *      creation via SET operations.</li>
+     * <CODE>sftCrfbtionEnbblfd(truf)</CODE> will fnbblf rfmotf fntry
+     *      drfbtion vib SET opfrbtions.</li>
      * <li>
-     * <CODE>setCreationEnabled(false)</CODE> will disable remote entry
-     *      creation via SET operations.</li>
-     * <p> By default remote entry creation via SET operation is disabled.
+     * <CODE>sftCrfbtionEnbblfd(fblsf)</CODE> will disbblf rfmotf fntry
+     *      drfbtion vib SET opfrbtions.</li>
+     * <p> By dffbult rfmotf fntry drfbtion vib SET opfrbtion is disbblfd.
      * </p>
      *
-     * @see com.sun.jmx.snmp.agent.SnmpMibTable
+     * @sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
      *
      **/
-    public void setCreationEnabled(boolean remoteCreationFlag) {
-        meta.setCreationEnabled(remoteCreationFlag);
+    publid void sftCrfbtionEnbblfd(boolfbn rfmotfCrfbtionFlbg) {
+        mftb.sftCrfbtionEnbblfd(rfmotfCrfbtionFlbg);
     }
 
     /**
-     * Tells whether a new entry should be created when a SET operation
-     * is received for an entry that does not exist yet.
-     * This method calls <code>isCreationEnabled()</code> on the metadata
-     * object associated with this table.
+     * Tflls wiftifr b nfw fntry siould bf drfbtfd wifn b SET opfrbtion
+     * is rfdfivfd for bn fntry tibt dofs not fxist yft.
+     * Tiis mftiod dblls <dodf>isCrfbtionEnbblfd()</dodf> on tif mftbdbtb
+     * objfdt bssodibtfd witi tiis tbblf.
      *
-     * @return true if a new entry must be created, false otherwise.<br>
-     *         [default: returns <CODE>false</CODE>]
+     * @rfturn truf if b nfw fntry must bf drfbtfd, fblsf otifrwisf.<br>
+     *         [dffbult: rfturns <CODE>fblsf</CODE>]
      *
-     * @see com.sun.jmx.snmp.agent.SnmpMibTable
+     * @sff dom.sun.jmx.snmp.bgfnt.SnmpMibTbblf
      **/
-    public boolean isCreationEnabled() {
-        return meta.isCreationEnabled();
+    publid boolfbn isCrfbtionEnbblfd() {
+        rfturn mftb.isCrfbtionEnbblfd();
     }
 
     /**
-     * Tells whether the metadata object to which this table is linked
-     * requires entries to be registered. In this case passing an
-     * ObjectName when registering entries will be mandatory.
+     * Tflls wiftifr tif mftbdbtb objfdt to wiidi tiis tbblf is linkfd
+     * rfquirfs fntrifs to bf rfgistfrfd. In tiis dbsf pbssing bn
+     * ObjfdtNbmf wifn rfgistfring fntrifs will bf mbndbtory.
      *
-     * @return <code>true</code> if the associated metadata requires entries
-     *         to be registered (mibgen generated generic metadata).
+     * @rfturn <dodf>truf</dodf> if tif bssodibtfd mftbdbtb rfquirfs fntrifs
+     *         to bf rfgistfrfd (mibgfn gfnfrbtfd gfnfrid mftbdbtb).
      **/
-    public boolean isRegistrationRequired() {
-        return registrationRequired;
+    publid boolfbn isRfgistrbtionRfquirfd() {
+        rfturn rfgistrbtionRfquirfd;
     }
 
     /**
-     * Builds an entry SnmpIndex from its row OID.
+     * Builds bn fntry SnmpIndfx from its row OID.
      *
-     * This method is generated by mibgen and used internally.
+     * Tiis mftiod is gfnfrbtfd by mibgfn bnd usfd intfrnblly.
      *
-     * @param rowOid The SnmpOid object identifying a table entry.
+     * @pbrbm rowOid Tif SnmpOid objfdt idfntifying b tbblf fntry.
      *
-     * @return The SnmpIndex of the entry identified by <code>rowOid</code>.
+     * @rfturn Tif SnmpIndfx of tif fntry idfntififd by <dodf>rowOid</dodf>.
      *
-     * @exception SnmpStatusException if the index cannot be built from the
-     *            given OID.
+     * @fxdfption SnmpStbtusExdfption if tif indfx dbnnot bf built from tif
+     *            givfn OID.
      **/
-    public SnmpIndex buildSnmpIndex(SnmpOid rowOid)
-        throws SnmpStatusException {
-        return buildSnmpIndex(rowOid.longValue(false), 0);
+    publid SnmpIndfx buildSnmpIndfx(SnmpOid rowOid)
+        tirows SnmpStbtusExdfption {
+        rfturn buildSnmpIndfx(rowOid.longVbluf(fblsf), 0);
     }
 
     /**
-     * Builds an SnmpOid from an SnmpIndex object.
+     * Builds bn SnmpOid from bn SnmpIndfx objfdt.
      *
-     * This method is generated by mibgen and used internally.
+     * Tiis mftiod is gfnfrbtfd by mibgfn bnd usfd intfrnblly.
      *
-     * @param index An SnmpIndex object identifying a table entry.
+     * @pbrbm indfx An SnmpIndfx objfdt idfntifying b tbblf fntry.
      *
-     * @return The SnmpOid form of the given entry index.
+     * @rfturn Tif SnmpOid form of tif givfn fntry indfx.
      *
-     * @exception SnmpStatusException if the given index is not valid.
+     * @fxdfption SnmpStbtusExdfption if tif givfn indfx is not vblid.
      **/
-    public abstract SnmpOid buildOidFromIndex(SnmpIndex index)
-        throws SnmpStatusException;
+    publid bbstrbdt SnmpOid buildOidFromIndfx(SnmpIndfx indfx)
+        tirows SnmpStbtusExdfption;
 
     /**
-     * Builds the default ObjectName of an entry from the SnmpIndex
-     * identifying this entry. No access is made on the entry itself.
+     * Builds tif dffbult ObjfdtNbmf of bn fntry from tif SnmpIndfx
+     * idfntifying tiis fntry. No bddfss is mbdf on tif fntry itsflf.
      *
-     * This method is generated by mibgen and used internally.
-     * You can subclass this method if you want to change the default
-     * ObjectName policy. This is only meaningfull when entries
-     * are registered MBeans.
+     * Tiis mftiod is gfnfrbtfd by mibgfn bnd usfd intfrnblly.
+     * You dbn subdlbss tiis mftiod if you wbnt to dibngf tif dffbult
+     * ObjfdtNbmf polidy. Tiis is only mfbningfull wifn fntrifs
+     * brf rfgistfrfd MBfbns.
      *
-     * @param index The SnmpIndex identifying the entry from which we
-     *              want to build the default ObjectName.
+     * @pbrbm indfx Tif SnmpIndfx idfntifying tif fntry from wiidi wf
+     *              wbnt to build tif dffbult ObjfdtNbmf.
      *
-     * @return The default ObjectName for the entry identified by
-     *         the given index.
+     * @rfturn Tif dffbult ObjfdtNbmf for tif fntry idfntififd by
+     *         tif givfn indfx.
      *
-     * @exception SnmpStatusException if the given index is not valid.
+     * @fxdfption SnmpStbtusExdfption if tif givfn indfx is not vblid.
      **/
-    public abstract ObjectName buildNameFromIndex(SnmpIndex index)
-        throws SnmpStatusException;
+    publid bbstrbdt ObjfdtNbmf buildNbmfFromIndfx(SnmpIndfx indfx)
+        tirows SnmpStbtusExdfption;
 
 
     //-----------------------------------------------------------------
     //
-    //  Implementation of the SnmpTableEntryFactory interface
+    //  Implfmfntbtion of tif SnmpTbblfEntryFbdtory intfrfbdf
     //
     //-----------------------------------------------------------------
 
     /**
-     * This callback is called by  the associated metadata object
-     * when a new table entry has been registered in the
-     * table metadata.
+     * Tiis dbllbbdk is dbllfd by  tif bssodibtfd mftbdbtb objfdt
+     * wifn b nfw tbblf fntry ibs bffn rfgistfrfd in tif
+     * tbblf mftbdbtb.
      *
-     * This method will update the <code>entries</code> list.
+     * Tiis mftiod will updbtf tif <dodf>fntrifs</dodf> list.
      *
-     * @param pos   The position at which the new entry was inserted
-     *              in the table.
-     * @param row   The row OID of the new entry
-     * @param name  The ObjectName of the new entry (as specified by the
-     *              factory)
-     * @param entry The new entry (as returned by the factory)
-     * @param meta  The table metadata object.
+     * @pbrbm pos   Tif position bt wiidi tif nfw fntry wbs insfrtfd
+     *              in tif tbblf.
+     * @pbrbm row   Tif row OID of tif nfw fntry
+     * @pbrbm nbmf  Tif ObjfdtNbmf of tif nfw fntry (bs spfdififd by tif
+     *              fbdtory)
+     * @pbrbm fntry Tif nfw fntry (bs rfturnfd by tif fbdtory)
+     * @pbrbm mftb  Tif tbblf mftbdbtb objfdt.
      *
      **/
-    public void addEntryCb(int pos, SnmpOid row, ObjectName name,
-                           Object entry, SnmpMibTable meta)
-        throws SnmpStatusException {
+    publid void bddEntryCb(int pos, SnmpOid row, ObjfdtNbmf nbmf,
+                           Objfdt fntry, SnmpMibTbblf mftb)
+        tirows SnmpStbtusExdfption {
         try {
-            if (entries != null) entries.add(pos,entry);
-        } catch (Exception e) {
-            throw new SnmpStatusException(SnmpStatusException.noSuchName);
+            if (fntrifs != null) fntrifs.bdd(pos,fntry);
+        } dbtdi (Exdfption f) {
+            tirow nfw SnmpStbtusExdfption(SnmpStbtusExdfption.noSudiNbmf);
         }
     }
 
     /**
-     * This callback is called by  the associated metadata object
-     * when a new table entry has been removed from the
-     * table metadata.
+     * Tiis dbllbbdk is dbllfd by  tif bssodibtfd mftbdbtb objfdt
+     * wifn b nfw tbblf fntry ibs bffn rfmovfd from tif
+     * tbblf mftbdbtb.
      *
-     * This method will update the <code>entries</code> list.
+     * Tiis mftiod will updbtf tif <dodf>fntrifs</dodf> list.
      *
-     * @param pos   The position from which the entry was deleted
-     * @param row   The row OID of the deleted entry
-     * @param name  The ObjectName of the deleted entry (may be null if
-     *              ObjectName's were not required)
-     * @param entry The deleted entry (may be null if only ObjectName's
-     *              were required)
-     * @param meta  The table metadata object.
+     * @pbrbm pos   Tif position from wiidi tif fntry wbs dflftfd
+     * @pbrbm row   Tif row OID of tif dflftfd fntry
+     * @pbrbm nbmf  Tif ObjfdtNbmf of tif dflftfd fntry (mby bf null if
+     *              ObjfdtNbmf's wfrf not rfquirfd)
+     * @pbrbm fntry Tif dflftfd fntry (mby bf null if only ObjfdtNbmf's
+     *              wfrf rfquirfd)
+     * @pbrbm mftb  Tif tbblf mftbdbtb objfdt.
      *
      **/
-    public void removeEntryCb(int pos, SnmpOid row, ObjectName name,
-                              Object entry, SnmpMibTable meta)
-        throws SnmpStatusException {
+    publid void rfmovfEntryCb(int pos, SnmpOid row, ObjfdtNbmf nbmf,
+                              Objfdt fntry, SnmpMibTbblf mftb)
+        tirows SnmpStbtusExdfption {
         try {
-            if (entries != null) entries.remove(pos);
-        } catch (Exception e) {
+            if (fntrifs != null) fntrifs.rfmovf(pos);
+        } dbtdi (Exdfption f) {
         }
     }
 
 
 
     /**
-     * Enables to add an SNMP entry listener to this
-     * <CODE>SnmpMibTable</CODE>.
+     * Enbblfs to bdd bn SNMP fntry listfnfr to tiis
+     * <CODE>SnmpMibTbblf</CODE>.
      *
-     * @param listener The listener object which will handle the
-     *    notifications emitted by the registered MBean.
+     * @pbrbm listfnfr Tif listfnfr objfdt wiidi will ibndlf tif
+     *    notifidbtions fmittfd by tif rfgistfrfd MBfbn.
      *
-     * @param filter The filter object. If filter is null, no filtering
-     *    will be performed before handling notifications.
+     * @pbrbm filtfr Tif filtfr objfdt. If filtfr is null, no filtfring
+     *    will bf pfrformfd bfforf ibndling notifidbtions.
      *
-     * @param handback The context to be sent to the listener when a
-     *    notification is emitted.
+     * @pbrbm ibndbbdk Tif dontfxt to bf sfnt to tif listfnfr wifn b
+     *    notifidbtion is fmittfd.
      *
-     * @exception IllegalArgumentException Listener parameter is null.
+     * @fxdfption IllfgblArgumfntExdfption Listfnfr pbrbmftfr is null.
      */
-    public void
-        addNotificationListener(NotificationListener listener,
-                                NotificationFilter filter, Object handback) {
-        meta.addNotificationListener(listener,filter,handback);
+    publid void
+        bddNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+                                NotifidbtionFiltfr filtfr, Objfdt ibndbbdk) {
+        mftb.bddNotifidbtionListfnfr(listfnfr,filtfr,ibndbbdk);
     }
 
     /**
-     * Enables to remove an SNMP entry listener from this
-     * <CODE>SnmpMibTable</CODE>.
+     * Enbblfs to rfmovf bn SNMP fntry listfnfr from tiis
+     * <CODE>SnmpMibTbblf</CODE>.
      *
-     * @param listener The listener object which will handle the
-     *    notifications emitted by the registered MBean.
-     *    This method will remove all the information related to this
-     *    listener.
+     * @pbrbm listfnfr Tif listfnfr objfdt wiidi will ibndlf tif
+     *    notifidbtions fmittfd by tif rfgistfrfd MBfbn.
+     *    Tiis mftiod will rfmovf bll tif informbtion rflbtfd to tiis
+     *    listfnfr.
      *
-     * @exception ListenerNotFoundException The listener is not registered
-     *    in the MBean.
+     * @fxdfption ListfnfrNotFoundExdfption Tif listfnfr is not rfgistfrfd
+     *    in tif MBfbn.
      */
-    public synchronized void
-        removeNotificationListener(NotificationListener listener)
-        throws ListenerNotFoundException {
-        meta.removeNotificationListener(listener);
+    publid syndironizfd void
+        rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr)
+        tirows ListfnfrNotFoundExdfption {
+        mftb.rfmovfNotifidbtionListfnfr(listfnfr);
     }
 
     /**
-     * Returns a <CODE>NotificationInfo</CODE> object containing the
-     * notification class and the notification type sent by the
-     * <CODE>SnmpMibTable</CODE>.
+     * Rfturns b <CODE>NotifidbtionInfo</CODE> objfdt dontbining tif
+     * notifidbtion dlbss bnd tif notifidbtion typf sfnt by tif
+     * <CODE>SnmpMibTbblf</CODE>.
      */
-    public MBeanNotificationInfo[] getNotificationInfo() {
-        return meta.getNotificationInfo();
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+        rfturn mftb.gftNotifidbtionInfo();
     }
 
     //-----------------------------------------------------------------
     //
-    //  Protected Abstract methods
+    //  Protfdtfd Abstrbdt mftiods
     //
     //-----------------------------------------------------------------
 
     /**
-     * Builds an SnmpIndex object from the index part of an OID.
+     * Builds bn SnmpIndfx objfdt from tif indfx pbrt of bn OID.
      *
-     * This method is generated by mibgen and used internally.
+     * Tiis mftiod is gfnfrbtfd by mibgfn bnd usfd intfrnblly.
      *
-     * @param oid The OID from which to build the index, represented
-     *        as an array of long.
-     * @param start The position where to start from in the OID array.
+     * @pbrbm oid Tif OID from wiidi to build tif indfx, rfprfsfntfd
+     *        bs bn brrby of long.
+     * @pbrbm stbrt Tif position wifrf to stbrt from in tif OID brrby.
      *
-     * @return The SnmpOid form of the given entry index.
+     * @rfturn Tif SnmpOid form of tif givfn fntry indfx.
      *
-     * @exception SnmpStatusException if the given index is not valid.
+     * @fxdfption SnmpStbtusExdfption if tif givfn indfx is not vblid.
      **/
-    protected abstract SnmpIndex buildSnmpIndex(long oid[], int start )
-        throws SnmpStatusException;
+    protfdtfd bbstrbdt SnmpIndfx buildSnmpIndfx(long oid[], int stbrt )
+        tirows SnmpStbtusExdfption;
 
     /**
-     * Returns the metadata object associated with this table.
+     * Rfturns tif mftbdbtb objfdt bssodibtfd witi tiis tbblf.
      *
-     * This method is generated by mibgen and used internally.
+     * Tiis mftiod is gfnfrbtfd by mibgfn bnd usfd intfrnblly.
      *
-     * @param mib The SnmpMib object holding the Metadata corresponding
-     *            to this table.
+     * @pbrbm mib Tif SnmpMib objfdt iolding tif Mftbdbtb dorrfsponding
+     *            to tiis tbblf.
      *
-     * @return The metadata object associated with this table.
-     *         Returns <code>null</code> if this implementation of the
-     *         MIB doesn't support this table.
+     * @rfturn Tif mftbdbtb objfdt bssodibtfd witi tiis tbblf.
+     *         Rfturns <dodf>null</dodf> if tiis implfmfntbtion of tif
+     *         MIB dofsn't support tiis tbblf.
      **/
-    protected abstract SnmpMibTable getRegisteredTableMeta(SnmpMib mib);
+    protfdtfd bbstrbdt SnmpMibTbblf gftRfgistfrfdTbblfMftb(SnmpMib mib);
 
 
     //-----------------------------------------------------------------
     //
-    //  Protected methods
+    //  Protfdtfd mftiods
     //
     //-----------------------------------------------------------------
 
     /**
-     * Allocates an ArrayList for storing table entries.
+     * Allodbtfs bn ArrbyList for storing tbblf fntrifs.
      *
-     * This method is called within the constructor at object creation.
-     * Any object implementing the {@link java.util.List} interface can
-     * be used.
+     * Tiis mftiod is dbllfd witiin tif donstrudtor bt objfdt drfbtion.
+     * Any objfdt implfmfnting tif {@link jbvb.util.List} intfrfbdf dbn
+     * bf usfd.
      *
-     * @return A new list in which to store entries. If <code>null</code>
-     *         is returned then no entry will be stored in the list
-     *         and getEntry() will always return null.
+     * @rfturn A nfw list in wiidi to storf fntrifs. If <dodf>null</dodf>
+     *         is rfturnfd tifn no fntry will bf storfd in tif list
+     *         bnd gftEntry() will blwbys rfturn null.
      **/
-    protected List<Object> allocateTable() {
-        return new ArrayList<Object>();
+    protfdtfd List<Objfdt> bllodbtfTbblf() {
+        rfturn nfw ArrbyList<Objfdt>();
     }
 
     /**
-     * Add an entry in this table.
+     * Add bn fntry in tiis tbblf.
      *
-     * This method registers an entry in the table and perform
-     * synchronization with the associated table metadata object.
+     * Tiis mftiod rfgistfrs bn fntry in tif tbblf bnd pfrform
+     * syndironizbtion witi tif bssodibtfd tbblf mftbdbtb objfdt.
      *
-     * This method assumes that the given entry will not be registered,
-     * or will be registered with its default ObjectName built from the
-     * associated  SnmpIndex.
+     * Tiis mftiod bssumfs tibt tif givfn fntry will not bf rfgistfrfd,
+     * or will bf rfgistfrfd witi its dffbult ObjfdtNbmf built from tif
+     * bssodibtfd  SnmpIndfx.
      * <p>
-     * If the entry is going to be registered, then
-     * {@link com.sun.jmx.snmp.agent.SnmpTableSupport#addEntry(SnmpIndex, ObjectName, Object)} should be preferred.
-     * <br> This function is mainly provided for backward compatibility.
+     * If tif fntry is going to bf rfgistfrfd, tifn
+     * {@link dom.sun.jmx.snmp.bgfnt.SnmpTbblfSupport#bddEntry(SnmpIndfx, ObjfdtNbmf, Objfdt)} siould bf prfffrrfd.
+     * <br> Tiis fundtion is mbinly providfd for bbdkwbrd dompbtibility.
      *
-     * @param index The SnmpIndex built from the given entry.
-     * @param entry The entry that should be added in the table.
+     * @pbrbm indfx Tif SnmpIndfx built from tif givfn fntry.
+     * @pbrbm fntry Tif fntry tibt siould bf bddfd in tif tbblf.
      *
-     * @exception SnmpStatusException if the entry cannot be registered with
-     *            the given index.
+     * @fxdfption SnmpStbtusExdfption if tif fntry dbnnot bf rfgistfrfd witi
+     *            tif givfn indfx.
      **/
-    protected void addEntry(SnmpIndex index, Object entry)
-        throws SnmpStatusException {
-        SnmpOid oid = buildOidFromIndex(index);
-        ObjectName name = null;
-        if (isRegistrationRequired()) {
-            name = buildNameFromIndex(index);
+    protfdtfd void bddEntry(SnmpIndfx indfx, Objfdt fntry)
+        tirows SnmpStbtusExdfption {
+        SnmpOid oid = buildOidFromIndfx(indfx);
+        ObjfdtNbmf nbmf = null;
+        if (isRfgistrbtionRfquirfd()) {
+            nbmf = buildNbmfFromIndfx(indfx);
         }
-        meta.addEntry(oid,name,entry);
+        mftb.bddEntry(oid,nbmf,fntry);
     }
 
     /**
-     * Add an entry in this table.
+     * Add bn fntry in tiis tbblf.
      *
-     * This method registers an entry in the table and performs
-     * synchronization with the associated table metadata object.
+     * Tiis mftiod rfgistfrs bn fntry in tif tbblf bnd pfrforms
+     * syndironizbtion witi tif bssodibtfd tbblf mftbdbtb objfdt.
      *
-     * @param index The SnmpIndex built from the given entry.
-     * @param name  The ObjectName with which this entry will be registered.
-     * @param entry The entry that should be added in the table.
+     * @pbrbm indfx Tif SnmpIndfx built from tif givfn fntry.
+     * @pbrbm nbmf  Tif ObjfdtNbmf witi wiidi tiis fntry will bf rfgistfrfd.
+     * @pbrbm fntry Tif fntry tibt siould bf bddfd in tif tbblf.
      *
-     * @exception SnmpStatusException if the entry cannot be registered with
-     *            the given index.
+     * @fxdfption SnmpStbtusExdfption if tif fntry dbnnot bf rfgistfrfd witi
+     *            tif givfn indfx.
      **/
-    protected void addEntry(SnmpIndex index, ObjectName name, Object entry)
-        throws SnmpStatusException {
-        SnmpOid oid = buildOidFromIndex(index);
-        meta.addEntry(oid,name,entry);
+    protfdtfd void bddEntry(SnmpIndfx indfx, ObjfdtNbmf nbmf, Objfdt fntry)
+        tirows SnmpStbtusExdfption {
+        SnmpOid oid = buildOidFromIndfx(indfx);
+        mftb.bddEntry(oid,nbmf,fntry);
     }
 
     /**
-     * Remove an entry from this table.
+     * Rfmovf bn fntry from tiis tbblf.
      *
-     * This method unregisters an entry from the table and performs
-     * synchronization with the associated table metadata object.
+     * Tiis mftiod unrfgistfrs bn fntry from tif tbblf bnd pfrforms
+     * syndironizbtion witi tif bssodibtfd tbblf mftbdbtb objfdt.
      *
-     * @param index The SnmpIndex identifying the entry.
-     * @param entry The entry that should be removed in the table. This
-     *              parameter is optional and can be omitted if it doesn't
-     *              need to be passed along to the
-     *              <code>removeEntryCb()</code> callback defined in the
-     *              {@link com.sun.jmx.snmp.agent.SnmpTableCallbackHandler}
-     *              interface.
+     * @pbrbm indfx Tif SnmpIndfx idfntifying tif fntry.
+     * @pbrbm fntry Tif fntry tibt siould bf rfmovfd in tif tbblf. Tiis
+     *              pbrbmftfr is optionbl bnd dbn bf omittfd if it dofsn't
+     *              nffd to bf pbssfd blong to tif
+     *              <dodf>rfmovfEntryCb()</dodf> dbllbbdk dffinfd in tif
+     *              {@link dom.sun.jmx.snmp.bgfnt.SnmpTbblfCbllbbdkHbndlfr}
+     *              intfrfbdf.
      *
-     * @exception SnmpStatusException if the entry cannot be unregistered.
+     * @fxdfption SnmpStbtusExdfption if tif fntry dbnnot bf unrfgistfrfd.
      **/
-    protected void removeEntry(SnmpIndex index, Object entry)
-        throws SnmpStatusException {
-        SnmpOid oid = buildOidFromIndex(index);
-        meta.removeEntry(oid,entry);
+    protfdtfd void rfmovfEntry(SnmpIndfx indfx, Objfdt fntry)
+        tirows SnmpStbtusExdfption {
+        SnmpOid oid = buildOidFromIndfx(indfx);
+        mftb.rfmovfEntry(oid,fntry);
     }
 
-    // protected void removeEntry(ObjectName name, Object entry)
-    //  throws SnmpStatusException {
-    //  meta.removeEntry(name,entry);
+    // protfdtfd void rfmovfEntry(ObjfdtNbmf nbmf, Objfdt fntry)
+    //  tirows SnmpStbtusExdfption {
+    //  mftb.rfmovfEntry(nbmf,fntry);
     // }
 
     /**
-     * Returns the entries in the table.
+     * Rfturns tif fntrifs in tif tbblf.
      *
-     * @return An Object[] array containing the entries registered in the
-     *         table.
+     * @rfturn An Objfdt[] brrby dontbining tif fntrifs rfgistfrfd in tif
+     *         tbblf.
      **/
-    protected Object[] getBasicEntries() {
-        if (entries == null) return null;
-        Object[] array= new Object[entries.size()];
-        entries.toArray(array);
-        return array;
+    protfdtfd Objfdt[] gftBbsidEntrifs() {
+        if (fntrifs == null) rfturn null;
+        Objfdt[] brrby= nfw Objfdt[fntrifs.sizf()];
+        fntrifs.toArrby(brrby);
+        rfturn brrby;
     }
 
     /**
-     * Binds this table with its associated metadata, registering itself
-     * as an SnmpTableEntryFactory.
+     * Binds tiis tbblf witi its bssodibtfd mftbdbtb, rfgistfring itsflf
+     * bs bn SnmpTbblfEntryFbdtory.
      **/
-    protected void bindWithTableMeta() {
-        if (meta == null) return;
-        registrationRequired = meta.isRegistrationRequired();
-        meta.registerEntryFactory(this);
+    protfdtfd void bindWitiTbblfMftb() {
+        if (mftb == null) rfturn;
+        rfgistrbtionRfquirfd = mftb.isRfgistrbtionRfquirfd();
+        mftb.rfgistfrEntryFbdtory(tiis);
     }
 
 }

@@ -1,209 +1,209 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.sampled.spi;
+pbdkbgf jbvbx.sound.sbmplfd.spi;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
 
-import static javax.sound.sampled.AudioFormat.Encoding;
+import stbtid jbvbx.sound.sbmplfd.AudioFormbt.Endoding;
 
 /**
- * A format conversion provider provides format conversion services from one or
- * more input formats to one or more output formats. Converters include codecs,
- * which encode and/or decode audio data, as well as transcoders, etc. Format
- * converters provide methods for determining what conversions are supported and
- * for obtaining an audio stream from which converted data can be read.
+ * A formbt donvfrsion providfr providfs formbt donvfrsion sfrvidfs from onf or
+ * morf input formbts to onf or morf output formbts. Convfrtfrs indludf dodfds,
+ * wiidi fndodf bnd/or dfdodf budio dbtb, bs wfll bs trbnsdodfrs, ftd. Formbt
+ * donvfrtfrs providf mftiods for dftfrmining wibt donvfrsions brf supportfd bnd
+ * for obtbining bn budio strfbm from wiidi donvfrtfd dbtb dbn bf rfbd.
  * <p>
- * The source format represents the format of the incoming audio data, which
- * will be converted.
+ * Tif sourdf formbt rfprfsfnts tif formbt of tif indoming budio dbtb, wiidi
+ * will bf donvfrtfd.
  * <p>
- * The target format represents the format of the processed, converted audio
- * data. This is the format of the data that can be read from the stream
- * returned by one of the {@code getAudioInputStream} methods.
+ * Tif tbrgft formbt rfprfsfnts tif formbt of tif prodfssfd, donvfrtfd budio
+ * dbtb. Tiis is tif formbt of tif dbtb tibt dbn bf rfbd from tif strfbm
+ * rfturnfd by onf of tif {@dodf gftAudioInputStrfbm} mftiods.
  *
- * @author Kara Kytle
- * @since 1.3
+ * @butior Kbrb Kytlf
+ * @sindf 1.3
  */
-public abstract class FormatConversionProvider {
+publid bbstrbdt dlbss FormbtConvfrsionProvidfr {
 
     /**
-     * Obtains the set of source format encodings from which format conversion
-     * services are provided by this provider.
+     * Obtbins tif sft of sourdf formbt fndodings from wiidi formbt donvfrsion
+     * sfrvidfs brf providfd by tiis providfr.
      *
-     * @return array of source format encodings. If for some reason provider
-     *         does not provide any conversion services, an array of length 0 is
-     *         returned.
+     * @rfturn brrby of sourdf formbt fndodings. If for somf rfbson providfr
+     *         dofs not providf bny donvfrsion sfrvidfs, bn brrby of lfngti 0 is
+     *         rfturnfd.
      */
-    public abstract Encoding[] getSourceEncodings();
+    publid bbstrbdt Endoding[] gftSourdfEndodings();
 
     /**
-     * Obtains the set of target format encodings to which format conversion
-     * services are provided by this provider.
+     * Obtbins tif sft of tbrgft formbt fndodings to wiidi formbt donvfrsion
+     * sfrvidfs brf providfd by tiis providfr.
      *
-     * @return array of target format encodings. If for some reason provider
-     *         does not provide any conversion services, an array of length 0 is
-     *         returned.
+     * @rfturn brrby of tbrgft formbt fndodings. If for somf rfbson providfr
+     *         dofs not providf bny donvfrsion sfrvidfs, bn brrby of lfngti 0 is
+     *         rfturnfd.
      */
-    public abstract Encoding[] getTargetEncodings();
+    publid bbstrbdt Endoding[] gftTbrgftEndodings();
 
     /**
-     * Indicates whether the format converter supports conversion from the
-     * specified source format encoding.
+     * Indidbtfs wiftifr tif formbt donvfrtfr supports donvfrsion from tif
+     * spfdififd sourdf formbt fndoding.
      *
-     * @param  sourceEncoding the source format encoding for which support is
-     *         queried
-     * @return {@code true} if the encoding is supported, otherwise
-     *         {@code false}
+     * @pbrbm  sourdfEndoding tif sourdf formbt fndoding for wiidi support is
+     *         qufrifd
+     * @rfturn {@dodf truf} if tif fndoding is supportfd, otifrwisf
+     *         {@dodf fblsf}
      */
-    public boolean isSourceEncodingSupported(Encoding sourceEncoding) {
+    publid boolfbn isSourdfEndodingSupportfd(Endoding sourdfEndoding) {
 
-        Encoding sourceEncodings[] = getSourceEncodings();
+        Endoding sourdfEndodings[] = gftSourdfEndodings();
 
-        for(int i=0; i<sourceEncodings.length; i++) {
-            if( sourceEncoding.equals( sourceEncodings[i]) ) {
-                return true;
+        for(int i=0; i<sourdfEndodings.lfngti; i++) {
+            if( sourdfEndoding.fqubls( sourdfEndodings[i]) ) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Indicates whether the format converter supports conversion to the
-     * specified target format encoding.
+     * Indidbtfs wiftifr tif formbt donvfrtfr supports donvfrsion to tif
+     * spfdififd tbrgft formbt fndoding.
      *
-     * @param  targetEncoding the target format encoding for which support is
-     *         queried
-     * @return {@code true} if the encoding is supported, otherwise
-     *         {@code false}
+     * @pbrbm  tbrgftEndoding tif tbrgft formbt fndoding for wiidi support is
+     *         qufrifd
+     * @rfturn {@dodf truf} if tif fndoding is supportfd, otifrwisf
+     *         {@dodf fblsf}
      */
-    public boolean isTargetEncodingSupported(Encoding targetEncoding) {
+    publid boolfbn isTbrgftEndodingSupportfd(Endoding tbrgftEndoding) {
 
-        Encoding targetEncodings[] = getTargetEncodings();
+        Endoding tbrgftEndodings[] = gftTbrgftEndodings();
 
-        for(int i=0; i<targetEncodings.length; i++) {
-            if( targetEncoding.equals( targetEncodings[i]) ) {
-                return true;
+        for(int i=0; i<tbrgftEndodings.lfngti; i++) {
+            if( tbrgftEndoding.fqubls( tbrgftEndodings[i]) ) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Obtains the set of target format encodings supported by the format
-     * converter given a particular source format. If no target format encodings
-     * are supported for this source format, an array of length 0 is returned.
+     * Obtbins tif sft of tbrgft formbt fndodings supportfd by tif formbt
+     * donvfrtfr givfn b pbrtidulbr sourdf formbt. If no tbrgft formbt fndodings
+     * brf supportfd for tiis sourdf formbt, bn brrby of lfngti 0 is rfturnfd.
      *
-     * @param  sourceFormat format of the incoming data
-     * @return array of supported target format encodings
+     * @pbrbm  sourdfFormbt formbt of tif indoming dbtb
+     * @rfturn brrby of supportfd tbrgft formbt fndodings
      */
-    public abstract Encoding[] getTargetEncodings(AudioFormat sourceFormat);
+    publid bbstrbdt Endoding[] gftTbrgftEndodings(AudioFormbt sourdfFormbt);
 
     /**
-     * Indicates whether the format converter supports conversion to a
-     * particular encoding from a particular format.
+     * Indidbtfs wiftifr tif formbt donvfrtfr supports donvfrsion to b
+     * pbrtidulbr fndoding from b pbrtidulbr formbt.
      *
-     * @param  targetEncoding desired encoding of the outgoing data
-     * @param  sourceFormat format of the incoming data
-     * @return {@code true} if the conversion is supported, otherwise
-     *         {@code false}
+     * @pbrbm  tbrgftEndoding dfsirfd fndoding of tif outgoing dbtb
+     * @pbrbm  sourdfFormbt formbt of tif indoming dbtb
+     * @rfturn {@dodf truf} if tif donvfrsion is supportfd, otifrwisf
+     *         {@dodf fblsf}
      */
-    public boolean isConversionSupported(Encoding targetEncoding,
-                                         AudioFormat sourceFormat) {
+    publid boolfbn isConvfrsionSupportfd(Endoding tbrgftEndoding,
+                                         AudioFormbt sourdfFormbt) {
 
-        Encoding targetEncodings[] = getTargetEncodings(sourceFormat);
+        Endoding tbrgftEndodings[] = gftTbrgftEndodings(sourdfFormbt);
 
-        for(int i=0; i<targetEncodings.length; i++) {
-            if( targetEncoding.equals( targetEncodings[i]) ) {
-                return true;
+        for(int i=0; i<tbrgftEndodings.lfngti; i++) {
+            if( tbrgftEndoding.fqubls( tbrgftEndodings[i]) ) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Obtains the set of target formats with the encoding specified supported
-     * by the format converter If no target formats with the specified encoding
-     * are supported for this source format, an array of length 0 is returned.
+     * Obtbins tif sft of tbrgft formbts witi tif fndoding spfdififd supportfd
+     * by tif formbt donvfrtfr If no tbrgft formbts witi tif spfdififd fndoding
+     * brf supportfd for tiis sourdf formbt, bn brrby of lfngti 0 is rfturnfd.
      *
-     * @param  targetEncoding desired encoding of the stream after processing
-     * @param  sourceFormat format of the incoming data
-     * @return array of supported target formats
+     * @pbrbm  tbrgftEndoding dfsirfd fndoding of tif strfbm bftfr prodfssing
+     * @pbrbm  sourdfFormbt formbt of tif indoming dbtb
+     * @rfturn brrby of supportfd tbrgft formbts
      */
-    public abstract AudioFormat[] getTargetFormats(Encoding targetEncoding,
-                                                   AudioFormat sourceFormat);
+    publid bbstrbdt AudioFormbt[] gftTbrgftFormbts(Endoding tbrgftEndoding,
+                                                   AudioFormbt sourdfFormbt);
 
     /**
-     * Indicates whether the format converter supports conversion to one
-     * particular format from another.
+     * Indidbtfs wiftifr tif formbt donvfrtfr supports donvfrsion to onf
+     * pbrtidulbr formbt from bnotifr.
      *
-     * @param  targetFormat desired format of outgoing data
-     * @param  sourceFormat format of the incoming data
-     * @return {@code true} if the conversion is supported, otherwise
-     *         {@code false}
+     * @pbrbm  tbrgftFormbt dfsirfd formbt of outgoing dbtb
+     * @pbrbm  sourdfFormbt formbt of tif indoming dbtb
+     * @rfturn {@dodf truf} if tif donvfrsion is supportfd, otifrwisf
+     *         {@dodf fblsf}
      */
-    public boolean isConversionSupported(AudioFormat targetFormat,
-                                         AudioFormat sourceFormat) {
+    publid boolfbn isConvfrsionSupportfd(AudioFormbt tbrgftFormbt,
+                                         AudioFormbt sourdfFormbt) {
 
-        AudioFormat targetFormats[] = getTargetFormats( targetFormat.getEncoding(), sourceFormat );
+        AudioFormbt tbrgftFormbts[] = gftTbrgftFormbts( tbrgftFormbt.gftEndoding(), sourdfFormbt );
 
-        for(int i=0; i<targetFormats.length; i++) {
-            if( targetFormat.matches( targetFormats[i] ) ) {
-                return true;
+        for(int i=0; i<tbrgftFormbts.lfngti; i++) {
+            if( tbrgftFormbt.mbtdifs( tbrgftFormbts[i] ) ) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Obtains an audio input stream with the specified encoding from the given
-     * audio input stream.
+     * Obtbins bn budio input strfbm witi tif spfdififd fndoding from tif givfn
+     * budio input strfbm.
      *
-     * @param  targetEncoding desired encoding of the stream after processing
-     * @param  sourceStream stream from which data to be processed should be
-     *         read
-     * @return stream from which processed data with the specified target
-     *         encoding may be read
-     * @throws IllegalArgumentException if the format combination supplied is
-     *         not supported
+     * @pbrbm  tbrgftEndoding dfsirfd fndoding of tif strfbm bftfr prodfssing
+     * @pbrbm  sourdfStrfbm strfbm from wiidi dbtb to bf prodfssfd siould bf
+     *         rfbd
+     * @rfturn strfbm from wiidi prodfssfd dbtb witi tif spfdififd tbrgft
+     *         fndoding mby bf rfbd
+     * @tirows IllfgblArgumfntExdfption if tif formbt dombinbtion supplifd is
+     *         not supportfd
      */
-    public abstract AudioInputStream getAudioInputStream(
-            Encoding targetEncoding, AudioInputStream sourceStream);
+    publid bbstrbdt AudioInputStrfbm gftAudioInputStrfbm(
+            Endoding tbrgftEndoding, AudioInputStrfbm sourdfStrfbm);
 
     /**
-     * Obtains an audio input stream with the specified format from the given
-     * audio input stream.
+     * Obtbins bn budio input strfbm witi tif spfdififd formbt from tif givfn
+     * budio input strfbm.
      *
-     * @param  targetFormat desired data format of the stream after processing
-     * @param  sourceStream stream from which data to be processed should be
-     *         read
-     * @return stream from which processed data with the specified format may be
-     *         read
-     * @throws IllegalArgumentException if the format combination supplied is
-     *         not supported
+     * @pbrbm  tbrgftFormbt dfsirfd dbtb formbt of tif strfbm bftfr prodfssing
+     * @pbrbm  sourdfStrfbm strfbm from wiidi dbtb to bf prodfssfd siould bf
+     *         rfbd
+     * @rfturn strfbm from wiidi prodfssfd dbtb witi tif spfdififd formbt mby bf
+     *         rfbd
+     * @tirows IllfgblArgumfntExdfption if tif formbt dombinbtion supplifd is
+     *         not supportfd
      */
-    public abstract AudioInputStream getAudioInputStream(
-            AudioFormat targetFormat, AudioInputStream sourceStream);
+    publid bbstrbdt AudioInputStrfbm gftAudioInputStrfbm(
+            AudioFormbt tbrgftFormbt, AudioInputStrfbm sourdfStrfbm);
 }

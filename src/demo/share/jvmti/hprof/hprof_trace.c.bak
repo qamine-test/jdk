@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,840 +30,840 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-/* Trace table. */
+/* Trbdf tbblf. */
 
 /*
- * A trace is an optional thread serial number plus N frames.
+ * A trbdf is bn optionbl tirfbd sfribl numbfr plus N frbmfs.
  *
- * The thread serial number is added to the key only if the user asks for
- *    threads in traces, which will cause many more traces to be created.
- *    Without it all threads share the traces.
+ * Tif tirfbd sfribl numbfr is bddfd to tif kfy only if tif usfr bsks for
+ *    tirfbds in trbdfs, wiidi will dbusf mbny morf trbdfs to bf drfbtfd.
+ *    Witiout it bll tirfbds sibrf tif trbdfs.
  *
- * This is a variable length Key, depending on the number of frames.
- *   The frames are FrameIndex values into the frame table.
+ * Tiis is b vbribblf lfngti Kfy, dfpfnding on tif numbfr of frbmfs.
+ *   Tif frbmfs brf FrbmfIndfx vblufs into tif frbmf tbblf.
  *
- * It is important that the thread serial number is used and not the
- *    TlsIndex, threads come and go, and TlsIndex values are re-used
- *    but the thread serial number is unique per thread.
+ * It is importbnt tibt tif tirfbd sfribl numbfr is usfd bnd not tif
+ *    TlsIndfx, tirfbds domf bnd go, bnd TlsIndfx vblufs brf rf-usfd
+ *    but tif tirfbd sfribl numbfr is uniquf pfr tirfbd.
  *
- * The cpu=times and cpu=samples dumps rely heavily on traces, the trace
- *   dump preceeds the cpu information and uses the trace information.
- *   Depending on the cpu= request, different sorts are applied to the
- *   traces that are dumped.
+ * Tif dpu=timfs bnd dpu=sbmplfs dumps rfly ifbvily on trbdfs, tif trbdf
+ *   dump prfdffds tif dpu informbtion bnd usfs tif trbdf informbtion.
+ *   Dfpfnding on tif dpu= rfqufst, difffrfnt sorts brf bpplifd to tif
+ *   trbdfs tibt brf dumpfd.
  *
  */
 
-#include "hprof.h"
+#indludf "iprof.i"
 
-typedef struct TraceKey {
-    SerialNumber thread_serial_num; /* Thread serial number */
-    short        n_frames;          /* Number of frames that follow. */
-    jvmtiPhase   phase : 8;         /* Makes some traces unique */
-    FrameIndex   frames[1];         /* Variable length */
-} TraceKey;
+typfdff strudt TrbdfKfy {
+    SfriblNumbfr tirfbd_sfribl_num; /* Tirfbd sfribl numbfr */
+    siort        n_frbmfs;          /* Numbfr of frbmfs tibt follow. */
+    jvmtiPibsf   pibsf : 8;         /* Mbkfs somf trbdfs uniquf */
+    FrbmfIndfx   frbmfs[1];         /* Vbribblf lfngti */
+} TrbdfKfy;
 
-typedef struct TraceInfo {
-    SerialNumber serial_num;        /* Trace serial number */
-    jint         num_hits;          /* Number of hits this trace has */
-    jlong        total_cost;        /* Total cost associated with trace */
-    jlong        self_cost;         /* Total cost without children cost */
-    jint         status;            /* Status of dump of trace */
-} TraceInfo;
+typfdff strudt TrbdfInfo {
+    SfriblNumbfr sfribl_num;        /* Trbdf sfribl numbfr */
+    jint         num_iits;          /* Numbfr of iits tiis trbdf ibs */
+    jlong        totbl_dost;        /* Totbl dost bssodibtfd witi trbdf */
+    jlong        sflf_dost;         /* Totbl dost witiout diildrfn dost */
+    jint         stbtus;            /* Stbtus of dump of trbdf */
+} TrbdfInfo;
 
-typedef struct IterateInfo {
-    TraceIndex* traces;
-    int         count;
-    jlong       grand_total_cost;
-} IterateInfo;
+typfdff strudt ItfrbtfInfo {
+    TrbdfIndfx* trbdfs;
+    int         dount;
+    jlong       grbnd_totbl_dost;
+} ItfrbtfInfo;
 
-/* Private internal functions. */
+/* Privbtf intfrnbl fundtions. */
 
-static TraceKey*
-get_pkey(TraceIndex index)
+stbtid TrbdfKfy*
+gft_pkfy(TrbdfIndfx indfx)
 {
-    void *      pkey;
-    int         key_len;
+    void *      pkfy;
+    int         kfy_lfn;
 
-    table_get_key(gdata->trace_table, index, &pkey, &key_len);
-    HPROF_ASSERT(pkey!=NULL);
-    HPROF_ASSERT(key_len>=(int)sizeof(TraceKey));
-    HPROF_ASSERT(((TraceKey*)pkey)->n_frames<=1?key_len==(int)sizeof(TraceKey) :
-             key_len==(int)sizeof(TraceKey)+
-                      (int)sizeof(FrameIndex)*(((TraceKey*)pkey)->n_frames-1));
-    return (TraceKey*)pkey;
+    tbblf_gft_kfy(gdbtb->trbdf_tbblf, indfx, &pkfy, &kfy_lfn);
+    HPROF_ASSERT(pkfy!=NULL);
+    HPROF_ASSERT(kfy_lfn>=(int)sizfof(TrbdfKfy));
+    HPROF_ASSERT(((TrbdfKfy*)pkfy)->n_frbmfs<=1?kfy_lfn==(int)sizfof(TrbdfKfy) :
+             kfy_lfn==(int)sizfof(TrbdfKfy)+
+                      (int)sizfof(FrbmfIndfx)*(((TrbdfKfy*)pkfy)->n_frbmfs-1));
+    rfturn (TrbdfKfy*)pkfy;
 }
 
-static TraceInfo *
-get_info(TraceIndex index)
+stbtid TrbdfInfo *
+gft_info(TrbdfIndfx indfx)
 {
-    TraceInfo *         info;
+    TrbdfInfo *         info;
 
-    info        = (TraceInfo*)table_get_info(gdata->trace_table, index);
-    return info;
+    info        = (TrbdfInfo*)tbblf_gft_info(gdbtb->trbdf_tbblf, indfx);
+    rfturn info;
 }
 
-static TraceIndex
-find_or_create(SerialNumber thread_serial_num, jint n_frames,
-            FrameIndex *frames, jvmtiPhase phase, TraceKey *trace_key_buffer)
+stbtid TrbdfIndfx
+find_or_drfbtf(SfriblNumbfr tirfbd_sfribl_num, jint n_frbmfs,
+            FrbmfIndfx *frbmfs, jvmtiPibsf pibsf, TrbdfKfy *trbdf_kfy_bufffr)
 {
-    TraceInfo * info;
-    TraceKey *  pkey;
-    int         key_len;
-    TraceIndex  index;
-    jboolean    new_one;
-    static TraceKey empty_key;
+    TrbdfInfo * info;
+    TrbdfKfy *  pkfy;
+    int         kfy_lfn;
+    TrbdfIndfx  indfx;
+    jboolfbn    nfw_onf;
+    stbtid TrbdfKfy fmpty_kfy;
 
-    HPROF_ASSERT(frames!=NULL);
-    HPROF_ASSERT(trace_key_buffer!=NULL);
-    key_len = (int)sizeof(TraceKey);
-    if ( n_frames > 1 ) {
-        key_len += (int)((n_frames-1)*(int)sizeof(FrameIndex));
+    HPROF_ASSERT(frbmfs!=NULL);
+    HPROF_ASSERT(trbdf_kfy_bufffr!=NULL);
+    kfy_lfn = (int)sizfof(TrbdfKfy);
+    if ( n_frbmfs > 1 ) {
+        kfy_lfn += (int)((n_frbmfs-1)*(int)sizfof(FrbmfIndfx));
     }
-    pkey = trace_key_buffer;
-    *pkey = empty_key;
-    pkey->thread_serial_num = (gdata->thread_in_traces ? thread_serial_num : 0);
-    pkey->n_frames = (short)n_frames;
-    pkey->phase = phase;
-    if ( n_frames > 0 ) {
-        (void)memcpy(pkey->frames, frames, (n_frames*(int)sizeof(FrameIndex)));
+    pkfy = trbdf_kfy_bufffr;
+    *pkfy = fmpty_kfy;
+    pkfy->tirfbd_sfribl_num = (gdbtb->tirfbd_in_trbdfs ? tirfbd_sfribl_num : 0);
+    pkfy->n_frbmfs = (siort)n_frbmfs;
+    pkfy->pibsf = pibsf;
+    if ( n_frbmfs > 0 ) {
+        (void)mfmdpy(pkfy->frbmfs, frbmfs, (n_frbmfs*(int)sizfof(FrbmfIndfx)));
     }
 
-    new_one = JNI_FALSE;
-    index = table_find_or_create_entry(gdata->trace_table,
-                                pkey, key_len, &new_one, NULL);
-    if ( new_one ) {
-        info = get_info(index);
-        info->serial_num = gdata->trace_serial_number_counter++;
+    nfw_onf = JNI_FALSE;
+    indfx = tbblf_find_or_drfbtf_fntry(gdbtb->trbdf_tbblf,
+                                pkfy, kfy_lfn, &nfw_onf, NULL);
+    if ( nfw_onf ) {
+        info = gft_info(indfx);
+        info->sfribl_num = gdbtb->trbdf_sfribl_numbfr_dountfr++;
     }
-    return index;
+    rfturn indfx;
 }
 
-static void
-list_item(TableIndex index, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtid void
+list_itfm(TbblfIndfx indfx, void *kfy_ptr, int kfy_lfn, void *info_ptr, void *brg)
 {
-    TraceInfo *info;
-    TraceKey         *key;
+    TrbdfInfo *info;
+    TrbdfKfy         *kfy;
     int               i;
 
-    HPROF_ASSERT(key_ptr!=NULL);
-    HPROF_ASSERT(key_len>0);
+    HPROF_ASSERT(kfy_ptr!=NULL);
+    HPROF_ASSERT(kfy_lfn>0);
     HPROF_ASSERT(info_ptr!=NULL);
-    key = (TraceKey*)key_ptr;
-    info = (TraceInfo *)info_ptr;
+    kfy = (TrbdfKfy*)kfy_ptr;
+    info = (TrbdfInfo *)info_ptr;
 
-    debug_message( "Trace 0x%08x: SN=%u, threadSN=%u, n_frames=%d, frames=(",
-             index,
-             info->serial_num,
-             key->thread_serial_num,
-             key->n_frames);
-    for ( i = 0 ; i < key->n_frames ; i++ ) {
-        debug_message( "0x%08x, ", key->frames[i]);
+    dfbug_mfssbgf( "Trbdf 0x%08x: SN=%u, tirfbdSN=%u, n_frbmfs=%d, frbmfs=(",
+             indfx,
+             info->sfribl_num,
+             kfy->tirfbd_sfribl_num,
+             kfy->n_frbmfs);
+    for ( i = 0 ; i < kfy->n_frbmfs ; i++ ) {
+        dfbug_mfssbgf( "0x%08x, ", kfy->frbmfs[i]);
     }
-    debug_message( "), traceSN=%u, num_hits=%d, self_cost=(%d,%d), "
-                        "total_cost=(%d,%d), status=0x%08x\n",
-                        info->serial_num,
-                        info->num_hits,
-                        jlong_high(info->self_cost),
-                        jlong_low(info->self_cost),
-                        jlong_high(info->total_cost),
-                        jlong_low(info->total_cost),
-                        info->status);
+    dfbug_mfssbgf( "), trbdfSN=%u, num_iits=%d, sflf_dost=(%d,%d), "
+                        "totbl_dost=(%d,%d), stbtus=0x%08x\n",
+                        info->sfribl_num,
+                        info->num_iits,
+                        jlong_iigi(info->sflf_dost),
+                        jlong_low(info->sflf_dost),
+                        jlong_iigi(info->totbl_dost),
+                        jlong_low(info->totbl_dost),
+                        info->stbtus);
 }
 
-static void
-clear_cost(TableIndex i, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtid void
+dlfbr_dost(TbblfIndfx i, void *kfy_ptr, int kfy_lfn, void *info_ptr, void *brg)
 {
-    TraceInfo *info;
+    TrbdfInfo *info;
 
-    HPROF_ASSERT(key_ptr!=NULL);
-    HPROF_ASSERT(key_len>0);
+    HPROF_ASSERT(kfy_ptr!=NULL);
+    HPROF_ASSERT(kfy_lfn>0);
     HPROF_ASSERT(info_ptr!=NULL);
-    info = (TraceInfo *)info_ptr;
-    info->num_hits = 0;
-    info->total_cost = 0;
-    info->self_cost = 0;
+    info = (TrbdfInfo *)info_ptr;
+    info->num_iits = 0;
+    info->totbl_dost = 0;
+    info->sflf_dost = 0;
 }
 
-/* Get the names for a frame in order to dump it. */
-static void
-get_frame_details(JNIEnv *env, FrameIndex frame_index,
-                SerialNumber *frame_serial_num, char **pcsig, ClassIndex *pcnum,
-                char **pmname, char **pmsig, char **psname, jint *plineno)
+/* Gft tif nbmfs for b frbmf in ordfr to dump it. */
+stbtid void
+gft_frbmf_dftbils(JNIEnv *fnv, FrbmfIndfx frbmf_indfx,
+                SfriblNumbfr *frbmf_sfribl_num, dibr **pdsig, ClbssIndfx *pdnum,
+                dibr **pmnbmf, dibr **pmsig, dibr **psnbmf, jint *plinfno)
 {
-    jmethodID method;
-    jlocation location;
-    jint      lineno;
+    jmftiodID mftiod;
+    jlodbtion lodbtion;
+    jint      linfno;
 
-    HPROF_ASSERT(frame_index!=0);
-    *pmname = NULL;
+    HPROF_ASSERT(frbmf_indfx!=0);
+    *pmnbmf = NULL;
     *pmsig = NULL;
-    *pcsig = NULL;
-    if ( psname != NULL ) {
-        *psname = NULL;
+    *pdsig = NULL;
+    if ( psnbmf != NULL ) {
+        *psnbmf = NULL;
     }
-    if ( plineno != NULL ) {
-        *plineno = -1;
+    if ( plinfno != NULL ) {
+        *plinfno = -1;
     }
-    if ( pcnum != NULL ) {
-        *pcnum = 0;
+    if ( pdnum != NULL ) {
+        *pdnum = 0;
     }
-    frame_get_location(frame_index, frame_serial_num, &method, &location, &lineno);
-    if ( plineno != NULL ) {
-        *plineno = lineno;
+    frbmf_gft_lodbtion(frbmf_indfx, frbmf_sfribl_num, &mftiod, &lodbtion, &linfno);
+    if ( plinfno != NULL ) {
+        *plinfno = linfno;
     }
-    WITH_LOCAL_REFS(env, 1) {
-        jclass klass;
+    WITH_LOCAL_REFS(fnv, 1) {
+        jdlbss klbss;
 
-        getMethodClass(method, &klass);
-        getClassSignature(klass, pcsig, NULL);
-        if ( pcnum != NULL ) {
-            LoaderIndex loader_index;
-            jobject     loader;
+        gftMftiodClbss(mftiod, &klbss);
+        gftClbssSignbturf(klbss, pdsig, NULL);
+        if ( pdnum != NULL ) {
+            LobdfrIndfx lobdfr_indfx;
+            jobjfdt     lobdfr;
 
-            loader = getClassLoader(klass);
-            loader_index = loader_find_or_create(env, loader);
-            *pcnum = class_find_or_create(*pcsig, loader_index);
-             (void)class_new_classref(env, *pcnum, klass);
+            lobdfr = gftClbssLobdfr(klbss);
+            lobdfr_indfx = lobdfr_find_or_drfbtf(fnv, lobdfr);
+            *pdnum = dlbss_find_or_drfbtf(*pdsig, lobdfr_indfx);
+             (void)dlbss_nfw_dlbssrff(fnv, *pdnum, klbss);
         }
-        if ( psname != NULL ) {
-            getSourceFileName(klass, psname);
+        if ( psnbmf != NULL ) {
+            gftSourdfFilfNbmf(klbss, psnbmf);
         }
     } END_WITH_LOCAL_REFS;
-    getMethodName(method, pmname, pmsig);
+    gftMftiodNbmf(mftiod, pmnbmf, pmsig);
 }
 
-/* Write out a stack trace.  */
-static void
-output_trace(TableIndex index, void *key_ptr, int key_len, void *info_ptr, void *arg)
+/* Writf out b stbdk trbdf.  */
+stbtid void
+output_trbdf(TbblfIndfx indfx, void *kfy_ptr, int kfy_lfn, void *info_ptr, void *brg)
 {
-    TraceKey *key;
-    TraceInfo *info;
-    SerialNumber serial_num;
-    SerialNumber thread_serial_num;
-    jint n_frames;
-    JNIEnv *env;
+    TrbdfKfy *kfy;
+    TrbdfInfo *info;
+    SfriblNumbfr sfribl_num;
+    SfriblNumbfr tirfbd_sfribl_num;
+    jint n_frbmfs;
+    JNIEnv *fnv;
     int i;
-    char *phase_str;
-    struct FrameNames {
-        SerialNumber serial_num;
-        char * sname;
-        char * csig;
-        char * mname;
-        int    lineno;
+    dibr *pibsf_str;
+    strudt FrbmfNbmfs {
+        SfriblNumbfr sfribl_num;
+        dibr * snbmf;
+        dibr * dsig;
+        dibr * mnbmf;
+        int    linfno;
     } *finfo;
 
-    info = (TraceInfo*)info_ptr;
-    if ( info->status != 0 ) {
-        return;
+    info = (TrbdfInfo*)info_ptr;
+    if ( info->stbtus != 0 ) {
+        rfturn;
     }
 
-    env = (JNIEnv*)arg;
+    fnv = (JNIEnv*)brg;
 
-    key = (TraceKey*)key_ptr;
-    thread_serial_num = key->thread_serial_num;
-    serial_num = info->serial_num;
-    info->status = 1;
+    kfy = (TrbdfKfy*)kfy_ptr;
+    tirfbd_sfribl_num = kfy->tirfbd_sfribl_num;
+    sfribl_num = info->sfribl_num;
+    info->stbtus = 1;
     finfo = NULL;
 
-    n_frames = (jint)key->n_frames;
-    if ( n_frames > 0 ) {
-        finfo = (struct FrameNames *)HPROF_MALLOC(n_frames*(int)sizeof(struct FrameNames));
+    n_frbmfs = (jint)kfy->n_frbmfs;
+    if ( n_frbmfs > 0 ) {
+        finfo = (strudt FrbmfNbmfs *)HPROF_MALLOC(n_frbmfs*(int)sizfof(strudt FrbmfNbmfs));
 
-        /* Write frames, but save information for trace later */
-        for (i = 0; i < n_frames; i++) {
-            FrameIndex frame_index;
-            char *msig;
-            ClassIndex cnum;
+        /* Writf frbmfs, but sbvf informbtion for trbdf lbtfr */
+        for (i = 0; i < n_frbmfs; i++) {
+            FrbmfIndfx frbmf_indfx;
+            dibr *msig;
+            ClbssIndfx dnum;
 
-            frame_index = key->frames[i];
-            get_frame_details(env, frame_index, &finfo[i].serial_num,
-                        &finfo[i].csig, &cnum,
-                        &finfo[i].mname, &msig, &finfo[i].sname, &finfo[i].lineno);
+            frbmf_indfx = kfy->frbmfs[i];
+            gft_frbmf_dftbils(fnv, frbmf_indfx, &finfo[i].sfribl_num,
+                        &finfo[i].dsig, &dnum,
+                        &finfo[i].mnbmf, &msig, &finfo[i].snbmf, &finfo[i].linfno);
 
-            if (frame_get_status(frame_index) == 0) {
-                io_write_frame(frame_index, finfo[i].serial_num,
-                               finfo[i].mname, msig,
-                               finfo[i].sname, class_get_serial_number(cnum),
-                               finfo[i].lineno);
-                frame_set_status(frame_index, 1);
+            if (frbmf_gft_stbtus(frbmf_indfx) == 0) {
+                io_writf_frbmf(frbmf_indfx, finfo[i].sfribl_num,
+                               finfo[i].mnbmf, msig,
+                               finfo[i].snbmf, dlbss_gft_sfribl_numbfr(dnum),
+                               finfo[i].linfno);
+                frbmf_sft_stbtus(frbmf_indfx, 1);
             }
-            jvmtiDeallocate(msig);
+            jvmtiDfbllodbtf(msig);
         }
     }
 
-    /* Find phase string */
-    if ( key->phase == JVMTI_PHASE_LIVE ) {
-        phase_str = NULL; /* Normal trace, no phase annotation */
-    } else {
-        phase_str =  phaseString(key->phase);
+    /* Find pibsf string */
+    if ( kfy->pibsf == JVMTI_PHASE_LIVE ) {
+        pibsf_str = NULL; /* Normbl trbdf, no pibsf bnnotbtion */
+    } flsf {
+        pibsf_str =  pibsfString(kfy->pibsf);
     }
 
-    io_write_trace_header(serial_num, thread_serial_num, n_frames, phase_str);
+    io_writf_trbdf_ifbdfr(sfribl_num, tirfbd_sfribl_num, n_frbmfs, pibsf_str);
 
-    for (i = 0; i < n_frames; i++) {
-        io_write_trace_elem(serial_num, key->frames[i], finfo[i].serial_num,
-                            finfo[i].csig,
-                            finfo[i].mname, finfo[i].sname, finfo[i].lineno);
-        jvmtiDeallocate(finfo[i].csig);
-        jvmtiDeallocate(finfo[i].mname);
-        jvmtiDeallocate(finfo[i].sname);
+    for (i = 0; i < n_frbmfs; i++) {
+        io_writf_trbdf_flfm(sfribl_num, kfy->frbmfs[i], finfo[i].sfribl_num,
+                            finfo[i].dsig,
+                            finfo[i].mnbmf, finfo[i].snbmf, finfo[i].linfno);
+        jvmtiDfbllodbtf(finfo[i].dsig);
+        jvmtiDfbllodbtf(finfo[i].mnbmf);
+        jvmtiDfbllodbtf(finfo[i].snbmf);
     }
 
-    io_write_trace_footer(serial_num, thread_serial_num, n_frames);
+    io_writf_trbdf_footfr(sfribl_num, tirfbd_sfribl_num, n_frbmfs);
 
     if ( finfo != NULL ) {
         HPROF_FREE(finfo);
     }
 }
 
-/* Output a specific list of traces. */
-static void
-output_list(JNIEnv *env, TraceIndex *list, jint count)
+/* Output b spfdifid list of trbdfs. */
+stbtid void
+output_list(JNIEnv *fnv, TrbdfIndfx *list, jint dount)
 {
-    rawMonitorEnter(gdata->data_access_lock); {
+    rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
         int i;
 
-        for ( i = 0; i < count ; i++ ) {
-            TraceIndex index;
-            TraceInfo  *info;
-            void *      pkey;
-            int         key_len;
+        for ( i = 0; i < dount ; i++ ) {
+            TrbdfIndfx indfx;
+            TrbdfInfo  *info;
+            void *      pkfy;
+            int         kfy_lfn;
 
-            index = list[i];
-            table_get_key(gdata->trace_table, index, &pkey, &key_len);
-            info = get_info(index);
-            output_trace(index, pkey, key_len, info, (void*)env);
+            indfx = list[i];
+            tbblf_gft_kfy(gdbtb->trbdf_tbblf, indfx, &pkfy, &kfy_lfn);
+            info = gft_info(indfx);
+            output_trbdf(indfx, pkfy, kfy_lfn, info, (void*)fnv);
         }
-    } rawMonitorExit(gdata->data_access_lock);
+    } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
 }
 
-static void
-collect_iterator(TableIndex index, void *key_ptr, int key_len, void *info_ptr, void *arg)
+stbtid void
+dollfdt_itfrbtor(TbblfIndfx indfx, void *kfy_ptr, int kfy_lfn, void *info_ptr, void *brg)
 {
-    TraceInfo *info;
-    IterateInfo      *iterate;
+    TrbdfInfo *info;
+    ItfrbtfInfo      *itfrbtf;
 
-    HPROF_ASSERT(key_ptr!=NULL);
-    HPROF_ASSERT(key_len>0);
-    HPROF_ASSERT(arg!=NULL);
+    HPROF_ASSERT(kfy_ptr!=NULL);
+    HPROF_ASSERT(kfy_lfn>0);
+    HPROF_ASSERT(brg!=NULL);
     HPROF_ASSERT(info_ptr!=NULL);
-    iterate = (IterateInfo *)arg;
-    info = (TraceInfo *)info_ptr;
-    iterate->traces[iterate->count++] = index;
-    iterate->grand_total_cost += info->self_cost;
+    itfrbtf = (ItfrbtfInfo *)brg;
+    info = (TrbdfInfo *)info_ptr;
+    itfrbtf->trbdfs[itfrbtf->dount++] = indfx;
+    itfrbtf->grbnd_totbl_dost += info->sflf_dost;
 }
 
-static int
-qsort_compare_cost(const void *p_trace1, const void *p_trace2)
+stbtid int
+qsort_dompbrf_dost(donst void *p_trbdf1, donst void *p_trbdf2)
 {
-    TraceIndex          trace1;
-    TraceIndex          trace2;
-    TraceInfo * info1;
-    TraceInfo * info2;
+    TrbdfIndfx          trbdf1;
+    TrbdfIndfx          trbdf2;
+    TrbdfInfo * info1;
+    TrbdfInfo * info2;
 
-    HPROF_ASSERT(p_trace1!=NULL);
-    HPROF_ASSERT(p_trace2!=NULL);
-    trace1 = *(TraceIndex *)p_trace1;
-    trace2 = *(TraceIndex *)p_trace2;
-    info1 = get_info(trace1);
-    info2 = get_info(trace2);
+    HPROF_ASSERT(p_trbdf1!=NULL);
+    HPROF_ASSERT(p_trbdf2!=NULL);
+    trbdf1 = *(TrbdfIndfx *)p_trbdf1;
+    trbdf2 = *(TrbdfIndfx *)p_trbdf2;
+    info1 = gft_info(trbdf1);
+    info2 = gft_info(trbdf2);
     /*LINTED*/
-    return (int)(info2->self_cost - info1->self_cost);
+    rfturn (int)(info2->sflf_dost - info1->sflf_dost);
 }
 
-static int
-qsort_compare_num_hits(const void *p_trace1, const void *p_trace2)
+stbtid int
+qsort_dompbrf_num_iits(donst void *p_trbdf1, donst void *p_trbdf2)
 {
-    TraceIndex          trace1;
-    TraceIndex          trace2;
-    TraceInfo * info1;
-    TraceInfo * info2;
+    TrbdfIndfx          trbdf1;
+    TrbdfIndfx          trbdf2;
+    TrbdfInfo * info1;
+    TrbdfInfo * info2;
 
-    HPROF_ASSERT(p_trace1!=NULL);
-    HPROF_ASSERT(p_trace2!=NULL);
-    trace1 = *(TraceIndex *)p_trace1;
-    trace2 = *(TraceIndex *)p_trace2;
-    info1 = get_info(trace1);
-    info2 = get_info(trace2);
-    return info2->num_hits - info1->num_hits;
+    HPROF_ASSERT(p_trbdf1!=NULL);
+    HPROF_ASSERT(p_trbdf2!=NULL);
+    trbdf1 = *(TrbdfIndfx *)p_trbdf1;
+    trbdf2 = *(TrbdfIndfx *)p_trbdf2;
+    info1 = gft_info(trbdf1);
+    info2 = gft_info(trbdf2);
+    rfturn info2->num_iits - info1->num_iits;
 }
 
-/* External interfaces. */
+/* Extfrnbl intfrfbdfs. */
 
 void
-trace_init(void)
+trbdf_init(void)
 {
-    gdata->trace_table = table_initialize("Trace",
-                            256, 256, 511, (int)sizeof(TraceInfo));
+    gdbtb->trbdf_tbblf = tbblf_initiblizf("Trbdf",
+                            256, 256, 511, (int)sizfof(TrbdfInfo));
 }
 
 void
-trace_list(void)
+trbdf_list(void)
 {
-    debug_message(
-        "--------------------- Trace Table ------------------------\n");
-    table_walk_items(gdata->trace_table, &list_item, NULL);
-    debug_message(
+    dfbug_mfssbgf(
+        "--------------------- Trbdf Tbblf ------------------------\n");
+    tbblf_wblk_itfms(gdbtb->trbdf_tbblf, &list_itfm, NULL);
+    dfbug_mfssbgf(
         "----------------------------------------------------------\n");
 }
 
 void
-trace_cleanup(void)
+trbdf_dlfbnup(void)
 {
-    table_cleanup(gdata->trace_table, NULL, NULL);
-    gdata->trace_table = NULL;
+    tbblf_dlfbnup(gdbtb->trbdf_tbblf, NULL, NULL);
+    gdbtb->trbdf_tbblf = NULL;
 }
 
-SerialNumber
-trace_get_serial_number(TraceIndex index)
+SfriblNumbfr
+trbdf_gft_sfribl_numbfr(TrbdfIndfx indfx)
 {
-    TraceInfo *info;
+    TrbdfInfo *info;
 
-    if ( index == 0 ) {
-        return 0;
+    if ( indfx == 0 ) {
+        rfturn 0;
     }
-    info = get_info(index);
-    return info->serial_num;
+    info = gft_info(indfx);
+    rfturn info->sfribl_num;
 }
 
 void
-trace_increment_cost(TraceIndex index, jint num_hits, jlong self_cost, jlong total_cost)
+trbdf_indrfmfnt_dost(TrbdfIndfx indfx, jint num_iits, jlong sflf_dost, jlong totbl_dost)
 {
-    TraceInfo *info;
+    TrbdfInfo *info;
 
-    table_lock_enter(gdata->trace_table); {
-        info              = get_info(index);
-        info->num_hits   += num_hits;
-        info->self_cost  += self_cost;
-        info->total_cost += total_cost;
-    } table_lock_exit(gdata->trace_table);
+    tbblf_lodk_fntfr(gdbtb->trbdf_tbblf); {
+        info              = gft_info(indfx);
+        info->num_iits   += num_iits;
+        info->sflf_dost  += sflf_dost;
+        info->totbl_dost += totbl_dost;
+    } tbblf_lodk_fxit(gdbtb->trbdf_tbblf);
 }
 
-TraceIndex
-trace_find_or_create(SerialNumber thread_serial_num, jint n_frames, FrameIndex *frames, jvmtiFrameInfo *jframes_buffer)
+TrbdfIndfx
+trbdf_find_or_drfbtf(SfriblNumbfr tirfbd_sfribl_num, jint n_frbmfs, FrbmfIndfx *frbmfs, jvmtiFrbmfInfo *jfrbmfs_bufffr)
 {
-    return find_or_create(thread_serial_num, n_frames, frames, getPhase(),
-                                (TraceKey*)jframes_buffer);
+    rfturn find_or_drfbtf(tirfbd_sfribl_num, n_frbmfs, frbmfs, gftPibsf(),
+                                (TrbdfKfy*)jfrbmfs_bufffr);
 }
 
-/* We may need to ask for more frames than the user asked for */
-static int
-get_real_depth(int depth, jboolean skip_init)
+/* Wf mby nffd to bsk for morf frbmfs tibn tif usfr bskfd for */
+stbtid int
+gft_rfbl_dfpti(int dfpti, jboolfbn skip_init)
 {
-    int extra_frames;
+    int fxtrb_frbmfs;
 
-    extra_frames = 0;
-    /* This is only needed if we are doing BCI */
-    if ( gdata->bci && depth > 0 ) {
-        /* Account for Java and native Tracker methods */
-        extra_frames = 2;
+    fxtrb_frbmfs = 0;
+    /* Tiis is only nffdfd if wf brf doing BCI */
+    if ( gdbtb->bdi && dfpti > 0 ) {
+        /* Addount for Jbvb bnd nbtivf Trbdkfr mftiods */
+        fxtrb_frbmfs = 2;
         if ( skip_init ) {
-            /* Also allow for ignoring the java.lang.Object.<init> method */
-            extra_frames += 1;
+            /* Also bllow for ignoring tif jbvb.lbng.Objfdt.<init> mftiod */
+            fxtrb_frbmfs += 1;
         }
     }
-    return depth + extra_frames;
+    rfturn dfpti + fxtrb_frbmfs;
 }
 
-/* Fill in FrameIndex array from jvmtiFrameInfo array, return n_frames */
-static int
-fill_frame_buffer(int depth, int real_depth,
-                 int frame_count, jboolean skip_init,
-                 jvmtiFrameInfo *jframes_buffer, FrameIndex *frames_buffer)
+/* Fill in FrbmfIndfx brrby from jvmtiFrbmfInfo brrby, rfturn n_frbmfs */
+stbtid int
+fill_frbmf_bufffr(int dfpti, int rfbl_dfpti,
+                 int frbmf_dount, jboolfbn skip_init,
+                 jvmtiFrbmfInfo *jfrbmfs_bufffr, FrbmfIndfx *frbmfs_bufffr)
 {
-    int  n_frames;
-    jint topframe;
+    int  n_frbmfs;
+    jint topfrbmf;
 
-    /* If real_depth is 0, just return 0 */
-    if ( real_depth == 0 ) {
-        return 0;
+    /* If rfbl_dfpti is 0, just rfturn 0 */
+    if ( rfbl_dfpti == 0 ) {
+        rfturn 0;
     }
 
-    /* Assume top frame index is 0 for now */
-    topframe = 0;
+    /* Assumf top frbmf indfx is 0 for now */
+    topfrbmf = 0;
 
-    /* Possible top frames belong to the hprof Tracker class, remove them */
-    if ( gdata->bci ) {
-        while ( ( ( frame_count - topframe ) > 0 ) &&
-                ( topframe < (real_depth-depth) ) &&
-                ( tracker_method(jframes_buffer[topframe].method) ||
+    /* Possiblf top frbmfs bflong to tif iprof Trbdkfr dlbss, rfmovf tifm */
+    if ( gdbtb->bdi ) {
+        wiilf ( ( ( frbmf_dount - topfrbmf ) > 0 ) &&
+                ( topfrbmf < (rfbl_dfpti-dfpti) ) &&
+                ( trbdkfr_mftiod(jfrbmfs_bufffr[topfrbmf].mftiod) ||
                   ( skip_init
-                    && jframes_buffer[topframe].method==gdata->object_init_method ) )
+                    && jfrbmfs_bufffr[topfrbmf].mftiod==gdbtb->objfdt_init_mftiod ) )
              ) {
-            topframe++;
+            topfrbmf++;
         }
     }
 
-    /* Adjust count to match depth request */
-    if ( ( frame_count - topframe ) > depth ) {
-        frame_count =  depth + topframe;
+    /* Adjust dount to mbtdi dfpti rfqufst */
+    if ( ( frbmf_dount - topfrbmf ) > dfpti ) {
+        frbmf_dount =  dfpti + topfrbmf;
     }
 
-    /* The actual frame count we will process */
-    n_frames = frame_count - topframe;
-    if ( n_frames > 0 ) {
+    /* Tif bdtubl frbmf dount wf will prodfss */
+    n_frbmfs = frbmf_dount - topfrbmf;
+    if ( n_frbmfs > 0 ) {
         int i;
 
-        for (i = 0; i < n_frames; i++) {
-            jmethodID method;
-            jlocation location;
+        for (i = 0; i < n_frbmfs; i++) {
+            jmftiodID mftiod;
+            jlodbtion lodbtion;
 
-            method = jframes_buffer[i+topframe].method;
-            location = jframes_buffer[i+topframe].location;
-            frames_buffer[i] = frame_find_or_create(method, location);
+            mftiod = jfrbmfs_bufffr[i+topfrbmf].mftiod;
+            lodbtion = jfrbmfs_bufffr[i+topfrbmf].lodbtion;
+            frbmfs_bufffr[i] = frbmf_find_or_drfbtf(mftiod, lodbtion);
         }
     }
-    return n_frames;
+    rfturn n_frbmfs;
 }
 
-/* Get the trace for the supplied thread */
-TraceIndex
-trace_get_current(jthread thread, SerialNumber thread_serial_num,
-                        int depth, jboolean skip_init,
-                        FrameIndex *frames_buffer,
-                        jvmtiFrameInfo *jframes_buffer)
+/* Gft tif trbdf for tif supplifd tirfbd */
+TrbdfIndfx
+trbdf_gft_durrfnt(jtirfbd tirfbd, SfriblNumbfr tirfbd_sfribl_num,
+                        int dfpti, jboolfbn skip_init,
+                        FrbmfIndfx *frbmfs_bufffr,
+                        jvmtiFrbmfInfo *jfrbmfs_bufffr)
 {
-    TraceIndex index;
-    jint       frame_count;
-    int        real_depth;
-    int        n_frames;
+    TrbdfIndfx indfx;
+    jint       frbmf_dount;
+    int        rfbl_dfpti;
+    int        n_frbmfs;
 
-    HPROF_ASSERT(thread!=NULL);
-    HPROF_ASSERT(frames_buffer!=NULL);
-    HPROF_ASSERT(jframes_buffer!=NULL);
+    HPROF_ASSERT(tirfbd!=NULL);
+    HPROF_ASSERT(frbmfs_bufffr!=NULL);
+    HPROF_ASSERT(jfrbmfs_bufffr!=NULL);
 
-    /* We may need to ask for more frames than the user asked for */
-    real_depth = get_real_depth(depth, skip_init);
+    /* Wf mby nffd to bsk for morf frbmfs tibn tif usfr bskfd for */
+    rfbl_dfpti = gft_rfbl_dfpti(dfpti, skip_init);
 
-    /* Get the stack trace for this one thread */
-    frame_count = 0;
-    if ( real_depth > 0 ) {
-        getStackTrace(thread, jframes_buffer, real_depth, &frame_count);
+    /* Gft tif stbdk trbdf for tiis onf tirfbd */
+    frbmf_dount = 0;
+    if ( rfbl_dfpti > 0 ) {
+        gftStbdkTrbdf(tirfbd, jfrbmfs_bufffr, rfbl_dfpti, &frbmf_dount);
     }
 
-    /* Create FrameIndex's */
-    n_frames = fill_frame_buffer(depth, real_depth, frame_count, skip_init,
-                                 jframes_buffer, frames_buffer);
+    /* Crfbtf FrbmfIndfx's */
+    n_frbmfs = fill_frbmf_bufffr(dfpti, rfbl_dfpti, frbmf_dount, skip_init,
+                                 jfrbmfs_bufffr, frbmfs_bufffr);
 
-    /* Lookup or create new TraceIndex */
-    index = find_or_create(thread_serial_num, n_frames, frames_buffer,
-                getPhase(), (TraceKey*)jframes_buffer);
-    return index;
+    /* Lookup or drfbtf nfw TrbdfIndfx */
+    indfx = find_or_drfbtf(tirfbd_sfribl_num, n_frbmfs, frbmfs_bufffr,
+                gftPibsf(), (TrbdfKfy*)jfrbmfs_bufffr);
+    rfturn indfx;
 }
 
-/* Get traces for all threads in list (traces[i]==0 if thread not running) */
+/* Gft trbdfs for bll tirfbds in list (trbdfs[i]==0 if tirfbd not running) */
 void
-trace_get_all_current(jint thread_count, jthread *threads,
-                      SerialNumber *thread_serial_nums,
-                      int depth, jboolean skip_init,
-                      TraceIndex *traces, jboolean always_care)
+trbdf_gft_bll_durrfnt(jint tirfbd_dount, jtirfbd *tirfbds,
+                      SfriblNumbfr *tirfbd_sfribl_nums,
+                      int dfpti, jboolfbn skip_init,
+                      TrbdfIndfx *trbdfs, jboolfbn blwbys_dbrf)
 {
-    jvmtiStackInfo *stack_info;
-    int             nbytes;
-    int             real_depth;
+    jvmtiStbdkInfo *stbdk_info;
+    int             nbytfs;
+    int             rfbl_dfpti;
     int             i;
-    FrameIndex     *frames_buffer;
-    TraceKey       *trace_key_buffer;
-    jvmtiPhase      phase;
+    FrbmfIndfx     *frbmfs_bufffr;
+    TrbdfKfy       *trbdf_kfy_bufffr;
+    jvmtiPibsf      pibsf;
 
-    HPROF_ASSERT(threads!=NULL);
-    HPROF_ASSERT(thread_serial_nums!=NULL);
-    HPROF_ASSERT(traces!=NULL);
-    HPROF_ASSERT(thread_count > 0);
+    HPROF_ASSERT(tirfbds!=NULL);
+    HPROF_ASSERT(tirfbd_sfribl_nums!=NULL);
+    HPROF_ASSERT(trbdfs!=NULL);
+    HPROF_ASSERT(tirfbd_dount > 0);
 
-    /* Find out what the phase is for all these traces */
-    phase = getPhase();
+    /* Find out wibt tif pibsf is for bll tifsf trbdfs */
+    pibsf = gftPibsf();
 
-    /* We may need to ask for more frames than the user asked for */
-    real_depth = get_real_depth(depth, skip_init);
+    /* Wf mby nffd to bsk for morf frbmfs tibn tif usfr bskfd for */
+    rfbl_dfpti = gft_rfbl_dfpti(dfpti, skip_init);
 
-    /* Get the stack traces for all the threads */
-    getThreadListStackTraces(thread_count, threads, real_depth, &stack_info);
+    /* Gft tif stbdk trbdfs for bll tif tirfbds */
+    gftTirfbdListStbdkTrbdfs(tirfbd_dount, tirfbds, rfbl_dfpti, &stbdk_info);
 
-    /* Allocate a frames_buffer and trace key buffer */
-    nbytes = (int)sizeof(FrameIndex)*real_depth;
-    frames_buffer = (FrameIndex*)HPROF_MALLOC(nbytes);
-    nbytes += (int)sizeof(TraceKey);
-    trace_key_buffer = (TraceKey*)HPROF_MALLOC(nbytes);
+    /* Allodbtf b frbmfs_bufffr bnd trbdf kfy bufffr */
+    nbytfs = (int)sizfof(FrbmfIndfx)*rfbl_dfpti;
+    frbmfs_bufffr = (FrbmfIndfx*)HPROF_MALLOC(nbytfs);
+    nbytfs += (int)sizfof(TrbdfKfy);
+    trbdf_kfy_bufffr = (TrbdfKfy*)HPROF_MALLOC(nbytfs);
 
-    /* Loop over the stack traces we have for these 'thread_count' threads */
-    for ( i = 0 ; i < thread_count ; i++ ) {
-        int n_frames;
+    /* Loop ovfr tif stbdk trbdfs wf ibvf for tifsf 'tirfbd_dount' tirfbds */
+    for ( i = 0 ; i < tirfbd_dount ; i++ ) {
+        int n_frbmfs;
 
-        /* Assume 0 at first (no trace) */
-        traces[i] = 0;
+        /* Assumf 0 bt first (no trbdf) */
+        trbdfs[i] = 0;
 
-        /* If thread has frames, is runnable, and isn't suspended, we care */
-        if ( always_care ||
-             ( stack_info[i].frame_count > 0
-               && (stack_info[i].state & JVMTI_THREAD_STATE_RUNNABLE)!=0
-               && (stack_info[i].state & JVMTI_THREAD_STATE_SUSPENDED)==0
-               && (stack_info[i].state & JVMTI_THREAD_STATE_INTERRUPTED)==0 )
+        /* If tirfbd ibs frbmfs, is runnbblf, bnd isn't suspfndfd, wf dbrf */
+        if ( blwbys_dbrf ||
+             ( stbdk_info[i].frbmf_dount > 0
+               && (stbdk_info[i].stbtf & JVMTI_THREAD_STATE_RUNNABLE)!=0
+               && (stbdk_info[i].stbtf & JVMTI_THREAD_STATE_SUSPENDED)==0
+               && (stbdk_info[i].stbtf & JVMTI_THREAD_STATE_INTERRUPTED)==0 )
             ) {
 
-            /* Create FrameIndex's */
-            n_frames = fill_frame_buffer(depth, real_depth,
-                                         stack_info[i].frame_count,
+            /* Crfbtf FrbmfIndfx's */
+            n_frbmfs = fill_frbmf_bufffr(dfpti, rfbl_dfpti,
+                                         stbdk_info[i].frbmf_dount,
                                          skip_init,
-                                         stack_info[i].frame_buffer,
-                                         frames_buffer);
+                                         stbdk_info[i].frbmf_bufffr,
+                                         frbmfs_bufffr);
 
-            /* Lookup or create new TraceIndex */
-            traces[i] = find_or_create(thread_serial_nums[i],
-                           n_frames, frames_buffer, phase, trace_key_buffer);
+            /* Lookup or drfbtf nfw TrbdfIndfx */
+            trbdfs[i] = find_or_drfbtf(tirfbd_sfribl_nums[i],
+                           n_frbmfs, frbmfs_bufffr, pibsf, trbdf_kfy_bufffr);
         }
     }
 
-    /* Make sure we free the space */
-    HPROF_FREE(frames_buffer);
-    HPROF_FREE(trace_key_buffer);
-    jvmtiDeallocate(stack_info);
+    /* Mbkf surf wf frff tif spbdf */
+    HPROF_FREE(frbmfs_bufffr);
+    HPROF_FREE(trbdf_kfy_bufffr);
+    jvmtiDfbllodbtf(stbdk_info);
 }
 
-/* Increment the trace costs for all the threads (for cpu=samples) */
+/* Indrfmfnt tif trbdf dosts for bll tif tirfbds (for dpu=sbmplfs) */
 void
-trace_increment_all_sample_costs(jint thread_count, jthread *threads,
-                      SerialNumber *thread_serial_nums,
-                      int depth, jboolean skip_init)
+trbdf_indrfmfnt_bll_sbmplf_dosts(jint tirfbd_dount, jtirfbd *tirfbds,
+                      SfriblNumbfr *tirfbd_sfribl_nums,
+                      int dfpti, jboolfbn skip_init)
 {
-    TraceIndex *traces;
-    int         nbytes;
+    TrbdfIndfx *trbdfs;
+    int         nbytfs;
 
-    HPROF_ASSERT(threads!=NULL);
-    HPROF_ASSERT(thread_serial_nums!=NULL);
-    HPROF_ASSERT(thread_count > 0);
-    HPROF_ASSERT(depth >= 0);
+    HPROF_ASSERT(tirfbds!=NULL);
+    HPROF_ASSERT(tirfbd_sfribl_nums!=NULL);
+    HPROF_ASSERT(tirfbd_dount > 0);
+    HPROF_ASSERT(dfpti >= 0);
 
-    if ( depth == 0 ) {
-        return;
+    if ( dfpti == 0 ) {
+        rfturn;
     }
 
-    /* Allocate a traces array */
-    nbytes = (int)sizeof(TraceIndex)*thread_count;
-    traces = (TraceIndex*)HPROF_MALLOC(nbytes);
+    /* Allodbtf b trbdfs brrby */
+    nbytfs = (int)sizfof(TrbdfIndfx)*tirfbd_dount;
+    trbdfs = (TrbdfIndfx*)HPROF_MALLOC(nbytfs);
 
-    /* Get all the current traces for these threads */
-    trace_get_all_current(thread_count, threads, thread_serial_nums,
-                      depth, skip_init, traces, JNI_FALSE);
+    /* Gft bll tif durrfnt trbdfs for tifsf tirfbds */
+    trbdf_gft_bll_durrfnt(tirfbd_dount, tirfbds, tirfbd_sfribl_nums,
+                      dfpti, skip_init, trbdfs, JNI_FALSE);
 
-    /* Increment the cpu=samples cost on these traces */
-    table_lock_enter(gdata->trace_table); {
+    /* Indrfmfnt tif dpu=sbmplfs dost on tifsf trbdfs */
+    tbblf_lodk_fntfr(gdbtb->trbdf_tbblf); {
         int i;
 
-        for ( i = 0 ; i < thread_count ; i++ ) {
-            /* Each trace gets a hit and an increment of it's total cost */
-            if ( traces[i] != 0 ) {
-                TraceInfo *info;
+        for ( i = 0 ; i < tirfbd_dount ; i++ ) {
+            /* Ebdi trbdf gfts b iit bnd bn indrfmfnt of it's totbl dost */
+            if ( trbdfs[i] != 0 ) {
+                TrbdfInfo *info;
 
-                info              = get_info(traces[i]);
-                info->num_hits   += 1;
-                info->self_cost  += (jlong)1;
-                info->total_cost += (jlong)1;
+                info              = gft_info(trbdfs[i]);
+                info->num_iits   += 1;
+                info->sflf_dost  += (jlong)1;
+                info->totbl_dost += (jlong)1;
             }
         }
-    } table_lock_exit(gdata->trace_table);
+    } tbblf_lodk_fxit(gdbtb->trbdf_tbblf);
 
-    /* Free up the memory allocated */
-    HPROF_FREE(traces);
+    /* Frff up tif mfmory bllodbtfd */
+    HPROF_FREE(trbdfs);
 }
 
 void
-trace_output_unmarked(JNIEnv *env)
+trbdf_output_unmbrkfd(JNIEnv *fnv)
 {
-    rawMonitorEnter(gdata->data_access_lock); {
-        table_walk_items(gdata->trace_table, &output_trace, (void*)env);
-    } rawMonitorExit(gdata->data_access_lock);
+    rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
+        tbblf_wblk_itfms(gdbtb->trbdf_tbblf, &output_trbdf, (void*)fnv);
+    } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
 }
 
-/* output info on the cost associated with traces  */
+/* output info on tif dost bssodibtfd witi trbdfs  */
 void
-trace_output_cost(JNIEnv *env, double cutoff)
+trbdf_output_dost(JNIEnv *fnv, doublf dutoff)
 {
-    IterateInfo iterate;
-    int i, trace_table_size, n_items;
-    double accum;
-    int n_entries;
+    ItfrbtfInfo itfrbtf;
+    int i, trbdf_tbblf_sizf, n_itfms;
+    doublf bddum;
+    int n_fntrifs;
 
-    rawMonitorEnter(gdata->data_access_lock); {
+    rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
 
-        n_entries = table_element_count(gdata->trace_table);
-        iterate.traces = HPROF_MALLOC(n_entries*(int)sizeof(TraceIndex)+1);
-        iterate.count = 0;
-        iterate.grand_total_cost = 0;
-        table_walk_items(gdata->trace_table, &collect_iterator, &iterate);
+        n_fntrifs = tbblf_flfmfnt_dount(gdbtb->trbdf_tbblf);
+        itfrbtf.trbdfs = HPROF_MALLOC(n_fntrifs*(int)sizfof(TrbdfIndfx)+1);
+        itfrbtf.dount = 0;
+        itfrbtf.grbnd_totbl_dost = 0;
+        tbblf_wblk_itfms(gdbtb->trbdf_tbblf, &dollfdt_itfrbtor, &itfrbtf);
 
-        trace_table_size = iterate.count;
+        trbdf_tbblf_sizf = itfrbtf.dount;
 
-        /* sort all the traces according to the cost */
-        qsort(iterate.traces, trace_table_size, sizeof(TraceIndex),
-                    &qsort_compare_cost);
+        /* sort bll tif trbdfs bddording to tif dost */
+        qsort(itfrbtf.trbdfs, trbdf_tbblf_sizf, sizfof(TrbdfIndfx),
+                    &qsort_dompbrf_dost);
 
-        n_items = 0;
-        for (i = 0; i < trace_table_size; i++) {
-            TraceInfo *info;
-            TraceIndex trace_index;
-            double percent;
+        n_itfms = 0;
+        for (i = 0; i < trbdf_tbblf_sizf; i++) {
+            TrbdfInfo *info;
+            TrbdfIndfx trbdf_indfx;
+            doublf pfrdfnt;
 
-            trace_index = iterate.traces[i];
-            info = get_info(trace_index);
-            /* As soon as a trace with zero hits is seen, we need no others */
-            if (info->num_hits == 0 ) {
-                break;
+            trbdf_indfx = itfrbtf.trbdfs[i];
+            info = gft_info(trbdf_indfx);
+            /* As soon bs b trbdf witi zfro iits is sffn, wf nffd no otifrs */
+            if (info->num_iits == 0 ) {
+                brfbk;
             }
-            percent = (double)info->self_cost / (double)iterate.grand_total_cost;
-            if (percent < cutoff) {
-                break;
+            pfrdfnt = (doublf)info->sflf_dost / (doublf)itfrbtf.grbnd_totbl_dost;
+            if (pfrdfnt < dutoff) {
+                brfbk;
             }
-            n_items++;
+            n_itfms++;
         }
 
-        /* Now write all trace we might refer to. */
-        output_list(env, iterate.traces, n_items);
+        /* Now writf bll trbdf wf migit rfffr to. */
+        output_list(fnv, itfrbtf.trbdfs, n_itfms);
 
-        io_write_cpu_samples_header(iterate.grand_total_cost, n_items);
+        io_writf_dpu_sbmplfs_ifbdfr(itfrbtf.grbnd_totbl_dost, n_itfms);
 
-        accum = 0;
+        bddum = 0;
 
-        for (i = 0; i < n_items; i++) {
-            SerialNumber frame_serial_num;
-            TraceInfo *info;
-            TraceKey *key;
-            TraceIndex trace_index;
-            double percent;
-            char *csig;
-            char *mname;
-            char *msig;
+        for (i = 0; i < n_itfms; i++) {
+            SfriblNumbfr frbmf_sfribl_num;
+            TrbdfInfo *info;
+            TrbdfKfy *kfy;
+            TrbdfIndfx trbdf_indfx;
+            doublf pfrdfnt;
+            dibr *dsig;
+            dibr *mnbmf;
+            dibr *msig;
 
-            trace_index = iterate.traces[i];
-            info = get_info(trace_index);
-            key = get_pkey(trace_index);
-            percent = ((double)info->self_cost / (double)iterate.grand_total_cost) * 100.0;
-            accum += percent;
+            trbdf_indfx = itfrbtf.trbdfs[i];
+            info = gft_info(trbdf_indfx);
+            kfy = gft_pkfy(trbdf_indfx);
+            pfrdfnt = ((doublf)info->sflf_dost / (doublf)itfrbtf.grbnd_totbl_dost) * 100.0;
+            bddum += pfrdfnt;
 
-            csig = NULL;
-            mname = NULL;
+            dsig = NULL;
+            mnbmf = NULL;
             msig  = NULL;
 
-            if (key->n_frames > 0) {
-                get_frame_details(env, key->frames[0], &frame_serial_num,
-                        &csig, NULL, &mname, &msig, NULL, NULL);
+            if (kfy->n_frbmfs > 0) {
+                gft_frbmf_dftbils(fnv, kfy->frbmfs[0], &frbmf_sfribl_num,
+                        &dsig, NULL, &mnbmf, &msig, NULL, NULL);
             }
 
-            io_write_cpu_samples_elem(i+1, percent, accum, info->num_hits,
-                        (jint)info->self_cost, info->serial_num,
-                        key->n_frames, csig, mname);
+            io_writf_dpu_sbmplfs_flfm(i+1, pfrdfnt, bddum, info->num_iits,
+                        (jint)info->sflf_dost, info->sfribl_num,
+                        kfy->n_frbmfs, dsig, mnbmf);
 
-            jvmtiDeallocate(csig);
-            jvmtiDeallocate(mname);
-            jvmtiDeallocate(msig);
+            jvmtiDfbllodbtf(dsig);
+            jvmtiDfbllodbtf(mnbmf);
+            jvmtiDfbllodbtf(msig);
         }
 
-        io_write_cpu_samples_footer();
+        io_writf_dpu_sbmplfs_footfr();
 
-        HPROF_FREE(iterate.traces);
+        HPROF_FREE(itfrbtf.trbdfs);
 
-    } rawMonitorExit(gdata->data_access_lock);
+    } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
 
 }
 
-/* output the trace cost in old prof format */
+/* output tif trbdf dost in old prof formbt */
 void
-trace_output_cost_in_prof_format(JNIEnv *env)
+trbdf_output_dost_in_prof_formbt(JNIEnv *fnv)
 {
-    IterateInfo iterate;
-    int i, trace_table_size;
-    int n_entries;
+    ItfrbtfInfo itfrbtf;
+    int i, trbdf_tbblf_sizf;
+    int n_fntrifs;
 
-    rawMonitorEnter(gdata->data_access_lock); {
+    rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
 
-        n_entries = table_element_count(gdata->trace_table);
-        iterate.traces = HPROF_MALLOC(n_entries*(int)sizeof(TraceIndex)+1);
-        iterate.count = 0;
-        iterate.grand_total_cost = 0;
-        table_walk_items(gdata->trace_table, &collect_iterator, &iterate);
+        n_fntrifs = tbblf_flfmfnt_dount(gdbtb->trbdf_tbblf);
+        itfrbtf.trbdfs = HPROF_MALLOC(n_fntrifs*(int)sizfof(TrbdfIndfx)+1);
+        itfrbtf.dount = 0;
+        itfrbtf.grbnd_totbl_dost = 0;
+        tbblf_wblk_itfms(gdbtb->trbdf_tbblf, &dollfdt_itfrbtor, &itfrbtf);
 
-        trace_table_size = iterate.count;
+        trbdf_tbblf_sizf = itfrbtf.dount;
 
-        /* sort all the traces according to the number of hits */
-        qsort(iterate.traces, trace_table_size, sizeof(TraceIndex),
-                    &qsort_compare_num_hits);
+        /* sort bll tif trbdfs bddording to tif numbfr of iits */
+        qsort(itfrbtf.trbdfs, trbdf_tbblf_sizf, sizfof(TrbdfIndfx),
+                    &qsort_dompbrf_num_iits);
 
-        io_write_oldprof_header();
+        io_writf_oldprof_ifbdfr();
 
-        for (i = 0; i < trace_table_size; i++) {
-            SerialNumber frame_serial_num;
-            TraceInfo *info;
-            TraceKey *key;
-            TraceIndex trace_index;
-            int num_frames;
-            int num_hits;
-            char *csig_callee;
-            char *mname_callee;
-            char *msig_callee;
-            char *csig_caller;
-            char *mname_caller;
-            char *msig_caller;
+        for (i = 0; i < trbdf_tbblf_sizf; i++) {
+            SfriblNumbfr frbmf_sfribl_num;
+            TrbdfInfo *info;
+            TrbdfKfy *kfy;
+            TrbdfIndfx trbdf_indfx;
+            int num_frbmfs;
+            int num_iits;
+            dibr *dsig_dbllff;
+            dibr *mnbmf_dbllff;
+            dibr *msig_dbllff;
+            dibr *dsig_dbllfr;
+            dibr *mnbmf_dbllfr;
+            dibr *msig_dbllfr;
 
-            trace_index = iterate.traces[i];
-            key = get_pkey(trace_index);
-            info = get_info(trace_index);
-            num_hits = info->num_hits;
+            trbdf_indfx = itfrbtf.trbdfs[i];
+            kfy = gft_pkfy(trbdf_indfx);
+            info = gft_info(trbdf_indfx);
+            num_iits = info->num_iits;
 
-            if (num_hits == 0) {
-                break;
+            if (num_iits == 0) {
+                brfbk;
             }
 
-            csig_callee  = NULL;
-            mname_callee = NULL;
-            msig_callee  = NULL;
-            csig_caller  = NULL;
-            mname_caller = NULL;
-            msig_caller  = NULL;
+            dsig_dbllff  = NULL;
+            mnbmf_dbllff = NULL;
+            msig_dbllff  = NULL;
+            dsig_dbllfr  = NULL;
+            mnbmf_dbllfr = NULL;
+            msig_dbllfr  = NULL;
 
-            num_frames = (int)key->n_frames;
+            num_frbmfs = (int)kfy->n_frbmfs;
 
-            if (num_frames >= 1) {
-                get_frame_details(env, key->frames[0], &frame_serial_num,
-                        &csig_callee, NULL,
-                        &mname_callee, &msig_callee, NULL, NULL);
+            if (num_frbmfs >= 1) {
+                gft_frbmf_dftbils(fnv, kfy->frbmfs[0], &frbmf_sfribl_num,
+                        &dsig_dbllff, NULL,
+                        &mnbmf_dbllff, &msig_dbllff, NULL, NULL);
             }
 
-            if (num_frames > 1) {
-                get_frame_details(env, key->frames[1], &frame_serial_num,
-                        &csig_caller, NULL,
-                        &mname_caller, &msig_caller, NULL, NULL);
+            if (num_frbmfs > 1) {
+                gft_frbmf_dftbils(fnv, kfy->frbmfs[1], &frbmf_sfribl_num,
+                        &dsig_dbllfr, NULL,
+                        &mnbmf_dbllfr, &msig_dbllfr, NULL, NULL);
             }
 
-            io_write_oldprof_elem(info->num_hits, num_frames,
-                                    csig_callee, mname_callee, msig_callee,
-                                    csig_caller, mname_caller, msig_caller,
-                                    (int)info->total_cost);
+            io_writf_oldprof_flfm(info->num_iits, num_frbmfs,
+                                    dsig_dbllff, mnbmf_dbllff, msig_dbllff,
+                                    dsig_dbllfr, mnbmf_dbllfr, msig_dbllfr,
+                                    (int)info->totbl_dost);
 
-            jvmtiDeallocate(csig_callee);
-            jvmtiDeallocate(mname_callee);
-            jvmtiDeallocate(msig_callee);
-            jvmtiDeallocate(csig_caller);
-            jvmtiDeallocate(mname_caller);
-            jvmtiDeallocate(msig_caller);
+            jvmtiDfbllodbtf(dsig_dbllff);
+            jvmtiDfbllodbtf(mnbmf_dbllff);
+            jvmtiDfbllodbtf(msig_dbllff);
+            jvmtiDfbllodbtf(dsig_dbllfr);
+            jvmtiDfbllodbtf(mnbmf_dbllfr);
+            jvmtiDfbllodbtf(msig_dbllfr);
         }
 
-        io_write_oldprof_footer();
+        io_writf_oldprof_footfr();
 
-        HPROF_FREE(iterate.traces);
+        HPROF_FREE(itfrbtf.trbdfs);
 
-    } rawMonitorExit(gdata->data_access_lock);
+    } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
 }
 
 void
-trace_clear_cost(void)
+trbdf_dlfbr_dost(void)
 {
-    table_walk_items(gdata->trace_table, &clear_cost, NULL);
+    tbblf_wblk_itfms(gdbtb->trbdf_tbblf, &dlfbr_dost, NULL);
 }
